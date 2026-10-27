@@ -167,6 +167,7 @@ public import KAM.Strip.AnalyticTaylor
 public import KAM.Strip.Averages
 public import KAM.Strip.Bridges
 public import KAM.Strip.Cauchy
+public import KAM.Strip.Cohomological
 public import KAM.Strip.CohomologicalDefs
 public import KAM.Strip.Fourier
 public import KAM.Strip.FourierBasic
