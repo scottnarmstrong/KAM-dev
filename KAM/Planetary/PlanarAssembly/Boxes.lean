@@ -234,6 +234,88 @@ theorem product_chart {n : ℕ} (hn : 0 < n) (κ : ℝ) (m : Fin n → ℝ)
   · intro w hw
     rw [keplerPart_poincareProd hm hκ hw, hProd_eq]
 
+/-! ### The fast diffeomorphism -/
+
+private theorem cuberoot_inv {c x : ℝ} (hc : 0 < c) (hx : 0 < x) :
+    (c / (c / x ^ 3)) ^ ((3 : ℕ) : ℝ)⁻¹ = x := by
+  rw [div_div_cancel₀ hc.ne']
+  exact Real.pow_rpow_inv_natCast hx.le (by norm_num)
+
+private theorem cube_cuberoot {c y : ℝ} (hc : 0 < c) (hy : 0 < y) :
+    c / ((c / y) ^ ((3 : ℕ) : ℝ)⁻¹) ^ 3 = y := by
+  rw [Real.rpow_inv_natCast_pow (div_pos hc hy).le (by norm_num)]
+  exact div_div_cancel₀ hc.ne'
+
+private theorem cuberoot_mem {c l u w : ℝ} (hc : 0 < c) (hl : 0 < l) (hlu : l < u)
+    (h1 : c / u ^ 3 < w) (h2 : w < c / l ^ 3) :
+    l < (c / w) ^ ((3 : ℕ) : ℝ)⁻¹ ∧ (c / w) ^ ((3 : ℕ) : ℝ)⁻¹ < u := by
+  have hu : 0 < u := hl.trans hlu
+  have hw : 0 < w := (div_pos hc (pow_pos hu 3)).trans h1
+  have e1 : l ^ 3 < c / w := by
+    rw [lt_div_iff₀ hw]; rw [lt_div_iff₀ (pow_pos hl 3)] at h2; linarith
+  have e2 : c / w < u ^ 3 := by
+    rw [div_lt_iff₀ hw]; rw [div_lt_iff₀ (pow_pos hu 3)] at h1; linarith
+  have hp : (0 : ℝ) < ((3 : ℕ) : ℝ)⁻¹ := by norm_num
+  constructor
+  · calc l = (l ^ 3) ^ ((3 : ℕ) : ℝ)⁻¹ := (Real.pow_rpow_inv_natCast hl.le (by norm_num)).symm
+      _ < _ := Real.rpow_lt_rpow (pow_nonneg hl.le 3) e1 hp
+  · calc _ < (u ^ 3) ^ ((3 : ℕ) : ℝ)⁻¹ := Real.rpow_lt_rpow (div_pos hc hw).le e2 hp
+      _ = u := Real.pow_rpow_inv_natCast hu.le (by norm_num)
+
+/-- bpP:p12:fast-diffeo. Positivity of kappa and masses is standing section data. -/
+theorem fast_diffeo (κ : ℝ) (m l u : Fin 2 → ℝ) (hκ : 0 < κ)
+    (hm : ∀ i, 0 < m i) (hl : ∀ i, 0 < l i) (hlu : ∀ i, l i < u i) :
+    HasFastDiffeomorphism (kepler_h κ m) (pi univ (fun i => Ioo (l i) (u i))) := by
+  set box : Set (Fin 2 → ℝ) := pi univ (fun i => Ioo (l i) (u i)) with hbox
+  have hc : ∀ i, 0 < κ ^ 2 * m i ^ 3 := fun i => by have := hm i; positivity
+  have hpos : ∀ I ∈ box, ∀ i, 0 < I i := fun I hI i => (hl i).trans (hI i (mem_univ i)).1
+  have hfreq : ∀ I ∈ box, fastFrequency (kepler_h κ m) I = fun i => κ ^ 2 * m i ^ 3 / I i ^ 3 :=
+    fun I hI => (product_chart (n := 2) (by norm_num) κ m hκ hm).2.1 I (hpos I hI) |>.1
+  let g : (Fin 2 → ℝ) → (Fin 2 → ℝ) := fun w i => (κ ^ 2 * m i ^ 3 / w i) ^ ((3 : ℕ) : ℝ)⁻¹
+  have hback : ∀ w ∈ pi univ (fun i => Ioo (κ ^ 2 * m i ^ 3 / u i ^ 3) (κ ^ 2 * m i ^ 3 / l i ^ 3)),
+      g w ∈ box ∧ fastFrequency (kepler_h κ m) (g w) = w := by
+    intro w hw
+    have hgm : g w ∈ box := fun i _ => cuberoot_mem (hc i) (hl i) (hlu i) (hw i (mem_univ i)).1
+      (hw i (mem_univ i)).2
+    refine ⟨hgm, ?_⟩
+    rw [hfreq _ hgm]
+    funext i
+    have hwi : 0 < w i := (div_pos (hc i) (pow_pos ((hl i).trans (hlu i)) 3)).trans
+      (hw i (mem_univ i)).1
+    exact cube_cuberoot (hc i) hwi
+  have himg : fastFrequency (kepler_h κ m) '' box =
+      pi univ (fun i => Ioo (κ ^ 2 * m i ^ 3 / u i ^ 3) (κ ^ 2 * m i ^ 3 / l i ^ 3)) := by
+    ext w
+    constructor
+    · rintro ⟨I, hI, rfl⟩ i _
+      rw [hfreq I hI]
+      have h1 := hI i (mem_univ i)
+      constructor
+      · exact div_lt_div_of_pos_left (hc i) (pow_pos (hpos I hI i) 3)
+          (pow_lt_pow_left₀ h1.2 (hpos I hI i).le (by norm_num))
+      · exact div_lt_div_of_pos_left (hc i) (pow_pos (hl i) 3)
+          (pow_lt_pow_left₀ h1.1 (hl i).le (by norm_num))
+    · intro hw
+      exact ⟨g w, (hback w hw).1, (hback w hw).2⟩
+  refine ⟨?_, ?_, g, ?_, ?_, ?_⟩
+  · refine (product_chart (n := 2) (by norm_num) κ m hκ hm).1.mono ?_
+    exact fun I hI => hpos I hI
+  · rw [himg]
+    exact isOpen_set_pi Set.finite_univ fun _ _ => isOpen_Ioo
+  · rw [himg]
+    refine contDiffOn_pi.2 fun i => fun w hw => ContDiffAt.contDiffWithinAt ?_
+    have hwi : 0 < w i := (div_pos (hc i) (pow_pos ((hl i).trans (hlu i)) 3)).trans
+      (hw i (mem_univ i)).1
+    refine ContDiffAt.rpow_const_of_ne ?_ (div_pos (hc i) hwi).ne'
+    exact contDiffAt_const.div (contDiffAt_pi.1 contDiffAt_id i) hwi.ne'
+  · intro I hI
+    rw [hfreq I hI]
+    funext i
+    exact cuberoot_inv (hc i) (hpos I hI i)
+  · intro w hw
+    rw [himg] at hw
+    exact hback w hw
+
 /-! ### Radius arithmetic -/
 
 /-- Elementary output of the P-G radius/threshold choices, not a P-G premise. -/
