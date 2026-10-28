@@ -1729,7 +1729,9 @@ def p11K1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) : ℝ :=
 def p11Alpha1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := C.gamma/2*p11K1 C eps^(-C.tau)
 def p11s1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
   min C.rC (C.gamma/(4*C.L*p11K1 C eps^(C.tau+1)))
-def p11d1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := min (p11s1 C eps*C.sigma) C.rz^2
+-- Amended 2026-10-28 (ruling 23:20): source d_1 = min{s_1 sigma_F, r_z^2}; the unparenthesised form parsed as
+-- (min (s_1 sigma) r_z)^2 and broke the eta1 log-rate needed by P7 as-osc and P11SlowSpec.
+def p11d1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := min (p11s1 C eps*C.sigma) (C.rz^2)
 def p11eta1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
   400*(1+n)*eps*C.MF^2/(2*Real.pi*p11Alpha1 C eps*p11d1 C eps)
 structure P11FastData (n : ℕ) where
