@@ -327,6 +327,136 @@ theorem fderiv_complexFast_lower (d : PGData a b) {x : Fin a → ℝ} (hxK : x �
   rw [inv_mul_le_iff₀ (by exact_mod_cast hK)]
   exact h
 
+/-- Local linearisation at a real point of `closure V` (`stepP:p5:bl-comp`, case `x = x'`). -/
+theorem complexFast_local_lower (d : PGData a b) {x : Fin a → ℝ} (hxK : x ∈ closure d.V) :
+    ∃ ε > 0, ∃ c > 0, ∀ z ∈ ball (KAM.realInclusion a x) ε,
+      ∀ z' ∈ ball (KAM.realInclusion a x) ε,
+        c * ‖z - z'‖ ≤ ‖complexFast d z - complexFast d z'‖ := by
+  have hδ := (pgExtension d).delta_pos
+  have hx := mem_actionNbhd_real hδ hxK
+  have hopen := isOpen_actionNbhd (closure d.V) (pgExtension d).delta
+  obtain ⟨c, hc, hlow⟩ := fderiv_complexFast_lower d hxK
+  have hcont := (continuousOn_fderiv_complexFast d).continuousAt (hopen.mem_nhds hx)
+  obtain ⟨ε₁, hε₁, hε₁'⟩ := Metric.continuousAt_iff.1 hcont (c / 2) (by positivity)
+  set Dc := fderiv ℂ (complexFast d) (KAM.realInclusion a x) with hDc
+  have hsub : ball (KAM.realInclusion a x) (min ε₁ (pgExtension d).delta) ⊆
+      KAM.actionNbhd (closure d.V) (pgExtension d).delta := fun w hw =>
+    ⟨x, hxK, by
+      have := (mem_ball_iff_norm.1 hw).trans_le (min_le_right _ _)
+      exact this⟩
+  refine ⟨min ε₁ (pgExtension d).delta, lt_min hε₁ hδ, c / 2, by positivity, fun z hz z' hz' => ?_⟩
+  have hF : ∀ w ∈ ball (KAM.realInclusion a x) (min ε₁ (pgExtension d).delta),
+      DifferentiableAt ℂ (fun w => complexFast d w - Dc w) w ∧
+        ‖fderiv ℂ (fun w => complexFast d w - Dc w) w‖ ≤ c / 2 := by
+    intro w hw
+    have hΩd : DifferentiableAt ℂ (complexFast d) w :=
+      (differentiableOn_complexFast d).differentiableAt (hopen.mem_nhds (hsub hw))
+    refine ⟨hΩd.sub Dc.differentiableAt, ?_⟩
+    have e1 : fderiv ℂ (fun w => complexFast d w - Dc w) w =
+        fderiv ℂ (complexFast d) w - Dc := (hΩd.hasFDerivAt.sub Dc.hasFDerivAt).fderiv
+    rw [e1]
+    have := hε₁' (lt_of_lt_of_le (mem_ball.1 hw) (min_le_left _ _))
+    rw [dist_eq_norm] at this
+    exact this.le
+  have key := (convex_ball (KAM.realInclusion a x) (min ε₁ (pgExtension d).delta)
+    ).norm_image_sub_le_of_norm_fderiv_le (fun w hw => (hF w hw).1) (fun w hw => (hF w hw).2)
+    hz' hz
+  have h1 : ‖Dc (z - z')‖ ≤ ‖complexFast d z - complexFast d z'‖ + c / 2 * ‖z - z'‖ := by
+    calc ‖Dc (z - z')‖ = ‖(complexFast d z - complexFast d z') -
+          ((complexFast d z - Dc z) - (complexFast d z' - Dc z'))‖ := by
+          rw [map_sub]; congr 1; abel
+      _ ≤ ‖complexFast d z - complexFast d z'‖ +
+          ‖(complexFast d z - Dc z) - (complexFast d z' - Dc z')‖ := norm_sub_le _ _
+      _ ≤ _ := by
+          have : ‖z - z'‖ = ‖z' - z‖ := norm_sub_rev _ _
+          have key' : ‖(complexFast d z - Dc z) - (complexFast d z' - Dc z')‖ ≤
+              c / 2 * ‖z - z'‖ := by rw [this]; exact by simpa [norm_sub_rev] using key
+          linarith
+  have h2 := hlow (z - z')
+  nlinarith
+
+/-- Compactness step (`stepP:p5:bl-comp`): injectivity on a compact set of real points and a local
+lower bound at each of them give a uniform lower bound on a thin complex tube. -/
+theorem lower_lip_of_local {K : Set (Fin a → ℝ)} (hK : IsCompact K)
+    {Ω : (Fin a → ℂ) → Fin a → ℂ} {δ r : ℝ} (hr : 0 < r) (hrδ : r ≤ δ)
+    (hcont : ContinuousOn Ω (KAM.actionNbhd K δ))
+    (hinj : ∀ x ∈ K, ∀ x' ∈ K,
+      Ω (KAM.realInclusion a x) = Ω (KAM.realInclusion a x') → x = x')
+    (hloc : ∀ x ∈ K, ∃ ε > 0, ∃ c > 0, ∀ z ∈ ball (KAM.realInclusion a x) ε,
+      ∀ z' ∈ ball (KAM.realInclusion a x) ε, c * ‖z - z'‖ ≤ ‖Ω z - Ω z'‖) :
+    ∃ ρ c0 : ℝ, 0 < ρ ∧ ρ < r ∧ 0 < c0 ∧ ∀ z ∈ KAM.actionNbhd K ρ, ∀ z' ∈ KAM.actionNbhd K ρ,
+      c0 * ‖z - z'‖ ≤ ‖Ω z - Ω z'‖ := by
+  by_contra hcon
+  have hcon' : ∀ ρ c0 : ℝ, 0 < ρ → ρ < r → 0 < c0 →
+      ∃ z ∈ KAM.actionNbhd K ρ, ∃ z' ∈ KAM.actionNbhd K ρ, ‖Ω z - Ω z'‖ < c0 * ‖z - z'‖ := by
+    intro ρ c0 h1 h2 h3
+    by_contra hne
+    refine hcon ⟨ρ, c0, h1, h2, h3, fun z hz z' hz' => ?_⟩
+    by_contra hlt
+    exact hne ⟨z, hz, z', hz', not_le.1 hlt⟩
+  have hseq : ∀ m : ℕ, ∃ z z' : Fin a → ℂ, ∃ J ∈ K, ∃ J' ∈ K,
+      ‖z - KAM.realInclusion a J‖ < r / (m + 2) ∧ ‖z' - KAM.realInclusion a J'‖ < r / (m + 2) ∧
+        ‖Ω z - Ω z'‖ < (1 / ((m : ℝ) + 1)) * ‖z - z'‖ := by
+    intro m
+    have hm : (0:ℝ) < m + 1 := by positivity
+    obtain ⟨z, ⟨J, hJ, hzJ⟩, z', ⟨J', hJ', hzJ'⟩, h⟩ := hcon' (r / (m + 2)) (1 / ((m : ℝ) + 1))
+      (by positivity) (div_lt_self hr (by linarith [(Nat.cast_nonneg m : (0:ℝ) ≤ m)]))
+      (by positivity)
+    exact ⟨z, z', J, hJ, J', hJ', hzJ, hzJ', h⟩
+  choose z z' J hJ J' hJ' hz hz' hlt using hseq
+  have hrad : Tendsto (fun m : ℕ => r / ((m : ℝ) + 2)) atTop (𝓝 0) := by
+    have := (Filter.tendsto_add_atTop_iff_nat 2).2 (tendsto_const_div_atTop_nhds_zero_nat r)
+    simpa [Nat.cast_add] using this
+  have hinv : Tendsto (fun m : ℕ => 1 / ((m : ℝ) + 1)) atTop (𝓝 0) :=
+    tendsto_one_div_add_atTop_nhds_zero_nat
+  obtain ⟨⟨x, x'⟩, hxx, φ, hφ, hlim⟩ := (hK.prod hK).tendsto_subseq
+    (x := fun m => (J m, J' m)) (fun m => ⟨hJ m, hJ' m⟩)
+  have hinvφ : Tendsto (fun k => 1 / (((φ k : ℕ) : ℝ) + 1)) atTop (𝓝 0) :=
+    hinv.comp hφ.tendsto_atTop
+  have hzl : ∀ (zz : ℕ → Fin a → ℂ) (JJ : ℕ → Fin a → ℝ) (y : Fin a → ℝ),
+      (∀ m, ‖zz m - KAM.realInclusion a (JJ m)‖ < r / (m + 2)) →
+      Tendsto (fun k => JJ (φ k)) atTop (𝓝 y) →
+      Tendsto (fun k => zz (φ k)) atTop (𝓝 (KAM.realInclusion a y)) := by
+    intro zz JJ y hzz hJy
+    have h1 : Tendsto (fun m => zz m - KAM.realInclusion a (JJ m)) atTop (𝓝 0) :=
+      squeeze_zero_norm (fun m => (hzz m).le) hrad
+    have h2 : Tendsto (fun k => KAM.realInclusion a (JJ (φ k))) atTop
+        (𝓝 (KAM.realInclusion a y)) := ((KAM.realInclusion a).continuous.tendsto y).comp hJy
+    have h3 := (h1.comp hφ.tendsto_atTop).add h2
+    simpa using h3
+  have hzlim : Tendsto (fun k => z (φ k)) atTop (𝓝 (KAM.realInclusion a x)) :=
+    hzl z J x hz ((continuous_fst.tendsto _).comp hlim)
+  have hz'lim : Tendsto (fun k => z' (φ k)) atTop (𝓝 (KAM.realInclusion a x')) :=
+    hzl z' J' x' hz' ((continuous_snd.tendsto _).comp hlim)
+  by_cases hxx' : x = x'
+  · subst hxx'
+    obtain ⟨ε, hε, c, hc, hl⟩ := hloc x hxx.1
+    have e1 := hzlim.eventually (ball_mem_nhds _ hε)
+    have e2 := hz'lim.eventually (ball_mem_nhds _ hε)
+    have e3 := hinvφ.eventually (gt_mem_nhds hc)
+    obtain ⟨k, hk1, hk2, hk3⟩ := (e1.and (e2.and e3)).exists
+    have h := hlt (φ k)
+    have hl' := hl _ hk1 _ hk2
+    have hpos : 0 < ‖z (φ k) - z' (φ k)‖ := by
+      by_contra hneg
+      have : ‖z (φ k) - z' (φ k)‖ ≤ 0 := not_lt.1 hneg
+      have h0 : ‖z (φ k) - z' (φ k)‖ = 0 := le_antisymm this (norm_nonneg _)
+      rw [h0, mul_zero] at h
+      exact absurd h (not_lt.2 (norm_nonneg _))
+    nlinarith
+  · have hΩc : ∀ y ∈ K, ContinuousAt Ω (KAM.realInclusion a y) := fun y hy =>
+      hcont.continuousAt ((isOpen_actionNbhd K δ).mem_nhds
+        (mem_actionNbhd_real (lt_of_lt_of_le hr hrδ) hy))
+    have hΩz := (hΩc x hxx.1).tendsto.comp hzlim
+    have hΩz' := (hΩc x' hxx.2).tendsto.comp hz'lim
+    have hdiff := (hΩz.sub hΩz').norm
+    have hzero : Tendsto (fun k => ‖Ω (z (φ k)) - Ω (z' (φ k))‖) atTop (𝓝 0) := by
+      have hb := hinvφ.mul (hzlim.sub hz'lim).norm
+      rw [zero_mul] at hb
+      exact squeeze_zero (fun k => norm_nonneg _) (fun k => (hlt (φ k)).le) hb
+    have h0 := tendsto_nhds_unique hdiff hzero
+    exact hxx' (hinj x hxx.1 x' hxx.2 (sub_eq_zero.1 (norm_eq_zero.1 h0)))
+
 end KAM.Planetary
 
 end
