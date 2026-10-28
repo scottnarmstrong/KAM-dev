@@ -477,6 +477,7 @@ public import KAM.Planetary.Averaging.Splitting
 public import KAM.Planetary.Exponential.ComplexTube
 public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Exponential.Enlargement
+public import KAM.Planetary.Exponential.Hamiltonian
 public import KAM.Planetary.Exponential.KeplerData
 public import KAM.Planetary.Exponential.Lift
 public import KAM.Planetary.Exponential.LocalComplexification
@@ -642,6 +643,15 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
+public import KAM.Planetary.PlanarTorsion.Characters.Average
+public import KAM.Planetary.PlanarTorsion.Characters.Basic
+public import KAM.Planetary.PlanarTorsion.Characters.Bracket
+public import KAM.Planetary.PlanarTorsion.Characters.CharPoly
+public import KAM.Planetary.PlanarTorsion.Characters.Defs
+public import KAM.Planetary.PlanarTorsion.Characters.Factor
+public import KAM.Planetary.PlanarTorsion.Characters.Poly
+public import KAM.Planetary.PlanarTorsion.Characters.Trig
+public import KAM.Planetary.PlanarTorsion.Characters
 public import KAM.Planetary.PlanarTorsion.FrozenBridge
 public import KAM.Planetary.PlanarTorsion.LaplaceReduction
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Algebra
