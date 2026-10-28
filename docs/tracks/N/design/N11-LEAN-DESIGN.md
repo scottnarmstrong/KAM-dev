@@ -188,7 +188,7 @@ unless qualified. This includes every graph node sourced in the three files, plu
 | `bpN:p11:bracket-g` | `bracket_g` | `B#bpN:p11:bracket-g@L31-L33` | `B#bpN:p11:bracket-g@L34-L36` |
 | `bpN:p11:scaled` | `scaled` | `B#bpN:p11:scaled@L40-L42` | — |
 | `bpN:p11:vf` | `vf` | `B#bpN:p11:vf@L44-L46` | `B#bpN:p11:vf@L47-L49` |
-| `bpN:p11:flow` | `flow`, `flow_real`; `KAM.Canonical.flow_a..d` | `B#bpN:p11:flow@L51-L53` | `B#bpN:p11:flow@L54-L56` |
+| `bpN:p11:flow` | `ext_flow` (renamed from `flow`, ruling 20:50), `flow_real`; `KAM.Canonical.flow_a..d` | `B#bpN:p11:flow@L51-L53` | `B#bpN:p11:flow@L54-L56` |
 | `bpN:p11:symplectic` | `symplectic`, `symplectic_bracket`, `symplectic_det`, `symplectic_form`; field identity inside `conj` | `B#bpN:p11:symplectic@L58-L60` | `B#bpN:p11:symplectic@L61-L63` |
 | `bpN:p11:adjoint` | `adjoint` | `B#bpN:p11:adjoint@L65-L68` | `B#bpN:p11:adjoint@L69-L86` |
 | `stepN:p11:ad-setup` | internal `adjoint` | `B#stepN:p11:ad-setup@L70-L70` | `B#stepN:p11:ad-setup@L70-L70` |
@@ -290,6 +290,11 @@ unless qualified. This includes every graph node sourced in the three files, plu
 | `stepN:p11:final-order` | internal provider assembly; `threshold` for final-mu/time | `C#stepN:p11:final-order@L179-L179` | `C#stepN:p11:final-order@L179-L179` |
 | `bpN:p11:s-real#data` | `PartialBlock.realDom`, `ExtOrbit`, `realHamiltonianExt` | `C#bpN:p11:s-real#data@L4-L5` | — |
 | `bpN:p11:hessian#real-hessian` | internal `hessian_at_sign`: real/complex Hessian bridge | `C#bpN:p11:hessian@L126-L126` | `C#stepN:p11:hs-op@L129-L129` |
+
+**Rename note (2026-10-28, main-orchestrator ruling 20:50).** The signed N11 theorem for `bpN:p11:flow` is
+`KAM.Nekhoroshev.ext_flow`, not `flow`: Part 5's `KAM/Nekhoroshev/Averaging/Flow.lean` already owns
+`KAM.Nekhoroshev.flow`, so the root import could not contain both. The statement is unchanged; `flow_real` keeps its
+name; `.drafts/design/N11Signatures.lean` line 213 carries the same rename.
 
 
 ## Departures and their reasons
@@ -663,7 +668,8 @@ theorem vf (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ U : ℝ} {φ : EC n 
       ‖slowPair (wfield b.c φ z)‖ ≤ b.c*U/ρ := sorry
 
 /-- Generic Part 5 flow is consumed directly: no second choice of flow. -/
-theorem flow (W : EC n k ≃L[ℂ] EC n k) {Ω : Set (EC n k)} {F : EC n k → EC n k} {ε : ℝ}
+-- Renamed from `flow` (2026-10-28, ruling 20:50): `KAM.Nekhoroshev.flow` is Part 5's Averaging/Flow.
+theorem ext_flow (W : EC n k ≃L[ℂ] EC n k) {Ω : Set (EC n k)} {F : EC n k → EC n k} {ε : ℝ}
     (hF : KAM.Canonical.SmallField W Ω F ε) {z : EC n k}
     (hz : z ∈ KAM.Canonical.gaugeInterior W Ω (1/2)) {t : ℝ} (ht : |t| ≤ 1) :
     KAM.Canonical.flow F Ω t z ∈ Ω ∧
