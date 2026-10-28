@@ -48,8 +48,7 @@ theorem volume_unitCube : volume (unitCube d) = 1 := by
   simp [unitCube, Real.volume_pi_Ico]
 
 theorem volume_prod_unitCube (E : Set (Fin d → ℝ)) : volume (E ×ˢ unitCube d) = volume E := by
-  rw [Measure.volume_eq_prod, Measure.prod_prod, ← Measure.volume_eq_prod, volume_unitCube,
-    mul_one]
+  rw [Measure.volume_eq_prod, Measure.prod_prod, volume_unitCube, mul_one]
 
 theorem nullMeasurableSet_prod_unitCube {E : Set (Fin d → ℝ)} (hE : NullMeasurableSet E) :
     NullMeasurableSet (E ×ˢ unitCube d) := by
@@ -73,13 +72,13 @@ theorem isSigmaCompact_unitCube : IsSigmaCompact (unitCube d) := by
         linarith
       choose m hm using hm
       obtain ⟨M, hM⟩ := Finite.exists_le m
-      refine ⟨M, fun i => ⟨(h i).1, (hm i).trans ?_⟩⟩
+      refine ⟨M, fun i => (h i).1, fun i => (hm i).trans ?_⟩
       have : (m i : ℝ) ≤ M := by exact_mod_cast hM i
       have := one_div_le_one_div_of_le (by positivity : (0 : ℝ) < (m i : ℝ) + 1)
         (by linarith : (m i : ℝ) + 1 ≤ M + 1)
       linarith
-    · rintro ⟨m, hm⟩ i
-      refine ⟨(hm i).1, lt_of_le_of_lt (hm i).2 ?_⟩
+    · rintro ⟨m, hm0, hm⟩ i
+      refine ⟨hm0 i, lt_of_le_of_lt (hm i) ?_⟩
       have : (0 : ℝ) < 1 / ((m : ℝ) + 1) := by positivity
       linarith
   rw [h]
@@ -119,6 +118,7 @@ theorem lipschitzOnWith_of_bound {S : Set (Phase d)} {F : Phase d → Phase d} {
 /-- A measurable set is a σ-compact set up to a null set. -/
 theorem exists_isSigmaCompact_subset_null {t : Set (Phase d)} (ht : MeasurableSet t) :
     ∃ B, IsSigmaCompact B ∧ B ⊆ t ∧ volume (t \ B) = 0 := by
+  have : (volume : Measure (Phase d)).IsAddHaarMeasure := Measure.prod.instIsAddHaarMeasure _ _
   have key : ∀ n m : ℕ, ∃ K, K ⊆ t ∩ Metric.closedBall (0 : Phase d) n ∧ IsCompact K ∧
       volume ((t ∩ Metric.closedBall (0 : Phase d) n) \ K) < (m : ENNReal)⁻¹ := fun n m => by
     have hfin : volume (t ∩ Metric.closedBall (0 : Phase d) n) ≠ ⊤ :=
@@ -135,7 +135,7 @@ theorem exists_isSigmaCompact_subset_null {t : Set (Phase d)} (ht : MeasurableSe
     exact mem_iUnion.2 ⟨n, ⟨hz, by simpa using hn⟩, hzB⟩
   refine measure_mono_null hsub (measure_iUnion_null fun n => ?_)
   refine le_antisymm (ge_of_tendsto' ENNReal.tendsto_inv_nat_nhds_zero fun m => ?_) bot_le
-  refine (measure_mono (diff_subset_diff_right (subset_iUnion (fun p : ℕ × ℕ => K p.1 p.2)
+  refine (measure_mono (sdiff_subset_sdiff_right (subset_iUnion (fun p : ℕ × ℕ => K p.1 p.2)
     (n, m)))).trans (hKm n m).le
 
 /-- The image of a null measurable set under a map Lipschitz on it is null measurable. -/
@@ -159,7 +159,7 @@ theorem nullMeasurableSet_image_of_lipschitzOn {S : Set (Phase d)} (hS : NullMea
     refine le_antisymm ((lip_image_prod fun x hx y hy => hF x hx.1 y hy.1).trans ?_) bot_le
     rw [hSB, mul_zero]
   have h3 : F '' S = F '' B ∪ F '' (S \ B) := by
-    rw [← image_union, union_diff_cancel hBS]
+    rw [← image_union, union_sdiff_cancel hBS]
   rw [h3]
   exact h1.nullMeasurableSet.union (NullMeasurableSet.of_null h2)
 
@@ -264,6 +264,7 @@ theorem nullMeasurableSet_torus_union_saturation {E : Set (Fin d → ℝ)} (hE :
       (MeasurableSet (F '' (E ×ˢ unitCube d)) →
         MeasurableSet (⋃ ω ∈ E, range fun ϑ => F (ω, ϑ))) := by
   rw [torus_union_saturation hper]
+  have : (volume : Measure (Phase d)).IsAddHaarMeasure := Measure.prod.instIsAddHaarMeasure _ _
   have himg : ∀ (k : Fin d → ℤ) (T : Set (Phase d)),
       (fun z => z + angleShift k) '' T = (fun z => z + -angleShift k) ⁻¹' T := fun k T =>
     image_add_right
