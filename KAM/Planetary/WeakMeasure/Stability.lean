@@ -12,7 +12,8 @@ public import KAM.Planetary.WeakMeasure.Basic
 # Stability of the amount and size bound for the scalar families (P11A-W1)
 
 `stability` and `M_bound`: iterated Leibniz formulas (diagonal, via the line `t ↦ y + t a`, and the
-operator-norm form on `EuclideanSpace`, used only as an internal bridge) and Cauchy-Schwarz.
+operator-norm form on the `L²` Pi space `PiLp 2`, used only as an internal bridge) and
+Cauchy-Schwarz.
 -/
 
 @[expose] public noncomputable section
@@ -24,11 +25,13 @@ section Euclid
 
 variable {n m : ℕ}
 
-/-- The identification of `P11Vec n` with `EuclideanSpace` (internal bridge only). -/
-def p11toE : P11Vec n ≃L[ℝ] EuclideanSpace ℝ (Fin n) := (EuclideanSpace.equiv (Fin n) ℝ).symm
+/-- The identification of `P11Vec n` with the `L²` Pi space (internal bridge only; no statement
+mentions it). -/
+def p11toE : P11Vec n ≃L[ℝ] PiLp 2 (fun _ : Fin n => ℝ) :=
+  (PiLp.continuousLinearEquiv 2 ℝ (fun _ : Fin n => ℝ)).symm
 
 theorem p11euclid_eq_norm (x : P11Vec n) : p11euclid x = ‖p11toE x‖ := by
-  simp [p11toE, p11euclid, KAM.Nekhoroshev.euclid, EuclideanSpace.norm_eq]
+  simp [p11toE, p11euclid, KAM.Nekhoroshev.euclid, PiLp.norm_eq_of_L2]
 
 theorem p11euclid_add_le (x y : P11Vec n) : p11euclid (x + y) ≤ p11euclid x + p11euclid y := by
   simp only [p11euclid_eq_norm, map_add]
@@ -327,7 +330,7 @@ section OperatorBound
 
 variable {n m : ℕ}
 
-theorem p11euclid_symm (b : EuclideanSpace ℝ (Fin n)) : p11euclid (p11toE.symm b) = ‖b‖ := by
+theorem p11euclid_symm (b : PiLp 2 (fun _ : Fin n => ℝ)) : p11euclid (p11toE.symm b) = ‖b‖ := by
   rw [p11euclid_eq_norm]; simp
 
 theorem opNorm_le_of_unit {k : ℕ} {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -348,11 +351,12 @@ theorem opNorm_le_of_unit {k : ℕ} {E : Type*} [NormedAddCommGroup E] [NormedSp
     have : f b = (∏ i, ‖b i‖) • f b' := by
       conv_lhs => rw [hbb]
       exact f.map_smul_univ _ _
-    rw [this, norm_smul, Real.norm_of_nonneg (Finset.prod_nonneg fun _ _ => norm_nonneg _), mul_comm]
+    rw [this, norm_smul, Real.norm_of_nonneg (Finset.prod_nonneg fun _ _ => norm_nonneg _),
+      mul_comm]
     exact mul_le_mul_of_nonneg_right (h b' hb1) (Finset.prod_nonneg fun _ _ => norm_nonneg _)
 
 theorem iteratedFDeriv_comp_fromE {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
-    (f : P11Vec n → F) (j : ℕ) (x : EuclideanSpace ℝ (Fin n)) :
+    (f : P11Vec n → F) (j : ℕ) (x : PiLp 2 (fun _ : Fin n => ℝ)) :
     iteratedFDeriv ℝ j (f ∘ p11toE.symm) x =
       (iteratedFDeriv ℝ j f (p11toE.symm x)).compContinuousLinearMap
         fun _ => (p11toE (n := n)).symm.toContinuousLinearMap := by
@@ -422,7 +426,7 @@ theorem M_bound {n m : ℕ} (hn : 1 ≤ n) {V A : Set (P11Vec n)}
     rw [e]
     have hB : 0 ≤ (2 : ℝ) ^ j * M ^ 2 := by positivity
     refine p11op_scalar_le ((hat' hj).mul (hat' hj)) hB ?_
-    set U : Set (EuclideanSpace ℝ (Fin n)) := p11toE.symm ⁻¹' V with hU
+    set U : Set (PiLp 2 (fun _ : Fin n => ℝ)) := p11toE.symm ⁻¹' V with hU
     have hUo : IsOpen U := hV.preimage p11toE.symm.continuous
     have hxU : p11toE y ∈ U := by simpa [hU] using hyV
     have hΦ : ContDiffOn ℝ (mu + 1 : ℕ) ((fun x => p11dot c (w x)) ∘ p11toE.symm) U :=
