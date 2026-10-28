@@ -10518,9 +10518,9 @@ EDGE: stepP:p5:st-conc | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:strictness@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: strictness (KAM/Planetary/PGAssembly/Strictness.lean)
+LEAN_NOTE: audit P5-ST PASS WITH NOTES; signed KAM.Planetary.strictness
 NOTE: sourcegap L306 (strictness from the slack and the bi-Lipschitz parametrisation of Part 3) is supplied by these steps.
 
 NODE: stepP:p5:st-add
@@ -10548,9 +10548,9 @@ EDGE: bpP:p0:cylinder#cylinderCell | blueprint-P/parts/p5-pg-assembly.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: stParam, stMeasure, st_mass, st_add (KAM/Planetary/PGAssembly/Strictness.lean)
+LEAN_NOTE: audit P5-ST PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:st-null
@@ -10579,9 +10579,9 @@ EDGE: stepP:p5:st-add | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:st-null@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: st_slice_rep_null, st_null, stMeasure_slice_null (KAM/Planetary/PGAssembly/Strictness.lean)
+LEAN_NOTE: audit P5-ST PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:st-ivt
@@ -10611,9 +10611,9 @@ EDGE: bpP:p0:cylinder#cylinderCell | blueprint-P/parts/p5-pg-assembly.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-CUT PASS WITH NOTES covers only finite_measure_coordinate_cut (continuity of cumulative mass); existence of s with f(s)=theta_0 and sigma-compactness not stated
+LEAN_STATUS: PROVED
+LEAN_REF: st_cut_value, st_ivt, strictness_aux (KAM/Planetary/PGAssembly/Strictness.lean)
+LEAN_NOTE: audit P5-ST PASS WITH NOTES; IVT via finite_measure_coordinate_cut (P5-CUT)
 NOTE: SOURCE_GAP: L311 invokes continuity of finite measure along monotone sequences and the intermediate value theorem. L336 lists the former but creates no approved external; neither classical input is supplied by the existing edges. Additivity, null slices and the lower bound retain their stated contracts.
 
 NODE: stepP:p5:st-conc
@@ -10642,9 +10642,9 @@ EDGE: bpP:p5:kset | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:st-conc@L312-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: strictness (KAM/Planetary/PGAssembly/Strictness.lean)
+LEAN_NOTE: audit P5-ST PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:main
@@ -30569,9 +30569,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow (KAM/Planetary/PlanarTorsion/QuarticFlow.lean); p11c_flow (KAM/Planetary/PlanarTorsion/QuarticFlow/Spec.lean)
+LEAN_NOTE: audit T9 PASS WITH NOTES; signed KAM.Planetary.flow
 NOTE: -
 
 NODE: stepP:p11b:fl-bd
@@ -30598,9 +30598,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow (KAM/Planetary/PlanarTorsion/QuarticFlow.lean)
+LEAN_NOTE: audit T9 PASS WITH NOTES; proved inside flow (Field/Energy helpers p11cQ_*), audit table PASS
 NOTE: SOURCE_GAP: L148 invokes N:bpN:p3:gen-continuation, which assumes an existing maximal solution of a C^1 field and a set with uniform data (delta,M,L). The polynomial field is C^1 and the displayed bound confines any existing trajectory, but no edge supplies the initial local/maximal solution or the uniform-data reduction on the confining ball. The differential inequality and its printed radius are retained; existence is not added as a source premise.
 
 NODE: stepP:p11b:fl-an
@@ -30627,9 +30627,9 @@ EDGE: stepP:p11b:fl-bd | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:fl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow (KAM/Planetary/PlanarTorsion/QuarticFlow.lean)
+LEAN_NOTE: audit T9 PASS WITH NOTES; proved inside flow (Analytic/Compact helpers), audit table PASS
 NOTE: -
 
 NODE: bpP:p11b:lie
