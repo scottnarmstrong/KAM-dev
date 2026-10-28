@@ -93,6 +93,71 @@ lemma quartic_of_actions {O : Set (Fin 2 → ℝ)} {a b c : (Fin 2 → ℝ) → 
   simp
   ring
 
+lemma character_mv {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (k : Fin 2 → ℤ) (I : Fin 2 → ℝ) :
+    ∃ P : MvPolynomial (Fin 4) ℂ, P.totalDegree ≤ 4 ∧ ∀ z : Phase 2,
+      p11c_character F.eval k I z = MvPolynomial.eval
+        ![(z.1 0 : ℂ), (z.2 0 : ℂ), (z.1 1 : ℂ), (z.2 1 : ℂ)] P := by
+  refine ⟨∑ a ∈ charIdx, MvPolynomial.C (F.coeff (fun i => (a i).val) I : ℂ) *
+      (MvPolynomial.rename (![0, 1] : Fin 2 → Fin 4) (charFcPoly (a 0).val (a 1).val (k 0)) *
+        MvPolynomial.rename (![2, 3] : Fin 2 → Fin 4) (charFcPoly (a 2).val (a 3).val (k 1))),
+    ?_, ?_⟩
+  · refine MvPolynomial.totalDegree_finsetSum_le fun a ha => ?_
+    have h4 := charIdx_sum ha
+    refine (MvPolynomial.totalDegree_mul _ _).trans ?_
+    rw [MvPolynomial.totalDegree_C, zero_add]
+    refine (MvPolynomial.totalDegree_mul _ _).trans ?_
+    have h1 := (MvPolynomial.totalDegree_rename_le (![0, 1] : Fin 2 → Fin 4)
+      (charFcPoly (a 0).val (a 1).val (k 0))).trans (charFcPoly_deg _ _ _)
+    have h2 := (MvPolynomial.totalDegree_rename_le (![2, 3] : Fin 2 → Fin 4)
+      (charFcPoly (a 2).val (a 3).val (k 1))).trans (charFcPoly_deg _ _ _)
+    omega
+  · intro z
+    rw [character_eq_sum, map_sum]
+    refine Finset.sum_congr rfl fun a _ => ?_
+    have e0 : (![(z.1 0 : ℂ), (z.2 0 : ℂ), (z.1 1 : ℂ), (z.2 1 : ℂ)] ∘ (![0, 1] : Fin 2 → Fin 4)) =
+        ![(z.1 0 : ℂ), (z.2 0 : ℂ)] := by
+      ext i; fin_cases i <;> rfl
+    have e1 : (![(z.1 0 : ℂ), (z.2 0 : ℂ), (z.1 1 : ℂ), (z.2 1 : ℂ)] ∘ (![2, 3] : Fin 2 → Fin 4)) =
+        ![(z.1 1 : ℂ), (z.2 1 : ℂ)] := by
+      ext i; fin_cases i <;> rfl
+    simp only [map_mul, MvPolynomial.eval_C, MvPolynomial.eval_rename, e0, e1, charFcPoly_eval]
+
+lemma character_homog {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (k : Fin 2 → ℤ) (I : Fin 2 → ℝ)
+    (z : Phase 2) (t : ℝ) :
+    p11c_character F.eval k I (t • z) = (t : ℂ) ^ 4 * p11c_character F.eval k I z := by
+  rw [character_eq_sum, character_eq_sum, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun a ha => ?_
+  have h4 := charIdx_sum ha
+  simp only [Prod.smul_fst, Prod.smul_snd, Pi.smul_apply, smul_eq_mul]
+  rw [charFc_smul, charFc_smul]
+  have key : (t : ℂ) ^ ((a 0).val + (a 1).val) * (t : ℂ) ^ ((a 2).val + (a 3).val) = (t : ℂ) ^ 4 := by
+    rw [← pow_add]; congr 1
+  linear_combination ((F.coeff (fun i => (a i).val) I : ℂ) *
+    (charFc (a 0).val (a 1).val (z.1 0) (z.2 0) (k 0) *
+      charFc (a 2).val (a 3).val (z.1 1) (z.2 1) (k 1))) * key
+
+theorem character_polynomial {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O)
+    (k : Fin 2 → ℤ) :
+    (∀ z, AnalyticOnNhd ℝ (fun I => p11c_character F.eval k I z) O) ∧
+    (∀ I, ∃ P : MvPolynomial (Fin 4) ℂ, P.totalDegree ≤ 4 ∧ ∀ z : Phase 2,
+      p11c_character F.eval k I z = MvPolynomial.eval
+        ![(z.1 0 : ℂ), (z.2 0 : ℂ), (z.1 1 : ℂ), (z.2 1 : ℂ)] P) ∧
+    (∀ I z (t : ℝ), p11c_character F.eval k I (t • z) = (t : ℂ) ^ 4 * p11c_character F.eval k I z) ∧
+    ∃ A : QuarticFamily O, ∀ I z, A.eval I z = p11c_average F.eval I z := by
+  refine ⟨?_, fun I => character_mv F k I, fun I z t => character_homog F k I z t, ?_⟩
+  · intro z
+    have : (fun I => p11c_character F.eval k I z) = fun I => ∑ a ∈ charIdx,
+        (F.coeff (fun i => (a i).val) I : ℂ) *
+          (charFc ((a 0).val) ((a 1).val) (z.1 0) (z.2 0) (k 0) *
+            charFc ((a 2).val) ((a 3).val) (z.1 1) (z.2 1) (k 1)) := by
+      funext I; exact character_eq_sum F k I z
+    rw [this]
+    refine Finset.analyticOnNhd_fun_sum _ fun a _ I hI => ?_
+    exact ((Complex.ofRealCLM.analyticAt _).comp (F.analytic _ I hI)).mul analyticAt_const
+  · obtain ⟨A, hA⟩ := quartic_of_actions (charAvgA_analytic F) (charAvgB_analytic F)
+      (charAvgC_analytic F)
+    exact ⟨A, fun I z => (hA I z).trans (average_formula F I z).symm⟩
+
 end KAM.Planetary
 
 end
