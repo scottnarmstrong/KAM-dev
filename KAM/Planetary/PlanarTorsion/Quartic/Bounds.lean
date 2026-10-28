@@ -165,6 +165,135 @@ theorem qe_gap_bound {α : ℝ} (hα : α ∈ Ioo (0 : ℝ) 1) :
   rw [h1]
   simp [h2]
 
+/-- The secular average at the eccentricity vector: `pref · pairAverage α (qeV I u)`. -/
+def qeS (p : PlanarData) (a : Fin 2 → ℝ) (u : Phase 2) : ℝ :=
+  -p.G * p.m 0 * p.m 1 / a 1 * p11c_pairAverage (a 0 / a 1) (qeV (p.actions a) u)
+
+/-- Constant, quadratic and quartic part of `qeS`. -/
+def qePoly (p : PlanarData) (a : Fin 2 → ℝ) (u : Phase 2) : ℝ :=
+  -p.G * p.m 0 * p.m 1 / a 1 * (p11c_laplace (1 / 2) 0 (a 0 / a 1) +
+    p11c_pairCoeffs (a 0 / a 1) 0 * (qeA (p.actions a) u 0 + qeA (p.actions a) u 1) +
+    p11c_pairCoeffs (a 0 / a 1) 1 * qeD (p.actions a) u) + p11c_quartic (p11c_coeffs p a) u
+
+theorem qe_alpha_mem {a : Fin 2 → ℝ} (ha : a ∈ p11c_axes) : a 0 / a 1 ∈ Ioo (0 : ℝ) 1 := by
+  have h1 : 0 < a 1 := ha.1.trans ha.2
+  exact ⟨div_pos ha.1 h1, (div_lt_one h1).2 ha.2⟩
+
+theorem qeS_analyticAt (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ} (ha : a ∈ p11c_axes) :
+    AnalyticAt ℝ (qeS p a) 0 := by
+  have hI : ∀ i, 0 < p.actions a i := qe_actions_pos p hp ha
+  have h := (pair_jet _ (qe_alpha_mem ha)).1.comp_of_eq (qeV_analyticAt hI) (qeV_zero _)
+  exact analyticAt_const.mul h
+
+theorem qePoly_analyticAt (p : PlanarData) (a : Fin 2 → ℝ) : AnalyticAt ℝ (qePoly p a) 0 := by
+  have f0 := qeB_fst 0 (0 : Phase 2)
+  have f1 := qeB_fst 1 (0 : Phase 2)
+  have s0 := qeB_snd 0 (0 : Phase 2)
+  have s1 := qeB_snd 1 (0 : Phase 2)
+  have hA0 : AnalyticAt ℝ (fun u : Phase 2 => qeA (p.actions a) u 0) 0 :=
+    (qeB_sumsq 0 0).div_const
+  have hA1 : AnalyticAt ℝ (fun u : Phase 2 => qeA (p.actions a) u 1) 0 :=
+    (qeB_sumsq 1 0).div_const
+  have hD : AnalyticAt ℝ (fun u : Phase 2 => qeD (p.actions a) u) 0 := (qeB_dot 0).div_const
+  have hq := qe_quartic_analyticAt (p11c_coeffs p a) 0
+  unfold qePoly
+  fun_prop
+
+theorem qe_cauchy (I : Fin 2 → ℝ) (hI : ∀ i, 0 < I i) (u : Phase 2) :
+    qeD I u ^ 2 ≤ qeA I u 0 * qeA I u 1 := by
+  have h0 := hI 0
+  have h1 := hI 1
+  have e0 := Real.sqrt_pos.2 h0
+  have e1 := Real.sqrt_pos.2 h1
+  have hs : (√(I 0) * √(I 1)) ^ 2 = I 0 * I 1 := by
+    rw [mul_pow, Real.sq_sqrt h0.le, Real.sq_sqrt h1.le]
+  unfold qeD qeA p11c_pairDot
+  rw [div_pow, hs, div_mul_div_comm, div_le_div_iff_of_pos_right (by positivity)]
+  nlinarith [sq_nonneg (u.1 0 * u.2 1 - u.2 0 * u.1 1)]
+
+theorem qe_sig_sq (I : Fin 2 → ℝ) {u : Phase 2} (h0 : qeA I u 0 ≤ 4) (h1 : qeA I u 1 ≤ 4) :
+    qeSig I u ^ 2 = (1 - qeA I u 0 / 4) * (1 - qeA I u 1 / 4) := by
+  unfold qeSig
+  rw [mul_pow, Real.sq_sqrt (by linarith), Real.sq_sqrt (by linarith)]
+
+/-- The remainder of the secular average after the explicit quartic is `O(‖u‖⁶)`. -/
+theorem qe_remainder_bound (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ}
+    (ha : a ∈ p11c_axes) :
+    ∃ C : ℝ, ∀ᶠ u in 𝓝 (0 : Phase 2), |qeS p a u - qePoly p a u| ≤ C * ‖u‖ ^ 6 := by
+  have hI : ∀ i, 0 < p.actions a i := qe_actions_pos p hp ha
+  set I := p.actions a with hIdef
+  set α := a 0 / a 1 with hαdef
+  obtain ⟨C0, hC0⟩ := qe_gap_bound (qe_alpha_mem ha)
+  set pref := -p.G * p.m 0 * p.m 1 / a 1 with hpref
+  set co := p11c_pairCoeffs α with hco
+  set K : ℝ := 2 / I 0 + 2 / I 1 with hK
+  have hKpos : 0 < K := by have := hI 0; have := hI 1; positivity
+  set B : ℝ := (√(I 0))⁻¹ + (√(I 1))⁻¹ with hB
+  have hVt : Tendsto (qeV I) (𝓝 0) (𝓝 0) := by
+    have := (qeV_analyticAt hI).continuousAt.tendsto
+    rwa [qeV_zero] at this
+  have hδ : (0 : ℝ) < min 1 (1 / K) := lt_min one_pos (by positivity)
+  refine ⟨|pref| * ((∑ i, |co i|) * K ^ 3 + |C0| * B ^ 6), ?_⟩
+  filter_upwards [Metric.ball_mem_nhds (0 : Phase 2) hδ, hVt.eventually hC0] with u hu hV
+  have hun : ‖u‖ < min 1 (1 / K) := by simpa using hu
+  have hu1 : ‖u‖ < 1 := hun.trans_le (min_le_left _ _)
+  have hu2 : ‖u‖ < 1 / K := hun.trans_le (min_le_right _ _)
+  have hn0 : 0 ≤ ‖u‖ := norm_nonneg _
+  have hm : qeA I u 0 + qeA I u 1 ≤ K * ‖u‖ ^ 2 := by
+    have a0 := qeA_le hI (u := u) 0
+    have a1 := qeA_le hI (u := u) 1
+    have : 2 * ‖u‖ ^ 2 / I 0 + 2 * ‖u‖ ^ 2 / I 1 = K * ‖u‖ ^ 2 := by
+      rw [hK]; ring
+    linarith
+  have hm1 : K * ‖u‖ ^ 2 ≤ 1 := by
+    have h1 : ‖u‖ ^ 2 ≤ ‖u‖ := by nlinarith
+    have h2 : K * ‖u‖ ≤ 1 := by
+      have := (lt_div_iff₀ hKpos).1 hu2
+      linarith
+    nlinarith
+  have hA0 := qeA_nonneg hI u 0
+  have hA1 := qeA_nonneg hI u 1
+  have hle0 : qeA I u 0 ≤ 4 := by linarith
+  have hle1 : qeA I u 1 ≤ 4 := by linarith
+  have hJ := qe_pairJet_qeV hI α hle0 hle1
+  have hq : p11c_quartic (p11c_coeffs p a) u = pref * (qePolyExpr co (qeA I u 0) (qeA I u 1)
+      (qeD I u) - co 0 * (qeA I u 0 + qeA I u 1) - co 1 * qeD I u) := by
+    unfold p11c_coeffs
+    exact qe_quartic_coeffs hI pref co u
+  have hid : qeS p a u - qePoly p a u = pref * (qeJetExpr co (qeA I u 0) (qeA I u 1) (qeD I u)
+      (qeSig I u) - qePolyExpr co (qeA I u 0) (qeA I u 1) (qeD I u)) +
+      pref * (p11c_pairAverage α (qeV I u) - p11c_pairJet α (qeV I u)) := by
+    unfold qeS qePoly
+    rw [hq, hJ]
+    ring
+  have halg := qe_alg co (qeA I u 0) (qeA I u 1) (qeD I u) (qeSig I u) hA0 hA1 (by linarith)
+    (qe_cauchy I hI u) (by unfold qeSig; positivity) (qe_sig_sq I hle0 hle1)
+  have hm3 : (qeA I u 0 + qeA I u 1) ^ 3 ≤ K ^ 3 * ‖u‖ ^ 6 := by
+    have := pow_le_pow_left₀ (by linarith) hm 3
+    calc (qeA I u 0 + qeA I u 1) ^ 3 ≤ (K * ‖u‖ ^ 2) ^ 3 := this
+      _ = K ^ 3 * ‖u‖ ^ 6 := by ring
+  have hVn : ‖qeV I u‖ ≤ B * ‖u‖ := qeV_norm_le hI hle0 hle1
+  have hV6 : ‖qeV I u‖ ^ 6 ≤ B ^ 6 * ‖u‖ ^ 6 := by
+    calc ‖qeV I u‖ ^ 6 ≤ (B * ‖u‖) ^ 6 := pow_le_pow_left₀ (norm_nonneg _) hVn 6
+      _ = B ^ 6 * ‖u‖ ^ 6 := by ring
+  have hg : |p11c_pairAverage α (qeV I u) - p11c_pairJet α (qeV I u)| ≤
+      |C0| * (B ^ 6 * ‖u‖ ^ 6) := by
+    calc _ ≤ C0 * ‖qeV I u‖ ^ 6 := hV
+      _ ≤ |C0| * ‖qeV I u‖ ^ 6 := mul_le_mul_of_nonneg_right (le_abs_self _) (by positivity)
+      _ ≤ |C0| * (B ^ 6 * ‖u‖ ^ 6) := mul_le_mul_of_nonneg_left hV6 (abs_nonneg _)
+  rw [hid]
+  refine (abs_add_le _ _).trans ?_
+  rw [abs_mul, abs_mul]
+  have h1 : |pref| * |qeJetExpr co (qeA I u 0) (qeA I u 1) (qeD I u) (qeSig I u) -
+      qePolyExpr co (qeA I u 0) (qeA I u 1) (qeD I u)| ≤
+      |pref| * ((∑ i, |co i|) * (K ^ 3 * ‖u‖ ^ 6)) :=
+    mul_le_mul_of_nonneg_left (halg.trans (mul_le_mul_of_nonneg_left hm3
+      (Finset.sum_nonneg fun i _ => abs_nonneg _))) (abs_nonneg _)
+  have h2 := mul_le_mul_of_nonneg_left hg (abs_nonneg pref)
+  calc _ ≤ |pref| * ((∑ i, |co i|) * (K ^ 3 * ‖u‖ ^ 6)) + |pref| * (|C0| * (B ^ 6 * ‖u‖ ^ 6)) :=
+        add_le_add h1 h2
+    _ = _ := by ring
+
 end KAM.Planetary
 
 end
