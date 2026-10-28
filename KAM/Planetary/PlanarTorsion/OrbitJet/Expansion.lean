@@ -142,7 +142,8 @@ theorem isJet_inv_sqrt (c : ℝ) (hc : 0 ≤ c) :
   have h0 : 0 ≤ t ^ 2 * c := by positivity
   have h := inv_one_add_sqrt_approx h0 ht
   have e : ((1 / (1 + √(1 - t ^ 2 * c)) : ℝ) : ℂ) - (wJet (c : ℂ)).ev t =
-      (((1 / (1 + √(1 - t ^ 2 * c)) - (1 / 2 + t ^ 2 * c / 8 + (t ^ 2 * c) ^ 2 / 16)) : ℝ) : ℂ) := by
+      (((1 / (1 + √(1 - t ^ 2 * c)) -
+        (1 / 2 + t ^ 2 * c / 8 + (t ^ 2 * c) ^ 2 / 16)) : ℝ) : ℂ) := by
     simp only [Jet5.ev, wJet]; push_cast; ring
   rw [e, Complex.norm_real, Real.norm_eq_abs]
   have h5 := pow_six_le (t := t) hc ht1

@@ -25,7 +25,8 @@ namespace KAM.Planetary.OrbitJet
 open KAM KAM.Kepler Jet5
 
 theorem orbit_eq_complex (lam : ℝ) (v : Fin 2 → ℝ) :
-    p11c_orbit lam v = ((√(1 - planeSq v) : ℝ) : ℂ) * Complex.exp ((keplerLong lam v : ℝ) * Complex.I)
+    p11c_orbit lam v = ((√(1 - planeSq v) : ℝ) : ℂ) *
+        Complex.exp ((keplerLong lam v : ℝ) * Complex.I)
       - ((v 0 : ℂ) + Complex.I * (v 1 : ℂ)) +
       ((planeDot v (orbitalUnit (keplerLong lam v)) : ℝ) : ℂ) *
         (((1 / (1 + √(1 - planeSq v)) : ℝ)) : ℂ) * ((v 0 : ℂ) + Complex.I * (v 1 : ℂ)) := by
@@ -108,8 +109,8 @@ theorem orbit_line_isJet (lam : ℝ) (w : Fin 2 → ℝ) :
     simp only [abs_zero, zero_mul] at this
     filter_upwards [Metric.tendsto_nhds.1 this 1 one_pos] with t ht
     rw [planeLength_smul]
-    have := (le_abs_self _).trans_lt (by simpa [Real.dist_eq] using ht : |(|t| * planeLength w)| < 1)
-    exact this
+    exact (le_abs_self _).trans_lt
+      (by simpa [Real.dist_eq] using ht : |(|t| * planeLength w)| < 1)
   set A : ℂ := ζb * X with hA
   set B : ℂ := ζ * Xi with hB
   set y : ℝ → ℂ := fun t => Complex.I * (((keplerLong lam (t • w) : ℝ) : ℂ) - lam) with hy
@@ -128,7 +129,8 @@ theorem orbit_line_isJet (lam : ℝ) (w : Fin 2 → ℝ) :
     have hF := keplerPhi_keplerLong ht lam
     simp only [keplerPhi, Pi.smul_apply, smul_eq_mul] at hF
     have e : keplerLong lam (t • w) - lam =
-        t * w 0 * Real.sin (keplerLong lam (t • w)) - t * w 1 * Real.cos (keplerLong lam (t • w)) := by
+        t * w 0 * Real.sin (keplerLong lam (t • w)) -
+          t * w 1 * Real.cos (keplerLong lam (t • w)) := by
       linarith
     have hn : ‖y t‖ = |keplerLong lam (t • w) - lam| := by
       simp only [hy, norm_mul, Complex.norm_I, one_mul]
