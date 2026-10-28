@@ -680,6 +680,7 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
+public import KAM.Planetary.PlanarTorsion.Beta
 public import KAM.Planetary.PlanarTorsion.Characters.Average
 public import KAM.Planetary.PlanarTorsion.Characters.Basic
 public import KAM.Planetary.PlanarTorsion.Characters.Bracket
@@ -734,6 +735,14 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Reduction
 public import KAM.Planetary.PlanarTorsion.PairJet.Rot
 public import KAM.Planetary.PlanarTorsion.PairJet.Terms
 public import KAM.Planetary.PlanarTorsion.PairJet
+public import KAM.Planetary.PlanarTorsion.Quartic.Algebra
+public import KAM.Planetary.PlanarTorsion.Quartic.Bounds
+public import KAM.Planetary.PlanarTorsion.Quartic.Compose
+public import KAM.Planetary.PlanarTorsion.Quartic.Defs
+public import KAM.Planetary.PlanarTorsion.Quartic.Diagonal
+public import KAM.Planetary.PlanarTorsion.Quartic.Jet
+public import KAM.Planetary.PlanarTorsion.Quartic.Reduce
+public import KAM.Planetary.PlanarTorsion.Quartic
 public import KAM.Planetary.PlanarTorsion.QuarticFlow.Analytic
 public import KAM.Planetary.PlanarTorsion.QuarticFlow.Compact
 public import KAM.Planetary.PlanarTorsion.QuarticFlow.Energy
@@ -749,6 +758,7 @@ public import KAM.Planetary.PlanarTorsion.RealFlow.PicardOp
 public import KAM.Planetary.PlanarTorsion.RealFlow.Variational
 public import KAM.Planetary.PlanarTorsion.Setting
 public import KAM.Planetary.PlanarTorsion.SpectralAdapter
+public import KAM.Planetary.PlanarTorsion.TorsionBound
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
 public import KAM.Planetary.Poincare.D25
