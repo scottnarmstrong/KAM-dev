@@ -21,3 +21,8 @@ Approach: iteratedFDeriv is a continuous multilinear map, so each sup set is the
 **Uncertainties / errata / deviations:** none. No heartbeat options; file well under 1500 lines.
 
 AUDIT FOCUS (design docs/tracks/P/design/P11A-LEAN-DESIGN.md row P11A-W0 and proof plan; audits DESIGN-P11A-design-audit-{1,2,3}.md; signatures .drafts/design/P11ASignatures.lean): (1) statements/definitions = design signatures (conventions, gauges, amounts, attachments of WeakMeasure/Basic), faithful on their whole carrier; (2) proofs sound; no added premises; (3) hygiene. Audit ONLY WeakMeasure/Basic*.
+
+## Round 2 (after audit 1 FAIL W0-01)
+Prover fix on inp-p11aw0 at 766c00c; notes in /root/code/KAM-inp-p11aw0/.drafts/handoff-P11A-W0b.md.
+
+AUDIT FOCUS round 2: verify W0-01 of docs/tracks/P/audits/P11A-W0-audit-1.md is fully resolved: joint continuity of the index function, compactness of the nonempty parameter set, attainment of the index_def infimum (an actual minimizing (c, y)), and boundedness/attainment for every supremum/infimum on positive-dimensional unit spheres and nonempty compact patches (retained N3); nothing that passed in round 1 weakened; hygiene. Audit ONLY KAM/Planetary/WeakMeasure/*.
