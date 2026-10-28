@@ -15,3 +15,5 @@ fundamental theorem for `O(2)` acting on `n` planar vectors; `InvariantPolynomia
 derives the quadratic (three) and quartic (six) invariant reductions used by `quadratic_form` and
 `quartic`.
 -/
+
+@[expose] public section
