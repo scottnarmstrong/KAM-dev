@@ -67,6 +67,58 @@ theorem pairQuartic_eq (w : PairW) :
     fin_cases k <;> simp [quarticCoeff, testPt] <;> linarith
   rw [E w, hq]
 
+include hI hJ hab in
+theorem analyticAt_pairQuartic (w : PairW) :
+    AnalyticAt ℝ (fun IJ : ℝ × ℝ => pairQuartic D i j IJ.1 IJ.2 w) (I0, J0) := by
+  obtain ⟨N, hN, h0, -, hF, hA⟩ := pair_secular_nbhd D i j hI hJ hab
+  set Gs : (ℝ × ℝ) × PairW → ℝ := fun p => secular (pairData D i j) false (pairEmb p) with hGs
+  let v : Fin 4 → (ℝ × ℝ) × PairW := fun _ => ((0 : ℝ × ℝ), w)
+  have hJ4 : AnalyticOnNhd ℝ (fun x => iteratedFDeriv ℝ 4 Gs x v) N := fun x hx =>
+    ((ContinuousMultilinearMap.apply ℝ (fun _ : Fin 4 => (ℝ × ℝ) × PairW) ℝ v).analyticAt _).comp
+      ((hA.iteratedFDeriv_of_isOpen hN 4) x hx)
+  have hEq : ∀ IJ : ℝ × ℝ, (IJ, (0 : PairW)) ∈ N →
+      pairQuartic D i j IJ.1 IJ.2 w = iteratedFDeriv ℝ 4 Gs (IJ, 0) v / 24 := by
+    intro IJ hIJ
+    unfold pairQuartic
+    congr 1
+    set a : (ℝ × ℝ) × PairW := (IJ, 0) with ha
+    have h1 : Continuous fun w' : PairW => (IJ, w') := continuous_const.prodMk continuous_id
+    have hev : (fun w' : PairW => pairSlowSecular D i j IJ.1 IJ.2 w') =ᶠ[𝓝 (0 : PairW)]
+        fun w' => Gs (IJ, w') := by
+      filter_upwards [(hN.preimage h1).mem_nhds hIJ] with w' hw'
+      exact hF (IJ, w') hw'
+    rw [(hev.iteratedFDeriv ℝ 4).self_of_nhds]
+    let inr : PairW →L[ℝ] (ℝ × ℝ) × PairW := ContinuousLinearMap.inr ℝ (ℝ × ℝ) PairW
+    have hcomp : (fun w' : PairW => Gs (IJ, w')) = (fun z => Gs (z + a)) ∘ inr := by
+      funext w'; simp [inr, ha]
+    have hadd : Continuous fun z : (ℝ × ℝ) × PairW => z + a := continuous_id.add continuous_const
+    have hU : IsOpen ((fun z : (ℝ × ℝ) × PairW => z + a) ⁻¹' N) := hN.preimage hadd
+    have hcd : ContDiffOn ℝ 4 (fun z => Gs (z + a)) ((fun z : (ℝ × ℝ) × PairW => z + a) ⁻¹' N) :=
+      (hA.contDiffOn hN.uniqueDiffOn).comp (contDiff_id.add contDiff_const).contDiffOn
+        fun z hz => hz
+    have key := iteratedFDeriv_comp_clm_of_isOpen hU hcd inr (x := 0)
+      (by simpa [inr, ha] using hIJ) (le_refl 4)
+    rw [hcomp, key, iteratedFDeriv_comp_add_right]
+    simp [inr, ha, v]
+  have hV : IsOpen {IJ : ℝ × ℝ | (IJ, (0 : PairW)) ∈ N} :=
+    hN.preimage (continuous_id.prodMk continuous_const)
+  have hmap : AnalyticAt ℝ (fun IJ : ℝ × ℝ => (IJ, (0 : PairW))) (I0, J0) :=
+    analyticAt_id.prod analyticAt_const
+  have hfin : AnalyticAt ℝ (fun IJ : ℝ × ℝ => iteratedFDeriv ℝ 4 Gs (IJ, 0) v / 24) (I0, J0) :=
+    (AnalyticAt.comp_of_eq (hJ4 _ h0) hmap rfl).div_const
+  refine hfin.congr ?_
+  filter_upwards [hV.mem_nhds h0] with IJ hIJ
+  exact (hEq IJ hIJ).symm
+
+include hI hJ hab in
+theorem analyticAt_quarticCoeff :
+    AnalyticAt ℝ (fun IJ : ℝ × ℝ => quarticCoeff D i j IJ) (I0, J0) := by
+  have hF : ∀ m : Fin 6, AnalyticAt ℝ
+      (fun IJ : ℝ × ℝ => pairQuartic D i j IJ.1 IJ.2 (testPt m)) (I0, J0) := fun m =>
+    analyticAt_pairQuartic D i j hI hJ hab (testPt m)
+  refine analyticAt_pi_iff.2 fun k => ?_
+  fin_cases k <;> simp only [quarticCoeff] <;> simp <;> fun_prop
+
 end SecularForm
 end KAM.Planetary
 end
