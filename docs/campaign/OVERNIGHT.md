@@ -297,3 +297,16 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Track W: exact Lean statements of the first headline W-NLW2 passed statement audit 2; awaiting owner approval
     (review page claude.ai/artifact/AbFkbYPkBA5SVvtCdaYmn7). Nothing frozen.
   - Landing on main remains paused pending the owner's go-ahead (main at f7e7672).
+- **10:25. Design revisions made from prover findings (for owner review; no frozen statement touched).**
+  - **P45 revision 4.** Prover P5-EX showed that `PGExtension.agrees` (a design-level signature, not frozen) made the
+    existence theorem `ext` false: the data control `P` only on the closed cylinder, but `agrees` demanded equality on a
+    whole real neighbourhood. `agrees` now also assumes `w ∈ closure (cylinder d.V d.r0)`; delta design audit 4 PASS;
+    P5-EX then proved the package. Reversal: none needed (minimal, all consumers checked).
+  - **P23 revision 3.** P23-13 (`osc_iter`) proved every clause but the remainder bound and reality clause; those need
+    an oscillator-specific Lie-series transfer (N's composition machinery fixes parameter dimension = angle dimension).
+    Nine new packages P23-13b..j (~3.3k lines); the signed `osc_iter` is unchanged; design audit PASS WITH NOTES.
+    P23-15 waits for it.
+  - **P45 resonance sections** (P4-R0/RA/RB) implemented as internal helpers (09:00 ruling); the signed endpoint
+    `two_scale_diophantine_measure` is now proved (P4-RA + P4-M by one prover), in audit.
+  - **Blocked:** P11A-W2 waits for P810 S10-C (proving) and S10-R (wave 9).
+  - Account note: claude-12 (all provers) at 37%, ~3%/h; new provers move to claude-10/claude-8 below ~10%.
