@@ -39,26 +39,26 @@ section TorusUnion
 variable {d : ℕ}
 
 /-- `[0,1)^d`. -/
-def unitCube (d : ℕ) : Set (Fin d → ℝ) := Set.pi univ fun _ => Ico (0 : ℝ) 1
+def torusCube (d : ℕ) : Set (Fin d → ℝ) := Set.pi univ fun _ => Ico (0 : ℝ) 1
 
-theorem measurableSet_unitCube : MeasurableSet (unitCube d) :=
+theorem measurableSet_torusCube : MeasurableSet (torusCube d) :=
   MeasurableSet.univ_pi fun _ => measurableSet_Ico
 
-theorem volume_unitCube : volume (unitCube d) = 1 := by
-  simp [unitCube, Real.volume_pi_Ico]
+theorem volume_torusCube : volume (torusCube d) = 1 := by
+  simp [torusCube, Real.volume_pi_Ico]
 
-theorem volume_prod_unitCube (E : Set (Fin d → ℝ)) : volume (E ×ˢ unitCube d) = volume E := by
-  rw [Measure.volume_eq_prod, Measure.prod_prod, volume_unitCube, mul_one]
+theorem volume_prod_torusCube (E : Set (Fin d → ℝ)) : volume (E ×ˢ torusCube d) = volume E := by
+  rw [Measure.volume_eq_prod, Measure.prod_prod, volume_torusCube, mul_one]
 
-theorem nullMeasurableSet_prod_unitCube {E : Set (Fin d → ℝ)} (hE : NullMeasurableSet E) :
-    NullMeasurableSet (E ×ˢ unitCube d) := by
+theorem nullMeasurableSet_prod_torusCube {E : Set (Fin d → ℝ)} (hE : NullMeasurableSet E) :
+    NullMeasurableSet (E ×ˢ torusCube d) := by
   rw [Measure.volume_eq_prod]
-  exact hE.prod measurableSet_unitCube.nullMeasurableSet
+  exact hE.prod measurableSet_torusCube.nullMeasurableSet
 
-theorem isSigmaCompact_unitCube : IsSigmaCompact (unitCube d) := by
-  have h : unitCube d = ⋃ m : ℕ, Icc (0 : Fin d → ℝ) (fun _ => 1 - 1 / ((m : ℝ) + 1)) := by
+theorem isSigmaCompact_torusCube : IsSigmaCompact (torusCube d) := by
+  have h : torusCube d = ⋃ m : ℕ, Icc (0 : Fin d → ℝ) (fun _ => 1 - 1 / ((m : ℝ) + 1)) := by
     ext x
-    simp only [unitCube, mem_pi, mem_univ, true_implies, mem_Ico, mem_iUnion, mem_Icc, Pi.le_def,
+    simp only [torusCube, mem_pi, mem_univ, true_implies, mem_Ico, mem_iUnion, mem_Icc, Pi.le_def,
       Pi.zero_apply]
     constructor
     · intro h
@@ -84,14 +84,14 @@ theorem isSigmaCompact_unitCube : IsSigmaCompact (unitCube d) := by
   rw [h]
   exact isSigmaCompact_iUnion_of_isCompact _ fun m => isCompact_Icc
 
-theorem isSigmaCompact_prod_unitCube {E : Set (Fin d → ℝ)} (hE : IsSigmaCompact E) :
-    IsSigmaCompact (E ×ˢ unitCube d) := by
+theorem isSigmaCompact_prod_torusCube {E : Set (Fin d → ℝ)} (hE : IsSigmaCompact E) :
+    IsSigmaCompact (E ×ˢ torusCube d) := by
   obtain ⟨K, hK, hKE⟩ := hE
-  obtain ⟨C, hC, hCE⟩ := (isSigmaCompact_unitCube (d := d))
-  have h : E ×ˢ unitCube d = ⋃ p : ℕ × ℕ, K p.1 ×ˢ C p.2 := by
+  obtain ⟨C, hC, hCE⟩ := (isSigmaCompact_torusCube (d := d))
+  have h : E ×ˢ torusCube d = ⋃ p : ℕ × ℕ, K p.1 ×ˢ C p.2 := by
     ext ⟨a, b⟩
     have ha : a ∈ E ↔ ∃ n, a ∈ K n := by rw [← hKE]; simp
-    have hb : b ∈ unitCube d ↔ ∃ n, b ∈ C n := by rw [← hCE]; simp
+    have hb : b ∈ torusCube d ↔ ∃ n, b ∈ C n := by rw [← hCE]; simp
     simp only [mem_prod, mem_iUnion, Prod.exists, ha, hb]
     constructor
     · rintro ⟨⟨n, hn⟩, ⟨m, hm⟩⟩
@@ -165,59 +165,59 @@ theorem nullMeasurableSet_image_of_lipschitzOn {S : Set (Phase d)} (hS : NullMea
 
 /-- `bpP:p1:torus-union`: measurability and the upper bound (`tu-ext`, `tu-meas`, `tu-bounds`). -/
 theorem torus_union {E : Set (Fin d → ℝ)} (hE : NullMeasurableSet E) {F : Phase d → Phase d}
-    {Λ : ℝ} (hF : ∀ x ∈ E ×ˢ unitCube d, ∀ y ∈ E ×ˢ unitCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖) :
-    NullMeasurableSet (F '' (E ×ˢ unitCube d)) ∧
-      volume (F '' (E ×ˢ unitCube d)) ≤ ENNReal.ofReal (Λ ^ (2 * d)) * volume E :=
-  ⟨nullMeasurableSet_image_of_lipschitzOn (nullMeasurableSet_prod_unitCube hE) hF,
-    by simpa only [volume_prod_unitCube] using lip_image_prod hF⟩
+    {Λ : ℝ} (hF : ∀ x ∈ E ×ˢ torusCube d, ∀ y ∈ E ×ˢ torusCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖) :
+    NullMeasurableSet (F '' (E ×ˢ torusCube d)) ∧
+      volume (F '' (E ×ˢ torusCube d)) ≤ ENNReal.ofReal (Λ ^ (2 * d)) * volume E :=
+  ⟨nullMeasurableSet_image_of_lipschitzOn (nullMeasurableSet_prod_torusCube hE) hF,
+    by simpa only [volume_prod_torusCube] using lip_image_prod hF⟩
 
 /-- (B1): `E` σ-compact gives a σ-compact, hence Borel, image (no injectivity). -/
 theorem torus_union_measurableSet_of_sigmaCompact {E : Set (Fin d → ℝ)} (hE : IsSigmaCompact E)
     {F : Phase d → Phase d} {Λ : ℝ}
-    (hF : ∀ x ∈ E ×ˢ unitCube d, ∀ y ∈ E ×ˢ unitCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖) :
-    IsSigmaCompact (F '' (E ×ˢ unitCube d)) ∧ MeasurableSet (F '' (E ×ˢ unitCube d)) := by
-  have h := (isSigmaCompact_prod_unitCube hE).image_of_continuousOn
+    (hF : ∀ x ∈ E ×ˢ torusCube d, ∀ y ∈ E ×ˢ torusCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖) :
+    IsSigmaCompact (F '' (E ×ˢ torusCube d)) ∧ MeasurableSet (F '' (E ×ˢ torusCube d)) := by
+  have h := (isSigmaCompact_prod_torusCube hE).image_of_continuousOn
     (lipschitzOnWith_of_bound hF).continuousOn
   exact ⟨h, measurableSet_of_isSigmaCompact h⟩
 
 /-- (B2): `E` Borel and `F` injective on `A` give a Borel image. -/
 theorem torus_union_measurableSet_of_injOn {E : Set (Fin d → ℝ)} (hE : MeasurableSet E)
     {F : Phase d → Phase d} {Λ : ℝ}
-    (hF : ∀ x ∈ E ×ˢ unitCube d, ∀ y ∈ E ×ˢ unitCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖)
-    (hinj : InjOn F (E ×ˢ unitCube d)) : MeasurableSet (F '' (E ×ˢ unitCube d)) :=
-  (hE.prod measurableSet_unitCube).image_of_continuousOn_injOn
+    (hF : ∀ x ∈ E ×ˢ torusCube d, ∀ y ∈ E ×ˢ torusCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖)
+    (hinj : InjOn F (E ×ˢ torusCube d)) : MeasurableSet (F '' (E ×ˢ torusCube d)) :=
+  (hE.prod measurableSet_torusCube).image_of_continuousOn_injOn
     (lipschitzOnWith_of_bound hF).continuousOn hinj
 
 /-- Lower bound under a lower Lipschitz bound. -/
 theorem torus_union_lower {E : Set (Fin d → ℝ)} (hE : NullMeasurableSet E) {F : Phase d → Phase d}
-    {Λ lam : ℝ} (hF : ∀ x ∈ E ×ˢ unitCube d, ∀ y ∈ E ×ˢ unitCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖)
+    {Λ lam : ℝ} (hF : ∀ x ∈ E ×ˢ torusCube d, ∀ y ∈ E ×ˢ torusCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖)
     (hlam : 0 < lam)
-    (hlow : ∀ x ∈ E ×ˢ unitCube d, ∀ y ∈ E ×ˢ unitCube d, lam * ‖x - y‖ ≤ ‖F x - F y‖) :
-    ENNReal.ofReal (lam ^ (2 * d)) * volume E ≤ volume (F '' (E ×ˢ unitCube d)) ∧
-      (0 < volume (F '' (E ×ˢ unitCube d)) ↔ 0 < volume E) ∧
-      (volume (F '' (E ×ˢ unitCube d)) < ⊤ ↔ volume E < ⊤) := by
+    (hlow : ∀ x ∈ E ×ˢ torusCube d, ∀ y ∈ E ×ˢ torusCube d, lam * ‖x - y‖ ≤ ‖F x - F y‖) :
+    ENNReal.ofReal (lam ^ (2 * d)) * volume E ≤ volume (F '' (E ×ˢ torusCube d)) ∧
+      (0 < volume (F '' (E ×ˢ torusCube d)) ↔ 0 < volume E) ∧
+      (volume (F '' (E ×ˢ torusCube d)) < ⊤ ↔ volume E < ⊤) := by
   have hup := (torus_union hE hF).2
-  have hinj : InjOn F (E ×ˢ unitCube d) := fun x hx y hy hxy => by
+  have hinj : InjOn F (E ×ˢ torusCube d) := fun x hx y hy hxy => by
     have h := hlow x hx y hy
     rw [hxy, sub_self, norm_zero] at h
     have : ‖x - y‖ ≤ 0 := by nlinarith [norm_nonneg (x - y)]
     exact sub_eq_zero.1 (norm_le_zero_iff.1 this)
-  have hg : ∀ u ∈ F '' (E ×ˢ unitCube d), ∀ v ∈ F '' (E ×ˢ unitCube d),
-      ‖invFunOn F (E ×ˢ unitCube d) u - invFunOn F (E ×ˢ unitCube d) v‖ ≤ lam⁻¹ * ‖u - v‖ := by
+  have hg : ∀ u ∈ F '' (E ×ˢ torusCube d), ∀ v ∈ F '' (E ×ˢ torusCube d),
+      ‖invFunOn F (E ×ˢ torusCube d) u - invFunOn F (E ×ˢ torusCube d) v‖ ≤ lam⁻¹ * ‖u - v‖ := by
     rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
     rw [hinj.leftInvOn_invFunOn hx, hinj.leftInvOn_invFunOn hy, inv_mul_eq_div,
       le_div_iff₀ hlam]
     linarith [hlow x hx y hy]
-  have himg : invFunOn F (E ×ˢ unitCube d) '' (F '' (E ×ˢ unitCube d)) = E ×ˢ unitCube d :=
+  have himg : invFunOn F (E ×ˢ torusCube d) '' (F '' (E ×ˢ torusCube d)) = E ×ˢ torusCube d :=
     hinj.leftInvOn_invFunOn.image_image
   have h1 := lip_image_prod hg
-  rw [himg, volume_prod_unitCube] at h1
-  have hlow' : ENNReal.ofReal (lam ^ (2 * d)) * volume E ≤ volume (F '' (E ×ˢ unitCube d)) := by
+  rw [himg, volume_prod_torusCube] at h1
+  have hlow' : ENNReal.ofReal (lam ^ (2 * d)) * volume E ≤ volume (F '' (E ×ˢ torusCube d)) := by
     calc ENNReal.ofReal (lam ^ (2 * d)) * volume E
         ≤ ENNReal.ofReal (lam ^ (2 * d)) *
-            (ENNReal.ofReal ((lam⁻¹) ^ (2 * d)) * volume (F '' (E ×ˢ unitCube d))) := by
+            (ENNReal.ofReal ((lam⁻¹) ^ (2 * d)) * volume (F '' (E ×ˢ torusCube d))) := by
           gcongr
-      _ = volume (F '' (E ×ˢ unitCube d)) := by
+      _ = volume (F '' (E ×ˢ torusCube d)) := by
           rw [← mul_assoc, ← ENNReal.ofReal_mul (by positivity), ← mul_pow,
             mul_inv_cancel₀ hlam.ne', one_pow, ENNReal.ofReal_one, one_mul]
   have hc : ENNReal.ofReal (lam ^ (2 * d)) ≠ 0 := (ENNReal.ofReal_pos.2 (pow_pos hlam _)).ne'
@@ -238,7 +238,7 @@ theorem torus_union_saturation {E : Set (Fin d → ℝ)} {F : Phase d → Phase 
     (hper : ∀ ω ∈ E, ∀ ϑ (k : Fin d → ℤ),
       F (ω, ϑ + fun i => (k i : ℝ)) = F (ω, ϑ) + angleShift k) :
     (⋃ ω ∈ E, range fun ϑ => F (ω, ϑ)) =
-      ⋃ k : Fin d → ℤ, (fun z => z + angleShift k) '' (F '' (E ×ˢ unitCube d)) := by
+      ⋃ k : Fin d → ℤ, (fun z => z + angleShift k) '' (F '' (E ×ˢ torusCube d)) := by
   ext z
   simp only [mem_iUnion, mem_range, mem_image, exists_prop]
   constructor
@@ -257,11 +257,11 @@ theorem torus_union_saturation {E : Set (Fin d → ℝ)} {F : Phase d → Phase 
 /-- Saturation is measurable (Lebesgue; Borel if the cell image is). -/
 theorem nullMeasurableSet_torus_union_saturation {E : Set (Fin d → ℝ)} (hE : NullMeasurableSet E)
     {F : Phase d → Phase d} {Λ : ℝ}
-    (hF : ∀ x ∈ E ×ˢ unitCube d, ∀ y ∈ E ×ˢ unitCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖)
+    (hF : ∀ x ∈ E ×ˢ torusCube d, ∀ y ∈ E ×ˢ torusCube d, ‖F x - F y‖ ≤ Λ * ‖x - y‖)
     (hper : ∀ ω ∈ E, ∀ ϑ (k : Fin d → ℤ),
       F (ω, ϑ + fun i => (k i : ℝ)) = F (ω, ϑ) + angleShift k) :
     NullMeasurableSet (⋃ ω ∈ E, range fun ϑ => F (ω, ϑ)) ∧
-      (MeasurableSet (F '' (E ×ˢ unitCube d)) →
+      (MeasurableSet (F '' (E ×ˢ torusCube d)) →
         MeasurableSet (⋃ ω ∈ E, range fun ϑ => F (ω, ϑ))) := by
   rw [torus_union_saturation hper]
   have : (volume : Measure (Phase d)).IsAddHaarMeasure := Measure.prod.instIsAddHaarMeasure _ _
