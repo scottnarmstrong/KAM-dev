@@ -104,6 +104,81 @@ theorem analytic_taylor_bound {H : ℝ → ℝ} (hH : AnalyticAt ℝ H 0) :
   rw [← hs]
   simpa [Real.norm_eq_abs, zero_add] using h1
 
+theorem integral_cos_pow_shift (θ : ℝ) (k : ℕ) :
+    ∫ F in (0:ℝ)..2 * π, Real.cos (F - θ) ^ k = ∫ F in (0:ℝ)..2 * π, Real.cos F ^ k := by
+  have hper : Function.Periodic (fun s : ℝ => Real.cos s ^ k) (2 * π) := fun s => by
+    simp only; rw [Real.cos_add_two_pi]
+  rw [intervalIntegral.integral_comp_sub_right (fun s => Real.cos s ^ k) θ]
+  have := hper.intervalIntegral_add_eq (-θ) 0
+  rw [show 0 - θ = -θ by ring, show 2 * π - θ = -θ + 2 * π by ring, this, zero_add]
+
+/-- `stepP:p8:qf-diag`: the even jet of the circle mean of an analytic function. -/
+theorem circleMean_jet {H : ℝ → ℝ} (hH : AnalyticAt ℝ H 0) :
+    ∃ r C : ℝ, 0 < r ∧ 0 < C ∧ ∀ v : Fin 2 → ℝ, planeLength v < r →
+      |((2 * π)⁻¹ * ∫ F in (0:ℝ)..2 * π, H (planeDot v (orbitalUnit F))) -
+        (H 0 + iteratedDeriv 2 H 0 / 4 * planeLength v ^ 2 +
+          iteratedDeriv 4 H 0 / 64 * planeLength v ^ 4)| ≤ C * planeLength v ^ 6 := by
+  obtain ⟨r, C, hr, hC, hT⟩ := analytic_taylor_bound hH
+  refine ⟨r, C, hr, hC, fun v hv => ?_⟩
+  obtain ⟨θ, hθ⟩ := planeDot_orbitalUnit_polar v
+  set e := planeLength v with he
+  have he0 : 0 ≤ e := planeLength_nonneg v
+  set c : ℕ → ℝ := fun k => iteratedDeriv k H 0 / k.factorial with hc
+  set P : ℝ → ℝ := fun y => ∑ k ∈ Finset.range 6, c k * y ^ k with hP
+  have hx : ∀ F, |planeDot v (orbitalUnit F)| ≤ e := fun F => by
+    rw [hθ F, abs_mul, abs_of_nonneg he0]
+    exact mul_le_of_le_one_right he0 (Real.abs_cos_le_one _)
+  have hcontx : Continuous fun F => planeDot v (orbitalUnit F) := by
+    simp only [planeDot, Fin.sum_univ_two, orbitalUnit, Matrix.cons_val_zero, Matrix.cons_val_one]
+    fun_prop
+  have hcH : Continuous fun F => H (planeDot v (orbitalUnit F)) := by
+    refine continuous_iff_continuousAt.2 fun F => ?_
+    have := (hT _ (lt_of_le_of_lt (hx F) hv)).1
+    exact ContinuousAt.comp (f := fun F => planeDot v (orbitalUnit F)) this hcontx.continuousAt
+  have hPc : Continuous P := by simp only [hP]; fun_prop
+  have hcP : Continuous fun F => P (planeDot v (orbitalUnit F)) := hPc.comp hcontx
+  have hsplit : ∫ F in (0:ℝ)..2 * π, H (planeDot v (orbitalUnit F)) =
+      (∫ F in (0:ℝ)..2 * π, P (planeDot v (orbitalUnit F))) +
+      ∫ F in (0:ℝ)..2 * π, (H (planeDot v (orbitalUnit F)) - P (planeDot v (orbitalUnit F))) := by
+    rw [intervalIntegral.integral_sub (hcH.intervalIntegrable _ _) (hcP.intervalIntegrable _ _)]
+    ring
+  have hPint : (2 * π)⁻¹ * ∫ F in (0:ℝ)..2 * π, P (planeDot v (orbitalUnit F)) =
+      H 0 + iteratedDeriv 2 H 0 / 4 * e ^ 2 + iteratedDeriv 4 H 0 / 64 * e ^ 4 := by
+    have h1 : ∀ F, P (planeDot v (orbitalUnit F)) =
+        ∑ k ∈ Finset.range 6, c k * e ^ k * Real.cos (F - θ) ^ k := fun F => by
+      simp only [hP, hθ F, mul_pow, mul_assoc]
+    simp only [h1]
+    rw [intervalIntegral.integral_finsetSum (fun k _ =>
+      ((by fun_prop : Continuous fun F : ℝ => c k * e ^ k * Real.cos (F - θ) ^ k)).intervalIntegrable _ _)]
+    simp only [intervalIntegral.integral_const_mul, integral_cos_pow_shift]
+    rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_succ,
+      Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_one]
+    rw [integral_cos_pow_period 0 (by norm_num), integral_cos_pow_period 1 (by norm_num),
+      integral_cos_pow_period 2 (by norm_num), integral_cos_pow_period 3 (by norm_num),
+      integral_cos_pow_period 4 (by norm_num), integral_cos_pow_period 5 (by norm_num)]
+    simp only [hc]
+    norm_num [Nat.factorial]
+    have hπ : π ≠ 0 := Real.pi_ne_zero
+    field_simp
+    ring
+  have hR : |(2 * π)⁻¹ * ∫ F in (0:ℝ)..2 * π,
+      (H (planeDot v (orbitalUnit F)) - P (planeDot v (orbitalUnit F)))| ≤ C * e ^ 6 := by
+    have hb : ∀ F ∈ Set.uIoc (0:ℝ) (2 * π),
+        ‖H (planeDot v (orbitalUnit F)) - P (planeDot v (orbitalUnit F))‖ ≤ C * e ^ 6 := fun F _ => by
+      rw [Real.norm_eq_abs]
+      refine (((hT _ (lt_of_le_of_lt (hx F) hv)).2)).trans ?_
+      gcongr
+      exact hx F
+    have := intervalIntegral.norm_integral_le_of_norm_le_const hb
+    rw [abs_mul, abs_of_pos (by positivity : (0:ℝ) < (2 * π)⁻¹)]
+    rw [Real.norm_eq_abs] at this
+    calc (2 * π)⁻¹ * |∫ F in (0:ℝ)..2 * π, _| ≤ (2 * π)⁻¹ * (C * e ^ 6 * |2 * π - 0|) := by gcongr
+      _ = C * e ^ 6 := by
+        rw [sub_zero, abs_of_pos (by positivity : (0:ℝ) < 2 * π)]
+        field_simp
+  rw [hsplit, mul_add, hPint, add_sub_cancel_left]
+  exact hR
+
 end SecularForm
 end KAM.Planetary
 end
