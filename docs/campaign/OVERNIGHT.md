@@ -356,3 +356,24 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   definitions. The clause now reads `∀ z, z.2 ∈ B → …` (name kept; its only consumer, cs-cutoff, works on `B`);
   design note on inp 177d8b6b. C8b proves the amended statement and the omitted companion
   `canonical_step_simple_inverse`. Reversal: restore the old clause and add a hypothesis making `R` regular off `B`.
+
+- **17:00. Ruling (P45 signed name `avg` → `pg_avg`).** The P5-AV signed theorem `avg` collides with the P2/P3
+  `KAM.Planetary.avg` (Averaging/Finite, on inp) and would break the root build; the pre-audit clash check caught it.
+  Renamed `pg_avg`, no alias, statement unchanged; `pgAvg := (pg_avg d r mu h).choose` (inp-p5av a324b554, signature
+  file; design note requested from kam-inp). Also 16:50: S9-Q failed round 1 on graph-cut coverage (`d-c` needs the
+  source's `sqrt n * delta_0 <= rho_*` domain adapter; the signed `diagonalize` passes); S9-Qb adds the adapter.
+- **17:08. Landing killed for low memory, finished by the main orchestrator.** The P11C-T2 landing (f6384126) was
+  killed at 17:02 after its full build had passed (9867 jobs) but before lint and push. Cause: memory stacking
+  (an orphaned 7 GB leanchecker from a closed S8-4 audit, parallel audit-launch replays, four new provers). kam-inp
+  paused landings and asked the owner; per the owner's standing ruling (landing is routine, never an owner gate),
+  the main orchestrator ran the remaining steps of land-branch.sh under the HQ lock (lint PASS, 821 files, 144 ABI
+  hashes OK) and pushed. Fixes: orphan killed; audit-launch replays now serialized under one lock.
+- **17:45. Heartbeat.** kam-inp had been parked since ~17:05 on a question to the owner about the killed T2 landing
+  (already finished and pushed by the main orchestrator at 17:08); answered from the standing ruling, merges and
+  landings resumed (backlog T4, W2b, B04, B05, A6, S8-Q, E3, P5-AV, P11A-C8 merged; `amdConfinement` seal staged
+  after A6's seal-key audit). Track K is complete (00:15); the remaining unstarted design work is track N: N10-3..5
+  (provider of `quasiConvex_nekhoroshev_complexBound`) and the whole N11 chain (provider of
+  `partialConvex_nekhoroshev`), now started (N10-3, N11-A, N11-B), plus P11C R1 and Q5. Mechanical fixes made by the
+  orchestrator, each followed by a delta audit: P11A-C8 helper `step_small` -> `p11_step_small` (reused short name);
+  P23-22 three statement lines wrapped (whitespace only; lint). New pre-audit refusals: reused public short names
+  (main_shortname_check.py) and root-name shadows (main_shadow_check.sh).
