@@ -695,6 +695,10 @@ public import KAM.Planetary.PlanarTorsion.Homological.Extract
 public import KAM.Planetary.PlanarTorsion.Homological.Reality
 public import KAM.Planetary.PlanarTorsion.Homological
 public import KAM.Planetary.PlanarTorsion.LaplaceReduction
+public import KAM.Planetary.PlanarTorsion.NormalForm.Bounds
+public import KAM.Planetary.PlanarTorsion.NormalForm.Remainder
+public import KAM.Planetary.PlanarTorsion.NormalForm.Taylor
+public import KAM.Planetary.PlanarTorsion.NormalForm
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Algebra
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Analytic
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Expansion

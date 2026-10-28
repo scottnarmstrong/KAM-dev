@@ -30661,9 +30661,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lie (KAM/Planetary/PlanarTorsion/NormalForm.lean)
+LEAN_NOTE: audit P11C-T10 PASS WITH NOTES (exact signed compact-uniform sixth-order estimate)
 NOTE: -
 
 NODE: stepP:p11b:li-tay
@@ -30691,9 +30691,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cN_hasDerivAt, real_lie_taylor (KAM/Planetary/PlanarTorsion/NormalForm/Taylor.lean)
+LEAN_NOTE: audit P11C-T10 PASS; named li-tay
 NOTE: SOURCE_GAP: L161 cites N:bpN:p5:lie-derivative and N:bpN:p5:taylor. Those statements inherit a holomorphic Hamiltonian on a complex open domain, a complex norm with field bound epsilon<=1/2 and an initial point in Omega^{1/2}, with the trajectory in the domain of the holomorphic observable. Here K and the Lambda-dependent coefficients are stated real analytic and flow supplies a real time-one map. No complexification, compatible complex domain/norm or small-field verification is supplied. The real chain-rule/integral-Taylor formula is asserted in L161, but its direct real version has no supplying approved input either. The printed real statement is retained without adding those proof obligations as hypotheses.
 
 NODE: stepP:p11b:li-ord
@@ -30722,9 +30722,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27): lie bounds R directly via p11cN_remainder_bound; orders never formalized; T10 audit 1 F1 + ruling
 NOTE: -
 
 NODE: stepP:p11b:li-sum
@@ -30753,9 +30753,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-delta-P-m
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lie (KAM/Planetary/PlanarTorsion/NormalForm.lean)
+LEAN_NOTE: audit P11C-T10 PASS; step inside lie
 NOTE: -
 
 NODE: bpP:p11b:lift-map
