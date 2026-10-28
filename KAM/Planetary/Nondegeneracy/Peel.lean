@@ -206,5 +206,123 @@ theorem pairB_outer (D : Data (n+1)) (hn : 0 < n) (a : Vec (n+1)) (i j : Fin n) 
 theorem pairA_comm (D : Data n) (a : Vec n) (i j : Fin n) : pairA D a i j = pairA D a j i := by
   simp only [pairA, min_comm i j, max_comm i j]
 
+theorem sqrt_action_mul_self (D : Data n) {a : Vec n} {i : Fin n} (hi : 0 < a i) :
+    √(action D a i) * √(action D a i) = action D a i :=
+  Real.mul_self_sqrt (action_pos D hi).le
+
+theorem coeffs_zero_zero (D : Data (n+1)) {a : Vec (n+1)} (h0 : 0 < a 0) :
+    coeffs D a 0 0 = -(∑ j : Fin n, pairA D a 0 j.succ) / action D a 0 := by
+  have h1 := Finset.add_sum_erase Finset.univ (fun k => pairA D a 0 k) (Finset.mem_univ 0)
+  have h2 := Fin.sum_univ_succ (fun k => pairA D a 0 k)
+  simp only [coeffs, qhat, ite_true, sqrt_action_mul_self D h0]
+  congr 2
+  linarith
+
+theorem coeffs_zero_succ (D : Data (n+1)) (a : Vec (n+1)) (j : Fin n) :
+    coeffs D a 0 j.succ =
+      pairB D a 0 j.succ / (√(action D a 0) * √(action D a j.succ)) := by
+  simp [coeffs, qhat, (Fin.succ_ne_zero j).symm]
+
+theorem coeffs_succ_zero (D : Data (n+1)) (a : Vec (n+1)) (j : Fin n) :
+    coeffs D a j.succ 0 = coeffs D a 0 j.succ := by
+  simpa using (coeffs_hermitian D a).apply 0 j.succ
+
+theorem coeffs_succ_succ_ne (D : Data (n+1)) (hn : 0 < n) (a : Vec (n+1)) {i j : Fin n}
+    (h : i ≠ j) :
+    coeffs D a i.succ j.succ = coeffs (outerData D hn) (fun k => a k.succ) i j := by
+  simp [coeffs, qhat, Fin.succ_inj, h, pairB_outer, action_outer]
+
+theorem coeffs_succ_succ_diag (D : Data (n+1)) (hn : 0 < n) {a : Vec (n+1)} (j : Fin n)
+    (hj : 0 < a j.succ) :
+    coeffs D a j.succ j.succ = coeffs (outerData D hn) (fun k => a k.succ) j j -
+      pairA D a 0 j.succ / action D a j.succ := by
+  have h1 := Finset.add_sum_erase Finset.univ (fun k => pairA D a j.succ k)
+    (Finset.mem_univ j.succ)
+  have h2 := Fin.sum_univ_succ (fun k => pairA D a j.succ k)
+  have h3 := Finset.add_sum_erase Finset.univ (fun k => pairA (outerData D hn) (fun k => a k.succ) j k)
+    (Finset.mem_univ j)
+  have h4 : ∀ k : Fin n, pairA (outerData D hn) (fun k => a k.succ) j k = pairA D a j.succ k.succ :=
+    fun k => by rw [pairA_outer]
+  have hs : ∑ k ∈ Finset.univ.erase j.succ, pairA D a j.succ k =
+      pairA D a j.succ 0 + ∑ k ∈ Finset.univ.erase j,
+        pairA (outerData D hn) (fun k => a k.succ) j k := by
+    simp only [h4] at h3 ⊢
+    linarith
+  have hm : √(action (outerData D hn) (fun k => a k.succ) j) *
+      √(action (outerData D hn) (fun k => a k.succ) j) = action D a j.succ := by
+    rw [action_outer]; exact sqrt_action_mul_self D hj
+  simp only [coeffs, qhat, ite_true, hs, action_outer, sqrt_action_mul_self D hj]
+  rw [pairA_comm D a j.succ 0]
+  ring
+
+theorem quart_pow (u : ℝ) (hu : 0 < u) : (u^4)^((1:ℝ)/4) = u := by
+  rw [← Real.rpow_natCast, ← Real.rpow_mul hu.le]; norm_num
+
+theorem quart_exists (x : ℝ) (hx : 0 < x) : ∃ u : ℝ, 0 < u ∧ x = u^4 :=
+  ⟨x^((1:ℝ)/4), by positivity, by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hx.le]; norm_num⟩
+
+theorem cross_alg (G m0 mj κ t a : ℝ) (hG : 0 < G) (h0 : 0 < m0) (hj : 0 < mj) (hk : 0 < κ)
+    (ht : 0 < t) (ha : 0 < a) :
+    (15/16)*G*m0*mj*t^3/a^4 / ((√m0 * κ^((1:ℝ)/4) * t^((1:ℝ)/4)) * (√mj * κ^((1:ℝ)/4) * a^((1:ℝ)/4)))
+      = 15*G*√(m0*mj)/(16*√κ) * t^((11:ℝ)/4) * a^(-(17:ℝ)/4) := by
+  obtain ⟨u, hu, rfl⟩ := quart_exists t ht
+  obtain ⟨v, hv, rfl⟩ := quart_exists a ha
+  obtain ⟨w, hw, rfl⟩ := quart_exists κ hk
+  obtain ⟨p, hp, rfl⟩ : ∃ p : ℝ, 0 < p ∧ m0 = p^2 := ⟨√m0, Real.sqrt_pos.2 h0, (Real.sq_sqrt h0.le).symm⟩
+  obtain ⟨q, hq, rfl⟩ : ∃ q : ℝ, 0 < q ∧ mj = q^2 := ⟨√mj, Real.sqrt_pos.2 hj, (Real.sq_sqrt hj.le).symm⟩
+  have e1 : √(p^2) = p := Real.sqrt_sq hp.le
+  have e2 : √(q^2) = q := Real.sqrt_sq hq.le
+  have e3 : √(p^2*q^2) = p*q := by rw [← mul_pow]; exact Real.sqrt_sq (by positivity)
+  have e4 : √(w^4) = w^2 := by rw [show w^4 = (w^2)^2 by ring]; exact Real.sqrt_sq (by positivity)
+  have e5 : (u^4)^((11:ℝ)/4) = u^11 := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hu.le]; norm_num
+  have e6 : (v^4)^(-(17:ℝ)/4) = (v^17)⁻¹ := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hv.le]; norm_num
+  rw [e1, e2, e3, e4, e5, e6, quart_pow u hu, quart_pow v hv, quart_pow w hw]
+  field_simp
+
+theorem sq_exists (x : ℝ) (hx : 0 < x) : ∃ u : ℝ, 0 < u ∧ x = u^2 :=
+  ⟨√x, Real.sqrt_pos.2 hx, (Real.sq_sqrt hx.le).symm⟩
+
+theorem sqrt_mul_sq (k u : ℝ) (hk : 0 < k) (hu : 0 < u) : √(k * u^2) = √k * u := by
+  rw [Real.sqrt_mul hk.le, Real.sqrt_sq hu.le]
+
+theorem diag_alg (G m0 m' κ t a : ℝ) (hG : 0 < G) (h0 : 0 < m0) (hj : 0 < m') (hk : 0 < κ)
+    (ht : 0 < t) (ha : 0 < a) :
+    (3/4)*G*m0*m'*t^2/a^3/(m0*√(κ*t)) = 3*G/(4*√κ) * t^((3:ℝ)/2) * (m' * a^(-3:ℤ)) := by
+  obtain ⟨s, hs, rfl⟩ := sq_exists t ht
+  have e : (s^2)^((3:ℝ)/2) = s^3 := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hs.le]; norm_num
+  have hk' := Real.sqrt_pos.2 hk
+  rw [e, sqrt_mul_sq κ s hk hs, zpow_neg, zpow_ofNat]
+  field_simp
+
+theorem diag_alg2 (G m0 m' κ t a : ℝ) (hG : 0 < G) (h0 : 0 < m0) (hj : 0 < m') (hk : 0 < κ)
+    (ht : 0 < t) (ha : 0 < a) :
+    (3/4)*G*m0*m'*t^2/a^3/(m'*√(κ*a)) = 3*G*m0/(4*√κ) * t^2 * a^(-(7:ℝ)/2) := by
+  obtain ⟨r, hr, rfl⟩ := sq_exists a ha
+  have e : (r^2)^(-(7:ℝ)/2) = (r^7)⁻¹ := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hr.le]; norm_num
+  have hk' := Real.sqrt_pos.2 hk
+  rw [e, sqrt_mul_sq κ r hk hr]
+  field_simp
+
+theorem frobenius_le_sum_abs (M : Mat n) : frobenius M ≤ ∑ i, ∑ j, |M i j| := by
+  unfold SecularSpectrum.frobenius
+  rw [Real.sqrt_le_iff]
+  refine ⟨Finset.sum_nonneg fun i _ => Finset.sum_nonneg fun j _ => abs_nonneg _, ?_⟩
+  have : ∀ i, (∑ j, M i j ^ 2) ≤ (∑ j, |M i j|) ^ 2 := fun i => by
+    simp_rw [← sq_abs (M i _)]
+    exact Finset.sum_sq_le_sq_sum_of_nonneg (fun j _ => abs_nonneg _)
+  calc ∑ i, ∑ j, M i j ^ 2 ≤ ∑ i, (∑ j, |M i j|) ^ 2 := Finset.sum_le_sum fun i _ => this i
+    _ ≤ (∑ i, ∑ j, |M i j|) ^ 2 :=
+      Finset.sum_sq_le_sq_sum_of_nonneg (fun i _ => Finset.sum_nonneg fun j _ => abs_nonneg _)
+
+theorem op2_le_frobenius (M : Mat n) : op2 M ≤ frobenius M := by
+  refine Real.sSup_le ?_ (Real.sqrt_nonneg _)
+  rintro r ⟨x, hx, rfl⟩
+  simpa [hx] using length2_mulVec_le M x
+
 end Nondegeneracy
 end KAM.Planetary
