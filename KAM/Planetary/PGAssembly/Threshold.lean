@@ -354,6 +354,154 @@ theorem thr_dynamic {d : PGData a b} {r mu : ℝ} (hS : ThrStatic d r) (hSm : Th
     (mul_le_mul_of_nonneg_right hbar hw.le).trans s4, e5, e6, hl1pos, hell, hbar.trans s5, hlr,
     e11, chat_Ehat_lt h0 mu, lt_min (by linarith) (by linarith), by linarith, hv1, hv2⟩
 
+/-- Preliminary radius `bpP:p5:rstar` (data only, selected before `r` and `mu`). -/
+theorem rstar (d : PGData a b) : ∃ R : ℝ, 0 < R ∧ R < d.r0 ∧ R < Real.exp (-(pgTau a b+1)) ∧ R < Real.exp (-1) ∧ R < 1 ∧
+    R^6 ≤ (2*(1+2*b*(pgAnalytic d).LN*(pgAnalytic d).LB)*a*(pgAnalytic d).LN*pgInverseL d)⁻¹ ∧
+    (pgAnalytic d).LP ≤ Real.log (1/R) ∧ R^2*(Real.log (1/R))^(pgTau a b+1) ≤ 1 ∧
+    Real.sqrt R < pgBoundaryD d ∧
+    pgBoundaryA d*Real.sqrt R ≤ (volume d.V).toReal/2 ∧
+    (pgAnalytic d).Cdio*pgCgamma d*Real.sqrt R ≤ (volume d.V).toReal/4 ∧
+    ∀ r mu : ℝ, admissible d R r mu →
+      r < (pgAnalytic d).r1/2 ∧ r < pgOscRadius d/4 ∧
+      (params d r mu).Kbar*r^5 ≤ 1 ∧
+      (params d r mu).rhoBar*pgWidth d ≤ (pgOscRadius d)^2 ∧
+      (params d r mu).rK + 12*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (pgWidth d*(params d r mu).gammaBar) < Real.sqrt r ∧
+      Real.sqrt 2 * (18*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (pgOscRadius d*(params d r mu).gammaBar)) ≤ (pgScales d).k1*r^(3/2:ℝ) ∧
+      0 < (params d r mu).l1 ∧ (params d r mu).ell ≥ r^2/4 ∧
+      (params d r mu).rhoBar ≤ (pgAnalytic d).rho ∧
+      (params d r mu).l1 ≤ (params d r mu).rhoBar ∧
+      mu < (pgAnalytic d).muStar ∧ pgChat a b*(params d r mu).Ehat < 1 ∧
+      (params d r mu).rK < min (Real.sqrt r) ((params d r mu).l1) ∧
+      (params d r mu).rK < (params d r mu).rhoBar/2 ∧
+      ENNReal.ofReal (1/2)*volume d.V ≤ volume (innerCore d.V (Real.sqrt r)) ∧
+      ENNReal.ofReal (1/4)*volume d.V ≤ volume (checkedCore d r mu) := by
+  obtain ⟨R0, hR0, hP⟩ := eventually_exists_radius
+    (p := fun r => ThrStatic d r ∧ ThrSmall d r) ((eventually_static d).and (eventually_small d))
+  have hS : ThrStatic d (R0/2) := (hP _ (by positivity) (by linarith)).1
+  obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := hS
+  refine ⟨R0/2, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, ?_⟩
+  rintro r mu ⟨hr0, hrR, hmu0, -, hmu⟩
+  have := hP r hr0 (by linarith)
+  exact thr_dynamic this.1 this.2 hmu0 hmu
+
+def pgRstar (d : PGData a b) : ℝ := (rstar d).choose
+
+/-- `ThrRange` below the preliminary radius. -/
+theorem thrRange_of_admissible {d : PGData a b} {r mu : ℝ} (h : admissible d (pgRstar d) r mu) :
+    ThrRange d r mu := by
+  obtain ⟨hR0, -, hRe, hRe1, -, -, hRLP, hR8, -⟩ := (rstar d).choose_spec
+  obtain ⟨hr0, hrR, hmu0, -, hmu⟩ := h
+  refine ⟨hr0, (hrR.trans hRe1).le, hmu0, ?_, hmu, ?_⟩
+  · refine hRLP.trans (Real.log_le_log (by positivity) ?_)
+    exact one_div_le_one_div_of_le hr0 hrR.le
+  · have hq : pgTau a b + 1 ≤ Real.log (1/pgRstar d) :=
+      le_log_inv_of_le_exp_neg hR0 hRe.le
+    exact (sq_log_mono hr0 hrR (by linarith [pgTau_pos a b]) hq).trans hR8
+
+theorem param_facts (d : PGData a b) : 0 < pgCgamma d ∧
+    ∀ r mu : ℝ, admissible d (pgRstar d) r mu →
+      (pgAnalytic d).LP*mu ≤ r^6*(Real.log (1/r))^(-(2*pgTau a b+1)) ∧
+      6 ≤ (params d r mu).Kbar*pgWidth d ∧
+      (params d r mu).gammaBar ≤ pgCgamma d*Real.sqrt r ∧
+      0 < volume (pgActionDomain d r mu) ∧ volume (pgActionDomain d r mu) < ⊤ := by
+  refine ⟨pgCgamma_pos d, fun r mu h => ?_⟩
+  have hR := thrRange_of_admissible h
+  obtain ⟨hr0, hr, hmu0, hLP, hmu, -⟩ := hR
+  have hL := one_le_log_inv hr0 hr
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, hdyn⟩ := (rstar d).choose_spec
+  obtain ⟨-, -, -, -, -, -, hl1, hell, -, -, -, -, -, -, -, hvc⟩ := hdyn r mu h
+  have hw := pgWidth_pos d
+  have hell0 : 0 < (params d r mu).l2top - (params d r mu).l1 := by
+    have := params_ell d r mu
+    rw [params_l2top]
+    have := pow_pos hr0 2
+    linarith
+  have hsh : volume (actionShell b (params d r mu).l1 (params d r mu).l2top) =
+      ENNReal.ofReal ((params d r mu).l2top - (params d r mu).l1) ^ b := by
+    rw [actionShell, Real.volume_pi_Ioo]
+    simp only [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
+  have hV0 : volume d.V ≠ 0 := (d.hV.measure_pos volume d.hVc.nonempty).ne'
+  refine ⟨LP_mul_mu_le hr0 hr hmu0 hLP hmu, ?_, gammaBar_le (thrRange_of_admissible h), ?_, ?_⟩
+  · rw [params_Kbar]
+    have : 30/pgWidth d*Real.log (1/r)*pgWidth d = 30*Real.log (1/r) := by field_simp
+    rw [this]
+    linarith
+  · rw [pgActionDomain, volume_joinedActions, hsh]
+    refine ENNReal.mul_pos ?_ (pow_ne_zero _ (ENNReal.ofReal_pos.2 hell0).ne')
+    refine (lt_of_lt_of_le ?_ hvc).ne'
+    exact ENNReal.mul_pos (by simp) hV0
+  · rw [pgActionDomain, volume_joinedActions, hsh]
+    refine ENNReal.mul_lt_top ?_ (ENNReal.pow_lt_top ENNReal.ofReal_lt_top)
+    exact lt_of_le_of_lt (measure_mono (fun I hI => hI.1.1)) d.hVb.measure_lt_top
+
+theorem r_k (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    (params d r mu).rK < (params d r mu).rhoHat/(256*(a+b:ℕ)) ∧
+    2*(params d r mu).rK/(params d r mu).ell ≤ (pgScales d).k1/(64*(a+b:ℕ))*Real.sqrt r ∧
+    (1+2*(params d r mu).rK/(params d r mu).ell)^b < 2 := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, hdyn⟩ := (rstar d).choose_spec
+  obtain ⟨-, -, -, -, -, -, hl1, hell, -⟩ := hdyn r mu h
+  obtain ⟨hr0, -⟩ := h
+  have hk1 := pgScales_k1_pos d
+  have hsq : 0 < Real.sqrt r := Real.sqrt_pos.2 hr0
+  have hn : (1:ℝ) ≤ ((a+b:ℕ):ℝ) := by
+    have := d.ha; exact_mod_cast (by omega : 1 ≤ a+b)
+  have hbn : (b:ℝ) ≤ ((a+b:ℕ):ℝ) := by exact_mod_cast Nat.le_add_left b a
+  have hrK := rK_lt (d := d) hr0 mu
+  have hρ := rhoHat_pos d hr0 mu
+  have hl1def : (params d r mu).l1 = (pgScales d).k1*(r^2*Real.sqrt r) := by
+    rw [params_l1, rpow_five_halves hr0]
+  have hr2 : 0 < r^2 := pow_pos hr0 2
+  have hell0 : 0 < (params d r mu).ell := lt_of_lt_of_le (by positivity) hell
+  have hrK0 : 0 ≤ (params d r mu).rK := by
+    rw [params_rK, params_Ehat]
+    have := hρ.le
+    have := one_le_kam_c1 d
+    positivity
+  have hrK' : (params d r mu).rK ≤ (pgScales d).k1*(r^2*Real.sqrt r)/(512*((a+b:ℕ):ℝ)) := by
+    have h1 : (params d r mu).rhoHat/(256*((a+b:ℕ):ℝ)) ≤
+        ((params d r mu).l1/2)/(256*((a+b:ℕ):ℝ)) :=
+      div_le_div_of_nonneg_right (rhoHat_le_l1 d r mu) (by positivity)
+    have h2 : ((params d r mu).l1/2)/(256*((a+b:ℕ):ℝ)) =
+        (pgScales d).k1*(r^2*Real.sqrt r)/(512*((a+b:ℕ):ℝ)) := by
+      rw [hl1def]; field_simp; ring
+    linarith
+  have hx : 2*(params d r mu).rK/(params d r mu).ell ≤
+      (pgScales d).k1/(64*((a+b:ℕ):ℝ))*Real.sqrt r := by
+    rw [div_le_iff₀ hell0]
+    have hc : 0 ≤ (pgScales d).k1/(64*((a+b:ℕ):ℝ))*Real.sqrt r := by positivity
+    calc 2*(params d r mu).rK ≤ 2*((pgScales d).k1*(r^2*Real.sqrt r)/(512*((a+b:ℕ):ℝ))) := by
+          linarith
+      _ = (pgScales d).k1/(64*((a+b:ℕ):ℝ))*Real.sqrt r*(r^2/4) := by field_simp; ring
+      _ ≤ _ := mul_le_mul_of_nonneg_left hell hc
+  refine ⟨hrK, hx, ?_⟩
+  have hk12 : (pgScales d).k1*Real.sqrt r ≤ 1/12 := by
+    have : r^2*((pgScales d).k1*Real.sqrt r) ≤ r^2*(1/12) := by
+      have := params_ell d r mu
+      rw [hl1def] at this
+      nlinarith
+    exact le_of_mul_le_mul_left this hr2
+  set x := 2*(params d r mu).rK/(params d r mu).ell with hxdef
+  have hx0 : 0 ≤ x := by positivity
+  have hxs : x ≤ 1/(768*((a+b:ℕ):ℝ)) := by
+    refine hx.trans ?_
+    calc (pgScales d).k1/(64*((a+b:ℕ):ℝ))*Real.sqrt r
+        = ((pgScales d).k1*Real.sqrt r)/(64*((a+b:ℕ):ℝ)) := by ring
+      _ ≤ (1/12)/(64*((a+b:ℕ):ℝ)) := div_le_div_of_nonneg_right hk12 (by positivity)
+      _ = 1/(768*((a+b:ℕ):ℝ)) := by field_simp; ring
+  have hbx : (b:ℝ)*x ≤ 1/768 := by
+    calc (b:ℝ)*x ≤ ((a+b:ℕ):ℝ)*(1/(768*((a+b:ℕ):ℝ))) :=
+          mul_le_mul hbn hxs hx0 (by positivity)
+      _ = 1/768 := by field_simp
+  calc (1+x)^b ≤ (Real.exp x)^b := by
+        apply pow_le_pow_left₀ (by linarith)
+        linarith [Real.add_one_le_exp x]
+    _ = Real.exp (b*x) := (Real.exp_nat_mul x b).symm
+    _ ≤ Real.exp (1/768) := Real.exp_le_exp.2 hbx
+    _ < 1/(1-1/768) := Real.exp_bound_div_one_sub_of_interval' (by norm_num) (by norm_num)
+    _ < 2 := by norm_num
+
 end KAM.Planetary
 
 end
