@@ -175,6 +175,40 @@ lemma chi_family {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O)
   unfold chiCoeff
   ring
 
+/-- The homological equation for the finite sum `p11c_chi`. -/
+lemma chi_bracket {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O)
+    {freq : (Fin 2 → ℝ) → Fin 2 → ℝ} (hnr : p11c_NR4 O freq) {I : Fin 2 → ℝ} (hI : I ∈ O)
+    (z : Phase 2) :
+    p11c_bracket (p11c_chi F freq I) (p11c_n0 freq I) z =
+      F.eval I z - p11c_average F.eval I z := by
+  set D : (Fin 2 → ℤ) → ℂ := fun k => Complex.I * (∑ j, (k j : ℂ) * freq I j) with hD
+  have hk : ∀ k ∈ chiModes, HasFDerivAt (fun w : Phase 2 => (D k)⁻¹ • p11c_character F.eval k I w)
+      ((D k)⁻¹ • fderiv ℝ (fun w => p11c_character F.eval k I w) z) z := fun k _ =>
+    ((character_differentiable F k I z).hasFDerivAt).fun_const_smul _
+  have hre := Complex.reCLM.hasFDerivAt.comp z (HasFDerivAt.fun_sum hk)
+  have hfun : p11c_chi F freq I = ⇑Complex.reCLM ∘
+      (fun w => ∑ k ∈ chiModes, (D k)⁻¹ • p11c_character F.eval k I w) := by
+    funext w
+    simp [chi_eq_sum, div_eq_inv_mul, hD]
+  unfold p11c_bracket
+  rw [hfun, hre.fderiv]
+  simp only [ContinuousLinearMap.comp_apply, sum_apply, smul_apply]
+  have hsum : (∑ k ∈ chiModes, (D k)⁻¹ • fderiv ℝ (fun w => p11c_character F.eval k I w) z
+      (hamiltonianVectorField (p11c_n0 freq I) z)) =
+      ∑ k ∈ chiModes, p11c_character F.eval k I z := by
+    refine Finset.sum_congr rfl fun k hk' => ?_
+    rw [character_bracket F freq I k z, smul_eq_mul, ← mul_assoc,
+      inv_mul_cancel₀ (chi_div_ne hnr hI hk'), one_mul]
+  rw [hsum]
+  simpa using chiModes_sum F I z
+
+theorem homological {O : Set (Fin 2 → ℝ)} (hO : IsOpen O) (F : QuarticFamily O)
+    (freq : (Fin 2 → ℝ) → Fin 2 → ℝ) (hf : AnalyticOnNhd ℝ freq O) (hnr : p11c_NR4 O freq) :
+    (∃ chi : QuarticFamily O, ∀ I ∈ O, chi.eval I = p11c_chi F freq I) ∧
+    ∀ I ∈ O, ∀ z, p11c_bracket (p11c_chi F freq I) (p11c_n0 freq I) z =
+      F.eval I z - p11c_average F.eval I z :=
+  ⟨chi_family F hf hnr, fun _ hI z => chi_bracket F hnr hI z⟩
+
 end KAM.Planetary
 
 end
