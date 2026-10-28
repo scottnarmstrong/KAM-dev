@@ -123,6 +123,76 @@ theorem eHat_small (H : KamHyp D sbar p h f) : 2 ^ 14 * eHat p < 1 := by
 
 end KamHyp
 
+theorem modeSize_pos_of_ne {n : ℕ} {k : Fin n → ℤ} (hk : k ≠ 0) : 1 ≤ KAM.Fourier.modeSize k := by
+  obtain ⟨i, hi⟩ := Function.ne_iff.1 hk
+  unfold KAM.Fourier.modeSize
+  have h1 : (1 : ℝ) ≤ |(k i : ℝ)| := by
+    have : (1 : ℤ) ≤ |k i| := Int.one_le_abs hi
+    exact_mod_cast this
+  exact h1.trans (Finset.single_le_sum (f := fun j => |(k j : ℝ)|) (fun _ _ => abs_nonneg _)
+    (Finset.mem_univ i))
+
+theorem dotC_block_le {a b : ℕ} {k : Fin (a + b) → ℤ} (hk : firstBlock (b := b) k = 0)
+    (w : Fin (a + b) → ℂ) :
+    ‖dotC k w‖ ≤ KAM.Fourier.modeSize k * ‖lastBlock (a := a) w‖ := by
+  unfold dotC KAM.Fourier.modeSize
+  rw [Finset.sum_mul]
+  refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i _ => ?_)
+  rw [norm_mul]
+  have h1 : ‖((k i : ℤ) : ℂ)‖ = |(k i : ℝ)| := by simp
+  rw [h1]
+  refine Fin.addCases (fun j => ?_) (fun j => ?_) i
+  · have : k (Fin.castAdd b j) = 0 := congrFun hk j
+    simp [this]
+  · exact mul_le_mul_of_nonneg_left (norm_le_pi_norm (lastBlock (a := a) w) j) (abs_nonneg _)
+
+theorem dotC_real {n : ℕ} (k : Fin n → ℤ) (ω : Fin n → ℝ) :
+    ‖dotC k (KAM.realInclusion n ω)‖ = |∑ i, (k i : ℝ) * ω i| := by
+  have : dotC k (KAM.realInclusion n ω) = ((∑ i, (k i : ℝ) * ω i : ℝ) : ℂ) := by
+    simp [dotC]
+  rw [this, Complex.norm_real, Real.norm_eq_abs]
+
+/-- Frequency increments on the ball around a real point (`stepP:p3:st-nonres`, mean value). -/
+theorem freq_diff_bounds (H : KamHyp D sbar p h f) {J : Fin (a + b) → ℝ} (hJ : J ∈ D)
+    {I : Fin (a + b) → ℂ} (hI : ‖I - KAM.realInclusion (a + b) J‖ < rhoHat p) :
+    ‖freq h I - freq h (KAM.realInclusion (a + b) J)‖ ≤ p.M * rhoHat p ∧
+    ‖lastBlock (a := a) (freq h I - freq h (KAM.realInclusion (a + b) J))‖ ≤
+      p.Mhat * rhoHat p := by
+  have hρ := H.positive.2.2.1
+  have hR := H.R_pos
+  have hM := H.positive.2.2.2.2.1
+  have hMh := H.positive.2.2.2.2.2.1
+  have hsub : ball (KAM.realInclusion (a + b) J) (rhoHat p) ⊆ KAM.actionNbhd D p.ρ :=
+    (actionNbhd_ball hJ).trans (actionNbhd_mono H.R_le_ρ)
+  have hopen := isOpen_actionNbhd' D p.ρ
+  have hF : ∀ x ∈ ball (KAM.realInclusion (a + b) J) (rhoHat p),
+      DifferentiableAt ℂ (freq h) x := fun x hx =>
+    differentiableAt_freq hopen H.holo (hsub hx)
+  have hmem : I ∈ ball (KAM.realInclusion (a + b) J) (rhoHat p) := by
+    simpa [dist_eq_norm] using hI
+  have hc : ∀ x ∈ ball (KAM.realInclusion (a + b) J) (rhoHat p), ∀ v (j : Fin (a + b)),
+      ‖fderiv ℂ (freq h) x v j‖ ≤ p.M * ‖v‖ := by
+    intro x hx v j
+    exact (norm_le_pi_norm _ j).trans
+      (((fderiv ℂ (freq h) x).le_opNorm v).trans
+        (mul_le_mul_of_nonneg_right (H.hessian x (hsub hx)).1 (norm_nonneg _)))
+  have hc2 : ∀ (j : Fin b), ∀ x ∈ ball (KAM.realInclusion (a + b) J) (rhoHat p), ∀ v,
+      ‖fderiv ℂ (freq h) x v (Fin.natAdd a j)‖ ≤ p.Mhat * ‖v‖ := by
+    intro j x hx v
+    exact (norm_le_pi_norm (lastBlock (a := a) (fderiv ℂ (freq h) x v)) j).trans
+      ((H.hessian x (hsub hx)).2.1 v)
+  have hcen : KAM.realInclusion (a + b) J ∈ ball (KAM.realInclusion (a + b) J) (rhoHat p) :=
+    mem_ball_self hR
+  have hnorm : ‖I - KAM.realInclusion (a + b) J‖ ≤ rhoHat p := hI.le
+  constructor
+  · refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => ?_
+    exact (coord_mvt (convex_ball _ _) (by positivity) j hF (fun x hx v => hc x hx v j) hmem hcen).trans
+      (mul_le_mul_of_nonneg_left hnorm hM.le)
+  · refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => ?_
+    exact (coord_mvt (convex_ball _ _) (by positivity) (Fin.natAdd a j) hF (hc2 j) hmem hcen).trans
+      (mul_le_mul_of_nonneg_left hnorm hMh.le)
+
+
 end KAM.Planetary
 
 end

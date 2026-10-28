@@ -97,9 +97,9 @@ theorem freq_realInclusion_eq {n : ℕ} {D : Set (Fin n → ℝ)} {ρ sb : ℝ} 
 
 /-- Coordinatewise mean value inequality on a convex set. -/
 theorem coord_mvt {n : ℕ} {s : Set (Fin n → ℂ)} (hs : Convex ℝ s) {F : (Fin n → ℂ) → (Fin n → ℂ)}
-    {c : ℝ} (hc0 : 0 ≤ c) (hF : ∀ x ∈ s, DifferentiableAt ℂ F x)
-    (hc : ∀ x ∈ s, ∀ v j, ‖fderiv ℂ F x v j‖ ≤ c * ‖v‖) {x y : Fin n → ℂ} (hx : x ∈ s)
-    (hy : y ∈ s) (j : Fin n) : ‖F x j - F y j‖ ≤ c * ‖x - y‖ := by
+    {c : ℝ} (hc0 : 0 ≤ c) (j : Fin n) (hF : ∀ x ∈ s, DifferentiableAt ℂ F x)
+    (hc : ∀ x ∈ s, ∀ v, ‖fderiv ℂ F x v j‖ ≤ c * ‖v‖) {x y : Fin n → ℂ} (hx : x ∈ s)
+    (hy : y ∈ s) : ‖F x j - F y j‖ ≤ c * ‖x - y‖ := by
   have hd : ∀ z ∈ s, DifferentiableAt ℂ (fun w => F w j) z := fun z hz =>
     (differentiableAt_pi.1 (hF z hz)) j
   have hder : ∀ z ∈ s, ‖fderiv ℂ (fun w => F w j) z‖ ≤ c := by
@@ -107,7 +107,7 @@ theorem coord_mvt {n : ℕ} {s : Set (Fin n → ℂ)} (hs : Convex ℝ s) {F : (
     refine ContinuousLinearMap.opNorm_le_bound _ hc0 fun v => ?_
     have : fderiv ℂ (fun w => F w j) z v = fderiv ℂ F z v j := by
       rw [fderiv_pi (fun i => (differentiableAt_pi.1 (hF z hz)) i)]; rfl
-    rw [this]; exact hc z hz v j
+    rw [this]; exact hc z hz v
   exact Convex.norm_image_sub_le_of_norm_fderiv_le (𝕜 := ℂ) hd hder hs hy hx |>.trans_eq
     (by rw [norm_sub_rev]) |> fun h => by simpa [norm_sub_rev] using h
 
