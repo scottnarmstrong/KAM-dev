@@ -23,7 +23,7 @@ namespace KAM.Planetary
 
 variable {n : ℕ}
 
-theorem norm_single_le_one (i : Fin n) : ‖(Pi.single i (1 : ℂ) : P11CVec n)‖ ≤ 1 := by
+theorem step_norm_single_le_one (i : Fin n) : ‖(Pi.single i (1 : ℂ) : P11CVec n)‖ ≤ 1 := by
   refine (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => ?_
   by_cases h : j = i <;> simp [Pi.single_apply, h]
 
@@ -120,7 +120,7 @@ theorem step_bracket_bound (H : P11StepHyp S h w R) {b : P11CVec n}
           have h1 : ‖ζ • (Pi.single i 1 : P11CVec n)‖ ≤ S.s / 4 := by
             rw [norm_smul]
             calc ‖ζ‖ * ‖(Pi.single i 1 : P11CVec n)‖ ≤ ‖ζ‖ * 1 :=
-                  mul_le_mul_of_nonneg_left (norm_single_le_one i) (norm_nonneg _)
+                  mul_le_mul_of_nonneg_left (step_norm_single_le_one i) (norm_nonneg _)
               _ ≤ S.s / 4 := by linarith
           have := norm_add_le x.2 (ζ • (Pi.single i 1 : P11CVec n))
           nlinarith [S.q_le]
