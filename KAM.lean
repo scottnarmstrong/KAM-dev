@@ -333,6 +333,7 @@ public import KAM.Nekhoroshev.Poschel.Elementary
 public import KAM.Nekhoroshev.Poschel.Setting
 public import KAM.Nekhoroshev.QcZero.Derivative
 public import KAM.Nekhoroshev.QcZero.Kernel
+public import KAM.Nekhoroshev.QcZero.QCResults
 public import KAM.Nekhoroshev.QcZero.ZeroField
 public import KAM.Nekhoroshev.QcZero.ZeroOrbit
 public import KAM.Nekhoroshev.QuasiConvex
@@ -359,6 +360,7 @@ public import KAM.ODE.NewtonReduction
 public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
+public import KAM.Planetary.Averaging.Direct
 public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
@@ -387,6 +389,7 @@ public import KAM.Planetary.TwoScale.Cover
 public import KAM.Planetary.TwoScale.FourierCompact
 public import KAM.Planetary.TwoScale.FourierCompactCauchy
 public import KAM.Planetary.TwoScale.Inverse
+public import KAM.Planetary.TwoScale.Period
 public import KAM.Provider.AposterioriKam
 public import KAM.Provider.Iso.AllTimeConfinement
 public import KAM.Provider.Iso.IsoenergeticKam
