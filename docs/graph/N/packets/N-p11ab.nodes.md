@@ -214,9 +214,9 @@ EDGE: bpN:p0:partial-exponents#partialDriftExponent | blueprint-N/parts/p11a-par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exponents (KAM/Nekhoroshev/Partial/Constants.lean)
+LEAN_NOTE: audit N11-B math PASS (audit 1; F1 naming finding overruled by orchestrator ruling); ex-den/ex-cmp internal
 NOTE: -
 
 NODE: stepN:p11:ex-den
@@ -301,7 +301,7 @@ EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: N11-B PartialConstants/PartialData/constants/DefiniteSign define only s,m1,M1,g1,r0,A,eps0,R0,kappaC,cK,eps,K,d,kappa,rTheta,blockTime; node also defines w=d/4, K_a=K/sqrt n, mu_0, and p,q,b_c (not defined there), so full SOURCE_CONCLUSION not covered
 NOTE: package bpN:p11:constants (SPEC). Dropped candidate edges: stepN:p11:final-mu (forward pointer: it defines mu_0 and itself uses these constants; an edge would close a cycle), bpN:p11:b-change (explanatory remark: the values p,q,b_c are fixed in this definition), bpN:p11:hessian (the side claim A>=pM_1/(b_c m_1)+sqrt 2 is re-derived in Lemma block-data; hessian itself uses these constants), bpN:p9:setting (provenance)
 
 NODE: bpN:p11:ext-class

@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/N/SPEC.md "Conventions to watch": frozen period 1 (chara
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-N external inputs are the labelled items of the parts' external-fact lists (bpN:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:ext-*, p8:ext-*, p9:ext-*, p10:ext-*, p11:ext-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref; frozen definitions of other tracks named by \frozen) is an IMPORTED node K:<node>, I:<node> or P:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, NOTE IMPORTED ...; source fields copied from docs/graph/K/DEPGRAPH.md for K, written by the writer from the owning blueprint for I and P), K's Mathlib-level externals included (K:bp:p1:ext-*); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpN:p0:actionnbhd#actionNbhd, bpN:p0:freq#frequencyMap, bpN:p0:vf#hamiltonianVectorField, bpN:p0:realH#realHamiltonian, bpN:p0:strip#complexStrip, bpN:p0:ball#actionBall, bpN:p0:cdomain#complexDomain, bpN:p0:rdomain#realActionDomain, bpN:p0:realpart#realPart, bpN:p0:integrable#IsAnalyticIntegrable, bpN:p0:pert#IsAnalyticPerturbation, bpN:p0:bm#HasDerivativeBounds, bpN:p0:qc#IsStrictlyQuasiConvex, bpN:p0:hess#HasComplexHessianBound, bpN:p0:sol#IsSolutionOn, bpN:p0:orbit#integrableOrbit, bpN:p0:partial-sec#Phase, bpN:p0:partial-sec#fast, bpN:p0:partial-sec#slow, bpN:p0:partial-sec#fastShift, bpN:p0:partial-complexify#complexifyPhase, bpN:p0:partial-core#innerCore, bpN:p0:partial-domain#partialComplexDomain, bpN:p0:partial-definite#HasDefiniteFastPart, bpN:p0:partial-pert#IsPartialPerturbation, bpN:p0:partial-exponents#partialTimeExponent, bpN:p0:partial-exponents#partialDriftExponent, bpN:p0:partial-sec#degenerateHamiltonian, bpN:p0:head, bpN:p0:zero, bpN:p0:qcthm, bpN:p0:partial, bpN:p0:avg-rank#HasAveragingFrequencyRank, bpN:p0:avg-error#averagingError, bpN:p0:avg-mean, bpN:p0:avg-most
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:603b72b70fd185e5a033aca7b9bc371fd5bedd5a7125e8ad5de02f762b2cbc32
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:d9f4a89a920aad9512a2b357f64eedb6c6ac3e11c4037de7de23c2558f535bfa
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-N
 GLOBAL_REVIEW_REF: docs/graph/N/reviews/GLOBAL-review-3.md
@@ -15262,9 +15262,9 @@ EDGE: bpN:p0:partial-exponents#partialDriftExponent | blueprint-N/parts/p11a-par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exponents (KAM/Nekhoroshev/Partial/Constants.lean)
+LEAN_NOTE: audit N11-B math PASS (audit 1; F1 naming finding overruled by orchestrator ruling); ex-den/ex-cmp internal
 NOTE: -
 
 NODE: stepN:p11:ex-den
@@ -15349,7 +15349,7 @@ EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: N11-B PartialConstants/PartialData/constants/DefiniteSign define only s,m1,M1,g1,r0,A,eps0,R0,kappaC,cK,eps,K,d,kappa,rTheta,blockTime; node also defines w=d/4, K_a=K/sqrt n, mu_0, and p,q,b_c (not defined there), so full SOURCE_CONCLUSION not covered
 NOTE: package bpN:p11:constants (SPEC). Dropped candidate edges: stepN:p11:final-mu (forward pointer: it defines mu_0 and itself uses these constants; an edge would close a cycle), bpN:p11:b-change (explanatory remark: the values p,q,b_c are fixed in this definition), bpN:p11:hessian (the side claim A>=pM_1/(b_c m_1)+sqrt 2 is re-derived in Lemma block-data; hessian itself uses these constants), bpN:p9:setting (provenance)
 
 NODE: bpN:p11:ext-class

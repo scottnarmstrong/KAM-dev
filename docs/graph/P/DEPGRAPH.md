@@ -9233,9 +9233,9 @@ EDGE: bpP:p0:blocks#assemble | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:phi@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: phi, phiDomain, oscillatorPolarComplex, oscillatorPolarComplex_real (KAM/Planetary/PGAssembly/ChartDefs.lean)
+LEAN_NOTE: audit P5-CH round 2 PASS WITH NOTES; definitions exact source objects
 NOTE: -
 
 NODE: bpP:p5:phi-chart
@@ -9269,9 +9269,9 @@ EDGE: bpP:p5:birkhoff-ext | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:phi-char
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: phi_chart, phi_comp_hamiltonian (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: audit P5-CH round 2 PASS WITH NOTES; geometry plus literal Hamiltonian identity cover full lemma
 NOTE: -
 
 NODE: stepP:p5:pc-img
@@ -9302,9 +9302,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:pc-img@L193-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: polar_mem_averagingDomain (KAM/Planetary/PGAssembly/ChartMem.lean); phi_chart (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: audit P5-CH round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:pc-lat
@@ -9332,9 +9332,9 @@ EDGE: bpP:p5:phi | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:pc-lat@L194-L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: oscillatorPolar_fullShift (KAM/Planetary/PGAssembly/ChartMem.lean); phi_chart (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: audit P5-CH round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:pc-ham
@@ -9361,9 +9361,9 @@ EDGE: bpP:p5:phi | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:pc-ham@L195-L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: phi_comp_hamiltonian (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: audit P5-CH round 2 PASS WITH NOTES; closes audit-1 F1
 NOTE: -
 
 NODE: bpP:p5:kam-hyp
@@ -9718,9 +9718,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:location@L241-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: location (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: audit P5-CH round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:lo-range
@@ -19112,9 +19112,9 @@ EDGE: stepP:p10:if-d | blueprint-P/parts/p10-nondegeneracy.tex#bpP:p10:interface
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-aa
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: interface, min_mode_continuous_positive, patch_spectrum, patch_rnd, interface_stability (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: audit S10-I round 2 PASS WITH NOTES; F1/F2/N1 closed, retained parent clauses PASS
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:if-a
@@ -19141,9 +19141,9 @@ EDGE: bpP:p10:good-set | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:if-a@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exists_good_patch, patch_spectrum (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: audit S10-I round 2 PASS WITH NOTES
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:if-b
@@ -19171,9 +19171,9 @@ EDGE: bpP:p9:good-set | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:if-b@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: min_mode_continuous_positive, interface (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: audit S10-I round 2 PASS WITH NOTES; F1 closed
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:if-c
@@ -19201,9 +19201,9 @@ EDGE: bpP:p10:rnd | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:if-c@L252-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: image_action_open, interface, patch_rnd (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: audit S10-I round 2 PASS WITH NOTES
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:if-d
@@ -19234,9 +19234,9 @@ EDGE: bpP:p10:finite-type | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:if
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: interface, interface_stability (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: audit S10-I round 2 PASS WITH NOTES; F2 closed
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:sa-n2
@@ -31040,7 +31040,7 @@ EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: T15 hasSecularBirkhoffForm_of_sixth_order is only a conditional conversion helper (hi, he premises); physical Birkhoff theorem is T16
 NOTE: -
 
 NODE: stepP:p11b:bt-rot
@@ -31236,7 +31236,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: T15 audit PASS WITH NOTES covers only the arithmetic disc conversion; audit says do not mark the physical step complete (continuity, average identification, beta symmetry left to T16)
 NOTE: -
 
 NODE: bpP:p11b:remain
