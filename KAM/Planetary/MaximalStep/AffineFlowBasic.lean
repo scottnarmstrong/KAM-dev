@@ -10,6 +10,7 @@ public import KAM.Canonical.FlowInverse
 public import KAM.Canonical.Symplectic
 public import KAM.Head.HamiltonianField
 public import KAM.Planetary.MaximalStep.Basic
+public import KAM.Planetary.MaximalStep.Affine
 
 /-!
 # Affine generating functions: data and field estimates (P11A-C6)
@@ -25,10 +26,6 @@ field part `stepP:p11a:af-field`: the explicit components of the Hamiltonian fie
 open Set MeasureTheory Filter
 open scoped BigOperators Topology ContDiff
 namespace KAM.Planetary
-
-/-- Affine generating function in the existing Hamiltonian carrier. -/
-def p11Affine {n : ℕ} (p0 : P11CVec n → ℂ) (p1 : P11CVec n → P11CVec n)
-    (z : P11Phase n) : ℂ := p0 z.1+∑ i, p1 z.1 i*z.2 i
 
 def p11Flow {n : ℕ} (phi : P11Phase n → ℂ) (r s sigma : ℝ) (t : ℝ) :=
   KAM.Canonical.flow (KAM.hamiltonianVectorFieldℂ phi)
