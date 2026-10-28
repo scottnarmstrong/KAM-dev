@@ -8,7 +8,6 @@ module
 public import Mathlib
 public import KAM.Planetary.SecularForm.Analytic
 public import KAM.Planetary.SecularForm.Momentum
-public import KAM.Planetary.SecularForm.Symmetry
 public import KAM.Frozen.Planetary.Defs.HasSecularBirkhoffForm
 
 /-!
@@ -30,25 +29,30 @@ open KAM KAM.Kepler
 namespace SecularForm
 variable {n : ℕ}
 
+theorem mem_slowDom_iff' (D : Data n) (x : Slow n) :
+    x ∈ slowDom D ↔ ∀ i, 0 < x.2.1 i ∧ (x.1 i ^ 2 + x.2.2 i ^ 2) / 2 < x.2.1 i := by
+  simp [slowDom, poincareProdDom, poincareDom, planetBlock_assemble, poincareGamma]
+
 /-- The real polydisc lies in the chart domain. -/
 theorem realDisc_subset_slowDom (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
     (hrho : r < rho D a) : realDisc D a r ⊆ slowDom D := by
   intro x hx
-  rw [mem_slowDom_iff]
+  rw [mem_slowDom_iff']
   intro i
   obtain ⟨h1, h2, h3⟩ := hx i
+  change ‖((x.1 i : ℝ) : ℂ)‖ < r at h1
+  change ‖((x.2.1 i : ℝ) : ℂ) - (action D a i : ℂ)‖ < r at h2
+  change ‖((x.2.2 i : ℝ) : ℂ)‖ < r at h3
   rw [Complex.norm_real, Real.norm_eq_abs] at h1 h3
   have h2' : |x.2.1 i - action D a i| < r := by
     rw [← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs] at h2; exact h2
   have hA := action_pos D ha i
   have hr1 := lt_of_lt_of_le hrho (rho_le_half D a i)
   have hr2 := lt_of_lt_of_le hrho (rho_le_sqrt D a i)
-  have hsq : r ^ 2 < action D a i := by
-    have hs := Real.sq_sqrt hA.le
-    have : r < √(action D a i) := by
-      have := Real.sqrt_pos.2 hA; linarith
-    nlinarith [abs_nonneg (x.1 i), Real.sqrt_nonneg (action D a i)]
   have hr0 : 0 ≤ r := (abs_nonneg _).trans h1.le
+  have hsq : r ^ 2 < action D a i / 256 := by
+    have hs := Real.sq_sqrt hA.le
+    nlinarith [Real.sqrt_nonneg (action D a i)]
   have hl := abs_lt.1 h2'
   refine ⟨by linarith, ?_⟩
   have hx1 : x.1 i ^ 2 < r ^ 2 := by
@@ -104,8 +108,7 @@ theorem same_jets (D : Data n) {I : Vec n} (hI : I ∈ actionDomain D) (k : ℕ)
   obtain ⟨a, ha, rfl⟩ := hI
   obtain ⟨r, hr, hrho, -, h⟩ := perturbation_analytic D ha
   have hx : ((0 : Vec n), action D a, (0 : Vec n)) ∈ realDisc D a r := by
-    intro i
-    simp [hr]
+    refine fun i => ⟨?_, ?_, ?_⟩ <;> simp [inclusion, hr]
   exact jets_core D ha hrho (fun y hy => (h false).2.2.2.2.2.2 y hy) hr hx hk
 
 /-- Generic transfer lemma with distinct name; source-specific discharge below. -/
