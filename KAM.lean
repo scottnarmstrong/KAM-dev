@@ -578,6 +578,7 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
+public import KAM.Planetary.PlanarTorsion.LaplaceReduction
 public import KAM.Planetary.PlanarTorsion.Setting
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
