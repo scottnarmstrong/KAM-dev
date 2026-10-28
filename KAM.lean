@@ -383,6 +383,7 @@ public import KAM.Nekhoroshev.Partial.Coordinates
 public import KAM.Nekhoroshev.Partial.Homological
 public import KAM.Nekhoroshev.Partial.RealSystem
 public import KAM.Nekhoroshev.Partial.Setting
+public import KAM.Nekhoroshev.Partial.Threshold
 public import KAM.Nekhoroshev.Partial.VectorField
 public import KAM.Nekhoroshev.Poschel.BlockHypotheses
 public import KAM.Nekhoroshev.Poschel.BlockStability
@@ -658,6 +659,8 @@ public import KAM.Planetary.PlanarTorsion.Characters.Poly
 public import KAM.Planetary.PlanarTorsion.Characters.Trig
 public import KAM.Planetary.PlanarTorsion.Characters
 public import KAM.Planetary.PlanarTorsion.FrozenBridge
+public import KAM.Planetary.PlanarTorsion.Homological.Extract
+public import KAM.Planetary.PlanarTorsion.Homological
 public import KAM.Planetary.PlanarTorsion.LaplaceReduction
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Algebra
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Analytic
@@ -701,6 +704,11 @@ public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
 public import KAM.Planetary.Preparation.Working
+public import KAM.Planetary.Quantitative.BudgetPower.Collar
+public import KAM.Planetary.Quantitative.BudgetPower.Gamma
+public import KAM.Planetary.Quantitative.BudgetPower.Positivity
+public import KAM.Planetary.Quantitative.BudgetPower.Rates
+public import KAM.Planetary.Quantitative.BudgetPower
 public import KAM.Planetary.Quantitative.Interface
 public import KAM.Planetary.Quantitative.Thresholds
 public import KAM.Planetary.Quantitative.Zero
