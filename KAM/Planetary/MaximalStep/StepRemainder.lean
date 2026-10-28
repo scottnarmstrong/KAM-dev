@@ -145,6 +145,70 @@ theorem step_bracket_bound (H : P11StepHyp S h w R) {b : P11CVec n}
     field_simp; ring
   linarith
 
+/-- The integral Lie identity for the remainder of the step. -/
+theorem step_remainder_eq (H : P11StepHyp S h w R) {b : P11CVec n}
+    (hb : b ∈ KAM.actionNbhd S.E S.t) {z : P11Phase n}
+    (hz : z ∈ KAM.Weighted.Dom n {0} (S.q * S.s) (S.r - S.d - S.delta - 2 * S.sigma)) :
+    p11StepRemainder S h w R (z, b) = (R (z, b) - p11Cutoff S.T R (z, b)) +
+      ∫ t in (0 : ℝ)..1, KAM.Canonical.poissonBracket (stepU S R b t) (p11StepPhi S w R b)
+        (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma t z) := by
+  have Hb := step_affHyp H hb
+  have hzU := step_z_mem S hz
+  have hΩo := KAM.Weighted.isOpen_Dom (n := n) (m := n) {0} S.s (S.r - S.d - S.delta - S.sigma)
+  have hφ : DifferentiableOn ℂ (p11StepPhi S w R b)
+      (KAM.Weighted.Dom n {0} S.s (S.r - S.d - S.delta - S.sigma)) :=
+    (differentiableOn_p11Affine Hb).mono (by
+      intro y hy
+      rw [mem_Dom_iff] at hy
+      exact ⟨strip_sub_sigma_subset Hb hy.1, trivial⟩)
+  have hN : DifferentiableOn ℂ (fun y : P11Phase n => h b + ∑ i, w b i * y.2 i)
+      (KAM.Weighted.Dom n {0} S.s (S.r - S.d - S.delta - S.sigma)) := by fun_prop
+  have hRf : DifferentiableOn ℂ (fun y : P11Phase n => R (y, b))
+      (KAM.Weighted.Dom n {0} S.s (S.r - S.d - S.delta - S.sigma)) := by
+    refine H.admissible.1.comp (f := fun y : P11Phase n => (y, b)) (by fun_prop) ?_
+    intro y hy
+    obtain ⟨h1, h2⟩ := (mem_Dom_iff y).1 hy
+    exact ⟨(mem_Dom_iff y).2 ⟨fun i => (h1 i).trans (by
+      linarith [S.d_pos, S.delta_pos, S.sigma_pos]), h2⟩, hb⟩
+  have htraj : ∀ t ∈ Icc (-1 : ℝ) 1, p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s
+      S.sigma t z ∈ KAM.Weighted.Dom n {0} S.s (S.r - S.d - S.delta - S.sigma) :=
+    fun t ht => (KAM.Canonical.flow_b (smallField Hb)).2.2.1 t ht z (U_sub_half Hb hzU)
+  have tay := KAM.Canonical.taylor_poschel hφ (smallField Hb) hΩo (subset_refl _)
+    hN hRf (U_sub_half Hb hzU) htraj
+  have hbr : KAM.Canonical.poissonBracket (fun y : P11Phase n => h b + ∑ i, w b i * y.2 i)
+      (p11StepPhi S w R b) z = stepW S R b z :=
+    step_bracket_N H hb ((mem_Dom_iff z).2 (by
+      obtain ⟨h1, h2⟩ := (mem_Dom_iff z).1 hz
+      exact ⟨fun i => (h1 i).trans (by linarith [S.sigma_pos]), by nlinarith [S.q_le, S.s_pos]⟩))
+  have hint : (∫ t in (0 : ℝ)..1, KAM.Canonical.poissonBracket
+      (fun y => ((1 - t : ℝ) : ℂ) * KAM.Canonical.poissonBracket
+        (fun y : P11Phase n => h b + ∑ i, w b i * y.2 i) (p11StepPhi S w R b) y + R (y, b))
+      (p11StepPhi S w R b) (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma t z)) =
+      ∫ t in (0 : ℝ)..1, KAM.Canonical.poissonBracket (stepU S R b t) (p11StepPhi S w R b)
+        (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma t z) := by
+    refine intervalIntegral.integral_congr fun t ht => ?_
+    rw [Set.uIcc_of_le zero_le_one] at ht
+    refine poissonBracket_congr ?_
+    refine Filter.eventuallyEq_of_mem (hΩo.mem_nhds (htraj t ⟨by linarith [ht.1], ht.2⟩)) ?_
+    intro y hy
+    simp only [stepU, step_bracket_N H hb hy]
+  have hnorm : p11StepRemainder S h w R (z, b) =
+      (h b + ∑ i, w b i * (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma 1 z).2 i
+        + R (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma 1 z, b)) -
+      ((h b + p11DeltaH S.T R b) + ∑ i, (w b i + p11DeltaW S.T R b i) * z.2 i) := rfl
+  rw [hnorm]
+  have tay' : h b + ∑ i, w b i * (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma
+        1 z).2 i + R (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma 1 z, b) =
+      (h b + ∑ i, w b i * z.2 i) + stepW S R b z + R (z, b) + ∫ t in (0 : ℝ)..1,
+        KAM.Canonical.poissonBracket (stepU S R b t) (p11StepPhi S w R b)
+          (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma t z) := by
+    rw [← hint, ← hbr]
+    exact tay
+  rw [tay']
+  unfold stepW stepAvg
+  simp only [add_mul, Finset.sum_add_distrib]
+  ring
+
 end KAM.Planetary
 
 end
