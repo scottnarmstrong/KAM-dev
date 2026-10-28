@@ -559,9 +559,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quartic_explicit, quartic_diagonal (KAM/Planetary/PlanarTorsion/Quartic.lean); p11c_coeffs (KAM/Planetary/PlanarTorsion/Quartic/Defs.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES; quartic_diagonal closes qe-c12
 NOTE: -
 
 NODE: stepP:p11b:qe-conv
@@ -589,9 +589,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qe_alg (KAM/Planetary/PlanarTorsion/Quartic/Algebra.lean); qeScale, qeV (KAM/Planetary/PlanarTorsion/Quartic/Reduce.lean); qe_pairJet_qeV, qe_quartic_coeffs (KAM/Planetary/PlanarTorsion/Quartic/Compose.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES (retained from round 1)
 NOTE: -
 
 NODE: stepP:p11b:qe-an
@@ -620,9 +620,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qe_remainder_bound (KAM/Planetary/PlanarTorsion/Quartic/Bounds.lean); qe_fix_jet, qe_mov_jet, qe_coeffs_analyticAt (KAM/Planetary/PlanarTorsion/Quartic.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES (retained from round 1)
 NOTE: -
 
 NODE: stepP:p11b:qe-c12
@@ -650,9 +650,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quartic_diagonal (KAM/Planetary/PlanarTorsion/Quartic.lean); qeDiag_fix_first, qeDiag_fix_second (KAM/Planetary/PlanarTorsion/Quartic/Diagonal.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES; round-1 F1 closed by quartic_diagonal (both eccentric cases)
 NOTE: -
 
 NODE: bpP:p11b:sec-bnf#data
@@ -1216,9 +1216,9 @@ EDGE: bpP:p8:same-jets | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:beta
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: beta_def, p11c_beta, beta_properties, beta_def_isSymm (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11b:beta-formula
@@ -1248,9 +1248,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: beta_formula (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES; hypothesis g^2+s^2=1 kept as signed (unused)
 NOTE: -
 
 NODE: stepP:p11b:bf-gram
@@ -1278,9 +1278,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cBetaGram, p11c_quartic_rotateSlow_gram, p11cBetaGram_quad (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:bf-avg
@@ -1309,9 +1309,9 @@ EDGE: bpP:p11b:e-ca | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:bf-av
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGramRot_integral, p11cGramRot_sq_integral, beta_formula (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11b:birkhoff-form
@@ -1578,7 +1578,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P11C-T17 PASS WITH NOTES: remain proves clause (1) (compact positivity of det beta-hat, htorsion); clause (2) (Part 12 tasks; n=2/P-FIXED reuse of P_0, Omega, beta-hat) not stated; not marked proved
 NOTE: consumed by Part 12 (stepP:p12:pg-h56 cites Remark remain(1)); clause (2) is a list of Part-12 tasks (pointer), its P-FIXED sentence is not used by P-PLANAR
 
 NODE: bpP:p11b:asymptotics
