@@ -15,8 +15,9 @@ public import KAM.Canonical.FlowInverse
 
 Blueprint node `bpN:p11:flow`.
 
-* `KAM.Nekhoroshev.flow`: the generic Part 5 flow, consumed directly (membership in `Ω` and the
-  gauge displacement bound).
+* `KAM.Nekhoroshev.ext_flow` (the signed name, renamed from `flow`, which Part 5's
+  `Averaging/Flow` already owns): the generic Part 5 flow, consumed directly (membership
+  in `Ω` and the gauge displacement bound).
 * `KAM.Nekhoroshev.flow_real`: reality of the flow on the unequal product `EC n k`. Part 5
   `flow_e` is stated for `ℂⁿ × ℂⁿ`; its Picard-iteration proof is repeated here with the
   imaginary-part map `EC n k →L[ℝ] ER n k`.
@@ -31,7 +32,7 @@ namespace KAM.Nekhoroshev
 variable {n k : ℕ}
 
 /-- Generic Part 5 flow is consumed directly: no second choice of flow. -/
-theorem flow (W : EC n k ≃L[ℂ] EC n k) {Ω : Set (EC n k)} {F : EC n k → EC n k} {ε : ℝ}
+theorem ext_flow (W : EC n k ≃L[ℂ] EC n k) {Ω : Set (EC n k)} {F : EC n k → EC n k} {ε : ℝ}
     (hF : KAM.Canonical.SmallField W Ω F ε) {z : EC n k}
     (hz : z ∈ KAM.Canonical.gaugeInterior W Ω (1/2)) {t : ℝ} (ht : |t| ≤ 1) :
     KAM.Canonical.flow F Ω t z ∈ Ω ∧
