@@ -132,7 +132,7 @@ theorem stage_zero {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {p : ScaleData}
   hyp := H.restrict Set.inter_subset_left
   freq_eq := rfl
   phase := PhaseProps.id _
-  maps := fun z hz => coefficientDom_mono (fun I ⟨J, hJ, hI⟩ => ⟨J, hJ.1, hI⟩) le_rfl hz
+  maps := fun _ hz => coefficientDom_mono (fun _ ⟨J, hJ, hI⟩ => ⟨J, hJ.1, hI⟩) le_rfl hz
   conj _ _ := rfl
 
 /-- The inductive step: one application of `step`. -/

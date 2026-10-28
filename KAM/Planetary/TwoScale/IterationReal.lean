@@ -41,7 +41,7 @@ theorem eHat_lt_small (H : KamHyp D sbar p h f) : eHat p < 1 / 160 := by
   have := H.small
   nlinarith
 
-theorem sup_norm_le (H : KamHyp D sbar p h f) {v : Fin (a + b) → ℂ} {B : ℝ} (hB : 0 ≤ B)
+theorem sup_norm_le (_H : KamHyp D sbar p h f) {v : Fin (a + b) → ℂ} {B : ℝ} (hB : 0 ≤ B)
     (h1 : ‖firstBlock (b := b) v‖ ≤ B) (h2 : ‖lastBlock (a := a) v‖ ≤ B) : ‖v‖ ≤ B := by
   refine (pi_norm_le_iff_of_nonneg hB).2 fun i => ?_
   refine Fin.addCases (fun i => ?_) (fun i => ?_) i
