@@ -204,7 +204,8 @@ lemma nr4_two_iff (ha : a ∈ axes 2) :
     obtain ⟨b0l, b0u⟩ := b0
     obtain ⟨b1l, b1u⟩ := b1
     interval_cases k0 <;> interval_cases k1 <;>
-      first | (exfalso; revert hk0 hk4; norm_num; done) | (push_cast at hs; exact h2 (by linarith)) |
+      first | (exfalso; revert hk0 hk4; norm_num; done) |
+        (push_cast at hs; exact h2 (by linarith)) |
         (push_cast at hs; exact h3 (by linarith))
 
 lemma two_trace_det_iff (ha : a ∈ axes 2) :
@@ -296,7 +297,7 @@ lemma frame_sigma (ha : a ∈ axes 2) {R : Mat 2} {s : Vec 2} (hR : isSO R) (hs 
   · exact e0
   · exact e1
 
-/-- A frame of `coeffs D a` has a nonvanishing `(1,1)` entry, as the off-diagonal term is positive. -/
+/-- A frame of `coeffs D a` has a nonvanishing `(1,1)` entry: the off-diagonal term is positive. -/
 lemma frame_entry_ne (ha : a ∈ axes 2) {R : Mat 2} (hR : isSO R)
     (h : coeffs D a = R * Matrix.diagonal (sigma D a) * R.transpose) : R 1 1 ≠ 0 := by
   have hRR : R.transpose * R = 1 := hR.1
@@ -386,14 +387,16 @@ lemma local_normFrame (ha : a ∈ axes 2) :
   have key : ∃ ε : ℝ, (ε = 1 ∨ ε = -1) ∧ ∀ b ∈ Metric.ball a r, 0 < ε * R b 1 1 := by
     rcases lt_or_gt_of_ne (hne a hamem) with h | h
     · refine ⟨-1, Or.inr rfl, fun b hb => ?_⟩
-      have := sign_const hpre (f := fun x => -R x 1 1) hcont.neg (fun x hx => neg_ne_zero.2 (hne x hx))
+      have := sign_const hpre (f := fun x => -R x 1 1) hcont.neg
+        (fun x hx => neg_ne_zero.2 (hne x hx))
         hamem hb (by simpa using h)
       simpa using this
     · refine ⟨1, Or.inl rfl, fun b hb => ?_⟩
       simpa using sign_const hpre hcont hne hamem hb h
   obtain ⟨ε, hε, hεp⟩ := key
-  refine ⟨r, hr, hball, fun x => ε • R x, fun b hb => (analyticAt_const (v := ε)).smul (hR b hb) |>.congr
-    (Filter.Eventually.of_forall fun x => rfl), ?_⟩
+  refine ⟨r, hr, hball, fun x => ε • R x, fun b hb =>
+    (analyticAt_const (v := ε)).smul (hR b hb) |>.congr
+      (Filter.Eventually.of_forall fun x => rfl), ?_⟩
   intro b hb
   exact normFrame_smul D hε (hfrm b hb).1 (hfrm b hb).2 (hεp b hb)
 
