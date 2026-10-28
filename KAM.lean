@@ -577,6 +577,10 @@ public import KAM.Planetary.Preparation.PolarAverage.Order
 public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
 public import KAM.Planetary.Preparation.PolarAverage.Torus
 public import KAM.Planetary.Preparation.PolarAverage
+public import KAM.Planetary.Preparation.RectangularAverage
+public import KAM.Planetary.Preparation.RectangularAverageCore
+public import KAM.Planetary.Preparation.RectangularAverageDomain
+public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
 public import KAM.Planetary.SecularForm.Analytic
@@ -592,6 +596,11 @@ public import KAM.Planetary.SecularForm.CrossJet.Parametric
 public import KAM.Planetary.SecularForm.CrossJet.Selection
 public import KAM.Planetary.SecularForm.CrossJet.Variation
 public import KAM.Planetary.SecularForm.CrossJet
+public import KAM.Planetary.SecularForm.DiagonalJet.Mean
+public import KAM.Planetary.SecularForm.DiagonalJet.Orbit
+public import KAM.Planetary.SecularForm.DiagonalJet.Pair
+public import KAM.Planetary.SecularForm.DiagonalJet.Radial
+public import KAM.Planetary.SecularForm.DiagonalJet
 public import KAM.Planetary.SecularForm.InvariantPolynomial.Balanced
 public import KAM.Planetary.SecularForm.InvariantPolynomial.Coordinates
 public import KAM.Planetary.SecularForm.InvariantPolynomial.Generators

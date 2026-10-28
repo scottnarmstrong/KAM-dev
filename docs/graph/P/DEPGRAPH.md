@@ -20157,9 +20157,9 @@ EDGE: bpP:p11:sec-conv#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: aniso_avg (KAM/Planetary/Preparation/RectangularAverage.lean)
+LEAN_NOTE: audit P11A-P4 PASS WITH NOTES; alternative route to the scheduled rectangular-flow adaptation (design-route deviation)
 NOTE: the sourcegap (L143) says this lemma is not in CP09/CP10 and may be absorbed into Part 2: bridge supplied by aa-same (named replacements R1-R3) and aa-quad; no SOURCE_GAP node (uncertainty reported)
 
 NODE: stepP:p11:aa-same
@@ -20230,9 +20230,9 @@ EDGE: bpP:p11:sec-conv#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: aniso_avg (KAM/Planetary/Preparation/RectangularAverage.lean)
+LEAN_NOTE: audit P11A-P4 PASS; local bound transfer inside aniso_avg
 NOTE: -
 
 NODE: bpP:p11:polar-avg
