@@ -461,6 +461,41 @@ theorem P11HoloData.chart_energy (d : P11HoloData D) (C : P11SecularData n)
   unfold hProd
   rw [d.fast_chartInput C hC hJ]
 
+/-- `hc-id` and `hc-lat` bundled: the last conjunct of `P11SecularSpec` (the chart clauses) for the
+chart `Ψ^{(n)} ∘ (chart input)`, from the interface `d`, with `F` a parameter linked to `f_fix` on
+real points by `hF`. Smallness: `(B_ρ r_z)² ≤ δ` (the forward-tube radius), `0 < σ`; `r_C ≤ π δ/8`
+is the interface field `rC_le_delta`. -/
+theorem P11HoloData.chart_spec (d : P11HoloData D) (C : P11SecularData n)
+    (hJ0 : C.J0 = d.J0) (hrC : C.rC = d.rC) (hrho : C.rho = d.rho) (hh : C.h = d.h)
+    (hsig : 0 < C.sigma) (hrz : (d.Brho * C.rz) ^ 2 ≤ p11PhysicalDelta D)
+    (hch : ∀ z, C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z))
+    (hF : ∀ z ∈ KAM.realInclusion₂ (n + n) ⁻¹'
+        p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz,
+      (C.F (KAM.realInclusion₂ (n + n) z)).re =
+        fFix D.G D.m (poincareProd D.m (D.G * D.m0) (p11ChartInput C z))) :
+    (let O := KAM.realInclusion₂ (n + n) ⁻¹' p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz
+     AnalyticOnNhd ℝ C.chart O ∧ KAM.Kepler.IsSymplecticOn 1 C.chart O ∧
+     (∀ z ∈ O, p11ChartInput C z ∈ poincareProdDom n ∧
+       C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z) ∧
+         C.chart z ∈ collisionFreeDomain n) ∧
+     (∀ z ∈ O, ∀ k : Fin n → ℤ,
+       C.chart (z.1 + Fin.append (fun i => (k i : ℝ)) 0, z.2) = C.chart z) ∧
+     (∀ z ∈ O, ∀ z' ∈ O, C.chart z = C.chart z' →
+       ∃ k : Fin n → ℤ, z' = (z.1 + Fin.append (fun i => (k i : ℝ)) 0, z.2)) ∧
+     (∀ eps : ℝ, ∀ z ∈ O, fixedHamiltonian D.G D.m0 D.m eps (C.chart z) =
+        (p11WorkingH C eps (KAM.realInclusion₂ (n + n) z)).re)) := by
+  have hO : KAM.realInclusion₂ (n + n) ⁻¹' p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz =
+      p11RealDom d.J0 (2 * d.rC) C.rz := by
+    rw [hJ0, hrC]; exact p11_preimage_workingDom (by positivity)
+  simp only [hO] at hF ⊢
+  refine ⟨fun z hz => d.chart_analyticAt C hrho hch hrz hz,
+    d.chart_symplectic C hrho hch hrz, fun z hz => ⟨(d.chartInput_mem C hrho hrz hz).1, hch z, ?_⟩,
+    fun z hz k => d.chart_lattice C hrho hch hrz hz k,
+    fun z hz z' hz' h => d.chart_injective C hrho hch hrz hz hz' h,
+    fun eps z hz => d.chart_energy C hrho hh hch hrz hF eps hz⟩
+  rw [hch z]
+  exact p11_noCollision_of_circularTube D (d.chartInput_mem C hrho hrz hz).2
+
 end Properties
 
 end KAM.Planetary
