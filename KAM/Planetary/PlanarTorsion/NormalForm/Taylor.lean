@@ -74,7 +74,8 @@ theorem real_lie_taylor {U : Set (Phase 2)} (hU : IsOpen U) (K chi : Phase 2 →
       HasDerivAt (fun s => p11c_bracket K chi (g s))
         (p11c_bracket (p11c_bracket K chi) chi (g t)) t :=
     fun t ht => p11cN_hasDerivAt hB hg ht
-  have hgc : ContinuousOn g (Icc (0 : ℝ) 1) := fun t ht => (hg t ht).2.continuousAt.continuousWithinAt
+  have hgc : ContinuousOn g (Icc (0 : ℝ) 1) :=
+    fun t ht => (hg t ht).2.continuousAt.continuousWithinAt
   have hmaps : MapsTo g (Icc (0 : ℝ) 1) U := fun t ht => (hg t ht).1
   have hi1 : IntervalIntegrable (fun t => p11c_bracket K chi (g t)) volume 0 1 := by
     rw [intervalIntegrable_iff_integrableOn_Icc_of_le zero_le_one]
@@ -98,6 +99,27 @@ theorem real_lie_taylor {U : Set (Phase 2)} (hU : IsOpen U) (K chi : Phase 2 →
   rw [hparts, hneg]
   simp
   ring
+
+/-- The bracket is odd in its first argument. -/
+theorem p11cN_bracket_neg (f g : Phase 2 → ℝ) (z : Phase 2) :
+    p11c_bracket (fun w => -f w) g z = -p11c_bracket f g z := by
+  simp [p11c_bracket]
+
+/-- First-order integral formula along a solution. -/
+theorem p11cN_first_order {U : Set (Phase 2)} {f chi : Phase 2 → ℝ}
+    (hf : AnalyticOnNhd ℝ f U) (hc : AnalyticOnNhd ℝ chi U) (g : ℝ → Phase 2)
+    (hg : IsSolutionIn (hamiltonianVectorField chi) U (Icc (0 : ℝ) 1) g) :
+    f (g 1) = f (g 0) + ∫ t in (0 : ℝ)..1, p11c_bracket f chi (g t) := by
+  have hB := p11cN_bracket_analytic hf hc
+  have hgc : ContinuousOn g (Icc (0 : ℝ) 1) :=
+    fun t ht => (hg t ht).2.continuousAt.continuousWithinAt
+  have hi : IntervalIntegrable (fun t => p11c_bracket f chi (g t)) volume 0 1 := by
+    rw [intervalIntegrable_iff_integrableOn_Icc_of_le zero_le_one]
+    exact (hB.continuousOn.comp hgc fun t ht => (hg t ht).1).integrableOn_Icc
+  have hfund : ∫ t in (0 : ℝ)..1, p11c_bracket f chi (g t) = f (g 1) - f (g 0) :=
+    intervalIntegral.integral_eq_sub_of_hasDerivAt
+      (fun x hx => p11cN_hasDerivAt hf hg (by simpa [uIcc_of_le zero_le_one] using hx)) hi
+  rw [hfund]; ring
 
 end KAM.Planetary
 

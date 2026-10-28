@@ -103,7 +103,8 @@ theorem p11cN_remainder_bound {O : Set (Fin 2 → ℝ)} (R : (Fin 2 → ℝ) × 
   have hvan : ∀ k ≤ 5, iteratedDerivWithin k ψ (Icc 0 1) 0 = 0 := by
     intro k hk
     have hRI : AnalyticAt ℝ (fun w : Phase 2 => R (I, w)) 0 :=
-      (hR I hIO).comp (g := R) (f := fun w : Phase 2 => (I, w)) (analyticAt_const.prod analyticAt_id)
+      (hR I hIO).comp (g := R) (f := fun w : Phase 2 => (I, w))
+        (analyticAt_const.prod analyticAt_id)
     have hψ' : ψ = fun s : ℝ => (fun w : Phase 2 => R (I, w)) (0 + s • z) := by
       funext s; simp [hψ]
     have hCDk : ContDiffAt ℝ k ψ 0 := by
