@@ -29,7 +29,7 @@ namespace KAM.Planetary
 
 variable {n : ℕ} {v : P11Vec n → P11Vec n}
 
-private theorem p11_norm_sub_le_of_sol {M : ℝ} (hb : ∀ x, ‖v x‖ ≤ M) {u : ℝ → P11Vec n}
+theorem p11_norm_sub_le_of_sol {M : ℝ} (hb : ∀ x, ‖v x‖ ≤ M) {u : ℝ → P11Vec n}
     {a b : ℝ} (hu : ∀ t ∈ uIcc a b, HasDerivAt u (v (u t)) t) :
     ‖u b - u a‖ ≤ M * ‖b - a‖ :=
   Convex.norm_image_sub_le_of_norm_hasDerivWithin_le (f := u) (f' := fun t => v (u t))
