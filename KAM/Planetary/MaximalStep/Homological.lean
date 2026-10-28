@@ -11,6 +11,7 @@ public import KAM.Weighted.Projections
 public import KAM.Weighted.Parametric
 public import KAM.Planetary.MaximalStep.Constants
 public import KAM.Planetary.MaximalStep.Parameter
+public import KAM.Planetary.MaximalStep.HomologicalBracket
 
 /-!
 # Maximal homological equation (P11A-C5, `bpP:p11a:homological-maximal`)
