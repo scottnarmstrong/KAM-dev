@@ -147,9 +147,11 @@ theorem unsc_mem (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {z : Fin ((a + b
     have h3 : (unsc (rhoHat p) p.s z).1 i - ((((unsc (rhoHat p) p.s w).1 i : ℝ)) : ℂ) =
         (unsc (rhoHat p) p.s (z - KAM.realInclusion _ w)).1 i := by
       rw [← hd]; rfl
-    have h4 : |((unsc (rhoHat p) p.s z).1 i).im| ≤ ‖(unsc (rhoHat p) p.s (z - KAM.realInclusion _ w)).1 i‖ := by
+    have h4 : |((unsc (rhoHat p) p.s z).1 i).im| ≤
+        ‖(unsc (rhoHat p) p.s (z - KAM.realInclusion _ w)).1 i‖ := by
       rw [← h3]
-      have := Complex.abs_im_le_norm ((unsc (rhoHat p) p.s z).1 i - ((((unsc (rhoHat p) p.s w).1 i : ℝ)) : ℂ))
+      have := Complex.abs_im_le_norm
+        ((unsc (rhoHat p) p.s z).1 i - ((((unsc (rhoHat p) p.s w).1 i : ℝ)) : ℂ))
       simpa using this
     have hc : 0 < p.s / (2 * π) := by positivity
     have h5 : ‖(unsc (rhoHat p) p.s (z - KAM.realInclusion _ w)).1‖ <
@@ -180,7 +182,8 @@ theorem unsc_mem (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {z : Fin ((a + b
             KAM.realInclusion _ ((unsc (rhoHat p) p.s w).2 - J) := by
         rw [← h2, map_sub]; ext i; simp
       rw [e]
-      have h5 : ‖KAM.realInclusion _ ((unsc (rhoHat p) p.s w).2 - J)‖ < rhoHat (seq p j) / 16 / 2 := by
+      have h5 : ‖KAM.realInclusion _ ((unsc (rhoHat p) p.s w).2 - J)‖ <
+          rhoHat (seq p j) / 16 / 2 := by
         rw [KAM.norm_realInclusion]; rwa [seq_ρ_succ] at hwJ
       have h6 : ‖(unsc (rhoHat p) p.s (z - KAM.realInclusion _ w)).2‖ < rhoHat (seq p j) / 16 / 2 :=
         h1.trans_lt ((mul_lt_mul_of_pos_left hz h0).trans_le h3)

@@ -150,9 +150,11 @@ theorem limit_phi_strip_of_steps (P : PsiSteps sbar p Ds hs fs Ψ Φ)
   have hr : 0 ≤ p.Mhat / p.M :=
     div_nonneg (P.hyp 0).positive.2.2.2.2.2.1.le (P.hyp 0).positive.2.2.2.2.1.le
   have hdisp : ∀ j, ∀ θ ∈ KAM.complexStrip (a + b) (geometricWidth sbar),
-      ‖firstBlock (b := b) ((Φ j (θ, KAM.realInclusion (a + b) I)).2 - KAM.realInclusion (a + b) I)‖ ≤
+      ‖firstBlock (b := b) ((Φ j (θ, KAM.realInclusion (a + b) I)).2 -
+        KAM.realInclusion (a + b) I)‖ ≤
         3 / 2 * (p.Mhat / p.M) * eHat p * rhoHat p ∧
-      ‖lastBlock (a := a) ((Φ j (θ, KAM.realInclusion (a + b) I)).2 - KAM.realInclusion (a + b) I)‖ ≤
+      ‖lastBlock (a := a) ((Φ j (θ, KAM.realInclusion (a + b) I)).2 -
+        KAM.realInclusion (a + b) I)‖ ≤
         3 / 2 * eHat p * rhoHat p ∧
       ‖(Φ j (θ, KAM.realInclusion (a + b) I)).1 - θ‖ ≤ 3 / 2 * eHat p * p.s / (2 * π) := by
     intro j θ hθ

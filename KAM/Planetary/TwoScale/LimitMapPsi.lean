@@ -86,7 +86,8 @@ theorem iterative_steps {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ}
   refine ⟨Ds, hs, fs, Ψ, Φ, is, h0, ⟨h1, hK, fun j => (hI j).2.1, fun j => (hI j).2.2.1,
     fun j => (hI j).2.2.2, fun j => (ht j).2.2, fun j => (hr j).1, fun j => (hr j).2.2.1⟩,
     ⟨hK, h3, hP, fun j => (hPh j).1, fun j => (hPh j).2.2.1, fun j => (hPh j).2.2.2.1,
-      fun j => (hΨ j).1, fun j => (hΨ j).2.1, fun j => (hΨ j).2.2.1, fun j => (hΨ j).2.2.2.2.1, fun j => (hΨ j).2.2.2.2.2,
+      fun j => (hΨ j).1, fun j => (hΨ j).2.1, fun j => (hΨ j).2.2.1,
+      fun j => (hΨ j).2.2.2.2.1, fun j => (hΨ j).2.2.2.2.2,
       fun j => (ht j).1, fun j => (hr j).1, fun j => (hr j).2.1, fun j => (hr j).2.2.1⟩⟩
 
 theorem mem_realTube_iff {n : ℕ} {D : Set (Fin n → ℝ)} {r : ℝ} {v : Fin n → ℝ} :

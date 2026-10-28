@@ -96,7 +96,8 @@ on `𝒟_j × ℝⁿ` is at most `∏_{k<j} (1 + ς_k) − 1`. -/
 theorem phi_lip (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) :
     ∀ x ∈ phaseTube (Ds j) ((seq p j).ρ / 2), ∀ y ∈ phaseTube (Ds j) ((seq p j).ρ / 2),
       limitmap_data (rhoHat p) p.s ((psiR (Φ j) x - x) - (psiR (Φ j) y - y)) ≤
-        (∏ k ∈ Finset.range j, (1 + psiConst a b p k) - 1) * limitmap_data (rhoHat p) p.s (x - y) := by
+        (∏ k ∈ Finset.range j, (1 + psiConst a b p k) - 1) *
+          limitmap_data (rhoHat p) p.s (x - y) := by
   have h0 : 0 < rhoHat p := (P.hyp 0).R_pos
   have hs0 : 0 < p.s := (P.hyp 0).positive.2.1
   have hN0 : limitmap_data (rhoHat p) p.s (0 : Phase (a + b)) = 0 := by

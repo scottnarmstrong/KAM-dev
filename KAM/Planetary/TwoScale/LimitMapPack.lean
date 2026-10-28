@@ -86,7 +86,8 @@ theorem psi_lip_of_steps (P : PsiSteps sbar p Ds hs fs Ψ Φ) :
           ((psiR (Ψ (j + 1)) x - x) - (psiR (Ψ (j + 1)) y - y)) ≤
         192 * ((a + b : ℕ) : ℝ) * (((24 : ℝ) ^ (p.τ + 1) / 6) ^ j * eHat (seq p j)) *
           limitmap_data (rhoHat p) p.s (x - y)) ∧
-    Summable (fun j => 192 * ((a + b : ℕ) : ℝ) * (((24 : ℝ) ^ (p.τ + 1) / 6) ^ j * eHat (seq p j))) ∧
+    Summable (fun j =>
+      192 * ((a + b : ℕ) : ℝ) * (((24 : ℝ) ^ (p.τ + 1) / 6) ^ j * eHat (seq p j))) ∧
     ∑' j, 192 * ((a + b : ℕ) : ℝ) * (((24 : ℝ) ^ (p.τ + 1) / 6) ^ j * eHat (seq p j)) ≤
       384 * ((a + b : ℕ) : ℝ) * eHat p ∧
     384 * ((a + b : ℕ) : ℝ) * eHat p < 1 / 20 := by
@@ -98,7 +99,8 @@ theorem psi_lip_of_steps (P : PsiSteps sbar p Ds hs fs Ψ Φ) :
     (s := fun j => (seq p j).s) (c := (24 : ℝ) ^ (p.τ + 1) / 6)
     (fun j => (P.hyp j).eHat_nonneg) h0 (fun j => (P.eHat_sq j).le) (by positivity) hc
     (fun j => ⟨(P.rho_pos j).le, P.rho_hi j⟩) (fun j => rfl)
-  refine ⟨fun j x hx => ?_, fun j x hx => P.psi_disp j hx, fun j x hx y hy => P.psi_lip_step j hx hy,
+  refine ⟨fun j x hx => ?_, fun j x hx => P.psi_disp j hx,
+    fun j x hx y hy => P.psi_lip_step j hx hy,
     hsum.2.2.1.mul_left _, ?_, ?_⟩
   · exact ⟨(P.psi_step j hx).1, (P.psi_step j hx).2.1⟩
   · rw [tsum_mul_left]
