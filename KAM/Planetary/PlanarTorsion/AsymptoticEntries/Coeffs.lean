@@ -68,14 +68,25 @@ theorem as_c (p : PlanarData) (hp : p.Valid) :
         =O[𝓝[>] 0] (fun α : ℝ => α ^ (7 / 2 : ℝ)) ∧
       (fun α => p11c_coeffs p ![α, 1] 3) =O[𝓝[>] 0] (fun α : ℝ => α ^ (7 / 2 : ℝ)) ∧
       (fun α => p11c_coeffs p ![α, 1] 4) =O[𝓝[>] 0] (fun α : ℝ => α ^ (9 / 4 : ℝ)) ∧
-      (fun α => p11c_coeffs p ![α, 1] 5) =O[𝓝[>] 0] (fun α : ℝ => α ^ (11 / 4 : ℝ)) := by
+      (fun α => p11c_coeffs p ![α, 1] 5) =O[𝓝[>] 0] (fun α : ℝ => α ^ (11 / 4 : ℝ)) ∧
+      (fun α => (p11c_pairCoeffs α 2 - p11c_pairCoeffs α 0 / 4) + 3 / 32 * α ^ 2)
+        =O[𝓝[>] 0] (fun α : ℝ => α ^ (4 : ℝ)) ∧
+      (fun α => (p11c_pairCoeffs α 3 - p11c_pairCoeffs α 0 / 4) - 3 / 8 * α ^ 2)
+        =O[𝓝[>] 0] (fun α : ℝ => α ^ (4 : ℝ)) ∧
+      (fun α => p11c_pairCoeffs α 4 - 9 / 16 * α ^ 2) =O[𝓝[>] 0] (fun α : ℝ => α ^ (4 : ℝ)) ∧
+      (fun α => p11c_pairCoeffs α 5) =O[𝓝[>] 0] (fun α : ℝ => α ^ (4 : ℝ)) ∧
+      (fun α => p11c_pairCoeffs α 6 - p11c_pairCoeffs α 1 / 8)
+        =O[𝓝[>] 0] (fun α : ℝ => α ^ (3 : ℝ)) ∧
+      (fun α => p11c_pairCoeffs α 7 - p11c_pairCoeffs α 1 / 8)
+        =O[𝓝[>] 0] (fun α : ℝ => α ^ (3 : ℝ)) := by
   have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
   have hG := hp.1
   have hm0' := hp.2.1
   have hm0 := hp.2.2 0
   have hm1 := hp.2.2 1
   have hκ : p.kappa = p.G * p.m0 := rfl
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, p11cAe_X0, p11cAe_X1, p11cAe_p3, p11cAe_X3, p11cAe_X4,
+    p11cAe_X5⟩
   · have h := (p11cAe_div (f := fun a => (p11c_pairCoeffs a 2 - p11c_pairCoeffs a 0 / 4) +
       3 / 32 * a ^ 2) (r := 3) (by rw [show (3 : ℝ) + 1 = 4 by norm_num]; exact p11cAe_X0)
       ).const_mul_left (-(p.G * p.m 1 / (p.m 0 * p.kappa)))
