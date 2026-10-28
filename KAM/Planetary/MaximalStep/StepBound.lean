@@ -100,6 +100,82 @@ theorem step_W_le (H : P11StepHyp S h w R) {b : P11CVec n} (hb : b ∈ KAM.actio
   refine (norm_sub_le _ _).trans ?_
   linarith
 
+theorem step_U_diff (H : P11StepHyp S h w R) {b : P11CVec n} (hb : b ∈ KAM.actionNbhd S.E S.t)
+    (t : ℝ) : DifferentiableOn ℂ (stepU S R b t) (KAM.Weighted.Dom n {0} S.s (S.r - S.d)) := by
+  obtain ⟨cu1, -, -, -⟩ := p11_cutoff S.n_pos (step_r_pos S) S.s_pos S.T_pos.le S.d_pos
+    (step_dr S) S.eps_nonneg (q := 1/2) (by norm_num) (by norm_num) (step_B_open S)
+    H.admissible H.bound
+  have hmem : ∀ y ∈ KAM.Weighted.Dom n {0} S.s (S.r - S.d), (y, b) ∈ domain_def n (S.r - S.d) S.s
+      (KAM.actionNbhd S.E S.t) := fun y hy => ⟨hy, hb⟩
+  have hc : DifferentiableOn ℂ (fun y : P11Phase n => p11Cutoff S.T R (y, b))
+      (KAM.Weighted.Dom n {0} S.s (S.r - S.d)) :=
+    cu1.1.comp (f := fun y : P11Phase n => (y, b)) (by fun_prop) hmem
+  have hr : DifferentiableOn ℂ (fun y : P11Phase n => R (y, b))
+      (KAM.Weighted.Dom n {0} S.s (S.r - S.d)) := by
+    refine H.admissible.1.comp (f := fun y : P11Phase n => (y, b)) (by fun_prop) ?_
+    intro y hy
+    obtain ⟨h1, h2⟩ := (mem_Dom_iff y).1 hy
+    exact ⟨(mem_Dom_iff y).2 ⟨fun i => (h1 i).trans (by linarith [S.d_pos]), h2⟩, hb⟩
+  have ha : DifferentiableOn ℂ (fun y : P11Phase n => stepAvg S R b y.2)
+      (KAM.Weighted.Dom n {0} S.s (S.r - S.d)) := by
+    unfold stepAvg; fun_prop
+  unfold stepU stepW
+  exact ((hc.sub ha).neg.const_mul _).add hr
+
+theorem step_U_le (H : P11StepHyp S h w R) {b : P11CVec n} (hb : b ∈ KAM.actionNbhd S.E S.t)
+    {t : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) {y : P11Phase n}
+    (hy : y ∈ KAM.Weighted.Dom n {0} S.s (S.r - S.d)) :
+    ‖stepU S R b t y‖ ≤ (5 + 4 * p11Error n S.T S.d) * S.eps := by
+  obtain ⟨h1, h2⟩ := (mem_Dom_iff y).1 hy
+  have hW := step_W_le H hb hy
+  have hR : ‖R (y, b)‖ ≤ S.eps := H.bound (y, b)
+    ⟨(mem_Dom_iff y).2 ⟨fun i => (h1 i).trans (by linarith [S.d_pos]), h2⟩, hb⟩
+  have hE := step_E_nonneg S
+  have hε := S.eps_nonneg
+  unfold stepU
+  refine (norm_add_le _ _).trans ?_
+  rw [norm_mul, Complex.norm_real, Real.norm_of_nonneg (by linarith [ht.2])]
+  have : (1 - t) * ‖stepW S R b y‖ ≤ 1 * (4 * (1 + p11Error n S.T S.d) * S.eps) :=
+    mul_le_mul (by linarith [ht.1]) hW (norm_nonneg _) zero_le_one
+  nlinarith
+
+theorem fderiv_pi_apply {f : P11CVec n → P11CVec n} {θ : P11CVec n} (hf : DifferentiableAt ℂ f θ)
+    (v : P11CVec n) (i : Fin n) :
+    fderiv ℂ f θ v i = fderiv ℂ (fun x => f x i) θ v := by
+  have := hasFDerivAt_pi'.1 hf.hasFDerivAt i
+  rw [this.fderiv]
+  rfl
+
+/-- `{N_b, φ} = w` on the flow domain. -/
+theorem step_bracket_N (H : P11StepHyp S h w R) {b : P11CVec n} (hb : b ∈ KAM.actionNbhd S.E S.t)
+    {y : P11Phase n} (hy : y ∈ KAM.Weighted.Dom n {0} S.s (S.r - S.d - S.delta - S.sigma)) :
+    KAM.Canonical.poissonBracket (fun z : P11Phase n => h b + ∑ i, w b i * z.2 i)
+      (p11StepPhi S w R b) y = stepW S R b y := by
+  obtain ⟨h1, h2⟩ := (mem_Dom_iff y).1 hy
+  have hθ : y.1 ∈ KAM.complexStrip n (S.r - S.d - S.delta) := fun i =>
+    (h1 i).trans (by linarith [S.sigma_pos])
+  have cc := p11_cutoff_coeff S.n_pos (step_r_pos S) S.s_pos S.T_pos.le S.d_pos (step_dr S)
+    S.eps_nonneg (step_B_open S) H.admissible H.bound
+  obtain ⟨-, -, -, -, -, -, c7⟩ := cc
+  have Hb := step_affHyp H hb
+  obtain ⟨-, -, -, -, a5⟩ := step_hm0 H
+  have d0 := Hb.hol0.differentiableAt ((KAM.isOpen_complexStrip n _).mem_nhds hθ)
+  have d1 := Hb.hol1.differentiableAt ((KAM.isOpen_complexStrip n _).mem_nhds hθ)
+  have := p11_normal_affine_bracket (h b) (w b) (z := y) d0 d1
+  have hphi : p11StepPhi S w R b = p11Affine (fun θ => stepP0 S w R (θ, b))
+      (fun θ => stepP1 S w R (θ, b)) := rfl
+  rw [hphi, this, a5 y.1 hθ b hb]
+  have e1 : ∀ i, fderiv ℂ (fun θ => stepP1 S w R (θ, b)) y.1 (w b) i =
+      p11R1 S.T R (y.1, b) i - p11DeltaW S.T R b i := fun i => by
+    rw [fderiv_pi_apply d1]
+    exact (step_hm1 H i).2.2.2.2 y.1 hθ b hb
+  have e2 := c7 (y, b) hb
+  unfold stepW stepAvg
+  simp only [e1] at *
+  rw [e2]
+  simp only [sub_mul, Finset.sum_sub_distrib, mul_comm (p11R1 _ _ _ _) _]
+  ring
+
 end KAM.Planetary
 
 end
