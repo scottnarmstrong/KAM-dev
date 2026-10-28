@@ -51,7 +51,8 @@ theorem coeffs_hermitian (D : Data n) (a : Vec n) : (coeffs D a).IsHermitian := 
   simp only [coeffs, qhat, star_trivial]
   by_cases h : i = j
   · subst h; rfl
-  · rw [ite_cond_eq_false _ _ (eq_false h), ite_cond_eq_false _ _ (eq_false (Ne.symm h)), pairB_comm D a j i, mul_comm (√(action D a j))]
+  · rw [ite_cond_eq_false _ _ (eq_false h), ite_cond_eq_false _ _ (eq_false (Ne.symm h)),
+      pairB_comm D a j i, mul_comm (√(action D a j))]
 
 private theorem analyticAt_eval (i : Fin n) (a : Vec n) : AnalyticAt ℝ (fun b : Vec n => b i) a :=
   analyticAt_pi_iff.mp analyticAt_id i
