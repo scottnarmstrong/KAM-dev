@@ -179,7 +179,71 @@ lemma sigma_two_inj (ha : a ∈ axes 2) : Function.Injective (sigma D a) := by
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all
 
+lemma nr4_two_iff (ha : a ∈ axes 2) :
+    nr4 (sigma D a) ↔ sigma D a 0 / sigma D a 1 ≠ 2 ∧ sigma D a 0 / sigma D a 1 ≠ 3 := by
+  have hlt := sigma_two_lt D ha
+  have n1 := sigma_two_neg D ha 1
+  have hdiv : ∀ c : ℝ, sigma D a 0 / sigma D a 1 = c ↔ sigma D a 0 = c * sigma D a 1 :=
+    fun c => by rw [div_eq_iff n1.ne]
+  rw [ne_eq, ne_eq, hdiv, hdiv]
+  constructor
+  · rintro ⟨-, hk⟩
+    refine ⟨fun h => hk ![1, -2] ⟨?_, ?_⟩ ?_, fun h => hk ![1, -3] ⟨?_, ?_⟩ ?_⟩ <;>
+      simp [Fin.sum_univ_two] <;> linarith
+  · rintro ⟨h2, h3⟩
+    refine ⟨sigma_two_inj D ha, fun k hk => ?_⟩
+    obtain ⟨hk0, hk4⟩ := hk
+    simp only [Fin.sum_univ_two, Fin.isValue] at hk0 hk4 ⊢
+    have b0 := abs_le.1 ((le_add_of_nonneg_right (abs_nonneg (k 1))).trans hk4)
+    have b1 := abs_le.1 ((le_add_of_nonneg_left (abs_nonneg (k 0))).trans hk4)
+    intro hs
+    generalize k 0 = k0 at *
+    generalize k 1 = k1 at *
+    generalize sigma D a 0 = s0 at *
+    generalize sigma D a 1 = s1 at *
+    obtain ⟨b0l, b0u⟩ := b0
+    obtain ⟨b1l, b1u⟩ := b1
+    interval_cases k0 <;> interval_cases k1 <;>
+      first | (exfalso; revert hk0 hk4; norm_num; done) | (push_cast at hs; exact h2 (by linarith)) |
+        (push_cast at hs; exact h3 (by linarith))
+
+lemma two_trace_det_iff (ha : a ∈ axes 2) :
+    nr4 (sigma D a) ↔
+      (2 * (coeffs D a).trace^2 - 9 * (coeffs D a).det) *
+        (3 * (coeffs D a).trace^2 - 16 * (coeffs D a).det) ≠ 0 := by
+  have hlt := sigma_two_lt D ha
+  have n1 := sigma_two_neg D ha 1
+  have n0 := sigma_two_neg D ha 0
+  have hdiv : ∀ c : ℝ, sigma D a 0 / sigma D a 1 = c ↔ sigma D a 0 = c * sigma D a 1 :=
+    fun c => by rw [div_eq_iff n1.ne]
+  rw [nr4_two_iff D ha, ← sorted_two_sum (coeffs D a) (coeffs_hermitian D a),
+    ← sorted_two_prod (coeffs D a) (coeffs_hermitian D a), ne_eq, ne_eq, hdiv, hdiv]
+  change ¬ _ ∧ ¬ _ ↔ ¬ (2 * (sigma D a 0 + sigma D a 1)^2 - 9 * (sigma D a 0 * sigma D a 1)) *
+    (3 * (sigma D a 0 + sigma D a 1)^2 - 16 * (sigma D a 0 * sigma D a 1)) = 0
+  have e : (2 * (sigma D a 0 + sigma D a 1)^2 - 9 * (sigma D a 0 * sigma D a 1)) *
+      (3 * (sigma D a 0 + sigma D a 1)^2 - 16 * (sigma D a 0 * sigma D a 1)) =
+      (sigma D a 0 - 2 * sigma D a 1) * (2 * sigma D a 0 - sigma D a 1) *
+        ((sigma D a 0 - 3 * sigma D a 1) * (3 * sigma D a 0 - sigma D a 1)) := by ring
+  rw [e]
+  simp only [mul_eq_zero, sub_eq_zero]
+  have f1 : ¬ 2 * sigma D a 0 = sigma D a 1 := by intro h; linarith
+  have f2 : ¬ 3 * sigma D a 0 = sigma D a 1 := by intro h; linarith
+  tauto
+
 end Spectrum
+
+theorem n2 (D : Data 2) {a : Vec 2} (ha : a ∈ axes 2) :
+    (coeffs D a).det = ((pairA D a 0 1)^2-(pairB D a 0 1)^2) /
+      (action D a 0*action D a 1) ∧
+    0 < (coeffs D a).det ∧
+    0 < (coeffs D a).trace^2-4*(coeffs D a).det ∧
+    sigma D a 0 < sigma D a 1 ∧
+    (nr4 (sigma D a) ↔ sigma D a 0/sigma D a 1 ≠ 2 ∧ sigma D a 0/sigma D a 1 ≠ 3) ∧
+    (nr4 (sigma D a) ↔
+      (2*(coeffs D a).trace^2-9*(coeffs D a).det) *
+      (3*(coeffs D a).trace^2-16*(coeffs D a).det) ≠ 0) :=
+  ⟨det_two D ha, det_two_pos D ha, disc_two_pos D ha, sigma_two_lt D ha, nr4_two_iff D ha,
+    two_trace_det_iff D ha⟩
 
 end SecularSpectrum
 
