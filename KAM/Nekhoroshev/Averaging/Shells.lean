@@ -316,7 +316,7 @@ theorem integral_psi (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ} (hC : A
 
 end AvgShell
 
-/-- Derived constant specification; it is NEVER a premise of a source theorem. -/
+/-- The logarithmic factor `1 + log (1/κ)`. -/
 def avgLog (κ : ℝ) : ℝ := 1 + Real.log (1 / κ)
 
 namespace AvgShell
