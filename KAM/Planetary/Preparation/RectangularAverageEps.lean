@@ -152,6 +152,46 @@ theorem p11_multi_tail_sum {E E₁ : ℝ} (hE₁ : 0 ≤ E₁) (n : ℕ) :
   have := geom_quarter n
   nlinarith
 
+section Displacement
+
+variable {a s κ E E₁ : ℝ} {n : ℕ}
+
+/-- The action-displacement sums of `multi_disp_σ` for the smaller sequence. -/
+theorem p11_multi_disp_σ (ha : 0 < a) (hs : 0 < s) (hE : 0 ≤ E) (hE₁ : 0 ≤ E₁)
+    (hE₁κ : E₁ ≤ 3 * E / (4 * κ)) (hn : 1 ≤ n) (hnκ : 8 * (n : ℝ) ≤ κ) (r S : ℝ)
+    (hκ : 0 < κ) :
+    a * s * ∑ i ∈ Finset.range (n + 1),
+      1 * p11Eps E E₁ i / (exp 1 * a * (multiSched r S s n).σ i) ≤ 3 * E := by
+  have hn0 : (0 : ℝ) < n := by exact_mod_cast hn
+  refine le_trans (mul_le_mul_of_nonneg_left (Finset.sum_le_sum fun i _ => ?_) (by positivity))
+    (multi_disp_σ ha hs hκ hE hn hnκ r S)
+  have hσ : 0 < (multiSched r S s n).σ i := by
+    rcases i with _ | l
+    · rw [multi_σ_zero]; positivity
+    · rw [multi_σ_succ]; positivity
+  have hle := p11Eps_le hE₁κ i
+  rw [one_mul, one_mul]
+  exact div_le_div_of_nonneg_right hle (by positivity)
+
+/-- The angle-displacement sum of `multi_disp_ρ` for the smaller sequence. -/
+theorem p11_multi_disp_ρ {r : ℝ} (ha : 0 < a) (hr : 0 < r) (hE : 0 ≤ E) (hE₁ : 0 ≤ E₁)
+    (hE₁κ : E₁ ≤ 3 * E / (4 * κ)) (hn : 1 ≤ n) (hnκ : 8 * (n : ℝ) ≤ κ) (S : ℝ)
+    (hκ : 0 < κ) :
+    a * r * ∑ i ∈ Finset.range (n + 1),
+      1 * p11Eps E E₁ i / (a * (multiSched r S s n).ρ i) ≤ 9 * E := by
+  have hn0 : (0 : ℝ) < n := by exact_mod_cast hn
+  refine le_trans (mul_le_mul_of_nonneg_left (Finset.sum_le_sum fun i _ => ?_) (by positivity))
+    (multi_disp_ρ (s := s) ha hr hκ hE hn hnκ S)
+  have hρ : 0 < (multiSched r S s n).ρ i := by
+    rcases i with _ | l
+    · rw [multi_ρ_zero]; positivity
+    · rw [multi_ρ_succ]; positivity
+  have hle := p11Eps_le hE₁κ i
+  rw [one_mul, one_mul]
+  exact div_le_div_of_nonneg_right hle (by positivity)
+
+end Displacement
+
 end KAM.Planetary
 
 end
