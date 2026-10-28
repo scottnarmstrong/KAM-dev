@@ -14,8 +14,8 @@ public import KAM.Planetary.WeakMeasure.Bridge
 
 `p11_norm_dotC_le` is the finite Hölder duality `|k·v| ≤ |k|₁ ‖v‖` (`bpP:p11a:x-duality`).
 `divisor_perturb`: a lower bound `D` on the divisors `|k·ω(b)|`, `0<|k|₁≤T`, at the real points of
-`E`, with `ω` holomorphic and `‖Dω‖ ≤ L` on `E+t` and `tTL ≤ D/2`, gives the lower bound `D/2` on all
-of `E+t` (mean value inequality on the polydisc around the real point).
+`E`, with `ω` holomorphic and `‖Dω‖ ≤ L` on `E+t` and `tTL ≤ D/2`, gives the lower bound `D/2`
+on all of `E+t` (mean value inequality on the polydisc around the real point).
 `divisor_wide` is the retained-set form of the limit bridge: the `2γ|k|^(-τ)` lower bounds at
 `u k` and the closeness `γ|k|^(-τ-1)` to `v` give `γ T^(-τ)` at `v` for all `0<|k|₁≤T`.
 -/

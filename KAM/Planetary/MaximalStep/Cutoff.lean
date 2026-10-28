@@ -106,7 +106,8 @@ theorem cutoff {n : ℕ} (hn : 1 ≤ n) {r s T d eps q : ℝ}
     calc ‖(R - p11Cutoff T R) ((θ, η), b)‖
         = ‖(R - p11Taylor R) ((θ, η), b) + (p11Taylor R - p11Cut T (p11Taylor R)) ((θ, η), b)‖ := by
           simp [p11Cutoff]
-      _ ≤ eps * q ^ 2 / (1 - q) + p11Error n T d * (2 * eps) := (norm_add_le _ _).trans (add_le_add e1 e2)
+      _ ≤ eps * q ^ 2 / (1 - q) + p11Error n T d * (2 * eps) :=
+          (norm_add_le _ _).trans (add_le_add e1 e2)
       _ = eps * (q ^ 2 / (1 - q) + 2 * p11Error n T d) := by ring
 
 end KAM.Planetary
