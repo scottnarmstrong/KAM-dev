@@ -312,6 +312,7 @@ public import KAM.Nekhoroshev.Assembly.Hypotheses
 public import KAM.Nekhoroshev.Interfaces.ConicCoercive
 public import KAM.Nekhoroshev.Interfaces.Constants
 public import KAM.Nekhoroshev.Interfaces.ConstantsAnalytic
+public import KAM.Nekhoroshev.Interfaces.CoverParams
 public import KAM.Nekhoroshev.Interfaces.Domains
 public import KAM.Nekhoroshev.Interfaces.Hessian
 public import KAM.Nekhoroshev.Interfaces.HoloReal
@@ -328,10 +329,14 @@ public import KAM.Nekhoroshev.NormalForm.IterativeRemainder
 public import KAM.Nekhoroshev.NormalForm.Setting
 public import KAM.Nekhoroshev.NormalForm.Telescope
 public import KAM.Nekhoroshev.ODE.Specialization
+public import KAM.Nekhoroshev.Poschel.Elementary
+public import KAM.Nekhoroshev.Poschel.Setting
 public import KAM.Nekhoroshev.QcZero.Derivative
 public import KAM.Nekhoroshev.QcZero.Kernel
 public import KAM.Nekhoroshev.QcZero.ZeroField
+public import KAM.Nekhoroshev.QcZero.ZeroOrbit
 public import KAM.Nekhoroshev.QuasiConvex
+public import KAM.Nekhoroshev.ResonanceGeometry.Lattice
 public import KAM.Nekhoroshev.Stability.Conjugation
 public import KAM.Nekhoroshev.Stability.Energy
 public import KAM.Nekhoroshev.Stability.Gradient
