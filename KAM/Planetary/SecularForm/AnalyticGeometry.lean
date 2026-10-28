@@ -146,6 +146,33 @@ theorem re_separationC_center (D : Data n) {a : Vec n} (ha : a ∈ axes n) (t : 
       (Real.sin (t i) - Real.sin (t j)) ^ 2) := by positivity
   linarith
 
+theorem planetC_periodic (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
+    (hr : r < rho D a) {x : CSlow n} (hx : x ∈ polydisc D a r) (i : Fin n) :
+    Function.Periodic (fun l : ℝ => poincareC (D.m i) (D.G * D.m0)
+      (![(l : ℂ), x.1 i], ![x.2.1 i, x.2.2 i])) (2 * π) := by
+  intro l
+  have hΛ := action_pos D ha i
+  have h := (poincare_holomorphic (m := D.m i) (κ := D.G * D.m0) (Λo := action D a i)
+    (D.hm i) (mul_pos D.hG D.hm0) hΛ).2.2.2.1
+  have hw := blockC_mem_nbhd D ha hr (t := fun _ => l) hx i
+  have hu : (![((l + 2 * π : ℝ) : ℂ), x.1 i] : Fin 2 → ℂ) =
+      Function.update (![(l : ℂ), x.1 i] : Fin 2 → ℂ) 0 ((![(l : ℂ), x.1 i] : Fin 2 → ℂ) 0 +
+        2 * π) := by
+    ext k; fin_cases k <;> simp
+  simp only
+  rw [hu]
+  exact (h _ hw).2
+
+theorem exists_cell_planetC (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
+    (hr : r < rho D a) {x : CSlow n} (hx : x ∈ polydisc D a r) (t : Vec n) :
+    ∃ t' ∈ cell n, ∀ i, planetC D t x i = planetC D t' x i := by
+  have h : ∀ i, ∃ y ∈ Ico 0 (2 * π), planetC D t x i = poincareC (D.m i) (D.G * D.m0)
+      (![(y : ℂ), x.1 i], ![x.2.1 i, x.2.2 i]) := fun i =>
+    (planetC_periodic D ha hr hx i).exists_mem_Ico₀ Real.two_pi_pos (t i)
+  choose y hy hy' using h
+  refine ⟨y, fun i _ => ⟨(hy i).1, (hy i).2.le⟩, fun i => ?_⟩
+  exact (hy' i).trans rfl
+
 end SecularForm
 end KAM.Planetary
 end
