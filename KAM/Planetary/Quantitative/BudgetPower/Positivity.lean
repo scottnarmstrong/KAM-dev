@@ -37,7 +37,8 @@ theorem qbPoly_bump_integral_pos (mu : ℕ) : 0 < ∫ y : ℝ, p11c_bump mu y :=
       simp only [mem_Icc, not_and_or, not_le] at hx
       rcases hx with h | h <;> nlinarith
     simp [p11c_bump, max_eq_left (by linarith : 1 - x ^ 2 ≤ 0)]
-  have hint : Integrable (p11c_bump mu) := (qbPoly_bump_continuous mu).integrable_of_hasCompactSupport hc
+  have hint : Integrable (p11c_bump mu) :=
+    (qbPoly_bump_continuous mu).integrable_of_hasCompactSupport hc
   rw [integral_pos_iff_support_of_nonneg (qbPoly_bump_nonneg mu) hint]
   refine (qbPoly_bump_continuous mu).isOpen_support.measure_pos volume ⟨0, ?_⟩
   simp [Function.mem_support, qbPoly_bump_zero]

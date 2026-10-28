@@ -73,7 +73,7 @@ theorem qbPoly_tbar_bound (N mu : ℕ) (tau c asRate : ℝ) (hN : 1 ≤ N) (hc :
       have := mul_le_mul_of_nonneg_left hlogbd hN0.le
       linarith
     by_cases hpos : 0 < asRate
-    · rw [if_pos hpos]
+    · simp only [hpos, ↓reduceIte]
       set E := u ^ (-(asRate + 1)) with hE
       have hE1 : u ^ (-asRate) * u⁻¹ = E := by
         rw [hE, neg_add, Real.rpow_add hu0, Real.rpow_neg_one]
@@ -101,7 +101,7 @@ theorem qbPoly_tbar_bound (N mu : ℕ) (tau c asRate : ℝ) (hN : 1 ≤ N) (hc :
       have hK : 0 ≤ 16 / (π * c) * (A0c + N * (Lc + asRate)) := by positivity
       nlinarith [hstep, h4, mul_le_mul_of_nonneg_left hE0 hK]
     · have h0 : asRate = 0 := le_antisymm (not_lt.mp hpos) has
-      rw [if_neg hpos]
+      simp only [hpos, ↓reduceIte]
       subst h0
       simp at hstep ⊢
       linarith
@@ -131,8 +131,8 @@ theorem qbPoly_thetaMax_lower (N mu rho : ℕ) (c : ℝ) (hrho : rho = 1 ∨ rho
   unfold QuantitativeData.thetaMax
   rw [hmu', hrho']
   by_cases h1 : rho = 1
-  · rw [if_pos h1]; exact hθβ
-  · rw [if_neg h1]
+  · simp only [h1, ↓reduceIte]; exact hθβ
+  · simp only [h1, ↓reduceIte]
     refine le_min (hθβ.trans (by linarith)) ?_
     have hden : 0 < 2 ^ (mu + 1) * (2 * d.M0 + d.beta) := by positivity
     rw [le_div_iff₀ hden]
