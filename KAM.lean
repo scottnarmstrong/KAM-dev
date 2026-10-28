@@ -466,11 +466,13 @@ public import KAM.Planetary.MaximalStep.Divisor
 public import KAM.Planetary.MaximalStep.FourierCutoff
 public import KAM.Planetary.MaximalStep.FourierCutoffCoeff
 public import KAM.Planetary.MaximalStep.FourierCutoffTail
+public import KAM.Planetary.MaximalStep.GlobalRealFlow
 public import KAM.Planetary.MaximalStep.Homological
 public import KAM.Planetary.MaximalStep.HomologicalBracket
 public import KAM.Planetary.MaximalStep.Loss
 public import KAM.Planetary.MaximalStep.Parameter
 public import KAM.Planetary.MaximalStep.ParameterFlow
+public import KAM.Planetary.MaximalStep.RealFlow
 public import KAM.Planetary.MaximalStep.Taylor
 public import KAM.Planetary.Newtonian.Assembly
 public import KAM.Planetary.Newtonian.Barycentric
