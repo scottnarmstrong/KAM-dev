@@ -82,6 +82,15 @@ theorem psiConst_nonneg (P : PsiSteps sbar p Ds hs fs Ψ Φ) (k : ℕ) : 0 ≤ p
   have hτ : 0 ≤ ((24 : ℝ) ^ (p.τ + 1) / 6) := by positivity
   unfold psiConst; positivity
 
+theorem lp_nonneg (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) :
+    0 ≤ ∏ k ∈ Finset.range j, (1 + psiConst a b p k) - 1 := by
+  have : 1 ≤ ∏ k ∈ Finset.range j, (1 + psiConst a b p k) := by
+    have := Finset.prod_le_prod₀ (s := Finset.range j) (f := fun _ => (1 : ℝ))
+      (g := fun k => 1 + psiConst a b p k) (fun _ _ => zero_le_one)
+      (fun k _ => by linarith [P.psiConst_nonneg k])
+    simpa using this
+  linarith
+
 /-- The composition rule of `stepP:p3:lp-cauchy`: the rescaled Lipschitz constant of `Φ_j − id`
 on `𝒟_j × ℝⁿ` is at most `∏_{k<j} (1 + ς_k) − 1`. -/
 theorem phi_lip (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) :
