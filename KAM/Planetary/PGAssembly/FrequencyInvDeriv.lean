@@ -182,6 +182,39 @@ theorem fderiv_jp_embSlow (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
   rw [hsw]
   ring
 
+/-- The slow-slow block of the Hessian of the jet polynomial is `jetBeta`. -/
+theorem hessian_embSlow (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0) {I : Fin a → ℂ}
+    (hI : I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) (ξ y w : Fin b → ℂ) :
+    fderiv ℂ (fderiv ℂ (jetPolynomial d mu)) (Fin.append I ξ) (embSlow a b y)
+      (embSlow a b w) = (jetBeta d mu I).mulVec y ⬝ᵥ w := by
+  have hD : DifferentiableAt ℂ (fderiv ℂ (jetPolynomial d mu)) (Fin.append I ξ) :=
+    (differentiableOn_fderiv_jp d hmu).differentiableAt
+      ((isOpen_jpDom d).mem_nhds (append_mem_jpDom d hI ξ))
+  have h1 := (ContinuousLinearMap.apply ℂ ℂ (embSlow a b w)).hasFDerivAt.comp ξ
+    (hD.hasFDerivAt.comp ξ (hasFDerivAt_append_slow I ξ))
+  have hc : ∀ i : Fin b, HasFDerivAt (fun f : Fin b → ℂ => f i) (ContinuousLinearMap.proj i) ξ :=
+    fun i => (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin b => ℂ) i).hasFDerivAt
+  have hE := HasFDerivAt.fun_sum (u := Finset.univ)
+    (A := fun (k : Fin b) (ξ' : Fin b → ℂ) =>
+      (jetOmega d mu I k + ∑ m, jetBeta d mu I k m * ξ' m) * w k) fun k _ =>
+    ((hasFDerivAt_const (jetOmega d mu I k) ξ).add (HasFDerivAt.fun_sum fun m _ =>
+      (hc m).const_mul (jetBeta d mu I k m))).mul_const (w k)
+  have hfun : ∀ ξ' : Fin b → ℂ, fderiv ℂ (jetPolynomial d mu) (Fin.append I ξ')
+      (embSlow a b w) = ∑ k, (jetOmega d mu I k + ∑ m, jetBeta d mu I k m * ξ' m) * w k := by
+    intro ξ'
+    rw [fderiv_jp_embSlow d hmu hI]
+    simp [jpTheta, dotProduct, Matrix.mulVec]
+  have h2 := hE.congr_of_eventuallyEq (f₁ := fun ξ' : Fin b → ℂ =>
+    fderiv ℂ (jetPolynomial d mu) (Fin.append I ξ') (embSlow a b w))
+    (Filter.Eventually.of_forall hfun)
+  have h3 := congrArg (fun L => L y) (h1.unique h2)
+  simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.apply_apply] at h3
+  rw [h3]
+  simp only [sum_apply, smul_apply, ContinuousLinearMap.proj_apply, smul_eq_mul,
+    zero_add, Matrix.mulVec, dotProduct]
+  refine Finset.sum_congr rfl fun x _ => ?_
+  rw [mul_comm, Finset.sum_mul]
+
 end KAM.Planetary
 
 end
