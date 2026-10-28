@@ -17,9 +17,9 @@ public import KAM.Frozen.Planetary.Defs.HasSecularBirkhoffForm
 # Planar quartic torsion: the signed definitions of the Birkhoff theorem (package T16)
 
 Blueprint P, Part 11b (`bpP:p11b:birkhoff-form`).  The nonresonance polynomial `p11c_phi4` and the
-output predicate `PlanarBirkhoffResult` are exactly the signed declarations; they are split into this
-leaf module so that the proof modules `Birkhoff/*` can use them, and re-exported by the facade
-`PlanarTorsion/Birkhoff`.
+output predicate `PlanarBirkhoffResult` are exactly the signed declarations; they are split into
+this leaf module so that the proof modules `Birkhoff/*` can use them, and re-exported by the
+facade `PlanarTorsion/Birkhoff`.
 -/
 
 @[expose] public noncomputable section
@@ -65,7 +65,8 @@ def PlanarBirkhoffResult (p : PlanarData) (a0 : Fin 2 → ℝ) (rho : ℝ)
             |p11c_secular (fhat ∘ T) I z - (P0 I +
               (∑ j, 2 * p11c_sigma p (p.axes I) j * oscillatorAction z.2 z.1 j) +
               (1 / 2 : ℝ) * ∑ i, ∑ j, p11c_beta p (p.axes I) i j *
-                oscillatorAction z.2 z.1 i * oscillatorAction z.2 z.1 j)| ≤ C * (p11c_slowLength z) ^ 6) ∧
+                oscillatorAction z.2 z.1 i * oscillatorAction z.2 z.1 j)| ≤
+            C * (p11c_slowLength z) ^ 6) ∧
           ∀ mu0 : ℝ, 0 < mu0 → ∀ r0 : ℝ, 0 < r0 → r0 ≤ r / sqrt 2 →
             HasSecularBirkhoffForm (fun _ => fhat ∘ T)
               (interior (p.actions '' closedBall a0 rho)) r0 mu0 (fun _ => P0)

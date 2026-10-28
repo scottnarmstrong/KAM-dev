@@ -94,7 +94,8 @@ theorem p11cB_rot_sq (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ} (ha : a
     (v : Fin 2 → ℝ) :
     ((p11c_frame p a).mulVec v 0) ^ 2 + ((p11c_frame p a).mulVec v 1) ^ 2 = v 0 ^ 2 + v 1 ^ 2 := by
   have h := ((global_planar_frame p hp).2 a ha).1
-  have e : ∀ k l, ((p11c_frame p a).transpose * p11c_frame p a) k l = (1 : Matrix (Fin 2) (Fin 2) ℝ) k l :=
+  have e : ∀ k l, ((p11c_frame p a).transpose * p11c_frame p a) k l =
+      (1 : Matrix (Fin 2) (Fin 2) ℝ) k l :=
     fun k l => by rw [h]
   have e00 := e 0 0
   have e01 := e 0 1
