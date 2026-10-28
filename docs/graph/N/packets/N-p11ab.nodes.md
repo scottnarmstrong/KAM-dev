@@ -688,9 +688,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: extAd (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: definition of iterated bracket only; norm estimate not proved
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; full iterative estimate
 NOTE: -
 
 NODE: stepN:p11:ad-setup
@@ -718,9 +718,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-set
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: -
 
 NODE: stepN:p11:ad-step
@@ -750,9 +750,9 @@ EDGE: stepN:p11:ad-setup | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: -
 
 NODE: stepN:p11:ad-prod
@@ -780,9 +780,9 @@ EDGE: stepN:p11:ad-step | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-pro
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: The factorial bound N!>=(N/e)^N is now proved inside this step (e^N=sum N^j/j!>=N^N/N!, exponential series); the earlier SOURCE_GAP is supplied.
 
 NODE: bpN:p11:composition
@@ -951,9 +951,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:ext-taylor@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular, ext_taylor, ext_taylor_bound, ext_taylor_second (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; first display via ext_taylor*, second display via ext_taylor_second (F1 closed)
 NOTE: G4: new lemma; not an instance of Part 5 setting, so bpN:p5:taylor is not used (the \source line cites it as provenance only). Consumers: co-remainder, tr-taylor.
 
 NODE: stepN:p11:et-one
@@ -980,9 +980,9 @@ EDGE: K:bp:p1:holomorphic-regularity | blueprint-N/parts/p11b-partial-nf.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; chain rule (handoff/audit name et-one)
 NOTE: -
 
 NODE: stepN:p11:et-ind
@@ -1009,9 +1009,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:et-ind@L8
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; holomorphic/smooth induction
 NOTE: -
 
 NODE: stepN:p11:et-taylor
@@ -1038,9 +1038,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:et-taylor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor, ext_taylor_bound, ext_taylor_second (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; both displays proved
 NOTE: -
 
 NODE: bpN:p11:ext-e-upper

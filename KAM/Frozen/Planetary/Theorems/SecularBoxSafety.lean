@@ -76,7 +76,7 @@ theorem secularBoxSafety (saturn mu : ℝ)
             (barycentricPositions 1 (jupiterSaturnWeights saturn) mu
               (ellipsePhase (jupiterSaturnWeights saturn) (w t) F).1) :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Planetary.secularBoxSafety saturn mu hsaturn hmu w0 hw0
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

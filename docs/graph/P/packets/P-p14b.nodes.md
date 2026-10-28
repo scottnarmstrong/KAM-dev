@@ -627,9 +627,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-saf
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularBoxSafety (KAM/Frozen/Planetary/Theorems/SecularBoxSafety.lean)
+LEAN_NOTE: anchor SEALED (manifest planetary.d25.secularBoxSafety.v1); seal-key audit S12-audit-1 PASS WITH NOTES
 NOTE: frozen root KAM.Planetary.secularBoxSafety; no smallness condition on mu
 
 NODE: bpP:p14:sb-cited
@@ -669,9 +669,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-cit
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularBoxAtCitedMasses (KAM/Frozen/Planetary/Theorems/SecularBoxAtCitedMasses.lean)
+LEAN_NOTE: anchor SEALED (manifest planetary.d25.secularBoxAtCitedMasses.v1); seal-key audit S12-audit-1 PASS WITH NOTES
 NOTE: frozen root KAM.Planetary.secularBoxAtCitedMasses; the cited decimal masses (stepP:p14:sb-ci-2) are not used in the proof
 
 NODE: bpP:p14:sb-numerics
@@ -2084,9 +2084,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_unique (KAM/Planetary/SecularBox/Uniqueness.lean)
+LEAN_NOTE: audit S10 PASS WITH NOTES
 NOTE: the field of Lemma field named in the \source note is not consumed: the C^1 field on S comes from Lemma pred
 
 NODE: stepP:p14:sb-un-1
@@ -2112,9 +2112,9 @@ EDGE: bpP:p14:sb-global | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-un
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_unique (KAM/Planetary/SecularBox/Uniqueness.lean)
+LEAN_NOTE: audit S10 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-un-2
@@ -2143,9 +2143,9 @@ EDGE: stepP:p14:sb-un-1 | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-un
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_unique, sbUnique_local (KAM/Planetary/SecularBox/Uniqueness.lean)
+LEAN_NOTE: audit S10 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-un-3
@@ -2172,9 +2172,9 @@ EDGE: stepP:p14:sb-un-2 | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-un
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_unique (KAM/Planetary/SecularBox/Uniqueness.lean)
+LEAN_NOTE: audit S10 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-th-1
@@ -2203,9 +2203,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-th-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety, sbSafety_actions (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-2
@@ -2237,9 +2237,9 @@ EDGE: bpP:p14:sb-conv#secularEccVector | blueprint-P/parts/p14b-secular-box.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety, sbSafety_amd (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-3
@@ -2270,9 +2270,9 @@ EDGE: bpP:p14:sb-conv#secularAMD | blueprint-P/parts/p14b-secular-box.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety, sbSafety_mem (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-4
@@ -2304,9 +2304,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-th-4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-5
@@ -2333,9 +2333,9 @@ EDGE: bpP:p0:d25-movsol#IsHamiltonianSolutionOn | blueprint-P/parts/p14b-secular
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-6
@@ -2366,9 +2366,9 @@ EDGE: bpP:p14:sb-conv#secularEccVector | blueprint-P/parts/p14b-secular-box.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety, sbSafety_ecc (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-7
@@ -2399,9 +2399,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-th-7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-8
@@ -2428,9 +2428,9 @@ EDGE: bpP:p14:sb-defs#ellipsePosition | blueprint-P/parts/p14b-secular-box.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety, sbSafety_bridge (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-9
@@ -2461,9 +2461,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p14b-secular-box.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety, sbSafety_rad (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-10
@@ -2489,9 +2489,9 @@ EDGE: bpP:p14:sb-numerics | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-delta-P-a
 REVIEWER: sol-delta2-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-th-11
@@ -2525,9 +2525,9 @@ EDGE: bpP:p6:plane | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-th-11@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_safety (KAM/Planetary/SecularBox/Safety.lean)
+LEAN_NOTE: audit S11 PASS WITH NOTES (and S12 audit ledger PASS); step inside sb_safety proof
 NOTE: -
 
 NODE: stepP:p14:sb-ci-1
@@ -2554,7 +2554,7 @@ EDGE: bpP:p14:sb-box#SecularInputBox | blueprint-P/parts/p14b-secular-box.tex#st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_cited, sbCited_mass_identity (KAM/Planetary/SecularBox/CitedMasses.lean)
+LEAN_NOTE: audit S12 PASS WITH NOTES; instantiation of sb_safety at cited masses
 NOTE: -
