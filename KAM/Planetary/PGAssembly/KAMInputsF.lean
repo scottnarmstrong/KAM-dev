@@ -163,7 +163,8 @@ theorem kamPolar_mem (h : admissible d (pgRstar d) r mu) {z : PGComplexPhase (a+
       rw [this, abs_mul, abs_of_pos (by positivity)]
       have : 2*Real.pi*(pgWidth d/(12*Real.pi)) = pgWidth d/6 := by field_simp; ring
       nlinarith
-    have hex : Real.exp |(2*Real.pi * z.1 (Fin.natAdd a j)).im| ≤ 2 := kh_exp_le_two (abs_nonneg _) him
+    have hex : Real.exp |(2*Real.pi * z.1 (Fin.natAdd a j)).im| ≤ 2 :=
+      kh_exp_le_two (abs_nonneg _) him
     rw [kamPolarPt_snd_slow, kamPolarPt_fst_slow]
     refine ⟨?_, ?_⟩
     · rw [norm_mul]
@@ -197,7 +198,8 @@ theorem kamPolar_mem (h : admissible d (pgRstar d) r mu) {z : PGComplexPhase (a+
     · exact (hcomp j).1.trans h2r
     · exact (hcomp j).2.trans h2r
 
-theorem kh_ext_fast_mem {w : PGComplexPhase (a+b)} (hw : w ∈ extensionDomain d (pgExtension d).delta) :
+theorem kh_ext_fast_mem {w : PGComplexPhase (a+b)}
+    (hw : w ∈ extensionDomain d (pgExtension d).delta) :
     blockFast w.2 ∈ KAM.actionNbhd (closure d.V) (pgExtension d).delta := by
   obtain ⟨w0, hw0, -, hw⟩ := hw
   refine mem_actionNbhd_iff.2 ⟨blockFast w0.2, hw0, lt_of_le_of_lt ?_ hw⟩

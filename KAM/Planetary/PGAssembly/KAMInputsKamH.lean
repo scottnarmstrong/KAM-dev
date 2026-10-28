@@ -114,12 +114,13 @@ theorem analytic_mem_half {J : Fin (a+b) → ℂ} (hJ : J ∈ analyticDomain d (
   mem_actionNbhd_mono (by linarith [(pgAnalytic_spec d).2.1, (pgExtension d).delta_pos]) hJ.1
 
 theorem kamH_differentiableOn (h : admissible d (pgRstar d) r mu) :
-    DifferentiableOn ℂ (kamH d mu) (KAM.actionNbhd (pgActionDomain d r mu) (params d r mu).rho) := by
+    DifferentiableOn ℂ (kamH d mu)
+      (KAM.actionNbhd (pgActionDomain d r mu) (params d r mu).rho) := by
   intro J hJ
   have hJ' := actionNbhd_sub_analytic h hJ
   rw [kamH_eq_smul]
-  exact ((hasFDerivAt_complexIntegrable d (mu_mem_Icc h) (analytic_mem_half hJ')).differentiableAt.const_smul
-    _).differentiableWithinAt
+  exact ((hasFDerivAt_complexIntegrable d (mu_mem_Icc h)
+    (analytic_mem_half hJ')).differentiableAt.const_smul _).differentiableWithinAt
 
 theorem kamH_injOn (h : admissible d (pgRstar d) r mu) :
     InjOn (fun J i => fderiv ℂ (kamH d mu) J (Pi.single i 1))
