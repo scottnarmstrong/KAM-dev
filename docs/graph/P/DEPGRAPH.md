@@ -26292,7 +26292,7 @@ EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q3 proves flat-threshold analogue (qbPoly_gamma_lower), not the adm-budget node itself (B20 adm_budget absent)
 NOTE: -
 
 NODE: stepP:p11a:ab-T0
@@ -26321,7 +26321,7 @@ EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q3 proves flat analogue qbPoly_tbar_bound only
 NOTE: -
 
 NODE: stepP:p11a:ab-t0
@@ -26350,7 +26350,7 @@ EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q3 proves flat analogues only
 NOTE: -
 
 NODE: stepP:p11a:ab-lam
@@ -26383,7 +26383,7 @@ EXTRACTOR: sonnet-extract-P-p11a3+sol-delta-P-ac
 REVIEWER: sol-delta-P-bb
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q3 proves flat analogues only
 NOTE: -
 
 NODE: stepP:p11a:ab-concl
@@ -27970,7 +27970,7 @@ EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit Q3 covers only clause bu-poly (qb_poly); parts (a),(b),(d) belong to Q2/Q4
 NOTE: -
 
 NODE: stepP:p11a:qb-comp
@@ -28059,9 +28059,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a5-quantitative-theorem.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-bb
 REVIEWER: sol-delta-P-be
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qb_poly, qbPoly_lambda_lower, qbPoly_collar, qbPoly_xibar_upper, qbPoly_second_lower (KAM/Planetary/Quantitative/BudgetPower.lean); qbPoly_gamma_lower (KAM/Planetary/Quantitative/BudgetPower/Gamma.lean); qbPoly_tbar_bound, qbPoly_thetaMax_lower (KAM/Planetary/Quantitative/BudgetPower/Collar.lean)
+LEAN_NOTE: audit Q3 PASS WITH NOTES; qb_poly final bound, intermediate bounds via qbPoly_* fragments
 NOTE: -
 
 NODE: stepP:p11a:qb-beta
@@ -30483,8 +30483,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: p11c_chi, homological (KAM/Planetary/PlanarTorsion/Homological.lean)
+LEAN_NOTE: audit T8 PASS WITH NOTES, but Lean defines chi as real part; reality of the complex sum and the reversed bracket {N_0,chi} are not exported (audit note)
 NOTE: -
 
 NODE: stepP:p11b:ho-def
@@ -30511,8 +30511,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: chi_eq_sum, chi_family, chi_div_ne (KAM/Planetary/PlanarTorsion/Homological.lean)
+LEAN_NOTE: audit T8: finiteness/divisors/analyticity proved, but conjugation reality of the unprojected complex sum not proved
 NOTE: -
 
 NODE: stepP:p11b:ho-eq
@@ -30541,8 +30541,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: chi_bracket, chiModes_sum (KAM/Planetary/PlanarTorsion/Homological.lean)
+LEAN_NOTE: audit T8: bracket equation proved for real-part chi only; reversed {N_0,chi} form not exported; depends on ho-def
 NOTE: -
 
 NODE: bpP:p11b:flow

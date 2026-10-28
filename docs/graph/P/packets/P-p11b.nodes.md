@@ -796,8 +796,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: p11c_chi, homological (KAM/Planetary/PlanarTorsion/Homological.lean)
+LEAN_NOTE: audit T8 PASS WITH NOTES, but Lean defines chi as real part; reality of the complex sum and the reversed bracket {N_0,chi} are not exported (audit note)
 NOTE: -
 
 NODE: stepP:p11b:ho-def
@@ -824,8 +824,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: chi_eq_sum, chi_family, chi_div_ne (KAM/Planetary/PlanarTorsion/Homological.lean)
+LEAN_NOTE: audit T8: finiteness/divisors/analyticity proved, but conjugation reality of the unprojected complex sum not proved
 NOTE: -
 
 NODE: stepP:p11b:ho-eq
@@ -854,8 +854,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: chi_bracket, chiModes_sum (KAM/Planetary/PlanarTorsion/Homological.lean)
+LEAN_NOTE: audit T8: bracket equation proved for real-part chi only; reversed {N_0,chi} form not exported; depends on ho-def
 NOTE: -
 
 NODE: bpP:p11b:flow

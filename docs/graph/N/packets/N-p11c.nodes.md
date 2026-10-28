@@ -1918,8 +1918,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-O PASS WITH NOTES, but threshold gives existential mu0 with the inequalities; explicit mu_a..mu_f formulas and mu_0=min of the node conclusion not stated
 NOTE: -
 
 NODE: stepN:p11:final-time
@@ -1949,8 +1949,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-O PASS WITH NOTES, but only the existential blockTime comparison is proved; closed form T_P=C_T mu^{-1/2}exp(c_2 ...) and explicit mu_f not stated
 NOTE: -
 
 NODE: stepN:p11:final-given
