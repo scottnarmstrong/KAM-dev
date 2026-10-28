@@ -5,24 +5,42 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Nekhoroshev.Partial.Setting
-public import KAM.Nekhoroshev.Partial.ExtFlow
-public import KAM.Nekhoroshev.Partial.Homological
-public import KAM.Weighted.Projections
+public import KAM.Nekhoroshev.Partial.IterativeMap
+public import KAM.Nekhoroshev.Partial.IterativeRemainder
 
 /-!
-# STAGING STUB (lane N): signed `iterative` only, proof pending
+# The Iterative Lemma with slow parameters (`bpN:p11:iterative`)
+
+Part 11, package N11-H. The signed `iterative` (Lemma B.6ᵉ): for the generating function
+`φ = homGenerator K Λ h f` of the homological equation and `Φ = X¹_φ = extFlow b R s ρ σ φ 1`,
+
+* (a) `Φ` is holomorphic on `𝒟_{R-3ρ/2,s-3σ/2}` with values in `𝒟_{R-ρ,s-σ}`, commutes with
+  integer angle translations, is canonical (`ExtCanonical b.c`), and on `𝒟_{R-2ρ,s-2σ}` has the
+  left inverse `X⁻¹_φ`, hence is injective there (design Revision 2, F2);
+* (b) the componentwise displacements;
+* (c), (d) `H ∘ Φ = h + g₊ + f₊`, `|g₊ - g| ≤ δ`, `f₊ ∈ 𝒪_{R-2ρ,s-2σ}` with the source bound;
+* (e) reality.
+
+Steps: `it-gen` (`NitHyp.nit_hom`, `NitHyp.nit_V_le`), `it-map` (the signed `canonical_map`,
+`NitHyp.nit_disp`, `nit_injOn`), `it-taylor` and `it-est` (`NitHyp.nit_remainder`); reality by
+`NitHyp.nit_real` and the reality clause of `canonical_map`. The premise `hc : 0 < b.c` is the
+lane-N ruling F2-C1 (option (a) of `N11-F2-audit-1`), needed by the signed `canonical_map`.
+Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
 -/
 
 @[expose] public noncomputable section
 
-open Set
-open KAM.Weighted KAM.NormalForm
+open Set Metric
+open scoped BigOperators
 
 namespace KAM.Nekhoroshev
 
+open KAM.Weighted KAM.NormalForm
+
 variable {n k : ℕ}
 
+-- Lane-N ruling F2-C1 (Zohar's team, 2026-10-28): `(hc : 0 < b.c)` added, option (a) of
+-- N11-F2-audit-1; `nf` supplies it from `ExtNFHyp.radius_pos`/`slow_width_pos`.
 theorem iterative (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ K α p δ : ℝ}
     (h : (Fin n → ℂ) → ℂ) (f : EC n k → ℂ) (Λ : Set (Fin n → ℤ))
     (hR : 0 < ρ) (hR' : 2*ρ < R) (hs : 0 < σ) (hs' : 2*σ < s)
@@ -47,7 +65,8 @@ theorem iterative (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ K α p δ : �
     (∀ z ∈ Dom n b.base (R-2*ρ) (s-2*σ), extFlow b R s ρ σ φ (-1) (Φ z) = z) ∧
     ∃ fp : EC n k → ℂ,
       InClass b.base (R-2*ρ) (s-2*σ) fp ∧
-      (∀ z ∈ Dom n b.base (R-2*ρ) (s-2*σ), liftFast h (Φ z)+g (Φ z)+f (Φ z) = liftFast h z+gp z+fp z) ∧
+      (∀ z ∈ Dom n b.base (R-2*ρ) (s-2*σ),
+        liftFast h (Φ z)+g (Φ z)+f (Φ z) = liftFast h z+gp z+fp z) ∧
       WBound b.base (R-2*ρ) (s-2*σ) fp
         ((1-2*q*δ/(2*Real.pi*α*ρ*σ))⁻¹*
           (q/(2*Real.pi*α*ρ*σ)*((∑ j, (1/2)*(ρ/(Rj j-R+ρ)+σ/(sj j-s+σ))*Uj j)+δ)+
@@ -67,7 +86,24 @@ theorem iterative (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ K α p δ : �
         extReal (Dom n b.base (R-2*ρ) (s-2*σ)) fp ∧
         ∀ z : ER n k, extCx z ∈ Dom n b.base (R-3*ρ/2) (s-3*σ/2) →
           extCx (extRe (Φ (extCx z))) = Φ (extCx z)) := by
-  sorry
+  intro q φ Φ g gp
+  have H : NitHyp b R s ρ σ K α p δ h f Λ :=
+    ⟨hk, hR, hR', hs, hs', hSL, hc, hα, hp, hK, hh, hdiv, hδ, hf, hfb, hsmall⟩
+  -- step `it-gen` and step `it-map`: the signed `canonical_map` with `V = qδ/(2πα)`
+  obtain ⟨m1, -, m3, -, m5, m6, m7, m8, -, m10⟩ :=
+    canonical_map b hk hc hR (by linarith) hs (by linarith) hSL H.nit_V_nonneg H.nit_V_half
+      H.nit_phi_class H.nit_phi_bound
+  -- steps `it-taylor` and `it-est`
+  obtain ⟨r1, r2⟩ := H.nit_remainder gj Rj sj Uj hRj hsj hUj hgj hgjb
+  refine ⟨m1, m3, m7, fun z hz => (m8 z hz).1,
+    nitF b R s ρ σ φ h g f (projMode Λ (truncate K f)), r1,
+    fun z _ => nitF_identity b R s ρ σ φ h g f (projMode Λ (truncate K f)) z, r2, m5,
+    nit_injOn (Ψ := extFlow b R s ρ σ φ (-1)) fun z hz => (m8 z hz).1,
+    H.nit_gp_bound g, H.nit_disp m6, ?_⟩
+  -- clause (e)
+  intro hΛ hhr hgr hfr
+  obtain ⟨e1, e2, e3⟩ := H.nit_real hΛ hhr hgr hfr
+  exact ⟨e1, e2, e3, m10 e1⟩
 
 end KAM.Nekhoroshev
 

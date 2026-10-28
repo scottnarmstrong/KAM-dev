@@ -284,7 +284,7 @@ private theorem nrs_g_bound (b : PartialBlock n k) {s K ε B : ℝ} {Λ : Set (F
 
 /-- `rs-t3`: every normal-form orbit starting `d`-close to `Ic` (with `d < ρ' = δ/(4M)`) and
 keeping its slow pair `dx`-close to `λ⁻¹ S` (`dx < r̃/2`) moves its fast action by at most
-`r̃/4 = (r/2)/4` for `|t| ≤ T`, `T η ≤ s m r/240`; this is `energy_free` with `r̃ = r/2`,
+`r̃/4 = (r/2)/4` for `|t| ≤ T`, `240 M T η ≤ s m r`; this is `energy_free` with `r̃ = r/2`,
 `s̃ = s/6`, `δ = m r/32` and `ζ = η`. -/
 private theorem nrs_t3 (b : PartialBlock n k) {s m M ε η Tv d dx : ℝ}
     {Λ : Set (Fin n → ℤ)} {h : (Fin n → ℂ) → ℂ} {g fs : EC n k → ℂ}
