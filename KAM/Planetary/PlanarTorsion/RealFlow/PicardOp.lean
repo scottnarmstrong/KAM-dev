@@ -60,13 +60,16 @@ theorem p11cTimeScale_one (ζ : Fin (n + 1) → ℂ) : p11cTimeScale n 1 ζ = ζ
 theorem continuous_p11cTimeScale_apply :
     Continuous fun p : ℝ × (Fin (n + 1) → ℂ) => p11cTimeScale n p.1 p.2 := by
   simp only [p11cTimeScale_apply]
-  have h0 : Continuous fun p : ℝ × (Fin (n + 1) → ℂ) => p.2 0 := (continuous_apply 0).comp continuous_snd
-  exact continuous_snd.add (((Complex.continuous_ofReal.comp continuous_fst).sub continuous_const).mul
-    h0 |>.smul continuous_const)
+  have h0 : Continuous fun p : ℝ × (Fin (n + 1) → ℂ) => p.2 0 :=
+    (continuous_apply 0).comp continuous_snd
+  exact continuous_snd.add
+    ((((Complex.continuous_ofReal.comp continuous_fst).sub continuous_const).mul h0).smul
+      continuous_const)
 
 theorem continuous_p11cTimeScale : Continuous fun σ : ℝ => p11cTimeScale n σ := by
   unfold p11cTimeScale
-  exact continuous_const.add (((Complex.continuous_ofReal).sub continuous_const).smul continuous_const)
+  exact continuous_const.add
+    ((Complex.continuous_ofReal.sub continuous_const).smul continuous_const)
 
 /-- The domain `|s| < T`, `‖w - c‖ < r` in `ℂⁿ⁺¹`. -/
 def p11cDom (n : ℕ) (c : Fin n → ℂ) (T r : ℝ) : Set (Fin (n + 1) → ℂ) :=

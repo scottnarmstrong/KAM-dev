@@ -106,7 +106,7 @@ theorem p11c_analytic_flow_fin {f : (Fin n → ℝ) → Fin n → ℝ} {W : Set 
   have hρR₀ : ρ ≤ R₀ := by linarith [min_le_left R₀ ε]
   have hρε : ρ ≤ ε := by linarith [min_le_right R₀ ε]
   set c := realInclusion n x with hc
-  set u := P11cPicardData.lim F with hu
+  set u := P11cPicardData.picardLim F with hu
   have hUo : IsOpen (p11cDom n c T r) := isOpen_p11cDom c T r
   have hmemU : ∀ t : ℝ, ∀ y : Fin n → ℝ, |t| < T → y ∈ ball x r →
       p11cPt n (t, y) ∈ p11cDom n c T r := by
@@ -181,7 +181,8 @@ theorem p11c_analytic_flow_fin {f : (Fin n → ℝ) → Fin n → ℝ} {W : Set 
         calc σ * |t| ≤ 1 * |t| := mul_le_mul_of_nonneg_right hσ.2 (abs_nonneg _)
           _ < T := by simpa using abs_lt.2 ht
       have := congrArg (realPartCLM n) hfix
-      simp only [p11cPicardOp, map_add, p11cPt_zero, p11cSp_p11cPt, realPartCLM_realInclusion] at this
+      simp only [p11cPicardOp, map_add, p11cPt_zero, p11cSp_p11cPt,
+        realPartCLM_realInclusion] at this
       rw [realPartCLM_ofReal_smul,
         ← ContinuousLinearMap.intervalIntegral_comp_comm (realPartCLM n) hint] at this
       refine this.trans ?_
@@ -231,7 +232,8 @@ theorem p11c_analytic_hamiltonian_flow {d : ℕ} {W : Set (Phase d)} (hW : IsOpe
       rw [e.symm_apply_apply]; exact p11c_hamField_analyticAt (hH x hx)
     exact (e.analyticAt _).comp (h1.comp (e.symm.analyticAt (e x)))
   have hW' : e.symm ⁻¹' W ∈ 𝓝 (e x) :=
-    e.symm.continuous.continuousAt.preimage_mem_nhds (by rw [e.symm_apply_apply]; exact hW.mem_nhds hx)
+    e.symm.continuous.continuousAt.preimage_mem_nhds
+      (by rw [e.symm_apply_apply]; exact hW.mem_nhds hx)
   obtain ⟨r', T, hr', hT, Φ', han, hsol⟩ := p11c_analytic_flow_fin hfa hW'
   set N := ‖(e : Phase d →L[ℝ] (Fin (d + d) → ℝ))‖ with hN
   have hN0 : 0 ≤ N := norm_nonneg _

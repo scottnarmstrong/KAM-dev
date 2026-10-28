@@ -118,7 +118,7 @@ variable {F : (Fin n → ℂ) → Fin n → ℂ} {c : Fin n → ℂ} {ρ M L T r
   (h : P11cPicardData F c ρ M L T r)
 include h
 
-theorem mem_ball {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) {X : Fin n → ℂ}
+theorem mem_ball_of_close {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) {X : Fin n → ℂ}
     (hX : ‖X - p11cSp n ζ‖ ≤ M * ‖ζ 0‖) : X ∈ ball c ρ := by
   rw [mem_ball_iff_norm]
   have h1 : M * ‖ζ 0‖ ≤ M * T := mul_le_mul_of_nonneg_left hζ.1.le h.M_nonneg
@@ -135,17 +135,17 @@ theorem iter_spec (k : ℕ) : (∀ ζ ∈ p11cDom n c T r, ‖p11cIter F k ζ - 
   | succ k ih =>
     obtain ⟨hb, hd⟩ := ih
     have hFi : DifferentiableOn ℂ (fun ζ => F (p11cIter F k ζ)) (p11cDom n c T r) :=
-      h.holo.comp hd fun ζ hζ => h.mem_ball hζ (hb ζ hζ)
+      h.holo.comp hd fun ζ hζ => h.mem_ball_of_close hζ (hb ζ hζ)
     refine ⟨fun ζ hζ => ?_, ?_⟩
     · have := p11cPicardOp_sub_le hFi.continuousOn (continuousOn_const (c := (0 : Fin n → ℂ)))
         (b := M) (fun ζ' hζ' => by
-          simpa using h.bound _ (h.mem_ball hζ' (hb ζ' hζ'))) hζ
+          simpa using h.bound _ (h.mem_ball_of_close hζ' (hb ζ' hζ'))) hζ
       rw [p11cPicardOp_zero] at this
       simpa [p11cIter_succ, mul_comm] using this
     · exact p11cPicardOp_differentiableOn hFi
 
 theorem iter_mem {k : ℕ} {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
-    p11cIter F k ζ ∈ ball c ρ := h.mem_ball hζ ((h.iter_spec k).1 ζ hζ)
+    p11cIter F k ζ ∈ ball c ρ := h.mem_ball_of_close hζ ((h.iter_spec k).1 ζ hζ)
 
 theorem iter_dist (k : ℕ) : ∀ ζ ∈ p11cDom n c T r,
     ‖p11cIter F (k + 1) ζ - p11cIter F k ζ‖ ≤ M * T * (1 / 2) ^ k := by
@@ -198,26 +198,26 @@ theorem iter_geom {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) (k :
   field_simp
 
 /-- The limit of the Picard iterates. -/
-def lim (F : (Fin n → ℂ) → Fin n → ℂ) (ζ : Fin (n + 1) → ℂ) : Fin n → ℂ :=
+def picardLim (F : (Fin n → ℂ) → Fin n → ℂ) (ζ : Fin (n + 1) → ℂ) : Fin n → ℂ :=
   limUnder atTop fun k => p11cIter F k ζ
 
 theorem lim_tendsto {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
-    Tendsto (fun k => p11cIter F k ζ) atTop (𝓝 (lim F ζ)) :=
+    Tendsto (fun k => p11cIter F k ζ) atTop (𝓝 (picardLim F ζ)) :=
   (cauchySeq_of_le_geometric_two (h.iter_geom hζ)).tendsto_limUnder
 
 theorem lim_dist {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) (k : ℕ) :
-    ‖p11cIter F k ζ - lim F ζ‖ ≤ 2 * M * T / 2 ^ k := by
+    ‖p11cIter F k ζ - picardLim F ζ‖ ≤ 2 * M * T / 2 ^ k := by
   rw [← dist_eq_norm]
   exact dist_le_of_le_geometric_two_of_tendsto (h.iter_geom hζ) (h.lim_tendsto hζ) k
 
 theorem lim_bound {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
-    ‖lim F ζ - p11cSp n ζ‖ ≤ M * ‖ζ 0‖ :=
+    ‖picardLim F ζ - p11cSp n ζ‖ ≤ M * ‖ζ 0‖ :=
   le_of_tendsto' (((h.lim_tendsto hζ).sub_const _).norm) fun k => (h.iter_spec k).1 ζ hζ
 
-theorem lim_mem {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) : lim F ζ ∈ ball c ρ :=
-  h.mem_ball hζ (h.lim_bound hζ)
+theorem lim_mem {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) : picardLim F ζ ∈ ball c ρ :=
+  h.mem_ball_of_close hζ (h.lim_bound hζ)
 
-theorem lim_unif : TendstoUniformlyOn (fun k => p11cIter F k) (lim F) atTop
+theorem lim_unif : TendstoUniformlyOn (fun k => p11cIter F k) (picardLim F) atTop
     (p11cDom n c T r) := by
   rw [Metric.tendstoUniformlyOn_iff]
   intro ε hε
@@ -227,19 +227,19 @@ theorem lim_unif : TendstoUniformlyOn (fun k => p11cIter F k) (lim F) atTop
   rw [dist_comm, dist_eq_norm]
   exact (h.lim_dist hζ k).trans_lt hk
 
-theorem lim_differentiableOn : DifferentiableOn ℂ (lim F) (p11cDom n c T r) :=
+theorem lim_differentiableOn : DifferentiableOn ℂ (picardLim F) (p11cDom n c T r) :=
   (KAM.Weighted.uniform_limit_holomorphic (isOpen_p11cDom c T r)
     (fun k => (h.iter_spec k).2) h.lim_unif).1
 
 theorem lim_fixed {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
-    lim F ζ = p11cPicardOp (fun ζ => F (lim F ζ)) ζ := by
-  have hcF : ContinuousOn (fun ζ => F (lim F ζ)) (p11cDom n c T r) :=
+    picardLim F ζ = p11cPicardOp (fun ζ => F (picardLim F ζ)) ζ := by
+  have hcF : ContinuousOn (fun ζ => F (picardLim F ζ)) (p11cDom n c T r) :=
     (h.holo.comp h.lim_differentiableOn fun ζ hζ => h.lim_mem hζ).continuousOn
   have hcI : ∀ k, ContinuousOn (fun ζ => F (p11cIter F k ζ)) (p11cDom n c T r) := fun k =>
     (h.holo.comp (h.iter_spec k).2 fun ζ hζ => h.iter_mem hζ).continuousOn
-  have h1 : Tendsto (fun k => p11cIter F (k + 1) ζ) atTop (𝓝 (lim F ζ)) :=
+  have h1 : Tendsto (fun k => p11cIter F (k + 1) ζ) atTop (𝓝 (picardLim F ζ)) :=
     (h.lim_tendsto hζ).comp (tendsto_add_atTop_nat 1)
-  have hb : ∀ k, ‖p11cIter F (k + 1) ζ - p11cPicardOp (fun ζ => F (lim F ζ)) ζ‖ ≤
+  have hb : ∀ k, ‖p11cIter F (k + 1) ζ - p11cPicardOp (fun ζ => F (picardLim F ζ)) ζ‖ ≤
       ‖ζ 0‖ * (L * (2 * M * T / 2 ^ k)) := fun k =>
     p11cPicardOp_sub_le (hcI k) hcF (b := L * (2 * M * T / 2 ^ k))
       (fun ζ' hζ' => (h.lip _ (h.iter_mem hζ') _ (h.lim_mem hζ')).trans
@@ -249,15 +249,15 @@ theorem lim_fixed {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
       tendsto_const_nhds.div_atTop (tendsto_pow_atTop_atTop_of_one_lt one_lt_two)
     simpa using (this.const_mul L).const_mul ‖ζ 0‖
   have h2 : Tendsto (fun k => p11cIter F (k + 1) ζ) atTop
-      (𝓝 (p11cPicardOp (fun ζ => F (lim F ζ)) ζ)) :=
+      (𝓝 (p11cPicardOp (fun ζ => F (picardLim F ζ)) ζ)) :=
     tendsto_iff_norm_sub_tendsto_zero.2 (squeeze_zero (fun _ => norm_nonneg _) hb ht)
   exact tendsto_nhds_unique h1 h2
 
 theorem lim_isReal (hreal : ∀ z ∈ ball c ρ, p11cIsReal z → p11cIsReal (F z))
     {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) (h0 : (ζ 0).im = 0)
-    (hs : p11cIsReal (p11cSp n ζ)) : p11cIsReal (lim F ζ) := by
+    (hs : p11cIsReal (p11cSp n ζ)) : p11cIsReal (picardLim F ζ) := by
   intro i
-  have ht : Tendsto (fun k => (p11cIter F k ζ i).im) atTop (𝓝 (lim F ζ i).im) :=
+  have ht : Tendsto (fun k => (p11cIter F k ζ i).im) atTop (𝓝 (picardLim F ζ i).im) :=
     (Complex.continuous_im.tendsto _).comp (((continuous_apply i).tendsto _).comp
       (h.lim_tendsto hζ))
   have hz : (fun k => (p11cIter F k ζ i).im) = fun _ => (0 : ℝ) :=
