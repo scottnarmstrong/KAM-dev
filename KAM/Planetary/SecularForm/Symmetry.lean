@@ -179,6 +179,120 @@ theorem poincare_reflect {m κ : ℝ} {w : Phase 2} (hw : w ∈ poincareDom) :
 
 end PlanarSymmetries
 
+section TorusAverage
+
+variable {n : ℕ}
+
+/-- The scaled standard basis spanning the lattice `2π ℤⁿ`. -/
+private def twoPiUnit : ℝˣ := Units.mk0 (2 * π) (by positivity)
+
+@[simp] private theorem twoPiUnit_val : (twoPiUnit : ℝ) = 2 * π := rfl
+
+private def twoPiBasis (n : ℕ) : Module.Basis (Fin n) ℝ (SecularForm.Vec n) :=
+  (Pi.basisFun ℝ (Fin n)).unitsSMul (fun _ => twoPiUnit)
+
+private theorem twoPiBasis_apply (i : Fin n) :
+    twoPiBasis n i = fun j => 2 * π * (if j = i then 1 else 0) := by
+  ext j
+  simp [twoPiBasis, Module.Basis.unitsSMul_apply, Pi.single_apply, Units.smul_def]
+
+private theorem fundamentalDomain_twoPi (n : ℕ) :
+    ZSpan.fundamentalDomain (twoPiBasis n) =
+      Set.pi univ (fun _ : Fin n => Ico (0 : ℝ) (2 * π)) := by
+  ext x
+  simp only [ZSpan.mem_fundamentalDomain, Set.mem_pi, mem_univ, forall_true_left, mem_Ico]
+  refine forall_congr' fun i => ?_
+  simp only [twoPiBasis, Module.Basis.repr_unitsSMul]
+  have h2 : 0 < 2 * π := by positivity
+  simp only [Units.smul_def, twoPiUnit_val, Units.val_inv_eq_inv_val, smul_eq_mul,
+    Pi.basisFun_repr]
+  rw [le_inv_mul_iff₀ h2, inv_mul_lt_iff₀ h2]
+  simp
+
+/-- A function periodic under the lattice `2π ℤⁿ` is invariant under the span of the basis. -/
+private theorem periodic_span {g : SecularForm.Vec n → ℝ}
+    (hg : ∀ (k : Fin n → ℤ) t, g (t + fun i => 2 * π * k i) = g t)
+    {v : SecularForm.Vec n} (hv : v ∈ Submodule.span ℤ (range (twoPiBasis n))) (x : SecularForm.Vec n) :
+    g (v + x) = g x := by
+  let H : AddSubgroup (SecularForm.Vec n) :=
+    { carrier := {v | ∀ x, g (v + x) = g x}
+      zero_mem' := fun x => by simp
+      add_mem' := fun {a b} ha hb x => by rw [add_assoc, ha, hb]
+      neg_mem' := fun {a} ha x => by rw [← ha (-a + x)]; simp }
+  have hle : Submodule.span ℤ (range (twoPiBasis n)) ≤ AddSubgroup.toIntSubmodule H := by
+    rw [Submodule.span_le]
+    rintro _ ⟨i, rfl⟩ x
+    have := hg (Pi.single i 1) x
+    rw [add_comm]
+    convert this using 2
+    rw [twoPiBasis_apply]; ext j; simp [Pi.single_apply]
+  exact hle hv x
+
+private instance countable_span (n : ℕ) :
+    Countable (Submodule.span ℤ (range (twoPiBasis n))).toAddSubgroup := by
+  have : (Submodule.span ℤ (range (twoPiBasis n)) : Set (SecularForm.Vec n)) ⊆
+      range (fun k : Fin n → ℤ => ∑ i, k i • twoPiBasis n i) := by
+    intro v hv
+    obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun ℤ).1 hv
+    exact ⟨c, hc⟩
+  exact (Set.countable_range _).mono this |>.to_subtype
+
+private theorem isAddFundamentalDomain_cell (n : ℕ) :
+    IsAddFundamentalDomain (Submodule.span ℤ (range (twoPiBasis n))).toAddSubgroup
+      (Set.pi univ (fun _ : Fin n => Ico (0 : ℝ) (2 * π))) volume := by
+  rw [← fundamentalDomain_twoPi]
+  exact ZSpan.isAddFundamentalDomain' (twoPiBasis n) volume
+
+private theorem setIntegral_cell_eq_Ico (n : ℕ) (h : SecularForm.Vec n → ℝ) :
+    ∫ t in SecularForm.cell n, h t = ∫ t in Set.pi univ (fun _ : Fin n => Ico (0 : ℝ) (2 * π)), h t :=
+  setIntegral_congr_set (MeasureTheory.Measure.ae_eq_set_pi fun _ _ => Ico_ae_eq_Icc.symm)
+
+/-- Translation invariance of the cell integral of a lattice-periodic function. -/
+theorem cell_integral_add {g : SecularForm.Vec n → ℝ}
+    (hg : ∀ (k : Fin n → ℤ) t, g (t + fun i => 2 * π * k i) = g t) (c : SecularForm.Vec n) :
+    ∫ t in SecularForm.cell n, g (t + c) = ∫ t in SecularForm.cell n, g t := by
+  set D := Set.pi univ (fun _ : Fin n => Ico (0 : ℝ) (2 * π)) with hD
+  have hfd := isAddFundamentalDomain_cell n
+  rw [setIntegral_cell_eq_Ico, setIntegral_cell_eq_Ico]
+  rw [← (measurePreserving_add_right volume c).setIntegral_image_emb
+    (measurableEmbedding_addRight c) g D]
+  refine IsAddFundamentalDomain.setIntegral_eq ?_ hfd (fun v x => ?_)
+  · refine hfd.image_of_equiv (Equiv.addRight c) ?_ (AddEquiv.refl _).toEquiv ?_
+    · rw [Equiv.addRight_symm]
+      exact (measurePreserving_add_right volume (-c)).quasiMeasurePreserving
+    · intro v x
+      exact add_assoc (v : SecularForm.Vec n) x c
+  · exact periodic_span hg v.2 x
+
+/-- Reflection invariance of the cell integral of a lattice-periodic function. -/
+theorem cell_integral_neg {g : SecularForm.Vec n → ℝ}
+    (hg : ∀ (k : Fin n → ℤ) t, g (t + fun i => 2 * π * k i) = g t) :
+    ∫ t in SecularForm.cell n, g (-t) = ∫ t in SecularForm.cell n, g t := by
+  have hset : (fun t : SecularForm.Vec n => -t) '' SecularForm.cell n =
+      (fun t => t + fun _ : Fin n => -(2 * π)) '' SecularForm.cell n := by
+    ext y
+    simp only [SecularForm.cell, mem_image, Set.mem_pi, mem_univ, forall_true_left, mem_Icc]
+    constructor
+    · rintro ⟨x, hx, rfl⟩
+      refine ⟨-x + fun _ => 2 * π, fun i => ?_, ?_⟩
+      · have := hx i; simp only [Pi.add_apply, Pi.neg_apply]; constructor <;> linarith [this.1, this.2]
+      · ext i; simp
+    · rintro ⟨x, hx, rfl⟩
+      refine ⟨-x + fun _ => 2 * π, fun i => ?_, ?_⟩
+      · have := hx i; simp only [Pi.add_apply, Pi.neg_apply]; constructor <;> linarith [this.1, this.2]
+      · ext i; simp; ring
+  have h1 := (Measure.measurePreserving_neg (volume : Measure (SecularForm.Vec n))).setIntegral_image_emb
+    measurableEmbedding_neg g (SecularForm.cell n)
+  have h2 := (measurePreserving_add_right (volume : Measure (SecularForm.Vec n))
+    (fun _ : Fin n => -(2 * π))).setIntegral_image_emb (measurableEmbedding_addRight _) g
+    (SecularForm.cell n)
+  have h3 : (fun t : SecularForm.Vec n => -t) '' SecularForm.cell n =
+      (fun t => t + fun _ : Fin n => -(2 * π)) '' SecularForm.cell n := hset
+  rw [← h1, h3, h2]
+  exact cell_integral_add hg _
+
+end TorusAverage
+
 namespace SecularForm
 variable {n : ℕ}
 
