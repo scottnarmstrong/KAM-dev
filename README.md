@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 06:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,724 lines of Lean** of an estimated ≈ 117,000
+> **Last updated: 2026-10-28 06:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 119,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,22 +126,22 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **73,724** (52,836 excluding blank lines and comments) · **+73,724** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 6,726 |
-| **Estimated total at completion** | **≈ 117,000** |
+| On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
+| Written on agent branches, not yet landed | 7,818 |
+| **Estimated total at completion** | **≈ 119,000** |
 | Estimated still to write | ≈ 37,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 06:00 UTC from `main` at `f7e7672` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 06:20 UTC from `main` at `9ac5ae7` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
 **Frozen statements proved: 11 / 22** · frozen definitions: 122
 
-**Lean on `main`:** 414 modules · 73,724 lines · 3,381 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 415 modules · 73,878 lines · 3,390 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 11 (KAM/Frozen/Nekhoroshev/Theorems/QuasiConvexNekhoroshevComplexBound.lean, KAM/Frozen/Planetary/Theorems/ProperlyDegenerateKAM.lean, KAM/Frozen/Planetary/Theorems/PlanarTwoPlanetKAM.lean, KAM/Frozen/Planetary/Theorems/FixedSunPlanetaryKAM.lean, KAM/Frozen/Planetary/Theorems/AmdConfinement.lean, KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean, KAM/Frozen/Planetary/Theorems/SecularBoxSafety.lean, KAM/Frozen/Planetary/Theorems/SecularBoxAtCitedMasses.lean, KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean, KAM/Frozen/Nekhoroshev/Theorems/AveragingMean.lean, KAM/Frozen/Nekhoroshev/Theorems/AveragingMost.lean)
@@ -274,7 +274,7 @@ flowchart BT
 | [`KAM/Weighted/`](KAM/Weighted) | Track N: weighted domains and norms | 9 | 1,847 | 71 |
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 20 | 4,334 | 176 |
 | [`KAM/Nekhoroshev/`](KAM/Nekhoroshev) | Track N: Nekhoroshev stability | 13 | 2,717 | 157 |
-| [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 13 | 4,766 | 298 |
+| [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 14 | 4,920 | 307 |
 <!-- /AUTO:areas -->
 
 ## What the agents are doing now
@@ -292,22 +292,16 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **grev-4** `inp-grev-4` | graph review (Codex) | GPT-6.1-Sol medium | codex-1 | ✅ handed off | Track P graph: final delta (P-p11, P-p13, P-p7) | — | — |
-| **c510** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: C5-10: Canonical/CanonicalMap (canonical_map_a..e) and handoff | `inp-c510` | 2 (vs `inp`) |
-| **n101** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N10-1: Assembly/Choice (choice defs, choice_props, cp_dict, cp_rad, cp_size, head_time_pre | `inp-n101` | 1 (vs `inp`) |
-| **n102** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n101 | `inp-n102` | 1 (vs `inp`) |
-| **n61** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N6-1: NormalForm/Setting (p6#data, setting, lipschitz, divisor) | `inp-n61` | 1 (vs `inp`) |
-| **n62** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n61 (N6-1) | `inp-n62` | 1 (vs `inp`) |
-| **n63** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n61 (N6-1) | `inp-n63` | 1 (vs `inp`) |
-| **p2301** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-01: Averaging/Setting (conv_data, block_bridge, setting, TwoDiv, DirectHyp, AvgHyp) | `inp-p2301` | 2 (vs `inp`) |
-| **p2302** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-02: TwoScale/Constants (ScaleData, constants, nextScale, seq, rem_norm, rem_norm_block | `inp-p2302` | 1 (vs `inp`) |
-| **pp13** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P1-3: Planetary/Hamiltonian/TorusUnion (torus-union) | `inp-pp13` | 2 (vs `inp`) |
-| **pp14** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: PP1-4: Hamiltonian/Chart proved, handoff | `inp-pp14` | 2 (vs `inp`) |
-| **pp16** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp14 (PP1-4) | `inp-pp16` | 2 (vs `inp`) |
-| **pp17** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp14 (PP1-4) | `inp-pp17` | 2 (vs `inp`) |
-| **s71** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-1: move to KAM/Nekhoroshev/Stability, add freq_realInclusion (with N6-1 Setting blob fr | `inp-s71` | 3 (vs `inp`) |
+| **c510** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: C5-10: wrap over-long lines in CanonicalMap | `inp-c510` | 3 (vs `inp`) |
+| **n102** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N10-2: Assembly/Hypotheses (hc_*, head_field_locality, hypotheses_check) | `inp-n102` | 1 (vs `inp`) |
+| **n62** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N6-2: homological_param, homological_direct, homological proved | `inp-n62` | 2 (vs `inp`) |
+| **n63** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N6-3: bracket_g (NormalForm/BracketDecomp) | `inp-n63` | 1 (vs `inp`) |
+| **p2301** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-01: wrap module docstring | `inp-p2301` | 3 (vs `inp`) |
+| **p2302** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-02: TwoScale/Constants (ScaleData, constants, nextScale, seq, rem_norm, rem_norm_block | `inp-p2302` | 1 (vs `inp`) |
+| **pp16** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: PP1-6: Transport WIP | `inp-pp16` | 1 (vs `inp`) |
+| **pp17** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp14 (PP1-4) | `inp-pp17` | 0 (vs `inp`) |
 
-*4 finished agent sessions not shown.*
+*5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -315,6 +309,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-28 06:03 | `9ac5ae7` | Land inp into main |
 | 2026-10-28 05:43 | `f7e7672` | Land inp into main |
 | 2026-10-28 05:37 | `1378b42` | Land inp into main |
 | 2026-10-28 05:30 | `450c19f` | Exploration: PDE KAM (nonlinear wave) and leapfrogging vortex patches; register Pos96K, Pos96W, KP96, HHM25 (context) |
@@ -326,7 +321,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-28 04:33 | `e6c0b8c` | Land inp into main |
 | 2026-10-28 04:16 | `5e3a89a` | Land inp into main |
 | 2026-10-28 04:02 | `a777e31` | Land inp into main |
-| 2026-10-28 03:42 | `6c4e81e` | OVERNIGHT: 03:45 entry (offloaded INP packages, README refresh, owner directives) |
 <!-- /AUTO:landed -->
 
 ## Decisions
