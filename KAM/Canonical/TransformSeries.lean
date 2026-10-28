@@ -64,7 +64,8 @@ theorem coeff_add (hs : 0 < s) {u v : (Fin n → ℂ) × (Fin n → ℂ) → ℂ
 
 /-- Subadditivity of the weighted norm. -/
 theorem wbound_add (hs : 0 < s) {u v : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {M N : ℝ}
-    (hu : InClass D r s u) (hv : InClass D r s v) (hbu : WBound D r s u M) (hbv : WBound D r s v N) :
+    (hu : InClass D r s u) (hv : InClass D r s v) (hbu : WBound D r s u M)
+    (hbv : WBound D r s v N) :
     WBound D r s (fun z => u z + v z) (M + N) := by
   intro I hI
   obtain ⟨hu1, hu2⟩ := hbu I hI
@@ -106,8 +107,8 @@ theorem inClass_poissonBracket {u v : (Fin n → ℂ) × (Fin n → ℂ) → ℂ
     hv'.differentiableOn, fun j z hz => ?_⟩
   have hper : ∀ w : (Fin n → ℂ) × (Fin n → ℂ) → ℂ, InClass D r s w →
       fderiv ℂ w (z.1 + Pi.single j 1, z.2) = fderiv ℂ w z := fun w hw => by
-    have h2 : ∀ y : (Fin n → ℂ) × (Fin n → ℂ), y + (Pi.single j 1, 0) = (y.1 + Pi.single j 1, y.2) :=
-      fun y => Prod.ext rfl (add_zero _)
+    have h2 : ∀ y : (Fin n → ℂ) × (Fin n → ℂ),
+        y + (Pi.single j 1, 0) = (y.1 + Pi.single j 1, y.2) := fun y => Prod.ext rfl (add_zero _)
     have hev : (fun y : (Fin n → ℂ) × (Fin n → ℂ) => w (y + (Pi.single j 1, 0))) =ᶠ[nhds z] w :=
       Filter.eventually_of_mem ((isOpen_Dom D r s).mem_nhds hz) fun y hy => by
         beta_reduce; rw [h2 y]; exact hw.periodic j y hy
@@ -156,10 +157,10 @@ theorem remTerm_bound (hd : ComposeData D r s r' s' ρ σ Φ φ) (hh : InClass D
     rw [this, norm_inv, Complex.norm_real, Real.norm_of_nonneg (by positivity), one_div]
   have hs0 : 0 < s - σ := by linarith [hd.hσs]
   rw [heq]
-  refine ⟨⟨(inClass_const_mul (((i : ℂ) + 2)⁻¹) hc1).differentiableOn.add hc2.differentiableOn, fun j z hz => ?_⟩,
-    ?_⟩
-  · simp only [(inClass_const_mul (((i : ℂ) + 2)⁻¹) hc1).periodic j z hz, hc2.periodic j z hz]
-  · have := wbound_add hs0 (inClass_const_mul (((i : ℂ) + 2)⁻¹) hc1) hc2 (wbound_const_mul (((i : ℂ) + 2)⁻¹) hb1) hb2
+  have hc1' := inClass_const_mul (((i : ℂ) + 2)⁻¹) hc1
+  refine ⟨⟨hc1'.differentiableOn.add hc2.differentiableOn, fun j z hz => ?_⟩, ?_⟩
+  · simp only [hc1'.periodic j z hz, hc2.periodic j z hz]
+  · have := wbound_add hs0 hc1' hc2 (wbound_const_mul (((i : ℂ) + 2)⁻¹) hb1) hb2
     rw [hn] at this
     refine this.mono le_rfl le_rfl (le_of_eq ?_)
     unfold remBound
