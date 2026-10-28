@@ -410,7 +410,7 @@ private def discPre (V : Set (Fin a → ℝ)) (box : Set (Fin b → ℝ)) : Set 
 private theorem discPre_eq (V : Set (Fin a → ℝ)) (box : Set (Fin b → ℝ)) :
     discPre V box = unitCube (a+b) ×ˢ joinedActions V box := by
   ext z
-  simp only [discPre, joinedActions, mem_setOf_eq, mem_prod]
+  simp only [discPre, joinedActions, Set.mem_ofPred_eq, mem_prod]
   tauto
 
 private theorem measurable_blockFast :
@@ -550,6 +550,187 @@ private theorem exists_preimage {V : Set (Fin a → ℝ)} {r : ℝ} {z : Phase (
       rw [e, show 2 * ((z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2) / 2) =
         z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2 by ring]
       exact hθc j
+
+
+/-! ### Null centres, volumes of boxes -/
+
+private theorem volume_coord_zero (m : ℕ) (k : Fin m) :
+    volume {y : Fin m → ℝ | y k = 0} = 0 := by
+  have h : {y : Fin m → ℝ | y k = 0} = Set.pi univ (fun i => if i = k then ({0} : Set ℝ) else univ) := by
+    ext y
+    simp only [Set.mem_ofPred_eq, mem_pi, mem_univ, true_implies]
+    constructor
+    · intro hy i
+      by_cases hi : i = k
+      · subst hi; simpa using hy
+      · simp [hi]
+    · intro hy
+      simpa using hy k
+  rw [h, volume_pi_pi]
+  exact Finset.prod_eq_zero (Finset.mem_univ k) (by simp)
+
+private theorem volume_slowCoord_zero (j : Fin b) :
+    volume {z : Phase (a+b) | z.2 (Fin.natAdd a j) = 0} = 0 := by
+  have h : {z : Phase (a+b) | z.2 (Fin.natAdd a j) = 0} =
+      (univ : Set (Fin (a+b) → ℝ)) ×ˢ {y | y (Fin.natAdd a j) = 0} := by
+    ext z; simp
+  rw [h, Measure.volume_eq_prod, Measure.prod_prod, volume_coord_zero, mul_zero]
+
+private theorem volume_centres : volume {z : Phase (a+b) |
+    ∃ j : Fin b, z.2 (Fin.natAdd a j) = 0 ∧ z.1 (Fin.natAdd a j) = 0} = 0 := by
+  refine measure_mono_null (fun z hz => ?_) (measure_iUnion_null (fun j : Fin b =>
+    volume_slowCoord_zero (a := a) j))
+  obtain ⟨j, hj, -⟩ := hz
+  exact mem_iUnion.2 ⟨j, hj⟩
+
+private theorem volume_actionShell (c : ℝ) :
+    volume (actionShell b 0 c) = ENNReal.ofReal c ^ b := by
+  simp [actionShell, volume_pi_pi]
+
+private theorem measurableSet_actionShell (l u : ℝ) : MeasurableSet (actionShell b l u) :=
+  MeasurableSet.univ_pi fun _ => measurableSet_Ioo
+
+/-- The shell box with the `j`th action capped at `l`. -/
+private def capBox (b : ℕ) (j : Fin b) (l c : ℝ) : Set (Fin b → ℝ) :=
+  Set.pi univ (fun k : Fin b => if k = j then Ioc 0 l else Ioo 0 c)
+
+private theorem volume_capBox (j : Fin b) (l c : ℝ) :
+    volume (capBox b j l c) = ENNReal.ofReal l * ENNReal.ofReal c ^ (b-1) := by
+  rw [capBox, volume_pi_pi, ← Finset.mul_prod_erase Finset.univ _ (Finset.mem_univ j)]
+  have h : ∏ k ∈ Finset.univ.erase j, volume (if k = j then Ioc (0:ℝ) l else Ioo 0 c) =
+      ∏ k ∈ Finset.univ.erase j, ENNReal.ofReal c := Finset.prod_congr rfl fun k hk => by
+    simp [Finset.ne_of_mem_erase hk]
+  rw [h, Finset.prod_const, Finset.card_erase_of_mem (Finset.mem_univ j)]
+  simp
+
+private theorem measurableSet_capBox (j : Fin b) (l c : ℝ) : MeasurableSet (capBox b j l c) :=
+  MeasurableSet.univ_pi fun k => by
+    by_cases h : k = j <;> simp [h, measurableSet_Ioc, measurableSet_Ioo]
+
+private theorem pos_capBox (j : Fin b) (l c : ℝ) : ∀ y ∈ capBox b j l c, ∀ k, 0 < y k := by
+  intro y hy k
+  have : y k ∈ (if k = j then Ioc 0 l else Ioo 0 c) := hy k (mem_univ k)
+  by_cases h : k = j
+  · subst h; simp only [↓reduceIte] at this; exact this.1
+  · simp only [h, ↓reduceIte] at this; exact this.1
+
+/-! ### Cell volume, null coverage and the shell estimate -/
+
+private theorem cell_diff_subset {V : Set (Fin a → ℝ)} {r : ℝ} :
+    cylinderCell (b:=b) V r \ polarCellMap '' discPre V (actionShell b 0 (r^2/2)) ⊆
+      {z : Phase (a+b) | ∃ j : Fin b, z.2 (Fin.natAdd a j) = 0 ∧ z.1 (Fin.natAdd a j) = 0} := by
+  intro z ⟨hz, hn⟩
+  by_contra hc
+  refine hn ?_
+  obtain ⟨w, hw, hwz, -⟩ := exists_preimage hz (fun j => by
+    by_contra h
+    push Not at h
+    exact hc ⟨j, h.1, h.2⟩)
+  exact ⟨w, hw, hwz⟩
+
+theorem disc_measure {V : Set (Fin a → ℝ)} (hV : MeasurableSet V)
+    {r : ℝ} (hr : 0 < r) :
+    volume (cylinderCell (b:=b) V r) =
+      ENNReal.ofReal ((2*Real.pi)^(a+b)*(r^2/2)^b)*volume V ∧
+    volume (cylinderCell (b:=b) V r \ polarCellMap ''
+      {z : Phase (a+b) | blockFast z.2 ∈ V ∧
+        blockSlow z.2 ∈ actionShell b 0 (r^2/2) ∧
+        z.1 ∈ unitCube (a+b)}) = 0 := by
+  have hnull : volume (cylinderCell (b:=b) V r \ polarCellMap ''
+      discPre V (actionShell b 0 (r^2/2))) = 0 :=
+    measure_mono_null cell_diff_subset volume_centres
+  refine ⟨?_, hnull⟩
+  have himg : polarCellMap '' discPre V (actionShell b 0 (r^2/2)) ⊆ cylinderCell (b:=b) V r := by
+    rintro _ ⟨w, hw, rfl⟩
+    exact polarCellMap_mem_cylinderCell hw
+  have hvol := volume_polarCellMap_discPre (b := b) hV (measurableSet_actionShell 0 (r^2/2))
+    (fun y hy j => (hy j (mem_univ j)).1)
+  have hle : volume (cylinderCell (b:=b) V r) ≤
+      volume (polarCellMap '' discPre V (actionShell b 0 (r^2/2))) := by
+    calc volume (cylinderCell (b:=b) V r)
+        ≤ volume (polarCellMap '' discPre V (actionShell b 0 (r^2/2)) ∪
+            (cylinderCell (b:=b) V r \ polarCellMap '' discPre V (actionShell b 0 (r^2/2)))) :=
+          measure_mono (fun z hz => by
+            by_cases h : z ∈ polarCellMap '' discPre V (actionShell b 0 (r^2/2))
+            · exact Or.inl h
+            · exact Or.inr ⟨hz, h⟩)
+      _ ≤ _ + _ := measure_union_le _ _
+      _ = _ := by rw [hnull, add_zero]
+  have hc : (0:ℝ) ≤ r^2/2 := by positivity
+  have heq : volume (cylinderCell (b:=b) V r) =
+      volume (polarCellMap '' discPre V (actionShell b 0 (r^2/2))) :=
+    le_antisymm hle (measure_mono himg)
+  rw [heq, hvol, volume_actionShell, ENNReal.ofReal_mul (by positivity), ENNReal.ofReal_pow hc]
+  ring
+
+theorem disc_measure_shell {V : Set (Fin a → ℝ)} (hV : MeasurableSet V)
+    {r l : ℝ} (hr : 0 < r) (hl : 0 < l) (hlr : l < r^2/2) :
+    volume {z ∈ cylinderCell (b:=b) V r | ∃ j : Fin b,
+      oscillatorAction (blockSlow z.2) (blockSlow z.1) j ≤ l} ≤
+      ENNReal.ofReal (b*l/(r^2/2))*volume (cylinderCell (b:=b) V r) := by
+  have hc : 0 < r^2/2 := by positivity
+  rw [(disc_measure (b := b) hV hr).1]
+  have hsub : {z ∈ cylinderCell (b:=b) V r | ∃ j : Fin b,
+      oscillatorAction (blockSlow z.2) (blockSlow z.1) j ≤ l} ⊆
+      {z : Phase (a+b) | ∃ j : Fin b, z.2 (Fin.natAdd a j) = 0 ∧ z.1 (Fin.natAdd a j) = 0} ∪
+        ⋃ j : Fin b, polarCellMap '' discPre V (capBox b j l (r^2/2)) := by
+    rintro z ⟨hz, j, hj⟩
+    by_cases hn : ∃ j : Fin b, z.2 (Fin.natAdd a j) = 0 ∧ z.1 (Fin.natAdd a j) = 0
+    · exact Or.inl hn
+    · refine Or.inr (mem_iUnion.2 ?_)
+      obtain ⟨w, ⟨hw1, hw2, hw3⟩, hwz, hwR⟩ := exists_preimage hz (fun j => by
+        by_contra h
+        push Not at h
+        exact hn ⟨j, h.1, h.2⟩)
+      refine ⟨j, w, ⟨hw1, fun k _ => ?_, hw3⟩, hwz⟩
+      by_cases hk : k = j
+      · subst hk
+        have h1 := hwR k
+        have h2 : oscillatorAction (blockSlow z.2) (blockSlow z.1) k ≤ l := hj
+        simp only [oscillatorAction, blockSlow] at h2
+        have h3 := (hw2 k (mem_univ k)).1
+        simp only [blockSlow] at h3
+        simp only [↓reduceIte]
+        exact ⟨h3, by simp only [blockSlow]; rw [h1]; exact h2⟩
+      · simp only [hk, ↓reduceIte]
+        exact hw2 k (mem_univ k)
+  have hI : ∀ j : Fin b, volume (polarCellMap '' discPre V (capBox b j l (r^2/2))) =
+      ENNReal.ofReal ((2*Real.pi)^(a+b)) * (volume V *
+        (ENNReal.ofReal l * ENNReal.ofReal (r^2/2) ^ (b-1))) := fun j => by
+    rw [volume_polarCellMap_discPre hV (measurableSet_capBox j _ _) (pos_capBox j _ _),
+      volume_capBox]
+  calc _ ≤ volume ({z : Phase (a+b) | ∃ j : Fin b, z.2 (Fin.natAdd a j) = 0 ∧
+        z.1 (Fin.natAdd a j) = 0} ∪ ⋃ j : Fin b, polarCellMap '' discPre V (capBox b j l (r^2/2))) :=
+        measure_mono hsub
+    _ ≤ volume {z : Phase (a+b) | ∃ j : Fin b, z.2 (Fin.natAdd a j) = 0 ∧
+        z.1 (Fin.natAdd a j) = 0} + volume (⋃ j : Fin b,
+          polarCellMap '' discPre V (capBox b j l (r^2/2))) := measure_union_le _ _
+    _ ≤ 0 + ∑ j : Fin b, volume (polarCellMap '' discPre V (capBox b j l (r^2/2))) := by
+        rw [volume_centres]; exact add_le_add le_rfl (measure_iUnion_fintype_le _ _)
+    _ = (b : ENNReal) * (ENNReal.ofReal ((2*Real.pi)^(a+b)) * (volume V *
+        (ENNReal.ofReal l * ENNReal.ofReal (r^2/2) ^ (b-1)))) := by
+        simp only [hI, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, zero_add]
+    _ ≤ _ := by
+        rcases Nat.eq_zero_or_pos b with h0 | hb
+        · subst h0; simp
+        · obtain ⟨b', rfl⟩ := Nat.exists_eq_succ_of_ne_zero hb.ne'
+          have hid : ((b'+1 : ℕ) : ℝ) * l / (r^2/2) * ((2*Real.pi)^(a+(b'+1)) * (r^2/2)^(b'+1)) =
+              ((b'+1 : ℕ) : ℝ) * ((2*Real.pi)^(a+(b'+1)) * l * (r^2/2)^b') := by
+            rw [pow_succ (r^2/2) b']
+            field_simp
+          have hR : ENNReal.ofReal (((b'+1 : ℕ) : ℝ) * l / (r^2/2)) *
+              (ENNReal.ofReal ((2*Real.pi)^(a+(b'+1)) * (r^2/2)^(b'+1)) * volume V) =
+              ENNReal.ofReal (((b'+1 : ℕ) : ℝ) * ((2*Real.pi)^(a+(b'+1)) * l * (r^2/2)^b')) *
+                volume V := by
+            rw [← mul_assoc, ← ENNReal.ofReal_mul (by positivity), hid]
+          rw [hR]
+          simp only [ENNReal.ofReal_pow (by positivity : (0:ℝ) ≤ 2*Real.pi),
+            ENNReal.ofReal_mul (by positivity : (0:ℝ) ≤ (2*Real.pi)^(a+(b'+1))),
+            ENNReal.ofReal_mul (by positivity : (0:ℝ) ≤ (2*Real.pi)^(a+(b'+1)) * l),
+            ENNReal.ofReal_mul hl.le, ENNReal.ofReal_mul (Nat.cast_nonneg _),
+            ENNReal.ofReal_pow hc.le, ENNReal.ofReal_natCast, Nat.succ_sub_one, Nat.succ_eq_add_one]
+          refine le_of_eq ?_
+          ring
 
 end KAM.Planetary
 
