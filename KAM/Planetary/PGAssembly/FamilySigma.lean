@@ -112,7 +112,8 @@ theorem fam_isSigmaCompact_D0 (h : admissible d (pgRstar d) r mu) :
     have : {I : Fin a → ℝ | ∀ J ∈ frontier d.V, Real.sqrt r ≤ dist I J} =
         ⋂ J ∈ frontier d.V, {I | Real.sqrt r ≤ dist I J} := by ext; simp
     rw [this]
-    exact isClosed_biInter fun J _ => isClosed_le continuous_const (continuous_id.dist continuous_const)
+    exact isClosed_biInter fun J _ =>
+      isClosed_le continuous_const (continuous_id.dist continuous_const)
   have hbf : Continuous (fun J : Fin (a+b) → ℝ => blockFast J) := by
     unfold blockFast; fun_prop
   have hbs : Continuous (fun J : Fin (a+b) → ℝ => blockSlow J) := by
@@ -121,8 +122,8 @@ theorem fam_isSigmaCompact_D0 (h : admissible d (pgRstar d) r mu) :
       blockSlow J ∈ actionShell b (params d r mu).l1 (params d r mu).l2top} := by
     refine IsOpen.inter (d.hV.preimage hbf) ?_
     exact (isOpen_set_pi Set.finite_univ fun _ _ => isOpen_Ioo).preimage hbs
-  have hCl : IsClosed ((fun J => blockFast J) ⁻¹' ({I | ∀ J ∈ frontier d.V, Real.sqrt r ≤ dist I J} ∩ u1)
-      ∩ u2) := (((hcl1.inter hu1).preimage hbf)).inter hu2
+  have hCl : IsClosed ((fun J => blockFast J) ⁻¹'
+      ({I | ∀ J ∈ frontier d.V, Real.sqrt r ≤ dist I J} ∩ u1) ∩ u2) := (((hcl1.inter hu1).preimage hbf)).inter hu2
   convert fam_isSigmaCompact_inter hO1 hCl using 1
   rw [← hD]
   ext J
