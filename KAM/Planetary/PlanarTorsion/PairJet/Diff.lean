@@ -342,8 +342,9 @@ theorem p11cPJ_diag_integral {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) {j : ℕ} (h
   have h3 : (fun y' => p11cPJF4 a (t, y')) = (p11cPJF a t) ∘ p11cPJequiv := by
     funext y'; simp [p11cPJF4_eq]
   simp only [h2]
-  rw [iteratedFDeriv_const_smul_apply' hfa, h3, p11cPJ_diag_comp_equiv, hey]
-  simp
+  rw [iteratedFDeriv_const_smul_apply' hfa, h3]
+  simp only [smul_apply, smul_eq_mul]
+  rw [p11cPJ_diag_comp_equiv, hey]
 
 /-- The pair integrand is real analytic at `0`. -/
 theorem p11cPJF_analyticAt {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (l : Fin 2 → ℝ) :

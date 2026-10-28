@@ -105,7 +105,7 @@ theorem p11cPJ_poly_unique (d : ℕ → ℂ)
         have hi' := Finset.mem_Ico.1 hi
         have h3 : (fun t : ℝ => (t : ℂ) ^ i * d i) =O[𝓝 0] fun t : ℝ => t ^ i := by
           refine IsBigO.of_bound ‖d i‖ (Eventually.of_forall fun t => ?_)
-          simp [norm_mul, norm_pow, mul_comm]
+          simp [norm_pow, mul_comm]
         exact h3.trans (pj_pow_isBigO_pow hi'.1)
       refine (IsBigO.sum hsum).congr_left fun t => ?_
       simp [Finset.sum_apply]

@@ -150,6 +150,8 @@ theorem p11cPJ_perturbation {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) {z : Phase 2}
     perturbation p11cPJD false (assemble (p11cPJx a z).2.1 φ (p11cPJx a z).2.2
         (p11cPJx a z).1) =
       -‖(a : ℂ) * p11c_orbit (φ 0) ![z.1 0, z.2 0] - p11c_orbit (φ 1) ![z.1 1, z.2 1]‖⁻¹ := by
+  show perturbation p11cPJD false (assemble (action p11cPJD (p11cPJax a)) φ (p11cPJx a z).2.2
+    (p11cPJx a z).1) = _
   have hpos0 := p11cPJ_position (p11cPJ_action_pos ha 0) (hz 0) (φ 0)
   have hpos1 := p11cPJ_position (p11cPJ_action_pos ha 1) (hz 1) (φ 1)
   have hb : ∀ i : Fin 2, bodyVector (poincareProd p11cPJD.m (p11cPJD.G * p11cPJD.m0)
@@ -246,7 +248,8 @@ theorem p11cPJ_pairAverage_analyticAt {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) :
     show inclusion (p11cPJx a 0) ∈ polydisc p11cPJD (p11cPJax a) r
     rw [polydisc_eq_ball _ _ hr0]
     have : inclusion (p11cPJx a 0) = SecularForm.center p11cPJD (p11cPJax a) := by
-      simp [center, p11cPJx]
+      simp [SecularForm.center, p11cPJx]
+      rfl
     rw [this]
     exact Metric.mem_ball_self hr0
   have hS : AnalyticAt ℝ (secular p11cPJD false) (p11cPJx a 0) :=
