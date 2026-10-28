@@ -51,9 +51,9 @@ def p11cB_rotC (c : Fin 6 → ℝ) (g s : ℝ) : Fin 6 → ℝ :=
 
 theorem p11cB_quartic_rot (c : Fin 6 → ℝ) (g s : ℝ) (w : Phase 2) :
     p11c_quartic c (p11c_rotateSlow !![g, -s; s, g] w) = p11c_quartic (p11cB_rotC c g s) w := by
-  simp only [p11c_quartic, p11c_pairDot, p11c_rotateSlow, p11cB_rotC, Matrix.mulVec,
-    dotProduct, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
+  rw [p11c_quartic_rotateSlow_gram]
+  simp only [p11c_quartic, p11c_pairDot, p11cBetaGram]
+  simp [p11cB_rotC]
   ring
 
 /-- The basic quartics are real combinations of the monomials. -/
@@ -73,12 +73,12 @@ theorem p11cB_basic_extract (k : Fin 6) :
       MvPolynomial.eval (quarticVec z) (P k) := by
     intro z
     fin_cases k <;>
-      simp [P, p11c_quartic, p11c_pairDot, quarticVec] <;> ring
+      simp [P, p11c_quartic, p11c_pairDot, quarticVec]
   have hh : ∀ (z : Phase 2) (t : ℝ), (p11c_quartic (Pi.single k 1) (t • z) : ℂ) =
       (t : ℂ) ^ 4 * (p11c_quartic (Pi.single k 1) z : ℂ) := by
     intro z t
     fin_cases k <;>
-      simp [p11c_quartic, p11c_pairDot] <;> push_cast <;> ring
+      simp [p11c_quartic, p11c_pairDot] <;> ring
   obtain ⟨c, hc⟩ := quartic_extract (fun z => (p11c_quartic (Pi.single k 1) z : ℂ)) (P k) hP hh
   refine ⟨fun a => (c a).re, fun z => ?_⟩
   have := congrArg Complex.re (hc z)
@@ -87,7 +87,6 @@ theorem p11cB_basic_extract (k : Fin 6) :
   refine Finset.sum_congr rfl fun a _ => ?_
   rw [← Complex.ofReal_re (p11c_monomial (fun i => (a i).val) z)]
   rw [Complex.re_mul_ofReal]
-  simp
 
 /-- A quartic with analytic coefficients in the six basic quartics is a `QuarticFamily`. -/
 theorem p11cB_family_of_coeffs {O : Set (Fin 2 → ℝ)} (c : (Fin 2 → ℝ) → Fin 6 → ℝ)
