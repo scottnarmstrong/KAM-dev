@@ -74,7 +74,8 @@ theorem amdConfinement {n : ℕ} (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissibl
         physicalAMD B.mass (z t) ≤ B.initialAMD + (n : ℝ) * delta ∧
         ∀ i, |keplerAction B.mass (z t) i - keplerAction B.mass z0 i| ≤ delta :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Planetary.amdConfinement hn B hB mu T delta hmu hT hdelta hmargin hAMD z0 hz0
+      hstop
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

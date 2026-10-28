@@ -963,9 +963,9 @@ EDGE: stepP:p5:av-id | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:avg@L179-L179
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_avg, pgAvg (KAM/Planetary/PGAssembly/Averaging.lean); PGAveraging, AveragingSpec (KAM/Planetary/PGAssembly/AveragingDefs.lean)
+LEAN_NOTE: audit P5-AV PASS WITH NOTES; signed theorem pg_avg (renamed from avg)
 NOTE: -
 
 NODE: stepP:p5:av-dict
@@ -995,9 +995,9 @@ EDGE: bpP:p5:bilip | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:av-dict@L176-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_osc_normalization (KAM/Planetary/PGAssembly/AveragingNorm.lean); pg_osc_domain (KAM/Planetary/PGAssembly/AveragingDom.lean); avg_diff, avg_sympl, avg_real_mem (KAM/Planetary/PGAssembly/AveragingConj.lean); avg_chart (KAM/Planetary/PGAssembly/AveragingDisp.lean)
+LEAN_NOTE: audit P5-AV PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:av-R1
@@ -1026,9 +1026,9 @@ EDGE: bpP:p5:ext | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:av-R1@L177-L177
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: core_divisor, pg_osc_divisor (KAM/Planetary/PGAssembly/AveragingDiv.lean)
+LEAN_NOTE: audit P5-AV PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:av-R2
@@ -1060,9 +1060,9 @@ EDGE: bpP:p5:kam-cond#scales | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:av-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: gammaBar_sq, pg_osc_small (KAM/Planetary/PGAssembly/AveragingSmall.lean); two_pi_avgB_le (KAM/Planetary/PGAssembly/AveragingRem.lean); avg_rem_fourier, avg_rem_pointwise (KAM/Planetary/PGAssembly/AveragingFourier.lean)
+LEAN_NOTE: audit P5-AV PASS WITH NOTES
 NOTE: The G inequalities are supplied by the scale-choice projection of kam-cond item (3), not by the order remark alone. The threshold edge supplies the small-r regime; Kbar r^5<=1 follows from (r2), r<=eps_an/4<=s_*/8 and r log(1/r)<=1.
 
 NODE: stepP:p5:av-id
@@ -1093,9 +1093,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:av-id@L179-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_osc_zero (KAM/Planetary/PGAssembly/AveragingBound.lean); avg_hamil (KAM/Planetary/PGAssembly/AveragingHamil.lean); avg_disp (KAM/Planetary/PGAssembly/AveragingDisp.lean)
+LEAN_NOTE: audit P5-AV PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:phi
