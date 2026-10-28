@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 11:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 181,000
+> **Last updated: 2026-10-28 12:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 182,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,15 +127,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 50,091 |
-| **Estimated total at completion** | **≈ 181,000** |
+| Written on agent branches, not yet landed | 51,098 |
+| **Estimated total at completion** | **≈ 182,000** |
 | Estimated still to write | ≈ 57,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 11:40 UTC from `main` at `e9fb2b2` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 12:00 UTC from `main` at `fb395e7` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -290,20 +290,22 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **n1215** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-14: wrap long lines in Stopped | `inp-n1215` | 4 (vs `inp`) |
-| **p11ac3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-C3: wrap long line | `inp-p11ac3` | 4 (vs `inp`) |
+| **n1216** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n1215 (N12-15) | `inp-n1216` | 1 (vs `inp`) |
+| **n1217** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n1215 (N12-15) | `inp-n1217` | 1 (vs `inp`) |
+| **p11ac3** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-C3: wrap long line | `inp-p11ac3` | 4 (vs `inp`) |
 | **p11aw8** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W8: PowerLaw (power_law) | `inp-p11aw8` | 2 (vs `inp`) |
-| **p2313d** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-13d: OscComposeData, osc_lie_series | `inp-p2313d` | 1 (vs `inp`) |
-| **p2313e** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-13e: wip trajectory/term bounds | `inp-p2313e` | 2 (vs `inp`) |
+| **p2313e** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-13e: fixes | `inp-p2313e` | 3 (vs `inp`) |
 | **p2317** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-17: LimitActions Lipschitz recursion, product bound (WIP) | `inp-p2317` | 3 (vs `inp`) |
+| **p4pol** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P4-POL: oscillatorPolar, polarCellMap, derivative (wip) | `inp-p4pol` | 1 (vs `inp`) |
 | **p5jet** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P5-JET: line-length cleanup | `inp-p5jet` | 16 (vs `inp`) |
-| **p5rem** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-REM: uniform_remainder | `inp-p5rem` | 20 (vs `inp`) |
-| **s8c** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-s8l | `inp-s8c` | 0 (vs `inp`) |
-| **s8m** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-M: wrap long line | `inp-s8m` | 6 (vs `inp`) |
-| **s8w** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-W: invariant polynomial coordinates (z,w), rotation, balanced-sum lemma | `inp-s8w` | 1 (vs `inp`) |
-| **s8y** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S8-Y: SecularForm/Symmetry (symmetries, evenness, evenness_taylor) | `inp-s8y` | 5 (vs `inp`) |
+| **p5rem** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-REM: line-length cleanup | `inp-p5rem` | 21 (vs `inp`) |
+| **s10p** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-s8c (S8-C) | `inp-s10p` | 2 (vs `inp`) |
+| **s8c** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S8-C: wrap long line (orchestrator; whitespace only) | `inp-s8c` | 2 (vs `inp`) |
+| **s8m** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S8-M: wrap long line | `inp-s8m` | 6 (vs `inp`) |
+| **s8w** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-W: homogeneous invariants are homogeneous in the dot products | `inp-s8w` | 3 (vs `inp`) |
+| **s9s** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-s8c (S8-C) | `inp-s9s` | 2 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
