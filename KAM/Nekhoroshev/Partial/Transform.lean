@@ -255,7 +255,8 @@ theorem extRemSeries_class : InClass b.base (R-ρ) (s-σ)
 theorem extRemSeries_bound : WBound b.base (R-ρ) (s-σ)
     (fun z => ∑' i, extRemTerm b.c φ h f i z)
     ((2 * V / (ρ * σ)) / (1 - 2 * V / (ρ * σ)) * (W / 2 + U)) :=
-  ((wbound_tsum_ext (by linarith [hc.sig_lt]) (fun i => (hc.extRemTerm_bound hU hW hf hw hfb hwb i).1)
+  ((wbound_tsum_ext (by linarith [hc.sig_lt])
+    (fun i => (hc.extRemTerm_bound hU hW hf hw hfb hwb i).1)
     (fun i => (hc.extRemTerm_bound hU hW hf hw hfb hwb i).2) (hc.extRemBound_summable hU hW))).mono
     le_rfl le_rfl (hc.extRemBound_tsum_le hU hW)
 
@@ -355,7 +356,8 @@ theorem transform (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ σ V U W :
     have e : (h + f) (X 1 z) = h (X 1 z) + f (X 1 z) := rfl
     rw [e, hh1] at this
     linear_combination -this
-  have heq : EqOn (fun z => ∑' i, ExtCompose.extRemTerm b.c φ h f i z) rem (Dom n b.base (R-ρ) (s-σ)) :=
+  have heq : EqOn (fun z => ∑' i, ExtCompose.extRemTerm b.c φ h f i z) rem
+      (Dom n b.base (R-ρ) (s-σ)) :=
     fun z hz => (hrem z hz).symm
   exact ⟨hC1, inClass_congr_ext heq (hc.extRemSeries_class hU hW hf hw hfb hwb),
     wbound_congr_ext (by linarith [hc.sig_lt]) heq (hc.extRemSeries_bound hU hW hf hw hfb hwb)⟩

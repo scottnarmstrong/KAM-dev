@@ -133,7 +133,8 @@ theorem paramHyp_integrand :
 
 /-- The class part: `z ↦ ∫₀¹ v_t(X^t z) dt ∈ 𝒪_{R-ρ,s-σ}`. -/
 theorem integral_inClass :
-    InClass b.base (R - ρ) (s - σ) (fun z => ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t z)) := by
+    InClass b.base (R - ρ) (s - σ)
+      (fun z => ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t z)) := by
   have hΩG := hc.gaugeInterior_half
   have hdom := (composition_domain b hk hc).2
   have hcg : ∀ z : EC n k, ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t z) =
