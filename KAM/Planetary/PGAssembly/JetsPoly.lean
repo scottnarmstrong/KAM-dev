@@ -171,6 +171,20 @@ theorem mixed_value {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   rw [← hKv]
   linarith
 
+theorem analyticAt_oscS (k : Fin b) (z : RY b) : AnalyticAt ℝ (fun y : RY b => oscS y k) z := by
+  have h1 : AnalyticAt ℝ (fun y : RY b => y.2 k) z :=
+    ((ContinuousLinearMap.proj k).comp (ContinuousLinearMap.snd ℝ _ _)).analyticAt z
+  have h2 : AnalyticAt ℝ (fun y : RY b => y.1 k) z :=
+    ((ContinuousLinearMap.proj k).comp (ContinuousLinearMap.fst ℝ _ _)).analyticAt z
+  unfold oscS
+  fun_prop
+
+theorem analyticAt_oscPoly (P0 : ℝ) (Om : Fin b → ℝ) (be : Matrix (Fin b) (Fin b) ℝ) (z : RY b) :
+    AnalyticAt ℝ (oscPoly P0 Om be) z := by
+  have h := fun k => analyticAt_oscS k z
+  unfold oscPoly oscQ2 oscQ4
+  fun_prop
+
 /-- The unit jet vector `(0, e_i)`. -/
 def yvec (b : ℕ) (i : Fin b) : RY b := (0, Pi.single i 1)
 
