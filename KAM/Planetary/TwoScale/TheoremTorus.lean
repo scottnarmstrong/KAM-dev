@@ -93,7 +93,8 @@ theorem KamHyp.Hr_differentiableAt (H : KamHyp D sbar p h f) {z : Phase (a + b)}
       have h1 := H.positive.2.1; have h2 := H.widths.1
       exact div_pos (by linarith) (by positivity)
     simpa [KAM.realInclusion_apply] using this
-  have hG := (kam_G_diff H).differentiableAt ((isOpen_coefficientDom D p.ρ (sbar + p.s)).mem_nhds hmem)
+  have hG := (kam_G_diff H).differentiableAt
+    ((isOpen_coefficientDom D p.ρ (sbar + p.s)).mem_nhds hmem)
   exact (Complex.reCLM.differentiableAt.comp z
     ((hG.restrictScalars ℝ).comp z (KAM.realInclusion₂ (a + b)).differentiableAt))
 

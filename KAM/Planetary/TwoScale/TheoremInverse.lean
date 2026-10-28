@@ -59,7 +59,8 @@ theorem KamHyp.inverse_local (H : KamHyp D sbar p h f) {I J : Fin (a + b) → �
   have hm := H.positive.2.2.2.2.2.2.1
   have hx : Metric.ball (KAM.realInclusion (a + b) I) p.ρ ⊆ KAM.actionNbhd D p.ρ :=
     actionNbhd_ball hI
-  obtain ⟨hcov, hlip⟩ := ball (isOpen_actionNbhd' D p.ρ) (fun z hz => (differentiableAt_freq (isOpen_actionNbhd' D p.ρ) H.holo hz).differentiableWithinAt)
+  obtain ⟨hcov, hlip⟩ := ball (isOpen_actionNbhd' D p.ρ) (fun z hz =>
+    (differentiableAt_freq (isOpen_actionNbhd' D p.ρ) H.holo hz).differentiableWithinAt)
     H.injective hm hρ
     (fun x hx => by
       obtain ⟨-, -, A, hA, hAn, -⟩ := H.hessian x hx
