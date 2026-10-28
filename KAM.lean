@@ -711,6 +711,7 @@ public import KAM.Planetary.SecularForm.Symmetry
 public import KAM.Planetary.SecularSpectrum.Definiteness.Hadamard
 public import KAM.Planetary.SecularSpectrum.Definiteness.Laplace
 public import KAM.Planetary.SecularSpectrum.Definiteness
+public import KAM.Planetary.SecularSpectrum.Diagonalize
 public import KAM.Planetary.SecularSpectrum.GoodPolynomial
 public import KAM.Planetary.SecularSpectrum.Lift.Analytic
 public import KAM.Planetary.SecularSpectrum.Lift.Basic
@@ -729,6 +730,7 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic.Sorted
 public import KAM.Planetary.SecularSpectrum.LocalAnalytic.Unique
 public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
+public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
 public import KAM.Planetary.TwoScale.Constants
 public import KAM.Planetary.TwoScale.Cover
@@ -776,6 +778,9 @@ public import KAM.Planetary.TwoScale.StepNonres
 public import KAM.Planetary.TwoScale.StepPerturb
 public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
+public import KAM.Planetary.TwoScale.Theorem
+public import KAM.Planetary.TwoScale.TheoremInverse
+public import KAM.Planetary.TwoScale.TheoremTorus
 public import KAM.Planetary.TwoScale.Tori
 public import KAM.Planetary.TwoScale.ToriEstimates
 public import KAM.Planetary.TwoScale.ToriInvConj
