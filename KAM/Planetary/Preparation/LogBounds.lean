@@ -34,7 +34,8 @@ theorem e4 {a b : ℝ} (ha : 0 < a) (hb : 0 ≤ b) :
     have := (Real.continuousAt_rpow_const 0 a (Or.inr ha.le)).tendsto
     rw [Real.zero_rpow ha.ne'] at this
     exact this.mono_left nhdsWithin_le_nhds
-  · have key : Tendsto (fun eps : ℝ => (-(Real.log eps) * eps^(a/b))) (nhdsWithin 0 (Ioi 0)) (nhds 0) := by
+  · have key : Tendsto (fun eps : ℝ => (-(Real.log eps) * eps^(a/b)))
+        (nhdsWithin 0 (Ioi 0)) (nhds 0) := by
       have := (tendsto_log_mul_rpow_nhdsGT_zero (div_pos ha hb')).neg
       simpa [neg_mul] using this
     have hpow := (Real.continuousAt_rpow_const 0 b (Or.inr hb)).tendsto.comp key

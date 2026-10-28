@@ -36,7 +36,8 @@ theorem oscDom_eq_workingDom (J0 : P11Vec n) (r rz S : ℝ) :
       firstBlock (b := n + n) (Fin.append a (Fin.append b c)) = a := fun a b c => by
     funext i; simp [firstBlock]
   have h2 : ∀ (a : Fin n → ℂ) (b c : Fin n → ℂ),
-      firstBlock (b := n) (lastBlock (a := n) (Fin.append a (Fin.append b c))) = b := fun a b c => by
+      firstBlock (b := n) (lastBlock (a := n) (Fin.append a (Fin.append b c))) = b :=
+    fun a b c => by
     funext i; simp [firstBlock, lastBlock]
   have h3 : ∀ (a : Fin n → ℂ) (b c : Fin n → ℂ),
       lastBlock (a := n) (lastBlock (a := n) (Fin.append a (Fin.append b c))) = c := fun a b c => by
@@ -156,7 +157,8 @@ theorem coth_pos {x : ℝ} (hx : 0 < x) : 0 < coth x := by
 reality of `h̃` at real points is a source premise of `osc_averaging`; it is the explicit
 hypothesis `hh`. -/
 theorem oscHyp_fast {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
-    (hh : ∀ J : P11Vec n, KAM.realInclusion n J ∈ Metric.ball (KAM.realInclusion n C.J0) (2 * C.rC) →
+    (hh : ∀ J : P11Vec n,
+      KAM.realInclusion n J ∈ Metric.ball (KAM.realInclusion n C.J0) (2 * C.rC) →
       (C.h (KAM.realInclusion n J)).im = 0)
     {eps K α s1 : ℝ} (heps : 0 < eps) (hs1 : 0 < s1) (hs1r : s1 ≤ C.rC) (hK : 0 < K)
     (hα : 0 < α) (hbud : 6 ≤ 2 * Real.pi * K * C.sigma)

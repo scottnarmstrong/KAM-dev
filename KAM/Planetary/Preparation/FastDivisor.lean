@@ -54,7 +54,8 @@ theorem omega_lipschitz {D : P11Physical n} {C : P11SecularData n} (hC : P11Secu
         Fin (n + n) → ℂ)) x‖ ≤ C.L := fun x hx => by
     have := hL x hx 1 (Nat.le_add_left 1 _)
     simpa using this
-  have hmvt := (convex_ball (KAM.realInclusion n C.J0) (2 * C.rC)).norm_image_sub_le_of_norm_fderiv_le
+  have hmvt := (convex_ball (KAM.realInclusion n C.J0)
+    (2 * C.rC)).norm_image_sub_le_of_norm_fderiv_le
     hd hb (mem_ball_self (by linarith)) hJ
   refine le_trans ?_ hmvt
   refine pi_norm_le_iff_of_nonneg (norm_nonneg _) |>.2 fun i => ?_
@@ -139,7 +140,8 @@ theorem fast_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Secular
     unfold KAM.Fourier.modeSize
     obtain ⟨i, hi⟩ := Function.ne_iff.1 hk0'
     exact lt_of_lt_of_le (abs_pos.2 (by exact_mod_cast hi))
-      (Finset.single_le_sum (f := fun j => |(k j : ℝ)|) (fun j _ => abs_nonneg _) (Finset.mem_univ i))
+      (Finset.single_le_sum (f := fun j => |(k j : ℝ)|) (fun j _ => abs_nonneg _)
+        (Finset.mem_univ i))
   have hτ0 : 0 < C.tau := by
     rw [hτ]
     exact lt_max_of_lt_right (by have := (show (2 : ℕ) ≤ n from D.n_ge); positivity)

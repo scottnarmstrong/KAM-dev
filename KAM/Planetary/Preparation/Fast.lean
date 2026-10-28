@@ -83,7 +83,8 @@ variable {n : ℕ} {D : P11Physical n} {C : P11SecularData n}
 theorem fast_consts (hC : P11SecularSpec D C) :
     0 < C.gamma ∧ 0 < C.tau ∧ 1 ≤ C.L ∧ 0 < C.rC ∧ C.rC ≤ 1 ∧ 0 < C.sigma ∧ C.sigma ≤ 1 / 4 ∧
       0 < C.rz ∧ C.rz ≤ 1 ∧ 1 ≤ C.MF := by
-  obtain ⟨-, -, -, hτ, -, -, -, -, hγ0, -, -, hrC0, hrC1, -, hσ0, hσ1, hrz0, hrz1, hMF, hL1, -⟩ := hC
+  obtain ⟨-, -, -, hτ, -, -, -, -, hγ0, -, -, hrC0, hrC1, -, hσ0, hσ1, hrz0, hrz1, hMF, hL1, -⟩ :=
+    hC
   refine ⟨hγ0, ?_, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩
   rw [hτ]
   have : (2 : ℝ) ≤ n := by exact_mod_cast D.n_ge
@@ -249,13 +250,15 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
       (by rw [show ((oscPack z).1, (oscPack z).2) = oscPack z from rfl, s_osc_data]; exact hz)
       (by
         rw [oscPack_eq, oscUnpack_flat]
-        exact zero_angle_mem C.J0 hσ6 (show ‖firstBlock (b := n) z.2 - KAM.realInclusion n C.J0‖ < s1 / 2 from hz.2.1)
+        exact zero_angle_mem C.J0 hσ6
+          (show ‖firstBlock (b := n) z.2 - KAM.realInclusion n C.J0‖ < s1 / 2 from hz.2.1)
           (show ‖lastBlock (a := n) z.1‖ < C.rz / 2 from hz.2.2.1)
           (show ‖lastBlock (a := n) z.2‖ < C.rz / 2 from hz.2.2.2))
     rw [show ((oscPack z).1, (oscPack z).2) = oscPack z from rfl, s_osc_data] at h1
     rw [h1, oscPack_eq, oscUnpack_flat]
   have hflat : ∀ J : P11CVec n, ‖J - KAM.realInclusion n C.J0‖ < s1 / 2 → ∀ z : P11Phase n,
-      ‖z‖ < C.rz / 2 → p11Flat J z.2 z.1 ∈ oscParams (m := n) {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) :=
+      ‖z‖ < C.rz / 2 →
+        p11Flat J z.2 z.1 ∈ oscParams (m := n) {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) :=
     fun J hJ z hz => by
       obtain ⟨hz1, hz2⟩ := hnormC z hz
       refine ⟨?_, ?_, ?_⟩
@@ -266,7 +269,8 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
       · rw [p_p11Flat]; exact hz2
       · rw [q_p11Flat]; exact hz1
   have hmemU : ∀ J : P11CVec n, ‖J - KAM.realInclusion n C.J0‖ < s1 / 2 → ∀ z : P11Phase n,
-      ‖z‖ < C.rz / 2 → ((Fin.append (0 : P11CVec n) z.1, Fin.append J z.2) : P11Phase (n + n)) ∈ U :=
+      ‖z‖ < C.rz / 2 →
+        ((Fin.append (0 : P11CVec n) z.1, Fin.append J z.2) : P11Phase (n + n)) ∈ U :=
     fun J hJ z hz => zero_angle_mem C.J0 hσ6 hJ (hnormC z hz).1 (hnormC z hz).2
   refine ⟨c1, c2, hUo ▸ c12.1, c13, ?_, ?_, ?_, c4, ?_, c3, ?_, ?_, ?_, ?_, ?_⟩
   · -- G holomorphic
@@ -338,7 +342,8 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
         (fun z => coeff (oscFunction fun z => (eps : ℂ) * C.F z) (oscPack z).2 0) := by
       simpa [zero_add] using (osc_zero_mode hH).1
     have hb := oscBound.norm_le (c7.sub hzm) c11 _ (hUo ▸ hw)
-    have hpack : (oscPack ((Fin.append (0 : P11CVec n) z.1, Fin.append J z.2) : P11Phase (n + n))).2 =
+    have hpack :
+        (oscPack ((Fin.append (0 : P11CVec n) z.1, Fin.append J z.2) : P11Phase (n + n))).2 =
         p11Flat J z.2 z.1 := by
       rw [oscPack_eq]
       simp only [p11Flat]
@@ -350,7 +355,8 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
     simp only [hpack, coeff_zero_flat] at hb
     have hε : (eps : ℂ) ≠ 0 := by exact_mod_cast heps.ne'
     have hrewrite : (eps : ℂ)⁻¹ * g (Fin.append 0 z.1, Fin.append J z.2) - p11FastMean C.F J z =
-        (eps : ℂ)⁻¹ * (g (Fin.append 0 z.1, Fin.append J z.2) - eps * p11FastMean C.F J (z.1, z.2)) := by
+        (eps : ℂ)⁻¹ *
+          (g (Fin.append 0 z.1, Fin.append J z.2) - eps * p11FastMean C.F J (z.1, z.2)) := by
       rw [mul_sub, ← mul_assoc, inv_mul_cancel₀ hε, one_mul]
     rw [hrewrite, norm_mul, norm_inv, Complex.norm_real, Real.norm_of_nonneg heps.le]
     refine le_trans (mul_le_mul_of_nonneg_left hb (inv_nonneg.2 heps.le)) ?_
@@ -359,7 +365,8 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
     have hαp : 0 < 2 * Real.pi * α := by positivity
     calc eps⁻¹ * (400 * (1 + (n : ℝ)) * (eps * C.MF) ^ 2 /
           (2 * Real.pi * α * min (s1 * C.sigma) (C.rz * C.rz)))
-        = 400 * (1 + (n : ℝ)) * eps * C.MF ^ 2 / (2 * Real.pi * α * min (s1 * C.sigma) (C.rz * C.rz)) := by
+        = 400 * (1 + (n : ℝ)) * eps * C.MF ^ 2 /
+          (2 * Real.pi * α * min (s1 * C.sigma) (C.rz * C.rz)) := by
           field_simp
       _ ≤ _ := by
           refine div_le_div_of_nonneg_left (by positivity) (by positivity) ?_
