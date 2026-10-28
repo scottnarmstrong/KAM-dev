@@ -64,7 +64,8 @@ theorem thetaGradR_realH_add {D : Set (Fin n → ℝ)} {r s : ℝ}
     {G u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hs : 0 < s) (hG : InClass (cpx D) r s G)
     (hGr : RealOn (Dom n (cpx D) r s) G) (hu : InClass (cpx D) r s u)
     (hur : RealOn (Dom n (cpx D) r s) u) {x : (Fin n → ℝ) × (Fin n → ℝ)} (hx : x ∈ realStrip D r) :
-    thetaGradR (realH (fun w => G w + u w)) x = thetaGradR (realH G) x + thetaGradR (realH u) x := by
+    thetaGradR (realH (fun w => G w + u w)) x =
+      thetaGradR (realH G) x + thetaGradR (realH u) x := by
   have hd1 := ((real_system hs hG hGr).2.2.1 x hx).1
   have hd2 := ((real_system hs hu hur).2.2.1 x hx).1
   have : realH (fun w => G w + u w) = fun y => realH G y + realH u y := by
