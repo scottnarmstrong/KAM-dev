@@ -26004,7 +26004,7 @@ EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit B11 PASS WITH NOTES but continuous_series_on_compact is only a local supplier; tail bounds, h_* continuity and limit identification remain for B12
 NOTE: SOURCE_GAP: L330 invokes the uniform Weierstrass test and continuity of uniform limits on the compact real carrier K_infty. K:bp:p1:uniform-limits (blueprint/parts/p1-analysis.tex L364-L368) instead assumes holomorphic maps on one open complex V and uniform convergence of their derivatives. Those hypotheses are not supplied here: the collars shrink and only continuous restrictions to K_infty are used. The continuous-map convergence/continuity bridge used here is not an approved input of this slice; expose it here rather than asserting that the imported lemma supplies it.
 
 NODE: stepP:p11a:ps-H
@@ -29770,7 +29770,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T1 PASS WITH NOTES but T1 defines only PlanarData, axes/actions dictionaries, hat functions, secular average, slow length, quartic; Laplace coefficients, sigma, rho, Phi_4, NR_4 etc. are not defined here
 NOTE: created from p11b:prose-L14-L16 (SPEC section data); consumers: nearly every node of Part 11b
 
 NODE: bpP:p11b:orbit
@@ -33845,7 +33845,7 @@ EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit A2 PASS WITH NOTES but geometry does not state the lower/upper radial bound a_i(1-e_i) <= |q_i| <= a_i(1+e_i) of item (b), only d <= |q_i| <= R; also geo-b not stated
 NOTE: -
 
 NODE: stepP:p14:geo-a
@@ -33874,9 +33874,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:geo-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometry (KAM/Planetary/AMD/Geometry.lean)
+LEAN_NOTE: audit A2 PASS WITH NOTES; first conjunct of geometry (axis bounds, ecc < B.ecc)
 NOTE: -
 
 NODE: stepP:p14:geo-b
@@ -33937,9 +33937,9 @@ EDGE: bpP:p6:plane | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:geo-c@L88-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometry (KAM/Planetary/AMD/Geometry.lean)
+LEAN_NOTE: audit A2 PASS WITH NOTES; radial separation, NoCollision and PairBounds conjuncts of geometry
 NOTE: -
 
 NODE: stepP:p14:geo-d
@@ -33966,9 +33966,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:geo-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometry (KAM/Planetary/AMD/Geometry.lean)
+LEAN_NOTE: audit A2 PASS WITH NOTES; momentum bound conjunct of geometry
 NOTE: -
 
 NODE: stepP:p14:geo-k
@@ -33999,9 +33999,9 @@ EDGE: bpP:p6:plane | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:geo-k@L90-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amd_compact, geometry (KAM/Planetary/AMD/Geometry.lean)
+LEAN_NOTE: audit A2 PASS WITH NOTES; amd_compact (compact, inside W) plus geometry (R_out inside amdCompact)
 NOTE: -
 
 NODE: bpP:p14:closure
@@ -34166,7 +34166,7 @@ EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit A4 PASS WITH NOTES but moving_ode covers only the H_mov part; the -H clause (X_{-H} = -X_H equivalence) is not stated
 NOTE: -
 
 NODE: stepP:p14:mo-reg

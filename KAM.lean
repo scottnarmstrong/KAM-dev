@@ -419,6 +419,8 @@ public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
 public import KAM.Planetary.AMD.Elements
+public import KAM.Planetary.AMD.Geometry
+public import KAM.Planetary.AMD.MovingODE
 public import KAM.Planetary.AMD.Setting
 public import KAM.Planetary.Averaging.Direct
 public import KAM.Planetary.Averaging.Finite
@@ -576,6 +578,7 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
+public import KAM.Planetary.PlanarTorsion.Setting
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
 public import KAM.Planetary.Poincare.D25
@@ -704,6 +707,7 @@ public import KAM.Planetary.TwoScale.StepNonres
 public import KAM.Planetary.TwoScale.StepPerturb
 public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
+public import KAM.Planetary.WeakKAM.ContinuousSeries
 public import KAM.Planetary.WeakKAM.Data
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakMeasure.BallSublevel
