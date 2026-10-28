@@ -191,6 +191,65 @@ theorem iteratedDeriv_two_radialH_of_lt {a b : ℝ} (ha : 0 < a) (hab : a < b) :
   rw [this, hα]
   field_simp
 
+/-- `stepP:p8:qf-diag` (outer eccentric orbit): `h''(0) = (b/a²) b_{3/2}^{(1)}(b/a)` for `b < a`. -/
+theorem iteratedDeriv_two_radialH_of_gt {a b : ℝ} (hb : 0 < b) (hba : b < a) :
+    iteratedDeriv 2 (radialH a b) 0 = b / a ^ 2 * laplace_def (3/2) 1 (b / a) := by
+  have ha : 0 < a := hb.trans hba
+  set γ := b / a with hγ
+  have hγ0 : 0 < γ := div_pos hb ha
+  have hγ1 : γ < 1 := (div_lt_one ha).2 hba
+  set β := laplace_def (1/2) 0 with hβ
+  have hmem : ∀ᶠ ε in 𝓝 (0:ℝ), γ * (1 - ε)⁻¹ ∈ Ioo (0:ℝ) 1 := by
+    have hc : ContinuousAt (fun ε : ℝ => γ * (1 - ε)⁻¹) 0 :=
+      continuousAt_const.mul ((continuousAt_const.sub continuousAt_id).inv₀ (by norm_num))
+    exact hc.eventually_mem (isOpen_Ioo.mem_nhds (by simpa using ⟨hγ0, hγ1⟩))
+  have hpos : ∀ᶠ ε in 𝓝 (0:ℝ), 0 < 1 - ε := by
+    have hc : ContinuousAt (fun ε : ℝ => 1 - ε) 0 := by fun_prop
+    exact hc.eventually_mem (isOpen_Ioi.mem_nhds (by simp))
+  let E : ℝ → ℝ := fun ε => a⁻¹ * β (γ * (1 - ε)⁻¹)
+  let E' : ℝ → ℝ := fun ε => a⁻¹ * (deriv β (γ * (1 - ε)⁻¹) * (γ * ((1 - ε)⁻¹ * (1 - ε)⁻¹)))
+  have hEq : radialH a b =ᶠ[𝓝 0] E := by
+    filter_upwards [hmem, hpos] with ε hε hp
+    have e : b / (a * (1 - ε)) = γ * (1 - ε)⁻¹ := by
+      rw [hγ]; field_simp
+    have h1 : b < a * (1 - ε) := by
+      have := hε.2
+      rw [← e, div_lt_one (mul_pos ha hp)] at this
+      exact this
+    have h2 : 0 < b := hb
+    unfold radialH
+    rw [radialPhi_comm, radialPhi_eq_laplace h2 h1]
+    simp only [E, hβ]
+    rw [e]
+    field_simp
+  have hp1 : ∀ ε : ℝ, 0 < 1 - ε → HasDerivAt (fun ε : ℝ => (1 - ε)⁻¹) (((1 - ε)⁻¹) ^ 2) ε := by
+    intro ε hp
+    have := ((hasDerivAt_id ε).const_sub 1).inv hp.ne'
+    exact this.congr_deriv (by simp only [id, neg_neg]; rw [inv_pow, one_div])
+  have hD : ∀ᶠ ε in 𝓝 (0:ℝ), HasDerivAt E (E' ε) ε := by
+    filter_upwards [hmem, hpos] with ε hε hp
+    have h1 := (hp1 ε hp).const_mul γ
+    have h2 := (laplace_half_hasDeriv hε).comp ε h1
+    exact (h2.const_mul a⁻¹).congr_deriv (by simp only [E']; ring)
+  have hE1 : deriv E =ᶠ[𝓝 0] E' := by
+    filter_upwards [hD] with ε hε using hε.deriv
+  have hm0 : γ * (1 - 0)⁻¹ ∈ Ioo (0:ℝ) 1 := by simpa using ⟨hγ0, hγ1⟩
+  have hE2 : HasDerivAt E' (a⁻¹ * (γ ^ 2 * iteratedDeriv 2 β γ + 2 * γ * deriv β γ)) 0 := by
+    have hp := hp1 0 (by norm_num)
+    have h1 := hp.const_mul γ
+    have hb2 := (laplace_half_hasDeriv2 hm0).comp 0 h1
+    have hq := hp.mul hp
+    have h4 := ((hb2.mul (hq.const_mul γ))).const_mul a⁻¹
+    exact h4.congr_deriv (g' := a⁻¹ * (γ ^ 2 * iteratedDeriv 2 β γ + 2 * γ * deriv β γ))
+      (by simp only [Function.comp, Pi.mul_apply, sub_zero, inv_one, hβ]; ring)
+  have hfin : iteratedDeriv 2 (radialH a b) 0 = deriv (deriv E) 0 := by
+    rw [laplace_half_deriv2_eq, hEq.deriv.deriv_eq]
+  rw [hfin, hE1.deriv_eq, hE2.deriv]
+  have hid := (identities hγ0 hγ1).1
+  have : γ ^ 2 * iteratedDeriv 2 β γ + 2 * γ * deriv β γ = γ * laplace_def (3/2) 1 γ := hid
+  rw [this, hγ]
+  field_simp
+
 end SecularForm
 end KAM.Planetary
 end
