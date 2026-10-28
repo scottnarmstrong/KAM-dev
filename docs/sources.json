@@ -449,6 +449,46 @@
       "pdf": "arxiv_2312.13971.pdf",
       "sha256": "5e2e6563bc0128e665ed744b11a9a7b87635745c5322a061d1a4073ca5c62a0d",
       "role": "Context: finite-regularity (Sobolev) Kolmogorov and translated-torus theorems (Thms 1.1-1.2) by para-linearization and the Schauder fixed point theorem, with no KAM iteration; alternative route to G1-type a posteriori results, not consumed by any frozen statement"
+    },
+    {
+      "key": "Pos96K",
+      "tier": "context",
+      "citation": "J. Pöschel, *A KAM-theorem for some nonlinear partial differential equations*, Ann. Sc. Norm. Super. Pisa Cl. Sci. (4) 23 (1996) 119–148",
+      "arxiv": null,
+      "doi": null,
+      "pdf": "poschel1996.pdf",
+      "sha256": "3fac82b098ac6add2e3b336978d8bcf70166590707a997c0684b008b6df9420f",
+      "role": "Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); abstract infinite-dimensional KAM theorem (Numdam scan)"
+    },
+    {
+      "key": "Pos96W",
+      "tier": "context",
+      "citation": "J. Pöschel, *Quasi-periodic solutions for a nonlinear wave equation*, Comment. Math. Helv. 71 (1996) 269–296",
+      "arxiv": null,
+      "doi": "10.1007/BF02566420",
+      "pdf": "poschel1996_wave_CMH_71_269.pdf",
+      "sha256": "77f083dc4f3d45802460c880a588ef227065810aa93cc963ff7684714d25d6a2",
+      "role": "Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); proposed first target (cubic Dirichlet wave); candidate errata E-PDE-W-1/2"
+    },
+    {
+      "key": "KP96",
+      "tier": "context",
+      "citation": "S. Kuksin, J. Pöschel, *Invariant Cantor manifolds of quasi-periodic oscillations for a nonlinear Schrödinger equation*, Ann. of Math. 143 (1996) 149–179 (author version 2.1)",
+      "arxiv": null,
+      "doi": "10.2307/2118656",
+      "pdf": "kuksin_poschel1996_NLS_author_v2_1.pdf",
+      "sha256": "d05ec70b6308d99bf2e6d2e1d22299791cb58bd2aefc8aee29c4a21f1ff2dc7e",
+      "role": "Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); Cantor manifold theorem used by Pos96W; NLS fallback; candidate errata E-PDE-KP-1/2"
+    },
+    {
+      "key": "HHM25",
+      "tier": "context",
+      "citation": "Z. Hassainia, T. Hmidi, N. Masmoudi, *Rigorous derivation of the leapfrogging motion for planar Euler equations*, Invent. Math. (2025)",
+      "arxiv": "2311.15765v2",
+      "doi": "10.1007/s00222-025-01368-3",
+      "pdf": "arxiv_2311.15765v2_HHM_leapfrogging.pdf",
+      "sha256": "5c3ecff79051ab5bff9baebe2a634c00b5cd46f6045adf65337911aca9ad0afe",
+      "role": "Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); later target (leapfrogging vortex patches; Nash–Moser)"
     }
   ]
 }
