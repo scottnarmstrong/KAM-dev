@@ -364,9 +364,9 @@ EDGE: bpN:p4:projections | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:ext-par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_part4 (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: inline proof (proof source = statement): Part 4 holds for an arbitrary base set; only the bracket uses m=n (so bpN:p4:bracket is not used here)
 
 NODE: bpN:p11:bracket
@@ -400,9 +400,9 @@ EDGE: bpN:p11:ext-part4 | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:bracket@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket, bracket_dominated (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:br-fast
@@ -433,9 +433,9 @@ EDGE: bpN:p11:ext-part4 | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:br-fas
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: the conclusion of p4:bracket is for m=n, so it is consumed through its proof (algebra, cauchy) applied to the extended class by ext-part4
 
 NODE: stepN:p11:br-slow
@@ -467,9 +467,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:br-dom
@@ -495,9 +495,9 @@ EDGE: bpN:p11:ext-num | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:br-dom@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_dominated (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:bracket-g
@@ -527,9 +527,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:bracket-g@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_g (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: dropped candidate edge: bpN:p6:bracket-g (only "the situation" is cited, i.e. its hypotheses; the estimate is re-derived from Lemma bracket in the proof)
 
 NODE: bpN:p11:scaled
@@ -557,9 +557,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: scaled (KAM/Nekhoroshev/Partial/VectorField.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: package bpN:p11:scaled (SPEC)
 
 NODE: bpN:p11:vf
@@ -593,9 +593,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:v
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: vf (KAM/Nekhoroshev/Partial/VectorField.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:flow

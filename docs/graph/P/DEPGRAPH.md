@@ -19383,9 +19383,9 @@ EDGE: bpP:p10:rnd-def | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:norm-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: norm_dict (KAM/Planetary/Preparation/Working.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:nd
@@ -19414,9 +19414,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nd_scalar_eq, nd_p11dg_smul, nd_rnd, norm_dict (KAM/Planetary/Preparation/Working.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: bpP:p11:select
@@ -19445,9 +19445,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:se
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:sel-hyp
@@ -19475,9 +19475,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select, bp_jet_bound (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:sel-gam
@@ -19504,9 +19504,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:sel-int
@@ -19532,9 +19532,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select, bp_dio_of_good, bp_dio_fast, bp_dio_slow (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: bpP:p11:holo-chart
@@ -20890,9 +20890,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:fo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-delta-P-ae
 REVIEWER: sol-delta-P-bc
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: forward_tube_core (KAM/Planetary/Preparation/ForwardTube.lean); forward_tube, p11PhysicalDelta (KAM/Planetary/Preparation/Working.lean)
+LEAN_NOTE: composite of audits P11A-P9 PASS WITH NOTES (forward_tube_core, raw data) + P11A-P1 PASS WITH NOTES (signed wrapper forward_tube); U_zeta membership follows from the norm bound
 NOTE: the lemma bpP:p12:forward-tube is stated for two planets and replayed step by step (steps are the edges)
 
 NODE: bpP:p11:wrapper
@@ -21189,7 +21189,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Basic.lean is only an import facade; introduces no definition (conventions defined elsewhere)
 NOTE: the reference to Remark bpP:p2:use5(3) (an excluded administrative remark) is covered by bpP:p1:period-convert
 
 NODE: bpP:p11:sec-A#data
@@ -21219,9 +21219,9 @@ EDGE: bpP:p9:dict | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:sec-A#dat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: P11Physical, p11PhysicalDelta, p11SecularMatrix, P11PatchData, P11PatchSpec (KAM/Planetary/Preparation/Working.lean); p11SecularMatrix_eq (KAM/Planetary/Preparation/PatchHessian.lean); p11_patch, p11PatchData, p11PatchData_spec (KAM/Planetary/Preparation/Patch.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled); patch data + spec + Hessian bridge
 NOTE: -
 
 NODE: bpP:p11:sec-C#data
