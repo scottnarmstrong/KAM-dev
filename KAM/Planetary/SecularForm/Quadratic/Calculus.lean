@@ -92,6 +92,18 @@ theorem iteratedDeriv_eq_zero_of_bound {χ : ℝ → ℝ} (hχ : AnalyticAt ℝ 
   rw [hm] at hs1
   nlinarith
 
+/-- The second derivative at `0` of `A + c s²`. -/
+theorem iteratedDeriv_two_quadratic (A c : ℝ) :
+    iteratedDeriv 2 (fun s : ℝ => A + c * s ^ 2) 0 = 2 * c := by
+  have h1 : ∀ s : ℝ, HasDerivAt (fun s : ℝ => A + c * s ^ 2) (c * (2 * s)) s := fun s => by
+    simpa using ((hasDerivAt_pow 2 s).const_mul c).const_add A
+  have h2 : deriv (fun s : ℝ => A + c * s ^ 2) = fun s => c * (2 * s) :=
+    funext fun s => (h1 s).deriv
+  rw [iteratedDeriv_succ, iteratedDeriv_one, h2]
+  have : HasDerivAt (fun s : ℝ => c * (2 * s)) (c * 2) 0 := by
+    simpa using ((hasDerivAt_id (0 : ℝ)).const_mul 2).const_mul c
+  rw [this.deriv]; ring
+
 /-- The second derivative of an analytic function that is `A + c s² + O(|s|³)`. -/
 theorem iteratedDeriv_two_of_bound {φ : ℝ → ℝ} (hφ : AnalyticAt ℝ φ 0) (A c : ℝ) {K ε : ℝ}
     (hε : 0 < ε) (h : ∀ s : ℝ, |s| < ε → |φ s - (A + c * s ^ 2)| ≤ K * |s| ^ 3) :
@@ -102,15 +114,8 @@ theorem iteratedDeriv_two_of_bound {φ : ℝ → ℝ} (hφ : AnalyticAt ℝ φ 0
   have hsub : iteratedDeriv 2 (fun s : ℝ => φ s - (A + c * s ^ 2)) 0 =
       iteratedDeriv 2 φ 0 - iteratedDeriv 2 (fun s : ℝ => A + c * s ^ 2) 0 :=
     iteratedDeriv_sub (hφ.contDiffAt) (hp.contDiffAt)
-  have hpoly : iteratedDeriv 2 (fun s : ℝ => A + c * s ^ 2) 0 = 2 * c := by
-    have h1 : ∀ s : ℝ, HasDerivAt (fun s : ℝ => A + c * s ^ 2) (c * (2 * s)) s := fun s => by
-      simpa using ((hasDerivAt_pow 2 s).const_mul c).const_add A
-    have h2 : deriv (fun s : ℝ => A + c * s ^ 2) = fun s => c * (2 * s) :=
-      funext fun s => (h1 s).deriv
-    rw [iteratedDeriv_succ, iteratedDeriv_one, h2]
-    have : HasDerivAt (fun s : ℝ => c * (2 * s)) (c * 2) 0 := by
-      simpa using ((hasDerivAt_id (0 : ℝ)).const_mul 2).const_mul c
-    rw [this.deriv]; ring
+  have hpoly : iteratedDeriv 2 (fun s : ℝ => A + c * s ^ 2) 0 = 2 * c :=
+    iteratedDeriv_two_quadratic A c
   linarith
 
 end SecularForm
