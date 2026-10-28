@@ -893,9 +893,9 @@ EDGE: bpP:p5:rstar#Cgamma | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:rstar@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rstar, pgRstar (KAM/Planetary/PGAssembly/Threshold.lean)
+LEAN_NOTE: audit P5-TH PASS WITH NOTES
 NOTE: C_* is supplied by lower#constant and the numerical C_b witness, independently of their later estimates. The admissible-radius estimates use (r1)-(r4) and the displacement half of (r5); after those constants are chosen shrink the preliminary radius to impose (C_*+1)sqrt(r_*)<=1/2. Delta_max is bounded by the explicit numerical expression 18 r^(11/2)/(G eps_an) from L171-L179; the sufficient displacement condition involves no averaging-map construction. No edge to the compound lower, budget, avg or location result is justified.
 
 NODE: bpP:p5:param-facts
@@ -926,9 +926,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:param-facts@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: param_facts (KAM/Planetary/PGAssembly/Threshold.lean)
+LEAN_NOTE: audit P5-TH PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:avg
@@ -1542,9 +1542,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:rK@L228-L231 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean)
+LEAN_NOTE: audit P5-TH PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:rk-dir
