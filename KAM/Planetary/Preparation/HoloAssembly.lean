@@ -168,7 +168,8 @@ theorem holo_chart {n : ℕ} (D : P11Physical n) :
             p11WorkingDom n d.J0 (2 * (σ' / 4)) (2 * d.rC) rz := hz
         rw [this] at hz2; exact hz2
       exact p11_F_real_eq d C rfl ha hhyp hz')
-  refine ⟨C, ⟨d.freq, d.h_re, ⟨d.omega_diff, d.Omega_diff⟩, d.tau_eq, d.h_diff, d.omega_eq,
+  refine ⟨C, ⟨d.freq, fun J hJ => ⟨d.h_re J hJ, d.h_im J hJ⟩,
+    ⟨d.omega_diff, d.Omega_diff⟩, d.tau_eq, d.h_diff, d.omega_eq,
     d.jets, d.J0_interior, d.gamma_pos, d.gamma_le, d.dio, d.rC_pos, d.rC_le_one,
     d.rC_le_delta, by show 0 < σ' / 4; linarith, by show σ' / 4 ≤ 1 / 4; linarith, hrz0, hrz1,
     hMF1, d.one_le_L, d.one_le_Brho, d.one_le_Bdrho, hFd, hFb, hFs, hFr, hmean,

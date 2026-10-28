@@ -51,6 +51,7 @@ def P11HoloData.shrink (d : P11HoloData D) (r : ℝ) (hr0 : 0 < r) (hr : r ≤ d
   nonvanishing := (Metric.ball_subset_ball (by linarith)).trans d.nonvanishing
   freq := fun J hJ => d.freq J (Metric.ball_subset_ball (by linarith) hJ)
   h_re := fun J hJ => d.h_re J (by linarith)
+  h_im := fun J hJ => d.h_im J (by linarith)
   Omega_real := fun J hJ => d.Omega_real J (by linarith)
   omega_diff := d.omega_diff.mono (Metric.ball_subset_ball (by linarith))
   Omega_diff := d.Omega_diff.mono (Metric.ball_subset_ball (by linarith))
