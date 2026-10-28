@@ -226,7 +226,86 @@ theorem term_R {k : Fin n → ℤ} (hk : k ≠ 0) :
         mul_le_mul_of_nonneg_left h3 hX
     _ = _ := by ring
 
+theorem term_B {M₂ : ℝ} (hM0 : 0 ≤ M₂) {k : Fin n → ℤ} (hk : k ≠ 0) :
+    ∫⁻ I in avgG n R, ENNReal.ofReal (avgBterm h s M₂ κ k I) ≤
+      ENNReal.ofReal (C₁ * (6 * n * (1 + Ω₀) / s + 5 * Real.sqrt n * M₂) / κ * wt s k) := by
+  have hm := AvgShell.mode_nonneg (n := n) k
+  have hb := avgBeta_nonneg s k
+  have hk1 := AvgShell.norm_le_mode k
+  have hk2 := AvgShell.norm_le_euclid k
+  have hK := AvgShell.euclid_ge_one hk
+  have hC1 := hC.1
+  have hs := d.hs
+  have hn1 : (1 : ℝ) ≤ n := by exact_mod_cast d.hn
+  have hsq : (1 : ℝ) ≤ Real.sqrt n := by rw [Real.one_le_sqrt]; exact hn1
+  have hΩ0 : 0 ≤ Ω₀ := (norm_nonneg _).trans (hΩ 0 (by
+    simp only [avgG, mem_closedBall, dist_self]; linarith [d.hR]))
+  have hL := avgLog_ge_one hκ hκ1
+  have hLκ := avgLog_le hκ
+  have hn := norm_nonneg (fun j => (k j : ℝ))
+  have hK0 : 0 < euclid (fun j => (k j : ℝ)) := by linarith
+  have hsh := shells_from_slab d hC hΩ hκ hκ1 hk
+  set m := KAM.Fourier.modeSize k with hmdef
+  set nk := ‖fun j => (k j : ℝ)‖ with hnk
+  have hsplit : ∀ I, ENNReal.ofReal (avgBterm h s M₂ κ k I) =
+      ENNReal.ofReal ((nk * avgBeta s k * (2 * n / s)) * |avgPsi κ (avgQ h k I)|) +
+      ENNReal.ofReal ((nk * avgBeta s k * (M₂ * m)) * |avgPsiD κ (avgQ h k I)|) := fun I => by
+    rw [← ENNReal.ofReal_add (by positivity) (by positivity)]
+    congr 1
+    unfold avgBterm
+    ring
+  simp_rw [hsplit]
+  rw [lintegral_add_left' (aem_comp d k (φ := fun y => (nk * avgBeta s k * (2 * n / s)) *
+    |avgPsi κ y|) (Continuous.measurable (by have := contPsi hκ; fun_prop))),
+    lint_const_mul _ (by positivity) (fun y => |avgPsi κ y|),
+    lint_const_mul _ (by positivity) (fun y => |avgPsiD κ y|)]
+  refine (add_le_add (mul_le_mul_right hsh.2.1 _) (mul_le_mul_right hsh.2.2.1 _)).trans ?_
+  rw [← ENNReal.ofReal_mul (by positivity), ← ENNReal.ofReal_mul (by positivity),
+    ← ENNReal.ofReal_add (by positivity) (by positivity)]
+  refine ENNReal.ofReal_le_ofReal ?_
+  have hw : wt s k = (1 + m) ^ 3 * avgBeta s k := by unfold wt; rw [if_neg hk]
+  rw [hw]
+  have h3 : nk * (1 + m) ≤ (1 + m) ^ 3 := by
+    calc _ ≤ (1 + m) * (1 + m) := by gcongr; linarith
+      _ ≤ _ := by
+        have : (1 + m) ^ 2 ≤ (1 + m) ^ 3 := pow_le_pow_right₀ (by linarith) (by norm_num)
+        nlinarith
+  have h4 : m ≤ (1 + m) ^ 3 := by
+    have : (1 + m) ≤ (1 + m) ^ 3 := le_self_pow₀ (by linarith) (by norm_num)
+    linarith
+  have h5 : nk / euclid (fun j => (k j : ℝ)) ≤ 1 := (div_le_one hK0).2 hk2
+  have real1 : nk * avgBeta s k * (2 * n / s) * (3 * C₁ * (1 + Ω₀) * (1 + m) * avgLog κ) ≤
+      (6 * n * C₁ * (1 + Ω₀) / s) * (avgBeta s k * (1 + m) ^ 3) * (1 / κ) := by
+    calc _ = (6 * n * C₁ * (1 + Ω₀) / s) * (avgBeta s k * (nk * (1 + m))) * avgLog κ := by ring
+      _ ≤ _ := by gcongr
+  have real2 : nk * avgBeta s k * (M₂ * m) * (5 * C₁ / (κ * euclid (fun j => (k j : ℝ)))) ≤
+      (5 * C₁ * M₂ / κ) * (avgBeta s k * (1 + m) ^ 3) := by
+    calc _ = (5 * C₁ * M₂ / κ) * (avgBeta s k * m) * (nk / euclid (fun j => (k j : ℝ))) := by
+          field_simp
+      _ ≤ (5 * C₁ * M₂ / κ) * (avgBeta s k * (1 + m) ^ 3) * 1 := by gcongr
+      _ = _ := by ring
+  have real3 : (5 * C₁ * M₂ / κ) * (avgBeta s k * (1 + m) ^ 3) ≤
+      (5 * C₁ * Real.sqrt n * M₂ / κ) * (avgBeta s k * (1 + m) ^ 3) := by
+    refine mul_le_mul_of_nonneg_right (div_le_div_of_nonneg_right ?_ hκ.le) (by positivity)
+    nlinarith [mul_nonneg (mul_nonneg (by linarith : (0 : ℝ) ≤ C₁) hM0)
+      (by linarith : 0 ≤ Real.sqrt n - 1)]
+  calc _ ≤ _ := add_le_add real1 (real2.trans real3)
+    _ = _ := by ring
+
 end PerMode
+
+section Main
+
+theorem measurable_W {κ : ℝ} (hκ : 0 < κ) (a : ℝ) :
+    Measurable (fun y : ℝ => a * |avgPsi κ y|) :=
+  Continuous.measurable (by have := contPsi hκ; fun_prop)
+
+theorem env_zero (k : Fin n → ℤ) (hk : k = 0) : ‖fun j => (k j : ℝ)‖ = 0 := by
+  subst hk
+  have : (fun j : Fin n => (((0 : Fin n → ℤ) j : ℤ) : ℝ)) = 0 := by funext j; simp
+  rw [this, norm_zero]
+
+end Main
 
 end AvgEnv
 
