@@ -92,7 +92,8 @@ theorem p11_jet_mvt {V : Set (P11Vec n)} (hV : IsOpen V) {g : P11Vec n → ℝ} 
   have hat : ∀ t ∈ Icc (0 : ℝ) 1, ContDiffAt ℝ (ν + 1) g (z t) := fun t ht =>
     hg.contDiffAt (hV.mem_nhds (hseg t ht).1)
   have hder : ∀ t ∈ Icc (0 : ℝ) 1,
-      HasDerivAt ψ (iteratedFDeriv ℝ (ν + 1) g (z t) (Fin.cons (y - b) (fun _ : Fin ν => a))) t := by
+      HasDerivAt ψ
+        (iteratedFDeriv ℝ (ν + 1) g (z t) (Fin.cons (y - b) (fun _ : Fin ν => a))) t := by
     intro t ht
     have hd : DifferentiableAt ℝ (iteratedFDeriv ℝ ν g) (z t) :=
       (hat t ht).differentiableAt_iteratedFDeriv (by exact_mod_cast Nat.lt_succ_self ν)
@@ -359,7 +360,7 @@ section Sum
 
 /-- The arithmetic of `stepP:p11a:sl-sum`. -/
 theorem p11_sl_sum_arith (m : ℕ) {κ A ρ C X μ : ℝ} (hκ : 0 < κ) (hA : 0 ≤ A) (hX : 0 ≤ X)
-    (hμ : 0 ≤ μ) (hρ : 0 ≤ ρ) (hC : 0 ≤ C) (hR : κ ≤ ρ * C) :
+    (hμ : 0 ≤ μ) (hR : κ ≤ ρ * C) :
     κ ^ (m + 1) * (8 * μ * (2 * (A / κ)) ^ m * X) ≤ 2 ^ (m + 1 + 2) * μ * A ^ m * ρ * C * X := by
   have e : κ ^ (m + 1) * (8 * μ * (2 * (A / κ)) ^ m * X) = (8 * 2 ^ m * μ * A ^ m * X) * κ := by
     have : κ ^ m * (2 * (A / κ)) ^ m = 2 ^ m * A ^ m := by
@@ -368,7 +369,8 @@ theorem p11_sl_sum_arith (m : ℕ) {κ A ρ C X μ : ℝ} (hκ : 0 < κ) (hA : 0
         = (κ ^ m * (2 * (A / κ)) ^ m) * (8 * μ * X * κ) := by ring
       _ = _ := by rw [this]; ring
   rw [e]
-  have e2 : (2 : ℝ) ^ (m + 1 + 2) * μ * A ^ m * ρ * C * X = (8 * 2 ^ m * μ * A ^ m * X) * (ρ * C) := by
+  have e2 : (2 : ℝ) ^ (m + 1 + 2) * μ * A ^ m * ρ * C * X =
+      (8 * 2 ^ m * μ * A ^ m * X) * (ρ * C) := by
     ring
   rw [e2]
   exact mul_le_mul_of_nonneg_left hR (by positivity)
@@ -435,8 +437,7 @@ theorem sublevel {n mu : ℕ} {P : P11Patch n} {g gt : P11Vec n → ℝ}
   obtain ⟨m, hm⟩ : ∃ m, n = m + 1 := ⟨n - 1, by have := P.n_pos; omega⟩
   have key := p11_sl_sum_arith m (κ := κ) (A := Real.sqrt n * d) (ρ := M / beta)
     (C := 1 + (4 + P.v⁻¹) * Real.sqrt n * d) (X := (eps / beta) ^ ((mu : ℝ)⁻¹)) (μ := mu)
-    hκpos (by positivity) hX (Nat.cast_nonneg _) (div_nonneg hM hβ.le)
-    (by have := P.v_pos; positivity) hκ4
+    hκpos (by positivity) hX (Nat.cast_nonneg _) hκ4
   subst hm
   simpa [hB, hrdef, p11Csub] using key
 
