@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 05:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,724 lines of Lean** of an estimated ≈ 117,000
+> **Last updated: 2026-10-28 06:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,724 lines of Lean** of an estimated ≈ 117,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,7 +127,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,724** (52,836 excluding blank lines and comments) · **+73,724** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 6,349 |
+| Written on agent branches, not yet landed | 6,726 |
 | **Estimated total at completion** | **≈ 117,000** |
 | Estimated still to write | ≈ 37,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 05:40 UTC from `main` at `1378b42` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 06:00 UTC from `main` at `f7e7672` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -290,16 +290,22 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **grev-4** `inp-grev-4` | graph review (Codex) | GPT-6.1-Sol medium | codex-1 | ✅ handed off | Track P graph: final delta (P-p11, P-p13, P-p7) | — | — |
-| **c510** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: C5-10: Canonical/CanonicalMap (canonical_map_a..e) and handoff | `inp-c510` | 2 (vs `inp`) |
-| **n101** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N10-1: Assembly/Choice (choice defs, choice_props, cp_dict, cp_rad, cp_size, head_time_pre | `inp-n101` | 1 (vs `inp`) |
-| **n61** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N6-1: NormalForm/Setting (p6#data, setting, lipschitz, divisor) | `inp-n61` | 1 (vs `inp`) |
-| **pp12** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P1-2: Planetary/Hamiltonian/Diophantine (two-scale, dio-basic, dio-sources) | `inp-pp12` | 1 (vs `inp`) |
-| **pp13** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P1-3: Planetary/Hamiltonian/TorusUnion (torus-union) | `inp-pp13` | 2 (vs `inp`) |
-| **pp14** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: PP1-4: Hamiltonian/Chart proved, handoff | `inp-pp14` | 2 (vs `inp`) |
-| **s71** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-1: Stability/RealSystem (real_system) | `inp-s71` | 2 (vs `inp`) |
+| **c510** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: C5-10: Canonical/CanonicalMap (canonical_map_a..e) and handoff | `inp-c510` | 2 (vs `inp`) |
+| **n101** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N10-1: Assembly/Choice (choice defs, choice_props, cp_dict, cp_rad, cp_size, head_time_pre | `inp-n101` | 1 (vs `inp`) |
+| **n102** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n101 | `inp-n102` | 1 (vs `inp`) |
+| **n61** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N6-1: NormalForm/Setting (p6#data, setting, lipschitz, divisor) | `inp-n61` | 1 (vs `inp`) |
+| **n62** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n61 (N6-1) | `inp-n62` | 1 (vs `inp`) |
+| **n63** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n61 (N6-1) | `inp-n63` | 1 (vs `inp`) |
+| **p2301** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-01: Averaging/Setting (conv_data, block_bridge, setting, TwoDiv, DirectHyp, AvgHyp) | `inp-p2301` | 2 (vs `inp`) |
+| **p2302** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-02: TwoScale/Constants (ScaleData, constants, nextScale, seq, rem_norm, rem_norm_block | `inp-p2302` | 1 (vs `inp`) |
+| **pp13** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P1-3: Planetary/Hamiltonian/TorusUnion (torus-union) | `inp-pp13` | 2 (vs `inp`) |
+| **pp14** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: PP1-4: Hamiltonian/Chart proved, handoff | `inp-pp14` | 2 (vs `inp`) |
+| **pp16** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp14 (PP1-4) | `inp-pp16` | 2 (vs `inp`) |
+| **pp17** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp14 (PP1-4) | `inp-pp17` | 2 (vs `inp`) |
+| **s71** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-1: move to KAM/Nekhoroshev/Stability, add freq_realInclusion (with N6-1 Setting blob fr | `inp-s71` | 3 (vs `inp`) |
 
 *4 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -309,6 +315,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-28 05:43 | `f7e7672` | Land inp into main |
 | 2026-10-28 05:37 | `1378b42` | Land inp into main |
 | 2026-10-28 05:30 | `450c19f` | Exploration: PDE KAM (nonlinear wave) and leapfrogging vortex patches; register Pos96K, Pos96W, KP96, HHM25 (context) |
 | 2026-10-28 05:17 | `8625071` | Land inp into main |
@@ -320,7 +327,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-28 04:16 | `5e3a89a` | Land inp into main |
 | 2026-10-28 04:02 | `a777e31` | Land inp into main |
 | 2026-10-28 03:42 | `6c4e81e` | OVERNIGHT: 03:45 entry (offloaded INP packages, README refresh, owner directives) |
-| 2026-10-28 03:41 | `914e43d` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
