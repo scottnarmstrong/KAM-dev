@@ -462,6 +462,7 @@ public import KAM.Planetary.Averaging.OscillatorStep
 public import KAM.Planetary.Averaging.OscillatorStepComplete
 public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Averaging.Splitting
+public import KAM.Planetary.Exponential.Enlargement
 public import KAM.Planetary.Exponential.LocalComplexification
 public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Hamiltonian.Algebra
