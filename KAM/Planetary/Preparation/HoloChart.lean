@@ -167,11 +167,17 @@ variable {n : ℕ} {D : P11Physical n}
 open SecularSpectrum
 
 /-- The literal chart input is the real inverse lift of `T₁ z` (`hc-lift` on the real domain). -/
-theorem P11HoloData.chartInput_eq (d : P11HoloData D) (C : P11SecularData n)
-    (hC : C.rho = d.rho) {z : Phase (n + n)} (hz : ‖fast z.2 - d.J0‖ < 2 * d.rC) :
+theorem P11HoloData.chartInput_eq' (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho) {z : Phase (n + n)}
+    (hz : ‖(fun i => fast z.2 i / (2 * Real.pi)) - (2 * Real.pi)⁻¹ • d.J0‖ < d.t2) :
     p11ChartInput C z = liftInv d.R (p11FastScale z) := by
   rw [p11FastScale_apply]
-  exact d.chartInput_eq_liftInv C hC z (d.fast_close hz).2.1
+  exact d.chartInput_eq_liftInv C hC z hz
+
+theorem P11HoloData.chartInput_eq (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho) {z : Phase (n + n)} (hz : ‖fast z.2 - d.J0‖ < 2 * d.rC) :
+    p11ChartInput C z = liftInv d.R (p11FastScale z) :=
+  d.chartInput_eq' C hC (d.fast_close hz).2.1
 
 /-- Row sums of the real frame on the real `ρ`-ball. -/
 theorem P11HoloData.R_row_bound (d : P11HoloData D) {L : P11Vec n}
@@ -277,7 +283,185 @@ theorem P11HoloData.chartInput_mem (d : P11HoloData D) (C : P11SecularData n)
   obtain ⟨hdom, hnorm⟩ := hft w h1 h2
   exact ⟨hdom, _, hnorm⟩
 
+/-- The fast block of the chart input is the rescaled fast action. -/
+theorem P11HoloData.fast_chartInput (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho) {z : Phase (n + n)} (hz : ‖fast z.2 - d.J0‖ < 2 * d.rC) :
+    fast (p11ChartInput C z).2 = fun i => fast z.2 i / (2 * Real.pi) := by
+  rw [d.chartInput_eq C hC hz]; simp only [liftInv]
+  rw [fast_snd_assemble, fast_snd_p11FastScale]
+
 end Membership
+
+section Clauses
+
+variable {n : ℕ} {D : P11Physical n}
+open SecularSpectrum
+
+/-- The ball on which the real frame `R` is analytic. -/
+def P11HoloData.frameBall (d : P11HoloData D) : Set (P11Vec n) :=
+  Metric.ball ((2 * Real.pi)⁻¹ • d.J0) d.t1
+
+theorem P11HoloData.isOpen_frameBall (d : P11HoloData D) : IsOpen d.frameBall :=
+  Metric.isOpen_ball
+
+theorem P11HoloData.fast_scale_mem (d : P11HoloData D) {z : Phase (n + n)}
+    (hz : ‖(fun i => fast z.2 i / (2 * Real.pi)) - (2 * Real.pi)⁻¹ • d.J0‖ < d.t1) :
+    p11FastScale z ∈ liftDomain d.frameBall := by
+  show fast (p11FastScale z).2 ∈ d.frameBall
+  rw [fast_snd_p11FastScale]
+  exact mem_ball_iff_norm.2 hz
+
+open scoped Matrix.Norms.Elementwise in
+/-- `hc-lift`/`hc-id`: the inverse lift of the frame is analytic and symplectic on its domain. -/
+theorem P11HoloData.liftInv_facts (d : P11HoloData D) :
+    AnalyticOnNhd ℝ (liftInv d.R) (liftDomain d.frameBall) ∧
+      KAM.Kepler.IsSymplecticOn 1 (liftInv d.R) (liftDomain d.frameBall) := by
+  have hAn : AnalyticOnNhd ℝ d.R d.frameBall := fun x hx =>
+    analyticAt_pi_iff.2 fun i => analyticAt_pi_iff.2 fun j => d.R_analytic i j x hx
+  obtain ⟨-, h2, -, h4, -⟩ := lift d.isOpen_frameBall hAn
+    (fun I hI => (d.R_frame I hI).2.2.1)
+  exact ⟨h2, h4⟩
+
+theorem P11HoloData.liftInv_isSO (d : P11HoloData D) : ∀ I ∈ d.frameBall, isSO (d.R I) :=
+  fun I hI => (d.R_frame I hI).2.2.1
+
+/-- Near a point of the `t₂`-ball the literal chart is `Ψ^{(n)} ∘ Φ_ρ⁻¹ ∘ T₁`. -/
+theorem P11HoloData.chart_eventuallyEq (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho)
+    (hch : ∀ z, C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z))
+    {z : Phase (n + n)}
+    (hz : ‖(fun i => fast z.2 i / (2 * Real.pi)) - (2 * Real.pi)⁻¹ • d.J0‖ < d.t2) :
+    C.chart =ᶠ[nhds z] poincareProd D.m (D.G * D.m0) ∘ liftInv d.R ∘ p11FastScale := by
+  have hcont : Continuous fun z' : Phase (n + n) =>
+      ‖(fun i => fast z'.2 i / (2 * Real.pi)) - (2 * Real.pi)⁻¹ • d.J0‖ := by
+    unfold fast
+    fun_prop
+  have hopen : IsOpen {z' : Phase (n + n) |
+      ‖(fun i => fast z'.2 i / (2 * Real.pi)) - (2 * Real.pi)⁻¹ • d.J0‖ < d.t2} :=
+    isOpen_lt hcont continuous_const
+  filter_upwards [hopen.mem_nhds hz] with z' hz'
+  rw [hch z', d.chartInput_eq' C hC hz']
+  rfl
+
+end Clauses
+
+section Properties
+
+variable {n : ℕ} {D : P11Physical n}
+open SecularSpectrum
+
+theorem p11_kappa_pos (D : P11Physical n) : 0 < D.G * D.m0 := mul_pos D.G_pos D.m0_pos
+
+/-- `hc-id`: the chart input of a real point of the working domain lies in `poincareProdDom` and
+equals `liftInv R (T₁ z)`; packaged for the clauses below. -/
+theorem P11HoloData.chartInput_dom (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho) {rz : ℝ} (hrz : (d.Brho * rz) ^ 2 ≤ p11PhysicalDelta D)
+    {z : Phase (n + n)} (hz : z ∈ p11RealDom d.J0 (2 * d.rC) rz) :
+    liftInv d.R (p11FastScale z) ∈ poincareProdDom n := by
+  rw [← d.chartInput_eq C hC hz.1]
+  exact (d.chartInput_mem C hC hrz hz).1
+
+/-- `hc-id`: the chart is real analytic on the real working domain. -/
+theorem P11HoloData.chart_analyticAt (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho)
+    (hch : ∀ z, C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z))
+    {rz : ℝ} (hrz : (d.Brho * rz) ^ 2 ≤ p11PhysicalDelta D) {z : Phase (n + n)}
+    (hz : z ∈ p11RealDom d.J0 (2 * d.rC) rz) : AnalyticAt ℝ C.chart z := by
+  obtain ⟨-, ht2, ht1⟩ := d.fast_close hz.1
+  refine AnalyticAt.congr ?_ (d.chart_eventuallyEq C hC hch ht2).symm
+  have hP := analyticOnNhd_poincareProd D.m_pos (p11_kappa_pos D) _
+    (d.chartInput_dom C hC hrz hz)
+  have hL : AnalyticAt ℝ (liftInv d.R) (p11FastScale z) :=
+    d.liftInv_facts.1 _ (d.fast_scale_mem ht1)
+  exact (hP.comp hL).comp (p11FastScale.analyticAt z)
+
+/-- `hc-id`: the chart is symplectic (`c = 1`) on the real working domain. -/
+theorem P11HoloData.chart_symplectic (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho)
+    (hch : ∀ z, C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z))
+    {rz : ℝ} (hrz : (d.Brho * rz) ^ 2 ≤ p11PhysicalDelta D) :
+    KAM.Kepler.IsSymplecticOn 1 C.chart (p11RealDom d.J0 (2 * d.rC) rz) := by
+  intro z hz u v
+  obtain ⟨-, ht2, ht1⟩ := d.fast_close hz.1
+  rw [(d.chart_eventuallyEq C hC hch ht2).fderiv_eq]
+  have hlift := d.liftInv_facts
+  have h12 : KAM.Kepler.IsSymplecticOn (1 * 1) (liftInv d.R ∘ p11FastScale)
+      {z | p11FastScale z ∈ liftDomain d.frameBall} :=
+    KAM.Kepler.IsSymplecticOn.comp (fun z _ => p11FastScale_isSymplecticOn z (mem_univ _))
+      hlift.2 (fun z _ => p11FastScale.differentiableAt)
+      (fun w hw => (hlift.1 w hw).differentiableAt) (fun z hz => hz)
+  have hOsub : ∀ z ∈ p11RealDom d.J0 (2 * d.rC) rz,
+      p11FastScale z ∈ liftDomain d.frameBall := fun z hz =>
+    d.fast_scale_mem (d.fast_close hz.1).2.2
+  have h123 : KAM.Kepler.IsSymplecticOn (1 * (1 * 1))
+      (poincareProd D.m (D.G * D.m0) ∘ (liftInv d.R ∘ p11FastScale))
+      (p11RealDom d.J0 (2 * d.rC) rz) :=
+    KAM.Kepler.IsSymplecticOn.comp (fun z hz => h12 z (hOsub z hz))
+      (poincareProd_symplectic D.m_pos (p11_kappa_pos D))
+      (fun z hz => ((d.liftInv_facts.1 _ (hOsub z hz)).comp
+        (p11FastScale.analyticAt z)).differentiableAt)
+      (fun w hw => (analyticOnNhd_poincareProd D.m_pos (p11_kappa_pos D) w hw).differentiableAt)
+      (fun z hz => d.chartInput_dom C hC hrz hz)
+  simpa using h123 z hz u v
+
+/-- `hc-lat`, (Q1) with `σ_k = 0`: the chart is invariant under the unit lattice in `θ`. -/
+theorem P11HoloData.chart_lattice (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho)
+    (hch : ∀ z, C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z))
+    {rz : ℝ} (hrz : (d.Brho * rz) ^ 2 ≤ p11PhysicalDelta D) {z : Phase (n + n)}
+    (hz : z ∈ p11RealDom d.J0 (2 * d.rC) rz) (k : Fin n → ℤ) :
+    C.chart (z.1 + Fin.append (fun i => (k i : ℝ)) 0, z.2) = C.chart z := by
+  have hz' := p11RealDom_shift hz k
+  rw [hch, hch, d.chartInput_eq C hC hz'.1, d.chartInput_eq C hC hz.1, p11FastScale_shift,
+    liftInv_add_fastShift]
+  exact (poincareProd_lattice D.m_pos (p11_kappa_pos D) (d.chartInput_dom C hC hrz hz) k).2
+
+/-- `hc-lat`, (Q2): injectivity modulo the unit lattice in `θ`. -/
+theorem P11HoloData.chart_injective (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho)
+    (hch : ∀ z, C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z))
+    {rz : ℝ} (hrz : (d.Brho * rz) ^ 2 ≤ p11PhysicalDelta D) {z z' : Phase (n + n)}
+    (hz : z ∈ p11RealDom d.J0 (2 * d.rC) rz) (hz' : z' ∈ p11RealDom d.J0 (2 * d.rC) rz)
+    (h : C.chart z = C.chart z') :
+    ∃ k : Fin n → ℤ, z' = (z.1 + Fin.append (fun i => (k i : ℝ)) 0, z.2) := by
+  rw [hch, hch, d.chartInput_eq C hC hz.1, d.chartInput_eq C hC hz'.1] at h
+  obtain ⟨k, hk⟩ := (poincareProd_eq_iff D.m_pos (p11_kappa_pos D)
+    (d.chartInput_dom C hC hrz hz) (d.chartInput_dom C hC hrz hz')).1 h
+  refine ⟨k, p11FastScale_injective ?_⟩
+  rw [p11FastScale_shift]
+  refine liftInv_injOn (R := d.R) (W := d.frameBall) d.liftInv_isSO
+    (u := p11FastScale z') (v := p11FastScale z + fastShift (a := n) (b := n) k) ?_ ?_ ?_
+  · exact d.fast_scale_mem (d.fast_close hz'.1).2.2
+  · rw [fast_snd_add_fastShift]; exact d.fast_scale_mem (d.fast_close hz.1).2.2
+  · rw [liftInv_add_fastShift]; exact hk
+
+/-- `hc-id`, energy identity: `H_fix (Ψ_c) = Re (h + ε F)`, with `F` a parameter whose real part
+on real points is `f_fix ∘ Ψ^{(n)} ∘ (chart input)` (`hF`). -/
+theorem P11HoloData.chart_energy (d : P11HoloData D) (C : P11SecularData n)
+    (hC : C.rho = d.rho) (hh : C.h = d.h)
+    (hch : ∀ z, C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z))
+    {rz : ℝ} (hrz : (d.Brho * rz) ^ 2 ≤ p11PhysicalDelta D)
+    (hF : ∀ z ∈ p11RealDom d.J0 (2 * d.rC) rz,
+      (C.F (KAM.realInclusion₂ (n + n) z)).re =
+        fFix D.G D.m (poincareProd D.m (D.G * D.m0) (p11ChartInput C z)))
+    (eps : ℝ) {z : Phase (n + n)} (hz : z ∈ p11RealDom d.J0 (2 * d.rC) rz) :
+    fixedHamiltonian D.G D.m0 D.m eps (C.chart z) =
+      (p11WorkingH C eps (KAM.realInclusion₂ (n + n) z)).re := by
+  have hw := (d.chartInput_mem C hC hrz hz).1
+  rw [hch, fixedHamiltonian_poincareProd D.m_pos (p11_kappa_pos D) hw]
+  unfold p11WorkingH
+  rw [Complex.add_re, Complex.re_ofReal_mul, hF z hz]
+  congr 1
+  have hJ : ‖fast z.2 - d.J0‖ < 2 * d.rC := hz.1
+  have h1 := d.h_re (fast z.2) hJ
+  have h2 : C.h (fun i : Fin n => (KAM.realInclusion₂ (n + n) z).2 (Fin.castAdd n i)) =
+      d.h (KAM.realInclusion n (fast z.2)) := by
+    rw [hh]; rfl
+  rw [h2, h1]
+  unfold hProd
+  rw [d.fast_chartInput C hC hJ]
+
+end Properties
 
 end KAM.Planetary
 
