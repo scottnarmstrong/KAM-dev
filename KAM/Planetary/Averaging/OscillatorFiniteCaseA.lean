@@ -196,6 +196,68 @@ theorem MultiData.step_zero (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ)
     M.hκ6 ht (Real.exp_pos _).le (by rw [← neg_div]; exact hA)
   exact key.trans (osc_first_le hQ0 M.hE hb0.le M.hP hQP)
 
+theorem MultiData.Q_succ_pos (M : MultiData r rp rq s K α E κ N m) :
+    0 < 2 * π * α * min (r / (8 * N) * (s / (4 * N))) (rp / (8 * N) * (rq / (8 * N))) :=
+  lt_of_lt_of_le (by have := M.hP; have := M.hN0; positivity)
+    (multi_Q_lower M.hr M.hs M.hrp M.hrq M.hN0 α M.hα)
+
+theorem MultiData.step_succ (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ) {l : ℕ}
+    (hl : l + 1 ≤ N) :
+    stepVal (multiOSched r rp rq (sbar + s) s N) K α m
+      (oEps E (firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq)))) (l + 1) ≤
+    oEps E (firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq))) (l + 2) := by
+  have hb0 : 0 < 1 + (m : ℝ) := by linarith [M.hb]
+  have hc0 := M.hc0
+  have hN0 := M.hN0
+  obtain ⟨w0, -⟩ := multi_rsum (S := sbar + s) M.hr M.hrp M.hrq M.hs hN0 M.hE hc0 l
+  have eQ : min ((multiOSched r rp rq (sbar + s) s N).x.ρ (l + 1) *
+        (multiOSched r rp rq (sbar + s) s N).x.σ (l + 1))
+      ((multiOSched r rp rq (sbar + s) s N).p.ρ (l + 1) *
+        (multiOSched r rp rq (sbar + s) s N).q.ρ (l + 1)) =
+      min (r / (8 * N) * (s / (4 * N))) (rp / (8 * N) * (rq / (8 * N))) := by
+    simp [multiOSched, multi_ρ_succ, multi_σ_succ]
+  have eσ : (multiOSched r rp rq (sbar + s) s N).x.σ (l + 1) = s / (4 * N) := by
+    simp [multiOSched, multi_σ_succ]
+  have ex : 2 * π * K * (s / (4 * N)) = κ / (4 * N) := by rw [M.hκ]; field_simp
+  unfold stepVal
+  rw [eQ, eσ, ex]
+  have key := osc_step_big
+    (Q := 2 * π * α * min (r / (8 * N) * (s / (4 * N))) (rp / (8 * N) * (rq / (8 * N))))
+    (δ := oEps E (firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq))) (l + 1))
+    (b := 1 + (m : ℝ))
+    (st := ∑ j : Fin (l + 1), oscW (multiOSched r rp rq (sbar + s) s N) (l + 1) j *
+      oEps E (firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq))) j)
+    (x := κ / (4 * N)) M.Q_succ_pos (oEps_nonneg M.hE hc0 _) hb0.le w0 (M.hstage sbar hl).1
+    (M.hstage sbar hl).2 (exp_step_le hN0 M.hle)
+  refine key.trans (le_of_eq ?_)
+  rw [oEps_succ, oEps_succ]; ring
+
+theorem MultiData.small (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ) {i : ℕ} (hi : (i : ℝ) ≤ N) :
+    oEps E (firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq))) i ≤ (2 * π * α) *
+      min ((multiOSched r rp rq (sbar + s) s N).x.ρ i * (multiOSched r rp rq (sbar + s) s N).x.σ i)
+        ((multiOSched r rp rq (sbar + s) s N).p.ρ i * (multiOSched r rp rq (sbar + s) s N).q.ρ i) /
+      (16 * (1 + (m : ℝ))) := by
+  have hb0 : 0 < 1 + (m : ℝ) := by linarith [M.hb]
+  rcases i with _ | l
+  · obtain ⟨hQ0, hQP, -⟩ := M.first_facts
+    simp only [multiOSched, multi_ρ_zero, multi_σ_zero, oEps_zero]
+    rw [le_div_iff₀ (by positivity)]
+    have h2 := (div_le_iff₀ (by norm_num : (0 : ℝ) < 64)).1 hQP
+    have : 0 ≤ (1 + (m : ℝ)) * E := by have := M.hE; positivity
+    have := M.hEP
+    have hκ := M.hκ6
+    nlinarith
+  · have hl : (l : ℝ) + 1 ≤ N := by exact_mod_cast hi
+    have eQ : min ((multiOSched r rp rq (sbar + s) s N).x.ρ (l + 1) *
+          (multiOSched r rp rq (sbar + s) s N).x.σ (l + 1))
+        ((multiOSched r rp rq (sbar + s) s N).p.ρ (l + 1) *
+          (multiOSched r rp rq (sbar + s) s N).q.ρ (l + 1)) =
+        min (r / (8 * N) * (s / (4 * N))) (rp / (8 * N) * (rq / (8 * N))) := by
+      simp [multiOSched, multi_ρ_succ, multi_σ_succ]
+    rw [eQ, le_div_iff₀ (by positivity)]
+    have h1 := (div_le_iff₀ M.Q_succ_pos).1 (M.hstage sbar hl).1
+    nlinarith [oEps_nonneg M.hE M.hc0 (l + 1)]
+
 end Stages
 
 end Multi
