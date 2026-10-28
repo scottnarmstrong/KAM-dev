@@ -326,6 +326,7 @@ public import KAM.Nekhoroshev.NormalForm.IterativeRemainder
 public import KAM.Nekhoroshev.NormalForm.Setting
 public import KAM.Nekhoroshev.NormalForm.Telescope
 public import KAM.Nekhoroshev.ODE.Specialization
+public import KAM.Nekhoroshev.QcZero.Derivative
 public import KAM.Nekhoroshev.QcZero.Kernel
 public import KAM.Nekhoroshev.QcZero.ZeroField
 public import KAM.Nekhoroshev.QuasiConvex
