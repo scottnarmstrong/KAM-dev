@@ -551,6 +551,74 @@ theorem lemma64_coordinates (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) :
       funext fun s => by rw [momentum_update_self]; rfl
     rw [this, mean_planeSq_pmom hx i]
 
+/-! ### The identification of the two models -/
+
+def modelDelta (D : Data n) (I : Vec n) : ℝ :=
+  (2*D.m0)⁻¹ * ∑ i, D.m i^4 * (D.G*D.m0)^2 / I i^2
+
+theorem perturbation_diff (D : Data n) (x : Slow n) (t : Vec n) :
+    perturbation D true (assemble x.2.1 t x.2.2 x.1) -
+      perturbation D false (assemble x.2.1 t x.2.2 x.1) =
+      (2 * D.m0)⁻¹ * planeSq (∑ i, momentum D x t i) := by
+  simp only [perturbation, ite_true, Bool.false_eq_true, ite_false, fMov, fFix, momentum]
+  rw [div_eq_inv_mul]
+  ring
+
+theorem continuous_planeSq_comp {g : Vec n → Fin 2 → ℝ} (hg : Continuous g) :
+    Continuous fun t => planeSq (g t) := by
+  unfold planeSq
+  exact continuous_finsetSum _ fun k _ => ((continuous_apply k).comp hg).pow 2
+
+theorem avg_add {f g : Vec n → ℝ} (hf : IntegrableOn f (cell n)) (hg : Continuous g) :
+    avg (fun t => f t + g t) = avg f + avg g := by
+  unfold avg
+  rw [integral_add hf (hg.continuousOn.integrableOn_compact isCompact_cell), smul_add]
+
+/-- Never subtract total Bochner averages without an integrability guard. -/
+theorem identification (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) :
+    Continuous (fun t => perturbation D true (assemble x.2.1 t x.2.2 x.1) -
+      perturbation D false (assemble x.2.1 t x.2.2 x.1)) ∧
+    avg (fun t => perturbation D true (assemble x.2.1 t x.2.2 x.1) -
+      perturbation D false (assemble x.2.1 t x.2.2 x.1)) = modelDelta D x.2.1 ∧
+    (IntegrableOn (fun t => perturbation D true (assemble x.2.1 t x.2.2 x.1)) (cell n) ↔
+      IntegrableOn (fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1)) (cell n)) ∧
+    (IntegrableOn (fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1)) (cell n) →
+      secular D true x = secular D false x + modelDelta D x.2.1) := by
+  have hfun : (fun t : Vec n => perturbation D true (assemble x.2.1 t x.2.2 x.1) -
+      perturbation D false (assemble x.2.1 t x.2.2 x.1)) =
+      fun t => (2 * D.m0)⁻¹ * planeSq (∑ i, momentum D x t i) :=
+    funext fun t => perturbation_diff D x t
+  have hcont : Continuous fun t : Vec n => (2 * D.m0)⁻¹ * planeSq (∑ i, momentum D x t i) :=
+    continuous_const.mul (continuous_planeSq_comp
+      (continuous_finsetSum _ fun i _ => continuous_momentum hx i))
+  have hint : IntegrableOn (fun t : Vec n =>
+      (2 * D.m0)⁻¹ * planeSq (∑ i, momentum D x t i)) (cell n) :=
+    hcont.continuousOn.integrableOn_compact isCompact_cell
+  refine ⟨hfun ▸ hcont, ?_, ?_, ?_⟩
+  · rw [hfun, avg_const_mul, (lemma64 D hx).2.2.2.2]
+    rfl
+  · constructor
+    · intro h
+      rw [← hfun] at hint
+      refine (h.sub hint).congr (Eventually.of_forall fun t => ?_)
+      simp
+    · intro h
+      rw [← hfun] at hint
+      refine (h.add hint).congr (Eventually.of_forall fun t => ?_)
+      simp
+  · intro hB
+    have hdiff := (lemma64 D hx).2.2.2.2
+    have hA : (fun t : Vec n => perturbation D true (assemble x.2.1 t x.2.2 x.1)) =
+        fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1) +
+          (2 * D.m0)⁻¹ * planeSq (∑ i, momentum D x t i) :=
+      funext fun t => by rw [← perturbation_diff]; ring
+    have hs : ∀ b, secular D b x =
+        avg (fun t : Vec n => perturbation D b (assemble x.2.1 t x.2.2 x.1)) := fun b => by
+      simp only [secular, secularAverage, avg, smul_eq_mul]
+      rfl
+    rw [hs, hs, hA, avg_add hB hcont, avg_const_mul, hdiff]
+    rfl
+
 end SecularForm
 end KAM.Planetary
 
