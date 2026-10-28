@@ -64,6 +64,22 @@ theorem q_p11Flat (J y x : P11CVec n) :
     lastBlock (a := n) (lastBlock (a := n) (p11Flat J y x)) = x := by
   funext i; simp [lastBlock, p11Flat]
 
+theorem oscUnpack_flat (θ J y x : P11CVec n) :
+    oscUnpack (θ, p11Flat J y x) = (Fin.append θ x, Fin.append J y) := by
+  simp only [oscUnpack, firstBlock_p11Flat, p_p11Flat, q_p11Flat]
+
+theorem oscPack_eq (z : CPhase (n + n)) :
+    oscPack z = (firstBlock (b := n) z.1,
+      p11Flat (firstBlock (b := n) z.2) (lastBlock (a := n) z.2) (lastBlock (a := n) z.1)) := rfl
+
+theorem realInclusion₂_append (a b c d : Fin n → ℝ) :
+    KAM.realInclusion₂ (n + n) (Fin.append a b, Fin.append c d) =
+      (Fin.append (KAM.realInclusion n a) (KAM.realInclusion n b),
+        Fin.append (KAM.realInclusion n c) (KAM.realInclusion n d)) := by
+  ext i
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp
+
 theorem oscFunction_flat (f : CHam (n + n)) (θ J y x : P11CVec n) :
     oscFunction f (θ, p11Flat J y x) = f (Fin.append θ x, Fin.append J y) := by
   simp only [oscFunction, Function.comp, oscUnpack, firstBlock_p11Flat, p_p11Flat, q_p11Flat]
