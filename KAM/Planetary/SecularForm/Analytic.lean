@@ -93,7 +93,8 @@ theorem perturbation_analytic (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
   refine ⟨hol, hcont, hS, hreal, ?_, fun x hx t => perturbationC_inclusion D ha hrho b hx t,
     fun x hx => ?_⟩
   · intro x hx
-    have hA' : AnalyticOnNhd ℂ (secularC D b) (polydisc D a r) := analyticOnNhd_of_differentiableOn hU hS
+    have hA' : AnalyticOnNhd ℂ (secularC D b) (polydisc D a r) :=
+      analyticOnNhd_of_differentiableOn hU hS
     have hA : AnalyticAt ℂ (secularC D b) (inclusion x) := hA' _ hx
     have h1 : AnalyticAt ℝ (fun y => (secularC D b (inclusion y)).re) x :=
       (Complex.reCLM.analyticAt _).comp

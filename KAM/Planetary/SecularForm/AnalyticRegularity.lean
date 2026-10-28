@@ -51,13 +51,15 @@ theorem differentiableOn_planetC (_hr0 : 0 < r) (t : Vec n) (i : Fin n) :
 include ha hr in
 theorem differentiableOn_planetC_fst (hr0 : 0 < r) (t : Vec n) (i : Fin n) (c : Fin 2) :
     DifferentiableOn ℂ (fun x => (planetC D t x i).1 c) (polydisc D a r) :=
-  (show Differentiable ℂ (fun v : (Fin 2 → ℂ) × (Fin 2 → ℂ) => v.1 c) by fun_prop).comp_differentiableOn
+  (show Differentiable ℂ (fun v : (Fin 2 → ℂ) × (Fin 2 → ℂ) => v.1 c)
+    by fun_prop).comp_differentiableOn
     (differentiableOn_planetC D ha hr hr0 t i)
 
 include ha hr in
 theorem differentiableOn_planetC_snd (hr0 : 0 < r) (t : Vec n) (i : Fin n) (c : Fin 2) :
     DifferentiableOn ℂ (fun x => (planetC D t x i).2 c) (polydisc D a r) :=
-  (show Differentiable ℂ (fun v : (Fin 2 → ℂ) × (Fin 2 → ℂ) => v.2 c) by fun_prop).comp_differentiableOn
+  (show Differentiable ℂ (fun v : (Fin 2 → ℂ) × (Fin 2 → ℂ) => v.2 c)
+    by fun_prop).comp_differentiableOn
     (differentiableOn_planetC D ha hr hr0 t i)
 
 include ha hr in

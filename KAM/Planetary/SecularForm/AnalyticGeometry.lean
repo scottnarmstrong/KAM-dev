@@ -139,7 +139,8 @@ theorem re_separationC_center (D : Data n) {a : Vec n} (ha : a ∈ axes n) (t : 
   have h2 := Real.sin_sq_add_cos_sq (t j)
   have key : (a i * Real.cos (t i) - a j * Real.cos (t j)) ^ 2 +
       (a i * Real.sin (t i) - a j * Real.sin (t j)) ^ 2 = (a j - a i) ^ 2 +
-      a i * a j * ((Real.cos (t i) - Real.cos (t j)) ^ 2 + (Real.sin (t i) - Real.sin (t j)) ^ 2) := by
+      a i * a j * ((Real.cos (t i) - Real.cos (t j)) ^ 2 +
+        (Real.sin (t i) - Real.sin (t j)) ^ 2) := by
     linear_combination (a i ^ 2 - a i * a j) * h1 + (a j ^ 2 - a i * a j) * h2
   rw [key]
   have : 0 ≤ a i * a j * ((Real.cos (t i) - Real.cos (t j)) ^ 2 +

@@ -49,7 +49,8 @@ theorem planetC_inclusion {x : Slow n} (hx : x ∈ realDisc D a r) (t : Vec n) (
 include ha hr in
 theorem planetC_inclusion_fst {x : Slow n} (hx : x ∈ realDisc D a r) (t : Vec n) (i : Fin n)
     (c : Fin 2) : (planetC D t (inclusion x) i).1 c =
-      ((bodyVector (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1)).1 i c : ℝ) : ℂ) := by
+      ((bodyVector (poincareProd D.m (D.G * D.m0)
+        (assemble x.2.1 t x.2.2 x.1)).1 i c : ℝ) : ℂ) := by
   have h := (Prod.ext_iff.1 (poincareProd_block D.m (D.G * D.m0)
     (assemble x.2.1 t x.2.2 x.1) i)).1
   rw [planetC_inclusion D ha hr hx]
@@ -58,7 +59,8 @@ theorem planetC_inclusion_fst {x : Slow n} (hx : x ∈ realDisc D a r) (t : Vec 
 include ha hr in
 theorem planetC_inclusion_snd {x : Slow n} (hx : x ∈ realDisc D a r) (t : Vec n) (i : Fin n)
     (c : Fin 2) : (planetC D t (inclusion x) i).2 c =
-      ((bodyVector (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1)).2 i c : ℝ) : ℂ) := by
+      ((bodyVector (poincareProd D.m (D.G * D.m0)
+        (assemble x.2.1 t x.2.2 x.1)).2 i c : ℝ) : ℂ) := by
   have h := (Prod.ext_iff.1 (poincareProd_block D.m (D.G * D.m0)
     (assemble x.2.1 t x.2.2 x.1) i)).2
   rw [planetC_inclusion D ha hr hx]
