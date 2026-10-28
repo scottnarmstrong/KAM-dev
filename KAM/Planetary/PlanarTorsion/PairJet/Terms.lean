@@ -120,6 +120,26 @@ theorem p11cPJ_term_integral_charged {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (t :
     intro θ; simp only [p11cPJS_periodic a θ]
   exact p11cPJ_cell_charged hgc hgp (by simpa using ht)
 
+theorem p11cPJat_integrableOn {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (L : List PJTerm) :
+    IntegrableOn (fun l => p11cPJat a L l)
+      (Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π))) volume := by
+  have hint : ∀ t : PJTerm, IntegrableOn (fun l : Fin 2 → ℝ =>
+      t.coef * p11cPJKa t (p11cPJE (-1) (l 0)) (p11cPJE 1 (l 0)) (p11cPJE (-1) (l 1))
+        (p11cPJE 1 (l 1)) ((p11cPJS a (l 0 - l 1) : ℝ) : ℂ))
+      (Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π))) volume := fun t =>
+    (continuous_const.mul (continuous_p11cPJKa ha t)).continuousOn.integrableOn_compact
+      (isCompact_univ_pi fun _ => isCompact_Icc)
+  induction L with
+  | nil => simp [p11cPJat, p11cPJsum]
+  | cons t L ih =>
+    have e : ∀ l, p11cPJat a (t :: L) l =
+        t.coef * p11cPJKa t (p11cPJE (-1) (l 0)) (p11cPJE 1 (l 0)) (p11cPJE (-1) (l 1))
+          (p11cPJE 1 (l 1)) ((p11cPJS a (l 0 - l 1) : ℝ) : ℂ) + p11cPJat a L l := by
+      intro l
+      simp [p11cPJat, p11cPJsum, List.map_cons, List.sum_cons]
+    simp_rw [e]
+    exact (hint t).add ih
+
 theorem p11cPJ_sum_integral {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (L : List PJTerm) :
     ∫ l in Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π)), p11cPJat a L l =
       (L.map fun t => t.coef * ∫ l in Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π)),
@@ -140,22 +160,7 @@ theorem p11cPJ_sum_integral {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (L : List PJT
       intro l
       simp [p11cPJat, p11cPJsum, List.map_cons, List.sum_cons]
     simp_rw [e]
-    have hL : IntegrableOn (fun l => p11cPJat a L l)
-        (Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π))) volume := by
-      have : ∀ L' : List PJTerm, IntegrableOn (fun l => p11cPJat a L' l)
-          (Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π))) volume := by
-        intro L'
-        induction L' with
-        | nil => simp [p11cPJat, p11cPJsum]
-        | cons t' L' ih' =>
-          have e' : ∀ l, p11cPJat a (t' :: L') l =
-              t'.coef * p11cPJKa t' (p11cPJE (-1) (l 0)) (p11cPJE 1 (l 0)) (p11cPJE (-1) (l 1))
-                (p11cPJE 1 (l 1)) ((p11cPJS a (l 0 - l 1) : ℝ) : ℂ) + p11cPJat a L' l := by
-            intro l
-            simp [p11cPJat, p11cPJsum, List.map_cons, List.sum_cons]
-          simp_rw [e']
-          exact (hint t').add ih'
-      exact this L
+    have hL := p11cPJat_integrableOn ha L
     rw [integral_add (hint t) hL, ih, List.map_cons, List.sum_cons, integral_const_mul]
 
 theorem p11cPJ_sum_integral_charged {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (L : List PJTerm)
