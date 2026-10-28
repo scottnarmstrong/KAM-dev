@@ -991,6 +991,10 @@ public import KAM.Planetary.TwoScale.ToriSetup
 public import KAM.Planetary.WeakKAM.Admissible
 public import KAM.Planetary.WeakKAM.Budgets
 public import KAM.Planetary.WeakKAM.BudgetsStage
+public import KAM.Planetary.WeakKAM.BudgetsTail
+public import KAM.Planetary.WeakKAM.Composition
+public import KAM.Planetary.WeakKAM.CompositionBound
+public import KAM.Planetary.WeakKAM.CompositionStep
 public import KAM.Planetary.WeakKAM.ContinuousSeries
 public import KAM.Planetary.WeakKAM.Cutoff
 public import KAM.Planetary.WeakKAM.CutoffBump
