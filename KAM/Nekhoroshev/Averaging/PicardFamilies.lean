@@ -133,7 +133,8 @@ def picardMap (h : PicardBounds F x₀ a r ρ L Λ) (y : PicardSpace x₀ a r ρ
         have h2 := picardFun_mem h y.2 q
         calc dist _ _ ≤ dist (picardFun F h.nonneg_time y.1 p) x₀ +
               dist x₀ (picardFun F h.nonneg_time y.1 q) := dist_triangle _ _ _
-          _ ≤ ρ + ρ := add_le_add (mem_closedBall.1 h1) (by rw [dist_comm]; exact mem_closedBall.1 h2)
+          _ ≤ ρ + ρ := add_le_add (mem_closedBall.1 h1)
+              (by rw [dist_comm]; exact mem_closedBall.1 h2)
           _ = 2 * ρ := by ring),
     fun p => picardFun_mem h y.2 p⟩
 
@@ -315,7 +316,8 @@ theorem picard_family (h : PicardBounds F x₀ a r ρ L Λ) :
         rw [picardExt_of_mem ha _ hτ hx]; exact ys.2 _
     have hnhds : Icc (-a) a ∈ 𝓝 t := Icc_mem_nhds ht.1 ht.2
     have hsub : ∀ s ∈ Icc (-a) a, uIcc 0 s ⊆ Icc (-a) a := fun s hs =>
-      uIcc_subset_Icc ⟨by linarith [hs.1, hs.2, ht.1, ht.2], by linarith [hs.1, hs.2, ht.1, ht.2]⟩ hs
+      uIcc_subset_Icc ⟨by linarith [hs.1, hs.2, ht.1, ht.2],
+          by linarith [hs.1, hs.2, ht.1, ht.2]⟩ hs
     have hint : IntervalIntegrable (fun τ => F (picardExt ha ys.1 τ x)) MeasureTheory.volume 0 t :=
       (hg.mono (hsub t (Ioo_subset_Icc_self ht))).intervalIntegrable
     have hd : HasDerivAt (fun s => ∫ τ in (0 : ℝ)..s, F (picardExt ha ys.1 τ x))
@@ -329,4 +331,3 @@ theorem picard_family (h : PicardBounds F x₀ a r ρ L Λ) :
 end Family
 
 end KAM.Nekhoroshev
-
