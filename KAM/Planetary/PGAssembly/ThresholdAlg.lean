@@ -186,6 +186,88 @@ theorem gammaBar_ratio {d : PGData a b} {r mu : ℝ} (h : ThrRange d r mu) :
   rw [← Real.rpow_natCast r 3, ← Real.rpow_natCast r 5, ← Real.rpow_add hr0, ← Real.rpow_add hr0]
   norm_num
 
+theorem params_rhoHat (d : PGData a b) (r mu : ℝ) : (params d r mu).rhoHat =
+    min ((pgScales d).k0*r^(5/2:ℝ)/(3*kam_c1 d*(pgK0 d (pgScales d))^(pgTau a b+1)))
+      ((pgScales d).k1*r^(5/2:ℝ)/2) := rfl
+
+theorem params_Ehat (d : PGData a b) (r mu : ℝ) :
+    (params d r mu).Ehat = (kam_c1 d)^2*r^5/(params d r mu).rhoHat^2 := rfl
+
+theorem params_rK (d : PGData a b) (r mu : ℝ) :
+    (params d r mu).rK = 32*(params d r mu).Ehat*(params d r mu).rhoHat := rfl
+
+theorem pgK0_pos (d : PGData a b) (s : PGScales) : 0 < pgK0 d s := by
+  unfold pgK0
+  have := pgWidth_pos d
+  positivity
+
+theorem pgScales_k0_pos (d : PGData a b) : 0 < (pgScales d).k0 := by
+  obtain ⟨hk0, -⟩ := pgScales_spec d
+  have := one_le_kam_c1 d
+  nlinarith
+
+theorem pgScales_k1_pos (d : PGData a b) : 0 < (pgScales d).k1 := (pgScales_spec d).2.1
+
+theorem rhoHat_pos (d : PGData a b) {r : ℝ} (hr : 0 < r) (mu : ℝ) : 0 < (params d r mu).rhoHat := by
+  rw [params_rhoHat]
+  have := one_le_kam_c1 d
+  have := pgScales_k0_pos d
+  have := pgScales_k1_pos d
+  have := pgK0_pos d (pgScales d)
+  refine lt_min ?_ ?_ <;> positivity
+
+theorem rhoHat_le_l1 (d : PGData a b) (r mu : ℝ) :
+    (params d r mu).rhoHat ≤ (params d r mu).l1/2 := min_le_right _ _
+
+theorem chat_Ehat_lt {d : PGData a b} {r : ℝ} (hr : 0 < r) (mu : ℝ) :
+    pgChat a b * (params d r mu).Ehat < 1 := by
+  obtain ⟨-, -, hK, hk1, -⟩ := pgScales_spec d
+  have hc1 : 0 < kam_c1 d := by linarith [one_le_kam_c1 d]
+  have hρ := rhoHat_pos d hr mu
+  have hc := pgChat_pos a b
+  have hY := pgK0_pos d (pgScales d)
+  have hX : (r^(5/2:ℝ))^2 = r^5 := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hr.le]; norm_num
+  have hY2 : ((pgK0 d (pgScales d))^(pgTau a b+1))^2 = (pgK0 d (pgScales d))^(2*pgTau a b+2) := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hY.le]; congr 1; push_cast; ring
+  have hr5 : 0 < r^5 := by positivity
+  have key : pgChat a b * (kam_c1 d)^2 * r^5 < (params d r mu).rhoHat^2 := by
+    rw [params_rhoHat]
+    rcases min_choice ((pgScales d).k0*r^(5/2:ℝ)/(3*kam_c1 d*(pgK0 d (pgScales d))^(pgTau a b+1)))
+      ((pgScales d).k1*r^(5/2:ℝ)/2) with h | h <;> rw [h]
+    · rw [div_pow, lt_div_iff₀ (by positivity)]
+      simp only [mul_pow]
+      rw [hX, hY2]
+      calc pgChat a b * kam_c1 d ^ 2 * r ^ 5 * (3 ^ 2 * kam_c1 d ^ 2 * pgK0 d (pgScales d) ^ (2 * pgTau a b + 2))
+          = r^5 * (9 * pgChat a b * kam_c1 d ^ 4 * pgK0 d (pgScales d) ^ (2 * pgTau a b + 2)) := by
+            ring
+        _ < r^5 * (pgScales d).k0 ^ 2 := mul_lt_mul_of_pos_left hK hr5
+        _ = _ := by ring
+    · rw [div_pow, lt_div_iff₀ (by positivity)]
+      simp only [mul_pow]
+      rw [hX]
+      calc pgChat a b * kam_c1 d ^ 2 * r ^ 5 * 2 ^ 2 = r^5 * (4 * pgChat a b * kam_c1 d ^ 2) := by
+            ring
+        _ < r^5 * (pgScales d).k1 ^ 2 := mul_lt_mul_of_pos_left hk1 hr5
+        _ = _ := by ring
+  rw [params_Ehat, ← mul_div_assoc, div_lt_one (by positivity)]
+  linarith
+
+theorem rK_lt {d : PGData a b} {r : ℝ} (hr : 0 < r) (mu : ℝ) :
+    (params d r mu).rK < (params d r mu).rhoHat/(256*(a+b:ℕ)) := by
+  have hE := chat_Ehat_lt (d := d) hr mu
+  have hρ := rhoHat_pos d hr mu
+  have hn : (1:ℝ) ≤ ((a+b:ℕ):ℝ) := by
+    have := d.ha; exact_mod_cast (by omega : 1 ≤ a+b)
+  have hcn : 2^13*((a+b:ℕ):ℝ) ≤ pgChat a b := le_max_left _ _
+  have hE0 : 0 ≤ (params d r mu).Ehat := by
+    rw [params_Ehat]; positivity
+  have h1 : 2^13*((a+b:ℕ):ℝ) * (params d r mu).Ehat < 1 :=
+    lt_of_le_of_lt (mul_le_mul_of_nonneg_right hcn hE0) hE
+  rw [params_rK, lt_div_iff₀ (by positivity)]
+  have : (params d r mu).Ehat * (256*((a+b:ℕ):ℝ)) < 1/32 := by nlinarith
+  nlinarith
+
 end KAM.Planetary
 
 end
