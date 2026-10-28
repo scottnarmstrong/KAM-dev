@@ -443,3 +443,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   not exported); Q3 adm_budget's ab-* nodes. Ruling: one follow-up package GAP-A fills the N11-O and T8 gaps as appended
   exports (no signed statement changes). Q3 has no gap of its own: the ab-* nodes belong to `adm_budget`
   (P11a-3, not yet designed) and wait for that design.
+- **21:01. Ruling (N11-L1 accepted).** Audit 1 failed L1 because `transverse_pairing` keeps the four bounds of
+  stepN:p11:ef-C as premises. The design maps ef-C to the inside of L2's `energy_free`, and the N11-L2 audit passed
+  ef-C there (all four bounds supplied, exact contradiction). N11-L1 accepted with a ruling note on its branch;
+  merge order L1 then L2.
+- **21:15. Ruling (owner to review: premise added to a signed N11 declaration).** The signed
+  `canonical_map` (N11Signatures.lean line 301) had no hypothesis giving `0 < b.c`, but `ExtCanonical b.c U Φ`
+  needs it (E1's `symplectic`). In Lean `b.c = 2π/(w/r_B)²` is 0 when `w` or `r_B` is 0, which neither `slowLoss`
+  nor `PartialBlock` excludes; in the source the radii are positive. Ruling: add `(hc : 0 < b.c)` after `φ`
+  (a source positivity premise; consumers have it from `ExtNFHyp.radius_pos`/`slow_width_pos`). Signature backup
+  orchestrator-tools/handoffs/N11Signatures.lean.bak-2115; N11-F2 commit 1d5683c5. N11-F2 also puts the signed
+  `extFlow` in a shared `Partial/ExtFlow.lean` so N11-F1 imports rather than redefines it.
