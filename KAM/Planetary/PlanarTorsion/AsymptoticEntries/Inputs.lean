@@ -55,7 +55,8 @@ theorem p11cAe_Q01 (hp : p.Valid) {α : ℝ} (hα : 0 < α) :
   have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
   have hm0 := hp.2.2 0
   have hm1 := hp.2.2 1
-  have hI : p.actions ![α, 1] 0 * p.actions ![α, 1] 1 = p.m 0 * p.m 1 * p.kappa * α ^ (1 / 2 : ℝ) := by
+  have hI : p.actions ![α, 1] 0 * p.actions ![α, 1] 1 =
+      p.m 0 * p.m 1 * p.kappa * α ^ (1 / 2 : ℝ) := by
     simp only [PlanarData.actions, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
       mul_one]
     rw [Real.sqrt_mul hk.le, ← Real.sqrt_eq_rpow]
@@ -64,7 +65,8 @@ theorem p11cAe_Q01 (hp : p.Valid) {α : ℝ} (hα : 0 < α) :
       _ = _ := by rw [this]
   have hs : √(p.actions ![α, 1] 0 * p.actions ![α, 1] 1) =
       √(p.m 0 * p.m 1 * p.kappa) * α ^ (1 / 4 : ℝ) := by
-    rw [hI, Real.sqrt_mul (by positivity), Real.sqrt_eq_rpow (α ^ (1 / 2 : ℝ)), ← Real.rpow_mul hα.le]
+    rw [hI, Real.sqrt_mul (by positivity), Real.sqrt_eq_rpow (α ^ (1 / 2 : ℝ)),
+      ← Real.rpow_mul hα.le]
     norm_num
   have hpos : 0 < √(p.m 0 * p.m 1 * p.kappa) := Real.sqrt_pos.2 (by positivity)
   simp only [p11c_Q, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
