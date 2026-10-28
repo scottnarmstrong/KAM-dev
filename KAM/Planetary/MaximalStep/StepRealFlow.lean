@@ -42,7 +42,9 @@ theorem stepV_contDiff (S : P11Step n) (w : P11CVec n → P11CVec n) (R : P11Fam
     (b : P11Vec n) : ContDiff ℝ 2 (stepV S w R b) := by
   refine contDiff_pi.2 fun i => ?_
   have h1 : ContDiff ℝ 2 (fun θ : P11CVec n => stepP1 S w R (θ, KAM.realInclusion n b) i) :=
-    ((stepP1_entire S w R _ i).contDiff (n := 2)).restrict_scalars ℝ
+    ((contDiffOn_univ.1 (KAM.holomorphic_regularity_of_finiteDimensional isOpen_univ
+      (stepP1_entire S w R (KAM.realInclusion n b) i).differentiableOn).2.2.1).restrict_scalars
+      ℝ).of_le (by simp)
   exact Complex.reCLM.contDiff.comp (h1.comp (KAM.realInclusion n).contDiff)
 
 theorem stepV_bound (H : P11StepHyp S h w R) {b : P11Vec n}
@@ -62,7 +64,8 @@ theorem stepV_periodic (H : P11StepHyp S h w R) {b : P11Vec n}
     (hb : KAM.realInclusion n b ∈ KAM.actionNbhd S.E S.t) (x : P11Vec n) (k : Fin n → ℤ) :
     stepV S w R b (x + fun i => (k i : ℝ)) = stepV S w R b x := by
   have Hb := step_affHyp H hb
-  have hx := KAM.ofReal_mem_complexStrip (n := n) (by linarith [S.radius, S.sigma_pos]) x
+  have hx := KAM.ofReal_mem_complexStrip (n := n) (ρ := S.r - S.d - S.delta)
+    (by linarith [S.radius, S.sigma_pos]) x
   have := periodic_int (f := fun θ => stepP1 S w R (θ, KAM.realInclusion n b)) Hb.per1 k hx
   funext i
   have e : KAM.realInclusion n (x + fun i => (k i : ℝ)) =
@@ -125,7 +128,7 @@ theorem stepV_fderiv (H : P11StepHyp S h w R) {b : P11Vec n}
     by_cases hkT : KAM.Fourier.modeSize k ≤ S.T
     · simp only [ne_eq, hk0, not_false_eq_true, if_true]
       have hc := norm_hmCoef_le S.D_pos hr (c2 i) c6' hb
-        (fun k hk hkT => step_hdiv H _ hb k hk hkT) hk hkT
+        (fun k hk hkT => step_hdiv H _ hb k hk hkT) hk0 hkT
       have hch : ‖KAM.character k (KAM.realInclusion n x)‖ = 1 := KAM.norm_character_real k x
       have hdot : ‖p11dotC k (KAM.realInclusion n a)‖ ≤ S.T * ‖a‖ :=
         (p11_norm_dotC_le k _).trans (mul_le_mul hkT ha (norm_nonneg _) S.T_pos.le)
@@ -182,6 +185,7 @@ theorem step_flow_real (H : P11StepHyp S h w R)
       (Icc (-1) 1) γ := fun t _ => by
     refine ⟨KAM.ofReal_mem_complexStrip hρ _, ?_⟩
     have := (KAM.realInclusion n).hasFDerivAt.comp_hasDerivAt t (hsd t)
+    simp only [Function.comp_def] at this
     simpa [hγ, hfield] using this
   have hzU : ((KAM.realInclusion n x, (0 : P11CVec n)) : P11Phase n) ∈
       KAM.Weighted.Dom n {0} (3 * S.s / 4) (S.r - S.d - S.delta - 3 * S.sigma / 2) :=
@@ -193,7 +197,7 @@ theorem step_flow_real (H : P11StepHyp S h w R)
     (by
       have a := (KAM.Canonical.flow_a (smallField Hb) (U_sub_half Hb hzU)).1
       simp only [hγ, hs0, a])
-  have h1 := hu (t := 1) ⟨by norm_num, le_rfl⟩
+  have h1 := hu ⟨by norm_num, le_rfl⟩
   funext i
   have := congrFun h1 i
   simp only [hγ] at this
@@ -210,7 +214,9 @@ theorem step_real_lipschitz (H : P11StepHyp S h w R)
           (S.D * S.s)) - 1 := by
   intro b hbE θ
   have hb : KAM.realInclusion n b ∈ KAM.actionNbhd S.E S.t :=
-    ⟨b, hbE, by simpa using S.t_pos⟩
+    ⟨b, hbE, by
+      have : (KAM.realInclusion n b - fun i => ((b i : ℝ) : ℂ)) = 0 := by ext; simp
+      rw [this]; simpa using S.t_pos⟩
   have hD := S.D_pos
   have hs := S.s_pos
   have hr : 0 < S.r - S.d := by linarith [step_dr S]
