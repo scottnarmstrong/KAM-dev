@@ -85,7 +85,8 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
       (∀ p ∈ N, pairEmb p ∈ slowDom (pairData D i j)) ∧
       (∀ p ∈ N, pairSlowSecular D i j p.1.1 p.1.2 p.2 =
         secular (pairData D i j) false (pairEmb p)) ∧
-      AnalyticOnNhd ℝ (fun p => secular (pairData D i j) false (pairEmb p)) N := by
+      (AnalyticOnNhd ℝ (fun p => secular (pairData D i j) false (pairEmb p)) N ∧
+        ∀ p ∈ N, Continuous fun q : ℝ × ℝ => pairKernel (pairData D i j) (pairEmb p) 0 1 q.1 q.2) := by
   set D2 := pairData D i j with hD2
   set a2 : Vec 2 := axis D2 ![I0, J0] with ha2
   have hpos : ∀ k, 0 < (![I0, J0] : Vec 2) k := fun k => by fin_cases k <;> simpa
@@ -105,7 +106,10 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
       simp [pairEmb_apply, inclusion, hact, hr]
   refine ⟨pairEmb ⁻¹' realDisc D2 a2 r, (isOpen_realDisc D2 a2 hr).preimage pairEmb.continuous,
     hbase, fun p hp => realDisc_subset_slowDom D2 ha hrho hp, fun p hp => ?_,
-    fun p hp => (hAn _ hp).comp (pairEmb.analyticAt _)⟩
+    ⟨fun p hp => (hAn _ hp).comp (pairEmb.analyticAt _), fun p hp => ?_⟩⟩
+  swap
+  · exact continuous_pairKernel_comp D2 ha hrho hsep hp (i := 0) (j := 1) (by decide)
+      (f := fun q : ℝ × ℝ => q.1) (g := fun q : ℝ × ℝ => q.2) continuous_fst continuous_snd
   rw [secular_false_eq_pairs D2 ha hrho hsep hp]
   have h0 : (Finset.univ.filter (fun j : Fin 2 => 0 < j)) = {1} := by decide
   have h1 : (Finset.univ.filter (fun j : Fin 2 => 1 < j)) = ∅ := by decide
@@ -119,7 +123,7 @@ theorem analyticAt_pairSlowSecular (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI 
     (hab : I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) < J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))) :
     AnalyticAt ℝ (fun p : (ℝ × ℝ) × ((Fin 2 → ℝ) × (Fin 2 → ℝ)) =>
       pairSlowSecular D i j p.1.1 p.1.2 p.2) ((I0, J0), 0) := by
-  obtain ⟨N, hN, h0, -, hF, hA⟩ := pair_secular_nbhd D i j hI hJ hab
+  obtain ⟨N, hN, h0, -, hF, hA, -⟩ := pair_secular_nbhd D i j hI hJ hab
   refine (hA _ h0).congr ?_
   filter_upwards [hN.mem_nhds h0] with p hp
   exact (hF p hp).symm

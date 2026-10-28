@@ -64,7 +64,7 @@ include hI hJ hab in
 theorem pair_contDiffOn :
     ∃ U : Set PairW, IsOpen U ∧ (0 : PairW) ∈ U ∧
       ContDiffOn ℝ 4 (fun w : PairW => pairSlowSecular D i j I0 J0 w) U := by
-  obtain ⟨N, hN, h0, -, hF, hA⟩ := pair_secular_nbhd D i j hI hJ hab
+  obtain ⟨N, hN, h0, -, hF, hA, -⟩ := pair_secular_nbhd D i j hI hJ hab
   have h1 : Continuous fun w : PairW => ((I0, J0), w) := continuous_const.prodMk continuous_id
   refine ⟨_, hN.preimage h1, h0, ?_⟩
   have hAn : AnalyticOnNhd ℝ (fun w : PairW => secular (pairData D i j) false (pairEmb ((I0, J0), w)))
