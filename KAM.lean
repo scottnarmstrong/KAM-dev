@@ -311,12 +311,16 @@ public import KAM.Nekhoroshev.Assembly.Choice
 public import KAM.Nekhoroshev.Assembly.Hypotheses
 public import KAM.Nekhoroshev.Averaging.Coefficients
 public import KAM.Nekhoroshev.Averaging.CompactMaximum
+public import KAM.Nekhoroshev.Averaging.Corrector
 public import KAM.Nekhoroshev.Averaging.Field
 public import KAM.Nekhoroshev.Averaging.FlowDefs
+public import KAM.Nekhoroshev.Averaging.LocalDependence
 public import KAM.Nekhoroshev.Averaging.PicardDerivatives
 public import KAM.Nekhoroshev.Averaging.PicardFamilies
 public import KAM.Nekhoroshev.Averaging.Rank
 public import KAM.Nekhoroshev.Averaging.Setting
+public import KAM.Nekhoroshev.Averaging.Slab
+public import KAM.Nekhoroshev.Averaging.SlabBox
 public import KAM.Nekhoroshev.Interfaces.ConicCoercive
 public import KAM.Nekhoroshev.Interfaces.Constants
 public import KAM.Nekhoroshev.Interfaces.ConstantsAnalytic
@@ -358,6 +362,7 @@ public import KAM.Nekhoroshev.QcZero.QCResults
 public import KAM.Nekhoroshev.QcZero.ZeroField
 public import KAM.Nekhoroshev.QcZero.ZeroOrbit
 public import KAM.Nekhoroshev.QuasiConvex
+public import KAM.Nekhoroshev.ResonanceGeometry.Blocks
 public import KAM.Nekhoroshev.ResonanceGeometry.Lattice
 public import KAM.Nekhoroshev.ResonanceGeometry.Maximal
 public import KAM.Nekhoroshev.ResonanceGeometry.Projection
@@ -370,6 +375,9 @@ public import KAM.Nekhoroshev.Stability.NonresonantAux
 public import KAM.Nekhoroshev.Stability.Preimage
 public import KAM.Nekhoroshev.Stability.RealSystem
 public import KAM.Nekhoroshev.Stability.Resonant
+public import KAM.Nekhoroshev.Stability.ResonantStability
+public import KAM.Nekhoroshev.Stability.ResonantStabilityCore
+public import KAM.Nekhoroshev.Stability.ResonantStabilityHess
 public import KAM.Nekhoroshev.Stability.Setting
 public import KAM.Nekhoroshev.Stability.Transfer
 public import KAM.Nekhoroshev.ZeroPerturbation
@@ -405,6 +413,7 @@ public import KAM.Planetary.Newtonian.Reconstruction
 public import KAM.Planetary.Newtonian.Reduction
 public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.PG.Setting
+public import KAM.Planetary.PGAssembly.ComplexLocal
 public import KAM.Planetary.PGMeasure.AffineSlab
 public import KAM.Planetary.PGMeasure.CompactLipschitz
 public import KAM.Planetary.PGMeasure.LatticeTail
