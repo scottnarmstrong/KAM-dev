@@ -203,6 +203,73 @@ theorem hasDerivAt_fderiv_volterra (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {
 
 end Ftc
 
+section Chain
+
+variable [CompleteSpace E] [FiniteDimensional ℝ E] [ProperSpace E]
+variable {F : E → E} {W : Set E} {Tm Tp : E → EReal} {z : E → ℝ → E}
+
+/-- The output of `ext_dep`: a local flow on `(-a, a) × ball x₀ r`. -/
+structure LocalFlow (F : E → E) (W : Set E) (x₀ : E) (a r : ℝ) (y : ℝ → E → E) : Prop where
+  ha : 0 < a
+  hr : 0 < r
+  ball_sub : ball x₀ r ⊆ W
+  cont : ContinuousOn (fun p : ℝ × E => y p.1 p.2) (Ioo (-a) a ×ˢ ball x₀ r)
+  dcont : ContinuousOn (fun p : ℝ × E => fderiv ℝ (y p.1) p.2) (Ioo (-a) a ×ˢ ball x₀ r)
+  init : ∀ x ∈ ball x₀ r, y 0 x = x
+  sol : ∀ x ∈ ball x₀ r, IsSolutionIn F W (Ioo (-a) a) (fun t => y t x)
+  hasF : ∀ x ∈ ball x₀ r, ∀ t ∈ Ioo (-a) a, HasFDerivAt (y t) (fderiv ℝ (y t) x) x
+  vol : ∀ x ∈ ball x₀ r, ∀ t ∈ Ioo (-a) a, fderiv ℝ (y t) x = ContinuousLinearMap.id ℝ E +
+    ∫ u in (0 : ℝ)..t, (fderiv ℝ F (y u x)).comp (fderiv ℝ (y u) x)
+
+theorem exists_localFlow (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {x₀ : E} (hx : x₀ ∈ W) :
+    ∃ a r y, LocalFlow F W x₀ a r y := by
+  obtain ⟨a, r, ha, hr, hb, y, h1, h2, h3⟩ := ext_dep hW hF hx
+  exact ⟨a, r, y, ha, hr, hb, h1, h2, fun x hx => (h3 x hx).1, fun x hx => (h3 x hx).2.1,
+    fun x hx t ht => ((h3 x hx).2.2 t ht).1, fun x hx t ht => ((h3 x hx).2.2 t ht).2⟩
+
+theorem LocalFlow.deriv_t (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {x₀ : E} {a r : ℝ}
+    {y : ℝ → E → E} (hl : LocalFlow F W x₀ a r y) :
+    ∀ x ∈ ball x₀ r, ∀ t ∈ Ioo (-a) a, HasDerivAt (fun τ => fderiv ℝ (y τ) x)
+      ((fderiv ℝ F (y t x)).comp (fderiv ℝ (y t) x)) t := fun x hx t ht =>
+  hasDerivAt_fderiv_volterra hW hF (hl.sol x hx)
+    (hl.dcont.comp (continuousOn_id.prodMk continuousOn_const)
+      fun u hu => ⟨hu, hx⟩) (hl.vol x hx) ht
+
+variable (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W)
+  (hmax : ∀ x ∈ W, IsMaximalSolution F W x (Tm x) (Tp x) (z x))
+include hW hF hmax
+
+/-- Extension of a regular time interval by one local-flow slab centered at `T₁`. -/
+theorem regOn_extend {J₁ : Set ℝ} {U₁ : Set E} (hJ₁ : IsOpen J₁) (hU₁ : IsOpen U₁)
+    (h₁ : RegOn F W Tm Tp z J₁ U₁) {T₁ : ℝ} (hT₁ : T₁ ∈ J₁) {x₁ : E} (hx₁ : x₁ ∈ U₁) {x₀ : E}
+    {a r : ℝ} {y : ℝ → E → E} (hl : LocalFlow F W x₀ a r y)
+    (hb : z x₁ T₁ ∈ ball x₀ r) :
+    ∃ U₂, IsOpen U₂ ∧ x₁ ∈ U₂ ∧
+      RegOn F W Tm Tp z (J₁ ∪ Ioo (T₁ - a) (T₁ + a)) U₂ := by
+  obtain ⟨a1, a2, a3, a4, a5⟩ := h₁
+  have hcz : ContinuousOn (fun x => z x T₁) U₁ :=
+    a3.comp (continuousOn_const.prodMk continuousOn_id) fun x hx => ⟨hT₁, hx⟩
+  have hU₂ : IsOpen (U₁ ∩ (fun x => z x T₁) ⁻¹' ball x₀ r) :=
+    hcz.isOpen_inter_preimage hU₁ isOpen_ball
+  refine ⟨_, hU₂, ⟨hx₁, hb⟩, ?_⟩
+  have hsub : U₁ ∩ (fun x => z x T₁) ⁻¹' ball x₀ r ⊆ U₁ := inter_subset_left
+  have hJ₂ : RegOn F W Tm Tp z (Ioo (T₁ - a) (T₁ + a)) (U₁ ∩ (fun x => z x T₁) ⁻¹' ball x₀ r) := by
+    refine regOn_comp hU₂ (hsub.trans a1) (g := fun x => z x T₁)
+      (g' := fun x => fderiv ℝ (fun y => z y T₁) x)
+      (fun x hx => (a5 x (hsub hx) T₁ hT₁).1)
+      ((a4.comp (continuousOn_const.prodMk continuousOn_id)
+        fun x hx => ⟨hT₁, hx⟩).mono hsub) hl.cont hl.dcont hl.hasF (hl.deriv_t hW hF) (fun x hx => hx.2) ?_
+    intro x hx u hu
+    have hxW : x ∈ W := a1 hx.1
+    have := shift_sol hW hF (hmax x hxW) (a2 x hx.1 hT₁) (isOpen_Ioo (a := -a) (b := a))
+      ordConnected_Ioo (I := Ioo (-a) a) ⟨by linarith [hl.ha], hl.ha⟩
+      (w := fun t => y t (z x T₁)) (hl.sol _ hx.2) (by simpa using hl.init _ hx.2) (u - T₁)
+      ⟨by linarith [hu.1], by linarith [hu.2]⟩
+    simpa using this
+  exact RegOn.union hU₂ hJ₁ isOpen_Ioo (RegOn.mono ⟨a1, a2, a3, a4, a5⟩ subset_rfl hsub) hJ₂
+
+end Chain
+
 end KAM.Nekhoroshev.FlowChain
 
 end
