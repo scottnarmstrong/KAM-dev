@@ -208,7 +208,8 @@ theorem pgScales_k0_pos (d : PGData a b) : 0 < (pgScales d).k0 := by
 
 theorem pgScales_k1_pos (d : PGData a b) : 0 < (pgScales d).k1 := (pgScales_spec d).2.1
 
-theorem rhoHat_pos (d : PGData a b) {r : ℝ} (hr : 0 < r) (mu : ℝ) : 0 < (params d r mu).rhoHat := by
+theorem params_rhoHat_pos (d : PGData a b) {r : ℝ} (hr : 0 < r) (mu : ℝ) :
+    0 < (params d r mu).rhoHat := by
   rw [params_rhoHat]
   have := one_le_kam_c1 d
   have := pgScales_k0_pos d
@@ -223,7 +224,7 @@ theorem chat_Ehat_lt {d : PGData a b} {r : ℝ} (hr : 0 < r) (mu : ℝ) :
     pgChat a b * (params d r mu).Ehat < 1 := by
   obtain ⟨-, -, hK, hk1, -⟩ := pgScales_spec d
   have hc1 : 0 < kam_c1 d := by linarith [one_le_kam_c1 d]
-  have hρ := rhoHat_pos d hr mu
+  have hρ := params_rhoHat_pos d hr mu
   have hc := pgChat_pos a b
   have hY := pgK0_pos d (pgScales d)
   have hX : (r^(5/2:ℝ))^2 = r^5 := by
@@ -238,7 +239,8 @@ theorem chat_Ehat_lt {d : PGData a b} {r : ℝ} (hr : 0 < r) (mu : ℝ) :
     · rw [div_pow, lt_div_iff₀ (by positivity)]
       simp only [mul_pow]
       rw [hX, hY2]
-      calc pgChat a b * kam_c1 d ^ 2 * r ^ 5 * (3 ^ 2 * kam_c1 d ^ 2 * pgK0 d (pgScales d) ^ (2 * pgTau a b + 2))
+      calc pgChat a b * kam_c1 d ^ 2 * r ^ 5 *
+            (3 ^ 2 * kam_c1 d ^ 2 * pgK0 d (pgScales d) ^ (2 * pgTau a b + 2))
           = r^5 * (9 * pgChat a b * kam_c1 d ^ 4 * pgK0 d (pgScales d) ^ (2 * pgTau a b + 2)) := by
             ring
         _ < r^5 * (pgScales d).k0 ^ 2 := mul_lt_mul_of_pos_left hK hr5
@@ -256,7 +258,7 @@ theorem chat_Ehat_lt {d : PGData a b} {r : ℝ} (hr : 0 < r) (mu : ℝ) :
 theorem rK_lt {d : PGData a b} {r : ℝ} (hr : 0 < r) (mu : ℝ) :
     (params d r mu).rK < (params d r mu).rhoHat/(256*(a+b:ℕ)) := by
   have hE := chat_Ehat_lt (d := d) hr mu
-  have hρ := rhoHat_pos d hr mu
+  have hρ := params_rhoHat_pos d hr mu
   have hn : (1:ℝ) ≤ ((a+b:ℕ):ℝ) := by
     have := d.ha; exact_mod_cast (by omega : 1 ≤ a+b)
   have hcn : 2^13*((a+b:ℕ):ℝ) ≤ pgChat a b := le_max_left _ _
@@ -304,7 +306,8 @@ theorem l1_le_rhoBar (d : PGData a b) {r : ℝ} (hr0 : 0 < r) (hr : r ≤ Real.e
   rw [params_rhoBar, le_div_iff₀ (by positivity), params_l1]
   have h52 : 0 < r^(5/2:ℝ) := Real.rpow_pos_of_pos hr0 _
   calc (pgScales d).k1 * r^(5/2:ℝ) * (2*(pgAnalytic d).M0*(params d r mu).Kbar^(pgTau a b+1))
-      = (2*(pgAnalytic d).M0*(pgScales d).k1) * (r^(5/2:ℝ) * (params d r mu).Kbar^(pgTau a b+1)) := by
+      = (2*(pgAnalytic d).M0*(pgScales d).k1) *
+          (r^(5/2:ℝ) * (params d r mu).Kbar^(pgTau a b+1)) := by
         ring
     _ ≤ (pgScales d).G * (r^(5/2:ℝ) * (params d r mu).Kbar^(pgTau a b+1)) :=
         mul_le_mul_of_nonneg_right h2 (by positivity)
@@ -324,7 +327,8 @@ theorem rhoBar_le {d : PGData a b} {r mu : ℝ} (h : ThrRange d r mu) :
   have hg0 : 0 ≤ (params d r mu).gammaBar := by
     rw [params_gammaBar]
     refine mul_nonneg (pgScales_G_pos d).le (le_trans ?_ (le_max_right _ _))
-    exact mul_nonneg (Real.rpow_nonneg hr0.le _) (Real.rpow_nonneg (mul_nonneg (by linarith [one_le_pgKappa d]) (by linarith)) _)
+    exact mul_nonneg (Real.rpow_nonneg hr0.le _)
+      (Real.rpow_nonneg (mul_nonneg (by linarith [one_le_pgKappa d]) (by linarith)) _)
   have hm : 1 ≤ (pgAnalytic d).M0 * (params d r mu).Kbar^(pgTau a b+1) := by nlinarith
   have hC : 0 ≤ pgCgamma d * Real.sqrt r := hg0.trans hg
   rw [params_rhoBar, div_le_iff₀ (by positivity)]

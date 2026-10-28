@@ -67,7 +67,8 @@ theorem eventually_static (d : PGData a b) : ∀ᶠ r in 𝓝[>] (0:ℝ), ThrSta
   obtain ⟨hinv, -⟩ := pgInverse_spec d
   have hCg := pgCgamma_pos d
   have ha : (0:ℝ) < a := Nat.cast_pos.2 d.ha
-  have hc6 : 0 < (2*(1+2*b*(pgAnalytic d).LN*(pgAnalytic d).LB)*a*(pgAnalytic d).LN*pgInverseL d)⁻¹ := by
+  have hc6 : 0 <
+      (2*(1+2*b*(pgAnalytic d).LN*(pgAnalytic d).LB)*a*(pgAnalytic d).LN*pgInverseL d)⁻¹ := by
     have : (0:ℝ) ≤ b := Nat.cast_nonneg b
     have : 0 < pgInverseL d := by linarith
     positivity
@@ -127,7 +128,8 @@ theorem eventually_small (d : PGData a b) : ∀ᶠ r in 𝓝[>] (0:ℝ), ThrSmal
   have e9 : ∀ᶠ r in 𝓝[>] (0:ℝ), Real.sqrt 2*18/(pgOscRadius d*((pgScales d).G*
       (30/pgWidth d)^(1/2:ℝ)))*r^4 < (pgScales d).k1 :=
     eventually_lt_of_continuousAt (by fun_prop) (by simpa using hk1)
-  filter_upwards [ev_lt (half_pos hr1 : 0 < (pgAnalytic d).r1/2), ev_lt (by positivity : 0 < pgOscRadius d/4),
+  filter_upwards [ev_lt (half_pos hr1 : 0 < (pgAnalytic d).r1/2),
+    ev_lt (by positivity : 0 < pgOscRadius d/4),
     e3, e4, e5, e6, e7, e8, e9] with r h1 h2 h3 h4 h5 h6 h7 h8 h9
   exact ⟨h1, h2, h3, h4.le, h5.le, h6, h7.le, h8, h9.le⟩
 
@@ -208,7 +210,8 @@ theorem thr_volumes {d : PGData a b} {r mu : ℝ} (hR : ThrRange d r mu)
         ENNReal.ofReal ((pgAnalytic d).Cdio*pgCgamma d*Real.sqrt r) := by
       apply ENNReal.ofReal_le_ofReal
       have := (pgAnalytic_spec d).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
-      calc (pgAnalytic d).Cdio*(params d r mu).gammaBar ≤ (pgAnalytic d).Cdio*(pgCgamma d*Real.sqrt r) :=
+      calc (pgAnalytic d).Cdio*(params d r mu).gammaBar
+          ≤ (pgAnalytic d).Cdio*(pgCgamma d*Real.sqrt r) :=
             mul_le_mul_of_nonneg_left hg this.le
         _ = _ := by ring
     have h2 : v ≤ volume (checkedCore d r mu) + (ENNReal.ofReal (pgBoundaryA d*Real.sqrt r) +
@@ -327,7 +330,7 @@ theorem thr_dynamic {d : PGData a b} {r mu : ℝ} (hS : ThrStatic d r) (hSm : Th
     linarith
   have hr2 : r^2 < r := by nlinarith
   have hl1s : (params d r mu).l1 < Real.sqrt r := by nlinarith
-  have hρ := rhoHat_pos d h0 mu
+  have hρ := params_rhoHat_pos d h0 mu
   have hn : (1:ℝ) ≤ ((a+b:ℕ):ℝ) := by
     have := d.ha; exact_mod_cast (by omega : 1 ≤ a+b)
   have hrK : (params d r mu).rK < (params d r mu).l1/2 := by
@@ -355,7 +358,8 @@ theorem thr_dynamic {d : PGData a b} {r mu : ℝ} (hS : ThrStatic d r) (hSm : Th
     e11, chat_Ehat_lt h0 mu, lt_min (by linarith) (by linarith), by linarith, hv1, hv2⟩
 
 /-- Preliminary radius `bpP:p5:rstar` (data only, selected before `r` and `mu`). -/
-theorem rstar (d : PGData a b) : ∃ R : ℝ, 0 < R ∧ R < d.r0 ∧ R < Real.exp (-(pgTau a b+1)) ∧ R < Real.exp (-1) ∧ R < 1 ∧
+theorem rstar (d : PGData a b) : ∃ R : ℝ, 0 < R ∧ R < d.r0 ∧ R < Real.exp (-(pgTau a b+1)) ∧
+    R < Real.exp (-1) ∧ R < 1 ∧
     R^6 ≤ (2*(1+2*b*(pgAnalytic d).LN*(pgAnalytic d).LB)*a*(pgAnalytic d).LN*pgInverseL d)⁻¹ ∧
     (pgAnalytic d).LP ≤ Real.log (1/R) ∧ R^2*(Real.log (1/R))^(pgTau a b+1) ≤ 1 ∧
     Real.sqrt R < pgBoundaryD d ∧
@@ -449,7 +453,7 @@ theorem r_k (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     have := d.ha; exact_mod_cast (by omega : 1 ≤ a+b)
   have hbn : (b:ℝ) ≤ ((a+b:ℕ):ℝ) := by exact_mod_cast Nat.le_add_left b a
   have hrK := rK_lt (d := d) hr0 mu
-  have hρ := rhoHat_pos d hr0 mu
+  have hρ := params_rhoHat_pos d hr0 mu
   have hl1def : (params d r mu).l1 = (pgScales d).k1*(r^2*Real.sqrt r) := by
     rw [params_l1, rpow_five_halves hr0]
   have hr2 : 0 < r^2 := pow_pos hr0 2
