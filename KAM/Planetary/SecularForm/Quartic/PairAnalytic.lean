@@ -76,11 +76,16 @@ theorem axis_mem_axes (D : Data n) {I : Vec n} (hI : ∀ i, 0 < I i)
     have := D.hG; have := D.hm0; have := D.hm i; have := hI i
     unfold axis; positivity, fun i j hij => hmono i j hij⟩
 
-theorem analyticAt_pairSlowSecular (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
+/-- The real neighbourhood of `((I₀, J₀), 0)` on which the pair average is the secular function of
+the two-planet system. -/
+theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
     (hJ : 0 < J0)
     (hab : I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) < J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))) :
-    AnalyticAt ℝ (fun p : (ℝ × ℝ) × ((Fin 2 → ℝ) × (Fin 2 → ℝ)) =>
-      pairSlowSecular D i j p.1.1 p.1.2 p.2) ((I0, J0), 0) := by
+    ∃ N : Set ((ℝ × ℝ) × ((Fin 2 → ℝ) × (Fin 2 → ℝ))), IsOpen N ∧ ((I0, J0), 0) ∈ N ∧
+      (∀ p ∈ N, pairEmb p ∈ slowDom (pairData D i j)) ∧
+      (∀ p ∈ N, pairSlowSecular D i j p.1.1 p.1.2 p.2 =
+        secular (pairData D i j) false (pairEmb p)) ∧
+      AnalyticOnNhd ℝ (fun p => secular (pairData D i j) false (pairEmb p)) N := by
   set D2 := pairData D i j with hD2
   set a2 : Vec 2 := axis D2 ![I0, J0] with ha2
   have hpos : ∀ k, 0 < (![I0, J0] : Vec 2) k := fun k => by fin_cases k <;> simpa
@@ -98,20 +103,26 @@ theorem analyticAt_pairSlowSecular (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI 
     intro k
     refine ⟨?_, ?_, ?_⟩ <;> fin_cases k <;>
       simp [pairEmb_apply, inclusion, hact, hr]
-  have hopen : IsOpen (pairEmb ⁻¹' realDisc D2 a2 r) :=
-    (isOpen_realDisc D2 a2 hr).preimage pairEmb.continuous
-  have hcomp : AnalyticAt ℝ (fun p => secular D2 false (pairEmb p)) ((I0, J0), 0) :=
-    (hAn _ hbase).comp (pairEmb.analyticAt _)
-  refine hcomp.congr ?_
-  filter_upwards [hopen.mem_nhds (show ((I0, J0), (0 : (Fin 2 → ℝ) × (Fin 2 → ℝ))) ∈
-      pairEmb ⁻¹' realDisc D2 a2 r from hbase)] with p hp
+  refine ⟨pairEmb ⁻¹' realDisc D2 a2 r, (isOpen_realDisc D2 a2 hr).preimage pairEmb.continuous,
+    hbase, fun p hp => realDisc_subset_slowDom D2 ha hrho hp, fun p hp => ?_,
+    fun p hp => (hAn _ hp).comp (pairEmb.analyticAt _)⟩
   rw [secular_false_eq_pairs D2 ha hrho hsep hp]
   have h0 : (Finset.univ.filter (fun j : Fin 2 => 0 < j)) = {1} := by decide
   have h1 : (Finset.univ.filter (fun j : Fin 2 => 1 < j)) = ∅ := by decide
   simp only [Fin.sum_univ_two, pairEmb_apply, h0, h1, Finset.sum_singleton,
     Finset.sum_empty, add_zero]
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, vec2_eta, Prod.mk.eta]
-  exact pairSlowSecular_pairData D i j _ _ _
+  exact (pairSlowSecular_pairData D i j _ _ _).symm
+
+theorem analyticAt_pairSlowSecular (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
+    (hJ : 0 < J0)
+    (hab : I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) < J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))) :
+    AnalyticAt ℝ (fun p : (ℝ × ℝ) × ((Fin 2 → ℝ) × (Fin 2 → ℝ)) =>
+      pairSlowSecular D i j p.1.1 p.1.2 p.2) ((I0, J0), 0) := by
+  obtain ⟨N, hN, h0, -, hF, hA⟩ := pair_secular_nbhd D i j hI hJ hab
+  refine (hA _ h0).congr ?_
+  filter_upwards [hN.mem_nhds h0] with p hp
+  exact (hF p hp).symm
 
 end SecularForm
 end KAM.Planetary
