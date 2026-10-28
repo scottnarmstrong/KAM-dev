@@ -10,6 +10,7 @@ public import KAM.Nekhoroshev.Partial.Adjoint
 public import KAM.Nekhoroshev.Partial.Lie
 public import KAM.Nekhoroshev.Partial.VectorField
 public import KAM.Nekhoroshev.Partial.Flow
+public import KAM.Nekhoroshev.Partial.ExtFlow
 public import KAM.Nekhoroshev.Partial.RealSystem
 import Mathlib.Analysis.Complex.ExponentialBounds
 import Mathlib.Analysis.Normed.Group.FunctionSeries
@@ -58,9 +59,6 @@ structure ExtCompose (b : PartialBlock n k) (R' s' R s ρ σ V : ℝ) (φ : EC n
   bound : WBound b.base R' s' φ V
   small : 2*V/(ρ*σ) ≤ 1/2
   slow : slowLoss b.c ρ σ k
-
-def extFlow (b : PartialBlock n k) (R s ρ σ : ℝ) (φ : EC n k → ℂ) (t : ℝ) : EC n k → EC n k :=
-  KAM.Canonical.flow (wfield b.c φ) (Dom n b.base (R-ρ) (s-σ)) t
 
 /-! ### The gauge `ν_{ρ,σ}` -/
 

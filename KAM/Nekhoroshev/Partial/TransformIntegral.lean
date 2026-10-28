@@ -166,7 +166,9 @@ theorem integral_inClass :
     rw [← add_single_eq_ext]
     refine intervalIntegral.integral_congr fun t ht => ?_
     have ht' : t ∈ Icc (0 : ℝ) 1 := by simpa [uIcc_of_le zero_le_one] using ht
-    rw [hflow z (hΩG hz) t ⟨by linarith [ht'.1], ht'.2⟩]
+    have hfl := hflow z (hΩG hz) t ⟨by linarith [ht'.1], ht'.2⟩
+    change extFlow b R' s' ρ σ φ t (z + (Pi.single j 1, 0)) = _ at hfl
+    rw [hfl]
     have hm := hc.tube_sub (hdom t (abs_le.2 ⟨by linarith [ht'.1], ht'.2⟩) hz)
     rw [add_single_eq_ext]
     exact (hv t ht').periodic j _ hm
