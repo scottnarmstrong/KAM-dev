@@ -77,25 +77,32 @@ theorem norm_hRho_le {T : Matrix (Fin n) (Fin n) ℂ} {B' : ℝ} (hB : ∀ i, �
           mul_le_mul_of_nonneg_right (hB i) (mul_nonneg (norm_nonneg _) (norm_nonneg _))
     _ = n * B' * (‖x‖ * ‖y‖) := by simp [mul_assoc]
 
+/-- The derivative of a matrix family is computed entrywise. -/
+theorem p11hs_fderiv_entry {U : Set (P11CVec n)} (hU : IsOpen U)
+    {ρ : P11CVec n → Matrix (Fin n) (Fin n) ℂ}
+    (hρ : ∀ i j, DifferentiableOn ℂ (fun z => ρ z i j) U) {J : P11CVec n} (hJ : J ∈ U)
+    (v : P11CVec n) (i j : Fin n) :
+    (fderiv ℂ ρ J v : Matrix (Fin n) (Fin n) ℂ) i j = fderiv ℂ (fun z => ρ z i j) J v := by
+  have hρd : DifferentiableOn ℂ ρ U :=
+    differentiableOn_pi.2 fun i => differentiableOn_pi.2 fun j => hρ i j
+  have hdA : DifferentiableAt ℂ (fun z => (ρ z : Fin n → Fin n → ℂ)) J :=
+    hρd.differentiableAt (hU.mem_nhds hJ)
+  have hproj : HasFDerivAt (fun M : Fin n → Fin n → ℂ => M i j)
+      ((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => ℂ) j).comp
+        (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => Fin n → ℂ) i))
+      (ρ J : Fin n → Fin n → ℂ) :=
+    ((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => ℂ) j).comp
+        (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => Fin n → ℂ) i)).hasFDerivAt
+  have h3 := congrArg (fun L => L v) (hproj.comp J hdA.hasFDerivAt).fderiv
+  exact h3.symm
+
 /-- The derivative of a holomorphic matrix family is holomorphic in each direction. -/
 theorem p11hs_differentiableOn_fderiv {U : Set (P11CVec n)} (hU : IsOpen U)
     {ρ : P11CVec n → Matrix (Fin n) (Fin n) ℂ}
     (hρ : ∀ i j, DifferentiableOn ℂ (fun z => ρ z i j) U) (v : P11CVec n) (i j : Fin n) :
     DifferentiableOn ℂ (fun J => (fderiv ℂ ρ J v : Matrix (Fin n) (Fin n) ℂ) i j) U := by
-  have hρd : DifferentiableOn ℂ ρ U :=
-    differentiableOn_pi.2 fun i => differentiableOn_pi.2 fun j => hρ i j
   have hentry : ∀ J ∈ U, (fderiv ℂ ρ J v : Matrix (Fin n) (Fin n) ℂ) i j =
-      fderiv ℂ (fun z => ρ z i j) J v := by
-    intro J hJ
-    have hdA : DifferentiableAt ℂ (fun z => (ρ z : Fin n → Fin n → ℂ)) J :=
-      hρd.differentiableAt (hU.mem_nhds hJ)
-    have hproj : HasFDerivAt (fun M : Fin n → Fin n → ℂ => M i j)
-        ((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => ℂ) j).comp
-          (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => Fin n → ℂ) i)) (ρ J : Fin n → Fin n → ℂ) :=
-      ((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => ℂ) j).comp
-          (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n => Fin n → ℂ) i)).hasFDerivAt
-    have h3 := congrArg (fun L => L v) (hproj.comp J hdA.hasFDerivAt).fderiv
-    exact h3.symm
+      fderiv ℂ (fun z => ρ z i j) J v := fun J hJ => p11hs_fderiv_entry hU hρ hJ v i j
   have hA : AnalyticOnNhd ℂ (fun z => ρ z i j) U :=
     analyticOnNhd_of_differentiableOn hU (hρ i j)
   have h2 : AnalyticOnNhd ℂ (fun J => fderiv ℂ (fun z => ρ z i j) J v) U := fun J hJ =>
@@ -282,6 +289,46 @@ theorem p11hsInput_differentiableOn (h : P11HsHyp D a ρ J0 rC σ rz B B' r' σ'
     | right l =>
       simp only [Fin.append_right]
       exact hmv _ hy l
+
+/-- A real vector in the real ball is in the complex ball. -/
+theorem p11hs_real_mem_ball {L : P11Vec n} (hL : ‖L - (2 * π)⁻¹ • J0‖ < rC / π) :
+    KAM.realInclusion n L ∈ Metric.ball ((2 * π)⁻¹ • KAM.realInclusion n J0) (rC / π) := by
+  rw [Metric.mem_ball, dist_eq_norm, ← map_smul, ← map_sub, KAM.norm_realInclusion]
+  exact hL
+
+/-- The derivative of the rotation family at a real point has real entries. -/
+theorem p11hs_fderiv_im (h : P11HsHyp D a ρ J0 rC σ rz B B' r' σ') {L : P11Vec n}
+    (hL : ‖L - (2 * π)⁻¹ • J0‖ < rC / π) (l k j : Fin n) :
+    ((fderiv ℂ ρ (KAM.realInclusion n L) (Pi.single l 1) : Matrix (Fin n) (Fin n) ℂ) k j).im
+      = 0 := by
+  set v : P11CVec n := Pi.single l 1 with hv
+  have hmem := p11hs_real_mem_ball (J0 := J0) (rC := rC) hL
+  rw [p11hs_fderiv_entry Metric.isOpen_ball h.rot_diff hmem v k j]
+  have hdA : HasFDerivAt (fun z => ρ z k j) (fderiv ℂ (fun z => ρ z k j) (KAM.realInclusion n L))
+      (KAM.realInclusion n L) :=
+    ((h.rot_diff k j).differentiableAt (Metric.isOpen_ball.mem_nhds hmem)).hasFDerivAt
+  set g : ℝ → P11CVec n := fun t => KAM.realInclusion n L + t • v with hg
+  have hg0 : g 0 = KAM.realInclusion n L := by simp [hg]
+  have hgd : HasDerivAt g v 0 := by
+    have := ((hasDerivAt_id (0 : ℝ)).smul_const v).const_add (KAM.realInclusion n L)
+    simpa [hg] using this
+  have h1 : HasFDerivAt (fun z => ρ z k j) (fderiv ℂ (fun z => ρ z k j) (KAM.realInclusion n L))
+      (g 0) := by rw [hg0]; exact hdA
+  have hF := (h1.restrictScalars ℝ).comp_hasDerivAt (0 : ℝ) hgd
+  have hFi := Complex.imCLM.hasFDerivAt.comp_hasDerivAt (0 : ℝ) hF
+  have hev : (fun t : ℝ => (ρ (g t) k j).im) =ᶠ[𝓝 0] fun _ => 0 := by
+    have hcont : ContinuousAt (fun t : ℝ => ‖L + t • (Pi.single l 1 : P11Vec n) -
+        (2 * π)⁻¹ • J0‖) 0 := by fun_prop
+    have h0 : ‖L + (0 : ℝ) • (Pi.single l 1 : P11Vec n) - (2 * π)⁻¹ • J0‖ < rC / π := by
+      simpa using hL
+    filter_upwards [hcont.eventually (gt_mem_nhds h0)] with t ht
+    have hgt : g t = KAM.realInclusion n (L + t • (Pi.single l 1 : P11Vec n)) := by
+      funext i
+      by_cases hi : i = l <;> simp [hg, hv, hi, KAM.realInclusion_apply]
+    rw [hgt]
+    exact h.rot_real _ ht k j
+  have := hFi.unique ((hasDerivAt_const (0 : ℝ) (0 : ℝ)).congr_of_eventuallyEq hev)
+  simpa using this
 
 end Input
 
