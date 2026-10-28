@@ -135,7 +135,6 @@ theorem flow_affine_comb (H : P11AffineHyp p0 p1 r s sigma A) {θ η : P11CVec n
     · funext i
       show (1-c) • (F (G t (θ, 0))).2 i + c • (F (G t (θ, η))).2 i = (F (δ t)).2 i
       rw [hF, field_snd H h0', field_snd H hs1, field_snd H (by simpa using hs1), hθ]
-      simp only [Complex.real_smul, Pi.add_apply, Pi.smul_apply, Complex.real_smul]
       simp only [δ, Pi.add_apply, Pi.smul_apply, Complex.real_smul, Complex.ofReal_sub,
         Complex.ofReal_one, mul_add, Finset.sum_add_distrib, ← Finset.mul_sum, mul_left_comm]
       ring
@@ -198,7 +197,7 @@ theorem flow_snd_affine (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
     have h2 := congrArg Prod.snd this
     simp only [hf, p11Flow]
     rw [h2]
-    simp only [sub_smul, one_smul, smul_sub, smul_zero]
+    simp only [sub_smul, one_smul, smul_sub]
     module
   have hd2 : HasDerivWithinAt (fun c : ℝ => f (c • η)) (f η - f 0) (Icc 0 1) 0 := by
     have := (((hasDerivAt_id (0 : ℝ)).smul_const (f η - f 0)).const_add (f 0)).hasDerivWithinAt
@@ -302,7 +301,7 @@ theorem aff_duality (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
     (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (0, b)) = _ at hs
   rw [e2] at hs
   simp only [KAM.Canonical.symplFormC, e1, mul_zero, zero_sub, Pi.zero_apply, Finset.sum_neg_distrib,
-    zero_mul, neg_inj] at hs
+    neg_inj] at hs
   simpa [mul_comm] using hs
 
 end KAM.Planetary
