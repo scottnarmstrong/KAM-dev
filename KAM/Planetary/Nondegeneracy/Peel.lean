@@ -324,5 +324,124 @@ theorem op2_le_frobenius (M : Mat n) : op2 M ≤ frobenius M := by
   rintro r ⟨x, hx, rfl⟩
   simpa [hx] using length2_mulVec_le M x
 
+section Peel
+variable (D : Data (n+1)) (hn : 0 < n) {a' : Vec n} {t : ℝ}
+
+theorem cons_mem (ha' : a' ∈ axes n) (ht : 0 < t) (hta : ∀ i, t ≤ a' i / 2) :
+    (Fin.cons t a' : Vec (n+1)) ∈ axes (n+1) := by
+  have hlt : ∀ i, t < a' i := fun i => by have := ha'.1 i; have := hta i; linarith
+  refine ⟨fun i => ?_, ?_⟩
+  · refine Fin.cases ?_ (fun j => ?_) i
+    · simpa using ht
+    · simpa using ha'.1 j
+  · cases n with
+    | zero =>
+      intro i j h
+      exfalso
+      have := i.2
+      have := j.2
+      rw [Fin.lt_def] at h
+      omega
+    | succ m =>
+    rw [Fin.strictMono_iff_lt_succ]
+    intro i
+    refine Fin.cases ?_ (fun j => ?_) i
+    · simpa using hlt 0
+    · simpa using ha'.2 (Fin.castSucc_lt_succ (i := j))
+
+theorem pairA_peel (ha' : a' ∈ axes n) (ht : 0 < t) (hta : ∀ i, t ≤ a' i / 2) (j : Fin n) :
+    0 ≤ pairA D (Fin.cons t a') 0 j.succ ∧
+      pairA D (Fin.cons t a') 0 j.succ ≤ (3/4)*D.G*D.m 0*D.m j.succ*t^2/a' j^3 := by
+  have h := pairA_bounds D (cons_mem ha' ht hta) (i := 0) (j := j.succ) (Fin.succ_pos j) (by
+    simp only [Fin.cons_zero, Fin.cons_succ]
+    rw [div_le_iff₀ (ha'.1 j)]; linarith [hta j])
+  simpa only [Fin.cons_zero, Fin.cons_succ] using h
+
+theorem pairB_peel (ha' : a' ∈ axes n) (ht : 0 < t) (hta : ∀ i, t ≤ a' i / 2) (j : Fin n) :
+    0 ≤ pairB D (Fin.cons t a') 0 j.succ ∧
+      pairB D (Fin.cons t a') 0 j.succ ≤ (15/16)*D.G*D.m 0*D.m j.succ*t^3/a' j^4 := by
+  have h := pairB_bounds D (cons_mem ha' ht hta) (i := 0) (j := j.succ) (Fin.succ_pos j) (by
+    simp only [Fin.cons_zero, Fin.cons_succ]
+    rw [div_le_iff₀ (ha'.1 j)]; linarith [hta j])
+  simpa only [Fin.cons_zero, Fin.cons_succ] using h
+
+theorem peel_E00 (ha' : a' ∈ axes n) (ht : 0 < t) (hta : ∀ i, t ≤ a' i / 2) :
+    |peelError D hn (Fin.cons t a') 0 0| ≤ 3*D.G/(4*√(D.G*D.m0))*t^(3/2 : ℝ)*
+        ∑ i : Fin n, D.m i.succ * (a' i)^(-3 : ℤ) := by
+  have hm := cons_mem ha' ht hta
+  have hE : peelError D hn (Fin.cons t a') 0 0 = coeffs D (Fin.cons t a') 0 0 := by
+    simp [peelError]
+  have hΛ : action D (Fin.cons t a') 0 = D.m 0 * √(D.G*D.m0*t) := by simp [action]
+  have h0 : (0:ℝ) < (Fin.cons t a' : Vec (n+1)) 0 := by simpa using ht
+  have hΛp : 0 < action D (Fin.cons t a') 0 := action_pos D h0
+  have hk : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  rw [hE, coeffs_zero_zero D h0, abs_div, abs_neg, abs_of_pos hΛp,
+    abs_of_nonneg (Finset.sum_nonneg fun j _ => (pairA_peel D ha' ht hta j).1)]
+  rw [div_le_iff₀ hΛp, hΛ]
+  calc ∑ j, pairA D (Fin.cons t a') 0 j.succ
+      ≤ ∑ j, (3/4)*D.G*D.m 0*D.m j.succ*t^2/a' j^3 :=
+        Finset.sum_le_sum fun j _ => (pairA_peel D ha' ht hta j).2
+    _ = ∑ j, (3*D.G/(4*√(D.G*D.m0))*t^(3/2 : ℝ) * (D.m j.succ * (a' j)^(-3 : ℤ))) *
+        (D.m 0 * √(D.G*D.m0*t)) := by
+        refine Finset.sum_congr rfl fun j _ => ?_
+        have := diag_alg D.G (D.m 0) (D.m j.succ) (D.G*D.m0) t (a' j) D.hG (D.hm 0)
+          (D.hm _) hk ht (ha'.1 j)
+        rw [div_eq_iff (mul_pos (D.hm 0) (Real.sqrt_pos.2 (mul_pos hk ht))).ne'] at this
+        exact this
+    _ = (∑ j, 3*D.G/(4*√(D.G*D.m0))*t^(3/2 : ℝ) * (D.m j.succ * (a' j)^(-3 : ℤ))) *
+        (D.m 0 * √(D.G*D.m0*t)) := (Finset.sum_mul ..).symm
+    _ = _ := by rw [← Finset.mul_sum]
+
+theorem peel_Ejj (ha' : a' ∈ axes n) (ht : 0 < t) (hta : ∀ i, t ≤ a' i / 2) (j : Fin n) :
+    |peelError D hn (Fin.cons t a') j.succ j.succ| ≤
+        3*D.G*D.m 0/(4*√(D.G*D.m0))*t^2*(a' j)^(-7/2 : ℝ) := by
+  have hj : (0:ℝ) < (Fin.cons t a' : Vec (n+1)) j.succ := by simpa using ha'.1 j
+  have hE : peelError D hn (Fin.cons t a') j.succ j.succ =
+      -(pairA D (Fin.cons t a') 0 j.succ / action D (Fin.cons t a') j.succ) := by
+    have : peelError D hn (Fin.cons t a') j.succ j.succ =
+        coeffs D (Fin.cons t a') j.succ j.succ -
+          coeffs (outerData D hn) (fun k => (Fin.cons t a' : Vec (n+1)) k.succ) j j := rfl
+    rw [this, coeffs_succ_succ_diag D hn j hj]; ring
+  have hΛ : action D (Fin.cons t a') j.succ = D.m j.succ * √(D.G*D.m0*a' j) := by
+    simp [action]
+  have hΛp : 0 < action D (Fin.cons t a') j.succ := action_pos D hj
+  have hk : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  rw [hE, abs_neg, abs_div, abs_of_pos hΛp, abs_of_nonneg (pairA_peel D ha' ht hta j).1,
+    div_le_iff₀ hΛp, hΛ]
+  have := diag_alg2 D.G (D.m 0) (D.m j.succ) (D.G*D.m0) t (a' j) D.hG (D.hm 0)
+    (D.hm _) hk ht (ha'.1 j)
+  rw [div_eq_iff (mul_pos (D.hm _) (Real.sqrt_pos.2 (mul_pos hk (ha'.1 j)))).ne'] at this
+  exact (pairA_peel D ha' ht hta j).2.trans_eq this
+
+theorem peel_E0j (ha' : a' ∈ axes n) (ht : 0 < t) (hta : ∀ i, t ≤ a' i / 2) (j : Fin n) :
+    |peelError D hn (Fin.cons t a') 0 j.succ| ≤
+      15*D.G*√(D.m 0*D.m j.succ)/(16*√(D.G*D.m0))*t^(11/4 : ℝ)*(a' j)^(-17/4 : ℝ) := by
+  have hj : (0:ℝ) < (Fin.cons t a' : Vec (n+1)) j.succ := by simpa using ha'.1 j
+  have h0 : (0:ℝ) < (Fin.cons t a' : Vec (n+1)) 0 := by simpa using ht
+  have hE : peelError D hn (Fin.cons t a') 0 j.succ =
+      pairB D (Fin.cons t a') 0 j.succ /
+        (√(action D (Fin.cons t a') 0) * √(action D (Fin.cons t a') j.succ)) := by
+    have : peelError D hn (Fin.cons t a') 0 j.succ = coeffs D (Fin.cons t a') 0 j.succ := by
+      simp [peelError]
+    rw [this, coeffs_zero_succ]
+  have hden : 0 < √(action D (Fin.cons t a') 0) * √(action D (Fin.cons t a') j.succ) :=
+    mul_pos (Real.sqrt_pos.2 (action_pos D h0)) (Real.sqrt_pos.2 (action_pos D hj))
+  have hk : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  rw [hE, abs_of_nonneg (div_nonneg (pairB_peel D ha' ht hta j).1 hden.le)]
+  refine (div_le_div_of_nonneg_right (pairB_peel D ha' ht hta j).2 hden.le).trans_eq ?_
+  rw [sqrt_action D h0, sqrt_action D hj]
+  simp only [Fin.cons_zero, Fin.cons_succ]
+  exact cross_alg D.G (D.m 0) (D.m j.succ) (D.G*D.m0) t (a' j) D.hG (D.hm 0) (D.hm _) hk ht
+    (ha'.1 j)
+
+theorem peel_off {i j : Fin n} (h : i ≠ j) :
+    peelError D hn (Fin.cons t a') i.succ j.succ = 0 := by
+  have : peelError D hn (Fin.cons t a') i.succ j.succ =
+      coeffs D (Fin.cons t a') i.succ j.succ -
+        coeffs (outerData D hn) (fun k => (Fin.cons t a' : Vec (n+1)) k.succ) i j := rfl
+  rw [this, coeffs_succ_succ_ne D hn _ h]; ring
+
+end Peel
+
 end Nondegeneracy
 end KAM.Planetary
