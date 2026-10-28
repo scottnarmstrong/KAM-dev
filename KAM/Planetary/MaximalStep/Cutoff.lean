@@ -77,7 +77,7 @@ theorem p11_taylor_real {n : ℕ} {r s : ℝ} (hs : 0 < s) {B : Set (P11CVec n)}
   rw [Complex.add_im, h6, hF0, add_zero]
 
 /-- `bpP:p11a:cutoff`. -/
-theorem cutoff {n : ℕ} (hn : 1 ≤ n) {r s T d eps q : ℝ}
+theorem p11_cutoff {n : ℕ} (hn : 1 ≤ n) {r s T d eps q : ℝ}
     (hr : 0 < r) (hs : 0 < s) (hT : 0 ≤ T) (hd : 0 < d) (hdr : d < r)
     (he : 0 ≤ eps) (hq : 0 < q) (hq1 : q < 1)
     {B : Set (P11CVec n)} (hB : IsOpen B) {R : P11Family n → ℂ}
