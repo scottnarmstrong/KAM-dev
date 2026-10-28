@@ -90,46 +90,45 @@ theorem p11cAe_c3_eq (hp : p.Valid) {α : ℝ} (hα : 0 < α) :
   rw [Real.rpow_neg hα.le, ← Real.sqrt_eq_rpow]
   field_simp
 
-theorem p11cAe_den (hp : p.Valid) {α : ℝ} (hα : 0 < α) (s t : ℝ) :
-    ∃ K : ℝ, 0 < K ∧
+theorem p11cAe_den (hp : p.Valid) (s t : ℝ) :
+    ∃ K : ℝ, 0 < K ∧ ∀ α : ℝ, 0 < α →
       p.actions ![α, 1] 0 ^ s * p.actions ![α, 1] 1 ^ t = K * α ^ (s / 2) := by
   have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
   have hm0 := hp.2.2 0
   have hm1 := hp.2.2 1
   have hsk : 0 < √p.kappa := Real.sqrt_pos.2 hk
-  refine ⟨p.m 0 ^ s * (√p.kappa) ^ s * (p.m 1 ^ t * (√p.kappa) ^ t), by positivity, ?_⟩
+  refine ⟨p.m 0 ^ s * (√p.kappa) ^ s * (p.m 1 ^ t * (√p.kappa) ^ t), by positivity,
+    fun α hα => ?_⟩
   rw [p11cAe_act0 p hα hk, p11cAe_act1 p α, Real.mul_rpow hm0.le (by positivity),
     Real.mul_rpow hsk.le (Real.sqrt_nonneg _), Real.mul_rpow hm1.le hsk.le,
     p11cAe_sqrt_rpow hα]
   ring
 
-theorem p11cAe_c_rpow (hp : p.Valid) {α : ℝ} (hα : 0 < α) (s t : ℝ) (X : ℝ) :
-    ∃ K : ℝ, -p.G * p.m 0 * p.m 1 / ![α, 1] 1 * X /
+theorem p11cAe_c_rpow (hp : p.Valid) (s t : ℝ) :
+    ∃ K : ℝ, ∀ α : ℝ, 0 < α → ∀ X : ℝ, -p.G * p.m 0 * p.m 1 / ![α, 1] 1 * X /
       (p.actions ![α, 1] 0 ^ s * p.actions ![α, 1] 1 ^ t) = K * (X * α ^ (-(s / 2))) := by
-  obtain ⟨K, hK, hKe⟩ := p11cAe_den p hp hα s t
-  refine ⟨-p.G * p.m 0 * p.m 1 / K, ?_⟩
+  obtain ⟨K, hK, hKe⟩ := p11cAe_den p hp s t
+  refine ⟨-p.G * p.m 0 * p.m 1 / K, fun α hα X => ?_⟩
   have hpos : 0 < α ^ (s / 2) := Real.rpow_pos_of_pos hα _
   have h1 : (![α, 1] 1 : ℝ) = 1 := by simp
-  rw [hKe, Real.rpow_neg hα.le, h1, div_one]
+  rw [hKe α hα, Real.rpow_neg hα.le, h1, div_one]
   field_simp
 
-theorem p11cAe_c4_eq (hp : p.Valid) {α : ℝ} (hα : 0 < α) :
-    ∃ K : ℝ, p11c_coeffs p ![α, 1] 4 = K *
+theorem p11cAe_c4_eq (hp : p.Valid) :
+    ∃ K : ℝ, ∀ α : ℝ, 0 < α → p11c_coeffs p ![α, 1] 4 = K *
       ((p11c_pairCoeffs α 6 - p11c_pairCoeffs α 1 / 8) * α ^ (-(3 / 4) : ℝ)) := by
-  obtain ⟨K, hK⟩ := p11cAe_c_rpow p hp hα (3 / 2) (1 / 2) (p11c_pairCoeffs α 6 -
-    p11c_pairCoeffs α 1 / 8)
-  refine ⟨K, ?_⟩
-  rw [show (-(3 / 4) : ℝ) = -((3 / 2 : ℝ) / 2) by norm_num, ← hK]
+  obtain ⟨K, hK⟩ := p11cAe_c_rpow p hp (3 / 2) (1 / 2)
+  refine ⟨K, fun α hα => ?_⟩
+  rw [show (-(3 / 4) : ℝ) = -((3 / 2 : ℝ) / 2) by norm_num, ← hK α hα]
   simp only [p11c_coeffs, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, div_one,
     Matrix.cons_val]
 
-theorem p11cAe_c5_eq (hp : p.Valid) {α : ℝ} (hα : 0 < α) :
-    ∃ K : ℝ, p11c_coeffs p ![α, 1] 5 = K *
+theorem p11cAe_c5_eq (hp : p.Valid) :
+    ∃ K : ℝ, ∀ α : ℝ, 0 < α → p11c_coeffs p ![α, 1] 5 = K *
       ((p11c_pairCoeffs α 7 - p11c_pairCoeffs α 1 / 8) * α ^ (-(1 / 4) : ℝ)) := by
-  obtain ⟨K, hK⟩ := p11cAe_c_rpow p hp hα (1 / 2) (3 / 2) (p11c_pairCoeffs α 7 -
-    p11c_pairCoeffs α 1 / 8)
-  refine ⟨K, ?_⟩
-  rw [show (-(1 / 4) : ℝ) = -((1 / 2 : ℝ) / 2) by norm_num, ← hK]
+  obtain ⟨K, hK⟩ := p11cAe_c_rpow p hp (1 / 2) (3 / 2)
+  refine ⟨K, fun α hα => ?_⟩
+  rw [show (-(1 / 4) : ℝ) = -((1 / 2 : ℝ) / 2) by norm_num, ← hK α hα]
   simp only [p11c_coeffs, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, div_one,
     Matrix.cons_val]
 
