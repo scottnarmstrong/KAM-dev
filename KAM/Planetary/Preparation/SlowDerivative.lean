@@ -70,6 +70,60 @@ theorem fderiv_comp_Jf {ψ : P11CVec n → ℂ} {I : P11CVec (n+n)}
   have := hψ.hasFDerivAt.comp I (hasFDerivAt_Jf I)
   exact congrArg (fun L => L e) this.fderiv
 
+/-- The `ρ`-direction derivative of the bracket: `Ωₐ(J)/(2π) + ∂_{ρₐ} Z`. -/
+theorem fderiv_slowW_nat {C : P11SecularData n} {Z : P11CVec (n+n) → ℂ} {I : P11CVec (n+n)}
+    (hCd : DifferentiableAt ℂ C.C (fun i : Fin n => I (Fin.castAdd n i)))
+    (hOd : DifferentiableAt ℂ C.Omega (fun i : Fin n => I (Fin.castAdd n i)))
+    (hZ : DifferentiableAt ℂ Z I) (a : Fin n) :
+    fderiv ℂ (p11SlowW C Z) I (Pi.single (Fin.natAdd n a) 1) =
+      C.Omega (fun j : Fin n => I (Fin.castAdd n j)) a/(2*Real.pi)+
+        fderiv ℂ Z I (Pi.single (Fin.natAdd n a) 1) := by
+  have hA : HasFDerivAt (fun x : P11CVec (n+n) => C.C (fun i : Fin n => x (Fin.castAdd n i)))
+      ((fderiv ℂ C.C (fun i : Fin n => I (Fin.castAdd n i))).comp (p11Jproj n)) I :=
+    hCd.hasFDerivAt.comp I (hasFDerivAt_Jf I)
+  have hB : ∀ i ∈ Finset.univ, HasFDerivAt
+      (fun x : P11CVec (n+n) => C.Omega (fun j : Fin n => x (Fin.castAdd n j)) i/(2*Real.pi)*
+        x (Fin.natAdd n i))
+      ((C.Omega (fun j : Fin n => I (Fin.castAdd n j)) i/(2*Real.pi)) •
+        (ContinuousLinearMap.proj (Fin.natAdd n i) : P11CVec (n+n) →L[ℂ] ℂ) +
+        (I (Fin.natAdd n i)) • ((2*Real.pi : ℂ)⁻¹ •
+          ((fderiv ℂ (fun J : P11CVec n => C.Omega J i)
+            (fun j : Fin n => I (Fin.castAdd n j))).comp (p11Jproj n)))) I := by
+    intro i _
+    have h1 : HasFDerivAt (fun J : P11CVec n => C.Omega J i)
+        (fderiv ℂ (fun J : P11CVec n => C.Omega J i) (fun j : Fin n => I (Fin.castAdd n j)))
+        (fun j : Fin n => I (Fin.castAdd n j)) :=
+      (differentiableAt_pi.1 hOd i).hasFDerivAt
+    have h1' : HasFDerivAt (fun x : P11CVec (n+n) =>
+        C.Omega (fun j : Fin n => x (Fin.castAdd n j)) i)
+        ((fderiv ℂ (fun J : P11CVec n => C.Omega J i)
+          (fun j : Fin n => I (Fin.castAdd n j))).comp (p11Jproj n)) I :=
+      HasFDerivAt.comp (f := fun x : P11CVec (n+n) => fun j : Fin n => x (Fin.castAdd n j))
+        (g := fun J : P11CVec n => C.Omega J i) I h1 (hasFDerivAt_Jf I)
+    have h2 : HasFDerivAt (fun x : P11CVec (n+n) =>
+        C.Omega (fun j : Fin n => x (Fin.castAdd n j)) i/(2*Real.pi))
+        ((2*Real.pi : ℂ)⁻¹ • ((fderiv ℂ (fun J : P11CVec n => C.Omega J i)
+          (fun j : Fin n => I (Fin.castAdd n j))).comp (p11Jproj n))) I := by
+      convert h1'.const_smul ((2*Real.pi : ℂ)⁻¹) using 1
+      funext x
+      simp [div_eq_inv_mul]
+    have h3 : HasFDerivAt (fun x : P11CVec (n+n) => x (Fin.natAdd n i))
+        (ContinuousLinearMap.proj (Fin.natAdd n i) : P11CVec (n+n) →L[ℂ] ℂ) I :=
+      (ContinuousLinearMap.proj (Fin.natAdd n i) : P11CVec (n+n) →L[ℂ] ℂ).hasFDerivAt
+    exact h2.mul h3
+  have hS := HasFDerivAt.sum hB
+  have hW := (hA.add hS).add hZ.hasFDerivAt
+  have hfun : p11SlowW C Z = ((fun x : P11CVec (n+n) =>
+      C.C (fun i : Fin n => x (Fin.castAdd n i))) +
+      ∑ i : Fin n, fun x : P11CVec (n+n) =>
+        C.Omega (fun j : Fin n => x (Fin.castAdd n j)) i/(2*Real.pi)*x (Fin.natAdd n i)) + Z := by
+    funext x
+    simp [p11SlowW, Finset.sum_apply]
+  rw [hfun, hW.fderiv]
+  have h0 : p11Jproj n (Pi.single (a.addNat n) 1) = 0 := by
+    simpa only [Fin.natAdd_eq_addNat] using p11Jproj_single_nat a
+  simp [h0, Pi.single_apply]
+
 end SlowDerivative
 
 end KAM.Planetary
