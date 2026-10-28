@@ -155,6 +155,155 @@ theorem iterMap_eq (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) (z) 
     iterMap D r s ρ σ K Λ h f z =
       flow (KAM.hamiltonianVectorFieldℂ (homGen K Λ h f)) H.compose.omega 1 z := rfl
 
+/-- The generator `φ` is in `O(r,s)` with bound `Φ = qδ/(2πα)`, and `ξ`, `T_K f` are in the class
+with bound `δ`; the homological equation in the form `{h ∘ snd, φ} = ξ - T_K f`. -/
+theorem bracket_eq (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) {z : (Fin n → ℂ) × (Fin n → ℂ)}
+    (hz : z ∈ Dom n D r s) :
+    poissonBracket (fun w => h w.2) (homGen K Λ h f) z = homRes K Λ f z - truncate K f z := by
+  obtain ⟨-, -, -, c4, -⟩ :=
+    homological_direct H.hp H.hα H.hs H.hK H.h_holo H.divisor H.f_class H.f_bound
+  have := c4 z hz
+  rw [poissonBracket_antisymm]
+  linear_combination (-1 : ℂ) * this
+
+/-- `h ∘ snd` is in `O(r-ρ,s-σ)`. -/
+theorem hClass (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
+    InClass D (r - ρ) (s - σ) (fun w : (Fin n → ℂ) × (Fin n → ℂ) => h w.2) :=
+  ⟨H.h_holo.comp differentiable_snd.differentiableOn fun z hz =>
+    polyNbhd_mono (by linarith [H.hρ]) hz.2, fun _ _ _ => rfl⟩
+
+/-- The interpolated integrand `v_t = {h∘snd·(1-t) ... + f₀, φ}` of the Lie remainder. -/
+def remIntegrand (K : ℝ) (Λ : Set (Fin n → ℤ)) (h : (Fin n → ℂ) → ℂ)
+    (g f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (t : ℝ) : (Fin n → ℂ) × (Fin n → ℂ) → ℂ :=
+  poissonBracket (fun w => ((1 - t : ℝ) : ℂ) * poissonBracket (fun w => h w.2) (homGen K Λ h f) w +
+    (g w + truncate K f w)) (homGen K Λ h f)
+
+/-- Class, bound and continuity data of the integrand (the three hypotheses of
+`composition_integral`). -/
+theorem integrand (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
+    (∀ t ∈ Icc (0 : ℝ) 1, InClass D (r - ρ) (s - σ) (remIntegrand K Λ h g f t) ∧
+      WBound D (r - ρ) (s - σ) (remIntegrand K Λ h g f t)
+        (2 / (Real.exp 1 * ρ * σ) * (starNorm r s ρ σ rj sj Mj + δ) *
+          (conjExp p * δ / (2 * Real.pi * α)))) ∧
+    ContinuousOn (fun q : ℝ × ((Fin n → ℂ) × (Fin n → ℂ)) => remIntegrand K Λ h g f q.1 q.2)
+      (Icc 0 1 ×ˢ Dom n D (r - ρ) (s - σ)) ∧
+    ContinuousOn (fun q : ℝ × ((Fin n → ℂ) × (Fin n → ℂ)) =>
+      fderiv ℂ (remIntegrand K Λ h g f q.1) q.2) (Icc 0 1 ×ˢ Dom n D (r - ρ) (s - σ)) := by
+  obtain ⟨c1, c2, -, -, -, -, c7, c8, c9, -⟩ :=
+    homological_direct H.hp H.hα H.hs H.hK H.h_holo H.divisor H.f_class H.f_bound
+  have hρ := H.hρ
+  have hσ := H.hσ
+  have hΩ : IsOpen (Dom n D (r - ρ) (s - σ)) := isOpen_Dom D _ _
+  have hΩr : IsOpen (Dom n D r s) := isOpen_Dom D _ _
+  have hsub : Dom n D (r - ρ) (s - σ) ⊆ Dom n D r s := Dom_mono (by linarith) (by linarith)
+  have hTc : InClass D r s (truncate K f) :=
+    (projections H.hs H.f_class H.f_bound {k | KAM.Fourier.modeSize k ≤ K}).1
+  obtain ⟨hgc, -⟩ := decomp_wbound H.decomp le_rfl le_rfl H.hs
+  -- the three brackets
+  have hAd : DifferentiableOn ℂ (poissonBracket g (homGen K Λ h f)) (Dom n D (r - ρ) (s - σ)) :=
+    differentiableOn_poissonBracket hΩ (hgc.differentiableOn.mono hsub)
+      (c1.differentiableOn.mono hsub)
+  have hBd : DifferentiableOn ℂ (poissonBracket (homRes K Λ f) (homGen K Λ h f))
+      (Dom n D (r - ρ) (s - σ)) :=
+    differentiableOn_poissonBracket hΩ (c2.differentiableOn.mono hsub) (c1.differentiableOn.mono hsub)
+  have hCd : DifferentiableOn ℂ (poissonBracket (truncate K f) (homGen K Λ h f))
+      (Dom n D (r - ρ) (s - σ)) :=
+    differentiableOn_poissonBracket hΩ (hTc.differentiableOn.mono hsub) (c1.differentiableOn.mono hsub)
+  have hat : ∀ {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}, DifferentiableOn ℂ u (Dom n D r s) →
+      ∀ z ∈ Dom n D r s, DifferentiableAt ℂ u z := fun hu z hz =>
+    hu.differentiableAt (hΩr.mem_nhds hz)
+  -- pointwise form of the integrand on `Ω`
+  have eq1 : ∀ t : ℝ, ∀ z ∈ Dom n D (r - ρ) (s - σ), remIntegrand K Λ h g f t z =
+      poissonBracket g (homGen K Λ h f) z +
+        ((1 - t : ℝ) : ℂ) * poissonBracket (homRes K Λ f) (homGen K Λ h f) z +
+        (t : ℂ) * poissonBracket (truncate K f) (homGen K Λ h f) z := fun t z hz => by
+    have hz' := hsub hz
+    have hG : EqOn (fun w => ((1 - t : ℝ) : ℂ) *
+        poissonBracket (fun w => h w.2) (homGen K Λ h f) w + (g w + truncate K f w))
+        (fun x => g x + ((1 - t : ℝ) : ℂ) * homRes K Λ f x + (t : ℂ) * truncate K f x)
+        (Dom n D r s) := fun w hw => by
+      beta_reduce
+      rw [H.bracket_eq hw]
+      push_cast
+      ring
+    unfold remIntegrand
+    rw [poissonBracket_congr hΩr hG hz']
+    exact poissonBracket_lin _ _ (hat hgc.differentiableOn z hz') (hat c2.differentiableOn z hz')
+      (hat hTc.differentiableOn z hz')
+  have eq2 : ∀ t : ℝ, ∀ z ∈ Dom n D (r - ρ) (s - σ), fderiv ℂ (remIntegrand K Λ h g f t) z =
+      fderiv ℂ (poissonBracket g (homGen K Λ h f)) z +
+        ((1 - t : ℝ) : ℂ) • fderiv ℂ (poissonBracket (homRes K Λ f) (homGen K Λ h f)) z +
+        (t : ℂ) • fderiv ℂ (poissonBracket (truncate K f) (homGen K Λ h f)) z :=
+    fun t z hz => by
+    have hA := (hAd.differentiableAt (hΩ.mem_nhds hz))
+    have hB := (hBd.differentiableAt (hΩ.mem_nhds hz))
+    have hC := (hCd.differentiableAt (hΩ.mem_nhds hz))
+    have h1 : HasFDerivAt (fun x => poissonBracket g (homGen K Λ h f) x +
+        ((1 - t : ℝ) : ℂ) * poissonBracket (homRes K Λ f) (homGen K Λ h f) x +
+        (t : ℂ) * poissonBracket (truncate K f) (homGen K Λ h f) x) _ z :=
+      (hA.hasFDerivAt.add (hB.hasFDerivAt.const_mul _)).add (hC.hasFDerivAt.const_mul _)
+    rw [← h1.fderiv]
+    exact Filter.EventuallyEq.fderiv_eq
+      (Filter.eventuallyEq_of_mem (hΩ.mem_nhds hz) fun w hw => eq1 t w hw)
+  have hcont : ∀ {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}, DifferentiableOn ℂ u (Dom n D (r - ρ) (s - σ)) →
+      ContinuousOn (fun z => fderiv ℂ u z) (Dom n D (r - ρ) (s - σ)) := fun hu =>
+    ((KAM.contDiffOn_infty_of_differentiableOn hΩ hu).of_le
+      (by exact_mod_cast le_top)).continuousOn_fderiv_of_isOpen hΩ le_rfl
+  have hsnd : ∀ {E : Type} [TopologicalSpace E] {u : (Fin n → ℂ) × (Fin n → ℂ) → E},
+      ContinuousOn u (Dom n D (r - ρ) (s - σ)) →
+      ContinuousOn (fun q : ℝ × ((Fin n → ℂ) × (Fin n → ℂ)) => u q.2)
+        (Icc 0 1 ×ˢ Dom n D (r - ρ) (s - σ)) := fun hu =>
+    hu.comp continuousOn_snd fun q hq => hq.2
+  have hc1 : Continuous fun q : ℝ × ((Fin n → ℂ) × (Fin n → ℂ)) => ((1 - q.1 : ℝ) : ℂ) :=
+    Complex.continuous_ofReal.comp (continuous_const.sub continuous_fst)
+  have hc2 : Continuous fun q : ℝ × ((Fin n → ℂ) × (Fin n → ℂ)) => (q.1 : ℂ) :=
+    Complex.continuous_ofReal.comp continuous_fst
+  refine ⟨fun t ht => ?_, ?_, ?_⟩
+  · -- class and bound through `bracket_g` with the extra term `f_t`
+    have hξc := c2
+    have hft : InClass D r s (fun x => ((1 - t : ℝ) : ℂ) * homRes K Λ f x + (t : ℂ) * truncate K f x) ∧
+        WBound D r s (fun x => ((1 - t : ℝ) : ℂ) * homRes K Λ f x + (t : ℂ) * truncate K f x) δ := by
+      have e1 : ‖((1 - t : ℝ) : ℂ)‖ = 1 - t := by
+        rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (by linarith [ht.2])]
+      have e2 : ‖(t : ℂ)‖ = t := by
+        rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg ht.1]
+      refine ⟨⟨(inClass_const_mul _ hξc).differentiableOn.add (inClass_const_mul _ hTc).differentiableOn,
+        fun j z hz => by
+          simp only [(inClass_const_mul ((1 - t : ℝ) : ℂ) hξc).periodic j z hz,
+            (inClass_const_mul (t : ℂ) hTc).periodic j z hz]⟩, ?_⟩
+      refine (wbound_add H.hs (inClass_const_mul _ hξc) (inClass_const_mul _ hTc)
+        (wbound_const_mul _ c7) (wbound_const_mul _ c8)).mono le_rfl le_rfl ?_
+      rw [e1, e2]
+      linarith
+    obtain ⟨b1, b2, -⟩ := bracket_g (isDecomp_snoc H.decomp hft.1 hft.2) c1 c9 hρ
+      (by linarith [H.hρr]) hσ (by linarith [H.hσs])
+    rw [starNorm_snoc rj sj Mj hρ hσ] at b2
+    have hEq : EqOn (poissonBracket (fun z => g z + (((1 - t : ℝ) : ℂ) * homRes K Λ f z +
+        (t : ℂ) * truncate K f z)) (homGen K Λ h f)) (remIntegrand K Λ h g f t)
+        (Dom n D (r - ρ) (s - σ)) := fun z hz => by
+      rw [eq1 t z hz]
+      have hz' := hsub hz
+      have := poissonBracket_lin (φ := homGen K Λ h f) ((1 - t : ℝ) : ℂ) (t : ℂ)
+        (hat hgc.differentiableOn z hz') (hat c2.differentiableOn z hz')
+        (hat hTc.differentiableOn z hz')
+      rw [← this]
+      simp only [add_assoc]
+    exact ⟨inClass_congr hEq b1, wbound_congr (by linarith [H.hσs]) hEq b2⟩
+  · refine ContinuousOn.congr (f := fun q : ℝ × ((Fin n → ℂ) × (Fin n → ℂ)) =>
+      poissonBracket g (homGen K Λ h f) q.2 +
+        ((1 - q.1 : ℝ) : ℂ) * poissonBracket (homRes K Λ f) (homGen K Λ h f) q.2 +
+        (q.1 : ℂ) * poissonBracket (truncate K f) (homGen K Λ h f) q.2) ?_
+      fun q hq => eq1 q.1 q.2 hq.2
+    exact ((hsnd hAd.continuousOn).add (hc1.continuousOn.mul (hsnd hBd.continuousOn))).add
+      (hc2.continuousOn.mul (hsnd hCd.continuousOn))
+  · refine ContinuousOn.congr (f := fun q : ℝ × ((Fin n → ℂ) × (Fin n → ℂ)) =>
+      fderiv ℂ (poissonBracket g (homGen K Λ h f)) q.2 +
+        ((1 - q.1 : ℝ) : ℂ) • fderiv ℂ (poissonBracket (homRes K Λ f) (homGen K Λ h f)) q.2 +
+        (q.1 : ℂ) • fderiv ℂ (poissonBracket (truncate K f) (homGen K Λ h f)) q.2) ?_
+      fun q hq => eq2 q.1 q.2 hq.2
+    exact ((hsnd (hcont hAd)).add (hc1.continuousOn.smul (hsnd (hcont hBd)))).add
+      (hc2.continuousOn.smul (hsnd (hcont hCd)))
+
 end IterHyp
 
 end Iterative
