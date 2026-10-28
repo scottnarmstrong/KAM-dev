@@ -227,8 +227,132 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
     Fin.append p.1 p.2.2), fs⟩, ?_⟩
   unfold P11FastSpec
   dsimp only
-  trace_state
-  sorry
+  set s1 := p11s1 C eps with hs1def
+  set α := p11Alpha1 C eps with hαdef
+  set U := p11WorkingDom n C.J0 (C.sigma / 6) (s1 / 2) (C.rz / 2) with hUdef
+  have hUo : oscDom (m := n) {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) (C.sigma / 6) = U :=
+    oscDom_eq_workingDom _ _ _ _
+  have hs2 : 0 < s1 / 2 := by linarith
+  have hσ6 : 0 < C.sigma / 6 := by linarith
+  have hnorm : ∀ z : Phase n, ‖z‖ < C.rz / 2 → ‖KAM.realInclusion n z.1‖ < C.rz / 2 ∧
+      ‖KAM.realInclusion n z.2‖ < C.rz / 2 := fun z hz => by
+    rw [KAM.norm_realInclusion, KAM.norm_realInclusion]
+    exact ⟨lt_of_le_of_lt (norm_fst_le z) hz, lt_of_le_of_lt (norm_snd_le z) hz⟩
+  have hnormC : ∀ z : P11Phase n, ‖z‖ < C.rz / 2 → ‖z.1‖ < C.rz / 2 ∧ ‖z.2‖ < C.rz / 2 :=
+    fun z hz => ⟨lt_of_le_of_lt (norm_fst_le z) hz, lt_of_le_of_lt (norm_snd_le z) hz⟩
+  have hgd : DifferentiableOn ℂ g U := hUo ▸ c7.1
+  have hg0 : ∀ z ∈ U, g z = g (Fin.append (0 : P11CVec n) (lastBlock (a := n) z.1),
+      Fin.append (firstBlock (b := n) z.2) (lastBlock (a := n) z.2)) := by
+    intro z hz
+    have hzo : z ∈ oscDom (m := n) {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) (C.sigma / 6) := hUo ▸ hz
+    have h1 := c9 (oscPack z).2 hzo.2 (oscPack z).1 0
+      (by rw [show ((oscPack z).1, (oscPack z).2) = oscPack z from rfl, s_osc_data]; exact hz)
+      (by
+        rw [oscPack_eq, oscUnpack_flat]
+        exact zero_angle_mem C.J0 hσ6 (show ‖firstBlock (b := n) z.2 - KAM.realInclusion n C.J0‖ < s1 / 2 from hz.2.1)
+          (show ‖lastBlock (a := n) z.1‖ < C.rz / 2 from hz.2.2.1)
+          (show ‖lastBlock (a := n) z.2‖ < C.rz / 2 from hz.2.2.2))
+    rw [show ((oscPack z).1, (oscPack z).2) = oscPack z from rfl, s_osc_data] at h1
+    rw [h1, oscPack_eq, oscUnpack_flat]
+  have hflat : ∀ J : P11CVec n, ‖J - KAM.realInclusion n C.J0‖ < s1 / 2 → ∀ z : P11Phase n,
+      ‖z‖ < C.rz / 2 → p11Flat J z.2 z.1 ∈ oscParams (m := n) {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) :=
+    fun J hJ z hz => by
+      obtain ⟨hz1, hz2⟩ := hnormC z hz
+      refine ⟨?_, ?_, ?_⟩
+      · rw [firstBlock_p11Flat]
+        refine ⟨C.J0, rfl, ?_⟩
+        have : KAM.realInclusion n C.J0 = fun i => (C.J0 i : ℂ) := by funext i; simp
+        rwa [← this]
+      · rw [p_p11Flat]; exact hz2
+      · rw [q_p11Flat]; exact hz1
+  have hmemU : ∀ J : P11CVec n, ‖J - KAM.realInclusion n C.J0‖ < s1 / 2 → ∀ z : P11Phase n,
+      ‖z‖ < C.rz / 2 → ((Fin.append (0 : P11CVec n) z.1, Fin.append J z.2) : P11Phase (n + n)) ∈ U :=
+    fun J hJ z hz => zero_angle_mem C.J0 hσ6 hJ (hnormC z hz).1 (hnormC z hz).2
+  refine ⟨c1, c2, hUo ▸ c12.1, c13, ?_, ?_, ?_, c4, ?_, c3, ?_, ?_, ?_, ?_, ?_⟩
+  · -- G holomorphic
+    have hφ : Differentiable ℂ (fun p : P11CVec n × P11Phase n =>
+        ((Fin.append (0 : P11CVec n) p.2.1, Fin.append p.1 p.2.2) : P11Phase (n + n))) := by
+      intro p
+      refine DifferentiableAt.prodMk ?_ ?_
+      · exact differentiableAt_append (differentiableAt_const _) (by fun_prop)
+      · exact differentiableAt_append (by fun_prop) (by fun_prop)
+    have hmaps : ∀ p ∈ Metric.ball (KAM.realInclusion n C.J0) (s1 / 2) ×ˢ
+        Metric.ball (0 : P11Phase n) (C.rz / 2),
+        ((Fin.append (0 : P11CVec n) p.2.1, Fin.append p.1 p.2.2) : P11Phase (n + n)) ∈ U := by
+      rintro p ⟨hp1, hp2⟩
+      rw [Metric.mem_ball, dist_eq_norm] at hp1
+      rw [Metric.mem_ball, dist_zero_right] at hp2
+      exact hmemU p.1 hp1 p.2 hp2
+    exact ((hgd.comp hφ.differentiableOn hmaps).const_mul _)
+  · -- G real
+    intro J hJ z hz
+    obtain ⟨hz1, hz2⟩ := hnorm z hz
+    have hJ' : ‖KAM.realInclusion n J - KAM.realInclusion n C.J0‖ < s1 / 2 := by
+      rw [← map_sub, KAM.norm_realInclusion]; exact hJ
+    have hmem := zero_angle_mem (J := KAM.realInclusion n J) (x := KAM.realInclusion n z.1)
+      (y := KAM.realInclusion n z.2) C.J0 hσ6 hJ' hz1 hz2
+    have hre := c8 (Fin.append (0 : Fin n → ℝ) z.1, Fin.append J z.2) (by
+      rw [realInclusion₂_append, map_zero]; exact hmem)
+    rw [realInclusion₂_append, map_zero] at hre
+    simp only [KAM.realInclusion₂_apply]
+    rw [Complex.mul_im, hre]
+    simp
+  · -- real map
+    intro z hz i
+    obtain ⟨w, hw⟩ := c6 z hz
+    rw [← hw]
+    simp
+  · -- lattice
+    intro z hz k
+    have := c5 z hz k
+    convert this using 2
+    ext <;> simp
+  · -- identity
+    intro z hz
+    have h10 := c10 z hz
+    have h0 : g z = g (Fin.append (0 : P11CVec n) fun i => z.1 (Fin.natAdd n i),
+        Fin.append (fun i => z.2 (Fin.castAdd n i)) fun i => z.2 (Fin.natAdd n i)) := hg0 z hz
+    unfold p11WorkingH
+    have hε : (eps : ℂ) ≠ 0 := by exact_mod_cast heps.ne'
+    rw [mul_inv_cancel_left₀ hε, ← h0]
+    exact h10
+  · -- sup bound on f1
+    intro z hz
+    have hzo : z ∈ oscDom (m := n) {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) (C.sigma / 6) := hUo ▸ hz
+    have := oscBound.norm_le c12 c14 z hzo
+    rw [exp_p11K1 hC heps] at this
+    calc ‖fs z‖ ≤ (eps * C.MF) ^ 2 * (eps * C.MF) := this
+      _ = _ := by ring
+  · -- weighted bound on f1
+    intro z hz J hJ
+    obtain ⟨h1, h2⟩ := c14 _ (hflat J hJ z hz)
+    rw [exp_p11K1 hC heps] at h2
+    refine ⟨(spectator_wsummable fs z J _).2 h1, ?_⟩
+    rw [spectator_wsum_eq]
+    calc _ ≤ (eps * C.MF) ^ 2 * (eps * C.MF) := h2
+      _ = _ := by ring
+  · sorry
+  · -- displacement
+    intro z hz
+    obtain ⟨d1, d2, d3, d4⟩ := c15 z hz
+    have e1 : ‖fun i : Fin n => (Ψ z).2 (Fin.castAdd n i) - z.2 (Fin.castAdd n i)‖ =
+        ‖firstBlock (b := n) ((Ψ z).2 - z.2)‖ := rfl
+    have e2 : ‖fun i : Fin n => (Ψ z).1 (Fin.castAdd n i) - z.1 (Fin.castAdd n i)‖ =
+        ‖firstBlock (b := n) ((Ψ z).1 - z.1)‖ := rfl
+    have e3 : ‖fun i : Fin n => (Ψ z).2 (Fin.natAdd n i) - z.2 (Fin.natAdd n i)‖ =
+        ‖lastBlock (a := n) ((Ψ z).2 - z.2)‖ := rfl
+    have e4 : ‖fun i : Fin n => (Ψ z).1 (Fin.natAdd n i) - z.1 (Fin.natAdd n i)‖ =
+        ‖lastBlock (a := n) ((Ψ z).1 - z.1)‖ := rfl
+    rw [e1, e2, e3, e4]
+    refine ⟨by linarith, by linarith, ?_⟩
+    have d3' : 2 * Real.pi * α * C.rz * ‖lastBlock (a := n) ((Ψ z).2 - z.2)‖ ≤
+        9 * eps * C.MF := by linarith
+    have d4' : 2 * Real.pi * α * C.rz * ‖lastBlock (a := n) ((Ψ z).1 - z.1)‖ ≤
+        9 * eps * C.MF := by linarith
+    rcases le_total (‖lastBlock (a := n) ((Ψ z).1 - z.1)‖)
+      (‖lastBlock (a := n) ((Ψ z).2 - z.2)‖) with h | h
+    · rw [max_eq_right h]; exact d3'
+    · rw [max_eq_left h]; exact d4'
 
 end Core
 
