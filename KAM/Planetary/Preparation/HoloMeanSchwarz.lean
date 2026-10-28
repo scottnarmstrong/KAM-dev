@@ -107,7 +107,8 @@ the diagonal values (`hc-mean`; the statement of `p11_radial_schwarz`). -/
 theorem p11_radial_schwarz_diag {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     [FiniteDimensional ℂ E] {r M : ℝ} (hr : 0 < r) {F : E → ℂ}
     (hF : DifferentiableOn ℂ F (Metric.ball 0 r)) (hb : ∀ z ∈ Metric.ball (0 : E) r, ‖F z‖ ≤ M)
-    {k : ℕ} (hj : ∀ j < k, ∀ v : E, iteratedFDeriv ℂ j F 0 (fun _ => v) = 0) :
+    {k : ℕ}
+    (hj : ∀ j < k, ∀ v ∈ Metric.ball (0 : E) r, iteratedFDeriv ℂ j F 0 (fun _ => v) = 0) :
     ∀ z ∈ Metric.ball (0 : E) r, ‖F z‖ ≤ M * (‖z‖ / r) ^ k := by
   intro z hz
   have hzr : ‖z‖ < r := mem_ball_zero_iff.mp hz
@@ -116,7 +117,7 @@ theorem p11_radial_schwarz_diag {E : Type*} [NormedAddCommGroup E] [NormedSpace 
     rcases Nat.eq_zero_or_pos k with rfl | hk
     · simpa using hb 0 hz
     · have h0 : F 0 = 0 := by
-        have := hj 0 hk 0
+        have := hj 0 hk 0 (mem_ball_self hr)
         simpa using this
       simp [h0, zero_pow hk.ne']
   have hzn : 0 < ‖z‖ := norm_pos_iff.mpr hz0
@@ -134,7 +135,7 @@ theorem p11_radial_schwarz_diag {E : Type*} [NormedAddCommGroup E] [NormedSpace 
     have := iteratedDeriv_line_eq_iteratedFDeriv (isOpen_ball (x := (0 : E)) (ε := r))
       hF (mem_ball_self hr) z j
     simp only [zero_add] at this
-    rw [this, hj j hjk z]
+    rw [this, hj j hjk z hz]
   have h1 : (1 : ℂ) ∈ ball (0 : ℂ) R := by
     rw [mem_ball_zero_iff, norm_one, hR, lt_div_iff₀ hzn]; linarith
   have key := p11_schwarz_one hR0 hg (fun ζ hζ => hb _ (hline ζ hζ)) hjg
