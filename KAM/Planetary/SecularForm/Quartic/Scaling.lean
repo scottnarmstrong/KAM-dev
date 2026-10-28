@@ -10,6 +10,7 @@ public import KAM.Planetary.SecularForm.Quartic.ScalingReal
 public import KAM.Planetary.SecularForm.Quartic.ScalingComplex
 public import KAM.Planetary.SecularForm.Quartic.ScalingTube
 public import KAM.Planetary.SecularForm.Quartic.ScalingEmb
+public import KAM.Strip.AnalyticTaylor
 
 /-!
 # Secular form: analyticity of the dimensionless pair average
