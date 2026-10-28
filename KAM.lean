@@ -418,6 +418,7 @@ public import KAM.ODE.NewtonReduction
 public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
+public import KAM.Planetary.AMD.Elements
 public import KAM.Planetary.AMD.Setting
 public import KAM.Planetary.Averaging.Direct
 public import KAM.Planetary.Averaging.Finite
