@@ -19,5 +19,6 @@ Blueprint P, Part 11b (`bpP:p11b:sec-bnf#data`, `bpP:p11b:char`).  Definitions i
 (`QuarticFamily`, `p11c_rotation`, `p11c_character`, `p11c_average`, `p11c_NR4`, `p11c_n0`,
 `p11c_bracket`); `char` in `Characters/Basic`; `character_polynomial` in `Characters/CharPoly`;
 `average_action_polynomial` in `Characters/Average`; `character_bracket` in `Characters/Bracket`.
-The one-plane trigonometric machinery is in `Characters/Trig`, `Characters/Factor`, `Characters/Poly`.
+The one-plane trigonometric machinery is in `Characters/Trig`, `Characters/Factor`,
+    `Characters/Poly`.
 -/

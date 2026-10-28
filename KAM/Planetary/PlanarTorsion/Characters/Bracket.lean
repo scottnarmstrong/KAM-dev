@@ -32,10 +32,14 @@ lemma mv_eval_differentiable (P : MvPolynomial (Fin 4) ℂ) :
       (![(w.1 0 : ℂ), (w.2 0 : ℂ), (w.1 1 : ℂ), (w.2 1 : ℂ)] : Fin 4 → ℂ) i) := by
     intro i
     fin_cases i
-    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.1 0 by fun_prop)
-    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.2 0 by fun_prop)
-    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.1 1 by fun_prop)
-    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.2 1 by fun_prop)
+    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.1 0 by
+        fun_prop)
+    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.2 0 by
+        fun_prop)
+    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.1 1 by
+        fun_prop)
+    · exact Complex.ofRealCLM.differentiable.comp (show Differentiable ℝ fun w : Phase 2 => w.2 1 by
+        fun_prop)
   induction P using MvPolynomial.induction_on with
   | C a => simp
   | add p q hp hq => simp only [map_add]; exact hp.add hq
@@ -111,7 +115,8 @@ theorem character_bracket {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O)
   have hγ : HasDerivAt (fun t : ℝ => p11c_rotation (t • Ω) z)
       (hamiltonianVectorField (p11c_n0 freq I) z) 0 := by
     rw [hamiltonian_n0]; exact rotation_hasDerivAt Ω z
-  have hcomp := (character_differentiable F k I z).hasFDerivAt.comp_hasDerivAt_of_eq (0 : ℝ) hγ hγ0.symm
+  have hcomp := (character_differentiable F k I z).hasFDerivAt.comp_hasDerivAt_of_eq (0 : ℝ) hγ
+      hγ0.symm
   have hfun : ((fun w : Phase 2 => p11c_character F.eval k I w) ∘
       fun t : ℝ => p11c_rotation (t • Ω) z) =
       fun t : ℝ => Complex.exp (Complex.I * ((t : ℂ) * S)) * p11c_character F.eval k I z := by

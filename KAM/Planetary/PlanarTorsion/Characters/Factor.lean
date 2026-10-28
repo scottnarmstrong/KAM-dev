@@ -74,7 +74,8 @@ lemma charG_period (p q : ℕ) (x y θ : ℝ) :
 lemma charFc_smul (p q : ℕ) (t x y : ℝ) (k : ℤ) :
     charFc p q (t * x) (t * y) k = (t : ℂ) ^ (p + q) * charFc p q x y k := by
   unfold charFc
-  have : ∀ θ : ℝ, Complex.exp (-Complex.I * ((k : ℂ) * θ)) * ((charG p q (t * x) (t * y) θ : ℝ) : ℂ) =
+  have : ∀ θ : ℝ, Complex.exp (-Complex.I * ((k : ℂ) * θ)) * ((charG p q (t * x) (t * y) θ : ℝ) : ℂ)
+      =
       (t : ℂ) ^ (p + q) * (Complex.exp (-Complex.I * ((k : ℂ) * θ)) * (charG p q x y θ : ℂ)) := by
     intro θ; rw [charG_smul]; push_cast; ring
   simp_rw [this]
@@ -94,7 +95,8 @@ lemma charFc_rot (p q : ℕ) (x y φ : ℝ) (k : ℤ) :
     congr 1
     have h := Complex.exp_int_mul_two_pi_mul_I (-k)
     have : Complex.exp (-Complex.I * ((k : ℂ) * ((u + 2 * π : ℝ) : ℂ))) =
-        Complex.exp (-Complex.I * ((k : ℂ) * u)) * Complex.exp (((-k : ℤ) : ℂ) * (2 * π * Complex.I)) := by
+        Complex.exp (-Complex.I * ((k : ℂ) * u)) * Complex.exp (((-k : ℤ) : ℂ) * (2 * π *
+            Complex.I)) := by
       rw [← Complex.exp_add]; congr 1; push_cast; ring
     rw [this, h, mul_one]
   have h1 : ∀ θ : ℝ, Complex.exp (-Complex.I * ((k : ℂ) * θ)) * (charG p q x y (θ + φ) : ℂ) =
@@ -186,7 +188,8 @@ lemma character_eq_sum {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (k : Fin 
   have h1 : ∀ theta : Fin 2 → ℝ, Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) *
       (((F.coeff (fun i => (a i).val) I * p11c_monomial (fun i => (a i).val)
           (p11c_rotation theta z) : ℝ)) : ℂ) =
-      (F.coeff (fun i => (a i).val) I : ℂ) * (Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) *
+      (F.coeff (fun i => (a i).val) I : ℂ) * (Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j))
+          *
         ((p11c_monomial (fun i => (a i).val) (p11c_rotation theta z) : ℝ) : ℂ)) := by
     intro theta; push_cast; ring
   simp_rw [h1]

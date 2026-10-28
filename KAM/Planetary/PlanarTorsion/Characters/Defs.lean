@@ -35,14 +35,16 @@ structure QuarticFamily (O : Set (Fin 2 → ℝ)) where
   coeff : (Fin 4 → ℕ) → (Fin 2 → ℝ) → ℝ
   analytic : ∀ a, AnalyticOnNhd ℝ (coeff a) O
 
-def QuarticFamily.eval {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (I : Fin 2 → ℝ) (z : Phase 2) : ℝ :=
+def QuarticFamily.eval {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (I : Fin 2 → ℝ) (z : Phase 2) : ℝ
+    :=
   ∑ a ∈ (Finset.univ : Finset (Fin 4 → Fin 5)).filter (fun a => ∑ i, (a i).val = 4),
     F.coeff (fun i => (a i).val) I * p11c_monomial (fun i => (a i).val) z
 
 def p11c_rotation (theta : Fin 2 → ℝ) (z : Phase 2) : Phase 2 :=
   (fun j => cos (theta j) * z.1 j + sin (theta j) * z.2 j,
    fun j => -sin (theta j) * z.1 j + cos (theta j) * z.2 j)
-def p11c_character (F : (Fin 2 → ℝ) → Phase 2 → ℝ) (k : Fin 2 → ℤ) (I : Fin 2 → ℝ) (z : Phase 2) : ℂ :=
+def p11c_character (F : (Fin 2 → ℝ) → Phase 2 → ℝ) (k : Fin 2 → ℤ) (I : Fin 2 → ℝ) (z : Phase 2) : ℂ
+    :=
   (2 * π : ℂ) ^ (-2 : ℤ) * ∫ theta : Fin 2 → ℝ in Set.pi univ (fun _ => Icc (0 : ℝ) (2 * π)),
     Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) * (F I (p11c_rotation theta z) : ℂ)
 def p11c_average (F : (Fin 2 → ℝ) → Phase 2 → ℝ) (I : Fin 2 → ℝ) (z : Phase 2) : ℝ :=

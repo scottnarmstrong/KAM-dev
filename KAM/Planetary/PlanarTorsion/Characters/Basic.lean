@@ -59,7 +59,8 @@ lemma character_covariance {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (I : 
   simp only [p11c_rotation]
   rw [charFc_rot, charFc_rot]
   have : Complex.exp (Complex.I * (∑ j, (k j : ℂ) * theta j)) =
-      Complex.exp (Complex.I * ((k 0 : ℂ) * theta 0)) * Complex.exp (Complex.I * ((k 1 : ℂ) * theta 1)) := by
+      Complex.exp (Complex.I * ((k 0 : ℂ) * theta 0)) * Complex.exp (Complex.I * ((k 1 : ℂ) * theta
+          1)) := by
     rw [Fin.sum_univ_two, mul_add, Complex.exp_add]
   rw [this]; ring
 
@@ -92,7 +93,8 @@ theorem char {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) :
     unfold QuarticFamily.eval
     rw [Complex.ofReal_sum]
     refine Finset.sum_congr rfl fun a ha => ?_
-    rw [← Finset.mul_sum, sum_piFinset_two (fun j => charFc ((a 0).val) ((a 1).val) (z.1 0) (z.2 0) j)
+    rw [← Finset.mul_sum, sum_piFinset_two (fun j => charFc ((a 0).val) ((a 1).val) (z.1 0) (z.2 0)
+        j)
       (fun j => charFc ((a 2).val) ((a 3).val) (z.1 1) (z.2 1) j),
       charFc_sum _ _ _ (by have := charIdx_sum ha; omega),
       charFc_sum _ _ _ (by have := charIdx_sum ha; omega)]

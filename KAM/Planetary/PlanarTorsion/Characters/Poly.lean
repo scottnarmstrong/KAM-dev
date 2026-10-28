@@ -72,7 +72,8 @@ lemma charUP_deg : CoeffDeg 1 charUP := by
   have h2 := coeff_deg_aux (1 / 2) charW charW_deg
   unfold charUP
   rw [Polynomial.coeff_add, Polynomial.coeff_C_mul_X_pow, Polynomial.coeff_C]
-  refine (MvPolynomial.totalDegree_add _ _).trans (max_le ?_ ?_) <;> split_ifs <;> first | exact h1 | exact h2 | simp
+  refine (MvPolynomial.totalDegree_add _ _).trans (max_le ?_ ?_) <;> split_ifs <;>
+      first | exact h1 | exact h2 | simp
 
 lemma charVP_deg : CoeffDeg 1 charVP := by
   intro n
@@ -80,7 +81,8 @@ lemma charVP_deg : CoeffDeg 1 charVP := by
   have h2 := coeff_deg_aux (Complex.I / 2) charW charW_deg
   unfold charVP
   rw [Polynomial.coeff_sub, Polynomial.coeff_C_mul_X_pow, Polynomial.coeff_C]
-  refine (MvPolynomial.totalDegree_sub _ _).trans (max_le ?_ ?_) <;> split_ifs <;> first | exact h1 | exact h2 | simp
+  refine (MvPolynomial.totalDegree_sub _ _).trans (max_le ?_ ?_) <;> split_ifs <;>
+      first | exact h1 | exact h2 | simp
 
 lemma charQ_deg (p q : ℕ) : CoeffDeg (p + q) (charQ p q) :=
   ((charUP_deg.pow p).mul (charVP_deg.pow q))

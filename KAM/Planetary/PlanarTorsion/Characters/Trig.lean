@@ -32,7 +32,8 @@ def charG (p q : ℕ) (x y θ : ℝ) : ℝ :=
 def charW : MvPolynomial (Fin 2) ℂ := MvPolynomial.X 0 + MvPolynomial.C Complex.I * MvPolynomial.X 1
 
 /-- The coordinate `x - i y` as a polynomial. -/
-def charWb : MvPolynomial (Fin 2) ℂ := MvPolynomial.X 0 - MvPolynomial.C Complex.I * MvPolynomial.X 1
+def charWb : MvPolynomial (Fin 2) ℂ := MvPolynomial.X 0 - MvPolynomial.C Complex.I * MvPolynomial.X
+    1
 
 /-- `E · u` as a polynomial in `E`, over the coefficient ring `ℂ[x, y]`. -/
 def charUP : (MvPolynomial (Fin 2) ℂ)[X] :=
@@ -87,7 +88,8 @@ lemma charQc_natDegree (p q : ℕ) (x y : ℝ) : (charQc p q x y).natDegree ≤ 
 
 lemma charAlg1 (x y c s I : ℂ) (hc : c ^ 2 + s ^ 2 = 1) (hI : I ^ 2 = -1) :
     (x - I * y) / 2 * (c + s * I) ^ 2 + (x + I * y) / 2 = (c + s * I) * (c * x + s * y) := by
-  linear_combination (-I * y / 2 - x / 2) * hc + (-I * s ^ 2 * y / 2 - c * s * y + s ^ 2 * x / 2) * hI
+  linear_combination (-I * y / 2 - x / 2) * hc + (-I * s ^ 2 * y / 2 - c * s * y + s ^ 2 * x / 2) *
+      hI
 
 lemma charAlg2 (x y c s I : ℂ) (hc : c ^ 2 + s ^ 2 = 1) (hI : I ^ 2 = -1) :
     I / 2 * (x - I * y) * (c + s * I) ^ 2 - I / 2 * (x + I * y) =
@@ -115,13 +117,15 @@ lemma charQc_eval (p q : ℕ) (x y θ : ℝ) :
 /-- Trigonometric expansion of the rotated monomial. -/
 lemma charG_expand (p q : ℕ) (x y θ : ℝ) :
     (charG p q x y θ : ℂ) = ∑ n ∈ Finset.range (2 * (p + q) + 1),
-      (charQc p q x y).coeff n * Complex.exp (Complex.I * (((n : ℤ) - ((p + q : ℕ) : ℤ) : ℤ) : ℂ) * θ) := by
+      (charQc p q x y).coeff n * Complex.exp (Complex.I * (((n : ℤ) - ((p + q : ℕ) : ℤ) : ℤ) : ℂ) *
+          θ) := by
   have h := charQc_eval p q x y θ
   rw [eval_eq_sum_range' (n := 2 * (p + q) + 1)
     (Nat.lt_succ_of_le (charQc_natDegree p q x y))] at h
   have hE : Complex.exp (Complex.I * θ) ^ (p + q) ≠ 0 := pow_ne_zero _ (Complex.exp_ne_zero _)
   have h2 : (charG p q x y θ : ℂ) = Complex.exp (-(Complex.I * θ)) ^ (p + q) *
-      ∑ i ∈ Finset.range (2 * (p + q) + 1), (charQc p q x y).coeff i * Complex.exp (Complex.I * θ) ^ i := by
+      ∑ i ∈ Finset.range (2 * (p + q) + 1), (charQc p q x y).coeff i * Complex.exp (Complex.I * θ) ^
+          i := by
     rw [h, ← mul_assoc, ← mul_pow, ← Complex.exp_add]; simp
   rw [h2, Finset.mul_sum]
   refine Finset.sum_congr rfl fun i _ => ?_

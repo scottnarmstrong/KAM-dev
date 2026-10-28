@@ -28,7 +28,8 @@ open KAM KAM.Kepler KAM.Planetary.PlanarCharacters
 
 lemma charIdx_single (t : Fin 4 → ℕ) (ht : ∃ s0 ∈ charIdx, (fun i => (s0 i).val) = t) (w : ℝ)
     (m : (Fin 4 → ℕ) → ℝ) :
-    ∑ s ∈ charIdx, (if (fun i => (s i).val) = t then w else 0) * m (fun i => (s i).val) = w * m t := by
+    ∑ s ∈ charIdx, (if (fun i => (s i).val) = t then w else 0) * m (fun i => (s i).val) = w * m t :=
+        by
   obtain ⟨s0, hs0, rfl⟩ := ht
   rw [Finset.sum_eq_single_of_mem s0 hs0]
   · simp
@@ -79,16 +80,26 @@ lemma quartic_of_actions {O : Set (Fin 2 → ℝ)} {a b c : (Fin 2 → ℝ) → 
         charQcoef (a I) (b I) (c I) (fun i => (s i).val) * p11c_monomial (fun i => (s i).val) z
       from rfl]
   simp only [charQcoef, add_mul, Finset.sum_add_distrib]
-  rw [charIdx_single ![4, 0, 0, 0] ⟨![4, 0, 0, 0], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![2, 2, 0, 0] ⟨![2, 2, 0, 0], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![0, 4, 0, 0] ⟨![0, 4, 0, 0], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![2, 0, 2, 0] ⟨![2, 0, 2, 0], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![2, 0, 0, 2] ⟨![2, 0, 0, 2], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![0, 2, 2, 0] ⟨![0, 2, 2, 0], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![0, 2, 0, 2] ⟨![0, 2, 0, 2], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![0, 0, 4, 0] ⟨![0, 0, 4, 0], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![0, 0, 2, 2] ⟨![0, 0, 2, 2], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
-    charIdx_single ![0, 0, 0, 4] ⟨![0, 0, 0, 4], by simp [charIdx, Fin.sum_univ_four], by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z)]
+  rw [charIdx_single ![4, 0, 0, 0] ⟨![4, 0, 0, 0], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![2, 2, 0, 0] ⟨![2, 2, 0, 0], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![0, 4, 0, 0] ⟨![0, 4, 0, 0], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![2, 0, 2, 0] ⟨![2, 0, 2, 0], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![2, 0, 0, 2] ⟨![2, 0, 0, 2], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![0, 2, 2, 0] ⟨![0, 2, 2, 0], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![0, 2, 0, 2] ⟨![0, 2, 0, 2], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![0, 0, 4, 0] ⟨![0, 0, 4, 0], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![0, 0, 2, 2] ⟨![0, 0, 2, 2], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z),
+    charIdx_single ![0, 0, 0, 4] ⟨![0, 0, 0, 4], by simp [charIdx, Fin.sum_univ_four],
+        by funext i; fin_cases i <;> rfl⟩ _ (fun t => p11c_monomial t z)]
   simp only [p11c_monomial, oscillatorAction]
   simp
   ring
@@ -130,7 +141,8 @@ lemma character_homog {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (k : Fin 2
   have h4 := charIdx_sum ha
   simp only [Prod.smul_fst, Prod.smul_snd, Pi.smul_apply, smul_eq_mul]
   rw [charFc_smul, charFc_smul]
-  have key : (t : ℂ) ^ ((a 0).val + (a 1).val) * (t : ℂ) ^ ((a 2).val + (a 3).val) = (t : ℂ) ^ 4 := by
+  have key : (t : ℂ) ^ ((a 0).val + (a 1).val) * (t : ℂ) ^ ((a 2).val + (a 3).val) = (t : ℂ) ^ 4 :=
+      by
     rw [← pow_add]; congr 1
   linear_combination ((F.coeff (fun i => (a i).val) I : ℂ) *
     (charFc (a 0).val (a 1).val (z.1 0) (z.2 0) (k 0) *
