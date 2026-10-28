@@ -68,7 +68,7 @@ theorem main_of_data (d : PGData a b) :
   have hadm : admissible d (pgRstar d) r mu :=
     ⟨hr, hrf.trans_le (min_le_left _ _), hmu, hmu0, hmur⟩
   obtain ⟨B, hBD, hBσ, hDBσ, hpos, hlow, hup⟩ := strictness d r mu hadm hrf
-  have hsub : pgD0 d r mu \ B ⊆ pgD0 d r mu := diff_subset
+  have hsub : pgD0 d r mu \ B ⊆ pgD0 d r mu := sdiff_subset
   obtain ⟨-, hmeas, hcyl, -⟩ := cell_transfer d r mu hadm hDBσ hsub
   have hsq : 0 < Real.sqrt r := Real.sqrt_pos.2 hr
   have hspec := (torus_conv d r mu hadm).choose_spec
@@ -78,7 +78,7 @@ theorem main_of_data (d : PGData a b) :
     have hJD := hsub hJ
     refine ⟨(2 * Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J,
       physicalTorus d r mu hadm (pgFamily d r mu hadm) J, θ, hθ, ?_,
-      hspec.2.2.2.2.2.2.2 J hJD, ?_, ?_, ?_⟩
+      hspec.2.2.2.2.2.2 J hJD, ?_, ?_, ?_⟩
     · intro y hy
       obtain ⟨θ', rfl⟩ := hy
       exact mem_iUnion₂.2 ⟨J, hJ, θ', rfl⟩
@@ -97,11 +97,7 @@ theorem main_of_data (d : PGData a b) :
     · have : pgLoss d + 1 / 2 < max (pgLoss d + 1) Cw :=
         lt_of_lt_of_le (by linarith) (le_max_left _ _)
       nlinarith
-    · exact (ENNReal.mul_pos_iff.1
-        (by rw [(disc_measure (b := b) d.hV.measurableSet hr).1]
-            exact ENNReal.mul_pos (by simp; positivity)
-              (ne_of_gt (by have := volume_V_pos d
-                            exact (ENNReal.toReal_pos_iff.1 this).1)))).2 |>.ne'
+    · exact (ENNReal.toReal_pos_iff.1 (stCell_toReal_pos d r hr)).1.ne'
     · exact stCell_ne_top d hr
 
 /-- Exact frozen telescope and conclusion, with only the declaration name changed. -/
