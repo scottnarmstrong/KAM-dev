@@ -591,6 +591,13 @@ public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
 public import KAM.Planetary.PlanarTorsion.LaplaceReduction
+public import KAM.Planetary.PlanarTorsion.OrbitJet.Algebra
+public import KAM.Planetary.PlanarTorsion.OrbitJet.Analytic
+public import KAM.Planetary.PlanarTorsion.OrbitJet.Expansion
+public import KAM.Planetary.PlanarTorsion.OrbitJet.Jet
+public import KAM.Planetary.PlanarTorsion.OrbitJet.Line
+public import KAM.Planetary.PlanarTorsion.OrbitJet.Polar
+public import KAM.Planetary.PlanarTorsion.OrbitJet
 public import KAM.Planetary.PlanarTorsion.Setting
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
