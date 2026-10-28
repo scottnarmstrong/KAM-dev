@@ -611,9 +611,9 @@ EDGE: stepP:p5:fd-beta | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:freq-data@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: freq_data, pgAnalytic, pgAnalytic_spec, pgCU (KAM/Planetary/PGAssembly/FrequencyBounds.lean); PGAnalytic, PGAnalyticSpec (KAM/Planetary/PGAssembly/FrequencyDefs.lean)
+LEAN_NOTE: audit P5-FD PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:fd-bd
@@ -642,9 +642,9 @@ EDGE: bpP:p5:bilip | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fd-bd@L110-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: jetPolynomial_norm_le, jetPolynomial_ball_bound, jetPolynomial_derivs_bound (KAM/Planetary/PGAssembly/FrequencyJets.lean)
+LEAN_NOTE: audit P5-FD PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:fd-lip
@@ -670,9 +670,9 @@ EDGE: stepP:p5:fd-bd | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fd-lip@L111
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: jpGrad_lip, jpTheta_lip, jpGrad_lip_slow (KAM/Planetary/PGAssembly/FrequencyLip.lean)
+LEAN_NOTE: audit P5-FD PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:fd-beta
@@ -699,9 +699,9 @@ EDGE: bpP:p5:bilip | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fd-beta@L112-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: jetBeta_lower, jetBeta_lip_mulVec, jetBeta_lower_nbhd (KAM/Planetary/PGAssembly/FrequencyBeta.lean)
+LEAN_NOTE: audit P5-FD PASS WITH NOTES; compactness replaces Cramer
 NOTE: The phrase "Cramer as in bpP:p4:beta-inverse" compares the repeated adjugate computation. The actual input is K:bp:p1:ext-cramer for complex matrices, not the real-vector conclusion of bpP:p4:beta-inverse.
 
 NODE: bpP:p5:freq-inj
@@ -854,9 +854,9 @@ EDGE: bpP:p5:kam-cond#scales | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:param
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PGParameters, params, checkedCore, pgActionDomain, admissible (KAM/Planetary/PGAssembly/Parameters.lean)
+LEAN_NOTE: audit P5-PAR PASS WITH NOTES; definitions only
 NOTE: C_1 and kappa_0,kappa_1,G come from the numerical-choice projections. No edge to the compound kam-hyp or kam-cond result is needed: their later estimates consume params. Remark order records the order, not the defining formulas or inequalities.
 
 NODE: bpP:p5:rstar
@@ -1735,7 +1735,7 @@ EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P5-PAR covers only early D0 (pgD0); torus family and Kolmogorov set not defined
 NOTE: -
 
 NODE: bpP:p5:torus-conv
@@ -2503,7 +2503,7 @@ EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P5-CUT PASS WITH NOTES covers only finite_measure_coordinate_cut (continuity of cumulative mass); existence of s with f(s)=theta_0 and sigma-compactness not stated
 NOTE: SOURCE_GAP: L311 invokes continuity of finite measure along monotone sequences and the intermediate value theorem. L336 lists the former but creates no approved external; neither classical input is supplied by the existing edges. Additivity, null slices and the lower bound retain their stated contracts.
 
 NODE: stepP:p5:st-conc
@@ -2739,9 +2739,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kam-hyp@L200-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kam_c1 (KAM/Planetary/PGAssembly/Scales.lean)
+LEAN_NOTE: audit P5-SCALE PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:kam-cond#scales
@@ -2769,9 +2769,9 @@ EDGE: bpP:p3:constants | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kam-cond@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PGScales, pgTau, pgK0, pgChat, PGScaleSpec, kam_cond, pgScales (KAM/Planetary/PGAssembly/Scales.lean)
+LEAN_NOTE: audit P5-SCALE PASS WITH NOTES
 NOTE: SOURCE_GAP: Numerical witness selection from items 1-3, not the later KAM-condition verification. L215 invokes the elementary limit kappa_0^2/(log kappa_0)^(2 tau+2) -> infinity; that standard growth fact is an unregistered input, so its existence justification remains SOURCE_GAP unless an approved supplier is added. The numerical contract is unchanged.
 
 NODE: bpP:p5:rstar#Cgamma

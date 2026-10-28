@@ -1435,7 +1435,7 @@ EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S8-J PASS WITH NOTES: same_jets/same_jets_transfer cover jets and (c) transfer only; (a),(b) and composition clause not stated
 NOTE: edge to bpP:p8:quartic deleted (the coincidence of the quartic jets is a consequence of the all-order equality here; Prop quartic depends on this corollary, not conversely). Two step nodes #jets, #transfer added for the unmarked proof obligations
 
 NODE: bpP:p8:same-jets#jets
@@ -1467,7 +1467,7 @@ EXTRACTOR: sonnet-extract-P-p8+sol-delta-P-j
 REVIEWER: sol-delta2-P-t
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S8-J PASS WITH NOTES: same_jets_on states only the all-order jet equality; (a) same quadratic form and (b) same equations not stated
 NOTE: added step: the all-order equality and (a),(b) are consumed by Parts 11b/12; proof paragraph L206
 
 NODE: bpP:p8:same-jets#transfer
@@ -1497,7 +1497,7 @@ EXTRACTOR: sonnet-extract-P-p8+sol-delta-P-j
 REVIEWER: sol-delta2-P-t
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S8-J PASS WITH NOTES: same_jets_transfer proves the HasBirkhoff transfer but not the composition clause S_mov o chi - S_fix o chi = delta
 NOTE: added step for the unmarked substantive transfer (c)
 
 NODE: bpP:p8:quartic

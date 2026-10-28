@@ -1940,9 +1940,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#bpP:p2:osc-iter@L184
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P23-13 FAIL on coverage: osc_iter_core/osc_fp_class partial; remainder bound, reality and final osc_iter assembly not proved; P23-13b..i are transfer infrastructure only
+LEAN_STATUS: PROVED
+LEAN_REF: osc_iter (KAM/Planetary/Averaging/OscillatorStepComplete.lean)
+LEAN_NOTE: audit P23-13j PASS; composed of P23-13h PASS WITH NOTES (osc_remainder_bound) and earlier P23-13 audits; signed statement exact
 NOTE: source-gap L196 (the extension is stated by a short list of changes, not rewritten in N) is bridged by the four steps; the proof is a transfer argument and the reviewer should check it is complete
 
 NODE: stepP:p2:oi-transfer
