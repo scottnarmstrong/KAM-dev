@@ -323,4 +323,76 @@ theorem stability {n m : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
 
 end Stability
 
+section OperatorBound
+
+variable {n m : ℕ}
+
+theorem p11euclid_symm (b : EuclideanSpace ℝ (Fin n)) : p11euclid (p11toE.symm b) = ‖b‖ := by
+  rw [p11euclid_eq_norm]; simp
+
+theorem opNorm_le_of_unit {k : ℕ} {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (f : ContinuousMultilinearMap ℝ (fun _ : Fin k => E) ℝ) {B : ℝ} (hB : 0 ≤ B)
+    (h : ∀ b : Fin k → E, (∀ i, ‖b i‖ ≤ 1) → ‖f b‖ ≤ B) : ‖f‖ ≤ B := by
+  refine ContinuousMultilinearMap.opNorm_le_bound hB fun b => ?_
+  by_cases h0 : ∃ i, b i = 0
+  · obtain ⟨i, hi⟩ := h0
+    rw [f.map_coord_zero i hi, norm_zero]
+    exact mul_nonneg hB (Finset.prod_nonneg fun _ _ => norm_nonneg _)
+  · push Not at h0
+    have hpos : ∀ i, 0 < ‖b i‖ := fun i => norm_pos_iff.2 (h0 i)
+    set b' : Fin k → E := fun i => (‖b i‖)⁻¹ • b i with hb'
+    have hb1 : ∀ i, ‖b' i‖ ≤ 1 := fun i => by
+      simp [hb', norm_smul, (hpos i).ne']
+    have hbb : b = fun i => ‖b i‖ • b' i := by
+      funext i; simp [hb', smul_smul, (hpos i).ne']
+    have : f b = (∏ i, ‖b i‖) • f b' := by
+      conv_lhs => rw [hbb]
+      exact f.map_smul_univ _ _
+    rw [this, norm_smul, Real.norm_of_nonneg (Finset.prod_nonneg fun _ _ => norm_nonneg _), mul_comm]
+    exact mul_le_mul_of_nonneg_right (h b' hb1) (Finset.prod_nonneg fun _ _ => norm_nonneg _)
+
+theorem iteratedFDeriv_comp_fromE {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
+    (f : P11Vec n → F) (j : ℕ) (x : EuclideanSpace ℝ (Fin n)) :
+    iteratedFDeriv ℝ j (f ∘ p11toE.symm) x =
+      (iteratedFDeriv ℝ j f (p11toE.symm x)).compContinuousLinearMap
+        fun _ => (p11toE (n := n)).symm.toContinuousLinearMap := by
+  have := p11toE.symm.iteratedFDerivWithin_comp_right f uniqueDiffOn_univ
+    (mem_univ (p11toE.symm x)) j
+  simpa [iteratedFDerivWithin_univ] using this
+
+theorem norm_comp_dot_le {w : P11Vec n → P11Vec m} {y : P11Vec n} {k : ℕ}
+    {c : P11Vec m} (hc : p11euclid c = 1) {M : ℝ} (hM : 0 ≤ M) (hw : ContDiffAt ℝ k w y)
+    (hop : p11op w k y ≤ M) :
+    ‖iteratedFDeriv ℝ k ((fun x => p11dot c (w x)) ∘ p11toE.symm) (p11toE y)‖ ≤ M := by
+  rw [iteratedFDeriv_comp_fromE]
+  refine opNorm_le_of_unit _ hM fun b hb => ?_
+  simp only [ContinuousMultilinearMap.compContinuousLinearMap_apply, ContinuousLinearEquiv.coe_coe,
+    ContinuousLinearEquiv.symm_apply_apply, Real.norm_eq_abs]
+  refine (abs_iteratedFDeriv_dot_le hw c _).trans ?_
+  rw [hc, one_mul]
+  exact (le_p11op w k y _ fun i => by rw [p11euclid_symm]; exact hb i).trans hop
+
+theorem p11op_scalar_le {g : P11Vec n → ℝ} {y : P11Vec n} {j : ℕ} (hg : ContDiffAt ℝ j g y)
+    {B : ℝ} (hB : 0 ≤ B)
+    (h : ‖iteratedFDeriv ℝ j (g ∘ p11toE.symm) (p11toE y)‖ ≤ B) :
+    p11op (fun x => (fun _ : Fin 1 => g x)) j y ≤ B := by
+  unfold p11op
+  refine Real.sSup_le ?_ hB
+  rintro v ⟨a, ha, rfl⟩
+  rw [p11euclid_iteratedFDeriv_scalar hg]
+  have e : iteratedFDeriv ℝ j g y a =
+      iteratedFDeriv ℝ j (g ∘ p11toE.symm) (p11toE y) (fun i => p11toE (a i)) := by
+    rw [iteratedFDeriv_comp_fromE]
+    simp
+  rw [e, ← Real.norm_eq_abs]
+  refine (ContinuousMultilinearMap.le_opNorm _ _).trans ?_
+  have hp : ∏ i, ‖p11toE (a i)‖ ≤ 1 :=
+    Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) fun i _ => by
+      rw [← p11euclid_eq_norm]; exact ha i
+  calc _ ≤ B * ∏ i, ‖p11toE (a i)‖ :=
+        mul_le_mul_of_nonneg_right h (Finset.prod_nonneg fun _ _ => norm_nonneg _)
+    _ ≤ B := by nlinarith
+
+end OperatorBound
+
 end KAM.Planetary
