@@ -25624,9 +25624,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: SelectionIteration (KAM/Planetary/WeakKAM/IterationRecord.lean); inductive_lemma (KAM/Planetary/WeakKAM/Iteration.lean); selectionIteration_of_step (KAM/Planetary/WeakKAM/IterationAssemble.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; one coherent infinite chain from raw premises (ε≥0, adm_params)
 NOTE: CYCLE BREAKS: (O1) names Lemma finite-divisor and (O3) names real-lipschitz only in the statement/\source (L286, L293); the proof uses finite-divisor in il-ret, so the statement-level draft edges are deleted. real-lipschitz enters only through canonical-step.
 
 NODE: stepP:p11a:il-p0
@@ -25654,9 +25654,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionBaseChain, iterPre_base (KAM/Planetary/WeakKAM/IterationBase.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; local base block
 NOTE: -
 
 NODE: stepP:p11a:il-ret
@@ -25685,9 +25685,9 @@ EDGE: bpP:p11a:sec-retained#data | blueprint-P/parts/p11a3-iteration-selection.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: finite_measure_gen, selectionRetained_nonempty, selectionRetained_isCompact (KAM/Planetary/WeakKAM/IterationRetained.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; retained set nonempty and compact
 NOTE: -
 
 NODE: stepP:p11a:il-c2
@@ -25718,9 +25718,9 @@ EDGE: bpP:p11a:sec-retained#data | blueprint-P/parts/p11a3-iteration-selection.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-delta-P-ac
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: stage_hyp (KAM/Planetary/WeakKAM/IterationStage.lean); stepFacts_of_ctx (KAM/Planetary/WeakKAM/IterationFacts.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; finite divisor on K_{ν+1}, t_{ν+1}T_ν 2C1<=D/2
 NOTE: -
 
 NODE: stepP:p11a:il-c1
@@ -25749,9 +25749,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iter_strip, stepFacts_of_ctx (KAM/Planetary/WeakKAM/IterationFacts.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; strip budget
 NOTE: -
 
 NODE: stepP:p11a:il-c3
@@ -25783,9 +25783,9 @@ EDGE: stepP:p11a:il-c1 | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iter_Qactual_le, iter_flow_small (KAM/Planetary/WeakKAM/IterationFacts.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; Q<=varpi/2, flow smallness
 NOTE: The reference to geom-recursion is pattern-only: eps_nu is prescribed, (S4), g_1<=1 and (A4) already prove the needed Q_nu bound. The following il-rem proves the actual remainder bound directly.
 
 NODE: stepP:p11a:il-rem
@@ -25814,9 +25814,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iter_rem_le (KAM/Planetary/WeakKAM/IterationFacts.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; remainder bound <=eps at next stage
 NOTE: -
 
 NODE: stepP:p11a:il-inc
@@ -25846,9 +25846,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cutoff_delta, cutoff_delta_real (KAM/Planetary/WeakKAM/IterationIncrement.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; whole-collar increments
 NOTE: -
 
 NODE: stepP:p11a:il-dom
@@ -25878,9 +25878,9 @@ EDGE: bpP:p11a:sec-retained#data | blueprint-P/parts/p11a3-iteration-selection.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selection_frequency_derivative_le (KAM/Planetary/WeakKAM/IterationAux.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; derivative sum <=C1
 NOTE: -
 
 NODE: stepP:p11a:il-map
@@ -25908,9 +25908,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterPost_step (KAM/Planetary/WeakKAM/IterationStep.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; canonical map clauses; local proof block
 NOTE: -
 
 NODE: bpP:p11a:parameter-selection
@@ -26227,9 +26227,9 @@ EDGE: bpP:p11a:inductive-lemma | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selection_iteration_parameter_first (KAM/Planetary/WeakKAM/Iteration.lean)
+LEAN_NOTE: audit B10 PASS WITH NOTES; E4 at t'=t/2, j=1 gives 2max(A,alpha)/t<=2(A1+Aeta)/t; helper over any SelectionIteration record (not conclusion-shaped)
 NOTE: -
 
 NODE: bpP:p11a:adm-budget
