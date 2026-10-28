@@ -24578,9 +24578,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: strip_budget, selectionCutoffError_eq_p11Error, selectionCN_eq_p11C (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B03 PASS WITH NOTES; exact signature, bridges to P11A constants
 NOTE: The statement's remark that E_nu<=alpha gives hypothesis (C1) of Proposition canonical-step is a pointer; no edge to canonical-step (its consumer il-c1 applies it).
 
 NODE: stepP:p11a:sb-sum
@@ -24607,9 +24607,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: strip_budget (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B03 PASS WITH NOTES; step inside strip_budget (loss_sum application, hsumd)
 NOTE: -
 
 NODE: stepP:p11a:sb-solve
@@ -24637,9 +24637,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-delta-P-ac
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: strip_budget (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B03 PASS WITH NOTES; step inside strip_budget (n_log_le, hsumle)
 NOTE: -
 
 NODE: stepP:p11a:sb-strip
@@ -24666,9 +24666,9 @@ EDGE: bpP:p11a:y-geom | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: strip_budget (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B03 PASS WITH NOTES; step inside strip_budget (partial sums)
 NOTE: -
 
 NODE: stepP:p11a:sb-err
@@ -24696,9 +24696,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: strip_budget (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B03 PASS WITH NOTES; step inside strip_budget (loss_choice via bridge)
 NOTE: -
 
 NODE: bpP:p11a:schedule-props
@@ -24730,9 +24730,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_props, selectiont_eq, selectionT_rpow, selection_eps_div_s (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B03 PASS WITH NOTES; S1-S5 incl. final derivative-sum clause
 NOTE: The hypotheses (A1), (A2) are named by reference to Proposition adm-choice (stated later); adm-choice states them, the lemma assumes them, so no edge (the consumer il-ret supplies them).
 
 NODE: stepP:p11a:sp-1
@@ -35193,9 +35193,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tube, complexTube, periodicOrbitSet (KAM/Planetary/Exponential/ComplexTube.lean)
+LEAN_NOTE: audit E6 PASS WITH NOTES; no new premises
 NOTE: -
 
 NODE: stepP:p14:tb-local
@@ -35220,9 +35220,9 @@ EDGE: bpP:p14:x-cx | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:tb-local@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tube (KAM/Planetary/Exponential/ComplexTube.lean)
+LEAN_NOTE: audit E6 PASS WITH NOTES; step inside tube (tube.hloc)
 NOTE: -
 
 NODE: stepP:p14:tb-leb
@@ -35248,9 +35248,9 @@ EDGE: bpP:p14:x-top | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:tb-leb@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tube (KAM/Planetary/Exponential/ComplexTube.lean)
+LEAN_NOTE: audit E6 PASS WITH NOTES; step inside tube (hcov, exists_pos_le_half)
 NOTE: -
 
 NODE: stepP:p14:tb-glue
@@ -35277,9 +35277,9 @@ EDGE: bpP:p14:x-id | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:tb-glue@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tube, exists_glue (KAM/Planetary/Exponential/ComplexTube.lean)
+LEAN_NOTE: audit E6 PASS WITH NOTES; step inside tube (exists_glue)
 NOTE: -
 
 NODE: stepP:p14:tb-per
@@ -35307,9 +35307,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tube (KAM/Planetary/Exponential/ComplexTube.lean)
+LEAN_NOTE: audit E6 PASS WITH NOTES; step inside tube (periodicity reindexing)
 NOTE: -
 
 NODE: bpP:p14:perturbation
