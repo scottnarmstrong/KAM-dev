@@ -128,6 +128,75 @@ theorem geom_shell_bound {α : Type*} [MeasurableSpace α] {μ : Measure α} {Q 
   have h0 : 0 ≤ A * (V * κ) := by positivity
   nlinarith [mul_le_mul_of_nonneg_left hg (by positivity : 0 ≤ 2 * (A * (V * κ)))]
 
+/-! ### Facts about the mode `k` -/
+
+theorem euclid_ge_one {k : Fin n → ℤ} (hk : k ≠ 0) : 1 ≤ euclid (fun j => (k j : ℝ)) := by
+  obtain ⟨j, hj⟩ : ∃ j, k j ≠ 0 := by
+    by_contra hcon
+    push Not at hcon
+    exact hk (funext hcon)
+  have h1 : (1 : ℝ) ≤ (k j : ℝ) ^ 2 := by
+    have : (1 : ℤ) ≤ k j ^ 2 := by nlinarith [sq_pos_of_ne_zero hj]
+    exact_mod_cast this
+  have h2 : (k j : ℝ) ^ 2 ≤ ∑ i, (k i : ℝ) ^ 2 :=
+    Finset.single_le_sum (f := fun i => (k i : ℝ) ^ 2) (fun i _ => sq_nonneg _) (Finset.mem_univ j)
+  have h3 := AvgRank.euclid_sq (fun j => (k j : ℝ))
+  have h4 : 0 ≤ euclid (fun j => (k j : ℝ)) := Real.sqrt_nonneg _
+  nlinarith
+
+theorem norm_le_euclid (k : Fin n → ℤ) : ‖fun j => (k j : ℝ)‖ ≤ euclid (fun j => (k j : ℝ)) := by
+  have h4 : 0 ≤ euclid (fun j => (k j : ℝ)) := Real.sqrt_nonneg _
+  refine (pi_norm_le_iff_of_nonneg h4).2 fun j => ?_
+  rw [Real.norm_eq_abs]
+  have h2 : (k j : ℝ) ^ 2 ≤ ∑ i, (k i : ℝ) ^ 2 :=
+    Finset.single_le_sum (f := fun i => (k i : ℝ) ^ 2) (fun i _ => sq_nonneg _) (Finset.mem_univ j)
+  have h3 := AvgRank.euclid_sq (fun j => (k j : ℝ))
+  exact (pow_le_pow_iff_left₀ (abs_nonneg _) h4 two_ne_zero).1 (by rw [sq_abs]; linarith)
+
+theorem norm_le_mode (k : Fin n → ℤ) : ‖fun j => (k j : ℝ)‖ ≤ KAM.Fourier.modeSize k := by
+  refine (pi_norm_le_iff_of_nonneg (Finset.sum_nonneg fun j _ => abs_nonneg _)).2 fun j => ?_
+  rw [Real.norm_eq_abs]
+  exact Finset.single_le_sum (f := fun i => |(k i : ℝ)|) (fun i _ => abs_nonneg _)
+    (Finset.mem_univ j)
+
+theorem mode_nonneg (k : Fin n → ℤ) : 0 ≤ KAM.Fourier.modeSize k :=
+  Finset.sum_nonneg fun j _ => abs_nonneg _
+
+theorem abs_Q_le {Ω₀ : ℝ} {I : Fin n → ℝ} (hI : ‖KAM.frequencyMap h I‖ ≤ Ω₀) (k : Fin n → ℤ) :
+    |avgQ h k I| ≤ KAM.Fourier.modeSize k * Ω₀ := by
+  unfold avgQ KAM.Fourier.modeSize
+  rw [Finset.sum_mul]
+  refine (Finset.abs_sum_le_sum_abs _ _).trans (Finset.sum_le_sum fun j _ => ?_)
+  rw [abs_mul]
+  exact mul_le_mul_of_nonneg_left
+    ((Real.norm_eq_abs _ ▸ norm_le_pi_norm (KAM.frequencyMap h I) j).trans hI) (abs_nonneg _)
+
+theorem Q_aemeasurable (d : AveragingData n R s h f) (k : Fin n → ℤ) :
+    AEMeasurable (avgQ h k) (volume.restrict (avgG n R)) := by
+  have hfc : ContinuousOn (KAM.frequencyMap h) (avgG n R) :=
+    (AvgRank.contDiffOn_freq d).continuousOn.mono (AvgRank.avgG_subset_domain d)
+  refine ContinuousOn.aemeasurable ?_ measurableSet_closedBall
+  unfold avgQ
+  exact continuousOn_finsetSum _ fun j _ =>
+    continuousOn_const.mul ((continuous_apply j).comp_continuousOn hfc)
+
+theorem vol_restrict {C₁ : ℝ} (hC : AvgSlabBound h R C₁) {k : Fin n → ℤ} (hk : k ≠ 0) {u : ℝ}
+    (hu : 0 < u) :
+    volume.restrict (avgG n R) {x | |avgQ h k x| ≤ u} ≤
+      ENNReal.ofReal (C₁ / euclid (fun j => (k j : ℝ)) * u) := by
+  rw [Measure.restrict_apply' (show MeasurableSet (avgG n R) from measurableSet_closedBall)]
+  have := hC.2 k hk u hu
+  refine le_trans (le_of_eq ?_) (this.trans (le_of_eq ?_))
+  · congr 1; ext I; simp [and_comm]
+  · congr 1; ring
+
+theorem exists_N {Ω₀ κ : ℝ} (hκ : 0 < κ) (hΩ0 : 0 ≤ Ω₀) (k : Fin n → ℤ) :
+    ∃ N : ℕ, KAM.Fourier.modeSize k * Ω₀ ≤ κ * 2 ^ N := by
+  obtain ⟨N, hN⟩ := pow_unbounded_of_one_lt (KAM.Fourier.modeSize k * Ω₀ / κ) (one_lt_two (α := ℝ))
+  refine ⟨N, ?_⟩
+  rw [div_lt_iff₀ hκ] at hN
+  linarith
+
 end AvgShell
 
 end KAM.Nekhoroshev
