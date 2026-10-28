@@ -135,6 +135,103 @@ theorem slowW_differentiableOn {D : P11Physical n} {C : P11SecularData n}
     exact (differentiable_pi.1 (differentiable_id) (Fin.natAdd n i)).differentiableOn
   exact (hC1.add hsum).add hZd
 
+/-- `stepP:p11:as-nr` (B1): the divisor clause of `P11SlowSpecOf`, pure-slow and mixed.
+
+`h₀ = C.h ∘ J + ε W` on `V₂`, `Z` holomorphic on its domain with `‖W‖ ≤ MW` there and the
+`ρ`-slice derivative bound `cZ` (clause 6 of the spec for `α = 0`); the smallness hypotheses
+are `K cZ ≤ δ₀/8` and `ε K MW ≤ (δ₀/2) R` with `δ₀ = γ K^{-τ}`, `R = min (s₁/4) (π r_z²/32)`. -/
+theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
+    {nu eps : ℝ} {h0 Z : P11CVec (n+n) → ℂ} {cZ MW : ℝ}
+    (heps : 0 < eps) (hK : 0 < p11K2 C nu eps) (hs1 : 0 < p11s1 C eps)
+    (hs2 : 0 < p11s2 C nu eps) (hepsrz : 3*eps ≤ C.rz^2/32) (hcZ0 : 0 ≤ cZ)
+    (h3 : ∀ I ∈ p11SlowBox C nu eps,
+      h0 I = C.h (fun i : Fin n => I (Fin.castAdd n i)) + eps*p11SlowW C Z I)
+    (hZd : DifferentiableOn ℂ Z (p11SlowZDom C eps))
+    (hMW : ∀ I ∈ p11SlowZDom C eps, ‖p11SlowW C Z I‖ ≤ MW)
+    (hdZ : ∀ J : P11CVec n, ‖J-KAM.realInclusion n C.J0‖ < p11s1 C eps/4 →
+      ∀ rho : P11CVec n, ‖rho-(fun _ => (2*Real.pi*eps : ℂ))‖ < Real.pi*eps → ∀ i : Fin n,
+        ‖fderiv ℂ (fun rho : P11CVec n => Z (Fin.append J rho)) rho (Pi.single i 1)‖ ≤ cZ)
+    (hcZ : p11K2 C nu eps*cZ ≤ C.gamma*p11K2 C nu eps^(-C.tau)/8)
+    (hMWs : eps*p11K2 C nu eps*MW ≤
+      C.gamma*p11K2 C nu eps^(-C.tau)/2*min (p11s1 C eps/4) (Real.pi*C.rz^2/32)) :
+    ∀ I ∈ p11SlowBox C nu eps, ∀ k : Fin (n+n) → ℤ, k ≠ 0 →
+      KAM.Fourier.modeSize k ≤ p11K2 C nu eps →
+      (if (fun i : Fin n => k (Fin.castAdd n i))=0 then eps else 1)*
+        C.gamma/4*p11K2 C nu eps^(-C.tau) ≤
+        ‖p11dotC k (fun i => fderiv ℂ h0 I (Pi.single i 1))‖ := by
+  intro I hI k hk0 hkK
+  have hC' := hC
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, -, -, hrz0, -, -⟩ := fast_consts hC
+  obtain ⟨-, -, ⟨-, hΩd⟩, -, hhd, hωh, -⟩ := hC'
+  set K := p11K2 C nu eps with hKdef
+  set s1 := p11s1 C eps with hs1def
+  set s2 := p11s2 C nu eps with hs2def
+  obtain ⟨hs2le, hKs⟩ := p11s2_spec hC hK
+  obtain ⟨hJs, hρ⟩ := p11SlowBox_mem hs2 heps hI
+  have hs1rC : s1 ≤ C.rC := min_le_left _ _
+  have hπ : 0 < Real.pi := Real.pi_pos
+  have hrz2 : 0 < C.rz ^ 2 := by positivity
+  have hprz : 0 < Real.pi * C.rz ^ 2 := by positivity
+  set J : P11CVec n := fun i => I (Fin.castAdd n i) with hJdef
+  set Rr : P11CVec n := fun i => I (Fin.natAdd n i) with hRrdef
+  have hJball : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) := by
+    rw [mem_ball_iff_norm]; linarith
+  have hρ0 : ‖(fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ ≤ 2*Real.pi*eps := by
+    refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => ?_
+    rw [Complex.norm_mul, Complex.norm_mul]
+    simp [abs_of_pos heps, abs_of_pos hπ]
+  have hRn : ‖Rr‖ < Real.pi * C.rz ^ 2 / 32 := by
+    have h2 : ‖Rr‖ ≤ ‖(fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ + ‖Rr - (fun _ : Fin n =>
+        (2*Real.pi*eps : ℂ))‖ := by
+      have := norm_le_insert' Rr (fun _ : Fin n => (2*Real.pi*eps : ℂ))
+      linarith
+    nlinarith
+  set Rrad := min (s1/4) (Real.pi * C.rz ^ 2 / 32) with hRrad
+  have hRpos : 0 < Rrad := lt_min (by linarith) (by positivity)
+  have hIZ : I ∈ p11SlowZDom C eps := ⟨by show ‖J - _‖ < _; linarith, by
+    show ‖Rr‖ < _; linarith⟩
+  have hcl : closedBall I Rrad ⊆ p11SlowZDom C eps := by
+    intro y hy
+    rw [mem_closedBall_iff_norm] at hy
+    have h1 := norm_Jf_sub_le y I
+    have h2 := norm_Rf_sub_le y I
+    have hr1 : Rrad ≤ s1/4 := min_le_left _ _
+    have hr2 : Rrad ≤ Real.pi * C.rz ^ 2 / 32 := min_le_right _ _
+    refine ⟨?_, ?_⟩
+    · have := norm_sub_le_norm_sub_add_norm_sub
+        (fun i : Fin n => y (Fin.castAdd n i)) J (KAM.realInclusion n C.J0)
+      show _ < _
+      linarith
+    · have := norm_sub_le_norm_sub_add_norm_sub
+        (fun i : Fin n => y (Fin.natAdd n i)) Rr 0
+      simp only [sub_zero] at this
+      show _ < _
+      linarith
+  have hWd := slowW_differentiableOn hC hZd
+  have hWat : DifferentiableAt ℂ (p11SlowW C Z) I :=
+    hWd.differentiableAt ((p11SlowZDom_isOpen C eps).mem_nhds hIZ)
+  have hZat : DifferentiableAt ℂ Z I := hZd.differentiableAt ((p11SlowZDom_isOpen C eps).mem_nhds hIZ)
+  have hhat : DifferentiableAt ℂ C.h J := hhd.differentiableAt (isOpen_ball.mem_nhds hJball)
+  have hCat : DifferentiableAt ℂ C.C J :=
+    (p11C_differentiableOn hC).differentiableAt (isOpen_ball.mem_nhds hJball)
+  have hOat : DifferentiableAt ℂ C.Omega J := hΩd.differentiableAt (isOpen_ball.mem_nhds hJball)
+  have hEv : h0 =ᶠ[nhds I] fun x : P11CVec (n+n) =>
+      C.h (fun i : Fin n => x (Fin.castAdd n i)) + eps*p11SlowW C Z x :=
+    Filter.eventuallyEq_of_mem ((p11SlowBox_isOpen C nu eps).mem_nhds hI) h3
+  have hsplit := p11_slow_dotC_split (eps := eps) (Z := Z) hEv hhat hWat (hωh J hJball) k
+  have hCau : ∀ j : Fin (n+n), ‖fderiv ℂ (p11SlowW C Z) I (Pi.single j 1)‖ ≤ MW / Rrad :=
+    fun j => p11_scalar_step_bound (p11SlowZDom_isOpen C eps) hWd hRpos hcl
+      (fun y hy => hMW y (hcl hy)) j
+  have hepsC : ‖(eps : ℂ)‖ = eps := by simp [abs_of_pos heps]
+  set δ0 := C.gamma * K ^ (-C.tau) with hδ0
+  have hKt : 0 < K ^ (-C.tau) := Real.rpow_pos_of_pos hK _
+  have hδpos : 0 < δ0 := mul_pos hγ0 hKt
+  have hrhs : ∀ c : ℝ, c * C.gamma / 4 * K ^ (-C.tau) = c * (δ0 / 4) := fun c => by
+    rw [hδ0]; ring
+  by_cases hk1 : (fun i : Fin n => k (Fin.castAdd n i)) = 0
+  · sorry
+  · sorry
+
 /-- The secular frequency `Ω/(2π)` is `L`-Lipschitz on the ball `2 r_C`. -/
 theorem Omega_lipschitz {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
     {J : P11CVec n} (hJ : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC)) :
