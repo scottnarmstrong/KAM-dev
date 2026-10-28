@@ -50,6 +50,9 @@ theorem p11cB_planeLength_pos {v : Fin 2 → ℝ} (hv : v ≠ 0) : 0 < planeLeng
   funext k
   exact pow_eq_zero_iff (two_ne_zero) |>.1 (h0 k)
 
+theorem p11cB_fin2_ne {i j : Fin 2} (h : i ≠ j) : (i = 0 ∧ j = 1) ∨ (i = 1 ∧ j = 0) := by
+  fin_cases i <;> fin_cases j <;> simp at h ⊢
+
 /-- Circular points with positive actions in the frame domain are collision free. -/
 theorem p11cB_circular_mem (p : PlanarData) (hp : p.Valid) {I : Fin 2 → ℝ}
     (hI : I ∈ p11c_frameActionDomain p) (hpos : ∀ i, 0 < I i) (lam : Fin 2 → ℝ) :
@@ -68,7 +71,10 @@ theorem p11cB_circular_mem (p : PlanarData) (hp : p.Valid) {I : Fin 2 → ℝ}
         (assemble I lam (0 : Fin 2 → ℝ) (0 : Fin 2 → ℝ))).1 i) =
         (p.axes I i) • (![Real.cos (lam i), Real.sin (lam i)] : Fin 2 → ℝ) := by
       intro i
-      have h1 := (Prod.ext_iff.1 (hb i)).1
+      have h1 : bodyVector (poincareProd p.m p.kappa
+          (assemble I lam (0 : Fin 2 → ℝ) (0 : Fin 2 → ℝ))).1 i =
+          (poincare (p.m i) p.kappa (planetBlock
+            (assemble I lam (0 : Fin 2 → ℝ) (0 : Fin 2 → ℝ)) i)).1 := congrArg Prod.fst (hb i)
       rw [h1]
       have hpb : planetBlock (assemble I lam (0 : Fin 2 → ℝ) (0 : Fin 2 → ℝ)) i =
           ((![lam i, 0], ![I i, 0]) : Phase 2) := by
@@ -109,8 +115,7 @@ theorem p11cB_circular_mem (p : PlanarData) (hp : p.Valid) {I : Fin 2 → ℝ}
       rw [h0, h1] at key
       have hne : p.axes I j - p.axes I i ≠ 0 := by
         intro h0
-        apply hij
-        fin_cases i <;> fin_cases j <;> simp_all <;> linarith
+        rcases p11cB_fin2_ne hij with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> linarith
       have hnn : 0 ≤ p.axes I i * p.axes I j * ((Real.cos (lam i) - Real.cos (lam j)) ^ 2 +
           (Real.sin (lam i) - Real.sin (lam j)) ^ 2) := by
         have := hapos i; have := hapos j; positivity
@@ -123,9 +128,9 @@ private theorem p11cB_continuous_assemble :
       (assemble x.1 x.2 (0 : Fin 2 → ℝ) (0 : Fin 2 → ℝ) : Phase (2 + 2)) := by
   refine Continuous.prodMk (continuous_pi fun j => ?_) (continuous_pi fun j => ?_)
   · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
-      simp [assemble, Fin.append_left] <;> fun_prop
+      simp [Fin.append_left] <;> fun_prop
   · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
-      simp [assemble, Fin.append_left] <;> fun_prop
+      simp [Fin.append_left] <;> fun_prop
 
 /-- Uniform physical radius: over a compact set of positive frame-domain actions, every point
 with slow part of sup norm `< δ` (any angles) is in the good domain. -/
@@ -168,26 +173,27 @@ theorem p11cB_domain (p : PlanarData) (hp : p.Valid) {K : Set (Fin 2 → ℝ)} (
       refine Fin.addCases (fun i => ?_) (fun i => ?_) j
       · simp [w', assemble, Fin.append_left]
         exact hδ
-      · simp [w', assemble, Fin.append_right, Real.dist_eq]
-        exact hx i
+      · simpa [w', assemble, Fin.append_right, Real.dist_eq] using hx i
     · rw [dist_pi_lt_iff hδ]
       intro j
       refine Fin.addCases (fun i => ?_) (fun i => ?_) j
       · simp [w', assemble, Fin.append_left]
         exact hδ
-      · simp [w', assemble, Fin.append_right, Real.dist_eq]
-        exact hy i
+      · simpa [w', assemble, Fin.append_right, Real.dist_eq] using hy i
   have hwe : w = w' + fastShift (a := 2) (b := 2) (fun i => k i) := by
     refine Prod.ext (funext fun j => ?_) (funext fun j => ?_)
     · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
-        simp [w', assemble, fastShift, Fin.append_left, Fin.append_right, hφ]
+        simp [w', assemble, fastShift, Fin.append_left, hφ]
     · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
-        simp [w', assemble, fastShift, Fin.append_left, Fin.append_right, hIdef]
+        simp [w', assemble, fastShift, Fin.append_left, hIdef]
   have hlat := poincareProd_lattice hp.2.2 (mul_pos hp.1 hp.2.1) hw'.1 (fun i => k i)
   rw [hwe]
-  exact ⟨hlat.1, by
-    show NoCollision (poincareProd p.m p.kappa _).1
-    rw [hlat.2]; exact hw'.2⟩
+  refine ⟨hlat.1, ?_⟩
+  have hnc : NoCollision (poincareProd p.m (p.G * p.m0) w').1 := hw'.2
+  show NoCollision (poincareProd p.m (p.G * p.m0) (w' + fastShift (a := 2) (b := 2)
+    (fun i => k i))).1
+  rw [hlat.2]
+  exact hnc
 
 end KAM.Planetary
 
