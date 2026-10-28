@@ -771,6 +771,11 @@ public import KAM.Planetary.Poincare.Tube
 public import KAM.Planetary.Preparation.AnalyticExtension
 public import KAM.Planetary.Preparation.BasePoint
 public import KAM.Planetary.Preparation.Basic
+public import KAM.Planetary.Preparation.Fast
+public import KAM.Planetary.Preparation.FastBridge
+public import KAM.Planetary.Preparation.FastDivisor
+public import KAM.Planetary.Preparation.FastParams
+public import KAM.Planetary.Preparation.FastSigned
 public import KAM.Planetary.Preparation.ForwardTube
 public import KAM.Planetary.Preparation.HoloAssembly
 public import KAM.Planetary.Preparation.HoloChart
@@ -791,6 +796,7 @@ public import KAM.Planetary.Preparation.HoloStripGeometry
 public import KAM.Planetary.Preparation.HoloStripInput
 public import KAM.Planetary.Preparation.Holomorphic
 public import KAM.Planetary.Preparation.HolomorphicRotation
+public import KAM.Planetary.Preparation.LogBounds
 public import KAM.Planetary.Preparation.Patch
 public import KAM.Planetary.Preparation.PatchHessian
 public import KAM.Planetary.Preparation.Polar
