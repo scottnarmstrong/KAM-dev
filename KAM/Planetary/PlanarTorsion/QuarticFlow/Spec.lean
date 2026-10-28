@@ -31,7 +31,8 @@ open KAM KAM.ODE
 open Classical in
 /-- Restricted time-one maps chosen by existence only; consumers use flow's specification. -/
 def p11c_flow (chi : (Fin 2 → ℝ) → Phase 2 → ℝ) (I : Fin 2 → ℝ) (t : ℝ) (z : Phase 2) : Phase 2 :=
-  if h : ∃ g : ℝ → Phase 2, IsSolutionIn (hamiltonianVectorField (chi I)) univ (Icc (-1) 1) g ∧ g 0 = z
+  if h : ∃ g : ℝ → Phase 2,
+      IsSolutionIn (hamiltonianVectorField (chi I)) univ (Icc (-1) 1) g ∧ g 0 = z
   then h.choose t else z
 
 /-- The Hamiltonian field of `-H` is the negative of the field of `H`. -/

@@ -71,9 +71,11 @@ theorem p11cQ_aug_solution {O : Set (Fin 2 → ℝ)} (chi : QuarticFamily O) {T 
 /-- One step: the short-time augmented flow agrees with any solution of the `I`-field. -/
 theorem p11cQ_step {O : Set (Fin 2 → ℝ)} (chi : QuarticFamily O) {I : Fin 2 → ℝ} {T h c d : ℝ}
     (hI1 : ContDiffOn ℝ 1 (hamiltonianVectorField (chi.eval I)) univ) (hc : c ≤ 0) (hd : 0 ≤ d)
-    (hh : h ∈ Icc c d) (hh0 : 0 ≤ h) (hhT : h < T) (hT : 0 < T) {Γ : ℝ → (Fin 2 → ℝ) × Phase 2} {w : Phase 2}
+    (hh : h ∈ Icc c d) (hh0 : 0 ≤ h) (hhT : h < T) (hT : 0 < T)
+    {Γ : ℝ → (Fin 2 → ℝ) × Phase 2} {w : Phase 2}
     (hΓ : IsSolutionIn (p11cQ_aug chi) (O ×ˢ univ) (Ioo (-T) T) Γ) (hΓ0 : Γ 0 = (I, w))
-    {G : ℝ → Phase 2} (hG : ∀ s ∈ Icc c d, HasDerivAt G (hamiltonianVectorField (chi.eval I) (G s)) s)
+    {G : ℝ → Phase 2}
+    (hG : ∀ s ∈ Icc c d, HasDerivAt G (hamiltonianVectorField (chi.eval I) (G s)) s)
     (hG0 : G 0 = w) : Γ h = (I, G h) := by
   have h0 : (0 : ℝ) ∈ Ioo (-T) T := ⟨by linarith, hT⟩
   have hs := p11cQ_aug_solution chi hΓ h0

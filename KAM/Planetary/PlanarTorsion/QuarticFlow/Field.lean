@@ -132,7 +132,8 @@ theorem p11cQ_fderiv_smul {O : Set (Fin 2 → ℝ)} (chi : QuarticFamily O) {I :
 /-- The quartic Hamiltonian field is homogeneous of degree three. -/
 theorem p11cQ_field_smul {O : Set (Fin 2 → ℝ)} (chi : QuarticFamily O) {I : Fin 2 → ℝ}
     (hI : I ∈ O) {s : ℝ} (hs : s ≠ 0) (z : Phase 2) :
-    hamiltonianVectorField (chi.eval I) (s • z) = s ^ 3 • hamiltonianVectorField (chi.eval I) z := by
+    hamiltonianVectorField (chi.eval I) (s • z) =
+      s ^ 3 • hamiltonianVectorField (chi.eval I) z := by
   unfold hamiltonianVectorField
   refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
   · simp only [Prod.smul_fst, Pi.smul_apply, smul_eq_mul]
