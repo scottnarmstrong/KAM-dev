@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 16:38 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 80.5 %** · frozen statements proved: 13 / 22 · **149,704 lines of Lean** of an estimated ≈ 224,000
+> **Last updated: 2026-10-28 16:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 80.5 %** · frozen statements proved: 13 / 22 · **149,704 lines of Lean** of an estimated ≈ 224,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,8 +126,8 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **149,704** (114,005 excluding blank lines and comments) · **+146,946** since 2026-10-27 16:33 UTC |
-| Written on agent branches, not yet landed | 25,706 |
+| On `main` now | **149,704** (114,005 excluding blank lines and comments) · **+146,946** since 2026-10-27 16:40 UTC |
+| Written on agent branches, not yet landed | 25,724 |
 | **Estimated total at completion** | **≈ 224,000** |
 | Estimated still to write | ≈ 48,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 16:38 UTC from `main` at `1a119959` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 16:40 UTC from `main` at `45f554d9` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -300,13 +300,14 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **p11c-t2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: T2: wrap long lines | `inp-p11c-t2` | 8 (vs `inp`) |
 | **p11c-t4** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: T4: wrap long lines | `inp-p11c-t4` | 5 (vs `inp`) |
 | **p14-a6** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P14 A6: AMD confinement (amd) and amdConfinement provider | `inp-p14-a6` | 1 (vs `inp`) |
-| **p14-e4** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: E4: h_data proved (KeplerData) | `inp-p14-e4` | 2 (vs `inp`) |
+| **p14-e4** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: E4: wrap long lines in KeplerData | `inp-p14-e4` | 3 (vs `inp`) |
 | **p14-e6** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P14 E6: reuse PGAssembly's general fastShift_add instead of a duplicate (root-import name  | `inp-p14-e6` | 2 (vs `inp`) |
 | **p2320** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-20: lint fixes | `inp-p2320` | 17 (vs `inp`) |
-| **p5av** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-AV: avg, pgAvg | `inp-p5av` | 18 (vs `inp`) |
+| **p5av** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-AV: wrap long lines | `inp-p5av` | 19 (vs `inp`) |
 | **s84** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-4: complete Quartic (quartic_scaling, lint wraps) | `inp-s84` | 24 (vs `inp`) |
 | **s8q** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-Q round 2: qf-diag2 (Quadratic/Diag), rename quadRemainder to quadFormRemainder | `inp-s8q` | 20 (vs `inp`) |
-| **s9q** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S9-Q: diagonalize (SecularSpectrum/Diagonalize) | `inp-s9q` | 19 (vs `inp`) |
+| **s9q** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S9-Q: diagonalize (SecularSpectrum/Diagonalize) | `inp-s9q` | 19 (vs `inp`) |
+| **s9t** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-s9q (S9-Q) | `inp-s9t` | 19 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
