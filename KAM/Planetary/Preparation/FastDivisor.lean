@@ -65,7 +65,7 @@ theorem omega_lipschitz {D : P11Physical n} {C : P11SecularData n} (hC : P11Secu
   simpa using this
 
 /-- `|k·v| ≤ |k|₁ ‖v‖`. -/
-theorem p11_norm_dotC_le (k : Fin n → ℤ) (v : P11CVec n) :
+theorem p11fd_norm_dotC_le (k : Fin n → ℤ) (v : P11CVec n) :
     ‖dotC k v‖ ≤ KAM.Fourier.modeSize k * ‖v‖ := by
   unfold dotC KAM.Fourier.modeSize
   refine (norm_sum_le _ _).trans ?_
@@ -128,7 +128,7 @@ theorem fast_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Secular
     rw [hωh I hIm]; rfl
   rw [hfreq]
   have hlip := omega_lipschitz hC' hIm
-  have hms := p11_norm_dotC_le k (C.omega I - C.omega (KAM.realInclusion n C.J0))
+  have hms := p11fd_norm_dotC_le k (C.omega I - C.omega (KAM.realInclusion n C.J0))
   have hdio := re_dotC_omega hC' hk0'
   have hsub : dotC k (C.omega I) = dotC k (C.omega (KAM.realInclusion n C.J0)) +
       dotC k (C.omega I - C.omega (KAM.realInclusion n C.J0)) := by
