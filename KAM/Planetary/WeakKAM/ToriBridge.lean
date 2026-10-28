@@ -98,7 +98,8 @@ theorem tori_fderiv_eq_symplFormC (H : (Fin n → ℂ) × (Fin n → ℂ) → �
 
 theorem tori_symplFormC_sub (u v w : (Fin n → ℂ) × (Fin n → ℂ)) :
     Canonical.symplFormC (u - v) w = Canonical.symplFormC u w - Canonical.symplFormC v w := by
-  simp only [Canonical.symplFormC, Prod.fst_sub, Prod.snd_sub, Pi.sub_apply, ← Finset.sum_sub_distrib]
+  simp only [Canonical.symplFormC, Prod.fst_sub, Prod.snd_sub, Pi.sub_apply,
+    ← Finset.sum_sub_distrib]
   exact Finset.sum_congr rfl fun i _ => by ring
 
 /-- A near-identity continuous linear map of a finite-dimensional space is surjective. -/
@@ -146,35 +147,6 @@ variable {n : ℕ}
 
 theorem tori_phaseToC_eq (y : Phase n) : phaseToC y = KAM.realInclusion₂ n y := by
   ext i <;> simp [phaseToC]
-
-/-- The frozen real Hamiltonian field is the real part of the complex field at real points. -/
-theorem tori_hamField_real (F : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (z : Phase n)
-    (hF : DifferentiableAt ℂ F (phaseToC z)) :
-    hamiltonianVectorField (fun y : Phase n => (F (phaseToC y)).re) z =
-      (fun i => ((hamiltonianVectorFieldℂ F (phaseToC z)).1 i).re,
-        fun i => ((hamiltonianVectorFieldℂ F (phaseToC z)).2 i).re) := by
-  have hd : HasFDerivAt (fun y : Phase n => (F (phaseToC y)).re)
-      (Complex.reCLM.comp (((fderiv ℂ F (phaseToC z)).restrictScalars ℝ).comp
-        (KAM.realInclusion₂ n))) z := by
-    have hz : phaseToC z = KAM.realInclusion₂ n z := tori_phaseToC_eq z
-    have hF' : HasFDerivAt F (fderiv ℂ F (KAM.realInclusion₂ n z)) (KAM.realInclusion₂ n z) := by
-      rw [← hz]; exact hF.hasFDerivAt
-    have h1 := (hF'.restrictScalars ℝ).comp z (KAM.realInclusion₂ n).hasFDerivAt
-    have h2 := Complex.reCLM.hasFDerivAt.comp z h1
-    simp only [tori_phaseToC_eq]
-    exact h2
-  have e1 : ∀ i, KAM.realInclusion₂ n ((0 : Fin n → ℝ), Pi.single i (1 : ℝ)) =
-      ((0 : Fin n → ℂ), Pi.single i (1 : ℂ)) := fun i => by
-    ext j <;> simp [Pi.single_apply]
-    split_ifs <;> simp
-  have e2 : ∀ i, KAM.realInclusion₂ n (Pi.single i (1 : ℝ), (0 : Fin n → ℝ)) =
-      (Pi.single i (1 : ℂ), (0 : Fin n → ℂ)) := fun i => by
-    ext j <;> simp [Pi.single_apply]
-    split_ifs <;> simp
-  simp only [hamiltonianVectorField, hd.fderiv, hamiltonianVectorFieldℂ]
-  refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
-  · simp [e1]
-  · simp [e2]
 
 end Real
 

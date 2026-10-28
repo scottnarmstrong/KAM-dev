@@ -142,7 +142,8 @@ theorem tori_stage_cov {ε : ℝ} (hf : SelectionPerturbation d f ε) (hb : b �
     · rw [← cx.hstrip]; exact hdom.1
     · exact hdom.2.1.trans_le (tori_s0_le_theta cx)
   have hsymp : ∀ u v, Canonical.symplFormC (fderiv ℂ Φ z u) (fderiv ℂ Φ z v) =
-      Canonical.symplFormC u v := fun u v => c.composition_symplectic ν (z, selectionReal b) hzdom u v
+      Canonical.symplFormC u v := fun u v =>
+    c.composition_symplectic ν (z, selectionReal b) hzdom u v
   have hsurj : Function.Surjective (fderiv ℂ Φ z) := by
     refine tori_surjective_of_near_id _ ?_
     exact (c.composition_small ν (z, selectionReal b) hzdom).trans_lt (by norm_num)
