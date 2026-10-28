@@ -277,8 +277,9 @@ theorem isLatticeTorus_periodOne_iff (G : Phase d → ℝ) (O : Set (Phase d)) (
       rwa [smul_inv_smul] at this
     · intro h θ
       exact (key θ).2 (h _)
-  have hsym : (∀ θ u v, symplecticForm (fderiv ℝ (periodOne κ) θ u) (fderiv ℝ (periodOne κ) θ v) = 0)
-      ↔ ∀ ϑ u v, symplecticForm (fderiv ℝ κ ϑ u) (fderiv ℝ κ ϑ v) = 0 := by
+  have hsym : (∀ θ u v, symplecticForm (fderiv ℝ (periodOne κ) θ u)
+      (fderiv ℝ (periodOne κ) θ v) = 0) ↔
+      ∀ ϑ u v, symplecticForm (fderiv ℝ κ ϑ u) (fderiv ℝ κ ϑ v) = 0 := by
     have key : ∀ θ u v, symplecticForm (fderiv ℝ (periodOne κ) θ u) (fderiv ℝ (periodOne κ) θ v)
         = (2 * π) * (2 * π) * symplecticForm (fderiv ℝ κ ((2 * π) • θ) u)
           (fderiv ℝ κ ((2 * π) • θ) v) := by
@@ -326,8 +327,8 @@ theorem cyl_pipeline {a b : ℕ} {H : Phase (a + b) → ℝ} {Φ : Phase (a + b)
     IsCylinderTorus H U w (Φ ∘ angleScale (2 * π) ∘ K₃) := by
   have hpos : (0 : ℝ) < 2 * π := by positivity
   have hch : IsChart (2 * π) (Φ ∘ angleScale (2 * π)) (angleScale (2 * π) ⁻¹' O₀) := by
-    have := ((isChart_angleScale (d := a + b) hpos).mono (subset_univ (angleScale (2 * π) ⁻¹' O₀))).comp hΦ
-      (fun z hz => hz)
+    have := ((isChart_angleScale (d := a + b) hpos).mono
+      (subset_univ (angleScale (2 * π) ⁻¹' O₀))).comp hΦ (fun z hz => hz)
     rwa [mul_one] at this
   have hshift : ∀ (z : Phase (a + b)) (k : Fin (a + b) → ℤ),
       angleScale (2 * π) (z + angleShift k) = angleScale (2 * π) z + fullShift k :=
