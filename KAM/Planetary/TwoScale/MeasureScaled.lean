@@ -46,18 +46,15 @@ theorem scaled_cover {R s lam eta : ℝ} (hR : 0 < R) (hs : 0 < s) (hlam : 0 ≤
     (g := fun z => sc R s (Φ (unsc R s z) - unsc R s z)) (lam := lam) (η := eta) hlam heta
     (fun z hz w hw => by
       have h := hlip _ hz _ hw
-      rw [hnorm, hnorm, ← sc_sub, ← sc_sub] at h
-      rw [← sc_sub]
-      have e : sc R s (unsc R s z - unsc R s w) = z - w := by rw [sc_sub, hsu, hsu]
-      rw [e] at h
+      rw [hnorm, hnorm] at h
+      simp only [sc_sub, hsu] at h ⊢
       exact h)
     (fun z hz => by rw [← hnorm]; exact hsup _ hz)
   refine ⟨fun x => unsc R s (F (sc R s x)), fun x hx => ?_, fun x y => ?_, fun y hy => ?_⟩
   · have hz : sc R s x ∈ {z | unsc R s z ∈ X} := by simpa [hus] using hx
     have e : sc R s x + sc R s (Φ x - x) = sc R s (Φ x) := by rw [sc_sub]; abel
     simp only [hFX _ hz, hus, e]
-  · simp only [hnorm (_ - _), ← unsc_sub, hsu]
-    rw [hnorm (x - y), sc_sub]
+  · rw [← unsc_sub, hnorm, hsu, hnorm (x - y), sc_sub]
     exact (hFbi _ _).2
   · have hz : sc R s y ∈ {z | unsc R s z ∈ X} := by simpa [hus] using hy
     refine ⟨unsc R s (F.symm (sc R s y)), ?_, ?_⟩
@@ -76,8 +73,8 @@ theorem norm_scaleEquiv {R s : ℝ} (hR : 0 < R) (hs : 0 < s) (w : Phase n) :
   have h2 : 0 ≤ 1 / R := by positivity
   simp only [scaleEquiv, Prod.norm_def, limitmap_data]
   change max ‖(2 * π / s) • w.1‖ ‖(1 / R) • w.2‖ = _
-  rw [norm_smul, norm_smul, Real.norm_of_nonneg h1, Real.norm_of_nonneg h2, mul_comm,
-    one_div, ← div_eq_inv_mul, mul_comm (2 * π / s)]
+  rw [norm_smul, norm_smul, Real.norm_of_nonneg h1, Real.norm_of_nonneg h2]
+  congr 1 <;> ring
 
 /-- `stepP:p3:mt-meas`: Lipschitz image bound for the rescaled norm on `ℝⁿ × ℝⁿ`; the Jacobian of
 the rescaling cancels. -/
@@ -101,9 +98,13 @@ theorem lip_image_scaled {R s Λ : ℝ} (hR : 0 < R) (hs : 0 < s) {S : Set (Phas
     (LinearEquiv.isUnit_det' e).ne_zero
   have hc : ENNReal.ofReal |LinearMap.det (e : Phase n →ₗ[ℝ] Phase n)| ≠ 0 := by
     simpa using hdet
-  rw [Measure.addHaar_image_linearMap, Measure.addHaar_image_linearMap, ← mul_assoc,
-    mul_comm _ (ENNReal.ofReal (Λ ^ (2 * n))), mul_assoc] at h1
-  exact (ENNReal.mul_le_mul_iff_right hc ENNReal.ofReal_ne_top).1 (by simpa [mul_comm] using h1)
+  have : (volume : Measure (Phase n)).IsAddHaarMeasure :=
+    MeasureTheory.Measure.prod.instIsAddHaarMeasure (volume : Measure (Fin n → ℝ)) volume
+  have hv : ∀ A : Set (Phase n), volume (e '' A) =
+      ENNReal.ofReal |LinearMap.det (e : Phase n →ₗ[ℝ] Phase n)| * volume A := fun A => by
+    simpa using Measure.addHaar_image_linearMap volume (e : Phase n →ₗ[ℝ] Phase n) A
+  rw [hv, hv, mul_left_comm] at h1
+  exact (ENNReal.mul_le_mul_iff_right hc ENNReal.ofReal_ne_top).1 h1
 
 end KAM.Planetary
 
