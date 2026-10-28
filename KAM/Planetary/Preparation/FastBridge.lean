@@ -65,7 +65,7 @@ theorem q_p11Flat (J y x : P11CVec n) :
     lastBlock (a := n) (lastBlock (a := n) (p11Flat J y x)) = x := by
   funext i; simp [lastBlock, p11Flat]
 
-theorem oscUnpack_flat (θ J y x : P11CVec n) :
+theorem p11_oscUnpack_flat (θ J y x : P11CVec n) :
     oscUnpack (θ, p11Flat J y x) = (Fin.append θ x, Fin.append J y) := by
   simp only [oscUnpack, firstBlock_p11Flat, p_p11Flat, q_p11Flat]
 
@@ -148,7 +148,7 @@ theorem actionNbhd_sub_ball (J0 : P11Vec n) {s r : ℝ} (h : s ≤ r) :
   rw [mem_ball, dist_eq_norm, this]
   exact hI.trans_le h
 
-theorem coth_pos {x : ℝ} (hx : 0 < x) : 0 < coth x := by
+theorem p11_coth_pos {x : ℝ} (hx : 0 < x) : 0 < coth x := by
   unfold coth
   exact div_pos (Real.cosh_pos x) (Real.sinh_pos_iff.2 hx)
 
@@ -175,7 +175,7 @@ theorem oscHyp_fast {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularS
   have hsubW : ∀ S, S ≤ 2 * C.sigma → p11WorkingDom n C.J0 S s1 C.rz ⊆
       p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz :=
     fun S hS => p11WorkingDom_mono hS (by linarith) le_rfl
-  have hcoth := coth_pos (x := Real.pi * C.sigma) (by positivity)
+  have hcoth := p11_coth_pos (x := Real.pi * C.sigma) (by positivity)
   have hcls : oscClass (m := n) {C.J0} s1 C.rz C.rz (C.sigma + C.sigma)
       (fun z => (eps : ℂ) * C.F z) := by
     rw [oscClass, oscDom_eq_workingDom]
