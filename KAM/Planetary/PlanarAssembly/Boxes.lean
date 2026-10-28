@@ -92,6 +92,148 @@ theorem collar (l u : Fin 2 → ℝ) (hlu : ∀ i, l i < u i)
   refine le_of_eq (congrArg ENNReal.ofReal ?_)
   ring
 
+/-! ### The Kepler action Hamiltonian -/
+
+section KeplerH
+
+variable {n : ℕ}
+
+/-- The explicit formula for `kepler_h`. -/
+private def kepEnergy (κ : ℝ) (m : Fin n → ℝ) (I : Fin n → ℝ) : ℝ :=
+  -∑ i, κ ^ 2 * m i ^ 3 / (2 * I i ^ 2)
+
+private theorem fast_assemble (I phi p q : Fin n → ℝ) :
+    fast (assemble I phi p q).2 = I := by
+  funext i
+  simp [fast, assemble]
+
+private theorem kepler_h_eq (κ : ℝ) (m : Fin n → ℝ) : kepler_h κ m = kepEnergy κ m := by
+  funext I
+  unfold kepler_h hProd kepEnergy
+  rw [fast_assemble]
+
+private theorem hProd_eq (κ : ℝ) (m : Fin n → ℝ) (w : Phase (n + n)) :
+    hProd κ m w = kepler_h κ m (fast (a := n) (b := n) w.2) := by
+  rw [kepler_h_eq]; rfl
+
+private theorem hasDerivAt_inv_sq (c y : ℝ) (hy : y ≠ 0) :
+    HasDerivAt (fun y : ℝ => c / (2 * y ^ 2)) (-(c / y ^ 3)) y := by
+  have h2 : HasDerivAt (fun y : ℝ => 2 * y ^ 2) (2 * (2 * y)) y := by
+    simpa using (hasDerivAt_pow 2 y).const_mul 2
+  have h3 := (h2.inv (mul_ne_zero two_ne_zero (pow_ne_zero 2 hy))).const_mul c
+  simp only [div_eq_mul_inv]
+  refine h3.congr_deriv ?_
+  field_simp
+
+private theorem hasDerivAt_div_cube (c y : ℝ) (hy : y ≠ 0) :
+    HasDerivAt (fun y : ℝ => c / y ^ 3) (-3 * c / y ^ 4) y := by
+  have h3 := ((hasDerivAt_pow 3 y).inv (pow_ne_zero 3 hy)).const_mul c
+  simp only [div_eq_mul_inv]
+  refine h3.congr_deriv ?_
+  field_simp
+  ring
+
+private theorem hasFDerivAt_kepEnergy (κ : ℝ) (m : Fin n → ℝ) {I : Fin n → ℝ}
+    (hI : ∀ i, I i ≠ 0) :
+    HasFDerivAt (kepEnergy κ m)
+      (∑ i, (κ ^ 2 * m i ^ 3 / I i ^ 3) •
+        (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i)) I := by
+  have h : ∀ i ∈ Finset.univ, HasFDerivAt (fun J : Fin n → ℝ => κ ^ 2 * m i ^ 3 / (2 * J i ^ 2))
+      (-((κ ^ 2 * m i ^ 3 / I i ^ 3) •
+        (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i))) I := by
+    intro i _
+    have := (hasDerivAt_inv_sq (κ ^ 2 * m i ^ 3) (I i) (hI i)).comp_hasFDerivAt I
+      (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i).hasFDerivAt
+    rw [neg_smul] at this
+    exact this
+  have := (HasFDerivAt.fun_sum h).neg
+  unfold kepEnergy
+  convert this using 1
+  simp [Finset.sum_neg_distrib]
+
+private theorem fderiv_kepEnergy_single (κ : ℝ) (m : Fin n → ℝ) {I : Fin n → ℝ}
+    (hI : ∀ i, I i ≠ 0) (i : Fin n) :
+    fderiv ℝ (kepEnergy κ m) I (Pi.single i 1) = κ ^ 2 * m i ^ 3 / I i ^ 3 := by
+  rw [(hasFDerivAt_kepEnergy κ m hI).fderiv]
+  simp [Pi.single_apply]
+
+private theorem analyticAt_kepEnergy (κ : ℝ) (m : Fin n → ℝ) {I : Fin n → ℝ}
+    (hI : ∀ i, I i ≠ 0) : AnalyticAt ℝ (kepEnergy κ m) I := by
+  unfold kepEnergy
+  have h : AnalyticAt ℝ (fun I : Fin n → ℝ => ∑ i, κ ^ 2 * m i ^ 3 / (2 * I i ^ 2)) I := by
+    refine Finset.analyticAt_fun_sum _ fun i _ => ?_
+    have hp : AnalyticAt ℝ (fun I : Fin n → ℝ => I i) I :=
+      (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i).analyticAt I
+    exact analyticAt_const.div (analyticAt_const.mul (hp.pow 2))
+      (mul_ne_zero two_ne_zero (pow_ne_zero 2 (hI i)))
+  exact h.neg
+
+private theorem fastFrequency_kepler_h (κ : ℝ) (m : Fin n → ℝ) {I : Fin n → ℝ}
+    (hI : ∀ i, I i ≠ 0) :
+    fastFrequency (kepler_h κ m) I = fun i => κ ^ 2 * m i ^ 3 / I i ^ 3 := by
+  funext i
+  unfold fastFrequency
+  rw [kepler_h_eq, fderiv_kepEnergy_single κ m hI]
+
+end KeplerH
+
+/-- bpP:p7:product-chart (b), p7 L197/L206: locally owned missing export. -/
+theorem product_chart {n : ℕ} (hn : 0 < n) (κ : ℝ) (m : Fin n → ℝ)
+    (hκ : 0 < κ) (hm : ∀ i, 0 < m i) :
+    AnalyticOnNhd ℝ (kepler_h κ m) {I : Fin n → ℝ | ∀ i, 0 < I i} ∧
+    (∀ I : Fin n → ℝ, (∀ i, 0 < I i) →
+      (fastFrequency (kepler_h κ m) I = fun i => κ ^ 2 * m i ^ 3 / I i ^ 3) ∧
+      (∀ i, fderiv ℝ (kepler_h κ m) I (Pi.single i 1) =
+        κ ^ 2 * m i ^ 3 / I i ^ 3) ∧
+      (∀ i j, fderiv ℝ (fastFrequency (kepler_h κ m)) I (Pi.single j 1) i =
+        if i = j then -3 * κ ^ 2 * m i ^ 3 / I i ^ 4 else 0) ∧
+      (∀ i, -3 * κ ^ 2 * m i ^ 3 / I i ^ 4 ≠ 0)) ∧
+    (∀ w : Phase (n + n), hProd κ m w =
+      kepler_h κ m (fast (a := n) (b := n) w.2)) ∧
+    (∀ w ∈ poincareProdDom n, keplerPart κ m (poincareProd m κ w) =
+      kepler_h κ m (fast (a := n) (b := n) w.2)) := by
+  have _ := hn
+  have hne : ∀ I : Fin n → ℝ, (∀ i, 0 < I i) → ∀ i, I i ≠ 0 := fun I hI i => (hI i).ne'
+  refine ⟨?_, ?_, hProd_eq κ m, ?_⟩
+  · intro I hI
+    rw [kepler_h_eq]
+    exact analyticAt_kepEnergy κ m (hne I hI)
+  · intro I hI
+    refine ⟨fastFrequency_kepler_h κ m (hne I hI), ?_, ?_, ?_⟩
+    · intro i
+      exact congrFun (fastFrequency_kepler_h κ m (hne I hI)) i
+    · intro i j
+      have hev : fastFrequency (kepler_h κ m) =ᶠ[nhds I]
+          fun J i => κ ^ 2 * m i ^ 3 / J i ^ 3 := by
+        have hopen : IsOpen {J : Fin n → ℝ | ∀ i, 0 < J i} :=
+          by
+            have : {J : Fin n → ℝ | ∀ i, 0 < J i} = pi univ fun _ => Ioi (0 : ℝ) := by
+              ext J; simp
+            rw [this]
+            exact isOpen_set_pi Set.finite_univ fun _ _ => isOpen_Ioi
+        filter_upwards [hopen.mem_nhds hI] with J hJ
+        exact fastFrequency_kepler_h κ m (hne J hJ)
+      have hd : HasFDerivAt (fun J : Fin n → ℝ => fun i => κ ^ 2 * m i ^ 3 / J i ^ 3)
+          (ContinuousLinearMap.pi fun i =>
+            (-3 * κ ^ 2 * m i ^ 3 / I i ^ 4) •
+              (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i)) I := by
+        rw [hasFDerivAt_pi]
+        intro i
+        have := (hasDerivAt_div_cube (κ ^ 2 * m i ^ 3) (I i) (hne I hI i)).comp_hasFDerivAt I
+          (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i).hasFDerivAt
+        have e : -3 * κ ^ 2 * m i ^ 3 / I i ^ 4 = -3 * (κ ^ 2 * m i ^ 3) / I i ^ 4 := by ring
+        rw [e]
+        exact this
+      rw [hev.fderiv_eq, hd.fderiv]
+      simp [Pi.single_apply]
+    · intro i
+      have := (hI i).ne'
+      have := (hm i).ne'
+      have := hκ.ne'
+      positivity
+  · intro w hw
+    rw [keplerPart_poincareProd hm hκ hw, hProd_eq]
+
 /-! ### Radius arithmetic -/
 
 /-- Elementary output of the P-G radius/threshold choices, not a P-G premise. -/
