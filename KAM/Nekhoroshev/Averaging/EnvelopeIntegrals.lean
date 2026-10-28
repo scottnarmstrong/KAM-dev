@@ -296,14 +296,71 @@ end PerMode
 
 section Main
 
-theorem measurable_W {κ : ℝ} (hκ : 0 < κ) (a : ℝ) :
-    Measurable (fun y : ℝ => a * |avgPsi κ y|) :=
-  Continuous.measurable (by have := contPsi hκ; fun_prop)
-
 theorem env_zero (k : Fin n → ℤ) (hk : k = 0) : ‖fun j => (k j : ℝ)‖ = 0 := by
   subst hk
   have : (fun j : Fin n => (((0 : Fin n → ℤ) j : ℤ) : ℝ)) = 0 := by funext j; simp
   rw [this, norm_zero]
+
+theorem wt_zero : wt (n := n) s 0 = 0 := by simp [wt]
+
+variable (d : AveragingData n R s h f) {C₁ Ω₀ M₂ κ : ℝ} (hC : AvgSlabBound h R C₁)
+  (hΩ : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) (hM0 : 0 ≤ M₂)
+  (hκ : 0 < κ) (hκ1 : κ ≤ 1)
+
+include d hC hΩ hM0 hκ hκ1
+
+theorem kappa_part :
+    (∫⁻ I in avgG n R, avgWenv h s κ I) ≤ ENNReal.ofReal (avgCW n s C₁ Ω₀ * avgLog κ) ∧
+    (∫⁻ I in avgG n R, avgW1env h s κ I) ≤
+      ENNReal.ofReal (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) ∧
+    (∫⁻ I in avgG n R, avgBenv h s M₂ κ I) ≤ ENNReal.ofReal (avgCB n s C₁ Ω₀ M₂ / κ) ∧
+    (∫⁻ I in avgG n R, avgRenv h s κ I) ≤ ENNReal.ofReal (avgCR n s C₁ * κ) := by
+  have hC1 := hC.1
+  have hΩ0 : 0 ≤ Ω₀ := (norm_nonneg _).trans (hΩ 0 (by
+    simp only [avgG, mem_closedBall, dist_self]; linarith [d.hR]))
+  have hpsi := contPsi hκ
+  have hpsiD := contPsiD hκ
+  have hres := contRes hκ
+  have hL := avgLog_ge_one hκ hκ1
+  have hσ := sigma_nonneg (n := n) s
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · unfold avgWenv
+    refine (env_le d (φ := fun k y => ‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ y|)
+      (fun k => Continuous.measurable (by fun_prop)) (c := 3 * C₁ * (1 + Ω₀) * avgLog κ)
+      (by positivity) (fun k => ?_)).trans (le_of_eq ?_)
+    · by_cases hk : k = 0
+      · simp [env_zero k hk]
+      · exact term_W d hC hΩ hκ hκ1 hk
+    · congr 1; unfold avgCW; ring
+  · unfold avgW1env
+    refine (env_le d (φ := fun k y => 2 * Real.pi * ‖fun j => (k j : ℝ)‖ *
+        KAM.Fourier.modeSize k * avgBeta s k * |avgPsi κ y|)
+      (fun k => Continuous.measurable (by fun_prop))
+      (c := 2 * Real.pi * (3 * C₁ * (1 + Ω₀) * avgLog κ))
+      (by positivity) (fun k => ?_)).trans (le_of_eq ?_)
+    · by_cases hk : k = 0
+      · simp [env_zero k hk]
+      · exact term_W1 d hC hΩ hκ hκ1 hk
+    · congr 1; unfold avgCW; ring
+  · unfold avgBenv
+    refine (env_le d (φ := fun k y => ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+        (2 * n / s * |avgPsi κ y| + M₂ * KAM.Fourier.modeSize k * |avgPsiD κ y|))
+      (fun k => Continuous.measurable (by fun_prop))
+      (c := C₁ * (6 * n * (1 + Ω₀) / s + 5 * Real.sqrt n * M₂) / κ)
+      (by have := d.hs; positivity) (fun k => ?_)).trans (le_of_eq ?_)
+    · by_cases hk : k = 0
+      · simp [env_zero k hk]
+      · exact term_B d hC hΩ hκ hκ1 hM0 hk
+    · unfold avgCB; congr 1; ring
+  · unfold avgRenv
+    refine (env_le d (φ := fun k y => 2 * Real.pi * ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+        (κ ^ 2 / (y ^ 2 + κ ^ 2)))
+      (fun k => Continuous.measurable (by fun_prop)) (c := 10 * Real.pi * C₁ * κ)
+      (by positivity) (fun k => ?_)).trans (le_of_eq ?_)
+    · by_cases hk : k = 0
+      · simp [env_zero k hk]
+      · exact term_R d hC hΩ hκ hκ1 hk
+    · unfold avgCR; congr 1; ring
 
 end Main
 
