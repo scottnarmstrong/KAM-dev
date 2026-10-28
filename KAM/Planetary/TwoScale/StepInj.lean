@@ -118,7 +118,8 @@ theorem freq_inj (H : KamHyp D sbar p h f)
     at heq
   have hw : freq h I - freq h I' = freq g I' - freq g I := by
     have := congrFun heq
-    funext i; have := this i; simp only [Pi.add_apply, Pi.sub_apply] at this ⊢; linear_combination this
+    funext i; have := this i
+    simp only [Pi.add_apply, Pi.sub_apply] at this ⊢; linear_combination this
   have hw1 : ‖freq h I - freq h I'‖ ≤ 10 * p.E / rhoHat p := by
     rw [hw]
     have := norm_sub_le (freq g I') (freq g I)

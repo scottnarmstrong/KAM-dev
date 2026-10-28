@@ -44,12 +44,14 @@ theorem hasDerivAt_conj_conj {u : ℂ → ℂ} {z d : ℂ} (hu : HasDerivAt u d 
   refine h2.congr fun t => ?_
   simp [map_add, map_sub, map_mul, map_inv₀]
 
-theorem differentiableAt_conj_conj {u : ℂ → ℂ} {z : ℂ} (hu : DifferentiableAt ℂ u (starRingEnd ℂ z)) :
+theorem differentiableAt_conj_conj {u : ℂ → ℂ} {z : ℂ}
+    (hu : DifferentiableAt ℂ u (starRingEnd ℂ z)) :
     DifferentiableAt ℂ (fun ζ => starRingEnd ℂ (u (starRingEnd ℂ ζ))) z :=
   (hasDerivAt_conj_conj hu.hasDerivAt).differentiableAt
 
 private theorem update_mem_ball {c : Fin n → ℝ} {r : ℝ} (hr : 0 < r) {θ : Fin n → ℂ}
-    (hθ : θ ∈ ball (KAM.realInclusion n c) r) (j : Fin n) {ζ : ℂ} (hζ : ζ ∈ ball ((c j : ℝ) : ℂ) r) :
+    (hθ : θ ∈ ball (KAM.realInclusion n c) r) (j : Fin n) {ζ : ℂ}
+    (hζ : ζ ∈ ball ((c j : ℝ) : ℂ) r) :
     Function.update θ j ζ ∈ ball (KAM.realInclusion n c) r := by
   rw [mem_ball, dist_eq_norm, pi_norm_lt_iff hr]
   intro i

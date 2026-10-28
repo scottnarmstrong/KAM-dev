@@ -93,7 +93,7 @@ theorem disp_theta (H : KamHyp D sbar p h f) {x : ℝ} (hx0 : 0 ≤ x)
   have h4 : 4 * π * cutoff p * x ≤ 9 * eHat p := by
     have : (4 * π * cutoff p * x - 9 * eHat p) * (p.Mhat * rhoHat p ^ 2) ≤ 0 := by nlinarith
     by_contra hc
-    push_neg at hc
+    rw [not_le] at hc
     nlinarith [mul_pos (sub_pos.2 hc) h3]
   -- `K s ≥ 6`
   have h5 : 2 * π * x * 6 ≤ 2 * π * x * (cutoff p * p.s) :=

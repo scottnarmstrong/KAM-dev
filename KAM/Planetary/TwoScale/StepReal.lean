@@ -27,7 +27,8 @@ open KAM.Weighted KAM.Canonical KAM.NormalForm
 variable {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {p : ScaleData}
   {h : (Fin (a + b) → ℂ) → ℂ} {f : CHam (a + b)}
 
-/-- `h` is real at the real points of an action neighbourhood where it is real on the phase domain. -/
+/-- `h` is real at the real points of an action neighbourhood where it is real on the phase
+domain. -/
 theorem im_realInclusion_zero {n : ℕ} {D : Set (Fin n → ℝ)} {ρ sb : ℝ} {h : (Fin n → ℂ) → ℂ}
     (hsb : 0 < sb) (hreal : RealOn (coefficientDom D ρ sb) (fun z => h z.2)) {J : Fin n → ℝ}
     (hJ : KAM.realInclusion n J ∈ KAM.actionNbhd D ρ) : (h (KAM.realInclusion n J)).im = 0 := by

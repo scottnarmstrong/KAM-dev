@@ -11,8 +11,8 @@ public import KAM.Planetary.TwoScale.StepInj
 # Two-scale KAM step: the map `ĩ₊ = ω₊⁻¹ ∘ ω₀` (`stepP:p3:st-ihat`)
 
 Existence of the holomorphic map `ĩ₊` on `D_{R/16}` with `ω₊ ∘ ĩ₊ = ω₀`, its values in the ball
-`B(I, R/16)` and the coordinatewise (block) displacement bounds `10 M̄ᵢ E / R`. The coordinate bounds
-come from the mean value inequality for the inverse `G` of `ω₊` on a ball of the image, whose
+`B(I, R/16)` and the coordinatewise (block) displacement bounds `10 M̄ᵢ E / R`. The coordinate
+bounds come from the mean value inequality for the inverse `G` of `ω₊` on a ball of the image, whose
 derivative is the inverse of the Hessian (rows bounded by `2 M̄ᵢ`). Design package P23-14.
 -/
 
