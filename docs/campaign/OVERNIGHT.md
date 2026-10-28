@@ -468,3 +468,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **21:50. Ruling (P11A-P5 parametric core).** P11A-P5 starts before holo_chart is proved: it implements its signed
   definitions (all parametric in the secular data C) and proves avg_fast's content for an arbitrary C satisfying
   the spec; the signed avg_fast and p11FastData become one-line wrappers once P11A-P2f proves holo_chart.
+- **22:15. Lane-N handoff published (owner request).** All compiling lane-N work is on GitHub: branches inp-n11e2,
+  inp-n11e3, inp-n11g, inp-n11j1, inp-n11j2, inp-gapa (audited), inp-n11f2 (audit FAIL F2-C1, compiles), inp-n11f1
+  (unaudited, compiles), and the combined `lane-n-handoff` (inp plus inp-n11f1; all 28 N11 modules compile together)
+  carrying docs/campaign/LANE-N-HANDOFF.md and docs/tracks/N/design/N11-SIGNATURES.md. Unaudited or failed code went
+  to branches only, not to main.
+- **22:20. Secular-box anchors seal-ready.** S11 (sb_safety) and S12 (sb_cited) passed; S12's seal-key audit
+  checked exact types and prospective seals for secularBoxSafety and secularBoxAtCitedMasses (standard axioms
+  only). Sealing handed to the sub-orchestrator via the P14 package-Q provider wrappers.
