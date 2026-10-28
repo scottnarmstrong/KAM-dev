@@ -56,7 +56,8 @@ theorem iteratedDeriv_eq_zero_of_bound {χ : ℝ → ℝ} (hχ : AnalyticAt ℝ 
   by_contra hlt
   rw [not_le] at hlt
   obtain ⟨k, hk⟩ : ∃ k : ℕ, analyticOrderAt χ 0 = k := by
-    have hne : analyticOrderAt χ 0 ≠ ⊤ := fun htop => by rw [htop] at hlt; exact absurd hlt (by simp)
+    have hne : analyticOrderAt χ 0 ≠ ⊤ := fun htop => by
+      rw [htop] at hlt; exact absurd hlt (by simp)
     obtain ⟨k, hk⟩ := ENat.ne_top_iff_exists.1 hne
     exact ⟨k, hk.symm⟩
   obtain ⟨g, hg, hg0, hfg⟩ := (hχ.analyticOrderAt_eq_natCast).1 hk

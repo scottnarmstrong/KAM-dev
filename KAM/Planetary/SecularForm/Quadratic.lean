@@ -62,7 +62,7 @@ theorem quadratic_form (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     have hn : 0 ≤ ‖(x.1, x.2.2)‖ ^ 4 := by positivity
     calc |secular D false x - constantTerm D (axis D x.2.1) -
           quad (coeffs D (axis D x.2.1)) x.1 - quad (coeffs D (axis D x.2.1)) x.2.2|
-        = |remainder D x| := rfl
+        = |quadRemainder D x| := rfl
       _ ≤ (M1 + MT + 2 * r ^ 2 * ME) / r ^ 4 * ‖(x.1, x.2.2)‖ ^ 4 := h
       _ ≤ |(M1 + MT + 2 * r ^ 2 * ME) / r ^ 4| * ‖(x.1, x.2.2)‖ ^ 4 :=
           mul_le_mul_of_nonneg_right (le_abs_self _) hn

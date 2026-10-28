@@ -24,7 +24,7 @@ namespace KAM.Planetary
 namespace SecularForm
 variable {n : ℕ}
 
-theorem sum_erase_split (f : Fin n → ℝ) (i : Fin n) :
+theorem quad_sum_erase_split (f : Fin n → ℝ) (i : Fin n) :
     ∑ j ∈ Finset.univ.erase i, f j =
       ∑ j ∈ Finset.univ.filter (i < ·), f j + ∑ j ∈ Finset.univ.filter (· < i), f j := by
   rw [← Finset.sum_union]
@@ -49,9 +49,9 @@ theorem sum_offdiag (f : Fin n → Fin n → ℝ) :
   have h1 : ∑ i, ∑ j ∈ Finset.univ.filter (· < i), f i j =
       ∑ i, ∑ j ∈ Finset.univ.filter (i < ·), f j i :=
     Finset.sum_comm' (by intro i j; simp)
-  simp only [sum_erase_split, Finset.sum_add_distrib, h1]
+  simp only [quad_sum_erase_split, Finset.sum_add_distrib, h1]
 
-theorem pairA_comm (D : Data n) (a : Vec n) (i j : Fin n) : pairA D a i j = pairA D a j i := by
+theorem quadPairA_comm (D : Data n) (a : Vec n) (i j : Fin n) : pairA D a i j = pairA D a j i := by
   simp only [pairA, min_comm i j, max_comm i j]
 
 /-- `ξᵀ Q ξ + ηᵀ Q η` as a sum over the pairs `i < j`. -/
@@ -107,7 +107,7 @@ theorem quad_pair_sum (D : Data n) {a : Vec n} (ha : a ∈ axes n) (ξ η : Vec 
         refine Finset.sum_congr rfl fun i _ => ?_
         rw [← Finset.sum_add_distrib]
         refine Finset.sum_congr rfl fun j _ => ?_
-        rw [hsym i j, pairA_comm D a j i]
+        rw [hsym i j, quadPairA_comm D a j i]
         ring
 
 end SecularForm

@@ -49,8 +49,10 @@ theorem exists_remainder_constants (D : Data n) {a : Vec n} (ha : a ∈ axes n) 
   have hK : IsCompact (closedBall (action D a) r) := isCompact_closedBall _ _
   have hKaxes : ∀ Λ ∈ closedBall (action D a) r, axis D Λ ∈ axes n := fun Λ hΛ =>
     hδa (lt_of_le_of_lt (mem_closedBall.1 hΛ) hrδ)
-  have hTc : ContinuousOn (fun Λ : Vec n => constantTerm D (axis D Λ)) (closedBall (action D a) r) :=
-    fun Λ hΛ => (((analyticAt_constantTerm D (hKaxes Λ hΛ)).comp (analyticAt_axis D Λ)).continuousAt).continuousWithinAt
+  have hTc : ContinuousOn (fun Λ : Vec n => constantTerm D (axis D Λ))
+      (closedBall (action D a) r) := fun Λ hΛ =>
+    (((analyticAt_constantTerm D (hKaxes Λ hΛ)).comp
+      (analyticAt_axis D Λ)).continuousAt).continuousWithinAt
   have hEc : ContinuousOn (fun Λ : Vec n => ∑ i, ∑ j, |coeffs D (axis D Λ) i j|)
       (closedBall (action D a) r) := by
     refine continuousOn_finsetSum _ fun i _ => continuousOn_finsetSum _ fun j _ => ?_
@@ -72,7 +74,8 @@ theorem exists_remainder_constants (D : Data n) {a : Vec n} (ha : a ∈ axes n) 
     rw [polydisc_eq_ball D a hr0'] at hz
     exact ball_subset_closedBall hz
   · have hmem : Λ ∈ closedBall (action D a) r := mem_closedBall.2 hΛ.le
-    exact ⟨hKaxes Λ hmem, by simpa using hMT Λ hmem, by simpa using (le_abs_self _).trans (by simpa using hME Λ hmem)⟩
+    exact ⟨hKaxes Λ hmem, by simpa using hMT Λ hmem,
+      by simpa using (le_abs_self _).trans (by simpa using hME Λ hmem)⟩
 
 end SecularForm
 end KAM.Planetary

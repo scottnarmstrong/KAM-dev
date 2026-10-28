@@ -10,7 +10,8 @@ public import Mathlib
 /-!
 # Quadratic part: Schwarz lemma of order four and real versus complex derivatives
 
-Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q), uniform half. `schwarz_order_four` is the
+Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q), uniform half.
+`schwarz_order_four` is the
 higher-order Schwarz lemma for a holomorphic function bounded by `M` on a disc of radius `R` and
 vanishing to order four at the centre (the order-five version of `uniform_remainder`, with the
 exponent lowered); `iteratedDeriv_ofReal` computes the derivatives of the restriction of a
@@ -127,7 +128,8 @@ theorem iteratedDeriv_ofReal {U : Set ℂ} (hU : IsOpen U) {g : ℂ → ℂ} (hg
   | zero => simp
   | succ k ih =>
     have hopen : IsOpen ((fun t : ℝ => (t : ℂ)) ⁻¹' U) := hU.preimage Complex.continuous_ofReal
-    have hev : iteratedDeriv k (fun t : ℝ => g t) =ᶠ[𝓝 y] fun t : ℝ => iteratedDeriv k g (t : ℂ) := by
+    have hev : iteratedDeriv k (fun t : ℝ => g t) =ᶠ[𝓝 y]
+        fun t : ℝ => iteratedDeriv k g (t : ℂ) := by
       filter_upwards [hopen.mem_nhds hy] with t ht
       exact ih ht
     rw [iteratedDeriv_succ, hev.deriv_eq, iteratedDeriv_succ]
