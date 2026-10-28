@@ -149,7 +149,8 @@ theorem circleMean_jet {H : ℝ → ℝ} (hH : AnalyticAt ℝ H 0) :
       simp only [hP, hθ F, mul_pow, mul_assoc]
     simp only [h1]
     rw [intervalIntegral.integral_finsetSum (fun k _ =>
-      ((by fun_prop : Continuous fun F : ℝ => c k * e ^ k * Real.cos (F - θ) ^ k)).intervalIntegrable _ _)]
+      ((by fun_prop : Continuous fun F : ℝ =>
+        c k * e ^ k * Real.cos (F - θ) ^ k)).intervalIntegrable _ _)]
     simp only [intervalIntegral.integral_const_mul, integral_cos_pow_shift]
     rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_succ,
       Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_one]
@@ -164,7 +165,8 @@ theorem circleMean_jet {H : ℝ → ℝ} (hH : AnalyticAt ℝ H 0) :
   have hR : |(2 * π)⁻¹ * ∫ F in (0:ℝ)..2 * π,
       (H (planeDot v (orbitalUnit F)) - P (planeDot v (orbitalUnit F)))| ≤ C * e ^ 6 := by
     have hb : ∀ F ∈ Set.uIoc (0:ℝ) (2 * π),
-        ‖H (planeDot v (orbitalUnit F)) - P (planeDot v (orbitalUnit F))‖ ≤ C * e ^ 6 := fun F _ => by
+        ‖H (planeDot v (orbitalUnit F)) - P (planeDot v (orbitalUnit F))‖ ≤ C * e ^ 6 :=
+        fun F _ => by
       rw [Real.norm_eq_abs]
       refine (((hT _ (lt_of_le_of_lt (hx F) hv)).2)).trans ?_
       gcongr

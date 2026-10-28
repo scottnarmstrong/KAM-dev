@@ -108,7 +108,8 @@ theorem pairSlowSecular_circular_partner (D : Data n) (i j : Fin n) {I J : ℝ} 
     rfl
   unfold pairSlowSecular
   have hstep : ∀ s : ℝ, (2 * π)⁻¹ * ∫ t in (0:ℝ)..2 * π, -D.G * D.m i * D.m j / planeLength
-      ((poincare (D.m i) (D.G * D.m0) (![s, (u, (0 : Fin 2 → ℝ)).1 0], ![I, (u, (0 : Fin 2 → ℝ)).1 1])).1 -
+      ((poincare (D.m i) (D.G * D.m0)
+          (![s, (u, (0 : Fin 2 → ℝ)).1 0], ![I, (u, (0 : Fin 2 → ℝ)).1 1])).1 -
         (poincare (D.m j) (D.G * D.m0)
           (![t, (u, (0 : Fin 2 → ℝ)).2 0], ![J, (u, (0 : Fin 2 → ℝ)).2 1])).1) =
       -D.G * D.m i * D.m j * radialPhi (a * keplerJac v (keplerLong s v)) b := fun s => by

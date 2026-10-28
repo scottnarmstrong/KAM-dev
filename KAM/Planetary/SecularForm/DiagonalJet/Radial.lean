@@ -180,7 +180,8 @@ theorem iteratedDeriv_two_radialH_of_lt {a b : ℝ} (ha : 0 < a) (hab : a < b) :
       simpa using ((hasDerivAt_id (0:ℝ)).const_sub 1).const_mul α
     have hb1 := (laplace_half_hasDeriv hm0).comp 0 h1
     have hb2 := (laplace_half_hasDeriv2 hm0).comp 0 h1
-    have h4 := (((hb2.const_mul (-α)).mul (((hasDerivAt_id (0:ℝ)).const_sub 1))).sub hb1).const_mul b⁻¹
+    have h4 := (((hb2.const_mul (-α)).mul (((hasDerivAt_id (0:ℝ)).const_sub 1))).sub
+      hb1).const_mul b⁻¹
     exact h4.congr_deriv (g' := b⁻¹ * (α ^ 2 * iteratedDeriv 2 β α + 2 * α * deriv β α))
       (by simp only [id, Function.comp, sub_zero, mul_one, hβ]; ring)
   have hfin : iteratedDeriv 2 (radialH a b) 0 = deriv (deriv E) 0 := by
