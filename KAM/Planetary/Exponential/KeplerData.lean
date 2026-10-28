@@ -50,7 +50,8 @@ theorem keplerSumGen_contDiffOn (m : Fin n → ℝ) (k : WithTop ℕ∞) :
   unfold keplerSumGen
   refine ContDiffOn.neg (ContDiffOn.sum fun i _ => ?_)
   refine contDiffOn_const.div (contDiffOn_const.mul ?_) fun z hz => ?_
-  · exact ((ContinuousLinearMap.proj (R := 𝕜) (φ := fun _ : Fin n => 𝕜) i).contDiff.pow 2).contDiffOn
+  · exact ((ContinuousLinearMap.proj (R := 𝕜) (φ := fun _ : Fin n => 𝕜) i).contDiff.pow
+      2).contDiffOn
   · exact mul_ne_zero two_ne_zero (pow_ne_zero 2 (hz i))
 
 private theorem hasDerivAt_inv_sq (c w : 𝕜) (hw : w ≠ 0) :
@@ -119,7 +120,8 @@ theorem keplerSumGen_fderiv2_apply (m : Fin n → ℝ) {z : Fin n → 𝕜} (hz 
   have hS : {z : Fin n → 𝕜 | ∀ i, z i ≠ 0} ∈ nhds z := by
     have hopen : IsOpen (Set.pi Set.univ (fun _ : Fin n => ({0}ᶜ : Set 𝕜))) :=
       isOpen_set_pi (Set.toFinite _) fun _ _ => isOpen_compl_singleton
-    have hset : {z : Fin n → 𝕜 | ∀ i, z i ≠ 0} = Set.pi Set.univ (fun _ : Fin n => ({0}ᶜ : Set 𝕜)) := by
+    have hset : {z : Fin n → 𝕜 | ∀ i, z i ≠ 0} =
+        Set.pi Set.univ (fun _ : Fin n => ({0}ᶜ : Set 𝕜)) := by
       ext y; simp [Set.mem_pi]
     rw [hset]
     exact hopen.mem_nhds (by simpa [Set.mem_pi] using hz)
