@@ -18,7 +18,8 @@ holomorphic function to the real axis.
 -/
 
 @[expose] public noncomputable section
-open Set Metric Filter Topology
+open Set Metric Filter
+open scoped Topology
 namespace KAM.Planetary
 namespace SecularForm
 
@@ -133,6 +134,44 @@ theorem iteratedDeriv_ofReal {U : Set ℂ} (hU : IsOpen U) {g : ℂ → ℂ} (hg
     have hd : DifferentiableAt ℂ (iteratedDeriv k g) (y : ℂ) :=
       ((hAk k) _ hy).differentiableAt
     exact (hd.hasDerivAt.comp_ofReal).deriv
+
+/-- The derivatives of a real analytic function viewed as complex valued. -/
+theorem iteratedDeriv_ofReal_comp {ψ : ℝ → ℝ} (hψ : AnalyticAt ℝ ψ 0) (k : ℕ) :
+    iteratedDeriv k (fun s : ℝ => (ψ s : ℂ)) 0 = ((iteratedDeriv k ψ 0 : ℝ) : ℂ) := by
+  have hAk : ∀ k : ℕ, ∀ᶠ y in 𝓝 (0 : ℝ), AnalyticAt ℝ (iteratedDeriv k ψ) y := by
+    intro k
+    induction k with
+    | zero => simpa using hψ.eventually_analyticAt
+    | succ k ih =>
+      filter_upwards [ih.eventually_nhds] with y hy
+      have : AnalyticAt ℝ (deriv (iteratedDeriv k ψ)) y :=
+        (hy.self_of_nhds).deriv
+      simpa [iteratedDeriv_succ] using this
+  have key : ∀ k : ℕ, ∀ᶠ y in 𝓝 (0 : ℝ),
+      iteratedDeriv k (fun s : ℝ => (ψ s : ℂ)) y = ((iteratedDeriv k ψ y : ℝ) : ℂ) := by
+    intro k
+    induction k with
+    | zero => exact Filter.Eventually.of_forall fun y => by simp
+    | succ k ih =>
+      filter_upwards [ih.eventually_nhds, (hAk k).eventually_nhds] with y hy hA
+      have hd : DifferentiableAt ℝ (iteratedDeriv k ψ) y := (hA.self_of_nhds).differentiableAt
+      have hev : iteratedDeriv k (fun s : ℝ => (ψ s : ℂ)) =ᶠ[𝓝 y]
+          fun s => ((iteratedDeriv k ψ s : ℝ) : ℂ) := hy
+      rw [iteratedDeriv_succ, hev.deriv_eq, iteratedDeriv_succ]
+      exact (hd.hasDerivAt.ofReal_comp).deriv
+  exact (key k).self_of_nhds
+
+/-- The uniform Schwarz bound along a ray: a holomorphic function on a disc, bounded by `M`, which
+restricts on the real axis to an analytic function with vanishing jet of order `≤ 3`. -/
+theorem uniform_ray_bound {r M : ℝ} (hr : 0 < r) (hM : 0 ≤ M) {g : ℂ → ℂ}
+    (hg : DifferentiableOn ℂ g (ball 0 r)) (hb : ∀ z ∈ ball (0 : ℂ) r, ‖g z‖ ≤ M) {ψ : ℝ → ℝ}
+    (hψa : AnalyticAt ℝ ψ 0) (hψ : (fun s : ℝ => g s) =ᶠ[𝓝 0] fun s => (ψ s : ℂ))
+    (hjet : ∀ k : ℕ, k ≤ 3 → iteratedDeriv k ψ 0 = 0) :
+    ∀ z ∈ ball (0 : ℂ) r, ‖g z‖ ≤ M / r ^ 4 * ‖z‖ ^ 4 := by
+  refine schwarz_order_four hr hM hg hb fun k hk => ?_
+  have h0 : ((0 : ℝ) : ℂ) ∈ ball (0 : ℂ) r := by simpa using hr
+  rw [← Complex.ofReal_zero, ← iteratedDeriv_ofReal isOpen_ball hg k h0,
+    hψ.iteratedDeriv_eq k, iteratedDeriv_ofReal_comp hψa k, hjet k hk]
 
 end SecularForm
 end KAM.Planetary
