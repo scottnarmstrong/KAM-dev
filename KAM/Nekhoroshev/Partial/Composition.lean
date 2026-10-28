@@ -75,7 +75,8 @@ theorem norm_extGauge {ρ σ : ℝ} (hρ : 0 < ρ) (hσ : 0 < σ) (z : EC n k) :
     div_eq_inv_mul]
 
 /-- A point at scaled distance `≤ c` from `𝒟_{r₀,s₀}` lies in `𝒟_{r₀+ρc, s₀+σc}`. -/
-theorem mem_Dom_of_scaled_le {m : ℕ} {D : Set (Fin m → ℂ)} {ρ σ c r₀ s₀ : ℝ} (hρ : 0 < ρ) (hσ : 0 < σ)
+theorem mem_Dom_of_scaled_le {m : ℕ} {D : Set (Fin m → ℂ)} {ρ σ c r₀ s₀ : ℝ} (hρ : 0 < ρ)
+    (hσ : 0 < σ)
     {z w : (Fin n → ℂ) × (Fin m → ℂ)} (hz : z ∈ Dom n D r₀ s₀)
     (hw : max (‖w.1 - z.1‖ / σ) (‖w.2 - z.2‖ / ρ) ≤ c) :
     w ∈ Dom n D (r₀ + ρ * c) (s₀ + σ * c) := by
