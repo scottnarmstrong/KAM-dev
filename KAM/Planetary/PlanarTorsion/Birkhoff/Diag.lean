@@ -93,20 +93,30 @@ theorem p11cB_iteratedDeriv_poly (c a b : ℝ) (j : ℕ) (hj : j ≤ 5) :
   have h1 : deriv (fun t : ℝ => c + a * t ^ 2 + b * t ^ 4) =
       fun t => 2 * a * t + 4 * b * t ^ 3 := by
     funext t
-    have := (((hasDerivAt_const t c).add ((hasDerivAt_pow 2 t).const_mul a)).add
-      ((hasDerivAt_pow 4 t).const_mul b))
-    convert this.deriv using 1 <;> simp <;> ring
-  have h2 : deriv (fun t : ℝ => 2 * a * t + 4 * b * t ^ 3) = fun t => 2 * a + 12 * b * t ^ 2 := by
+    have h : HasDerivAt (fun t : ℝ => c + a * t ^ 2 + b * t ^ 4) (2 * a * t + 4 * b * t ^ 3) t := by
+      have := (((hasDerivAt_const t c).add ((hasDerivAt_pow 2 t).const_mul a)).add
+        ((hasDerivAt_pow 4 t).const_mul b))
+      refine this.congr_deriv ?_
+      simp; ring
+    exact h.deriv
+  have h2 : deriv (fun t : ℝ => 2 * a * t + 4 * b * t ^ 3) =
+      fun t => 2 * a + 12 * b * t ^ 2 := by
     funext t
-    have := (((hasDerivAt_id t).const_mul (2 * a)).add ((hasDerivAt_pow 3 t).const_mul (4 * b)))
-    convert this.deriv using 1 <;> simp <;> ring
+    have h : HasDerivAt (fun t : ℝ => 2 * a * t + 4 * b * t ^ 3) (2 * a + 12 * b * t ^ 2) t := by
+      have := (((hasDerivAt_id t).const_mul (2 * a)).add ((hasDerivAt_pow 3 t).const_mul (4 * b)))
+      refine this.congr_deriv ?_
+      simp; ring
+    exact h.deriv
   have h3 : deriv (fun t : ℝ => 2 * a + 12 * b * t ^ 2) = fun t => 24 * b * t := by
     funext t
-    have := ((hasDerivAt_const t (2 * a)).add ((hasDerivAt_pow 2 t).const_mul (12 * b)))
-    convert this.deriv using 1 <;> simp <;> ring
+    have h : HasDerivAt (fun t : ℝ => 2 * a + 12 * b * t ^ 2) (24 * b * t) t := by
+      have := ((hasDerivAt_const t (2 * a)).add ((hasDerivAt_pow 2 t).const_mul (12 * b)))
+      refine this.congr_deriv ?_
+      simp; ring
+    exact h.deriv
   have h4 : deriv (fun t : ℝ => 24 * b * t) = fun _ => 24 * b := by
     funext t
-    simpa using ((hasDerivAt_id t).const_mul (24 * b)).deriv
+    simp
   have h5 : deriv (fun _ : ℝ => 24 * b) = fun _ => 0 := by
     funext t; simp
   interval_cases j
