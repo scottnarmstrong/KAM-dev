@@ -32,11 +32,16 @@ namespace KAM.Planetary
 open KAM KAM.Kepler
 
 theorem asymptotics (p : PlanarData) (hp : p.Valid) :
-    p11c_relativeError (fun a => p11c_beta p ![a, 1] 0 0) (fun a => 3 * p.m 1 / (4 * p.m0 * p.m 0) * a) ∧
-    p11c_relativeError (fun a => p11c_beta p ![a, 1] 0 1) (fun a => -9 / (4 * p.m0) * a ^ (3 / 2 : ℝ)) ∧
-    p11c_relativeError (fun a => p11c_beta p ![a, 1] 1 1) (fun a => -3 * p.m 0 / (p.m0 * p.m 1) * a ^ 2) ∧
-    p11c_relativeError (fun a => (p11c_beta p ![a, 1]).det) (fun a => -117 / (16 * p.m0 ^ 2) * a ^ 3) ∧
-    (∀ a ∈ p11c_axes, ∀ s : ℝ, 0 < s → p11c_beta p (s • a) = (s ^ (-2 : ℤ)) • p11c_beta p a) := by
+    p11c_relativeError (fun a => p11c_beta p ![a, 1] 0 0)
+      (fun a => 3 * p.m 1 / (4 * p.m0 * p.m 0) * a) ∧
+    p11c_relativeError (fun a => p11c_beta p ![a, 1] 0 1)
+      (fun a => -9 / (4 * p.m0) * a ^ (3 / 2 : ℝ)) ∧
+    p11c_relativeError (fun a => p11c_beta p ![a, 1] 1 1)
+      (fun a => -3 * p.m 0 / (p.m0 * p.m 1) * a ^ 2) ∧
+    p11c_relativeError (fun a => (p11c_beta p ![a, 1]).det)
+      (fun a => -117 / (16 * p.m0 ^ 2) * a ^ 3) ∧
+    (∀ a ∈ p11c_axes, ∀ s : ℝ, 0 < s →
+      p11c_beta p (s • a) = (s ^ (-2 : ℤ)) • p11c_beta p a) := by
   obtain ⟨-, -, -, h4, h5, h6⟩ := as_ent p hp
   have hm0 := hp.2.1
   have hm := hp.2.2 0
@@ -60,14 +65,16 @@ theorem asymptotics (p : PlanarData) (hp : p.Valid) :
     · exact p11cAe_congr_exp (by norm_num) ((p11cAs_det p hp).congr_left fun a => by
       rw [show a ^ (3 : ℝ) = a ^ 3 by simp])
 
-/-- Uniformity only in the mass ratio, as claimed by asymptotics; absolute physical scales cancel. -/
+/-- Uniformity only in the mass ratio, as claimed by asymptotics; absolute physical scales
+cancel. -/
 theorem asymptotics_uniform_ratio (ratio : ℝ) (hratio : 0 < ratio) :
     ∃ C alpha0 : ℝ, 0 < C ∧ 0 < alpha0 ∧ alpha0 ≤ 1 ∧
       ∀ p : PlanarData, p.Valid → p.m 0 / p.m 1 = ratio → ∀ a ∈ Ioo (0 : ℝ) alpha0,
         |(p11c_beta p ![a, 1]).det / (-117 / (16 * p.m0 ^ 2) * a ^ 3) - 1| ≤ C * a ^ 2 ∧
         |p11c_beta p ![a, 1] 0 0 / (3 * p.m 1 / (4 * p.m0 * p.m 0) * a) - 1| ≤ C * a ^ 2 ∧
         |p11c_beta p ![a, 1] 0 1 / (-9 / (4 * p.m0) * a ^ (3 / 2 : ℝ)) - 1| ≤ C * a ^ 2 ∧
-        |p11c_beta p ![a, 1] 1 1 / (-3 * p.m 0 / (p.m0 * p.m 1) * a ^ 2) - 1| ≤ C * a ^ 2 := by
+        |p11c_beta p ![a, 1] 1 1 / (-3 * p.m 0 / (p.m0 * p.m 1) * a ^ 2) - 1| ≤
+          C * a ^ 2 := by
   have hu := p11cAs_unit_valid hratio
   obtain ⟨r0, r1, r2, r3, -⟩ := asymptotics _ hu
   obtain ⟨C0, d0, hC0, hd0, hd0', e0⟩ := p11cAs_rel_explicit r0

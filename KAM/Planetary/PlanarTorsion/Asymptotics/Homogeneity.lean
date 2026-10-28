@@ -69,7 +69,8 @@ theorem p11cAs_Q_smul (p : PlanarData) (hp : p.Valid) (a : Fin 2 → ℝ) (ha : 
   have hIs : √(√s * p.actions a 0 * (√s * p.actions a 1)) =
       √s * √(p.actions a 0 * p.actions a 1) := by
     rw [show √s * p.actions a 0 * (√s * p.actions a 1) =
-      s * (p.actions a 0 * p.actions a 1) by linear_combination (p.actions a 0 * p.actions a 1) * hss,
+      s * (p.actions a 0 * p.actions a 1) by
+        linear_combination (p.actions a 0 * p.actions a 1) * hss,
       Real.sqrt_mul hs.le]
   have hJ : 0 < √(p.actions a 0 * p.actions a 1) := Real.sqrt_pos.2 (mul_pos hI0 hI1)
   generalize √s = u at hss hsp hI hIs ⊢
