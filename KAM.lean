@@ -322,8 +322,10 @@ public import KAM.Nekhoroshev.Interfaces.Setting
 public import KAM.Nekhoroshev.NormalForm.BracketDecomp
 public import KAM.Nekhoroshev.NormalForm.Homological
 public import KAM.Nekhoroshev.NormalForm.Setting
+public import KAM.Nekhoroshev.NormalForm.Telescope
 public import KAM.Nekhoroshev.ODE.Specialization
 public import KAM.Nekhoroshev.QuasiConvex
+public import KAM.Nekhoroshev.Stability.Gradient
 public import KAM.Nekhoroshev.Stability.RealSystem
 public import KAM.Nekhoroshev.Stability.Setting
 public import KAM.Nekhoroshev.ZeroPerturbation
