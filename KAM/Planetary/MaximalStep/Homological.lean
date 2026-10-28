@@ -530,4 +530,93 @@ theorem homological_maximal {n : ℕ} (hn : 1 ≤ n) {r delta T D M : ℝ}
 
 end Main
 
+/-! ### Reality (`hm-d`) -/
+
+section Real
+variable {n : ℕ}
+
+theorem conj_character_real (k : Fin n → ℤ) (x : Fin n → ℝ) :
+    starRingEnd ℂ (KAM.character k (fun j => (x j : ℂ))) =
+      KAM.character (-k) (fun j => (x j : ℂ)) := by
+  unfold KAM.character
+  rw [← Complex.exp_conj]
+  congr 1
+  have h1 : ∑ j, (((-k) j : ℤ) : ℂ) * (x j : ℂ) = -∑ j, ((k j : ℤ) : ℂ) * (x j : ℂ) := by
+    simp [Finset.sum_neg_distrib]
+  rw [h1]
+  simp only [map_mul, map_sum, Complex.conj_ofReal, Complex.conj_I, map_intCast]
+  have h2 : starRingEnd ℂ (2 : ℂ) = 2 := Complex.conj_eq_iff_im.2 (by simp)
+  rw [h2]
+  ring
+
+theorem coeff_neg_conj {P : P11CVec n × P11CVec n → ℂ} {b : P11CVec n}
+    (hP : ∀ x : Fin n → ℝ, (P (fun j => (x j : ℂ), b)).im = 0) (k : Fin n → ℤ) :
+    KAM.Weighted.coeff P b (-k) = starRingEnd ℂ (KAM.Weighted.coeff P b k) := by
+  unfold KAM.Weighted.coeff KAM.torusCoeffW KAM.torusAverage
+  rw [← integral_conj]
+  refine setIntegral_congr_fun ?_ fun x _ => ?_
+  · exact (MeasurableSet.univ_pi fun _ => measurableSet_Icc)
+  · simp only [smul_eq_mul, map_mul, conj_character_real, neg_neg]
+    rw [Complex.conj_eq_iff_im.2 (hP x)]
+
+theorem hmCoef_neg_conj {T : ℝ} {w : P11CVec n → P11CVec n} {P : P11CVec n × P11CVec n → ℂ}
+    {b : P11CVec n} (hP : ∀ x : Fin n → ℝ, (P (fun j => (x j : ℂ), b)).im = 0)
+    (hw : ∀ i, (w b i).im = 0) (k : Fin n → ℤ) :
+    hmCoef T w P b (-k) = starRingEnd ℂ (hmCoef T w P b k) := by
+  have hdot : p11dotC (-k) (w b) = -p11dotC k (w b) := by
+    simp [p11dotC, Finset.sum_neg_distrib]
+  have hdotc : starRingEnd ℂ (p11dotC k (w b)) = p11dotC k (w b) := by
+    unfold p11dotC
+    simp only [map_sum, map_mul, map_intCast]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [Complex.conj_eq_iff_im.2 (hw i)]
+  have hms : KAM.Fourier.modeSize (-k) = KAM.Fourier.modeSize k := by
+    simp [KAM.Fourier.modeSize]
+  by_cases h : k = 0 ∨ T < KAM.Fourier.modeSize k
+  · have h' : -k = 0 ∨ T < KAM.Fourier.modeSize (-k) := by
+      rcases h with h | h
+      · exact Or.inl (by simp [h])
+      · exact Or.inr (by rwa [hms])
+    have e1 : hmCoef T w P b (-k) = 0 := by unfold hmCoef; simp only [h', ite_true]
+    have e2 : hmCoef T w P b k = 0 := by unfold hmCoef; simp only [h, ite_true]
+    rw [e1, e2, map_zero]
+  · have h' : ¬ (-k = 0 ∨ T < KAM.Fourier.modeSize (-k)) := by
+      rintro (h1 | h1)
+      · exact h (Or.inl (neg_eq_zero.1 h1))
+      · exact h (Or.inr (by rwa [hms] at h1))
+    simp only [hmCoef, h, h', ite_false]
+    rw [coeff_neg_conj hP, hdot, map_div₀, map_mul, hdotc]
+    have h2 : starRingEnd ℂ (2 : ℂ) = 2 := Complex.conj_eq_iff_im.2 (by simp)
+    have : starRingEnd ℂ (2*(Real.pi : ℂ)*Complex.I) = -(2*Real.pi*Complex.I) := by
+      simp only [map_mul, h2, Complex.conj_ofReal, Complex.conj_I]; ring
+    rw [this]
+    ring
+
+end Real
+
+/-- Reality of the maximal homological solution; this supplies the guard used by cs-lip. -/
+theorem homological_maximal_real {n : ℕ} {r T D : ℝ} (hr : 0 < r) (hT : 0 < T) (hD : 0 < D)
+    {B : Set (P11CVec n)} (hB : IsOpen B) (w : P11CVec n → P11CVec n)
+    (hw : DifferentiableOn ℂ w B)
+    (hdiv : ∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    (P : P11CVec n × P11CVec n → ℂ) (hP : p11AngleClass r B P)
+    (hpoly : ∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T P z=P z)
+    (hwr : ∀ b : P11Vec n, KAM.realInclusion n b ∈ B → ∀ i, (w (KAM.realInclusion n b) i).im=0)
+    (hpr : ∀ x b : P11Vec n, KAM.realInclusion n b ∈ B →
+      (P (KAM.realInclusion n x,KAM.realInclusion n b)).im=0) :
+    ∀ x b : P11Vec n, KAM.realInclusion n b ∈ B →
+      (p11Solve T w P (KAM.realInclusion n x) (KAM.realInclusion n b)).im=0 := by
+  intro x b hbB
+  rw [p11Solve_eq]
+  set a := hmCoef T w P (KAM.realInclusion n b) with ha
+  have hneg : ∀ k, a (-k) = starRingEnd ℂ (a k) := fun k =>
+    hmCoef_neg_conj (fun y => hpr y b hbB) (hwr b hbB) k
+  have hx : KAM.realInclusion n x = fun j => (x j : ℂ) := funext fun j => rfl
+  rw [← Complex.conj_eq_iff_im, hx]
+  unfold KAM.fourierSum
+  rw [Complex.conj_tsum]
+  rw [← (Equiv.neg (Fin n → ℤ)).tsum_eq (fun k => a k * KAM.character k (fun j => (x j : ℂ)))]
+  refine tsum_congr fun k => ?_
+  simp only [Equiv.neg_apply, map_mul, hneg, conj_character_real, neg_neg]
+
 end KAM.Planetary
