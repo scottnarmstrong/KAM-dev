@@ -8,6 +8,7 @@ module
 public import Mathlib
 public import KAM.Canonical.Setting
 public import KAM.Planetary.MaximalStep.Basic
+public import KAM.Planetary.MaximalStep.Affine
 
 /-!
 # The bracket sign bridge (P11A-C5, `stepP:p11a:hm-bracket`)
@@ -24,10 +25,6 @@ merge keeps one copy.
 open Set
 open scoped BigOperators Topology ContDiff
 namespace KAM.Planetary
-
-/-- Affine generating function in the existing Hamiltonian carrier. -/
-def p11Affine {n : ℕ} (p0 : P11CVec n → ℂ) (p1 : P11CVec n → P11CVec n)
-    (z : P11Phase n) : ℂ := p0 z.1+∑ i, p1 z.1 i*z.2 i
 
 /-- Sign bridge for the existing frozen field and Poisson bracket, independent of any solving
 equation. -/

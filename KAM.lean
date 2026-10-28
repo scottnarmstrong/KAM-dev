@@ -454,6 +454,11 @@ public import KAM.Planetary.Hamiltonian.HolChart
 public import KAM.Planetary.Hamiltonian.Liouville
 public import KAM.Planetary.Hamiltonian.TorusUnion
 public import KAM.Planetary.Hamiltonian.Transport
+public import KAM.Planetary.MaximalStep.Affine
+public import KAM.Planetary.MaximalStep.AffineFlow
+public import KAM.Planetary.MaximalStep.AffineFlowBasic
+public import KAM.Planetary.MaximalStep.AffineFlowGauge
+public import KAM.Planetary.MaximalStep.AffineFlowSimple
 public import KAM.Planetary.MaximalStep.Basic
 public import KAM.Planetary.MaximalStep.Constants
 public import KAM.Planetary.MaximalStep.Cutoff
@@ -465,6 +470,7 @@ public import KAM.Planetary.MaximalStep.Homological
 public import KAM.Planetary.MaximalStep.HomologicalBracket
 public import KAM.Planetary.MaximalStep.Loss
 public import KAM.Planetary.MaximalStep.Parameter
+public import KAM.Planetary.MaximalStep.ParameterFlow
 public import KAM.Planetary.MaximalStep.Taylor
 public import KAM.Planetary.Newtonian.Assembly
 public import KAM.Planetary.Newtonian.Barycentric
@@ -534,6 +540,7 @@ public import KAM.Planetary.PGMeasure.ResonanceSlow
 public import KAM.Planetary.PGMeasure.Setting
 public import KAM.Planetary.PGMeasure.Tonelli
 public import KAM.Planetary.PGMeasure.TwoScale
+public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
