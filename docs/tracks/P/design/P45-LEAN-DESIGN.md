@@ -1,6 +1,6 @@
 # Lean design for P-G measure and assembly (blueprint-P Parts 4–5)
 
-Design v1, 2026-10-28. Branch `inp-design-p45`, base `081967912d5200ad4711d6d16abde6a8cfafea71`.
+Design Revision 2, 2026-10-28. Branch `inp-design-p45`, base `081967912d5200ad4711d6d16abde6a8cfafea71`.
 Planning evidence only: signatures with `sorry` certify types, not mathematical proofs or frozen closure.
 The provider target is exactly `KAM.Planetary.properlyDegenerateKAM`, still `DRAFT_SORRY`.
 
@@ -33,7 +33,7 @@ stay under this worktree's `.drafts/scratch/`. Only this design document is comm
    finite measure. The surviving family stays sigma compact and contains every torus through its points.
 7. Reuse N's actual `KAM.Weighted.{InClass,WBound}` and `KAM.Measure` lattice/Lipschitz infrastructure.
    Use P1's exact chart, period and torus interfaces. The P2/P3 writers own their full interfaces:
-   Section 5 lists the shapes to reconcile instead of inventing their types here.
+   Section 5 and Appendix A use the delivered exact records and typed upstream applications.
 8. The global graph review's twelve SOURCE_GAPs in this scope are explicit proof obligations in Section 6.
    No source-gap note is discharged merely by including a `sorry` signature or by finding a library name.
 
@@ -101,10 +101,10 @@ that all 124 nodes already have proved declarations.
 | `bpP:p4:ext-tonelli` | `ext_tonelli` | `PGMeasure/Tonelli` | p4:L11; — | Tonelli after coordinate permutation |
 | `bpP:p4:ext-deriv` | `ext_deriv` | `PGMeasure/CompactLipschitz` | p4:L13; — | analytic derivative and local C1 regularity |
 | `bpP:p4:ext-conn` | `ext_conn` | `PGMeasure/Collar` | p4:L14; — | frontier crossing for a connected segment |
-| `bpP:p4:collar` | `collar` | `PGMeasure/Collar` | p4:L22–29; p4:L30–37 | compact core; loss; enlargement |
-| `stepP:p4:co-compact` | `local to collar` | `PGMeasure/Collar` | p4:L31–32; p4:L31–32 | compact core; loss; enlargement |
-| `stepP:p4:co-meas` | `local to collar` | `PGMeasure/Collar` | p4:L33–34; p4:L33–34 | compact core; loss; enlargement |
-| `stepP:p4:co-nbhd` | `local to collar` | `PGMeasure/Collar` | p4:L35–36; p4:L35–36 | compact core; loss; enlargement |
+| `bpP:p4:collar` | `collar` | `PGMeasure/Collar` | p4:L22–29; p4:L30–37 | compact core for every t>0; exact difference; conditional loss; enlargement |
+| `stepP:p4:co-compact` | `local to collar` | `PGMeasure/Collar` | p4:L31–32; p4:L31–32 | compact core for every t>0; exact difference; conditional loss; enlargement |
+| `stepP:p4:co-meas` | `local to collar` | `PGMeasure/Collar` | p4:L33–34; p4:L33–34 | compact core for every t>0; exact difference; conditional loss; enlargement |
+| `stepP:p4:co-nbhd` | `local to collar` | `PGMeasure/Collar` | p4:L35–36; p4:L35–36 | compact core for every t>0; exact difference; conditional loss; enlargement |
 | `bpP:p4:lip-compact` | `lip_compact` | `PGMeasure/CompactLipschitz` | p4:L41–43; p4:L44–49 | partial-C1 compact-pair estimate |
 | `stepP:p4:lc-contra` | `local to lip_compact` | `PGMeasure/CompactLipschitz` | p4:L45–46; p4:L45–46 | partial-C1 compact-pair estimate |
 | `stepP:p4:lc-local` | `local to lip_compact` | `PGMeasure/CompactLipschitz` | p4:L47–48; p4:L47–48 | partial-C1 compact-pair estimate |
@@ -139,11 +139,11 @@ that all 124 nodes already have proved declarations.
 | `stepP:p5:ext-per` | `local to ext; PGExtension; pgExtension` | `PGAssembly/Extension` | p5:L35; p5:L35 | thin periodic complex extension with uniform bounds |
 | `stepP:p5:ext-H0` | `local to ext; PGExtension; pgExtension` | `PGAssembly/Extension` | p5:L36; p5:L36 | thin periodic complex extension with uniform bounds |
 | `bpP:p5:consts` | `pgWidth; pgOscRadius; complexAverage; consts` | `PGAssembly/Extension` | p5:L39–44; p5:L45–47 | complex radius selected after tube; fixed weighted bound |
-| `bpP:p5:birkhoff-ext` | `jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext` | `PGAssembly/Jets` | p5:L49–56; p5:L57–62 | on-V identification; holomorphy; vanishing jet; closure torsion |
-| `stepP:p5:be-coef` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext` | `PGAssembly/Jets` | p5:L58; p5:L58 | on-V identification; holomorphy; vanishing jet; closure torsion |
-| `stepP:p5:be-an` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext` | `PGAssembly/Jets` | p5:L59; p5:L59 | on-V identification; holomorphy; vanishing jet; closure torsion |
-| `stepP:p5:be-jet` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext` | `PGAssembly/Jets` | p5:L60; p5:L60 | on-V identification; holomorphy; vanishing jet; closure torsion |
-| `stepP:p5:be-det` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext` | `PGAssembly/Jets` | p5:L61; p5:L61 | on-V identification; holomorphy; vanishing jet; closure torsion |
+| `bpP:p5:birkhoff-ext` | `jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext` | `PGAssembly/Jets` | p5:L49–56; p5:L57–62 | on-V identification; holomorphy; joint continuity; complex symmetry; vanishing jet; closure torsion |
+| `stepP:p5:be-coef` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext; birkhoff_ext_parameter_regularity` | `PGAssembly/Jets` | p5:L58; p5:L58 | on-V identification; holomorphy; joint continuity; complex symmetry; vanishing jet; closure torsion |
+| `stepP:p5:be-an` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext; birkhoff_ext_parameter_regularity` | `PGAssembly/Jets` | p5:L59; p5:L59 | on-V identification; holomorphy; joint continuity; complex symmetry; vanishing jet; closure torsion |
+| `stepP:p5:be-jet` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext; birkhoff_ext_parameter_regularity` | `PGAssembly/Jets` | p5:L60; p5:L60 | on-V identification; holomorphy; joint continuity; complex symmetry; vanishing jet; closure torsion |
+| `stepP:p5:be-det` | `local to jetP0; jetOmega; jetBeta; jetPolynomial; birkhoff_ext; birkhoff_ext_parameter_regularity` | `PGAssembly/Jets` | p5:L61; p5:L61 | on-V identification; holomorphy; joint continuity; complex symmetry; vanishing jet; closure torsion |
 | `bpP:p5:uniform-remainder` | `uniform_remainder` | `PGAssembly/Remainder` | p5:L64–70; p5:L71–74 | uniform fifth-order complex remainder |
 | `stepP:p5:ur-bound` | `local to uniform_remainder` | `PGAssembly/Remainder` | p5:L72; p5:L72 | uniform fifth-order complex remainder |
 | `stepP:p5:ur-schwarz` | `local to uniform_remainder` | `PGAssembly/Remainder` | p5:L73; p5:L73 | uniform fifth-order complex remainder |
@@ -152,10 +152,10 @@ that all 124 nodes already have proved declarations.
 | `stepP:p5:bl-real` | `local to complexFast; bilip` | `PGAssembly/FastComplex` | p5:L92; p5:L92 | complex lower Lipschitz and bounded derivative |
 | `stepP:p5:bl-comp` | `local to complexFast; bilip` | `PGAssembly/FastComplex` | p5:L93; p5:L93 | complex lower Lipschitz and bounded derivative |
 | `bpP:p5:dio-one` | `dio_one` | `PGMeasure/OneScale` | p5:L96–98; p5:L99–102 | single-scale fast exclusion |
-| `bpP:p5:freq-data` | `PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L104–108; p5:L109–113 | uniform polynomial bounds, Lipschitz bounds and complex beta inverse |
-| `stepP:p5:fd-bd` | `local to PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L110; p5:L110 | uniform polynomial bounds, Lipschitz bounds and complex beta inverse |
-| `stepP:p5:fd-lip` | `local to PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L111; p5:L111 | uniform polynomial bounds, Lipschitz bounds and complex beta inverse |
-| `stepP:p5:fd-beta` | `local to PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L112; p5:L112 | uniform polynomial bounds, Lipschitz bounds and complex beta inverse |
+| `bpP:p5:freq-data` | `PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L104–108; p5:L109–113 | radius-2 polynomial bounds; muStar<=mu0; Lipschitz bounds and complex beta inverse |
+| `stepP:p5:fd-bd` | `local to PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L110; p5:L110 | radius-2 polynomial bounds; muStar<=mu0; Lipschitz bounds and complex beta inverse |
+| `stepP:p5:fd-lip` | `local to PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L111; p5:L111 | radius-2 polynomial bounds; muStar<=mu0; Lipschitz bounds and complex beta inverse |
+| `stepP:p5:fd-beta` | `local to PGAnalyticSpec; freq_data; pgAnalytic` | `PGAssembly/FrequencyBounds` | p5:L112; p5:L112 | radius-2 polynomial bounds; muStar<=mu0; Lipschitz bounds and complex beta inverse |
 | `bpP:p5:freq-inj` | `complexIntegrable; complexFrequency; freq_inj` | `PGAssembly/FrequencyInverse` | p5:L115–125; p5:L126–130 | complex injectivity and row-wise inverse bounds |
 | `stepP:p5:fi-inj` | `local to complexIntegrable; complexFrequency; freq_inj` | `PGAssembly/FrequencyInverse` | p5:L127; p5:L127 | complex injectivity and row-wise inverse bounds |
 | `stepP:p5:fi-blk` | `local to complexIntegrable; complexFrequency; freq_inj` | `PGAssembly/FrequencyInverse` | p5:L128; p5:L128 | complex injectivity and row-wise inverse bounds |
@@ -220,7 +220,7 @@ that all 124 nodes already have proved declarations.
 | `bpP:p5:kam-hyp#C1` | `kam_c1` | `PGAssembly/Scales` | p5:L200–201; — | explicit data-only bound |
 | `bpP:p5:kam-cond#scales` | `PGScales; PGScaleSpec; kam_cond; log_power_dominated` | `PGAssembly/Scales` | p5:L213–217; — | ordered data-only witnesses |
 | `bpP:p5:rstar#Cgamma` | `pgCgamma; param_facts` | `PGAssembly/Threshold` | p5:L152; — | exact formula G*(30/pgWidth)^(tau+1) |
-| `bpP:p5:budget#constant` | `budget` | `PGAssembly/ActionBudget` | p5:L286–287; — | data-only Cb before r,mu |
+| `bpP:p5:budget#constant` | `pgBudget; pgMeasureUpper1; pgMeasureUpper2; budget` | `PGAssembly/ActionBudget` | p5:L286–287; — | explicit data-only Cb sum before r,mu |
 | `bpP:p5:lower#constant` | `pgBudget; pgLoss; lower` | `PGAssembly/Lower` | p5:L291; — | exact Closs sum before finalRadius |
 
 Part 4's graph excludes `beta-inverse`, the relative collar lemma and the standalone Part-4 budgets
@@ -291,7 +291,7 @@ nonresonance on `checkedCore_rhoBar`, and `exp(-Kbar*pgWidth/6)=r^5`. `Averaging
 Fourier remainder estimate and physical-coordinate displacements. Compose with the general oscillator
 polar chart and use the exact P1 chart API. `kam_hyp` supplies the period-one weighted perturbation
 reality on the real slice and complex frequency-map conditions; `freq_inj` supplies the inverse block bounds. These and the
-arithmetic `kam_cond`, `rstar`, `r_k` are the inputs to the P3 reconciliation, not an assumed KAM result.
+arithmetic `kam_cond`, `rstar`, `r_k` supply the exact P3 adapter, not an assumed KAM result.
 
 **Location and budget.** Use the *upper-trimmed* shell `l2top=l2-2*l1`, with width `ell=l2-3*l1`.
 For the fast coordinates use `rK+DeltaI<t` and `collar`. For oscillator discs, the polar point has a
@@ -311,29 +311,81 @@ not by projecting a physical torus set. Apply `finite_measure_coordinate_cut`; t
 `min(total/2, sqrt(r)*volume(cell)/2)`. The complement of the cut is sigma compact, so its union
 is Borel, remains a union of whole frozen cylinder tori, and has strict positive and strict upper measure.
 
-## 5. Upstream interface (to reconcile)
+## 5. Delivered upstream interfaces and concrete adapters
 
-This table is a dispatch gate for dependent proof packages. P2/P3 types are deliberately absent from
-Appendix A: they are owned by neighbouring writers, and `sorry` is not a way to assume their result.
-Use the following exact declaration names once their owners deliver the full interfaces.
+Appendix A contains verbatim declaration fixtures extracted from the delivered
+`/root/code/KAM-inp/.drafts/design/P23Signatures.lean`, including `OscHyp`,
+`averaged_remainder`, `ScaleData`, `KamHyp` and the complete joint `two_scale_kam`.
+These are elaboration fixtures only: implementation modules import the owners' modules.
+The two `#check fun ...` expressions apply the upstream theorems to P45's produced
+hypothesis records and check their entire instantiated output types. All new adapter
+lemmas have `sorry` bodies, like every other design theorem; this is an interface
+receipt, not a proof receipt. No extra frozen premise is introduced.
 
-| Owner node / intended name | Inputs this design supplies | Conclusion consumed | Status |
-|---|---|---|---|
-| P2 `averaged_remainder`, `use5` | analytic periodic complex P normalized by LP; source dimensions a,b; compact checkedCore; finite-order nonresonance; positive widths; explicit smallness | holomorphic real injective symplectic averaging map, weighted remainder `<=2*LP*mu*r^5`, action/oscillator displacements in `AveragingSpec` | pending full P2 signature; preserve all coordinate factors |
-| P3 `two_scale_kam` | period-one `kamH`, `kamF`, `pgActionDomain`, tau; bounds `M=C1`, `Mhat=C1*mu`, inverse rows `C1,C1/mu`, `E=C1*mu*r^5`; complex injectivity; KAM inequality | raw analytic tori, modulo-lattice injectivity, Lagrangian/embedding properties, fixed frequencies, enlarged-domain loss (3.1) | pending full P3 signature; required for `torus_conv` |
-| P3 `limit_actions` | same admissible data; fixed r,mu | original-action to limit-action Lipschitz map with an inverse bound, including null-image applicability | pending; do not invent its carrier |
-| P3 `limit_phi` | same; the rescaled phase gauge and its positive scales | Lipschitz family on parameter actions × unit angle cell, periodic saturation | pending; required for null slices and sigma compactness |
-| P3 `period_dictionary`, `constants`, `rem_norm` | `Htilde/(2*pi)`, coefficient/geometric widths, `params` | exact frequency/threshold conversion and admissibility of chosen upper bounds | pending; numerical formulas are explicitly given here |
-| P1 `cyl_pipeline` | `IsChart 1 Phi O0`, full-lattice Q1/Q2, `IsLatticeTorus` for the conformal pullback, physical image in cylinder | exact `IsCylinderTorus H U w (Phi ∘ angleScale (2*pi) ∘ K3)` with unchanged period-one w | existing PPart1Signatures, exact type consumed |
-| P1 `chart_measure_image`, `torus_union*` | sigma compact parameter subsets, Lipschitz maps, injectivity, open chart, exact lattice data | Borelness/null images and `(2*pi)^n` measure factor | existing PPart1Signatures, no substitute predicate |
-| N `KAM.Weighted.holomorphic_parametric_integral`, `wbound_of_sup_bound` | compact real angle box; complex flattened parameters; continuous derivatives; positive geometric widths | analytic average and `WBound` | implemented modules in current checkout; exact signatures retained |
-| P7 `polarMap`, `polarMap_symplectic`, `analyticOnNhd_polarMap` | specialization a=b=n; positive slow actions | existing polar formula/chart on its printed domain | existing KeplerSignaturesP; generalization bridge required, no change to that API |
+| Upstream declaration | Exact supplying adapter / dictionary | Consumed output |
+|---|---|---|
+| P2 `OscHyp` | `pg_osc_hyp`, `pg_osc_bound`, `pg_osc_positive` | exact hypotheses for `averaged_remainder` |
+| P2 `averaged_remainder` | first typed application in Appendix A | joint `Psi,g,fs,R`, holomorphy, injectivity, symplecticity, reality, periodicity, remainder and four displacement bounds |
+| P2 `oscPack`, `oscFunction`, Weighted `coeff` | `pg_osc_zero` | zero coefficient equals the actual `complexAverage/LP`, at scaled oscillator coordinates |
+| P3 `ScaleData`, `KamHyp` | `pgKamScale`, `pg_kam_hyp`, `pg_kam_dictionary` | exact KAM hypothesis record; L, rhoHat, Ehat and dioBase identities |
+| P3 `two_scale_kam` | second typed application in Appendix A | one joint witness `(i,Phi,K,I0,KC)`; no separate `limit_actions`/`limit_phi` assumption |
+| P1 `cyl_pipeline` | `phi_chart`, `location`, P3 lattice torus, `kamH+kamF` identity | `IsCylinderTorus` with unchanged period-one frequency |
+| P1 `chart_measure_image`, `torus_union*` | `cell_transfer`; raw parametrization on original actions × input unit cell | Borel/null images and physical factor `(2*pi)^n`; no cell preservation premise |
+| N `holomorphic_parametric_integral`, `wbound_of_sup_bound` | Jets and KAMInputs | analytic averages and weighted bounds |
+| P7 `polarMap`, `polarMap_symplectic`, `analyticOnNhd_polarMap` | `oscillatorPolar_eq_polarMap` at a=b | exact existing polar chart; general a,b bridge |
 
-P2's `ob-der` and P3's normalization/domain-name gaps from GLOBAL-review are upstream applicability
-risks. This design requires the corrected **target-width** derivative estimate from P2; it does not
-use a possibly nonpositive `e*(S0-S)`. In P3 the larger-domain map is `Psi`, and its restriction is
-`Psi_+`; consume the bound on the map actually defined on that domain. Increasing rhoHat decreases
-Ehat at fixed E,L. These are reconciliation obligations, not new hypotheses of the frozen statement.
+For P2 put `c=2*pi`, `e=pgOscRadius`, `w=pgWidth`, `L=LP`, and
+`T(theta,q,I,p)=(c*theta,sqrt(c)*q,I,sqrt(c)*p)` in frozen phase order.
+`pgOscNormalize` is T and `pgOscUnnormalize` is its inverse. The proved output
+`pg_osc_normalization` includes `T*omega=c*omega`; scaling just the fast angles
+would fail this identity. Supply `h=H0/c`, `P'=P∘T/L`, `mu'=L*mu/c`,
+`epsilon0=e/sqrt(c)`, `s0=w/c`, `alpha=gammaBar/c`, `r=rhoBar` and
+`K=15/(pi*s0)*log(1/r)=Kbar` to `averaged_remainder`. `pg_osc_zero`
+identifies its zero mode with the constructed secular average, not arbitrary frozen
+boundary values. `pg_osc_domain` identifies the image of the exact transformed
+half-domain with `averagingDomain`. The input-domain image lies in the extension
+domain by the collar, positive tube widths and the chosen oscillator radius.
+
+For the returned joint witnesses define the physical map `A.Psi=T∘Psi∘T⁻¹`
+and physical remainder `A.remainder=c*(R∘T⁻¹)`. Multiplying the transformed
+identity by c gives exactly `AveragingSpec`. The quadratic remainder term becomes
+`400*(1+b)*L^2*mu^2/(gammaBar*min(rhoBar*w,e^2))`; the exponential term
+becomes `L*mu*r^5`. The explicit radius/scale inequalities bound their sum by
+`2*L*mu*r^5`. Physical displacements are at most `3*L*mu/(gammaBar*w)`
+in fast actions and `9*L*mu/(gammaBar*e)` in each oscillator block.
+The budget `Kbar*w>=6` implies `Kbar^tau>=1`, so these imply the exported
+`12*L*mu*Kbar^tau/(w*gammaBar)` and `18*L*mu*Kbar^tau/(e*gammaBar)`.
+Conjugation cancels the common conformal factor and yields a 1-chart; real
+restriction uses P1 hol_chart. Weighted bounds retain the same fast Fourier modes
+and coefficient width w/6 under this conjugation.
+
+For P3 use `D=pgActionDomain`, `sbar=w/15`, `s=w/60`, `rho=lambda1/2`,
+`M=C1`, `Mhat=C1*mu`, `Mbar=Mbar2=C1/mu`, `Mbar1=C1`, `E=C1*mu*r^5`.
+`pgKamScale.L` is definitionally `initialL`, so the additional `hL` argument
+is `Eq.refl`; `pg_kam_dictionary` also proves its value is C1/mu.
+`geometricWidth(sbar+s)=w/(24*pi)`. Scalar-generic block projections agree
+by unfolding; pointwise equalities of derivative maps in `kam_hyp` become CLM
+equalities by extensionality. `pg_kam_dictionary` identifies the exact D0,
+rhoHat and Ehat with P45's values, so P3's radius and complement constant match.
+
+Destructure the single `two_scale_kam` output once. Define
+`F.raw J theta = K (realFreq (kamH d mu) J) theta` on D0. Its inverse-frequency
+clause proves `I0(realFreq h J)=J`; thus the joint factorization is
+`F.raw J theta=Phi(theta,i J)`. The i-defect and Phi-defect estimates give the
+ordinary Pi/Prod Lipschitz bound after comparison with their positive scaled norms.
+P3's modulo-lattice conclusion and complex extension give injectivity and analytic
+tori; `location` and P1 `cyl_pipeline` give exactly `physicalTorus` in the cylinder.
+The measure output is already on the input unit cell in frozen phase order.
+For null slices, swap action/angle factors in the raw Lipschitz parametrization
+before applying P1; no assumption on the averaging map preserving a cell is used.
+`PGFamilySpec` is the resulting P45 contract, with no separately invented upstream
+family predicate. P5-AV and P5-FAM still require proof implementation and independent
+review before dispatch; the former missing-interface gate is replaced by these exact
+adapter signatures and applications.
+
+The delivered P2 `ob_der` uses the target-width denominator; P3 `rem_norm`
+uses the corrected monotonicity and the larger-domain displacement belongs to Psi,
+not its restriction. These remain recorded blueprint departures, not frozen premises.
 
 ## 6. All source gaps in scope and their supplying work
 
@@ -408,22 +460,22 @@ repeat the hard rules of Section 11 in each dispatched Lean brief.
 |---|---|---:|---:|---|---|
 | P45-S | `KAM/Planetary/PG/Setting.lean` | 300 | 1 | frozen definitions | PGData, block extensions and bridges, source carriers |
 | P4-S | `KAM/Planetary/PGMeasure/Setting.lean` | 320 | 2 | P45-S | freq, MeasureData, resonanceBad, joinedActions |
-| P4-CO | `KAM/Planetary/PGMeasure/Collar.lean` | 450 | 3 | P45-S,P4-S; hboundary; ext_conn | collar, realNbhd_joinedActions, domain_collar_helper |
+| P4-CO | `KAM/Planetary/PGMeasure/Collar.lean` | 450 | 3 | P45-S,P4-S; hboundary | ext_conn (first), collar, realNbhd_joinedActions, domain_collar_helper |
 | P4-LI | `KAM/Planetary/PGMeasure/CompactLipschitz.lean` | 500 | 2 | P45-S; frozen hfreq | ext_deriv, lip_compact, lip_compact_c1, lip_inverse |
-| P4-TO | `KAM/Planetary/PGMeasure/Tonelli.lean` | 220 | 1 | Mathlib product measure | ext_tonelli and short-section diameter bound |
+| P4-TO | `KAM/Planetary/PGMeasure/Tonelli.lean` | 220 | 1 | Mathlib product measure | ext_tonelli, section_measure_le_of_pairwise_dist |
 | P4-AF | `KAM/Planetary/PGMeasure/AffineSlab.lean` | 250 | 2 | P4-TO; KAM.Measure.volume_abs_affine_lt_le | affine_slab |
 | P4-LT | `KAM/Planetary/PGMeasure/LatticeTail.lean` | 300 | 1 | KAM.Measure.lattice_count, lattice_sum | lattice_tail, latticeS |
 | P5-CL | `KAM/Planetary/PGAssembly/ComplexLocal.lean` | 700 | 1 | real convergent power series, finite-dimensional coordinates | local_real_complexification |
 | P5-ID | `KAM/Planetary/PGAssembly/RealSlice.lean` | 700 | 1 | one-variable identity; complex analytic regularity | real_slice_identity, connected_complex_tube |
 | P5-CG | `KAM/Planetary/PGAssembly/ComplexGlue.lean` | 650 | 2 | P5-CL, P5-ID; compact cover | compact_real_complexification with uniform radius and bound |
 | P5-EX | `KAM/Planetary/PGAssembly/Extension.lean` | 600 | 3 | P45-S, P5-CG; hP,hperiod,hfreq; strip coefficients | ext, PGExtension, consts, pgExtension, complexAverage |
-| P4-R0 | `KAM/Planetary/PGMeasure/ResonanceSlow.lean` | 350 | 3 | P4-S,P4-AF,P4-LT; N3 | slow resonance sections and lattice sum |
+| P4-R0 | `KAM/Planetary/PGMeasure/ResonanceSlow.lean` | 350 | 3 | P4-S,P4-AF,P4-LT; N3 | beta_inverse (first), slow resonance sections and lattice sum |
 | P4-RA | `KAM/Planetary/PGMeasure/ResonanceFast.lean` | 550 | 3 | P4-S,P4-LI,P4-TO,P4-LT; N1 | frequency-coordinate pullback and fast sections |
 | P4-RB | `KAM/Planetary/PGMeasure/ResonanceLarge.lean` | 650 | 3 | P4-S,P4-TO,P4-LT; N1,N2,N3 | large-mode structure, slow sections, tail |
 | P4-M | `KAM/Planetary/PGMeasure/TwoScale.lean` | 250 | 4 | P4-R0,P4-RA,P4-RB; exact P1 predicate | measure_c1, measure_c2, resonanceBad_eq, two_scale_diophantine_measure |
 | P4-POL | `KAM/Planetary/PGMeasure/Polar.lean` | 700 | 2 | P45-S; exact P1 IsChart and P7 polarMap; area formula | oscillatorPolar_eq_polarMap, disc_measure_chart, disc_measure_image, disc_measure, disc_measure_shell |
 | P4-ONE | `KAM/Planetary/PGMeasure/OneScale.lean` | 250 | 3 | P4-LI,P4-AF,P4-LT; frozen IsDiophantine | dio_one |
-| P5-JET | `KAM/Planetary/PGAssembly/Jets.lean` | 750 | 4 | P5-EX,P5-ID; N holomorphic_parametric_integral; hBNF,hsymm | fourth_jet_unique, jetP0/Omega/Beta/Polynomial, birkhoff_ext |
+| P5-JET | `KAM/Planetary/PGAssembly/Jets.lean` | 750 | 4 | P5-EX,P5-ID; N holomorphic_parametric_integral; hBNF,hsymm | fourth_jet_unique, jetP0/Omega/Beta/Polynomial, birkhoff_ext, birkhoff_ext_parameter_regularity |
 | P5-REM | `KAM/Planetary/PGAssembly/Remainder.lean` | 500 | 5 | P5-JET; one-variable maximum principle | schwarz_order_five, uniform_remainder |
 | P5-BL | `KAM/Planetary/PGAssembly/FastComplex.lean` | 550 | 4 | P5-EX,P4-LI; HasFDerivAt.comp, compact subsequences | lip_complex, complexFast, bilip |
 | P5-FD | `KAM/Planetary/PGAssembly/FrequencyBounds.lean` | 650 | 6 | P5-REM,P5-BL,P4-ONE; Cauchy,Cramer | PGAnalyticSpec, freq_data, pgAnalytic, pgCU |
@@ -431,15 +483,15 @@ repeat the hard rules of Section 11 in each dispatched Lean brief.
 | P5-SCALE | `KAM/Planetary/PGAssembly/Scales.lean` | 350 | 7 | P5-FD; isLittleO_log_rpow_rpow_atTop | kam_c1, log_power_dominated, PGScaleSpec, kam_cond, pgScales |
 | P5-PAR | `KAM/Planetary/PGAssembly/Parameters.lean` | 300 | 8 | P5-SCALE,P4-CO | params, checkedCore, pgActionDomain, admissible |
 | P5-TH | `KAM/Planetary/PGAssembly/Threshold.lean` | 650 | 9 | P5-PAR,P4-ONE,P4-CO,P5-FI | rstar, pgRstar, param_facts, r_k |
-| P5-AV | `KAM/Planetary/PGAssembly/Averaging.lean` | 550 | 10 | P5-TH,P5-EX,P5-JET; P2 averaged_remainder,use5 | avg, PGAveraging, AveragingSpec, pgAvg |
+| P5-AV | `KAM/Planetary/PGAssembly/Averaging.lean` | 550 | 10 | P5-TH,P5-EX,P5-JET; P2 OscHyp,averaged_remainder; Section 5 adapters | pg_osc_*, avg, PGAveraging, AveragingSpec, pgAvg |
 | P5-CH | `KAM/Planetary/PGAssembly/Chart.lean` | 550 | 11 | P5-AV,P4-POL; P1 IsChart.comp,hol_chart | phi_chart, location, phi, phiDomain |
-| P5-KH | `KAM/Planetary/PGAssembly/KAMInputs.lean` | 550 | 11 | P5-AV,P5-FI,P5-REM; N WBound API | kamH, kamF, kam_hyp |
-| P5-FAM | `KAM/Planetary/PGAssembly/Family.lean` | 650 | 12 | P5-CH,P5-KH,P5-TH; P3 two_scale_kam,limit_actions,limit_phi; P1 cyl_pipeline | PGFamilySpec, torus_conv, pgFamily, kset, rawUnion, pgD0, frequency_bounds |
+| P5-KH | `KAM/Planetary/PGAssembly/KAMInputs.lean` | 550 | 11 | P5-AV,P5-FI,P5-REM; N WBound API | kamH, kamF, kam_hyp, pgKamScale, pg_kam_hyp, pg_kam_dictionary |
+| P5-FAM | `KAM/Planetary/PGAssembly/Family.lean` | 650 | 12 | P5-CH,P5-KH,P5-TH; P3 KamHyp,two_scale_kam joint output; P1 cyl_pipeline | PGFamilySpec, torus_conv, pgFamily, kset, rawUnion, pgD0, frequency_bounds |
 | P5-CT | `KAM/Planetary/PGAssembly/CellTransfer.lean` | 750 | 13 | P5-FAM; P1 chart_measure_image,volume_angleScale_image,torus_union* | cell_transfer, outputRepresentative |
-| P5-BU | `KAM/Planetary/PGAssembly/ActionBudget.lean` | 550 | 13 | P5-FAM,P4-M,P4-CO,P5-TH | budget on Cantor core, positive denominators |
+| P5-BU | `KAM/Planetary/PGAssembly/ActionBudget.lean` | 550 | 13 | P5-FAM,P4-M,P4-CO,P5-TH | pgMeasureUpper1/2, explicit pgBudget, budget on Cantor core, positive denominators |
 | P5-LO | `KAM/Planetary/PGAssembly/Lower.lean` | 350 | 14 | P5-CT,P5-BU,P4-POL | lower, pgLoss, finalRadius |
-| P5-CUT | `KAM/Planetary/PGAssembly/CutMeasure.lean` | 550 | 2 | finite-measure limits; intermediate_value_Icc | finite_measure_coordinate_cut; measurable parameter measure helper |
-| P5-ST | `KAM/Planetary/PGAssembly/Strictness.lean` | 500 | 15 | P5-LO,P5-CUT,P5-FAM; P1 null-image bounds | strictness, whole-torus deletion |
+| P5-CUT | `KAM/Planetary/PGAssembly/CutMeasure.lean` | 550 | 2 | finite-measure limits; intermediate_value_Icc | finite_measure_coordinate_cut only (abstract finite measure) |
+| P5-ST | `KAM/Planetary/PGAssembly/Strictness.lean` | 500 | 15 | P5-LO,P5-CUT,P5-FAM; P1 null-image bounds | parameter-measure construction, strictness, whole-torus deletion |
 | P5-MAIN | `KAM/Planetary/PGAssembly/Main.lean` | 250 | 16 | P5-ST,P5-FAM,P5-CT; frozen Kolmogorov definition | main, literal telescope and ENNReal strict lower slack |
 | P5-PROV | `KAM/Provider/Planetary/ProperlyDegenerateKAM.lean` | 150 | 17 | P5-MAIN; no theorem anchor import | provider wrapper to the exact frozen type |
 
@@ -451,14 +503,15 @@ AffineSlab,LatticeTail}` feed `ResonanceSlow`, `ResonanceFast`, `ResonanceLarge`
 `FastComplex` and `Jets` feed `FrequencyBounds`/`FrequencyInverse`. These and `Weighted` feed
 `Scales`/`Parameters`/`Threshold`. `Averaging` imports the delivered P2 interface; `Chart` imports
 Averaging, Polar and P1. `KAMInputs` and the delivered P3 interface feed `Family`; `CellTransfer` and
-`ActionBudget` feed `Lower`; `CutMeasure` and `Lower` feed `Strictness`; `Main` imports those and
+`ActionBudget` feed `Lower`; `CutMeasure` supplies only abstract measure continuity; the actual parameter measure is built
+in `Strictness`, downstream of Family. `CutMeasure` and `Lower` feed `Strictness`; `Main` imports those and
 `FrequencyBounds`. The provider imports `Main`, never the frozen P-G theorem. No implementation
 module imports a provider or DRAFT_SORRY anchor. Imports are directed; in particular `PG/Setting`
 contains only source/coordinate data, not chosen witnesses that depend on downstream existence lemmas.
 
 Chosen-witness definitions live with their supplying theorem: `pgExtension` in Extension, `pgAnalytic`
 in FrequencyBounds, `pgScales` in Scales, `pgRstar` in Threshold, `pgAvg` in Averaging, `pgFamily` in
-Family, `pgBudget` and the explicit `pgLoss` in Lower. This avoids the subtle cycle of putting all definitions in Setting.
+Family, the explicit `pgBudget` in ActionBudget and `pgLoss` in Lower. This avoids the subtle cycle of putting all definitions in Setting.
 
 ## 9. Binder-by-binder provider assembly
 
@@ -500,8 +553,8 @@ real open slice in several variables. They are separate packages, not labelled �
 missing APIs. Default-heartbeat failures split estimates/modules; no budget override is permitted.
 The raw P3 family must provide its quantitative measure estimate as well as tori. Its rescaled Lipschitz
 bounds must be converted to the ordinary Pi/Prod norm using fixed positive scales before null-image
-arguments; uniformity in r is not needed for nullity. The P2/P3 interface reconciliations remain proof
-dispatch gates; this design is not an assertion that their providers are implemented.
+arguments; uniformity in r is not needed for nullity. The P2/P3 adapter proofs remain dispatch gates; Section 5 now instantiates the delivered
+records and joint outputs. This design does not assert that their providers are implemented.
 
 The signatures include a small exact P1/P7 definition snapshot (`IsChart`, `fullShift`, `angleScale`,
 `twoScaleDiophantine`, `unitCube`, `polarMap`) because those draft modules are not importable built
@@ -516,22 +569,22 @@ Final signature command (run serially through the required gate):
 /mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p45 .drafts/scratch/P45Signatures.lean
 ```
 
-Exit 0; **57** diagnostics, all `declaration uses 'sorry'`, no other warnings or errors.
-`#print axioms KAM.Planetary.main` reports `[propext, sorryAx, Classical.choice, Quot.sound]`.
-This is a design signature receipt, not a proof-closure receipt. The final signature has 944 lines.
-The exact frozen telescope/conclusion comparison passes with only the declaration name changed.
-
-The separate gated `P45APIs.lean` probe exits 0 for all 20 cited API names. It corrected the growth
-lemma's namespace to the global `isLittleO_log_rpow_rpow_atTop`.
-Appendix/shared/scratch byte identity, the signature cap, forbidden-token scan and 124/124 graph-node
-coverage all pass. The two local blueprint source files are byte-identical to the current inp copies.
-
+Revision 2 signature gate: exit 0, **69 warnings, all declaration uses `sorry`**;
+no errors or other warnings. Both typed upstream applications elaborate. The final
+file has **1282 lines**. `#print axioms KAM.Planetary.main` reports
+`[propext, sorryAx, Classical.choice, Quot.sound]`. The literal frozen telescope and
+conclusion comparison passes. All theorem bodies are sorry, and Appendix A, shared
+file and checked scratch file are byte-identical. Logs:
+`.drafts/scratch/P45-r2-signatures.log` and `.drafts/scratch/P45-r2-lint.log`.
 `PATH=/root/code/KAM-inp-design-p45/.drafts/scratch/gated-bin:$PATH scripts/lint_sources.sh`
-uses a local `lake` wrapper that forwards the lint script's ABI elaboration through the same required
-gate after removing the wrapper from PATH to prevent recursive dispatch; it runs no build or direct Lean invocation. An initial wrapper attempt recursed and timed out without an ABI result; the corrected rerun is the final lint receipt: exit 0: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`; `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`.
-Owned-path staged whitespace check: PASS (`git -C /root/code/KAM-inp-design-p45 diff --cached --check`, exit 0).
-All receipts are under `.drafts/scratch/P45-{signatures-release,apis-final,lint-final}.log`.
-No production Lean, frozen, manifest, graph, generated root or README file was changed.
+exits 0: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`;
+`FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`.
+Owned document `git diff --check` also exits 0.
+
+The signature and fixture theorems are all `sorry`; the printed main axioms include
+`sorryAx`, so successful elaboration does not close P-G. The lint ABI subprocess is
+routed through the required gate by the existing scratch wrapper. There is no
+production Lean module change and no separate production build target in this task.
 
 Read-only interface snapshots (SHA256):
 
@@ -539,9 +592,39 @@ Read-only interface snapshots (SHA256):
 |---|---|
 | `docs/graph/P/DEPGRAPH.md` (inp) | `5b1eff327a09a63a553686ba14a4763978e0f589fde8ad42cc67d6545f819f44` |
 | `docs/graph/P/reviews/GLOBAL-review.md` (inp) | `39f5a84a7d261187fa474fa94ecc839a1fac463810fdd8ce674fe5766d539e65` |
+| `.drafts/design/P23Signatures.lean` (inp, Revision 2) | `7d7dae4308ea9ec0ca763a2a21ce4b83280bdbb4b91d2c4f5e7567b71085e834` |
 | `.drafts/design/PPart1Signatures.lean` (inp) | `78f21690c9e2623e9d9a9b6087bf32d1477434618c3089d98d0d0b99d5d098f7` |
 | `.drafts/design/KeplerSignaturesP.lean` (inp) | `d9903304231afac0841cf0456d90c3dec04b2eb9e1a9752a9d4f9f9b7164d9c8` |
 
+
+## Revision 2 — audit finding resolutions
+
+| Finding | Resolution and owning package |
+|---|---|
+| F1 (medium) | `collar` separates all-positive-radius compactness, inclusion and set difference from t<d measure bounds; adds lower volume and neighbourhood difference inclusion. P4-CO. |
+| F2 (major) | `birkhoff_ext_parameter_regularity` exports joint continuity of P0, each Omega/beta entry and complex beta symmetry on the half tube; appended output, no new hypothesis. P5-JET. |
+| F3 (medium) | `analyticBoundDomain` has slow radius 2 and is used only for polynomial/C1/C2 bounds. `analyticDomain` retains slow radius 1 for inversion. P5-FD. |
+| F4 (major) | `PGAnalyticSpec` now proves muStar<=mu0 by selecting a smaller positive threshold. The existing freq_inj range is unchanged and fully supported. P5-FD. |
+| F5 (medium) | `dioConstant` is the explicit one-scale formula; `dio_one` exports that bound. `pgMeasureUpper1/2` and the explicit pgBudget sum replace arbitrary existential budget witnesses. P4-ONE/P5-BU. |
+| F6 (medium) | `disc_measure` includes the null-centre coverage of cylinderCell by the polar image, as well as its numeric volume. P4-POL. |
+| N1 (medium dispatch gate) | Section 5 and Appendix A use the delivered exact P23 fixtures, typed OscHyp/KamHyp adapters and actual elaborated theorem applications; replace separate limit_actions/limit_phi expectations by the joint two_scale_kam witnesses. Include oscillator normalization, zero mode, transformed domain and displacement dictionary. No interface approval or proof closure is inferred from elaboration. |
+| N2 (low) | P4-CO supplies ext_conn before collar; P4-R0 supplies beta_inverse before its resonance work; P4-TO exports section_measure_le_of_pairwise_dist. Radius-2 bounds remain separate from the inverse domain. |
+
+**Additional blueprint defect (F4).** `p5-pg-assembly.tex` L104–125 bounds
+coefficients only for mu in [0,mu0] but the printed inverse lemma uses (0,muStar]
+without saying muStar<=mu0. Outside that interval the extension is unconstrained.
+The repair is an output of freq_data: shrink muStar to min(muStar,mu0), retaining
+all preceding smallness bounds. This is a blueprint issue, not a pinned-paper erratum.
+
+**Declared numeric enlargement (F5).** `pgInverseR` is a strictly positive enclosing
+radius for the fast-frequency image, rather than its exact maximum. The explicit
+formulas use this same witness throughout; increasing a box radius only enlarges
+these positive-dimensional slab estimates. The inverse Lipschitz witness also stays
+the one selected by lip_inverse. Constants and thresholds still precede r and mu.
+
+The existing 124-node table and all twelve scoped SOURCE_GAP assignments remain.
+No frozen, manifest, graph, blueprint, generated root or README edit is authorized
+or performed. The source gaps remain proof obligations after these contract repairs.
 
 ## 11. Hard rules for every Lean package brief (verbatim)
 
@@ -571,7 +654,7 @@ Read-only interface snapshots (SHA256):
 
 ## Appendix A. Exact signatures
 
-`P45Signatures.lean`: 944 lines; SHA256 `494d9bb49329e52926fb8b8f8e7edb848dfe93a6d88839e40b5b28e7b542b595`. One file, below the 1500-line cap.
+`P45Signatures.lean`: 1282 lines; SHA256 `0cda6670cd3dddae5adf778ea94b5fd57c9fdc6bc8acc5262fb3b0087d301cba`. One file, below the 1500-line cap.
 
 ```lean
 /-
@@ -582,6 +665,12 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import Mathlib
+public import KAM.ODE.Basic
+public import KAM.Canonical.Setting
+public import KAM.Canonical.Flow
+public import KAM.Weighted.Bracket
+public import KAM.Weighted.Cauchy
+public import KAM.Weighted.Projections
 public import KAM.Frozen.Planetary.Defs.HasSecularBirkhoffForm
 public import KAM.Frozen.Planetary.Defs.HasFastDiffeomorphism
 public import KAM.Frozen.Planetary.Defs.IsCylinderKolmogorovSet
@@ -598,15 +687,223 @@ public import KAM.Measure.Lipschitz
 
 /-! # P45 design signatures
 Design evidence only. All theorem bodies are sorry. No frozen theorem/provider imports.
-P2/P3 interfaces remain reconciliation obligations in the companion design.
+P2/P3 exact upstream fixtures and typed applications appear below; proofs remain obligations.
 -/
 
 @[expose] public noncomputable section
 open Set Metric MeasureTheory
 open scoped BigOperators
+namespace KAM.NormalForm
+def zBall (n : ℕ) (K : ℝ) : Set (Fin n → ℤ) := {k | KAM.Fourier.modeSize k ≤ K}
+def freq {n : ℕ} (h : (Fin n → ℂ) → ℂ) (I : Fin n → ℂ) : Fin n → ℂ := fun i => fderiv ℂ h I (Pi.single i 1)
+def dotC {n : ℕ} (k : Fin n → ℤ) (v : Fin n → ℂ) : ℂ := ∑ i, (k i : ℂ) * v i
+def DivisorBound {n : ℕ} (V : Set (Fin n → ℂ)) (K : ℝ) (Λ : Set (Fin n → ℤ)) (h : (Fin n → ℂ) → ℂ)
+    (c : ℝ) : Prop :=
+  ∀ I ∈ V, ∀ k ∈ zBall n K \ Λ, c ≤ ‖dotC k (freq h I)‖
+end KAM.NormalForm
+
 namespace KAM.Planetary
 
 variable {a b n : ℕ}
+
+def twoScaleDiophantine (n₁ n₂ : ℕ) (γ₁ γ₂ τ : ℝ) : Set (Fin (n₁+n₂) → ℝ) :=
+  {ω | (∀ k : Fin (n₁+n₂) → ℤ, (fun i : Fin n₁ => k (Fin.castAdd n₂ i)) ≠ 0 →
+    γ₁/(∑ i, |(k i:ℝ)|)^τ ≤ |∑ i, (k i:ℝ)*ω i|) ∧
+    (∀ k : Fin (n₁+n₂) → ℤ, k ≠ 0 → (fun i : Fin n₁ => k (Fin.castAdd n₂ i)) = 0 →
+      γ₂/(∑ i, |(k i:ℝ)|)^τ ≤ |∑ i, (k i:ℝ)*ω i|)}
+
+
+/-! Exact P23 fixtures: import owning modules after landing; never reimplement these APIs. -/
+open KAM.Weighted KAM.Canonical KAM.NormalForm Real
+def IsLatticeTorus {d : ℕ} (L : (Fin d → ℤ) → Phase d) (G : Phase d → ℝ) (O : Set (Phase d))
+    (w : Fin d → ℝ) (K : (Fin d → ℝ) → Phase d) : Prop :=
+  (AnalyticOnNhd ℝ K univ ∧ ∀ θ, K θ ∈ O ∧ DifferentiableAt ℝ G (K θ)) ∧
+  (∀ θ (k : Fin d → ℤ), K (θ + fun i => (k i : ℝ)) = K θ + L k) ∧
+  (∀ θ θ', K θ = K θ' → ∃ k : Fin d → ℤ, θ' = θ + fun i => (k i : ℝ)) ∧
+  (∀ θ, Function.Injective (fderiv ℝ K θ)) ∧
+  (∀ θ u v, KAM.symplecticForm (fderiv ℝ K θ u) (fderiv ℝ K θ v) = 0) ∧
+  (∀ θ t, HasDerivAt (fun s : ℝ => K (θ + s • w))
+    (KAM.hamiltonianVectorField G (K (θ + t • w))) t)
+abbrev CPhase (n : ℕ) := (Fin n → ℂ) × (Fin n → ℂ)
+abbrev CHam (n : ℕ) := CPhase n → ℂ
+def geometricWidth (σ : ℝ) : ℝ := σ / (2 * π)
+def realBase {n : ℕ} (D : Set (Fin n → ℝ)) : Set (Fin n → ℂ) := KAM.realInclusion n '' D
+def coefficientDom {n : ℕ} (D : Set (Fin n → ℝ)) (r σ : ℝ) : Set (CPhase n) :=
+  Dom n (realBase D) r (geometricWidth σ)
+def realTube {n : ℕ} (D : Set (Fin n → ℝ)) (r : ℝ) : Set (Fin n → ℝ) :=
+  (KAM.realInclusion n) ⁻¹' KAM.actionNbhd D r
+def firstBlock {a b : ℕ} {𝕜 : Type*} (x : Fin (a + b) → 𝕜) : Fin a → 𝕜 :=
+  fun i => x (Fin.castAdd b i)
+def lastBlock {a b : ℕ} {𝕜 : Type*} (x : Fin (a + b) → 𝕜) : Fin b → 𝕜 :=
+  fun i => x (Fin.natAdd a i)
+def oscPack {n m : ℕ} (z : CPhase (n + m)) : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ) :=
+  (firstBlock (b := m) z.1, Fin.append (firstBlock (b := m) z.2)
+    (Fin.append (lastBlock (a := n) z.2) (lastBlock (a := n) z.1)))
+def oscUnpack {n m : ℕ} (z : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ)) : CPhase (n + m) :=
+  (Fin.append z.1 (lastBlock (a := m) (lastBlock (a := n) z.2)),
+    Fin.append (firstBlock (b := m + m) z.2) (firstBlock (b := m) (lastBlock (a := n) z.2)))
+def oscFunction {n m : ℕ} (f : CHam (n + m)) : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ) → ℂ := f ∘ oscUnpack
+def oscParams {n m : ℕ} (D : Set (Fin n → ℝ)) (r rp rq : ℝ) : Set (Fin (n + (m + m)) → ℂ) :=
+  {x | firstBlock (b := m + m) x ∈ KAM.actionNbhd D r ∧
+    ‖firstBlock (b := m) (lastBlock (a := n) x)‖ < rp ∧
+    ‖lastBlock (a := m) (lastBlock (a := n) x)‖ < rq}
+def oscDom {n m : ℕ} (D : Set (Fin n → ℝ)) (r rp rq S : ℝ) : Set (CPhase (n + m)) :=
+  oscPack ⁻¹' (KAM.complexStrip n S ×ˢ oscParams (m := m) D r rp rq)
+def oscBound {n m : ℕ} (D : Set (Fin n → ℝ)) (r rp rq S : ℝ) (f : CHam (n + m)) (E : ℝ) : Prop :=
+  ∀ x ∈ oscParams (m := m) D r rp rq,
+    WSummable (oscFunction f) S x ∧ wsum (oscFunction f) S x ≤ E
+def oscClass {n m : ℕ} (D : Set (Fin n → ℝ)) (r rp rq S : ℝ) (f : CHam (n + m)) : Prop :=
+  DifferentiableOn ℂ f (oscDom D r rp rq S) ∧
+    ∀ j : Fin n, ∀ z ∈ oscDom D r rp rq S,
+      f (z.1 + Pi.single (Fin.castAdd m j) 1, z.2) = f z
+structure OscHyp {n m : ℕ} (D : Set (Fin n → ℝ)) (r rp rq sbar s K α E : ℝ)
+    (h : (Fin n → ℂ) → ℂ) (f : CHam (n + m)) : Prop where
+  n_pos : 1 ≤ n
+  m_pos : 1 ≤ m
+  positive : 0 < r ∧ 0 < rp ∧ 0 < rq ∧ 0 < s ∧ 0 < K ∧ 0 < α
+  sbar_nonneg : 0 ≤ sbar
+  E_nonneg : 0 ≤ E
+  budget : 6 ≤ 2 * π * K * s
+  holo : DifferentiableOn ℂ h (KAM.actionNbhd D r)
+  real_h : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ KAM.actionNbhd D r → (h (KAM.realInclusion n I)).im = 0
+  cls : oscClass D r rp rq (sbar + s) f
+  bound : oscBound D r rp rq (sbar + s) f E
+  real_f : RealOn (oscDom D r rp rq (sbar + s)) f
+  divisor : DivisorBound (KAM.actionNbhd D r) K {0} h α
+  small : 2 ^ 12 * (1 + (m : ℝ)) * K * E * s ≤ α * min (r * s) (rp * rq)
+theorem averaged_remainder {n m : ℕ} {D : Set (Fin n → ℝ)} {r ε₀ s₀ ε μ α : ℝ}
+    {h : (Fin n → ℂ) → ℂ} {P : CHam (n + m)}
+    (hε : 0 < ε ∧ ε < exp (-1 / 5)) (hμ : 0 < μ)
+    (H : OscHyp D r ε₀ ε₀ 0 s₀ (15 / (π * s₀) * log (1 / ε)) α μ h (μ • P))
+    (hP : oscBound D r ε₀ ε₀ s₀ P 1) :
+    ∃ (Ψ : CPhase (n + m) → CPhase (n + m)) (g fs R : CHam (n + m)),
+      let V := oscDom D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6)
+      DifferentiableOn ℂ Ψ V ∧ Set.InjOn Ψ V ∧ MapsTo Ψ V (oscDom D r ε₀ ε₀ s₀) ∧
+      (∀ z ∈ V, ∀ u v, symplFormC (fderiv ℂ Ψ z u) (fderiv ℂ Ψ z v) = symplFormC u v) ∧
+      (∀ z ∈ V, ∀ k : Fin n → ℤ,
+        Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) = Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) ∧
+      (∀ x : Phase (n + m), KAM.realInclusion₂ (n + m) x ∈ V →
+        Ψ (KAM.realInclusion₂ (n + m) x) ∈ range (KAM.realInclusion₂ (n + m))) ∧
+      oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) g ∧ RealOn V g ∧
+      (∀ x ∈ oscParams (m := m) D (r / 2) (ε₀ / 2) (ε₀ / 2), ∀ θ θ',
+        oscUnpack (θ, x) ∈ V → oscUnpack (θ', x) ∈ V → g (oscUnpack (θ, x)) = g (oscUnpack (θ', x))) ∧
+      oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) fs ∧ RealOn V fs ∧ RealOn V R ∧
+      (∀ z ∈ V, h (firstBlock (b := m) (Ψ z).2) + μ * P (Ψ z) =
+        h (firstBlock (b := m) z.2) + μ * coeff (oscFunction P) (oscPack z).2 0 + R z) ∧
+      (∀ z ∈ V, R z = g z - μ * coeff (oscFunction P) (oscPack z).2 0 + fs z) ∧
+      oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) R ∧
+      oscBound D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) R
+        (400 * (1 + (m : ℝ)) * μ ^ 2 / (2 * π * α * min (r * s₀) (ε₀ ^ 2)) + μ * ε ^ 5) ∧
+      oscBound D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) fs (μ * ε ^ 5) ∧
+      ∀ z ∈ V,
+        2 * π * α * s₀ * ‖firstBlock (b := m) ((Ψ z).2 - z.2)‖ ≤ 3 * μ ∧
+        2 * π * α * r * ‖firstBlock (b := m) ((Ψ z).1 - z.1)‖ ≤ 9 * μ ∧
+        2 * π * α * ε₀ * ‖lastBlock (a := n) ((Ψ z).2 - z.2)‖ ≤ 9 * μ ∧
+        2 * π * α * ε₀ * ‖lastBlock (a := n) ((Ψ z).1 - z.1)‖ ≤ 9 * μ := sorry
+structure ScaleData where
+  τ : ℝ
+  γ₁ : ℝ
+  γ₂ : ℝ
+  s : ℝ
+  ρ : ℝ
+  E : ℝ
+  M : ℝ
+  Mhat : ℝ
+  Mbar : ℝ
+  Mbar₁ : ℝ
+  Mbar₂ : ℝ
+  L : ℝ
+def constants (p : ScaleData) : ℝ × ℝ × ℝ :=
+  let x := p.E * p.M ^ 2 * p.L / p.γ₁ ^ 2
+  let K := 6 / p.s * max 1 (log (1 / x))
+  let R := min (min (p.γ₁ / (3 * p.M * K ^ (p.τ + 1)))
+    (p.γ₂ / (3 * p.Mhat * K ^ (p.τ + 1)))) p.ρ
+  (K, R, p.E * p.L / R ^ 2)
+def cutoff (p : ScaleData) : ℝ := (constants p).1
+def rhoHat (p : ScaleData) : ℝ := (constants p).2.1
+def eHat (p : ScaleData) : ℝ := (constants p).2.2
+def kamConstant (n : ℕ) (τ : ℝ) : ℝ := max (2 ^ 13 * (n : ℝ)) ((24 : ℝ) ^ (τ + 1) / 3)
+def complementConstant (n : ℕ) : ℝ := 1 + (1 + 2 ^ n) * (1 + (4 / 3 : ℝ) ^ n)
+def initialL (M Mhat Mbar : ℝ) : ℝ := max Mbar (max M⁻¹ Mhat⁻¹)
+def realFreq {n : ℕ} (h : (Fin n → ℂ) → ℂ) (I : Fin n → ℝ) : Fin n → ℝ :=
+  fun i => (freq h (KAM.realInclusion n I) i).re
+def dioBase {a b : ℕ} (D : Set (Fin (a + b) → ℝ)) (h : (Fin (a + b) → ℂ) → ℂ)
+    (p : ScaleData) : Set (Fin (a + b) → ℝ) :=
+  D ∩ realFreq h ⁻¹' twoScaleDiophantine a b p.γ₁ p.γ₂ p.τ
+def omegaSet {a b : ℕ} (D : Set (Fin (a + b) → ℝ)) (h : (Fin (a + b) → ℂ) → ℂ)
+    (p : ScaleData) : Set (Fin (a + b) → ℝ) :=
+  realFreq h '' D ∩ twoScaleDiophantine a b p.γ₁ p.γ₂ p.τ
+structure KamHyp {a b : ℕ} (D : Set (Fin (a + b) → ℝ)) (sbar : ℝ) (p : ScaleData)
+    (h : (Fin (a + b) → ℂ) → ℂ) (f : CHam (a + b)) : Prop where
+  a_pos : 1 ≤ a
+  b_pos : 1 ≤ b
+  τ_gt : ((a + b : ℕ) : ℝ) < p.τ
+  positive : 0 < p.γ₂ ∧ 0 < p.s ∧ 0 < p.ρ ∧ 0 < p.E ∧
+    0 < p.M ∧ 0 < p.Mhat ∧ 0 < p.Mbar ∧ 0 < p.Mbar₁ ∧ 0 < p.Mbar₂
+  gamma_order : p.γ₂ ≤ p.γ₁
+  widths : 4 * p.s ≤ sbar ∧ sbar < 1
+  normalized : p.Mhat ≤ p.M ∧ p.Mbar₁ ≤ p.Mbar ∧ p.Mbar₂ ≤ p.Mbar
+  L_bound : initialL p.M p.Mhat p.Mbar ≤ p.L
+  holo : DifferentiableOn ℂ h (KAM.actionNbhd D p.ρ)
+  real_h : RealOn (coefficientDom D p.ρ (sbar + p.s)) (fun z => h z.2)
+  real_f : RealOn (coefficientDom D p.ρ (sbar + p.s)) f
+  f_class : InClass (realBase D) p.ρ (geometricWidth (sbar + p.s)) f
+  f_bound : WBound (realBase D) p.ρ (geometricWidth (sbar + p.s)) f p.E
+  injective : Set.InjOn (freq h) (KAM.actionNbhd D p.ρ)
+  hessian : ∀ I ∈ KAM.actionNbhd D p.ρ,
+    ‖fderiv ℂ (freq h) I‖ ≤ p.M ∧
+    (∀ v, ‖lastBlock (a := a) (fderiv ℂ (freq h) I v)‖ ≤ p.Mhat * ‖v‖) ∧
+    ∃ A : (Fin (a + b) → ℂ) ≃L[ℂ] (Fin (a + b) → ℂ),
+      (A : (Fin (a + b) → ℂ) →L[ℂ] (Fin (a + b) → ℂ)) = fderiv ℂ (freq h) I ∧
+      ‖(A.symm : (Fin (a + b) → ℂ) →L[ℂ] (Fin (a + b) → ℂ))‖ ≤ p.Mbar ∧
+      (∀ v, ‖firstBlock (b := b) (A.symm v)‖ ≤ p.Mbar₁ * ‖v‖) ∧
+      (∀ v, ‖lastBlock (a := a) (A.symm v)‖ ≤ p.Mbar₂ * ‖v‖)
+  small : kamConstant (a + b) p.τ * eHat p < 1
+def limitmap_data {n : ℕ} (R s : ℝ) (z : Phase n) : ℝ := max (‖z.1‖ * (2 * π / s)) (‖z.2‖ / R)
+theorem two_scale_kam {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {p : ScaleData}
+    {h : (Fin (a + b) → ℂ) → ℂ} {f : CHam (a + b)} (H : KamHyp D sbar p h f)
+    (hL : p.L = initialL p.M p.Mhat p.Mbar) :
+    ∃ (i : (Fin (a + b) → ℝ) → (Fin (a + b) → ℝ))
+      (Φ : Phase (a + b) → Phase (a + b))
+      (K : (Fin (a + b) → ℝ) → (Fin (a + b) → ℝ) → Phase (a + b))
+      (I₀ : (Fin (a + b) → ℝ) → (Fin (a + b) → ℝ))
+      (KC : (Fin (a + b) → ℝ) → (Fin (a + b) → ℂ) → CPhase (a + b)),
+      let D₀ := dioBase D h p
+      let Ω := omegaSet D h p
+      let Dstar := i '' D₀
+      let r := 32 * eHat p * rhoHat p
+      let Hr := fun z : Phase (a + b) => (h (KAM.realInclusion (a + b) z.2) + f (KAM.realInclusion₂ (a + b) z)).re
+      let KO := ⋃ ω ∈ Ω, range (K ω)
+      (∀ ω ∈ Ω, I₀ ω ∈ D₀ ∧ realFreq h (I₀ ω) = ω ∧ ∀ I ∈ D₀, realFreq h I = ω → I = I₀ ω) ∧
+      (∀ I ∈ D₀,
+        ‖firstBlock (b := b) (i I - I)‖ ≤ 20 * (p.Mbar₁ / p.Mbar) * eHat p * rhoHat p ∧
+        ‖lastBlock (a := a) (i I - I)‖ ≤ 20 * (p.Mbar₂ / p.Mbar) * eHat p * rhoHat p) ∧
+      (∀ I ∈ D₀, ∀ J ∈ D₀, ‖(i I - I) - (i J - J)‖ ≤ 2560 * (a + b) * eHat p * ‖I - J‖) ∧
+      (∀ x ∈ (univ ×ˢ Dstar : Set (Phase (a + b))), ∀ y ∈ (univ ×ˢ Dstar : Set (Phase (a + b))),
+        limitmap_data (rhoHat p) p.s ((Φ x - x) - (Φ y - y)) ≤
+          768 * (a + b) * eHat p * limitmap_data (rhoHat p) p.s (x - y)) ∧
+      (∀ x ∈ (univ ×ˢ Dstar : Set (Phase (a + b))), ∀ k : Fin (a + b) → ℤ,
+        Φ (x + KAM.ODE.angleShift k) = Φ x + KAM.ODE.angleShift k) ∧
+      (∀ ω ∈ Ω, ∀ θ, K ω θ = Φ (θ, i (I₀ ω))) ∧
+      (∀ ω ∈ Ω,
+        IsLatticeTorus KAM.ODE.angleShift Hr (univ ×ˢ realTube D r) ω (K ω) ∧
+        DifferentiableOn ℂ (KC ω) (KAM.complexStrip (a + b) (geometricWidth sbar)) ∧
+        (∀ θ, KC ω (KAM.realInclusion (a + b) θ) = KAM.realInclusion₂ (a + b) (K ω θ)) ∧
+        (∀ θ ∈ KAM.complexStrip (a + b) (geometricWidth sbar),
+          ‖(KC ω θ).1 - θ‖ ≤ 3 / (4 * π) * eHat p * p.s) ∧
+        (∀ θ,
+          ‖firstBlock (b := b) ((K ω θ).2 - I₀ ω)‖ ≤ 20 * (p.Mbar₁ / p.Mbar + p.Mhat / p.M) * eHat p * rhoHat p ∧
+          ‖lastBlock (a := a) ((K ω θ).2 - I₀ ω)‖ ≤ 20 * (p.Mbar₂ / p.Mbar + 1) * eHat p * rhoHat p ∧
+          ‖fderiv ℝ (fun θ => (K ω θ).1 - θ) θ‖ ≤ 3 / 4 * (a + b) * eHat p)) ∧
+      (∀ ω ∈ Ω, ∀ ω' ∈ Ω, ∀ θ θ', ∀ k : Fin (a + b) → ℤ,
+        K ω θ = K ω' θ' + KAM.ODE.angleShift k → ω = ω' ∧ θ = θ' + fun j => (k j : ℝ)) ∧
+      (∀ ω ∈ Ω, ∀ ω' ∈ Ω, ‖ω - ω'‖ < p.ρ / p.Mbar → ‖I₀ ω - I₀ ω'‖ ≤ p.Mbar * ‖ω - ω'‖) ∧
+      (Bornology.IsBounded D → ∀ ω ∈ Ω, ∀ ω' ∈ Ω,
+        ‖I₀ ω - I₀ ω'‖ ≤ p.Mbar * max 1 (Metric.diam D / p.ρ) * ‖ω - ω'‖) ∧
+      volume (((univ ×ˢ realTube D r) \ KO) ∩ {z : Phase (a + b) | ∀ j, z.1 j ∈ Ico 0 1}) ≤
+        ENNReal.ofReal (complementConstant (a + b)) *
+          (volume (D \ D₀) + volume (realTube D r \ D)) := sorry
+
 
 /-- Scalar-generic extension; real specializations are identified with the frozen projections. -/
 def blockFast {a b : ℕ} {F : Type*} (v : Fin (a+b) → F) : Fin a → F := fun i => v (Fin.castAdd b i)
@@ -666,14 +963,25 @@ def joinedActions (X : Set (Fin a → ℝ)) (Y : Set (Fin b → ℝ)) : Set (Fin
 def unitCube (n : ℕ) : Set (Fin n → ℝ) := pi univ fun _ => Ico (0 : ℝ) 1
 
 /-- `bpP:p4:collar`, all clauses, with an unnormalised bound. -/
-theorem collar {V : Set (Fin a → ℝ)} (hV : IsOpen V) (hVb : Bornology.IsBounded V)
-    {A d t : ℝ} (ht : 0 < t) (htd : t < d)
+theorem collar {V : Set (Fin a → ℝ)}
+    (hV : IsOpen V) (hVb : Bornology.IsBounded V)
+    {A d : ℝ}
     (hc : ∀ s : ℝ, 0 < s → s < d →
-      volume {I : Fin a → ℝ | ∃ J ∈ frontier V, dist I J < s} ≤ ENNReal.ofReal (A*s)) :
-    IsCompact (innerCore V t) ∧ innerCore V t ⊆ V ∧
-    volume (V \ innerCore V t) ≤ ENNReal.ofReal (A*t) ∧
-    ∀ s : ℝ, 0 < s → s < t → realNbhd (innerCore V t) s ⊆ V ∧
-      volume (realNbhd (innerCore V t) s \ innerCore V t) ≤ ENNReal.ofReal (A*t) := sorry
+      volume {I : Fin a → ℝ | ∃ J ∈ frontier V, dist I J < s} ≤
+        ENNReal.ofReal (A*s)) :
+    (∀ t : ℝ, 0 < t →
+      IsCompact (innerCore V t) ∧ innerCore V t ⊆ V ∧
+      V \ innerCore V t =
+        {I ∈ V | ∃ J ∈ frontier V, dist I J < t}) ∧
+    (∀ t : ℝ, 0 < t → t < d →
+      volume (V \ innerCore V t) ≤ ENNReal.ofReal (A*t) ∧
+      volume V - ENNReal.ofReal (A*t) ≤ volume (innerCore V t)) ∧
+    (∀ t s : ℝ, 0 < s → s < t →
+      realNbhd (innerCore V t) s ⊆ V ∧
+      realNbhd (innerCore V t) s \ innerCore V t ⊆ V \ innerCore V t) ∧
+    (∀ t s : ℝ, 0 < s → s < t → t < d →
+      volume (realNbhd (innerCore V t) s \ innerCore V t) ≤
+        ENNReal.ofReal (A*t)) := by sorry
 
 /-- Classical derivative regularity used by P4. -/
 theorem ext_deriv {p q : ℕ} {U : Set (Fin p → ℝ)} {f : (Fin p → ℝ) → Fin q → ℝ}
@@ -860,9 +1168,14 @@ theorem oscillatorPolar_eq_polarMap (z : Phase (n+n)) :
 def polarCellMap (z : Phase (a+b)) : Phase (a+b) :=
   oscillatorPolar ((2*Real.pi) • z.1,z.2)
 
-theorem disc_measure {V : Set (Fin a → ℝ)} (hV : MeasurableSet V) {r : ℝ} (hr : 0 < r) :
+theorem disc_measure {V : Set (Fin a → ℝ)} (hV : MeasurableSet V)
+    {r : ℝ} (hr : 0 < r) :
     volume (cylinderCell (b:=b) V r) =
-      ENNReal.ofReal ((2*Real.pi)^(a+b)*(r^2/2)^b)*volume V := sorry
+      ENNReal.ofReal ((2*Real.pi)^(a+b)*(r^2/2)^b)*volume V ∧
+    volume (cylinderCell (b:=b) V r \ polarCellMap ''
+      {z : Phase (a+b) | blockFast z.2 ∈ V ∧
+        blockSlow z.2 ∈ actionShell b 0 (r^2/2) ∧
+        z.1 ∈ unitCube (a+b)}) = 0 := by sorry
 
 theorem disc_measure_image {X : Set (Phase (a+b))} (hX : MeasurableSet X)
     (hpos : ∀ z ∈ X, ∀ j : Fin b, 0 < blockSlow z.2 j)
@@ -975,6 +1288,23 @@ theorem birkhoff_ext (d : PGData a b) :
     (∀ mu ∈ Icc 0 d.mu0, ∀ I ∈ closure d.V,
       d.B ≤ ‖(jetBeta d mu (KAM.realInclusion a I)).det‖) := sorry
 
+theorem birkhoff_ext_parameter_regularity (d : PGData a b) :
+    ContinuousOn
+      (fun z : ℝ × (Fin a → ℂ) => jetP0 d z.1 z.2)
+      (Icc 0 d.mu0 ×ˢ KAM.actionNbhd (closure d.V)
+        ((pgExtension d).delta/2)) ∧
+    (∀ j, ContinuousOn
+      (fun z : ℝ × (Fin a → ℂ) => jetOmega d z.1 z.2 j)
+      (Icc 0 d.mu0 ×ˢ KAM.actionNbhd (closure d.V)
+        ((pgExtension d).delta/2))) ∧
+    (∀ i j, ContinuousOn
+      (fun z : ℝ × (Fin a → ℂ) => jetBeta d z.1 z.2 i j)
+      (Icc 0 d.mu0 ×ˢ KAM.actionNbhd (closure d.V)
+        ((pgExtension d).delta/2))) ∧
+    (∀ mu ∈ Icc 0 d.mu0,
+      ∀ I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta/2),
+        (jetBeta d mu I).IsSymm) := by sorry
+
 theorem uniform_remainder (d : PGData a b) : ∃ r1 CQ : ℝ,
     0 < r1 ∧ r1 ≤ pgOscRadius d ∧ 0 < CQ ∧
     ∀ mu ∈ Icc 0 d.mu0, ∀ I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta/4),
@@ -996,10 +1326,14 @@ theorem bilip (d : PGData a b) : ∃ rho c0 M0 : ℝ,
       c0*‖z-z'‖ ≤ ‖complexFast d z-complexFast d z'‖) ∧
     (∀ z ∈ KAM.actionNbhd (closure d.V) (2*rho), ‖fderiv ℂ (complexFast d) z‖ ≤ M0) := sorry
 
+def dioConstant (d : PGData a b) (tau : ℝ) : ℝ :=
+  2*(pgInverseL d)^a*latticeS (a+b) tau*(2*pgInverseR d)^(a-1)
+
 theorem dio_one (d : PGData a b) {tau : ℝ} (ht : (a+b:ℕ) < tau) :
-    ∃ Cdio : ℝ, 0 < Cdio ∧ ∀ gamma : ℝ, 0 < gamma →
-      volume {I ∈ d.V | ¬ KAM.IsDiophantine gamma tau (fastFrequency d.H0 I)} ≤
-        ENNReal.ofReal (Cdio*gamma) := sorry
+    0 < dioConstant d tau ∧ ∀ gamma : ℝ, 0 < gamma →
+      volume {I ∈ d.V | ¬ KAM.IsDiophantine gamma tau
+        (fastFrequency d.H0 I)} ≤
+          ENNReal.ofReal (dioConstant d tau*gamma) := by sorry
 
 /-- Numeric carriers selected before r and mu. The specification is produced below. -/
 structure PGAnalytic where
@@ -1018,6 +1352,12 @@ structure PGAnalytic where
 def analyticDomain (d : PGData a b) (p : PGAnalytic) : Set (Fin (a+b) → ℂ) :=
   {J | blockFast J ∈ KAM.actionNbhd (closure d.V) p.rho ∧ ‖blockSlow J‖ < 1}
 
+def analyticBoundDomain (d : PGData a b) (p : PGAnalytic) :
+    Set (Fin (a+b) → ℂ) :=
+  {J | blockFast J ∈ KAM.actionNbhd (closure d.V) p.rho ∧
+    ‖blockSlow J‖ < 2}
+
+
 def complexIntegrable (d : PGData a b) (mu : ℝ) (J : Fin (a+b) → ℂ) : ℂ :=
   (pgExtension d).H0 (blockFast J)+mu*jetPolynomial d mu J
 
@@ -1027,7 +1367,7 @@ def complexFrequency (d : PGData a b) (mu : ℝ) (J : Fin (a+b) → ℂ) (i : Fi
 /-- All clauses are proved from d. None is an assumed inverse or assumed KAM family. -/
 def PGAnalyticSpec (d : PGData a b) (p : PGAnalytic) : Prop :=
   0 < p.rho ∧ p.rho < (pgExtension d).delta/16 ∧ 0 < p.c0 ∧
-  1 ≤ p.M0 ∧ 1 ≤ p.AN ∧ 1 ≤ p.LN ∧ 1 ≤ p.LB ∧ 0 < p.muStar ∧ p.muStar ≤ 1 ∧
+  1 ≤ p.M0 ∧ 1 ≤ p.AN ∧ 1 ≤ p.LN ∧ 1 ≤ p.LB ∧ 0 < p.muStar ∧ p.muStar ≤ 1 ∧ p.muStar ≤ d.mu0 ∧
   1 ≤ p.LP ∧ (pgExtension d).MP * KAM.Weighted.coth ((pgExtension d).delta/4)^a ≤ p.LP ∧ 0 < p.CQ ∧ 0 < p.r1 ∧ p.r1 ≤ pgOscRadius d ∧ 0 < p.Cdio ∧
   p.muStar*p.AN ≤ p.c0/2 ∧ 4*p.muStar*p.AN^2*p.LB ≤ p.c0 ∧
   2*p.muStar*p.LN^2*p.LB < p.c0 ∧ p.LN ≤ p.AN ∧
@@ -1047,7 +1387,7 @@ def PGAnalyticSpec (d : PGData a b) (p : PGAnalytic) : Prop :=
     ∀ xi xi' : Fin b → ℂ, ‖xi‖ ≤ 1 → ‖xi'‖ ≤ 1 →
       ‖(fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi)) I (Pi.single i 1)) -
         (fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi')) I (Pi.single i 1))‖ ≤ p.LN*‖xi-xi'‖) ∧
-  (∀ mu ∈ Icc 0 d.mu0, ∀ J ∈ analyticDomain d p,
+  (∀ mu ∈ Icc 0 d.mu0, ∀ J ∈ analyticBoundDomain d p,
     ‖jetPolynomial d mu J‖ ≤ p.AN ∧ ‖fderiv ℂ (jetPolynomial d mu) J‖ ≤ p.AN ∧
       ‖fderiv ℂ (fderiv ℂ (jetPolynomial d mu)) J‖ ≤ p.AN) ∧
   (∀ mu ∈ Icc 0 d.mu0, ∀ I ∈ KAM.actionNbhd (closure d.V) p.rho, ∀ v : Fin b → ℂ,
@@ -1085,12 +1425,6 @@ def IsChart (c : ℝ) (Ψ : Phase n → Phase n) (O : Set (Phase n)) : Prop :=
 def fullShift (k : Fin n → ℤ) : Phase n := (fun i => 2*Real.pi*(k i:ℝ),0)
 
 def angleScale (c : ℝ) (z : Phase n) : Phase n := (c • z.1,z.2)
-
-def twoScaleDiophantine (n₁ n₂ : ℕ) (γ₁ γ₂ τ : ℝ) : Set (Fin (n₁+n₂) → ℝ) :=
-  {ω | (∀ k : Fin (n₁+n₂) → ℤ, (fun i : Fin n₁ => k (Fin.castAdd n₂ i)) ≠ 0 →
-    γ₁/(∑ i, |(k i:ℝ)|)^τ ≤ |∑ i, (k i:ℝ)*ω i|) ∧
-    (∀ k : Fin (n₁+n₂) → ℤ, k ≠ 0 → (fun i : Fin n₁ => k (Fin.castAdd n₂ i)) = 0 →
-      γ₂/(∑ i, |(k i:ℝ)|)^τ ≤ |∑ i, (k i:ℝ)*ω i|)}
 
 theorem disc_measure_chart :
     IsChart 1 (oscillatorPolar (a:=a) (b:=b)) {z : Phase (a+b) | ∀ j : Fin b, 0 < blockSlow z.2 j} ∧
@@ -1161,6 +1495,11 @@ theorem finite_measure_coordinate_cut {N : ℕ} (j : Fin N) (nu : Measure (Fin N
     Continuous (fun s : ℝ => (nu {x | x j ≤ s}).toReal) := sorry
 
 /-- Tonelli in a product-coordinate form; any coordinate permutation reduces to this. -/
+theorem section_measure_le_of_pairwise_dist {E : Set ℝ} {delta : ℝ}
+    (hd : 0 ≤ delta)
+    (hE : ∀ x ∈ E, ∀ y ∈ E, dist x y ≤ delta) :
+    volume E ≤ ENNReal.ofReal delta := by sorry
+
 theorem ext_tonelli {m : ℕ} {R : Set ((Fin m → ℝ) × ℝ)} (hR : MeasurableSet R)
     {P : Set (Fin m → ℝ)} (hP : MeasurableSet P) (hsub : R ⊆ P ×ˢ univ)
     {delta : ℝ} (hd : 0 ≤ delta)
@@ -1323,6 +1662,54 @@ def AveragingSpec (d : PGData a b) (r mu : ℝ) (A : PGAveraging (a+b)) : Prop :
     ‖(blockSlow (realAverageMap A z).2-blockSlow z.2,blockSlow (realAverageMap A z).1-blockSlow z.1)‖ ≤
       18*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/(pgOscRadius d*(params d r mu).gammaBar))
 
+/-- Mixed fast-angle/oscillator normalization, conformally symplectic with factor 2*pi. -/
+def pgOscNormalize (z : CPhase (a+b)) : CPhase (a+b) :=
+  (Fin.append ((2*Real.pi:ℂ) • blockFast z.1)
+    ((Real.sqrt (2*Real.pi):ℂ) • blockSlow z.1),
+   Fin.append (blockFast z.2) ((Real.sqrt (2*Real.pi):ℂ) • blockSlow z.2))
+def pgOscUnnormalize (z : CPhase (a+b)) : CPhase (a+b) :=
+  (Fin.append ((2*Real.pi:ℂ)⁻¹ • blockFast z.1)
+    ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • blockSlow z.1),
+   Fin.append (blockFast z.2) ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • blockSlow z.2))
+def pgOscP (d : PGData a b) (mu : ℝ) (z : CPhase (a+b)) : ℂ :=
+  (pgExtension d).P mu (pgOscNormalize z)/(pgAnalytic d).LP
+def pgOscH (d : PGData a b) (I : Fin a → ℂ) : ℂ := (pgExtension d).H0 I/(2*Real.pi)
+def pgOscE (d : PGData a b) (mu : ℝ) : ℝ := (pgAnalytic d).LP*mu/(2*Real.pi)
+def pgOscEpsilon (d : PGData a b) : ℝ := pgOscRadius d/Real.sqrt (2*Real.pi)
+def pgOscWidth (d : PGData a b) : ℝ := pgWidth d/(2*Real.pi)
+theorem pg_osc_hyp (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    OscHyp (checkedCore d r mu) (params d r mu).rhoBar (pgOscEpsilon d) (pgOscEpsilon d)
+      0 (pgOscWidth d) (15/(Real.pi*pgOscWidth d)*Real.log (1/r))
+      ((params d r mu).gammaBar/(2*Real.pi)) (pgOscE d mu)
+      (pgOscH d) (pgOscE d mu • pgOscP d mu) := sorry
+theorem pg_osc_bound (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    oscBound (checkedCore d r mu) (params d r mu).rhoBar (pgOscEpsilon d) (pgOscEpsilon d)
+      (pgOscWidth d) (pgOscP d mu) 1 := sorry
+theorem pg_osc_positive (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    (0 < r ∧ r < Real.exp (-1/5)) ∧ 0 < pgOscE d mu := sorry
+theorem pg_osc_zero (d : PGData a b) (mu : ℝ) (hmu : mu ∈ Icc 0 d.mu0)
+    (z : CPhase (a+b))
+    (hz : z ∈ oscDom (closure d.V) ((pgExtension d).delta/2)
+      (pgOscEpsilon d) (pgOscEpsilon d) (pgOscWidth d)) :
+    KAM.Weighted.coeff (oscFunction (pgOscP d mu)) (oscPack z).2 0 =
+      complexAverage d mu (blockFast z.2)
+        ((Real.sqrt (2*Real.pi):ℂ) • blockSlow z.1,
+         (Real.sqrt (2*Real.pi):ℂ) • blockSlow z.2)/(pgAnalytic d).LP := sorry
+theorem pg_osc_normalization :
+    (∀ z : CPhase (a+b), pgOscUnnormalize (pgOscNormalize z) = z ∧
+      pgOscNormalize (pgOscUnnormalize z) = z) ∧
+    (∀ z u v : CPhase (a+b),
+      KAM.Canonical.symplFormC (fderiv ℂ pgOscNormalize z u) (fderiv ℂ pgOscNormalize z v) =
+        (2*Real.pi:ℂ)*KAM.Canonical.symplFormC u v) := sorry
+theorem pg_osc_domain (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    pgOscNormalize '' oscDom (checkedCore d r mu) ((params d r mu).rhoBar/2)
+      (pgOscEpsilon d/2) (pgOscEpsilon d/2) (pgOscWidth d/6) = averagingDomain d r mu := sorry
+
+/- Exact upstream application checked without introducing a proof body. -/
+#check fun (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) =>
+  averaged_remainder (pg_osc_positive d r mu h).1 (pg_osc_positive d r mu h).2
+    (pg_osc_hyp d r mu h) (pg_osc_bound d r mu h)
+
 theorem avg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     ∃ A : PGAveraging (a+b), AveragingSpec d r mu A := sorry
 
@@ -1361,7 +1748,7 @@ def kamF (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
   let w := (pgAvg d r mu h).Psi (oscillatorPolarComplex ((2*Real.pi:ℂ) • z.1,z.2))
   ((pgExtension d).H0 (blockFast w.2)+mu*(pgExtension d).P mu w)/(2*Real.pi)-kamH d mu z.2
 
-/-- Concrete local obligations supplied to the not-yet-designed P3 interface; no invented P3 type. -/
+/-- Local estimates used to prove pg_kam_hyp for the exact delivered P3 record. -/
 theorem kam_hyp (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     KAM.Weighted.InClass (KAM.realInclusion (a+b) '' pgActionDomain d r mu)
       (params d r mu).rho (pgWidth d/(24*Real.pi)) (kamF d r mu h) ∧
@@ -1390,7 +1777,24 @@ def pgD0 (d : PGData a b) (r mu : ℝ) : Set (Fin (a+b) → ℝ) :=
   {J ∈ pgActionDomain d r mu | ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) ∈
     twoScaleDiophantine a b (params d r mu).gamma1 (params d r mu).gamma2 (pgTau a b)}
 
-/-- Parameter actions J0; raw output is in frozen angle/action order. No second torus predicate. -/
+/-- Exact P3 data; L is initialL, with a separate equality to C1/mu. -/
+def pgKamScale (d : PGData a b) (r mu : ℝ) : ScaleData :=
+  let C := kam_c1 d
+  ⟨pgTau a b,(params d r mu).gamma1,(params d r mu).gamma2,
+    pgWidth d/60,(params d r mu).rho,C*mu*r^5,C,C*mu,C/mu,C,C/mu,
+    initialL C (C*mu) (C/mu)⟩
+theorem pg_kam_hyp (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    KamHyp (pgActionDomain d r mu) (pgWidth d/15) (pgKamScale d r mu)
+      (kamH d mu) (kamF d r mu h) := sorry
+theorem pg_kam_dictionary (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    (pgKamScale d r mu).L = kam_c1 d/mu ∧
+    rhoHat (pgKamScale d r mu) = (params d r mu).rhoHat ∧
+    eHat (pgKamScale d r mu) = (params d r mu).Ehat ∧
+    dioBase (pgActionDomain d r mu) (kamH d mu) (pgKamScale d r mu) = pgD0 d r mu := sorry
+#check fun (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) =>
+  two_scale_kam (pg_kam_hyp d r mu h) (Eq.refl (pgKamScale d r mu).L)
+
+/-- Parameter actions J0; raw output is in frozen angle/action order. -/
 structure PGFamily (n : ℕ) where
   raw : (Fin n → ℝ) → (Fin n → ℝ) → Phase n
 
@@ -1419,7 +1823,7 @@ def PGFamilySpec (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r m
     IsCylinderTorus (degenerateHamiltonian d.H0 d.P mu) (cylinder d.V r)
       ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) (physicalTorus d r mu h F J))
 
-/-- Assembly bridge to P3; requires reconciliation with two_scale_kam, limit_actions, limit_phi. -/
+/-- Assembly from the single joint two_scale_kam output, via P1 cyl_pipeline. -/
 theorem torus_conv (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     ∃ F : PGFamily (a+b), PGFamilySpec d r mu h F := sorry
 
@@ -1447,13 +1851,30 @@ theorem cell_transfer (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d
 
 def kamMeasureConstant (n : ℕ) : ℝ := 1+(1+2^n)*(1+(4/3:ℝ)^n)
 
-theorem budget (d : PGData a b) : ∃ Cb : ℝ, 0 < Cb ∧ ∀ r mu : ℝ,
-    ∀ h : admissible d (pgRstar d) r mu,
-      volume (({z : Phase (a+b) | z.2 ∈ pgActionDomain d r mu ∧ z.1 ∈ unitCube (a+b)}) \
-        rawUnion d r mu h (pgD0 d r mu)) ≤
-        ENNReal.ofReal (kamMeasureConstant (a+b)*Cb*Real.sqrt r)*volume (pgActionDomain d r mu) := sorry
+def pgMeasureUpper1 (d : PGData a b) : ℝ :=
+  let p := pgAnalytic d
+  let t := pgTau a b
+  (pgInverseL d)^(a+b)/((volume d.V).toReal/2) *
+    max (4*(2*pgInverseR d)^(a-1)*latticeS (a+b) t)
+      (4*b^2*p.LB*(2*pgInverseR d)^a *
+        (2*3^(a+b-1)/(t+1-(a+b:ℕ))) *
+        (4*p.LN*pgInverseL d)^(t+1-(a+b:ℕ)))
 
-def pgBudget (d : PGData a b) : ℝ := (budget d).choose
+def pgMeasureUpper2 (d : PGData a b) : ℝ :=
+  b*(pgAnalytic d).LB*latticeS b (pgTau a b+1)
+
+def pgBudget (d : PGData a b) : ℝ :=
+  4^(b+1)*2*Real.pi*(pgScales d).k0 *
+    (5*pgMeasureUpper1 d+4*pgMeasureUpper2 d) +
+    8*(pgBoundaryA d+(pgAnalytic d).Cdio*pgCgamma d)/
+      (volume d.V).toReal + b*(pgScales d).k1/16
+
+theorem budget (d : PGData a b) : 0 < pgBudget d ∧
+    ∀ r mu : ℝ, ∀ h : admissible d (pgRstar d) r mu,
+      volume (({z : Phase (a+b) | z.2 ∈ pgActionDomain d r mu ∧
+        z.1 ∈ unitCube (a+b)}) \ rawUnion d r mu h (pgD0 d r mu)) ≤
+        ENNReal.ofReal (kamMeasureConstant (a+b)*pgBudget d*Real.sqrt r)*
+          volume (pgActionDomain d r mu) := by sorry
 
 /-- Exact Closs formula of the blueprint, with data-only selected component bounds. -/
 def pgLoss (d : PGData a b) : ℝ :=
