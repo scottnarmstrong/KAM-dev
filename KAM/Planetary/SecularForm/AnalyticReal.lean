@@ -26,7 +26,7 @@ open KAM KAM.Kepler
 namespace SecularForm
 variable {n : ℕ} (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ} (hr : r < rho D a)
 
-theorem planetBlock_assemble (x : Slow n) (t : Vec n) (i : Fin n) :
+theorem planetBlock_assemble_slow (x : Slow n) (t : Vec n) (i : Fin n) :
     planetBlock (assemble x.2.1 t x.2.2 x.1) i = (![t i, x.1 i], ![x.2.1 i, x.2.2 i]) := by
   simp [planetBlock, assemble, fast, slow, Fin.append_left]
 
@@ -38,7 +38,7 @@ theorem planetC_inclusion {x : Slow n} (hx : x ∈ realDisc D a r) (t : Vec n) (
   have h := (poincare_holomorphic (m := D.m i) (κ := D.G * D.m0) (Λo := action D a i)
     (D.hm i) (mul_pos D.hG D.hm0) hΛ).2.2.2.2
   have hb : blockC t (inclusion x) i = phaseToC (planetBlock (assemble x.2.1 t x.2.2 x.1) i) := by
-    rw [planetBlock_assemble]
+    rw [planetBlock_assemble_slow]
     refine Prod.ext (funext fun k => ?_) (funext fun k => ?_) <;> fin_cases k <;>
       simp [blockC, inclusion, phaseToC]
   have hmem := blockC_mem_nbhd D ha hr (t := t) hx i
