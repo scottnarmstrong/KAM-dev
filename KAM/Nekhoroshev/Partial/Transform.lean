@@ -107,7 +107,7 @@ theorem integral_flow_hasSum {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)
   have hsum := hc.lieSeries_summable (U := U)
   have hcb : ∀ j, ‖((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z‖ ≤ q ^ j * U := fun j =>
     sup_le_wbound (hterm j).1 (hterm j).2 z hz
-  have hFb : ∀ j, ∀ t ∈ Icc (0 : ℝ) 1,
+  have hFb : ∀ j, ∀ t ∈ Set.Icc (0 : ℝ) 1,
       ‖(t : ℂ) ^ j * (((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)‖ ≤ q ^ j * U :=
     fun j t ht => by
     rw [norm_mul, norm_pow, Complex.norm_real, Real.norm_of_nonneg ht.1]
@@ -266,6 +266,112 @@ theorem extRemSeries_hasSum {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ))
       (hc.extRemTerm_bound hU hW hf hw hfb hwb i).2 z hz).hasSum
 
 end ExtCompose
+
+namespace ExtCompose
+
+variable {b : PartialBlock n k} {R' s' R s ρ σ V U W : ℝ} {φ u h f : EC n k → ℂ}
+  (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) (hU : 0 ≤ U) (hW : 0 ≤ W)
+  (hh : InClass b.base R s h) (hf : InClass b.base R s f)
+  (hw : InClass b.base R s (extBracket b.c h φ))
+  (hfb : WBound b.base R s f U) (hwb : WBound b.base R s (extBracket b.c h φ) W)
+
+include hc hk in
+/-- The trajectory `t ↦ X^t z`, `t ∈ [0,1]`, solves the field in `𝒟_{R,s}` through `z`. -/
+theorem traj_solution {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+    KAM.ODE.IsSolutionIn (wfield b.c φ) (Dom n b.base R s) (Set.Icc 0 1)
+      (fun t => extFlow b R' s' ρ σ φ t z) ∧ extFlow b R' s' ρ σ φ 0 z = z := by
+  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.smallField hk) (hc.gaugeInterior_half hz)
+  refine ⟨fun t ht => ⟨?_, (hsol t ⟨by linarith [ht.1], ht.2⟩).2⟩, h0⟩
+  exact hc.tube_sub ((composition_domain b hk hc).2 t
+    (abs_le.2 ⟨by linarith [ht.1], ht.2⟩) hz)
+
+include hc hk hU hW hh hf hw hfb hwb in
+/-- Identity of the transform: the remainder series and `h ∘ X¹`. -/
+theorem transform_identity {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+    HasSum (fun i : ℕ => extRemTerm b.c φ h f i z)
+      (((∫ t in (0 : ℝ)..1, extBracket b.c h φ (extFlow b R' s' ρ σ φ t z)) -
+          extBracket b.c h φ z) + (f (extFlow b R' s' ρ σ φ 1 z) - f z)) ∧
+    h (extFlow b R' s' ρ σ φ 1 z) =
+      h z + ∫ t in (0 : ℝ)..1, extBracket b.c h φ (extFlow b R' s' ρ σ φ t z) := by
+  have HW := hc.integral_flow_hasSum hk hW hw hwb hz
+  have HW1 := (hasSum_nat_add_iff' 1).2 HW
+  have hsw : ∑ i ∈ range 1, ((i : ℂ) + 1)⁻¹ * (((i.factorial : ℂ)⁻¹) *
+      extAd b.c φ i (extBracket b.c h φ) z) = extBracket b.c h φ z := by simp [extAd]
+  rw [hsw] at HW1
+  have HF := (hc.hasSum_pt hk hU hf hfb hz)
+  have HF1 := (hasSum_nat_add_iff' 1).2 HF
+  have hsf : ∑ i ∈ range 1, ((i.factorial : ℂ)⁻¹) * extAd b.c φ i f z = f z := by
+    simp [extAd]
+  rw [hsf] at HF1
+  have hA : (fun i : ℕ => ((((i + 1 : ℕ) : ℂ) + 1)⁻¹) * (((((i + 1).factorial : ℕ) : ℂ)⁻¹) *
+      extAd b.c φ (i + 1) (extBracket b.c h φ) z)) =
+      fun i : ℕ => (((i + 2).factorial : ℂ)⁻¹) *
+        extAd b.c φ (i + 1) (extBracket b.c h φ) z := by
+    funext i
+    rw [Nat.factorial_succ (i + 1), Nat.cast_mul, mul_inv, ← mul_assoc,
+      mul_comm (((i + 1 : ℕ) : ℂ) + 1)⁻¹]
+    push_cast
+    ring_nf
+  rw [hA] at HW1
+  refine ⟨HW1.add HF1, ?_⟩
+  have hsub : Dom n b.base R s ⊆ Dom n b.base (R' - ρ) (s' - σ) :=
+    Dom_mono (by linarith [hc.radii]) (by linarith [hc.widths])
+  obtain ⟨hγ, h0⟩ := hc.traj_solution hk hz
+  have T := ext_taylor (isOpen_Dom _ _ _)
+    (hc.hol.differentiableOn.mono (hsub.trans hc.dom_sub)) hh.differentiableOn hγ 1 le_rfl
+  simp only [Finset.sum_range_one, h0, Nat.factorial_zero, Nat.cast_one, inv_one, one_mul,
+    Nat.sub_self, pow_zero, div_one, Complex.ofReal_one] at T
+  exact T
+
+end ExtCompose
+
+theorem transform (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ σ V U W : ℝ}
+    {φ h f : EC n k → ℂ} (hc : ExtCompose b R' s' R s ρ σ V φ)
+    (hh : InClass b.base R s h) (hf : InClass b.base R s f)
+    (hw : InClass b.base R s (extBracket b.c h φ)) (hU : 0 ≤ U) (hW : 0 ≤ W)
+    (hfb : WBound b.base R s f U) (hwb : WBound b.base R s (extBracket b.c h φ) W) :
+    let X := extFlow b R' s' ρ σ φ
+    let rem := fun z => ∫ t in (0:ℝ)..1,
+      extBracket b.c (fun x => ((1-t:ℝ):ℂ)*extBracket b.c h φ x+f x) φ (X t z)
+    (∀ z ∈ Dom n b.base (R-ρ) (s-σ),
+      (h+f) (X 1 z) = h z+extBracket b.c h φ z+f z+rem z) ∧
+    InClass b.base (R-ρ) (s-σ) rem ∧
+    WBound b.base (R-ρ) (s-σ) rem ((2*V/(ρ*σ))/(1-2*V/(ρ*σ))*(W/2+U)) := by
+  intro X rem
+  have hsub : Dom n b.base R s ⊆ Dom n b.base (R' - ρ) (s' - σ) :=
+    Dom_mono (by linarith [hc.radii]) (by linarith [hc.widths])
+  have hC1 : ∀ z ∈ Dom n b.base (R-ρ) (s-σ),
+      (h+f) (X 1 z) = h z+extBracket b.c h φ z+f z+rem z := fun z hz => by
+    obtain ⟨hγ, h0⟩ := hc.traj_solution hk hz
+    exact ext_taylor_second (isOpen_Dom _ _ _)
+      (hc.hol.differentiableOn.mono (hsub.trans hc.dom_sub)) hh.differentiableOn
+      hf.differentiableOn hγ h0
+  have hrem : ∀ z ∈ Dom n b.base (R-ρ) (s-σ),
+      rem z = ∑' i, ExtCompose.extRemTerm b.c φ h f i z := fun z hz => by
+    obtain ⟨hid, hh1⟩ := hc.transform_identity hk hU hW hh hf hw hfb hwb hz
+    have := hC1 z hz
+    have hs := (hc.extRemSeries_hasSum hU hW hf hw hfb hwb hz).unique hid
+    rw [hs]
+    have e : (h + f) (X 1 z) = h (X 1 z) + f (X 1 z) := rfl
+    rw [e, hh1] at this
+    linear_combination -this
+  have heq : EqOn (fun z => ∑' i, ExtCompose.extRemTerm b.c φ h f i z) rem (Dom n b.base (R-ρ) (s-σ)) :=
+    fun z hz => (hrem z hz).symm
+  exact ⟨hC1, inClass_congr_ext heq (hc.extRemSeries_class hU hW hf hw hfb hwb),
+    wbound_congr_ext (by linarith [hc.sig_lt]) heq (hc.extRemSeries_bound hU hW hf hw hfb hwb)⟩
+
+/-- Separate statement retains joint continuity required by the integral clause. -/
+theorem transform_integral (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ σ V U : ℝ}
+    {φ : EC n k → ℂ} (hc : ExtCompose b R' s' R s ρ σ V φ) (v : ℝ → EC n k → ℂ)
+    (hU : 0 ≤ U) (hv : ∀ t ∈ Set.Icc (0:ℝ) 1, InClass b.base R s (v t))
+    (hvb : ∀ t ∈ Set.Icc (0:ℝ) 1, WBound b.base R s (v t) U)
+    (hcont : ContinuousOn (fun p : ℝ × EC n k => v p.1 p.2) (Set.Icc 0 1 ×ˢ Dom n b.base R s))
+    (hdcont : ContinuousOn (fun p : ℝ × EC n k => fderiv ℂ (v p.1) p.2)
+      (Set.Icc 0 1 ×ˢ Dom n b.base R s)) :
+    InClass b.base (R-ρ) (s-σ) (fun z => ∫ t in (0:ℝ)..1, v t (extFlow b R' s' ρ σ φ t z)) ∧
+    WBound b.base (R-ρ) (s-σ) (fun z => ∫ t in (0:ℝ)..1, v t (extFlow b R' s' ρ σ φ t z))
+      ((1-2*V/(ρ*σ))⁻¹*U) :=
+  ⟨hc.integral_inClass hk hv hcont hdcont, hc.integral_bound hk hU hv hvb hcont⟩
 
 end KAM.Nekhoroshev
 
