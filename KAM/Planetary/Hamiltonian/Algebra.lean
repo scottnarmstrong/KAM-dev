@@ -15,8 +15,9 @@ public import KAM.Frozen.Planetary.Defs.Phase
 
 `bpP:p1:conv#data` (the linear Hamiltonian field `X_ℓ`) and `bpP:p1:omega-algebra`: antisymmetry and
 nondegeneracy of `Ω`, the identity `Ω(w, X_ℓ) = ℓ w`, and the consequences for conformally
-symplectic linear maps (bijectivity, `|det A| = |c|^d`, `A X_{ℓ∘A} = c X_ℓ`). Matrices are avoided in the
-statements; the determinant identity is proved through the Gram matrix of `Ω` in the product basis.
+symplectic linear maps (bijectivity, `|det A| = |c|^d`, `A X_{ℓ∘A} = c X_ℓ`). Matrices are avoided
+in the statements; the determinant identity is proved through the Gram matrix of `Ω` in the product
+basis.
 -/
 
 @[expose] public noncomputable section
@@ -92,7 +93,8 @@ theorem eq_linearField_iff (ℓ : Phase d →L[ℝ] ℝ) (v : Phase d) :
   · rintro rfl w
     exact symplecticForm_linearField ℓ w
 
-/-- (a) last clause: `Ω(w, X_H z) = DH(z) w` for every `z` (both sides `0` off differentiability). -/
+/-- (a) last clause: `Ω(w, X_H z) = DH(z) w` for every `z` (both sides `0` off
+differentiability). -/
 theorem symplecticForm_hamiltonianVectorField (H : Phase d → ℝ) (z w : Phase d) :
     symplecticForm w (hamiltonianVectorField H z) = fderiv ℝ H z w :=
   symplecticForm_linearField _ w
