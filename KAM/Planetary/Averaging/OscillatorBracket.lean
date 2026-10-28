@@ -599,6 +599,101 @@ theorem ob_der {r₀ rp₀ rq₀ S₀ r rp rq S ρ ρp ρq σ A : ℝ} {u : CHam
 
 end ObDer
 
+section ObField
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)}
+
+theorem oscDom_mono {a a' b b' c c' S S' : ℝ} (ha : a ≤ a') (hb : b ≤ b') (hc : c ≤ c')
+    (hS : S ≤ S') : oscDom (m := m) D a b c S ⊆ oscDom D a' b' c' S' := fun z hz =>
+  ⟨fun i => (hz.1 i).trans_le hS, oscParams_mono ha hb hc hz.2⟩
+
+theorem oscClass.mono {a a' b b' c c' S S' : ℝ} {u : CHam (n + m)} (hu : oscClass D a' b' c' S' u)
+    (ha : a ≤ a') (hb : b ≤ b') (hc : c ≤ c') (hS : S ≤ S') : oscClass D a b c S u :=
+  ⟨hu.1.mono (oscDom_mono ha hb hc hS), fun j z hz => hu.2 j z (oscDom_mono ha hb hc hS hz)⟩
+
+theorem oscClass.fderiv_apply {r rp rq S : ℝ} {u : CHam (n + m)} (hu : oscClass D r rp rq S u)
+    (a : CPhase (n + m)) : oscClass D r rp rq S (fun z => fderiv ℂ u z a) := by
+  have hU := isOpen_oscDom (m := m) D r rp rq S
+  have hreg := KAM.holomorphic_regularity_of_finiteDimensional hU hu.1
+  refine ⟨hreg.1.clm_apply (differentiableOn_const a), fun j z hz => ?_⟩
+  set e : CPhase (n + m) := (Pi.single (Fin.castAdd m j) 1, 0) with he
+  have hper : ∀ w ∈ oscDom (m := m) D r rp rq S, u (w + e) = u w := fun w hw => by
+    have hwe : w + e = (w.1 + Pi.single (Fin.castAdd m j) 1, w.2) := by ext <;> simp [he]
+    rw [hwe]; exact hu.2 j w hw
+  have hze : (z.1 + Pi.single (Fin.castAdd m j) 1, z.2) = z + e := by ext <;> simp [he]
+  show fderiv ℂ u (z.1 + Pi.single (Fin.castAdd m j) 1, z.2) a = fderiv ℂ u z a
+  rw [hze, fderiv_shift_eq hU e hper hz]
+
+theorem oscBound.norm_le {r rp rq S M : ℝ} {g : CHam (n + m)} (hg : oscClass D r rp rq S g)
+    (hb : oscBound D r rp rq S g M) : ∀ z ∈ oscDom (m := m) D r rp rq S, ‖g z‖ ≤ M := by
+  intro z hz
+  have h := norm_le_of_wsum (isOpen_oscParams (m := m) D r rp rq) hg.flat hb (oscPack z) hz
+  simpa [oscFunction, s_osc_data] using h
+
+theorem ob_field {r rp rq S ρ ρp ρq σ E : ℝ} {φ : CHam (n + m)}
+    (hφ : oscClass D r rp rq S φ) (hE : oscBound D r rp rq S φ E)
+    (hρ : 0 < ρ ∧ ρ < r) (hρp : 0 < ρp ∧ ρp < rp) (hρq : 0 < ρq ∧ ρq < rq)
+    (hσ : 0 < σ ∧ σ < S) :
+    ∀ z ∈ oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ),
+      oscGauge ρ ρp ρq σ (KAM.hamiltonianVectorFieldℂ φ z) ≤ E / min (ρ * σ) (ρp * ρq) := by
+  intro z hz
+  obtain ⟨hρ0, hρr⟩ := hρ
+  obtain ⟨hρp0, hρpr⟩ := hρp
+  obtain ⟨hρq0, hρqr⟩ := hρq
+  obtain ⟨hσ0, hσS⟩ := hσ
+  obtain ⟨hθ, hI, hp, hq⟩ := ob_der (n := n) (m := m) (D := D) (r₀ := r) (rp₀ := rp) (rq₀ := rq)
+    (S₀ := S) (r := r) (rp := rp) (rq := rq) (S := S) (ρ := ρ) (ρp := ρp) (ρq := ρq) (σ := σ)
+    hφ hE ⟨by linarith, by linarith, by linarith, by linarith⟩
+    ⟨by linarith, by linarith, by linarith, by linarith⟩
+  have hT : ∀ a : CPhase (n + m), oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => fderiv ℂ φ z a) := fun a =>
+    (hφ.fderiv_apply a).mono (by linarith) (by linarith) (by linarith) (by linarith)
+  have hx : (oscPack z).2 ∈ oscParams (m := m) D r rp rq :=
+    oscParams_mono (by linarith) (by linarith) (by linarith) hz.2
+  have hE0 : 0 ≤ E := nonneg_of_wsum (F := oscFunction φ) hE hx
+  set M := min (ρ * σ) (ρp * ρq) with hM
+  have hMpos : 0 < M := lt_min (by positivity) (by positivity)
+  have hM1 : M ≤ ρ * σ := min_le_left _ _
+  have hM2 : M ≤ ρp * ρq := min_le_right _ _
+  have key : ∀ {x a b : ℝ}, 0 < a → 0 < b → x ≤ E / a → M ≤ a * b → x / b ≤ E / M :=
+    fun {x a b} ha hb hx hab => by
+      calc x / b ≤ E / a / b := div_le_div_of_nonneg_right hx hb.le
+        _ = E / (a * b) := div_div _ _ _
+        _ ≤ E / M := div_le_div_of_nonneg_left hE0 hMpos hab
+  have hexp : 1 ≤ Real.exp 1 := by linarith [Real.add_one_le_exp (1 : ℝ)]
+  have bθ : ∀ j : Fin n, ‖fderiv ℂ φ z (Pi.single (Fin.castAdd m j) 1, 0)‖ ≤ E / σ := fun j => by
+    have h := oscBound.norm_le (hT _) (hθ j) z hz
+    have e : S - S + σ = σ := by ring
+    rw [e] at h
+    refine h.trans ?_
+    exact div_le_div_of_nonneg_left hE0 hσ0 (by nlinarith)
+  have bI : ∀ j : Fin n, ‖fderiv ℂ φ z (0, Pi.single (Fin.castAdd m j) 1)‖ ≤ E / ρ := fun j => by
+    have h := oscBound.norm_le (hT _) (hI j) z hz
+    have e : r - r + ρ = ρ := by ring
+    rwa [e] at h
+  have bp : ∀ j : Fin m, ‖fderiv ℂ φ z (0, Pi.single (Fin.natAdd n j) 1)‖ ≤ E / ρp := fun j => by
+    have h := oscBound.norm_le (hT _) (hp j) z hz
+    have e : rp - rp + ρp = ρp := by ring
+    rwa [e] at h
+  have bq : ∀ j : Fin m, ‖fderiv ℂ φ z (Pi.single (Fin.natAdd n j) 1, 0)‖ ≤ E / ρq := fun j => by
+    have h := oscBound.norm_le (hT _) (hq j) z hz
+    have e : rq - rq + ρq = ρq := by ring
+    rwa [e] at h
+  unfold oscGauge
+  refine max_le (max_le ?_ ?_) (max_le ?_ ?_)
+  · refine key hρ0 hσ0 ?_ hM1
+    exact (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => bI j
+  · refine key hσ0 hρ0 ?_ (by linarith)
+    refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => ?_
+    simpa [KAM.hamiltonianVectorFieldℂ, firstBlock] using bθ j
+  · refine key hρp0 hρq0 ?_ hM2
+    exact (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => bp j
+  · refine key hρq0 hρp0 ?_ (by linarith)
+    refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => ?_
+    simpa [KAM.hamiltonianVectorFieldℂ, lastBlock] using bq j
+
+end ObField
+
 end KAM.Planetary
 
 end
