@@ -62,7 +62,8 @@ private theorem contDiffOn_realPart (hD : DifferentiableOn ℂ h (polyNbhd (cpx 
   have h1 : ContDiffOn ℝ ∞ h (polyNbhd (cpx P) r0) := hreg.2.2.1.restrict_scalars ℝ
   have h2 : ContDiffOn ℝ ∞ (fun I : Fin n → ℝ => h (KAM.realInclusion n I)) (realNbhd P r0) :=
     h1.comp (KAM.realInclusion n).contDiff.contDiffOn fun _ hI => realInclusion_mem_polyNbhd'' hI
-  exact (Complex.reCLM.contDiff.comp_contDiffOn h2).of_le ((by norm_num : (2 : WithTop ℕ∞) ≤ 2).trans (WithTop.coe_le_coe.2 le_top))
+  exact (Complex.reCLM.contDiff.comp_contDiffOn h2).of_le
+    ((by norm_num : (2 : WithTop ℕ∞) ≤ 2).trans (WithTop.coe_le_coe.2 le_top))
 
 /-- `Re g` of a function holomorphic on `V_{r0} P` and real on the real points of `U_{r0} P` is
 differentiable at those points, with `D (Re g) e = D g (ι e)`. -/
@@ -101,7 +102,7 @@ private theorem freq_eq (hD : DifferentiableOn ℂ h (polyNbhd (cpx P) r0))
   rw [KAM.realInclusion_single] at h1
   exact h1
 
-/-- The derivative of the frequency map on `U_{r0} P`, with its complex and real Hessian formulas. -/
+/-- The derivative of the frequency map on `U_{r0} P`, with complex and real Hessian formulas. -/
 private theorem freq_deriv (hD : DifferentiableOn ℂ h (polyNbhd (cpx P) r0))
     (hreal : ∀ I ∈ realNbhd P r0, (h (KAM.realInclusion n I)).im = 0) {I : Fin n → ℝ}
     (hI : I ∈ realNbhd P r0) :
@@ -257,6 +258,154 @@ theorem local_real_regularity (S : Theorem1Setting P r0 s m M ell h f) :
     rw [hL.fderiv]
     ext i
     exact hLc v i
+
+/-- Supremum is used only on this guarded domain: a compact nonempty ball inside U_r0 P. -/
+structure FrequencyBall (S : Theorem1Setting P r0 s m M ell h f) where
+  center : Fin n → ℝ
+  mem : center ∈ P
+  radius : ℝ
+  nonneg : 0 ≤ radius
+  lt : radius < r0
+
+def FrequencyBall.points {S : Theorem1Setting P r0 s m M ell h f} (B : FrequencyBall S) :
+    Set (Fin n → ℝ) := {I | euclid (I - B.center) ≤ B.radius}
+
+def FrequencyBall.maximum {S : Theorem1Setting P r0 s m M ell h f} (B : FrequencyBall S) : ℝ :=
+  sSup ((fun I => euclid (KAM.frequencyMap h I)) '' B.points)
+
+/-- Euclidean mean value inequality for the frequency map along a segment in `U_{r0} P`. -/
+private theorem freq_lip (S : Theorem1Setting P r0 s m M ell h f) {c I : Fin n → ℝ}
+    (hseg : ∀ t ∈ Icc (0 : ℝ) 1, c + t • (I - c) ∈ realNbhd P r0) :
+    euclid (KAM.frequencyMap h I) ≤ euclid (KAM.frequencyMap h c) + M * euclid (I - c) := by
+  have hre : ∀ J ∈ realNbhd P r0, (h (KAM.realInclusion n J)).im = 0 := fun J hJ =>
+    im_eq_zero_of_realOn S.hs S.real hJ
+  have hM0 : 0 ≤ M := (S.hm.le).trans S.hmM
+  set F : Fin n → ℝ := KAM.frequencyMap h I - KAM.frequencyMap h c with hFdef
+  have hE0 : 0 ≤ euclid F := Real.sqrt_nonneg _
+  have hmain : euclid F ≤ M * euclid (I - c) := by
+    rcases hE0.eq_or_lt with h0 | hpos
+    · rw [← h0]; exact mul_nonneg hM0 (Real.sqrt_nonneg _)
+    set pt : ℝ → Fin n → ℝ := fun t => c + t • (I - c) with hpt
+    have hder : ∀ t ∈ Icc (0 : ℝ) 1, HasDerivAt
+        (fun t => ∑ i, F i * KAM.frequencyMap h (pt t) i)
+        (∑ i, F i * (fderiv ℝ (KAM.frequencyMap h) (pt t) (I - c)) i) t := by
+      intro t ht
+      obtain ⟨L, hL, -⟩ := freq_deriv S.holo hre (hseg t ht)
+      have hp : HasDerivAt pt (I - c) t := by
+        exact (((hasDerivAt_id t).smul_const (I - c)).const_add c).congr_deriv (one_smul _ _)
+      have h1 := hL.comp_hasDerivAt t hp
+      rw [hL.fderiv]
+      refine HasDerivAt.fun_sum fun i _ => ?_
+      exact (hasDerivAt_pi.1 h1 i).const_mul (F i)
+    have hcont : ContinuousOn (fun t => ∑ i, F i * KAM.frequencyMap h (pt t) i) (Icc 0 1) :=
+      fun t ht => (hder t ht).continuousAt.continuousWithinAt
+    obtain ⟨ξ, hξ, hξd⟩ := exists_hasDerivAt_eq_slope
+      (fun t => ∑ i, F i * KAM.frequencyMap h (pt t) i)
+      (fun t => ∑ i, F i * (fderiv ℝ (KAM.frequencyMap h) (pt t) (I - c)) i) zero_lt_one hcont
+      (fun t ht => hder t ⟨ht.1.le, ht.2.le⟩)
+    have hg1 : ∑ i, F i * KAM.frequencyMap h (pt 1) i = ∑ i, F i * KAM.frequencyMap h I i := by
+      simp [hpt]
+    have hg0 : ∑ i, F i * KAM.frequencyMap h (pt 0) i = ∑ i, F i * KAM.frequencyMap h c i := by
+      simp [hpt]
+    have hsq : euclid F ^ 2 = ∑ i, F i * (KAM.frequencyMap h I i - KAM.frequencyMap h c i) := by
+      rw [euclid_sq_real]
+      refine Finset.sum_congr rfl fun i _ => ?_
+      rw [sq]; rfl
+    have hslope : ∑ i, F i * (fderiv ℝ (KAM.frequencyMap h) (pt ξ) (I - c)) i = euclid F ^ 2 := by
+      rw [hξd, hg1, hg0, sub_zero, div_one, hsq, ← Finset.sum_sub_distrib]
+      exact Finset.sum_congr rfl fun i _ => by ring
+    obtain ⟨L, hL, hLc, -⟩ := freq_deriv S.holo hre (hseg ξ ⟨hξ.1.le, hξ.2.le⟩)
+    have hb := freq_bound S.hess (hseg ξ ⟨hξ.1.le, hξ.2.le⟩) L hLc (I - c)
+    rw [hL.fderiv] at hslope
+    have hd : ∑ i, F i * L (I - c) i ≤ euclid F * euclid (L (I - c)) :=
+      (le_abs_self _).trans (abs_dot_le_euclid F (L (I - c)))
+    have h2 : euclid F * euclid F ≤ euclid F * (M * euclid (I - c)) := by
+      calc euclid F * euclid F = euclid F ^ 2 := (sq _).symm
+        _ = _ := hslope.symm
+        _ ≤ euclid F * euclid (L (I - c)) := hd
+        _ ≤ _ := by gcongr
+    exact le_of_mul_le_mul_left h2 hpos
+  calc euclid (KAM.frequencyMap h I)
+      = euclid (KAM.frequencyMap h c + F) := by rw [hFdef]; congr 1; abel
+    _ ≤ euclid (KAM.frequencyMap h c) + euclid F := isActionNorm_euclid.add_le _ _
+    _ ≤ _ := by gcongr
+
+theorem frequency_maximum {S : Theorem1Setting P r0 s m M ell h f} (B : FrequencyBall S) :
+    B.points ⊆ realNbhd P r0 ∧ IsCompact B.points ∧ B.points.Nonempty ∧
+    (∃ I ∈ B.points, B.maximum = euclid (KAM.frequencyMap h I)) ∧
+    (∀ I ∈ B.points, euclid (KAM.frequencyMap h I) ≤ B.maximum) ∧
+    euclid (KAM.frequencyMap h B.center) ≤ B.maximum ∧
+    B.maximum ≤ euclid (KAM.frequencyMap h B.center) + M * B.radius := by
+  have hM0 : 0 ≤ M := (S.hm.le).trans S.hmM
+  have hsub : B.points ⊆ realNbhd P r0 := by
+    intro I hI
+    exact ⟨B.center, B.mem, lt_of_le_of_lt (((norm_le_euclid (I - B.center)).1).trans hI) B.lt⟩
+  have hcl : IsClosed B.points :=
+    isClosed_le (isActionNorm_euclid.continuous.comp (continuous_id.sub continuous_const))
+      continuous_const
+  have hbd : Bornology.IsBounded B.points := by
+    refine (Metric.isBounded_closedBall (x := B.center) (r := B.radius)).subset fun I hI => ?_
+    rw [Metric.mem_closedBall, dist_eq_norm]
+    exact ((norm_le_euclid (I - B.center)).1).trans hI
+  have hcomp : IsCompact B.points := Metric.isCompact_of_isClosed_isBounded hcl hbd
+  have hc0 : B.center ∈ B.points := by
+    show euclid (B.center - B.center) ≤ B.radius
+    rw [sub_self, isActionNorm_euclid.map_zero]
+    exact B.nonneg
+  have hcont : ContinuousOn (fun I => euclid (KAM.frequencyMap h I)) B.points :=
+    isActionNorm_euclid.continuous.comp_continuousOn
+      ((local_real_regularity S).2.1.mono hsub)
+  obtain ⟨I1, hI1, hmax⟩ := hcomp.exists_isMaxOn ⟨B.center, hc0⟩ hcont
+  have hgr : IsGreatest ((fun I => euclid (KAM.frequencyMap h I)) '' B.points)
+      (euclid (KAM.frequencyMap h I1)) :=
+    ⟨mem_image_of_mem _ hI1, by rintro _ ⟨x, hx, rfl⟩; exact isMaxOn_iff.1 hmax x hx⟩
+  have hmx : B.maximum = euclid (KAM.frequencyMap h I1) := hgr.csSup_eq
+  have hle : ∀ I ∈ B.points, euclid (KAM.frequencyMap h I) ≤ B.maximum := fun I hI => by
+    rw [hmx]; exact isMaxOn_iff.1 hmax I hI
+  refine ⟨hsub, hcomp, ⟨B.center, hc0⟩, ⟨I1, hI1, hmx⟩, hle, hle _ hc0, ?_⟩
+  rw [hmx]
+  have hseg : ∀ t ∈ Icc (0 : ℝ) 1, B.center + t • (I1 - B.center) ∈ realNbhd P r0 := by
+    intro t ht
+    refine hsub ?_
+    show euclid (B.center + t • (I1 - B.center) - B.center) ≤ B.radius
+    rw [add_sub_cancel_left, isActionNorm_euclid.smul, abs_of_nonneg ht.1]
+    calc t * euclid (I1 - B.center) ≤ 1 * B.radius :=
+          mul_le_mul ht.2 hI1 (Real.sqrt_nonneg _) zero_le_one
+      _ = B.radius := one_mul _
+  calc euclid (KAM.frequencyMap h I1)
+      ≤ euclid (KAM.frequencyMap h B.center) + M * euclid (I1 - B.center) := freq_lip S hseg
+    _ ≤ _ := by gcongr; exact hI1
+
+theorem omega0_radius (S : Theorem1Setting P r0 s m M ell h f) :
+    0 ≤ r0 / thmA m M ∧ r0 / thmA m M < r0 := by
+  have hA : 11 ≤ thmA m M := by
+    unfold thmA
+    rw [mul_div_assoc]
+    have : 1 ≤ M / m := (one_le_div S.hm).2 S.hmM
+    linarith
+  have hA0 : 0 < thmA m M := by linarith
+  refine ⟨div_nonneg S.hr0.le hA0.le, ?_⟩
+  rw [div_lt_iff₀ hA0]
+  nlinarith [S.hr0]
+
+def omega0Ball (S : Theorem1Setting P r0 s m M ell h f)
+    (I0 : Fin n → ℝ) (hI : I0 ∈ P) : FrequencyBall S :=
+  ⟨I0, hI, r0 / thmA m M, (omega0_radius S).1, (omega0_radius S).2⟩
+
+theorem omega0 (S : Theorem1Setting P r0 s m M ell h f)
+    (I0 : Fin n → ℝ) (hI : I0 ∈ P) :
+    let B := omega0Ball S I0 hI
+    B.points ⊆ realNbhd P r0 ∧
+    (∃ I ∈ B.points, B.maximum = euclid (KAM.frequencyMap h I)) ∧
+    (∀ I ∈ B.points, euclid (KAM.frequencyMap h I) ≤ B.maximum) ∧
+    euclid (KAM.frequencyMap h I0) ≤ B.maximum ∧
+    B.maximum ≤ euclid (KAM.frequencyMap h I0) + M * r0 / thmA m M := by
+  intro B
+  obtain ⟨h1, -, -, h4, h5, h6, h7⟩ := frequency_maximum B
+  refine ⟨h1, h4, h5, h6, ?_⟩
+  have : B.radius = r0 / thmA m M := rfl
+  rw [this] at h7
+  rwa [← mul_div_assoc] at h7
 
 end Theorem1
 
