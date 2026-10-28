@@ -321,6 +321,7 @@ public import KAM.Nekhoroshev.Averaging.FlowChain
 public import KAM.Nekhoroshev.Averaging.FlowDefs
 public import KAM.Nekhoroshev.Averaging.FlowRegular
 public import KAM.Nekhoroshev.Averaging.FlowSymplectic
+public import KAM.Nekhoroshev.Averaging.GoodSet
 public import KAM.Nekhoroshev.Averaging.Identity
 public import KAM.Nekhoroshev.Averaging.LocalDependence
 public import KAM.Nekhoroshev.Averaging.PicardDerivatives
@@ -513,6 +514,7 @@ public import KAM.Planetary.SecularForm.LaplacePoch
 public import KAM.Planetary.SecularForm.LaplaceSeries
 public import KAM.Planetary.SecularForm.ParameterIntegral
 public import KAM.Planetary.SecularForm.ProductInterface
+public import KAM.Planetary.SecularForm.Symmetry
 public import KAM.Planetary.SecularSpectrum.Lift.Analytic
 public import KAM.Planetary.SecularSpectrum.Lift.Basic
 public import KAM.Planetary.SecularSpectrum.Lift.Calculus
