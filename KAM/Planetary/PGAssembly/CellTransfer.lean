@@ -251,6 +251,19 @@ theorem ct_kset_cover (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d
     refine ⟨_, ⟨_, m1, rfl⟩, ?_⟩
     rw [ct_phi_shift d r mu h hsub hy.1, ct_blockFast_append]
 
+/-- Step `stepP:p5:ct-dec` (sigma-compactness clause): the chart image
+`T = φ '' (angleScale (2π) '' outputRepresentative)` of the translate decomposition
+`ct_kset_cover` is sigma-compact. -/
+theorem ct_chartImage_sigmaCompact (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
+    {B : Set (Fin (a+b) → ℝ)} (hB : IsSigmaCompact B) (hsub : B ⊆ pgD0 d r mu) :
+    IsSigmaCompact
+      (phi d r mu h '' (angleScale (2*Real.pi) '' outputRepresentative d r mu h B)) := by
+  have hR := ct_sigmaCompact_inter_cell (ct_rawUnion_sigmaCompact d r mu h hB hsub)
+  have hA := hR.image (ct_continuous_angleScale (2*Real.pi))
+  obtain ⟨_, hchart, _, _⟩ := phi_chart d r mu h
+  exact hA.image_of_continuousOn (hchart.1.continuousOn.mono
+    ((image_mono inter_subset_left).trans (ct_scaled_subset d r mu h hsub)))
+
 theorem cell_transfer (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
     {B : Set (Fin (a+b) → ℝ)} (hB : IsSigmaCompact B) (hsub : B ⊆ pgD0 d r mu) :
     IsSigmaCompact (outputRepresentative d r mu h B) ∧ MeasurableSet (kset d r mu h B) ∧
