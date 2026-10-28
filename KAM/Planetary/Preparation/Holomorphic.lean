@@ -10,6 +10,7 @@ public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.Preparation.Patch
 public import KAM.Planetary.Preparation.AnalyticExtension
 public import KAM.Planetary.Preparation.Schwarz
+public import KAM.Planetary.Preparation.HolomorphicRotation
 public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Hamiltonian.HolChart
 
@@ -52,7 +53,8 @@ structure P11SecularData (n : ℕ) where
   F : P11Phase (n+n) → ℂ
   rho : P11CVec n → Matrix (Fin n) (Fin n) ℂ
   chart : Phase (n+n) → Phase (n*2)
-/-- Literal P9 inverse lift after the canonical period conversion T1; positions and momenta keep frozen order. -/
+/-- Literal P9 inverse lift after the canonical period conversion T1; positions and momenta keep
+frozen order. -/
 def p11ChartInput {n : ℕ} (C : P11SecularData n) (z : Phase (n+n)) : Phase (n+n) :=
   let L : P11Vec n := fun i => fast z.2 i/(2*Real.pi)
   let x := KAM.realInclusion n (slow z.1)
@@ -60,7 +62,8 @@ def p11ChartInput {n : ℕ} (C : P11SecularData n) (z : Phase (n+n)) : Phase (n+
   let R := C.rho (KAM.realInclusion n L)
   assemble L
     (fun l => 2*Real.pi*fast z.1 l+
-      (∑ i, ∑ j, y i*(R.transpose*fderiv ℂ C.rho (KAM.realInclusion n L) (Pi.single l 1)) i j*x j).re)
+      (∑ i, ∑ j,
+        y i*(R.transpose*fderiv ℂ C.rho (KAM.realInclusion n L) (Pi.single l 1)) i j*x j).re)
     (fun i => (R.mulVec y i).re) (fun i => (R.mulVec x i).re)
 def p11WorkingH {n : ℕ} (C : P11SecularData n) (eps : ℝ) (z : P11Phase (n+n)) : ℂ :=
   C.h (fun i : Fin n => z.2 (Fin.castAdd n i))+eps*C.F z
@@ -70,7 +73,8 @@ def p11FastMean {n : ℕ} (F : P11Phase (n+n) → ℂ) (J : P11CVec n) (z : P11P
 def P11SecularSpec {n : ℕ} (D : P11Physical n) (C : P11SecularData n) : Prop :=
   (∀ J : P11Vec n, KAM.realInclusion n J ∈ Metric.ball (KAM.realInclusion n C.J0) (2*C.rC) →
     J ∈ (p11PatchData D).V ∧
-    (∀ i : Fin n, (C.omega (KAM.realInclusion n J) i).re=(p11PatchData D).varpi J (Fin.castAdd n i)) ∧
+    (∀ i : Fin n,
+      (C.omega (KAM.realInclusion n J) i).re=(p11PatchData D).varpi J (Fin.castAdd n i)) ∧
     (∀ i : Fin n, (C.Omega (KAM.realInclusion n J) i).re=
       2*Real.pi*(p11PatchData D).varpi J (Fin.natAdd n i))) ∧
   (∀ J : P11Vec n, ‖J-C.J0‖ < 2*C.rC →
@@ -82,7 +86,8 @@ def P11SecularSpec {n : ℕ} (D : P11Physical n) (C : P11SecularData n) : Prop :
   (∀ J ∈ Metric.ball (KAM.realInclusion n C.J0) (2*C.rC),
     C.omega J=fun i => fderiv ℂ C.h J (Pi.single i 1)) ∧
   (∀ J ∈ Metric.ball (KAM.realInclusion n C.J0) (2*C.rC), ∀ j ≤ (p11PatchData D).mu+1,
-    ‖iteratedFDeriv ℂ j (fun J => Fin.append (C.omega J) ((2*Real.pi : ℂ)⁻¹ • C.Omega J)) J‖ ≤ C.L) ∧
+    ‖iteratedFDeriv ℂ j
+      (fun J => Fin.append (C.omega J) ((2*Real.pi : ℂ)⁻¹ • C.Omega J)) J‖ ≤ C.L) ∧
   C.J0 ∈ interior (p11PatchData D).K ∧ 0 < C.gamma ∧ C.gamma ≤ 1 ∧
   KAM.IsDiophantine C.gamma C.tau ((p11PatchData D).varpi C.J0) ∧
   0 < C.rC ∧ C.rC ≤ 1 ∧ C.rC ≤ Real.pi*p11PhysicalDelta D/8 ∧ 0 < C.sigma ∧ C.sigma ≤ 1/4 ∧
@@ -102,16 +107,20 @@ def P11SecularSpec {n : ℕ} (D : P11Physical n) (C : P11SecularData n) : Prop :
     (∀ i j, (C.rho (KAM.realInclusion n L) i j).im=0) ∧
     (C.rho (KAM.realInclusion n L)).det=1 ∧
     (let R : Matrix (Fin n) (Fin n) ℝ := fun i j => (C.rho (KAM.realInclusion n L) i j).re
-     R.transpose*p11SecularMatrix D L*R=Matrix.diagonal ((p11PatchData D).sigma ((2*Real.pi) • L)))) ∧
-  (DifferentiableOn ℂ C.rho (Metric.ball ((2*Real.pi)⁻¹ • KAM.realInclusion n C.J0) (C.rC/Real.pi)) ∧
+     R.transpose*p11SecularMatrix D L*R=
+       Matrix.diagonal ((p11PatchData D).sigma ((2*Real.pi) • L)))) ∧
+  (DifferentiableOn ℂ C.rho
+    (Metric.ball ((2*Real.pi)⁻¹ • KAM.realInclusion n C.J0) (C.rC/Real.pi)) ∧
    ∀ J ∈ Metric.ball ((2*Real.pi)⁻¹ • KAM.realInclusion n C.J0) (C.rC/Real.pi),
      (C.rho J).transpose*C.rho J=1 ∧
      (∀ i, (∑ j, ‖C.rho J i j‖) ≤ C.Brho) ∧
-     (∀ l : Fin n, ∀ i, (∑ j, ‖((C.rho J).transpose*fderiv ℂ C.rho J (Pi.single l 1)) i j‖) ≤ C.Bdrho)) ∧
+     (∀ l : Fin n, ∀ i,
+       (∑ j, ‖((C.rho J).transpose*fderiv ℂ C.rho J (Pi.single l 1)) i j‖) ≤ C.Bdrho)) ∧
   (let O := KAM.realInclusion₂ (n+n) ⁻¹' p11WorkingDom n C.J0 (2*C.sigma) (2*C.rC) C.rz
    AnalyticOnNhd ℝ C.chart O ∧ KAM.Kepler.IsSymplecticOn 1 C.chart O ∧
    (∀ z ∈ O, p11ChartInput C z ∈ poincareProdDom n ∧
-     C.chart z=poincareProd D.m (D.G*D.m0) (p11ChartInput C z) ∧ C.chart z ∈ collisionFreeDomain n) ∧
+     C.chart z=poincareProd D.m (D.G*D.m0) (p11ChartInput C z) ∧
+       C.chart z ∈ collisionFreeDomain n) ∧
    (∀ z ∈ O, ∀ k : Fin n → ℤ,
      C.chart (z.1+Fin.append (fun i => (k i : ℝ)) 0,z.2)=C.chart z) ∧
    (∀ z ∈ O, ∀ z' ∈ O, C.chart z=C.chart z' →
