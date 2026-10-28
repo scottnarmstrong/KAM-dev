@@ -84,6 +84,36 @@ def pgMeasureData (d : PGData a b) (core : Set (Fin a → ℝ)) (hcore : IsCompa
   N3 := fun mu hmu I hI v =>
     real_N3 d ⟨hmu.1.le, hmu.2.trans (min_le_left _ _)⟩ (hcoreV hI) v
 
+/-- Parameter facts of the budget, read off `rstar`, `kh_dyn` and `rK`. -/
+theorem budget_facts (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar d) r mu) :
+    0 < r ∧ r < 1 ∧ 0 < mu ∧ mu < r^6 ∧ mu ≤ pgMu1 d ∧ 0 < (params d r mu).l1 ∧
+    (params d r mu).l1 ≤ r^2/12 ∧ r^2/4 ≤ (params d r mu).ell ∧ 0 < (params d r mu).rK ∧
+    (params d r mu).rK < (params d r mu).l1 ∧ (params d r mu).rK < Real.sqrt r ∧
+    ENNReal.ofReal (1/2)*volume d.V ≤ volume (innerCore d.V (Real.sqrt r)) ∧
+    ENNReal.ofReal (1/4)*volume d.V ≤ volume (checkedCore d r mu) := by
+  obtain ⟨-, -, -, -, -, hR6, -, -, -, -, -, hdyn⟩ := (rstar d).choose_spec
+  obtain ⟨-, -, -, -, -, -, hl1, hell, -, -, -, -, hrK, -, hv1, hv2⟩ := hdyn r mu h
+  have hh := h
+  obtain ⟨hr0, hrR, hmu0, hmu0', hmulog⟩ := hh
+  have hR1 := (rstar d).choose_spec.2.2.2.1
+  have hlog : 1 ≤ Real.log (1/r) := one_le_log_inv hr0 (hrR.trans hR1).le
+  have hmur6 : mu < r^6 := by
+    refine hmulog.trans_le ?_
+    refine div_le_self (by positivity) ?_
+    exact Real.one_le_rpow hlog (by have := pgTau_pos a b; positivity)
+  have hr1 : r < 1 := by
+    exact hrR.trans (rstar d).choose_spec.2.2.2.2.1
+  have hl1' := (kh_dyn h).2.2.2.2.1
+  have hrKpos : 0 < (params d r mu).rK := by
+    rw [params_rK, params_Ehat]
+    have := params_rhoHat_pos d hr0 mu
+    have := one_le_kam_c1 d
+    positivity
+  refine ⟨hr0, hr1, hmu0, hmur6, ?_, hl1, hl1', hell, hrKpos, ?_, ?_, hv1, hv2⟩
+  · exact le_min hmu0'.le ((hmur6.le.trans (pow_le_pow_left₀ hr0.le hrR.le 6)).trans hR6)
+  · exact (lt_min_iff.1 hrK).2
+  · exact (lt_min_iff.1 hrK).1
+
 theorem measure_c1_le (d : PGData a b) {core : Set (Fin a → ℝ)} (hcore : IsCompact core)
     (hcoreV : core ⊆ d.V) (hvol : 0 < volume core)
     (hhalf : ENNReal.ofReal (1/2) * volume d.V ≤ volume core) :
