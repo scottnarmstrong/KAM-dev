@@ -138,6 +138,25 @@ theorem sb_chart (m : Fin 2 → ℝ) (hm : ∀ i, 0 < m i) {w : Phase (2+2)}
   · rw [hlen]; apply mul_le_mul_of_nonneg_left _ haxis.le
     rw [hJ]; linarith [hx.1]
 
+/-- Positive lower radial bound `a (1 - e) > 0` of `bpP:p14:sb-chart` / `stepP:p14:sb-ch-d`, under
+exactly the hypotheses of `sb_chart`. -/
+theorem sb_chart_axis_mul_one_sub_pos (m : Fin 2 → ℝ) (hm : ∀ i, 0 < m i) {w : Phase (2+2)}
+    (hw : ∀ i, 0 < fast w.2 i ∧ 0 ≤ secularGamma w i ∧ secularGamma w i < fast w.2 i) (i : Fin 2) :
+    0 < secularAxis m w i * (1 - planeLength (secularEccVector w i)) := by
+  have haxis : 0 < secularAxis m w i := by
+    unfold secularAxis; exact pow_pos (div_pos (hw i).1 (hm i)) 2
+  have he1 := (sb_chart m hm hw i).2.2.2.2.2.1
+  exact mul_pos haxis (sub_pos.2 he1)
+
+/-- Positive radius `|q_i| > 0` of `bpP:p14:sb-chart` / `stepP:p14:sb-ch-d`, under exactly the
+hypotheses of `sb_chart`. -/
+theorem sb_chart_radius_pos (m : Fin 2 → ℝ) (hm : ∀ i, 0 < m i) {w : Phase (2+2)}
+    (hw : ∀ i, 0 < fast w.2 i ∧ 0 ≤ secularGamma w i ∧ secularGamma w i < fast w.2 i)
+    (i : Fin 2) (F : ℝ) : 0 < planeLength (ellipsePosition m w i F) := by
+  have h := (sb_chart m hm hw i).2.2.2.2.2.2.2 F
+  have hpos := sb_chart_axis_mul_one_sub_pos m hm hw i
+  exact lt_of_lt_of_le hpos h.2.2.2.1
+
 end KAM.Planetary
 
 end
