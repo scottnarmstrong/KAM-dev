@@ -228,6 +228,61 @@ theorem p11hsInput_mem_good (hn : 0 < n) (h : P11HsHyp D a ρ J0 rC σ rz B B' r
   refine ⟨fun l => ?_, hslow, fun i j hij => h.strip _ him _ hslow i j hij⟩
   exact lt_of_le_of_lt (him l) (by linarith [h.sigma'_small])
 
+/-- `hc-F` (holomorphy of the input): `p11hsInput ρ` is holomorphic on the working domain. -/
+theorem p11hsInput_differentiableOn (h : P11HsHyp D a ρ J0 rC σ rz B B' r' σ') :
+    DifferentiableOn ℂ (p11hsInput ρ) (p11WorkingDom n J0 (2 * σ) (2 * rC) rz) := by
+  set dom := p11WorkingDom n J0 (2 * σ) (2 * rC) rz with hdom
+  have hLd : Differentiable ℂ (fun z : P11Phase (n + n) =>
+      (fun i : Fin n => z.2 (Fin.castAdd n i) / (2 * π) : CVec n)) := by
+    refine differentiable_pi.2 fun i => ?_
+    fun_prop
+  have hmaps : MapsTo (fun z : P11Phase (n + n) =>
+      (fun i : Fin n => z.2 (Fin.castAdd n i) / (2 * π) : CVec n)) dom
+      (Metric.ball ((2 * π)⁻¹ • KAM.realInclusion n J0) (rC / π)) := fun z hz => p11hs_L_mem hz
+  have hR : ∀ i j, DifferentiableOn ℂ (fun z : P11Phase (n + n) =>
+      ρ (fun i : Fin n => z.2 (Fin.castAdd n i) / (2 * π)) i j) dom := fun i j =>
+    (h.rot_diff i j).comp hLd.differentiableOn hmaps
+  have hdR : ∀ (l k j : Fin n), DifferentiableOn ℂ (fun z : P11Phase (n + n) =>
+      (fderiv ℂ ρ (fun i : Fin n => z.2 (Fin.castAdd n i) / (2 * π)) (Pi.single l 1) :
+        Matrix (Fin n) (Fin n) ℂ) k j) dom := fun l k j =>
+    (p11hs_differentiableOn_fderiv Metric.isOpen_ball h.rot_diff (Pi.single l 1) k j).comp
+      hLd.differentiableOn hmaps
+  have hT : ∀ (l i j : Fin n), DifferentiableOn ℂ (fun z : P11Phase (n + n) =>
+      (((ρ fun i : Fin n => z.2 (Fin.castAdd n i) / (2 * π)).transpose *
+        fderiv ℂ ρ (fun i : Fin n => z.2 (Fin.castAdd n i) / (2 * π)) (Pi.single l 1)) :
+          Matrix (Fin n) (Fin n) ℂ) i j) dom := by
+    intro l i j
+    simp only [Matrix.mul_apply, Matrix.transpose_apply]
+    exact DifferentiableOn.fun_sum fun k _ => (hR k i).mul (hdR l k j)
+  have hx : ∀ i : Fin n, Differentiable ℂ (fun z : P11Phase (n + n) => z.1 (Fin.natAdd n i)) :=
+    fun i => by fun_prop
+  have hy : ∀ i : Fin n, Differentiable ℂ (fun z : P11Phase (n + n) => z.2 (Fin.natAdd n i)) :=
+    fun i => by fun_prop
+  have hmv : ∀ (v : Fin n → P11Phase (n + n) → ℂ), (∀ i, Differentiable ℂ (v i)) → ∀ i,
+      DifferentiableOn ℂ (fun z : P11Phase (n + n) =>
+        (ρ (fun i : Fin n => z.2 (Fin.castAdd n i) / (2 * π))).mulVec (fun j => v j z) i) dom := by
+    intro v hv i
+    simp only [Matrix.mulVec, dotProduct]
+    exact DifferentiableOn.fun_sum fun j _ => (hR i j).mul (hv j).differentiableOn
+  refine DifferentiableOn.prodMk (differentiableOn_pi.2 fun k => ?_)
+    (differentiableOn_pi.2 fun k => ?_)
+  · induction k using Fin.addCases with
+    | left l =>
+      simp only [Fin.append_left]
+      refine DifferentiableOn.add (by fun_prop) ?_
+      exact DifferentiableOn.fun_sum fun i _ => DifferentiableOn.fun_sum fun j _ =>
+        ((hy i).differentiableOn.mul (hT l i j)).mul (hx j).differentiableOn
+    | right l =>
+      simp only [Fin.append_right]
+      exact hmv _ hx l
+  · induction k using Fin.addCases with
+    | left l =>
+      simp only [Fin.append_left]
+      exact (differentiable_pi.1 hLd l).differentiableOn
+    | right l =>
+      simp only [Fin.append_right]
+      exact hmv _ hy l
+
 end Input
 
 end KAM.Planetary
