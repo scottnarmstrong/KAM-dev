@@ -17,3 +17,8 @@ Imports: `Mathlib.Topology.Order.Compact`, `Mathlib.Topology.Instances.Real.Lemm
 **Uncertainties / errata / deviations:** none. No design signals (compiles in ~5 s at default heartbeats).
 
 AUDIT FOCUS (design docs/tracks/N/design/N12-LEAN-DESIGN.md row N12-02 and proof plan; audits DESIGN-N12-design-audit-{1,2}.md; signatures .drafts/design/N12Signatures.lean): (1) statements = design signatures (compact_max and its local and variable-time corollaries via time reparameterization); (2) proofs sound; no added premises; (3) hygiene (lint incl. 100-char lines). Audit ONLY the N12-02 module (CompactMaximum).
+
+## Round 2 (after audit 1 FAIL F1)
+Prover fix on branch inp-n1202 at 9fbf91b: the local (domain/subtype), image/supremum and variable-time corollaries. Prover notes: /root/code/KAM-inp-n1202/.drafts/handoff-N12-02b.md.
+
+AUDIT FOCUS round 2: verify finding F1 of docs/tracks/N/audits/N12-02-audit-1.md is fully resolved (each corollary requested by the design row present, correctly stated for its downstream consumers, no extra premise, sound proof); compact_max unchanged; hygiene (lint incl. 100-char lines). Audit ONLY KAM/Nekhoroshev/Averaging/CompactMaximum.lean.
