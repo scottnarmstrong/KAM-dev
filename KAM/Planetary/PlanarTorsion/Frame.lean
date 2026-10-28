@@ -120,6 +120,64 @@ theorem p11c_frame_analyticAt (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ
   · exact e1.congr (Eventually.of_forall fun b => by simp [p11c_frame, Fin.sum_univ_two])
   · exact e0.congr (Eventually.of_forall fun b => by simp [p11c_frame, Fin.sum_univ_two])
 
+/-! ### The frame theorem and the rotation lift -/
+
+theorem global_planar_frame (p : PlanarData) (hp : p.Valid) :
+    (∀ i j, AnalyticOnNhd ℝ (fun a => p11c_frame p a i j) p11c_axes) ∧ ∀ a ∈ p11c_axes,
+      (p11c_frame p a).transpose * p11c_frame p a = 1 ∧ (p11c_frame p a).det = 1 ∧
+      (p11c_frame p a).transpose * p11c_Q p a * p11c_frame p a =
+        Matrix.diagonal (p11c_sigma p a) := by
+  refine ⟨fun i j a ha => p11c_frame_analyticAt p hp ha i j, fun a ha => ?_⟩
+  have hN := p11c_frame_norm_pos p hp ha
+  have heig := p11c_frame_eigen p hp ha
+  obtain ⟨hs, -⟩ := p11c_sigma_sum_prod p hp ha
+  have hq := p11c_Q_symm p a
+  obtain ⟨c, hc⟩ : ∃ c : ℝ,
+      c = (sqrt ((-p11c_Q p a 0 1) ^ 2 + (p11c_Q p a 0 0 - p11c_sigma p a 0) ^ 2))⁻¹ := ⟨_, rfl⟩
+  have hc2 : c ^ 2 * ((-p11c_Q p a 0 1) ^ 2 + (p11c_Q p a 0 0 - p11c_sigma p a 0) ^ 2) = 1 := by
+    rw [hc, inv_pow, Real.sq_sqrt hN.le]
+    exact inv_mul_cancel₀ hN.ne'
+  have hf : p11c_frame p a = !![c * -p11c_Q p a 0 1, -(c * (p11c_Q p a 0 0 - p11c_sigma p a 0));
+      c * (p11c_Q p a 0 0 - p11c_sigma p a 0), c * -p11c_Q p a 0 1] := by
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp [p11c_frame, Fin.sum_univ_two, hc]
+  have h1 := congrFun heig 0
+  have h2 := congrFun heig 1
+  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, hq] at h1 h2
+  obtain ⟨e0, he0⟩ : ∃ e : ℝ, e = c * -p11c_Q p a 0 1 := ⟨_, rfl⟩
+  obtain ⟨e1, he1⟩ : ∃ e : ℝ, e = c * (p11c_Q p a 0 0 - p11c_sigma p a 0) := ⟨_, rfl⟩
+  rw [← he0, ← he1] at hf
+  have hn : e0 ^ 2 + e1 ^ 2 = 1 := by rw [he0, he1]; linear_combination hc2
+  have g1 : p11c_Q p a 0 0 * e0 + p11c_Q p a 0 1 * e1 = p11c_sigma p a 0 * e0 := by
+    rw [he0, he1]; linear_combination c * h1
+  have g2 : p11c_Q p a 0 1 * e0 + p11c_Q p a 1 1 * e1 = p11c_sigma p a 0 * e1 := by
+    rw [he0, he1]; linear_combination c * h2
+  rw [hf]
+  refine ⟨?_, ?_, ?_⟩
+  · ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two] <;> first | ring1 | linear_combination hn
+  · rw [Matrix.det_fin_two_of]; linear_combination hn
+  · ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hq]
+    · linear_combination e0 * g1 + e1 * g2 + p11c_sigma p a 0 * hn
+    · linear_combination (-e1) * g1 + e0 * g2
+    · linear_combination (-e1) * g1 + e0 * g2
+    · linear_combination (p11c_Q p a 0 0 + p11c_Q p a 1 1) * hn - e0 * g1 - e1 * g2 -
+        p11c_sigma p a 0 * hn - hs
+
+/-- The inverse rotation lift of Part 9, in the existing frozen assembled coordinates. -/
+def p11c_rotationLift (p : PlanarData) (w : Phase (2 + 2)) : Phase (2 + 2) :=
+  let I : Fin 2 → ℝ := fun i => w.2 (Fin.castAdd 2 i)
+  let lam : Fin 2 → ℝ := fun i => w.1 (Fin.castAdd 2 i)
+  let z : Phase 2 := (fun i => w.1 (Fin.natAdd 2 i), fun i => w.2 (Fin.natAdd 2 i))
+  let U := p11c_frame p (p.axes I)
+  let H : Fin 2 → ℝ := fun l => ∑ i, ∑ j, ∑ k,
+    z.2 i * U k i * fderiv ℝ (fun J => p11c_frame p (p.axes J) k j) I (Pi.single l 1) * z.1 j
+  let Z := p11c_rotateSlow U z
+  assemble I (lam + H) Z.2 Z.1
+
 end KAM.Planetary
 
 end
