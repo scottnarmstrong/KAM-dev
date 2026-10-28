@@ -1,6 +1,6 @@
 # Lean design for blueprint-N Parts 6 and 7 (normal form; stability)
 
-Design v1, 2026-10-28, branch `inp-design-n67` (off `inp` at `40237a3`). Planning evidence, not approved Lean; nothing here
+Design v2 (Revision 2 after design audit 1, Section 10), 2026-10-28, branch `inp-design-n67` (off `inp` at `40237a3`). Planning evidence, not approved Lean; nothing here
 is frozen and these parts have no frozen theorem (no provider; overnight rule D29: no new freezes). Modeled on
 `PART145-LEAN-DESIGN.md` (with its two audits) and track K's `PART23-LEAN-DESIGN.md`. Scope: every node of
 `docs/graph/N/DEPGRAPH.md` sourced from `blueprint-N/parts/p6-normal-form.tex` (40 nodes) and `p7-stability.tex` (63 nodes),
@@ -8,9 +8,9 @@ all `NOT_STARTED`/`EXTERNAL`.
 
 **The signatures.** Every result node of Parts 6, 7 has its exact Lean statement in
 `/root/code/KAM-inp/.drafts/design/NPart67Signatures.lean` (untracked; copied verbatim in Appendix A).
-- 790 lines, sha256 `f64cf1e3f37e241b39053123eb4f3cbf8e3bf66616418464165225d565b60b97`.
-  `cd /root/code/KAM-inp-design-n67 && LEAN_NUM_THREADS=1 nice -n 5 lake env lean .drafts/design/NPart67Signatures.lean`
-  exits 0 with exactly 39 diagnostics, all `declaration uses 'sorry'`; no `set_option`, no `maxHeartbeats`.
+- 854 lines, sha256 `c588818b1772d3f7e106aac256b8207623c8a142cf40ef0e778f0507b1945c9f` (v1: 790 lines, `f64cf1e3…`).
+  `inp_sig_check.sh /root/code/KAM-inp-design-n67 .drafts/scratch/NPart67Signatures.lean` (scratch copy)
+  exits 0 with exactly 43 diagnostics, all `declaration uses 'sorry'`; no `set_option`, no `maxHeartbeats`.
 - Every `def`/`structure` has its real body; every `theorem ... := sorry` is a prover obligation.
 - Section 0 of the file copies `projMode`, `truncate` verbatim from `NPart145Signatures.lean` B.8 (`Weighted/Projections`,
   package W4-7, not yet on `inp`) so that the file elaborates; they are not new declarations and go away on landing.
@@ -22,7 +22,7 @@ all `NOT_STARTED`/`EXTERNAL`.
 
 1. **Two shared layers.** Part 6 is `KAM/NormalForm/*`, namespace `KAM.NormalForm` (shared N, P: track P derives CP10's
    averaging from the Iterative Lemma with `Λ = {0}`); Part 7 is `KAM/Stability/*`, namespace `KAM.Stability` (shared N, I:
-   track I takes `energy_core`, `no_exit`, Lemmas 1-2). `NormalForm` imports only `Weighted`, `Canonical`; `Stability` imports
+   track I may reuse `energy_core`, `no_exit`, Lemmas 1-2 — prospective reuse, no current blueprint-I citation; Section 8). `NormalForm` imports only `Weighted`, `Canonical`; `Stability` imports
    `NormalForm`, `Weighted`, `Canonical`, `KAM.ODE` and the *leaf* `KAM.Nekhoroshev.Interfaces.Norms` (`euclid`, Part 1
    `norm-compare`; it imports only `KAM.Fourier.Derivative`). No other `KAM.Nekhoroshev.*` import; no provider, no frozen
    theorem anchor, no `DRAFT_SORRY` anchor anywhere.
@@ -44,7 +44,9 @@ all `NOT_STARTED`/`EXTERNAL`.
    `iterHyp_of_source` derives `IterHyp` from the theorem's own hypotheses through `divisor`. So `bpN:p6:iterative` =
    `iterHyp_of_source` + `iterative_direct_a..e`; `bpN:p6:iterative-direct` = `iterative_direct_a..e`. Both statements are
    exactly the blueprint's (no hypothesis added, `(N-dir)` is a stated source premise of the corollary). Same for
-   `homological_direct`/`homological`. Part 11 (`p11:hom`) consumes the direct forms.
+   `homological_direct`/`homological`. Part 11 (`p11:hom`, `n` angles and `n+2k` parameters) consumes the
+   parameter-capable core `homological_param` (independent parameter dimension `m`, arbitrary frequency field
+   `ω : ℂᵐ → ℂⁿ`); `homological_direct` is its `m = n`, `ω = freq h` specialization (Revision 2, F3).
 6. **Real systems via `realH G = Re G ∘ ι` (total).** The blueprint's `G^ℝ` (= `G` on `W_r`, `0` elsewhere) is replaced by
    `Re G ∘ realInclusion₂` everywhere; both agree on the open `W_r`, so the fields `X_{G^ℝ}` agree there, and every statement
    only looks at `W_ϱ ⊆ W_r` (blueprint Remark `p3:totality`). Bonus: `KAM.realHamiltonian h f = realH (h∘snd + f)` by
@@ -58,7 +60,8 @@ all `NOT_STARTED`/`EXTERNAL`.
    linear map) plus `exists_orthProj V` (proof via `LinearMap.BilinForm` orthogonal complement of the dot form, nondegenerate
    on `ℝⁿ`, and `Submodule.linearProjOfIsCompl`). Closeness to resonance `IsCloseToRes` is `∃ w ∈ R_Λ, ‖ω(I) - w‖₂ ≤ δ`
    (= `dist₂(ω, R_Λ) ≤ δ`, attained). `resonant_gradient` concludes `∂_θ g^ℝ ∈ span_ℝ Λ` (`= Π^⊥∂_θg = 0`).
-9. **Packages.** 16 prover packages (N6-1..8, S7-1..8), 150-650 lines each, about 6,900 lines, 5 waves; Part 6 waves 3-4 wait
+9. **Packages.** 16 prover packages (N6-1..8, S7-1..8), 150-650 lines each except N6-8 (≈950 lines over three modules,
+   two sessions), about 7,050 lines, 6 waves; Part 6 waves 3-4 wait
    for C5-8/9/10 and W4-7. Section 7.
 10. **Hard rules** (verbatim, binding for every Lean brief):
     1. Never use `set_option maxHeartbeats` (or any heartbeat-budget override). A default-heartbeat elaboration failure is a design signal to refactor or split the proof, not something to mask with a larger budget.
@@ -130,9 +133,9 @@ averaging uses its own chart and is not a Lie-transform iteration. Track P's Par
 | `setting` | `IsNonresonant`, `FreqLipschitz`, `DivisorBound`, `IsDecomp`, `starNorm` | `Setting` |
 | `lipschitz` | `lipschitz`, `lipschitz_entries` | `Setting` |
 | `divisor` | `divisor` | `Setting` |
-| `homological` | `homGen`, `homRes`, `homological_direct`, `homological` | `Homological` |
+| `homological` | `homGenParam`, `homResParam`, `RealOnParam`, `homological_param` (core), `homGen`, `homRes`, bridges `homGen_eq_homGenParam`, `homRes_eq_homResParam`, `realOnParam_iff_realOn`, `homological_direct`, `homological` | `Homological` |
 | `bracket-g` | `bracket_g` | `BracketDecomp` |
-| `iterative` | `iterMap`, `iterG`, `iterF`, `iterU`, `IterHyp`, `iterHyp_of_source` + `iterative_direct_a..e` | `IterativeMap` (a,b), `IterativeRemainder` (c,d), `IterativeReal` (e), `Iterative` (facade + `iterHyp_of_source`) |
+| `iterative` | `iterMap`, `iterG`, `iterF`, `iterU`, `IterHyp`, `iterHyp_of_source` + `iterative_direct_a..e` | `IterativeMap` (a,b, `iterHyp_of_source`), `IterativeRemainder` (c,d), `IterativeReal` (e), `Iterative` (pure facade, created by N6-7) |
 | `iterative-direct` | `iterative_direct_a..e` | as above |
 | `telescope` | `chain`, `telescope` | `Telescope` |
 | `normal-form`, `normal-form#data` | `nfSteps`, `normal_form` | `Steps` (step sequence, private), `Arith` (numerics), `NormalForm` |
@@ -220,7 +223,7 @@ KAM/NormalForm/Setting ── Weighted.{Domains,Norm}, Canonical.Setting
   ├─ IterativeMap ── Homological, Canonical.CanonicalMap
   ├─ IterativeRemainder ── IterativeMap, BracketDecomp, Canonical.{Composition,CompositionIntegral,Transform}
   ├─ IterativeReal ── IterativeRemainder, Canonical.Composition
-  ├─ Iterative (facade: re-exports the three + iterHyp_of_source)
+  ├─ Iterative (pure facade over the three; created in N6-7, after its imports exist)
   ├─ Arith (pure numerics: Step 0 bounds, (6.1), (6.2), induction constant, displacement constants)
   ├─ Steps (private step sequence nfState i = (gᵢ, fᵢ, Φᵢ), radii rᵢ sᵢ) ── Iterative, Arith
   └─ NormalForm ── Steps, Telescope
@@ -248,18 +251,18 @@ Every package proves its nodes exactly as in Appendix A. Hard rules (Section 0.1
 | S7-1 | p7 setting, real-system, exit-ball, `IsActionNorm` | `Stability/Setting`, `RealSystem` | 550 | N6-1 (only `freq`, for `freq_realInclusion`) | 1 |
 | S7-5 | resonance-data, energy-core, `exists_orthProj` | `Energy` | 500 | S7-1 | 2 |
 | S7-2 | theta-derivative, resonant-gradient | `Gradient` | 300 | S7-1 | 2 |
-| N6-2 | homological (both forms) | `Homological` | 550 | N6-1, **W4-7** | 2 |
+| N6-2 | homological (parameter core + both forms + bridges) | `Homological` | 700 | N6-1, **W4-7** | 2 |
 | S7-3 | conjugation, transfer, stopped-extension | `Conjugation`, `Transfer` | 650 | S7-1 | 2 |
 | S7-4 | preimage, preimage-nfl | `Preimage` | 400 | S7-1 | 2 |
-| S7-6 | s-energy#rs, admissible, no-exit, Lemma 1, Lemma 2 | `Resonant` | 550 | S7-5, S7-2, S7-1 | 3 |
-| N6-5 | iterative (a),(b), `iterHyp_of_source` | `IterativeMap`, `Iterative` | 400 | N6-2, **C5-10** | 3 |
-| N6-6 | iterative (c),(d) | `IterativeRemainder` | 650 | N6-5, N6-3, **C5-8, C5-9**, W4-7 | 4 |
-| N6-7 | iterative (e) | `IterativeReal` | 250 | N6-6 | 4 |
+| S7-6 | s-energy#rs, admissible, no-exit, Lemma 1, Lemma 2 | `Resonant` | 550 | S7-5, S7-2, S7-3, S7-1 | 3 |
+| N6-5 | iterative (a),(b), `iterHyp_of_source` | `IterativeMap` | 400 | N6-2, **C5-10** | 3 |
+| N6-6 | iterative (c),(d) (imports `IterativeMap`, never the facade) | `IterativeRemainder` | 650 | N6-5, N6-3, **C5-8, C5-9**, W4-7 | 4 |
+| N6-7 | iterative (e); facade `Iterative` | `IterativeReal`, `Iterative` | 250 | N6-6 | 4 |
 | N6-8 | normal-form, `#data`, nonresonant-case | `Arith`, `Steps`, `NormalForm` | 950 (two sessions: Arith+Steps / NormalForm) | N6-7, N6-4 | 5 |
 | S7-7 | nonresonant (Prop 1) | `Nonresonant` | 450 | N6-8, S7-2, S7-3, S7-4 | 6 |
 | S7-8 | resonant-prop2 | `ResonantStability` | 550 | N6-8, S7-6, S7-3, S7-4 | 6 |
 
-Total ≈ 6,900 lines. Critical path: (C5-8 → C5-9) → N6-6 → N6-7 → N6-8 → S7-7/S7-8. Track I can start from S7-5/S7-6
+Total ≈ 7,050 lines, 6 waves (largest package N6-8 ≈ 950 lines split over `Arith`, `Steps`, `NormalForm`; no file > 600 planned). Critical path: (C5-8 → C5-9) → N6-6 → N6-7 → N6-8 → S7-7/S7-8. Track I can start from S7-5/S7-6
 (wave 3) without waiting for Part 6; track P from N6-5..N6-7 (Iterative Lemma, `Λ = {0}`).
 
 ### 7.1 Proof plans
@@ -270,9 +273,14 @@ Total ≈ 6,900 lines. Critical path: (C5-8 → C5-9) → N6-6 → N6-7 → N6-8
 by `holomorphic_regularity`); entry form via the operator-norm bound `‖A‖ ≤ n max|Aᵢⱼ|` on the Pi sup norm
 (`ContinuousLinearMap.opNorm_le_bound`, `Finset.sum_le_card_nsmul`).
 
-**N6-2.** Write `homGen = fourierSeries a` with `aₖ(I) = 𝟙_{Z_K∖Λ}(k) f̂ₖ(I)/(2πi k·ω(I))`; `Z_K` finite
+**N6-2.** Prove `homological_param` first (all arguments below with `ω` in place of `freq h` and the directional
+derivative `∑ᵢ ∂_{θᵢ}φ·ωᵢ` in place of the bracket); then `homGen_eq_homGenParam`, `homRes_eq_homResParam` (`rfl`/`funext`),
+`realOnParam_iff_realOn` (`realInclusion₂ n x = (realInclusion n x.1, realInclusion n x.2)`), and `homological_direct` from
+the core with `q = conjExp p` (`1 ≤ conjExp p` from `1 < p`), `ω = freq h` (holomorphic by `hh` and `DifferentiableOn.fderiv`
+on the open `polyNbhd`), plus `poissonBracket φ (h∘snd) = ∑ⱼ ∂_{θⱼ}φ · ωⱼ`. Details: write `homGen = fourierSeries a` with `aₖ(I) = 𝟙_{Z_K∖Λ}(k) f̂ₖ(I)/(2πi k·ω(I))`; `Z_K` finite
 (`Set.Finite` of `modeSize k ≤ K`: bounded integer box); holomorphy of `aₖ` from `coeff_differentiableOn` and
-`DifferentiableOn.div` (divisor nonzero by `hdir`); `coefficients_series` gives class, coefficients and the bound
+`DifferentiableOn.mul` and `DifferentiableOn.inv` after rewriting `a / b = a * b⁻¹` (`DifferentiableOn.div` has a scalar
+domain `s : Set 𝕜` and does not apply on the parameter carrier; divisor nonzero by `hdir`); `coefficients_series` gives class, coefficients and the bound
 `q δ/(2πα)` (pointwise `|aₖ| ≤ q|f̂ₖ|/(2πα)` and `hδ`'s summed bound). Equation by coefficients: `coefficients_deriv`
 (`dtheta`), multiplication by `θ`-independent `ωⱼ` acts coefficientwise (direct integral computation: `coeff (fun z => c z.2 * u z)
 I k = c I * coeff u I k`), `poissonBracket φ (h∘snd) = ∑ⱼ dtheta j φ · ωⱼ` (the `dI φ` terms meet `∂_θ(h∘snd) = 0`), then
@@ -285,7 +293,7 @@ I k = c I * coeff u I k`), `poissonBracket φ (h∘snd) = ∑ⱼ dtheta j φ · 
 over `Finset.sum` (`fderiv_sum`, holomorphy of each `gⱼ` on `Dom r s`), triangle inequality for `WBound` (add `wbound_add`
 helper: coefficients are linear; `Summable.add`).
 
-**N6-4.** Induction on `m`; displacement: telescoping sum with `zᵢ = Φᵢ(zᵢ₊₁)`, `Seminorm` triangle (`map_sum_le`);
+**N6-4.** Induction on `m`; displacement: telescoping sum with `zᵢ = Φᵢ(zᵢ₊₁)`, finite-sum triangle by a local `Finset` induction on `map_add_le_add` (there is no unqualified `map_sum_le`);
 derivatives: `fderiv_comp` at `zᵢ₊₁` (open `U`, `DifferentiableOn.differentiableAt`), form invariance composes;
 injectivity `InjOn.comp`.
 
@@ -370,9 +378,10 @@ on `İ = -∂_θf_*` (`real_system` (b), `theta_derivative`); `6/(5e) < 0.442 < 
 | N Part 9 (Theorem 1 blocks; `p9:block-hyp`, `bs-theta`, `bs-res`, `bs-stop`, `bh-lip`, `om-max`) | `nonresonant`, `resonant_prop2`, `stopped_extension`, `lipschitz(_entries)`, `IsNonresonant`, `FreqLipschitz`, `IsCloseToRes`, `IsQuasiConvex`, `cpx`, `realNbhd`, `realStrip`, `IsOrbit`, `freq_realInclusion`, `isActionNorm_euclid` |
 | N Part 8 (`p8:cutoffs`, `co-incl`) | `zBall`, `IsNonresonant` (cut-off `Z_{K_a}` ⊆ Euclidean ball), `IsCloseToRes`, `resSpace` |
 | N Part 10 (`hypotheses-check`, `hc-f`, `hc-qc`) | `realHamiltonian_eq_realH` (frozen `IsSolutionOn` ↔ `IsOrbit` through K's `ham_reduction`, which needs `DifferentiableAt`: `real_system` (b)), `stopped_extension` with `F = hamiltonianVectorField (realHamiltonian h f)`, then `KAM.Nekhoroshev.ODE.confinement_glue` |
-| N Part 11 (partial; `p11:hom`, `nf`, `iterative`, `bracket-g`, `preimage`, `real-system`, `energy-free`, `cj`, `nf-*`) | `homological_direct`, `iterative_direct_*` patterns, `divisor`, `telescope`, `IsDecomp`/`starNorm`, `preimage`, `conjugation`, `real_system`, `exit_ball`, `energy_core`, `resonant_gradient`, `theta_derivative`, `IsCloseToRes` |
-| P Part 2 (averaging) | `IterHyp` with `Λ = {0}`, `iterative_direct_a..e`, `homRes` (`= modeAverage` on `Z_K`) |
-| I (energy confinement) | `energy_core`, `IsOrthProj`, `exists_orthProj`, `no_exit`, `resonant_lemma1`, `resonant_lemma2`, `ResSetting` |
+| N Part 11 (partial; `p11:hom`, `nf`, `iterative`, `bracket-g`, `preimage`, `real-system`, `energy-free`, `cj`, `nf-*`) | `homological_param` with `m = n+2k`, `ω (I, x̃) = freq h I` (Part 11 package budgets the fast-coordinate projection/holomorphy bridge and proves its own bracket identity from the directional one); `iterative_direct_*` *patterns* only (Part 11's weighted slow-pair iteration is its own variant), `divisor`, `telescope`, `IsDecomp`/`starNorm`, `preimage`, `conjugation`, `real_system`, `exit_ball` (on the projected fast curve), `resonant_gradient`, `theta_derivative`, `IsCloseToRes`; `energy_core` is *not applied* (p11c L89 repeats only its argument) |
+| P Part 2 (averaging) | `IterHyp` with `Λ = {0}`, `iterative_direct_a..e`, `homRes` (`= modeAverage` on `Z_K`). P allows `q = 1`; `IterHyp` has `p > 1`. Wrapper (audit N1): for consumer data `(α, q₀)` take `p = 2`, `α_design = 2α/q₀`; then `α_design / conjExp 2 = α/q₀` and every estimate/smallness condition uses the unchanged ratio `conjExp 2 / α_design = q₀/α`; `homGen`, `iterMap` do not depend on `α, p`, so the map is the same. Never set `p` to a nonexistent conjugate exponent. P's two-scale/oscillator/anisotropic variants remain P's own statements. |
+| I (prospective reuse only) | `energy_core`, `IsOrthProj`, `exists_orthProj`, `no_exit`, `resonant_lemma1`, `resonant_lemma2`, `ResSetting` are reusable, but no current `blueprint-I/parts/` file cites a p7 label (I confinement uses the Part 3 torus/barrier/continuation route). Not a verified consumer. |
+| N Part 12 | no direct p6/p7 result reference found; no consumer obligation. |
 
 Interfaces Parts 8-10 must not expect: an `EReal` time `T`, a definition of `Π_Λ`, or `|·|` as a value (`wnorm`); all three are
 deliberately absent (Decisions 3, 7, 8).
@@ -403,6 +412,44 @@ deliberately absent (Decisions 3, 7, 8).
 
 ### 9.4 Errata candidates (reported here, not edited)
 - None new; see Section 6 (graph coverage of Lemma 1; unlisted Hessian restriction step in `p2-red`).
+
+## 10. Revision 2 (response to design audit 1, `DESIGN-N67-design-audit-1.md`, verdict FAIL)
+
+All findings are resolved in `NPart67Signatures.lean` (now 854 lines; re-elaborated once through
+`inp_sig_check.sh` on a scratch copy: exit 0, exactly 43 warnings, all `declaration uses 'sorry'`, no errors) and in this
+document. Appendix A is regenerated from the new file. No proofs were written; no frozen file was touched.
+
+- **F1 (BLOCKING) — fixed.** `IsActionNorm` gains `map_zero : N 0 = 0` and `smul : ∀ (c : ℝ) a, N (c • a) = |c| * N a`
+  (exactly the audit's structure), so it describes an actual norm dominating the max norm; the shifted norm `‖·‖ + 1`
+  is no longer admissible and `exit_ball` (statement unchanged, = the audit's corrected signature) is true: at `τ = 0` the
+  value is `N 0 = 0 < ϱ`, so IVT on `uIcc 0 t₁` gives the first boundary time. `isActionNorm_norm`, `isActionNorm_euclid`
+  remain obligations (both instances satisfy the new fields: `norm_smul`, `euclid` homogeneity). S7-1's plan adds these two
+  fields; `transfer`, `stopped_extension` statements unchanged.
+- **F2 (MAJOR) — fixed.** `normal_form` gains, between (a) and (b), the exact-correction clause
+  `(nfSteps K s = 0 ∨ iterU α p ε (r/8) (s/6) < exp(-κ/6)) → EqOn g (homRes K Λ f) (Dom n D (r/2) (s/6))`
+  (the blueprint's "`g = g₀` if `N = 0` or in the second case", p6 L167, packet `bpN:p6:normal-form` L890), stated on the
+  domain only. Case B is tested with the carried bound `ε` (`iterU` at `ρ = r/8`, `σ = s/6`, Step 0's widths), which is the
+  literal blueprint case at the sharp norm instance and matches the step construction. N6-8's `Steps` must expose
+  `g = homRes` in both branches.
+- **F3 (MAJOR) — fixed.** New parameter-capable core in `Homological`: `homGenParam`, `homResParam`, `RealOnParam`
+  (`RealOn` is square-only, so a `ℂⁿ × ℂᵐ` reality predicate is needed), `homological_param` (the audit's statement with
+  `RealOnParam`), and bridges `homGen_eq_homGenParam`, `homRes_eq_homResParam`, `realOnParam_iff_realOn`. Part 6's
+  `homological_direct` (statement unchanged) is the `m = n`, `ω = freq h`, `q = conjExp p` specialization. Ownership: N6-2
+  (+150 lines). Part 11 applies `homological_param` with `m = n + 2k`, `ω(I,x̃) = freq h I`; its fast-coordinate
+  projection/holomorphy bridge is budgeted in the Part 11 package. No new premise beyond consumer source data.
+- **N1 — documented** (Section 8, P row): `q = 1` by the rescaling `p = 2`, `α_design = 2α/q₀`.
+- **N2 — fixed** (Section 7): `iterHyp_of_source` lives in `IterativeMap` (N6-5); the facade `Iterative` is created in
+  N6-7; N6-6 imports `IterativeMap`; S7-6 lists S7-3; summaries reconciled (6 waves, N6-8 ≈ 950 lines over three files).
+- **N3 — fixed** (Sections 0.1, 8): track I and Part 12 marked prospective/no consumer; Part 11 does not apply
+  `energy_core`.
+- **N4 — convention stated.** `telescope`'s `IsOpen (U (i+1))` premise is the domain convention "holomorphic on an open
+  set"; every normal-form `Uᵢ` is an open `Dom` set (`isOpen_Dom`). Not an extra geometric assumption on any consumer;
+  the blueprint's "subsets ... holomorphic" is read as holomorphic on open neighborhoods.
+- **N5 — fixed** (Section 7.1): `map_sum_le` replaced by a local finite-sum induction on `map_add_le_add`;
+  `DifferentiableOn.div` replaced by `DifferentiableOn.mul` + `DifferentiableOn.inv`.
+
+Suspected errata in pinned sources: none new. Deviations introduced by this revision: `RealOnParam` (a new predicate,
+agreeing with `RealOn` at `m = n` by a stated bridge); Case B tested with the carried bound `ε` rather than the exact norm.
 
 ## Appendix A. The signatures
 
@@ -549,6 +596,64 @@ def homGen (K : ℝ) (Λ : Set (Fin n → ℤ)) (h : (Fin n → ℂ) → ℂ)
 def homRes (K : ℝ) (Λ : Set (Fin n → ℤ)) (f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) :
     (Fin n → ℂ) × (Fin n → ℂ) → ℂ :=
   projMode Λ (truncate K f)
+
+/-! Parameter-capable core (Revision 2, audit F3): `n` angles, `m` parameters, an arbitrary
+holomorphic frequency field `ω : ℂᵐ → ℂⁿ`; the bracket identity is stated as the directional
+derivative `∑ᵢ ∂_{θᵢ}φ · ωᵢ`. Part 6 specializes `m = n`, `ω = freq h`; Part 11 takes
+`ω (I, x̃) = freq h I`. -/
+
+/-- `φ = ∑_{k ∈ Z_K \ Λ} f̂ₖ(y)/(2πi k·ω(y)) χₖ(θ)` with an independent parameter carrier. -/
+def homGenParam {m : ℕ} (K : ℝ) (Λ : Set (Fin n → ℤ)) (ω : (Fin m → ℂ) → Fin n → ℂ)
+    (f : (Fin n → ℂ) × (Fin m → ℂ) → ℂ) : (Fin n → ℂ) × (Fin m → ℂ) → ℂ :=
+  fun z => ∑' k, (zBall n K \ Λ).indicator (fun k =>
+    coeff f z.2 k / (2 * (Real.pi : ℂ) * Complex.I * dotC k (ω z.2)) * KAM.character k z.1) k
+
+/-- `ξ = P_Λ T_K f` with an independent parameter carrier. -/
+def homResParam {m : ℕ} (K : ℝ) (Λ : Set (Fin n → ℤ)) (f : (Fin n → ℂ) × (Fin m → ℂ) → ℂ) :
+    (Fin n → ℂ) × (Fin m → ℂ) → ℂ :=
+  projMode Λ (truncate K f)
+
+/-- Reality on the real points of `U ⊆ ℂⁿ × ℂᵐ` (the `m ≠ n` analogue of `RealOn`). -/
+def RealOnParam {m : ℕ} (U : Set ((Fin n → ℂ) × (Fin m → ℂ)))
+    (u : (Fin n → ℂ) × (Fin m → ℂ) → ℂ) : Prop :=
+  ∀ x : (Fin n → ℝ) × (Fin m → ℝ), (KAM.realInclusion n x.1, KAM.realInclusion m x.2) ∈ U →
+    (u (KAM.realInclusion n x.1, KAM.realInclusion m x.2)).im = 0
+
+/-- Bridge: for `m = n` the two reality predicates agree. -/
+theorem realOnParam_iff_realOn (U : Set ((Fin n → ℂ) × (Fin n → ℂ)))
+    (u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) : RealOnParam U u ↔ RealOn U u := sorry
+
+/-- The homological solve with independent angle/parameter dimensions (core of
+`homological_direct`; consumed by `bpN:p11:hom`). -/
+theorem homological_param {m : ℕ} {D : Set (Fin m → ℂ)} {r s K α q δ : ℝ}
+    {Λ : Set (Fin n → ℤ)} {ω : (Fin m → ℂ) → Fin n → ℂ} {f : (Fin n → ℂ) × (Fin m → ℂ) → ℂ}
+    (hq : 1 ≤ q) (hα : 0 < α) (hs : 0 < s) (hK : 0 ≤ K)
+    (hω : DifferentiableOn ℂ ω (polyNbhd D r))
+    (hdir : ∀ I ∈ polyNbhd D r, ∀ k ∈ zBall n K \ Λ, α / q ≤ ‖dotC k (ω I)‖)
+    (hf : InClass D r s f) (hδ : WBound D r s f δ) :
+    InClass D r s (homGenParam K Λ ω f) ∧ InClass D r s (homResParam K Λ f) ∧
+    (∀ I ∈ polyNbhd D r, ∀ k, k ∉ zBall n K \ Λ → coeff (homGenParam K Λ ω f) I k = 0) ∧
+    (∀ z ∈ Dom n D r s,
+      (∑ i, fderiv ℂ (homGenParam K Λ ω f) z (Pi.single i 1, 0) * ω z.2 i) +
+        homResParam K Λ f z = truncate K f z) ∧
+    (∀ I ∈ polyNbhd D r, ∀ k ∈ Λ, coeff (homGenParam K Λ ω f) I k = 0) ∧
+    (∀ z ∈ Dom n D r s, homResParam K Λ f z = projMode (Λ ∩ zBall n K) f z) ∧
+    WBound D r s (homResParam K Λ f) δ ∧ WBound D r s (truncate K f) δ ∧
+    WBound D r s (homGenParam K Λ ω f) (q * δ / (2 * Real.pi * α)) ∧
+    ((∀ k ∈ Λ, -k ∈ Λ) → RealOnParam (Dom n D r s) f →
+      (∀ I : Fin m → ℝ, KAM.realInclusion m I ∈ polyNbhd D r →
+        ∀ i, (ω (KAM.realInclusion m I) i).im = 0) →
+      RealOnParam (Dom n D r s) (homGenParam K Λ ω f) ∧
+        RealOnParam (Dom n D r s) (homResParam K Λ f)) :=
+  sorry
+
+/-- Bridge: the canonical generator is the `m = n`, `ω = freq h` specialization. -/
+theorem homGen_eq_homGenParam (K : ℝ) (Λ : Set (Fin n → ℤ)) (h : (Fin n → ℂ) → ℂ)
+    (f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) : homGen K Λ h f = homGenParam K Λ (freq h) f := sorry
+
+/-- Bridge: the canonical resonant part is the `m = n` specialization. -/
+theorem homRes_eq_homResParam (K : ℝ) (Λ : Set (Fin n → ℤ))
+    (f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) : homRes K Λ f = homResParam K Λ f := sorry
 
 /-- `bpN:p6:homological` under `(N-dir)` (the form all proofs use; `bpN:p6:iterative-direct`). -/
 theorem homological_direct {D : Set (Fin n → ℂ)} {r s K α p δ : ℝ} {Λ : Set (Fin n → ℤ)}
@@ -772,6 +877,10 @@ theorem normal_form {D : Set (Fin n → ℂ)} {r s K α L p ε : ℝ} {Λ : Set 
       -- (a)
       WBound D (r / 2) (s / 6) (fun z => g z - homRes K Λ f z)
         (16 * (2 * conjExp p * K / (α * r)) * ε ^ 2) ∧
+      -- exact correction `g = g₀` in the zero-step case and in Case B
+      ((nfSteps K s = 0 ∨
+          iterU α p ε (r / 8) (s / 6) < Real.exp (-(2 * Real.pi * K * s) / 6)) →
+        EqOn g (homRes K Λ f) (Dom n D (r / 2) (s / 6))) ∧
       -- (b)
       WBound D (r / 2) (s / 6) fs (Real.exp (-(2 * Real.pi * K * s) / 6) * ε) ∧
       -- (c)
@@ -946,8 +1055,10 @@ theorem preimage_nfl {D : Set (Fin n → ℝ)} {r s K α p ε : ℝ}
 /-- A norm `|·|_*` on `ℝⁿ` dominating the max norm (the two instances used: `‖·‖`, `euclid`). -/
 structure IsActionNorm (N : (Fin n → ℝ) → ℝ) : Prop where
   continuous : Continuous N
+  map_zero : N 0 = 0
   add_le : ∀ a b, N (a + b) ≤ N a + N b
   neg : ∀ a, N (-a) = N a
+  smul : ∀ (c : ℝ) a, N (c • a) = |c| * N a
   norm_le : ∀ a, ‖a‖ ≤ N a
 
 theorem isActionNorm_norm : IsActionNorm (fun a : Fin n → ℝ => ‖a‖) := sorry
