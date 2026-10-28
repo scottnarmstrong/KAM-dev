@@ -707,6 +707,7 @@ public import KAM.Planetary.SecularBox.Covariance
 public import KAM.Planetary.SecularBox.Numerics
 public import KAM.Planetary.SecularBox.ParametricIntegral
 public import KAM.Planetary.SecularBox.Region
+public import KAM.Planetary.SecularBox.Rotation
 public import KAM.Planetary.SecularBox.Smooth
 public import KAM.Planetary.SecularForm.Analytic
 public import KAM.Planetary.SecularForm.AnalyticGeometry
