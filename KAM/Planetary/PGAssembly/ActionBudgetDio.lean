@@ -117,7 +117,8 @@ theorem volume_pgActionDomain (d : PGData a b) {r mu : ℝ} (h : admissible d (p
 theorem budget_dio (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar d) r mu) :
     volume (pgActionDomain d r mu \ pgD0 d r mu) ≤
       ENNReal.ofReal (4^(b+1)*2*Real.pi*(pgScales d).k0*
-        (5*pgMeasureUpper1 d+4*pgMeasureUpper2 d)*Real.sqrt r) * volume (pgActionDomain d r mu) := by
+        (5*pgMeasureUpper1 d+4*pgMeasureUpper2 d)*Real.sqrt r) *
+        volume (pgActionDomain d r mu) := by
   obtain ⟨hr0, hr1, hmu0, hmur6, hmu1, hl1, hl1', hell, -, -, -, hhalf, hquart⟩ :=
     budget_facts d h
   have hsq : 0 < Real.sqrt r := Real.sqrt_pos.2 hr0
@@ -184,7 +185,8 @@ theorem budget_dio (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar d) r
   have hpow4 : (2*p.l2top)^b ≤ 4^b*p.ell^b := by
     rw [← mul_pow]; exact pow_le_pow_left₀ (by positivity) h2lam b
   have hell0 : 0 ≤ p.ell := le_trans (by positivity) hell
-  have hT0 : 0 ≤ 2*Real.pi*(pgScales d).k0*Real.sqrt r*(5*pgMeasureUpper1 d+4*pgMeasureUpper2 d) := by
+  have hT0 : 0 ≤ 2*Real.pi*(pgScales d).k0*Real.sqrt r*
+      (5*pgMeasureUpper1 d+4*pgMeasureUpper2 d) := by
     have : 0 ≤ pgMeasureUpper1 d := hc1'.trans hc1
     positivity
   calc volume (pgActionDomain d r mu \ pgD0 d r mu)
