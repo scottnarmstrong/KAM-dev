@@ -412,3 +412,34 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   math PASS) and R1 (infrastructure package with no signed declarations; audit focus item "every declaration =
   signature file" misapplied to unsigned helpers; math PASS) accepted without re-audit; ruling notes on their
   branches. The orchestrator's audit focus now reads "every SIGNED declaration = signature file".
+- **19:27. Critical path note.** E11 (`stopped`) correctly stopped without writing Lean: per P14 design gate N2 its
+  proof applies the N root `partialConvex_nekhoroshev`, a DRAFT_SORRY frozen anchor whose provider is the N11 chain.
+  So `planetaryExponentialSafety` (E11, E12) waits for N11 to finish and `partialConvex_nekhoroshev` to be sealed;
+  N11 is the critical path for two frozen theorems. E11 is parked with its inputs merged.
+- **19:55. Second seal tonight: `quasiConvex_nekhoroshev_complexBound` (N-HEAD-C).** N10-3/N10-4/N10-5 passed
+  (N10-5 seal-key audit: exact frozen type, prospective seal, axioms, kernel); kam-inp sealed it (7c254d1a, checks
+  00afab9d: full build 9964 jobs, axioms standard, leanchecker 0, lint OK). Frozen statements proved: 15/22.
+  Graph N 308/728, P 651/1363. Remaining DRAFT anchors: properlyDegenerateKAM, planarTwoPlanetKAM,
+  fixedSunPlanetaryKAM, planetaryExponentialSafety (gated on N11 via E11), secularBoxSafety,
+  secularBoxAtCitedMasses, partialConvex_nekhoroshev (N11 chain, critical path).
+- **20:00. P11A-P1 accepted:** its audit failed only on an inherited lint line in the frozen AmdConfinement file (already rewrapped on inp); ruling note on inp-p11ap1.
+- **20:40. Ruling (P11A-P2 split; design-size signal).** P11A-P2 delivered the polar chart, `total_chart` and the
+  hc-rot building blocks (~565 lines) but not `holo_chart`/`total_chart_transport`: the prover's map of the
+  remaining work (data choice and lift, the complex-angle extension of fFix with a uniform separation strip, the
+  chart/lattice, the fast mean, assembly) is several thousand lines, far above the design's 750. Ruling: P11A-P2
+  is accepted for what it delivered (audit scoped to total-chart, tc-polar, tc-lat and the hc-rot blocks), and
+  the rest is split into P2b (data choice + hc-lift), P2c (hc-strip/hc-F, parametric in a rotation family with
+  the hc-rot bounds), P2d (hc-id/hc-lat), P2e (hc-mean) and P2f (holo_chart assembly + total_chart_transport).
+  No signed statement changes.
+- **20:50. Ruling (signed-name clash, N11 `flow`).** The N11 signature file declares `KAM.Nekhoroshev.flow`
+  (node bpN:p11:flow), but Part 5's `KAM/Nekhoroshev/Averaging/Flow.lean` already owns that constant, so the two
+  modules cannot be imported together (the root build would fail). As with `closure` -> `amd_closure` and
+  `avg` -> `pg_avg`, the signed name is renamed to `ext_flow` (statement unchanged); `flow_real` does not clash
+  and keeps its name. N11Signatures.lean line 213 amended (backup in orchestrator-tools/handoffs); N11-E1 commit
+  c198ff11; the N11 design node table (line 191) needs the same rename.
+- **20:55. Landed with node gaps (kam-inp report).** N11-O, T8 and Q3 landed in 8400d0f1 but some graph nodes stay
+  NOT_STARTED: N11-O final-mu and final-time (only an existential mu0, not the explicit mu_a..mu_f formulas or
+  the closed form of T_P); T8 homological, ho-def, ho-eq (chi defined as a real part; the reversed {N0,chi} form
+  not exported); Q3 adm_budget's ab-* nodes. Ruling: one follow-up package GAP-A fills the N11-O and T8 gaps as appended
+  exports (no signed statement changes). Q3 has no gap of its own: the ab-* nodes belong to `adm_budget`
+  (P11a-3, not yet designed) and wait for that design.
