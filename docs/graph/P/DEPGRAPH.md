@@ -34765,9 +34765,9 @@ EDGE: bpP:p0:d25-exponents#planetaryDriftExponent | blueprint-P/parts/p14a-amd-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amdOuter, amdInner, amdCollar, amdCompact (KAM/Planetary/AMD/Setting.lean)
+LEAN_NOTE: audit P14-A0 PASS WITH NOTES (definitions; regions via frozen LowAMDRegion)
 NOTE: created from p14a:prose-L4-L16 (the Throughout sentence L5-L7) and p14a:prose-L20-L24 (SPEC section data); consumers: ecc-bound, geometry, closure, moving-ode, ang-mom, amd and its steps; the ProgradeElliptic guard of Remark bpP:p0:d25-totality is not an edge
 
 NODE: bpP:p14:enlarge
