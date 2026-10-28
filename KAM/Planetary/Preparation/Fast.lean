@@ -249,13 +249,13 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
     have h1 := c9 (oscPack z).2 hzo.2 (oscPack z).1 0
       (by rw [show ((oscPack z).1, (oscPack z).2) = oscPack z from rfl, s_osc_data]; exact hz)
       (by
-        rw [oscPack_eq, oscUnpack_flat]
+        rw [oscPack_eq, p11_oscUnpack_flat]
         exact zero_angle_mem C.J0 hσ6
           (show ‖firstBlock (b := n) z.2 - KAM.realInclusion n C.J0‖ < s1 / 2 from hz.2.1)
           (show ‖lastBlock (a := n) z.1‖ < C.rz / 2 from hz.2.2.1)
           (show ‖lastBlock (a := n) z.2‖ < C.rz / 2 from hz.2.2.2))
     rw [show ((oscPack z).1, (oscPack z).2) = oscPack z from rfl, s_osc_data] at h1
-    rw [h1, oscPack_eq, oscUnpack_flat]
+    rw [h1, oscPack_eq, p11_oscUnpack_flat]
   have hflat : ∀ J : P11CVec n, ‖J - KAM.realInclusion n C.J0‖ < s1 / 2 → ∀ z : P11Phase n,
       ‖z‖ < C.rz / 2 →
         p11Flat J z.2 z.1 ∈ oscParams (m := n) {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) :=
