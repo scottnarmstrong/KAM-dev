@@ -96,6 +96,56 @@ theorem continuousOn_planetC (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : �
   exact h.continuousOn.comp (continuous_blockC i).continuousOn fun z hz =>
     blockC_mem_nbhd D ha hr hz.2 i
 
+theorem action_sq_div (D : Data n) {a : Vec n} (ha : a ∈ axes n) (i : Fin n) :
+    action D a i ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) = a i := by
+  have := D.hG; have := D.hm0; have := D.hm i; have := ha.1 i
+  have h : 0 ≤ D.G * D.m0 * a i := by positivity
+  unfold action
+  rw [mul_pow, Real.sq_sqrt h]
+  field_simp
+
+theorem planetC_center (D : Data n) {a : Vec n} (ha : a ∈ axes n) (t : Vec n) (i : Fin n) :
+    (planetC D t (center D a) i).1 =
+      fun c => ((a i * ![Real.cos (t i), Real.sin (t i)] c : ℝ) : ℂ) := by
+  have hΛ := action_pos D ha i
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have hh := (poincare_holomorphic (m := D.m i) (κ := D.G * D.m0) (Λo := action D a i)
+    (D.hm i) hκ hΛ).2.2.2.2
+  have hb : blockC t (center D a) i = phaseToC ((![t i, 0], ![action D a i, 0]) : Phase 2) := by
+    refine Prod.ext (funext fun k => ?_) (funext fun k => ?_) <;> fin_cases k <;>
+      simp [blockC, center, inclusion, phaseToC]
+  have hmem : phaseToC ((![t i, 0], ![action D a i, 0]) : Phase 2) ∈
+      poincareNbhd (action D a i) := by
+    rw [← hb]
+    refine blockC_mem_nbhd D ha (r := rho D a / 2) (by linarith [rho_pos D ha]) ?_ i
+    intro k
+    have := rho_pos D ha
+    simp [center, inclusion]; positivity
+  rw [planetC_eq, hb, (hh _ hmem).2, poincare_circular (D.hm i) hκ hΛ, action_sq_div D ha i]
+  ext c; fin_cases c <;> simp [phaseToC]
+
+theorem re_separationC_center (D : Data n) {a : Vec n} (ha : a ∈ axes n) (t : Vec n)
+    {i j : Fin n} : (a j - a i) ^ 2 ≤ (separationC D t (center D a) i j).re := by
+  have hi := ha.1 i
+  have hj := ha.1 j
+  have : separationC D t (center D a) i j =
+      (((a i * Real.cos (t i) - a j * Real.cos (t j)) ^ 2 +
+        (a i * Real.sin (t i) - a j * Real.sin (t j)) ^ 2 : ℝ) : ℂ) := by
+    unfold separationC
+    rw [planetC_center D ha, planetC_center D ha]
+    simp [Fin.sum_univ_two]
+  rw [this, Complex.ofReal_re]
+  have h1 := Real.sin_sq_add_cos_sq (t i)
+  have h2 := Real.sin_sq_add_cos_sq (t j)
+  have key : (a i * Real.cos (t i) - a j * Real.cos (t j)) ^ 2 +
+      (a i * Real.sin (t i) - a j * Real.sin (t j)) ^ 2 = (a j - a i) ^ 2 +
+      a i * a j * ((Real.cos (t i) - Real.cos (t j)) ^ 2 + (Real.sin (t i) - Real.sin (t j)) ^ 2) := by
+    linear_combination (a i ^ 2 - a i * a j) * h1 + (a j ^ 2 - a i * a j) * h2
+  rw [key]
+  have : 0 ≤ a i * a j * ((Real.cos (t i) - Real.cos (t j)) ^ 2 +
+      (Real.sin (t i) - Real.sin (t j)) ^ 2) := by positivity
+  linarith
+
 end SecularForm
 end KAM.Planetary
 end
