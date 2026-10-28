@@ -44,7 +44,81 @@ theorem schedule_ratios (hn : 1 ≤ n) (hμ : 1 ≤ μ) (hτ : 0 ≤ τ) :
     0 < selectionQ n μ τ ∧ selectionQ n μ τ ≤ (2 : ℝ)⁻¹ ^ 5 ∧
     2 * selectionQ n μ τ ^ 2 = selectionVarpi n μ τ / 8 ∧
     (∀ i, selectionG n μ τ i ≤ (2 : ℝ)⁻¹ ^ 5) ∧
-    selectionVarrho n μ τ ≤ (2 : ℝ) ^ (-(τ + 1)) / 32 := sorry
+    selectionVarrho n μ τ ≤ (2 : ℝ) ^ (-(τ + 1)) / 32 := by
+  have hn' : (1 : ℝ) ≤ n := by exact_mod_cast hn
+  have hμ' : (1 : ℝ) ≤ μ := by exact_mod_cast hμ
+  have hE : 4 * τ + n + 8 ≤ selectionExponent n μ τ := by
+    unfold selectionExponent
+    nlinarith [mul_nonneg hτ (sub_nonneg.2 hμ')]
+  have hE3 : (τ + 1) * μ + 7 ≤ selectionExponent n μ τ := by
+    unfold selectionExponent
+    nlinarith [mul_nonneg hτ (sub_nonneg.2 hμ')]
+  set E := selectionExponent n μ τ with hEdef
+  set u : ℝ := (2 : ℝ) ^ (-E) with hu
+  have hu0 : 0 < u := by positivity
+  have hvarpi : selectionVarpi n μ τ = u ^ 2 := by
+    unfold selectionVarpi
+    rw [← hEdef, hu, ← Real.rpow_natCast, ← Real.rpow_mul (by norm_num)]
+    congr 1
+    push_cast
+    ring
+  have hQ : selectionQ n μ τ = u / 4 := by
+    unfold selectionQ
+    rw [hvarpi, Real.sqrt_sq hu0.le]
+  have hrho : selectionVarrho n μ τ = 4 * u := by
+    unfold selectionVarrho
+    rw [hvarpi, hQ]
+    field_simp
+  have two_le : ∀ x : ℝ, x ≤ -5 → (2 : ℝ) ^ x ≤ (2 : ℝ)⁻¹ ^ 5 := by
+    intro x hx
+    calc (2 : ℝ) ^ x ≤ (2 : ℝ) ^ (-5 : ℝ) :=
+          Real.rpow_le_rpow_of_exponent_le (by norm_num) hx
+      _ = (2 : ℝ)⁻¹ ^ 5 := by
+          rw [Real.rpow_neg (by norm_num)]
+          norm_num
+  have four : (4 : ℝ) = (2 : ℝ) ^ (2 : ℝ) := by norm_num
+  have hpow : ∀ x y : ℝ, (2 : ℝ) ^ x * (2 : ℝ) ^ y = (2 : ℝ) ^ (x + y) := fun x y =>
+    (Real.rpow_add (by norm_num) x y).symm
+  have hnat : ∀ m : ℕ, (2 : ℝ) ^ m = (2 : ℝ) ^ (m : ℝ) := fun m => (Real.rpow_natCast 2 m).symm
+  have hfour_u : ∀ y : ℝ, 4 * u * (2 : ℝ) ^ y = (2 : ℝ) ^ (2 - E + y) := by
+    intro y
+    rw [four, hu, hpow, hpow]
+    congr 1
+  refine ⟨hQ ▸ by positivity, ?_, ?_, ?_, ?_⟩
+  · rw [hQ]
+    have : u / 4 = (2 : ℝ) ^ (-E - 2) := by
+      rw [hu, show -E - 2 = -E + (-2) from by ring, ← hpow, Real.rpow_neg (by norm_num)]
+      norm_num
+      ring
+    rw [this]
+    exact two_le _ (by linarith)
+  · rw [hQ, hvarpi]
+    ring
+  · intro i
+    unfold selectionG
+    simp only [hrho]
+    fin_cases i
+    · simp only [Fin.zero_eta, Matrix.cons_val_zero]
+      rw [hnat, hfour_u, hpow]
+      exact two_le _ (by push_cast; linarith)
+    · simp only [Fin.mk_one, Matrix.cons_val_one]
+      rw [hfour_u]
+      exact two_le _ (by linarith)
+    · simp only [Fin.reduceFinMk, Matrix.cons_val]
+      rw [hfour_u]
+      exact two_le _ (by linarith)
+    · simp only [Fin.reduceFinMk, Matrix.cons_val]
+      rw [hnat, hfour_u, hpow]
+      exact two_le _ (by push_cast; linarith)
+  · rw [hrho]
+    have h1 : 4 * u = (2 : ℝ) ^ (2 - E) := by
+      simpa using hfour_u 0
+    have h2 : (2 : ℝ) ^ (-(τ + 1)) / 32 = (2 : ℝ) ^ (-(τ + 1) + (-5)) := by
+      rw [← hpow, Real.rpow_neg (by norm_num)]
+      norm_num
+      ring
+    rw [h1, h2]
+    exact Real.rpow_le_rpow_of_exponent_le (by norm_num) (by linarith)
 
 theorem geom_recursion {v c P p : ℝ} (hv : 0 < v) (hv1 : v < 1)
     (hc0 : 0 ≤ c) (hc : c ≤ 3 * v / 8) (hP : 0 < P) (hp : 0 < p)
