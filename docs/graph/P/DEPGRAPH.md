@@ -9883,7 +9883,7 @@ EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P5-FAM PASS WITH NOTES but PGFamilySpec/torus_conv omit the Diophantine clause (derived later by consumers) and frequency bounds live in separate frequency_bounds; full conclusion not stated in one declaration
 NOTE: -
 
 NODE: stepP:p5:tc-chart
@@ -9912,9 +9912,9 @@ EDGE: bpP:p1:period-convert | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:tc-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fam_ham_eq (KAM/Planetary/PGAssembly/FamilyAux.lean)
+LEAN_NOTE: audit P5-FAM PASS WITH NOTES; pulled-back H equals Re(kamH+kamF) on the real strip (Revision-4 attachment)
 NOTE: -
 
 NODE: stepP:p5:tc-LT
@@ -9953,9 +9953,9 @@ EDGE: bpP:p1:period-convert | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:tc-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fam_lattice (KAM/Planetary/PGAssembly/FamilyAux.lean); torus_conv (KAM/Planetary/PGAssembly/Family.lean)
+LEAN_NOTE: audit P5-FAM PASS WITH NOTES; lattice-torus transfer, hypothesis is the P3 two-scale-kam torus output
 NOTE: -
 
 NODE: stepP:p5:tc-pipe
@@ -9986,9 +9986,9 @@ EDGE: bpP:p5:kset | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:tc-pipe@L262-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torus_conv, PGFamilySpec (KAM/Planetary/PGAssembly/Family.lean)
+LEAN_NOTE: audit P5-FAM PASS WITH NOTES; final IsCylinderTorus clause of PGFamilySpec, same frequency
 NOTE: -
 
 NODE: stepP:p5:tc-freq
@@ -10021,7 +10021,7 @@ EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: frequency_bounds states only the norm bounds; Diophantine part of the conclusion not in the declaration
 NOTE: -
 
 NODE: bpP:p5:cell-transfer
