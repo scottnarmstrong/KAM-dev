@@ -30787,7 +30787,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T11 PASS WITH NOTES explicitly does not certify the composed T (rotation composition, inverse-rotation adapter); only chi-flow lift_map and full_lift_hamiltonian are proved
 NOTE: -
 
 NODE: stepP:p11b:lm-ham
@@ -30813,9 +30813,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: full_lift_hamiltonian (KAM/Planetary/PlanarTorsion/Lift.lean); p11c_liftFlow, p11c_tube (KAM/Planetary/PlanarTorsion/Lift/Defs.lean)
+LEAN_NOTE: audit T11 PASS WITH NOTES (node lm-ham PASS); signed full_lift_hamiltonian
 NOTE: -
 
 NODE: stepP:p11b:lm-prop
@@ -30847,7 +30847,7 @@ EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T11 PASS WITH NOTES covers only the chi-flow lift (lift_map: analytic, symplectic, injective, action-preserving, translation covariant); node conclusion also requires the composition T = Phi_rho^(-1) o Phi_chi, left to T14/T16 (BirkhoffResult)
 NOTE: SOURCE_GAP: L175 invokes N:bpN:p5:symplectic and N:bpN:p5:canonical for the full (lambda,Lambda,z) Hamiltonian flow. These imports inherit N:bpN:p5:flow: a holomorphic field on a complex open domain, a chosen complex norm with field bound epsilon<=1/2, and initial points in Omega^{1/2}. The real compact-parameter flow of flow/fl-bd does not state these complex hypotheses; the full field also contains partial_Lambda chi in the angle components. No complexification/domain/smallness bridge or separately approved general real symplectic-flow theorem is supplied here. The asserted symplectic conclusion is retained, with this applicability gap explicit.
 
 NODE: bpP:p11b:sec-beta#data
