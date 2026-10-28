@@ -9,6 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.HoloShrink
 public import KAM.Planetary.Preparation.HoloChart
 public import KAM.Planetary.Preparation.HoloMean
+public import KAM.Planetary.Preparation.Polar
 
 /-!
 # Assembly of `holo_chart` (P11A-P2f, `bpP:p11:holo-chart`)
@@ -173,6 +174,96 @@ theorem holo_chart {n : ℕ} (D : P11Physical n) :
     d.rho_clause, d.rho_bounds, hsp⟩, d.euclid_le⟩
 
 end Assembly
+
+/-- The signed secular data, selected by `holo_chart`. -/
+def p11SecularData {n : ℕ} (D : P11Physical n) : P11SecularData n := (holo_chart D).choose
+
+section Transport
+
+variable {n : ℕ}
+
+/-- The chart clauses of `P11SecularSpec` (its last conjunct). -/
+theorem P11SecularSpec.chart_part {D : P11Physical n} {C : P11SecularData n}
+    (h : P11SecularSpec D C) :
+    (let O := KAM.realInclusion₂ (n + n) ⁻¹'
+        p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz
+     AnalyticOnNhd ℝ C.chart O ∧ KAM.Kepler.IsSymplecticOn 1 C.chart O ∧
+     (∀ z ∈ O, p11ChartInput C z ∈ poincareProdDom n ∧
+       C.chart z = poincareProd D.m (D.G * D.m0) (p11ChartInput C z) ∧
+         C.chart z ∈ collisionFreeDomain n) ∧
+     (∀ z ∈ O, ∀ k : Fin n → ℤ,
+       C.chart (z.1 + Fin.append (fun i => (k i : ℝ)) 0, z.2) = C.chart z) ∧
+     (∀ z ∈ O, ∀ z' ∈ O, C.chart z = C.chart z' →
+       ∃ k : Fin n → ℤ, z' = (z.1 + Fin.append (fun i => (k i : ℝ)) 0, z.2)) ∧
+     (∀ eps : ℝ, ∀ z ∈ O, fixedHamiltonian D.G D.m0 D.m eps (C.chart z) =
+        (p11WorkingH C eps (KAM.realInclusion₂ (n + n) z)).re)) :=
+  h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
+
+/-- The polar chart commutes with the shift of the fast angles. -/
+theorem p11PolarR_fast_shift (z : Phase (n + n)) (k : Fin n → ℤ) :
+    p11PolarR (z.1 + Fin.append (fun i => (k i : ℝ)) 0, z.2) =
+      ((p11PolarR z).1 + Fin.append (fun i => (k i : ℝ)) 0, (p11PolarR z).2) := by
+  refine Prod.ext (funext fun j => ?_) (funext fun j => ?_) <;>
+    refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
+    simp [p11PolarR, p11PolarC]
+
+theorem append_int_add (k : Fin (n + n) → ℤ) :
+    (fun i => (k i : ℝ)) = Fin.append (fun i => ((k (Fin.castAdd n i) : ℤ) : ℝ)) 0 +
+      Fin.append 0 (fun i => ((k (Fin.natAdd n i) : ℤ) : ℝ)) := by
+  funext j
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp
+
+/-- The signed `total_chart_transport`: compatibility of both integer angle lattices. -/
+theorem total_chart_transport {n : ℕ} (D : P11Physical n)
+    {O : Set (Phase (n+n))} (hO : IsOpen O)
+    (hpos : ∀ z ∈ O, ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i))
+    (hmap : MapsTo p11PolarR O
+      (KAM.realInclusion₂ (n+n) ⁻¹' p11WorkingDom n (p11SecularData D).J0
+        (2*(p11SecularData D).sigma) (2*(p11SecularData D).rC) (p11SecularData D).rz))
+    (hshift : ∀ z ∈ O, ∀ k : Fin (n+n) → ℤ, (z.1+(fun i => (k i : ℝ)),z.2) ∈ O) :
+    let Xi := (p11SecularData D).chart ∘ p11PolarR
+    AnalyticOnNhd ℝ Xi O ∧ KAM.Kepler.IsSymplecticOn 1 Xi O ∧
+    (∀ z ∈ O, ∀ k : Fin (n+n) → ℤ, Xi (z.1+(fun i => (k i : ℝ)),z.2)=Xi z) ∧
+    ∀ z ∈ O, ∀ z' ∈ O, Xi z=Xi z' →
+      ∃ k : Fin (n+n) → ℤ, z'=(z.1+(fun i => (k i : ℝ)),z.2) := by
+  intro Xi
+  obtain ⟨hAn, hSy, -, hLat, hInj, -⟩ := (holo_chart D).choose_spec.1.chart_part
+  obtain ⟨tAn, tSy, tLat, tInj⟩ := (total_chart (n := n))
+  have hO' : O ⊆ {z : Phase (n + n) | ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)} := hpos
+  have hdiffP : ∀ z ∈ O, DifferentiableAt ℝ p11PolarR z := fun z hz => (tAn z (hO' hz)).differentiableAt
+  refine ⟨hAn.comp (tAn.mono hO') hmap, ?_, ?_, ?_⟩
+  · have := KAM.Kepler.IsSymplecticOn.comp (fun z hz => tSy z (hO' hz)) hSy hdiffP
+      (fun w hw => (hAn w hw).differentiableAt) hmap
+    have h1 : (1 : ℝ) * 1 = 1 := one_mul 1
+    rw [h1] at this
+    exact this
+  · intro z hz k
+    have hk := append_int_add k
+    have hw : ∀ i : Fin n, 0 < (z.1 + Fin.append (fun i => ((k (Fin.castAdd n i) : ℤ) : ℝ)) 0,
+        z.2).2 (Fin.natAdd n i) := hpos z hz
+    have e1 : p11PolarR ((z.1 + Fin.append (fun i => ((k (Fin.castAdd n i) : ℤ) : ℝ)) 0) +
+        Fin.append 0 (fun i => ((k (Fin.natAdd n i) : ℤ) : ℝ)), z.2) =
+        p11PolarR (z.1 + Fin.append (fun i => ((k (Fin.castAdd n i) : ℤ) : ℝ)) 0, z.2) :=
+      tLat (z.1 + Fin.append (fun i => ((k (Fin.castAdd n i) : ℤ) : ℝ)) 0, z.2) hw _
+    show (p11SecularData D).chart (p11PolarR _) = (p11SecularData D).chart (p11PolarR _)
+    rw [hk, ← add_assoc, e1, p11PolarR_fast_shift]
+    exact hLat _ (hmap hz) _
+  · intro z hz z' hz' h
+    obtain ⟨kf, hkf⟩ := hInj _ (hmap hz) _ (hmap hz') h
+    rw [← p11PolarR_fast_shift] at hkf
+    have hw : ∀ i : Fin n, 0 < (z.1 + Fin.append (fun i => ((kf i : ℤ) : ℝ)) 0,
+        z.2).2 (Fin.natAdd n i) := hpos z hz
+    obtain ⟨ks, hks⟩ := tInj (z.1 + Fin.append (fun i => ((kf i : ℤ) : ℝ)) 0, z.2) hw z'
+      (hO' hz') hkf.symm
+    refine ⟨Fin.append kf ks, ?_⟩
+    have : (fun i => ((Fin.append kf ks i : ℤ) : ℝ)) =
+        Fin.append (fun i => ((kf i : ℤ) : ℝ)) 0 + Fin.append 0 (fun i => ((ks i : ℤ) : ℝ)) := by
+      funext j
+      refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp
+    rw [this, ← add_assoc]
+    exact hks
+
+end Transport
 
 end KAM.Planetary
 
