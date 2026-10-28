@@ -123,7 +123,8 @@ theorem fam_isSigmaCompact_D0 (h : admissible d (pgRstar d) r mu) :
     refine IsOpen.inter (d.hV.preimage hbf) ?_
     exact (isOpen_set_pi Set.finite_univ fun _ _ => isOpen_Ioo).preimage hbs
   have hCl : IsClosed ((fun J => blockFast J) ⁻¹'
-      ({I | ∀ J ∈ frontier d.V, Real.sqrt r ≤ dist I J} ∩ u1) ∩ u2) := (((hcl1.inter hu1).preimage hbf)).inter hu2
+      ({I | ∀ J ∈ frontier d.V, Real.sqrt r ≤ dist I J} ∩ u1) ∩ u2) :=
+    ((hcl1.inter hu1).preimage hbf).inter hu2
   convert fam_isSigmaCompact_inter hO1 hCl using 1
   rw [← hD]
   ext J
