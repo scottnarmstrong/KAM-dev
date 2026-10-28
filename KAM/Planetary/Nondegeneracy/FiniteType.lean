@@ -302,6 +302,144 @@ theorem finite_type {C : Type*} [MetricSpace C] {C0 : Set C} (hC : IsCompact C0)
   obtain ⟨z, hz, hz'⟩ := betaFamily_attained hC hCn hK hKn (g := g) (μ := μ) (hJ μ)
   exact ⟨μ, Nat.succ_pos _, hz' ▸ hpos z hz, fun c hc y hy => betaFamily_le hc hy⟩
 
+lemma analyticAt_fsum {ι E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] (s : Finset ι)
+    {f : ι → E → ℝ} {x : E} (h : ∀ i ∈ s, AnalyticAt ℝ (f i) x) :
+    AnalyticAt ℝ (fun y => ∑ i ∈ s, f i y) x := by
+  simpa [Finset.sum_fn] using Finset.analyticAt_sum s h
+
+lemma analyticAt_fprod {ι E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] (s : Finset ι)
+    {f : ι → E → ℝ} {x : E} (h : ∀ i ∈ s, AnalyticAt ℝ (f i) x) :
+    AnalyticAt ℝ (fun y => ∏ i ∈ s, f i y) x := by
+  simpa [Finset.prod_fn] using Finset.analyticAt_prod s h
+
+/-! ### Families expanding over a finite index -/
+
+/-- If `g c y = ∑ₖ pₖ(c) hₖ(y)` with continuous `pₖ` and analytic `hₖ`, then each `g c` is
+analytic and the iterated derivatives are jointly continuous. -/
+lemma expansion {C ι : Type*} [TopologicalSpace C] [Fintype ι] {B : Set (Vec d)} (hB : IsOpen B)
+    {g : C → Vec d → ℝ} {p : ι → C → ℝ} (hp : ∀ k, Continuous (p k)) {h : ι → Vec d → ℝ}
+    (hh : ∀ k, AnalyticOnNhd ℝ (h k) B) (hg : ∀ c y, g c y = ∑ k, p k c * h k y) :
+    (∀ c, AnalyticOnNhd ℝ (g c) B) ∧
+    ∀ ν : ℕ, ContinuousOn (fun z : C × Vec d => iteratedFDeriv ℝ ν (g z.1) z.2)
+      (univ ×ˢ B) := by
+  have hgc : ∀ c, g c = fun y => ∑ k, p k c • h k y := by
+    intro c; funext y; simp [hg]
+  refine ⟨fun c => ?_, fun ν => ?_⟩
+  · have : g c = fun y => ∑ k ∈ Finset.univ, p k c * h k y := funext (hg c)
+    rw [this]
+    exact fun y hy => analyticAt_fsum _ fun k _ => analyticAt_const.mul (hh k y hy)
+  · have hcd : ∀ k, ContDiffOn ℝ ν (h k) B := fun k => (hh k).contDiffOn hB.uniqueDiffOn
+    have hcont : ∀ k, ContinuousOn (iteratedFDeriv ℝ ν (h k)) B := fun k =>
+      ((hcd k).continuousOn_iteratedFDerivWithin le_rfl hB.uniqueDiffOn).congr
+        (iteratedFDerivWithin_of_isOpen ν hB).symm
+    have heq : EqOn (fun z : C × Vec d => iteratedFDeriv ℝ ν (g z.1) z.2)
+        (fun z => ∑ k, p k z.1 • iteratedFDeriv ℝ ν (h k) z.2) (univ ×ˢ B) := by
+      rintro ⟨c, y⟩ ⟨-, hy⟩
+      simp only
+      rw [← iteratedFDerivWithin_of_isOpen ν hB hy, hgc c,
+        iteratedFDerivWithin_fun_sum_apply hB.uniqueDiffOn hy
+          (fun k _ => ((hcd k) y hy).const_smul (p k c))]
+      refine Finset.sum_congr rfl fun k _ => ?_
+      have := iteratedFDerivWithin_const_smul_apply (a := p k c) ((hcd k) y hy)
+        hB.uniqueDiffOn hy
+      exact this.trans (congrArg _ (iteratedFDerivWithin_of_isOpen ν hB hy))
+    refine ContinuousOn.congr ?_ heq
+    refine continuousOn_finsetSum _ fun k _ => ?_
+    exact ((hp k).comp continuous_fst).continuousOn.smul
+      ((hcont k).comp continuousOn_snd fun z hz => hz.2)
+
+lemma continuous_length2 : Continuous (length2 : Vec m → ℝ) :=
+  Real.continuous_sqrt.comp (continuous_finsetSum _ fun i _ => (continuous_apply i).pow 2)
+
+lemma isCompact_sphere : IsCompact (sphere m) :=
+  Metric.isCompact_of_isClosed_isBounded (isClosed_eq continuous_length2 continuous_const)
+    ((Metric.isBounded_closedBall (x := (0 : Vec m)) (r := 1)).subset fun c hc => by
+      simpa using norm_le_one_of_length2 (show length2 c = 1 from hc))
+
+lemma sphere_nonempty (hm : 0 < m) : (sphere m).Nonempty :=
+  ⟨Pi.single ⟨0, hm⟩ 1, by simp [sphere, length2, Pi.single_apply]⟩
+
+lemma ne_zero_of_mem_sphere {c : Vec m} (hc : c ∈ sphere m) : c ≠ 0 := by
+  rintro rfl
+  have : length2 (0 : Vec m) = 0 := by simp [length2]
+  exact zero_ne_one (this.symm.trans hc)
+
+lemma analytic_coord {B : Set (Vec d)} {ω : Vec d → Vec m} (hAn : AnalyticOnNhd ℝ ω B) (i : Fin m) :
+    AnalyticOnNhd ℝ (fun y => ω y i) B := fun y hy =>
+  ((ContinuousLinearMap.proj i : Vec m →L[ℝ] ℝ).analyticAt _).comp (hAn y hy)
+
+theorem cp09_lemma1 (hm : 0 < m) {B K : Set (Vec d)}
+    (hB : IsOpen B) (hBc : IsConnected B) (hK : IsCompact K) (hKn : K.Nonempty) (hKB : K ⊆ B)
+    {ω : Vec d → Vec m} (hAn : AnalyticOnNhd ℝ ω B) (hR : rnd_def B ω) :
+    ∃ μ : ℕ, 0 < μ ∧ 0 < betaMu ω K μ ∧
+      ∀ c ∈ sphere m, ∀ y ∈ K, betaMu ω K μ ≤ jetMax (squaredForm ω c) μ y := by
+  obtain ⟨hAn', hCont⟩ := expansion (C := Vec m) (ι := Fin m × Fin m) hB
+    (g := squaredForm ω) (p := fun k c => c k.1 * c k.2) (h := fun k y => ω y k.1 * ω y k.2)
+    (fun k => (continuous_apply k.1).mul (continuous_apply k.2))
+    (fun k => (analytic_coord hAn k.1).mul (analytic_coord hAn k.2))
+    (fun c y => by
+      simp only [squaredForm, sq, Finset.sum_mul_sum, Fintype.sum_prod_type]
+      exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring)
+  refine finite_type isCompact_sphere (sphere_nonempty hm) hB hBc hK hKn hKB
+    (fun c _ => hAn' c) (fun c hc => ?_) (fun ν => (hCont ν).mono (prod_mono (subset_univ _) subset_rfl))
+  obtain ⟨y, hy, hne⟩ := hR c (ne_zero_of_mem_sphere hc)
+  exact ⟨y, hy, pow_ne_zero 2 hne⟩
+
+theorem cp09_unsquared (hm : 0 < m) {B K : Set (Vec d)}
+    (hB : IsOpen B) (hBc : IsConnected B) (hK : IsCompact K) (hKn : K.Nonempty) (hKB : K ⊆ B)
+    {ω : Vec d → Vec m} (hAn : AnalyticOnNhd ℝ ω B) (hR : rnd_def B ω) :
+    ∃ μ : ℕ, 0 < μ ∧ 0 < betaFamily (fun c y => ∑ i, c i*ω y i) (sphere m) K μ := by
+  obtain ⟨hAn', hCont⟩ := expansion (C := Vec m) (ι := Fin m) hB
+    (g := fun c y => ∑ i, c i*ω y i) (p := fun k c => c k) (h := fun k y => ω y k)
+    (fun k => continuous_apply k) (fun k => analytic_coord hAn k) (fun c y => rfl)
+  obtain ⟨μ, hμ, hβ, -⟩ := finite_type isCompact_sphere (sphere_nonempty hm) hB hBc hK hKn hKB
+    (fun c _ => hAn' c) (fun c hc => hR c (ne_zero_of_mem_sphere hc))
+    (fun ν => (hCont ν).mono (prod_mono (subset_univ _) subset_rfl))
+  exact ⟨μ, hμ, hβ⟩
+
+theorem cp09_product {r : ℕ} {dims : Fin r → ℕ} (hm : ∀ l, 0 < dims l) {B K : Set (Vec d)}
+    (hB : IsOpen B) (hBc : IsConnected B) (hK : IsCompact K) (hKn : K.Nonempty) (hKB : K ⊆ B)
+    {ω : (l : Fin r) → Vec d → Vec (dims l)}
+    (hAn : ∀ l, AnalyticOnNhd ℝ (ω l) B) (hR : ∀ l, rnd_def B (ω l)) :
+    ∃ μ : ℕ, 0 < μ ∧ 0 < betaFamily
+      (fun (c : (l : Fin r) → Vec (dims l)) y => ∏ l, ∑ i, c l i*ω l y i)
+      {c | ∀ l, c l ∈ sphere (dims l)} K μ := by
+  obtain ⟨hAn', hCont⟩ := expansion (C := (l : Fin r) → Vec (dims l))
+    (ι := (l : Fin r) → Fin (dims l)) hB
+    (g := fun c y => ∏ l, ∑ i, c l i*ω l y i) (p := fun k c => ∏ l, c l (k l))
+    (h := fun k y => ∏ l, ω l y (k l))
+    (fun k => continuous_finsetProd _ fun l _ => (continuous_apply (k l)).comp (continuous_apply l))
+    (fun k y hy => analyticAt_fprod _ fun l _ => analytic_coord (hAn l) (k l) y hy)
+    (fun c y => by
+      have := Finset.prod_univ_sum (fun l => (Finset.univ : Finset (Fin (dims l))))
+        (fun l i => c l i * ω l y i)
+      rw [Fintype.piFinset_univ] at this
+      rw [this]
+      exact Finset.sum_congr rfl fun k _ => by rw [Finset.prod_mul_distrib])
+  have hC : IsCompact {c : (l : Fin r) → Vec (dims l) | ∀ l, c l ∈ sphere (dims l)} := by
+    have : {c : (l : Fin r) → Vec (dims l) | ∀ l, c l ∈ sphere (dims l)} =
+        Set.pi univ fun l => sphere (dims l) := by ext; simp
+    rw [this]
+    exact isCompact_univ_pi fun l => isCompact_sphere
+  have hCn : {c : (l : Fin r) → Vec (dims l) | ∀ l, c l ∈ sphere (dims l)}.Nonempty := by
+    choose c hc using fun l => sphere_nonempty (hm l)
+    exact ⟨c, hc⟩
+  have hNe : ∀ c ∈ {c : (l : Fin r) → Vec (dims l) | ∀ l, c l ∈ sphere (dims l)},
+      ∃ y ∈ B, ∏ l, ∑ i, c l i*ω l y i ≠ 0 := by
+    intro c hc
+    have hf : ∀ l, AnalyticOnNhd ℝ (fun y => ∑ i, c l i * ω l y i) B := fun l y hy =>
+      analyticAt_fsum _ fun i _ => analyticAt_const.mul (analytic_coord (hAn l) i y hy)
+    have hne : ∀ l, ∃ y ∈ B, (fun y => ∑ i, c l i * ω l y i) y ≠ 0 := fun l =>
+      hR l (c l) (ne_zero_of_mem_sphere (hc l))
+    obtain ⟨-, hcl, -⟩ := generic hB hBc hf hne
+    obtain ⟨y0, hy0⟩ := hBc.nonempty
+    obtain ⟨y, -, hy⟩ := mem_closure_iff.1 (hcl hy0) univ isOpen_univ trivial
+    exact ⟨y, hy.1, Finset.prod_ne_zero_iff.2 fun l _ => hy.2 l⟩
+  obtain ⟨μ, hμ, hβ, -⟩ := finite_type hC hCn hB hBc hK hKn hKB
+    (fun c _ => hAn' c) hNe
+    (fun ν => (hCont ν).mono (prod_mono (subset_univ _) subset_rfl))
+  exact ⟨μ, hμ, hβ⟩
+
 end Nondegeneracy
 end KAM.Planetary
 end
