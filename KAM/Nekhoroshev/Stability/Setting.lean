@@ -17,11 +17,13 @@ public import KAM.Weighted.Domains
 public import KAM.Weighted.Norm
 public import KAM.ODE.Basic
 public import KAM.Nekhoroshev.Interfaces.Norms
+public import KAM.Nekhoroshev.NormalForm.Setting
 
 /-!
 # Setting of the stability estimates (`bpN:p7:setting`, `bpN:p7:exit-ball`)
 
-Real neighbourhoods `U_ϱ D`, real strips `W_ϱ = ℝⁿ × U_ϱ D`, the real Hamiltonian `realH G = Re G ∘ ι`
+Real neighbourhoods `U_ϱ D`, real strips `W_ϱ = ℝⁿ × U_ϱ D`, the real Hamiltonian
+`realH G = Re G ∘ ι`
 (total), orbits, the real part `reMap Ψ` of a map, the real `θ`-gradient and Hessian, and the norm
 structure `IsActionNorm` with its two instances and the first-exit theorem `exit_ball`.
 -/
@@ -32,7 +34,7 @@ open Set Metric
 
 namespace KAM.Stability
 
-open KAM.Weighted
+open KAM.Weighted KAM.NormalForm
 
 variable {n : ℕ}
 
@@ -95,6 +97,37 @@ theorem realInclusion₂_mem_Dom_iff (D : Set (Fin n → ℝ)) {r s : ℝ} (hs :
 theorem realHamiltonian_eq_realH (h : (Fin n → ℂ) → ℂ) (f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) :
     KAM.realHamiltonian h f = realH (fun w => h w.2 + f w) := rfl
 
+/-- The Part 6 complex frequency at real points is the frozen frequency map (Parts 9-10 bridge). -/
+theorem freq_realInclusion {D : Set (Fin n → ℝ)} {r : ℝ} {h : (Fin n → ℂ) → ℂ}
+    (hh : DifferentiableOn ℂ h (polyNbhd (cpx D) r))
+    (hreal : ∀ I ∈ realNbhd D r, (h (KAM.realInclusion n I)).im = 0) {I : Fin n → ℝ}
+    (hI : I ∈ realNbhd D r) :
+    freq h (KAM.realInclusion n I) = KAM.realInclusion n (KAM.frequencyMap h I) := by
+  have hmemV : ∀ J ∈ realNbhd D r, KAM.realInclusion n J ∈ polyNbhd (cpx D) r := by
+    rintro J ⟨J', hJ', hlt⟩
+    exact ⟨KAM.realInclusion n J', ⟨J', hJ', rfl⟩, by rwa [← map_sub, KAM.norm_realInclusion]⟩
+  have hhd : DifferentiableAt ℂ h (KAM.realInclusion n I) :=
+    hh.differentiableAt ((isOpen_polyNbhd _ r).mem_nhds (hmemV I hI))
+  set g : (Fin n → ℝ) → ℝ := fun J => (h (KAM.realInclusion n J)).re with hg
+  have h2 : HasFDerivAt (fun J => h (KAM.realInclusion n J))
+      (((fderiv ℂ h (KAM.realInclusion n I)).restrictScalars ℝ).comp (KAM.realInclusion n)) I :=
+    (hhd.hasFDerivAt.restrictScalars ℝ).comp I ((KAM.realInclusion n).hasFDerivAt)
+  have h3 : HasFDerivAt g (Complex.reCLM.comp
+      (((fderiv ℂ h (KAM.realInclusion n I)).restrictScalars ℝ).comp (KAM.realInclusion n))) I :=
+    Complex.reCLM.hasFDerivAt.comp I h2
+  have hev : (fun J => h (KAM.realInclusion n J)) =ᶠ[nhds I] fun J => ((g J : ℝ) : ℂ) := by
+    filter_upwards [(isOpen_realNbhd D r).mem_nhds hI] with J hJ
+    exact Complex.ext (by simp [hg]) (by simpa [hg] using hreal J hJ)
+  have h5 : HasFDerivAt (fun J => ((g J : ℝ) : ℂ)) (Complex.ofRealCLM.comp (fderiv ℝ g I)) I :=
+    Complex.ofRealCLM.hasFDerivAt.comp I h3.differentiableAt.hasFDerivAt
+  have h6 := (h2.congr_of_eventuallyEq hev.symm).unique h5
+  funext i
+  have h7 := congrArg (fun L => L (Pi.single i 1)) h6
+  simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.coe_restrictScalars',
+    Complex.ofRealCLM_apply] at h7
+  rw [KAM.realInclusion_single] at h7
+  exact h7
+
 /-- A norm `|·|_*` on `ℝⁿ` dominating the max norm (the two instances used: `‖·‖`, `euclid`). -/
 structure IsActionNorm (N : (Fin n → ℝ) → ℝ) : Prop where
   continuous : Continuous N
@@ -150,7 +183,8 @@ theorem isActionNorm_euclid : IsActionNorm (fun a : Fin n → ℝ => KAM.Nekhoro
 
 /-- A real continuous function on `[0, b]` that starts below `ϱ` and ends above it has a first
 time at which it equals `ϱ`. -/
-private theorem first_hit {φ : ℝ → ℝ} {b ϱ : ℝ} (hb0 : 0 ≤ b) (hφ : ContinuousOn φ (Icc 0 b)) (h0 : φ 0 < ϱ)
+private theorem first_hit {φ : ℝ → ℝ} {b ϱ : ℝ} (hb0 : 0 ≤ b)
+    (hφ : ContinuousOn φ (Icc 0 b)) (h0 : φ 0 < ϱ)
     (hb : ϱ < φ b) : ∃ t ∈ Icc 0 b, φ t = ϱ ∧ ∀ τ ∈ Icc 0 t, φ τ ≤ ϱ := by
   set S := Icc 0 b ∩ φ ⁻¹' Ici ϱ with hS
   have hSc : IsClosed S := hφ.preimage_isClosed_of_isClosed isClosed_Icc isClosed_Ici
@@ -202,7 +236,8 @@ theorem exit_ball {Nrm : (Fin n → ℝ) → ℝ} (hN : IsActionNorm Nrm) {J : S
   · rw [uIcc_of_ge h] at hc hsub
     have hc' : ContinuousOn (fun τ => Nrm ((z (-τ)).2 - (z 0).2)) (Icc 0 (-t₁)) := by
       refine hc.comp continuous_neg.continuousOn (fun τ hτ => ⟨?_, ?_⟩) <;> linarith [hτ.1, hτ.2]
-    obtain ⟨t, ht, he, hle⟩ := first_hit (φ := fun τ => Nrm ((z (-τ)).2 - (z 0).2)) (by linarith) hc'
+    obtain ⟨t, ht, he, hle⟩ := first_hit (φ := fun τ => Nrm ((z (-τ)).2 - (z 0).2))
+      (by linarith) hc'
       (by simpa using h00) (by simpa using hexit)
     have hmem : -t ∈ Icc t₁ 0 := ⟨by linarith [ht.2], by linarith [ht.1]⟩
     refine ⟨-t, hsub hmem, by rw [uIcc_of_ge h]; exact hmem, he, fun τ hτ => ?_⟩

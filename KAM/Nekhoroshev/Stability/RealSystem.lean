@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Stability.Setting
+public import KAM.Nekhoroshev.Stability.Setting
 public import KAM.Canonical.Setting
 public import KAM.ODE.Hamiltonian
 public import KAM.Strip.Bridges
