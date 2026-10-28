@@ -118,31 +118,35 @@ theorem p11cB_O_mono (p : PlanarData) (Kc : Set (Fin 2 → ℝ)) {ε ε' : ℝ} 
     p11cB_O p Kc ε ⊆ p11cB_O p Kc ε' :=
   fun _ hI => ⟨hI.1, thickening_mono h Kc hI.2⟩
 
+theorem p11cB_actions_pos (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ} (ha : a ∈ p11c_axes)
+    (i : Fin 2) : 0 < p.actions a i := by
+  have ha0 : 0 < a i := by
+    fin_cases i
+    · exact ha.1
+    · exact ha.1.trans ha.2
+  have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
+  unfold PlanarData.actions
+  have := hp.2.2 i
+  positivity
+
+theorem p11cB_axes_actions (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ}
+    (ha : a ∈ p11c_axes) : p.axes (p.actions a) = a := by
+  funext i
+  have hm := hp.2.2 i
+  have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
+  have ha0 : 0 < a i := by
+    fin_cases i
+    · exact ha.1
+    · exact ha.1.trans ha.2
+  unfold PlanarData.axes PlanarData.actions
+  rw [mul_pow, Real.sq_sqrt (by positivity)]
+  field_simp
+
 theorem p11cB_actions_mem_O (p : PlanarData) (hp : p.Valid) {Kc : Set (Fin 2 → ℝ)}
     (hKax : Kc ⊆ p11c_axes) {ε : ℝ} (hε : 0 < ε) {a : Fin 2 → ℝ} (ha : a ∈ Kc) :
-    p.actions a ∈ p11cB_O p Kc ε := by
-  have hpos : ∀ i, 0 < p.actions a i := by
-    intro i
-    have ha0 : 0 < a i := by
-      fin_cases i
-      · exact (hKax ha).1
-      · exact (hKax ha).1.trans (hKax ha).2
-    have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
-    unfold PlanarData.actions
-    have := hp.2.2 i
-    positivity
-  have hax : p.axes (p.actions a) = a := by
-    funext i
-    have hm := hp.2.2 i
-    have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
-    have ha0 : 0 < a i := by
-      fin_cases i
-      · exact (hKax ha).1
-      · exact (hKax ha).1.trans (hKax ha).2
-    unfold PlanarData.axes PlanarData.actions
-    rw [mul_pow, Real.sq_sqrt (by positivity)]
-    field_simp
-  exact ⟨hpos, by rw [hax]; exact self_subset_thickening hε Kc ha⟩
+    p.actions a ∈ p11cB_O p Kc ε :=
+  ⟨p11cB_actions_pos p hp (hKax ha), by
+    rw [p11cB_axes_actions p hp (hKax ha)]; exact self_subset_thickening hε Kc ha⟩
 
 theorem p11cB_O_closure (p : PlanarData) (hp : p.Valid) {Kc : Set (Fin 2 → ℝ)}
     (hK : IsCompact Kc) {ε : ℝ} (_hε : 0 < ε) (_hsub : cthickening ε Kc ⊆ p11c_axes) :
