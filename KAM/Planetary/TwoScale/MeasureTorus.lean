@@ -131,6 +131,84 @@ theorem preimage_mem {Ψ : Phase n → Phase n}
   · intro hx2
     exact hKO ⟨x, ⟨trivial, hx2⟩, by rw [← hΨ x ⟨trivial, hx2⟩, hx]⟩
 
+/-- **`bpP:p3:meas-torus`** (private conditional helper): the part of the unit angle cell over
+the open real tube `realTube D r`, `r = 32 Ê ρ̂`, missing `K_Ω = Φ(ℝⁿ × D_*)` has measure at most
+`complementConstant n · (a + b)`. -/
+theorem meas_torus_of_limit :
+    volume (((univ ×ˢ realTube D (32 * Ehat * Rhat) : Set (Phase n)) \
+        Φ '' (univ ×ˢ (i '' D₀))) ∩ {z : Phase n | ∀ j, z.1 j ∈ Ico (0 : ℝ) 1}) ≤
+      ENNReal.ofReal (complementConstant n) *
+        (volume (D \ D₀) + volume (realTube D (32 * Ehat * Rhat) \ D)) := by
+  have hR := T.R_pos
+  have hs := T.s_pos
+  have hE0 := T.acts.E_nonneg
+  have hlam0 : 0 ≤ 768 * (n : ℝ) * Ehat := by positivity
+  set lam := 768 * (n : ℝ) * Ehat with hlam
+  have hlam1 := T.small
+  set ε := Ehat * s / π with hε
+  have hε0 : 0 ≤ ε := by positivity
+  have hπ := Real.pi_gt_three
+  have hε1 : ε ≤ 1 / 96 := by
+    rw [hε, div_le_iff₀ (by positivity)]
+    nlinarith [T.s_le, T.E_le, mul_nonneg hE0 hs.le]
+  obtain ⟨Ψ, hΨX, hΨlip, hΨinv⟩ := scaled_cover (n := n) (R := Rhat) (s := s) (lam := lam)
+    (eta := 3 / 2 * Ehat) hR hs ⟨hlam0, by linarith⟩ (by positivity) T.lip T.sup
+  have hΨinv' : ∀ y ∈ (univ ×ˢ (i '' D₀) : Set (Phase n)), ∃ x, Ψ x = y ∧
+      limitmap_data Rhat s (x - y) ≤ 2 * Ehat := by
+    intro y hy
+    obtain ⟨x, hx, hd⟩ := hΨinv y hy
+    refine ⟨x, hx, hd.trans ?_⟩
+    rw [div_le_iff₀ (by linarith)]
+    nlinarith
+  set W := realTube D (32 * Ehat * Rhat) \ i '' D₀ with hW
+  set S₀ := volume (D \ D₀) + volume (realTube D (32 * Ehat * Rhat) \ D) with hS₀
+  have hWvol := T.volume_tube_diff
+  set Cε : Set (Fin n → ℝ) := {θ | ∀ j, θ j ∈ Ico (-ε) (1 + ε)} with hCε
+  set N : Set (Fin n → ℝ) := {I | ∃ J ∈ i '' D₀, ‖I - J‖ ≤ 2 * Ehat * Rhat} with hN
+  set cell0 : Set (Fin n → ℝ) := {θ | ∀ j, θ j ∈ Ico (0 : ℝ) 1} with hcell0
+  have hcover : ((univ ×ˢ realTube D (32 * Ehat * Rhat) : Set (Phase n)) \
+        Φ '' (univ ×ˢ (i '' D₀))) ∩ {z : Phase n | ∀ j, z.1 j ∈ Ico (0 : ℝ) 1} ⊆
+      cell0 ×ˢ W ∪ Ψ '' (Cε ×ˢ (N \ i '' D₀)) := by
+    rintro y ⟨⟨⟨-, hy2⟩, hKO⟩, hcell⟩
+    by_cases hy : y.2 ∈ i '' D₀
+    · obtain ⟨x, hx, hd⟩ := hΨinv' y ⟨trivial, hy⟩
+      exact Or.inr (T.preimage_mem hΨX hy hcell hKO hx hd)
+    · exact Or.inl ⟨hcell, hy2, hy⟩
+  have h1 : volume (cell0 ×ˢ W) = volume W := by
+    rw [Measure.volume_eq_prod, Measure.prod_prod, hcell0, volume_box 0 1 zero_le_one]
+    simp
+  have h2 : volume (Ψ '' (Cε ×ˢ (N \ i '' D₀))) ≤ ENNReal.ofReal (2 ^ n) * volume W := by
+    have hl := lip_image_scaled (n := n) (R := Rhat) (s := s) (Λ := 1 + lam) hR hs
+      (S := Cε ×ˢ (N \ i '' D₀)) (F := Ψ) (fun x _ y _ => hΨlip x y)
+    refine hl.trans ?_
+    rw [Measure.volume_eq_prod, Measure.prod_prod, hCε, volume_box _ _ (by linarith)]
+    have hsh : volume (N \ i '' D₀) ≤ volume W := measure_mono T.shell_subset
+    have hc : ENNReal.ofReal ((1 + lam) ^ (2 * n)) * ENNReal.ofReal ((1 + ε - -ε) ^ n) ≤
+        ENNReal.ofReal (2 ^ n) := by
+      rw [← ENNReal.ofReal_mul (pow_nonneg (by linarith) _), pow_mul, ← mul_pow]
+      refine ENNReal.ofReal_le_ofReal (pow_le_pow_left₀ (by nlinarith) ?_ n)
+      nlinarith
+    calc ENNReal.ofReal ((1 + lam) ^ (2 * n)) *
+          (ENNReal.ofReal ((1 + ε - -ε) ^ n) * volume (N \ i '' D₀))
+        = (ENNReal.ofReal ((1 + lam) ^ (2 * n)) * ENNReal.ofReal ((1 + ε - -ε) ^ n)) *
+          volume (N \ i '' D₀) := by ring
+      _ ≤ ENNReal.ofReal (2 ^ n) * volume W := mul_le_mul' hc hsh
+  calc _ ≤ volume (cell0 ×ˢ W ∪ Ψ '' (Cε ×ˢ (N \ i '' D₀))) := measure_mono hcover
+    _ ≤ volume (cell0 ×ˢ W) + volume (Ψ '' (Cε ×ˢ (N \ i '' D₀))) := measure_union_le _ _
+    _ ≤ volume W + ENNReal.ofReal (2 ^ n) * volume W := by rw [h1]; gcongr
+    _ = (1 + ENNReal.ofReal (2 ^ n)) * volume W := by ring
+    _ ≤ (1 + ENNReal.ofReal (2 ^ n)) * (ENNReal.ofReal (1 + (4 / 3 : ℝ) ^ n) * S₀) := by
+        gcongr
+    _ = ENNReal.ofReal ((1 + 2 ^ n) * (1 + (4 / 3 : ℝ) ^ n)) * S₀ := by
+        rw [← mul_assoc, ENNReal.ofReal_mul (by positivity),
+          ENNReal.ofReal_add zero_le_one (by positivity : (0 : ℝ) ≤ 2 ^ n),
+          ENNReal.ofReal_add zero_le_one (by positivity : (0 : ℝ) ≤ (4 / 3 : ℝ) ^ n),
+          ENNReal.ofReal_one]
+    _ ≤ ENNReal.ofReal (complementConstant n) * S₀ := by
+        gcongr
+        unfold complementConstant
+        linarith
+
 end TorusMeas
 
 end KAM.Planetary
