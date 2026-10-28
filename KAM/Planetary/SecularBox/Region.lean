@@ -169,6 +169,86 @@ theorem sb_s (saturn : ℝ) (hs : saturn ∈ Icc (29/100 : ℝ) (31/100)) :
     · exact hdiff
     · exact absurd rfl hij
 
+/-- Radicand margin of step `sb-S-1` of `bpP:p14:sb-S`: on `S`,
+`1 - Γ_i / (2 Λ_i) > 99/100` and the radicand of `ρ_i` exceeds `99 / (100 Λ_i)`. -/
+theorem sb_s_radicand {w : Phase (2+2)}
+    (h : ∀ i, 0 < fast w.2 i ∧ 50 * secularGamma w i < fast w.2 i) (i : Fin 2) :
+    (99/100 : ℝ) < 1 - secularGamma w i / (2 * fast w.2 i) ∧
+      (99 : ℝ) / (100 * fast w.2 i) <
+        (1 - secularGamma w i / (2 * fast w.2 i)) / fast w.2 i := by
+  obtain ⟨hL, hGL⟩ := h i
+  have hG : 0 ≤ secularGamma w i := by
+    unfold secularGamma oscillatorAction; positivity
+  have h1 : secularGamma w i / (2 * fast w.2 i) < 1/100 := by
+    rw [div_lt_iff₀ (by positivity)]; linarith
+  have h2 : (99/100 : ℝ) < 1 - secularGamma w i / (2 * fast w.2 i) := by linarith
+  refine ⟨h2, ?_⟩
+  have : (99 : ℝ) / (100 * fast w.2 i) = (99/100) / fast w.2 i := by
+    field_simp
+  rw [this]
+  exact div_lt_div_of_pos_right h2 hL
+
+/-- Literal conclusion of `bpP:p14:sb-S`: openness; on `S`, ellipticity (`Λ_i > 0`,
+`0 ≤ Γ_i < Λ_i`), the radicand margin, `k_i`, `e_i`, `𝒥_i`, the quantitative radii of
+`q_0` and `q_1`, their ordering, positivity of `|q_i|` and `|q_0 - q_1|`, and `NoCollision`. -/
+theorem sb_s_geometry (saturn : ℝ) (hs : saturn ∈ Icc (29/100 : ℝ) (31/100)) :
+    IsOpen (sb_sdef saturn) ∧ ∀ w ∈ sb_sdef saturn, ∀ F : Fin 2 → ℝ,
+      (∀ i, 0 < fast w.2 i ∧ 0 ≤ secularGamma w i ∧ secularGamma w i < fast w.2 i ∧
+        (49/50 : ℝ) < secularRoot w i ∧
+        (99/100 : ℝ) < 1 - secularGamma w i / (2 * fast w.2 i) ∧
+        (99 : ℝ) / (100 * fast w.2 i) <
+          (1 - secularGamma w i / (2 * fast w.2 i)) / fast w.2 i ∧
+        planeLength (secularEccVector w i) < 1/5 ∧ (4/5 : ℝ) < longitudeJacobian w i (F i) ∧
+        0 < planeLength (ellipsePosition (jupiterSaturnWeights saturn) w i (F i))) ∧
+      planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 0 (F 0)) < 53/10 * (6/5) ∧
+      47/5 * (4/5) <
+        planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 1 (F 1)) ∧
+      planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 0 (F 0)) <
+        planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 1 (F 1)) ∧
+      0 < planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 0 (F 0) -
+        ellipsePosition (jupiterSaturnWeights saturn) w 1 (F 1)) ∧
+      NoCollision (ellipsePhase (jupiterSaturnWeights saturn) w F).1 := by
+  obtain ⟨hopen, hall⟩ := sb_s saturn hs
+  refine ⟨hopen, ?_⟩
+  intro w hw F
+  obtain ⟨h, -⟩ := id hw
+  have hm : ∀ i, 0 < jupiterSaturnWeights saturn i := by
+    intro i
+    fin_cases i
+    · simp [jupiterSaturnWeights]
+    · have := hs.1
+      simp [jupiterSaturnWeights]; linarith
+  have P := sbRegion_planet _ hm h
+  have hG : ∀ j, 0 ≤ secularGamma w j := fun j => by
+    unfold secularGamma oscillatorAction; positivity
+  have hq0 : planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 0 (F 0)) <
+      53/10 * (6/5) := by
+    obtain ⟨-, he, -, -, -, hhi, -⟩ := P 0 (F 0)
+    have hpos : 0 ≤ planeLength (secularEccVector w 0) := planeLength_nonneg _
+    have := (hw.2.1)
+    have := (hw.2.2.1)
+    calc _ ≤ _ := hhi
+      _ < 53/10 * (6/5) := by nlinarith
+  have hq1 : 47/5 * (4/5) <
+      planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 1 (F 1)) := by
+    obtain ⟨-, he, -, -, hlo, -, -⟩ := P 1 (F 1)
+    have hpos : 0 ≤ planeLength (secularEccVector w 1) := planeLength_nonneg _
+    have := (hw.2.2.2.1)
+    calc 47/5 * (4/5 : ℝ) < _ := by nlinarith
+      _ ≤ _ := hlo
+  have hlt : planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 0 (F 0)) <
+      planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 1 (F 1)) := by
+    linarith
+  refine ⟨fun i => ⟨(h i).1, hG i, by linarith [(h i).2, hG i], (P i (F i)).1,
+    (sb_s_radicand h i).1, (sb_s_radicand h i).2, (P i (F i)).2.1, (P i (F i)).2.2.1,
+    (P i (F i)).2.2.2.2.2.2⟩, hq0, hq1, hlt, ?_, (hall w hw F).2⟩
+  have := abs_planeLength_sub_le (ellipsePosition (jupiterSaturnWeights saturn) w 1 (F 1))
+    (ellipsePosition (jupiterSaturnWeights saturn) w 0 (F 0))
+  have := le_abs_self (planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 1 (F 1)) -
+    planeLength (ellipsePosition (jupiterSaturnWeights saturn) w 0 (F 0)))
+  rw [planeLength_sub_comm]
+  linarith
+
 end KAM.Planetary
 
 end
