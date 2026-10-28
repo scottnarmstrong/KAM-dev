@@ -199,6 +199,94 @@ theorem composition_domain (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ �
   rw [e1, e2]
   exact this
 
+/-! ### The terms and the sum of the Lie series -/
+
+namespace ExtCompose
+
+variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ u : EC n k → ℂ}
+
+theorem lieTerm_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hU : 0 ≤ U)
+    (hu : InClass b.base R s u) (hb : WBound b.base R s u U) (j : ℕ) :
+    InClass b.base (R-ρ) (s-σ) (fun z => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) ∧
+    WBound b.base (R-ρ) (s-σ) (fun z => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
+      ((Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8) ^ j * U) := by
+  rcases Nat.eq_zero_or_pos j with rfl | hj
+  · have hcl : InClass b.base (R-ρ) (s-σ) u :=
+      ⟨hu.differentiableOn.mono (Dom_mono (by linarith [hc.rho_pos]) (by linarith [hc.sig_pos])),
+        fun j z hz => hu.periodic j z
+          (Dom_mono (by linarith [hc.rho_pos]) (by linarith [hc.sig_pos]) hz)⟩
+    have heq : EqOn u (fun z => (((0 : ℕ).factorial : ℂ)⁻¹) * extAd b.c φ 0 u z)
+        (Dom n b.base (R-ρ) (s-σ)) := fun z _ => by simp [extAd]
+    refine ⟨inClass_congr_ext heq hcl, wbound_congr_ext (by linarith [hc.sig_lt]) heq ?_⟩
+    simpa using hb.mono (by linarith [hc.rho_pos]) (by linarith [hc.sig_pos]) le_rfl
+  · obtain ⟨h1, h3⟩ := adjoint b hc.rho_pos hc.rho_lt hc.sig_pos hc.sig_lt hc.radii hc.widths
+      hc.slow hU hc.bound_nonneg hc.hol hu hc.bound hb j hj
+    exact ⟨inClass_const_mul_ext _ h1, h3⟩
+
+variable (hc : ExtCompose b R' s' R s ρ σ V φ) (hU : 0 ≤ U)
+  (hu : InClass b.base R s u) (hb : WBound b.base R s u U)
+
+include hc in
+theorem lieSeries_summable : Summable fun j : ℕ =>
+    (Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8) ^ j * U := by
+  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+    (hc.small.trans (by norm_num))
+  exact (summable_geometric_of_lt_one h0 hq).mul_right U
+
+include hc hU hu hb
+
+theorem lieSeries_class : InClass b.base (R-ρ) (s-σ)
+    (fun z => ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) := by
+  have hterm := hc.lieTerm_bound hU hu hb
+  have hbd : ∀ j, ∀ z ∈ Dom n b.base (R-ρ) (s-σ),
+      ‖((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z‖ ≤
+        (Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8) ^ j * U := fun j =>
+    sup_le_wbound (hterm j).1 (hterm j).2
+  refine ⟨?_, fun j z hz => ?_⟩
+  · refine (uniform_limit_holomorphic (isOpen_Dom _ _ _) (K := fun N z =>
+      ∑ j ∈ range N, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
+      (fun N => ?_) (tendstoUniformlyOn_tsum_nat hc.lieSeries_summable hbd)).1
+    exact DifferentiableOn.fun_sum fun j _ => (hterm j).1.differentiableOn
+  · exact tsum_congr fun i => by rw [(hterm i).1.periodic j z hz]
+
+theorem lieSeries_bound : WBound b.base (R-ρ) (s-σ)
+    (fun z => ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
+    ((1 - Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8)⁻¹ * U) := by
+  have hterm := hc.lieTerm_bound hU hu hb
+  have h := wbound_tsum_ext (by linarith [hc.sig_lt]) (fun j => (hterm j).1)
+    (fun j => (hterm j).2) hc.lieSeries_summable
+  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+    (hc.small.trans (by norm_num))
+  rwa [tsum_mul_right, tsum_geometric_of_lt_one h0 hq] at h
+
+theorem lieSeries_tail : ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N, WBound b.base (R-ρ) (s-σ)
+    (fun z => (∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) -
+      ∑ j ∈ range N', ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) ε := by
+  intro ε hε
+  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+    (hc.small.trans (by norm_num))
+  set q := Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8 with hqdef
+  have hterm := hc.lieTerm_bound hU hu hb
+  have hlim : Tendsto (fun N : ℕ => q ^ N * ((1 - q)⁻¹ * U)) atTop (𝓝 0) := by
+    simpa using (tendsto_pow_atTop_nhds_zero_of_lt_one h0 hq).mul_const ((1 - q)⁻¹ * U)
+  obtain ⟨N, hN⟩ := (hlim.eventually (gt_mem_nhds hε)).exists_forall_of_atTop
+  refine ⟨N, fun N' hN' => ?_⟩
+  have h := wbound_tsum_ext (by linarith [hc.sig_lt]) (fun j => (hterm (j + N')).1)
+    (fun j => (hterm (j + N')).2) ((summable_nat_add_iff N').2 hc.lieSeries_summable)
+  have hsum : ∑' j : ℕ, q ^ (j + N') * U = q ^ N' * ((1 - q)⁻¹ * U) := by
+    simp_rw [pow_add]
+    rw [tsum_mul_right, tsum_mul_right, tsum_geometric_of_lt_one h0 hq]
+    ring
+  rw [hsum] at h
+  refine wbound_congr_ext (by linarith [hc.sig_lt]) (fun z hz => ?_)
+    (h.mono le_rfl le_rfl (hN N' hN').le)
+  have hs' : Summable fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z :=
+    Summable.of_norm_bounded hc.lieSeries_summable fun j =>
+      sup_le_wbound (hterm j).1 (hterm j).2 z hz
+  rw [← hs'.sum_add_tsum_nat_add N', add_sub_cancel_left]
+
+end ExtCompose
+
 end KAM.Nekhoroshev
 
 end
