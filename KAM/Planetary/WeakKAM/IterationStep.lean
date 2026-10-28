@@ -270,6 +270,149 @@ theorem iterPost_step (hpre : IterPre d f a ch ν) :
 
 end Post
 
+section PreStep
+variable {d : SelectionData n} {f : SelectionPhaseC n → ℂ} {a : SelectionSchedule n}
+  (c : WeakBudgetCtx d a) {ch : SelectionChain n} {ν : ℕ} (hf : StepFacts a d.C₁ ν)
+
+theorem stepChain_energy_succ : selectionEnergy (stepChain d a ch ν hf) (ν + 1) =
+    fun b => selectionEnergy ch ν b + p11DeltaH (selectionT a ν) (ch.R ν) b := by
+  funext b
+  have hs : ∑ i ∈ Finset.range ν, (stepChain d a ch ν hf).Δh i b =
+      ∑ i ∈ Finset.range ν, ch.Δh i b :=
+    Finset.sum_congr rfl fun i hi => by rw [(stepChain_agree hf).Δh i (Finset.mem_range.1 hi)]
+  unfold selectionEnergy
+  rw [Finset.sum_range_succ, hs, stepChain_Δh_self]
+
+theorem stepChain_frequency_succ : selectionFrequency d (stepChain d a ch ν hf) (ν + 1) =
+    fun b => selectionFrequency d ch ν b + p11DeltaW (selectionT a ν) (ch.R ν) b := by
+  funext b
+  have hs : ∑ i ∈ Finset.range ν, (stepChain d a ch ν hf).Δω i b =
+      ∑ i ∈ Finset.range ν, ch.Δω i b :=
+    Finset.sum_congr rfl fun i hi => by rw [(stepChain_agree hf).Δω i (Finset.mem_range.1 hi)]
+  unfold selectionFrequency
+  rw [Finset.sum_range_succ, hs, stepChain_Δω_self, add_assoc]
+
+include c
+
+theorem iterPre_step (hpre : IterPre d f a ch ν)
+    (hne : (selectionRetained a d ch ν).Nonempty) :
+    IterPre d f a (stepChain d a ch ν hf) (ν + 1) := by
+  have hext := hpre.chain.toSelectionExtensionChain
+  have hag := stepChain_agree (ch := ch) hf
+  have Q := (hpre.transfer hag).chain
+  have hsub := retained_collar_sub c (ch := ch) (ν := ν)
+  have hadm := iterPre_admissible hpre
+  have H := stage_hyp c hpre hf
+  have hreal := p11Real_mono hsub hadm.2.2
+  have cs := canonical_step H
+  have csr := canonical_step_real H hreal
+  have hdel := stage_delta c hpre hf
+  have hU := stage_domain_eq c (ch := ch) hf
+  have hU2 := stage_domain_eq' c (ch := ch) hf
+  dsimp only at cs csr hdel
+  obtain ⟨-, -, -, -, -, hmaps, -, -, -, -, -, hRadm, hRbd, hRrem, hnorm⟩ := cs
+  obtain ⟨hd1, hd2, hd3, hd4, hd5⟩ := hdel
+  have hch : SelectionFiniteChain d a (stepChain d a ch ν hf) (ν + 1) := by
+    refine ⟨⟨Q.initial, ?_, ?_, ?_, ?_, ?_, ?_⟩, ?_⟩
+    · intro j hj
+      rcases Nat.lt_or_ge j (ν + 1) with h | h
+      · exact Q.compact j (by omega)
+      · obtain rfl : j = ν + 1 := by omega
+        rw [stepChain_K_succ]; exact selectionRetained_isCompact c hext
+    · intro j hj
+      rcases Nat.lt_or_ge j (ν + 1) with h | h
+      · exact Q.nonempty j (by omega)
+      · obtain rfl : j = ν + 1 := by omega
+        rw [stepChain_K_succ]; exact hne
+    · intro j hj
+      rcases Nat.lt_or_ge j ν with h | h
+      · exact Q.nested j h
+      · obtain rfl : j = ν := by omega
+        rw [stepChain_K_succ, stepChain_K_self]; exact fun b hb => hb.1
+    · intro j hj
+      rcases Nat.lt_or_ge j ν with h | h
+      · exact Q.holomorphic j h
+      · obtain rfl : j = ν := by omega
+        simp only [stepChain_Δω_self, stepChain_K_self]; exact hd2
+    · intro j hj b hb
+      rcases Nat.lt_or_ge j ν with h | h
+      · exact Q.real j h b hb
+      · obtain rfl : j = ν := by omega
+        simp only [stepChain_Δω_self, stepChain_K_self] at hb ⊢
+        have := (hd5 b hb).2
+        funext i
+        exact Complex.ext (by simp [selectionReal, selectionRe]) (by
+          simpa [selectionReal, selectionRe] using this i)
+    · intro j hj b hb
+      rcases Nat.lt_or_ge j ν with h | h
+      · exact Q.bound j h b hb
+      · obtain rfl : j = ν := by omega
+        simp only [stepChain_Δω_self, stepChain_K_self] at hb ⊢
+        refine (hd4 b hb).trans ?_
+        have hE := iter_E_le_one c j
+        have := hf.eps_nonneg
+        unfold selectionell
+        exact div_le_div_of_nonneg_right (by nlinarith) hf.s_pos.le
+    · intro j hj
+      rcases Nat.lt_or_ge j ν with h | h
+      · exact Q.retained j h
+      · obtain rfl : j = ν := by omega
+        rw [stepChain_K_succ, selectionRetained_congr a d (stepChain_K_self hf)
+          (fun i hi => hag.Δω i hi)]
+  refine ⟨hch, ?_, ?_, selection_frequency_derivative_le c hch.toSelectionExtensionChain,
+    ?_, ?_, ?_, ?_, ?_⟩
+  · rw [stepChain_energy_succ, stepChain_K_succ]
+    exact (hpre.energy_holo.mono hsub).add (hd1.mono hsub)
+  · intro b hb
+    rw [stepChain_K_succ] at hb
+    rw [stepChain_energy_succ]
+    simp only [Complex.add_im]
+    rw [hpre.energy_real b (hsub hb), (hd5 b (hsub hb)).1, zero_add]
+  · simp only [stepChain_R_succ, stepChain_K_succ]
+    rw [selectionDomain_eq_domain_def, hU]
+    exact hRadm.1
+  · intro x hx
+    simp only [stepChain_R_succ, stepChain_K_succ] at hx ⊢
+    rw [selectionDomain_eq_domain_def, hU] at hx
+    exact (hRbd x hx).trans (hRrem.trans (iter_rem_le c ν))
+  · intro x hx k
+    simp only [stepChain_R_succ, stepChain_K_succ] at hx ⊢
+    rw [selectionDomain_eq_domain_def, hU] at hx
+    obtain ⟨hθ, hη, hb⟩ := p11_mem_domain_def.1 (show ((x.1.1, x.1.2), x.2) ∈ _ from hx)
+    exact periodic_int (f := fun θ => p11StepRemainder (stageS d a ch ν hf)
+      (selectionEnergy ch ν) (selectionFrequency d ch ν) (ch.R ν) ((θ, x.1.2), x.2))
+      (fun j θ hθ' => hRadm.2 j ((θ, x.1.2), x.2) (p11_mem_domain_def.2 ⟨hθ', hη, hb⟩)) k hθ
+  · intro z b hz
+    simp only [stepChain_R_succ, stepChain_K_succ] at hz ⊢
+    rw [selectionDomain_eq_domain_def, hU] at hz
+    rw [phaseToC_eq_realInclusion₂, selectionReal_eq_realInclusion] at hz ⊢
+    exact csr.2.1 z b hz
+  · intro x hx
+    simp only [stepChain_R_succ, stepChain_K_succ] at hx ⊢
+    rw [selectionDomain_eq_domain_def, hU] at hx
+    have hrle : selectionr a ν - selectiond a ν - selectionσ a ν - 2 * selectionσ a ν +
+        selectionσ a ν ≤ selectionr a ν := by
+      linarith [hf.d_pos, hf.σ_pos]
+    have hy : (p11StepMap (stageS d a ch ν hf) (selectionFrequency d ch ν) (ch.R ν) x, x.2) ∈
+        selectionDomain (selectionr a ν) (selections a ν) (actionNbhd (ch.K ν) (selectiont a ν)) := by
+      rw [selectionDomain_eq_domain_def]
+      exact domain_def_mono_B hsub (domain_def_mono hrle (hmaps x hx))
+    have hnf := hpre.normal_form _ hy
+    have hc : selectionCompose (stepChain d a ch ν hf) x.2 (ν + 1) x.1 =
+        selectionCompose ch x.2 ν
+          (p11StepMap (stageS d a ch ν hf) (selectionFrequency d ch ν) (ch.R ν) x) := by
+      show selectionCompose (stepChain d a ch ν hf) x.2 ν ((stepChain d a ch ν hf).X ν x.2 x.1) = _
+      rw [selectionCompose_congr x.2 (c := ch) (c' := stepChain d a ch ν hf)
+        (fun i hi => hag.X i hi), stepChain_X_self]
+    have hn := hnorm x hx
+    simp only [p11Normal, Pi.add_apply] at hn
+    rw [hc, stepChain_energy_succ, stepChain_frequency_succ]
+    simp only [Pi.add_apply]
+    rw [hnf]
+    exact hn
+
+end PreStep
+
 end KAM.Planetary
 
 end
