@@ -424,6 +424,36 @@ private theorem hasFDerivAt_avgW (d : AveragingData n R s h f) {M₂ κ : ℝ} (
     (fun k x hx => (hdom k x hx).2) hz
     (Summable.of_norm_bounded hsum fun k => (hdom k z hz).1) hz
 
+private theorem contDiffOn_gk (d : AveragingData n R s h f) {κ : ℝ} (hκ : 0 < κ)
+    (k : Fin n → ℤ) : ContDiffOn ℝ 1 (gk h f κ k) (avgDomain n R) := by
+  have hopen := isOpen_actionNbhd_ball (n := n) R s
+  have hc : ContDiffOn ℝ 1 (fun I : Fin n → ℝ => avgCoeff f (KAM.realInclusion n I) k)
+      (actionBall n R) := by
+    have h1 : ContDiffOn ℂ 1 (fun J => avgCoeff f J k) (KAM.actionNbhd (actionBall n R) s) :=
+      (KAM.contDiffOn_infty_of_differentiableOn_pi hopen ((coef d).1 k)).of_le (by simp)
+    exact (h1.restrict_scalars ℝ).comp (KAM.realInclusion n).contDiff.contDiffOn
+      fun I hI => real_mem d hI
+  have hQ : ContDiffOn ℝ 1 (avgQ h k) (actionBall n R) := by
+    have hω : ContDiffOn ℝ 1 (KAM.frequencyMap h) (actionBall n R) :=
+      ((contDiffOn_freq' d).of_le (by norm_num)).mono (ball_subset_realActionDomain d.hR d.hs)
+    have : avgQ h k = fun I => ∑ i, (k i : ℝ) * KAM.frequencyMap h I i := rfl
+    rw [this]
+    exact ContDiffOn.sum fun i _ =>
+      contDiffOn_const.mul (contDiffOn_pi.1 hω i)
+  have hψ : ContDiffOn ℝ 1 (fun I => (avgPsi κ (avgQ h k I) : ℂ)) (actionBall n R) :=
+    Complex.ofRealCLM.contDiff.comp_contDiffOn
+      (((corrector hκ).1.of_le (by simp)).comp_contDiffOn hQ)
+  have hU : ContDiffOn ℝ 1 (avgU h f κ k) (actionBall n R) := by
+    rw [avgU_eq]
+    exact (hc.mul hψ).smul contDiffOn_const
+  have hχ : ContDiff ℝ 1 (fun θ : Fin n → ℝ => KAM.character k (KAM.realInclusion n θ)) := by
+    have : (fun θ : Fin n → ℝ => KAM.character k (KAM.realInclusion n θ)) =
+        fun θ => Complex.exp (linK k θ) := funext (character_real k)
+    rw [this]
+    exact Complex.contDiff_exp.comp (linK k).contDiff
+  exact (hχ.comp contDiff_fst).neg.contDiffOn.smul
+    (hU.comp contDiff_snd.contDiffOn fun z hz => hz.2)
+
 end KAM.Nekhoroshev
 
 end
