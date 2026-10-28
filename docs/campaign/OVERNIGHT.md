@@ -476,3 +476,48 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **22:20. Secular-box anchors seal-ready.** S11 (sb_safety) and S12 (sb_cited) passed; S12's seal-key audit
   checked exact types and prospective seals for secularBoxSafety and secularBoxAtCitedMasses (standard axioms
   only). Sealing handed to the sub-orchestrator via the P14 package-Q provider wrappers.
+- **22:35. Two more anchors sealed (17 of 22).** secularBoxSafety and secularBoxAtCitedMasses are sealed by the
+  sub-orchestrator (seal commit b8f993d2, inp 980388b4) through the P14 package-Q provider wrappers around S11's
+  sb_safety and S12's sb_cited: full KAM build OK (10095 jobs), axioms propext/Classical.choice/Quot.sound only,
+  leanchecker 0 on both frozen and both provider modules, lint OK. Remaining DRAFT anchors: properlyDegenerateKAM
+  (P5-MAIN done, seal-key audit running), planarTwoPlanetKAM, fixedSunPlanetaryKAM, planetaryExponentialSafety
+  (blocked on lane N), partialConvex_nekhoroshev (lane N, handed to Zohar's team).
+- **22:42. properlyDegenerateKAM seal-ready.** P5-MAIN (PGAssembly/Main, the signed `main`) passed its seal-key audit:
+  exact frozen type and prospective seal with propext/Classical.choice/Quot.sound only. Go given to the sub-orchestrator
+  to install the P5-PROV wrapper and seal (18 of 22 once landed).
+- **22:46. Ruling (owner to review: P11SecularSpec amended, h real on real points).** The signed P11A definition
+  P11SecularSpec recorded only the real part of the secular Hamiltonian C.h at real points. P11A-P5's application of
+  osc_averaging needs h real on real points (source premise OscHyp.real_h; the blueprint's h-tilde is real analytic),
+  and without it a clause of P11FastSpec is false in general. Ruling: the second conjunct of P11SecularSpec also states
+  (C.h (realInclusion J)).im = 0 (P11ASignatures.lean lines 688-690; backup orchestrator-tools/handoffs/
+  P11ASignatures.lean.bak-2250). P11A-P2f proves it inside holo_chart (P2b's explicit p11HoloH is real on reals); P5's
+  avg_fast then needs no extra hypothesis. Related: P11A-P2e audit F1 (Omega realness not exported by P2b's
+  Nonempty-only producer) is closed inside P2f by a strengthened producer.
+- **22:50. Ruling (T10 accepted; li-ord BYPASSED under D27).** T10's audit confirmed the signed lie and real_lie_taylor
+  but failed the slice because step stepP:p11b:li-ord (the bracket orders) is never stated; lie's proof bounds the
+  remainder directly instead. li-ord's only consumer is lie, so the step is recorded BYPASSED (route substitution, D27).
+- **22:55. properlyDegenerateKAM sealed (18 of 22 once checks land).** The sub-orchestrator committed the seal
+  (9fc6965a): P5-PROV wrapper with the frozen telescope verbatim, `by exact KAM.Planetary.main` with the 27 binders;
+  frozen body `by exact KAM.Provider.Planetary.properlyDegenerateKAM`; manifest SEALED (4 DRAFT_SORRY left:
+  planarTwoPlanetKAM, fixedSunPlanetaryKAM, planetaryExponentialSafety, partialConvex_nekhoroshev).
+- **23:00. Ruling (P11A-P7 parametric core).** As for P5: P7 proves avg_slow's content against an unsigned parametric
+  copy of the signed P11SlowSpec (C and the fast data as parameters); the signed P11SlowSpec, avg_slow and data become
+  wrappers once holo_chart (P2f) and P5's avg_fast wrappers land.
+- **23:10. Gap fill GAP-B.** B10 landed but bpP:p11a:exported-sums stays open on step es-3 (the real tail sums; B13
+  covered only the E1-E3 scalar slice). An append-only package GAP-B proves es-3 literally.
+- **23:20. Ruling (owner to review: signed p11d1 parenthesization).** The signed P11A definition p11d1 read
+  min (p11s1 C eps*C.sigma) C.rz^2, which Lean parses as (min (s1 sigma) rz)^2; the source has d_1 = min{s_1 sigma_F,
+  r_z^2}. The P11A-P5 audit showed the misreading makes eta1 grow like log(1/eps)^(3 tau+2) instead of the source's
+  log(1/eps)^(2 tau+1), which breaks P7's as-osc and the signed P11SlowSpec. Amended to min (p11s1 C eps*C.sigma) (C.rz^2)
+  (same kind as the 19:00 exported_sums parenthesization); backup orchestrator-tools/handoffs/P11ASignatures.lean.bak-2320.
+  P11A-P5 fix round (P5c) adopts it and exports the source eta1 rate.
+- **23:20. Tooling fix.** tmux targets matched session names by prefix (inp-mprov-p11ap5 resolved to inp-mprov-p11ap5w),
+  which blocked a launch and could have killed the wrong session; the orchestrator scripts now use exact targets.
+- **23:30. Gap fill GAP-C (sub-orchestrator request).** bpP:p11a:free-radius stays open on step fr-list: A7 at the
+  adapted radius is used inside B10's iterPre_base but never stated; adm_choice_initial covers only the fixed radius.
+  An append-only package GAP-C states it for selectionAdapted.
+- **23:35. Ruling (P11A-P7 split; design-size signal).** P7 round 1 delivered the signed slow data definitions, the
+  parametric spec copy and three analytic tools, but not the core avg_slow (prover estimate 2000+ more lines against
+  the design's 650). The remainder is split: P7b (polar averages, Z, h0, f2 and its bounds) and P7c (divisor clauses,
+  displacement, aniso_avg application, parametric in P7b's outputs) run in parallel; P7d assembles avg_slow_of_spec
+  and the signed wrappers; P7 is audited once, whole.
