@@ -124,6 +124,13 @@ theorem p11HoloH_re (D : P11Physical n) {J : P11Vec n} (hJ : ∀ i, J i ≠ 0) :
   have := hJ i
   field_simp
 
+theorem p11HoloH_im (D : P11Physical n) {J : P11Vec n} :
+    (p11HoloH D (KAM.realInclusion n J)).im = 0 := by
+  have : p11HoloH D (KAM.realInclusion n J) =
+      ((-∑ i, 2 * Real.pi ^ 2 * ((D.G * D.m0) ^ 2 * D.m i ^ 3) / J i ^ 2 : ℝ) : ℂ) := by
+    simp [p11HoloH]
+  rw [this, Complex.ofReal_im]
+
 theorem p11HoloFreq_re (D : P11Physical n) {J : P11Vec n} (hJ : ∀ i, J i ≠ 0) (i : Fin n) :
     (p11HoloFreq D (KAM.realInclusion n J) i).re =
       (D.G * D.m0) ^ 2 * D.m i ^ 3 / ((J i / (2 * Real.pi)) ^ 3 * (2 * Real.pi)) := by
