@@ -74,9 +74,11 @@ theorem continuousOn_beta_entry (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ I
 
 theorem continuousOn_slowFrequency (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ Ioc 0 d.mu1)
     (i : Fin b) : ContinuousOn (fun z : Fin (a+b) → ℝ =>
-      slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow z) i) (sliceDomain d univ) := by
+      slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow z) i) (sliceDomain d univ)
+          := by
   have hO : ContinuousOn (fun y => d.Omega mu (d.g y) i) (freqCore d) := by
-    refine (LipschitzOnWith.of_dist_le_mul (K := Real.toNNReal (d.LN * d.Lg)) fun y hy y' hy' => ?_).continuousOn
+    refine (LipschitzOnWith.of_dist_le_mul (K := Real.toNNReal (d.LN * d.Lg)) fun y hy y' hy'
+        => ?_).continuousOn
     rw [Real.coe_toNNReal _ (by nlinarith [d.hLN, d.hLg]), Real.dist_eq]
     have h0 : ‖(0 : Fin b → ℝ)‖ ≤ d.lambda0 := by simpa using d.hlambda0.le
     have := (norm_le_pi_norm (slowFrequency d.Omega d.beta mu (d.g y) 0 -
@@ -84,7 +86,8 @@ theorem continuousOn_slowFrequency (d : MeasureData a b) {mu : ℝ} (hmu : mu �
     simpa [slowFrequency, Real.norm_eq_abs, dist_eq_norm] using this
   have hfun : (fun z : Fin (a+b) → ℝ =>
       slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow z) i) = fun z =>
-      d.Omega mu (d.g (blockFast z)) i + ∑ j, d.beta mu (d.g (blockFast z)) i j * blockSlow z j := by
+      d.Omega mu (d.g (blockFast z)) i + ∑ j, d.beta mu (d.g (blockFast z)) i j * blockSlow z j
+          := by
     funext z
     simp [slowFrequency, Matrix.mulVec, dotProduct]
   rw [hfun]
@@ -133,12 +136,13 @@ theorem continuousOn_pullFreq (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ Ioc
     ContinuousOn (pullFreq d mu k) (sliceDomain d Q) := by
   have hfun : pullFreq d mu k = fun z => ∑ i, kFast k i * fastPart d mu (d.g (blockFast z))
       (blockSlow z) i + mu * ∑ i, kSlow k i *
-        slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow z) i := funext (pullFreq_eq d mu k)
+        slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow z) i := funext
+            (pullFreq_eq d mu k)
   rw [hfun]
   refine (continuousOn_finsetSum _ fun i _ => (continuousOn_const.mul
     (continuousOn_fastPart d hmu hQ i))).add (continuousOn_const.mul
     (continuousOn_finsetSum _ fun i _ => continuousOn_const.mul ?_))
-  exact (continuousOn_slowFrequency d hmu i).mono fun z hz => ⟨hz.1, mem_univ _⟩
+  exact (continuousOn_slowFrequency d hmu i).mono fun _ hz => ⟨hz.1, mem_univ _⟩
 
 /-- The `j`-th slow column coefficient `(β(μ, g y)ᵀ v)_j` at the flat point `z = (y, ξ)`. -/
 def colCoeff (d : MeasureData a b) (mu : ℝ) (v : Fin b → ℝ) (j : Fin b) (z : Fin (a+b) → ℝ) : ℝ :=
@@ -153,7 +157,7 @@ theorem continuousOn_colCoeff (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ Ioc
     (v : Fin b → ℝ) (j : Fin b) : ContinuousOn (colCoeff d mu v j) (sliceDomain d univ) :=
   continuousOn_finsetSum _ fun i _ =>
     ((continuousOn_beta_entry d hmu i j).comp continuous_blockFast.continuousOn
-      fun z hz => hz.1).mul continuousOn_const
+      fun _ hz => hz.1).mul continuousOn_const
 
 end KAM.Planetary
 

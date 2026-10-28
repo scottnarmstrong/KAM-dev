@@ -47,20 +47,23 @@ theorem measurableSet_largeSection (d : MeasureData a b) {mu : ℝ} (hmu : mu �
     (k : Fin (a+b) → ℤ) (alpha : ℝ) (j : Fin b) :
     MeasurableSet (largeSection d mu Q k alpha j) := by
   have h1 : MeasurableSet (sliceDomain d Q ∩ pullFreq d mu k ⁻¹' {x | |x| < alpha}) :=
-    measurableSet_inter_preimage (measurableSet_sliceDomain d hQm) (continuousOn_pullFreq d hmu hQ k)
+    measurableSet_inter_preimage (measurableSet_sliceDomain d hQm) (continuousOn_pullFreq d hmu
+        hQ k)
       (measurableSet_lt (by fun_prop) measurable_const)
   have h2 := measurableSet_inter_preimage h1
     ((continuousOn_colCoeff d hmu (kSlow k) j).mono fun z hz => ⟨hz.1.1, mem_univ _⟩)
     (T := {x | ‖kSlow k‖ / d.LB ≤ |x|}) (measurableSet_le measurable_const (by fun_prop))
   convert h2 using 1
   ext z
-  simp only [largeSection, resonanceSet, sliceDomain, mem_inter_iff, mem_setOf_eq, Set.mem_preimage]
+  simp only [largeSection, resonanceSet, sliceDomain, mem_inter_iff, Set.mem_preimage,
+      Set.mem_ofPred_eq]
   tauto
 
 /-- The slow increment of the frequency along `e_j`. -/
 theorem slow_diff_single (d : MeasureData a b) (mu : ℝ) (I : Fin a → ℝ) (xi : Fin b → ℝ) (j : Fin b)
     (s : ℝ) (i : Fin b) :
-    slowFrequency d.Omega d.beta mu I (xi + Pi.single j s) i - slowFrequency d.Omega d.beta mu I xi i =
+    slowFrequency d.Omega d.beta mu I (xi + Pi.single j s) i - slowFrequency d.Omega d.beta mu
+        I xi i =
       d.beta mu I i j * s := by
   simp [slowFrequency, Matrix.mulVec_add, Matrix.mulVec, dotProduct]
   ring
@@ -106,7 +109,11 @@ theorem largeSection_line_diam (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ Io
     funext i
     by_cases hij : i = j
     · subst hij; simp [blockSlow, hs]
-    · have := hline (Fin.natAdd a i) (fun h => hij (Fin.ext (by have := congrArg Fin.val h; simp at this; omega)))
+    · have hne : Fin.natAdd a i ≠ Fin.natAdd a j := fun h => hij (Fin.ext (by
+        have := congrArg Fin.val h
+        simp at this
+        omega))
+      have := hline (Fin.natAdd a i) hne
       simp [blockSlow, hij, this]
   obtain ⟨⟨hy1, hQ1, hp1⟩, hc1⟩ := hz
   obtain ⟨⟨_, hQ2, hp2⟩, hc2⟩ := hz'
@@ -127,7 +134,8 @@ theorem largeSection_line_diam (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ Io
         ∑ i, kFast k i * fastPart d mu (d.g (blockFast z)) (blockSlow z') i -
         ∑ i, kFast k i * fastPart d mu (d.g (blockFast z)) (blockSlow z) i := by
       simp only [mul_sub, Finset.sum_sub_distrib]
-    have hsl : ∑ i, kSlow k i * slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow z') i -
+    have hsl : ∑ i, kSlow k i * slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow
+        z') i -
         ∑ i, kSlow k i * slowFrequency d.Omega d.beta mu (d.g (blockFast z)) (blockSlow z) i =
         s * colCoeff d mu (kSlow k) j z := by
       rw [← Finset.sum_sub_distrib, colCoeff, Finset.mul_sum]
@@ -169,7 +177,8 @@ theorem largeSection_line_diam (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ Io
         (fastPart d mu (d.g (blockFast z)) (blockSlow z') i -
         fastPart d mu (d.g (blockFast z)) (blockSlow z) i))
       simpa using this
-    have h2 : |mu * (s * colCoeff d mu (kSlow k) j z)| = mu * |s| * |colCoeff d mu (kSlow k) j z| := by
+    have h2 : |mu * (s * colCoeff d mu (kSlow k) j z)| = mu * |s| * |colCoeff d mu (kSlow k) j
+        z| := by
       rw [abs_mul, abs_mul, abs_of_pos hmu0]; ring
     have h3 : (∑ i, |kFast k i|) * (mu * d.LN * |s|) ≤ mu * |s| * (‖kSlow k‖ / (2 * d.LB)) := by
       have : d.LN * ∑ i, |kFast k i| ≤ ‖kSlow k‖ / (2 * d.LB) := hS4

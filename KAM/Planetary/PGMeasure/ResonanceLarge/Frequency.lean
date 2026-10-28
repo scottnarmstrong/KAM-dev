@@ -153,7 +153,8 @@ theorem beta_lip_y (d : MeasureData a b) {mu : ℝ} (hmu : mu ∈ Ioc 0 d.mu1) {
   have key : (d.beta mu (d.g y) i j - d.beta mu (d.g y') i j) * d.lambda0 =
       (slowFrequency d.Omega d.beta mu (d.g y) (Pi.single j d.lambda0) i -
         slowFrequency d.Omega d.beta mu (d.g y') (Pi.single j d.lambda0) i) -
-      (slowFrequency d.Omega d.beta mu (d.g y) 0 i - slowFrequency d.Omega d.beta mu (d.g y') 0 i) := by
+      (slowFrequency d.Omega d.beta mu (d.g y) 0 i - slowFrequency d.Omega d.beta mu (d.g y') 0
+          i) := by
     rw [sub_mul, beta_entry, beta_entry]; ring
   have h3 : |d.beta mu (d.g y) i j - d.beta mu (d.g y') i j| * d.lambda0 ≤
       2 * d.LN * d.Lg * ‖y - y'‖ := by
