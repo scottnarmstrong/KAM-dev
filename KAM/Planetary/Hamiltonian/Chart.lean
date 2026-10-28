@@ -113,7 +113,7 @@ theorem chart_field {c : ℝ} (hc : 0 < c) {Ψ : Phase d → Phase d} {O : Set (
   · have hd : fderiv ℝ (chartPullback c H Ψ) z =
         c⁻¹ • (fderiv ℝ H (Ψ z)).comp (fderiv ℝ Ψ z) := by
       have := (hH.hasFDerivAt.comp z hΨ.hasFDerivAt).const_mul c⁻¹
-      simpa [chartPullback, Function.comp_def] using this.fderiv
+      exact this.fderiv
     rw [hamiltonianVectorField_eq_linearField, hamiltonianVectorField_eq_linearField, hd,
       linearField_smul, map_smul,
       apply_linearField_comp_of_symplectic hc.ne' (h.2 z hz), smul_smul,
@@ -201,7 +201,7 @@ theorem isChart_angleScale {c : ℝ} (hc : 0 < c) : IsChart c (angleScale c) (un
 theorem angleScale_add_angleShift (c : ℝ) (z : Phase d) (k : Fin d → ℤ) :
     angleScale c (z + angleShift k) = angleScale c z + (fun i => c * (k i : ℝ), 0) := by
   refine Prod.ext (funext fun i => ?_) (by simp [angleScale, angleShift])
-  simp [angleScale, angleShift, mul_add]
+  simp [angleScale, angleShift]
 
 /-- (a) `|det DS_c| = c^d`. -/
 theorem abs_det_fderiv_angleScale {c : ℝ} (hc : 0 < c) (z : Phase d) :
@@ -211,10 +211,11 @@ theorem abs_det_fderiv_angleScale {c : ℝ} (hc : 0 < c) (z : Phase d) :
 /-- (a) consequence used by `bpP:p1:measure-use`: `S_c` multiplies Lebesgue measure by `c^d`. -/
 theorem volume_angleScale_image {c : ℝ} (hc : 0 < c) (A : Set (Phase d)) :
     volume (angleScale c '' A) = ENNReal.ofReal (c ^ d) * volume A := by
-  haveI : (volume : Measure (Phase d)).IsAddHaarMeasure := Measure.prod.instIsAddHaarMeasure _ _
+  have : (volume : Measure (Phase d)).IsAddHaarMeasure := Measure.prod.instIsAddHaarMeasure _ _
   have h := Measure.addHaar_image_continuousLinearMap (volume : Measure (Phase d))
     (angleScaleCLM c) A
-  have hdet : |LinearMap.det (angleScaleCLM c : Phase d →ₗ[ℝ] Phase d)| = c ^ d := by
+  have hdet : |LinearMap.det ((angleScaleCLM c : Phase d →L[ℝ] Phase d) : Phase d →ₗ[ℝ] Phase d)| =
+      c ^ d := by
     have := abs_det_fderiv_angleScale hc (0 : Phase d)
     rwa [angleScale_eq_clm, ContinuousLinearMap.fderiv] at this
   rw [hdet] at h
