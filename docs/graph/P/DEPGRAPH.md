@@ -31325,9 +31325,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_in (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Inputs.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES (full node conclusion)
 NOTE: -
 
 NODE: stepP:p11b:as-pi
@@ -31353,9 +31353,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_pi (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Projector.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES (full node conclusion)
 NOTE: -
 
 NODE: stepP:p11b:as-c
@@ -31383,9 +31383,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_c (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Coeffs.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES (six estimates and all six raw combinations)
 NOTE: -
 
 NODE: stepP:p11b:as-ent
@@ -31413,9 +31413,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_ent (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Entries.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:as-det
