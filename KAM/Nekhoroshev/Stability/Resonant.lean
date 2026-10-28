@@ -158,7 +158,232 @@ private theorem hess_lipschitz {U : Set (Fin n → ℝ)} (hU : IsOpen U) {hR : (
   · rw [← h]; exact mul_nonneg hM0 (euclid_nonneg' _)
   · nlinarith [mul_pos h h]
 
+private theorem euclid_add_le (a b : Fin n → ℝ) : euclid (a + b) ≤ euclid a + euclid b :=
+  isActionNorm_euclid.add_le a b
+
+/-- The frequency map is `M`-Lipschitz in the Euclidean size along segments in `U_r D`. -/
+private theorem freq_lip {D : Set (Fin n → ℝ)} {r : ℝ} {h : (Fin n → ℂ) → ℂ} {M : ℝ}
+    (hh : DifferentiableOn ℂ h (polyNbhd (cpx D) r)) (hM0 : 0 ≤ M)
+    (hess : HessBound (realNbhd D r) h M) {I J : Fin n → ℝ}
+    (hseg : ∀ a ∈ Icc (0 : ℝ) 1, J + a • (I - J) ∈ realNbhd D r) :
+    euclid (KAM.frequencyMap h I - KAM.frequencyMap h J) ≤ M * euclid (I - J) :=
+  hess_lipschitz (isOpen_realNbhd D r) ((realPart_contDiffOn hh).of_le
+    (by exact WithTop.coe_le_coe.2 le_top)) hM0 hess hseg
+
+private theorem exp_one_ge_two : (2 : ℝ) ≤ Real.exp 1 := by
+  have := Real.add_one_le_exp (1 : ℝ)
+  linarith
+
+private theorem abs_le_of_mem_uIcc {x t : ℝ} (hx : x ∈ uIcc 0 t) : |x| ≤ |t| := by
+  rcases mem_uIcc.1 hx with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;>
+    exact abs_le.2 ⟨by linarith [abs_nonneg t, neg_abs_le t], by linarith [abs_nonneg t, le_abs_self t]⟩
+
+/-- `‖ω‖ · (|t| η/(e s)) ≤ m r²/24` from the time bound. -/
+private theorem term_arith {m r s η eω ep t Ω : ℝ} (hm : 0 < m) (hr : 0 < r) (hs : 0 < s)
+    (hη : 0 ≤ η) (hω : 0 ≤ eω) (hωΩ : eω ≤ Ω)
+    (hper : ep ≤ |t| * (η / (Real.exp 1 * s))) (hb : |t| * Ω * η ≤ s * m * r ^ 2 / 12) :
+    eω * ep ≤ m * r ^ 2 / 24 := by
+  have hE := exp_one_ge_two
+  have hEs : 0 < Real.exp 1 * s := by positivity
+  have h0 : 0 ≤ |t| * (η / (Real.exp 1 * s)) := by positivity
+  calc eω * ep ≤ eω * (|t| * (η / (Real.exp 1 * s))) := mul_le_mul_of_nonneg_left hper hω
+    _ ≤ Ω * (|t| * (η / (Real.exp 1 * s))) := mul_le_mul_of_nonneg_right hωΩ h0
+    _ = (|t| * Ω * η) / (Real.exp 1 * s) := by field_simp
+    _ ≤ (s * m * r ^ 2 / 12) / (Real.exp 1 * s) := by gcongr
+    _ ≤ m * r ^ 2 / 24 := by
+      rw [div_le_iff₀ hEs]
+      nlinarith [mul_nonneg (sub_nonneg.2 hE) (by positivity : 0 ≤ s * m * r ^ 2)]
+
+private theorem no_exit_arith {m r δ ζ Δ eP X : ℝ} (hm : 0 < m) (hr : 0 < r) (hδ : δ ≤ m * r / 4)
+    (hζ : ζ ≤ m * r ^ 2 / 32) (hΔ1 : 15 / 16 * r ≤ Δ) (hΔ2 : Δ ≤ r) (hP : eP ≤ 5 / 4 * δ)
+    (hX : X ≤ m * r ^ 2 / 24) (hmain : m / 2 * Δ ^ 2 ≤ 2 * ζ + eP * Δ + X) : False := by
+  have hu : 0 < m * r ^ 2 := by positivity
+  have h1 : m / 2 * (15 / 16 * r) ^ 2 ≤ m / 2 * Δ ^ 2 := by gcongr
+  have hΔ0 : 0 ≤ Δ := by linarith
+  have h2 : eP * Δ ≤ 5 / 16 * (m * r ^ 2) := by
+    calc eP * Δ ≤ 5 / 4 * δ * Δ := by gcongr
+      _ ≤ 5 / 4 * (m * r / 4) * r := by gcongr
+      _ = 5 / 16 * (m * r ^ 2) := by ring
+  nlinarith
+
+private theorem cone_arith {ℓ m M r δ Δ Y : ℝ} (hm : 0 < m) (hr : 0 < r) (hmr : m * r ≤ 2 * ℓ)
+    (hMr : M * r ≤ ℓ / 4) (hδ : δ ≤ m * r / 4) (hΔ1 : 15 / 16 * r ≤ Δ)
+    (hY : Y ≤ m * r ^ 2 / 24) : (5 / 4 * δ + M * r) * Δ + Y ≤ ℓ * Δ := by
+  have hℓ : 0 < ℓ := by nlinarith [mul_pos hm hr]
+  have hΔ0 : 0 ≤ Δ := by linarith
+  have h1 : (5 / 4 * δ + M * r) * Δ ≤ 7 / 8 * ℓ * Δ := by
+    gcongr
+    linarith
+  have h2 : m * r ^ 2 ≤ 2 * ℓ * r := by nlinarith
+  have h3 : ℓ * r ≤ ℓ * (16 / 15 * Δ) := by gcongr; linarith
+  nlinarith
+
 end Aux
+
+section Resonant
+
+variable {D : Set (Fin n → ℝ)} {r s : ℝ} {Λ : Set (Fin n → ℤ)} {h : (Fin n → ℂ) → ℂ} {m M : ℝ}
+  {g fs : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {Mg η ζ δ : ℝ}
+
+open KAM.Nekhoroshev (euclid realPart)
+
+private theorem M_pos (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) : 0 < M :=
+  hRS.hm.trans_le hRS.hmM
+
+private theorem resRho_pos (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) : 0 < resRho δ M :=
+  div_pos hRS.hδ (by have := M_pos hRS; positivity)
+
+private theorem resRho_le (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) :
+    resRho δ M ≤ r / 16 := by
+  have hM := M_pos hRS
+  unfold resRho
+  rw [div_le_iff₀ (by positivity)]
+  nlinarith [hRS.δ_le, mul_le_mul_of_nonneg_right hRS.hmM hRS.hr.le]
+
+private theorem ball_mem {I₀ : Fin n → ℝ}
+    (hI₀ : IsAdmissible D δ M I₀) {I : Fin n → ℝ} (hI : euclid (I - I₀) ≤ r - resRho δ M) :
+    I ∈ realNbhd D r := by
+  obtain ⟨J₀, hJ₀, hlt⟩ := hI₀
+  refine mem_realNbhd_of_euclid_lt hJ₀ ?_
+  have e : I - J₀ = (I - I₀) + (I₀ - J₀) := by abel
+  rw [e]
+  exact lt_of_le_of_lt (euclid_add_le _ _) (by linarith)
+
+private theorem seg_mem {I₀ : Fin n → ℝ}
+    (hI₀ : IsAdmissible D δ M I₀) {I : Fin n → ℝ} (hI : euclid (I - I₀) ≤ r - resRho δ M) :
+    ∀ a ∈ Icc (0 : ℝ) 1, I₀ + a • (I - I₀) ∈ realNbhd D r := fun a ha => by
+  refine ball_mem hI₀ ?_
+  rw [add_sub_cancel_left]
+  exact (euclid_smul_le ha _).trans hI
+
+/-- `bpN:p7:admissible`. (The orthogonal projection `Π_Λ` is any `P` given by `exists_orthProj`.) -/
+theorem admissible (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ)
+    {P : (Fin n → ℝ) →ₗ[ℝ] (Fin n → ℝ)} (hP : IsOrthProj P) (hPV : ∀ v, P v ∈ resSpan Λ)
+    (hPid : ∀ v ∈ resSpan Λ, P v = v) {I₀ : Fin n → ℝ} (hI₀ : IsAdmissible D δ M I₀) :
+    (∀ I, KAM.Nekhoroshev.euclid (I - I₀) ≤ r - resRho δ M → I ∈ realNbhd D r) ∧
+    (∀ I, KAM.Nekhoroshev.euclid (I - I₀) ≤ r - resRho δ M →
+      KAM.Nekhoroshev.euclid (P (KAM.frequencyMap h I)) ≤
+        5 / 4 * δ + M * KAM.Nekhoroshev.euclid (I - I₀)) ∧
+    KAM.Nekhoroshev.euclid (P (KAM.frequencyMap h I₀)) ≤ 5 / 4 * δ := by
+  have hM := M_pos hRS
+  have hρ := resRho_pos hRS
+  have hρr := resRho_le hRS
+  have hr := hRS.hr
+  have h3 : euclid (P (KAM.frequencyMap h I₀)) ≤ 5 / 4 * δ := by
+    obtain ⟨J₀, hJ₀, hlt⟩ := hI₀
+    obtain ⟨w, hw, hwδ⟩ := hRS.close J₀ hJ₀
+    have hseg : ∀ a ∈ Icc (0 : ℝ) 1, J₀ + a • (I₀ - J₀) ∈ realNbhd D r := fun a ha => by
+      refine mem_realNbhd_of_euclid_lt hJ₀ ?_
+      rw [add_sub_cancel_left]
+      linarith [euclid_smul_le ha (I₀ - J₀)]
+    have hlip := freq_lip hRS.h_holo hM.le hRS.hess hseg
+    have hMρ : M * euclid (I₀ - J₀) ≤ δ / 4 := by
+      have : M * euclid (I₀ - J₀) ≤ M * resRho δ M := by gcongr
+      refine this.trans (le_of_eq ?_)
+      unfold resRho
+      field_simp
+    have hPw := orthProj_resSpace hP hPV hw
+    have e1 : P (KAM.frequencyMap h I₀) =
+        P (KAM.frequencyMap h J₀ - w) + P (KAM.frequencyMap h I₀ - KAM.frequencyMap h J₀) := by
+      simp only [map_sub, hPw]
+      abel
+    rw [e1]
+    have b1 := orthProj_euclid_le hP (KAM.frequencyMap h J₀ - w)
+    have b2 := orthProj_euclid_le hP (KAM.frequencyMap h I₀ - KAM.frequencyMap h J₀)
+    linarith [euclid_add_le (P (KAM.frequencyMap h J₀ - w))
+      (P (KAM.frequencyMap h I₀ - KAM.frequencyMap h J₀))]
+  refine ⟨fun I hI => ball_mem hI₀ hI, fun I hI => ?_, h3⟩
+  have hlip := freq_lip hRS.h_holo hM.le hRS.hess (seg_mem hI₀ hI)
+  have e1 : P (KAM.frequencyMap h I) =
+      P (KAM.frequencyMap h I₀) + P (KAM.frequencyMap h I - KAM.frequencyMap h I₀) := by
+    simp only [map_sub]
+    abel
+  rw [e1]
+  have b2 := orthProj_euclid_le hP (KAM.frequencyMap h I - KAM.frequencyMap h I₀)
+  linarith [euclid_add_le (P (KAM.frequencyMap h I₀))
+    (P (KAM.frequencyMap h I - KAM.frequencyMap h I₀))]
+
+private theorem realH_abs_le (hs : 0 < s) {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    (hu : InClass (cpx D) r s u) {B : ℝ} (hb : WBound (cpx D) r s u B)
+    {x : (Fin n → ℝ) × (Fin n → ℝ)} (hx : x ∈ realStrip D r) : |realH u x| ≤ B :=
+  (Complex.abs_re_le_norm _).trans
+    ((theta_derivative hs hu hb).2 _ ((realInclusion₂_mem_Dom_iff D hs x).2 hx))
+
+/-- The real `θ`-gradient of `realH u` at a real point is the real part of `∂_θ u`. -/
+private theorem thetaGradR_realH' (hs : 0 < s) {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    (hu : InClass (cpx D) r s u) {x : (Fin n → ℝ) × (Fin n → ℝ)} (hx : x ∈ realStrip D r)
+    (i : Fin n) : thetaGradR (realH u) x i = (dtheta i u (KAM.realInclusion₂ n x)).re := by
+  have hxD : KAM.realInclusion₂ n x ∈ Dom n (cpx D) r s := (realInclusion₂_mem_Dom_iff D hs x).2 hx
+  have hgd : DifferentiableAt ℂ u (KAM.realInclusion₂ n x) :=
+    hu.differentiableOn.differentiableAt ((isOpen_Dom (n := n) (cpx D) r s).mem_nhds hxD)
+  have h2 : HasFDerivAt (fun y => u (KAM.realInclusion₂ n y))
+      (((fderiv ℂ u (KAM.realInclusion₂ n x)).restrictScalars ℝ).comp (KAM.realInclusion₂ n)) x :=
+    (hgd.hasFDerivAt.restrictScalars ℝ).comp x (KAM.realInclusion₂ n).hasFDerivAt
+  have h3 := congrArg (fun L => L (Pi.single i 1, 0)) (Complex.reCLM.hasFDerivAt.comp x h2).fderiv
+  unfold thetaGradR realH dtheta
+  rw [show (fun y => (u (KAM.realInclusion₂ n y)).re) =
+    Complex.reCLM ∘ (fun y => u (KAM.realInclusion₂ n y)) from rfl]
+  simpa [KAM.realInclusion_single] using h3
+
+private theorem gradR_bound (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ)
+    {x : (Fin n → ℝ) × (Fin n → ℝ)} (hx : x ∈ realStrip D r) :
+    euclid (thetaGradR (realH fs) x) ≤ η / (Real.exp 1 * s) := by
+  have hs := hRS.hs
+  have hb := ((theta_derivative hs hRS.fs_class hRS.fs_bound).1 x.1 x.2 hx.2).2
+  refine le_trans ?_ hb
+  unfold KAM.Nekhoroshev.euclid
+  refine Real.sqrt_le_sqrt (Finset.sum_le_sum fun i _ => ?_)
+  rw [thetaGradR_realH' hs hRS.fs_class hx i, Real.norm_eq_abs]
+  exact pow_le_pow_left₀ (abs_nonneg _) (Complex.abs_re_le_norm _) 2
+
+/-- The energy-convexity inequality in the resonant setting (`bpN:p7:energy-core` instantiated). -/
+private theorem rs_energy (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ)
+    {P : (Fin n → ℝ) →ₗ[ℝ] (Fin n → ℝ)} (hP : IsOrthProj P) (hPid : ∀ v ∈ resSpan Λ, P v = v)
+    {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈ J) {z : ℝ → (Fin n → ℝ) × (Fin n → ℝ)}
+    (hz : IsOrbit (fun w => h w.2 + g w + fs w) D r J z) (hadm : IsAdmissible D δ M (z 0).2)
+    {t₁ : ℝ} (ht₁ : t₁ ∈ J) (hΔ : euclid ((z t₁).2 - (z 0).2) ≤ r - resRho δ M) :
+    (∀ m', (∀ a ∈ Icc (0 : ℝ) 1, m' * euclid ((z t₁).2 - (z 0).2) ^ 2 ≤
+        hessR (realPart h) ((z 0).2 + a • ((z t₁).2 - (z 0).2)) ((z t₁).2 - (z 0).2)
+          ((z t₁).2 - (z 0).2)) →
+      m' / 2 * euclid ((z t₁).2 - (z 0).2) ^ 2 ≤ 2 * ζ +
+        euclid (P (KAM.frequencyMap h (z 0).2)) * euclid ((z t₁).2 - (z 0).2) +
+        euclid (KAM.frequencyMap h (z 0).2) *
+          euclid (((z t₁).2 - (z 0).2) - P ((z t₁).2 - (z 0).2))) ∧
+    euclid (((z t₁).2 - (z 0).2) - P ((z t₁).2 - (z 0).2)) ≤ |t₁| * (η / (Real.exp 1 * s)) := by
+  have hs := hRS.hs
+  have hsg := real_system hs hRS.g_class hRS.g_real
+  have hsf := real_system hs hRS.fs_class hRS.fs_real
+  have hmem : ∀ t ∈ J, z t ∈ realStrip D r := fun t ht => (hz t ht).1
+  have hHR : ∀ x ∈ (univ : Set (Fin n → ℝ)) ×ˢ realNbhd D r,
+      realH (fun w => h w.2 + g w + fs w) x = realPart h x.2 + realH g x + realH fs x :=
+    fun x _ => by
+      simp only [realH, KAM.Nekhoroshev.realPart, Complex.add_re, KAM.realInclusion₂_apply]
+      rfl
+  have hgP : ∀ x ∈ (univ : Set (Fin n → ℝ)) ×ˢ realNbhd D r,
+      P (thetaGradR (realH g) x) = thetaGradR (realH g) x := fun x hx =>
+    hPid _ (resonant_gradient hs hRS.g_class hRS.g_real hRS.g_bound hRS.g_res x hx)
+  obtain ⟨-, hB, -, hD⟩ := energy_core (isOpen_realNbhd D r) (hR := realPart h)
+    (g := realH g) (f := realH fs) (HR := realH (fun w => h w.2 + g w + fs w))
+    ((realPart_contDiffOn hRS.h_holo).of_le (by exact WithTop.coe_le_coe.2 le_top))
+    (by exact_mod_cast hsg.1 1) (by exact_mod_cast hsf.1 1) hHR hP hgP hJ h0 hz ht₁
+    (seg_mem hadm hΔ)
+  refine ⟨fun m' hm' => ?_, hB _ fun τ hτ => gradR_bound hRS (hmem τ (hJ.uIcc_subset h0 ht₁ hτ))⟩
+  have hd : m' / 2 * euclid ((z t₁).2 - (z 0).2) ^ 2 ≤
+      |(realH g (z t₁) + realH fs (z t₁)) - (realH g (z 0) + realH fs (z 0))| +
+      euclid (P (KAM.frequencyMap h (z 0).2)) * euclid ((z t₁).2 - (z 0).2) +
+      euclid (KAM.frequencyMap h (z 0).2) *
+        euclid (((z t₁).2 - (z 0).2) - P ((z t₁).2 - (z 0).2)) := hD m' hm'
+  have hA : |(realH g (z t₁) + realH fs (z t₁)) - (realH g (z 0) + realH fs (z 0))| ≤ 2 * ζ := by
+    have a1 := abs_le.1 (realH_abs_le hs hRS.g_class hRS.g_bound (hmem t₁ ht₁))
+    have a2 := abs_le.1 (realH_abs_le hs hRS.g_class hRS.g_bound (hmem 0 h0))
+    have a3 := abs_le.1 (realH_abs_le hs hRS.fs_class hRS.fs_bound (hmem t₁ ht₁))
+    have a4 := abs_le.1 (realH_abs_le hs hRS.fs_class hRS.fs_bound (hmem 0 h0))
+    have := hRS.ζ_ge
+    rw [abs_le]
+    constructor <;> linarith [a1.1, a1.2, a2.1, a2.2, a3.1, a3.2, a4.1, a4.2]
+  linarith
+
+end Resonant
 
 end KAM.Stability
 
