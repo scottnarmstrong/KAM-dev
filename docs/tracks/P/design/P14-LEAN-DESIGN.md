@@ -110,10 +110,10 @@ that parent's conclusion. Such rows deliberately have no separate Lean declarati
 | `stepP:p14:geo-c` | `internal geometry / geo-c` | AMD/Geometry | `a#stepP:p14:geo-c@L88-L88` | `a#stepP:p14:geo-c@L88-L88` |
 | `stepP:p14:geo-d` | `internal geometry / geo-d` | AMD/Geometry | `a#stepP:p14:geo-d@L89-L89` | `a#stepP:p14:geo-d@L89-L89` |
 | `stepP:p14:geo-k` | `internal geometry / geo-k` | AMD/Geometry | `a#stepP:p14:geo-k@L90-L90` | `a#stepP:p14:geo-k@L90-L90` |
-| `bpP:p14:closure` | `closure` | AMD/Closure | `a#bpP:p14:closure@L93-L99` | `a#bpP:p14:closure@L100-L104` |
-| `stepP:p14:cl-a` | `internal closure / cl-a` | AMD/Closure | `a#stepP:p14:cl-a@L101-L101` | `a#stepP:p14:cl-a@L101-L101` |
-| `stepP:p14:cl-b` | `internal closure / cl-b` | AMD/Closure | `a#stepP:p14:cl-b@L102-L102` | `a#stepP:p14:cl-b@L102-L102` |
-| `stepP:p14:cl-c` | `internal closure / cl-c` | AMD/Closure | `a#stepP:p14:cl-c@L103-L103` | `a#stepP:p14:cl-c@L103-L103` |
+| `bpP:p14:closure` | `amd_closure` (renamed from `closure`, see note) | AMD/Closure | `a#bpP:p14:closure@L93-L99` | `a#bpP:p14:closure@L100-L104` |
+| `stepP:p14:cl-a` | `internal amd_closure / cl-a` | AMD/Closure | `a#stepP:p14:cl-a@L101-L101` | `a#stepP:p14:cl-a@L101-L101` |
+| `stepP:p14:cl-b` | `internal amd_closure / cl-b` | AMD/Closure | `a#stepP:p14:cl-b@L102-L102` | `a#stepP:p14:cl-b@L102-L102` |
+| `stepP:p14:cl-c` | `internal amd_closure / cl-c` | AMD/Closure | `a#stepP:p14:cl-c@L103-L103` | `a#stepP:p14:cl-c@L103-L103` |
 | `bpP:p14:moving-ode` | `moving_ode` | AMD/MovingODE | `a#bpP:p14:moving-ode@L108-L112` | `a#bpP:p14:moving-ode@L113-L116` |
 | `stepP:p14:mo-reg` | `internal moving_ode / mo-reg` | AMD/MovingODE | `a#stepP:p14:mo-reg@L114-L114` | `a#stepP:p14:mo-reg@L114-L114` |
 | `stepP:p14:mo-eq` | `internal moving_ode / mo-eq` | AMD/MovingODE | `a#stepP:p14:mo-eq@L115-L115` | `a#stepP:p14:mo-eq@L115-L115` |
@@ -366,7 +366,7 @@ Every package brief must reproduce the hard rules below, and name Appendix A plu
 | A0 | 1 | `AMD/Setting` | 150 | frozen defs; region definitions |
 | A1 | 1 | `AMD/Elements` | 650 | Kepler/Plane, frozen elements; elements, eccentricity_deficit, ecc_bound |
 | A2 | 2 | `AMD/Geometry` | 500 | A0,A1, Barycentric; geometry, amd_compact |
-| A3 | 2 | `AMD/Closure` | 450 | A0,A1; closure and continuity on the negative-energy domain |
+| A3 | 2 | `AMD/Closure` | 450 | A0,A1; `amd_closure` (formerly `closure`; renamed 2026-10-28, see note below the package table) and continuity on the negative-energy domain |
 | A4 | 1 | `AMD/MovingODE` | 200 | Newtonian/Models, ODE/Hamiltonian; moving_ode |
 | A5 | 2 | `AMD/AngularMomentum` | 350 | A4, hamiltonianVectorField_moving; interval_constancy, ang_mom, ordered-pair cancellation |
 | A6 | 3 | `AMD/Confinement` | 750 | A2,A3,A4,A5, ODE/Exit,Maximal,Continuation, Reconstruction; amd |
@@ -398,6 +398,13 @@ Every package brief must reproduce the hard rules below, and name Appendix A plu
 | S12 | 10 | `SecularBox/CitedMasses` | 150 | S11,S0; sb_cited and exact decimal mass identity |
 | Q | after respective libraries | four provider modules listed below | 150 total | wrappers and integration receipts; no new mathematics |
 
+**Rename note (2026-10-28, ruling by the main orchestrator after P14 A3 audit N1, Medium).** The signed theorem
+for `bpP:p14:closure` is `KAM.Planetary.amd_closure`, not `closure`: a declaration `KAM.Planetary.closure` shadows
+Mathlib's topological `closure` everywhere inside namespace `KAM.Planetary` (a probe importing `AMD/Closure` and
+writing `closure S` fails by name resolution). No alias is kept; the statement is unchanged. Consumers (A6
+`AMD/Confinement`, the `amdConfinement` provider) must call `amd_closure`. The signature file
+`.drafts/design/P14Signatures.lean` carries the same rename.
+
 Q may be grouped with S12 or E12 for a 150–800-line prover session; individual wrappers remain tiny.
 All definitions belong to the earliest module named above; move a table-row reference to that module when
 it lists a later consumer (e.g. sb_omega is defined in Field, and EnlargedData in Setting).
@@ -428,7 +435,7 @@ are future work: `by exact KAM.Planetary.amd hn B hB mu T delta hmu hT hdelta hm
 
 | Frozen result | Binder-by-binder handling | Exact conclusion assembly |
 |---|---|---|
-| amdConfinement | `{n}`, hn: planet count≥2; B,hB: fixed geometric data; mu,T,delta and hmu,hT,hdelta: positive physical parameters; hmargin: each action collar; hAMD: AMD collar; z0,hz0: inner datum; hstop: stopped input | choose maximal z with z(0)=z0. First exit uses hstop only on [0,s] or [-s,0] already inside outer region. ang_mom gives AMD(t)-AMD(0)=sum action differences. closure gives no exit; amd_compact gives continuation strictly beyond ±T. Pack IsMovingSolutionOn, MovingUniqueOn, Newton reconstruction, and the pointwise region/momentum/eccentricity/radial/PairBounds group in frozen order; outside that group append physicalAMD≤initialAMD+n*delta and each action drift≤delta |
+| amdConfinement | `{n}`, hn: planet count≥2; B,hB: fixed geometric data; mu,T,delta and hmu,hT,hdelta: positive physical parameters; hmargin: each action collar; hAMD: AMD collar; z0,hz0: inner datum; hstop: stopped input | choose maximal z with z(0)=z0. First exit uses hstop only on [0,s] or [-s,0] already inside outer region. ang_mom gives AMD(t)-AMD(0)=sum action differences. amd_closure gives no exit; amd_compact gives continuation strictly beyond ±T. Pack IsMovingSolutionOn, MovingUniqueOn, Newton reconstruction, and the pointwise region/momentum/eccentricity/radial/PairBounds group in frozen order; outside that group append physicalAMD≤initialAMD+n*delta and each action drift≤delta |
 | planetaryExponentialSafety | `{n}`,hn,B,hB fixed **before** muStar,c,C; every positive mu<muStar; every z0 in the same inner region | choose stopped's B0,nu0, then theta=min{kappa,epsD,all inner action gaps,(A1-A0)/n}>0; muStar=B0^-1*min(nu0/2,(theta/2)^(1/b)), c=B0^(-a), C=B0^b*max_i upper_i/mass_i^2. Set nu=B0*mu, delta=nu^b/2 and T=exp(c*mu^(-a)); T≤nu^-1 exp(nu^-a), all amd margins hold. Apply amd; convert |t|≤T to Icc membership; factor axis difference=(Lambda(t)-Lambda(0))*(Lambda(t)+Lambda(0))/mass_i^2 and bound the sum by 2 upper_i. Reuse the first grouped clauses exactly; append the frozen axis drift for all real t with |t|≤T |
 | secularBoxSafety | saturn,mu; hsaturn: closed rational mass-ratio range; hmu: positivity; w0,hw0: literal SecularInputBox | sb_numerics+sb_chart give actions>87/100, AMD<16373/2500000, and w0∈S. sb_global supplies w, initial equality, global Hamiltonian predicate, constant fast actions/AMD. sb_unique accepts the frozen U,v, openness, convexity, zero membership, initial equality, solution and regularity binders; its stronger helper ignores only the last premise. For each t, S and smoothness give SecularRegular; squares give eccentricity<3/20; conserved actions give initial axis ranges. Chart radii yield 1751/400 and 4439/400, difference 399/200; barycentric differences yield PairBounds(399/200,4439/200). Pack these in the exact frozen order, including every F∈(Fin 2→ℝ) |
 | secularBoxAtCitedMasses | w0,hw0 at ratio 476/1591; no new smallness premise | apply ordinary sb_safety with saturn=476/1591, mu=4773/5000000 and rational certificates. All function arguments specialize literally. No provider or DRAFT_SORRY secularBoxSafety import. The equality mu*saturn=357/1250000 identifies the cited decimal model only |
@@ -711,7 +718,9 @@ theorem geometry (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
 theorem amd_compact (B : AMDBox n) (hB : B.Admissible) :
     IsCompact (amdCompact B) ∧ amdCompact B ⊆ collisionFreeDomain n := sorry
 
-theorem closure (B : AMDBox n) (hB : B.Admissible) {delta : ℝ} (hd : 0 < delta)
+-- Renamed from `closure` (2026-10-28, P14 A3 audit N1): `KAM.Planetary.closure` shadowed Mathlib's
+-- topological `closure` inside namespace `KAM.Planetary`. No alias; statement unchanged.
+theorem amd_closure (B : AMDBox n) (hB : B.Admissible) {delta : ℝ} (hd : 0 < delta)
     (hmargin : ∀ i, B.lower i + 2 * delta < B.innerLower i ∧
       B.innerUpper i + 2 * delta < B.upper i)
     (hAMD : B.initialAMD + 2 * (n : ℝ) * delta < B.outerAMD) :
