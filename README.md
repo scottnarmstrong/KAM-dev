@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 12:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 187,000
+> **Last updated: 2026-10-28 13:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 203,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,16 +126,16 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 54,248 |
-| **Estimated total at completion** | **≈ 187,000** |
-| Estimated still to write | ≈ 59,000 |
+| On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:40 UTC |
+| Written on agent branches, not yet landed | 65,601 |
+| **Estimated total at completion** | **≈ 203,000** |
+| Estimated still to write | ≈ 64,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 12:20 UTC from `main` at `25e2377` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 13:40 UTC from `main` at `db950cb` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,19 +292,20 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **n1216** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n1215 (N12-15) | `inp-n1216` | 0 (vs `inp`) |
-| **n89p4** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N89-P4: block_stab | `inp-n89p4` | 1 (vs `inp`) |
-| **n89p5** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n89p4 (N89-P4) | `inp-n89p5` | 1 (vs `inp`) |
-| **p11ac6** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-C6: AffineFlowBasic (defs, field estimates, SmallField) | `inp-p11ac6` | 1 (vs `inp`) |
-| **p11aw8** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W8: PowerLaw (power_law) | `inp-p11aw8` | 2 (vs `inp`) |
-| **p2313f** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p2313e (P23-13e) | `inp-p2313f` | 0 (vs `inp`) |
-| **p2317** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-17: LimitActions Lipschitz recursion, product bound (WIP) | `inp-p2317` | 3 (vs `inp`) |
-| **p4pol** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P4-POL: line-length lint fixes | `inp-p4pol` | 6 (vs `inp`) |
-| **p5fd** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-FD: FrequencyLip, FrequencyBeta (WIP) | `inp-p5fd` | 3 (vs `inp`) |
-| **s10p** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S10-P: peel entry bounds | `inp-s10p` | 5 (vs `inp`) |
-| **s8w** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-W: bind n for e_weyl | `inp-s8w` | 5 (vs `inp`) |
-| **s9d** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-s8c (S8-C) | `inp-s9d` | 0 (vs `inp`) |
-| **s9s** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S9-S: analyticity of eigenprojections and frame (LocalAnalytic/Analytic) | `inp-s9s` | 3 (vs `inp`) |
+| **p11ac5** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: P11A-C5: handoff and independent audit (PASS WITH NOTES) | `inp-p11ac5` | 10 (vs `inp`) |
+| **p11ac6** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Rename oscillator fastShift to oscFastShift (port of inp a923eb0; clash with frozen KAM.Pl | `inp-p11ac6` | 10 (vs `inp`) |
+| **p11ap6** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-P6: wrap long lines | `inp-p11ap6` | 8 (vs `inp`) |
+| **p11ap9** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Rename oscillator fastShift to oscFastShift (port of inp a923eb0; clash with frozen KAM.Pl | `inp-p11ap9` | 1 (vs `inp`) |
+| **p12a** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P12-A: Geometry lint fixes | `inp-p12a` | 3 (vs `inp`) |
+| **p12b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P12-B: collar | `inp-p12b` | 5 (vs `inp`) |
+| **p12d** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P12-D: draft Transport and Measure | `inp-p12d` | 1 (vs `inp`) |
+| **p2315b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Rename oscillator fastShift to oscFastShift (clashed with frozen KAM.Planetary.fastShift i | `inp-p2315b` | 10 (vs `inp`) |
+| **p2318** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Rename oscillator fastShift to oscFastShift (port of inp a923eb0; clash with frozen KAM.Pl | `inp-p2318` | 16 (vs `inp`) |
+| **p5fi** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Rename oscillator fastShift to oscFastShift (port of inp a923eb0; clash with frozen KAM.Pl | `inp-p5fi` | 5 (vs `inp`) |
+| **p5par** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-PAR: Parameters (params, checkedCore, pgActionDomain, pgD0, admissible) | `inp-p5par` | 2 (vs `inp`) |
+| **s8d** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-D: even jet of the circle mean | `inp-s8d` | 11 (vs `inp`) |
+| **s8x** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-X: cell-two Fubini | `inp-s8x` | 6 (vs `inp`) |
+| **s9g** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Rename oscillator fastShift to oscFastShift (clashed with frozen KAM.Planetary.fastShift i | `inp-s9g` | 5 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
