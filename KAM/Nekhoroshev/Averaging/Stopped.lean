@@ -91,6 +91,192 @@ theorem measurable_killed {Φ : (Fin n → ℝ) → ℝ≥0∞} (hΦ : Measurabl
 
 end Measurability
 
+section Basic
+
+variable (d : AveragingData n R s h f) (ε : ℝ)
+include d
+
+theorem avgFlow_zero {x : AvgPhase n} (hx : x ∈ avgDomain n R) : avgFlow h f R ε 0 x = x :=
+  (avgMaximal_spec d ε hx).init
+
+theorem zero_mem_avgOmega {x : AvgPhase n} (hx : x ∈ avgDomain n R) : x ∈ avgOmega h f R ε 0 :=
+  ⟨hx, KAM.ODE.zero_mem_eIoo (avgMaximal_spec d ε hx)⟩
+
+theorem mem_avgDomain_of_half {x : AvgPhase n} (hx : x.2 ∈ actionBall n (R / 2)) :
+    x ∈ avgDomain n R :=
+  ⟨mem_univ _, ball_subset_ball (by linarith [d.hR]) hx⟩
+
+/-- Before the exit time the pair `(v, x)` is still in the stay set. -/
+theorem mem_avgStay_of_lt_tau {x : AvgPhase n} (hx : x.2 ∈ actionBall n (R / 2)) {v : ℝ}
+    (hv : 0 ≤ v) (hlt : (v : EReal) < avgTau h f R ε x) : (v, x) ∈ avgStay h f R ε := by
+  obtain ⟨b, ⟨t', ht', rfl⟩, hb⟩ := lt_sSup_iff.1 hlt
+  have hvt : v ≤ t' := EReal.coe_le_coe_iff.1 hb.le
+  obtain ⟨-, -, hΩ, hdisp⟩ := ht'
+  have hmx := avgMaximal_spec d ε hΩ.1
+  have hJ := (KAM.ODE.ordConnected_eIoo (avgTm h f R ε x) (avgTp h f R ε x)).out
+    (KAM.ODE.zero_mem_eIoo hmx) hΩ.2 ⟨hv, hvt⟩
+  exact ⟨hv, hx, ⟨hΩ.1, hJ⟩, fun u hu => hdisp u ⟨hu.1, hu.2.trans hvt⟩⟩
+
+/-- Along the stay set the flow stays in `avgG n R`, hence in the action ball. -/
+theorem flow_mem_of_stay (hε : 0 < ε) {t : ℝ} {x : AvgPhase n} (hp : (t, x) ∈ avgStay h f R ε) :
+    (avgFlow h f R ε t x).2 ∈ avgG n R := by
+  have ht : (t : EReal) ≤ avgTau h f R ε x := le_sSup ⟨t, hp, rfl⟩
+  exact ((exit d hε hp.2.1).2.2.2.2.1 t hp.1 ht).2
+
+theorem avgG_subset_actionBall : avgG n R ⊆ actionBall n R := fun _ hI =>
+  closedBall_subset_ball (by linarith [d.hR]) hI
+
+end Basic
+
+section Integrals
+
+variable (d : AveragingData n R s h f) (ε : ℝ)
+include d
+
+/-- One time slice of the killed integrand over a piece of one initial cell. -/
+theorem lintegral_slice_le (hε : 0 < ε) {Φ : (Fin n → ℝ) → ℝ≥0∞} (hΦ : Measurable Φ)
+    (ell : Fin n → ℤ) {D : Set (AvgPhase n)} (hD : MeasurableSet D)
+    (hcell : D ⊆ avgCell ell) {t : ℝ} (ht : 0 ≤ t) :
+    (∫⁻ x in D, (avgStay h f R ε).indicator
+      (fun p => Φ (avgFlow h f R ε p.1 p.2).2) (t, x)) ≤ ∫⁻ I in avgG n R, Φ I := by
+  have hSt : MeasurableSet {x : AvgPhase n | (t, x) ∈ avgStay h f R ε} :=
+    measurable_prodMk_left (measurableSet_avgStay d ε)
+  have h1 : (fun x : AvgPhase n => (avgStay h f R ε).indicator
+      (fun p => Φ (avgFlow h f R ε p.1 p.2).2) (t, x)) =
+      {x : AvgPhase n | (t, x) ∈ avgStay h f R ε}.indicator
+        (fun x => Φ (avgFlow h f R ε t x).2) := by
+    funext x; simp [Set.indicator]
+  rw [h1, lintegral_indicator hSt, Measure.restrict_restrict hSt]
+  refine transport d ε ht Φ hΦ ell (hSt.inter hD) (fun x hx => hx.1.2.2.1)
+    (fun x hx => hcell hx.2) fun x hx => flow_mem_of_stay d ε hε hx.1
+
+/-- The time integral of the killed integrand over a piece of a cell: `1/ε` times the envelope. -/
+theorem lintegral_time_le (hε : 0 < ε) {Φ : (Fin n → ℝ) → ℝ≥0∞} (hΦ : Measurable Φ)
+    (ell : Fin n → ℤ) {D : Set (AvgPhase n)} (hD : MeasurableSet D)
+    (hcell : D ⊆ avgCell ell) :
+    (∫⁻ x in D, ∫⁻ t in Icc 0 (1 / ε), (avgStay h f R ε).indicator
+      (fun p => Φ (avgFlow h f R ε p.1 p.2).2) (t, x)) ≤
+      ENNReal.ofReal (1 / ε) * ∫⁻ I in avgG n R, Φ I := by
+  have hF := measurable_killed d ε hΦ
+  have hF' : Measurable (fun q : AvgPhase n × ℝ => (avgStay h f R ε).indicator
+      (fun p => Φ (avgFlow h f R ε p.1 p.2).2) (q.2, q.1)) := hF.comp measurable_swap
+  rw [lintegral_lintegral_swap hF'.aemeasurable]
+  calc (∫⁻ t in Icc 0 (1 / ε), ∫⁻ x in D, (avgStay h f R ε).indicator
+        (fun p => Φ (avgFlow h f R ε p.1 p.2).2) (t, x))
+      ≤ ∫⁻ t in Icc 0 (1 / ε), ∫⁻ I in avgG n R, Φ I :=
+        setLIntegral_mono' measurableSet_Icc fun t ht =>
+          lintegral_slice_le d ε hε hΦ ell hD hcell ht.1
+    _ = ENNReal.ofReal (1 / ε) * ∫⁻ I in avgG n R, Φ I := by
+        rw [setLIntegral_const, Real.volume_Icc, sub_zero, mul_comm]
+
+end Integrals
+
+section Cover
+
+/-- A compact set meets only finitely many half-open angle cells. -/
+theorem exists_cell_cover {K : Set (AvgPhase n)} (hK : IsCompact K) :
+    ∃ S : Finset (Fin n → ℤ), K ⊆ ⋃ ell ∈ S, avgCell ell := by
+  obtain ⟨B, hB⟩ := hK.isBounded.exists_norm_le
+  refine ⟨Fintype.piFinset fun _ => Finset.Icc (-⌈B⌉) ⌈B⌉, fun x hx => ?_⟩
+  simp only [mem_iUnion, Fintype.mem_piFinset, Finset.mem_Icc]
+  refine ⟨fun i => ⌊x.1 i⌋, fun i => ?_, mem_avgCell_floor x⟩
+  have hxi : |x.1 i| ≤ B := by
+    have h1 : ‖x.1 i‖ ≤ ‖x.1‖ := norm_le_pi_norm x.1 i
+    have h2 : ‖x.1‖ ≤ ‖x‖ := norm_fst_le x
+    rw [← Real.norm_eq_abs]; linarith [hB x hx]
+  have hc : (B : ℝ) ≤ ⌈B⌉ := Int.le_ceil B
+  show -⌈B⌉ ≤ ⌊x.1 i⌋ ∧ ⌊x.1 i⌋ ≤ ⌈B⌉
+  constructor
+  · have := (abs_le.1 hxi).1
+    have h3 := Int.sub_one_lt_floor (x.1 i)
+    have h4 : ((-⌈B⌉ - 1 : ℤ) : ℝ) < ⌊x.1 i⌋ := by push_cast; linarith
+    have := Int.cast_lt.1 h4
+    omega
+  · rw [← Int.cast_le (R := ℝ)]
+    have := (abs_le.1 hxi).2
+    have h3 := Int.floor_le (x.1 i)
+    linarith
+
+end Cover
+
+section Extended
+
+/-- `avgStopped` with the envelopes extended by zero off the action ball, so that it is Borel. -/
+def avgStoppedExt (h : (Fin n → ℂ) → ℂ) (f : AvgComplexPhase n → ℂ)
+    (R s M₂ ε : ℝ) (x : AvgPhase n) : ℝ≥0∞ :=
+  ENNReal.ofReal (2 * ε) * (actionBall n R).indicator (avgWenv h s (Real.sqrt ε)) x.2 +
+    ENNReal.ofReal ε * ∫⁻ t in Icc 0 (1 / ε), (avgStay h f R ε).indicator
+      (fun p => (actionBall n R).indicator (avgPhiEnv h s M₂ ε (Real.sqrt ε))
+        (avgFlow h f R ε p.1 p.2).2) (t, x)
+
+variable (d : AveragingData n R s h f) (ε M₂ : ℝ)
+include d
+
+theorem avgStopped_eq_ext (hε : 0 < ε) {x : AvgPhase n} (hx : x.2 ∈ actionBall n (R / 2)) :
+    avgStopped h f R s M₂ ε x = avgStoppedExt h f R s M₂ ε x := by
+  have hxR : x.2 ∈ actionBall n R := ball_subset_ball (by linarith [d.hR]) hx
+  unfold avgStopped avgStoppedExt
+  rw [indicator_of_mem hxR]
+  congr 2
+  refine lintegral_congr fun t => ?_
+  by_cases hp : (t, x) ∈ avgStay h f R ε
+  · rw [indicator_of_mem hp, indicator_of_mem hp,
+      indicator_of_mem (avgG_subset_actionBall d (flow_mem_of_stay d ε hε hp))]
+  · rw [indicator_of_notMem hp, indicator_of_notMem hp]
+
+theorem measurable_avgStoppedExt (hε : 0 < ε) (hM0 : 0 ≤ M₂) :
+    Measurable (avgStoppedExt h f R s M₂ ε) := by
+  obtain ⟨mW, -, -, -, mΦ, -⟩ := envelope_regular d (Real.sqrt_pos.2 hε) hM0
+  have hF := measurable_killed d ε (mΦ ε)
+  refine (measurable_const.mul (mW.comp measurable_snd)).add (measurable_const.mul ?_)
+  exact (hF.comp measurable_swap).lintegral_prod_right' (ν := volume.restrict (Icc 0 (1 / ε)))
+
+/-- The integral of the extended majorant over a piece of one angle cell. -/
+theorem lintegral_cell_le (hε : 0 < ε) (hM0 : 0 ≤ M₂) (ell : Fin n → ℤ)
+    {D : Set (AvgPhase n)} (hD : MeasurableSet D) (hcell : D ⊆ avgCell ell)
+    (hDI : ∀ x ∈ D, x.2 ∈ actionBall n (R / 2)) :
+    (∫⁻ x in D, avgStoppedExt h f R s M₂ ε x) ≤
+      ENNReal.ofReal (2 * ε) * (∫⁻ I in avgG n R, avgWenv h s (Real.sqrt ε) I) +
+      ENNReal.ofReal ε * (ENNReal.ofReal (1 / ε) *
+        ∫⁻ I in avgG n R, avgPhiEnv h s M₂ ε (Real.sqrt ε) I) := by
+  obtain ⟨mW, -, -, -, mΦ, -⟩ := envelope_regular d (Real.sqrt_pos.2 hε) hM0
+  have hG : MeasurableSet (avgG n R) := measurableSet_closedBall
+  unfold avgStoppedExt
+  have hm1 : Measurable fun x : AvgPhase n => ENNReal.ofReal (2 * ε) *
+      (actionBall n R).indicator (avgWenv h s (Real.sqrt ε)) x.2 :=
+    measurable_const.mul (mW.comp measurable_snd)
+  rw [lintegral_add_left hm1]
+  refine add_le_add ?_ ?_
+  · have htr := transport d ε le_rfl (fun I => ENNReal.ofReal (2 * ε) *
+      (actionBall n R).indicator (avgWenv h s (Real.sqrt ε)) I) (measurable_const.mul mW)
+      ell hD (fun x hx => zero_mem_avgOmega d ε (mem_avgDomain_of_half d (hDI x hx))) hcell
+      (fun x hx => by
+        rw [avgFlow_zero d ε (mem_avgDomain_of_half d (hDI x hx))]
+        exact ball_subset_closedBall (ball_subset_ball (by linarith [d.hR]) (hDI x hx)))
+    calc (∫⁻ x in D, ENNReal.ofReal (2 * ε) *
+          (actionBall n R).indicator (avgWenv h s (Real.sqrt ε)) x.2)
+        = ∫⁻ x in D, ENNReal.ofReal (2 * ε) *
+          (actionBall n R).indicator (avgWenv h s (Real.sqrt ε)) (avgFlow h f R ε 0 x).2 :=
+          setLIntegral_congr_fun hD fun x hx => by
+            rw [avgFlow_zero d ε (mem_avgDomain_of_half d (hDI x hx))]
+      _ ≤ _ := htr
+      _ = ENNReal.ofReal (2 * ε) * ∫⁻ I in avgG n R,
+          (actionBall n R).indicator (avgWenv h s (Real.sqrt ε)) I := lintegral_const_mul _ mW
+      _ = _ := by
+          congr 1
+          exact setLIntegral_congr_fun hG fun I hI =>
+            indicator_of_mem (avgG_subset_actionBall d hI) _
+  · rw [lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
+    refine mul_le_mul_right ?_ _
+    have e : ∫⁻ I in avgG n R, avgPhiEnv h s M₂ ε (Real.sqrt ε) I =
+        ∫⁻ I in avgG n R, (actionBall n R).indicator
+          (avgPhiEnv h s M₂ ε (Real.sqrt ε)) I :=
+      setLIntegral_congr_fun hG fun I hI => (indicator_of_mem (avgG_subset_actionBall d hI) _).symm
+    rw [e]
+    exact lintegral_time_le d ε hε (mΦ ε) ell hD hcell
+
+end Extended
+
 end KAM.Nekhoroshev
 
 end
