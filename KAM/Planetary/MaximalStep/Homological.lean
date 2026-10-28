@@ -417,7 +417,8 @@ theorem solve_unique {delta : ℝ} (hT : 0 ≤ T) (hD : 0 < D) (hdr : 0 < r - de
   have hfun : (fun x => u (x, b)) = KAM.fourierSum (hmCut T u b) := funext hu
   have hSu : ∀ k ∉ hmModes n T, hmCut T u b k = 0 := fun k hk => hmCut_eq_zero hk
   -- the coefficient families agree
-  have hg : ∀ k, (hmCut T u b k - hmCoef T w P b k) * (2*Real.pi*Complex.I*p11dotC k (w b)) = 0 := by
+  have hg : ∀ k, (hmCut T u b k - hmCoef T w P b k) *
+      (2*Real.pi*Complex.I*p11dotC k (w b)) = 0 := by
     set g : (Fin n → ℤ) → ℂ := fun k =>
       (hmCut T u b k - hmCoef T w P b k) * (2*Real.pi*Complex.I*p11dotC k (w b)) with hgdef
     have hgS : ∀ k ∉ hmModes n T, g k = 0 := fun k hk => by
@@ -653,7 +654,8 @@ theorem homological_maximal_param {n : ℕ} {r delta T D M t tp : ℝ}
     (hr : 0 < r) (hd : 0 < delta) (hdr : delta < r) (hT : 0 < T)
     (hD : 0 < D) (hM : 0 ≤ M) {E : Set (P11Vec n)} (htp : 0 < tp) (htt : tp < t)
     (w : P11CVec n → P11CVec n) (hw : DifferentiableOn ℂ w (KAM.actionNbhd E t))
-    (hdiv : ∀ b ∈ KAM.actionNbhd E t, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    (hdiv : ∀ b ∈ KAM.actionNbhd E t, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T →
+      D/2 ≤ ‖p11dotC k (w b)‖)
     (P : P11CVec n × P11CVec n → ℂ) (hP : p11AngleClass r (KAM.actionNbhd E t) P)
     (hpoly : ∀ z ∈ Set.univ ×ˢ KAM.actionNbhd E t,
       KAM.Weighted.truncate T P z=P z)

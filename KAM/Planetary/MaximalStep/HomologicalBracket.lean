@@ -29,7 +29,8 @@ namespace KAM.Planetary
 def p11Affine {n : ℕ} (p0 : P11CVec n → ℂ) (p1 : P11CVec n → P11CVec n)
     (z : P11Phase n) : ℂ := p0 z.1+∑ i, p1 z.1 i*z.2 i
 
-/-- Sign bridge for the existing frozen field and Poisson bracket, independent of any solving equation. -/
+/-- Sign bridge for the existing frozen field and Poisson bracket, independent of any solving
+equation. -/
 theorem p11_normal_affine_bracket {n : ℕ} (h : ℂ) (w : P11CVec n)
     {p0 : P11CVec n → ℂ} {p1 : P11CVec n → P11CVec n} {z : P11Phase n}
     (h0 : DifferentiableAt ℂ p0 z.1) (h1 : DifferentiableAt ℂ p1 z.1) :
