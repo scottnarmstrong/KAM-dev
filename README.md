@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 06:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 119,000
+> **Last updated: 2026-10-28 06:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 117,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,15 +127,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 7,818 |
-| **Estimated total at completion** | **≈ 119,000** |
+| Written on agent branches, not yet landed | 6,298 |
+| **Estimated total at completion** | **≈ 117,000** |
 | Estimated still to write | ≈ 37,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 06:20 UTC from `main` at `9ac5ae7` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 06:40 UTC from `main` at `986f240` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -290,16 +290,16 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **c510** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: C5-10: wrap over-long lines in CanonicalMap | `inp-c510` | 3 (vs `inp`) |
-| **n102** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N10-2: Assembly/Hypotheses (hc_*, head_field_locality, hypotheses_check) | `inp-n102` | 1 (vs `inp`) |
-| **n62** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N6-2: homological_param, homological_direct, homological proved | `inp-n62` | 2 (vs `inp`) |
-| **n63** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N6-3: bracket_g (NormalForm/BracketDecomp) | `inp-n63` | 1 (vs `inp`) |
-| **p2301** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-01: wrap module docstring | `inp-p2301` | 3 (vs `inp`) |
-| **p2302** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-02: TwoScale/Constants (ScaleData, constants, nextScale, seq, rem_norm, rem_norm_block | `inp-p2302` | 1 (vs `inp`) |
-| **pp16** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: PP1-6: Transport WIP | `inp-pp16` | 1 (vs `inp`) |
-| **pp17** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp14 (PP1-4) | `inp-pp17` | 0 (vs `inp`) |
+| **n64** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N6-4: telescope (chain, telescope) | `inp-n64` | 1 (vs `inp`) |
+| **n65** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N6-5: IterativeMap (iterative (a),(b), iterHyp_of_source) | `inp-n65` | 1 (vs `inp`) |
+| **p65** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P6-5: Newtonian Assembly (measure-positive (a), movkol/fixkol-assembly); handoff | `inp-p65` | 1 (vs `inp`) |
+| **p76** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp16 (PP1-6) | `inp-p76` | 0 (vs `inp`) |
+| **pp15** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: PP1-5: HolChart (hol_chart, fderiv_real_slice) | `inp-pp15` | 1 (vs `inp`) |
+| **s72** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-2: Gradient (theta_derivative, resonant_gradient) | `inp-s72` | 2 (vs `inp`) |
+| **s73** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-3: transfer, stopped_extension | `inp-s73` | 2 (vs `inp`) |
+| **s75** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-5: Stability/Energy (IsOrthProj, exists_orthProj, resonance data, energy_core) | `inp-s75` | 2 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
