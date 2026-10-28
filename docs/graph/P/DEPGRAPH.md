@@ -35593,9 +35593,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:u
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: uniform_data (KAM/Planetary/Exponential/UniformData.lean)
+LEAN_NOTE: audit P14-E8 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:ud-cell
@@ -35621,9 +35621,9 @@ EDGE: N:bpN:p3:gen-lip | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:ud-cel
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: udCell_isCompact, uniform_data (KAM/Planetary/Exponential/UniformData.lean)
+LEAN_NOTE: audit P14-E8 PASS; named ud-cell
 NOTE: -
 
 NODE: stepP:p14:ud-transl
@@ -35650,9 +35650,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: uniform_data (KAM/Planetary/Exponential/UniformData.lean)
+LEAN_NOTE: audit P14-E8 PASS; step inside uniform_data
 NOTE: -
 
 NODE: bpP:p14:lift
