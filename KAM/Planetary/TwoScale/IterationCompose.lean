@@ -82,7 +82,8 @@ theorem restrict (H : KamHyp D sbar p h f) (hD : D' ⊆ D) : KamHyp D' sbar p h 
   have hN : ∀ r, KAM.actionNbhd D' r ⊆ KAM.actionNbhd D r := fun r I ⟨J, hJ, hI⟩ => ⟨J, hD hJ, hI⟩
   have hdom : ∀ r σ, coefficientDom D' r σ ⊆ coefficientDom D r σ := fun r σ =>
     coefficientDom_mono (hN r) le_rfl
-  have hP : polyNbhd (realBase D') p.ρ ⊆ polyNbhd (realBase D) p.ρ := polyNbhd_realBase_subset (hN _)
+  have hP : polyNbhd (realBase D') p.ρ ⊆ polyNbhd (realBase D) p.ρ :=
+    polyNbhd_realBase_subset (hN _)
   refine ⟨H.a_pos, H.b_pos, H.τ_gt, H.positive, H.gamma_order, H.widths, H.normalized, H.L_bound,
     H.holo.mono (hN _), fun z hz => H.real_h z (hdom _ _ hz), fun z hz => H.real_f z (hdom _ _ hz),
     inClass_mono_set H.f_class hP le_rfl, wbound_mono_set H.f_bound hP le_rfl le_rfl,
