@@ -151,6 +151,80 @@ theorem symplectic {Ω : Set (EC n k)} (hΩ : IsOpen Ω) {c ε : ℝ} (hc : 0 < 
   rw [extForm_eq_regroup c hc0, extForm_eq_regroup c hc0] at h
   simpa [conjLin_apply] using h
 
+/-! ### Consequences of `ExtCanonical` -/
+
+/-- The field identity: `DΨ (wfield c (v ∘ Ψ)) = wfield c v ∘ Ψ`. -/
+theorem symplectic_field {c : ℝ} {U : Set (EC n k)} (hU : IsOpen U) {Ψ : EC n k → EC n k}
+    (hΨ : DifferentiableOn ℂ Ψ U) (hcanon : ExtCanonical c U Ψ) {z : EC n k} (hz : z ∈ U)
+    {v : EC n k → ℂ} (hv : DifferentiableAt ℂ v (Ψ z)) :
+    fderiv ℂ Ψ z (wfield c (fun x => v (Ψ x)) z) = wfield c v (Ψ z) := by
+  have hΨz : DifferentiableAt ℂ Ψ z := hΨ.differentiableAt (hU.mem_nhds hz)
+  refine (SeparatingDual.eq_iff_forall_dual_eq (R := ℂ)).2 fun u => ?_
+  set v' : EC n k →L[ℂ] ℂ := fderiv ℂ v (Ψ z) with hv'
+  have hdv : fderiv ℂ (fun x => v (Ψ x)) z = v'.comp (fderiv ℂ Ψ z) :=
+    (hv.hasFDerivAt.comp z hΨz.hasFDerivAt).fderiv
+  have hdv' : fderiv ℂ (fun x => v' (Ψ x)) z = v'.comp (fderiv ℂ Ψ z) :=
+    (v'.hasFDerivAt.comp z hΨz.hasFDerivAt).fderiv
+  have hdu : fderiv ℂ (fun x => u (Ψ x)) z = u.comp (fderiv ℂ Ψ z) :=
+    (u.hasFDerivAt.comp z hΨz.hasFDerivAt).fderiv
+  have h := hcanon z hz u v'
+  unfold extBracket at h
+  rw [hdu, wfield_eq_wfieldOf, hdv', u.fderiv, wfield_eq_wfieldOf, v'.fderiv] at h
+  rw [wfield_eq_wfieldOf, hdv, wfield_eq_wfieldOf]
+  exact h
+
+theorem symplectic_bracket {c : ℝ} {U V : Set (EC n k)} (hU : IsOpen U) (hV : IsOpen V)
+    {Ψ : EC n k → EC n k} (hΨ : DifferentiableOn ℂ Ψ U) (hm : MapsTo Ψ U V)
+    (hc : ExtCanonical c U Ψ) {u v : EC n k → ℂ}
+    (hu : DifferentiableOn ℂ u V) (hv : DifferentiableOn ℂ v V) :
+    ∀ z ∈ U, extBracket c (u ∘ Ψ) (v ∘ Ψ) z = extBracket c u v (Ψ z) := by
+  intro z hz
+  have hΨz : DifferentiableAt ℂ Ψ z := hΨ.differentiableAt (hU.mem_nhds hz)
+  have huz : DifferentiableAt ℂ u (Ψ z) := hu.differentiableAt (hV.mem_nhds (hm hz))
+  have hvz : DifferentiableAt ℂ v (Ψ z) := hv.differentiableAt (hV.mem_nhds (hm hz))
+  have hdu : fderiv ℂ (u ∘ Ψ) z = (fderiv ℂ u (Ψ z)).comp (fderiv ℂ Ψ z) :=
+    (huz.hasFDerivAt.comp z hΨz.hasFDerivAt).fderiv
+  have hf := symplectic_field hU hΨ hc hz hvz
+  unfold extBracket
+  rw [hdu]
+  exact congrArg (fderiv ℂ u (Ψ z)) hf
+
+/-- Pointwise: `ExtCanonical` makes the regrouped derivative preserve `symplFormC`. -/
+theorem canonical_form_regroup {c : ℝ} (hc : c ≠ 0) {U : Set (EC n k)} (hU : IsOpen U)
+    {Ψ : EC n k → EC n k} (hΨ : DifferentiableOn ℂ Ψ U) (hcanon : ExtCanonical c U Ψ)
+    {z : EC n k} (hz : z ∈ U) :
+    ∀ a b, KAM.Canonical.symplFormC (conjLin c hc (fderiv ℂ Ψ z) a)
+      (conjLin c hc (fderiv ℂ Ψ z) b) = KAM.Canonical.symplFormC a b :=
+  form_of_bracket _ ((canonical_at_iff c hc (hΨ.differentiableAt (hU.mem_nhds hz))).1
+    (hcanon z hz))
+
+theorem symplectic_det {c : ℝ} (hc : 0 < c) {U : Set (EC n k)} (hU : IsOpen U)
+    {Ψ : EC n k → EC n k} (hΨ : DifferentiableOn ℂ Ψ U) (hcanon : ExtCanonical c U Ψ) :
+    ∀ z ∈ U, (fderiv ℂ Ψ z).det = 1 ∨ (fderiv ℂ Ψ z).det = -1 := by
+  intro z hz
+  have hc0 : c ≠ 0 := hc.ne'
+  have h := KAM.Canonical.det_eq_one_or_neg_one
+    (conjLin c hc0 (fderiv ℂ Ψ z) : ((Fin (n+k) → ℂ) × (Fin (n+k) → ℂ)) →ₗ[ℂ] _)
+    (canonical_form_regroup hc0 hU hΨ hcanon hz)
+  have hdet : LinearMap.det
+      (conjLin c hc0 (fderiv ℂ Ψ z) : ((Fin (n+k) → ℂ) × (Fin (n+k) → ℂ)) →ₗ[ℂ] _) =
+      (fderiv ℂ Ψ z).det := by
+    have := LinearMap.det_conj (fderiv ℂ Ψ z : EC n k →ₗ[ℂ] EC n k)
+      (regroup c hc0).toLinearEquiv
+    exact this
+  rw [hdet] at h
+  exact h
+
+theorem symplectic_form {c : ℝ} (hc : 0 < c) {U : Set (EC n k)} (hU : IsOpen U)
+    {Ψ : EC n k → EC n k} (hΨ : DifferentiableOn ℂ Ψ U) (hcanon : ExtCanonical c U Ψ) :
+    ∀ z ∈ U, ∀ v w : EC n k,
+      extForm c (fderiv ℂ Ψ z v) (fderiv ℂ Ψ z w) = extForm c v w := by
+  intro z hz v w
+  have hc0 : c ≠ 0 := hc.ne'
+  have h := canonical_form_regroup hc0 hU hΨ hcanon hz (regroup c hc0 v) (regroup c hc0 w)
+  rw [extForm_eq_regroup c hc0, extForm_eq_regroup c hc0]
+  simpa [conjLin_apply] using h
+
 end KAM.Nekhoroshev
 
 end
