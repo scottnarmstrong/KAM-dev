@@ -671,6 +671,7 @@ public import KAM.Planetary.PlanarTorsion.PairCoefficients.Vanish
 public import KAM.Planetary.PlanarTorsion.PairCoefficients
 public import KAM.Planetary.PlanarTorsion.RealFlow.Local
 public import KAM.Planetary.PlanarTorsion.Setting
+public import KAM.Planetary.PlanarTorsion.SpectralAdapter
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
 public import KAM.Planetary.Poincare.D25
