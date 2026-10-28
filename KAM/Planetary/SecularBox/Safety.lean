@@ -61,9 +61,10 @@ private theorem sbSafety_actions (saturn : ℝ) (hs : saturn ∈ Icc (29/100 : �
   have e0 : secularAxis (jupiterSaturnWeights saturn) w0 0 = fast w0.2 0 ^ 2 := by
     simp [secularAxis, jupiterSaturnWeights]
   have e1 : fast w0.2 1 ^ 2 = saturn ^ 2 * secularAxis (jupiterSaturnWeights saturn) w0 1 := by
-    simp only [secularAxis, jupiterSaturnWeights]
+    have : jupiterSaturnWeights saturn 1 = saturn := by simp [jupiterSaturnWeights]
+    unfold secularAxis
+    rw [this, div_pow]
     field_simp
-    simp
   have hL0 := (hG 0).1
   have hL1 := (hG 1).1
   have hs2 : (29/100 : ℝ) ^ 2 ≤ saturn ^ 2 := pow_le_pow_left₀ (by norm_num) hs0 2
@@ -73,8 +74,8 @@ private theorem sbSafety_actions (saturn : ℝ) (hs : saturn ∈ Icc (29/100 : �
   have hi1 : fast w0.2 1 ^ 2 ≤ (31/100 : ℝ) ^ 2 * (193/20) := by
     rw [e1]; exact mul_le_mul hs3 a1u (by linarith) (by positivity)
   refine ⟨?_, ?_, ?_, ?_⟩
-  · exact sbSafety_lt_of_sq hL0.le (by rw [← e0] at *; norm_num at a0l ⊢; linarith)
-  · exact sbSafety_lt_of_sq (by norm_num) (by rw [← e0] at a0u; norm_num at a0u ⊢; linarith)
+  · exact sbSafety_lt_of_sq hL0.le (by rw [e0] at a0l; norm_num at a0l ⊢; linarith)
+  · exact sbSafety_lt_of_sq (by norm_num) (by rw [e0] at a0u; norm_num at a0u ⊢; linarith)
   · exact sbSafety_lt_of_sq hL1.le (by norm_num at lo1 ⊢; linarith)
   · exact sbSafety_lt_of_sq (by norm_num) (by norm_num at hi1 ⊢; linarith)
 
@@ -126,7 +127,7 @@ private theorem sbSafety_mem (saturn : ℝ) {w0 : Phase (2+2)} (h : SecularInput
 
 /-- Step `sb-th-6`: eccentricity bound from conserved actions. -/
 private theorem sbSafety_ecc {L Γ k e : ℝ} (hL : 87/100 < L) (hΓ : Γ = L * (1 - k))
-    (hA : Γ < 16373/2500000) (he2 : e ^ 2 = 1 - k ^ 2) (hk0 : 0 < k) (hk1 : k ≤ 1) :
+    (hA : Γ < 16373/2500000) (he2 : e ^ 2 = 1 - k ^ 2) (hk0 : 0 < k) :
     e < 3/20 := by
   have h1 : (2481/2500 : ℝ) < k := by
     by_contra hc
@@ -139,7 +140,7 @@ private theorem sbSafety_ecc {L Γ k e : ℝ} (hL : 87/100 < L) (hΓ : Γ = L * 
 
 /-- Steps `sb-th-9`, `sb-th-10`: radial bounds from the axis range and `e < 3/20`. -/
 private theorem sbSafety_rad {a e q alo ahi : ℝ} (ha0 : 0 < alo) (h1 : alo ≤ a) (h2 : a ≤ ahi)
-    (he0 : 0 ≤ e) (he : e < 3/20) (hl : a * (1 - e) ≤ q) (hu : q ≤ a * (1 + e)) :
+    (he : e < 3/20) (hl : a * (1 - e) ≤ q) (hu : q ≤ a * (1 + e)) :
     alo * (17/20) ≤ q ∧ q ≤ ahi * (23/20) := by
   have ha : 0 ≤ a := by linarith
   constructor
@@ -185,7 +186,7 @@ theorem sb_safety (saturn mu : ℝ)
   have hA := sbSafety_amd saturn hsaturn hw0 hL0' hL1'
   have hS0 := sbSafety_mem saturn hw0 hL0 hL1 hA
   obtain ⟨w, hw00, hwsol, hwall⟩ := sb_global saturn mu hsaturn hS0 hA
-    (Fin.forall_fin_two.2 ⟨hL0, hL1⟩)
+    (fun i => (Fin.forall_fin_two (p := fun i => (87/100 : ℝ) < fast w0.2 i)).2 ⟨hL0, hL1⟩ i)
   refine ⟨w, hw00, hwsol, ?_, ?_⟩
   · intro U v hU hUc h0 hv0 hv _
     exact sb_unique saturn mu hsaturn hwsol (fun t => (hwall t).1) hU hUc h0
@@ -194,7 +195,7 @@ theorem sb_safety (saturn mu : ℝ)
   obtain ⟨hSt, hfast, hamd⟩ := hwall t
   have hLt : ∀ i, fast (w t).2 i = fast w0.2 i := fun i => by rw [hfast]
   have hLw : ∀ i, (87/100 : ℝ) < fast (w t).2 i := fun i => by
-    rw [hLt]; exact Fin.forall_fin_two.2 ⟨hL0, hL1⟩ i
+    rw [hLt]; exact (Fin.forall_fin_two (p := fun i => (87/100 : ℝ) < fast w0.2 i)).2 ⟨hL0, hL1⟩ i
   have hG : ∀ j, 0 ≤ secularGamma (w t) j := fun j => by
     unfold secularGamma oscillatorAction; positivity
   have hsum : secularGamma (w t) 0 + secularGamma (w t) 1 < 16373/2500000 := by
@@ -207,8 +208,8 @@ theorem sb_safety (saturn mu : ℝ)
   have hch := sb_chart _ hm (w := w t)
     (fun j => ⟨(hSt.1 j).1, hG j, by linarith [(hSt.1 j).2, hG j]⟩)
   have hecc : ∀ i, planeLength (secularEccVector (w t) i) < 3/20 := fun i => by
-    obtain ⟨-, hk0, hk1, -, he2, -, hΓ, -⟩ := hch i
-    exact sbSafety_ecc (hLw i) hΓ (hΓlt i) he2 hk0 hk1
+    obtain ⟨-, hk0, -, -, he2, -, hΓ, -⟩ := hch i
+    exact sbSafety_ecc (hLw i) hΓ (hΓlt i) he2 hk0
   have hax : ∀ i, secularAxis (jupiterSaturnWeights saturn) (w t) i =
       secularAxis (jupiterSaturnWeights saturn) w0 i := fun i => by
     unfold secularAxis; rw [hLt]
@@ -221,7 +222,7 @@ theorem sb_safety (saturn mu : ℝ)
     obtain ⟨-, -, -, -, -, -, -, hF⟩ := hch i
     obtain ⟨-, -, -, hlo, hhi⟩ := hF F
     rw [hax] at hlo hhi
-    exact sbSafety_rad ha0 h1 h2 (planeLength_nonneg _) (hecc i) hlo hhi
+    exact sbSafety_rad ha0 h1 h2 (hecc i) hlo hhi
   obtain ⟨-, a0l, a0u, a1l, a1u, -, -⟩ := hw0
   have hq0 := fun F => hrad 0 F _ _ (by norm_num) a0l a0u
   have hq1 := fun F => hrad 1 F _ _ (by norm_num) a1l a1u
@@ -243,7 +244,8 @@ theorem sb_safety (saturn mu : ℝ)
     ellipsePosition (jupiterSaturnWeights saturn) (w t) j (F j) with hb
   have hpp : ∀ a c : Fin 2, a ≠ c → (399 / 200 : ℝ) ≤ planeLength (b c - b a) ∧
       planeLength (b c - b a) ≤ 4439 / 200 := by
-    have key : (399 / 200 : ℝ) ≤ planeLength (b 1 - b 0) ∧ planeLength (b 1 - b 0) ≤ 4439 / 200 := by
+    have key : (399 / 200 : ℝ) ≤ planeLength (b 1 - b 0) ∧
+        planeLength (b 1 - b 0) ≤ 4439 / 200 := by
       have h1 := abs_planeLength_sub_le (b 1) (b 0)
       have h2 := le_abs_self (planeLength (b 1) - planeLength (b 0))
       have h3 := planeLength_add_le (b 1) (-b 0)
