@@ -309,7 +309,12 @@ public import KAM.Measure.McShane
 public import KAM.Measure.Slab
 public import KAM.Nekhoroshev.Assembly.Choice
 public import KAM.Nekhoroshev.Assembly.Hypotheses
+public import KAM.Nekhoroshev.Averaging.CompactMaximum
+public import KAM.Nekhoroshev.Averaging.Field
+public import KAM.Nekhoroshev.Averaging.FlowDefs
 public import KAM.Nekhoroshev.Averaging.PicardFamilies
+public import KAM.Nekhoroshev.Averaging.Rank
+public import KAM.Nekhoroshev.Averaging.Setting
 public import KAM.Nekhoroshev.Interfaces.ConicCoercive
 public import KAM.Nekhoroshev.Interfaces.Constants
 public import KAM.Nekhoroshev.Interfaces.ConstantsAnalytic
@@ -331,6 +336,9 @@ public import KAM.Nekhoroshev.NormalForm.Iterative
 public import KAM.Nekhoroshev.NormalForm.IterativeMap
 public import KAM.Nekhoroshev.NormalForm.IterativeReal
 public import KAM.Nekhoroshev.NormalForm.IterativeRemainder
+public import KAM.Nekhoroshev.NormalForm.NormalForm
+public import KAM.Nekhoroshev.NormalForm.NormalFormAux
+public import KAM.Nekhoroshev.NormalForm.NormalFormCaseA
 public import KAM.Nekhoroshev.NormalForm.Setting
 public import KAM.Nekhoroshev.NormalForm.Steps
 public import KAM.Nekhoroshev.NormalForm.StepsCaseB
@@ -349,6 +357,7 @@ public import KAM.Nekhoroshev.QcZero.ZeroField
 public import KAM.Nekhoroshev.QcZero.ZeroOrbit
 public import KAM.Nekhoroshev.QuasiConvex
 public import KAM.Nekhoroshev.ResonanceGeometry.Lattice
+public import KAM.Nekhoroshev.ResonanceGeometry.Maximal
 public import KAM.Nekhoroshev.ResonanceGeometry.Projection
 public import KAM.Nekhoroshev.ResonanceGeometry.Volume
 public import KAM.Nekhoroshev.Stability.Conjugation
@@ -390,6 +399,8 @@ public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
 public import KAM.Planetary.Newtonian.Reduction
 public import KAM.Planetary.Newtonian.Tube
+public import KAM.Planetary.PG.Setting
+public import KAM.Planetary.PGMeasure.Tonelli
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
 public import KAM.Planetary.Poincare.D25
