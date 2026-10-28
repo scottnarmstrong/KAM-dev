@@ -220,15 +220,15 @@ theorem osc_integral_class (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ)
       (S := S - σ) (a := (Pi.single j 1 : Fin n → ℂ))
       (fun i => by by_cases h : i = j <;> simp [h])
     have hτF : ∀ w ∈ oscO (m := m) D r rp rq S ρ ρp ρq σ,
-        KAM.hamiltonianVectorFieldℂ φ (w + fastShift (m := m) (Pi.single j 1)) =
+        KAM.hamiltonianVectorFieldℂ φ (w + oscFastShift (m := m) (Pi.single j 1)) =
           KAM.hamiltonianVectorFieldℂ φ w := fun w hw => by
       have := F.cls.field_periodic (oscDom_mono (by linarith [F.hρ]) (by linarith [F.hρp])
         (by linarith [F.hρq]) (by linarith [F.hσ])) (Pi.single j 1) hw
       rwa [hk] at this
     obtain ⟨-, hflow⟩ := flow_d F.smallField hτΩ hτF
     have hsh : ((z.1 + Pi.single (Fin.castAdd m j) 1, z.2) : CPhase (n + m)) =
-        z + fastShift (m := m) (Pi.single j 1) := by
-      rw [fastShift_single]; ext <;> simp
+        z + oscFastShift (m := m) (Pi.single j 1) := by
+      rw [oscFastShift_single]; ext <;> simp
     show ∫ t in (0 : ℝ)..1, v t (flow (KAM.hamiltonianVectorFieldℂ φ)
         (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) t
         ((z.1 + Pi.single (Fin.castAdd m j) 1, z.2) : CPhase (n + m))) = _
