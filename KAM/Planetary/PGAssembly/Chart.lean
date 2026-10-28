@@ -55,7 +55,8 @@ theorem phi_chart (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r 
       rw [hphi1]; exact hk
     have h1 := polar_mem_averagingDomain h hz'
     have h2 := polar_mem_averagingDomain h hz1
-    have hp : oscillatorPolar z' = oscillatorPolar (z + fullShift (Fin.append k (0 : Fin b → ℤ))) := by
+    have hp : oscillatorPolar z' =
+        oscillatorPolar (z + fullShift (Fin.append k (0 : Fin b → ℤ))) := by
       apply KAM.realInclusion₂_injective
       apply hinj h1 h2
       rw [hreal _ h1, hreal _ h2]
@@ -136,10 +137,12 @@ theorem location (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r m
       have h5 : (Real.sqrt 2*D2)^2 ≤ E^2 :=
         pow_le_pow_left₀ (mul_nonneg (Real.sqrt_nonneg 2) hD0) hD2 2
       have h6 : (Real.sqrt 2*D2)^2 = 2*D2^2 := by rw [mul_pow, Real.sq_sqrt (by norm_num)]
-      nlinarith [pow_le_pow_left₀ (abs_nonneg _) (hnn j).1 2, pow_le_pow_left₀ (abs_nonneg _) (hnn j).2 2]
+      nlinarith [pow_le_pow_left₀ (abs_nonneg _) (hnn j).1 2,
+        pow_le_pow_left₀ (abs_nonneg _) (hnn j).2 2]
     have hs2 : Real.sqrt (2*z.2 (Fin.natAdd a j))^2 = 2*z.2 (Fin.natAdd a j) :=
       Real.sq_sqrt (by linarith)
-    have hmar := chart_radial_margin (s := Real.sqrt (2*z.2 (Fin.natAdd a j))) (l := (params d r mu).l1)
+    have hmar := chart_radial_margin (s := Real.sqrt (2*z.2 (Fin.natAdd a j)))
+      (l := (params d r mu).l1)
       hE0 hr0 hEl (by rw [hs2]; linarith [h2.2, h1'.2])
     have := chart_disc_aux (P := w.2 (Fin.natAdd a j)) (Q := w.1 (Fin.natAdd a j))
       (p := (realAverageMap A w).2 (Fin.natAdd a j) - w.2 (Fin.natAdd a j))

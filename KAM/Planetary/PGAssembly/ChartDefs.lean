@@ -27,11 +27,13 @@ namespace KAM.Planetary
 
 variable {a b : ℕ}
 
-def phi (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) : Phase (a+b) → Phase (a+b) :=
+def phi (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+    Phase (a+b) → Phase (a+b) :=
   realAverageMap (pgAvg d r mu h) ∘ oscillatorPolar
 
 def phiDomain (d : PGData a b) (r mu : ℝ) : Set (Phase (a+b)) :=
-  {z | KAM.realInclusion a (blockFast z.2) ∈ KAM.actionNbhd (checkedCore d r mu) ((params d r mu).rhoBar/2) ∧
+  {z | KAM.realInclusion a (blockFast z.2) ∈
+      KAM.actionNbhd (checkedCore d r mu) ((params d r mu).rhoBar/2) ∧
     blockSlow z.2 ∈ actionShell b ((params d r mu).l1/2) (2*(params d r mu).l2)}
 
 def oscillatorPolarComplex (z : PGComplexPhase (a+b)) : PGComplexPhase (a+b) :=
