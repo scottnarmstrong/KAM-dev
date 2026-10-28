@@ -840,6 +840,249 @@ theorem prod_term {N : ℕ} {x : Fin N → ℂ} {δ s : ℝ} (hs : 0 < s) {f g :
 
 end ObBracket
 
+section ObBracketBound
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)}
+
+theorem bracket_bound {r₀ rp₀ rq₀ S₀ r rp rq S ρ ρp ρq σ A B : ℝ} {u w : CHam (n + m)}
+    (hu : oscClass D r₀ rp₀ rq₀ S₀ u) (hw : oscClass D r rp rq S w)
+    (hA : oscBound D r₀ rp₀ rq₀ S₀ u A) (hB : oscBound D r rp rq S w B)
+    (hρ : 0 < ρ ∧ ρ < r) (hρp : 0 < ρp ∧ ρp < rp) (hρq : 0 < ρq ∧ ρq < rq)
+    (hσ : 0 < σ ∧ σ < S) (houter : r - ρ < r₀ ∧ rp - ρp < rp₀ ∧ rq - ρq < rq₀ ∧ S - σ < S₀) :
+    oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (poissonBracket u w)
+      (((1 / exp 1) * (ρ / (r₀ - r + ρ) + σ / (S₀ - S + σ)) +
+        m * (ρq / (rq₀ - rq + ρq) + ρp / (rp₀ - rp + ρp))) /
+          min (ρ * σ) (ρp * ρq) * A * B) := by
+  obtain ⟨hρ0, hρr⟩ := hρ
+  obtain ⟨hρp0, hρpr⟩ := hρp
+  obtain ⟨hρq0, hρqr⟩ := hρq
+  obtain ⟨hσ0, hσS⟩ := hσ
+  obtain ⟨hr₀, hrp₀, hrq₀, hS₀⟩ := houter
+  have hS' : 0 < S - σ := by linarith
+  have hSS : S - σ < S := by linarith
+  have hPu := isOpen_oscParams (m := m) D r₀ rp₀ rq₀
+  have hPw := isOpen_oscParams (m := m) D r rp rq
+  have hsubu : oscParams (m := m) D (r - ρ) (rp - ρp) (rq - ρq) ⊆ oscParams D r₀ rp₀ rq₀ :=
+    oscParams_mono hr₀.le hrp₀.le hrq₀.le
+  have hsubw : oscParams (m := m) D (r - ρ) (rp - ρp) (rq - ρq) ⊆ oscParams D r rp rq :=
+    oscParams_mono (by linarith) (by linarith) (by linarith)
+  have hFu := hu.flat
+  have hFw := hw.flat
+  have hS₀pos : 0 < S₀ := hS'.trans hS₀
+  have hSpos : 0 < S := hS'.trans hSS
+  have e1 : S₀ - (S - σ) = S₀ - S + σ := by ring
+  have e2 : S - (S - σ) = σ := by ring
+  have e3 : r₀ - (r - ρ) = r₀ - r + ρ := by ring
+  have e4 : rp₀ - (rp - ρp) = rp₀ - rp + ρp := by ring
+  have e5 : rq₀ - (rq - ρq) = rq₀ - rq + ρq := by ring
+  have e6 : r - (r - ρ) = ρ := by ring
+  have e7 : rp - (rp - ρp) = ρp := by ring
+  have e8 : rq - (rq - ρq) = ρq := by ring
+  have hd1 : 0 < r₀ - r + ρ := by linarith
+  have hd2 : 0 < S₀ - S + σ := by linarith
+  have hd3 : 0 < rq₀ - rq + ρq := by linarith
+  have hd4 : 0 < rp₀ - rp + ρp := by linarith
+  have hMn : 0 < min (ρ * σ) (ρp * ρq) := lt_min (by positivity) (by positivity)
+  have hM1 : min (ρ * σ) (ρp * ρq) ≤ ρ * σ := min_le_left _ _
+  have hM2 : min (ρ * σ) (ρp * ρq) ≤ ρp * ρq := min_le_right _ _
+  have hexp := Real.exp_pos 1
+  refine oscBound_of_flat hS' (G := fun z => ∑ ι, brCoeff ι *
+    brFun (oscFunction u) (oscFunction w) ι z) (fun y hy => ?_) (fun x hx => ?_)
+  · exact bracket_flat_eq hu hw ⟨fun j => (hy.1 j).trans hS₀, hsubu hy.2⟩
+      ⟨fun j => (hy.1 j).trans hSS, hsubw hy.2⟩
+  have hxu := hsubu hx
+  have hxw := hsubw hx
+  have hA0 : 0 ≤ A := nonneg_of_wsum (F := oscFunction u) hA hxu
+  have hB0 : 0 ≤ B := nonneg_of_wsum (F := oscFunction w) hB hxw
+  -- flat Cauchy estimates at `x`
+  obtain ⟨hθu, hθu'⟩ := wsum_dtheta_le hPu hFu hA hS' hS₀ hxu
+  obtain ⟨hθw, hθw'⟩ := wsum_dtheta_le hPw hFw hB hS' hSS hxw
+  rw [e1] at hθu'
+  rw [e2] at hθw'
+  have hIu : ∀ j : Fin n, WSummable (dI (Fin.castAdd (m + m) j) (oscFunction u)) (S - σ) x ∧
+      wsum (dI (Fin.castAdd (m + m) j) (oscFunction u)) (S - σ) x ≤ A / (r₀ - r + ρ) := fun j => by
+    have := wsum_dI_le_on hPu hS₀pos hS₀.le hFu hA (Fin.castAdd (m + m) j)
+      (show 0 < r₀ - (r - ρ) by linarith)
+      (fun x hx t ht => lineI' hx hrp₀.le hrq₀.le j ht) x hx
+    rwa [e3] at this
+  have hPu' : ∀ j : Fin m, WSummable (dI (Fin.natAdd n (Fin.castAdd m j)) (oscFunction u))
+      (S - σ) x ∧ wsum (dI (Fin.natAdd n (Fin.castAdd m j)) (oscFunction u)) (S - σ) x ≤
+        A / (rp₀ - rp + ρp) := fun j => by
+    have := wsum_dI_le_on hPu hS₀pos hS₀.le hFu hA (Fin.natAdd n (Fin.castAdd m j))
+      (show 0 < rp₀ - (rp - ρp) by linarith)
+      (fun x hx t ht => lineP' hx hr₀.le hrq₀.le j ht) x hx
+    rwa [e4] at this
+  have hQu : ∀ j : Fin m, WSummable (dI (Fin.natAdd n (Fin.natAdd m j)) (oscFunction u))
+      (S - σ) x ∧ wsum (dI (Fin.natAdd n (Fin.natAdd m j)) (oscFunction u)) (S - σ) x ≤
+        A / (rq₀ - rq + ρq) := fun j => by
+    have := wsum_dI_le_on hPu hS₀pos hS₀.le hFu hA (Fin.natAdd n (Fin.natAdd m j))
+      (show 0 < rq₀ - (rq - ρq) by linarith)
+      (fun x hx t ht => lineQ' hx hr₀.le hrp₀.le j ht) x hx
+    rwa [e5] at this
+  have hIw : ∀ j : Fin n, WSummable (dI (Fin.castAdd (m + m) j) (oscFunction w)) (S - σ) x ∧
+      wsum (dI (Fin.castAdd (m + m) j) (oscFunction w)) (S - σ) x ≤ B / ρ := fun j => by
+    have := wsum_dI_le_on hPw hSpos hSS.le hFw hB (Fin.castAdd (m + m) j)
+      (show 0 < r - (r - ρ) by linarith)
+      (fun x hx t ht => lineI' hx (by linarith) (by linarith) j ht) x hx
+    rwa [e6] at this
+  have hPw' : ∀ j : Fin m, WSummable (dI (Fin.natAdd n (Fin.castAdd m j)) (oscFunction w))
+      (S - σ) x ∧ wsum (dI (Fin.natAdd n (Fin.castAdd m j)) (oscFunction w)) (S - σ) x ≤
+        B / ρp := fun j => by
+    have := wsum_dI_le_on hPw hSpos hSS.le hFw hB (Fin.natAdd n (Fin.castAdd m j))
+      (show 0 < rp - (rp - ρp) by linarith)
+      (fun x hx t ht => lineP' hx (by linarith) (by linarith) j ht) x hx
+    rwa [e7] at this
+  have hQw : ∀ j : Fin m, WSummable (dI (Fin.natAdd n (Fin.natAdd m j)) (oscFunction w))
+      (S - σ) x ∧ wsum (dI (Fin.natAdd n (Fin.natAdd m j)) (oscFunction w)) (S - σ) x ≤
+        B / ρq := fun j => by
+    have := wsum_dI_le_on hPw hSpos hSS.le hFw hB (Fin.natAdd n (Fin.natAdd m j))
+      (show 0 < rq - (rq - ρq) by linarith)
+      (fun x hx t ht => lineQ' hx (by linarith) (by linarith) j ht) x hx
+    rwa [e8] at this
+  -- local classes
+  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.1 (hPu.inter hPw) x ⟨hxu, hxw⟩
+  have hbu : ball x δ ⊆ oscParams (m := m) D r₀ rp₀ rq₀ := fun y hy => (hball hy).1
+  have hbw : ball x δ ⊆ oscParams (m := m) D r rp rq := fun y hy => (hball hy).2
+  have hxδ : x ∈ polyNbhd ({x} : Set (Fin (n + (m + m)) → ℂ)) δ := by
+    rw [polyNbhd_singleton]; exact mem_ball_self hδ
+  have cu : ∀ v, InClass ({x} : Set (Fin (n + (m + m)) → ℂ)) δ (S - σ)
+      (fun z => fderiv ℂ (oscFunction u) z v) := fun v =>
+    ((hFu.fderiv_apply hPu v).inClass hbu hS₀.le)
+  have cw : ∀ v, InClass ({x} : Set (Fin (n + (m + m)) → ℂ)) δ (S - σ)
+      (fun z => fderiv ℂ (oscFunction w) z v) := fun v =>
+    ((hFw.fderiv_apply hPw v).inClass hbw hSS.le)
+  have hprod : ∀ ι, (Continuous fun θ : Fin n → ℝ =>
+        brFun (oscFunction u) (oscFunction w) ι (fun l => (θ l : ℂ), x)) ∧
+      WSummable (brFun (oscFunction u) (oscFunction w) ι) (S - σ) x ∧
+      wsum (brFun (oscFunction u) (oscFunction w) ι) (S - σ) x ≤
+        (match ι with
+          | Sum.inl (Sum.inl j) => wsum (dtheta j (oscFunction u)) (S - σ) x *
+              wsum (dI (Fin.castAdd (m + m) j) (oscFunction w)) (S - σ) x
+          | Sum.inl (Sum.inr j) => wsum (dI (Fin.castAdd (m + m) j) (oscFunction u)) (S - σ) x *
+              wsum (dtheta j (oscFunction w)) (S - σ) x
+          | Sum.inr (Sum.inl j) =>
+              wsum (dI (Fin.natAdd n (Fin.natAdd m j)) (oscFunction u)) (S - σ) x *
+              wsum (dI (Fin.natAdd n (Fin.castAdd m j)) (oscFunction w)) (S - σ) x
+          | Sum.inr (Sum.inr j) =>
+              wsum (dI (Fin.natAdd n (Fin.castAdd m j)) (oscFunction u)) (S - σ) x *
+              wsum (dI (Fin.natAdd n (Fin.natAdd m j)) (oscFunction w)) (S - σ) x) := by
+    rintro ((j | j) | (j | j))
+    · exact prod_term hS' (cu _) (cw _) hxδ (hθu j) (hIw j).1
+    · exact prod_term hS' (cu _) (cw _) hxδ (hIu j).1 (hθw j)
+    · exact prod_term hS' (cu _) (cw _) hxδ (hQu j).1 (hPw' j).1
+    · exact prod_term hS' (cu _) (cw _) hxδ (hPu' j).1 (hQw j).1
+  obtain ⟨hws, hwle⟩ := wsum_sum_le' (s := S - σ) (I := x) brCoeff
+    (brFun (oscFunction u) (oscFunction w)) (fun ι => (hprod ι).1) (fun ι => (hprod ι).2.1)
+  refine ⟨hws, hwle.trans ?_⟩
+  have hnn : ∀ f : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ) → ℂ, 0 ≤ wsum f (S - σ) x := fun f =>
+    tsum_nonneg fun k => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le
+  have hnorm : ∀ ι : BIdx n m, ‖brCoeff ι‖ = 1 := by
+    rintro ((j | j) | (j | j)) <;> simp [brCoeff]
+  simp only [hnorm, one_mul, Fintype.sum_sum_type]
+  have h1 : ∑ j : Fin n, wsum (brFun (oscFunction u) (oscFunction w) (Sum.inl (Sum.inl j)))
+      (S - σ) x ≤ A / (exp 1 * (S₀ - S + σ)) * (B / ρ) := by
+    calc _ ≤ ∑ j : Fin n, wsum (dtheta j (oscFunction u)) (S - σ) x * (B / ρ) :=
+          Finset.sum_le_sum fun j _ => ((hprod (Sum.inl (Sum.inl j))).2.2).trans
+            (mul_le_mul_of_nonneg_left (hIw j).2 (hnn _))
+      _ = (∑ j : Fin n, wsum (dtheta j (oscFunction u)) (S - σ) x) * (B / ρ) := by
+          rw [Finset.sum_mul]
+      _ ≤ _ := mul_le_mul_of_nonneg_right hθu' (by positivity)
+  have h2 : ∑ j : Fin n, wsum (brFun (oscFunction u) (oscFunction w) (Sum.inl (Sum.inr j)))
+      (S - σ) x ≤ A / (r₀ - r + ρ) * (B / (exp 1 * σ)) := by
+    calc _ ≤ ∑ j : Fin n, A / (r₀ - r + ρ) * wsum (dtheta j (oscFunction w)) (S - σ) x :=
+          Finset.sum_le_sum fun j _ => ((hprod (Sum.inl (Sum.inr j))).2.2).trans
+            (mul_le_mul_of_nonneg_right (hIu j).2 (hnn _))
+      _ = A / (r₀ - r + ρ) * ∑ j : Fin n, wsum (dtheta j (oscFunction w)) (S - σ) x := by
+          rw [Finset.mul_sum]
+      _ ≤ _ := mul_le_mul_of_nonneg_left hθw' (by positivity)
+  have h3 : ∑ j : Fin m, wsum (brFun (oscFunction u) (oscFunction w) (Sum.inr (Sum.inl j)))
+      (S - σ) x ≤ m * (A / (rq₀ - rq + ρq) * (B / ρp)) := by
+    calc _ ≤ ∑ _j : Fin m, A / (rq₀ - rq + ρq) * (B / ρp) :=
+          Finset.sum_le_sum fun j _ => ((hprod (Sum.inr (Sum.inl j))).2.2).trans
+            (mul_le_mul (hQu j).2 (hPw' j).2 (hnn _) (by positivity))
+      _ = _ := by rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+  have h4 : ∑ j : Fin m, wsum (brFun (oscFunction u) (oscFunction w) (Sum.inr (Sum.inr j)))
+      (S - σ) x ≤ m * (A / (rp₀ - rp + ρp) * (B / ρq)) := by
+    calc _ ≤ ∑ _j : Fin m, A / (rp₀ - rp + ρp) * (B / ρq) :=
+          Finset.sum_le_sum fun j _ => ((hprod (Sum.inr (Sum.inr j))).2.2).trans
+            (mul_le_mul (hPu' j).2 (hQw j).2 (hnn _) (by positivity))
+      _ = _ := by rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+  have hm0 : (0 : ℝ) ≤ m := Nat.cast_nonneg m
+  have hX : 0 ≤ A * B := mul_nonneg hA0 hB0
+  have c1 := comp_aux (c := 1 / exp 1) (X := A * B) (d := S₀ - S + σ) (a := ρ) (b := σ)
+    (by positivity) hX hd2 hρ0 hMn hM1
+  have c2 := comp_aux (c := 1 / exp 1) (X := A * B) (d := r₀ - r + ρ) (a := σ) (b := ρ)
+    (by positivity) hX hd1 hσ0 hMn (hM1.trans_eq (mul_comm _ _))
+  have c3 := comp_aux (c := (m : ℝ)) (X := A * B) (d := rq₀ - rq + ρq) (a := ρp) (b := ρq)
+    hm0 hX hd3 hρp0 hMn hM2
+  have c4 := comp_aux (c := (m : ℝ)) (X := A * B) (d := rp₀ - rp + ρp) (a := ρq) (b := ρp)
+    hm0 hX hd4 hρq0 hMn (hM2.trans_eq (mul_comm _ _))
+  have q1 : A / (exp 1 * (S₀ - S + σ)) * (B / ρ) = 1 / exp 1 * (A * B) / ((S₀ - S + σ) * ρ) := by
+    field_simp
+  have q2 : A / (r₀ - r + ρ) * (B / (exp 1 * σ)) = 1 / exp 1 * (A * B) / ((r₀ - r + ρ) * σ) := by
+    field_simp
+  have q3 : (m : ℝ) * (A / (rq₀ - rq + ρq) * (B / ρp)) = m * (A * B) / ((rq₀ - rq + ρq) * ρp) := by
+    field_simp
+  have q4 : (m : ℝ) * (A / (rp₀ - rp + ρp) * (B / ρq)) = m * (A * B) / ((rp₀ - rp + ρp) * ρq) := by
+    field_simp
+  rw [q1] at h1
+  rw [q2] at h2
+  rw [q3] at h3
+  rw [q4] at h4
+  have hfin : (1 / exp 1 * (σ / (S₀ - S + σ)) * (A * B) / min (ρ * σ) (ρp * ρq) +
+      1 / exp 1 * (ρ / (r₀ - r + ρ)) * (A * B) / min (ρ * σ) (ρp * ρq)) +
+      (m * (ρq / (rq₀ - rq + ρq)) * (A * B) / min (ρ * σ) (ρp * ρq) +
+        m * (ρp / (rp₀ - rp + ρp)) * (A * B) / min (ρ * σ) (ρp * ρq)) =
+      ((1 / exp 1) * (ρ / (r₀ - r + ρ) + σ / (S₀ - S + σ)) +
+        m * (ρq / (rq₀ - rq + ρq) + ρp / (rp₀ - rp + ρp))) /
+          min (ρ * σ) (ρp * ρq) * A * B := by
+    field_simp
+    ring
+  linarith
+
+
+end ObBracketBound
+
+section OscBracket
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)}
+
+-- `hn`, `hm` are part of the signature (the proof does not need them).
+set_option linter.unusedVariables false in
+/-- `bpP:p2:osc-bracket`: the bracket of oscillator-class functions, with the four-radius losses
+and the factor `m` from the `m` pairs of fast coordinates. -/
+theorem osc_bracket {r₀ rp₀ rq₀ S₀ r rp rq S ρ ρp ρq σ A B : ℝ}
+    {u w : CHam (n + m)} (hn : 1 ≤ n) (hm : 1 ≤ m)
+    (hu : oscClass D r₀ rp₀ rq₀ S₀ u) (hw : oscClass D r rp rq S w)
+    (hA : oscBound D r₀ rp₀ rq₀ S₀ u A) (hB : oscBound D r rp rq S w B)
+    (hρ : 0 < ρ ∧ ρ < r) (hρp : 0 < ρp ∧ ρp < rp) (hρq : 0 < ρq ∧ ρq < rq)
+    (hσ : 0 < σ ∧ σ < S) (houter : r - ρ < r₀ ∧ rp - ρp < rp₀ ∧ rq - ρq < rq₀ ∧ S - σ < S₀) :
+    let W := (1 / exp 1) * (ρ / (r₀ - r + ρ) + σ / (S₀ - S + σ)) +
+      m * (ρq / (rq₀ - rq + ρq) + ρp / (rp₀ - rp + ρp))
+    oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (poissonBracket u w) ∧
+    oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (poissonBracket u w)
+      (W / min (ρ * σ) (ρp * ρq) * A * B) := by
+  intro W
+  refine ⟨?_, bracket_bound hu hw hA hB hρ hρp hρq hσ houter⟩
+  obtain ⟨hρ0, hρr⟩ := hρ
+  obtain ⟨hρp0, hρpr⟩ := hρp
+  obtain ⟨hρq0, hρqr⟩ := hρq
+  obtain ⟨hσ0, hσS⟩ := hσ
+  obtain ⟨hr₀, hrp₀, hrq₀, hS₀⟩ := houter
+  have hu' : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u :=
+    hu.mono hr₀.le hrp₀.le hrq₀.le hS₀.le
+  have hw' : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) w :=
+    hw.mono (by linarith) (by linarith) (by linarith) (by linarith)
+  refine ⟨KAM.Canonical.differentiableOn_poissonBracket (isOpen_oscDom D _ _ _ _) hu'.1 hw'.1,
+    fun j z hz => ?_⟩
+  have pu : ∀ a, fderiv ℂ u (z.1 + Pi.single (Fin.castAdd m j) 1, z.2) a = fderiv ℂ u z a :=
+    fun a => (hu'.fderiv_apply a).2 j z hz
+  have pw : ∀ a, fderiv ℂ w (z.1 + Pi.single (Fin.castAdd m j) 1, z.2) a = fderiv ℂ w z a :=
+    fun a => (hw'.fderiv_apply a).2 j z hz
+  simp only [poissonBracket, pu, pw]
+
+end OscBracket
+
 end KAM.Planetary
 
 end
