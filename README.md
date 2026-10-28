@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 06:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 117,000
+> **Last updated: 2026-10-28 06:48 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 119,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,15 +127,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 6,298 |
-| **Estimated total at completion** | **≈ 117,000** |
+| Written on agent branches, not yet landed | 7,471 |
+| **Estimated total at completion** | **≈ 119,000** |
 | Estimated still to write | ≈ 37,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 06:40 UTC from `main` at `986f240` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 06:48 UTC from `main` at `aab5577` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,14 +292,15 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **n64** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N6-4: telescope (chain, telescope) | `inp-n64` | 1 (vs `inp`) |
-| **n65** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N6-5: IterativeMap (iterative (a),(b), iterHyp_of_source) | `inp-n65` | 1 (vs `inp`) |
-| **p65** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P6-5: Newtonian Assembly (measure-positive (a), movkol/fixkol-assembly); handoff | `inp-p65` | 1 (vs `inp`) |
-| **p76** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-pp16 (PP1-6) | `inp-p76` | 0 (vs `inp`) |
-| **pp15** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: PP1-5: HolChart (hol_chart, fderiv_real_slice) | `inp-pp15` | 1 (vs `inp`) |
-| **s72** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-2: Gradient (theta_derivative, resonant_gradient) | `inp-s72` | 2 (vs `inp`) |
-| **s73** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-3: transfer, stopped_extension | `inp-s73` | 2 (vs `inp`) |
-| **s75** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-5: Stability/Energy (IsOrthProj, exists_orthProj, resonance data, energy_core) | `inp-s75` | 2 (vs `inp`) |
+| **n2k** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N2-KERNEL: bordered map, qk equations, qc_kernel | `inp-n2k` | 1 (vs `inp`) |
+| **n65** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N6-5: IterativeMap (iterative (a),(b), iterHyp_of_source) | `inp-n65` | 1 (vs `inp`) |
+| **n66** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n65 (N6-5) | `inp-n66` | 1 (vs `inp`) |
+| **p65** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P6-5: Newtonian Assembly (measure-positive (a), movkol/fixkol-assembly); handoff | `inp-p65` | 1 (vs `inp`) |
+| **p76** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P7-6: Tube module | `inp-p76` | 3 (vs `inp`) |
+| **s73** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: S7-3: handoff and independent audit (PASS WITH NOTES) | `inp-s73` | 3 (vs `inp`) |
+| **s74** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-4: Preimage lint wrap, handoff | `inp-s74` | 2 (vs `inp`) |
+| **s75** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S7-5: Stability/Energy (IsOrthProj, exists_orthProj, resonance data, energy_core) | `inp-s75` | 2 (vs `inp`) |
+| **s76** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-6: Resonant skeleton, auxiliary lemmas | `inp-s76` | 5 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -309,6 +310,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-28 06:48 | `aab5577` | D30: adopt track W (PDE KAM, cubic Dirichlet wave equation) per the exploration's recommendations |
 | 2026-10-28 06:03 | `9ac5ae7` | Land inp into main |
 | 2026-10-28 05:43 | `f7e7672` | Land inp into main |
 | 2026-10-28 05:37 | `1378b42` | Land inp into main |
@@ -320,7 +322,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-28 04:51 | `675b03c` | HQ: a track with all frozen theorems sealed counts as complete (track I 100 %); OVERNIGHT 04:55 entry |
 | 2026-10-28 04:33 | `e6c0b8c` | Land inp into main |
 | 2026-10-28 04:16 | `5e3a89a` | Land inp into main |
-| 2026-10-28 04:02 | `a777e31` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
