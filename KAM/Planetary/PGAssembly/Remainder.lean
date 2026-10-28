@@ -301,6 +301,56 @@ theorem remainder_bound (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
         by_cases hk : k.val < 2 <;> simp only [hk, ite_true, ite_false] <;>
           [exact norm_yvec_le_one i; exact norm_yvec_le_one j]).trans h'
 
+theorem remainder_const_pos (d : PGData a b) :
+    0 < (pgExtension d).MP +
+      ((pgExtension d).MP + b * ((2 / (pgOscRadius d / 2)) ^ 2 * (pgExtension d).MP) +
+        b ^ 2 * ((4 / (pgOscRadius d / 2)) ^ 4 * (pgExtension d).MP)) := by
+  have := (pgExtension d).MP_pos
+  positivity
+
+theorem uniform_remainder (d : PGData a b) : ∃ r1 CQ : ℝ,
+    0 < r1 ∧ r1 ≤ pgOscRadius d ∧ 0 < CQ ∧
+    ∀ mu ∈ Icc 0 d.mu0, ∀ I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta/4),
+      ∀ x : PGComplexPhase b, ‖x‖ ≤ r1 → ‖pgRemainder d mu I x‖ ≤ CQ*‖x‖^5 := by
+  have hpos := pgOscRadius_pos d
+  set R : ℝ := pgOscRadius d / 2 with hRdef
+  have hR : 0 < R := half_pos hpos
+  set M1 : ℝ := (pgExtension d).MP +
+      ((pgExtension d).MP + b * ((2 / (pgOscRadius d / 2)) ^ 2 * (pgExtension d).MP) +
+        b ^ 2 * ((4 / (pgOscRadius d / 2)) ^ 4 * (pgExtension d).MP)) with hM1
+  have hM1pos : 0 < M1 := remainder_const_pos d
+  refine ⟨pgOscRadius d / 4, M1 / R ^ 5, by positivity, by linarith, by positivity, ?_⟩
+  intro mu hmu I hI x hx
+  have hI' := actionNbhd_mono_quarter d hI
+  by_cases hx0 : x = 0
+  · subst hx0
+    have h := remainder_jet_tube d hmu hI' 0 (by norm_num)
+    have h0 := congrArg (fun M => M (fun _ => (0 : PGComplexPhase b))) h
+    simp only [iteratedFDeriv_zero_apply] at h0
+    simp [h0]
+  have hs : 0 < ‖x‖ := norm_pos_iff.2 hx0
+  have hsR : ‖x‖ < R := by rw [hRdef]; linarith
+  have hscale : ∀ t : ℂ, ‖t‖ < R / ‖x‖ → ‖t • x‖ < R := fun t ht => by
+    rw [norm_smul]
+    rwa [lt_div_iff₀ hs] at ht
+  have hdiff := remainder_slice_differentiableOn d hmu hI'
+  have hg : DifferentiableOn ℂ (fun t : ℂ => pgRemainder d mu I (t • x)) (ball 0 (R / ‖x‖)) :=
+    hdiff.comp (differentiable_id.smul_const x).differentiableOn fun t ht =>
+      mem_ball_zero_iff.2 ((hscale t (mem_ball_zero_iff.1 ht)).trans_le (by rw [hRdef]; linarith))
+  have hjet : ∀ k : ℕ, k ≤ 4 → iteratedDeriv k (fun t : ℂ => pgRemainder d mu I (t • x)) 0 = 0 := by
+    intro k hk
+    have := KAM.iteratedDeriv_line_eq_iteratedFDeriv isOpen_ball hdiff
+      (w := 0) (by simpa using hpos) x k
+    simp only [zero_add] at this
+    rw [this, remainder_jet_tube d hmu hI' k hk]
+    rfl
+  have key := schwarz_order_five (R := R / ‖x‖) (M := M1) (div_pos hR hs) hM1pos.le hg
+    (fun t ht => remainder_bound d hmu hI' (hscale t (mem_ball_zero_iff.1 ht))) hjet 1
+    (by rw [mem_ball_zero_iff, norm_one, lt_div_iff₀ hs, one_mul]; exact hsR)
+  simp only [one_smul, norm_one, one_pow, mul_one] at key
+  refine key.trans (le_of_eq ?_)
+  field_simp
+
 end KAM.Planetary
 
 end
