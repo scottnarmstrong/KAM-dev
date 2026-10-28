@@ -300,6 +300,74 @@ theorem local_field (S : Theorem1Setting P r0 s m M ell h f)
     isOpen_univ.prod (isOpen_realNbhd D ϱ)
   exact ⟨hopen _ _, realStrip_single_sub hI hrr, hfield (hopen _ _), hfield (hopen _ _)⟩
 
+theorem block_hyp (S : Theorem1Setting P r0 s m M ell h f)
+    {eps : ℝ} (heps : 0 < eps) (heps0 : eps ≤ thmEps0 n r0 m M)
+    (hfb : WBound (cpx P) r0 s f eps) (Λ : Lattice n)
+    (hΛ : maximalK (thmK n r0 m M eps) Λ)
+    (I0 : Fin n → ℝ) (hI : I0 ∈ actionBlock (theoremCover n r0 m M eps) P (KAM.frequencyMap h) Λ) :
+    let c := theoremCover n r0 m M eps
+    let r := c.radius Λ
+    let Ka := c.K / Real.sqrt n
+    0 < r ∧ 0 < c.alpha Λ ∧ 0 < c.delta Λ ∧
+    c.radius (⊥ : Lattice n) ≤ r ∧ r ≤ r0 ∧
+    (Λ ≠ ⊤ → r ≤ r0 / (c.A * c.K)) ∧
+    polyNbhd (cpx {I0}) r ⊆ polyNbhd (cpx P) r0 ∧
+    realNbhd {I0} r ⊆ realNbhd P r0 ∧ realStrip {I0} r ⊆ realStrip P r0 ∧
+    DifferentiableOn ℂ h (polyNbhd (cpx {I0}) r) ∧
+    RealOn (Dom n (cpx {I0}) r s) (fun w => h w.2) ∧
+    (∀ I ∈ polyNbhd (cpx {I0}) r, ∀ v : Fin n → ℂ,
+      euclid (fun i => fderiv ℂ (fun J => fderiv ℂ h J v) I (Pi.single i 1)) ≤ M * euclid v) ∧
+    IsQuasiConvex (realNbhd {I0} r) h ell m ∧
+    InClass (cpx {I0}) r s f ∧ RealOn (Dom n (cpx {I0}) r s) f ∧
+    WBound (cpx {I0}) r s f eps ∧
+    eps ≤ m * r ^ 2 / 2 ^ 10 ∧
+    m * r ^ 2 / 2 ^ 10 = (9 / 8 : ℝ) / 9 * (m * r ^ 2 / 2 ^ 7) ∧
+    r = c.alpha Λ / ((9 / 8 : ℝ) * Real.sqrt n * M * Ka) ∧
+    Ka * (Real.sqrt n * M) * r = c.alpha Λ / (9 / 8 : ℝ) ∧
+    r ≤ 4 * ell / m ∧ M * r ≤ ell / 2 ∧
+    KAM.NormalForm.IsNonresonant (cpx {I0}) Ka (c.alpha Λ) (Λ : Set _) h ∧
+    (Λ ≠ ⊥ → resonanceDistance Λ (KAM.frequencyMap h I0) < c.delta Λ) ∧
+    IsCloseToRes {I0} (Λ : Set _) h (c.delta Λ) ∧ c.delta Λ ≤ m * r / 8 ∧
+    KAM.NormalForm.FreqLipschitz (cpx {I0}) r (Real.sqrt n * M) h ∧
+    (Λ = ⊥ → eps ≤ c.alpha Λ * r / (2 ^ 7 * 9 * Ka)) := by
+  intro c r Ka
+  have hc : c.Valid := cover_valid S heps heps0
+  have hIP : I0 ∈ P := hI.1
+  have hrb := hc.radius_bounds hΛ
+  have hr_le : r ≤ r0 := hrb.2.1
+  obtain ⟨hrpos, hal, hdel, heps', hid, hrad, hKr, hr4, hMr, hdm, hbot⟩ :=
+    block_arith S heps heps0 hΛ
+  obtain ⟨-, -, -, -, -, -, -, -, -, hKa0', -, hKaK, -⟩ := elementary S heps heps0
+  have hKa0 : 0 ≤ Ka := hKa0'.le
+  have hKaK : Ka ≤ c.K := hKaK
+  have hsub := polyNbhd_single_sub hIP hr_le
+  have hre : ∀ I ∈ realNbhd P r0, (h (KAM.realInclusion n I)).im = 0 := fun I hI' =>
+    im_eq_zero_single S hI'
+  have hI0 : I0 ∈ realNbhd P r0 := ⟨I0, hIP, by simpa using S.hr0⟩
+  have hcut := cutoffs c hc hKa0
+  have hfreq : KAM.NormalForm.freq h (KAM.realInclusion n I0) =
+      KAM.realInclusion n (KAM.frequencyMap h I0) := freq_realInclusion S.holo hre hI0
+  refine ⟨hrpos, hal, hdel, hrb.1, hr_le, hrb.2.2, hsub, realNbhd_single_sub hIP hr_le,
+    realStrip_single_sub hIP hr_le, S.holo.mono hsub,
+    realOn_single hIP hr_le S.real, fun I hI' => S.hess I (hsub hI'),
+    fun I hI' => S.qc I (realNbhd_single_sub hIP hr_le hI'),
+    inClass_single hIP hr_le S.f_class, realOn_single hIP hr_le S.f_real,
+    fun I hI' => hfb I (hsub hI'), heps', hid, hrad, hKr, hr4, hMr, ?_, ?_, ?_, hdm, ?_, hbot⟩
+  · rintro I ⟨J, hJ, rfl⟩ k ⟨hk, hkΛ⟩
+    rw [mem_singleton_iff] at hJ
+    subst hJ
+    rw [hfreq, dotC_realInclusion, Complex.norm_real, Real.norm_eq_abs]
+    exact hcut.2.2.1 hKaK Λ hΛ _ hI.2 k hk hkΛ
+  · exact fun hne => hcut.2.2.2.1 Λ hΛ _ hI.2
+  · rintro I rfl
+    obtain ⟨hmem, hdist, -⟩ := projection_distance Λ (KAM.frequencyMap h I)
+    refine ⟨_, hmem, ?_⟩
+    rw [hdist]
+    exact (hcut.2.2.2.1 Λ hΛ _ hI.2).le
+  · refine KAM.NormalForm.lipschitz (S.holo.mono hsub) fun I hI' => ?_
+    exact fderiv_freq_bound (isOpen_polyNbhd _ _) S.holo
+      ((S.hm.le).trans S.hmM) S.hess (hsub hI')
+
 end Theorem1
 
 end KAM.Nekhoroshev
