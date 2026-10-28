@@ -156,8 +156,8 @@ theorem isOdd_cross (j k : Fin n) : IsOdd (crossFn j k) := by
   classical
   refine ⟨fun p => if p = (j, k) then 1 else 0, fun p => ?_, ?_⟩
   · by_cases h : p = (j, k)
-    · simpa [h] using (dAlg n).one_mem
-    · simpa [h] using (dAlg n).zero_mem
+    · simp [h]
+    · simp [h]
   · funext u
     rw [Finset.sum_apply]
     have h : ∀ x : Fin n × Fin n,
