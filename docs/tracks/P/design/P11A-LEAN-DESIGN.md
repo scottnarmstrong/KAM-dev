@@ -1,6 +1,6 @@
 # Lean design: planetary finite preparation, weak measure and the maximal canonical step
 
-Design P11A, 2026-10-28, branch `inp-design-p11a`. Planning evidence only. Scope is the 164 graph
+Design P11A, Revision 2, 2026-10-28, branch `inp-design-p11a`. Planning evidence only. Scope is the 164 graph
 records whose statement source lies in `p11-cp09-preparation.tex`, `p11a1-weak-measure.tex` or
 `p11a2-cutoff-step.tex`. No frozen theorem is closed directly. The downstream P-FIXED assembly
 belongs to Part 13; this document does not claim any proof closure.
@@ -158,13 +158,13 @@ Standing-data nodes name output/construction carriers; external nodes name libra
 | `stepP:p11:af-o1` | `af_o1` local in `avg_fast` | `Preparation/Fast` | `p11-cp09-preparation.tex#stepP:p11:af-o1@L111-L111`; `p11-cp09-preparation.tex#stepP:p11:af-o1@L111-L111` |
 | `stepP:p11:af-o2` | `af_o2` local in `avg_fast` | `Preparation/Fast` | `p11-cp09-preparation.tex#stepP:p11:af-o2@L112-L112`; `p11-cp09-preparation.tex#stepP:p11:af-o2@L112-L112` |
 | `stepP:p11:af-concl` | `af_concl` local in `avg_fast` | `Preparation/Fast` | `p11-cp09-preparation.tex#stepP:p11:af-concl@L113-L113`; `p11-cp09-preparation.tex#stepP:p11:af-concl@L113-L113` |
-| `bpP:p11:aniso-bracket` | `aniso_bracket` | `Preparation/RectangularBracket` | `p11-cp09-preparation.tex#bpP:p11:aniso-bracket@L120-L124`; `p11-cp09-preparation.tex#bpP:p11:aniso-bracket@L125-L128` |
+| `bpP:p11:aniso-bracket` | `aniso_bracket`, `aniso_field` | `Preparation/RectangularBracket` | `p11-cp09-preparation.tex#bpP:p11:aniso-bracket@L120-L124`; `p11-cp09-preparation.tex#bpP:p11:aniso-bracket@L125-L128` |
 | `stepP:p11:ab-der` | `ab_der` local in `aniso_bracket` | `Preparation/RectangularBracket` | `p11-cp09-preparation.tex#stepP:p11:ab-der@L126-L126`; `p11-cp09-preparation.tex#stepP:p11:ab-der@L126-L126` |
 | `stepP:p11:ab-prod` | `ab_prod` local in `aniso_bracket` | `Preparation/RectangularBracket` | `p11-cp09-preparation.tex#stepP:p11:ab-prod@L127-L127`; `p11-cp09-preparation.tex#stepP:p11:ab-prod@L127-L127` |
 | `bpP:p11:aniso-avg` | `aniso_avg` | `Preparation/RectangularAverage` | `p11-cp09-preparation.tex#bpP:p11:aniso-avg@L130-L138`; `p11-cp09-preparation.tex#bpP:p11:aniso-avg@L139-L142` |
 | `stepP:p11:aa-same` | `aa_same` local in `aniso_avg` | `Preparation/RectangularAverage` | `p11-cp09-preparation.tex#stepP:p11:aa-same@L140-L140`; `p11-cp09-preparation.tex#stepP:p11:aa-same@L140-L140` |
 | `stepP:p11:aa-quad` | `aa_quad` local in `aniso_avg` | `Preparation/RectangularAverage` | `p11-cp09-preparation.tex#stepP:p11:aa-quad@L141-L141`; `p11-cp09-preparation.tex#stepP:p11:aa-quad@L141-L141` |
-| `bpP:p11:polar-avg` | `polar_avg` | `Preparation/PolarAverage` | `p11-cp09-preparation.tex#bpP:p11:polar-avg@L155-L163`; `p11-cp09-preparation.tex#bpP:p11:polar-avg@L164-L168` |
+| `bpP:p11:polar-avg` | `polar_avg`, `polar_average_linear`, `polar_average_normalization`, `polar_extension_unique` | `Preparation/PolarAverage` | `p11-cp09-preparation.tex#bpP:p11:polar-avg@L155-L163`; `p11-cp09-preparation.tex#bpP:p11:polar-avg@L164-L168` |
 | `stepP:p11:pa-taylor` | `pa_taylor` local in `polar_avg` | `Preparation/PolarAverage` | `p11-cp09-preparation.tex#stepP:p11:pa-taylor@L165-L165`; `p11-cp09-preparation.tex#stepP:p11:pa-taylor@L165-L165` |
 | `stepP:p11:pa-mono` | `pa_mono` local in `polar_avg` | `Preparation/PolarAverage` | `p11-cp09-preparation.tex#stepP:p11:pa-mono@L166-L166`; `p11-cp09-preparation.tex#stepP:p11:pa-mono@L166-L166` |
 | `stepP:p11:pa-series` | `pa_series` local in `polar_avg` | `Preparation/PolarAverage` | `p11-cp09-preparation.tex#stepP:p11:pa-series@L167-L167`; `p11-cp09-preparation.tex#stepP:p11:pa-series@L167-L167` |
@@ -707,7 +707,7 @@ may re-export the submodules but must not import a provider or a draft theorem a
 | P11A-W5 | 3 | `WeakMeasure/MeasureTools`, `WeakMeasure/BallSublevel` | 650 | W0,W4; Householder completion, determinant image measure, Tonelli |
 | P11A-W6 | 4 | `WeakMeasure/Sublevel` | 550 | W1,W5; finite cube cover and explicit ceiling/radius inequalities |
 | P11A-W7 | 5 | `WeakMeasure/Diophantine` | 400 | W6; countable subadditivity, compact intersection |
-| P11A-W8 | 6 | `WeakMeasure/PowerLaw`, `WeakMeasure/Bridge` | 500 | W7; `KAM.Measure.lattice_sum`, `modeSize_euclid_compare`; limit_bridge |
+| P11A-W8 | 6 | `WeakMeasure/PowerLaw`, `WeakMeasure/Bridge`, `WeakMeasure/ChartScaling` | 700 | W7; `KAM.Measure.lattice_sum`, `modeSize_euclid_compare`; limit_bridge |
 | P11A-C0 | 1 | `MaximalStep/Basic`, `MaximalStep/Constants` | 400 | existing Weighted/frozen objects; lambda lattice identity |
 | P11A-C1 | 2 | `MaximalStep/FourierCutoff` | 500 | C0; `decay_boundary_radius`, vector Fourier reconstruction, `lattice_count` |
 | P11A-C2 | 3 | `MaximalStep/Loss` | 350 | C1; geometric and arithmetico-geometric sums; monotonic loss |
@@ -720,14 +720,15 @@ may re-export the submodules but must not import a provider or a draft theorem a
 | P11A-P0 | 3 | `Preparation/AnalyticExtension`, `Preparation/Schwarz` | 600 | C3; real analytic coefficient complexification, identity theorem, radial Schwarz |
 | P11A-P1 | 7 | `Preparation/Basic`, `Preparation/Working`, `Preparation/BasePoint` | 550 | W1,W2,W8,P9; P10 exact physical-frequency interface; norm_dict/select |
 | P11A-P2 | 8 | `Preparation/Holomorphic`, `Preparation/Polar` | 750 | P0,P1; P8/9 and existing P6/7; P1 hol_chart and exact period-one lattice |
-| P11A-P3 | 3 | `Preparation/RectangularBracket` | 300 | C0; `Weighted` coefficient Cauchy and algebra |
+| P11A-P3 | 3 | `Preparation/RectangularBracket` | 450 | C0; `Weighted` coefficient Cauchy and algebra |
 | P11A-P4 | 4 | `Preparation/RectangularAverage` | 750 | P3,C6; P2 direct/split/nfb adaptation and N6/7 exact gauge adapters |
 | P11A-P5 | 9 | `Preparation/Fast`, `Preparation/LogBounds` | 500 | P2; P2 osc_averaging, weighted spectator conversion, e4 |
-| P11A-P6 | 4 | `Preparation/PolarAverage` | 450 | C3,P0; Taylor coefficients and termwise integration; e5 |
+| P11A-P6 | 4 | `Preparation/PolarAverage` | 650 | C3,P0; Taylor coefficients and termwise integration; e5 |
 | P11A-P7 | 10 | `Preparation/Slow` | 650 | P4,P5,P6; pure-slow and mixed-divisor estimates separately |
-| P11A-P8 | 11 | `Preparation/Prepared`, `Preparation/Amount`, `Preparation/Datum` | 800 | P7,W1; unscaled J jets, target block scaling, fixed box; split modules 400/250/150 |
+| P11A-P8 | 11 | `Preparation/Prepared`, `Preparation/Amount` | 750 | P7,W1; full unscaled J jets, vector and scalar jets including zero; split modules 500/250 |
+| P11A-P8D | 11 | `Preparation/Datum` | 300 | P8; same chosen Q, fixed geometry, A1-A4 and amount smallness; exact 11a5 bridge after reconciliation |
 | P11A-P9 | 2 | `Preparation/ForwardTube` | 350 | existing product Poincare chart, circularPoint, compactness |
-| P11A-P10 | 12 | `Preparation/Wrapper` | 500 | P8,P9; neighbouring Part11a3-5 K1-K6; P1 physical transport and measure |
+| P11A-P10 | 12 | `Preparation/Wrapper` | 500 | P8D,P9; neighbouring Part11a3-5 K1-K6; P1 physical transport and measure |
 
 Wave numbers impose the complete dependencies; an actual launch waits for named external owners too.
 C4's cutoff portion can land before W8; its divisor_wide companion waits for W8. Similarly C8 can
@@ -748,16 +749,16 @@ and invokes its `fixkol_assembly` to obtain the frozen P-FIXED conclusion. This 
 binder to a frozen provider and does not seal P-FIXED. All frozen files and manifest entries are read-only.
 
 Appendix A is a standalone design module: definitions are explicit; every theorem body is `sorry`.
-It deliberately prints axioms for sublevel/canonical_step/wrapper, which must include `sorryAx`.
+It prints axioms for sublevel/canonical_step/wrapper and, in Revision 2, prepared/data_star; these include `sorryAx`.
 Successful elaboration verifies signatures, not proofs. The common design brief authorizes sorry in this
 untracked scratch/design artifact only; implementation code still obeys AGENTS.md rule 4.
 
-Validation receipt (2026-10-28):
+Revision 1 validation receipt (historical; superseded by Revision 2 below):
 
 - `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p11a .drafts/scratch/P11ASignatures.lean`: exit 0; 58 warnings, all exactly `declaration uses sorry`; zero errors or other warnings. The final 1316-line source has SHA-256 `40f6b495348ae7b10bf06bf8837bba7433b1bb648f98d17602eb780904690983`.
-- Final signatures copied byte-for-byte to `/root/code/KAM-inp/.drafts/design/P11ASignatures.lean`; Appendix A is byte-identical to that file and the checked scratch copy.
+- Revision 1 signatures were copied byte-for-byte to `/root/code/KAM-inp/.drafts/design/P11ASignatures.lean`; its then-current Appendix A matched the checked copy.
 - `#print axioms` for `sublevel`, `canonical_step`, `wrapper`: `[propext, sorryAx, Classical.choice, Quot.sound]`, as expected for design signatures.
-- Static contract checks: PASS, all 164 scoped nodes occur exactly once in the mapping table, 58 theorem bodies are all `sorry`, no resource overrides or forbidden declarations, no trailing whitespace, file below 1500 lines.
+- Static contract checks: PASS, all 164 scoped nodes occur exactly once in the mapping table, 58 Revision 1 theorem bodies are all `sorry`, no resource overrides or forbidden declarations, no trailing whitespace, file below 1500 lines.
 - `PATH=.drafts/scratch/sig-lint-bin:$PATH sh scripts/lint_sources.sh`: exit 0 (the actual run also supplied the completed signature gate PID to serialize the ABI subcheck). Output: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`; `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`.
 - `git diff --check`: PASS (rerun on staged design before commit).
 
@@ -820,6 +821,77 @@ remain untracked. The design commit contains only this Markdown file.
     handoff; the orchestrator records it in `docs/errata/ledger.json`. Deviations you introduce are reported too.
 
 
+## Revision 2
+
+This revision addresses all five findings and three notes of
+[`DESIGN-P11A-design-audit-1.md`](DESIGN-P11A-design-audit-1.md). These are corrections to design contracts;
+the independent audit remains a historical FAIL, and no theorem proof or frozen anchor is closed.
+
+| Finding | Resolution in the exact signatures | Implementation owner / consumer |
+|---|---|---|
+| F1 (major), source-local premises | `homological_maximal`, `homological_maximal_real`, `homological_maximal_param` restrict input and uniqueness-competitor truncation to `univ ×ˢ B` or the parameter tube. `aniso_bracket`, `aniso_avg` restrict periodicity to their own strip/action domains. The finite-sum solution remains explicit; its entire-angle extension follows from that construction. | C5; P3/P4. Values outside the source domains are unconstrained. |
+| F2 (major), prepared datum | The base `P11PreparedSpec` now states the unscaled J estimate for every `‖rho‖ < 5/4`, `‖J-J0‖ < s2/4`. `P11PreparedFullSpec` also identifies `checkW` there with `p11SlowNormalizedFreq`, the actual derivatives of `h0+g2`. It exports vector diagonal jets through mu including order zero, and scalar order-zero bounds alongside the original positive-order full-tensor bounds. `prepared`, `p11PreparedData`, `amount` and `data_star` all use the full spec and the same selected Q. `data_star` exports A1-A4, fixed geometry and `0 < beta ≤ min 1 M`. | P2 chooses the enlarged L; P8 proves the full preparation/amount; P8D assembles it; Part11a5 consumes it. |
+| F3 (major), polar clause (d) | `polar_average_linear`, `polar_average_normalization`, `polar_extension_unique` accompany `polar_avg`. They give linearity on analytic input domains, both normalizations including `rho/(2*pi)`, and uniqueness of the extension. | P6; `as_osc` uses these exports. |
+| F4 (major), rectangular field | `aniso_field` exports the frozen `hamiltonianVectorFieldℂ` estimate in the scaled norm with separate action weights rho1/rho2. It supplements `aniso_bracket` under local periodicity. | P3; P4's R2 flow estimate. |
+| F5 (moderate), complete chart lemma | `chart_scaling` retains amount clause (a). `chart_scaling_geometry`, `chart_scaling_jets`, `chart_scaling_good` export diameter/thickening/volume, both tensor identities, and good-set/excluded-measure transport. `chart_scaling_upper` and `chart_scaling_closeness` explicitly package (b),(c), including the rechecked threshold `max 1 (lambda^mu)*theta ≤ beta'/2`. | W8, new `WeakMeasure/ChartScaling.lean`; preparation rescalings and Part11a5. |
+
+For F2, `P11SecularFullSpec` strengthens the freely selected initial L to bound the Euclidean size
+of `Fin.append omega ((2*pi)^-1 • Omega)` on its original complex ball. This is obtained by enlarging L
+before any averaging constant, nu or epsilon is chosen. The source only asks for a sufficiently large L;
+this is a declared stronger output, with no extra physical premise. Set
+`M0* = p11M0 n mu L = (2*n+1)^(mu+1)*(2*L+1)` before nu and epsilon. The proof pays the
+Euclidean/max comparison in each tensor direction; it must never identify those gauges. Finite-order
+Cauchy estimates and further shrinking the epsilon threshold give the vector jet bound. The scalar
+constant remains `M* = 2^(mu+1)*(2*L+1)^2`, and `C1 = 2*L+1`. Neither constant depends on nu.
+
+The datum exported by `data_star` is a conjunction of the actual analytic and quantitative outputs,
+with `Q := p11PreparedData D nu eps c`; the amount, Hamiltonian and jet bounds refer to this same Q.
+It does not posit an admissibility conclusion as a premise. Once Part11a5 delivers its exact admissibility
+predicate, P8D must prove a typed bridge from these conjuncts into it. The K5 lower budget and K6
+constants then come from that reconciled API, with their original quantifier order. They remain upstream
+proof obligations, and are not claimed proved by the existence of a sorry-bodied package.
+
+For F3, linear combinations of arbitrary totalized nonintegrable inputs are not used. Prove integrability
+of the analytic integrands on the compact angle cube, then the raw identities. Fix each J and apply
+`polar_extension_unique` on the connected action polydisc to transport the identities to the extensions.
+This yields the source's linear analytic averaging operator without assuming connectedness of D.
+
+For F5, apply `chart_scaling_jets` to `p11scalar rho w direction` for both rho=1 and rho=2, and to
+`p11scalar rho (wt k) direction - p11scalar rho w direction` for closeness. Polynomial composition
+supplies their `ContDiffOn` premises from D1-D3. Use `chart_scaling_upper` with k=mu+1 and
+`chart_scaling_closeness` with mu; geometry transfers the thickened set. The latter's numerical recheck
+is mandatory. D2's `M' ≥ beta'` follows from `M ≥ beta`, `max 1 (lambda^(mu+1)) ≥ 1` and
+`min 1 (lambda^mu) ≤ 1`. No chart-invariance assertion replaces this calculation.
+
+N1 is retained: `canonical_step_real` requires reality on R, supplied by the physical construction.
+The recorded blueprint defect is still p11a2 L248/L287 (SG5 above); it is not a frozen-statement change.
+N2 is retained as an explicit launch gate: all upstream ports in Section 3 must reconcile by exact name
+and type. In particular the secular Hessian identity, sorted spectrum/SO(n) lift, fixed-norm derivative
+estimate, finite retained-set divisors, lower monotone budget and displacement power remain required.
+N3 is retained as a proof gate: W0 must establish boundedness/attainment for each supremum/infimum on
+positive-dimensional unit spheres and nonempty compact patches, and choice specifications must be
+proved at the positive-small-epsilon thresholds before using selected stage data. The strengthened
+`holo_chart` selects from `P11SecularFullSpec`; `prepared`, `amount`, `data_star` select from
+`P11PreparedFullSpec`. Default branches on arbitrary total inputs prove no source claim.
+
+The source registry in Section 4.1 remains literal. These explicit companions, rather than prose-only
+obligations, now cover its omitted clauses. The only additional package is P8D; the revised schedule has
+30 packages and the same 12 waves. W8's ChartScaling imports only W0 and Mathlib affine calculus/measure
+facts; the other W8 modules keep their prior dependencies. P8D follows P8 within wave 11. P6's new
+identities use its existing analytic/identity inputs; P3's field estimate uses its coefficient Cauchy input.
+All implementation modules remain below 1500 lines, and each package stays in the 150-800 line range.
+No new pinned-paper erratum is asserted. F1-F5 were design omissions or departures; F2's former
+narrowing is removed, and the enlarged initial L is the only new declared output strengthening.
+
+Revision 2 validation receipt (2026-10-28):
+
+- Final targeted check: `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p11a .drafts/scratch/P11ASignaturesR2.lean`, exit 0. Exactly 67 warnings, all `declaration uses sorry`; zero errors or other warnings. Log: `.drafts/scratch/P11A-r2-check.log`.
+- Exact final signatures: 1319 lines, 171 named declarations, 67 theorem bodies all `sorry`; SHA-256 `1a4b339d7d9008ff8d1aa5f2a85addc1b0f3476c40ab8fbf7e922cf3f9be8493`. Appendix A, the scratch copy and `/root/code/KAM-inp/.drafts/design/P11ASignatures.lean` are byte-identical. Blank separators were compressed to keep the required single-file scratch comfortably below 1500 lines.
+- `#print axioms` for `sublevel`, `canonical_step`, `wrapper`, `prepared`, `data_star`: each reports `[propext, sorryAx, Classical.choice, Quot.sound]`. This is signature elaboration, not proof closure.
+- `PATH="$PWD/.drafts/scratch/sig-lint-bin:$PATH" sh scripts/lint_sources.sh`: exit 0; `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`; `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`. Log: `.drafts/scratch/P11A-r2-lint.log`. The existing wrapper routes the lint ABI elaboration through `inp_sig_check.sh`; it ran after the first revision elaboration and before the final signature check.
+- Static checks: all 164 unique graph rows preserved, 30 packages, exact-copy equality, 67 sorry-only theorem bodies, no forbidden declarations or resource overrides, no trailing whitespace, signature length below 1500. `git diff --check` and `git diff --cached --check`: exit 0.
+- No implementation module changed, so the signatures check is the applicable targeted Lean check under the common design brief; no library build or rebuild was run. Only this document is committed; the independent audit remains untouched and untracked.
+
 ## Appendix A. Exact signatures
 
 ```lean
@@ -829,7 +901,6 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
-
 public import Mathlib
 public import KAM.Nekhoroshev.Interfaces.Norms
 public import KAM.Weighted.Projections
@@ -840,7 +911,6 @@ public import KAM.Planetary.Poincare.Product
 public import KAM.Frozen.Planetary.Defs.CircularTube
 public import KAM.Frozen.Planetary.Defs.SecularAverage
 public import KAM.Frozen.Planetary.Defs.IsPhysicalTorus
-
 /-!
 # P11A design signatures
 Draft only. All proof bodies are sorry. No provider or theorem anchor is imported.
@@ -850,56 +920,42 @@ The scratch copy is elaborated only by inp_sig_check.sh.
 open Set MeasureTheory Filter
 open scoped BigOperators Topology ContDiff
 namespace KAM.Planetary
-
 abbrev P11Vec (n : ℕ) := Fin n → ℝ
 abbrev P11CVec (n : ℕ) := Fin n → ℂ
 abbrev P11Phase (n : ℕ) := P11CVec n × P11CVec n
 abbrev P11Family (n : ℕ) := P11Phase n × P11CVec n
-
 /-- Explicit Euclidean lengths; retain the existing max norm instances. -/
 abbrev p11euclid {n : ℕ} (x : P11Vec n) := KAM.Nekhoroshev.euclid x
-
 def p11dot {m : ℕ} (c w : P11Vec m) : ℝ := ∑ i, c i * w i
-
 def p11dotZ {m : ℕ} (k : Fin m → ℤ) (w : P11Vec m) : ℝ :=
   ∑ i, (k i : ℝ) * w i
-
 def p11dotC {m : ℕ} (k : Fin m → ℤ) (w : P11CVec m) : ℂ :=
   ∑ i, (k i : ℂ) * w i
-
 /-- Closed Euclidean thickening, not max-norm Metric.cthickening. -/
 def p11thick {n : ℕ} (K : Set (P11Vec n)) (v : ℝ) : Set (P11Vec n) :=
   {y | ∃ x ∈ K, p11euclid (y - x) ≤ v}
-
 /-- Order zero is evaluated on the unique empty tuple. -/
 def p11dg {n m : ℕ} (f : P11Vec n → P11Vec m) (j : ℕ) (y : P11Vec n) : ℝ :=
   sSup {v | ∃ a : P11Vec n, p11euclid a = 1 ∧
     v = p11euclid (iteratedFDeriv ℝ j f y (fun _ => a))}
-
 def p11op {n m : ℕ} (f : P11Vec n → P11Vec m) (j : ℕ) (y : P11Vec n) : ℝ :=
   sSup {v | ∃ a : Fin j → P11Vec n, (∀ i, p11euclid (a i) ≤ 1) ∧
     v = p11euclid (iteratedFDeriv ℝ j f y a)}
-
 def p11scalar {n m : ℕ} (rho : ℕ) (w : P11Vec n → P11Vec m)
     (c : P11Vec m) (y : P11Vec n) : P11Vec 1 :=
   fun _ => (p11dot c (w y)) ^ rho
-
 def p11maxJet {n m : ℕ} (mu : ℕ) (f : P11Vec n → P11Vec m) (y : P11Vec n) : ℝ :=
   sSup {v | ∃ j ≤ mu, v = p11dg f j y}
-
 /-- index-def: precisely the scalar-family amount, rho=1 or rho=2. -/
 def index_def {n m : ℕ} (rho mu : ℕ) (w : P11Vec n → P11Vec m)
     (K : Set (P11Vec n)) : ℝ :=
   sInf {v | ∃ c : P11Vec m, p11euclid c = 1 ∧
     ∃ y ∈ K, v = p11maxJet mu (p11scalar rho w c) y}
-
 def p11JetBound {n m : ℕ} (diag : Bool) (mu : ℕ) (A : Set (P11Vec n))
     (f : P11Vec n → P11Vec m) (M : ℝ) : Prop :=
   ∀ j ≤ mu, ∀ y ∈ A, (if diag then p11dg f j y else p11op f j y) ≤ M
-
 def p11eta (rho mu : ℕ) (M theta : ℝ) : ℝ :=
   if rho = 1 then theta else (2 : ℝ)^mu * theta * (2*M + theta)
-
 /-- Common source geometry of S1-S3 and D1-D4. -/
 structure P11Patch (n : ℕ) where
   K : Set (P11Vec n)
@@ -912,7 +968,6 @@ structure P11Patch (n : ℕ) where
   diameter_pos : 0 < Metric.diam K
   v_pos : 0 < v
   thick_sub : p11thick K v ⊆ V
-
 /-- All fields are S1-S3, with regularity on the open V. -/
 structure P11SublevelHyp {n : ℕ} (P : P11Patch n) (mu : ℕ)
     (g gt : P11Vec n → ℝ) (beta M : ℝ) : Prop where
@@ -926,22 +981,18 @@ structure P11SublevelHyp {n : ℕ} (P : P11Patch n) (mu : ℕ)
     p11op (fun (x : P11Vec n) (_ : Fin 1) => g x) j y ≤ M
   close : p11JetBound true mu (p11thick P.K P.v)
     (fun (x : P11Vec n) (_ : Fin 1) => gt x - g x) (beta/2)
-
 def p11Csub (n mu : ℕ) (d v ratio : ℝ) : ℝ :=
   (2 : ℝ)^(n+2) * mu * (Real.sqrt n * d)^(n-1) * ratio *
     (1+(4+v⁻¹)*Real.sqrt n*d)
-
 /-- The source's R-nondegeneracy; this is an interface to Part 10, not a new frozen object. -/
 def p11RNondegenerate {n m : ℕ} (V : Set (P11Vec n)) (w : P11Vec n → P11Vec m) : Prop :=
   ∀ c : P11Vec m, c ≠ 0 → ∃ y ∈ V, p11dot c (w y) ≠ 0
-
 theorem rank_compact {n m : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     {V K : Set (P11Vec n)} (hV : IsOpen V) (hconn : IsPreconnected V)
     (hK : IsCompact K) (hne : K.Nonempty) (hsub : K ⊆ V)
     {w : P11Vec n → P11Vec m} (hw : AnalyticOnNhd ℝ w V)
     (hr : p11RNondegenerate V w) {rho : ℕ} (hp : rho=1 ∨ rho=2) :
     ∃ mu : ℕ, 1 ≤ mu ∧ 0 < index_def rho mu w K := sorry
-
 theorem stability {n m : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     {V A K : Set (P11Vec n)} (hV : IsOpen V) (hAV : A ⊆ V)
     (hKA : K ⊆ A) (hK : IsCompact K) (hne : K.Nonempty)
@@ -952,7 +1003,6 @@ theorem stability {n m : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     (∀ c, p11euclid c=1 → p11JetBound true mu A
       (p11scalar rho wt c-p11scalar rho w c) (p11eta rho mu M theta)) ∧
     index_def rho mu w K - p11eta rho mu M theta ≤ index_def rho mu wt K := sorry
-
 theorem M_bound {n m : ℕ} (hn : 1 ≤ n) {V A : Set (P11Vec n)}
     (hV : IsOpen V) (hAV : A ⊆ V) {mu : ℕ} {w : P11Vec n → P11Vec m}
     (hw : ContDiffOn ℝ (mu+1) w V) {M : ℝ} (hM : 0 ≤ M)
@@ -960,21 +1010,18 @@ theorem M_bound {n m : ℕ} (hn : 1 ≤ n) {V A : Set (P11Vec n)}
     ∀ c, p11euclid c=1 → ∀ j, 1 ≤ j → j ≤ mu+1 → ∀ y ∈ A,
       p11op (p11scalar 1 w c) j y ≤ M ∧
       p11op (p11scalar 2 w c) j y ≤ (2 : ℝ)^j*M^2 := sorry
-
 theorem divided_difference {q : ℕ} (hq : 1 ≤ q) {a b : ℝ} (hab : a < b)
     {f : ℝ → ℝ} (hf : ContDiffOn ℝ q f (Icc a b)) (t : Fin (q+1) → ℝ)
     (ht : StrictMono t) (ha : ∀ i, a ≤ t i) (hb : ∀ i, t i ≤ b) :
     ∃ xi ∈ Ioo (t 0) (t (Fin.last q)),
       (∑ i, f (t i) / ∏ j ∈ Finset.univ.erase i, (t i-t j)) =
         iteratedDeriv q f xi / q.factorial := sorry
-
 theorem scalar_sublevel {q : ℕ} (hq : 1 ≤ q) {a b beta eps : ℝ}
     (hab : a < b) (hbeta : 0 < beta) (heps : 0 < eps) {f : ℝ → ℝ}
     (hf : ContDiffOn ℝ q f (Icc a b))
     (hlow : ∀ t ∈ Ioo a b, beta ≤ |iteratedDeriv q f t|) :
     volume {t ∈ Icc a b | |f t| ≤ eps} ≤
       ENNReal.ofReal (2*q*(eps/beta)^((q : ℝ)⁻¹)) := sorry
-
 theorem ball_sublevel {n q : ℕ} (hn : 1 ≤ n) (hq : 1 ≤ q)
     {V : Set (P11Vec n)} (hV : IsOpen V) {y0 a : P11Vec n} {r beta eps : ℝ}
     (hr : 0 < r) (ha : p11euclid a=1) (hb : 0 < beta) (he : 0 < eps)
@@ -984,19 +1031,16 @@ theorem ball_sublevel {n q : ℕ} (hn : 1 ≤ n) (hq : 1 ≤ q)
       beta ≤ |iteratedFDeriv ℝ q g y (fun _ => a)|) :
     volume {y | p11euclid (y-y0) ≤ r ∧ |g y| ≤ eps} ≤
       ENNReal.ofReal (2*q*(2*r)^(n-1)*(eps/beta)^((q : ℝ)⁻¹)) := sorry
-
 theorem sublevel {n mu : ℕ} {P : P11Patch n} {g gt : P11Vec n → ℝ}
     {beta M eps : ℝ} (H : P11SublevelHyp P mu g gt beta M)
     (he : 0 < eps) (he' : eps < beta/4) :
     volume {y ∈ P.K | |gt y| ≤ eps} ≤
       ENNReal.ofReal (p11Csub n mu (Metric.diam P.K) P.v (M/beta) *
         (eps/beta)^((mu : ℝ)⁻¹)) := sorry
-
 /-- The mode-dependent maps live over the original patch, even when retained sets shrink. -/
 def p11Good {n m : ℕ} (K : Set (P11Vec n))
     (wt : (Fin m → ℤ) → P11Vec n → P11Vec m) (psi : (Fin m → ℤ) → ℝ) :=
   {y ∈ K | ∀ k, k ≠ 0 → psi k ≤ |p11dotZ k (wt k y)|}
-
 structure P11DioHyp {n m : ℕ} (P : P11Patch n) (rho mu : ℕ)
     (w : P11Vec n → P11Vec m) (wt : (Fin m → ℤ) → P11Vec n → P11Vec m)
     (beta M : ℝ) : Prop where
@@ -1013,7 +1057,6 @@ structure P11DioHyp {n m : ℕ} (P : P11Patch n) (rho mu : ℕ)
   close : ∀ k, k ≠ 0 → ∀ c, p11euclid c=1 →
     p11JetBound true mu (p11thick P.K P.v)
       (p11scalar rho (wt k) c-p11scalar rho w c) (beta/2)
-
 theorem diophantine_measure {n m rho mu : ℕ} {P : P11Patch n}
     {w : P11Vec n → P11Vec m} {wt : (Fin m → ℤ) → P11Vec n → P11Vec m}
     {beta M : ℝ} (H : P11DioHyp P rho mu w wt beta M)
@@ -1025,16 +1068,13 @@ theorem diophantine_measure {n m rho mu : ℕ} {P : P11Patch n}
         ∑' k : {k : Fin m → ℤ // k ≠ 0},
           ENNReal.ofReal ((psi k / p11euclid (fun i => ((k.val i) : ℝ)))^
             ((rho : ℝ)/mu)) := sorry
-
 def p11CDio (n m rho mu : ℕ) (d v beta M tau : ℝ) : ℝ :=
   p11Csub n mu d v (M/beta) * beta^(-((mu : ℝ)⁻¹)) *
     (m : ℝ)^((rho : ℝ)/(2*mu)) * 2*3^(m-1) *
       (1+(((rho : ℝ)*(tau+1)/mu-m)⁻¹))
-
 def p11GammaStar (m rho mu : ℕ) (beta C eps : ℝ) : ℝ :=
   min ((1/2 : ℝ)*(m : ℝ)^(-(1/2 : ℝ))*(beta/4)^((rho : ℝ)⁻¹))
     ((eps/C)^((mu : ℝ)/rho))
-
 theorem power_law {n m rho mu : ℕ} {P : P11Patch n}
     {w : P11Vec n → P11Vec m} {wt : (Fin m → ℤ) → P11Vec n → P11Vec m}
     {beta M tau gamma : ℝ} (H : P11DioHyp P rho mu w wt beta M)
@@ -1046,13 +1086,11 @@ theorem power_law {n m rho mu : ℕ} {P : P11Patch n}
     ∀ eps, 0 < eps → ENNReal.ofReal eps < volume P.K →
       gamma ≤ p11GammaStar m rho mu beta C eps →
       volume P.K - ENNReal.ofReal eps ≤ volume G := sorry
-
 theorem limit_bridge {m : ℕ} {gamma tau : ℝ} (hg : 0 < gamma)
     {k : Fin m → ℤ} (hk : k ≠ 0) {u v : P11Vec m}
     (hu : 2*gamma*KAM.Fourier.modeSize k^(-tau) ≤ |p11dotZ k u|)
     (ht : ‖u-v‖ ≤ gamma*KAM.Fourier.modeSize k^(-tau-1)) :
     gamma*KAM.Fourier.modeSize k^(-tau) ≤ |p11dotZ k v| := sorry
-
 theorem limit_bridge_diophantine {n m : ℕ} {K : Set (P11Vec n)}
     {wt : (Fin m → ℤ) → P11Vec n → P11Vec m} {gamma tau : ℝ}
     (hg : 0 < gamma) {b : P11Vec n}
@@ -1060,40 +1098,31 @@ theorem limit_bridge_diophantine {n m : ℕ} {K : Set (P11Vec n)}
     (v : P11Vec m)
     (ht : ∀ k, k ≠ 0 → ‖wt k b-v‖ ≤ gamma*KAM.Fourier.modeSize k^(-tau-1)) :
     KAM.IsDiophantine gamma tau v := sorry
-
 /-! ## Cutoff/step objects: existing domains, coefficients, truncation, bracket and flow. -/
 def domain_def (n : ℕ) (r s : ℝ) (B : Set (P11CVec n)) : Set (P11Family n) :=
   KAM.Weighted.Dom n {0} s r ×ˢ B
-
 def p11Admissible {n : ℕ} (r s : ℝ) (B : Set (P11CVec n)) (F : P11Family n → ℂ) : Prop :=
   DifferentiableOn ℂ F (domain_def n r s B) ∧
     ∀ j : Fin n, ∀ z ∈ domain_def n r s B,
       F ((z.1.1+Pi.single j 1,z.1.2),z.2)=F z
-
 def p11Bound {E F : Type*} [NormedAddCommGroup F] (U : Set E) (f : E → F) (M : ℝ) : Prop :=
   ∀ z ∈ U, ‖f z‖ ≤ M
-
 def p11Real {n : ℕ} (U : Set (P11Family n)) (F : P11Family n → ℂ) : Prop :=
   ∀ x : Phase n, ∀ b : P11Vec n,
     (KAM.realInclusion₂ n x,KAM.realInclusion n b) ∈ U →
       (F (KAM.realInclusion₂ n x,KAM.realInclusion n b)).im=0
-
 def p11Cut {n : ℕ} (T : ℝ) (F : P11Family n → ℂ) (z : P11Family n) : ℂ :=
   KAM.Weighted.truncate T (fun u : P11CVec n × P11CVec n => F ((u.1,z.1.2),u.2))
     (z.1.1,z.2)
-
 def p11Taylor {n : ℕ} (F : P11Family n → ℂ) (z : P11Family n) : ℂ :=
   F ((z.1.1,0),z.2)+fderiv ℂ (fun eta => F ((z.1.1,eta),z.2)) 0 z.1.2
-
 def p11Cutoff {n : ℕ} (T : ℝ) (F : P11Family n → ℂ) := p11Cut T (p11Taylor F)
-
 def p11C (n : ℕ) : ℝ :=
   2*(1+1/Real.pi)*(3*n/(Real.exp 1*Real.pi))^(n-1)
 def p11Error (n : ℕ) (T d : ℝ) : ℝ := p11C n*(1+(d^n)⁻¹)*Real.exp (-Real.pi*T*d)
 def p11Loss (n : ℕ) (T alpha : ℝ) : ℝ :=
   (Real.log (2*p11C n/alpha)+n*Real.log (Real.pi*T))/(Real.pi*T)
 def p11Lambda (n : ℕ) (delta : ℝ) : ℝ := KAM.Weighted.coth (Real.pi*delta)^n-1
-
 theorem fourier_cutoff {n : ℕ} (hn : 1 ≤ n) {r s T d M : ℝ}
     (hr : 0 < r) (hs : 0 < s) (hT : 0 ≤ T) (hd : 0 < d) (hdr : d < r)
     {B : Set (P11CVec n)} (hB : IsOpen B) {F : P11Family n → ℂ}
@@ -1104,14 +1133,12 @@ theorem fourier_cutoff {n : ℕ} (hn : 1 ≤ n) {r s T d M : ℝ}
     (p11Real (domain_def n r s B) F → p11Real (domain_def n (r-d) s B) (p11Cut T F)) ∧
     ∀ eta b, b ∈ B → ‖eta‖ < s →
       Differentiable ℂ (fun theta => p11Cut T F ((theta,eta),b)) := sorry
-
 theorem loss_choice {n : ℕ} (hn : 1 ≤ n) {alpha T : ℝ}
     (ha : 0 < alpha) (ha1 : alpha ≤ 1) (hT : 1 ≤ T) :
     0 < p11Loss n T alpha ∧
     (p11Loss n T alpha ≤ 1 → p11Error n T (p11Loss n T alpha) ≤ alpha) ∧
     AntitoneOn (fun t => p11Loss n t alpha) (Ici 1) ∧
     AntitoneOn (fun a => p11Loss n T a) (Ioc 0 1) := sorry
-
 theorem loss_sum {n : ℕ} (hn : 1 ≤ n) {theta T0 a b : ℝ}
     (ht : 1 < theta) (hT : 1 ≤ T0) (ha : 0 ≤ a) (hb : 0 ≤ b)
     (alpha : ℕ → ℝ) (hap : ∀ j, 0 < alpha j ∧ alpha j ≤ 1)
@@ -1122,7 +1149,6 @@ theorem loss_sum {n : ℕ} (hn : 1 ≤ n) {theta T0 a b : ℝ}
     (∑' j, p11Loss n (T0*theta^j) (alpha j)) ≤
       ((a+n*Real.log (Real.pi*T0))*theta/(theta-1)+
         (b+n*Real.log theta)*theta/(theta-1)^2)/(Real.pi*T0) := sorry
-
 theorem taylor_cutoff {n : ℕ} {r s M q : ℝ} (hr : 0 < r) (hs : 0 < s)
     (hM : 0 ≤ M) (hq : 0 < q) (hq1 : q < 1)
     {B : Set (P11CVec n)} (hB : IsOpen B) {F : P11Family n → ℂ}
@@ -1132,7 +1158,6 @@ theorem taylor_cutoff {n : ℕ} {r s M q : ℝ} (hr : 0 < r) (hs : 0 < s)
     p11Bound (domain_def n r (q*s) B) (F-p11Taylor F) (M*q^2/(1-q)) ∧
     ∀ theta ∈ KAM.complexStrip n r, ∀ b ∈ B,
       ‖fderiv ℂ (fun eta => F ((theta,eta),b)) 0‖ ≤ M/s := sorry
-
 theorem cutoff {n : ℕ} (hn : 1 ≤ n) {r s T d eps q : ℝ}
     (hr : 0 < r) (hs : 0 < s) (hT : 0 ≤ T) (hd : 0 < d) (hdr : d < r)
     (he : 0 ≤ eps) (hq : 0 < q) (hq1 : q < 1)
@@ -1143,14 +1168,12 @@ theorem cutoff {n : ℕ} (hn : 1 ≤ n) {r s T d eps q : ℝ}
     p11Bound (domain_def n (r-d) (q*s) B) (R-p11Cutoff T R)
       (eps*(q^2/(1-q)+2*p11Error n T d)) ∧
     (p11Real (domain_def n r s B) R → p11Real (domain_def n (r-d) s B) (p11Cutoff T R)) := sorry
-
 theorem param_cauchy {n q : ℕ} {E : Set (P11Vec n)} {t tp M : ℝ}
     (htp : 0 < tp) (ht : tp < t) (hM : 0 ≤ M)
     {u : P11CVec n → P11CVec q} (hu : DifferentiableOn ℂ u (KAM.actionNbhd E t))
     (hb : p11Bound (KAM.actionNbhd E t) u M) {j : ℕ} (hj : 1 ≤ j) :
     ∀ b ∈ KAM.actionNbhd E tp, ‖iteratedFDeriv ℂ j u b‖ ≤
       (j : ℝ)^j*M/(t-tp)^j := sorry
-
 theorem divisor_wide {n : ℕ} {gamma tau T : ℝ}
     (hg : 0 < gamma) (ht : 0 ≤ tau) (hT : 0 < T)
     (v : P11Vec n) (u : (Fin n → ℤ) → P11Vec n)
@@ -1160,7 +1183,6 @@ theorem divisor_wide {n : ℕ} {gamma tau T : ℝ}
       ‖u k-v‖ ≤ gamma*KAM.Fourier.modeSize k^(-tau-1)) :
     ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T →
       gamma*T^(-tau) ≤ |p11dotZ k v| := sorry
-
 theorem divisor_perturb {n : ℕ} {E : Set (P11Vec n)} {t T D L : ℝ}
     (ht : 0 < t) (hT : 0 < T) (hD : 0 < D) (hL : 0 ≤ L)
     (w : P11CVec n → P11CVec n) (hw : DifferentiableOn ℂ w (KAM.actionNbhd E t))
@@ -1170,28 +1192,24 @@ theorem divisor_perturb {n : ℕ} {E : Set (P11Vec n)} {t T D L : ℝ}
       D ≤ ‖p11dotC k (w (KAM.realInclusion n b))‖) :
     ∀ b ∈ KAM.actionNbhd E t, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T →
       D/2 ≤ ‖p11dotC k (w b)‖ := sorry
-
 /-- The generator is defined from existing scalar truncation; no Diophantine premise. -/
 def p11Solve {n : ℕ} (T : ℝ) (w : P11CVec n → P11CVec n)
     (P : P11CVec n × P11CVec n → ℂ) (theta b : P11CVec n) : ℂ :=
   ∑' k : Fin n → ℤ, if k=0 ∨ T < KAM.Fourier.modeSize k then 0 else
     KAM.Weighted.coeff P b k / (2*Real.pi*Complex.I*p11dotC k (w b)) * KAM.character k theta
-
 def p11AngleClass {n : ℕ} (r : ℝ) (B : Set (P11CVec n))
     (P : P11CVec n × P11CVec n → ℂ) : Prop :=
   DifferentiableOn ℂ P (KAM.complexStrip n r ×ˢ B) ∧
     ∀ j : Fin n, ∀ z ∈ KAM.complexStrip n r ×ˢ B, P (z.1+Pi.single j 1,z.2)=P z
-
 def p11AngleAverage {n : ℕ} (P : P11CVec n × P11CVec n → ℂ) (b : P11CVec n) : ℂ :=
   KAM.Weighted.coeff P b 0
-
 theorem homological_maximal {n : ℕ} (hn : 1 ≤ n) {r delta T D M : ℝ}
     (hr : 0 < r) (hd : 0 < delta) (hdr : delta < r) (hT : 0 < T)
     (hD : 0 < D) (hM : 0 ≤ M) {B : Set (P11CVec n)} (hB : IsOpen B)
     (w : P11CVec n → P11CVec n) (hw : DifferentiableOn ℂ w B)
     (hdiv : ∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
     (P : P11CVec n × P11CVec n → ℂ) (hP : p11AngleClass r B P)
-    (hpoly : ∀ z, KAM.Weighted.truncate T P z=P z)
+    (hpoly : ∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T P z=P z)
     (hb : p11Bound (KAM.complexStrip n r ×ˢ B) P M) :
     let phi := fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2
     p11AngleClass (r-delta) B phi ∧
@@ -1206,23 +1224,19 @@ theorem homological_maximal {n : ℕ} (hn : 1 ≤ n) {r delta T D M : ℝ}
       ‖KAM.Weighted.coeff phi b k‖ ≤ M*Real.exp (-2*Real.pi*KAM.Fourier.modeSize k*r)/(Real.pi*D)) ∧
     (∀ b ∈ B, ‖p11AngleAverage P b‖ ≤ M) ∧
     ∀ u, p11AngleClass (r-delta) B u →
-      (∀ z, KAM.Weighted.truncate T u z=u z) →
+      (∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T u z=u z) →
       (∀ b ∈ B, p11AngleAverage u b=0) →
       (∀ theta ∈ KAM.complexStrip n (r-delta), ∀ b ∈ B,
         fderiv ℂ (fun x => u (x,b)) theta (w b)=P (theta,b)-p11AngleAverage P b) →
       EqOn u phi (KAM.complexStrip n (r-delta) ×ˢ B) := sorry
-
 /-- Affine generating function in the existing Hamiltonian carrier. -/
 def p11Affine {n : ℕ} (p0 : P11CVec n → ℂ) (p1 : P11CVec n → P11CVec n)
     (z : P11Phase n) : ℂ := p0 z.1+∑ i, p1 z.1 i*z.2 i
-
 def p11Flow {n : ℕ} (phi : P11Phase n → ℂ) (r s sigma : ℝ) (t : ℝ) :=
   KAM.Canonical.flow (KAM.hamiltonianVectorFieldℂ phi)
     (KAM.Weighted.Dom n {0} s (r-sigma)) t
-
 def p11GaugeBound {n : ℕ} (rho sigma : ℝ) (L : P11Phase n →L[ℂ] P11Phase n) (M : ℝ) : Prop :=
   ∀ z, KAM.Canonical.scaledNorm rho sigma (L z) ≤ M*KAM.Canonical.scaledNorm rho sigma z
-
 structure P11AffineHyp {n : ℕ} (p0 : P11CVec n → ℂ) (p1 : P11CVec n → P11CVec n)
     (r s sigma A : ℝ) : Prop where
   n_pos : 1 ≤ n
@@ -1237,7 +1251,6 @@ structure P11AffineHyp {n : ℕ} (p0 : P11CVec n → ℂ) (p1 : P11CVec n → P1
   per1 : ∀ j : Fin n, ∀ x ∈ KAM.complexStrip n r, p1 (x+Pi.single j 1)=p1 x
   bound0 : p11Bound (KAM.complexStrip n r) p0 (s*A)
   bound1 : p11Bound (KAM.complexStrip n r) p1 A
-
 theorem affine_flow {n : ℕ} {p0 : P11CVec n → ℂ} {p1 : P11CVec n → P11CVec n}
     {r s sigma A : ℝ} (H : P11AffineHyp p0 p1 r s sigma A) :
     let phi := p11Affine p0 p1
@@ -1265,7 +1278,6 @@ theorem affine_flow {n : ℕ} {p0 : P11CVec n → ℂ} {p1 : P11CVec n → P11CV
       ∀ x : Phase n, KAM.realInclusion₂ n x ∈ U →
         ∀ i, ((F (KAM.realInclusion₂ n x)).1 i).im=0 ∧
           ((F (KAM.realInclusion₂ n x)).2 i).im=0) := sorry
-
 /-! ## Explicit local suppliers for graph SOURCE_GAPs. -/
 /-- hc-rot: complexification is a new proof obligation, not supplied by holomorphic-to-real restriction. -/
 theorem p11_complexification {a b : ℕ} {f : P11Vec a → P11Vec b} {x : P11Vec a}
@@ -1273,31 +1285,26 @@ theorem p11_complexification {a b : ℕ} {f : P11Vec a → P11Vec b} {x : P11Vec
     ∃ r : ℝ, 0 < r ∧ ∃ F : P11CVec a → P11CVec b,
       DifferentiableOn ℂ F (Metric.ball (KAM.realInclusion a x) r) ∧
       ∀ y, ‖y-x‖ < r → F (KAM.realInclusion a y)=KAM.realInclusion b (f y) := sorry
-
 /-- hc-rot: persistence of polynomial identities; applied entrywise to rho^T rho-1 and det rho-1. -/
 theorem p11_real_slice_identity {n : ℕ} {x : P11Vec n} {r : ℝ} (hr : 0 < r)
     {F : P11CVec n → ℂ} (hF : DifferentiableOn ℂ F (Metric.ball (KAM.realInclusion n x) r))
     (hzero : ∀ y, ‖y-x‖ < r → F (KAM.realInclusion n y)=0) :
     ∀ z ∈ Metric.ball (KAM.realInclusion n x) r, F z=0 := sorry
-
 /-- hc-mean: higher order Schwarz on complex radial lines. -/
 theorem p11_radial_schwarz {n k : ℕ} {r M : ℝ} (hr : 0 < r) (hM : 0 ≤ M)
     {F : P11CVec n → ℂ} (hF : DifferentiableOn ℂ F (Metric.ball 0 r))
     (hb : p11Bound (Metric.ball 0 r) F M)
     (hj : ∀ j < k, iteratedFDeriv ℂ j F 0=0) :
     ∀ z ∈ Metric.ball 0 r, ‖F z‖ ≤ M*(‖z‖/r)^k := sorry
-
 /-- rl-global supplier: complete nonlinear flow of a bounded C1 field. -/
 theorem p11_bounded_global_flow {n : ℕ} {v : P11Vec n → P11Vec n}
     (hv : ContDiff ℝ 1 v) {M : ℝ} (hM : 0 ≤ M) (hb : ∀ x, ‖v x‖ ≤ M)
     (x : P11Vec n) :
     ∃ u : ℝ → P11Vec n, u 0=x ∧ ∀ t, HasDerivAt u (v (u t)) t := sorry
-
 open Classical in
 def p11RealFlow {n : ℕ} (v : P11Vec n → P11Vec n) (t : ℝ) (x : P11Vec n) : P11Vec n :=
   if h : ∃ u : ℝ → P11Vec n, u 0=x ∧ ∀ t, HasDerivAt u (v (u t)) t
     then h.choose t else x
-
 /-- rl-deriv supplier: differentiability in initial data and its actual variational equation. -/
 theorem p11_global_variational {n : ℕ} {v : P11Vec n → P11Vec n}
     (hv : ContDiff ℝ 2 v) {M L : ℝ} (hM : 0 ≤ M) (hL : 0 ≤ L)
@@ -1306,7 +1313,6 @@ theorem p11_global_variational {n : ℕ} {v : P11Vec n → P11Vec n}
     (∀ x t, HasDerivAt (fun s => fderiv ℝ (p11RealFlow v s) x)
       ((fderiv ℝ v (p11RealFlow v t x)).comp (fderiv ℝ (p11RealFlow v t) x)) t) ∧
     ∀ x, fderiv ℝ (p11RealFlow v 0) x=ContinuousLinearMap.id ℝ _ := sorry
-
 /-- The analytic real-flow estimate is proved with a real field from the start. -/
 theorem real_lipschitz {n : ℕ} {v : P11Vec n → P11Vec n}
     (hv : ContDiff ℝ 2 v) {M L : ℝ} (hM : 0 ≤ M) (hL : 0 ≤ L)
@@ -1317,7 +1323,6 @@ theorem real_lipschitz {n : ℕ} {v : P11Vec n → P11Vec n}
       ‖p11RealFlow v t x-x‖ ≤ M ∧
       ∀ k : Fin n → ℤ, p11RealFlow v t (x+fun i => (k i : ℝ))=
         p11RealFlow v t x+fun i => (k i : ℝ) := sorry
-
 /-- Canonical-step source parameters; no conclusions are fields. -/
 structure P11Step (n : ℕ) where
   E : Set (P11Vec n)
@@ -1348,7 +1353,6 @@ structure P11Step (n : ℕ) where
   cutoff_error : p11Error n T d ≤ 1
   divisor_small : t*T*L ≤ D/2
   flow_small : 4*(n+1)*p11Lambda n delta*(1+p11Error n T d)*eps ≤ Real.pi*D*s*sigma
-
 def p11StepA {n : ℕ} (S : P11Step n) : ℝ :=
   p11Lambda n S.delta*(1+p11Error n S.T S.d)*S.eps/(Real.pi*S.D*S.s)
 def p11StepKappa {n : ℕ} (S : P11Step n) : ℝ := 2*(n+1)*p11StepA S/S.sigma
@@ -1356,7 +1360,6 @@ def p11StepRem {n : ℕ} (S : P11Step n) : ℝ :=
   S.eps*(S.q^2/(1-S.q)+2*p11Error n S.T S.d)+
     n*(4*n+5)*(5+4*p11Error n S.T S.d)*(1+p11Error n S.T S.d)*
       p11Lambda n S.delta*S.eps^2/(Real.pi*S.D*S.s*S.sigma)
-
 def p11R0 {n : ℕ} (T : ℝ) (R : P11Family n → ℂ) (z : P11CVec n × P11CVec n) : ℂ :=
   p11Cutoff T R ((z.1,0),z.2)
 def p11R1 {n : ℕ} (T : ℝ) (R : P11Family n → ℂ) (z : P11CVec n × P11CVec n) : P11CVec n :=
@@ -1364,7 +1367,6 @@ def p11R1 {n : ℕ} (T : ℝ) (R : P11Family n → ℂ) (z : P11CVec n × P11CVe
 def p11DeltaH {n : ℕ} (T : ℝ) (R : P11Family n → ℂ) := p11AngleAverage (p11R0 T R)
 def p11DeltaW {n : ℕ} (T : ℝ) (R : P11Family n → ℂ) (b : P11CVec n) : P11CVec n :=
   fun i => p11AngleAverage (fun z => p11R1 T R z i) b
-
 def p11StepPhi {n : ℕ} (S : P11Step n) (w : P11CVec n → P11CVec n)
     (R : P11Family n → ℂ) (b : P11CVec n) : P11Phase n → ℂ :=
   p11Affine (fun theta => p11Solve S.T w (p11R0 S.T R) theta b)
@@ -1372,15 +1374,12 @@ def p11StepPhi {n : ℕ} (S : P11Step n) (w : P11CVec n → P11CVec n)
 def p11StepMap {n : ℕ} (S : P11Step n) (w : P11CVec n → P11CVec n)
     (R : P11Family n → ℂ) (z : P11Family n) : P11Phase n :=
   p11Flow (p11StepPhi S w R z.2) (S.r-S.d-S.delta) S.s S.sigma 1 z.1
-
 def p11Normal {n : ℕ} (h : P11CVec n → ℂ) (w : P11CVec n → P11CVec n)
     (z : P11Family n) : ℂ := h z.2+∑ i, w z.2 i*z.1.2 i
-
 def p11StepRemainder {n : ℕ} (S : P11Step n) (h : P11CVec n → ℂ)
     (w : P11CVec n → P11CVec n) (R : P11Family n → ℂ) (z : P11Family n) : ℂ :=
   (p11Normal h w+R) (p11StepMap S w R z,z.2)-
     p11Normal (h+p11DeltaH S.T R) (w+p11DeltaW S.T R) z
-
 structure P11StepHyp {n : ℕ} (S : P11Step n) (h : P11CVec n → ℂ)
     (w : P11CVec n → P11CVec n) (R : P11Family n → ℂ) : Prop where
   holh : DifferentiableOn ℂ h (KAM.actionNbhd S.E S.t)
@@ -1394,7 +1393,6 @@ structure P11StepHyp {n : ℕ} (S : P11Step n) (h : P11CVec n → ℂ)
   derivative : ∀ b ∈ KAM.actionNbhd S.E S.t, ‖fderiv ℂ w b‖ ≤ S.L
   divisor : ∀ b ∈ S.E, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ S.T →
     S.D ≤ ‖p11dotC k (w (KAM.realInclusion n b))‖
-
 /-- canonical-step i-iii, complex form. The output functions are explicit, never assumed. -/
 theorem canonical_step {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     {w : P11CVec n → P11CVec n} {R : P11Family n → ℂ} (H : P11StepHyp S h w R) :
@@ -1425,7 +1423,6 @@ theorem canonical_step {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
       18*n*(4*n+5)*p11Lambda n S.delta*S.eps^2/(Real.pi*S.D*S.s*S.sigma) ∧
     (∀ z ∈ U, (p11Normal h w+R) (F z,z.2)=
       p11Normal (h+p11DeltaH S.T R) (w+p11DeltaW S.T R) z+Rp z) := sorry
-
 /-- cs-lip: EXPLICIT reality guard repairs p11a2 L248/L287; no frozen type changes. -/
 theorem canonical_step_real {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     {w : P11CVec n → P11CVec n} {R : P11Family n → ℂ} (H : P11StepHyp S h w R)
@@ -1441,7 +1438,6 @@ theorem canonical_step_real {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
         ((p11StepMap S w R ((KAM.realInclusion n x,0),KAM.realInclusion n b)).1 i).re) theta-
         ContinuousLinearMap.id ℝ _‖ ≤
         Real.exp (2*S.T*(1+p11Error n S.T S.d)*S.eps*p11Lambda n (S.r-S.d)/(S.D*S.s))-1 := sorry
-
 /-- v: use the existing full complex domain; derivatives cost only t-tp. -/
 theorem canonical_step_param {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     {w : P11CVec n → P11CVec n} {R : P11Family n → ℂ} (H : P11StepHyp S h w R)
@@ -1461,7 +1457,6 @@ theorem canonical_step_param {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
           (p11StepRemainder S h w R) Mr →
           ‖iteratedFDeriv ℂ j (fun b => p11StepRemainder S h w R (z,b)) b‖ ≤
             (j : ℝ)^j*Mr/(S.t-tp)^j) := sorry
-
 /-! ## Finite preparation. Data structures below are outputs, never theorem premises. -/
 structure P11Physical (n : ℕ) where
   G : ℝ
@@ -1476,12 +1471,9 @@ structure P11Physical (n : ℕ) where
   a_pos : ∀ i, 0 < a i
   ordered : StrictMono a
   eta_pos : 0 < eta
-
 def p11Zeta {n : ℕ} (D : P11Physical n) : ℝ :=
   min D.eta ((sInf ({x | ∃ i, x=D.a i} ∪ {x | ∃ i j, i ≠ j ∧ x=|D.a i-D.a j|}))/6)
-
 theorem p11_zeta_pos {n : ℕ} (D : P11Physical n) : 0 < p11Zeta D := sorry
-
 /-- Forward tube uses existing product chart and one-planet Gamma, for arbitrary n. -/
 theorem forward_tube {n : ℕ} (D : P11Physical n) {zeta : ℝ} (hzeta : 0 < zeta) :
     ∃ delta : ℝ, 0 < delta ∧
@@ -1492,17 +1484,14 @@ theorem forward_tube {n : ℕ} (D : P11Physical n) {zeta : ℝ} (hzeta : 0 < zet
         w ∈ poincareProdDom n ∧
         ‖poincareProd D.m (D.G*D.m0) w-
           circularPoint D.G D.m0 D.m D.a (fun i => w.1 (Fin.castAdd n i)/(2*Real.pi))‖ < zeta := sorry
-
 def p11PhysicalDelta {n : ℕ} (D : P11Physical n) : ℝ :=
   (forward_tube D (p11_zeta_pos D)).choose
-
 /-- Literal secular Hessian, connected to Part 8 Q_h by an equality proved at its port. -/
 def p11SecularMatrix {n : ℕ} (D : P11Physical n) (L : P11Vec n) : Matrix (Fin n) (Fin n) ℝ :=
   fun i j => (1/2 : ℝ) * iteratedFDeriv ℝ 2
     (fun xi : P11Vec n => secularAverage
       (fun (_ : ℝ) z => fFix D.G D.m (poincareProd D.m (D.G*D.m0) z)) 0 L 0 xi)
     0 ![Pi.single i 1,Pi.single j 1]
-
 /-- Part 10 patch output, tied to the actual frozen secular average and physical frequencies. -/
 structure P11PatchData (n : ℕ) where
   K : Set (P11Vec n)
@@ -1511,7 +1500,6 @@ structure P11PatchData (n : ℕ) where
   sigma : P11Vec n → P11Vec n
   mu : ℕ
   beta : ℝ
-
 def P11PatchSpec {n : ℕ} (D : P11Physical n) (A : P11PatchData n) : Prop :=
   (∀ J ∈ A.V, StrictMono (A.sigma J) ∧
     (p11SecularMatrix D ((2*Real.pi)⁻¹ • J)).charpoly=
@@ -1525,12 +1513,9 @@ def P11PatchSpec {n : ℕ} (D : P11Physical n) (A : P11PatchData n) : Prop :=
     p11RNondegenerate A.V A.varpi ∧ A.beta ≤ index_def 2 A.mu A.varpi A.K ∧
     ∀ J ∈ A.K, ∀ i : Fin n,
       |J i/(2*Real.pi)-D.m i*Real.sqrt (D.G*D.m0*D.a i)| < p11PhysicalDelta D/8
-
 /-- Implementation uses Part 10 interface and shrinks the physical patch to the requested tube. -/
 theorem p11_patch {n : ℕ} (D : P11Physical n) : ∃ A, P11PatchSpec D A := sorry
-
 def p11PatchData {n : ℕ} (D : P11Physical n) : P11PatchData n := (p11_patch D).choose
-
 /-- norm-dict retains the exact scalar and input dilation factor. -/
 theorem norm_dict {n m mu : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     {V K : Set (P11Vec n)} (hV : IsOpen V) (hK : IsCompact K)
@@ -1542,7 +1527,6 @@ theorem norm_dict {n m mu : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     p11RNondegenerate ((fun J => (2*Real.pi) • J) '' V) wJ ∧
     (2*Real.pi)^(-(2+(mu : ℝ)))*beta ≤
       index_def 2 mu wJ ((fun J => (2*Real.pi) • J) '' K) := sorry
-
 /-- Base point theorem, no Diophantine point is assumed. -/
 theorem select {n : ℕ} (D : P11Physical n) :
     let A := p11PatchData D
@@ -1550,14 +1534,12 @@ theorem select {n : ℕ} (D : P11Physical n) :
       KAM.IsDiophantine gamma (max ((n : ℝ)*A.mu) (2*n)) (A.varpi J0) ∧
       KAM.IsDiophantine gamma (max ((n : ℝ)*A.mu) (2*n)) (fast (a := n) (b := n) (A.varpi J0)) ∧
       KAM.IsDiophantine gamma (max ((n : ℝ)*A.mu) (2*n)) (slow (a := n) (b := n) (A.varpi J0)) := sorry
-
 /-- Working chart carrier: ((theta,x),(J,y)), exactly the existing phase carrier. -/
 def p11WorkingDom (n : ℕ) (J0 : P11Vec n) (s r rz : ℝ) : Set (P11Phase (n+n)) :=
   {z | (fun i : Fin n => z.1 (Fin.castAdd n i)) ∈ KAM.complexStrip n s ∧
     ‖(fun i : Fin n => z.2 (Fin.castAdd n i))-KAM.realInclusion n J0‖ < r ∧
     ‖(fun i : Fin n => z.1 (Fin.natAdd n i))‖ < rz ∧
     ‖(fun i : Fin n => z.2 (Fin.natAdd n i))‖ < rz}
-
 /-- Only data, with all properties in P11SecularSpec. -/
 structure P11SecularData (n : ℕ) where
   J0 : P11Vec n
@@ -1577,7 +1559,6 @@ structure P11SecularData (n : ℕ) where
   F : P11Phase (n+n) → ℂ
   rho : P11CVec n → Matrix (Fin n) (Fin n) ℂ
   chart : Phase (n+n) → Phase (n*2)
-
 /-- Literal P9 inverse lift after the canonical period conversion T1; positions and momenta keep frozen order. -/
 def p11ChartInput {n : ℕ} (C : P11SecularData n) (z : Phase (n+n)) : Phase (n+n) :=
   let L : P11Vec n := fun i => fast z.2 i/(2*Real.pi)
@@ -1588,14 +1569,11 @@ def p11ChartInput {n : ℕ} (C : P11SecularData n) (z : Phase (n+n)) : Phase (n+
     (fun l => 2*Real.pi*fast z.1 l+
       (∑ i, ∑ j, y i*(R.transpose*fderiv ℂ C.rho (KAM.realInclusion n L) (Pi.single l 1)) i j*x j).re)
     (fun i => (R.mulVec y i).re) (fun i => (R.mulVec x i).re)
-
 def p11WorkingH {n : ℕ} (C : P11SecularData n) (eps : ℝ) (z : P11Phase (n+n)) : ℂ :=
   C.h (fun i : Fin n => z.2 (Fin.castAdd n i))+eps*C.F z
-
 def p11FastMean {n : ℕ} (F : P11Phase (n+n) → ℂ) (J : P11CVec n) (z : P11Phase n) : ℂ :=
   KAM.torusAverage (fun theta : P11Vec n =>
     F (Fin.append (KAM.realInclusion n theta) z.1,Fin.append J z.2))
-
 def P11SecularSpec {n : ℕ} (D : P11Physical n) (C : P11SecularData n) : Prop :=
   (∀ J : P11Vec n, KAM.realInclusion n J ∈ Metric.ball (KAM.realInclusion n C.J0) (2*C.rC) →
     J ∈ (p11PatchData D).V ∧
@@ -1647,12 +1625,16 @@ def P11SecularSpec {n : ℕ} (D : P11Physical n) (C : P11SecularData n) : Prop :
      ∃ k : Fin n → ℤ, z'=(z.1+Fin.append (fun i => (k i : ℝ)) 0,z.2)) ∧
    (∀ eps : ℝ, ∀ z ∈ O, fixedHamiltonian D.G D.m0 D.m eps (C.chart z)=
       (p11WorkingH C eps (KAM.realInclusion₂ (n+n) z)).re))
-
 /-- Part 11 A: this is constructed from physical data, not a standing chart hypothesis. -/
-theorem holo_chart {n : ℕ} (D : P11Physical n) : ∃ C, P11SecularSpec D C := sorry
-
+def P11SecularFullSpec {n : ℕ} (D : P11Physical n)
+    (C : P11SecularData n) : Prop :=
+  P11SecularSpec D C ∧
+  ∀ J ∈ Metric.ball (KAM.realInclusion n C.J0) (2*C.rC),
+    KAM.Nekhoroshev.euclid
+      (Fin.append (C.omega J) ((2*Real.pi : ℂ)⁻¹ • C.Omega J)) ≤ C.L
+theorem holo_chart {n : ℕ} (D : P11Physical n) :
+    ∃ C, P11SecularFullSpec D C := sorry
 def p11SecularData {n : ℕ} (D : P11Physical n) : P11SecularData n := (holo_chart D).choose
-
 /-- Canonical polar chart in period one; no new real polar representation. -/
 def p11PolarC {n : ℕ} (z : P11Phase (n+n)) : P11Phase (n+n) :=
   (Fin.append (fun i : Fin n => z.1 (Fin.castAdd n i))
@@ -1661,11 +1643,9 @@ def p11PolarC {n : ℕ} (z : P11Phase (n+n)) : P11Phase (n+n) :=
    Fin.append (fun i : Fin n => z.2 (Fin.castAdd n i))
     (fun i : Fin n => Complex.sqrt (z.2 (Fin.natAdd n i)/Real.pi)*
       Complex.cos (2*Real.pi*z.1 (Fin.natAdd n i))))
-
 def p11PolarR {n : ℕ} (z : Phase (n+n)) : Phase (n+n) :=
   ((fun i => (p11PolarC (KAM.realInclusion₂ (n+n) z)).1 i |>.re),
    (fun i => (p11PolarC (KAM.realInclusion₂ (n+n) z)).2 i |>.re))
-
 theorem total_chart {n : ℕ} :
     let O : Set (Phase (n+n)) := {z | ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)}
     AnalyticOnNhd ℝ p11PolarR O ∧ KAM.Kepler.IsSymplecticOn 1 p11PolarR O ∧
@@ -1673,7 +1653,6 @@ theorem total_chart {n : ℕ} :
       p11PolarR (z.1+Fin.append 0 (fun i => (k i : ℝ)),z.2)=p11PolarR z) ∧
     ∀ z ∈ O, ∀ z' ∈ O, p11PolarR z=p11PolarR z' →
       ∃ k : Fin n → ℤ, z'=(z.1+Fin.append 0 (fun i => (k i : ℝ)),z.2) := sorry
-
 /-- Total-chart companion: compatibility of BOTH integer angle lattices with the physical chart. -/
 theorem total_chart_transport {n : ℕ} (D : P11Physical n)
     {O : Set (Phase (n+n))} (hO : IsOpen O)
@@ -1687,7 +1666,6 @@ theorem total_chart_transport {n : ℕ} (D : P11Physical n)
     (∀ z ∈ O, ∀ k : Fin (n+n) → ℤ, Xi (z.1+(fun i => (k i : ℝ)),z.2)=Xi z) ∧
     ∀ z ∈ O, ∀ z' ∈ O, Xi z=Xi z' →
       ∃ k : Fin (n+n) → ℤ, z'=(z.1+(fun i => (k i : ℝ)),z.2) := sorry
-
 /-- Exact CP09 preparation parameters; nu1 is fixed at 3. -/
 def p11K1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) : ℝ :=
   6/(Real.pi*C.sigma)*Real.log (1/(eps*C.MF))
@@ -1697,13 +1675,11 @@ def p11s1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
 def p11d1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := min (p11s1 C eps*C.sigma) C.rz^2
 def p11eta1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
   400*(1+n)*eps*C.MF^2/(2*Real.pi*p11Alpha1 C eps*p11d1 C eps)
-
 structure P11FastData (n : ℕ) where
   map : P11Phase (n+n) → P11Phase (n+n)
   G : P11CVec n × P11Phase n → ℂ
   f1 : P11Phase (n+n) → ℂ
   deriving Inhabited
-
 def P11FastSpec {n : ℕ} (C : P11SecularData n) (eps : ℝ) (A : P11FastData n) : Prop :=
   let U := p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2)
   DifferentiableOn ℂ A.map U ∧ InjOn A.map U ∧
@@ -1738,24 +1714,20 @@ def P11FastSpec {n : ℕ} (C : P11SecularData n) (eps : ℝ) (A : P11FastData n)
     2*Real.pi*p11Alpha1 C eps*C.rz*
       max (‖(fun i : Fin n => (A.map z).1 (Fin.natAdd n i)-z.1 (Fin.natAdd n i))‖)
         (‖(fun i : Fin n => (A.map z).2 (Fin.natAdd n i)-z.2 (Fin.natAdd n i))‖) ≤ 9*eps*C.MF
-
 theorem avg_fast {n : ℕ} (D : P11Physical n) :
     let C := p11SecularData D
     ∃ eps1 : ℝ, 0 < eps1 ∧ eps1 < 1 ∧ ∀ eps, 0 < eps → eps ≤ eps1 →
       2^12*(1+n)*p11K1 C eps*eps*C.MF*C.sigma ≤ p11Alpha1 C eps*p11d1 C eps ∧
       ∃ A, P11FastSpec C eps A := sorry
-
 open Classical in
 def p11FastData {n : ℕ} (D : P11Physical n) (eps : ℝ) : P11FastData n :=
   if h : ∃ A, P11FastSpec (p11SecularData D) eps A then h.choose else default
-
 /-- Polar average as a linear operator on holomorphic germs; its value at zero has no square-root singularity. -/
 def p11PolarAverage {n : ℕ} (G : P11CVec n × P11Phase n → ℂ)
     (z : P11CVec n × P11CVec n) : ℂ :=
   KAM.torusAverage (fun theta : P11Vec n =>
     G (z.1,((fun i => Complex.sqrt (z.2 i/Real.pi)*Complex.sin (2*Real.pi*(theta i))),
       fun i => Complex.sqrt (z.2 i/Real.pi)*Complex.cos (2*Real.pi*(theta i)))))
-
 /-- Entire action extension is specified existentially; the raw principal-root integral is only compared on Re rho>0. -/
 theorem polar_avg {n : ℕ} {D : Set (P11CVec n)} (hD : IsOpen D) {r S : ℝ}
     (hr : 0 < r) (hr1 : r ≤ 1) (hS : 0 < S)
@@ -1770,30 +1742,69 @@ theorem polar_avg {n : ℕ} {D : Set (P11CVec n)} (hD : IsOpen D) {r S : ℝ}
       ∀ k : ℕ, (∀ J ∈ D, ∀ j < k, iteratedFDeriv ℂ j (fun z => G (J,z)) 0=0) →
         ∀ z ∈ D ×ˢ Metric.ball 0 (Real.pi*r^2/4),
           ‖AG z‖ ≤ 2^(2*n)*S*(4*‖z.2‖/(Real.pi*r^2))^((k+1)/2) := sorry
-
 /-- Blockwise radii on the existing action carrier; arbitrary center is complex. -/
 def p11Box {a b : ℕ} (c : P11CVec (a+b)) (r1 r2 : ℝ) : Set (P11CVec (a+b)) :=
   {I | (∀ i : Fin a, ‖I (Fin.castAdd b i)-c (Fin.castAdd b i)‖ < r1) ∧
     ∀ i : Fin b, ‖I (Fin.natAdd a i)-c (Fin.natAdd a i)‖ < r2}
-
 /-- Weighted bound over an arbitrary open action set, using existing wsum and WSummable. -/
 def p11WBound {n m : ℕ} (V : Set (P11CVec m)) (s : ℝ)
     (f : P11CVec n × P11CVec m → ℂ) (M : ℝ) : Prop :=
   ∀ I ∈ V, KAM.Weighted.WSummable f s I ∧ KAM.Weighted.wsum f s I ≤ M
-
+theorem aniso_field {a b : ℕ} {c : P11CVec (a+b)}
+    {r1 r2 rho1 rho2 s sigma M : ℝ}
+    (h1 : 0 < rho1) (h2 : 0 < rho2)
+    (hr1 : rho1 < r1) (hr2 : rho2 < r2)
+    (hs : 0 < sigma) (hs' : sigma < s)
+    {phi : P11Phase (a+b) → ℂ}
+    (hphi : DifferentiableOn ℂ phi
+      (KAM.complexStrip (a+b) s ×ˢ p11Box c r1 r2))
+    (hp : ∀ z ∈ KAM.complexStrip (a+b) s ×ˢ p11Box c r1 r2,
+      ∀ i : Fin (a+b), phi (z.1+Pi.single i 1,z.2)=phi z)
+    (hM : p11WBound (p11Box c r1 r2) s phi M) :
+    ∀ z ∈ KAM.complexStrip (a+b) (s-sigma) ×ˢ
+      p11Box c (r1-rho1) (r2-rho2),
+      let X := KAM.hamiltonianVectorFieldℂ phi z
+      max (‖X.1‖/sigma)
+        (max (‖(fun i : Fin a => X.2 (Fin.castAdd b i))‖/rho1)
+          (‖(fun i : Fin b => X.2 (Fin.natAdd a i))‖/rho2)) ≤
+        M/(min rho1 rho2*sigma) := sorry
+theorem polar_average_linear {n : ℕ} {D : Set (P11CVec n)}
+    (hD : IsOpen D) {r : ℝ} (hr : 0 < r)
+    {G H : P11CVec n × P11Phase n → ℂ}
+    (hG : DifferentiableOn ℂ G (D ×ˢ Metric.ball 0 r))
+    (hH : DifferentiableOn ℂ H (D ×ˢ Metric.ball 0 r))
+    (a b : ℂ) :
+    ∀ z ∈ D ×ˢ Metric.ball 0 (Real.pi*r^2/4),
+      (∀ i, 0 < (z.2 i).re) →
+      p11PolarAverage (a • G+b • H) z =
+        a*p11PolarAverage G z+b*p11PolarAverage H z := sorry
+theorem polar_average_normalization {n : ℕ}
+    (C : P11CVec n → ℂ) (z : P11CVec n × P11CVec n) :
+    p11PolarAverage (fun y => C y.1) z = C z.1 ∧
+    ∀ i : Fin n,
+      p11PolarAverage (fun y => (y.2.1 i^2+y.2.2 i^2)/2) z =
+        z.2 i/(2*Real.pi) := sorry
+theorem polar_extension_unique {n : ℕ} {D : Set (P11CVec n)}
+    (hD : IsOpen D) {R : ℝ} (hR : 0 < R)
+    {A B : P11CVec n × P11CVec n → ℂ}
+    (hA : DifferentiableOn ℂ A (D ×ˢ Metric.ball 0 R))
+    (hB : DifferentiableOn ℂ B (D ×ˢ Metric.ball 0 R))
+    (heq : ∀ z ∈ D ×ˢ Metric.ball 0 R, (∀ i, 0 < (z.2 i).re) → A z=B z) :
+    EqOn A B (D ×ˢ Metric.ball 0 R) := sorry
 theorem aniso_bracket {a b : ℕ} {c : P11CVec (a+b)} {r01 r02 r1 r2 rho1 rho2 s0 s sigma U W : ℝ}
     (h01 : r1 ≤ r01) (h02 : r2 ≤ r02) (h1 : 0 < rho1) (h2 : 0 < rho2)
     (hr1 : rho1 < r1) (hr2 : rho2 < r2) (hs : 0 < sigma) (hs' : sigma < s) (hs0 : s ≤ s0)
     {u w : P11Phase (a+b) → ℂ}
     (hu : DifferentiableOn ℂ u (KAM.complexStrip (a+b) s0 ×ˢ p11Box c r01 r02))
     (hw : DifferentiableOn ℂ w (KAM.complexStrip (a+b) s ×ˢ p11Box c r1 r2))
-    (hup : ∀ z, ∀ i : Fin (a+b), u (z.1+Pi.single i 1,z.2)=u z)
-    (hwp : ∀ z, ∀ i : Fin (a+b), w (z.1+Pi.single i 1,z.2)=w z)
+    (hup : ∀ z ∈ KAM.complexStrip (a+b) s0 ×ˢ p11Box c r01 r02,
+      ∀ i : Fin (a+b), u (z.1+Pi.single i 1,z.2)=u z)
+    (hwp : ∀ z ∈ KAM.complexStrip (a+b) s ×ˢ p11Box c r1 r2,
+      ∀ i : Fin (a+b), w (z.1+Pi.single i 1,z.2)=w z)
     (hU : p11WBound (p11Box c r01 r02) s0 u U) (hW : p11WBound (p11Box c r1 r2) s w W) :
     p11WBound (p11Box c (r1-rho1) (r2-rho2)) (s-sigma) (KAM.Canonical.poissonBracket u w)
       ((sigma/(s0-s+sigma)+min rho1 rho2/min (r01-r1+rho1) (r02-r2+rho2)) /
         (Real.exp 1*min rho1 rho2*sigma)*U*W) := sorry
-
 /-- Rectangular averaging statement; divisor hypotheses are the literal B1, not an assumed output. -/
 theorem aniso_avg {a b : ℕ} {c : P11CVec (a+b)} {r1 r2 s T alpha1 alpha2 E : ℝ}
     (hr1 : 0 < r1) (hr2 : 0 < r2) (hs : 0 < s) (hT : 0 < T)
@@ -1801,7 +1812,8 @@ theorem aniso_avg {a b : ℕ} {c : P11CVec (a+b)} {r1 r2 s T alpha1 alpha2 E : �
     {h : P11CVec (a+b) → ℂ} {f : P11Phase (a+b) → ℂ}
     (hh : DifferentiableOn ℂ h (p11Box c r1 r2))
     (hf : DifferentiableOn ℂ f (KAM.complexStrip (a+b) s ×ˢ p11Box c r1 r2))
-    (hp : ∀ z, ∀ i : Fin (a+b), f (z.1+Pi.single i 1,z.2)=f z)
+    (hp : ∀ z ∈ KAM.complexStrip (a+b) s ×ˢ p11Box c r1 r2,
+      ∀ i : Fin (a+b), f (z.1+Pi.single i 1,z.2)=f z)
     (hrealh : ∀ x : P11Vec (a+b), KAM.realInclusion (a+b) x ∈ p11Box c r1 r2 →
       (h (KAM.realInclusion (a+b) x)).im=0)
     (hrealf : KAM.Canonical.RealOn (KAM.complexStrip (a+b) s ×ˢ p11Box c r1 r2) f)
@@ -1836,20 +1848,16 @@ theorem aniso_avg {a b : ℕ} {c : P11CVec (a+b)} {r1 r2 s T alpha1 alpha2 E : �
       (∀ z ∈ U, ‖(Psi z).1-z.1‖ ≤ 9*E/(2*Real.pi*alpha2*min r1 r2)) ∧
       (∀ z ∈ U, ∀ u v, KAM.Canonical.symplFormC (fderiv ℂ Psi z u) (fderiv ℂ Psi z v)=
         KAM.Canonical.symplFormC u v) := sorry
-
 /-- Prepared chart rescaling, positions unchanged, both action blocks scaled by eps. -/
 def p11Rescale {n : ℕ} (J0 : P11Vec n) (eps : ℝ) (z : P11Phase (n+n)) : P11Phase (n+n) :=
   (z.1, Fin.append (fun i : Fin n => (J0 i : ℂ)+eps*z.2 (Fin.castAdd n i))
     (fun i : Fin n => eps*(2*Real.pi+z.2 (Fin.natAdd n i))))
-
 def p11PreparedBox (n : ℕ) : Set (P11Vec (n+n)) :=
   Set.pi univ (fun _ => Icc (-1/2 : ℝ) (1/2))
-
 def p11K2 {n : ℕ} (C : P11SecularData n) (nu eps : ℝ) : ℝ :=
   3*nu/(Real.pi*(C.sigma/12))*Real.log (1/eps)
 def p11s2 {n : ℕ} (C : P11SecularData n) (nu eps : ℝ) : ℝ :=
   min (p11s1 C eps/4) (C.gamma/(8*C.L*p11K2 C nu eps^(C.tau+1)))
-
 structure P11SlowData (n : ℕ) where
   Psi : P11Phase (n+n) → P11Phase (n+n)
   h0 : P11CVec (n+n) → ℂ
@@ -1858,12 +1866,10 @@ structure P11SlowData (n : ℕ) where
   f2 : P11Phase (n+n) → ℂ
   f3 : P11Phase (n+n) → ℂ
   deriving Inhabited
-
 /-- Coordinate multi-index derivative on the existing Pi carrier, in fixed coordinate order. -/
 def p11PartialVec {n m : ℕ} (alpha : Fin n → ℕ) (f : P11CVec n → P11CVec m) : P11CVec n → P11CVec m :=
   ((List.ofFn (fun i : Fin n => List.replicate (alpha i) i)).flatten).foldl
     (fun g i => fun x => fderiv ℂ g x (Pi.single i 1)) f
-
 def P11SlowSpec {n : ℕ} (D : P11Physical n) (nu eps c : ℝ) (A : P11SlowData n) : Prop :=
   let C := p11SecularData D
   let Fast := p11FastData D eps
@@ -1922,31 +1928,25 @@ def P11SlowSpec {n : ℕ} (D : P11Physical n) (nu eps c : ℝ) (A : P11SlowData 
     ‖(fun i : Fin n => (A.Psi z).2 (Fin.castAdd n i)-z.2 (Fin.castAdd n i))‖ ≤
       c*eps^(5/2 : ℝ)*Real.log (1/eps)^(3*C.tau+1) ∧
     ‖(A.Psi z).1-z.1‖ ≤ c*eps^(1/2 : ℝ)*Real.log (1/eps)^(3*C.tau+1))
-
 theorem avg_slow {n : ℕ} (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
     ∃ eps2 c2 : ℝ, 0 < eps2 ∧ eps2 < 1 ∧ 1 ≤ c2 ∧
       ∀ eps, 0 < eps → eps ≤ eps2 → ∃ A, P11SlowSpec D nu eps c2 A := sorry
-
 open Classical in
 def p11SlowConstant {n : ℕ} (D : P11Physical n) (nu : ℝ) : ℝ :=
   if h : 1 ≤ nu then ((avg_slow D h).choose_spec).choose else 1
-
 open Classical in
 def p11SlowData {n : ℕ} (D : P11Physical n) (nu eps : ℝ) : P11SlowData n :=
   if h : ∃ A, P11SlowSpec D nu eps (p11SlowConstant D nu) A then h.choose else default
-
 structure P11PreparedData (n : ℕ) where
   N : P11CVec (n+n) → ℂ
   P : P11Phase (n+n) → ℂ
   chain : Phase (n+n) → Phase (n*2)
   checkW : P11Vec (n+n) → P11Vec (n+n)
   deriving Inhabited
-
 def p11PreparedFreq {n : ℕ} (Q : P11PreparedData n) (I : P11CVec (n+n)) : P11CVec (n+n) :=
   fun i => fderiv ℂ Q.N I (Pi.single i 1)
 def p11PreparedFreqR {n : ℕ} (Q : P11PreparedData n) (I : P11Vec (n+n)) : P11Vec (n+n) :=
   fun i => (p11PreparedFreq Q (KAM.realInclusion (n+n) I) i).re
-
 def P11PreparedSpec {n : ℕ} (D : P11Physical n) (nu eps c : ℝ) (Q : P11PreparedData n) : Prop :=
   let C := p11SecularData D
   let A := p11PatchData D
@@ -1974,37 +1974,65 @@ def P11PreparedSpec {n : ℕ} (D : P11Physical n) (nu eps c : ℝ) (Q : P11Prepa
     p11PreparedFreqR Q y=Fin.append
       (fun i : Fin n => Q.checkW y (Fin.castAdd n i))
       (fun i : Fin n => eps*Q.checkW y (Fin.natAdd n i))) ∧
-  (∀ rho : P11Vec n, ‖rho‖ ≤ 1/2 →
+  (∀ rho : P11Vec n, ‖rho‖ < 5/4 →
     let psi := fun J : P11Vec n => Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J-C.J0)) rho)
-    p11JetBound true A.mu {J | ‖J-C.J0‖ ≤ eps/2} (psi-A.varpi) (c*eps*ell^exponent)) ∧
+    p11JetBound true A.mu {J | ‖J-C.J0‖ < p11s2 C nu eps/4} (psi-A.varpi) (c*eps*ell^exponent)) ∧
   (∀ direction, p11euclid direction=1 → ∀ j, 1 ≤ j → j ≤ A.mu+1 →
     ∀ y ∈ p11thick (p11PreparedBox n) (1/4),
       p11op (p11scalar 2 (p11PreparedFreqR Q) direction) j y ≤ (2 : ℝ)^(A.mu+1)*(2*C.L+1)^2) ∧
   (∀ z : Phase (n+n), KAM.realInclusion₂ (n+n) z ∈ V →
     fixedHamiltonian D.G D.m0 D.m eps (Q.chain z)=eps*(Q.N (KAM.realInclusion (n+n) z.2)+
       Q.P (KAM.realInclusion₂ (n+n) z)).re)
-
+def p11M0 (n mu : ℕ) (L : ℝ) : ℝ :=
+  (2*n+1 : ℝ)^(mu+1)*(2*L+1)
+def p11SlowNormalizedFreq {n : ℕ} (D : P11Physical n)
+    (nu eps : ℝ) (J rho : P11Vec n) : P11Vec (n+n) :=
+  let A := p11SlowData D nu eps
+  let I := Fin.append (KAM.realInclusion n J)
+    (fun i : Fin n => (eps*(2*Real.pi+rho i) : ℂ))
+  let W : P11CVec (n+n) :=
+    fun i => fderiv ℂ (A.h0+A.g2) I (Pi.single i 1)
+  Fin.append (fun i : Fin n => (W (Fin.castAdd n i)).re)
+    (fun i : Fin n => (W (Fin.natAdd n i)).re/eps)
+def P11PreparedFullSpec {n : ℕ} (D : P11Physical n)
+    (nu eps c : ℝ) (Q : P11PreparedData n) : Prop :=
+  let C := p11SecularData D
+  let A := p11PatchData D
+  let ell := Real.log (1/eps)
+  let exponent := 5*C.tau+2+(C.tau+1)*(A.mu+1)
+  P11PreparedSpec D nu eps c Q ∧
+  (∀ rho : P11Vec n, ‖rho‖ < 5/4 →
+    ∀ J : P11Vec n, ‖J-C.J0‖ < p11s2 C nu eps/4 →
+      Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J-C.J0)) rho) =
+        p11SlowNormalizedFreq D nu eps J rho) ∧
+  (∀ rho : P11Vec n, ‖rho‖ < 5/4 →
+    p11JetBound true A.mu {J | ‖J-C.J0‖ < p11s2 C nu eps/4}
+      ((fun J => Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J-C.J0)) rho))-A.varpi)
+      (c*eps*ell^exponent)) ∧
+  p11JetBound true A.mu (p11thick (p11PreparedBox n) (1/4))
+    (p11PreparedFreqR Q) (p11M0 n A.mu C.L) ∧
+  (∀ direction, p11euclid direction=1 →
+    ∀ y ∈ p11thick (p11PreparedBox n) (1/4),
+      p11op (p11scalar 2 (p11PreparedFreqR Q) direction) 0 y ≤
+        (2 : ℝ)^(A.mu+1)*(2*C.L+1)^2)
 theorem prepared {n : ℕ} (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
     ∃ eps3 c3 : ℝ, 0 < eps3 ∧ eps3 < 1 ∧ 1 ≤ c3 ∧
     ∀ eps, 0 < eps → eps ≤ eps3 →
       5*eps ≤ p11s2 (p11SecularData D) nu eps ∧
       c3*eps*Real.log (1/eps)^(5*(p11SecularData D).tau+2+
         ((p11SecularData D).tau+1)*((p11PatchData D).mu+1)) ≤ 1 ∧
-      ∃ Q, P11PreparedSpec D nu eps c3 Q := sorry
-
+      ∃ Q, P11PreparedFullSpec D nu eps c3 Q := sorry
 open Classical in
 def p11PreparedData {n : ℕ} (D : P11Physical n) (nu eps c : ℝ) : P11PreparedData n :=
-  if h : ∃ Q, P11PreparedSpec D nu eps c Q then h.choose else default
-
+  if h : ∃ Q, P11PreparedFullSpec D nu eps c Q then h.choose else default
 /-- The directional argument pays epsilon^mu before the target block pays epsilon^2. -/
 theorem amount {n : ℕ} (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
     ∃ epsA c3 : ℝ, 0 < epsA ∧ epsA < 1 ∧ 1 ≤ c3 ∧
     ∀ eps, 0 < eps → eps ≤ epsA →
       let Q := p11PreparedData D nu eps c3
-      P11PreparedSpec D nu eps c3 Q ∧
+      P11PreparedFullSpec D nu eps c3 Q ∧
       (1/2 : ℝ)*eps^((p11PatchData D).mu+2)*(p11PatchData D).beta ≤
         index_def 2 (p11PatchData D).mu (p11PreparedFreqR Q) (p11PreparedBox n) := sorry
-
 /-- General affine chart-scaling helper for the scalar amount (no identification of rho=1 and rho=2). -/
 theorem chart_scaling {n m rho mu : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     {K V : Set (P11Vec n)} (hK : IsCompact K) (hne : K.Nonempty) (hV : IsOpen V) (hKV : K ⊆ V)
@@ -2012,7 +2040,52 @@ theorem chart_scaling {n m rho mu : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     (y0 : P11Vec n) {lambda : ℝ} (hl : 0 < lambda) :
     min 1 (lambda^mu)*index_def rho mu w K ≤
       index_def rho mu (fun y => w (y0+lambda • y)) ((fun y => y0+lambda • y) ⁻¹' K) := sorry
-
+/-- Source chart-scaling geometry and Lebesgue measure transport. -/
+theorem chart_scaling_geometry {n : ℕ} (y0 : P11Vec n)
+    {lambda : ℝ} (hl : 0 < lambda) (K : Set (P11Vec n))
+    (hK : IsCompact K) (v : ℝ) :
+    let A := fun y : P11Vec n => y0+lambda • y
+    Metric.diam (A ⁻¹' K) = Metric.diam K/lambda ∧
+    p11thick (A ⁻¹' K) (v/lambda) = A ⁻¹' p11thick K v ∧
+    ∀ E : Set (P11Vec n),
+      volume (A ⁻¹' E) = ENNReal.ofReal (lambda^n)⁻¹*volume E := sorry
+theorem chart_scaling_jets {n m k : ℕ} (hn : 1 ≤ n)
+    {V : Set (P11Vec n)} (hV : IsOpen V)
+    {f : P11Vec n → P11Vec m} (hf : ContDiffOn ℝ k f V)
+    (y0 : P11Vec n) {lambda : ℝ} (hl : 0 < lambda) :
+    ∀ j ≤ k, ∀ y, y0+lambda • y ∈ V →
+      p11dg (fun x => f (y0+lambda • x)) j y =
+        lambda^j*p11dg f j (y0+lambda • y) ∧
+      p11op (fun x => f (y0+lambda • x)) j y =
+        lambda^j*p11op f j (y0+lambda • y) := sorry
+theorem chart_scaling_good {n m : ℕ} (y0 : P11Vec n)
+    {lambda : ℝ} (hl : 0 < lambda) (K : Set (P11Vec n))
+    (wt : (Fin m → ℤ) → P11Vec n → P11Vec m)
+    (psi : (Fin m → ℤ) → ℝ) :
+    let A := fun y : P11Vec n => y0+lambda • y
+    p11Good (A ⁻¹' K) (fun k y => wt k (A y)) psi =
+      A ⁻¹' p11Good K wt psi ∧
+    volume (K \ p11Good K wt psi) =
+      ENNReal.ofReal (lambda^n)*
+        volume ((A ⁻¹' K) \ p11Good (A ⁻¹' K) (fun k y => wt k (A y)) psi) := sorry
+/-- Source chart-scaling (b): transfer the upper full-tensor derivative bound. -/
+theorem chart_scaling_upper {n m k : ℕ} (hn : 1 ≤ n)
+    {V : Set (P11Vec n)} (hV : IsOpen V) {f : P11Vec n → P11Vec m}
+    (hf : ContDiffOn ℝ k f V) {E : Set (P11Vec n)} (hEV : E ⊆ V)
+    {M : ℝ} (hM : 0 ≤ M)
+    (hb : ∀ j, 1 ≤ j → j ≤ k → ∀ y ∈ E, p11op f j y ≤ M)
+    (y0 : P11Vec n) {lambda : ℝ} (hl : 0 < lambda) :
+    ∀ j, 1 ≤ j → j ≤ k → ∀ y, y0+lambda • y ∈ E →
+      p11op (fun x => f (y0+lambda • x)) j y ≤ max 1 (lambda^k)*M := sorry
+/-- Source chart-scaling (c): the closeness threshold is rechecked after scaling. -/
+theorem chart_scaling_closeness {n m mu : ℕ} (hn : 1 ≤ n)
+    {V : Set (P11Vec n)} (hV : IsOpen V) {f : P11Vec n → P11Vec m}
+    (hf : ContDiffOn ℝ mu f V) {E : Set (P11Vec n)} (hEV : E ⊆ V)
+    {theta beta' : ℝ} (ht : 0 ≤ theta) (hb : p11JetBound false mu E f theta)
+    (y0 : P11Vec n) {lambda : ℝ} (hl : 0 < lambda)
+    (hrecheck : max 1 (lambda^mu)*theta ≤ beta'/2) :
+    p11JetBound false mu ((fun y => y0+lambda • y) ⁻¹' E)
+      (fun y => f (y0+lambda • y)) (beta'/2) := sorry
 /-- Unconditional physical output: Part 13 owns FixKol assembly and the frozen provider. -/
 theorem wrapper {n : ℕ} (D : P11Physical n) :
     ∃ eps0 : ℝ, 0 < eps0 ∧ ∀ eps, 0 < eps → eps < eps0 →
@@ -2021,31 +2094,26 @@ theorem wrapper {n : ℕ} (D : P11Physical n) :
         ∀ z ∈ S, ∃ w : P11Vec (n*2), ∃ K : P11Vec (n*2) → Phase (n*2),
           ∃ theta0, z=K theta0 ∧ Set.range K ⊆ S ∧
             IsPhysicalTorus (fixedHamiltonian D.G D.m0 D.m eps) w K := sorry
-
 /-- wr-nu keeps the order independent of epsilon and every intermediate averaging constant. -/
 def p11Order (mu : ℕ) (kappa a : ℝ) : ℝ :=
   max ((mu+2)*(mu*(mu+1)+2)+2) (((mu+2)*a+1)/kappa+2)
-
 /-- Generic logarithmic domination needed in both finite averaging stages and wr-nu. -/
 theorem e4 {a b : ℝ} (ha : 0 < a) (hb : 0 ≤ b) :
     Tendsto (fun eps : ℝ => eps^a*Real.log (1/eps)^b) (nhdsWithin 0 (Ioi 0)) (nhds 0) := sorry
-
 theorem e5 (a b : ℕ) (h : Odd a ∨ Odd b) :
     (∫ t in (0 : ℝ)..1, Real.sin (2*Real.pi*t)^a*Real.cos (2*Real.pi*t)^b)=0 := sorry
-
 /-- Reality of the maximal homological solution; this supplies the guard used by cs-lip. -/
 theorem homological_maximal_real {n : ℕ} {r T D : ℝ} (hr : 0 < r) (hT : 0 < T) (hD : 0 < D)
     {B : Set (P11CVec n)} (hB : IsOpen B) (w : P11CVec n → P11CVec n)
     (hw : DifferentiableOn ℂ w B)
     (hdiv : ∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
     (P : P11CVec n × P11CVec n → ℂ) (hP : p11AngleClass r B P)
-    (hpoly : ∀ z, KAM.Weighted.truncate T P z=P z)
+    (hpoly : ∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T P z=P z)
     (hwr : ∀ b : P11Vec n, KAM.realInclusion n b ∈ B → ∀ i, (w (KAM.realInclusion n b) i).im=0)
     (hpr : ∀ x b : P11Vec n, KAM.realInclusion n b ∈ B →
       (P (KAM.realInclusion n x,KAM.realInclusion n b)).im=0) :
     ∀ x b : P11Vec n, KAM.realInclusion n b ∈ B →
       (p11Solve T w P (KAM.realInclusion n x) (KAM.realInclusion n b)).im=0 := sorry
-
 /-- Every-order parameter clause of homological-maximal(c), scalar and average. -/
 theorem homological_maximal_param {n : ℕ} {r delta T D M t tp : ℝ}
     (hr : 0 < r) (hd : 0 < delta) (hdr : delta < r) (hT : 0 < T)
@@ -2053,21 +2121,20 @@ theorem homological_maximal_param {n : ℕ} {r delta T D M t tp : ℝ}
     (w : P11CVec n → P11CVec n) (hw : DifferentiableOn ℂ w (KAM.actionNbhd E t))
     (hdiv : ∀ b ∈ KAM.actionNbhd E t, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
     (P : P11CVec n × P11CVec n → ℂ) (hP : p11AngleClass r (KAM.actionNbhd E t) P)
-    (hpoly : ∀ z, KAM.Weighted.truncate T P z=P z)
+    (hpoly : ∀ z ∈ Set.univ ×ˢ KAM.actionNbhd E t,
+      KAM.Weighted.truncate T P z=P z)
     (hb : p11Bound (KAM.complexStrip n r ×ˢ KAM.actionNbhd E t) P M)
     {j : ℕ} (hj : 1 ≤ j) :
     ∀ theta ∈ KAM.complexStrip n (r-delta), ∀ b ∈ KAM.actionNbhd E tp,
       ‖iteratedFDeriv ℂ j (p11Solve T w P theta) b‖ ≤
         (j : ℝ)^j*p11Lambda n delta*M/(Real.pi*D*(t-tp)^j) ∧
       ‖iteratedFDeriv ℂ j (p11AngleAverage P) b‖ ≤ (j : ℝ)^j*M/(t-tp)^j := sorry
-
 /-- Sign bridge for the existing frozen field and Poisson bracket, independent of any solving equation. -/
 theorem p11_normal_affine_bracket {n : ℕ} (h : ℂ) (w : P11CVec n)
     {p0 : P11CVec n → ℂ} {p1 : P11CVec n → P11CVec n} {z : P11Phase n}
     (h0 : DifferentiableAt ℂ p0 z.1) (h1 : DifferentiableAt ℂ p1 z.1) :
     KAM.Canonical.poissonBracket (fun z : P11Phase n => h+∑ i, w i*z.2 i) (p11Affine p0 p1) z=
       -(fderiv ℂ p0 z.1 w+∑ i, fderiv ℂ p1 z.1 w i*z.2 i) := sorry
-
 /-- Coefficient bounds of cutoff(a), needed separately by cs-cutoff. -/
 theorem cutoff_coefficients {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
     (hr : 0 < r) (hs : 0 < s) (hT : 0 ≤ T) (hd : 0 < d) (hdr : d < r)
@@ -2076,7 +2143,6 @@ theorem cutoff_coefficients {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
     p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R0 T R) ((1+p11Error n T d)*eps) ∧
     p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R1 T R) ((1+p11Error n T d)*eps/s) ∧
     ∀ z, p11Cutoff T R z=p11R0 T R (z.1.1,z.2)+∑ i, p11R1 T R (z.1.1,z.2) i*z.1.2 i := sorry
-
 /-- Additional clauses of canonical-step(ii), with the same unmodified source premises. -/
 theorem canonical_step_simple_inverse {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     {w : P11CVec n → P11CVec n} {R : P11Family n → ℂ} (H : P11StepHyp S h w R) :
@@ -2091,7 +2157,6 @@ theorem canonical_step_simple_inverse {n : ℕ} {S : P11Step n} {h : P11CVec n �
       p11Flow (p11StepPhi S w R z.2) (S.r-S.d-S.delta) S.s S.sigma (-1) (p11StepMap S w R z)=z.1 ∧
       p11StepMap S w R
         (p11Flow (p11StepPhi S w R z.2) (S.r-S.d-S.delta) S.s S.sigma (-1) z.1,z.2)=z.1 := sorry
-
 /-- lambda definition, its lattice identity and both bounds are separate from the cohomological theorem. -/
 theorem p11_lambda_spec {n : ℕ} (hn : 1 ≤ n) {delta : ℝ} (hd : 0 < delta) :
     Summable (fun k : {k : Fin n → ℤ // k ≠ 0} =>
@@ -2100,21 +2165,31 @@ theorem p11_lambda_spec {n : ℕ} (hn : 1 ≤ n) {delta : ℝ} (hd : 0 < delta) 
       p11Lambda n delta ∧
     p11Lambda n delta ≤ (1+1/(Real.pi*delta))^n-1 ∧
     p11Lambda n delta ≤ (4*n/(Real.pi*delta))^n := sorry
-
 /-- The least positive index is meaningful only after rank_compact gives nonempty candidates. -/
 def p11Index {n m : ℕ} (rho : ℕ) (w : P11Vec n → P11Vec m) (K : Set (P11Vec n)) : ℕ :=
   sInf {mu | 1 ≤ mu ∧ 0 < index_def rho mu w K}
-
 def p11Amount {n m : ℕ} (rho : ℕ) (w : P11Vec n → P11Vec m) (K : Set (P11Vec n)) : ℝ :=
   index_def rho (p11Index rho w K) w K
-
 /-- data-star: all the parameter geometry is fixed before epsilon; output bounds are uniform. -/
 theorem data_star {n : ℕ} (D : P11Physical n) :
-    IsCompact (p11PreparedBox n) ∧ volume (p11PreparedBox n)=1 ∧ Metric.diam (p11PreparedBox n)=1 ∧
+    IsCompact (p11PreparedBox n) ∧ volume (p11PreparedBox n)=1 ∧
+    Metric.diam (p11PreparedBox n)=1 ∧
     0 < (1/4 : ℝ) ∧ 0 < (1/2 : ℝ) ∧
-    (max ((n : ℝ)*(p11PatchData D).mu) (2*n)) >
-      max (((n+n : ℕ) : ℝ)*(p11PatchData D).mu/2-1) (((n+n : ℕ) : ℝ)-1) := sorry
-
+    max ((n : ℝ)*(p11PatchData D).mu) (2*n) >
+      max (((n+n : ℕ) : ℝ)*(p11PatchData D).mu/2-1)
+        (((n+n : ℕ) : ℝ)-1) ∧
+    ∀ nu : ℝ, 1 ≤ nu →
+      ∃ epsA c : ℝ, 0 < epsA ∧ epsA < 1 ∧ 1 ≤ c ∧
+      ∀ eps, 0 < eps → eps ≤ epsA →
+        let C := p11SecularData D
+        let A := p11PatchData D
+        let beta := (1/2 : ℝ)*eps^(A.mu+2)*A.beta
+        let M := (2 : ℝ)^(A.mu+1)*(2*C.L+1)^2
+        0 < beta ∧ beta ≤ min 1 M ∧
+        1 ≤ p11M0 n A.mu C.L ∧
+        let Q := p11PreparedData D nu eps c
+        P11PreparedFullSpec D nu eps c Q ∧
+          beta ≤ index_def 2 A.mu (p11PreparedFreqR Q) (p11PreparedBox n) := sorry
 /-- af-rest(f): joint parameter holomorphy is a proved augmented-field bridge. -/
 theorem affine_flow_param {n : ℕ} {B : Set (P11CVec n)} (hB : IsOpen B)
     (p0 : P11CVec n × P11CVec n → ℂ) (p1 : P11CVec n × P11CVec n → P11CVec n)
@@ -2125,7 +2200,6 @@ theorem affine_flow_param {n : ℕ} {B : Set (P11CVec n)} (hB : IsOpen B)
     DifferentiableOn ℂ (fun z : P11CVec n × P11Phase n =>
       p11Flow (p11Affine (fun theta => p0 (theta,z.1)) (fun theta => p1 (theta,z.1))) r s sigma 1 z.2)
       (B ×ˢ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) := sorry
-
 /-- rl-const: induced max operator bound, from an actual finite trigonometric polynomial. -/
 theorem p11_trig_derivative_bound {n : ℕ} (hn : 1 ≤ n) {T : ℝ} (hT : 0 ≤ T)
     (S : Finset (Fin n → ℤ)) (a : (Fin n → ℤ) → P11CVec n)
@@ -2133,10 +2207,11 @@ theorem p11_trig_derivative_bound {n : ℕ} (hn : 1 ≤ n) {T : ℝ} (hT : 0 ≤
     ‖fderiv ℂ (fun theta : P11CVec n => ∑ k ∈ S, KAM.character k theta • a k)
       (KAM.realInclusion n x)‖ ≤
       2*Real.pi*T*sSup (Set.range (fun i : Fin n => ∑ k ∈ S.erase 0, ‖a k i‖)) := sorry
-
 #print axioms KAM.Planetary.sublevel
 #print axioms KAM.Planetary.canonical_step
 #print axioms KAM.Planetary.wrapper
+#print axioms KAM.Planetary.prepared
+#print axioms KAM.Planetary.data_star
 end KAM.Planetary
 end
 ```
