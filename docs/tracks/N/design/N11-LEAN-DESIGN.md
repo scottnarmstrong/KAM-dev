@@ -20,6 +20,29 @@ These are source-text pins, distinct from the shared build used for elaboration.
 
 The exact copied N6–7 Revision-2 carrier/core definitions are present in Appendix A; the live upstream signature file may continue to change.
 
+## Revision 2
+
+Resolves independent audit 1 (FAIL); these are interface repairs, not proof closure.
+
+| Finding | Resolution and implementation owner |
+|---|---|
+| F1 (major) | `energy_free` now assumes `RealFastConvex`, whose upper Hessian bound quantifies only over real actions. `FastConvex` retains its complex bound for `resonant`/domain. N11-E3 proves `FastConvex.toRealFastConvex` by real/complex Hessian transport; N11-M2 uses this bridge before N11-L2. Energy has no complex Hessian premise. |
+| F2 (major), canonical_map | Both Φ and Ψ explicitly map the intermediate domain U into Dom(R−ρ,s−σ). N11-F2 exports the inverse image clause. |
+| F2 (major), iterative | N11-H exports holomorphy and image inclusion on Dom(R−3ρ/2,s−3σ/2), integer-angle equivariance there, and the actual negative-time flow left inverse on Dom(R−2ρ,s−2σ). N11-K1/K2 consume these exports when composing nested maps. All earlier estimates and witnesses remain. |
+| F2 (major), real_system | N11-D exports integer-angle periodicity of the real weighted vector field, in addition to scalar periodicity. N11-J2 uses it for periodic continuation. |
+| F3 (medium) | `real_system_resonant` assumes `InClass`, with no reality clause, and exports span membership of both real and imaginary angular derivative vectors. The energy consumer takes the first conjunct; complex observables retain the full source assertion. |
+| F4 (medium) | Threshold/reuse and graph inventory use root `tendsto_exp_div_rpow_atTop` (or root `tendsto_exp_mul_div_rpow_atTop` with positive multiplier), from `Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics`. |
+| N1 | N11-G remains blocked on reconciliation with actual Part-8 covering/cutoff signatures for all four listed geometric inputs; no upstream statement is invented. Remove the twelve exact N6–7 staging definitions when owner modules land. |
+| N2 | Required imports are explicit below and in Appendix A. The equal-size `KAM.hamiltonian_real_fderiv` is only a proof pattern: N11-D supplies regrouping and local derivative transport on EC n k, without a replacement-field equality hypothesis. |
+| N3 | Preserve the open-ball interpretation at C L31 and report the stale adjoint locator B L69–86 (actual end L73); both remain in the issue list and handoff. No source or graph edits. |
+
+Implementation import closure: `KAM.Weighted.SupWeighted` for sup/weighted conversion,
+`KAM.Weighted.Algebra` for algebra estimates, `KAM.ODE.Continuation` for `gen_continuation`,
+and `Mathlib.Analysis.Complex.ExponentialBounds` for `Real.exp_one_lt_d9`.
+`KAM.Canonical.FlowRegular` and `KAM.Canonical.FlowInverse` remain explicit N11-E1 imports.
+N11-O imports the asymptotics module for both root-level limit declarations. No additional source
+premise is introduced by any repair; the provider declaration remains byte-identical to the frozen type.
+
 ## Decisions
 
 1. Follow route (ii), with a local extended weighted bracket and a frequency-free energy argument. Do not
@@ -81,6 +104,7 @@ Every future Lean brief repeats the repository hard rules verbatim:
 | Canonical condition | `ExtCanonical` | DΨ Ωc DΨᵀ=Ωc tested on every pair of complex linear functionals |
 | Euclidean size | existing `KAM.Nekhoroshev.euclid` | sqrt of sum of coordinate norm squares; never a global inner-product instance |
 | Resonant span | existing designed `KAM.Stability.resSpan` | literal real span of integer frequencies |
+| Fast Hessian assumptions | `RealFastConvex`, `FastConvex`, `FastConvex.toRealFastConvex` | real-slice upper bound for energy; complex upper bound for resonant/domain; extraction proved in Hessian |
 | Resonance closeness | `NearResonance` | dual expression of projection norm ≤δ: absolute pairing with every v in span ≤δ|v|₂ |
 | Allowed transfer sizes | existing designed `KAM.Stability.IsActionNorm` | covers max norm and `euclid`, no new norm instance |
 | Source data | `PartialData` | the exact frozen premises as fields, no stability or normal-form conclusion |
@@ -90,7 +114,7 @@ Every future Lean brief repeats the repository hard rules verbatim:
 Widths are geometric; Fourier weight is exp(2πs|j|₁), angles period one. All coefficient-reading derivative
 statements carry positive strip width. `WBound` carries summability, and explicit nonnegative numerical
 bounds are supplied where arithmetic requires them, including empty base sets. `ExtCompose`, `ExtNFHyp`,
-`FastConvex`, `ExtConjHyp`, `DefiniteSign` expand only source assumptions or a named conditional map contract.
+`RealFastConvex`, `FastConvex`, `ExtConjHyp`, `DefiniteSign` expand only source assumptions or a named conditional map contract.
 In `resonant`, the normal-form perturbation smallness is derived from ε≤mr²/2¹⁴, not packaged as a premise.
 The `nf` theorem receives that source smallness separately. No global instances are installed.
 
@@ -107,14 +131,14 @@ Already implemented weighted declarations are imported, never copied.
 | Part 4 / ext-part4, bracket, hom, domain | `KAM.Weighted.{Dom,InClass,WBound,coeff,coefficients_deriv,coefficients_repr,coeff_differentiableOn,sup_le_wbound,wbound_of_sup_bound,wbound_mul,cauchy_theta,cauchy_action,general_cauchy,projections,truncation_tail,projMode,truncate}` | instantiate base dimension n+(k+k), base b.base; same constants; sum angular derivatives at fixed base before taking sup |
 | Part 5 / flow, symplectic, canonical-map | `KAM.Canonical.{flow,SmallField,gaugeInterior,flow_a,flow_b,flow_c,flow_d,flow_e}` | three-block gauge, holomorphic small field; a–d generic directly, e by regrouping and uniqueness; c gives inverse and derivative estimates |
 | Part 3 / continuation, transfer | `KAM.ODE.{IsSolutionIn,IsMaximalSolution,gen_maximal,gen_uniqueness,gen_continuation,gen_uniform_exist}` | real C1 periodic field on ℝⁿ×U; compact transverse tail; generalize the proof of `gen_continuation_periodic` to independent N |
-| Part 1 / hessian, domain | `KAM.Nekhoroshev.{euclid,norm_le_euclid}`, `KAM.holomorphic_regularity_of_finiteDimensional`, `KAM.hamiltonian_real_fderiv` | finite-coordinate Cauchy/real restriction; use raw arbitrary-open-domain arguments, not ball-only `HeadHyp` |
+| Part 1 / hessian, domain | `KAM.Nekhoroshev.{euclid,norm_le_euclid}`, `KAM.holomorphic_regularity_of_finiteDimensional`, `KAM.hamiltonian_real_fderiv` | finite-coordinate Cauchy/real restriction; `hamiltonian_real_fderiv` is an equal-size proof pattern only: N11-D proves unequal-carrier derivative transport locally using regrouping, never an equality premise; use arbitrary-open-domain arguments |
 | Part 6 / hom, nf | `KAM.NormalForm.{freq,dotC,IsNonresonant,FreqLipschitz,DivisorBound,divisor,starNorm,homological_param,homGenParam,homResParam,RealOnParam}` | Revision-2 exact signatures, independent base dimension; singleton fast base, real frequencies; **do not** apply canonical n=n homological theorem on unequal extended coordinates |
 | Part 6 / nf composition | graph `bpN:p6:telescope`, owners `KAM.NormalForm.telescope`, `KAM.NormalForm.chain` | componentwise displacement telescoping; source-inspected generalization to extended coordinate space, no full upstream restatement invented here |
 | Part 7 / real-system, energy-free | `KAM.Stability.{resSpan,IsActionNorm,isActionNorm_norm,isActionNorm_euclid,exit_ball}` | exact existing designed carriers; repeat fixed-base Fourier argument for extended base. `no_exit` and `energy_core` do not apply to slow-dependent Hamiltonians |
 | Part 8 / block-data | graph `bpN:p8:covering`, reserved `KAM.Nekhoroshev.covering` | singleton {Ic}; p=9/8,b=1/32,r0,M1,m1,K,A; need radius bounds, block membership, strict span-projection closeness, full-rank block exclusion |
 | Part 8 / block-data | graph `bpN:p8:cutoffs`, reserved `KAM.Nekhoroshev.cutoffs` | Kgeom=K, Kanalytic=K/√n; consume divisors for ℓ¹ cutoff, not Euclidean cutoff K |
 | Part 9 / constants | graph `bpN:p9:setting`, `bpN:p9:elementary` | provenance only; formulas and elementary inequalities rederived locally with b=1/32, not Part 9's b=1/8 contract |
-| Numeric / threshold | `Real.{rpow_add,rpow_neg,rpow_lt_rpow_of_exponent_gt,tendsto_exp_div_rpow_atTop}` | positive μ, positive exponent gaps; exp dominates each polynomial |
+| Numeric / threshold | `Real.{rpow_add,rpow_neg,rpow_lt_rpow_of_exponent_gt}`, root `tendsto_exp_div_rpow_atTop`, `tendsto_exp_mul_div_rpow_atTop` | positive μ, positive exponent gaps; exp dominates each polynomial |
 | Chain / orbit | `HasFDerivAt.comp`, `HasFDerivAt.hasDerivAt` (via curve composition), `HasDerivAt.comp` | explicit coordinate linear equivalence and frozen differentiability guard |
 
 The N6–7 Revision-2 update arrived during this design. Its F1 correction supplies `map_zero` and
@@ -127,8 +151,8 @@ projected frequency and identifies its directional derivative with the extended 
 canonical homological theorem is not used on an incompatible carrier. Part-6 telescope is still
 canonical-coordinate-specific; N11-K2 generalizes its finite-map proof locally, rather than applying it unchanged.
 
-Part 8 is concurrent and its full statement is intentionally not fabricated. Before dispatch of N11-G,
-reconcile the two reserved names with its actual design and check the strict closeness clause for Λ=0
+Part 8 is concurrent and its full statement is intentionally not fabricated.
+N11-G is BLOCKED until the owner signatures explicitly supply singleton-base radius bounds, K/√n analytic cutoff divisors, strict resonance closeness and full-rank exclusion. `block_data` is a target, not evidence for these inputs. Reconcile the two reserved names with its actual design and check the strict closeness clause for Λ=0
 separately (projection zero). Part 6/7 exact owner signatures are in the already delivered design;
 new generalizations get distinct extended declarations in this design. No `sorry` stub theorem is imported.
 
@@ -145,7 +169,7 @@ unless qualified. This includes every graph node sourced in the three files, plu
 |---|---|---|---|
 | `bpN:p0:partial` | `KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev` | `blueprint-N/parts/p0-conventions.tex#bpN:p0:partial@L319-L335` | `C#bpN:p0:partial@L170-L180` |
 | `bpN:p11:ext-num` | Mathlib numerical exp bounds; `bracket_dominated` arithmetic | `A#bpN:p11:ext-num@L40-L40` | — |
-| `bpN:p11:ext-rpow` | `Real.rpow_add`, `Real.tendsto_exp_div_rpow_atTop` | `A#bpN:p11:ext-rpow@L41-L41` | — |
+| `bpN:p11:ext-rpow` | `Real.rpow_add`, `tendsto_exp_div_rpow_atTop` | `A#bpN:p11:ext-rpow@L41-L41` | — |
 | `bpN:p11:ext-chain` | `HasFDerivAt.comp`, `HasDerivAt.comp` | `A#bpN:p11:ext-chain@L42-L42` | — |
 | `bpN:p11:wfield` | `wfield`, `realWfield`, `extBracket` | `A#bpN:p11:wfield@L48-L56` | — |
 | `bpN:p11:orbit` | `orbit`, `theta`, `thetaInv`, `converted` | `A#bpN:p11:orbit@L58-L61` | `A#bpN:p11:orbit@L62-L65` |
@@ -321,26 +345,26 @@ at theorem boundaries if elaboration or file size requires it. Every module uses
 
 | Package / wave | Exact module path(s) | Declarations and inputs | Estimated lines |
 |---|---|---|---|
-| N11-A / 1 | `Setting.lean`, `Coordinates.lean` | Ext/projections/wfield/bracket, block geometry, extReal/ext_class, ExtCanonical, ExtNFHyp, ExtConjHyp, reExtMap, NearResonance; orbit, θ/θ⁻¹; frozen defs, Weighted/Norm | 300+300 |
+| N11-A / 1 | `Setting.lean`, `Coordinates.lean` | Ext/projections/wfield/bracket, FastConvex/RealFastConvex source bundles, block geometry, extReal/ext_class, ExtCanonical, ExtNFHyp, ExtConjHyp, reExtMap, NearResonance; orbit, θ/θ⁻¹; frozen defs, Weighted/Norm | 300+300 |
 | N11-B / 1 | `Constants.lean` | PartialData/PartialConstants, DefiniteSign, exponents, literal numerical formulas; frozen exponents, Weighted.coth | 300 |
 | N11-C / 2 | `Bracket.lean`, `VectorField.lean` | bracket/bracket_g, scaled/vf; A, Weighted algebra/Cauchy | 450+250 |
-| N11-D / 2 | `RealSystem.lean`, `Continuation.lean` | real_system and Fourier gradient wrappers; continuation; A, ODE/Maximal/Continuation, exact Part7 carriers | 450+300 |
+| N11-D / 2 | `RealSystem.lean`, `Continuation.lean` | real_system incl field periodicity; Fourier gradient real/imaginary spans; continuation; A, ODE/Maximal/Continuation, exact Part7 carriers | 450+300 |
 | N11-E1 / 3 | `Flow.lean`, `Symplectic.lean` | flow wrapper/reality, Ωc invariance/determinant/field, conj; C,D, Canonical.Flow/FlowRegular/FlowInverse | 200+500 |
 | N11-E2 / 3 | `Lie.lean`, `Adjoint.lean` | ext_taylor/derivatives/remainder; adjoint product; A,C, generic calculus | 350+350 |
-| N11-E3 / 3 | `Domain.lean`, `Hessian.lean` | physicalDomain/block_setting/blockPert, complex domain, field equality, selected sign, FastConvex/Hessian; A,B, frozen perturbation/definiteness, real restriction | 450+350 |
+| N11-E3 / 3 | `Domain.lean`, `Hessian.lean` | physicalDomain/block_setting/blockPert, complex domain, field equality, selected sign, FastConvex/RealFastConvex and toRealFastConvex; A,B, frozen perturbation/definiteness, real restriction | 450+350 |
 | N11-F1 / 4 | `Composition.lean`, `Transform.lean` | composition incl norm convergence; transform/integral; C,E1,E2, Weighted.Parametric | 600+450 |
-| N11-F2 / 4 | `CanonicalMap.lean` | canonical-map a–e and slow displacement; C,E1 | 450 |
+| N11-F2 / 4 | `CanonicalMap.lean` | canonical-map a–e incl both map images and slow displacement; C,E1 | 450 |
 | N11-F3 / 3 | `Homological.lean` | homGenerator wrapper/hom; A, exact Part6 homological_param/divisor, extended Part4 | 450 |
 | N11-G / 4 | `BlockData.lean` | block_data; B,E3, Part8 covering/cutoffs (reconcile first) | 400 |
-| N11-H / 5 | `Iterative.lean` | iterative; C,F1,F2,F3, extended finite decomposition | 650 |
+| N11-H / 5 | `Iterative.lean` | iterative incl holomorphy, image, equivariance and flow left inverse; C,F1,F2,F3 | 650 |
 | N11-J1 / 5 | `Preimage.lean` | preimage, positive margins; A,E1, general_cauchy and Banach contraction | 300 |
 | N11-J2 / 6 | `Transfer.lean` | transfer_conditional; D,E1,J1, ODE uniqueness/maximal | 550 |
 | N11-K1 / 6 | `NormalFormInduction.lean` | nf admissibility, case A/B, N=0, geometric induction; H | 650 |
 | N11-K2 / 7 | `NormalForm.lean` | nf joint witness and displacement; K1, extended telescope argument | 550 |
 | N11-L1 / 4 | `EnergyIdentity.lean` | ω-free identity and transverse pairing estimate; C,D, generic FTC | 400 |
-| N11-L2 / 5 | `Energy.lean` | energy_free small-tube exit and constants; L1,E3, Part7 exit_ball proof pattern | 550 |
+| N11-L2 / 5 | `Energy.lean` | energy_free with RealFastConvex only; L1, Part7 exit_ball proof pattern; real-bound bundle declared in Setting | 550 |
 | N11-M1 / 8 | `Nonresonant.lean` | nonresonant; K2,J2, Fourier derivative bound | 350 |
-| N11-M2 / 8 | `Resonant.lean` | resonant; K2,J2,L2; prove T3, no assumed confinement | 450 |
+| N11-M2 / 8 | `Resonant.lean` | resonant; K2,J2,L2,E3; extract RealFastConvex via toRealFastConvex before energy_free; prove T3 | 450 |
 | N11-N / 9 | `Block.lean` | block; G,M1,M2,E3; Θ versus nontrivial lattice, fixed λ scaling | 450 |
 | N11-O / 2 | `Threshold.lean` | threshold; B, exponents, rpow/exp asymptotics; all constants before μ | 450 |
 | N11-P / 10 | `KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean` | exact provider theorem; N,O,Coordinates,Hessian, frozen defs only | 300 |
@@ -405,20 +429,26 @@ internal lemmas use less. No helper changes the anchor ABI. Final sealing is out
 - Elaborating `sorry` statements is type checking only. It supplies no Lean proof of normal form, energy confinement,
   stopped transfer, or the frozen result. `#print axioms` of the provider draft includes `sorryAx` as expected.
 
-Final signature check (2026-10-28):
+Revision-2 validation (2026-10-28):
 `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-n11 .drafts/scratch/N11Signatures.lean`
-exited 0 with exactly 44 `declaration uses sorry` warnings and no other compiler diagnostics.
-The file has 812 lines. Appendix A and the untracked delivery are byte-identical, and the provider command's
-type is byte-identical to the frozen anchor (namespace differs). Full lint and axiom-inspection receipts
-are recorded in the handoff. `scripts/lint_sources.sh` exited 0: module check PASS (412 Lean files),
-FROZEN-ANCHOR GUARD OK, ABI HASHES OK (144 frozen declarations). Its ABI elaboration was routed through
-the required gate using a local PATH wrapper. The separate gated axiom inspection exited 0; `nf`,
-`energy_free`, `transfer_conditional` and the provider draft each list
-`[propext, sorryAx, Classical.choice, Quot.sound]`. These checks certify design typing, not theorem proof or source-audit closure.
+exited 0 with exactly 45 `declaration uses sorry` warnings and no other compiler diagnostics
+(receipt `.drafts/scratch/N11-r2-signatures.log`). The 845-line signatures file, scratch copy and
+Appendix A are byte-identical; the provider command type is byte-identical to the frozen anchor.
+All 123 graph inventory entries and all source fingerprints are retained.
+A separate invocation of the same gate on `.drafts/scratch/N11R2Inspection.lean` exited 0:
+all seven API-name probes passed, and `nf`, `energy_free`, `FastConvex.toRealFastConvex`,
+`transfer_conditional` and the provider each printed `[propext, sorryAx, Classical.choice, Quot.sound]`.
+Receipt: `.drafts/scratch/N11-r2-inspection.log`. All theorem bodies remain `sorry`;
+these checks establish design typing and API availability, not mathematical proof closure.
+`scripts/lint_sources.sh` exited 0: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`,
+`FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (144 frozen declarations)`.
+Receipt: `.drafts/scratch/N11-r2-lint.log`; the ABI invocation used the same signature gate via
+`.drafts/scratch/lint-bin/lake`. No production Lean module was changed, so the common brief's
+signature-only check replaces a targeted module build. `git diff --check` passed.
 
 ## Appendix A. Exact signatures
 
-`N11Signatures.lean`: 812 lines; SHA-256 `eed38f9bacd07e1d939bba378e8a19d6666221c243cbfaee5b4bcf0643204346`.
+`N11Signatures.lean`: 845 lines; SHA-256 `23bd2cc2645243b3357acccda6e04ff69fad4d055963010025c582f3c886a0e4`.
 
 ```lean
 /-
@@ -428,6 +458,10 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Weighted.SupWeighted
+public import KAM.Weighted.Algebra
+public import KAM.ODE.Continuation
+public import Mathlib.Analysis.Complex.ExponentialBounds
 public import KAM.Weighted.Projections
 public import KAM.Weighted.Cauchy
 public import KAM.Canonical.Flow
@@ -725,6 +759,7 @@ theorem canonical_map (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ V : ℝ} 
     let Ψ := extFlow b R s ρ σ φ (-1)
     let U := Dom n b.base (R-3*ρ/2) (s-3*σ/2)
     DifferentiableOn ℂ Φ U ∧ DifferentiableOn ℂ Ψ U ∧ MapsTo Φ U (Dom n b.base (R-ρ) (s-σ)) ∧
+    MapsTo Ψ U (Dom n b.base (R-ρ) (s-σ)) ∧
     ExtCanonical b.c U Φ ∧
     (∀ z ∈ U, ‖(Φ z).1-z.1‖ ≤ V/ρ ∧ ‖fastAction (Φ z)-fastAction z‖ ≤ V/(Real.exp 1*σ) ∧
       ‖slowPair (Φ z)-slowPair z‖ ≤ b.c*V/ρ) ∧
@@ -798,6 +833,11 @@ theorem iterative (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ K α p δ : �
     let Φ := extFlow b R s ρ σ φ 1
     let g := fun z => ∑ j, gj j z
     let gp := g+projMode Λ (truncate K f)
+    DifferentiableOn ℂ Φ (Dom n b.base (R-3*ρ/2) (s-3*σ/2)) ∧
+    MapsTo Φ (Dom n b.base (R-3*ρ/2) (s-3*σ/2)) (Dom n b.base (R-ρ) (s-σ)) ∧
+    (∀ z ∈ Dom n b.base (R-3*ρ/2) (s-3*σ/2), ∀ ℓ : Fin n → ℤ,
+      Φ (z.1+(fun i => (ℓ i:ℂ)),z.2) = Φ z+((fun i => (ℓ i:ℂ)),0)) ∧
+    (∀ z ∈ Dom n b.base (R-2*ρ) (s-2*σ), extFlow b R s ρ σ φ (-1) (Φ z) = z) ∧
     ∃ fp : EC n k → ℂ,
       InClass b.base (R-2*ρ) (s-2*σ) fp ∧
       (∀ z ∈ Dom n b.base (R-2*ρ) (s-2*σ), liftFast h (Φ z)+g (Φ z)+f (Φ z) = liftFast h z+gp z+fp z) ∧
@@ -853,6 +893,9 @@ theorem real_system (b : PartialBlock n k) {R s : ℝ} {H : EC n k → ℂ}
     (∀ z ∈ b.realDom R, extCx (realWfield b.c (realHamiltonianExt b R H) z) = wfield b.c H (extCx z)) ∧
     (∀ ℓ : Fin n → ℤ, ∀ z ∈ b.realDom R,
       realHamiltonianExt b R H (z.1+(fun i => (ℓ i:ℝ)),z.2) = realHamiltonianExt b R H z) ∧
+    (∀ ℓ : Fin n → ℤ, ∀ z ∈ b.realDom R,
+      realWfield b.c (realHamiltonianExt b R H) (z.1+(fun i => (ℓ i:ℝ)),z.2) =
+        realWfield b.c (realHamiltonianExt b R H) z) ∧
     (∀ J : Set ℝ, J.OrdConnected → ∀ r, 0 < r → r ≤ R → ∀ y, ExtOrbit b r H J y →
       ∀ t ∈ J, ∀ u ∈ J, realHamiltonianExt b R H (y t) = realHamiltonianExt b R H (y u)) := sorry
 
@@ -928,10 +971,12 @@ def slowTube (b : PartialBlock n k) (a : ℝ) (x : KAM.Planetary.Phase k) : Prop
   ∃ v ∈ b.S, ‖x-b.lam⁻¹ • v‖ ≤ a
 
 theorem real_system_resonant (b : PartialBlock n k) {R s U : ℝ} {g : EC n k → ℂ}
-    (hs : 0 < s) (hg : ext_class b R s g) (hb : WBound b.base R s g U)
+    (hs : 0 < s) (hg : InClass b.base R s g) (hb : WBound b.base R s g U)
     {Λ : Set (Fin n → ℤ)}
     (hsupp : ∀ J ∈ polyNbhd b.base R, ∀ j : Fin n → ℤ, j ∉ Λ → coeff g J j = 0) :
-    ∀ z ∈ b.realDom R, (fun i => (dtheta i g (extCx z)).re) ∈ KAM.Stability.resSpan Λ := sorry
+    ∀ z ∈ b.realDom R,
+      (fun i => (dtheta i g (extCx z)).re) ∈ KAM.Stability.resSpan Λ ∧
+      (fun i => (dtheta i g (extCx z)).im) ∈ KAM.Stability.resSpan Λ := sorry
 
 /-- Conditional helper only. T3 is proved by nonresonant integration or energy_free,
 never forwarded as a premise of nonresonant, resonant, block or the provider. -/
@@ -955,6 +1000,19 @@ theorem transfer_conditional (b : PartialBlock n k) (hbR : 0 < b.rB) (hbw : 0 < 
     (hstop : ∀ u ∈ uIcc 0 t1, b.lam • slowPair (y u) ∈ b.S) :
     ∀ u ∈ uIcc 0 t1, y u ∈ b.realDom R ∧ Nrm (fastAction (y u)-b.Ic) ≤ a+2*d := sorry
 
+/-- Energy-source assumptions: the upper Hessian bound is only on real actions. -/
+structure RealFastConvex (Ic : Fin n → ℝ) (R m M : ℝ) (h : (Fin n → ℂ) → ℂ) : Prop where
+  m_pos : 0 < m
+  m_le : m ≤ M
+  hol : DifferentiableOn ℂ h (polyNbhd {KAM.realInclusion n Ic} R)
+  real : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ polyNbhd {KAM.realInclusion n Ic} R →
+    (h (KAM.realInclusion n I)).im = 0
+  convex : ∀ I : Fin n → ℝ, ‖I-Ic‖ < R → ∀ v : Fin n → ℝ,
+    m*euclid v^2 ≤ fderiv ℝ (fderiv ℝ (realPart h)) I v v
+  hessian_real : ∀ I : Fin n → ℝ, ‖I-Ic‖ < R → ∀ v : Fin n → ℝ,
+    euclid (fun i => fderiv ℝ (fderiv ℝ (realPart h)) I (Pi.single i 1) v) ≤ M*euclid v
+
+
 /-- Fast convexity and Hessian bound; the frequency need have no upper bound. -/
 structure FastConvex (Ic : Fin n → ℝ) (R m M : ℝ) (h : (Fin n → ℂ) → ℂ) : Prop where
   m_pos : 0 < m
@@ -967,12 +1025,17 @@ structure FastConvex (Ic : Fin n → ℝ) (R m M : ℝ) (h : (Fin n → ℂ) →
   hessian : ∀ I ∈ polyNbhd {KAM.realInclusion n Ic} R, ∀ v : Fin n → ℂ,
     euclid (fun i => fderiv ℂ (fderiv ℂ h) I (Pi.single i 1) v) ≤ M*euclid v
 
+/-- Restrict the complex Hessian bound to the real slice; no extra source premise. -/
+theorem FastConvex.toRealFastConvex {Ic : Fin n → ℝ} {R m M : ℝ}
+    {h : (Fin n → ℂ) → ℂ} (hh : FastConvex Ic R m M h) :
+    RealFastConvex Ic R m M h := sorry
+
 def NearResonance (Λ : Set (Fin n → ℤ)) (h : (Fin n → ℂ) → ℂ) (Ic : Fin n → ℝ) (δ : ℝ) : Prop :=
   ∀ v ∈ KAM.Stability.resSpan Λ, |∑ i, KAM.frequencyMap h Ic i*v i| ≤ δ*euclid v
 
 theorem energy_free (b : PartialBlock n k) {r s m M ε η ζ δ : ℝ}
     {Λ : Set (Fin n → ℤ)} {h : (Fin n → ℂ) → ℂ} {g fs : EC n k → ℂ}
-    (hr : 0 < r) (hs : 0 < s) (hh : FastConvex b.Ic r m M h)
+    (hr : 0 < r) (hs : 0 < s) (hh : RealFastConvex b.Ic r m M h)
     (hg : ext_class b r s g) (hf : ext_class b r s fs)
     (hgb : WBound b.base r s g (5*ε/4)) (hfb : WBound b.base r s fs η)
     (hsupp : ∀ J ∈ polyNbhd b.base r, ∀ j : Fin n → ℤ, j ∉ Λ → coeff g J j = 0)
