@@ -30365,9 +30365,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:sec-bnf#d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: QuarticFamily, QuarticFamily.eval, p11c_rotation, p11c_NR4, p11c_n0, p11c_bracket (KAM/Planetary/PlanarTorsion/Characters/Defs.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; definitions classified OK
 NOTE: created from p11b:prose-L120-L124 (SPEC section data, tag p11b:prose-L120-L124); consumers: char, homological, flow, lie, lift-map, birkhoff-form and their steps
 
 NODE: bpP:p11b:char
@@ -30395,9 +30395,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: char (KAM/Planetary/PlanarTorsion/Characters/Basic.lean); character_polynomial (KAM/Planetary/PlanarTorsion/Characters/CharPoly.lean); character_bracket (KAM/Planetary/PlanarTorsion/Characters/Bracket.lean); average_action_polynomial (KAM/Planetary/PlanarTorsion/Characters/Average.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; four signed clauses cover all of the conclusion
 NOTE: -
 
 NODE: stepP:p11b:ch-mon
@@ -30422,9 +30422,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: char (KAM/Planetary/PlanarTorsion/Characters/Basic.lean); character_polynomial (KAM/Planetary/PlanarTorsion/Characters/CharPoly.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; step proved via local lemmas charG_expand, character_eq_sum, character_covariance
 NOTE: -
 
 NODE: stepP:p11b:ch-bra
@@ -30451,9 +30451,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: character_bracket (KAM/Planetary/PlanarTorsion/Characters/Bracket.lean); char (KAM/Planetary/PlanarTorsion/Characters/Basic.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; reality (char) and bracket along rotation
 NOTE: -
 
 NODE: bpP:p11b:homological
@@ -35881,7 +35881,7 @@ EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: conclusion includes openness of calV, which is E11's obligation; Lean gives pointwise statements on working cylinder only
 NOTE: -
 
 NODE: stepP:p14:hn-eq
@@ -35913,9 +35913,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hnu (KAM/Planetary/Exponential/Hamiltonian.lean)
+LEAN_NOTE: audit E10 PASS WITH NOTES (round 2); exact signed hnu
 NOTE: -
 
 NODE: stepP:p14:hn-field
@@ -35944,9 +35944,9 @@ EDGE: bpP:p14:sec-stopped#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: differentiableAt_hnu_field, fderiv_eq_of_eqOn_open, hamiltonianVectorField_eq_of_eqOn_open, hamiltonianVectorField_neg, degenerateHamiltonian_neg (KAM/Planetary/Exponential/Hamiltonian.lean)
+LEAN_NOTE: audit E10 PASS WITH NOTES (round 2); differentiability bridge closed by differentiableAt_hnu_field
 NOTE: -
 
 NODE: bpP:p14:stopped
