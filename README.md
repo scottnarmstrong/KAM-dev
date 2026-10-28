@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 08:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 143,000
+> **Last updated: 2026-10-28 08:59 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 147,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,15 +127,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 23,927 |
-| **Estimated total at completion** | **≈ 143,000** |
-| Estimated still to write | ≈ 45,000 |
+| Written on agent branches, not yet landed | 26,735 |
+| **Estimated total at completion** | **≈ 147,000** |
+| Estimated still to write | ≈ 46,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 08:40 UTC from `main` at `69947c2` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 08:59 UTC from `main` at `a4bea37` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,19 +292,21 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **n1203c** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N12-03c: LocalDependence (derivative convergence, identification, ext_dep) | `inp-n1203c` | 2 (vs `inp`) |
-| **n1205** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-05: Corrector module (avgPsi, corrector, avgU, avgW, envelopes, residual) | `inp-n1205` | 1 (vs `inp`) |
-| **n1208** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N12-08: Slab (slab, AvgSlabBound); import N12-04 Coefficients unchanged for avgQ | `inp-n1208` | 2 (vs `inp`) |
-| **n89g5** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N89-G5: zones, strata, blocks and finite blocks_cover | `inp-n89g5` | 1 (vs `inp`) |
-| **n89g6** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N89-G6: sqrt and geom_formula | `inp-n89g6` | 2 (vs `inp`) |
-| **p11aw0** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: P11A-W0: round-2 audit focus | `inp-p11aw0` | 5 (vs `inp`) |
-| **p2312** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-12: nfb and avg | `inp-p2312` | 9 (vs `inp`) |
-| **p2313** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-13: fast lattice shifts and periodicity | `inp-p2313` | 3 (vs `inp`) |
-| **p4co** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P4-CO: PGMeasure/Collar (ext_conn, collar, realNbhd_joinedActions, domain_collar_helper) | `inp-p4co` | 1 (vs `inp`) |
-| **p4one** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P4-ONE: dio_one single-scale Diophantine exclusion (+ pgInverse, pgInverseL, pgInverseR, d | `inp-p4one` | 1 (vs `inp`) |
-| **p4r0** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p4lt | `inp-p4r0` | 0 (vs `inp`) |
-| **p5cl** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-CL: local_real_complexification (coordinatewise complexified power series) | `inp-p5cl` | 1 (vs `inp`) |
-| **s78** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S7-8: resonant_prop2 (cases A/B/C, assembly) | `inp-s78` | 3 (vs `inp`) |
+| **n1206** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-06 WIP: envelope summability | `inp-n1206` | 9 (vs `inp`) |
+| **n1210b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-10b: FlowRegular (flow_variational) | `inp-n1210b` | 6 (vs `inp`) |
+| **n89g6** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N89-G6: sqrt and geom_formula | `inp-n89g6` | 1 (vs `inp`) |
+| **p11aw0** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: P11A-W0: delta audit 2 (PASS WITH NOTES; W0-01 resolved) | `inp-p11aw0` | 6 (vs `inp`) |
+| **p11aw1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W1: operator bound bridge | `inp-p11aw1` | 9 (vs `inp`) |
+| **p11aw2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p11aw0 | `inp-p11aw2` | 6 (vs `inp`) |
+| **p11aw3** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-W3: divided_difference (WeakMeasure/DividedDifference) | `inp-p11aw3` | 1 (vs `inp`) |
+| **p11aw4** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W3: divided_difference (WeakMeasure/DividedDifference) | `inp-p11aw4` | 1 (vs `inp`) |
+| **p2313** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-13: oscillator zero mode class and bound | `inp-p2313` | 6 (vs `inp`) |
+| **p2314** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-14: StepFreq, StepNonres (constants facts) | `inp-p2314` | 12 (vs `inp`) |
+| **p4one** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P4-ONE: dio_one single-scale Diophantine exclusion (+ pgInverse, pgInverseL, pgInverseR, d | `inp-p4one` | 1 (vs `inp`) |
+| **p4r0** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P4-R0: beta_inverse (adjugate bound) in PGMeasure/ResonanceSlow | `inp-p4r0` | 1 (vs `inp`) |
+| **p4rb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P4-RB: frequency-coordinate decomposition, Lipschitz and measurability | `inp-p4rb` | 2 (vs `inp`) |
+| **p5cg** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p5id | `inp-p5cg` | 1 (vs `inp`) |
+| **p5id** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P5-ID: real_slice_identity, connected_complex_tube | `inp-p5id` | 1 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -314,6 +316,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-28 08:59 | `a4bea37` | OVERNIGHT 09:00: offload status, P45 resonance-helper ruling, hygiene fixes, track W awaiting approval |
 | 2026-10-28 08:15 | `a4b5a47` | Track W: merge W-STMT (exact draft Lean statements of the first headline W-NLW2 and its 11 definitions; statement audits 1 FAIL, 2 PASS WITH NOTES; awaiting owner approval, nothing frozen) |
 | 2026-10-28 07:39 | `5c75113` | Track W: merge W-BP0 (blueprint Part 0, milestone W0 normalization, proposed first headline, errata re-check; audits 1 FAIL, 2 PASS WITH NOTES) |
 | 2026-10-28 07:30 | `6913acb` | OVERNIGHT 07:35: track W headline ruling (family injectivity added; Lipschitz family regularity deferred) |
@@ -325,7 +328,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-28 05:30 | `450c19f` | Exploration: PDE KAM (nonlinear wave) and leapfrogging vortex patches; register Pos96K, Pos96W, KP96, HHM25 (context) |
 | 2026-10-28 05:17 | `8625071` | Land inp into main |
 | 2026-10-28 05:11 | `4c54188` | Land inp into main |
-| 2026-10-28 05:05 | `b951911` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
