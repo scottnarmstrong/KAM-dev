@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 12:19 UTC from `main` at `f6fec7c` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 12:19 UTC from `main` at `d4e63bf` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -314,6 +314,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-28 12:19 | `d4e63bf` | OVERNIGHT: correct the 12:25 package count |
 | 2026-10-28 12:19 | `f6fec7c` | OVERNIGHT: 12:25 throughput, disk ceiling, account rotation |
 | 2026-10-28 10:19 | `165b67f` | OVERNIGHT 10:25: P45 rev 4 and P23 rev 3 design revisions from prover findings; P45 measure endpoint proved; account plan |
 | 2026-10-28 08:59 | `a4bea37` | OVERNIGHT 09:00: offload status, P45 resonance-helper ruling, hygiene fixes, track W awaiting approval |
@@ -325,7 +326,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-28 06:03 | `9ac5ae7` | Land inp into main |
 | 2026-10-28 05:43 | `f7e7672` | Land inp into main |
 | 2026-10-28 05:37 | `1378b42` | Land inp into main |
-| 2026-10-28 05:30 | `450c19f` | Exploration: PDE KAM (nonlinear wave) and leapfrogging vortex patches; register Pos96K, Pos96W, KP96, HHM25 (context) |
 <!-- /AUTO:landed -->
 
 ## Decisions
