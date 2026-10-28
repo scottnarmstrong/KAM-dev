@@ -25944,9 +25944,9 @@ EDGE: bpP:p0:diophantine#IsDiophantine | blueprint-P/parts/p11a3-iteration-selec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: SelectionOutput (KAM/Planetary/WeakKAM/SelectionRecord.lean); parameter_selection (KAM/Planetary/WeakKAM/Selection.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES (round 2); signed theorem, SelectionOutput gives (a) limits/tails/continuity, (b) Hinf compact, subset Kinf, measure bound, (c) Diophantine on Hinf; 0<=eps<=eps_adm
 NOTE: CYCLE BREAK: the draft edges to i3-corrected and consumers (L325, \source of the theorem: provenance) are deleted.
 
 NODE: stepP:p11a:ps-iter
@@ -25971,9 +25971,9 @@ EDGE: bpP:p11a:inductive-lemma | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: SelectionOutput (KAM/Planetary/WeakKAM/SelectionRecord.lean); parameter_selection (KAM/Planetary/WeakKAM/Selection.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; iteration (nonempty compact decreasing K_nu via SelectionFiniteChain, B10 inductive_lemma) carried in the output record
 NOTE: -
 
 NODE: stepP:p11a:ps-lim
@@ -26002,9 +26002,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit B11 PASS WITH NOTES but continuous_series_on_compact is only a local supplier; tail bounds, h_* continuity and limit identification remain for B12
+LEAN_STATUS: PROVED
+LEAN_REF: selection_limit_series (KAM/Planetary/WeakKAM/Selection.lean); schedule_props (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; uniform convergence, continuity, tails <= S_m (S_m<=gamma T_m^{-tau-1} from B03 schedule_props), 4 eps_m
 NOTE: SOURCE_GAP: L330 invokes the uniform Weierstrass test and continuity of uniform limits on the compact real carrier K_infty. K:bp:p1:uniform-limits (blueprint/parts/p1-analysis.tex L364-L368) instead assumes holomorphic maps on one open complex V and uniform convergence of their derivatives. Those hypotheses are not supplied here: the collars shrink and only continuous restrictions to K_infty are used. The continuous-map convergence/continuity bridge used here is not an approved input of this slice; expose it here rather than asserting that the imported lemma supplies it.
 
 NODE: stepP:p11a:ps-H
@@ -26031,9 +26031,9 @@ EDGE: bpP:p11a:finite-extension | blueprint-P/parts/p11a3-iteration-selection.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionOutput_of_iteration (KAM/Planetary/WeakKAM/Selection.lean); selection_tests_of_cutoffs, selection_tests_of_adm, selection_all_cutoffs (KAM/Planetary/WeakKAM/SelectionTests.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; Hinf compact, measure >= meas K - loss, Hinf subset Kinf
 NOTE: -
 
 NODE: stepP:p11a:ps-dio
@@ -26063,9 +26063,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionOutput_of_iteration (KAM/Planetary/WeakKAM/Selection.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; limit_bridge on Hinf, shell/tail comparison
 NOTE: -
 
 NODE: bpP:p11a:exported-sums
@@ -26641,9 +26641,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:fr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: free_radius states s0<=adm s0, eps0 formula and lambda0<=lambda_max but not eps0=2 eps literally; left NOT_STARTED with free-radius
+LEAN_STATUS: PROVED
+LEAN_REF: free_radius, selectionAdapted (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: audit B07 PASS WITH NOTES; s0<=adm s0=lambda_max/(N C1), eps0=2 eps (selectionAdapted body) and formula, lambda0<=lambda_max
 NOTE: -
 
 NODE: stepP:p11a:fr-list
@@ -26711,9 +26711,9 @@ EDGE: bpP:p11a:schedule-props | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: ruling: NOT_STARTED until B10/B12 apply the lemmas at the adapted radius
+LEAN_STATUS: PROVED
+LEAN_REF: inductive_lemma_adapted (KAM/Planetary/WeakKAM/Iteration.lean); parameter_selection_adapted (KAM/Planetary/WeakKAM/Selection.lean); wbud_exported (KAM/Planetary/WeakKAM/Budgets.lean); free_radius, selectionAdapted (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: composite of audits B10 PASS WITH NOTES (inductive_lemma_adapted) + B12 PASS WITH NOTES round 2 (parameter_selection_adapted) + B13 PASS WITH NOTES (scalar exported sums generic in schedule; E4 via selection_iteration_parameter_first generic in a); ruling OVERNIGHT 18:17 satisfied
 NOTE: -
 
 NODE: bpP:p11a:composition
