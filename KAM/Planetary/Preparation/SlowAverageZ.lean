@@ -27,6 +27,37 @@ section Polar
 
 variable {n : ℕ} {D : P11Physical n} {C : P11SecularData n}
 
+
+theorem p11eta1_pos (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) : 0 < p11eta1 C eps := by
+  obtain ⟨hα, -⟩ := p11_alpha_le hC heps hεM
+  obtain ⟨hd, -⟩ := p11d1_le hC heps hεM
+  obtain ⟨-, -, -, -, -, -, -, -, -, hMF⟩ := fast_consts hC
+  have hM0 : 0 < C.MF := by linarith
+  unfold p11eta1
+  have : (0 : ℝ) < (1 + n) := by positivity
+  positivity
+
+/-- Holomorphy and the `η₁` bound of `ḡ = G - FastMean` on `D(J₀, s₁/2) × B(0, r_z/2)`. -/
+theorem p11_gbar_data (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
+    (hF : P11FastSpec C eps Fast) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1)) :
+    DifferentiableOn ℂ (p11Gbar C Fast) (ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ×ˢ
+      ball (0 : P11Phase n) (C.rz / 2)) ∧
+    p11Bound (ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ×ˢ
+      ball (0 : P11Phase n) (C.rz / 2)) (p11Gbar C Fast) (p11eta1 C eps) := by
+  obtain ⟨-, -, -, hrC0, -, -, -, hrz0, -⟩ := fast_consts hC
+  have hrC : p11s1 C eps ≤ C.rC := p11s1_le C eps
+  have hsub : ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ⊆
+      ball (KAM.realInclusion n C.J0) (2 * C.rC) := ball_subset_ball (by
+    have := p11s1_pos hC heps hεM
+    linarith)
+  have hsubz : ball (0 : P11Phase n) (C.rz / 2) ⊆ ball (0 : P11Phase n) C.rz :=
+    ball_subset_ball (by linarith)
+  obtain ⟨-, -, -, -, hGd, -, -, -, -, -, -, -, -, hGb, -⟩ := hF
+  refine ⟨hGd.sub ((p11FastMean_differentiableOn hC).mono (prod_mono hsub hsubz)), ?_⟩
+  rintro ⟨J, z⟩ ⟨hJ, hz⟩
+  exact hGb J (mem_ball_iff_norm.1 hJ) z (mem_ball_zero_iff.1 hz)
+
 /-- The two polar averages of graph step `as-osc`: `AR = 𝒜 R₄`, `AB = 𝒜 ḡ` with their bounds. -/
 theorem p11_slow_polar (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
     (hF : P11FastSpec C eps Fast) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1)) :
@@ -68,24 +99,8 @@ theorem p11_slow_polar (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData
   obtain ⟨AR, hARd, hARb, hARe, hARc⟩ := polar_avg (D := Dm) isOpen_ball hr hr1
     (by linarith : 0 < C.MF / 16) hR4d hR4b
   -- `ḡ`
-  obtain ⟨-, -, -, -, hGd, -, -, -, -, -, -, -, -, hGb, -⟩ := hF
-  have hGbd : DifferentiableOn ℂ (p11Gbar C Fast) (Dm ×ˢ ball (0 : P11Phase n) (C.rz / 2)) := by
-    have h1 : DifferentiableOn ℂ Fast.G (Dm ×ˢ ball (0 : P11Phase n) (C.rz / 2)) := hGd
-    have h2 := (p11FastMean_differentiableOn hC).mono
-      (show Dm ×ˢ ball (0 : P11Phase n) (C.rz / 2) ⊆
-        ball (KAM.realInclusion n C.J0) (2 * C.rC) ×ˢ ball (0 : P11Phase n) C.rz from
-        prod_mono hsub hsubz)
-    exact h1.sub h2
-  have hη0 : 0 < p11eta1 C eps := by
-    obtain ⟨hα, -⟩ := p11_alpha_le hC heps hεM
-    obtain ⟨hd, -⟩ := p11d1_le hC heps hεM
-    unfold p11eta1
-    have : (0 : ℝ) < (1 + n) := by positivity
-    positivity
-  have hGbb : p11Bound (Dm ×ˢ ball (0 : P11Phase n) (C.rz / 2)) (p11Gbar C Fast)
-      (p11eta1 C eps) := by
-    rintro ⟨J, z⟩ ⟨hJ, hz⟩
-    exact hGb J (mem_ball_iff_norm.1 hJ) z (mem_ball_zero_iff.1 hz)
+  have hη0 := p11eta1_pos hC heps hεM
+  obtain ⟨hGbd, hGbb⟩ := p11_gbar_data hC Fast hF heps hεM
   obtain ⟨AB, hABd, hABb, hABe, hABc⟩ := polar_avg (D := Dm) isOpen_ball hr hr1 hη0 hGbd hGbb
   refine ⟨AR, AB, hARd, hABd, ?_, ?_, ?_⟩
   · intro z hz
@@ -97,6 +112,55 @@ theorem p11_slow_polar (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData
     exact ⟨hARe z hz hre, hABe z hz hre⟩
 
 end Polar
+
+section Jet
+
+variable {n : ℕ}
+
+/-- The `ρ`-derivative of a jointly holomorphic `Zq` at the fixed `ρ₀` is holomorphic in `J`. -/
+theorem p11_rhoDeriv_differentiableOn {U : Set (P11CVec n)} (hU : IsOpen U) {R0 : ℝ}
+    {Zq : P11CVec n × P11CVec n → ℂ} (hZ : DifferentiableOn ℂ Zq (U ×ˢ ball 0 R0))
+    {ρ0 : P11CVec n} (hρ0 : ρ0 ∈ ball (0 : P11CVec n) R0) :
+    DifferentiableOn ℂ (fun J' : P11CVec n => fun i : Fin n =>
+      fderiv ℂ (fun ρ => Zq (J', ρ)) ρ0 (Pi.single i 1)) U := by
+  have hUb : IsOpen (U ×ˢ ball (0 : P11CVec n) R0) := hU.prod isOpen_ball
+  have hfd : DifferentiableOn ℂ (fderiv ℂ Zq) (U ×ˢ ball (0 : P11CVec n) R0) :=
+    (KAM.analyticOnNhd_of_differentiableOn hUb hZ).fderiv.differentiableOn
+  refine differentiableOn_pi.2 fun i => ?_
+  have h1 : DifferentiableOn ℂ (fun J' : P11CVec n => fderiv ℂ Zq (J', ρ0)) U :=
+    hfd.comp (by fun_prop : DifferentiableOn ℂ (fun J' : P11CVec n => (J', ρ0)) U)
+      (fun J' hJ' => ⟨hJ', hρ0⟩)
+  have h2 := h1.clm_apply (differentiableOn_const ((0 : P11CVec n), (Pi.single i 1 : P11CVec n)))
+  refine h2.congr fun J' hJ' => ?_
+  have hZd : DifferentiableAt ℂ Zq (J', ρ0) := hZ.differentiableAt (hUb.mem_nhds ⟨hJ', hρ0⟩)
+  have := fderiv_comp ρ0 hZd (by fun_prop : DifferentiableAt ℂ (fun ρ : P11CVec n => (J', ρ)) ρ0)
+  simp only [Function.comp_def] at this ⊢
+  rw [this, (hasFDerivAt_prodMk_right J' ρ0).fderiv]
+  simp
+
+/-- Cauchy estimate in `ρ` followed by the sharp `J`-jet estimate: for `Zq` holomorphic and
+bounded by `M` on `U × B(ρ₀, δ')`, `J`-jets of `∂ρ Zq (·, ρ₀)` of order `α` are bounded by
+`α! (M/δ) R^{-|α|}`. -/
+theorem p11_partial_rho_jet {U : Set (P11CVec n)} (hU : IsOpen U) {R0 : ℝ}
+    {Zq : P11CVec n × P11CVec n → ℂ} (hZ : DifferentiableOn ℂ Zq (U ×ˢ ball 0 R0))
+    {ρ0 : P11CVec n} {δ δ' M : ℝ} (hδ : 0 < δ) (hδδ : δ < δ')
+    (hball : ball ρ0 δ' ⊆ ball (0 : P11CVec n) R0) (hρ0 : ρ0 ∈ ball (0 : P11CVec n) R0)
+    (hM : ∀ J ∈ U, ∀ ρ ∈ ball ρ0 δ', ‖Zq (J, ρ)‖ ≤ M)
+    {J : P11CVec n} {R : ℝ} (hR : 0 < R) (hJ : closedBall J R ⊆ U) (α : Fin n → ℕ) :
+    ‖p11PartialVec α (fun J' : P11CVec n => fun i : Fin n =>
+        fderiv ℂ (fun ρ => Zq (J', ρ)) ρ0 (Pi.single i 1)) J‖ ≤
+      (∏ i, ((α i).factorial : ℝ)) * (M / δ) / R ^ (∑ i, α i) := by
+  refine p11PartialVec_norm_le hU (p11_rhoDeriv_differentiableOn hU hZ hρ0) hR hJ ?_ α
+  intro w hw
+  have hfd : DifferentiableOn ℂ (fun ρ => Zq (w, ρ)) (ball ρ0 δ') :=
+    hZ.comp (by fun_prop : DifferentiableOn ℂ (fun ρ : P11CVec n => (w, ρ)) _)
+      (fun ρ hρ => ⟨hw, hball hρ⟩)
+  have hc := (cauchy_open isOpen_ball hfd hδ (z := ρ0)
+    (closedBall_subset_ball hδδ) (fun ρ hρ => hM w hw ρ hρ)).1
+  refine (pi_norm_le_iff_of_nonneg ?_).2 fun i => hc i
+  exact div_nonneg ((norm_nonneg _).trans (hM w hw ρ0 (mem_ball_self (hδ.trans hδδ)))) hδ.le
+
+end Jet
 
 end KAM.Planetary
 
