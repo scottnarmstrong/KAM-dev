@@ -380,6 +380,7 @@ public import KAM.Nekhoroshev.Partial.Bracket
 public import KAM.Nekhoroshev.Partial.Constants
 public import KAM.Nekhoroshev.Partial.Continuation
 public import KAM.Nekhoroshev.Partial.Coordinates
+public import KAM.Nekhoroshev.Partial.Homological
 public import KAM.Nekhoroshev.Partial.RealSystem
 public import KAM.Nekhoroshev.Partial.Setting
 public import KAM.Nekhoroshev.Partial.VectorField
