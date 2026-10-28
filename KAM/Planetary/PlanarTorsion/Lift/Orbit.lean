@@ -148,18 +148,30 @@ theorem p11cL_nbhd_isOpen {O' : Set (Fin 2 → ℝ)} (hO' : IsOpen O') (r : ℝ)
   exact (hO'.preimage h1).inter ((isOpen_lt h3 continuous_const).inter
     (isOpen_lt h2.norm continuous_const))
 
+/-- A uniform bound for the action derivative of `chi` on `K × {‖y‖ ≤ ρ}`. -/
+theorem p11cL_exists_bound (chi : QuarticFamily O) {K : Set (Fin 2 → ℝ)} (hK : IsCompact K)
+    (hKO : K ⊆ O) (ρ : ℝ) :
+    ∃ D : ℝ, 0 ≤ D ∧ ∀ I ∈ K, ∀ y : Phase 2, ‖y‖ ≤ ρ → ‖fun i => p11cL_dI chi (I, y) i‖ ≤ D := by
+  have hKc : IsCompact (K ×ˢ closedBall (0 : Phase 2) ρ) := hK.prod (isCompact_closedBall _ _)
+  obtain ⟨D₀, hD₀⟩ := hKc.exists_bound_of_continuousOn
+    (f := fun u : (Fin 2 → ℝ) × Phase 2 => (fun i => p11cL_dI chi u i : Fin 2 → ℝ))
+    (fun u hu => (continuousAt_pi.2 fun i =>
+      (p11cL_dI_analyticAt chi (hKO hu.1) i).continuousAt).continuousWithinAt)
+  exact ⟨max D₀ 0, le_max_right _ _, fun I hI y hy =>
+    (hD₀ (I, y) ⟨hI, by simpa using hy⟩).trans (le_max_left _ _)⟩
+
 /-- The explicit orbit of the full lift through a point of `p11cL_nbhd`. -/
 theorem p11cL_orbit_exists (chi : QuarticFamily O) {K : Set (Fin 2 → ℝ)} (hKO : K ⊆ O) {r : ℝ}
     (hr : 0 < r) (hfs : p11cL_FlowSpec chi.eval K (2 * r)) {D : ℝ} (hD0 : 0 ≤ D)
     (hD : ∀ I ∈ K, ∀ y : Phase 2, ‖y‖ ≤ 2 * r → ‖fun i => p11cL_dI chi (I, y) i‖ ≤ D)
-    {O' : Set (Fin 2 → ℝ)} (hO'K : O' ⊆ K) {w : Phase (2 + 2)} (hw : w ∈ p11cL_nbhd O' r) :
+    {O' : Set (Fin 2 → ℝ)} (hO'K : O' ⊆ K) {w : Phase (2 + 2)} (hIO' : p11cL_act w ∈ O')
+    (hz : p11c_slowLength (p11cL_slow w) < r) :
     ∃ g : ℝ → Phase (2 + 2),
       IsSolutionIn (hamiltonianVectorField (p11cL_ham chi)) (p11cL_dom O) (Ioo (-1 / 2) (3 / 2))
         g ∧ g 0 = w ∧ g 1 = p11c_liftFlow chi.eval w ∧
       ∀ t ∈ Icc (0 : ℝ) 1, p11cL_act (g t) = p11cL_act w ∧ ‖p11cL_slow (g t)‖ ≤ 2 * r ∧
-        ‖p11cL_ang (g t)‖ ≤ 1 + D ∧
+        ‖p11cL_ang (g t)‖ ≤ ‖p11cL_ang w‖ + D ∧
         p11c_slowLength (p11cL_slow (g t)) ^ 2 ≤ 2 * p11c_slowLength (p11cL_slow w) ^ 2 := by
-  obtain ⟨hIO', hz, hlam⟩ := hw
   have hIK : p11cL_act w ∈ K := hO'K hIO'
   have hz2 : p11c_slowLength (p11cL_slow w) < 2 * r / 2 := by linarith
   obtain ⟨Y, hY, hYf⟩ := p11cL_ext chi hKO hfs hIK hz2

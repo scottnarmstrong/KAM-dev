@@ -46,16 +46,7 @@ theorem p11cL_chart_local (hO : IsOpen O) (hO' : IsOpen O')
   set K : Set (Fin 2 → ℝ) := closure O' with hKdef
   have hO'K : O' ⊆ K := subset_closure
   -- a uniform bound for the action derivative of `chi`
-  have hKc : IsCompact (K ×ˢ closedBall (0 : Phase 2) (2 * r)) :=
-    hK.prod (isCompact_closedBall _ _)
-  obtain ⟨D₀, hD₀⟩ := hKc.exists_bound_of_continuousOn
-    (f := fun u : (Fin 2 → ℝ) × Phase 2 => (fun i => p11cL_dI chi u i : Fin 2 → ℝ))
-    (fun u hu => (continuousAt_pi.2 fun i =>
-      (p11cL_dI_analyticAt chi (hKO hu.1) i).continuousAt).continuousWithinAt)
-  set D : ℝ := max D₀ 0 with hDdef
-  have hD0 : 0 ≤ D := le_max_right _ _
-  have hD : ∀ I ∈ K, ∀ y : Phase 2, ‖y‖ ≤ 2 * r → ‖fun i => p11cL_dI chi (I, y) i‖ ≤ D :=
-    fun I hI y hy => (hD₀ (I, y) ⟨hI, by simpa using hy⟩).trans (le_max_left _ _)
+  obtain ⟨D, hD0, hD⟩ := p11cL_exists_bound chi hK hKO (2 * r)
   -- the compact set carrying every orbit
   set asm : (Fin 2 → ℝ) × Phase 2 × (Fin 2 → ℝ) → Phase (2 + 2) :=
     fun x => assemble x.1 x.2.2 x.2.1.2 x.2.1.1 with hasm
@@ -88,7 +79,7 @@ theorem p11cL_chart_local (hO : IsOpen O) (hO' : IsOpen O')
   have key : ∀ w ∈ p11cL_nbhd O' r, ∃ g : ℝ → Phase (2 + 2), g 1 = p11c_liftFlow chi.eval w ∧
       (∀ j : ℕ, j ≤ m → Ψ^[j] w = g (j * hs)) ∧ ∀ t ∈ Icc (0 : ℝ) 1, g t ∈ K₃ := by
     intro w hw
-    obtain ⟨g, hg, hg0, hg1, hgb⟩ := p11cL_orbit_exists chi hKO hr hfs hD0 hD hO'K hw
+    obtain ⟨g, hg, hg0, hg1, hgb⟩ := p11cL_orbit_exists chi hKO hr hfs hD0 hD hO'K hw.1 hw.2.1
     have hmem : ∀ t ∈ Icc (0 : ℝ) 1, g t ∈ K₃ := by
       intro t ht
       obtain ⟨hA, hB, hC, -⟩ := hgb t ht
@@ -96,7 +87,9 @@ theorem p11cL_chart_local (hO : IsOpen O) (hO' : IsOpen O')
         ⟨?_, ?_, ?_⟩, p11cL_assemble_eq (g t)⟩
       · rw [hA]; exact hO'K hw.1
       · simpa using hB
-      · simpa using hC
+      · have := hw.2.2
+        simp only [mem_closedBall, dist_zero_right]
+        linarith
     refine ⟨g, hg1, ?_, hmem⟩
     intro j
     induction j with
