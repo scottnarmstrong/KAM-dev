@@ -39,16 +39,16 @@ theorem bfCLM_apply (J : Fin (a + b) → ℂ) : bfCLM a b J = blockFast J := rfl
 theorem bsCLM_apply (J : Fin (a + b) → ℂ) : bsCLM a b J = blockSlow J := rfl
 
 theorem blockFast_embFast (x : Fin a → ℂ) : blockFast (embFast a b x) = x := by
-  rw [embFast_apply, blockFast_append]
+  rw [embFast_apply, blockFast_append_complex]
 
 theorem blockSlow_embFast (x : Fin a → ℂ) : blockSlow (embFast a b x) = 0 := by
-  rw [embFast_apply, blockSlow_append]
+  rw [embFast_apply, blockSlow_append_complex]
 
 theorem blockFast_embSlow (y : Fin b → ℂ) : blockFast (embSlow a b y) = 0 := by
-  rw [embSlow_apply, blockFast_append]
+  rw [embSlow_apply, blockFast_append_complex]
 
 theorem blockSlow_embSlow (y : Fin b → ℂ) : blockSlow (embSlow a b y) = y := by
-  rw [embSlow_apply, blockSlow_append]
+  rw [embSlow_apply, blockSlow_append_complex]
 
 theorem eq_embFast_add_embSlow (J : Fin (a + b) → ℂ) :
     J = embFast a b (blockFast J) + embSlow a b (blockSlow J) := by
@@ -145,7 +145,7 @@ theorem fderiv_jp_embSlow (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
       fun ξ' => jetP0 d mu I + ∑ j, jetOmega d mu I j * ξ' j +
         (1 / 2 : ℂ) * ∑ i, ∑ j, jetBeta d mu I i j * ξ' i * ξ' j := by
     funext ξ'
-    simp [jetPolynomial, blockFast_append, blockSlow_append]
+    simp [jetPolynomial, blockFast_append_complex, blockSlow_append_complex]
   have hc : ∀ i : Fin b, HasFDerivAt (fun f : Fin b → ℂ => f i) (ContinuousLinearMap.proj i) ξ :=
     fun i => (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin b => ℂ) i).hasFDerivAt
   have hB : HasFDerivAt (fun ξ' : Fin b → ℂ => ∑ i, ∑ j, jetBeta d mu I i j * ξ' i * ξ' j) _ ξ :=
