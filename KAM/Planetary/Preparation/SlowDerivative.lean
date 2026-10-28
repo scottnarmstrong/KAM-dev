@@ -124,6 +124,52 @@ theorem fderiv_slowW_nat {C : P11SecularData n} {Z : P11CVec (n+n) → ℂ} {I :
     simpa only [Fin.natAdd_eq_addNat] using p11Jproj_single_nat a
   simp [h0, Pi.single_apply]
 
+/-- The action block of a mode vector. -/
+theorem p11dotC_split (k : Fin (n+n) → ℤ) (v : P11CVec (n+n)) :
+    p11dotC k v = p11dotC (fun i : Fin n => k (Fin.castAdd n i))
+      (fun i : Fin n => v (Fin.castAdd n i)) +
+      p11dotC (fun i : Fin n => k (Fin.natAdd n i)) (fun i : Fin n => v (Fin.natAdd n i)) := by
+  unfold p11dotC
+  rw [Fin.sum_univ_add]
+
+/-- `k · ∂h₀ = k₁ · ω(J) + ε k · ∂W` when `h₀ = h ∘ J + ε W` near `I`. -/
+theorem p11_slow_dotC_split {C : P11SecularData n} {Z h0 : P11CVec (n+n) → ℂ} {eps : ℝ}
+    {I : P11CVec (n+n)}
+    (hEv : h0 =ᶠ[nhds I] fun x : P11CVec (n+n) =>
+      C.h (fun i : Fin n => x (Fin.castAdd n i))+eps*p11SlowW C Z x)
+    (hh : DifferentiableAt ℂ C.h (fun i : Fin n => I (Fin.castAdd n i)))
+    (hW : DifferentiableAt ℂ (p11SlowW C Z) I)
+    (hω : C.omega (fun i : Fin n => I (Fin.castAdd n i)) =
+      fun i => fderiv ℂ C.h (fun i : Fin n => I (Fin.castAdd n i)) (Pi.single i 1))
+    (k : Fin (n+n) → ℤ) :
+    p11dotC k (fun i => fderiv ℂ h0 I (Pi.single i 1)) =
+      p11dotC (fun i : Fin n => k (Fin.castAdd n i)) (C.omega (fun i : Fin n => I (Fin.castAdd n i)))+
+        eps*p11dotC k (fun i => fderiv ℂ (p11SlowW C Z) I (Pi.single i 1)) := by
+  have hd : ∀ e, fderiv ℂ h0 I e = fderiv ℂ C.h (fun i : Fin n => I (Fin.castAdd n i))
+      (p11Jproj n e)+eps*fderiv ℂ (p11SlowW C Z) I e := by
+    intro e
+    rw [hEv.fderiv_eq]
+    have h1 : HasFDerivAt (fun x : P11CVec (n+n) => C.h (fun i : Fin n => x (Fin.castAdd n i)))
+        ((fderiv ℂ C.h (fun i : Fin n => I (Fin.castAdd n i))).comp (p11Jproj n)) I :=
+      hh.hasFDerivAt.comp I (hasFDerivAt_Jf I)
+    have h2 := h1.add (hW.hasFDerivAt.const_mul eps)
+    have h3 := congrArg (fun L => L e) h2.fderiv
+    simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.coe_comp', Function.comp_apply,
+      ContinuousLinearMap.smul_apply, smul_eq_mul] at h3
+    exact h3
+  have hs : ∀ j : Fin (n+n), (k j : ℂ) * fderiv ℂ h0 I (Pi.single j 1) =
+      (k j : ℂ) * fderiv ℂ C.h (fun i : Fin n => I (Fin.castAdd n i))
+        (p11Jproj n (Pi.single j 1)) +
+      eps*((k j : ℂ) * fderiv ℂ (p11SlowW C Z) I (Pi.single j 1)) := by
+    intro j; rw [hd]; ring
+  unfold p11dotC
+  rw [Finset.sum_congr rfl fun j _ => hs j, Finset.sum_add_distrib, ← Finset.mul_sum]
+  congr 1
+  rw [Fin.sum_univ_add]
+  simp only [p11Jproj_single_nat, map_zero, mul_zero, Finset.sum_const_zero, add_zero]
+  refine Finset.sum_congr rfl fun a _ => ?_
+  rw [p11Jproj_single_cast, hω]
+
 end SlowDerivative
 
 end KAM.Planetary
