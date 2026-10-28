@@ -331,7 +331,39 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
     rw [spectator_wsum_eq]
     calc _ ≤ (eps * C.MF) ^ 2 * (eps * C.MF) := h2
       _ = _ := by ring
-  · sorry
+  · -- the averaged function is close to the fast mean
+    intro J hJ z hz
+    have hw := hmemU J hJ z hz
+    have hzm : oscClass {C.J0} (s1 / 2) (C.rz / 2) (C.rz / 2) (C.sigma / 6)
+        (fun z => coeff (oscFunction fun z => (eps : ℂ) * C.F z) (oscPack z).2 0) := by
+      simpa [zero_add] using (osc_zero_mode hH).1
+    have hb := oscBound.norm_le (c7.sub hzm) c11 _ (hUo ▸ hw)
+    have hpack : (oscPack ((Fin.append (0 : P11CVec n) z.1, Fin.append J z.2) : P11Phase (n + n))).2 =
+        p11Flat J z.2 z.1 := by
+      rw [oscPack_eq]
+      simp only [p11Flat]
+      congr 1
+      · funext i; simp [firstBlock]
+      · congr 1
+        · funext i; simp [lastBlock]
+        · funext i; simp [lastBlock]
+    simp only [hpack, coeff_zero_flat] at hb
+    have hε : (eps : ℂ) ≠ 0 := by exact_mod_cast heps.ne'
+    have hrewrite : (eps : ℂ)⁻¹ * g (Fin.append 0 z.1, Fin.append J z.2) - p11FastMean C.F J z =
+        (eps : ℂ)⁻¹ * (g (Fin.append 0 z.1, Fin.append J z.2) - eps * p11FastMean C.F J (z.1, z.2)) := by
+      rw [mul_sub, ← mul_assoc, inv_mul_cancel₀ hε, one_mul]
+    rw [hrewrite, norm_mul, norm_inv, Complex.norm_real, Real.norm_of_nonneg heps.le]
+    refine le_trans (mul_le_mul_of_nonneg_left hb (inv_nonneg.2 heps.le)) ?_
+    unfold p11eta1
+    have hm0 : 0 < min (s1 * C.sigma) (C.rz * C.rz) := lt_min (mul_pos hs0 hσ0) (mul_pos hrz0 hrz0)
+    have hαp : 0 < 2 * Real.pi * α := by positivity
+    calc eps⁻¹ * (400 * (1 + (n : ℝ)) * (eps * C.MF) ^ 2 /
+          (2 * Real.pi * α * min (s1 * C.sigma) (C.rz * C.rz)))
+        = 400 * (1 + (n : ℝ)) * eps * C.MF ^ 2 / (2 * Real.pi * α * min (s1 * C.sigma) (C.rz * C.rz)) := by
+          field_simp
+      _ ≤ _ := by
+          refine div_le_div_of_nonneg_left (by positivity) (by positivity) ?_
+          exact mul_le_mul_of_nonneg_left hdle hαp.le
   · -- displacement
     intro z hz
     obtain ⟨d1, d2, d3, d4⟩ := c15 z hz
