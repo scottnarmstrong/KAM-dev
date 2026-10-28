@@ -126,4 +126,164 @@ theorem differentiable_fourierSum_finset {n : ℕ} {a : (Fin n → ℤ) → ℂ}
     (hS : ∀ k ∉ S, a k = 0) : Differentiable ℂ (KAM.fourierSum a) := fun theta =>
   (hasFDerivAt_fourierSum_finset hS theta).differentiableAt
 
+/-! ### Coefficients of the datum -/
+
+section Coeff
+variable {n : ℕ} {r M : ℝ} {B : Set (P11CVec n)} {P : P11CVec n × P11CVec n → ℂ}
+
+/-- `bp:p1:decay` for the datum, uniformly in the parameter. -/
+theorem norm_coeff_le (hr : 0 < r) (hP : p11AngleClass r B P)
+    (hb : p11Bound (KAM.complexStrip n r ×ˢ B) P M) {b : P11CVec n} (hbB : b ∈ B)
+    (k : Fin n → ℤ) :
+    ‖KAM.Weighted.coeff P b k‖ ≤ Real.exp (-(2*Real.pi*r*KAM.Fourier.modeSize k)) * M := by
+  have hd : DifferentiableOn ℂ (fun θ => P (θ, b)) (KAM.complexStrip n r) :=
+    hP.1.comp (differentiableOn_id.prodMk (differentiableOn_const b)) fun θ hθ => ⟨hθ, hbB⟩
+  exact KAM.norm_torusCoeff_le hr hd (fun i z hz => hP.2 i (z, b) ⟨hz, hbB⟩)
+    (fun z hz => hb (z, b) ⟨hz, hbB⟩) k
+
+/-- The Fourier coefficients are holomorphic in the parameter (`hm-coeff`, parametric integral). -/
+theorem differentiableOn_coeff (hr : 0 < r) (hB : IsOpen B)
+    (hP : DifferentiableOn ℂ P (KAM.complexStrip n r ×ˢ B)) (k : Fin n → ℤ) :
+    DifferentiableOn ℂ (fun b => KAM.Weighted.coeff P b k) B := by
+  have hQ : IsCompact (Set.pi Set.univ fun _ : Fin n => Icc (0 : ℝ) 1) :=
+    isCompact_univ_pi fun _ => isCompact_Icc
+  have hU : IsOpen (KAM.complexStrip n r ×ˢ B) := (KAM.isOpen_complexStrip n r).prod hB
+  have hreg := KAM.holomorphic_regularity_of_finiteDimensional hU hP
+  have hrealc : Continuous fun x : Fin n → ℝ => fun j => (x j : ℂ) :=
+    continuous_pi fun j => Complex.continuous_ofReal.comp (continuous_apply j)
+  have hmem : ∀ x : Fin n → ℝ, ∀ b ∈ B, ((fun j => (x j : ℂ)), b) ∈ KAM.complexStrip n r ×ˢ B :=
+    fun x b hb => ⟨KAM.ofReal_mem_complexStrip hr x, hb⟩
+  have hmaps : MapsTo (fun y : (Fin n → ℝ) × P11CVec n => ((fun j => (y.1 j : ℂ)), y.2))
+      (Set.pi Set.univ (fun _ : Fin n => Icc (0 : ℝ) 1) ×ˢ B) (KAM.complexStrip n r ×ˢ B) :=
+    fun y hy => hmem y.1 y.2 hy.2
+  have hmapc : Continuous fun y : (Fin n → ℝ) × P11CVec n => ((fun j => (y.1 j : ℂ)), y.2) :=
+    (hrealc.comp continuous_fst).prodMk continuous_snd
+  have hchar : Continuous fun y : (Fin n → ℝ) × P11CVec n =>
+      KAM.character (-k) (fun j => (y.1 j : ℂ)) :=
+    ((KAM.differentiable_character (-k)).continuous.comp hrealc).comp continuous_fst
+  have hGd : ∀ x : Fin n → ℝ, DifferentiableOn ℂ
+      (fun I => KAM.character (-k) (fun j => (x j : ℂ)) * P ((fun j => (x j : ℂ)), I)) B := by
+    intro x
+    have hmI : MapsTo (fun I : P11CVec n => ((fun j => (x j : ℂ)), I)) B
+        (KAM.complexStrip n r ×ˢ B) := fun I hI => hmem x I hI
+    exact ((hP.comp (differentiableOn_const _ |>.prodMk differentiableOn_id) hmI)).const_mul _
+  have hfd : ∀ x : Fin n → ℝ, ∀ I ∈ B,
+      fderiv ℂ (fun I => KAM.character (-k) (fun j => (x j : ℂ)) *
+        P ((fun j => (x j : ℂ)), I)) I =
+      KAM.character (-k) (fun j => (x j : ℂ)) •
+        (fderiv ℂ P ((fun j => (x j : ℂ)), I)).comp
+          (ContinuousLinearMap.inr ℂ (Fin n → ℂ) (Fin n → ℂ)) := by
+    intro x I hI
+    have hz := hmem x I hI
+    have hud : HasFDerivAt P (fderiv ℂ P ((fun j => (x j : ℂ)), I))
+        ((fun j => (x j : ℂ)), I) :=
+      (hP.differentiableAt (hU.mem_nhds hz)).hasFDerivAt
+    exact ((hud.comp I (hasFDerivAt_prodMk_right (𝕜 := ℂ) (fun j => (x j : ℂ)) I)).const_mul
+      _).fderiv
+  refine (KAM.Weighted.holomorphic_parametric_integral (W := ℂ) hQ hB
+    (G := fun x I => KAM.character (-k) (fun j => (x j : ℂ)) * P ((fun j => (x j : ℂ)), I))
+    ?_ (fun x _ => hGd x) ?_).1
+  · exact hchar.continuousOn.mul (hP.continuousOn.comp hmapc.continuousOn hmaps)
+  · refine ContinuousOn.congr ?_ (fun y hy => hfd y.1 y.2 hy.2)
+    refine hchar.continuousOn.smul ?_
+    exact ContinuousOn.clm_comp (hreg.1.continuousOn.comp hmapc.continuousOn hmaps)
+      continuousOn_const
+
+end Coeff
+
+/-! ### The bound of the solution (`hm-a`) -/
+
+/-- The finite lattice sum is bounded by `p11Lambda` (also for `n = 0`, where it is empty). -/
+theorem sum_exp_le_lambda {n : ℕ} {delta : ℝ} (hd : 0 < delta) (F : Finset (Fin n → ℤ))
+    (hF : ∀ k ∈ F, k ≠ 0) :
+    ∑ k ∈ F, Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k) ≤ p11Lambda n delta := by
+  rcases Nat.eq_zero_or_pos n with rfl | hn
+  · have : F = ∅ := Finset.eq_empty_of_forall_notMem fun k hk =>
+      hF k hk (Subsingleton.elim _ _)
+    simp [this, p11Lambda]
+  · obtain ⟨hs, htsum, -, -⟩ := p11_lambda_spec hn hd
+    calc ∑ k ∈ F, Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k)
+        = ∑ x ∈ F.subtype (fun k => k ≠ 0),
+            Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize x.val) :=
+          (Finset.sum_subtype_of_mem (fun k => Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k))
+            hF).symm
+      _ ≤ ∑' x : {k : Fin n → ℤ // k ≠ 0},
+            Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize x.val) :=
+          hs.sum_le_tsum _ fun _ _ => (Real.exp_pos _).le
+      _ = p11Lambda n delta := htsum
+
+section Bound
+variable {n : ℕ} {r M T D : ℝ} {B : Set (P11CVec n)} {P : P11CVec n × P11CVec n → ℂ}
+  {w : P11CVec n → P11CVec n}
+
+theorem norm_hmCoef_le (hD : 0 < D) (hr : 0 < r) (hP : p11AngleClass r B P)
+    (hb : p11Bound (KAM.complexStrip n r ×ˢ B) P M) {b : P11CVec n} (hbB : b ∈ B)
+    (hdiv : ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    {k : Fin n → ℤ} (hk : k ≠ 0) (hkT : KAM.Fourier.modeSize k ≤ T) :
+    ‖hmCoef T w P b k‖ ≤ Real.exp (-(2*Real.pi*r*KAM.Fourier.modeSize k)) * M / (Real.pi*D) := by
+  have hcond : ¬ (k = 0 ∨ T < KAM.Fourier.modeSize k) := by
+    rintro (h | h)
+    · exact hk h
+    · exact absurd hkT (not_le.2 h)
+  rw [hmCoef]
+  simp only [hcond, ite_false]
+  rw [norm_div]
+  have h2 : ‖(2*Real.pi*Complex.I : ℂ)‖ = 2*Real.pi := by
+    simp [abs_of_pos Real.pi_pos]
+  have hc : Real.pi*D ≤ ‖2*Real.pi*Complex.I*p11dotC k (w b)‖ := by
+    rw [norm_mul, h2]
+    nlinarith [hdiv k hk hkT, Real.pi_pos]
+  have hcoef := norm_coeff_le hr hP hb hbB k
+  exact div_le_div₀ ((norm_nonneg _).trans hcoef) hcoef (by positivity) hc
+
+/-- `hm-a`: the pointwise bound of the generator, `Λ_δ M/(πD)`. -/
+theorem norm_solve_le {delta : ℝ} (hd : 0 < delta) (hD : 0 < D) (hr : 0 < r) (hM : 0 ≤ M)
+    (hP : p11AngleClass r B P) (hb : p11Bound (KAM.complexStrip n r ×ˢ B) P M)
+    {b : P11CVec n} (hbB : b ∈ B)
+    (hdiv : ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    {theta : P11CVec n} (hθ : theta ∈ KAM.complexStrip n (r-delta)) :
+    ‖p11Solve T w P theta b‖ ≤ p11Lambda n delta*M/(Real.pi*D) := by
+  rw [p11Solve_eq]
+  set F : Finset (Fin n → ℤ) :=
+    (hmModes n T).filter fun k => k ≠ 0 ∧ KAM.Fourier.modeSize k ≤ T with hF
+  have hS : ∀ k ∉ F, hmCoef T w P b k = 0 := by
+    intro k hk
+    by_cases h0 : k = 0
+    · simp [hmCoef, h0]
+    · by_cases hT : KAM.Fourier.modeSize k ≤ T
+      · exact absurd (Finset.mem_filter.2 ⟨mem_hmModes_of_le hT, h0, hT⟩) hk
+      · simp [hmCoef, not_le.1 hT]
+  rw [fourierSum_finset hS]
+  have hterm : ∀ k ∈ F, ‖hmCoef T w P b k * KAM.character k theta‖ ≤
+      M/(Real.pi*D) * Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k) := by
+    intro k hk
+    obtain ⟨-, hk0, hkT⟩ := Finset.mem_filter.1 hk
+    rw [norm_mul]
+    have h1 := norm_hmCoef_le hD hr hP hb hbB hdiv hk0 hkT
+    have h2 := KAM.norm_character_le k hθ
+    calc ‖hmCoef T w P b k‖ * ‖KAM.character k theta‖
+        ≤ (Real.exp (-(2*Real.pi*r*KAM.Fourier.modeSize k)) * M / (Real.pi*D)) *
+          Real.exp (2*Real.pi*(r-delta)*KAM.Fourier.modeSize k) :=
+          mul_le_mul h1 h2 (norm_nonneg _) ((norm_nonneg _).trans h1)
+      _ = M/(Real.pi*D) * Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k) := by
+          have : Real.exp (-(2*Real.pi*r*KAM.Fourier.modeSize k)) *
+              Real.exp (2*Real.pi*(r-delta)*KAM.Fourier.modeSize k) =
+              Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k) := by
+            rw [← Real.exp_add]; congr 1; ring
+          calc _ = M/(Real.pi*D) * (Real.exp (-(2*Real.pi*r*KAM.Fourier.modeSize k)) *
+              Real.exp (2*Real.pi*(r-delta)*KAM.Fourier.modeSize k)) := by ring
+            _ = _ := by rw [this]
+  calc ‖∑ k ∈ F, hmCoef T w P b k * KAM.character k theta‖
+      ≤ ∑ k ∈ F, ‖hmCoef T w P b k * KAM.character k theta‖ := norm_sum_le _ _
+    _ ≤ ∑ k ∈ F, M/(Real.pi*D) * Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k) :=
+        Finset.sum_le_sum hterm
+    _ = M/(Real.pi*D) * ∑ k ∈ F, Real.exp (-2*Real.pi*delta*KAM.Fourier.modeSize k) :=
+        (Finset.mul_sum _ _ _).symm
+    _ ≤ M/(Real.pi*D) * p11Lambda n delta :=
+        mul_le_mul_of_nonneg_left (sum_exp_le_lambda hd F fun k hk =>
+          (Finset.mem_filter.1 hk).2.1) (by positivity)
+    _ = p11Lambda n delta*M/(Real.pi*D) := by ring
+
+end Bound
+
 end KAM.Planetary
