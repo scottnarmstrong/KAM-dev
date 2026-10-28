@@ -149,6 +149,86 @@ theorem iter_rem_le (j : ℕ) :
 
 end Stage
 
+/-- The scalar premises of one canonical step, at stage `ν` of the schedule `a`. -/
+structure StepFacts (a : SelectionSchedule n) (C₁ : ℝ) (ν : ℕ) : Prop where
+  n_pos : 1 ≤ n
+  t_pos : 0 < selectiont a (ν + 1)
+  s_pos : 0 < selections a ν
+  T_pos : 0 < selectionT a ν
+  d_pos : 0 < selectiond a ν
+  σ_pos : 0 < selectionσ a ν
+  radius : 0 < selectionr a ν - selectiond a ν - selectionσ a ν - 2 * selectionσ a ν
+  q_pos : 0 < selectionQ n a.μ a.τ
+  q_le : selectionQ n a.μ a.τ ≤ 1 / 2
+  D_pos : 0 < selectionD a ν
+  L_nonneg : 0 ≤ 2 * C₁
+  eps_nonneg : 0 ≤ selectionε a ν
+  cutoff_error : p11Error n (selectionT a ν) (selectiond a ν) ≤ 1
+  divisor_small : selectiont a (ν + 1) * selectionT a ν * (2 * C₁) ≤ selectionD a ν / 2
+  flow_small : 4 * (n + 1) * p11Lambda n (selectionσ a ν) *
+      (1 + p11Error n (selectionT a ν) (selectiond a ν)) * selectionε a ν ≤
+    Real.pi * selectionD a ν * selections a ν * selectionσ a ν
+
+/-- The canonical-step parameters at stage `ν`: `E = K_{ν+1}`, `t = t_{ν+1}`, `r = r_ν`,
+`s = s_ν`, `T = T_ν`, `d = d_ν`, `δ = σ = σ_ν`, `q = Q`, `D = D_ν`, `L = 2 C₁`, `ε = ε_ν`. -/
+def stageStep (a : SelectionSchedule n) (C₁ : ℝ) (ν : ℕ) (K : Set (SelectionR n))
+    (hf : StepFacts a C₁ ν) : P11Step n where
+  E := K
+  t := selectiont a (ν + 1)
+  r := selectionr a ν
+  s := selections a ν
+  T := selectionT a ν
+  d := selectiond a ν
+  delta := selectionσ a ν
+  sigma := selectionσ a ν
+  q := selectionQ n a.μ a.τ
+  D := selectionD a ν
+  L := 2 * C₁
+  eps := selectionε a ν
+  n_pos := hf.n_pos
+  t_pos := hf.t_pos
+  s_pos := hf.s_pos
+  T_pos := hf.T_pos
+  d_pos := hf.d_pos
+  delta_pos := hf.σ_pos
+  sigma_pos := hf.σ_pos
+  radius := hf.radius
+  q_pos := hf.q_pos
+  q_le := hf.q_le
+  D_pos := hf.D_pos
+  L_nonneg := hf.L_nonneg
+  eps_nonneg := hf.eps_nonneg
+  cutoff_error := hf.cutoff_error
+  divisor_small := hf.divisor_small
+  flow_small := hf.flow_small
+
+section Stage
+variable {d : SelectionData n} {a : SelectionSchedule n} (c : WeakBudgetCtx d a)
+include c
+
+theorem stepFacts_of_ctx (ν : ℕ) : StepFacts a d.C₁ ν := by
+  have h := c.hyp
+  have hr := iter_strip c ν
+  have hr1 := iter_strip c (ν + 1)
+  have hs := wbud_s_pos h ν
+  have hσ := wbud_σ_pos h ν
+  refine ⟨h.hn, wbud_t_pos c (ν + 1), hs, wbud_T_pos h ν, wbud_d_pos h ν, hσ, ?_,
+    (wbud_ratios c).1, iter_q_le c, wbud_D_pos h ν, by linarith [h.hC], wbud_ε_pos h ν |>.le,
+    ?_, ?_, iter_flow_small c ν⟩
+  · have := hr.2.1
+    have := hr1.1
+    have := h.hstrip
+    rw [hr.2.1] at *
+    linarith
+  · have h1 := (wbud_E_bounds h ν).2
+    rw [selectionCutoffError_eq_p11Error] at h1
+    linarith
+  · have := schedule_props a h.hn h.hμ h.hτ h.hγ h.hT h.ht h.hs h.he h.hstrip h.hC
+      (by have := h.inc; have := h.col; have := h.hC; have := h.ht; nlinarith) h.inc h.col ν 0
+    exact this.2.2.2.2.2.2.2.2.2.2.2.2
+
+end Stage
+
 end KAM.Planetary
 
 end
