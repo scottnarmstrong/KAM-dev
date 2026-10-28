@@ -353,9 +353,9 @@ theorem p11_goodSched_multi {Dc : Set (Fin (a + b) → ℂ)} {r sbar s K α₁ �
       rw [hE₁def]
       field_simp
       ring
-  · exact p11_multi_disp_σ (by positivity) hs hE hE₁ hE₁κ hN1 hNκ.le r (sbar + s) hκ0
-  · exact p11_multi_disp_σ (by positivity) hs hE hE₁ hE₁κ hN1 hNκ.le r (sbar + s) hκ0
-  · exact p11_multi_disp_ρ (by positivity) hr hE hE₁ hE₁κ hN1 hNκ.le (sbar + s) hκ0
+  · exact p11_multi_disp_σ (by positivity) hs hE hE₁κ hN1 hNκ.le r (sbar + s) hκ0
+  · exact p11_multi_disp_σ (by positivity) hs hE hE₁κ hN1 hNκ.le r (sbar + s) hκ0
+  · exact p11_multi_disp_ρ (by positivity) hr hE hE₁κ hN1 hNκ.le (sbar + s) hκ0
 
 /-- A schedule for the hypotheses of the finite iteration exists. -/
 theorem p11_goodSched_of_avg (H : P11AvgHyp Dc r sbar s K α₁ α₂ E h f) :

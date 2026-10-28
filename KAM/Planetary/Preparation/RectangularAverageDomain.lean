@@ -23,7 +23,8 @@ open Set
 namespace KAM.Planetary
 
 /-- Blockwise radius vector: `r₁` on the first `a` coordinates, `r₂` on the last `b`. -/
-def p11Rad (a b : ℕ) (r1 r2 : ℝ) : Fin (a + b) → ℝ := Fin.append (fun _ : Fin a => r1) (fun _ : Fin b => r2)
+def p11Rad (a b : ℕ) (r1 r2 : ℝ) : Fin (a + b) → ℝ :=
+  Fin.append (fun _ : Fin a => r1) (fun _ : Fin b => r2)
 
 theorem p11Box_eq {a b : ℕ} (c : P11CVec (a + b)) (r1 r2 : ℝ) :
     p11Box c r1 r2 = {I | ∀ j, ‖I j - c j‖ < p11Rad a b r1 r2 j} := by

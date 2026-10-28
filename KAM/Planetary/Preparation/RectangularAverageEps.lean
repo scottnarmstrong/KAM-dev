@@ -11,7 +11,8 @@ public import KAM.Planetary.Averaging.FiniteMulti
 # Rectangular averaging: the quadratic first-step bound (P11A-P4, `stepP:p11:aa-quad`)
 
 The numerical inequalities of the finite averaging iteration with the first remainder bound
-`ε₁ = E₁` an arbitrary number in `[0, 3E/(4κ)]` (the source takes `E₁ = 2 y₀ E`, `y₀ = E/Q`, which is
+`ε₁ = E₁` an arbitrary number in `[0, 3E/(4κ)]` (the source takes `E₁ = 2 y₀ E`, `y₀ = E/Q`,
+which is
 quadratic in `E`). The remainder bounds are `ε₀ = E`, `εᵢ = E₁ 4^{1-i}`; every estimate is the
 corresponding one of `FiniteMulti` for the larger sequence `(3E/(4κ)) 4^{1-i}`.
 -/
@@ -157,7 +158,7 @@ section Displacement
 variable {a s κ E E₁ : ℝ} {n : ℕ}
 
 /-- The action-displacement sums of `multi_disp_σ` for the smaller sequence. -/
-theorem p11_multi_disp_σ (ha : 0 < a) (hs : 0 < s) (hE : 0 ≤ E) (hE₁ : 0 ≤ E₁)
+theorem p11_multi_disp_σ (ha : 0 < a) (hs : 0 < s) (hE : 0 ≤ E)
     (hE₁κ : E₁ ≤ 3 * E / (4 * κ)) (hn : 1 ≤ n) (hnκ : 8 * (n : ℝ) ≤ κ) (r S : ℝ)
     (hκ : 0 < κ) :
     a * s * ∑ i ∈ Finset.range (n + 1),
@@ -174,7 +175,7 @@ theorem p11_multi_disp_σ (ha : 0 < a) (hs : 0 < s) (hE : 0 ≤ E) (hE₁ : 0 �
   exact div_le_div_of_nonneg_right hle (by positivity)
 
 /-- The angle-displacement sum of `multi_disp_ρ` for the smaller sequence. -/
-theorem p11_multi_disp_ρ {r : ℝ} (ha : 0 < a) (hr : 0 < r) (hE : 0 ≤ E) (hE₁ : 0 ≤ E₁)
+theorem p11_multi_disp_ρ {r : ℝ} (ha : 0 < a) (hr : 0 < r) (hE : 0 ≤ E)
     (hE₁κ : E₁ ≤ 3 * E / (4 * κ)) (hn : 1 ≤ n) (hnκ : 8 * (n : ℝ) ≤ κ) (S : ℝ)
     (hκ : 0 < κ) :
     a * r * ∑ i ∈ Finset.range (n + 1),
