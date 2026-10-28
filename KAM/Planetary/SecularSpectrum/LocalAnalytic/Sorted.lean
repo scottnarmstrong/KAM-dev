@@ -64,6 +64,19 @@ lemma charpoly_eq_prod_sorted :
 
 end Sorted
 
+/-- `n` distinct roots of a degree-`n` characteristic polynomial are all of its roots. -/
+lemma charpoly_eq_prod_of_roots (A : Mat n) {σ : Vec n} (hσ : Function.Injective σ)
+    (hr : ∀ m, A.charpoly.eval (σ m) = 0) : A.charpoly = ∏ k, (X - C (σ k)) := by
+  have hcop : Set.Pairwise (↑(Finset.univ : Finset (Fin n)))
+      (IsCoprime on fun i => (X - C (σ i) : ℝ[X])) :=
+    fun i _ j _ hij => Polynomial.pairwise_coprime_X_sub_C hσ hij
+  have hdvd : (∏ k, (X - C (σ k)) : ℝ[X]) ∣ A.charpoly :=
+    Finset.prod_dvd_of_coprime hcop fun i _ => dvd_iff_isRoot.2 (hr i)
+  have hmon : (∏ k, (X - C (σ k)) : ℝ[X]).Monic := monic_prod_of_monic _ _ fun k _ => monic_X_sub_C _
+  refine eq_of_monic_of_dvd_of_natDegree_le hmon A.charpoly_monic hdvd ?_
+  rw [Matrix.charpoly_natDegree_eq_dim, natDegree_finsetProd_X_sub_C_eq_card]
+  simp
+
 end SecularSpectrum
 
 end KAM.Planetary
