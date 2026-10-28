@@ -102,7 +102,8 @@ theorem osc_hom_local {r rp rq S K α δ : ℝ} {h : (Fin n → ℂ) → ℂ} {f
     intro I hI
     rw [polyNbhd_singleton] at hI
     exact hδ I (hball hI)
-  have hω : DifferentiableOn ℂ (oscFreq n m h) (polyNbhd ({x} : Set (Fin (n + (m + m)) → ℂ)) ε) := by
+  have hω : DifferentiableOn ℂ (oscFreq n m h)
+      (polyNbhd ({x} : Set (Fin (n + (m + m)) → ℂ)) ε) := by
     intro I hI
     rw [polyNbhd_singleton] at hI
     exact (differentiableAt_oscFreq hh (hball hI).1).differentiableWithinAt

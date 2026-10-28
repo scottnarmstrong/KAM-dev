@@ -36,7 +36,8 @@ variable {n m : ℕ} {D : Set (Fin n → ℝ)}
 /-- The translation of the fast angles by `a`. -/
 def fastShift {n m : ℕ} (a : Fin n → ℂ) : CPhase (n + m) := (Fin.append a (0 : Fin m → ℂ), 0)
 
-theorem fastShift_add (a b : Fin n → ℂ) : fastShift (m := m) (a + b) = fastShift a + fastShift b := by
+theorem fastShift_add (a b : Fin n → ℂ) :
+    fastShift (m := m) (a + b) = fastShift a + fastShift b := by
   refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
   · refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;>
       simp [fastShift, Fin.append_left, Fin.append_right]

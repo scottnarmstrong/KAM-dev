@@ -63,11 +63,13 @@ def W : CPhase (n + m) ≃L[ℂ] CPhase (n + m) := oscScale H.hρ H.hρp H.hρq 
 
 theorem norm_W (x : CPhase (n + m)) : ‖H.W x‖ = oscGauge ρ ρp ρq σ x := norm_oscScale _ _ _ _ x
 
-theorem field_bound : ∀ z ∈ oscO D r rp rq S ρ ρp ρq σ, oscGauge ρ ρp ρq σ (KAM.hamiltonianVectorFieldℂ φ z) ≤
+theorem field_bound : ∀ z ∈ oscO D r rp rq S ρ ρp ρq σ,
+    oscGauge ρ ρp ρq σ (KAM.hamiltonianVectorFieldℂ φ z) ≤
     E / min (ρ * σ) (ρp * ρq) := fun z hz =>
   ob_field H.cls H.bound ⟨H.hρ, H.hρr⟩ ⟨H.hρp, H.hρpr⟩ ⟨H.hρq, H.hρqr⟩ ⟨H.hσ, H.hσS⟩ z hz
 
-theorem smallField : SmallField H.W (oscO (m := m) D r rp rq S ρ ρp ρq σ) (KAM.hamiltonianVectorFieldℂ φ)
+theorem smallField : SmallField H.W (oscO (m := m) D r rp rq S ρ ρp ρq σ)
+    (KAM.hamiltonianVectorFieldℂ φ)
     (E / min (ρ * σ) (ρp * ρq)) where
   isOpen := isOpen_oscDom _ _ _ _ _
   differentiableOn := differentiableOn_hamField (isOpen_oscDom _ _ _ _ _)
@@ -186,7 +188,8 @@ theorem real_flow (hφr : RealOn (oscDom (m := m) D r rp rq S) φ) :
       H.cls.1 (fun y hy => hφr y hy) (z := y)
       (oscDom_mono (by linarith [H.hρ]) (by linarith [H.hρp]) (by linarith [H.hρq])
         (by linarith [H.hσ]) hw)
-      (H := fun y' => (φ (KAM.realInclusion₂ (n + m) y')).re) (Filter.Eventually.of_forall fun _ => rfl)
+      (H := fun y' => (φ (KAM.realInclusion₂ (n + m) y')).re)
+      (Filter.Eventually.of_forall fun _ => rfl)
     exact ⟨_, h2⟩
   exact flow_e H.smallField hreal _ (H.half hx) ⟨x, rfl⟩ 1 one_mem
 

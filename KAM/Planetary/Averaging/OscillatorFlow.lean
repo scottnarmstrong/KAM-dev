@@ -34,10 +34,12 @@ section Gauge
 /-- Weights `c₁` on the first block and `c₂` on the last block. -/
 def blockW (a b : ℕ) (c₁ c₂ : ℝ) : Fin (a + b) → ℝ := Fin.append (fun _ => c₁) (fun _ => c₂)
 
-theorem blockW_castAdd {a b : ℕ} {c₁ c₂ : ℝ} (i : Fin a) : blockW a b c₁ c₂ (Fin.castAdd b i) = c₁ := by
+theorem blockW_castAdd {a b : ℕ} {c₁ c₂ : ℝ} (i : Fin a) :
+    blockW a b c₁ c₂ (Fin.castAdd b i) = c₁ := by
   simp [blockW]
 
-theorem blockW_natAdd {a b : ℕ} {c₁ c₂ : ℝ} (i : Fin b) : blockW a b c₁ c₂ (Fin.natAdd a i) = c₂ := by
+theorem blockW_natAdd {a b : ℕ} {c₁ c₂ : ℝ} (i : Fin b) :
+    blockW a b c₁ c₂ (Fin.natAdd a i) = c₂ := by
   simp [blockW]
 
 theorem blockW_pos {a b : ℕ} {c₁ c₂ : ℝ} (h₁ : 0 < c₁) (h₂ : 0 < c₂) (i : Fin (a + b)) :
@@ -59,7 +61,8 @@ theorem blockScale_apply {a b : ℕ} {c₁ c₂ : ℝ} (h₁ : 0 < c₁) (h₂ :
 
 theorem norm_blockScale {a b : ℕ} {c₁ c₂ : ℝ} (h₁ : 0 < c₁) (h₂ : 0 < c₂) (x : Fin (a + b) → ℂ) :
     ‖blockScale (a := a) (b := b) h₁ h₂ x‖ = max (‖firstBlock x‖ / c₁) (‖lastBlock x‖ / c₂) := by
-  have key : ∀ i, ‖blockScale (a := a) (b := b) h₁ h₂ x i‖ = ‖x i‖ / blockW a b c₁ c₂ i := fun i => by
+  have key : ∀ i, ‖blockScale (a := a) (b := b) h₁ h₂ x i‖ =
+      ‖x i‖ / blockW a b c₁ c₂ i := fun i => by
     rw [blockScale_apply, norm_mul, norm_inv, Complex.norm_real, Real.norm_of_nonneg
       (blockW_pos h₁ h₂ i).le, inv_mul_eq_div]
   have hn1 : 0 ≤ ‖firstBlock (b := b) x‖ / c₁ := by positivity
@@ -141,7 +144,8 @@ theorem oscDom_of_gauge_le {ρ ρp ρq σ c a b d T : ℝ} (hρ : 0 < ρ) (hρp 
   obtain ⟨z1, ⟨J, hJ, hzJ⟩, z3, z4⟩ := mem_oscDom_iff.1 hz
   refine mem_oscDom_iff.2 ⟨fun i => ?_, ⟨J, hJ, ?_⟩, ?_, ?_⟩
   · have hi : |((w - z).1 (Fin.castAdd m i)).im| ≤ σ * c :=
-      (Complex.abs_im_le_norm _).trans (((norm_le_pi_norm (firstBlock (b := m) (w - z).1) i)).trans h1)
+      (Complex.abs_im_le_norm _).trans
+        ((norm_le_pi_norm (firstBlock (b := m) (w - z).1) i).trans h1)
     have : (w.1 (Fin.castAdd m i)).im = (z.1 (Fin.castAdd m i)).im +
         ((w - z).1 (Fin.castAdd m i)).im := by simp
     rw [this]

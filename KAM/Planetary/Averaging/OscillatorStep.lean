@@ -63,6 +63,7 @@ theorem osc_flowHyp (hα : 0 < α) (hK : 0 ≤ K)
     div_le_div_of_nonneg_left (by positivity) (by norm_num) h16
   nlinarith
 
+set_option linter.unusedVariables false in
 /-- Every clause of `osc_iter` except the class, the weighted bound and the reality of `fp`
 (and the conditional reality clause, which mentions `fp`). Same hypotheses and `let`s. -/
 theorem osc_iter_core {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ K α δ : ℝ}
@@ -188,7 +189,8 @@ theorem osc_fp_class {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp �
   have hVtop : V ⊆ oscDom (m := m) D r rp rq S :=
     oscDom_mono (by linarith) (by linarith) (by linarith) (by linarith)
   have hΨd : DifferentiableOn ℂ Ψ V := H.diff_flow.mono hVU
-  have hmaps : MapsTo Ψ V (oscDom (m := m) D r rp rq S) := fun z hz => hOtop (H.mapsTo_flow (hVU hz))
+  have hmaps : MapsTo Ψ V (oscDom (m := m) D r rp rq S) := fun z hz =>
+    hOtop (H.mapsTo_flow (hVU hz))
   have hfb : Differentiable ℂ (fun w : CPhase (n + m) => firstBlock (b := m) w.2) :=
     differentiable_pi.2 fun i => by
       show Differentiable ℂ (fun w : CPhase (n + m) => w.2 (Fin.castAdd m i))
