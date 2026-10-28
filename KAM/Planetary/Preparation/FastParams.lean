@@ -62,6 +62,82 @@ theorem fast_rhs_lower {γ τ L rC σ rz K : ℝ} (hγ : 0 < γ) (hL : 1 ≤ L)
         mul_le_mul (mul_le_mul_of_nonneg_left hKτ (by positivity)) hd2 (by positivity)
           (by positivity)
 
+/-- `stepP:p11:af-o2`: (S1) and `ε M ≤ e⁻¹` hold for all small `ε`. -/
+theorem fast_small_eventually {n : ℕ} {γ τ L rC σ rz M : ℝ} (hγ : 0 < γ) (hτ : 0 < τ)
+    (hL : 1 ≤ L) (hrC : 0 < rC) (hσ : 0 < σ) (hσ1 : σ ≤ 1 / 4) (hrz : 0 < rz) (hM : 1 ≤ M) :
+    ∃ ε1 : ℝ, 0 < ε1 ∧ ε1 < 1 ∧ ∀ ε : ℝ, 0 < ε → ε ≤ ε1 →
+      ε * M ≤ Real.exp (-1) ∧
+      ∀ K : ℝ, K = 6 / (Real.pi * σ) * Real.log (1 / (ε * M)) →
+        2 ^ 12 * (1 + (n : ℝ)) * K * ε * M * σ ≤
+          γ / 2 * K ^ (-τ) *
+            (min (min rC (γ / (4 * L * K ^ (τ + 1))) * σ) rz) ^ 2 := by
+  have hM0 : 0 < M := by linarith
+  set c3 : ℝ := 6 / (Real.pi * σ) with hc3
+  have hc30 : 0 < c3 := by positivity
+  have hc31 : 1 ≤ c3 := by
+    rw [hc3, le_div_iff₀ (by positivity)]
+    nlinarith [Real.pi_lt_four, Real.pi_pos]
+  set b : ℝ := 4 * (τ + 1) with hb
+  have hb0 : 0 ≤ b := by positivity
+  set c2 : ℝ := min (min rC (γ / (4 * L)) * σ) rz with hc2
+  have hL0 : 0 < L := by linarith
+  have hc20 : 0 < c2 := lt_min (mul_pos (lt_min hrC (by positivity)) hσ) hrz
+  set η : ℝ := γ * c2 ^ 2 / 2 / (2 ^ 12 * (1 + (n : ℝ)) * σ * M * c3 ^ b) with hη
+  have hη0 : 0 < η := by positivity
+  have hev := (e4 (a := 1) (b := b) one_pos hb0).eventually (Iic_mem_nhds hη0)
+  obtain ⟨u, hu, hsub⟩ := (mem_nhdsGT_iff_exists_Ioo_subset).1 hev
+  have hu0 : 0 < u := hu
+  refine ⟨min (u / 2) (min (Real.exp (-1) / M) (1 / 2)), lt_min (by linarith)
+    (lt_min (by positivity) (by norm_num)), lt_of_le_of_lt (min_le_of_right_le (min_le_right _ _))
+    (by norm_num), fun ε hε hεle => ?_⟩
+  have hε1 : ε ≤ u / 2 := hεle.trans (min_le_left _ _)
+  have hε2 : ε ≤ Real.exp (-1) / M :=
+    hεle.trans ((min_le_right _ _).trans (min_le_left _ _))
+  have hεM : ε * M ≤ Real.exp (-1) := by rwa [le_div_iff₀ hM0] at hε2
+  refine ⟨hεM, fun K hK => ?_⟩
+  have hεM0 : 0 < ε * M := by positivity
+  have hℓ1 : 1 ≤ Real.log (1 / (ε * M)) := log_inv_ge_one hεM0 hεM
+  have hℓΛ : Real.log (1 / (ε * M)) ≤ Real.log (1 / ε) := by
+    rw [one_div, one_div, Real.log_inv, Real.log_inv, Real.log_mul hε.ne' hM0.ne']
+    have := Real.log_nonneg hM
+    linarith
+  have hK1 : 1 ≤ K := by rw [hK]; nlinarith
+  have hKΛ : K ≤ c3 * Real.log (1 / ε) := by
+    rw [hK]; exact mul_le_mul_of_nonneg_left hℓΛ hc30.le
+  have hKP : K ≤ K ^ (τ + 1) := by
+    calc K = K ^ (1 : ℝ) := (Real.rpow_one K).symm
+      _ ≤ K ^ (τ + 1) := Real.rpow_le_rpow_of_exponent_le hK1 (by linarith)
+  have hP1 : 1 ≤ K ^ (τ + 1) := Real.one_le_rpow hK1 (by linarith)
+  have hlow := fast_rhs_lower (K := K) hγ hL hrC hσ hrz hK1 hτ
+  refine le_trans ?_ hlow
+  have hev1 : ε ^ (1 : ℝ) * Real.log (1 / ε) ^ b ≤ η := hsub ⟨hε, by linarith⟩
+  rw [Real.rpow_one] at hev1
+  have hΛ0 : 0 ≤ Real.log (1 / ε) := le_trans zero_le_one (hℓ1.trans hℓΛ)
+  have hKb : K ^ b ≤ (c3 * Real.log (1 / ε)) ^ b := Real.rpow_le_rpow (by linarith) hKΛ hb0
+  have hPb : (K ^ (τ + 1)) ^ 4 = K ^ b := by
+    rw [hb, ← Real.rpow_natCast, ← Real.rpow_mul (by linarith)]; norm_num; ring_nf
+  have hKP3 : K * (K ^ (τ + 1)) ^ 3 ≤ K ^ b := by
+    rw [← hPb]
+    calc K * (K ^ (τ + 1)) ^ 3 ≤ K ^ (τ + 1) * (K ^ (τ + 1)) ^ 3 :=
+          mul_le_mul_of_nonneg_right hKP (by positivity)
+      _ = _ := by ring
+  have hcb : (c3 * Real.log (1 / ε)) ^ b = c3 ^ b * Real.log (1 / ε) ^ b :=
+    Real.mul_rpow hc30.le hΛ0
+  have hηe : 2 ^ 12 * (1 + (n : ℝ)) * σ * M * c3 ^ b * η = γ * c2 ^ 2 / 2 := by
+    rw [hη]; field_simp
+  have hP0 : 0 < K ^ (τ + 1) := by linarith
+  rw [le_div_iff₀ (by positivity)]
+  have hA : 0 ≤ 2 ^ 12 * (1 + (n : ℝ)) * σ * M * ε := by positivity
+  calc 2 ^ 12 * (1 + (n : ℝ)) * K * ε * M * σ * (2 * (K ^ (τ + 1)) ^ 3)
+      = 2 * (2 ^ 12 * (1 + (n : ℝ)) * σ * M * ε) * (K * (K ^ (τ + 1)) ^ 3) := by ring
+    _ ≤ 2 * (2 ^ 12 * (1 + (n : ℝ)) * σ * M * ε) * (c3 ^ b * Real.log (1 / ε) ^ b) := by
+        rw [← hcb]
+        exact mul_le_mul_of_nonneg_left (hKP3.trans hKb) (by positivity)
+    _ = 2 * (2 ^ 12 * (1 + (n : ℝ)) * σ * M * c3 ^ b) * (ε * Real.log (1 / ε) ^ b) := by ring
+    _ ≤ 2 * (2 ^ 12 * (1 + (n : ℝ)) * σ * M * c3 ^ b) * η :=
+        mul_le_mul_of_nonneg_left hev1 (by positivity)
+    _ = γ * c2 ^ 2 := by rw [mul_assoc, hηe]; ring
+
 end KAM.Planetary
 
 end
