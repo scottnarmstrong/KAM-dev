@@ -173,4 +173,70 @@ theorem qbPoly_collar (N mu rho : ℕ) (tau c asRate : ℝ) (hN : 1 ≤ N) (hmu 
           exact hprod2
       _ = d.gamma * d.tbar ^ (-tau - 1) / (4 * d.C1) := by ring
 
+/-! ### The strip bound `xibar` (`stepP:p11a:ab-t0`) -/
+
+theorem BudgetRates.rateJ_nonneg (N mu rho : ℕ) (tau : ℝ) (a : BudgetRates) (hv : a.Valid) :
+    0 ≤ a.rateJ N mu rho tau :=
+  hv.1.trans (le_max_left _ _)
+
+theorem BudgetRates.s_le_rateL (a : BudgetRates) (hv : a.Valid) : a.s ≤ a.rateL := by
+  unfold BudgetRates.rateL
+  split_ifs with h
+  · linarith
+  · exact not_lt.mp h
+
+theorem BudgetRates.rateL_le_rateX (N mu rho : ℕ) (tau : ℝ) (a : BudgetRates) :
+    a.rateL ≤ a.rateX N mu rho tau := le_max_right _ _
+
+theorem BudgetRates.rateJ_le_rateX (N mu rho : ℕ) (tau : ℝ) (a : BudgetRates) :
+    a.rateJ N mu rho tau ≤ a.rateX N mu rho tau := le_max_left _ _
+
+theorem qbPoly_xibar_upper {N : ℕ} (mu rho : ℕ) (tau c Ct kt : ℝ) (hc : 0 < c) (hCt : 0 < Ct)
+    (hkt : 0 < kt) (a : BudgetRates) (hv : a.Valid) (d : QuantitativeData N)
+    (hd : d.NumericalValid) (htau' : d.tau = tau) (u : ℝ) (hu0 : 0 < u) (hu1 : u ≤ 1)
+    (hs : c * u ^ a.s ≤ d.s) (ht : 1 ≤ d.tbar ∧ d.tbar ≤ Ct * u ^ (-a.rateL))
+    (hf : kt * u ^ (a.rateJ N mu rho tau) ≤ d.tflat) :
+    d.xibar ≤ (2 : ℝ) ^ (tau + 1) * (1 + 24 / c + 1 / kt + Ct) *
+      u ^ (-(a.rateX N mu rho tau)) := by
+  obtain ⟨-, -, -, -, -, hϑ0, hϑ1, hs0, hs1, -, -, -, -, -, -, -⟩ := hd
+  have hupos : ∀ e : ℝ, 0 < u ^ e := fun e => Real.rpow_pos_of_pos hu0 e
+  have hJ0 := a.rateJ_nonneg N mu rho tau hv
+  have hX0 : 0 ≤ a.rateX N mu rho tau := hJ0.trans (a.rateJ_le_rateX N mu rho tau)
+  set X := a.rateX N mu rho tau with hX
+  have hE : 1 ≤ u ^ (-X) := qbPoly_negpow_ge_one hu0 hu1 hX0
+  have hft : 0 < d.tflat := lt_of_lt_of_le (mul_pos hkt (hupos _)) hf
+  have t2 : 1 / (d.s / 24) ≤ 24 / c * u ^ (-X) := by
+    have h1 : 1 / (d.s / 24) ≤ 1 / (c * u ^ a.s / 24) :=
+      one_div_le_one_div_of_le (by have := hupos a.s; positivity) (by linarith)
+    have h2 : 1 / (c * u ^ a.s / 24) = 24 / c * u ^ (-a.s) := by
+      rw [Real.rpow_neg hu0.le]; have := hupos a.s; field_simp
+    have h3 : u ^ (-a.s) ≤ u ^ (-X) :=
+      qbPoly_negpow_mono hu0 hu1 ((a.s_le_rateL hv).trans
+        ((a.rateL_le_rateX N mu rho tau)))
+    calc 1 / (d.s / 24) ≤ 24 / c * u ^ (-a.s) := by linarith
+      _ ≤ 24 / c * u ^ (-X) := mul_le_mul_of_nonneg_left h3 (by positivity)
+  have t3 : 1 / d.tflat ≤ 1 / kt * u ^ (-X) := by
+    have h1 : 1 / d.tflat ≤ 1 / (kt * u ^ (a.rateJ N mu rho tau)) :=
+      one_div_le_one_div_of_le (mul_pos hkt (hupos _)) hf
+    have h2 : 1 / (kt * u ^ (a.rateJ N mu rho tau)) = 1 / kt * u ^ (-(a.rateJ N mu rho tau)) := by
+      rw [Real.rpow_neg hu0.le]; have := hupos (a.rateJ N mu rho tau); field_simp
+    have h3 : u ^ (-(a.rateJ N mu rho tau)) ≤ u ^ (-X) :=
+      qbPoly_negpow_mono hu0 hu1 (a.rateJ_le_rateX N mu rho tau)
+    calc 1 / d.tflat ≤ 1 / kt * u ^ (-(a.rateJ N mu rho tau)) := by linarith
+      _ ≤ 1 / kt * u ^ (-X) := mul_le_mul_of_nonneg_left h3 (by positivity)
+  have t4 : d.tbar * (d.s / 24) ≤ Ct * u ^ (-X) := by
+    have h3 : u ^ (-a.rateL) ≤ u ^ (-X) :=
+      qbPoly_negpow_mono hu0 hu1 (a.rateL_le_rateX N mu rho tau)
+    calc d.tbar * (d.s / 24) ≤ d.tbar * 1 :=
+          mul_le_mul_of_nonneg_left (by linarith) (by linarith [ht.1])
+      _ ≤ Ct * u ^ (-a.rateL) := by linarith [ht.2]
+      _ ≤ Ct * u ^ (-X) := mul_le_mul_of_nonneg_left h3 hCt.le
+  unfold QuantitativeData.xibar
+  rw [htau', mul_assoc]
+  refine mul_le_mul_of_nonneg_left ?_ (by positivity)
+  calc 1 + 1 / (d.s / 24) + 1 / d.tflat + d.tbar * (d.s / 24)
+      ≤ 1 * u ^ (-X) + 24 / c * u ^ (-X) + 1 / kt * u ^ (-X) + Ct * u ^ (-X) :=
+        add_le_add (add_le_add (add_le_add (by linarith) t2) t3) t4
+    _ = _ := by ring
+
 end KAM.Planetary
