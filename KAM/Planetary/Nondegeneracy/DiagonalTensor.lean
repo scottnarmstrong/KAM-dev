@@ -155,7 +155,8 @@ theorem f_leib {B : Set (Fin d → ℝ)} (hB : IsOpen B) {f g : (Fin d → ℝ) 
   have hf' : ContDiffOn ℝ ⊤ f B := hf.contDiffOn hB.uniqueDiffOn
   have hg' : ContDiffOn ℝ ⊤ g B := hg.contDiffOn hB.uniqueDiffOn
   have hfg : ContDiffOn ℝ ⊤ (fun z => f z * g z) B := hf'.mul hg'
-  have hA : ContDiff ℝ ⊤ (fun t : ℝ => y + t • v) := contDiff_const.add (contDiff_id.smul contDiff_const)
+  have hA : ContDiff ℝ ⊤ (fun t : ℝ => y + t • v) :=
+    contDiff_const.add (contDiff_id.smul contDiff_const)
   have hc : ∀ h : (Fin d → ℝ) → ℝ, ContDiffOn ℝ ⊤ h B →
       ContDiffAt ℝ ν (fun t : ℝ => h (y + t • v)) 0 := by
     intro h hh
