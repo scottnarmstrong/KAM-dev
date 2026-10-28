@@ -19,3 +19,9 @@ Rulings and integration notes for lane N after its handoff on 2026-10-28
     `by exact KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev hn hk G G' D … hHess hdef` (2 lines, 157 bytes)
     builds; `ABI HASHES OK (144 frozen declarations)`. The guard's only failures were the staging `sorry`s of
     the packages still being proved (H, K1/K2, M1, M2).
+- **2026-10-28 23:50. N11-H, M1, M2, K1/K2 compile; audits.**
+  - H (`iterative`, 915 lines in `Iterative`, `IterativeMap`, `IterativeRemainder`), M1 (`nonresonant`),
+    M2 (`resonant`) and K1/K2 (`nf`, 1385 lines in `NormalFormInduction`, `NormalForm`) build with 0 errors
+    against their signed statements; the staging stubs are gone.
+  - Audits: [N11-H](../tracks/N/audits/N11-H-audit-1.md) and [N11-M](../tracks/N/audits/N11-M-audit-1.md)
+    PASS WITH NOTES (notes applied); K1/K2 audit pending.

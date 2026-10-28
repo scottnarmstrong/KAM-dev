@@ -8,7 +8,6 @@ module
 public import KAM.Nekhoroshev.Partial.CanonicalMap
 public import KAM.Nekhoroshev.Partial.Homological
 public import KAM.Nekhoroshev.Partial.Composition
-import Mathlib.Tactic.DefEqTransformations
 import Mathlib.Tactic.LinearCombination
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
@@ -20,7 +19,7 @@ import Mathlib.Tactic.Ring
 Part 11, package N11-H, first module. The source premises of `iterative` (without the
 decomposition of `g`) are bundled in `NitHyp`; from them:
 
-* step `it-gen`: `NitHyp.nit_hom` (the signed `hom` with `q = conjExp p`, `U = δ`, so
+* step `it-gen`: `NitHyp.nit_hom` (the signed `hom`, specialized, with `q = conjExp p`, `U = δ`, so
   `|φ|_{R,s} ≤ qδ/(2πα)`), `NitHyp.nit_V_le` (`η/2 = |φ|/(ρσ) ≤ 1/4`) and
   `NitHyp.nit_compose` (the `ExtCompose` data with `u`-domain `(R-ρ, s-σ)` inside `(R, s)`);
 * step `it-map`: the inputs of the signed `canonical_map` (`NitHyp.nit_V_half`,
@@ -333,7 +332,8 @@ theorem nit_V_half (H : NitHyp b R s ρ σ K α p δ h f Λ) :
     conjExp p*δ/(2*Real.pi*α)/(ρ*σ) ≤ 1/2 :=
   H.nit_V_le.trans (by norm_num)
 
-/-- Step `it-gen`: the signed `hom` (`bpN:p11:hom`) with `q = conjExp p` and `U = δ`. -/
+/-- Step `it-gen`: a specialization of the signed `hom`, without its `P_Λ φ = 0` clause,
+with `q = conjExp p` and `U = δ`. -/
 theorem nit_hom (H : NitHyp b R s ρ σ K α p δ h f Λ) :
     InClass b.base R s (projMode Λ (truncate K f)) ∧ InClass b.base R s (homGenerator K Λ h f) ∧
     WBound b.base R s (projMode Λ (truncate K f)) δ ∧ WBound b.base R s (truncate K f) δ ∧
