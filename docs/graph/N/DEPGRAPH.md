@@ -14639,9 +14639,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:thm1@L11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: thm1 (KAM/Nekhoroshev/Poschel/Theorem1.lean)
+LEAN_NOTE: audit N89-P5 PASS WITH NOTES; joint two-branch statement, signature verbatim
 NOTE: Candidate edges to bpN:p9:errata and bpN:p9:dictionary (remarks: deviations and conversion bookkeeping, not consumed) dropped.
 
 NODE: stepN:p9:t1-par
@@ -14671,9 +14671,9 @@ EDGE: bpN:p9#data | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:t1-par@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: thm1 (KAM/Nekhoroshev/Poschel/Theorem1.lean)
+LEAN_NOTE: audit N89-P5 PASS WITH NOTES; step PASS in audit
 NOTE: Lemma m-le-M is explicitly not needed here (m ≤ M is a standing hypothesis): candidate edge dropped.
 
 NODE: stepN:p9:t1-b
@@ -14709,9 +14709,9 @@ EDGE: stepN:p9:t1-b#full-rank-zone | blueprint-N/parts/p9-poschel-theorem1.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: thm1 (KAM/Nekhoroshev/Poschel/Theorem1.lean)
+LEAN_NOTE: audit N89-P5 PASS WITH NOTES; step PASS in audit
 NOTE: -
 
 NODE: stepN:p9:t1-a-choice
@@ -14745,9 +14745,9 @@ EDGE: stepN:p9:t1-b#full-rank-zone | blueprint-N/parts/p9-poschel-theorem1.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: thm1 (KAM/Nekhoroshev/Poschel/Theorem1.lean)
+LEAN_NOTE: audit N89-P5 PASS WITH NOTES; step PASS in audit
 NOTE: -
 
 NODE: stepN:p9:t1-a-theta
@@ -14777,9 +14777,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:t1-a-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: time_bot, thm1 (KAM/Nekhoroshev/Poschel/Theorem1.lean)
+LEAN_NOTE: audit N89-P5 PASS WITH NOTES; step PASS in audit
 NOTE: -
 
 NODE: stepN:p9:t1-a-res
@@ -14814,9 +14814,9 @@ EDGE: bpN:p8:volume-def | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:t1-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: time_mid, thm1 (KAM/Nekhoroshev/Poschel/Theorem1.lean)
+LEAN_NOTE: audit N89-P5 PASS WITH NOTES; step PASS in audit
 NOTE: -
 
 NODE: stepN:p9:t1-a-concl
@@ -14845,9 +14845,9 @@ EDGE: bpN:p9:elementary | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:t1-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: thm1 (KAM/Nekhoroshev/Poschel/Theorem1.lean)
+LEAN_NOTE: audit N89-P5 PASS WITH NOTES; step PASS in audit
 NOTE: -
 
 NODE: bpN:p9#data
@@ -21548,9 +21548,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#bpN:p12:s-mea
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: averaging_mean_core (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: audit N12-16 PASS WITH NOTES; A=13*A1, eps0=1 chosen in averaging_mean_core
 NOTE: section data for coverage item p12:prose-L275-L275; consumers: me-mean, me-markov
 
 NODE: stepN:p12:me-flow
@@ -21579,9 +21579,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:me-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: mean_family (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: audit N12-16 PASS WITH NOTES; infrastructure for frozen averaging_mean provider (N12-18), step realised by mean_family
 NOTE: -
 
 NODE: stepN:p12:me-cont
@@ -21614,9 +21614,9 @@ EDGE: bpN:p12:ext-markov | blueprint-N/parts/p12-averaging.tex#stepN:p12:me-cont
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: mean_family (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: audit N12-16 PASS WITH NOTES; infrastructure for frozen averaging_mean provider (N12-18), step realised by mean_family
 NOTE: -
 
 NODE: stepN:p12:me-good
@@ -21648,9 +21648,9 @@ EDGE: bpN:p12:s-mean#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:me-goo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: averaging_mean_core (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: audit N12-16 PASS WITH NOTES; infrastructure for frozen averaging_mean provider (N12-18), step realised by averaging_mean_core
 NOTE: -
 
 NODE: stepN:p12:me-bad
@@ -21685,9 +21685,9 @@ EDGE: bpN:p12:s-trans#psi | blueprint-N/parts/p12-averaging.tex#stepN:p12:me-bad
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: averaging_mean_core (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: audit N12-16 PASS WITH NOTES; infrastructure for frozen averaging_mean provider (N12-18), step realised by averaging_mean_core
 NOTE: -
 
 NODE: stepN:p12:me-mean
@@ -21718,9 +21718,9 @@ EDGE: bpN:p12:s-trans#psi | blueprint-N/parts/p12-averaging.tex#stepN:p12:me-mea
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-delta-N-h
 REVIEWER: sol-delta2-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: averaging_mean_core (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: audit N12-16 PASS WITH NOTES; infrastructure for frozen averaging_mean provider (N12-18), step realised by averaging_mean_core
 NOTE: -
 
 NODE: stepN:p12:me-markov
@@ -21750,9 +21750,9 @@ EDGE: bpN:p12:s-flow#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:me-mar
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: averaging_mean_core (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: audit N12-16 PASS WITH NOTES; infrastructure for frozen averaging_mean provider (N12-18), step realised by averaging_mean_core
 NOTE: -
 
 NODE: bpN:p12:ext-dep#complete-contraction

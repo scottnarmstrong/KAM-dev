@@ -805,9 +805,9 @@ EDGE: stepP:p4:dm-shell | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:disc-measur
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: disc_measure_chart, disc_measure_image, disc_measure, disc_measure_shell (KAM/Planetary/PGMeasure/Polar.lean)
+LEAN_NOTE: audit P4-POL PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-jac
@@ -835,9 +835,9 @@ EDGE: bpP:p1:ext-area | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-jac@L181
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hasFDerivAt_oscillatorPolar, abs_det_fderiv_oscillatorPolar, disc_measure_chart (KAM/Planetary/PGMeasure/Polar.lean)
+LEAN_NOTE: audit P4-POL PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-cell
@@ -866,9 +866,9 @@ EDGE: bpP:p4:s-disc#chart | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-cell
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: disc_measure (KAM/Planetary/PGMeasure/Polar.lean)
+LEAN_NOTE: audit P4-POL PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-shell
@@ -895,9 +895,9 @@ EDGE: stepP:p4:dm-jac | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-shell@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: disc_measure_shell (KAM/Planetary/PGMeasure/Polar.lean)
+LEAN_NOTE: audit P4-POL PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p4:conv#data
@@ -977,7 +977,7 @@ EDGE: bpP:p3:period-dictionary | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:s-di
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: oscillatorPolar, polarCellMap, oscillatorPolar_eq_polarMap (KAM/Planetary/PGMeasure/Polar.lean)
+LEAN_NOTE: audit P4-POL PASS WITH NOTES
 NOTE: section data of 4.6 (coverage item p4:prose-L169-L171); Pol of bpP:p5:phi is this map.

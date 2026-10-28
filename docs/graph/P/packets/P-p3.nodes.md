@@ -1205,7 +1205,7 @@ EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P23-17 PASS WITH NOTES but only private conditional helpers limit_actions_of_steps/iterative_actionSteps; not a source result
 NOTE: -
 
 NODE: stepP:p3:la-wp

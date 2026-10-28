@@ -179,9 +179,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:l75@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9
 REVIEWER: sol-review-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: l75, l75_bound (KAM/Planetary/SecularSpectrum/Definiteness/Hadamard.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: stepP:p9:l75
@@ -206,9 +206,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:l75@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: l75 (KAM/Planetary/SecularSpectrum/Definiteness/Hadamard.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: bpP:p9:l74
@@ -236,9 +236,9 @@ EDGE: bpP:p8:laplace | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:l74@L83-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9
 REVIEWER: sol-review-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: l74 (KAM/Planetary/SecularSpectrum/Definiteness/Laplace.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: stepP:p9:l74-red
@@ -263,9 +263,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:l7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: laplace_def_eq_half (KAM/Planetary/SecularSpectrum/Definiteness/Laplace.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: stepP:p9:l74-ibp
@@ -293,9 +293,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:l7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ibp_formula (KAM/Planetary/SecularSpectrum/Definiteness/Laplace.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: bpP:p9:definite
@@ -324,9 +324,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:defini
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9
 REVIEWER: sol-review-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coercivity, definite (KAM/Planetary/SecularSpectrum/Definiteness.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: stepP:p9:p73-dom
@@ -352,9 +352,9 @@ EDGE: bpP:p9:l74 | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:p73-dom@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pairA_sub_pairB_pos, dominance_qhat, gap_pos (KAM/Planetary/SecularSpectrum/Definiteness.lean); dominance (KAM/Planetary/SecularSpectrum/Definiteness/Hadamard.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: stepP:p9:p73-had
@@ -382,9 +382,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:p73-had
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: l75_bound (KAM/Planetary/SecularSpectrum/Definiteness/Hadamard.lean); definite (KAM/Planetary/SecularSpectrum/Definiteness.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: stepP:p9:p73-cong
@@ -413,9 +413,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:p73-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quad_eigen_le, continuousAt_coercivity, definite (KAM/Planetary/SecularSpectrum/Definiteness.lean)
+LEAN_NOTE: audit S9-D PASS WITH NOTES (audit-2, F1 hygiene finding closed; audit-1 FAIL superseded)
 NOTE: -
 
 NODE: bpP:p9:local-analytic
@@ -444,9 +444,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:local-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9
 REVIEWER: sol-review-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: local_analytic (KAM/Planetary/SecularSpectrum/LocalAnalytic/Existence.lean); local_analytic_unique (KAM/Planetary/SecularSpectrum/LocalAnalytic/Unique.lean)
+LEAN_NOTE: audit S9-S PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:la-ev
@@ -474,9 +474,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:la-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exists_analytic_root, exists_eigenvalue_branch (KAM/Planetary/SecularSpectrum/LocalAnalytic/Eigenvalues.lean); sorted_strictMono, charpoly_eq_prod_of_roots (KAM/Planetary/SecularSpectrum/LocalAnalytic/Sorted.lean)
+LEAN_NOTE: audit S9-S PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:la-adj
@@ -504,9 +504,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:la-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: eigProj (KAM/Planetary/SecularSpectrum/LocalAnalytic/Projection.lean); analyticAt_eigProj (KAM/Planetary/SecularSpectrum/LocalAnalytic/Analytic.lean)
+LEAN_NOTE: audit S9-S PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:la-vec
@@ -533,9 +533,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:la-v
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: eigFrame (KAM/Planetary/SecularSpectrum/LocalAnalytic/Frame.lean); analyticAt_eigFrame (KAM/Planetary/SecularSpectrum/LocalAnalytic/Analytic.lean)
+LEAN_NOTE: audit S9-S PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:la-so
@@ -563,9 +563,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:la-s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: local_analytic (KAM/Planetary/SecularSpectrum/LocalAnalytic/Existence.lean); local_analytic_unique (KAM/Planetary/SecularSpectrum/LocalAnalytic/Unique.lean)
+LEAN_NOTE: audit S9-S PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p9:lift
