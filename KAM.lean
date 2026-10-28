@@ -460,6 +460,7 @@ public import KAM.Planetary.Averaging.OscillatorStep
 public import KAM.Planetary.Averaging.OscillatorStepComplete
 public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Averaging.Splitting
+public import KAM.Planetary.Exponential.LocalComplexification
 public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
@@ -497,6 +498,12 @@ public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.Nondegeneracy.AnalyticZeros
 public import KAM.Planetary.Nondegeneracy.DiagonalTensor
 public import KAM.Planetary.Nondegeneracy.FiniteType
+public import KAM.Planetary.Nondegeneracy.GoodAxes.Block
+public import KAM.Planetary.Nondegeneracy.GoodAxes.Induction
+public import KAM.Planetary.Nondegeneracy.GoodAxes.N2
+public import KAM.Planetary.Nondegeneracy.GoodAxes.Resonance
+public import KAM.Planetary.Nondegeneracy.GoodAxes.SortedAnalytic
+public import KAM.Planetary.Nondegeneracy.GoodAxes
 public import KAM.Planetary.Nondegeneracy.Peel
 public import KAM.Planetary.Nondegeneracy.Stability
 public import KAM.Planetary.Nondegeneracy.Weyl
