@@ -180,6 +180,7 @@ theorem index_amount {C : Type*} [MetricSpace C] {g : C → Vec d → ℝ} {C0 :
     0 < index_def g C0 K h ∧ 0 < betaFamily g C0 K (index_def g C0 K h) ∧
     Monotone (betaFamily g C0 K) ∧
     (∀ μ : ℕ, 0 < μ → (0 < betaFamily g C0 K μ ↔ index_def g C0 K h ≤ μ)) := by
+  have _ := And.intro hC (And.intro hK hCont)
   have hspec : 0 < index_def g C0 K h ∧ 0 < betaFamily g C0 K (index_def g C0 K h) :=
     Nat.find_spec h
   have hmono := betaFamily_mono (g := g) hCn hKn
@@ -189,7 +190,8 @@ theorem index_amount {C : Type*} [MetricSpace C] {g : C → Vec d → ℝ} {C0 :
 
 /-! ### Finite type -/
 
-/-- If every diagonal jet of an analytic function vanishes at a point, it vanishes near the point. -/
+/-- If every diagonal jet of an analytic function vanishes at a point, it vanishes near the
+point. -/
 lemma eventuallyEq_zero_of_scalarJet {f : Vec d → ℝ} {x : Vec d} (hf : AnalyticAt ℝ f x)
     (h0 : ∀ ν : ℕ, scalarJet f ν x = 0) : f =ᶠ[𝓝 x] 0 := by
   have hdiag : ∀ (ν : ℕ) (y : Vec d), iteratedFDeriv ℝ ν f x (fun _ => y) = 0 := by
@@ -208,7 +210,7 @@ lemma eventuallyEq_zero_of_scalarJet {f : Vec d → ℝ} {x : Vec d} (hf : Analy
       by_cases hy : y = 0
       · subst hy
         have : T (fun _ => (0 : Vec d)) = 0 := by
-          haveI : Nonempty (Fin ν) := ⟨⟨0, hν⟩⟩
+          have : Nonempty (Fin ν) := ⟨⟨0, hν⟩⟩
           exact T.map_zero
         exact this
       · have hc : 0 < length2 y := by
@@ -254,7 +256,7 @@ lemma eventuallyEq_zero_of_scalarJet {f : Vec d → ℝ} {x : Vec d} (hf : Analy
 
 /-- Pointwise step: some jet of order `ν` is nonzero at every point of a nonvanishing analytic
 function's domain. -/
-lemma exists_scalarJet_pos {B : Set (Vec d)} (hB : IsOpen B) (hBc : IsConnected B)
+lemma exists_scalarJet_pos {B : Set (Vec d)} (hBc : IsConnected B)
     {f : Vec d → ℝ} (hf : AnalyticOnNhd ℝ f B) (hne : ∃ y ∈ B, f y ≠ 0) {x : Vec d}
     (hx : x ∈ B) : ∃ ν : ℕ, 0 < scalarJet f ν x := by
   by_contra hcon
@@ -270,9 +272,11 @@ theorem finite_type {C : Type*} [MetricSpace C] {C0 : Set C} (hC : IsCompact C0)
     (hK : IsCompact K) (hKn : K.Nonempty) (hKB : K ⊆ B) {g : C → Vec d → ℝ}
     (hAn : ∀ c ∈ C0, AnalyticOnNhd ℝ (g c) B)
     (hNe : ∀ c ∈ C0, ∃ y ∈ B, g c y ≠ 0)
-    (hCont : ∀ ν : ℕ, ContinuousOn (fun z : C × Vec d => iteratedFDeriv ℝ ν (g z.1) z.2) (C0 ×ˢ B)) :
+    (hCont : ∀ ν : ℕ,
+      ContinuousOn (fun z : C × Vec d => iteratedFDeriv ℝ ν (g z.1) z.2) (C0 ×ˢ B)) :
     ∃ μ : ℕ, 0 < μ ∧ 0 < betaFamily g C0 K μ ∧
       ∀ c ∈ C0, ∀ y ∈ K, betaFamily g C0 K μ ≤ jetMax (g c) μ y := by
+  have _ := hB
   have hS : IsCompact (C0 ×ˢ K) := hC.prod hK
   have hCont' : ∀ ν : ℕ,
       ContinuousOn (fun z : C × Vec d => iteratedFDeriv ℝ ν (g z.1) z.2) (C0 ×ˢ K) :=
@@ -285,7 +289,7 @@ theorem finite_type {C : Type*} [MetricSpace C] {C0 : Set C} (hC : IsCompact C0)
   choose u huo hu using hopen
   have hcover : C0 ×ˢ K ⊆ ⋃ ν : ℕ, u ν := by
     intro z hz
-    obtain ⟨ν, hν⟩ := exists_scalarJet_pos hB hBc (hAn z.1 hz.1) (hNe z.1 hz.1) (hKB hz.2)
+    obtain ⟨ν, hν⟩ := exists_scalarJet_pos hBc (hAn z.1 hz.1) (hNe z.1 hz.1) (hKB hz.2)
     have : z ∈ (fun z : C × Vec d => jetMax (g z.1) ν z.2) ⁻¹' Ioi 0 ∩ (C0 ×ˢ K) :=
       ⟨lt_of_lt_of_le hν (scalarJet_le_jetMax _ le_rfl _), hz⟩
     rw [hu ν] at this
@@ -381,7 +385,8 @@ theorem cp09_lemma1 (hm : 0 < m) {B K : Set (Vec d)}
       simp only [squaredForm, sq, Finset.sum_mul_sum, Fintype.sum_prod_type]
       exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring)
   refine finite_type isCompact_sphere (sphere_nonempty hm) hB hBc hK hKn hKB
-    (fun c _ => hAn' c) (fun c hc => ?_) (fun ν => (hCont ν).mono (prod_mono (subset_univ _) subset_rfl))
+    (fun c _ => hAn' c) (fun c hc => ?_)
+    (fun ν => (hCont ν).mono (prod_mono (subset_univ _) subset_rfl))
   obtain ⟨y, hy, hne⟩ := hR c (ne_zero_of_mem_sphere hc)
   exact ⟨y, hy, pow_ne_zero 2 hne⟩
 
