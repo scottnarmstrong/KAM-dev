@@ -79,7 +79,7 @@ theorem perturbation_false_pairs (D : Data n) (x : Slow n) (t : Vec n) :
   change -(D.G * D.m i * D.m j / planeLength (ppos D x i (t i) - ppos D x j (t j))) = _
   ring
 
-theorem avg_finset_sum {ι : Type*} (s : Finset ι) {f : ι → Vec n → ℝ}
+theorem q4_avg_finset_sum {ι : Type*} (s : Finset ι) {f : ι → Vec n → ℝ}
     (hf : ∀ c ∈ s, IntegrableOn (f c) (cell n)) :
     avg (fun t => ∑ c ∈ s, f c t) = ∑ c ∈ s, avg (f c) := by
   unfold avg
@@ -148,9 +148,9 @@ theorem secular_false_eq_pairs (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r :
       ∑ j ∈ Finset.univ.filter (i < ·), pairKernel D x i j (t i) (t j)) (cell n) := fun i _ =>
     integrable_finsetSum _ fun j hj =>
       integrableOn_pairKernel D ha hrho hsep hx (Finset.mem_filter.1 hj).2
-  rw [avg_finset_sum _ hint]
+  rw [q4_avg_finset_sum _ hint]
   refine Finset.sum_congr rfl fun i _ => ?_
-  rw [avg_finset_sum _ fun j hj =>
+  rw [q4_avg_finset_sum _ fun j hj =>
     integrableOn_pairKernel D ha hrho hsep hx (Finset.mem_filter.1 hj).2]
   refine Finset.sum_congr rfl fun j hj => ?_
   exact pairKernel_avg D ha hrho hsep hx (Finset.mem_filter.1 hj).2

@@ -48,7 +48,7 @@ theorem pairQuartic_of_ray (w : PairW) {A B Cc K r : ℝ} (hr : 0 < r)
   let ℓ : ℝ →L[ℝ] PairW := ContinuousLinearMap.toSpanSingleton ℝ w
   have hℓ : ∀ s, ℓ s = s • w := fun s => rfl
   have hψ : AnalyticAt ℝ (fun s : ℝ => pairSlowSecular D i j I0 J0 (s • w)) 0 := by
-    have h1 := analyticAt_pairSlowSecular D i j hI hJ hab
+    have h1 := q4_analyticAt_pairSlowSecular D i j hI hJ hab
     have h2 : AnalyticAt ℝ (fun s : ℝ => (((I0, J0) : ℝ × ℝ), s • w)) 0 :=
       analyticAt_const.prod (analyticAt_id.smul analyticAt_const)
     have hg : AnalyticAt ℝ (fun p : (ℝ × ℝ) × PairW => pairSlowSecular D i j p.1.1 p.1.2 p.2)

@@ -189,7 +189,7 @@ theorem quartic_pair_chart_conversion (hij : i < j) (hI : 0 < I0) (hJ : 0 < J0)
   have hconv := quartic_sqrt_chart_conversion_const hI hJ A A' B (qpcW α 0) κ0 c (qpcW α) hexp
   -- the pair average itself
   have hPan : AnalyticAt ℝ (fun w : PairW => pairSlowSecular D i j I0 J0 w) 0 := by
-    have h1 := analyticAt_pairSlowSecular D i j hI hJ hab
+    have h1 := q4_analyticAt_pairSlowSecular D i j hI hJ hab
     have h2 : AnalyticAt ℝ (fun w : PairW => (((I0, J0) : ℝ × ℝ), w)) 0 :=
       analyticAt_const.prod analyticAt_id
     exact AnalyticAt.comp_of_eq (f := fun w : PairW => (((I0, J0) : ℝ × ℝ), w))

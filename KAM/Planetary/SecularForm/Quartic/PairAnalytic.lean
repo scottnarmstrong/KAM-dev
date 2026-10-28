@@ -60,7 +60,7 @@ theorem pairSlowSecular_pairData (D : Data n) (i j : Fin n) (I J : ℝ)
     pairSlowSecular (pairData D i j) 0 1 I J w = pairSlowSecular D i j I J w := by
   simp [pairSlowSecular, pairData]
 
-theorem action_axis (D : Data n) {I : Vec n} (hI : ∀ i, 0 < I i) : action D (axis D I) = I := by
+theorem q4_action_axis (D : Data n) {I : Vec n} (hI : ∀ i, 0 < I i) : action D (axis D I) = I := by
   have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
   funext i
   have h1 : D.G * D.m0 * (I i ^ 2 / (D.m i ^ 2 * (D.G * D.m0))) = (I i / D.m i) ^ 2 := by
@@ -98,7 +98,7 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
     obtain ⟨rfl, rfl⟩ := this
     simpa [axis, hD2, pairData] using hab
   have ha : a2 ∈ axes 2 := axis_mem_axes D2 hpos hmono
-  have hact : action D2 a2 = ![I0, J0] := action_axis D2 hpos
+  have hact : action D2 a2 = ![I0, J0] := q4_action_axis D2 hpos
   obtain ⟨r, hr, hrho, hsep, hb⟩ := perturbation_analytic D2 ha
   have hAn := (hb false).2.2.2.2.1
   have hbase : pairEmb ((I0, J0), 0) ∈ realDisc D2 a2 r := by
@@ -119,7 +119,7 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, vec2_eta, Prod.mk.eta]
   exact (pairSlowSecular_pairData D i j _ _ _).symm
 
-theorem analyticAt_pairSlowSecular (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
+theorem q4_analyticAt_pairSlowSecular (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
     (hJ : 0 < J0)
     (hab : I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) < J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))) :
     AnalyticAt ℝ (fun p : (ℝ × ℝ) × ((Fin 2 → ℝ) × (Fin 2 → ℝ)) =>
