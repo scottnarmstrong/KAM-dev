@@ -32,7 +32,8 @@ variable {d : ℕ}
 
 /-- Lebesgue measure on `Phase d` is an additive Haar measure. Instance search does NOT find this
 (probe: `#synth` fails on the product `volume`); provers use
-`haveI := isAddHaarMeasure_volume_phase d` locally (never a global instance on the Mathlib product type). -/
+`haveI := isAddHaarMeasure_volume_phase d` locally (never a global instance on the Mathlib
+product type). -/
 theorem isAddHaarMeasure_volume_phase (d : ℕ) : (volume : Measure (Phase d)).IsAddHaarMeasure :=
   Measure.prod.instIsAddHaarMeasure _ _
 
