@@ -18,9 +18,18 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # P Parts 2-3: the oscillator Poisson bracket (`bpP:p2:osc-bracket`)
 
-Flat layer: the Cauchy estimates of `KAM.Weighted` at a fixed flat parameter, with a separate
-loss in each coordinate direction (one-dimensional discs), for a function on a strip times an
-arbitrary open parameter set. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-11.
+`ob_der` (`stepP:p2:ob-der`), `osc_bracket` (`bpP:p2:osc-bracket`, with the product step
+`stepP:p2:ob-prod` inlined) and `ob_field` (`stepP:p2:ob-field`).
+
+Proof architecture. The oscillator class is transported to flat coordinates `(θ, (I, p, q))` by
+the linear maps `oscUnpackL` / `oscPackL`; the four coordinate derivatives of `u` become `dtheta`
+and `dI` of `oscFunction u` (`osc_deriv_eqs`, `oscPack_*`). In the flat layer the Cauchy estimates
+of `KAM.Weighted` are redone at a fixed parameter with a separate loss in every coordinate
+direction (a one-dimensional disc `t ↦ x + t eᵢ`, `wsum_dI_le`), since the oscillator parameter set
+has four unequal radii and is not a `polyNbhd`; the angular estimate `wsum_dtheta_le` sums over the
+angles inside the supremum (design gap G1: every angular derivative is taken at the target width
+`S - σ`, no premise `S < S₀` is added). The bracket is a signed finite sum of four families of
+products, bounded with `coeff_mul`.
 -/
 
 @[expose] public noncomputable section
@@ -229,7 +238,7 @@ theorem wsum_dI_le_on {S s A R : ℝ} {P Pt : Set (Fin N → ℂ)}
 
 theorem nonneg_of_wsum {S A : ℝ} {P : Set (Fin N → ℂ)} {F : (Fin n → ℂ) × (Fin N → ℂ) → ℂ}
     (hb : ∀ I ∈ P, WSummable F S I ∧ wsum F S I ≤ A) {x : Fin N → ℂ} (hx : x ∈ P) : 0 ≤ A :=
-  (tsum_nonneg fun k => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le).trans (hb x hx).2
+  (tsum_nonneg fun _ => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le).trans (hb x hx).2
 
 end Flat
 
@@ -245,7 +254,7 @@ theorem oscPack_oscUnpack (y : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ)) :
     · simp only [oscUnpack, oscPack, firstBlock, Fin.append_left]
     · refine Fin.addCases (fun a => ?_) (fun a => ?_) j
       · simp only [oscUnpack, oscPack, firstBlock, lastBlock, Fin.append_left, Fin.append_right]
-      · simp only [oscUnpack, oscPack, firstBlock, lastBlock, Fin.append_left, Fin.append_right]
+      · simp only [oscUnpack, oscPack, lastBlock, Fin.append_right]
 
 /-- `oscUnpack` as a continuous linear map. -/
 def oscUnpackL : ((Fin n → ℂ) × (Fin (n + (m + m)) → ℂ)) →L[ℂ] CPhase (n + m) :=
@@ -334,7 +343,7 @@ theorem isOpen_oscParams (D : Set (Fin n → ℝ)) (r rp rq : ℝ) :
   have c4 : Continuous fun x : Fin (m + m) → ℂ => lastBlock (a := m) x :=
     continuous_pi fun i => continuous_apply _
   unfold oscParams
-  simp only [Set.setOf_and]
+  simp only [Set.ofPred_and]
   exact ((isOpen_actionNbhd D r).preimage c1).inter
     ((isOpen_lt (continuous_norm.comp (c3.comp c2)) continuous_const).inter
       (isOpen_lt (continuous_norm.comp (c4.comp c2)) continuous_const))
@@ -442,8 +451,9 @@ theorem line_I {a b c R : ℝ} {x : Fin (n + (m + m)) → ℂ} (hx : x ∈ oscPa
     funext i
     simp only [lastBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
       Fin.val_castAdd, Fin.val_natAdd]
-    rw [if_neg (by omega)]
-    simp
+    split_ifs with hh
+    · omega
+    · simp
   refine ⟨?_, ?_, ?_⟩
   · rw [e1]; exact mem_actionNbhd_add h1 j ht
   · rw [e2]; exact h2
@@ -458,8 +468,9 @@ theorem line_p {a b c R : ℝ} {x : Fin (n + (m + m)) → ℂ} (hx : x ∈ oscPa
     funext i
     simp only [firstBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
       Fin.val_castAdd, Fin.val_natAdd]
-    rw [if_neg (by omega)]
-    simp
+    split_ifs with hh
+    · omega
+    · simp
   have e2 : firstBlock (b := m) (lastBlock (a := n) (x + t • (Pi.single
       (Fin.natAdd n (Fin.castAdd m j)) 1 : Fin (n + (m + m)) → ℂ))) =
       firstBlock (b := m) (lastBlock (a := n) x) + t • Pi.single j 1 := by
@@ -471,8 +482,9 @@ theorem line_p {a b c R : ℝ} {x : Fin (n + (m + m)) → ℂ} (hx : x ∈ oscPa
     funext i
     simp only [lastBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
       Fin.val_castAdd, Fin.val_natAdd]
-    rw [if_neg (by omega)]
-    simp
+    split_ifs with hh
+    · omega
+    · simp
   refine ⟨?_, ?_, ?_⟩
   · rw [e1]; exact h1
   · rw [e2]
@@ -491,16 +503,18 @@ theorem line_q {a b c R : ℝ} {x : Fin (n + (m + m)) → ℂ} (hx : x ∈ oscPa
     funext i
     simp only [firstBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
       Fin.val_castAdd, Fin.val_natAdd]
-    rw [if_neg (by omega)]
-    simp
+    split_ifs with hh
+    · omega
+    · simp
   have e2 : firstBlock (b := m) (lastBlock (a := n) (x + t • (Pi.single
       (Fin.natAdd n (Fin.natAdd m j)) 1 : Fin (n + (m + m)) → ℂ))) =
       firstBlock (b := m) (lastBlock (a := n) x) := by
     funext i
     simp only [firstBlock, lastBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
       Fin.val_castAdd, Fin.val_natAdd]
-    rw [if_neg (by omega)]
-    simp
+    split_ifs with hh
+    · omega
+    · simp
   have e3 : lastBlock (a := m) (lastBlock (a := n) (x + t • (Pi.single
       (Fin.natAdd n (Fin.natAdd m j)) 1 : Fin (n + (m + m)) → ℂ))) =
       lastBlock (a := m) (lastBlock (a := n) x) + t • Pi.single j 1 := by
@@ -604,7 +618,7 @@ section ObField
 variable {n m : ℕ} {D : Set (Fin n → ℝ)}
 
 theorem oscDom_mono {a a' b b' c c' S S' : ℝ} (ha : a ≤ a') (hb : b ≤ b') (hc : c ≤ c')
-    (hS : S ≤ S') : oscDom (m := m) D a b c S ⊆ oscDom D a' b' c' S' := fun z hz =>
+    (hS : S ≤ S') : oscDom (m := m) D a b c S ⊆ oscDom D a' b' c' S' := fun _ hz =>
   ⟨fun i => (hz.1 i).trans_le hS, oscParams_mono ha hb hc hz.2⟩
 
 theorem oscClass.mono {a a' b b' c c' S S' : ℝ} {u : CHam (n + m)} (hu : oscClass D a' b' c' S' u)
@@ -825,7 +839,8 @@ theorem bracket_flat_eq {r₀ rp₀ rq₀ S₀ r rp rq S : ℝ} {u w : CHam (n +
     neg_one_mul, Finset.sum_neg_distrib, t1, t2, t3, t4, s1, s2, s3, s4, Finset.sum_sub_distrib]
   ring
 
-theorem prod_term {N : ℕ} {x : Fin N → ℂ} {δ s : ℝ} (hs : 0 < s) {f g : (Fin n → ℂ) × (Fin N → ℂ) → ℂ}
+theorem prod_term {N : ℕ} {x : Fin N → ℂ} {δ s : ℝ} (hs : 0 < s)
+    {f g : (Fin n → ℂ) × (Fin N → ℂ) → ℂ}
     (hf : InClass ({x} : Set (Fin N → ℂ)) δ s f) (hg : InClass ({x} : Set (Fin N → ℂ)) δ s g)
     (hx : x ∈ polyNbhd ({x} : Set (Fin N → ℂ)) δ) (hf' : WSummable f s x)
     (hg' : WSummable g s x) :
