@@ -418,6 +418,7 @@ public import KAM.ODE.NewtonReduction
 public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
+public import KAM.Planetary.AMD.AngularMomentum
 public import KAM.Planetary.AMD.Closure
 public import KAM.Planetary.AMD.Elements
 public import KAM.Planetary.AMD.Geometry
@@ -719,6 +720,7 @@ public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
 public import KAM.Planetary.WeakKAM.ContinuousSeries
 public import KAM.Planetary.WeakKAM.Data
+public import KAM.Planetary.WeakKAM.Initial
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakMeasure.BallSublevel
 public import KAM.Planetary.WeakMeasure.Basic
