@@ -625,6 +625,82 @@ theorem envelope_regular (d : AveragingData n R s h f) {κ M₂ : ℝ}
       key (fun k => avgBterm_nonneg d hM0 k I) hs.2.2.1,
       key (fun k => by have := hbeta k; positivity) hs.2.2.2⟩
 
+theorem wreg (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ)
+    (hM : ∀ I ∈ closedBall (0 : Fin n → ℝ) R,
+      ∀ i, ∑ j, |avgM h I i j| ≤ M₂) :
+    ContDiffOn ℝ 1 (avgW h f κ) (avgDomain n R) ∧
+    (∀ z ∈ avgDomain n R, ∀ v : AvgPhase n,
+      HasSum (fun k : Fin n → ℤ =>
+        fderiv ℝ (fun y : AvgPhase n =>
+          -KAM.character k (KAM.realInclusion n y.1) • avgU h f κ k y.2) z v)
+        (fderiv ℝ (avgW h f κ) z v)) ∧
+    ∀ z ∈ avgDomain n R,
+      (∀ k : Fin n → ℤ, avgW h f κ (z + KAM.ODE.angleShift k) = avgW h f κ z) ∧
+      (z.2 ∈ avgG n R →
+        ENNReal.ofReal ‖avgW h f κ z‖ ≤ avgWenv h s κ z.2 ∧
+        ENNReal.ofReal ‖avgResidual h f κ z‖ ≤ avgRenv h s κ z.2 ∧
+        HasSum (fun k : Fin n → ℤ => fun j =>
+          -2 * (Real.pi : ℂ) * Complex.I * avgCoeff f (KAM.realInclusion n z.2) k *
+            ((κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2) : ℝ) : ℂ) * (k j : ℂ) *
+              KAM.character k (KAM.realInclusion n z.1)) (avgResidual h f κ z) ∧
+        (∀ v : Fin n → ℝ,
+          ENNReal.ofReal ‖fderiv ℝ (avgW h f κ) z (v, 0)‖ ≤
+            avgW1env h s κ z.2 * ENNReal.ofReal ‖v‖) ∧
+        (∀ v : Fin n → ℝ,
+          ENNReal.ofReal ‖fderiv ℝ (avgW h f κ) z (0, v)‖ ≤
+            avgBenv h s M₂ κ z.2 * ENNReal.ofReal ‖v‖) ∧
+        ∀ k : Fin n → ℤ, ∀ v : Fin n → ℝ,
+          ‖fderiv ℝ (avgU h f κ k) z.2 v‖ ≤ avgBterm h s M₂ κ k z.2 * ‖v‖) := by
+  have hM0 : 0 ≤ M₂ := (Finset.sum_nonneg fun j _ => abs_nonneg _).trans
+    (hM 0 (by simpa using d.hR.le) ⟨0, d.hn⟩)
+  have hS' := env_summable d hκ hM0
+  refine ⟨contDiffOn_avgW d hκ hM, fun z hz v => ?_, fun z hz => ⟨fun m => avgW_periodic κ z m,
+    fun _ => ?_⟩⟩
+  · obtain ⟨hF, hsum⟩ := hasFDerivAt_avgW d hκ hM hz
+    rw [hF.fderiv]
+    exact (ContinuousLinearMap.apply ℝ (Fin n → ℂ) v).hasSum hsum
+  · have hMz := hM z.2 (mem_closedBall_of_dom hz)
+    have hI : z.2 ∈ actionBall n R := hz.2
+    have hS := hS' z.2
+    obtain ⟨hF, hsum⟩ := hasFDerivAt_avgW d hκ hM hz
+    have hdir : ∀ v : AvgPhase n, HasSum (fun k => fderiv ℝ (gk h f κ k) z v)
+        (fderiv ℝ (avgW h f κ) z v) := fun v => by
+      rw [hF.fderiv]; exact (ContinuousLinearMap.apply ℝ (Fin n → ℂ) v).hasSum hsum
+    have hform := fun k => (hasFDerivAt_gk d hκ k hz hMz).2.1
+    have hfst : ∀ k (v : Fin n → ℝ), fderiv ℝ (gk h f κ k) z (v, 0) =
+        (-(KAM.character k (KAM.realInclusion n z.1) * linK k v)) • avgU h f κ k z.2 := by
+      intro k v; rw [hform k]; simp
+    have hsnd : ∀ k (v : Fin n → ℝ), fderiv ℝ (gk h f κ k) z (0, v) =
+        (-KAM.character k (KAM.realInclusion n z.1)) •
+          (fderiv ℝ (aScal h f κ k) z.2 v • kvec k) := by
+      intro k v; rw [hform k]; simp
+    have hnorm_g : ∀ k, ‖gk h f κ k z‖ ≤
+        ‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)| := fun k => by
+      calc ‖gk h f κ k z‖ = ‖avgU h f κ k z.2‖ := by
+            simp [gk, norm_smul, norm_character_real]
+        _ ≤ _ := norm_avgU_le d κ k hI
+    have hWsum : HasSum (fun k => gk h f κ k z) (avgW h f κ z) := by
+      rw [avgW_eq]
+      exact (Summable.of_norm_bounded hS.1 hnorm_g).hasSum
+    have hres : HasSum (fun k : Fin n → ℤ => fun j =>
+        -2 * (Real.pi : ℂ) * Complex.I * avgCoeff f (KAM.realInclusion n z.2) k *
+          ((κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2) : ℝ) : ℂ) * (k j : ℂ) *
+            KAM.character k (KAM.realInclusion n z.1)) (avgResidual h f κ z) := by
+      have hsub := ((coef d).2.2.2.2.1 z hz).sub (hdir (KAM.frequencyMap h z.2, 0))
+      unfold avgResidual
+      convert hsub using 1
+      funext k j
+      rw [hfst k]
+      have hr : ((κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2) : ℝ) : ℂ) =
+          1 - (avgQ h k z.2 : ℂ) * (avgPsi κ (avgQ h k z.2) : ℂ) := by
+        have := ((corrector hκ).2 (avgQ h k z.2)).2.2.2.1
+        exact_mod_cast this.symm
+      have hQ : linK k (KAM.frequencyMap h z.2) = 2 * Real.pi * Complex.I * (avgQ h k z.2 : ℂ) := by
+        rw [linK_apply]; simp [avgQ]
+      simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hQ, hr, avgU]
+      ring
+    sorry
+
 end KAM.Nekhoroshev
 
 end
