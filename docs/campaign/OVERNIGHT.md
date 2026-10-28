@@ -311,8 +311,8 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - **Blocked:** P11A-W2 waits for P810 S10-C (proving) and S10-R (wave 9).
   - Account note: claude-12 (all provers) at 37%, ~3%/h; new provers move to claude-10/claude-8 below ~10%.
 - **12:25. Throughput and the disk ceiling.**
-  - Since 10:25, 40 more offloaded packages passed independent audit and were handed to kam-inp, which merged them
-    into inp (KAM.lean regenerated; ABI hashes OK, 144). Among them: P23-13b/c/d/e/g/i and P23-14/16 (oscillator
+  - Since 10:25, 39 more offloaded packages passed independent audit and were handed to kam-inp, which merges them
+    into inp as they arrive (KAM.lean regenerated; ABI hashes OK, 144). They are: P23-13b/c/d/e/g/i and P23-14/16 (oscillator
     Lie-series transfer, six of nine revision-3 packages); P5-EX/BL/JET/REM; P4-RAM; N12-09..15 and 17; N89-G7/P3;
     P11A-W5..W7 and C1..C3; S7-R; S8-L/A/I/Y/M/C; S9-L; S10-J/W/C/S. No seals; landing on main still paused.
   - Proving now (15): P23-13f, P23-17, P5-FD, N12-16, N89-P5 (`thm1`), P11A-W8/C6/P0/P3/P9, S8-W, P4-POL, S9-S,
