@@ -182,6 +182,147 @@ theorem selection_limit_series (cx : WeakBudgetCtx d a) (o : SelectionIteration 
 
 end Limit
 
+section Main
+
+theorem selectionT_unbounded (a : SelectionSchedule n) (hT : 1 ≤ a.T₀) (L : ℝ) :
+    ∃ ν, L ≤ selectionT a ν := by
+  obtain ⟨ν, hν⟩ := pow_unbounded_of_one_lt L (by norm_num : (1 : ℝ) < 2)
+  exact ⟨ν, hν.le.trans (by unfold selectionT; nlinarith [pow_pos (two_pos : (0 : ℝ) < 2) ν])⟩
+
+/-- `bpP:p11a:parameter-selection`: the parameter selection, built on the iteration of the
+inductive lemma. -/
+theorem parameter_selection (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
+    (hsmall : ε ≤ selectionAdmissible d) (f : SelectionPhaseC n → ℂ)
+    (hf : SelectionPerturbation d f ε) : Nonempty (SelectionOutput d f (adm_params d ε)) := by
+  obtain ⟨o⟩ := inductive_lemma d ε he hsmall f hf
+  obtain ⟨hA, ht1, hs, he0⟩ := selection_adm_facts d ε he hsmall
+  set a := adm_params d ε with ha
+  have hT : 1 ≤ a.T₀ := hA.cutoff_ge
+  have cx : WeakBudgetCtx d a := weakBudgetCtx_of d a hA rfl rfl rfl rfl rfl rfl hs he0
+  obtain ⟨χ, hχ⟩ := selection_all_cutoffs d a o.toSelectionChain
+    (fun ν => (o.chain ν).toSelectionExtensionChain) hA.t_pos ht1 d.tau_nonneg
+  obtain ⟨ωstar, hstar, hSω, hSh, hUω, hUh, hωs, hhs, hCω, hCh, hTω, hTh⟩ :=
+    selection_limit_series cx o
+  have htests := selection_tests_of_cutoffs d ε he hsmall o.toSelectionChain o.chain χ hχ
+  have hstage := selection_stage_all d ε he hsmall o.toSelectionChain
+    (fun ν => (o.chain ν).toSelectionExtensionChain) χ hχ
+  set Hfin := selectionFiniteTests d a o.toSelectionChain χ with hHfin
+  set Hinf : Set (SelectionR n) := {b ∈ d.K | ∀ k : Fin n → ℤ, k ≠ 0 →
+    2 * a.γ / selectionModeLength k ^ a.τ ≤
+      |∑ i, (k i : ℝ) * selectionExtendedFrequency d o.toSelectionChain χ
+        (selectionModeStage a k) b i|} with hHinf
+  have hmono : Antitone Hfin := fun ν ν' hνν' b hb =>
+    ⟨hb.1, fun k hk hkT => hb.2 k hk (hkT.trans (by
+      unfold selectionT
+      exact mul_le_mul_of_nonneg_left (pow_le_pow_right₀ (by norm_num) hνν') (by linarith)))⟩
+  have hHeq : Hinf = ⋂ ν, Hfin ν := by
+    ext b
+    simp only [mem_iInter]
+    constructor
+    · rintro ⟨hb, h⟩ ν
+      exact ⟨hb, fun k hk _ => h k fun h0 => by simp [h0, selectionModeLength] at hk⟩
+    · intro h
+      refine ⟨(h 0).1, fun k hk => ?_⟩
+      obtain ⟨ν, hν⟩ := selectionT_unbounded a hT (selectionModeLength k)
+      exact (h ν).2 k (selectionModeLength_pos hk) hν
+  have hKd : ∀ j, o.K j ⊆ d.K := fun j => by
+    have := selectionChain_antitone (o.chain j).toSelectionExtensionChain (j := 0) j (by omega)
+    rw [zero_add, (o.chain j).initial] at this
+    exact this
+  have hHsub : Hinf ⊆ ⋂ j, o.K j := by
+    intro b hb
+    rw [hHeq] at hb
+    simp only [mem_iInter] at hb ⊢
+    intro j
+    cases j with
+    | zero => rw [(o.chain 0).initial]; exact (hb 0).1
+    | succ ν =>
+      rw [(o.chain (ν + 1)).retained ν (by omega)]
+      exact (htests ν).2.1 (hb ν)
+  have hcompH : ∀ ν, IsCompact (Hfin ν) := fun ν => (htests ν).1
+  have hcompKinf : IsCompact (⋂ j, o.K j) :=
+    ((o.chain 0).compact 0 le_rfl).of_isClosed_subset
+      (isClosed_iInter fun j => ((o.chain j).compact j le_rfl).isClosed) (iInter_subset _ 0)
+  have hcompHinf : IsCompact Hinf := by
+    rw [hHeq]
+    exact (hcompH 0).of_isClosed_subset (isClosed_iInter fun ν => (hcompH ν).isClosed)
+      (iInter_subset _ 0)
+  have hmeas : volume d.K - ENNReal.ofReal d.loss ≤ volume Hinf := by
+    rw [hHeq]
+    have hlim := tendsto_measure_iInter_atTop (μ := volume) (s := Hfin)
+      (fun ν => (hcompH ν).isClosed.measurableSet.nullMeasurableSet) hmono
+      ⟨0, (hcompH 0).measure_lt_top.ne⟩
+    exact ge_of_tendsto' hlim fun ν => (htests ν).2.2
+  have hγ : 0 < a.γ := selectionGamma_pos d
+  have hdio : ∀ b ∈ Hinf, IsDiophantine a.γ a.τ (ωstar b) := by
+    intro b hb k hk
+    have hbK : b ∈ ⋂ j, o.K j := hHsub hb
+    have hL := selectionModeLength_pos hk
+    set m := selectionModeStage a k with hm
+    have hbm : b ∈ o.K m := mem_iInter.1 hbK m
+    have hext := (hstage m).2.1 b hbm
+    have htail := hTω m b hbK
+    have hLT : selectionModeLength k ≤ selectionT a m :=
+      (selectionModeStage_mem_shell a hT hL).2.1
+    have hpow : a.γ * selectionT a m ^ (-a.τ - 1) ≤
+        a.γ * selectionModeLength k ^ (-a.τ - 1) :=
+      mul_le_mul_of_nonneg_left (Real.rpow_le_rpow_of_nonpos hL hLT
+        (by linarith [cx.hyp.hτ])) hγ.le
+    have e : 2 * a.γ * KAM.Fourier.modeSize k ^ (-a.τ) =
+        2 * a.γ / selectionModeLength k ^ a.τ := by
+      rw [Real.rpow_neg (KAM.Fourier.modeSize_nonneg k), div_eq_mul_inv]
+      rfl
+    have hu : 2 * a.γ * KAM.Fourier.modeSize k ^ (-a.τ) ≤
+        |p11dotZ k (selectionExtendedFrequency d o.toSelectionChain χ m b)| := by
+      rw [e]
+      exact hb.2 k hk
+    have ht : ‖selectionExtendedFrequency d o.toSelectionChain χ m b - ωstar b‖ ≤
+        a.γ * KAM.Fourier.modeSize k ^ (-a.τ - 1) := by
+      rw [norm_sub_rev, hext]
+      exact htail.trans (((iter_tail cx m).2).trans hpow)
+    have hbr := limit_bridge (m := n) hγ hk hu ht
+    rw [Real.rpow_neg (KAM.Fourier.modeSize_nonneg k), ← div_eq_mul_inv] at hbr
+    exact hbr
+  exact ⟨{ toSelectionIteration := o
+           cutoffs := χ
+           cutoff_spec := fun j => ⟨(hχ j).1, (hχ j).2.1, (hχ j).2.2.1, (hχ j).2.2.2.1⟩
+           extended := selectionExtendedFrequency d o.toSelectionChain χ
+           extended_formula := fun _ => rfl
+           extended_regular := fun j => (hstage j).1
+           extended_eq := fun j => (hstage j).2.1
+           Kinf := ⋂ j, o.K j
+           Hinf := Hinf
+           Kinf_eq := rfl
+           compact_K := hcompKinf
+           compact_H := hcompHinf
+           H_subset := hHsub
+           modeStage := selectionModeStage a
+           modeStage_eq := rfl
+           modeStage_spec := fun k hk =>
+             selectionModeStage_mem_shell a hT (selectionModeLength_pos hk)
+           Hinf_eq := rfl
+           finite_compact := fun ν => (htests ν).1
+           finite_inclusion := fun ν b hb => by
+             rw [(o.chain (ν + 1)).retained ν (by omega)]
+             exact (htests ν).2.1 hb
+           finite_measure := fun ν => (htests ν).2.2
+           measure_H := hmeas
+           ωstar := ωstar
+           hstar := hstar
+           frequency_summable := hSω
+           energy_summable := hSh
+           frequency_uniform := hUω
+           energy_uniform := hUh
+           ωstar_sum := hωs
+           hstar_sum := hhs
+           ωstar_cont := hCω
+           hstar_cont := hCh
+           frequency_tail := hTω
+           energy_tail := hTh
+           diophantine := hdio }⟩
+
+end Main
+
 end KAM.Planetary
 
 end
