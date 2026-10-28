@@ -1,6 +1,6 @@
 # Lean design for P-G measure and assembly (blueprint-P Parts 4–5)
 
-Design Revision 2, 2026-10-28. Branch `inp-design-p45`, base `081967912d5200ad4711d6d16abde6a8cfafea71`.
+Design Revision 3, 2026-10-28. Branch `inp-design-p45`, base `081967912d5200ad4711d6d16abde6a8cfafea71`.
 Planning evidence only: signatures with `sorry` certify types, not mathematical proofs or frozen closure.
 The provider target is exactly `KAM.Planetary.properlyDegenerateKAM`, still `DRAFT_SORRY`.
 
@@ -187,7 +187,7 @@ that all 124 nodes already have proved declarations.
 | `stepP:p5:lo-range` | `local to location` | `PGAssembly/Chart` | p5:L245; p5:L245 | action collar and strict oscillator radial margin |
 | `stepP:p5:lo-act` | `local to location` | `PGAssembly/Chart` | p5:L246; p5:L246 | action collar and strict oscillator radial margin |
 | `stepP:p5:lo-disc` | `local to location` | `PGAssembly/Chart` | p5:L247; p5:L247 | action collar and strict oscillator radial margin |
-| `bpP:p5:kset` | `pgD0; physicalTorus; kset; rawUnion` | `PGAssembly/Family` | p5:L250–254; — | unions of entire torus ranges |
+| `bpP:p5:kset` | `pgD0; physicalTorus; kset; rawUnion` | `PGAssembly/Parameters` (pgD0); `PGAssembly/Family` (consumers) | p5:L250–254; — | early parameter set; unions of entire torus ranges |
 | `bpP:p5:torus-conv` | `PGFamilySpec; torus_conv; frequency_bounds` | `PGAssembly/Family` | p5:L256–258; p5:L259–264 | P3 output plus P1 pipeline; retains quantitative family data |
 | `stepP:p5:tc-chart` | `local to PGFamilySpec; torus_conv; frequency_bounds` | `PGAssembly/Family` | p5:L260; p5:L260 | P3 output plus P1 pipeline; retains quantitative family data |
 | `stepP:p5:tc-LT` | `local to PGFamilySpec; torus_conv; frequency_bounds` | `PGAssembly/Family` | p5:L261; p5:L261 | P3 output plus P1 pipeline; retains quantitative family data |
@@ -339,7 +339,8 @@ For P2 put `c=2*pi`, `e=pgOscRadius`, `w=pgWidth`, `L=LP`, and
 `pgOscNormalize` is T and `pgOscUnnormalize` is its inverse. The proved output
 `pg_osc_normalization` includes `T*omega=c*omega`; scaling just the fast angles
 would fail this identity. Supply `h=H0/c`, `P'=P∘T/L`, `mu'=L*mu/c`,
-`epsilon0=e/sqrt(c)`, `s0=w/c`, `alpha=gammaBar/c`, `r=rhoBar` and
+`epsilon0=e/sqrt(c)`, `s0=w/c`, `alpha=pgOscAlpha=gammaBar/(2*c*Kbar^tau)`,
+`r=rhoBar` and
 `K=15/(pi*s0)*log(1/r)=Kbar` to `averaged_remainder`. `pg_osc_zero`
 identifies its zero mode with the constructed secular average, not arbitrary frozen
 boundary values. `pg_osc_domain` identifies the image of the exact transformed
@@ -349,12 +350,27 @@ domain by the collar, positive tube widths and the chosen oscillator radius.
 For the returned joint witnesses define the physical map `A.Psi=T∘Psi∘T⁻¹`
 and physical remainder `A.remainder=c*(R∘T⁻¹)`. Multiplying the transformed
 identity by c gives exactly `AveragingSpec`. The quadratic remainder term becomes
-`400*(1+b)*L^2*mu^2/(gammaBar*min(rhoBar*w,e^2))`; the exponential term
-becomes `L*mu*r^5`. The explicit radius/scale inequalities bound their sum by
-`2*L*mu*r^5`. Physical displacements are at most `3*L*mu/(gammaBar*w)`
-in fast actions and `9*L*mu/(gammaBar*e)` in each oscillator block.
-The budget `Kbar*w>=6` implies `Kbar^tau>=1`, so these imply the exported
-`12*L*mu*Kbar^tau/(w*gammaBar)` and `18*L*mu*Kbar^tau/(e*gammaBar)`.
+`800*(1+b)*L^2*mu^2*Kbar^tau/(gammaBar*min(rhoBar*w,e^2))`; the exponential
+term becomes `L*mu*r^5`. The divisor at a core point is at least
+`gammaBar/Kbar^tau`; extension to its rhoBar-neighbourhood loses at most half,
+then dividing H0 by c divides its derivative by c. Thus the supplied constant
+is exactly `gammaBar/(4*pi*Kbar^tau)`, not a core-only bound.
+
+Write `K=Kbar`, `gamma=gammaBar`, `rho=rhoBar`. Since `rho*w<=e^2` and
+`rho=gamma/(2*M0*K^(tau+1))`, the quadratic term is
+`1600*(1+b)*M0*L^2*mu^2*K^(2*tau+1)/(gamma^2*w)`.
+The first branch `gamma>=G*sqrt(L*mu)*K^(tau+1/2)*r^(-5/2)` bounds it by
+`1600*(1+b)*M0*L*mu*r^5/(G^2*w)<=L*mu*r^5`, using the existing
+`G^2>=1600*(1+b)*M0/w`. Together with the exponential term this gives
+`2*L*mu*r^5`. The transformed `OscHyp.small` reduces to the sufficient bound
+`G^2>=2^14*(1+b)*M0*K*r^5`, supplied by the existing G condition and
+`K*r^5<=1`. These are proof obligations for P5-AV using P5-TH's radius bounds;
+they require no stronger frozen premise or new threshold quantifier.
+
+Physical displacements are at most `6*L*mu*K^tau/(gamma*w)` in fast actions
+and `18*L*mu*K^tau/(gamma*e)` in each oscillator block. They imply the unchanged
+exported constants `12*L*mu*Kbar^tau/(w*gammaBar)` and
+`18*L*mu*Kbar^tau/(e*gammaBar)`.
 Conjugation cancels the common conformal factor and yields a 1-chart; real
 restriction uses P1 hol_chart. Weighted bounds retain the same fast Fourier modes
 and coefficient width w/6 under this conjugation.
@@ -481,12 +497,12 @@ repeat the hard rules of Section 11 in each dispatched Lean brief.
 | P5-FD | `KAM/Planetary/PGAssembly/FrequencyBounds.lean` | 650 | 6 | P5-REM,P5-BL,P4-ONE; Cauchy,Cramer | PGAnalyticSpec, freq_data, pgAnalytic, pgCU |
 | P5-FI | `KAM/Planetary/PGAssembly/FrequencyInverse.lean` | 650 | 7 | P5-FD; Matrix.fromBlocks₁₁Invertible; Neumann | schur_inverse_blocks, freq_inj |
 | P5-SCALE | `KAM/Planetary/PGAssembly/Scales.lean` | 350 | 7 | P5-FD; isLittleO_log_rpow_rpow_atTop | kam_c1, log_power_dominated, PGScaleSpec, kam_cond, pgScales |
-| P5-PAR | `KAM/Planetary/PGAssembly/Parameters.lean` | 300 | 8 | P5-SCALE,P4-CO | params, checkedCore, pgActionDomain, admissible |
+| P5-PAR | `KAM/Planetary/PGAssembly/Parameters.lean` | 300 | 8 | P5-SCALE,P4-CO,P4-S; P1 twoScaleDiophantine | params, checkedCore, pgActionDomain, pgD0, admissible |
 | P5-TH | `KAM/Planetary/PGAssembly/Threshold.lean` | 650 | 9 | P5-PAR,P4-ONE,P4-CO,P5-FI | rstar, pgRstar, param_facts, r_k |
-| P5-AV | `KAM/Planetary/PGAssembly/Averaging.lean` | 550 | 10 | P5-TH,P5-EX,P5-JET; P2 OscHyp,averaged_remainder; Section 5 adapters | pg_osc_*, avg, PGAveraging, AveragingSpec, pgAvg |
+| P5-AV | `KAM/Planetary/PGAssembly/Averaging.lean` | 550 | 10 | P5-TH,P5-EX,P5-JET; P2 OscHyp,averaged_remainder; Section 5 adapters | pgOscAlpha, pg_osc_*, avg, PGAveraging, AveragingSpec, pgAvg |
 | P5-CH | `KAM/Planetary/PGAssembly/Chart.lean` | 550 | 11 | P5-AV,P4-POL; P1 IsChart.comp,hol_chart | phi_chart, location, phi, phiDomain |
-| P5-KH | `KAM/Planetary/PGAssembly/KAMInputs.lean` | 550 | 11 | P5-AV,P5-FI,P5-REM; N WBound API | kamH, kamF, kam_hyp, pgKamScale, pg_kam_hyp, pg_kam_dictionary |
-| P5-FAM | `KAM/Planetary/PGAssembly/Family.lean` | 650 | 12 | P5-CH,P5-KH,P5-TH; P3 KamHyp,two_scale_kam joint output; P1 cyl_pipeline | PGFamilySpec, torus_conv, pgFamily, kset, rawUnion, pgD0, frequency_bounds |
+| P5-KH | `KAM/Planetary/PGAssembly/KAMInputs.lean` | 550 | 11 | P5-AV,P5-FI,P5-REM,P5-PAR; N WBound API | kamH, kamF, kam_hyp, pgKamScale, pg_kam_hyp, pg_kam_dictionary |
+| P5-FAM | `KAM/Planetary/PGAssembly/Family.lean` | 650 | 12 | P5-CH,P5-KH,P5-TH; P3 KamHyp,two_scale_kam joint output; P1 cyl_pipeline | PGFamilySpec, torus_conv, pgFamily, kset, rawUnion, frequency_bounds |
 | P5-CT | `KAM/Planetary/PGAssembly/CellTransfer.lean` | 750 | 13 | P5-FAM; P1 chart_measure_image,volume_angleScale_image,torus_union* | cell_transfer, outputRepresentative |
 | P5-BU | `KAM/Planetary/PGAssembly/ActionBudget.lean` | 550 | 13 | P5-FAM,P4-M,P4-CO,P5-TH | pgMeasureUpper1/2, explicit pgBudget, budget on Cantor core, positive denominators |
 | P5-LO | `KAM/Planetary/PGAssembly/Lower.lean` | 350 | 14 | P5-CT,P5-BU,P4-POL | lower, pgLoss, finalRadius |
@@ -501,7 +517,10 @@ DAG: `PG/Setting` is below both measure and assembly modules. `PGMeasure/{Collar
 AffineSlab,LatticeTail}` feed `ResonanceSlow`, `ResonanceFast`, `ResonanceLarge`, then `TwoScale`.
 `PGAssembly/{ComplexLocal,RealSlice}` feed `ComplexGlue`, then `Extension`, then `Jets`, then `Remainder`.
 `FastComplex` and `Jets` feed `FrequencyBounds`/`FrequencyInverse`. These and `Weighted` feed
-`Scales`/`Parameters`/`Threshold`. `Averaging` imports the delivered P2 interface; `Chart` imports
+`Scales`/`Parameters`/`Threshold`. `Parameters` imports the P1 two-scale predicate and
+P4 frequency formula; it owns `pgD0` immediately after `pgActionDomain`.
+`Parameters` feeds both `KAMInputs` and `Family`, with no reverse import from either.
+`Averaging` imports the delivered P2 interface; `Chart` imports
 Averaging, Polar and P1. `KAMInputs` and the delivered P3 interface feed `Family`; `CellTransfer` and
 `ActionBudget` feed `Lower`; `CutMeasure` supplies only abstract measure continuity; the actual parameter measure is built
 in `Strictness`, downstream of Family. `CutMeasure` and `Lower` feed `Strictness`; `Main` imports those and
@@ -569,17 +588,20 @@ Final signature command (run serially through the required gate):
 /mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p45 .drafts/scratch/P45Signatures.lean
 ```
 
-Revision 2 signature gate: exit 0, **69 warnings, all declaration uses `sorry`**;
+Revision 3 signature gate: exit 0, **69 warnings, all declaration uses `sorry`**;
 no errors or other warnings. Both typed upstream applications elaborate. The final
-file has **1282 lines**. `#print axioms KAM.Planetary.main` reports
+file has **1286 lines**. `#print axioms KAM.Planetary.main` reports
 `[propext, sorryAx, Classical.choice, Quot.sound]`. The literal frozen telescope and
 conclusion comparison passes. All theorem bodies are sorry, and Appendix A, shared
 file and checked scratch file are byte-identical. Logs:
-`.drafts/scratch/P45-r2-signatures.log` and `.drafts/scratch/P45-r2-lint.log`.
+`.drafts/scratch/P45-r3-signatures.log` and `.drafts/scratch/P45-r3-lint.log`.
 `PATH=/root/code/KAM-inp-design-p45/.drafts/scratch/gated-bin:$PATH scripts/lint_sources.sh`
 exits 0: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`;
 `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`.
-Owned document `git diff --check` also exits 0.
+Owned document `git diff --check` also exits 0. Static validation in
+`.drafts/scratch/P45-r3-static.log` confirms Appendix/shared/scratch identity, the
+literal frozen telescope/conclusion, 124 node-table rows, and all 36 named local
+package dependencies in strictly earlier waves (including Parameters before KAMInputs/Family).
 
 The signature and fixture theorems are all `sorry`; the printed main axioms include
 `sorryAx`, so successful elaboration does not close P-G. The lint ABI subprocess is
@@ -626,6 +648,22 @@ The existing 124-node table and all twelve scoped SOURCE_GAP assignments remain.
 No frozen, manifest, graph, blueprint, generated root or README edit is authorized
 or performed. The source gaps remain proof obligations after these contract repairs.
 
+## Revision 3 — audit 2 finding resolutions
+
+| Finding | Resolution and owning package |
+|---|---|
+| F7 (major; completes N1) | New `pgOscAlpha=gammaBar/(4*pi*Kbar^tau)` is the constant supplied to `pg_osc_hyp`. Section 5 derives the cutoff and neighbourhood losses, corrected quadratic remainder and physical displacements, and checks the existing G bounds suffice for both remainder and `OscHyp.small`. P5-AV owns this definition and the unchanged upstream application. No source Diophantine hypothesis is strengthened. |
+| F8 (medium) | Move the unchanged `pgD0` definition immediately after `pgActionDomain`, with an explicit Parameters ownership comment in Appendix A. P5-PAR imports the P1 predicate and P4 frequency formula; the package table and DAG now place it before KAMInputs and Family. Remove it from P5-FAM outputs. |
+| Prior F1–F6, N2 (audit 2 PASS) | Preserve all prior collar, coefficient-regularity, radius-2, muStar, numerical-budget, polar-coverage and helper-ownership repairs. The N1 application now consumes the corrected divisor constant. |
+| Validation note | Audit 2's independent lint run lacked an ABI receipt; it is not treated as a pass. Section 10 records a fresh Revision 3 lint result, separate from signature elaboration. |
+
+F7 is a design transcription/normalization defect relative to
+`p5-pg-assembly.tex` L176–178 (`stepP:p5:av-R1`), whose printed bound is
+`gammaBar/(2*Kbar^tau)` before Hamiltonian scaling. F8 is a design module-ownership
+defect. Neither is a new pinned-source erratum or an authorized frozen change.
+The two upstream applications still check types only; all analytic proofs and the
+twelve scoped SOURCE_GAP obligations remain unpaid.
+
 ## 11. Hard rules for every Lean package brief (verbatim)
 
 1. **Never use `set_option maxHeartbeats`** (or any heartbeat-budget override). A default-heartbeat elaboration
@@ -654,7 +692,7 @@ or performed. The source gaps remain proof obligations after these contract repa
 
 ## Appendix A. Exact signatures
 
-`P45Signatures.lean`: 1282 lines; SHA256 `0cda6670cd3dddae5adf778ea94b5fd57c9fdc6bc8acc5262fb3b0087d301cba`. One file, below the 1500-line cap.
+`P45Signatures.lean`: 1286 lines; SHA256 `f4c7752bf23b8b149e4e5c0f1fac5288b4c32c10d19c4a17d3afe79af1c13ca2`. One file, below the 1500-line cap.
 
 ```lean
 /-
@@ -1574,6 +1612,11 @@ def checkedCore (d : PGData a b) (r mu : ℝ) : Set (Fin a → ℝ) :=
 def pgActionDomain (d : PGData a b) (r mu : ℝ) : Set (Fin (a+b) → ℝ) :=
   joinedActions (checkedCore d r mu) (actionShell b (params d r mu).l1 (params d r mu).l2top)
 
+/- Owner: KAM/Planetary/PGAssembly/Parameters.lean; after pgActionDomain. -/
+def pgD0 (d : PGData a b) (r mu : ℝ) : Set (Fin (a+b) → ℝ) :=
+  {J ∈ pgActionDomain d r mu | ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) ∈
+    twoScaleDiophantine a b (params d r mu).gamma1 (params d r mu).gamma2 (pgTau a b)}
+
 def admissible (d : PGData a b) (R r mu : ℝ) : Prop :=
   0 < r ∧ r < R ∧ 0 < mu ∧ mu < d.mu0 ∧ mu < r^6/(Real.log (1/r))^(2*pgTau a b+2)
 
@@ -1677,10 +1720,13 @@ def pgOscH (d : PGData a b) (I : Fin a → ℂ) : ℂ := (pgExtension d).H0 I/(2
 def pgOscE (d : PGData a b) (mu : ℝ) : ℝ := (pgAnalytic d).LP*mu/(2*Real.pi)
 def pgOscEpsilon (d : PGData a b) : ℝ := pgOscRadius d/Real.sqrt (2*Real.pi)
 def pgOscWidth (d : PGData a b) : ℝ := pgWidth d/(2*Real.pi)
+/-- Cutoff divisor after neighbourhood loss and conformal Hamiltonian scaling. -/
+def pgOscAlpha (d : PGData a b) (r mu : ℝ) : ℝ :=
+  (params d r mu).gammaBar / (4*Real.pi*(params d r mu).Kbar^(pgTau a b))
 theorem pg_osc_hyp (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     OscHyp (checkedCore d r mu) (params d r mu).rhoBar (pgOscEpsilon d) (pgOscEpsilon d)
       0 (pgOscWidth d) (15/(Real.pi*pgOscWidth d)*Real.log (1/r))
-      ((params d r mu).gammaBar/(2*Real.pi)) (pgOscE d mu)
+      (pgOscAlpha d r mu) (pgOscE d mu)
       (pgOscH d) (pgOscE d mu • pgOscP d mu) := sorry
 theorem pg_osc_bound (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     oscBound (checkedCore d r mu) (params d r mu).rhoBar (pgOscEpsilon d) (pgOscEpsilon d)
@@ -1772,10 +1818,6 @@ theorem location (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r m
     (z : Phase (a+b)) (hz : z.2 ∈ realNbhd (pgActionDomain d r mu) (params d r mu).rK) :
     angleScale (2*Real.pi) z ∈ phiDomain d r mu ∧
     phi d r mu h (angleScale (2*Real.pi) z) ∈ cylinder d.V r := sorry
-
-def pgD0 (d : PGData a b) (r mu : ℝ) : Set (Fin (a+b) → ℝ) :=
-  {J ∈ pgActionDomain d r mu | ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) ∈
-    twoScaleDiophantine a b (params d r mu).gamma1 (params d r mu).gamma2 (pgTau a b)}
 
 /-- Exact P3 data; L is initialL, with a separate equality to C1/mu. -/
 def pgKamScale (d : PGData a b) (r mu : ℝ) : ScaleData :=
