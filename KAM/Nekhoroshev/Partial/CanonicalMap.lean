@@ -77,17 +77,17 @@ private theorem differentiableOn_wfield (c : ℝ) {U : Set (EC n k)} (hU : IsOpe
     (differentiableOn_pi.2 fun j => ?_)
   refine ext_cases (P := fun j => DifferentiableOn ℂ (fun z => (wfield c φ z).2 j) U)
     (fun i => ?_) (fun i => ?_) (fun i => ?_) j
-  · simpa only [wfield, Fin.append_left] using (hc _).neg
-  · simpa only [wfield, Fin.append_right, Fin.append_left] using
-      (differentiableOn_const (c : ℂ)).mul (hc _)
-  · simpa only [wfield, Fin.append_right] using
-      (differentiableOn_const (-(c : ℂ))).mul (hc _)
+  · simp only [wfield, Fin.append_left]
+    exact (hc _).neg
+  · simp only [wfield, Fin.append_right, Fin.append_left]
+    exact (hc _).const_mul (c : ℂ)
+  · simp only [wfield, Fin.append_right]
+    exact (hc _).const_mul (-(c : ℂ))
 
 private theorem wfield_real (b : PartialBlock n k) {R s ρ σ : ℝ} {φ : EC n k → ℂ}
-    (hR : 0 < R) (hs : 0 < s) (hρR : ρ ≤ R) (hσs : σ ≤ s) (hH : ext_class b R s φ)
+    (hR : 0 < R) (hs : 0 < s) (hρ : 0 ≤ ρ) (hH : ext_class b R s φ)
     (z : ER n k) (hz : extCx z ∈ Dom n b.base (R-ρ) (s-σ)) :
     extCx (extRe (wfield b.c φ (extCx z))) = wfield b.c φ (extCx z) := by
-  have _ := hσs
   have hz' : z ∈ b.realDom R :=
     ⟨KAM.ofReal_mem_complexStrip one_pos z.1, polyNbhd_mono (by linarith) hz.2⟩
   have h := (real_system b hR hs hH).2.2.1 z hz'
@@ -276,7 +276,7 @@ theorem canonical_map_core (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ V : 
     rwa [hW, hW] at this
   · -- reality
     intro hreal z hz
-    exact flow_real W hF (wfield_real b hR hs hρ1.le hσ1.le ⟨hφ, hreal⟩) (hgh hz)
+    exact flow_real W hF (wfield_real b hR hs hρ.le ⟨hφ, hreal⟩) (hgh hz)
       (t := 1) (by simp)
 
 /-- The signed `canonical_map` for a block with positive slow weight `b.c`. -/
