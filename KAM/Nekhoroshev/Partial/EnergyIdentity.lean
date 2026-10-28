@@ -7,6 +7,7 @@ module
 
 public import KAM.Nekhoroshev.Partial.RealSystem
 public import KAM.Head.Frequency
+public import KAM.Nekhoroshev.Stability.Energy
 
 /-!
 # The frequency-free energy identity (Part 11, package N11-L1)
@@ -325,6 +326,103 @@ private theorem hasDerivAt_fast (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin
   refine this.congr_deriv ?_
   rw [hdot, ← Finset.sum_neg_distrib]
   exact Finset.sum_congr rfl fun i _ => by simp only [Pi.add_apply]; ring
+
+/-! ### The transverse pairing estimate -/
+
+/-- `bpN:p11:energy-free`, step `ef-C`: for an orbit stretch `[0, t₁]` and an orthogonal
+projection `P` onto a subspace containing the resonant gradient `∂_θ g`,
+`|⟨ω(I(0)), ΔI - PΔI⟩| ≤ |f(t₁) - f(0)| + |t₁| (B₁ + (B₃ + B₄) B₂)`, where `B₁` bounds the
+bracket `{fs, g}`, `B₂` the angular gradient of `fs`, `B₃` the drift of `ω` along the stretch and
+`B₄` the size of `P ω(I(0))`.  No bound on `ω` itself enters. -/
+theorem transverse_pairing (b : PartialBlock n k) {r s m M ζ : ℝ} {Λ : Set (Fin n → ℤ)}
+    {h : (Fin n → ℂ) → ℂ} {g fs : EC n k → ℂ} (hr : 0 < r) (hs : 0 < s)
+    (hh : RealFastConvex b.Ic r m M h) (hg : ext_class b r s g) (hf : ext_class b r s fs)
+    (hgb : WBound b.base r s g ζ)
+    (hsupp : ∀ J ∈ polyNbhd b.base r, ∀ j : Fin n → ℤ, j ∉ Λ → coeff g J j = 0)
+    {J : Set ℝ} (hJ : J.OrdConnected) {y : ℝ → ER n k}
+    (hy : ExtOrbit b r (liftFast h + g + fs) J y)
+    {P : (Fin n → ℝ) →ₗ[ℝ] (Fin n → ℝ)} (hP : KAM.Stability.IsOrthProj P)
+    (hPres : ∀ v ∈ KAM.Stability.resSpan Λ, P v = v)
+    (h0 : (0 : ℝ) ∈ J) {t₁ : ℝ} (ht₁ : t₁ ∈ J) {B₁ B₂ B₃ B₄ : ℝ}
+    (hB₁ : ∀ τ ∈ uIcc 0 t₁, |(extBracket b.c fs g (extCx (y τ))).re| ≤ B₁)
+    (hB₂ : ∀ τ ∈ uIcc 0 t₁, euclid (fun i => (dtheta i fs (extCx (y τ))).re) ≤ B₂)
+    (hB₃ : ∀ τ ∈ uIcc 0 t₁, euclid (KAM.frequencyMap h (fastAction (y τ)) -
+      KAM.frequencyMap h (fastAction (y 0))) ≤ B₃)
+    (hB₄ : euclid (P (KAM.frequencyMap h (fastAction (y 0)))) ≤ B₄) :
+    |KAM.frequencyMap h (fastAction (y 0)) ⬝ᵥ ((fastAction (y t₁) - fastAction (y 0)) -
+        P (fastAction (y t₁) - fastAction (y 0)))| ≤
+      |(fs (extCx (y t₁))).re - (fs (extCx (y 0))).re| + |t₁| * (B₁ + (B₃ + B₄) * B₂) := by
+  set ω0 : Fin n → ℝ := KAM.frequencyMap h (fastAction (y 0)) with hω0
+  set w : Fin n → ℝ := ω0 - P ω0 with hw
+  set Φ : ℝ → ℝ := fun t => w ⬝ᵥ fastAction (y t) + (fs (extCx (y t))).re with hΦ
+  have hsub : uIcc 0 t₁ ⊆ J := hJ.uIcc_subset h0 ht₁
+  have hB20 : 0 ≤ B₂ := (Real.sqrt_nonneg _).trans (hB₂ 0 left_mem_uIcc)
+  have hB30 : 0 ≤ B₃ := (Real.sqrt_nonneg _).trans (hB₃ 0 left_mem_uIcc)
+  have hB40 : 0 ≤ B₄ := (Real.sqrt_nonneg _).trans hB₄
+  have hder : ∀ τ ∈ uIcc 0 t₁, HasDerivWithinAt Φ
+      (-(w ⬝ᵥ ((fun i => (dtheta i g (extCx (y τ))).re) +
+        fun i => (dtheta i fs (extCx (y τ))).re)) +
+        (∑ i, (dtheta i fs (extCx (y τ))).re * KAM.frequencyMap h (fastAction (y τ)) i +
+          (extBracket b.c fs g (extCx (y τ))).re)) (uIcc 0 t₁) τ := fun τ hτ =>
+    ((hasDerivAt_fast b hr hs hh hg hf hy (hsub hτ) w).add
+      (energy_identity_re b hr hs hh hg hf hy (hsub hτ))).hasDerivWithinAt
+  have hbd : ∀ τ ∈ uIcc 0 t₁, ‖-(w ⬝ᵥ ((fun i => (dtheta i g (extCx (y τ))).re) +
+        fun i => (dtheta i fs (extCx (y τ))).re)) +
+        (∑ i, (dtheta i fs (extCx (y τ))).re * KAM.frequencyMap h (fastAction (y τ)) i +
+          (extBracket b.c fs g (extCx (y τ))).re)‖ ≤ B₁ + (B₃ + B₄) * B₂ := by
+    intro τ hτ
+    set pf : Fin n → ℝ := fun i => (dtheta i fs (extCx (y τ))).re with hpf
+    set pg : Fin n → ℝ := fun i => (dtheta i g (extCx (y τ))).re with hpg
+    have hpgres : pg ∈ KAM.Stability.resSpan Λ :=
+      (real_system_resonant b hs hg.1 hgb hsupp _ (hy τ (hsub hτ)).1).1
+    have hwg : w ⬝ᵥ pg = 0 := by
+      rw [hw, sub_dotProduct, hP.symm ω0 pg, hPres _ hpgres, sub_self]
+    have hsum : ∑ i, pf i * KAM.frequencyMap h (fastAction (y τ)) i =
+        KAM.frequencyMap h (fastAction (y τ)) ⬝ᵥ pf := by
+      rw [dotProduct_comm]; rfl
+    have hval : -(w ⬝ᵥ (pg + pf)) + (∑ i, pf i * KAM.frequencyMap h (fastAction (y τ)) i +
+        (extBracket b.c fs g (extCx (y τ))).re) =
+        (extBracket b.c fs g (extCx (y τ))).re +
+          ((KAM.frequencyMap h (fastAction (y τ)) - ω0) ⬝ᵥ pf + P ω0 ⬝ᵥ pf) := by
+      rw [dotProduct_add, hwg, hsum, hw, sub_dotProduct, sub_dotProduct]
+      ring
+    have e1 := KAM.Stability.abs_dot_le_euclid (KAM.frequencyMap h (fastAction (y τ)) - ω0) pf
+    have e2 := KAM.Stability.abs_dot_le_euclid (P ω0) pf
+    have hb2 := hB₂ τ hτ
+    have hb3 := hB₃ τ hτ
+    have hnn : 0 ≤ euclid pf := Real.sqrt_nonneg _
+    have hnn' : 0 ≤ euclid (KAM.frequencyMap h (fastAction (y τ)) - ω0) := Real.sqrt_nonneg _
+    have hnn'' : 0 ≤ euclid (P ω0) := Real.sqrt_nonneg _
+    have p1 : euclid (KAM.frequencyMap h (fastAction (y τ)) - ω0) * euclid pf ≤ B₃ * B₂ :=
+      mul_le_mul hb3 hb2 hnn hB30
+    have p2 : euclid (P ω0) * euclid pf ≤ B₄ * B₂ := mul_le_mul hB₄ hb2 hnn hB40
+    have hB1 := hB₁ τ hτ
+    rw [Real.norm_eq_abs, hval]
+    calc _ ≤ |(extBracket b.c fs g (extCx (y τ))).re| +
+          |(KAM.frequencyMap h (fastAction (y τ)) - ω0) ⬝ᵥ pf + P ω0 ⬝ᵥ pf| := abs_add_le _ _
+      _ ≤ _ := by
+        have := abs_add_le ((KAM.frequencyMap h (fastAction (y τ)) - ω0) ⬝ᵥ pf) (P ω0 ⬝ᵥ pf)
+        nlinarith
+  have hmv := Convex.norm_image_sub_le_of_norm_hasDerivWithin_le hder hbd (convex_uIcc 0 t₁)
+    left_mem_uIcc right_mem_uIcc
+  rw [Real.norm_eq_abs, sub_zero, Real.norm_eq_abs] at hmv
+  have hΦ1 : Φ t₁ - Φ 0 = ω0 ⬝ᵥ ((fastAction (y t₁) - fastAction (y 0)) -
+      P (fastAction (y t₁) - fastAction (y 0))) +
+      ((fs (extCx (y t₁))).re - (fs (extCx (y 0))).re) := by
+    have e : w ⬝ᵥ (fastAction (y t₁) - fastAction (y 0)) =
+        ω0 ⬝ᵥ ((fastAction (y t₁) - fastAction (y 0)) -
+          P (fastAction (y t₁) - fastAction (y 0))) := by
+      rw [hw, sub_dotProduct, hP.symm]
+      simp only [dotProduct_sub]
+    rw [← e, dotProduct_sub]
+    simp only [hΦ]
+    ring
+  rw [hΦ1] at hmv
+  calc _ = |(ω0 ⬝ᵥ ((fastAction (y t₁) - fastAction (y 0)) -
+        P (fastAction (y t₁) - fastAction (y 0))) +
+        ((fs (extCx (y t₁))).re - (fs (extCx (y 0))).re)) -
+        ((fs (extCx (y t₁))).re - (fs (extCx (y 0))).re)| := by rw [add_sub_cancel_right]
+    _ ≤ _ := (abs_sub _ _).trans (by linarith)
 
 end KAM.Nekhoroshev
 
