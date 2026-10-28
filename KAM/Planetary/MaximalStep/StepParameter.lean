@@ -56,7 +56,8 @@ theorem canonical_step_param {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
   refine ⟨?_, ?_, fun z hz => ⟨?_, ?_, fun Mr hMr => ?_⟩⟩
   · refine (param_cauchy_scalar htp ht hdH hbH hj b hb).trans (le_of_eq ?_)
     ring
-  · refine (param_cauchy htp ht (div_nonneg (step_M_nonneg S) hs.le) hdW hbW hj b hb).trans (le_of_eq ?_)
+  · refine (param_cauchy htp ht (div_nonneg (step_M_nonneg S) hs.le) hdW hbW hj b hb).trans
+      (le_of_eq ?_)
     field_simp
   · have hd : DifferentiableOn ℂ (fun b => (p11StepMap S w R (z, b)).1 - z.1)
         (KAM.actionNbhd S.E S.t) :=

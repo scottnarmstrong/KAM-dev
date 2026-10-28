@@ -238,7 +238,8 @@ theorem step_remainder_le (H : P11StepHyp S h w R) {b : P11CVec n}
     simp only [sub_zero, abs_one, mul_one]
     field_simp
     ring
-  have h1' : ‖(R - p11Cutoff S.T R) (z, b)‖ ≤ S.eps * (S.q ^ 2 / (1 - S.q) + 2 * p11Error n S.T S.d) := h1
+  have h1' : ‖(R - p11Cutoff S.T R) (z, b)‖ ≤
+      S.eps * (S.q ^ 2 / (1 - S.q) + 2 * p11Error n S.T S.d) := h1
   simp only [Pi.sub_apply] at h1'
   linarith
 

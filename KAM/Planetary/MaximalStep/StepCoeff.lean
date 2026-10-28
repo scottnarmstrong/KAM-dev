@@ -98,7 +98,8 @@ theorem taylor_eq (R : P11Family n → ℂ) (θ η b : P11CVec n) :
   simp [smul_eq_mul]
 
 /-- The first-order coefficient through the Taylor part at `(s/2) e_i`. -/
-theorem stepF1_eq {s : ℝ} (hs : 0 < s) (R : P11Family n → ℂ) (i : Fin n) (u : P11CVec n × P11CVec n) :
+theorem stepF1_eq {s : ℝ} (hs : 0 < s) (R : P11Family n → ℂ) (i : Fin n)
+    (u : P11CVec n × P11CVec n) :
     stepF1 R i u = (2 / s : ℂ) * (p11Taylor R ((u.1, ((s / 2 : ℝ) : ℂ) • Pi.single i 1), u.2) -
       stepF0 R u) := by
   have hs' : (s : ℂ) ≠ 0 := by exact_mod_cast hs.ne'
@@ -165,7 +166,8 @@ theorem norm_stepF1_le {eps : ℝ} (hr : 0 < r) (hs : 0 < s) (he : 0 ≤ eps) (h
     (hR : p11Admissible r s B R) (hb : p11Bound (domain_def n r s B) R eps) (i : Fin n) :
     p11Bound (KAM.complexStrip n r ×ˢ B) (stepF1 R i) (eps / s) := by
   rintro ⟨θ, b⟩ ⟨h1, h2⟩
-  have hd := (taylor_cutoff (q := 1/2) (M := eps) (r := r) (s := s) (n := n) hr hs he (by norm_num) (by norm_num)
+  have hd := (taylor_cutoff (q := 1/2) (M := eps) (r := r) (s := s) (n := n) hr hs he
+    (by norm_num) (by norm_num)
     hB hR hb).2.2.2 θ h1 b h2
   have h1' : ‖(Pi.single i (1 : ℂ) : P11CVec n)‖ ≤ 1 := by
     refine (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => ?_

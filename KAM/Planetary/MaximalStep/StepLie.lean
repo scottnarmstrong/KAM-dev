@@ -27,7 +27,8 @@ section Displacement
 
 variable {p0 : P11CVec n → ℂ} {p1 : P11CVec n → P11CVec n} {r s sigma A : ℝ}
 
-/-- Displacement of the flow at every time `t ∈ [-1, 1]` (`flow_displacement` is the case `t = 1`). -/
+/-- Displacement of the flow at every time `t ∈ [-1, 1]`
+(`flow_displacement` is the case `t = 1`). -/
 theorem flow_displacement_t (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
     (hz : z ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) :
     ‖(p11Flow (p11Affine p0 p1) r s sigma t z).1 - z.1‖ ≤ A ∧

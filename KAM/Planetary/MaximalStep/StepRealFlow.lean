@@ -100,7 +100,8 @@ theorem stepV_fderiv (H : P11StepHyp S h w R) {b : P11Vec n}
   have hΛ : 0 ≤ p11Lambda n (S.r - S.d) := by
     rw [← (p11_lambda_spec S.n_pos hr).2.1]
     exact tsum_nonneg fun _ => (Real.exp_pos _).le
-  have hL : 0 ≤ 2 * S.T * ((1 + p11Error n S.T S.d) * S.eps / S.s) * p11Lambda n (S.r - S.d) / S.D := by
+  have hL : 0 ≤ 2 * S.T * ((1 + p11Error n S.T S.d) * S.eps / S.s) *
+      p11Lambda n (S.r - S.d) / S.D := by
     positivity
   refine ContinuousLinearMap.opNorm_le_bound _ hL fun a => ?_
   refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => ?_
@@ -243,7 +244,8 @@ theorem canonical_step_real {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     (hreal : p11Real (domain_def n S.r S.s (KAM.actionNbhd S.E S.t)) R) :
     let rp := S.r-S.d-S.delta-2*S.sigma
     (∀ x : Phase n, ∀ b : P11Vec n,
-      (KAM.realInclusion₂ n x,KAM.realInclusion n b) ∈ domain_def n rp (S.q*S.s) (KAM.actionNbhd S.E S.t) →
+      (KAM.realInclusion₂ n x,KAM.realInclusion n b) ∈
+        domain_def n rp (S.q*S.s) (KAM.actionNbhd S.E S.t) →
         ∀ i, ((p11StepMap S w R (KAM.realInclusion₂ n x,KAM.realInclusion n b)).1 i).im=0 ∧
           ((p11StepMap S w R (KAM.realInclusion₂ n x,KAM.realInclusion n b)).2 i).im=0) ∧
     p11Real (domain_def n rp (S.q*S.s) (KAM.actionNbhd S.E S.t)) (p11StepRemainder S h w R) ∧

@@ -101,7 +101,8 @@ theorem step_Rp_admissible (H : P11StepHyp S h w R) :
     simp only [p11StepRemainder, hF']
     have e : p11StepMap S w R z + (Pi.single j 1, 0) =
         ((p11StepMap S w R z).1 + Pi.single j 1, (p11StepMap S w R z).2) := by ext <;> simp
-    simp only [Pi.add_apply, p11Normal, Prod.fst_add, Prod.snd_add, add_zero, Pi.zero_apply] at hRp ⊢
+    simp only [Pi.add_apply, p11Normal, Prod.fst_add, Prod.snd_add, add_zero,
+      Pi.zero_apply] at hRp ⊢
     rw [e, hRp]
 
 /-- `canonical_step` i-iii, complex form. The output functions are explicit, never assumed. -/
@@ -181,7 +182,8 @@ theorem canonical_step {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     have hn : (0 : ℝ) ≤ n * (4 * n + 5) := by positivity
     have : (n : ℝ) * (4 * n + 5) * (5 + 4 * p11Error n S.T S.d) * (1 + p11Error n S.T S.d) *
         p11Lambda n S.delta * S.eps ^ 2 / (Real.pi * S.D * S.s * S.sigma) ≤
-        18 * n * (4 * n + 5) * p11Lambda n S.delta * S.eps ^ 2 / (Real.pi * S.D * S.s * S.sigma) := by
+        18 * n * (4 * n + 5) * p11Lambda n S.delta * S.eps ^ 2 /
+          (Real.pi * S.D * S.s * S.sigma) := by
       rw [div_le_div_iff_of_pos_right hP]
       have h0 : 0 ≤ (n : ℝ) * (4 * n + 5) * p11Lambda n S.delta * S.eps ^ 2 := by positivity
       nlinarith [mul_le_mul_of_nonneg_left h18 h0]
