@@ -70,13 +70,17 @@ theorem qbBeta_exponent {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalVali
   rw [BudgetRates.exponent_eq]
   have hL : qbBetaRates.rateL = 0 := by simp [BudgetRates.rateL, qbBetaRates]
   have hJ : qbBetaRates.rateJ N d.mu d.rho d.tau = p11c_G0 d := by
-    simp only [BudgetRates.rateJ, hG, hL, qbBetaRates]
-    simpa using hG0
+    unfold BudgetRates.rateJ
+    rw [hG, hL]
+    simpa [qbBetaRates] using hG0
   have hX : qbBetaRates.rateX N d.mu d.rho d.tau = p11c_G0 d := by
-    simp only [BudgetRates.rateX, hJ, hL]; exact max_eq_left (by simpa using hG0)
+    unfold BudgetRates.rateX
+    rw [hJ, hL]; exact max_eq_left hG0
   have hH : qbBetaRates.rateH N d.mu d.rho d.tau =
       max (2 * p11c_G0 d) (1 + d.mu * p11c_G0 d) := by
-    simp only [BudgetRates.rateH, hJ, hX, hG, hL, qbBetaRates]
+    unfold BudgetRates.rateH
+    rw [hJ, hX, hG, hL]
+    simp only [qbBetaRates]
     have : max (p11c_G0 d) (p11c_G0 d + (↑N + 1) * 0 + d.tau * 0 + p11c_G0 d) =
         2 * p11c_G0 d := by
       rw [max_eq_right (by linarith)]; ring
@@ -98,7 +102,7 @@ theorem qbBetaC_pos {N : ℕ} {d : QuantitativeData N} (hd : d.NumericalValid) :
     (lt_min (lt_min (inv_pos.2 hM) (inv_pos.2 hM0)) (lt_min (inv_pos.2 this) (inv_pos.2 hdi)))
 
 theorem qbBeta_rateBounds {N : ℕ} {d : QuantitativeData N} (hd : d.NumericalValid) {b : ℝ}
-    (hb : 0 < b) (hbM : b ≤ d.M) :
+    (hb : 0 < b) :
     RateBounds qbBetaRates (qbBetaC d) b { d with beta := b } := by
   have hdi := qbPoly_diameter_pos d hd
   have hc := qbBetaC_pos hd
@@ -106,7 +110,7 @@ theorem qbBeta_rateBounds {N : ℕ} {d : QuantitativeData N} (hd : d.NumericalVa
   have hM : 0 < d.M := lt_of_lt_of_le hb0 hbM0
   have hC0 : 0 < d.C1 := by linarith
   have inv : ∀ x : ℝ, 0 < x → qbBetaC d ≤ x⁻¹ → x ≤ (qbBetaC d)⁻¹ :=
-    fun x hx h => (le_inv_comm₀ hc (inv_pos.2 hx)).1 h |>.trans_eq' (by simp) |>.trans_eq (by simp)
+    fun x hx h => (le_inv_comm₀ hc hx).1 h
   have h1 : qbBetaC d ≤ 1 := (min_le_left _ _).trans ((min_le_left _ _).trans (min_le_left _ _))
   have hv' : qbBetaC d ≤ d.vartheta :=
     (min_le_left _ _).trans ((min_le_left _ _).trans (min_le_right _ _))
@@ -139,7 +143,7 @@ theorem qbBeta_valid {N : ℕ} {d : QuantitativeData N} (hd : d.NumericalValid) 
 theorem qb_beta {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
     ∃ c : ℝ, 0 < c ∧ ∀ b ∈ Ioc (0 : ℝ) (min 1 d.M),
       c * b ^ p11c_B0 d ≤ thresholds { d with beta := b } := by
-  obtain ⟨hN, hmu, hrho, htau, htau0, -⟩ := hd
+  obtain ⟨hN, hmu, hrho, htau, htau0, -⟩ := id hd
   have hc := qbBetaC_pos hd
   have h1 : qbBetaC d ≤ 1 := (min_le_left _ _).trans ((min_le_left _ _).trans (min_le_left _ _))
   obtain ⟨c', hc', hbound⟩ := qb_poly N d.mu d.rho d.tau (qbBetaC d) 0 hN hmu hrho htau htau0 hc
@@ -149,7 +153,7 @@ theorem qb_beta {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
   have hbM : b ≤ d.M := hb1.trans (min_le_right _ _)
   have hb1' : b ≤ 1 := hb1.trans (min_le_left _ _)
   have := hbound qbBetaRates qbBetaRates_valid rfl { d with beta := b } (qbBeta_valid hd hb0 hbM)
-    rfl rfl rfl b ⟨hb0, hb1'⟩ (qbBeta_rateBounds hd hb0 hbM)
+    rfl rfl rfl b ⟨hb0, hb1'⟩ (qbBeta_rateBounds hd hb0)
   rwa [qbBeta_exponent d hd] at this
 
 theorem budget {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
@@ -166,10 +170,10 @@ theorem displacement_power_flat {N : ℕ} (d : QuantitativeData N) (hd : d.Valid
     ∃ cD : ℝ, 0 < cD ∧ ∀ b ∈ Ioc (0 : ℝ) (min 1 d.M), ∀ eps : ℝ, 0 ≤ eps →
       p11c_displacement { d with beta := b } cDelta eps ≤
         cD * eps ^ (1 / 2 : ℝ) * b ^ (-p11c_G0 d) := by
-  obtain ⟨hnv, -, -⟩ := hd
+  obtain ⟨hnv, -, -⟩ := id hd
   have hc0 := qbBetaC_pos hnv
   have h1 : qbBetaC d ≤ 1 := (min_le_left _ _).trans ((min_le_left _ _).trans (min_le_left _ _))
-  obtain ⟨hN, hmu, hrho, htau, -⟩ := hnv
+  obtain ⟨hN, hmu, hrho, htau, -⟩ := id hnv
   obtain ⟨k, hk, hgam⟩ := qbPoly_gamma_lower N d.mu d.rho d.tau (qbBetaC d) hN hmu hrho htau hc0
   refine ⟨cDelta / k, div_pos hc hk, fun b hb eps heps => ?_⟩
   obtain ⟨hb0, hb1⟩ := hb
@@ -177,7 +181,7 @@ theorem displacement_power_flat {N : ℕ} (d : QuantitativeData N) (hd : d.Valid
   have hb1' : b ≤ 1 := hb1.trans (min_le_left _ _)
   have hG := hgam 0 1 0 0 0 le_rfl zero_le_one le_rfl le_rfl le_rfl { d with beta := b }
     (qbBeta_valid hd.1 hb0 hbM) rfl rfl rfl b ⟨hb0, hb1'⟩
-  have hR := qbBeta_rateBounds hd.1 hb0 hbM
+  have hR := qbBeta_rateBounds hd.1 hb0
   simp only [RateBounds, qbBetaRates] at hR
   obtain ⟨hv, -, hbb, he, hM, -, -, hdi⟩ := hR
   have hexp : max ((1 : ℝ) / d.rho) ((d.mu : ℝ) / d.rho *
