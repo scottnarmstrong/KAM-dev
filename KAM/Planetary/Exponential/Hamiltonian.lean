@@ -83,6 +83,35 @@ theorem hamiltonianVectorField_eq_of_eqOn_open {k : ℕ} {U : Set (Phase k)} (hU
     KAM.hamiltonianVectorField H₁ w = KAM.hamiltonianVectorField H₂ w := by
   simp only [KAM.hamiltonianVectorField, fderiv_eq_of_eqOn_open hU h hw]
 
+/-- `stepP:p14:hn-field`, differentiability and field equality: on an open set `U` inside the
+working cylinder, the N-Hamiltonian is differentiable at each `w ∈ U`, and its `fderiv` and
+Hamiltonian vector field are those of the chart Hamiltonian `H_mov^{(μ)} ∘ Ψ`. -/
+theorem differentiableAt_hnu_field (B : AMDBox n) (hB : B.Admissible) {kappa e A : ℝ}
+    (hd : EnlargedData B kappa e A) {B0 mu : ℝ} (hB0 : 0 < B0)
+    {P : ((Fin (n+n) → ℂ) × (Fin (n+n) → ℂ)) → ℂ}
+    (hP : ∀ w ∈ workingCylinder B kappa A, P (KAM.Nekhoroshev.complexifyPhase w) =
+      ((fMov 1 1 B.mass (poincareProd B.mass 1 w) / B0 : ℝ) : ℂ))
+    {U : Set (Phase (n + n))} (hU : IsOpen U) (hUW : U ⊆ workingCylinder B kappa A)
+    {w : Phase (n + n)} (hw : w ∈ U) :
+    let H₁ : Phase (n + n) → ℝ := fun x =>
+      degenerateHamiltonian (KAM.Nekhoroshev.realPart (planetaryKeplerC B.mass))
+        (fun _ y => (P (KAM.Nekhoroshev.complexifyPhase y)).re) (B0*mu) x
+    let H₂ : Phase (n + n) → ℝ := fun x => movingHamiltonian 1 1 B.mass mu (poincareProd B.mass 1 x)
+    DifferentiableAt ℝ H₁ w ∧ fderiv ℝ H₁ w = fderiv ℝ H₂ w ∧
+      KAM.hamiltonianVectorField H₁ w = KAM.hamiltonianVectorField H₂ w := by
+  intro H₁ H₂
+  have hm : ∀ i, 0 < B.mass i := fun i => (hB.1 i).1
+  have hEq : ∀ x ∈ U, H₁ x = H₂ x := fun x hx => hnu B hB hd hB0 hP x (hUW hx)
+  have hws : w ∈ chartSafe B.mass :=
+    (real_domain B hB hd).1
+      (workingCylinder_subset_enlargedCylinder B hd.kappa_pos (hUW hw))
+  have hdiff₂ : DifferentiableAt ℝ H₂ w :=
+    (differentiableAt_movingHamiltonian 1 1 B.mass mu hws.2).comp w
+      ((analyticOnNhd_poincareProd hm one_pos w hws.1).differentiableAt)
+  refine ⟨?_, fderiv_eq_of_eqOn_open hU hEq hw, hamiltonianVectorField_eq_of_eqOn_open hU hEq hw⟩
+  exact (Filter.EventuallyEq.differentiableAt_iff
+    (Filter.eventuallyEq_of_mem (hU.mem_nhds hw) hEq)).2 hdiff₂
+
 /-- The Hamiltonian vector field of `-H` is `-X_H` (linearity of `X`). -/
 theorem hamiltonianVectorField_neg {k : ℕ} (H : Phase k → ℝ) (w : Phase k) :
     KAM.hamiltonianVectorField (fun z => -H z) w = -KAM.hamiltonianVectorField H w := by
