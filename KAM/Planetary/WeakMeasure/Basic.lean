@@ -336,7 +336,8 @@ private theorem p11joint_contDiffOn {rho mu : ℕ} {w : P11Vec n → P11Vec m} {
       (univ ×ˢ V) := by
     unfold p11dot
     refine ContDiffOn.sum fun i _ => ContDiffOn.mul ?_ ?_
-    · exact ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin m => ℝ) i).contDiff.comp contDiff_fst).contDiffOn
+    · exact ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin m => ℝ) i).contDiff.comp
+        contDiff_fst).contDiffOn
     · exact (contDiffOn_pi.1 hw i).comp contDiffOn_snd fun p hp => hp.2
   exact hd.pow rho
 
@@ -393,7 +394,9 @@ private theorem p11sSup_range_continuousOn {X : Type*} [TopologicalSpace X] {S :
     have : {v | ∃ j ≤ 0, v = d j x} = {d 0 x} := by ext v; simp
     rw [this, csSup_singleton]
   | succ k ih =>
-    refine (continuous_max.comp_continuousOn ((ih fun j hj => hd j (hj.trans (Nat.le_succ _))).prodMk (hd (k + 1) le_rfl))).congr fun x _ => ?_
+    have hih := ih fun j hj => hd j (hj.trans (Nat.le_succ _))
+    refine (continuous_max.comp_continuousOn
+      (hih.prodMk (hd (k + 1) le_rfl))).congr fun x _ => ?_
     have : {v | ∃ j ≤ k + 1, v = d j x} = insert (d (k + 1) x) {v | ∃ j ≤ k, v = d j x} := by
       ext v
       simp only [mem_ofPred_eq, mem_insert_iff]
