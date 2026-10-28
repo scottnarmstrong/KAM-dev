@@ -71,13 +71,13 @@ theorem integral_cos_mul_cos (k m : ℤ) :
   · have e1 : k + m = 0 := by omega
     have e2 : ¬ (k - m = 0) := by omega
     have e3 : k ≠ 0 := by omega
-    simp [h1, h2, e1, e2, e3]
+    simp [h1, e3]
     have e4 : ¬ (-k = k) := by omega
     simp [e4]; field_simp
   · have e1 : ¬ (k + m = 0) := by omega
     have e2 : k - m = 0 := by omega
     have e3 : k ≠ 0 := by omega
-    simp [h1, h2, e1, e2, e3]
+    simp [h2, e3]
     have e4 : ¬ (k = -k) := by omega
     simp [e4]; field_simp
   · have e1 : ¬ (k + m = 0) := by omega
@@ -158,7 +158,8 @@ theorem laplace_def_eq_tsum {s α : ℝ} (hs : 0 < s) (hα : 0 ≤ α) (hα1 : �
     convert h2 using 1
     ext p
     unfold freqWeight; split_ifs <;> ring)
-  rw [(summable_freqWeight hs hα hα1 k).hasSum.tsum_eq, (summable_freqWeight hs hα hα1 (-k)).hasSum.tsum_eq, tsum_freqWeight_neg] at h3
+  rw [(summable_freqWeight hs hα hα1 k).hasSum.tsum_eq,
+    (summable_freqWeight hs hα hα1 (-k)).hasSum.tsum_eq, tsum_freqWeight_neg] at h3
   have : laplace_def s k α = ∑' p, freqWeight s α k p := by linarith
   rw [this]; exact (summable_freqWeight hs hα hα1 k).hasSum
 

@@ -80,7 +80,8 @@ theorem differentiableOn_laplaceC {s : ℝ} (hs : 0 < s) (k : ℕ) :
         have := poch_nonneg hs (q+k); have := poch_nonneg hs q; positivity
       rw [Real.norm_of_nonneg h0]
       gcongr
-  exact (hd.differentiableAt (Metric.isOpen_ball.mem_nhds (by simpa using hzr))).differentiableWithinAt
+  exact (hd.differentiableAt
+    (Metric.isOpen_ball.mem_nhds (by simpa using hzr))).differentiableWithinAt
 
 theorem laplaceC_ofReal {s : ℝ} (hs : 0 < s) (k : ℕ) {α : ℝ} (hα : 0 ≤ α) (hα1 : α < 1) :
     laplaceC s k (α : ℂ) = (laplace_def s k α : ℂ) := by
