@@ -337,6 +337,7 @@ public import KAM.Planetary.Newtonian.Reduction
 public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
+public import KAM.Planetary.Poincare.D25
 public import KAM.Planetary.Poincare.Holomorphic
 public import KAM.Planetary.Poincare.HolomorphicSymplectic
 public import KAM.Planetary.Poincare.Product

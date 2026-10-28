@@ -265,7 +265,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpP:p7:holomorphic, stepP:p8:pa-circ, bpP:p7:o-facts, bpP:p7:poincare, bpP:p8:rho, bpP:p6:domain, bpP:p8:conv#data
+DEPS: bpP:p7:holomorphic, stepP:p8:pa-circ, bpP:p7:o-facts, bpP:p7:poincare, bpP:p8:rho, bpP:p6:domain, bpP:p8:conv#data, bpP:p12:f-unif
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpP:p7:holomorphic | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | s_ij holomorphic on N(rho_0), Psi real at real points
@@ -275,9 +275,10 @@ EDGE: bpP:p7:poincare | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L
 EDGE: bpP:p8:rho | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | rho_0 and the polydisc N(rho_0/2)
 EDGE: bpP:p6:domain | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | NoColl and W (a: Psi in W)
 EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | N(rho), R^n torus domain
+EDGE: bpP:p12:f-unif | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | Heine-Cantor on the compact angle cell times the closed complex polydisc supplies uniform continuity and one collision-free radius rho_* for all real angles and pairs
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
-REVIEWER: sol-review-P-j
+REVIEWER: sol-delta-P-bf
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -688,14 +689,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpP:p7:poincare, stepP:p8:l64-a
+DEPS: bpP:p7:poincare, stepP:p8:l64-a, K:bp:p1:ext-integral
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpP:p7:poincare | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-b@L102-L102 | (a): q^(i) real analytic and 2pi-periodic in lambda_i
 EDGE: stepP:p8:l64-a | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-b@L102-L102 | p^(i)=m_i nu_i d_{lambda_i} q^(i)
+EDGE: K:bp:p1:ext-integral | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-b@L102-L102 | the fundamental theorem of calculus integrates the C1 periodic position derivative to q(2 pi)-q(0)=0, giving zero mean momentum through p=m nu partial_lambda q
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
-REVIEWER: sol-review-P-j
+REVIEWER: sol-delta-P-bf
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
