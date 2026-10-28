@@ -216,12 +216,14 @@ theorem poch_half_two (q : ℕ) :
     poch (1/2) (q + 1) = poch (1/2) q * (1/2 + q) := poch_succ _ _
 
 theorem term_comb1 (h α : ℝ) (e : ℕ) :
-    α ^ 2 * (h * e * (((e - 1 : ℕ) : ℝ) * α ^ (e - 1 - 1))) + 2 * α * (h * ((e : ℝ) * α ^ (e - 1))) =
+    α ^ 2 * (h * e * (((e - 1 : ℕ) : ℝ) * α ^ (e - 1 - 1))) +
+      2 * α * (h * ((e : ℝ) * α ^ (e - 1))) =
       h * ((e : ℝ) * (e - 1) + 2 * e) * α ^ e := by
   linear_combination h * pow_aux2 α e + 2 * h * pow_aux1 α e
 
 theorem term_comb2 (h α : ℝ) (e : ℕ) :
-    α * (h * ((e : ℝ) * α ^ (e - 1))) + α ^ 2 / 2 * (h * e * (((e - 1 : ℕ) : ℝ) * α ^ (e - 1 - 1))) -
+    α * (h * ((e : ℝ) * α ^ (e - 1))) + α ^ 2 / 2 *
+        (h * e * (((e - 1 : ℕ) : ℝ) * α ^ (e - 1 - 1))) -
       h * α ^ e = h * ((e : ℝ) + e * (e - 1) / 2 - 1) * α ^ e := by
   linear_combination h * pow_aux1 α e + h / 2 * pow_aux2 α e
 
