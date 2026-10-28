@@ -127,4 +127,96 @@ theorem selectionIncrement_norm_iteratedFDeriv_le {E : Set (SelectionR n)} (hE :
     rw [h1, h2]
     exact h5.trans h6
 
+/-- A cutoff-weighted increment is smooth on all of `ℝⁿ`: it vanishes off the support of the
+cutoff, which lies inside the real collar. -/
+theorem selectionStage_contDiff {E : Set (SelectionR n)} (hE : IsCompact E) (hne : E.Nonempty)
+    (ht : 0 < t) {Δ : SelectionC n → SelectionC n}
+    (hΔ : DifferentiableOn ℂ Δ (actionNbhd E t)) {χ : SelectionR n → ℝ} (hχ : ContDiff ℝ μ χ)
+    (hsupp : tsupport χ ⊆ {y | Metric.infDist y E ≤ t / 2}) :
+    ContDiff ℝ μ (fun y => χ y • selectionIncrement Δ y) := by
+  rw [contDiff_iff_contDiffAt]
+  intro y
+  by_cases hy : y ∈ tsupport χ
+  · have hU : selectionRealCollar E t ∈ 𝓝 y := (isOpen_selectionRealCollar E t).mem_nhds
+      (mem_selectionRealCollar_of_infDist hE hne (by linarith) (hsupp hy))
+    exact hχ.contDiffAt.smul ((selectionIncrement_contDiffOn hΔ μ).contDiffAt hU)
+  · have h0 : (fun y => χ y • selectionIncrement Δ y) =ᶠ[𝓝 y] fun _ => 0 := by
+      filter_upwards [(isClosed_tsupport χ).isOpen_compl.mem_nhds hy] with z hz
+      simp [image_eq_zero_of_notMem_tsupport hz]
+    exact contDiffAt_const.congr_of_eventuallyEq h0
+
+/-- Leibniz bound (`fe-leib`) for one cutoff-weighted increment, in operator norms for the max
+norms: `‖D^k (χ Δω)(y)‖ ≤ ℓ (4/t)^k ∑_i C(k,i) c_i (k-i)^(k-i)`. -/
+theorem selectionStage_norm_iteratedFDeriv_le {E : Set (SelectionR n)} (hE : IsCompact E)
+    (hne : E.Nonempty) (ht : 0 < t) {Δ : SelectionC n → SelectionC n} {ℓ : ℝ}
+    (hΔ : DifferentiableOn ℂ Δ (actionNbhd E t))
+    (hreal : ∀ b : SelectionR n, selectionReal b ∈ actionNbhd E t →
+      Δ (selectionReal b) = selectionReal (selectionRe (Δ (selectionReal b))))
+    (hbd : ∀ b ∈ actionNbhd E t, ‖Δ b‖ ≤ ℓ) {χ : SelectionR n → ℝ} {c : ℕ → ℝ}
+    (hc : ∀ k, 0 ≤ c k) (hχ : ContDiff ℝ μ χ)
+    (hsupp : tsupport χ ⊆ {y | Metric.infDist y E ≤ t / 2})
+    (hχb : ∀ k ≤ μ, ∀ y, ∀ a : Fin k → SelectionR n, (∀ i, ‖a i‖ ≤ 1) →
+      |iteratedFDeriv ℝ k χ y a| ≤ c k * (4 / t) ^ k)
+    {k : ℕ} (hk : k ≤ μ) (y : SelectionR n) :
+    ‖iteratedFDeriv ℝ k (fun y => χ y • selectionIncrement Δ y) y‖ ≤
+      ℓ * (4 / t) ^ k * ∑ i ∈ Finset.range (k + 1),
+        (k.choose i : ℝ) * c i * ((k - i : ℕ) : ℝ) ^ (k - i) := by
+  have hℓ : 0 ≤ ℓ := by
+    obtain ⟨J, hJ⟩ := hne
+    exact (norm_nonneg _).trans (hbd (selectionReal J) ⟨J, hJ, by
+      rw [show selectionReal J - (fun i => (J i : ℂ)) = 0 from sub_self _, norm_zero]
+      exact ht⟩)
+  have hsum0 : 0 ≤ ∑ i ∈ Finset.range (k + 1),
+      (k.choose i : ℝ) * c i * ((k - i : ℕ) : ℝ) ^ (k - i) :=
+    Finset.sum_nonneg fun i _ => mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (hc i))
+      (pow_nonneg (Nat.cast_nonneg _) _)
+  have hR0 : 0 ≤ ℓ * (4 / t) ^ k * ∑ i ∈ Finset.range (k + 1),
+      (k.choose i : ℝ) * c i * ((k - i : ℕ) : ℝ) ^ (k - i) := by positivity
+  by_cases hy : y ∈ tsupport χ
+  · have hyU : y ∈ selectionRealCollar E t :=
+      mem_selectionRealCollar_of_infDist hE hne (by linarith) (hsupp hy)
+    have hUo := isOpen_selectionRealCollar E t
+    have hkμ : (k : WithTop ℕ∞) ≤ μ := by exact_mod_cast hk
+    have hχk : ContDiffOn ℝ k χ (selectionRealCollar E t) :=
+      (hχ.of_le hkμ).contDiffOn
+    have hgk := selectionIncrement_contDiffOn hΔ k
+    have hB := (ContinuousLinearMap.lsmul ℝ ℝ : ℝ →L[ℝ] SelectionR n →L[ℝ] SelectionR n)
+      |>.norm_iteratedFDerivWithin_le_of_bilinear_of_le_one hχk hgk hUo.uniqueDiffOn hyU
+      (n := k) le_rfl ContinuousLinearMap.opNorm_lsmul_le
+    simp only [ContinuousLinearMap.lsmul_apply, iteratedFDerivWithin_of_isOpen _ hUo hyU] at hB
+    refine hB.trans ?_
+    rw [Finset.mul_sum]
+    refine Finset.sum_le_sum fun i hi => ?_
+    have hik : i ≤ k := Nat.lt_succ_iff.1 (Finset.mem_range.1 hi)
+    have hχi : ‖iteratedFDeriv ℝ i χ y‖ ≤ c i * (4 / t) ^ i :=
+      selectionOpNorm_le_of_unit _ (mul_nonneg (hc i) (by positivity)) fun a ha => by
+        rw [Real.norm_eq_abs]
+        exact hχb i (hik.trans hk) y a ha
+    have hgi : ‖iteratedFDeriv ℝ (k - i) (selectionIncrement Δ) y‖ ≤
+        ((k - i : ℕ) : ℝ) ^ (k - i) * ℓ / (t / 4) ^ (k - i) :=
+      selectionIncrement_norm_iteratedFDeriv_le hE hne ht hΔ hreal hbd (k - i) (hsupp hy)
+    have h4 : ∀ m : ℕ, ((m : ℝ)) ^ m * ℓ / (t / 4) ^ m = (m : ℝ) ^ m * ℓ * (4 / t) ^ m := by
+      intro m
+      rw [div_eq_mul_inv, ← inv_pow, show (t / 4)⁻¹ = 4 / t by field_simp]
+    rw [h4] at hgi
+    have hpow : (4 / t) ^ k = (4 / t) ^ i * (4 / t) ^ (k - i) := by
+      rw [← pow_add, Nat.add_sub_cancel' hik]
+    calc (k.choose i : ℝ) * ‖iteratedFDeriv ℝ i χ y‖ *
+          ‖iteratedFDeriv ℝ (k - i) (selectionIncrement Δ) y‖
+        ≤ (k.choose i : ℝ) * (c i * (4 / t) ^ i) *
+          (((k - i : ℕ) : ℝ) ^ (k - i) * ℓ * (4 / t) ^ (k - i)) := by
+          exact mul_le_mul (mul_le_mul_of_nonneg_left hχi (Nat.cast_nonneg _)) hgi (norm_nonneg _)
+            (mul_nonneg (Nat.cast_nonneg _) (mul_nonneg (hc i) (by positivity)))
+      _ = ℓ * (4 / t) ^ k * ((k.choose i : ℝ) * c i * ((k - i : ℕ) : ℝ) ^ (k - i)) := by
+          rw [hpow]; ring
+  · have h0 : (fun y => χ y • selectionIncrement Δ y) =ᶠ[𝓝 y] fun _ => 0 := by
+      filter_upwards [(isClosed_tsupport χ).isOpen_compl.mem_nhds hy] with z hz
+      simp [image_eq_zero_of_notMem_tsupport hz]
+    rw [selectionIteratedFDeriv_congr h0 k]
+    rcases Nat.eq_zero_or_pos k with rfl | hk0
+    · rw [norm_iteratedFDeriv_zero]
+      simpa using hR0
+    · rw [iteratedFDeriv_const_of_ne hk0.ne']
+      simpa using hR0
+
 end KAM.Planetary
