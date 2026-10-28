@@ -6,7 +6,10 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import Mathlib
+public import KAM.Frozen.Planetary.Defs.CylinderCell
+public import KAM.Frozen.Planetary.Defs.OscillatorAction
 public import KAM.Planetary.PG.Setting
+public import KAM.Planetary.PGMeasure.Collar
 public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Poincare.Lattice
 
@@ -396,6 +399,157 @@ theorem disc_measure_image {X : Set (Phase (a+b))} (hX : MeasurableSet X)
     rw [mul_one] at h
     simpa [ContinuousLinearMap.det] using congrArg ENNReal.ofReal h
   rw [setLIntegral_congr_fun hX hdet, setLIntegral_const]
+
+
+/-! ### The polar preimage of a cylinder cell -/
+
+/-- The set of polar data `(angle cell, fast action in V, slow action in box)`. -/
+private def discPre (V : Set (Fin a → ℝ)) (box : Set (Fin b → ℝ)) : Set (Phase (a+b)) :=
+  {z | blockFast z.2 ∈ V ∧ blockSlow z.2 ∈ box ∧ z.1 ∈ unitCube (a+b)}
+
+private theorem discPre_eq (V : Set (Fin a → ℝ)) (box : Set (Fin b → ℝ)) :
+    discPre V box = unitCube (a+b) ×ˢ joinedActions V box := by
+  ext z
+  simp only [discPre, joinedActions, mem_setOf_eq, mem_prod]
+  tauto
+
+private theorem measurable_blockFast :
+    Measurable (fun J : Fin (a+b) → ℝ => blockFast J) :=
+  measurable_pi_iff.2 fun _ => measurable_pi_apply _
+
+private theorem measurable_blockSlow :
+    Measurable (fun J : Fin (a+b) → ℝ => blockSlow J) :=
+  measurable_pi_iff.2 fun _ => measurable_pi_apply _
+
+private theorem measurableSet_unitCube (d : ℕ) : MeasurableSet (unitCube d) :=
+  MeasurableSet.univ_pi fun _ => measurableSet_Ico
+
+private theorem volume_unitCube' (d : ℕ) : volume (unitCube d) = 1 := by
+  simp [unitCube, volume_pi_pi]
+
+private theorem measurableSet_joinedActions {V : Set (Fin a → ℝ)} {box : Set (Fin b → ℝ)}
+    (hV : MeasurableSet V) (hbox : MeasurableSet box) :
+    MeasurableSet (joinedActions V box) :=
+  (measurable_blockFast hV).inter (measurable_blockSlow hbox)
+
+private theorem measurableSet_discPre {V : Set (Fin a → ℝ)} {box : Set (Fin b → ℝ)}
+    (hV : MeasurableSet V) (hbox : MeasurableSet box) : MeasurableSet (discPre V box) := by
+  rw [discPre_eq]
+  exact (measurableSet_unitCube _).prod (measurableSet_joinedActions hV hbox)
+
+private theorem volume_discPre {V : Set (Fin a → ℝ)} {box : Set (Fin b → ℝ)} :
+    volume (discPre V box) = volume V * volume box := by
+  rw [discPre_eq, Measure.volume_eq_prod, Measure.prod_prod,
+    volume_unitCube', one_mul, volume_joinedActions]
+
+private theorem volume_polarCellMap_discPre {V : Set (Fin a → ℝ)} {box : Set (Fin b → ℝ)}
+    (hV : MeasurableSet V) (hbox : MeasurableSet box) (hpos : ∀ y ∈ box, ∀ j, 0 < y j) :
+    volume (polarCellMap '' discPre V box) =
+      ENNReal.ofReal ((2*Real.pi)^(a+b)) * (volume V * volume box) := by
+  rw [(disc_measure_image (measurableSet_discPre hV hbox) (fun z hz j => hpos _ hz.2.1 j)
+    (fun z hz => hz.2.2)).2, volume_discPre]
+
+private theorem polarCellMap_mem_cylinderCell {V : Set (Fin a → ℝ)} {r : ℝ} {w : Phase (a+b)}
+    (hw : w ∈ discPre V (actionShell b 0 (r^2/2))) :
+    polarCellMap w ∈ cylinderCell (b:=b) V r := by
+  obtain ⟨hV, hR, hc⟩ := hw
+  refine ⟨⟨?_, fun j => ?_⟩, fun i => ?_⟩
+  · convert hV using 1
+    funext i
+    simp [fast, blockFast]
+  · have hj : w.2 (Fin.natAdd a j) < r^2/2 := (hR j (mem_univ j)).2
+    show (polarCellMap w).2 (Fin.natAdd a j) ^ 2 + (polarCellMap w).1 (Fin.natAdd a j) ^ 2 < r ^ 2
+    have h0 : 0 ≤ 2 * w.2 (Fin.natAdd a j) := by
+      have := (hR j (mem_univ j)).1
+      simp only [blockSlow] at this; linarith
+    have e := Real.sq_sqrt h0
+    have ec := Real.sin_sq_add_cos_sq (2 * Real.pi * w.1 (Fin.natAdd a j))
+    rw [polarCellMap_snd_natAdd, polarCellMap_fst_natAdd]
+    calc _ = Real.sqrt (2 * w.2 (Fin.natAdd a j)) ^ 2 *
+          (Real.sin (2 * Real.pi * w.1 (Fin.natAdd a j)) ^ 2 +
+            Real.cos (2 * Real.pi * w.1 (Fin.natAdd a j)) ^ 2) := by ring
+      _ < r ^ 2 := by rw [ec, e, mul_one]; linarith
+  · have h := hc (Fin.castAdd b i) (mem_univ _)
+    simp only [mem_Ico] at h
+    show 0 ≤ (polarCellMap w).1 (Fin.castAdd b i) ∧ (polarCellMap w).1 (Fin.castAdd b i) < 2 * Real.pi
+    rw [polarCellMap_fst_castAdd]
+    have := Real.pi_pos
+    constructor <;> nlinarith [h.1, h.2]
+
+private theorem exists_angle {p q : ℝ} (h : p ≠ 0 ∨ q ≠ 0) :
+    ∃ θ : ℝ, 0 ≤ θ ∧ θ < 2 * Real.pi ∧ Real.sqrt (p^2 + q^2) * Real.cos θ = p ∧
+      Real.sqrt (p^2 + q^2) * Real.sin θ = q := by
+  let x : ℂ := ⟨p, q⟩
+  have hn : ‖x‖ = Real.sqrt (p^2 + q^2) := by
+    rw [Complex.norm_def, Complex.normSq_apply]; simp [x, sq]
+  have hc : ‖x‖ * Real.cos (Complex.arg x) = p := Complex.norm_mul_cos_arg x
+  have hs : ‖x‖ * Real.sin (Complex.arg x) = q := Complex.norm_mul_sin_arg x
+  rw [hn] at hc hs
+  have hx : x ≠ 0 := by
+    intro h0
+    rcases h with h | h
+    · exact h (congrArg Complex.re h0)
+    · exact h (congrArg Complex.im h0)
+  have h1 := Complex.arg_le_pi x
+  have h2 := Complex.neg_pi_lt_arg x
+  have := Real.pi_pos
+  by_cases h0 : 0 ≤ Complex.arg x
+  · exact ⟨Complex.arg x, h0, by linarith, hc, hs⟩
+  · refine ⟨Complex.arg x + 2 * Real.pi, by linarith, by linarith, ?_, ?_⟩
+    · rw [Real.cos_add_two_pi]; exact hc
+    · rw [Real.sin_add_two_pi]; exact hs
+
+private theorem exists_preimage {V : Set (Fin a → ℝ)} {r : ℝ} {z : Phase (a+b)}
+    (hz : z ∈ cylinderCell (b:=b) V r)
+    (hne : ∀ j : Fin b, z.2 (Fin.natAdd a j) ≠ 0 ∨ z.1 (Fin.natAdd a j) ≠ 0) :
+    ∃ w ∈ discPre V (actionShell b 0 (r^2/2)), polarCellMap w = z ∧
+      ∀ j : Fin b, w.2 (Fin.natAdd a j) =
+        (z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2) / 2 := by
+  obtain ⟨⟨hV, hd⟩, hcell⟩ := hz
+  choose θ hθ0 hθ1 hθc hθs using fun j : Fin b => exists_angle (hne j)
+  have hpi := Real.pi_pos
+  let w : Phase (a+b) :=
+    (Fin.append (fun i => z.1 (Fin.castAdd b i) / (2 * Real.pi)) (fun j => θ j / (2 * Real.pi)),
+     Fin.append (fun i => z.2 (Fin.castAdd b i))
+       (fun j => (z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2) / 2))
+  have hwR : ∀ j : Fin b, w.2 (Fin.natAdd a j) =
+      (z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2) / 2 := fun j => by
+    simp [w, Fin.append_right]
+  have hpos : ∀ j : Fin b, 0 < w.2 (Fin.natAdd a j) := fun j => by
+    rw [hwR]
+    rcases hne j with h | h
+    · have := sq_pos_of_ne_zero h; nlinarith [sq_nonneg (z.1 (Fin.natAdd a j))]
+    · have := sq_pos_of_ne_zero h; nlinarith [sq_nonneg (z.2 (Fin.natAdd a j))]
+  refine ⟨w, ⟨?_, fun j _ => ⟨hpos j, ?_⟩, fun i _ => ?_⟩, ?_, hwR⟩
+  · convert hV using 1
+    funext i
+    simp [w, blockFast, Fin.append_left, fast]
+  · have := hd j
+    simp only [slow] at this
+    show w.2 (Fin.natAdd a j) < r ^ 2 / 2
+    rw [hwR]; linarith
+  · refine Fin.addCases (fun k => ?_) (fun j => ?_) i
+    · have h := hcell k
+      simp only [fast] at h
+      simp only [w, Fin.append_left, mem_Ico]
+      exact ⟨by positivity [h.1], by rw [div_lt_one (by positivity)]; exact h.2⟩
+    · simp only [w, Fin.append_right, mem_Ico]
+      exact ⟨by positivity [hθ0 j], by rw [div_lt_one (by positivity)]; exact hθ1 j⟩
+  · refine phase_ext_blocks (fun i => ?_) (fun i => ?_) (fun j => ?_) (fun j => ?_)
+    · simp [w, Fin.append_left]; field_simp
+    · simp [w, Fin.append_left]
+    · rw [polarCellMap_fst_natAdd, hwR j]
+      have e : 2 * Real.pi * w.1 (Fin.natAdd a j) = θ j := by
+        simp [w, Fin.append_right]; field_simp
+      rw [e, show 2 * ((z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2) / 2) =
+        z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2 by ring]
+      exact hθs j
+    · rw [polarCellMap_snd_natAdd, hwR j]
+      have e : 2 * Real.pi * w.1 (Fin.natAdd a j) = θ j := by
+        simp [w, Fin.append_right]; field_simp
+      rw [e, show 2 * ((z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2) / 2) =
+        z.2 (Fin.natAdd a j) ^ 2 + z.1 (Fin.natAdd a j) ^ 2 by ring]
+      exact hθc j
 
 end KAM.Planetary
 
