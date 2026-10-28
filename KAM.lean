@@ -332,6 +332,7 @@ public import KAM.Nekhoroshev.Averaging.Setting
 public import KAM.Nekhoroshev.Averaging.Shells
 public import KAM.Nekhoroshev.Averaging.Slab
 public import KAM.Nekhoroshev.Averaging.SlabBox
+public import KAM.Nekhoroshev.Averaging.Stopped
 public import KAM.Nekhoroshev.Averaging.Transport
 public import KAM.Nekhoroshev.Interfaces.ConicCoercive
 public import KAM.Nekhoroshev.Interfaces.Constants
@@ -423,6 +424,7 @@ public import KAM.Planetary.Averaging.FiniteStep
 public import KAM.Planetary.Averaging.OscillatorAdjoint
 public import KAM.Planetary.Averaging.OscillatorBracket
 public import KAM.Planetary.Averaging.OscillatorClassAlgebra
+public import KAM.Planetary.Averaging.OscillatorCompositionSeries
 public import KAM.Planetary.Averaging.OscillatorFlow
 public import KAM.Planetary.Averaging.OscillatorFlowMap
 public import KAM.Planetary.Averaging.OscillatorFlowProps
@@ -455,6 +457,7 @@ public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.Nondegeneracy.AnalyticZeros
 public import KAM.Planetary.Nondegeneracy.DiagonalTensor
 public import KAM.Planetary.Nondegeneracy.FiniteType
+public import KAM.Planetary.Nondegeneracy.Stability
 public import KAM.Planetary.Nondegeneracy.Weyl
 public import KAM.Planetary.PG.Setting
 public import KAM.Planetary.PGAssembly.ComplexGlue
