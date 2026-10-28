@@ -31,6 +31,13 @@ theorem tendsto_rpow_mul_log_rpow (m q : ℝ) (hm : 0 < m) :
   simp only [Function.comp, one_div, Real.inv_rpow hr0.le, div_inv_eq_mul]
   ring
 
+theorem le_log_inv_of_le_exp_neg {q r : ℝ} (hr0 : 0 < r) (hr : r ≤ Real.exp (-q)) :
+    q ≤ Real.log (1/r) := by
+  rw [Real.le_log_iff_exp_le (by positivity), le_div_iff₀ hr0]
+  have := mul_le_mul_of_nonneg_left hr (Real.exp_pos q).le
+  rw [← Real.exp_add] at this
+  simpa using this
+
 theorem eventually_lt_of_continuousAt {f : ℝ → ℝ} {c : ℝ} (hf : ContinuousAt f 0) (h0 : f 0 < c) :
     ∀ᶠ r in 𝓝[>] (0:ℝ), f r < c :=
   (hf.eventually (gt_mem_nhds h0)).filter_mono nhdsWithin_le_nhds
