@@ -103,7 +103,8 @@ theorem prop2_core (hn : 1 ≤ n) {D : Set (Fin n → ℝ)} {r s s' K m M ℓ δ
         exact ⟨w, hw, hle.trans hδb⟩
       δ_le := by linarith
       ζ_le := by nlinarith }
-  have hclass : ∀ (r₁ : ℝ) (s₁ : ℝ), r₁ ≤ r → InClass (cpx D) r₁ s₁ (fun w : (Fin n → ℂ) × (Fin n → ℂ) => h w.2) :=
+  have hclass : ∀ (r₁ : ℝ) (s₁ : ℝ), r₁ ≤ r →
+      InClass (cpx D) r₁ s₁ (fun w : (Fin n → ℂ) × (Fin n → ℂ) => h w.2) :=
     fun r₁ s₁ hr₁ => ⟨(hh.mono (polyNbhd_mono hr₁)).comp differentiable_snd.differentiableOn
       fun z hz => hz.2, fun _ _ _ => rfl⟩
   have hH : InClass (cpx D) r s (fun w => h w.2 + f w) :=
