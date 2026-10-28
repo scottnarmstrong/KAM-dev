@@ -167,5 +167,121 @@ theorem p11_householder {a : P11Vec (m + 1)} (ha : p11euclid a = 1) :
 
 end Householder
 
+section Main
+
+variable {m : ℕ}
+
+theorem p11euclid_snoc (x' : Fin m → ℝ) (t : ℝ) :
+    p11euclid (Fin.snoc x' t : Fin (m + 1) → ℝ) ^ 2 = p11euclid x' ^ 2 + t ^ 2 := by
+  rw [p11euclid_sq, p11euclid_sq]
+  simp [dotProduct, Fin.sum_univ_castSucc, sq]
+
+theorem p11_snoc_eq (x' : Fin m → ℝ) (t : ℝ) :
+    (Fin.snoc x' t : Fin (m + 1) → ℝ) =
+      (Fin.snoc x' 0 : Fin (m + 1) → ℝ) + t • (Pi.single (Fin.last m) 1 : Fin (m + 1) → ℝ) := by
+  ext i
+  refine Fin.lastCases ?_ (fun j => ?_) i
+  · simp
+  · simp [Fin.castSucc_ne_last]
+
+end Main
+
+/-- `bpP:p11a:ball-sublevel`. -/
+theorem ball_sublevel {n q : ℕ} (hn : 1 ≤ n) (hq : 1 ≤ q)
+    {V : Set (P11Vec n)} (hV : IsOpen V) {y0 a : P11Vec n} {r beta eps : ℝ}
+    (hr : 0 < r) (ha : p11euclid a=1) (hb : 0 < beta) (he : 0 < eps)
+    (hsub : {y | p11euclid (y-y0) ≤ r} ⊆ V) {g : P11Vec n → ℝ}
+    (hg : ContDiffOn ℝ q g V)
+    (hlow : ∀ y, p11euclid (y-y0) ≤ r →
+      beta ≤ |iteratedFDeriv ℝ q g y (fun _ => a)|) :
+    volume {y | p11euclid (y-y0) ≤ r ∧ |g y| ≤ eps} ≤
+      ENNReal.ofReal (2*q*(2*r)^(n-1)*(eps/beta)^((q : ℝ)⁻¹)) := by
+  obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
+  obtain ⟨Q, hQ, hQe⟩ := p11_householder ha
+  set Φ : P11Vec (m + 1) → P11Vec (m + 1) := fun x => y0 + Q.mulVec x with hΦdef
+  have hΦ := p11_measurePreserving_orthogonal hQ y0
+  have hnorm : ∀ z, p11euclid (Φ z - y0) = p11euclid z := by
+    intro z; simp [hΦdef, p11euclid_mulVec hQ]
+  set K : Set (P11Vec (m + 1)) := {y | p11euclid (y - y0) ≤ r} with hK
+  have hKc : IsClosed K :=
+    isClosed_le (p11euclid_continuous.comp (continuous_sub_right y0)) continuous_const
+  set S : Set (P11Vec (m + 1)) := {y | p11euclid (y - y0) ≤ r ∧ |g y| ≤ eps} with hSdef
+  have hSc : IsClosed S := by
+    have : S = K ∩ g ⁻¹' Icc (-eps) eps := by
+      ext y; simp [hSdef, hK, abs_le]
+    rw [this]
+    exact (hg.continuousOn.mono hsub).preimage_isClosed_of_isClosed hKc isClosed_Icc
+  have hSm : MeasurableSet S := hSc.measurableSet
+  set S' : Set (P11Vec (m + 1)) := Φ ⁻¹' S with hS'
+  have h1 : volume S = volume S' := (hΦ.measure_preimage hSm.nullMeasurableSet).symm
+  have hS'm : MeasurableSet S' := hΦ.measurable hSm
+  have hproj : ∀ x ∈ S', ∀ j : Fin m, |x (Fin.castSucc j)| ≤ r := by
+    intro x hx j
+    have : p11euclid x ≤ r := by
+      have := hx.1
+      rwa [hnorm] at this
+    exact (abs_apply_le_p11euclid x _).trans this
+  set c : ℝ := 2 * q * (eps / beta) ^ ((q : ℝ)⁻¹) with hc
+  have hsec : ∀ x' : Fin m → ℝ, volume {t : ℝ | Fin.snoc x' t ∈ S'} ≤ ENNReal.ofReal c := by
+    intro x'
+    set y1 : P11Vec (m + 1) := y0 + Q.mulVec (Fin.snoc x' 0) with hy1
+    have hΦt : ∀ t : ℝ, Φ (Fin.snoc x' t) = y1 + t • a := by
+      intro t
+      simp only [hΦdef, hy1, p11_snoc_eq x' t, Matrix.mulVec_add, Matrix.mulVec_smul, hQe]
+      abel
+    have hmem : ∀ t : ℝ, (Fin.snoc x' t : Fin (m + 1) → ℝ) ∈ S' ↔
+        p11euclid (Fin.snoc x' t : Fin (m + 1) → ℝ) ≤ r ∧ |g (y1 + t • a)| ≤ eps := by
+      intro t
+      show p11euclid (Φ (Fin.snoc x' t) - y0) ≤ r ∧ |g (Φ (Fin.snoc x' t))| ≤ eps ↔ _
+      rw [hnorm, hΦt]
+    set ρ := p11euclid x' with hρ
+    set s : ℝ := Real.sqrt (r ^ 2 - ρ ^ 2) with hs
+    have hsect : {t : ℝ | Fin.snoc x' t ∈ S'} ⊆ {t ∈ Icc (-s) s | |g (y1 + t • a)| ≤ eps} := by
+      intro t ht
+      obtain ⟨h1, h2⟩ := (hmem t).1 ht
+      refine ⟨?_, h2⟩
+      have : t ^ 2 ≤ r ^ 2 - ρ ^ 2 := by
+        have := p11euclid_snoc x' t
+        nlinarith [p11euclid_nonneg (Fin.snoc x' t : Fin (m + 1) → ℝ)]
+      exact abs_le.1 (Real.abs_le_sqrt this)
+    rcases (Real.sqrt_nonneg (r ^ 2 - ρ ^ 2)).eq_or_lt with h0 | hpos
+    · have hsub0 : {t : ℝ | Fin.snoc x' t ∈ S'} ⊆ {0} := by
+        intro t ht
+        have := (hsect ht).1
+        rw [show s = 0 from h0.symm] at this
+        simp only [neg_zero, Icc_self, mem_singleton_iff] at this ⊢
+        exact this
+      have : volume {t : ℝ | Fin.snoc x' t ∈ S'} = 0 :=
+        measure_mono_null hsub0 (measure_singleton 0)
+      rw [this]; exact zero_le
+    · have hr2 : 0 < r ^ 2 - ρ ^ 2 := Real.sqrt_pos.1 hpos
+      have hs2 : s ^ 2 = r ^ 2 - ρ ^ 2 := Real.sq_sqrt hr2.le
+      have hball : ∀ t : ℝ, |t| ≤ s → p11euclid (Fin.snoc x' t : Fin (m + 1) → ℝ) ≤ r := by
+        intro t ht
+        have ht2 : t ^ 2 ≤ s ^ 2 := by nlinarith [abs_nonneg t, sq_abs t]
+        have := p11euclid_snoc x' t
+        refine (sq_le_sq₀ (p11euclid_nonneg _) hr.le).1 ?_
+        nlinarith
+      have hballK : ∀ t : ℝ, |t| ≤ s → p11euclid (y1 + t • a - y0) ≤ r := fun t ht => by
+        rw [← hΦt t, hnorm]; exact hball t ht
+      have hmemV : ∀ t : ℝ, |t| ≤ s → y1 + t • a ∈ V := fun t ht => hsub (hballK t ht)
+      have hf : ContDiffOn ℝ q (fun t : ℝ => g (y1 + t • a)) (Icc (-s) s) :=
+        hg.comp (by fun_prop : ContDiff ℝ q fun t : ℝ => y1 + t • a).contDiffOn
+          (fun t ht => hmemV t (abs_le.2 ht))
+      have hlow' : ∀ t ∈ Ioo (-s) s, beta ≤ |iteratedDeriv q (fun t : ℝ => g (y1 + t • a)) t| := by
+        intro t ht
+        have habs : |t| ≤ s := abs_le.2 ⟨ht.1.le, ht.2.le⟩
+        rw [p11_iteratedDeriv_line hV hg y1 a q le_rfl t (hmemV t habs)]
+        exact hlow _ (hballK t habs)
+      have := scalar_sublevel hq (a := -s) (b := s) (by linarith) hb he hf hlow'
+      exact (measure_mono hsect).trans this
+  have key := p11_volume_le_of_sections hS'm hr.le hproj hsec
+  rw [h1]
+  refine key.trans (le_of_eq ?_)
+  rw [Nat.add_sub_cancel, hc]
+  congr 1
+  ring
+
+
 
 end KAM.Planetary
