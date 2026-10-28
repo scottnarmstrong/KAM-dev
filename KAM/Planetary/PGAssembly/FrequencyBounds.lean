@@ -140,7 +140,8 @@ theorem freq_data (d : PGData a b) : ∃ p : PGAnalytic, PGAnalyticSpec d p := b
       _ = c0 := by field_simp
   have e5 : 2 * mu * Lam ^ 2 * LB < c0 := by nlinarith [mul_pos hLam0 hLam0, mul_pos hLB0 hc0]
   refine ⟨⟨rho, c0, M0, Lam, Lam, LB, mu, max 1 ((pgExtension d).MP *
-    KAM.Weighted.coth ((pgExtension d).delta / 4) ^ a), CQ, r1, dioConstant d (((a + b : ℕ) : ℝ) + 1)⟩,
+    KAM.Weighted.coth ((pgExtension d).delta / 4) ^ a), CQ, r1,
+    dioConstant d (((a + b : ℕ) : ℝ) + 1)⟩,
     ?_⟩
   show _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _ ∧
     _ ∧ _ ∧ _ ∧ _ ∧ _ ∧ _

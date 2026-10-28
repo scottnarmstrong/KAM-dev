@@ -62,7 +62,8 @@ def complexFrequency (d : PGData a b) (mu : ℝ) (J : Fin (a+b) → ℂ) (i : Fi
 def PGAnalyticSpec (d : PGData a b) (p : PGAnalytic) : Prop :=
   0 < p.rho ∧ p.rho < (pgExtension d).delta/16 ∧ 0 < p.c0 ∧
   1 ≤ p.M0 ∧ 1 ≤ p.AN ∧ 1 ≤ p.LN ∧ 1 ≤ p.LB ∧ 0 < p.muStar ∧ p.muStar ≤ 1 ∧ p.muStar ≤ d.mu0 ∧
-  1 ≤ p.LP ∧ (pgExtension d).MP * KAM.Weighted.coth ((pgExtension d).delta/4)^a ≤ p.LP ∧ 0 < p.CQ ∧ 0 < p.r1 ∧ p.r1 ≤ pgOscRadius d ∧ 0 < p.Cdio ∧
+  1 ≤ p.LP ∧ (pgExtension d).MP * KAM.Weighted.coth ((pgExtension d).delta/4)^a ≤ p.LP ∧
+  0 < p.CQ ∧ 0 < p.r1 ∧ p.r1 ≤ pgOscRadius d ∧ 0 < p.Cdio ∧
   p.muStar*p.AN ≤ p.c0/2 ∧ 4*p.muStar*p.AN^2*p.LB ≤ p.c0 ∧
   2*p.muStar*p.LN^2*p.LB < p.c0 ∧ p.LN ≤ p.AN ∧
   (∀ gamma : ℝ, 0 < gamma →
@@ -74,13 +75,15 @@ def PGAnalyticSpec (d : PGData a b) (p : PGAnalytic) : Prop :=
   (∀ mu ∈ Icc 0 d.mu0, ∀ I ∈ KAM.actionNbhd (closure d.V) p.rho,
     ∀ I' ∈ KAM.actionNbhd (closure d.V) p.rho, ∀ xi : Fin b → ℂ, ‖xi‖ ≤ 1 →
       ‖(fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi)) I (Pi.single i 1)) -
-        (fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi)) I' (Pi.single i 1))‖ ≤ p.LN*‖I-I'‖ ∧
+        (fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi)) I' (Pi.single i 1))‖ ≤
+          p.LN*‖I-I'‖ ∧
       ‖(jetOmega d mu I+(jetBeta d mu I).mulVec xi) -
         (jetOmega d mu I'+(jetBeta d mu I').mulVec xi)‖ ≤ p.LN*‖I-I'‖) ∧
   (∀ mu ∈ Icc 0 d.mu0, ∀ I ∈ KAM.actionNbhd (closure d.V) p.rho,
     ∀ xi xi' : Fin b → ℂ, ‖xi‖ ≤ 1 → ‖xi'‖ ≤ 1 →
       ‖(fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi)) I (Pi.single i 1)) -
-        (fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi')) I (Pi.single i 1))‖ ≤ p.LN*‖xi-xi'‖) ∧
+        (fun i => fderiv ℂ (fun I => jetPolynomial d mu (Fin.append I xi')) I (Pi.single i 1))‖ ≤
+          p.LN*‖xi-xi'‖) ∧
   (∀ mu ∈ Icc 0 d.mu0, ∀ J ∈ analyticBoundDomain d p,
     ‖jetPolynomial d mu J‖ ≤ p.AN ∧ ‖fderiv ℂ (jetPolynomial d mu) J‖ ≤ p.AN ∧
       ‖fderiv ℂ (fderiv ℂ (jetPolynomial d mu)) J‖ ≤ p.AN) ∧

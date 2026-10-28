@@ -51,7 +51,8 @@ theorem embSlow_apply (ξ : Fin b → ℂ) : embSlow a b ξ = Fin.append (0 : Fi
 
 theorem append_eq_add (I : Fin a → ℂ) (ξ : Fin b → ℂ) :
     Fin.append I ξ = embFast a b I + embSlow a b ξ := by
-  funext k; refine Fin.addCases (fun i => ?_) (fun j => ?_) k <;> simp [embFast_apply, embSlow_apply]
+  funext k; refine Fin.addCases (fun i => ?_) (fun j => ?_) k <;>
+    simp [embFast_apply, embSlow_apply]
 
 theorem norm_embFast_le (I : Fin a → ℂ) : ‖embFast a b I‖ ≤ ‖I‖ := by
   rw [embFast_apply]
@@ -116,7 +117,8 @@ theorem hasFDerivAt_append (ξ : Fin b → ℂ) (I : Fin a → ℂ) :
 theorem jpGrad_eq (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0) (ξ : Fin b → ℂ)
     {I : Fin a → ℂ} (hI : I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2))
     (i : Fin a) :
-    jpGrad d mu ξ I i = fderiv ℂ (jetPolynomial d mu) (Fin.append I ξ) (embFast a b (Pi.single i 1)) := by
+    jpGrad d mu ξ I i =
+      fderiv ℂ (jetPolynomial d mu) (Fin.append I ξ) (embFast a b (Pi.single i 1)) := by
   have hJ := append_mem_jpDom d hI ξ
   have hd : DifferentiableAt ℂ (jetPolynomial d mu) (Fin.append I ξ) :=
     (jetPolynomial_differentiableOn d hmu).differentiableAt ((isOpen_jpDom d).mem_nhds hJ)
@@ -151,7 +153,8 @@ theorem norm_jpGrad_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0) {�
 
 theorem differentiableOn_jpGrad (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
     (ξ : Fin b → ℂ) :
-    DifferentiableOn ℂ (jpGrad d mu ξ) (KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) := by
+    DifferentiableOn ℂ (jpGrad d mu ξ)
+      (KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) := by
   have hmaps : MapsTo (fun I : Fin a → ℂ => (Fin.append I ξ : Fin (a + b) → ℂ))
       (KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) (jpDom d) :=
     fun _ hI => append_mem_jpDom d hI ξ
