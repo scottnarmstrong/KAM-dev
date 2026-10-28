@@ -52,7 +52,7 @@ theorem scalar_sums (S : ActionSteps sbar p h Ds hs fs is) :
     have := (S.hyp 0).eHat_lt_small; linarith
   have := sums (e := fun j => eHat (seq p j)) (R := fun j => rhoHat (seq p j))
     (s := fun j => (seq p j).s) (c := 0) S.e_nonneg h0
-    (fun j => (S.eHat_sq j).le) le_rfl (by simpa using h0.le)
+    (fun j => (S.eHat_sq j).le) le_rfl (by simp)
     (fun j => ⟨(S.rho_pos j).le, S.rho_hi j⟩) (fun j => rfl)
   exact ⟨this.2.1, fun k => (this.2.2.2.2 k).1⟩
 
@@ -86,7 +86,8 @@ theorem chain_block_le (S : ActionSteps sbar p h Ds hs fs is) {I : Fin (a + b) �
     ‖lastBlock (a := a) (actionChain is j I - I)‖ ≤
       20 * (p.Mbar₂ / p.Mbar) * eHat (seq p 0) * rhoHat (seq p 0) := by
   have hr0 := S.rho_pos 0
-  have hnn : ∀ r : ℝ, 0 ≤ r → ∀ (v : ℕ → ℝ), (∀ k, ‖v k‖ ≤ 10 * r * eHat (seq p k) * rhoHat (seq p k)) →
+  have hnn : ∀ r : ℝ, 0 ≤ r → ∀ (v : ℕ → ℝ),
+      (∀ k, ‖v k‖ ≤ 10 * r * eHat (seq p k) * rhoHat (seq p k)) →
       ∀ j, ∑ k ∈ Finset.range j, ‖v k‖ ≤ 20 * r * eHat (seq p 0) * rhoHat (seq p 0) := by
     intro r hr v hv j
     calc ∑ k ∈ Finset.range j, ‖v k‖
@@ -107,7 +108,8 @@ theorem chain_block_le (S : ActionSteps sbar p h Ds hs fs is) {I : Fin (a + b) �
   -- telescoping, first block
   have tele : ∀ (B : (Fin (a + b) → ℝ) → ℝ), (∀ u v, B (u + v) ≤ B u + B v) → B 0 = 0 →
       ∀ (r : ℝ), 0 ≤ r → (∀ k, B (actionChain is (k + 1) I - actionChain is k I) ≤
-        10 * r * eHat (seq p k) * rhoHat (seq p k)) → (∀ k, 0 ≤ B (actionChain is (k + 1) I - actionChain is k I)) →
+        10 * r * eHat (seq p k) * rhoHat (seq p k)) →
+        (∀ k, 0 ≤ B (actionChain is (k + 1) I - actionChain is k I)) →
       ∀ j, B (actionChain is j I - I) ≤ 20 * r * eHat (seq p 0) * rhoHat (seq p 0) := by
     intro B hB B0 r hr hv hnn' j
     have : ∀ j, B (actionChain is j I - I) ≤
@@ -129,10 +131,14 @@ theorem chain_block_le (S : ActionSteps sbar p h Ds hs fs is) {I : Fin (a + b) �
         ∑ k ∈ Finset.range j, ‖B (actionChain is (k + 1) I - actionChain is k I)‖ :=
       Finset.sum_congr rfl fun k _ => (Real.norm_of_nonneg (hnn' k)).symm
     rw [e]; exact this
-  refine ⟨tele (fun v => ‖firstBlock (b := b) v‖) (fun u v => norm_add_le (firstBlock (b := b) u) (firstBlock (b := b) v)) (by show ‖firstBlock (b := b) (0 : Fin (a + b) → ℝ)‖ = 0; rw [norm_eq_zero]; rfl)
+  refine ⟨tele (fun v => ‖firstBlock (b := b) v‖)
+      (fun u v => norm_add_le (firstBlock (b := b) u) (firstBlock (b := b) v))
+      (by show ‖firstBlock (b := b) (0 : Fin (a + b) → ℝ)‖ = 0; rw [norm_eq_zero]; rfl)
       _ hp1 (fun k => by
         have := (S.chain_step hI k).1; linarith) (fun k => norm_nonneg _) j,
-    tele (fun v => ‖lastBlock (a := a) v‖) (fun u v => norm_add_le (lastBlock (a := a) u) (lastBlock (a := a) v)) (by show ‖lastBlock (a := a) (0 : Fin (a + b) → ℝ)‖ = 0; rw [norm_eq_zero]; rfl)
+    tele (fun v => ‖lastBlock (a := a) v‖)
+      (fun u v => norm_add_le (lastBlock (a := a) u) (lastBlock (a := a) v))
+      (by show ‖lastBlock (a := a) (0 : Fin (a + b) → ℝ)‖ = 0; rw [norm_eq_zero]; rfl)
       _ hp2 (fun k => by
         have := (S.chain_step hI k).2; linarith) (fun k => norm_nonneg _) j⟩
 
@@ -181,7 +187,8 @@ theorem chain_lip (S : ActionSteps sbar p h Ds hs fs is) {I J : Fin (a + b) → 
     have hl := S.lip j y (S.chain_mem hI j) y' (S.chain_mem hJ j)
     have hι : (is (j + 1) (KAM.realInclusion (a + b) y) - KAM.realInclusion (a + b) y) -
         (is (j + 1) (KAM.realInclusion (a + b) y') - KAM.realInclusion (a + b) y') =
-        KAM.realInclusion (a + b) ((actionChain is (j + 1) I - y) - (actionChain is (j + 1) J - y')) := by
+        KAM.realInclusion (a + b)
+          ((actionChain is (j + 1) I - y) - (actionChain is (j + 1) J - y')) := by
       rw [map_sub, map_sub, map_sub, S.incl_chain_succ hI j, S.incl_chain_succ hJ j]
     rw [hι, KAM.norm_realInclusion, ← Nat.cast_add] at hl
     have hyy : ‖y - y'‖ ≤ P * ‖I - J‖ := by
@@ -231,7 +238,205 @@ theorem prod_le (S : ActionSteps sbar p h Ds hs fs is) (j : ℕ) :
   rw [div_le_iff₀ (by linarith)]
   nlinarith
 
+theorem summable_step (S : ActionSteps sbar p h Ds hs fs is) :
+    Summable (fun m => 10 * eHat (seq p m) * rhoHat (seq p m)) := by
+  have h0 := (S.scalar_sums.1 0).1
+  simp only [zero_add] at h0
+  refine Summable.of_nonneg_of_le (fun m => ?_) (fun m => ?_) (h0.mul_left (10 * rhoHat (seq p 0)))
+  · exact mul_nonneg (mul_nonneg (by norm_num) (S.e_nonneg m)) (S.rho_pos m).le
+  · have := S.rho_le_zero m
+    have := S.e_nonneg m
+    nlinarith
+
+theorem tail_sum_le (S : ActionSteps sbar p h Ds hs fs is) (j : ℕ) :
+    ∑' m, 10 * eHat (seq p (j + m)) * rhoHat (seq p (j + m)) ≤
+      20 * rhoHat (seq p j) * eHat (seq p j) := by
+  have hs' := S.scalar_sums.1 j
+  have hsm : Summable (fun m => 10 * eHat (seq p (j + m)) * rhoHat (seq p (j + m))) :=
+    ((summable_nat_add_iff j).2 S.summable_step).congr fun m => by rw [Nat.add_comm]
+  calc ∑' m, 10 * eHat (seq p (j + m)) * rhoHat (seq p (j + m))
+      ≤ ∑' m, (10 * rhoHat (seq p j)) * eHat (seq p (j + m)) := by
+        refine hsm.tsum_le_tsum (fun m => ?_) (hs'.1.mul_left _)
+        have := S.rho_anti j m
+        have := S.e_nonneg (j + m)
+        nlinarith
+    _ = (10 * rhoHat (seq p j)) * ∑' m, eHat (seq p (j + m)) := tsum_mul_left
+    _ ≤ (10 * rhoHat (seq p j)) * (2 * eHat (seq p j)) := by
+        have := S.rho_pos j
+        gcongr; exact hs'.2
+    _ = _ := by ring
+
+/-- Existence of the limit, with the tail bound. -/
+theorem chain_limit (S : ActionSteps sbar p h Ds hs fs is) {I : Fin (a + b) → ℝ}
+    (hI : I ∈ Ds 0) :
+    ∃ l, Tendsto (fun j => actionChain is j I) atTop (𝓝 l) ∧
+      ∀ j, ‖l - actionChain is j I‖ ≤ 20 * rhoHat (seq p j) * eHat (seq p j) := by
+  have hd : ∀ n, dist (actionChain is n I) (actionChain is n.succ I) ≤
+      10 * eHat (seq p n) * rhoHat (seq p n) := fun n => by
+    rw [dist_comm, dist_eq_norm]; exact S.chain_sup_step hI n
+  obtain ⟨l, hl⟩ := cauchySeq_tendsto_of_complete
+    (cauchySeq_of_dist_le_of_summable _ hd S.summable_step)
+  refine ⟨l, hl, fun j => ?_⟩
+  have := dist_le_tsum_of_dist_le_of_tendsto _ hd S.summable_step hl j
+  rw [dist_comm, dist_eq_norm] at this
+  exact this.trans (S.tail_sum_le j)
+
 end ActionSteps
+
+/-- **`bpP:p3:limit-actions`** (private conditional helper `limit_actions_of_steps`). On the
+shared stage witnesses of `iterative`, the composed real action maps `ǐ_j` converge uniformly on
+`D₀` to a map `ǐ` with the bounds (i)–(iv) of the blueprint lemma. -/
+theorem limit_actions_of_steps (S : ActionSteps sbar p h Ds hs fs is) :
+    ∃ i : (Fin (a + b) → ℝ) → (Fin (a + b) → ℝ),
+      TendstoUniformlyOn (actionChain is) i atTop (Ds 0) ∧
+      (∀ I ∈ Ds 0, ∀ j, actionChain is j I ∈ Ds j) ∧
+      (∀ I ∈ Ds 0,
+        ‖firstBlock (b := b) (i I - I)‖ ≤
+          20 * (p.Mbar₁ / p.Mbar) * eHat (seq p 0) * rhoHat (seq p 0) ∧
+        ‖lastBlock (a := a) (i I - I)‖ ≤
+          20 * (p.Mbar₂ / p.Mbar) * eHat (seq p 0) * rhoHat (seq p 0) ∧
+        ‖i I - I‖ ≤ 20 * eHat (seq p 0) * rhoHat (seq p 0)) ∧
+      (∀ I ∈ Ds 0, ∀ j, ‖i I - actionChain is j I‖ ≤ 20 * rhoHat (seq p j) * eHat (seq p j)) ∧
+      (∀ I ∈ Ds 0, ∀ j, i I ∈ realTube (Ds j) ((seq p j).ρ / 2)) ∧
+      (∀ I ∈ Ds 0, ∀ J ∈ Ds 0,
+        ‖(i I - I) - (i J - J)‖ ≤ 2560 * (a + b) * eHat (seq p 0) * ‖I - J‖) ∧
+      2560 * (a + b : ℝ) * eHat (seq p 0) < 1 / 3 ∧
+      (∀ I ∈ Ds 0, ∀ J ∈ Ds 0,
+        (1 - 2560 * (a + b : ℝ) * eHat (seq p 0)) * ‖I - J‖ ≤ ‖i I - i J‖ ∧
+        ‖i I - i J‖ ≤ (1 + 2560 * (a + b : ℝ) * eHat (seq p 0)) * ‖I - J‖) ∧
+      Set.InjOn i (Ds 0) ∧
+      (∀ I ∈ Ds 0, ∀ j, realFreq (hs j) (actionChain is j I) = realFreq h I) := by
+  classical
+  choose! i hi using fun I (hI : I ∈ Ds 0) => S.chain_limit hI
+  have hn : (0 : ℝ) ≤ ((a + b : ℕ) : ℝ) := Nat.cast_nonneg _
+  have e0 := S.e_nonneg 0
+  have hsm := S.two_sided_small
+  have hlam : 2560 * ((a + b : ℕ) : ℝ) * eHat (seq p 0) < 1 / 3 := by nlinarith
+  rw [Nat.cast_add] at hlam
+  have hlamN : 2560 * (((a + b : ℕ) : ℝ)) * eHat (seq p 0) < 1 / 3 := by
+    rw [Nat.cast_add]; exact hlam
+  -- block and sup bounds at the limit
+  have hcF : Continuous fun v : Fin (a + b) → ℝ => firstBlock (b := b) v :=
+    continuous_pi fun k => continuous_apply _
+  have hcL : Continuous fun v : Fin (a + b) → ℝ => lastBlock (a := a) v :=
+    continuous_pi fun k => continuous_apply _
+  have hblk : ∀ I ∈ Ds 0,
+      ‖firstBlock (b := b) (i I - I)‖ ≤
+        20 * (p.Mbar₁ / p.Mbar) * eHat (seq p 0) * rhoHat (seq p 0) ∧
+      ‖lastBlock (a := a) (i I - I)‖ ≤
+        20 * (p.Mbar₂ / p.Mbar) * eHat (seq p 0) * rhoHat (seq p 0) := by
+    intro I hI
+    have hl := (hi I hI).1
+    have t1 : Tendsto (fun j => ‖firstBlock (b := b) (actionChain is j I - I)‖) atTop
+        (𝓝 ‖firstBlock (b := b) (i I - I)‖) :=
+      ((hcF.comp (continuous_id.sub continuous_const)).norm.tendsto _).comp hl
+    have t2 : Tendsto (fun j => ‖lastBlock (a := a) (actionChain is j I - I)‖) atTop
+        (𝓝 ‖lastBlock (a := a) (i I - I)‖) :=
+      ((hcL.comp (continuous_id.sub continuous_const)).norm.tendsto _).comp hl
+    exact ⟨le_of_tendsto' t1 fun j => (S.chain_block_le hI j).1,
+      le_of_tendsto' t2 fun j => (S.chain_block_le hI j).2⟩
+  have hsup : ∀ I ∈ Ds 0, ‖i I - I‖ ≤ 20 * eHat (seq p 0) * rhoHat (seq p 0) := by
+    intro I hI
+    obtain ⟨b1, b2⟩ := hblk I hI
+    obtain ⟨r1, r2⟩ := S.ratio_le_one
+    have := mul_nonneg e0 (S.rho_pos 0).le
+    rw [← KAM.norm_realInclusion]
+    refine (S.hyp 0).sup_norm_le (mul_nonneg (mul_nonneg (by norm_num) e0) (S.rho_pos 0).le) ?_ ?_
+    · rw [ActionSteps.norm_first_incl]
+      nlinarith
+    · rw [ActionSteps.norm_last_incl]
+      nlinarith
+  have hLip : ∀ I ∈ Ds 0, ∀ J ∈ Ds 0,
+      ‖(i I - I) - (i J - J)‖ ≤ 2560 * ((a + b : ℕ) : ℝ) * eHat (seq p 0) * ‖I - J‖ := by
+    intro I hI J hJ
+    have t : Tendsto (fun j => ‖(actionChain is j I - I) - (actionChain is j J - J)‖) atTop
+        (𝓝 ‖(i I - I) - (i J - J)‖) :=
+      (((hi I hI).1.sub_const I).sub ((hi J hJ).1.sub_const J)).norm
+    refine le_of_tendsto' t fun j => (S.chain_lip hI hJ j).trans ?_
+    have := S.prod_le j
+    gcongr
+    linarith
+  have hlow : ∀ I ∈ Ds 0, ∀ J ∈ Ds 0,
+      (1 - 2560 * ((a + b : ℕ) : ℝ) * eHat (seq p 0)) * ‖I - J‖ ≤ ‖i I - i J‖ ∧
+      ‖i I - i J‖ ≤ (1 + 2560 * ((a + b : ℕ) : ℝ) * eHat (seq p 0)) * ‖I - J‖ := by
+    intro I hI J hJ
+    have hl := hLip I hI J hJ
+    have e : i I - i J = (I - J) + ((i I - I) - (i J - J)) := by abel
+    constructor
+    · have := norm_sub_norm_le (I - J) (-((i I - I) - (i J - J)))
+      have e' : i I - i J = (I - J) - (-((i I - I) - (i J - J))) := by abel
+      rw [e']
+      refine le_trans ?_ (norm_sub_norm_le _ _)
+      rw [norm_neg]; linarith
+    · rw [e]; refine (norm_add_le _ _).trans ?_; linarith
+  refine ⟨i, ?_, fun I hI j => S.chain_mem hI j, fun I hI => ⟨(hblk I hI).1, (hblk I hI).2,
+    hsup I hI⟩, fun I hI j => (hi I hI).2 j, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · rw [Metric.tendstoUniformlyOn_iff]
+    intro ε hε
+    have hr0 := S.rho_pos 0
+    have tz : Tendsto (fun j : ℕ => 10 * rhoHat (seq p 0) * (1 / 16 : ℝ) ^ j) atTop (𝓝 0) := by
+      simpa using (tendsto_pow_atTop_nhds_zero_of_lt_one (by norm_num : (0 : ℝ) ≤ 1 / 16)
+        (by norm_num)).const_mul (10 * rhoHat (seq p 0))
+    filter_upwards [tz.eventually (gt_mem_nhds hε)] with j hj I hI
+    rw [dist_eq_norm]
+    have h1 := S.scalar_sums.2 j
+    have h2 : eHat (seq p j) ≤ 1 / 2 := by
+      have := (S.hyp j).eHat_lt_small; linarith
+    have := S.e_nonneg j
+    have := S.rho_pos j
+    calc _ ≤ 20 * rhoHat (seq p j) * eHat (seq p j) := by
+          exact (hi I hI).2 j
+      _ ≤ 10 * rhoHat (seq p j) := by nlinarith
+      _ ≤ 10 * (rhoHat (seq p 0) / 16 ^ j) := by gcongr
+      _ = 10 * rhoHat (seq p 0) * (1 / 16 : ℝ) ^ j := by rw [one_div, inv_pow]; ring
+      _ < ε := hj
+  · intro I hI j
+    refine ⟨actionChain is j I, S.chain_mem hI j, ?_⟩
+    have hb := (hi I hI).2 j
+    have hρ : rhoHat (seq p j) ≤ (seq p j).ρ := (S.hyp j).R_le_ρ
+    have hR := S.rho_pos j
+    have he := (S.hyp j).eHat_lt_small
+    have : ‖KAM.realInclusion (a + b) (i I) - (fun k => ((actionChain is j I k : ℝ) : ℂ))‖ =
+        ‖i I - actionChain is j I‖ := by
+      have e : (fun k => ((actionChain is j I k : ℝ) : ℂ)) =
+          KAM.realInclusion (a + b) (actionChain is j I) := rfl
+      rw [e, ← map_sub, KAM.norm_realInclusion]
+    rw [this]
+    nlinarith [S.e_nonneg j]
+  · intro I hI J hJ
+    have := hLip I hI J hJ
+    rw [Nat.cast_add] at this
+    exact this
+  · rw [← Nat.cast_add]; exact hlamN
+  · intro I hI J hJ
+    have := hlow I hI J hJ
+    rw [Nat.cast_add] at this
+    exact this
+  · intro I hI J hJ hIJ
+    have := (hlow I hI J hJ).1
+    rw [hIJ, sub_self, norm_zero] at this
+    have hpos : 0 < 1 - 2560 * ((a + b : ℕ) : ℝ) * eHat (seq p 0) := by linarith
+    have := le_antisymm this
+      (by positivity : 0 ≤ (1 - 2560 * ((a + b : ℕ) : ℝ) * eHat (seq p 0)) * ‖I - J‖)
+    rcases mul_eq_zero.1 this with h | h
+    · linarith
+    · exact sub_eq_zero.1 (norm_eq_zero.1 h)
+  · intro I hI j; exact S.chain_freq hI j
+
+/-- Applicability check: the `ActionSteps` of `limit_actions_of_steps` are projections of the
+output of `iterative`, on the same witnesses `(Ds, hs, fs, is)` (together with `Ψ`, `Φ`). -/
+theorem iterative_actionSteps {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b)}
+    (H : KamHyp D sbar p h f) :
+    ∃ (Ds : ℕ → Set (Fin (a + b) → ℝ)) (hs : ℕ → (Fin (a + b) → ℂ) → ℂ)
+      (fs : ℕ → CHam (a + b)) (Ψ Φ : ℕ → CPhase (a + b) → CPhase (a + b))
+      (is : ℕ → (Fin (a + b) → ℂ) → (Fin (a + b) → ℂ)),
+      Ds 0 = dioBase D h p ∧ ActionSteps sbar p h Ds hs fs is := by
+  obtain ⟨Ds, hs, fs, Ψ, Φ, is, h0, h1, -, -, -, hK, -, hI, -, ht, -, hr⟩ := iterative H
+  exact ⟨Ds, hs, fs, Ψ, Φ, is, h0, ⟨h1, hK, fun j => (hI j).2.1, fun j => (hI j).2.2.1,
+    fun j => (hI j).2.2.2, fun j => (ht j).2.2, fun j => (hr j).1, fun j => (hr j).2.2.1⟩⟩
+
+#print axioms limit_actions_of_steps
+#print axioms iterative_actionSteps
 
 end KAM.Planetary
 
