@@ -119,14 +119,27 @@ private theorem sbSmooth_cd_scale (hL : 0 < fast p.1.2 i)
 private theorem sbSmooth_gamma_nonneg (w : Phase (2+2)) (i : Fin 2) : 0 ≤ secularGamma w i := by
   unfold secularGamma oscillatorAction; positivity
 
+/-- Local radicand margin of step `sb-S-1`, consumed by `sb-sm-2`. -/
+private theorem sbSmooth_radicand_margin {w : Phase (2+2)} (i : Fin 2)
+    (h : 0 < fast w.2 i ∧ 50 * secularGamma w i < fast w.2 i) :
+    (99/100 : ℝ) < 1 - secularGamma w i / (2 * fast w.2 i) ∧
+      99 / (100 * fast w.2 i) <
+        (1 - secularGamma w i / (2 * fast w.2 i)) / fast w.2 i := by
+  obtain ⟨hL, hg⟩ := h
+  have g0 := sbSmooth_gamma_nonneg w i
+  have h2 : secularGamma w i / (2 * fast w.2 i) < 1/100 := by
+    rw [div_lt_iff₀ (by positivity)]; linarith
+  refine ⟨by linarith, ?_⟩
+  rw [show 99 / (100 * fast w.2 i) = (99/100) / fast w.2 i by field_simp]
+  exact div_lt_div_of_pos_right (by linarith) hL
+
 private theorem sbSmooth_reg {w : Phase (2+2)} (i : Fin 2)
     (h : 0 < fast w.2 i ∧ 50 * secularGamma w i < fast w.2 i) :
     0 < (1 - secularGamma w i / (2 * fast w.2 i)) / fast w.2 i ∧ 0 < secularRoot w i := by
   obtain ⟨hL, hg⟩ := h
   have g0 := sbSmooth_gamma_nonneg w i
+  have hm := (sbSmooth_radicand_margin i ⟨hL, hg⟩).1
   have : secularGamma w i / fast w.2 i < 1/50 := by rw [div_lt_iff₀ hL]; linarith
-  have h2 : secularGamma w i / (2 * fast w.2 i) < 1/100 := by
-    rw [div_lt_iff₀ (by positivity)]; linarith
   refine ⟨div_pos (by linarith) hL, ?_⟩
   unfold secularRoot; linarith
 
