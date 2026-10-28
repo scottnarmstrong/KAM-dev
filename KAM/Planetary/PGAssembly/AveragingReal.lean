@@ -196,6 +196,82 @@ theorem conj_mem_extensionDomain (d : PGData a b) (δ : ℝ) {z : PGComplexPhase
   rw [this, Prod.norm_def, norm_conjPi, norm_conjPi, ← Prod.norm_def]
   exact hw3
 
+
+/-- The extension is real at every real point of its tube (reflection + identity theorem). -/
+theorem ext_P_real (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0) (w : Phase (a+b))
+    (hw : KAM.realInclusion₂ (a+b) w ∈ extensionDomain d (pgExtension d).delta) :
+    ((pgExtension d).P mu (KAM.realInclusion₂ (a+b) w)).im = 0 := by
+  set E := pgExtension d with hE
+  set U : Set (Fin ((a+b)+(a+b)) → ℂ) := upkC ⁻¹' extensionDomain d E.delta with hU
+  have hUo : IsOpen U := (isOpen_extensionDomain d _).preimage continuous_upkC
+  have hUc : IsPreconnected U := by
+    have h := (isPreconnected_extensionDomain d E.delta).image pkC continuous_pkC.continuousOn
+    convert h using 1
+    ext y
+    constructor
+    · intro hy; exact ⟨upkC y, hy, pkC_upkC y⟩
+    · rintro ⟨z, hz, rfl⟩; show upkC (pkC z) ∈ extensionDomain d E.delta; rw [upkC_pkC]; exact hz
+  have hsym : ∀ y ∈ U, conjPi y ∈ U := by
+    intro y hy
+    have hy' : upkC y ∈ extensionDomain d E.delta := hy
+    have := conj_mem_extensionDomain d E.delta hy'
+    have e : upkC (conjPi y) = (conjPi (upkC y).1, conjPi (upkC y).2) := rfl
+    show upkC (conjPi y) ∈ extensionDomain d E.delta
+    rw [e]; exact this
+  let F : (Fin ((a+b)+(a+b)) → ℂ) → ℂ := fun y => E.P mu (upkC y)
+  have hF : DifferentiableOn ℂ F U :=
+    (E.holo mu hmu).comp differentiable_upkC.differentiableOn (fun y hy => hy)
+  have hG := differentiableOn_conj_conj_pi hUo hsym hF
+  -- the open real set where the extension equals the real function
+  let Vr : Set (Fin ((a+b)+(a+b)) → ℝ) :=
+    {x | blockFast (upkR x).2 ∈ d.V ∧ ‖(blockSlow (upkR x).2, blockSlow (upkR x).1)‖ < d.r0/2}
+  have hVo : IsOpen Vr := by
+    refine IsOpen.inter ?_ ?_
+    · exact d.hV.preimage (continuous_blockFast_real.comp (continuous_snd.comp continuous_upkR))
+    · exact isOpen_lt (continuous_norm.comp
+        (((continuous_blockSlow_real.comp (continuous_snd.comp continuous_upkR))).prodMk
+          (continuous_blockSlow_real.comp (continuous_fst.comp continuous_upkR)))) continuous_const
+  have hVne : Vr.Nonempty := by
+    obtain ⟨I0, hI0⟩ := d.hVc.nonempty
+    refine ⟨pkR ((0 : Fin (a+b) → ℝ), Fin.append I0 (0 : Fin b → ℝ)), ?_⟩
+    simp only [Vr, upkR_pkR, blockSlow_append, blockFast_append, mem_ofPred_eq]
+    refine ⟨hI0, ?_⟩
+    have : blockSlow (0 : Fin (a+b) → ℝ) = 0 := rfl
+    rw [this, Prod.norm_def]; simp [d.hr0]
+  have hmemV : ∀ x ∈ Vr, KAM.realInclusion₂ (a+b) (upkR x) ∈ extensionDomain d E.delta := by
+    intro x hx
+    exact ⟨upkR x, subset_closure hx.1, hx.2.le, by simpa using E.delta_pos⟩
+  have hVU : KAM.realInclusion ((a+b)+(a+b)) '' Vr ⊆ U := by
+    rintro _ ⟨x, hx, rfl⟩
+    show upkC (KAM.realInclusion ((a+b)+(a+b)) x) ∈ extensionDomain d E.delta
+    rw [upkC_realInclusion]; exact hmemV x hx
+  have heq : ∀ x ∈ Vr, F (KAM.realInclusion ((a+b)+(a+b)) x) =
+      starRingEnd ℂ (F (conjPi (KAM.realInclusion ((a+b)+(a+b)) x))) := by
+    intro x hx
+    rw [conjPi_realInclusion]
+    have hcyl : upkR x ∈ closure (cylinder d.V d.r0 : Set (Phase (a+b))) := by
+      refine subset_closure ⟨hx.1, fun j => ?_⟩
+      have hpq := hx.2
+      rw [Prod.norm_def, max_lt_iff] at hpq
+      have h1 := (norm_le_pi_norm (blockSlow (upkR x).2) j).trans_lt hpq.1
+      have h2 := (norm_le_pi_norm (blockSlow (upkR x).1) j).trans_lt hpq.2
+      rw [Real.norm_eq_abs] at h1 h2
+      have h1' := sq_lt_sq' (by linarith [abs_lt.1 h1]) (abs_lt.1 h1).2
+      have h2' := sq_lt_sq' (by linarith [abs_lt.1 h2]) (abs_lt.1 h2).2
+      show (blockSlow (upkR x).2 j)^2 + (blockSlow (upkR x).1 j)^2 < d.r0^2
+      nlinarith [d.hr0]
+    have := E.agrees mu hmu (upkR x) hcyl (hmemV x hx)
+    show E.P mu (upkC _) = starRingEnd ℂ (E.P mu (upkC _))
+    rw [upkC_realInclusion, this, Complex.conj_ofReal]
+  have key := real_slice_identity hUo hUc hF hG hVo hVne hVU heq
+  have hy0 : pkC (KAM.realInclusion₂ (a+b) w) ∈ U := by
+    show upkC (pkC (KAM.realInclusion₂ (a+b) w)) ∈ extensionDomain d E.delta
+    rw [upkC_pkC]; exact hw
+  have := key hy0
+  simp only [F, upkC_pkC] at this
+  rw [pkC_realInclusion₂, conjPi_realInclusion, ← pkC_realInclusion₂, upkC_pkC] at this
+  exact Complex.conj_eq_iff_im.1 this.symm
+
 end KAM.Planetary
 
 end
