@@ -157,7 +157,8 @@ lemma chi_family {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O)
           (∑ k ∈ chiModes, ∑ a ∈ charIdx, (F.coeff (fun i => (a i).val) I : ℂ) * c a k b /
             (Complex.I * (∑ j, (k j : ℂ) * freq I j))) := by
     have hch : ∀ k, p11c_character F.eval k I z = ∑ a ∈ charIdx, ∑ b ∈ charIdx,
-        (F.coeff (fun i => (a i).val) I : ℂ) * (c a k b * (p11c_monomial (fun i => (b i).val) z : ℂ)) := by
+        (F.coeff (fun i => (a i).val) I : ℂ) *
+          (c a k b * (p11c_monomial (fun i => (b i).val) z : ℂ)) := by
       intro k
       rw [character_eq_sum]
       refine Finset.sum_congr rfl fun a ha => ?_
