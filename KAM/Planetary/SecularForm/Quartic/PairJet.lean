@@ -7,6 +7,7 @@ module
 
 public import Mathlib
 public import KAM.Planetary.SecularForm.Quartic.PairSymmetry
+public import KAM.Planetary.PGAssembly.JetsPolar
 
 /-!
 # Secular form: the six-monomial form of the pair jet
@@ -24,19 +25,6 @@ open KAM KAM.Kepler
 namespace SecularForm
 
 variable {n : ℕ}
-
-/-- Iterated derivative of a composition with a continuous linear map, on an open set. -/
-theorem iteratedFDeriv_comp_clm_of_isOpen {E F G : Type*} [NormedAddCommGroup E]
-    [NormedSpace ℝ E] [NormedAddCommGroup F] [NormedSpace ℝ F] [NormedAddCommGroup G]
-    [NormedSpace ℝ G] {f : E → F} {U : Set E} (hU : IsOpen U) (hf : ContDiffOn ℝ 4 f U)
-    (g : G →L[ℝ] E) {x : G} (hx : g x ∈ U) {k : ℕ} (hk : k ≤ 4) :
-    iteratedFDeriv ℝ k (f ∘ g) x =
-      (iteratedFDeriv ℝ k f (g x)).compContinuousLinearMap fun _ => g := by
-  have hU' : IsOpen (g ⁻¹' U) := hU.preimage g.continuous
-  have h := g.iteratedFDerivWithin_comp_right hf hU.uniqueDiffOn hU'.uniqueDiffOn hx
-    (by exact_mod_cast hk)
-  rwa [iteratedFDerivWithin_of_isOpen k hU' (show x ∈ g ⁻¹' U from hx),
-    iteratedFDerivWithin_of_isOpen k hU hx] at h
 
 variable (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0) (hJ : 0 < J0)
   (hab : I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) < J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0)))

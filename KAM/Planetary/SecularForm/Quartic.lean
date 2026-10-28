@@ -11,6 +11,7 @@ public import KAM.Planetary.SecularForm.Quartic.PairScaling
 public import KAM.Planetary.SecularForm.Quartic.Jet
 public import KAM.Planetary.SecularForm.Quartic.Diagonal
 public import KAM.Planetary.SecularForm.Quartic.Scaling
+public import KAM.Planetary.SecularForm.Quartic.Conversion
 
 /-!
 # Secular form: the quartic jet
