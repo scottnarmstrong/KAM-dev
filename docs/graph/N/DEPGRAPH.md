@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/N/SPEC.md "Conventions to watch": frozen period 1 (chara
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-N external inputs are the labelled items of the parts' external-fact lists (bpN:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:ext-*, p8:ext-*, p9:ext-*, p10:ext-*, p11:ext-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref; frozen definitions of other tracks named by \frozen) is an IMPORTED node K:<node>, I:<node> or P:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, NOTE IMPORTED ...; source fields copied from docs/graph/K/DEPGRAPH.md for K, written by the writer from the owning blueprint for I and P), K's Mathlib-level externals included (K:bp:p1:ext-*); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpN:p0:actionnbhd#actionNbhd, bpN:p0:freq#frequencyMap, bpN:p0:vf#hamiltonianVectorField, bpN:p0:realH#realHamiltonian, bpN:p0:strip#complexStrip, bpN:p0:ball#actionBall, bpN:p0:cdomain#complexDomain, bpN:p0:rdomain#realActionDomain, bpN:p0:realpart#realPart, bpN:p0:integrable#IsAnalyticIntegrable, bpN:p0:pert#IsAnalyticPerturbation, bpN:p0:bm#HasDerivativeBounds, bpN:p0:qc#IsStrictlyQuasiConvex, bpN:p0:hess#HasComplexHessianBound, bpN:p0:sol#IsSolutionOn, bpN:p0:orbit#integrableOrbit, bpN:p0:partial-sec#Phase, bpN:p0:partial-sec#fast, bpN:p0:partial-sec#slow, bpN:p0:partial-sec#fastShift, bpN:p0:partial-complexify#complexifyPhase, bpN:p0:partial-core#innerCore, bpN:p0:partial-domain#partialComplexDomain, bpN:p0:partial-definite#HasDefiniteFastPart, bpN:p0:partial-pert#IsPartialPerturbation, bpN:p0:partial-exponents#partialTimeExponent, bpN:p0:partial-exponents#partialDriftExponent, bpN:p0:partial-sec#degenerateHamiltonian, bpN:p0:head, bpN:p0:zero, bpN:p0:qcthm, bpN:p0:partial, bpN:p0:avg-rank#HasAveragingFrequencyRank, bpN:p0:avg-error#averagingError, bpN:p0:avg-mean, bpN:p0:avg-most
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:d9f4a89a920aad9512a2b357f64eedb6c6ac3e11c4037de7de23c2558f535bfa
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:5fd317bac6d6bc9d5c729ccf002b8703c9fe98e93383c67772658d24d5423f87
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-N
 GLOBAL_REVIEW_REF: docs/graph/N/reviews/GLOBAL-review-3.md
@@ -512,9 +512,9 @@ EDGE: bpN:p10:head | blueprint-N/parts/p10-assembly.tex#bpN:p0:head@L138-L138 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p02+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frozen theorem anchor not yet sealed (manifest DRAFT_SORRY)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.quasiConvex_nekhoroshev_complexBound (KAM/Frozen/Nekhoroshev/Theorems/QuasiConvexNekhoroshevComplexBound.lean)
+LEAN_NOTE: N-HEAD-C anchor SEALED (manifest nekhoroshev.quasiConvex_nekhoroshev_complexBound.v1); seal-key audit N10-5-audit-1 PASS WITH NOTES
 NOTE: frozen root; proof is Part 10 (bpN:p10:head, steps stepN:p10:hd-*). The reference to Remark rdomain-eq (L230) explains the set in (H4)-(H5), it is not consumed by the statement: no edge. sourcegap L234 is filled by Part 10
 
 NODE: bpN:p0:zero
@@ -13340,9 +13340,9 @@ EDGE: stepN:p10:cf-trans | blueprint-N/parts/p10-assembly.tex#bpN:p10:confinemen
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: confinement (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: audit N10-3 round 2 PASS WITH NOTES; literal conclusion exported
 NOTE: -
 
 NODE: stepN:p10:cf-setting
@@ -13401,8 +13401,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: cf_orbit (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: exported cf_orbit is derivative-only; initial-action-in-P and field equality are internal to cf_branch/confinement proofs, so full node conclusion not exported
 NOTE: Theorem-1 applicability is checked here; the theorem is applied only in cf-branch. The explanatory stopped remark and the target theorem are not DEPS.
 
 NODE: stepN:p10:cf-branch
@@ -13433,8 +13433,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta2-N-e
 REVIEWER: sol-delta3-N-b
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: cf_branch (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: signed cf_branch narrowed to |t| <= 2T exp(E); full-T0 thm1(a) conclusion not exported (audit N10-3 round 2 PASS WITH NOTES under signed-signature ruling)
 NOTE: -
 
 NODE: stepN:p10:cf-trans
@@ -13497,9 +13497,9 @@ EDGE: bpN:p0:realH#realHamiltonian | blueprint-N/parts/p10-assembly.tex#bpN:p10:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: existence (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; literal
 NOTE: -
 
 NODE: stepN:p10:ex-rho
@@ -13525,9 +13525,9 @@ EDGE: bpN:p10:choice | blueprint-N/parts/p10-assembly.tex#stepN:p10:ex-rho@L116-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: existence (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; step inside proof of existence (handoff/audit name it)
 NOTE: -
 
 NODE: stepN:p10:ex-ball
@@ -13552,9 +13552,9 @@ EDGE: stepN:p10:ex-rho | blueprint-N/parts/p10-assembly.tex#stepN:p10:ex-ball@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ex_ball (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; exact signed ex_ball
 NOTE: -
 
 NODE: stepN:p10:ex-apriori
@@ -13582,9 +13582,9 @@ EDGE: bpN:p0:realH#realHamiltonian | blueprint-N/parts/p10-assembly.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: existence (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; step inside proof of existence (handoff/audit name it)
 NOTE: -
 
 NODE: stepN:p10:ex-glue
@@ -13617,9 +13617,9 @@ EDGE: bpN:p0:realH#realHamiltonian | blueprint-N/parts/p10-assembly.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: existence (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; step inside proof of existence (handoff/audit name it)
 NOTE: -
 
 NODE: bpN:p10:uniqueness
@@ -13648,9 +13648,9 @@ EDGE: bpN:p0:realH#realHamiltonian | blueprint-N/parts/p10-assembly.tex#bpN:p10:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: uniqueness (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; valid strengthening
 NOTE: -
 
 NODE: stepN:p10:un-restrict
@@ -13675,9 +13675,9 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p10-assembly.tex#stepN:p10:un-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: head_solution_restrict (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; exact signed type
 NOTE: -
 
 NODE: stepN:p10:un-apply
@@ -13704,9 +13704,9 @@ EDGE: stepN:p10:un-restrict | blueprint-N/parts/p10-assembly.tex#stepN:p10:un-ap
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: uniqueness (KAM/Nekhoroshev/Assembly/Existence.lean)
+LEAN_NOTE: audit N10-4 PASS WITH NOTES; applies ODE.uniqueness_closed after restriction
 NOTE: -
 
 NODE: bpN:p10:head
@@ -13747,9 +13747,9 @@ EDGE: stepN:p10:hd-dep | blueprint-N/parts/p10-assembly.tex#bpN:p10:head@L154-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: head (KAM/Nekhoroshev/Assembly/Headline.lean)
+LEAN_NOTE: audit N10-5 PASS WITH NOTES; head matches signature; provider matches frozen type (anchor sealed separately)
 NOTE: Proof of the frozen anchor bpN:p0:head (carries the \frozen tag). No edge to bpN:p0:head itself (the anchor depends on this node). Statement edges to the definition anchors are those of the anchor statement (hypotheses H1-H7 and IsSolutionOn), added because the pre-extraction dropped the reference to the anchor from Part 10.
 
 NODE: stepN:p10:hd-order
@@ -13775,9 +13775,9 @@ EDGE: bpN:p10:choice-props | blueprint-N/parts/p10-assembly.tex#stepN:p10:hd-ord
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quasiConvex_nekhoroshev_complexBound (KAM/Frozen/Nekhoroshev/Theorems/QuasiConvexNekhoroshevComplexBound.lean)
+LEAN_NOTE: audit N10-5 PASS WITH NOTES; realised by provider telescope (constants before data, positivity/margin from choice_props)
 NOTE: [pre-extract: dropped reference to bpN:p0:head, which part p10 proves or sets up]
 
 NODE: stepN:p10:hd-const
@@ -13803,9 +13803,9 @@ EDGE: bpN:p10:choice | blueprint-N/parts/p10-assembly.tex#stepN:p10:hd-const@L14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quasiConvex_nekhoroshev_complexBound (KAM/Frozen/Nekhoroshev/Theorems/QuasiConvexNekhoroshevComplexBound.lean)
+LEAN_NOTE: audit N10-5 PASS WITH NOTES; realised by provider telescope (constants before data, positivity/margin from choice_props)
 NOTE: -
 
 NODE: stepN:p10:hd-univ
@@ -13838,9 +13838,9 @@ EDGE: bpN:p0:realH#realHamiltonian | blueprint-N/parts/p10-assembly.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: head (KAM/Nekhoroshev/Assembly/Headline.lean)
+LEAN_NOTE: audit N10-5 PASS WITH NOTES; step inside proof of head
 NOTE: -
 
 NODE: stepN:p10:hd-abc
@@ -13869,9 +13869,9 @@ EDGE: bpN:p0:realH#realHamiltonian | blueprint-N/parts/p10-assembly.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: head (KAM/Nekhoroshev/Assembly/Headline.lean)
+LEAN_NOTE: audit N10-5 PASS WITH NOTES; step inside proof of head
 NOTE: -
 
 NODE: stepN:p10:hd-d
@@ -13898,9 +13898,9 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p10-assembly.tex#stepN:p10:hd-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: head (KAM/Nekhoroshev/Assembly/Headline.lean)
+LEAN_NOTE: audit N10-5 PASS WITH NOTES; step inside proof of head
 NOTE: [pre-extract: dropped reference to bpN:p0:head, which part p10 proves or sets up]
 
 NODE: stepN:p10:hd-dep
@@ -13928,9 +13928,9 @@ EDGE: bpN:p10:choice | blueprint-N/parts/p10-assembly.tex#stepN:p10:hd-dep@L154-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quasiConvex_nekhoroshev_complexBound (KAM/Frozen/Nekhoroshev/Theorems/QuasiConvexNekhoroshevComplexBound.lean)
+LEAN_NOTE: audit N10-5 PASS WITH NOTES; realised by provider telescope (constants before data, positivity/margin from choice_props)
 NOTE: -
 
 NODE: bpN:p9:ext-num
