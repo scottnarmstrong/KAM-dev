@@ -53,7 +53,8 @@ theorem perturbationCore_subset (B : AMDBox n) (kappa A : ℝ) :
 
 theorem isClosed_perturbationCore (B : AMDBox n) (kappa A : ℝ) :
     IsClosed (perturbationCore B kappa A) := by
-  have h1 : IsClosed {w : Phase (n + n) | ∀ i : Fin n, 0 ≤ fast w.1 i ∧ fast w.1 i ≤ 2 * Real.pi} := by
+  have h1 : IsClosed {w : Phase (n + n) |
+      ∀ i : Fin n, 0 ≤ fast w.1 i ∧ fast w.1 i ≤ 2 * Real.pi} := by
     simp only [Set.ofPred_forall]
     refine isClosed_iInter fun i => ?_
     have : Continuous fun w : Phase (n + n) => fast w.1 i :=
@@ -205,7 +206,8 @@ theorem isPartialPerturbation_neg_of {k : ℕ} {G : Set (Fin n → ℝ)} {D : Se
 
 theorem chartSafe_shift_iff {m : Fin n → ℝ} (hm : ∀ i, 0 < m i) (k : Fin n → ℤ)
     (w : Phase (n + n)) : w ∈ chartSafe m ↔ w + fastShift k ∈ chartSafe m := by
-  have fwd : ∀ (k : Fin n → ℤ) (w : Phase (n + n)), w ∈ chartSafe m → w + fastShift k ∈ chartSafe m := by
+  have fwd : ∀ (k : Fin n → ℤ) (w : Phase (n + n)),
+      w ∈ chartSafe m → w + fastShift k ∈ chartSafe m := by
     intro k w hw
     obtain ⟨hd, hc⟩ := poincareProd_lattice hm one_pos hw.1 k
     exact ⟨hd, by simpa [hc] using hw.2⟩
@@ -286,7 +288,8 @@ theorem perturbation (B : AMDBox n) (hB : B.Admissible) {kappa e A : ℝ}
   have hP : ∀ z ∈ T, P z = fc z / (B0 : ℂ) := fun z hz => by simp [P, hz]
   have hdiv : DifferentiableOn ℂ (fun z => fc z / (B0 : ℂ)) T := by
     exact (differentiable_id.div_const (B0 : ℂ)).comp_differentiableOn hfc
-  have hPos : KAM.Nekhoroshev.IsPartialPerturbation (fastBox B (2 * kappa)) (slowBall n A) rho P := by
+  have hPos : KAM.Nekhoroshev.IsPartialPerturbation (fastBox B (2 * kappa)) (slowBall n A) rho
+      P := by
     refine ⟨?_, ?_, ?_, ?_⟩
     · exact (hdiv.mono fun z hz => (hFT z hz).1).congr
         fun z hz => hP z (hFT z hz).1
