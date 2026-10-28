@@ -97,7 +97,8 @@ theorem differentiableOn_p11Affine (H : P11AffineHyp p0 p1 r s sigma A) :
       (KAM.complexStrip n r ×ˢ univ) := fun j =>
     ((differentiableOn_pi.1 H.hol1) j).comp differentiableOn_fst hmaps
   refine h0.add (DifferentiableOn.fun_sum fun j _ => (h1 j).mul ?_)
-  exact (differentiable_apply j).comp_differentiableOn differentiableOn_snd |>.congr (fun _ _ => rfl)
+  exact ((differentiable_apply j).comp_differentiableOn differentiableOn_snd).congr
+    (fun _ _ => rfl)
 
 theorem field_fst (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
     (hz : z.1 ∈ KAM.complexStrip n r) :

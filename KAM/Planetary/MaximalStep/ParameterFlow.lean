@@ -64,7 +64,8 @@ theorem paramField_differentiableOn (hB : IsOpen B)
   have hc1 : DifferentiableOn ℂ (fun w : P11CVec n × P11Phase n => p1 (w.2.1, w.1)) S :=
     h1.comp hκ hmaps
   have hη : ∀ j : Fin n, DifferentiableOn ℂ (fun w : P11CVec n × P11Phase n => w.2.2 j) S :=
-    fun j => (by fun_prop : Differentiable ℂ fun w : P11CVec n × P11Phase n => w.2.2 j).differentiableOn
+    fun j => (by fun_prop : Differentiable ℂ fun w : P11CVec n × P11Phase n => w.2.2 j)
+      |>.differentiableOn
   have hc2 : ∀ i : Fin n, DifferentiableOn ℂ (fun w : P11CVec n × P11Phase n =>
       -(fderiv ℂ p0 (w.2.1, w.1) (Pi.single i 1, 0) +
         ∑ j, fderiv ℂ p1 (w.2.1, w.1) (Pi.single i 1, 0) j * w.2.2 j)) S := fun i => by
@@ -72,9 +73,9 @@ theorem paramField_differentiableOn (hB : IsOpen B)
       (DifferentiableOn.fun_sum fun j _ => ?_)).neg
     exact ((differentiableOn_pi.1 (D1.clm_apply (differentiableOn_const _))) j).mul (hη j)
   have hfun : DifferentiableOn ℂ (fun w : P11CVec n × P11Phase n =>
-      ((0 : P11CVec n), ((fun i => p1 (w.2.1, w.1) i : P11CVec n), (fun i => -(fderiv ℂ p0 (w.2.1, w.1)
-        (Pi.single i 1, 0) + ∑ j, fderiv ℂ p1 (w.2.1, w.1) (Pi.single i 1, 0) j * w.2.2 j) :
-          P11CVec n)))) S :=
+      ((0 : P11CVec n), ((fun i => p1 (w.2.1, w.1) i : P11CVec n),
+        (fun i => -(fderiv ℂ p0 (w.2.1, w.1) (Pi.single i 1, 0) +
+          ∑ j, fderiv ℂ p1 (w.2.1, w.1) (Pi.single i 1, 0) j * w.2.2 j) : P11CVec n)))) S :=
     (differentiableOn_const _).prodMk (differentiableOn_pi.2 (differentiableOn_pi.1 hc1) |>.prodMk
       (differentiableOn_pi.2 hc2))
   refine hfun.congr ?_
@@ -107,9 +108,11 @@ theorem affine_flow_param {n : ℕ} {B : Set (P11CVec n)} (hB : IsOpen B)
     {r s sigma A : ℝ}
     (h0 : DifferentiableOn ℂ p0 (KAM.complexStrip n r ×ˢ B))
     (h1 : DifferentiableOn ℂ p1 (KAM.complexStrip n r ×ˢ B))
-    (H : ∀ b ∈ B, P11AffineHyp (fun theta => p0 (theta,b)) (fun theta => p1 (theta,b)) r s sigma A) :
+    (H : ∀ b ∈ B,
+      P11AffineHyp (fun theta => p0 (theta,b)) (fun theta => p1 (theta,b)) r s sigma A) :
     DifferentiableOn ℂ (fun z : P11CVec n × P11Phase n =>
-      p11Flow (p11Affine (fun theta => p0 (theta,z.1)) (fun theta => p1 (theta,z.1))) r s sigma 1 z.2)
+      p11Flow (p11Affine (fun theta => p0 (theta,z.1)) (fun theta => p1 (theta,z.1)))
+        r s sigma 1 z.2)
       (B ×ˢ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) := by
   rintro ⟨b0, z0⟩ ⟨hb0, hz0⟩
   refine DifferentiableAt.differentiableWithinAt ?_

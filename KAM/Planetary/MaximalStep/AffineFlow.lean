@@ -36,7 +36,8 @@ theorem flow_displacement (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
       (fun t => KAM.Canonical.flow (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1))
         (KAM.Weighted.Dom n {0} s (r-sigma)) t z)
       (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1) (KAM.Canonical.flow
-        (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1)) (KAM.Weighted.Dom n {0} s (r-sigma)) t z)) t :=
+        (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1))
+        (KAM.Weighted.Dom n {0} s (r-sigma)) t z)) t :=
     fun t ht => (hsol t ht).2
   have h1 : (0 : ℝ) ∈ Icc (-1 : ℝ) 1 := ⟨by norm_num, by norm_num⟩
   have h2 : (1 : ℝ) ∈ Icc (-1 : ℝ) 1 := ⟨by norm_num, by norm_num⟩
@@ -45,7 +46,8 @@ theorem flow_displacement (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
       (f := fun t => (KAM.Canonical.flow (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1))
         (KAM.Weighted.Dom n {0} s (r-sigma)) t z).1)
       (f' := fun t => (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1) (KAM.Canonical.flow
-        (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1)) (KAM.Weighted.Dom n {0} s (r-sigma)) t z)).1)
+        (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1))
+        (KAM.Weighted.Dom n {0} s (r-sigma)) t z)).1)
       (C := A)
       (fun t ht => by
         have := (hasFDerivAt_fst (𝕜 := ℝ)).comp_hasDerivAt t (hI t ht)
@@ -58,7 +60,8 @@ theorem flow_displacement (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
       (f := fun t => (KAM.Canonical.flow (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1))
         (KAM.Weighted.Dom n {0} s (r-sigma)) t z).2)
       (f' := fun t => (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1) (KAM.Canonical.flow
-        (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1)) (KAM.Weighted.Dom n {0} s (r-sigma)) t z)).2)
+        (KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1))
+        (KAM.Weighted.Dom n {0} s (r-sigma)) t z)).2)
       (C := (n+1)*s*A/sigma)
       (fun t ht => by
         have := (hasFDerivAt_snd (𝕜 := ℝ)).comp_hasDerivAt t (hI t ht)
@@ -143,7 +146,8 @@ theorem field_real (H : P11AffineHyp p0 p1 r s sigma A)
     ∀ x ∈ KAM.Weighted.Dom n {0} s (r-sigma), x ∈ range (KAM.realInclusion₂ n) →
       KAM.hamiltonianVectorFieldℂ (p11Affine p0 p1) x ∈ range (KAM.realInclusion₂ n) := by
   rintro x hx ⟨y, rfl⟩
-  have hV : KAM.Weighted.Dom (m := n) n {0} s r ⊆ KAM.complexStrip n r ×ˢ (univ : Set (P11CVec n)) := by
+  have hV : KAM.Weighted.Dom (m := n) n {0} s r ⊆
+      KAM.complexStrip n r ×ˢ (univ : Set (P11CVec n)) := by
     intro w hw
     rw [mem_Dom_iff] at hw
     exact ⟨hw.1, trivial⟩

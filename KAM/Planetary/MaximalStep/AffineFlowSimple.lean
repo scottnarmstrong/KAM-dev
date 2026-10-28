@@ -128,7 +128,8 @@ theorem flow_affine_comb (H : P11AffineHyp p0 p1 r s sigma A) {θ η : P11CVec n
     have e4 := (e3.const_smul (1-c)).add (e2.const_smul c)
     have e5 := e1.prodMk e4
     refine e5.congr_deriv ?_
-    have h0' : (G t (θ, 0)).1 ∈ KAM.complexStrip n r := strip_sub_sigma_subset H (by rw [hθ]; exact m1.1)
+    have h0' : (G t (θ, 0)).1 ∈ KAM.complexStrip n r :=
+      strip_sub_sigma_subset H (by rw [hθ]; exact m1.1)
     refine Prod.ext ?_ ?_
     · show (F (G t (θ, η))).1 = (F (δ t)).1
       rw [field_fst H hs1, field_fst H (by simpa using hs1)]
@@ -249,7 +250,8 @@ theorem fderiv_flow_fst (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
 /-- `DΦ(0, b) = (0, M b)`. -/
 theorem fderiv_flow_eta (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
     (hz : z ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) (b : P11CVec n) :
-    fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (0, b) = (0, affM p0 p1 r s sigma z.1 b) := by
+    fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (0, b) =
+      (0, affM p0 p1 r s sigma z.1 b) := by
   have hGz := (flow_differentiableAt H hz (t := 1) ⟨by norm_num, le_rfl⟩).hasFDerivAt
   have h1 := fderiv_flow_fst H hz (0, b)
   simp only [map_zero] at h1
@@ -300,8 +302,8 @@ theorem aff_duality (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
   change KAM.Canonical.symplFormC (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (a, 0))
     (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (0, b)) = _ at hs
   rw [e2] at hs
-  simp only [KAM.Canonical.symplFormC, e1, mul_zero, zero_sub, Pi.zero_apply, Finset.sum_neg_distrib,
-    neg_inj] at hs
+  simp only [KAM.Canonical.symplFormC, e1, mul_zero, zero_sub, Pi.zero_apply,
+    Finset.sum_neg_distrib, neg_inj] at hs
   simpa [mul_comm] using hs
 
 end KAM.Planetary
