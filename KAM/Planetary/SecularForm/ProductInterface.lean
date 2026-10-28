@@ -301,7 +301,8 @@ theorem pc_dec (D : Data n) {w : Phase (n+n)} (hw : w ∈ poincareProdDom n) :
     (analyticAt_keplerPart' _ _ fun i => by
       have := (hreg i).1
       simpa [bodyVector, poincareProd] using this).differentiableAt
-  have hev : hProd (D.G*D.m0) D.m =ᶠ[𝓝 w] keplerPart (D.G*D.m0) D.m ∘ poincareProd D.m (D.G*D.m0) := by
+  have hev : hProd (D.G*D.m0) D.m =ᶠ[𝓝 w]
+      keplerPart (D.G*D.m0) D.m ∘ poincareProd D.m (D.G*D.m0) := by
     filter_upwards [(isOpen_poincareProdDom n).mem_nhds hw] with v hv
     exact (keplerPart_poincareProd D.hm hκ hv).symm
   have h1 : hamiltonianVectorField (hProd (D.G*D.m0) D.m) w =
