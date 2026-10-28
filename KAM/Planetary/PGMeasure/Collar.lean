@@ -110,7 +110,8 @@ theorem volume_joinedActions (X : Set (Fin a → ℝ)) (Y : Set (Fin b → ℝ))
 theorem domain_collar_helper {X : Set (Fin a → ℝ)} (hX : MeasurableSet X)
     {l u s E : ℝ} (hl : 0 < l) (hlu : l < u) (hs : 0 < s) (hsl : s < l)
     (hXfinite : volume X < ⊤) (hE : volume (realNbhd X s \ X) ≤ ENNReal.ofReal E) :
-    volume (realNbhd (joinedActions X (actionShell b l u)) s \ joinedActions X (actionShell b l u)) ≤
+    volume (realNbhd (joinedActions X (actionShell b l u)) s
+        \ joinedActions X (actionShell b l u)) ≤
       ENNReal.ofReal (E*(u-l+2*s)^b) + volume X *
         ENNReal.ofReal ((u-l+2*s)^b-(u-l)^b) := by
   set Y : Set (Fin b → ℝ) := actionShell b l u with hY
