@@ -756,9 +756,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11c-partial-stability.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2 PASS WITH NOTES; energy_free = exact signed statement (T_* with zeta as eta-bar); uses L1 energy_identity_re/transverse_pairing
 NOTE: proved by contradiction from a violating time t_1 (preamble L86); new, unaudited mathematics per the blueprint. Dropped candidate edge bpN:p7:no-exit (\source: provenance; the lemma replaces it). Dependence of the time bound on omega is removed by the identity of step ef-id
 
 NODE: stepN:p11:ef-tube
@@ -979,9 +979,9 @@ EDGE: bpN:p11:real-system | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_identity, energy_identity_re (KAM/Nekhoroshev/Partial/EnergyIdentity.lean)
+LEAN_NOTE: audit N11-L1-audit-1 ef-id PASS (ruling: L1 accepted)
 NOTE: -
 
 NODE: stepN:p11:ef-C
@@ -1021,9 +1021,9 @@ EDGE: bpN:p1:ext-norms | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean); transverse_pairing (KAM/Nekhoroshev/Partial/EnergyIdentity.lean)
+LEAN_NOTE: audit N11-L2 PASS WITH NOTES (row ef-C PASS) via ruling N11-L1-audit-1-ruling: ef-C is internal to energy_free (ef_theta_bound, ef_bracket_bound feeding L1 transverse_pairing); no standalone export
 NOTE: -
 
 NODE: stepN:p11:ef-contra
@@ -1050,9 +1050,9 @@ EDGE: bpN:p11:ext-num | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2 PASS WITH NOTES; internal to energy_free (private ef_arith, ef_contra); exact rational contradiction with e>=2
 NOTE: -
 
 NODE: bpN:p11:resonant

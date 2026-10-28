@@ -1530,7 +1530,7 @@ EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: quartic/quartic_scaling/quartic_pair_scaling cover q4-str,a,b but not (c) r_1^ex identification, S_mov same-jets or the sufficient-subdomain clause; audit S8-4 PASS WITH NOTES for the package, parent conclusion not fully stated
 NOTE: edge to bpP:p8:cp11-check deleted (remark comparing CP11 (B.6); no proof consumes it; it depends on this proposition). Edges to evenness/quadratic-form/perturbation-analytic are carried by the steps
 
 NODE: stepP:p8:q4-str
@@ -1560,9 +1560,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:q4-str@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quartic (KAM/Planetary/SecularForm/Quartic.lean)
+LEAN_NOTE: audit S8-4 round 3 PASS WITH NOTES; quartic gives six analytic coefficients and the pair-sum quartic part
 NOTE: -
 
 NODE: stepP:p8:q4-a
@@ -1592,9 +1592,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:q4-a@L23
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quartic_pair_scaling (KAM/Planetary/SecularForm/Quartic/PairScaling.lean); quartic_scaling (KAM/Planetary/SecularForm/Quartic/Scaling.lean); quartic_pair_chart_conversion (KAM/Planetary/SecularForm/Quartic/PairChart.lean); quartic_sqrt_chart_conversion_const (KAM/Planetary/SecularForm/Quartic/Conversion.lean)
+LEAN_NOTE: audit S8-4 round 3 PASS WITH NOTES (F2 closed); composite: scaling form, analyticity of W on separatedDomain, literal Q4 conversion with A,A',B corrections
 NOTE: -
 
 NODE: stepP:p8:q4-b
@@ -1621,9 +1621,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:q4-b@L23
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quartic (KAM/Planetary/SecularForm/Quartic.lean); quarticCoeff_zero, quarticCoeff_one (KAM/Planetary/SecularForm/Quartic/Diagonal.lean)
+LEAN_NOTE: audit S8-4 round 3 PASS WITH NOTES; third conjunct of quartic gives c_1,c_2 = -G m_i m_j (h''''/64 - h''/16)/Lambda^2
 NOTE: -
 
 NODE: stepP:p8:q4-c
@@ -1650,5 +1650,5 @@ EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: radialR1 is only a def (Defs.lean); no theorem identifies c_1,c_2 with m_i m_j r_1^ex/(2 Lambda^2); S8-4 handoff: no theorem about radialR1
 NOTE: the CP11 (B.6) comparison (equality of the repaired formula with r_1^ex, certificate in Remark cp11-check) is provenance/comparison and is not consumed: no edge
