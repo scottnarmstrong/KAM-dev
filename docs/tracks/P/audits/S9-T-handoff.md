@@ -1,0 +1,16 @@
+# S9-T prover handoff (branch inp-s9t, 950705fc; contains inp-s9q at round 1 (S9-Qb fix running); offloaded package run by the main orchestrator)
+
+
+**Files:** new `KAM/Planetary/SecularSpectrum/Transport.lean` (246 lines). No other file touched (KAM.lean not regenerated; lint reports it out of date, expected).
+
+**Declarations (signature file, verbatim):** `rotatedPhysicalChart`, `rotatedDomain`, `diagonalize_transport`, `diagonalize_period_one` (namespace `KAM.Planetary.SecularSpectrum`). `SecularSpectrum.lattice`, `polarMap`, `polarDom`, `angleScale`, `liftInv` already exist in KAM (S7-R/ProductInterface, Poincare/Lattice, Hamiltonian/Chart, Lift) and are imported, not redefined.
+
+**Approach:** chart = `poincareProd ∘ liftInv R ∘ polarMap ∘ phaseCast`; openness via continuity of `liftInv R ∘ polarMap` on the open set `polarDom ∩ {fast ∈ W}`; analytic + symplectic by `IsSymplecticOn.comp`/`AnalyticOnNhd.comp` from `lift`, `polarMap_symplectic`, `poincareProd_symplectic`, `phaseCast_symplectic`. Q1: `polarMap_shift`, new `liftInv_add_fastShift` (lift commutes with constant fast-angle shifts), `poincareProd_lattice`. Q2: `poincareProd_eq_iff`, injectivity of `liftInv` on its domain (`liftMap_liftInv_of_isSO`), `polarMap_eq_shift`, phaseCast injectivity. `diagonalize_period_one` is `phys_pipeline` fed by Q1/Q2.
+
+**Helper public names added** (grepped unique before): `KAM.Planetary.isOpen_polarDom`; in `SecularSpectrum`: `liftInv_add_append`, `liftInv_add_fastShift`, `fast_snd_add_fastShift`, `fast_snd_polarMap`, `phaseCast_fullShift`, `phaseCast_symm_fullShift`, `liftInv_injOn`.
+
+**Checks:** gate build `KAM.Planetary.SecularSpectrum.Transport` succeeded, no warnings in my file. `#print axioms` of both theorems: `propext, Classical.choice, Quot.sound`. `lint_sources.sh`: only complaint is "KAM.lean is out of date" (generated; not edited); modules/frozen/ABI checks PASS; long-line warning fixed.
+
+**Uncertainties / errata / deviations:** none. No statement needed extra hypotheses. S9-Q Diagonalize not imported (not needed). No heartbeat issues.
+
+AUDIT FOCUS (design docs/tracks/P/design/P810-LEAN-DESIGN.md row S9-T (line ~442: diagonalize_transport, diagonalize_period_one; polar/lift/cast Q1/Q2), N2 (line 56) and lines ~285-306 on the five P7 obligations owned by S7-R/S9-T; its node table and proof plan; P810 design audits; signatures /root/code/KAM-inp/.drafts/design/P810Signatures.lean lines ~819-840): (1) diagonalize_transport and diagonalize_period_one = signature file EXACTLY, and the S9-T slice COMPLETE: every P7 obligation and every graph proof step the node table maps to S9-T (sibling packages S8-Q, S9-Q, S8-4, E4 and S10-I failed audit for unexported graph cuts; check each step's literal conclusion); (2) the handoff says S9-Q Diagonalize is not imported: determine whether the design intends S9-T to transport the output of diagonalize (then the proof must consume it) or whether the signed statements take the data as hypotheses legitimately; no hard step as a hypothesis; (3) proof soundness (polar map, lift, the casts Q1/Q2, period one); (4) hygiene (no EuclideanSpace; no public short name used elsewhere in KAM; no root shadow). Audit ONLY KAM/Planetary/SecularSpectrum/Transport.lean.
