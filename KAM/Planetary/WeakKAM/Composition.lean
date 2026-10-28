@@ -7,7 +7,7 @@ module
 
 public import Mathlib
 public import KAM.Planetary.WeakKAM.CompositionBound
-public import KAM.Planetary.WeakKAM.SelectionRecord
+public import KAM.Planetary.WeakKAM.Selection
 
 /-! # P11B composition: the output record `SelectionComposition`
 
@@ -162,6 +162,18 @@ theorem selectionComposition_of_output (cx : WeakBudgetCtx d a) (o : SelectionOu
      composition_real := fun ν => selectionComp_real cx o.toSelectionIteration ν }⟩
 
 end Qualitative
+
+theorem composition (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
+    (hsmall : ε ≤ selectionAdmissible d) (f : SelectionPhaseC n → ℂ)
+    (hf : SelectionPerturbation d f ε) :
+    Nonempty (SelectionComposition d f (selectionAdapted d ε)) := by
+  obtain ⟨hadm, hs, -⟩ := free_radius d ε he hsmall
+  have he' : 0 < (selectionAdapted d ε).ε₀ := by
+    show 0 < 2 * ε
+    positivity
+  obtain ⟨o⟩ := parameter_selection_adapted d ε he hsmall f hf
+  exact selectionComposition_of_output
+    (weakBudgetCtx_of d (selectionAdapted d ε) hadm rfl rfl rfl rfl rfl rfl hs he') o
 
 end KAM.Planetary
 
