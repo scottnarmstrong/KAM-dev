@@ -127,6 +127,35 @@ theorem circle_average (q : Fin 2 → ℝ) (b : ℝ) :
   have := hper.intervalIntegral_add_eq (-θ) 0
   rw [show 0 - θ = -θ by ring, show 2 * π - θ = -θ + 2 * π by ring, this, zero_add]
 
+/-- Change of variables from the mean to the eccentric longitude over one period:
+`∫₀^{2π} G(F(s, v)) ds = ∫₀^{2π} G(F) J(F, v) dF` for continuous `2π`-periodic `G`. -/
+theorem integral_keplerLong_comp {v : Fin 2 → ℝ} (hv : planeLength v < 1) {G : ℝ → ℝ}
+    (hG : Continuous G) (hper : Function.Periodic G (2 * π)) :
+    ∫ s in (0:ℝ)..2 * π, G (keplerLong s v) = ∫ F in (0:ℝ)..2 * π, G F * keplerJac v F := by
+  have hcont : Continuous fun s => keplerLong s v :=
+    continuous_iff_continuousAt.2 fun s => (hasDerivAt_keplerLong_lambda hv s).continuousAt
+  have hgc : Continuous fun s => G (keplerLong s v) := hG.comp hcont
+  have hJc : Continuous (keplerJac v) := by
+    unfold keplerJac
+    have : Continuous fun F : ℝ => planeDot v (orbitalUnit F) := by
+      simp only [planeDot_two, orbitalUnit, Matrix.cons_val_zero, Matrix.cons_val_one]
+      fun_prop
+    exact continuous_const.sub this
+  have h := intervalIntegral.integral_comp_mul_deriv (a := 0) (b := 2 * π) (f := keplerPhi v)
+    (f' := keplerJac v) (g := fun s => G (keplerLong s v))
+    (fun x _ => hasDerivAt_keplerPhi v x) hJc.continuousOn hgc
+  have e1 : ∀ x ∈ Set.uIcc (0:ℝ) (2 * π),
+      ((fun s => G (keplerLong s v)) ∘ keplerPhi v) x * keplerJac v x = G x * keplerJac v x :=
+    fun x _ => by simp [Function.comp, keplerLong_unique hv rfl]
+  rw [intervalIntegral.integral_congr e1] at h
+  rw [h]
+  have hp : Function.Periodic (fun s => G (keplerLong s v)) (2 * π) := fun s => by
+    simp only; rw [keplerLong_shift hv]; exact hper _
+  have h2 : keplerPhi v (2 * π) = keplerPhi v 0 + 2 * π := by
+    have := keplerPhi_shift v 0
+    rwa [zero_add] at this
+  rw [h2, hp.intervalIntegral_add_eq (keplerPhi v 0) 0, zero_add]
+
 end SecularForm
 end KAM.Planetary
 end
