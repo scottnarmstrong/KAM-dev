@@ -134,8 +134,8 @@ theorem p11c_zero_dioHyp (d : QuantitativeData N) (hd : d.NumericalValid)
     refine Real.sSup_le ?_ (hb0.le.trans hbM)
     rintro _ ⟨a, ha, rfl⟩
     have he := p11c_zero_euclid_iter (hsc d.rho c y hy') j a
-    change p11euclid (iteratedFDeriv ℝ j (fun x (_ : Fin 1) => p11c_scalar d.rho (frequencyMap h) c x)
-      y a) ≤ d.M
+    change p11euclid (iteratedFDeriv ℝ j
+      (fun x (_ : Fin 1) => p11c_scalar d.rho (frequencyMap h) c x) y a) ≤ d.M
     rw [he]
     exact hsize c hc j hj1 hj2 y (by rw [hK, hv] at hy; exact hy) a ha
   · intro k _ c _ j _ y _
@@ -222,14 +222,144 @@ theorem p11c_zero_small (d : QuantitativeData N) (hd : d.NumericalValid) :
       ≤ (Real.sqrt N * A) ^ d.rho :=
         pow_le_pow_left₀ (by positivity) (mul_le_mul_of_nonneg_left hle (Real.sqrt_nonneg _)) _
     _ = (1 / 2) ^ d.rho * d.beta / 4 := by
-        rw [hsq, mul_pow, ← Real.rpow_natCast ((d.beta / 4) ^ ((d.rho : ℝ)⁻¹)), ← Real.rpow_mul hbq.le,
-          inv_mul_cancel₀ hr.ne', Real.rpow_one]
+        rw [hsq, mul_pow, ← Real.rpow_natCast ((d.beta / 4) ^ ((d.rho : ℝ)⁻¹)),
+          ← Real.rpow_mul hbq.le, inv_mul_cancel₀ hr.ne', Real.rpow_one]
         ring
     _ < d.beta / 4 := by
         have : (1 / 2 : ℝ) ^ d.rho < 1 := pow_lt_one₀ (by norm_num) (by norm_num) (by omega)
         nlinarith
 
+theorem p11c_zero_good_eq (d : QuantitativeData N) (h : (Fin N → ℂ) → ℂ) :
+    p11Good d.K (fun _ : Fin N → ℤ => frequencyMap h)
+      (fun k => 2 * d.gamma * KAM.Fourier.modeSize k ^ (-d.tau)) = p11c_zeroGood d h := by
+  ext b
+  refine and_congr_right fun _ => forall₂_congr fun k hk => ?_
+  have hpos : 0 ≤ KAM.Fourier.modeSize k := KAM.Fourier.modeSize_nonneg k
+  simp only [p11dotZ, KAM.Fourier.modeSize, Real.rpow_neg (Finset.sum_nonneg fun _ _ =>
+    abs_nonneg _), div_eq_mul_inv]
+
+/-- `stepP:p11a:zc-set`: the good set is compact and loses at most `epsLoss`. -/
+theorem p11c_zero_good (d : QuantitativeData N) (hd : d.NumericalValid)
+    (h : (Fin N → ℂ) → ℂ) (hh : QuantitativeInput d h 0) :
+    IsCompact (p11c_zeroGood d h) ∧
+      volume d.K ≤ volume (p11c_zeroGood d h) + ENNReal.ofReal d.epsLoss := by
+  obtain ⟨P, hK, hV, hv⟩ := p11c_zero_patch d hd
+  have hDio := p11c_zero_dioHyp d hd h hh hK hV hv
+  have hg := p11c_zero_gamma_pos d hd
+  have hsmall := p11c_zero_small d hd
+  have ht : (N : ℝ) * d.mu / d.rho - 1 < d.tau := hd.2.2.2.1
+  obtain ⟨hcomp, -, hloss⟩ := power_law hDio ht (by linarith) hsmall
+  rw [hK, p11c_zero_good_eq] at hcomp hloss
+  refine ⟨hcomp, ?_⟩
+  have hvol : ENNReal.ofReal d.epsLoss < volume d.K := hd.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
+  have hl : 0 < d.epsLoss := hd.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  rw [hv, p11c_zero_cDio_eq] at hloss
+  have := hloss d.epsLoss hl hvol (p11c_zero_two_gamma d).le
+  exact tsub_le_iff_right.1 this
+
 end Good
+
+section Tori
+
+variable {N : ℕ}
+
+theorem p11c_zero_hasFDeriv {U : Set (Fin N → ℂ)} (hU : IsOpen U) {h : (Fin N → ℂ) → ℂ}
+    (hh : DifferentiableOn ℂ h U) {b : Fin N → ℝ} (hb : realInclusion N b ∈ U) (θ : Fin N → ℝ) :
+    HasFDerivAt (realHamiltonian h 0)
+      ((fderiv ℝ (fun J : Fin N → ℝ => (h fun j => (J j : ℂ)).re) b).comp
+        (ContinuousLinearMap.snd ℝ (Fin N → ℝ) (Fin N → ℝ))) (θ, b) := by
+  have hd : DifferentiableAt ℂ h (realInclusion N b) := hh.differentiableAt (hU.mem_nhds hb)
+  have h1 : DifferentiableAt ℝ (fun J : Fin N → ℝ => (h fun j => (J j : ℂ)).re) b :=
+    Complex.reCLM.differentiableAt.comp b
+      ((hd.restrictScalars ℝ).comp b (realInclusion N).differentiableAt)
+  have h2 : realHamiltonian h 0 =
+      (fun J : Fin N → ℝ => (h fun j => (J j : ℂ)).re) ∘ Prod.snd := by
+    ext z; simp [realHamiltonian]
+  rw [h2]
+  exact h1.hasFDerivAt.comp (θ, b) (hasFDerivAt_snd)
+
+theorem p11c_zero_vectorField {U : Set (Fin N → ℂ)} (hU : IsOpen U) {h : (Fin N → ℂ) → ℂ}
+    (hh : DifferentiableOn ℂ h U) {b : Fin N → ℝ} (hb : realInclusion N b ∈ U) (θ : Fin N → ℝ) :
+    hamiltonianVectorField (realHamiltonian h 0) (θ, b) = (frequencyMap h b, 0) := by
+  have := (p11c_zero_hasFDeriv hU hh hb θ).fderiv
+  ext i
+  · simp [hamiltonianVectorField, this, frequencyMap]
+  · simp [hamiltonianVectorField, this]
+
+theorem p11c_zero_lattice (d : QuantitativeData N) (hd : d.NumericalValid)
+    (h : (Fin N → ℂ) → ℂ) (hh : QuantitativeInput d h 0) {b : Fin N → ℝ} (hb : b ∈ d.K) :
+    IsLatticeTorus angleShift (realHamiltonian h 0) (p11c_realDomain d) (frequencyMap h b)
+      (fun θ => (θ, b)) := by
+  obtain ⟨hhol, -, -, -, -, -, -, -, -⟩ := hh
+  have hv0 : 0 < d.vartheta := hd.2.2.2.2.2.1
+  have hU := p11c_zero_isOpen_nbhd d.K (2 * d.vartheta)
+  have hbU : realInclusion N b ∈ actionNbhd d.K (2 * d.vartheta) :=
+    ⟨b, hb, by
+      have : realInclusion N b - (fun i => (b i : ℂ)) = 0 := sub_self _
+      rw [this, norm_zero]; linarith⟩
+  refine ⟨⟨?_, fun θ => ⟨hbU, (p11c_zero_hasFDeriv hU hhol hbU θ).differentiableAt⟩⟩,
+    fun θ k => ?_, fun θ θ' hθ => ?_, fun θ => ?_, fun θ u v => ?_, fun θ t => ?_⟩
+  · exact (analyticOnNhd_id.prod analyticOnNhd_const)
+  · ext <;> simp [angleShift]
+  · exact ⟨0, by simpa [funext_iff] using (congrArg Prod.fst hθ).symm⟩
+  · intro u v huv
+    have : HasFDerivAt (fun θ : Fin N → ℝ => (θ, b)) (ContinuousLinearMap.inl ℝ _ _) θ :=
+      (hasFDerivAt_id θ).prodMk (hasFDerivAt_const b θ)
+    rw [this.fderiv] at huv
+    exact congrArg Prod.fst huv
+  · have : HasFDerivAt (fun θ : Fin N → ℝ => (θ, b)) (ContinuousLinearMap.inl ℝ _ _) θ :=
+      (hasFDerivAt_id θ).prodMk (hasFDerivAt_const b θ)
+    rw [this.fderiv]
+    simp [symplecticForm]
+  · rw [p11c_zero_vectorField hU hhol hbU]
+    have := (((hasDerivAt_id t).smul_const (frequencyMap h b)).const_add θ).prodMk
+      (hasDerivAt_const t b)
+    simpa using this
+
+end Tori
+
+section Main
+
+variable {N : ℕ}
+
+theorem p11c_zero_image (S : Set (Phase N)) :
+    (fun z : Phase N => ((fun (b θ : Fin N → ℝ) => (θ, b)) z.2 z.1)) '' S = S := by
+  simp
+
+/-- `bpP:p11a:zero-case` (`stepP:p11a:zc-set`, `stepP:p11a:zc-tori`). -/
+theorem zero_case {N : ℕ} (d : QuantitativeData N) (hd : d.Valid)
+    (h : (Fin N → ℂ) → ℂ) (hh : QuantitativeInput d h 0) (cDelta : ℝ) :
+    ∃ Q : QuantitativeFamily d (realHamiltonian h 0) cDelta 0,
+      Q.good = p11c_zeroGood d h ∧ Q.torus = (fun b θ => (θ, b)) ∧ Q.freq = frequencyMap h := by
+  have hn := hd.1
+  obtain ⟨hcomp, hmeas⟩ := p11c_zero_good d hn h hh
+  have hg := p11c_zero_gamma_pos d hn
+  have hc2 : (0 : ℝ) < (2 : ℝ) ^ (-10 : ℤ) := by positivity
+  have hmeasU : MeasurableSet (unitCube N) := MeasurableSet.univ_pi fun _ => measurableSet_Ico
+  have hvolU : volume (unitCube N) = 1 := by simp [unitCube, volume_pi_pi]
+  refine ⟨QuantitativeFamily.mk (p11c_zeroGood d h) (fun b θ => (θ, b)) (frequencyMap h)
+    hcomp (fun b hb => hb.1) hmeas (fun b hb => p11c_zero_lattice d hn h hh hb.1)
+    (fun b hb k hk => ?_) (fun b hb θ => ?_) (fun b hb b' hb' θ θ' => ?_)
+    (fun b hb b' hb' θ θ' => ?_) ?_ ?_ ?_, rfl, rfl, rfl⟩
+  · have hx : 0 < (∑ i, |(k i : ℝ)|) ^ d.tau :=
+      Real.rpow_pos_of_pos (p11_modeSize_pos hk) _
+    exact (div_le_div_of_nonneg_right (by linarith) hx.le).trans (hb.2 k hk)
+  · show ‖((θ, b) : Phase N) - (θ, b)‖ ≤ _
+    rw [sub_self, norm_zero]
+    simp [p11c_displacement]
+  · show _ * ‖((θ, b) : Phase N) - (θ', b')‖ ≤ ‖((θ, b) : Phase N) - (θ', b')‖
+    nlinarith [norm_nonneg (((θ, b) : Phase N) - (θ', b'))]
+  · show ‖((θ, b) : Phase N) - (θ', b')‖ ≤ _ * ‖((θ, b) : Phase N) - (θ', b')‖
+    nlinarith [norm_nonneg (((θ, b) : Phase N) - (θ', b'))]
+  · rw [p11c_zero_image]; exact hmeasU.prod hcomp.isClosed.measurableSet
+  · rw [p11c_zero_image, Measure.volume_eq_prod, Measure.prod_prod, hvolU, one_mul]
+    refine mul_le_of_le_one_left bot_le ?_
+    rw [ENNReal.ofReal_le_one]
+    exact zpow_le_one_of_nonpos₀ (by norm_num) (by omega)
+  · rw [p11c_zero_image]
+    exact (isCompact_univ_pi fun _ => isCompact_Icc).prod hcomp
+
+end Main
 
 end KAM.Planetary
 
