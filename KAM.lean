@@ -418,6 +418,7 @@ public import KAM.ODE.NewtonReduction
 public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
+public import KAM.Planetary.AMD.Closure
 public import KAM.Planetary.AMD.Elements
 public import KAM.Planetary.AMD.Geometry
 public import KAM.Planetary.AMD.MovingODE
@@ -501,6 +502,7 @@ public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.Nondegeneracy.AnalyticZeros
 public import KAM.Planetary.Nondegeneracy.DiagonalTensor
 public import KAM.Planetary.Nondegeneracy.FiniteType
+public import KAM.Planetary.Nondegeneracy.Frequency
 public import KAM.Planetary.Nondegeneracy.GoodAxes.Block
 public import KAM.Planetary.Nondegeneracy.GoodAxes.Induction
 public import KAM.Planetary.Nondegeneracy.GoodAxes.N2
@@ -509,6 +511,12 @@ public import KAM.Planetary.Nondegeneracy.GoodAxes.SortedAnalytic
 public import KAM.Planetary.Nondegeneracy.GoodAxes
 public import KAM.Planetary.Nondegeneracy.Peel
 public import KAM.Planetary.Nondegeneracy.Stability
+public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Analytic
+public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Cases
+public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Defs
+public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Limits
+public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Small
+public import KAM.Planetary.Nondegeneracy.SymmetricRelation
 public import KAM.Planetary.Nondegeneracy.Weyl
 public import KAM.Planetary.PG.Setting
 public import KAM.Planetary.PGAssembly.ComplexGlue
