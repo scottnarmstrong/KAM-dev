@@ -16290,9 +16290,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:h
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hom, homGenerator (KAM/Nekhoroshev/Partial/Homological.lean)
+LEAN_NOTE: audit N11-F3 PASS WITH NOTES (all graph conclusions exported)
 NOTE: dropped template: bpN:p6:setting (N1),(N2) are replaced by (N-dir) here
 
 NODE: bpN:p11:iterative
