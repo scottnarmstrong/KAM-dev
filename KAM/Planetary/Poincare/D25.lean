@@ -46,9 +46,11 @@ open KAM KAM.Kepler
 
 section D25
 
+variable {n : ℕ}
+
 /-! ### Block calculus -/
 
-theorem planetBlock_assemble {n : ℕ} (I phi p q : Fin n → ℝ) (j : Fin n) :
+theorem planetBlock_assemble (I phi p q : Fin n → ℝ) (j : Fin n) :
     planetBlock (assemble I phi p q : Phase (n + n)) j = (![phi j, q j], ![I j, p j]) := by
   refine Prod.ext (funext fun k => ?_) (funext fun k => ?_) <;> fin_cases k <;>
     simp [planetBlock, assemble, fast, slow, Fin.append_left]
@@ -235,7 +237,7 @@ theorem ellipsePhase_update_add_two_pi (m : Fin 2 → ℝ) (w : Phase (2 + 2)) (
   · exact congrFun (h _).1 _
   · exact congrFun (h _).2 _
 
-theorem continuous_assemble_update {n : ℕ} (I p q : Fin n → ℝ) (phi : Fin n → ℝ) (i : Fin n) :
+theorem continuous_assemble_update (I p q : Fin n → ℝ) (phi : Fin n → ℝ) (i : Fin n) :
     Continuous (fun y : ℝ => (assemble I (Function.update phi i y) p q : Phase (n + n))) := by
   unfold assemble
   refine Continuous.prodMk (continuous_pi fun k => ?_) continuous_const
