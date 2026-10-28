@@ -47,36 +47,22 @@ theorem selectionModeStage_eq_of_mem_shell (a : SelectionSchedule n) (hT : 1 ≤
   · have := selectionT_mono a (by linarith) (show selectionModeStage a k ≤ j - 1 by omega)
     linarith [hm.2.1]
 
-theorem selection_finite_modes (T : ℝ) :
-    {k : Fin n → ℤ | selectionModeLength k ≤ T}.Finite := by
-  refine (Set.finite_Icc (fun _ : Fin n => -⌈T⌉) (fun _ => ⌈T⌉)).subset fun k hk => ?_
-  have hk' : selectionModeLength k ≤ T := hk
-  have hi : ∀ i, |k i| ≤ ⌈T⌉ := fun i => by
-    have h1 : |(k i : ℝ)| ≤ selectionModeLength k :=
-      Finset.single_le_sum (f := fun j => |(k j : ℝ)|) (fun _ _ => abs_nonneg _)
-        (Finset.mem_univ i)
-    have h2 : |(k i : ℝ)| ≤ ⌈T⌉ := h1.trans (hk'.trans (Int.le_ceil T))
-    exact_mod_cast h2
-  exact ⟨fun i => by have := neg_abs_le (k i); have := hi i; omega,
-    fun i => (le_abs_self _).trans (hi i)⟩
-
 theorem isCompact_selection_tests {K : Set (SelectionR n)} (hK : IsCompact K)
     (F : (Fin n → ℤ) → SelectionR n → SelectionR n) (hF : ∀ k, ContinuousOn (F k) K) (T : ℝ)
     (r : (Fin n → ℤ) → ℝ) :
     IsCompact {b ∈ K | ∀ k : Fin n → ℤ, 0 < selectionModeLength k → selectionModeLength k ≤ T →
       r k ≤ |∑ i, (k i : ℝ) * F k b i|} := by
   set S : Set (Fin n → ℤ) := {k | 0 < selectionModeLength k ∧ selectionModeLength k ≤ T} with hS
-  have hSf : S.Finite := (selection_finite_modes T).subset fun k hk => hk.2
   have hg : ∀ k, ContinuousOn (fun b => |∑ i, (k i : ℝ) * F k b i|) K := fun k =>
-    (continuousOn_finset_sum _ fun i _ =>
+    (continuousOn_finsetSum _ fun i _ =>
       continuousOn_const.mul ((continuous_apply i).comp_continuousOn (hF k))).abs
   have hcl : IsClosed (K ∩ ⋂ k ∈ S, (K ∩ (fun b => |∑ i, (k i : ℝ) * F k b i|) ⁻¹' Ici (r k))) :=
-    hK.isClosed.inter (hSf.isClosed_biInter fun k _ =>
+    hK.isClosed.inter (isClosed_biInter fun k _ =>
       (hg k).preimage_isClosed_of_isClosed hK.isClosed isClosed_Ici)
   refine hK.of_isClosed_subset ?_ (fun b hb => hb.1)
   convert hcl using 1
   ext b
-  simp only [mem_setOf_eq, mem_inter_iff, mem_iInter, mem_preimage, mem_Ici, hS]
+  simp only [mem_ofPred_eq, mem_inter_iff, mem_iInter, mem_preimage, mem_Ici, hS]
   constructor
   · rintro ⟨hb, h⟩
     exact ⟨hb, fun k hk => ⟨hb, h k hk.1 hk.2⟩⟩
@@ -188,17 +174,17 @@ theorem selection_stage_close (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
   have hγ : 0 < a.γ := selectionGamma_pos d
   have hcol := hA.collar
   have hinc := hA.increment
-  have hλ : 0 ≤ a.ε₀ / a.s₀ := by positivity
+  have hlam : 0 ≤ a.ε₀ / a.s₀ := by positivity
   have hprops := schedule_props (C₁ := d.C₁) a d.n_pos d.μ_pos d.tau_nonneg hγ hT hA.t_pos hs
     he0 d.strip_pos d.hessian_normalized (by nlinarith [mul_pos hC hA.t_pos]) hinc hcol j 0
   have hsum := hprops.2.2.2.2.2.2.2.2.2.2.1
   have hE := selectionExtensionC_pos d.n_pos d.μ
+  have hsum' : ∑ i ∈ Finset.range j, selectionell a i / selectiont a i ^ d.μ ≤
+      4 * (a.ε₀ / a.s₀) / a.t₀ ^ d.μ := hsum
   calc selectionExtensionC n d.μ * ∑ i ∈ Finset.range j, selectionell a i / selectiont a i ^ d.μ
-      ≤ selectionExtensionC n d.μ * (4 * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ) :=
-        mul_le_mul_of_nonneg_left hsum hE.le
-    _ = 4 * selectionExtensionC n a.μ * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ := by
-        show _ = 4 * selectionExtensionC n d.μ * (a.ε₀ / a.s₀) / a.t₀ ^ d.μ
-        ring
+      ≤ selectionExtensionC n d.μ * (4 * (a.ε₀ / a.s₀) / a.t₀ ^ d.μ) :=
+        mul_le_mul_of_nonneg_left hsum' hE.le
+    _ = 4 * selectionExtensionC n d.μ * (a.ε₀ / a.s₀) / a.t₀ ^ d.μ := by ring
     _ ≤ selectionThetaMax d := hA.closeness
 
 /-- `stepP:p11a:fm-incl`: points passing the tests lie in every retained set up to stage `ν`. -/
