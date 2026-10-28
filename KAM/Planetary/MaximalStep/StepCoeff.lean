@@ -6,7 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import Mathlib
-public import KAM.Planetary.MaximalStep.Cutoff
+public import KAM.Planetary.MaximalStep.StepData
 public import KAM.Planetary.MaximalStep.Homological
 
 /-!
@@ -173,6 +173,84 @@ theorem norm_stepF1_le {eps : ℝ} (hr : 0 < r) (hs : 0 < s) (he : 0 ≤ eps) (h
   calc ‖stepF1 R i (θ, b)‖ ≤ ‖fderiv ℂ (fun eta => R ((θ, eta), b)) 0‖ *
         ‖(Pi.single i (1 : ℂ) : P11CVec n)‖ := ContinuousLinearMap.le_opNorm _ _
     _ ≤ eps / s := by nlinarith [norm_nonneg (fderiv ℂ (fun eta => R ((θ, eta), b)) 0)]
+
+/-! ### Truncation: idempotence and locality in the parameter -/
+
+theorem truncate_congr_param {T : ℝ} {b : P11CVec n} {u v : P11CVec n × P11CVec n → ℂ}
+    (h : ∀ θ, u (θ, b) = v (θ, b)) (θ : P11CVec n) :
+    KAM.Weighted.truncate T u (θ, b) = KAM.Weighted.truncate T v (θ, b) := by
+  rw [truncate_eq, truncate_eq]
+  congr 1
+  funext k
+  simp only [hmCut, KAM.Weighted.coeff, h]
+
+theorem truncate_truncate {T : ℝ} (P : P11CVec n × P11CVec n → ℂ) (θ b : P11CVec n) :
+    KAM.Weighted.truncate T (KAM.Weighted.truncate T P) (θ, b) =
+      KAM.Weighted.truncate T P (θ, b) := by
+  rw [truncate_eq (P := KAM.Weighted.truncate T P), truncate_eq (P := P)]
+  congr 1
+  funext k
+  have hc : KAM.Weighted.coeff (KAM.Weighted.truncate T P) b k = hmCut T P b k := by
+    unfold KAM.Weighted.coeff
+    have : (fun x : Fin n → ℝ => KAM.Weighted.truncate T P (fun j => (x j : ℂ), b)) =
+        fun x => KAM.fourierSum (hmCut T P b) (fun j => (x j : ℂ)) :=
+      funext fun x => truncate_eq T P _ b
+    rw [KAM.torusCoeffW_complex, this]
+    exact torusCoeff_fourierSum_finset (S := hmModes n T) (fun k hk => hmCut_eq_zero hk) k
+  by_cases h : KAM.Fourier.modeSize k ≤ T
+  · simp [hmCut, h] at hc ⊢
+    exact hc
+  · simp [hmCut, h]
+
+/-! ### The decomposition of the cutoff -/
+
+variable {T : ℝ}
+
+theorem continuous_stepF0 (hr : 0 < r) (hs : 0 < s) (hR : p11Admissible r s B R)
+    {b : P11CVec n} (hb : b ∈ B) :
+    Continuous fun x : Fin n → ℝ => stepF0 R (fun j => (x j : ℂ), b) := by
+  have hc := (stepF0_diff hr hs hR).continuousOn
+  refine hc.comp_continuous (f := fun x : Fin n → ℝ => ((fun j => (x j : ℂ), b) :
+    P11CVec n × P11CVec n)) (by fun_prop) fun x => ⟨KAM.ofReal_mem_complexStrip hr x, hb⟩
+
+theorem continuous_stepF1 (hr : 0 < r) (hs : 0 < s) (hB : IsOpen B) (hR : p11Admissible r s B R)
+    (i : Fin n) {b : P11CVec n} (hb : b ∈ B) :
+    Continuous fun x : Fin n → ℝ => stepF1 R i (fun j => (x j : ℂ), b) := by
+  have hc := (stepF1_diff hr hs hB hR i).continuousOn
+  refine hc.comp_continuous (f := fun x : Fin n → ℝ => ((fun j => (x j : ℂ), b) :
+    P11CVec n × P11CVec n)) (by fun_prop) fun x => ⟨KAM.ofReal_mem_complexStrip hr x, hb⟩
+
+theorem cutoff_decomp (hr : 0 < r) (hs : 0 < s) (hB : IsOpen B) (hR : p11Admissible r s B R)
+    (θ η : P11CVec n) {b : P11CVec n} (hb : b ∈ B) :
+    p11Cutoff T R ((θ, η), b) = KAM.Weighted.truncate T (stepF0 R) (θ, b) +
+      ∑ i, η i * KAM.Weighted.truncate T (stepF1 R i) (θ, b) := by
+  have e : (fun u : P11CVec n × P11CVec n => p11Taylor R ((u.1, η), u.2)) =
+      fun u => stepF0 R u + ∑ i, η i * stepF1 R i u := funext fun u => taylor_eq R u.1 η u.2
+  have h := truncate_add_sum (T := T) η (continuous_stepF0 hr hs hR hb)
+    (fun i => continuous_stepF1 hr hs hB hR i hb) θ
+  simp only [p11Cutoff, p11Cut]
+  rw [e]
+  exact h
+
+theorem cutoff_R0 (θ b : P11CVec n) :
+    p11R0 T R (θ, b) = KAM.Weighted.truncate T (stepF0 R) (θ, b) := by
+  have e : (fun u : P11CVec n × P11CVec n => p11Taylor R ((u.1, (0 : P11CVec n)), u.2)) =
+      stepF0 R := funext fun u => by simp [taylor_eq]
+  simp only [p11R0, p11Cutoff, p11Cut]
+  rw [e]
+
+theorem cutoff_R1 (hr : 0 < r) (hs : 0 < s) (hB : IsOpen B) (hR : p11Admissible r s B R)
+    (θ : P11CVec n) {b : P11CVec n} (hb : b ∈ B) (i : Fin n) :
+    p11R1 T R (θ, b) i = KAM.Weighted.truncate T (stepF1 R i) (θ, b) := by
+  set A := KAM.Weighted.truncate T (stepF0 R) (θ, b)
+  set C : Fin n → ℂ := fun j => KAM.Weighted.truncate T (stepF1 R j) (θ, b)
+  set L : P11CVec n →L[ℂ] ℂ := ∑ j, C j • (ContinuousLinearMap.proj j : P11CVec n →L[ℂ] ℂ)
+  have hL : ∀ η, L η = ∑ j, η j * C j := fun η => by simp [L, mul_comm]
+  have e : (fun η => p11Cutoff T R ((θ, η), b)) = fun η => A + L η := funext fun η => by
+    rw [cutoff_decomp hr hs hB hR θ η hb, hL]
+  simp only [p11R1]
+  rw [e, fderiv_const_add, L.fderiv]
+  simp [L, Pi.single_apply, C]
 
 end KAM.Planetary
 
