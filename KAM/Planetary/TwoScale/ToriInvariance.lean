@@ -118,6 +118,81 @@ theorem PsiSteps.eHat_tendsto (P : PsiSteps sbar p Ds hs fs Ψ Φ) :
       (by norm_num)).const_mul (eHat p)
   exact squeeze_zero (fun j => (P.hyp j).eHat_nonneg) hb hz
 
+/-- The local obligation `invariance` of `two_scale_kam` (private conditional helper, P23-20): for
+`I₀ ∈ D₀`, `ω = ω(I₀)` and `φ(θ) = Φ(θ, ǐ(I₀))`, `d/dt φ(θ + tω) = X_H(φ(θ + tω))`, on the shared
+witnesses (`P`, `Q`, `T`). -/
+theorem tori_invariance_of_limit (H : KamHyp D sbar p h f)
+    (P : PsiSteps sbar p Ds hs fs Ψ Φ) (Q : StageSteps D sbar p h f Ds hs fs Φ)
+    (hD0 : Ds 0 ⊆ D) (T : ToriLimit sbar p h Ds hs Φ is i Φinf)
+    {I₀ : Fin (a + b) → ℝ} (hI₀ : I₀ ∈ Ds 0) (θ : Fin (a + b) → ℝ) (t : ℝ) :
+    HasDerivAt (fun s : ℝ => Φinf (θ + s • realFreq h I₀, i I₀))
+      (KAM.hamiltonianVectorField (fun z : Phase (a + b) =>
+        (h (KAM.realInclusion (a + b) z.2) + f (KAM.realInclusion₂ (a + b) z)).re)
+        (Φinf (θ + t • realFreq h I₀, i I₀))) t := by
+  have hs0 := H.positive.2.1
+  have hsb : 0 < sbar := by have := H.widths.1; linarith
+  have hρ := H.positive.2.2.1
+  set ω := realFreq h I₀ with hω
+  set Is := i I₀ with hIs
+  have hmemD : Is ∈ i '' Ds 0 := ⟨I₀, hI₀, rfl⟩
+  have path : ∀ t : ℝ, HasDerivAt (fun s : ℝ => ((θ + s • ω, Is) : Phase (a + b))) (ω, 0) t := by
+    intro t
+    have h1 := (((hasDerivAt_id t).smul_const ω).const_add θ).prodMk (hasDerivAt_const t Is)
+    simpa using h1
+  have hx : ∀ j (t : ℝ), ((θ + t • ω, Is) : Phase (a + b)) ∈
+      phaseTube (Ds j) ((seq p j).ρ / 2) := fun j t => ⟨trivial, T.i_tube I₀ hI₀ j⟩
+  set x : ℕ → ℝ → Phase (a + b) := fun j t => psiR (Φ j) (θ + t • ω, Is) with hxdef
+  have hxd : ∀ j t, HasDerivAt (x j) (fderiv ℝ (psiR (Φ j)) (θ + t • ω, Is) (ω, 0)) t := by
+    intro j t
+    have hL := P.psiR_hasFDerivAt j (hx j t)
+    have := hL.comp_hasDerivAt t (path t)
+    rw [hL.fderiv]; exact this
+  -- the scalar sequence
+  set κ := 1 + max (p.s / (2 * π)) (rhoHat p) * max (2 * π / p.s) (rhoHat p)⁻¹ with hκ
+  set C0 := 20 * p.γ₁ / 3 + p.γ₁ / 3 * (2 + 4 * π * rhoHat p / sbar) with hC0
+  have hder : ∀ j t, ‖deriv (x j) t - KAM.hamiltonianVectorField (fun z : Phase (a + b) =>
+      (h (KAM.realInclusion (a + b) z.2) + f (KAM.realInclusion₂ (a + b) z)).re) (x j t)‖ ≤
+      κ * (C0 * eHat (seq p j)) := by
+    intro j t
+    have hHj := P.hyp j
+    have hxt := hx j t
+    rw [(hxd j t).deriv]
+    have hX := conj_field H P Q j hxt
+    have hxj : x j t = psiR (Φ j) (θ + t • ω, Is) := rfl
+    rw [hxj, hX, ← map_sub]
+    refine ((fderiv ℝ (psiR (Φ j)) (θ + t • ω, Is)).le_opNorm _).trans ?_
+    have hκj := P.psiR_fderiv_bound j hxt
+    have hc := T.i_mem I₀ hI₀ j
+    obtain ⟨J, hJ, hIJ⟩ := mem_realTube_iff.1 (T.i_tube I₀ hI₀ j)
+    have hRj := hHj.R_pos
+    have hlt := hHj.eHat_lt_small
+    have htail := T.i_tail I₀ hI₀ j
+    have hd0 : 0 ≤ ‖Is - actionChain is j I₀‖ := norm_nonneg _
+    have hIc : ‖Is - actionChain is j I₀‖ < rhoHat (seq p j) := by
+      refine htail.trans_lt ?_
+      have := hHj.eHat_nonneg
+      nlinarith
+    have hfe := field_err hHj hc hJ (θ := θ + t • ω) hIJ hIc
+    rw [T.i_freq I₀ hI₀ j] at hfe
+    have hse := stage_err_le hHj (Rmax := rhoHat p) (P.rho_le_zero j) htail hd0
+    rw [seq_γ₁] at hse
+    have hn : 0 ≤ ‖((ω, 0) : Phase (a + b)) - KAM.hamiltonianVectorField (fun z : Phase (a + b) =>
+        (hs j (KAM.realInclusion (a + b) z.2) + fs j (KAM.realInclusion₂ (a + b) z)).re)
+          (θ + t • ω, Is)‖ := norm_nonneg _
+    have hfin : ‖((ω, 0) : Phase (a + b)) - KAM.hamiltonianVectorField
+        (fun z : Phase (a + b) => (hs j (KAM.realInclusion (a + b) z.2) +
+          fs j (KAM.realInclusion₂ (a + b) z)).re) (θ + t • ω, Is)‖ ≤ C0 * eHat (seq p j) := by
+      refine (hfe.trans hse).trans (le_of_eq ?_)
+      rw [hC0, mul_comm]
+    calc _ ≤ κ * ‖((ω, 0) : Phase (a + b)) - KAM.hamiltonianVectorField
+          (fun z : Phase (a + b) => (hs j (KAM.realInclusion (a + b) z.2) +
+            fs j (KAM.realInclusion₂ (a + b) z)).re) (θ + t • ω, Is)‖ :=
+          mul_le_mul_of_nonneg_right hκj hn
+      _ ≤ _ := by gcongr
+  have hε : Tendsto (fun j => κ * (C0 * eHat (seq p j))) atTop (𝓝 0) := by
+    simpa using (P.eHat_tendsto.const_mul C0).const_mul κ
+  sorry
+
 end KAM.Planetary
 
 end
