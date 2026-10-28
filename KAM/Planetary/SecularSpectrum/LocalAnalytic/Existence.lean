@@ -47,8 +47,8 @@ lemma isSO_mul_diagonal_signs {F : Mat n} (hF : F.transpose * F = 1) {e : Fin n 
     funext i
     rcases he i with h | h <;> simp [h]
   refine ⟨?_, ?_⟩
-  · rw [Matrix.transpose_mul, Matrix.diagonal_transpose, Matrix.mul_assoc, ← Matrix.mul_assoc F.transpose,
-      hF, Matrix.one_mul, hee]
+  · rw [Matrix.transpose_mul, Matrix.diagonal_transpose, Matrix.mul_assoc,
+      ← Matrix.mul_assoc F.transpose, hF, Matrix.one_mul, hee]
   · rw [Matrix.det_mul, Matrix.det_diagonal, hdet]
 
 lemma diagonal_signs_conj {e : Fin n → ℝ} (he : ∀ i, e i = 1 ∨ e i = -1) (σ : Vec n) :

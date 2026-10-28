@@ -40,7 +40,8 @@ lemma sorted_eq_eigenvalues_comp :
 
 lemma sorted_monotone : Monotone (sorted A hA) := by
   intro i j hij
-  have hrev : Fin.cast (Fintype.card_fin n).symm j.rev ≤ Fin.cast (Fintype.card_fin n).symm i.rev := by
+  have hrev : Fin.cast (Fintype.card_fin n).symm j.rev ≤
+      Fin.cast (Fintype.card_fin n).symm i.rev := by
     rw [Fin.le_def, Fin.val_cast, Fin.val_cast, ← Fin.le_def]
     exact Fin.rev_le_rev.2 hij
   exact hA.eigenvalues₀_antitone hrev
@@ -72,7 +73,8 @@ lemma charpoly_eq_prod_of_roots (A : Mat n) {σ : Vec n} (hσ : Function.Injecti
     fun i _ j _ hij => Polynomial.pairwise_coprime_X_sub_C hσ hij
   have hdvd : (∏ k, (X - C (σ k)) : ℝ[X]) ∣ A.charpoly :=
     Finset.prod_dvd_of_coprime hcop fun i _ => dvd_iff_isRoot.2 (hr i)
-  have hmon : (∏ k, (X - C (σ k)) : ℝ[X]).Monic := monic_prod_of_monic _ _ fun k _ => monic_X_sub_C _
+  have hmon : (∏ k, (X - C (σ k)) : ℝ[X]).Monic :=
+    monic_prod_of_monic _ _ fun k _ => monic_X_sub_C _
   refine eq_of_monic_of_dvd_of_natDegree_le hmon A.charpoly_monic hdvd ?_
   rw [Matrix.charpoly_natDegree_eq_dim, natDegree_finsetProd_X_sub_C_eq_card]
   simp

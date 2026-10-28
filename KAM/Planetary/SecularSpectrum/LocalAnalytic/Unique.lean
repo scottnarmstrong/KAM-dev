@@ -49,7 +49,8 @@ lemma eq_of_conj_diagonal (hR : R.transpose * R = 1) (hS : S.transpose * S = 1)
     rw [eval_prod] at this
     obtain ⟨i, -, hi⟩ := Finset.prod_eq_zero_iff.1 this
     exact ⟨i, by simpa [sub_eq_zero] using (sub_eq_zero.1 (by simpa using hi)).symm⟩
-  exact Set.range_injOn_strictMono_of_wellFoundedLT hs ht (Set.Subset.antisymm (hsub hc) (hsub hc.symm))
+  exact Set.range_injOn_strictMono_of_wellFoundedLT hs ht
+    (Set.Subset.antisymm (hsub hc) (hsub hc.symm))
 
 /-- Two orthogonal eigenframes of a simple spectrum differ by a diagonal sign matrix. -/
 lemma frame_eq_signs (hR : isSO R) (hS : isSO S) (hs : Function.Injective s)
@@ -100,7 +101,8 @@ theorem local_analytic_unique {W : Set (Vec d)} (hW : IsOpen W) (hWc : IsConnect
     {s t : Vec d → Vec n} {R S : Vec d → Mat n}
     (hR : AnalyticOnNhd ℝ R W) (hS : AnalyticOnNhd ℝ S W)
     (hDiag : ∀ x ∈ W, isSO (R x) ∧ isSO (S x) ∧ StrictMono (s x) ∧ StrictMono (t x) ∧
-      R x * Matrix.diagonal (s x) * (R x).transpose = S x * Matrix.diagonal (t x) * (S x).transpose) :
+      R x * Matrix.diagonal (s x) * (R x).transpose =
+        S x * Matrix.diagonal (t x) * (S x).transpose) :
     EqOn s t W ∧ ∃ e : Vec n, (∀ i, e i = 1 ∨ e i = -1) ∧
       (∏ i, e i) = 1 ∧ ∀ x ∈ W, S x = R x * Matrix.diagonal e := by
   have hst : EqOn s t W := fun x hx => by
