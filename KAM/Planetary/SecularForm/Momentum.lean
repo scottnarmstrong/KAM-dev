@@ -286,6 +286,158 @@ theorem hasDerivAt_position {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (t 
   field_simp at h
   linarith
 
+/-! ### Averages over the angle cell -/
+
+theorem avg_prod (f : Fin n → ℝ → ℝ) :
+    avg (fun t : Vec n => ∏ k, f k (t k)) = ∏ k, ((2 * π)⁻¹ * ∫ s in (0:ℝ)..2 * π, f k s) := by
+  have h1 : ∫ t in cell n, ∏ k, f k (t k) = ∏ k, ∫ s in (0:ℝ)..2 * π, f k s := by
+    unfold cell
+    rw [volume_pi, Measure.restrict_pi_pi, integral_fin_nat_prod_eq_prod]
+    refine Finset.prod_congr rfl fun k _ => ?_
+    rw [intervalIntegral.integral_of_le (by positivity), integral_Icc_eq_integral_Ioc]
+  have h2 : ((2 * π) ^ (-(n : ℤ)) : ℝ) = ∏ _k : Fin n, (2 * π)⁻¹ := by
+    rw [zpow_neg, zpow_natCast, Finset.prod_const, Finset.card_univ, Fintype.card_fin, inv_pow]
+  unfold avg
+  rw [h1, h2, smul_eq_mul, ← Finset.prod_mul_distrib]
+
+theorem mean_one : (2 * π)⁻¹ * ∫ _s in (0:ℝ)..2 * π, (1 : ℝ) = 1 := by
+  simp
+  field_simp
+
+theorem avg_one (i : Fin n) (φ : ℝ → ℝ) :
+    avg (fun t : Vec n => φ (t i)) = (2 * π)⁻¹ * ∫ s in (0:ℝ)..2 * π, φ s := by
+  have h := avg_prod (n := n) (fun k => if k = i then φ else fun _ => 1)
+  have hp : (fun t : Vec n => ∏ k, (if k = i then φ else fun _ => (1:ℝ)) (t k)) =
+      fun t => φ (t i) := by
+    funext t
+    rw [Finset.prod_eq_single i]
+    · simp
+    · intro k _ hk
+      simp [hk]
+    · simp
+  rw [hp] at h
+  rw [h, Finset.prod_eq_single i]
+  · simp
+  · intro k _ hk
+    have : (if k = i then φ else fun _ => (1:ℝ)) = fun _ => 1 := by simp [hk]
+    rw [this]
+    exact mean_one
+  · simp
+
+theorem avg_two {j k : Fin n} (hjk : j ≠ k) (φ ψ : ℝ → ℝ) :
+    avg (fun t : Vec n => φ (t j) * ψ (t k)) =
+      ((2 * π)⁻¹ * ∫ s in (0:ℝ)..2 * π, φ s) * ((2 * π)⁻¹ * ∫ s in (0:ℝ)..2 * π, ψ s) := by
+  have h := avg_prod (n := n) (fun l => if l = j then φ else if l = k then ψ else fun _ => 1)
+  have hp : (fun t : Vec n => ∏ l, (if l = j then φ else if l = k then ψ else
+      fun _ => (1:ℝ)) (t l)) = fun t => φ (t j) * ψ (t k) := by
+    funext t
+    rw [Finset.prod_eq_mul j k hjk]
+    · simp [hjk.symm]
+    · intro l _ hl
+      simp [hl.1, hl.2]
+    · simp
+    · simp
+  rw [hp] at h
+  rw [h, Finset.prod_eq_mul j k hjk]
+  · simp [hjk.symm]
+  · intro l _ hl
+    have : (if l = j then φ else if l = k then ψ else fun _ => (1:ℝ)) = fun _ => 1 := by
+      simp [hl.1, hl.2]
+    rw [this]
+    exact mean_one
+  · simp
+  · simp
+
+theorem avg_sum {ι : Type*} (s : Finset ι) {f : ι → Vec n → ℝ} (hf : ∀ c, Continuous (f c)) :
+    avg (fun t => ∑ c ∈ s, f c t) = ∑ c ∈ s, avg (f c) := by
+  unfold avg
+  rw [integral_finsetSum _ fun c _ => (hf c).continuousOn.integrableOn_compact isCompact_cell,
+    Finset.smul_sum]
+
+theorem avg_const_mul (r : ℝ) (f : Vec n → ℝ) : avg (fun t => r * f t) = r * avg f := by
+  unfold avg
+  rw [integral_const_mul, smul_eq_mul, smul_eq_mul, mul_left_comm]
+
+theorem avg_apply {f : Vec n → Fin 2 → ℝ} (hf : Continuous f) (c : Fin 2) :
+    avg f c = avg (fun t => f t c) := by
+  unfold avg
+  have hi : Integrable f (volume.restrict (cell n)) := hf.continuousOn.integrableOn_compact isCompact_cell
+  have := (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) c).integral_comp_comm hi
+  simp only [ContinuousLinearMap.proj_apply] at this
+  simp [Pi.smul_apply, this]
+
+theorem intervalIntegral_apply {g : ℝ → Fin 2 → ℝ} (hg : Continuous g) (c : Fin 2) :
+    (∫ s in (0:ℝ)..2 * π, g s) c = ∫ s in (0:ℝ)..2 * π, g s c := by
+  have hi : IntegrableOn g (Ioc 0 (2 * π)) := (hg.integrableOn_Icc).mono_set Ioc_subset_Icc_self
+  have := (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) c).integral_comp_comm hi
+  simp only [ContinuousLinearMap.proj_apply] at this
+  rw [intervalIntegral.integral_of_le (by positivity), intervalIntegral.integral_of_le
+    (by positivity), ← this]
+
+/-! ### One-planet functions of the angle -/
+
+/-- The momentum of planet `i` as a function of its own angle. -/
+def pmom (D : Data n) (x : Slow n) (i : Fin n) (s : ℝ) : Fin 2 → ℝ :=
+  (poincare (D.m i) (D.G*D.m0) (blk x i s)).2
+
+/-- The position of planet `i` as a function of its own angle. -/
+def ppos (D : Data n) (x : Slow n) (i : Fin n) (s : ℝ) : Fin 2 → ℝ :=
+  (poincare (D.m i) (D.G*D.m0) (blk x i s)).1
+
+theorem momentum_eq_pmom (D : Data n) (x : Slow n) (t : Vec n) (i : Fin n) :
+    momentum D x t i = pmom D x i (t i) := momentum_eq_block D x t i
+
+theorem continuous_pmom {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) :
+    Continuous (pmom D x i) :=
+  ((continuous_momentum hx i).comp (continuous_pi fun _ => continuous_id)).congr fun _ =>
+    momentum_eq_pmom D x _ i
+
+theorem hasDerivAt_ppos {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) (s : ℝ) :
+    HasDerivAt (ppos D x i) ((D.m i * nu D x.2.1 i)⁻¹ • pmom D x i s) s := by
+  have h := hasDerivAt_position hx (fun _ => s) i
+  have hf : (fun r => position D x (Function.update (fun _ => s) i r) i) = ppos D x i :=
+    funext fun r => position_update_self D x _ i r
+  rw [hf] at h
+  simpa [momentum_eq_pmom] using h
+
+theorem ppos_periodic {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) :
+    Function.Periodic (ppos D x i) (2 * π) := by
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  intro s
+  have := poincare_periodic (D.hm i) hκ (blk_mem hx i s) 1
+  simpa [ppos, blk] using congrArg Prod.fst this
+
+theorem integral_pmom {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) :
+    ∫ s in (0:ℝ)..2 * π, pmom D x i s = 0 := by
+  have hm : 0 < D.m i := D.hm i
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have hΛ : 0 < x.2.1 i := by
+    have := (blk_mem hx i 0).1
+    simpa [blk] using this
+  have hν : 0 < nu D x.2.1 i := by
+    unfold nu
+    positivity
+  have hd : ∀ s, deriv (ppos D x i) s = (D.m i * nu D x.2.1 i)⁻¹ • pmom D x i s :=
+    fun s => (hasDerivAt_ppos hx i s).deriv
+  have hq : ContDiff ℝ 1 (ppos D x i) := by
+    rw [contDiff_one_iff_deriv]
+    refine ⟨fun s => (hasDerivAt_ppos hx i s).differentiableAt, ?_⟩
+    have : deriv (ppos D x i) = fun s => (D.m i * nu D x.2.1 i)⁻¹ • pmom D x i s := funext hd
+    rw [this]
+    exact (continuous_pmom hx i).const_smul ((D.m i * nu D x.2.1 i)⁻¹)
+  have h0 := periodic_derivative_integral hq (ppos_periodic hx i)
+  simp only [hd] at h0
+  rw [intervalIntegral.integral_smul] at h0
+  rcases smul_eq_zero.1 h0 with h | h
+  · exact absurd h (inv_ne_zero (mul_pos hm hν).ne')
+  · exact h
+
+theorem mean_planeSq_pmom {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) :
+    (2 * π)⁻¹ * ∫ s in (0:ℝ)..2 * π, planeSq (pmom D x i s) =
+      D.m i ^ 2 * (D.G * D.m0) / axis D x.2.1 i := by
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  exact (poincare_means (D.hm i) hκ (blk_mem hx i 0)).2.1
+
 end SecularForm
 end KAM.Planetary
 
