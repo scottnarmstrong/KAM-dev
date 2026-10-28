@@ -377,9 +377,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit T4 covers only coefficient formulas, series and quadratic identities; physical pair_jet (T5/T6) not done
+LEAN_STATUS: PROVED
+LEAN_REF: pair_jet (KAM/Planetary/PlanarTorsion/PairJet.lean); p11c_pairCoeffs, pair_series (KAM/Planetary/PlanarTorsion/PairCoefficients.lean); p11c_pairAverage, p11c_pairJet (KAM/Planetary/PlanarTorsion/PairJet/Defs.lean)
+LEAN_NOTE: composite of audits T5 PASS WITH NOTES (analyticity and 5-jet of actual average = p11c_pairJet, incl. vanishing of other monomials) + T4 PASS WITH NOTES (explicit A,B,p1..p6 and alpha-series)
 NOTE: the displayed power series (eq:series) are inserted from the Laplace series (pj-red); the source citation of Theorem quadratic-form (L90) is provenance
 
 NODE: stepP:p11b:pj-formal
@@ -407,9 +407,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cPJ_pairAverage_analyticAt, p11cPJ_pairAverage_even (KAM/Planetary/PlanarTorsion/PairJet/Bridge.lean); p11cPJ_diag_integral, p11cPJF_analyticAt (KAM/Planetary/PlanarTorsion/PairJet/Diff.lean); p11cPJ_ray (KAM/Planetary/PlanarTorsion/PairJet/Ray.lean); p11cPJ_diag_coeff, p11cPJ_jetEq_of_diag (KAM/Planetary/PlanarTorsion/PairJet/Diag.lean)
+LEAN_NOTE: audit T5 PASS WITH NOTES; named PASS in node table
 NOTE: -
 
 NODE: stepP:p11b:pj-bin
@@ -436,9 +436,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cPJ_ray, p11cPJrot, p11cPJcJet_sq (KAM/Planetary/PlanarTorsion/PairJet/Ray.lean); p11cPJN (KAM/Planetary/PlanarTorsion/PairJet/Rot.lean)
+LEAN_NOTE: audit T5 PASS WITH NOTES; named PASS in node table (binomial expansion pieces p11cPJq*_eq in Piece*)
 NOTE: -
 
 NODE: stepP:p11b:pj-avg
@@ -464,9 +464,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cPJ_cell_neutral, p11cPJ_cell_charged, p11cPJ_laplace (KAM/Planetary/PlanarTorsion/PairJet/Average.lean)
+LEAN_NOTE: audit T5 PASS WITH NOTES; named PASS in node table
 NOTE: -
 
 NODE: stepP:p11b:pj-red
@@ -497,9 +497,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit T4 PASS WITH NOTES covers only the alpha-series/jet receipt (pair_series); averaging, binomial expansion and monomial extraction remain T5
+LEAN_STATUS: PROVED
+LEAN_REF: p11cPJ_avg2 (KAM/Planetary/PlanarTorsion/PairJet/Combine2.lean); p11cPJ_avg4 (KAM/Planetary/PlanarTorsion/PairJet/Combine4.lean)
+LEAN_NOTE: audit T5 PASS WITH NOTES (Reduction table, Combine2/4: exact rational extraction of all quadratic/quartic coefficients) + T4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:pj-cons

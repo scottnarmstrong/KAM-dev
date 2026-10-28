@@ -15671,9 +15671,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:flow@L52
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_flow, flow_real (KAM/Nekhoroshev/Partial/Flow.lean); flow_a, flow_d (KAM/Canonical/Flow.lean); flow_b (KAM/Canonical/FlowRegular.lean); flow_c (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES; (a)-(d) via generic Part-5 flow_a..d on EC n k, (e) flow_real
 NOTE: -
 
 NODE: bpN:p11:symplectic
@@ -15703,9 +15703,9 @@ EDGE: bpN:p11:ext-chain | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:symplect
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: ExtCanonical (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: data predicate only; symplectic flow lemma not proved
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic, symplectic_form, symplectic_det, symplectic_bracket, symplectic_field (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES; (c) complex-orbit consequence follows from symplectic_field + chain rule
 NOTE: -
 
 NODE: bpN:p11:adjoint
@@ -16987,9 +16987,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:conj
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: reExtMap, ExtConjHyp (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: data only; conjugation lemma not proved
+LEAN_STATUS: PROVED
+LEAN_REF: conj (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:cj
@@ -17019,9 +17019,9 @@ EDGE: bpN:p11:real-system | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: conj (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES; audit table maps step to conj proof
 NOTE: -
 
 NODE: bpN:p11:preimage
