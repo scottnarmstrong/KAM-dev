@@ -72,6 +72,42 @@ theorem RegOn.union {J₁ J₂ : Set ℝ} {U : Set E} (hU : IsOpen U) (hJ₁ : I
 
 end Basic
 
+section Reverse
+
+variable {F : E → E} {W : Set E} {Tm Tp : E → EReal} {z : E → ℝ → E}
+
+theorem mem_eIoo_neg_iff {a b : EReal} {t : ℝ} : t ∈ eIoo (-b) (-a) ↔ -t ∈ eIoo a b := by
+  simp only [KAM.ODE.mem_eIoo_iff, EReal.coe_neg]
+  rw [EReal.neg_lt_comm, EReal.lt_neg_comm]
+  exact and_comm
+
+/-- Time reversal: regularity of the reversed family for `-F` gives regularity for `F`. -/
+theorem RegOn.of_neg {J : Set ℝ} {U : Set E}
+    (h : RegOn (fun x => -F x) W (fun x => -Tp x) (fun x => -Tm x) (fun x t => z x (-t)) J U) :
+    RegOn F W Tm Tp z (Neg.neg ⁻¹' J) U := by
+  obtain ⟨h1, h2, h3, h4, h5⟩ := h
+  have hneg : ContinuousOn (fun q : ℝ × E => (-q.1, q.2)) ((Neg.neg ⁻¹' J) ×ˢ U) := by fun_prop
+  have hmaps : MapsTo (fun q : ℝ × E => (-q.1, q.2)) ((Neg.neg ⁻¹' J) ×ˢ U) (J ×ˢ U) :=
+    fun q hq => ⟨hq.1, hq.2⟩
+  refine ⟨h1, fun x hx t ht => ?_, ?_, ?_, fun x hx s hs => ?_⟩
+  · have := h2 x hx ht
+    rw [mem_eIoo_neg_iff] at this
+    simpa using this
+  · refine (h3.comp hneg hmaps).congr fun q _ => ?_
+    simp
+  · refine (h4.comp hneg hmaps).congr fun q _ => ?_
+    simp
+  · obtain ⟨hd, ht⟩ := h5 x hx (-s) hs
+    simp only [neg_neg] at hd ht
+    refine ⟨hd, ?_⟩
+    have h6 := ht.scomp s (hasDerivAt_neg s)
+    simp only [neg_neg, Function.comp_def] at h6
+    refine h6.congr_deriv ?_
+    rw [fderiv_fun_neg]
+    simp
+
+end Reverse
+
 section Comp
 
 variable {F : E → E} {W : Set E} {Tm Tp : E → EReal} {z : E → ℝ → E}
@@ -336,6 +372,18 @@ theorem reg_forward {x₁ : E} (hx₁ : x₁ ∈ W) {T : ℝ} (hT : 0 ≤ T)
     · exact hnot (hS_mono _ hT₂S T₀ ⟨hT₀, (not_le.1 hle).le⟩)
   obtain ⟨-, J, U, hJ, hU, hsub, hx, hR⟩ := hS_eIoo T hT hTm
   exact ⟨J, U, hJ, hU, hsub ⟨hT, le_rfl⟩, hx, hR⟩
+
+/-- Regularity on a neighborhood of every point of the flow domain (both time signs). -/
+theorem reg_all {x : E} (hx : x ∈ W) {t : ℝ} (ht : t ∈ eIoo (Tm x) (Tp x)) :
+    ∃ (J : Set ℝ) (U : Set E), IsOpen J ∧ IsOpen U ∧ t ∈ J ∧ x ∈ U ∧
+      RegOn F W Tm Tp z J U := by
+  rcases le_or_gt 0 t with h0 | h0
+  · exact reg_forward hW hF hmax hx h0 ht
+  · have hmax' : ∀ x ∈ W, IsMaximalSolution (fun x => -F x) W x (-Tp x) (-Tm x)
+        (fun s => z x (-s)) := fun x hx => (hmax x hx).neg
+    obtain ⟨J, U, hJ, hU, htJ, hxU, hR⟩ := reg_forward (z := fun x s => z x (-s)) hW hF.neg hmax'
+      hx (T := -t) (by linarith) (mem_eIoo_neg_iff.2 (by simpa using ht))
+    exact ⟨Neg.neg ⁻¹' J, U, hJ.preimage continuous_neg, hU, by simpa using htJ, hxU, hR.of_neg⟩
 
 end Chain
 
