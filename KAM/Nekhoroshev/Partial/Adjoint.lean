@@ -45,7 +45,7 @@ private theorem continuous_slice' {m : ℕ} {D : Set (Fin m → ℂ)} {r s : ℝ
     ((continuous_pi fun j => Complex.continuous_ofReal.comp (continuous_apply j)).prodMk
       continuous_const) fun x => ⟨KAM.ofReal_mem_complexStrip hs x, hI⟩
 
-private theorem wbound_const_mul {m : ℕ} {D : Set (Fin m → ℂ)} {r s M : ℝ}
+private theorem wbound_adjoint_const_mul {m : ℕ} {D : Set (Fin m → ℂ)} {r s M : ℝ}
     {f : (Fin n → ℂ) × (Fin m → ℂ) → ℂ} (a : ℂ) (hs : 0 < s) (hf : InClass D r s f)
     (hb : WBound D r s f M) : WBound D r s (fun z => a * f z) (‖a‖ * M) := by
   intro I hI
@@ -55,7 +55,8 @@ private theorem wbound_const_mul {m : ℕ} {D : Set (Fin m → ℂ)} {r s M : �
     have := KAM.torusCoeff_finset_sum_mul (Finset.univ : Finset Unit)
       (f := fun _ => fun x : Fin n → ℝ => f (fun l => (x l : ℂ), I)) (fun _ => hc)
       (fun _ => a) k
-    simpa using this
+    simp only [Finset.univ_unique, Finset.sum_singleton] at this
+    exact this
   obtain ⟨h1, h2⟩ := hb I hI
   have hterm : ∀ k, ‖coeff (fun z => a * f z) I k‖ * modeWeight s k =
       ‖a‖ * (‖coeff f I k‖ * modeWeight s k) := fun k => by
@@ -159,6 +160,8 @@ private theorem ad_iter (b : PartialBlock n k) {R' s' R s ρ σ U V : ℝ} {φ u
             mul_le_mul_of_nonneg_right hi1 hl.le
         _ = σ := by field_simp
     have hi0 : (0 : ℝ) ≤ i := Nat.cast_nonneg i
+    have hρj : (j : ℝ) * (ρ / j) = ρ := by field_simp
+    have hσj : (j : ℝ) * (σ / j) = σ := by field_simp
     have hUi : 0 ≤ (V / ((ρ / j) * (σ / j))) ^ i * ((j.factorial : ℝ) / (j + i).factorial) * U :=
       by positivity
     have hm : (0 : ℝ) < j + i + 1 := by positivity
@@ -166,8 +169,8 @@ private theorem ad_iter (b : PartialBlock n k) {R' s' R s ρ σ U V : ℝ} {φ u
       (s0 := s - i * (σ / j)) (R1 := R - ((i + 1 : ℕ) : ℝ) * (ρ / j))
       (s1 := s - ((i + 1 : ℕ) : ℝ) * (σ / j)) (κ := ρ / j) (l := σ / j)
       (m := (j : ℝ) + i + 1) (by linarith) (by linarith) hκ hl hm
-      (by push_cast; ring) (by push_cast; ring) (by push_cast at hmulle ⊢; nlinarith)
-      (by push_cast at hmulle' ⊢; nlinarith) hSL' hUi hV hφ hφb hic hib
+      (by push_cast; ring) (by push_cast; ring) (by push_cast at hmulle ⊢; linarith [hρj])
+      (by push_cast at hmulle' ⊢; linarith [hσj]) hSL' hUi hV hφ hφb hic hib
     refine ⟨hstep.1, hstep.2.mono le_rfl le_rfl (le_of_eq ?_)⟩
     have hfac : ((j + (i + 1)).factorial : ℝ) = ((j + i).factorial : ℝ) * ((j : ℝ) + i + 1) := by
       rw [← add_assoc, Nat.factorial_succ]
@@ -220,7 +223,7 @@ theorem adjoint (b : PartialBlock n k) {R' s' R s ρ σ U V : ℝ} {φ u : EC n 
   rw [eR, es] at hic hib
   have hs : 0 < s - σ := sub_pos.2 hσs
   refine ⟨hic, ?_⟩
-  have hw := wbound_const_mul ((j.factorial : ℂ)⁻¹) hs hic hib
+  have hw := wbound_adjoint_const_mul ((j.factorial : ℂ)⁻¹) hs hic hib
   refine hw.mono le_rfl le_rfl ?_
   have hf : (j.factorial : ℝ) ≠ 0 := by positivity
   have hnorm : ‖((j.factorial : ℂ)⁻¹)‖ = ((j.factorial : ℝ))⁻¹ := by
