@@ -80,7 +80,7 @@ theorem sc_sub (R s : ℝ) (w w' : (Fin n → 𝕜) × (Fin n → 𝕜)) :
   · simp only [sc, Fin.append_left, Pi.sub_apply, Prod.fst_sub, mul_sub]
   · simp only [sc, Fin.append_right, Pi.sub_apply, Prod.snd_sub, mul_sub]
 
-theorem norm_append_le {α : Type*} [SeminormedAddCommGroup α] {m : ℕ} (u v : Fin m → α) :
+theorem limitMap_norm_append_le {α : Type*} [SeminormedAddCommGroup α] {m : ℕ} (u v : Fin m → α) :
     ‖(Fin.append u v : Fin (m + m) → α)‖ ≤ max ‖u‖ ‖v‖ := by
   refine (pi_norm_le_iff_of_nonneg (le_max_of_le_left (norm_nonneg _))).2 fun i => ?_
   refine Fin.addCases (fun i => ?_) (fun i => ?_) i
@@ -113,7 +113,7 @@ theorem norm_sc {R s : ℝ} (hR : 0 < R) (hs : 0 < s) (w : (Fin n → 𝕜) × (
   have e1 := norm_ofReal_mul_pi (𝕜 := 𝕜) _ h1 w.1
   have e2 := norm_ofReal_mul_pi (𝕜 := 𝕜) _ h2 w.2
   apply le_antisymm
-  · refine (norm_append_le _ _).trans ?_
+  · refine (limitMap_norm_append_le _ _).trans ?_
     rw [e1, e2, mul_comm, one_div, ← div_eq_inv_mul]
   · refine max_le ?_ ?_
     · have := le_norm_append_left (fun i => ((2 * π / s : ℝ) : 𝕜) * w.1 i)
