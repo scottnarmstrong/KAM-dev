@@ -155,7 +155,8 @@ theorem p11Runs_bound {U : Set (P11CVec n)} (hU : IsOpen U) {g : P11CVec n → P
     (hnd : (P.map Prod.fst).Nodup) :
     ∀ y : P11CVec n, (∀ j ∈ P.map Prod.fst, y j = J j) →
       (∀ j, j ∉ P.map Prod.fst → ‖y j - J j‖ ≤ R) →
-      ‖p11Runs P g y‖ ≤ (P.map fun p => (p.2.factorial : ℝ)).prod * M / R ^ (P.map Prod.snd).sum := by
+      ‖p11Runs P g y‖ ≤
+        (P.map fun p => (p.2.factorial : ℝ)).prod * M / R ^ (P.map Prod.snd).sum := by
   induction P using List.reverseRecOn with
   | nil =>
     intro y _ hy2
@@ -169,7 +170,8 @@ theorem p11Runs_bound {U : Set (P11CVec n)} (hU : IsOpen U) {g : P11CVec n → P
     simp only [List.map_append, List.map_cons, List.map_nil, List.nodup_append,
       List.nodup_cons, List.not_mem_nil, not_false_eq_true, List.nodup_nil, and_self] at hnd
     obtain ⟨hndP, -, hpi⟩ := hnd
-    have hib : p.1 ∉ {j | j ∈ P.map Prod.fst} := fun h => hpi _ h p.1 (List.mem_singleton_self _) rfl
+    have hib : p.1 ∉ {j | j ∈ P.map Prod.fst} := fun h =>
+      hpi _ h p.1 (List.mem_singleton_self _) rfl
     have hmemL : ∀ j, j ∈ (P ++ [p]).map Prod.fst ↔ j ∈ P.map Prod.fst ∨ j = p.1 := by
       intro j
       rw [List.map_append, List.mem_append, List.map_cons, List.map_nil, List.mem_singleton]

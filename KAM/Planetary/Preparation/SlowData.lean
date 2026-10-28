@@ -46,7 +46,8 @@ structure P11SlowData (n : ℕ) where
   f3 : P11Phase (n+n) → ℂ
   deriving Inhabited
 /-- Coordinate multi-index derivative on the existing Pi carrier, in fixed coordinate order. -/
-def p11PartialVec {n m : ℕ} (alpha : Fin n → ℕ) (f : P11CVec n → P11CVec m) : P11CVec n → P11CVec m :=
+def p11PartialVec {n m : ℕ} (alpha : Fin n → ℕ) (f : P11CVec n → P11CVec m) :
+    P11CVec n → P11CVec m :=
   ((List.ofFn (fun i : Fin n => List.replicate (alpha i) i)).flatten).foldl
     (fun g i => fun x => fderiv ℂ g x (Pi.single i 1)) f
 /-- Parametric copy of the signed `P11SlowSpec`. -/
@@ -60,17 +61,21 @@ def P11SlowSpecOf {n : ℕ} (C : P11SecularData n) (Fast : P11FastData n) (nu ep
   (∀ z ∈ KAM.complexStrip (n+n) s ×ˢ V,
     A.h0 z.2+A.f2 z=p11WorkingH C eps (Fast.map (p11PolarC z))) ∧
   (∀ I ∈ V, A.h0 I=C.h (fun i : Fin n => I (Fin.castAdd n i))+
-    eps*p11PolarAverage Fast.G ((fun i : Fin n => I (Fin.castAdd n i)),fun i : Fin n => I (Fin.natAdd n i))) ∧
+    eps*p11PolarAverage Fast.G ((fun i : Fin n => I (Fin.castAdd n i)),
+      fun i : Fin n => I (Fin.natAdd n i))) ∧
   (∀ I ∈ V, A.h0 I=C.h (fun i : Fin n => I (Fin.castAdd n i))+
     eps*(C.C (fun i : Fin n => I (Fin.castAdd n i))+
-      (∑ i : Fin n, C.Omega (fun j : Fin n => I (Fin.castAdd n j)) i/(2*Real.pi)*I (Fin.natAdd n i))+A.Z I)) ∧
+      (∑ i : Fin n, C.Omega (fun j : Fin n => I (Fin.castAdd n j)) i/(2*Real.pi)*
+        I (Fin.natAdd n i))+A.Z I)) ∧
   DifferentiableOn ℂ A.Z
-    {I : P11CVec (n+n) | ‖(fun i : Fin n => I (Fin.castAdd n i))-KAM.realInclusion n C.J0‖ < p11s1 C eps/2 ∧
+    {I : P11CVec (n+n) |
+      ‖(fun i : Fin n => I (Fin.castAdd n i))-KAM.realInclusion n C.J0‖ < p11s1 C eps/2 ∧
       ‖(fun i : Fin n => I (Fin.natAdd n i))‖ < Real.pi*C.rz^2/16} ∧
   (∀ alpha : Fin n → ℕ, ∀ J, ‖J-KAM.realInclusion n C.J0‖ < p11s1 C eps/4 →
     ∀ rho : P11CVec n, ‖rho-(fun _ => (2*Real.pi*eps : ℂ))‖ < Real.pi*eps →
       ‖p11PartialVec alpha
-        (fun J => fun i : Fin n => fderiv ℂ (fun rho : P11CVec n => A.Z (Fin.append J rho)) rho (Pi.single i 1)) J‖ ≤
+        (fun J => fun i : Fin n =>
+          fderiv ℂ (fun rho : P11CVec n => A.Z (Fin.append J rho)) rho (Pi.single i 1)) J‖ ≤
         c*(eps+p11eta1 C eps)*(∏ i, ((alpha i).factorial : ℝ))*(4/p11s1 C eps)^(∑ i, alpha i)) ∧
   (∀ I ∈ V, ∀ k : Fin (n+n) → ℤ, k ≠ 0 → KAM.Fourier.modeSize k ≤ p11K2 C nu eps →
     (if (fun i : Fin n => k (Fin.castAdd n i))=0 then eps else 1)*
@@ -90,7 +95,8 @@ def P11SlowSpecOf {n : ℕ} (C : P11SecularData n) (Fast : P11FastData n) (nu ep
     A.f3 (z.1+Pi.single i 1,z.2)=A.f3 z) ∧
   DifferentiableOn ℂ A.Psi (KAM.complexStrip (n+n) (s/6) ×ˢ Vh) ∧
   (∀ z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh, ∀ u v,
-    KAM.Canonical.symplFormC (fderiv ℂ A.Psi z u) (fderiv ℂ A.Psi z v)=KAM.Canonical.symplFormC u v) ∧
+    KAM.Canonical.symplFormC (fderiv ℂ A.Psi z u) (fderiv ℂ A.Psi z v)=
+      KAM.Canonical.symplFormC u v) ∧
   (∀ z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh, ∀ k : Fin (n+n) → ℤ,
     A.Psi (z.1+(fun i => (k i : ℂ)),z.2)=A.Psi z+((fun i => (k i : ℂ)),0)) ∧
   InjOn A.Psi (KAM.complexStrip (n+n) (s/6) ×ˢ Vh) ∧
