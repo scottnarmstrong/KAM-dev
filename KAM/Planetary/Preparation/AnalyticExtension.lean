@@ -23,7 +23,7 @@ max-norm ball around `x`. Each real multilinear coefficient `pₙ` is complexifi
 
 @[expose] public noncomputable section
 open Set Filter Metric
-open scoped Topology
+open scoped Topology NNReal ENNReal
 namespace KAM.Planetary
 
 /-- Real-slice identity theorem. -/
@@ -157,5 +157,58 @@ theorem norm_p11CMap_le {a b n : ℕ}
   calc _ ≤ ∑ j : Fin n → Fin a, ‖P‖ * ∏ m, ‖w m‖ := (norm_sum_le _ _).trans
           (Finset.sum_le_sum fun j _ => hj j)
     _ = _ := by simp [Finset.sum_const, mul_comm, mul_left_comm]
+
+/-- hc-rot: complexification is a new proof obligation, not supplied by holomorphic-to-real
+restriction. -/
+theorem p11_complexification {a b : ℕ} {f : P11Vec a → P11Vec b} {x : P11Vec a}
+    (hf : AnalyticAt ℝ f x) :
+    ∃ r : ℝ, 0 < r ∧ ∃ F : P11CVec a → P11CVec b,
+      DifferentiableOn ℂ F (Metric.ball (KAM.realInclusion a x) r) ∧
+      ∀ y, ‖y-x‖ < r → F (KAM.realInclusion a y)=KAM.realInclusion b (f y) := by
+  obtain ⟨p, ρ, hp⟩ := hf
+  obtain ⟨r', hr'0, hr'ρ⟩ := ENNReal.lt_iff_exists_nnreal_btwn.mp hp.r_pos
+  let q : FormalMultilinearSeries ℂ (P11CVec a) (P11CVec b) := fun n => p11CMap (p n)
+  set A : ℝ≥0 := ((max a 1 : ℕ) : ℝ≥0) with hA
+  have hA1 : (1 : ℝ≥0) ≤ A := by simp [hA]
+  have hApos : 0 < A := lt_of_lt_of_le one_pos hA1
+  have haA : (a : ℝ) ≤ A := by simp [hA]
+  have hr'pos : 0 < r' := ENNReal.coe_pos.mp hr'0
+  set s : ℝ≥0 := r' / A with hs
+  have hs0 : 0 < s := div_pos hr'pos hApos
+  have hAs : A * s = r' := mul_div_cancel₀ _ hApos.ne'
+  have hsr : (s : ℝ) ≤ r' := by
+    exact_mod_cast (div_le_self zero_le hA1 : r' / A ≤ r')
+  obtain ⟨C, hC⟩ := p.norm_mul_pow_le_of_lt_radius (r := r') (hr'ρ.trans_le hp.r_le)
+  have hqrad : (s : ℝ≥0∞) ≤ q.radius := by
+    refine q.le_radius_of_bound C fun n => ?_
+    have hAs' : (A : ℝ) * s = r' := by exact_mod_cast hAs
+    calc ‖q n‖ * (s : ℝ) ^ n ≤ ((a : ℝ) ^ n * ‖p n‖) * (s : ℝ) ^ n := by
+          gcongr; exact norm_p11CMap_le _
+      _ ≤ ((A : ℝ) ^ n * ‖p n‖) * (s : ℝ) ^ n := by gcongr
+      _ = ‖p n‖ * (r' : ℝ) ^ n := by rw [← hAs', mul_pow]; ring
+      _ ≤ C := hC.2 n
+  have hqb : HasFPowerSeriesOnBall q.sum q 0 q.radius :=
+    q.hasFPowerSeriesOnBall (lt_of_lt_of_le (by exact_mod_cast hs0) hqrad)
+  have hmem : ∀ {E : Type} [NormedAddCommGroup E] (v : E) (t : ℝ≥0), ‖v‖ < t →
+      v ∈ Metric.eball (0 : E) (t : ℝ≥0∞) := fun v t hv => by
+    rw [Metric.mem_eball, edist_zero_right]
+    exact enorm_lt_coe.mpr (by exact_mod_cast hv)
+  refine ⟨s, hs0, fun z => q.sum (z - KAM.realInclusion a x), ?_, ?_⟩
+  · refine hqb.differentiableOn.comp (differentiable_id.sub_const _).differentiableOn
+      fun z hz => ?_
+    refine Metric.eball_subset_eball hqrad (hmem _ s ?_)
+    simpa [dist_eq_norm] using hz
+  · intro y hy
+    have hy' : ‖KAM.realInclusion a (y - x)‖ < s := by rwa [KAM.norm_realInclusion]
+    have h1 := hqb.hasSum (Metric.eball_subset_eball hqrad (hmem _ s hy'))
+    have hyρ : y - x ∈ Metric.eball (0 : P11Vec a) ρ :=
+      Metric.eball_subset_eball hr'ρ.le (hmem _ r' (lt_of_lt_of_le hy hsr))
+    have h2 := (KAM.realInclusion b).hasSum (hp.hasSum hyρ)
+    have h3 : HasSum (fun n => q n fun _ => KAM.realInclusion a (y - x))
+        (KAM.realInclusion b (f (x + (y - x)))) := by
+      convert h2 using 2 with n
+      exact p11CMap_real (p n) (y - x)
+    have := h1.unique h3
+    simpa [map_sub] using this
 
 end KAM.Planetary
