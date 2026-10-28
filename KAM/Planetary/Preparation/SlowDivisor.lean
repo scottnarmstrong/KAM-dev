@@ -64,6 +64,40 @@ theorem p11SlowBox_mem {C : P11SecularData n} {nu eps : ℝ} (hs2 : 0 < p11s2 C 
   · simpa [p11SlowCenter, Fin.append_left] using h1 i
   · simpa [p11SlowCenter, Fin.append_right] using h2 i
 
+theorem norm_Jf_sub_le (y I : P11CVec (n+n)) :
+    ‖(fun i : Fin n => y (Fin.castAdd n i)) - (fun i : Fin n => I (Fin.castAdd n i))‖ ≤ ‖y - I‖ :=
+  (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => by
+    simpa using norm_le_pi_norm (y - I) (Fin.castAdd n i)
+
+theorem norm_Rf_sub_le (y I : P11CVec (n+n)) :
+    ‖(fun i : Fin n => y (Fin.natAdd n i)) - (fun i : Fin n => I (Fin.natAdd n i))‖ ≤ ‖y - I‖ :=
+  (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => by
+    simpa using norm_le_pi_norm (y - I) (Fin.natAdd n i)
+
+theorem modeSize_split (k : Fin (n+n) → ℤ) :
+    KAM.Fourier.modeSize k = KAM.Fourier.modeSize (fun i : Fin n => k (Fin.castAdd n i)) +
+      KAM.Fourier.modeSize (fun i : Fin n => k (Fin.natAdd n i)) := by
+  unfold KAM.Fourier.modeSize
+  rw [Fin.sum_univ_add]
+
+/-- The two constants of `p11s2`: `s₂ ≤ s₁/4` and `K L s₂ ≤ γ K^{-τ}/8`. -/
+theorem p11s2_spec {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
+    {nu eps : ℝ} (hK : 0 < p11K2 C nu eps) :
+    p11s2 C nu eps ≤ p11s1 C eps / 4 ∧
+      p11K2 C nu eps * C.L * p11s2 C nu eps ≤ C.gamma * p11K2 C nu eps ^ (-C.tau) / 8 := by
+  obtain ⟨hγ0, hτ0, hL1, -⟩ := fast_consts hC
+  refine ⟨min_le_left _ _, ?_⟩
+  have hL0 : 0 < C.L := by linarith
+  have h2 : p11s2 C nu eps ≤ C.gamma / (8 * C.L * p11K2 C nu eps ^ (C.tau + 1)) :=
+    min_le_right _ _
+  have hKp : 0 < p11K2 C nu eps ^ (C.tau + 1) := Real.rpow_pos_of_pos hK _
+  calc p11K2 C nu eps * C.L * p11s2 C nu eps
+      ≤ p11K2 C nu eps * C.L * (C.gamma / (8 * C.L * p11K2 C nu eps ^ (C.tau + 1))) :=
+        mul_le_mul_of_nonneg_left h2 (by positivity)
+    _ = C.gamma * p11K2 C nu eps ^ (-C.tau) / 8 := by
+        rw [Real.rpow_neg hK.le, Real.rpow_add_one hK.ne']
+        field_simp
+
 /-- The secular frequency `Ω/(2π)` is `L`-Lipschitz on the ball `2 r_C`. -/
 theorem Omega_lipschitz {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
     {J : P11CVec n} (hJ : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC)) :
