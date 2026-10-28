@@ -34,7 +34,8 @@ structure OscHyp {n m : ℕ} (D : Set (Fin n → ℝ)) (r rp rq sbar s K α E : 
   E_nonneg : 0 ≤ E
   budget : 6 ≤ 2 * π * K * s
   holo : DifferentiableOn ℂ h (KAM.actionNbhd D r)
-  real_h : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ KAM.actionNbhd D r → (h (KAM.realInclusion n I)).im = 0
+  real_h : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ KAM.actionNbhd D r →
+    (h (KAM.realInclusion n I)).im = 0
   cls : oscClass D r rp rq (sbar + s) f
   bound : oscBound D r rp rq (sbar + s) f E
   real_f : RealOn (oscDom D r rp rq (sbar + s)) f

@@ -12,8 +12,9 @@ public import KAM.Planetary.Averaging.OscillatorFiniteChain
 
 `OSched.G` is the sum of the zero-mode increments of the successive remainders. This module shows
 it depends on the phase only through the flat parameter `(oscPack z).2` (so it is independent of
-the fast angles), and that `g - f̂₀` is the finite sum of the later zero-mode increments, which gives
-its weighted bound. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
+the fast angles), and that `g - f̂₀` is the finite sum of the later zero-mode increments, which
+gives its weighted bound. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3,
+package P23-15.
 -/
 
 @[expose] public noncomputable section
@@ -78,7 +79,8 @@ theorem OIter.gen_tail (hS : OIter D c K α h f ε M) :
       (fun z => c.G D K h f (M + 1) z - coeff (oscFunction f) (oscPack z).2 0)
       (∑ j ∈ Finset.range M, ε (j + 1)) := by
   obtain ⟨t1, t2⟩ := hS.tail_sum M le_rfl
-  have e : (fun z : CPhase (n + m) => c.G D K h f (M + 1) z - coeff (oscFunction f) (oscPack z).2 0) =
+  have e : (fun z : CPhase (n + m) =>
+      c.G D K h f (M + 1) z - coeff (oscFunction f) (oscPack z).2 0) =
       fun z => ∑ j ∈ Finset.range M, c.inc D K h f (j + 1) z := by
     funext z
     rw [OSched.G_eq_sum]

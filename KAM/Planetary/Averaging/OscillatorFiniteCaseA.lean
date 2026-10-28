@@ -9,7 +9,8 @@ public import KAM.Planetary.Averaging.OscillatorFiniteMulti
 public import KAM.Planetary.Averaging.OscillatorFiniteSingle
 
 /-!
-# P Part 2: the `N`-step loss budget of oscillator averaging (`stepP:p2:oa-iter`, `stepP:p2:oa-concl`)
+# P Part 2: the `N`-step loss budget of oscillator averaging
+(`stepP:p2:oa-iter`, `stepP:p2:oa-concl`)
 
 `oscGood_multi` proves the schedule `multiOSched` admissible when `e^{-κ/6} ≤ 2 b y₀` (Case A):
 induction hypothesis `ε_{i+1} ≤ ε_i/4`, the final bound `ε_{N+1} ≤ e^{-κ/6} E`, the correction
@@ -242,7 +243,8 @@ theorem MultiData.step_succ (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ)
   refine key.trans (le_of_eq ?_)
   rw [oEps_succ, oEps_succ]; ring
 
-theorem MultiData.small (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ) {i : ℕ} (hi : (i : ℝ) ≤ N) :
+theorem MultiData.small (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ) {i : ℕ}
+    (hi : (i : ℝ) ≤ N) :
     oEps E (firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq))) i ≤ (2 * π * α) *
       min ((multiOSched r rp rq (sbar + s) s N).x.ρ i * (multiOSched r rp rq (sbar + s) s N).x.σ i)
         ((multiOSched r rp rq (sbar + s) s N).p.ρ i * (multiOSched r rp rq (sbar + s) s N).q.ρ i) /

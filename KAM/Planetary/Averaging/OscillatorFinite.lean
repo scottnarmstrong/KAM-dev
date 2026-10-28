@@ -77,13 +77,16 @@ theorem osc_averaging {n m : ℕ} {D : Set (Fin n → ℝ)} {r rp rq sbar s K α
       DifferentiableOn ℂ Ψ V ∧ Set.InjOn Ψ V ∧ MapsTo Ψ V (oscDom D r rp rq (sbar + s)) ∧
       (∀ z ∈ V, ∀ u v, symplFormC (fderiv ℂ Ψ z u) (fderiv ℂ Ψ z v) = symplFormC u v) ∧
       (∀ z ∈ V, ∀ k : Fin n → ℤ,
-        Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) = Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) ∧
+        Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) =
+          Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) ∧
       (∀ x : Phase (n + m), KAM.realInclusion₂ (n + m) x ∈ V →
         Ψ (KAM.realInclusion₂ (n + m) x) ∈ range (KAM.realInclusion₂ (n + m))) ∧
       oscClass D (r / 2) (rp / 2) (rq / 2) (sbar + s / 6) g ∧ RealOn V g ∧
       (∀ x ∈ oscParams (m := m) D (r / 2) (rp / 2) (rq / 2),
-        ∀ θ θ', oscUnpack (θ, x) ∈ V → oscUnpack (θ', x) ∈ V → g (oscUnpack (θ, x)) = g (oscUnpack (θ', x))) ∧
-      (∀ z ∈ V, h (firstBlock (b := m) (Ψ z).2) + f (Ψ z) = h (firstBlock (b := m) z.2) + g z + fs z) ∧
+        ∀ θ θ', oscUnpack (θ, x) ∈ V → oscUnpack (θ', x) ∈ V →
+          g (oscUnpack (θ, x)) = g (oscUnpack (θ', x))) ∧
+      (∀ z ∈ V, h (firstBlock (b := m) (Ψ z).2) + f (Ψ z) =
+        h (firstBlock (b := m) z.2) + g z + fs z) ∧
       oscBound D (r / 2) (rp / 2) (rq / 2) (sbar + s / 6)
         (fun z => g z - coeff (oscFunction f) (oscPack z).2 0)
         (400 * (1 + (m : ℝ)) * E ^ 2 / (2 * π * α * min (r * s) (rp * rq))) ∧
@@ -143,7 +146,8 @@ theorem coeff_const_mul_flat' {n N : ℕ} (c : ℂ) (F : (Fin n → ℂ) × (Fin
 
 /-- The zero mode of `μ • P` is `μ` times that of `P`. -/
 theorem coeff_smul_osc {n m : ℕ} (μ : ℝ) (P : CHam (n + m)) (z : CPhase (n + m)) :
-    coeff (oscFunction (μ • P)) (oscPack z).2 0 = (μ : ℂ) * coeff (oscFunction P) (oscPack z).2 0 := by
+    coeff (oscFunction (μ • P)) (oscPack z).2 0 =
+      (μ : ℂ) * coeff (oscFunction P) (oscPack z).2 0 := by
   have : oscFunction (μ • P) = fun y => (μ : ℂ) * oscFunction P y := by
     funext y; simp [oscFunction, Complex.real_smul]
   rw [this]
@@ -160,12 +164,14 @@ theorem averaged_remainder {n m : ℕ} {D : Set (Fin n → ℝ)} {r ε₀ s₀ �
       DifferentiableOn ℂ Ψ V ∧ Set.InjOn Ψ V ∧ MapsTo Ψ V (oscDom D r ε₀ ε₀ s₀) ∧
       (∀ z ∈ V, ∀ u v, symplFormC (fderiv ℂ Ψ z u) (fderiv ℂ Ψ z v) = symplFormC u v) ∧
       (∀ z ∈ V, ∀ k : Fin n → ℤ,
-        Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) = Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) ∧
+        Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) =
+          Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) ∧
       (∀ x : Phase (n + m), KAM.realInclusion₂ (n + m) x ∈ V →
         Ψ (KAM.realInclusion₂ (n + m) x) ∈ range (KAM.realInclusion₂ (n + m))) ∧
       oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) g ∧ RealOn V g ∧
       (∀ x ∈ oscParams (m := m) D (r / 2) (ε₀ / 2) (ε₀ / 2), ∀ θ θ',
-        oscUnpack (θ, x) ∈ V → oscUnpack (θ', x) ∈ V → g (oscUnpack (θ, x)) = g (oscUnpack (θ', x))) ∧
+        oscUnpack (θ, x) ∈ V → oscUnpack (θ', x) ∈ V →
+          g (oscUnpack (θ, x)) = g (oscUnpack (θ', x))) ∧
       oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) fs ∧ RealOn V fs ∧ RealOn V R ∧
       (∀ z ∈ V, h (firstBlock (b := m) (Ψ z).2) + μ * P (Ψ z) =
         h (firstBlock (b := m) z.2) + μ * coeff (oscFunction P) (oscPack z).2 0 + R z) ∧

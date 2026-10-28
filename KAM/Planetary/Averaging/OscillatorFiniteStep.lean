@@ -51,7 +51,8 @@ theorem ostep_conc (hS : OIter D c K α h f ε M) {i : ℕ} (hi : i ≤ M)
       c.x.R i ≤ c.x.R j ∧ c.p.R i ≤ c.p.R j ∧ c.q.R i ≤ c.q.R j ∧ c.x.S i ≤ c.x.S j :=
     fun j => ⟨(hsc j j.2).inc_cls, (hsc j j.2).inc_bound,
       (hS.R_anti (le_of_lt j.2) (by omega))⟩
-  have hGa : ∀ w, ∑ j : Fin i, c.inc D K h f j w = c.G D K h f i w := fun w => by rw [OSched.G_eq_sum]
+  have hGa : ∀ w, ∑ j : Fin i, c.inc D K h f j w = c.G D K h f i w :=
+    fun w => by rw [OSched.G_eq_sum]
   have H := osc_iter (n := n) (m := m) (J := i) (D := D) (r := c.x.R i) (rp := c.p.R i)
     (rq := c.q.R i) (S := c.x.S i) (ρ := c.x.ρ i) (ρp := c.p.ρ i) (ρq := c.q.ρ i)
     (σ := c.x.σ i) (K := K) (α := α) (δ := ε i) (h := h) (f := c.F D K h f i)
