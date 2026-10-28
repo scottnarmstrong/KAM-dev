@@ -121,6 +121,113 @@ theorem avgLog_le {κ : ℝ} (hκ : 0 < κ) : avgLog κ ≤ 1 / κ := by
   have := mul_avgLog_le hκ
   rw [le_div_iff₀ hκ]; linarith
 
+/-! ### Per-mode integral bounds (`en-term`) -/
+
+section PerMode
+
+variable (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ} (hC : AvgSlabBound h R C₁)
+  (hΩ : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) (hκ : 0 < κ) (hκ1 : κ ≤ 1)
+
+include d hC hΩ hκ hκ1
+
+theorem term_W {k : Fin n → ℤ} (hk : k ≠ 0) :
+    ∫⁻ I in avgG n R, ENNReal.ofReal (‖fun j => (k j : ℝ)‖ * avgBeta s k *
+        |avgPsi κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (3 * C₁ * (1 + Ω₀) * avgLog κ * wt s k) := by
+  have hm := AvgShell.mode_nonneg (n := n) k
+  have hb := avgBeta_nonneg s k
+  have hk1 := AvgShell.norm_le_mode k
+  have hC1 := hC.1
+  have hΩ0 : 0 ≤ Ω₀ := (norm_nonneg _).trans (hΩ 0 (by
+    simp only [avgG, mem_closedBall, dist_self]; linarith [d.hR]))
+  have hL := avgLog_ge_one hκ hκ1
+  rw [lint_const_mul _ (by positivity) (fun y => |avgPsi κ y|)]
+  refine (mul_le_mul_right (shells_from_slab d hC hΩ hκ hκ1 hk).2.1 _).trans ?_
+  rw [← ENNReal.ofReal_mul (by positivity)]
+  refine ENNReal.ofReal_le_ofReal ?_
+  have hn := norm_nonneg (fun j => (k j : ℝ))
+  have h3 : ‖fun j => (k j : ℝ)‖ * (1 + KAM.Fourier.modeSize k) ≤
+      (1 + KAM.Fourier.modeSize k) ^ 3 := by
+    calc _ ≤ (1 + KAM.Fourier.modeSize k) * (1 + KAM.Fourier.modeSize k) := by gcongr; linarith
+      _ ≤ _ := by
+        have : (1 + KAM.Fourier.modeSize k) ^ 2 ≤ (1 + KAM.Fourier.modeSize k) ^ 3 :=
+          pow_le_pow_right₀ (by linarith) (by norm_num)
+        nlinarith
+  have hw : wt s k = (1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k := by simp [wt, hk]
+  rw [hw]
+  have hX : 0 ≤ 3 * C₁ * (1 + Ω₀) * avgLog κ * avgBeta s k := by positivity
+  calc _ = (3 * C₁ * (1 + Ω₀) * avgLog κ * avgBeta s k) *
+        (‖fun j => (k j : ℝ)‖ * (1 + KAM.Fourier.modeSize k)) := by ring
+    _ ≤ (3 * C₁ * (1 + Ω₀) * avgLog κ * avgBeta s k) * (1 + KAM.Fourier.modeSize k) ^ 3 :=
+        mul_le_mul_of_nonneg_left h3 hX
+    _ = _ := by ring
+
+theorem term_W1 {k : Fin n → ℤ} (hk : k ≠ 0) :
+    ∫⁻ I in avgG n R, ENNReal.ofReal (2 * Real.pi * ‖fun j => (k j : ℝ)‖ *
+        KAM.Fourier.modeSize k * avgBeta s k * |avgPsi κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (2 * Real.pi * (3 * C₁ * (1 + Ω₀) * avgLog κ) * wt s k) := by
+  have hm := AvgShell.mode_nonneg (n := n) k
+  have hb := avgBeta_nonneg s k
+  have hk1 := AvgShell.norm_le_mode k
+  have hC1 := hC.1
+  have hΩ0 : 0 ≤ Ω₀ := (norm_nonneg _).trans (hΩ 0 (by
+    simp only [avgG, mem_closedBall, dist_self]; linarith [d.hR]))
+  have hL := avgLog_ge_one hκ hκ1
+  have hpi := Real.pi_pos
+  have hn := norm_nonneg (fun j => (k j : ℝ))
+  rw [lint_const_mul _ (by positivity) (fun y => |avgPsi κ y|)]
+  refine (mul_le_mul_right (shells_from_slab d hC hΩ hκ hκ1 hk).2.1 _).trans ?_
+  rw [← ENNReal.ofReal_mul (by positivity)]
+  refine ENNReal.ofReal_le_ofReal ?_
+  have h3 : ‖fun j => (k j : ℝ)‖ * KAM.Fourier.modeSize k * (1 + KAM.Fourier.modeSize k) ≤
+      (1 + KAM.Fourier.modeSize k) ^ 3 := by
+    calc _ ≤ (1 + KAM.Fourier.modeSize k) * (1 + KAM.Fourier.modeSize k) *
+          (1 + KAM.Fourier.modeSize k) := by gcongr <;> linarith
+      _ = _ := by ring
+  have hw : wt s k = (1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k := by simp [wt, hk]
+  rw [hw]
+  have hX : 0 ≤ 2 * Real.pi * (3 * C₁ * (1 + Ω₀) * avgLog κ) * avgBeta s k := by positivity
+  calc _ = (2 * Real.pi * (3 * C₁ * (1 + Ω₀) * avgLog κ) * avgBeta s k) *
+        (‖fun j => (k j : ℝ)‖ * KAM.Fourier.modeSize k * (1 + KAM.Fourier.modeSize k)) := by ring
+    _ ≤ (2 * Real.pi * (3 * C₁ * (1 + Ω₀) * avgLog κ) * avgBeta s k) *
+        (1 + KAM.Fourier.modeSize k) ^ 3 := mul_le_mul_of_nonneg_left h3 hX
+    _ = _ := by ring
+
+theorem term_R {k : Fin n → ℤ} (hk : k ≠ 0) :
+    ∫⁻ I in avgG n R, ENNReal.ofReal (2 * Real.pi * ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+        (κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2))) ≤
+      ENNReal.ofReal (10 * Real.pi * C₁ * κ * wt s k) := by
+  have hm := AvgShell.mode_nonneg (n := n) k
+  have hb := avgBeta_nonneg s k
+  have hk1 := AvgShell.norm_le_euclid k
+  have hK := AvgShell.euclid_ge_one hk
+  have hC1 := hC.1
+  have hΩ0 : 0 ≤ Ω₀ := (norm_nonneg _).trans (hΩ 0 (by
+    simp only [avgG, mem_closedBall, dist_self]; linarith [d.hR]))
+  have hpi := Real.pi_pos
+  have hn := norm_nonneg (fun j => (k j : ℝ))
+  rw [lint_const_mul _ (by positivity) (fun y => κ ^ 2 / (y ^ 2 + κ ^ 2))]
+  refine (mul_le_mul_right (shells_from_slab d hC hΩ hκ hκ1 hk).2.2.2 _).trans ?_
+  rw [← ENNReal.ofReal_mul (by positivity)]
+  refine ENNReal.ofReal_le_ofReal ?_
+  have hK0 : 0 < euclid (fun j => (k j : ℝ)) := by linarith
+  have h2 : ‖fun j => (k j : ℝ)‖ / euclid (fun j => (k j : ℝ)) ≤ 1 :=
+    (div_le_one hK0).2 hk1
+  have h3 : (1 : ℝ) ≤ (1 + KAM.Fourier.modeSize k) ^ 3 := one_le_pow₀ (by linarith)
+  have hw : wt s k = (1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k := by simp [wt, hk]
+  rw [hw]
+  have hX : 0 ≤ 10 * Real.pi * C₁ * κ * avgBeta s k := by positivity
+  calc 2 * Real.pi * ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+        (5 * C₁ * κ / euclid (fun j => (k j : ℝ)))
+      = (10 * Real.pi * C₁ * κ * avgBeta s k) *
+        (‖fun j => (k j : ℝ)‖ / euclid (fun j => (k j : ℝ))) := by ring
+    _ ≤ (10 * Real.pi * C₁ * κ * avgBeta s k) * 1 := mul_le_mul_of_nonneg_left h2 hX
+    _ ≤ (10 * Real.pi * C₁ * κ * avgBeta s k) * (1 + KAM.Fourier.modeSize k) ^ 3 :=
+        mul_le_mul_of_nonneg_left h3 hX
+    _ = _ := by ring
+
+end PerMode
+
 end AvgEnv
 
 end KAM.Nekhoroshev
