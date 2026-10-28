@@ -45,7 +45,8 @@ theorem amd_exit_forward {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈
       set x : ℕ → ℝ := fun k => ts - ts / (k + 2) with hx
       have hxmem : ∀ k, x k ∈ Ico 0 ts := fun k => by
         have : 0 < ts / (k + 2) := by positivity
-        have h2 : ts / (k + 2) ≤ ts := div_le_self hts0.le (by linarith [(Nat.cast_nonneg k : (0:ℝ) ≤ k)])
+        have h2 : ts / (k + 2) ≤ ts := div_le_self hts0.le
+          (by linarith [(Nat.cast_nonneg k : (0:ℝ) ≤ k)])
         exact ⟨by linarith, by linarith⟩
       have hlim : Tendsto x atTop (𝓝 ts) := by
         have h1 : Tendsto (fun k : ℕ => ts / ((k : ℝ) + 2)) atTop (𝓝 0) := by
