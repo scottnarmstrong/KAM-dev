@@ -680,6 +680,16 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Calculus
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.CoeffEq
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Coeffs
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Entries
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.EntryBounds
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Inputs
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Leading
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Pair
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Projector
+public import KAM.Planetary.PlanarTorsion.AsymptoticEntries
 public import KAM.Planetary.PlanarTorsion.Beta
 public import KAM.Planetary.PlanarTorsion.Characters.Average
 public import KAM.Planetary.PlanarTorsion.Characters.Basic
