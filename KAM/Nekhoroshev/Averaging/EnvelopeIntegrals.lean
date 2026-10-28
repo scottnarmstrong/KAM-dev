@@ -362,9 +362,143 @@ theorem kappa_part :
       · exact term_R d hC hΩ hκ hκ1 hk
     · unfold avgCR; congr 1; ring
 
+omit hC hΩ hM0 hκ1 in
+theorem W1env_aem : AEMeasurable (avgW1env h s κ) (volume.restrict (avgG n R)) := by
+  have hpsi := contPsi hκ
+  unfold avgW1env
+  exact env_aem d (φ := fun k y => 2 * Real.pi * ‖fun j => (k j : ℝ)‖ *
+    KAM.Fourier.modeSize k * avgBeta s k * |avgPsi κ y|)
+    (fun k => Continuous.measurable (by fun_prop))
+
+omit hC hΩ hM0 hκ1 in
+theorem Benv_aem : AEMeasurable (avgBenv h s M₂ κ) (volume.restrict (avgG n R)) := by
+  have hpsi := contPsi hκ
+  have hpsiD := contPsiD hκ
+  unfold avgBenv avgBterm
+  exact env_aem d (φ := fun k y => ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+    (2 * n / s * |avgPsi κ y| + M₂ * KAM.Fourier.modeSize k * |avgPsiD κ y|))
+    (fun k => Continuous.measurable (by fun_prop))
+
+theorem eps_part {ε : ℝ} (hε : ε = κ ^ 2) :
+    ENNReal.ofReal (2 * ε) * (∫⁻ I in avgG n R, avgWenv h s κ I) ≤
+      ENNReal.ofReal (4 * avgCW n s C₁ Ω₀ * κ) ∧
+    (∫⁻ I in avgG n R, avgPhiEnv h s M₂ ε κ I) ≤
+      ENNReal.ofReal (avgCPhi n s C₁ Ω₀ M₂ * κ) := by
+  obtain ⟨hW, hW1, hB, hRr⟩ := kappa_part d hC hΩ hM0 hκ hκ1
+  have hC1 := hC.1
+  have hs := d.hs
+  have hΩ0 : 0 ≤ Ω₀ := (norm_nonneg _).trans (hΩ 0 (by
+    simp only [avgG, mem_closedBall, dist_self]; linarith [d.hR]))
+  have hσ := sigma_nonneg (n := n) s
+  have hpi := Real.pi_pos
+  have hL := avgLog_ge_one hκ hκ1
+  have hcW : 0 ≤ avgCW n s C₁ Ω₀ := by unfold avgCW; positivity
+  have hcB : 0 ≤ avgCB n s C₁ Ω₀ M₂ := by unfold avgCB; positivity
+  have hcR : 0 ≤ avgCR n s C₁ := by unfold avgCR; positivity
+  have hκL := mul_avgLog_le hκ
+  have hε0 : 0 ≤ ε := by rw [hε]; positivity
+  have hLpos : 0 ≤ avgLog κ := by linarith
+  refine ⟨?_, ?_⟩
+  · calc ENNReal.ofReal (2 * ε) * (∫⁻ I in avgG n R, avgWenv h s κ I)
+        ≤ ENNReal.ofReal (2 * ε) * ENNReal.ofReal (avgCW n s C₁ Ω₀ * avgLog κ) :=
+          mul_le_mul_right hW _
+      _ = ENNReal.ofReal (2 * ε * (avgCW n s C₁ Ω₀ * avgLog κ)) :=
+          (ENNReal.ofReal_mul (by positivity)).symm
+      _ ≤ _ := by
+        refine ENNReal.ofReal_le_ofReal ?_
+        have := mul_le_mul_of_nonneg_left hκL (mul_nonneg hcW hκ.le)
+        rw [hε]
+        nlinarith [mul_nonneg hcW hκ.le]
+  · unfold avgPhiEnv
+    have hA : AEMeasurable (fun I => ENNReal.ofReal (ε * 4 / s) * avgBenv h s M₂ κ I)
+        (volume.restrict (avgG n R)) := (Benv_aem d hκ).const_mul _
+    have hAB : AEMeasurable (fun I => ENNReal.ofReal (ε * 4 / s) * avgBenv h s M₂ κ I +
+        ENNReal.ofReal (ε * 2 / s) * avgW1env h s κ I) (volume.restrict (avgG n R)) :=
+      hA.add ((W1env_aem d hκ).const_mul _)
+    rw [lintegral_add_left' hAB, lintegral_add_left' hA,
+      lintegral_const_mul' _ _ ENNReal.ofReal_ne_top,
+      lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
+    have x1 : 0 ≤ ε * 4 / s * (avgCB n s C₁ Ω₀ M₂ / κ) := by positivity
+    have x2 : 0 ≤ ε * 2 / s * (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) := by positivity
+    have x3 : 0 ≤ avgCR n s C₁ * κ := by positivity
+    have e1 : ENNReal.ofReal (ε * 4 / s) * ENNReal.ofReal (avgCB n s C₁ Ω₀ M₂ / κ) =
+        ENNReal.ofReal (ε * 4 / s * (avgCB n s C₁ Ω₀ M₂ / κ)) :=
+      (ENNReal.ofReal_mul (by positivity)).symm
+    have e2 : ENNReal.ofReal (ε * 2 / s) *
+        ENNReal.ofReal (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) =
+        ENNReal.ofReal (ε * 2 / s * (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ)) :=
+      (ENNReal.ofReal_mul (by positivity)).symm
+    calc _ ≤ ENNReal.ofReal (ε * 4 / s) * ENNReal.ofReal (avgCB n s C₁ Ω₀ M₂ / κ) +
+          ENNReal.ofReal (ε * 2 / s) *
+            ENNReal.ofReal (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) +
+          ENNReal.ofReal (avgCR n s C₁ * κ) :=
+          add_le_add (add_le_add (mul_le_mul_right hB _) (mul_le_mul_right hW1 _)) hRr
+      _ = ENNReal.ofReal (ε * 4 / s * (avgCB n s C₁ Ω₀ M₂ / κ) +
+          ε * 2 / s * (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) + avgCR n s C₁ * κ) := by
+          rw [ENNReal.ofReal_add (add_nonneg x1 x2) x3, ENNReal.ofReal_add x1 x2, e1, e2]
+      _ ≤ _ := by
+        refine ENNReal.ofReal_le_ofReal ?_
+        have hX : ε * 4 / s * (avgCB n s C₁ Ω₀ M₂ / κ) = 4 / s * avgCB n s C₁ Ω₀ M₂ * κ := by
+          rw [hε]; field_simp
+        have hY : ε * 2 / s * (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) =
+            (4 * Real.pi * avgCW n s C₁ Ω₀ * κ / s) * (κ * avgLog κ) := by
+          rw [hε]; ring
+        have hY2 : (4 * Real.pi * avgCW n s C₁ Ω₀ * κ / s) * (κ * avgLog κ) ≤
+            (4 * Real.pi * avgCW n s C₁ Ω₀ * κ / s) * 1 :=
+          mul_le_mul_of_nonneg_left hκL (by positivity)
+        have hY3 : 0 ≤ 4 * Real.pi * avgCW n s C₁ Ω₀ * κ / s := by positivity
+        unfold avgCPhi
+        have e : (4 / s * avgCB n s C₁ Ω₀ M₂ + 8 * Real.pi / s * avgCW n s C₁ Ω₀ +
+            avgCR n s C₁) * κ = 4 / s * avgCB n s C₁ Ω₀ M₂ * κ +
+            2 * (4 * Real.pi * avgCW n s C₁ Ω₀ * κ / s) + avgCR n s C₁ * κ := by ring
+        rw [e, hX, hY]
+        linarith
+
 end Main
 
 end AvgEnv
+
+theorem envelopes_from_slab (d : AveragingData n R s h f) {C₁ Ω₀ M₂ : ℝ}
+    (hC : AvgSlabBound h R C₁) (hΩ0 : 0 ≤ Ω₀) (hM0 : 0 ≤ M₂)
+    (hΩ : ∀ I ∈ closedBall (0 : Fin n → ℝ) R, ‖KAM.frequencyMap h I‖ ≤ Ω₀)
+    (hM : ∀ I ∈ closedBall (0 : Fin n → ℝ) R, ∀ i, ∑ j, |avgM h I i j| ≤ M₂) :
+    (∀ κ : ℝ, 0 < κ → κ ≤ 1 →
+      (∫⁻ I in avgG n R, avgWenv h s κ I) ≤ ENNReal.ofReal (avgCW n s C₁ Ω₀ * avgLog κ) ∧
+      (∫⁻ I in avgG n R, avgW1env h s κ I) ≤
+        ENNReal.ofReal (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) ∧
+      (∫⁻ I in avgG n R, avgBenv h s M₂ κ I) ≤ ENNReal.ofReal (avgCB n s C₁ Ω₀ M₂ / κ) ∧
+      (∫⁻ I in avgG n R, avgRenv h s κ I) ≤ ENNReal.ofReal (avgCR n s C₁ * κ)) ∧
+    ∀ ε : ℝ, 0 < ε → ε ≤ 1 →
+      ENNReal.ofReal (2 * ε) * (∫⁻ I in avgG n R, avgWenv h s (Real.sqrt ε) I) ≤
+        ENNReal.ofReal (4 * avgCW n s C₁ Ω₀ * Real.sqrt ε) ∧
+      (∫⁻ I in avgG n R, avgPhiEnv h s M₂ ε (Real.sqrt ε) I) ≤
+        ENNReal.ofReal (avgCPhi n s C₁ Ω₀ M₂ * Real.sqrt ε) := by
+  have hG : avgG n R ⊆ closedBall (0 : Fin n → ℝ) R := fun I hI =>
+    closedBall_subset_closedBall (by linarith [d.hR]) hI
+  have hΩG : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀ := fun I hI => hΩ I (hG hI)
+  refine ⟨fun κ hκ hκ1 => AvgEnv.kappa_part d hC hΩG hM0 hκ hκ1, fun ε hε hε1 => ?_⟩
+  exact AvgEnv.eps_part d hC hΩG hM0 (Real.sqrt_pos.2 hε) (Real.sqrt_le_one.2 hε1)
+    (Real.sq_sqrt hε.le).symm
+
+/-- Source-facing node with all quantitative constants derived from the fixed data. -/
+theorem envelopes (d : AveragingData n R s h f) :
+    ∃ C₁ Ω₀ M₂ : ℝ, AvgSlabBound h R C₁ ∧ 0 ≤ Ω₀ ∧ 0 ≤ M₂ ∧
+      (∀ I ∈ closedBall (0 : Fin n → ℝ) R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) ∧
+      (∀ I ∈ closedBall (0 : Fin n → ℝ) R, ∀ i, ∑ j, |avgM h I i j| ≤ M₂) ∧
+    (∀ κ : ℝ, 0 < κ → κ ≤ 1 →
+      (∫⁻ I in avgG n R, avgWenv h s κ I) ≤ ENNReal.ofReal (avgCW n s C₁ Ω₀ * avgLog κ) ∧
+      (∫⁻ I in avgG n R, avgW1env h s κ I) ≤
+        ENNReal.ofReal (2 * Real.pi * avgCW n s C₁ Ω₀ * avgLog κ) ∧
+      (∫⁻ I in avgG n R, avgBenv h s M₂ κ I) ≤ ENNReal.ofReal (avgCB n s C₁ Ω₀ M₂ / κ) ∧
+      (∫⁻ I in avgG n R, avgRenv h s κ I) ≤ ENNReal.ofReal (avgCR n s C₁ * κ)) ∧
+    ∀ ε : ℝ, 0 < ε → ε ≤ 1 →
+      ENNReal.ofReal (2 * ε) * (∫⁻ I in avgG n R, avgWenv h s (Real.sqrt ε) I) ≤
+        ENNReal.ofReal (4 * avgCW n s C₁ Ω₀ * Real.sqrt ε) ∧
+      (∫⁻ I in avgG n R, avgPhiEnv h s M₂ ε (Real.sqrt ε) I) ≤
+        ENNReal.ofReal (avgCPhi n s C₁ Ω₀ M₂ * Real.sqrt ε) := by
+  obtain ⟨C₁, hC⟩ := exists_avgSlabBound d
+  obtain ⟨Ω₀, M₂, hΩ0, hM0, hΩ, hM⟩ := avg_compact_bounds d
+  exact ⟨C₁, Ω₀, M₂, hC, hΩ0, hM0, hΩ, hM, envelopes_from_slab d hC hΩ0 hM0 hΩ hM⟩
 
 end KAM.Nekhoroshev
 
