@@ -8843,9 +8843,9 @@ EDGE: stepP:p5:fi-inv | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:freq-inj@L12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: freq_inj (KAM/Planetary/PGAssembly/FrequencyInverse.lean)
+LEAN_NOTE: audit P5-FI PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:fi-inj
@@ -8871,9 +8871,9 @@ EDGE: bpP:p5:freq-data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-inj@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: freq_injOn (KAM/Planetary/PGAssembly/FrequencyInverse.lean)
+LEAN_NOTE: audit P5-FI PASS WITH NOTES; named fi-inj
 NOTE: -
 
 NODE: stepP:p5:fi-blk
@@ -8929,9 +8929,9 @@ EDGE: bpP:p5:freq-data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-inv@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schur_inverse_blocks (KAM/Planetary/PGAssembly/FrequencySchur.lean)
+LEAN_NOTE: audit P5-FI PASS WITH NOTES; named fi-inv
 NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.
 
 NODE: bpP:p5:params
