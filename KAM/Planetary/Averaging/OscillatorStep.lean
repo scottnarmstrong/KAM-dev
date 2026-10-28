@@ -211,7 +211,7 @@ theorem osc_fp_class {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp �
       have e0 : (fun i => (((Pi.single j (1 : ℤ) : Fin n → ℤ) i : ℤ) : ℂ)) = Pi.single j 1 := by
         ext i; by_cases hi : i = j <;> simp [hi]
       rw [e0]
-      exact fastShift_single j
+      exact oscFastShift_single j
     rw [e] at this
     have e2 : ((z.1 + Pi.single (Fin.castAdd m j) 1, z.2) : CPhase (n + m)) =
         z + (Pi.single (Fin.castAdd m j) 1, 0) := by ext <;> simp
