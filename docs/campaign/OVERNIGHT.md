@@ -402,3 +402,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   proving. P5-FAM (toward `properlyDegenerateKAM`) proving. Tooling: compile gate raised to 3 slots (builds had
   queued 13 min with 12 GB free); pre-audit checks refuse reused helper short names and root-name shadows that KAM
   actually uses.
+- **19:00. Ruling (P11B signature defect, `exported_sums`).** The B13 prover found that the last conjunct
+  `∀ ν, (∑' j, selectionA a (j + ν) + selectionAlpha a (j + ν)) / selectiont a (ν + 1) ≤ …` parses with the second
+  summand outside the tsum, leaving `j` unbound (it elaborates only with autoImplicit, which the project disables).
+  Ruling: the intended source statement (E3) is the parenthesised sum `∑' j, (A (j+ν) + α (j+ν))`; signature file
+  amended (old copy in orchestrator-tools/handoffs), design note requested (P11B design line ~992). Not a frozen
+  statement.
+- **19:08. Rulings applied under the 18:47/18:50 principles.** E7 (signed `perturbation` reuses a short name;
+  math PASS) and R1 (infrastructure package with no signed declarations; audit focus item "every declaration =
+  signature file" misapplied to unsigned helpers; math PASS) accepted without re-audit; ruling notes on their
+  branches. The orchestrator's audit focus now reads "every SIGNED declaration = signature file".
