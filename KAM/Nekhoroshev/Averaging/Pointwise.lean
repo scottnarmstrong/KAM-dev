@@ -57,7 +57,8 @@ theorem ofReal_norm_integral_le {E : Type*} [NormedAddCommGroup E] [NormedSpace 
         ENNReal.ofReal_le_ofReal (intervalIntegral.norm_integral_le_integral_norm hu)
     _ = ENNReal.ofReal (∫ v in Ioc 0 u, ‖G v‖) := by rw [intervalIntegral.integral_of_le hu]
     _ = ∫⁻ v in Ioc 0 u, ENNReal.ofReal ‖G v‖ :=
-        ofReal_integral_eq_lintegral_ofReal hint.1.norm (Filter.Eventually.of_forall fun _ => norm_nonneg _)
+        ofReal_integral_eq_lintegral_ofReal hint.1.norm
+          (Filter.Eventually.of_forall fun _ => norm_nonneg _)
     _ ≤ ∫⁻ v in Icc 0 t, ENNReal.ofReal ‖G v‖ :=
         lintegral_mono_set (Ioc_subset_Icc_self.trans (Icc_subset_Icc_right hut))
 

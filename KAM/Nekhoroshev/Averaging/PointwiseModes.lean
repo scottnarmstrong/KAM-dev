@@ -76,7 +76,8 @@ theorem norm_avgU_le' (κ : ℝ) (k : Fin n → ℤ) {I : Fin n → ℝ} (hI : I
   have hβ : 0 ≤ avgBeta s k := (Real.exp_pos _).le
   refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => ?_
   simp only [avgU, norm_mul, Complex.norm_real, Real.norm_eq_abs, Complex.norm_intCast]
-  have hj : |(k j : ℝ)| ≤ ‖fun j => (k j : ℝ)‖ := by simpa using norm_le_pi_norm (fun j => (k j : ℝ)) j
+  have hj : |(k j : ℝ)| ≤ ‖fun j => (k j : ℝ)‖ := by
+    simpa using norm_le_pi_norm (fun j => (k j : ℝ)) j
   calc ‖avgCoeff f (KAM.realInclusion n I) k‖ * |avgPsi κ (avgQ h k I)| * |(k j : ℝ)|
       ≤ avgBeta s k * |avgPsi κ (avgQ h k I)| * ‖fun j => (k j : ℝ)‖ := by
         gcongr
