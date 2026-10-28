@@ -380,6 +380,140 @@ theorem symmetries (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) (t : Vec n) 
     refine this.trans (Prod.ext rfl ?_)
     ext j; fin_cases j <;> simp [sigmaRefl]
 
+theorem pairPotential_map (G : ℝ) (m : Fin n → ℝ) (A : (Fin 2 → ℝ) →+ (Fin 2 → ℝ))
+    (hA : ∀ v, planeLength (A v) = planeLength v) (q : Fin (n * 2) → ℝ) :
+    pairPotential G m (ofBodies fun i => A (bodyVector q i)) = pairPotential G m q := by
+  unfold pairPotential
+  simp only [bodyVector_ofBodies, ← map_sub, hA]
+
+/-- The two Kepler perturbation functions are invariant under the isometries induced by the
+chart symmetries: the position block is moved by `A`, the momentum block by `B`. -/
+theorem perturbation_map (D : Data n) (b : Bool) {w w' : Phase (n + n)}
+    (A B : (Fin 2 → ℝ) →+ (Fin 2 → ℝ)) (hA : ∀ v, planeLength (A v) = planeLength v)
+    (hB : ∀ v, planeSq (B v) = planeSq v)
+    (h : poincareProd D.m (D.G * D.m0) w' =
+      (ofBodies fun i => A (bodyVector (poincareProd D.m (D.G * D.m0) w).1 i),
+        ofBodies fun i => B (bodyVector (poincareProd D.m (D.G * D.m0) w).2 i))) :
+    perturbation D b w' = perturbation D b w := by
+  have hs : planeSq (∑ i, bodyVector (poincareProd D.m (D.G * D.m0) w').2 i) =
+      planeSq (∑ i, bodyVector (poincareProd D.m (D.G * D.m0) w).2 i) := by
+    rw [h]
+    simp only [bodyVector_ofBodies, ← map_sum, hB]
+  have hp : pairPotential D.G D.m (poincareProd D.m (D.G * D.m0) w').1 =
+      pairPotential D.G D.m (poincareProd D.m (D.G * D.m0) w).1 := by
+    rw [h]
+    exact pairPotential_map D.G D.m A hA _
+  cases b <;> simp [perturbation, fMov, fFix, hs, hp]
+
+private def rotHom (θ : ℝ) : (Fin 2 → ℝ) →+ (Fin 2 → ℝ) :=
+  AddMonoidHom.mk' (rot θ) fun u v => by ext i; fin_cases i <;> simp [rot] <;> ring
+
+private def sigHom : (Fin 2 → ℝ) →+ (Fin 2 → ℝ) :=
+  AddMonoidHom.mk' sigmaRefl fun u v => by ext i; fin_cases i <;> simp [sigmaRefl] <;> ring
+
+private def sigHom' : (Fin 2 → ℝ) →+ (Fin 2 → ℝ) :=
+  AddMonoidHom.mk' (fun v => ![-v 0, v 1]) fun u v => by ext i; fin_cases i <;> simp <;> ring
+
+theorem perturbation_antipode (D : Data n) (b : Bool) {x : Slow n} (hx : x ∈ slowDom D)
+    (t : Vec n) :
+    perturbation D b (assemble x.2.1 (t + fun _ => π) (-x.2.2) (-x.1)) =
+      perturbation D b (assemble x.2.1 t x.2.2 x.1) := by
+  refine perturbation_map D b (-AddMonoidHom.id _) (-AddMonoidHom.id _)
+    (fun v => by simp [planeLength_neg]) (fun v => ?_) ?_
+  · simp [planeSq, Fin.sum_univ_two]
+  · rw [(symmetries D hx t 0).1]
+    exact Prod.ext (ofBodies_bodyVector (-(poincareProd D.m (D.G * D.m0)
+      (assemble x.2.1 t x.2.2 x.1)).1)).symm
+      (ofBodies_bodyVector (-(poincareProd D.m (D.G * D.m0)
+      (assemble x.2.1 t x.2.2 x.1)).2)).symm
+
+theorem perturbation_rotate (D : Data n) (b : Bool) {x : Slow n} (hx : x ∈ slowDom D)
+    (t : Vec n) (θ : ℝ) :
+    perturbation D b (assemble x.2.1 (t + fun _ => θ) (rotateSlow θ x).2.2 (rotateSlow θ x).1) =
+      perturbation D b (assemble x.2.1 t x.2.2 x.1) := by
+  refine perturbation_map D b (rotHom θ) (rotHom θ) (fun v => planeLength_rot θ v)
+    (fun v => ?_) ?_
+  · exact planeSq_rot' θ v
+  · exact (symmetries D hx t θ).2.1
+
+theorem perturbation_reflect (D : Data n) (b : Bool) {x : Slow n} (hx : x ∈ slowDom D)
+    (t : Vec n) :
+    perturbation D b (assemble x.2.1 (-t) (-x.2.2) x.1) =
+      perturbation D b (assemble x.2.1 t x.2.2 x.1) := by
+  refine perturbation_map D b sigHom sigHom' (fun v => ?_) (fun v => ?_) ?_
+  · unfold planeLength; congr 1
+    simp [sigHom, sigmaRefl, planeSq, Fin.sum_univ_two]
+  · simp [sigHom', planeSq, Fin.sum_univ_two]
+  · exact (symmetries D hx t 0).2.2
+
+theorem assemble_add_fastShift (I t p q : Vec n) (k : Fin n → ℤ) :
+    assemble I t p q + fastShift (a := n) (b := n) k =
+      assemble I (t + fun i => 2 * π * k i) p q := by
+  refine Prod.ext (funext fun j => ?_) (funext fun j => ?_)
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
+      simp [assemble, fastShift, Fin.append_left, Fin.append_right]
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
+      simp [assemble, fastShift, Fin.append_left, Fin.append_right]
+
+theorem perturbation_periodic (D : Data n) (b : Bool) {x : Slow n} (hx : x ∈ slowDom D)
+    (k : Fin n → ℤ) (t : Vec n) :
+    perturbation D b (assemble x.2.1 (t + fun i => 2 * π * k i) x.2.2 x.1) =
+      perturbation D b (assemble x.2.1 t x.2.2 x.1) := by
+  rw [← assemble_add_fastShift]
+  have := (poincareProd_lattice (m := D.m) (κ := D.G * D.m0) D.hm (mul_pos D.hG D.hm0)
+    (assemble_mem_slowDom D hx t) k).2
+  simp only [perturbation, this]
+
+theorem secular_eq_of_shift (D : Data n) (b : Bool) {x y : Slow n} (hx : x ∈ slowDom D)
+    (c : Vec n)
+    (h : ∀ φ, perturbation D b (assemble y.2.1 φ y.2.2 y.1) =
+      perturbation D b (assemble x.2.1 (φ + c) x.2.2 x.1)) :
+    secular D b y = secular D b x := by
+  unfold secular secularAverage
+  congr 1
+  simp only [h]
+  exact cell_integral_add (g := fun φ => perturbation D b (assemble x.2.1 φ x.2.2 x.1))
+    (fun k t => perturbation_periodic D b hx k t) c
+
+theorem secular_eq_of_neg (D : Data n) (b : Bool) {x y : Slow n} (hx : x ∈ slowDom D)
+    (h : ∀ φ, perturbation D b (assemble y.2.1 φ y.2.2 y.1) =
+      perturbation D b (assemble x.2.1 (-φ) x.2.2 x.1)) :
+    secular D b y = secular D b x := by
+  unfold secular secularAverage
+  congr 1
+  simp only [h]
+  exact cell_integral_neg (g := fun φ => perturbation D b (assemble x.2.1 φ x.2.2 x.1))
+    (fun k t => perturbation_periodic D b hx k t)
+
+theorem evenness (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) (b : Bool) (θ : ℝ) :
+    secular D b (-x.1,x.2.1,-x.2.2) = secular D b x ∧
+    secular D b (x.1,x.2.1,-x.2.2) = secular D b x ∧
+    secular D b (-x.1,x.2.1,x.2.2) = secular D b x ∧
+    secular D b (rotateSlow θ x) = secular D b x := by
+  have h1 : secular D b (-x.1,x.2.1,-x.2.2) = secular D b x := by
+    refine secular_eq_of_shift D b hx (fun _ => -π) fun φ => ?_
+    have := perturbation_antipode D b hx (φ + fun _ => -π)
+    have e : ((φ + fun _ => -π) + fun _ => π) = φ := by ext i; simp
+    rw [e] at this
+    exact this
+  have h3 : ∀ z : Slow n, z ∈ slowDom D → secular D b (z.1,z.2.1,-z.2.2) = secular D b z := by
+    intro z hz
+    refine secular_eq_of_neg D b hz fun φ => ?_
+    have := perturbation_reflect D b hz (-φ)
+    rw [neg_neg] at this
+    exact this
+  refine ⟨h1, h3 x hx, ?_, ?_⟩
+  · have hx' : (-x.1, x.2.1, -x.2.2) ∈ slowDom D := by
+      rw [mem_slowDom_iff] at hx ⊢; intro i; simpa using hx i
+    have := h3 _ hx'
+    simp only [neg_neg] at this
+    rw [← h1]; exact this
+  · refine secular_eq_of_shift D b hx (fun _ => -θ) fun φ => ?_
+    have := perturbation_rotate D b hx (φ + fun _ => -θ) θ
+    have e : ((φ + fun _ => -θ) + fun _ => θ) = φ := by ext i; simp
+    rw [e] at this
+    exact this
+
 end SecularForm
 
 end KAM.Planetary
