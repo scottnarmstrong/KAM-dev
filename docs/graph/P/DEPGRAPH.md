@@ -29799,9 +29799,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbit (KAM/Planetary/PlanarTorsion/OrbitJet.lean); orbit_analytic, orbit_poincare_bridge (KAM/Planetary/PlanarTorsion/OrbitJet/Analytic.lean)
+LEAN_NOTE: audit P11C-T2 PASS WITH NOTES (complete slice)
 NOTE: -
 
 NODE: stepP:p11b:or-kep
@@ -29828,9 +29828,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kepler_complex, orbit_line_isJet (KAM/Planetary/PlanarTorsion/OrbitJet/Line.lean)
+LEAN_NOTE: audit P11C-T2 PASS; named or-kep
 NOTE: -
 
 NODE: stepP:p11b:or-pos
@@ -29858,9 +29858,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbit_eq_complex, orbit_line_isJet (KAM/Planetary/PlanarTorsion/OrbitJet/Line.lean); oJet_eq_refJet (KAM/Planetary/PlanarTorsion/OrbitJet/Algebra.lean)
+LEAN_NOTE: audit P11C-T2 PASS; named or-pos
 NOTE: -
 
 NODE: stepP:p11b:or-an
@@ -29886,9 +29886,9 @@ EDGE: stepP:p11b:or-pos | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:o
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbit_analytic (KAM/Planetary/PlanarTorsion/OrbitJet/Analytic.lean); jetEq_of_line_isBigO (KAM/Planetary/PlanarTorsion/OrbitJet/Polar.lean)
+LEAN_NOTE: audit P11C-T2 PASS; named or-an
 NOTE: -
 
 NODE: bpP:p11b:laplace-red
