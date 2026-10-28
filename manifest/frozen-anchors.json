@@ -9208,7 +9208,7 @@
     "module": "KAM.Provider.Nekhoroshev.AveragingMean",
     "export": "KAM.Provider.Nekhoroshev.averaging_mean"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "ff6d85d74db081c321106dd91478a861c7afebb3955802ba7f613616e080569a",
    "suffix_sha256": "1efcbce496c3a865046e94018aa1cc8bdafb0b9454c6939e2353d83cc98b6da8",
    "draft_allowlist": {
@@ -9279,7 +9279,7 @@
     "module": "KAM.Provider.Nekhoroshev.AveragingMost",
     "export": "KAM.Provider.Nekhoroshev.averaging_most"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "7eeaa95d2791649dc43e3c8d99d62820f3ceb593dcee12786edf6c389b221163",
    "suffix_sha256": "1efcbce496c3a865046e94018aa1cc8bdafb0b9454c6939e2353d83cc98b6da8",
    "draft_allowlist": {

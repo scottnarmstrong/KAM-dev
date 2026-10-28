@@ -58,7 +58,7 @@ theorem averaging_most
             (actionBall n R) (Set.Icc 0 (1 / ε)) z ∧
           ∀ t ∈ Set.Icc 0 (1 / ε), ‖(z t).2 - x.2‖ ≤ η :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Nekhoroshev.averaging_most hn R s hR hs h f hh hf hrank K hK hKI
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

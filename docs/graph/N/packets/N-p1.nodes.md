@@ -595,9 +595,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#bpN:p1:partials@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: partials (KAM/Nekhoroshev/Interfaces/Hessian.lean)
+LEAN_NOTE: audit P1-3b PASS WITH NOTES
 NOTE: K:ext-schwarz is cited in \source and used at step pa-sym
 
 NODE: stepN:p1:pa-first
@@ -689,9 +689,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#bpN:p1:hessian-co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hessian_convert (KAM/Nekhoroshev/Interfaces/Hessian.lean)
+LEAN_NOTE: audit P1-3b PASS WITH NOTES
 NOTE: The lemma lies in §s-holo, whose standing IsAnalyticIntegrable premise supplies the reality required by holo-real(c). Keep the stated Hessian bound and all complex/real estimates; there is no missing reality premise in the raw subsection. Link its data directly.
 
 NODE: stepN:p1:hc-entries
@@ -924,9 +924,9 @@ EDGE: bpN:p0:realpart#realPart | blueprint-N/parts/p1-interfaces.tex#bpN:p1:qc-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qc_convert (KAM/Nekhoroshev/Interfaces/QuasiConvex.lean); qc_convert_tilde (KAM/Nekhoroshev/Interfaces/Period.lean)
+LEAN_NOTE: audit P1-3b PASS WITH NOTES
 NOTE: the warning that full positive definiteness is false (L159) and the \source (L160) are not uses
 
 NODE: stepN:p1:qc-reg
@@ -1226,9 +1226,9 @@ EDGE: bpN:p1:norm-convert#summation-route | blueprint-N/parts/p1-interfaces.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: norm_convert, norm_convert_converse (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: audit P1-6 PASS WITH NOTES
 NOTE: Conjunctive prerequisites are the strip definition and the converse. Either forward route suffices: decay plus geometric sum, or K summation directly. All use the frozen period-one weight e^{2π¦k¦₁ρ}.
 
 NODE: stepN:p1:nc-decay
@@ -1332,9 +1332,9 @@ EDGE: bpN:p1:constants#data | blueprint-N/parts/p1-interfaces.tex#bpN:p1:constan
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Only numerical conjuncts proved (const_* in Constants.lean); analytic parts (c)-(g) open; audit P1-5
+LEAN_STATUS: PROVED
+LEAN_REF: const_pos, const_eps0, const_size, const_conclusion (KAM/Nekhoroshev/Interfaces/Constants.lean); const_tubes, const_hyp, const_perturbation, const_exceptional, const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: composite of audits P1-5 PASS WITH NOTES + P1-6 PASS WITH NOTES; parts (a)-(h)
 NOTE: SOURCE_GAP: clauses (f),(g) and their proof steps use h-frequency and derivative bounds, but the lemma binds h with H1–H5 only inside clause (d). Preserve the raw conditional scope and expose the missing attachment at co-exc/co-time. No frozen anchor is changed.
 
 NODE: stepN:p1:co-pos

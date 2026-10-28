@@ -1,0 +1,10 @@
+# N89-G6 prover handoff (branch inp-n89g6, 969207c; contains inp-n89g5 (N89-G1..G5, audited); offloaded package run by the main orchestrator; prover on claude-12)
+
+Files (new): KAM/Nekhoroshev/ResonanceGeometry/GeomFormula.lean (~135 lines), KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean (~250 lines). Split into two modules (no facade needed); Geometric imports Blocks + GeomFormula.
+Nodes: `sqrt` -> KAM.Nekhoroshev.sqrt; `geom_formula` -> geom_formula; `geometric` -> geometric (signatures verbatim). Helpers: euclid_smul', euclid_proj_line, lattice_addVector_eq, rank_one_facts, not_mem_zone, lt_of_mem_zone, ne_bot_of_dim_pos, geometric_theta (part a, extra helper premise 0<lam 1 supplied from hlam), geometric_lattice (part b).
+Approach: as blueprint. geom_formula via proj_eq_of_perp with candidate proj V w + c•Qk. (a): rank-one maximal lattice through k, lattice = ℝk, vol ≤ ‖k‖ (via closure{k} and lattice_volume_cyclic), distance via geom_formula with V=⊥. (b): Λ+ maximal above addVector, volume bounds, two projections, divisor, then `sqrt`.
+Checks: gate build of KAM.Nekhoroshev.ResonanceGeometry.Geometric succeeded (only pre-existing unused-variable warning in Blocks.lean). scripts/lint_sources.sh: no over-long lines, PASS on modules/frozen guard/ABI; only message "KAM.lean is out of date" (generated; orchestrator to regenerate with gen_root_imports.py; I did not edit it).
+#print axioms geometric, geom_formula, sqrt: [propext, Classical.choice, Quot.sound].
+Uncertainties/errata/deviations/design signals: none; no heartbeat overrides, no sorry.
+
+AUDIT FOCUS (design docs/tracks/N/design/N89-LEAN-DESIGN.md row N89-G6 and proof plan; audits DESIGN-N89-design-audit-{1,2}.md; signatures .drafts/design/N89Signatures.lean): (1) statements = design signatures (sqrt, geom_formula, geometric with the rank-one and higher-rank cases); (2) proofs sound; no added premises; (3) hygiene (lint incl. 100-char lines). Audit ONLY ResonanceGeometry/Geometric*.lean (compare with branch inp-n89g5).

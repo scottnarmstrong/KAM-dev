@@ -53,9 +53,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:vf-bound@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: differentiableOn_hamField, vf_bound (KAM/Canonical/VectorField.lean)
+LEAN_NOTE: audit C5-4 PASS
 NOTE: -
 
 NODE: stepN:p5:vf-deriv
@@ -147,9 +147,9 @@ EDGE: bpN:p1:ext-restrict | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:flow@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Partial: (a) flow_a and (d) flow_d proved (audit C5-2 PASS WITH NOTES), (b) flow_b proved (audit C5-3 PASS WITH NOTES), all in KAM/Canonical/Flow.lean and FlowRegular.lean; clauses (c) and (e) are not yet in an audited package
+LEAN_STATUS: PROVED
+LEAN_REF: gaugeInterior, flow, SmallField, flow_a, flow_d (KAM/Canonical/Flow.lean); flow_b (KAM/Canonical/FlowRegular.lean); flow_c, flow_e (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: composite of audits C5-2 PASS WITH NOTES (a),(d) + C5-3 PASS WITH NOTES (b) + C5-5 PASS WITH NOTES (c),(e)
 NOTE: Part 11b re-uses this lemma verbatim for N = 2n+2k (not an edge here)
 
 NODE: stepN:p5:fl-max
@@ -332,9 +332,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:symplectic
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p5:sy-var
@@ -448,9 +448,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:canonical@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_bracket, canonical_field, canonical_orbit (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES; (a),(b),(c)
 NOTE: The paragraph after the proof (L106, 'for real data …') is mapped to no node: no proof cites it (see coverage p5:prose-L106-L106)
 
 NODE: stepN:p5:ca-chain
@@ -740,9 +740,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:adjoint@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint_bound (KAM/Canonical/Adjoint.lean)
+LEAN_NOTE: audit C5-7 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p5:ad-setup
@@ -865,9 +865,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:compositio
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ComposeData, composition_domain (KAM/Canonical/CompositionDomain.lean); composition_series, composition_t, composition_real (KAM/Canonical/Composition.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES; (i)-(iv)
 NOTE: Edge to remark bpN:p5:route (the decision for the Lie series route) dropped: a route decision, not a use. The \sourcegap at L167 (Pöschel does not prove the equality u∘X^1 = Σ ad^h/h!) is filled by stepN:p5:co-remainder, so no SOURCE_GAP node (coverage p5:sourcegap-L167)
 
 NODE: stepN:p5:co-field
@@ -1030,9 +1030,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:transform@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: liftRemainder, transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: audit C5-9 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p5:tr-h
@@ -1190,9 +1190,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:compositio
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_integral (KAM/Canonical/CompositionIntegral.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p5:ci-integrand
@@ -1288,9 +1288,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#bpN:p5:canonical-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: CanonData, canonical_map_a, canonical_map_b, canonical_map_c, canonical_map_d, canonical_map_e (KAM/Canonical/CanonicalMap.lean)
+LEAN_NOTE: audit C5-10 PASS WITH NOTES; (d) corollary-canonical part via Symplectic lemmas per audit
 NOTE: -
 
 NODE: stepN:p5:cm-field

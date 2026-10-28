@@ -1514,7 +1514,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P6-5 PASS WITH NOTES: (a) boundedness/finiteness exported (circularTube_norm_lt, volume_lt_top_of_subset_circularTube) but the explicit box-volume estimate is not; (b) only via Part 1 measure_chart_image under full-lattice assumptions; not marked proved
 NOTE: -
 
 NODE: stepP:p6:mp-a
@@ -1609,9 +1609,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:movkol
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: movingKolmogorovSet_of_tube (KAM/Planetary/Newtonian/Assembly.lean)
+LEAN_NOTE: audit P6-5 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ma-tube
@@ -1851,7 +1851,7 @@ EDGE: bpP:p0:fixham#fixedHamiltonian | blueprint-P/parts/p6-newtonian-models.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision+sonnet-extract-pfixed
 REVIEWER: sol-review-P-w
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixedKolmogorovSet_of_tube (KAM/Planetary/Newtonian/Assembly.lean)
+LEAN_NOTE: audit P6-5 PASS WITH NOTES
 NOTE: restored by the P-FIXED revision (was EXCLUDED as P-FIXED-only); consumers stepP:p13:n2-phys, stepP:p13:ng-phys, Part 11 L240; proof inline (L282); source fields filled by sonnet-extract-pfixed

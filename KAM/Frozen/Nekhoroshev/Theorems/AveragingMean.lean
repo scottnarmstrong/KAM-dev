@@ -61,7 +61,7 @@ theorem averaging_mean
         ∀ x ∈ K \ E, ∀ t ∈ Set.Icc 0 (1 / ε),
           ‖(Φ x t).2 - x.2‖ ≤ A * Real.sqrt ε / κ :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Nekhoroshev.averaging_mean hn R s hR hs h f hh hf hrank K hK hKI
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
