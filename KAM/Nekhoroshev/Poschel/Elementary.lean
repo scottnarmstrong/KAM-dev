@@ -132,10 +132,13 @@ theorem elementary (S : Theorem1Setting P r0 s m M ell h f)
   · exact div_le_div_of_nonneg_left hr0.le (by norm_num) hA
   · have : eps / thmEps0 n r0 m M = (thmEps0 n r0 m M / eps)⁻¹ := (inv_div _ _).symm
     rw [this, Real.inv_rpow (div_nonneg he0.le heps.le), one_div]
+    rfl
   · have h2 : (r0 / (A * K) ^ n) ^ 2 = r0 ^ 2 / (A ^ (2 * n) * K ^ (2 * n)) := by
-      rw [div_pow, ← pow_mul, mul_pow, mul_comm n 2, pow_mul, mul_pow, ← pow_mul, ← pow_mul]
+      rw [div_pow, ← pow_mul, mul_comm n 2, mul_pow]
     rw [h2, hKpow]
+    have hA' : A = thmA m M := rfl
     unfold thmEps0
+    rw [← hA']
     field_simp
   · unfold thmEps0
     rw [div_le_div_iff₀ (by positivity) (by positivity)]
