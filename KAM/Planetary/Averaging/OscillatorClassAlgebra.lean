@@ -72,8 +72,8 @@ theorem oscClass.congr {u v : CHam (n + m)} (hu : oscClass D r rp rq S u)
     have hmem : ((z.1 + Pi.single (Fin.castAdd m j) 1, z.2) : CPhase (n + m)) ∈
         oscDom (m := m) D r rp rq S := by
       have e : ((z.1 + Pi.single (Fin.castAdd m j) 1, z.2) : CPhase (n + m)) =
-          z + fastShift (m := m) (Pi.single j 1) := by
-        rw [fastShift_single]; ext <;> simp
+          z + oscFastShift (m := m) (Pi.single j 1) := by
+        rw [oscFastShift_single]; ext <;> simp
       rw [e]
       exact oscDom_add_shift (fun i => by by_cases hi : i = j <;> simp [hi]) hz
     rw [← h _ hmem, ← h _ hz]
