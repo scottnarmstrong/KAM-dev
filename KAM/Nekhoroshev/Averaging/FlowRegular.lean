@@ -34,7 +34,7 @@ theorem isOpen_avgDomain' (n : ℕ) (R : ℝ) : IsOpen (avgDomain n R) :=
   isOpen_univ.prod isOpen_ball
 
 /-- `ε f` is an analytic perturbation of size `|ε|` when `f` has size one. -/
-private theorem data_smul' (d : AveragingData n R s h f) (ε : ℝ) :
+theorem data_smul' (d : AveragingData n R s h f) (ε : ℝ) :
     Data n R s |ε| h (fun w => (ε : ℂ) * f w) := by
   obtain ⟨h0, hdiff, hcont, hper, him, hnorm⟩ := d.hf
   refine ⟨d.hR, d.hs, d.hh, abs_nonneg ε, ?_, ?_, ?_, ?_, ?_⟩
