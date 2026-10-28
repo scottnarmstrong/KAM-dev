@@ -33,9 +33,7 @@ theorem step_R1_eq (H : P11StepHyp S h w R) {b : P11CVec n} (hb : b ∈ KAM.acti
   have hs : (S.s : ℂ) ≠ 0 := by exact_mod_cast S.s_pos.ne'
   rw [c7 ((θ, ((S.s / 2 : ℝ) : ℂ) • Pi.single i 1), b) hb, c7 ((θ, 0), b) hb]
   simp [Pi.single_apply]
-  push_cast
   field_simp
-  ring
 
 theorem step_R_real (H : P11StepHyp S h w R)
     (hreal : p11Real (domain_def n S.r S.s (KAM.actionNbhd S.E S.t)) R) :
@@ -53,7 +51,7 @@ theorem step_R_real (H : P11StepHyp S h w R)
         domain_def n (S.r - S.d) S.s (KAM.actionNbhd S.E S.t) := fun y hy =>
     p11_mem_domain_def.mpr ⟨KAM.ofReal_mem_complexStrip hr x, hy, hb⟩
   have h0 : ‖KAM.realInclusion n (0 : P11Vec n)‖ < S.s := by simpa using S.s_pos
-  have c0 := hc x.1 |> fun _ => hc (x, 0) b (by simpa using hmem 0 h0)
+  have c0 := hc (x, 0) b (by simpa using hmem 0 h0)
   have e0 : p11R0 S.T R (KAM.realInclusion n x, KAM.realInclusion n b) =
       p11Cutoff S.T R (KAM.realInclusion₂ n (x, 0), KAM.realInclusion n b) := by simp [p11R0]
   refine ⟨by rw [e0]; exact c0, fun i => ?_⟩
@@ -63,15 +61,14 @@ theorem step_R_real (H : P11StepHyp S h w R)
   have hyn : ‖KAM.realInclusion n y‖ < S.s := by
     rw [hyc]; exact norm_half_single S.s_pos i
   have c1 := hc (x, y) b (hmem y hyn)
-  rw [step_R1_eq H hb, Complex.im_ofReal_mul]
+  rw [step_R1_eq H hb, Complex.im_ofReal_mul, ← hyc]
   have : (p11Cutoff S.T R ((KAM.realInclusion n x, KAM.realInclusion n y),
       KAM.realInclusion n b) -
       p11Cutoff S.T R ((KAM.realInclusion n x, 0), KAM.realInclusion n b)).im = 0 := by
     rw [Complex.sub_im]
     simp only [KAM.realInclusion₂_apply, map_zero] at c0 c1
     rw [c1, c0]; simp
-  rw [hyc] at this
-  simp [this]
+  rw [this, mul_zero]
 
 theorem step_hm_real (H : P11StepHyp S h w R)
     (hreal : p11Real (domain_def n S.r S.s (KAM.actionNbhd S.E S.t)) R) :
@@ -95,10 +92,11 @@ theorem coeff_zero_real {b : P11CVec n} {P : P11CVec n × P11CVec n → ℂ}
   rw [← Complex.conj_eq_iff_im]
   unfold KAM.Weighted.coeff KAM.torusCoeffW KAM.torusAverage
   rw [← integral_conj]
-  refine setIntegral_congr_fun (measurableSet_Icc.pi_univ_pi (fun _ _ => measurableSet_Icc)) ?_
+  refine setIntegral_congr_fun (MeasurableSet.univ_pi (fun _ => measurableSet_Icc)) ?_
   intro x _
-  have := (Complex.conj_eq_iff_im.2 (hP x))
-  simpa [KAM.character_zero] using this
+  have h' : (starRingEnd ℂ) (P (fun j => (x j : ℂ), b)) = P (fun j => (x j : ℂ), b) :=
+    Complex.conj_eq_iff_im.2 (hP x)
+  simpa [KAM.character_zero] using h'
 
 theorem step_avg_real (H : P11StepHyp S h w R)
     (hreal : p11Real (domain_def n S.r S.s (KAM.actionNbhd S.E S.t)) R) (b : P11Vec n)
@@ -152,19 +150,19 @@ theorem step_Rp_real (H : P11StepHyp S h w R)
         domain_def n S.r S.s (KAM.actionNbhd S.E S.t) := by
       rw [hFy]
       exact domain_def_mono (show S.r - S.d - S.delta - 2 * S.sigma + S.sigma ≤ S.r by
-        linarith [S.d_pos, S.delta_pos]) hmaps
+        linarith [S.d_pos, S.delta_pos, S.sigma_pos]) hmaps
     have := hreal y b hm
     rwa [hFy] at this
   obtain ⟨hΔH, hΔW⟩ := step_avg_real H hreal b hb
   have hw := H.realw b hb
   have hh := H.realh b hb
-  have hηx : ∀ i, ((KAM.realInclusion₂ n x).1.2 i).im = 0 := fun i => by simp [KAM.realInclusion₂]
+  have hηx : ∀ i, ((KAM.realInclusion₂ n x).2 i).im = 0 := fun i => by simp [KAM.realInclusion₂]
   have e : p11StepRemainder S h w R (KAM.realInclusion₂ n x, KAM.realInclusion n b) =
       (h (KAM.realInclusion n b) + ∑ i, w (KAM.realInclusion n b) i * Fz.2 i +
         R (Fz, KAM.realInclusion n b)) -
       ((h (KAM.realInclusion n b) + p11DeltaH S.T R (KAM.realInclusion n b)) +
         ∑ i, (w (KAM.realInclusion n b) i + p11DeltaW S.T R (KAM.realInclusion n b) i) *
-          (KAM.realInclusion₂ n x).1.2 i) := rfl
+          (KAM.realInclusion₂ n x).2 i) := rfl
   rw [e]
   simp only [Complex.sub_im, Complex.add_im, Complex.im_sum, Complex.mul_im, hh, hw, hΔH,
     hΔW, hRy, (hF _).2, hηx]
