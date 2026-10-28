@@ -139,6 +139,18 @@ theorem unsc_incl (R s : ℝ) (z : Fin (n + n) → ℝ) :
     unsc R s (KAM.realInclusion (n + n) z) = KAM.realInclusion₂ n (unsc R s z) := by
   refine Prod.ext ?_ ?_ <;> funext i <;> simp [unsc]
 
+theorem norm_unsc_fst_le {R s : ℝ} (hs : 0 ≤ s) (z : Fin (n + n) → 𝕜) :
+    ‖(unsc R s z).1‖ ≤ s / (2 * π) * ‖z‖ := by
+  refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => ?_
+  simp only [unsc, norm_mul, RCLike.norm_ofReal, abs_of_nonneg (by positivity : 0 ≤ s / (2 * π))]
+  exact mul_le_mul_of_nonneg_left (norm_le_pi_norm z _) (by positivity)
+
+theorem norm_unsc_snd_le {R s : ℝ} (hR : 0 ≤ R) (z : Fin (n + n) → 𝕜) :
+    ‖(unsc R s z).2‖ ≤ R * ‖z‖ := by
+  refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => ?_
+  simp only [unsc, norm_mul, RCLike.norm_ofReal, abs_of_nonneg hR]
+  exact mul_le_mul_of_nonneg_left (norm_le_pi_norm z _) hR
+
 end Scale
 
 end KAM.Planetary
