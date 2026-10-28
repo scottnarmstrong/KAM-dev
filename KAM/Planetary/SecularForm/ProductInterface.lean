@@ -98,8 +98,9 @@ theorem analyticAt_keplerPart' (κ : ℝ) (m : Fin n → ℝ) {z : Phase (n * 2)
   refine Finset.analyticAt_fun_sum _ fun i _ => ?_
   have hs : AnalyticAt ℝ (fun x : Phase (n * 2) => planeSq (momL i x)) z :=
     (analyticAt_planeSq' (momL i z)).comp ((momL i).analyticAt z)
+  have hv : posL i z ≠ 0 := planeLength_pos_iff.mp (hz i)
   have hi : AnalyticAt ℝ (fun x : Phase (n * 2) => (planeLength (posL i x))⁻¹) z :=
-    (analyticAt_inv_planeLength (planeLength_pos_iff.mp (hz i))).comp ((posL i).analyticAt z)
+    (analyticAt_inv_planeLength hv).comp ((posL i).analyticAt z)
   simp only [div_eq_mul_inv]
   exact (hs.mul analyticAt_const).sub (analyticAt_const.mul hi)
 
@@ -156,7 +157,7 @@ private theorem hasDerivAt_kepEnergy_line (κ : ℝ) (m : Vec n) {I : Vec n} (hI
     have h2 : HasDerivAt (fun t : ℝ => 2 * (I + t • u) i ^ 2)
         (2 * (↑2 * (I + (0 : ℝ) • u) i ^ (2 - 1) * u i)) 0 := (hg.pow 2).const_mul 2
     have h3 := (h2.inv (mul_ne_zero two_ne_zero (pow_ne_zero 2 hg0))).const_mul (κ ^ 2 * m i ^ 3)
-    simp only [← div_eq_mul_inv] at h3
+    simp only [div_eq_mul_inv]
     refine h3.congr_deriv ?_
     have := hI i
     simp
@@ -170,9 +171,12 @@ private theorem fderiv_apply_eq_deriv {E : Type*} [NormedAddCommGroup E] [Normed
     fderiv ℝ f x v = deriv (fun t : ℝ => f (x + t • v)) 0 := by
   have hl : HasDerivAt (fun t : ℝ => x + t • v) v 0 := by
     simpa using ((hasDerivAt_id (0 : ℝ)).smul_const v).const_add x
-  have := hf.hasFDerivAt.comp_hasDerivAt (0 : ℝ) (by simpa using hl)
-  simp only [zero_smul, add_zero] at this
-  exact this.deriv.symm
+  have hf' : HasFDerivAt f (fderiv ℝ f (x + (0 : ℝ) • v)) (x + (0 : ℝ) • v) := by
+    simpa using hf.hasFDerivAt
+  have h2 : deriv (fun t : ℝ => f (x + t • v)) 0 = fderiv ℝ f (x + (0 : ℝ) • v) v :=
+    (hf'.comp_hasDerivAt (0 : ℝ) hl).deriv
+  rw [zero_smul, add_zero] at h2
+  exact h2.symm
 
 private theorem fderiv_kepEnergy (κ : ℝ) (m : Vec n) {I : Vec n} (hI : ∀ i, I i ≠ 0) (u : Vec n) :
     fderiv ℝ (kepEnergy κ m) I u = ∑ i, κ ^ 2 * m i ^ 3 / I i ^ 3 * u i := by
@@ -182,9 +186,11 @@ private theorem fderiv_kepEnergy (κ : ℝ) (m : Vec n) {I : Vec n} (hI : ∀ i,
 private theorem fderiv_hProd (κ : ℝ) (m : Vec n) {w : Phase (n + n)}
     (hw : ∀ i, fast w.2 i ≠ 0) (u : Phase (n + n)) :
     fderiv ℝ (hProd κ m) w u = ∑ i, κ ^ 2 * m i ^ 3 / fast w.2 i ^ 3 * fast u.2 i := by
-  have hd : HasFDerivAt (hProd κ m) ((fderiv ℝ (kepEnergy κ m) (fast w.2)).comp fastL) w :=
+  have hd : HasFDerivAt (kepEnergy κ m ∘ fastL)
+      ((fderiv ℝ (kepEnergy κ m) (fast w.2)).comp fastL) w :=
     ((analyticAt_kepEnergy κ m hw).differentiableAt.hasFDerivAt).comp w fastL.hasFDerivAt
-  rw [hd.fderiv]
+  have hf : hProd κ m = kepEnergy κ m ∘ fastL := rfl
+  rw [hf, hd.fderiv]
   simpa [fastL_apply] using fderiv_kepEnergy κ m hw (fast u.2)
 
 theorem product_chart (D : Data n) :
@@ -208,7 +214,7 @@ theorem product_chart (D : Data n) :
     · have : keplerActionHam D = kepEnergy (D.G*D.m0) D.m := funext (keplerActionHam_eq D)
       rw [this, fderiv_kepEnergy _ _ hI']
       simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
       rfl
     · have hna : AnalyticAt ℝ (fun J : Vec n => nu D J i) I := by
         have hp : AnalyticAt ℝ (fun J : Vec n => J i) I :=
@@ -219,8 +225,10 @@ theorem product_chart (D : Data n) :
           (-3 * (D.G * D.m0) ^ 2 * D.m i ^ 3 / I i ^ 4) 0 := by
         have hg : HasDerivAt (fun t : ℝ => I i + t) 1 0 := by
           simpa using (hasDerivAt_id (0 : ℝ)).const_add (I i)
-        have h := (hasDerivAt_nu (m := D.m i) (κ := D.G * D.m0) (x := I i + 0)
-          (by simpa using (hI' i))).comp_hasDerivAt (0 : ℝ) hg
+        have hn : HasDerivAt (fun y : ℝ => (D.G * D.m0) ^ 2 * D.m i ^ 3 / y ^ 3)
+            (-3 * (D.G * D.m0) ^ 2 * D.m i ^ 3 / (I i + 0) ^ 4) (I i + 0) :=
+          hasDerivAt_nu (m := D.m i) (κ := D.G * D.m0) (x := I i + 0) (by simpa using (hI' i))
+        have h := HasDerivAt.comp (0 : ℝ) hn hg
         simp only [add_zero, mul_one] at h
         refine h.congr_of_eventuallyEq (Filter.Eventually.of_forall fun t => ?_)
         simp [nu]
@@ -236,10 +244,17 @@ theorem product_chart (D : Data n) :
       rw [fderiv_hProd _ _ hw']
       refine Fin.addCases (fun k => ?_) (fun k => ?_) i
       · simp [fast, Pi.single_apply, nu, Fin.append_left]
-      · simp [fast, Pi.single_apply, nu, Fin.append_right]
+      · simp only [fast, Pi.single_apply, Fin.append_right]
+        refine (Finset.sum_eq_zero fun j _ => ?_).trans ?_
+        · have hne : Fin.castAdd n j ≠ k.addNat n := fun h => by
+            have := congrArg Fin.val h
+            simp at this
+            omega
+          simp [hne]
+        · rfl
     · show -fderiv ℝ (hProd (D.G*D.m0) D.m) w (Pi.single i 1, 0) = _
       rw [fderiv_hProd _ _ hw']
-      simp
+      simp [fast]
 
 theorem pc_prod (D : Data n) :
     AnalyticOnNhd ℝ (poincareProd D.m (D.G*D.m0)) (poincareProdDom n) ∧
