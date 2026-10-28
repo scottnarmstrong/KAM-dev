@@ -33544,9 +33544,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elements, eccentricity_deficit (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:el-a
@@ -33572,9 +33572,9 @@ EDGE: bpP:p0:d25-kepler#keplerAction | blueprint-P/parts/p14a-amd-expsafe.tex#st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elements (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES; step inside elements
 NOTE: -
 
 NODE: stepP:p14:el-b
@@ -33602,9 +33602,9 @@ EDGE: bpP:p0:d25-cross#planeCross | blueprint-P/parts/p14a-amd-expsafe.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elements (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES; step inside elements
 NOTE: -
 
 NODE: stepP:p14:el-c
@@ -33632,9 +33632,9 @@ EDGE: bpP:p0:d25-kepler#keplerEccVector | blueprint-P/parts/p14a-amd-expsafe.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elements (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES; step inside elements
 NOTE: -
 
 NODE: stepP:p14:el-d
@@ -33661,9 +33661,9 @@ EDGE: bpP:p14:x-planar | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:el-d@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elements (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES; step inside elements
 NOTE: -
 
 NODE: stepP:p14:el-e
@@ -33688,9 +33688,9 @@ EDGE: bpP:p0:d25-kepler#keplerEnergy | blueprint-P/parts/p14a-amd-expsafe.tex#st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elements (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES; step inside elements
 NOTE: -
 
 NODE: stepP:p14:el-f
@@ -33715,9 +33715,9 @@ EDGE: stepP:p14:el-b | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:el-f@L63
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elements, eccentricity_deficit (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p14:ecc-bound
@@ -33749,9 +33749,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:ecc-bou
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ecc_bound (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:eb-sum
@@ -33779,9 +33779,9 @@ EDGE: bpP:p0:d25-amd#totalMomentum | blueprint-P/parts/p14a-amd-expsafe.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ecc_bound (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES; step inside ecc_bound
 NOTE: -
 
 NODE: stepP:p14:eb-ecc
@@ -33807,9 +33807,9 @@ EDGE: bpP:p14:elements | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:eb-ecc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ecc_bound (KAM/Planetary/AMD/Elements.lean)
+LEAN_NOTE: audit P14-A1 PASS WITH NOTES; step inside ecc_bound
 NOTE: -
 
 NODE: bpP:p14:geometry
