@@ -15,7 +15,7 @@ public import KAM.Planetary.AMD.Elements
 
 Blueprint P, Part 14 (`bpP:p14:closure`).  `element_continuity`: on the open set of phases with
 every radius positive and every Kepler energy negative, the Kepler actions and the physical AMD
-are continuous.  `closure`: the outer low-AMD region is open, and the collar is sequentially
+are continuous.  `amd_closure`: the outer low-AMD region is open, and the collar is sequentially
 closed among phases with positive radii (the collar margins force the energies and the angular
 momenta away from their degenerate values uniformly).
 -/
@@ -121,7 +121,7 @@ private theorem cl_le_amd {m : Fin n → ℝ} {z : Phase (n * 2)} (hp : Prograde
     planeCross (bodyVector z.1 j) (bodyVector z.2 j))
     (fun j _ => (cl_pe_facts hp j).2.2) (Finset.mem_univ i)
 
-theorem closure (B : AMDBox n) (hB : B.Admissible) {delta : ℝ} (hd : 0 < delta)
+theorem amd_closure (B : AMDBox n) (hB : B.Admissible) {delta : ℝ} (hd : 0 < delta)
     (hmargin : ∀ i, B.lower i + 2 * delta < B.innerLower i ∧
       B.innerUpper i + 2 * delta < B.upper i)
     (hAMD : B.initialAMD + 2 * (n : ℝ) * delta < B.outerAMD) :
