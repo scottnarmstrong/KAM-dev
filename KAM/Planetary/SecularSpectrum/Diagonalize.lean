@@ -249,6 +249,42 @@ theorem diagonalize (D : Data n) (hn : 2 ≤ n) {W : Set (Vec n)} (hW : IsOpen W
       _ ≤ C2 * (n * ‖(ξ, η)‖) ^ 4 := by gcongr
       _ = C2 * n ^ 4 * ‖(ξ, η)‖ ^ 4 := by ring
 
+/-- A rotation preserves the Euclidean length. -/
+theorem rotDiag_length2_mulVec {R : Mat n} (h : R.transpose * R = 1) (x : Vec n) :
+    length2 (R.mulVec x) = length2 x := by
+  have key : ∑ i, (R.mulVec x) i ^ 2 = ∑ i, x i ^ 2 := by
+    have h1 : ∑ i, (R.mulVec x) i ^ 2 = R.mulVec x ⬝ᵥ R.mulVec x := by
+      simp only [dotProduct, sq]
+    have h2 : ∑ i, x i ^ 2 = x ⬝ᵥ x := by simp only [dotProduct, sq]
+    rw [h1, h2, Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, Matrix.mulVec_mulVec, h,
+      Matrix.one_mulVec]
+  unfold length2
+  rw [key]
+
+/-- Domain adapter of `stepP:p9:d-c`: if `δ₀ > 0` and `ξ̃_j² + η̃_j² < δ₀²` for all `j`,
+`√n δ₀ ≤ r` (the oscillator-disc guard, `r = ρ_*`) and the action lies within `r` of that of `a`
+(the action-distance guard), then the rotated slow point `(R ξ̃, I, R η̃)` lies in
+`realDisc D a r`. -/
+theorem diagonalize_mem_realDisc (D : Data n) (hn : 0 < n) (a : Vec n) {R : Mat n}
+    (hR : R.transpose * R = 1) {δ₀ r : ℝ} (hδ0 : 0 < δ₀) (hδ : √n * δ₀ ≤ r) {I ξ η : Vec n}
+    (hosc : ∀ j, ξ j ^ 2 + η j ^ 2 < δ₀ ^ 2) (hI : ∀ i, |I i - action D a i| < r) :
+    ((R.mulVec ξ, I, R.mulVec η) : Slow n) ∈ realDisc D a r := by
+  have hsn : 0 < √(n : ℝ) := Real.sqrt_pos.2 (by exact_mod_cast hn)
+  have hcoord : ∀ x : Vec n, (∀ j, x j ^ 2 < δ₀ ^ 2) → ‖R.mulVec x‖ < r := by
+    intro x hx
+    have hx' : ‖x‖ < δ₀ := by
+      refine (pi_norm_lt_iff hδ0).2 fun j => ?_
+      rw [Real.norm_eq_abs]
+      exact abs_lt_of_sq_lt_sq (hx j) hδ0.le
+    calc ‖R.mulVec x‖ ≤ length2 (R.mulVec x) := norm_le_length2 _
+      _ = length2 x := rotDiag_length2_mulVec hR x
+      _ ≤ √n * ‖x‖ := length2_le_sqrt_mul_norm x
+      _ < √n * δ₀ := mul_lt_mul_of_pos_left hx' hsn
+      _ ≤ r := hδ
+  exact rotDiag_mem_realDisc D a hI
+    (hcoord ξ fun j => by nlinarith [hosc j, sq_nonneg (η j)])
+    (hcoord η fun j => by nlinarith [hosc j, sq_nonneg (ξ j)])
+
 end SecularSpectrum
 end KAM.Planetary
 end
