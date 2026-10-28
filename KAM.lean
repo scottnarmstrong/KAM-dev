@@ -705,6 +705,7 @@ public import KAM.Planetary.TwoScale.StepPerturb
 public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
 public import KAM.Planetary.WeakKAM.Data
+public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakMeasure.BallSublevel
 public import KAM.Planetary.WeakMeasure.Basic
 public import KAM.Planetary.WeakMeasure.Bridge
