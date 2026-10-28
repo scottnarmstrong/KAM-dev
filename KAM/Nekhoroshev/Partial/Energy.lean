@@ -199,6 +199,102 @@ private theorem ef_hess_lipschitz {U : Set (Fin n → ℝ)} (hU : IsOpen U) {hR 
   · rw [← h]; exact mul_nonneg hM0 (ef_euclid_nonneg _)
   · nlinarith [mul_pos h h]
 
+/-! ### Domains, orbits and the fast action -/
+
+private theorem ef_mem_realDom_iff (b : PartialBlock n k) (R : ℝ) (z : ER n k) :
+    z ∈ b.realDom R ↔ (extCx z).2 ∈ polyNbhd b.base R := by
+  simp only [PartialBlock.realDom, Set.mem_ofPred_eq, Dom, mem_prod]
+  exact ⟨fun h => h.2, fun h => ⟨KAM.ofReal_mem_complexStrip one_pos z.1, h⟩⟩
+
+/-- Step `ef-tube`: a real point with fast action `ρ`-close to `Ic` and slow part `ρ`-close to
+`λ⁻¹ S` lies in the real domain of radius `ρ`. -/
+private theorem ef_mem_realDom_of_tube (b : PartialBlock n k) {ρ : ℝ} {z : ER n k}
+    (hI : euclid (fastAction z - b.Ic) < ρ) {v : KAM.Planetary.Phase k} (hv : v ∈ b.S)
+    (hsl : ‖slowPair z - b.lam⁻¹ • v‖ < ρ) : z ∈ b.realDom ρ := by
+  rw [ef_mem_realDom_iff]
+  refine ⟨_, ⟨v, hv, rfl⟩, ?_⟩
+  have hρ : 0 < ρ := lt_of_le_of_lt (norm_nonneg _) hsl
+  refine (pi_norm_lt_iff hρ).2 fun j => ?_
+  have hmax := Prod.norm_def (slowPair z - b.lam⁻¹ • v)
+  have h1 : ‖(slowPair z - b.lam⁻¹ • v).1‖ < ρ := by
+    refine lt_of_le_of_lt ?_ hsl
+    rw [hmax]
+    exact le_max_left _ _
+  have h2 : ‖(slowPair z - b.lam⁻¹ • v).2‖ < ρ := by
+    refine lt_of_le_of_lt ?_ hsl
+    rw [hmax]
+    exact le_max_right _ _
+  refine Fin.addCases (fun i => ?_) (fun j' => ?_) j
+  · simp only [Pi.sub_apply, Fin.append_left]
+    simp only [extCx]
+    rw [← Complex.ofReal_sub, Complex.norm_real]
+    exact lt_of_le_of_lt ((norm_le_pi_norm (fastAction z - b.Ic) i).trans
+      (norm_le_euclid _).1) hI
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) j'
+    · simp only [Pi.sub_apply, Fin.append_right, Fin.append_left]
+      simp only [extCx]
+      rw [← Complex.ofReal_sub, Complex.norm_real]
+      refine lt_of_le_of_lt ?_ (lt_of_le_of_lt (norm_le_pi_norm _ i) h1)
+      simp [slowPair, div_eq_inv_mul]
+    · simp only [Pi.sub_apply, Fin.append_right]
+      simp only [extCx]
+      rw [← Complex.ofReal_sub, Complex.norm_real]
+      refine lt_of_le_of_lt ?_ (lt_of_le_of_lt (norm_le_pi_norm _ i) h2)
+      simp [slowPair, div_eq_inv_mul]
+
+private theorem ef_fast_continuousOn {b : PartialBlock n k} {R : ℝ} {H : EC n k → ℂ} {J : Set ℝ}
+    {y : ℝ → ER n k} (hy : ExtOrbit b R H J y) :
+    ContinuousOn (fun t => ((0 : Fin n → ℝ), fastAction (y t))) J := by
+  have hyc : ContinuousOn y J := KAM.ODE.IsSolutionIn.continuousOn hy
+  refine continuousOn_const.prodMk (continuousOn_pi.2 fun i => ?_)
+  exact ((continuous_apply (Fin.castAdd (k + k) i)).comp continuous_snd).comp_continuousOn hyc
+
+/-- A segment starting `ρ₀`-close to `Ic` and of Euclidean length `≤ ρ` stays in the ball. -/
+private theorem ef_seg_mem {Ic I₀ I : Fin n → ℝ} {R ρ : ℝ} (h0 : euclid (I₀ - Ic) + ρ < R)
+    (hI : euclid (I - I₀) ≤ ρ) : ∀ a ∈ Icc (0 : ℝ) 1, I₀ + a • (I - I₀) ∈ ball Ic R := by
+  intro a ha
+  rw [mem_ball_iff_norm]
+  have e : I₀ + a • (I - I₀) - Ic = (I₀ - Ic) + a • (I - I₀) := by abel
+  rw [e]
+  refine lt_of_le_of_lt ((KAM.Stability.isActionNorm_euclid.norm_le _).trans
+    (KAM.Stability.isActionNorm_euclid.add_le _ _)) ?_
+  rw [KAM.Stability.isActionNorm_euclid.smul, abs_of_nonneg ha.1]
+  have : a * euclid (I - I₀) ≤ ρ := by
+    calc a * euclid (I - I₀) ≤ 1 * ρ :=
+          mul_le_mul ha.2 hI (ef_euclid_nonneg _) zero_le_one
+      _ = ρ := one_mul ρ
+  linarith
+
+/-- The frequency map is `M`-Lipschitz along segments in the convex ball. -/
+private theorem ef_freq_lip {Ic : Fin n → ℝ} {R m M : ℝ} {h : (Fin n → ℂ) → ℂ}
+    (hh : RealFastConvex Ic R m M h) {I J : Fin n → ℝ}
+    (hseg : ∀ a ∈ Icc (0 : ℝ) 1, J + a • (I - J) ∈ ball Ic R) :
+    euclid (KAM.frequencyMap h I - KAM.frequencyMap h J) ≤ M * euclid (I - J) :=
+  ef_hess_lipschitz isOpen_ball (ef_realPart_contDiffOn hh.hol) (hh.m_pos.le.trans hh.m_le)
+    (fun I hI => ef_hess_abs_le (hh.hessian_real I (mem_ball_iff_norm.1 hI))) hseg
+
+/-- Step `ef-en-energy`: `h + g + fs` is conserved along the orbit (at real points). -/
+private theorem ef_energy (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin n → ℂ) → ℂ}
+    {g fs : EC n k → ℂ} (hr : 0 < r) (hs : 0 < s) (hh : RealFastConvex b.Ic r m M h)
+    (hg : ext_class b r s g) (hf : ext_class b r s fs) {J : Set ℝ} (hJ : J.OrdConnected)
+    {y : ℝ → ER n k} (hy : ExtOrbit b r (liftFast h + g + fs) J y) {t u : ℝ} (ht : t ∈ J)
+    (hu : u ∈ J) :
+    realPart h (fastAction (y t)) + ((g (extCx (y t))).re + (fs (extCx (y t))).re) =
+      realPart h (fastAction (y u)) + ((g (extCx (y u))).re + (fs (extCx (y u))).re) := by
+  have hH := ext_class_add b (ext_class_add b (ext_class_liftFast b hh) hg) hf
+  have := (real_system b hr hs hH).2.2.2.2.2 J hJ r hr le_rfl y hy t ht u hu
+  have e : ∀ z : ER n k, fastAction (extCx z) = fun i => ((fastAction z i : ℝ) : ℂ) :=
+    fun _ => rfl
+  simp only [realHamiltonianExt, indicator_of_mem (hy t ht).1, indicator_of_mem (hy u hu).1,
+    Pi.add_apply, Complex.add_re, liftFast, e] at this
+  unfold realPart
+  linarith
+
+private theorem ef_re_abs_le (b : PartialBlock n k) {R s U : ℝ} {u : EC n k → ℂ} (hs : 0 < s)
+    (hu : ext_class b R s u) (hb : WBound b.base R s u U) {z : ER n k} (hz : z ∈ b.realDom R) :
+    |(u (extCx z)).re| ≤ U :=
+  (Complex.abs_re_le_norm _).trans (real_system_bounds b hs hu.1 hb z hz).1
+
 end KAM.Nekhoroshev
 
 end
