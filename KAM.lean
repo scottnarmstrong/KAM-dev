@@ -719,6 +719,15 @@ public import KAM.Planetary.TwoScale.StepNonres
 public import KAM.Planetary.TwoScale.StepPerturb
 public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
+public import KAM.Planetary.TwoScale.Tori
+public import KAM.Planetary.TwoScale.ToriEstimates
+public import KAM.Planetary.TwoScale.ToriInvConj
+public import KAM.Planetary.TwoScale.ToriInvField
+public import KAM.Planetary.TwoScale.ToriInvLimit
+public import KAM.Planetary.TwoScale.ToriInvStage
+public import KAM.Planetary.TwoScale.ToriInvariance
+public import KAM.Planetary.TwoScale.ToriLagr
+public import KAM.Planetary.TwoScale.ToriSetup
 public import KAM.Planetary.WeakKAM.ContinuousSeries
 public import KAM.Planetary.WeakKAM.Data
 public import KAM.Planetary.WeakKAM.Initial
