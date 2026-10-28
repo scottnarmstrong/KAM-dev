@@ -116,9 +116,11 @@ theorem domain_field (a : PartialData n k) {μ σ R : ℝ} {Ic : Fin n → ℝ}
     (hd : (constants a).d μ ≤ a.ρ)
     (P : ((Fin (n+k) → ℂ) × (Fin (n+k) → ℂ)) → ℂ) (hP : IsPartialPerturbation a.G' a.D a.ρ P) :
     let b := block_setting a μ Ic R
-    let H := KAM.Planetary.degenerateHamiltonian (realPart a.h) (fun _ w => (P (complexifyPhase w)).re) μ
+    let H := KAM.Planetary.degenerateHamiltonian (realPart a.h)
+      (fun _ w => (P (complexifyPhase w)).re) μ
     EqOn (fun z => σ • realWfield (2*Real.pi) (converted H) z)
-      (realWfield (2*Real.pi) (fun z => (liftFast (signedH a σ) (extCx z)+signedF a σ μ P (extCx z)).re))
+      (realWfield (2*Real.pi)
+        (fun z => (liftFast (signedH a σ) (extCx z)+signedF a σ μ P (extCx z)).re))
       (physicalDomain Ic R b.w b.S) := by
   intro b H z _
   have hpt : ∀ w : ER n k, σ * converted H w =
