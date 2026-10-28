@@ -418,6 +418,7 @@ public import KAM.ODE.NewtonReduction
 public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
+public import KAM.Planetary.AMD.Setting
 public import KAM.Planetary.Averaging.Direct
 public import KAM.Planetary.Averaging.Finite
 public import KAM.Planetary.Averaging.FiniteCaseA
@@ -458,6 +459,7 @@ public import KAM.Planetary.Averaging.OscillatorStep
 public import KAM.Planetary.Averaging.OscillatorStepComplete
 public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Averaging.Splitting
+public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Hamiltonian.Diophantine
@@ -588,6 +590,7 @@ public import KAM.Planetary.Preparation.RectangularAverageDomain
 public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
+public import KAM.Planetary.Quantitative.Thresholds
 public import KAM.Planetary.SecularForm.Analytic
 public import KAM.Planetary.SecularForm.AnalyticGeometry
 public import KAM.Planetary.SecularForm.AnalyticReal
