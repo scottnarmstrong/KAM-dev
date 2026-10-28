@@ -17547,7 +17547,7 @@ EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S10-R PASS WITH NOTES covers only the action diffeomorphism part (action_diffeomorphism); U_n, G_n, sigma etc. not all in this package
 NOTE: Section data from L15-L21. The negative spectrum and the identification of the fast frequencies have direct suppliers; the product-chart citation identifies the fast frequencies, rather than merely comparing notation. Restored R-nondegeneracy consumers also use these data.
 
 NODE: bpP:p10:generic
@@ -18469,9 +18469,9 @@ EDGE: bpP:p10:conv#data | blueprint-P/parts/p10-nondegeneracy.tex#bpP:p10:Fc-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-aa
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: relation, fc_def (KAM/Planetary/Nondegeneracy/SymmetricRelation/Defs.lean)
+LEAN_NOTE: audit S10-F PASS WITH NOTES; verbatim defs
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: bpP:p10:Fc-analytic
@@ -18498,9 +18498,9 @@ EDGE: stepP:p10:Fc-poly | blueprint-P/parts/p10-nondegeneracy.tex#bpP:p10:Fc-ana
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-aa
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fc_analytic (KAM/Planetary/Nondegeneracy/SymmetricRelation.lean)
+LEAN_NOTE: audit S10-F PASS WITH NOTES; no simple-spectrum premise
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:Fc-poly
@@ -18530,9 +18530,9 @@ EDGE: bpP:p8:e-taylor | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:Fc-pol
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: relationPoly, eval₂_relationPoly, fc_analytic_aux (KAM/Planetary/Nondegeneracy/SymmetricRelation/Analytic.lean)
+LEAN_NOTE: audit S10-F PASS WITH NOTES; named Fc-poly in audit
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: bpP:p10:F-nonzero
@@ -18563,9 +18563,9 @@ EDGE: stepP:p10:F-C | blueprint-P/parts/p10-nondegeneracy.tex#bpP:p10:F-nonzero@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-aa
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: f_nonzero (KAM/Planetary/Nondegeneracy/SymmetricRelation.lean)
+LEAN_NOTE: audit S10-F PASS WITH NOTES; via f_nonzero_two, f_nonzero_aux
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:F-A
@@ -18691,9 +18691,9 @@ EDGE: stepP:p10:rnd-c | blueprint-P/parts/p10-nondegeneracy.tex#bpP:p10:rnd@L184
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-aa
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rnd (KAM/Planetary/Nondegeneracy/Frequency.lean)
+LEAN_NOTE: audit S10-R PASS WITH NOTES
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:rnd-a
@@ -18724,9 +18724,9 @@ EDGE: bpP:p10:F-nonzero | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:rnd-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exists_relation_ne, exists_freq_ne (KAM/Planetary/Nondegeneracy/Frequency.lean)
+LEAN_NOTE: audit S10-R PASS WITH NOTES; named stepP:p10:rnd-a in audit
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:rnd-b
@@ -18779,9 +18779,9 @@ EDGE: bpP:p10:rnd-def | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:rnd-c@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: scaling (KAM/Planetary/Nondegeneracy/Frequency.lean)
+LEAN_NOTE: audit S10-R PASS WITH NOTES; relation-vector map of rescaling/relabelling
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: bpP:p10:scaling
@@ -19290,9 +19290,9 @@ EDGE: bpP:p10:sorted-analytic | blueprint-P/parts/p10-nondegeneracy.tex#bpP:p10:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: frequency, frequencyAxes, analyticAt_frequency, analyticAt_frequencyAxes (KAM/Planetary/Nondegeneracy/Frequency.lean)
+LEAN_NOTE: audit S10-R PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p10:sec-index#data
@@ -34034,9 +34034,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:closure
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amd_closure, element_continuity, negativeEnergyDomain (KAM/Planetary/AMD/Closure.lean)
+LEAN_NOTE: composite of audits A3-1 PASS WITH NOTES + A3-2 PASS (rename closure -> amd_closure, N1 resolved)
 NOTE: -
 
 NODE: stepP:p14:cl-a
@@ -34068,9 +34068,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:cl-a@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: element_continuity, negativeEnergyDomain (KAM/Planetary/AMD/Closure.lean)
+LEAN_NOTE: audit A3 PASS WITH NOTES (rounds 1-2); continuity of Lambda_i, A on negative-energy domain
 NOTE: -
 
 NODE: stepP:p14:cl-b
