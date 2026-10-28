@@ -90,5 +90,41 @@ theorem e_diff_slice {W : Set (Vec 2 × Vec 2)} (hW : IsOpen W) {F : Vec 2 × Ve
     intro t ht
     exact hF.comp (contDiff_const.prodMk contDiff_id).contDiffOn (fun y hy => hmem t ht y hy)
 
+
+theorem cell_two_eq : cell 2 = (MeasurableEquiv.piFinTwo (fun _ : Fin 2 => ℝ)) ⁻¹'
+    (Icc 0 (2 * π) ×ˢ Icc 0 (2 * π)) := by
+  ext t
+  simp only [cell, Set.mem_pi, mem_univ, forall_true_left, mem_preimage, mem_prod, mem_Icc,
+    Fin.forall_fin_two, MeasurableEquiv.piFinTwo_apply]
+
+/-- The cell integral over `cell 2` is the iterated interval integral. -/
+theorem integral_cell_two {g : Vec 2 → ℝ} (hg : ContinuousOn g (cell 2)) :
+    ∫ t in cell 2, g t = ∫ s in (0:ℝ)..2 * π, ∫ t in (0:ℝ)..2 * π, g ![s, t] := by
+  set e := MeasurableEquiv.piFinTwo (fun _ : Fin 2 => ℝ) with he
+  have hmp : MeasurePreserving e volume volume := volume_preserving_piFinTwo (fun _ => ℝ)
+  set S : Set (ℝ × ℝ) := Icc 0 (2 * π) ×ˢ Icc 0 (2 * π) with hS
+  set h : ℝ × ℝ → ℝ := fun y => g ![y.1, y.2] with hh
+  have hg' : ∀ x : Vec 2, g x = h (e x) := by
+    intro x
+    simp only [hh, he, MeasurableEquiv.piFinTwo_apply]
+    congr 1; ext i; fin_cases i <;> rfl
+  have hcont : ContinuousOn h S := by
+    refine hg.comp ?_ ?_
+    · fun_prop
+    · rintro ⟨a, b⟩ ⟨ha, hb⟩
+      have : (![a, b] : Vec 2) ∈ e ⁻¹' S := by
+        simp [he, hS]
+        exact ⟨⟨ha.1, hb.1⟩, ha.2, hb.2⟩
+      rwa [← cell_two_eq] at this
+  have hint : IntegrableOn h S := hcont.integrableOn_compact (isCompact_Icc.prod isCompact_Icc)
+  calc ∫ t in cell 2, g t = ∫ x in e ⁻¹' S, h (e x) := by
+        rw [cell_two_eq]; exact setIntegral_congr_fun (e.measurable (hS ▸ measurableSet_Icc.prod measurableSet_Icc)) (fun x _ => hg' x)
+    _ = ∫ y in S, h y := hmp.setIntegral_preimage_emb e.measurableEmbedding h S
+    _ = ∫ s in Icc 0 (2 * π), ∫ t in Icc 0 (2 * π), h (s, t) := setIntegral_prod _ hint
+    _ = _ := by
+        have h2π : (0:ℝ) ≤ 2 * π := by positivity
+        simp only [intervalIntegral.integral_of_le h2π, integral_Icc_eq_integral_Ioc]
+        rfl
+
 end SecularForm
 end KAM.Planetary
