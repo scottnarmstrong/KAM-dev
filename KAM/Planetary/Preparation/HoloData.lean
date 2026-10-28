@@ -86,6 +86,10 @@ structure P11HoloData (D : P11Physical n) where
   h_re : ∀ J : P11Vec n, ‖J - J0‖ < 2 * rC →
     (h (KAM.realInclusion n J)).re =
       -∑ i, (D.G * D.m0) ^ 2 * D.m i ^ 3 / (2 * (J i / (2 * Real.pi)) ^ 2)
+  /-- typing datum: `h̃` is real on real points (ruling 22:50) -/
+  h_im : ∀ J : P11Vec n, ‖J - J0‖ < 2 * rC → (h (KAM.realInclusion n J)).im = 0
+  /-- typing datum: `Ω̃` is real on real points (used only by the mean clause) -/
+  Omega_real : ∀ J : P11Vec n, ‖J - J0‖ < 2 * rC → ∀ i, (Omega (KAM.realInclusion n J) i).im = 0
   omega_diff : DifferentiableOn ℂ omega (Metric.ball (KAM.realInclusion n J0) (2 * rC))
   Omega_diff : DifferentiableOn ℂ Omega (Metric.ball (KAM.realInclusion n J0) (2 * rC))
   tau_eq : tau = max ((n : ℝ) * (p11PatchData D).mu) (2 * n)
@@ -203,7 +207,9 @@ theorem p11_holo_data (D : P11Physical n) : Nonempty (P11HoloData D) := by
     Omega := fun J => (2 * Real.pi : ℂ) • G J, rho := ρ, R := R, t1 := t1, t2 := t2,
     t2_pos := ht2, t2_le := ht21, R_analytic := hRan, R_frame := hRfr, rho_diff := hρent,
     rho_real := hρreal, rho_orth_t2 := hρorth, rC_le_t2 := hrCt2, nonvanishing := hnv,
-    freq := ?_, h_re := ?_, omega_diff := ?_, Omega_diff := ?_, tau_eq := rfl, h_diff := ?_,
+    freq := ?_, h_re := ?_, h_im := fun J _ => p11HoloH_im D,
+    Omega_real := ?_, omega_diff := ?_, Omega_diff := ?_, tau_eq := rfl,
+    h_diff := ?_,
     omega_eq := ?_, jets := ?_, euclid_le := ?_, J0_interior := hJ0int, gamma_pos := hg0,
     gamma_le := hg1, dio := hd, dio_fast := hdf, dio_slow := hds, rC_pos := hrC0,
     rC_le_one := hrC1, rC_le_delta := hrCδ, one_le_L := hL1, one_le_Brho := hB1,
@@ -233,6 +239,12 @@ theorem p11_holo_data (D : P11Physical n) : Nonempty (P11HoloData D) := by
       have := hnv hm i
       simpa using this
     exact p11HoloH_re D hnvJ
+  · -- Omega_real
+    intro J hJ i
+    have hlt : ‖J - J0‖ < rΩ := by linarith
+    have := hGeq J hlt
+    simp only [this, Pi.smul_apply, smul_eq_mul, KAM.realInclusion_apply]
+    simp
   · exact (differentiableOn_p11HoloFreq D).mono hnv
   · exact (hGd.mono ((Metric.ball_subset_ball (by linarith)))).fun_const_smul _
   · exact (differentiableOn_p11HoloH D).mono hnv
