@@ -434,6 +434,30 @@ theorem quartic_sqrt_chart_conversion {Λ₁ Λ₂ : ℝ} (h₁ : 0 < Λ₁) (h�
   simp only [hφ]
   ring
 
+/-- **Square-root conversion with a constant term** (`stepP:p8:q4-a`). The same statement as
+`quartic_sqrt_chart_conversion` for a function `W` whose expansion at `0` is
+`W(0) + W₂ + W₄ + O(‖v‖⁵)`, where `W₂ = A |v₁|² + A' |v₂|² + B v₁·v₂` is the quadratic part and
+`W₄ = ∑ c_m (quarticMonomials v₁ v₂) m` the quartic part; the constant term `W(0)` is carried
+through, and the overall pair prefactor `pref` (`-G mᵢ mⱼ aⱼ⁻¹` in the source) multiplies the whole
+expansion. -/
+theorem quartic_sqrt_chart_conversion_const {Λ₁ Λ₂ : ℝ} (h₁ : 0 < Λ₁) (h₂ : 0 < Λ₂)
+    (A A' B W0 pref : ℝ) (c : Fin 6 → ℝ) (W : (Fin 2 → ℝ) × (Fin 2 → ℝ) → ℝ)
+    (hW : (fun v => W v - W0 - (A * planeSq v.1 + A' * planeSq v.2 + B * planeDot v.1 v.2) -
+        ∑ m, c m * quarticMonomials v.1 v.2 m) =O[𝓝 0] fun v => ‖v‖ ^ 5) :
+    (fun u : (Fin 2 → ℝ) × (Fin 2 → ℝ) =>
+      pref * (W ((√(1 - planeSq u.1 / (4 * Λ₁)) / √Λ₁) • u.1,
+          (√(1 - planeSq u.2 / (4 * Λ₂)) / √Λ₂) • u.2) - W0 -
+        (A * (planeSq u.1 / Λ₁) + A' * (planeSq u.2 / Λ₂) +
+          B * (planeDot u.1 u.2 / (√Λ₁ * √Λ₂))) -
+        (∑ m, c m * quarticMonomials ((√Λ₁)⁻¹ • u.1) ((√Λ₂)⁻¹ • u.2) m -
+          (A / 4 * planeSq u.1 ^ 2 / Λ₁ ^ 2 + A' / 4 * planeSq u.2 ^ 2 / Λ₂ ^ 2 +
+            B / 8 * (planeDot u.1 u.2 / (√Λ₁ * √Λ₂)) *
+              (planeSq u.1 / Λ₁ + planeSq u.2 / Λ₂))))) =O[𝓝 0] fun u => ‖u‖ ^ 5 := by
+  have h := quartic_sqrt_chart_conversion h₁ h₂ A A' B c (fun v => W v - W0)
+    (by simpa only [sub_sub] using hW)
+  refine (h.const_mul_left pref).congr_left (fun u => ?_)
+  simp only [sub_sub]
+
 end SecularForm
 end KAM.Planetary
 end
