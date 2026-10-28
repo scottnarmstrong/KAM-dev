@@ -588,6 +588,10 @@ public import KAM.Planetary.PGAssembly.ExtensionProps
 public import KAM.Planetary.PGAssembly.ExtensionTube
 public import KAM.Planetary.PGAssembly.ExtensionTubeData
 public import KAM.Planetary.PGAssembly.ExtensionTubeP
+public import KAM.Planetary.PGAssembly.Family
+public import KAM.Planetary.PGAssembly.FamilyAux
+public import KAM.Planetary.PGAssembly.FamilyFreq
+public import KAM.Planetary.PGAssembly.FamilySigma
 public import KAM.Planetary.PGAssembly.FastComplex
 public import KAM.Planetary.PGAssembly.FrequencyBeta
 public import KAM.Planetary.PGAssembly.FrequencyBounds
