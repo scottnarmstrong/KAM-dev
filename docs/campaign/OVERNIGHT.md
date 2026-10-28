@@ -266,3 +266,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **04:40. I-G1 (`KAM.Iso.isoenergetic_kam`) sealed and landed** (seal e81fb67, landed 6c4e81e): I Parts 1–3 Lean
   design by the main orchestrator's designer (Sol-audited), ~22 audited packages run by the main orchestrator, the seal
   per D26 by the sub-orchestrator (axioms standard, per-module kernel replay exit 0). Next: the I-HEAD provider.
+- **07:25. Main-orchestrator offload status, incidents and fixes.**
+  - Delivered and audited since 06:20: PP1-5..7 (P Part 1 complete), C5-10 (N Part 5 complete), N6-2..N6-7 (N6
+    iterative lemma complete), S7-2..S7-6, P6-5, P7-6 (Kepler design complete), N2-KERNEL/ZFIELD/DERIV, P23-03/04/09.
+    In audit: N89-G1, N2-ZORBIT, N89-P1, N2-QC. Proving: N6-8a, P23-05/06/08, N89-G2/P2.
+  - **Incident:** an audit passed on an uncommitted working-tree edit (PP1-7 `Liouville.lean:35` wrap), so `inp` carried
+    a 108-character line. Fixed by committing the whitespace-only wrap (40c9e53, re-merged). The audit launcher now
+    refuses a worktree with uncommitted tracked Lean edits, and every prover brief says to commit all edits.
+  - **Incident:** disk reached 97%; 17 merged, idle offload worktrees removed (21 GB free).
+  - Codex weekly quotas reset at 06:35 (codex-1..4 at 98–100%); the one-audit-per-package economy is lifted.
+  - Track W (D30, owner-approved): package W-BP0 (blueprint Part 0, milestone W0 normalization, errata re-check) is
+    written on branch `w`; its independent Sol audit is running. Nothing frozen.
