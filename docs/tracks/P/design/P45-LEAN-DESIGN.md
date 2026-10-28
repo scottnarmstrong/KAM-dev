@@ -163,11 +163,11 @@ that all 124 nodes already have proved declarations.
 | `bpP:p5:params` | `PGParameters; params; checkedCore; pgActionDomain` | `PGAssembly/Parameters` | p5:L137–145; — | all formulas explicit functions of r,mu |
 | `bpP:p5:rstar` | `rstar; pgRstar; finalRadius` | `PGAssembly/Threshold` | p5:L147–156; — | preliminary radius, then data-only measure shrink |
 | `bpP:p5:param-facts` | `param_facts` | `PGAssembly/Threshold` | p5:L158–163; p5:L164–166 | log powers; gammaBar; positive finite action volume |
-| `bpP:p5:avg` | `PGAveraging; AveragingSpec; avg; pgAvg` | `PGAssembly/Averaging` | p5:L170–174; p5:L175–180 | P2 application; Fourier remainder and displacements |
-| `stepP:p5:av-dict` | `local to PGAveraging; AveragingSpec; avg; pgAvg` | `PGAssembly/Averaging` | p5:L176; p5:L176 | P2 application; Fourier remainder and displacements |
-| `stepP:p5:av-R1` | `local to PGAveraging; AveragingSpec; avg; pgAvg` | `PGAssembly/Averaging` | p5:L177; p5:L177 | P2 application; Fourier remainder and displacements |
-| `stepP:p5:av-R2` | `local to PGAveraging; AveragingSpec; avg; pgAvg` | `PGAssembly/Averaging` | p5:L178; p5:L178 | P2 application; Fourier remainder and displacements |
-| `stepP:p5:av-id` | `local to PGAveraging; AveragingSpec; avg; pgAvg` | `PGAssembly/Averaging` | p5:L179; p5:L179 | P2 application; Fourier remainder and displacements |
+| `bpP:p5:avg` | `PGAveraging; AveragingSpec; pg_avg; pgAvg` | `PGAssembly/Averaging` | p5:L170–174; p5:L175–180 | P2 application; Fourier remainder and displacements |
+| `stepP:p5:av-dict` | `local to PGAveraging; AveragingSpec; pg_avg; pgAvg` | `PGAssembly/Averaging` | p5:L176; p5:L176 | P2 application; Fourier remainder and displacements |
+| `stepP:p5:av-R1` | `local to PGAveraging; AveragingSpec; pg_avg; pgAvg` | `PGAssembly/Averaging` | p5:L177; p5:L177 | P2 application; Fourier remainder and displacements |
+| `stepP:p5:av-R2` | `local to PGAveraging; AveragingSpec; pg_avg; pgAvg` | `PGAssembly/Averaging` | p5:L178; p5:L178 | P2 application; Fourier remainder and displacements |
+| `stepP:p5:av-id` | `local to PGAveraging; AveragingSpec; pg_avg; pgAvg` | `PGAssembly/Averaging` | p5:L179; p5:L179 | P2 application; Fourier remainder and displacements |
 | `bpP:p5:phi` | `phi; phiDomain; oscillatorPolarComplex` | `PGAssembly/Chart` | p5:L184–186; — | compose real averaging with polar chart |
 | `bpP:p5:phi-chart` | `phi_chart` | `PGAssembly/Chart` | p5:L188–191; p5:L192–196 | IsChart; Q1; Q2; compose the AveragingSpec identity |
 | `stepP:p5:pc-img` | `local to phi_chart` | `PGAssembly/Chart` | p5:L193; p5:L193 | IsChart; Q1; Q2; compose the AveragingSpec identity |
@@ -499,7 +499,7 @@ repeat the hard rules of Section 11 in each dispatched Lean brief.
 | P5-SCALE | `KAM/Planetary/PGAssembly/Scales.lean` | 350 | 7 | P5-FD; isLittleO_log_rpow_rpow_atTop | kam_c1, log_power_dominated, PGScaleSpec, kam_cond, pgScales |
 | P5-PAR | `KAM/Planetary/PGAssembly/Parameters.lean` | 300 | 8 | P5-SCALE,P4-CO,P4-S; P1 twoScaleDiophantine | params, checkedCore, pgActionDomain, pgD0, admissible |
 | P5-TH | `KAM/Planetary/PGAssembly/Threshold.lean` | 650 | 9 | P5-PAR,P4-ONE,P4-CO,P5-FI | rstar, pgRstar, param_facts, r_k |
-| P5-AV | `KAM/Planetary/PGAssembly/Averaging.lean` | 550 | 10 | P5-TH,P5-EX,P5-JET; P2 OscHyp,averaged_remainder; Section 5 adapters | pgOscAlpha, pg_osc_*, avg, PGAveraging, AveragingSpec, pgAvg |
+| P5-AV | `KAM/Planetary/PGAssembly/Averaging.lean` | 550 | 10 | P5-TH,P5-EX,P5-JET; P2 OscHyp,averaged_remainder; Section 5 adapters | pgOscAlpha, pg_osc_*, pg_avg (renamed from avg, see note), PGAveraging, AveragingSpec, pgAvg |
 | P5-CH | `KAM/Planetary/PGAssembly/Chart.lean` | 550 | 11 | P5-AV,P4-POL; P1 IsChart.comp,hol_chart | phi_chart, location, phi, phiDomain |
 | P5-KH | `KAM/Planetary/PGAssembly/KAMInputs.lean` | 550 | 11 | P5-AV,P5-FI,P5-REM,P5-PAR; N WBound API | kamH, kamF, kam_hyp, pgKamScale, pg_kam_hyp, pg_kam_dictionary |
 | P5-FAM | `KAM/Planetary/PGAssembly/Family.lean` | 650 | 12 | P5-CH,P5-KH,P5-TH; P3 KamHyp,two_scale_kam joint output; P1 cyl_pipeline | PGFamilySpec, torus_conv, pgFamily, kset, rawUnion, frequency_bounds |
@@ -510,6 +510,12 @@ repeat the hard rules of Section 11 in each dispatched Lean brief.
 | P5-ST | `KAM/Planetary/PGAssembly/Strictness.lean` | 500 | 15 | P5-LO,P5-CUT,P5-FAM; P1 null-image bounds | parameter-measure construction, strictness, whole-torus deletion |
 | P5-MAIN | `KAM/Planetary/PGAssembly/Main.lean` | 250 | 16 | P5-ST,P5-FAM,P5-CT; frozen Kolmogorov definition | main, literal telescope and ENNReal strict lower slack |
 | P5-PROV | `KAM/Provider/Planetary/ProperlyDegenerateKAM.lean` | 150 | 17 | P5-MAIN; no theorem anchor import | provider wrapper to the exact frozen type |
+
+**Rename note (2026-10-28, main-orchestrator ruling; same pattern as P14 `amd_closure`).** The P5-AV signed theorem
+for `bpP:p5:avg` is `KAM.Planetary.pg_avg`, not `avg`: `avg` clashes with the existing P2/P3 theorem
+`KAM.Planetary.avg` in `KAM/Planetary/Averaging/Finite.lean`, and the root import would fail. No alias; the statement
+is unchanged; `pgAvg d r mu h := (pg_avg d r mu h).choose`. Consumers (P5-CH, P5-KH) use `pg_avg`. The signature file
+`.drafts/design/P45Signatures.lean` carries the same rename.
 
 36 packages, 17,540 estimated proof lines. Waves describe dependency readiness, not permission to run concurrent Lean processes. Each package is 150–800 lines.
 
@@ -1756,11 +1762,12 @@ theorem pg_osc_domain (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d
   averaged_remainder (pg_osc_positive d r mu h).1 (pg_osc_positive d r mu h).2
     (pg_osc_hyp d r mu h) (pg_osc_bound d r mu h)
 
-theorem avg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+-- Renamed from `avg` (2026-10-28): clashed with KAM.Planetary.avg (Averaging/Finite). No alias.
+theorem pg_avg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     ∃ A : PGAveraging (a+b), AveragingSpec d r mu A := sorry
 
 def pgAvg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) : PGAveraging (a+b) :=
-  (avg d r mu h).choose
+  (pg_avg d r mu h).choose
 
 def phi (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) : Phase (a+b) → Phase (a+b) :=
   realAverageMap (pgAvg d r mu h) ∘ oscillatorPolar
