@@ -7,6 +7,7 @@ module
 
 public import Mathlib
 public import KAM.Planetary.SecularForm.Quadratic.Constants
+public import KAM.Planetary.SecularForm.Quadratic.Diag
 
 /-!
 # Secular form: the quadratic part of the secular function
@@ -24,10 +25,11 @@ the reflection and quarter-turn symmetries (S8-Y, `hessian_pair_form`); the unif
 Schwarz lemma of order four on the complex line through `(ξ, Λ, η)` (`remainder_pointwise`).
 
 The modules of the proof are in `Quadratic/`: `Marginal`, `PairSplit`, `PairIdentify`,
-`PairLocal`, `Calculus`, `PairDiag`, `PairHessian`, `Algebra`, `Coeff`, `Jet`, `Schwarz`, `Uniform`
-and `Constants`. The diagonalisation cut `stepP:p8:qf-diag2` is the matrix-level statement consumed
-by S9-Q; it is not a separate analytic fact (the quadratic form is the sum `ξᵀ Q ξ + ηᵀ Q η`
-exactly as stated).
+`PairLocal`, `Calculus`, `PairDiag`, `PairHessian`, `Algebra`, `Coeff`, `Jet`, `Schwarz`, `Uniform`,
+`Constants` and `Diag`. The diagonalisation cut `stepP:p8:qf-diag2` is exported by `Diag`
+(`qfDiagSymplectic`, `qfDiagSumSq`, `qfDiagIdentity`): for `ϱ ∈ SO(n)` and `Q_h = ϱ diag(σ) ϱᵀ` the
+rotation `(ξ, η) ↦ (ϱᵀ ξ, ϱᵀ η)` is symplectic, preserves `∑ (ξⱼ² + ηⱼ²)`, and
+`ξᵀ Q_h ξ + ηᵀ Q_h η = ∑ 2 σⱼ Γ̃ⱼ`.
 -/
 
 @[expose] public noncomputable section
@@ -62,7 +64,7 @@ theorem quadratic_form (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     have hn : 0 ≤ ‖(x.1, x.2.2)‖ ^ 4 := by positivity
     calc |secular D false x - constantTerm D (axis D x.2.1) -
           quad (coeffs D (axis D x.2.1)) x.1 - quad (coeffs D (axis D x.2.1)) x.2.2|
-        = |quadRemainder D x| := rfl
+        = |quadFormRemainder D x| := rfl
       _ ≤ (M1 + MT + 2 * r ^ 2 * ME) / r ^ 4 * ‖(x.1, x.2.2)‖ ^ 4 := h
       _ ≤ |(M1 + MT + 2 * r ^ 2 * ME) / r ^ 4| * ‖(x.1, x.2.2)‖ ^ 4 :=
           mul_le_mul_of_nonneg_right (le_abs_self _) hn

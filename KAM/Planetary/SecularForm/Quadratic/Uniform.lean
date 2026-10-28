@@ -28,7 +28,7 @@ namespace SecularForm
 variable {n : ℕ}
 
 /-- The remainder of the quadratic form. -/
-def quadRemainder (D : Data n) (x : Slow n) : ℝ :=
+def quadFormRemainder (D : Data n) (x : Slow n) : ℝ :=
   secular D false x - constantTerm D (axis D x.2.1) - quad (coeffs D (axis D x.2.1)) x.1 -
     quad (coeffs D (axis D x.2.1)) x.2.2
 
@@ -56,7 +56,7 @@ theorem abs_quad_le (M : Mat n) {x : Vec n} (hx : ‖x‖ ≤ 1) :
   nlinarith [abs_nonneg (x i), abs_nonneg (x j), mul_le_mul hi hj (abs_nonneg _) zero_le_one]
 
 theorem analyticAt_remainder (D : Data n) {x : Slow n} (hS : AnalyticAt ℝ (secular D false) x)
-    (hb : axis D x.2.1 ∈ axes n) : AnalyticAt ℝ (quadRemainder D) x := by
+    (hb : axis D x.2.1 ∈ axes n) : AnalyticAt ℝ (quadFormRemainder D) x := by
   have h1 : AnalyticAt ℝ (fun y : Slow n => y.1) x := analyticAt_fst
   have h2 : AnalyticAt ℝ (fun y : Slow n => y.2.1) x := analyticAt_fst.comp analyticAt_snd
   have h3 : AnalyticAt ℝ (fun y : Slow n => y.2.2) x := analyticAt_snd.comp analyticAt_snd
@@ -127,7 +127,7 @@ theorem remainder_pointwise (D : Data n) {a : Vec n} (ha : a ∈ axes n)
     (hK : ∀ Λ : Vec n, dist Λ (action D a) < r → axis D Λ ∈ axes n ∧
       |constantTerm D (axis D Λ)| ≤ MT ∧ ∑ i, ∑ j, |coeffs D (axis D Λ) i j| ≤ ME)
     {x : Slow n} (hx : x ∈ realDisc D a r) :
-    |quadRemainder D x| ≤ (M1 + MT + 2 * r ^ 2 * ME) / r ^ 4 * ‖(x.1, x.2.2)‖ ^ 4 := by
+    |quadFormRemainder D x| ≤ (M1 + MT + 2 * r ^ 2 * ME) / r ^ 4 * ‖(x.1, x.2.2)‖ ^ 4 := by
   have hxs : x ∈ slowDom D :=
     mem_slowDom_of_realDisc D ha (hrr0.trans hrho0) hx
   have hxΛ : ∀ i, |x.2.1 i - action D a i| < r := fun i => (realDisc_coord D a hx i).2.1
@@ -152,8 +152,8 @@ theorem remainder_pointwise (D : Data n) {a : Vec n} (ha : a ∈ axes n)
     have e3 : x.2.2 = 0 := norm_le_zero_iff.1 (by rw [← h0] at hx3; exact hx3)
     have hxeq : x = ((0 : ℝ) • (0 : Vec n), action D b, (0 : ℝ) • (0 : Vec n)) := by
       refine Prod.ext ?_ (Prod.ext ?_ ?_) <;> simp [e1, e3, hact]
-    have : quadRemainder D x = rayRemainder D b 0 0 0 := by
-      unfold quadRemainder rayRemainder raySlow
+    have : quadFormRemainder D x = rayRemainder D b 0 0 0 := by
+      unfold quadFormRemainder rayRemainder raySlow
       rw [← hxeq, e1, e3, quad_zero]
       simp [hbdef]
     rw [this, rayRemainder_zero D hb]
@@ -234,10 +234,10 @@ theorem remainder_pointwise (D : Data n) {a : Vec n} (ha : a ∈ axes n)
       · simp only [linePt, inclusion, hη', Pi.smul_apply, smul_eq_mul]
         push_cast
         field_simp
-    have hgε : g (ε : ℂ) = (quadRemainder D x : ℂ) := by
+    have hgε : g (ε : ℂ) = (quadFormRemainder D x : ℂ) := by
       simp only [hg]
       rw [hpt, hreal x (realDisc_mono D a hrr0.le hx)]
-      unfold quadRemainder
+      unfold quadFormRemainder
       have hq : (ε : ℝ) ^ 2 * Q' = quad (coeffs D b) x.1 + quad (coeffs D b) x.2.2 := by
         rw [hQ', hξ', hη', quad_smul, quad_smul]
         field_simp
