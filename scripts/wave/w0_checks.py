@@ -7,7 +7,12 @@ in the conventions of blueprint-W/parts/w0-conventions.tex:
 phi_j = sqrt(2/pi) sin(jx), lambda_j = sqrt(j^2+m), u = sum q_j phi_j / sqrt(lambda_j), u_t = sum sqrt(lambda_j) p_j phi_j,
 H = 1/2 sum lambda_j (q_j^2+p_j^2) + 1/4 int u^4, actions I_j = (q_j^2+p_j^2)/2 = |z_j|^2, z_j = (q_j + i p_j)/sqrt 2.
 
-Usage:  python3 scripts/wave/w0_checks.py      (sympy + numpy; about a minute)
+Usage (run from the repository root):
+    python3 scripts/wave/w0_checks.py      (sympy + numpy; about a minute)
+Do NOT pass -I: on this machine sympy is installed only in the user site (~/.local/lib/python3.12/site-packages),
+which -I excludes, so `python3 -I scripts/wave/w0_checks.py` fails with ModuleNotFoundError: No module named 'sympy'.
+If isolation is required, add the user site explicitly:
+    python3 -I -B -c 'import sys,runpy; sys.path.append("/root/.local/lib/python3.12/site-packages"); runpy.run_path("scripts/wave/w0_checks.py", run_name="__main__")'
 Every check prints PASS/FAIL; the script exits nonzero on any FAIL. Output of the recorded run is at the end.
 """
 import itertools

@@ -40,7 +40,7 @@ preserving public import paths as cheap facades.
 | W5 | One KAM step | planned | P96-K §3 |
 | W6 | Iteration, convergence, invariance | planned | P96-K §4 |
 | W7 | Wave measure estimate (Theorem D) | planned | P96-K §5–6 |
-| W8 | Action family, density one, headline assembly | planned | KP96 §7; P96-W pp. 289–291 |
+| W8 | Action family, density one, family injectivity, headline assembly | planned | KP96 §7; P96-W pp. 289–291 |
 
 ## W0 nodes (written)
 
@@ -64,7 +64,8 @@ Definitions (Part 0, conventions): `bpW:w0:mass` (standing `m > 0`), `bpW:w0:nlw
 | `bpW:w0n:kappa` | `κ = 2` asymptotics with corrected `B` (remark) | proved | `AB` |
 | `bpW:w0n:duffing` | Lindstedt shift = `A_jj I_j` (deliverable f) | proved (+ numerical check) | `quartic-coeff`, `AB` |
 
-Source gaps recorded: P96-W Lemma 1 compression (supplied by `pde-equiv`); P96-W p. 280 `√2` (N-1); P96-W p. 282/284
+Expansion/strengthening of the source proof (not a gap): P96-W Lemma 1 (expanded, strengthened to `C¹` curves, in
+`pde-equiv`). Source defects recorded: P96-W p. 280 `√2` (N-1); P96-W p. 278 sign typo (N-4); KP96 p. 13 factor 2 (N-5); P96-W p. 282/284
 factor 16 (E-PDE-W-1); P96-W pp. 287/290 conventions (E-PDE-W-2).
 
 ## W1 nodes (PLANNED): weighted sequence calculus
@@ -73,11 +74,11 @@ factor 16 (E-PDE-W-1); P96-W pp. 287/290 conventions (E-PDE-W-2).
 |---|---|---|
 | `bpW:w1:space` | `ℓ^{a,p}` (real, complex) as a Hilbert space: transport of `lp 2` via `w_j ↦ j^p e^{aj} w_j`; coordinate evaluation continuous; completeness; separability | `bpW:w0:ellap` |
 | `bpW:w1:embed` | `ℓ^{a,p} ⊂ ℓ^{a',p'}` continuously for `a ≥ a'`, `p ≥ p'`; finite truncations converge | `space` |
-| `bpW:w1:diag` | diagonal multipliers `(λ_j^r)` bounded `ℓ^{a,p+r} → ℓ^{a,p}`, norm `≤ (1+m)^{r/2}`; phase rotations `e^{iλt}` isometric | `space` |
+| `bpW:w1:diag` | diagonal multipliers `(λ_j^r)` bounded `ℓ^{a,p+r} → ℓ^{a,p}`, norm `≤ (1+m)^{r/2}` for `r ≥ 0` (for real `r`: `≤ (1+m)^{max(r,0)/2}`; for `r < 0` the norm is `sup_j λ_j^r j^{-r}` ≤ 1); phase rotations `e^{iλt}` isometric | `space` |
 | `bpW:w1:twosided` | two-sided space `ℓ^{a,s}_b`, odd/even extension maps `ℓ^{a,p} → ℓ^{a,p+1/2}_b` with norm `≤ √2` (after the `λ^{-1/2}` weight) | `space`, `bpW:w0:twosided` |
-| `bpW:w1:young` | `ℓ² * ℓ¹ ⊂ ℓ²` (Young) and `ℓ¹` control by weighted `ℓ²` (Cauchy–Schwarz, `Σ ⟨l⟩^{-2s} = 1 + 2ζ(2s)`) | `twosided` |
+| `bpW:w1:young` | `ℓ² * ℓ¹ ⊂ ℓ²` (Young) and `ℓ¹` control by weighted `ℓ²` (Cauchy–Schwarz, `Σ_{l∈ℤ} ⟨l⟩^{-2s} = 1 + 2ζ(2s) < ∞` for `s > 1/2`) | `twosided` |
 | `bpW:w1:algebra` | = `bpW:w0n:algebra` (moved here in Lean) | `young` |
-| `bpW:w1:trilinear` | the cubic map as a `ContinuousMultilinearMap` `(ℓ^{a,p}_ℂ)³ → ℓ^{a,p+1}_ℂ`, real structure | `algebra`, `bpW:w0n:quartic-coeff` |
+| `bpW:w1:trilinear` | the cubic map as a `ContinuousMultilinearMap` `(ℓ^{a,p}_ℂ)³ → ℓ^{a,p+1}_ℂ` for `a ≥ 0`, `p ≥ 1/2` (track uses `p = 1`), real structure | `algebra`, `bpW:w0n:quartic-coeff` |
 | `bpW:w1:cubic-analytic` | `G_q` analytic (from multilinearity), Lipschitz bound `‖G_q(q) − G_q(q')‖ ≤ 3C‖q−q'‖ max(‖q‖,‖q'‖)²` | `trilinear` |
 | `bpW:w1:hamfield` | the Hamiltonian field `X_H = (λp, −λq − G_q)` as a map `E_{a,p+1} → E_{a,p}`; `X_G : E_{a,p} → E_{a,p+1}` (one-smoothing) | `diag`, `cubic-analytic` |
 | `bpW:w1:gradient-identity` | `G_q` is the gradient of `G` w.r.t. the unweighted pairing `Σ q_j q'_j` (not the weighted Riesz gradient) | `bpW:w0n:gradient`, `trilinear` |
@@ -91,7 +92,10 @@ factor 16 (E-PDE-W-1); P96-W pp. 287/290 conventions (E-PDE-W-2).
   `Γ` with `H∘Γ = Λ + Ḡ + G^nor + K`, `K = O(‖z‖⁶)`, smoothing fields. Consumes `AB`.
 - W4–W6: P96-K Theorem A specialised to `d = 1`, `δ = −1`, `p̄ − p = 1`; consumes `nondeg`, `kappa`, W1, W3.
 - W7: P96-K Theorem D with `κ = 2`, `Δ = 1`, `g = 6` (`6 > 11/2`); consumes `nondeg` ((A₃)), `kappa`.
-- W8: KP96 §7 shell patching ⇒ `bpW:wh:nlw2`; consumes W2, W6, W7.
+- W8: KP96 §7 shell patching ⇒ `bpW:wh:nlw2` (the D30 first headline, a declared weakening of P96-W's Main Theorem
+  for `J = {1,2}`); also proves its family-level injectivity conclusion (item (6): `K_I(θ) = K_{I'}(θ')` ⇒ `I = I'`,
+  `θ ≡ θ'` mod 1) from the action/frequency parametrization of the family (P96-W pp. 272–273, 288–289); consumes W2,
+  W6, W7. Lipschitz (Cantor-manifold) regularity of the family is deferred with Whitney regularity and stability (D30 Q3).
 
 ## Open questions for the owner (from this package)
 

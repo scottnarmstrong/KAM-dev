@@ -4,7 +4,9 @@
 
 This section states the headline proposed in the scoping report (\texttt{docs/explorations/}\allowbreak\texttt{pde-kam-and-leapfrogging.md}, \S2.3), adopted
 for the source/design phase by owner decision D30, with every definition written out in the conventions of
-\S\ref{bpW:w0}. It is a proposal for later independent statement audit and owner approval; nothing here is frozen.
+\S\ref{bpW:w0}. It is a proposal for later independent statement audit and owner approval; nothing here is frozen. W-NLW2 is
+\emph{the D30 first headline (a declared weakening of P96-W's Main Theorem for $J=\{1,2\}$)}; it is not the full
+specialized Main Theorem. The weakenings are listed in Remark~\ref{bpW:wh:weakenings}.
 
 \subsection{Definitions}\label{bpW:wh:defs}
 
@@ -56,6 +58,9 @@ continuous on $\Gamma\times\R^2$ and:
   $\R\times[0,\pi]$, is a classical solution of \eqref{bpW:w0:eq} on $\R$, satisfies
   $u_t(t,\cdot)=V_m\bigl(P_I(\theta_0+t\nu(I))\bigr)$, and
   \[\sup_{t\in\R,\,x\in[0,\pi]}\bigl(\abs u+\abs{u_x}+\abs{u_t}\bigr)\le C\,r(I).\]
+\item \emph{(Family injectivity.)} For all $I,I'\in\Gamma$ and $\theta,\theta'\in\R^2$, if
+  $K_I(\theta)=K_{I'}(\theta')$ then $I=I'$ and $\theta-\theta'\in\Z^2$. Thus distinct parameters give disjoint
+  tori, and each torus is embedded (with (3)).
 \end{enumerate}
 \end{theorem}
 
@@ -71,6 +76,9 @@ continuous on $\Gamma\times\R^2$ and:
   $I_j=(q_j^2+p_j^2)/2$ (through $K^0_I$) and period-one angles; it contains none of the printed P96-W constants.
   The frequency asymptotics in (2) are only the leading term; the twist $A$ of Theorem~\ref{bpW:w0n:AB} enters the
   proof, not the statement.
+\item \emph{Family injectivity} (6) is proved in W8 from the source's family construction: the tori are images of
+  the parameter tori under a single map that is injective on the union of the parameter tori (P96-W Main Theorem
+  pp.~272--273, ``embedding'' of the family; Cantor Manifold Theorem and Remark~1 pp.~288--289).
 \item \emph{Deviations from the source} (to be audited): pure cubic nonlinearity; $J=\{1,2\}$; $a=p=1$; period-one
   angles; Borel density-one set instead of a Cantor set (isolated points are allowed, cf.\ KP96 p.~24, Remark~2);
   linear stability, Whitney regularity, and the Lipschitz extension of P96-W Remark~2 p.~289 are omitted; the
@@ -78,6 +86,18 @@ continuous on $\Gamma\times\R^2$ and:
   Cantor Manifold Theorem (P96-W p.~289), because the linearizing parametrization of Remark~1 there has a worse
   estimate (KP96 \S7, Step~7).
 \end{itemize}
+\end{remark}
+
+\begin{remark}[Declared weakenings]\label{bpW:wh:weakenings}
+Relative to P96-W's Main Theorem specialized to $J=\{1,2\}$, W-NLW2 declares the following weakenings (orchestrator
+ruling W-A2, recorded for owner review). \emph{Deferred together} (D30~Q3): linear stability of the tori; Whitney
+regularity of the family; and the Lipschitz regularity of the family in Cartesian coordinates, i.e.\ the source's
+Lipschitz Cantor manifold (P96-W pp.~272--273, 288--289); W-NLW2 requires only continuity of
+$(I,\theta)\mapsto K_I(\theta)$ on $\Gamma\times\R^2$. \emph{Retained}: each torus is an analytic embedding (3), and
+the family is injective (6), so the union of the tori is a disjoint union of embedded tori; what is not asserted is
+that the induced map on $\Gamma\times\T^2$ is a Lipschitz (bi-Lipschitz-parametrized) embedding. \emph{Also
+declared}: Borel density-one parameter set instead of a Cantor set; $o(r)$ closeness instead of $O(r^\sigma)$;
+pure cubic nonlinearity, $a=p=1$, period-one angles (Remark~\ref{bpW:wh:reading}).
 \end{remark}
 \source{P96-W Main Theorem pp.~272--273 (condition (4) holds for $J=\{1,2\}$), Lemma~1 p.~278, Cantor Manifold
 Theorem and Remark~1 p.~289, assembly pp.~290--291; KP96 Theorem~2 p.~19 and \S7 pp.~25--31; P96-K Theorems~A, D.}

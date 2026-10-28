@@ -134,8 +134,11 @@ argument the paper does not give.
 **N-1 (P96-W p. 280, proof of Lemma 3).** Printed: "`u = Sq` is in `W^{a,s+σ}` with `‖u‖_{a,s+σ} ≤ ‖q‖_{a,s}` for
 `m ≥ 0`", `σ = ½`, in the two-sided norm of p. 279. With `F q = (2π)^{-1/2} Σ c_j e^{ijx}`, the odd extension of `u`
 has `c_{±j} = ∓ i q_j / sqrt(λ_j)`, so `‖u‖²_{a,s+½} = 2 Σ_{j≥1} (j/λ_j) j^{2s} e^{2ja} |q_j|² ≤ 2‖q‖²_{a,s}`. For
-`q = e_1`, `a = s = 0`, `m = 1`: `‖u‖² = 2/√2 > 1 = ‖q‖²`. The printed inequality holds for all `q`
-iff `2 sup_j j/λ_j = 2/sqrt(1+m) ≤ 1`, i.e. iff `m ≥ 3`. Constant only; the conclusion
+`q = e_1`, `a = s = 0`, `m = 1`: `‖u‖² = 2/√2 > 1 = ‖q‖²`. Since `sup_{j≥1} j/λ_j = lim_j j/sqrt(j²+m) = 1`
+(not `1/sqrt(1+m)`), the operator norm of `q ↦ Sq` is exactly `√2` for every fixed `m > 0` (approached along
+`q = e_j`, `j → ∞`), and the printed norm-one bound fails for EVERY `m > 0` (e.g. `m = 3`, `q = e_2`: squared ratio
+`4/sqrt(7) ≈ 1.512`). (Revision 1: an earlier draft wrongly claimed a threshold `m ≥ 3`; corrected per audit W-A1.)
+Constant only; the conclusion
 `‖G_q‖_{a,s+1} = O(‖q‖³)` stands (the companion inequality `‖G_q‖_{a,s+1} ≤ ‖f(u)‖_{a,s+σ}` is true:
 `|⟨f, φ_j⟩| = |f̂_j|`, and the sum over `j ≥ 1` is at most `½‖f‖²`). The blueprint's Theorem `bpW:w0n:cubic-bound`
 carries the `√2`.
@@ -145,6 +148,21 @@ two-sided norm of the odd extension is `√2 ‖q‖_{a,p}`. Constant only. (Tex
 
 **N-3 (P96-W p. 282).** The Main Proposition prints `Ḡ_ij = (6/π)·(4 − δ_ij/λ_iλ_j)`; p. 284 shows the intended
 `(6/π)(4 − δ_ij)/(λ_iλ_j)`. Typographical, superseded by E-PDE-W-1 in any case.
+
+**N-4 (P96-W p. 278, proof of Lemma 1, second line of the `u_tt` display; audit item W-S1).** Printed:
+`u_tt = Σ (1/√λ_j)(λ_j² q_j − √λ_j ⟨f(u), φ_j⟩) φ_j`. By (6), p. 277, `q̇_j = λ_j p_j`, `ṗ_j = −λ_j q_j − ∂G/∂q_j`,
+and (7), p. 278, `∂G/∂q_j = λ_j^{-1/2}⟨f(u),φ_j⟩`, so `q̈_j = −λ_j² q_j − √λ_j ⟨f(u),φ_j⟩`: the `λ_j² q_j` term needs
+a minus sign. The next printed line (`−Σ (q_j/√λ_j) Aφ_j − …`, then `−Au − …`) already has the correct sign, so the
+slip is local. Verified on a 200-dpi page image (PDF p. 11). The blueprint's proof of `bpW:w0n:pde-equiv` uses the
+correct sign. **Verdict: CONFIRMED** (sign typo; no downstream effect).
+
+**N-5 (KP96 author v2.1 p. 13, first display in the proof of Lemma 3; audit item W-S2).** Printed:
+`∂G/∂q̄_j = ∫_0^π f(|u|²) u φ_j dx`, `u = Sq`. From (5), p. 11, `G = ½∫ g(|Sq|²)` with `g' = f`; since
+`∂|u|²/∂q̄_j = u φ_j` (real `φ_j`), `∂G/∂q̄_j = ½∫ f(|u|²) u φ_j dx`. In the cubic case (7), `G = ¼∫|u|⁴`, the same
+factor ½ is missing. The Lemma 1 computation on p. 11 is consistent with the correct value (`iq̇_j = −2∂H/∂q̄_j =
+−(λ_j q_j + ∫ f(|u|²)uφ_j)`), so the slip is local to this display and affects only the gradient formula's constant, not
+the smoothing claim. Verified on a 200-dpi page image. Not propagated into W's force interface. **Verdict: CONFIRMED**
+(factor-2 typo).
 
 **Remark (not an erratum).** P96-W Lemma 6, p. 293, second branch (`|⟨w, l⟩| ≥ (4n−1)/(4n−4)` "implies
 `|⟨w,l⟩| = λ_1^{-1} + λ_ν^{-1}`") is vacuous when `1 ∈ J`; for `J = {1,2}` only the first branch occurs. The blueprint

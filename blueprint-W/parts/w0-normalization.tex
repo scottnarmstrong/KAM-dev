@@ -157,8 +157,8 @@ with $\Gq$ is Lemma~\ref{bpW:w0n:gradient}.
 The source deduces analyticity from coordinatewise analyticity and local boundedness [P96-W ref.~9, Appendix~A];
 the polynomial structure makes that principle unnecessary here.}
 \sourcegap{P96-W p.~280 asserts $\norm{\mathcal Sq}_{a,s+1/2}\le\norm q_{a,s}$ in the two-sided norm. The correct
-bound is $\le\sqrt2\norm q_{a,s}$ (Step~\ref{stepW:w0n:majorant}); the printed one fails for $q=e_1$, $a=s=0$,
-$m=1$. Constants only; recorded as new item N-1 in the errata check.}
+bound is $\le\sqrt2\norm q_{a,s}$ (Step~\ref{stepW:w0n:majorant}); the operator norm is exactly $\sqrt2$ for every fixed $m>0$
+(take $q=e_j$, $j\to\infty$), so the printed bound fails for every $m>0$ (e.g.\ $q=e_1$, $a=s=0$, $m=1$). Constants only; recorded as new item N-1 in the errata check.}
 
 \subsection{PDE \texorpdfstring{$\leftrightarrow$}{<->} coefficient system}\label{bpW:w0n:pde}
 
@@ -208,10 +208,12 @@ $\int u_{tt}\phi_l=-\lambda_l^2q_l/\sqrt{\lambda_l}-\sqrt{\lambda_l}\Gq(q)_l$ by
 $\sqrt{\lambda_l}$.
 \end{proof}
 \source{P96-W Lemma~1, p.~278, and (7), p.~278.}
-\sourcegap{P96-W Lemma~1 compresses termwise differentiation, completeness of the sine system and the identification
-of $f(u)$ with its sine series into one paragraph and states only (i) for real-analytic curves. The proof above
-supplies the steps; completeness of $(\phi_l)$ in $L^2(0,\pi)$ is a standard external fact (Fourier basis of
-$L^2$ on the circle applied to odd extensions). The all-time real-analytic version used by the headline is W2.}
+\par\noindent{\small\textsf{Expansion/strengthening of the source proof:} P96-W Lemma~1 (p.~278) argues via
+convergence in complex neighbourhoods, termwise time differentiation and completeness, for real-analytic curves. The
+proof above expands these steps and proves a stronger $C^1$-curve version (i); this is not a source gap. (Separately,
+the second line of the source's $u_{tt}$ display drops a minus sign on $\lambda_j^2q_j$: errata item N-4; the proof
+above uses the correct sign.)}\par\noindent{\small completeness of $(\phi_l)$ in $L^2(0,\pi)$ is a standard external fact (Fourier basis of
+$L^2$ on the circle applied to odd extensions). The all-time real-analytic version used by the headline is W2.}\par
 
 \subsection{Quartic nonresonance}\label{bpW:w0n:nonres-sec}
 
@@ -421,6 +423,7 @@ $\abs{\omega_{\rm num}-(\lambda_1+A_{11}I_1)}=O(I_1^2)$.
   multilinear maps; Young's inequality; $\zeta(3)<\infty$; the classical Lindstedt shift.
 \item \emph{Cited, for later milestones}: quantitative divisor bound (P96-W Lemma~4, W3); analytic realization of
   the Birkhoff map and its remainder (P96-W Main Proposition, W3).
-\item \emph{Source gaps / normalization defects}: P96-W p.~280 constant (N-1); P96-W Lemma~1 compression; P96-W
+\item \emph{Expansions of source proofs}: P96-W Lemma~1 (expanded and strengthened to $C^1$ curves).
+\item \emph{Source gaps / normalization defects}: P96-W p.~280 constant (N-1); P96-W p.~278 sign typo (N-4); KP96 p.~13 factor $2$ (N-5); P96-W
   p.~282/284 factor $16$ (E-PDE-W-1); P96-W pp.~287, 290 action/recovery/sign conventions (E-PDE-W-2).
 \end{itemize}
