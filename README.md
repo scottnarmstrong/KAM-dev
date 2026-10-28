@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 08:59 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 147,000
+> **Last updated: 2026-10-28 09:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 147,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,7 +127,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 26,735 |
+| Written on agent branches, not yet landed | 26,845 |
 | **Estimated total at completion** | **≈ 147,000** |
 | Estimated still to write | ≈ 46,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 08:59 UTC from `main` at `a4bea37` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 09:00 UTC from `main` at `2ab36b8` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,11 +292,11 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **n1206** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-06 WIP: envelope summability | `inp-n1206` | 9 (vs `inp`) |
+| **n1206** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-06 WIP: envelope_regular | `inp-n1206` | 10 (vs `inp`) |
 | **n1210b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-10b: FlowRegular (flow_variational) | `inp-n1210b` | 6 (vs `inp`) |
 | **n89g6** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N89-G6: sqrt and geom_formula | `inp-n89g6` | 1 (vs `inp`) |
 | **p11aw0** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: P11A-W0: delta audit 2 (PASS WITH NOTES; W0-01 resolved) | `inp-p11aw0` | 6 (vs `inp`) |
-| **p11aw1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W1: operator bound bridge | `inp-p11aw1` | 9 (vs `inp`) |
+| **p11aw1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W1: M_bound | `inp-p11aw1` | 10 (vs `inp`) |
 | **p11aw2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p11aw0 | `inp-p11aw2` | 6 (vs `inp`) |
 | **p11aw3** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-W3: divided_difference (WeakMeasure/DividedDifference) | `inp-p11aw3` | 1 (vs `inp`) |
 | **p11aw4** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W3: divided_difference (WeakMeasure/DividedDifference) | `inp-p11aw4` | 1 (vs `inp`) |
