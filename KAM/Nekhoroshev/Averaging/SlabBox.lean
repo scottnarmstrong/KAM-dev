@@ -106,7 +106,8 @@ theorem volume_box_le {φ g : (Fin (m + 1) → ℝ) → ℝ} {j : Fin (m + 1)}
           have key : ∀ {a b : ℝ}, Fin.insertNth j a y ∈ A → Fin.insertNth j b y ∈ A →
               a < b → b - a ≤ 2 * v / c₁ := by
             intro a b ha hb hab
-            have := section_dist_le (P := Fin.insertNth j a y) (t₁ := a) (t₂ := b) (v := v) hr hφd hg
+            have := section_dist_le (P := Fin.insertNth j a y) (t₁ := a) (t₂ := b) (v := v) hr hφd
+              hg
               (by rw [hu]; exact ha.1) (by rw [hu]; exact hb.1)
               (by rw [hu]; exact ha.2) (by rw [hu]; exact hb.2) hab
             rw [le_div_iff₀ hc₁]; linarith
@@ -135,7 +136,8 @@ theorem volume_box_le {φ g : (Fin (m + 1) → ℝ) → ℝ} {j : Fin (m + 1)}
           rw [hB, mem_closedBall, dist_pi_le_iff hr]
           intro l
           simpa using this (j.succAbove l)
-    _ = ENNReal.ofReal (2 * v / c₁) * volume B := lintegral_indicator_const measurableSet_closedBall _
+    _ = ENNReal.ofReal (2 * v / c₁) * volume B :=
+        lintegral_indicator_const measurableSet_closedBall _
     _ = ENNReal.ofReal (2 * r) ^ m * ENNReal.ofReal (2 * v / c₁) := by
         rw [hB, Real.volume_pi_closedBall _ hr, Fintype.card_fin,
           ENNReal.ofReal_pow (by linarith), mul_comm]
