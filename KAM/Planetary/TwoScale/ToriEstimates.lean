@@ -31,6 +31,24 @@ variable {a b : ℕ} {sbar : ℝ} {p : ScaleData} {h : (Fin (a + b) → ℂ) →
   {is : ℕ → (Fin (a + b) → ℂ) → (Fin (a + b) → ℂ)}
   {i : (Fin (a + b) → ℝ) → (Fin (a + b) → ℝ)} {Φinf : Phase (a + b) → Phase (a + b)}
 
+/-- First derivatives of a `StripLimit` converge pointwise on the open strip. -/
+theorem StripLimit.fderiv_tendsto {n : ℕ} [Nonempty (Fin n)] {w B : ℝ}
+    {F : ℕ → (Fin n → ℂ) → ℂ} {f : (Fin n → ℝ) → ℂ} {G : (Fin n → ℂ) → ℂ}
+    (hS : StripLimit n w B F f G) {z : Fin n → ℂ} (hz : z ∈ KAM.complexStrip n w)
+    (u : Fin n → ℂ) :
+    Tendsto (fun j => fderiv ℂ (F j) z u) atTop (𝓝 (fderiv ℂ G z u)) := by
+  have hw : 0 < w := (abs_nonneg _).trans_lt (hz (Classical.arbitrary _))
+  set v0 := Finset.univ.sup' Finset.univ_nonempty (fun k => |(z k).im|) with hv0
+  have hv0w : v0 < w := (Finset.sup'_lt_iff _).2 fun k _ => hz k
+  have hvw : max v0 (w / 2) < w := max_lt hv0w (by linarith)
+  have hvpos : 0 < max v0 (w / 2) := lt_max_of_lt_right (by linarith)
+  have hmem : z ∈ {z : Fin n → ℂ | ∀ i, |(z i).im| ≤ max v0 (w / 2)} := fun k =>
+    ((Finset.le_sup' (fun k => |(z k).im|) (Finset.mem_univ k)).trans (le_max_left _ _))
+  have hT := (hS.2.2.2.2 _ hvpos hvw 1).tendsto_at hmem
+  have hc := ((ContinuousMultilinearMap.apply ℂ (fun _ : Fin 1 => Fin n → ℂ) ℂ
+    (fun _ => u)).continuous.tendsto _).comp hT
+  simpa [Function.comp_def] using hc
+
 /-- Reassembly of the coordinatewise extensions of the torus `θ ↦ Φ(θ, I)`, for `I ∈ D_*`:
 holomorphic on the strip, equal to `Φ(θ, I)` at real angles, with angle displacement
 `≤ 3 Ê s / 4π`. -/
