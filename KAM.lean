@@ -366,8 +366,10 @@ public import KAM.Planetary.Poincare.Chart
 public import KAM.Planetary.Poincare.D25
 public import KAM.Planetary.Poincare.Holomorphic
 public import KAM.Planetary.Poincare.HolomorphicSymplectic
+public import KAM.Planetary.Poincare.Lattice
 public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
+public import KAM.Planetary.Poincare.Tube
 public import KAM.Planetary.TwoScale.Constants
 public import KAM.Provider.AposterioriKam
 public import KAM.Provider.Iso.AllTimeConfinement
