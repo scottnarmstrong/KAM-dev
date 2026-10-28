@@ -382,9 +382,12 @@ public import KAM.Nekhoroshev.Partial.Continuation
 public import KAM.Nekhoroshev.Partial.Coordinates
 public import KAM.Nekhoroshev.Partial.Energy
 public import KAM.Nekhoroshev.Partial.EnergyIdentity
+public import KAM.Nekhoroshev.Partial.Flow
 public import KAM.Nekhoroshev.Partial.Homological
 public import KAM.Nekhoroshev.Partial.RealSystem
 public import KAM.Nekhoroshev.Partial.Setting
+public import KAM.Nekhoroshev.Partial.Symplectic
+public import KAM.Nekhoroshev.Partial.SymplecticLinear
 public import KAM.Nekhoroshev.Partial.Threshold
 public import KAM.Nekhoroshev.Partial.VectorField
 public import KAM.Nekhoroshev.Poschel.BlockHypotheses
