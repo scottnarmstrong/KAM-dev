@@ -157,8 +157,8 @@ Section-data nodes map to actual exposed definitions or the indicated binder/con
 | `stepN:p12:co-c` | `coef` / co-c | `p12#stepN:p12:co-c@L95-L95` | `p12#stepN:p12:co-c@L95-L95` | `Coefficients` |
 | `stepN:p12:co-d` | `coef` / co-d | `p12#stepN:p12:co-d@L96-L96` | `p12#stepN:p12:co-d@L96-L96` | `Coefficients` |
 | `bpN:p12:corrector` | `corrector` | `p12#bpN:p12:corrector@L99-L110` | `p12#bpN:p12:corrector@L100-L109` | `Corrector` |
-| `bpN:p12:wreg` | `wreg` | `p12#bpN:p12:wreg@L112-L120` | `p12#bpN:p12:wreg@L121-L129` | `CorrectorRegular` |
-| `stepN:p12:wr-smooth` | `wreg` / wr-smooth | `p12#stepN:p12:wr-smooth@L122-L122` | `p12#stepN:p12:wr-smooth@L122-L122` | `CorrectorRegular` |
+| `bpN:p12:wreg` | `wreg` (C¹, full-domain derivative-series equality, periodicity and bounds) | `p12#bpN:p12:wreg@L112-L120` | `p12#bpN:p12:wreg@L121-L129` | `CorrectorRegular` |
+| `stepN:p12:wr-smooth` | `wreg` / wr-smooth, including directional `HasSum` | `p12#stepN:p12:wr-smooth@L122-L122` | `p12#stepN:p12:wr-smooth@L122-L122` | `CorrectorRegular` |
 | `stepN:p12:wr-ac` | `wreg` / wr-ac | `p12#stepN:p12:wr-ac@L124-L124` | `p12#stepN:p12:wr-ac@L124-L124` | `CorrectorRegular` |
 | `stepN:p12:wr-b` | `wreg` / wr-b | `p12#stepN:p12:wr-b@L126-L126` | `p12#stepN:p12:wr-b@L126-L126` | `CorrectorRegular` |
 | `stepN:p12:wr-d` | `wreg` / wr-d | `p12#stepN:p12:wr-d@L128-L128` | `p12#stepN:p12:wr-d@L128-L128` | `CorrectorRegular` |
@@ -277,7 +277,7 @@ package. If a proof grows, split into another focused module and keep a cheap pu
 | N12-03c | 2 | `LocalDependence` 320 | N12-03b; `hasFDerivAt_of_tendstoUniformlyOn` | `#derivative-limit`, `#identify`, `ext_dep`; prove derivative convergence, not just existence of a candidate Y |
 | N12-04 | 1 | `Coefficients` 300 | N12-01; `Weighted.Coefficients`, K strip/Fourier APIs | `avgCoeff`, `avgBeta`, `avgQ`, `coef`, polynomial-weight summability |
 | N12-05 | 2 | `Corrector` 250 | N12-01 and coefficient **definitions** from N12-04 | rational divisor calculus, `avgU`, `avgW`, envelope definitions; no regularity assumed |
-| N12-06 | 3 | `CorrectorRegular` 500 | N12-04/05; `SmoothSeries` | `wreg`, `envelope_regular`, exact residual series and termwise derivative formulas |
+| N12-06 | 3 | `CorrectorRegular` 500 | N12-04/05; `SmoothSeries` | `wreg` (including full-domain directional derivative `HasSum`), `envelope_regular`, exact residual series and both partial derivative series |
 | N12-07 | 1 | `Rank` 250 | N12-01; `Interfaces.Norms`, frozen rank predicate | `lambda`: surjective adjoint argument and compact positive minimum |
 | N12-08 | 2 | `Slab` 450 | N12-07; Mathlib Fubini/MVT, K slab reference | `slab`, numerical `AvgSlabBound`; finite coordinate boxes uniform in e |
 | N12-09 | 4 | `Shells` 320, `EnvelopeIntegrals` 300 | N12-04/05/08 | `shells_from_slab`, `shells`, `envelopes_from_slab`, `envelopes`; compute cW,cB,cR,cPhi |
@@ -335,6 +335,26 @@ on each slab, and use uniqueness to identify with `avgFlow`. The inverse proof u
 of **F**, not of `−F`; maximality applied to the closed interval ensures endpoint room.
 For determinant one, use symmetry of D²H to preserve `YᵀJY=J`, hence determinant ±1;
 continuity on the connected maximal time interval and initial determinant 1 fix the sign.
+
+### Corrector termwise differentiation gate (N12-06)
+
+The `wreg` output must include, for every `z ∈ avgDomain n R` and every real phase direction `v`,
+a `HasSum` of the real directional derivatives of the actual summands
+`fun y => -KAM.character k (KAM.realInclusion n y.1) • avgU h f κ k y.2`, with sum
+`fderiv ℝ (avgW h f κ) z v`. This equality holds on the entire source domain, before the `avgG`
+guard used for the quantitative bounds. A residual contraction or derivative norm estimate alone
+is insufficient. Set `v=(vθ,0)` and `v=(0,vI)` to recover the angle and action derivative series;
+the derivative of the zero-mode summand vanishes.
+
+For each point choose an open preconnected product neighborhood whose action closure lies in
+`actionBall n R`. Use `coef` and the rational divisor bounds to dominate terms and their real
+Fréchet derivatives locally by a constant times `(1+modeSize k)^3 * avgBeta s k`.
+Instantiate `hasFDerivAt_tsum_of_isPreconnected` on that neighborhood, using the product and chain
+rules for each summand; apply the resulting continuous linear maps to `v` to obtain the displayed
+`HasSum`. This also justifies the expanded partial formulas in p12:122 and p12:128. Transport the
+minus sign through the summable series to the definition of `avgW`. No bounds or regularity outside
+the analytic domain are assumed. Downstream users of the former periodicity/bounds conjunct now
+project the third conjunct of `wreg`; the first remains C¹ and the second is the new series identity.
 
 ### Transport and integrability gates
 
@@ -408,11 +428,13 @@ exact-type textual comparison, Appendix equality, axiom-print check and git diff
 No production build or proof closure is claimed; the user-mandated signature gate replaces direct builds
 for this design-only task. All draft theorems have `sorryAx` until their prover packages are completed.
 
-### Validation receipts
+### Revision 1 validation receipts (historical)
 
 The Part 12 blueprint SHA-256 is `dd549dc5c3069e1a185767b5fa580d979963fa920a4b9e7939529047d13ebbfc`,
-matching `docs/graph/N/CORPUS.sha256`; graph packet SHA-256 is
+matching `docs/graph/N/CORPUS.sha256`. The combined graph `docs/graph/N/DEPGRAPH.md` SHA-256 is
 `941c8d1d4bb6c17e3369d57b86441798544e1dabc8a9af1735882f75aa8972d2`.
+The Part 12 packet `docs/graph/N/packets/N-p12.nodes.md` SHA-256 is
+`2994dff658689fa1b5ad4a4d3908f26ac6369868106683874a85f1c7e44aad4d`.
 
 - Signature command: `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-n12 .drafts/scratch/N12Signatures.lean`.
   Final check exited 0 with exactly 29 sorry warnings and no other diagnostics.
@@ -430,10 +452,43 @@ matching `docs/graph/N/CORPUS.sha256`; graph packet SHA-256 is
   elaboration also required a local classical decidability instance for the choice definition. Neither
   issue changed a frozen file or required a resource-budget override.
 
+## Revision 2
+
+Response to `DESIGN-N12-design-audit-1.md`, 2026-10-28. The audit lists one medium finding and one
+low note; there are no separate blocking- or major-severity findings.
+
+| Finding | Resolution |
+|---|---|
+| F1 — MEDIUM, blocking source fidelity | Strengthened `wreg` with the audit-proposed directional derivative-series `HasSum` for every point of `avgDomain` and every real phase direction. All original premises, C¹ regularity, periodicity, residual series and quantitative bounds remain. Section 4 maps `wreg`/`wr-smooth` to this conclusion; N12-06 and its differentiation gate explicitly require both partial series, local domination and the concrete use of `hasFDerivAt_tsum_of_isPreconnected`. Appendix A and the delivered signatures contain the same repair. |
+| N1 — LOW, hash label | Corrected the receipt to name `docs/graph/N/DEPGRAPH.md` as the combined graph, and recorded the separate Part 12 packet path and its actual SHA-256. Both hashes were recomputed in this revision. |
+
+The repair adds a source conclusion, with no new premise or source deviation. Both provider exports
+retain their exact frozen types. Implementation and proof closure remain pending; this revision does
+not replace the failed independent audit with a claimed independent PASS.
+
+### Revision 2 validation receipts
+
+- Exact delivered signatures copied to `.drafts/scratch/N12Signatures.lean` and elaborated via
+  `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-n12 .drafts/scratch/N12Signatures.lean`:
+  exit 0, exactly 29 declaration-uses-sorry warnings, no other diagnostics. Log: `.drafts/scratch/N12-r2-check.log`.
+- `LEAN_NUM_THREADS=1 PATH=/root/code/KAM-inp-design-n12/.drafts/scratch/gated-bin:$PATH nice -n 5 sh scripts/lint_sources.sh`:
+  exit 0; `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`;
+  `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`.
+  Its ABI elaboration used the existing gate wrapper. Log: `.drafts/scratch/N12-r2-lint.log`.
+- A scratch copy of the revised signatures with `#print axioms` for both provider exports,
+  `.drafts/scratch/N12R2Axioms.lean`, elaborated through the same gate: exit 0, the same 29 expected
+  warnings; both print `[propext, sorryAx, Classical.choice, Quot.sound]`.
+  Log: `.drafts/scratch/N12-r2-axioms.log`.
+- Python structural checks passed: exact audit-proposed `wreg` replacement; Appendix/delivery/scratch
+  byte equality; both provider telescopes/conclusions unchanged and exact textual frozen copies;
+  91 unique graph rows, 29 sorry theorem bodies, 505 signature lines, no forbidden constructs.
+- `git diff --check`: exit 0, no output. The signature check initially waited on the shared gate;
+  no bypass, resource override, production build or edits to another task were used.
+
 ## Appendix A. The signatures
 
-Delivered untracked: `/root/code/KAM-inp/.drafts/design/N12Signatures.lean`; 500 lines.
-SHA-256: `849a21ec5d85a33354061d2c503c5990d0c23f824b9fb0e05c40ecdcc3e9c6e9`.
+Delivered untracked: `/root/code/KAM-inp/.drafts/design/N12Signatures.lean`; 505 lines.
+SHA-256: `0ad9cf0f84ffc435f1d85360516ad94f5ec100ff4a53c76d410f9e7d3b028369`.
 
 ```lean
 /-
@@ -667,6 +722,11 @@ theorem wreg (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ)
     (hM : ∀ I ∈ closedBall (0 : Fin n → ℝ) R,
       ∀ i, ∑ j, |avgM h I i j| ≤ M₂) :
     ContDiffOn ℝ 1 (avgW h f κ) (avgDomain n R) ∧
+    (∀ z ∈ avgDomain n R, ∀ v : AvgPhase n,
+      HasSum (fun k : Fin n → ℤ =>
+        fderiv ℝ (fun y : AvgPhase n =>
+          -KAM.character k (KAM.realInclusion n y.1) • avgU h f κ k y.2) z v)
+        (fderiv ℝ (avgW h f κ) z v)) ∧
     ∀ z ∈ avgDomain n R,
       (∀ k : Fin n → ℤ, avgW h f κ (z + KAM.ODE.angleShift k) = avgW h f κ z) ∧
       (z.2 ∈ avgG n R →
