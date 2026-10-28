@@ -365,6 +365,8 @@ public import KAM.Nekhoroshev.ResonanceGeometry.Volume
 public import KAM.Nekhoroshev.Stability.Conjugation
 public import KAM.Nekhoroshev.Stability.Energy
 public import KAM.Nekhoroshev.Stability.Gradient
+public import KAM.Nekhoroshev.Stability.Nonresonant
+public import KAM.Nekhoroshev.Stability.NonresonantAux
 public import KAM.Nekhoroshev.Stability.Preimage
 public import KAM.Nekhoroshev.Stability.RealSystem
 public import KAM.Nekhoroshev.Stability.Resonant
@@ -403,6 +405,10 @@ public import KAM.Planetary.Newtonian.Reconstruction
 public import KAM.Planetary.Newtonian.Reduction
 public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.PG.Setting
+public import KAM.Planetary.PGMeasure.AffineSlab
+public import KAM.Planetary.PGMeasure.CompactLipschitz
+public import KAM.Planetary.PGMeasure.LatticeTail
+public import KAM.Planetary.PGMeasure.Setting
 public import KAM.Planetary.PGMeasure.Tonelli
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
