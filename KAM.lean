@@ -1032,6 +1032,9 @@ public import KAM.Planetary.WeakKAM.IterationRecord
 public import KAM.Planetary.WeakKAM.IterationRetained
 public import KAM.Planetary.WeakKAM.IterationStage
 public import KAM.Planetary.WeakKAM.IterationStep
+public import KAM.Planetary.WeakKAM.Limit
+public import KAM.Planetary.WeakKAM.LimitProps
+public import KAM.Planetary.WeakKAM.LimitSeries
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakKAM.Selection
 public import KAM.Planetary.WeakKAM.SelectionRecord
