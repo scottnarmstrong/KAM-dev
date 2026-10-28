@@ -133,7 +133,7 @@ theorem tori_complex_ext {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b)}
       simp
     rw [hKC]
     refine Prod.tendsto_iff _ _ |>.2 ⟨tendsto_pi_nhds.2 fun c => ?_, tendsto_pi_nhds.2 fun c => ?_⟩
-      have e : ∀ j, (fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z u).1 c =
+    · have e : ∀ j, (fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z u).1 c =
           u c + fderiv ℂ (PsiSteps.stripSeq Φ ((ContinuousLinearMap.proj c).comp
             (ContinuousLinearMap.fst ℂ _ _)) I j) z u := by
         intro j; rw [hstrip]; simp
