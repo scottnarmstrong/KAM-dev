@@ -45,7 +45,8 @@ theorem two_scale_kam {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {
       let Ω := omegaSet D h p
       let Dstar := i '' D₀
       let r := 32 * eHat p * rhoHat p
-      let Hr := fun z : Phase (a + b) => (h (KAM.realInclusion (a + b) z.2) + f (KAM.realInclusion₂ (a + b) z)).re
+      let Hr := fun z : Phase (a + b) =>
+        (h (KAM.realInclusion (a + b) z.2) + f (KAM.realInclusion₂ (a + b) z)).re
       let KO := ⋃ ω ∈ Ω, range (K ω)
       (∀ ω ∈ Ω, I₀ ω ∈ D₀ ∧ realFreq h (I₀ ω) = ω ∧ ∀ I ∈ D₀, realFreq h I = ω → I = I₀ ω) ∧
       (∀ I ∈ D₀,
@@ -65,8 +66,10 @@ theorem two_scale_kam {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {
         (∀ θ ∈ KAM.complexStrip (a + b) (geometricWidth sbar),
           ‖(KC ω θ).1 - θ‖ ≤ 3 / (4 * π) * eHat p * p.s) ∧
         (∀ θ,
-          ‖firstBlock (b := b) ((K ω θ).2 - I₀ ω)‖ ≤ 20 * (p.Mbar₁ / p.Mbar + p.Mhat / p.M) * eHat p * rhoHat p ∧
-          ‖lastBlock (a := a) ((K ω θ).2 - I₀ ω)‖ ≤ 20 * (p.Mbar₂ / p.Mbar + 1) * eHat p * rhoHat p ∧
+          ‖firstBlock (b := b) ((K ω θ).2 - I₀ ω)‖ ≤
+            20 * (p.Mbar₁ / p.Mbar + p.Mhat / p.M) * eHat p * rhoHat p ∧
+          ‖lastBlock (a := a) ((K ω θ).2 - I₀ ω)‖ ≤
+            20 * (p.Mbar₂ / p.Mbar + 1) * eHat p * rhoHat p ∧
           ‖fderiv ℝ (fun θ => (K ω θ).1 - θ) θ‖ ≤ 3 / 4 * (a + b) * eHat p)) ∧
       (∀ ω ∈ Ω, ∀ ω' ∈ Ω, ∀ θ θ', ∀ k : Fin (a + b) → ℤ,
         K ω θ = K ω' θ' + KAM.ODE.angleShift k → ω = ω' ∧ θ = θ' + fun j => (k j : ℝ)) ∧
