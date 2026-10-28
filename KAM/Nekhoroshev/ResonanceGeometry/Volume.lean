@@ -170,7 +170,8 @@ theorem det_gram_snoc_orth (A : Matrix (Fin n) (Fin d) ℝ) (c : Fin n → ℝ)
   have hcl : ∀ a : Fin d, M (Fin.last d) a.castSucc = 0 := by
     intro a
     have := hperp a
-    simp only [hM, snocCol, Matrix.mul_apply, Matrix.transpose_apply, Matrix.of_apply, Fin.snoc_last,
+    simp only [hM, snocCol, Matrix.mul_apply, Matrix.transpose_apply, Matrix.of_apply,
+      Fin.snoc_last,
       Fin.snoc_castSucc]
     rw [← this]
     simp [dotProduct, mul_comm]
@@ -354,7 +355,8 @@ theorem addVector_facts (Λ : Lattice n) (k : Fin n → ℤ) (hk : integerReal k
     exact latticeDim_closure _ hli
   set A : Matrix (Fin n) (Fin (latticeDim Λ)) ℝ := (basisMatrix b).map (Int.castRingHom ℝ)
     with hA
-  have hmem : proj (lattice Λ) kv ∈ Submodule.span ℝ (Set.range fun j => integerReal (b j).val) := by
+  have hmem : proj (lattice Λ) kv ∈
+      Submodule.span ℝ (Set.range fun j => integerReal (b j).val) := by
     rw [basis_span_eq b]
     exact (proj_spec (lattice Λ)).2.1 kv
   rw [Submodule.mem_span_range_iff_exists_fun] at hmem
