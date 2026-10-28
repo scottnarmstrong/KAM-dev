@@ -1,6 +1,6 @@
 # Lean design for planetary Parts 12–13
 
-Design draft, 2026-10-28, branch `inp-design-p1213`. This is a design and signature receipt, not a proof or an approval to freeze. Frozen anchors and the manifest are unchanged. The format model is `docs/tracks/P/design/KEPLER-LEAN-DESIGN.md`, read including its appendix and amendments. The brief and common rules were reread after the orchestrator's source-gap amendment.
+Design draft, Revision 2, 2026-10-28, branch `inp-design-p1213`. This is a design and signature receipt, not a proof or an approval to freeze. Frozen anchors and the manifest are unchanged. The format model is `docs/tracks/P/design/KEPLER-LEAN-DESIGN.md`, read including its appendix and amendments. The brief and common rules were reread after the orchestrator's source-gap amendment.
 
 ## Decisions
 
@@ -60,6 +60,12 @@ These neighbours have no delivered exact signatures in the supplied list. The ta
 | `bpP:p11b:lift-map` / `lift_map`; `flow` / `flow` | compact cube with a collar; real analytic quartic generator and nonresonance | **one** total map `T` on an open `O`, analyticity, symplecticity, injectivity, fast-action preservation, fast-shift equivariance, `sum slow squares` growth `≤2` under the quartic flow; source gaps below must be paid |
 | `bpP:p11b:birkhoff-form` / `birkhoff_form` | positive physical data and that cube | common `T` for fixed and moving perturbations, image in actual collision-free Poincaré domain, positive `r*`, analytic open action collar, averaged expansion with `O(|z|^6)` and the **actual** `P0,Ω,β`; frozen HasSecularBirkhoffForm for smaller disc radius. Need `closure C(V,r*/2) ⊆ O`, not merely open-cylinder inclusion. |
 | `bpP:p11:wrapper` / `KAM.Planetary.wrapper` | `n≥2`, exactly the original frozen physical data/sign/order/eta premises | threshold before epsilon; for each epsilon, Borel `S` with positive finite volume, inclusion in `tubeRadius eta (axisGap a)`, and at each point whole physical torus data for `fixedHamiltonian G m0 m eps`. Frequency can depend on the point. No uniform Diophantine constant is demanded. |
+
+### Characterization and delivery gates (P12-C / P13-A)
+
+Before assigning either package, its brief must bind the exact owner declaration names and full characterization types for the actual axis cube, `C0`, `δS`, `σ`, `beta-hat` and the Birkhoff map. Require certificates of `P0mov=C0+δS`, `P0fix=C0`, `Ω=2σ`, `β=beta-hat` on that same cube and domain, and one jointly constructed T used by both models. Use the upstream common construction directly, or prove distinct local characterization lemmas from those exports; two independently eliminated existence statements cannot identify their witnesses. No guessed upstream signature or extra root premise may fill this gate. The two `pg_hypotheses` outputs are consumer projections for P-G and physical assembly, not certificates of these finer source claims.
+
+Every package brief must also carry its applicable SOURCE_GAP rows below and require delivery plus a proof/axiom audit of every consumed upstream result. P12-C/P13-A specifically retain analytic-eigenframe, uniform real-flow existence and real-versus-holomorphic Lie/Taylor/symplectic applicability gates. P12-D retains the Part 1 and P6-5 delivery gates; P12-A retains P7-6 delivery. P12-E/P13-B cannot import P-G until sealed. P13-C additionally requires the actual Part 11 K1–K6 chain and P6-5 audit. An analytic real generator alone does not meet N’s holomorphic small-field hypotheses. These are assignment gates; this revision does not claim their mathematical discharge.
 
 ## Node to declaration table
 
@@ -165,7 +171,7 @@ In the table, unqualified new declarations belong to `KAM.Planetary.PlanarAssemb
 
 **Forward tube.** Use `compact_cell` at `δ0=min_i LambdaStar_i/4`; it is closed and bounded in the finite Pi/Prod max norm and is contained in `poincareProdDom 2`. `IsCompact.uniformContinuousOn_of_continuous` applies to the existing analytic product chart restricted there. For arbitrary fast angles choose residues in `[0,2π)`; `poincareProd_lattice` and the circular identity reduce to this compact cell. With `δ≤δ1/2` and `δ≤δ1²/4`, the action and slow-coordinate differences are strictly below `δ1`. This is a forward direction; `tube_in_chart` proves a different implication. No use of an ambient inner-product-space carrier is needed.
 
-**Boxes and the fast inverse.** For `V=∏(l_i,u_i)`, its `t`-collar lies in `∏(l_i-t,u_i+t) \ ∏[l_i+t,u_i-t]`. On `0<t<min_i(u_i-l_i)/2`, the difference of volumes is exactly `4t((u0-l0)+(u1-l1))`; use Lebesgue product measure and interval volumes. This is the full frontier collar, including points outside `V`. For positive action coordinates the frequency is `kappa² m_i³/I_i³`. Its open image has endpoints in reversed order. The inverse is `(kappa² m_i³/v_i)^(1/3 : ℝ)`, on positive `v_i`; analytic real powers go through `ContDiffAt.rpow_const_of_ne` and `.analyticAt`. `product_chart` first supplies the missing h-analyticity and gradient/Hessian export in P12-B, by finite sums of reciprocal-square functions on positive coordinates. It states all cross entries are zero and the diagonal Hessian entries are nonzero. `hasDerivAt_nu` alone proves neither this gradient identification nor open image nor inverse existence; the last two are obligations of `fast_diffeo`.
+**Boxes and the fast inverse.** For `V=∏(l_i,u_i)`, its `t`-collar lies in `∏(l_i-t,u_i+t) \ ∏[l_i+t,u_i-t]`. On `0<t<min_i(u_i-l_i)/2`, the difference of volumes is exactly `4t((u0-l0)+(u1-l1))`; use Lebesgue product measure and interval volumes. This is the full frontier collar, including points outside `V`. For positive action coordinates the frequency is `kappa² m_i³/I_i³`. Its open image has endpoints in reversed order. The inverse is `(kappa² m_i³/v_i)^(1/3 : ℝ)`, on positive `v_i`; analytic real powers go through `ContDiffAt.rpow_const_of_ne` at differentiability order `ω`, followed by `.analyticAt`. In P12-B, instantiate the identity/composition at this analytic order; a `C¹` or `C∞` result does not supply `.analyticAt`. `product_chart` first supplies the missing h-analyticity and gradient/Hessian export in P12-B, by finite sums of reciprocal-square functions on positive coordinates. It states all cross entries are zero and the diagonal Hessian entries are nonzero. `hasDerivAt_nu` alone proves neither this gradient identification nor open image nor inverse existence; the last two are obligations of `fast_diffeo`.
 
 **Joint physical application data.** Choose `zeta`, forward-tube `δ`, an axis-neighbourhood `eta'`, the 11b torsion/nonresonance cube and its surrounding open set, then positive nested action boxes by the componentwise monotone action map. The images of closed/open max balls are closed/open boxes. Prove nonempty interior, `closure V=K`, connectedness, boundedness and `closure V⊆W`. Take the compact positive minimum of `|det beta-hat|` on the same cube, never a pointwise lower bound depending on `I` or the coupling. Select the 11b chart and all its jets jointly. The entire jet is transported from upstream: `P0mov=C0+δS`, `P0fix=C0`, `Ω=2σ`, `β=beta-hat`; the frozen quartic term is `(1/2)Σ βij Ri Rj`. Prove the factor dictionary before applying `HasSecularBirkhoffForm`.
 
@@ -173,9 +179,9 @@ With `r0=r*/2`, each point of the **closed** cylinder has real slow sum of squar
 
 **Transport.** Read all seven conjuncts of `IsCylinderTorus`. On the open `O`, local equality `G∘Ψ=H` identifies derivatives before invoking `chart_field` or `chart_orbit`. Composition gives analyticity and the derivative formula; invertibility of `DΨ` follows from nondegeneracy of the frozen symplectic form at factor one. Fast shifts alone give periodicity and injectivity modulo all integer torus phases; the slow torus coordinates are periodic. Lagrangianity follows from the same symplectic identity. Keep the exact `HasDerivAt` clause for **all** real `theta,t`. The input `tau>a+b` implies the physical requirement `tau>(a+b)-1`. There is no time or frequency scaling in this transport. The range identity is `range (Ψ∘K)=Ψ '' range K`.
 
-**Image measure.** From the frozen union-of-whole-tori predicate derive `cylinder_set_shift`: complete `k:Fin a→ℤ` by zero on the slow indices. Shift each fast angle into the half-open cell, showing `Ψ '' S=Ψ '' (S∩cylinderCell V r)`. The chart is injective on that cell because two fast angles in `[0,2π)` differing by `2πk` force `k=0`. `MeasurableSet.image_of_continuousOn_injOn` proves the Borel image. `chart_measure_image` at factor one gives exact equality of volumes on this injective subset. This avoids a hidden global-injectivity assumption. Positive cell measure gives positive physical measure; `volume_lt_top_of_subset_circularTube` gives finiteness. Do not multiply by `(2π)^4` or divide the frequency: the chart has symplectic factor one and the physical torus parameters were already period one.
+**Image measure.** From the frozen union-of-whole-tori predicate derive `cylinder_set_shift`: complete `k:Fin a→ℤ` by zero on the slow indices. Shift each fast angle into the half-open cell, showing `Ψ '' S=Ψ '' (S∩cylinderCell V r)`. The chart is injective on that cell because two fast angles in `[0,2π)` differing by `2πk` force `k=0`. For P12-D, first use `S ⊆ cylinder V r` from the frozen set predicate to rewrite `S∩cylinderCell V r` as `S∩{z | ∀ i, fast z.1 i ∈ Ico (0 : ℝ) (2*π)}`. The latter is Borel since S is Borel and the fast coordinate maps are continuous. V is arbitrary in `measure`; never assume it is Borel. Then `MeasurableSet.image_of_continuousOn_injOn` proves the Borel image. `chart_measure_image` at factor one gives exact equality of volumes on this injective subset. This avoids a hidden global-injectivity assumption. Positive cell measure gives positive physical measure; `volume_lt_top_of_subset_circularTube` gives finiteness. Do not multiply by `(2π)^4` or divide the frequency: the chart has symplectic factor one and the physical torus parameters were already period one.
 
-**General dimension.** Import the exact future `wrapper` conclusion, then use P6-5 at `gamma=axisGap a`, `A=axisMax a`. The wrapper owns the R-nondegeneracy, amount, analytic KAM, displacement and family/measure obligations; none becomes a new premise of `n_general`. The final source `fixed` performs `n=2` or `3≤n` from `hn`. In the equality branch `subst n` transports `m,a,hsep` and all dependent phase types together. In the other branch apply `n_general` with the original `hn`.
+**General dimension.** Import the exact future `wrapper` conclusion, then use P6-5 at `gamma=axisGap a`, `A=axisMax a`. The wrapper owns the R-nondegeneracy, amount, analytic KAM, displacement and family/measure obligations; none becomes a new premise of `n_general`. The final source `fixed` performs `n=2` or `3≤n` from `hn`. In the equality branch `subst n` transports `m,a,hsep` and all dependent phase types together. In the other branch apply `n_general` with the original `hn`, eliminate only `eps0`, and insert `tubeD (axisGap a)` and `tubeBigD (axisGap a) (axisMax a)` as the frozen root’s existential pair witnesses. The helper exports these literal constants, so their dependence on a alone survives its interface.
 
 ## Departures and blueprint issues
 
@@ -288,7 +294,7 @@ Both provider signatures in Appendix A were transcribed from the actual frozen t
 
 **Fixed two-planet proof assembly.** Repeat the application with `FixedAssembly.pg_hypotheses`, keeping `P0fix` and actual fixed perturbation. Never reuse the moving P-G threshold merely because the secular torsion is shared. Shared chart geometry and transport/measure lemmas are Hamiltonian-independent. Finish with `fixedKolmogorovSet_of_tube`; the Sun-position clause is exactly `Fin.cons 0 bodyVector`.
 
-**General fixed proof assembly.** Eliminate the wrapper's threshold before introducing epsilon. At each epsilon preserve its set, positive finite volume and all torus witnesses. Apply `fixedKolmogorovSet_of_tube`; it fills all-time fixed equations and collision/pair clauses. The final `fixed` theorem chooses the two-planet branch at equality and the general route otherwise. Both branches have **identical** existential/strict-inequality order to the anchor.
+**General fixed proof assembly.** Eliminate the wrapper's threshold before introducing epsilon. At each epsilon preserve its set, positive finite volume and all torus witnesses. Apply `fixedKolmogorovSet_of_tube`; it fills all-time fixed equations and collision/pair clauses. The final `fixed` theorem chooses the two-planet branch at equality and the general route otherwise. The general helper fixes `d := tubeD (axisGap a)` and `D := tubeBigD (axisGap a) (axisMax a)` in its conclusion and existentially selects only eps0. In `fixed`, eliminate that eps0, then existentially package `(eps0, tubeD (axisGap a), tubeBigD (axisGap a) (axisMax a))` with its positivity and later-epsilon clauses. This recovers exactly the anchor’s witness/strict-inequality order; the n2 branch already has that telescope. Neither provider type changes.
 
 **Terminal providers.** The future proof bodies are applications of `PlanarAssembly.planar G m0 m a hG hm0 hm ha hsep eta heta` and `FixedAssembly.fixed hn G m0 m a hG hm0 hm ha hsep eta heta`, respectively. No additional instance or premise is required. Only these providers are named in the corresponding anchor sealing expression. Ordinary assembly modules never import these terminal provider files.
 
@@ -326,7 +332,7 @@ Before any prover package is assigned, reconcile its listed upstream signatures,
     handoff; the orchestrator records it in `docs/errata/ledger.json`. Deviations you introduce are reported too.
 
 
-### Validation receipt
+### Revision 1 validation receipt (historical)
 
 - Worktree base: `081967912d5200ad4711d6d16abde6a8cfafea71`, branch `inp-design-p1213`.
 - Blueprint Part 12 sha256 `83eee5fc9d881bf115be39e811ffc58cc206d45355d7956599115c9c7e0965db`; Part 13 sha256 `8b208fe0799dec36bf3ff95b51a08bda6d2ca705491e045fe7d3c150838bb9e5`. Both byte-identical to the supplied inp copy when checked.
@@ -339,6 +345,26 @@ Before any prover package is assigned, reconcile its listed upstream signatures,
 - `PATH="/root/code/KAM-inp-design-p1213/.drafts/scratch/gated-bin:$PATH" scripts/lint_sources.sh`: **exit 0**. Output: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (144 frozen declarations)`. The local `lake` shim accepts only the lint ABI command and routes it to `inp_sig_check.sh`, restoring the original PATH inside the gate. No direct Lean elaboration or library build. Log `.drafts/scratch/P1213-lint.log`.
 - `git -C /root/code/KAM-inp-design-p1213 diff --cached --check -- docs/tracks/P/design/P1213-LEAN-DESIGN.md`: exit 0 after staging only this design document.
 - `python3 .drafts/scratch/audit_p1213.py`: **exit 0**; exact six root transcriptions, all 89 graph IDs and both locators, all 24 sorry-only bodies, missing P7(b) completion, exact Appendix A and axiom/warning checks passed. External signature copy is byte-identical. Log `.drafts/scratch/P1213-static.log`.
+
+## Revision 2
+
+This revision addresses `DESIGN-P1213-design-audit-1.md` (FAIL). No proof, frozen statement, or upstream source gap is certified closed by these design changes.
+
+| Finding | Resolution |
+|---|---|
+| F1 (medium, blocking) | Strengthened only `FixedAssembly.n_general` to let-bound canonical `tubeD (axisGap a)` and `tubeBigD (axisGap a) (axisMax a)`; only eps0 remains existential. Updated general construction and `fixed` assembly to package these constants as the frozen existential witnesses. Both provider types and `fixed` remain byte-exact frozen transcriptions. |
+| N1 (medium) | Added explicit pre-assignment characterization gates for P12-C/P13-A, including exact owner names/types, the actual cube/jet dictionary and a common jointly constructed T. Signature comments mark joint P-G outputs as consumer projections, without claiming they identify source objects or each other. Exact upstream declarations remain to reconcile with their owners. |
+| N2 (medium) | Preserved every group of the 34 transitive gaps and made applicable gap/delivery/proof-audit requirements mandatory in package briefs. P-G sealing, P6-5/P7-6, the eigenframe and real-flow/Lie applicability, and the general wrapper K1–K6 chain remain explicit gates. |
+| N3 (low) | P12-B explicitly uses differentiability order `ω` before `.analyticAt`; P12-D explicitly obtains Borelness by rewriting the cell intersection using S⊆cylinder V r, with no measurability assumption on V. Added the latter instruction to the signature comment. |
+
+### Revision 2 validation receipt
+
+- Signature check: `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p1213 .drafts/scratch/P1213Signatures.lean`, exit 0; exactly 24 `declaration uses sorry` warnings, no errors or other warnings. Log: `.drafts/scratch/P1213-elaboration.log`.
+- Current standalone signature and scratch copy are byte-identical: 389 lines, 24 sorry-only bodies, sha256 `1c09a31d1e920153f88136ea4e5fe8998c19e6e63e99ac711b3defd1cc53b447`. Appendix A is byte-identical too.
+- All six diagnostic axiom prints are `[propext, sorryAx, Classical.choice, Quot.sound]`; these are unproved design signatures.
+- `python3 .drafts/scratch/audit_p1213.py`, exit 0: five unchanged frozen-type transcriptions; exact audit-replacement telescope for canonical `n_general`; 89/89 unique nodes and locators; 24 sorry-only bodies; appendix/external-copy equality; F1/N1/N2/N3 dispositions. Log: `.drafts/scratch/P1213-static-r2.log`.
+- `PATH="$PWD/.drafts/scratch/gated-bin:$PATH" LEAN_NUM_THREADS=1 sh scripts/lint_sources.sh`, exit 0: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (144 frozen declarations)`. The existing shim routes ABI elaboration through `inp_sig_check.sh`. Log: `.drafts/scratch/P1213-lint-r2.log`.
+- `git -C /root/code/KAM-inp-design-p1213 diff --check`, exit 0. Only the owned design document is committed. No implementation module was changed or built: the targeted elaboration is the required design check. The Revision 1 receipt above is historical.
 
 ## Appendix A. Exact signatures
 
@@ -494,7 +520,9 @@ theorem chart_hamiltonian_of_preserves_fast {G m0 : ℝ} {m : Fin 2 → ℝ}
 
 /-- Joint output of data, chart and pg-hypotheses. All derived clauses are conclusions.
 T, O, V and the jet witnesses are shared, selected once before the coupling.
-The 11b writer owns their finer source characterization; see the upstream table. -/
+The 11b writer owns their finer source characterization; see the upstream table.
+This projection is not a certificate of canonical jets, the axis cube, or a common
+moving/fixed T. Exact characterization exports must be reconciled before P12-C/P13-A. -/
 theorem pg_hypotheses (G m0 : ℝ) (m a : Fin 2 → ℝ)
     (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)
     (ha : ∀ i, 0 < a i) (hsep : a 0 < a 1) (η : ℝ) (hη : 0 < η) :
@@ -553,7 +581,9 @@ theorem cylinder_set_shift {a b : ℕ} {H : Phase (a + b) → ℝ}
     (hS : IsCylinderKolmogorovSet H V r μ C S) (k : Fin a → ℤ) :
     (fun z => z + fastShift k) '' S = S := sorry
 
-/-- Borel image and exact volume through the half-open fast cell. -/
+/-- Borel image and exact volume through the half-open fast cell.
+V is arbitrary: use S subset cylinder V r to rewrite the cell intersection as S
+intersected with just the Borel fast-angle bounds; do not assume V measurable. -/
 theorem measure {a b : ℕ} {O : Set (Phase (a + b))} (hO : IsOpen O)
     {Ψ : Phase (a + b) → Phase (a + b)}
     (hΨa : AnalyticOnNhd ℝ Ψ O) (hΨs : IsSymplecticOn 1 Ψ O)
@@ -618,7 +648,9 @@ theorem chart_of_preserves_fast {G m0 : ℝ} {m : Fin 2 → ℝ}
       degenerateHamiltonian (a := 2) (b := 2) (PlanarAssembly.kepler_h (G * m0) m)
         (perturbation G m0 m T) ε z := sorry
 
-/-- Fresh P-G constants for the fixed perturbation; no equality of thresholds is claimed. -/
+/-- Fresh P-G constants for the fixed perturbation; no equality of thresholds is claimed.
+Separate existential outputs do not identify the moving/fixed chart or jets.
+Their common-map and canonical-jet certificates are upstream delivery gates. -/
 theorem pg_hypotheses (G m0 : ℝ) (m a : Fin 2 → ℝ)
     (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)
     (ha : ∀ i, 0 < a i) (hsep : a 0 < a 1) (η : ℝ) (hη : 0 < η) :
@@ -667,13 +699,15 @@ theorem n2 (G m0 : ℝ) (m a : Fin 2 → ℝ)
         ∃ S : Set (Phase (2 * 2)), 0 < volume S ∧ volume S < ⊤ ∧
           FixedKolmogorovSet G m0 m a eps eta d D S := sorry
 
-/-- bpP:p13:n-general, retaining the source domain n >= 2. -/
+/-- bpP:p13:n-general: canonical pair bounds depend on a alone; n >= 2. -/
 theorem n_general {n : ℕ} (hn : 2 ≤ n)
     (G m0 : ℝ) (m a : Fin n → ℝ)
     (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)
     (ha : ∀ i, 0 < a i) (hsep : ∀ i j, i < j → a i < a j)
     (eta : ℝ) (heta : 0 < eta) :
-    ∃ eps0 d D : ℝ, 0 < eps0 ∧ 0 < d ∧ d < D ∧
+    let d := tubeD (axisGap a)
+    let D := tubeBigD (axisGap a) (axisMax a)
+    ∃ eps0 : ℝ, 0 < eps0 ∧ 0 < d ∧ d < D ∧
       ∀ eps : ℝ, 0 < eps → eps < eps0 →
         ∃ S : Set (Phase (n * 2)), 0 < volume S ∧ volume S < ⊤ ∧
           FixedKolmogorovSet G m0 m a eps eta d D S := sorry
