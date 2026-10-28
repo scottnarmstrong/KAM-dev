@@ -3762,7 +3762,7 @@
     "module": "KAM.Provider.Planetary.ProperlyDegenerateKAM",
     "export": "KAM.Provider.Planetary.properlyDegenerateKAM"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "72d988c639e071fbc7f90f51d99ba4e47a88e6493a9d16389723c3474ec54c43",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {

@@ -82,7 +82,8 @@ theorem properlyDegenerateKAM {a b : ℕ} (ha : 0 < a) (hb : 0 < b)
             volume (S ∩ cylinderCell V r) ∧
           volume (S ∩ cylinderCell V r) < volume (cylinderCell (b := b) V r) :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Planetary.properlyDegenerateKAM ha hb V hV hVc hVb W hW hVW hboundary r0 mu0
+      B hr0 hmu0 hB H0 P P0 Omega beta hP hperiod hfreq hBNF htorsion hsymm
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

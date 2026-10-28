@@ -187,6 +187,7 @@ public import KAM.Frozen.Planetary.Defs.Slow
 public import KAM.Frozen.Planetary.Defs.StoppedActionBound
 public import KAM.Frozen.Planetary.Defs.TotalMomentum
 public import KAM.Frozen.Planetary.Theorems.AmdConfinement
+public import KAM.Frozen.Planetary.Theorems.ProperlyDegenerateKAM
 public import KAM.Frozen.Planetary.Theorems.SecularBoxAtCitedMasses
 public import KAM.Frozen.Planetary.Theorems.SecularBoxSafety
 public import KAM.Frozen.Theorems.AposterioriKam
@@ -647,10 +648,12 @@ public import KAM.Planetary.PGAssembly.KAMInputsFreq
 public import KAM.Planetary.PGAssembly.KAMInputsKamH
 public import KAM.Planetary.PGAssembly.KAMInputsPer
 public import KAM.Planetary.PGAssembly.Lower
+public import KAM.Planetary.PGAssembly.Main
 public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.Remainder
 public import KAM.Planetary.PGAssembly.Scales
+public import KAM.Planetary.PGAssembly.Strictness
 public import KAM.Planetary.PGAssembly.Threshold
 public import KAM.Planetary.PGAssembly.ThresholdAlg
 public import KAM.Planetary.PGAssembly.ThresholdLimits
@@ -720,6 +723,12 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Reduction
 public import KAM.Planetary.PlanarTorsion.PairJet.Rot
 public import KAM.Planetary.PlanarTorsion.PairJet.Terms
 public import KAM.Planetary.PlanarTorsion.PairJet
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Analytic
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Compact
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Energy
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Field
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Spec
+public import KAM.Planetary.PlanarTorsion.QuarticFlow
 public import KAM.Planetary.PlanarTorsion.RealFlow.Analytic
 public import KAM.Planetary.PlanarTorsion.RealFlow.AnalyticCompact
 public import KAM.Planetary.PlanarTorsion.RealFlow.Local
@@ -998,6 +1007,7 @@ public import KAM.Provider.Nekhoroshev.QuasiConvexIsoenergeticDerivative
 public import KAM.Provider.Nekhoroshev.QuasiConvexNekhoroshevComplexBound
 public import KAM.Provider.Nekhoroshev.ZeroPerturbation
 public import KAM.Provider.Planetary.AmdConfinement
+public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
