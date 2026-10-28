@@ -803,9 +803,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:recons
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.reconstruction_all_time (KAM/Planetary/Newtonian/Reconstruction.lean)
+LEAN_NOTE: package P6-3; audit-1 mathematics PASS, hygiene closed by P6-3-audit-2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:rc-coords
@@ -1057,9 +1057,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:units@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.isNewtonSolutionOn_of_isMovingSolutionOn (KAM/Planetary/Newtonian/Reconstruction.lean)
+LEAN_NOTE: package P6-3; audit-1 mathematics PASS, hygiene closed by P6-3-audit-2 PASS WITH NOTES
 NOTE: remark kept: consumed by Part 14a stepP:p14:amd-b. Its mention of N:bpN:p3:newton-reduction ("covers only the all-time predicates ... is not needed here") is a does-not-apply comparison and is not an edge.
 
 NODE: bpP:p6:reconstruction-fixed
@@ -1089,9 +1089,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:recons
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.reconstruction_fixed_all_time (KAM/Planetary/Newtonian/Reconstruction.lean)
+LEAN_NOTE: package P6-3; audit-1 mathematics PASS, hygiene closed by P6-3-audit-2 PASS WITH NOTES
 NOTE: The current L184 has separate universal index quantifiers, matching the frozen predicate. The arbitrary-real-eps application at L191 is exposed by bpP:p6:reconstruction-fixed#real-eps.
 
 NODE: stepP:p6:rf-eq
@@ -1158,9 +1158,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:orbit-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.orbit_transfer_moving, orbit_transfer_fixed (KAM/Planetary/Newtonian/Reconstruction.lean)
+LEAN_NOTE: package P6-3; audit-1 mathematics PASS, hygiene closed by P6-3-audit-2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ot-curve

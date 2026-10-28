@@ -332,6 +332,7 @@ public import KAM.ODE.NewtonReduction
 public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
+public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
