@@ -239,6 +239,49 @@ theorem secular_field_components (saturn mu : ℝ)
   simp [fast, KAM.hamiltonianVectorField, sb_omega, sbField_append_single_left]
   rfl
 
+/-- Node `stepP:p14:sb-pr-1` (`bpP:p14:sb-pred`): `H` is `C²` on `S` and `X_H` is `C¹` on `S`. -/
+theorem sb_regular (saturn mu : ℝ) (hs : saturn ∈ Icc (29/100 : ℝ) (31/100)) :
+    ContDiffOn ℝ 2 (exactSecularHamiltonian (jupiterSaturnWeights saturn) mu) (sb_sdef saturn) ∧
+    ContDiffOn ℝ 1 (KAM.hamiltonianVectorField
+      (exactSecularHamiltonian (jupiterSaturnWeights saturn) mu)) (sb_sdef saturn) := by
+  have h2 : ContDiffOn ℝ 2 (exactSecularHamiltonian (jupiterSaturnWeights saturn) mu)
+      (sb_sdef saturn) :=
+    (sb_smooth_prop saturn mu hs).1.of_le (by simp)
+  exact ⟨h2, KAM.ODE.ham_smooth_c1 (sb_s saturn hs).1 h2⟩
+
+/-- Node `bpP:p14:sb-flow#omega`, continuity clause: `ω = ∂_Λ H_sec` is continuous on `S`. -/
+theorem sb_omega_continuousOn (saturn mu : ℝ) (hs : saturn ∈ Icc (29/100 : ℝ) (31/100)) :
+    ContinuousOn (sb_omega (jupiterSaturnWeights saturn) mu) (sb_sdef saturn) := by
+  have hc := (sb_smooth_prop saturn mu hs).1.continuousOn_fderiv_of_isOpen
+    (sb_s saturn hs).1 (by simp)
+  refine continuousOn_pi.2 fun i => ?_
+  exact (ContinuousLinearMap.apply ℝ ℝ
+    ((0, Fin.append (Pi.single i 1) 0) : Phase (2+2))).continuous.comp_continuousOn hc
+
+private theorem sbField_assemble_eq {a b : ℕ} (w : Phase (a+b)) (lam : Fin a → ℝ) :
+    assemble (fast w.2) lam (slow w.2) (slow w.1) =
+      w + ((Fin.append (lam - fast w.1) (0 : Fin b → ℝ), 0) : Phase (a+b)) := by
+  refine Prod.ext (funext fun k => ?_) (funext fun k => ?_) <;>
+    refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;>
+    simp [assemble, fast, slow]
+
+/-- Node `bpP:p14:sb-flow#omega`, fast-angle independence: replacing the fast angle `λ` by any
+`λ'` does not change `ω` (derived from the global `λ`-invariance of `H`). -/
+theorem sb_omega_fast_angle (saturn mu : ℝ) (hs : saturn ∈ Icc (29/100 : ℝ) (31/100))
+    (w : Phase (2+2)) (lam : Fin 2 → ℝ) :
+    sb_omega (jupiterSaturnWeights saturn) mu (assemble (fast w.2) lam (slow w.2) (slow w.1)) =
+      sb_omega (jupiterSaturnWeights saturn) mu w := by
+  set c : Phase (2+2) := (Fin.append (lam - fast w.1) (0 : Fin 2 → ℝ), 0) with hc
+  have hinv : (fun x => exactSecularHamiltonian (jupiterSaturnWeights saturn) mu (x + c)) =
+      exactSecularHamiltonian (jupiterSaturnWeights saturn) mu := by
+    funext x
+    have h := (sb_smooth_prop saturn mu hs).2.2 x (fast x.1 + (lam - fast w.1))
+    rw [sbField_assemble_eq x] at h
+    simpa [hc] using h
+  funext i
+  simp only [sb_omega]
+  rw [sbField_assemble_eq w, ← fderiv_comp_add_right c, hinv]
+
 end KAM.Planetary
 
 end
