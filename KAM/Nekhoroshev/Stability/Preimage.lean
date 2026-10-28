@@ -101,15 +101,16 @@ private theorem norm_realPartCLM₂_le (v : (Fin n → ℂ) × (Fin n → ℂ)) 
 theorem preimage {D : Set (Fin n → ℝ)} {r' s' dθ dI ϱ' σ' : ℝ}
     {Ψ : (Fin n → ℂ) × (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hΨ : DifferentiableOn ℂ Ψ (Dom n (cpx D) r' s'))
-    (hΨreal : ∀ x : (Fin n → ℝ) × (Fin n → ℝ), KAM.realInclusion₂ n x ∈ Dom n (cpx D) r' s' →
+    (hΨreal : ∀ x : (Fin n → ℝ) × (Fin n → ℝ),
+      KAM.realInclusion₂ n x ∈ Dom n (cpx D) r' s' →
       Ψ (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n))
     (hθ : ∀ z ∈ Dom n (cpx D) r' s', ‖(Ψ z).1 - z.1‖ ≤ dθ)
     (hI : ∀ z ∈ Dom n (cpx D) r' s', ‖(Ψ z).2 - z.2‖ ≤ dI)
     (hϱ' : 0 < ϱ') (hϱr : ϱ' ≤ r') (hσ' : 0 < σ') (hσs : σ' ≤ 2 * s')
     (hκ : max (dθ / σ') (dI / ϱ') ≤ 1 / 4) :
     ∀ y : (Fin n → ℝ) × (Fin n → ℝ), y.2 ∈ D → ∃ x ∈ realStrip D r',
-      Ψ (KAM.realInclusion₂ n x) = KAM.realInclusion₂ n y ∧ ‖x.1 - y.1‖ ≤ dθ ∧ ‖x.2 - y.2‖ ≤ dI :=
-  by
+      Ψ (KAM.realInclusion₂ n x) = KAM.realInclusion₂ n y ∧
+        ‖x.1 - y.1‖ ≤ dθ ∧ ‖x.2 - y.2‖ ≤ dI := by
   intro y hy
   have hs' : 0 < s' := by linarith
   have hyD : KAM.realInclusion₂ n y ∈ Dom n (cpx D) r' s' :=
@@ -225,15 +226,16 @@ theorem preimage {D : Set (Fin n → ℝ)} {r' s' dθ dI ϱ' σ' : ℝ}
     rw [hΨx] at h
     simpa [← map_sub, KAM.norm_realInclusion, norm_sub_rev] using h
 
-/-- `bpN:p7:preimage-nfl`: for any `Ψ` with the conclusions of `normal_form` (hypothesis (i), `κ ≥ 6`,
-reality), every `y ∈ ℝⁿ × D` has a real preimage in `W_{r/2}`. Stated on the conclusions so that it is
-applied to the witness of `normal_form`. -/
+/-- `bpN:p7:preimage-nfl`: for any `Ψ` with the conclusions of `normal_form` (hypothesis (i),
+`κ ≥ 6`, reality), every `y ∈ ℝⁿ × D` has a real preimage in `W_{r/2}`. Stated on the conclusions
+so that it is applied to the witness of `normal_form`. -/
 theorem preimage_nfl {D : Set (Fin n → ℝ)} {r s K α p ε : ℝ}
     {Ψ : (Fin n → ℂ) × (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hp : 1 < p) (hα : 0 < α)
     (hK : 0 < K) (hr : 0 < r) (hs : 0 < s) (hε0 : 0 ≤ ε)
     (hi : ε ≤ 1 / (2 ^ 7 * conjExp p) * (α * r / K)) (hii : 6 ≤ 2 * Real.pi * K * s)
     (hΨ : DifferentiableOn ℂ Ψ (Dom n (cpx D) (r / 2) (s / 6)))
-    (hΨreal : ∀ x : (Fin n → ℝ) × (Fin n → ℝ), KAM.realInclusion₂ n x ∈ Dom n (cpx D) (r / 2) (s / 6) →
+    (hΨreal : ∀ x : (Fin n → ℝ) × (Fin n → ℝ),
+      KAM.realInclusion₂ n x ∈ Dom n (cpx D) (r / 2) (s / 6) →
       Ψ (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n))
     (hdisp : ∀ z ∈ Dom n (cpx D) (r / 2) (s / 6), ‖(Ψ z).2 - z.2‖ ≤ conjExp p * K * ε / α ∧
       ‖(Ψ z).1 - z.1‖ ≤ 10 * conjExp p * ε / (2 * Real.pi * α * r)) :
