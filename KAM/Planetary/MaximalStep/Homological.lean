@@ -286,4 +286,112 @@ theorem norm_solve_le {delta : ℝ} (hd : 0 < delta) (hD : 0 < D) (hr : 0 < r) (
 
 end Bound
 
+/-! ### Smoothness, the equation and uniqueness (`hm-coeff`) -/
+
+section Equation
+variable {n : ℕ} {r M T D : ℝ} {B : Set (P11CVec n)} {P : P11CVec n × P11CVec n → ℂ}
+  {w : P11CVec n → P11CVec n}
+
+theorem differentiableOn_dotC (k : Fin n → ℤ) (hw : DifferentiableOn ℂ w B) :
+    DifferentiableOn ℂ (fun b => p11dotC k (w b)) B := by
+  unfold p11dotC
+  refine DifferentiableOn.fun_sum fun i _ => ?_
+  exact (differentiableOn_const _).mul (differentiableOn_pi.1 hw i)
+
+theorem differentiableOn_hmCoef (hr : 0 < r) (hB : IsOpen B) (hD : 0 < D)
+    (hP : DifferentiableOn ℂ P (KAM.complexStrip n r ×ˢ B)) (hw : DifferentiableOn ℂ w B)
+    (hdiv : ∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    (k : Fin n → ℤ) : DifferentiableOn ℂ (fun b => hmCoef T w P b k) B := by
+  by_cases hk : k = 0 ∨ T < KAM.Fourier.modeSize k
+  · have : (fun b => hmCoef T w P b k) = fun _ => 0 := by
+      funext b; simp [hmCoef, hk]
+    rw [this]; exact differentiableOn_const _
+  · have hk0 : k ≠ 0 := fun h => hk (Or.inl h)
+    have hkT : KAM.Fourier.modeSize k ≤ T := not_lt.1 fun h => hk (Or.inr h)
+    have : (fun b => hmCoef T w P b k) =
+        fun b => KAM.Weighted.coeff P b k * (2*Real.pi*Complex.I*p11dotC k (w b))⁻¹ := by
+      funext b; simp [hmCoef, hk, div_eq_mul_inv]
+    rw [this]
+    refine (differentiableOn_coeff hr hB hP k).mul
+      (((differentiableOn_dotC k hw).const_mul (2*(Real.pi : ℂ)*Complex.I)).inv fun b hb => ?_)
+    show 2*(Real.pi : ℂ)*Complex.I*p11dotC k (w b) ≠ 0
+    have h1 := hdiv b hb k hk0 hkT
+    have h2 : p11dotC k (w b) ≠ 0 := norm_pos_iff.1 (by linarith)
+    simp [h2, Real.pi_ne_zero, Complex.I_ne_zero]
+
+theorem differentiableOn_solve (hr : 0 < r) (hB : IsOpen B) (hD : 0 < D)
+    (hP : DifferentiableOn ℂ P (KAM.complexStrip n r ×ˢ B)) (hw : DifferentiableOn ℂ w B)
+    (hdiv : ∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖) :
+    DifferentiableOn ℂ (fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2)
+      (Set.univ ×ˢ B) := by
+  have hfun : (fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2) = fun z =>
+      ∑ k ∈ hmModes n T, hmCoef T w P z.2 k * KAM.character k z.1 := by
+    funext z
+    rw [p11Solve_eq, fourierSum_finset fun k hk => hmCoef_eq_zero hk]
+  rw [hfun]
+  refine DifferentiableOn.fun_sum fun k _ => ?_
+  refine DifferentiableOn.mul ?_ ?_
+  · exact (differentiableOn_hmCoef hr hB hD hP hw hdiv k).comp differentiableOn_snd
+      fun z hz => hz.2
+  · exact ((KAM.differentiable_character k).comp differentiable_fst).differentiableOn
+
+theorem hmCut_zero (hT : 0 ≤ T) (b : P11CVec n) :
+    hmCut T P b 0 = KAM.Weighted.coeff P b 0 := by
+  simp [hmCut, KAM.Fourier.modeSize, hT]
+
+theorem hmCoef_zero (b : P11CVec n) : hmCoef T w P b 0 = 0 := by simp [hmCoef]
+
+/-- The equation: `ω·∂_θ φ = T_T P - ⟨P⟩`, termwise in the Fourier modes. -/
+theorem fderiv_solve (hT : 0 ≤ T) {b : P11CVec n}
+    (hdiv : ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖) (hD : 0 < D)
+    (theta : P11CVec n) :
+    fderiv ℂ (fun x => p11Solve T w P x b) theta (w b) =
+      KAM.Weighted.truncate T P (theta, b) - KAM.Weighted.coeff P b 0 := by
+  have hfun : (fun x => p11Solve T w P x b) = KAM.fourierSum (hmCoef T w P b) :=
+    funext fun x => p11Solve_eq T w P x b
+  rw [hfun, fderiv_fourierSum_finset (S := hmModes n T) fun k hk => hmCoef_eq_zero hk,
+    truncate_eq, fourierSum_finset (S := hmModes n T) fun k hk => hmCut_eq_zero hk]
+  have h0mem : (0 : Fin n → ℤ) ∈ hmModes n T :=
+    mem_hmModes_of_le (by simp [KAM.Fourier.modeSize, hT])
+  have hc0 : KAM.Weighted.coeff P b 0 =
+      ∑ k ∈ hmModes n T, (if k = 0 then hmCut T P b 0 else 0) * KAM.character k theta := by
+    rw [Finset.sum_eq_single_of_mem 0 h0mem]
+    · simp [hmCut_zero hT, KAM.character_zero]
+    · intro k _ hk; simp [hk]
+  rw [hc0, ← Finset.sum_sub_distrib]
+  refine Finset.sum_congr rfl fun k _ => ?_
+  by_cases hk : k = 0
+  · subst hk; simp [hmCoef_zero]
+  · by_cases hkT : KAM.Fourier.modeSize k ≤ T
+    · have h2 : p11dotC k (w b) ≠ 0 := norm_pos_iff.1 (by linarith [hdiv k hk hkT])
+      have hcond : ¬ (k = 0 ∨ T < KAM.Fourier.modeSize k) := by
+        rintro (h | h)
+        · exact hk h
+        · exact absurd hkT (not_le.2 h)
+      have e1 : hmCoef T w P b k =
+          KAM.Weighted.coeff P b k / (2*Real.pi*Complex.I*p11dotC k (w b)) := by
+        unfold hmCoef; simp only [hcond, ite_false]
+      have e2 : hmCut T P b k = KAM.Weighted.coeff P b k := by simp [hmCut, hkT]
+      rw [e1, e2]
+      simp only [hk, ite_false, zero_mul, sub_zero]
+      field_simp
+    · have hcond : k = 0 ∨ T < KAM.Fourier.modeSize k := Or.inr (not_le.1 hkT)
+      simp [hmCoef, hmCut, hk, hkT]
+
+theorem coeff_solve (T : ℝ) (w : P11CVec n → P11CVec n) (P : P11CVec n × P11CVec n → ℂ)
+    (b : P11CVec n) (k : Fin n → ℤ) :
+    KAM.Weighted.coeff (fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2) b k =
+      hmCoef T w P b k := by
+  have h : KAM.Weighted.coeff (fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2) b k =
+      KAM.torusCoeff (fun x => KAM.fourierSum (hmCoef T w P b) (fun j => (x j : ℂ))) k := by
+    simp only [KAM.Weighted.coeff, p11Solve_eq]; rfl
+  rw [h]
+  exact torusCoeff_fourierSum_finset (fun k hk => hmCoef_eq_zero hk) k
+
+theorem torusCoeff_zero (k : Fin n → ℤ) :
+    KAM.torusCoeff (fun _ : Fin n → ℝ => (0 : ℂ)) k = 0 := by
+  simp [KAM.torusCoeff, KAM.torusAverage]
+
+end Equation
+
 end KAM.Planetary
