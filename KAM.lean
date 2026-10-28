@@ -324,6 +324,7 @@ public import KAM.Nekhoroshev.Averaging.FlowSymplectic
 public import KAM.Nekhoroshev.Averaging.GoodSet
 public import KAM.Nekhoroshev.Averaging.Identity
 public import KAM.Nekhoroshev.Averaging.LocalDependence
+public import KAM.Nekhoroshev.Averaging.Most
 public import KAM.Nekhoroshev.Averaging.PicardDerivatives
 public import KAM.Nekhoroshev.Averaging.PicardFamilies
 public import KAM.Nekhoroshev.Averaging.Pointwise
@@ -425,6 +426,7 @@ public import KAM.Planetary.Averaging.FiniteStep
 public import KAM.Planetary.Averaging.OscillatorAdjoint
 public import KAM.Planetary.Averaging.OscillatorBracket
 public import KAM.Planetary.Averaging.OscillatorClassAlgebra
+public import KAM.Planetary.Averaging.OscillatorComposition
 public import KAM.Planetary.Averaging.OscillatorCompositionSeries
 public import KAM.Planetary.Averaging.OscillatorFlow
 public import KAM.Planetary.Averaging.OscillatorFlowMap
@@ -449,6 +451,7 @@ public import KAM.Planetary.MaximalStep.Constants
 public import KAM.Planetary.MaximalStep.FourierCutoff
 public import KAM.Planetary.MaximalStep.FourierCutoffCoeff
 public import KAM.Planetary.MaximalStep.FourierCutoffTail
+public import KAM.Planetary.MaximalStep.Loss
 public import KAM.Planetary.MaximalStep.Parameter
 public import KAM.Planetary.MaximalStep.Taylor
 public import KAM.Planetary.Newtonian.Assembly
@@ -490,6 +493,7 @@ public import KAM.Planetary.PGAssembly.JetsRegular
 public import KAM.Planetary.PGAssembly.JetsSlice
 public import KAM.Planetary.PGAssembly.JetsVanish
 public import KAM.Planetary.PGAssembly.RealSlice
+public import KAM.Planetary.PGAssembly.Remainder
 public import KAM.Planetary.PGMeasure.AffineSlab
 public import KAM.Planetary.PGMeasure.Collar
 public import KAM.Planetary.PGMeasure.CompactLipschitz
