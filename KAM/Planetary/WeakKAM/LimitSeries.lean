@@ -170,7 +170,7 @@ theorem selectionLim_unif (hb : b ∈ c.Kinf) :
   rw [selectionLimStage_eq_sum, selectionLimMap, dist_add_left]
   exact this
 
-theorem selectionLim_stage_deriv_eq (hb : b ∈ c.Kinf) (ν : ℕ) {θ : SelectionC n}
+theorem selectionLim_stage_deriv_eq (_hb : b ∈ c.Kinf) (ν : ℕ) {θ : SelectionC n}
     (hθ : θ ∈ complexStrip n (a.strip / 4)) :
     fderiv ℂ (selectionLimStage c.toSelectionChain b ν) θ =
       ContinuousLinearMap.inl ℂ (SelectionC n) (SelectionC n) +
@@ -211,7 +211,8 @@ theorem selectionLim_holo (hb : b ∈ c.Kinf) :
         fderiv ℂ (selectionLimMap c.toSelectionChain b) θ =
           selectionLimDMap c.toSelectionChain b θ := by
   have hs := cx.hyp.hstrip
-  refine KAM.uniform_limits (KAM.isOpen_complexStrip n _) (K := selectionLimStage c.toSelectionChain b)
+  refine KAM.uniform_limits (KAM.isOpen_complexStrip n _)
+    (K := selectionLimStage c.toSelectionChain b)
     (fun ν => (selectionLim_diffOn cx c hb ν).mono
       (fun θ hθ i => (hθ i).trans (by linarith)))
     (fun θ hθ => (selectionLim_unif cx c hb).tendsto_at hθ) (selectionLim_dunif cx c hb)

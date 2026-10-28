@@ -145,8 +145,7 @@ theorem selectionLim_derivative_bound (hb : b ∈ c.Kinf) {θ : SelectionC n}
   refine ContinuousLinearMap.opNorm_le_bound _ (by positivity) fun v => ?_
   have hL := c.composition_small ν ((θ, 0), selectionReal b)
     (selectionLim_mem cx c hb ν hθ2)
-  simp only [ContinuousLinearMap.sub_apply, ContinuousLinearMap.comp_apply,
-    ContinuousLinearMap.id_apply]
+  simp only [sub_apply, ContinuousLinearMap.comp_apply]
   have h1 := (fderiv ℂ (selectionCompose c.toSelectionChain (selectionReal b) ν) (θ, 0) -
     ContinuousLinearMap.id ℂ (SelectionPhaseC n)).le_opNorm
       (ContinuousLinearMap.inl ℂ (SelectionC n) (SelectionC n) v)
