@@ -363,6 +363,7 @@ public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
 public import KAM.Planetary.Averaging.Direct
+public import KAM.Planetary.Averaging.OscillatorSetting
 public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
@@ -391,7 +392,9 @@ public import KAM.Planetary.TwoScale.Cover
 public import KAM.Planetary.TwoScale.FourierCompact
 public import KAM.Planetary.TwoScale.FourierCompactCauchy
 public import KAM.Planetary.TwoScale.Inverse
+public import KAM.Planetary.TwoScale.Lipschitz
 public import KAM.Planetary.TwoScale.Period
+public import KAM.Planetary.TwoScale.RealDynamics
 public import KAM.Provider.AposterioriKam
 public import KAM.Provider.Iso.AllTimeConfinement
 public import KAM.Provider.Iso.IsoenergeticKam
