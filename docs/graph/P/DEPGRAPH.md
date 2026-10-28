@@ -25137,9 +25137,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionInitial, initial (KAM/Planetary/WeakKAM/Initial.lean)
+LEAN_NOTE: audit B06 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:in-dom
@@ -25164,9 +25164,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionInitial_segment_mem (KAM/Planetary/WeakKAM/Initial.lean)
+LEAN_NOTE: audit B06 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:in-taylor
@@ -25192,9 +25192,9 @@ EDGE: stepP:p11a:in-dom | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionInitial_taylor (KAM/Planetary/WeakKAM/Initial.lean)
+LEAN_NOTE: audit B06 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11a:adm-params
@@ -34261,9 +34261,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:ang-mom
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ang_mom, interval_constancy, sum_mass_mul_cross_fKernel (KAM/Planetary/AMD/AngularMomentum.lean)
+LEAN_NOTE: audit A5 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:am-eq
@@ -34290,9 +34290,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:am-eq
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ang_mom (KAM/Planetary/AMD/AngularMomentum.lean)
+LEAN_NOTE: audit A5 PASS WITH NOTES; audit table maps step to ang_mom with private cross_rate_eq
 NOTE: -
 
 NODE: stepP:p14:am-der
@@ -34322,9 +34322,9 @@ EDGE: bpP:p0:d25-amd#totalMomentum | blueprint-P/parts/p14a-amd-expsafe.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ang_mom, sum_mass_mul_cross_fKernel (KAM/Planetary/AMD/AngularMomentum.lean)
+LEAN_NOTE: audit A5 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:am-const
@@ -34350,9 +34350,9 @@ EDGE: bpP:p14:x-calc | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:am-const
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ang_mom, interval_constancy (KAM/Planetary/AMD/AngularMomentum.lean)
+LEAN_NOTE: audit A5 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p14:amd
