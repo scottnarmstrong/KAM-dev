@@ -90,6 +90,76 @@ theorem pair_diag_ray (D : Data n) (p q : Fin n) {I J : ℝ} (hI : 0 < I) (hJ : 
   convert h using 2
   ring
 
+theorem pair_swap_nbhd (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j) :
+    ∀ᶠ w in 𝓝 (0 : Vec 2 × Vec 2),
+      pairSlowSecular D j i (action D a j) (action D a i) (w.2, w.1) =
+        pairSlowSecular D i j (action D a i) (action D a j) w := by
+  obtain ⟨W, hW, -, hgood⟩ := exists_pair_nbhd D ha hij
+  filter_upwards [hW] with w hw
+  obtain ⟨hx, hsep⟩ := hgood w hw
+  have hc := (continuous_pairTerm (pairData D i j) hx (hsep 0 1 (by decide))).comp
+    (show Continuous fun p : ℝ × ℝ => (![p.1, p.2] : Vec 2) by
+      rw [continuous_pi_iff]; intro c; fin_cases c <;> simp <;> fun_prop)
+  have := pairSlowSecular_swap D i j (I := action D a i) (J := action D a j) w.1 w.2 (by
+    convert hc using 2 with p
+    simp [pairTerm, pairPos, pairData, embedSlow])
+  simpa using this
+
+theorem pair_diag_first (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j)
+    (u : Vec 2) :
+    iteratedDeriv 2 (fun s : ℝ => pairSlowSecular D i j (action D a i) (action D a j)
+      (s • (u, 0))) 0 = 2 * (-pairA D a i j / action D a i) * planeSq u := by
+  have hI := action_pos D ha i
+  have hJ := action_pos D ha j
+  have hai := ha.1 i
+  have haj := ha.1 j
+  have hlt := ha.2 hij
+  have hab : action D a i ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) ≠
+      action D a j ^ 2 / (D.m j ^ 2 * (D.G * D.m0)) := by
+    rw [action_sq_div D ha i, action_sq_div D ha j]; exact hlt.ne
+  have hφ : AnalyticAt ℝ (fun s : ℝ => pairSlowSecular D i j (action D a i) (action D a j)
+      (s • (u, 0))) 0 :=
+    (analyticAt_pairSlowSecular D ha hij).comp_of_eq
+      (analyticAt_id.smul analyticAt_const) (by simp)
+  rw [pair_diag_ray D i j hI hJ hab u hφ]
+  simp only [action_sq_div D ha i, action_sq_div D ha j]
+  rw [iteratedDeriv_two_radialH_of_lt hai hlt]
+  unfold pairA
+  simp only [min_eq_left hij.le, max_eq_right hij.le]
+  field_simp
+
+theorem pair_diag_second (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j)
+    (v : Vec 2) :
+    iteratedDeriv 2 (fun s : ℝ => pairSlowSecular D i j (action D a i) (action D a j)
+      (s • ((0 : Vec 2), v))) 0 = 2 * (-pairA D a i j / action D a j) * planeSq v := by
+  have hI := action_pos D ha i
+  have hJ := action_pos D ha j
+  have hai := ha.1 i
+  have haj := ha.1 j
+  have hlt := ha.2 hij
+  have hab : action D a j ^ 2 / (D.m j ^ 2 * (D.G * D.m0)) ≠
+      action D a i ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) := by
+    rw [action_sq_div D ha i, action_sq_div D ha j]; exact hlt.ne'
+  have hc : Filter.Tendsto (fun s : ℝ => s • ((0 : Vec 2), v)) (𝓝 0) (𝓝 0) := by
+    have : Continuous fun s : ℝ => s • ((0 : Vec 2), v) := continuous_id.smul continuous_const
+    simpa using this.tendsto 0
+  have hev : (fun s : ℝ => pairSlowSecular D j i (action D a j) (action D a i) (s • (v, 0))) =ᶠ[𝓝 0]
+      fun s : ℝ => pairSlowSecular D i j (action D a i) (action D a j) (s • ((0 : Vec 2), v)) := by
+    filter_upwards [hc.eventually (pair_swap_nbhd D ha hij)] with s hs
+    simpa using hs
+  have hφ' : AnalyticAt ℝ (fun s : ℝ => pairSlowSecular D i j (action D a i) (action D a j)
+      (s • ((0 : Vec 2), v))) 0 :=
+    (analyticAt_pairSlowSecular D ha hij).comp_of_eq
+      (analyticAt_id.smul analyticAt_const) (by simp)
+  have hφ : AnalyticAt ℝ (fun s : ℝ => pairSlowSecular D j i (action D a j) (action D a i)
+      (s • (v, 0))) 0 := hφ'.congr hev.symm
+  rw [← hev.iteratedDeriv_eq, pair_diag_ray D j i hJ hI hab v hφ]
+  simp only [action_sq_div D ha i, action_sq_div D ha j]
+  rw [iteratedDeriv_two_radialH_of_gt hai hlt]
+  unfold pairA
+  simp only [min_eq_left hij.le, max_eq_right hij.le]
+  field_simp
+
 end SecularForm
 end KAM.Planetary
 end
