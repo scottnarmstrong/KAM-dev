@@ -312,6 +312,7 @@ public import KAM.Nekhoroshev.Assembly.Hypotheses
 public import KAM.Nekhoroshev.Averaging.Coefficients
 public import KAM.Nekhoroshev.Averaging.CompactMaximum
 public import KAM.Nekhoroshev.Averaging.Corrector
+public import KAM.Nekhoroshev.Averaging.CorrectorRegular
 public import KAM.Nekhoroshev.Averaging.Field
 public import KAM.Nekhoroshev.Averaging.FlowDefs
 public import KAM.Nekhoroshev.Averaging.LocalDependence
@@ -422,6 +423,7 @@ public import KAM.Planetary.Newtonian.Reconstruction
 public import KAM.Planetary.Newtonian.Reduction
 public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.PG.Setting
+public import KAM.Planetary.PGAssembly.ComplexGlue
 public import KAM.Planetary.PGAssembly.ComplexLocal
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGMeasure.AffineSlab
@@ -429,6 +431,7 @@ public import KAM.Planetary.PGMeasure.Collar
 public import KAM.Planetary.PGMeasure.CompactLipschitz
 public import KAM.Planetary.PGMeasure.LatticeTail
 public import KAM.Planetary.PGMeasure.OneScale
+public import KAM.Planetary.PGMeasure.ResonanceSlow
 public import KAM.Planetary.PGMeasure.Setting
 public import KAM.Planetary.PGMeasure.Tonelli
 public import KAM.Planetary.Poincare.Bijective
@@ -440,6 +443,7 @@ public import KAM.Planetary.Poincare.Lattice
 public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
 public import KAM.Planetary.Poincare.Tube
+public import KAM.Planetary.SecularForm.Basic
 public import KAM.Planetary.TwoScale.Constants
 public import KAM.Planetary.TwoScale.Cover
 public import KAM.Planetary.TwoScale.FourierCompact
