@@ -1,6 +1,6 @@
 # N11 signature file (tracked copy)
 
-Copy of the orchestrator's untracked `.drafts/design/N11Signatures.lean` as of 2026-10-28 21:59 UTC, published for the lane-N handoff. Every SIGNED N11 declaration must match this text exactly. Overnight amendments: line 213 `theorem ext_flow` (renamed from `flow`, ruling 20:50) and `canonical_map` gained `(hc : 0 < b.c)` (lines 301-302, ruling 21:15; see the N11-F2 audit for the open consumer question).
+Copy of the orchestrator's untracked `.drafts/design/N11Signatures.lean` as of 2026-10-28 21:59 UTC, published for the lane-N handoff. Every SIGNED N11 declaration must match this text exactly. Overnight amendments: line 213 `theorem ext_flow` (renamed from `flow`, ruling 20:50) and `canonical_map` gained `(hc : 0 < b.c)` (lines 301-302, ruling 21:15; see the N11-F2 audit for the open consumer question). Lane-N amendment (Zohar's team, 2026-10-28, ruling F2-C1 in `docs/campaign/LANE-N-LOG.md`): `iterative` gained `(hc : 0 < b.c)` after `hSL`.
 
 ```lean
 /-
@@ -372,7 +372,7 @@ structure ExtNFHyp (b : PartialBlock n k) (s K α L p ε : ℝ)
 theorem iterative (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ K α p δ : ℝ}
     (h : (Fin n → ℂ) → ℂ) (f : EC n k → ℂ) (Λ : Set (Fin n → ℤ))
     (hR : 0 < ρ) (hR' : 2*ρ < R) (hs : 0 < σ) (hs' : 2*σ < s)
-    (hSL : slowLoss b.c ρ σ k) (hα : 0 < α) (hp : 1 < p) (hK : 0 ≤ K)
+    (hSL : slowLoss b.c ρ σ k) (hc : 0 < b.c) (hα : 0 < α) (hp : 1 < p) (hK : 0 ≤ K)
     (hh : DifferentiableOn ℂ h (polyNbhd {KAM.realInclusion n b.Ic} R))
     (hdiv : DivisorBound (polyNbhd {KAM.realInclusion n b.Ic} R) K Λ h (α/conjExp p))
     (hδ : 0 ≤ δ) (hf : InClass b.base R s f) (hfb : WBound b.base R s f δ)

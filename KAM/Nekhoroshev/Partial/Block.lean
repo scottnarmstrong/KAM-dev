@@ -58,7 +58,8 @@ theorem slowPair_nblkScale (t : ℝ) (z : ER n k) : slowPair (nblkScale t z) = t
   · simp [slowPair, nblkScale, nblkFactor_slow]
   · simp [slowPair, nblkScale, nblkFactor_slow]
 
-theorem slowScale_extCx (t : ℝ) (z : ER n k) : slowScale t (extCx z) = extCx (nblkScale t z) := by
+theorem nblk_slowScale_extCx (t : ℝ) (z : ER n k) :
+    slowScale t (extCx z) = extCx (nblkScale t z) := by
   refine Prod.ext rfl (funext fun j => ?_)
   refine ext_cases (P := fun j => (slowScale t (extCx z)).2 j = (extCx (nblkScale t z)).2 j)
     ?_ ?_ ?_ j
@@ -332,7 +333,7 @@ theorem block (a : PartialData n k) (hne : a.G.Nonempty) {μ σ : ℝ} (hμ : 0 
     (Hc := liftFast (signedH a σ) + blockPert a μ σ Ic r P)
     (Hp := fun z => (liftFast (signedH a σ) (extCx z) + signedF a σ μ P (extCx z)).re)
     (fun v _ => by
-      simp only [Pi.add_apply, blockPert, Function.comp_apply, liftFast, slowScale_extCx,
+      simp only [Pi.add_apply, blockPert, Function.comp_apply, liftFast, nblk_slowScale_extCx,
         fastAction_extCx_nblkScale])
     (fun v hv => nblk_dom a hr hdpos hrr0 hv) hF hy
   have hinit' : fastAction (nblkScale (block_setting a μ Ic r).lam⁻¹ (y 0)) =
