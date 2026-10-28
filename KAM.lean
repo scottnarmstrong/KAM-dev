@@ -329,6 +329,7 @@ public import KAM.Nekhoroshev.QuasiConvex
 public import KAM.Nekhoroshev.Stability.Conjugation
 public import KAM.Nekhoroshev.Stability.Energy
 public import KAM.Nekhoroshev.Stability.Gradient
+public import KAM.Nekhoroshev.Stability.Preimage
 public import KAM.Nekhoroshev.Stability.RealSystem
 public import KAM.Nekhoroshev.Stability.Setting
 public import KAM.Nekhoroshev.Stability.Transfer
