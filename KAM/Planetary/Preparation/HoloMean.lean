@@ -137,6 +137,35 @@ theorem p11_mean_real_value (D : P11Physical n) (d : P11HoloData D) {a : P11Vec 
     (fun t => perturbation (p11PhysicalData D) false
       (SecularSpectrum.liftInv d.R (assemble L t y x)))))
 
+/-- `hc-mean`: on real points `Ω` is `2 σ`, the doubled sorted eigenvalue of the secular form. -/
+theorem p11_mean_Omega_real (D : P11Physical n) (d : P11HoloData D) {J : P11Vec n}
+    (hJ : ‖J - d.J0‖ < 2 * d.rC)
+    (hΩ : ∀ i, (d.Omega (KAM.realInclusion n J) i).im = 0) (i : Fin n) :
+    d.Omega (KAM.realInclusion n J) i =
+      ((2 * SecularSpectrum.sigma (p11PhysicalData D)
+        (axis (p11PhysicalData D) ((2 * π)⁻¹ • J)) i : ℝ) : ℂ) := by
+  have hmem : KAM.realInclusion n J ∈ Metric.ball (KAM.realInclusion n d.J0) (2 * d.rC) := by
+    rw [mem_ball_iff_norm, ← map_sub, KAM.norm_realInclusion]; exact hJ
+  obtain ⟨hV, -, hΩre⟩ := d.freq J hmem
+  have hLt1 : (2 * π)⁻¹ • J ∈ Metric.ball ((2 * π)⁻¹ • d.J0) d.t1 := by
+    rw [mem_ball_iff_norm, ← smul_sub, norm_smul, Real.norm_eq_abs,
+      abs_of_pos (by positivity : (0 : ℝ) < (2 * π)⁻¹)]
+    have h1 := p11_mean_L_t2 d hJ
+    have : (fun i => J i / (2 * π)) - (2 * π)⁻¹ • d.J0 = (2 * π)⁻¹ • (J - d.J0) := by
+      funext i; simp [div_eq_inv_mul, mul_sub]
+    rw [this, norm_smul, Real.norm_eq_abs,
+      abs_of_pos (by positivity : (0 : ℝ) < (2 * π)⁻¹)] at h1
+    exact lt_of_lt_of_le h1 d.t2_le
+  have hsig := (d.R_frame _ hLt1).2.2.2.2.1
+  rw [smul_inv_smul₀ (by positivity : (2 * π : ℝ) ≠ 0)] at hsig
+  have hvar := ((p11PatchData_spec D).2.1 J hV)
+  have hre := hΩre i
+  rw [hvar, Fin.append_right, hsig] at hre
+  apply Complex.ext
+  · simp only [Complex.ofReal_re]
+    rw [hre]; field_simp
+  · simp [hΩ i]
+
 end Mean
 
 end KAM.Planetary
