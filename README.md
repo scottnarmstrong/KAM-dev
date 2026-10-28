@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 05:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,525 lines of Lean** of an estimated ≈ 114,000
+> **Last updated: 2026-10-28 05:30 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,525 lines of Lean** of an estimated ≈ 115,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,15 +127,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,525** (52,693 excluding blank lines and comments) · **+73,525** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 4,399 |
-| **Estimated total at completion** | **≈ 114,000** |
+| Written on agent branches, not yet landed | 5,152 |
+| **Estimated total at completion** | **≈ 115,000** |
 | Estimated still to write | ≈ 36,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 05:20 UTC from `main` at `8625071` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 05:30 UTC from `main` at `450c19f` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -293,9 +293,11 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **grev-4** `inp-grev-4` | graph review (Codex) | GPT-6.1-Sol medium | codex-1 | ✅ handed off | Track P graph: final delta (P-p11, P-p13, P-p7) | — | — |
-| **pp11** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P Part 1 PP1-1: Hamiltonian/Algebra (conv#data, omega-algebra) | `inp-pp11` | 1 (vs `inp`) |
+| **c510** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: C5-10: Canonical/CanonicalMap (canonical_map_a..e) and handoff | `inp-c510` | 2 (vs `inp`) |
+| **n101** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N10-1: Assembly/Choice (choice defs, choice_props, cp_dict, cp_rad, cp_size, head_time_pre | `inp-n101` | 1 (vs `inp`) |
 | **pp12** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P1-2: Planetary/Hamiltonian/Diophantine (two-scale, dio-basic, dio-sources) | `inp-pp12` | 1 (vs `inp`) |
 | **pp13** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P1-3: Planetary/Hamiltonian/TorusUnion (torus-union) | `inp-pp13` | 2 (vs `inp`) |
+| **pp14** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: PP1-4: Chart draft | `inp-pp14` | 1 (vs `inp`) |
 
 *4 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -305,6 +307,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-28 05:30 | `450c19f` | Exploration: PDE KAM (nonlinear wave) and leapfrogging vortex patches; register Pos96K, Pos96W, KP96, HHM25 (context) |
 | 2026-10-28 05:17 | `8625071` | Land inp into main |
 | 2026-10-28 05:11 | `4c54188` | Land inp into main |
 | 2026-10-28 05:05 | `b951911` | Land inp into main |
@@ -316,7 +319,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-28 03:42 | `6c4e81e` | OVERNIGHT: 03:45 entry (offloaded INP packages, README refresh, owner directives) |
 | 2026-10-28 03:41 | `914e43d` | Land inp into main |
 | 2026-10-28 03:20 | `7ddb10c` | Land inp into main |
-| 2026-10-28 03:16 | `f0bf6e3` | HQ: refresh the README; live track table, size estimate, areas and agents |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -641,6 +643,10 @@ API or exact Crossref title matches. Registry: [`docs/sources.json`](docs/source
 | Pos93scan | J. Pöschel, *Nekhoroshev estimates for quasi-convex Hamiltonian systems*, Math. Z. 213 (1993) 187–216 | — | [10.1007/BF03025718](https://doi.org/10.1007/BF03025718) | Pinned-copy alias for Pos93; the pre-existing record is preserved append-only. GDZ scan: PDF page = printed page − 185; formulas require image inspection. |
 | CP10pin | L. Chierchia, G. Pinzari, *Properly-degenerate KAM theory (following V. I. Arnold)*, Discrete Contin. Dyn. Syst. Ser. S 3 (2010) 545–578 | — | [10.3934/dcdss.2010.3.545](https://doi.org/10.3934/dcdss.2010.3.545) | Pinned-copy alias for CP10; the pre-existing record is preserved append-only. Pinned author text; PDF page = printed page − 544. |
 | AS26 | T. Alazard, C. Shao, *KAM via standard fixed point theorems*, Forum Math. Sigma (2026) | [2312.13971v3](https://arxiv.org/abs/2312.13971v3) | [10.1017/fms.2026.10207](https://doi.org/10.1017/fms.2026.10207) | Context: finite-regularity (Sobolev) Kolmogorov and translated-torus theorems (Thms 1.1-1.2) by para-linearization and the Schauder fixed point theorem, with no KAM iteration; alternative route to G1-type a posteriori results, not consumed by any frozen statement |
+| Pos96K | J. Pöschel, *A KAM-theorem for some nonlinear partial differential equations*, Ann. Sc. Norm. Super. Pisa Cl. Sci. (4) 23 (1996) 119–148 | — | — | Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); abstract infinite-dimensional KAM theorem (Numdam scan) |
+| Pos96W | J. Pöschel, *Quasi-periodic solutions for a nonlinear wave equation*, Comment. Math. Helv. 71 (1996) 269–296 | — | [10.1007/BF02566420](https://doi.org/10.1007/BF02566420) | Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); proposed first target (cubic Dirichlet wave); candidate errata E-PDE-W-1/2 |
+| KP96 | S. Kuksin, J. Pöschel, *Invariant Cantor manifolds of quasi-periodic oscillations for a nonlinear Schrödinger equation*, Ann. of Math. 143 (1996) 149–179 (author version 2.1) | — | [10.2307/2118656](https://doi.org/10.2307/2118656) | Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); Cantor manifold theorem used by Pos96W; NLS fallback; candidate errata E-PDE-KP-1/2 |
+| HHM25 | Z. Hassainia, T. Hmidi, N. Masmoudi, *Rigorous derivation of the leapfrogging motion for planar Euler equations*, Invent. Math. (2025) | [2311.15765v2](https://arxiv.org/abs/2311.15765v2) | [10.1007/s00222-025-01368-3](https://doi.org/10.1007/s00222-025-01368-3) | Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); later target (leapfrogging vortex patches; Nash–Moser) |
 <!-- /AUTO:papers -->
 
 ## Prior and related formal work
