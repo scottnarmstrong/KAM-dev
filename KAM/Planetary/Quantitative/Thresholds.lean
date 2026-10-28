@@ -22,7 +22,6 @@ the explicit cutoff constant, the Fourier-cutoff constant `cN`, `gamma`, `tbar`,
 open Set Metric Real MeasureTheory Function
 open scoped ContDiff Topology
 namespace KAM.Planetary
-open KAM KAM.Kepler KAM.ODE
 
 /- Quantitative/Thresholds: local numerical projection of sec-q-thm#data.
 The cutoff constant below is its explicit source formula, not an arbitrary positive input. -/
