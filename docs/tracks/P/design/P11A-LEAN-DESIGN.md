@@ -1635,8 +1635,10 @@ def P11SecularSpec {n : ℕ} (D : P11Physical n) (C : P11SecularData n) : Prop :
     (∀ i : Fin n, (C.omega (KAM.realInclusion n J) i).re=(p11PatchData D).varpi J (Fin.castAdd n i)) ∧
     (∀ i : Fin n, (C.Omega (KAM.realInclusion n J) i).re=
       2*Real.pi*(p11PatchData D).varpi J (Fin.natAdd n i))) ∧
+  -- Amended 2026-10-28 (ruling 22:46, P11A-P2f): the second conjunct also states realness of h on the real slice.
   (∀ J : P11Vec n, ‖J-C.J0‖ < 2*C.rC →
-    (C.h (KAM.realInclusion n J)).re= -∑ i, (D.G*D.m0)^2*D.m i^3/(2*(J i/(2*Real.pi))^2)) ∧
+    ((C.h (KAM.realInclusion n J)).re= -∑ i, (D.G*D.m0)^2*D.m i^3/(2*(J i/(2*Real.pi))^2)) ∧
+    (C.h (KAM.realInclusion n J)).im = 0) ∧
   (DifferentiableOn ℂ C.omega (Metric.ball (KAM.realInclusion n C.J0) (2*C.rC)) ∧
    DifferentiableOn ℂ C.Omega (Metric.ball (KAM.realInclusion n C.J0) (2*C.rC))) ∧
   C.tau=max ((n : ℝ)*(p11PatchData D).mu) (2*n) ∧
@@ -1727,7 +1729,9 @@ def p11K1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) : ℝ :=
 def p11Alpha1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := C.gamma/2*p11K1 C eps^(-C.tau)
 def p11s1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
   min C.rC (C.gamma/(4*C.L*p11K1 C eps^(C.tau+1)))
-def p11d1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := min (p11s1 C eps*C.sigma) C.rz^2
+-- Amended 2026-10-28 (ruling 23:20): source d_1 = min{s_1 sigma_F, r_z^2}; the unparenthesised form parsed as
+-- (min (s_1 sigma) r_z)^2 and broke the eta1 log-rate needed by P7 as-osc and P11SlowSpec.
+def p11d1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := min (p11s1 C eps*C.sigma) (C.rz^2)
 def p11eta1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
   400*(1+n)*eps*C.MF^2/(2*Real.pi*p11Alpha1 C eps*p11d1 C eps)
 structure P11FastData (n : ℕ) where
