@@ -48,6 +48,14 @@ theorem wbud_tsum_le_zero {f : ℕ → ℝ} {c : ℝ} (hf0 : ∀ j, 0 ≤ f j)
     Summable f ∧ ∑' j, f j ≤ 32 / 31 * c := by
   simpa using wbud_tsum_le hf0 (by norm_num) le_rfl hf 0
 
+/-- The shifted tail of a nonnegative summable series is at most the whole sum. -/
+theorem wbud_tsum_shift_le {f : ℕ → ℝ} (hf0 : ∀ j, 0 ≤ f j) (hs : Summable f) (ν : ℕ) :
+    ∑' j, f (j + ν) ≤ ∑' j, f j := by
+  have h1 : Summable (fun j => f (j + ν)) := (summable_nat_add_iff ν).2 hs
+  have h2 := Summable.sum_add_tsum_nat_add' (f := f) (k := ν) h1
+  have h0 : 0 ≤ ∑ i ∈ Finset.range ν, f i := Finset.sum_nonneg fun i _ => hf0 i
+  linarith
+
 /-- The data under which the scalar budgets of an admissible schedule are controlled. -/
 structure WeakBudgetCtx (d : SelectionData n) (a : SelectionSchedule n) : Prop where
   adm : SelectionAdmissibility d a
@@ -310,6 +318,225 @@ theorem wbud_nums :
     nlinarith
 
 
+theorem wbud_t_pos (j : ℕ) : 0 < selectiont a j := by
+  have := c.hyp.ht
+  rw [selectiont_eq]
+  positivity
+
+/-- `c y^j / t_{j+1} = (c w / t₀) (w y)^j` for `w = 2^{τ+1}`. -/
+theorem wbud_div_t (c' y : ℝ) (j : ℕ) :
+    c' * y ^ j / selectiont a (j + 1) =
+      (c' * (2 : ℝ) ^ (a.τ + 1) / a.t₀) * (y * (2 : ℝ) ^ (a.τ + 1)) ^ j := by
+  have ht := c.hyp.ht
+  have hw : (2 : ℝ) ^ (a.τ + 1) ≠ 0 := by positivity
+  rw [selectiont_eq, inv_pow, pow_succ, mul_pow]
+  field_simp
+
+/-- Termwise bound of `(A_j + α_j) / t_{j+1}` by a geometric series. -/
+theorem wbud_lip_term (j : ℕ) :
+    0 ≤ (selectionA a j + selectionAlpha a j) / selectiont a (j + 1) ∧
+    (selectionA a j + selectionAlpha a j) / selectiont a (j + 1) ≤
+      ((2 * (a.strip / 24) * selectionQ₀ a / selectionCQ n) *
+        (2 : ℝ) ^ (a.τ + 1) / a.t₀ + (selectionQ₀ a * a.s₀ / 32) * (2 : ℝ) ^ (a.τ + 1) / a.t₀) *
+        (1 / 32 : ℝ) ^ j := by
+  have h := c.hyp
+  obtain ⟨hq, hq32, hg, hg32, hgw, hG3⟩ := wbud_ratios c
+  have hQ0 := wbud_Q₀_nonneg c
+  have hσ := wbud_σ_pos h j
+  have hs := wbud_s_pos h j
+  have htj := wbud_t_pos c (j + 1)
+  have hCQ : 162 ≤ selectionCQ n := by
+    have : (1 : ℝ) ≤ n := by exact_mod_cast h.hn
+    unfold selectionCQ
+    nlinarith
+  have hCQ0 : 0 < selectionCQ n := by linarith
+  obtain ⟨hQ0j, hA0, hAle, hκ0, hκle, hα, -, -, hQle⟩ := wbud_stage h j
+  have hα0 : 0 ≤ selectionAlpha a j := by rw [hα]; positivity
+  have hnum : 0 ≤ selectionA a j + selectionAlpha a j := add_nonneg hA0 hα0
+  refine ⟨div_nonneg hnum htj.le, ?_⟩
+  set g := selectionG n a.μ a.τ 0 with hgdef
+  set w : ℝ := (2 : ℝ) ^ (a.τ + 1) with hwdef
+  have hw0 : 0 < w := by positivity
+  have hs0 := h.hs
+  have hσ0 : 0 < a.strip / 24 := by have := h.hstrip; positivity
+  have hQj : selectionQactual a j ≤ selectionQ₀ a * g ^ j := hQle
+  have hAj : selectionA a j ≤
+      (2 * (a.strip / 24) * selectionQ₀ a / selectionCQ n) * (g / 2) ^ j := by
+    refine hAle.trans ?_
+    have e : 2 * selectionσ a j * (selectionQ₀ a * g ^ j) / selectionCQ n =
+        (2 * (a.strip / 24) * selectionQ₀ a / selectionCQ n) * (g / 2) ^ j := by
+      unfold selectionσ
+      rw [div_pow, inv_pow]
+      field_simp
+    rw [← e]
+    exact div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left hQj (by positivity)) hCQ0.le
+  have hαj : selectionAlpha a j ≤ (selectionQ₀ a * a.s₀ / 32) * (g * selectionQ n a.μ a.τ) ^ j := by
+    rw [hα]
+    have h1 : selectionKappa a j * selections a j ≤
+        (selectionQactual a j / 16) * selections a j :=
+      mul_le_mul_of_nonneg_right hκle hs.le
+    have h2 : selectionQactual a j / 16 * selections a j ≤
+        (selectionQ₀ a * g ^ j / 16) * (a.s₀ * selectionQ n a.μ a.τ ^ j) := by
+      refine mul_le_mul (by linarith) (le_of_eq rfl) hs.le (by positivity)
+    have e : (selectionQ₀ a * g ^ j / 16) * (a.s₀ * selectionQ n a.μ a.τ ^ j) / 2 =
+        (selectionQ₀ a * a.s₀ / 32) * (g * selectionQ n a.μ a.τ) ^ j := by
+      rw [mul_pow]
+      ring
+    linarith
+  have hx1 : g / 2 * w ≤ 1 / 32 := by nlinarith
+  have hx2 : g * selectionQ n a.μ a.τ * w ≤ 1 / 32 := by
+    have : g * w ≤ 1 / 16 := by linarith
+    nlinarith
+  rw [add_div]
+  have hA' := div_le_div_of_nonneg_right hAj htj.le
+  have hα' := div_le_div_of_nonneg_right hαj htj.le
+  rw [wbud_div_t c] at hA' hα'
+  have hc1 : 0 ≤ (2 * (a.strip / 24) * selectionQ₀ a / selectionCQ n) * w / a.t₀ := by
+    have := h.ht; positivity
+  have hc2 : 0 ≤ (selectionQ₀ a * a.s₀ / 32) * w / a.t₀ := by
+    have := h.ht; positivity
+  have hp1 : (g / 2 * w) ^ j ≤ (1 / 32 : ℝ) ^ j := pow_le_pow_left₀ (by positivity) hx1 j
+  have hp2 : (g * selectionQ n a.μ a.τ * w) ^ j ≤ (1 / 32 : ℝ) ^ j :=
+    pow_le_pow_left₀ (by positivity) hx2 j
+  have := mul_le_mul_of_nonneg_left hp1 hc1
+  have := mul_le_mul_of_nonneg_left hp2 hc2
+  linarith
+
+theorem wbud_lip :
+    Summable (fun j => (selectionA a j + selectionAlpha a j) / selectiont a (j + 1)) ∧
+    ∑' j, (selectionA a j + selectionAlpha a j) / selectiont a (j + 1) ≤ (2 : ℝ)⁻¹ ^ 10 / 16 := by
+  obtain ⟨hs, hsum⟩ := wbud_tsum_le_zero (fun j => (wbud_lip_term c j).1)
+    (fun j => (wbud_lip_term c j).2)
+  exact ⟨hs, hsum.trans (wbud_nums c).2.2.2.2⟩
+
+theorem wbud_sums_Aα :
+    Summable (selectionA a) ∧ Summable (selectionAlpha a) ∧
+    (∑' j, selectionA a j) ≤ 3 * (a.strip / 24) * selectionQ₀ a / selectionCQ n ∧
+    (∑' j, selectionAlpha a j) ≤ a.s₀ * selectionQ₀ a / 16 := by
+  have hn := wbud_nums c
+  have hg := wbud_geo c
+  have h := c.hyp
+  obtain ⟨hsA, hA⟩ := wbud_tsum_le_zero (fun j => (wbud_stage h j).2.1) (fun j => (hg j).1)
+  obtain ⟨hsα, hα⟩ := wbud_tsum_le_zero
+    (fun j => by
+      obtain ⟨-, -, -, -, -, hα, -⟩ := wbud_stage h j
+      have := wbud_s_pos h j
+      have := (wbud_stage h j).2.2.2.1
+      rw [hα]; positivity) (fun j => (hg j).2.1)
+  exact ⟨hsA, hsα, hA.trans hn.2.2.1, hα.trans hn.2.2.2.1⟩
+
+theorem wbud_tail (ν : ℕ) :
+    (∑' j, (selectionA a (j + ν) + selectionAlpha a (j + ν))) / selectiont a (ν + 1) ≤
+      (2 : ℝ)⁻¹ ^ 10 := by
+  have h := c.hyp
+  obtain ⟨hsu, hsum⟩ := wbud_lip c
+  obtain ⟨hsA, hsα, -, -⟩ := wbud_sums_Aα c
+  have hAα : Summable (fun j => selectionA a (j + ν) + selectionAlpha a (j + ν)) :=
+    ((summable_nat_add_iff ν).2 hsA).add ((summable_nat_add_iff ν).2 hsα)
+  have hsh := (summable_nat_add_iff ν).2 hsu
+  have hnn : ∀ j, 0 ≤ selectionA a j + selectionAlpha a j := fun j => by
+    obtain ⟨-, hA0, -, -, -, hα, -⟩ := wbud_stage h j
+    have := wbud_s_pos h j
+    have := (wbud_stage h j).2.2.2.1
+    rw [hα]; positivity
+  have hmono : ∀ j, selectiont a (j + ν + 1) ≤ selectiont a (ν + 1) := fun j => by
+    rw [selectiont_eq, selectiont_eq]
+    have hw : (2 : ℝ) ≤ (2 : ℝ) ^ (a.τ + 1) := by
+      have := Real.rpow_le_rpow_of_exponent_le (show (1 : ℝ) ≤ 2 by norm_num)
+        (show (1 : ℝ) ≤ a.τ + 1 by linarith [h.hτ])
+      simpa using this
+    have h1 : ((2 : ℝ) ^ (a.τ + 1))⁻¹ ≤ 1 := inv_le_one_of_one_le₀ (by linarith)
+    refine mul_le_mul_of_nonneg_left (pow_le_pow_of_le_one (by positivity) h1 ?_) h.ht.le
+    omega
+  rw [← tsum_div_const]
+  calc ∑' j, (selectionA a (j + ν) + selectionAlpha a (j + ν)) / selectiont a (ν + 1)
+      ≤ ∑' j, (selectionA a (j + ν) + selectionAlpha a (j + ν)) /
+          selectiont a (j + ν + 1) :=
+        Summable.tsum_le_tsum (fun j => div_le_div_of_nonneg_left (hnn _)
+          (wbud_t_pos c _) (hmono j)) (hAα.div_const _) hsh
+    _ ≤ ∑' j, (selectionA a j + selectionAlpha a j) / selectiont a (j + 1) :=
+        wbud_tsum_shift_le (fun j => div_nonneg (hnn j) (wbud_t_pos c _).le) hsu ν
+    _ ≤ (2 : ℝ)⁻¹ ^ 10 / 16 := hsum
+    _ ≤ _ := by norm_num
+
+
+theorem wbud_exported :
+    Summable (selectionA a) ∧ Summable (selectionAlpha a) ∧
+    Summable (selectionMapBudget a) ∧ Summable (selectionRealBudget a) ∧
+    (∑' j, selectionMapBudget a j) ≤ (2 : ℝ)⁻¹ ^ 12 ∧
+    (∑' j, selectionRealBudget a j) ≤ (2 : ℝ)⁻¹ ^ 12 ∧
+    (∑' j, selectionA a j) ≤ 3 * (a.strip / 24) * selectionQ₀ a / selectionCQ n ∧
+    (∑' j, selectionAlpha a j) ≤ a.s₀ * selectionQ₀ a / 16 ∧
+    (∀ ν, selectionA a ν ≤ 2 * selectionσ a ν * selectionQactual a ν / selectionCQ n ∧
+      selectionKappa a ν ≤ selectionQactual a ν / 16 ∧
+      selectionAlpha a ν = selectionKappa a ν * selections a ν / 2 ∧
+      selectionRealBudget a ν ≤ 4 * π / selectionCQ n * a.T₀ * (a.strip / 24) *
+        selectionQactual a ν ∧
+      selectionQactual a ν ≤ selectionQ₀ a * selectionG n a.μ a.τ 0 ^ ν) ∧
+    ∀ ν, (∑' j, (selectionA a (j + ν) + selectionAlpha a (j + ν))) /
+      selectiont a (ν + 1) ≤ (2 : ℝ)⁻¹ ^ 10 := by
+  have h := c.hyp
+  have hn := wbud_nums c
+  have hg := wbud_geo c
+  obtain ⟨hsA, hsα, hA, hα⟩ := wbud_sums_Aα c
+  have hM0 : ∀ j, 0 ≤ selectionMapBudget a j := fun j => by
+    have hκ0 := (wbud_stage h j).2.2.2.1
+    have := wbud_σ_pos h j
+    have := wbud_s_pos h j
+    unfold selectionMapBudget
+    positivity
+  obtain ⟨hsM, hM⟩ := wbud_tsum_le_zero hM0 (fun j => (hg j).2.2.1)
+  obtain ⟨hsR, hR⟩ := wbud_tsum_le_zero (fun j => (wbud_stage h j).2.2.2.2.2.2.1)
+    (fun j => (hg j).2.2.2)
+  refine ⟨hsA, hsα, hsM, hsR, hM.trans hn.1, hR.trans hn.2.1, hA, hα, fun ν => ?_,
+    wbud_tail c⟩
+  obtain ⟨-, -, hAle, -, hκle, hαe, -, hRBle, hQle⟩ := wbud_stage h ν
+  exact ⟨hAle, hκle, hαe, hRBle, hQle⟩
+
+
 end Main
+
+theorem exported_sums (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
+    (hsmall : ε ≤ selectionAdmissible d) :
+    let a := adm_params d ε
+    Summable (selectionA a) ∧ Summable (selectionAlpha a) ∧
+    Summable (selectionMapBudget a) ∧ Summable (selectionRealBudget a) ∧
+    (∑' j, selectionMapBudget a j) ≤ (2 : ℝ)⁻¹ ^ 12 ∧
+    (∑' j, selectionRealBudget a j) ≤ (2 : ℝ)⁻¹ ^ 12 ∧
+    (∑' j, selectionA a j) ≤ 3 * (a.strip / 24) * selectionQ₀ a / selectionCQ n ∧
+    (∑' j, selectionAlpha a j) ≤ a.s₀ * selectionQ₀ a / 16 ∧
+    (∀ ν, selectionA a ν ≤ 2 * selectionσ a ν * selectionQactual a ν / selectionCQ n ∧
+      selectionKappa a ν ≤ selectionQactual a ν / 16 ∧
+      selectionAlpha a ν = selectionKappa a ν * selections a ν / 2 ∧
+      selectionRealBudget a ν ≤ 4 * π / selectionCQ n * a.T₀ * (a.strip / 24) *
+        selectionQactual a ν ∧
+      selectionQactual a ν ≤ selectionQ₀ a * selectionG n a.μ a.τ 0 ^ ν) ∧
+    ∀ ν, (∑' j, (selectionA a (j + ν) + selectionAlpha a (j + ν))) /
+      selectiont a (ν + 1) ≤ (2 : ℝ)⁻¹ ^ 10 := by
+  have hn : (0 : ℝ) < n := by exact_mod_cast d.n_pos
+  have hC : 0 < d.C₁ := by linarith [d.hessian_normalized]
+  have hL := selectionLambdaMax_pos d
+  have hs : 0 < (adm_params d ε).s₀ := by
+    show 0 < selectionLambdaMax d / (n * d.C₁)
+    positivity
+  have he' : 0 < (adm_params d ε).ε₀ := by
+    show 0 < ε + n / 2 * d.C₁ * (selectionLambdaMax d / (n * d.C₁)) ^ 2
+    positivity
+  exact wbud_exported (weakBudgetCtx_of d (adm_params d ε) (adm_choice d ε he hsmall).2.1
+    rfl rfl rfl rfl rfl rfl hs he')
+
+/-- Derived scalar budgets at the adapted radius; no iteration hypotheses. -/
+theorem param_lip_sum (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
+    (hsmall : ε ≤ selectionAdmissible d) :
+    let a := selectionAdapted d ε
+    Summable (fun j => (selectionA a j + selectionAlpha a j) / selectiont a (j + 1)) ∧
+    (∑' j, (selectionA a j + selectionAlpha a j) / selectiont a (j + 1)) ≤
+      (2 : ℝ)⁻¹ ^ 10 / 16 := by
+  obtain ⟨hadm, hs, -⟩ := free_radius d ε he hsmall
+  have he' : 0 < (selectionAdapted d ε).ε₀ := by
+    show 0 < 2 * ε
+    positivity
+  exact wbud_lip (weakBudgetCtx_of d (selectionAdapted d ε) hadm rfl rfl rfl rfl rfl rfl hs he')
 
 end KAM.Planetary
