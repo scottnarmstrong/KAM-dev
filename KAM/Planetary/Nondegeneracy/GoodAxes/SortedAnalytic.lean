@@ -14,7 +14,8 @@ public import KAM.Planetary.SecularSpectrum.TwoPlanets
 
 Blueprint P, Part 10 (`bpP:p10:sorted-analytic`, `stepP:p10:sa-loc`): at a point of `simpleAxes D`
 the analytic branches of `local_analytic` are all the eigenvalues, hence agree with `sigma D`.  The
-second sentence of the blueprint (`stepP:p10:sa-n2`, `U₂ = A₂`) is `SecularSpectrum.n2` together with
+second sentence of the blueprint (`stepP:p10:sa-n2`, `U₂ = A₂`) is
+`SecularSpectrum.n2` together with
 `SecularSpectrum.sigma_two_lt`.
 -/
 

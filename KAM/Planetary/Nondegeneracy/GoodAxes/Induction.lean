@@ -64,7 +64,8 @@ theorem peel_step (D : Data (n+1)) (hn : 2 ≤ n) {a' : Vec n} (ha' : a' ∈ axe
     simpa [Real.zero_rpow (by norm_num : (3/2 : ℝ) ≠ 0)] using this
   have hev : ∀ᶠ t in 𝓝[>] (0 : ℝ), (0 < t ∧ t < c) ∧ t ≤ 1 ∧ (∀ i, t ≤ a' i / 2) ∧
       C * t ^ (3/2 : ℝ) < κ0 / 4 := by
-    refine ((eventually_mem_nhdsWithin.mono fun t (h : t ∈ Set.Ioi (0:ℝ)) => h).and ((eventually_lt_nhds hc).filter_mono nhdsWithin_le_nhds)).and
+    refine ((eventually_mem_nhdsWithin.mono fun t (h : t ∈ Set.Ioi (0:ℝ)) => h).and
+      ((eventually_lt_nhds hc).filter_mono nhdsWithin_le_nhds)).and
       ?_
     refine (((eventually_lt_nhds one_pos).filter_mono nhdsWithin_le_nhds).mono
       fun t h => h.le).and ?_

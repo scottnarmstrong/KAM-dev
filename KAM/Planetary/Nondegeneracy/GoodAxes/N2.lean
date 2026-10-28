@@ -12,7 +12,8 @@ public import KAM.Planetary.SecularSpectrum.TwoPlanets
 # Good axes: two planets
 
 Blueprint P, Part 10 (`bpP:p10:n2`, `stepP:p10:n2-r`, `stepP:p10:n2-t`, `stepP:p10:n2-nr`): for two
-planets the ratio `tr² / det` of the secular matrix is explicit, bounded below by `Λ₂/Λ₁ + 2`, controls
+planets the ratio `tr² / det` of the secular matrix is explicit, bounded below by
+`Λ₂/Λ₁ + 2`, controls
 the eigenvalue ratio, and forces non-resonance in the hierarchical regime.
 -/
 
