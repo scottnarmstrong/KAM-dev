@@ -26,7 +26,8 @@ are obtained from the generic Part 5 flow of the weighted field `wfield b.c φ` 
   (holomorphy and images of `Φ`, `Ψ` on `U = 𝒟_{R-3ρ/2,s-3σ/2}`, the displacement bounds
   including the slow one, integer angle equivariance, two-sided inverse and `Φ z ∈ U` on
   `𝒟_{R-2ρ,s-2σ}`, the derivative estimate, reality);
-* `canonical_map_of_pos`: the same together with `ExtCanonical b.c U Φ`, valid for `0 < b.c`.
+* `canonical_map` (signed; `hc : 0 < b.c` added by ruling 21:15): the same together with
+  `ExtCanonical b.c U Φ`.
 -/
 
 @[expose] public noncomputable section
@@ -279,8 +280,10 @@ theorem canonical_map_core (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ V : 
     exact flow_real W hF (wfield_real b hR hs hρ.le ⟨hφ, hreal⟩) (hgh hz)
       (t := 1) (by simp)
 
-/-- The signed `canonical_map` for a block with positive slow weight `b.c`. -/
-theorem canonical_map_of_pos (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ V : ℝ}
+/-- The signed `canonical_map` (`bpN:p11:canonical-map`, clauses a-e). The premise
+`hc : 0 < b.c` was added to the signature by orchestrator ruling 21:15: `b.c = 2π/(w/r_B)²` is
+zero in Lean when `w` or `r_B` vanishes, and the source radii are positive. -/
+theorem canonical_map (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ V : ℝ}
     {φ : EC n k → ℂ} (hc : 0 < b.c)
     (hρ : 0 < ρ) (hρR : ρ < R/2) (hσ : 0 < σ) (hσs : σ < s/2)
     (hSL : slowLoss b.c ρ σ k) (hV : 0 ≤ V) (hsmall : V/(ρ*σ) ≤ 1/2)
