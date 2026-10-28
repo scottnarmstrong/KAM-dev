@@ -248,6 +248,72 @@ private theorem hasFDerivAt_chi (k : Fin n → ℤ) (θ : Fin n → ℝ) :
   convert this using 1
   · ext θ'; exact character_real k θ'
 
+private theorem hasFDerivAt_gk (d : AveragingData n R s h f) {κ M₂ : ℝ} (hκ : 0 < κ)
+    (k : Fin n → ℤ) {z : AvgPhase n} (hz : z ∈ avgDomain n R)
+    (hM : ∀ i, ∑ j, |avgM h z.2 i j| ≤ M₂) :
+    HasFDerivAt (gk h f κ k) (fderiv ℝ (gk h f κ k) z) z ∧
+    (∀ v, fderiv ℝ (gk h f κ k) z v =
+      (-KAM.character k (KAM.realInclusion n z.1)) •
+        (fderiv ℝ (aScal h f κ k) z.2 v.2 • kvec k) +
+      (-(KAM.character k (KAM.realInclusion n z.1) * linK k v.1)) • avgU h f κ k z.2) ∧
+    ∀ v, ‖fderiv ℝ (gk h f κ k) z v‖ ≤
+      (avgBterm h s M₂ κ k z.2 + 2 * Real.pi * KAM.Fourier.modeSize k *
+        (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)|)) * ‖v‖ := by
+  obtain ⟨hA, hAv, hAd⟩ := hasFDerivAt_aScal d hκ k hz.2 hM
+  have hM0 : 0 ≤ M₂ := (Finset.sum_nonneg fun j _ => abs_nonneg _).trans (hM ⟨0, d.hn⟩)
+  have hU : HasFDerivAt (fun I => avgU h f κ k I)
+      ((fderiv ℝ (aScal h f κ k) z.2).smulRight (kvec k)) z.2 := by
+    rw [avgU_eq]; exact hA.smul_const _
+  have hUz := hU.comp z hasFDerivAt_snd
+  have hχ := ((hasFDerivAt_chi k z.1).comp z hasFDerivAt_fst).neg
+  have hg : HasFDerivAt (gk h f κ k) _ z := hχ.smul hUz
+  have hform : ∀ v, fderiv ℝ (gk h f κ k) z v =
+      (-KAM.character k (KAM.realInclusion n z.1)) •
+        (fderiv ℝ (aScal h f κ k) z.2 v.2 • kvec k) +
+      (-(KAM.character k (KAM.realInclusion n z.1) * linK k v.1)) • avgU h f κ k z.2 := by
+    intro v
+    rw [hg.fderiv]
+    simp
+  refine ⟨hg.differentiableAt.hasFDerivAt, hform, fun v => ?_⟩
+  rw [hform v]
+  refine (norm_add_le _ _).trans ?_
+  have hβ := avgBeta_nonneg s k
+  have h1 : ‖(-KAM.character k (KAM.realInclusion n z.1)) •
+        (fderiv ℝ (aScal h f κ k) z.2 v.2 • kvec k)‖ ≤ avgBterm h s M₂ κ k z.2 * ‖v‖ := by
+    rw [norm_smul, norm_neg, norm_character_real, one_mul, norm_smul, norm_kvec]
+    calc ‖fderiv ℝ (aScal h f κ k) z.2 v.2‖ * ‖fun j => (k j : ℝ)‖
+        ≤ (avgBeta s k * (2 * n / s * |avgPsi κ (avgQ h k z.2)| +
+          M₂ * KAM.Fourier.modeSize k * |avgPsiD κ (avgQ h k z.2)|) * ‖v.2‖) *
+            ‖fun j => (k j : ℝ)‖ := mul_le_mul_of_nonneg_right (hAd v.2) (norm_nonneg _)
+      _ ≤ (avgBeta s k * (2 * n / s * |avgPsi κ (avgQ h k z.2)| +
+          M₂ * KAM.Fourier.modeSize k * |avgPsiD κ (avgQ h k z.2)|) * ‖v‖) *
+            ‖fun j => (k j : ℝ)‖ := by
+          refine mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (norm_snd_le v) ?_)
+            (norm_nonneg _)
+          have h0 : 0 ≤ 2 * (n : ℝ) / s := by have := d.hs; positivity
+          exact mul_nonneg hβ (add_nonneg (mul_nonneg h0 (abs_nonneg _))
+            (mul_nonneg (mul_nonneg hM0 (KAM.Fourier.modeSize_nonneg k)) (abs_nonneg _)))
+      _ = avgBterm h s M₂ κ k z.2 * ‖v‖ := by unfold avgBterm; ring
+  have h2 : ‖(-(KAM.character k (KAM.realInclusion n z.1) * linK k v.1)) •
+        avgU h f κ k z.2‖ ≤ 2 * Real.pi * KAM.Fourier.modeSize k *
+        (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)|) * ‖v‖ := by
+    rw [norm_smul, norm_neg, norm_mul, norm_character_real, one_mul]
+    have hu := norm_avgU_le d κ k hz.2
+    have hl := norm_linK_le k v.1
+    have hm := KAM.Fourier.modeSize_nonneg k
+    calc ‖linK k v.1‖ * ‖avgU h f κ k z.2‖
+        ≤ (2 * Real.pi * KAM.Fourier.modeSize k * ‖v.1‖) *
+          (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)|) :=
+          mul_le_mul hl hu (norm_nonneg _) (by positivity)
+      _ ≤ (2 * Real.pi * KAM.Fourier.modeSize k * ‖v‖) *
+          (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)|) :=
+          mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (norm_fst_le v) (by positivity))
+            (by positivity)
+      _ = _ := by ring
+  calc _ ≤ avgBterm h s M₂ κ k z.2 * ‖v‖ + 2 * Real.pi * KAM.Fourier.modeSize k *
+        (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)|) * ‖v‖ := add_le_add h1 h2
+    _ = _ := by ring
+
 end KAM.Nekhoroshev
 
 end
