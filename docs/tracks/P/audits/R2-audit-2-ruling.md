@@ -1,4 +1,4 @@
-# R2 audit 2: orchestrator ruling (OVERNIGHT 21:42)
+# R2 audit 2: orchestrator ruling (OVERNIGHT 21:38)
 
 Audit 2 closed the compact part of round 1's F1: `AnalyticCompact.lean` proves, for any compact `K ⊆ W`, an open
 `U ⊇ K` inside `W`, a common time `T > 0` and one flow that is jointly real analytic on `Ioo (-T) T ×ˢ U` and solves
