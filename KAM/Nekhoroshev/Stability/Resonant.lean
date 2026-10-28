@@ -176,7 +176,8 @@ private theorem exp_one_ge_two : (2 : ℝ) ≤ Real.exp 1 := by
 
 private theorem abs_le_of_mem_uIcc {x t : ℝ} (hx : x ∈ uIcc 0 t) : |x| ≤ |t| := by
   rcases mem_uIcc.1 hx with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;>
-    exact abs_le.2 ⟨by linarith [abs_nonneg t, neg_abs_le t], by linarith [abs_nonneg t, le_abs_self t]⟩
+    exact abs_le.2 ⟨by linarith [abs_nonneg t, neg_abs_le t],
+      by linarith [abs_nonneg t, le_abs_self t]⟩
 
 /-- `‖ω‖ · (|t| η/(e s)) ≤ m r²/24` from the time bound. -/
 private theorem term_arith {m r s η eω ep t Ω : ℝ} (hm : 0 < m) (hr : 0 < r) (hs : 0 < s)
@@ -434,7 +435,7 @@ theorem resonant_lemma1 (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ)
           KAM.Nekhoroshev.euclid ((z t).2 - (z 0).2) ≤ r - resRho δ M := by
   intro J hJ h0 z hz hadm t ht hT
   by_contra hlt
-  push_neg at hlt
+  rw [not_le] at hlt
   obtain ⟨ts, hts, hle, hts0, hmax, heq⟩ := rs_exit hRS hJ h0 hz ht hlt
   refine no_exit hRS hJ h0 hz hadm hts hts0 ⟨hmax, heq⟩ (fun a ha => ?_) ?_
   · exact hconv _ (seg_mem hadm heq.le a ha) _
@@ -454,7 +455,7 @@ theorem resonant_lemma2 (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) {ℓ 
   intro J hJ h0 z hz hz0 t ht hT
   rw [← hz0] at hI₀ hΩ ⊢
   by_contra hlt
-  push_neg at hlt
+  rw [not_le] at hlt
   obtain ⟨P, hP, hPV, hPid⟩ := exists_orthProj (resSpan Λ)
   have hM := M_pos hRS
   have hρ := resRho_pos hRS
@@ -464,7 +465,8 @@ theorem resonant_lemma2 (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) {ℓ 
   have hmr : m * r ≤ 2 * ℓ := by
     have := (le_div_iff₀ hm).1 hR1
     linarith
-  have hΩ0 : 0 ≤ Ω := (euclid_nonneg' _).trans (hΩ (z 0).2 (by simp [KAM.Nekhoroshev.euclid]; linarith))
+  have hΩ0 : 0 ≤ Ω :=
+    (euclid_nonneg' _).trans (hΩ (z 0).2 (by simp [KAM.Nekhoroshev.euclid]; linarith))
   obtain ⟨ts, hts, hle, hts0, hmax, heq⟩ := rs_exit hRS hJ h0 hz ht hlt
   have hbΩ : |ts| * Ω * η ≤ s * m * r ^ 2 / 12 := by
     have h1 : 0 ≤ Ω * η := mul_nonneg hΩ0 hRS.η_nonneg
