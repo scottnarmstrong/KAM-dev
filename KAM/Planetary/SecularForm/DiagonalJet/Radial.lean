@@ -241,7 +241,7 @@ theorem iteratedDeriv_two_radialH_of_gt {a b : ℝ} (hb : 0 < b) (hba : b < a) :
     have hq := hp.mul hp
     have h4 := ((hb2.mul (hq.const_mul γ))).const_mul a⁻¹
     exact h4.congr_deriv (g' := a⁻¹ * (γ ^ 2 * iteratedDeriv 2 β γ + 2 * γ * deriv β γ))
-      (by simp only [Function.comp, Pi.mul_apply, sub_zero, inv_one, hβ]; ring)
+      (by simp only [Function.comp, Pi.mul_apply, sub_zero, inv_one, hβ]; ring_nf)
   have hfin : iteratedDeriv 2 (radialH a b) 0 = deriv (deriv E) 0 := by
     rw [laplace_half_deriv2_eq, hEq.deriv.deriv_eq]
   rw [hfin, hE1.deriv_eq, hE2.deriv]
