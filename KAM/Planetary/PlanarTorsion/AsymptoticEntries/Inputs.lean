@@ -129,7 +129,11 @@ theorem as_in (hp : p.Valid) :
       (fun α => p11c_Q p ![α, 1] 0 1) =O[𝓝[>] 0] (fun α : ℝ => α ^ (11 / 4 : ℝ)) ∧
       (∀ᶠ α : ℝ in 𝓝[>] 0, p11c_Q p ![α, 1] 0 0 - p11c_Q p ![α, 1] 1 1 < 0) ∧
       (fun α => (p11c_Q p ![α, 1] 0 0 - p11c_Q p ![α, 1] 1 1) / p11c_Q p ![α, 1] 0 0 - 1)
-        =O[𝓝[>] 0] (fun α : ℝ => α ^ (1 / 2 : ℝ)) := by
+        =O[𝓝[>] 0] (fun α : ℝ => α ^ (1 / 2 : ℝ)) ∧
+      (fun α => p.G * p.m 0 * p.m 1 / 4 * α * p11c_laplace (3 / 2) 1 α -
+          3 / 8 * p.G * p.m 0 * p.m 1 * α ^ (2 : ℝ)) =O[𝓝[>] 0] (fun α : ℝ => α ^ (4 : ℝ)) ∧
+      (fun α => p.G * p.m 0 * p.m 1 / 4 * α * p11c_laplace (3 / 2) 2 α -
+          15 / 32 * p.G * p.m 0 * p.m 1 * α ^ (3 : ℝ)) =O[𝓝[>] 0] (fun α : ℝ => α ^ (5 : ℝ)) := by
   have hk : 0 < p.kappa := mul_pos hp.1 hp.2.1
   have hsk : 0 < √p.kappa := Real.sqrt_pos.2 hk
   have hk1 : 0 < 3 * p.G * p.m 1 / (8 * √p.kappa) := by
@@ -185,7 +189,23 @@ theorem as_in (hp : p.Valid) :
     hinv.congr' EventuallyEq.rfl (p11cAe_pos.mono fun a ha => by
       exact (Real.rpow_neg ha.le _).symm)
   have P5 := p11cAe_congr_exp (s := 1 / 2) (by norm_num) (p11cAe_mul hQ11.neg_left hinv')
-  refine ⟨P1, P2, P3, P4, P5.congr' ?_ EventuallyEq.rfl⟩
+  have P6 : (fun α => p.G * p.m 0 * p.m 1 / 4 * α * p11c_laplace (3 / 2) 1 α -
+      3 / 8 * p.G * p.m 0 * p.m 1 * α ^ (2 : ℝ)) =O[𝓝[>] 0] (fun α : ℝ => α ^ (4 : ℝ)) := by
+    have h := p11cAe_congr_exp (s := 4) (by norm_num)
+      ((p11cAe_mul p11cAe_id p11cAe_b1).const_mul_left (p.G * p.m 0 * p.m 1 / 4))
+    refine h.congr' ?_ EventuallyEq.rfl
+    filter_upwards [p11cAe_pos] with a ha
+    rw [Real.rpow_two]
+    ring
+  have P7 : (fun α => p.G * p.m 0 * p.m 1 / 4 * α * p11c_laplace (3 / 2) 2 α -
+      15 / 32 * p.G * p.m 0 * p.m 1 * α ^ (3 : ℝ)) =O[𝓝[>] 0] (fun α : ℝ => α ^ (5 : ℝ)) := by
+    have h := p11cAe_congr_exp (s := 5) (by norm_num)
+      ((p11cAe_mul p11cAe_id p11cAe_b2).const_mul_left (p.G * p.m 0 * p.m 1 / 4))
+    refine h.congr' ?_ EventuallyEq.rfl
+    filter_upwards [p11cAe_pos] with a ha
+    rw [show (3 : ℝ) = ((3 : ℕ) : ℝ) by norm_num, Real.rpow_natCast]
+    ring
+  refine ⟨P1, P2, P3, P4, P5.congr' ?_ EventuallyEq.rfl, P6, P7⟩
   filter_upwards [hlow0, p11cAe_pos] with a ha h0
   have : 0 < 3 * p.G * p.m 1 / (8 * √p.kappa) / 2 * a ^ (3 / 2 : ℝ) :=
     mul_pos (half_pos hk1) (Real.rpow_pos_of_pos h0 _)

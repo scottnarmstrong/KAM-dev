@@ -42,8 +42,8 @@ theorem as_ent (p : PlanarData) (hp : p.Valid) :
         =O[𝓝[>] 0] (fun α : ℝ => α ^ (7 / 2 : ℝ)) ∧
       (fun α => p11c_beta p ![α, 1] 1 1 + 3 * p.m 0 / (p.m0 * p.m 1) * α ^ (2 : ℝ))
         =O[𝓝[>] 0] (fun α : ℝ => α ^ (4 : ℝ)) := by
-  obtain ⟨ac0, ac1, ac2, ac3, ac4, ac5⟩ := as_c p hp
-  obtain ⟨key, hw, hv⟩ := as_pi p hp
+  obtain ⟨ac0, ac1, ac2, ac3, ac4, ac5, -⟩ := as_c p hp
+  obtain ⟨key, hw, hv, -⟩ := as_pi p hp
   have hc0 : (fun α => p11c_coeffs p ![α, 1] 0) =O[𝓝[>] 0] fun α : ℝ => α ^ (1 : ℝ) :=
     p11cAe_lead_isBigO (c := 3 * p.m 1 / (32 * p.m0 * p.m 0)) (r := 1) (s := 3) (by norm_num)
       (by simpa using ac0)

@@ -82,7 +82,9 @@ theorem as_pi (p : PlanarData) (hp : p.Valid) :
           p11c_Q p ![α, 1] 0 1 ^ 2 / (p11c_Q p ![α, 1] 0 0 - p11c_Q p ![α, 1] 1 1) ^ 2 ∧
       p11c_projector p ![α, 1] 0 0 = 1 - p11c_projector p ![α, 1] 1 1) ∧
     (fun α => p11c_projector p ![α, 1] 0 1) =O[𝓝[>] 0] (fun α : ℝ => α ^ (5 / 4 : ℝ)) ∧
-    (fun α => p11c_projector p ![α, 1] 1 1) =O[𝓝[>] 0] (fun α : ℝ => α ^ (5 / 2 : ℝ)) := by
+    (fun α => p11c_projector p ![α, 1] 1 1) =O[𝓝[>] 0] (fun α : ℝ => α ^ (5 / 2 : ℝ)) ∧
+    (∀ᶠ α : ℝ in 𝓝[>] 0, p11c_projector p ![α, 1] 0 1 = -p11c_Q p ![α, 1] 0 1 /
+      √((p11c_Q p ![α, 1] 0 0 - p11c_Q p ![α, 1] 1 1) ^ 2 + 4 * p11c_Q p ![α, 1] 0 1 ^ 2)) := by
   obtain ⟨-, -, hQ01, hneg, -⟩ := as_in p hp
   obtain ⟨k, hk, hlow⟩ := p11cAe_delta_lower p hp
   have hD : (fun a : ℝ => a ^ (3 / 2 : ℝ)) =O[𝓝[>] 0]
@@ -126,7 +128,7 @@ theorem as_pi (p : PlanarData) (hp : p.Valid) :
         nlinarith [mul_nonneg h1 (show 0 ≤ R - 2 * Δ by linarith)]
       nlinarith [mul_nonneg h1 h2]
     · linarith
-  refine ⟨key, ?_, ?_⟩
+  refine ⟨key, ?_, ?_, hneg.mono fun a hΔ => (p11cAe_proj_exact p hΔ).1⟩
   · refine (IsBigO.of_bound 1 (key.mono fun a ha => ?_)).trans hw
     rw [Real.norm_eq_abs, Real.norm_eq_abs, abs_mul, abs_inv, one_mul, ← div_eq_mul_inv]
     exact ha.1
