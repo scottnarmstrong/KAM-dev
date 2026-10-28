@@ -144,17 +144,20 @@ theorem MultiData.hstage (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ) {l
     exact mul_le_of_le_one_right hc0 (pow_le_one₀ (by norm_num) (by norm_num))
 
 /-- `Q₀ ≥ P/64` and `b E / Q₀ ≤ 1/(64 κ)`. -/
-theorem MultiData.first_facts (M : MultiData r rp rq s K α E κ N m) :
+theorem first_facts (hr : 0 < r) (hrp : 0 < rp) (hrq : 0 < rq) (hs : 0 < s) (hα : 0 < α)
+    (hE : 0 ≤ E) (hκ6 : 6 ≤ κ)
+    (hEP : 4096 * (1 + (m : ℝ)) * E * κ ≤ 2 * π * α * min (r * s) (rp * rq)) :
     0 < 2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) ∧
     2 * π * α * min (r * s) (rp * rq) / 64 ≤
       2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) ∧
     (1 + (m : ℝ)) * E / (2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8))) ≤
       1 / (64 * κ) := by
-  have hr := M.hr; have hrp := M.hrp; have hrq := M.hrq; have hs := M.hs; have hα := M.hα
   have hπ := Real.pi_pos
-  have hP0 := M.hP
-  have hb0 : 0 < 1 + (m : ℝ) := by linarith [M.hb]
-  have hκ0 : 0 < κ := by linarith [M.hκ6]
+  have hP0 : 0 < 2 * π * α * min (r * s) (rp * rq) := by
+    have : 0 < min (r * s) (rp * rq) := lt_min (by positivity) (by positivity)
+    positivity
+  have hb0 : 0 < 1 + (m : ℝ) := by have : (0 : ℝ) ≤ m := Nat.cast_nonneg m; linarith
+  have hκ0 : 0 < κ := by linarith
   have hd0 : 0 < min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) :=
     lt_min (by positivity) (by positivity)
   have hQ0 : 0 < 2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) := by positivity
@@ -171,12 +174,19 @@ theorem MultiData.first_facts (M : MultiData r rp rq s K α E κ N m) :
       64 * (1 + (m : ℝ)) * E / (2 * π * α * min (r * s) (rp * rq)) := by
     rw [div_le_div_iff₀ hQ0 hP0]
     have h2 := (div_le_iff₀ (by norm_num : (0 : ℝ) < 64)).1 hQP
-    have : 0 ≤ (1 + (m : ℝ)) * E := by have := M.hE; positivity
+    have : 0 ≤ (1 + (m : ℝ)) * E := by positivity
     nlinarith
   refine h1.trans ?_
   rw [div_le_div_iff₀ hP0 (by positivity)]
-  have := M.hEP
   nlinarith
+
+theorem MultiData.first_facts (M : MultiData r rp rq s K α E κ N m) :
+    0 < 2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) ∧
+    2 * π * α * min (r * s) (rp * rq) / 64 ≤
+      2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) ∧
+    (1 + (m : ℝ)) * E / (2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8))) ≤
+      1 / (64 * κ) :=
+  _root_.KAM.Planetary.first_facts M.hr M.hrp M.hrq M.hs M.hα M.hE M.hκ6 M.hEP
 
 theorem MultiData.step_zero (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ)
     (hA : Real.exp (-κ / 6) ≤ 2 * ((1 + (m : ℝ)) * E /
@@ -259,6 +269,105 @@ theorem MultiData.small (M : MultiData r rp rq s K α E κ N m) (sbar : ℝ) {i 
     nlinarith [oEps_nonneg M.hE M.hc0 (l + 1)]
 
 end Stages
+
+section Final
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)} {r rp rq sbar s K α E : ℝ} {h : (Fin n → ℂ) → ℂ}
+  {f : CHam (n + m)}
+
+theorem oscGood_multi (H : OscHyp D r rp rq sbar s K α E h f)
+    (hA : Real.exp (-(2 * π * K * s) / 6) ≤ 2 * ((1 + (m : ℝ)) * E /
+        (2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8))))) :
+    OscGood D r rp rq sbar s K α E h f := by
+  obtain ⟨hr, hrp, hrq, hs, hK, hα⟩ := H.positive
+  have hE := H.E_nonneg
+  have hsb := H.sbar_nonneg
+  have hπ := Real.pi_pos
+  have hbud := H.budget
+  have hEP := osc_E_le H
+  have hb : (1 : ℝ) ≤ 1 + (m : ℝ) := by have : (0 : ℝ) ≤ m := Nat.cast_nonneg m; linarith
+  have hQ0 : 0 < 2 * π * α * min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) := by
+    have : 0 < min (r / 8 * (s / 6)) (rp / 8 * (rq / 8)) :=
+      lt_min (by positivity) (by positivity)
+    positivity
+  have hκ0 : 0 < 2 * π * K * s := by linarith
+  obtain ⟨-, -, ht⟩ := first_facts hr hrp hrq hs hα hE hbud hEP
+  have hq16 : Real.exp (-(2 * π * K * s / 6)) ≤ 1 / 16 := by
+    rw [← neg_div]
+    refine hA.trans ?_
+    have := mul_le_mul_of_nonneg_left ht (by norm_num : (0 : ℝ) ≤ 2)
+    have h316 : 2 * (1 / (64 * (2 * π * K * s))) ≤ 1 / 16 := by
+      rw [← mul_div_assoc, div_le_div_iff₀ (by positivity) (by norm_num)]; nlinarith
+    linarith
+  have hN1 := steps_pos hq16
+  have hlt := steps_lt hκ0
+  have hle := steps_le hκ0
+  have hgt := steps_succ_gt (κ := 2 * π * K * s)
+  generalize ⌊2 * π * K * s / (12 * Real.log 2)⌋₊ = N at hN1 hlt hle hgt
+  have hNr1 : (1 : ℝ) ≤ N := by exact_mod_cast hN1
+  have M : MultiData r rp rq s K α E (2 * π * K * s) N m :=
+    ⟨hr, hrp, hrq, hs, hα, hE, rfl, hbud, hNr1, by linarith, hle, hEP⟩
+  have hqE : (1 / 4 : ℝ) ^ (N + 1) < Real.exp (-(2 * π * K * s / 6)) := quarter_pow_lt hgt
+  have hc0 := M.hc0
+  have hc1 := M.hc1
+  have hN0 := M.hN0
+  have hnc : (N : ℝ) * firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq)) ≤ E / 100 :=
+    oEps_n hκ0 hE hc1 (by linarith)
+  have hε := oEps_nonneg hE hc0
+  refine ⟨multiOSched r rp rq (sbar + s) s N,
+    oEps E (firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq))), N, ?_, rfl, rfl, rfl,
+    rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · refine oiter_of_hyp H (multiOSched r rp rq (sbar + s) s N) rfl rfl rfl rfl _
+      (by rw [oEps_zero]) N ?_ (fun i _ => hε i) (fun i hi => M.small sbar (by exact_mod_cast hi))
+      (fun i hi => ?_)
+    · intro i hi
+      have hiN : (i : ℝ) ≤ N := by exact_mod_cast hi
+      exact ⟨(multi_width_ρ hr hNr1 hiN).1, (multi_width_ρ hr hNr1 hiN).2,
+        (multi_width_ρ hrp hNr1 hiN).1, (multi_width_ρ hrp hNr1 hiN).2,
+        (multi_width_ρ hrq hNr1 hiN).1, (multi_width_ρ hrq hNr1 hiN).2,
+        (multi_width_σ hs hNr1 (by linarith) hiN).1, (multi_width_σ hs hNr1 (by linarith) hiN).2⟩
+    · rcases i with _ | l
+      · exact M.step_zero sbar hA
+      · exact M.step_succ sbar (l := l) (by exact_mod_cast hi)
+  · show r / 2 ≤ (multiSched r (sbar + s) s N).R (N + 1)
+    rw [multi_R_closed]; apply le_of_eq; field_simp; ring
+  · show rp / 2 ≤ (multiSched rp (sbar + s) s N).R (N + 1)
+    rw [multi_R_closed]; apply le_of_eq; field_simp; ring
+  · show rq / 2 ≤ (multiSched rq (sbar + s) s N).R (N + 1)
+    rw [multi_R_closed]; apply le_of_eq; field_simp; ring
+  · show sbar + s / 6 ≤ (multiSched r (sbar + s) s N).S (N + 1)
+    rw [multi_S_closed]; apply le_of_eq; field_simp; ring
+  · show oEps E _ (N + 1) ≤ Real.exp (-(2 * π * K * s) / 6) * E
+    rw [oEps_succ]
+    have h8 : firstEps (1 + (m : ℝ)) E (2 * π * α * min (r * s) (rp * rq)) ≤ E / 4 := by
+      refine hc1.trans ?_
+      rw [div_le_div_iff₀ (by positivity) (by norm_num)]
+      have := mul_nonneg hE (by linarith : (0 : ℝ) ≤ 4096 * (2 * π * K * s) - 1172)
+      linarith
+    have := mul_le_mul_of_nonneg_right h8 (by positivity : (0 : ℝ) ≤ (1 / 4) ^ N)
+    have h9 : E / 4 * (1 / 4) ^ N = (1 / 4) ^ (N + 1) * E := by ring
+    have h10 : (1 / 4 : ℝ) ^ (N + 1) * E ≤ Real.exp (-(2 * π * K * s) / 6) * E := by
+      rw [neg_div]; exact mul_le_mul_of_nonneg_right hqE.le hE
+    linarith
+  · refine (oEps_tail_sum hc0 N).trans ?_
+    unfold firstEps
+    have : 4 / 3 * (293 * (1 + (m : ℝ)) * E ^ 2 / (2 * π * α * min (r * s) (rp * rq))) =
+        (4 / 3 * 293) * ((1 + (m : ℝ)) * E ^ 2) / (2 * π * α * min (r * s) (rp * rq)) := by ring
+    rw [this]
+    have e : 400 * (1 + (m : ℝ)) * E ^ 2 = 400 * ((1 + (m : ℝ)) * E ^ 2) := by ring
+    rw [e]
+    have hbE : 0 ≤ (1 + (m : ℝ)) * E ^ 2 := mul_nonneg (by linarith) (sq_nonneg E)
+    exact div_le_div_of_nonneg_right (by nlinarith) M.hP.le
+  · exact oEps_disp_σ (a := 2 * π * α) (s := s) (n := N) (by positivity) hs hN1 hE hc0 hnc r
+      (sbar + s)
+  · exact oEps_disp_ρ (a := 2 * π * α) (s := s) (n := N) (by positivity) hr hN1 hE hc0 hnc
+      (sbar + s)
+  · exact oEps_disp_ρ (a := 2 * π * α) (s := s) (n := N) (by positivity) hrq hN1 hE hc0 hnc
+      (sbar + s)
+  · exact oEps_disp_ρ (a := 2 * π * α) (s := s) (n := N) (by positivity) hrp hN1 hE hc0 hnc
+      (sbar + s)
+
+end Final
 
 end Multi
 
