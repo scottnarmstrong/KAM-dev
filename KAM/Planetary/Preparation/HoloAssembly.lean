@@ -100,7 +100,8 @@ theorem holo_chart {n : ℕ} (D : P11Physical n) :
   have hB1 : 1 ≤ B := d.one_le_Brho
   have hB'1 : 1 ≤ B' := d.one_le_Bdrho
   have hn1 : (1 : ℝ) ≤ n := by exact_mod_cast hn
-  set rz : ℝ := min 1 (min (r' / (2 * B)) (min (π * σ' / (2 * n * B')) (min 1 (p11PhysicalDelta D) / B)))
+  set rz : ℝ := min 1 (min (r' / (2 * B))
+    (min (π * σ' / (2 * n * B')) (min 1 (p11PhysicalDelta D) / B)))
     with hrz
   have hrz0 : 0 < rz := lt_min one_pos (lt_min (by positivity)
     (lt_min (by positivity) (div_pos (lt_min one_pos hδ) (by positivity))))
@@ -230,7 +231,8 @@ theorem total_chart_transport {n : ℕ} (D : P11Physical n)
   obtain ⟨hAn, hSy, -, hLat, hInj, -⟩ := (holo_chart D).choose_spec.1.chart_part
   obtain ⟨tAn, tSy, tLat, tInj⟩ := (total_chart (n := n))
   have hO' : O ⊆ {z : Phase (n + n) | ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)} := hpos
-  have hdiffP : ∀ z ∈ O, DifferentiableAt ℝ p11PolarR z := fun z hz => (tAn z (hO' hz)).differentiableAt
+  have hdiffP : ∀ z ∈ O, DifferentiableAt ℝ p11PolarR z := fun z hz =>
+    (tAn z (hO' hz)).differentiableAt
   refine ⟨hAn.comp (tAn.mono hO') hmap, ?_, ?_, ?_⟩
   · have := KAM.Kepler.IsSymplecticOn.comp (fun z hz => tSy z (hO' hz)) hSy hdiffP
       (fun w hw => (hAn w hw).differentiableAt) hmap
