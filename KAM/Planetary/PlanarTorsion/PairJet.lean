@@ -73,12 +73,18 @@ theorem p11cPJ_diag_avg {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) {j : ℕ} (hj : j
           p11cPJcoeff (p11cPJrot a ((w.1 0 : ℂ) + Complex.I * (w.2 0 : ℂ))
             ((w.1 0 : ℂ) - Complex.I * (w.2 0 : ℂ)) ((w.1 1 : ℂ) + Complex.I * (w.2 1 : ℂ))
             ((w.1 1 : ℂ) - Complex.I * (w.2 1 : ℂ)) l) j := by
+  have key : ∀ l : Fin 2 → ℝ,
+      ((iteratedFDeriv ℝ j (p11cPJF a l) 0 (fun _ => w) : ℝ) : ℂ) =
+        (j.factorial : ℂ) * p11cPJcoeff (p11cPJrot a ((w.1 0 : ℂ) + Complex.I * (w.2 0 : ℂ))
+          ((w.1 0 : ℂ) - Complex.I * (w.2 0 : ℂ)) ((w.1 1 : ℂ) + Complex.I * (w.2 1 : ℂ))
+          ((w.1 1 : ℂ) - Complex.I * (w.2 1 : ℂ)) l) j := fun l =>
+    p11cPJ_diag_coeff (p11cPJF_analyticAt ha l) w (p11cPJ_ray ha l w) j hj
   rw [p11cPJ_diag_integral ha hj w]
   push_cast
-  rw [← integral_ofReal, mul_assoc, ← integral_const_mul]
-  congr 1
-  refine integral_congr_ae (Filter.Eventually.of_forall fun l => ?_)
-  exact p11cPJ_diag_coeff (p11cPJF_analyticAt ha l) w (p11cPJ_ray ha l w) j hj
+  rw [← integral_complex_ofReal]
+  simp_rw [key]
+  rw [integral_const_mul]
+  ring
 
 /-- The diagonal derivatives of the pair jet. -/
 theorem p11cPJ_diag_jet (a : ℝ) {j : ℕ} (hj : j ≤ 4) (w : Phase 2) :
@@ -119,8 +125,7 @@ theorem pair_jet (a : ℝ) (ha : a ∈ Ioo (0 : ℝ) 1) :
     interval_cases j
     · simp only [p11cPJcoeff, p11cPJrot, Nat.factorial_zero, Nat.cast_one, one_mul]
       rw [p11cPJ_avg0 ha ζ1 ζb1 ζ2 ζb2]
-      rw [mul_assoc, hc]
-      simp
+      linear_combination (((p11c_laplace (1 / 2) 0 a : ℝ) : ℂ)) * hc
     · exact absurd hje (by decide)
     · simp only [p11cPJcoeff, p11cPJrot]
       have h2 := p11cPJ_avg2 ha ζ1 ζb1 ζ2 ζb2
