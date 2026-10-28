@@ -411,6 +411,194 @@ theorem oscBound_of_flat {r rp rq S M : ℝ} {g : CHam (n + m)}
 
 end OscTransport
 
+section OscLines
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)}
+
+theorem norm_smul_single {N : ℕ} (t : ℂ) (i : Fin N) :
+    ‖t • (Pi.single i 1 : Fin N → ℂ)‖ = ‖t‖ := by
+  rw [norm_smul, Pi.norm_single, norm_one, mul_one]
+
+theorem mem_actionNbhd_add {I : Fin n → ℂ} {a R : ℝ} (hI : I ∈ KAM.actionNbhd D a) (j : Fin n)
+    {t : ℂ} (ht : ‖t‖ < R) : I + t • Pi.single j 1 ∈ KAM.actionNbhd D (a + R) := by
+  obtain ⟨J, hJ, h⟩ := hI
+  refine ⟨J, hJ, ?_⟩
+  calc ‖I + t • Pi.single j 1 - fun i => (J i : ℂ)‖
+      = ‖(I - fun i => (J i : ℂ)) + t • (Pi.single j 1 : Fin n → ℂ)‖ := by congr 1; abel
+    _ ≤ ‖I - fun i => (J i : ℂ)‖ + ‖t • (Pi.single j 1 : Fin n → ℂ)‖ := norm_add_le _ _
+    _ < a + R := by rw [norm_smul_single]; linarith
+
+/-- Moving the point along an `I` coordinate by less than `R` enlarges `r` by `R`. -/
+theorem line_I {a b c R : ℝ} {x : Fin (n + (m + m)) → ℂ} (hx : x ∈ oscParams (m := m) D a b c)
+    (j : Fin n) {t : ℂ} (ht : ‖t‖ < R) :
+    x + t • Pi.single (Fin.castAdd (m + m) j) 1 ∈ oscParams (m := m) D (a + R) b c := by
+  obtain ⟨h1, h2, h3⟩ := hx
+  have e1 : firstBlock (b := m + m) (x + t • (Pi.single (Fin.castAdd (m + m) j) 1 :
+      Fin (n + (m + m)) → ℂ)) = firstBlock (b := m + m) x + t • Pi.single j 1 := by
+    funext i
+    simp [firstBlock, Pi.single_apply]
+  have e2 : lastBlock (a := n) (x + t • (Pi.single (Fin.castAdd (m + m) j) 1 :
+      Fin (n + (m + m)) → ℂ)) = lastBlock (a := n) x := by
+    funext i
+    simp only [lastBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
+      Fin.val_castAdd, Fin.val_natAdd]
+    rw [if_neg (by omega)]
+    simp
+  refine ⟨?_, ?_, ?_⟩
+  · rw [e1]; exact mem_actionNbhd_add h1 j ht
+  · rw [e2]; exact h2
+  · rw [e2]; exact h3
+
+theorem line_p {a b c R : ℝ} {x : Fin (n + (m + m)) → ℂ} (hx : x ∈ oscParams (m := m) D a b c)
+    (j : Fin m) {t : ℂ} (ht : ‖t‖ < R) :
+    x + t • Pi.single (Fin.natAdd n (Fin.castAdd m j)) 1 ∈ oscParams (m := m) D a (b + R) c := by
+  obtain ⟨h1, h2, h3⟩ := hx
+  have e1 : firstBlock (b := m + m) (x + t • (Pi.single (Fin.natAdd n (Fin.castAdd m j)) 1 :
+      Fin (n + (m + m)) → ℂ)) = firstBlock (b := m + m) x := by
+    funext i
+    simp only [firstBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
+      Fin.val_castAdd, Fin.val_natAdd]
+    rw [if_neg (by omega)]
+    simp
+  have e2 : firstBlock (b := m) (lastBlock (a := n) (x + t • (Pi.single
+      (Fin.natAdd n (Fin.castAdd m j)) 1 : Fin (n + (m + m)) → ℂ))) =
+      firstBlock (b := m) (lastBlock (a := n) x) + t • Pi.single j 1 := by
+    funext i
+    simp [firstBlock, lastBlock, Pi.single_apply, Fin.ext_iff]
+  have e3 : lastBlock (a := m) (lastBlock (a := n) (x + t • (Pi.single
+      (Fin.natAdd n (Fin.castAdd m j)) 1 : Fin (n + (m + m)) → ℂ))) =
+      lastBlock (a := m) (lastBlock (a := n) x) := by
+    funext i
+    simp only [lastBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
+      Fin.val_castAdd, Fin.val_natAdd]
+    rw [if_neg (by omega)]
+    simp
+  refine ⟨?_, ?_, ?_⟩
+  · rw [e1]; exact h1
+  · rw [e2]
+    calc ‖firstBlock (b := m) (lastBlock (a := n) x) + t • (Pi.single j 1 : Fin m → ℂ)‖
+        ≤ ‖firstBlock (b := m) (lastBlock (a := n) x)‖ + ‖t • (Pi.single j 1 : Fin m → ℂ)‖ :=
+          norm_add_le _ _
+      _ < b + R := by rw [norm_smul_single]; linarith
+  · rw [e3]; exact h3
+
+theorem line_q {a b c R : ℝ} {x : Fin (n + (m + m)) → ℂ} (hx : x ∈ oscParams (m := m) D a b c)
+    (j : Fin m) {t : ℂ} (ht : ‖t‖ < R) :
+    x + t • Pi.single (Fin.natAdd n (Fin.natAdd m j)) 1 ∈ oscParams (m := m) D a b (c + R) := by
+  obtain ⟨h1, h2, h3⟩ := hx
+  have e1 : firstBlock (b := m + m) (x + t • (Pi.single (Fin.natAdd n (Fin.natAdd m j)) 1 :
+      Fin (n + (m + m)) → ℂ)) = firstBlock (b := m + m) x := by
+    funext i
+    simp only [firstBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
+      Fin.val_castAdd, Fin.val_natAdd]
+    rw [if_neg (by omega)]
+    simp
+  have e2 : firstBlock (b := m) (lastBlock (a := n) (x + t • (Pi.single
+      (Fin.natAdd n (Fin.natAdd m j)) 1 : Fin (n + (m + m)) → ℂ))) =
+      firstBlock (b := m) (lastBlock (a := n) x) := by
+    funext i
+    simp only [firstBlock, lastBlock, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Fin.ext_iff,
+      Fin.val_castAdd, Fin.val_natAdd]
+    rw [if_neg (by omega)]
+    simp
+  have e3 : lastBlock (a := m) (lastBlock (a := n) (x + t • (Pi.single
+      (Fin.natAdd n (Fin.natAdd m j)) 1 : Fin (n + (m + m)) → ℂ))) =
+      lastBlock (a := m) (lastBlock (a := n) x) + t • Pi.single j 1 := by
+    funext i
+    simp [lastBlock, Pi.single_apply, Fin.ext_iff]
+  refine ⟨?_, ?_, ?_⟩
+  · rw [e1]; exact h1
+  · rw [e2]; exact h2
+  · rw [e3]
+    calc ‖lastBlock (a := m) (lastBlock (a := n) x) + t • (Pi.single j 1 : Fin m → ℂ)‖
+        ≤ ‖lastBlock (a := m) (lastBlock (a := n) x)‖ + ‖t • (Pi.single j 1 : Fin m → ℂ)‖ :=
+          norm_add_le _ _
+      _ < c + R := by rw [norm_smul_single]; linarith
+
+end OscLines
+
+section ObDer
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)}
+
+/-- A directional action derivative, with its own loss `R`. -/
+theorem ob_der_dir {r₀ rp₀ rq₀ S₀ r' rp' rq' S' A R : ℝ} {u : CHam (n + m)}
+    (hu : oscClass D r₀ rp₀ rq₀ S₀ u) (hA : oscBound D r₀ rp₀ rq₀ S₀ u A) (hpos : 0 < S')
+    (hSS : S' < S₀) (hR : 0 < R) (a : CPhase (n + m)) (i : Fin (n + (m + m)))
+    (ha : oscPack a = (0, Pi.single i 1))
+    (hline : ∀ x ∈ oscParams (m := m) D r' rp' rq', ∀ t : ℂ, ‖t‖ < R →
+      x + t • (Pi.single i 1 : Fin (n + (m + m)) → ℂ) ∈ oscParams (m := m) D r₀ rp₀ rq₀) :
+    oscBound D r' rp' rq' S' (fun z => fderiv ℂ u z a) (A / R) := by
+  have hS₀ : 0 < S₀ := hpos.trans hSS
+  have hb := wsum_dI_le_on (isOpen_oscParams (m := m) D r₀ rp₀ rq₀) hS₀ hSS.le hu.flat hA i hR hline
+  refine oscBound_of_flat hpos (G := dI i (oscFunction u)) (fun y hy => ?_) hb
+  have hsub : oscParams (m := m) D r' rp' rq' ⊆ oscParams D r₀ rp₀ rq₀ := fun x hx => by
+    simpa using hline x hx 0 (by simpa using hR)
+  have hy' : y ∈ KAM.complexStrip n S₀ ×ˢ oscParams (m := m) D r₀ rp₀ rq₀ :=
+    ⟨fun j => (hy.1 j).trans hSS, hsub hy.2⟩
+  have := fderiv_oscFunction hu hy' a
+  rw [ha] at this
+  exact this.symm
+
+theorem ob_der_theta {r₀ rp₀ rq₀ S₀ r' rp' rq' S' A : ℝ} {u : CHam (n + m)}
+    (hu : oscClass D r₀ rp₀ rq₀ S₀ u) (hA : oscBound D r₀ rp₀ rq₀ S₀ u A) (hpos : 0 < S')
+    (hSS : S' < S₀) (hsub : oscParams (m := m) D r' rp' rq' ⊆ oscParams D r₀ rp₀ rq₀) (j : Fin n) :
+    oscBound D r' rp' rq' S' (fun z => fderiv ℂ u z (Pi.single (Fin.castAdd m j) 1, 0))
+      (A / (Real.exp 1 * (S₀ - S'))) := by
+  have hS₀ : 0 < S₀ := hpos.trans hSS
+  refine oscBound_of_flat hpos (G := dtheta j (oscFunction u)) (fun y hy => ?_) (fun x hx => ?_)
+  · have hy' : y ∈ KAM.complexStrip n S₀ ×ˢ oscParams (m := m) D r₀ rp₀ rq₀ :=
+      ⟨fun j => (hy.1 j).trans hSS, hsub hy.2⟩
+    have := fderiv_oscFunction hu hy' (Pi.single (Fin.castAdd m j) 1, 0)
+    rw [oscPack_theta] at this
+    exact this.symm
+  · obtain ⟨h1, h2⟩ := wsum_dtheta_le (isOpen_oscParams (m := m) D r₀ rp₀ rq₀) hu.flat hA hpos
+      hSS (hsub hx)
+    refine ⟨h1 j, (Finset.single_le_sum (f := fun j' => wsum (dtheta j' (oscFunction u)) S' x)
+      (fun j' _ => tsum_nonneg fun k => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le)
+      (Finset.mem_univ j)).trans h2⟩
+
+theorem ob_der {r₀ rp₀ rq₀ S₀ r rp rq S ρ ρp ρq σ A : ℝ} {u : CHam (n + m)}
+    (hu : oscClass D r₀ rp₀ rq₀ S₀ u) (hA : oscBound D r₀ rp₀ rq₀ S₀ u A)
+    (hpos : 0 < r - ρ ∧ 0 < rp - ρp ∧ 0 < rq - ρq ∧ 0 < S - σ)
+    (houter : r - ρ < r₀ ∧ rp - ρp < rp₀ ∧ rq - ρq < rq₀ ∧ S - σ < S₀) :
+    (∀ j : Fin n, oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => fderiv ℂ u z (Pi.single (Fin.castAdd m j) 1, 0)) (A / (exp 1 * (S₀ - S + σ)))) ∧
+    (∀ j : Fin n, oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => fderiv ℂ u z (0, Pi.single (Fin.castAdd m j) 1)) (A / (r₀ - r + ρ))) ∧
+    (∀ j : Fin m, oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => fderiv ℂ u z (0, Pi.single (Fin.natAdd n j) 1)) (A / (rp₀ - rp + ρp))) ∧
+    (∀ j : Fin m, oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => fderiv ℂ u z (Pi.single (Fin.natAdd n j) 1, 0)) (A / (rq₀ - rq + ρq))) := by
+  obtain ⟨hr, hrp, hrq, hS⟩ := hpos
+  obtain ⟨hr₀, hrp₀, hrq₀, hS₀⟩ := houter
+  have hsub : oscParams (m := m) D (r - ρ) (rp - ρp) (rq - ρq) ⊆ oscParams D r₀ rp₀ rq₀ :=
+    oscParams_mono hr₀.le hrp₀.le hrq₀.le
+  refine ⟨fun j => ?_, fun j => ?_, fun j => ?_, fun j => ?_⟩
+  · have h := ob_der_theta hu hA hS hS₀ hsub j
+    have e : S₀ - (S - σ) = S₀ - S + σ := by ring
+    rwa [e] at h
+  · refine ob_der_dir hu hA hS hS₀ (by linarith) _ (Fin.castAdd (m + m) j) (oscPack_I j)
+      (fun x hx t ht => ?_)
+    have h := line_I hx j ht
+    have e : r - ρ + (r₀ - r + ρ) = r₀ := by ring
+    rw [e] at h
+    exact oscParams_mono le_rfl hrp₀.le hrq₀.le h
+  · refine ob_der_dir hu hA hS hS₀ (by linarith) _ (Fin.natAdd n (Fin.castAdd m j)) (oscPack_p j)
+      (fun x hx t ht => ?_)
+    have h := line_p hx j ht
+    have e : rp - ρp + (rp₀ - rp + ρp) = rp₀ := by ring
+    rw [e] at h
+    exact oscParams_mono hr₀.le le_rfl hrq₀.le h
+  · refine ob_der_dir hu hA hS hS₀ (by linarith) _ (Fin.natAdd n (Fin.natAdd m j)) (oscPack_q j)
+      (fun x hx t ht => ?_)
+    have h := line_q hx j ht
+    have e : rq - ρq + (rq₀ - rq + ρq) = rq₀ := by ring
+    rw [e] at h
+    exact oscParams_mono hr₀.le hrp₀.le le_rfl h
+
+end ObDer
+
 end KAM.Planetary
 
 end
