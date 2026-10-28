@@ -457,6 +457,35 @@ theorem lower_lip_of_local {K : Set (Fin a → ℝ)} (hK : IsCompact K)
     have h0 := tendsto_nhds_unique hdiff hzero
     exact hxx' (hinj x hxx.1 x' hxx.2 (sub_eq_zero.1 (norm_eq_zero.1 h0)))
 
+theorem bilip (d : PGData a b) : ∃ rho c0 M0 : ℝ,
+    0 < rho ∧ rho < (pgExtension d).delta/16 ∧ 0 < c0 ∧ 1 ≤ M0 ∧
+    (∀ z ∈ KAM.actionNbhd (closure d.V) rho, ∀ z' ∈ KAM.actionNbhd (closure d.V) rho,
+      c0*‖z-z'‖ ≤ ‖complexFast d z-complexFast d z'‖) ∧
+    (∀ z ∈ KAM.actionNbhd (closure d.V) (2*rho), ‖fderiv ℂ (complexFast d) z‖ ≤ M0) := by
+  have hδ := (pgExtension d).delta_pos
+  have hK : IsCompact (closure d.V) :=
+    Metric.isCompact_of_isClosed_isBounded isClosed_closure d.hVb.closure
+  obtain ⟨-, -, g, -, hginv, -⟩ := d.hfreq
+  have hinj : ∀ x ∈ closure d.V, ∀ x' ∈ closure d.V,
+      complexFast d (KAM.realInclusion a x) = complexFast d (KAM.realInclusion a x') → x = x' := by
+    intro x hx x' hx' h
+    rw [(real_relation d (mem_actionNbhd_real hδ hx)).2,
+      (real_relation d (mem_actionNbhd_real hδ hx')).2] at h
+    have h2 : fastFrequency d.H0 x = fastFrequency d.H0 x' := by
+      ext i
+      have := congrFun h i
+      simpa using this
+    rw [← hginv x (d.hVW hx), ← hginv x' (d.hVW hx'), h2]
+  obtain ⟨rho, c0, hrho, hrho', hc0, hlow⟩ := lower_lip_of_local hK (r := (pgExtension d).delta/16)
+    (by positivity) (by linarith) (differentiableOn_complexFast d).continuousOn hinj
+    (fun x hx => complexFast_local_lower d hx)
+  refine ⟨rho, c0, max 1 (pgExtension d).M0, hrho, hrho', hc0, le_max_left _ _, hlow, ?_⟩
+  intro z hz
+  have hz' : z ∈ KAM.actionNbhd (closure d.V) (pgExtension d).delta := by
+    obtain ⟨J, hJ, hzJ⟩ := hz
+    exact ⟨J, hJ, by linarith⟩
+  exact (norm_fderiv_complexFast_le d hz').trans (le_max_right _ _)
+
 end KAM.Planetary
 
 end
