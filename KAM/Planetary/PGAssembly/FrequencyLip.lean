@@ -68,11 +68,11 @@ theorem norm_embSlow_le (ξ : Fin b → ℂ) : ‖embSlow a b ξ‖ ≤ ‖ξ‖
   · simp
   · simpa using norm_le_pi_norm ξ j
 
-theorem blockFast_append (I : Fin a → ℂ) (ξ : Fin b → ℂ) :
+theorem blockFast_append_complex (I : Fin a → ℂ) (ξ : Fin b → ℂ) :
     blockFast (Fin.append I ξ : Fin (a + b) → ℂ) = I :=
   funext fun i => Fin.append_left _ _ i
 
-theorem blockSlow_append (I : Fin a → ℂ) (ξ : Fin b → ℂ) :
+theorem blockSlow_append_complex (I : Fin a → ℂ) (ξ : Fin b → ℂ) :
     blockSlow (Fin.append I ξ : Fin (a + b) → ℂ) = ξ :=
   funext fun i => Fin.append_right _ _ i
 
@@ -105,7 +105,7 @@ theorem append_mem_jpDom (d : PGData a b) {I : Fin a → ℂ}
     (Fin.append I ξ : Fin (a + b) → ℂ) ∈ jpDom d := by
   show blockFast (Fin.append I ξ : Fin (a + b) → ℂ) ∈
     KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)
-  rw [blockFast_append]; exact hI
+  rw [blockFast_append_complex]; exact hI
 
 theorem hasFDerivAt_append (ξ : Fin b → ℂ) (I : Fin a → ℂ) :
     HasFDerivAt (fun I : Fin a → ℂ => (Fin.append I ξ : Fin (a + b) → ℂ)) (embFast a b) I := by
@@ -137,9 +137,9 @@ theorem norm_jpGrad_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0) {�
     (pgExtension d).delta / 16 ≤ (pgExtension d).delta / 2) hI
   have hJf : blockFast (Fin.append I ξ : Fin (a + b) → ℂ) ∈
       KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 16) := by
-    rw [blockFast_append]; exact hI
+    rw [blockFast_append_complex]; exact hI
   have hJs : ‖blockSlow (Fin.append I ξ : Fin (a + b) → ℂ)‖ < 2 := by
-    rw [blockSlow_append]; linarith
+    rw [blockSlow_append_complex]; linarith
   have h := (jetPolynomial_derivs_bound d hmu hJf hJs).2.1
   have hB := jpBound_ge_one d
   refine (pi_norm_le_iff_of_nonneg (by linarith)).2 fun i => ?_
@@ -291,9 +291,9 @@ theorem jpGrad_lip_slow (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0) {
     intro ξ hξ1
     have hJf : blockFast (Fin.append I ξ : Fin (a + b) → ℂ) ∈
         KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 16) := by
-      rw [blockFast_append]; exact hI
+      rw [blockFast_append_complex]; exact hI
     have hJs : ‖blockSlow (Fin.append I ξ : Fin (a + b) → ℂ)‖ < 2 := by
-      rw [blockSlow_append]; linarith
+      rw [blockSlow_append_complex]; linarith
     have h2 := (jetPolynomial_derivs_bound d hmu hJf hJs).2.2
     refine ContinuousLinearMap.opNorm_le_bound _ (by linarith) fun w => ?_
     simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.apply_apply]

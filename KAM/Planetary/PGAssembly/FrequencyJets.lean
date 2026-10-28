@@ -89,7 +89,7 @@ theorem jpPoly_nonneg (d : PGData a b) {s : ℝ} (hs : 0 ≤ s) : 0 ≤ jpPoly d
   have := (pgExtension d).MP_pos
   unfold jpPoly; positivity
 
-theorem norm_blockSlow_le {J : Fin (a + b) → ℂ} {s : ℝ} (hs : ‖blockSlow J‖ ≤ s) (j : Fin b) :
+theorem norm_blockSlow_apply_le {J : Fin (a + b) → ℂ} {s : ℝ} (hs : ‖blockSlow J‖ ≤ s) (j : Fin b) :
     ‖blockSlow J j‖ ≤ s := (norm_le_pi_norm (blockSlow J) j).trans hs
 
 theorem jetPolynomial_norm_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
@@ -102,7 +102,7 @@ theorem jetPolynomial_norm_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.
     calc ∑ j, ‖jetOmega d mu (blockFast J) j * blockSlow J j‖ ≤ ∑ _j : Fin b, jetK2 d * s :=
           Finset.sum_le_sum fun j _ => by
             rw [norm_mul]
-            exact mul_le_mul (jetOmega_norm_le d hmu hJ j) (norm_blockSlow_le hs j)
+            exact mul_le_mul (jetOmega_norm_le d hmu hJ j) (norm_blockSlow_apply_le hs j)
               (norm_nonneg _) (jetK2_nonneg d)
       _ = b * jetK2 d * s := by simp; ring
   have hS2 : ‖(1 / 2 : ℂ) * ∑ i, ∑ j, jetBeta d mu (blockFast J) i j * blockSlow J i *
@@ -117,8 +117,8 @@ theorem jetPolynomial_norm_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.
                 ≤ ∑ _j : Fin b, jetK4 d * s ^ 2 := Finset.sum_le_sum fun j _ => by
                   rw [norm_mul, norm_mul, sq]
                   have h1 := jetBeta_norm_le d hmu hJ i j
-                  have h2 := norm_blockSlow_le hs i
-                  have h3 := norm_blockSlow_le hs j
+                  have h2 := norm_blockSlow_apply_le hs i
+                  have h3 := norm_blockSlow_apply_le hs j
                   have h4 := jetK4_nonneg d
                   calc _ ≤ jetK4 d * s * s := by gcongr
                     _ = jetK4 d * (s * s) := by ring
