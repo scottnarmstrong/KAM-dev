@@ -466,6 +466,68 @@ theorem solve_unique {delta : ℝ} (hT : 0 ≤ T) (hD : 0 < D) (hdr : 0 < r - de
   show u (theta, b) = p11Solve T w P theta b
   rw [hu, hcut, p11Solve_eq]
 
+/-- `bpP:p11a:homological-maximal`. -/
+theorem homological_maximal {n : ℕ} (hn : 1 ≤ n) {r delta T D M : ℝ}
+    (hr : 0 < r) (hd : 0 < delta) (hdr : delta < r) (hT : 0 < T)
+    (hD : 0 < D) (hM : 0 ≤ M) {B : Set (P11CVec n)} (hB : IsOpen B)
+    (w : P11CVec n → P11CVec n) (hw : DifferentiableOn ℂ w B)
+    (hdiv : ∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    (P : P11CVec n × P11CVec n → ℂ) (hP : p11AngleClass r B P)
+    (hpoly : ∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T P z=P z)
+    (hb : p11Bound (KAM.complexStrip n r ×ˢ B) P M) :
+    let phi := fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2
+    p11AngleClass (r-delta) B phi ∧
+    DifferentiableOn ℂ phi (Set.univ ×ˢ B) ∧
+    (∀ z, KAM.Weighted.truncate T phi z=phi z) ∧
+    DifferentiableOn ℂ (p11AngleAverage P) B ∧
+    (∀ b ∈ B, p11AngleAverage phi b=0) ∧
+    (∀ theta ∈ KAM.complexStrip n (r-delta), ∀ b ∈ B,
+      fderiv ℂ (fun x => phi (x,b)) theta (w b)=P (theta,b)-p11AngleAverage P b) ∧
+    p11Bound (KAM.complexStrip n (r-delta) ×ˢ B) phi (p11Lambda n delta*M/(Real.pi*D)) ∧
+    (∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T →
+      ‖KAM.Weighted.coeff phi b k‖ ≤ M*Real.exp (-2*Real.pi*KAM.Fourier.modeSize k*r)/(Real.pi*D)) ∧
+    (∀ b ∈ B, ‖p11AngleAverage P b‖ ≤ M) ∧
+    ∀ u, p11AngleClass (r-delta) B u →
+      (∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T u z=u z) →
+      (∀ b ∈ B, p11AngleAverage u b=0) →
+      (∀ theta ∈ KAM.complexStrip n (r-delta), ∀ b ∈ B,
+        fderiv ℂ (fun x => u (x,b)) theta (w b)=P (theta,b)-p11AngleAverage P b) →
+      EqOn u phi (KAM.complexStrip n (r-delta) ×ˢ B) := by
+  intro phi
+  have hdr' : 0 < r - delta := by linarith
+  have hdiff : DifferentiableOn ℂ phi (Set.univ ×ˢ B) :=
+    differentiableOn_solve hr hB hD hP.1 hw hdiv
+  have hsub : KAM.complexStrip n (r-delta) ×ˢ B ⊆ Set.univ ×ˢ B := fun z hz => ⟨trivial, hz.2⟩
+  refine ⟨⟨hdiff.mono hsub, fun j z _ => ?_⟩, hdiff, fun z => ?_,
+    differentiableOn_coeff hr hB hP.1 0, fun b _ => ?_, fun theta _ b hbB => ?_,
+    fun z hz => norm_solve_le hd hD hr hM hP hb hz.2 (hdiv z.2 hz.2) hz.1, ?_,
+    fun b hbB => ?_, ?_⟩
+  · show p11Solve T w P (z.1 + Pi.single j 1) z.2 = p11Solve T w P z.1 z.2
+    rw [p11Solve_eq, p11Solve_eq, KAM.fourierSum_add_single]
+  · obtain ⟨theta, b⟩ := z
+    show KAM.Weighted.truncate T phi (theta, b) = p11Solve T w P theta b
+    rw [truncate_eq, p11Solve_eq]
+    congr 1
+    funext k
+    by_cases hk : KAM.Fourier.modeSize k ≤ T
+    · simp [hmCut, hk, phi, coeff_solve]
+    · have : T < KAM.Fourier.modeSize k := not_le.1 hk
+      simp [hmCut, hk, hmCoef, this]
+  · show KAM.Weighted.coeff phi b 0 = 0
+    rw [show phi = fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2 from rfl,
+      coeff_solve, hmCoef_zero]
+  · rw [fderiv_solve hT.le (hdiv b hbB) hD theta, hpoly (theta, b) ⟨trivial, hbB⟩]
+    rfl
+  · intro b hbB k hk hkT
+    rw [show phi = fun z : P11CVec n × P11CVec n => p11Solve T w P z.1 z.2 from rfl, coeff_solve]
+    have := norm_hmCoef_le hD hr hP hb hbB (hdiv b hbB) hk hkT
+    convert this using 2
+    · rw [mul_comm]; congr 2; ring
+  · have := norm_coeff_le hr hP hb hbB 0
+    simpa [KAM.Fourier.modeSize, p11AngleAverage] using this
+  · intro u hu hup hu0 hue z hz
+    exact solve_unique hT.le hD hdr' hpoly hdiv u hup hu0 hue z ⟨trivial, hz.2⟩
+
 end Main
 
 end KAM.Planetary
