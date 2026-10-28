@@ -52,7 +52,6 @@ theorem selection_tests_gen (d : SelectionData n) (s₀ ε₀ : ℝ)
         selectionRetained (selectionSchedGen d s₀ ε₀) d c ν ∧
       volume d.K - ENNReal.ofReal d.loss ≤
         volume (selectionFiniteTests d (selectionSchedGen d s₀ ε₀) c χ ν) := by
-  obtain ⟨hA, ht1, hs, he0⟩ := selection_adm_facts d ε he hsmall
   have hn1 : (1 : ℝ) ≤ n := by exact_mod_cast d.n_pos
   have hsq : 1 ≤ Real.sqrt n := by simpa using Real.sqrt_le_sqrt hn1
   have ht1 : (selectionSchedGen d s₀ ε₀).t₀ ≤ 1 :=
