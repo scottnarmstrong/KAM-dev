@@ -42,6 +42,20 @@ namespace KamHyp
 
 variable {g : (Fin (a + b) → ℂ) → ℂ}
 
+theorem hp_realOn (H : KamHyp D sbar p h f)
+    (hgr : RealOn (coefficientDom D (rhoHat p / 2) (sbar + p.s / 6)) (fun z => g z.2)) :
+    RealOn (coefficientDom D (rhoHat p / 2) (sbar + p.s / 6))
+      (fun z => (fun J => h J + g J) z.2) := by
+  have hR := H.R_pos
+  have hs := H.positive.2.1
+  have hw := H.widths
+  have hRρ := H.R_le_ρ
+  intro x hx
+  have h1 := hgr x hx
+  have h2 := H.real_h x (coefficientDom_mono (actionNbhd_mono (by linarith))
+    (by linarith [hw.1]) hx)
+  simp only [Complex.add_im, h1, h2, add_zero]
+
 theorem ihat_real (H : KamHyp D sbar p h f)
     (hg : DifferentiableOn ℂ g (KAM.actionNbhd D (rhoHat p / 2)))
     (hgb : ∀ I ∈ KAM.actionNbhd D (rhoHat p / 2), ‖g I‖ ≤ 5 / 4 * p.E)
@@ -61,13 +75,7 @@ theorem ihat_real (H : KamHyp D sbar p h f)
     H.holo.mono (actionNbhd_mono (by linarith))
   have hpd : DifferentiableOn ℂ (fun J => h J + g J) (KAM.actionNbhd D (rhoHat p / 2)) :=
     hhU.add hg
-  have hpr : RealOn (coefficientDom D (rhoHat p / 2) (sbar + p.s / 6))
-      (fun z => (fun J => h J + g J) z.2) := by
-    intro x hx
-    have h1 := hgr x hx
-    have h2 := H.real_h x (coefficientDom_mono (actionNbhd_mono (by linarith))
-      (by linarith [hw.1]) hx)
-    simp only [Complex.add_im, h1, h2, add_zero]
+  have hpr := H.hp_realOn hgr
   set c : Fin (a + b) → ℂ := KAM.realInclusion (a + b) I with hc
   have hcmem : c ∈ KAM.actionNbhd D (rhoHat p / 16) := mem_actionNbhd_of_mem (by positivity) hI
   obtain ⟨hJb, hJe⟩ := hih c hcmem
