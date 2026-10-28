@@ -179,6 +179,95 @@ theorem poincare_reflect {m κ : ℝ} {w : Phase 2} (hw : w ∈ poincareDom) :
 
 end PlanarSymmetries
 
+namespace SecularForm
+variable {n : ℕ}
+
+/-- Rotation of the slow blocks, using the delivered planar rotation. -/
+def rotateSlow (t : ℝ) (x : Slow n) : Slow n :=
+  (fun i => (rot t ![x.1 i,x.2.2 i]) 0, x.2.1,
+    fun i => (rot t ![x.1 i,x.2.2 i]) 1)
+def rotatePhysical (t : ℝ) (z : Phase (n*2)) : Phase (n*2) :=
+  (ofBodies (fun i => rot t (bodyVector z.1 i)), ofBodies (fun i => rot t (bodyVector z.2 i)))
+
+theorem planetBlock_assemble (I t p q : Vec n) (i : Fin n) :
+    planetBlock (assemble I t p q) i = (![t i, q i], ![I i, p i]) := by
+  simp [planetBlock, assemble, fast, slow]
+
+theorem assemble_mem_iff (I t p q : Vec n) :
+    assemble I t p q ∈ poincareProdDom n ↔ ∀ i, 0 < I i ∧ (q i ^ 2 + p i ^ 2) / 2 < I i := by
+  simp [poincareProdDom, poincareDom, planetBlock_assemble, poincareGamma]
+
+theorem mem_slowDom_iff (D : Data n) (x : Slow n) :
+    x ∈ slowDom D ↔ ∀ i, 0 < x.2.1 i ∧ (x.1 i ^ 2 + x.2.2 i ^ 2) / 2 < x.2.1 i := by
+  simp only [slowDom, mem_ofPred_eq, assemble_mem_iff]
+
+theorem assemble_mem_slowDom (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) (t : Vec n) :
+    assemble x.2.1 t x.2.2 x.1 ∈ poincareProdDom n := by
+  rw [assemble_mem_iff]; exact (mem_slowDom_iff D x).1 hx
+
+theorem poincareProd_assemble (D : Data n) (I t p q : Vec n) :
+    poincareProd D.m (D.G * D.m0) (assemble I t p q) =
+      ofPlanets fun i => poincare (D.m i) (D.G * D.m0) (![t i, q i], ![I i, p i]) := by
+  rw [poincareProd_eq_ofPlanets]
+  simp only [planetBlock_assemble]
+
+theorem ofPlanets_map (A B : (Fin 2 → ℝ) → (Fin 2 → ℝ)) (P : Fin n → Phase 2) :
+    (ofBodies fun i => A (bodyVector (ofPlanets P).1 i),
+        ofBodies fun i => B (bodyVector (ofPlanets P).2 i)) =
+      ofPlanets fun i => (A (P i).1, B (P i).2) := by
+  simp [ofPlanets, bodyVector_ofBodies]
+
+theorem neg_ofPlanets (P : Fin n → Phase 2) :
+    -ofPlanets P = ofPlanets fun i => (-(P i).1, -(P i).2) := by
+  refine Prod.ext (funext fun k => ?_) (funext fun k => ?_) <;> simp [ofPlanets, ofBodies]
+
+theorem rotateSlow_mem (D : Data n) (θ : ℝ) {x : Slow n} (hx : x ∈ slowDom D) :
+    rotateSlow θ x ∈ slowDom D := by
+  rw [mem_slowDom_iff] at hx ⊢
+  intro i
+  have h := hx i
+  refine ⟨h.1, ?_⟩
+  have := Real.sin_sq_add_cos_sq θ
+  simp only [rotateSlow, rot, Matrix.cons_val_zero, Matrix.cons_val_one]
+  nlinarith [this, h.2]
+
+theorem symmetries (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) (t : Vec n) (θ : ℝ) :
+    poincareProd D.m (D.G*D.m0) (assemble x.2.1 (t + fun _ => π) (-x.2.2) (-x.1)) =
+      -poincareProd D.m (D.G*D.m0) (assemble x.2.1 t x.2.2 x.1) ∧
+    poincareProd D.m (D.G*D.m0)
+      (assemble x.2.1 (t + fun _ => θ) (rotateSlow θ x).2.2 (rotateSlow θ x).1) =
+      rotatePhysical θ (poincareProd D.m (D.G*D.m0) (assemble x.2.1 t x.2.2 x.1)) ∧
+    poincareProd D.m (D.G*D.m0) (assemble x.2.1 (-t) (-x.2.2) x.1) =
+      (ofBodies (fun i => ![(bodyVector (poincareProd D.m (D.G*D.m0)
+        (assemble x.2.1 t x.2.2 x.1)).1 i) 0,
+        -(bodyVector (poincareProd D.m (D.G*D.m0) (assemble x.2.1 t x.2.2 x.1)).1 i) 1]),
+       ofBodies (fun i => ![-(bodyVector (poincareProd D.m (D.G*D.m0)
+        (assemble x.2.1 t x.2.2 x.1)).2 i) 0,
+        (bodyVector (poincareProd D.m (D.G*D.m0) (assemble x.2.1 t x.2.2 x.1)).2 i) 1])) := by
+  have hb : ∀ i, (![t i, x.1 i], ![x.2.1 i, x.2.2 i]) ∈ poincareDom := fun i => by
+    have := (mem_slowDom_iff D x).1 hx i
+    simpa [poincareDom, poincareGamma] using this
+  refine ⟨?_, ?_, ?_⟩
+  · rw [poincareProd_assemble, poincareProd_assemble, neg_ofPlanets]
+    congr 1; funext i
+    have := poincare_antipode (m := D.m i) (κ := D.G * D.m0) (hb i)
+    simpa using this
+  · rw [poincareProd_assemble, poincareProd_assemble]
+    unfold rotatePhysical
+    rw [ofPlanets_map (rot θ) (rot θ)]
+    congr 1; funext i
+    have := poincare_rotate (m := D.m i) (κ := D.G * D.m0) θ (hb i)
+    simpa [rotBlock, rotateSlow] using this
+  · rw [poincareProd_assemble, poincareProd_assemble]
+    refine Eq.trans ?_ (ofPlanets_map sigmaRefl (fun v => ![-v 0, v 1]) _).symm
+    congr 1; funext i
+    have := poincare_reflect (m := D.m i) (κ := D.G * D.m0) (hb i)
+    simp only [Pi.neg_apply]
+    refine this.trans (Prod.ext rfl ?_)
+    ext j; fin_cases j <;> simp [sigmaRefl]
+
+end SecularForm
+
 end KAM.Planetary
 
 end
