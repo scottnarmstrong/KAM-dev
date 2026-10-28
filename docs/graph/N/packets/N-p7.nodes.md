@@ -127,9 +127,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:setting@L29-L29
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cpx, realNbhd, realStrip, realH, IsOrbit, reMap, thetaGradR, hessR (KAM/Nekhoroshev/Stability/Setting.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES
 NOTE: package (standing-data definition) of Part 7: U_rho D, W_rho, O(r,s)^R, G^R, orbits, h_R, omega, Q; dropped candidate edges: Remark p3:totality (justification of the total convention, no fact consumed) and K:hamiltonian-real (\source provenance)
 
 NODE: bpN:p7:real-system
@@ -165,9 +165,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:real-system@L35
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system (KAM/Nekhoroshev/Stability/RealSystem.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES
 NOTE: the unlabelled proofstep (d) at L41 has no node (SPEC); its references are attributed here. Dropped candidate edges: p1:holo-real (special case named in \source) and the K imports (used in the steps)
 
 NODE: stepN:p7:rs-smooth
@@ -260,9 +260,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#bpN:p7:theta-derivativ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: theta_derivative (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:td-loss
@@ -356,9 +356,9 @@ EDGE: bpN:p4:projections | blueprint-N/parts/p7-stability.tex#bpN:p7:resonant-gr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resSpan, resonant_gradient (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:rg-coef
@@ -449,9 +449,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:conjugation@L65
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: conjugation (KAM/Nekhoroshev/Stability/Conjugation.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:cj-real
@@ -543,9 +543,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#bpN:p7:preimage@L74-L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:pi-set
@@ -692,9 +692,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p7-stability.tex#bpN:p7:preimage-nfl@L86-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage_nfl (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:pn-apply
@@ -755,9 +755,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#bpN:p7:transfer@L93-L9
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES
 NOTE: dropped candidate edge: p3:confinement-glue (\source: "so that Part 10 can connect it with existence": a forward pointer)
 
 NODE: stepN:p7:tr-orbit
@@ -905,9 +905,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:stopped-extensi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: stopped_extension (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:se-stop
@@ -989,9 +989,9 @@ EDGE: stepN:p7:eb-exit | blueprint-N/parts/p7-stability.tex#bpN:p7:exit-ball@L12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exit_ball (KAM/Nekhoroshev/Stability/Setting.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:eb-exit
@@ -1051,9 +1051,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#bpN:p7:nonresonant@L12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: audit S7-7 PASS WITH NOTES
 NOTE: dropped candidate edges: Remark p7:factor-e (remark), p6:nonresonant-case at statement level (\source only; consumed in nr-caseB)
 
 NODE: stepN:p7:nr-dataA
@@ -1212,9 +1212,9 @@ EDGE: bpN:p7:ext-linalg | blueprint-N/parts/p7-stability.tex#bpN:p7:resonance-da
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resSpace, IsCloseToRes, IsMConvex, IsQuasiConvex, HessBound (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES
 NOTE: package for the energy argument (SPEC: bpN:p7:resonance-data)
 
 NODE: bpN:p7:energy-core
@@ -1244,9 +1244,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:energy-core@L16
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_core (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES
 NOTE: the reusable core also consumed by track I (energy confinement); it is used inside N-HEAD-C (no-exit) and by Part 11 (bpN:p11:ef-en)
 
 NODE: stepN:p7:ec-energy
@@ -1365,9 +1365,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:admissible@L182
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: admissible (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:ad-ball
@@ -1457,9 +1457,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:no-exit@L190-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: no_exit (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p7:ne-core
@@ -1587,9 +1587,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#bpN:p7:resonant-lemma2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES
 NOTE: dropped candidate edge: Remark p7:errata (administrative; the added hypothesis Mr<=l/4 is stated in (R))
 
 NODE: stepN:p7:l2-exit
@@ -1753,9 +1753,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#bpN:p7:resonant-prop2@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES
 NOTE: dropped candidate edge: Remark p7:errata (administrative); the added hypothesis Mr<=l/2 is part of (c)
 
 NODE: stepN:p7:p2-red
@@ -1954,7 +1954,7 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#bpN:p7:s-energy#rs@L17
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ResSetting, resRho, IsAdmissible (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES
 NOTE: section-data node for coverage item p7:prose-L178-L179 (SPEC): a package for Lemmas admissible, no-exit and Lemma 2

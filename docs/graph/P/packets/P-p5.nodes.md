@@ -52,7 +52,7 @@ EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P5-EX PASS WITH NOTES, but Lean PGExtension.agrees is restricted to closure of cylinder (design rev 4) while node text says P~=P at real points of all X_delta (audit: literal blueprint claim false); left for orchestrator ruling
 NOTE: [pre-extract: dropped reference to bpP:p0:pg, which part p5 proves or sets up]
 
 NODE: stepP:p5:ext-loc
@@ -193,9 +193,9 @@ EDGE: K:bp:p1:decay | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:consts@L46-L46
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pgWidth, pgOscRadius, complexAverage, complexAverage_real, consts (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: audit P5-EX PASS WITH NOTES (revision-4 design)
 NOTE: -
 
 NODE: bpP:p5:birkhoff-ext
@@ -227,9 +227,9 @@ EDGE: stepP:p5:be-det | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:birkhoff-ext
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: birkhoff_ext, birkhoff_ext_parameter_regularity, jetBeta_det_closure (KAM/Planetary/PGAssembly/Jets.lean); fourth_jet_unique (KAM/Planetary/PGAssembly/JetsFourth.lean)
+LEAN_NOTE: audit P5-JET PASS WITH NOTES
 NOTE: [pre-extract: dropped reference to bpP:p0:pg, which part p5 proves or sets up]
 
 NODE: stepP:p5:be-coef
@@ -257,9 +257,9 @@ EDGE: bpP:p0:oscaction#oscillatorAction | blueprint-P/parts/p5-pg-assembly.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fourth_jet_unique (KAM/Planetary/PGAssembly/JetsFourth.lean)
+LEAN_NOTE: audit P5-JET PASS WITH NOTES; named by handoff
 NOTE: SOURCE_GAP: L58 uses differentiation under the integral and uniqueness of the analytic fourth Taylor jet from an o(norm(x)^4) remainder. The polynomial coefficient computation is explicit; the analytic integration and jet facts have no supplying edge in this packet.
 
 NODE: stepP:p5:be-an
@@ -342,9 +342,9 @@ EDGE: stepP:p5:be-an | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:be-det@L61-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: jetBeta_det_real, jetBeta_det_closure (KAM/Planetary/PGAssembly/Jets.lean)
+LEAN_NOTE: audit P5-JET PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p5:uniform-remainder
@@ -373,9 +373,9 @@ EDGE: stepP:p5:ur-schwarz | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:uniform-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: uniform_remainder, schwarz_order_five (KAM/Planetary/PGAssembly/Remainder.lean)
+LEAN_NOTE: audit P5-REM PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:ur-bound
@@ -403,9 +403,9 @@ EDGE: K:bp:p1:cauchy-open | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:ur-bou
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: remainder_bound, uniform_remainder (KAM/Planetary/PGAssembly/Remainder.lean)
+LEAN_NOTE: audit P5-REM PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:ur-schwarz
@@ -431,9 +431,9 @@ EDGE: stepP:p5:ur-bound | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:ur-schwa
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schwarz_order_five (KAM/Planetary/PGAssembly/Remainder.lean)
+LEAN_NOTE: audit P5-REM PASS WITH NOTES
 NOTE: SOURCE_GAP: L73 invokes the one-variable maximum principle (equivalently the higher-order Schwarz estimate). L336 names Schwarz but creates no approved external node. The jet and uniform bound have the existing supplying edges.
 
 NODE: bpP:p5:lip-complex
@@ -459,9 +459,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:lip-complex@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_complex (KAM/Planetary/PGAssembly/FastComplex.lean)
+LEAN_NOTE: audit P5-BL PASS WITH NOTES
 NOTE: prose L78 (notation X_rho) is mapped here. The candidate edge to bpP:p3:lip-sup is deleted: it sits in \source (the complex version of ...), provenance.
 
 NODE: bpP:p5:bilip
@@ -489,9 +489,9 @@ EDGE: stepP:p5:bl-comp | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:bilip@L93-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bilip, complexFast (KAM/Planetary/PGAssembly/FastComplex.lean)
+LEAN_NOTE: audit P5-BL PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:bl-real
@@ -517,9 +517,9 @@ EDGE: bpP:p0:fastfreq#fastFrequency | blueprint-P/parts/p5-pg-assembly.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_relation, omega_hasFDerivAt, omega_deriv_injective, fderiv_complexFast_lower (KAM/Planetary/PGAssembly/FastComplex.lean)
+LEAN_NOTE: audit P5-BL PASS WITH NOTES; named by audit
 NOTE: SOURCE_GAP: L92 uses the chain rule for g composed with the fast frequency map and the finite-dimensional inference that a square linear map with a left inverse is invertible. The frozen fast-diffeomorphism definition supplies the premises but does not itself prove these classical facts; no supplying input node is present.
 
 NODE: stepP:p5:bl-comp
@@ -545,9 +545,9 @@ EDGE: bpP:p5:ext | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bl-comp@L93-L93
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: complexFast_local_lower, lower_lip_of_local (KAM/Planetary/PGAssembly/FastComplex.lean)
+LEAN_NOTE: audit P5-BL PASS WITH NOTES; named by audit
 NOTE: SOURCE_GAP: L93 uses compact sequential extraction in finite-dimensional complex space (listed as compactness at L336). No approved node supplies this classical input. The two-case contradiction is explicitly given in the source.
 
 NODE: bpP:p5:dio-one
@@ -578,9 +578,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:dio-one
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: dio_one, dioConstant (KAM/Planetary/PGMeasure/OneScale.lean)
+LEAN_NOTE: audit P4-ONE PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:freq-data

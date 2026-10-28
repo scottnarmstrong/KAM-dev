@@ -74,9 +74,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#bpN:p6:setting@L32-L32 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: IsNonresonant, FreqLipschitz, DivisorBound, IsDecomp, starNorm (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS
 NOTE: -
 
 NODE: bpN:p6:lipschitz
@@ -103,9 +103,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#bpN:p6:lipschitz@L43
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-delta-N-d
 REVIEWER: sol-delta2-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipschitz, lipschitz_entries (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS
 NOTE: -
 
 NODE: stepN:p6:lip-seg
@@ -160,9 +160,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#bpN:p6:divisor@L51-L51 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: divisor (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS
 NOTE: -
 
 NODE: stepN:p6:div
@@ -225,9 +225,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#bpN:p6:homological@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homGen, homRes, homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS (Homological.lean)
 NOTE: -
 
 NODE: stepN:p6:hom-def
@@ -384,9 +384,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#bpN:p6:bracket-g@L82
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_g (KAM/Nekhoroshev/NormalForm/BracketDecomp.lean)
+LEAN_NOTE: audit N6-3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p6:bg-term
@@ -487,9 +487,9 @@ EDGE: bpN:p4:projections | blueprint-N/parts/p6-normal-form.tex#bpN:p6:iterative
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterMap, iterG, iterF, IterHyp, iterU, iterative_direct_a, iterative_direct_b, iterHyp_of_source (KAM/Nekhoroshev/NormalForm/IterativeMap.lean); iterative_direct_c, iterative_direct_d (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean); iterative_direct_e (KAM/Nekhoroshev/NormalForm/IterativeReal.lean)
+LEAN_NOTE: composite of audits N6-5 PASS WITH NOTES (a),(b), source wrapper iterHyp_of_source + N6-6 PASS WITH NOTES (c),(d) + N6-7 PASS WITH NOTES (e); source form via iterHyp_of_source
 NOTE: -
 
 NODE: stepN:p6:it-gen
@@ -751,9 +751,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#bpN:p6:iterative-dir
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological_direct (KAM/Nekhoroshev/NormalForm/Homological.lean); IterHyp, iterative_direct_a, iterative_direct_b (KAM/Nekhoroshev/NormalForm/IterativeMap.lean); iterative_direct_c, iterative_direct_d (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean); iterative_direct_e (KAM/Nekhoroshev/NormalForm/IterativeReal.lean)
+LEAN_NOTE: composite of audits N6-2 PASS + N6-5, N6-6, N6-7 PASS WITH NOTES; direct-divisor form (IterHyp carries N-dir)
 NOTE: used by Part 11 (bpN:p11:hom, "with Corollary iterative-direct"): inside the N-PARTIAL-CONVEX closure; dropped candidate edges: Remark iterative-special (claimed to hold verbatim, not consumed) and P:bpP:p2:direct (provenance)
 
 NODE: stepN:p6:dir-use
@@ -845,9 +845,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#bpN:p6:telescope@L14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chain, telescope (KAM/Nekhoroshev/NormalForm/Telescope.lean)
+LEAN_NOTE: audit N6-4 PASS
 NOTE: -
 
 NODE: stepN:p6:tel
@@ -913,9 +913,9 @@ EDGE: bpN:p6:normal-form#data | blueprint-N/parts/p6-normal-form.tex#bpN:p6:norm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8b PASS WITH NOTES (with N6-8a Arith/Steps interface PASS)
 NOTE: sourcegap at L173 (Pöschel prints e^{Ks/6} for e^{-Ks/6}) is filled by Case B of nf-case; dropped candidate edges: composition, iterative (source provenance only), deviations (remark)
 
 NODE: stepN:p6:nf-first
@@ -1176,9 +1176,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#bpN:p6:nonresonant-case
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant_case (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8b PASS WITH NOTES
 NOTE: sourcegap at L226 (the bound |f_*|<=e^{-kappa/6}eps is false for kappa<6; the correct bound is e e^{-kappa/6}eps) is the stated conclusion; used by Part 7 (nr-caseB). The remark text says Part 7 does not need it; Part 7 step nr-caseB cites it for Psi=id, g=0, f_*=f; dropped candidate edge: Remark p7:factor-e (provenance)
 
 NODE: stepN:p6:nr-triv
@@ -1230,9 +1230,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: zBall, freq, dotC, conjExp (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS
 NOTE: section-data node for coverage item p6:prose-L11-L16 (SPEC table); used by symbol in the setting, divisor, homological equation, Iterative Lemma, Normal Form Lemma and nonresonant case
 
 NODE: bpN:p6:normal-form#data
@@ -1262,7 +1262,7 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#bpN:p6:normal-form@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-N-d
 REVIEWER: sol-delta2-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nfSteps (KAM/Nekhoroshev/NormalForm/NormalFormCaseA.lean)
+LEAN_NOTE: audit N6-8b PASS WITH NOTES
 NOTE: section/construction data used without references throughout the normal-form proof; separated from the parent to avoid a parent/step cycle.

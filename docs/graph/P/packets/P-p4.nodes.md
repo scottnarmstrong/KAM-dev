@@ -101,9 +101,9 @@ EDGE: stepP:p4:co-nbhd | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:collar@L35-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collar, ext_conn, realNbhd_joinedActions, domain_collar_helper (KAM/Planetary/PGMeasure/Collar.lean)
+LEAN_NOTE: audit P4-CO PASS WITH NOTES (audit 1 FAIL hygiene only, fixed by orchestrator addendum)
 NOTE: -
 
 NODE: stepP:p4:co-compact
@@ -128,9 +128,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:co-compact
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collar (KAM/Planetary/PGMeasure/Collar.lean)
+LEAN_NOTE: audit P4-CO PASS WITH NOTES (audit 1 FAIL hygiene only, fixed by orchestrator addendum); named by audit
 NOTE: -
 
 NODE: stepP:p4:co-meas
@@ -156,9 +156,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:co-mea
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collar (KAM/Planetary/PGMeasure/Collar.lean)
+LEAN_NOTE: audit P4-CO PASS WITH NOTES (audit 1 FAIL hygiene only, fixed by orchestrator addendum); named by audit
 NOTE: -
 
 NODE: stepP:p4:co-nbhd
@@ -184,9 +184,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:co-nbhd@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collar (KAM/Planetary/PGMeasure/Collar.lean)
+LEAN_NOTE: audit P4-CO PASS WITH NOTES (audit 1 FAIL hygiene only, fixed by orchestrator addendum); named by audit
 NOTE: -
 
 NODE: bpP:p4:lip-compact
@@ -212,9 +212,9 @@ EDGE: stepP:p4:lc-local | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:lip-compact
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_compact, lip_compact_c1 (KAM/Planetary/PGMeasure/CompactLipschitz.lean)
+LEAN_NOTE: audit P4-LI PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:lc-contra
@@ -238,9 +238,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_compact (KAM/Planetary/PGMeasure/CompactLipschitz.lean)
+LEAN_NOTE: audit P4-LI PASS WITH NOTES; proof of lip_compact
 NOTE: -
 
 NODE: stepP:p4:lc-local
@@ -266,9 +266,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:lc-local@L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_local (KAM/Planetary/PGMeasure/CompactLipschitz.lean)
+LEAN_NOTE: audit P4-LI PASS WITH NOTES; private helper named by audit
 NOTE: -
 
 NODE: bpP:p4:lip-inverse
@@ -296,9 +296,9 @@ EDGE: stepP:p4:li-lip | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:lip-inverse@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_inverse (KAM/Planetary/PGMeasure/CompactLipschitz.lean)
+LEAN_NOTE: audit P4-LI PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:li-cont
@@ -326,9 +326,9 @@ EDGE: bpP:p1:ext-borel | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:li-cont@L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_inverse (KAM/Planetary/PGMeasure/CompactLipschitz.lean)
+LEAN_NOTE: audit P4-LI PASS WITH NOTES; proof of lip_inverse
 NOTE: -
 
 NODE: stepP:p4:li-lip
@@ -355,9 +355,9 @@ EDGE: stepP:p4:li-cont | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:li-lip@L58
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_inverse (KAM/Planetary/PGMeasure/CompactLipschitz.lean)
+LEAN_NOTE: audit P4-LI PASS WITH NOTES; proof of lip_inverse
 NOTE: -
 
 NODE: bpP:p4:freq
@@ -386,9 +386,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:freq@L75-L75
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secularPolynomial, slowFrequency, freq (KAM/Planetary/PGMeasure/Setting.lean)
+LEAN_NOTE: audit P4-S PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p4:data
@@ -415,9 +415,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:data@L79-L79
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: MeasureData (KAM/Planetary/PGMeasure/Setting.lean)
+LEAN_NOTE: audit P4-S PASS WITH NOTES
 NOTE: standing data (S4). The pre-extracted candidate to bpP:p4:beta-inverse is dropped: (N3) only names the lemma that supplies the constant in Part 5.
 
 NODE: bpP:p4:affine-slab
@@ -442,9 +442,9 @@ EDGE: bpP:p4:ext-tonelli | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:affine-sla
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: affine_slab, affine_slab_of_coord (KAM/Planetary/PGMeasure/AffineSlab.lean)
+LEAN_NOTE: audit P4-AF PASS WITH NOTES
 NOTE: the pre-extracted candidate K:bp:p4:slab ("cf.", a model only) is deleted as a comparison.
 
 NODE: bpP:p4:lattice-tail
@@ -470,9 +470,9 @@ EDGE: stepP:p4:lt-b | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:lattice-tail@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: latticeWeight, lattice_tail, latticeS (KAM/Planetary/PGMeasure/LatticeTail.lean)
+LEAN_NOTE: audit P4-LT PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:lt-a
@@ -497,9 +497,9 @@ EDGE: K:bp:p4:lattice-sum | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:lt-a@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_tail (KAM/Planetary/PGMeasure/LatticeTail.lean)
+LEAN_NOTE: audit P4-LT PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p4:lt-b
@@ -524,9 +524,9 @@ EDGE: K:bp:p4:lattice-count | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:lt-b@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_tail, tail_finset_le (KAM/Planetary/PGMeasure/LatticeTail.lean)
+LEAN_NOTE: audit P4-LT PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p4:two-scale-diophantine-measure
@@ -561,9 +561,9 @@ EDGE: bpP:p4:lattice-tail | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:two-scale
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_diophantine_measure, measure_c1, measure_c2, resonanceBad_eq (KAM/Planetary/PGMeasure/TwoScale.lean)
+LEAN_NOTE: composite of audits P4-RAM PASS WITH NOTES + P4-R0 PASS WITH NOTES + P4-RB PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-slow
@@ -592,9 +592,9 @@ EDGE: bpP:p4:ext-tonelli | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-slow@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: slow_resonance_measure_le, beta_inverse (KAM/Planetary/PGMeasure/ResonanceSlow.lean)
+LEAN_NOTE: audit P4-R0 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-y
@@ -623,9 +623,9 @@ EDGE: bpP:p4:freq | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-y@L122-L123 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pullMap, volume_pullMap_image_le, mem_pullMap_image_of_resonant (KAM/Planetary/PGMeasure/ResonanceFast/Pullback.lean)
+LEAN_NOTE: audit P4-RAM PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-A
@@ -653,9 +653,9 @@ EDGE: bpP:p4:data | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-A@L126-L127 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fast_modes_measure_le (KAM/Planetary/PGMeasure/ResonanceFast.lean)
+LEAN_NOTE: audit P4-RAM PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-Bstruct
@@ -680,9 +680,9 @@ EDGE: bpP:p4:data | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-Bstruct@L130
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: large_mode_structure (KAM/Planetary/PGMeasure/ResonanceLarge/Structure.lean)
+LEAN_NOTE: audit P4-RB PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-B
@@ -712,9 +712,9 @@ EDGE: bpP:p4:lattice-tail | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-B@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: large_modes_measure_le, volume_resonanceSet_large_le (KAM/Planetary/PGMeasure/ResonanceLarge.lean)
+LEAN_NOTE: audit P4-RB PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dm-sum
@@ -743,9 +743,9 @@ EDGE: bpP:p4:data | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dm-sum@L140-L14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_diophantine_measure, resonanceBad_subset_union (KAM/Planetary/PGMeasure/TwoScale.lean)
+LEAN_NOTE: audit P4-RAM PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p4:dc-prod
@@ -922,9 +922,9 @@ EDGE: bpP:p4:ext-conn | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:conv#data@L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: blockFast, blockSlow, blockFast_real, blockSlow_real, innerCore, realNbhd (KAM/Planetary/PG/Setting.lean)
+LEAN_NOTE: audit P45-S PASS WITH NOTES; defining clauses D_t, N_s; consequences 0<meas V<inf and nonempty boundary not separate declarations
 NOTE: section data of 4.1 (coverage item p4:prose-L19-L20). The reference to bpP:p0:pg only names the hypotheses (hboundary) of the theorem that Part 4 helps prove: no edge (it would close a cycle through bpP:p5:main); they are recorded in SOURCE_HYPOTHESES. D_t is the barred D with index t of the blueprint.
 
 NODE: bpP:p4:conv#shell
@@ -949,9 +949,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p4-pg-measure.tex#bpP:p4:conv#shell@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4
 REVIEWER: sol-review-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: actionShell, joinedActions (KAM/Planetary/PG/Setting.lean)
+LEAN_NOTE: audit P45-S PASS WITH NOTES
 NOTE: section data of 4.5 (coverage item p4:prose-L153-L154). Consumed only by bpP:p4:dc-prod; bpP:p4:domain-collar, bpP:p4:budget are outside the root closure.
 
 NODE: bpP:p4:s-disc#chart

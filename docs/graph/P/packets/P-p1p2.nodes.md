@@ -154,9 +154,9 @@ EDGE: bpP:p0:hamsymp#symplecticForm | blueprint-P/parts/p1-hamiltonian-tools.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplecticForm_antisymm, eq_zero_of_symplecticForm_right, symplecticForm_linearField, eq_linearField_iff, symplecticForm_hamiltonianVectorField, bijective_of_symplectic, abs_det_of_symplectic, apply_linearField_comp_of_symplectic, symplectic_neg_iff (KAM/Planetary/Hamiltonian/Algebra.lean)
+LEAN_NOTE: audit PP1-1 PASS WITH NOTES (audit 2 closes hygiene H1); matrix M_0 clauses replaced by coordinate-free bilinear statements per design
 NOTE: -
 
 NODE: stepP:p1:oa-mat
@@ -181,9 +181,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:oa-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplecticForm_linearField, eq_linearField_iff, eq_zero_of_symplecticForm_right (KAM/Planetary/Hamiltonian/Algebra.lean)
+LEAN_NOTE: audit PP1-1 PASS WITH NOTES (audit 2 closes hygiene H1); named by audit (apply_eq_sum helper)
 NOTE: -
 
 NODE: stepP:p1:oa-b
@@ -210,9 +210,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:oa-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bijective_of_symplectic, abs_det_of_symplectic, apply_linearField_comp_of_symplectic (KAM/Planetary/Hamiltonian/Algebra.lean)
+LEAN_NOTE: audit PP1-1 PASS WITH NOTES (audit 2 closes hygiene H1); named by audit
 NOTE: -
 
 NODE: bpP:p1:order
@@ -267,9 +267,9 @@ EDGE: bpP:p0:hamsymp#symplecticForm | blueprint-P/parts/p1-hamiltonian-tools.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: IsChart, isChart_iff, IsChart.analyticOnNhd, IsChart.symplectic, IsChart.mono, chartPullback, IsChart.bijective_fderiv (KAM/Planetary/Hamiltonian/Chart.lean)
+LEAN_NOTE: audit PP1-4 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p1:chart-field
@@ -297,9 +297,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p1-hamiltonian-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_field_differentiableAt_iff, chart_field (KAM/Planetary/Hamiltonian/Chart.lean)
+LEAN_NOTE: audit PP1-4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p1:cf-diff
@@ -327,9 +327,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:cf-diff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_field_differentiableAt_iff (KAM/Planetary/Hamiltonian/Chart.lean)
+LEAN_NOTE: audit PP1-4 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p1:cf-field
@@ -359,9 +359,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:cf-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_field (KAM/Planetary/Hamiltonian/Chart.lean)
+LEAN_NOTE: audit PP1-4 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p1:chart-orbit
@@ -389,9 +389,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p1-hamiltonian-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_orbit (KAM/Planetary/Hamiltonian/Chart.lean)
+LEAN_NOTE: audit PP1-4 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p1:hol-chart
@@ -420,9 +420,9 @@ EDGE: stepP:p1:hc-real-derivative | blueprint-P/parts/p1-hamiltonian-tools.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hol_chart (KAM/Planetary/Hamiltonian/HolChart.lean)
+LEAN_NOTE: audit PP1-5 PASS WITH NOTES; unused hc harmless
 NOTE: -
 
 NODE: bpP:p1:lattice-torus
@@ -448,9 +448,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p1-hamiltonian-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: IsLatticeTorus (KAM/Planetary/Hamiltonian/Transport.lean)
+LEAN_NOTE: audit PP1-6 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p1:torus-transport
@@ -487,9 +487,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:torus
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torus_transport_cyl, torus_transport_phys, fderiv_chart_comp_torus (KAM/Planetary/Hamiltonian/Transport.lean)
+LEAN_NOTE: audit PP1-6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p1:tt-an
@@ -698,7 +698,7 @@ EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit PP1-4 covers (2),(3) only (isChart_angleScale, IsChart.comp, chartPullback_comp); (1) polar chart not in this slice
 NOTE: (1) is asserted with the one-line computation dp^dq=dR^dpsi and no separate proof; the polar-chart claim is used by Part 5 and Part 7 (consumers cite this remark)
 
 NODE: bpP:p1:period-convert
@@ -730,9 +730,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p1-hamiltonian-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: isChart_angleScale, angleScale_add_angleShift, abs_det_fderiv_angleScale, volume_angleScale_image, chartPullback_angleScale, angleScale_hamiltonianVectorField, fastShift_eq_angleScale (KAM/Planetary/Hamiltonian/Chart.lean); periodOne, IsTwoPiLatticeTorus, analyticOnNhd_periodOne_iff, fderiv_periodOne, periodOne_lattice_iff, periodOne_injMod_iff, periodOne_hasDerivAt_iff, isLatticeTorus_periodOne_iff (KAM/Planetary/Hamiltonian/Transport.lean)
+LEAN_NOTE: composite of audits PP1-4 PASS WITH NOTES ((a),(b),(d)) + PP1-6 PASS WITH NOTES ((c))
 NOTE: -
 
 NODE: stepP:p1:pc-a
@@ -852,9 +852,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:cyl-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cyl_pipeline (KAM/Planetary/Hamiltonian/Transport.lean)
+LEAN_NOTE: audit PP1-6 PASS WITH NOTES
 NOTE: the pointers to Prop p3:two-scale-kam and Remark p1:order in the statement are illustrations of the hypothesis (for instance) and are not edges (an edge to p3:two-scale-kam would make a cycle with Part 3 which cites this corollary)
 
 NODE: bpP:p1:phys-pipeline
@@ -886,9 +886,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:phys-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: phys_pipeline (KAM/Planetary/Hamiltonian/Transport.lean)
+LEAN_NOTE: audit PP1-6 PASS WITH NOTES
 NOTE: torus-transport is reused as an argument (not applicable verbatim because the lattice is tau_k, not iota_k), so the edge is kept; reviewer to confirm
 
 NODE: bpP:p1:two-scale
@@ -912,9 +912,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: twoScaleDiophantine (KAM/Planetary/Hamiltonian/Diophantine.lean)
+LEAN_NOTE: audit PP1-2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p1:dio-basic
@@ -940,9 +940,9 @@ EDGE: bpP:p1:two-scale | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:dio-b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: IsDiophantine.mono, isDiophantine_of_le_l1, isDiophantine_smul_iff, isDiophantine_min_of_mem_twoScale (KAM/Planetary/Hamiltonian/Diophantine.lean)
+LEAN_NOTE: audit PP1-2 PASS WITH NOTES; (a)-(d)
 NOTE: -
 
 NODE: bpP:p1:dio-sources
@@ -971,9 +971,9 @@ EDGE: bpP:p0:diophantine#IsDiophantine | blueprint-P/parts/p1-hamiltonian-tools.
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: smul_mem_twoScale, cp10_isDiophantine, cp09_isDiophantine (KAM/Planetary/Hamiltonian/Diophantine.lean)
+LEAN_NOTE: audit PP1-2 PASS WITH NOTES; (a),(b)
 NOTE: -
 
 NODE: bpP:p1:liouville
@@ -1002,9 +1002,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:liouville
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_measure_image, measurableSet_chart_image, isAddHaarMeasure_volume_phase (KAM/Planetary/Hamiltonian/Liouville.lean)
+LEAN_NOTE: audit PP1-7 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p1:li-det
@@ -1030,9 +1030,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:li-det@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: IsChart.abs_det_fderiv (KAM/Planetary/Hamiltonian/Chart.lean)
+LEAN_NOTE: audit PP1-4 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p1:li-meas
@@ -1061,9 +1061,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:li-meas
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_measure_image (KAM/Planetary/Hamiltonian/Liouville.lean)
+LEAN_NOTE: audit PP1-7 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p1:li-borel
@@ -1088,9 +1088,9 @@ EDGE: stepP:p1:li-meas | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:li-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: measurableSet_chart_image (KAM/Planetary/Hamiltonian/Liouville.lean)
+LEAN_NOTE: audit PP1-7 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p1:li-vol
@@ -1119,9 +1119,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:li-vol@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_measure_image (KAM/Planetary/Hamiltonian/Liouville.lean)
+LEAN_NOTE: audit PP1-7 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p1:liouville-lattice
@@ -1149,9 +1149,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:liouville
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: liouville_lattice, liouville_lattice_measurableSet (KAM/Planetary/Hamiltonian/Liouville.lean)
+LEAN_NOTE: audit PP1-7 PASS WITH NOTES
 NOTE: Q1 and Q2 are the explicitly stated lattice hypotheses at L202, not an application of the torus-transport theorem.
 
 NODE: bpP:p1:torus-union
@@ -1181,9 +1181,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:torus
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: unitCube, torus_union, torus_union_measurableSet_of_sigmaCompact, torus_union_measurableSet_of_injOn, torus_union_lower, torus_union_saturation, nullMeasurableSet_torus_union_saturation (KAM/Planetary/Hamiltonian/TorusUnion.lean)
+LEAN_NOTE: audit PP1-3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p1:tu-ext
@@ -1237,9 +1237,9 @@ EDGE: stepP:p1:tu-ext | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:tu-m
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torus_union, nullMeasurableSet_image_of_lipschitzOn (KAM/Planetary/Hamiltonian/TorusUnion.lean)
+LEAN_NOTE: audit PP1-3 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p1:tu-borel
@@ -1264,9 +1264,9 @@ EDGE: bpP:p1:ext-borel | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:tu-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torus_union_measurableSet_of_sigmaCompact, torus_union_measurableSet_of_injOn (KAM/Planetary/Hamiltonian/TorusUnion.lean)
+LEAN_NOTE: audit PP1-3 PASS WITH NOTES; named by audit (B1,B2)
 NOTE: -
 
 NODE: stepP:p1:tu-bounds
@@ -1292,9 +1292,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:tu-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torus_union, torus_union_lower (KAM/Planetary/Hamiltonian/TorusUnion.lean)
+LEAN_NOTE: audit PP1-3 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p2:setting
@@ -1319,9 +1319,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#bpP:p2:setting@L41-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: setting (KAM/Planetary/Averaging/Setting.lean)
+LEAN_NOTE: audit P23-01 PASS WITH NOTES; DivisorBound dependency on N6-1 (now on tree)
 NOTE: -
 
 NODE: bpP:p2:direct
@@ -1352,9 +1352,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#bpP:p2:direct@L46-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: direct, direct_step (KAM/Planetary/Averaging/Direct.lean)
+LEAN_NOTE: audit P23-05 PASS WITH NOTES
 NOTE: The special-case remark is consumed and owned by P in slice P-xown. The variant at source-gap L49 is supplied by dr-use; preserve the original N hypotheses except for the three explicitly replaced divisor assumptions.
 
 NODE: stepP:p2:dr-use
@@ -1383,9 +1383,9 @@ EDGE: bpP:p2:setting | blueprint-P/parts/p2-averaging.tex#stepP:p2:dr-use@L53-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: direct_step (KAM/Planetary/Averaging/Direct.lean)
+LEAN_NOTE: audit P23-05 PASS WITH NOTES; named by audit
 NOTE: the steps hom-def, hom-norm of N are not imported as nodes; mapped to N:bpN:p6:homological
 
 NODE: bpP:p2:split
@@ -1415,9 +1415,9 @@ EDGE: N:bpN:p5:setting | blueprint-P/parts/p2-averaging.tex#bpP:p2:split@L60-L60
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: firstGen, directMap, split (KAM/Planetary/Averaging/Splitting.lean)
+LEAN_NOTE: audit P23-10 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p2:sp-coef
@@ -1445,9 +1445,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:sp-coef@L69
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: firstGen_class_bound, split_coeff (KAM/Planetary/Averaging/Splitting.lean)
+LEAN_NOTE: audit P23-10 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p2:sp-field
@@ -1477,9 +1477,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:sp-field@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: dtheta_firstGen_eq, split (KAM/Planetary/Averaging/Splitting.lean)
+LEAN_NOTE: audit P23-10 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p2:sp-int
@@ -1506,9 +1506,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:sp-int@L73-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: split (KAM/Planetary/Averaging/Splitting.lean)
+LEAN_NOTE: audit P23-10 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p2:nfb
@@ -1541,9 +1541,9 @@ EDGE: N:bpN:p6:setting | blueprint-P/parts/p2-averaging.tex#bpP:p2:nfb@L97-L97 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nfb, nfb_core, NfbConcl (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p2:nfb-first
@@ -1570,9 +1570,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:nfb-first@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nfb (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p2:nfb-N
@@ -1601,9 +1601,9 @@ EDGE: bpP:p2:split | blueprint-P/parts/p2-averaging.tex#stepP:p2:nfb-N@L107-L107
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-delta-P-d
 REVIEWER: sol-delta2-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nfb (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p2:nfb-ind
@@ -1634,9 +1634,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:nfb-ind@L11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nfb (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p2:nfb-concl
@@ -1668,9 +1668,9 @@ EDGE: stepP:p2:nfb-first | blueprint-P/parts/p2-averaging.tex#stepP:p2:nfb-concl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-delta-P-d
 REVIEWER: sol-delta2-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nfb (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p2:nfb-disp
@@ -1701,9 +1701,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:nfb-disp@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nfb (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p2:avg
@@ -1730,9 +1730,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#bpP:p2:avg@L137-L137
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avg (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; also bpP:p3:avg
 NOTE: the interface Lemma bpP:p3:avg is proved here: this corollary depends on nothing of Part 3 (the candidate edge to p3:avg is the interface it supplies)
 
 NODE: stepP:p2:av-dict
@@ -1757,9 +1757,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:av-dict@L14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avg (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: stepP:p2:av-hyp
@@ -1786,9 +1786,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:av-hyp@L149
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avg (KAM/Planetary/Averaging/Finite.lean)
+LEAN_NOTE: audit P23-12 PASS WITH NOTES; named by audit
 NOTE: -
 
 NODE: bpP:p2:osc-bracket
@@ -1817,9 +1817,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#bpP:p2:osc-bracket@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: osc_bracket, ob_der, ob_field (KAM/Planetary/Averaging/OscillatorBracket.lean)
+LEAN_NOTE: audit P23-11 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p2:ob-der
@@ -1846,9 +1846,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:ob-der@L177
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ob_der (KAM/Planetary/Averaging/OscillatorBracket.lean)
+LEAN_NOTE: audit P23-11 PASS WITH NOTES
 NOTE: SOURCE_GAP: L177 evaluates the angular Cauchy bound at width S with denominator e(S_0-S), but the hypotheses only give S-sigma<S_0, not S<S_0. L179 uses the shrunken-width denominator e(S_0-S+sigma). Keep the literal L177 claim exposed; do not add S<S_0 to the hypotheses.
 
 NODE: stepP:p2:ob-prod
@@ -1906,9 +1906,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:ob-field@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ob_field (KAM/Planetary/Averaging/OscillatorBracket.lean)
+LEAN_NOTE: audit P23-11 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p2:osc-iter
@@ -1942,7 +1942,7 @@ EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P23-13 FAIL on coverage: osc_iter_core/osc_fp_class partial; remainder bound, reality and final osc_iter assembly not proved; P23-13b..i are transfer infrastructure only
 NOTE: source-gap L196 (the extension is stated by a short list of changes, not rewritten in N) is bridged by the four steps; the proof is a transfer argument and the reviewer should check it is complete
 
 NODE: stepP:p2:oi-transfer
@@ -1980,7 +1980,7 @@ EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: P23-13b/e/g/i supply transfer infrastructure only; node not fully stated by any single declaration
 NOTE: -
 
 NODE: stepP:p2:oi-ratio
@@ -2318,9 +2318,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p2-averaging.tex#bpP:p2:use5@L243-L243 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: use5, use5_constants, oscPeriodChart (KAM/Planetary/TwoScale/Period.lean)
+LEAN_NOTE: audit P23-08 PASS WITH NOTES
 NOTE: Retain the mathematical dictionary (3): Part 5 steps av-dict and av-id consume it at L176 and L179. SPEC administrative exclusions have an explicit consumed-fact exception. The reference to period-convert with c=1 is a misleading pointer: the chart here rescales the angle and action reciprocally. Paragraph (1) delegates its estimate to Part 5 and creates no dependency on a Part 5 theorem.
 
 NODE: bpP:p1:conv#data
@@ -2347,9 +2347,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p1-hamiltonian-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: linearField, hamiltonianVectorField_eq_linearField (KAM/Planetary/Hamiltonian/Algebra.lean); angleScale, angleScaleCLM, angleScaleCLM_apply, fullShift, fullShift_eq_angleScale (KAM/Planetary/Hamiltonian/Chart.lean)
+LEAN_NOTE: composite of audits PP1-1 PASS WITH NOTES + PP1-4 PASS WITH NOTES; iota_k is existing angleShift (KAM/ODE/Basic.lean)
 NOTE: section data of Part 1 (prose L17); bpP:p0:totality is the Lean-totality explanation and is not consumed beyond the definition of the frozen field
 
 NODE: bpP:p2:conv#data
@@ -2376,9 +2376,9 @@ EDGE: N:bpN:p6:ext-numerics | blueprint-P/parts/p2-averaging.tex#bpP:p2:conv#dat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometricWidth, realBase, coefficientDom, realTube, firstBlock, lastBlock, block_bridge, conv_data (KAM/Planetary/Averaging/Setting.lean)
+LEAN_NOTE: audit P23-01 PASS WITH NOTES
 NOTE: section data of Part 2 (prose L24-L36); the N-dictionary remark bpN:p4:dictionary is cited at L28 as a pointer and is not consumed (the dictionary is stated here); the N section-level external lists (s-ext of Parts 4 and 6) are not importable nodes (SPEC report: 2 skipped section labels)
 
 NODE: bpP:p2:s-osc#data
@@ -2404,9 +2404,9 @@ EDGE: N:bpN:p4:norm | blueprint-P/parts/p2-averaging.tex#bpP:p2:s-osc#data@L167-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: oscPack, oscUnpack, oscFunction, oscParams, oscDom, oscBound, oscClass, oscGauge, s_osc_data (KAM/Planetary/Averaging/OscillatorSetting.lean)
+LEAN_NOTE: audit P23-06 PASS WITH NOTES; flat-coordinate implementation of the oscillator setting data (bracket/field not separate defs)
 NOTE: section data of Part 2 (prose L167-L169)
 
 NODE: stepP:p1:hc-real-derivative
@@ -2431,7 +2431,7 @@ EDGE: K:bp:p1:holomorphic-analytic | blueprint-P/parts/p1-hamiltonian-tools.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fderiv_real_slice (KAM/Planetary/Hamiltonian/HolChart.lean)
+LEAN_NOTE: audit PP1-5 PASS WITH NOTES
 NOTE: SOURCE_GAP: The source invokes K real-restriction for arbitrary open V. Its statement at blueprint/parts/p1-analysis.tex L1047-L1051 only treats a whole strip T_rho. K holomorphic-analytic(b), L296-L312, supplies real analyticity on arbitrary open sets, but does not state the derivative identification used here. No general-domain derivative bridge is supplied by an allowed external or an applicable imported statement; retain this obligation without strengthening the hypotheses.

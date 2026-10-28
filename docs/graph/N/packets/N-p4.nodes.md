@@ -520,9 +520,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#bpN:p4:algebra@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coeff_mul, wbound_mul, wbound_pow (KAM/Weighted/Algebra.lean)
+LEAN_NOTE: audit W4-5 PASS WITH NOTES
 NOTE: the \source remark about a Lean-proved coefficient-level inequality is provenance; the identification with the product of functions is steps b2-class/b2-coeff
 
 NODE: stepN:p4:b2-class
@@ -761,9 +761,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p4-weighted-norms.tex#bpN:p4:bracket@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: wbound_bracket (KAM/Weighted/Bracket.lean)
+LEAN_NOTE: audit W4-8 PASS
 NOTE: -
 
 NODE: stepN:p4:b4-four
@@ -936,9 +936,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#bpN:p4:projection
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projMode, truncate, modeAverage, projections, truncation_tail (KAM/Weighted/Projections.lean)
+LEAN_NOTE: audit W4-7 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p4:pr-class

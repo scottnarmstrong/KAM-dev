@@ -155,9 +155,9 @@ EDGE: bpP:p0:secavg#secularAverage | blueprint-P/parts/p8-secular-form.tex#bpP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Data, axes, action, axis, actionDomain, nu, secular, slowSecular, slowDom, cell, avg, rho, polydisc, inclusion, realDisc, perturbation (KAM/Planetary/SecularForm/Basic.lean)
+LEAN_NOTE: audit S8-B PASS WITH NOTES; definitions only
 NOTE: created from p8:prose-L17-L19 and p8:prose-L21-L22 (SPEC section data; N(rho), Lambda*, averages); consumers: nearly every node of Part 8 and Part 9
 
 NODE: bpP:p8:rho
@@ -183,9 +183,9 @@ EDGE: bpP:p7:holomorphic | blueprint-P/parts/p8-secular-form.tex#bpP:p8:rho@L34-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rho (KAM/Planetary/SecularForm/Basic.lean)
+LEAN_NOTE: audit S8-B PASS WITH NOTES (definition PASS)
 NOTE: rho_* is only named here (its existence is the content of bpP:p8:perturbation-analytic); no edge to that proposition (would be a cycle). The statement that N(rho), rho<rho_0, lies in the domain of Prop holomorphic is consumed at stepP:p8:pa-unif, which cites the proposition
 
 NODE: bpP:p8:perturbation-analytic
@@ -219,7 +219,7 @@ EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S8-A PASS WITH NOTES: perturbation_analytic matches the design contract; the blueprint clauses collision-free membership Psi(lambda,w) in W, full lambda-periodicity and d^alpha S=<d^alpha f> are not exported as one declaration; not marked proved
 NOTE: -
 
 NODE: stepP:p8:pa-circ
@@ -245,9 +245,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-circ@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planetC_center, re_separationC_center (KAM/Planetary/SecularForm/AnalyticGeometry.lean)
+LEAN_NOTE: audit S8-A PASS WITH NOTES; named pa-circ
 NOTE: -
 
 NODE: stepP:p8:pa-unif
@@ -375,9 +375,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:symmetries
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symmetries, rotateSlow, rotatePhysical, rotateSlow_mem, perturbation_antipode, perturbation_rotate, perturbation_reflect (KAM/Planetary/SecularForm/Symmetry.lean)
+LEAN_NOTE: audit S8-Y PASS WITH NOTES; chart identities (S1)-(S3) plus f invariances
 NOTE: -
 
 NODE: stepP:p8:sy-1
@@ -403,9 +403,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:sy-1@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_antipode (KAM/Planetary/SecularForm/Symmetry.lean)
+LEAN_NOTE: audit S8-Y PASS WITH NOTES; named sy-1
 NOTE: -
 
 NODE: stepP:p8:sy-2
@@ -431,9 +431,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:sy-2@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_rotate (KAM/Planetary/SecularForm/Symmetry.lean)
+LEAN_NOTE: audit S8-Y PASS WITH NOTES; named sy-2
 NOTE: -
 
 NODE: stepP:p8:sy-3
@@ -459,9 +459,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:sy-3@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_reflect (KAM/Planetary/SecularForm/Symmetry.lean)
+LEAN_NOTE: audit S8-Y PASS WITH NOTES; named sy-3
 NOTE: -
 
 NODE: stepP:p8:sy-f
@@ -486,9 +486,9 @@ EDGE: bpP:p6:split | blueprint-P/parts/p8-secular-form.tex#stepP:p8:sy-f@L72-L72
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation_map, perturbation_antipode, perturbation_rotate, perturbation_reflect (KAM/Planetary/SecularForm/Symmetry.lean)
+LEAN_NOTE: audit S8-Y PASS WITH NOTES; named sy-f
 NOTE: -
 
 NODE: bpP:p8:evenness
@@ -519,7 +519,7 @@ EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S8-Y PASS WITH NOTES: evenness proves the four invariances and evenness_taylor the vanishing of odd derivatives; criticality, O(2)-invariance of the degree-2d part and the A=A^T quadratic form are not exported; not marked proved
 NOTE: suspected defect: S(R_theta(xi,eta),Lambda) needs R_theta(xi,eta) in N_R(rho_*), but N_R(rho) is the box ¦xi_i¦,¦eta_i¦<rho, which is not invariant under rotations by theta not in (pi/2)Z; the identity holds for small (xi,eta) (local invariance suffices for steps ev-tay, ev-quad)
 
 NODE: stepP:p8:ev-inv
@@ -546,9 +546,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:ev-inv@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evenness, cell_integral_add, cell_integral_neg, perturbation_periodic (KAM/Planetary/SecularForm/Symmetry.lean)
+LEAN_NOTE: audit S8-Y PASS WITH NOTES; named ev-inv
 NOTE: -
 
 NODE: stepP:p8:ev-tay
@@ -638,9 +638,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:lemma64@L9
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: momentum, position, lemma64, lemma64_coordinates (KAM/Planetary/SecularForm/Momentum.lean)
+LEAN_NOTE: audit S8-M PASS WITH NOTES; parts (a)-(e)
 NOTE: -
 
 NODE: stepP:p8:l64-a
@@ -669,9 +669,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-a@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lemma64, hasDerivAt_position (KAM/Planetary/SecularForm/Momentum.lean)
+LEAN_NOTE: audit S8-M PASS WITH NOTES; named l64-a
 NOTE: the edge to bpP:p6:hamilton-eqs is deleted: the step states that it does not use it (its hypotheses include the collision guard)
 
 NODE: stepP:p8:l64-b
@@ -698,9 +698,9 @@ EDGE: K:bp:p1:ext-integral | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-delta-P-bf
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lemma64, avg_momentum (KAM/Planetary/SecularForm/Momentum.lean)
+LEAN_NOTE: audit S8-M PASS WITH NOTES; named l64-b
 NOTE: -
 
 NODE: stepP:p8:l64-c
@@ -728,9 +728,9 @@ EDGE: bpP:p8:e-diff | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-c@L103-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lemma64, avg_cross (KAM/Planetary/SecularForm/Momentum.lean)
+LEAN_NOTE: audit S8-M PASS WITH NOTES; named l64-c
 NOTE: -
 
 NODE: stepP:p8:l64-d
@@ -759,9 +759,9 @@ EDGE: bpP:p8:e-diff | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-d@L104-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lemma64, avg_diag (KAM/Planetary/SecularForm/Momentum.lean)
+LEAN_NOTE: audit S8-M PASS WITH NOTES; named l64-d
 NOTE: -
 
 NODE: stepP:p8:l64-e
@@ -787,9 +787,9 @@ EDGE: stepP:p8:l64-d | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-e@L105
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lemma64, planeSq_sum_eq (KAM/Planetary/SecularForm/Momentum.lean)
+LEAN_NOTE: audit S8-M PASS WITH NOTES; named l64-e
 NOTE: -
 
 NODE: bpP:p8:laplace-def
@@ -813,9 +813,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: laplace_def (KAM/Planetary/SecularForm/LaplaceCoeff.lean); laplace_fourier (KAM/Planetary/SecularForm/Laplace.lean)
+LEAN_NOTE: audit S8-L PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p8:laplace
@@ -843,9 +843,9 @@ EDGE: bpP:p8:e-taylor | blueprint-P/parts/p8-secular-form.tex#bpP:p8:laplace@L11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: laplace (KAM/Planetary/SecularForm/Laplace.lean); laplaceTerm, laplaceC, hasSum_laplaceTerm (KAM/Planetary/SecularForm/LaplaceCoeff.lean)
+LEAN_NOTE: audit S8-L PASS WITH NOTES; all eight conjuncts of laplace
 NOTE: -
 
 NODE: stepP:p8:la-exp
@@ -871,9 +871,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:la-exp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hasSum_kernel_complex (KAM/Planetary/SecularForm/LaplaceSeries.lean)
+LEAN_NOTE: audit S8-L PASS WITH NOTES; named la-exp
 NOTE: -
 
 NODE: stepP:p8:la-conv
@@ -900,9 +900,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:la-con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hasSum_laplaceTerm (KAM/Planetary/SecularForm/LaplaceCoeff.lean); differentiableOn_laplaceC (KAM/Planetary/SecularForm/Laplace.lean)
+LEAN_NOTE: audit S8-L PASS WITH NOTES; named la-conv
 NOTE: -
 
 NODE: bpP:p8:identities
@@ -932,7 +932,7 @@ EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S8-I PASS WITH NOTES: identities proved only for 0<alpha<1; the blueprint includes alpha=0 (design interior-domain specialization); not marked proved
 NOTE: -
 
 NODE: stepP:p8:id-1
@@ -1017,9 +1017,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:coeffs@L14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pairA, pairB, constantTerm, qhat, coeffs, coeffs_hermitian, coeffs_analytic (KAM/Planetary/SecularForm/Coefficients.lean)
+LEAN_NOTE: audit S8-C PASS WITH NOTES; analyticity stated in the axes a on increasing positive axes
 NOTE: -
 
 NODE: bpP:p8:quadratic-form
@@ -1318,7 +1318,7 @@ EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S8-M PASS WITH NOTES: identification proves continuity, the average delta, the integrability iff and the guarded S_mov=S_fix+delta; the N_R(rho_*) specialization and the averaged-Hamiltonian clauses are not exported; not marked proved
 NOTE: -
 
 NODE: stepP:p8:id-diff

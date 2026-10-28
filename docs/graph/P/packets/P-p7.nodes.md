@@ -1080,9 +1080,9 @@ EDGE: bpP:p7:sec-product#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pc_prod (KAM/Planetary/SecularForm/ProductInterface.lean); analyticOnNhd_poincareProd, poincareProd_symplectic, poincareProd_image, poincareProd_eq_iff, poincareProd_localDiffeo (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: audit S7-R PASS WITH NOTES; named pc-prod
 NOTE: -
 
 NODE: stepP:p7:pc-dec
@@ -1111,9 +1111,9 @@ EDGE: bpP:p7:sec-product#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: product_chart, pc_dec (KAM/Planetary/SecularForm/ProductInterface.lean); keplerPart_poincareProd, hasDerivAt_nu (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: audit S7-R PASS WITH NOTES; named pc-dec (product_chart derivatives of h, pc_dec field transport) with P7-5 keplerPart_poincareProd
 NOTE: -
 
 NODE: stepP:p7:pc-share
@@ -1149,9 +1149,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:pc-share@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pc_share (KAM/Planetary/SecularForm/ProductInterface.lean); movingHamiltonian_poincareProd, fixedHamiltonian_poincareProd, analyticOnNhd_fMov_poincareProd, analyticOnNhd_fFix_poincareProd (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: audit S7-R PASS WITH NOTES; named pc-share, with P7-5 splits
 NOTE: SOURCE_GAP: L207 asserts that the proof of bpP:p6:domain also gives real analyticity of f_mov,f_fix on W. Its statement/proof L54-L60 supply C-infinity using smooth square-root/reciprocal facts. A real-analytic positive-root/reciprocal argument for the explicit perturbations is needed before analytic composition; do not assume that missing regularity as a hypothesis. The splitting, openness and smooth field transport remain sourced as recorded.
 
 NODE: stepP:p7:pc-eq
@@ -1213,9 +1213,9 @@ EDGE: bpP:p7:sec-product#data | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularPoint_eq_poincareProd, tube_in_chart (KAM/Planetary/Poincare/Tube.lean)
+LEAN_NOTE: audit P7-6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p7:tu-circ
@@ -1243,9 +1243,9 @@ EDGE: bpP:p7:sec-product#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularPoint_eq_poincareProd (KAM/Planetary/Poincare/Tube.lean)
+LEAN_NOTE: audit P7-6 PASS WITH NOTES; named tube
 NOTE: -
 
 NODE: stepP:p7:tu-cont
@@ -1277,9 +1277,9 @@ EDGE: bpP:p7:sec-product#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tube_in_chart (KAM/Planetary/Poincare/Tube.lean)
+LEAN_NOTE: audit P7-6 PASS WITH NOTES; named tube
 NOTE: -
 
 NODE: bpP:p7:lattice
@@ -1314,9 +1314,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:lattice@L23
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision+sol-delta-P-ah
 REVIEWER: sol-delta-P-bc
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: polarDom, polarMap, polarMap_symplectic, analyticOnNhd_polarMap, polarMap_mapsTo, polarDom_shift, poincareProd_polar_symplectic, poincareProd_polar_lattice, poincareProd_polar_periodOne_symplectic, poincareProd_polar_periodOne_lattice, polar_hamiltonian_split (KAM/Planetary/Poincare/Lattice.lean); SecularSpectrum.lattice (KAM/Planetary/SecularForm/ProductInterface.lean)
+LEAN_NOTE: composite of audits P7-6 PASS WITH NOTES + S7-R PASS WITH NOTES (lattice polar quotient cut); (d) as moving-Sun split polar_hamiltonian_split
 NOTE: restored by the P-FIXED revision (was EXCLUDED as P-FIXED-only, writer ruling 2026-10-28); consumer stepP:p11:tc-polar (Part 11 L90); source fields filled by sonnet-extract-pfixed
 
 NODE: stepP:p7:la-polar
@@ -1344,9 +1344,9 @@ EDGE: bpP:p7:product-chart | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision+sol-review-P-w
 REVIEWER: sol-delta-P-ah
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: polarMap_symplectic, analyticOnNhd_polarMap, polarMap_mapsTo (KAM/Planetary/Poincare/Lattice.lean)
+LEAN_NOTE: audit P7-6 PASS WITH NOTES; named lattice
 NOTE: restored by the P-FIXED revision (was EXCLUDED as P-FIXED-only, writer ruling 2026-10-28); consumer stepP:p11:tc-polar (Part 11 L90); source fields filled by sonnet-extract-pfixed
 
 NODE: stepP:p7:la-inv
@@ -1372,9 +1372,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:la-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision+sol-delta-P-ah
 REVIEWER: sol-delta-P-bc
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: polarMap_shift, polarMap_eq_shift, poincareProd_polar_lattice (KAM/Planetary/Poincare/Lattice.lean)
+LEAN_NOTE: audit P7-6 PASS WITH NOTES; named lattice
 NOTE: restored by the P-FIXED revision (was EXCLUDED as P-FIXED-only, writer ruling 2026-10-28); consumer stepP:p11:tc-polar (Part 11 L90); source fields filled by sonnet-extract-pfixed
 
 NODE: stepP:p7:la-per
@@ -1402,9 +1402,9 @@ EDGE: stepP:p7:la-inv | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:la-per
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision+sol-review-P-w
 REVIEWER: sol-delta-P-ah
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincareProd_polar_periodOne_symplectic, poincareProd_polar_periodOne_lattice (KAM/Planetary/Poincare/Lattice.lean)
+LEAN_NOTE: audit P7-6 PASS WITH NOTES; named lattice
 NOTE: restored by the P-FIXED revision (was EXCLUDED as P-FIXED-only, writer ruling 2026-10-28); consumer stepP:p11:tc-polar (Part 11 L90); source fields filled by sonnet-extract-pfixed
 
 NODE: stepP:p7:la-ham

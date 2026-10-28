@@ -175,9 +175,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Lattice, lattice, latticeDim, integerReal, eBall, resonance, lattice_resonance (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: audit N89-G1 PASS WITH NOTES
 NOTE: Package bpN:p8:lattice (SPEC): consumed by symbol (Λ, W_Λ, dim, R_Λ, Θ) throughout Parts 8, 9, 11c.
 
 NODE: bpN:p8:lattice-basis
@@ -205,9 +205,9 @@ EDGE: stepN:p8:lb-sub | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:latti
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: latticeBasis, basisMatrix, lattice_basis, lattice_basis_change, lattice_basis_sub (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: audit N89-G1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p8:lb-basis
@@ -320,9 +320,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:volume
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: gram, volume_def (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: audit N89-G3 PASS WITH NOTES
 NOTE: Package (SPEC): ¦Λ¦ used by symbol in lattice-volume, maximal, blocks, covering, Parts 9 and 11c. Edge to lattice-basis is the well-definedness input for the radicand; the independence of the basis matrix is lattice-volume(a), which is not an input.
 
 NODE: bpN:p8:projection
@@ -352,9 +352,9 @@ EDGE: bpN:p8:lattice-basis | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projection_exists_unique, proj, compProj, projection, projection_zero, resonanceDistance, projection_distance_subspace, projection_distance (KAM/Nekhoroshev/ResonanceGeometry/Projection.lean)
+LEAN_NOTE: audit N89-G2 PASS WITH NOTES
 NOTE: Euclidean norm ‖·‖ on ℝⁿ (Part 8 convention, L9). The consequence line uses the lattice definitions (edge to bpN:p8:lattice).
 
 NODE: stepN:p8:pr-alg
@@ -468,9 +468,9 @@ EDGE: stepN:p8:lv-f | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:lattice
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: addVector, lattice_volume, lattice_volume_index, lattice_volume_cyclic, lattice_volume_hadamard (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: audit N89-G3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p8:lv-ab
@@ -646,9 +646,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:klatti
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: klattice, maximalK (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: audit N89-G4 PASS WITH NOTES
 NOTE: Package (SPEC). Candidate edge to bpN:p8:maximal dropped (forward pointer in \source). The ball ℰ_K is notation fixed in the prose L9 (coverage p8:prose-L9-L9).
 
 NODE: bpN:p8:maximal
@@ -680,9 +680,9 @@ EDGE: stepN:p8:mx-e | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:maximal
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: audit N89-G4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p8:mx-char
@@ -856,9 +856,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:blocks
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: zone, zoneStratum, blocks (KAM/Nekhoroshev/ResonanceGeometry/Blocks.lean)
+LEAN_NOTE: audit N89-G5 PASS WITH NOTES
 NOTE: Package (SPEC): D_Λ, δ_Λ, B_Λ, Z_Λ used by symbol in Parts 9 and 11c.
 
 NODE: bpN:p8:blocks-cover
@@ -886,9 +886,9 @@ EDGE: stepN:p8:bc-top | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:block
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: blocks_cover (KAM/Nekhoroshev/ResonanceGeometry/Blocks.lean)
+LEAN_NOTE: audit N89-G5 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p8:bc-finite
@@ -914,9 +914,9 @@ EDGE: bpN:p8:ext-basic | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:bc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: blocks_cover (KAM/Nekhoroshev/ResonanceGeometry/Blocks.lean)
+LEAN_NOTE: audit N89-G5 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p8:bc-top
@@ -942,9 +942,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:bc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: blocks_cover (KAM/Nekhoroshev/ResonanceGeometry/Blocks.lean)
+LEAN_NOTE: audit N89-G5 PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p8:sqrt
@@ -968,9 +968,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sqrt (KAM/Nekhoroshev/ResonanceGeometry/GeomFormula.lean)
+LEAN_NOTE: audit N89-G6 PASS WITH NOTES
 NOTE: Pure real-number inequality; no dependencies.
 
 NODE: bpN:p8:geometric
@@ -1004,9 +1004,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:geome
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: audit N89-G6 PASS WITH NOTES
 NOTE: Statement lines L148-L158; the separate proof environment is L169-L180. Candidate edge to geom-formula moved to the proof steps (gl-setup, gl-proj, gl-div), where it is used.
 
 NODE: bpN:p8:geom-formula
@@ -1032,9 +1032,9 @@ EDGE: bpN:p8:projection | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:geo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geom_formula (KAM/Nekhoroshev/ResonanceGeometry/GeomFormula.lean)
+LEAN_NOTE: audit N89-G6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p8:gl-theta
@@ -1255,9 +1255,9 @@ EDGE: stepN:p8:cv-radii | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:cov
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering, CoverParams.lam, CoverParams.radius, CoverParams.alpha, CoverParams.delta, actionBlock (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: audit N89-G7 PASS WITH NOTES
 NOTE: Package-like (SPEC): r_Λ, α_Λ, δ_Λ, D_Λ are used by symbol in Parts 9 and 11c via this lemma.
 
 NODE: stepN:p8:cv-params
@@ -1407,9 +1407,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:cutoff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cutoffs (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: audit N89-G7 PASS WITH NOTES
 NOTE: Candidate edges to bpN:p7:resonant-prop2 (L209: the radius condition of Prop (c) is only matched, not used) and bpN:p8:direction (remark, excluded) dropped: breaks the SPEC candidate cycle through bpN:p8:cutoffs -> p7:resonant-prop2. Consumers (Part 9, 11c) apply (b) and (c).
 
 NODE: stepN:p8:co-incl

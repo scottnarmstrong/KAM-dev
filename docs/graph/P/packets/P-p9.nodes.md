@@ -151,9 +151,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:conv#d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9
 REVIEWER: sol-review-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: length2, op2, frobenius, sorted, isSO, opMax, norm_compare, norm_compare_operator (KAM/Planetary/SecularSpectrum/Norms.lean); coeffs_analytic, SecularSpectrum.sigma (KAM/Planetary/SecularForm/Coefficients.lean)
+LEAN_NOTE: composite of audits S9-N PASS WITH NOTES + S8-C PASS WITH NOTES
 NOTE: created from p9:prose-L15-L16 (SPEC section data); includes the inline label bpP:p9:norm-compare; consumers: definite, local-analytic, diagonalize (step d-c), good, n2
 
 NODE: bpP:p9:l75
@@ -596,9 +596,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:lift@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: audit S9-L PASS WITH NOTES
 NOTE: edge to bpP:p7:product-chart deleted: the statement only names the form Omega_chart, which it writes out; the lift does not use the chart theorem
 
 NODE: stepP:p9:lift-bij
@@ -622,9 +622,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: liftInv_liftMap_of_isSO, liftMap_liftInv_of_isSO, liftMap_add_append (KAM/Planetary/SecularSpectrum/Lift/Basic.lean); analyticAt_liftMap (KAM/Planetary/SecularSpectrum/Lift/Analytic.lean)
+LEAN_NOTE: audit S9-L PASS WITH NOTES; named lift-bij
 NOTE: -
 
 NODE: stepP:p9:lift-anti
