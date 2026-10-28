@@ -1022,6 +1022,9 @@ public import KAM.Planetary.WeakKAM.IterationRetained
 public import KAM.Planetary.WeakKAM.IterationStage
 public import KAM.Planetary.WeakKAM.IterationStep
 public import KAM.Planetary.WeakKAM.Schedule
+public import KAM.Planetary.WeakKAM.Selection
+public import KAM.Planetary.WeakKAM.SelectionRecord
+public import KAM.Planetary.WeakKAM.SelectionTests
 public import KAM.Planetary.WeakKAM.StripBudget
 public import KAM.Planetary.WeakMeasure.BallSublevel
 public import KAM.Planetary.WeakMeasure.Basic
