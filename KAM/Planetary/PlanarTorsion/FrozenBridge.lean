@@ -49,7 +49,6 @@ theorem hasSecularBirkhoffForm_of_sixth_order
     have h0 : 0 ≤ ∑ i, (q i ^ 2 + p i ^ 2) := Finset.sum_nonneg fun i _ => by positivity
     rw [p11c_slowLength, sq_sqrt h0, Fin.sum_univ_two]
     have := h 0; have := h 1
-    simp only []
     linarith
   have hlen : ∀ (p q : Fin 2 → ℝ) (d : ℝ), 0 < d → d ≤ r0 → (∀ j, p j ^ 2 + q j ^ 2 < d ^ 2) →
       p11c_slowLength (q, p) < r := by
@@ -94,7 +93,6 @@ theorem hasSecularBirkhoffForm_of_sixth_order
     have h0 : 0 ≤ ∑ i, (q i ^ 2 + p i ^ 2) := Finset.sum_nonneg fun i _ => by positivity
     rw [hL, p11c_slowLength, sq_sqrt h0, Fin.sum_univ_two]
     have := hp 0; have := hp 1; have := hq 0; have := hq 1
-    simp only []
     linarith
   have hN0 : 0 ≤ N ^ 2 := by positivity
   have hL0 : 0 ≤ L ^ 2 := by positivity
@@ -106,9 +104,9 @@ theorem hasSecularBirkhoffForm_of_sixth_order
           apply mul_le_mul hL2.le h4 (by positivity) (by positivity)
       _ = _ := by ring
   have hN4 : N ^ 4 = (N ^ 2) ^ 2 := by ring
-  rw [hN4.symm] at h5 ⊢
+  rw [hN4.symm] at h5
   have hk : 32 * C * δ ^ 2 ≤ eps := by
-    have := (le_div_iff₀ (by positivity : (0:ℝ) < 32 * C)).1 (by linarith [hδ2] : δ ^ 2 ≤ eps / (32 * C))
+    have := (le_div_iff₀ (by positivity : (0:ℝ) < 32 * C)).1 hδ2
     linarith
   have hN4' : 0 ≤ N ^ 4 := by positivity
   calc C * L ^ 6 ≤ C * ((2 * δ ^ 2) * (16 * N ^ 4)) := by gcongr
