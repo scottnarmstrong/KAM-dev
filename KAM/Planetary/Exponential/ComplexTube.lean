@@ -10,6 +10,7 @@ public import KAM.Frozen.Nekhoroshev.Defs.ComplexifyPhase
 public import KAM.Frozen.Planetary.Defs.FastShift
 public import KAM.Planetary.Exponential.LocalComplexification
 public import KAM.Planetary.PGAssembly.RealSlice
+public import KAM.Planetary.PGAssembly.ExtensionTubeP
 
 /-!
 # P14 package E6: the complex tube of a real-analytic periodic function
@@ -114,17 +115,6 @@ theorem complexifyPhase_sub {d : ℕ} (a b : Phase d) :
 
 theorem norm_complexifyPhase {d : ℕ} (a : Phase d) :
     ‖KAM.Nekhoroshev.complexifyPhase a‖ = ‖a‖ := KAM.norm_realInclusion₂ a
-
-theorem fastShift_add (k l : Fin n → ℤ) :
-    (fastShift (b := n) (k + l)) = fastShift k + fastShift l := by
-  refine Prod.ext ?_ ?_
-  · ext i
-    refine Fin.addCases (fun j => ?_) (fun j => ?_) i
-    · simp only [fastShift, Prod.fst_add, Pi.add_apply, Fin.append_left]
-      push_cast; ring
-    · simp only [fastShift, Prod.fst_add, Pi.add_apply, Fin.append_right]
-      simp
-  · simp [fastShift]
 
 /-- Gluing local holomorphic branches that agree on real points of overlaps. -/
 theorem exists_glue {ι : Type*} {d : ℕ} (C : ι → Phase d) (R : ι → ℝ)
