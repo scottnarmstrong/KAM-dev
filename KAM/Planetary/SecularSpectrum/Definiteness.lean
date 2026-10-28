@@ -101,7 +101,7 @@ lemma quad_eigen_le {M : Mat n} (hM : M.IsHermitian) {c : ℝ}
   have hv := hM.mulVec_eigenvectorBasis j
   have hn1 : ∑ l, (v l) ^ 2 = 1 := by
     have h := (hM.eigenvectorBasis).norm_eq_one j
-    rw [EuclideanSpace.norm_eq, Real.sqrt_eq_one] at h
+    rw [PiLp.norm_eq_of_L2, Real.sqrt_eq_one] at h
     simpa using h
   have hl : length2 (⇑v) = 1 := by rw [length2, hn1, Real.sqrt_one]
   have hquad : quad M ⇑v = hM.eigenvalues j := by
