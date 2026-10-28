@@ -438,6 +438,119 @@ theorem mean_planeSq_pmom {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : 
   have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
   exact (poincare_means (D.hm i) hκ (blk_mem hx i 0)).2.1
 
+theorem nu_pos {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) : 0 < nu D x.2.1 i := by
+  have hm : 0 < D.m i := D.hm i
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have hΛ : 0 < x.2.1 i := by
+    have := (blk_mem hx i 0).1
+    simpa [blk] using this
+  unfold nu
+  positivity
+
+theorem continuous_planeDot_comp {f g : Vec n → Fin 2 → ℝ} (hf : Continuous f)
+    (hg : Continuous g) : Continuous fun t => planeDot (f t) (g t) := by
+  unfold planeDot
+  exact continuous_finsetSum _ fun k _ =>
+    ((continuous_apply k).comp hf).mul ((continuous_apply k).comp hg)
+
+theorem avg_momentum {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) :
+    avg (fun t => momentum D x t i) = 0 := by
+  funext c
+  rw [avg_apply (continuous_momentum hx i) c]
+  have : (fun t : Vec n => momentum D x t i c) = fun t => pmom D x i (t i) c :=
+    funext fun t => by rw [momentum_eq_pmom]
+  rw [this, avg_one i (fun s => pmom D x i s c),
+    ← intervalIntegral_apply (continuous_pmom hx i) c, integral_pmom hx i]
+  simp
+
+theorem avg_cross {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) {i j : Fin n} (hij : i ≠ j) :
+    avg (fun t => planeDot (momentum D x t i) (momentum D x t j)) = 0 := by
+  unfold planeDot
+  have hcont : ∀ c : Fin 2, Continuous fun t : Vec n => momentum D x t i c * momentum D x t j c :=
+    fun c => ((continuous_apply c).comp (continuous_momentum hx i)).mul
+      ((continuous_apply c).comp (continuous_momentum hx j))
+  rw [avg_sum Finset.univ (f := fun c t => momentum D x t i c * momentum D x t j c) hcont]
+  refine Finset.sum_eq_zero fun c _ => ?_
+  have : (fun t : Vec n => momentum D x t i c * momentum D x t j c) =
+      fun t => pmom D x i (t i) c * pmom D x j (t j) c :=
+    funext fun t => by rw [momentum_eq_pmom, momentum_eq_pmom]
+  rw [this, avg_two hij (fun s => pmom D x i s c) (fun s => pmom D x j s c),
+    ← intervalIntegral_apply (continuous_pmom hx i) c, integral_pmom hx i]
+  simp
+
+theorem avg_diag {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i : Fin n) :
+    avg (fun t => planeSq (momentum D x t i)) =
+      D.m i ^ 2 * (D.G * D.m0) / axis D x.2.1 i := by
+  have : (fun t : Vec n => planeSq (momentum D x t i)) =
+      fun t => planeSq (pmom D x i (t i)) := funext fun t => by rw [momentum_eq_pmom]
+  rw [this, avg_one i (fun s => planeSq (pmom D x i s)), mean_planeSq_pmom hx]
+
+theorem planeSq_sum_eq (v : Fin n → Fin 2 → ℝ) :
+    planeSq (∑ i, v i) = ∑ i, ∑ j, planeDot (v i) (v j) := by
+  simp only [planeSq, planeDot, Finset.sum_apply, sq, Finset.sum_mul_sum]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [Finset.sum_comm]
+
+/-- Joint Lemma 64; no pair-collision guard is required. -/
+theorem lemma64 (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) :
+    (∀ t i, (D.m i * nu D x.2.1 i) •
+      deriv (fun s => position D x (Function.update t i s) i) (t i) = momentum D x t i) ∧
+    (∀ i, avg (fun t => momentum D x t i) = 0) ∧
+    (∀ i j, i ≠ j → avg (fun t => planeDot (momentum D x t i) (momentum D x t j)) = 0) ∧
+    (∀ i, avg (fun t => planeSq (momentum D x t i)) =
+      D.m i ^ 4 * (D.G*D.m0)^2 / x.2.1 i ^ 2) ∧
+    avg (fun t => planeSq (∑ i, momentum D x t i)) =
+      ∑ i, D.m i ^ 4 * (D.G*D.m0)^2 / x.2.1 i ^ 2 := by
+  have hd : ∀ i, avg (fun t => planeSq (momentum D x t i)) =
+      D.m i ^ 4 * (D.G*D.m0)^2 / x.2.1 i ^ 2 := by
+    intro i
+    rw [avg_diag hx]
+    have := (D.hm i).ne'
+    have hκ := (mul_pos D.hG D.hm0).ne'
+    have hΛ : x.2.1 i ≠ 0 := by
+      have := (blk_mem hx i 0).1
+      simpa [blk] using this.ne'
+    unfold axis
+    field_simp
+  refine ⟨?_, avg_momentum hx, fun i j h => avg_cross hx h, hd, ?_⟩
+  · intro t i
+    rw [(hasDerivAt_position hx t i).deriv, smul_inv_smul₀]
+    exact (mul_pos (D.hm i) (nu_pos hx i)).ne'
+  · have hc : ∀ i j, Continuous fun t : Vec n =>
+        planeDot (momentum D x t i) (momentum D x t j) := fun i j =>
+      continuous_planeDot_comp (continuous_momentum hx i) (continuous_momentum hx j)
+    have : (fun t : Vec n => planeSq (∑ i, momentum D x t i)) =
+        fun t => ∑ i, ∑ j, planeDot (momentum D x t i) (momentum D x t j) :=
+      funext fun t => planeSq_sum_eq _
+    rw [this, avg_sum _ fun i => continuous_finsetSum _ fun j _ => hc i j]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [avg_sum _ fun j => hc i j, Finset.sum_eq_single i]
+    · rw [← hd i]
+      congr 1
+      funext t
+      exact (planeSq_eq_planeDot _).symm
+    · intro j _ hj
+      exact avg_cross hx hj.symm
+    · simp
+
+theorem lemma64_coordinates (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) :
+    (∀ t i j, i ≠ j → deriv (fun s => position D x (Function.update t j s) i) (t j) = 0) ∧
+    (∀ t i, (2*π)⁻¹ • (∫ s in (0:ℝ)..2*π, momentum D x (Function.update t i s) i) = 0) ∧
+    (∀ t i, (2*π)⁻¹ * (∫ s in (0:ℝ)..2*π, planeSq (momentum D x (Function.update t i s) i)) =
+      D.m i^2*(D.G*D.m0)/axis D x.2.1 i) := by
+  refine ⟨fun t i j hij => ?_, fun t i => ?_, fun t i => ?_⟩
+  · have : (fun s => position D x (Function.update t j s) i) = fun _ => position D x t i :=
+      funext fun s => position_update_ne D x t hij s
+    rw [this, deriv_const]
+  · have : (fun s => momentum D x (Function.update t i s) i) = pmom D x i :=
+      funext fun s => momentum_update_self D x t i s
+    rw [this, integral_pmom hx i, smul_zero]
+  · have : (fun s => planeSq (momentum D x (Function.update t i s) i)) =
+        fun s => planeSq (pmom D x i s) :=
+      funext fun s => by rw [momentum_update_self]; rfl
+    rw [this, mean_planeSq_pmom hx i]
+
 end SecularForm
 end KAM.Planetary
 
