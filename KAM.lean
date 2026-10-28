@@ -475,6 +475,7 @@ public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Exponential.Enlargement
 public import KAM.Planetary.Exponential.KeplerData
 public import KAM.Planetary.Exponential.LocalComplexification
+public import KAM.Planetary.Exponential.Perturbation
 public import KAM.Planetary.Exponential.RealDomain
 public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Exponential.UniformData
@@ -643,6 +644,7 @@ public import KAM.Planetary.PlanarTorsion.PairCoefficients.Laplace
 public import KAM.Planetary.PlanarTorsion.PairCoefficients.Series
 public import KAM.Planetary.PlanarTorsion.PairCoefficients.Vanish
 public import KAM.Planetary.PlanarTorsion.PairCoefficients
+public import KAM.Planetary.PlanarTorsion.RealFlow.Local
 public import KAM.Planetary.PlanarTorsion.Setting
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
@@ -669,6 +671,9 @@ public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
 public import KAM.Planetary.Quantitative.Interface
 public import KAM.Planetary.Quantitative.Thresholds
+public import KAM.Planetary.Quantitative.Zero
+public import KAM.Planetary.SecularBox.Chart
+public import KAM.Planetary.SecularBox.Covariance
 public import KAM.Planetary.SecularBox.Numerics
 public import KAM.Planetary.SecularBox.ParametricIntegral
 public import KAM.Planetary.SecularForm.Analytic
