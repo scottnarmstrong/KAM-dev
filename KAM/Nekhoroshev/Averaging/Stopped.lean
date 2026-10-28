@@ -277,6 +277,107 @@ theorem lintegral_cell_le (hε : 0 < ε) (hM0 : 0 ≤ M₂) (ell : Fin n → ℤ
 
 end Extended
 
+section Main
+
+/-- Uniform witness chosen before epsilon, eta, or any supplied solution family. -/
+theorem stopped (d : AveragingData n R s h f) (K : Set (AvgPhase n))
+    (hK : IsCompact K) (hKI : ∀ x ∈ K, x.2 ∈ actionBall n (R / 2)) :
+    ∃ M₂ A₁ : ℝ, 0 ≤ M₂ ∧ 0 < A₁ ∧
+      (∀ I ∈ closedBall (0 : Fin n → ℝ) R, ∀ i, ∑ j, |avgM h I i j| ≤ M₂) ∧
+      ∀ f₁ : AvgComplexPhase n → ℂ, IsAnalyticPerturbation R s 1 f₁ →
+      ∀ ε : ℝ, 0 < ε → ε ≤ 1 →
+        Measurable (K.indicator (avgStopped h f₁ R s M₂ ε)) ∧
+        (∫⁻ x in K, avgStopped h f₁ R s M₂ ε x) ≤ ENNReal.ofReal (A₁ * Real.sqrt ε) ∧
+        ∀ x ∈ K, ∀ t : ℝ, 0 ≤ t → t ≤ 1 / ε → (t : EReal) ≤ avgTau h f₁ R ε x →
+          ∀ u ∈ Icc 0 t, ENNReal.ofReal ‖(avgFlow h f₁ R ε u x).2 - x.2‖ ≤
+            avgStopped h f₁ R s M₂ ε x := by
+  obtain ⟨C₁, Ω₀, M₂, -, -, hM0, -, hM, -, henv⟩ := envelopes d
+  obtain ⟨S, hS⟩ := exists_cell_cover hK
+  set cW := max 0 (avgCW n s C₁ Ω₀) with hcW
+  set cΦ := max 0 (avgCPhi n s C₁ Ω₀ M₂) with hcΦ
+  have hKm : MeasurableSet K := hK.isClosed.measurableSet
+  refine ⟨M₂, max 1 (S.card * (cΦ + 4 * cW)), hM0, lt_of_lt_of_le one_pos (le_max_left _ _),
+    hM, fun f₁ hf₁ ε hε hε1 => ?_⟩
+  have d₁ : AveragingData n R s h f₁ := { d with hf := hf₁ }
+  have hsq : 0 ≤ Real.sqrt ε := Real.sqrt_nonneg ε
+  have hsqpos : 0 < Real.sqrt ε := Real.sqrt_pos.2 hε
+  refine ⟨?_, ?_, ?_⟩
+  · have hEq : K.indicator (avgStopped h f₁ R s M₂ ε) = K.indicator (avgStoppedExt h f₁ R s M₂ ε) := by
+      funext x
+      by_cases hx : x ∈ K
+      · rw [indicator_of_mem hx, indicator_of_mem hx, avgStopped_eq_ext d₁ ε M₂ hε (hKI x hx)]
+      · rw [indicator_of_notMem hx, indicator_of_notMem hx]
+    rw [hEq]
+    exact (measurable_avgStoppedExt d₁ ε M₂ hε hM0).indicator hKm
+  · obtain ⟨hW, hP⟩ := henv ε hε hε1
+    have hcongr : (∫⁻ x in K, avgStopped h f₁ R s M₂ ε x) =
+        ∫⁻ x in K, avgStoppedExt h f₁ R s M₂ ε x :=
+      setLIntegral_congr_fun hKm fun x hx => avgStopped_eq_ext d₁ ε M₂ hε (hKI x hx)
+    have hKeq : K = ⋃ ell ∈ S, (K ∩ avgCell ell) := by
+      ext x
+      simp only [mem_iUnion, mem_inter_iff, exists_prop]
+      refine ⟨fun hx => ?_, fun ⟨_, _, hx, _⟩ => hx⟩
+      have := hS hx
+      simp only [mem_iUnion, exists_prop] at this
+      obtain ⟨ell, hell, hxc⟩ := this
+      exact ⟨ell, hell, hx, hxc⟩
+    have hmeas : ∀ ell ∈ S, MeasurableSet (K ∩ avgCell ell) := fun ell _ =>
+      hKm.inter (measurableSet_avgCell ell)
+    have hdisj : (S : Set (Fin n → ℤ)).PairwiseDisjoint fun ell => K ∩ avgCell ell :=
+      fun a _ b _ hne => (disjoint_avgCell hne).mono inter_subset_right inter_subset_right
+    have hcell : ∀ ell ∈ S, (∫⁻ x in K ∩ avgCell ell, avgStoppedExt h f₁ R s M₂ ε x) ≤
+        ENNReal.ofReal ((cΦ + 4 * cW) * Real.sqrt ε) := by
+      intro ell hell
+      refine (lintegral_cell_le d₁ ε M₂ hε hM0 ell (hmeas ell hell) inter_subset_right
+        fun x hx => hKI x hx.1).trans ?_
+      have e : ENNReal.ofReal ε * (ENNReal.ofReal (1 / ε) *
+          ∫⁻ I in avgG n R, avgPhiEnv h s M₂ ε (Real.sqrt ε) I) =
+          ∫⁻ I in avgG n R, avgPhiEnv h s M₂ ε (Real.sqrt ε) I := by
+        rw [← mul_assoc, ← ENNReal.ofReal_mul hε.le, mul_one_div_cancel hε.ne']
+        simp
+      rw [e]
+      calc _ ≤ ENNReal.ofReal (4 * cW * Real.sqrt ε) + ENNReal.ofReal (cΦ * Real.sqrt ε) := by
+            refine add_le_add (hW.trans (ENNReal.ofReal_le_ofReal ?_))
+              (hP.trans (ENNReal.ofReal_le_ofReal ?_))
+            · gcongr; exact le_max_right _ _
+            · gcongr; exact le_max_right _ _
+        _ = _ := by
+            rw [← ENNReal.ofReal_add (by positivity) (by positivity)]; congr 1; ring
+    calc (∫⁻ x in K, avgStopped h f₁ R s M₂ ε x)
+        = ∑ ell ∈ S, ∫⁻ x in K ∩ avgCell ell, avgStoppedExt h f₁ R s M₂ ε x := by
+          rw [hcongr]
+          conv_lhs => rw [hKeq]
+          exact lintegral_biUnion_finset hdisj hmeas _
+      _ ≤ ∑ _ell ∈ S, ENNReal.ofReal ((cΦ + 4 * cW) * Real.sqrt ε) := Finset.sum_le_sum hcell
+      _ = ENNReal.ofReal (S.card * ((cΦ + 4 * cW) * Real.sqrt ε)) := by
+          rw [Finset.sum_const, nsmul_eq_mul, ENNReal.ofReal_mul (p := (S.card : ℝ)) (Nat.cast_nonneg _),
+            ENNReal.ofReal_natCast]
+      _ ≤ _ := by
+          refine ENNReal.ofReal_le_ofReal ?_
+          rw [← mul_assoc]
+          exact mul_le_mul_of_nonneg_right (le_max_right _ _) hsq
+  · intro x hxK t ht0 ht1 htau u hu
+    have hx := hKI x hxK
+    obtain ⟨-, -, -, -, hexit, -⟩ := exit d₁ hε hx
+    have hpt := pointwise d₁ hε hε1 hsqpos (Real.sqrt_le_one.2 hε1) hM hx ht0
+      (hexit t ht0 htau).1
+      (fun v hv => (hexit v hv.1 ((EReal.coe_le_coe_iff.2 hv.2).trans htau)).2) u hu
+    refine hpt.trans ?_
+    unfold avgStopped
+    refine add_le_add le_rfl (mul_le_mul_right ?_ _)
+    calc (∫⁻ v in Icc 0 t, avgPhiEnv h s M₂ ε (Real.sqrt ε) (avgFlow h f₁ R ε v x).2)
+        = ∫⁻ v in Ico 0 t, avgPhiEnv h s M₂ ε (Real.sqrt ε) (avgFlow h f₁ R ε v x).2 :=
+          setLIntegral_congr Ico_ae_eq_Icc.symm
+      _ = ∫⁻ v in Ico 0 t, (avgStay h f₁ R ε).indicator
+            (fun p => avgPhiEnv h s M₂ ε (Real.sqrt ε) (avgFlow h f₁ R ε p.1 p.2).2) (v, x) :=
+          setLIntegral_congr_fun measurableSet_Ico fun v hv => by
+            rw [indicator_of_mem (mem_avgStay_of_lt_tau d₁ ε hx hv.1
+              (lt_of_lt_of_le (EReal.coe_lt_coe_iff.2 hv.2) htau))]
+      _ ≤ _ := lintegral_mono_set
+          (show Ico 0 t ⊆ Icc 0 (1 / ε) from fun v hv => ⟨hv.1, hv.2.le.trans ht1⟩)
+
+end Main
+
 end KAM.Nekhoroshev
 
 end
