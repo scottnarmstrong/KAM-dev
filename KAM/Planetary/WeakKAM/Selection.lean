@@ -189,23 +189,22 @@ theorem selectionT_unbounded (a : SelectionSchedule n) (hT : 1 ≤ a.T₀) (L : 
   obtain ⟨ν, hν⟩ := pow_unbounded_of_one_lt L (by norm_num : (1 : ℝ) < 2)
   exact ⟨ν, hν.le.trans (by unfold selectionT; nlinarith [pow_pos (two_pos : (0 : ℝ) < 2) ν])⟩
 
-/-- `bpP:p11a:parameter-selection`: the parameter selection, built on the iteration of the
-inductive lemma. -/
-theorem parameter_selection (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
-    (hsmall : ε ≤ selectionAdmissible d) (f : SelectionPhaseC n → ℂ)
-    (hf : SelectionPerturbation d f ε) : Nonempty (SelectionOutput d f (adm_params d ε)) := by
-  obtain ⟨o⟩ := inductive_lemma d ε he hsmall f hf
-  obtain ⟨hA, ht1, hs, he0⟩ := selection_adm_facts d ε he hsmall
-  set a := adm_params d ε with ha
+/-- The full selection output on any iteration at an admissible schedule `a` with the selection
+constants: the shared proof of `parameter_selection` and `parameter_selection_adapted`. -/
+theorem selectionOutput_of_iteration (d : SelectionData n) (f : SelectionPhaseC n → ℂ)
+    (a : SelectionSchedule n) (cx : WeakBudgetCtx d a) (ht1 : a.t₀ ≤ 1) (hs : 0 < a.s₀)
+    (he0 : 0 < a.ε₀) (hγe : a.γ = selectionGamma d) (o : SelectionIteration d f a) :
+    Nonempty (SelectionOutput d f a) := by
+  have hA := cx.adm
   have hT : 1 ≤ a.T₀ := hA.cutoff_ge
-  have cx : WeakBudgetCtx d a := weakBudgetCtx_of d a hA rfl rfl rfl rfl rfl rfl hs he0
   obtain ⟨χ, hχ⟩ := selection_all_cutoffs d a o.toSelectionChain
-    (fun ν => (o.chain ν).toSelectionExtensionChain) hA.t_pos ht1 d.tau_nonneg
+    (fun ν => (o.chain ν).toSelectionExtensionChain) hA.t_pos ht1 cx.hyp.hτ
   obtain ⟨ωstar, hstar, hSω, hSh, hUω, hUh, hωs, hhs, hCω, hCh, hTω, hTh⟩ :=
     selection_limit_series cx o
-  have htests := selection_tests_of_cutoffs d ε he hsmall o.toSelectionChain o.chain χ hχ
-  have hstage := selection_stage_all d ε he hsmall o.toSelectionChain
-    (fun ν => (o.chain ν).toSelectionExtensionChain) χ hχ
+  have htests := selection_tests_of_adm d a hA ht1 hs he0 cx.hμ cx.hτ hγe cx.hstrip
+    o.toSelectionChain o.chain χ hχ
+  have hstage := selection_stage_close_of_adm d a hA ht1 hs he0 cx.hμ cx.hτ hγe cx.hstrip
+    o.toSelectionChain (fun ν => (o.chain ν).toSelectionExtensionChain) χ hχ
   set Hfin := selectionFiniteTests d a o.toSelectionChain χ with hHfin
   set Hinf : Set (SelectionR n) := {b ∈ d.K | ∀ k : Fin n → ℤ, k ≠ 0 →
     2 * a.γ / selectionModeLength k ^ a.τ ≤
@@ -253,7 +252,7 @@ theorem parameter_selection (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
       (fun ν => (hcompH ν).isClosed.measurableSet.nullMeasurableSet) hmono
       ⟨0, (hcompH 0).measure_lt_top.ne⟩
     exact ge_of_tendsto' hlim fun ν => (htests ν).2.2
-  have hγ : 0 < a.γ := selectionGamma_pos d
+  have hγ : 0 < a.γ := hγe ▸ selectionGamma_pos d
   have hdio : ∀ b ∈ Hinf, IsDiophantine a.γ a.τ (ωstar b) := by
     intro b hb k hk
     have hbK : b ∈ ⋂ j, o.K j := hHsub hb
@@ -320,6 +319,34 @@ theorem parameter_selection (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
            frequency_tail := hTω
            energy_tail := hTh
            diophantine := hdio }⟩
+
+/-- `bpP:p11a:parameter-selection`: the parameter selection, built on the iteration of the
+inductive lemma. -/
+theorem parameter_selection (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
+    (hsmall : ε ≤ selectionAdmissible d) (f : SelectionPhaseC n → ℂ)
+    (hf : SelectionPerturbation d f ε) : Nonempty (SelectionOutput d f (adm_params d ε)) := by
+  obtain ⟨o⟩ := inductive_lemma d ε he hsmall f hf
+  obtain ⟨hA, ht1, hs, he0⟩ := selection_adm_facts d ε he hsmall
+  exact selectionOutput_of_iteration d f _
+    (weakBudgetCtx_of d _ hA rfl rfl rfl rfl rfl rfl hs he0) ht1 hs he0 rfl o
+
+/-- `bpP:p11a:parameter-selection` at the adapted schedule `selectionAdapted d ε` (`fr-other`):
+the same selection output, built on `inductive_lemma_adapted`. -/
+theorem parameter_selection_adapted (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
+    (hsmall : ε ≤ selectionAdmissible d) (f : SelectionPhaseC n → ℂ)
+    (hf : SelectionPerturbation d f ε) :
+    Nonempty (SelectionOutput d f (selectionAdapted d ε)) := by
+  obtain ⟨o⟩ := inductive_lemma_adapted d ε he hsmall f hf
+  obtain ⟨hA, hs, -, -, -, -⟩ := free_radius d ε he hsmall
+  have he0 : 0 < (selectionAdapted d ε).ε₀ := by
+    show 0 < 2 * ε
+    positivity
+  have ht1 : (selectionAdapted d ε).t₀ ≤ 1 := by
+    have hn : (1 : ℝ) ≤ n := by exact_mod_cast d.n_pos
+    have hsq : 1 ≤ Real.sqrt n := by simpa using Real.sqrt_le_sqrt hn
+    exact (hA.t_le.trans (div_le_self d.theta_pos.le hsq)).trans d.theta_le
+  exact selectionOutput_of_iteration d f _
+    (weakBudgetCtx_of d _ hA rfl rfl rfl rfl rfl rfl hs he0) ht1 hs he0 rfl o
 
 end Main
 
