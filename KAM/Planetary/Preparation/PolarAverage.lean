@@ -64,7 +64,8 @@ theorem e5 (a b : ℕ) (h : Odd a ∨ Odd b) :
     simp only [hf, e1, Real.sin_pi_sub, Real.cos_pi_sub, hb.neg_pow]
     ring
 
-/-- Polar average as a linear operator on holomorphic germs; its value at zero has no square-root singularity. -/
+/-- Polar average as a linear operator on holomorphic germs; its value at zero has no
+square-root singularity. -/
 def p11PolarAverage {n : ℕ} (G : P11CVec n × P11Phase n → ℂ)
     (z : P11CVec n × P11CVec n) : ℂ :=
   KAM.torusAverage (fun theta : P11Vec n =>
@@ -111,7 +112,8 @@ theorem p11PolarAverage_eq {n : ℕ} (G : P11CVec n × P11Phase n → ℂ) (z : 
 theorem p11PolarAverage_differentiableOn {n : ℕ} {D : Set (P11CVec n)} (hD : IsOpen D) {r : ℝ}
     (hr : 0 < r) {G : P11CVec n × P11Phase n → ℂ}
     (hG : DifferentiableOn ℂ G (D ×ˢ Metric.ball 0 r)) :
-    DifferentiableOn ℂ (p11PolarAverage G) (D ×ˢ Metric.ball (0 : P11CVec n) (Real.pi * r ^ 2)) := by
+    DifferentiableOn ℂ (p11PolarAverage G)
+      (D ×ˢ Metric.ball (0 : P11CVec n) (Real.pi * r ^ 2)) := by
   have h := p11PolarW_sqrt_differentiableOn hD hr hG
   have hmap : DifferentiableOn ℂ
       (fun p : P11CVec n × P11CVec n => (p.1, ((Real.pi : ℂ)⁻¹) • p.2))
@@ -231,7 +233,8 @@ theorem polar_avg {n : ℕ} {D : Set (P11CVec n)} (hD : IsOpen D) {r S : ℝ}
       rw [hsq, mul_div_right_comm, mul_pow]
       ring
     have hvan := p11_vanish_of_decay hR0 hgd hdec
-    have hj : ∀ j < (k + 1) / 2, iteratedDeriv j (fun lam : ℂ => p11PolarAverage G (z.1, lam • z.2)) 0 = 0 :=
+    have hj : ∀ j < (k + 1) / 2,
+        iteratedDeriv j (fun lam : ℂ => p11PolarAverage G (z.1, lam • z.2)) 0 = 0 :=
       fun j hj' => hvan j (by omega)
     have h1R : (1 : ℂ) ∈ Metric.ball (0 : ℂ) R := by
       rw [mem_ball_zero_iff, norm_one, hR, lt_div_iff₀ hN]
@@ -260,7 +263,8 @@ theorem polar_average_linear {n : ℕ} {D : Set (P11CVec n)}
   have hw := p11_rad_norm_lt hr hρ
   have hGc := p11_continuous_polar_integrand hG hz.1 hw
   have hHc := p11_continuous_polar_integrand hH hz.1 hw
-  show KAM.torusAverage (fun θ : P11Vec n => (a • G + b • H) (z.1, p11PolarPt (p11Rad z.2) (fun i => (θ i : ℂ)))) =
+  show KAM.torusAverage (fun θ : P11Vec n =>
+      (a • G + b • H) (z.1, p11PolarPt (p11Rad z.2) (fun i => (θ i : ℂ)))) =
     a * p11PolarW G (z.1, p11Rad z.2) + b * p11PolarW H (z.1, p11Rad z.2)
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   exact p11_torusAverage_lin hGc hHc a b

@@ -29,8 +29,10 @@ namespace KAM.Planetary
 
 /-- `q ↦ ∫ a in K, f (q, γ a)` is holomorphic on `U`. -/
 theorem p11_differentiableOn_paramIntegral
-    {E A α : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E] [MeasurableSpace E] [BorelSpace E]
-    [NormedAddCommGroup A] [NormedSpace ℂ A] [FiniteDimensional ℂ A] [MeasurableSpace A] [BorelSpace A]
+    {E A α : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    [MeasurableSpace E] [BorelSpace E]
+    [NormedAddCommGroup A] [NormedSpace ℂ A] [FiniteDimensional ℂ A]
+    [MeasurableSpace A] [BorelSpace A]
     [MeasurableSpace α] [TopologicalSpace α] [OpensMeasurableSpace α] [T2Space α]
     {μ : Measure α} [IsLocallyFiniteMeasure μ] {K : Set α} (hK : IsCompact K)
     {γ : α → A} (hγ : Continuous γ) {U : Set E} (hU : IsOpen U)

@@ -73,8 +73,10 @@ theorem p11_vanish_of_decay {g : ℂ → ℂ} {R C : ℝ} (hR : 0 < R)
     rw [← hh, h0, mul_zero] at this
     exact hj0ne this.symm
   have hcont : Tendsto (fun t : ℝ => h (t : ℂ)) (𝓝[>] 0) (𝓝 (h 0)) := by
-    have hc : ContinuousAt h 0 := hhd.continuousOn.continuousAt (isOpen_ball.mem_nhds (mem_ball_self hR))
-    have := (hc.comp (f := fun t : ℝ => (t : ℂ)) (by simpa using Complex.continuous_ofReal.continuousAt)).tendsto
+    have hc : ContinuousAt h 0 :=
+      hhd.continuousOn.continuousAt (isOpen_ball.mem_nhds (mem_ball_self hR))
+    have := (hc.comp (f := fun t : ℝ => (t : ℂ))
+      (by simpa using Complex.continuous_ofReal.continuousAt)).tendsto
     exact this.mono_left nhdsWithin_le_nhds
   obtain ⟨e, he⟩ : ∃ e : ℕ, k = e + 1 + 2 * j0 := ⟨k - 2 * j0 - 1, by omega⟩
   have hbound : ∀ᶠ t : ℝ in 𝓝[>] 0, ‖h (t : ℂ)‖ ≤ C * Real.sqrt t ^ (e + 1) := by

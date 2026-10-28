@@ -66,7 +66,8 @@ theorem p11_norm_sqrt_lt {a : ℂ} {r : ℝ} (hr : 0 ≤ r) (h : ‖a‖ < r ^ 2
     ‖Complex.sqrt a‖ < r :=
   lt_of_pow_lt_pow_left₀ 2 hr (by rwa [p11_norm_sqrt_sq])
 
-theorem p11_norm_Vj_lt {D : Set (P11CVec n)} {r : ℝ} (hr : 0 < r) {j : ℕ} {p : P11CVec n × P11CVec n}
+theorem p11_norm_Vj_lt {D : Set (P11CVec n)} {r : ℝ} (hr : 0 < r) {j : ℕ}
+    {p : P11CVec n × P11CVec n}
     (hp : p ∈ p11Wj D r j) : ‖p11Vj j p.2‖ < r := by
   refine (pi_norm_lt_iff hr).2 fun k => ?_
   have h := hp.2 k
@@ -105,7 +106,8 @@ theorem p11PolarW_sqrt_differentiableOn {D : Set (P11CVec n)} (hD : IsOpen D) {r
       intro _
       have hset : p11Wj D r 0 = D ×ˢ ball (0 : P11CVec n) r := by
         ext p
-        simp only [p11Wj, Nat.not_lt_zero, ite_false, mem_prod, mem_ball_zero_iff, Set.mem_ofPred_eq]
+        simp only [p11Wj, Nat.not_lt_zero, ite_false, mem_prod, mem_ball_zero_iff,
+          Set.mem_ofPred_eq]
         rw [pi_norm_lt_iff hr]
       have hΦ0 : Φ 0 = p11PolarW G := by
         funext p

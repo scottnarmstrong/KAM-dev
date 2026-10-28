@@ -102,7 +102,8 @@ theorem p11PolarW_differentiableOn {n : ℕ} {D : Set (P11CVec n)} (hD : IsOpen 
     (by fun_prop) (hD.prod isOpen_ball) hWo hf hmem
 
 theorem p11_insertNth_add {n : ℕ} (j : Fin (n + 1)) (t c : ℝ) (y : Fin n → ℝ) :
-    j.insertNth (α := fun _ => ℝ) (t + c) y = j.insertNth (α := fun _ => ℝ) t y + c • Pi.single j 1 := by
+    j.insertNth (α := fun _ => ℝ) (t + c) y =
+      j.insertNth (α := fun _ => ℝ) t y + c • Pi.single j 1 := by
   ext k
   refine j.succAboveCases ?_ (fun k' => ?_) k
   · simp
@@ -112,7 +113,8 @@ theorem p11_insertNth_add {n : ℕ} (j : Fin (n + 1)) (t c : ℝ) (y : Fin n →
 theorem p11_torusAverage_eq_iterated {n : ℕ} (j : Fin (n + 1)) {g : (Fin (n + 1) → ℝ) → ℂ}
     (hg : Continuous g) :
     KAM.torusAverage g = ∫ y, ∫ t, g (j.insertNth (α := fun _ => ℝ) t y)
-      ∂(volume.restrict (Icc (0 : ℝ) 1)) ∂Measure.pi (fun _ : Fin n => volume.restrict (Icc (0 : ℝ) 1)) := by
+      ∂(volume.restrict (Icc (0 : ℝ) 1))
+      ∂Measure.pi (fun _ : Fin n => volume.restrict (Icc (0 : ℝ) 1)) := by
   let μ : Measure ℝ := volume.restrict (Icc 0 1)
   have hgi : Integrable g (Measure.pi (fun _ : Fin (n + 1) => μ)) := by
     rw [← Measure.restrict_pi_pi]
