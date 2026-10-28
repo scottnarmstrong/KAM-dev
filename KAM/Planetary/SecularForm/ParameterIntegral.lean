@@ -263,6 +263,34 @@ theorem e_diff {U : Set (Vec d)} (hU : IsOpen U)
         (fun t => fderiv ℝ (iteratedFDeriv ℝ j (f t)) y)).symm
   exact key k le_rfl x hx
 
+/-- Reindexing of the slow carrier `CSlow n` by a continuous complex-linear equivalence. -/
+def cslowEquiv (n : ℕ) : CSlow n ≃L[ℂ] CVec (n + (n + n)) :=
+  let A : CVec (n + n) ≃ₗ[ℂ] CVec n × CVec n :=
+    LinearEquiv.funCongrLeft ℂ ℂ (finSumFinEquiv : Fin n ⊕ Fin n ≃ Fin (n + n)) ≪≫ₗ
+      LinearEquiv.sumArrowLequivProdArrow (Fin n) (Fin n) ℂ ℂ
+  let B : CVec (n + (n + n)) ≃ₗ[ℂ] CVec n × CVec n × CVec n :=
+    LinearEquiv.funCongrLeft ℂ ℂ
+        (finSumFinEquiv : Fin n ⊕ Fin (n + n) ≃ Fin (n + (n + n))) ≪≫ₗ
+      LinearEquiv.sumArrowLequivProdArrow (Fin n) (Fin (n + n)) ℂ ℂ ≪≫ₗ
+      LinearEquiv.prodCongr (LinearEquiv.refl ℂ _) A
+  B.symm.toContinuousLinearEquiv
+
+/-- `e_param` on the slow carrier `CSlow n`, transported through `cslowEquiv`. -/
+theorem e_param_cslow {m : ℕ} {U : Set (CSlow n)} (hU : IsOpen U) {f : Vec m → CSlow n → ℂ}
+    (hCont : ContinuousOn (fun z : Vec m × CSlow n => f z.1 z.2) (cell m ×ˢ U))
+    (hHol : ∀ t ∈ cell m, DifferentiableOn ℂ (f t) U) :
+    DifferentiableOn ℂ (fun z => ∫ t in cell m, f t z) U := by
+  let e := (cslowEquiv n).symm
+  have hV : IsOpen (e ⁻¹' U) := hU.preimage e.continuous
+  have h := e_param hV (f := fun t w => f t (e w))
+    (hCont.comp (continuousOn_fst.prodMk (e.continuous.comp_continuousOn continuousOn_snd))
+      fun z hz => ⟨hz.1, hz.2⟩)
+    fun t ht => (hHol t ht).comp e.differentiableOn fun w hw => hw
+  have h2 := h.comp (cslowEquiv n).differentiableOn
+    (fun z hz => by simpa [e] using hz)
+  refine h2.congr fun z _ => ?_
+  simp [e]
+
 /-- G1: uniform continuity on a compact set. -/
 theorem compact_uniform {E F : Type*} [MetricSpace E] [MetricSpace F]
     {K : Set E} (hK : IsCompact K) {f : E → F} (hf : ContinuousOn f K) :
