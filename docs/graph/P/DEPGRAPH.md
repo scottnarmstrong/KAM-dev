@@ -25944,9 +25944,9 @@ EDGE: bpP:p0:diophantine#IsDiophantine | blueprint-P/parts/p11a3-iteration-selec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: SelectionOutput (KAM/Planetary/WeakKAM/SelectionRecord.lean); parameter_selection (KAM/Planetary/WeakKAM/Selection.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES (round 2); signed theorem, SelectionOutput gives (a) limits/tails/continuity, (b) Hinf compact, subset Kinf, measure bound, (c) Diophantine on Hinf; 0<=eps<=eps_adm
 NOTE: CYCLE BREAK: the draft edges to i3-corrected and consumers (L325, \source of the theorem: provenance) are deleted.
 
 NODE: stepP:p11a:ps-iter
@@ -25971,9 +25971,9 @@ EDGE: bpP:p11a:inductive-lemma | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: SelectionOutput (KAM/Planetary/WeakKAM/SelectionRecord.lean); parameter_selection (KAM/Planetary/WeakKAM/Selection.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; iteration (nonempty compact decreasing K_nu via SelectionFiniteChain, B10 inductive_lemma) carried in the output record
 NOTE: -
 
 NODE: stepP:p11a:ps-lim
@@ -26002,9 +26002,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit B11 PASS WITH NOTES but continuous_series_on_compact is only a local supplier; tail bounds, h_* continuity and limit identification remain for B12
+LEAN_STATUS: PROVED
+LEAN_REF: selection_limit_series (KAM/Planetary/WeakKAM/Selection.lean); schedule_props (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; uniform convergence, continuity, tails <= S_m (S_m<=gamma T_m^{-tau-1} from B03 schedule_props), 4 eps_m
 NOTE: SOURCE_GAP: L330 invokes the uniform Weierstrass test and continuity of uniform limits on the compact real carrier K_infty. K:bp:p1:uniform-limits (blueprint/parts/p1-analysis.tex L364-L368) instead assumes holomorphic maps on one open complex V and uniform convergence of their derivatives. Those hypotheses are not supplied here: the collars shrink and only continuous restrictions to K_infty are used. The continuous-map convergence/continuity bridge used here is not an approved input of this slice; expose it here rather than asserting that the imported lemma supplies it.
 
 NODE: stepP:p11a:ps-H
@@ -26031,9 +26031,9 @@ EDGE: bpP:p11a:finite-extension | blueprint-P/parts/p11a3-iteration-selection.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionOutput_of_iteration (KAM/Planetary/WeakKAM/Selection.lean); selection_tests_of_cutoffs, selection_tests_of_adm, selection_all_cutoffs (KAM/Planetary/WeakKAM/SelectionTests.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; Hinf compact, measure >= meas K - loss, Hinf subset Kinf
 NOTE: -
 
 NODE: stepP:p11a:ps-dio
@@ -26063,9 +26063,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionOutput_of_iteration (KAM/Planetary/WeakKAM/Selection.lean)
+LEAN_NOTE: audit B12 PASS WITH NOTES; limit_bridge on Hinf, shell/tail comparison
 NOTE: -
 
 NODE: bpP:p11a:exported-sums
@@ -26099,9 +26099,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit B13 PASS WITH NOTES covers E1-E3 scalar slice only; E4 (parameter Cauchy) belongs to B10 and es-3 real tail not separate; node stays NOT_STARTED
+LEAN_STATUS: PROVED
+LEAN_REF: exported_sums (KAM/Planetary/WeakKAM/Budgets.lean); exported_sums_es_3 (KAM/Planetary/WeakKAM/BudgetsTail.lean); selection_iteration_parameter_first (KAM/Planetary/WeakKAM/Iteration.lean)
+LEAN_NOTE: composite of audits B13 PASS WITH NOTES (E1-E3 via exported_sums) + B10 PASS WITH NOTES (E4) + GAP-B PASS WITH NOTES (es-3, real tail 2^-12 stronger than 2^-10)
 NOTE: -
 
 NODE: stepP:p11a:es-1
@@ -26198,9 +26198,9 @@ EDGE: bpP:p11a:y-geom | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit B13: collar tail exported (exported_sums last conjunct, wbud_tail) but the real tail sum Lambda_R tail <= 2^-10 is not a separate declaration
+LEAN_STATUS: PROVED
+LEAN_REF: exported_sums_es_3, exported_sums_es_3_ctx, wbudtail_quot (KAM/Planetary/WeakKAM/BudgetsTail.lean)
+LEAN_NOTE: audit GAP-B PASS WITH NOTES; literal es-3 conclusion (collar tail chain, 2^-10, real tail <= 2^-12) under exported_sums hypotheses
 NOTE: -
 
 NODE: stepP:p11a:es-4
@@ -26641,9 +26641,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:fr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: free_radius states s0<=adm s0, eps0 formula and lambda0<=lambda_max but not eps0=2 eps literally; left NOT_STARTED with free-radius
+LEAN_STATUS: PROVED
+LEAN_REF: free_radius, selectionAdapted (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: audit B07 PASS WITH NOTES; s0<=adm s0=lambda_max/(N C1), eps0=2 eps (selectionAdapted body) and formula, lambda0<=lambda_max
 NOTE: -
 
 NODE: stepP:p11a:fr-list
@@ -26711,9 +26711,9 @@ EDGE: bpP:p11a:schedule-props | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: ruling: NOT_STARTED until B10/B12 apply the lemmas at the adapted radius
+LEAN_STATUS: PROVED
+LEAN_REF: inductive_lemma_adapted (KAM/Planetary/WeakKAM/Iteration.lean); parameter_selection_adapted (KAM/Planetary/WeakKAM/Selection.lean); wbud_exported (KAM/Planetary/WeakKAM/Budgets.lean); free_radius, selectionAdapted (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: composite of audits B10 PASS WITH NOTES (inductive_lemma_adapted) + B12 PASS WITH NOTES round 2 (parameter_selection_adapted) + B13 PASS WITH NOTES (scalar exported sums generic in schedule; E4 via selection_iteration_parameter_first generic in a); ruling OVERNIGHT 18:17 satisfied
 NOTE: -
 
 NODE: bpP:p11a:composition
@@ -26743,9 +26743,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition, SelectionComposition (KAM/Planetary/WeakKAM/Composition.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; composition outputs clauses (a)-(d) incl. canonical/periodic/real, derivative <= exp-1 <= 2^-11, displacements, increment
 NOTE: bpP:p11a:exported-sums is cited in the \source line (provenance); the proof consumes (E2) in co-deriv, where the edge is.
 
 NODE: stepP:p11a:co-dom
@@ -26774,9 +26774,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionCompDom, selectionComp_map_mem, selectionComp_holo (KAM/Planetary/WeakKAM/CompositionStep.lean); selectionComp_domain, selectionComp_periodic, selectionComp_symplectic, selectionComp_real (KAM/Planetary/WeakKAM/Composition.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; domain/holomorphy/canonical/periodic/real; H_nu=H_0 o Phi via inherited normal_form
 NOTE: -
 
 NODE: stepP:p11a:co-deriv
@@ -26807,9 +26807,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionComp_derivative, selectionComp_budget_sum_le, selectionComp_small (KAM/Planetary/WeakKAM/CompositionBound.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; product recursion, exp(sum m)-1 <= 2^-11
 NOTE: -
 
 NODE: stepP:p11a:co-disp
@@ -26837,9 +26837,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionComp_angle, selectionComp_action (KAM/Planetary/WeakKAM/CompositionBound.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; componentwise telescoping
 NOTE: -
 
 NODE: stepP:p11a:co-inc
@@ -26869,9 +26869,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionComp_increment (KAM/Planetary/WeakKAM/CompositionBound.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; increment (1+2^-11)max(A,alpha) on D_{nu+1}
 NOTE: -
 
 NODE: bpP:p11a:param-lip-sum
@@ -28527,9 +28527,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a:sec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sec_comp_data (KAM/Planetary/WeakKAM/Composition.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; definition via selectionCompose, text-identical to signed
 NOTE: Source definition extracted from the reused prose before composition; it does not assume the theorem about the compositions.
 
 NODE: bpP:p11a:sec-q-thm#data
