@@ -111,7 +111,8 @@ theorem hessian_next (H : KamHyp D sbar p h f) {g : (Fin (a + b) → ℂ) → �
     refine (norm_add_le _ _).trans ?_
     have := hh2 v
     nlinarith [norm_nonneg v]
-  · have hB1 : ‖fderiv ℂ (freq g) I‖ * ‖(A.symm : (Fin (a + b) → ℂ) →L[ℂ] (Fin (a + b) → ℂ))‖ ≤ 1 / 2 := by
+  · have hB1 : ‖fderiv ℂ (freq g) I‖ *
+        ‖(A.symm : (Fin (a + b) → ℂ) →L[ℂ] (Fin (a + b) → ℂ))‖ ≤ 1 / 2 := by
       have := mul_le_mul hFgn hA1 (norm_nonneg _) hβ0
       linarith
     obtain ⟨A', hA', hA'w⟩ := perturb_equiv A _ hB1

@@ -186,7 +186,8 @@ theorem freq_diff_bounds (H : KamHyp D sbar p h f) {J : Fin (a + b) → ℝ} (hJ
   have hnorm : ‖I - KAM.realInclusion (a + b) J‖ ≤ rhoHat p := hI.le
   constructor
   · refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => ?_
-    exact (coord_mvt (convex_ball _ _) (by positivity) j hF (fun x hx v => hc x hx v j) hmem hcen).trans
+    exact (coord_mvt (convex_ball _ _) (by positivity) j hF (fun x hx v => hc x hx v j) hmem
+      hcen).trans
       (mul_le_mul_of_nonneg_left hnorm hM.le)
   · refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun j => ?_
     exact (coord_mvt (convex_ball _ _) (by positivity) (Fin.natAdd a j) hF (hc2 j) hmem hcen).trans

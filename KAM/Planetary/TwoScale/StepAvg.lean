@@ -97,13 +97,15 @@ theorem small_avg (H : KamHyp D sbar p h f) :
   · have hex : 0 < exp 1 := Real.exp_pos 1
     have h6 : 64 * exp 1 * cutoff p * p.E ≤ 192 * (p.E * cutoff p) := by
       have := mul_pos (sub_pos.2 he) (mul_pos hK hE); nlinarith
-    have h7 : 192 * (p.E * cutoff p) ≤ 96 * eHat p * (2 * p.Mhat * cutoff p * rhoHat p * rhoHat p) := by
+    have h7 : 192 * (p.E * cutoff p) ≤
+        96 * eHat p * (2 * p.Mhat * cutoff p * rhoHat p * rhoHat p) := by
       nlinarith
     have h8 : 96 * eHat p < 1 := by nlinarith
     have hpos : 0 < 2 * p.Mhat * cutoff p * rhoHat p * rhoHat p := by positivity
     nlinarith
   · rw [le_div_iff₀ (by positivity)]
-    have h7 : p.E * (128 * cutoff p) ≤ 64 * eHat p * (2 * p.Mhat * cutoff p * rhoHat p * rhoHat p) := by
+    have h7 : p.E * (128 * cutoff p) ≤
+        64 * eHat p * (2 * p.Mhat * cutoff p * rhoHat p * rhoHat p) := by
       nlinarith
     have hpos : 0 < 2 * p.Mhat * cutoff p * rhoHat p * rhoHat p := by positivity
     nlinarith

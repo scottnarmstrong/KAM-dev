@@ -86,7 +86,8 @@ theorem freq_g_fderiv {n : ℕ} {g : (Fin n → ℂ) → ℂ} {I : Fin n → ℂ
   rw [e]
   refine ((fderiv ℂ (fderiv ℂ g) I v).le_opNorm _).trans ?_
   simp only [Pi.norm_single, norm_one, mul_one]
-  exact ((fderiv ℂ (fderiv ℂ g) I).le_opNorm v).trans (mul_le_mul_of_nonneg_right hc (norm_nonneg _))
+  exact ((fderiv ℂ (fderiv ℂ g) I).le_opNorm v).trans
+    (mul_le_mul_of_nonneg_right hc (norm_nonneg _))
 
 end KAM.Planetary
 
