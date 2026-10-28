@@ -187,6 +187,7 @@ public import KAM.Frozen.Planetary.Defs.Slow
 public import KAM.Frozen.Planetary.Defs.StoppedActionBound
 public import KAM.Frozen.Planetary.Defs.TotalMomentum
 public import KAM.Frozen.Planetary.Theorems.AmdConfinement
+public import KAM.Frozen.Planetary.Theorems.ProperlyDegenerateKAM
 public import KAM.Frozen.Planetary.Theorems.SecularBoxAtCitedMasses
 public import KAM.Frozen.Planetary.Theorems.SecularBoxSafety
 public import KAM.Frozen.Theorems.AposterioriKam
@@ -647,6 +648,7 @@ public import KAM.Planetary.PGAssembly.KAMInputsFreq
 public import KAM.Planetary.PGAssembly.KAMInputsKamH
 public import KAM.Planetary.PGAssembly.KAMInputsPer
 public import KAM.Planetary.PGAssembly.Lower
+public import KAM.Planetary.PGAssembly.Main
 public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.Remainder
@@ -1005,6 +1007,7 @@ public import KAM.Provider.Nekhoroshev.QuasiConvexIsoenergeticDerivative
 public import KAM.Provider.Nekhoroshev.QuasiConvexNekhoroshevComplexBound
 public import KAM.Provider.Nekhoroshev.ZeroPerturbation
 public import KAM.Provider.Planetary.AmdConfinement
+public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
