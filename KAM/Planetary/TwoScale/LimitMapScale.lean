@@ -151,6 +151,48 @@ theorem norm_unsc_snd_le {R s : ℝ} (hR : 0 ≤ R) (z : Fin (n + n) → 𝕜) :
   simp only [unsc, norm_mul, RCLike.norm_ofReal, abs_of_nonneg hR]
   exact mul_le_mul_of_nonneg_left (norm_le_pi_norm z _) hR
 
+theorem limitmap_data_nonneg {R s : ℝ} (hR : 0 < R) (hs : 0 < s) (w : Phase n) :
+    0 ≤ limitmap_data R s w := by
+  rw [limitmap_data_eq_norm_sc hR hs]; exact norm_nonneg _
+
+theorem limitmap_data_sub_le {R s : ℝ} (hR : 0 < R) (hs : 0 < s) (u v : Phase n) :
+    limitmap_data R s (u - v) ≤ limitmap_data R s u + limitmap_data R s v := by
+  rw [limitmap_data_eq_norm_sc hR hs, sc_sub, limitmap_data_eq_norm_sc hR hs,
+    limitmap_data_eq_norm_sc hR hs]
+  exact norm_sub_le _ _
+
+theorem limitmap_data_add_le {R s : ℝ} (hR : 0 < R) (hs : 0 < s) (u v : Phase n) :
+    limitmap_data R s (u + v) ≤ limitmap_data R s u + limitmap_data R s v := by
+  have : u + v = u - (-v) := by abel
+  rw [this]
+  refine (limitmap_data_sub_le hR hs _ _).trans ?_
+  have : limitmap_data R s (-v) = limitmap_data R s v := by
+    unfold limitmap_data; simp
+  rw [this]
+
+theorem limitmap_data_eq_zero {R s : ℝ} (hR : 0 < R) (hs : 0 < s) {w : Phase n}
+    (h : limitmap_data R s w = 0) : w = 0 := by
+  rw [limitmap_data_eq_norm_sc hR hs] at h
+  have h1 := norm_eq_zero.1 h
+  have := unsc_sc (𝕜 := ℝ) hR.ne' hs.ne' w
+  rw [← this, h1]
+  refine Prod.ext ?_ ?_ <;> funext i <;> simp [unsc]
+
+theorem norm_le_limitmap_data {R s : ℝ} (hR : 0 < R) (hs : 0 < s) (w : Phase n) :
+    ‖w‖ ≤ max (s / (2 * π)) R * limitmap_data R s w := by
+  have hK1 : 0 ≤ max (s / (2 * π)) R := le_max_of_le_right hR.le
+  have h1 : ‖w.1‖ ≤ max (s / (2 * π)) R * limitmap_data R s w := by
+    have : ‖w.1‖ * (2 * π / s) ≤ limitmap_data R s w := le_max_left _ _
+    have h2 : ‖w.1‖ = s / (2 * π) * (‖w.1‖ * (2 * π / s)) := by field_simp
+    rw [h2]
+    exact mul_le_mul (le_max_left _ _) this (by positivity) hK1
+  have h2 : ‖w.2‖ ≤ max (s / (2 * π)) R * limitmap_data R s w := by
+    have : ‖w.2‖ / R ≤ limitmap_data R s w := le_max_right _ _
+    have h3 : ‖w.2‖ = R * (‖w.2‖ / R) := by field_simp
+    rw [h3]
+    exact mul_le_mul (le_max_right _ _) this (by positivity) hK1
+  exact max_le h1 h2
+
 end Scale
 
 end KAM.Planetary
