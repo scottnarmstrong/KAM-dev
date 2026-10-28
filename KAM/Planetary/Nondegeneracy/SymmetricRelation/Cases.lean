@@ -12,8 +12,8 @@ public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Limits
 # Symmetric relation product: the cases of the peeling induction
 
 Blueprint P, Part 10 (`stepP:p10:F-A`, `stepP:p10:F-C`): Case A (`c'_1 ≠ 0`), the limit criterion
-for `c'_1 = 0`, and the identification of the limit of `L_{c,π}` with a factor `L^{(n-1)}_{c^{(d)},π''}`
-of the `(n-1)`-planet product.
+for `c'_1 = 0`, and the identification of the limit of `L_{c,π}` with a factor
+`L^{(n-1)}_{c^{(d)},π''}` of the `(n-1)`-planet product.
 -/
 
 @[expose] public noncomputable section

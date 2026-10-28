@@ -116,7 +116,8 @@ theorem fc_analytic_aux (D : Data n) (c : Vec n × Vec n) :
   have hxa : AnalyticAt ℝ x a :=
     Finset.analyticAt_fun_sum _ fun i _ => analyticAt_const.mul (analyticAt_nu_action D ha i)
   have hfc : fc_def D c = fun b => MvPolynomial.eval₂ (Polynomial.evalRingHom (x b))
-      (fun i : Fin n => (-1 : ℝ) ^ (i.val + 1) * (coeffs D b).charpoly.coeff (Fin.rev i).val) P := by
+      (fun i : Fin n =>
+        (-1 : ℝ) ^ (i.val + 1) * (coeffs D b).charpoly.coeff (Fin.rev i).val) P := by
     funext b
     have h1 := hP (x b) (sigma D b)
     have h2 : (fun i : Fin n => MvPolynomial.eval (sigma D b)
