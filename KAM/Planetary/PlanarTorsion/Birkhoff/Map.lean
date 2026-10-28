@@ -74,6 +74,12 @@ theorem p11cB_T_assemble (p : PlanarData) (chi : (Fin 2 → ℝ) → Phase 2 →
   show p11c_rotationLift p (p11c_liftFlow chi (assemble I φ z.2 z.1)) = _
   rw [h1, p11cB_rotationLift_assemble, add_assoc]
 
+theorem p11cB_assemble_continuous (I p q : Fin 2 → ℝ) :
+    Continuous fun t : Fin 2 → ℝ => (assemble I t p q : Phase (2 + 2)) := by
+  refine Continuous.prodMk (continuous_pi fun j => ?_) (continuous_pi fun j => ?_)
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [Fin.append_left] <;> fun_prop
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [Fin.append_left] <;> fun_prop
+
 theorem p11cB_assemble_eta (w : Phase (2 + 2)) :
     assemble (p11cL_act w) (p11cL_ang w) (p11cL_slow w).2 (p11cL_slow w).1 = w := by
   refine Prod.ext (funext fun j => ?_) (funext fun j => ?_) <;>
