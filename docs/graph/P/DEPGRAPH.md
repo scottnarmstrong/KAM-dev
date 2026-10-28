@@ -10251,9 +10251,9 @@ EDGE: bpP:p5:budget#constant | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:budge
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget (KAM/Planetary/PGAssembly/ActionBudget.lean); pgBudget (KAM/Planetary/PGAssembly/ActionBudgetDefs.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:bu-read
@@ -10281,9 +10281,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-re
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget (KAM/Planetary/PGAssembly/ActionBudget.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES; inside proof of budget
 NOTE: -
 
 NODE: stepP:p5:bu-dio
@@ -10317,9 +10317,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-dio@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget_dio (KAM/Planetary/PGAssembly/ActionBudgetDio.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:bu-collar
@@ -10352,9 +10352,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-collar@L28
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget_collar, budget_collar_fast (KAM/Planetary/PGAssembly/ActionBudgetCollar.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: the pre-extracted edges to bpP:p4:domain-collar and stepP:p4:dc-diff are deleted: the text says it re-derives their steps ("as in") and Part 4 is not used as a black box (bpP:p5:use5-fix); only the product structure stepP:p4:dc-prod is cited.
 
 NODE: bpP:p5:lower
@@ -10940,9 +10940,9 @@ EDGE: bpP:p4:data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-dio@L286-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kamMeasureConstant, pgMeasureUpper1, pgMeasureUpper2, pgBudget (KAM/Planetary/PGAssembly/ActionBudgetDefs.lean); budget (KAM/Planetary/PGAssembly/ActionBudget.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: Extracts the displayed coefficients from L286-L287; their validity as estimates is proved by bu-dio and bu-collar under the preliminary margins. This definition itself does not assert those estimates or assume r<r_*.
 
 NODE: bpP:p5:lower#constant
@@ -19579,7 +19579,7 @@ EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: holo_chart is split into P2b..P2f; not proved
 NOTE: the reference to bpP:p8:same-jets (L71, both models give this form) is a comparison and deleted; the reference to Lemma bpP:p11:total-chart (L68) is a forward pointer and deleted
 
 NODE: stepP:p11:hc-rot
@@ -19831,8 +19831,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: total_chart (KAM/Planetary/Preparation/Polar.lean)
+LEAN_NOTE: P11A-P2 delivers only the polar chart part; the Xi_0=Psi_c o Theta-hat (Q1)-(Q2) part is total_chart_transport, not proved (blocked on holo_chart)
 NOTE: -
 
 NODE: stepP:p11:tc-polar
@@ -19858,9 +19858,9 @@ EDGE: bpP:p1:typical | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:tc-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: total_chart, p11PolarR_eq, p11PolarR, p11PolarScale (KAM/Planetary/Preparation/Polar.lean)
+LEAN_NOTE: audit P11A-P2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11:tc-lat
@@ -19888,8 +19888,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: total_chart (KAM/Planetary/Preparation/Polar.lean)
+LEAN_NOTE: conclusion concerns Xi_0=Psi_c o Theta-hat (Q1)-(Q2); needs total_chart_transport, not proved
 NOTE: -
 
 NODE: bpP:p11:avg-fast
@@ -27997,9 +27997,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a5-quantitative-theorem.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-bb
 REVIEWER: sol-delta-P-be
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qb_comp (KAM/Planetary/Quantitative/BudgetCompare.lean); qbc_oldThreshold_eq_selectionAdmissible, qbc_comp_selectionAdmissible (KAM/Planetary/Quantitative/BudgetAdmissible.lean)
+LEAN_NOTE: audit Q2 round 2 PASS WITH NOTES; F1 closed; applies at positive upstream M0 (note N1)
 NOTE: -
 
 NODE: stepP:p11a:qb-mono
@@ -28026,9 +28026,9 @@ EDGE: bpP:p11a:gamma-inverse | blueprint-P/parts/p11a5-quantitative-theorem.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-bb
 REVIEWER: sol-delta-P-be
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qb_mono (KAM/Planetary/Quantitative/BudgetCompare.lean)
+LEAN_NOTE: audit Q2 PASS WITH NOTES (signed qb_mono)
 NOTE: -
 
 NODE: stepP:p11a:qb-poly
@@ -30482,9 +30482,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: p11c_chi, homological (KAM/Planetary/PlanarTorsion/Homological.lean)
-LEAN_NOTE: audit T8 PASS WITH NOTES, but Lean defines chi as real part; reality of the complex sum and the reversed bracket {N_0,chi} are not exported (audit note)
+LEAN_STATUS: PROVED
+LEAN_REF: p11c_chi, homological, chi_family, chi_bracket (KAM/Planetary/PlanarTorsion/Homological.lean); ho_def_real, ho_eq_forward, ho_eq_reversed (KAM/Planetary/PlanarTorsion/Homological/Reality.lean)
+LEAN_NOTE: composite of audits T8 PASS WITH NOTES + GAP-A PASS WITH NOTES; GAP-A supplies reality of the unprojected complex sum and the reversed bracket
 NOTE: -
 
 NODE: stepP:p11b:ho-def
@@ -30510,9 +30510,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: chi_eq_sum, chi_family, chi_div_ne (KAM/Planetary/PlanarTorsion/Homological.lean)
-LEAN_NOTE: audit T8: finiteness/divisors/analyticity proved, but conjugation reality of the unprojected complex sum not proved
+LEAN_STATUS: PROVED
+LEAN_REF: chi_eq_sum, chi_div_ne, chiCoeff_analytic, chi_family (KAM/Planetary/PlanarTorsion/Homological.lean); chiComplex, ho_def_conj, ho_def_real (KAM/Planetary/PlanarTorsion/Homological/Reality.lean)
+LEAN_NOTE: composite of audits T8 PASS WITH NOTES + GAP-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:ho-eq
@@ -30540,9 +30540,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: chi_bracket, chiModes_sum (KAM/Planetary/PlanarTorsion/Homological.lean)
-LEAN_NOTE: audit T8: bracket equation proved for real-part chi only; reversed {N_0,chi} form not exported; depends on ho-def
+LEAN_STATUS: PROVED
+LEAN_REF: chi_bracket (KAM/Planetary/PlanarTorsion/Homological.lean); ho_eq_forward, ho_eq_reversed (KAM/Planetary/PlanarTorsion/Homological/Reality.lean)
+LEAN_NOTE: composite of audits T8 PASS WITH NOTES + GAP-A PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11b:flow
@@ -38112,9 +38112,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_pred, sb_regular (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES; F1 closed
 NOTE: the pattern citation of N:bpN:p3:ham-reduction (L233) is not an edge
 
 NODE: stepP:p14:sb-pr-1
@@ -38141,9 +38141,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-pr-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_regular (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-pr-2
@@ -38172,9 +38172,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-pr-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_pred (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: the pattern of N:bpN:p3:ham-reduction is not used as a dependency (L42 pattern only)
 
 NODE: bpP:p14:sb-field
@@ -38207,9 +38207,9 @@ EDGE: bpP:p14:sb-flow#omega | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_field, secular_field_components (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: N:bpN:p3:ham-reduction in the \source note is not used in the proof (no edge)
 
 NODE: stepP:p14:sb-fd-1
@@ -38237,9 +38237,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-fd-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_field, secular_field_components (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-fd-2
@@ -38268,9 +38268,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-fd-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_field (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p14:sb-flow#omega
@@ -38298,9 +38298,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_omega, sb_omega_continuousOn, sb_omega_fast_angle (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES; F2 closed
 NOTE: section data of 14b 'slow flow' (coverage prose-L224); consumed by stepP:p14:sb-gl-1 and stepP:p14:sb-gl-3
 
 NODE: bpP:p14:sb-slow
@@ -38334,9 +38334,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES
 NOTE: the application of N:bpN:p3:gen-continuation-compact named in the \source note is consumed in stepP:p14:sb-sl-5
 
 NODE: stepP:p14:sb-sl-1
@@ -38364,9 +38364,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sl-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-2
@@ -38393,9 +38393,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sl-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-3
@@ -38424,9 +38424,9 @@ EDGE: bpP:p14:sb-conv#secularGamma | blueprint-P/parts/p14b-secular-box.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-4
@@ -38456,9 +38456,9 @@ EDGE: bpP:p14:sb-conv#secularGamma | blueprint-P/parts/p14b-secular-box.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-5
@@ -38487,9 +38487,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sl-5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: bpP:p14:sb-global
@@ -38522,9 +38522,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES
 NOTE: the applications of N:bpN:p3:gen-sol, gen-maximal and gen-continuation-compact named in the \source note are consumed in Lemmas slow and pred and carry no edge here
 
 NODE: stepP:p14:sb-gl-1
@@ -38552,9 +38552,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-gl-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES; internal step of sb_global named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-gl-2
@@ -38585,9 +38585,9 @@ EDGE: bpP:p0:blocks#slow | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES; internal step of sb_global named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-gl-3
@@ -38620,9 +38620,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-gl-3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES; internal step of sb_global named in audit ledger
 NOTE: -
 
 NODE: bpP:p14:sb-unique

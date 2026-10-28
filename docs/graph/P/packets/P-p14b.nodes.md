@@ -1543,9 +1543,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_pred, sb_regular (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES; F1 closed
 NOTE: the pattern citation of N:bpN:p3:ham-reduction (L233) is not an edge
 
 NODE: stepP:p14:sb-pr-1
@@ -1572,9 +1572,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-pr-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_regular (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-pr-2
@@ -1603,9 +1603,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-pr-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_pred (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: the pattern of N:bpN:p3:ham-reduction is not used as a dependency (L42 pattern only)
 
 NODE: bpP:p14:sb-field
@@ -1638,9 +1638,9 @@ EDGE: bpP:p14:sb-flow#omega | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_field, secular_field_components (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: N:bpN:p3:ham-reduction in the \source note is not used in the proof (no edge)
 
 NODE: stepP:p14:sb-fd-1
@@ -1668,9 +1668,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-fd-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_field, secular_field_components (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-fd-2
@@ -1699,9 +1699,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-fd-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_field (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p14:sb-flow#omega
@@ -1729,9 +1729,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_omega, sb_omega_continuousOn, sb_omega_fast_angle (KAM/Planetary/SecularBox/Field.lean)
+LEAN_NOTE: audit S7 round 2 PASS WITH NOTES; F2 closed
 NOTE: section data of 14b 'slow flow' (coverage prose-L224); consumed by stepP:p14:sb-gl-1 and stepP:p14:sb-gl-3
 
 NODE: bpP:p14:sb-slow
@@ -1765,9 +1765,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES
 NOTE: the application of N:bpN:p3:gen-continuation-compact named in the \source note is consumed in stepP:p14:sb-sl-5
 
 NODE: stepP:p14:sb-sl-1
@@ -1795,9 +1795,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sl-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-2
@@ -1824,9 +1824,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sl-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-3
@@ -1855,9 +1855,9 @@ EDGE: bpP:p14:sb-conv#secularGamma | blueprint-P/parts/p14b-secular-box.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-4
@@ -1887,9 +1887,9 @@ EDGE: bpP:p14:sb-conv#secularGamma | blueprint-P/parts/p14b-secular-box.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-sl-5
@@ -1918,9 +1918,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sl-5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_slow (KAM/Planetary/SecularBox/SlowFlow.lean)
+LEAN_NOTE: audit S8 PASS WITH NOTES; internal step of sb_slow named in audit ledger
 NOTE: -
 
 NODE: bpP:p14:sb-global
@@ -1953,9 +1953,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES
 NOTE: the applications of N:bpN:p3:gen-sol, gen-maximal and gen-continuation-compact named in the \source note are consumed in Lemmas slow and pred and carry no edge here
 
 NODE: stepP:p14:sb-gl-1
@@ -1983,9 +1983,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-gl-1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES; internal step of sb_global named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-gl-2
@@ -2016,9 +2016,9 @@ EDGE: bpP:p0:blocks#slow | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES; internal step of sb_global named in audit ledger
 NOTE: -
 
 NODE: stepP:p14:sb-gl-3
@@ -2051,9 +2051,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-gl-3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_global, angle_quadrature (KAM/Planetary/SecularBox/GlobalFlow.lean)
+LEAN_NOTE: audit S9 PASS WITH NOTES; internal step of sb_global named in audit ledger
 NOTE: -
 
 NODE: bpP:p14:sb-unique

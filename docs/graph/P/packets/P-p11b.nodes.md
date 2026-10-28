@@ -795,9 +795,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: p11c_chi, homological (KAM/Planetary/PlanarTorsion/Homological.lean)
-LEAN_NOTE: audit T8 PASS WITH NOTES, but Lean defines chi as real part; reality of the complex sum and the reversed bracket {N_0,chi} are not exported (audit note)
+LEAN_STATUS: PROVED
+LEAN_REF: p11c_chi, homological, chi_family, chi_bracket (KAM/Planetary/PlanarTorsion/Homological.lean); ho_def_real, ho_eq_forward, ho_eq_reversed (KAM/Planetary/PlanarTorsion/Homological/Reality.lean)
+LEAN_NOTE: composite of audits T8 PASS WITH NOTES + GAP-A PASS WITH NOTES; GAP-A supplies reality of the unprojected complex sum and the reversed bracket
 NOTE: -
 
 NODE: stepP:p11b:ho-def
@@ -823,9 +823,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: chi_eq_sum, chi_family, chi_div_ne (KAM/Planetary/PlanarTorsion/Homological.lean)
-LEAN_NOTE: audit T8: finiteness/divisors/analyticity proved, but conjugation reality of the unprojected complex sum not proved
+LEAN_STATUS: PROVED
+LEAN_REF: chi_eq_sum, chi_div_ne, chiCoeff_analytic, chi_family (KAM/Planetary/PlanarTorsion/Homological.lean); chiComplex, ho_def_conj, ho_def_real (KAM/Planetary/PlanarTorsion/Homological/Reality.lean)
+LEAN_NOTE: composite of audits T8 PASS WITH NOTES + GAP-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:ho-eq
@@ -853,9 +853,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: chi_bracket, chiModes_sum (KAM/Planetary/PlanarTorsion/Homological.lean)
-LEAN_NOTE: audit T8: bracket equation proved for real-part chi only; reversed {N_0,chi} form not exported; depends on ho-def
+LEAN_STATUS: PROVED
+LEAN_REF: chi_bracket (KAM/Planetary/PlanarTorsion/Homological.lean); ho_eq_forward, ho_eq_reversed (KAM/Planetary/PlanarTorsion/Homological/Reality.lean)
+LEAN_NOTE: composite of audits T8 PASS WITH NOTES + GAP-A PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11b:flow

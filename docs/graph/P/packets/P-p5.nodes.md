@@ -2141,9 +2141,9 @@ EDGE: bpP:p5:budget#constant | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:budge
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget (KAM/Planetary/PGAssembly/ActionBudget.lean); pgBudget (KAM/Planetary/PGAssembly/ActionBudgetDefs.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:bu-read
@@ -2171,9 +2171,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-re
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget (KAM/Planetary/PGAssembly/ActionBudget.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES; inside proof of budget
 NOTE: -
 
 NODE: stepP:p5:bu-dio
@@ -2207,9 +2207,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-dio@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget_dio (KAM/Planetary/PGAssembly/ActionBudgetDio.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:bu-collar
@@ -2242,9 +2242,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-collar@L28
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: budget_collar, budget_collar_fast (KAM/Planetary/PGAssembly/ActionBudgetCollar.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: the pre-extracted edges to bpP:p4:domain-collar and stepP:p4:dc-diff are deleted: the text says it re-derives their steps ("as in") and Part 4 is not used as a black box (bpP:p5:use5-fix); only the product structure stepP:p4:dc-prod is cited.
 
 NODE: bpP:p5:lower
@@ -2830,9 +2830,9 @@ EDGE: bpP:p4:data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:bu-dio@L286-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kamMeasureConstant, pgMeasureUpper1, pgMeasureUpper2, pgBudget (KAM/Planetary/PGAssembly/ActionBudgetDefs.lean); budget (KAM/Planetary/PGAssembly/ActionBudget.lean)
+LEAN_NOTE: audit P5-BU PASS WITH NOTES
 NOTE: Extracts the displayed coefficients from L286-L287; their validity as estimates is proved by bu-dio and bu-collar under the preliminary margins. This definition itself does not assert those estimates or assume r<r_*.
 
 NODE: bpP:p5:lower#constant
