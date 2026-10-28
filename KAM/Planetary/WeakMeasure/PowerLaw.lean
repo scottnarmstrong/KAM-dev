@@ -238,7 +238,7 @@ theorem power_law {n m rho mu : ℕ} {P : P11Patch n}
       linarith
   rw [tsub_le_iff_right]
   calc volume P.K = volume (P.K ∩ G) + volume (P.K \ G) :=
-        (measure_inter_add_diff _ hcomp.measurableSet).symm
+        (measure_inter_add_sdiff _ hcomp.measurableSet).symm
     _ ≤ volume G + ENNReal.ofReal eps :=
         add_le_add (measure_mono inter_subset_right) (hmeas.trans (ENNReal.ofReal_le_ofReal hcle))
 
