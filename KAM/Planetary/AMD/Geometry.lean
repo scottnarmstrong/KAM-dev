@@ -102,7 +102,8 @@ theorem geometry (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
       rw [div_pow, eq_div_iff (by positivity)]; linarith [hΛ2]
     rw [this]
     refine ⟨?_, ?_⟩
-    · exact pow_lt_pow_left₀ (div_lt_div_of_pos_right hl hma) (by have := hlo; positivity) two_ne_zero
+    · exact pow_lt_pow_left₀ (div_lt_div_of_pos_right hl hma) (by have := hlo; positivity)
+        two_ne_zero
     · exact pow_lt_pow_left₀ (div_lt_div_of_pos_right hu hma) (by positivity) two_ne_zero
   -- radial bounds
   have hrlow : ∀ i, (B.lower i / B.mass i)^2 * (1 - B.ecc) ≤
@@ -164,8 +165,8 @@ theorem geometry (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
       linarith
   have hcomp : z ∈ amdCompact B :=
     ⟨fun i => ⟨(hr1 i).1, (hr1 i).2, (hmom i).le⟩, hpair⟩
-  refine ⟨fun i => ⟨(haxis i).1, (haxis i).2, hmom i⟩, hord, hcomp, ?_, fun i => ⟨(hecc i).1, hr1 i⟩,
-    fun mu => pairBounds_bary hR mu hr1 hpair⟩
+  refine ⟨fun i => ⟨(haxis i).1, (haxis i).2, hmom i⟩, hord, hcomp, ?_,
+    fun i => ⟨(hecc i).1, hr1 i⟩, fun mu => pairBounds_bary hR mu hr1 hpair⟩
   exact ⟨fun i => hd.trans_le (hr1 i).1,
     fun i j hij => hd.trans_le (hpair i j hij)⟩
 
@@ -174,7 +175,8 @@ theorem amd_compact (B : AMDBox n) (hB : B.Admissible) :
     IsCompact (amdCompact B) ∧ amdCompact B ⊆ collisionFreeDomain n := by
   obtain ⟨-, -, -, -, -, -, hd, hR, -⟩ := hB
   have hcl : IsClosed (amdCompact B) := by
-    have e : amdCompact B = (⋂ i, {z : Phase (n * 2) | B.distance ≤ planeLength (bodyVector z.1 i)} ∩
+    have e : amdCompact B = (⋂ i,
+        {z : Phase (n * 2) | B.distance ≤ planeLength (bodyVector z.1 i)} ∩
         {z | planeLength (bodyVector z.1 i) ≤ B.radius} ∩
         {z | planeLength (bodyVector z.2 i) ≤ B.mass i * Real.sqrt (2 / B.distance)}) ∩
         ⋂ i, ⋂ j, ⋂ (_ : i ≠ j),
