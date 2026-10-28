@@ -170,4 +170,157 @@ theorem p11leibniz_diag {f h : P11Vec n → ℝ} {V : Set (P11Vec n)} (hV : IsOp
 
 end Leibniz
 
+section Stability
+
+variable {n m : ℕ}
+
+theorem p11eta_nonneg {rho mu : ℕ} {M theta : ℝ} (hM : 0 ≤ M) (ht : 0 ≤ theta) :
+    0 ≤ p11eta rho mu M theta := by
+  unfold p11eta
+  split_ifs
+  · exact ht
+  · positivity
+
+theorem contDiffOn_p11dot {w : P11Vec n → P11Vec m} {V : Set (P11Vec n)} {mu : ℕ}
+    (hw : ContDiffOn ℝ mu w V) (c : P11Vec m) : ContDiffOn ℝ mu (fun x => p11dot c (w x)) V := by
+  have := (p11lin c).contDiff.comp_contDiffOn hw
+  simpa [Function.comp_def, p11lin_apply] using this
+
+/-- Difference of the scalar families, in the `P11Vec 1`-valued form. -/
+theorem p11scalar_sub_eq {rho : ℕ} (hp : rho = 1 ∨ rho = 2) (w wt : P11Vec n → P11Vec m)
+    (c : P11Vec m) :
+    p11scalar rho wt c - p11scalar rho w c = fun x _ =>
+      if rho = 1 then p11dot c ((wt - w) x)
+      else p11dot c ((wt - w) x) * (p11dot c ((wt - w) x) + 2 * p11dot c (w x)) := by
+  have hd : ∀ x, p11dot c (wt x) = p11dot c ((wt - w) x) + p11dot c (w x) := by
+    intro x
+    simp [p11dot, mul_sub]
+  funext x i
+  rcases hp with rfl | rfl
+  · simp [p11scalar, hd]
+  · simp [p11scalar, hd]; ring
+
+/-- First conclusion of `stability`: the jet bound for the error families. -/
+theorem stability_jet {V A : Set (P11Vec n)} (hV : IsOpen V) (hAV : A ⊆ V)
+    {rho mu : ℕ} (hp : rho = 1 ∨ rho = 2) {w wt : P11Vec n → P11Vec m}
+    (hw : ContDiffOn ℝ mu w V) (hwt : ContDiffOn ℝ mu wt V)
+    {M theta : ℝ} (hM : 0 ≤ M) (ht : 0 ≤ theta)
+    (hb : p11JetBound true mu A w M) (he : p11JetBound true mu A (wt - w) theta)
+    {c : P11Vec m} (hc : p11euclid c = 1) :
+    p11JetBound true mu A (p11scalar rho wt c - p11scalar rho w c) (p11eta rho mu M theta) := by
+  intro j hj y hy
+  have hyV := hAV hy
+  have hdiff : ContDiffOn ℝ mu (wt - w) V := hwt.sub hw
+  have hs := contDiffOn_p11dot hdiff c
+  have htt := contDiffOn_p11dot hw c
+  have hat : ∀ {k : ℕ}, k ≤ mu → ∀ {g : P11Vec n → ℝ}, ContDiffOn ℝ mu g V → ContDiffAt ℝ k g y :=
+    fun hk g hg => (hg.of_le (by exact_mod_cast hk)).contDiffAt (hV.mem_nhds hyV)
+  have hat' : ∀ {k : ℕ}, k ≤ mu → ∀ {g : P11Vec n → P11Vec m}, ContDiffOn ℝ mu g V →
+      ContDiffAt ℝ k g y :=
+    fun hk g hg => (hg.of_le (by exact_mod_cast hk)).contDiffAt (hV.mem_nhds hyV)
+  have hsb : ∀ k ≤ mu, ∀ a : P11Vec n, p11euclid a = 1 →
+      |iteratedFDeriv ℝ k (fun x => p11dot c ((wt - w) x)) y (fun _ => a)| ≤ theta :=
+    fun k hk a ha => abs_jet_dot_le_of_p11dg (hat' hk hdiff) hc (he k hk y hy) a ha
+  have htb : ∀ k ≤ mu, ∀ a : P11Vec n, p11euclid a = 1 →
+      |iteratedFDeriv ℝ k (fun x => p11dot c (w x)) y (fun _ => a)| ≤ M :=
+    fun k hk a ha => abs_jet_dot_le_of_p11dg (hat' hk hw) hc (hb k hk y hy) a ha
+  rw [p11scalar_sub_eq hp]
+  have hη := p11eta_nonneg (rho := rho) (mu := mu) hM ht
+  rcases hp with rfl | rfl
+  · simp only [ite_true]
+    refine p11dg_scalar_le (hat hj hs) (by simpa [p11eta] using ht) fun a ha => ?_
+    simpa [p11eta] using hsb j hj a ha
+  · simp only [p11eta, show (2 : ℕ) ≠ 1 by norm_num]
+    simp only [p11eta, show (2 : ℕ) ≠ 1 by norm_num] at hη
+    set s : P11Vec n → ℝ := fun x => p11dot c ((wt - w) x) with hsdef
+    set t : P11Vec n → ℝ := fun x => p11dot c (w x) with htdef
+    have hh : ContDiffOn ℝ mu (fun x => s x + 2 * t x) V := hs.add (contDiffOn_const.mul htt)
+    refine p11dg_scalar_le (hat hj (hs.mul hh)) hη fun a ha => ?_
+    rw [p11leibniz_diag hV (hs.of_le (by exact_mod_cast hj)) (hh.of_le (by exact_mod_cast hj)) hyV]
+    have hhb : ∀ k ≤ mu, |iteratedFDeriv ℝ k (fun x => s x + 2 * t x) y (fun _ => a)| ≤
+        theta + 2 * M := by
+      intro k hk
+      have e : (fun x => s x + 2 * t x) = s + (2 : ℝ) • t := by
+        funext x; simp
+      rw [e, iteratedFDeriv_add_apply (hat hk hs)
+        (show ContDiffAt ℝ k ((2 : ℝ) • t) y from (hat hk htt).const_smul (2 : ℝ)),
+        iteratedFDeriv_const_smul_apply (hat hk htt)]
+      simp only [add_apply, smul_apply, smul_eq_mul]
+      refine (abs_add_le _ _).trans (add_le_add (hsb k hk a ha) ?_)
+      rw [abs_mul]
+      have := htb k hk a ha
+      norm_num
+      linarith
+    calc _ ≤ ∑ i ∈ Finset.range (j + 1), (j.choose i : ℝ) * (theta * (theta + 2 * M)) := by
+          refine (Finset.abs_sum_le_sum_abs _ _).trans (Finset.sum_le_sum fun i hi => ?_)
+          have hi' : i ≤ j := Nat.lt_succ_iff.1 (Finset.mem_range.1 hi)
+          rw [abs_mul, abs_mul, Nat.abs_cast]
+          have h1 := hsb i (hi'.trans hj) a ha
+          have h2 := hhb (j - i) ((Nat.sub_le _ _).trans hj)
+          have := mul_le_mul h1 h2 (abs_nonneg _) ht
+          rw [mul_assoc]
+          exact mul_le_mul_of_nonneg_left this (Nat.cast_nonneg _)
+      _ = 2 ^ j * (theta * (theta + 2 * M)) := by
+          rw [← Finset.sum_mul, ← Nat.cast_sum, Nat.sum_range_choose]; push_cast; rfl
+      _ ≤ 2 ^ mu * theta * (2 * M + theta) := by
+          have : (2 : ℝ) ^ j ≤ 2 ^ mu := pow_le_pow_right₀ (by norm_num) hj
+          have h0 : 0 ≤ theta * (theta + 2 * M) := by positivity
+          nlinarith
+
+theorem contDiffOn_p11scalar {w : P11Vec n → P11Vec m} {V : Set (P11Vec n)} {mu : ℕ}
+    (hw : ContDiffOn ℝ mu w V) (rho : ℕ) (c : P11Vec m) :
+    ContDiffOn ℝ mu (p11scalar rho w c) V :=
+  contDiffOn_pi.2 fun _ => (contDiffOn_p11dot hw c).pow rho
+
+/-- Triangle inequality for the diagonal gauge. -/
+theorem p11dg_le_add {f g : P11Vec n → P11Vec m} {y : P11Vec n} {j : ℕ}
+    (hf : ContDiffAt ℝ j f y) (hg : ContDiffAt ℝ j g y) :
+    p11dg f j y ≤ p11dg g j y + p11dg (g - f) j y := by
+  have hgf : ContDiffAt ℝ j (g - f) y := hg.sub hf
+  have e : g - (g - f) = f := by funext x; simp
+  have h := iteratedFDeriv_sub_apply hg hgf
+  rw [e] at h
+  unfold p11dg
+  refine Real.sSup_le ?_ (add_nonneg (p11dg_nonneg _ _ _) (p11dg_nonneg _ _ _))
+  rintro v ⟨a, ha, rfl⟩
+  rw [h]
+  simp only [sub_apply]
+  exact (p11euclid_sub_le _ _).trans (add_le_add (le_p11dg g j y a ha) (le_p11dg _ j y a ha))
+
+theorem p11maxJet_le_add {f g : P11Vec n → P11Vec m} {y : P11Vec n} {mu : ℕ} {eta : ℝ}
+    (hf : ∀ j ≤ mu, ContDiffAt ℝ j f y) (hg : ∀ j ≤ mu, ContDiffAt ℝ j g y)
+    (h : ∀ j ≤ mu, p11dg (g - f) j y ≤ eta) :
+    p11maxJet mu f y ≤ p11maxJet mu g y + eta := by
+  obtain ⟨j, hj, e⟩ := p11maxJet_attained f y mu
+  rw [e]
+  exact (p11dg_le_add (hf j hj) (hg j hj)).trans (add_le_add (le_p11maxJet g y mu hj) (h j hj))
+
+/-- `bpP:p11a:stability`. -/
+theorem stability {n m : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
+    {V A K : Set (P11Vec n)} (hV : IsOpen V) (hAV : A ⊆ V)
+    (hKA : K ⊆ A) (hK : IsCompact K) (hne : K.Nonempty)
+    {rho mu : ℕ} (hp : rho=1 ∨ rho=2) {w wt : P11Vec n → P11Vec m}
+    (hw : ContDiffOn ℝ mu w V) (hwt : ContDiffOn ℝ mu wt V)
+    {M theta : ℝ} (hM : 0 ≤ M) (ht : 0 ≤ theta)
+    (hb : p11JetBound true mu A w M) (he : p11JetBound true mu A (wt-w) theta) :
+    (∀ c, p11euclid c=1 → p11JetBound true mu A
+      (p11scalar rho wt c-p11scalar rho w c) (p11eta rho mu M theta)) ∧
+    index_def rho mu w K - p11eta rho mu M theta ≤ index_def rho mu wt K := by
+  have h1 : ∀ c, p11euclid c=1 → p11JetBound true mu A
+      (p11scalar rho wt c-p11scalar rho w c) (p11eta rho mu M theta) :=
+    fun c hc => stability_jet hV hAV hp hw hwt hM ht hb he hc
+  refine ⟨h1, ?_⟩
+  refine le_index_def hm rho mu wt hne fun c hc y hy => ?_
+  have hyV := hAV (hKA hy)
+  have hat : ∀ {g : P11Vec n → P11Vec 1}, ContDiffOn ℝ mu g V → ∀ j ≤ mu, ContDiffAt ℝ j g y :=
+    fun hg j hj => (hg.of_le (by exact_mod_cast hj)).contDiffAt (hV.mem_nhds hyV)
+  have := p11maxJet_le_add (f := p11scalar rho w c) (g := p11scalar rho wt c)
+    (hat (contDiffOn_p11scalar hw rho c)) (hat (contDiffOn_p11scalar hwt rho c))
+    (eta := p11eta rho mu M theta) (y := y) (mu := mu) ?_
+  · have h2 := index_def_le rho mu w hc hy
+    linarith
+  · exact fun j hj => h1 c hc j hj y (hKA hy)
+
+end Stability
+
 end KAM.Planetary
