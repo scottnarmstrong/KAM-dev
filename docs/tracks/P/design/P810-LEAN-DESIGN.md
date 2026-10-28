@@ -1,13 +1,13 @@
 # Lean design for planetary Parts 8–10
 
-Design draft, 2026-10-28. Assigned branch `inp-design-p810`, base `081967912d5200ad4711d6d16abde6a8cfafea71`.
+Design draft, Revision 2, 2026-10-28. Assigned branch `inp-design-p810`, base `081967912d5200ad4711d6d16abde6a8cfafea71`.
 This is statement and implementation planning, with no proofs or frozen closures claimed.
 The signatures in Appendix A are the exact checked draft, not production dependencies.
 
 ## Decisions
 
 1. Use the published graph from `/root/code/KAM-inp/docs/graph/P/DEPGRAPH.md` (publication reported by the orchestrator at `f21b16a`).
-   The scope is **158 nodes**, selected by statement-source file, including proof steps, external facts,
+   The scope is **158 published graph records**, selected by statement-source file, including proof steps, external facts,
    definition components and both Part 9 alternatives. All three blueprint files are byte-identical to this worktree.
    Published Part 8 edges `bpP:p12:f-unif` and `K:bp:p1:ext-integral` are consumed explicitly.
 2. Reuse the delivered Poincare/Newtonian modules; do not copy their objects into a secular representation.
@@ -39,6 +39,21 @@ The signatures in Appendix A are the exact checked draft, not production depende
 | `blueprint-P/parts/p8-secular-form.tex` | `413806b9fcc86156e0b241da85668677b44bf142897c7039940504a50ae1febc` |
 | `blueprint-P/parts/p9-secular-spectrum.tex` | `19271673e246eed9d444a3f370c479aa13685528e306f9addcddc550cc56da54` |
 | `blueprint-P/parts/p10-nondegeneracy.tex` | `a76d868e361ef824a7e4c546719811da97a0d14bba1fd686b3eb61c32ea57124` |
+
+## Revision 2
+
+Revision of `DESIGN-P810-design-audit-1.md` (verdict FAIL). All four major findings and both notes are addressed
+below. This revision changes draft contracts and package ownership; it does not claim independent re-audit PASS
+or proof completion. No blocking or medium finding was listed in audit 1.
+
+| Finding | Resolution in this revision |
+|---|---|
+| F1 — finite regularity | `SecularForm.e_diff` takes `k : ℕ`, jointly continuous derivatives only for `j ≤ k`, and `ContDiffOn ℝ k`. No analytic/all-orders premise remains. Instantiate the finite-order theorem at each `j ≤ k` (using regularity monotonicity) to recover all source derivatives. S8-P owns this contract. |
+| F2 — unscaled estimates | `SecularSpectrum.definite` now returns positivity of the literal minimum `cHat` and both inequalities for `qhat`, followed by every previous coercivity, eigenvalue and continuity conclusion. S9-D specializes `l75_bound` to the literal pair coefficients before congruence; these proof obligations are conclusions, never premises. |
+| F3 — uniform rotated expansion | `SecularSpectrum.diagonalize` retains its quadratic and matched-average identities, adds `2*sigma < 0`, and exports one positive radius and bound at each `I0`, before all nearby actions and both models. The radius keeps the action ball inside W and bounds the max-norm fourth-order remainder. S9-Q shrinks using S8-Q's uniform expansion, S8-M's model delta and the `sqrt(n)` rotation estimate; S9-D supplies negativity. |
+| F4 — import DAG | S9-N now owns `sorted` and `isSO`; S8-C imports S9-N and defines `SecularSpectrum.sigma` after `coeffs_hermitian`. S9-S imports these definitions and owns `local_analytic` and `local_analytic_unique`. S9-G explicitly imports S10-Z for `analytic_zero_null`/`generic`. The corrected package table below gives strictly earlier waves for these edges. |
+| N1 — scope | Coverage means 158/158 published records only. The published p9 packet omits blueprint `lemma70`, `lemma71`, `cor72`, `top-simple` and their proof steps (p9 L29–68, L185–191); this assignment does not export them or claim every theorem in Parts 8–10. The roots-continuity alternative remains unused and unpaid. |
+| N2 — proof/upstream boundary | The copied P1 interfaces are draft design interfaces, not delivered proofs. The five P7 obligations remain owned by S7-R/S9-T, not assumed. O(2) invariant theory, analytic zero-null, min-max, polarization and both inductions are still substantive proof work. No frozen anchor or torsion result is closed. No new pinned-paper erratum is asserted. |
 
 ## Carriers and standing structures
 
@@ -316,7 +331,11 @@ The identity theorem supplies propagation of zero, not the multivariable measure
 
 The latter is an **owned theorem** `Nondegeneracy.analytic_zero_null` (induction on dimension, one-dimensional
 isolated zeros plus Fubini on countably many rational boxes). Likewise `f_pol`, `e_weyl`, `weyl` and the analytic
-parameter-integral adapter are proof work, not claimed existing Mathlib closures. `weyl` needs Courant–Fischer or
+parameter-integral adapter are proof work, not claimed existing Mathlib closures. S8-P also owns the routine
+continuous-linear reindexing of `CSlow n = CVec n × CVec n × CVec n` to `CVec (n+(n+n))` when applying
+`e_param`: transport the open domain and parameter function through that equivalence, apply the theorem,
+and transport the conclusion back. This is a calculus adapter on the existing carrier, not a definitional
+carrier equality or a replacement secular object. `weyl` needs Courant–Fischer or
 an equivalent direct spectral subspace argument in explicit Euclidean norms. Do not obtain it by interpreting the
 ambient Pi norm as Euclidean. The scalar IFT and spectral theorem are applicable to the finite-dimensional matrix
 and polynomial carriers after componentwise analytic closure; sign-normalized adjugate columns give the local SO frame.
@@ -331,12 +350,13 @@ and polynomial carriers after componentwise analytic closure; sign-normalized ad
 | p8 quartic | analytic coefficient functions returned jointly; mixed values not specified | source Part 11b obligation retained; exact diagonal derivatives use `radialH` |
 | p9 sorted spectrum | reverse Mathlib's antitone `eigenvalues₀` | source increasing order with multiplicity; no choice of eigenvalue branches off the simple locus |
 | p9 generic (c) | selected analytic zero-set route | roots-continuity alternative has an unpaid supplier; do not mark its proof complete |
+| p9 diagonalize | omit simple spectrum once an analytic SO diagonalizer is supplied | strictly stronger: algebra, translation of averages, negativity and uniform remainder require only the stated analytic diagonalization; simple spectrum is used upstream to construct it |
 | p9 transport | add polar composition and named Part 1 period conversion | pays the published SOURCE_GAP at L143/L152 without a new frozen premise |
 | p10 index | proof-indexed `Nat.find`, least positive order | index has no meaning without positive amount; no fallback zero |
 | p10 stability | arbitrary certified upper bounds M,theta instead of forcing compact maxima | strictly stronger: the source maxima instantiate them; exact constants and positivity guards unchanged |
 | p10 interface | includes finitely many additional analytic nonzero conditions in the same existential patch | source final sentence, including zero additional functions; constants do not depend on coupling |
 
-For `l75` the algebraic identity is stated without the source off-diagonal sign guard: it holds for every symmetric matrix, so this identity is strictly stronger. The sign guard is still required and supplied for its inequality application in `definite`. The real symmetry statements also extend from the small analytic polydisc to `slowDom`: exact chart invariance and measure-preserving torus substitutions give the same identities, including simultaneous zero total integrals in the nonintegrable case. `same_jets_transfer` consequently needs only its stated whole-disc chart-domain guard, since `identification` supplies the equivalence whenever either average is integrable. These are strictly stronger domain forms, not analytic regularity claims outside the collision-free neighbourhood. No other source premise is dropped. Generic conditional `birkhoff_transfer` has its own name;
+For `l75` the algebraic identity is stated without the source off-diagonal sign guard: it holds for every symmetric matrix, so this identity is strictly stronger. The sign guard is still required and supplied for its inequality application in `definite`. The real symmetry statements also extend from the small analytic polydisc to `slowDom`: exact chart invariance and measure-preserving torus substitutions give the same identities, including simultaneous zero total integrals in the nonintegrable case. `same_jets_transfer` consequently needs only its stated whole-disc chart-domain guard, since `identification` supplies the equivalence whenever either average is integrable. These are strictly stronger domain forms, not analytic regularity claims outside the collision-free neighbourhood. Apart from the `diagonalize` simple-spectrum strengthening listed above, no other source premise is dropped. Generic conditional `birkhoff_transfer` has its own name;
 its average/integrability premises are discharged by `identification` in `same_jets_transfer` and never passed to a root.
 Decompositions supplied as premises of `diagonalize` and `local_analytic` are exactly the source's spectral-data premises;
 the planetary application obtains them from `local_analytic`, never from an owner assumption.
@@ -405,20 +425,20 @@ theorem is imported. Files defining analytic objects use public imports; proof-o
 | S8-A | `SecularForm/Analytic` | perturbation_analytic, pa-circ/unif/hol/avg | S8-P; Poincare/Holomorphic; Models analytic formulas | 600 | 3 |
 | S8-M | `SecularForm/Momentum` | lemma64, lemma64_coordinates, identification | S8-P, S7-R; Product, Symplectic, Mass means | 550 | 3 |
 | S8-I | `SecularForm/LaplaceIdentities` | identities, radialPhi/radialH | S8-L | 400 | 3 |
-| S8-C | `SecularForm/Coefficients` | pairA/B, constantTerm, coeffs, symmetry, analytic coefficients | S8-L, S8-B | 350 | 3 |
+| S8-C | `SecularForm/Coefficients` | pairA/B, constantTerm, coeffs, coeffs_hermitian, coeffs_analytic; SecularSpectrum.sigma after coeffs_hermitian | S8-L, S8-B, S9-N | 400 | 3 |
 | S8-W | `SecularForm/InvariantPolynomial` | e_weyl, quadratic and six quartic invariant reduction | S8-B; MvPolynomial | 750 | 2 |
 | S8-D | `SecularForm/DiagonalJet` | qf-scale/c0/diag, exact diagonal derivatives | S8-A, S8-Y, S8-I, S8-C; Mass means | 650 | 4 |
 | S8-X | `SecularForm/CrossJet` | qf-cross, first orbit variations and Fourier selection | S8-A, S8-I, S8-C; Equation | 750 | 4 |
 | S8-Q | `SecularForm/Quadratic` | quadratic_form, qf-pair/assembly/diag2 | S8-D, S8-X, S8-W, S8-Y | 300 | 5 |
 | S8-J | `SecularForm/ModelTransfer` | same_jets_on, same_jets, birkhoff_transfer, same_jets_transfer | S8-A, S8-M; frozen HasSecularBirkhoffForm | 350 | 4 |
 | S8-4 | `SecularForm/Quartic` | quartic, quartic_scaling, quartic_pair_scaling, six coefficients, radialR1 | S8-D, S8-W, S8-J; Poincare/Chart | 700 | 5 |
-| S9-N | `SecularSpectrum/Norms` | length2, op2, opMax, frobenius, norm_compare, norm_compare_operator | S8-B | 300 | 2 |
+| S9-N | `SecularSpectrum/Norms` | length2, op2, opMax, frobenius, sorted, isSO, norm_compare, norm_compare_operator | S8-B | 350 | 2 |
 | S9-D | `SecularSpectrum/Definiteness` | l74, l75, l75_bound, definite, coercivity | S9-N, S8-C, S8-L | 600 | 4 |
-| S9-S | `SecularSpectrum/LocalAnalytic` | sorted, sigma, local_analytic, local_analytic_unique, adjugate projection and SO frame | S8-C, S9-N; matrix spectral theorem, analytic IFT | 750 | 4 |
+| S9-S | `SecularSpectrum/LocalAnalytic` | local_analytic, local_analytic_unique (adjugate projection and SO frame proof cuts) | S8-C, S9-N; matrix spectral theorem, analytic IFT | 750 | 4 |
 | S9-L | `SecularSpectrum/Lift` | liftMap, liftInv, lift; bijectivity, Maurer–Cartan | S9-N; Kepler/Basic | 650 | 3 |
-| S9-G | `SecularSpectrum/GoodPolynomial` | k4_finite, nr4, good, good_characteristic, good_set(a,b), good_set_dichotomy | S9-S; esymmAlgEquiv | 550 | 5 |
+| S9-G | `SecularSpectrum/GoodPolynomial` | k4_finite, nr4, good, good_characteristic, good_set(a,b), good_set_dichotomy | S9-S, S10-Z; esymmAlgEquiv | 550 | 5 |
 | S9-2 | `SecularSpectrum/TwoPlanets` | n2, n2_global_frame | S9-D, S9-S, S9-G | 450 | 6 |
-| S9-Q | `SecularSpectrum/Diagonalize` | diagonalize, matched averages and domain estimates | S8-Q, S8-M, S9-D, S9-S, S9-L | 400 | 6 |
+| S9-Q | `SecularSpectrum/Diagonalize` | diagonalize: quadratic identity, matched averages, negative Omega, locally uniform rotated fourth-order bound | S8-Q, S8-M, S9-D, S9-S, S9-L | 400 | 6 |
 | S9-T | `SecularSpectrum/Transport` | diagonalize_transport, diagonalize_period_one; polar/lift/cast Q1/Q2 | S9-Q, S7-R; P1/Hamiltonian/Transport exact draft | 450 | 7 |
 | S10-Z | `Nondegeneracy/AnalyticZeros` | rnd_def, analytic_zero_null, generic, identity/products | S8-B; analytic uniqueness, Fubini | 750 | 2 |
 | S10-W | `Nondegeneracy/Weyl` | weyl, min-max subspace helper | S9-N; matrix spectral theorem | 700 | 3 |
@@ -488,29 +508,34 @@ changes. General n goes through weak nondegeneracy, while the n=2 trace/determin
     handoff; the orchestrator records it in `docs/errata/ledger.json`. Deviations you introduce are reported too.
 
 
-## Validation receipts
+## Validation receipts (Revision 2)
 
-Signature check: prescribed `inp_sig_check.sh /root/code/KAM-inp-design-p810 .drafts/scratch/P810Signatures.lean`
-exited **0**, with only `declaration uses 'sorry'` warnings. Signature: **885 lines**, **78 theorem stubs**;
-SHA-256 `aa8e13ad5e4e62b40d0f12effde76ce4e643abbcb545cb7a933f666bf6241931`. Published graph snapshot read after status sync:
-`7d58c7597a6e498eddaa56d6b062d015a466131dcd2e9abde2bc852f07b6e8ca`. Static coverage: **158/158** distinct records; packages: **33**, in **10 waves**,
-each forecast 150–800 lines, every package dependency strictly earlier than its consumer. No direct lake/Lean execution is authorized for this
-worktree. Production module builds are not applicable: this assignment writes no production Lean files.
-The scratch signature is elaborated only through the prescribed `inp_sig_check.sh` wrapper. All theorem bodies
-are `sorry`, so axiom output includes `sorryAx` and is never proof closure.
+The prescribed command
+`/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p810 .drafts/scratch/P810Signatures.lean`
+exited **0**. The log contains exactly **78** "declaration uses `sorry`" warnings and no other Lean diagnostics
+(`.drafts/scratch/P810-r2-signatures.log`). The signature has **912 lines**, **78 theorem stubs** and SHA-256
+`492cda44ef3de718cd0b98ffe00116a2bb676b5551575b5df9f9e9261a8f3e0d`.
+Appendix A, the shared untracked signature and the checked scratch copy are byte-identical.
+Only `e_diff`, `definite` and `diagonalize` differ from the audit-1 signature; all other definitions and declarations
+are byte-identical to Revision 1. Every theorem body remains `sorry`; no resource override was used.
 
-The gated `.drafts/scratch/P810Axioms.lean` probe exited **0**. It printed axioms of
-`quadratic_form`, `same_jets_transfer`, `diagonalize_period_one`, `rnd`, `stability`, and `interface`:
-`[propext, sorryAx, Classical.choice, Quot.sound]` for each. These six declarations are unchanged in the final
-signature (the subsequent additions are four independent helper signatures). The sampled delivered
-`poincareProd_symplectic` and `poincare_holomorphic` printed `[propext, Classical.choice, Quot.sound]` only.
-The same probe checked the spectral theorem, antitone eigenvalue order, symmetric-polynomial equivalence,
-analytic identity theorem, analytic IFT, `IsCompact.uniformContinuousOn_of_continuous`, and interval FTC names.
-This verifies declaration types and dependency receipts, not new theorem proofs.
+The separate `.drafts/scratch/P810R2Axioms.lean` probe, run through the same prescribed gate, exited **0**.
+It prints `[propext, sorryAx, Classical.choice, Quot.sound]` for the revised `e_diff`, `definite`, `diagonalize`
+and for `quadratic_form`, `same_jets_transfer`, `diagonalize_period_one`, `rnd`, `stability`, `interface`.
+The sampled delivered `poincareProd_symplectic` and `poincare_holomorphic` print
+`[propext, Classical.choice, Quot.sound]`. Log: `.drafts/scratch/P810-r2-axioms.log`.
+These are draft-signature axiom receipts, not proof completion.
 
-Source lint: `PATH="/root/code/KAM-inp-design-p810/.drafts/scratch/lint-bin:$PATH" scripts/lint_sources.sh`
-exited **0**. The local wrappers preserve the script and route its ABI `lake env lean` invocation through the
-prescribed signature gate; checker git calls use `git -C /root/code/KAM-inp-design-p810`.
+Static validation: exact set equality with **158/158 published records** (55 + 42 + 61), blueprint byte identity
+with inp and all three recorded hashes, **33** packages in **10** waves, every listed package input strictly earlier
+than its consumer, forecast lengths 150–800, no forbidden code tokens, and the signature below 1500 lines: **PASS**.
+Current published `DEPGRAPH.md` SHA-256: `5b1eff327a09a63a553686ba14a4763978e0f589fde8ad42cc67d6545f819f44`.
+This is published-record coverage; the omissions listed under N1 are not claimed covered.
+
+Source lint command
+`PATH="/root/code/KAM-inp-design-p810/.drafts/scratch/lint-bin:$PATH" scripts/lint_sources.sh`
+exited **0**. Existing local wrappers route ABI elaboration through `inp_sig_check.sh` and checker git calls through
+`git -C /root/code/KAM-inp-design-p810`, leaving the lint script unchanged. Log: `.drafts/scratch/P810-r2-lint.log`.
 Exact output:
 
 ```text
@@ -519,8 +544,9 @@ FROZEN-ANCHOR GUARD OK
 ABI HASHES OK (144 frozen declarations)
 ```
 
-`git -C /root/code/KAM-inp-design-p810 diff --cached --check` and the explicit new-file whitespace check passed.
-No production Lean module build was run: this is a design-only assignment with targeted gated signature elaboration.
+`git -C /root/code/KAM-inp-design-p810 diff --check` passed.
+No production Lean files are changed, so production module builds do not apply. Signature elaboration through
+the prescribed gate is the targeted check for this assignment. No frozen anchor or torsion theorem is closed.
 
 ## Appendix A. Exact signatures
 
@@ -814,10 +840,23 @@ theorem l74 {s α : ℝ} (hs : 0 < s) (hα : 0 < α) (hα1 : α < 1) :
 def coercivity (D : Data n) (a : Vec n) : ℝ :=
   (⨅ j, ∑ k ∈ Finset.univ.erase j, (pairA D a j k - pairB D a j k)) /
     (⨆ i, action D a i)
-theorem definite (D : Data n) (hn : 2 ≤ n) {a : Vec n} (ha : a ∈ axes n) :
-    0 < coercivity D a ∧ (∀ x, quad (coeffs D a) x ≤ -coercivity D a * length2 x^2) ∧
+theorem definite (D : Data n) (hn : 2 ≤ n)
+    {a : Vec n} (ha : a ∈ axes n) :
+    let cHat : ℝ := ⨅ j, ∑ k ∈ Finset.univ.erase j,
+      (pairA D a j k - pairB D a j k)
+    0 < cHat ∧
+    (∀ x : Vec n,
+      quad (qhat D a) x ≤
+        -(∑ j, (∑ k ∈ Finset.univ.erase j,
+          (pairA D a j k - pairB D a j k)) * x j^2) ∧
+      -(∑ j, (∑ k ∈ Finset.univ.erase j,
+          (pairA D a j k - pairB D a j k)) * x j^2) ≤
+        -cHat * length2 x^2) ∧
+    0 < coercivity D a ∧
+    (∀ x, quad (coeffs D a) x ≤ -coercivity D a * length2 x^2) ∧
     (∀ j, sigma D a j ≤ -coercivity D a) ∧
-    ContinuousOn (coercivity D) (axes n) := sorry
+    ContinuousOn (coercivity D) (axes n) := by
+  sorry
 
 /-- Generic local spectral theorem. Sorted branches avoid witness-choice ambiguity. -/
 theorem local_analytic {d : ℕ} {W : Set (Vec d)} (hW : IsOpen W)
@@ -891,7 +930,17 @@ theorem diagonalize (D : Data n) (hn : 2 ≤ n) {W : Set (Vec n)} (hW : IsOpen W
     (∀ b : Bool, ∀ I ∈ W, ∃ r : ℝ, 0 < r ∧ ∀ ξ η : Vec n,
       ‖(ξ,η)‖ < r →
       avg (fun t => perturbation D b (liftInv R (assemble I t η ξ))) =
-        secular D b ((R I).mulVec ξ,I,(R I).mulVec η)) := sorry
+        secular D b ((R I).mulVec ξ,I,(R I).mulVec η)) ∧
+    (∀ I ∈ W, ∀ j, 2*sigma D (axis D I) j < 0) ∧
+    (∀ I0 ∈ W, ∃ r C : ℝ, 0 < r ∧ 0 < C ∧
+      Metric.ball I0 r ⊆ W ∧
+      ∀ b : Bool, ∀ I ∈ Metric.ball I0 r, ∀ ξ η : Vec n,
+        ‖(ξ,η)‖ < r →
+        |avg (fun t => perturbation D b (liftInv R (assemble I t η ξ))) -
+          (constantTerm D (axis D I) + (if b then modelDelta D I else 0) +
+            ∑ j, (2*sigma D (axis D I) j) * oscillatorAction η ξ j)| ≤
+          C * ‖(ξ,η)‖^4) := by
+  sorry
 
 theorem n2 (D : Data 2) {a : Vec 2} (ha : a ∈ axes 2) :
     (coeffs D a).det = ((pairA D a 0 1)^2-(pairB D a 0 1)^2) /
@@ -1092,12 +1141,16 @@ theorem e_param {U : Set (CVec d)} (hU : IsOpen U) {f : Vec n → CVec d → ℂ
     (hHol : ∀ t ∈ cell n, DifferentiableOn ℂ (f t) U) :
     DifferentiableOn ℂ (fun z => ∫ t in cell n, f t z) U := sorry
 
-theorem e_diff {U : Set (Vec d)} (hU : IsOpen U) {f : Vec n → Vec d → ℝ}
-    (hCont : ∀ k : ℕ, ContinuousOn
-      (fun z : Vec n × Vec d => iteratedFDeriv ℝ k (f z.1) z.2) (cell n ×ˢ U))
-    (hSmooth : ∀ t ∈ cell n, ContDiffOn ℝ ⊤ (f t) U) (k : ℕ) {x : Vec d} (hx : x ∈ U) :
+theorem e_diff {U : Set (Vec d)} (hU : IsOpen U)
+    {f : Vec n → Vec d → ℝ} (k : ℕ)
+    (hCont : ∀ j : ℕ, j ≤ k → ContinuousOn
+      (fun z : Vec n × Vec d => iteratedFDeriv ℝ j (f z.1) z.2)
+      (cell n ×ˢ U))
+    (hSmooth : ∀ t ∈ cell n, ContDiffOn ℝ k (f t) U)
+    {x : Vec d} (hx : x ∈ U) :
     iteratedFDeriv ℝ k (fun y => ∫ t in cell n, f t y) x =
-      ∫ t in cell n, iteratedFDeriv ℝ k (f t) x := sorry
+      ∫ t in cell n, iteratedFDeriv ℝ k (f t) x := by
+  sorry
 
 theorem average_translate {f : Vec n → ℝ} (hCont : Continuous f)
     (hPer : ∀ i (x : Vec n), Function.Periodic (fun t : ℝ => f (Function.update x i t)) (2*π)) (c : Vec n) :
