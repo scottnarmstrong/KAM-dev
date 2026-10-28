@@ -26099,9 +26099,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit B13 PASS WITH NOTES covers E1-E3 scalar slice only; E4 (parameter Cauchy) belongs to B10 and es-3 real tail not separate; node stays NOT_STARTED
+LEAN_STATUS: PROVED
+LEAN_REF: exported_sums (KAM/Planetary/WeakKAM/Budgets.lean); exported_sums_es_3 (KAM/Planetary/WeakKAM/BudgetsTail.lean); selection_iteration_parameter_first (KAM/Planetary/WeakKAM/Iteration.lean)
+LEAN_NOTE: composite of audits B13 PASS WITH NOTES (E1-E3 via exported_sums) + B10 PASS WITH NOTES (E4) + GAP-B PASS WITH NOTES (es-3, real tail 2^-12 stronger than 2^-10)
 NOTE: -
 
 NODE: stepP:p11a:es-1
@@ -26198,9 +26198,9 @@ EDGE: bpP:p11a:y-geom | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit B13: collar tail exported (exported_sums last conjunct, wbud_tail) but the real tail sum Lambda_R tail <= 2^-10 is not a separate declaration
+LEAN_STATUS: PROVED
+LEAN_REF: exported_sums_es_3, exported_sums_es_3_ctx, wbudtail_quot (KAM/Planetary/WeakKAM/BudgetsTail.lean)
+LEAN_NOTE: audit GAP-B PASS WITH NOTES; literal es-3 conclusion (collar tail chain, 2^-10, real tail <= 2^-12) under exported_sums hypotheses
 NOTE: -
 
 NODE: stepP:p11a:es-4
@@ -26743,9 +26743,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition, SelectionComposition (KAM/Planetary/WeakKAM/Composition.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; composition outputs clauses (a)-(d) incl. canonical/periodic/real, derivative <= exp-1 <= 2^-11, displacements, increment
 NOTE: bpP:p11a:exported-sums is cited in the \source line (provenance); the proof consumes (E2) in co-deriv, where the edge is.
 
 NODE: stepP:p11a:co-dom
@@ -26774,9 +26774,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionCompDom, selectionComp_map_mem, selectionComp_holo (KAM/Planetary/WeakKAM/CompositionStep.lean); selectionComp_domain, selectionComp_periodic, selectionComp_symplectic, selectionComp_real (KAM/Planetary/WeakKAM/Composition.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; domain/holomorphy/canonical/periodic/real; H_nu=H_0 o Phi via inherited normal_form
 NOTE: -
 
 NODE: stepP:p11a:co-deriv
@@ -26807,9 +26807,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionComp_derivative, selectionComp_budget_sum_le, selectionComp_small (KAM/Planetary/WeakKAM/CompositionBound.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; product recursion, exp(sum m)-1 <= 2^-11
 NOTE: -
 
 NODE: stepP:p11a:co-disp
@@ -26837,9 +26837,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionComp_angle, selectionComp_action (KAM/Planetary/WeakKAM/CompositionBound.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; componentwise telescoping
 NOTE: -
 
 NODE: stepP:p11a:co-inc
@@ -26869,9 +26869,9 @@ EDGE: bpP:p11a:sec-comp#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionComp_increment (KAM/Planetary/WeakKAM/CompositionBound.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; increment (1+2^-11)max(A,alpha) on D_{nu+1}
 NOTE: -
 
 NODE: bpP:p11a:param-lip-sum
@@ -28527,9 +28527,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a:sec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sec_comp_data (KAM/Planetary/WeakKAM/Composition.lean)
+LEAN_NOTE: audit B14 PASS WITH NOTES; definition via selectionCompose, text-identical to signed
 NOTE: Source definition extracted from the reused prose before composition; it does not assume the theorem about the compositions.
 
 NODE: bpP:p11a:sec-q-thm#data
