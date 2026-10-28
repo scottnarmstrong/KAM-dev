@@ -40,20 +40,32 @@ lemma hasDerivAt_assemble {I φ p q : ℝ → Vec n} {I' φ' p' q' : Vec n} {t :
     · exact hasDerivAt_vec_entry hI j
     · exact hasDerivAt_vec_entry hp j
 
-/-- The derivative of the lift at `z` in direction `u`. -/
-def dLift (R : Vec n → Mat n) (z u : Phase (n+n)) : Phase (n+n) :=
+/-- Angle block of the derivative of the lift at `z` in direction `u`. -/
+def dTheta (R : Vec n → Mat n) (z u : Phase (n+n)) : Vec n :=
   let I : Vec n := fast z.2
   let ξ : Vec n := slow z.1
   let η : Vec n := slow z.2
   let Ru : Mat n := fderiv ℝ R I (fast u.2)
   let D : Fin n → Mat n := fun l => fderiv ℝ R I (Pi.single l 1)
   let E : Fin n → Mat n := fun l => hess R I (fast u.2) (Pi.single l 1)
-  let θ : Vec n := fun l => fast u.1 l -
+  fun l => fast u.1 l -
     (slow u.2 ⬝ᵥ ((D l * (R I).transpose).mulVec ξ) +
       η ⬝ᵥ (((E l * (R I).transpose + D l * Ru.transpose).mulVec ξ) +
         (D l * (R I).transpose).mulVec (slow u.1)))
-  assemble (fast u.2) θ ((R I).transpose.mulVec (slow u.2) + Ru.transpose.mulVec η)
-    ((R I).transpose.mulVec (slow u.1) + Ru.transpose.mulVec ξ)
+
+/-- Second slow block of the derivative of the lift. -/
+def dP (R : Vec n → Mat n) (z u : Phase (n+n)) : Vec n :=
+  (R (fast z.2)).transpose.mulVec (slow u.2) +
+    (fderiv ℝ R (fast z.2) (fast u.2)).transpose.mulVec (slow z.2)
+
+/-- First slow block of the derivative of the lift. -/
+def dQ (R : Vec n → Mat n) (z u : Phase (n+n)) : Vec n :=
+  (R (fast z.2)).transpose.mulVec (slow u.1) +
+    (fderiv ℝ R (fast z.2) (fast u.2)).transpose.mulVec (slow z.1)
+
+/-- The derivative of the lift at `z` in direction `u`. -/
+def dLift (R : Vec n → Mat n) (z u : Phase (n+n)) : Phase (n+n) :=
+  assemble (fast u.2) (dTheta R z u) (dP R z u) (dQ R z u)
 
 lemma hasDerivAt_phase_line (z u : Phase (n+n)) :
     HasDerivAt (fun s : ℝ => z + s • u) u 0 := by
@@ -101,7 +113,7 @@ lemma hasDerivAt_liftMap_line {W : Set (Vec n)} (hW : IsOpen W) {R : Vec n → M
         (R (I + s • fast u.2)).transpose).mulVec (slow z.1 + s • slow u.1))) _ 0 :=
     hasDerivAt_pi.2 fun l => (hasDerivAt_vec_entry hθ0 l).sub (hasDerivAt_vec_dot hp (hw l))
   refine HasDerivAt.congr_deriv (hasDerivAt_assemble hI' hθ hpp hqq) ?_
-  simp only [dLift]
+  simp only [dLift, dTheta, dP, dQ]
   congr 1
   · funext l
     simp [hIdef, dotProduct, add_comm]
