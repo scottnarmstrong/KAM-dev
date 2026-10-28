@@ -344,6 +344,7 @@ public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Hamiltonian.Diophantine
+public import KAM.Planetary.Hamiltonian.HolChart
 public import KAM.Planetary.Hamiltonian.Liouville
 public import KAM.Planetary.Hamiltonian.TorusUnion
 public import KAM.Planetary.Hamiltonian.Transport
