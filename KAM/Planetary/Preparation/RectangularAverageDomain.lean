@@ -29,9 +29,11 @@ def p11BoxRad (a b : ℕ) (r1 r2 : ℝ) : Fin (a + b) → ℝ :=
 theorem p11Box_eq {a b : ℕ} (c : P11CVec (a + b)) (r1 r2 : ℝ) :
     p11Box c r1 r2 = {I | ∀ j, ‖I j - c j‖ < p11BoxRad a b r1 r2 j} := by
   ext I
-  simp only [p11Box, mem_ofPred_eq, Fin.forall_fin_add, p11BoxRad, Fin.append_left, Fin.append_right]
+  simp only [p11Box, mem_ofPred_eq, Fin.forall_fin_add, p11BoxRad, Fin.append_left,
+    Fin.append_right]
 
-theorem min_le_p11Rad {a b : ℕ} {r1 r2 : ℝ} (j : Fin (a + b)) : min r1 r2 ≤ p11BoxRad a b r1 r2 j := by
+theorem min_le_p11Rad {a b : ℕ} {r1 r2 : ℝ} (j : Fin (a + b)) :
+    min r1 r2 ≤ p11BoxRad a b r1 r2 j := by
   refine Fin.addCases (fun i => ?_) (fun i => ?_) j
   · simp [p11BoxRad]
   · simp [p11BoxRad]
