@@ -166,6 +166,72 @@ theorem p11_mean_Omega_real (D : P11Physical n) (d : P11HoloData D) {J : P11Vec 
     rw [hre]; field_simp
   · simp [hΩ i]
 
+/-- `hc-mean`: the real remainder is `O(‖z‖⁴)` (`diagonalize` (d)). -/
+theorem p11_mean_real_bound (D : P11Physical n) (d : P11HoloData D) {a : P11Vec n}
+    (ha : a ∈ axes n) {σ rz B B' r' σ' : ℝ}
+    (h : P11HsHyp (p11PhysicalData D) a d.rho d.J0 d.rC σ rz B B' r' σ')
+    (hΩ : ∀ J : P11Vec n, ‖J - d.J0‖ < 2 * d.rC → ∀ i, (d.Omega (KAM.realInclusion n J) i).im = 0)
+    {J : P11Vec n} (hJ : ‖J - d.J0‖ < 2 * d.rC) :
+    ∃ r0 C0 : ℝ, 0 < r0 ∧ ∀ z' : Phase n, ‖z'‖ < r0 →
+      ‖p11MeanRem (p11hsF (p11PhysicalData D) d.rho) d.Omega
+        (KAM.realInclusion n J, KAM.realInclusion₂ n z')‖ ≤ C0 * ‖z'‖ ^ 4 := by
+  set E := p11PhysicalData D with hE
+  set Lam : P11Vec n := (2 * π)⁻¹ • J with hLam
+  have hLeq : (fun i => J i / (2 * π)) = Lam := by funext i; simp [hLam, div_eq_inv_mul]
+  have hLt1 : Lam ∈ Metric.ball ((2 * π)⁻¹ • d.J0) d.t1 := by
+    have h1 := p11_mean_L_t2 d hJ
+    rw [hLeq] at h1
+    exact mem_ball_iff_norm.2 (h1.trans_le d.t2_le)
+  have hRfr := fun L hL => d.R_frame L hL
+  have diag := SecularSpectrum.diagonalize E D.n_ge (W := Metric.ball ((2 * π)⁻¹ • d.J0) d.t1)
+    Metric.isOpen_ball (fun L hL => (hRfr L hL).2.1) (R := d.R)
+    (fun L hL => analyticAt_pi_iff.2 fun i => analyticAt_pi_iff.2 fun j =>
+      d.R_analytic i j L hL)
+    (fun L hL => (hRfr L hL).2.2.1) (fun L hL => (hRfr L hL).2.2.2.1)
+  obtain ⟨r0, C0, hr0, -, -, hbd⟩ := diag.2.2.2 Lam hLt1
+  refine ⟨min r0 rz, C0, lt_min hr0 h.rz_pos, fun z' hz' => ?_⟩
+  obtain ⟨x, y⟩ := z'
+  have hzr : ‖(x, y)‖ < rz := hz'.trans_le (min_le_right _ _)
+  have hzr0 : ‖(x, y)‖ < r0 := hz'.trans_le (min_le_left _ _)
+  have hmem : ((x, y) : Phase n) = (x, y) := rfl
+  have hV := p11_mean_real_value D d ha h hJ (x := x) (y := y) hzr
+  have hV0 := p11_mean_real_value D d ha h hJ (x := 0) (y := 0) (by simpa using h.rz_pos)
+  have hb1 := hbd false Lam (mem_ball_self hr0) x y hzr0
+  have hb0 := hbd false Lam (mem_ball_self hr0) 0 0 (by simpa using hr0)
+  rw [hLeq] at hV hV0
+  have h0eq : (0 : P11Phase n) = (KAM.realInclusion n 0, KAM.realInclusion n 0) := by
+    simp [Prod.ext_iff]
+  have hcast : ∑ i, d.Omega (KAM.realInclusion n J) i *
+      (((x i : ℝ) : ℂ) ^ 2 + ((y i : ℝ) : ℂ) ^ 2) / 2 =
+      ((∑ j, (2 * SecularSpectrum.sigma E (axis E Lam) j) * oscillatorAction y x j : ℝ) : ℂ) := by
+    push_cast
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [p11_mean_Omega_real D d hJ (hΩ J hJ) i]
+    simp only [oscillatorAction]
+    push_cast
+    ring
+  simp only [p11MeanRem, KAM.realInclusion₂_apply, KAM.realInclusion_apply]
+  rw [hV, h0eq]
+  rw [hV0]
+  rw [hcast, ← Complex.ofReal_sub, ← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs]
+  have hosc0 : ∀ j, oscillatorAction (0 : P11Vec n) (0 : P11Vec n) j = 0 := fun j => by
+    simp [oscillatorAction]
+  simp only [hosc0, mul_zero, Finset.sum_const_zero, add_zero, Bool.false_eq_true, ite_false,
+    Prod.norm_def, norm_zero, max_self] at hb0
+  have hb0' : (SecularForm.avg fun t => perturbation E false
+      (SecularSpectrum.liftInv d.R (assemble Lam t 0 0))) = constantTerm E (axis E Lam) := by
+    have : |(SecularForm.avg fun t => perturbation E false
+        (SecularSpectrum.liftInv d.R (assemble Lam t 0 0))) - constantTerm E (axis E Lam)| ≤ 0 := by
+      simpa using hb0
+    exact sub_eq_zero.1 (abs_nonpos_iff.1 this)
+  rw [hb0']
+  simp only [Bool.false_eq_true, ite_false, add_zero] at hb1
+  calc _ = |(SecularForm.avg fun t => perturbation E false
+          (SecularSpectrum.liftInv d.R (assemble Lam t y x))) -
+          (constantTerm E (axis E Lam) + ∑ j, 2 * SecularSpectrum.sigma E (axis E Lam) j *
+            oscillatorAction y x j)| := by congr 1; ring
+    _ ≤ _ := hb1
+
 end Mean
 
 end KAM.Planetary
