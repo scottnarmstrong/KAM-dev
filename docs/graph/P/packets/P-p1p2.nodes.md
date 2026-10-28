@@ -2106,9 +2106,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#bpP:p2:osc-averaging
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: OscHyp (KAM/Planetary/Averaging/OscillatorHyp.lean); osc_averaging, oscGood_of_hyp (KAM/Planetary/Averaging/OscillatorFinite.lean)
+LEAN_NOTE: audit P23-15b PASS WITH NOTES; consumes the complete signed osc_iter (P23-13j)
 NOTE: -
 
 NODE: stepP:p2:oa-first
@@ -2230,9 +2230,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#bpP:p2:averaged-rema
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: averaged_remainder, osc_zero_mode (KAM/Planetary/Averaging/OscillatorFinite.lean)
+LEAN_NOTE: audit P23-15b PASS WITH NOTES
 NOTE: [pre-extract: dropped reference to bpP:p0:pg, which part p2 proves or sets up]
 
 NODE: stepP:p2:ar-apply
