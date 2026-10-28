@@ -464,6 +464,7 @@ public import KAM.Planetary.Averaging.OscillatorStep
 public import KAM.Planetary.Averaging.OscillatorStepComplete
 public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Averaging.Splitting
+public import KAM.Planetary.Exponential.ComplexTube
 public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Exponential.Enlargement
 public import KAM.Planetary.Exponential.LocalComplexification
@@ -732,6 +733,7 @@ public import KAM.Planetary.WeakKAM.ContinuousSeries
 public import KAM.Planetary.WeakKAM.Data
 public import KAM.Planetary.WeakKAM.Initial
 public import KAM.Planetary.WeakKAM.Schedule
+public import KAM.Planetary.WeakKAM.StripBudget
 public import KAM.Planetary.WeakMeasure.BallSublevel
 public import KAM.Planetary.WeakMeasure.Basic
 public import KAM.Planetary.WeakMeasure.Bridge
