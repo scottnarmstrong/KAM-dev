@@ -175,6 +175,85 @@ theorem integral_inClass :
 
 end ExtCompose
 
+/-- The unit cube `[0,1]ⁿ`. -/
+abbrev cubeE (n : ℕ) : Set (Fin n → ℝ) := Set.pi Set.univ fun _ => Icc (0 : ℝ) 1
+
+/-- Fubini: the coefficient of `∫₀¹ w_t dt` is `∫₀¹ (coefficient of w_t) dt`, and the coefficients
+of the slices are integrable in `t`. -/
+theorem coeff_integral_ext {m : ℕ} {w : ℝ → (Fin n → ℂ) × (Fin m → ℂ) → ℂ} {I : Fin m → ℂ}
+    (k : Fin n → ℤ)
+    (hF : ContinuousOn (fun p : ℝ × (Fin n → ℝ) => w p.1 (fun j => (p.2 j : ℂ), I))
+      (Icc (0 : ℝ) 1 ×ˢ cubeE n)) :
+    coeff (fun z => ∫ t in (0 : ℝ)..1, w t z) I k = ∫ t in (0 : ℝ)..1, coeff (w t) I k ∧
+    IntervalIntegrable (fun t => coeff (w t) I k) volume 0 1 := by
+  have hchar : Continuous fun x : Fin n → ℝ => KAM.character (-k) (fun j => (x j : ℂ)) :=
+    (KAM.differentiable_character (-k)).continuous.comp continuous_realPt_ext
+  have hK : IsCompact (Icc (0 : ℝ) 1 ×ˢ cubeE n) :=
+    isCompact_Icc.prod (isCompact_univ_pi fun _ => isCompact_Icc)
+  have hf : ContinuousOn (fun p : ℝ × (Fin n → ℝ) =>
+      KAM.character (-k) (fun j => (p.2 j : ℂ)) * w p.1 (fun j => (p.2 j : ℂ), I))
+      (Icc (0 : ℝ) 1 ×ˢ cubeE n) :=
+    (hchar.comp continuous_snd).continuousOn.mul hF
+  have hint : Integrable (Function.uncurry fun (t : ℝ) (x : Fin n → ℝ) =>
+      KAM.character (-k) (fun j => (x j : ℂ)) * w t (fun j => (x j : ℂ), I))
+      ((volume.restrict (Ioc (0 : ℝ) 1)).prod (volume.restrict (cubeE n))) := by
+    rw [Measure.prod_restrict, ← Measure.volume_eq_prod]
+    exact (hf.integrableOn_compact hK).mono_set
+      (prod_mono Ioc_subset_Icc_self subset_rfl)
+  have hswap := integral_integral_swap hint
+  have e1 : coeff (fun z => ∫ t in (0 : ℝ)..1, w t z) I k =
+      ∫ x in cubeE n, ∫ t in Ioc (0 : ℝ) 1,
+        KAM.character (-k) (fun j => (x j : ℂ)) * w t (fun j => (x j : ℂ), I) := by
+    unfold coeff KAM.torusCoeffW KAM.torusAverage
+    refine setIntegral_congr_fun (MeasurableSet.univ_pi fun _ => measurableSet_Icc) fun x _ => ?_
+    simp only [smul_eq_mul]
+    rw [intervalIntegral.integral_of_le zero_le_one, ← integral_const_mul]
+  have e2 : ∀ t, coeff (w t) I k = ∫ x in cubeE n,
+      KAM.character (-k) (fun j => (x j : ℂ)) * w t (fun j => (x j : ℂ), I) := fun t => by
+    unfold coeff KAM.torusCoeffW KAM.torusAverage
+    simp only [smul_eq_mul]
+  refine ⟨?_, ?_⟩
+  · rw [e1, intervalIntegral.integral_of_le zero_le_one]
+    simp_rw [e2]
+    exact hswap.symm
+  · rw [intervalIntegrable_iff_integrableOn_Ioc_of_le zero_le_one]
+    simp_rw [e2]
+    exact hint.integral_prod_left
+
+namespace ExtCompose
+
+variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ : EC n k → ℂ} {v : ℝ → EC n k → ℂ}
+  (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k)
+
+include hc hk in
+/-- The integrand is jointly continuous in the time and the (real) angles. -/
+theorem continuousOn_integrand
+    (hcont : ContinuousOn (fun p : ℝ × EC n k => v p.1 p.2) (Icc 0 1 ×ˢ Dom n b.base R s))
+    {I : Fin (n + (k + k)) → ℂ} (hI : I ∈ polyNbhd b.base (R - ρ)) :
+    ContinuousOn (fun p : ℝ × (Fin n → ℝ) =>
+      v p.1 (extFlow b R' s' ρ σ φ p.1 (fun j => (p.2 j : ℂ), I)))
+      (Icc (0 : ℝ) 1 ×ˢ cubeE n) := by
+  obtain ⟨fc, -, -, -, -⟩ := KAM.Canonical.flow_b (hc.smallField hk)
+  have hdom := (composition_domain b hk hc).2
+  have hmem : ∀ x : Fin n → ℝ, ((fun j => (x j : ℂ)), I) ∈ Dom n b.base (R - ρ) (s - σ) :=
+    fun x => ⟨KAM.ofReal_mem_complexStrip (by linarith [hc.sig_lt]) x, hI⟩
+  have hP : ContinuousOn (fun p : ℝ × (Fin n → ℝ) => (p.1, ((fun j => (p.2 j : ℂ)), I)))
+      (Icc (0 : ℝ) 1 ×ˢ cubeE n) :=
+    (continuous_fst.prodMk ((continuous_realPt_ext.comp continuous_snd).prodMk
+      continuous_const)).continuousOn
+  have hPm : MapsTo (fun p : ℝ × (Fin n → ℝ) => (p.1, ((fun j => (p.2 j : ℂ)), I)))
+      (Icc (0 : ℝ) 1 ×ˢ cubeE n) (Icc (-1 : ℝ) 1 ×ˢ KAM.Canonical.gaugeInterior
+        (extGauge hc.rho_pos hc.sig_pos) (Dom n b.base (R' - ρ) (s' - σ)) (1 / 2)) :=
+    fun p hp => ⟨⟨by linarith [hp.1.1], hp.1.2⟩, hc.gaugeInterior_half (hmem p.2)⟩
+  have hΦ : ContinuousOn (fun p : ℝ × (Fin n → ℝ) =>
+      (p.1, extFlow b R' s' ρ σ φ p.1 (fun j => (p.2 j : ℂ), I)))
+      (Icc (0 : ℝ) 1 ×ˢ cubeE n) :=
+    continuousOn_fst.prodMk (fc.comp hP hPm)
+  refine hcont.comp hΦ fun p hp => ⟨hp.1, hc.tube_sub (hdom p.1
+    (abs_le.2 ⟨by linarith [hp.1.1], hp.1.2⟩) (hmem p.2))⟩
+
+end ExtCompose
+
 end KAM.Nekhoroshev
 
 end
