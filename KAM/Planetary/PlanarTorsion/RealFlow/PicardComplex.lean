@@ -174,6 +174,97 @@ theorem iter_dist (k : ℕ) : ∀ ζ ∈ p11cDom n c T r,
       _ ≤ (1 / 2) * (M * T * (1 / 2) ^ k) := mul_le_mul_of_nonneg_right h.LT hX
       _ = M * T * (1 / 2) ^ (k + 1) := by rw [pow_succ]; ring
 
+theorem iter_isReal (hreal : ∀ z ∈ ball c ρ, p11cIsReal z → p11cIsReal (F z)) (k : ℕ) :
+    ∀ ζ ∈ p11cDom n c T r, (ζ 0).im = 0 → p11cIsReal (p11cSp n ζ) →
+      p11cIsReal (p11cIter F k ζ) := by
+  induction k with
+  | zero => intro ζ _ _ hs; simpa [p11cIter_zero] using hs
+  | succ k ih =>
+    intro ζ hζ h0 hs
+    have hcF : ContinuousOn (fun ζ => F (p11cIter F k ζ)) (p11cDom n c T r) :=
+      (h.holo.comp (h.iter_spec k).2 fun ζ hζ => h.iter_mem hζ).continuousOn
+    rw [p11cIter_succ]
+    refine p11cPicardOp_isReal (p11c_intervalIntegrable_scale hcF hζ) h0 hs fun σ hσ => ?_
+    have hm := p11cTimeScale_mem hσ hζ
+    refine hreal _ (h.iter_mem hm) (ih _ hm ?_ (by rwa [p11cSp_timeScale]))
+    rw [p11cTimeScale_zero]
+    simp [h0]
+
+theorem iter_geom {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) (k : ℕ) :
+    dist (p11cIter F k ζ) (p11cIter F (k + 1) ζ) ≤ 2 * M * T / 2 / 2 ^ k := by
+  rw [dist_comm, dist_eq_norm]
+  refine (h.iter_dist k ζ hζ).trans_eq ?_
+  rw [one_div, inv_pow]
+  field_simp
+
+/-- The limit of the Picard iterates. -/
+def lim (F : (Fin n → ℂ) → Fin n → ℂ) (ζ : Fin (n + 1) → ℂ) : Fin n → ℂ :=
+  limUnder atTop fun k => p11cIter F k ζ
+
+theorem lim_tendsto {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
+    Tendsto (fun k => p11cIter F k ζ) atTop (𝓝 (lim F ζ)) :=
+  (cauchySeq_of_le_geometric_two (h.iter_geom hζ)).tendsto_limUnder
+
+theorem lim_dist {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) (k : ℕ) :
+    ‖p11cIter F k ζ - lim F ζ‖ ≤ 2 * M * T / 2 ^ k := by
+  rw [← dist_eq_norm]
+  exact dist_le_of_le_geometric_two_of_tendsto (h.iter_geom hζ) (h.lim_tendsto hζ) k
+
+theorem lim_bound {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
+    ‖lim F ζ - p11cSp n ζ‖ ≤ M * ‖ζ 0‖ :=
+  le_of_tendsto' (((h.lim_tendsto hζ).sub_const _).norm) fun k => (h.iter_spec k).1 ζ hζ
+
+theorem lim_mem {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) : lim F ζ ∈ ball c ρ :=
+  h.mem_ball hζ (h.lim_bound hζ)
+
+theorem lim_unif : TendstoUniformlyOn (fun k => p11cIter F k) (lim F) atTop
+    (p11cDom n c T r) := by
+  rw [Metric.tendstoUniformlyOn_iff]
+  intro ε hε
+  have ht : Tendsto (fun k : ℕ => 2 * M * T / 2 ^ k) atTop (𝓝 0) :=
+    tendsto_const_nhds.div_atTop (tendsto_pow_atTop_atTop_of_one_lt one_lt_two)
+  filter_upwards [ht.eventually (gt_mem_nhds hε)] with k hk ζ hζ
+  rw [dist_comm, dist_eq_norm]
+  exact (h.lim_dist hζ k).trans_lt hk
+
+theorem lim_differentiableOn : DifferentiableOn ℂ (lim F) (p11cDom n c T r) :=
+  (KAM.Weighted.uniform_limit_holomorphic (isOpen_p11cDom c T r)
+    (fun k => (h.iter_spec k).2) h.lim_unif).1
+
+theorem lim_fixed {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) :
+    lim F ζ = p11cPicardOp (fun ζ => F (lim F ζ)) ζ := by
+  have hcF : ContinuousOn (fun ζ => F (lim F ζ)) (p11cDom n c T r) :=
+    (h.holo.comp h.lim_differentiableOn fun ζ hζ => h.lim_mem hζ).continuousOn
+  have hcI : ∀ k, ContinuousOn (fun ζ => F (p11cIter F k ζ)) (p11cDom n c T r) := fun k =>
+    (h.holo.comp (h.iter_spec k).2 fun ζ hζ => h.iter_mem hζ).continuousOn
+  have h1 : Tendsto (fun k => p11cIter F (k + 1) ζ) atTop (𝓝 (lim F ζ)) :=
+    (h.lim_tendsto hζ).comp (tendsto_add_atTop_nat 1)
+  have hb : ∀ k, ‖p11cIter F (k + 1) ζ - p11cPicardOp (fun ζ => F (lim F ζ)) ζ‖ ≤
+      ‖ζ 0‖ * (L * (2 * M * T / 2 ^ k)) := fun k =>
+    p11cPicardOp_sub_le (hcI k) hcF (b := L * (2 * M * T / 2 ^ k))
+      (fun ζ' hζ' => (h.lip _ (h.iter_mem hζ') _ (h.lim_mem hζ')).trans
+        (mul_le_mul_of_nonneg_left (h.lim_dist hζ' k) h.L_nonneg)) hζ
+  have ht : Tendsto (fun k : ℕ => ‖ζ 0‖ * (L * (2 * M * T / 2 ^ k))) atTop (𝓝 0) := by
+    have : Tendsto (fun k : ℕ => 2 * M * T / 2 ^ k) atTop (𝓝 0) :=
+      tendsto_const_nhds.div_atTop (tendsto_pow_atTop_atTop_of_one_lt one_lt_two)
+    simpa using (this.const_mul L).const_mul ‖ζ 0‖
+  have h2 : Tendsto (fun k => p11cIter F (k + 1) ζ) atTop
+      (𝓝 (p11cPicardOp (fun ζ => F (lim F ζ)) ζ)) :=
+    tendsto_iff_norm_sub_tendsto_zero.2 (squeeze_zero (fun _ => norm_nonneg _) hb ht)
+  exact tendsto_nhds_unique h1 h2
+
+theorem lim_isReal (hreal : ∀ z ∈ ball c ρ, p11cIsReal z → p11cIsReal (F z))
+    {ζ : Fin (n + 1) → ℂ} (hζ : ζ ∈ p11cDom n c T r) (h0 : (ζ 0).im = 0)
+    (hs : p11cIsReal (p11cSp n ζ)) : p11cIsReal (lim F ζ) := by
+  intro i
+  have ht : Tendsto (fun k => (p11cIter F k ζ i).im) atTop (𝓝 (lim F ζ i).im) :=
+    (Complex.continuous_im.tendsto _).comp (((continuous_apply i).tendsto _).comp
+      (h.lim_tendsto hζ))
+  have hz : (fun k => (p11cIter F k ζ i).im) = fun _ => (0 : ℝ) :=
+    funext fun k => h.iter_isReal hreal k ζ hζ h0 hs i
+  rw [hz] at ht
+  exact (tendsto_nhds_unique ht tendsto_const_nhds).symm ▸ rfl
+
 end P11cPicardData
 
 end KAM.Planetary
