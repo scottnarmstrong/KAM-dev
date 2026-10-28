@@ -121,6 +121,51 @@ theorem f_pol {ν : ℕ} (T : (Fin d → ℝ) [×ν]→L[ℝ] ℝ)
     T = 0 ↔ ∀ v : Fin d → ℝ, T (fun _ => v) = 0 := by
   refine ⟨fun h v => by simp [h], pol_aux d ν T hSym⟩
 
-end Nondegeneracy
+/-! ### Leibniz formula -/
 
+/-- The diagonal derivative of a smooth function on an open set is the one-variable derivative
+along the line. -/
+lemma iteratedFDeriv_diag_eq {B : Set (Fin d → ℝ)} (hB : IsOpen B) {f : (Fin d → ℝ) → ℝ}
+    (hf : ContDiffOn ℝ ⊤ f B) {y : Fin d → ℝ} (hy : y ∈ B) (v : Fin d → ℝ) (k : ℕ) :
+    iteratedFDeriv ℝ k f y (fun _ => v) = iteratedDeriv k (fun t : ℝ => f (y + t • v)) 0 := by
+  set L : ℝ →L[ℝ] (Fin d → ℝ) := ContinuousLinearMap.toSpanSingleton ℝ v with hL
+  set B' : Set (Fin d → ℝ) := (fun z => y + z) ⁻¹' B with hB'
+  have hB'o : IsOpen B' := hB.preimage (continuous_const.add continuous_id)
+  have h0 : (0 : Fin d → ℝ) ∈ B' := by simpa [hB'] using hy
+  have hf2 : ContDiffOn ℝ ⊤ (fun z => f (y + z)) B' :=
+    hf.comp (contDiff_const.add contDiff_id).contDiffOn fun z hz => hz
+  have hLo : IsOpen (L ⁻¹' B') := hB'o.preimage L.continuous
+  have hLm : (0 : ℝ) ∈ L ⁻¹' B' := by simpa using h0
+  have h3 := L.iteratedFDerivWithin_comp_right (n := ⊤) hf2 hB'o.uniqueDiffOn
+    hLo.uniqueDiffOn (x := 0) (by simpa using h0) (i := k) (by exact_mod_cast le_top)
+  rw [iteratedFDerivWithin_of_isOpen k hLo hLm,
+    iteratedFDerivWithin_of_isOpen k hB'o (by simpa using h0)] at h3
+  rw [iteratedDeriv_eq_iteratedFDeriv]
+  have h4 : (fun t : ℝ => f (y + t • v)) = (fun z => f (y + z)) ∘ L := by
+    funext t; simp [hL]
+  rw [h4, h3, iteratedFDeriv_comp_add_left]
+  simp [hL]
+
+theorem f_leib {B : Set (Fin d → ℝ)} (hB : IsOpen B) {f g : (Fin d → ℝ) → ℝ}
+    (hf : AnalyticOnNhd ℝ f B) (hg : AnalyticOnNhd ℝ g B)
+    {y : Fin d → ℝ} (hy : y ∈ B) (v : Fin d → ℝ) (ν : ℕ) :
+    iteratedFDeriv ℝ ν (fun z => f z*g z) y (fun _ => v) =
+      ∑ k ∈ Finset.range (ν+1), (ν.choose k : ℝ) *
+        iteratedFDeriv ℝ k f y (fun _ => v) * iteratedFDeriv ℝ (ν-k) g y (fun _ => v) := by
+  have hf' : ContDiffOn ℝ ⊤ f B := hf.contDiffOn hB.uniqueDiffOn
+  have hg' : ContDiffOn ℝ ⊤ g B := hg.contDiffOn hB.uniqueDiffOn
+  have hfg : ContDiffOn ℝ ⊤ (fun z => f z * g z) B := hf'.mul hg'
+  have hA : ContDiff ℝ ⊤ (fun t : ℝ => y + t • v) := contDiff_const.add (contDiff_id.smul contDiff_const)
+  have hc : ∀ h : (Fin d → ℝ) → ℝ, ContDiffOn ℝ ⊤ h B →
+      ContDiffAt ℝ ν (fun t : ℝ => h (y + t • v)) 0 := by
+    intro h hh
+    have hy' : ContDiffAt ℝ ⊤ h (y + (0 : ℝ) • v) := by
+      simpa using hh.contDiffAt (hB.mem_nhds hy)
+    exact (hy'.comp (0 : ℝ) hA.contDiffAt).of_le le_top
+  rw [iteratedFDeriv_diag_eq hB hfg hy v ν]
+  have hm := iteratedDeriv_fun_mul (n := ν) (x := (0 : ℝ)) (hc f hf') (hc g hg')
+  refine hm.trans (Finset.sum_congr rfl fun k hk => ?_)
+  rw [iteratedFDeriv_diag_eq hB hf' hy v k, iteratedFDeriv_diag_eq hB hg' hy v (ν - k)]
+
+end Nondegeneracy
 end KAM.Planetary
