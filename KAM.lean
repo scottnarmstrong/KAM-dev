@@ -306,6 +306,7 @@ public import KAM.Measure.Lipeo
 public import KAM.Measure.Lipschitz
 public import KAM.Measure.McShane
 public import KAM.Measure.Slab
+public import KAM.Nekhoroshev.Assembly.Choice
 public import KAM.Nekhoroshev.Interfaces.ConicCoercive
 public import KAM.Nekhoroshev.Interfaces.Constants
 public import KAM.Nekhoroshev.Interfaces.ConstantsAnalytic
@@ -334,6 +335,7 @@ public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Diophantine
+public import KAM.Planetary.Hamiltonian.TorusUnion
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
