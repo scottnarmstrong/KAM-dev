@@ -432,6 +432,8 @@ Questions for the owner at the normal statement-review stage:
 
 Recommendations are the first alternatives in each question. These are questions recorded for future owner review, not a request that blocks completion of this exploration. No new statement was frozen or implicitly approved here.
 
+**Owner decision (D30, 2026-10-28):** "go with recommendation". The first alternative is adopted on all four questions; track W starts its source and design phase.
+
 ## 10. Checks and handoff
 
 Files authored: this report. PDFs added: P96-K duplicate download, P96-W, KP96 author version, HHM23 v2, as listed in §1. Existing AS26 and the earlier P96-K pin were read and hash-verified. Failed author-site/PDF requests produced no saved HTML or bogus PDF. Extracted text and rendered page images were processed in memory; no extra evidence files were created.

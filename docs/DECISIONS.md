@@ -211,3 +211,19 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Each such decision is logged in `docs/campaign/OVERNIGHT.md` for morning review.
   - No new statement is frozen: approvals of exact Lean text are deferred to the morning. Source requests wait too.
   - Proof work runs at full throughput.
+- **D30 (2026-10-28) Track W (PDE KAM) adopted.** *(Scott: "go with recommendation", answering the owner questions
+  in §9 of [`explorations/pde-kam-and-leapfrogging.md`](explorations/pde-kam-and-leapfrogging.md))*
+  - New track **W**: two-frequency quasiperiodic solutions of the cubic Dirichlet wave equation
+    `u_tt = u_xx − m u − u³` on `[0,π]`, modes `J = {1,2}`, every fixed `m > 0` (Pöschel 1996, CMH 71, Main Theorem).
+  - Q1: the real scalar wave equation, not the cheaper cubic NLS route.
+  - Q2: density one in the action parameters is the first measure conclusion; nothing is claimed about general
+    initial data.
+  - Q3: the first headline is analytic existence, two independent frequencies, exact PDE reconstruction and
+    smallness. Linear stability and Whitney regularity are later gates.
+  - Q4: the blueprint repairs the source normalization once E-PDE-W-1/2 and E-PDE-KP-1 are independently checked.
+    The printed, inconsistent formulas are never frozen.
+  - Leapfrogging (Hassainia–Hmidi–Masmoudi): GO-LATER. Its first milestone is the four-point-vortex orbit.
+  - Stage: source and design (blueprint-W, errata verification, then milestone W0: normalization and the
+    cubic-gradient interface). Exact Lean statements follow the normal pipeline, with independent audit and owner
+    approval before any freeze. Track W changes no K/I/N/P frozen surface.
+  - Lean namespace `KAM.Wave` (provisional).
