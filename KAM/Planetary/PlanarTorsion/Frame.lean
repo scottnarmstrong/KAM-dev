@@ -8,6 +8,9 @@ module
 public import Mathlib
 public import KAM.Planetary.PlanarTorsion.SpectralAdapter
 public import KAM.Planetary.SecularForm.Coefficients
+public import KAM.Planetary.SecularSpectrum.Lift
+public import KAM.Planetary.SecularSpectrum.Transport
+public import KAM.Planetary.Hamiltonian.Chart
 
 /-!
 # Planar quartic torsion: the global eigenframe and the rotation lift (P11C, package T14)
@@ -17,7 +20,9 @@ Blueprint P, Part 11b (`bpP:p11b:bt-rot`, `bt-rot#lift`): the explicit oriented 
 proves that it is analytic on the axis cone, special orthogonal and sorts the diagonalisation of
 `p11c_Q`.  Positivity of `Q₁₂` gives non-vanishing on the whole cone, so no covering-space or
 angle-lifting argument is needed.  `p11c_rotationLift` is the concrete inverse rotation lift of
-Part 9 in the frozen assembled coordinates.
+Part 9 in the frozen assembled coordinates; `p11c_rotationLift_eq_liftInv` identifies it with the
+upstream `SecularSpectrum.liftInv` of the frame family, and `p11c_rotationLift_chart` transports the
+Part-9 lift theorem (chart, injectivity, action preservation, translation covariance).
 -/
 
 @[expose] public noncomputable section
@@ -177,6 +182,104 @@ def p11c_rotationLift (p : PlanarData) (w : Phase (2 + 2)) : Phase (2 + 2) :=
     z.2 i * U k i * fderiv ℝ (fun J => p11c_frame p (p.axes J) k j) I (Pi.single l 1) * z.1 j
   let Z := p11c_rotateSlow U z
   assemble I (lam + H) Z.2 Z.1
+
+/-! ### Identification with the Part-9 inverse lift -/
+
+open scoped Matrix.Norms.Elementwise
+
+/-- The open set of actions whose axes lie in the cone `p11c_axes` (domain of the frame family). -/
+def p11c_frameActionDomain (p : PlanarData) : Set (Fin 2 → ℝ) := {I | p.axes I ∈ p11c_axes}
+
+/-- `p11c_frameActionDomain p` is open: `p.axes` is continuous and `p11c_axes` is open. -/
+theorem p11c_frameActionDomain_isOpen (p : PlanarData) : IsOpen (p11c_frameActionDomain p) := by
+  refine p11c_axes_isOpen.preimage ?_
+  refine continuous_pi fun i => ?_
+  unfold PlanarData.axes
+  fun_prop
+
+/-- The axis map `I ↦ p.axes I` is analytic (on valid data). -/
+theorem p11c_axes_map_analyticAt (p : PlanarData) (hp : p.Valid) (I : Fin 2 → ℝ) :
+    AnalyticAt ℝ p.axes I := by
+  refine analyticAt_pi_iff.2 fun i => ?_
+  have hk : p.m i ^ 2 * p.kappa ≠ 0 := by
+    have := hp.2.2 i
+    have h2 : 0 < p.kappa := mul_pos hp.1 hp.2.1
+    positivity
+  exact (((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) i).analyticAt I).pow
+    2).div analyticAt_const hk
+
+/-- Frame family regularity: `I ↦ p11c_frame p (p.axes I)` is analytic on the frame domain. -/
+theorem p11c_frameFamily_analyticOnNhd (p : PlanarData) (hp : p.Valid) :
+    AnalyticOnNhd ℝ (fun I => p11c_frame p (p.axes I)) (p11c_frameActionDomain p) := by
+  intro I hI
+  refine analyticAt_pi_iff.2 fun i => analyticAt_pi_iff.2 fun j => ?_
+  exact AnalyticAt.comp (g := fun b => p11c_frame p b i j) (f := p.axes)
+    (p11c_frame_analyticAt p hp hI i j) (p11c_axes_map_analyticAt p hp I)
+
+/-- The frame family is special orthogonal on the frame domain (from `global_planar_frame`). -/
+theorem p11c_frameFamily_isSO (p : PlanarData) (hp : p.Valid) :
+    ∀ I ∈ p11c_frameActionDomain p, SecularSpectrum.isSO (p11c_frame p (p.axes I)) := fun _ hI =>
+  let h := (global_planar_frame p hp).2 _ hI
+  ⟨h.1, h.2.1⟩
+
+/-- Part 9 identification (`bpP:p9:lift`, design U9): on valid data and actions whose axes lie
+in `p11c_axes`, the concrete `p11c_rotationLift` is the upstream `SecularSpectrum.liftInv` of
+the frame family.  Differentiability of the family comes from `global_planar_frame`'s analytic
+frame and the analytic axis map; the scalar entry derivatives of the signed formula are the entries
+of the matrix derivative via `SecularSpectrum.fderiv_entry`. -/
+theorem p11c_rotationLift_eq_liftInv (p : PlanarData) (hp : p.Valid) (w : Phase (2 + 2))
+    (hw : fast w.2 ∈ p11c_frameActionDomain p) :
+    p11c_rotationLift p w = SecularSpectrum.liftInv (fun I => p11c_frame p (p.axes I)) w := by
+  have hd := (p11c_frameFamily_analyticOnNhd p hp _ hw).differentiableAt
+  have hf : (fun i => w.2 (Fin.castAdd 2 i)) = fast w.2 := rfl
+  unfold p11c_rotationLift SecularSpectrum.liftInv
+  simp only [p11c_rotateSlow]
+  congr 1
+  funext l
+  simp only [hf, Pi.add_apply, SecularSpectrum.fderiv_entry hd, Matrix.mul_apply, Matrix.mulVec,
+    dotProduct, Matrix.transpose_apply, Fin.sum_univ_two]
+  simp only [fast, slow]
+  ring
+
+/-- Part 9 transported to `p11c_rotationLift` on the lift domain of the frame domain:
+chart (analytic and symplectic for `c = 1`), injectivity, action preservation and translation
+covariance, for the consumer `PlanarBirkhoffResult` (design U9). -/
+theorem p11c_rotationLift_chart (p : PlanarData) (hp : p.Valid) :
+    IsChart 1 (p11c_rotationLift p) (SecularSpectrum.liftDomain (p11c_frameActionDomain p)) ∧
+    InjOn (p11c_rotationLift p) (SecularSpectrum.liftDomain (p11c_frameActionDomain p)) ∧
+    (∀ w ∈ SecularSpectrum.liftDomain (p11c_frameActionDomain p),
+      (fun i => (p11c_rotationLift p w).2 (Fin.castAdd 2 i)) =
+        fun i => w.2 (Fin.castAdd 2 i)) ∧
+    (∀ w ∈ SecularSpectrum.liftDomain (p11c_frameActionDomain p), ∀ c : Fin 2 → ℝ,
+      p11c_rotationLift p (w + (Fin.append c 0, 0)) =
+        p11c_rotationLift p w + (Fin.append c 0, 0)) := by
+  have hW := p11c_frameActionDomain_isOpen p
+  have hAn := p11c_frameFamily_analyticOnNhd p hp
+  have hR := p11c_frameFamily_isSO p hp
+  have hL := SecularSpectrum.lift hW hAn hR
+  have heq : ∀ w ∈ SecularSpectrum.liftDomain (p11c_frameActionDomain p),
+      p11c_rotationLift p w = SecularSpectrum.liftInv (fun I => p11c_frame p (p.axes I)) w :=
+    fun w hw => p11c_rotationLift_eq_liftInv p hp w hw
+  have hev : ∀ w ∈ SecularSpectrum.liftDomain (p11c_frameActionDomain p),
+      p11c_rotationLift p =ᶠ[𝓝 w]
+        SecularSpectrum.liftInv (fun I => p11c_frame p (p.axes I)) := fun w hw => by
+    filter_upwards [(SecularSpectrum.isOpen_liftDomain hW).mem_nhds hw] with y hy using heq y hy
+  refine ⟨⟨fun w hw => (hL.2.1 w hw).congr (hev w hw).symm, fun w hw u v => ?_⟩, ?_, ?_, ?_⟩
+  · rw [(hev w hw).fderiv_eq]
+    exact hL.2.2.2.1 w hw u v
+  · intro u hu v hv h
+    rw [heq u hu, heq v hv] at h
+    exact SecularSpectrum.liftInv_injOn hR hu hv h
+  · intro w hw
+    rw [heq w hw]
+    show fast (SecularSpectrum.liftInv _ w).2 = fast w.2
+    simp only [SecularSpectrum.liftInv, SecularSpectrum.fast_snd_assemble]
+  · intro w hw c
+    have hw' : w + (Fin.append c 0, 0) ∈
+        SecularSpectrum.liftDomain (p11c_frameActionDomain p) := by
+      simpa [SecularSpectrum.liftDomain, fast] using hw
+    rw [heq _ hw', heq w hw]
+    exact SecularSpectrum.liftInv_add_append _ w c
 
 end KAM.Planetary
 
