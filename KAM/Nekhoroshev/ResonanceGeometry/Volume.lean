@@ -150,4 +150,84 @@ theorem volume_mono {Γ Λ : Lattice n} (hΓ : Γ ≤ Λ) (hd : latticeDim Γ = 
   nlinarith [volume_nonneg Λ]
 
 end Gram
+
+section Schur
+variable {d : ℕ}
+
+/-- The matrix `A` with the column `c` appended on the right. -/
+def snocCol (A : Matrix (Fin n) (Fin d) ℝ) (c : Fin n → ℝ) : Matrix (Fin n) (Fin (d + 1)) ℝ :=
+  Matrix.of fun i j => Fin.snoc (α := fun _ => ℝ) (fun j' => A i j') (c i) j
+
+/-- Block-diagonal Gram determinant after replacing the last column by a vector orthogonal to the
+others. -/
+theorem det_gram_snoc_orth (A : Matrix (Fin n) (Fin d) ℝ) (c : Fin n → ℝ)
+    (hperp : ∀ j, (fun i => A i j) ⬝ᵥ c = 0) :
+    ((snocCol A c).transpose * snocCol A c).det = (A.transpose * A).det * (c ⬝ᵥ c) := by
+  set M := (snocCol A c).transpose * snocCol A c with hM
+  have hcc : ∀ a b : Fin d, M a.castSucc b.castSucc = (A.transpose * A) a b := by
+    intro a b
+    simp [hM, snocCol, Matrix.mul_apply]
+  have hcl : ∀ a : Fin d, M (Fin.last d) a.castSucc = 0 := by
+    intro a
+    have := hperp a
+    simp only [hM, snocCol, Matrix.mul_apply, Matrix.transpose_apply, Matrix.of_apply, Fin.snoc_last,
+      Fin.snoc_castSucc]
+    rw [← this]
+    simp [dotProduct, mul_comm]
+  have hll : M (Fin.last d) (Fin.last d) = c ⬝ᵥ c := by
+    simp [hM, snocCol, Matrix.mul_apply, dotProduct]
+  rw [Matrix.det_succ_row M (Fin.last d), Finset.sum_eq_single (Fin.last d)]
+  · rw [hll, Fin.succAbove_last]
+    have : M.submatrix Fin.castSucc Fin.castSucc = A.transpose * A := by
+      ext a b
+      exact hcc a b
+    rw [this]
+    simp [← two_mul, pow_mul]
+    ring
+  · intro j _ hj
+    obtain ⟨a, rfl⟩ := Fin.exists_castSucc_eq.2 hj
+    rw [hcl]
+    simp
+  · simp
+
+/-- The unitriangular column operation subtracting `A x` from the last column. -/
+def shearMat (x : Fin d → ℝ) : Matrix (Fin (d + 1)) (Fin (d + 1)) ℝ :=
+  Matrix.of fun l j => (if l = j then 1 else 0) -
+    (if j = Fin.last d then Fin.snoc (α := fun _ => ℝ) x 0 l else 0)
+
+theorem det_shearMat (x : Fin d → ℝ) : (shearMat x).det = 1 := by
+  rw [Matrix.det_of_isUpperTriangular]
+  · refine Finset.prod_eq_one fun i _ => ?_
+    refine Fin.lastCases ?_ (fun a => ?_) i
+    · simp [shearMat]
+    · simp [shearMat, (Fin.castSucc_lt_last a).ne]
+  · intro i j hij
+    have hj : j ≠ Fin.last d := (lt_of_lt_of_le hij (Fin.le_last i)).ne
+    have hne : i ≠ j := by
+      intro h
+      subst h
+      exact lt_irrefl _ hij
+    simp [shearMat, hne, hj]
+
+theorem snocCol_mul_shear (A : Matrix (Fin n) (Fin d) ℝ) (kv : Fin n → ℝ) (x : Fin d → ℝ) :
+    snocCol A kv * shearMat x = snocCol A (kv - A.mulVec x) := by
+  ext i j
+  refine Fin.lastCases ?_ (fun b => ?_) j
+  · simp [Matrix.mul_apply, Fin.sum_univ_castSucc, snocCol, shearMat, Matrix.mulVec, dotProduct,
+      (Fin.castSucc_lt_last _).ne, sub_eq_add_neg, Finset.sum_neg_distrib]
+    ring
+  · have hb : (b : ℕ) ≠ d := b.2.ne
+    simp [Matrix.mul_apply, snocCol, shearMat, hb.symm, mul_ite]
+
+theorem det_gram_snoc_shear (A : Matrix (Fin n) (Fin d) ℝ) (kv : Fin n → ℝ) (x : Fin d → ℝ) :
+    ((snocCol A (kv - A.mulVec x)).transpose * snocCol A (kv - A.mulVec x)).det =
+      ((snocCol A kv).transpose * snocCol A kv).det := by
+  rw [← snocCol_mul_shear, Matrix.transpose_mul]
+  have : (shearMat x).transpose * (snocCol A kv).transpose * (snocCol A kv * shearMat x) =
+      (shearMat x).transpose * ((snocCol A kv).transpose * snocCol A kv) * shearMat x := by
+    simp [Matrix.mul_assoc]
+  rw [this, Matrix.det_mul, Matrix.det_mul, Matrix.det_transpose, det_shearMat]
+  ring
+
+end Schur
 end KAM.Nekhoroshev
