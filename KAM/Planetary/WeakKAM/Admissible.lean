@@ -8,6 +8,7 @@ module
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakKAM.Cutoff
 public import KAM.Planetary.WeakKAM.StripBudget
+public import KAM.Planetary.WeakKAM.Initial
 
 /-! # P11B weak-KAM admissible parameters
 
@@ -278,6 +279,39 @@ theorem adm_choice (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
     linarith
   refine ⟨selectionAdmissible_pos d, ?_, hratio⟩
   exact selectionAdmissibility_of_bounds d _ _ hs hratio le_rfl
+
+/-- `adm-choice` together with A7 (blueprint `p11a3-iteration-selection`, A7 obtained from `initial`
+as at line 222): for the selected `adm_params`, the initial remainder is bounded by
+`ε₀ = ε + n C₁ s₀² / 2` on the initial domain. The extra premise is exactly the source
+perturbation hypothesis of `initial`. -/
+theorem adm_choice_initial (d : SelectionData n) (f : SelectionPhaseC n → ℂ) (ε : ℝ)
+    (hf : SelectionPerturbation d f ε) (he : 0 ≤ ε) (hsmall : ε ≤ selectionAdmissible d) :
+    (0 < selectionAdmissible d ∧ SelectionAdmissibility d (adm_params d ε) ∧
+      (adm_params d ε).ε₀ / (adm_params d ε).s₀ ≤ selectionLambdaMax d) ∧
+    (adm_params d ε).ε₀ = ε + n / 2 * d.C₁ * (adm_params d ε).s₀ ^ 2 ∧
+    ∀ x ∈ selectionDomain d.strip (adm_params d ε).s₀ (actionNbhd d.K (adm_params d ε).t₀),
+      ‖selectionInitial d f x - ∑ i, fderiv ℂ d.h x.2 (Pi.single i 1) * x.1.2 i‖
+        ≤ (adm_params d ε).ε₀ := by
+  have hch := adm_choice d ε he hsmall
+  obtain ⟨hpos, hA, hlam⟩ := hch
+  have hn : (1 : ℝ) ≤ n := by exact_mod_cast d.n_pos
+  have hθ := d.theta_pos
+  have hθ1 := d.theta_le
+  have hsq : 1 ≤ Real.sqrt n := by simpa using Real.sqrt_le_sqrt hn
+  have ht : (adm_params d ε).t₀ ≤ d.ϑ :=
+    hA.t_le.trans (div_le_self hθ.le hsq)
+  have hs : (adm_params d ε).s₀ ≤ d.ϑ := by
+    have h1 := hA.radius
+    have h2 : (adm_params d ε).t₀ / (8 * n) ≤ (adm_params d ε).t₀ :=
+      div_le_self hA.t_pos.le (by linarith)
+    linarith
+  have hspos : 0 < (adm_params d ε).s₀ := by
+    have hL := selectionLambdaMax_pos d
+    have hC : 0 < d.C₁ := by linarith [d.hessian_normalized]
+    have : (0 : ℝ) < n := by linarith
+    show 0 < selectionLambdaMax d / (n * d.C₁)
+    positivity
+  exact ⟨⟨hpos, hA, hlam⟩, rfl, (initial d f ε _ _ hf hA.t_pos ht hspos hs).2.1⟩
 
 theorem free_radius (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
     (hsmall : ε ≤ selectionAdmissible d) :
