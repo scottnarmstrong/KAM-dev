@@ -57,7 +57,8 @@ theorem p11_zeta_pos {n : ℕ} (D : P11Physical n) : 0 < p11Zeta D := by
   have hne : ({x | ∃ i, x = D.a i} ∪ {x | ∃ i j : Fin n, i ≠ j ∧ x = |D.a i - D.a j|}).Nonempty :=
     ⟨D.a ⟨0, by have := D.n_ge; omega⟩, Or.inl ⟨_, rfl⟩⟩
   have hmem := Set.Nonempty.csInf_mem hne hfin
-  have hpos : 0 < sInf ({x | ∃ i, x = D.a i} ∪ {x | ∃ i j : Fin n, i ≠ j ∧ x = |D.a i - D.a j|}) := by
+  have hpos : 0 < sInf ({x | ∃ i, x = D.a i} ∪
+      {x | ∃ i j : Fin n, i ≠ j ∧ x = |D.a i - D.a j|}) := by
     rcases hmem with ⟨i, hi⟩ | ⟨i, j, hij, hx⟩
     · rw [hi]; exact D.a_pos i
     · rw [hx]
@@ -224,7 +225,8 @@ theorem norm_dict {n m mu : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     have hne' : ((fun J => (2*Real.pi) • J) '' K).Nonempty := hne.image _
     have hfac : (2*Real.pi)^(-(2+(mu : ℝ))) = r ^ 2 * r ^ mu := by
       rw [Real.rpow_neg (by positivity),
-        show (2+(mu : ℝ)) = ((2+mu : ℕ) : ℝ) by push_cast; ring, Real.rpow_natCast, ← pow_add, hrdef, inv_pow]
+        show (2+(mu : ℝ)) = ((2+mu : ℕ) : ℝ) by push_cast; ring,
+        Real.rpow_natCast, ← pow_add, hrdef, inv_pow]
     rw [hfac, himg]
     refine le_index_def hm 2 mu wJ (himg ▸ hne') fun c hc J hJ => ?_
     have hJK : 0 + r • J ∈ K := hJ
@@ -236,7 +238,8 @@ theorem norm_dict {n m mu : ℕ} (hn : 1 ≤ n) (hm : 1 ≤ m)
     have hcda : ContDiffAt ℝ j (fun x => F (0 + r • x)) J := by
       have := (hFd.contDiffAt (hV.mem_nhds (hsub hJK))).of_le
         (show ((j : ℕ) : WithTop ℕ∞) ≤ (mu : WithTop ℕ∞) by exact_mod_cast hj)
-      exact this.comp J (show ContDiffAt ℝ (j : WithTop ℕ∞) (fun x : P11Vec n => 0 + r • x) J by fun_prop)
+      exact this.comp J
+        (show ContDiffAt ℝ (j : WithTop ℕ∞) (fun x : P11Vec n => 0 + r • x) J by fun_prop)
     have h3 := nd_p11dg_smul hn hcda (sq_nonneg r)
     have h4 : (r ^ 2) • (fun x => F (0 + r • x)) = p11scalar 2 wJ c := (nd_scalar_eq r w c).symm
     rw [h4] at h3
