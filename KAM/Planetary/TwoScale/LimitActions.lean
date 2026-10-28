@@ -136,6 +136,101 @@ theorem chain_block_le (S : ActionSteps sbar p h Ds hs fs is) {I : Fin (a + b) �
       _ hp2 (fun k => by
         have := (S.chain_step hI k).2; linarith) (fun k => norm_nonneg _) j⟩
 
+theorem ratio_le_one (S : ActionSteps sbar p h Ds hs fs is) :
+    p.Mbar₁ / p.Mbar ≤ 1 ∧ p.Mbar₂ / p.Mbar ≤ 1 := by
+  have H := S.hyp 0
+  have hM := H.positive.2.2.2.2.2.2.1
+  exact ⟨(div_le_one hM).2 H.normalized.2.1, (div_le_one hM).2 H.normalized.2.2⟩
+
+/-- The sup-norm step bound `|ǐ_{j+1} − ǐ_j| ≤ 10 Ê_j ρ̂_j`. -/
+theorem chain_sup_step (S : ActionSteps sbar p h Ds hs fs is) {I : Fin (a + b) → ℝ}
+    (hI : I ∈ Ds 0) (j : ℕ) :
+    ‖actionChain is (j + 1) I - actionChain is j I‖ ≤ 10 * eHat (seq p j) * rhoHat (seq p j) := by
+  have hnn : 0 ≤ 10 * eHat (seq p j) * rhoHat (seq p j) :=
+    mul_nonneg (mul_nonneg (by norm_num) (S.e_nonneg j)) (S.rho_pos j).le
+  obtain ⟨h1, h2⟩ := S.chain_step hI j
+  obtain ⟨r1, r2⟩ := S.ratio_le_one
+  have he := S.e_nonneg j
+  have hr := (S.rho_pos j).le
+  rw [← KAM.norm_realInclusion]
+  refine (S.hyp 0).sup_norm_le hnn ?_ ?_
+  · rw [norm_first_incl]
+    refine h1.trans ?_
+    have := mul_nonneg he hr
+    nlinarith
+  · rw [norm_last_incl]
+    refine h2.trans ?_
+    have := mul_nonneg he hr
+    nlinarith
+
+/-- Lipschitz recursion of `stepP:p3:la-lip`. -/
+theorem chain_lip (S : ActionSteps sbar p h Ds hs fs is) {I J : Fin (a + b) → ℝ}
+    (hI : I ∈ Ds 0) (hJ : J ∈ Ds 0) (j : ℕ) :
+    ‖(actionChain is j I - I) - (actionChain is j J - J)‖ ≤
+      (∏ k ∈ Finset.range j, (1 + 640 * (a + b : ℕ) * eHat (seq p k)) - 1) * ‖I - J‖ := by
+  induction j with
+  | zero => simp [actionChain]
+  | succ j ih =>
+    rw [Finset.prod_range_succ]
+    set P := ∏ k ∈ Finset.range j, (1 + 640 * ((a + b : ℕ) : ℝ) * eHat (seq p k)) with hP
+    set y := actionChain is j I
+    set y' := actionChain is j J
+    set e := eHat (seq p j)
+    have he : 0 ≤ 640 * ((a + b : ℕ) : ℝ) * e := by
+      have := S.e_nonneg j; positivity
+    have hl := S.lip j y (S.chain_mem hI j) y' (S.chain_mem hJ j)
+    have hι : (is (j + 1) (KAM.realInclusion (a + b) y) - KAM.realInclusion (a + b) y) -
+        (is (j + 1) (KAM.realInclusion (a + b) y') - KAM.realInclusion (a + b) y') =
+        KAM.realInclusion (a + b) ((actionChain is (j + 1) I - y) - (actionChain is (j + 1) J - y')) := by
+      rw [map_sub, map_sub, map_sub, S.incl_chain_succ hI j, S.incl_chain_succ hJ j]
+    rw [hι, KAM.norm_realInclusion, ← Nat.cast_add] at hl
+    have hyy : ‖y - y'‖ ≤ P * ‖I - J‖ := by
+      have : y - y' = (I - J) + ((y - I) - (y' - J)) := by abel
+      rw [this]
+      refine (norm_add_le _ _).trans ?_
+      linarith
+    have hsplit : (actionChain is (j + 1) I - I) - (actionChain is (j + 1) J - J) =
+        ((actionChain is (j + 1) I - y) - (actionChain is (j + 1) J - y')) +
+          ((y - I) - (y' - J)) := by abel
+    rw [hsplit]
+    refine (norm_add_le _ _).trans ?_
+    have := mul_le_mul_of_nonneg_left hyy he
+    nlinarith
+
+theorem two_sided_small (S : ActionSteps sbar p h Ds hs fs is) :
+    8192 * ((a + b : ℕ) : ℝ) * eHat (seq p 0) < 1 := by
+  have H := S.hyp 0
+  have hk : 2 ^ 13 * ((a + b : ℕ) : ℝ) ≤ kamConstant (a + b) (seq p 0).τ := le_max_left _ _
+  have := H.small
+  have := S.e_nonneg 0
+  nlinarith
+
+theorem prod_le (S : ActionSteps sbar p h Ds hs fs is) (j : ℕ) :
+    ∏ k ∈ Finset.range j, (1 + 640 * ((a + b : ℕ) : ℝ) * eHat (seq p k)) ≤
+      1 + 2560 * ((a + b : ℕ) : ℝ) * eHat (seq p 0) := by
+  have hn : (0 : ℝ) ≤ ((a + b : ℕ) : ℝ) := Nat.cast_nonneg _
+  have e0 := S.e_nonneg 0
+  have hs := S.two_sided_small
+  have step1 : ∏ k ∈ Finset.range j, (1 + 640 * ((a + b : ℕ) : ℝ) * eHat (seq p k)) ≤
+      Real.exp (∑ k ∈ Finset.range j, 640 * ((a + b : ℕ) : ℝ) * eHat (seq p k)) := by
+    rw [Real.exp_sum]
+    refine Finset.prod_le_prod₀ (fun k _ => ?_) (fun k _ => ?_)
+    · have := S.e_nonneg k; positivity
+    · have := Real.add_one_le_exp (640 * ((a + b : ℕ) : ℝ) * eHat (seq p k)); linarith
+  have step2 : ∑ k ∈ Finset.range j, 640 * ((a + b : ℕ) : ℝ) * eHat (seq p k) ≤
+      1280 * ((a + b : ℕ) : ℝ) * eHat (seq p 0) := by
+    rw [← Finset.mul_sum]
+    have := S.partial_sum_le j
+    nlinarith
+  set x := 1280 * ((a + b : ℕ) : ℝ) * eHat (seq p 0) with hx
+  have hx0 : 0 ≤ x := by positivity
+  have hx1 : x < 1 / 6 := by rw [hx]; nlinarith
+  refine step1.trans ((Real.exp_le_exp.2 step2).trans ?_)
+  have := Real.exp_bound_div_one_sub_of_interval hx0 (by linarith)
+  refine this.trans ?_
+  rw [div_le_iff₀ (by linarith)]
+  nlinarith
+
 end ActionSteps
 
 end KAM.Planetary
