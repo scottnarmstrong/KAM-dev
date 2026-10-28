@@ -108,6 +108,41 @@ theorem p11cB_rot_abs_lt (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ} (ha
   · simp only [Fin.zero_eta]; nlinarith [sq_nonneg ((p11c_frame p a).mulVec v 1)]
   · simp only [Fin.mk_one]; nlinarith [sq_nonneg ((p11c_frame p a).mulVec v 0)]
 
+/-- The rotated flow image over an action of `K` is in the good domain for every angle. -/
+theorem p11cB_Zs_good (p : PlanarData) (hp : p.Valid) (chi : (Fin 2 → ℝ) → Phase 2 → ℝ)
+    {K : Set (Fin 2 → ℝ)} (hKd : K ⊆ p11c_frameActionDomain p) {δ : ℝ} (hδ : 0 < δ)
+    (hdom : ∀ w : Phase (2 + 2), (fun i => w.2 (Fin.castAdd 2 i)) ∈ K →
+      (∀ i, |w.1 (Fin.natAdd 2 i)| < δ) → (∀ i, |w.2 (Fin.natAdd 2 i)| < δ) → w ∈ p11cB_good p)
+    {r : ℝ} (hr : 2 * r ≤ δ)
+    (hflow : ∀ I ∈ K, ∀ z : Phase 2, p11c_slowLength z < r →
+      p11c_slowLength (p11c_flow chi I 1 z) ^ 2 ≤ 2 * p11c_slowLength z ^ 2)
+    {I : Fin 2 → ℝ} (hIK : I ∈ K) {z : Phase 2} (hz : p11c_slowLength z < r) (t : Fin 2 → ℝ) :
+    assemble I t (p11c_rotateSlow (p11c_frame p (p.axes I)) (p11c_flow chi I 1 z)).2
+      (p11c_rotateSlow (p11c_frame p (p.axes I)) (p11c_flow chi I 1 z)).1 ∈ p11cB_good p := by
+  set Y := p11c_flow chi I 1 z with hY
+  set Zs := p11c_rotateSlow (p11c_frame p (p.axes I)) Y with hZs
+  have hax : p.axes I ∈ p11c_axes := hKd hIK
+  have hz0 : 0 ≤ p11c_slowLength z := Real.sqrt_nonneg _
+  have hY2 := hflow I hIK z hz
+  have hlt : p11c_slowLength Y ^ 2 < δ ^ 2 := by nlinarith
+  have hY1 : Y.1 0 ^ 2 + Y.1 1 ^ 2 < δ ^ 2 := by
+    rw [p11cB_slowLength_sq, Fin.sum_univ_two] at hlt
+    nlinarith [sq_nonneg (Y.2 0), sq_nonneg (Y.2 1)]
+  have hY2' : Y.2 0 ^ 2 + Y.2 1 ^ 2 < δ ^ 2 := by
+    rw [p11cB_slowLength_sq, Fin.sum_univ_two] at hlt
+    nlinarith [sq_nonneg (Y.1 0), sq_nonneg (Y.1 1)]
+  have hZ1 : ∀ i, |Zs.1 i| < δ := fun i => p11cB_rot_abs_lt p hp hax Y.1 hδ hY1 i
+  have hZ2 : ∀ i, |Zs.2 i| < δ := fun i => p11cB_rot_abs_lt p hp hax Y.2 hδ hY2' i
+  refine hdom _ ?_ ?_ ?_
+  · have h : (fun i : Fin 2 => ((assemble I t Zs.2 Zs.1 : Phase (2 + 2))).2
+        (Fin.castAdd 2 i)) = I := by
+      funext i; simp [assemble, Fin.append_left]
+    rw [h]; exact hIK
+  · intro i
+    simpa [assemble, Fin.append_right] using hZ1 i
+  · intro i
+    simpa [assemble, Fin.append_right] using hZ2 i
+
 /-- Points of the tube are mapped into the good physical domain. -/
 theorem p11cB_T_good (p : PlanarData) (hp : p.Valid) (chi : (Fin 2 → ℝ) → Phase 2 → ℝ)
     {K : Set (Fin 2 → ℝ)} (hKd : K ⊆ p11c_frameActionDomain p) {δ : ℝ} (hδ : 0 < δ)
