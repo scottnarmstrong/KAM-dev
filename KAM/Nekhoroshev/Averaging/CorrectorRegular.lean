@@ -314,6 +314,46 @@ private theorem hasFDerivAt_gk (d : AveragingData n R s h f) {κ M₂ : ℝ} (h�
         (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)|) * ‖v‖ := add_le_add h1 h2
     _ = _ := by ring
 
+/-- The domination constant of the summands and their derivatives. -/
+private def domC (n : ℕ) (s κ M₂ : ℝ) : ℝ := n / (s * κ) + M₂ / κ ^ 2 + Real.pi / κ + 1 / (2 * κ)
+
+private theorem core_ineq {N s κ M₂ β a b p m : ℝ} (hκ : 0 < κ) (hs : 0 < s) (hN : 0 ≤ N)
+    (hM : 0 ≤ M₂) (hβ : 0 ≤ β) (ha0 : 0 ≤ a) (ha : a ≤ 1 / (2 * κ)) (hb0 : 0 ≤ b)
+    (hb : b ≤ κ⁻¹ ^ 2) (hp : 0 ≤ p) (hpm : p ≤ m) :
+    p * β * (2 * N / s * a + M₂ * m * b) + 2 * Real.pi * m * (p * β * a) ≤
+      (N / (s * κ) + M₂ / κ ^ 2 + Real.pi / κ + 1 / (2 * κ)) * ((1 + m) ^ 3 * β) ∧
+    p * β * a ≤ (N / (s * κ) + M₂ / κ ^ 2 + Real.pi / κ + 1 / (2 * κ)) * ((1 + m) ^ 3 * β) := by
+  have hm : 0 ≤ m := hp.trans hpm
+  have hw : 1 ≤ 1 + m := by linarith
+  have hw0 : 0 ≤ 1 + m := by linarith
+  have h1 : 1 + m ≤ (1 + m) ^ 2 := by nlinarith
+  have h2 : (1 + m) ^ 2 ≤ (1 + m) ^ 3 := by nlinarith [sq_nonneg (1 + m)]
+  have hpw : p ≤ 1 + m := by linarith
+  have hc : 0 ≤ N / (s * κ) + M₂ / κ ^ 2 + Real.pi / κ + 1 / (2 * κ) := by positivity
+  have hQ : 0 ≤ 2 * N / s := by positivity
+  have hpi := Real.pi_pos
+  constructor
+  · calc p * β * (2 * N / s * a + M₂ * m * b) + 2 * Real.pi * m * (p * β * a)
+        ≤ (1 + m) * β * (2 * N / s * (1 / (2 * κ)) + M₂ * (1 + m) * κ⁻¹ ^ 2) +
+          2 * Real.pi * (1 + m) * ((1 + m) * β * (1 / (2 * κ))) := by
+          gcongr <;> linarith
+      _ = β * (N / (s * κ) * (1 + m) + M₂ / κ ^ 2 * (1 + m) ^ 2 +
+          Real.pi / κ * (1 + m) ^ 2) := by field_simp
+      _ ≤ β * (N / (s * κ) * (1 + m) ^ 3 + M₂ / κ ^ 2 * (1 + m) ^ 3 +
+          Real.pi / κ * (1 + m) ^ 3) := by gcongr <;> linarith
+      _ ≤ _ := by
+          have : 0 ≤ 1 / (2 * κ) := by positivity
+          nlinarith [mul_nonneg this (mul_nonneg (pow_nonneg hw0 3) hβ)]
+  · calc p * β * a ≤ (1 + m) * β * (1 / (2 * κ)) := by
+          gcongr
+      _ ≤ (1 / (2 * κ)) * ((1 + m) ^ 3 * β) := by
+          have : 0 ≤ 1 / (2 * κ) := by positivity
+          nlinarith [mul_nonneg this hβ]
+      _ ≤ _ := by
+          have : 0 ≤ N / (s * κ) + M₂ / κ ^ 2 + Real.pi / κ := by positivity
+          nlinarith [mul_nonneg this (mul_nonneg (pow_nonneg hw0 3) hβ),
+            mul_nonneg (by positivity : (0:ℝ) ≤ 1 / (2 * κ)) (mul_nonneg (pow_nonneg hw0 3) hβ)]
+
 end KAM.Nekhoroshev
 
 end
