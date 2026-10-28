@@ -77,6 +77,58 @@ theorem phiR_succ (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {x : Phase (a +
   rw [P.Phi_succ, Function.comp_apply, ← (P.psi_step j hx).1]
   rfl
 
+theorem psiConst_nonneg (P : PsiSteps sbar p Ds hs fs Ψ Φ) (k : ℕ) : 0 ≤ psiConst a b p k := by
+  have := (P.hyp k).eHat_nonneg
+  have hτ : 0 ≤ ((24 : ℝ) ^ (p.τ + 1) / 6) := by positivity
+  unfold psiConst; positivity
+
+/-- The composition rule of `stepP:p3:lp-cauchy`: the rescaled Lipschitz constant of `Φ_j − id`
+on `𝒟_j × ℝⁿ` is at most `∏_{k<j} (1 + ς_k) − 1`. -/
+theorem phi_lip (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) :
+    ∀ x ∈ phaseTube (Ds j) ((seq p j).ρ / 2), ∀ y ∈ phaseTube (Ds j) ((seq p j).ρ / 2),
+      limitmap_data (rhoHat p) p.s ((psiR (Φ j) x - x) - (psiR (Φ j) y - y)) ≤
+        (∏ k ∈ Finset.range j, (1 + psiConst a b p k) - 1) * limitmap_data (rhoHat p) p.s (x - y) := by
+  have h0 : 0 < rhoHat p := (P.hyp 0).R_pos
+  have hs0 : 0 < p.s := (P.hyp 0).positive.2.1
+  have hN0 : limitmap_data (rhoHat p) p.s (0 : Phase (a + b)) = 0 := by
+    unfold limitmap_data; simp
+  induction j with
+  | zero =>
+    intro x _ y _
+    rw [P.phiR_zero, P.phiR_zero]
+    simp [hN0]
+  | succ j ih =>
+    intro x hx y hy
+    have hx' := (P.psi_step j hx).2.1
+    have hy' := (P.psi_step j hy).2.1
+    rw [P.phiR_succ j hx, P.phiR_succ j hy]
+    set x' := psiR (Ψ (j + 1)) x
+    set y' := psiR (Ψ (j + 1)) y
+    have hΨ := (psi_lip_of_steps P).2.2.1 j x hx y hy
+    have h1 := ih x' hx' y' hy'
+    have hς : 0 ≤ psiConst a b p j := P.psiConst_nonneg j
+    have hΨ' : limitmap_data (rhoHat p) p.s ((x' - x) - (y' - y)) ≤
+        psiConst a b p j * limitmap_data (rhoHat p) p.s (x - y) := hΨ
+    have hxy : limitmap_data (rhoHat p) p.s (x' - y') ≤
+        (1 + psiConst a b p j) * limitmap_data (rhoHat p) p.s (x - y) := by
+      have e : x' - y' = (x - y) + ((x' - x) - (y' - y)) := by abel
+      rw [e]
+      refine (limitmap_data_add_le h0 hs0 _ _).trans ?_
+      linarith
+    have e2 : (psiR (Φ j) x' - x) - (psiR (Φ j) y' - y) =
+        ((psiR (Φ j) x' - x') - (psiR (Φ j) y' - y')) + ((x' - x) - (y' - y)) := by abel
+    rw [e2]
+    refine (limitmap_data_add_le h0 hs0 _ _).trans ?_
+    have hprod : 1 ≤ ∏ k ∈ Finset.range j, (1 + psiConst a b p k) := by
+      have := Finset.prod_le_prod₀ (s := Finset.range j) (f := fun _ => (1 : ℝ))
+        (g := fun k => 1 + psiConst a b p k) (fun _ _ => zero_le_one)
+        (fun k _ => by linarith [P.psiConst_nonneg k])
+      simpa using this
+    have hLp : 0 ≤ ∏ k ∈ Finset.range j, (1 + psiConst a b p k) - 1 := by linarith
+    have h2 := mul_le_mul_of_nonneg_left hxy hLp
+    rw [Finset.prod_range_succ]
+    nlinarith
+
 end PsiSteps
 
 end KAM.Planetary
