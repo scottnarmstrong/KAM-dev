@@ -367,4 +367,132 @@ theorem laplace_rational_reduction (j k : ℕ) :
           Polynomial.eval₂ (algebraMap ℚ ℝ) a q :=
   (p11cRep_all j k).1
 
+/-! ### Explicit denominator envelope -/
+
+/-- `f` is a polynomial combination of `b_{1/2}^{(0)}`, `b_{1/2}^{(1)}` over
+`a ^ m (1 - a ^ 2) ^ (2 j)`. -/
+def p11cRepD (j m : ℕ) (f : ℝ → ℝ) : Prop :=
+  ∃ p0 p1 : Polynomial ℚ, ∀ a ∈ Ioo (0 : ℝ) 1,
+    f a = (p11cEv a p0 * p11c_laplace (1 / 2) 0 a + p11cEv a p1 * p11c_laplace (1 / 2) 1 a) /
+      (a ^ m * (1 - a ^ 2) ^ (2 * j))
+
+theorem p11cRepD_mono {j m : ℕ} (n : ℕ) {f : ℝ → ℝ} (h : p11cRepD j m f) :
+    p11cRepD j (m + n) f := by
+  obtain ⟨p0, p1, hp⟩ := h
+  refine ⟨p0 * Polynomial.X ^ n, p1 * Polynomial.X ^ n, fun a ha => ?_⟩
+  have h1 := p11c_one_sub_sq_ne ha
+  have h2 := ha.1.ne'
+  rw [hp a ha]
+  simp only [p11cEv, Polynomial.eval₂_mul, Polynomial.eval₂_pow, Polynomial.eval₂_X]
+  field_simp
+  ring
+
+theorem p11cRepD_base (j : ℕ) :
+    p11cRepD j 0 (fun a => p11c_laplace (1 / 2 + (j : ℝ)) 0 a) ∧
+      p11cRepD j 0 (fun a => p11c_laplace (1 / 2 + (j : ℝ)) 1 a) := by
+  induction j with
+  | zero =>
+    simp only [Nat.cast_zero, add_zero]
+    exact ⟨⟨1, 0, fun a _ => by simp [p11cEv]⟩, ⟨0, 1, fun a _ => by simp [p11cEv]⟩⟩
+  | succ j ih =>
+    obtain ⟨⟨p0, p1, h0⟩, ⟨r0, r1, h1⟩⟩ := ih
+    have hs : (1 / 2 : ℝ) ≤ 1 / 2 + (j : ℝ) := by
+      have : (0 : ℝ) ≤ j := Nat.cast_nonneg j
+      linarith
+    have hc : (1 / 2 : ℝ) + ((j + 1 : ℕ) : ℝ) = 1 / 2 + (j : ℝ) + 1 := by push_cast; ring
+    have hpos : (1 / 2 : ℝ) + (j : ℝ) ≠ 0 := by
+      have : (0 : ℝ) ≤ j := Nat.cast_nonneg j
+      intro h; linarith
+    rw [hc]
+    refine ⟨⟨(1 + Polynomial.X ^ 2) * p0 +
+        Polynomial.C (2 * (1 - 1 / (1 / 2 + (j : ℚ)))) * Polynomial.X * r0,
+      (1 + Polynomial.X ^ 2) * p1 +
+        Polynomial.C (2 * (1 - 1 / (1 / 2 + (j : ℚ)))) * Polynomial.X * r1, fun a ha => ?_⟩,
+      ⟨(1 + Polynomial.X ^ 2) * Polynomial.C (1 - 1 / (1 / 2 + (j : ℚ))) * r0 +
+        Polynomial.C 2 * Polynomial.X * p0,
+      (1 + Polynomial.X ^ 2) * Polynomial.C (1 - 1 / (1 / 2 + (j : ℚ))) * r1 +
+        Polynomial.C 2 * Polynomial.X * p1, fun a ha => ?_⟩⟩
+    · have h3 := p11c_one_sub_sq_ne ha
+      beta_reduce at h0 h1 ⊢
+      rw [(laplace_up _ a hs ha).1, h0 a ha, h1 a ha]
+      simp only [p11cEv, Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X,
+        Polynomial.eval₂_add, Polynomial.eval₂_one, Polynomial.eval₂_pow]
+      simp only [eq_ratCast]
+      push_cast
+      field_simp
+      ring
+    · have h3 := p11c_one_sub_sq_ne ha
+      beta_reduce at h0 h1 ⊢
+      rw [(laplace_up _ a hs ha).2.1, h0 a ha, h1 a ha]
+      simp only [p11cEv, Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X,
+        Polynomial.eval₂_add, Polynomial.eval₂_one, Polynomial.eval₂_pow]
+      simp only [eq_ratCast]
+      push_cast
+      field_simp
+      ring
+
+theorem p11cRepD_all (j k : ℕ) :
+    p11cRepD j k (fun a => p11c_laplace (1 / 2 + (j : ℝ)) (k : ℤ) a) ∧
+      p11cRepD j (k + 1) (fun a => p11c_laplace (1 / 2 + (j : ℝ)) ((k : ℤ) + 1) a) := by
+  induction k with
+  | zero =>
+    obtain ⟨h0, h1⟩ := p11cRepD_base j
+    exact ⟨by simpa using h0, by simpa using p11cRepD_mono 1 h1⟩
+  | succ k ih =>
+    obtain ⟨⟨p0, p1, hk0⟩, ⟨r0, r1, hk1⟩⟩ := ih
+    refine ⟨by
+      rw [show ((k + 1 : ℕ) : ℤ) = (k : ℤ) + 1 by push_cast; ring]
+      exact ⟨r0, r1, hk1⟩, ?_⟩
+    have hne : ((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ)) ≠ 0 := by
+      intro h
+      push_cast at h
+      have h2 : ((2 * (j : ℤ) - 1 - 2 * ((k : ℤ) + 1) : ℤ) : ℚ) = 0 := by push_cast; linarith
+      have := Int.cast_eq_zero.1 h2
+      omega
+    have hk : (1 / 2 + (j : ℝ)) - 1 - (((k + 1 : ℕ) : ℤ) : ℝ) ≠ 0 := by
+      intro h
+      apply hne
+      have : (((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ) : ℚ) : ℝ) = 0 := by
+        push_cast at h ⊢; linarith
+      exact_mod_cast this
+    have e3 : (((k + 1 : ℕ) : ℤ)) = (k : ℤ) + 1 := by push_cast; ring
+    refine ⟨Polynomial.C (((k + 1 : ℕ) : ℚ) + (1 / 2 + (j : ℚ)) - 1) *
+        Polynomial.C ((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ))⁻¹ *
+        Polynomial.X ^ 2 * p0 - Polynomial.C ((k + 1 : ℕ) : ℚ) *
+        Polynomial.C ((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ))⁻¹ *
+        (1 + Polynomial.X ^ 2) * r0,
+      Polynomial.C (((k + 1 : ℕ) : ℚ) + (1 / 2 + (j : ℚ)) - 1) *
+        Polynomial.C ((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ))⁻¹ *
+        Polynomial.X ^ 2 * p1 - Polynomial.C ((k + 1 : ℕ) : ℚ) *
+        Polynomial.C ((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ))⁻¹ *
+        (1 + Polynomial.X ^ 2) * r1, fun a ha => ?_⟩
+    have h1 := p11c_one_sub_sq_ne ha
+    have h2 := ha.1.ne'
+    have := p11c_laplace_step (s := 1 / 2 + (j : ℝ)) ha ((k + 1 : ℕ) : ℤ) hk
+    have e2 : (((k + 1 : ℕ) : ℤ) - 1) = (k : ℤ) := by push_cast; ring
+    rw [e2] at this
+    rw [e3] at this ⊢
+    beta_reduce at hk0 hk1 ⊢
+    rw [this, hk0 a ha, hk1 a ha]
+    simp only [p11cEv, Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X,
+      Polynomial.eval₂_add, Polynomial.eval₂_sub, Polynomial.eval₂_one, Polynomial.eval₂_pow]
+    have hk' : (1 / 2 + (j : ℝ)) - 1 - ((k : ℝ) + 1) ≠ 0 := by
+      intro h; apply hk; push_cast; linarith
+    simp only [eq_ratCast]
+    push_cast
+    field_simp
+    ring
+
+/-- The explicit envelope `a ^ k (1 - a ^ 2) ^ (2 j)` for half-integer Laplace coefficients. -/
+theorem laplace_reduction_denominator (j k : ℕ) :
+    ∃ p0 p1 : Polynomial ℚ, ∀ a ∈ Ioo (0 : ℝ) 1,
+      a ^ k * (1 - a ^ 2) ^ (2 * j) ≠ 0 ∧
+      p11c_laplace (1 / 2 + (j : ℝ)) k a =
+        (Polynomial.eval₂ (algebraMap ℚ ℝ) a p0 * p11c_laplace (1 / 2) 0 a +
+         Polynomial.eval₂ (algebraMap ℚ ℝ) a p1 * p11c_laplace (1 / 2) 1 a) /
+          (a ^ k * (1 - a ^ 2) ^ (2 * j)) := by
+  obtain ⟨p0, p1, h⟩ := (p11cRepD_all j k).1
+  exact ⟨p0, p1, fun a ha =>
+    ⟨mul_ne_zero (pow_ne_zero _ ha.1.ne') (pow_ne_zero _ (p11c_one_sub_sq_ne ha)), h a ha⟩⟩
+
 end KAM.Planetary
