@@ -97,7 +97,8 @@ theorem sympl_fderiv_field_skew {H : AvgPhase n → ℝ} {x : AvgPhase n}
     refine HasFDerivAt.prodMk ?_ ?_
     · exact hasFDerivAt_pi'.2 fun i => hcomp _
     · exact hasFDerivAt_pi'.2 fun i => (hcomp _).neg
-  have key : ∀ v w : AvgPhase n, sympl (fderiv ℝ (KAM.hamiltonianVectorField H) x v) w = D' v w := by
+  have key : ∀ v w : AvgPhase n,
+      sympl (fderiv ℝ (KAM.hamiltonianVectorField H) x v) w = D' v w := by
     intro v w
     rw [hX.fderiv]
     exact sympl_hamField (D' v) w
@@ -138,7 +139,8 @@ theorem sympl_const_of_skew {I : Set ℝ} (hI : IsOpen I) (hIc : IsPreconnected 
     have h2 := (ContinuousLinearMap.apply ℝ (AvgPhase n) w).hasFDerivAt.comp_hasDerivAt s (hΦ s hs)
     refine (hasDerivAt_sympl h1 h2).congr_deriv ?_
     simpa using hA s hs (Φ s u) (Φ s w)
-  exact hI.is_const_of_deriv_eq_zero hIc (fun s hs => (hd s hs).differentiableAt.differentiableWithinAt)
+  exact hI.is_const_of_deriv_eq_zero hIc (fun s hs =>
+      (hd s hs).differentiableAt.differentiableWithinAt)
     (fun s hs => (hd s hs).deriv) hs hs₀
 
 /-- The bilinear form `sympl`. -/

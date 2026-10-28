@@ -170,7 +170,8 @@ section Shift
 variable {F : E → E} {W : Set E}
 
 /-- Time shift of a maximal solution by another solution: if `w` solves `ẋ = F x` on an open
-interval `I ∋ 0` with `w 0 = z t₀`, then `t₀ + I` lies in the maximal interval and `z (t₀ + σ) = w σ`. -/
+interval `I ∋ 0` with `w 0 = z t₀`, then `t₀ + I` lies in the maximal interval and
+`z (t₀ + σ) = w σ`. -/
 theorem shift_sol (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {x : E} {Tm Tp : EReal}
     {z : ℝ → E} (hz : IsMaximalSolution F W x Tm Tp z) {t₀ : ℝ} (ht₀ : t₀ ∈ eIoo Tm Tp)
     {I : Set ℝ} (hI : IsOpen I) (hIc : I.OrdConnected) (h0 : (0 : ℝ) ∈ I) {w : ℝ → E}
@@ -263,18 +264,20 @@ theorem exists_localFlow (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {x₀ : E} 
   exact ⟨a, r, y, ha, hr, hb, h1, h2, fun x hx => (h3 x hx).1, fun x hx => (h3 x hx).2.1,
     fun x hx t ht => ((h3 x hx).2.2 t ht).1, fun x hx t ht => ((h3 x hx).2.2 t ht).2⟩
 
+omit [FiniteDimensional ℝ E] [ProperSpace E] in
 theorem LocalFlow.deriv_t (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {x₀ : E} {a r : ℝ}
     {y : ℝ → E → E} (hl : LocalFlow F W x₀ a r y) :
     ∀ x ∈ ball x₀ r, ∀ t ∈ Ioo (-a) a, HasDerivAt (fun τ => fderiv ℝ (y τ) x)
-      ((fderiv ℝ F (y t x)).comp (fderiv ℝ (y t) x)) t := fun x hx t ht =>
+      ((fderiv ℝ F (y t x)).comp (fderiv ℝ (y t) x)) t := fun x hx _ ht =>
   hasDerivAt_fderiv_volterra hW hF (hl.sol x hx)
     (hl.dcont.comp (continuousOn_id.prodMk continuousOn_const)
-      fun u hu => ⟨hu, hx⟩) (hl.vol x hx) ht
+      fun _ hu => ⟨hu, hx⟩) (hl.vol x hx) ht
 
 variable (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W)
   (hmax : ∀ x ∈ W, IsMaximalSolution F W x (Tm x) (Tp x) (z x))
 include hW hF hmax
 
+omit [FiniteDimensional ℝ E] [ProperSpace E] in
 /-- Extension of a regular time interval by one local-flow slab centered at `T₁`. -/
 theorem regOn_extend {J₁ : Set ℝ} {U₁ : Set E} (hJ₁ : IsOpen J₁) (hU₁ : IsOpen U₁)
     (h₁ : RegOn F W Tm Tp z J₁ U₁) {T₁ : ℝ} (hT₁ : T₁ ∈ J₁) {x₁ : E} (hx₁ : x₁ ∈ U₁) {x₀ : E}
@@ -294,7 +297,8 @@ theorem regOn_extend {J₁ : Set ℝ} {U₁ : Set E} (hJ₁ : IsOpen J₁) (hU�
       (g' := fun x => fderiv ℝ (fun y => z y T₁) x)
       (fun x hx => (a5 x (hsub hx) T₁ hT₁).1)
       ((a4.comp (continuousOn_const.prodMk continuousOn_id)
-        fun x hx => ⟨hT₁, hx⟩).mono hsub) hl.cont hl.dcont hl.hasF (hl.deriv_t hW hF) (fun x hx => hx.2) ?_
+        fun x hx => ⟨hT₁, hx⟩).mono hsub) hl.cont hl.dcont hl.hasF
+      (hl.deriv_t hW hF) (fun x hx => hx.2) ?_
     intro x hx u hu
     have hxW : x ∈ W := a1 hx.1
     have := shift_sol hW hF (hmax x hxW) (a2 x hx.1 hT₁) (isOpen_Ioo (a := -a) (b := a))
@@ -326,7 +330,8 @@ theorem reg_forward {x₁ : E} (hx₁ : x₁ ∈ W) {T : ℝ} (hT : 0 ≤ T)
         rw [Icc_self, mem_singleton_iff] at hu
         subst hu
         exact ⟨by linarith [hl₀.ha], by linarith [hl₀.ha]⟩
-      · refine regOn_comp isOpen_ball hl₀.ball_sub (g := id) (g' := fun _ => ContinuousLinearMap.id ℝ E)
+      · refine regOn_comp isOpen_ball hl₀.ball_sub (g := id)
+          (g' := fun _ => ContinuousLinearMap.id ℝ E)
           (fun x _ => hasFDerivAt_id x) continuousOn_const hl₀.cont hl₀.dcont hl₀.hasF
           (hl₀.deriv_t hW hF) (fun x hx => hx) (T := 0) ?_
         intro x hx u hu
@@ -334,7 +339,8 @@ theorem reg_forward {x₁ : E} (hx₁ : x₁ ∈ W) {T : ℝ} (hT : 0 ≤ T)
         have := shift_sol hW hF (hmax x hxW) (t₀ := 0) (KAM.ODE.zero_mem_eIoo (hmax x hxW))
           (isOpen_Ioo (a := -a₀) (b := a₀)) ordConnected_Ioo (I := Ioo (-a₀) a₀)
           ⟨by linarith [hl₀.ha], hl₀.ha⟩ (w := fun t => y₀ t x) (hl₀.sol x hx)
-          (by rw [hl₀.init x hx, (hmax x hxW).init]) (u - 0) ⟨by linarith [hu.1], by linarith [hu.2]⟩
+          (by rw [hl₀.init x hx, (hmax x hxW).init]) (u - 0)
+          ⟨by linarith [hu.1], by linarith [hu.2]⟩
         simpa using this
     set A : Set ℝ := S ∩ Icc 0 T₀ with hA
     have hAne : A.Nonempty := ⟨0, h0S, le_rfl, hT₀⟩
