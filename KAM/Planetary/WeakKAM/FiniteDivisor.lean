@@ -14,7 +14,8 @@ public import KAM.Planetary.WeakKAM.Extension
 `k` with `|k|₁ ≤ T_ν` satisfies `|k·ω_ν(b)| ≥ γ |k|₁^{-τ} ≥ D_ν`. The three source steps are
 the named local lemmas `fd_tel` (telescoping, `stepP:p11a:fd-tel`), `fd_test` (the mode was tested
 at its shell stage, `stepP:p11a:fd-test`) and `fd_concl` (conclusion, `stepP:p11a:fd-concl`);
-only the final inequality is public. The shell-index facts for `selectionModeStage` are proved here.
+each states its literal graph conclusion, with generic helpers `fd_tel_tail` and
+`fd_concl_gen`. The shell-index facts for `selectionModeStage` are proved here.
 -/
 
 @[expose] public noncomputable section
@@ -73,8 +74,9 @@ theorem selection_chain_antitone {d : SelectionData n} {a : SelectionSchedule n}
   | base => exact Subset.rfl
   | succ j hij ih => exact (hc.nested j (by omega)).trans (ih (by omega))
 
-/-- `fd_tel`: the finite increment tail from stage `m` to `ν` is bounded by `selectionTail a m`. -/
-theorem fd_tel {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionChain n} {ν : ℕ}
+/-- Helper for `fd_tel`: the finite increment tail from stage `m` to `ν` is bounded by
+`selectionTail a m`, for any `m ≤ ν`. -/
+theorem fd_tel_tail {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionChain n} {ν : ℕ}
     (hc : SelectionExtensionChain d a c ν) (ht : 0 < a.t₀) (hτ : 0 ≤ a.τ)
     (hs : 0 < a.s₀) (he : 0 < a.ε₀) {m : ℕ} (hm : m ≤ ν)
     (hsum : Summable (fun j => selectionell a (j + m))) {b : SelectionR n}
@@ -118,6 +120,71 @@ theorem fd_tel {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionCha
         exact ⟨b, hbK, by rw [h0, norm_zero]; exact htj⟩
     _ ≤ selectionTail a m := Summable.sum_le_tsum _ (fun i _ => hnn i) hsum
 
+/-- `fd_tel` (`stepP:p11a:fd-tel`): for `m = ν(k) ≤ ν` and `b ∈ K_ν`,
+`ω_ν(b) - ω_m(b) = ∑_{j=m}^{ν-1} Δω_j(b)`, and
+`‖ω_ν(b) - ω_m(b)‖ ≤ ∑_{j=m}^{ν-1} ℓ_j ≤ S_m ≤ γ T_m^{-τ-1} ≤ γ |k|₁^{-τ-1}`, given the source
+premise `S_m ≤ γ T_m^{-τ-1}` (`hS`). -/
+theorem fd_tel {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionChain n} {ν : ℕ}
+    (hc : SelectionExtensionChain d a c ν) (ht : 0 < a.t₀) (hT : 1 ≤ a.T₀) (hτ : 0 ≤ a.τ)
+    (hγ : 0 < a.γ) (hs : 0 < a.s₀) (he : 0 < a.ε₀) {k : Fin n → ℤ} (hk : 0 < selectionModeLength k)
+    (hm : selectionModeStage a k ≤ ν)
+    (hsum : Summable (fun j => selectionell a (j + selectionModeStage a k)))
+    (hS : selectionTail a (selectionModeStage a k) ≤
+      a.γ * selectionT a (selectionModeStage a k) ^ (-a.τ - 1)) {b : SelectionR n}
+    (hb : b ∈ c.K ν) :
+    selectionFrequency d c ν (selectionReal b) - selectionFrequency d c (selectionModeStage a k)
+        (selectionReal b) = ∑ j ∈ Finset.Ico (selectionModeStage a k) ν,
+          c.Δω j (selectionReal b) ∧
+      ‖selectionFrequency d c ν (selectionReal b) -
+          selectionFrequency d c (selectionModeStage a k) (selectionReal b)‖ ≤
+        ∑ j ∈ Finset.Ico (selectionModeStage a k) ν, selectionell a j ∧
+      ∑ j ∈ Finset.Ico (selectionModeStage a k) ν, selectionell a j ≤
+        selectionTail a (selectionModeStage a k) ∧
+      selectionTail a (selectionModeStage a k) ≤
+        a.γ * selectionT a (selectionModeStage a k) ^ (-a.τ - 1) ∧
+      a.γ * selectionT a (selectionModeStage a k) ^ (-a.τ - 1) ≤
+        a.γ * selectionModeLength k ^ (-a.τ - 1) := by
+  set m := selectionModeStage a k with hmdef
+  have hvp := (selectionVarpi_pos_le_one n a.μ hτ).1
+  have hq : 0 < selectionQ n a.μ a.τ := by
+    unfold selectionQ
+    have := Real.sqrt_pos.2 hvp
+    linarith
+  have hnn : ∀ j, 0 ≤ selectionell a j := by
+    intro j
+    unfold selectionell selectionε selections
+    positivity
+  have hdiff : selectionFrequency d c ν (selectionReal b) - selectionFrequency d c m
+      (selectionReal b) = ∑ i ∈ Finset.Ico m ν, c.Δω i (selectionReal b) := by
+    unfold selectionFrequency
+    rw [← Finset.sum_range_add_sum_Ico _ hm]
+    abel
+  have hrng : ∑ j ∈ Finset.Ico m ν, selectionell a j =
+      ∑ i ∈ Finset.range (ν - m), selectionell a (i + m) := by
+    rw [Finset.sum_Ico_eq_sum_range]
+    exact Finset.sum_congr rfl fun i _ => by rw [add_comm]
+  have hT0 : 0 < selectionT a m := by unfold selectionT; positivity
+  refine ⟨hdiff, ?_, ?_, hS, ?_⟩
+  · rw [hdiff]
+    exact (norm_sum_le _ _).trans (Finset.sum_le_sum fun i hi => by
+      have hiν := (Finset.mem_Ico.1 hi).2
+      have hbK : b ∈ c.K i := selection_chain_antitone hc hiν.le le_rfl hb
+      apply hc.bound i hiν
+      have htj : 0 < selectiont a i := by
+        unfold selectiont
+        positivity
+      have h0 : selectionReal b - (fun i => ((b i : ℝ) : ℂ)) = 0 := by
+        ext i
+        simp [selectionReal]
+      exact ⟨b, hbK, by rw [h0, norm_zero]; exact htj⟩)
+  · rw [hrng]
+    exact Summable.sum_le_tsum _ (fun i _ => hnn (i + m)) hsum
+  · have hkm : selectionModeLength k ≤ selectionT a m :=
+      (selectionModeStage_mem_shell a hT hk).2.1
+    have hexp : -a.τ - 1 ≤ 0 := by linarith
+    have := Real.rpow_le_rpow_of_nonpos hk hkm hexp
+    gcongr
+
 /-- `fd_test`: a point of `K_{ν+1}` lies in every `K_{m+1}`, hence passes the stage-`m`
 shell test. -/
 theorem fd_test {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionChain n} {ν : ℕ}
@@ -132,8 +199,9 @@ theorem fd_test {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionCh
       exact selection_chain_antitone hc.toSelectionExtensionChain (by omega) le_rfl hb.1
   exact hbm.2 k hk
 
-/-- `fd_concl`: the tested divisor `2γ/|k|^τ` minus the tail error `γ/|k|^τ`. -/
-theorem fd_concl {x y : SelectionC n} {k : Fin n → ℤ} {γ τ T : ℝ}
+/-- Generic helper for `fd_concl`: the tested divisor `2γ/|k|^τ` minus the tail error
+`γ/|k|^τ`, for any shell cutoff `T` with `|k|₁ ≤ T`. -/
+theorem fd_concl_gen {x y : SelectionC n} {k : Fin n → ℤ} {γ τ T : ℝ}
     (hk : 0 < selectionModeLength k) (hγ : 0 < γ) (hτ : 0 ≤ τ)
     (hxy : ‖x - y‖ ≤ γ * T ^ (-τ - 1)) (hkT : selectionModeLength k ≤ T)
     (htest : 2 * γ / selectionModeLength k ^ τ ≤ ‖∑ i, (k i : ℂ) * y i‖) :
@@ -170,6 +238,22 @@ theorem fd_concl {x y : SelectionC n} {k : Fin n → ℤ} {γ τ T : ℝ}
   rw [sub_neg_eq_add, norm_neg] at this
   linarith
 
+/-- `fd_concl` (`stepP:p11a:fd-concl`): with `m = ν(k)` and the cutoff premise `|k|₁ ≤ T_ν`,
+the stage-`m` frequency bound `‖x - y‖ ≤ γ T_m^{-τ-1}` and the tested margin
+`2γ/|k|₁^τ ≤ |k·y|` give `γ/|k|₁^τ ≤ |k·x|` and `D_ν = γ T_ν^{-τ} ≤ γ/|k|₁^τ`. -/
+theorem fd_concl (a : SelectionSchedule n) {x y : SelectionC n} {k : Fin n → ℤ} {ν : ℕ}
+    (hT : 1 ≤ a.T₀) (hk : 0 < selectionModeLength k) (hγ : 0 < a.γ) (hτ : 0 ≤ a.τ)
+    (hkν : selectionModeLength k ≤ selectionT a ν)
+    (hxy : ‖x - y‖ ≤ a.γ * selectionT a (selectionModeStage a k) ^ (-a.τ - 1))
+    (htest : 2 * a.γ / selectionModeLength k ^ a.τ ≤ ‖∑ i, (k i : ℂ) * y i‖) :
+    a.γ / selectionModeLength k ^ a.τ ≤ ‖∑ i, (k i : ℂ) * x i‖ ∧
+      selectionD a ν ≤ a.γ / selectionModeLength k ^ a.τ := by
+  refine ⟨fd_concl_gen hk hγ hτ hxy (selectionModeStage_mem_shell a hT hk).2.1 htest, ?_⟩
+  unfold selectionD
+  have hLp : 0 < selectionModeLength k ^ a.τ := Real.rpow_pos_of_pos hk _
+  rw [Real.rpow_neg (by unfold selectionT; positivity), div_eq_mul_inv]
+  gcongr
+
 /-- The finite-stage divisor invariant (`bpP:p11a:finite-divisor`). -/
 theorem finite_divisor (d : SelectionData n) (a : SelectionSchedule n)
     (c : SelectionChain n) (ν : ℕ) (hc : SelectionFiniteChain d a c ν)
@@ -188,8 +272,8 @@ theorem finite_divisor (d : SelectionData n) (a : SelectionSchedule n)
   set m := selectionModeStage a k
   have hkm : selectionModeLength k ≤ selectionT a m := hsh.2.1
   refine ⟨?_, ?_⟩
-  · refine fd_concl hk hγ hτ ?_ hkm (fd_test hc hm hb hsh)
-    exact (fd_tel hc.toSelectionExtensionChain ht hτ hs he hm (htail m hm).1 hb.1).trans
+  · refine fd_concl_gen hk hγ hτ ?_ hkm (fd_test hc hm hb hsh)
+    exact (fd_tel_tail hc.toSelectionExtensionChain ht hτ hs he hm (htail m hm).1 hb.1).trans
       (htail m hm).2
   · unfold selectionD
     have hLp : 0 < selectionModeLength k ^ a.τ := Real.rpow_pos_of_pos hk _
