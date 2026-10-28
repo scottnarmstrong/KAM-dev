@@ -204,6 +204,34 @@ private theorem hasDerivAt_orbit (b : PartialBlock n k) {R s : ℝ} {H : EC n k 
 
 /-! ### The identity -/
 
+/-- The differential of the total Hamiltonian at a point of the domain. -/
+private theorem fderiv_hamiltonian (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin n → ℂ) → ℂ}
+    {g fs : EC n k → ℂ} (hs : 0 < s) (hh : RealFastConvex b.Ic r m M h)
+    (hg : ext_class b r s g) (hf : ext_class b r s fs) {z : EC n k}
+    (hz : z ∈ Dom n b.base r s) :
+    fderiv ℂ (liftFast h + g + fs) z =
+      (fderiv ℂ h (fastAction z)).comp (fastCLM n k) + fderiv ℂ g z + fderiv ℂ fs z := by
+  have _ := hs
+  have hnh : ∀ {u : EC n k → ℂ}, ext_class b r s u → DifferentiableAt ℂ u z :=
+    fun hu => hu.1.differentiableOn.differentiableAt ((isOpen_Dom _ r s).mem_nhds hz)
+  have hlh : DifferentiableAt ℂ (liftFast h : EC n k → ℂ) z :=
+    (differentiableOn_liftFast b hh.hol).differentiableAt ((isOpen_Dom _ r s).mem_nhds hz)
+  have hderiv : fderiv ℂ (liftFast h + g + fs) z =
+      fderiv ℂ (liftFast h) z + fderiv ℂ g z + fderiv ℂ fs z := by
+    have := fderiv_add (hlh.add (hnh hg)) (hnh hf)
+    rw [fderiv_add hlh (hnh hg)] at this
+    exact this
+  have hfast : fderiv ℂ (liftFast h : EC n k → ℂ) z =
+      (fderiv ℂ h (fastAction z)).comp (fastCLM n k) := by
+    have hhd : DifferentiableAt ℂ h (fastCLM n k z) :=
+      (hh.hol _ (fast_mem_polyNbhd b hz.2)).differentiableAt
+        ((isOpen_polyNbhd _ r).mem_nhds (fast_mem_polyNbhd b hz.2))
+    have := fderiv_comp z hhd (fastCLM n k).differentiableAt
+    rw [(fastCLM n k).fderiv] at this
+    exact this
+  rw [hderiv, hfast]
+
+
 /-- `bpN:p11:eq:lie` (step `ef-id`): along an orbit of `h + g + fs`, `fs ∘ y` has derivative
 `∂_θ fs · ω(I) + {fs, g}_c`; equivalently `∂_θ fs · ω = (fs ∘ y)' - {fs, g}_c`.  No bound on the
 frequency `ω` enters. -/
@@ -217,26 +245,12 @@ theorem energy_identity (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin n → �
   have hz : extCx (y τ) ∈ Dom n b.base r s := mem_Dom_of_realDom b hs (hy τ hτ).1
   have hnh : ∀ {u : EC n k → ℂ}, ext_class b r s u → DifferentiableAt ℂ u (extCx (y τ)) :=
     fun hu => hu.1.differentiableOn.differentiableAt ((isOpen_Dom _ r s).mem_nhds hz)
-  have hlh : DifferentiableAt ℂ (liftFast h : EC n k → ℂ) (extCx (y τ)) :=
-    (differentiableOn_liftFast b hh.hol).differentiableAt ((isOpen_Dom _ r s).mem_nhds hz)
+  have hderiv := fderiv_hamiltonian b hs hh hg hf hz
   have hHd := hasDerivAt_orbit b hr hs
-    (ext_class_add b (ext_class_add b (ext_class_liftFast b hh) hg) hf) hy hτ (hnh hf)
+    (ext_class_add b (ext_class_add b (ext_class_liftFast b hh) hg) hf) hy hτ
+    (hnh hf)
   refine hHd.congr_deriv ?_
-  have hderiv : fderiv ℂ (liftFast h + g + fs) (extCx (y τ)) =
-      fderiv ℂ (liftFast h) (extCx (y τ)) + fderiv ℂ g (extCx (y τ)) +
-        fderiv ℂ fs (extCx (y τ)) := by
-    have := fderiv_add (hlh.add (hnh hg)) (hnh hf)
-    rw [fderiv_add hlh (hnh hg)] at this
-    exact this
-  have hfast : fderiv ℂ (liftFast h : EC n k → ℂ) (extCx (y τ)) =
-      (fderiv ℂ h (fastAction (extCx (y τ)))).comp (fastCLM n k) := by
-    have hhd : DifferentiableAt ℂ h (fastCLM n k (extCx (y τ))) :=
-      (hh.hol _ (fast_mem_polyNbhd b hz.2)).differentiableAt
-        ((isOpen_polyNbhd _ r).mem_nhds (fast_mem_polyNbhd b hz.2))
-    have := fderiv_comp (extCx (y τ)) hhd (fastCLM n k).differentiableAt
-    rw [(fastCLM n k).fderiv] at this
-    exact this
-  rw [wfield_eq_wvec, hderiv, wvec_add, wvec_add, hfast, wvec_comp_fast, map_add, map_add,
+  rw [wfield_eq_wvec, hderiv, wvec_add, wvec_add, wvec_comp_fast, map_add, map_add,
     apply_wvec_self, clm_apply_theta]
   simp only [extBracket, wfield_eq_wvec, add_zero, dtheta, freq]
   simp only [mul_comm]
