@@ -454,3 +454,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   (a source positivity premise; consumers have it from `ExtNFHyp.radius_pos`/`slow_width_pos`). Signature backup
   orchestrator-tools/handoffs/N11Signatures.lean.bak-2115; N11-F2 commit 1d5683c5. N11-F2 also puts the signed
   `extFlow` in a shared `Partial/ExtFlow.lean` so N11-F1 imports rather than redefines it.
+- **21:38. Ruling (R2 accepted after round 2).** Round 2 proves the compact common-neighbourhood analytic flow; the
+  auditor kept a residual finding because no statement exposes uniform Picard convergence on that neighbourhood.
+  The graph node R2 serves (bpP:p11b:e-ode, EXTERNAL) concludes real-analytic dependence of the flow, which is
+  established; "Picard convergence" in the P11C design is the proof route, and no consumer needs it (R3 passed
+  without it). Ruling note on the R2 branch; merge order R2 then R3.
+- **21:45. Owner directive: lane N paused.** The owner paused lane N to hand it to Zohar's agents. N11-F1 (mid-proof)
+  commits its work and writes a handoff; the two running N audits (N11-E2 round 2, N11-F2) finish their reports;
+  passed N branches (N11-E3, N11-G, N11-J1, N11-J2, GAP-A) still merge so main is a clean baseline; no new N work
+  starts. A lane-N handoff memo goes to docs/campaign/LANE-N-HANDOFF.md. Lane P continues at full speed (owner).
+  Consequence: the P anchor planetaryExponentialSafety (E11, E12) stays blocked until lane N delivers the provider
+  of partialConvex_nekhoroshev.
+- **21:50. Ruling (P11A-P5 parametric core).** P11A-P5 starts before holo_chart is proved: it implements its signed
+  definitions (all parametric in the secular data C) and proves avg_fast's content for an arbitrary C satisfying
+  the spec; the signed avg_fast and p11FastData become one-line wrappers once P11A-P2f proves holo_chart.
