@@ -307,6 +307,7 @@ public import KAM.Measure.Lipschitz
 public import KAM.Measure.McShane
 public import KAM.Measure.Slab
 public import KAM.Nekhoroshev.Assembly.Choice
+public import KAM.Nekhoroshev.Assembly.Hypotheses
 public import KAM.Nekhoroshev.Interfaces.ConicCoercive
 public import KAM.Nekhoroshev.Interfaces.Constants
 public import KAM.Nekhoroshev.Interfaces.ConstantsAnalytic
@@ -336,6 +337,7 @@ public import KAM.ODE.NewtonReduction
 public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
+public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Hamiltonian.Diophantine
@@ -352,6 +354,7 @@ public import KAM.Planetary.Poincare.Holomorphic
 public import KAM.Planetary.Poincare.HolomorphicSymplectic
 public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
+public import KAM.Planetary.TwoScale.Constants
 public import KAM.Provider.AposterioriKam
 public import KAM.Provider.Iso.AllTimeConfinement
 public import KAM.Provider.Iso.IsoenergeticKam
