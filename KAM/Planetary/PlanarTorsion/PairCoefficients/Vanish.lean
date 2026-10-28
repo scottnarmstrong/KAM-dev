@@ -84,10 +84,12 @@ theorem p11c_iteratedFDeriv_eq_of_vanishes {n m : ℕ} {F G : ℝ → Fin n → 
     ∀ j < m, iteratedFDeriv ℝ j F 0 = iteratedFDeriv ℝ j G 0 := by
   intro j hj
   have key : ∀ (H : ℝ → Fin n → ℝ), (∀ i, AnalyticAt ℝ (fun a => H a i) 0) → ∀ i,
-      iteratedFDeriv ℝ j (fun a => H a i) 0 (fun _ => 1) = iteratedFDeriv ℝ j H 0 (fun _ => 1) i := by
+      iteratedFDeriv ℝ j (fun a => H a i) 0 (fun _ => 1) = iteratedFDeriv ℝ j H 0 (fun _ => 1) i
+          := by
     intro H hH i
     have hc : ContDiffAt ℝ j H 0 := contDiffAt_pi.2 fun i => (hH i).contDiffAt
-    have := congrArg (fun L : ContinuousMultilinearMap ℝ (fun _ : Fin j => ℝ) ℝ => L (fun _ => (1 : ℝ)))
+    have := congrArg (fun L : ContinuousMultilinearMap ℝ (fun _ : Fin j => ℝ) ℝ => L (fun _ => (1
+        : ℝ)))
       ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i).iteratedFDeriv_comp_left
         (n := j) hc (i := j) le_rfl)
     exact this
