@@ -24459,9 +24459,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_consts, selectionExponent, selectionVarpi, selectionQ, selectionVarrho, selectionCQ, selectionG (KAM/Planetary/WeakKAM/Schedule.lean)
+LEAN_NOTE: audit P11B-B02 PASS WITH NOTES (definitions; cN/error bridges come with B03, note N1)
 NOTE: -
 
 NODE: bpP:p11a:schedule-ratios
@@ -24487,9 +24487,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_ratios (KAM/Planetary/WeakKAM/Schedule.lean)
+LEAN_NOTE: audit P11B-B02 PASS
 NOTE: -
 
 NODE: stepP:p11a:sr-exp
@@ -24515,9 +24515,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_ratios (KAM/Planetary/WeakKAM/Schedule.lean)
+LEAN_NOTE: audit P11B-B02 PASS; step inside schedule_ratios
 NOTE: -
 
 NODE: bpP:p11a:schedule
@@ -24545,9 +24545,9 @@ EDGE: bpP:p11a:loss-choice | blueprint-P/parts/p11a3-iteration-selection.tex#bpP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule, SelectionSchedule, selectionT, selectionD, selectiont, selectionr, selectionQsharp (KAM/Planetary/WeakKAM/Schedule.lean)
+LEAN_NOTE: audit P11B-B02 PASS (definitions)
 NOTE: CYCLE BREAK: the draft edge schedule -> adm-params (statement says the numbers T_0,t_0,s_0,eps_0 are chosen in Definition adm-params) is a forward pointer, deleted; adm-params consumes the schedule's constants, not the schedule.
 
 NODE: bpP:p11a:strip-budget
@@ -25340,9 +25340,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sec_retained_data, SelectionChain, selectionFrequency, selectionRetained, SelectionFiniteChain (KAM/Planetary/WeakKAM/Schedule.lean)
+LEAN_NOTE: audit P11B-B02 PASS (raw chain definitions)
 NOTE: Section data (prose L234-L238, subsection sec-retained). Created as node and linked from finite-divisor, finite-measure, inductive-lemma and their steps, parameter-selection. Equation label bpP:p11a:retained-def maps to this node.
 
 NODE: bpP:p11a:finite-divisor

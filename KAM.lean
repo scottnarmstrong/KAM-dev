@@ -586,6 +586,7 @@ public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
 public import KAM.Planetary.Poincare.Tube
 public import KAM.Planetary.Preparation.AnalyticExtension
+public import KAM.Planetary.Preparation.ForwardTube
 public import KAM.Planetary.Preparation.PolarAverage.EvenDescent
 public import KAM.Planetary.Preparation.PolarAverage.Iterate
 public import KAM.Planetary.Preparation.PolarAverage.Order
@@ -598,6 +599,7 @@ public import KAM.Planetary.Preparation.RectangularAverageDomain
 public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
+public import KAM.Planetary.Quantitative.Interface
 public import KAM.Planetary.Quantitative.Thresholds
 public import KAM.Planetary.SecularForm.Analytic
 public import KAM.Planetary.SecularForm.AnalyticGeometry
@@ -703,6 +705,7 @@ public import KAM.Planetary.TwoScale.StepPerturb
 public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
 public import KAM.Planetary.WeakKAM.Data
+public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakMeasure.BallSublevel
 public import KAM.Planetary.WeakMeasure.Basic
 public import KAM.Planetary.WeakMeasure.Bridge
