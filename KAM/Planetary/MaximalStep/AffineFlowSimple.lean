@@ -211,6 +211,100 @@ theorem flow_snd_affine (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
   rw [hM]
   simp [affV, hf]
 
+theorem affTheta_differentiableAt (H : P11AffineHyp p0 p1 r s sigma A) {θ : P11CVec n}
+    (hz : (θ, (0 : P11CVec n)) ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) :
+    DifferentiableAt ℂ (affTheta p0 p1 r s sigma) θ := by
+  have hGd := flow_differentiableAt H hz (t := 1) ⟨by norm_num, le_rfl⟩
+  have hpair : DifferentiableAt ℂ (fun θ' : P11CVec n => (θ', (0 : P11CVec n))) θ :=
+    differentiableAt_id.prodMk (differentiableAt_const _)
+  exact differentiableAt_fst.comp θ (hGd.comp θ hpair)
+
+theorem zero_mem_U (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
+    (hz : z ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) :
+    (z.1, (0 : P11CVec n)) ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2) := by
+  rw [mem_Dom_iff] at hz ⊢
+  exact ⟨hz.1, by simpa using by linarith [H.s_pos]⟩
+
+/-- The angle part of `DΦ` only sees the angle part of the increment. -/
+theorem fderiv_flow_fst (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
+    (hz : z ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) (u : P11Phase n) :
+    (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z u).1 =
+      fderiv ℂ (affTheta p0 p1 r s sigma) z.1 u.1 := by
+  have hGz := (flow_differentiableAt H hz (t := 1) ⟨by norm_num, le_rfl⟩).hasFDerivAt
+  have hΘ := (affTheta_differentiableAt H (zero_mem_U H hz)).hasFDerivAt
+  have h1 : HasFDerivAt (fun w => (p11Flow (p11Affine p0 p1) r s sigma 1 w).1)
+      ((ContinuousLinearMap.fst ℂ _ _).comp (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z))
+      z := hasFDerivAt_fst.comp z hGz
+  have h2 : HasFDerivAt (fun w : P11Phase n => affTheta p0 p1 r s sigma w.1)
+      ((fderiv ℂ (affTheta p0 p1 r s sigma) z.1).comp (ContinuousLinearMap.fst ℂ _ _)) z :=
+    hΘ.comp z hasFDerivAt_fst
+  have heq : (fun w : P11Phase n => affTheta p0 p1 r s sigma w.1) =ᶠ[nhds z]
+      (fun w => (p11Flow (p11Affine p0 p1) r s sigma 1 w).1) := by
+    filter_upwards [(KAM.Weighted.isOpen_Dom (n := n) (m := n) {0} (3*s/4) (r-3*sigma/2)).mem_nhds
+      hz] with w hw
+    exact (flow_fst_eq H hw).symm
+  have h3 := h2.congr_of_eventuallyEq heq.symm
+  have := congrArg (fun L => L u) (h1.unique h3)
+  simpa using this
+
+/-- `DΦ(0, b) = (0, M b)`. -/
+theorem fderiv_flow_eta (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
+    (hz : z ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) (b : P11CVec n) :
+    fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (0, b) = (0, affM p0 p1 r s sigma z.1 b) := by
+  have hGz := (flow_differentiableAt H hz (t := 1) ⟨by norm_num, le_rfl⟩).hasFDerivAt
+  have h1 := fderiv_flow_fst H hz (0, b)
+  simp only [map_zero] at h1
+  refine Prod.ext h1 ?_
+  have hℓ : HasDerivAt (fun t : ℂ => z + t • ((0 : P11CVec n), b)) ((0 : P11CVec n), b) 0 := by
+    simpa using ((hasDerivAt_id (0 : ℂ)).smul_const ((0 : P11CVec n), b)).const_add z
+  have hG' : HasFDerivAt (p11Flow (p11Affine p0 p1) r s sigma 1)
+      (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z)
+      (z + (0 : ℂ) • ((0 : P11CVec n), b)) := by simpa using hGz
+  have hcomp := hG'.comp_hasDerivAt (0 : ℂ) hℓ
+  have hl2 : HasDerivAt (fun t : ℂ => z.2 + t • b) b 0 := by
+    simpa using ((hasDerivAt_id (0 : ℂ)).smul_const b).const_add z.2
+  have hM : HasDerivAt (fun t : ℂ => affM p0 p1 r s sigma z.1 (z.2 + t • b) +
+      affV p0 p1 r s sigma z.1) (affM p0 p1 r s sigma z.1 b) 0 := by
+    have := ((affM p0 p1 r s sigma z.1).hasFDerivAt (x := z.2 + (0 : ℂ) • b)).comp_hasDerivAt
+      (0 : ℂ) hl2
+    exact this.add_const _
+  have hk := (hasDerivAt_const (0 : ℂ) (affTheta p0 p1 r s sigma z.1)).prodMk hM
+  have hev : (fun t : ℂ => (affTheta p0 p1 r s sigma z.1, affM p0 p1 r s sigma z.1 (z.2 + t • b) +
+      affV p0 p1 r s sigma z.1)) =ᶠ[nhds 0]
+      ((p11Flow (p11Affine p0 p1) r s sigma 1) ∘ fun t : ℂ => z + t • ((0 : P11CVec n), b)) := by
+    have hcont : ContinuousAt (fun t : ℂ => z + t • ((0 : P11CVec n), b)) 0 := hℓ.continuousAt
+    filter_upwards [hcont.eventually_mem
+      ((KAM.Weighted.isOpen_Dom (n := n) (m := n) {0} (3*s/4) (r-3*sigma/2)).mem_nhds
+        (by simpa using hz))] with t ht
+    refine Prod.ext ?_ ?_
+    · have := flow_fst_eq H ht
+      simpa using this.symm
+    · have := flow_snd_affine H ht
+      simpa using this.symm
+  have := hcomp.unique (hk.congr_of_eventuallyEq hev.symm)
+  exact (congrArg Prod.snd this)
+
+/-- `Dθ^T`-type duality: `(DΘ a) · (M b) = a · b`. -/
+theorem aff_duality (H : P11AffineHyp p0 p1 r s sigma A) {z : P11Phase n}
+    (hz : z ∈ KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2)) (a b : P11CVec n) :
+    (∑ i, (fderiv ℂ (affTheta p0 p1 r s sigma) z.1 a) i * (affM p0 p1 r s sigma z.1 b) i) =
+      ∑ i, a i * b i := by
+  have hφ : DifferentiableOn ℂ (p11Affine p0 p1) (KAM.Weighted.Dom n {0} s (r-sigma)) :=
+    (differentiableOn_p11Affine H).mono (by
+      intro w hw
+      rw [mem_Dom_iff] at hw
+      exact ⟨strip_sub_sigma_subset H hw.1, trivial⟩)
+  have hs := KAM.Canonical.flow_symplFormC hφ (smallField H) (U_sub_half H hz)
+    (t := 1) ⟨by norm_num, le_rfl⟩ (a, 0) (0, b)
+  have e1 := fderiv_flow_fst H hz (a, 0)
+  have e2 := fderiv_flow_eta H hz b
+  change KAM.Canonical.symplFormC (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (a, 0))
+    (fderiv ℂ (p11Flow (p11Affine p0 p1) r s sigma 1) z (0, b)) = _ at hs
+  rw [e2] at hs
+  simp only [KAM.Canonical.symplFormC, e1, mul_zero, zero_sub, Pi.zero_apply, Finset.sum_neg_distrib,
+    zero_mul, neg_inj] at hs
+  simpa [mul_comm] using hs
+
 end KAM.Planetary
 
 end
