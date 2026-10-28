@@ -30,7 +30,8 @@ variable {n : ℕ}
 
 section Core
 
-lemma dot_mulVec_swap (a b : Vec n) (M : Mat n) : a ⬝ᵥ (M.mulVec b) = b ⬝ᵥ (M.transpose.mulVec a) := by
+lemma dot_mulVec_swap (a b : Vec n) (M : Mat n) :
+    a ⬝ᵥ (M.mulVec b) = b ⬝ᵥ (M.transpose.mulVec a) := by
   rw [Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, dotProduct_comm]
 
 lemma dot_transpose_mulVec (M : Mat n) (a y : Vec n) :

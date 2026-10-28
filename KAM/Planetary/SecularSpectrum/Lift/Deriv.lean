@@ -33,10 +33,12 @@ lemma hasDerivAt_assemble {I φ p q : ℝ → Vec n} {I' φ' p' q' : Vec n} {t :
     (hq : HasDerivAt q q' t) :
     HasDerivAt (fun s => assemble (I s) (φ s) (p s) (q s)) (assemble I' φ' p' q') t := by
   refine HasDerivAt.prodMk (hasDerivAt_pi.2 fun k => ?_) (hasDerivAt_pi.2 fun k => ?_)
-  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;> simp only [Fin.append_left, Fin.append_right]
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;>
+      simp only [Fin.append_left, Fin.append_right]
     · exact hasDerivAt_vec_entry hφ j
     · exact hasDerivAt_vec_entry hq j
-  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;> simp only [Fin.append_left, Fin.append_right]
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;>
+      simp only [Fin.append_left, Fin.append_right]
     · exact hasDerivAt_vec_entry hI j
     · exact hasDerivAt_vec_entry hp j
 

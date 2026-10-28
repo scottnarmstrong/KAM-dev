@@ -72,7 +72,8 @@ lemma length2_mulVec_of_orth {M : Mat n} (h : M.transpose * M = 1) (x : Vec n) :
     length2 (M.mulVec x) = length2 x := by
   rw [length2_eq_dotProduct, length2_eq_dotProduct]
   congr 1
-  rw [Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, Matrix.mulVec_mulVec, h, Matrix.one_mulVec]
+  rw [Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, Matrix.mulVec_mulVec, h,
+    Matrix.one_mulVec]
 
 lemma isSO_mul_transpose {R : Mat n} (h : isSO R) : R * R.transpose = 1 :=
   mul_eq_one_comm.1 h.1
@@ -94,7 +95,8 @@ lemma liftInv_liftMap_of_isSO {R : Vec n → Mat n} {w : Phase (n+n)} (h : isSO 
     slow_snd_assemble, Matrix.mulVec_mulVec, h1, Matrix.one_mulVec]
   congr 1
   funext l
-  rw [show ((R (fast w.2)).transpose * fderiv ℝ R (fast w.2) (Pi.single l 1) * (R (fast w.2)).transpose).mulVec
+  rw [show ((R (fast w.2)).transpose * fderiv ℝ R (fast w.2) (Pi.single l 1) *
+      (R (fast w.2)).transpose).mulVec
       (slow w.1) = (R (fast w.2)).transpose.mulVec
         ((fderiv ℝ R (fast w.2) (Pi.single l 1) * (R (fast w.2)).transpose).mulVec (slow w.1)) by
     rw [Matrix.mul_assoc, Matrix.mulVec_mulVec], sum_transpose_mulVec_mul h1]

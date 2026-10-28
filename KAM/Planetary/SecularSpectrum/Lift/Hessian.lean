@@ -67,7 +67,8 @@ lemma hasDerivAt_fderiv_line {W : Set (Vec n)} (hW : IsOpen W) {R : Vec n → Ma
   have hnb : (fun s : ℝ => I + s • x) ⁻¹' W ∈ 𝓝 (0:ℝ) :=
     hc.continuousAt.preimage_mem_nhds (by simpa using hW.mem_nhds hI)
   have hr : AnalyticAt ℝ (fun J => R J a b) I := analyticAt_matrix_entry (hAn I hI) a b
-  have h1 : HasFDerivAt (fderiv ℝ (fun J => R J a b)) (fderiv ℝ (fderiv ℝ (fun J => R J a b)) I) I :=
+  have h1 : HasFDerivAt (fderiv ℝ (fun J => R J a b))
+      (fderiv ℝ (fderiv ℝ (fun J => R J a b)) I) I :=
     (hr.fderiv.differentiableAt).hasFDerivAt
   have h2 : HasFDerivAt (fderiv ℝ (fun J => R J a b)) (fderiv ℝ (fderiv ℝ (fun J => R J a b)) I)
       (I + (0:ℝ) • x) := by simpa using h1

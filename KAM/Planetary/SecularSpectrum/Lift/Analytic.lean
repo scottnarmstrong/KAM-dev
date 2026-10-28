@@ -33,10 +33,12 @@ lemma analyticAt_assemble {z : Phase (n+n)} {I φ p q : Phase (n+n) → Vec n}
     (hq : AnalyticAt ℝ q z) :
     AnalyticAt ℝ (fun w => assemble (I w) (φ w) (p w) (q w)) z := by
   refine AnalyticAt.prod (analyticAt_pi_iff.2 fun k => ?_) (analyticAt_pi_iff.2 fun k => ?_)
-  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;> simp only [Fin.append_left, Fin.append_right]
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;>
+      simp only [Fin.append_left, Fin.append_right]
     · exact analyticAt_pi_iff.1 hφ j
     · exact analyticAt_pi_iff.1 hq j
-  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;> simp only [Fin.append_left, Fin.append_right]
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) k <;>
+      simp only [Fin.append_left, Fin.append_right]
     · exact analyticAt_pi_iff.1 hI j
     · exact analyticAt_pi_iff.1 hp j
 
@@ -83,9 +85,11 @@ lemma isOpen_liftDomain {W : Set (Vec n)} (hW : IsOpen W) : IsOpen (liftDomain W
   hW.preimage ((continuous_pi fun _ => (continuous_apply _).comp continuous_snd))
 
 lemma analyticAt_liftMap {W : Set (Vec n)} (hW : IsOpen W) {R : Vec n → Mat n}
-    (hAn : AnalyticOnNhd ℝ R W) {z : Phase (n+n)} (hz : z ∈ liftDomain W) : AnalyticAt ℝ (liftMap R) z := by
+    (hAn : AnalyticOnNhd ℝ R W) {z : Phase (n+n)} (hz : z ∈ liftDomain W) :
+    AnalyticAt ℝ (liftMap R) z := by
   have hI := analyticAt_fast_snd z
-  have hR : AnalyticAt ℝ (fun w : Phase (n+n) => R (fast w.2)) z := AnalyticAt.comp (f := fun w : Phase (n+n) => fast w.2) (hAn _ hz) hI
+  have hR : AnalyticAt ℝ (fun w : Phase (n+n) => R (fast w.2)) z :=
+    AnalyticAt.comp (f := fun w : Phase (n+n) => fast w.2) (hAn _ hz) hI
   have hDe : ∀ l a b, AnalyticAt ℝ
       (fun w : Phase (n+n) => fderiv ℝ R (fast w.2) (Pi.single l 1) a b) z := by
     intro l a b
