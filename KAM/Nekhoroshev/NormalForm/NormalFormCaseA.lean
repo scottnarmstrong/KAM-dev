@@ -113,12 +113,14 @@ theorem nfConcl_caseA (H : NFHyp D r s K α L p ε Λ h f)
     (fun i => conjExp p * nfB (nfEps1 α p r s ε) ε i / (2 * Real.pi * α * nfRho r N i))
     (fun i hi z hz => (props i hi).2.2.2.2.2.1 z hz |>.1)
   refine ⟨chain (nfPhi D r s K Λ h f N) N, nfG D r s K Λ h f N (N + 1),
-    nfF D r s K Λ h f N (N + 1), hdiff.mono hsub, t4 (fun i hi => (props i hi).2.2.2.2.1) |>.mono hsub,
+    nfF D r s K Λ h f N (N + 1), hdiff.mono hsub,
+    (t4 (fun i hi => (props i hi).2.2.2.2.1)).mono hsub,
     fun z hz => t1 (hsub hz), fun z hz => hsymp z (hsub hz), ?_,
     nf_final_g H (hinv (N + 1) le_rfl), hfin.1, nf_coeff_g H hinv, ?_,
     nf_final_g_diff H hN (hinv (N + 1) le_rfl), ?_, hfin.2, ?_, ?_⟩
   · intro k z hz
-    exact chain_translate (U := fun i => Dom n D (nfR r N i) (nfS s N i)) hmap (fun i hi k z hz => (props i hi).2.2.2.1 k z hz) k z (hsub hz)
+    exact chain_translate (U := fun i => Dom n D (nfR r N i) (nfS s N i)) hmap
+      (fun i hi k z hz => (props i hi).2.2.2.1 k z hz) k z (hsub hz)
   · intro z hz
     exact nf_chain_identity H hN (fun i hi => hinv i (by omega)) N le_rfl z (hsub hz)
   · rintro (h0 | hB)
@@ -132,7 +134,8 @@ theorem nfConcl_caseA (H : NFHyp D r s K α L p ε Λ h f)
     have hreal := nf_real H hN (fun i hi => hinv i (by omega)) hΛ hhr hfr
     refine ⟨realOn_mono' (hreal (N + 1) le_rfl).1 hsub, realOn_mono' (hreal (N + 1) le_rfl).2 hsub,
       fun x hx => ?_⟩
-    refine chain_real (U := fun i => Dom n D (nfR r N i) (nfS s N i)) hmap (fun i hi x hx => ?_) x (hsub hx)
+    refine chain_real (U := fun i => Dom n D (nfR r N i) (nfS s N i)) hmap
+      (fun i hi x hx => ?_) x (hsub hx)
     exact nf_phi_real H hN hi (hinv i (by omega)) hΛ
       (realOn_mono' hhr (Dom_mono (nfR_anti hr.le N (Nat.zero_le i))
         (nfS_anti hs.le N (Nat.zero_le i)))) (hreal i (by omega)).1 (hreal i (by omega)).2 x hx

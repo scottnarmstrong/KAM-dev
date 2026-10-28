@@ -58,7 +58,8 @@ theorem chain_translate {m : ℕ} (hmap : ∀ i ≤ m, MapsTo (Φ i) (U (i + 1))
 /-- Real points go to real points along `chain Φ m`. -/
 theorem chain_real {m : ℕ} (hmap : ∀ i ≤ m, MapsTo (Φ i) (U (i + 1)) (U i))
     (hreal : ∀ i ≤ m, ∀ x : (Fin n → ℝ) × (Fin n → ℝ),
-      KAM.realInclusion₂ n x ∈ U (i + 1) → Φ i (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n)) :
+      KAM.realInclusion₂ n x ∈ U (i + 1) →
+        Φ i (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n)) :
     ∀ x : (Fin n → ℝ) × (Fin n → ℝ), KAM.realInclusion₂ n x ∈ U (m + 1) →
       chain Φ m (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n) := by
   induction m with
@@ -83,7 +84,8 @@ variable {D : Set (Fin n → ℂ)} {r s : ℝ}
 /-- `P_Λ T_K u` is in the class and has the coefficients `1_{Λ ∩ Z_K} û_k`. -/
 theorem coeff_homRes {K M : ℝ} {Λ : Set (Fin n → ℤ)} {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     (hs : 0 < s) (hu : InClass D r s u) (hb : WBound D r s u M) :
-    ∀ I ∈ polyNbhd D r, ∀ k, coeff (homRes K Λ u) I k = (Λ ∩ zBall n K).indicator (coeff u I) k := by
+    ∀ I ∈ polyNbhd D r, ∀ k,
+      coeff (homRes K Λ u) I k = (Λ ∩ zBall n K).indicator (coeff u I) k := by
   intro I hI k
   obtain ⟨t1, t2, t3, -⟩ := projections hs hu hb {k | KAM.Fourier.modeSize k ≤ K}
   obtain ⟨-, p2, -⟩ := projections hs t1 t3 Λ
