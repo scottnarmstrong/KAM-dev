@@ -1250,7 +1250,7 @@ structure PGExtension (d : PGData a b) where
   holo : ∀ mu ∈ Icc 0 d.mu0, DifferentiableOn ℂ (P mu) (extensionDomain d delta)
   continuous : ContinuousOn (fun z : ℝ × PGComplexPhase (a+b) => P z.1 z.2)
     (Icc 0 d.mu0 ×ˢ extensionDomain d delta)
-  agrees : ∀ mu ∈ Icc 0 d.mu0, ∀ w : Phase (a+b),
+  agrees : ∀ mu ∈ Icc 0 d.mu0, ∀ w : Phase (a+b), w ∈ closure (cylinder d.V d.r0) →
     KAM.realInclusion₂ (a+b) w ∈ extensionDomain d delta →
       P mu (KAM.realInclusion₂ (a+b) w) = (d.P mu w : ℂ)
   periodic : ∀ mu ∈ Icc 0 d.mu0, ∀ z ∈ extensionDomain d delta, ∀ k : Fin a → ℤ,
@@ -1982,3 +1982,21 @@ theorem main {a b : ℕ} (ha : 0 < a) (hb : 0 < b)
 
 end KAM.Planetary
 ```
+
+## Revision 4 (2026-10-28, main orchestrator; prover finding P5-EX)
+**Defect.** In revision 3, `PGExtension.agrees` required `P mu (realInclusion₂ w) = d.P mu w` for EVERY real `w` with
+`realInclusion₂ w ∈ extensionDomain d delta`. That set contains real points within `delta` of the box whose fast action
+lies outside `closure d.V`, i.e. outside `closure (cylinder d.V d.r0)`. There `PGData` constrains nothing: `hP` is
+`AnalyticOnNhd` only at points of `Icc 0 mu0 ×ˢ closure (cylinder V r0)` (with no uniformity in the unbounded fast
+angle) and `hperiod` holds only on `cylinder V r0`, while `d.P` is a total function. Combined with `periodic`, the old
+`agrees` forced `d.P` to be `2π`-periodic on a whole real `delta`-neighbourhood, and the prover's counterexample (add a
+bump to `d.P` outside an angle-dependent neighbourhood `W0 = {dist(w, closure cyl) < 1/(1+|fast angle|)}` of the closed
+cylinder) satisfies every `PGData` field while making `ext` false for every `delta > 0`.
+**Amendment (minimal).** `agrees` now also assumes `w ∈ closure (cylinder d.V d.r0)` (see the structure above and
+`P45Signatures.lean`). Nothing else changes. `h0real` is unaffected: `H0` is controlled on the open set of `hfreq`,
+which contains `closure V` with a positive margin, and `delta` is chosen below that margin.
+**Consumers checked.** `complexAverage_real` evaluates at `w = (phi, q; I, p)` with `I ∈ V` and
+`‖(p, q)‖ < pgOscRadius ≤ r0/2`, a point of the cylinder; the `birkhoff_ext` identifications are on `V`. Both still
+follow from the amended `agrees`.
+**Source note.** blueprint-P p5-pg-assembly, Lemma `bpP:p5:ext` ("`P~ = P` at real points" of `X_delta`) and step
+`ext-per` gloss the same point; record as a candidate source imprecision (not an erratum of the frozen statements).
