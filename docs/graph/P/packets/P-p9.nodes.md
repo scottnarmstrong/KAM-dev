@@ -1123,9 +1123,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:n2@L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: n2, n2_global_frame (KAM/Planetary/SecularSpectrum/TwoPlanets.lean)
+LEAN_NOTE: audit S9-2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:n2-mat
@@ -1153,9 +1153,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:n2-m
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: n2_global_frame (KAM/Planetary/SecularSpectrum/TwoPlanets.lean)
+LEAN_NOTE: audit S9-2 PASS WITH NOTES; global frame via normalized local frames (valid proof-plan variation)
 NOTE: -
 
 NODE: stepP:p9:n2-res
@@ -1182,9 +1182,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:n2-res@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: n2 (KAM/Planetary/SecularSpectrum/TwoPlanets.lean)
+LEAN_NOTE: audit S9-2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:gs-c#roots-route

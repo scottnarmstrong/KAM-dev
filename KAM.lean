@@ -644,6 +644,7 @@ public import KAM.Planetary.SecularSpectrum.LocalAnalytic.Sorted
 public import KAM.Planetary.SecularSpectrum.LocalAnalytic.Unique
 public import KAM.Planetary.SecularSpectrum.LocalAnalytic
 public import KAM.Planetary.SecularSpectrum.Norms
+public import KAM.Planetary.SecularSpectrum.TwoPlanets
 public import KAM.Planetary.TwoScale.Constants
 public import KAM.Planetary.TwoScale.Cover
 public import KAM.Planetary.TwoScale.FourierCompact
@@ -666,6 +667,11 @@ public import KAM.Planetary.TwoScale.LimitMapReal
 public import KAM.Planetary.TwoScale.LimitMapScale
 public import KAM.Planetary.TwoScale.LimitMapStrip
 public import KAM.Planetary.TwoScale.Lipschitz
+public import KAM.Planetary.TwoScale.Measure
+public import KAM.Planetary.TwoScale.MeasureActions
+public import KAM.Planetary.TwoScale.MeasureJoint
+public import KAM.Planetary.TwoScale.MeasureScaled
+public import KAM.Planetary.TwoScale.MeasureTorus
 public import KAM.Planetary.TwoScale.Period
 public import KAM.Planetary.TwoScale.RealDynamics
 public import KAM.Planetary.TwoScale.Setting
