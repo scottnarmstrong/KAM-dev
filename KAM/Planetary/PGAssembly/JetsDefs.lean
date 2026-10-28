@@ -33,7 +33,8 @@ def jetOmega (d : PGData a b) (mu : ℝ) (I : Fin a → ℂ) (j : Fin b) : ℂ :
   iteratedFDeriv ℂ 2 (complexAverage d mu I) 0 (fun _ => (0,Pi.single j 1))
 
 def jetBeta (d : PGData a b) (mu : ℝ) (I : Fin a → ℂ) : Matrix (Fin b) (Fin b) ℂ :=
-  fun i j => if i=j then (1/3:ℂ)*iteratedFDeriv ℂ 4 (complexAverage d mu I) 0 (fun _ => (0,Pi.single i 1))
+  fun i j => if i=j then (1/3:ℂ)*iteratedFDeriv ℂ 4 (complexAverage d mu I) 0
+    (fun _ => (0,Pi.single i 1))
   else iteratedFDeriv ℂ 4 (complexAverage d mu I) 0
     (fun k : Fin 4 => if k.val < 2 then (0,Pi.single i 1) else (0,Pi.single j 1))
 

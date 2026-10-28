@@ -87,8 +87,8 @@ theorem complexAverage_realY_eventually (d : PGData a b) {mu : ℝ} (hmu : mu �
 
 theorem realAvg_analyticAt (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
     {I : Fin a → ℝ} (hI : I ∈ d.V) : AnalyticAt ℝ (realAvg d mu I) 0 := by
-  have hA := (complexAverage_analyticAt d hmu (realInclusion_mem_tube d (subset_closure hI))).restrictScalars
-    (𝕜 := ℝ)
+  have hA := (complexAverage_analyticAt d hmu
+    (realInclusion_mem_tube d (subset_closure hI))).restrictScalars (𝕜 := ℝ)
   have hcomp : AnalyticAt ℝ (complexAverage d mu (KAM.realInclusion a I) ∘
       KAM.realInclusion₂ b) 0 :=
     hA.comp_of_eq ((KAM.realInclusion₂ b).analyticAt 0) (by simp)

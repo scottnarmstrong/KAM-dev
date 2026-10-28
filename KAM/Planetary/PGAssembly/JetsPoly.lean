@@ -151,7 +151,8 @@ theorem mixed_value {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     have := h.unique h'
     rw [show ((3 + 1 : ℕ) : ℝ) = 4 by norm_num] at this
     exact this
-  have h2 : HasDerivAt (fun s : ℝ => N (fun _ => v + s • u)) (3 * K (fun _ => v + (0 : ℝ) • u)) 0 := by
+  have h2 : HasDerivAt (fun s : ℝ => N (fun _ => v + s • u))
+      (3 * K (fun _ => v + (0 : ℝ) • u)) 0 := by
     have := hasDerivAt_diag_line N hNs v u 0
     rw [show ((2 + 1 : ℕ) : ℝ) = 3 by norm_num] at this
     exact this

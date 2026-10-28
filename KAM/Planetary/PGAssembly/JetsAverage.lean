@@ -119,7 +119,8 @@ theorem avgFun_differentiableOn (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 
       assembleComplex y.2.1 (KAM.realInclusion a y.1) y.2.2.2 y.2.2.1) (Q ×ˢ avgDom d)
       (extensionDomain d (pgExtension d).delta) := fun y hy => avgInt_mem d hy.2 y.1
   have hcont := continuous_assembleComplex_real (a := a) (b := b)
-  have hfd : ContinuousOn (fderiv ℂ ((pgExtension d).P mu)) (extensionDomain d (pgExtension d).delta) :=
+  have hfd : ContinuousOn (fderiv ℂ ((pgExtension d).P mu))
+      (extensionDomain d (pgExtension d).delta) :=
     (KAM.differentiableOn_fderiv_of_isOpen hext hPd).continuousOn
   have hG : ContinuousOn (fun y : (Fin a → ℝ) × JetE a b => avgInt d mu y.1 y.2)
       (Q ×ˢ avgDom d) := hPd.continuousOn.comp hcont.continuousOn hmaps

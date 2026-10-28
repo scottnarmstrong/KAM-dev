@@ -36,7 +36,8 @@ theorem iteratedFDeriv_comp_clm_of_isOpen {U : Set E} (hU : IsOpen U) {f : E →
     iteratedFDeriv 𝕜 i (f ∘ g) x =
       (iteratedFDeriv 𝕜 i f (g x)).compContinuousLinearMap fun _ => g := by
   have hV : IsOpen (g ⁻¹' U) := hU.preimage g.continuous
-  have h := g.iteratedFDerivWithin_comp_right hf hU.uniqueDiffOn hV.uniqueDiffOn hx (by exact_mod_cast hi)
+  have h := g.iteratedFDerivWithin_comp_right hf hU.uniqueDiffOn hV.uniqueDiffOn hx
+    (by exact_mod_cast hi)
   rwa [iteratedFDerivWithin_of_isOpen i hV hx, iteratedFDerivWithin_of_isOpen i hU hx] at h
 
 end Comp
