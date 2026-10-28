@@ -99,6 +99,55 @@ theorem step_hm0 (H : P11StepHyp S h w R) :
   unfold p11StepA
   field_simp
 
+theorem step_hm1 (H : P11StepHyp S h w R) (i : Fin n) :
+    p11AngleClass (S.r - S.d - S.delta) (KAM.actionNbhd S.E S.t) (fun u => stepP1 S w R u i) ∧
+    p11Bound (KAM.complexStrip n (S.r - S.d - S.delta) ×ˢ KAM.actionNbhd S.E S.t)
+      (fun u => stepP1 S w R u i) (p11StepA S) ∧
+    DifferentiableOn ℂ (fun b => p11DeltaW S.T R b i) (KAM.actionNbhd S.E S.t) ∧
+    p11Bound (KAM.actionNbhd S.E S.t) (fun b => p11DeltaW S.T R b i)
+      ((1 + p11Error n S.T S.d) * S.eps / S.s) ∧
+    ∀ θ ∈ KAM.complexStrip n (S.r - S.d - S.delta), ∀ b ∈ KAM.actionNbhd S.E S.t,
+      fderiv ℂ (fun x => stepP1 S w R (x, b) i) θ (w b) =
+        p11R1 S.T R (θ, b) i - p11DeltaW S.T R b i := by
+  have cc := p11_cutoff_coeff S.n_pos (step_r_pos S) S.s_pos S.T_pos.le S.d_pos (step_dr S)
+    S.eps_nonneg (step_B_open S) H.admissible H.bound
+  have hdel : S.delta < S.r - S.d := by have := S.radius; have := S.sigma_pos; linarith
+  obtain ⟨-, c2, -, c4, -, c6, -⟩ := cc
+  have hM : 0 ≤ (1 + p11Error n S.T S.d) * S.eps / S.s :=
+    div_nonneg (step_M_nonneg S) S.s_pos.le
+  have c6' : p11Bound (KAM.complexStrip n (S.r - S.d) ×ˢ KAM.actionNbhd S.E S.t)
+      (fun z => p11R1 S.T R z i) ((1 + p11Error n S.T S.d) * S.eps / S.s) := fun z hz =>
+    (norm_le_pi_norm _ i).trans (c6 z hz)
+  obtain ⟨h1, -, -, h4, -, h6, h7, -, h9, -⟩ := homological_maximal S.n_pos
+    (by linarith [S.radius, S.delta_pos, S.sigma_pos]) S.delta_pos hdel S.T_pos S.D_pos
+    hM (step_B_open S) w H.holw (step_hdiv H) _ (c2 i) (c4 i) c6'
+  refine ⟨h1, fun z hz => (h7 z hz).trans (le_of_eq ?_), h4, h9, h6⟩
+  have := S.D_pos; have := S.s_pos
+  unfold p11StepA
+  field_simp
+
+theorem step_affHyp (H : P11StepHyp S h w R) {b : P11CVec n} (hb : b ∈ KAM.actionNbhd S.E S.t) :
+    P11AffineHyp (fun θ => stepP0 S w R (θ, b)) (fun θ => stepP1 S w R (θ, b))
+      (S.r - S.d - S.delta) S.s S.sigma (p11StepA S) := by
+  obtain ⟨a1, a2, -, -, -⟩ := step_hm0 H
+  have comp : ∀ {W : Type} [NormedAddCommGroup W] [NormedSpace ℂ W]
+      {f : P11CVec n × P11CVec n → W},
+      DifferentiableOn ℂ f (KAM.complexStrip n (S.r - S.d - S.delta) ×ˢ
+        KAM.actionNbhd S.E S.t) →
+      DifferentiableOn ℂ (fun θ => f (θ, b)) (KAM.complexStrip n (S.r - S.d - S.delta)) :=
+    fun hf => hf.comp (differentiableOn_id.prodMk (differentiableOn_const b))
+      fun θ hθ => ⟨hθ, hb⟩
+  have hA := step_A_nonneg H
+  refine ⟨S.n_pos, S.sigma_pos, by linarith [S.radius], S.s_pos, hA, step_small S,
+    comp a1.1, ?_, fun j x hx => a1.2 j (x, b) ⟨hx, hb⟩, ?_,
+    fun θ hθ => a2 (θ, b) ⟨hθ, hb⟩, ?_⟩
+  · exact differentiableOn_pi.2 fun i => comp (step_hm1 H i).1.1
+  · intro j x hx
+    funext i
+    exact (step_hm1 H i).1.2 j (x, b) ⟨hx, hb⟩
+  · intro θ hθ
+    exact (pi_norm_le_iff_of_nonneg hA).2 fun i => (step_hm1 H i).2.1 (θ, b) ⟨hθ, hb⟩
+
 end KAM.Planetary
 
 end
