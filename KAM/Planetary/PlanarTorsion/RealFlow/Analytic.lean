@@ -89,4 +89,114 @@ theorem p11c_hasDerivAt_of_integral_eq {E : Type*} [NormedAddCommGroup E] [Norme
   refine (hF.const_add y).congr_of_eventuallyEq ?_
   filter_upwards [isOpen_Ioo.mem_nhds ht₀] with t ht using hint t ht
 
+/-- Joint real analyticity of the local flow of a real analytic vector field on `ℝⁿ`. -/
+theorem p11c_analytic_flow_fin {f : (Fin n → ℝ) → Fin n → ℝ} {W : Set (Fin n → ℝ)}
+    {x : Fin n → ℝ} (hf : AnalyticAt ℝ f x) (hW : W ∈ 𝓝 x) :
+    ∃ r T : ℝ, 0 < r ∧ 0 < T ∧ ∃ Φ : ℝ → (Fin n → ℝ) → Fin n → ℝ,
+      AnalyticOnNhd ℝ (fun u : ℝ × (Fin n → ℝ) => Φ u.1 u.2) (Ioo (-T) T ×ˢ ball x r) ∧
+      ∀ y ∈ ball x r, Φ 0 y = y ∧ KAM.ODE.IsSolutionIn f W (Ioo (-T) T) (fun t => Φ t y) := by
+  obtain ⟨R₀, hR₀, F, hFd, hFr⟩ := p11_complexification hf
+  obtain ⟨ε, hε, hεW⟩ := Metric.mem_nhds_iff.1 hW
+  have hRpos : 0 < min R₀ ε := lt_min hR₀ hε
+  obtain ⟨M, L, T, r, hT, hr, hD⟩ := p11c_picardData_exists hRpos
+    (hFd.mono (ball_subset_ball (min_le_left _ _)))
+  set ρ := min R₀ ε / 2 with hρ
+  have hρR₀ : ρ ≤ R₀ := by linarith [min_le_left R₀ ε]
+  have hρε : ρ ≤ ε := by linarith [min_le_right R₀ ε]
+  set c := realInclusion n x with hc
+  set u := P11cPicardData.lim F with hu
+  have hUo : IsOpen (p11cDom n c T r) := isOpen_p11cDom c T r
+  have hmemU : ∀ t : ℝ, ∀ y : Fin n → ℝ, |t| < T → y ∈ ball x r →
+      p11cPt n (t, y) ∈ p11cDom n c T r := by
+    intro t y ht hy
+    refine ⟨by simpa using ht, ?_⟩
+    rw [p11cSp_p11cPt, ← map_sub, norm_realInclusion]
+    exact mem_ball_iff_norm.1 hy
+  have hreal : ∀ z ∈ ball c ρ, p11cIsReal z → p11cIsReal (F z) := by
+    intro z hz hzr
+    have hz' := p11c_eq_realInclusion hzr
+    have hy : ‖realPartCLM n z - x‖ < R₀ := by
+      rw [mem_ball_iff_norm, hz', hc, ← map_sub, norm_realInclusion] at hz
+      linarith
+    rw [hz', hFr _ hy]
+    exact p11cIsReal_realInclusion _
+  -- the real flow
+  let Φ : ℝ → (Fin n → ℝ) → Fin n → ℝ := fun t y => realPartCLM n (u (p11cPt n (t, y)))
+  have hK : ∀ t y, |t| < T → y ∈ ball x r →
+      u (p11cPt n (t, y)) = realInclusion n (Φ t y) ∧ ‖Φ t y - x‖ < ρ ∧
+      F (u (p11cPt n (t, y))) = realInclusion n (f (Φ t y)) := by
+    intro t y ht hy
+    have hU := hmemU t y ht hy
+    have hr' : p11cIsReal (u (p11cPt n (t, y))) :=
+      hD.lim_isReal hreal hU (by simp) (by rw [p11cSp_p11cPt]; exact p11cIsReal_realInclusion _)
+    have h1 := p11c_eq_realInclusion hr'
+    have h2 : ‖Φ t y - x‖ < ρ := by
+      have : ‖u (p11cPt n (t, y)) - c‖ < ρ := mem_ball_iff_norm.1 (hD.lim_mem hU)
+      rw [h1, hc, ← map_sub, norm_realInclusion] at this
+      exact this
+    refine ⟨h1, h2, ?_⟩
+    have : u (p11cPt n (t, y)) = realInclusion n (Φ t y) := h1
+    rw [this, hFr _ (h2.trans_le hρR₀)]
+  have hFu : ContinuousOn (fun ζ => F (u ζ)) (p11cDom n c T r) :=
+    (hD.holo.comp hD.lim_differentiableOn fun ζ hζ => hD.lim_mem hζ).continuousOn
+  have hcontΦ : ∀ y ∈ ball x r, ContinuousOn (fun t => Φ t y) (Ioo (-T) T) := by
+    intro y hy t ht
+    have hz : ContinuousAt (fun τ : ℝ => p11cPt n (τ, y)) t := by fun_prop
+    have hu' : ContinuousAt u (p11cPt n (t, y)) :=
+      (hD.lim_differentiableOn.continuousOn).continuousAt
+        (hUo.mem_nhds (hmemU t y (abs_lt.2 ht) hy))
+    exact ((realPartCLM n).continuous.continuousAt.comp
+      (hu'.comp (f := fun τ : ℝ => p11cPt n (τ, y)) hz)).continuousWithinAt
+  refine ⟨r, T, hr, hT, Φ, ?_, fun y hy => ?_⟩
+  · -- joint analyticity
+    intro z hz
+    have hU := hmemU z.1 z.2 (abs_lt.2 hz.1) hz.2
+    have han : AnalyticAt ℂ u (p11cPt n z) :=
+      analyticOnNhd_of_differentiableOn hUo hD.lim_differentiableOn _ hU
+    have h1 : AnalyticAt ℝ (fun w : ℝ × (Fin n → ℝ) => u (p11cPt n w)) z :=
+      (han.restrictScalars (𝕜 := ℝ)).comp ((p11cPt n).analyticAt z)
+    exact ((realPartCLM n).analyticAt _).comp h1
+  · have hy0 : (0 : ℝ) ∈ Ioo (-T) T := ⟨by linarith, hT⟩
+    have hb := hD.lim_bound (hmemU 0 y (by simpa using hT) hy)
+    have hb2 : ‖u (p11cPt n (0, y)) - p11cSp n (p11cPt n (0, y))‖ ≤ 0 :=
+      hb.trans (by simp)
+    have hb3 := sub_eq_zero.1 (norm_le_zero_iff.1 hb2)
+    have hΦ0 : Φ 0 y = y := by
+      show realPartCLM n (u (p11cPt n (0, y))) = y
+      rw [hb3, p11cSp_p11cPt, realPartCLM_realInclusion]
+    refine ⟨hΦ0, fun t ht => ?_⟩
+    obtain ⟨hK1, hK2, hK3⟩ := hK t y (abs_lt.2 ht) hy
+    have hxW : Φ t y ∈ W := hεW (by rw [mem_ball_iff_norm]; exact hK2.trans_le hρε)
+    refine ⟨hxW, ?_⟩
+    -- integral equation
+    have heq : ∀ t ∈ Ioo (-T) T, Φ t y = y + t • ∫ σ in (0 : ℝ)..1, f (Φ (σ * t) y) := by
+      intro t ht
+      have hU := hmemU t y (abs_lt.2 ht) hy
+      have hfix := hD.lim_fixed hU
+      have hint := p11c_intervalIntegrable_scale hFu hU
+      have hσ : ∀ σ ∈ Icc (0 : ℝ) 1, |σ * t| < T := fun σ hσ => by
+        rw [abs_mul, abs_of_nonneg hσ.1]
+        calc σ * |t| ≤ 1 * |t| := mul_le_mul_of_nonneg_right hσ.2 (abs_nonneg _)
+          _ < T := by simpa using abs_lt.2 ht
+      have := congrArg (realPartCLM n) hfix
+      simp only [p11cPicardOp, map_add, p11cPt_zero, p11cSp_p11cPt, realPartCLM_realInclusion] at this
+      rw [realPartCLM_ofReal_smul,
+        ← ContinuousLinearMap.intervalIntegral_comp_comm (realPartCLM n) hint] at this
+      refine this.trans ?_
+      congr 2
+      refine intervalIntegral.integral_congr fun σ hσ' => ?_
+      rw [uIcc_of_le zero_le_one] at hσ'
+      simp only [p11cTimeScale_p11cPt]
+      rw [(hK _ y (hσ σ hσ') hy).2.2, realPartCLM_realInclusion]
+    have hg : ContinuousOn (fun τ => f (Φ τ y)) (Ioo (-T) T) := by
+      refine ContinuousOn.congr (f := fun τ => realPartCLM n (F (u (p11cPt n (τ, y))))) ?_ ?_
+      · intro τ hτ
+        have hz : ContinuousAt (fun τ : ℝ => p11cPt n (τ, y)) τ := by fun_prop
+        have := hFu.continuousAt (hUo.mem_nhds (hmemU τ y (abs_lt.2 hτ) hy))
+        exact ((realPartCLM n).continuous.continuousAt.comp
+          (this.comp (f := fun τ : ℝ => p11cPt n (τ, y)) hz)).continuousWithinAt
+      · intro τ hτ
+        simp only [(hK τ y (abs_lt.2 hτ) hy).2.2, realPartCLM_realInclusion]
+    exact p11c_hasDerivAt_of_integral_eq (Φ := fun t => Φ t y) hg heq t ht
+
 end KAM.Planetary
