@@ -23,6 +23,7 @@ planar cross product, and `ang_mom` combines the Hamilton equations of the movin
 
 @[expose] public noncomputable section
 
+open KAM.Kepler
 open scoped BigOperators
 
 namespace KAM.Planetary
