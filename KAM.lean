@@ -449,6 +449,8 @@ public import KAM.Planetary.MaximalStep.Constants
 public import KAM.Planetary.MaximalStep.FourierCutoff
 public import KAM.Planetary.MaximalStep.FourierCutoffCoeff
 public import KAM.Planetary.MaximalStep.FourierCutoffTail
+public import KAM.Planetary.MaximalStep.Parameter
+public import KAM.Planetary.MaximalStep.Taylor
 public import KAM.Planetary.Newtonian.Assembly
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.Models
@@ -520,11 +522,13 @@ public import KAM.Planetary.SecularForm.AnalyticGeometry
 public import KAM.Planetary.SecularForm.AnalyticReal
 public import KAM.Planetary.SecularForm.AnalyticRegularity
 public import KAM.Planetary.SecularForm.Basic
+public import KAM.Planetary.SecularForm.Coefficients
 public import KAM.Planetary.SecularForm.Laplace
 public import KAM.Planetary.SecularForm.LaplaceCoeff
 public import KAM.Planetary.SecularForm.LaplaceIdentities
 public import KAM.Planetary.SecularForm.LaplacePoch
 public import KAM.Planetary.SecularForm.LaplaceSeries
+public import KAM.Planetary.SecularForm.Momentum
 public import KAM.Planetary.SecularForm.ParameterIntegral
 public import KAM.Planetary.SecularForm.ProductInterface
 public import KAM.Planetary.SecularForm.Symmetry
