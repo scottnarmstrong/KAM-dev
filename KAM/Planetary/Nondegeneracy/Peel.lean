@@ -443,5 +443,79 @@ theorem peel_off {i j : Fin n} (h : i ≠ j) :
 
 end Peel
 
+theorem peel (D : Data (n+1)) (hn : 0 < n) {a' : Vec n} (ha' : a' ∈ axes n) :
+    ∃ C : ℝ, 0 < C ∧ ∀ t : ℝ, 0 < t → t ≤ 1 → (∀ i, t ≤ a' i/2) →
+      let E := peelError D hn (Fin.cons t a')
+      op2 E ≤ frobenius E ∧ frobenius E ≤ C*t^(3/2 : ℝ) ∧
+      (∀ i j : Fin n, i ≠ j → E i.succ j.succ = 0) ∧
+      |E 0 0| ≤ 3*D.G/(4*√(D.G*D.m0))*t^(3/2 : ℝ)*
+        ∑ i : Fin n, D.m i.succ * (a' i)^(-3 : ℤ) ∧
+      (∀ j : Fin n, |E j.succ j.succ| ≤
+        3*D.G*D.m 0/(4*√(D.G*D.m0))*t^2*(a' j)^(-7/2 : ℝ)) ∧
+      (∀ j : Fin n, |E 0 j.succ| ≤
+        15*D.G*√(D.m 0*D.m j.succ)/(16*√(D.G*D.m0))*t^(11/4 : ℝ)*(a' j)^(-17/4 : ℝ)) := by
+  have hk : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have hsk : 0 < √(D.G * D.m0) := Real.sqrt_pos.2 hk
+  set c00 : ℝ := 3*D.G/(4*√(D.G*D.m0)) * ∑ i : Fin n, D.m i.succ * (a' i)^(-3 : ℤ) with hc00
+  set cjj : Fin n → ℝ := fun j => 3*D.G*D.m 0/(4*√(D.G*D.m0))*(a' j)^(-7/2 : ℝ) with hcjj
+  set c0j : Fin n → ℝ := fun j =>
+    15*D.G*√(D.m 0*D.m j.succ)/(16*√(D.G*D.m0))*(a' j)^(-17/4 : ℝ) with hc0j
+  have hc00n : 0 ≤ c00 := by
+    refine mul_nonneg (by have := D.hG; positivity) (Finset.sum_nonneg fun i _ => ?_)
+    have := ha'.1 i; have := D.hm i.succ; positivity
+  have hcjjn : ∀ j, 0 ≤ cjj j := fun j => by
+    have := ha'.1 j; have := D.hG; have := D.hm 0; simp only [hcjj]; positivity
+  have hc0jn : ∀ j, 0 ≤ c0j j := fun j => by
+    have := ha'.1 j; have := D.hG; have := D.hm 0; have := D.hm j.succ; simp only [hc0j]
+    positivity
+  refine ⟨1 + c00 + 2 * ∑ j, c0j j + ∑ j, cjj j, ?_, ?_⟩
+  · have := Finset.sum_nonneg fun j (_ : j ∈ Finset.univ) => hc0jn j
+    have := Finset.sum_nonneg fun j (_ : j ∈ Finset.univ) => hcjjn j
+    linarith
+  intro t ht ht1 hta E
+  have h32 : ∀ r : ℝ, 3/2 ≤ r → t^r ≤ t^(3/2 : ℝ) := fun r hr =>
+    Real.rpow_le_rpow_of_exponent_ge ht ht1 hr
+  have h2 : t^2 ≤ t^(3/2 : ℝ) := by
+    have := h32 2 (by norm_num)
+    simpa using this
+  have e00 := peel_E00 D hn ha' ht hta
+  have ejj := peel_Ejj D hn ha' ht hta
+  have e0j := peel_E0j D hn ha' ht hta
+  have hsym : ∀ j : Fin n, |E j.succ 0| = |E 0 j.succ| := fun j => by
+    have h1 : E j.succ 0 = coeffs D (Fin.cons t a') j.succ 0 := by simp [E, peelError]
+    have h2 : E 0 j.succ = coeffs D (Fin.cons t a') 0 j.succ := by simp [E, peelError]
+    rw [h1, h2, coeffs_succ_zero]
+  have hjj : ∀ j, |E j.succ j.succ| ≤ cjj j * t^(3/2 : ℝ) := fun j =>
+    (ejj j).trans (by
+      have := mul_le_mul_of_nonneg_left h2 (hcjjn j)
+      simp only [hcjj] at this ⊢
+      linarith)
+  have h0j : ∀ j, |E 0 j.succ| ≤ c0j j * t^(3/2 : ℝ) := fun j =>
+    (e0j j).trans (by
+      have := mul_le_mul_of_nonneg_left (h32 (11/4) (by norm_num)) (hc0jn j)
+      simp only [hc0j] at this ⊢
+      linarith)
+  have hfro : frobenius E ≤ c00 * t^(3/2 : ℝ) + 2 * (∑ j, c0j j) * t^(3/2 : ℝ) +
+      (∑ j, cjj j) * t^(3/2 : ℝ) := by
+    refine (frobenius_le_sum_abs E).trans ?_
+    have hd : ∀ i : Fin n, ∑ j : Fin n, |E i.succ j.succ| = |E i.succ i.succ| := fun i =>
+      Finset.sum_eq_single i (fun j _ hj => by
+        rw [show E i.succ j.succ = 0 from peel_off D hn (Ne.symm hj), abs_zero])
+        (fun h => absurd (Finset.mem_univ i) h)
+    simp only [Fin.sum_univ_succ, Finset.sum_add_distrib, hd, hsym]
+    have s1 : ∑ j : Fin n, |E 0 j.succ| ≤ (∑ j, c0j j) * t^(3/2 : ℝ) := by
+      rw [Finset.sum_mul]; exact Finset.sum_le_sum fun j _ => h0j j
+    have s2 : ∑ j : Fin n, |E j.succ j.succ| ≤ (∑ j, cjj j) * t^(3/2 : ℝ) := by
+      rw [Finset.sum_mul]; exact Finset.sum_le_sum fun j _ => hjj j
+    have s3 : |E 0 0| ≤ c00 * t^(3/2 : ℝ) := by
+      refine e00.trans_eq ?_
+      simp only [hc00]; ring
+    linarith
+  refine ⟨op2_le_frobenius E, hfro.trans ?_, fun i j h => peel_off D hn h, e00, ejj, e0j⟩
+  have hp : 0 ≤ t^(3/2 : ℝ) := by positivity
+  have := Finset.sum_nonneg fun j (_ : j ∈ Finset.univ) => hc0jn j
+  have := Finset.sum_nonneg fun j (_ : j ∈ Finset.univ) => hcjjn j
+  nlinarith
+
 end Nondegeneracy
 end KAM.Planetary
