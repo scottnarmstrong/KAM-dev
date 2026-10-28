@@ -361,7 +361,8 @@ theorem avg_const_mul (r : ℝ) (f : Vec n → ℝ) : avg (fun t => r * f t) = r
 theorem avg_apply {f : Vec n → Fin 2 → ℝ} (hf : Continuous f) (c : Fin 2) :
     avg f c = avg (fun t => f t c) := by
   unfold avg
-  have hi : Integrable f (volume.restrict (cell n)) := hf.continuousOn.integrableOn_compact isCompact_cell
+  have hi : Integrable f (volume.restrict (cell n)) :=
+    hf.continuousOn.integrableOn_compact isCompact_cell
   have := (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) c).integral_comp_comm hi
   simp only [ContinuousLinearMap.proj_apply] at this
   simp [Pi.smul_apply, this]
