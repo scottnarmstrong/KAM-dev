@@ -379,7 +379,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T4 covers only coefficient formulas, series and quadratic identities; physical pair_jet (T5/T6) not done
 NOTE: the displayed power series (eq:series) are inserted from the Laplace series (pj-red); the source citation of Theorem quadratic-form (L90) is provenance
 
 NODE: stepP:p11b:pj-formal
@@ -499,7 +499,7 @@ EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T4 PASS WITH NOTES covers only the alpha-series/jet receipt (pair_series); averaging, binomial expansion and monomial extraction remain T5
 NOTE: -
 
 NODE: stepP:p11b:pj-cons
@@ -526,9 +526,9 @@ EDGE: bpP:p11b:e-ca | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:pj-co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pair_quadratic_consistency, p11c_pairCoeffs (KAM/Planetary/PlanarTorsion/PairCoefficients.lean)
+LEAN_NOTE: audit T4 PASS WITH NOTES; A,B identities
 NOTE: the comparison with Theorem quadratic-form and the multipole expansion are consistency checks (not edges)
 
 NODE: bpP:p11b:quartic-explicit

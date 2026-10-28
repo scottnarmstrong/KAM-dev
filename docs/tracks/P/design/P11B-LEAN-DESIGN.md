@@ -245,6 +245,12 @@ Each row is one prover package and one focused module. All paths have prefix `KA
 | B19 | `Evaluation` | evaluation-bilipschitz, half-cell, lattice/quotient compactness | B16,B17,B18; mcshane_prod, lipeo_onto, lip_image_prod | 13 | 650 |
 | B20 | `PolynomialBudget` | adm-budget, adm-budget-beta, uniform displacement-power | B07,B17,B19; explicit sublevel/power_law formulas | 14 | 700 |
 
+**Coverage note B07 (2026-10-28, main-orchestrator ruling, OVERNIGHT 18:17).** The B07 audit found two coverage
+gaps inherited from the signature. (i) A7 (p11a3:215, obtained from B06 `initial` at :222) was not attached; a
+companion that consumes `initial` is added in round B07b. (ii) `fr-other` (p11a4:39,46: the later lemmas hold
+verbatim with the adapted radius) refers to B10, B12 and B13 results. It is discharged where those packages
+apply them at the adapted radius, so graph node `free-radius`/`fr-other` stays NOT_STARTED until B10/B12/B13 do.
+
 The package DAG has **20 packages across 14 waves**. The nested output records create real type-level imports from Tori to Displacement to ParameterLipschitz; those edges are included even though their scalar estimates can be developed earlier. Raw chain/retained definitions live in Schedule, before Extension, avoiding a definitions cycle. Iteration imports Budgets for the exact map-bound formulas. The “Inputs” column is the import DAG: each Bxx module imports exactly the named earlier Bxx modules plus its listed external APIs and their interface definitions. External inputs do not import any Bxx module. There are no reverse imports from P11A. A small `KAM/Planetary/WeakKAM.lean` facade may publicly import `WeakKAM/Evaluation` and `WeakKAM/PolynomialBudget` after implementation; it is not a proof package. No module imports a provider or a DRAFT_SORRY anchor.
 
 Before handing a package to a Sonnet prover, put the following hard rules verbatim in its brief. For B10, split before the 800-line estimate becomes unreliable; the hard cap remains 1500.

@@ -1693,9 +1693,9 @@ EDGE: bpP:p14:amd | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:amd@L129-L129
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.amdConfinement (KAM/Frozen/Planetary/Theorems/AmdConfinement.lean)
+LEAN_NOTE: P-AMD anchor SEALED (manifest planetary.d25.amdConfinement.v1); provider audit A6-audit-1 PASS WITH NOTES (seal-ready)
 NOTE: root anchor. Proof: Theorem bpP:p14:amd (Part 14a), which carries the \frozen tag.
 
 NODE: bpP:p0:expsafe

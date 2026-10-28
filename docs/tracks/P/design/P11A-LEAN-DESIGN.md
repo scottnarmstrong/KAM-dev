@@ -710,7 +710,7 @@ may re-export the submodules but must not import a provider or a draft theorem a
 |---|---:|---|---:|---|
 | P11A-W0 | 1 | `WeakMeasure/Basic` | 400 | `Interfaces.Norms`, Mathlib iterated derivatives, compact maxima |
 | P11A-W1 | 2 | `WeakMeasure/Stability` | 450 | W0; iterated Leibniz, Cauchy-Schwarz; stability and M_bound |
-| P11A-W2 | 2 | `WeakMeasure/FiniteType` | 250 | W0; Part10 `finite_type`, `cp09_lemma1`, `rnd` exact port |
+| P11A-W2 | 2 | `WeakMeasure/FiniteType` | 250 | W0; Part10 `finite_type`, `cp09_lemma1`, `rnd`: imported from Nondegeneracy (S10-C/S10-R), not ported (delivered as P11A-W2b, 2026-10-28) |
 | P11A-W3 | 1 | `WeakMeasure/DividedDifference` | 450 | `Lagrange.interpolate`, Rolle; interpolation coefficient helper |
 | P11A-W4 | 2 | `WeakMeasure/ScalarSublevel` | 450 | W3; distribution-function continuity, quantile nodes and gaps |
 | P11A-W5 | 3 | `WeakMeasure/MeasureTools`, `WeakMeasure/BallSublevel` | 650 | W0,W4; Householder completion, determinant image measure, Tonelli |

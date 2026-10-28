@@ -7835,7 +7835,7 @@
     "module": "KAM.Provider.Planetary.AmdConfinement",
     "export": "KAM.Provider.Planetary.amdConfinement"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "9f7a59140f6571035e4cda156523ef3de9f08a96ffd5649dfd9c4e85759c69b4",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
