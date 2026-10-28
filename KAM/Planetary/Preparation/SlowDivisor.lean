@@ -98,6 +98,43 @@ theorem p11s2_spec {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSp
         rw [Real.rpow_neg hK.le, Real.rpow_add_one hK.ne']
         field_simp
 
+theorem slowZDom_J_mem {C : P11SecularData n} {eps : ℝ} (hrC : 0 < C.rC)
+    {x : P11CVec (n+n)} (hx : x ∈ p11SlowZDom C eps) :
+    (fun i : Fin n => x (Fin.castAdd n i)) ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) := by
+  have h1 : p11s1 C eps ≤ C.rC := min_le_left _ _
+  have := hx.1
+  rw [mem_ball_iff_norm]
+  linarith
+
+/-- The bracket `W` is holomorphic where `Z` is. -/
+theorem slowW_differentiableOn {D : P11Physical n} {C : P11SecularData n}
+    (hC : P11SecularSpec D C) {eps : ℝ} {Z : P11CVec (n+n) → ℂ}
+    (hZd : DifferentiableOn ℂ Z (p11SlowZDom C eps)) :
+    DifferentiableOn ℂ (p11SlowW C Z) (p11SlowZDom C eps) := by
+  obtain ⟨-, -, -, hrC, -⟩ := fast_consts hC
+  obtain ⟨hOm, -⟩ := secular_extract hC
+  have hJf : Differentiable ℂ (fun x : P11CVec (n+n) => fun i : Fin n => x (Fin.castAdd n i)) := by
+    fun_prop
+  have hmaps : MapsTo (fun x : P11CVec (n+n) => fun i : Fin n => x (Fin.castAdd n i))
+      (p11SlowZDom C eps) (ball (KAM.realInclusion n C.J0) (2 * C.rC)) :=
+    fun x hx => slowZDom_J_mem hrC hx
+  have hC1 := (p11C_differentiableOn hC).comp hJf.differentiableOn hmaps
+  have hO1 := hOm.comp hJf.differentiableOn hmaps
+  have hsum : DifferentiableOn ℂ (fun x : P11CVec (n+n) =>
+      ∑ i : Fin n, C.Omega (fun j : Fin n => x (Fin.castAdd n j)) i/(2*Real.pi)*
+        x (Fin.natAdd n i)) (p11SlowZDom C eps) := by
+    refine DifferentiableOn.fun_sum fun i _ => ?_
+    have hd : DifferentiableOn ℂ (fun x : P11CVec (n+n) =>
+        C.Omega (fun j : Fin n => x (Fin.castAdd n j)) i) (p11SlowZDom C eps) :=
+      differentiableOn_pi.1 hO1 i
+    have hd' : DifferentiableOn ℂ (fun x : P11CVec (n+n) =>
+        C.Omega (fun j : Fin n => x (Fin.castAdd n j)) i/(2*Real.pi)) (p11SlowZDom C eps) :=
+      (hd.const_smul ((2*Real.pi : ℂ)⁻¹)).congr (fun x _ => by
+        simp [div_eq_inv_mul])
+    refine hd'.mul ?_
+    exact (differentiable_pi.1 (differentiable_id) (Fin.natAdd n i)).differentiableOn
+  exact (hC1.add hsum).add hZd
+
 /-- The secular frequency `Ω/(2π)` is `L`-Lipschitz on the ball `2 r_C`. -/
 theorem Omega_lipschitz {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
     {J : P11CVec n} (hJ : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC)) :
