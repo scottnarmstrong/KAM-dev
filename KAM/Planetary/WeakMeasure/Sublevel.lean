@@ -127,7 +127,11 @@ theorem p11_sl_kappa {n : ℕ} (hn : 1 ≤ n) {d v β M : ℝ} (hd : 0 < d) (hv 
   have hvi : 0 < v⁻¹ := inv_pos.2 hv
   set A := Real.sqrt n * d with hAdef
   have hx : 0 < (M / β) * (4 + v⁻¹) * A := by positivity
-  have hle : (M / β) * (4 + v⁻¹) * A ≤ κ := hκ ▸ Nat.le_ceil _
+  have hxe : (M / β) * (4 + v⁻¹) * Real.sqrt n * d = (M / β) * (4 + v⁻¹) * A := by
+    rw [hAdef]; ring
+  have hx0 : 0 ≤ (M / β) * (4 + v⁻¹) * Real.sqrt n * d := by rw [hxe]; exact hx.le
+  have hle : (M / β) * (4 + v⁻¹) * A ≤ κ := by
+    rw [← hxe, hκ]; exact Nat.le_ceil _
   refine ⟨?_, ?_, ?_, ?_⟩
   · rw [hκ]; exact Nat.ceil_pos.2 hx
   · refine le_trans ?_ hle
@@ -147,7 +151,7 @@ theorem p11_sl_kappa {n : ℕ} (hn : 1 ≤ n) {d v β M : ℝ} (hd : 0 < d) (hv 
         refine mul_le_mul_of_nonneg_right hρ (by positivity)
       _ = _ := by ring
   · have h1 : (κ : ℝ) < (M / β) * (4 + v⁻¹) * A + 1 := by
-      rw [hκ]; exact Nat.ceil_lt_add_one hx.le
+      rw [← hxe, hκ]; exact Nat.ceil_lt_add_one hx0
     have h2 : (M / β) * (4 + v⁻¹) * A + 1 ≤ (M / β) * (1 + (4 + v⁻¹) * A) := by nlinarith
     exact (h1.trans_le h2).le
 
@@ -204,7 +208,7 @@ theorem p11_sl_lower (H : P11SublevelHyp P μ g gt β M) {r : ℝ} (hr : r ≤ P
       iteratedFDeriv ℝ ν gt y - iteratedFDeriv ℝ ν g y :=
     iteratedFDeriv_sub_apply (hgtat ν hν y hyV) (hgat ν (by omega) y hyV)
   rw [e] at h3
-  simp only [ContinuousMultilinearMap.sub_apply] at h3
+  simp only [sub_apply] at h3
   have h4 := abs_sub_abs_le_abs_sub (iteratedFDeriv ℝ ν g b (fun _ => a))
     (iteratedFDeriv ℝ ν g y (fun _ => a))
   have h5 := abs_sub_abs_le_abs_sub (iteratedFDeriv ℝ ν g y (fun _ => a))
@@ -260,7 +264,7 @@ theorem p11_sl_ball (H : P11SublevelHyp P μ g gt β M) {r eps : ℝ} (hr : 0 < 
       simp only [iteratedFDeriv_zero_apply] at this
       linarith [hy.2]
     rw [this, measure_empty]
-    exact zero_le _
+    exact zero_le
   · have hsub : {y | p11euclid (y - b) ≤ r} ⊆ P.V := fun y hy =>
       P.thick_sub (p11_ball_mem_thick hb hrv hy)
     have hgt : ContDiffOn ℝ ν gt P.V := H.gt_smooth.of_le (by exact_mod_cast hν)
@@ -410,7 +414,7 @@ theorem sublevel {n mu : ℕ} {P : P11Patch n} {g gt : P11Vec n → ℝ}
       have := p11cell_euclid_le (div_pos hd hκpos).le hy.2 hbc
       rwa [← mul_div_assoc] at this
     · rw [Set.not_nonempty_iff_eq_empty.1 hne, measure_empty]
-      exact zero_le _
+      exact zero_le
   have hsum : volume E ≤ (κ ^ n : ℕ) * ENNReal.ofReal B := by
     calc volume E ≤ volume (⋃ j : Fin n → Fin κ, E ∩ p11cell a0 (d / κ) j) := measure_mono hsub
       _ ≤ ∑ j : Fin n → Fin κ, volume (E ∩ p11cell a0 (d / κ) j) := measure_iUnion_fintype_le _ _
@@ -421,7 +425,8 @@ theorem sublevel {n mu : ℕ} {P : P11Patch n} {g gt : P11Vec n → ℝ}
   refine hsum.trans ?_
   have hBnn : 0 ≤ B := by positivity
   have e : (((κ ^ n : ℕ)) : ENNReal) * ENNReal.ofReal B = ENNReal.ofReal ((κ : ℝ) ^ n * B) := by
-    rw [ENNReal.ofReal_mul (by positivity), ← Nat.cast_pow, ENNReal.ofReal_natCast]
+    rw [ENNReal.ofReal_mul (p := (κ : ℝ) ^ n) (by positivity), ← Nat.cast_pow,
+      ENNReal.ofReal_natCast]
   rw [e]
   refine ENNReal.ofReal_le_ofReal ?_
   have hX : 0 ≤ (eps / beta) ^ ((mu : ℝ)⁻¹) := Real.rpow_nonneg (div_pos he hβ).le _
@@ -430,7 +435,7 @@ theorem sublevel {n mu : ℕ} {P : P11Patch n} {g gt : P11Vec n → ℝ}
     (C := 1 + (4 + P.v⁻¹) * Real.sqrt n * d) (X := (eps / beta) ^ ((mu : ℝ)⁻¹)) (μ := mu)
     hκpos (by positivity) hX (Nat.cast_nonneg _) (div_nonneg hM hβ.le)
     (by have := P.v_pos; positivity) hκ4
-  rw [hm] at key ⊢
-  simpa [hB, hrdef, p11Csub, ← hm] using key
+  subst hm
+  simpa [hB, hrdef, p11Csub] using key
 
 end KAM.Planetary
