@@ -302,7 +302,8 @@ theorem stopped (d : AveragingData n R s h f) (K : Set (AvgPhase n))
   have hsq : 0 ≤ Real.sqrt ε := Real.sqrt_nonneg ε
   have hsqpos : 0 < Real.sqrt ε := Real.sqrt_pos.2 hε
   refine ⟨?_, ?_, ?_⟩
-  · have hEq : K.indicator (avgStopped h f₁ R s M₂ ε) = K.indicator (avgStoppedExt h f₁ R s M₂ ε) := by
+  · have hEq : K.indicator (avgStopped h f₁ R s M₂ ε) =
+        K.indicator (avgStoppedExt h f₁ R s M₂ ε) := by
       funext x
       by_cases hx : x ∈ K
       · rw [indicator_of_mem hx, indicator_of_mem hx, avgStopped_eq_ext d₁ ε M₂ hε (hKI x hx)]
@@ -350,8 +351,8 @@ theorem stopped (d : AveragingData n R s h f) (K : Set (AvgPhase n))
           exact lintegral_biUnion_finset hdisj hmeas _
       _ ≤ ∑ _ell ∈ S, ENNReal.ofReal ((cΦ + 4 * cW) * Real.sqrt ε) := Finset.sum_le_sum hcell
       _ = ENNReal.ofReal (S.card * ((cΦ + 4 * cW) * Real.sqrt ε)) := by
-          rw [Finset.sum_const, nsmul_eq_mul, ENNReal.ofReal_mul (p := (S.card : ℝ)) (Nat.cast_nonneg _),
-            ENNReal.ofReal_natCast]
+          rw [Finset.sum_const, nsmul_eq_mul,
+            ENNReal.ofReal_mul (p := (S.card : ℝ)) (Nat.cast_nonneg _), ENNReal.ofReal_natCast]
       _ ≤ _ := by
           refine ENNReal.ofReal_le_ofReal ?_
           rw [← mul_assoc]
