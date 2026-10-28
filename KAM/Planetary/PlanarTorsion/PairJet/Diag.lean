@@ -99,12 +99,16 @@ theorem p11cPJ_poly_unique (d : ℕ → ℂ)
         fun t : ℝ => t ^ (k + 1) := h.trans (pj_pow_isBigO_pow (by omega))
     have h2 : (fun t : ℝ => ∑ i ∈ Finset.Ico (k + 1) 5, (t : ℂ) ^ i * d i) =O[𝓝 0]
         fun t : ℝ => t ^ (k + 1) := by
-      refine IsBigO.sum fun i hi => ?_
-      have hi' := Finset.mem_Ico.1 hi
-      have h3 : (fun t : ℝ => (t : ℂ) ^ i * d i) =O[𝓝 0] fun t : ℝ => t ^ i := by
-        refine IsBigO.of_bound ‖d i‖ (Eventually.of_forall fun t => ?_)
-        simp [norm_mul, norm_pow, mul_comm]
-      exact h3.trans (pj_pow_isBigO_pow hi'.1)
+      have hsum : ∀ i ∈ Finset.Ico (k + 1) 5,
+          (fun t : ℝ => (t : ℂ) ^ i * d i) =O[𝓝 0] fun t : ℝ => t ^ (k + 1) := by
+        intro i hi
+        have hi' := Finset.mem_Ico.1 hi
+        have h3 : (fun t : ℝ => (t : ℂ) ^ i * d i) =O[𝓝 0] fun t : ℝ => t ^ i := by
+          refine IsBigO.of_bound ‖d i‖ (Eventually.of_forall fun t => ?_)
+          simp [norm_mul, norm_pow, mul_comm]
+        exact h3.trans (pj_pow_isBigO_pow hi'.1)
+      refine (IsBigO.sum hsum).congr_left fun t => ?_
+      simp [Finset.sum_apply]
     have h4 : (fun t : ℝ => (t : ℂ) ^ k * d k) =O[𝓝 0] fun t : ℝ => t ^ (k + 1) := by
       refine (h1.sub h2).congr_left fun t => ?_
       rw [hsplit t]; ring
@@ -148,6 +152,7 @@ theorem p11cPJ_diag_coeff {f : Phase 2 → ℝ} (hf : AnalyticAt ℝ f 0) (w : P
   have hev : ∀ t : ℝ, P.ev t = ∑ k ∈ Finset.range 5, (t : ℂ) ^ k * p11cPJcoeff P k := by
     intro t
     simp [Jet5.ev, Finset.sum_range_succ, p11cPJcoeff]
+    ring
   have h7 : (fun t : ℝ => ∑ k ∈ Finset.range 5, (t : ℂ) ^ k *
       (((p k (fun _ => w) : ℝ) : ℂ) - p11cPJcoeff P k)) =O[𝓝 0] fun t : ℝ => t ^ 5 := by
     refine (hP.bigO.sub h6).congr_left fun t => ?_
@@ -174,7 +179,7 @@ theorem p11cPJ_jetEq_of_diag {f g : Phase 2 → ℝ} (hf : AnalyticAt ℝ f 0) (
   set T : Phase 2 [×j]→L[ℝ] ℝ := iteratedFDeriv ℝ j f 0 - iteratedFDeriv ℝ j g 0 with hT
   have hsym : ∀ (σ : Equiv.Perm (Fin j)) (v : Fin j → Phase 2), T (v ∘ σ) = T v := by
     intro σ v
-    simp only [hT, ContinuousMultilinearMap.sub_apply]
+    simp only [hT, sub_apply]
     rw [hfa.iteratedFDeriv_comp_perm, hga.iteratedFDeriv_comp_perm]
   set T' : (Fin 4 → ℝ) [×j]→L[ℝ] ℝ := T.compContinuousLinearMap (fun _ => e) with hT'
   have hsym' : ∀ (σ : Equiv.Perm (Fin j)) (v : Fin j → Fin 4 → ℝ), T' (v ∘ σ) = T' v := by
@@ -184,7 +189,7 @@ theorem p11cPJ_jetEq_of_diag {f g : Phase 2 → ℝ} (hf : AnalyticAt ℝ f 0) (
   have hdiag : ∀ y : Fin 4 → ℝ, T' (fun _ => y) = 0 := by
     intro y
     simp only [hT', ContinuousMultilinearMap.compContinuousLinearMap_apply, hT,
-      ContinuousMultilinearMap.sub_apply]
+      sub_apply]
     rw [h j hj (e y), sub_self]
   have hT'0 : T' = 0 := (Nondegeneracy.f_pol T' hsym').2 hdiag
   have hT0 : T = 0 := by
@@ -197,7 +202,9 @@ theorem p11cPJ_jetEq_of_diag {f g : Phase 2 → ℝ} (hf : AnalyticAt ℝ f 0) (
 theorem p11cPJ_diag_comp_equiv (W : Phase 2 → ℝ) (j : ℕ) (y : Fin 4 → ℝ) :
     iteratedFDeriv ℝ j (W ∘ p11cPJequiv) 0 (fun _ => y) =
       iteratedFDeriv ℝ j W 0 (fun _ => p11cPJequiv y) := by
-  have := p11cPJequiv.iteratedFDeriv_comp_right W (0 : Fin 4 → ℝ) j
+  have := p11cPJequiv.iteratedFDerivWithin_comp_right W uniqueDiffOn_univ
+    (Set.mem_univ (p11cPJequiv (0 : Fin 4 → ℝ))) j
+  simp only [Set.preimage_univ, iteratedFDerivWithin_univ] at this
   rw [this]
   simp [ContinuousMultilinearMap.compContinuousLinearMap_apply]
 
