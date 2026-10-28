@@ -199,6 +199,60 @@ theorem p11_scalar_step_bound {U : Set (P11CVec N)} (hU : IsOpen U) {W : P11CVec
     norm_le_pi_norm (fun _ : Fin 1 => fderiv ℂ W I (Pi.single i 1)) 0
   exact h0.trans hb
 
+/-- The embedding `ρ ↦ (0, ρ)` of the angle-momentum block, as a continuous linear map. -/
+def p11appR (n : ℕ) : P11CVec n →L[ℂ] P11CVec (n+n) :=
+  ContinuousLinearMap.pi fun j : Fin (n+n) =>
+    Fin.addCases (motive := fun _ => P11CVec n →L[ℂ] ℂ) (fun _ => 0)
+      (fun a => ContinuousLinearMap.proj a) j
+
+theorem p11appR_apply (ρ : P11CVec n) :
+    p11appR n ρ = Fin.append (0 : P11CVec n) ρ := by
+  funext j
+  refine Fin.addCases (fun a => ?_) (fun a => ?_) j
+  · simp [p11appR, Fin.append_left]
+  · rw [Fin.append_right]
+    show p11appR n ρ (Fin.natAdd n a) = ρ a
+    rw [p11appR, ContinuousLinearMap.pi_apply, Fin.addCases_right]
+    rfl
+
+theorem append_eq_add (J ρ : P11CVec n) :
+    (Fin.append J ρ : P11CVec (n+n)) = Fin.append J 0 + p11appR n ρ := by
+  rw [p11appR_apply]
+  funext j
+  refine Fin.addCases (fun a => ?_) (fun a => ?_) j <;> simp [Fin.append_left]
+
+theorem p11appR_single (a : Fin n) :
+    p11appR n (Pi.single a 1) = Pi.single (Fin.natAdd n a) 1 := by
+  rw [p11appR_apply]
+  funext j
+  refine Fin.addCases (fun b => ?_) (fun b => ?_) j
+  · simp only [Fin.append_left, Pi.zero_apply, Pi.single_apply]
+    rw [eq_comm]
+    split_ifs with h
+    · have := congrArg Fin.val h
+      simp at this
+      omega
+    · rfl
+  · simp [Fin.append_right, Pi.single_apply, Fin.natAdd_inj]
+
+/-- The `ρ`-slice derivative of `Z` is the `natAdd` coordinate derivative. -/
+theorem fderiv_append_slice {Z : P11CVec (n+n) → ℂ} {J ρ : P11CVec n}
+    (hZ : DifferentiableAt ℂ Z (Fin.append J ρ)) (a : Fin n) :
+    fderiv ℂ (fun ρ : P11CVec n => Z (Fin.append J ρ)) ρ (Pi.single a 1) =
+      fderiv ℂ Z (Fin.append J ρ) (Pi.single (Fin.natAdd n a) 1) := by
+  have hφ : HasFDerivAt (fun ρ : P11CVec n => (Fin.append J ρ : P11CVec (n+n)))
+      (p11appR n) ρ := by
+    have h := (p11appR n).hasFDerivAt (x := ρ)
+    have h2 := h.const_add (Fin.append J (0 : P11CVec n) : P11CVec (n+n))
+    convert h2 using 1
+    funext x
+    exact append_eq_add J x
+  have := hZ.hasFDerivAt.comp ρ hφ
+  have h3 := congrArg (fun L => L (Pi.single a 1)) this.fderiv
+  simp only [ContinuousLinearMap.coe_comp', Function.comp_apply] at h3
+  rw [p11appR_single] at h3
+  exact h3
+
 end SlowDerivative
 
 end KAM.Planetary
