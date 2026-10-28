@@ -291,7 +291,8 @@ theorem real_system (b : PartialBlock n k) {R s : ℝ} {H : EC n k → ℂ}
     (hR : 0 < R) (hs : 0 < s) (hH : ext_class b R s H) :
     ContDiffOn ℝ ∞ (realHamiltonianExt b R H) (b.realDom R) ∧
     ContDiffOn ℝ 1 (realWfield b.c (realHamiltonianExt b R H)) (b.realDom R) ∧
-    (∀ z ∈ b.realDom R, extCx (realWfield b.c (realHamiltonianExt b R H) z) = wfield b.c H (extCx z)) ∧
+    (∀ z ∈ b.realDom R,
+      extCx (realWfield b.c (realHamiltonianExt b R H) z) = wfield b.c H (extCx z)) ∧
     (∀ ℓ : Fin n → ℤ, ∀ z ∈ b.realDom R,
       realHamiltonianExt b R H (z.1+(fun i => (ℓ i:ℝ)),z.2) = realHamiltonianExt b R H z) ∧
     (∀ ℓ : Fin n → ℤ, ∀ z ∈ b.realDom R,
@@ -303,6 +304,140 @@ theorem real_system (b : PartialBlock n k) {R s : ℝ} {H : EC n k → ℂ}
     fun _ hz => realWfield_cx b hs hH hz, fun ℓ _ hz => realH_periodic b hs hH ℓ hz,
     fun ℓ _ hz => realWfield_periodic b hs hH ℓ hz,
     fun _ hJ _ _ hrR _ hy => realH_energy b hs hH hJ hrR hy⟩
+
+private theorem inClass_mono_width {m : ℕ} {D : Set (Fin m → ℂ)} {r₀ s₀ s : ℝ}
+    {u : (Fin n → ℂ) × (Fin m → ℂ) → ℂ} (hu : InClass D r₀ s₀ u) (hs : s ≤ s₀) :
+    InClass D r₀ s u :=
+  ⟨hu.differentiableOn.mono (Dom_mono le_rfl hs), fun j z hz =>
+    hu.periodic j z (Dom_mono le_rfl hs hz)⟩
+
+/-- Pointwise value bound by the weighted sum at the same action. -/
+private theorem norm_le_wsum_ext {m : ℕ} {D : Set (Fin m → ℂ)} {r s M : ℝ}
+    {v : (Fin n → ℂ) × (Fin m → ℂ) → ℂ} (hs : 0 < s) (hv : InClass D r s v)
+    (hb : WBound D r s v M) {z : (Fin n → ℂ) × (Fin m → ℂ)} (hz : z ∈ Dom n D r s) :
+    ‖v z‖ ≤ wsum v s z.2 := by
+  obtain ⟨hrep, -⟩ := coefficients_repr hs hv hb
+  obtain ⟨hsum, -⟩ := hb z.2 hz.2
+  refine (hrep z hz).norm_le_of_bounded hsum.hasSum fun k => ?_
+  rw [norm_smul, mul_comm]
+  exact mul_le_mul_of_nonneg_left (KAM.norm_character_le k hz.1) (norm_nonneg _)
+
+theorem real_system_bounds (b : PartialBlock n k) {R s U : ℝ} {u : EC n k → ℂ}
+    (hs : 0 < s) (hu : InClass b.base R s u) (hb : WBound b.base R s u U) :
+    ∀ y ∈ b.realDom R, ‖u (extCx y)‖ ≤ U ∧
+      ∑ j, ‖dtheta j u (extCx y)‖ ≤ U/(Real.exp 1*s) := by
+  intro y hy
+  have hIp : (extCx y).2 ∈ polyNbhd b.base R := (mem_realDom_iff b R y).1 hy
+  refine ⟨sup_le_wbound hu hb _ ((extCx_mem_Dom_iff b hs y).2 hIp), ?_⟩
+  have key : ∀ s' ∈ Ioo 0 s, ∑ j, ‖dtheta j u (extCx y)‖ ≤ U / (Real.exp 1 * (s - s')) := by
+    intro s' hs'
+    obtain ⟨h1, h2⟩ := cauchy_theta hu hb hs'.1 hs'.2
+    have hz : extCx y ∈ Dom n b.base R s' := (extCx_mem_Dom_iff b hs'.1 y).2 hIp
+    have hcl := (coefficients_deriv (hs'.1.trans hs'.2) hu).1
+    calc ∑ j, ‖dtheta j u (extCx y)‖
+        ≤ ∑ j, wsum (dtheta j u) s' (extCx y).2 :=
+          Finset.sum_le_sum fun j _ => by
+            have hcj := (hcl j).1
+            exact norm_le_wsum_ext hs'.1 (inClass_mono_width hcj hs'.2.le) (h2 j) hz
+      _ ≤ wsum u s (extCx y).2 / (Real.exp 1 * (s - s')) := (h1 _ hIp).2
+      _ ≤ U / (Real.exp 1 * (s - s')) := by
+          have hpos : 0 < s - s' := sub_pos.2 hs'.2
+          gcongr
+          exact (hb _ hIp).2
+  have hlim : Filter.Tendsto (fun s' : ℝ => U / (Real.exp 1 * (s - s')))
+      (nhdsWithin 0 (Ioi 0)) (nhds (U / (Real.exp 1 * s))) := by
+    have hne : Real.exp 1 * (s - 0) ≠ 0 := by
+      have := Real.exp_pos 1
+      positivity
+    have : Filter.Tendsto (fun s' : ℝ => U / (Real.exp 1 * (s - s'))) (nhds 0)
+        (nhds (U / (Real.exp 1 * (s - 0)))) :=
+      ContinuousAt.tendsto (ContinuousAt.div continuousAt_const (by fun_prop) hne)
+    simpa using this.mono_left nhdsWithin_le_nhds
+  refine ge_of_tendsto hlim ?_
+  filter_upwards [Ioo_mem_nhdsGT hs] with s' hs' using key s' hs'
+
+/-- `∑ⱼ vⱼ ∂_{θⱼ} g` vanishes at real points if `v ⊥ Λ` and the coefficients of `g` vanish
+off `Λ`. -/
+private theorem sum_dtheta_eq_zero_ext (b : PartialBlock n k) {R s M : ℝ} {Λ : Set (Fin n → ℤ)}
+    {g : EC n k → ℂ} (hs : 0 < s) (hg : InClass b.base R s g) (hb : WBound b.base R s g M)
+    (hΛ : ∀ I ∈ polyNbhd b.base R, ∀ j : Fin n → ℤ, j ∉ Λ → coeff g I j = 0) (v : Fin n → ℝ)
+    (hv : ∀ j ∈ Λ, ∑ i, (j i : ℝ) * v i = 0) {z : ER n k} (hz : z ∈ b.realDom R) :
+    ∑ j, (v j : ℂ) * dtheta j g (extCx z) = 0 := by
+  obtain ⟨hcoef, -⟩ := coefficients_deriv hs hg
+  have hs2 : 0 < s / 2 := half_pos hs
+  have hlt : s / 2 < s := half_lt_self hs
+  obtain ⟨h1, h2⟩ := cauchy_theta hg hb hs2 hlt
+  have hI : (extCx z).2 ∈ polyNbhd b.base R := (mem_realDom_iff b R z).1 hz
+  have hzD : extCx z ∈ Dom n b.base R (s / 2) := (extCx_mem_Dom_iff b hs2 z).2 hI
+  have hrep : ∀ j, HasSum (fun l => KAM.character l (extCx z).1 •
+      coeff (dtheta j g) (extCx z).2 l) (dtheta j g (extCx z)) :=
+    fun j => (coefficients_repr hs2 (inClass_mono_width (hcoef j).1 hlt.le) (h2 j)).1 _ hzD
+  have hsum := hasSum_sum (s := Finset.univ) fun j _ => (hrep j).mul_left (v j : ℂ)
+  have hzero : ∀ l, ∑ j, (v j : ℂ) * (KAM.character l (extCx z).1 •
+      coeff (dtheta j g) (extCx z).2 l) = 0 := fun l => by
+    by_cases hl : l ∈ Λ
+    · have : ∀ j, coeff (dtheta j g) (extCx z).2 l =
+          (2 * (Real.pi : ℂ) * Complex.I * (l j : ℂ)) • coeff g (extCx z).2 l :=
+        fun j => (hcoef j).2 _ hI l
+      simp only [this, smul_eq_mul]
+      have hvk := hv l hl
+      have hvk' : ∑ j, (v j : ℂ) * (l j : ℂ) = 0 := by
+        have := congrArg (fun a : ℝ => (a : ℂ)) hvk
+        simpa [mul_comm] using this
+      calc ∑ j, (v j : ℂ) * (KAM.character l (extCx z).1 *
+            (2 * (Real.pi : ℂ) * Complex.I * (l j : ℂ) * coeff g (extCx z).2 l))
+          = (KAM.character l (extCx z).1 * (2 * (Real.pi : ℂ) * Complex.I) *
+              coeff g (extCx z).2 l) * ∑ j, (v j : ℂ) * (l j : ℂ) := by
+            rw [Finset.mul_sum]
+            exact Finset.sum_congr rfl fun j _ => by ring
+        _ = 0 := by rw [hvk', mul_zero]
+    · have hz0 := hΛ _ hI l hl
+      have : ∀ j, coeff (dtheta j g) (extCx z).2 l = 0 := fun j => by
+        rw [(hcoef j).2 _ hI l, hz0, smul_zero]
+      simp [this]
+  simp only [hzero] at hsum
+  exact hsum.unique hasSum_zero
+
+/-- A vector annihilated by every functional vanishing on `resSpan Λ` lies in it. -/
+private theorem mem_resSpan_of_orth {Λ : Set (Fin n → ℤ)} (w : Fin n → ℝ)
+    (h : ∀ v : Fin n → ℝ, (∀ j ∈ Λ, ∑ i, (j i : ℝ) * v i = 0) → ∑ i, w i * v i = 0) :
+    w ∈ KAM.Stability.resSpan Λ := by
+  by_contra hnot
+  obtain ⟨f, hfx, hfmap⟩ := Submodule.exists_dual_map_eq_bot_of_notMem hnot inferInstance
+  set v : Fin n → ℝ := fun i => f (Pi.single i 1) with hvdef
+  have hfv : ∀ w : Fin n → ℝ, f w = ∑ i, w i * v i := fun w => by
+    conv_lhs => rw [pi_eq_sum_univ w]
+    simp only [map_sum, map_smul, smul_eq_mul, hvdef]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    congr 2
+    funext j
+    simp [Pi.single_apply, eq_comm]
+  have hv : ∀ j ∈ Λ, ∑ i, (j i : ℝ) * v i = 0 := fun j hj => by
+    rw [← hfv]
+    have : f (fun i => (j i : ℝ)) ∈ (KAM.Stability.resSpan Λ).map f :=
+      ⟨_, Submodule.subset_span ⟨j, hj, rfl⟩, rfl⟩
+    rwa [hfmap, Submodule.mem_bot] at this
+  exact hfx (by rw [hfv]; exact h v hv)
+
+theorem real_system_resonant (b : PartialBlock n k) {R s U : ℝ} {g : EC n k → ℂ}
+    (hs : 0 < s) (hg : InClass b.base R s g) (hb : WBound b.base R s g U)
+    {Λ : Set (Fin n → ℤ)}
+    (hsupp : ∀ J ∈ polyNbhd b.base R, ∀ j : Fin n → ℤ, j ∉ Λ → coeff g J j = 0) :
+    ∀ z ∈ b.realDom R,
+      (fun i => (dtheta i g (extCx z)).re) ∈ KAM.Stability.resSpan Λ ∧
+      (fun i => (dtheta i g (extCx z)).im) ∈ KAM.Stability.resSpan Λ := by
+  intro z hz
+  refine ⟨mem_resSpan_of_orth _ fun v hv => ?_, mem_resSpan_of_orth _ fun v hv => ?_⟩
+  · have h1 := congrArg Complex.re (sum_dtheta_eq_zero_ext b hs hg hb hsupp v hv hz)
+    simp only [Complex.re_sum, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul,
+      sub_zero, Complex.zero_re] at h1
+    rw [← h1]
+    exact Finset.sum_congr rfl fun i _ => mul_comm _ _
+  · have h1 := congrArg Complex.im (sum_dtheta_eq_zero_ext b hs hg hb hsupp v hv hz)
+    simp only [Complex.im_sum, Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, zero_mul,
+      add_zero, Complex.zero_im] at h1
+    rw [← h1]
+    exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
 end KAM.Nekhoroshev
 
