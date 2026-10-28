@@ -16,8 +16,8 @@ public import KAM.Frozen.Planetary.Defs.FastShift
 
 `bpP:p12:transport` (`stepP:p12:tr-an`, `tr-per`, `tr-inj`, `tr-lag`, `tr-flow`, `tr-dio`): a
 fast-lattice chart `Ψ` (analytic, symplectic, with the lattice properties `hQ1`, `hQ2`) carries a
-frozen cylinder torus `K` of `H` to a frozen physical torus `Ψ ∘ K` of `G`, where `G ∘ Ψ = H` on `O`.
-The proof uses the frozen predicates directly.
+frozen cylinder torus `K` of `H` to a frozen physical torus `Ψ ∘ K` of `G`, where `G ∘ Ψ = H`
+on `O`. The proof uses the frozen predicates directly.
 -/
 
 @[expose] public noncomputable section

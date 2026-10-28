@@ -16,11 +16,11 @@ public import KAM.Frozen.Planetary.Defs.FastShift
 /-!
 # Part 12: image measure of a cylinder Kolmogorov set
 
-`bpP:p12:measure` (`stepP:p12:me-inv`, `me-cell`, `me-meas`, `me-tube`): fast-lattice invariance of a
-frozen union-of-whole-tori set (`cylinder_set_shift`), the reduction of the image to the half-open
-fast cell, the Borel image and the exact volume through `chart_measure_image` at factor one
-(`measure`), and the tube consequences (`measure_in_tube`).  `V` is arbitrary; Borelness of the cell
-intersection comes from `S ⊆ cylinder V r`.
+`bpP:p12:measure` (`stepP:p12:me-inv`, `me-cell`, `me-meas`, `me-tube`): fast-lattice invariance
+of a frozen union-of-whole-tori set (`cylinder_set_shift`), the reduction of the image to the
+half-open fast cell, the Borel image and the exact volume through `chart_measure_image` at
+factor one (`measure`), and the tube consequences (`measure_in_tube`). `V` is arbitrary;
+Borelness of the cell intersection comes from `S ⊆ cylinder V r`.
 -/
 
 @[expose] public noncomputable section
@@ -88,7 +88,7 @@ private theorem cell_inter_eq {a b : ℕ} {V : Set (Fin a → ℝ)} {r : ℝ} {S
     S ∩ cylinderCell V r =
       S ∩ {z : Phase (a + b) | ∀ i : Fin a, fast z.1 i ∈ Ico (0 : ℝ) (2 * π)} := by
   ext z
-  simp only [mem_inter_iff, cylinderCell, mem_setOf_eq, mem_Ico]
+  simp only [mem_inter_iff, cylinderCell, mem_ofPred_eq, mem_Ico]
   exact ⟨fun h => ⟨h.1, h.2.2⟩, fun h => ⟨h.1, hSc h.1, h.2⟩⟩
 
 /-- Borel image and exact volume through the half-open fast cell.
