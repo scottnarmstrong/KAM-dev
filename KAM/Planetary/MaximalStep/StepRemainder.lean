@@ -209,6 +209,39 @@ theorem step_remainder_eq (H : P11StepHyp S h w R) {b : P11CVec n}
   simp only [add_mul, Finset.sum_add_distrib]
   ring
 
+theorem step_remainder_le (H : P11StepHyp S h w R) {b : P11CVec n}
+    (hb : b ∈ KAM.actionNbhd S.E S.t) {z : P11Phase n}
+    (hz : z ∈ KAM.Weighted.Dom n {0} (S.q * S.s) (S.r - S.d - S.delta - 2 * S.sigma)) :
+    ‖p11StepRemainder S h w R (z, b)‖ ≤ p11StepRem S := by
+  obtain ⟨-, -, cu3, -⟩ := p11_cutoff S.n_pos (step_r_pos S) S.s_pos S.T_pos.le S.d_pos
+    (step_dr S) S.eps_nonneg S.q_pos (by linarith [S.q_le]) (step_B_open S)
+    H.admissible H.bound
+  obtain ⟨hz1, hz2⟩ := (mem_Dom_iff z).1 hz
+  have h1 := cu3 (z, b) (p11_mem_domain_def.mpr ⟨fun i => (hz1 i).trans (by
+    linarith [S.delta_pos, S.sigma_pos]), hz2, hb⟩)
+  have hint : ‖∫ t in (0 : ℝ)..1, KAM.Canonical.poissonBracket (stepU S R b t)
+      (p11StepPhi S w R b) (p11Flow (p11StepPhi S w R b) (S.r - S.d - S.delta) S.s S.sigma t z)‖ ≤
+      n * (4 * n + 5) * ((5 + 4 * p11Error n S.T S.d) * S.eps) * p11StepA S / S.sigma * |1 - 0| :=
+    intervalIntegral.norm_integral_le_of_norm_le_const fun t ht =>
+      step_bracket_bound H hb hz (by
+        rw [Set.uIoc_of_le zero_le_one] at ht
+        exact ⟨ht.1.le, ht.2⟩)
+  rw [step_remainder_eq H hb hz]
+  refine (norm_add_le _ _).trans ?_
+  have hE := step_E_nonneg S
+  have hD := S.D_pos
+  have hs := S.s_pos
+  have hσ := S.sigma_pos
+  have e : n * (4 * n + 5) * ((5 + 4 * p11Error n S.T S.d) * S.eps) * p11StepA S / S.sigma *
+      |(1 : ℝ) - 0| + S.eps * (S.q ^ 2 / (1 - S.q) + 2 * p11Error n S.T S.d) = p11StepRem S := by
+    unfold p11StepRem p11StepA
+    simp only [sub_zero, abs_one, mul_one]
+    field_simp
+    ring
+  have h1' : ‖(R - p11Cutoff S.T R) (z, b)‖ ≤ S.eps * (S.q ^ 2 / (1 - S.q) + 2 * p11Error n S.T S.d) := h1
+  simp only [Pi.sub_apply] at h1'
+  linarith
+
 end KAM.Planetary
 
 end
