@@ -7,6 +7,7 @@ module
 
 public import KAM.Nekhoroshev.Averaging.Slab
 public import KAM.Nekhoroshev.Averaging.Corrector
+public import Mathlib.Analysis.Complex.ExponentialBounds
 
 /-!
 # Part N12: dyadic shell integrals (`bpN:p12:shells`)
@@ -197,7 +198,198 @@ theorem exists_N {Ω₀ κ : ℝ} (hκ : 0 < κ) (hΩ0 : 0 ≤ Ω₀) (k : Fin n
   rw [div_lt_iff₀ hκ] at hN
   linarith
 
+theorem measurableSet_avgG : MeasurableSet (avgG n R) := measurableSet_closedBall
+
+theorem ae_Q_le {Ω₀ κ : ℝ} {N : ℕ} {k : Fin n → ℤ}
+    (hΩ : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀)
+    (hN : KAM.Fourier.modeSize k * Ω₀ ≤ κ * 2 ^ N) :
+    ∀ᵐ I ∂(volume.restrict (avgG n R)), |avgQ h k I| ≤ κ * 2 ^ N :=
+  (ae_restrict_iff' measurableSet_avgG).2
+    (Filter.Eventually.of_forall fun I hI => (abs_Q_le (hΩ I hI) k).trans hN)
+
+/-! ### The three integral estimates -/
+
+theorem integral_psiD (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ} (hC : AvgSlabBound h R C₁)
+    (hΩ : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) (hΩ0 : 0 ≤ Ω₀) (hκ : 0 < κ)
+    {k : Fin n → ℤ} (hk : k ≠ 0) :
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsiD κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (5 * C₁ / (κ * euclid (fun j => (k j : ℝ)))) := by
+  have hK := euclid_ge_one hk
+  have hC1 := hC.1
+  obtain ⟨N, hN⟩ := exists_N hκ hΩ0 k
+  have hK0 : 0 < euclid (fun j => (k j : ℝ)) := by linarith
+  refine (geom_shell_bound (Q_aemeasurable d k) (V := C₁ / euclid (fun j => (k j : ℝ)))
+    (A := κ⁻¹ ^ 2) (g := fun y => ENNReal.ofReal |avgPsiD κ y|) (by positivity) (by positivity) (fun u hu => vol_restrict hC hk hu) hκ
+    (fun y _ => ?_) (fun j y hy1 hy2 => ?_) N (ae_Q_le hΩ hN)).trans (le_of_eq ?_)
+  · exact ENNReal.ofReal_le_ofReal ((corrector hκ).2 y).2.2.1
+  · have hy0 : 0 < |y| := lt_of_le_of_lt (by positivity) hy1
+    have hy : y ≠ 0 := abs_pos.1 hy0
+    refine ENNReal.ofReal_le_ofReal ((((corrector hκ).2 y).2.2.2.2.2.2 hy).2.1.trans ?_)
+    have h1 : |y|⁻¹ ≤ (κ * 2 ^ j)⁻¹ := inv_anti₀ (by positivity) hy1.le
+    calc y⁻¹ ^ 2 = |y|⁻¹ ^ 2 := by rw [← sq_abs (y⁻¹), abs_inv]
+      _ ≤ (κ * 2 ^ j)⁻¹ ^ 2 := pow_le_pow_left₀ (by positivity) h1 2
+      _ = _ := by rw [show ((1 / 2 : ℝ) ^ j) = (2 ^ j)⁻¹ by rw [one_div, inv_pow]]; field_simp
+  · congr 1
+    field_simp
+
+theorem integral_resid (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ} (hC : AvgSlabBound h R C₁)
+    (hΩ : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) (hΩ0 : 0 ≤ Ω₀) (hκ : 0 < κ)
+    {k : Fin n → ℤ} (hk : k ≠ 0) :
+    (∫⁻ I in avgG n R, ENNReal.ofReal (κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2))) ≤
+      ENNReal.ofReal (5 * C₁ * κ / euclid (fun j => (k j : ℝ))) := by
+  have hK := euclid_ge_one hk
+  have hC1 := hC.1
+  obtain ⟨N, hN⟩ := exists_N hκ hΩ0 k
+  have hK0 : 0 < euclid (fun j => (k j : ℝ)) := by linarith
+  refine (geom_shell_bound (Q_aemeasurable d k) (V := C₁ / euclid (fun j => (k j : ℝ)))
+    (A := 1) (by positivity) (by positivity) (fun u hu => vol_restrict hC hk hu) hκ
+    (g := fun y => ENNReal.ofReal (κ ^ 2 / (y ^ 2 + κ ^ 2)))
+    (fun y _ => ?_) (fun j y hy1 hy2 => ?_) N (ae_Q_le hΩ hN)).trans (le_of_eq ?_)
+  · exact ENNReal.ofReal_le_ofReal ((corrector hκ).2 y).2.2.2.2.2.1
+  · have hy0 : 0 < |y| := lt_of_le_of_lt (by positivity) hy1
+    have hy : y ≠ 0 := abs_pos.1 hy0
+    refine ENNReal.ofReal_le_ofReal ((((corrector hκ).2 y).2.2.2.2.2.2 hy).2.2.trans ?_)
+    have h1 : |y|⁻¹ ≤ (κ * 2 ^ j)⁻¹ := inv_anti₀ (by positivity) hy1.le
+    calc κ ^ 2 * y⁻¹ ^ 2 = κ ^ 2 * |y|⁻¹ ^ 2 := by rw [← sq_abs (y⁻¹), abs_inv]
+      _ ≤ κ ^ 2 * (κ * 2 ^ j)⁻¹ ^ 2 :=
+          mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (by positivity) h1 2) (by positivity)
+      _ = 1 * ((1 / 2 : ℝ) ^ j) ^ 2 := by
+          rw [show ((1 / 2 : ℝ) ^ j) = (2 ^ j)⁻¹ by rw [one_div, inv_pow]]; field_simp
+  · congr 1
+    field_simp
+
+theorem integral_psi (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ} (hC : AvgSlabBound h R C₁)
+    (hΩ : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) (hΩ0 : 0 ≤ Ω₀) (hκ : 0 < κ)
+    {k : Fin n → ℤ} (hk : k ≠ 0) :
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsi κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (C₁ * (5 / 2 + 3 * max 0
+        (Real.log (Ω₀ * KAM.Fourier.modeSize k / κ)))) := by
+  have hK := euclid_ge_one hk
+  have hC1 := hC.1
+  set x : ℝ := Ω₀ * KAM.Fourier.modeSize k / κ with hx
+  have hm := mode_nonneg (n := n) k
+  have hx0 : 0 ≤ x := by positivity
+  set t : ℝ := max 0 (Real.log x) with ht
+  have ht0 : 0 ≤ t := le_max_left _ _
+  have hl2 := Real.log_two_gt_d9
+  have hl2' : 0 < Real.log 2 := by linarith
+  set N : ℕ := ⌈t / Real.log 2⌉₊ with hNdef
+  have hxN : x ≤ 2 ^ N := by
+    rcases hx0.eq_or_lt with h0 | hpos
+    · rw [← h0]; positivity
+    · have h1 : Real.log x ≤ N * Real.log 2 := by
+        calc Real.log x ≤ t := le_max_right _ _
+          _ ≤ (t / Real.log 2) * Real.log 2 := by rw [div_mul_cancel₀ _ hl2'.ne']
+          _ ≤ N * Real.log 2 := mul_le_mul_of_nonneg_right (Nat.le_ceil _) hl2'.le
+      rw [← Real.log_le_log_iff hpos (by positivity), Real.log_pow]
+      exact h1
+  have hN : KAM.Fourier.modeSize k * Ω₀ ≤ κ * 2 ^ N := by
+    have := (div_le_iff₀ hκ).1 (show Ω₀ * KAM.Fourier.modeSize k / κ ≤ 2 ^ N from hxN)
+    linarith
+  have hNle : (N : ℝ) ≤ 3 * t / 2 + 1 := by
+    have h1 : (N : ℝ) < t / Real.log 2 + 1 := Nat.ceil_lt_add_one (by positivity)
+    have h2 : t / Real.log 2 ≤ 3 * t / 2 := by
+      rw [div_le_iff₀ hl2']; nlinarith
+    linarith
+  have hK0 : 0 < euclid (fun j => (k j : ℝ)) := by linarith
+  have hvol : ∀ u : ℝ, 0 < u →
+      volume.restrict (avgG n R) {x | |avgQ h k x| ≤ u} ≤ ENNReal.ofReal (C₁ * u) :=
+    fun u hu => (vol_restrict hC hk hu).trans (ENNReal.ofReal_le_ofReal (by
+      have : C₁ / euclid (fun j => (k j : ℝ)) ≤ C₁ := div_le_self (by linarith) hK
+      nlinarith))
+  refine (shell_bound (Q_aemeasurable d k) (V := C₁) (g := fun y => ENNReal.ofReal |avgPsi κ y|) (by linarith) hvol
+    (c := 1 / (2 * κ)) (a := fun j => 1 / (κ * 2 ^ j)) (by positivity) (fun j => by positivity)
+    hκ (fun y _ => ?_) (fun j y hy1 hy2 => ?_) N (ae_Q_le hΩ hN)).trans
+    (ENNReal.ofReal_le_ofReal ?_)
+  · exact ENNReal.ofReal_le_ofReal ((corrector hκ).2 y).2.1
+  · have hy0 : 0 < |y| := lt_of_le_of_lt (by positivity) hy1
+    have hy : y ≠ 0 := abs_pos.1 hy0
+    refine ENNReal.ofReal_le_ofReal ((((corrector hκ).2 y).2.2.2.2.2.2 hy).1.trans ?_)
+    rw [one_div, one_div]
+    exact inv_anti₀ (by positivity) hy1.le
+  · have hterm : ∀ j : ℕ, 1 / (κ * 2 ^ j) * (C₁ * (κ * 2 ^ (j + 1))) = 2 * C₁ := fun j => by
+      field_simp; ring
+    simp only [hterm, Finset.sum_const, Finset.card_range, nsmul_eq_mul]
+    have : 1 / (2 * κ) * (C₁ * κ) = C₁ / 2 := by field_simp
+    rw [this]
+    nlinarith
+
 end AvgShell
+
+/-- Derived constant specification; it is NEVER a premise of a source theorem. -/
+def avgLog (κ : ℝ) : ℝ := 1 + Real.log (1 / κ)
+
+namespace AvgShell
+
+theorem avgLog_nonneg {κ : ℝ} (hκ : 0 < κ) (hκ1 : κ ≤ 1) : 0 ≤ Real.log (1 / κ) :=
+  Real.log_nonneg (by rw [le_div_iff₀ hκ]; linarith)
+
+theorem log_le {P κ : ℝ} (hP : 0 ≤ P) (hκ : 0 < κ) (hκ1 : κ ≤ 1) :
+    max 0 (Real.log (P / κ)) ≤ P + Real.log (1 / κ) := by
+  have hL := avgLog_nonneg hκ hκ1
+  refine max_le (by linarith) ?_
+  rcases hP.eq_or_lt with h0 | hpos
+  · rw [← h0]; simpa using hL
+  · rw [div_eq_mul_one_div, Real.log_mul hpos.ne' (by positivity)]
+    linarith [Real.log_le_sub_one_of_pos hpos]
+
+end AvgShell
+
+theorem shells_from_slab (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ}
+    (hC : AvgSlabBound h R C₁)
+    (hΩ : ∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀)
+    (hκ : 0 < κ) (hκ1 : κ ≤ 1) {k : Fin n → ℤ} (hk : k ≠ 0) :
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsi κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (C₁ * (5 / 2 + 3 * max 0 (Real.log (Ω₀ * KAM.Fourier.modeSize k / κ)))) ∧
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsi κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (3 * C₁ * (1 + Ω₀) * (1 + KAM.Fourier.modeSize k) * avgLog κ) ∧
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsiD κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (5 * C₁ / (κ * euclid (fun j => (k j : ℝ)))) ∧
+    (∫⁻ I in avgG n R, ENNReal.ofReal (κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2))) ≤
+      ENNReal.ofReal (5 * C₁ * κ / euclid (fun j => (k j : ℝ))) := by
+  have hΩ0 : 0 ≤ Ω₀ := by
+    have h0 : (0 : Fin n → ℝ) ∈ avgG n R := by
+      simp only [avgG, mem_closedBall, dist_self]; linarith [d.hR]
+    exact (norm_nonneg _).trans (hΩ 0 h0)
+  have h1 := AvgShell.integral_psi d hC hΩ hΩ0 hκ hk
+  refine ⟨h1, h1.trans (ENNReal.ofReal_le_ofReal ?_), AvgShell.integral_psiD d hC hΩ hΩ0 hκ hk,
+    AvgShell.integral_resid d hC hΩ hΩ0 hκ hk⟩
+  have hm := AvgShell.mode_nonneg (n := n) k
+  have hC1 := hC.1
+  have hL := AvgShell.avgLog_nonneg hκ hκ1
+  have ht := AvgShell.log_le (mul_nonneg hΩ0 hm) hκ hκ1
+  unfold avgLog
+  have hP : 0 ≤ Ω₀ * KAM.Fourier.modeSize k := mul_nonneg hΩ0 hm
+  have hprod : 0 ≤ Ω₀ * KAM.Fourier.modeSize k * Real.log (1 / κ) := mul_nonneg hP hL
+  have hprod2 : 0 ≤ (Ω₀ + KAM.Fourier.modeSize k) * (1 + Real.log (1 / κ)) :=
+    mul_nonneg (by linarith) (by linarith)
+  have hmain : 5 / 2 + 3 * max 0 (Real.log (Ω₀ * KAM.Fourier.modeSize k / κ)) ≤
+      3 * (1 + Ω₀) * (1 + KAM.Fourier.modeSize k) * (1 + Real.log (1 / κ)) := by
+    nlinarith
+  calc C₁ * (5 / 2 + 3 * max 0 (Real.log (Ω₀ * KAM.Fourier.modeSize k / κ)))
+      ≤ C₁ * (3 * (1 + Ω₀) * (1 + KAM.Fourier.modeSize k) * (1 + Real.log (1 / κ))) :=
+        mul_le_mul_of_nonneg_left hmain (by linarith)
+    _ = _ := by ring
+
+/-- Source-facing node: the slab estimate is constructed, not assumed. -/
+theorem shells (d : AveragingData n R s h f) :
+    ∃ C₁ Ω₀ : ℝ, AvgSlabBound h R C₁ ∧ 0 ≤ Ω₀ ∧
+      (∀ I ∈ avgG n R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) ∧
+      ∀ κ : ℝ, 0 < κ → κ ≤ 1 → ∀ k : Fin n → ℤ, k ≠ 0 →
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsi κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (C₁ * (5 / 2 + 3 * max 0 (Real.log (Ω₀ * KAM.Fourier.modeSize k / κ)))) ∧
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsi κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (3 * C₁ * (1 + Ω₀) * (1 + KAM.Fourier.modeSize k) * avgLog κ) ∧
+    (∫⁻ I in avgG n R, ENNReal.ofReal |avgPsiD κ (avgQ h k I)|) ≤
+      ENNReal.ofReal (5 * C₁ / (κ * euclid (fun j => (k j : ℝ)))) ∧
+    (∫⁻ I in avgG n R, ENNReal.ofReal (κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2))) ≤
+      ENNReal.ofReal (5 * C₁ * κ / euclid (fun j => (k j : ℝ))) := by
+  obtain ⟨C₁, hC⟩ := exists_avgSlabBound d
+  obtain ⟨Ω₀, M₂, hΩ0, -, hΩ, -⟩ := avg_compact_bounds d
+  have hG : avgG n R ⊆ closedBall (0 : Fin n → ℝ) R := fun I hI =>
+    closedBall_subset_closedBall (by linarith [d.hR]) hI
+  exact ⟨C₁, Ω₀, hC, hΩ0, fun I hI => hΩ I (hG hI), fun κ hκ hκ1 k hk =>
+    shells_from_slab d hC (fun I hI => hΩ I (hG hI)) hκ hκ1 hk⟩
 
 end KAM.Nekhoroshev
 
