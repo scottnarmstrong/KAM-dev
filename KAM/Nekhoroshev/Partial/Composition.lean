@@ -199,6 +199,13 @@ theorem composition_domain (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ �
   rw [e1, e2]
   exact this
 
+theorem ExtCompose.tube_sub {b : PartialBlock n k} {R' s' R s ρ σ V : ℝ} {φ : EC n k → ℂ}
+    (hc : ExtCompose b R' s' R s ρ σ V φ) :
+    Dom n b.base (R-(1-V/(ρ*σ))*ρ) (s-(1-V/(ρ*σ))*σ) ⊆ Dom n b.base R s := by
+  have h1 : 0 ≤ 1 - V / (ρ * σ) := by linarith [hc.eta_half]
+  exact Dom_mono (by nlinarith [mul_nonneg h1 hc.rho_pos.le])
+    (by nlinarith [mul_nonneg h1 hc.sig_pos.le])
+
 /-! ### The terms and the sum of the Lie series -/
 
 namespace ExtCompose
@@ -284,6 +291,103 @@ theorem lieSeries_tail : ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N, WBo
     Summable.of_norm_bounded hc.lieSeries_summable fun j =>
       sup_le_wbound (hterm j).1 (hterm j).2 z hz
   rw [← hs'.sum_add_tsum_nat_add N', add_sub_cancel_left]
+
+end ExtCompose
+
+/-! ### Identification with `u ∘ X¹` -/
+
+namespace ExtCompose
+
+variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ u : EC n k → ℂ}
+
+private theorem hat_eta {ρ σ V : ℝ} (hρ : 0 < ρ) (hσ : 0 < σ) :
+    2 * V / (ρ * (3 / 4) * (σ * (3 / 4))) = 16 / 9 * (2 * V / (ρ * σ)) := by
+  field_simp
+  ring
+
+variable (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) (hU : 0 ≤ U)
+  (hu : InClass b.base R s u) (hb : WBound b.base R s u U)
+include hc hk hU hu hb
+
+/-- On the trajectories from `𝒟_{R-ρ,s-σ}`, the iterates `ad_φ^N u / N!` are `≤ q̂^N U`, where
+`q̂` is the constant of the loss `(3ρ/4, 3σ/4)`. -/
+theorem extAd_traj_bound {N : ℕ} (hN : 1 ≤ N) {z : EC n k}
+    (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) {t : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) :
+    ‖extAd b.c φ N u (extFlow b R' s' ρ σ φ t z)‖ ≤
+      (N.factorial : ℝ) *
+        ((Real.exp 1 ^ 2 * (2 * V / (ρ * (3 / 4) * (σ * (3 / 4)))) / 8) ^ N * U) := by
+  have hρ' : 0 < ρ * (3 / 4) := by have := hc.rho_pos; positivity
+  have hσ' : 0 < σ * (3 / 4) := by have := hc.sig_pos; positivity
+  have hSL' : slowLoss b.c (ρ * (3 / 4)) (σ * (3 / 4)) k := by
+    have := hc.slow
+    unfold slowLoss at this ⊢
+    linarith
+  obtain ⟨h1, h3⟩ := adjoint b hρ' (by linarith [hc.rho_pos, hc.rho_lt]) hσ'
+    (by linarith [hc.sig_pos, hc.sig_lt]) (by linarith [hc.radii, hc.rho_pos])
+    (by linarith [hc.widths, hc.sig_pos]) hSL' hU hc.bound_nonneg hc.hol hu hc.bound hb N hN
+  have hmem : extFlow b R' s' ρ σ φ t z ∈
+      Dom n b.base (R - ρ * (3 / 4)) (s - σ * (3 / 4)) := by
+    have := (composition_domain b hk hc).2 t (abs_le.2 ⟨by linarith [ht.1], ht.2⟩) hz
+    refine Dom_mono ?_ ?_ this
+    · have := mul_le_mul_of_nonneg_left hc.eta_half hc.rho_pos.le
+      nlinarith [hc.rho_pos]
+    · have := mul_le_mul_of_nonneg_left hc.eta_half hc.sig_pos.le
+      nlinarith [hc.sig_pos]
+  have h4 := sup_le_wbound (inClass_const_mul_ext ((N.factorial : ℂ)⁻¹) h1) h3 _ hmem
+  have hf : (0 : ℝ) < N.factorial := Nat.cast_pos.2 (Nat.factorial_pos N)
+  calc _ = (N.factorial : ℝ) * ‖((N.factorial : ℂ)⁻¹) * extAd b.c φ N u
+          (extFlow b R' s' ρ σ φ t z)‖ := by
+        rw [norm_mul, norm_inv, Complex.norm_natCast]
+        field_simp
+    _ ≤ _ := mul_le_mul_of_nonneg_left h4 hf.le
+
+/-- On `𝒟_{R-ρ,s-σ}` the Lie series is `u ∘ X¹_φ`. -/
+theorem series_eq {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+    u (extFlow b R' s' ρ σ φ 1 z) =
+      ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z := by
+  have hterm := hc.lieTerm_bound hU hu hb
+  have hs' : Summable fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z :=
+    Summable.of_norm_bounded hc.lieSeries_summable fun j =>
+      sup_le_wbound (hterm j).1 (hterm j).2 z hz
+  have hlim1 := hs'.hasSum.tendsto_sum_nat
+  have hη := hc.small
+  have hη0 := hc.eta_nonneg
+  have hq := q_facts_ext (η := 16 / 9 * (2 * V / (ρ * σ))) (by positivity) (by linarith)
+  rw [← hat_eta (V := V) hc.rho_pos hc.sig_pos] at hq
+  obtain ⟨hq0, -, hq1⟩ := hq
+  have hz1 := hc.gaugeInterior_half hz
+  have hΩ : IsOpen (Dom n b.base R s) := isOpen_Dom _ _ _
+  have hsub : Dom n b.base R s ⊆ Dom n b.base (R' - ρ) (s' - σ) :=
+    Dom_mono (by linarith [hc.radii]) (by linarith [hc.widths])
+  have hφd : DifferentiableOn ℂ φ (Dom n b.base R s) :=
+    hc.hol.differentiableOn.mono (hsub.trans hc.dom_sub)
+  have hud : DifferentiableOn ℂ u (Dom n b.base R s) := hu.differentiableOn
+  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.smallField hk) hz1
+  have hγ : KAM.ODE.IsSolutionIn (wfield b.c φ) (Dom n b.base R s) (Icc 0 1)
+      (fun t => extFlow b R' s' ρ σ φ t z) := fun t ht => by
+    refine ⟨?_, (hsol t ⟨by linarith [ht.1], ht.2⟩).2⟩
+    have := (composition_domain b hk hc).2 t (abs_le.2 ⟨by linarith [ht.1], ht.2⟩) hz
+    exact hc.tube_sub this
+  have htaylor : ∀ N : ℕ, 1 ≤ N → ‖∑ j ∈ range N, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z -
+      u (extFlow b R' s' ρ σ φ 1 z)‖ ≤
+      (Real.exp 1 ^ 2 * (2 * V / (ρ * (3 / 4) * (σ * (3 / 4)))) / 8) ^ N * U := fun N hN => by
+    have h1 := ext_taylor hΩ hφd hud hγ N hN
+    have hB := ext_taylor_bound hΩ hφd hud hγ N hN _ fun t ht =>
+      hc.extAd_traj_bound hk hU hu hb hN hz ht
+    have hf : (0 : ℝ) < N.factorial := Nat.cast_pos.2 (Nat.factorial_pos N)
+    have h1' : u (extFlow b R' s' ρ σ φ 1 z) = _ := h1
+    have h00 : extFlow b R' s' ρ σ φ 0 z = z := h0
+    simp only [h00] at h1'
+    rw [h1', sub_add_cancel_left, norm_neg]
+    refine hB.trans_eq ?_
+    field_simp
+  have hlim2 : Tendsto (fun N : ℕ => ∑ j ∈ range N, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
+      atTop (𝓝 (u (extFlow b R' s' ρ σ φ 1 z))) := by
+    rw [tendsto_iff_norm_sub_tendsto_zero]
+    refine squeeze_zero' (Eventually.of_forall fun _ => norm_nonneg _)
+      ((eventually_ge_atTop 1).mono fun N hN => htaylor N hN) ?_
+    simpa using (tendsto_pow_atTop_nhds_zero_of_lt_one hq0 hq1).mul_const U
+  exact tendsto_nhds_unique hlim2 hlim1
 
 end ExtCompose
 
