@@ -43,10 +43,10 @@ theorem measurableSet_resonanceSet (d : MeasureData a b) {mu : ℝ} (hmu : mu �
       (measurableSet_lt (by fun_prop) measurable_const)
   convert h1 using 1
   ext z
-  simp only [resonanceSet, sliceDomain, mem_inter_iff, mem_preimage, mem_setOf_eq]
+  simp only [resonanceSet, sliceDomain, mem_inter_iff, mem_preimage, mem_ofPred_eq]
   tauto
 
-theorem prod_erase_box (d : MeasureData a b) {lambda : ℝ} (hl : 0 < lambda) (ha : 0 < a)
+theorem prod_erase_box (d : MeasureData a b) (lambda : ℝ)
     (i : Fin (a+b)) (hi : ∃ j : Fin a, i = Fin.castAdd b j) :
     ∏ l ∈ Finset.univ.erase i, 2 * (Fin.append (fun _ : Fin a => d.Ry) (fun _ : Fin b => lambda)
       l) = (2 * d.Ry) ^ (a - 1) * (2 * lambda) ^ b := by
@@ -57,7 +57,7 @@ theorem prod_erase_box (d : MeasureData a b) {lambda : ℝ} (hl : 0 < lambda) (h
   rw [Fin.prod_univ_add] at h
   simp only [Fin.append_left, Fin.append_right, Finset.prod_const, Finset.card_univ,
     Fintype.card_fin] at h
-  obtain ⟨a', rfl⟩ : ∃ a', a = a' + 1 := ⟨a - 1, by omega⟩
+  obtain ⟨a', rfl⟩ : ∃ a', a = a' + 1 := ⟨a - 1, by have := j.pos; omega⟩
   rw [Nat.add_sub_cancel]
   rw [pow_succ] at h
   have h2 : 2 * d.Ry * ∏ l ∈ Finset.univ.erase (Fin.castAdd b j), 2 * (Fin.append
@@ -99,7 +99,7 @@ theorem volume_resonanceSet_fast_le (d : MeasureData a b) {mu : ℝ} (hmu : mu �
     (fun z hz z' hz' hline => fastSection_line_diam d hmu hl hl0 hQsub hk hjn hz hz' hline)
   rw [← ENNReal.ofReal_mul (by linarith)] at h
   have hp : ∏ l ∈ Finset.univ.erase (Fin.castAdd b j), 2 * rho l =
-      (2 * d.Ry) ^ (a - 1) * (2 * lambda) ^ b := prod_erase_box d hl d.ha _ ⟨j, rfl⟩
+      (2 * d.Ry) ^ (a - 1) * (2 * lambda) ^ b := prod_erase_box d lambda _ ⟨j, rfl⟩
   rwa [hp] at h
 
 theorem latticeWeight_eq_inv (k : Fin (a+b) → ℤ) (tau : ℝ) :
