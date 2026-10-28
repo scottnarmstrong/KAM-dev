@@ -55,7 +55,8 @@ theorem planetBlock_assemble (I phi p q : Fin n → ℝ) (j : Fin n) :
   refine Prod.ext (funext fun k => ?_) (funext fun k => ?_) <;> fin_cases k <;>
     simp [planetBlock, assemble, fast, slow, Fin.append_left]
 
-/-- `bpP:p7:d25` (a): the frozen secular definitions are the chart's `Γ, k, v` (all `w`, no domain needed). -/
+/-- `bpP:p7:d25` (a): the frozen secular definitions are the chart's `Γ, k, v`
+(all `w`, no domain needed). -/
 theorem secularGamma_eq (w : Phase (2 + 2)) (i : Fin 2) :
     secularGamma w i = poincareGamma (planetBlock w i) := by
   simp only [secularGamma, oscillatorAction, poincareGamma, planetBlock]
@@ -176,7 +177,8 @@ theorem keplerFunctions_poincareProd {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i) {
     simp only [keplerEccVector, hq, hp, inv_one, one_smul]
 
 theorem exists_poincareProd_of_progradeElliptic {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i)
-    {z : Phase (2 * 2)} (hz : ProgradeElliptic m z) : ∃ w ∈ poincareProdDom 2, poincareProd m 1 w = z := by
+    {z : Phase (2 * 2)} (hz : ProgradeElliptic m z) :
+    ∃ w ∈ poincareProdDom 2, poincareProd m 1 w = z := by
   have h : z ∈ regionProd m 1 := (regionProd_one_iff hm z).2 hz
   rw [← poincareProd_image hm one_pos] at h
   obtain ⟨w, hw, hwz⟩ := h
@@ -222,7 +224,8 @@ theorem ellipseMomentum_add_two_pi (m : Fin 2 → ℝ) (w : Phase (2 + 2)) (j : 
 
 theorem ellipsePhase_update_add_two_pi (m : Fin 2 → ℝ) (w : Phase (2 + 2)) (F : Fin 2 → ℝ)
     (i : Fin 2) (s : ℝ) :
-    ellipsePhase m w (Function.update F i (s + 2 * π)) = ellipsePhase m w (Function.update F i s) := by
+    ellipsePhase m w (Function.update F i (s + 2 * π)) =
+      ellipsePhase m w (Function.update F i s) := by
   have h : ∀ j, ellipsePosition m w j (Function.update F i (s + 2 * π) j) =
       ellipsePosition m w j (Function.update F i s j) ∧
       ellipseMomentum m w j (Function.update F i (s + 2 * π) j) =
@@ -249,11 +252,13 @@ theorem continuous_assemble_update (I p q : Fin n → ℝ) (phi : Fin n → ℝ)
   · simp only [Fin.append_right]
     exact continuous_const
 
-/-- `bpP:p7:average`: the change of variable `λ_i ↔ F_i` in angular averages (other `F_j = F_j(w)` fixed). -/
+/-- `bpP:p7:average`: the change of variable `λ_i ↔ F_i` in angular averages
+(other `F_j = F_j(w)` fixed). -/
 theorem average_via_eccentric_longitude {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i) {w : Phase (2 + 2)}
     (hw : w ∈ poincareProdDom 2) (i : Fin 2) {φ : Phase (2 * 2) → ℝ} (hφ : Continuous φ) :
     (2 * π)⁻¹ * ∫ x in (0 : ℝ)..2 * π,
-        φ (poincareProd m 1 (assemble (fast w.2) (Function.update (fast w.1) i x) (slow w.2) (slow w.1))) =
+        φ (poincareProd m 1
+          (assemble (fast w.2) (Function.update (fast w.1) i x) (slow w.2) (slow w.1))) =
       (2 * π)⁻¹ * ∫ s in (0 : ℝ)..2 * π,
         φ (ellipsePhase m w (Function.update (fun j => poincareF (planetBlock w j)) i s)) *
           longitudeJacobian w i s := by
@@ -269,7 +274,8 @@ theorem average_via_eccentric_longitude {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i
       rw [planetBlock_assemble]
       simpa [poincareDom, poincareGamma, planetBlock] using this
     exact hφ.comp ((analyticOnNhd_poincareProd hm one_pos).continuousOn.comp_continuous hpath hmem)
-  have key : ∀ s, φ (ellipsePhase m w (Function.update (fun j => poincareF (planetBlock w j)) i s)) *
+  have key : ∀ s,
+      φ (ellipsePhase m w (Function.update (fun j => poincareF (planetBlock w j)) i s)) *
       longitudeJacobian w i s = g (keplerPhi (poincareV (planetBlock w i)) s) *
         keplerJac (poincareV (planetBlock w i)) s := by
     intro s
@@ -298,10 +304,12 @@ theorem average_via_eccentric_longitude {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i
   simp only [ellipsePhase_update_add_two_pi, longitudeJacobian_add_two_pi]
 
 /-- The three mean values of the average corollary, for general `n` and `κ`. -/
-theorem poincareProd_means {m : Fin n → ℝ} {κ : ℝ} (hm : ∀ i, 0 < m i) (hκ : 0 < κ) {w : Phase (n + n)}
+theorem poincareProd_means {m : Fin n → ℝ} {κ : ℝ} (hm : ∀ i, 0 < m i) (hκ : 0 < κ)
+    {w : Phase (n + n)}
     (hw : w ∈ poincareProdDom n) (i : Fin n) :
     let a := fast w.2 i ^ 2 / (m i ^ 2 * κ)
-    let pt := fun x : ℝ => poincareProd m κ (assemble (fast w.2) (Function.update (fast w.1) i x) (slow w.2) (slow w.1))
+    let pt := fun x : ℝ => poincareProd m κ
+      (assemble (fast w.2) (Function.update (fast w.1) i x) (slow w.2) (slow w.1))
     (2 * π)⁻¹ * (∫ x in (0 : ℝ)..2 * π, 1 / planeLength (bodyVector (pt x).1 i)) = 1 / a ∧
     (2 * π)⁻¹ * (∫ x in (0 : ℝ)..2 * π, planeSq (bodyVector (pt x).2 i)) = m i ^ 2 * κ / a ∧
     (2 * π)⁻¹ * (∫ x in (0 : ℝ)..2 * π, planeLength (bodyVector (pt x).1 i)) =
