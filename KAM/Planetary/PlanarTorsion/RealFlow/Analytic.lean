@@ -8,6 +8,8 @@ module
 public import Mathlib
 public import KAM.Strip.Analytic
 public import KAM.ODE.Basic
+public import KAM.Frozen.Defs.HamiltonianVectorField
+public import KAM.Frozen.Planetary.Defs.Phase
 public import KAM.Planetary.Preparation.AnalyticExtension
 public import KAM.Planetary.PlanarTorsion.RealFlow.PicardData
 
@@ -198,5 +200,61 @@ theorem p11c_analytic_flow_fin {f : (Fin n → ℝ) → Fin n → ℝ} {W : Set 
       · intro τ hτ
         simp only [(hK τ y (abs_lt.2 hτ) hy).2.2, realPartCLM_realInclusion]
     exact p11c_hasDerivAt_of_integral_eq (Φ := fun t => Φ t y) hg heq t ht
+
+/-- The Hamiltonian vector field of a function analytic at `x` is analytic at `x`. -/
+theorem p11c_hamField_analyticAt {d : ℕ} {H : Phase d → ℝ} {x : Phase d}
+    (hH : AnalyticAt ℝ H x) : AnalyticAt ℝ (hamiltonianVectorField H) x := by
+  have hD : AnalyticAt ℝ (fderiv ℝ H) x := hH.fderiv
+  have hc : ∀ v : Phase d, AnalyticAt ℝ (fun z => fderiv ℝ H z v) x := fun v =>
+    ((ContinuousLinearMap.apply ℝ ℝ v).analyticAt _).comp hD
+  refine AnalyticAt.prod (AnalyticAt.pi fun i => hc _) (AnalyticAt.pi fun i => ?_)
+  exact (hc _).neg
+
+/-- The coordinate identification `Phase d ≃L[ℝ] ℝ^(d+d)`. -/
+def p11cPhaseEquiv (d : ℕ) : Phase d ≃L[ℝ] (Fin (d + d) → ℝ) :=
+  ((LinearEquiv.sumArrowLequivProdArrow (Fin d) (Fin d) ℝ ℝ).symm.trans
+    (LinearEquiv.funCongrLeft ℝ ℝ (finSumFinEquiv (m := d) (n := d)).symm)).toContinuousLinearEquiv
+
+/-- Joint real analyticity of the local Hamiltonian flow (the analytic and solution clauses of
+`real_analytic_hamiltonian_local_flow`; symplecticity is the subject of package R3). -/
+theorem p11c_analytic_hamiltonian_flow {d : ℕ} {W : Set (Phase d)} (hW : IsOpen W)
+    {H : Phase d → ℝ} (hH : AnalyticOnNhd ℝ H W) {x : Phase d} (hx : x ∈ W) :
+    ∃ r T : ℝ, 0 < r ∧ 0 < T ∧ ∃ Φ : ℝ → Phase d → Phase d,
+      AnalyticOnNhd ℝ (fun u : ℝ × Phase d => Φ u.1 u.2) (Ioo (-T) T ×ˢ ball x r) ∧
+      ∀ y ∈ ball x r, Φ 0 y = y ∧
+        KAM.ODE.IsSolutionIn (hamiltonianVectorField H) W (Ioo (-T) T) (fun t => Φ t y) := by
+  set e := p11cPhaseEquiv d with he
+  set f : (Fin (d + d) → ℝ) → Fin (d + d) → ℝ :=
+    fun v => e (hamiltonianVectorField H (e.symm v)) with hf
+  have hfa : AnalyticAt ℝ f (e x) := by
+    have h1 : AnalyticAt ℝ (hamiltonianVectorField H) (e.symm (e x)) := by
+      rw [e.symm_apply_apply]; exact p11c_hamField_analyticAt (hH x hx)
+    exact (e.analyticAt _).comp (h1.comp (e.symm.analyticAt (e x)))
+  have hW' : e.symm ⁻¹' W ∈ 𝓝 (e x) :=
+    e.symm.continuous.continuousAt.preimage_mem_nhds (by rw [e.symm_apply_apply]; exact hW.mem_nhds hx)
+  obtain ⟨r', T, hr', hT, Φ', han, hsol⟩ := p11c_analytic_flow_fin hfa hW'
+  set N := ‖(e : Phase d →L[ℝ] (Fin (d + d) → ℝ))‖ with hN
+  have hN0 : 0 ≤ N := norm_nonneg _
+  have hball : ∀ y ∈ ball x (r' / (N + 1)), e y ∈ ball (e x) r' := by
+    intro y hy
+    rw [mem_ball_iff_norm, lt_div_iff₀ (by positivity)] at hy
+    rw [mem_ball_iff_norm, ← map_sub]
+    have : ‖e (y - x)‖ ≤ N * ‖y - x‖ :=
+      (e : Phase d →L[ℝ] (Fin (d + d) → ℝ)).le_opNorm (y - x)
+    nlinarith [norm_nonneg (y - x)]
+  refine ⟨r' / (N + 1), T, by positivity, hT, fun t y => e.symm (Φ' t (e y)), ?_, fun y hy => ?_⟩
+  · intro z hz
+    have h1 := han (z.1, e z.2) ⟨hz.1, hball z.2 hz.2⟩
+    have h2 : AnalyticAt ℝ (fun w : ℝ × Phase d => (w.1, e w.2)) z :=
+      AnalyticAt.prod analyticAt_fst ((e.analyticAt _).comp analyticAt_snd)
+    exact (e.symm.analyticAt _).comp
+      (AnalyticAt.comp (g := fun u : ℝ × (Fin (d + d) → ℝ) => Φ' u.1 u.2)
+        (f := fun w : ℝ × Phase d => (w.1, e w.2)) h1 h2)
+  · obtain ⟨h0, hs⟩ := hsol (e y) (hball y hy)
+    refine ⟨by simp [h0], fun t ht => ?_⟩
+    obtain ⟨hm, hd⟩ := hs t ht
+    refine ⟨hm, ?_⟩
+    have h2 := e.symm.hasFDerivAt.comp_hasDerivAt t hd
+    exact h2.congr_deriv (by simp [hf])
 
 end KAM.Planetary
