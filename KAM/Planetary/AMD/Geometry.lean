@@ -99,7 +99,7 @@ theorem geometry (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
     have hma := hm i
     have hlo := (hbox i).2.1
     have : keplerAxis B.mass z i = (keplerAction B.mass z i / B.mass i) ^ 2 := by
-      rw [div_pow, ← hΛ2]; field_simp
+      rw [div_pow, eq_div_iff (by positivity)]; linarith [hΛ2]
     rw [this]
     refine ⟨?_, ?_⟩
     · exact pow_lt_pow_left₀ (div_lt_div_of_pos_right hl hma) (by have := hlo; positivity) two_ne_zero
@@ -180,7 +180,7 @@ theorem amd_compact (B : AMDBox n) (hB : B.Admissible) :
         ⋂ i, ⋂ j, ⋂ (_ : i ≠ j),
           {z : Phase (n * 2) | B.distance ≤ planeLength (bodyVector z.1 i - bodyVector z.1 j)} := by
       ext z
-      simp only [amdCompact, mem_setOf_eq, mem_inter_iff, mem_iInter]
+      simp only [amdCompact, mem_ofPred_eq, mem_inter_iff, mem_iInter]
       constructor
       · rintro ⟨h1, h2⟩
         exact ⟨fun i => ⟨⟨(h1 i).1, (h1 i).2.1⟩, (h1 i).2.2⟩, h2⟩
@@ -199,7 +199,28 @@ theorem amd_compact (B : AMDBox n) (hB : B.Admissible) :
         (((continuous_bodyVector_aux i).comp continuous_fst).sub
           ((continuous_bodyVector_aux j).comp continuous_fst)))
   have hbd : Bornology.IsBounded (amdCompact B) := by
-    sorry
+    refine isBounded_iff_forall_norm_le.2 ⟨max B.radius
+      (∑ i, B.mass i * Real.sqrt (2 / B.distance)), fun z hz => ?_⟩
+    have hcoord : ∀ (w : Fin (n * 2) → ℝ) (C : ℝ), 0 ≤ C →
+        (∀ i, planeLength (bodyVector w i) ≤ C) → ‖w‖ ≤ C := by
+      intro w C hC h
+      refine (pi_norm_le_iff_of_nonneg hC).2 fun a => ?_
+      have ha : finProdFinEquiv (finProdFinEquiv.symm a) = a := Equiv.apply_symm_apply _ _
+      set p := finProdFinEquiv.symm a
+      have hw : w a = bodyVector w p.1 p.2 := by unfold bodyVector; rw [← ha]
+      rw [hw]
+      exact (norm_le_pi_norm (bodyVector w p.1) p.2).trans
+        ((KAM.Kepler.norm_le_planeLength _).trans (h p.1))
+    have hterm : ∀ j, 0 ≤ B.mass j * Real.sqrt (2 / B.distance) := fun j =>
+      (KAM.Kepler.planeLength_nonneg _).trans (hz.1 j).2.2
+    have hS : 0 ≤ ∑ i, B.mass i * Real.sqrt (2 / B.distance) :=
+      Finset.sum_nonneg fun j _ => hterm j
+    rw [Prod.norm_def]
+    refine max_le (le_max_of_le_left ?_) (le_max_of_le_right ?_)
+    · exact hcoord _ _ hR.le fun i => (hz.1 i).2.1
+    · refine hcoord _ _ hS fun i => ?_
+      exact (hz.1 i).2.2.trans (Finset.single_le_sum (f := fun i => B.mass i *
+        Real.sqrt (2 / B.distance)) (fun j _ => hterm j) (Finset.mem_univ i))
   exact ⟨Metric.isCompact_of_isClosed_isBounded hcl hbd, fun z hz =>
     ⟨fun i => hd.trans_le (hz.1 i).1, fun i j hij => hd.trans_le (hz.2 i j hij)⟩⟩
 
