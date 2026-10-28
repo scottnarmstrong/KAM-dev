@@ -245,6 +245,84 @@ theorem n2 (D : Data 2) {a : Vec 2} (ha : a ∈ axes 2) :
   ⟨det_two D ha, det_two_pos D ha, disc_two_pos D ha, sigma_two_lt D ha, nr4_two_iff D ha,
     two_trace_det_iff D ha⟩
 
+section Frame
+
+lemma isOpen_axes (n : ℕ) : IsOpen (axes n) := by
+  have : axes n = (⋂ i, {a : Vec n | 0 < a i}) ∩
+      ⋂ i, ⋂ j, ⋂ (_ : i < j), {a : Vec n | a i < a j} := by
+    ext a; simp [axes, StrictMono]
+  rw [this]
+  exact (isOpen_iInter_of_finite fun i => isOpen_lt continuous_const (continuous_apply i)).inter
+    (isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun j =>
+      isOpen_iInter_of_finite fun _ => isOpen_lt (continuous_apply i) (continuous_apply j))
+
+lemma eigenvalues_injective_of_sorted {M : Mat n} (hM : M.IsHermitian)
+    (h : Function.Injective (sorted M hM)) : Function.Injective hM.eigenvalues := by
+  obtain ⟨τ, hτ, hs⟩ := sorted_eq_eigenvalues_comp hM
+  intro i j hij
+  obtain ⟨i', rfl⟩ := hτ.2 i
+  obtain ⟨j', rfl⟩ := hτ.2 j
+  rw [← hs, ← hs] at hij
+  rw [h hij]
+
+lemma isSO_neg (R : Mat 2) (hR : isSO R) : isSO (-R) := by
+  refine ⟨by simpa [Matrix.transpose_neg] using hR.1, ?_⟩
+  rw [Matrix.det_neg]
+  simpa using hR.2
+
+lemma neg_conj (R : Mat 2) (s : Vec 2) :
+    (-R) * Matrix.diagonal s * (-R).transpose = R * Matrix.diagonal s * R.transpose := by
+  simp [Matrix.transpose_neg]
+
+variable (D : Data 2) {a : Vec 2}
+
+/-- Any frame with strictly increasing spectrum carries the sorted spectrum `sigma`. -/
+lemma frame_sigma (ha : a ∈ axes 2) {R : Mat 2} {s : Vec 2} (hR : isSO R) (hs : StrictMono s)
+    (h : coeffs D a = R * Matrix.diagonal s * R.transpose) : s = sigma D a := by
+  have hRR : R.transpose * R = 1 := hR.1
+  have ht : (coeffs D a).trace = s 0 + s 1 := by
+    rw [h, Matrix.trace_mul_comm, ← Matrix.mul_assoc, hRR, Matrix.one_mul,
+      Matrix.trace_diagonal, Fin.sum_univ_two]
+  have hd : (coeffs D a).det = s 0 * s 1 := by
+    rw [h, Matrix.det_mul, Matrix.det_mul, Matrix.det_transpose, hR.2, Matrix.det_diagonal,
+      Fin.prod_univ_two]
+    ring
+  have h1 := sorted_two_sum (coeffs D a) (coeffs_hermitian D a)
+  have h2 := sorted_two_prod (coeffs D a) (coeffs_hermitian D a)
+  obtain ⟨e0, e1⟩ := eq_of_sum_prod (hs (by decide : (0 : Fin 2) < 1)) (sigma_two_lt D ha)
+    (by rw [← ht, ← h1]; rfl) (by rw [← hd, ← h2]; rfl)
+  funext i
+  fin_cases i
+  · exact e0
+  · exact e1
+
+/-- A frame of `coeffs D a` has a nonvanishing `(1,1)` entry, as the off-diagonal term is positive. -/
+lemma frame_entry_ne (ha : a ∈ axes 2) {R : Mat 2} (hR : isSO R)
+    (h : coeffs D a = R * Matrix.diagonal (sigma D a) * R.transpose) : R 1 1 ≠ 0 := by
+  have hRR : R.transpose * R = 1 := hR.1
+  have hMR : coeffs D a * R = R * Matrix.diagonal (sigma D a) := by
+    rw [h, Matrix.mul_assoc, Matrix.mul_assoc, hRR, Matrix.mul_one]
+  have e := congrFun (congrFun hMR 1) 1
+  simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.diagonal_apply, mul_ite, mul_zero,
+    ite_true] at e
+  have hq : 0 < coeffs D a 1 0 := by
+    rw [coeffs_two_off10]
+    have := pairB_pos D ha (j := 0) (k := 1) (by decide)
+    have := action_pos D ha 0
+    have := action_pos D ha 1
+    positivity
+  intro h11
+  rw [h11] at e
+  simp at e
+  have h01 : R 0 1 = 0 := by
+    rcases e with e | e
+    · exact absurd e hq.ne'
+    · exact e
+  have := congrFun (congrFun hRR 1) 1
+  simp [Matrix.mul_apply, Fin.sum_univ_two, h01, h11] at this
+
+end Frame
+
 end SecularSpectrum
 
 end KAM.Planetary
