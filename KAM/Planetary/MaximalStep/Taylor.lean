@@ -137,7 +137,8 @@ theorem p11_taylor_remainder {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ
     calc ‖ζ‖ * ‖η‖ ≤ (1 / q) * ‖η‖ := by gcongr
       _ < (1 / q) * (q * s) := by gcongr
       _ = s := by field_simp
-  have hdiffg : ∀ ζ ∈ closedBall (0 : ℂ) (1 / q), DifferentiableAt ℂ (fun ζ : ℂ => φ (ζ • η)) ζ := by
+  have hdiffg : ∀ ζ ∈ closedBall (0 : ℂ) (1 / q),
+      DifferentiableAt ℂ (fun ζ : ℂ => φ (ζ • η)) ζ := by
     intro ζ hζ
     exact ((hd.differentiableAt (isOpen_ball.mem_nhds (hmem ζ hζ))).comp ζ
       (differentiableAt_id.smul_const η))
