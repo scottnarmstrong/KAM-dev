@@ -171,6 +171,13 @@ theorem mode_bound {κ M₂ ε : ℝ} (hκ : 0 < κ)
       _ ≤ avgBterm h s M₂ κ k (γ u).2 * (ε * (2 / s)) := mul_le_mul_of_nonneg_left hεA hnn
       _ = c * Ψ u := by rw [hc]; simp only [hΨdef]; ring
 
+theorem continuousOn_bterm_orbit {κ M₂ ε : ℝ} (hκ : 0 < κ) {x : AvgPhase n}
+    (hx : x ∈ avgDomain n R) {t : ℝ} (htp : (t : EReal) < avgTp h f R ε x) (k : Fin n → ℤ) :
+    ContinuousOn (fun v => avgBterm h s M₂ κ k (avgFlow h f R ε v x).2) (Icc 0 t) := fun v hv =>
+  (ContinuousAt.comp (f := fun w => (avgFlow h f R ε w x).2) (x := v)
+    (continuousAt_avgBterm d hκ k (orbit_mapsTo d ε hx htp hv).2)
+    (orbit_hasDerivAt d ε hx hv.1 hv.2 htp).2.continuousAt.snd).continuousWithinAt
+
 end Pieces
 
 end KAM.Nekhoroshev
