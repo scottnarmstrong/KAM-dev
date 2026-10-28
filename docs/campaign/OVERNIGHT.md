@@ -277,3 +277,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Codex weekly quotas reset at 06:35 (codex-1..4 at 98–100%); the one-audit-per-package economy is lifted.
   - Track W (D30, owner-approved): package W-BP0 (blueprint Part 0, milestone W0 normalization, errata re-check) is
     written on branch `w`; its independent Sol audit is running. Nothing frozen.
+- **07:35. Track W headline ruling (for owner review; nothing frozen).** W-BP0 audit 1 FAILED on two medium findings
+  (the core W0 mathematics passed). Ruling on W-A2: the proposed first headline adds family-level injectivity (distinct
+  action parameters give disjoint embedded tori, as P96-W's family construction provides) and explicitly declares the
+  Lipschitz regularity of the family in Cartesian coordinates DEFERRED together with Whitney regularity and linear
+  stability (D30 Q3). It is described as a declared weakening of P96-W's Main Theorem, not the full specialization.
+  Reversal: require the full Lipschitz Cantor-manifold conclusion in the first headline (adds W6/W8 work).
