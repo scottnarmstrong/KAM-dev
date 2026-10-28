@@ -19,9 +19,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.IsDiophantine (KAM/Frozen/Defs/IsDiophantine.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:hamsymp#hamiltonianVectorField
@@ -45,9 +45,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.hamiltonianVectorField (KAM/Frozen/Defs/HamiltonianVectorField.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:hamsymp#symplecticForm
@@ -71,9 +71,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.symplecticForm (KAM/Frozen/Defs/SymplecticForm.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:phase#Phase
@@ -97,9 +97,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.Phase (KAM/Frozen/Planetary/Defs/Phase.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:plane#planeSq
@@ -123,9 +123,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeSq (KAM/Frozen/Planetary/Defs/PlaneSq.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:plane#planeLength
@@ -150,9 +150,9 @@ EDGE: bpP:p0:plane#planeSq | blueprint-P/parts/p0-conventions.tex#bpP:p0:plane@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeLength (KAM/Frozen/Planetary/Defs/PlaneLength.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:plane#planeDot
@@ -176,9 +176,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeDot (KAM/Frozen/Planetary/Defs/PlaneDot.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:body#bodyVector
@@ -202,9 +202,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.bodyVector (KAM/Frozen/Planetary/Defs/BodyVector.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:blocks#fast
@@ -228,9 +228,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.fast (KAM/Frozen/Planetary/Defs/Fast.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:blocks#slow
@@ -254,9 +254,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.slow (KAM/Frozen/Planetary/Defs/Slow.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:blocks#assemble
@@ -281,9 +281,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:blocks@L8
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.assemble (KAM/Frozen/Planetary/Defs/Assemble.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:oscaction#oscillatorAction
@@ -307,9 +307,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.oscillatorAction (KAM/Frozen/Planetary/Defs/OscillatorAction.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:fastshift#fastShift
@@ -334,9 +334,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:fastshift
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.fastShift (KAM/Frozen/Planetary/Defs/FastShift.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:fastfreq#fastFrequency
@@ -360,9 +360,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.fastFrequency (KAM/Frozen/Planetary/Defs/FastFrequency.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:cylinder#cylinder
@@ -389,9 +389,9 @@ EDGE: bpP:p0:blocks#slow | blueprint-P/parts/p0-conventions.tex#bpP:p0:cylinder@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.cylinder (KAM/Frozen/Planetary/Defs/Cylinder.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:cylinder#cylinderCell
@@ -418,9 +418,9 @@ EDGE: bpP:p0:blocks#fast | blueprint-P/parts/p0-conventions.tex#bpP:p0:cylinder@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.cylinderCell (KAM/Frozen/Planetary/Defs/CylinderCell.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:degham#degenerateHamiltonian
@@ -446,9 +446,9 @@ EDGE: bpP:p0:blocks#fast | blueprint-P/parts/p0-conventions.tex#bpP:p0:degham@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.degenerateHamiltonian (KAM/Frozen/Planetary/Defs/DegenerateHamiltonian.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:secavg#secularAverage
@@ -474,9 +474,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:secavg@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularAverage (KAM/Frozen/Planetary/Defs/SecularAverage.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:fastdiffeo#HasFastDiffeomorphism
@@ -501,9 +501,9 @@ EDGE: bpP:p0:fastfreq#fastFrequency | blueprint-P/parts/p0-conventions.tex#bpP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.HasFastDiffeomorphism (KAM/Frozen/Planetary/Defs/HasFastDiffeomorphism.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:birkhoff#HasSecularBirkhoffForm
@@ -531,9 +531,9 @@ EDGE: bpP:p0:oscaction#oscillatorAction | blueprint-P/parts/p0-conventions.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.HasSecularBirkhoffForm (KAM/Frozen/Planetary/Defs/HasSecularBirkhoffForm.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:cyltorus#IsCylinderTorus
@@ -561,9 +561,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p0-conventions.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsCylinderTorus (KAM/Frozen/Planetary/Defs/IsCylinderTorus.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:cylkol#IsCylinderKolmogorovSet
@@ -593,9 +593,9 @@ EDGE: bpP:p0:blocks#slow | blueprint-P/parts/p0-conventions.tex#bpP:p0:cylkol@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsCylinderKolmogorovSet (KAM/Frozen/Planetary/Defs/IsCylinderKolmogorovSet.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:circular#circularPoint
@@ -620,9 +620,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:circular@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.circularPoint (KAM/Frozen/Planetary/Defs/CircularPoint.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:circular#circularTube
@@ -648,9 +648,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:circular@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.circularTube (KAM/Frozen/Planetary/Defs/CircularTube.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:nocoll#NoCollision
@@ -676,9 +676,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p0-conventions.tex#bpP:p0:nocol
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.NoCollision (KAM/Frozen/Planetary/Defs/NoCollision.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:nocoll#PairBounds
@@ -703,9 +703,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p0-conventions.tex#bpP:p0:noc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.PairBounds (KAM/Frozen/Planetary/Defs/PairBounds.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:barycentric#actualMasses
@@ -729,9 +729,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.actualMasses (KAM/Frozen/Planetary/Defs/ActualMasses.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:barycentric#barycentricPositions
@@ -756,9 +756,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p0-conventions.tex#bpP:p0:baryc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.barycentricPositions (KAM/Frozen/Planetary/Defs/BarycentricPositions.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:barycentric#barycentricVelocities
@@ -783,9 +783,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p0-conventions.tex#bpP:p0:baryc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.barycentricVelocities (KAM/Frozen/Planetary/Defs/BarycentricVelocities.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:newton#IsNewtonSolution
@@ -810,9 +810,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p0-conventions.tex#bpP:p0:new
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsNewtonSolution (KAM/Frozen/Planetary/Defs/IsNewtonSolution.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:fixedsol#IsFixedSolution
@@ -837,9 +837,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p0-conventions.tex#bpP:p0:fix
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsFixedSolution (KAM/Frozen/Planetary/Defs/IsFixedSolution.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:movham#movingHamiltonian
@@ -868,9 +868,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p0-conventions.tex#bpP:p0:movha
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.movingHamiltonian (KAM/Frozen/Planetary/Defs/MovingHamiltonian.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:fixham#fixedHamiltonian
@@ -898,9 +898,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p0-conventions.tex#bpP:p0:fixha
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.fixedHamiltonian (KAM/Frozen/Planetary/Defs/FixedHamiltonian.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:phystorus#IsPhysicalTorus
@@ -928,9 +928,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p0-conventions.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsPhysicalTorus (KAM/Frozen/Planetary/Defs/IsPhysicalTorus.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:movkol#MovingKolmogorovSet
@@ -964,9 +964,9 @@ EDGE: bpP:p0:nocoll#PairBounds | blueprint-P/parts/p0-conventions.tex#bpP:p0:mov
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.MovingKolmogorovSet (KAM/Frozen/Planetary/Defs/MovingKolmogorovSet.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:fixkol#FixedKolmogorovSet
@@ -998,9 +998,9 @@ EDGE: bpP:p0:nocoll#PairBounds | blueprint-P/parts/p0-conventions.tex#bpP:p0:fix
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.FixedKolmogorovSet (KAM/Frozen/Planetary/Defs/FixedKolmogorovSet.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:totality
@@ -1162,9 +1162,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planeCross (KAM/Frozen/Planetary/Defs/PlaneCross.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-kepler#keplerEnergy
@@ -1192,9 +1192,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25-k
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerEnergy (KAM/Frozen/Planetary/Defs/KeplerEnergy.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-kepler#keplerAxis
@@ -1220,9 +1220,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25-keple
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerAxis (KAM/Frozen/Planetary/Defs/KeplerAxis.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-kepler#keplerAction
@@ -1248,9 +1248,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25-keple
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerAction (KAM/Frozen/Planetary/Defs/KeplerAction.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-kepler#keplerEccVector
@@ -1279,9 +1279,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25-k
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerEccVector (KAM/Frozen/Planetary/Defs/KeplerEccVector.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-amd#totalMomentum
@@ -1308,9 +1308,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25-amd@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.totalMomentum (KAM/Frozen/Planetary/Defs/TotalMomentum.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-amd#physicalAMD
@@ -1337,9 +1337,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25-amd@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.physicalAMD (KAM/Frozen/Planetary/Defs/PhysicalAMD.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-prograde#ProgradeElliptic
@@ -1368,9 +1368,9 @@ EDGE: bpP:p0:d25-cross#planeCross | blueprint-P/parts/p0-conventions.tex#bpP:p0:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.ProgradeElliptic (KAM/Frozen/Planetary/Defs/ProgradeElliptic.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-lowamd#LowAMDRegion
@@ -1398,9 +1398,9 @@ EDGE: bpP:p0:d25-amd#physicalAMD | blueprint-P/parts/p0-conventions.tex#bpP:p0:d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.LowAMDRegion (KAM/Frozen/Planetary/Defs/LowAMDRegion.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-box#AMDBox
@@ -1424,9 +1424,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.AMDBox (KAM/Frozen/Planetary/Defs/AMDBox.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-box#Admissible
@@ -1451,9 +1451,9 @@ EDGE: bpP:p0:d25-box#AMDBox | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25-bo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.AMDBox.Admissible (KAM/Frozen/Planetary/Defs/AMDBoxAdmissible.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-movsol#IsMovingSolutionOn
@@ -1482,9 +1482,9 @@ EDGE: bpP:p0:d25-movsol#IsHamiltonianSolutionOn | blueprint-P/parts/p0-conventio
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsMovingSolutionOn (KAM/Frozen/Planetary/Defs/IsMovingSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-movsol#IsHamiltonianSolutionOn
@@ -1509,9 +1509,9 @@ EDGE: bpP:p0:hamsymp#hamiltonianVectorField | blueprint-P/parts/p0-conventions.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.IsHamiltonianSolutionOn (KAM/Frozen/Iso/Defs/IsHamiltonianSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: track-I frozen definition (KAM.Iso.IsHamiltonianSolutionOn, manifest iso.*) transcribed with a \frozen tag at Part 0 L460 together with IsMovingSolutionOn; the generic statement is read from the frozen file, the blueprint gives it only for the momentum-domain slot Set.univ.
 
 NODE: bpP:p0:d25-newton#IsNewtonSolutionOn
@@ -1536,9 +1536,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p0-conventions.tex#bpP:p0:d25
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.IsNewtonSolutionOn (KAM/Frozen/Planetary/Defs/IsNewtonSolutionOn.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-unique#MovingUniqueOn
@@ -1564,9 +1564,9 @@ EDGE: bpP:p0:d25-movsol#IsMovingSolutionOn | blueprint-P/parts/p0-conventions.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.MovingUniqueOn (KAM/Frozen/Planetary/Defs/MovingUniqueOn.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-stopped#StoppedActionBound
@@ -1595,9 +1595,9 @@ EDGE: bpP:p0:d25-kepler#keplerAction | blueprint-P/parts/p0-conventions.tex#bpP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.StoppedActionBound (KAM/Frozen/Planetary/Defs/StoppedActionBound.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-exponents#planetaryTimeExponent
@@ -1621,9 +1621,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planetaryTimeExponent (KAM/Frozen/Planetary/Defs/PlanetaryTimeExponent.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:d25-exponents#planetaryDriftExponent
@@ -1648,9 +1648,9 @@ EDGE: bpP:p0:d25-exponents#planetaryTimeExponent | blueprint-P/parts/p0-conventi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0
 REVIEWER: sol-review-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planetaryDriftExponent (KAM/Frozen/Planetary/Defs/PlanetaryDriftExponent.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p0:amd

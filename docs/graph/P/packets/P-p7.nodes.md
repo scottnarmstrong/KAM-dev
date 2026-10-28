@@ -99,9 +99,9 @@ EDGE: I:bpI:p7:orbit-maps | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:kepl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunayMK (KAM/Kepler/Mass.lean); scaleMK, energyMK, axisMK, actionMK, regionMK, isOpen_regionMK (KAM/Kepler/Energy.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES (delaunayMK) + KEP-1 PASS (addendum) (Energy definitions)
 NOTE: the \frozen tag (keplerEnergy, keplerAxis, keplerAction, planeCross) records a statement about the Lean definitions, proved in bpP:p7:d25(d); the definition itself depends on none of them. The reference to bpP:p7:range (0<C<=Lambda, so that e is defined) is not an edge: range is a result about this definition
 
 NODE: bpP:p7:range
@@ -129,9 +129,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:range@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cross_le_action, cross_eq_action_iff (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES; equality case stated pointwise (q.p=0 and |q|=a), design D11
 NOTE: -
 
 NODE: stepP:p7:rg-scale
@@ -223,9 +223,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:kepler@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunayMK_symplectic, analyticOnNhd_delaunayMK, delaunayMK_periodic, delaunayMK_eq_iff, delaunayMK_localDiffeo, delaunayMK_image, delaunayMK_identities, delaunayMK_position, hasDerivAt_keplerEnergy_action, delaunayMK_means (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES; (a)-(d); quotient diffeomorphism as exact image + injectivity mod 2piZ + analytic local inverses (design D3/B6)
 NOTE: -
 
 NODE: stepP:p7:ke-chart
@@ -254,9 +254,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:ke-ch
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunayMK_periodic, delaunayMK_eq_iff, delaunayMK_localDiffeo, delaunayMK_image, analyticOnNhd_delaunayMK (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES; named kepler (a)
 NOTE: -
 
 NODE: stepP:p7:ke-form
@@ -284,9 +284,9 @@ EDGE: I:bpI:p7:x-forms | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:ke-fo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunayMK_symplectic (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES; named kepler (a) form
 NOTE: -
 
 NODE: stepP:p7:ke-b
@@ -315,9 +315,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:ke-b@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunayMK_identities, delaunayMK_position (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES; named kepler (b)
 NOTE: -
 
 NODE: stepP:p7:ke-c
@@ -346,9 +346,9 @@ EDGE: bpP:p7:kepler-data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:ke-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunayMK_means (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES; named kepler (c)
 NOTE: -
 
 NODE: stepP:p7:ke-d
@@ -379,9 +379,9 @@ EDGE: stepP:p7:ke-chart | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:ke-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunayMK_identities, hasDerivAt_keplerEnergy_action (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-10 PASS WITH NOTES; named kepler (d)
 NOTE: -
 
 NODE: bpP:p7:regular-kepler
@@ -412,9 +412,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:regular
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: keplerPhi_shift, keplerPhi_zero, keplerJac_ge, keplerJac_pos, keplerPhi_strictMono, keplerPhi_bijective, keplerPhi_keplerLong, keplerLong_unique, keplerLong_shift, keplerLong_zero_vec, analyticOnNhd_keplerLong, hasDerivAt_keplerLong_lambda, fderiv_keplerLong_vec, keplerLong_eq_add_eccAnom (KAM/Kepler/Equation.lean); regularKepler_complex, keplerLongC_ofReal, keplerLongC_shift, regularKepler_jac_bound, fderiv_keplerLongC_vec (KAM/Kepler/KeplerTube.lean)
+LEAN_NOTE: audit KEP-2 PASS (a),(c) + KEP-4 PASS WITH NOTES (b)
 NOTE: -
 
 NODE: stepP:p7:rk-mono
@@ -439,9 +439,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rk-mo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: keplerJac_ge, keplerJac_pos, keplerPhi_strictMono, keplerPhi_bijective, keplerPhi_shift (KAM/Kepler/Equation.lean)
+LEAN_NOTE: audit KEP-2 PASS; named regular-kepler (a)
 NOTE: -
 
 NODE: stepP:p7:rk-an
@@ -468,9 +468,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rk-an
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: analyticOnNhd_keplerLong, hasDerivAt_keplerLong_lambda, fderiv_keplerLong_vec, keplerLong_shift, keplerLong_zero_vec (KAM/Kepler/Equation.lean)
+LEAN_NOTE: audit KEP-2 PASS; named regular-kepler (a)
 NOTE: -
 
 NODE: stepP:p7:rk-contr
@@ -497,9 +497,9 @@ EDGE: I:stepI:p7:ke-trig | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rk-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: existsUnique_keplerOp (KAM/Kepler/EquationComplex.lean); Tube.keplerData_regular (KAM/Kepler/KeplerTube.lean)
+LEAN_NOTE: audit KEP-3/KEP-4 PASS WITH NOTES; named P rk-contr
 NOTE: -
 
 NODE: stepP:p7:rk-hol
@@ -529,9 +529,9 @@ EDGE: stepP:p7:rk-an | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rk-hol@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: keplerSol_analyticOnNhd (KAM/Kepler/EquationComplex.lean); regularKepler_complex, keplerLongC_ofReal, regularKepler_jac_bound, fderiv_keplerLongC_vec (KAM/Kepler/KeplerTube.lean)
+LEAN_NOTE: audit KEP-3/KEP-4 PASS WITH NOTES; named P rk-hol
 NOTE: -
 
 NODE: stepP:p7:rk-rel
@@ -558,9 +558,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rk-re
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: keplerLong_eq_add_eccAnom (KAM/Kepler/Equation.lean)
+LEAN_NOTE: audit KEP-2 PASS; named regular-kepler (c)
 NOTE: -
 
 NODE: bpP:p7:poincare-def
@@ -586,9 +586,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:poincar
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincareGamma, poincareK, poincareV, poincareF, poincare, poincareDom, isOpen_poincareDom (KAM/Planetary/Poincare/Chart.lean)
+LEAN_NOTE: audit P7-1 PASS WITH NOTES
 NOTE: the \frozen tag (secularEccVector, secularRoot, secularGamma, secularAxis, ellipsePosition, ellipseMomentum, keplerMeanLongitude, longitudeJacobian) records that these Lean definitions are this chart for kappa=1: a statement about them, proved in bpP:p7:d25, so no edge here; the reference to bpP:p7:d25 is a forward pointer (cycle d25 <-> poincare-def avoided)
 
 NODE: bpP:p7:o-facts
@@ -615,9 +615,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:o-facts
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_facts, poincare_facts_polar (KAM/Planetary/Poincare/Chart.lean); keplerJac_ge (KAM/Kepler/Equation.lean)
+LEAN_NOTE: audit P7-1 PASS WITH NOTES; J lower bound via imported keplerJac_ge (packaging note)
 NOTE: -
 
 NODE: bpP:p7:poincare
@@ -653,9 +653,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:poincar
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: analyticOnNhd_poincare, poincare_periodic (KAM/Planetary/Poincare/Chart.lean); poincare_eq_delaunayMK, poincare_symplectic, poincare_elements, poincare_circular (KAM/Planetary/Poincare/Symplectic.lean); poincare_eq_iff, poincare_localDiffeo, poincare_image, poincareInv, poincareInv_poincare, poincare_poincareInv (KAM/Planetary/Poincare/Bijective.lean)
+LEAN_NOTE: audit P7-1/P7-2/P7-3 PASS WITH NOTES; (e) quotient diffeomorphism as image + injectivity mod 2piZ + analytic local inverse + explicit inverse (design B6)
 NOTE: -
 
 NODE: stepP:p7:po-an
@@ -683,9 +683,9 @@ EDGE: bpP:p1:ext-comp | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-an@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: analyticOnNhd_poincare, poincare_periodic (KAM/Planetary/Poincare/Chart.lean)
+LEAN_NOTE: audit P7-1 PASS WITH NOTES; named poincare (a)
 NOTE: -
 
 NODE: stepP:p7:po-del
@@ -716,9 +716,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-de
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_eq_delaunayMK (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: audit P7-2 PASS WITH NOTES; named poincare (b)
 NOTE: -
 
 NODE: stepP:p7:po-symp
@@ -747,9 +747,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_symplectic (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: audit P7-2 PASS WITH NOTES; named poincare (c); holds on all of poincareDom
 NOTE: -
 
 NODE: stepP:p7:po-dense
@@ -782,9 +782,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-de
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_symplectic (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: audit P7-2 PASS WITH NOTES; named poincare (c), including Gamma=0
 NOTE: -
 
 NODE: stepP:p7:po-el
@@ -816,9 +816,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_elements (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: audit P7-2 PASS WITH NOTES; named poincare (d)
 NOTE: -
 
 NODE: stepP:p7:po-bij
@@ -858,9 +858,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_eq_iff, poincare_localDiffeo, poincare_image, poincareInv, poincareInv_poincare, poincare_poincareInv (KAM/Planetary/Poincare/Bijective.lean)
+LEAN_NOTE: audit P7-3 PASS WITH NOTES; named po-bij
 NOTE: -
 
 NODE: stepP:p7:po-circ
@@ -888,9 +888,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-ci
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_circular (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: audit P7-2 PASS WITH NOTES; named poincare (f)
 NOTE: -
 
 NODE: bpP:p7:holomorphic
@@ -918,9 +918,9 @@ EDGE: bpP:p7:regular-kepler | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:ho
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincareGammaC, poincareVC, poincareC, poincareNbhd, poincare_holomorphic (KAM/Planetary/Poincare/Holomorphic.lean); symplecticFormC, symplecticFormC_phaseToC, poincare_fderiv_real_restriction, poincare_holomorphic_symplectic (KAM/Planetary/Poincare/HolomorphicSymplectic.lean)
+LEAN_NOTE: audit P7-4 audit-2 PASS WITH NOTES (closes audit-1 F1)
 NOTE: the final sentence (hypotheses of Lemma bpP:p1:hol-chart satisfied) is an interface this node supplies to Part 8; no edge to bpP:p1:hol-chart
 
 NODE: stepP:p7:ho-size
@@ -947,9 +947,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:ho
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_holomorphic (KAM/Planetary/Poincare/Holomorphic.lean)
+LEAN_NOTE: audit P7-4 PASS WITH NOTES; named ho-size
 NOTE: -
 
 NODE: stepP:p7:ho-hol
@@ -980,9 +980,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:ho-ho
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_holomorphic (KAM/Planetary/Poincare/Holomorphic.lean); poincare_fderiv_real_restriction, poincare_holomorphic_symplectic (KAM/Planetary/Poincare/HolomorphicSymplectic.lean)
+LEAN_NOTE: audit P7-4 audit-1 + audit-2 PASS WITH NOTES; named ho-hol
 NOTE: SOURCE_GAP: L173 applies real derivative restriction on N(Lambda^o), while K:bp:p1:real-restriction is stated for a function on a full torus strip T_rho. N is bounded in Lambda,xi,eta, so that hypothesis is not supplied. The needed local open-domain restriction fact is true but is not the literal cited theorem: supply its local version or a valid localization, without adding it as an assumed premise. The other holomorphy/reality/periodicity and real symplectic-identity dependencies remain as recorded.
 
 NODE: bpP:p7:product-def
@@ -1010,9 +1010,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincareProd, poincareProdDom, hProd, regionProd (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: audit P7-5 PASS WITH NOTES
 NOTE: the identification K^(n)=ProgradeElliptic (kappa=1) is proved in bpP:p7:d25(d); no edge to the anchor here
 
 NODE: bpP:p7:product-chart
@@ -1051,7 +1051,7 @@ EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P7-5 PASS WITH NOTES N1/N2: part (b) dh/dLambda_i=nu_i, analyticity of h and nonvanishing d2h not exported (only hasDerivAt_nu); quotient diffeo and field/orbit transport (c),(d) only as ingredients; not marked proved
 NOTE: -
 
 NODE: stepP:p7:pc-prod
@@ -1483,7 +1483,7 @@ EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P7-7 audit-2 PASS for the 10-signature dictionary API, but the audit states the API does not individually restate the whole proposition; part (e) (F_i=g_i+u_i, lambda_i=ell_i+g_i with polar (xi,eta)) has no single declaration; not marked proved
 NOTE: the Lean function keplerMeanLongitude is not an anchor (SPEC): its statement is carried by regular-kepler and the d25-ab step
 
 NODE: stepP:p7:d25-ab
@@ -1518,9 +1518,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:d25
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secularGamma_eq, secularRoot_eq, secularEccVector_eq, secularAxis_eq (KAM/Planetary/Poincare/D25.lean); keplerMeanLongitude_eq, longitudeJacobian_eq, keplerJac_ge, keplerPhi_strictMono, keplerPhi_shift, keplerLong_unique, analyticOnNhd_keplerLong (KAM/Kepler/Equation.lean)
+LEAN_NOTE: audit P7-7 audit-2 PASS (a) + KEP-2 PASS (b)
 NOTE: -
 
 NODE: stepP:p7:d25-c
@@ -1553,9 +1553,9 @@ EDGE: bpP:p14:sb-defs#ellipsePhase | blueprint-P/parts/p7-kepler-poincare.tex#st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poincare_block_eq_ellipse, ellipsePhase_eq_poincareProd, ellipsePhase_eq_poincareProd_self (KAM/Planetary/Poincare/D25.lean)
+LEAN_NOTE: audit P7-7 audit-2 PASS; named d25(c)
 NOTE: -
 
 NODE: stepP:p7:d25-d
@@ -1590,9 +1590,9 @@ EDGE: bpP:p0:d25-cross#planeCross | blueprint-P/parts/p7-kepler-poincare.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: keplerFunctions_poincareProd, exists_poincareProd_of_progradeElliptic (KAM/Planetary/Poincare/D25.lean); poincareProd_eq_iff (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: audit P7-7 audit-2 PASS; named d25(d); uniqueness modulo 2pi k via P7-5 poincareProd_eq_iff
 NOTE: -
 
 NODE: stepP:p7:d25-e
@@ -1622,7 +1622,7 @@ EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P7-7: (e) only inherited (poincare_facts_polar, keplerLong_eq_add_eccAnom); no declaration states the full clause
 NOTE: -
 
 NODE: bpP:p7:conv#data
