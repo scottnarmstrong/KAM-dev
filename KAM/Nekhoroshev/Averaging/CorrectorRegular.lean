@@ -490,6 +490,82 @@ private theorem avgW_periodic (κ : ℝ) (z : AvgPhase n) (m : Fin n → ℤ) :
   have h2 : (z + KAM.ODE.angleShift m).2 = z.2 := by simp [KAM.ODE.angleShift]
   rw [this, h2, map_add, KAM.character_add, character_angleShift, mul_one]
 
+private theorem norm_dU_le (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ)
+    (k : Fin n → ℤ) {I : Fin n → ℝ} (hI : I ∈ actionBall n R)
+    (hM : ∀ i, ∑ j, |avgM h I i j| ≤ M₂) (v : Fin n → ℝ) :
+    ‖fderiv ℝ (aScal h f κ k) I v • kvec k‖ ≤ avgBterm h s M₂ κ k I * ‖v‖ := by
+  obtain ⟨-, -, hAd⟩ := hasFDerivAt_aScal d hκ k hI hM
+  rw [norm_smul, norm_kvec]
+  calc ‖fderiv ℝ (aScal h f κ k) I v‖ * ‖fun j => (k j : ℝ)‖
+      ≤ (avgBeta s k * (2 * n / s * |avgPsi κ (avgQ h k I)| +
+        M₂ * KAM.Fourier.modeSize k * |avgPsiD κ (avgQ h k I)|) * ‖v‖) *
+          ‖fun j => (k j : ℝ)‖ := mul_le_mul_of_nonneg_right (hAd v) (norm_nonneg _)
+    _ = avgBterm h s M₂ κ k I * ‖v‖ := by unfold avgBterm; ring
+
+private theorem hasFDerivAt_avgU (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ)
+    (k : Fin n → ℤ) {I : Fin n → ℝ} (hI : I ∈ actionBall n R)
+    (hM : ∀ i, ∑ j, |avgM h I i j| ≤ M₂) :
+    HasFDerivAt (avgU h f κ k) ((fderiv ℝ (aScal h f κ k) I).smulRight (kvec k)) I := by
+  rw [avgU_eq]; exact (hasFDerivAt_aScal d hκ k hI hM).1.smul_const _
+
+private theorem ofReal_norm_le_tsum {ι E : Type*} [NormedAddCommGroup E] {g : ι → E}
+    {b : ι → ℝ} (hb0 : ∀ i, 0 ≤ b i) (hb : Summable b) {a : E} (ha : HasSum g a)
+    (hg : ∀ i, ‖g i‖ ≤ b i) : ENNReal.ofReal ‖a‖ ≤ ∑' i, ENNReal.ofReal (b i) := by
+  rw [← ENNReal.ofReal_tsum_of_nonneg hb0 hb]
+  exact ENNReal.ofReal_le_ofReal (ha.norm_le_of_bounded hb.hasSum hg)
+
+/-- The four real series behind the envelopes converge. -/
+private theorem env_summable (d : AveragingData n R s h f) {κ M₂ : ℝ} (hκ : 0 < κ)
+    (hM0 : 0 ≤ M₂) (I : Fin n → ℝ) :
+    Summable (fun k : Fin n → ℤ => ‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k I)|) ∧
+    Summable (fun k : Fin n → ℤ => 2 * Real.pi *
+      ‖fun j => (k j : ℝ)‖ * KAM.Fourier.modeSize k * avgBeta s k * |avgPsi κ (avgQ h k I)|) ∧
+    Summable (fun k : Fin n → ℤ => avgBterm h s M₂ κ k I) ∧
+    Summable (fun k : Fin n → ℤ => 2 * Real.pi * ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+      (κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2))) := by
+  have hcore := fun k : Fin n → ℤ => core_ineq (N := n) (β := avgBeta s k)
+    (p := ‖fun j => (k j : ℝ)‖) (m := KAM.Fourier.modeSize k) (M₂ := M₂) (κ := κ) (s := s)
+    hκ d.hs (Nat.cast_nonneg n) hM0 (avgBeta_nonneg s k) (abs_nonneg _)
+    (psi_bounds hκ (avgQ h k I)).1 (abs_nonneg _) (psi_bounds hκ (avgQ h k I)).2
+    (norm_nonneg _) (norm_k_le k)
+  have hm := KAM.Fourier.modeSize_nonneg (n := n)
+  have hD := summable_dom d (domC n s κ M₂)
+  have hB : ∀ k, 0 ≤ avgBterm h s M₂ κ k I := fun k => avgBterm_nonneg d hM0 k I
+  have hT : ∀ k : Fin n → ℤ, 0 ≤ 2 * Real.pi * KAM.Fourier.modeSize k *
+      (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k I)|) := fun k => by
+    have := hm k; have := avgBeta_nonneg s k; positivity
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · exact Summable.of_nonneg_of_le (fun k => by
+      have := avgBeta_nonneg s k; positivity) (fun k => (hcore k).2) hD
+  · refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hD
+    · have := hm k; have := avgBeta_nonneg s k; positivity
+    · have e : 2 * Real.pi * ‖fun j => (k j : ℝ)‖ * KAM.Fourier.modeSize k * avgBeta s k *
+          |avgPsi κ (avgQ h k I)| = 2 * Real.pi * KAM.Fourier.modeSize k *
+          (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k I)|) := by ring
+      rw [e]
+      unfold avgBterm at hB
+      exact le_trans (le_add_of_nonneg_left (hB k)) (hcore k).1
+  · refine Summable.of_nonneg_of_le hB (fun k => ?_) hD
+    have := hT k
+    unfold avgBterm
+    exact le_trans (le_add_of_nonneg_right this) (hcore k).1
+  · have hpoly := (coef d).2.2.2.2.2.mul_left (2 * Real.pi)
+    refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hpoly
+    · have := avgBeta_nonneg s k; positivity
+    · have hr0 : 0 ≤ κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2) := by positivity
+      have hr1 : κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2) ≤ 1 := ((corrector hκ).2 _).2.2.2.2.2.1
+      have hβ := avgBeta_nonneg s k
+      have hp := norm_k_le (n := n) k
+      have hw : 1 + KAM.Fourier.modeSize k ≤ (1 + KAM.Fourier.modeSize k) ^ 3 := by
+        have := hm k; nlinarith [sq_nonneg (KAM.Fourier.modeSize k)]
+      calc 2 * Real.pi * ‖fun j => (k j : ℝ)‖ * avgBeta s k * (κ ^ 2 / (avgQ h k I ^ 2 + κ ^ 2))
+          ≤ 2 * Real.pi * (1 + KAM.Fourier.modeSize k) * avgBeta s k * 1 := by
+            exact mul_le_mul (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left
+              (hp.trans (by linarith)) (by positivity)) hβ) hr1 hr0
+              (mul_nonneg (mul_nonneg (by positivity) (by linarith [hm k])) hβ)
+        _ ≤ 2 * Real.pi * ((1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k) := by
+            nlinarith [mul_nonneg Real.pi_pos.le hβ]
+
 end KAM.Nekhoroshev
 
 end
