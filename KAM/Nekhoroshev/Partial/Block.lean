@@ -6,10 +6,10 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Nekhoroshev.Partial.Domain
-public import KAM.Nekhoroshev.Partial.Hessian
-public import KAM.Nekhoroshev.Partial.BlockData
-public import KAM.Nekhoroshev.Partial.Nonresonant
-public import KAM.Nekhoroshev.Partial.Resonant
+import KAM.Nekhoroshev.Partial.Hessian
+import KAM.Nekhoroshev.Partial.BlockData
+import KAM.Nekhoroshev.Partial.Nonresonant
+import KAM.Nekhoroshev.Partial.Resonant
 import KAM.Nekhoroshev.Partial.Threshold
 
 /-!
@@ -28,7 +28,7 @@ namespace KAM.Nekhoroshev
 
 variable {n k : ℕ}
 
-/-! ### Rescaling the slow pair -/
+/-! ### Rescaling the slow pair (step `stepN:p11:bl-ext`) -/
 
 /-- Coordinate factors of the slow rescaling: `1` on the fast actions, `t` on the slow pair. -/
 def nblkFactor (t : ℝ) : Fin (n + (k + k)) → ℝ := Fin.append (fun _ => 1) (fun _ => t)
@@ -106,7 +106,7 @@ theorem nblkScale_fst (t : ℝ) (v : Fin n → ℝ) :
   refine Prod.ext rfl (funext fun j => ?_)
   simp [nblkScale]
 
-theorem nblkScale_fst' (t : ℝ) (w : ER n k) : (nblkScale t w).1 = w.1 := rfl
+theorem nblkScale_fst_eq (t : ℝ) (w : ER n k) : (nblkScale t w).1 = w.1 := rfl
 
 theorem nblkScale_snd (t : ℝ) (w : ER n k) (j : Fin (n + (k + k))) :
     (nblkScale t w).2 j = nblkFactor t j * w.2 j := rfl
@@ -123,7 +123,8 @@ theorem nblk_isOpen (b : PartialBlock n k) (R : ℝ) : IsOpen (b.realDom R) := b
         Complex.continuous_ofReal.comp ((continuous_apply i).comp continuous_snd))
   exact (KAM.Weighted.isOpen_Dom _ _ _).preimage hc
 
-/-- The weighted field transforms under the slow rescaling `x = t x̃`, with `c t² = 2π`. -/
+/-- The weighted field transforms under the slow rescaling `x = t x̃`, with `c t² = 2π`
+(step `stepN:p11:bl-ext`). -/
 theorem nblk_field {t c : ℝ} (ht : t ≠ 0) (hc : c * t ^ 2 = 2 * Real.pi) {U : Set (ER n k)}
     (hU : IsOpen U) {Hs Hp : ER n k → ℝ} (hHs : EqOn Hs (Hp ∘ nblkScale t) U) {z : ER n k}
     (hz : z ∈ U) :
@@ -146,7 +147,7 @@ theorem nblk_field {t c : ℝ} (ht : t ≠ 0) (hc : c * t ^ 2 = 2 * Real.pi) {U 
   have hct : c * t = t⁻¹ * (2 * Real.pi) := by
     rw [← hc, eq_inv_mul_iff_mul_eq₀ ht]; ring
   refine Prod.ext (funext fun i => ?_) (funext fun j => ?_)
-  · simp only [realWfield, nblkScale_fst']
+  · simp only [realWfield, nblkScale_fst_eq]
     rw [hsl, nblkFactor_fast, one_mul]
   · refine ext_cases (P := fun j => (realWfield c Hs z).2 j =
       (nblkScale t⁻¹ (realWfield (2 * Real.pi) Hp (nblkScale t z))).2 j) ?_ ?_ ?_ j
@@ -163,7 +164,8 @@ theorem nblk_field {t c : ℝ} (ht : t ≠ 0) (hc : c * t ^ 2 = 2 * Real.pi) {U 
       linear_combination (-(fderiv ℝ Hp (nblkScale t z)
         ((0 : Fin n → ℝ), Pi.single (Fin.natAdd n (Fin.castAdd k i)) 1))) * hct
 
-/-- Transport of the physical orbit and field to the rescaled block coordinates `x̃ = x/λ`. -/
+/-- Transport of the physical orbit and field to the rescaled block coordinates `x̃ = x/λ`
+(step `stepN:p11:bl-ext`). -/
 theorem nblk_transport (b : PartialBlock n k) (hr : 0 < b.rB) (hw : 0 < b.w)
     {Hc : EC n k → ℂ} {Hp : ER n k → ℝ}
     (hH : ∀ v ∈ b.realDom b.rB, (Hc (extCx v)).re = Hp (nblkScale b.lam v))
@@ -191,7 +193,8 @@ theorem nblk_transport (b : PartialBlock n k) (hr : 0 < b.rB) (hw : 0 < b.w)
     rw [e, nblkCLM_apply] at h1
     rwa [nblkScale_cancel hlam]
 
-/-- The rescaled block domain lies in the physical domain of `domain_field`. -/
+/-- The rescaled block domain lies in the physical domain of `domain_field`
+(step `stepN:p11:bl-ext`). -/
 theorem nblk_dom (a : PartialData n k) {μ r : ℝ} {Ic : Fin n → ℝ} (hr : 0 < r)
     (hd : 0 < (constants a).d μ) (hrr0 : r ≤ (constants a).r0) {z : ER n k}
     (hz : z ∈ (block_setting a μ Ic r).realDom r) :

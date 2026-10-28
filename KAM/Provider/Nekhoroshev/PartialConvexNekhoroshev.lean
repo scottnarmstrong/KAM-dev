@@ -31,20 +31,21 @@ namespace KAM.Provider.Nekhoroshev
 
 open KAM.Nekhoroshev
 
-/-- The slow pair of the converted point is the frozen slow pair. -/
+/-- The slow pair of the converted point is the frozen slow pair (step `stepN:p11:final-orbit`). -/
 theorem slowPair_theta {n k : ℕ} (w : KAM.Planetary.Phase (n + k)) :
     slowPair (theta w) = (KAM.Planetary.slow (a := n) w.1, KAM.Planetary.slow (a := n) w.2) := by
   ext i
   · exact theta_slowq w i
   · exact theta_slowp w i
 
-/-- The fast action of the converted point is the frozen fast action. -/
+/-- The fast action of the converted point is the frozen fast action
+(step `stepN:p11:final-orbit`). -/
 theorem fastAction_theta {n k : ℕ} (w : KAM.Planetary.Phase (n + k)) :
     fastAction (theta w) = KAM.Planetary.fast (b := k) w.2 := by
   funext i
   exact theta_fast w i
 
-/-- Shrinking the radius of an inner core enlarges it. -/
+/-- Shrinking the radius of an inner core enlarges it (step `stepN:p11:final-orbit`). -/
 theorem innerCore_mono {E : Type*} [NormedAddCommGroup E] {U : Set E} {d d' : ℝ} (hd : d' ≤ d)
     {x : E} (hx : x ∈ innerCore U d) : x ∈ innerCore U d' :=
   ⟨hx.1, (Metric.closedBall_subset_closedBall hd).trans hx.2⟩
