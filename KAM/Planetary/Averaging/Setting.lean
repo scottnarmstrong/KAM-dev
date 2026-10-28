@@ -21,9 +21,10 @@ public import KAM.Strip.RealRestriction
 # P Parts 2-3: the averaging setting (`bpP:p2:conv#data`)
 
 Carrier abbreviations `CPhase`, `CHam`, the coefficient/geometric width dictionary
-(`geometricWidth`, `realBase`, `coefficientDom`, `realTube`, `conv_data`), the block adapters `firstBlock`,
-`lastBlock` (`block_bridge` identifies them with the frozen `fast`, `slow`),
-the P2 divisor setting `setting`, the two-scale divisor predicate `TwoDiv`, and the source-premise bundles `DirectHyp`, `AvgHyp`.
+(`geometricWidth`, `realBase`, `coefficientDom`, `realTube`, `conv_data`), the block
+adapters `firstBlock`, `lastBlock` (`block_bridge` identifies them with the frozen `fast`,
+`slow`), the P2 divisor setting `setting`, the two-scale divisor predicate `TwoDiv`, and the
+source-premise bundles `DirectHyp`, `AvgHyp`.
 Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-01. The bundles contain source
 premises, positivity and typing data only.
 -/
