@@ -619,4 +619,67 @@ theorem homological_maximal_real {n : ℕ} {r T D : ℝ} (hr : 0 < r) (hT : 0 < 
   refine tsum_congr fun k => ?_
   simp only [Equiv.neg_apply, map_mul, hneg, conj_character_real, neg_neg]
 
+/-! ### Parameter derivatives (`hm-bc`) -/
+
+/-- `param_cauchy` for scalar-valued maps (the same proof). -/
+theorem param_cauchy_scalar {n : ℕ} {E : Set (P11Vec n)} {t tp M : ℝ}
+    (htp : 0 < tp) (ht : tp < t)
+    {u : P11CVec n → ℂ} (hu : DifferentiableOn ℂ u (KAM.actionNbhd E t))
+    (hb : p11Bound (KAM.actionNbhd E t) u M) {j : ℕ} (hj : 1 ≤ j) :
+    ∀ b ∈ KAM.actionNbhd E tp, ‖iteratedFDeriv ℂ j u b‖ ≤
+      (j : ℝ)^j*M/(t-tp)^j := by
+  intro b hb'
+  obtain ⟨J, hJ, hbJ⟩ := hb'
+  have hjpos : (0 : ℝ) < j := by exact_mod_cast hj
+  have hδ : 0 < (t - tp) / j := div_pos (by linarith) hjpos
+  have hball : closedBall b (j * ((t - tp) / j)) ⊆ KAM.actionNbhd E t := by
+    intro w hw
+    refine ⟨J, hJ, ?_⟩
+    have hw' := mem_closedBall_iff_norm.mp hw
+    rw [mul_div_cancel₀ _ hjpos.ne'] at hw'
+    calc ‖w - fun i => (J i : ℂ)‖ = ‖(w - b) + (b - fun i => (J i : ℂ))‖ := by
+          congr 1; abel
+      _ ≤ ‖w - b‖ + ‖b - fun i => (J i : ℂ)‖ := norm_add_le _ _
+      _ < t := by linarith
+  have := p11_norm_iteratedFDeriv_le_of_closedBall (p11_isOpen_actionNbhd E t) hδ j hu hball
+    (fun w hw => hb w (hball hw))
+  convert this using 1
+  rw [div_pow, div_div_eq_mul_div]
+  ring
+
+/-- Every-order parameter clause of homological-maximal(c), scalar and average. -/
+theorem homological_maximal_param {n : ℕ} {r delta T D M t tp : ℝ}
+    (hr : 0 < r) (hd : 0 < delta) (hdr : delta < r) (hT : 0 < T)
+    (hD : 0 < D) (hM : 0 ≤ M) {E : Set (P11Vec n)} (htp : 0 < tp) (htt : tp < t)
+    (w : P11CVec n → P11CVec n) (hw : DifferentiableOn ℂ w (KAM.actionNbhd E t))
+    (hdiv : ∀ b ∈ KAM.actionNbhd E t, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    (P : P11CVec n × P11CVec n → ℂ) (hP : p11AngleClass r (KAM.actionNbhd E t) P)
+    (hpoly : ∀ z ∈ Set.univ ×ˢ KAM.actionNbhd E t,
+      KAM.Weighted.truncate T P z=P z)
+    (hb : p11Bound (KAM.complexStrip n r ×ˢ KAM.actionNbhd E t) P M)
+    {j : ℕ} (hj : 1 ≤ j) :
+    ∀ theta ∈ KAM.complexStrip n (r-delta), ∀ b ∈ KAM.actionNbhd E tp,
+      ‖iteratedFDeriv ℂ j (p11Solve T w P theta) b‖ ≤
+        (j : ℝ)^j*p11Lambda n delta*M/(Real.pi*D*(t-tp)^j) ∧
+      ‖iteratedFDeriv ℂ j (p11AngleAverage P) b‖ ≤ (j : ℝ)^j*M/(t-tp)^j := by
+  intro theta hθ b hbtp
+  have hB := p11_isOpen_actionNbhd E t
+  refine ⟨?_, ?_⟩
+  · have hdiff : DifferentiableOn ℂ (p11Solve T w P theta) (KAM.actionNbhd E t) := by
+      have h1 := differentiableOn_solve hr hB hD hP.1 hw hdiv (T := T)
+      exact h1.comp (differentiableOn_const theta |>.prodMk differentiableOn_id)
+        fun b hb => ⟨trivial, hb⟩
+    have hbd : p11Bound (KAM.actionNbhd E t) (p11Solve T w P theta)
+        (p11Lambda n delta*M/(Real.pi*D)) := fun b hbB =>
+      norm_solve_le hd hD hr hM hP hb hbB (hdiv b hbB) hθ
+    have := param_cauchy_scalar htp htt hdiff hbd hj b hbtp
+    refine this.trans (le_of_eq ?_)
+    ring
+  · have hdiff : DifferentiableOn ℂ (p11AngleAverage P) (KAM.actionNbhd E t) :=
+      differentiableOn_coeff hr hB hP.1 0
+    have hbd : p11Bound (KAM.actionNbhd E t) (p11AngleAverage P) M := fun b hbB => by
+      have := norm_coeff_le hr hP hb hbB 0
+      simpa [KAM.Fourier.modeSize, p11AngleAverage] using this
+    exact param_cauchy_scalar htp htt hdiff hbd hj b hbtp
+
 end KAM.Planetary
