@@ -190,6 +190,119 @@ theorem real_flow (hφr : RealOn (oscDom (m := m) D r rp rq S) φ) :
     exact ⟨_, h2⟩
   exact flow_e H.smallField hreal _ (H.half hx) ⟨x, rfl⟩ 1 one_mem
 
+/-- The four blocks of the field on `𝒪`. -/
+theorem field_components : ∀ z ∈ oscO (m := m) D r rp rq S ρ ρp ρq σ,
+    ‖firstBlock (b := m) (KAM.hamiltonianVectorFieldℂ φ z).1‖ ≤ E / ρ ∧
+    ‖firstBlock (b := m) (KAM.hamiltonianVectorFieldℂ φ z).2‖ ≤ E / (Real.exp 1 * σ) ∧
+    ‖lastBlock (a := n) (KAM.hamiltonianVectorFieldℂ φ z).1‖ ≤ E / ρp ∧
+    ‖lastBlock (a := n) (KAM.hamiltonianVectorFieldℂ φ z).2‖ ≤ E / ρq := by
+  intro z hz
+  obtain ⟨hθ, hI, hp, hq⟩ := ob_der (n := n) (m := m) (D := D) (r₀ := r) (rp₀ := rp) (rq₀ := rq)
+    (S₀ := S) (r := r) (rp := rp) (rq := rq) (S := S) (ρ := ρ) (ρp := ρp) (ρq := ρq) (σ := σ)
+    H.cls H.bound ⟨by linarith [H.hρ, H.hρr], by linarith [H.hρp, H.hρpr],
+      by linarith [H.hρq, H.hρqr], by linarith [H.hσ, H.hσS]⟩
+    ⟨by linarith [H.hρ, H.hρr], by linarith [H.hρp, H.hρpr],
+      by linarith [H.hρq, H.hρqr], by linarith [H.hσ, H.hσS]⟩
+  have hT : ∀ a : CPhase (n + m), oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => fderiv ℂ φ z a) := fun a =>
+    (H.cls.fderiv_apply a).mono (by linarith [H.hρ]) (by linarith [H.hρp]) (by linarith [H.hρq])
+      (by linarith [H.hσ])
+  have hE0 := H.E_nonneg
+  have bθ : ∀ j : Fin n, ‖fderiv ℂ φ z (Pi.single (Fin.castAdd m j) 1, 0)‖ ≤
+      E / (Real.exp 1 * σ) := fun j => by
+    have h := oscBound.norm_le (hT _) (hθ j) z hz
+    have e : S - S + σ = σ := by ring
+    rwa [e] at h
+  have bI : ∀ j : Fin n, ‖fderiv ℂ φ z (0, Pi.single (Fin.castAdd m j) 1)‖ ≤ E / ρ := fun j => by
+    have h := oscBound.norm_le (hT _) (hI j) z hz
+    have e : r - r + ρ = ρ := by ring
+    rwa [e] at h
+  have bp : ∀ j : Fin m, ‖fderiv ℂ φ z (0, Pi.single (Fin.natAdd n j) 1)‖ ≤ E / ρp := fun j => by
+    have h := oscBound.norm_le (hT _) (hp j) z hz
+    have e : rp - rp + ρp = ρp := by ring
+    rwa [e] at h
+  have bq : ∀ j : Fin m, ‖fderiv ℂ φ z (Pi.single (Fin.natAdd n j) 1, 0)‖ ≤ E / ρq := fun j => by
+    have h := oscBound.norm_le (hT _) (hq j) z hz
+    have e : rq - rq + ρq = ρq := by ring
+    rwa [e] at h
+  have n1 : 0 ≤ E / ρ := div_nonneg hE0 H.hρ.le
+  have n2 : 0 ≤ E / (Real.exp 1 * σ) := div_nonneg hE0 (by have := H.hσ; positivity)
+  have n3 : 0 ≤ E / ρp := div_nonneg hE0 H.hρp.le
+  have n4 : 0 ≤ E / ρq := div_nonneg hE0 H.hρq.le
+  refine ⟨(pi_norm_le_iff_of_nonneg n1).2 fun j => ?_, (pi_norm_le_iff_of_nonneg n2).2 fun j => ?_,
+    (pi_norm_le_iff_of_nonneg n3).2 fun j => ?_, (pi_norm_le_iff_of_nonneg n4).2 fun j => ?_⟩
+  · simpa [KAM.hamiltonianVectorFieldℂ, firstBlock] using bI j
+  · simpa [KAM.hamiltonianVectorFieldℂ, firstBlock] using bθ j
+  · simpa [KAM.hamiltonianVectorFieldℂ, lastBlock] using bp j
+  · simpa [KAM.hamiltonianVectorFieldℂ, lastBlock] using bq j
+
+end OscFlowHyp
+
+/-- Mean value along a trajectory: a component of the field bounded by `C` along the trajectory
+moves by at most `C |t|`. -/
+theorem component_mvt' {n : ℕ} {G : Type*} [NormedAddCommGroup G] [NormedSpace ℝ G]
+    (L : ((Fin n → ℂ) × (Fin n → ℂ)) →L[ℝ] G)
+    {X : (Fin n → ℂ) × (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {Ω : Set ((Fin n → ℂ) × (Fin n → ℂ))} {γ : ℝ → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hsol : KAM.ODE.IsSolutionIn X Ω (Icc (-1) 1) γ) {C : ℝ}
+    (hC : ∀ t ∈ Icc (-1 : ℝ) 1, ‖L (X (γ t))‖ ≤ C) {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) :
+    ‖L (γ t) - L (γ 0)‖ ≤ C * |t| := by
+  have h0 : (0 : ℝ) ∈ Icc (-1 : ℝ) 1 := ⟨by norm_num, by norm_num⟩
+  have := (convex_Icc (-1 : ℝ) 1).norm_image_sub_le_of_norm_hasDerivWithin_le
+    (f := fun t => L (γ t)) (f' := fun t => L (X (γ t))) (C := C)
+    (fun x hx => (L.hasFDerivAt.comp_hasDerivAt x (hsol x hx).2).hasDerivWithinAt) hC h0 ht
+  simpa using this
+
+/-- The four block extractions, as `ℝ`-linear maps. -/
+def blkθ (n m : ℕ) : CPhase (n + m) →L[ℝ] (Fin n → ℂ) :=
+  LinearMap.toContinuousLinearMap
+    { toFun := fun z => firstBlock (b := m) z.1, map_add' := fun _ _ => rfl,
+      map_smul' := fun _ _ => rfl }
+def blkI (n m : ℕ) : CPhase (n + m) →L[ℝ] (Fin n → ℂ) :=
+  LinearMap.toContinuousLinearMap
+    { toFun := fun z => firstBlock (b := m) z.2, map_add' := fun _ _ => rfl,
+      map_smul' := fun _ _ => rfl }
+def blkq (n m : ℕ) : CPhase (n + m) →L[ℝ] (Fin m → ℂ) :=
+  LinearMap.toContinuousLinearMap
+    { toFun := fun z => lastBlock (a := n) z.1, map_add' := fun _ _ => rfl,
+      map_smul' := fun _ _ => rfl }
+def blkp (n m : ℕ) : CPhase (n + m) →L[ℝ] (Fin m → ℂ) :=
+  LinearMap.toContinuousLinearMap
+    { toFun := fun z => lastBlock (a := n) z.2, map_add' := fun _ _ => rfl,
+      map_smul' := fun _ _ => rfl }
+
+namespace OscFlowHyp
+
+variable (H : OscFlowHyp D r rp rq S ρ ρp ρq σ E φ)
+
+include H
+
+theorem disp_components : ∀ z ∈ oscDom (m := m) D (r - 3 * ρ / 2) (rp - 3 * ρp / 2)
+    (rq - 3 * ρq / 2) (S - 3 * σ / 2),
+    ‖firstBlock (b := m) ((flow (KAM.hamiltonianVectorFieldℂ φ)
+      (oscO (m := m) D r rp rq S ρ ρp ρq σ) 1 z).1 - z.1)‖ ≤ E / ρ ∧
+    ‖firstBlock (b := m) ((flow (KAM.hamiltonianVectorFieldℂ φ)
+      (oscO (m := m) D r rp rq S ρ ρp ρq σ) 1 z).2 - z.2)‖ ≤ E / (Real.exp 1 * σ) ∧
+    ‖lastBlock (a := n) ((flow (KAM.hamiltonianVectorFieldℂ φ)
+      (oscO (m := m) D r rp rq S ρ ρp ρq σ) 1 z).1 - z.1)‖ ≤ E / ρp ∧
+    ‖lastBlock (a := n) ((flow (KAM.hamiltonianVectorFieldℂ φ)
+      (oscO (m := m) D r rp rq S ρ ρp ρq σ) 1 z).2 - z.2)‖ ≤ E / ρq := by
+  intro z hz
+  obtain ⟨h0, hsol, -, -⟩ := flow_a H.smallField (H.half hz)
+  have key : ∀ {G : Type} [NormedAddCommGroup G] [NormedSpace ℝ G]
+      (L : CPhase (n + m) →L[ℝ] G) (C : ℝ),
+      (∀ w ∈ oscO (m := m) D r rp rq S ρ ρp ρq σ, ‖L (KAM.hamiltonianVectorFieldℂ φ w)‖ ≤ C) →
+      ‖L (flow (KAM.hamiltonianVectorFieldℂ φ) (oscO (m := m) D r rp rq S ρ ρp ρq σ) 1 z) -
+        L z‖ ≤ C := by
+    intro G _ _ L C hC
+    have := component_mvt' L hsol (C := C) (fun t ht => hC _ (hsol t ht).1) one_mem
+    simpa [h0] using this
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · exact key (blkθ n m) (E / ρ) fun w hw => (H.field_components w hw).1
+  · exact key (blkI n m) _ fun w hw => (H.field_components w hw).2.1
+  · exact key (blkq n m) _ fun w hw => (H.field_components w hw).2.2.1
+  · exact key (blkp n m) _ fun w hw => (H.field_components w hw).2.2.2
+
 end OscFlowHyp
 
 end Props
