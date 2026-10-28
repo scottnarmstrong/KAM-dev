@@ -1,0 +1,19 @@
+# B02 prover handoff (P11B; branch inp-p11b-b02, 7868a90f; contains inp-p11b-b01 (audited); offloaded package run by the main orchestrator; prover on claude-12)
+
+
+**Files:** new `KAM/Planetary/WeakKAM/Schedule.lean` (248 lines). No other file touched (KAM.lean not edited; lint reports it out of date as expected — orchestrator regenerates).
+
+**Declarations (copied verbatim from the signature file):** selectionCN, selectionCutoffError, selectionExponent, selectionVarpi, selectionQ, selectionVarrho, selectionCQ, selectionG, schedule_consts (schedule-consts); schedule_ratios (schedule-ratios, proved); geom_recursion (geom-recursion, proved); SelectionSchedule + selectionT/D/t/ε/s/σ/d/r/ell/Tail/Qsharp/Q₀ + `schedule` (schedule); SelectionChain, selectionFrequency, selectionEnergy, selectionCompose, selectionModeLength, selectionShell, selectionModeStage, selectionExtendedFrequency, selectionRetained; SelectionExtensionChain, SelectionFiniteChain, sec_retained_data (sec-retained#data).
+
+**Belongs to other packages (not here):** strip_budget, schedule_props (B03); selectionInitial / `initial` (B06); selectionBump*, selectionCutoffC, selectionExtensionC, smooth_cutoff (B04); adm_params, selectionAdapted, SelectionAdmissibility, lambdaMax etc. (B07); finite_extension (B05); finite_divisor (B08). All sit after my section in the signature file and are listed in the design's package table under those packages.
+
+**Approach:** schedule_ratios: E ≥ 9 style linear bounds, u = 2^(-E), varpi = u², Q = u/4, varrho = 4u; each g_i written as one rpow 2^(…) and bounded by 2^(-5). geom_recursion: induction on x j ≤ x 0 v^j, then the P p^j x j ≤ v/2 and 7v/8 bounds.
+
+**Checks:** `inp_lake_build.sh … KAM.Planetary.WeakKAM.Schedule`: Build completed successfully (only unused-variable warnings for `hv1`, `hc0` in geom_recursion, kept for verbatim signature). `scripts/lint_sources.sh`: check_lean_modules PASS, FROZEN-ANCHOR GUARD OK, ABI HASHES OK; "KAM.lean is out of date" (generated; not edited). No sorry in the file.
+`#print axioms schedule_ratios` / `geom_recursion`: [propext, Classical.choice, Quot.sound].
+
+**Deviation (minor):** the signature file uses `τ` in `schedule_ratios` as an auto-bound implicit, but the project sets autoImplicit false; I added `τ` to the `variable {n μ : ℕ} {t C₁ τ : ℝ}` line. The statement of schedule_ratios is unchanged (τ implicit, same binder order for explicit args). Note this also makes τ a section variable; no later declaration in this file uses it spuriously.
+
+**Uncertainties / errata / design signals:** none; no heartbeat issues (file builds in seconds). selectionCN is defined here by the signature formula, not linked to P11A's fourier_cutoff constant (no P11A import needed; downstream B03 must relate them). 
+
+AUDIT FOCUS (design docs/tracks/P/design/P11B-LEAN-DESIGN.md row B02 and Appendix; audits DESIGN-P11B-design-audit-{1,2}.md; signatures .drafts/design/P11BSignatures.lean): (1) every B02 declaration (schedule constants, schedule_consts, schedule_ratios, schedule, geom_recursion, the raw SelectionChain / SelectionExtensionChain / SelectionFiniteChain and shell/retained definitions) = signature file exactly, and COMPLETE for B02 (confirm the prover's assignment of strip_budget/schedule_props to B03, initial to B06, the bump/cutoff names to B04, adm_params to B07 against the design rows); (2) definitions mean the source objects; the chain structures contain only source data, not proof steps; schedule_ratios / geom_recursion proofs sound; (3) selectionCN is defined by the signature formula and NOT linked to P11A's fourier_cutoff constant p11C: check whether the design requires an identification (as Q1 did with cN_eq_p11C) and report it if so; (4) hygiene (no EuclideanSpace; no public name already used elsewhere in KAM). Audit ONLY KAM/Planetary/WeakKAM/Schedule.lean.
