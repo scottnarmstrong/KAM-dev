@@ -56,7 +56,8 @@ theorem planetBlock_polarMap (z : Phase (n + n)) (i : Fin n) :
   refine Prod.ext (funext fun k => ?_) (funext fun k => ?_) <;> fin_cases k <;>
     simp [planetBlock, polarMap, polar1, assemble, fast, slow, Fin.append_left]
 
-theorem mem_polarDom_iff {z : Phase (n + n)} : z ∈ polarDom n ↔ ∀ i, planetBlock z i ∈ polarDom1 := by
+theorem mem_polarDom_iff {z : Phase (n + n)} :
+    z ∈ polarDom n ↔ ∀ i, planetBlock z i ∈ polarDom1 := by
   simp [polarDom, polarDom1, planetBlock, fast, slow]
 
 /-- Reassembling the blocks of a point gives the point back. -/
@@ -97,13 +98,17 @@ private theorem hasFDerivAt_polar1 {w : Phase 2} (hR : 0 < w.2 1) :
              ![u.2 0, (√(2 * w.2 1))⁻¹ * Real.cos (w.1 1) * u.2 1 -
                 √(2 * w.2 1) * Real.sin (w.1 1) * u.1 1]) := by
   let c : Phase 2 →L[ℝ] ℝ :=
-    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 1).comp (ContinuousLinearMap.fst ℝ _ _)
+    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 1).comp
+      (ContinuousLinearMap.fst ℝ _ _)
   let r : Phase 2 →L[ℝ] ℝ :=
-    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 1).comp (ContinuousLinearMap.snd ℝ _ _)
+    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 1).comp
+      (ContinuousLinearMap.snd ℝ _ _)
   let a : Phase 2 →L[ℝ] ℝ :=
-    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 0).comp (ContinuousLinearMap.fst ℝ _ _)
+    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 0).comp
+      (ContinuousLinearMap.fst ℝ _ _)
   let b : Phase 2 →L[ℝ] ℝ :=
-    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 0).comp (ContinuousLinearMap.snd ℝ _ _)
+    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 0).comp
+      (ContinuousLinearMap.snd ℝ _ _)
   have h2R : (2 * w.2 1) ≠ 0 := by positivity
   have hs : HasFDerivAt (fun w : Phase 2 => √(2 * w.2 1))
       ((1 / (2 * √(2 * w.2 1))) • ((2 : ℝ) • r)) w :=
@@ -154,7 +159,8 @@ private theorem polar1_symplectic {w : Phase 2} (hw : w ∈ polarDom1) (u v : Ph
   have hs : √(2 * w.2 1) * (√(2 * w.2 1))⁻¹ = 1 := mul_inv_cancel₀ (by positivity)
   have hsc := Real.sin_sq_add_cos_sq (w.1 1)
   simp only [symplecticForm, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one]
-  linear_combination (-(u.1 1 * v.2 1 - u.2 1 * v.1 1) * (Real.sin (w.1 1) ^ 2 + Real.cos (w.1 1) ^ 2)) * hs -
+  linear_combination
+    (-(u.1 1 * v.2 1 - u.2 1 * v.1 1) * (Real.sin (w.1 1) ^ 2 + Real.cos (w.1 1) ^ 2)) * hs -
     (u.1 1 * v.2 1 - u.2 1 * v.1 1) * hsc
 
 private theorem analyticAt_polar1 {w : Phase 2} (hR : 0 < w.2 1) : AnalyticAt ℝ polar1 w := by
@@ -171,7 +177,8 @@ private theorem analyticAt_polar1 {w : Phase 2} (hR : 0 < w.2 1) : AnalyticAt �
     ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) 0).comp
       (ContinuousLinearMap.snd ℝ _ _)).analyticAt w
   have hs : AnalyticAt ℝ (fun w : Phase 2 => √(2 * w.2 1)) w :=
-    (((analyticAt_const.mul hr).contDiffAt (n := ω)).sqrt (by show 2 * w.2 1 ≠ 0; positivity)).analyticAt
+    (((analyticAt_const.mul hr).contDiffAt (n := ω)).sqrt
+      (by show 2 * w.2 1 ≠ 0; positivity)).analyticAt
   refine AnalyticAt.prod (AnalyticAt.pi fun k => ?_) (AnalyticAt.pi fun k => ?_)
   · fin_cases k
     · exact ha
@@ -209,7 +216,8 @@ theorem polarMap_mapsTo (n : ℕ) : MapsTo (polarMap (n := n)) (polarDom n) (poi
 
 theorem polarMap_symplectic (n : ℕ) : IsSymplecticOn 1 (polarMap (n := n)) (polarDom n) := by
   intro z hz u v
-  have hd : ∀ i, HasFDerivAt polar1 (fderiv ℝ polar1 (planetBlock z i)) (blockCLM i z) := fun i => by
+  have hd : ∀ i, HasFDerivAt polar1 (fderiv ℝ polar1 (planetBlock z i)) (blockCLM i z) :=
+    fun i => by
     rw [blockCLM_apply]
     exact (analyticAt_polar1 (mem_polarDom_iff.1 hz i).2.1).differentiableAt.hasFDerivAt
   have h1 : HasFDerivAt (fun z : Phase (n + n) => fun i => polar1 (blockCLM i z))
@@ -218,7 +226,8 @@ theorem polarMap_symplectic (n : ℕ) : IsSymplecticOn 1 (polarMap (n := n)) (po
       rw [ContinuousLinearMap.proj_pi]
       exact (hd i).comp z (blockCLM i).hasFDerivAt
   have h2 := unblockCLM.hasFDerivAt.comp z h1
-  have h3 : HasFDerivAt (fun z : Phase (n + n) => unblockCLM fun i => polar1 (blockCLM i z)) _ z := h2
+  have h3 : HasFDerivAt (fun z : Phase (n + n) => unblockCLM fun i => polar1 (blockCLM i z)) _ z :=
+    h2
   rw [polarMap_eq_unblockCLM, h3.fderiv]
   simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.pi_apply, unblockCLM_apply,
     blockCLM_apply, symplecticForm_blocks, planetBlock_unblock, one_mul]
@@ -330,7 +339,8 @@ theorem poincareProd_polar_lattice {m : Fin n → ℝ} {κ : ℝ} (hm : ∀ i, 0
       (polarMap_mapsTo n hz')).1 h.symm
     exact polarMap_eq_shift hz hz' hk'
 
-/-- Period-one version: `Φ_n ∘ S_{2π}` is a `2π`-chart satisfying (Q1), (Q2) for the lattice `(k, 0)`. -/
+/-- Period-one version: `Φ_n ∘ S_{2π}` is a `2π`-chart satisfying (Q1), (Q2) for the lattice
+`(k, 0)`. -/
 theorem poincareProd_polar_periodOne_symplectic {m : Fin n → ℝ} {κ : ℝ} (hm : ∀ i, 0 < m i)
     (hκ : 0 < κ) :
     IsSymplecticOn (2 * π) (poincareProd m κ ∘ polarMap ∘ angleScale (2 * π))

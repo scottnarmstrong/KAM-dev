@@ -112,12 +112,14 @@ private theorem continuous_tube_planeSq : Continuous planeSq := by
 private theorem continuous_tube_planeLength : Continuous planeLength :=
   Real.continuous_sqrt.comp continuous_tube_planeSq
 
-private theorem continuous_tube_planeCross : Continuous (fun z : Phase 2 => planeCross z.1 z.2) := by
+private theorem continuous_tube_planeCross :
+    Continuous (fun z : Phase 2 => planeCross z.1 z.2) := by
   unfold planeCross; fun_prop
 
 private theorem continuousOn_actionMK {m κ : ℝ} :
     ContinuousOn (actionMK m κ) (regionMK m κ) := by
-  have hE : ContinuousOn (fun z : Phase 2 => energyMK m κ z) {z : Phase 2 | 0 < planeLength z.1} := by
+  have hE : ContinuousOn (fun z : Phase 2 => energyMK m κ z)
+      {z : Phase 2 | 0 < planeLength z.1} := by
     unfold energyMK
     refine ContinuousOn.sub ?_ ?_
     · exact ((continuous_tube_planeSq.comp continuous_snd).div_const _).continuousOn
@@ -145,7 +147,8 @@ private theorem isOpen_tubeNbhd_block {m κ : ℝ} (hm : 0 < m) (hκ : 0 < κ) (
   have hF : ContinuousOn (fun b : Phase 2 => (actionMK m κ b, planeCross b.1 b.2)) (regionMK m κ) :=
     continuousOn_actionMK.prodMk continuous_tube_planeCross.continuousOn
   have hT : IsOpen {p : ℝ × ℝ | |p.1 - Λ₀| < δ ∧ p.1 - p.2 < δ} :=
-    IsOpen.and (isOpen_lt (continuous_abs.comp (continuous_fst.sub continuous_const)) continuous_const)
+    IsOpen.and
+      (isOpen_lt (continuous_abs.comp (continuous_fst.sub continuous_const)) continuous_const)
       (isOpen_lt (continuous_fst.sub continuous_snd) continuous_const)
   exact hF.isOpen_inter_preimage (isOpen_regionMK hm hκ) hT
 
@@ -156,7 +159,8 @@ private theorem isOpen_tubeNbhd {m : Fin n → ℝ} {κ : ℝ} (hm : ∀ i, 0 < 
     refine Continuous.prodMk (continuous_pi fun k => ?_) (continuous_pi fun k => ?_)
     · exact (continuous_apply _).comp continuous_fst
     · exact (continuous_apply _).comp continuous_snd
-  have : tubeNbhd m κ Λ₀ δ = ⋂ i, (fun z : Phase (n * 2) => (bodyVector z.1 i, bodyVector z.2 i)) ⁻¹'
+  have : tubeNbhd m κ Λ₀ δ = ⋂ i,
+      (fun z : Phase (n * 2) => (bodyVector z.1 i, bodyVector z.2 i)) ⁻¹'
       {b : Phase 2 | b ∈ regionMK (m i) κ ∧ |actionMK (m i) κ b - Λ₀ i| < δ ∧
         actionMK (m i) κ b - planeCross b.1 b.2 < δ} := by
     ext z; simp only [tubeNbhd, mem_ofPred_eq, mem_iInter, mem_preimage]
