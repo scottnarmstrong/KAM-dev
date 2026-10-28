@@ -22,8 +22,8 @@ On the one-loss domain `𝒪` of `oscStepMap` the flow of the generator `φ` is 
 * `osc_series_eq`: `u ∘ X¹_φ = ∑ ad_φ^j u / j!` on the two-loss domain (Taylor's formula along the
   flow on `𝒪`, with the adjoint estimate for the `3/4`-loss, whose ratio is `16/9` of the ratio of
   the full loss, `< 1`);
-* `osc_composition_t`: `u ∘ X^t_φ` for `t ∈ [-1, 1]` is the series `∑ t^j ad_φ^j u / j!`, in the class
-  with the weighted bound `(1 - |t| θ)⁻¹ A` (Taylor along the same flow, rescaled in time).
+* `osc_composition_t`: `u ∘ X^t_φ` for `t ∈ [-1, 1]` is the series `∑ t^j ad_φ^j u / j!`, in the
+  class with the weighted bound `(1 - |t| θ)⁻¹ A` (Taylor along the same flow, rescaled in time).
 
 Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13e.
 -/
