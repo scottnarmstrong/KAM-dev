@@ -129,6 +129,80 @@ theorem regOn_comp {U : Set E} (hU : IsOpen U) (hUW : U ⊆ W) {g : E → E} {g'
 
 end Comp
 
+section Shift
+
+variable {F : E → E} {W : Set E}
+
+/-- Time shift of a maximal solution by another solution: if `w` solves `ẋ = F x` on an open
+interval `I ∋ 0` with `w 0 = z t₀`, then `t₀ + I` lies in the maximal interval and `z (t₀ + σ) = w σ`. -/
+theorem shift_sol (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {x : E} {Tm Tp : EReal}
+    {z : ℝ → E} (hz : IsMaximalSolution F W x Tm Tp z) {t₀ : ℝ} (ht₀ : t₀ ∈ eIoo Tm Tp)
+    {I : Set ℝ} (hI : IsOpen I) (hIc : I.OrdConnected) (h0 : (0 : ℝ) ∈ I) {w : ℝ → E}
+    (hw : IsSolutionIn F W I w) (hw0 : w 0 = z t₀) :
+    ∀ σ ∈ I, t₀ + σ ∈ eIoo Tm Tp ∧ z (t₀ + σ) = w σ := by
+  classical
+  set J' : Set ℝ := (fun u => u + -t₀) ⁻¹' I with hJ'
+  have hw' : IsSolutionIn F W J' (fun u => w (u + -t₀)) := KAM.ODE.gen_symmetry_shift hw (-t₀)
+  have hJ'o : IsOpen J' := hI.preimage (continuous_id.add continuous_const)
+  have hJ'c : J'.OrdConnected :=
+    hIc.preimage_mono fun a b hab => add_le_add_left hab _
+  have ht₀' : t₀ ∈ J' := by simpa [hJ'] using h0
+  let y' : ℝ → E := fun u => if u ∈ eIoo Tm Tp then z u else w (u + -t₀)
+  have e1 : EqOn y' z (eIoo Tm Tp) := fun u hu => by simp [y', hu]
+  have e2 : EqOn y' (fun u => w (u + -t₀)) J' := fun u hu => by
+    by_cases hm : u ∈ eIoo Tm Tp
+    · have := KAM.ODE.gen_uniqueness_inter hW hF (KAM.ODE.ordConnected_eIoo Tm Tp) hJ'c
+        (t₀ := t₀) ⟨ht₀, ht₀'⟩ hz.isSolution hw' (by simpa using hw0.symm) ⟨hm, hu⟩
+      simp [y', hm, this]
+    · simp [y', hm]
+  have hsol : IsSolutionIn F W (eIoo Tm Tp ∪ J') y' :=
+    IsSolutionIn.union_of_isOpen hz.isSolution hw' (KAM.ODE.isOpen_eIoo Tm Tp) hJ'o e1 e2
+  have hconn : (eIoo Tm Tp ∪ J').OrdConnected := by
+    rw [← isPreconnected_iff_ordConnected]
+    exact (isPreconnected_iff_ordConnected.2 (KAM.ODE.ordConnected_eIoo Tm Tp)).union t₀ ht₀ ht₀'
+      (isPreconnected_iff_ordConnected.2 hJ'c)
+  obtain ⟨hsub, heq⟩ := hz.maximal _ y' hconn (Or.inl (KAM.ODE.zero_mem_eIoo hz))
+    (by rw [e1 (KAM.ODE.zero_mem_eIoo hz)]; exact hz.init) hsol
+  intro σ hσ
+  have hσ' : t₀ + σ ∈ J' := by simpa [hJ'] using hσ
+  refine ⟨hsub (Or.inr hσ'), ?_⟩
+  have := heq (Or.inr hσ')
+  rw [e2 hσ'] at this
+  simpa using this.symm
+
+end Shift
+
+section Ftc
+
+variable {F : E → E} {W : Set E} [CompleteSpace E]
+
+/-- FTC for the Volterra equation: the `x`-derivative of a local flow solves the variational
+equation in time. -/
+theorem hasDerivAt_fderiv_volterra (hW : IsOpen W) (hF : ContDiffOn ℝ 1 F W) {a : ℝ} {p : E}
+    {y : ℝ → E → E} (hsol : IsSolutionIn F W (Ioo (-a) a) (fun t => y t p))
+    (hyd : ContinuousOn (fun τ => fderiv ℝ (y τ) p) (Ioo (-a) a))
+    (heq : ∀ t ∈ Ioo (-a) a, fderiv ℝ (y t) p = ContinuousLinearMap.id ℝ E +
+      ∫ u in (0 : ℝ)..t, (fderiv ℝ F (y u p)).comp (fderiv ℝ (y u) p))
+    {t : ℝ} (ht : t ∈ Ioo (-a) a) :
+    HasDerivAt (fun τ => fderiv ℝ (y τ) p)
+      ((fderiv ℝ F (y t p)).comp (fderiv ℝ (y t) p)) t := by
+  set G : ℝ → E →L[ℝ] E := fun u => (fderiv ℝ F (y u p)).comp (fderiv ℝ (y u) p) with hG
+  have hDF : ContinuousOn (fderiv ℝ F) W := hF.continuousOn_fderiv_of_isOpen hW le_rfl
+  have hGc : ContinuousOn G (Ioo (-a) a) :=
+    (hDF.comp hsol.continuousOn fun u hu => (hsol u hu).1).clm_comp hyd
+  have hmem : Ioo (-a) a ∈ 𝓝 t := Ioo_mem_nhds ht.1 ht.2
+  have hint : IntervalIntegrable G MeasureTheory.volume 0 t := by
+    refine (hGc.mono ?_).intervalIntegrable
+    have h0 : (0 : ℝ) ∈ Ioo (-a) a := ⟨by linarith [ht.1, ht.2], by linarith [ht.1, ht.2]⟩
+    exact ordConnected_Ioo.uIcc_subset h0 ht
+  have hF' := intervalIntegral.integral_hasDerivAt_right hint
+    (hGc.stronglyMeasurableAtFilter isOpen_Ioo t ht) (hGc.continuousAt hmem)
+  have := hF'.const_add (ContinuousLinearMap.id ℝ E)
+  refine this.congr_of_eventuallyEq ?_
+  exact Filter.eventuallyEq_of_mem hmem fun u hu => heq u hu
+
+end Ftc
+
 end KAM.Nekhoroshev.FlowChain
 
 end
