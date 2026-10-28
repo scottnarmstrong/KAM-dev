@@ -180,4 +180,45 @@ theorem smooth_cutoff (hn : 1 ≤ n) (hμ : 1 ≤ μ) (E : Set (SelectionR n))
           integral_sub_left_eq_self (fun w => |iteratedFDeriv ℝ k φ w a|) volume y
       _ ≤ _ := selectionKernel_deriv_bound n μ hδ hk a ha
 
+/-- The bump `L¹` constants of derivatives up to order `μ` are finite (absolute integrability). -/
+theorem selectionBump_iteratedDeriv_abs_integrable {j : ℕ} (hj : j ≤ μ) :
+    Integrable fun y => |iteratedDeriv j (selectionBump μ) y| :=
+  (selectionBump_iteratedDeriv_integrable hj).norm
+
+theorem selectionBumpL1_zero_eq_one (μ : ℕ) : selectionBumpL1 μ 0 = 1 := by
+  have h : ∀ y, |iteratedDeriv 0 (selectionBump μ) y| = selectionBump μ y := fun y => by
+    rw [iteratedDeriv_zero]
+    exact abs_of_nonneg (selectionBump_nonneg μ y)
+  simp only [selectionBumpL1, h]
+  exact selectionBump_integral μ
+
+theorem selectionCutoffC_zero_pos (n μ : ℕ) : 0 < selectionCutoffC n μ 0 := by
+  have h1 : (1 : ℝ) ≤ sSup {v | ∃ a : Fin n → ℕ, (∑ i, a i) = 0 ∧
+      v = ∏ i, selectionBumpL1 μ (a i)} := by
+    refine le_csSup (selectionCutoffSet_bddAbove n μ 0) ⟨fun _ => 0, by simp, ?_⟩
+    simp [selectionBumpL1_zero_eq_one]
+  simp only [selectionCutoffC, pow_zero, one_mul]
+  linarith
+
+theorem selectionExtensionC_bddAbove (n μ : ℕ) :
+    BddAbove {v | ∃ k ≤ μ, v = (4 : ℝ) ^ k *
+      ∑ j ∈ Finset.range (k + 1), (k.choose j : ℝ) *
+        selectionCutoffC n μ j * (k - j : ℕ) ^ (k - j)} := by
+  refine Set.Finite.bddAbove (Set.Finite.subset
+    ((Finset.finite_toSet (Finset.range (μ + 1))).image fun k => (4 : ℝ) ^ k *
+      ∑ j ∈ Finset.range (k + 1), (k.choose j : ℝ) *
+        selectionCutoffC n μ j * (k - j : ℕ) ^ (k - j)) ?_)
+  rintro v ⟨k, hk, rfl⟩
+  exact ⟨k, by simpa [Nat.lt_succ_iff] using hk, rfl⟩
+
+/-- `c'` is positive in every positive dimension and for every `μ`. -/
+theorem selectionExtensionC_pos {n : ℕ} (hn : 1 ≤ n) (μ : ℕ) : 0 < selectionExtensionC n μ := by
+  have hs : 0 < Real.sqrt n := Real.sqrt_pos.2 (by exact_mod_cast hn)
+  have h0 : selectionCutoffC n μ 0 ≤ sSup {v | ∃ k ≤ μ, v = (4 : ℝ) ^ k *
+      ∑ j ∈ Finset.range (k + 1), (k.choose j : ℝ) *
+        selectionCutoffC n μ j * (k - j : ℕ) ^ (k - j)} := by
+    refine le_csSup (selectionExtensionC_bddAbove n μ) ⟨0, Nat.zero_le _, ?_⟩
+    simp
+  exact mul_pos hs (lt_of_lt_of_le (selectionCutoffC_zero_pos n μ) h0)
+
 end KAM.Planetary
