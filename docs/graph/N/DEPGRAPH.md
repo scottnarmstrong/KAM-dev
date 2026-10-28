@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/N/SPEC.md "Conventions to watch": frozen period 1 (chara
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-N external inputs are the labelled items of the parts' external-fact lists (bpN:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:ext-*, p8:ext-*, p9:ext-*, p10:ext-*, p11:ext-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref; frozen definitions of other tracks named by \frozen) is an IMPORTED node K:<node>, I:<node> or P:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, NOTE IMPORTED ...; source fields copied from docs/graph/K/DEPGRAPH.md for K, written by the writer from the owning blueprint for I and P), K's Mathlib-level externals included (K:bp:p1:ext-*); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpN:p0:actionnbhd#actionNbhd, bpN:p0:freq#frequencyMap, bpN:p0:vf#hamiltonianVectorField, bpN:p0:realH#realHamiltonian, bpN:p0:strip#complexStrip, bpN:p0:ball#actionBall, bpN:p0:cdomain#complexDomain, bpN:p0:rdomain#realActionDomain, bpN:p0:realpart#realPart, bpN:p0:integrable#IsAnalyticIntegrable, bpN:p0:pert#IsAnalyticPerturbation, bpN:p0:bm#HasDerivativeBounds, bpN:p0:qc#IsStrictlyQuasiConvex, bpN:p0:hess#HasComplexHessianBound, bpN:p0:sol#IsSolutionOn, bpN:p0:orbit#integrableOrbit, bpN:p0:partial-sec#Phase, bpN:p0:partial-sec#fast, bpN:p0:partial-sec#slow, bpN:p0:partial-sec#fastShift, bpN:p0:partial-complexify#complexifyPhase, bpN:p0:partial-core#innerCore, bpN:p0:partial-domain#partialComplexDomain, bpN:p0:partial-definite#HasDefiniteFastPart, bpN:p0:partial-pert#IsPartialPerturbation, bpN:p0:partial-exponents#partialTimeExponent, bpN:p0:partial-exponents#partialDriftExponent, bpN:p0:partial-sec#degenerateHamiltonian, bpN:p0:head, bpN:p0:zero, bpN:p0:qcthm, bpN:p0:partial, bpN:p0:avg-rank#HasAveragingFrequencyRank, bpN:p0:avg-error#averagingError, bpN:p0:avg-mean, bpN:p0:avg-most
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:5d8d31f1cc70c3cc67375ab28562e4fd4280215c7455dd329004c4dcd7a2f6fa
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:603b72b70fd185e5a033aca7b9bc371fd5bedd5a7125e8ad5de02f762b2cbc32
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-N
 GLOBAL_REVIEW_REF: docs/graph/N/reviews/GLOBAL-review-3.md
@@ -19153,9 +19153,9 @@ EDGE: bpN:p12:s-mean#data | blueprint-N/parts/p12-averaging.tex#bpN:p0:avg-mean@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frozen theorem anchor not yet sealed (manifest DRAFT_SORRY)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.averaging_mean (KAM/Frozen/Nekhoroshev/Theorems/AveragingMean.lean)
+LEAN_NOTE: N-AVG anchor SEALED (manifest nekhoroshev.d28.averaging_mean.v1); provider audit N12-18-audit-1 PASS WITH NOTES (seal-ready)
 NOTE: frozen root; proof is Part 12 (§s-mean, steps stepN:p12:me-*; the proof environment of L277-L289 has no label so PROOF_SOURCE was set to it). The \sourcegap (Nei76 (17), E-NAVG-NEI-17) is bridged by pointwise/transport/stopped (coverage); edge to Remark bpN:p12:errata deleted (provenance).
 
 NODE: bpN:p0:avg-most
@@ -19189,9 +19189,9 @@ EDGE: bpN:p12:s-most#data | blueprint-N/parts/p12-averaging.tex#bpN:p0:avg-most@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frozen theorem anchor not yet sealed (manifest DRAFT_SORRY)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.averaging_most (KAM/Frozen/Nekhoroshev/Theorems/AveragingMost.lean)
+LEAN_NOTE: N-AVG anchor SEALED (manifest nekhoroshev.d28.averaging_most.v1); provider audit N12-18-audit-1 PASS WITH NOTES (seal-ready)
 NOTE: frozen root; proof is Part 12 (§s-most). The mechanical edge to bpN:p0:avg-mean ("with the same data and hypotheses as in Theorem avg-mean", L399) is deleted: the hypotheses are spelled out in SOURCE_HYPOTHESES and the proof of avg-most does not use the conclusion of avg-mean (mo-E, mo-z use only Part 12 results).
 
 NODE: bpN:p12:s-setting#data
