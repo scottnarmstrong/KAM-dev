@@ -31,8 +31,8 @@ open KAM KAM.Kepler
 theorem p11cB_phi4_continuousAt (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ}
     (ha : a ∈ p11c_axes) : ContinuousAt (p11c_phi4 p) a := by
   unfold p11c_phi4
-  refine continuousAt_finset_prod _ fun k _ => ?_
-  refine continuousAt_finset_sum _ fun i _ => ?_
+  refine tendsto_finsetProd _ fun k _ => ?_
+  refine tendsto_finsetSum _ fun i _ => ?_
   exact continuousAt_const.mul (p11cB_sigma_analyticAt p hp ha i).continuousAt
 
 /-- The good axis set is open. -/
@@ -59,7 +59,7 @@ theorem p11cB_NR4 (p : PlanarData) {O : Set (Fin 2 → ℝ)}
   have hbdz : ∀ i, -4 ≤ k i ∧ k i ≤ 4 := by
     intro i
     have := abs_le.1 (hbd i)
-    constructor <;> [have := this.1; have := this.2] <;> exact_mod_cast ‹_›
+    exact ⟨by exact_mod_cast this.1, by exact_mod_cast this.2⟩
   let k' : Fin 2 → Fin 9 := fun i => ⟨(k i + 4).toNat, by have := hbdz i; omega⟩
   have hk'v : ∀ i, ((k' i).val : ℤ) - 4 = k i := by
     intro i
@@ -110,7 +110,7 @@ theorem p11cB_O_isOpen (p : PlanarData) (Kc : Set (Fin 2 → ℝ)) (ε : ℝ) :
     unfold PlanarData.axes
     fun_prop
   have h1 : IsOpen {I : Fin 2 → ℝ | ∀ i, 0 < I i} := by
-    simp only [Set.setOf_forall]
+    simp only [Set.ofPred_forall]
     exact isOpen_iInter_of_finite fun i => isOpen_lt continuous_const (continuous_apply i)
   exact h1.inter (isOpen_thickening.preimage hax)
 
@@ -145,7 +145,7 @@ theorem p11cB_actions_mem_O (p : PlanarData) (hp : p.Valid) {Kc : Set (Fin 2 →
   exact ⟨hpos, by rw [hax]; exact self_subset_thickening hε Kc ha⟩
 
 theorem p11cB_O_closure (p : PlanarData) (hp : p.Valid) {Kc : Set (Fin 2 → ℝ)}
-    (hK : IsCompact Kc) {ε : ℝ} (hε : 0 < ε) (hsub : cthickening ε Kc ⊆ p11c_axes) :
+    (hK : IsCompact Kc) {ε : ℝ} (_hε : 0 < ε) (_hsub : cthickening ε Kc ⊆ p11c_axes) :
     IsCompact (p.actions '' cthickening ε Kc) ∧
       closure (p11cB_O p Kc ε) ⊆ p.actions '' cthickening ε Kc := by
   have hcont : Continuous p.actions := by
