@@ -189,6 +189,35 @@ theorem unsc_mem (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {z : Fin ((a + b
         _ = _ := by ring
     exact h4
 
+/-- The scaled displacement is bounded by `(3/4) Ê_j 12^{-j}` on the complex stage domain. -/
+theorem scaled_bound (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ)
+    {u : CPhase (a + b)}
+    (hu : u ∈ coefficientDom (Ds (j + 1)) (rhoHat (seq p j) / 16) (sbar + (seq p j).s / 12)) :
+    ‖sc (rhoHat p) p.s (Ψ (j + 1) u - u)‖ ≤ 3 / 4 * eHat (seq p j) / 12 ^ j := by
+  have h0 : 0 < rhoHat p := (P.hyp 0).R_pos
+  have hs0 : 0 < p.s := (P.hyp 0).positive.2.1
+  have hR := P.rho_pos j
+  have he := (P.hyp j).eHat_nonneg
+  obtain ⟨-, -, b3⟩ := P.psi_bd j u hu
+  have b2 := P.action_bd j hu
+  rw [norm_sc h0 hs0]
+  have h12 : (0 : ℝ) < 12 ^ j := by positivity
+  refine max_le ?_ ?_
+  · have b3' : ‖(Ψ (j + 1) u - u).1‖ * (2 * π) ≤ 3 / 4 * eHat (seq p j) * (seq p j).s := by
+      rw [Prod.fst_sub, mul_comm]; exact b3
+    calc ‖(Ψ (j + 1) u - u).1‖ * (2 * π / p.s) = (‖(Ψ (j + 1) u - u).1‖ * (2 * π)) / p.s := by
+          ring
+      _ ≤ (3 / 4 * eHat (seq p j) * (seq p j).s) / p.s := by gcongr
+      _ = _ := by rw [seq_s]; field_simp
+  · have b2' : ‖(Ψ (j + 1) u - u).2‖ ≤ 3 / 4 * eHat (seq p j) * rhoHat (seq p j) := b2
+    have hup := P.rho_upper j
+    have h1216 : (12 : ℝ) ^ j ≤ 16 ^ j := pow_le_pow_left₀ (by norm_num) (by norm_num) j
+    calc ‖(Ψ (j + 1) u - u).2‖ / rhoHat p
+        ≤ (3 / 4 * eHat (seq p j) * (rhoHat p / 16 ^ j)) / rhoHat p := by
+          gcongr; exact b2'.trans (by gcongr)
+      _ = 3 / 4 * eHat (seq p j) / 16 ^ j := by field_simp
+      _ ≤ _ := by gcongr
+
 end PsiSteps
 
 end Lip
