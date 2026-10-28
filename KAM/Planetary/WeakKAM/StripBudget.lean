@@ -164,4 +164,219 @@ theorem strip_budget (a : SelectionSchedule n) (hn : 1 ≤ n) (hμ : 1 ≤ a.μ)
       linarith [hdsum j]
     exact (loss_choice hn hα0 hα1 hge).2.1 hd1
 
+/-- `T_j^x = T₀^x (2^x)^j` for positive `T₀`. -/
+theorem selectionT_rpow (a : SelectionSchedule n) (hT : 0 < a.T₀) (x : ℝ) (j : ℕ) :
+    selectionT a j ^ x = a.T₀ ^ x * ((2 : ℝ) ^ x) ^ j := by
+  unfold selectionT
+  have h : ((2 : ℝ) ^ j) ^ x = ((2 : ℝ) ^ x) ^ j := by
+    rw [← Real.rpow_natCast (2 : ℝ) j, ← Real.rpow_mul (by norm_num), mul_comm,
+      Real.rpow_mul (by norm_num), Real.rpow_natCast]
+  rw [Real.mul_rpow hT.le (by positivity), h]
+
+/-- `t_j = t₀ ((2^{τ+1})⁻¹)^j`. -/
+theorem selectiont_eq (a : SelectionSchedule n) (j : ℕ) :
+    selectiont a j = a.t₀ * (((2 : ℝ) ^ (a.τ + 1))⁻¹) ^ j := by
+  unfold selectiont
+  rw [← Real.rpow_neg (by norm_num), ← Real.rpow_natCast, ← Real.rpow_mul (by norm_num)]
+
+/-- `ε_j / s_j = λ₀ ϱ^j`. -/
+theorem selection_eps_div_s (a : SelectionSchedule n) (hn : 1 ≤ n) (hμ : 1 ≤ a.μ)
+    (hτ : 0 ≤ a.τ) (hs : 0 < a.s₀) (j : ℕ) :
+    selectionε a j / selections a j =
+      (a.ε₀ / a.s₀) * selectionVarrho n a.μ a.τ ^ j := by
+  have hq := (schedule_ratios hn hμ hτ).1
+  simp only [selectionε, selections, selectionVarrho]
+  rw [div_pow]
+  field_simp
+
+/-- A geometric series with ratio at most `1/2` has sum at most `2`. -/
+theorem geom_tsum_le_two {g : ℝ} (h0 : 0 ≤ g) (h1 : g ≤ 1 / 2) :
+    Summable (fun i : ℕ => g ^ i) ∧ ∑' i : ℕ, g ^ i ≤ 2 := by
+  refine ⟨summable_geometric_of_lt_one h0 (by linarith), ?_⟩
+  rw [tsum_geometric_of_lt_one h0 (by linarith), inv_le_comm₀ (by linarith) (by norm_num)]
+  linarith
+
+/-- Partial geometric sums with ratio at most `1/2` are at most `2`. -/
+theorem geom_sum_le_two {g : ℝ} (h0 : 0 ≤ g) (h1 : g ≤ 1 / 2) (j : ℕ) :
+    ∑ i ∈ Finset.range j, g ^ i ≤ 2 :=
+  ((geom_tsum_le_two h0 h1).1.sum_le_tsum _ fun i _ => pow_nonneg h0 i).trans
+    (geom_tsum_le_two h0 h1).2
+
+theorem schedule_props (a : SelectionSchedule n) (hn : 1 ≤ n) (hμ : 1 ≤ a.μ)
+    (hτ : 0 ≤ a.τ) (hγ : 0 < a.γ) (hT : 1 ≤ a.T₀)
+    (ht : 0 < a.t₀) (hs : 0 < a.s₀) (he : 0 < a.ε₀) (hstrip : 0 < a.strip)
+    (hC : 1 ≤ C₁) (h1 : 4 * (a.ε₀ / a.s₀) ≤ a.γ * a.T₀ ^ (-a.τ - 1))
+    (h2 : 8 * (a.ε₀ / a.s₀) ≤ C₁ * a.t₀)
+    (h3 : 4 * C₁ * a.t₀ ≤ a.γ * a.T₀ ^ (-a.τ - 1)) :
+    ∀ j m, selectionT a (j + 1) = 2 * selectionT a j ∧
+      selectiont a (j + 1) = (2 : ℝ) ^ (-(a.τ + 1)) * selectiont a j ∧
+      selectiont a (j + 1) ≤ selectiont a j / 2 ∧
+      selectiont a j ≤ a.γ * selectionT a j ^ (-a.τ - 1) / (4 * C₁) ∧
+      selectionε a j / selections a j =
+        (a.ε₀ / a.s₀) * selectionVarrho n a.μ a.τ ^ j ∧
+      Summable (fun i => selectionell a (i + m)) ∧
+      selectionTail a m ≤ 4 * (a.ε₀ / a.s₀) * selectionVarrho n a.μ a.τ ^ m ∧
+      selectionTail a m ≤ a.γ * selectionT a m ^ (-a.τ - 1) ∧
+      (∑ i ∈ Finset.range j, 4 * selectionε a i / (selections a i * selectiont a i))
+        ≤ 8 * (a.ε₀ / a.s₀) / a.t₀ ∧
+      (∑ i ∈ Finset.range j, 4 * selectionε a i / (selections a i * selectiont a i))
+        ≤ C₁ ∧
+      (∑ i ∈ Finset.range j, selectionell a i / selectiont a i ^ a.μ)
+        ≤ 4 * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ ∧
+      selectionQsharp a j = selectionQ₀ a * selectionG n a.μ a.τ 0 ^ j ∧
+      selectiont a (j + 1) * selectionT a j * (2 * C₁) ≤ selectionD a j / 2 := by
+  intro j m
+  have hT0 : 0 < a.T₀ := by linarith
+  have hC0 : 0 < C₁ := by linarith
+  obtain ⟨hq, -, -, hG, hρ⟩ := schedule_ratios hn hμ hτ
+  obtain ⟨hv0, -⟩ := selectionVarpi_pos_le_one n a.μ hτ
+  have hρ0 : 0 < selectionVarrho n a.μ a.τ := by
+    unfold selectionVarrho; positivity
+  set ρ := selectionVarrho n a.μ a.τ with hρdef
+  set w : ℝ := (2 : ℝ) ^ (a.τ + 1) with hw
+  have hw2 : 2 ≤ w := by
+    have := Real.rpow_le_rpow_of_exponent_le (show (1 : ℝ) ≤ 2 by norm_num)
+      (show (1 : ℝ) ≤ a.τ + 1 by linarith)
+    simpa [hw] using this
+  have hw0 : 0 < w := by linarith
+  have hwr : (2 : ℝ) ^ (-(a.τ + 1)) = w⁻¹ := Real.rpow_neg (by norm_num) _
+  rw [hwr] at hρ
+  have hρw : ρ * w ≤ 1 / 32 := by
+    have := mul_le_mul_of_nonneg_right hρ hw0.le
+    have e : w⁻¹ / 32 * w = 1 / 32 := by field_simp
+    linarith
+  have hρr : ρ ≤ w⁻¹ := by
+    have : 0 < w⁻¹ := inv_pos.2 hw0
+    linarith
+  have hρ2 : ρ ≤ 1 / 2 := by nlinarith
+  have hr0 : 0 ≤ w⁻¹ := (inv_pos.2 hw0).le
+  have hlam : 0 < a.ε₀ / a.s₀ := by positivity
+  have hs_pos : ∀ k, 0 < selections a k := fun k => by
+    unfold selections; positivity
+  have ht_pos : ∀ k, 0 < selectiont a k := fun k => by
+    rw [selectiont_eq]; positivity
+  have hE5 := selection_eps_div_s a hn hμ hτ hs
+  have hell : ∀ k, selectionell a k = 2 * ((a.ε₀ / a.s₀) * ρ ^ k) := fun k => by
+    simp only [selectionell]
+    rw [mul_div_assoc, hE5]
+  have hTneg : ∀ k, selectionT a k ^ (-a.τ - 1) = a.T₀ ^ (-a.τ - 1) * (w⁻¹) ^ k := fun k => by
+    rw [selectionT_rpow a hT0, show -a.τ - 1 = -(a.τ + 1) by ring, hwr]
+  have hG1 : selectionG n a.μ a.τ 1 = ρ * w := by
+    simp [selectionG, hρdef, hw]
+  have hG2 : selectionG n a.μ a.τ 2 = ρ * w ^ a.μ := by
+    simp only [selectionG, hρdef, hw]
+    rw [Real.rpow_mul (by norm_num), Real.rpow_natCast]
+    rfl
+  have hg2 : ρ * w ≤ 1 / 2 := by linarith
+  have hg3 : ρ * w ^ a.μ ≤ 1 / 2 := by
+    have := hG 2
+    rw [hG2] at this
+    norm_num at this ⊢
+    linarith
+  have hsum2 := geom_tsum_le_two hρ0.le hρ2
+  have h11 : (∑ i ∈ Finset.range j, selectionell a i / selectiont a i ^ a.μ)
+      ≤ 4 * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ := by
+    have hterm : ∀ i, selectionell a i / selectiont a i ^ a.μ =
+        (2 * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ) * (ρ * w ^ a.μ) ^ i := fun i => by
+      have e1 : ((w⁻¹) ^ i) ^ a.μ * (w ^ a.μ) ^ i = 1 := by
+        rw [← pow_mul, ← pow_mul, mul_comm a.μ i, ← mul_pow, inv_mul_cancel₀ hw0.ne', one_pow]
+      have hY : (w ^ a.μ) ^ i = (((w⁻¹) ^ i) ^ a.μ)⁻¹ := eq_inv_of_mul_eq_one_right e1
+      have hX : ((w⁻¹) ^ i) ^ a.μ ≠ 0 := by positivity
+      rw [hell, selectiont_eq, ← hw, mul_pow, mul_pow, hY]
+      field_simp
+    simp only [hterm]
+    rw [← Finset.mul_sum]
+    have := geom_sum_le_two (mul_nonneg hρ0.le (pow_nonneg hw0.le a.μ)) hg3 j
+    have h0 : 0 ≤ 2 * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ := by positivity
+    calc _ ≤ 2 * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ * 2 := mul_le_mul_of_nonneg_left this h0
+      _ = _ := by ring
+  have ht3 : selectiont a (j + 1) ≤ selectiont a j / 2 := by
+    rw [selectiont_eq, selectiont_eq, pow_succ]
+    have : 0 ≤ a.t₀ * (w⁻¹) ^ j := by positivity
+    have hh : w⁻¹ ≤ 1 / 2 := by
+      rw [inv_le_comm₀ hw0 (by norm_num)]; linarith
+    nlinarith
+  have ht4 : selectiont a j * (4 * C₁) ≤ a.γ * selectionT a j ^ (-a.τ - 1) := by
+    rw [selectiont_eq, hTneg]
+    have := mul_le_mul_of_nonneg_right h3 (pow_nonneg hr0 j)
+    nlinarith
+  have h9 : (∑ i ∈ Finset.range j, 4 * selectionε a i / (selections a i * selectiont a i))
+      ≤ 8 * (a.ε₀ / a.s₀) / a.t₀ := by
+    have hterm : ∀ i, 4 * selectionε a i / (selections a i * selectiont a i) =
+        (4 * (a.ε₀ / a.s₀) / a.t₀) * (ρ * w) ^ i := fun i => by
+      have h := hE5 i
+      have hsi := hs_pos i
+      have hti := ht_pos i
+      rw [show 4 * selectionε a i / (selections a i * selectiont a i) =
+        4 * (selectionε a i / selections a i) / selectiont a i by field_simp, h, selectiont_eq,
+        ← hw, inv_pow, mul_pow]
+      field_simp
+      try rfl
+    simp only [hterm]
+    rw [← Finset.mul_sum]
+    have := geom_sum_le_two (mul_nonneg hρ0.le hw0.le) hg2 j
+    have h0 : 0 ≤ 4 * (a.ε₀ / a.s₀) / a.t₀ := by positivity
+    calc _ ≤ 4 * (a.ε₀ / a.s₀) / a.t₀ * 2 := mul_le_mul_of_nonneg_left this h0
+      _ = _ := by ring
+  refine ⟨?_, ?_, ?_, ?_, hE5 j, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · simp only [selectionT, pow_succ]; ring
+  · rw [selectiont_eq, selectiont_eq, hwr, pow_succ]; ring
+  · exact ht3
+  · rw [le_div_iff₀ (by positivity)]
+    exact ht4
+  · have e : (fun i => selectionell a (i + m)) =
+        fun i => (2 * ((a.ε₀ / a.s₀) * ρ ^ m)) * ρ ^ i :=
+      funext fun i => by rw [hell, pow_add]; ring
+    rw [e]
+    exact hsum2.1.mul_left _
+  · have e : (fun i => selectionell a (i + m)) =
+        fun i => (2 * ((a.ε₀ / a.s₀) * ρ ^ m)) * ρ ^ i :=
+      funext fun i => by rw [hell, pow_add]; ring
+    unfold selectionTail
+    rw [e, tsum_mul_left]
+    have := mul_le_mul_of_nonneg_left hsum2.2 (show 0 ≤ 2 * ((a.ε₀ / a.s₀) * ρ ^ m) by positivity)
+    nlinarith
+  · have e : (fun i => selectionell a (i + m)) =
+        fun i => (2 * ((a.ε₀ / a.s₀) * ρ ^ m)) * ρ ^ i :=
+      funext fun i => by rw [hell, pow_add]; ring
+    unfold selectionTail
+    rw [e, tsum_mul_left, hTneg]
+    have h4 := mul_le_mul_of_nonneg_left hsum2.2
+      (show 0 ≤ 2 * ((a.ε₀ / a.s₀) * ρ ^ m) by positivity)
+    have h5 : ρ ^ m ≤ (w⁻¹) ^ m := pow_le_pow_left₀ hρ0.le hρr m
+    have h6 := mul_le_mul_of_nonneg_right h1 (pow_nonneg hρ0.le m)
+    have h7 := mul_le_mul_of_nonneg_left h5 (show 0 ≤ a.γ * a.T₀ ^ (-a.τ - 1) by positivity)
+    nlinarith
+  · exact h9
+  · exact h9.trans (by rw [div_le_iff₀ ht]; linarith)
+  · exact h11
+  · have hD : selectionD a j = a.γ * ((a.T₀ ^ a.τ)⁻¹ * (((2 : ℝ) ^ a.τ)⁻¹) ^ j) := by
+      simp only [selectionD, selectionT_rpow a hT0, Real.rpow_neg hT0.le,
+        Real.rpow_neg (show (0 : ℝ) ≤ 2 by norm_num)]
+    have hG0 : selectionG n a.μ a.τ 0 = ρ * (2 : ℝ) ^ a.τ * 2 ^ (n + 1) := by
+      simp [selectionG, hρdef]
+    have hε : selectionε a j = ((a.ε₀ / a.s₀) * ρ ^ j) * selections a j := by
+      rw [← hE5 j]; exact (div_mul_cancel₀ _ (hs_pos j).ne').symm
+    have hsne := (hs_pos j).ne'
+    have hP : (0 : ℝ) < (2 : ℝ) ^ a.τ := by positivity
+    have hTp : 0 < a.T₀ ^ a.τ := by positivity
+    unfold selectionQsharp selectionQ₀
+    rw [hε, hD, hG0]
+    simp only [selectionσ, inv_pow, div_pow, mul_pow]
+    field_simp
+    ring
+  · have hTp : 0 < selectionT a j := by unfold selectionT; positivity
+    have hx : selectionT a j ^ (-a.τ - 1) * selectionT a j = selectionT a j ^ (-a.τ) := by
+      rw [← Real.rpow_add_one hTp.ne', sub_add_cancel]
+    have hD : selectionD a j = a.γ * selectionT a j ^ (-a.τ) := rfl
+    have hT1 := mul_le_mul_of_nonneg_right ht4 hTp.le
+    have hT2 : selectiont a (j + 1) * selectionT a j * (2 * C₁) ≤
+        selectiont a j / 2 * selectionT a j * (2 * C₁) := by
+      gcongr
+    have hpos : 0 ≤ a.γ * selectionT a j ^ (-a.τ) := by positivity
+    have hT3 : selectiont a j * (4 * C₁) * selectionT a j ≤ a.γ * selectionT a j ^ (-a.τ) :=
+      hT1.trans_eq (by rw [mul_assoc, hx])
+    rw [hD]
+    linarith
+
 end KAM.Planetary
