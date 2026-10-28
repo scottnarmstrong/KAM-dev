@@ -144,6 +144,56 @@ lemma charBox (a : Fin 4 → ℕ) (k : Fin 2 → ℤ) (z : Phase 2) :
   rw [zpow_neg, zpow_two, mul_inv]
   ring
 
+lemma charMono_continuous (a : Fin 4 → ℕ) (z : Phase 2) :
+    Continuous fun theta : Fin 2 → ℝ => p11c_monomial a (p11c_rotation theta z) := by
+  unfold p11c_monomial p11c_rotation
+  fun_prop
+
+/-- The finite exponent index set of `QuarticFamily.eval`. -/
+def charIdx : Finset (Fin 4 → Fin 5) :=
+  (Finset.univ : Finset (Fin 4 → Fin 5)).filter (fun a => ∑ i, (a i).val = 4)
+
+/-- The character of a quartic family as a finite sum of products of one-plane coefficients. -/
+lemma character_eq_sum {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (k : Fin 2 → ℤ)
+    (I : Fin 2 → ℝ) (z : Phase 2) :
+    p11c_character F.eval k I z = ∑ a ∈ charIdx,
+      (F.coeff (fun i => (a i).val) I : ℂ) *
+        (charFc ((a 0).val) ((a 1).val) (z.1 0) (z.2 0) (k 0) *
+          charFc ((a 2).val) ((a 3).val) (z.1 1) (z.2 1) (k 1)) := by
+  unfold p11c_character QuarticFamily.eval charIdx
+  have hcont : ∀ a : Fin 4 → Fin 5, Continuous fun theta : Fin 2 → ℝ =>
+      Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) *
+        (((F.coeff (fun i => (a i).val) I * p11c_monomial (fun i => (a i).val)
+          (p11c_rotation theta z) : ℝ)) : ℂ) := by
+    intro a
+    have := charMono_continuous (fun i => (a i).val) z
+    fun_prop
+  have hK : IsCompact (Set.pi univ fun _ : Fin 2 => Icc (0 : ℝ) (2 * π)) :=
+    isCompact_univ_pi fun _ => isCompact_Icc
+  have hsum : ∀ theta : Fin 2 → ℝ, Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) *
+      ((∑ a ∈ (Finset.univ : Finset (Fin 4 → Fin 5)).filter (fun a => ∑ i, (a i).val = 4),
+        F.coeff (fun i => (a i).val) I * p11c_monomial (fun i => (a i).val)
+          (p11c_rotation theta z) : ℝ) : ℂ) =
+      ∑ a ∈ (Finset.univ : Finset (Fin 4 → Fin 5)).filter (fun a => ∑ i, (a i).val = 4),
+        Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) *
+        (((F.coeff (fun i => (a i).val) I * p11c_monomial (fun i => (a i).val)
+          (p11c_rotation theta z) : ℝ)) : ℂ) := by
+    intro theta; rw [Complex.ofReal_sum, Finset.mul_sum]
+  simp_rw [hsum]
+  rw [integral_finset_sum _ fun a _ => (hcont a).continuousOn.integrableOn_compact hK,
+    Finset.mul_sum]
+  refine Finset.sum_congr rfl fun a _ => ?_
+  have h1 : ∀ theta : Fin 2 → ℝ, Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) *
+      (((F.coeff (fun i => (a i).val) I * p11c_monomial (fun i => (a i).val)
+          (p11c_rotation theta z) : ℝ)) : ℂ) =
+      (F.coeff (fun i => (a i).val) I : ℂ) * (Complex.exp (-Complex.I * (∑ j, (k j : ℂ) * theta j)) *
+        ((p11c_monomial (fun i => (a i).val) (p11c_rotation theta z) : ℝ) : ℂ)) := by
+    intro theta; push_cast; ring
+  simp_rw [h1]
+  rw [integral_const_mul, ← mul_assoc, mul_comm _ (F.coeff _ I : ℂ), mul_assoc]
+  congr 1
+  exact charBox (fun i => (a i).val) k z
+
 end KAM.Planetary.PlanarCharacters
 
 end
