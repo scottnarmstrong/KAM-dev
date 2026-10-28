@@ -519,12 +519,12 @@ theorem p11cPJLC_q4112_7_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q4
 theorem p11cPJ_q4112_neutral (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q4112 α ζ1 ζb1 ζ2 ζb2, t.charge = 0 := by
   unfold p11cPJLN_q4112
   simp only [List.forall_mem_append]
-  exact ⟨p11cPJLN_q4112_0_ok _ _ _ _ _, p11cPJLN_q4112_1_ok _ _ _ _ _, p11cPJLN_q4112_2_ok _ _ _ _ _⟩
+  exact ⟨⟨p11cPJLN_q4112_0_ok _ _ _ _ _, p11cPJLN_q4112_1_ok _ _ _ _ _⟩, p11cPJLN_q4112_2_ok _ _ _ _ _⟩
 
 theorem p11cPJ_q4112_charged (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q4112 α ζ1 ζb1 ζ2 ζb2, t.charge ≠ 0 := by
   unfold p11cPJLC_q4112
   simp only [List.forall_mem_append]
-  exact ⟨p11cPJLC_q4112_0_ok _ _ _ _ _, p11cPJLC_q4112_1_ok _ _ _ _ _, p11cPJLC_q4112_2_ok _ _ _ _ _, p11cPJLC_q4112_3_ok _ _ _ _ _, p11cPJLC_q4112_4_ok _ _ _ _ _, p11cPJLC_q4112_5_ok _ _ _ _ _, p11cPJLC_q4112_6_ok _ _ _ _ _, p11cPJLC_q4112_7_ok _ _ _ _ _⟩
+  exact ⟨⟨⟨⟨⟨⟨⟨p11cPJLC_q4112_0_ok _ _ _ _ _, p11cPJLC_q4112_1_ok _ _ _ _ _⟩, p11cPJLC_q4112_2_ok _ _ _ _ _⟩, p11cPJLC_q4112_3_ok _ _ _ _ _⟩, p11cPJLC_q4112_4_ok _ _ _ _ _⟩, p11cPJLC_q4112_5_ok _ _ _ _ _⟩, p11cPJLC_q4112_6_ok _ _ _ _ _⟩, p11cPJLC_q4112_7_ok _ _ _ _ _⟩
 
 theorem p11cPJ_q4112_eq (α ζ1 ζb1 ζ2 ζb2 Em0 Ep0 Em1 Ep1 S : ℂ) :
     p11cPJq4112 α (ζ1 * Em0) (ζb1 * Ep0) (ζ2 * Em1) (ζb2 * Ep1) (Ep0 * Em1) (Em0 * Ep1) S =

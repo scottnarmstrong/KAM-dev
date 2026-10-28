@@ -526,7 +526,7 @@ theorem p11cPJ_q413_neutral (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q4
 theorem p11cPJ_q413_charged (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q413 α ζ1 ζb1 ζ2 ζb2, t.charge ≠ 0 := by
   unfold p11cPJLC_q413
   simp only [List.forall_mem_append]
-  exact ⟨p11cPJLC_q413_0_ok _ _ _ _ _, p11cPJLC_q413_1_ok _ _ _ _ _, p11cPJLC_q413_2_ok _ _ _ _ _, p11cPJLC_q413_3_ok _ _ _ _ _, p11cPJLC_q413_4_ok _ _ _ _ _⟩
+  exact ⟨⟨⟨⟨p11cPJLC_q413_0_ok _ _ _ _ _, p11cPJLC_q413_1_ok _ _ _ _ _⟩, p11cPJLC_q413_2_ok _ _ _ _ _⟩, p11cPJLC_q413_3_ok _ _ _ _ _⟩, p11cPJLC_q413_4_ok _ _ _ _ _⟩
 
 theorem p11cPJ_q413_eq (α ζ1 ζb1 ζ2 ζb2 Em0 Ep0 Em1 Ep1 S : ℂ) :
     p11cPJq413 α (ζ1 * Em0) (ζb1 * Ep0) (ζ2 * Em1) (ζb2 * Ep1) (Ep0 * Em1) (Em0 * Ep1) S =
@@ -888,7 +888,7 @@ theorem p11cPJ_q422_neutral (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q4
 theorem p11cPJ_q422_charged (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q422 α ζ1 ζb1 ζ2 ζb2, t.charge ≠ 0 := by
   unfold p11cPJLC_q422
   simp only [List.forall_mem_append]
-  exact ⟨p11cPJLC_q422_0_ok _ _ _ _ _, p11cPJLC_q422_1_ok _ _ _ _ _, p11cPJLC_q422_2_ok _ _ _ _ _, p11cPJLC_q422_3_ok _ _ _ _ _⟩
+  exact ⟨⟨⟨p11cPJLC_q422_0_ok _ _ _ _ _, p11cPJLC_q422_1_ok _ _ _ _ _⟩, p11cPJLC_q422_2_ok _ _ _ _ _⟩, p11cPJLC_q422_3_ok _ _ _ _ _⟩
 
 theorem p11cPJ_q422_eq (α ζ1 ζb1 ζ2 ζb2 Em0 Ep0 Em1 Ep1 S : ℂ) :
     p11cPJq422 α (ζ1 * Em0) (ζb1 * Ep0) (ζ2 * Em1) (ζb2 * Ep1) (Ep0 * Em1) (Em0 * Ep1) S =
