@@ -34797,9 +34797,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:enlarge
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: enlarge (KAM/Planetary/Exponential/Enlargement.lean)
+LEAN_NOTE: audit P14-E2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:en-lim
@@ -34825,9 +34825,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:en-li
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: enlarge (KAM/Planetary/Exponential/Enlargement.lean)
+LEAN_NOTE: audit P14-E2 PASS; step inside enlarge
 NOTE: -
 
 NODE: stepP:p14:en-choice
@@ -34854,9 +34854,9 @@ EDGE: bpP:p14:x-top | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:en-choice
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: enlarge (KAM/Planetary/Exponential/Enlargement.lean)
+LEAN_NOTE: audit P14-E2 PASS; step inside enlarge
 NOTE: -
 
 NODE: bpP:p14:real-domain
