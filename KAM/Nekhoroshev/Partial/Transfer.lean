@@ -147,9 +147,9 @@ def slowTube (b : PartialBlock n k) (a : ℝ) (x : KAM.Planetary.Phase k) : Prop
 /-! ### The abstract stopped transfer -/
 
 private theorem transfer_core (b : PartialBlock n k) (hbR : 0 < b.rB) (hbw : 0 < b.w)
-    {R r d dx a : ℝ} {T : ENNReal} (hr : 0 < r)
+    {R r d dx a : ℝ} {T : ENNReal}
     (Nrm : (Fin n → ℝ) → ℝ) (hN : KAM.Stability.IsActionNorm Nrm)
-    (hd : 0 ≤ d) (hdx : 0 ≤ dx) (hdxr : dx < r) (hgap : d+a < r)
+    (hdx : 0 ≤ dx) (hdxr : dx < r) (hgap : d+a < r)
     (P : ER n k → ER n k)
     (hdisp : ∀ z ∈ b.realDom r, Nrm (fastAction (P z)-fastAction z) ≤ d ∧
       ‖slowPair (P z)-slowPair z‖ ≤ dx)
@@ -289,7 +289,8 @@ private theorem transfer_core (b : PartialBlock n k) (hbR : 0 < b.rB) (hbw : 0 <
         refine closedBall_subset_cthickening (x := slowPair (y t)) ?_ dx ?_
         · exact ⟨t, ⟨ht, htE.1.2⟩, rfl⟩
         · rw [mem_closedBall_iff_norm]; exact hsp t htE t ⟨ht, le_rfl⟩
-    have hτsm : τs ∈ eIoo Tm Tp := ⟨lt_of_lt_of_le (by simpa using hz.neg_lt) (by exact_mod_cast hτs0), hTp⟩
+    have hτsm : τs ∈ eIoo Tm Tp :=
+      ⟨lt_of_lt_of_le (by simpa using hz.neg_lt) (by exact_mod_cast hτs0), hTp⟩
     have hsubS : Icc 0 τs ⊆ eIoo Tm Tp := fun u hu => by
       rcases hu.2.eq_or_lt with h | h
       · rw [h]; exact hτsm
@@ -322,6 +323,84 @@ private theorem transfer_core (b : PartialBlock n k) (hbR : 0 < b.rB) (hbw : 0 <
       _ ≤ d + (Nrm (fastAction (z u) - fastAction x) + Nrm (fastAction x - b.Ic)) :=
           add_le_add h1 (htri _ _ _)
       _ ≤ a + 2*d := by linarith
+
+/-! ### The conditional transfer theorem -/
+
+/-- Conditional helper only. T3 is proved by nonresonant integration or energy_free,
+never forwarded as a premise of nonresonant, resonant, block or the provider. -/
+theorem transfer_conditional (b : PartialBlock n k) (hbR : 0 < b.rB) (hbw : 0 < b.w)
+    {R s r t d dx a : ℝ} {T : ENNReal}
+    {H Ht : EC n k → ℂ} {Ψ : EC n k → EC n k} (hc : ExtConjHyp b R s r t H Ht Ψ)
+    (Nrm : (Fin n → ℝ) → ℝ) (hN : KAM.Stability.IsActionNorm Nrm)
+    (hd : 0 ≤ d) (hdx : 0 ≤ dx) (hdxr : dx < r) (ha : 0 < a) (hgap : d+a < r) (hT : 0 < T)
+    (hdisp : ∀ z ∈ b.realDom r, Nrm (fastAction (reExtMap Ψ z)-fastAction z) ≤ d ∧
+      ‖slowPair (reExtMap Ψ z)-slowPair z‖ ≤ dx)
+    (hpre : ∀ y : ER n k, fastAction y = b.Ic → b.lam • slowPair y ∈ b.S →
+      ∃ x ∈ b.realDom r, reExtMap Ψ x = y ∧ Nrm (fastAction x-b.Ic) ≤ d)
+    (hT3 : ∀ J : Set ℝ, J.OrdConnected → (0:ℝ) ∈ J → ∀ y : ℝ → ER n k,
+      ExtOrbit b r Ht J y → Nrm (fastAction (y 0)-b.Ic) ≤ d →
+      (∀ u ∈ J, slowTube b dx (slowPair (y u))) →
+      ∀ u ∈ J, ENNReal.ofReal |u| ≤ T → Nrm (fastAction (y u)-fastAction (y 0)) ≤ a)
+    (F : ER n k → ER n k) (hF : EqOn F (realWfield b.c (realHamiltonianExt b R H)) (b.realDom R))
+    {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0:ℝ) ∈ J) {y : ℝ → ER n k}
+    (hy : ∀ u ∈ J, HasDerivAt y (F (y u)) u)
+    (hI : fastAction (y 0) = b.Ic) (hx : b.lam • slowPair (y 0) ∈ b.S)
+    {t1 : ℝ} (ht1 : t1 ∈ J) (htT : ENNReal.ofReal |t1| ≤ T)
+    (hstop : ∀ u ∈ uIcc 0 t1, b.lam • slowPair (y u) ∈ b.S) :
+    ∀ u ∈ uIcc 0 t1, y u ∈ b.realDom R ∧ Nrm (fastAction (y u)-b.Ic) ≤ a+2*d := by
+  obtain ⟨-, hFc, -, -, -, -⟩ := real_system b hc.R_pos hc.s_pos hc.outer
+  obtain ⟨-, hFtc, -, -, hFtp, -⟩ := real_system b hc.r_pos hc.t_pos hc.inner
+  have hFc' : ContDiffOn ℝ 1 F (b.realDom R) := hFc.congr hF
+  have hconj : ∀ (J : Set ℝ) (y : ℝ → ER n k),
+      IsSolutionIn (realWfield b.c (realHamiltonianExt b r Ht)) (b.realDom r) J y →
+      IsSolutionIn F (b.realDom R) J (reExtMap Ψ ∘ y) := fun J y hy u hu => by
+    obtain ⟨hm, hd⟩ := conj b hc hy u hu
+    exact ⟨hm, by rw [hF hm]; exact hd⟩
+  rcases le_total 0 t1 with ht | ht
+  · rw [uIcc_of_le ht]
+    refine transfer_core b hbR hbw Nrm hN hdx hdxr hgap (reExtMap Ψ) hdisp hpre
+      F _ hFtc hFtp hFc' hconj hT3 ht (fun u hu => hy u (hJ.out h0 ht1 hu)) hI hx
+      (by rwa [abs_of_nonneg ht] at htT) (fun u hu => hstop u (by rwa [uIcc_of_le ht]))
+  · rw [uIcc_of_ge ht]
+    set Ft0 := realWfield b.c (realHamiltonianExt b r Ht) with hFt0
+    have hneg : ∀ (G : ER n k → ER n k) (W : Set (ER n k)) (J' : Set ℝ) (w : ℝ → ER n k),
+        IsSolutionIn (fun x => -G x) W J' w →
+        IsSolutionIn G W (Neg.neg ⁻¹' J') (fun u => w (-u)) := fun G W J' w h => by
+      simpa using gen_symmetry_neg h
+    have hconj' : ∀ (J' : Set ℝ) (w : ℝ → ER n k),
+        IsSolutionIn (fun x => -Ft0 x) (b.realDom r) J' w →
+        IsSolutionIn (fun x => -F x) (b.realDom R) J' (reExtMap Ψ ∘ w) := fun J' w hw => by
+      have h2 := gen_symmetry_neg (hconj _ _ (hneg _ _ _ _ hw))
+      have e : Neg.neg ⁻¹' (Neg.neg ⁻¹' J') = J' := by ext; simp
+      rw [e] at h2
+      simpa [Function.comp_def] using h2
+    have hord : ∀ J' : Set ℝ, J'.OrdConnected → (Neg.neg ⁻¹' J').OrdConnected := fun J' hJ' =>
+      ⟨fun x hx y hy z hz => hJ'.out hy hx ⟨by simpa using hz.2, by simpa using hz.1⟩⟩
+    have hT3' : ∀ J' : Set ℝ, J'.OrdConnected → (0:ℝ) ∈ J' → ∀ w : ℝ → ER n k,
+        IsSolutionIn (fun x => -Ft0 x) (b.realDom r) J' w → Nrm (fastAction (w 0)-b.Ic) ≤ d →
+        (∀ u ∈ J', slowTube b dx (slowPair (w u))) →
+        ∀ u ∈ J', ENNReal.ofReal |u| ≤ T → Nrm (fastAction (w u)-fastAction (w 0)) ≤ a :=
+      fun J' hJ' h0' w hw hw0 htube u hu huT => by
+        have := hT3 (Neg.neg ⁻¹' J') (hord J' hJ') (by simpa using h0') (fun u => w (-u))
+          (hneg _ _ _ _ hw) (by simpa using hw0) (fun v hv => htube (-v) hv) (-u)
+          (by simpa using hu) (by simpa [abs_neg] using huT)
+        simpa using this
+    have hmem : ∀ u ∈ Icc 0 (-t1), -u ∈ J := fun u hu =>
+      hJ.out ht1 h0 ⟨by linarith [hu.2], by linarith [hu.1]⟩
+    have key := transfer_core b hbR hbw Nrm hN hdx hdxr hgap (reExtMap Ψ) hdisp hpre
+      (fun x => -F x) (fun x => -Ft0 x) hFtc.neg (fun ℓ z hz => by
+        show -Ft0 _ = -Ft0 _
+        rw [hFtp ℓ z hz])
+      hFc'.neg hconj' hT3' (y := fun u => y (-u)) (t1 := -t1) (by linarith)
+      (fun u hu => by
+        have := (hy (-u) (hmem u hu)).scomp u (hasDerivAt_neg u)
+        simpa [Function.comp_def] using this)
+      (by simpa using hI) (by simpa using hx)
+      (by rw [abs_of_nonpos ht] at htT; exact htT)
+      (fun u hu => hstop (-u) (by
+        rw [uIcc_of_ge ht]; exact ⟨by linarith [hu.2], by linarith [hu.1]⟩))
+    intro u hu
+    simpa using key (-u) ⟨by linarith [hu.2], by linarith [hu.1]⟩
 
 end KAM.Nekhoroshev
 
