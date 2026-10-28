@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 17:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 80.6 %** · frozen statements proved: 13 / 22 · **152,796 lines of Lean** of an estimated ≈ 232,000
+> **Last updated: 2026-10-28 17:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 80.6 %** · frozen statements proved: 13 / 22 · **152,796 lines of Lean** of an estimated ≈ 233,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,16 +126,16 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **152,796** (116,459 excluding blank lines and comments) · **+146,516** since 2026-10-27 17:20 UTC |
-| Written on agent branches, not yet landed | 29,479 |
-| **Estimated total at completion** | **≈ 232,000** |
-| Estimated still to write | ≈ 49,000 |
+| On `main` now | **152,796** (116,459 excluding blank lines and comments) · **+146,516** since 2026-10-27 17:40 UTC |
+| Written on agent branches, not yet landed | 30,339 |
+| **Estimated total at completion** | **≈ 233,000** |
+| Estimated still to write | ≈ 50,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 17:20 UTC from `main` at `f6384126` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 17:40 UTC from `main` at `e88493c0` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,27 +292,32 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **p11ac8** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-C8: cutoff_coefficients, canonical_step_simple_inverse | `inp-p11ac8` | 20 (vs `inp`) |
-| **p11aw2b** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-W2b: WeakMeasure/FiniteType (rank_compact via Part 10 cp09) | `inp-p11aw2b` | 1 (vs `inp`) |
-| **p11b-b04** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11B B04: c-prime positivity and bump L1 finiteness (audit F1) | `inp-p11b-b04` | 8 (vs `inp`) |
-| **p11b-b08** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: B08 WIP FiniteDivisor | `inp-p11b-b08` | 14 (vs `inp`) |
-| **p11c-t4** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Merge inp-p11c-t2 (T2: OrbitJet, provides p11c_JetEq; orchestrator) | `inp-p11c-t4` | 5 (vs `inp`) |
-| **p14-a6** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P14 A6: wrap long line | `inp-p14-a6` | 2 (vs `inp`) |
-| **p14-e3** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: E3: Exponential/RealDomain (real_domain, original_cylinder_subset) proved | `inp-p14-e3` | 1 (vs `inp`) |
-| **p14-e4** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: E4: wrap long lines in KeplerData | `inp-p14-e4` | 3 (vs `inp`) |
+| **p11ac8** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-C8: rename helper step_small to p11_step_small (audit-1 F1; orchestrator) | `inp-p11ac8` | 22 (vs `inp`) |
+| **p11ap1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p11aw2b (P11A-W2b) | `inp-p11ap1` | 2 (vs `inp`) |
+| **p11b-b04** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: P11B B04: round-2 delta audit (PASS WITH NOTES; F1 resolved) | `inp-p11b-b04` | 9 (vs `inp`) |
+| **p11b-b07** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p11b-b04 | `inp-p11b-b07` | 9 (vs `inp`) |
+| **p11b-b08** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: B08: wrap one docstring line (orchestrator) | `inp-p11b-b08` | 15 (vs `inp`) |
+| **p11c-t15** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11C T15: hasSecularBirkhoffForm_of_sixth_order proved | `inp-p11c-t15` | 2 (vs `inp`) |
+| **p11c-t5** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11C T5: torus average of a Fourier mode against the kernel power (Average.lean) | `inp-p11c-t5` | 7 (vs `inp`) |
+| **p11c-t7** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11C T7: Characters/Factor (character_eq_sum) | `inp-p11c-t7` | 4 (vs `inp`) |
+| **p14-a6** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: P14 A6: handoff and independent seal-key audit (PASS WITH NOTES; amdConfinement provider s | `inp-p14-a6` | 3 (vs `inp`) |
+| **p14-e4** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: E4: analytic negation bridges for -h (audit F1) | `inp-p14-e4` | 5 (vs `inp`) |
+| **p14-e7** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p14-e3 (E3) | `inp-p14-e7` | 2 (vs `inp`) |
 | **p14-e8** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: E8: shorten comment line | `inp-p14-e8` | 2 (vs `inp`) |
 | **p14-s0** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P14 S0: SecularBox.Numerics sb_numerics proved | `inp-p14-s0` | 1 (vs `inp`) |
 | **p14-s1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P14 S1: SecularBox/Chart sb_chart proved | `inp-p14-s1` | 1 (vs `inp`) |
+| **p14-s2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P14 S1: SecularBox/Chart sb_chart proved | `inp-p14-s2` | 1 (vs `inp`) |
+| **p14-s3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p14-s1 | `inp-p14-s3` | 2 (vs `inp`) |
 | **p14-s4** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P14 S4: secular_parametric_integral (SecularBox/ParametricIntegral) | `inp-p14-s4` | 1 (vs `inp`) |
-| **p2322** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-22: two_scale_kam proved (signed), handoff | `inp-p2322` | 3 (vs `inp`) |
-| **p5av** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-AV: rename signed avg to pg_avg (clashed with the P2/P3 KAM.Planetary.avg in the root b | `inp-p5av` | 20 (vs `inp`) |
-| **p5ch** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-CH: phi_chart and location | `inp-p5ch` | 23 (vs `inp`) |
-| **p5kh** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-KH: dictionary L/rhoHat/eHat clauses, kamH, pgKamScale (partial) | `inp-p5kh` | 22 (vs `inp`) |
-| **s10i** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S10-I: Nondegeneracy/Interface (interface proved) | `inp-s10i` | 1 (vs `inp`) |
+| **p2322** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-22: wrap two long lines (whitespace only; orchestrator) | `inp-p2322` | 4 (vs `inp`) |
+| **p5av** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P5-AV: rename six helpers whose short names already exist in KAM (blockFast/blockSlow_appe | `inp-p5av` | 21 (vs `inp`) |
+| **p5ch** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Merge branch 'inp-p5av' into inp-p5ch | `inp-p5ch` | 25 (vs `inp`) |
+| **p5kh** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: Merge inp-p5ch (P5-CH: oscillatorPolarComplex, phi_chart; in audit) | `inp-p5kh` | 27 (vs `inp`) |
+| **s10i** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: S10-I: handoff and independent audit 1 (FAIL: if-b finite-minimum companion and stability  | `inp-s10i` | 2 (vs `inp`) |
 | **s84** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: S8-4: handoff and independent audit 1 (FAIL: duplicate helper iteratedFDeriv_comp_clm_of_i | `inp-s84` | 25 (vs `inp`) |
-| **s8q** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S8-Q round 2: qf-diag2 (Quadratic/Diag), rename quadRemainder to quadFormRemainder | `inp-s8q` | 20 (vs `inp`) |
+| **s8q** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: S8-Q: round-2 delta audit (PASS WITH NOTES; F1 qf-diag2 and F2 rename resolved) | `inp-s8q` | 21 (vs `inp`) |
 | **s9q** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: S9-Q: d-c sqrt(n) domain adapter (audit F1) | `inp-s9q` | 21 (vs `inp`) |
-| **s9t** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S9-T: SecularSpectrum/Transport (diagonalize_transport, diagonalize_period_one) | `inp-s9t` | 20 (vs `inp`) |
+| **s9t** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S9-T: SecularSpectrum/Transport (diagonalize_transport, diagonalize_period_one) | `inp-s9t` | 20 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
