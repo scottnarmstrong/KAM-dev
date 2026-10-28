@@ -97,6 +97,195 @@ theorem continuous_momentum {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (i 
   rw [this]
   exact h.comp (continuous_apply i)
 
+/-! ### The Kepler field: position part -/
+
+/-- The unit vector of the `c`-th momentum coordinate of body `i`. -/
+def momSlot (i : Fin n) (c : Fin 2) : Fin (n * 2) → ℝ := Pi.single (finProdFinEquiv (i, c)) 1
+
+/-- The momentum derivative of the Kepler part along one momentum coordinate. -/
+theorem hasDerivAt_keplerPart_momentum (κ : ℝ) {m : Fin n → ℝ} (hm : ∀ i, 0 < m i)
+    (z : Phase (n * 2)) (i : Fin n) (c : Fin 2) :
+    HasDerivAt (fun r : ℝ => keplerPart κ m
+      (z.1, z.2 + r • momSlot i c))
+      (z.2 (finProdFinEquiv (i, c)) / m i) 0 := by
+  unfold keplerPart
+  have hterm : ∀ j ∈ Finset.univ, HasDerivAt (fun r : ℝ =>
+      planeSq (bodyVector (z.2 + r • momSlot i c) j) / (2 * m j) -
+        κ * m j / planeLength (bodyVector z.1 j))
+      ((∑ c' : Fin 2, 2 * z.2 (finProdFinEquiv (j, c')) *
+        (momSlot i c
+          (finProdFinEquiv (j, c')))) / (2 * m j)) 0 := by
+    intro j _
+    have hc : ∀ c' : Fin 2, HasDerivAt (fun r : ℝ =>
+        (z.2 + r • momSlot i c) (finProdFinEquiv (j, c')) ^ 2)
+        (2 * z.2 (finProdFinEquiv (j, c')) *
+          (momSlot i c
+            (finProdFinEquiv (j, c')))) 0 := by
+      intro c'
+      have h1 : HasDerivAt (fun r : ℝ =>
+          (z.2 + r • momSlot i c) (finProdFinEquiv (j, c')))
+          (momSlot i c
+            (finProdFinEquiv (j, c'))) 0 := by
+        have := ((hasDerivAt_id (0 : ℝ)).mul_const
+          (momSlot i c
+            (finProdFinEquiv (j, c')))).const_add
+          (z.2 (finProdFinEquiv (j, c')))
+        simpa using this
+      have := h1.fun_pow 2
+      simpa using this
+    have hs : HasDerivAt (fun r : ℝ =>
+        planeSq (bodyVector (z.2 + r • momSlot i c) j))
+        (∑ c' : Fin 2, 2 * z.2 (finProdFinEquiv (j, c')) *
+          (momSlot i c
+            (finProdFinEquiv (j, c')))) 0 := by
+      have := HasDerivAt.fun_sum (u := Finset.univ) fun c' _ => hc c'
+      simpa [planeSq, bodyVector] using this
+    exact (hs.div_const (2 * m j)).sub_const _
+  have hsum := (HasDerivAt.fun_sum hterm)
+  refine hsum.congr_deriv ?_
+  rw [Finset.sum_eq_single i]
+  · have hmi := (hm i).ne'
+    rw [Finset.sum_eq_single c]
+    · simp [momSlot]
+      field_simp
+    · intro c' _ hc'
+      have : finProdFinEquiv (i, c') ≠ finProdFinEquiv (i, c) := fun h => hc' (by
+        have := finProdFinEquiv.injective h
+        simpa using this)
+      simp [momSlot, this]
+    · simp
+  · intro j _ hj
+    have : ∀ c' : Fin 2, finProdFinEquiv (j, c') ≠ finProdFinEquiv (i, c) := fun c' h =>
+      hj (by
+        have := finProdFinEquiv.injective h
+        simpa using (congrArg Prod.fst this))
+    simp [momSlot, this]
+  · simp
+
+/-- The unit translation of the `k`-th angle. -/
+def unitAngle (k : Fin n) : Phase (n + n) := (Fin.append (Pi.single k (1 : ℝ)) 0, 0)
+
+theorem assemble_update_eq (x : Slow n) (t : Vec n) (k : Fin n) (r : ℝ) :
+    (assemble x.2.1 (Function.update t k r) x.2.2 x.1 : Phase (n + n)) =
+      assemble x.2.1 t x.2.2 x.1 + (r - t k) • unitAngle k := by
+  refine Prod.ext (funext fun j => ?_) (funext fun j => ?_)
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) j
+    · by_cases hjk : j = k
+      · subst hjk; simp [assemble, unitAngle]
+      · simp [assemble, unitAngle, hjk]
+    · simp [assemble, unitAngle]
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) j <;> simp [assemble, unitAngle]
+
+theorem field_eq_sum (D : Data n) (I : Vec n) :
+    ((Fin.append (nu D I) 0 : Fin (n + n) → ℝ), (0 : Fin (n + n) → ℝ)) =
+      ∑ k, nu D I k • unitAngle k := by
+  refine Prod.ext (funext fun j => ?_) (funext fun j => ?_)
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) j
+    · simp [unitAngle, Prod.fst_sum, Finset.sum_apply, Pi.single_apply]
+    · simp [unitAngle, Prod.fst_sum, Finset.sum_apply]
+  · simp [unitAngle, Prod.snd_sum, Finset.sum_apply]
+
+theorem fderiv_keplerPart_momentum (κ : ℝ) {m : Fin n → ℝ} (hm : ∀ i, 0 < m i)
+    {z : Phase (n * 2)} (hz : DifferentiableAt ℝ (keplerPart κ m) z) (i : Fin n) (c : Fin 2) :
+    fderiv ℝ (keplerPart κ m) z (0, momSlot i c) = z.2 (finProdFinEquiv (i, c)) / m i := by
+  have hl : HasDerivAt (fun r : ℝ => z + r • ((0 : Fin (n * 2) → ℝ), momSlot i c))
+      ((0 : Fin (n * 2) → ℝ), momSlot i c) 0 := by
+    simpa using ((hasDerivAt_id (0 : ℝ)).smul_const
+      ((0 : Fin (n * 2) → ℝ), momSlot i c)).const_add z
+  have hF : HasFDerivAt (keplerPart κ m) (fderiv ℝ (keplerPart κ m) z)
+      (z + (0 : ℝ) • ((0 : Fin (n * 2) → ℝ), momSlot i c)) := by
+    simpa using hz.hasFDerivAt
+  have h1 := hF.comp_hasDerivAt (0 : ℝ) hl
+  have h2 := hasDerivAt_keplerPart_momentum κ hm z i c
+  exact h1.unique (h2.congr_of_eventuallyEq (Filter.Eventually.of_forall fun r => by
+    simp only [Function.comp]
+    congr 1
+    exact Prod.ext (by simp) rfl))
+
+theorem hasDerivAt_position {D : Data n} {x : Slow n} (hx : x ∈ slowDom D) (t : Vec n)
+    (i : Fin n) :
+    HasDerivAt (fun s => position D x (Function.update t i s) i)
+      ((D.m i * nu D x.2.1 i)⁻¹ • momentum D x t i) (t i) := by
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have hwd : (assemble x.2.1 t x.2.2 x.1 : Phase (n + n)) ∈ poincareProdDom n :=
+    assemble_mem hx t
+  set w : Phase (n + n) := assemble x.2.1 t x.2.2 x.1 with hw
+  have hΨ : DifferentiableAt ℝ (poincareProd D.m (D.G*D.m0)) w :=
+    (analyticOnNhd_poincareProd D.hm hκ w hwd).differentiableAt
+  set L := fderiv ℝ (poincareProd D.m (D.G*D.m0)) w with hL
+  have hline : ∀ k, HasDerivAt (fun r => poincareProd D.m (D.G*D.m0)
+      (assemble x.2.1 (Function.update t k r) x.2.2 x.1)) (L (unitAngle k)) (t k) := by
+    intro k
+    have hl : HasDerivAt (fun r : ℝ => w + (r - t k) • unitAngle k) (unitAngle k) (t k) := by
+      simpa using (((hasDerivAt_id (t k)).sub_const (t k)).smul_const (unitAngle k)).const_add w
+    have hF : HasFDerivAt (poincareProd D.m (D.G*D.m0)) L (w + (t k - t k) • unitAngle k) := by
+      simpa using hΨ.hasFDerivAt
+    refine (hF.comp_hasDerivAt (t k) hl).congr_of_eventuallyEq ?_
+    exact Filter.Eventually.of_forall fun r => by simp [Function.comp, assemble_update_eq, hw]
+  have hbody : ∀ k, HasDerivAt (fun r => position D x (Function.update t k r) i)
+      (bodyVector (L (unitAngle k)).1 i) (t k) := by
+    intro k
+    have h1 : HasDerivAt (fun r => (poincareProd D.m (D.G*D.m0)
+        (assemble x.2.1 (Function.update t k r) x.2.2 x.1)).1) (L (unitAngle k)).1 (t k) :=
+      (hline k).fst
+    rw [hasDerivAt_pi]
+    intro c
+    exact hasDerivAt_pi.1 h1 (finProdFinEquiv (i, c))
+  have hself := hbody i
+  have hother : ∀ k, k ≠ i → bodyVector (L (unitAngle k)).1 i = 0 := by
+    intro k hk
+    have h := hbody k
+    have hc : (fun r => position D x (Function.update t k r) i) =
+        fun _ => position D x t i := funext fun r => position_update_ne D x t hk.symm r
+    rw [hc] at h
+    exact h.unique (hasDerivAt_const _ _)
+  have hf : fast w.2 = x.2.1 := by
+    funext j
+    simp [hw, fast, assemble]
+  have hfield := pc_dec D hwd
+  rw [(product_chart D).2.2 w hwd, hf, field_eq_sum, map_sum] at hfield
+  have hreg := poincareProd_mem_regionProd D.hm hκ hwd
+  have hK : DifferentiableAt ℝ (keplerPart (D.G*D.m0) D.m)
+      (poincareProd D.m (D.G*D.m0) w) :=
+    (analyticAt_keplerPart' _ _ fun j => by
+      have := (hreg j).1
+      simpa [bodyVector, poincareProd] using this).differentiableAt
+  have hΛ : 0 < x.2.1 i := by
+    have := (blk_mem hx i 0).1
+    simpa [blk] using this
+  have hν : 0 < nu D x.2.1 i := by
+    have := D.hm i
+    unfold nu
+    positivity
+  have hc : ∀ c, nu D x.2.1 i * bodyVector (L (unitAngle i)).1 i c =
+      momentum D x t i c / D.m i := by
+    intro c
+    have h := congrArg (fun v => v.1 (finProdFinEquiv (i, c))) hfield
+    simp only [hamiltonianVectorField, Prod.fst_sum, Finset.sum_apply, map_smul,
+      Prod.smul_fst, Pi.smul_apply, smul_eq_mul] at h
+    rw [Finset.sum_eq_single i] at h
+    · have h2 := fderiv_keplerPart_momentum (D.G*D.m0) D.hm hK i c
+      have h3 : (Pi.single (finProdFinEquiv (i, c)) (1 : ℝ) : Fin (n * 2) → ℝ) = momSlot i c :=
+        rfl
+      rw [h3, h2] at h
+      exact h
+    · intro k _ hk
+      have := hother k hk
+      have h4 : (L (unitAngle k)).1 (finProdFinEquiv (i, c)) = 0 := by
+        have := congrFun this c
+        simpa [bodyVector] using this
+      exact mul_eq_zero_of_right _ h4
+    · simp
+  refine hself.congr_deriv ?_
+  funext c
+  have h := hc c
+  simp only [Pi.smul_apply, smul_eq_mul]
+  have hm := (D.hm i).ne'
+  have hν' := hν.ne'
+  field_simp
+  field_simp at h
+  linarith
+
 end SecularForm
 end KAM.Planetary
 
