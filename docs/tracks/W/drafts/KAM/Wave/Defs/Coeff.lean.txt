@@ -1,0 +1,29 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- DRAFT (W-STMT rev1), not frozen. Proposed final path: KAM/Frozen/Wave/Defs/Coeff.lean; namespace KAM.Wave.
+module
+
+public import Mathlib.Analysis.Normed.Lp.lpSpace
+public import KAM.Wave.Defs.EllWeight
+
+/-!
+# Coefficient sequence `KAM.Wave.coeff`
+
+Blueprint-W Definition `bpW:w0:ellap`, Convention `bpW:w0:weights`. Reads the `ℓ^{1,1}` coefficient
+sequence off a weighted coordinate (see `KAM.Wave.WaveSpace`).
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Wave
+
+/-- The `ℓ^{1,1}` coefficient sequence `q_j = y_j / (j e^j)` represented by `y ∈ ℓ²(ℕ+)`. -/
+def coeff (y : lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) : ℝ :=
+  y j / ellWeight 1 1 j
+
+end KAM.Wave
+
+end

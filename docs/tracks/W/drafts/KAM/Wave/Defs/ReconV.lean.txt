@@ -1,0 +1,32 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- DRAFT (W-STMT rev1), not frozen. Proposed final path: KAM/Frozen/Wave/Defs/ReconV.lean; namespace KAM.Wave.
+module
+
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+public import KAM.Wave.Defs.Coeff
+public import KAM.Wave.Defs.Lam
+public import KAM.Wave.Defs.SineMode
+
+/-!
+# Reconstruction `KAM.Wave.reconV`
+
+Blueprint-W Definition `bpW:w0:reconstruction`; P96-W p. 277. For every `y` the series converges
+absolutely and uniformly in `x ∈ ℝ` (Lemma `bpW:w0n:recon-bounded`, since `a = 1 > 0`), so the
+`tsum` never takes its non-summable default value.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Wave
+
+/-- The velocity reconstruction `V_m(p)(x) = Σ_{j ≥ 1} √λ_j p_j · φ_j(x)`, where `q = coeff y` (P96-W p. 277). -/
+def reconV (m : ℝ) (hm : 0 < m) (y : lp (fun _ : ℕ+ => ℝ) 2) (x : ℝ) : ℝ :=
+  ∑' j : ℕ+, Real.sqrt (lam m hm j) * coeff y j * sineMode j x
+
+end KAM.Wave
+
+end

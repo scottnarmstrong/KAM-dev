@@ -1,0 +1,29 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- DRAFT (W-STMT rev1), not frozen. Proposed final path: KAM/Frozen/Wave/Defs/EllWeight.lean; namespace KAM.Wave.
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Data.PNat.Basic
+
+/-!
+# Weight of the space `ℓ^{a,p}`: `KAM.Wave.ellWeight`
+
+Blueprint-W Definition `bpW:w0:ellap`; P96-W p. 277 (the source's `s` is our `p`).
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Wave
+
+/-- The weight `j ^ p * e ^ (a j)` of `ℓ^{a,p}`: `‖w‖_{a,p}² = Σ_{j ≥ 1} (ellWeight a p j * |w_j|)²`
+(P96-W p. 277). It is strictly positive. -/
+def ellWeight (a p : ℝ) (j : ℕ+) : ℝ :=
+  (j : ℝ) ^ p * Real.exp (a * j)
+
+end KAM.Wave
+
+end
