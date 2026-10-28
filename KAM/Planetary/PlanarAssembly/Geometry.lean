@@ -92,7 +92,8 @@ theorem compact_cell_isCompact (G m0 : ℝ) (m a : Fin 2 → ℝ) (δ : ℝ) :
     IsCompact (compact_cell G m0 m a δ) := by
   set R : ℝ := 2 * π + 1 + δ + ∑ i, |action_center G m0 m a i| + δ with hR
   have hcell : compact_cell G m0 m a δ ⊆
-      Set.pi univ (fun _ : Fin (2 + 2) => Icc (-R) R) ×ˢ Set.pi univ (fun _ : Fin (2 + 2) => Icc (-R) R) := by
+      Set.pi univ (fun _ : Fin (2 + 2) => Icc (-R) R) ×ˢ
+        Set.pi univ (fun _ : Fin (2 + 2) => Icc (-R) R) := by
     intro w hw
     obtain ⟨h1, h2, h3⟩ := hw
     have hδ : 0 ≤ δ := by
@@ -108,7 +109,9 @@ theorem compact_cell_isCompact (G m0 : ℝ) (m a : Fin 2 → ℝ) (δ : ℝ) :
       | left i =>
         have := h1 i
         have e : w.1 (Fin.castAdd 2 i) = fast (a := 2) (b := 2) w.1 i := rfl
-        rw [e]; constructor <;> linarith [this.1, this.2, hsum i, abs_nonneg (action_center G m0 m a i)]
+        rw [e]
+        constructor <;>
+          linarith [this.1, this.2, hsum i, abs_nonneg (action_center G m0 m a i)]
       | right i =>
         have := (coord_bound_of_gamma (δ := δ) (by rw [← gamma_planetBlock w i]; exact h3 i)).1
         have e : w.1 (Fin.natAdd 2 i) = slow (a := 2) (b := 2) w.1 i := rfl
@@ -222,7 +225,8 @@ theorem forward_tube (G m0 : ℝ) (m a : Fin 2 → ℝ)
     have := hΛ 0; have := hΛ 1; rw [hδ0]; positivity
   have hδ0le : ∀ i, δ0 ≤ action_center G m0 m a i / 4 := fun i => by
     rw [hδ0]
-    have : min (action_center G m0 m a 0) (action_center G m0 m a 1) ≤ action_center G m0 m a i := by
+    have : min (action_center G m0 m a 0) (action_center G m0 m a 1) ≤
+        action_center G m0 m a i := by
       fin_cases i
       · exact min_le_left _ _
       · exact min_le_right _ _
