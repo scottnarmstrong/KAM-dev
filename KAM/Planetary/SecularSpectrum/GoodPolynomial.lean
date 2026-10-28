@@ -112,7 +112,8 @@ lemma discrGen_comp (s : Fin n → R) (e : Equiv.Perm (Fin n)) :
   rw [discrGen_eq, discrGen_eq, pairProd_comp]
 
 lemma permFac_comp (k : Fin n → R) (s : Fin n → R) (e : Equiv.Perm (Fin n)) :
-    ∏ p : Equiv.Perm (Fin n), ∑ j, k j * s (e (p j)) = ∏ p : Equiv.Perm (Fin n), ∑ j, k j * s (p j) :=
+    ∏ p : Equiv.Perm (Fin n), ∑ j, k j * s (e (p j)) =
+      ∏ p : Equiv.Perm (Fin n), ∑ j, k j * s (p j) :=
   Equiv.prod_comp (Equiv.mulLeft e) (fun p : Equiv.Perm (Fin n) => ∑ j, k j * s (p j))
 
 end Symmetry
@@ -173,7 +174,8 @@ lemma eval_goodPoly (s : Vec n) : MvPolynomial.eval s (goodPoly n) = good s := b
 
 lemma goodPoly_isSymmetric (n : ℕ) : (goodPoly n).IsSymmetric := by
   intro e
-  have h1 : MvPolynomial.rename e (discrGen (fun i => (MvPolynomial.X i : MvPolynomial (Fin n) ℝ))) =
+  have h1 : MvPolynomial.rename e
+      (discrGen (fun i => (MvPolynomial.X i : MvPolynomial (Fin n) ℝ))) =
       discrGen (fun i => (MvPolynomial.X i : MvPolynomial (Fin n) ℝ)) := by
     have := discrGen_comp (fun i => (MvPolynomial.X i : MvPolynomial (Fin n) ℝ)) e
     simpa [discrGen, map_prod, map_sub, map_pow] using this
@@ -195,7 +197,8 @@ theorem good_characteristic (n : ℕ) : ∃ P : MvPolynomial (Fin n) ℝ,
   refine ⟨MvPolynomial.aeval (fun i : Fin n =>
     MvPolynomial.C ((-1 : ℝ) ^ (i.val + 1)) * MvPolynomial.X i.rev) P', fun M hM => ?_⟩
   set s := sorted M hM with hs
-  have hch : M.charpoly = ((Finset.univ.val.map s).map fun t => Polynomial.X - Polynomial.C t).prod := by
+  have hch : M.charpoly =
+      ((Finset.univ.val.map s).map fun t => Polynomial.X - Polynomial.C t).prod := by
     rw [charpoly_eq_prod_sorted hM, Finset.prod_eq_multiset_prod, Multiset.map_map]
     rfl
   have key : ∀ (x : Fin n → ℝ) (g : Fin n → MvPolynomial (Fin n) ℝ),
@@ -213,11 +216,13 @@ theorem good_characteristic (n : ℕ) : ∃ P : MvPolynomial (Fin n) ℝ,
       MvPolynomial.aeval s (MvPolynomial.esymm (Fin n) ℝ (i.val + 1)) from rfl,
       MvPolynomial.aeval_esymm_eq_multiset_esymm]
     have hk : (Fin.rev i).val ≤ Multiset.card (Finset.univ.val.map s) := by
-      simp only [Multiset.card_map, Finset.card_val, Finset.card_univ, Fintype.card_fin, Fin.val_rev]
+      simp only [Multiset.card_map, Finset.card_val, Finset.card_univ, Fintype.card_fin,
+        Fin.val_rev]
       have := i.2; omega
     rw [hch, Multiset.prod_X_sub_C_coeff _ hk]
     have hc : Multiset.card (Finset.univ.val.map s) - (Fin.rev i).val = i.val + 1 := by
-      simp only [Multiset.card_map, Finset.card_val, Finset.card_univ, Fintype.card_fin, Fin.val_rev]
+      simp only [Multiset.card_map, Finset.card_val, Finset.card_univ, Fintype.card_fin,
+        Fin.val_rev]
       have := i.2; omega
     rw [hc, ← mul_assoc, ← pow_add, ← two_mul, pow_mul]
     simp
