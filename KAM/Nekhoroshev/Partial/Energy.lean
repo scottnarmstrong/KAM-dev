@@ -291,9 +291,41 @@ private theorem ef_energy (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin n →
   linarith
 
 private theorem ef_re_abs_le (b : PartialBlock n k) {R s U : ℝ} {u : EC n k → ℂ} (hs : 0 < s)
-    (hu : ext_class b R s u) (hb : WBound b.base R s u U) {z : ER n k} (hz : z ∈ b.realDom R) :
-    |(u (extCx z)).re| ≤ U :=
-  (Complex.abs_re_le_norm _).trans (real_system_bounds b hs hu.1 hb z hz).1
+    (hu : InClass b.base R s u) (hb : WBound b.base R s u U) {z : ER n k}
+    (hz : z ∈ b.realDom R) : |(u (extCx z)).re| ≤ U :=
+  (Complex.abs_re_le_norm _).trans (real_system_bounds b hs hu hb z hz).1
+
+/-- Step `ef-C`, angular derivative: `‖∂_θ fs‖₂ ≤ η/(e s)` at real points. -/
+private theorem ef_theta_bound (b : PartialBlock n k) {r s η : ℝ} {fs : EC n k → ℂ}
+    (hs : 0 < s) (hf : InClass b.base r s fs) (hfb : WBound b.base r s fs η) {z : ER n k}
+    (hz : z ∈ b.realDom r) : euclid (fun i => (dtheta i fs (extCx z)).re) ≤ η / (Real.exp 1 * s) :=
+  (ef_euclid_le_sum _).trans <|
+    le_trans (Finset.sum_le_sum fun _ _ => Complex.abs_re_le_norm _)
+      (real_system_bounds b hs hf hfb z hz).2
+
+/-- Step `ef-C`, bracket: `|{fs, g}_c| ≤ 5 η ε/(r s)` on the half-radius real domain. -/
+private theorem ef_bracket_bound (b : PartialBlock n k) {r s ε η : ℝ} {g fs : EC n k → ℂ}
+    (hr : 0 < r) (hs : 0 < s) (hg : InClass b.base r s g) (hf : InClass b.base r s fs)
+    (hgb : WBound b.base r s g (5 * ε / 4)) (hfb : WBound b.base r s fs η) (hη : 0 ≤ η)
+    (hε : 0 < ε) (hSL : 16 * k * b.c * s ≤ r) {z : ER n k} (hz : z ∈ b.realDom (r / 2)) :
+    |(extBracket b.c fs g (extCx z)).re| ≤ 5 * η * ε / (r * s) := by
+  have hc : 0 ≤ b.c := div_nonneg (by positivity) (sq_nonneg _)
+  obtain ⟨hc1, hb1⟩ := bracket b (R0 := r) (s0 := s) (R := r) (s := s) (ρ := r / 2)
+    (σ := s / 2) (U := η) (V := 5 * ε / 4) (by positivity) (by linarith) (by positivity)
+    (by linarith) (by linarith) (by linarith) hf hg hη (by positivity) hfb hgb
+  have hd := bracket_dominated (k := k) (c := b.c) (ρ := r / 2) (σ := s / 2) (R0 := r) (R := r)
+    (s0 := s) (s := s) hc (by positivity) (by positivity) (by linarith) (by linarith)
+    (by unfold slowLoss; linarith)
+  have key : ((Real.exp 1)⁻¹ * (1 / ((r - r + r / 2) * (s / 2)) + 1 / ((s - s + s / 2) * (r / 2))) +
+      2 * k * b.c / ((r - r + r / 2) * (r / 2))) * η * (5 * ε / 4) ≤ 5 * η * ε / (r * s) := by
+    calc _ ≤ ((1 / 2) * (1 / ((r - r + r / 2) * (s / 2)) +
+          1 / ((s - s + s / 2) * (r / 2)))) * η * (5 * ε / 4) :=
+          mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hd hη) (by positivity)
+      _ = _ := by field_simp; ring
+  have e1 : r - r / 2 = r / 2 := by ring
+  have e2 : s - s / 2 = s / 2 := by ring
+  rw [e1, e2] at hc1 hb1
+  exact (ef_re_abs_le b (by positivity) hc1 (hb1.mono le_rfl le_rfl key) hz)
 
 end KAM.Nekhoroshev
 
