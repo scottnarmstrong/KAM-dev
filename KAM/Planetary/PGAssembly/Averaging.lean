@@ -11,7 +11,8 @@ public import KAM.Planetary.PGAssembly.AveragingDisp
 /-!
 # P Part 5: the averaging record (`bpP:p5:avg`)
 
-`avg` applies the P2 theorem `averaged_remainder` to the normalized data of `pg_osc_hyp`,
+`pg_avg` (signed as `avg`; renamed because `KAM.Planetary.avg` is the P2/P3 averaging export)
+applies the P2 theorem `averaged_remainder` to the normalized data of `pg_osc_hyp`,
 `pg_osc_bound` and conjugates by the normalization; `pgAvg` is the chosen record.
 Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
@@ -24,7 +25,7 @@ namespace KAM.Planetary
 
 variable {a b : ℕ}
 
-theorem avg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
+theorem pg_avg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
     ∃ A : PGAveraging (a+b), AveragingSpec d r mu A := by
   obtain ⟨Ψ, g, fs, R, c1, c2, c3, c4, c5, c6, -, -, -, -, -, -, c7, -, cls, hb, -, hd⟩ :=
     averaged_remainder (pg_osc_positive d r mu h).1 (pg_osc_positive d r mu h).2
@@ -44,7 +45,7 @@ theorem avg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) :
 
 /-- The chosen averaging record. -/
 def pgAvg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu) : PGAveraging (a+b) :=
-  (avg d r mu h).choose
+  (pg_avg d r mu h).choose
 
 end KAM.Planetary
 
