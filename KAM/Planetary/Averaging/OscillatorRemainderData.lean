@@ -116,7 +116,8 @@ theorem osc_hom_bracket {r rp rq S K α δ : ℝ} {h : (Fin n → ℂ) → ℂ} 
       poissonBracket (fun w : CPhase (n + m) => h (firstBlock (b := m) w.2)) (oscGen K h f) z =
         oscZero f z - oscTruncate K f z := by
   intro z hz
-  obtain ⟨hzS, hx⟩ := (show oscPack z ∈ KAM.complexStrip n S ×ˢ oscParams (m := m) D r rp rq from hz)
+  obtain ⟨hzS, hx⟩ :=
+    (show oscPack z ∈ KAM.complexStrip n S ×ˢ oscParams (m := m) D r rp rq from hz)
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
   set x := (oscPack z).2 with hxdef
   obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 (isOpen_oscParams (m := m) D r rp rq) x hx
@@ -230,8 +231,8 @@ end Lin
 
 section Numerics
 
-theorem osc_W_le (m : ℕ) {a s ap aq M : ℝ} (ha : 0 ≤ a) (hs : 0 ≤ s) (hap : 0 ≤ ap)
-    (haq : 0 ≤ aq) (haM : a ≤ M) (hsM : s ≤ M) (hapM : ap ≤ M) (haqM : aq ≤ M) :
+theorem osc_W_le (m : ℕ) {a s ap aq M : ℝ} (ha : 0 ≤ a) (hs : 0 ≤ s)
+    (haM : a ≤ M) (hsM : s ≤ M) (hapM : ap ≤ M) (haqM : aq ≤ M) :
     (1 / exp 1) * (a + s) + m * (aq + ap) ≤ 2 * (1 + m) * M := by
   have e : 1 / exp 1 ≤ 1 := by
     rw [div_le_one (exp_pos 1)]; exact one_le_exp zero_le_one
@@ -253,7 +254,8 @@ end Numerics
 section Main
 
 set_option linter.unusedVariables false in
-theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ K α δ : ℝ}
+theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)}
+    {r rp rq S ρ ρp ρq σ K α δ : ℝ}
     {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)} {gj : Fin J → CHam (n + m)}
     {rj rpj rqj Sj Mj : Fin J → ℝ}
     (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
@@ -308,6 +310,8 @@ theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)} {r r
   have hOr : O ⊆ oscDom (m := m) D r rp rq S :=
     oscDom_mono (by linarith) (by linarith) (by linarith) (by linarith)
   have hOopen : IsOpen O := isOpen_oscDom _ _ _ _ _
+  have hOr' : V ⊆ oscDom (m := m) D r rp rq S :=
+    oscDom_mono (by linarith) (by linarith) (by linarith) (by linarith)
   have hdiffAt : ∀ F : CHam (n + m), oscClass D r rp rq S F → ∀ z ∈ O, DifferentiableAt ℂ F z :=
     fun F hF z hz => hF.1.differentiableAt ((isOpen_oscDom _ _ _ _ _).mem_nhds (hOr hz))
   -- brackets with the generator
@@ -332,7 +336,7 @@ theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)} {r r
     have e3 : ρp / (rp - rp + ρp) = 1 := by rw [sub_self, zero_add, div_self h3.ne']
     have e4 : ρq / (rq - rq + ρq) = 1 := by rw [sub_self, zero_add, div_self h5.ne']
     rw [e1, e2, e3, e4]
-    exact osc_W_le m zero_le_one zero_le_one zero_le_one zero_le_one le_rfl le_rfl le_rfl le_rfl
+    exact osc_W_le m zero_le_one zero_le_one le_rfl le_rfl le_rfl le_rfl
   obtain ⟨hQc, hQb⟩ := hbr0 _ z1 z2
   obtain ⟨hRc, hRb⟩ := hbr0 _ t1 t2
   -- pointwise decomposition of `v t` on `O`
@@ -355,6 +359,27 @@ theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)} {r r
       ((1 - t : ℝ) : ℂ) * poissonBracket (oscZero f) φ z +
         (t : ℂ) * poissonBracket (oscTruncate K f) φ z) := fun t =>
     (osc_class_const_mul _ hQc).add (osc_class_const_mul _ hRc)
+  -- continuity of `v` and `D v`
+  have hφd : DifferentiableOn ℂ φ O := c1.1.mono hOr
+  have hPd : DifferentiableOn ℂ (poissonBracket g φ) O :=
+    differentiableOn_poissonBracket hOopen (hgsum.1.mono hOr) hφd
+  have hQd : DifferentiableOn ℂ (poissonBracket (oscZero f) φ) O :=
+    differentiableOn_poissonBracket hOopen (z1.1.mono hOr) hφd
+  have hRd : DifferentiableOn ℂ (poissonBracket (oscTruncate K f) φ) O :=
+    differentiableOn_poissonBracket hOopen (t1.1.mono hOr) hφd
+  have hveq' : ∀ t : ℝ, ∀ z ∈ O, v t z = poissonBracket g φ z +
+      ((1 - t : ℝ) : ℂ) * poissonBracket (oscZero f) φ z +
+        (t : ℂ) * poissonBracket (oscTruncate K f) φ z := by
+    intro t z hz
+    have := pb_lin3 (a := g) (b := oscZero f) (c := oscTruncate K f) (φ := φ)
+      (s := ((1 - t : ℝ) : ℂ)) (t := (t : ℂ)) (hdiffAt g hgsum z hz) (hdiffAt _ z1 z hz)
+      (hdiffAt _ t1 z hz)
+    exact this
+  have hca : Continuous fun p : ℝ × CPhase (n + m) => ((1 - p.1 : ℝ) : ℂ) := by fun_prop
+  have hcb : Continuous fun p : ℝ × CPhase (n + m) => (p.1 : ℂ) := by fun_prop
+  have hsnd : ∀ F : CPhase (n + m) → ℂ, ContinuousOn F O →
+      ContinuousOn (fun p : ℝ × CPhase (n + m) => F p.2) (Icc 0 1 ×ˢ O) :=
+    fun F hF => hF.comp continuousOn_snd fun p hp => hp.2
   refine ⟨fun t ht => ?_, ?_, ?_, ?_⟩
   · have hcl : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (fun z =>
         (((1 - t : ℝ) : ℂ) * poissonBracket (oscZero f) φ z +
@@ -387,10 +412,8 @@ theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)} {r r
       refine Finset.sum_le_sum fun j _ => osc_bracket_bound_le m hd (hMj j) hΦ ?_
       have a1 : 0 ≤ rj j - r + ρ := by linarith [(hg j).2.2.1]
       have a2 : 0 ≤ Sj j - S + σ := by linarith [(hg j).2.2.2.2.2]
-      have a3 : 0 ≤ rpj j - rp + ρp := by linarith [(hg j).2.2.2.1]
-      have a4 : 0 ≤ rqj j - rq + ρq := by linarith [(hg j).2.2.2.2.1]
-      exact osc_W_le m (div_nonneg h1.le a1) (div_nonneg h7.le a2) (div_nonneg h3.le a3)
-        (div_nonneg h5.le a4) ((le_max_left _ _).trans (le_max_left _ _))
+      exact osc_W_le m (div_nonneg h1.le a1) (div_nonneg h7.le a2)
+        ((le_max_left _ _).trans (le_max_left _ _))
         ((le_max_right _ _).trans (le_max_left _ _)) ((le_max_left _ _).trans (le_max_right _ _))
         ((le_max_right _ _).trans (le_max_right _ _))
     have hB : B = 2 * (1 + (m : ℝ)) * Φ / d * Rsum + 2 * (1 + (m : ℝ)) * Φ / d * (1 * δ) := by
@@ -398,7 +421,72 @@ theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)} {r r
       ring
     rw [hB]
     nlinarith [hsumle]
-  all_goals sorry
+  · refine ((((hsnd _ hPd.continuousOn).add (hca.continuousOn.mul (hsnd _ hQd.continuousOn))).add
+      (hcb.continuousOn.mul (hsnd _ hRd.continuousOn)))).congr fun p hp => ?_
+    exact hveq' p.1 p.2 hp.2
+  · have hfd : ∀ F : CPhase (n + m) → ℂ, DifferentiableOn ℂ F O →
+        ContinuousOn (fun p : ℝ × CPhase (n + m) => fderiv ℂ F p.2) (Icc 0 1 ×ˢ O) := fun F hF =>
+      ((KAM.holomorphic_regularity_of_finiteDimensional hOopen hF).1.continuousOn).comp
+        continuousOn_snd fun p hp => hp.2
+    refine ((((hfd _ hPd).add (hca.continuousOn.smul (hfd _ hQd))).add
+      (hcb.continuousOn.smul (hfd _ hRd)))).congr fun p hp => ?_
+    obtain ⟨ht, hz⟩ := hp
+    have hev : v p.1 =ᶠ[nhds p.2] fun w => poissonBracket g φ w +
+        ((1 - p.1 : ℝ) : ℂ) * poissonBracket (oscZero f) φ w +
+          (p.1 : ℂ) * poissonBracket (oscTruncate K f) φ w :=
+      Filter.eventuallyEq_of_mem (hOopen.mem_nhds hz) fun w hw => hveq' p.1 w hw
+    rw [hev.fderiv_eq, fderiv_fun_add ((hPd.differentiableAt (hOopen.mem_nhds hz)).fun_add
+      ((hQd.differentiableAt (hOopen.mem_nhds hz)).const_mul _))
+      ((hRd.differentiableAt (hOopen.mem_nhds hz)).const_mul _),
+      fderiv_fun_add (hPd.differentiableAt (hOopen.mem_nhds hz))
+        ((hQd.differentiableAt (hOopen.mem_nhds hz)).const_mul _),
+      fderiv_const_mul (hQd.differentiableAt (hOopen.mem_nhds hz)),
+      fderiv_const_mul (hRd.differentiableAt (hOopen.mem_nhds hz))]
+    rfl
+  · intro z hz
+    have hVU : V ⊆ U := oscDom_mono (by linarith) (by linarith) (by linarith) (by linarith)
+    have hz' := H.half (hVU hz)
+    have htraj : ∀ t ∈ Icc (-1 : ℝ) 1, flow (KAM.hamiltonianVectorFieldℂ φ) O t z ∈ O :=
+      fun t ht => ((flow_a H.smallField hz').2.1 t ht).1
+    have hH0 : DifferentiableOn ℂ (fun w : CPhase (n + m) => h (firstBlock (b := m) w.2)) O := by
+      have hfb : Differentiable ℂ (fun w : CPhase (n + m) => firstBlock (b := m) w.2) := fun w =>
+        (oscActionL n m).differentiableAt
+      exact hh.comp hfb.differentiableOn fun w hw => (mem_oscDom_iff.1 (hOr hw)).2.1
+    have hf0 : DifferentiableOn ℂ (fun w => g w + oscTruncate K f w) O :=
+      (hgsum.1.mono hOr).add (t1.1.mono hOr)
+    have T := taylor_poschel (W := H.W) (Ω := O) (Ω₁ := O) (φ := φ)
+      (h := fun w : CPhase (n + m) => h (firstBlock (b := m) w.2))
+      (f₀ := fun w => g w + oscTruncate K f w) H.φ_diff H.smallField hOopen subset_rfl hH0 hf0
+      hz' htraj
+    have hbr : ∀ w ∈ O, poissonBracket (fun w : CPhase (n + m) => h (firstBlock (b := m) w.2)) φ w =
+        coeff (oscFunction f) (oscPack w).2 0 - oscTruncate K f w := fun w hw =>
+      osc_hom_bracket hS hK hα hh hdiv hf hδ w (hOr hw)
+    have hint : (∫ t in (0 : ℝ)..1, poissonBracket (fun w => ((1 - t : ℝ) : ℂ) *
+        poissonBracket (fun w : CPhase (n + m) => h (firstBlock (b := m) w.2)) φ w +
+          (g w + oscTruncate K f w)) φ (flow (KAM.hamiltonianVectorFieldℂ φ) O t z)) =
+        ∫ t in (0 : ℝ)..1, v t (flow (KAM.hamiltonianVectorFieldℂ φ) O t z) := by
+      refine intervalIntegral.integral_congr fun t ht => ?_
+      have ht' : t ∈ Icc (0 : ℝ) 1 := by rwa [Set.uIcc_of_le zero_le_one] at ht
+      have hy := htraj t ⟨by linarith [ht'.1], ht'.2⟩
+      show _ = poissonBracket (fun z => g z + ((1 - t : ℝ) : ℂ) *
+        coeff (oscFunction f) (oscPack z).2 0 + (t : ℂ) * oscTruncate K f z) φ _
+      refine pb_congr_eventually (Filter.eventuallyEq_of_mem (hOopen.mem_nhds hy) fun w hw => ?_)
+      show ((1 - t : ℝ) : ℂ) * poissonBracket (fun w : CPhase (n + m) =>
+        h (firstBlock (b := m) w.2)) φ w + (g w + oscTruncate K f w) = _
+      rw [hbr w hw]
+      push_cast
+      ring
+    have hz0 : poissonBracket (fun w : CPhase (n + m) => h (firstBlock (b := m) w.2)) φ z =
+        coeff (oscFunction f) (oscPack z).2 0 - oscTruncate K f z :=
+      osc_hom_bracket hS hK hα hh hdiv hf hδ z (hOr' hz)
+    rw [hint] at T
+    show h (firstBlock (b := m) (Ψ z).2) + g (Ψ z) + f (Ψ z) - h (firstBlock (b := m) z.2) -
+      (g z + coeff (oscFunction f) (oscPack z).2 0) = _
+    have T' : h (firstBlock (b := m) (Ψ z).2) + (g (Ψ z) + oscTruncate K f (Ψ z)) =
+        h (firstBlock (b := m) z.2) + poissonBracket (fun w : CPhase (n + m) =>
+          h (firstBlock (b := m) w.2)) φ z + (g z + oscTruncate K f z) +
+        ∫ t in (0 : ℝ)..1, v t (flow (KAM.hamiltonianVectorFieldℂ φ) O t z) := T
+    linear_combination T' + hz0
 
 end Main
 
