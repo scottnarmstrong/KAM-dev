@@ -260,7 +260,6 @@ theorem maximal {K : ℝ} (hK : 0 ≤ K) (Λ : Lattice n) :
       (maximalK K Λ → latticeDim Λ = n → Λ = ⊤)) ∧
     (K < 1 → (maximalK K Λ ↔ Λ = ⊥)) ∧
     (maximalK K Λ → 1 ≤ volume_def Λ ∧ volume_def Λ ≤ K ^ latticeDim Λ) := by
-  clear hK -- not needed: the statement is valid for every `K`
   have hsat : ∀ k ∈ eBall n K, maximalK K Λ → k ∉ Λ →
       integerReal k ∉ lattice Λ ∧ latticeDim Λ < n ∧ klattice K (addVector Λ k) ∧
       latticeDim (addVector Λ k) = latticeDim Λ + 1 := by
