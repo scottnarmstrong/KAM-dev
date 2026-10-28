@@ -394,7 +394,8 @@ theorem iterPre_step (hpre : IterPre d f a ch ν)
         selectionσ a ν ≤ selectionr a ν := by
       linarith [hf.d_pos, hf.σ_pos]
     have hy : (p11StepMap (stageS d a ch ν hf) (selectionFrequency d ch ν) (ch.R ν) x, x.2) ∈
-        selectionDomain (selectionr a ν) (selections a ν) (actionNbhd (ch.K ν) (selectiont a ν)) := by
+        selectionDomain (selectionr a ν) (selections a ν)
+          (actionNbhd (ch.K ν) (selectiont a ν)) := by
       rw [selectionDomain_eq_domain_def]
       exact domain_def_mono_B hsub (domain_def_mono hrle (hmaps x hx))
     have hnf := hpre.normal_form _ hy
