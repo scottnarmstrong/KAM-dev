@@ -82,10 +82,10 @@ theorem p11cB_rotate_analyticAt (p : PlanarData) (hp : p.Valid) {I0 : Fin 2 → 
       ((analyticAt_snd (𝕜 := ℝ)).comp (analyticAt_snd (𝕜 := ℝ)))
   refine AnalyticAt.prod ?_ ?_
   · refine analyticAt_pi_iff.2 fun i => ?_
-    simp only [p11c_rotateSlow, Matrix.mulVec, dotProduct]
+    simp only [Matrix.mulVec, dotProduct]
     exact Finset.analyticAt_fun_sum _ fun j _ => (hU' i j).mul (h1 j)
   · refine analyticAt_pi_iff.2 fun i => ?_
-    simp only [p11c_rotateSlow, Matrix.mulVec, dotProduct]
+    simp only [Matrix.mulVec, dotProduct]
     exact Finset.analyticAt_fun_sum _ fun j _ => (hU' i j).mul (h2 j)
 
 /-- Joint analyticity of the fixed secular average at a point of the cylinder. -/
@@ -104,7 +104,95 @@ theorem p11cB_secular_analyticAt (p : PlanarData) (hp : p.Valid) {I0 : Fin 2 →
   have hφ : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => (u.2.1, u.1, u.2.2)) (I0, 0) :=
     (analyticAt_fst (𝕜 := ℝ)).comp (analyticAt_snd (𝕜 := ℝ)) |>.prod
       ((analyticAt_fst (𝕜 := ℝ)).prod ((analyticAt_snd (𝕜 := ℝ)).comp (analyticAt_snd (𝕜 := ℝ))))
-  exact (hA _ hx0).comp_of_eq hφ rfl
+  have hc : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+      SecularForm.secular D false (u.2.1, u.1, u.2.2)) (I0, 0) :=
+    AnalyticAt.comp_of_eq (g := SecularForm.secular D false)
+      (f := fun u : (Fin 2 → ℝ) × Phase 2 => ((u.2.1, u.1, u.2.2) : SecularForm.Slow 2))
+      (hA _ hx0) hφ rfl
+  exact hc.congr (Eventually.of_forall fun u => (p11cB_secular_eq p hp u.1 u.2).symm)
+
+theorem p11cB_rotate_smul (U : Matrix (Fin 2) (Fin 2) ℝ) (t : ℝ) (z : Phase 2) :
+    p11c_rotateSlow U (t • z) = t • p11c_rotateSlow U z := by
+  simp [p11c_rotateSlow, Matrix.mulVec_smul]
+
+theorem p11cB_rotate_zero (U : Matrix (Fin 2) (Fin 2) ℝ) : p11c_rotateSlow U 0 = 0 := by
+  simp [p11c_rotateSlow]
+
+theorem p11cB_sigma_analyticAt (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ}
+    (ha : a ∈ p11c_axes) (j : Fin 2) : AnalyticAt ℝ (fun b => p11c_sigma p b j) a := by
+  fin_cases j
+  · exact p11c_sigma0_analyticAt p hp ha
+  · have hQ := p11c_Q_analyticAt p hp ha
+    have h := ((hQ 0 0).add (hQ 1 1)).sub (p11c_sigma0_analyticAt p hp ha)
+    refine h.congr (Eventually.of_forall fun b => ?_)
+    simp only [Pi.add_apply, Pi.sub_apply, p11c_sigma, Fin.mk_one, Matrix.cons_val_zero,
+      Matrix.cons_val_one]
+    ring
+
+theorem p11cB_R_analyticAt (p : PlanarData) (hp : p.Valid) {I0 : Fin 2 → ℝ}
+    (hI0 : I0 ∈ p11c_frameActionDomain p) (hpos : ∀ i, 0 < I0 i) :
+    AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => p11cB_R p u.1 u.2) (I0, 0) := by
+  have hJ := p11cB_secular_analyticAt p hp hI0 hpos
+  have hrot := p11cB_rotate_analyticAt p hp hI0
+  have hax : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => p.axes u.1) (I0, 0) :=
+    (p11c_axes_map_analyticAt p hp I0).comp_of_eq (analyticAt_fst (𝕜 := ℝ)) rfl
+  have hK : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => p11cB_K p u.1 u.2) (I0, 0) := by
+    have hf : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+        (u.1, p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2)) (I0, 0) :=
+      (analyticAt_fst (𝕜 := ℝ)).prod hrot
+    have h0 : (fun u : (Fin 2 → ℝ) × Phase 2 =>
+        (u.1, p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2)) (I0, 0) = (I0, 0) := by
+      simp [p11cB_rotate_zero]
+    have := hJ.comp_of_eq hf h0
+    exact this
+  have hC : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => p11cB_C p u.1) (I0, 0) := by
+    have hf : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => (u.1, (0 : Phase 2))) (I0, 0) :=
+      (analyticAt_fst (𝕜 := ℝ)).prod analyticAt_const
+    have := hJ.comp_of_eq hf rfl
+    exact this
+  have hsig : ∀ j, AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => p11cB_freq p u.1 j) (I0, 0) :=
+    fun j => analyticAt_const.mul
+      ((p11cB_sigma_analyticAt p hp hI0 j).comp_of_eq hax rfl)
+  have h1 : ∀ k, AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => u.2.1 k) (I0, 0) := fun k =>
+    ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) k).analyticAt _).comp
+      ((analyticAt_fst (𝕜 := ℝ)).comp (analyticAt_snd (𝕜 := ℝ)))
+  have h2 : ∀ k, AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 => u.2.2 k) (I0, 0) := fun k =>
+    ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) k).analyticAt _).comp
+      ((analyticAt_snd (𝕜 := ℝ)).comp (analyticAt_snd (𝕜 := ℝ)))
+  have hn0 : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+      p11c_n0 (p11cB_freq p) u.1 u.2) (I0, 0) := by
+    unfold p11c_n0 oscillatorAction
+    exact Finset.analyticAt_fun_sum _ fun j _ =>
+      (hsig j).mul ((((h2 j).pow 2).add ((h1 j).pow 2)).div_const)
+  have hc : ∀ k, AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+      p11c_coeffs p (p.axes u.1) k) (I0, 0) := fun k =>
+    (analyticAt_pi_iff.1 (((quartic_explicit p hp).1 _ hI0)) k).comp_of_eq hax rfl
+  have hr1 : ∀ i, AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+      (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2).1 i) (I0, 0) := fun i =>
+    analyticAt_pi_iff.1 ((analyticAt_fst (𝕜 := ℝ)).comp hrot) i
+  have hr2 : ∀ i, AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+      (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2).2 i) (I0, 0) := fun i =>
+    analyticAt_pi_iff.1 ((analyticAt_snd (𝕜 := ℝ)).comp hrot) i
+  have hq : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+      p11c_quartic (p11c_coeffs p (p.axes u.1))
+        (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2)) (I0, 0) := by
+    have hA : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+        (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2).1 0 ^ 2 +
+          (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2).2 0 ^ 2) (I0, 0) :=
+      ((hr1 0).pow 2).add ((hr2 0).pow 2)
+    have hB : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+        (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2).1 1 ^ 2 +
+          (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2).2 1 ^ 2) (I0, 0) :=
+      ((hr1 1).pow 2).add ((hr2 1).pow 2)
+    have hD : AnalyticAt ℝ (fun u : (Fin 2 → ℝ) × Phase 2 =>
+        p11c_pairDot (p11c_rotateSlow (p11c_frame p (p.axes u.1)) u.2)) (I0, 0) :=
+      ((hr1 0).mul (hr1 1)).add ((hr2 0).mul (hr2 1))
+    simp only [p11c_quartic]
+    exact (((((hc 0).mul (hA.pow 2)).add ((hc 1).mul (hB.pow 2))).add
+      (((hc 2).mul hA).mul hB)).add ((hc 3).mul (hD.pow 2))).add (((hc 4).mul hA).mul hD) |>.add
+      (((hc 5).mul hB).mul hD)
+  have := ((hK.sub hC).sub hn0).sub hq
+  exact this
 
 end KAM.Planetary
 
