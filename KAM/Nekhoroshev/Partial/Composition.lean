@@ -391,6 +391,201 @@ theorem series_eq {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
 
 end ExtCompose
 
+/-! ### The flow of `tφ` -/
+
+private theorem wfield_smul_real (c t : ℝ) {φ : EC n k → ℂ} {w : EC n k}
+    (hw : DifferentiableAt ℂ φ w) :
+    wfield c (fun z => (t : ℂ) * φ z) w = (t : ℂ) • wfield c φ w := by
+  have hf : fderiv ℂ (fun z => (t : ℂ) * φ z) w = (t : ℂ) • fderiv ℂ φ w :=
+    fderiv_const_mul hw _
+  unfold wfield
+  simp only [hf, smul_apply, smul_eq_mul]
+  refine Prod.ext (funext fun i => by simp) (funext fun j => ?_)
+  simp only [Prod.smul_snd, Pi.smul_apply, smul_eq_mul]
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) j
+  · simp only [Fin.append_left]
+    ring
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) i
+    · simp only [Fin.append_right, Fin.append_left]
+      ring
+    · simp only [Fin.append_right]
+      ring
+
+namespace ExtCompose
+
+variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ u : EC n k → ℂ}
+
+/-- The premises for `tφ`, `|t| ≤ 1`: `V` becomes `|t| V`. -/
+theorem smul (hc : ExtCompose b R' s' R s ρ σ V φ) {t : ℝ} (ht : |t| ≤ 1) :
+    ExtCompose b R' s' R s ρ σ (|t| * V) (fun z => (t : ℂ) * φ z) where
+  rho_pos := hc.rho_pos
+  rho_lt := hc.rho_lt
+  sig_pos := hc.sig_pos
+  sig_lt := hc.sig_lt
+  radii := hc.radii
+  widths := hc.widths
+  bound_nonneg := mul_nonneg (abs_nonneg t) hc.bound_nonneg
+  hol := inClass_const_mul_ext _ hc.hol
+  bound := by
+    have := wbound_const_mul_ext (t : ℂ) hc.bound
+    simpa [Complex.norm_real, Real.norm_eq_abs] using this
+  small := by
+    have h1 : 2 * (|t| * V) / (ρ * σ) = |t| * (2 * V / (ρ * σ)) := by ring
+    rw [h1]
+    exact (mul_le_of_le_one_left hc.eta_nonneg ht).trans hc.small
+  slow := hc.slow
+
+/-- `X^t_φ = X¹_{tφ}` on `𝒟_{R-ρ,s-σ}` (uniqueness of the flow). -/
+theorem flow_smul (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) {t : ℝ} (ht : |t| ≤ 1)
+    {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+    extFlow b R' s' ρ σ (fun z => (t : ℂ) * φ z) 1 z = extFlow b R' s' ρ σ φ t z := by
+  have hz1 := hc.gaugeInterior_half hz
+  have hz2 := (hc.smul ht).gaugeInterior_half hz
+  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.smallField hk) hz1
+  have hγ : KAM.ODE.IsSolutionIn (wfield b.c fun z => (t : ℂ) * φ z)
+      (Dom n b.base (R' - ρ) (s' - σ)) (Icc (-1) 1)
+      (fun τ => extFlow b R' s' ρ σ φ (t * τ) z) := by
+    intro τ hτ
+    have hts : t * τ ∈ Icc (-1 : ℝ) 1 := by
+      rw [Set.mem_Icc, ← abs_le, abs_mul]
+      exact (mul_le_mul ht (abs_le.2 hτ) (abs_nonneg _) zero_le_one).trans_eq (one_mul 1)
+    obtain ⟨hmem, hder⟩ := hsol (t * τ) hts
+    refine ⟨hmem, ?_⟩
+    have hdiff : DifferentiableAt ℂ φ (extFlow b R' s' ρ σ φ (t * τ) z) :=
+      (hc.hol.differentiableOn.mono hc.dom_sub).differentiableAt
+        ((isOpen_Dom _ _ _).mem_nhds hmem)
+    have := hder.scomp τ ((hasDerivAt_id τ).const_mul t)
+    rw [wfield_smul_real _ _ hdiff, Complex.coe_smul]
+    simpa [extFlow, Function.comp_def] using this
+  have h00 : (fun τ => extFlow b R' s' ρ σ φ (t * τ) z) 0 = z := by simpa [extFlow] using h0
+  have := (KAM.Canonical.flow_a ((hc.smul ht).smallField hk) hz2).2.2.1 (Icc (-1) 1)
+    ordConnected_Icc ⟨by norm_num, by norm_num⟩ _ hγ h00 1
+    ⟨⟨by norm_num, by norm_num⟩, by norm_num, by norm_num⟩
+  simpa [extFlow] using this.symm
+
+variable (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) (hU : 0 ≤ U)
+  (hu : InClass b.base R s u) (hb : WBound b.base R s u U)
+include hc hk hU hu hb
+
+theorem hasSum_pt {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+    HasSum (fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
+      (u (extFlow b R' s' ρ σ φ 1 z)) := by
+  have hterm := hc.lieTerm_bound hU hu hb
+  have hs' : Summable fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z :=
+    Summable.of_norm_bounded hc.lieSeries_summable fun j =>
+      sup_le_wbound (hterm j).1 (hterm j).2 z hz
+  rw [hc.series_eq hk hU hu hb hz]
+  exact hs'.hasSum
+
+/-- Class and norm of `u ∘ X¹_φ`. -/
+theorem comp_one_class_bound :
+    InClass b.base (R-ρ) (s-σ) (fun z => u (extFlow b R' s' ρ σ φ 1 z)) ∧
+    WBound b.base (R-ρ) (s-σ) (fun z => u (extFlow b R' s' ρ σ φ 1 z))
+      ((1 - 2 * V / (ρ * σ))⁻¹ * U) := by
+  have heq : EqOn (fun z => ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
+      (fun z => u (extFlow b R' s' ρ σ φ 1 z)) (Dom n b.base (R-ρ) (s-σ)) :=
+    fun z hz => (hc.series_eq hk hU hu hb hz).symm
+  refine ⟨inClass_congr_ext heq (hc.lieSeries_class hU hu hb), ?_⟩
+  have hbd := hc.lieSeries_bound hU hu hb
+  obtain ⟨-, hqη, -⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+    (hc.small.trans (by norm_num))
+  have hpos : 0 < 1 - 2 * V / (ρ * σ) := by linarith [hc.small]
+  refine wbound_congr_ext (by linarith [hc.sig_lt]) heq (hbd.mono le_rfl le_rfl ?_)
+  exact mul_le_mul_of_nonneg_right (inv_anti₀ hpos (by linarith)) hU
+
+end ExtCompose
+
+namespace ExtCompose
+
+variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ u : EC n k → ℂ}
+
+/-- `X^t`, `|t| ≤ 1`, with `η` replaced by `|t| η`. -/
+theorem comp_t_class_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) (hU : 0 ≤ U)
+    (hu : InClass b.base R s u) (hb : WBound b.base R s u U) {t : ℝ} (ht : |t| ≤ 1) :
+    InClass b.base (R-ρ) (s-σ) (u ∘ extFlow b R' s' ρ σ φ t) ∧
+    WBound b.base (R-ρ) (s-σ) (u ∘ extFlow b R' s' ρ σ φ t)
+      ((1 - |t| * (2 * V / (ρ * σ)))⁻¹ * U) := by
+  obtain ⟨h5, h6⟩ := (hc.smul ht).comp_one_class_bound hk hU hu hb
+  have heq : EqOn (fun z => u (extFlow b R' s' ρ σ (fun z => (t : ℂ) * φ z) 1 z))
+      (u ∘ extFlow b R' s' ρ σ φ t) (Dom n b.base (R-ρ) (s-σ)) := fun z hz => by
+    beta_reduce
+    rw [hc.flow_smul hk ht hz]
+    rfl
+  refine ⟨inClass_congr_ext heq h5, wbound_congr_ext (by linarith [hc.sig_lt]) heq ?_⟩
+  have h : 2 * (|t| * V) / (ρ * σ) = |t| * (2 * V / (ρ * σ)) := by ring
+  rwa [h] at h6
+
+end ExtCompose
+
+theorem composition (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ σ V U : ℝ}
+    {φ u : EC n k → ℂ} (hc : ExtCompose b R' s' R s ρ σ V φ)
+    (hU : 0 ≤ U) (hu : InClass b.base R s u) (hub : WBound b.base R s u U) :
+    let X := extFlow b R' s' ρ σ φ
+    (∀ t : ℝ, |t| ≤ 1 → MapsTo (X t) (Dom n b.base (R-ρ) (s-σ)) (Dom n b.base R s)) ∧
+    (∀ t : ℝ, |t| ≤ 1 → InClass b.base (R-ρ) (s-σ) (u ∘ X t) ∧
+      WBound b.base (R-ρ) (s-σ) (u ∘ X t) ((1-|t| *(2*V/(ρ*σ)))⁻¹*U)) ∧
+    (∀ z ∈ Dom n b.base (R-ρ) (s-σ),
+      HasSum (fun j : ℕ => ((j.factorial:ℂ)⁻¹)*extAd b.c φ j u z) (u (X 1 z))) ∧
+    (∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N,
+      WBound b.base (R-ρ) (s-σ)
+        (fun z => u (X 1 z)-∑ j ∈ Finset.range N', ((j.factorial:ℂ)⁻¹)*extAd b.c φ j u z) ε) := by
+  intro X
+  refine ⟨fun t ht z hz => hc.tube_sub ((composition_domain b hk hc).2 t ht hz),
+    fun t ht => hc.comp_t_class_bound hk hU hu hub ht,
+    fun z hz => hc.hasSum_pt hk hU hu hub hz, fun ε hε => ?_⟩
+  obtain ⟨N, hN⟩ := hc.lieSeries_tail hU hu hub ε hε
+  refine ⟨N, fun N' hN' => ?_⟩
+  refine wbound_congr_ext (by linarith [hc.sig_lt]) (fun z hz => ?_) (hN N' hN')
+  rw [hc.series_eq hk hU hu hub hz]
+
+/-! ### Reality -/
+
+private theorem extRe_extCx (z : ER n k) : extRe (extCx z) = z := by
+  ext i <;> simp [extRe, extCx]
+
+private theorem extCx_eq' (z : ER n k) :
+    extCx z = (KAM.realInclusion n z.1, KAM.realInclusion (n+(k+k)) z.2) := by
+  ext i <;> simp [extCx]
+
+theorem composition_real (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ σ V : ℝ}
+    {φ u : EC n k → ℂ} (hc : ExtCompose b R' s' R s ρ σ V φ)
+    (hφ : extReal (Dom n b.base R' s') φ) (hu : extReal (Dom n b.base R s) u) :
+    extReal (Dom n b.base (R-ρ) (s-σ)) (u ∘ extFlow b R' s' ρ σ φ 1) := by
+  have hR' : 0 < R' := by linarith [hc.rho_pos, hc.rho_lt, hc.radii]
+  have hs' : 0 < s' := by linarith [hc.sig_pos, hc.sig_lt, hc.widths]
+  have hext : ext_class b R' s' φ := ⟨hc.hol, hφ⟩
+  have hreal : ∀ y : ER n k, extCx y ∈ Dom n b.base (R' - ρ) (s' - σ) →
+      extCx (extRe (wfield b.c φ (extCx y))) = wfield b.c φ (extCx y) := by
+    intro y hy
+    have hyR : y ∈ b.realDom R' := by
+      refine ⟨KAM.ofReal_mem_complexStrip one_pos y.1, ?_⟩
+      exact polyNbhd_mono (by linarith [hc.rho_pos]) hy.2
+    have := (real_system b hR' hs' hext).2.2.1 y hyR
+    rw [← this, extRe_extCx]
+  intro x hx
+  have hx' : extCx x ∈ Dom n b.base (R - ρ) (s - σ) := by
+    rw [extCx_eq']
+    exact hx
+  have hxg := hc.gaugeInterior_half hx'
+  have hrl := flow_real (extGauge hc.rho_pos hc.sig_pos) (hc.smallField hk) hreal hxg
+    (t := 1) (by norm_num)
+  have hmem := hc.tube_sub ((composition_domain b hk hc).2 1 (by norm_num) hx')
+  have hrel : extCx (extRe (extFlow b R' s' ρ σ φ 1 (extCx x))) =
+      extFlow b R' s' ρ σ φ 1 (extCx x) := hrl
+  set y : ER n k := extRe (extFlow b R' s' ρ σ φ 1 (extCx x)) with hydef
+  have hy : (KAM.realInclusion n y.1, KAM.realInclusion (n+(k+k)) y.2) =
+      extFlow b R' s' ρ σ φ 1 (extCx x) := by
+    rw [← extCx_eq']
+    exact hrel
+  have h1 := hu y (by rw [hy]; exact hmem)
+  rw [hy] at h1
+  have hxe : (KAM.realInclusion n x.1, KAM.realInclusion (n+(k+k)) x.2) = extCx x :=
+    (extCx_eq' x).symm
+  show (u (extFlow b R' s' ρ σ φ 1 (KAM.realInclusion n x.1,
+    KAM.realInclusion (n+(k+k)) x.2))).im = 0
+  rw [hxe]
+  exact h1
+
 end KAM.Nekhoroshev
 
 end
