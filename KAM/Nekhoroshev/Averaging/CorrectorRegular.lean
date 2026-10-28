@@ -186,6 +186,68 @@ private theorem hasFDerivAt_aScal (d : AveragingData n R s h f) {κ M₂ : ℝ} 
     refine (add_le_add t1 t2).trans (le_of_eq ?_)
     ring
 
+private theorem norm_aScal_le (d : AveragingData n R s h f) (κ : ℝ) (k : Fin n → ℤ)
+    {I : Fin n → ℝ} (hI : I ∈ actionBall n R) :
+    ‖aScal h f κ k I‖ ≤ avgBeta s k * |avgPsi κ (avgQ h k I)| := by
+  simp only [aScal, norm_mul, Complex.norm_real, Real.norm_eq_abs]
+  exact mul_le_mul_of_nonneg_right ((coef d).2.1 _ (real_mem d hI) k) (abs_nonneg _)
+
+private theorem norm_avgU_le (d : AveragingData n R s h f) (κ : ℝ) (k : Fin n → ℤ)
+    {I : Fin n → ℝ} (hI : I ∈ actionBall n R) :
+    ‖avgU h f κ k I‖ ≤ ‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k I)| := by
+  rw [avgU_eq, norm_smul, norm_kvec]
+  calc ‖aScal h f κ k I‖ * ‖fun j => (k j : ℝ)‖
+      ≤ (avgBeta s k * |avgPsi κ (avgQ h k I)|) * ‖fun j => (k j : ℝ)‖ :=
+        mul_le_mul_of_nonneg_right (norm_aScal_le d κ k hI) (norm_nonneg _)
+    _ = _ := by ring
+
+/-- The summand of `avgW` (the sign included). -/
+private def gk (h : (Fin n → ℂ) → ℂ) (f : AvgComplexPhase n → ℂ) (κ : ℝ) (k : Fin n → ℤ)
+    (y : AvgPhase n) : Fin n → ℂ :=
+  (-KAM.character k (KAM.realInclusion n y.1)) • avgU h f κ k y.2
+
+/-- The real-linear form `θ ↦ 2πi k·θ`. -/
+private def linK (k : Fin n → ℤ) : (Fin n → ℝ) →L[ℝ] ℂ :=
+  ∑ j, (2 * Real.pi * Complex.I * (k j : ℂ)) • Complex.ofRealCLM.comp (ContinuousLinearMap.proj j)
+
+private theorem linK_apply (k : Fin n → ℤ) (v : Fin n → ℝ) :
+    linK k v = 2 * Real.pi * Complex.I * ∑ j, (k j : ℂ) * (v j : ℂ) := by
+  simp [linK, Finset.mul_sum, mul_assoc]
+
+private theorem character_real (k : Fin n → ℤ) (θ : Fin n → ℝ) :
+    KAM.character k (KAM.realInclusion n θ) = Complex.exp (linK k θ) := by
+  rw [linK_apply]; simp [KAM.character]
+
+private theorem norm_character_real (k : Fin n → ℤ) (θ : Fin n → ℝ) :
+    ‖KAM.character k (KAM.realInclusion n θ)‖ = 1 := by
+  rw [KAM.norm_character]; simp
+
+private theorem norm_linK_le (k : Fin n → ℤ) (v : Fin n → ℝ) :
+    ‖linK k v‖ ≤ 2 * Real.pi * KAM.Fourier.modeSize k * ‖v‖ := by
+  rw [linK_apply, norm_mul]
+  have h1 : ‖2 * (Real.pi : ℂ) * Complex.I‖ = 2 * Real.pi := by
+    simp [abs_of_pos Real.pi_pos]
+  rw [h1]
+  have key : ‖∑ j, (k j : ℂ) * (v j : ℂ)‖ ≤ KAM.Fourier.modeSize k * ‖v‖ := by
+    refine (norm_sum_le _ _).trans ?_
+    calc ∑ j, ‖(k j : ℂ) * (v j : ℂ)‖ ≤ ∑ j, |(k j : ℝ)| * ‖v‖ := Finset.sum_le_sum fun j _ => by
+          rw [norm_mul]
+          simp only [Complex.norm_intCast, Complex.norm_real, Int.cast_abs]
+          exact mul_le_mul_of_nonneg_left (norm_le_pi_norm v j) (abs_nonneg _)
+      _ = KAM.Fourier.modeSize k * ‖v‖ := by rw [← Finset.sum_mul]; rfl
+  calc 2 * Real.pi * ‖∑ j, (k j : ℂ) * (v j : ℂ)‖
+      ≤ 2 * Real.pi * (KAM.Fourier.modeSize k * ‖v‖) :=
+        mul_le_mul_of_nonneg_left key (by positivity)
+    _ = _ := by ring
+
+private theorem hasFDerivAt_chi (k : Fin n → ℤ) (θ : Fin n → ℝ) :
+    HasFDerivAt (fun θ : Fin n → ℝ => KAM.character k (KAM.realInclusion n θ))
+      (KAM.character k (KAM.realInclusion n θ) • linK k) θ := by
+  have := (Complex.hasDerivAt_exp (linK k θ)).comp_hasFDerivAt θ (linK k).hasFDerivAt
+  rw [← character_real] at this
+  convert this using 1
+  · ext θ'; exact character_real k θ'
+
 end KAM.Nekhoroshev
 
 end
