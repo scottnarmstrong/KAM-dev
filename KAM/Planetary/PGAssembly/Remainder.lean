@@ -202,6 +202,12 @@ theorem norm_yvec_le_one (j : Fin b) :
   rw [Prod.norm_def]
   simpa using norm_single_le_one j
 
+theorem mlin_apply_le {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {n : ℕ}
+    (M : ContinuousMultilinearMap ℂ (fun _ : Fin n => E) ℂ) (m : Fin n → E)
+    (hm : ∀ i, ‖m i‖ ≤ 1) : ‖M m‖ ≤ ‖M‖ :=
+  (M.le_opNorm m).trans (mul_le_of_le_one_right (norm_nonneg _)
+    (Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) fun i _ => hm i))
+
 theorem norm_cOsc_le {x : PGComplexPhase b} (hx : ‖x‖ ≤ 1) (j : Fin b) : ‖cOsc x j‖ ≤ 1 := by
   have h1 : ‖x.1 j‖ ≤ 1 := (norm_le_pi_norm x.1 j).trans ((le_max_left _ _).trans hx)
   have h2 : ‖x.2 j‖ ≤ 1 := (norm_le_pi_norm x.2 j).trans ((le_max_right _ _).trans hx)
@@ -249,6 +255,51 @@ theorem cPoly_norm_le {c0 : ℂ} {Om : Fin b → ℂ} {be : Matrix (Fin b) (Fin 
         norm_add_le _ _
     _ ≤ (‖c0‖ + ‖∑ j, Om j * cOsc x j‖) + _ := by gcongr; exact norm_add_le _ _
     _ ≤ A0 + b * A2 + b ^ 2 * A4 := by linarith
+
+theorem pgRemainder_eq_cPoly (d : PGData a b) (mu : ℝ) (I : Fin a → ℂ) (x : PGComplexPhase b) :
+    pgRemainder d mu I x = complexAverage d mu I x -
+      cPoly (jetP0 d mu I) (jetOmega d mu I) (jetBeta d mu I) x := by
+  have hf : blockFast (Fin.append I (fun j => (x.1 j ^ 2 + x.2 j ^ 2) / 2) :
+      Fin (a + b) → ℂ) = I := funext fun i => Fin.append_left _ _ i
+  have hs : ∀ j, blockSlow (Fin.append I (fun j => (x.1 j ^ 2 + x.2 j ^ 2) / 2) :
+      Fin (a + b) → ℂ) j = cOsc x j := fun j => Fin.append_right _ _ j
+  unfold pgRemainder jetPolynomial cPoly
+  rw [hf]
+  simp only [hs]
+
+/-- The remainder is bounded uniformly on the half-disc, by the extension bound and the Cauchy
+estimates for the jets (`stepP:p5:ur-bound`). -/
+theorem remainder_bound (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
+    {I : Fin a → ℂ} (hI : I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2))
+    {x : PGComplexPhase b} (hx : ‖x‖ < pgOscRadius d / 2) :
+    ‖pgRemainder d mu I x‖ ≤ (pgExtension d).MP +
+      ((pgExtension d).MP + b * ((2 / (pgOscRadius d / 2)) ^ 2 * (pgExtension d).MP) +
+        b ^ 2 * ((4 / (pgOscRadius d / 2)) ^ 4 * (pgExtension d).MP)) := by
+  have hpos := pgOscRadius_pos d
+  have hx1 : ‖x‖ ≤ 1 := by linarith [pgOscRadius_lt_one d]
+  have hxd : x ∈ ball (0 : PGComplexPhase b) (pgOscRadius d) := by
+    rw [mem_ball_zero_iff]; linarith
+  rw [pgRemainder_eq_cPoly]
+  refine (norm_sub_le _ _).trans (add_le_add (complexAverage_norm_le d hmu (z := (I, x))
+    ⟨hI, by simpa using hxd⟩) (cPoly_norm_le (x := x) ?_ (fun j => ?_) (fun i j => ?_) hx1))
+  · have := complexAverage_norm_le d hmu (z := (I, (0 : PGComplexPhase b))) (mem_avgDom_zero d hI)
+    exact this
+  · have h := jet_norm_le d hmu hI 2
+    refine (mlin_apply_le _ _ fun _ => norm_yvec_le_one j).trans ?_
+    simpa using h
+  · have h := jet_norm_le d hmu hI 4
+    have h' : ‖iteratedFDeriv ℂ 4 (complexAverage d mu I) 0‖ ≤
+        (4 / (pgOscRadius d / 2)) ^ 4 * (pgExtension d).MP := by simpa using h
+    unfold jetBeta
+    by_cases hij : i = j
+    · simp only [hij, ite_true]
+      rw [norm_mul]
+      refine (mul_le_of_le_one_left (norm_nonneg _) (by norm_num)).trans
+        ((mlin_apply_le _ _ fun _ => norm_yvec_le_one j).trans h')
+    · simp only [hij, ite_false]
+      exact (mlin_apply_le _ _ fun k => by
+        by_cases hk : k.val < 2 <;> simp only [hk, ite_true, ite_false] <;>
+          [exact norm_yvec_le_one i; exact norm_yvec_le_one j]).trans h'
 
 end KAM.Planetary
 
