@@ -61,7 +61,7 @@ theorem p11cB_fhat_clause (p : PlanarData) (hp : p.Valid) (b : Bool) (fhat : Pha
         ∀ mu0 : ℝ, 0 < mu0 → ∀ r0 : ℝ, 0 < r0 → r0 ≤ r / sqrt 2 →
           HasSecularBirkhoffForm
             (fun _ => fhat ∘ (p11c_rotationLift p ∘ p11c_liftFlow chi.eval))
-            (interior Kimg) r0 mu0 (fun _ => fun I => p11c_secular fhat I 0)
+            (interior Kimg) r0 mu0 (fun _ => P0)
             (fun _ I j => 2 * p11c_sigma p (p.axes I) j) (fun _ I => p11c_beta p (p.axes I)) := by
   set T := p11c_rotationLift p ∘ p11c_liftFlow chi.eval with hT
   have hKd : K₁ ⊆ p11c_frameActionDomain p := fun I hI => hOg I (hKOg hI)
