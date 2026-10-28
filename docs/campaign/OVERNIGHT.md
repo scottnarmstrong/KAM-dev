@@ -283,3 +283,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   Lipschitz regularity of the family in Cartesian coordinates DEFERRED together with Whitney regularity and linear
   stability (D30 Q3). It is described as a declared weakening of P96-W's Main Theorem, not the full specialization.
   Reversal: require the full Lipschitz Cantor-manifold conclusion in the first headline (adds W6/W8 work).
+- **09:00. Main-orchestrator offload status and rulings.**
+  - N Parts 6–7 complete: N6-1..N6-8 (normal form) and S7-1..S7-8 (Propositions 1 and 2) are proved and audited. Also
+    delivered since 07:25: N Part 2 (all five), N89-G1..G5, N89-P1/P2, N12-01..05, 07, 08, 10a, P23-03..12 and 19,
+    P45-S, P4-S/TO/AF/LT/LI/CO/ONE (some in audit), P5-CL, P11A-W0. Proving: N6-free waves of N12/N89/P23/P45/P11A.
+  - Ruling (design gap, P45): the resonance-section results of P4-R0/P4-RA/P4-RB have no signatures in the P45 design;
+    provers write them as internal helpers (distinct names, blueprint-node citations, shaped for P4-M's
+    `two_scale_diophantine_measure`, no premise added to any signed declaration). P4-RA and P4-M will be done by one
+    prover after P4-R0 and P4-RB. Reversal: a signed P45 addendum for those sections.
+  - Hygiene-only audit failures (N12-03a, N12-03b inherited, P4-CO) were fixed by the orchestrator with whitespace-only
+    commits verified by rebuild, kernel replay and `git diff --check`, recorded as audit addenda; coverage failures
+    (N12-02, P11A-W0) went back to provers and passed round-2 audits.
+  - Track W: exact Lean statements of the first headline W-NLW2 passed statement audit 2; awaiting owner approval
+    (review page claude.ai/artifact/AbFkbYPkBA5SVvtCdaYmn7). Nothing frozen.
+  - Landing on main remains paused pending the owner's go-ahead (main at f7e7672).
