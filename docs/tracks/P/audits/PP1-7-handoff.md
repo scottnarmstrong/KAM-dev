@@ -1,0 +1,17 @@
+# PP1-7 prover handoff (branch inp-pp17, b1e76a2; contains inp-pp14, inp-pp11 (delivered); offloaded package run by the main orchestrator; prover on claude-12)
+
+
+**Files:** new `KAM/Planetary/Hamiltonian/Liouville.lean` (~235 lines, one module; no split needed). Scratch files in `.drafts/scratch/` (untracked use only). KAM.lean not touched (lint reports it out of date: needs `scripts/gen_root_imports.py` by the orchestrator).
+
+**Nodes proved (all signatures as in PPart1Signatures.lean):** `bpP:p1:liouville` → `chart_measure_image` (Lebesgue), `measurableSet_chart_image` (Borel), helper `isAddHaarMeasure_volume_phase`; `bpP:p1:liouville-lattice` → `liouville_lattice`, `liouville_lattice_measurableSet`; `measure_chart_image` (Kepler signature; F6 full-lattice caveat kept). Also `unitCell`. Extra helpers (new, non-signature): `IsChart.exists_open_injOn`, `measurableSet_unitCell`, `exists_shift_mem_unitCell`, `injOn_unitCell`.
+
+**Deviations (formatting only):** line breaks added to the `hQ1` binder of `measure_chart_image` and the Haar docstring to satisfy the 100-char lint; tokens identical. Per audit N1 the Haar helper is owned by Liouville (Chart inlines the instance), so no Chart->Liouville cycle.
+
+**Approach:** local injectivity by the inverse function theorem (`ContDiffAt.toOpenPartialHomeomorph`, derivative bijective by `IsChart.bijective_fderiv`); countable cover of `O` (`countable_cover_nhdsWithin`) + `MeasurableSet.image_of_continuousOn_injOn` for the Borel part. Lebesgue part: `exists_measurable_subset_ae_eq` gives Borel `B ⊆ A`, `A \ B` null, `Ψ(A\B)` null (`addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero`), bound/equality by `addHaar_image_le_lintegral_abs_det_fderiv` / `lintegral_abs_det_fderiv_eq_addHaar_image` with `|det| = c^d`. Lattice: floor-shift into the unit cell, injectivity on `A ∩ Q` from hQ2, positivity by countable union of translates (`measure_preimage_add_right`), Borel via the unit-cell reduction.
+
+**Checks:** `inp_lake_build.sh /root/code/KAM-inp-pp17 KAM.Planetary.Hamiltonian.Liouville` → "Built KAM.Planetary.Hamiltonian.Liouville", no sorry/error warnings in my file. `scripts/lint_sources.sh`: no over-100 lines; the only complaint is "KAM.lean is out of date" (generated; orchestrator). check_lean_modules PASS, frozen guard OK, ABI hashes OK.
+`#print axioms` of chart_measure_image, measurableSet_chart_image, liouville_lattice, liouville_lattice_measurableSet, measure_chart_image, isAddHaarMeasure_volume_phase: all `[propext, Classical.choice, Quot.sound]`.
+
+**Uncertainties / design signals:** none; no heartbeat problems, no set_option. **Suspected errata:** none. A pre-existing unused-variable warning in Chart.lean:193 (`hc` in `isChart_angleScale`) belongs to PP1-4.
+
+AUDIT FOCUS (design docs/tracks/P/design/PART1-LEAN-DESIGN.md row P1-7 (Liouville) and proof plan; its audit DESIGN-P1-design-audit-1.md; KEPLER design Part 1 dependency (item 8), rows D17 / P6-5 measure-positive (b), F6 caveat; blueprint-P p1 liouville, liouville-lattice): (1) statements = design signatures and blueprint; measure_chart_image is BYTE-IDENTICAL to the Kepler design's signature and usable by P6-5(b); (2) proofs sound (area formula, measurability of images under local diffeomorphisms, isAddHaarMeasure_volume_phase); (3) hygiene (lint incl. 100-char lines). Audit ONLY the PP1-7 module(s) (KAM/Planetary/Hamiltonian/Liouville*).
