@@ -317,6 +317,7 @@ public import KAM.Nekhoroshev.Interfaces.Norms
 public import KAM.Nekhoroshev.Interfaces.Period
 public import KAM.Nekhoroshev.Interfaces.QuasiConvex
 public import KAM.Nekhoroshev.Interfaces.Setting
+public import KAM.Nekhoroshev.NormalForm.Setting
 public import KAM.Nekhoroshev.ODE.Specialization
 public import KAM.Nekhoroshev.QuasiConvex
 public import KAM.Nekhoroshev.ZeroPerturbation
