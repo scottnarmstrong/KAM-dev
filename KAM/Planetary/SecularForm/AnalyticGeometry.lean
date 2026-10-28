@@ -173,6 +173,61 @@ theorem exists_cell_planetC (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : �
   refine ⟨y, fun i _ => ⟨(hy i).1, (hy i).2.le⟩, fun i => ?_⟩
   exact (hy' i).trans rfl
 
+theorem continuousOn_re_separationC (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
+    (hr : r < rho D a) (i j : Fin n) :
+    ContinuousOn (fun z : Vec n × CSlow n => (separationC D z.1 z.2 i j).re)
+      (univ ×ˢ polydisc D a r) := by
+  refine Complex.continuous_re.comp_continuousOn ?_
+  unfold separationC
+  refine continuousOn_finsetSum _ fun c _ => ?_
+  have hi := (continuous_apply c).comp_continuousOn
+    ((continuous_fst).comp_continuousOn (continuousOn_planetC D ha hr i))
+  have hj := (continuous_apply c).comp_continuousOn
+    ((continuous_fst).comp_continuousOn (continuousOn_planetC D ha hr j))
+  exact (hi.sub hj).pow 2
+
+theorem separation_pair (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j) :
+    ∃ δ > 0, δ ≤ rho D a / 2 ∧ ∀ t : Vec n, ∀ x ∈ Metric.ball (center D a) δ,
+      (a j - a i) ^ 2 / 2 ≤ (separationC D t x i j).re := by
+  have hρ := rho_pos D ha
+  have hgap : 0 < (a j - a i) ^ 2 / 2 := by
+    have : a i < a j := ha.2 hij
+    have : 0 < a j - a i := by linarith
+    positivity
+  have h1 : (rho D a * 3 / 4) < rho D a := by linarith
+  have hball : Metric.closedBall (center D a) (rho D a / 2) ⊆ polydisc D a (rho D a * 3 / 4) := by
+    rw [polydisc_eq_ball D a (by positivity)]
+    exact (Metric.closedBall_subset_ball (by linarith))
+  have hK : IsCompact (cell n ×ˢ Metric.closedBall (center D a) (rho D a / 2)) :=
+    isCompact_cell.prod (isCompact_closedBall _ _)
+  have hcont := (continuousOn_re_separationC D ha h1 i j).mono
+    (prod_mono (subset_univ (cell n)) hball)
+  have hu := hK.uniformContinuousOn_of_continuous hcont
+  obtain ⟨δ, hδ, hδ'⟩ := Metric.uniformContinuousOn_iff.1 hu _ hgap
+  refine ⟨min δ (rho D a / 2), lt_min hδ (by positivity), min_le_right _ _, fun t x hx => ?_⟩
+  have hxr : x ∈ polydisc D a (rho D a * 3 / 4) := by
+    rw [polydisc_eq_ball D a (by positivity)]
+    exact Metric.ball_subset_ball (by linarith [min_le_right δ (rho D a / 2)]) hx
+  obtain ⟨t', ht', hpl⟩ := exists_cell_planetC D ha h1 hxr t
+  have hsep : separationC D t x i j = separationC D t' x i j := by
+    unfold separationC; rw [hpl i, hpl j]
+  have hxK : x ∈ Metric.closedBall (center D a) (rho D a / 2) :=
+    Metric.ball_subset_closedBall (Metric.ball_subset_ball (min_le_right _ _) hx)
+  have hcK : center D a ∈ Metric.closedBall (center D a) (rho D a / 2) :=
+    Metric.mem_closedBall_self (by positivity)
+  have hd : dist (t', x) (t', center D a) < δ := by
+    rw [Prod.dist_eq]
+    simp only [dist_self]
+    rw [max_eq_right dist_nonneg]
+    exact lt_of_lt_of_le (Metric.mem_ball.1 hx) (min_le_left _ _)
+  have := hδ' (t', x) ⟨ht', hxK⟩ (t', center D a) ⟨ht', hcK⟩ hd
+  rw [Real.dist_eq] at this
+  have hc := re_separationC_center D ha t' (i := i) (j := j)
+  rw [hsep]
+  have := (abs_lt.1 this).1
+  simp only at this
+  linarith
+
 end SecularForm
 end KAM.Planetary
 end
