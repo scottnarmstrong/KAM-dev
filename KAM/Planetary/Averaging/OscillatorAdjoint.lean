@@ -165,6 +165,74 @@ theorem osc_step_const_le {r₀ rp₀ rq₀ S₀ r rp rq S ρ ρp ρq σ Φ B : 
         gcongr
     _ = _ := by field_simp
 
+/-- The `h`-fold induction: `ad_φ^i u` for `i ≤ h`, each step losing `(ρ, ρp, ρq, σ)/h`. -/
+theorem osc_adjoint_induction {r rp rq S r₀ rp₀ rq₀ S₀ ρ ρp ρq σ Φ A : ℝ} {φ u : CHam (n + m)}
+    (hn : 1 ≤ n) (hm : 1 ≤ m)
+    (hφ : oscClass D r₀ rp₀ rq₀ S₀ φ) (hu : oscClass D r rp rq S u)
+    (hbφ : oscBound D r₀ rp₀ rq₀ S₀ φ Φ) (hbu : oscBound D r rp rq S u A)
+    (hΦ : 0 ≤ Φ) (hA : 0 ≤ A)
+    (hwidths : 0 < ρ ∧ ρ < r ∧ 0 < ρp ∧ ρp < rp ∧
+      0 < ρq ∧ ρq < rq ∧ 0 < σ ∧ σ < S)
+    (houter : r + ρ ≤ r₀ ∧ rp + ρp ≤ rp₀ ∧ rq + ρq ≤ rq₀ ∧ S + σ ≤ S₀)
+    {h : ℕ} (hh : 1 ≤ h) :
+    ∀ i : ℕ, i ≤ h →
+      oscClass D (r - i * (ρ / h)) (rp - i * (ρp / h)) (rq - i * (ρq / h)) (S - i * (σ / h))
+        (adPow φ i u) ∧
+      oscBound D (r - i * (ρ / h)) (rp - i * (ρp / h)) (rq - i * (ρq / h)) (S - i * (σ / h))
+        (adPow φ i u)
+        ((∏ k ∈ range i, (2 * (1 / exp 1 + m) * (h : ℝ) ^ 2 * Φ /
+          (min (ρ * σ) (ρp * ρq) * ((h : ℝ) + 1 + k)))) * A) := by
+  obtain ⟨hρ, hρr, hρp, hρpr, hρq, hρqr, hσ, hσS⟩ := hwidths
+  obtain ⟨hr, hrp, hrq, hS⟩ := houter
+  have hh0 : (0 : ℝ) < h := by exact_mod_cast hh
+  have hκ : 0 < ρ / h := by positivity
+  have hκp : 0 < ρp / h := by positivity
+  have hκq : 0 < ρq / h := by positivity
+  have hl : 0 < σ / h := by positivity
+  have hd : 0 < min (ρ * σ) (ρp * ρq) := lt_min (by positivity) (by positivity)
+  have he : 0 < exp 1 := exp_pos 1
+  have hm0 : (0 : ℝ) ≤ m := Nat.cast_nonneg m
+  have hρh : (h : ℝ) * (ρ / h) = ρ := by field_simp
+  have hρph : (h : ℝ) * (ρp / h) = ρp := by field_simp
+  have hρqh : (h : ℝ) * (ρq / h) = ρq := by field_simp
+  have hσh : (h : ℝ) * (σ / h) = σ := by field_simp
+  intro i
+  induction i with
+  | zero => intro _; simpa [adPow] using ⟨hu, hbu⟩
+  | succ i ih =>
+    intro hi
+    obtain ⟨hc, hb⟩ := ih (by omega)
+    have hi' : ((i : ℝ) + 1) ≤ h := by exact_mod_cast hi
+    have hi0 : (0 : ℝ) ≤ i := Nat.cast_nonneg i
+    have hκr : ρ / h < r - i * (ρ / h) := by nlinarith
+    have hκpr : ρp / h < rp - i * (ρp / h) := by nlinarith
+    have hκqr : ρq / h < rq - i * (ρq / h) := by nlinarith
+    have hlσ : σ / h < S - i * (σ / h) := by nlinarith
+    have n1 := mul_nonneg hi0 hκ.le
+    have n2 := mul_nonneg hi0 hκp.le
+    have n3 := mul_nonneg hi0 hκq.le
+    have n4 := mul_nonneg hi0 hl.le
+    have hnn : 0 ≤ (∏ k ∈ range i, (2 * (1 / exp 1 + m) * (h : ℝ) ^ 2 * Φ /
+          (min (ρ * σ) (ρp * ρq) * ((h : ℝ) + 1 + k)))) * A :=
+      mul_nonneg (prod_nonneg fun k _ => by positivity) hA
+    obtain ⟨hc', hb'⟩ := osc_bracket hn hm hφ hc hbφ hb ⟨hκ, hκr⟩ ⟨hκp, hκpr⟩ ⟨hκq, hκqr⟩
+      ⟨hl, hlσ⟩ ⟨by linarith, by linarith, by linarith, by linarith⟩
+    have hK := osc_step_const_le (m := m) (r := r) (rp := rp) (rq := rq) (S := S) (i := i)
+      (B := (∏ k ∈ range i, (2 * (1 / exp 1 + m) * (h : ℝ) ^ 2 * Φ /
+          (min (ρ * σ) (ρp * ρq) * ((h : ℝ) + 1 + k)))) * A) hρ hρp hρq hσ hh hΦ hnn hr hrp hrq hS
+    have e1 : r - ((i + 1 : ℕ) : ℝ) * (ρ / h) = r - i * (ρ / h) - ρ / h := by push_cast; ring
+    have e2 : rp - ((i + 1 : ℕ) : ℝ) * (ρp / h) = rp - i * (ρp / h) - ρp / h := by
+      push_cast; ring
+    have e3 : rq - ((i + 1 : ℕ) : ℝ) * (ρq / h) = rq - i * (ρq / h) - ρq / h := by
+      push_cast; ring
+    have e4 : S - ((i + 1 : ℕ) : ℝ) * (σ / h) = S - i * (σ / h) - σ / h := by push_cast; ring
+    rw [e1, e2, e3, e4, adPow_succ_eq_neg]
+    refine ⟨hc'.const_mul _, ?_⟩
+    refine (osc_bound_const_mul (-1) hb').mono_gen le_rfl le_rfl le_rfl le_rfl ?_
+    rw [norm_neg, norm_one, one_mul, prod_range_succ]
+    refine hK.trans (le_of_eq ?_)
+    ring
+
 end Adjoint
 
 end KAM.Planetary
