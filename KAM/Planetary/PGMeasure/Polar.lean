@@ -366,6 +366,37 @@ theorem disc_measure_chart :
     polarCellMap_injOn, fun z hz => abs_det_fderiv_oscillatorPolar hz,
     fun z z' hz hz' k h => oscillatorPolar_lattice hz hz' k h⟩
 
+
+/-! ### The area formula for the cell map -/
+
+private theorem polarCellMap_chart :
+    IsChart (2 * Real.pi * 1) (polarCellMap (a:=a) (b:=b))
+      {z : Phase (a+b) | ∀ j : Fin b, 0 < blockSlow z.2 j} :=
+  ((isChart_angleScale (d := a+b) (by positivity : 0 < 2 * Real.pi)).mono
+    (subset_univ _)).comp disc_measure_chart.1 (fun _ hz => hz)
+
+theorem disc_measure_image {X : Set (Phase (a+b))} (hX : MeasurableSet X)
+    (hpos : ∀ z ∈ X, ∀ j : Fin b, 0 < blockSlow z.2 j)
+    (hcell : ∀ z ∈ X, z.1 ∈ unitCube (a+b)) :
+    MeasurableSet (polarCellMap '' X) ∧
+    volume (polarCellMap '' X) = ENNReal.ofReal ((2*Real.pi)^(a+b))*volume X := by
+  have : (volume : Measure (Phase (a+b))).IsAddHaarMeasure := Measure.prod.instIsAddHaarMeasure _ _
+  have hπ : 0 < 2 * Real.pi := by positivity
+  have hf' : ∀ x ∈ X, HasFDerivWithinAt (polarCellMap (a:=a) (b:=b))
+      (fderiv ℝ (polarCellMap (a:=a) (b:=b)) x) X x := fun x hx =>
+    ((polarCellMap_chart.1 x (hpos x hx)).differentiableAt.hasFDerivAt).hasFDerivWithinAt
+  have hinj : InjOn (polarCellMap (a:=a) (b:=b)) X :=
+    polarCellMap_injOn.mono (fun z hz => (⟨hpos z hz, hcell z hz⟩ :
+      (∀ j : Fin b, 0 < blockSlow z.2 j) ∧ z.1 ∈ unitCube (a+b)))
+  refine ⟨measurable_image_of_fderivWithin hX hf' hinj, ?_⟩
+  rw [← lintegral_abs_det_fderiv_eq_addHaar_image volume hX hf' hinj]
+  have hdet : ∀ x ∈ X, ENNReal.ofReal |(fderiv ℝ (polarCellMap (a:=a) (b:=b)) x).det| =
+      ENNReal.ofReal ((2 * Real.pi) ^ (a+b)) := fun x hx => by
+    have h := polarCellMap_chart.abs_det_fderiv (by positivity) (hpos x hx)
+    rw [mul_one] at h
+    simpa [ContinuousLinearMap.det] using congrArg ENNReal.ofReal h
+  rw [setLIntegral_congr_fun hX hdet, setLIntegral_const]
+
 end KAM.Planetary
 
 end
