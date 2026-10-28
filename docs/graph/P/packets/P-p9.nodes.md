@@ -778,9 +778,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:diagonali
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: diagonalize, diagonalize_mem_realDisc (KAM/Planetary/SecularSpectrum/Diagonalize.lean); diagonalize_transport, diagonalize_period_one (KAM/Planetary/SecularSpectrum/Transport.lean)
+LEAN_NOTE: composite of audits S9-Q PASS WITH NOTES (round 2; clauses a-c) + S9-T PASS WITH NOTES (clause d); SOURCE_GAP N2 (audit S9-T-1): blueprint L143/L152 Cartesian lift-only lattice wording is repaired explicitly in the signed statement (Psi o liftInv R o polarMap o phaseCast, period conversion omega/(2 pi)); proved under that repair
 NOTE: edges deleted: bpP:p8:same-jets (pointer: beta and clause (i) are treated in Part 11b), bpP:p8:factor-half (remark, source provenance). The sourcegap at L146 (angle correction of the rotation) is bridged by bpP:p9:lift and step d-b SOURCE_GAP: L143/L152 assert the lattice compatibility of the period-one torus-transport theorem using 2 pi shifts of the physical chart. Part 1 defines iota_k using integer shifts, whereas this proof checks shifts by 2 pi m. Applying that theorem directly still needs a named period conversion (as in Part 1 period-convert/cyl-pipeline), with its torus and frequency hypotheses. The source supplies the valid 2 pi shift calculation but does not perform this conversion here; no additional premise or conversion proof is inserted by the graph.
 
 NODE: stepP:p9:d-a
@@ -808,9 +808,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:d-a@L14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: diagonalize, rotDiag_quad_conj, rotDiag_quad_rot (KAM/Planetary/SecularSpectrum/Diagonalize.lean)
+LEAN_NOTE: audit S9-Q PASS WITH NOTES (round 2); diagonalize conjuncts 1,3
 NOTE: -
 
 NODE: stepP:p9:d-b
@@ -845,9 +845,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:d-b@L15
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: diagonalize, rotDiag_avg_shift, rotDiag_avg_lift, rotDiag_liftInv_assemble (KAM/Planetary/SecularSpectrum/Diagonalize.lean); diagonalize_period_one (KAM/Planetary/SecularSpectrum/Transport.lean)
+LEAN_NOTE: composite of audits S9-Q PASS WITH NOTES (secular average) + S9-T PASS WITH NOTES (Hamiltonian/chart transport)
 NOTE: -
 
 NODE: stepP:p9:d-c
@@ -879,9 +879,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:d-c@L15
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: diagonalize, diagonalize_mem_realDisc, rotDiag_length2_mulVec (KAM/Planetary/SecularSpectrum/Diagonalize.lean)
+LEAN_NOTE: audit S9-Q PASS WITH NOTES (round 2; round-1 F1 sqrt(n) domain implication closed by diagonalize_mem_realDisc)
 NOTE: -
 
 NODE: stepP:p9:d-d
@@ -909,9 +909,9 @@ EDGE: bpP:p1:torus-transport | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: diagonalize_transport, diagonalize_period_one, rotatedPhysicalChart, rotatedDomain (KAM/Planetary/SecularSpectrum/Transport.lean)
+LEAN_NOTE: audit S9-T PASS WITH NOTES; SOURCE_GAP N2 (audit S9-T-1): blueprint L143/L152 Cartesian lift-only lattice wording is repaired explicitly in the signed statement (Psi o liftInv R o polarMap o phaseCast, period conversion omega/(2 pi)); proved under that repair
 NOTE: SOURCE_GAP: L143/L152 assert the lattice compatibility of the period-one torus-transport theorem using 2 pi shifts of the physical chart. Part 1 defines iota_k using integer shifts, whereas this proof checks shifts by 2 pi m. Applying that theorem directly still needs a named period conversion (as in Part 1 period-convert/cyl-pipeline), with its torus and frequency hypotheses. The source supplies the valid 2 pi shift calculation but does not perform this conversion here; no additional premise or conversion proof is inserted by the graph.
 
 NODE: bpP:p9:dict

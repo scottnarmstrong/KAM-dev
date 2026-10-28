@@ -1055,9 +1055,9 @@ EDGE: bpP:p0:birkhoff#HasSecularBirkhoffForm | blueprint-P/parts/p8-secular-form
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quadratic_form (KAM/Planetary/SecularForm/Quadratic.lean); qfDiagSymplectic, qfDiagSumSq, qfDiagIdentity (KAM/Planetary/SecularForm/Quadratic/Diag.lean)
+LEAN_NOTE: audit S8-Q round 2 PASS WITH NOTES; signed quadratic_form plus Diag exports for the last clause
 NOTE: edge to bpP:p8:factor-half deleted (remark: erratum and normalisation comparison, no proof consumes it; the factor 1/2 is proved here). The sourcegap at L157 (calculation only in [LR95], not pinned) is closed by the blueprint proof steps
 
 NODE: stepP:p8:qf-pair
@@ -1087,9 +1087,9 @@ EDGE: bpP:p8:e-diff | blueprint-P/parts/p8-secular-form.tex#stepP:p8:qf-pair@L16
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secular_eq_sum_pair (KAM/Planetary/SecularForm/Quadratic/PairSplit.lean); secular_pair_eq, pairSlowSecular_swap (KAM/Planetary/SecularForm/Quadratic/PairIdentify.lean); hessian_pair_form, pair_second_derivative (KAM/Planetary/SecularForm/Quadratic/PairHessian.lean)
+LEAN_NOTE: audit S8-Q round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:qf-scale
@@ -1115,9 +1115,9 @@ EDGE: bpP:p8:laplace | blueprint-P/parts/p8-secular-form.tex#stepP:p8:qf-scale@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: radialPhi_comm, radialPhi_smul, radialPhi_eq_laplace, analyticOnNhd_radialPhi (KAM/Planetary/SecularForm/DiagonalJet/Radial.lean)
+LEAN_NOTE: audit S8-D PASS WITH NOTES (internal proof cut of quadratic_form, consumed by S8-Q audit 2 PASS WITH NOTES)
 NOTE: -
 
 NODE: stepP:p8:qf-c0
@@ -1146,9 +1146,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:qf-c0@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pairSlowSecular_zero (KAM/Planetary/SecularForm/DiagonalJet/Pair.lean)
+LEAN_NOTE: audit S8-D PASS WITH NOTES (internal proof cut of quadratic_form, consumed by S8-Q audit 2 PASS WITH NOTES)
 NOTE: -
 
 NODE: stepP:p8:qf-diag
@@ -1185,9 +1185,9 @@ EDGE: bpP:p8:e-diff | blueprint-P/parts/p8-secular-form.tex#stepP:p8:qf-diag@L16
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pairSlowSecular_diag_jet (KAM/Planetary/SecularForm/DiagonalJet.lean); iteratedDeriv_two_radialH_of_lt, iteratedDeriv_two_radialH_of_gt (KAM/Planetary/SecularForm/DiagonalJet/Radial.lean)
+LEAN_NOTE: audit S8-D PASS WITH NOTES (internal proof cut of quadratic_form, consumed by S8-Q audit 2 PASS WITH NOTES)
 NOTE: -
 
 NODE: stepP:p8:qf-cross
@@ -1219,9 +1219,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:qf-cross
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cross_hessian (KAM/Planetary/SecularForm/CrossJet.lean)
+LEAN_NOTE: audit S8-X PASS WITH NOTES (internal proof cut of quadratic_form, consumed by S8-Q audit 2 PASS WITH NOTES)
 NOTE: -
 
 NODE: stepP:p8:qf-assembly
@@ -1254,9 +1254,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:qf-assem
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quad_pair_sum (KAM/Planetary/SecularForm/Quadratic/Algebra.lean); iteratedDeriv_rayRemainder (KAM/Planetary/SecularForm/Quadratic/Jet.lean); exists_remainder_constants (KAM/Planetary/SecularForm/Quadratic/Constants.lean)
+LEAN_NOTE: audit S8-Q round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:qf-diag2
@@ -1284,9 +1284,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:qf-diag2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qfDiagSymplectic, qfDiagSumSq, qfDiagIdentity (KAM/Planetary/SecularForm/Quadratic/Diag.lean)
+LEAN_NOTE: audit S8-Q round 2 PASS WITH NOTES; F1 resolved
 NOTE: -
 
 NODE: bpP:p8:identification

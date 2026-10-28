@@ -53,9 +53,9 @@ EDGE: bpP:p3:limitmap#data | blueprint-P/parts/p3a-two-scale-iteration.tex#bpP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); KamHyp.freq_real, KamHyp.realFreq_injOn, KamHyp.exists_inverse_locus, KamHyp.inverse_local, KamHyp.inverse_global (KAM/Planetary/TwoScale/TheoremInverse.lean); rhoHat_le_rho, KamHyp.phi_injOn, KamHyp.i_injOn, KamHyp.Hr_differentiableAt, lattice_torus_of_limit (KAM/Planetary/TwoScale/TheoremTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2); signed library theorem, not a frozen anchor; exact signed statement, no new premise
 NOTE: the pointer to bpP:p3:rem-norm (normalizations, L65) and the source-gap on bpP:p3:avg (L86) are not edges: the normalizations are hypotheses and the averaging step is consumed through bpP:p3:step; sourcegap L86 is bridged by Part 2 and Lemma bpP:p3:avg
 
 NODE: bpP:p3:rem-norm
@@ -1203,9 +1203,9 @@ EDGE: bpP:p3b#kam-bounds | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:limi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P23-17 PASS WITH NOTES but only private conditional helpers limit_actions_of_steps/iterative_actionSteps; not a source result
+LEAN_STATUS: PROVED
+LEAN_REF: limit_actions_of_steps (KAM/Planetary/TwoScale/LimitActions.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:la-wp
@@ -1231,9 +1231,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:la-wp@L32-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chain_mem, chain_freq (KAM/Planetary/TwoScale/LimitActionsChain.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:la-tele
@@ -1263,9 +1263,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:la-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chain_block_le, tail_sum_le, chain_limit (KAM/Planetary/TwoScale/LimitActions.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:la-loc
@@ -1295,9 +1295,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:la-l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: limit_actions_of_steps (KAM/Planetary/TwoScale/LimitActions.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:la-lip
@@ -1326,9 +1326,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:la-lip@L38
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chain_lip, prod_le, limit_actions_of_steps (KAM/Planetary/TwoScale/LimitActions.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: bpP:p3:psi-lip
@@ -1362,9 +1362,9 @@ EDGE: bpP:p3b#kam-bounds | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:psi-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: psi_lip_of_steps (KAM/Planetary/TwoScale/LimitMapPack.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pl-dom
@@ -1395,9 +1395,9 @@ EDGE: bpP:p3b#kam-bounds | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:pl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: psi_step (KAM/Planetary/TwoScale/LimitMapPsi.lean); psi_lip_of_steps (KAM/Planetary/TwoScale/LimitMapPack.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pl-disp
@@ -1427,9 +1427,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:pl-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: psi_disp, psi_lip_of_steps (KAM/Planetary/TwoScale/LimitMapPack.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pl-lip
@@ -1461,9 +1461,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:pl-l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: psi_lip_step (KAM/Planetary/TwoScale/LimitMapLip.lean); psi_lip_of_steps (KAM/Planetary/TwoScale/LimitMapPack.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pl-sum
@@ -1492,9 +1492,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:pl-sum@L61
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: psi_lip_of_steps (KAM/Planetary/TwoScale/LimitMapPack.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: bpP:p3:fourier-compact
@@ -1642,9 +1642,9 @@ EDGE: bpP:p3b#kam-bounds | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:limi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: limit_phi_real_of_steps (KAM/Planetary/TwoScale/LimitMapReal.lean); limit_phi_strip_of_steps (KAM/Planetary/TwoScale/LimitMapStrip.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:lp-tele
@@ -1674,9 +1674,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:lp-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: phi_disp_complex (KAM/Planetary/TwoScale/LimitMapDisp.lean); phi_disp_real (KAM/Planetary/TwoScale/LimitMapLimit.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:lp-cauchy
@@ -1706,9 +1706,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:lp-cauchy@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: phi_limit (KAM/Planetary/TwoScale/LimitMapLimit.lean); limit_phi_real_of_steps (KAM/Planetary/TwoScale/LimitMapReal.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:lp-per
@@ -1736,9 +1736,9 @@ EDGE: bpP:p3:limitmap#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: limit_phi_real_of_steps (KAM/Planetary/TwoScale/LimitMapReal.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:lp-an
@@ -1769,9 +1769,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:lp-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: limit_phi_strip_of_steps (KAM/Planetary/TwoScale/LimitMapStrip.lean); tori_complex_ext (KAM/Planetary/TwoScale/ToriEstimates.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: bpP:p3:estimates
@@ -1802,9 +1802,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:estima
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_estimates_of_limit (KAM/Planetary/TwoScale/ToriEstimates.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: the closing sentence "This is Proposition (a), (d)" is a pointer, not an edge
 
 NODE: stepP:p3:es-sup
@@ -1833,9 +1833,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:es-sup@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_estimates_of_limit, tori_complex_ext (KAM/Planetary/TwoScale/ToriEstimates.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:es-loc
@@ -1865,9 +1865,9 @@ EDGE: bpP:p3:tori#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:es-l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_estimates_of_limit (KAM/Planetary/TwoScale/ToriEstimates.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: bpP:p3:lagr
@@ -1899,9 +1899,9 @@ EDGE: bpP:p3b#kam-bounds | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:lagr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_lagr_of_limit (KAM/Planetary/TwoScale/ToriLagr.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:lg-cauchy
@@ -1932,9 +1932,9 @@ EDGE: bpP:p3:tori#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:lg-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_lagr_of_limit (KAM/Planetary/TwoScale/ToriLagr.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:lg-j
@@ -1962,9 +1962,9 @@ EDGE: bpP:p3:limit-actions | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_limit_of_iterative (KAM/Planetary/TwoScale/ToriSetup.lean); tori_lagr_of_limit (KAM/Planetary/TwoScale/ToriLagr.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:lg-lim
@@ -1994,9 +1994,9 @@ EDGE: bpP:p3:tori#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:lg-l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: StripLimit.fderiv_tendsto (KAM/Planetary/TwoScale/ToriEstimates.lean); tori_lagr_of_limit (KAM/Planetary/TwoScale/ToriLagr.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: bpP:p3:invariance
@@ -2026,9 +2026,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:invari
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_invariance_of_limit (KAM/Planetary/TwoScale/ToriInvariance.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:inv-conj
@@ -2087,9 +2087,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:inv-dphi@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PsiSteps.psiR_fderiv_bound (KAM/Planetary/TwoScale/ToriInvConj.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:inv-err
@@ -2123,9 +2123,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:inv-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: field_err (KAM/Planetary/TwoScale/ToriInvStage.lean); stage_err_le (KAM/Planetary/TwoScale/ToriInvariance.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:inv-lim
@@ -2160,9 +2160,9 @@ EDGE: bpP:p3:estimates | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:inv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta2-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P23-19 PASS but real_curve_limit states only the abstract derivative-limit part; B_0 estimates not covered
+LEAN_STATUS: PROVED
+LEAN_REF: curve_limit_field (KAM/Planetary/TwoScale/ToriInvLimit.lean); tori_invariance_of_limit (KAM/Planetary/TwoScale/ToriInvariance.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: SOURCE_GAP: p3b L143 invokes the real C^1 uniform-derivative-limit theorem for curves gamma_j on R. No admitted external/imported statement here supplies that theorem. K uniform-limits is holomorphic on an open complex set, with uniform complex derivative convergence, so it is not this real-curve contract. The local derivative/MVT estimate and convergence inputs are recorded; the final passage to a real C^1 limit remains an explicitly asserted bridge. The trailing N citations merely recall inv-conj.
 
 NODE: bpP:p3:cover
@@ -2301,9 +2301,9 @@ EDGE: bpP:p3:measure#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:mea
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: meas_actions_of_limit (KAM/Planetary/TwoScale/MeasureActions.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:ma-ext
@@ -2333,9 +2333,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:ma-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: meas_actions_of_limit (KAM/Planetary/TwoScale/MeasureActions.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:ma-meas
@@ -2364,9 +2364,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: meas_actions_of_limit (KAM/Planetary/TwoScale/MeasureActions.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: bpP:p3:meas-torus
@@ -2397,9 +2397,9 @@ EDGE: bpP:p3:measure#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:mea
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: meas_torus_of_limit (KAM/Planetary/TwoScale/MeasureTorus.lean); meas_torus_final (KAM/Planetary/TwoScale/MeasureJoint.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:mt-split
@@ -2426,9 +2426,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: meas_torus_of_limit, volume_tube_diff (KAM/Planetary/TwoScale/MeasureTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:mt-ext
@@ -2459,9 +2459,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: scaled_cover (KAM/Planetary/TwoScale/MeasureScaled.lean); meas_torus_of_limit (KAM/Planetary/TwoScale/MeasureTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:mt-pre
@@ -2491,9 +2491,9 @@ EDGE: bpP:p3:limitmap#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage_mem, meas_torus_of_limit (KAM/Planetary/TwoScale/MeasureTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:mt-meas
@@ -2526,9 +2526,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lip_image_scaled (KAM/Planetary/TwoScale/MeasureScaled.lean); meas_torus_of_limit (KAM/Planetary/TwoScale/MeasureTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:mt-shell
@@ -2560,9 +2560,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: shell_subset, volume_tube_diff (KAM/Planetary/TwoScale/MeasureTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:mt-sum
@@ -2590,9 +2590,9 @@ EDGE: bpP:p3:measure#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:m
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: meas_torus_of_limit (KAM/Planetary/TwoScale/MeasureTorus.lean); complementConstant (KAM/Planetary/TwoScale/Constants.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pf-constr
@@ -2621,9 +2621,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:pf-constr@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); tori_limit_of_iterative (KAM/Planetary/TwoScale/ToriSetup.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pf-ad
@@ -2650,9 +2650,9 @@ EDGE: bpP:p3:tori#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:pf-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); tori_estimates_of_limit (KAM/Planetary/TwoScale/ToriEstimates.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pf-bc
@@ -2679,9 +2679,9 @@ EDGE: bpP:p3:tori#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:pf-b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); lattice_torus_of_limit (KAM/Planetary/TwoScale/TheoremTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pf-inj
@@ -2712,9 +2712,9 @@ EDGE: bpP:p3:limitmap#data | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); KamHyp.exists_inverse_locus, KamHyp.inverse_local, KamHyp.inverse_global (KAM/Planetary/TwoScale/TheoremInverse.lean); KamHyp.phi_injOn, KamHyp.i_injOn (KAM/Planetary/TwoScale/TheoremTorus.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: stepP:p3:pf-meas
@@ -2743,9 +2743,9 @@ EDGE: K:bp:p1:ext-lebesgue | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); meas_torus_final (KAM/Planetary/TwoScale/MeasureJoint.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: -
 
 NODE: bpP:p3:conv#data
@@ -2860,9 +2860,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:tori#d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); KamHyp.exists_inverse_locus (KAM/Planetary/TwoScale/TheoremInverse.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: section data of Part 3b (prose L99-L100); Omega_* and D^dio are also defined in the statement of the proposition (no edge to it: it is proved from this lemma chain)
 
 NODE: bpP:p3:measure#data
@@ -2891,9 +2891,9 @@ EDGE: bpP:p3:constants | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:measur
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: two_scale_kam (KAM/Planetary/TwoScale/Theorem.lean); meas_torus_final (KAM/Planetary/TwoScale/MeasureJoint.lean)
+LEAN_NOTE: audit P23-22 PASS WITH NOTES (round 2; carries verdicts of P23-17/18/20/21 audits, all PASS WITH NOTES); private conditional helper(s) applied with all premises discharged on the common witnesses of tori_limit_of_iterative inside two_scale_kam (N2 ruling)
 NOTE: section data of Part 3b (prose L148)
 
 NODE: bpP:p3:ext-weierstrass
