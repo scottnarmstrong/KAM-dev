@@ -31,7 +31,7 @@ variable {n : ℕ}
 
 theorem mem_slowDom_iff' (D : Data n) (x : Slow n) :
     x ∈ slowDom D ↔ ∀ i, 0 < x.2.1 i ∧ (x.1 i ^ 2 + x.2.2 i ^ 2) / 2 < x.2.1 i := by
-  simp [slowDom, poincareProdDom, poincareDom, planetBlock_assemble, poincareGamma]
+  simp [slowDom, poincareProdDom, poincareDom, planetBlock_assemble_slow, poincareGamma]
 
 /-- The real polydisc lies in the chart domain. -/
 theorem realDisc_subset_slowDom (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
