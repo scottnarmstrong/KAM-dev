@@ -75,6 +75,8 @@ theorem aeval_apply_pi {σ : Type*} (x : σ → Pt n → ℝ) (Q : MvPolynomial 
 
 end Weyl
 
+variable {n : ℕ}
+
 open Weyl in
 /-- Simultaneous orthogonal invariance implies generation by dot products. -/
 theorem e_weyl (P : MvPolynomial (Fin n × Fin 2) ℝ)
