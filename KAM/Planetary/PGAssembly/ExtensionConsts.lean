@@ -56,9 +56,11 @@ theorem strip_mem_extensionDomain (d : PGData a b) {delta : ℝ} (hdelta : 0 < d
     linarith [d.hr0]
   · rw [Prod.norm_def]
     have hx1 : ∀ j, ‖x.1 j‖ < delta / 4 := fun j =>
-      (norm_le_pi_norm x.1 j).trans_lt ((le_max_left _ _).trans_lt (by simpa [Prod.norm_def] using hx))
+      (norm_le_pi_norm x.1 j).trans_lt
+        ((le_max_left _ _).trans_lt (by simpa [Prod.norm_def] using hx))
     have hx2 : ∀ j, ‖x.2 j‖ < delta / 4 := fun j =>
-      (norm_le_pi_norm x.2 j).trans_lt ((le_max_right _ _).trans_lt (by simpa [Prod.norm_def] using hx))
+      (norm_le_pi_norm x.2 j).trans_lt
+        ((le_max_right _ _).trans_lt (by simpa [Prod.norm_def] using hx))
     refine max_lt ?_ ?_
     · refine (pi_norm_lt_iff hdelta).2 fun j => ?_
       refine Fin.addCases (fun i => ?_) (fun i => ?_) j

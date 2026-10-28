@@ -130,10 +130,12 @@ theorem isOpen_cylinder (V : Set (Fin a → ℝ)) (hV : IsOpen V) (r : ℝ) :
   have h1 : IsOpen {z : Phase (a + b) | fast z.2 ∈ V} :=
     hV.preimage ((show Continuous fun v : Fin (a + b) → ℝ => fast (b := b) v from
       continuous_pi fun i => continuous_apply _).comp continuous_snd)
-  have h2 : IsOpen {z : Phase (a + b) | ∀ j : Fin b, (slow z.2 j) ^ 2 + (slow z.1 j) ^ 2 < r ^ 2} := by
+  have h2 : IsOpen {z : Phase (a + b) |
+      ∀ j : Fin b, (slow z.2 j) ^ 2 + (slow z.1 j) ^ 2 < r ^ 2} := by
     rw [ofPred_forall]
     refine isOpen_iInter_of_finite fun j => isOpen_lt ?_ continuous_const
-    have h : ∀ v : Fin (a + b) → ℝ, Continuous fun z : Phase (a + b) => slow (a := a) (b := b) z.2 j := by
+    have h : ∀ v : Fin (a + b) → ℝ,
+        Continuous fun z : Phase (a + b) => slow (a := a) (b := b) z.2 j := by
       intro v; exact (continuous_apply _).comp continuous_snd
     have h' : Continuous fun z : Phase (a + b) => slow (a := a) (b := b) z.1 j :=
       (continuous_apply _).comp continuous_fst
@@ -146,7 +148,8 @@ theorem pgWbox_subset_closure (d : PGData a b) {w : Phase (a + b)} (hw : w ∈ p
   set φ : (Fin a → ℝ) → Phase (a + b) := fun I => (w.1, Fin.append I (blockSlow w.2)) with hφ
   have hcont : Continuous φ := by
     refine continuous_const.prodMk (continuous_pi fun j => ?_)
-    refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp only [Fin.append_left, Fin.append_right]
+    refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
+      simp only [Fin.append_left, Fin.append_right]
     · exact continuous_apply i
     · exact continuous_const
   have hsub : φ '' d.V ⊆ cylinder d.V d.r0 := by
