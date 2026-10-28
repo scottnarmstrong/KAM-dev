@@ -474,6 +474,7 @@ public import KAM.Planetary.Exponential.KeplerData
 public import KAM.Planetary.Exponential.LocalComplexification
 public import KAM.Planetary.Exponential.RealDomain
 public import KAM.Planetary.Exponential.Setting
+public import KAM.Planetary.Exponential.UniformData
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Hamiltonian.Diophantine
