@@ -196,6 +196,37 @@ theorem canonical_step {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     simp only [Rp, p11StepRemainder]
     ring
 
+/-- Additional clauses of canonical-step(ii): the affine form of the angle map and its inverse. -/
+theorem canonical_step_simple_inverse {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
+    {w : P11CVec n → P11CVec n} {R : P11Family n → ℂ} (H : P11StepHyp S h w R) :
+    let U := domain_def n (S.r-S.d-S.delta-2*S.sigma) (S.q*S.s) (KAM.actionNbhd S.E S.t)
+    (∃ Theta : P11CVec n × P11CVec n → P11CVec n,
+      ∃ M : P11CVec n × P11CVec n → P11CVec n →L[ℂ] P11CVec n,
+        ∃ v : P11CVec n × P11CVec n → P11CVec n,
+          ∀ z ∈ U, p11StepMap S w R z=(Theta (z.1.1,z.2),M (z.1.1,z.2) z.1.2+v (z.1.1,z.2)) ∧
+            ∀ a b, (∑ i, fderiv ℂ (fun theta => Theta (theta,z.2)) z.1.1 a i *
+              M (z.1.1,z.2) b i)=∑ i, a i*b i) ∧
+    ∀ z ∈ U,
+      p11Flow (p11StepPhi S w R z.2) (S.r-S.d-S.delta) S.s S.sigma (-1) (p11StepMap S w R z)=z.1 ∧
+      p11StepMap S w R
+        (p11Flow (p11StepPhi S w R z.2) (S.r-S.d-S.delta) S.s S.sigma (-1) z.1,z.2)=z.1 := by
+  intro U
+  have hfam : ∀ b ∈ KAM.actionNbhd S.E S.t, ∃ Theta : P11CVec n → P11CVec n,
+      ∃ M : P11CVec n → P11CVec n →L[ℂ] P11CVec n, ∃ v : P11CVec n → P11CVec n,
+      ∀ z ∈ KAM.Weighted.Dom n {0} (3*S.s/4) (S.r-S.d-S.delta-3*S.sigma/2),
+        p11Flow (p11StepPhi S w R b) (S.r-S.d-S.delta) S.s S.sigma 1 z =
+          (Theta z.1, M z.1 z.2 + v z.1) ∧
+        ∀ a c, (∑ i, (fderiv ℂ Theta z.1 a) i * (M z.1 c) i) = ∑ i, a i * c i :=
+    fun b hb => (affine_flow (step_affHyp H hb)).2.2.2.1
+  choose! Th M v hv using hfam
+  refine ⟨⟨fun z => Th z.2 z.1, fun z => M z.2 z.1, fun z => v z.2 z.1, fun z hz => ?_⟩, ?_⟩
+  · exact ⟨(hv z.2 hz.2 z.1 (step_z_mem S hz.1)).1, (hv z.2 hz.2 z.1 (step_z_mem S hz.1)).2⟩
+  · intro z hz
+    have hV : z.1 ∈ KAM.Weighted.Dom n {0} (S.s / 2) (S.r - S.d - S.delta - 2 * S.sigma) := by
+      obtain ⟨h1, h2⟩ := (mem_Dom_iff z.1).1 hz.1
+      exact (mem_Dom_iff z.1).2 ⟨h1, by nlinarith [S.q_le, S.s_pos]⟩
+    exact (affine_flow (step_affHyp H hz.2)).2.2.2.2.2.2.2.2.1 z.1 hV
+
 end KAM.Planetary
 
 end

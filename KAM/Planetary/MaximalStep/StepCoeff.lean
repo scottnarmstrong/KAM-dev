@@ -360,6 +360,21 @@ theorem p11_cutoff_coeff {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [cutoff_R1 hr hs hB hR θ hbB i, mul_comm]
 
+/-- Coefficient bounds of cutoff(a), needed separately by cs-cutoff. The affine decomposition is
+asserted only for parameters in `B` (orchestrator ruling 2026-10-28, P11A-C8: without `z.2 ∈ B` it
+is false, since `R` is unconstrained off `B` and the truncation integrates non-integrable data
+to 0). -/
+theorem cutoff_coefficients {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
+    (hr : 0 < r) (hs : 0 < s) (hT : 0 ≤ T) (hd : 0 < d) (hdr : d < r)
+    (he : 0 ≤ eps) {B : Set (P11CVec n)} (hB : IsOpen B) {R : P11Family n → ℂ}
+    (hR : p11Admissible r s B R) (hb : p11Bound (domain_def n r s B) R eps) :
+    p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R0 T R) ((1+p11Error n T d)*eps) ∧
+    p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R1 T R) ((1+p11Error n T d)*eps/s) ∧
+    ∀ z : P11Family n, z.2 ∈ B → p11Cutoff T R z=p11R0 T R (z.1.1,z.2)+
+      ∑ i, p11R1 T R (z.1.1,z.2) i*z.1.2 i := by
+  obtain ⟨-, -, -, -, h5, h6, h7⟩ := p11_cutoff_coeff hn hr hs hT hd hdr he hB hR hb
+  exact ⟨h5, h6, h7⟩
+
 end KAM.Planetary
 
 end
