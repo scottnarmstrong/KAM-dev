@@ -101,6 +101,64 @@ theorem conj_field (H : KamHyp D sbar p h f) (P : PsiSteps sbar p Ds hs fs Ψ Φ
     simp only [KAM.hamiltonianVectorField, hev.fderiv_eq]
   exact hconj.trans (congrArg (fderiv ℝ (psiR (Φ j)) x) hH)
 
+theorem limitmap_data_le_norm {n : ℕ} {R s : ℝ} (hR : 0 < R) (hs : 0 < s) (w : Phase n) :
+    limitmap_data R s w ≤ max (2 * π / s) R⁻¹ * ‖w‖ := by
+  have hK : 0 ≤ max (2 * π / s) R⁻¹ := le_max_of_le_right (inv_nonneg.2 hR.le)
+  refine max_le ?_ ?_
+  · calc ‖w.1‖ * (2 * π / s) ≤ ‖w‖ * max (2 * π / s) R⁻¹ :=
+          mul_le_mul (norm_fst_le w) (le_max_left _ _) (by positivity) (norm_nonneg _)
+      _ = _ := mul_comm _ _
+  · calc ‖w.2‖ / R = ‖w.2‖ * R⁻¹ := div_eq_mul_inv _ _
+      _ ≤ ‖w‖ * max (2 * π / s) R⁻¹ :=
+          mul_le_mul (norm_snd_le w) (le_max_right _ _) (inv_nonneg.2 hR.le) (norm_nonneg _)
+      _ = _ := mul_comm _ _
+
+/-- `stepP:p3:inv-dphi`: `‖Dψ_j‖ ≤ 1 + κ₁ κ₂` on the real half-radius stage domain, uniformly in
+`j` (`κ₁ = max (s/2π) R̂`, `κ₂ = max (2π/s) R̂⁻¹`, for the stage-`0` constants). -/
+theorem PsiSteps.psiR_fderiv_bound (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {x : Phase (a + b)}
+    (hx : x ∈ phaseTube (Ds j) ((seq p j).ρ / 2)) :
+    ‖fderiv ℝ (psiR (Φ j)) x‖ ≤
+      1 + max (p.s / (2 * π)) (rhoHat p) * max (2 * π / p.s) (rhoHat p)⁻¹ := by
+  have h0 : 0 < rhoHat p := (P.hyp 0).R_pos
+  have hs0 : 0 < p.s := (P.hyp 0).positive.2.1
+  set K := max (p.s / (2 * π)) (rhoHat p) * max (2 * π / p.s) (rhoHat p)⁻¹ with hK
+  have hK0 : 0 ≤ K := by positivity
+  have hlam := P.lam_small
+  have hlip : LipschitzOnWith K.toNNReal (fun y => psiR (Φ j) y - y)
+      (phaseTube (Ds j) ((seq p j).ρ / 2)) := by
+    refine LipschitzOnWith.of_dist_le_mul fun y hy z hz => ?_
+    rw [dist_eq_norm, dist_eq_norm, Real.coe_toNNReal _ hK0]
+    have hl := P.phi_lip j y hy z hz
+    have hle := P.lp_le j
+    have hn := limitmap_data_nonneg h0 hs0 (y - z)
+    have h1 : limitmap_data (rhoHat p) p.s ((psiR (Φ j) y - y) - (psiR (Φ j) z - z)) ≤
+        limitmap_data (rhoHat p) p.s (y - z) := by
+      refine hl.trans ?_
+      have : ∏ k ∈ Finset.range j, (1 + psiConst a b p k) - 1 ≤ 1 := by linarith
+      nlinarith
+    calc ‖(psiR (Φ j) y - y) - (psiR (Φ j) z - z)‖
+        ≤ max (p.s / (2 * π)) (rhoHat p) *
+            limitmap_data (rhoHat p) p.s ((psiR (Φ j) y - y) - (psiR (Φ j) z - z)) :=
+          norm_le_limitmap_data h0 hs0 _
+      _ ≤ max (p.s / (2 * π)) (rhoHat p) * limitmap_data (rhoHat p) p.s (y - z) := by gcongr
+      _ ≤ max (p.s / (2 * π)) (rhoHat p) * (max (2 * π / p.s) (rhoHat p)⁻¹ * ‖y - z‖) := by
+          gcongr; exact limitmap_data_le_norm h0 hs0 _
+      _ = K * ‖y - z‖ := by rw [hK]; ring
+  have hL := P.psiR_hasFDerivAt j hx
+  have hd : HasFDerivAt (fun y => psiR (Φ j) y - y)
+      (fderiv ℝ (psiR (Φ j)) x - ContinuousLinearMap.id ℝ _) x := by
+    rw [hL.fderiv]; exact hL.sub (hasFDerivAt_id x)
+  have hb := norm_fderiv_le_of_lipschitzOn ℝ
+    ((isOpen_phaseTube (Ds j) _).mem_nhds hx) hlip
+  rw [hd.fderiv, Real.coe_toNNReal _ hK0] at hb
+  calc ‖fderiv ℝ (psiR (Φ j)) x‖
+      = ‖(fderiv ℝ (psiR (Φ j)) x - ContinuousLinearMap.id ℝ _) + ContinuousLinearMap.id ℝ _‖ := by
+        rw [sub_add_cancel]
+    _ ≤ ‖fderiv ℝ (psiR (Φ j)) x - ContinuousLinearMap.id ℝ _‖ + ‖ContinuousLinearMap.id ℝ _‖ :=
+        norm_add_le _ _
+    _ ≤ K + 1 := add_le_add hb ContinuousLinearMap.norm_id_le
+    _ = _ := by rw [add_comm]
+
 end KAM.Planetary
 
 end
