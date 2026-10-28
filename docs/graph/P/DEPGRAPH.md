@@ -17240,9 +17240,9 @@ EDGE: bpP:p9:e-spec | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:good@L169
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: k4, nr4, discriminant, k4_finite, good, good_comp, good_ne_zero_iff (KAM/Planetary/SecularSpectrum/GoodPolynomial.lean)
+LEAN_NOTE: audit S9-G PASS WITH NOTES; definitions k4,nr4,discriminant,good plus nr4 characterisation and permutation invariance; compact uniformity clause not part of this node's Lean (handled by consumers)
 NOTE: -
 
 NODE: bpP:p9:good-set
@@ -17277,7 +17277,7 @@ EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S9-G PASS WITH NOTES covers (a), (b) iff and (c) dichotomy only; local-analytic eigenframes/diagonalisation and compact uniform non-resonance bound are separate interfaces, not in GoodPolynomial.lean
 NOTE: -
 
 NODE: stepP:p9:gs-a
@@ -17305,9 +17305,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-a@L181
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_characteristic, good_set, goodPoly_isSymmetric, eval_goodPoly (KAM/Planetary/SecularSpectrum/GoodPolynomial.lean)
+LEAN_NOTE: audit S9-G PASS WITH NOTES; symmetric polynomial in charpoly coefficients, real analytic on axes
 NOTE: -
 
 NODE: stepP:p9:gs-b
@@ -17334,9 +17334,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-b@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_set, good_ne_zero_iff, discriminant_ne_zero_iff (KAM/Planetary/SecularSpectrum/GoodPolynomial.lean)
+LEAN_NOTE: audit S9-G PASS WITH NOTES; good!=0 iff nr4 (includes injectivity = simple spectrum); local-analytic branches not claimed here
 NOTE: -
 
 NODE: stepP:p9:gs-c
@@ -17367,7 +17367,7 @@ EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S9-G PASS WITH NOTES; good_set_dichotomy gives open/dense/null but the compact-uniformity half of the step is not in GoodPolynomial.lean
 NOTE: -
 
 NODE: bpP:p9:n2
@@ -20260,9 +20260,9 @@ EDGE: bpP:p11:total-chart | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: polar_avg, p11PolarAverage, polar_average_linear, polar_average_normalization, polar_extension_unique (KAM/Planetary/Preparation/PolarAverage.lean)
+LEAN_NOTE: audit P11A-P6 PASS WITH NOTES; (a)-(c) via polar_avg, (d) via linear/normalization/uniqueness; proof route differs (even descent, no Taylor-step nodes pa-taylor/pa-mono/pa-series, which stay unproved)
 NOTE: -
 
 NODE: stepP:p11:pa-taylor
@@ -23684,9 +23684,9 @@ EDGE: bpP:p11a:c2-conv#data | blueprint-P/parts/p11a2-cutoff-step.tex#bpP:p11a:a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: affine_flow (KAM/Planetary/MaximalStep/AffineFlow.lean); affine_flow_param (KAM/Planetary/MaximalStep/ParameterFlow.lean); p11Affine (KAM/Planetary/MaximalStep/Affine.lean); p11Flow, p11GaugeBound, P11AffineHyp (KAM/Planetary/MaximalStep/AffineFlowBasic.lean)
+LEAN_NOTE: audit P11A-C6 PASS WITH NOTES; (a)-(e) in affine_flow, (f) in affine_flow_param; no W/measure estimate dependency
 NOTE: -
 
 NODE: stepP:p11a:af-field
@@ -23715,9 +23715,9 @@ EDGE: bpP:p11a:c2-conv#bracket | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: field_bound, kappa_le_half, smallField (KAM/Planetary/MaximalStep/AffineFlowBasic.lean); affine_flow (KAM/Planetary/MaximalStep/AffineFlow.lean)
+LEAN_NOTE: audit P11A-C6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:af-flow
@@ -23748,9 +23748,9 @@ EDGE: bpP:p11a:c2-conv#bracket | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: affine_flow, flow_displacement (KAM/Planetary/MaximalStep/AffineFlow.lean)
+LEAN_NOTE: audit P11A-C6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:af-simple
@@ -23781,9 +23781,9 @@ EDGE: bpP:p11a:c2-conv#bracket | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: affine_flow (KAM/Planetary/MaximalStep/AffineFlow.lean); flow_fst_eq, flow_snd_affine, aff_duality (KAM/Planetary/MaximalStep/AffineFlowSimple.lean)
+LEAN_NOTE: audit P11A-C6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:af-deriv
@@ -23812,9 +23812,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a:a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fderiv_flow_sub_id, affine_flow (KAM/Planetary/MaximalStep/AffineFlow.lean)
+LEAN_NOTE: audit P11A-C6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:af-rest
@@ -23845,9 +23845,9 @@ EDGE: bpP:p11a:c2-conv#bracket | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-delta-P-ab
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: affine_flow, field_real (KAM/Planetary/MaximalStep/AffineFlow.lean); affine_flow_param (KAM/Planetary/MaximalStep/ParameterFlow.lean)
+LEAN_NOTE: audit P11A-C6 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11a:real-lipschitz
@@ -23879,7 +23879,7 @@ EXTRACTOR: sonnet-extract-P-p11a12
 REVIEWER: sol-review-P-x
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P11A-C7 PASS WITH NOTES covers the dynamic clauses only; the coefficient-constant clause (Lambda <= 2 pi T ..., Lambda_R) is not proved (hD accepted as hypothesis)
 NOTE: -
 
 NODE: stepP:p11a:rl-global
@@ -23905,9 +23905,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a:r
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_bounded_global_flow, p11RealFlow, p11RealFlow_spec, p11RealFlow_eq (KAM/Planetary/MaximalStep/GlobalRealFlow.lean); real_lipschitz (KAM/Planetary/MaximalStep/RealFlow.lean)
+LEAN_NOTE: audit P11A-C7 PASS WITH NOTES; global existence, integer equivariance, displacement bound
 NOTE: SOURCE_GAP: L237 asserts global existence and uniqueness for the nonlinear autonomous field phi_1 from smoothness, boundedness and Lipschitz continuity. x-ode L34 supplies only linear inhomogeneous ODEs and Gronwall, not this assertion. No represented supplier or reduction is given for this global nonlinear-flow bridge.
 
 NODE: stepP:p11a:rl-deriv
@@ -23935,9 +23935,9 @@ EDGE: K:bp:p1:ext-integral | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_global_variational (KAM/Planetary/MaximalStep/GlobalRealFlow.lean); real_lipschitz (KAM/Planetary/MaximalStep/RealFlow.lean)
+LEAN_NOTE: audit P11A-C7 PASS WITH NOTES; Gronwall bound ||Y-1|| <= e^L-1 (time-one/|t|<=1 form)
 NOTE: SOURCE_GAP: L239 asserts that D Theta^t exists and satisfies the variational equation. x-ode supplies linear ODE existence and Gronwall once that equation is known, but does not identify derivatives of the nonlinear global flow with its solution. That differentiability/variational bridge is asserted without a represented supplier here; the subsequent Gronwall and integral estimates remain explicit inputs.
 
 NODE: stepP:p11a:rl-const
@@ -23967,7 +23967,7 @@ EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P11A-C7: coefficient-constant step not proved (p11_trig_derivative_bound absent)
 NOTE: -
 
 NODE: bpP:p11a:canonical-step
@@ -31830,9 +31830,9 @@ EDGE: stepP:p12:co-meas | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:coll
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collar (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p12:co-inc
@@ -31856,9 +31856,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collar_subset, collar (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-B PASS WITH NOTES; collar_subset is private
 NOTE: -
 
 NODE: stepP:p12:co-meas
@@ -31884,9 +31884,9 @@ EDGE: bpP:p6:ext-meas | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:co-m
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collar (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-B PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p12:fast-diffeo
@@ -31916,9 +31916,9 @@ EDGE: bpP:p12:sec-set#data | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fast_diffeo, product_chart (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-B PASS WITH NOTES; HasFastDiffeomorphism with C^1 inverse (analytic-order inverse not exported, N2)
 NOTE: -
 
 NODE: stepP:p12:fd-an
@@ -31945,9 +31945,9 @@ EDGE: bpP:p12:sec-set#data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: product_chart, fast_diffeo (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p12:fd-open
@@ -31974,9 +31974,9 @@ EDGE: bpP:p12:sec-set#data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fast_diffeo (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p12:fd-inv
@@ -32007,7 +32007,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P12-B N2: inverse proved only C^1 (ContDiffAt.rpow_const_of_ne), not analytic as the node states
 NOTE: -
 
 NODE: bpP:p12:data
@@ -32523,7 +32523,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P12-B: only birkhoff_mono_radius (radius restriction of an existing HasBirkhoff), not the Birkhoff form itself
 NOTE: -
 
 NODE: stepP:p12:pg-h56
