@@ -16,7 +16,8 @@ public import KAM.Planetary.SecularForm.Symmetry
 
 Blueprint P, Part 11b (`stepP:p11b:pj-formal`, via `bpP:p8:perturbation-analytic` and symmetry (S1)
 of `bpP:p8:symmetries`): for the data `G = m₀ = m₁ = m₂ = 1` and the axes `(a, 1)`, the fixed-center
-secular average of Part 8, evaluated at the slow variable `x(z)` whose regular eccentricity vectors are
+secular average of Part 8, evaluated at the slow variable `x(z)` whose regular eccentricity vectors
+    are
 `z`, is `-p11c_pairAverage a z`.  Hence `p11c_pairAverage a` is real analytic at `0` and even.
 -/
 

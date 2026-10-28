@@ -12,8 +12,10 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Terms
 /-!
 # Planar quartic torsion: the rotated jet of the pair integrand
 
-Blueprint P, Part 11b (`stepP:p11b:pj-bin`): in the variables `η = ζ e^{-iλ}`, `η̄ = ζ̄ e^{iλ}` the jet of
-the unit-axis orbit has constant rational coefficients, so the jet of `|α z₁ - z₂|²` is a polynomial in
+Blueprint P, Part 11b (`stepP:p11b:pj-bin`): in the variables `η = ζ e^{-iλ}`, `η̄ = ζ̄ e^{iλ}` the
+    jet of
+the unit-axis orbit has constant rational coefficients, so the jet of `|α z₁ - z₂|²` is a
+    polynomial in
 `η₁, η̄₁, η₂, η̄₂` and `r = e^{i(λ₁-λ₂)}`.  Its coefficients `N_m` and the pieces of the binomial
 expansion of `N^{-1/2}` are defined here.
 -/

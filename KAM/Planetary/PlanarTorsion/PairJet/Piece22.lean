@@ -12,7 +12,8 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Reduction
 /-!
 # Planar quartic torsion: Fourier expansion and torus average of pieces of the pair jet
 
-Blueprint P, Part 11b (`stepP:p11b:pj-bin`, `stepP:p11b:pj-avg`): the pieces q22a, q22b of the binomial
+Blueprint P, Part 11b (`stepP:p11b:pj-bin`, `stepP:p11b:pj-avg`): the pieces q22a, q22b of the
+    binomial
 expansion are expanded as finite Fourier sums (`p11cPJLN_*` neutral terms, `p11cPJLC_*` charged
 terms) and averaged over the torus; only the neutral terms contribute.
 -/
@@ -75,19 +76,23 @@ def p11cPJC_q22a_3 (a : ℝ) : ℝ :=
   ((3/2 : ℝ) * a ^ 2) * p11c_laplace (3/2 : ℝ) 0 a +
         ((1 : ℝ) * a) * p11c_laplace (3/2 : ℝ) 1 a
 
-theorem p11cPJLN_q22a_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22a_0 α ζ1 ζb1 ζ2 ζb2, t.charge = 0 := by
+theorem p11cPJLN_q22a_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22a_0 α ζ1 ζb1 ζ2 ζb2, t.charge
+    = 0 := by
   unfold p11cPJLN_q22a_0
   simp [PJTerm.charge]
 
-theorem p11cPJLC_q22a_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22a_0 α ζ1 ζb1 ζ2 ζb2, t.charge ≠ 0 := by
+theorem p11cPJLC_q22a_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22a_0 α ζ1 ζb1 ζ2 ζb2, t.charge
+    ≠ 0 := by
   unfold p11cPJLC_q22a_0
   simp [PJTerm.charge]
 
-theorem p11cPJ_q22a_neutral (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22a α ζ1 ζb1 ζ2 ζb2, t.charge = 0 := by
+theorem p11cPJ_q22a_neutral (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22a α ζ1 ζb1 ζ2 ζb2, t.charge =
+    0 := by
   unfold p11cPJLN_q22a
   exact p11cPJLN_q22a_0_ok _ _ _ _ _
 
-theorem p11cPJ_q22a_charged (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22a α ζ1 ζb1 ζ2 ζb2, t.charge ≠ 0 := by
+theorem p11cPJ_q22a_charged (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22a α ζ1 ζb1 ζ2 ζb2, t.charge ≠
+    0 := by
   unfold p11cPJLC_q22a
   exact p11cPJLC_q22a_0_ok _ _ _ _ _
 
@@ -95,7 +100,9 @@ theorem p11cPJ_q22a_eq (α ζ1 ζb1 ζ2 ζb2 Em0 Ep0 Em1 Ep1 S : ℂ) :
     p11cPJq22a α (ζ1 * Em0) (ζb1 * Ep0) (ζ2 * Em1) (ζb2 * Ep1) (Ep0 * Em1) (Em0 * Ep1) S =
       p11cPJsum (p11cPJLN_q22a α ζ1 ζb1 ζ2 ζb2) Em0 Ep0 Em1 Ep1 S +
         p11cPJsum (p11cPJLC_q22a α ζ1 ζb1 ζ2 ζb2) Em0 Ep0 Em1 Ep1 S := by
-  simp only [p11cPJq22a, p11cPJLN_q22a, p11cPJLC_q22a, p11cPJLN_q22a_0, p11cPJLC_q22a_0, p11cPJN, p11cPJv, p11cPJj1, p11cPJj2, p11cPJj3, p11cPJj4, Jet5.add, Jet5.mul, Jet5.smul, Jet5.neg, p11cPJsum, p11cPJKa, List.map_append, List.sum_append, List.map_cons, List.map_nil,
+  simp only [p11cPJq22a, p11cPJLN_q22a, p11cPJLC_q22a, p11cPJLN_q22a_0, p11cPJLC_q22a_0, p11cPJN,
+      p11cPJv, p11cPJj1, p11cPJj2, p11cPJj3, p11cPJj4, Jet5.add, Jet5.mul, Jet5.smul, Jet5.neg,
+      p11cPJsum, p11cPJKa, List.map_append, List.sum_append, List.map_cons, List.map_nil,
     List.sum_cons, List.sum_nil]
   ring
 
@@ -122,8 +129,9 @@ theorem p11cPJ_q22a_avg {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (ζ1 ζb1 ζ2 ζb
   rw [integral_add (p11cPJat_integrableOn ha _) (p11cPJat_integrableOn ha _),
     p11cPJ_sum_integral_charged ha _ (p11cPJ_q22a_charged _ _ _ _ _),
     p11cPJ_sum_integral_neutral ha _ (p11cPJ_q22a_neutral _ _ _ _ _), add_zero]
-  simp only [p11cPJLN_q22a, p11cPJLN_q22a_0, p11cPJC_q22a_0, p11cPJC_q22a_1, p11cPJC_q22a_2, p11cPJC_q22a_3, List.map_cons, List.map_nil,
-    List.sum_cons, List.sum_nil, PJTerm.freq]
+  simp only [p11cPJLN_q22a, p11cPJLN_q22a_0, p11cPJC_q22a_0, p11cPJC_q22a_1, p11cPJC_q22a_2,
+      p11cPJC_q22a_3, List.map_cons, List.map_nil,
+    List.sum_cons, List.sum_nil, PJTerm.fourierIdx]
   norm_num [p11cPJ_laplace_neg]
   ring
 
@@ -237,19 +245,23 @@ def p11cPJC_q22b_3 (a : ℝ) : ℝ :=
         ((-4 : ℝ) * a ^ 3) * p11c_laplace (5/2 : ℝ) 1 a +
         ((-3 : ℝ) * a ^ 2) * p11c_laplace (5/2 : ℝ) 2 a
 
-theorem p11cPJLN_q22b_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22b_0 α ζ1 ζb1 ζ2 ζb2, t.charge = 0 := by
+theorem p11cPJLN_q22b_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22b_0 α ζ1 ζb1 ζ2 ζb2, t.charge
+    = 0 := by
   unfold p11cPJLN_q22b_0
   simp [PJTerm.charge]
 
-theorem p11cPJLC_q22b_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22b_0 α ζ1 ζb1 ζ2 ζb2, t.charge ≠ 0 := by
+theorem p11cPJLC_q22b_0_ok (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22b_0 α ζ1 ζb1 ζ2 ζb2, t.charge
+    ≠ 0 := by
   unfold p11cPJLC_q22b_0
   simp [PJTerm.charge]
 
-theorem p11cPJ_q22b_neutral (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22b α ζ1 ζb1 ζ2 ζb2, t.charge = 0 := by
+theorem p11cPJ_q22b_neutral (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLN_q22b α ζ1 ζb1 ζ2 ζb2, t.charge =
+    0 := by
   unfold p11cPJLN_q22b
   exact p11cPJLN_q22b_0_ok _ _ _ _ _
 
-theorem p11cPJ_q22b_charged (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22b α ζ1 ζb1 ζ2 ζb2, t.charge ≠ 0 := by
+theorem p11cPJ_q22b_charged (α ζ1 ζb1 ζ2 ζb2 : ℂ) : ∀ t ∈ p11cPJLC_q22b α ζ1 ζb1 ζ2 ζb2, t.charge ≠
+    0 := by
   unfold p11cPJLC_q22b
   exact p11cPJLC_q22b_0_ok _ _ _ _ _
 
@@ -257,7 +269,9 @@ theorem p11cPJ_q22b_eq (α ζ1 ζb1 ζ2 ζb2 Em0 Ep0 Em1 Ep1 S : ℂ) :
     p11cPJq22b α (ζ1 * Em0) (ζb1 * Ep0) (ζ2 * Em1) (ζb2 * Ep1) (Ep0 * Em1) (Em0 * Ep1) S =
       p11cPJsum (p11cPJLN_q22b α ζ1 ζb1 ζ2 ζb2) Em0 Ep0 Em1 Ep1 S +
         p11cPJsum (p11cPJLC_q22b α ζ1 ζb1 ζ2 ζb2) Em0 Ep0 Em1 Ep1 S := by
-  simp only [p11cPJq22b, p11cPJLN_q22b, p11cPJLC_q22b, p11cPJLN_q22b_0, p11cPJLC_q22b_0, p11cPJN, p11cPJv, p11cPJj1, p11cPJj2, p11cPJj3, p11cPJj4, Jet5.add, Jet5.mul, Jet5.smul, Jet5.neg, p11cPJsum, p11cPJKa, List.map_append, List.sum_append, List.map_cons, List.map_nil,
+  simp only [p11cPJq22b, p11cPJLN_q22b, p11cPJLC_q22b, p11cPJLN_q22b_0, p11cPJLC_q22b_0, p11cPJN,
+      p11cPJv, p11cPJj1, p11cPJj2, p11cPJj3, p11cPJj4, Jet5.add, Jet5.mul, Jet5.smul, Jet5.neg,
+      p11cPJsum, p11cPJKa, List.map_append, List.sum_append, List.map_cons, List.map_nil,
     List.sum_cons, List.sum_nil]
   ring
 
@@ -284,8 +298,9 @@ theorem p11cPJ_q22b_avg {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (ζ1 ζb1 ζ2 ζb
   rw [integral_add (p11cPJat_integrableOn ha _) (p11cPJat_integrableOn ha _),
     p11cPJ_sum_integral_charged ha _ (p11cPJ_q22b_charged _ _ _ _ _),
     p11cPJ_sum_integral_neutral ha _ (p11cPJ_q22b_neutral _ _ _ _ _), add_zero]
-  simp only [p11cPJLN_q22b, p11cPJLN_q22b_0, p11cPJC_q22b_0, p11cPJC_q22b_1, p11cPJC_q22b_2, p11cPJC_q22b_3, List.map_cons, List.map_nil,
-    List.sum_cons, List.sum_nil, PJTerm.freq]
+  simp only [p11cPJLN_q22b, p11cPJLN_q22b_0, p11cPJC_q22b_0, p11cPJC_q22b_1, p11cPJC_q22b_2,
+      p11cPJC_q22b_3, List.map_cons, List.map_nil,
+    List.sum_cons, List.sum_nil, PJTerm.fourierIdx]
   norm_num [p11cPJ_laplace_neg]
   ring
 

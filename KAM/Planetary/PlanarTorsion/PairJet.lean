@@ -18,15 +18,20 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Combine4
 /-!
 # Planar quartic torsion: the actual averaged interaction `pair_jet` (P11C, package T5)
 
-Blueprint P, Part 11b (`bpP:p11b:pair-jet`; steps `pj-formal`, `pj-bin`, `pj-avg`, `pj-red`).  The pair
+Blueprint P, Part 11b (`bpP:p11b:pair-jet`; steps `pj-formal`, `pj-bin`, `pj-avg`, `pj-red`).  The
+    pair
 average `p11c_pairAverage a` is real analytic at `0` and its jet of order five is `p11c_pairJet a`.
 
-*Proof.*  Analyticity and evenness come from the Part-8 secular average (`PairJet/Bridge`).  For the jet
-we compare diagonal derivatives (`PairJet/Diag`): those of the average are the averages of those of the
+*Proof.*  Analyticity and evenness come from the Part-8 secular average (`PairJet/Bridge`).  For
+    the jet
+we compare diagonal derivatives (`PairJet/Diag`): those of the average are the averages of those of
+    the
 integrand (`PairJet/Diff`), those of the integrand along a line are the coefficients of the binomial
-expansion of `N^{-1/2}` for the jet `N` of `|α z₁ - z₂|²` (`PairJet/Ray`), averaged over the torus by
+expansion of `N^{-1/2}` for the jet `N` of `|α z₁ - z₂|²` (`PairJet/Ray`), averaged over the torus
+    by
 Fourier selection (`PairJet/Average`, `PairJet/Terms`, `PairJet/Piece*`) and reduced to
-`b_{1/2}^{(0)}, b_{1/2}^{(1)}` (`PairJet/Reduction`, `PairJet/Combine*`); odd orders vanish by evenness.
+`b_{1/2}^{(0)}, b_{1/2}^{(1)}` (`PairJet/Reduction`, `PairJet/Combine*`); odd orders vanish by
+    evenness.
 -/
 
 @[expose] public noncomputable section

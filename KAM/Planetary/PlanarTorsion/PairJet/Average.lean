@@ -71,7 +71,8 @@ theorem p11cPJ_integral_cell_two {E : Type*} [NormedAddCommGroup E] [NormedSpace
         exact ⟨⟨ha.1, hb.1⟩, ha.2, hb.2⟩
       rwa [← hcell] at this
   have hint : IntegrableOn h S := hcont.integrableOn_compact (isCompact_Icc.prod isCompact_Icc)
-  calc ∫ t in Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π)), g t = ∫ x in e ⁻¹' S, h (e x) := by
+  calc ∫ t in Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π)), g t = ∫ x in e ⁻¹' S, h (e x) :=
+      by
         rw [hcell]
         exact setIntegral_congr_fun (e.measurable (hS ▸ measurableSet_Icc.prod measurableSet_Icc))
           (fun x _ => hg' x)

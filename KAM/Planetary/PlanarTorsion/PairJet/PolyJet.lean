@@ -12,8 +12,10 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Diag
 /-!
 # Planar quartic torsion: the polynomial `p11c_pairJet` along lines
 
-Blueprint P, Part 11b (`stepP:p11b:pj-formal`): `p11c_pairJet a` is an even polynomial of degree four
-in the coordinates of `z`, analytic everywhere, with `p11c_pairJet a (t • w) = β₀ + t² P₂(w) + t⁴ P₄(w)`.
+Blueprint P, Part 11b (`stepP:p11b:pj-formal`): `p11c_pairJet a` is an even polynomial of degree
+    four
+in the coordinates of `z`, analytic everywhere, with `p11c_pairJet a (t • w) = β₀ + t² P₂(w) + t⁴
+    P₄(w)`.
 Its diagonal derivatives at `0` are therefore `j! [t^j]`.  The coordinates `ζ₁ = z.1 0 + i z.2 0`,
 `ζ₂ = z.1 1 + i z.2 1` express `P₂, P₄` through `|ζ_k|²` and `Re(ζ̄₁ ζ₂)`.
 -/
@@ -39,7 +41,8 @@ def p11cPJP4 (a : ℝ) (w : Phase 2) : ℝ :=
   p11c_quartic (fun i => p11c_pairCoeffs a (i.castAdd 2 + 2)) w
 
 theorem p11c_pairJet_smul (a t : ℝ) (w : Phase 2) :
-    p11c_pairJet a (t • w) = p11c_laplace (1 / 2) 0 a + t ^ 2 * p11cPJP2 a w + t ^ 4 * p11cPJP4 a w := by
+    p11c_pairJet a (t • w) = p11c_laplace (1 / 2) 0 a + t ^ 2 * p11cPJP2 a w + t ^ 4 * p11cPJP4 a w
+        := by
   have h1 : p11c_slowLength (t • w) ^ 2 = t ^ 2 * p11c_slowLength w ^ 2 := by
     rw [p11c_slowLength_sq, p11c_slowLength_sq]
     simp only [Prod.smul_fst, Prod.smul_snd, Pi.smul_apply, smul_eq_mul]

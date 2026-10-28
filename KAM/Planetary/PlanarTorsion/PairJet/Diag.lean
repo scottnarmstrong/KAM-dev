@@ -16,7 +16,8 @@ public import KAM.Planetary.Nondegeneracy.DiagonalTensor
 
 Blueprint P, Part 11b (`stepP:p11b:pj-formal`): two facts about analytic functions `f : Phase 2 → ℝ`
 at `0`.  (1) If `f (t w)` agrees with a degree-four polynomial `P` up to `O(t⁵)`, then the diagonal
-derivative `D^j f(0)(w, …, w)` is `j! · [t^j] P` for `j ≤ 4` (`p11cPJ_diag_coeff`).  (2) Two analytic
+derivative `D^j f(0)(w, …, w)` is `j! · [t^j] P` for `j ≤ 4` (`p11cPJ_diag_coeff`).  (2) Two
+    analytic
 functions whose diagonal derivatives of order at most `k` agree have equal jets of order `k`
 (`p11cPJ_jetEq_of_diag`, by polarization).  `p11cPJequiv` identifies `Phase 2` with `Fin 4 → ℝ`.
 -/
@@ -144,7 +145,8 @@ theorem p11cPJ_diag_coeff {f : Phase 2 → ℝ} (hf : AnalyticAt ℝ f 0) (w : P
     obtain ⟨C, hC⟩ := h5.bound
     refine IsBigO.of_bound C ?_
     filter_upwards [hC] with t ht
-    have : ((f (t • w) : ℝ) : ℂ) - ∑ k ∈ Finset.range 5, (t : ℂ) ^ k * ((p k (fun _ => w) : ℝ) : ℂ) =
+    have : ((f (t • w) : ℝ) : ℂ) - ∑ k ∈ Finset.range 5, (t : ℂ) ^ k * ((p k (fun _ => w) : ℝ) : ℂ)
+        =
         ((f (0 + t • w) - p.partialSum 5 (t • w) : ℝ) : ℂ) := by
       rw [zero_add, hps]; push_cast; rfl
     rw [this, Complex.norm_real]

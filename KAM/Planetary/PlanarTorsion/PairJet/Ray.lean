@@ -14,7 +14,8 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Rot
 
 Blueprint P, Part 11b (`stepP:p11b:pj-formal`, `stepP:p11b:pj-bin`): for fixed angles `l` and a
 direction `w`, the function `t ↦ |α z_orb(l₀; t w₀) - z_orb(l₁; t w₁)|⁻¹` equals, up to `O(t⁵)`, the
-degree-four polynomial whose coefficients are the binomial expansion of `N^{-1/2}` for the jet `N` of
+degree-four polynomial whose coefficients are the binomial expansion of `N^{-1/2}` for the jet `N`
+    of
 `|α z₁ - z₂|²` (`p11cPJray`).  The inverse square root of a jet is identified without any Taylor
 series by uniqueness: if `P² N = 1 (mod t⁵)` and `G² N = 1`, then `G = P + O(t⁵)`.
 -/

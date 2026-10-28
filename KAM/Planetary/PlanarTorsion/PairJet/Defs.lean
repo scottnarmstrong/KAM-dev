@@ -29,7 +29,8 @@ def p11c_pairAverage (a : ℝ) (z : Phase 2) : ℝ :=
 
 def p11c_pairJet (a : ℝ) (z : Phase 2) : ℝ :=
   p11c_laplace (1 / 2) 0 a + p11c_pairCoeffs a 0 * (p11c_slowLength z) ^ 2 +
-    p11c_pairCoeffs a 1 * p11c_pairDot z + p11c_quartic (fun i => p11c_pairCoeffs a (i.castAdd 2 + 2)) z
+    p11c_pairCoeffs a 1 * p11c_pairDot z + p11c_quartic (fun i => p11c_pairCoeffs a (i.castAdd 2 +
+        2)) z
 
 end KAM.Planetary
 

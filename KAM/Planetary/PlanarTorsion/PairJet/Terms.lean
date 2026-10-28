@@ -12,7 +12,8 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Average
 # Planar quartic torsion: finite Fourier sums over the torus
 
 Blueprint P, Part 11b (`stepP:p11b:pj-avg`, `stepP:p11b:pj-red`): a finite sum of terms
-`c · E₀⁻ᵃ E₀ᵇ E₁⁻ᶜ E₁ᵈ (E₀ E₁⁻¹)ᵘ (E₀⁻¹ E₁)ᵛ Sᵉ`, with `E_k = e^{i λ_k}` and `S = s(λ₀ - λ₁)^{-1/2}`,
+`c · E₀⁻ᵃ E₀ᵇ E₁⁻ᶜ E₁ᵈ (E₀ E₁⁻¹)ᵘ (E₀⁻¹ E₁)ᵛ Sᵉ`, with `E_k = e^{i λ_k}` and `S = s(λ₀ -
+    λ₁)^{-1/2}`,
 is integrated over `[0,2π]²` term by term: only the terms with `b - a + d - c = 0` survive, and each
 of them is a Laplace coefficient (`p11cPJ_integral_term`).
 -/
@@ -46,7 +47,7 @@ def p11cPJsum (L : List PJTerm) (Em0 Ep0 Em1 Ep1 S : ℂ) : ℂ :=
 def PJTerm.charge (t : PJTerm) : ℤ := (t.nb : ℤ) - t.na + t.nd - t.nc
 
 /-- The Fourier index of a term in the first angle (after taking `λ₀ - λ₁` as the kernel angle). -/
-def PJTerm.freq (t : PJTerm) : ℤ := (t.nb : ℤ) - t.na + t.nu - t.nv
+def PJTerm.fourierIdx (t : PJTerm) : ℤ := (t.nb : ℤ) - t.na + t.nu - t.nv
 
 theorem p11cPJE_pow (n : ℤ) (k : ℕ) (θ : ℝ) : p11cPJE n θ ^ k = p11cPJE (n * k) θ := by
   unfold p11cPJE
@@ -55,7 +56,7 @@ theorem p11cPJE_pow (n : ℤ) (k : ℕ) (θ : ℝ) : p11cPJE n θ ^ k = p11cPJE 
 theorem p11cPJKa_eq (a : ℝ) (t : PJTerm) (l : Fin 2 → ℝ) :
     p11cPJKa t (p11cPJE (-1) (l 0)) (p11cPJE 1 (l 0)) (p11cPJE (-1) (l 1)) (p11cPJE 1 (l 1))
         ((p11cPJS a (l 0 - l 1) : ℝ) : ℂ) =
-      p11cPJE t.freq (l 0) * p11cPJE (-t.freq + t.charge) (l 1) *
+      p11cPJE t.fourierIdx (l 0) * p11cPJE (-t.fourierIdx + t.charge) (l 1) *
         (((p11cPJS a (l 0 - l 1)) ^ t.ne : ℝ) : ℂ) := by
   unfold p11cPJKa
   simp only [mul_pow, p11cPJE_pow]
@@ -63,13 +64,14 @@ theorem p11cPJKa_eq (a : ℝ) (t : PJTerm) (l : Fin 2 → ℝ) :
   have h1 : ∀ (n : ℤ), p11cPJE (-1 * n) (l 0) = p11cPJE (-n) (l 0) := fun n => by
     rw [neg_one_mul]
   have e0 : p11cPJE (-1 * (t.na : ℤ)) (l 0) * p11cPJE (1 * (t.nb : ℤ)) (l 0) *
-      p11cPJE (1 * (t.nu : ℤ)) (l 0) * p11cPJE (-1 * (t.nv : ℤ)) (l 0) = p11cPJE t.freq (l 0) := by
-    simp only [p11cPJE_add_int, PJTerm.freq]
+      p11cPJE (1 * (t.nu : ℤ)) (l 0) * p11cPJE (-1 * (t.nv : ℤ)) (l 0) = p11cPJE t.fourierIdx (l 0)
+          := by
+    simp only [p11cPJE_add_int, PJTerm.fourierIdx]
     congr 1; ring
   have e1 : p11cPJE (-1 * (t.nc : ℤ)) (l 1) * p11cPJE (1 * (t.nd : ℤ)) (l 1) *
       p11cPJE (-1 * (t.nu : ℤ)) (l 1) * p11cPJE (1 * (t.nv : ℤ)) (l 1) =
-        p11cPJE (-t.freq + t.charge) (l 1) := by
-    simp only [p11cPJE_add_int, PJTerm.freq, PJTerm.charge]
+        p11cPJE (-t.fourierIdx + t.charge) (l 1) := by
+    simp only [p11cPJE_add_int, PJTerm.fourierIdx, PJTerm.charge]
     congr 1; ring
   rw [← e0, ← e1]
   ring
@@ -100,13 +102,13 @@ theorem p11cPJ_term_integral {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (t : PJTerm)
     ∫ l in Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π)),
       p11cPJKa t (p11cPJE (-1) (l 0)) (p11cPJE 1 (l 0)) (p11cPJE (-1) (l 1)) (p11cPJE 1 (l 1))
         ((p11cPJS a (l 0 - l 1) : ℝ) : ℂ) =
-      ((2 * π : ℝ) : ℂ) * ((2 * π * p11c_laplace ((t.ne : ℝ) / 2) t.freq a : ℝ) : ℂ) := by
+      ((2 * π : ℝ) : ℂ) * ((2 * π * p11c_laplace ((t.ne : ℝ) / 2) t.fourierIdx a : ℝ) : ℂ) := by
   simp_rw [p11cPJKa_eq a t, ht, add_zero]
   have hgc : Continuous fun θ : ℝ => (((p11cPJS a θ) ^ t.ne : ℝ) : ℂ) :=
     Complex.continuous_ofReal.comp ((p11cPJS_continuous ha).pow _)
   have hgp : Function.Periodic (fun θ : ℝ => (((p11cPJS a θ) ^ t.ne : ℝ) : ℂ)) (2 * π) := by
     intro θ; simp only [p11cPJS_periodic a θ]
-  rw [p11cPJ_cell_neutral hgc hgp t.freq, p11cPJ_laplace ha]
+  rw [p11cPJ_cell_neutral hgc hgp t.fourierIdx, p11cPJ_laplace ha]
 
 theorem p11cPJ_term_integral_charged {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (t : PJTerm)
     (ht : t.charge ≠ 0) :
@@ -175,7 +177,7 @@ theorem p11cPJ_sum_integral_neutral {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (L : 
     (h : ∀ t ∈ L, t.charge = 0) :
     ∫ l in Set.pi univ (fun _ : Fin 2 => Icc (0 : ℝ) (2 * π)), p11cPJat a L l =
       (L.map fun t => t.coef * (((2 * π : ℝ) : ℂ) *
-        ((2 * π * p11c_laplace ((t.ne : ℝ) / 2) t.freq a : ℝ) : ℂ))).sum := by
+        ((2 * π * p11c_laplace ((t.ne : ℝ) / 2) t.fourierIdx a : ℝ) : ℂ))).sum := by
   rw [p11cPJ_sum_integral ha]
   congr 1
   refine List.map_congr_left fun t ht => ?_
