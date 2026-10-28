@@ -15,9 +15,10 @@ public import KAM.Frozen.Planetary.Defs.PlaneLength
 # Secular form: carriers, data and domains
 
 Blueprint P, Part 8 (`bpP:p8:conv#data`, `bpP:p8:rho`, `bpP:p8:quartic`): the standing physical
-data `Data n`, the axes/action domains, the perturbation of the two matched Newtonian models,
-the literal secular average (the frozen `secularAverage` at `(I,p,q) = (Λ,η,ξ)`), the torus average `avg`, the
-radius `rho`, the polydisc and real inclusion, and the pair secular function `pairSlowSecular`.
+data `Data n`, the axes/action domains, the perturbation of the two matched Newtonian models, the
+literal secular average (the frozen `secularAverage` at `(I,p,q) = (Λ,η,ξ)`), the torus average
+`avg`, the radius `rho`, the polydisc and real inclusion, and the pair secular function
+`pairSlowSecular`.
 All definitions; no theorem is stated here.
 -/
 
