@@ -198,10 +198,13 @@ theorem fderiv_periodOne (κ : (Fin d → ℝ) → Phase d) (θ : Fin d → ℝ)
   · have hp : ¬ DifferentiableAt ℝ (periodOne κ) θ := by
       intro hp
       apply h
+      have e : (2 * π)⁻¹ • ((2 * π) • θ) = θ := by
+        rw [smul_smul, inv_mul_cancel₀ two_pi_ne, one_smul]
+      have hp' : DifferentiableAt ℝ (periodOne κ) ((2 * π)⁻¹ • ((2 * π) • θ)) := by
+        rw [e]; exact hp
       have h3 : DifferentiableAt ℝ (fun ϑ => periodOne κ ((2 * π)⁻¹ • ϑ)) ((2 * π) • θ) :=
-        DifferentiableAt.comp_of_eq ((2 * π) • θ) (by simpa [smul_smul, two_pi_ne] using hp)
-          (differentiableAt_id.const_smul _) (by
-            simp only [smul_smul, inv_mul_cancel₀ two_pi_ne, one_smul])
+        hp'.comp ((2 * π) • θ)
+          (((2 * π)⁻¹ • ContinuousLinearMap.id ℝ (Fin d → ℝ)).differentiableAt)
       rwa [periodOne_scale] at h3
     rw [fderiv_zero_of_not_differentiableAt hp, fderiv_zero_of_not_differentiableAt h, smul_zero]
 
