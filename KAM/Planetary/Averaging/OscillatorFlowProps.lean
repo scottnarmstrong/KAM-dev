@@ -144,7 +144,7 @@ theorem lattice_flow : ∀ z ∈ oscDom (m := m) D (r - 3 * ρ / 2) (rp - 3 * ρ
   have hτΩ := oscDom_shift_image (m := m) (D := D) (r := r - ρ) (rp := rp - ρp) (rq := rq - ρq)
     (S := S - σ) (a := fun i => (k i : ℂ)) (fun i => by simp)
   have hτF : ∀ w ∈ oscO (m := m) D r rp rq S ρ ρp ρq σ,
-      KAM.hamiltonianVectorFieldℂ φ (w + fastShift (m := m) (fun i => (k i : ℂ))) =
+      KAM.hamiltonianVectorFieldℂ φ (w + oscFastShift (m := m) (fun i => (k i : ℂ))) =
         KAM.hamiltonianVectorFieldℂ φ w := fun w hw =>
     H.cls.field_periodic (oscDom_mono (by linarith [H.hρ]) (by linarith [H.hρp])
       (by linarith [H.hρq]) (by linarith [H.hσ])) k hw
