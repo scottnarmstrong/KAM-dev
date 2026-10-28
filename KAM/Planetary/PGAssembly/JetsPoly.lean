@@ -171,6 +171,76 @@ theorem mixed_value {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   rw [← hKv]
   linarith
 
+/-- The unit jet vector `(0, e_i)`. -/
+def yvec (b : ℕ) (i : Fin b) : RY b := (0, Pi.single i 1)
+
+theorem oscS_yvec (i k : Fin b) : oscS (yvec b i) k = (if k = i then 1 else 0) / 2 := by
+  by_cases h : k = i <;> simp [oscS, yvec, h]
+
+theorem oscQ2_yvec (Om : Fin b → ℝ) (j : Fin b) : oscQ2 Om (yvec b j) = Om j / 2 := by
+  rw [oscQ2, Finset.sum_eq_single j (fun k _ hk => by simp [oscS_yvec, hk]) (by simp)]
+  simp [oscS_yvec]
+  ring
+
+theorem oscQ4_line (be : Matrix (Fin b) (Fin b) ℝ) (i j : Fin b) (hij : i ≠ j) (t : ℝ) :
+    oscQ4 be (yvec b j + t • yvec b i) =
+      (be j j + t ^ 2 * (be j i + be i j) + t ^ 4 * be i i) / 8 := by
+  have hS : ∀ k, oscS (yvec b j + t • yvec b i) k =
+      ((if k = j then (1 : ℝ) else 0) + t ^ 2 * (if k = i then 1 else 0)) / 2 := by
+    intro k
+    have e1 : (yvec b j + t • yvec b i).2 k =
+        (if k = j then (1 : ℝ) else 0) + t * (if k = i then 1 else 0) := by
+      simp [yvec, Pi.single_apply]
+    have e2 : (yvec b j + t • yvec b i).1 k = 0 := by simp [yvec]
+    rw [oscS, e1, e2]
+    by_cases hkj : k = j
+    · have hki : k ≠ i := fun h => hij (h.symm.trans hkj)
+      simp [hkj, hki, hij, Ne.symm hij]
+    · by_cases hki : k = i
+      · simp [hkj, hki, hij, Ne.symm hij]
+      · simp [hkj, hki]
+  have key : ∑ k, ∑ l, be k l * ((if k = j then (1:ℝ) else 0) + t ^ 2 * (if k = i then 1 else 0)) *
+      ((if l = j then (1:ℝ) else 0) + t ^ 2 * (if l = i then 1 else 0)) =
+      be j j + t ^ 2 * (be j i + be i j) + t ^ 4 * be i i := by
+    simp only [mul_add, add_mul, Finset.sum_add_distrib, mul_ite, ite_mul, mul_one, mul_zero,
+      zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+    ring
+  simp only [oscQ4, hS]
+  have h4 : ∀ k l : Fin b, be k l * (((if k = j then (1 : ℝ) else 0) +
+      t ^ 2 * (if k = i then 1 else 0)) / 2) * (((if l = j then (1 : ℝ) else 0) +
+      t ^ 2 * (if l = i then 1 else 0)) / 2) =
+      (be k l * ((if k = j then (1 : ℝ) else 0) + t ^ 2 * (if k = i then 1 else 0)) *
+        ((if l = j then (1 : ℝ) else 0) + t ^ 2 * (if l = i then 1 else 0))) / 4 := by
+    intro k l; ring
+  simp only [h4, ← Finset.sum_div, key]
+  ring
+
+theorem oscQ4_yvec (be : Matrix (Fin b) (Fin b) ℝ) (i : Fin b) :
+    oscQ4 be (yvec b i) = be i i / 8 := by
+  have hS : ∀ k, oscS (yvec b i) k = (if k = i then (1 : ℝ) else 0) / 2 := oscS_yvec i
+  simp only [oscQ4, hS]
+  have h4 : ∀ k l : Fin b, be k l * ((if k = i then (1 : ℝ) else 0) / 2) *
+      ((if l = i then (1 : ℝ) else 0) / 2) =
+      (be k l * (if k = i then (1 : ℝ) else 0) * (if l = i then (1 : ℝ) else 0)) / 4 := by
+    intro k l; ring
+  simp only [h4, ← Finset.sum_div]
+  simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+  ring
+
+/-- The mixed jet entry of a symmetric 4-linear map with diagonal `24 Q4`. -/
+theorem mixed_osc (be : Matrix (Fin b) (Fin b) ℝ) (hbe : be.IsSymm) (i j : Fin b) (hij : i ≠ j)
+    (M : ContinuousMultilinearMap ℝ (fun _ : Fin 4 => RY b) ℝ)
+    (hM : ∀ (σ : Equiv.Perm (Fin 4)) (v : Fin 4 → RY b), M (v ∘ σ) = M v)
+    (hd : ∀ y, M (fun _ => y) = 24 * oscQ4 be y) :
+    M ![yvec b i, yvec b i, yvec b j, yvec b j] = be i j := by
+  have h := mixed_value M hM (yvec b i) (yvec b j) (3 * be j j) (3 * (be j i + be i j))
+    (3 * be i i) (fun t => by rw [hd, oscQ4_line be i j hij]; ring)
+  rw [h]
+  have : be j i = be i j := by
+    have := congrFun (congrFun hbe i) j
+    simpa [Matrix.transpose_apply] using this
+  rw [this]; ring
+
 end KAM.Planetary
 
 end
