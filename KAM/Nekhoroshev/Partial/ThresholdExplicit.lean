@@ -163,5 +163,94 @@ theorem nthr_final_time (c : PartialConstants) (hn : 2 ≤ c.n) (hρ : 0 < c.ρ)
     exact (one_le_div (Real.exp_pos _)).1 h
   rw [inv_mul_le_iff₀ hμ]; exact hex
 
+/-- `r μ^(-a) ≤ C μ^(-e)` from `μ^(e-a) < C/r`. -/
+theorem nthr_rpow_split_le {μ r C a e : ℝ} (hμ : 0 < μ) (hr : 0 < r) (_hC : 0 < C)
+    (h : μ ^ (e - a) < C / r) : r * μ ^ (-a) ≤ C * μ ^ (-e) := by
+  have hp : 0 < μ ^ (e - a) := Real.rpow_pos_of_pos hμ _
+  have h1 : r ≤ C * μ ^ (-(e - a)) := by
+    rw [Real.rpow_neg hμ.le, ← div_eq_mul_inv, le_div_iff₀ hp]
+    rw [lt_div_iff₀ hr] at h; linarith
+  have h2 : μ ^ (-e) = μ ^ (-a) * μ ^ (-(e - a)) := by
+    rw [← Real.rpow_add hμ]; congr 1; ring
+  rw [h2]
+  have hq : 0 < μ ^ (-a) := Real.rpow_pos_of_pos hμ _
+  nlinarith
+
+/-- `stepN:p11:final-mu`: explicit `μ_a, …, μ_e`, `μ₀ = min {μ_a, …, μ_e, μ_f}` with `μ_f` of
+`nthr_final_time`, and the inequalities for `0 < μ < μ₀`. Here `κ` stands for `k > 0`. -/
+theorem nthr_final_mu (c : PartialConstants) (κ : ℝ) (hκ : 0 < κ) (hn : 2 ≤ c.n)
+    (hρ : 0 < c.ρ) (hg : 0 < c.g) (hm : 0 < c.m) (hMc : 0 < c.Mc) :
+    0 < c.thrMuA ∧ 0 < c.thrMuB ∧ 0 < c.thrMuC ∧ 0 < c.thrMuD κ ∧ 0 < c.thrMuE ∧
+    ∃ μf : ℝ, 0 < μf ∧
+      (∀ μ : ℝ, 0 < μ → μ < μf →
+        μ⁻¹ * Real.exp (μ ^ (-partialTimeExponent c.n)) ≤ c.blockTime μ) ∧
+      0 < min (min (min (min (min c.thrMuA c.thrMuB) c.thrMuC) (c.thrMuD κ)) c.thrMuE) μf ∧
+      ∀ μ : ℝ, 0 < μ →
+        μ < min (min (min (min (min c.thrMuA c.thrMuB) c.thrMuC) (c.thrMuD κ)) c.thrMuE) μf →
+        c.eps μ ≤ c.eps0 ∧ μ ^ partialDriftExponent c.n ≤ c.ρ ∧ 6 ≤ c.kappa μ ∧
+        256 * κ * c.ρ * c.R0 * μ ^ (-(2 * partialDriftExponent c.n)) ≤ c.K μ ∧
+        c.R0 / (2 * c.K μ) ≤ μ ^ partialDriftExponent c.n / 2 ∧
+        μ⁻¹ * Real.exp (μ ^ (-partialTimeExponent c.n)) ≤ c.blockTime μ := by
+  obtain ⟨hs, hm1, hM1, hr0, hA, he0, hR0, hκC, hcK⟩ := c.nthr_pos hρ hg hm hMc
+  obtain ⟨hT, hTD, hD2⟩ := exponents hn
+  obtain ⟨-, -, -, -, μf, hμf, hμft⟩ := nthr_final_time c hn hρ hg hm hMc
+  have hn0 : (0:ℝ) < c.n := by exact_mod_cast (by omega : 0 < c.n)
+  have hsq : 0 < Real.sqrt c.n := Real.sqrt_pos.2 hn0
+  set E : ℝ := 1/(2*(c.n:ℝ)) with hEdef
+  have hE : 0 < E := by positivity
+  set D := partialDriftExponent c.n with hDdef
+  have hD : 0 < D := hT.trans hTD
+  have hγ1 : 0 < E - 2 * D := by linarith
+  have hγ2 : 0 < E - D := by linarith
+  have hA' : 0 < c.thrMuA := by unfold PartialConstants.thrMuA; positivity
+  have hB' : 0 < c.thrMuB := by unfold PartialConstants.thrMuB; positivity
+  have hC' : 0 < c.thrMuC := by unfold PartialConstants.thrMuC; positivity
+  have hD' : 0 < c.thrMuD κ := by unfold PartialConstants.thrMuD; positivity
+  have hE' : 0 < c.thrMuE := by unfold PartialConstants.thrMuE; positivity
+  have hpos : 0 < min (min (min (min (min c.thrMuA c.thrMuB) c.thrMuC) (c.thrMuD κ))
+      c.thrMuE) μf := by
+    simp only [lt_min_iff]; exact ⟨⟨⟨⟨⟨hA', hB'⟩, hC'⟩, hD'⟩, hE'⟩, hμf⟩
+  refine ⟨hA', hB', hC', hD', hE', μf, hμf,
+    fun μ hμ hμ' => (hμft μ hμ hμ').2.2, hpos, fun μ hμ hlt => ?_⟩
+  simp only [lt_min_iff] at hlt
+  obtain ⟨⟨⟨⟨⟨hμA, hμB⟩, hμC⟩, hμD⟩, hμE⟩, hμF⟩ := hlt
+  set y : ℝ := μ ^ (-E) with hydef
+  have hy0 : 0 < y := Real.rpow_pos_of_pos hμ _
+  have hK : c.K μ = c.cK * y := c.nthr_K_eq hκC he0 hμ
+  have hkap : c.kappa μ = (2*Real.pi*c.cK*c.s/Real.sqrt c.n) * y := by
+    unfold PartialConstants.kappa; rw [hK]; field_simp
+  refine ⟨?_, ?_, ?_, ?_, ?_, (hμft μ hμ hμF).2.2⟩
+  · unfold PartialConstants.thrMuA at hμA
+    rw [lt_div_iff₀ hκC] at hμA
+    unfold PartialConstants.eps; rw [div_le_iff₀ (by positivity)]; nlinarith
+  · exact (nthr_rpow_lt_of_lt hμ hD hρ hμB).le
+  · set w : ℝ := Real.pi * c.s * c.cK / (3 * Real.sqrt c.n) with hw
+    have hwp : 0 < w := by positivity
+    have h1 : μ ^ E < w := by
+      have hCw : c.thrMuC = w ^ (2 * c.n) := rfl
+      have := Real.rpow_lt_rpow hμ.le hμC hE
+      rw [hCw] at this
+      rwa [← Real.rpow_natCast, ← Real.rpow_mul hwp.le,
+        show ((2 * c.n : ℕ) : ℝ) * E = 1 by rw [hEdef]; push_cast; field_simp,
+        Real.rpow_one] at this
+    have h2 : y = (μ ^ E)⁻¹ := by rw [hydef, Real.rpow_neg hμ.le]
+    have h3 : w⁻¹ < y := by
+      rw [h2]; exact inv_strictAnti₀ (Real.rpow_pos_of_pos hμ _) h1
+    have h4 : (2*Real.pi*c.cK*c.s/Real.sqrt c.n) = 6 * w := by rw [hw]; field_simp; ring
+    rw [hkap, h4]
+    have : 6 * w * w⁻¹ = 6 := by field_simp
+    nlinarith
+  · rw [hK, hydef]
+    refine nthr_rpow_split_le hμ (by positivity) hcK ?_
+    exact nthr_rpow_lt_of_lt hμ hγ1 (by positivity) hμD
+  · have hh := nthr_rpow_split_le (a := D) (e := E) hμ hR0 hcK
+      (nthr_rpow_lt_of_lt hμ hγ2 (by positivity) hμE)
+    have hmul : μ ^ D * μ ^ (-D) = 1 := by rw [← Real.rpow_add hμ]; simp
+    have h5 := mul_le_mul_of_nonneg_left hh (Real.rpow_nonneg hμ.le D)
+    have e1 : μ ^ D * (c.R0 * μ ^ (-D)) = c.R0 := by rw [mul_left_comm, hmul, mul_one]
+    rw [hK, div_le_div_iff₀ (by positivity) (by norm_num)]
+    rw [e1] at h5
+    nlinarith
+
 end KAM.Nekhoroshev
 end
