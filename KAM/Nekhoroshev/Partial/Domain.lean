@@ -300,6 +300,134 @@ private theorem blockLift_mem (a : PartialData n k) {μ R : ℝ} {Ic : Fin n →
       rw [h2] at h'
       exact h'.trans_lt (by linarith)
 
+private theorem differentiable_blockLift (lam : ℝ) :
+    Differentiable ℂ (fun z : EC n k => blockLift (slowScale lam z)) := by
+  refine Differentiable.prodMk (differentiable_pi.2 fun i => ?_) (differentiable_pi.2 fun i => ?_)
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) i
+    · have e : (fun z : EC n k => (blockLift (slowScale lam z)).1 (Fin.castAdd k j)) =
+          fun z => (2*Real.pi:ℂ) * z.1 j := funext fun z => blockLift_fst_castAdd _ _
+      show Differentiable ℂ (fun z : EC n k => (blockLift (slowScale lam z)).1 (Fin.castAdd k j))
+      rw [e]; fun_prop
+    · have e : (fun z : EC n k => (blockLift (slowScale lam z)).1 (Fin.natAdd n j)) =
+          fun z => (lam:ℂ) * z.2 (Fin.natAdd n (Fin.castAdd k j)) := funext fun z => by
+        rw [blockLift_fst_natAdd, slowPair_slowScale_fst]; rfl
+      show Differentiable ℂ (fun z : EC n k => (blockLift (slowScale lam z)).1 (Fin.natAdd n j))
+      rw [e]; fun_prop
+  · refine Fin.addCases (fun j => ?_) (fun j => ?_) i
+    · have e : (fun z : EC n k => (blockLift (slowScale lam z)).2 (Fin.castAdd k j)) =
+          fun z => z.2 (Fin.castAdd (k+k) j) := funext fun z => by
+        rw [blockLift_snd_castAdd, fastAction_slowScale]; rfl
+      show Differentiable ℂ (fun z : EC n k => (blockLift (slowScale lam z)).2 (Fin.castAdd k j))
+      rw [e]; fun_prop
+    · have e : (fun z : EC n k => (blockLift (slowScale lam z)).2 (Fin.natAdd n j)) =
+          fun z => (lam:ℂ) * z.2 (Fin.natAdd n (Fin.natAdd k j)) := funext fun z => by
+        rw [blockLift_snd_natAdd, slowPair_slowScale_snd]; rfl
+      show Differentiable ℂ (fun z : EC n k => (blockLift (slowScale lam z)).2 (Fin.natAdd n j))
+      rw [e]; fun_prop
+
+private theorem blockLift_shift (lam : ℝ) (z : EC n k) (j : Fin n) :
+    blockLift (slowScale lam (z.1 + Pi.single j 1, z.2)) = blockLift (slowScale lam z) +
+      complexifyPhase (KAM.Planetary.fastShift (b := k) (Pi.single j (1:ℤ))) := by
+  refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
+  · refine Fin.addCases (fun l => ?_) (fun l => ?_) i
+    · rw [Prod.fst_add, Pi.add_apply, blockLift_fst_castAdd, blockLift_fst_castAdd]
+      simp only [complexifyPhase, KAM.Planetary.fastShift, Fin.append_left]
+      by_cases hl : l = j
+      · subst hl; simp [slowScale]; ring
+      · simp [slowScale, hl]
+    · rw [Prod.fst_add, Pi.add_apply, blockLift_fst_natAdd, blockLift_fst_natAdd]
+      simp only [complexifyPhase, KAM.Planetary.fastShift, Fin.append_right]
+      simp [slowPair, slowScale]
+  · refine Fin.addCases (fun l => ?_) (fun l => ?_) i
+    · rw [Prod.snd_add, Pi.add_apply, blockLift_snd_castAdd, blockLift_snd_castAdd]
+      simp [complexifyPhase, KAM.Planetary.fastShift, fastAction_slowScale]
+      rfl
+    · rw [Prod.snd_add, Pi.add_apply, blockLift_snd_natAdd, blockLift_snd_natAdd]
+      simp [complexifyPhase, KAM.Planetary.fastShift, slowPair, slowScale]
+
+private theorem slowScale_extCx (lam : ℝ) (x : ER n k) :
+    slowScale lam (extCx x) = extCx (x.1, Fin.append (fastAction x)
+      (Fin.append (fun i => lam * (slowPair x).1 i) (fun i => lam * (slowPair x).2 i))) := by
+  refine Prod.ext rfl (funext fun i => ?_)
+  refine ext_cases (P := fun i => (slowScale lam (extCx x)).2 i = (extCx (x.1, Fin.append
+    (fastAction x) (Fin.append (fun i => lam * (slowPair x).1 i)
+      (fun i => lam * (slowPair x).2 i)))).2 i) (fun j => ?_) (fun j => ?_) (fun j => ?_) i
+  · simp [slowScale, extCx, fastAction, Fin.append_left]
+  · simp [slowScale, extCx, slowPair, Fin.append_left, Fin.append_right]
+  · simp only [slowScale, extCx, slowPair, Fin.append_right]
+    push_cast; rfl
+
+private theorem norm_signed (σ μ : ℝ) (hσ : σ = 1 ∨ σ = -1) (hμ : 0 < μ) :
+    ‖((σ*μ/(2*Real.pi):ℝ):ℂ)‖ = μ / (2*Real.pi) := by
+  rw [Complex.norm_real, Real.norm_eq_abs]
+  rcases hσ with rfl | rfl
+  · rw [abs_of_pos (by positivity)]; ring_nf
+  · rw [abs_of_neg (by have := Real.pi_pos; apply div_neg_of_neg_of_pos <;> nlinarith)]; ring
+
+theorem domain (a : PartialData n k) {μ σ R : ℝ} {Ic : Fin n → ℝ}
+    (hμ : 0 < μ) (hσ : DefiniteSign a σ) (hIc : Ic ∈ a.G) (hR : 0 < R) (hRR : R ≤ (constants a).r0)
+    (hd : (constants a).d μ ≤ a.ρ)
+    (P : ((Fin (n+k) → ℂ) × (Fin (n+k) → ℂ)) → ℂ) (hP : IsPartialPerturbation a.G' a.D a.ρ P) :
+    let b := block_setting a μ Ic R
+    polyNbhd {KAM.realInclusion n Ic} R ⊆ KAM.actionNbhd a.G' a.ρ ∧
+    ext_class b R (constants a).s (blockPert a μ σ Ic R P) ∧
+    WBound b.base R (constants a).s (blockPert a μ σ Ic R P) ((constants a).eps μ) := by
+  intro b
+  have hr0 : R ≤ a.ρ / 2 := hRR.trans (min_le_left _ _)
+  have hρ := a.hρ
+  have hs := s_pos a
+  have hmem : ∀ z ∈ Dom n b.base R ((constants a).s + (constants a).s),
+      blockLift (slowScale b.lam z) ∈ partialComplexDomain a.G' a.D a.ρ := fun z hz =>
+    blockLift_mem a hμ hIc hR hRR hd hz
+  have hdiff : DifferentiableOn ℂ (blockPert a μ σ Ic R P)
+      (Dom n b.base R ((constants a).s + (constants a).s)) := by
+    have h1 : DifferentiableOn ℂ (fun z : EC n k => P (blockLift (slowScale b.lam z)))
+        (Dom n b.base R ((constants a).s + (constants a).s)) :=
+      hP.1.comp (differentiable_blockLift b.lam).differentiableOn hmem
+    exact (h1.const_mul _)
+  have hper : ∀ j : Fin n, ∀ z ∈ Dom n b.base R ((constants a).s + (constants a).s),
+      blockPert a μ σ Ic R P (z.1 + Pi.single j 1, z.2) = blockPert a μ σ Ic R P z := by
+    intro j z hz
+    simp only [blockPert, Function.comp, signedF_eq]
+    rw [blockLift_shift]
+    rw [hP.2.2.2 _ (hmem z hz)]
+  have hbd : ∀ z ∈ Dom n b.base R ((constants a).s + (constants a).s),
+      ‖blockPert a μ σ Ic R P z‖ ≤ μ / (2*Real.pi) := by
+    intro z hz
+    simp only [blockPert, Function.comp, signedF_eq]
+    rw [norm_mul, norm_signed σ μ hσ.1 hμ]
+    calc μ / (2*Real.pi) * ‖P (blockLift (slowScale b.lam z))‖ ≤ μ / (2*Real.pi) * 1 := by
+          gcongr; exact hP.2.1 _ (hmem z hz)
+      _ = μ / (2*Real.pi) := mul_one _
+  have hcls : InClass b.base R ((constants a).s + (constants a).s) (blockPert a μ σ Ic R P) :=
+    ⟨hdiff, hper⟩
+  have hle : (constants a).s ≤ (constants a).s + (constants a).s := by linarith
+  refine ⟨polyNbhd_realBall_subset a hIc (hr0.trans (by linarith)), ⟨⟨?_, ?_⟩, ?_⟩, ?_⟩
+  · exact hdiff.mono (Dom_mono le_rfl hle)
+  · intro j z hz
+    exact hper j z (Dom_mono le_rfl hle hz)
+  · intro x hx
+    have hx2 := Dom_mono (n := n) le_rfl hle hx
+    have hz : extCx x ∈ Dom n b.base R ((constants a).s + (constants a).s) := hx2
+    have hw := hP.2.2.1 (thetaInv ((x.1, Fin.append (fastAction x)
+      (Fin.append (fun i => b.lam * (slowPair x).1 i) (fun i => b.lam * (slowPair x).2 i)))))
+    have hlift : blockLift (slowScale b.lam (extCx x)) = complexifyPhase (thetaInv ((x.1,
+        Fin.append (fastAction x) (Fin.append (fun i => b.lam * (slowPair x).1 i)
+          (fun i => b.lam * (slowPair x).2 i))))) := by
+      rw [slowScale_extCx, blockLift_extCx]
+    have hm := hmem _ hz
+    rw [hlift] at hm
+    have hPim := hw hm
+    show (blockPert a μ σ Ic R P (extCx x)).im = 0
+    simp only [blockPert, Function.comp, signedF_eq]
+    rw [hlift, Complex.im_ofReal_mul, hPim, mul_zero]
+  · have := wbound_of_sup_bound (D := b.base) (r := R) (s := (constants a).s)
+      (σ := (constants a).s) hs hs hcls hbd
+    have e : coth (Real.pi * (constants a).s) ^ n * (μ / (2*Real.pi)) = (constants a).eps μ := by
+      simp only [PartialConstants.eps, PartialConstants.kappaC, constants]
+      ring
+    rwa [e] at this
+
 end KAM.Nekhoroshev
 
 end
