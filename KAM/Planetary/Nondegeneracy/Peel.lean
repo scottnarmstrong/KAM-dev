@@ -239,8 +239,8 @@ theorem coeffs_succ_succ_diag (D : Data (n+1)) (hn : 0 < n) {a : Vec (n+1)} (j :
   have h1 := Finset.add_sum_erase Finset.univ (fun k => pairA D a j.succ k)
     (Finset.mem_univ j.succ)
   have h2 := Fin.sum_univ_succ (fun k => pairA D a j.succ k)
-  have h3 := Finset.add_sum_erase Finset.univ (fun k => pairA (outerData D hn) (fun k => a k.succ) j k)
-    (Finset.mem_univ j)
+  have h3 := Finset.add_sum_erase Finset.univ
+    (fun k => pairA (outerData D hn) (fun k => a k.succ) j k) (Finset.mem_univ j)
   have h4 : ∀ k : Fin n, pairA (outerData D hn) (fun k => a k.succ) j k = pairA D a j.succ k.succ :=
     fun k => by rw [pairA_outer]
   have hs : ∑ k ∈ Finset.univ.erase j.succ, pairA D a j.succ k =
@@ -264,13 +264,16 @@ theorem quart_exists (x : ℝ) (hx : 0 < x) : ∃ u : ℝ, 0 < u ∧ x = u^4 :=
 
 theorem cross_alg (G m0 mj κ t a : ℝ) (hG : 0 < G) (h0 : 0 < m0) (hj : 0 < mj) (hk : 0 < κ)
     (ht : 0 < t) (ha : 0 < a) :
-    (15/16)*G*m0*mj*t^3/a^4 / ((√m0 * κ^((1:ℝ)/4) * t^((1:ℝ)/4)) * (√mj * κ^((1:ℝ)/4) * a^((1:ℝ)/4)))
+    (15/16)*G*m0*mj*t^3/a^4 /
+      ((√m0 * κ^((1:ℝ)/4) * t^((1:ℝ)/4)) * (√mj * κ^((1:ℝ)/4) * a^((1:ℝ)/4)))
       = 15*G*√(m0*mj)/(16*√κ) * t^((11:ℝ)/4) * a^(-(17:ℝ)/4) := by
   obtain ⟨u, hu, rfl⟩ := quart_exists t ht
   obtain ⟨v, hv, rfl⟩ := quart_exists a ha
   obtain ⟨w, hw, rfl⟩ := quart_exists κ hk
-  obtain ⟨p, hp, rfl⟩ : ∃ p : ℝ, 0 < p ∧ m0 = p^2 := ⟨√m0, Real.sqrt_pos.2 h0, (Real.sq_sqrt h0.le).symm⟩
-  obtain ⟨q, hq, rfl⟩ : ∃ q : ℝ, 0 < q ∧ mj = q^2 := ⟨√mj, Real.sqrt_pos.2 hj, (Real.sq_sqrt hj.le).symm⟩
+  obtain ⟨p, hp, rfl⟩ : ∃ p : ℝ, 0 < p ∧ m0 = p^2 :=
+    ⟨√m0, Real.sqrt_pos.2 h0, (Real.sq_sqrt h0.le).symm⟩
+  obtain ⟨q, hq, rfl⟩ : ∃ q : ℝ, 0 < q ∧ mj = q^2 :=
+    ⟨√mj, Real.sqrt_pos.2 hj, (Real.sq_sqrt hj.le).symm⟩
   have e1 : √(p^2) = p := Real.sqrt_sq hp.le
   have e2 : √(q^2) = q := Real.sqrt_sq hq.le
   have e3 : √(p^2*q^2) = p*q := by rw [← mul_pow]; exact Real.sqrt_sq (by positivity)
