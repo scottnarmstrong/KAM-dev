@@ -27,18 +27,18 @@ variable {a b n : ℕ} {d : PGData a b} {r mu : ℝ}
 theorem sqrt_two_pi_pos : 0 < Real.sqrt (2*Real.pi) := Real.sqrt_pos.2 (by positivity)
 
 theorem blockFast_normalize_fst (z : CPhase (a+b)) :
-    blockFast (pgOscNormalize z).1 = (2*Real.pi:ℂ) • blockFast z.1 := blockFast_append _ _
+    blockFast (pgOscNormalize z).1 = (2*Real.pi:ℂ) • blockFast z.1 := pgAv_blockFast_append _ _
 
 theorem blockSlow_normalize_fst (z : CPhase (a+b)) :
     blockSlow (pgOscNormalize z).1 = (Real.sqrt (2*Real.pi):ℂ) • blockSlow z.1 :=
-  blockSlow_append _ _
+  pgAv_blockSlow_append _ _
 
 theorem blockFast_normalize_snd (z : CPhase (a+b)) :
-    blockFast (pgOscNormalize z).2 = blockFast z.2 := blockFast_append _ _
+    blockFast (pgOscNormalize z).2 = blockFast z.2 := pgAv_blockFast_append _ _
 
 theorem blockSlow_normalize_snd (z : CPhase (a+b)) :
     blockSlow (pgOscNormalize z).2 = (Real.sqrt (2*Real.pi):ℂ) • blockSlow z.2 :=
-  blockSlow_append _ _
+  pgAv_blockSlow_append _ _
 
 theorem norm_real_smul_lt_iff {N : ℕ} {s t : ℝ} (hs : 0 < s) (v : Fin N → ℂ) :
     ‖(s:ℂ) • v‖ < t ↔ ‖v‖ < t/s := by
@@ -95,17 +95,17 @@ theorem pg_osc_domain (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d
     rw [Prod.norm_def, max_lt_iff] at z3
     refine mem_oscDom_pg.2 ⟨?_, ?_, ?_, ?_⟩
     · have : blockFast (pgOscUnnormalize z).1 = (2*Real.pi:ℂ)⁻¹ • blockFast z.1 :=
-        blockFast_append _ _
+        pgAv_blockFast_append _ _
       rw [this, ← hstrip, smul_smul, mul_inv_cancel₀ (by exact_mod_cast h2.ne'), one_smul]
       exact z2
-    · have : blockFast (pgOscUnnormalize z).2 = blockFast z.2 := blockFast_append _ _
+    · have : blockFast (pgOscUnnormalize z).2 = blockFast z.2 := pgAv_blockFast_append _ _
       rw [this]; exact z1
     · have : blockSlow (pgOscUnnormalize z).2 = (Real.sqrt (2*Real.pi):ℂ)⁻¹ • blockSlow z.2 :=
-        blockSlow_append _ _
+        pgAv_blockSlow_append _ _
       rw [this, ← hrad, smul_smul, mul_inv_cancel₀ (by exact_mod_cast hs.ne'), one_smul]
       exact z3.1
     · have : blockSlow (pgOscUnnormalize z).1 = (Real.sqrt (2*Real.pi):ℂ)⁻¹ • blockSlow z.1 :=
-        blockSlow_append _ _
+        pgAv_blockSlow_append _ _
       rw [this, ← hrad, smul_smul, mul_inv_cancel₀ (by exact_mod_cast hs.ne'), one_smul]
       exact z3.2
 

@@ -26,7 +26,7 @@ namespace KAM.Planetary
 variable {a b n : ℕ} {d : PGData a b} {r mu : ℝ}
 
 /-- The physical map `T ∘ Ψ ∘ T⁻¹`. -/
-def avgPsi (Ψ : CPhase (a+b) → CPhase (a+b)) (z : CPhase (a+b)) : CPhase (a+b) :=
+def pgAvPsi (Ψ : CPhase (a+b) → CPhase (a+b)) (z : CPhase (a+b)) : CPhase (a+b) :=
   pgOscNormalize (Ψ (pgOscUnnormalize z))
 
 /-- The physical remainder `2π · (R ∘ T⁻¹)`. -/

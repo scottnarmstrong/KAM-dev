@@ -28,7 +28,7 @@ theorem unnormalize_assemble (I θ : Fin a → ℂ) (p q : Fin b → ℂ) :
     pgOscUnnormalize (assembleComplex I θ p q) =
       assembleComplex I ((2*Real.pi:ℂ)⁻¹ • θ) ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • p)
         ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • q) := by
-  simp only [pgOscUnnormalize, assembleComplex, blockFast_append, blockSlow_append]
+  simp only [pgOscUnnormalize, assembleComplex, pgAv_blockFast_append, pgAv_blockSlow_append]
 
 theorem torusCoeff_avgRem (R : CHam (a+b)) (I : Fin a → ℂ) (x : PGComplexPhase b)
     (k : Fin a → ℤ) :
@@ -56,7 +56,7 @@ theorem modeWeight_osc_sixth (d : PGData a b) (k : Fin a → ℤ) :
 
 theorem avg_rem_fourier (h : admissible d (pgRstar d) r mu) {R : CHam (a+b)}
     (hb : oscBound (checkedCore d r mu) ((params d r mu).rhoBar/2) (pgOscEpsilon d/2)
-      (pgOscEpsilon d/2) (pgOscWidth d/6) R (avgB d r mu))
+      (pgOscEpsilon d/2) (pgOscWidth d/6) R (pgAvB d r mu))
     {I : Fin a → ℂ} (hI : I ∈ KAM.actionNbhd (checkedCore d r mu) ((params d r mu).rhoBar/2))
     {x : PGComplexPhase b} (hx : ‖x‖ < pgOscRadius d/2) :
     KAM.Fourier.SummableWeighted (pgWidth d/6)
@@ -85,18 +85,18 @@ theorem avg_rem_fourier (h : admissible d (pgRstar d) r mu) {R : CHam (a+b)}
         ((params d r mu).rhoBar/2) (pgOscEpsilon d/2) (pgOscEpsilon d/2) := by
     refine ⟨?_, ?_, ?_⟩
     · rwa [show firstBlock (b := b+b) (Fin.append I (Fin.append ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.2)
-        ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.1))) = I from blockFast_append _ _]
+        ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.1))) = I from pgAv_blockFast_append _ _]
     · rw [show firstBlock (b := b) (lastBlock (a := a) (Fin.append I (Fin.append
         ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.2) ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.1)))) =
         (Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.2 by
           show blockFast (blockSlow _) = _
-          rw [blockSlow_append, blockFast_append]]
+          rw [pgAv_blockSlow_append, pgAv_blockFast_append]]
       exact hε _ hx2
     · rw [show lastBlock (a := b) (lastBlock (a := a) (Fin.append I (Fin.append
         ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.2) ((Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.1)))) =
         (Real.sqrt (2*Real.pi):ℂ)⁻¹ • x.1 by
           show blockSlow (blockSlow _) = _
-          rw [blockSlow_append, blockSlow_append]]
+          rw [pgAv_blockSlow_append, pgAv_blockSlow_append]]
       exact hε _ hx1
   obtain ⟨hS, hle⟩ := hb _ hmem
   have hc : ∀ k, ‖KAM.torusCoeff (fun θ : Fin a → ℝ => avgRem R
@@ -125,7 +125,7 @@ theorem avg_rem_pointwise (h : admissible d (pgRstar d) r mu) {R : CHam (a+b)}
     (hcls : oscClass (checkedCore d r mu) ((params d r mu).rhoBar/2) (pgOscEpsilon d/2)
       (pgOscEpsilon d/2) (pgOscWidth d/6) R)
     (hb : oscBound (checkedCore d r mu) ((params d r mu).rhoBar/2) (pgOscEpsilon d/2)
-      (pgOscEpsilon d/2) (pgOscWidth d/6) R (avgB d r mu)) :
+      (pgOscEpsilon d/2) (pgOscWidth d/6) R (pgAvB d r mu)) :
     ∀ z ∈ averagingDomain d r mu, ‖avgRem R z‖ ≤ 2 * (pgAnalytic d).LP * mu * r ^ 5 := by
   intro z hz
   have hy := (mem_averagingDomain_iff h).1 hz
@@ -140,7 +140,7 @@ theorem avg_rem_pointwise (h : admissible d (pgRstar d) r mu) {R : CHam (a+b)}
     simpa [abs_of_pos hpi] using Complex.norm_real (2*Real.pi)
   rw [h2]
   have := two_pi_avgB_le h
-  nlinarith [mul_le_mul_of_nonneg_left ‹‖R (pgOscUnnormalize z)‖ ≤ avgB d r mu›
+  nlinarith [mul_le_mul_of_nonneg_left ‹‖R (pgOscUnnormalize z)‖ ≤ pgAvB d r mu›
     (by positivity : (0:ℝ) ≤ 2*Real.pi)]
 
 end KAM.Planetary
