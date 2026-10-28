@@ -454,6 +454,42 @@ private theorem contDiffOn_gk (d : AveragingData n R s h f) {κ : ℝ} (hκ : 0 
   exact (hχ.comp contDiff_fst).neg.contDiffOn.smul
     (hU.comp contDiff_snd.contDiffOn fun z hz => hz.2)
 
+private theorem contDiffOn_avgW (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ)
+    (hM : ∀ I ∈ closedBall (0 : Fin n → ℝ) R, ∀ i, ∑ j, |avgM h I i j| ≤ M₂) :
+    ContDiffOn ℝ 1 (avgW h f κ) (avgDomain n R) := by
+  have hM0 : 0 ≤ M₂ := (Finset.sum_nonneg fun j _ => abs_nonneg _).trans
+    (hM 0 (by simpa using d.hR.le) ⟨0, d.hn⟩)
+  have hopen := isOpen_avgDomain n R
+  have hfd : ∀ z ∈ avgDomain n R, fderiv ℝ (avgW h f κ) z = ∑' k, fderiv ℝ (gk h f κ k) z :=
+    fun z hz => (hasFDerivAt_avgW d hκ hM hz).1.fderiv
+  have hcont : ContinuousOn (fderiv ℝ (avgW h f κ)) (avgDomain n R) := by
+    have : ContinuousOn (fun z => ∑' k, fderiv ℝ (gk h f κ k) z) (avgDomain n R) :=
+      continuousOn_tsum (fun k => (contDiffOn_gk d hκ k).continuousOn_fderiv_of_isOpen hopen
+        le_rfl) (summable_dom d (domC n s κ M₂)) fun k z hz =>
+        (gk_dom d hκ hM0 hz k (hM z.2 (mem_closedBall_of_dom hz))).2
+    exact this.congr hfd
+  have := (contDiffOn_succ_iff_fderiv_of_isOpen (n := 0) hopen).2
+    ⟨fun z hz => (hasFDerivAt_avgW d hκ hM hz).1.differentiableAt.differentiableWithinAt,
+      by simp, contDiffOn_zero.2 hcont⟩
+  simpa using this
+
+private theorem character_angleShift (k m : Fin n → ℤ) :
+    KAM.character k (KAM.realInclusion n (KAM.ODE.angleShift m).1) = 1 := by
+  have : (2 * Real.pi * Complex.I * ∑ j, (k j : ℂ) * ((KAM.realInclusion n
+      (KAM.ODE.angleShift m).1) j)) = ((∑ j, k j * m j : ℤ) : ℂ) * (2 * Real.pi * Complex.I) := by
+    simp [KAM.ODE.angleShift]
+    ring
+  rw [KAM.character, this, Complex.exp_int_mul_two_pi_mul_I]
+
+private theorem avgW_periodic (κ : ℝ) (z : AvgPhase n) (m : Fin n → ℤ) :
+    avgW h f κ (z + KAM.ODE.angleShift m) = avgW h f κ z := by
+  unfold avgW
+  congr 1
+  refine tsum_congr fun k => ?_
+  have : (z + KAM.ODE.angleShift m).1 = z.1 + (KAM.ODE.angleShift m).1 := rfl
+  have h2 : (z + KAM.ODE.angleShift m).2 = z.2 := by simp [KAM.ODE.angleShift]
+  rw [this, h2, map_add, KAM.character_add, character_angleShift, mul_one]
+
 end KAM.Nekhoroshev
 
 end
