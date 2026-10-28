@@ -29,6 +29,8 @@ structure IterPre (d : SelectionData n) (f : SelectionPhaseC n → ℂ) (a : Sel
   chain : SelectionFiniteChain d a c ν
   energy_holo : DifferentiableOn ℂ (selectionEnergy c ν)
     (actionNbhd (c.K ν) (selectiont a ν))
+  energy_real : ∀ b : SelectionR n, selectionReal b ∈ actionNbhd (c.K ν) (selectiont a ν) →
+    (selectionEnergy c ν (selectionReal b)).im = 0
   frequency_derivative : ∀ b ∈ actionNbhd (c.K ν) (selectiont a ν),
     ‖fderiv ℂ (selectionFrequency d c ν) b‖ ≤ 2 * d.C₁
   remainder_holo : DifferentiableOn ℂ (c.R ν)
@@ -184,8 +186,9 @@ theorem IterPre.transfer {ν : ℕ} {c c' : SelectionChain n} (h : ChainAgree ν
       rw [h.K (j + 1) (by omega), selectionRetained_congr a d (h.K j (by omega))
         fun i hi => h.Δω i (by omega)]
       exact Q.retained j hj
-  refine ⟨hch, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨hch, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [hK, he]; exact P.energy_holo
+  · rw [hK, he]; exact P.energy_real
   · rw [hK, hf]; exact P.frequency_derivative
   · rw [hK, hR]; exact P.remainder_holo
   · rw [hK, hR]; exact P.remainder_bound

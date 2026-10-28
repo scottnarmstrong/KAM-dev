@@ -67,9 +67,10 @@ theorem iterPre_base {d : SelectionData n} {a : SelectionSchedule n} (c : WeakBu
     rfl
   have hE : selectionEnergy (selectionBaseChain d f) 0 = fun _ => 0 := by
     funext b; simp [selectionEnergy]
-  refine ⟨hch, ?_, selection_frequency_derivative_le c hch.toSelectionExtensionChain, ?_, ?_,
+  refine ⟨hch, ?_, ?_, selection_frequency_derivative_le c hch.toSelectionExtensionChain, ?_, ?_,
     ?_, ?_, ?_⟩
   · rw [hE]; exact differentiableOn_const _
+  · intro b _; rw [hE]; simp
   · rw [hdom]; exact i1
   · rw [hdom]
     intro x hx
