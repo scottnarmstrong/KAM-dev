@@ -104,4 +104,58 @@ theorem p11_real_slice_identity {n : ℕ} {x : P11Vec n} {r : ℝ} (hr : 0 < r)
         omega
   exact fun z hz => hstep n z hz fun i hi => absurd i.2 (by omega)
 
+/-- Coordinatewise complexification of a real continuous multilinear map
+`(ℝᵃ)ⁿ → ℝᵇ`: `Σ_j (Π_m w_m(j_m)) • ι (P (e_{j_1}, …, e_{j_n}))`. -/
+def p11CMap {a b n : ℕ} (P : ContinuousMultilinearMap ℝ (fun _ : Fin n => P11Vec a) (P11Vec b)) :
+    ContinuousMultilinearMap ℂ (fun _ : Fin n => P11CVec a) (P11CVec b) :=
+  ∑ j : Fin n → Fin a,
+    ((ContinuousMultilinearMap.mkPiAlgebra ℂ (Fin n) ℂ).compContinuousLinearMap
+      (fun m => ContinuousLinearMap.proj (j m))).smulRight
+        (KAM.realInclusion b (P (fun m => Pi.single (j m) 1)))
+
+theorem p11CMap_apply {a b n : ℕ}
+    (P : ContinuousMultilinearMap ℝ (fun _ : Fin n => P11Vec a) (P11Vec b))
+    (w : Fin n → P11CVec a) :
+    p11CMap P w = ∑ j : Fin n → Fin a,
+      (∏ m, w m (j m)) • KAM.realInclusion b (P (fun m => Pi.single (j m) 1)) := by
+  simp [p11CMap]
+
+/-- On real vectors the complexification agrees with `P`. -/
+theorem p11CMap_real {a b n : ℕ}
+    (P : ContinuousMultilinearMap ℝ (fun _ : Fin n => P11Vec a) (P11Vec b)) (h : P11Vec a) :
+    p11CMap P (fun _ => KAM.realInclusion a h) = KAM.realInclusion b (P (fun _ => h)) := by
+  have hh : (fun _ : Fin n => h) =
+      fun m => ∑ i : Fin a, h i • (Pi.single i (1 : ℝ) : P11Vec a) := by
+    ext m i
+    simp [Finset.sum_apply, Pi.single_apply]
+  rw [hh, P.map_sum (fun _ i => h i • (Pi.single i (1 : ℝ) : P11Vec a)), map_sum,
+    p11CMap_apply]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  rw [P.map_smul_univ, map_smul]
+  simp only [KAM.realInclusion_apply, ← Complex.ofReal_prod]
+  exact Complex.coe_smul _ _
+
+/-- `‖p11CMap P‖ ≤ aⁿ ‖P‖`. -/
+theorem norm_p11CMap_le {a b n : ℕ}
+    (P : ContinuousMultilinearMap ℝ (fun _ : Fin n => P11Vec a) (P11Vec b)) :
+    ‖p11CMap P‖ ≤ (a : ℝ) ^ n * ‖P‖ := by
+  refine ContinuousMultilinearMap.opNorm_le_bound (by positivity) fun w => ?_
+  rw [p11CMap_apply]
+  have hj : ∀ j : Fin n → Fin a,
+      ‖(∏ m, w m (j m)) • KAM.realInclusion b (P (fun m => Pi.single (j m) 1))‖ ≤
+        ‖P‖ * ∏ m, ‖w m‖ := by
+    intro j
+    rw [norm_smul, KAM.norm_realInclusion, norm_prod]
+    have h1 : ∏ m, ‖w m (j m)‖ ≤ ∏ m, ‖w m‖ :=
+      Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) fun m _ => norm_le_pi_norm (w m) (j m)
+    have h2 : ‖P (fun m => Pi.single (j m) (1 : ℝ))‖ ≤ ‖P‖ := by
+      refine (P.le_opNorm _).trans ?_
+      simp [Pi.norm_single]
+    calc _ ≤ (∏ m, ‖w m‖) * ‖P‖ :=
+          mul_le_mul h1 h2 (norm_nonneg _) (Finset.prod_nonneg fun _ _ => norm_nonneg _)
+      _ = _ := mul_comm _ _
+  calc _ ≤ ∑ j : Fin n → Fin a, ‖P‖ * ∏ m, ‖w m‖ := (norm_sum_le _ _).trans
+          (Finset.sum_le_sum fun j _ => hj j)
+    _ = _ := by simp [Finset.sum_const, mul_comm, mul_left_comm]
+
 end KAM.Planetary
