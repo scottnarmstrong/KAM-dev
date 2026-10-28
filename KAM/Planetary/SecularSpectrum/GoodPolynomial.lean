@@ -159,6 +159,70 @@ lemma good_ne_zero_iff (s : Vec n) : good s ≠ 0 ↔ nr4 s := by
     · simpa [Function.comp_def, Equiv.sum_comp p.symm (fun i => |k i|)] using hk.2
 
 
+/-! ### `good` as a symmetric polynomial and `good_characteristic` -/
+
+open MvPolynomial in
+/-- The universal polynomial whose evaluation is `good`. -/
+def goodPoly (n : ℕ) : MvPolynomial (Fin n) ℝ :=
+  discrGen (fun i => (X i : MvPolynomial (Fin n) ℝ)) *
+    ∏ k ∈ (k4_finite n).toFinset, ∏ p : Equiv.Perm (Fin n),
+      ∑ j, ((k j : ℤ) : MvPolynomial (Fin n) ℝ) * X (p j)
+
+lemma eval_goodPoly (s : Vec n) : MvPolynomial.eval s (goodPoly n) = good s := by
+  simp [goodPoly, good, discriminant, discrGen, map_prod, map_sum]
+
+lemma goodPoly_isSymmetric (n : ℕ) : (goodPoly n).IsSymmetric := by
+  intro e
+  have h1 : MvPolynomial.rename e (discrGen (fun i => (MvPolynomial.X i : MvPolynomial (Fin n) ℝ))) =
+      discrGen (fun i => (MvPolynomial.X i : MvPolynomial (Fin n) ℝ)) := by
+    have := discrGen_comp (fun i => (MvPolynomial.X i : MvPolynomial (Fin n) ℝ)) e
+    simpa [discrGen, map_prod, map_sub, map_pow] using this
+  rw [goodPoly, map_mul, h1]
+  congr 1
+  simp only [map_prod, map_sum, map_mul, MvPolynomial.rename_X, map_intCast]
+  refine Finset.prod_congr rfl fun k _ => ?_
+  exact permFac_comp (fun j => ((k j : ℤ) : MvPolynomial (Fin n) ℝ)) MvPolynomial.X e
+
+theorem good_characteristic (n : ℕ) : ∃ P : MvPolynomial (Fin n) ℝ,
+    ∀ M : Mat n, ∀ hM : M.IsHermitian,
+      good (sorted M hM) = MvPolynomial.eval (fun i => M.charpoly.coeff i.val) P := by
+  obtain ⟨P', hP'⟩ := (MvPolynomial.esymmAlgEquiv (Fin n) ℝ (Fintype.card_fin n)).surjective
+    ⟨goodPoly n, goodPoly_isSymmetric n⟩
+  have hP'' : MvPolynomial.aeval (fun i : Fin n => MvPolynomial.esymm (Fin n) ℝ (i.val + 1)) P' =
+      goodPoly n := by
+    have := congrArg Subtype.val hP'
+    simpa [MvPolynomial.esymmAlgEquiv_apply, MvPolynomial.esymmAlgHom_apply] using this
+  refine ⟨MvPolynomial.aeval (fun i : Fin n =>
+    MvPolynomial.C ((-1 : ℝ) ^ (i.val + 1)) * MvPolynomial.X i.rev) P', fun M hM => ?_⟩
+  set s := sorted M hM with hs
+  have hch : M.charpoly = ((Finset.univ.val.map s).map fun t => Polynomial.X - Polynomial.C t).prod := by
+    rw [charpoly_eq_prod_sorted hM, Finset.prod_eq_multiset_prod, Multiset.map_map]
+    rfl
+  have key : ∀ (x : Fin n → ℝ) (g : Fin n → MvPolynomial (Fin n) ℝ),
+      MvPolynomial.eval x (MvPolynomial.aeval g P') =
+        MvPolynomial.eval (fun i => MvPolynomial.eval x (g i)) P' := fun x g => by
+    have h := MvPolynomial.comp_aeval_apply (f := g) (MvPolynomial.aeval x) P'
+    exact h
+  rw [← eval_goodPoly, ← hP'', key, key]
+  have hf : (fun i : Fin n => MvPolynomial.eval s (MvPolynomial.esymm (Fin n) ℝ (i.val + 1))) =
+      fun i : Fin n => MvPolynomial.eval (fun i => M.charpoly.coeff i.val)
+        (MvPolynomial.C ((-1 : ℝ) ^ (i.val + 1)) * MvPolynomial.X i.rev) := by
+    funext i
+    rw [map_mul, MvPolynomial.eval_C, MvPolynomial.eval_X]
+    rw [show MvPolynomial.eval s (MvPolynomial.esymm (Fin n) ℝ (i.val + 1)) =
+      MvPolynomial.aeval s (MvPolynomial.esymm (Fin n) ℝ (i.val + 1)) from rfl,
+      MvPolynomial.aeval_esymm_eq_multiset_esymm]
+    have hk : (Fin.rev i).val ≤ Multiset.card (Finset.univ.val.map s) := by
+      simp only [Multiset.card_map, Finset.card_val, Finset.card_univ, Fintype.card_fin, Fin.val_rev]
+      have := i.2; omega
+    rw [hch, Multiset.prod_X_sub_C_coeff _ hk]
+    have hc : Multiset.card (Finset.univ.val.map s) - (Fin.rev i).val = i.val + 1 := by
+      simp only [Multiset.card_map, Finset.card_val, Finset.card_univ, Fintype.card_fin, Fin.val_rev]
+      have := i.2; omega
+    rw [hc, ← mul_assoc, ← pow_add, ← two_mul, pow_mul]
+    simp
+  rw [hf]
+
 end SecularSpectrum
 
 end KAM.Planetary
