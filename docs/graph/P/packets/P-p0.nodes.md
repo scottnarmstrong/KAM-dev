@@ -1078,9 +1078,9 @@ EDGE: bpP:p5:main | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:main@L317-L317 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.properlyDegenerateKAM (KAM/Frozen/Planetary/Theorems/ProperlyDegenerateKAM.lean)
+LEAN_NOTE: P-G anchor SEALED (manifest planetary.properlyDegenerateKAM.v1); seal-key audit P5-MAIN-audit-1 PASS WITH NOTES
 NOTE: root anchor. Proof: Theorem bpP:p5:main (Part 5), which carries the \frozen tag. Source fields follow Part 0 L333-L365 and the frozen file (quantifier order: all data, then r_*,C,c, then r,mu, then S). The reference in HasBirkhoff to this theorem (L159) is a forward pointer, deleted. The sourcegap at L362 is covered by bpP:p5:strictness and bpP:p5:uniform-remainder.
 
 NODE: bpP:p0:planar
