@@ -8,6 +8,7 @@ module
 public import KAM.Nekhoroshev.Partial.SymplecticLinear
 public import KAM.Nekhoroshev.Partial.Flow
 public import KAM.Canonical.Symplectic
+public import KAM.Strip.Bridges
 
 /-!
 # Weighted symplectic structure of the extended flow (Part 11, package N11-E1)
@@ -224,6 +225,175 @@ theorem symplectic_form {c : ℝ} (hc : 0 < c) {U : Set (EC n k)} (hU : IsOpen U
   have h := canonical_form_regroup hc0 hU hΨ hcanon hz (regroup c hc0 v) (regroup c hc0 w)
   rw [extForm_eq_regroup c hc0, extForm_eq_regroup c hc0]
   simpa [conjLin_apply] using h
+
+/-! ### Conjugation of real orbits (`conj`) -/
+
+section Conj
+
+open KAM.Weighted KAM.NormalForm
+
+private theorem extCx_eq (z : ER n k) :
+    extCx z = (KAM.realInclusion n z.1, KAM.realInclusion (n+(k+k)) z.2) := by
+  ext i <;> simp [extCx]
+
+/-- The real points of `EC n k` as a continuous `ℝ`-linear map. -/
+private def extCxCLM (n k : ℕ) : ER n k →L[ℝ] EC n k :=
+  (KAM.realInclusion n).prodMap (KAM.realInclusion (n+(k+k)))
+
+private theorem extCxCLM_apply (z : ER n k) : extCxCLM n k z = extCx z := (extCx_eq z).symm
+
+private theorem extCx_eq_clm : (extCx : ER n k → EC n k) = extCxCLM n k :=
+  funext fun z => (extCxCLM_apply z).symm
+
+private theorem extCx_mem_Dom_iff (b : PartialBlock n k) {R s : ℝ} (hs : 0 < s) (z : ER n k) :
+    extCx z ∈ Dom n b.base R s ↔ (extCx z).2 ∈ polyNbhd b.base R := by
+  simp only [Dom, mem_prod]
+  exact ⟨fun h => h.2, fun h => ⟨KAM.ofReal_mem_complexStrip hs z.1, h⟩⟩
+
+private theorem mem_realDom_iff (b : PartialBlock n k) (R : ℝ) (z : ER n k) :
+    z ∈ b.realDom R ↔ (extCx z).2 ∈ polyNbhd b.base R :=
+  extCx_mem_Dom_iff b one_pos z
+
+private theorem isOpen_realDom (b : PartialBlock n k) (R : ℝ) : IsOpen (b.realDom R) := by
+  have hc : Continuous (extCx : ER n k → EC n k) := by
+    rw [extCx_eq_clm]; exact (extCxCLM n k).continuous
+  exact (isOpen_Dom (n := n) b.base R 1).preimage hc
+
+private theorem hreal_of_ext {b : PartialBlock n k} {R s : ℝ} {H : EC n k → ℂ}
+    (hH : ext_class b R s H) (y : ER n k) (hy : extCx y ∈ Dom n b.base R s) :
+    (H (extCx y)).im = 0 := by
+  have := hH.2 y (by rw [← extCx_eq]; exact hy)
+  rwa [← extCx_eq] at this
+
+private theorem realHamiltonianExt_eventually (b : PartialBlock n k) (R : ℝ) (H : EC n k → ℂ)
+    {z : ER n k} (hz : z ∈ b.realDom R) :
+    ∀ᶠ y in nhds z, realHamiltonianExt b R H y = (H (extCx y)).re := by
+  filter_upwards [(isOpen_realDom b R).mem_nhds hz] with y hy
+  simp [realHamiltonianExt, indicator_of_mem hy]
+
+/-- Real derivative transport on `EC n k` (the unequal-carrier form of
+`KAM.hamiltonian_real_fderiv`). -/
+private theorem fderiv_ext_real {V : Set (EC n k)} {H : EC n k → ℂ} {Hr : ER n k → ℝ}
+    {z : ER n k} (hV : IsOpen V) (hh : DifferentiableOn ℂ H V)
+    (hreal : ∀ y : ER n k, extCx y ∈ V → (H (extCx y)).im = 0)
+    (hz : extCx z ∈ V) (hH : ∀ᶠ y in nhds z, Hr y = (H (extCx y)).re) :
+    DifferentiableAt ℝ Hr z ∧ ∀ e : ER n k,
+      ((fderiv ℝ Hr z e : ℝ) : ℂ) = fderiv ℂ H (extCx z) (extCx e) := by
+  set L := extCxCLM n k with hL
+  have hz' : L z ∈ V := by rwa [hL, extCxCLM_apply]
+  have hhd : DifferentiableAt ℂ H (L z) := hh.differentiableAt (hV.mem_nhds hz')
+  have h2 : HasFDerivAt (fun y => H (L y))
+      (((fderiv ℂ H (L z)).restrictScalars ℝ).comp L) z :=
+    (hhd.hasFDerivAt.restrictScalars ℝ).comp z L.hasFDerivAt
+  have h3 : HasFDerivAt (fun y => (H (L y)).re)
+      (Complex.reCLM.comp (((fderiv ℂ H (L z)).restrictScalars ℝ).comp L)) z :=
+    Complex.reCLM.hasFDerivAt.comp z h2
+  have hH' : ∀ᶠ y in nhds z, Hr y = (H (L y)).re := by
+    simpa only [hL, extCxCLM_apply] using hH
+  have h4 : HasFDerivAt Hr (Complex.reCLM.comp
+      (((fderiv ℂ H (L z)).restrictScalars ℝ).comp L)) z := h3.congr_of_eventuallyEq hH'
+  refine ⟨h4.differentiableAt, fun e => ?_⟩
+  have hmem : ∀ᶠ y in nhds z, L y ∈ V := L.continuous.continuousAt.eventually_mem (hV.mem_nhds hz')
+  have hev : (fun y => H (L y)) =ᶠ[nhds z] fun y => ((Hr y : ℝ) : ℂ) := by
+    filter_upwards [hH', hmem] with y hy hyV
+    rw [hy]
+    refine Complex.ext (by simp) ?_
+    simpa [hL, extCxCLM_apply] using hreal y (by rwa [← extCxCLM_apply])
+  have h5 : HasFDerivAt (fun y => ((Hr y : ℝ) : ℂ)) (Complex.ofRealCLM.comp (fderiv ℝ Hr z)) z :=
+    Complex.ofRealCLM.hasFDerivAt.comp z h4.differentiableAt.hasFDerivAt
+  have h6 := (h2.congr_of_eventuallyEq hev.symm).unique h5
+  have := (congrArg (fun L => L e) h6).symm
+  simpa [hL, extCxCLM_apply] using this
+
+private theorem extCx_zero_single (j : Fin (n+(k+k))) :
+    extCx ((0 : Fin n → ℝ), (Pi.single j 1 : Fin (n+(k+k)) → ℝ)) =
+      ((0 : Fin n → ℂ), (Pi.single j 1 : Fin (n+(k+k)) → ℂ)) := by
+  ext i <;> simp [extCx, Pi.single_apply, apply_ite Complex.ofReal]
+
+private theorem extCx_single_zero (j : Fin n) :
+    extCx ((Pi.single j 1 : Fin n → ℝ), (0 : Fin (n+(k+k)) → ℝ)) =
+      ((Pi.single j 1 : Fin n → ℂ), (0 : Fin (n+(k+k)) → ℂ)) := by
+  ext i <;> simp [extCx, Pi.single_apply, apply_ite Complex.ofReal]
+
+private theorem realWfield_cx (b : PartialBlock n k) {R s : ℝ} {H : EC n k → ℂ}
+    (hs : 0 < s) (hH : ext_class b R s H) {z : ER n k} (hz : z ∈ b.realDom R) :
+    extCx (realWfield b.c (realHamiltonianExt b R H) z) = wfield b.c H (extCx z) := by
+  have hzD : extCx z ∈ Dom n b.base R s :=
+    (extCx_mem_Dom_iff b hs z).2 ((mem_realDom_iff b R z).1 hz)
+  have hd := (fderiv_ext_real (isOpen_Dom (n := n) b.base R s) hH.1.differentiableOn
+    (hreal_of_ext hH) hzD (realHamiltonianExt_eventually b R H hz)).2
+  refine Prod.ext (funext fun i => ?_) (funext fun j => ?_)
+  · show ((fderiv ℝ (realHamiltonianExt b R H) z (0, Pi.single (Fin.castAdd (k+k) i) 1) : ℝ) : ℂ)
+      = fderiv ℂ H (extCx z) (0, Pi.single (Fin.castAdd (k+k) i) 1)
+    rw [hd, extCx_zero_single]
+  · refine ext_cases (P := fun j => ((((realWfield b.c (realHamiltonianExt b R H) z).2 j : ℝ)) : ℂ)
+      = (wfield b.c H (extCx z)).2 j) (fun i => ?_) (fun i => ?_) (fun i => ?_) j
+    · simp only [realWfield, wfield, Fin.append_left, Complex.ofReal_neg, hd,
+        extCx_single_zero]
+    · simp only [realWfield, wfield, Fin.append_right, Fin.append_left, Complex.ofReal_mul, hd,
+        extCx_zero_single]
+    · simp only [realWfield, wfield, Fin.append_right, Complex.ofReal_mul, Complex.ofReal_neg, hd,
+        extCx_zero_single]
+
+
+/-- The componentwise real part `EC n k →L[ℝ] ER n k`. -/
+private def extReCLM (n k : ℕ) : EC n k →L[ℝ] ER n k :=
+  (ContinuousLinearMap.pi fun i : Fin n => Complex.reCLM.comp (ContinuousLinearMap.proj i)).prodMap
+    (ContinuousLinearMap.pi fun i : Fin (n+(k+k)) =>
+      Complex.reCLM.comp (ContinuousLinearMap.proj i))
+
+private theorem extReCLM_apply (w : EC n k) : extReCLM n k w = extRe w := rfl
+
+theorem conj (b : PartialBlock n k) {R s r t : ℝ} {H Ht : EC n k → ℂ} {Ψ : EC n k → EC n k}
+    (hc : ExtConjHyp b R s r t H Ht Ψ) {J : Set ℝ} {y : ℝ → ER n k}
+    (hy : ExtOrbit b r Ht J y) : ExtOrbit b R H J (reExtMap Ψ ∘ y) := by
+  intro τ hτ
+  obtain ⟨hyτ, hder⟩ := hy τ hτ
+  set y0 := y τ with hy0
+  have hxD : extCx y0 ∈ Dom n b.base r t :=
+    (extCx_mem_Dom_iff b hc.t_pos y0).2 ((mem_realDom_iff b r y0).1 hyτ)
+  have hΨx : Ψ (extCx y0) ∈ Dom n b.base R s := hc.maps hxD
+  have hre : extCx (reExtMap Ψ y0) = Ψ (extCx y0) := hc.real y0 hxD
+  have hmem : reExtMap Ψ y0 ∈ b.realDom R :=
+    (mem_realDom_iff b R _).2 (by rw [hre]; exact hΨx.2)
+  refine ⟨hmem, ?_⟩
+  have hopen : IsOpen (Dom n b.base r t) := isOpen_Dom (n := n) b.base r t
+  have hΨd : DifferentiableAt ℂ Ψ (extCx y0) := hc.hol.differentiableAt (hopen.mem_nhds hxD)
+  have hHd : DifferentiableAt ℂ H (Ψ (extCx y0)) :=
+    hc.outer.1.differentiableOn.differentiableAt
+      ((isOpen_Dom (n := n) b.base R s).mem_nhds hΨx)
+  -- complex curve
+  have hcx : HasDerivAt (fun τ' => extCx (y τ')) (extCx (realWfield b.c
+      (realHamiltonianExt b r Ht) y0)) τ := by
+    rw [extCx_eq_clm]
+    exact (extCxCLM n k).hasFDerivAt.comp_hasDerivAt τ hder
+  have hΨcurve : HasDerivAt (fun τ' => Ψ (extCx (y τ')))
+      (fderiv ℂ Ψ (extCx y0) (extCx (realWfield b.c (realHamiltonianExt b r Ht) y0))) τ :=
+    by
+      have h1 := (hΨd.hasFDerivAt.restrictScalars ℝ).comp_hasDerivAt τ hcx
+      exact h1
+  -- the value of the derivative
+  have hwf : extCx (realWfield b.c (realHamiltonianExt b r Ht) y0) = wfield b.c Ht (extCx y0) :=
+    realWfield_cx b hc.t_pos hc.inner hyτ
+  have hHt : wfield b.c Ht (extCx y0) = wfield b.c (fun w => H (Ψ w)) (extCx y0) := by
+    have hev : Ht =ᶠ[nhds (extCx y0)] fun w => H (Ψ w) := by
+      filter_upwards [hopen.mem_nhds hxD] with w hw using hc.identity w hw
+    simp only [wfield, hev.fderiv_eq]
+  have hfield := symplectic_field hopen hc.hol hc.canon hxD hHd
+  have hwR : extCx (realWfield b.c (realHamiltonianExt b R H) (reExtMap Ψ y0)) =
+      wfield b.c H (Ψ (extCx y0)) := by
+    rw [realWfield_cx b hc.s_pos hc.outer hmem, hre]
+  have hcomp : HasDerivAt (fun τ' => extReCLM n k (Ψ (extCx (y τ'))))
+      (extReCLM n k (fderiv ℂ Ψ (extCx y0)
+        (extCx (realWfield b.c (realHamiltonianExt b r Ht) y0)))) τ :=
+    (extReCLM n k).hasFDerivAt.comp_hasDerivAt τ hΨcurve
+  show HasDerivAt (fun τ' => reExtMap Ψ (y τ'))
+    (realWfield b.c (realHamiltonianExt b R H) (reExtMap Ψ y0)) τ
+  refine hcomp.congr_deriv ?_
+  rw [hwf, hHt, hfield, ← hwR, extReCLM_apply]
+  exact Prod.ext (funext fun i => by simp [extRe, extCx]) (funext fun i => by simp [extRe, extCx])
+
+end Conj
 
 end KAM.Nekhoroshev
 
