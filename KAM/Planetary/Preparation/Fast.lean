@@ -32,7 +32,7 @@ def p11K1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) : ℝ :=
 def p11Alpha1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := C.gamma/2*p11K1 C eps^(-C.tau)
 def p11s1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
   min C.rC (C.gamma/(4*C.L*p11K1 C eps^(C.tau+1)))
-def p11d1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := min (p11s1 C eps*C.sigma) C.rz^2
+def p11d1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) := min (p11s1 C eps*C.sigma) (C.rz^2)
 def p11eta1 {n : ℕ} (C : P11SecularData n) (eps : ℝ) :=
   400*(1+n)*eps*C.MF^2/(2*Real.pi*p11Alpha1 C eps*p11d1 C eps)
 structure P11FastData (n : ℕ) where
@@ -155,25 +155,15 @@ theorem p11_alpha_le (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
   unfold p11Alpha1
   constructor <;> nlinarith
 
-/-- The signed `p11d1` parses as `(min (s₁σ) r_z)²`; it is bounded by the source `d₁`. -/
+/-- The signed `p11d1` is the source `d₁ = min {s₁ σ_F, r_z²}`; it is positive. -/
 theorem p11d1_le (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) :
     0 < p11d1 C eps ∧ p11d1 C eps ≤ min (p11s1 C eps * C.sigma) (C.rz * C.rz) := by
-  obtain ⟨-, -, -, hrC0, hrC1, hσ0, hσ1, hrz0, -⟩ := fast_consts hC
+  obtain ⟨-, -, -, -, -, hσ0, -, hrz0, -, -⟩ := fast_consts hC
   have hs0 := p11s1_pos hC heps hεM
-  have hs1 : p11s1 C eps ≤ 1 := (p11s1_le C eps).trans hrC1
-  have ha0 : 0 < p11s1 C eps * C.sigma := mul_pos hs0 hσ0
-  have ha1 : p11s1 C eps * C.sigma ≤ 1 := by nlinarith
-  have hm0 : 0 < min (p11s1 C eps * C.sigma) C.rz := lt_min ha0 hrz0
-  have hm1 : min (p11s1 C eps * C.sigma) C.rz ≤ 1 := (min_le_left _ _).trans ha1
-  refine ⟨by unfold p11d1; positivity, ?_⟩
+  refine ⟨lt_min (mul_pos hs0 hσ0) (by positivity), ?_⟩
   unfold p11d1
-  refine le_min ?_ ?_
-  · calc min (p11s1 C eps * C.sigma) C.rz ^ 2 ≤ min (p11s1 C eps * C.sigma) C.rz * 1 := by
-          nlinarith
-      _ ≤ _ := by rw [mul_one]; exact min_le_left _ _
-  · rw [sq]
-    exact mul_le_mul (min_le_right _ _) (min_le_right _ _) hm0.le hrz0.le
+  rw [sq]
 
 /-- Reality of `h̃` at real points: the extra source premise of `osc_averaging`
 (`OscHyp.real_h`) which `P11SecularSpec` does not record. -/
@@ -408,6 +398,64 @@ theorem avg_fast_of_spec (hC : P11SecularSpec D C) (hh : P11SecularHReal C) :
   have hS1 : 2^12*(1+n)*p11K1 C eps*eps*C.MF*C.sigma ≤ p11Alpha1 C eps*p11d1 C eps :=
     hS (p11K1 C eps) rfl
   exact ⟨hS1, fast_spec_at hC hh heps hεM hS1⟩
+
+/-- Source rate for `η₁` (blueprint `p11-cp09-preparation.tex`, line 108, the closing note of
+`bpP:p11:avg-fast`: `η₁(ε) ≤ c ε (log (1/ε))^{2τ₀+1}`, CP09 (25)). Unsigned companion to
+the signed `p11eta1`; the design maps it to the graph node `bpP:p11:avg-fast` (its final clause),
+which `stepP:p11:as-osc` (line 181, `ε² + η₁ √ε`) consumes. -/
+theorem p11eta1_source_rate (hC : P11SecularSpec D C) :
+    ∃ c eps1 : ℝ, 0 < eps1 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps1 →
+      p11eta1 C eps ≤ c * eps * Real.log (1 / eps) ^ (2 * C.tau + 1) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, hσ1, hrz0, -, hMF⟩ := fast_consts hC
+  have hM0 : 0 < C.MF := by linarith
+  set c3 : ℝ := 6 / (Real.pi * C.sigma) with hc3
+  have hc30 : 0 < c3 := by positivity
+  set c2 : ℝ := min (min C.rC (C.gamma / (4 * C.L)) * C.sigma) (C.rz ^ 2) with hc2
+  have hL0 : 0 < C.L := by linarith
+  have hc20 : 0 < c2 :=
+    lt_min (mul_pos (lt_min hrC0 (by positivity)) hσ0) (by positivity)
+  refine ⟨400 * (1 + (n : ℝ)) * C.MF ^ 2 * c3 ^ (2 * C.tau + 1) / (Real.pi * C.gamma * c2),
+    Real.exp (-1) / C.MF, by positivity, fun eps heps hle => ?_⟩
+  have hεM : eps * C.MF ≤ Real.exp (-1) := by rwa [le_div_iff₀ hM0] at hle
+  have hεM0 : 0 < eps * C.MF := mul_pos heps hM0
+  have hℓ1 : 1 ≤ Real.log (1 / (eps * C.MF)) := log_inv_ge_one hεM0 hεM
+  have hℓΛ : Real.log (1 / (eps * C.MF)) ≤ Real.log (1 / eps) := by
+    rw [one_div, one_div, Real.log_inv, Real.log_inv, Real.log_mul heps.ne' hM0.ne']
+    have := Real.log_nonneg hMF
+    linarith
+  have hΛ0 : 0 ≤ Real.log (1 / eps) := by linarith
+  have hK1 := p11K1_ge_one hC heps hεM
+  have hK0 : 0 < p11K1 C eps := by linarith
+  have hKΛ : p11K1 C eps ≤ c3 * Real.log (1 / eps) :=
+    mul_le_mul_of_nonneg_left hℓΛ hc30.le
+  set K := p11K1 C eps with hK
+  have hd : c2 / K ^ (C.tau + 1) ≤ p11d1 C eps :=
+    fast_d_lower hγ0 hL1 hrC0 hσ0 hrz0 hK1 hτ0
+  have hP0 : 0 < K ^ (C.tau + 1) := Real.rpow_pos_of_pos hK0 _
+  have hKτ : 0 < K ^ C.tau := Real.rpow_pos_of_pos hK0 _
+  have hα : p11Alpha1 C eps = C.gamma / 2 * K ^ (-C.tau) := rfl
+  have hpow : K ^ (2 * C.tau + 1) = K ^ C.tau * K ^ (C.tau + 1) := by
+    rw [← Real.rpow_add hK0]; ring_nf
+  have hmain : p11eta1 C eps ≤
+      400 * (1 + (n : ℝ)) * eps * C.MF ^ 2 * K ^ (2 * C.tau + 1) / (Real.pi * C.gamma * c2) := by
+    have hd0 : 0 < p11d1 C eps := lt_of_lt_of_le (by positivity) hd
+    have e : p11eta1 C eps = 400 * (1 + (n : ℝ)) * eps * C.MF ^ 2 * K ^ C.tau /
+        (Real.pi * C.gamma * p11d1 C eps) := by
+      unfold p11eta1
+      rw [hα, Real.rpow_neg hK0.le]
+      field_simp
+    rw [e, hpow]
+    calc _ ≤ 400 * (1 + (n : ℝ)) * eps * C.MF ^ 2 * K ^ C.tau /
+          (Real.pi * C.gamma * (c2 / K ^ (C.tau + 1))) :=
+          div_le_div_of_nonneg_left (by positivity) (by positivity)
+            (mul_le_mul_of_nonneg_left hd (by positivity))
+      _ = _ := by field_simp
+  calc p11eta1 C eps ≤ _ := hmain
+    _ ≤ 400 * (1 + (n : ℝ)) * eps * C.MF ^ 2 * (c3 * Real.log (1 / eps)) ^ (2 * C.tau + 1) /
+          (Real.pi * C.gamma * c2) := by
+        refine div_le_div_of_nonneg_right (mul_le_mul_of_nonneg_left
+          (Real.rpow_le_rpow hK0.le hKΛ (by linarith)) (by positivity)) (by positivity)
+    _ = _ := by rw [Real.mul_rpow hc30.le hΛ0]; ring
 
 end Core
 
