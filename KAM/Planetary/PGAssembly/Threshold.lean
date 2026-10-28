@@ -233,6 +233,127 @@ theorem thr_volumes {d : PGData a b} {r mu : ℝ} (hR : ThrRange d r mu)
       _ = v := hvr.symm
       _ ≤ _ := h2
 
+theorem rpow_three_halves {r : ℝ} (hr : 0 < r) : r^(3/2:ℝ) = r * Real.sqrt r := by
+  rw [Real.sqrt_eq_rpow, ← Real.rpow_one_add' hr.le (by norm_num)]; norm_num
+
+theorem thr_key {d : PGData a b} {r mu : ℝ} (c c' : ℝ) :
+    c*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/(c'*(params d r mu).gammaBar) =
+      c/c'*((pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/(params d r mu).gammaBar) := by
+  rw [show c*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b) =
+    c*((pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)) by ring]
+  exact (div_mul_div_comm _ _ _ _).symm
+
+theorem thr_q_pos (d : PGData a b) : 0 < (pgScales d).G*(30/pgWidth d)^(1/2:ℝ) := by
+  have := one_le_pgKappa d
+  have : 0 < (30/pgWidth d)^(1/2:ℝ) := Real.rpow_pos_of_pos (by linarith) _
+  have := pgScales_G_pos d
+  positivity
+
+theorem thr_e5 {d : PGData a b} {r mu : ℝ} (hR : ThrRange d r mu) (hsq : 0 < Real.sqrt r)
+    (s8 : (pgScales d).k1*r^2/2 + 12/pgWidth d*(r^5/((pgScales d).G*(30/pgWidth d)^(1/2:ℝ))) < 1)
+    (hrK : (params d r mu).rK < (pgScales d).k1*(r^2*Real.sqrt r)/2) :
+    (params d r mu).rK + 12*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+      (pgWidth d*(params d r mu).gammaBar) < Real.sqrt r := by
+  have hT := gammaBar_ratio hR
+  have hw := pgWidth_pos d
+  have hq := thr_q_pos d
+  rw [thr_key]
+  have h1 := mul_le_mul_of_nonneg_left hT (by positivity : (0:ℝ) ≤ 12/pgWidth d)
+  have h2 := mul_lt_mul_of_pos_right s8 hsq
+  have E : (pgScales d).k1*(r^2*Real.sqrt r)/2 +
+      12/pgWidth d*(Real.sqrt r*r^5/((pgScales d).G*(30/pgWidth d)^(1/2:ℝ))) =
+      ((pgScales d).k1*r^2/2 + 12/pgWidth d*(r^5/((pgScales d).G*(30/pgWidth d)^(1/2:ℝ))))*
+        Real.sqrt r := by ring
+  linarith
+
+theorem thr_e6 {d : PGData a b} {r mu : ℝ} (hR : ThrRange d r mu) (h0 : 0 < r)
+    (s9 : Real.sqrt 2*18/(pgOscRadius d*((pgScales d).G*(30/pgWidth d)^(1/2:ℝ)))*r^4 ≤
+      (pgScales d).k1) :
+    Real.sqrt 2 * (18*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+      (pgOscRadius d*(params d r mu).gammaBar)) ≤ (pgScales d).k1*r^(3/2:ℝ) := by
+  have hT := gammaBar_ratio hR
+  have hosc := pgOscRadius_pos d
+  have hq := thr_q_pos d
+  rw [thr_key, rpow_three_halves h0]
+  have hsq : 0 < Real.sqrt r := Real.sqrt_pos.2 h0
+  have h1 := mul_le_mul_of_nonneg_left hT (by positivity : 0 ≤ Real.sqrt 2*(18/pgOscRadius d))
+  have h3 := mul_le_mul_of_nonneg_right s9 (by positivity : 0 ≤ r*Real.sqrt r)
+  calc Real.sqrt 2 * (18/pgOscRadius d*((pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (params d r mu).gammaBar))
+      = Real.sqrt 2*(18/pgOscRadius d)*((pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (params d r mu).gammaBar) := by ring
+    _ ≤ Real.sqrt 2*(18/pgOscRadius d)*(Real.sqrt r*r^5/((pgScales d).G*(30/pgWidth d)^(1/2:ℝ))) :=
+        h1
+    _ = Real.sqrt 2*18/(pgOscRadius d*((pgScales d).G*(30/pgWidth d)^(1/2:ℝ)))*r^4*
+        (r*Real.sqrt r) := by ring
+    _ ≤ _ := h3
+
+theorem thr_dynamic {d : PGData a b} {r mu : ℝ} (hS : ThrStatic d r) (hSm : ThrSmall d r)
+    (hmu0 : 0 < mu) (hmu : mu < r^6/(Real.log (1/r))^(2*pgTau a b+2)) :
+    r < (pgAnalytic d).r1/2 ∧ r < pgOscRadius d/4 ∧
+      (params d r mu).Kbar*r^5 ≤ 1 ∧
+      (params d r mu).rhoBar*pgWidth d ≤ (pgOscRadius d)^2 ∧
+      (params d r mu).rK + 12*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (pgWidth d*(params d r mu).gammaBar) < Real.sqrt r ∧
+      Real.sqrt 2 * (18*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (pgOscRadius d*(params d r mu).gammaBar)) ≤ (pgScales d).k1*r^(3/2:ℝ) ∧
+      0 < (params d r mu).l1 ∧ (params d r mu).ell ≥ r^2/4 ∧
+      (params d r mu).rhoBar ≤ (pgAnalytic d).rho ∧
+      (params d r mu).l1 ≤ (params d r mu).rhoBar ∧
+      mu < (pgAnalytic d).muStar ∧ pgChat a b*(params d r mu).Ehat < 1 ∧
+      (params d r mu).rK < min (Real.sqrt r) ((params d r mu).l1) ∧
+      (params d r mu).rK < (params d r mu).rhoBar/2 ∧
+      ENNReal.ofReal (1/2)*volume d.V ≤ volume (innerCore d.V (Real.sqrt r)) ∧
+      ENNReal.ofReal (1/4)*volume d.V ≤ volume (checkedCore d r mu) := by
+  obtain ⟨h0, -, -, hrE, hr1, -, hLP, h8, hD, hA, hC⟩ := hS
+  obtain ⟨s1, s2, s3, s4, s5, s6, s7, s8, s9⟩ := hSm
+  have hR : ThrRange d r mu := ⟨h0, hrE.le, hmu0, hLP, hmu, h8⟩
+  have hw := pgWidth_pos d
+  have hk1 := pgScales_k1_pos d
+  have hG := pgScales_G_pos d
+  have hosc := pgOscRadius_pos d
+  have hsq : 0 < Real.sqrt r := Real.sqrt_pos.2 h0
+  have hs1 : Real.sqrt r < 1 := by rw [Real.sqrt_lt' one_pos]; simpa using hr1
+  have hss : Real.sqrt r ^ 2 = r := Real.sq_sqrt h0.le
+  have hrs : r < Real.sqrt r := by nlinarith
+  have hl1 : (params d r mu).l1 = (pgScales d).k1*(r^2*Real.sqrt r) := by
+    rw [params_l1, rpow_five_halves h0]
+  have hl1pos : 0 < (params d r mu).l1 := by rw [hl1]; positivity
+  have hell : (params d r mu).ell ≥ r^2/4 := by
+    rw [params_ell, hl1]
+    nlinarith [mul_le_mul_of_nonneg_left s7 (sq_nonneg r)]
+  have hl1le : (params d r mu).l1 ≤ r^2/12 := by
+    have := params_ell d r mu
+    linarith
+  have hr2 : r^2 < r := by nlinarith
+  have hl1s : (params d r mu).l1 < Real.sqrt r := by nlinarith
+  have hρ := rhoHat_pos d h0 mu
+  have hn : (1:ℝ) ≤ ((a+b:ℕ):ℝ) := by
+    have := d.ha; exact_mod_cast (by omega : 1 ≤ a+b)
+  have hrK : (params d r mu).rK < (params d r mu).l1/2 := by
+    have h1 := rK_lt (d := d) h0 mu
+    have h2 : (params d r mu).rhoHat/(256*((a+b:ℕ):ℝ)) ≤ (params d r mu).rhoHat :=
+      div_le_self hρ.le (by linarith)
+    have h3 := rhoHat_le_l1 d r mu
+    linarith
+  have hlr := l1_le_rhoBar d h0 hrE.le mu
+  have hbar := rhoBar_le hR
+  have hT := gammaBar_ratio hR
+  have hq : 0 < (pgScales d).G*(30/pgWidth d)^(1/2:ℝ) := by
+    have := one_le_pgKappa d
+    have : 0 < (30/pgWidth d)^(1/2:ℝ) := Real.rpow_pos_of_pos (by linarith) _
+    positivity
+  have e5 := thr_e5 hR hsq s8 (hl1 ▸ hrK)
+  have e6 := thr_e6 hR h0 s9
+  have e11 : mu < (pgAnalytic d).muStar := by
+    have hX : 1 ≤ (Real.log (1/r))^(2*pgTau a b+2) :=
+      Real.one_le_rpow (one_le_log_inv h0 hrE.le) (by linarith [pgTau_pos a b])
+    exact lt_of_lt_of_le hmu ((div_le_self (by positivity) hX).trans s6.le) |>.trans_le' le_rfl
+  obtain ⟨hv1, hv2⟩ := thr_volumes hR hD hA hC
+  exact ⟨s1, s2, by rw [params_Kbar]; exact s3,
+    (mul_le_mul_of_nonneg_right hbar hw.le).trans s4, e5, e6, hl1pos, hell, hbar.trans s5, hlr,
+    e11, chat_Ehat_lt h0 mu, lt_min (by linarith) (by linarith), by linarith, hv1, hv2⟩
+
 end KAM.Planetary
 
 end
