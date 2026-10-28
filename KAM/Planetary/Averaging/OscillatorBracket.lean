@@ -694,6 +694,152 @@ theorem ob_field {r rp rq S ρ ρp ρq σ E : ℝ} {φ : CHam (n + m)}
 
 end ObField
 
+section ObBracketAux
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)}
+
+/-- The four coordinate derivatives of a class function, in flat coordinates. -/
+theorem osc_deriv_eqs {r rp rq S : ℝ} {u : CHam (n + m)} (hu : oscClass D r rp rq S u)
+    {y : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ)}
+    (hy : y ∈ KAM.complexStrip n S ×ˢ oscParams (m := m) D r rp rq) :
+    (∀ j : Fin n, fderiv ℂ u (oscUnpack y) (Pi.single (Fin.castAdd m j) 1, 0) =
+      dtheta j (oscFunction u) y) ∧
+    (∀ j : Fin n, fderiv ℂ u (oscUnpack y) (0, Pi.single (Fin.castAdd m j) 1) =
+      dI (Fin.castAdd (m + m) j) (oscFunction u) y) ∧
+    (∀ j : Fin m, fderiv ℂ u (oscUnpack y) (0, Pi.single (Fin.natAdd n j) 1) =
+      dI (Fin.natAdd n (Fin.castAdd m j)) (oscFunction u) y) ∧
+    (∀ j : Fin m, fderiv ℂ u (oscUnpack y) (Pi.single (Fin.natAdd n j) 1, 0) =
+      dI (Fin.natAdd n (Fin.natAdd m j)) (oscFunction u) y) := by
+  refine ⟨fun j => ?_, fun j => ?_, fun j => ?_, fun j => ?_⟩
+  · have := fderiv_oscFunction hu hy (Pi.single (Fin.castAdd m j) 1, 0)
+    rw [oscPack_theta] at this
+    exact this.symm
+  · have := fderiv_oscFunction hu hy (0, Pi.single (Fin.castAdd m j) 1)
+    rw [oscPack_I] at this
+    exact this.symm
+  · have := fderiv_oscFunction hu hy (0, Pi.single (Fin.natAdd n j) 1)
+    rw [oscPack_p] at this
+    exact this.symm
+  · have := fderiv_oscFunction hu hy (Pi.single (Fin.natAdd n j) 1, 0)
+    rw [oscPack_q] at this
+    exact this.symm
+
+theorem comp_aux {c X d a b Mn : ℝ} (hc : 0 ≤ c) (hX : 0 ≤ X) (hd : 0 < d) (ha : 0 < a)
+    (hMn : 0 < Mn) (h : Mn ≤ a * b) : c * X / (d * a) ≤ c * (b / d) * X / Mn := by
+  rw [div_le_div_iff₀ (by positivity) hMn]
+  have : c * (b / d) * X * (d * a) = c * X * (a * b) := by field_simp
+  rw [this]
+  exact mul_le_mul_of_nonneg_left h (mul_nonneg hc hX)
+
+/-- The weighted sum is subadditive for finite linear combinations (coefficients are linear). -/
+theorem wsum_sum_le' {N : ℕ} {ι : Type*} [Fintype ι] {s : ℝ} {I : Fin N → ℂ} (a : ι → ℂ)
+    (g : ι → (Fin n → ℂ) × (Fin N → ℂ) → ℂ)
+    (hc : ∀ j, Continuous fun x : Fin n → ℝ => g j (fun l => (x l : ℂ), I))
+    (hg : ∀ j, WSummable (g j) s I) :
+    WSummable (fun z => ∑ j, a j * g j z) s I ∧
+      wsum (fun z => ∑ j, a j * g j z) s I ≤ ∑ j, ‖a j‖ * wsum (g j) s I := by
+  have hcoeff : ∀ k, coeff (fun z => ∑ j, a j * g j z) I k = ∑ j, a j * coeff (g j) I k :=
+    fun k => KAM.torusCoeff_finset_sum_mul Finset.univ hc a k
+  have hterm : ∀ k, ‖coeff (fun z => ∑ j, a j * g j z) I k‖ * modeWeight s k ≤
+      ∑ j, ‖a j‖ * (‖coeff (g j) I k‖ * modeWeight s k) := fun k => by
+    rw [hcoeff]
+    calc ‖∑ j, a j * coeff (g j) I k‖ * modeWeight s k
+        ≤ (∑ j, ‖a j * coeff (g j) I k‖) * modeWeight s k :=
+          mul_le_mul_of_nonneg_right (norm_sum_le _ _) (Real.exp_pos _).le
+      _ = ∑ j, ‖a j‖ * (‖coeff (g j) I k‖ * modeWeight s k) := by
+          rw [Finset.sum_mul]
+          exact Finset.sum_congr rfl fun j _ => by rw [norm_mul, mul_assoc]
+  have hsum : Summable fun k : Fin n → ℤ =>
+      ∑ j, ‖a j‖ * (‖coeff (g j) I k‖ * modeWeight s k) :=
+    summable_sum fun j _ => (hg j).mul_left _
+  have hnn : ∀ k : Fin n → ℤ, 0 ≤ ‖coeff (fun z => ∑ j, a j * g j z) I k‖ * modeWeight s k :=
+    fun k => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le
+  refine ⟨Summable.of_nonneg_of_le hnn hterm hsum, ?_⟩
+  unfold wsum
+  calc ∑' k, ‖coeff (fun z => ∑ j, a j * g j z) I k‖ * modeWeight s k
+      ≤ ∑' k, ∑ j, ‖a j‖ * (‖coeff (g j) I k‖ * modeWeight s k) :=
+        Summable.tsum_le_tsum hterm (Summable.of_nonneg_of_le hnn hterm hsum) hsum
+    _ = ∑ j, ‖a j‖ * ∑' k, ‖coeff (g j) I k‖ * modeWeight s k := by
+        rw [Summable.tsum_finsetSum fun j _ => (hg j).mul_left _]
+        exact Finset.sum_congr rfl fun j _ => tsum_mul_left
+
+end ObBracketAux
+
+section ObBracket
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)}
+
+theorem lineI' {a b c a₀ b₀ c₀ : ℝ} {x : Fin (n + (m + m)) → ℂ}
+    (hx : x ∈ oscParams (m := m) D a b c) (hb : b ≤ b₀) (hc : c ≤ c₀) (j : Fin n) {t : ℂ}
+    (ht : ‖t‖ < a₀ - a) :
+    x + t • Pi.single (Fin.castAdd (m + m) j) 1 ∈ oscParams (m := m) D a₀ b₀ c₀ := by
+  have h := line_I hx j ht
+  rw [add_sub_cancel] at h
+  exact oscParams_mono le_rfl hb hc h
+
+theorem lineP' {a b c a₀ b₀ c₀ : ℝ} {x : Fin (n + (m + m)) → ℂ}
+    (hx : x ∈ oscParams (m := m) D a b c) (ha : a ≤ a₀) (hc : c ≤ c₀) (j : Fin m) {t : ℂ}
+    (ht : ‖t‖ < b₀ - b) :
+    x + t • Pi.single (Fin.natAdd n (Fin.castAdd m j)) 1 ∈ oscParams (m := m) D a₀ b₀ c₀ := by
+  have h := line_p hx j ht
+  rw [add_sub_cancel] at h
+  exact oscParams_mono ha le_rfl hc h
+
+theorem lineQ' {a b c a₀ b₀ c₀ : ℝ} {x : Fin (n + (m + m)) → ℂ}
+    (hx : x ∈ oscParams (m := m) D a b c) (ha : a ≤ a₀) (hb : b ≤ b₀) (j : Fin m) {t : ℂ}
+    (ht : ‖t‖ < c₀ - c) :
+    x + t • Pi.single (Fin.natAdd n (Fin.natAdd m j)) 1 ∈ oscParams (m := m) D a₀ b₀ c₀ := by
+  have h := line_q hx j ht
+  rw [add_sub_cancel] at h
+  exact oscParams_mono ha hb le_rfl h
+
+/-- Index set and coefficients of the bracket as a signed finite sum of products. -/
+abbrev BIdx (n m : ℕ) := (Fin n ⊕ Fin n) ⊕ (Fin m ⊕ Fin m)
+
+def brCoeff : BIdx n m → ℂ :=
+  Sum.elim (Sum.elim (fun _ => 1) (fun _ => -1)) (Sum.elim (fun _ => 1) (fun _ => -1))
+
+def brFun (F G : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ) → ℂ) :
+    BIdx n m → (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ) → ℂ :=
+  Sum.elim
+    (Sum.elim (fun j y => dtheta j F y * dI (Fin.castAdd (m + m) j) G y)
+      (fun j y => dI (Fin.castAdd (m + m) j) F y * dtheta j G y))
+    (Sum.elim (fun j y => dI (Fin.natAdd n (Fin.natAdd m j)) F y *
+        dI (Fin.natAdd n (Fin.castAdd m j)) G y)
+      (fun j y => dI (Fin.natAdd n (Fin.castAdd m j)) F y *
+        dI (Fin.natAdd n (Fin.natAdd m j)) G y))
+
+theorem bracket_flat_eq {r₀ rp₀ rq₀ S₀ r rp rq S : ℝ} {u w : CHam (n + m)}
+    (hu : oscClass D r₀ rp₀ rq₀ S₀ u) (hw : oscClass D r rp rq S w)
+    {y : (Fin n → ℂ) × (Fin (n + (m + m)) → ℂ)}
+    (hyu : y ∈ KAM.complexStrip n S₀ ×ˢ oscParams (m := m) D r₀ rp₀ rq₀)
+    (hyw : y ∈ KAM.complexStrip n S ×ˢ oscParams (m := m) D r rp rq) :
+    oscFunction (poissonBracket u w) y =
+      ∑ ι, brCoeff ι * brFun (oscFunction u) (oscFunction w) ι y := by
+  obtain ⟨t1, t2, t3, t4⟩ := osc_deriv_eqs hu hyu
+  obtain ⟨s1, s2, s3, s4⟩ := osc_deriv_eqs hw hyw
+  show poissonBracket u w (oscUnpack y) = _
+  unfold poissonBracket
+  rw [Fin.sum_univ_add]
+  simp only [brCoeff, brFun, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr, one_mul,
+    neg_one_mul, Finset.sum_neg_distrib, t1, t2, t3, t4, s1, s2, s3, s4, Finset.sum_sub_distrib]
+  ring
+
+theorem prod_term {N : ℕ} {x : Fin N → ℂ} {δ s : ℝ} (hs : 0 < s) {f g : (Fin n → ℂ) × (Fin N → ℂ) → ℂ}
+    (hf : InClass ({x} : Set (Fin N → ℂ)) δ s f) (hg : InClass ({x} : Set (Fin N → ℂ)) δ s g)
+    (hx : x ∈ polyNbhd ({x} : Set (Fin N → ℂ)) δ) (hf' : WSummable f s x)
+    (hg' : WSummable g s x) :
+    Continuous (fun θ : Fin n → ℝ => (f (fun l => (θ l : ℂ), x) * g (fun l => (θ l : ℂ), x))) ∧
+      WSummable (fun z => f z * g z) s x ∧
+      wsum (fun z => f z * g z) s x ≤ wsum f s x * wsum g s x := by
+  obtain ⟨hcls, -, -, hws, hle⟩ := coeff_mul hs hf hg hx hf' hg'
+  refine ⟨?_, hws, hle⟩
+  exact (hcls.differentiableOn.continuousOn.comp_continuous
+    ((continuous_pi fun j => Complex.continuous_ofReal.comp (continuous_apply j)).prodMk
+      continuous_const) fun θ => ⟨KAM.ofReal_mem_complexStrip hs θ, hx⟩)
+
+end ObBracket
+
 end KAM.Planetary
 
 end
