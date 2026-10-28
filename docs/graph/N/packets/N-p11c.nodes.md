@@ -160,9 +160,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:conj
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: reExtMap, ExtConjHyp (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: data only; conjugation lemma not proved
+LEAN_STATUS: PROVED
+LEAN_REF: conj (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:cj
@@ -192,9 +192,9 @@ EDGE: bpN:p11:real-system | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: conj (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES; audit table maps step to conj proof
 NOTE: -
 
 NODE: bpN:p11:preimage
