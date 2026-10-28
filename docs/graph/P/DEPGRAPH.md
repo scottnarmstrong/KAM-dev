@@ -32595,9 +32595,9 @@ EDGE: bpP:p12:data | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:transport
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES
 NOTE: Theorem bpP:p1:torus-transport is explicitly not used (L138); edge dropped
 
 NODE: stepP:p12:tr-an
@@ -32632,9 +32632,9 @@ EDGE: bpP:p0:movham#movingHamiltonian | blueprint-P/parts/p12-planar-assembly.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step tr-an inside transport
 NOTE: -
 
 NODE: stepP:p12:tr-per
@@ -32662,9 +32662,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step tr-per inside transport
 NOTE: -
 
 NODE: stepP:p12:tr-inj
@@ -32693,9 +32693,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step tr-inj inside transport
 NOTE: -
 
 NODE: stepP:p12:tr-lag
@@ -32725,9 +32725,9 @@ EDGE: bpP:p1:ext-comp | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:tr-l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step tr-lag inside transport
 NOTE: -
 
 NODE: stepP:p12:tr-flow
@@ -32761,9 +32761,9 @@ EDGE: bpP:p0:movham#movingHamiltonian | blueprint-P/parts/p12-planar-assembly.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step tr-flow inside transport
 NOTE: -
 
 NODE: stepP:p12:tr-dio
@@ -32790,9 +32790,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step tr-dio inside transport
 NOTE: The optional pointer to dio-basic(a) is not used: tau>4 already implies tau>d-1=3 at the same exponent. No lowering argument or alternate route is required.
 
 NODE: bpP:p12:measure
@@ -32827,9 +32827,9 @@ EDGE: bpP:p0:circular#circularTube | blueprint-P/parts/p12-planar-assembly.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: measure, measure_in_tube (KAM/Planetary/PlanarAssembly/Measure.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p12:me-inv
@@ -32859,9 +32859,9 @@ EDGE: bpP:p12:chart#cylinder-domain | blueprint-P/parts/p12-planar-assembly.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cylinder_set_shift (KAM/Planetary/PlanarAssembly/Measure.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; named me-inv
 NOTE: -
 
 NODE: stepP:p12:me-cell
@@ -32891,9 +32891,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: measure (KAM/Planetary/PlanarAssembly/Measure.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step inside measure
 NOTE: -
 
 NODE: stepP:p12:me-meas
@@ -32925,9 +32925,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: measure (KAM/Planetary/PlanarAssembly/Measure.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; step inside measure
 NOTE: -
 
 NODE: stepP:p12:me-tube
@@ -32956,9 +32956,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: measure_in_tube (KAM/Planetary/PlanarAssembly/Measure.lean)
+LEAN_NOTE: audit P12-D PASS WITH NOTES; named me-tube
 NOTE: -
 
 NODE: bpP:p12:planar

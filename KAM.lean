@@ -561,6 +561,8 @@ public import KAM.Planetary.PGMeasure.Tonelli
 public import KAM.Planetary.PGMeasure.TwoScale
 public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
+public import KAM.Planetary.PlanarAssembly.Measure
+public import KAM.Planetary.PlanarAssembly.Transport
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
 public import KAM.Planetary.Poincare.D25
@@ -650,6 +652,16 @@ public import KAM.Planetary.TwoScale.IterationReal
 public import KAM.Planetary.TwoScale.IterationStage
 public import KAM.Planetary.TwoScale.LimitActions
 public import KAM.Planetary.TwoScale.LimitActionsChain
+public import KAM.Planetary.TwoScale.LimitMap
+public import KAM.Planetary.TwoScale.LimitMapDisp
+public import KAM.Planetary.TwoScale.LimitMapLimit
+public import KAM.Planetary.TwoScale.LimitMapLip
+public import KAM.Planetary.TwoScale.LimitMapPack
+public import KAM.Planetary.TwoScale.LimitMapPhi
+public import KAM.Planetary.TwoScale.LimitMapPsi
+public import KAM.Planetary.TwoScale.LimitMapReal
+public import KAM.Planetary.TwoScale.LimitMapScale
+public import KAM.Planetary.TwoScale.LimitMapStrip
 public import KAM.Planetary.TwoScale.Lipschitz
 public import KAM.Planetary.TwoScale.Period
 public import KAM.Planetary.TwoScale.RealDynamics
