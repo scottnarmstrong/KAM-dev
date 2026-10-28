@@ -147,7 +147,7 @@ theorem quarticCoeff_one :
       ((0 : Fin 2 → ℝ), s • (![1, 0] : Fin 2 → ℝ)) q.1 q.2 := by
     have := hcont _ hmem
     simpa only [pairKernel_eq_quarticPairKernel] using this
-  have hsw := pairSlowSecular_swap D i j I0 J0 (s • (![1, 0] : Fin 2 → ℝ)) hc
+  have hsw := q4_pairSlowSecular_swap D i j I0 J0 (s • (![1, 0] : Fin 2 → ℝ)) hc
   have h := hjet _ hu
   rw [planeLength_smul_e1, planeSq_smul_e1] at h
   rw [e1, ← hsw]

@@ -85,7 +85,7 @@ theorem q4_avg_finset_sum {ι : Type*} (s : Finset ι) {f : ι → Vec n → ℝ
   unfold avg
   rw [integral_finsetSum _ hf, Finset.smul_sum]
 
-theorem secular_eq_avg (D : Data n) (b : Bool) (x : Slow n) :
+theorem q4_secular_eq_avg (D : Data n) (b : Bool) (x : Slow n) :
     secular D b x = avg (fun t : Vec n => perturbation D b (assemble x.2.1 t x.2.2 x.1)) := rfl
 
 /-- The pair kernel: the inverse separation of planets `i`, `j` at their own angles. -/
@@ -139,7 +139,7 @@ theorem secular_false_eq_pairs (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r :
     {x : Slow n} (hx : x ∈ realDisc D a r) :
     secular D false x = ∑ i, ∑ j ∈ Finset.univ.filter (i < ·),
       pairSlowSecular D i j (x.2.1 i) (x.2.1 j) (![x.1 i, x.2.2 i], ![x.1 j, x.2.2 j]) := by
-  rw [secular_eq_avg]
+  rw [q4_secular_eq_avg]
   have e : (fun t : Vec n => perturbation D false (assemble x.2.1 t x.2.2 x.1)) =
       fun t => ∑ i, ∑ j ∈ Finset.univ.filter (i < ·), pairKernel D x i j (t i) (t j) :=
     funext fun t => perturbation_false_pairs D x t

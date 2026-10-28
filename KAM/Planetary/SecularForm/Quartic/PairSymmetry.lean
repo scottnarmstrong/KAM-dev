@@ -88,7 +88,7 @@ theorem pair_rot_invariant (θ : ℝ) :
   have e2 := hF _ hw.1
   simp only at e1 e2
   rw [e1, e2, pairEmb_rotW]
-  exact (evenness (pairData D i j) (hmem _ hw.1) false θ).2.2.2
+  exact (evenness (q4_pairData D i j) (hmem _ hw.1) false θ).2.2.2
 
 include hI hJ hab in
 theorem pair_refl_invariant :
@@ -100,7 +100,7 @@ theorem pair_refl_invariant :
   have e2 := hF _ hw.1
   simp only at e1 e2
   rw [e1, e2, pairEmb_reflW]
-  exact (evenness (pairData D i j) (hmem _ hw.1) false 0).2.1
+  exact (evenness (q4_pairData D i j) (hmem _ hw.1) false 0).2.1
 
 end SecularForm
 end KAM.Planetary

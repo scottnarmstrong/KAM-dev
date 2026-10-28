@@ -51,12 +51,12 @@ theorem pairSlowSecular_eq_kernel (D : Data n) (i j : Fin n) (I J : ℝ) (w : Pa
 
 theorem pairKernel_eq_quarticPairKernel (D : Data n) (i j : Fin n) (I J : ℝ) (w : PairW)
     (s t : ℝ) :
-    pairKernel (pairData D i j) (pairEmb ((I, J), w)) 0 1 s t =
+    pairKernel (q4_pairData D i j) (pairEmb ((I, J), w)) 0 1 s t =
       quarticPairKernel D i j I J w s t := by
-  simp [pairKernel, quarticPairKernel, ppos, blk, pairEmb_apply, pairData]
+  simp [pairKernel, quarticPairKernel, ppos, blk, pairEmb_apply, q4_pairData]
 
 /-- Exchanging the two planets of a pair. -/
-theorem pairSlowSecular_swap (D : Data n) (i j : Fin n) (I J : ℝ) (u : Fin 2 → ℝ)
+theorem q4_pairSlowSecular_swap (D : Data n) (i j : Fin n) (I J : ℝ) (u : Fin 2 → ℝ)
     (hc : Continuous fun q : ℝ × ℝ => quarticPairKernel D i j I J (0, u) q.1 q.2) :
     pairSlowSecular D j i J I (u, 0) = pairSlowSecular D i j I J (0, u) := by
   have hk : ∀ s t, quarticPairKernel D j i J I (u, 0) s t =

@@ -71,7 +71,7 @@ include hI hJ hab in
 theorem analyticAt_pairQuartic (w : PairW) :
     AnalyticAt ℝ (fun IJ : ℝ × ℝ => pairQuartic D i j IJ.1 IJ.2 w) (I0, J0) := by
   obtain ⟨N, hN, h0, -, hF, hA, -⟩ := pair_secular_nbhd D i j hI hJ hab
-  set Gs : (ℝ × ℝ) × PairW → ℝ := fun p => secular (pairData D i j) false (pairEmb p) with hGs
+  set Gs : (ℝ × ℝ) × PairW → ℝ := fun p => secular (q4_pairData D i j) false (pairEmb p) with hGs
   let v : Fin 4 → (ℝ × ℝ) × PairW := fun _ => ((0 : ℝ × ℝ), w)
   have hJ4 : AnalyticOnNhd ℝ (fun x => iteratedFDeriv ℝ 4 Gs x v) N := fun x hx =>
     ((ContinuousMultilinearMap.apply ℝ (fun _ : Fin 4 => (ℝ × ℝ) × PairW) ℝ v).analyticAt _).comp

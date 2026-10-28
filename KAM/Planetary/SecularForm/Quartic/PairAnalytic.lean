@@ -27,7 +27,7 @@ namespace SecularForm
 variable {n : ℕ}
 
 /-- The two-planet data of the pair `(i, j)`. -/
-def pairData (D : Data n) (i j : Fin n) : Data 2 where
+def q4_pairData (D : Data n) (i j : Fin n) : Data 2 where
   G := D.G
   m0 := D.m0
   m := ![D.m i, D.m j]
@@ -55,10 +55,10 @@ theorem pairEmb_apply (p : (ℝ × ℝ) × ((Fin 2 → ℝ) × (Fin 2 → ℝ)))
 theorem vec2_eta (u : Fin 2 → ℝ) : (![u 0, u 1] : Fin 2 → ℝ) = u := by
   ext k; fin_cases k <;> rfl
 
-theorem pairSlowSecular_pairData (D : Data n) (i j : Fin n) (I J : ℝ)
+theorem q4_pairSlowSecular_pairData (D : Data n) (i j : Fin n) (I J : ℝ)
     (w : (Fin 2 → ℝ) × (Fin 2 → ℝ)) :
-    pairSlowSecular (pairData D i j) 0 1 I J w = pairSlowSecular D i j I J w := by
-  simp [pairSlowSecular, pairData]
+    pairSlowSecular (q4_pairData D i j) 0 1 I J w = pairSlowSecular D i j I J w := by
+  simp [pairSlowSecular, q4_pairData]
 
 theorem q4_action_axis (D : Data n) {I : Vec n} (hI : ∀ i, 0 < I i) : action D (axis D I) = I := by
   have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
@@ -82,13 +82,13 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
     (hJ : 0 < J0)
     (hab : I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) < J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))) :
     ∃ N : Set ((ℝ × ℝ) × ((Fin 2 → ℝ) × (Fin 2 → ℝ))), IsOpen N ∧ ((I0, J0), 0) ∈ N ∧
-      (∀ p ∈ N, pairEmb p ∈ slowDom (pairData D i j)) ∧
+      (∀ p ∈ N, pairEmb p ∈ slowDom (q4_pairData D i j)) ∧
       (∀ p ∈ N, pairSlowSecular D i j p.1.1 p.1.2 p.2 =
-        secular (pairData D i j) false (pairEmb p)) ∧
-      (AnalyticOnNhd ℝ (fun p => secular (pairData D i j) false (pairEmb p)) N ∧
+        secular (q4_pairData D i j) false (pairEmb p)) ∧
+      (AnalyticOnNhd ℝ (fun p => secular (q4_pairData D i j) false (pairEmb p)) N ∧
         ∀ p ∈ N, Continuous fun q : ℝ × ℝ =>
-          pairKernel (pairData D i j) (pairEmb p) 0 1 q.1 q.2) := by
-  set D2 := pairData D i j with hD2
+          pairKernel (q4_pairData D i j) (pairEmb p) 0 1 q.1 q.2) := by
+  set D2 := q4_pairData D i j with hD2
   set a2 : Vec 2 := axis D2 ![I0, J0] with ha2
   have hpos : ∀ k, 0 < (![I0, J0] : Vec 2) k := fun k => by fin_cases k <;> simpa
   have hmono : ∀ k l : Fin 2, k < l → axis D2 ![I0, J0] k < axis D2 ![I0, J0] l := by
@@ -96,7 +96,7 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
     have : k = 0 ∧ l = 1 := by
       fin_cases k <;> fin_cases l <;> simp_all
     obtain ⟨rfl, rfl⟩ := this
-    simpa [axis, hD2, pairData] using hab
+    simpa [axis, hD2, q4_pairData] using hab
   have ha : a2 ∈ axes 2 := axis_mem_axes D2 hpos hmono
   have hact : action D2 a2 = ![I0, J0] := q4_action_axis D2 hpos
   obtain ⟨r, hr, hrho, hsep, hb⟩ := perturbation_analytic D2 ha
@@ -117,7 +117,7 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
   simp only [Fin.sum_univ_two, pairEmb_apply, h0, h1, Finset.sum_singleton,
     Finset.sum_empty, add_zero]
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, vec2_eta, Prod.mk.eta]
-  exact (pairSlowSecular_pairData D i j _ _ _).symm
+  exact (q4_pairSlowSecular_pairData D i j _ _ _).symm
 
 theorem q4_analyticAt_pairSlowSecular (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
     (hJ : 0 < J0)
