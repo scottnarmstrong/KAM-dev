@@ -10,7 +10,8 @@ public import KAM.Planetary.WeakKAM.ExtensionStage
 /-! # P11B finite extension: the real frequency map
 
 For a function `h` holomorphic on an open set `A ⊆ ℂⁿ`, the real frequency map `frequencyMap h` is
-the real part of the complex gradient at real points of `A`, and is smooth on the real points of `A`.
+the real part of the complex gradient at real points of `A`, and is smooth on the real points of
+`A`.
 -/
 
 @[expose] public noncomputable section
