@@ -104,7 +104,8 @@ theorem p11dg_eq_selectionDGVector (f : SelectionR n → SelectionR n) (j : ℕ)
   unfold p11dg selectionDGVector
   simp only [selectionLength_fun_eq]
 
-theorem p11dg_scalar_eq_selectionDG {j : ℕ} {y : SelectionR n} (g : SelectionR n → ℝ) (hg : ContDiffAt ℝ j g y) :
+theorem p11dg_scalar_eq_selectionDG {j : ℕ} {y : SelectionR n}
+    (g : SelectionR n → ℝ) (hg : ContDiffAt ℝ j g y) :
     p11dg (fun x => (fun _ : Fin 1 => g x)) j y = selectionDG j g y := by
   unfold p11dg selectionDG
   simp only [selectionLength_fun_eq]

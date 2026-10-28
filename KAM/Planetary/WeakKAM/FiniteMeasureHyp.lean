@@ -39,7 +39,8 @@ theorem selectionDGVector_le_sqrt_mul_norm (hn : 1 ≤ n) (f : SelectionR n → 
   refine mul_le_mul_of_nonneg_left ?_ (Real.sqrt_nonneg _)
   refine (ContinuousMultilinearMap.le_opNorm _ _).trans ?_
   have : ∏ _i : Fin j, ‖a‖ ≤ 1 :=
-    Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) fun _ _ => norm_le_one_of_selectionLength_eq_one ha
+    Finset.prod_le_one₀ (fun _ _ => norm_nonneg _)
+      fun _ _ => norm_le_one_of_selectionLength_eq_one ha
   exact mul_le_of_le_one_right (norm_nonneg _) this
 
 theorem selectionM₀_bddAbove (d : SelectionData n) :
@@ -116,7 +117,8 @@ theorem selectionDioHyp (d : SelectionData n) (wt : (Fin n → ℤ) → Selectio
     obtain ⟨j, hj, hjb⟩ := d.finite_type c hcl y hy
     have hsc : ContDiffOn ℝ d.μ (selectionScalar d.ρ (frequencyMap d.h) c) (selectionV d) :=
       (contDiffOn_p11dot hw c).pow d.ρ
-    have hg := hat hsc hj y (selectionThick_subset_V d (K_subset_selectionThick d.K d.theta_pos.le hy))
+    have hg := hat hsc hj y (selectionThick_subset_V d
+      (K_subset_selectionThick d.K d.theta_pos.le hy))
     refine hjb.trans ?_
     rw [← p11dg_scalar_eq_selectionDG _ hg]
     exact le_p11maxJet _ _ d.μ hj
