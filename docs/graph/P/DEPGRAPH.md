@@ -9,8 +9,8 @@ EXTERNAL_POLICY: track-P external inputs are the labelled items of the parts' ex
 FROZEN_ANCHORS: bpP:p0:diophantine#IsDiophantine, bpP:p0:hamsymp#hamiltonianVectorField, bpP:p0:hamsymp#symplecticForm, bpP:p0:phase#Phase, bpP:p0:plane#planeSq, bpP:p0:plane#planeLength, bpP:p0:plane#planeDot, bpP:p0:body#bodyVector, bpP:p0:blocks#fast, bpP:p0:blocks#slow, bpP:p0:blocks#assemble, bpP:p0:oscaction#oscillatorAction, bpP:p0:fastshift#fastShift, bpP:p0:fastfreq#fastFrequency, bpP:p0:cylinder#cylinder, bpP:p0:cylinder#cylinderCell, bpP:p0:degham#degenerateHamiltonian, bpP:p0:secavg#secularAverage, bpP:p0:fastdiffeo#HasFastDiffeomorphism, bpP:p0:birkhoff#HasSecularBirkhoffForm, bpP:p0:cyltorus#IsCylinderTorus, bpP:p0:cylkol#IsCylinderKolmogorovSet, bpP:p0:circular#circularPoint, bpP:p0:circular#circularTube, bpP:p0:nocoll#NoCollision, bpP:p0:nocoll#PairBounds, bpP:p0:barycentric#actualMasses, bpP:p0:barycentric#barycentricPositions, bpP:p0:barycentric#barycentricVelocities, bpP:p0:newton#IsNewtonSolution, bpP:p0:fixedsol#IsFixedSolution, bpP:p0:movham#movingHamiltonian, bpP:p0:fixham#fixedHamiltonian, bpP:p0:phystorus#IsPhysicalTorus, bpP:p0:movkol#MovingKolmogorovSet, bpP:p0:fixkol#FixedKolmogorovSet, bpP:p0:pg, bpP:p0:planar, bpP:p0:fixed, bpP:p0:d25-cross#planeCross, bpP:p0:d25-kepler#keplerEnergy, bpP:p0:d25-kepler#keplerAxis, bpP:p0:d25-kepler#keplerAction, bpP:p0:d25-kepler#keplerEccVector, bpP:p0:d25-amd#totalMomentum, bpP:p0:d25-amd#physicalAMD, bpP:p0:d25-prograde#ProgradeElliptic, bpP:p0:d25-lowamd#LowAMDRegion, bpP:p0:d25-box#AMDBox, bpP:p0:d25-box#Admissible, bpP:p0:d25-movsol#IsMovingSolutionOn, bpP:p0:d25-movsol#IsHamiltonianSolutionOn, bpP:p0:d25-newton#IsNewtonSolutionOn, bpP:p0:d25-unique#MovingUniqueOn, bpP:p0:d25-stopped#StoppedActionBound, bpP:p0:d25-exponents#planetaryTimeExponent, bpP:p0:d25-exponents#planetaryDriftExponent, bpP:p0:amd, bpP:p0:expsafe, bpP:p14:sb-conv#secularGamma, bpP:p14:sb-conv#secularAMD, bpP:p14:sb-conv#secularRoot, bpP:p14:sb-conv#secularEccVector, bpP:p14:sb-conv#secularAxis, bpP:p14:sb-conv#orbitalUnit, bpP:p14:sb-conv#quarterTurn, bpP:p14:sb-defs#secularIntegrand, bpP:p14:sb-defs#exactSecularHamiltonian, bpP:p14:sb-defs#ellipsePhase, bpP:p14:sb-defs#ellipsePosition, bpP:p14:sb-defs#ellipseMomentum, bpP:p14:sb-defs#longitudeJacobian, bpP:p14:sb-box#SecularInputBox, bpP:p14:sb-box#jupiterSaturnWeights, bpP:p14:sb-regular#SecularRegular, bpP:p14:sb-safety, bpP:p14:sb-cited
 FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:5d8d31f1cc70c3cc67375ab28562e4fd4280215c7455dd329004c4dcd7a2f6fa
 WRITER: claude-suborch-INP
-GLOBAL_REVIEWER: -
-GLOBAL_REVIEW_REF: -
+GLOBAL_REVIEWER: sol-global-P
+GLOBAL_REVIEW_REF: docs/graph/P/reviews/GLOBAL-review.md (FAIL G1/G2 repaired; delta docs/graph/P/reviews/P-p8-delta-global.md PASS by sol-delta-P-bf)
 
 The dependency direction is `NODE -> prerequisite`. Node blocks are assembled from `docs/graph/P/packets/<slice>.nodes.md`; edit those, then re-run `inp_depgraph_assemble.py` (orchestrator-tools).
 
@@ -14883,7 +14883,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpP:p7:holomorphic, stepP:p8:pa-circ, bpP:p7:o-facts, bpP:p7:poincare, bpP:p8:rho, bpP:p6:domain, bpP:p8:conv#data
+DEPS: bpP:p7:holomorphic, stepP:p8:pa-circ, bpP:p7:o-facts, bpP:p7:poincare, bpP:p8:rho, bpP:p6:domain, bpP:p8:conv#data, bpP:p12:f-unif
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpP:p7:holomorphic | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | s_ij holomorphic on N(rho_0), Psi real at real points
@@ -14893,9 +14893,10 @@ EDGE: bpP:p7:poincare | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L
 EDGE: bpP:p8:rho | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | rho_0 and the polydisc N(rho_0/2)
 EDGE: bpP:p6:domain | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | NoColl and W (a: Psi in W)
 EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | N(rho), R^n torus domain
+EDGE: bpP:p12:f-unif | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L49-L49 | Heine-Cantor on the compact angle cell times the closed complex polydisc supplies uniform continuity and one collision-free radius rho_* for all real angles and pairs
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
-REVIEWER: sol-review-P-j
+REVIEWER: sol-delta-P-bf
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -15306,14 +15307,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpP:p7:poincare, stepP:p8:l64-a
+DEPS: bpP:p7:poincare, stepP:p8:l64-a, K:bp:p1:ext-integral
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpP:p7:poincare | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-b@L102-L102 | (a): q^(i) real analytic and 2pi-periodic in lambda_i
 EDGE: stepP:p8:l64-a | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-b@L102-L102 | p^(i)=m_i nu_i d_{lambda_i} q^(i)
+EDGE: K:bp:p1:ext-integral | blueprint-P/parts/p8-secular-form.tex#stepP:p8:l64-b@L102-L102 | the fundamental theorem of calculus integrates the C1 periodic position derivative to q(2 pi)-q(0)=0, giving zero mean momentum through p=m nu partial_lambda q
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
-REVIEWER: sol-review-P-j
+REVIEWER: sol-delta-P-bf
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -41526,4 +41528,417 @@ LEAN_NOTE: -
 NOTE: IMPORTED: external input of the track-K graph, node bp:p1:ext-integral (Mathlib-level; not re-proved there either); shared Lean provider. There: KIND external, contract bp:p1:ext-integral v1.
 
 <!-- BEGIN PROOF DEPGRAPH GENERATED -->
+Regenerated by `proof_depgraph.py`; do not hand-edit.
+
+### Dashboard
+
+* Total nodes: **1363**
+* Frozen anchors: **77**
+* Versioned statement contracts: **1363**
+* Total edges: **6073**
+* Root-closure nodes: **1363**
+* Dependency leaves in root closure: **181**
+* Assumption boundary leaves: **0**
+* External boundary leaves: **147**
+* Alternative routes: **6**
+* Topology review queue: **0**
+* Explicit source gaps: **34**
+* Coverage items: **2095**; excluded: **697**
+
+### Roots
+
+* `bpP:p0:pg` [REVIEWED; frozen] — contract `planetary.properlyDegenerateKAM@1`
+* `bpP:p0:planar` [REVIEWED; frozen] — contract `planetary.planarTwoPlanetKAM@1`
+* `bpP:p0:fixed` [REVIEWED; frozen] — contract `planetary.fixedSunPlanetaryKAM@1`
+* `bpP:p0:amd` [REVIEWED; frozen] — contract `planetary.d25.amdConfinement@1`
+* `bpP:p0:expsafe` [REVIEWED; frozen] — contract `planetary.d25.planetaryExponentialSafety@1`
+* `bpP:p14:sb-safety` [REVIEWED; frozen] — contract `planetary.d25.secularBoxSafety@1`
+* `bpP:p14:sb-cited` [REVIEWED; frozen] — contract `planetary.d25.secularBoxAtCitedMasses@1`
+
+### Topology review queue
+
+* _(none)_
+
+### Dependency leaves in root closure
+
+* `I:bpI:p7:chart` [REVIEWED] — [I] Delaunay chart
+* `I:bpI:p7:elements` [REVIEWED] — [I] Kepler region and elements
+* `I:bpI:p7:kepler-eq` [REVIEWED] — [I] Kepler's equation, analytic solution
+* `I:bpI:p7:orbit-identities` [REVIEWED] — [I] Identities for the orbit maps
+* `I:bpI:p7:orbit-maps` [REVIEWED] — [I] Orbit maps
+* `I:bpI:p7:symplectic` [REVIEWED] — [I] The Delaunay map is symplectic
+* `I:bpI:p7:x-forms` [REVIEWED] — [I] Exterior calculus on open subsets of $\R^m$
+* `I:bpI:p7:x-hol` [REVIEWED] — [I] Holomorphic functions of several variables
+* `I:bpI:p7:x-weier` [REVIEWED] — [I] Weierstrass
+* `I:stepI:p7:ke-trig` [REVIEWED] — [I] Trigonometric bounds
+* `K:bp:p0:domains#complexStrip` [REVIEWED] — [K] Complex neighbourhoods and the fundamental domain: KAM.complexStrip
+* `K:bp:p1:cauchy-open` [REVIEWED] — [K] Cauchy estimate on open sets
+* `K:bp:p1:cauchy-strip` [REVIEWED] — [K] Cauchy estimate on strips
+* `K:bp:p1:decay` [REVIEWED] — [K] Coefficient decay
+* `K:bp:p1:exp-sums` [REVIEWED] — [K] Exponential sums over $\Z^n$
+* `K:bp:p1:ext-banach` [REVIEWED] — [K] Banach's fixed point theorem
+* `K:bp:p1:ext-cauchy` [REVIEWED] — [K] Cauchy's formulas in one variable
+* `K:bp:p1:ext-cramer` [REVIEWED] — [K] Cramer's rule
+* `K:bp:p1:ext-fourier` [REVIEWED] — [K] Fourier series on the torus
+* `K:bp:p1:ext-integral` [REVIEWED] — [K] Integrals
+* `K:bp:p1:ext-lebesgue` [REVIEWED] — [K] Lebesgue outer measure
+* `K:bp:p1:ext-measure` [REVIEWED] — [K] (E11) Lebesgue measure on products and boxes
+* `K:bp:p1:ext-mvt` [REVIEWED] — [K] Mean value inequality
+* `K:bp:p1:ext-rectangle` [REVIEWED] — [K] Cauchy's theorem for rectangles
+* `K:bp:p1:fourier-basic` [REVIEWED] — [K] Fourier coefficients of periodic functions
+* `K:bp:p1:holomorphic-analytic` [REVIEWED] — [K] Holomorphic maps are analytic
+* `K:bp:p1:lip-image` [REVIEWED] — [K] Lipschitz images and preimages
+* `K:bp:p1:lipeo` [REVIEWED] — [K] Lipeomorphisms
+* `K:bp:p1:mcshane` [REVIEWED] — [K] McShane extension
+* `K:bp:p1:real-restriction` [REVIEWED] — [K] Real restriction
+* `K:bp:p1:summation` [REVIEWED] — [K] Summation
+* `K:bp:p1:uniform-limits` [REVIEWED] — [K] Uniform limits
+* `K:bp:p4:lattice-count` [REVIEWED] — [K] Counting lattice points on $\ell^1$ spheres
+* `K:bp:p4:lattice-sum` [REVIEWED] — [K] Lattice sum
+* `N:bpN:p0:actionnbhd#actionNbhd` [REVIEWED] — [N] Complex action neighbourhood: KAM.actionNbhd
+* `N:bpN:p0:partial` [REVIEWED] — [N] N-PARTIAL-CONVEX: exponential stability of the fast actions, definite fast part, slow--fast
+* `N:bpN:p0:partial-complexify#complexifyPhase` [REVIEWED] — [N] \Lean{complexifyPhase}: KAM.Nekhoroshev.complexifyPhase
+* `N:bpN:p0:partial-core#innerCore` [REVIEWED] — [N] \Lean{innerCore}: closed max-norm erosion: KAM.Nekhoroshev.innerCore
+* `N:bpN:p0:partial-definite#HasDefiniteFastPart` [REVIEWED] — [N] \Lean{HasDefiniteFastPart}: KAM.Nekhoroshev.HasDefiniteFastPart
+* `N:bpN:p0:partial-domain#partialComplexDomain` [REVIEWED] — [N] \Lean{partialComplexDomain}: KAM.Nekhoroshev.partialComplexDomain
+* `N:bpN:p0:partial-exponents#partialDriftExponent` [REVIEWED] — [N] \Lean{partialTimeExponent}, \Lean{partialDriftExponent}: KAM.Nekhoroshev.partialDriftExponent
+* `N:bpN:p0:partial-exponents#partialTimeExponent` [REVIEWED] — [N] \Lean{partialTimeExponent}, \Lean{partialDriftExponent}: KAM.Nekhoroshev.partialTimeExponent
+* `N:bpN:p0:partial-pert#IsPartialPerturbation` [REVIEWED] — [N] \Lean{IsPartialPerturbation}: KAM.Nekhoroshev.IsPartialPerturbation
+* `N:bpN:p0:sol#IsSolutionOn` [REVIEWED] — [N] Solutions on a time set: KAM.Nekhoroshev.IsSolutionOn
+* `N:bpN:p3:gen-continuation` [REVIEWED] — [N] Continuation criterion, uniform form
+* `N:bpN:p3:gen-continuation-compact` [REVIEWED] — [N] Compact continuation
+* `N:bpN:p3:gen-exit` [REVIEWED] — [N] First exit
+* `N:bpN:p3:gen-lip` [REVIEWED] — [N] Bounds and Lipschitz constants on compact sets
+* `N:bpN:p3:gen-maximal` [REVIEWED] — [N] Maximal solution
+* `N:bpN:p3:gen-sol` [REVIEWED] — [N] Solutions in $W$
+* `N:bpN:p3:gen-symmetry` [REVIEWED] — [N] Symmetries
+* `N:bpN:p3:gen-uniform` [REVIEWED] — [N] Uniform data
+* `N:bpN:p3:gen-uniqueness` [REVIEWED] — [N] Uniqueness on arbitrary intervals
+* `N:bpN:p3:ham-smooth` [REVIEWED] — [N] Regularity of $X_H$
+* `N:bpN:p4:algebra` [REVIEWED] — [N] B.2
+* `N:bpN:p4:cauchy` [REVIEWED] — [N] B.3
+* `N:bpN:p4:coefficients` [REVIEWED] — [N] Coefficients, derivatives, series
+* `N:bpN:p4:domains` [REVIEWED] — [N] Domains
+* `N:bpN:p4:ext-param` [REVIEWED] — [N] Holomorphic dependence on a parameter
+* `N:bpN:p4:general-cauchy` [REVIEWED] — [N] C.1
+* `N:bpN:p4:norm` [REVIEWED] — [N] The class $\Os rs$ and the weighted norm
+* `N:bpN:p4:projections` [REVIEWED] — [N] $P_S$, $T_K$, averages
+* `N:bpN:p4:sup-weighted` [REVIEWED] — [N] B.1
+* `N:bpN:p5:adjoint` [REVIEWED] — [N] Iterated brackets
+* `N:bpN:p5:canonical` [REVIEWED] — [N] Canonical maps: bracket invariance and conjugation
+* `N:bpN:p5:canonical-map` [REVIEWED] — [N] Iterative-Lemma package for $\Phi$
+* `N:bpN:p5:composition` [REVIEWED] — [N] Lemma B.5: $\abs{u\circ X^1_\phi}\le(1-\eta)^{-1}\abs u$
+* `N:bpN:p5:composition-integral` [REVIEWED] — [N] Integral remainders in the weighted norm
+* `N:bpN:p5:flow` [REVIEWED] — [N] Flow of a small holomorphic field
+* `N:bpN:p5:lie-derivative` [REVIEWED] — [N] Derivative along the flow
+* `N:bpN:p5:setting` [REVIEWED] — [N] Hamiltonian field, bracket, scaled norm
+* `N:bpN:p5:symplectic` [REVIEWED] — [N] Symplectic flow
+* `N:bpN:p5:taylor` [REVIEWED] — [N] Taylor with integral remainder along the flow
+* `N:bpN:p5:transform` [REVIEWED] — [N] Lie transform with first-order remainder, in the weighted norm
+* `N:bpN:p5:vf-bound` [REVIEWED] — [N] Size of the field
+* `N:bpN:p6:divisor` [REVIEWED] — [N] Divisor bound
+* `N:bpN:p6:ext-numerics` [REVIEWED] — [N] Numerics
+* `N:bpN:p6:homological` [REVIEWED] — [N] Homological equation
+* `N:bpN:p6:iterative` [REVIEWED] — [N] Iterative Lemma
+* `N:bpN:p6:setting` [REVIEWED] — [N] Resonant setting
+* `N:bpN:p6:telescope` [REVIEWED] — [N] Telescoping
+* `bpI:p7:x-change` [REVIEWED] — Change of variables in R
+* `bpP:p0:barycentric#actualMasses` [REVIEWED] — Actual masses, barycentric reconstruction: KAM.Planetary.actualMasses
+* `bpP:p0:blocks#fast` [REVIEWED] — Fast and slow blocks, assembly: KAM.Planetary.fast
+* `bpP:p0:blocks#slow` [REVIEWED] — Fast and slow blocks, assembly: KAM.Planetary.slow
+* `bpP:p0:body#bodyVector` [REVIEWED] — Body vectors: KAM.Planetary.bodyVector
+* `bpP:p0:d25-box#AMDBox` [REVIEWED] — Geometric data $\mathcal B$ and admissibility: KAM.Planetary.AMDBox
+* `bpP:p0:d25-cross#planeCross` [REVIEWED] — Planar cross product: KAM.Planetary.planeCross
+* `bpP:p0:d25-exponents#planetaryTimeExponent` [REVIEWED] — Exponents: KAM.Planetary.planetaryTimeExponent
+* `bpP:p0:diophantine#IsDiophantine` [REVIEWED] — Diophantine vectors: KAM.IsDiophantine
+* `bpP:p0:fastfreq#fastFrequency` [REVIEWED] — Fast frequency map: KAM.Planetary.fastFrequency
+* `bpP:p0:hamsymp#hamiltonianVectorField` [REVIEWED] — Hamiltonian vector field and symplectic form: KAM.hamiltonianVectorField
+* `bpP:p0:hamsymp#symplecticForm` [REVIEWED] — Hamiltonian vector field and symplectic form: KAM.symplecticForm
+* `bpP:p0:oscaction#oscillatorAction` [REVIEWED] — Oscillator actions: KAM.Planetary.oscillatorAction
+* `bpP:p0:phase#Phase` [REVIEWED] — Phase space: KAM.Planetary.Phase
+* `bpP:p0:plane#planeDot` [REVIEWED] — Planar length and scalar product: KAM.Planetary.planeDot
+* `bpP:p0:plane#planeSq` [REVIEWED] — Planar length and scalar product: KAM.Planetary.planeSq
+* `bpP:p10:f-fts` [REVIEWED] — bpP:p10:f-fts
+* `bpP:p10:f-id` [REVIEWED] — Identity theorem and integral domain
+* `bpP:p10:f-leib` [REVIEWED] — bpP:p10:f-leib
+* `bpP:p10:f-pol` [REVIEWED] — Polarization
+* `bpP:p10:rnd-def` [REVIEWED] — R\"ussmann nondegeneracy
+* `bpP:p11:e4` [REVIEWED] — Logarithmic asymptotics
+* `bpP:p11:e5` [REVIEWED] — Termwise integration and trigonometric moments
+* `bpP:p11a:c2-conv#data` [REVIEWED] — Section data: variables, norms, thickening
+* `bpP:p11a:conv#data` [REVIEWED] — Section data: dimensions, norms, derivative tensors
+* `bpP:p11a:f-leib` [REVIEWED] — Leibniz formula
+* `bpP:p11a:f-meas` [REVIEWED] — Lebesgue measure
+* `bpP:p11a:f-mvt` [REVIEWED] — Mean value inequality
+* `bpP:p11a:f-orth` [REVIEWED] — Orthonormal completion
+* `bpP:p11a:f-rolle` [REVIEWED] — Rolle and Lagrange interpolation
+* `bpP:p11a:x-cauchy` [REVIEWED] — Cauchy coefficient estimate in one variable
+* `bpP:p11a:x-duality` [REVIEWED] — bpP:p11a:x-duality
+* `bpP:p11a:x-ode` [REVIEWED] — bpP:p11a:x-ode
+* `bpP:p11a:y-conv` [REVIEWED] — (Y2) Convolution with a compactly supported C^k kernel
+* `bpP:p11a:y-down` [REVIEWED] — (Y3) Continuity of measure from above
+* `bpP:p11a:y-geom` [REVIEWED] — (Y4) Geometric series
+* `bpP:p11a:y-log` [REVIEWED] — (Y1) Tangent line of the logarithm
+* `bpP:p11a:z-chain` [REVIEWED] — (Z1) Chain rule, operator norms, exponential inequalities
+* `bpP:p11a:z-compact` [REVIEWED] — (Z2) Compactness and F_sigma facts
+* `bpP:p11a:z-uniform` [REVIEWED] — (Z3) Uniform Cauchy sequences and Lipschitz maps on convex sets
+* `bpP:p11b:e-ca` [REVIEWED] — Finite exact computation
+* `bpP:p11b:e-ode` [REVIEWED] — Analytic ODE
+* `bpP:p12:f-mono` [REVIEWED] — bpP:p12:f-mono
+* `bpP:p12:f-unif` [REVIEWED] — bpP:p12:f-unif
+* `bpP:p14:sb-box#jupiterSaturnWeights` [REVIEWED] — \texttt{SecularInputBox}: KAM.Planetary.jupiterSaturnWeights
+* `bpP:p14:sb-conv#orbitalUnit` [REVIEWED] — prose transcription: KAM.Planetary.orbitalUnit
+* `bpP:p14:sb-conv#quarterTurn` [REVIEWED] — prose transcription: KAM.Planetary.quarterTurn
+* `bpP:p14:sb-x-alg` [REVIEWED] — bpP:p14:sb-x-alg
+* `bpP:p14:sb-x-calc` [REVIEWED] — bpP:p14:sb-x-calc
+* `bpP:p14:sb-x-int` [REVIEWED] — bpP:p14:sb-x-int
+* `bpP:p14:sb-x-top` [REVIEWED] — bpP:p14:sb-x-top
+* `bpP:p14:x-calc` [REVIEWED] — bpP:p14:x-calc
+* `bpP:p14:x-cx` [REVIEWED] — Complexification of real analytic functions
+* `bpP:p14:x-hol` [REVIEWED] — bpP:p14:x-hol
+* `bpP:p14:x-id` [REVIEWED] — Identity theorem
+* `bpP:p14:x-planar` [REVIEWED] — bpP:p14:x-planar
+* `bpP:p14:x-top` [REVIEWED] — bpP:p14:x-top
+* `bpP:p1:ext-area` [REVIEWED] — Borel
+* `bpP:p1:ext-borel` [REVIEWED] — Null sets need not be Borel
+* `bpP:p1:ext-comp` [REVIEWED] — bpP:p1:ext-comp
+* `bpP:p1:ext-det` [REVIEWED] — bpP:p1:ext-det
+* `bpP:p1:ext-ift` [REVIEWED] — bpP:p1:ext-ift
+* `bpP:p1:two-scale` [REVIEWED] — Two-scale Diophantine set
+* `bpP:p3:constants` [REVIEWED] — Constants of the two-scale theorem
+* `bpP:p3:ext-ift` [REVIEWED] — Holomorphic inverse function theorem
+* `bpP:p3:ext-neumann` [REVIEWED] — bpP:p3:ext-neumann
+* `bpP:p3:ext-weierstrass` [REVIEWED] — Weierstrass theorem
+* `bpP:p4:ext-conn` [REVIEWED] — bpP:p4:ext-conn
+* `bpP:p4:ext-deriv` [REVIEWED] — bpP:p4:ext-deriv
+* `bpP:p4:ext-tonelli` [REVIEWED] — Tonelli
+* `bpP:p5:order` [REVIEWED] — Order in which every constant is chosen
+* `bpP:p6:ext-chain` [REVIEWED] — bpP:p6:ext-chain
+* `bpP:p6:ext-meas` [REVIEWED] — bpP:p6:ext-meas
+* `bpP:p6:ext-sqrt` [REVIEWED] — bpP:p6:ext-sqrt
+* `bpP:p6:ext-sum` [REVIEWED] — bpP:p6:ext-sum
+* `bpP:p6:ext-top` [REVIEWED] — bpP:p6:ext-top
+* `bpP:p6:ext-tri` [REVIEWED] — bpP:p6:ext-tri
+* `bpP:p7:e-comp` [REVIEWED] — bpP:p7:e-comp
+* `bpP:p7:e-dense` [REVIEWED] — bpP:p7:e-dense
+* `bpP:p7:e-ift` [REVIEWED] — Real-analytic inverse function theorem
+* `bpP:p8:e-diff` [REVIEWED] — Differentiation under the integral:
+* `bpP:p8:e-param` [REVIEWED] — Holomorphic parameter integrals
+* `bpP:p8:e-poch` [REVIEWED] — bpP:p8:e-poch
+* `bpP:p8:e-taylor` [REVIEWED] — bpP:p8:e-taylor
+* `bpP:p8:e-weyl` [REVIEWED] — First fundamental theorem for $O(2)$
+* `bpP:p8:laplace-def` [REVIEWED] — Laplace coefficients
+* `bpP:p9:e-fts` [REVIEWED] — Fundamental theorem of symmetric polynomials
+* `bpP:p9:e-ibp` [REVIEWED] — bpP:p9:e-ibp
+* `bpP:p9:e-id` [REVIEWED] — Identity theorem
+* `bpP:p9:e-ift` [REVIEWED] — Analytic implicit function theorem
+* `bpP:p9:e-spec` [REVIEWED] — Real spectral theorem
+* `stepI:p7:sc-alg` [REVIEWED] — Algebra
+* `stepP:p11a:dm-compact` [REVIEWED] — Compactness
+* `stepP:p11a:fc-const` [REVIEWED] — $c_N\ge1$
+* `stepP:p11a:sc-constr` [REVIEWED] — Construction
+* `stepP:p12:co-inc` [REVIEWED] — Inclusion
+* `stepP:p13:fx-split` [REVIEWED] — Case split
+* `stepP:p3:ls-far` [REVIEWED] — Distant pairs
+* `stepP:p4:lc-contra` [REVIEWED] — Contradiction
+* `stepP:p9:lift-bij` [REVIEWED] — Bijectivity
+
+### Assumption boundary leaves
+
+* _(none)_
+
+### External boundary leaves
+
+* `I:bpI:p7:chart` [REVIEWED] — [I] Delaunay chart
+* `I:bpI:p7:elements` [REVIEWED] — [I] Kepler region and elements
+* `I:bpI:p7:kepler-eq` [REVIEWED] — [I] Kepler's equation, analytic solution
+* `I:bpI:p7:orbit-identities` [REVIEWED] — [I] Identities for the orbit maps
+* `I:bpI:p7:orbit-maps` [REVIEWED] — [I] Orbit maps
+* `I:bpI:p7:symplectic` [REVIEWED] — [I] The Delaunay map is symplectic
+* `I:bpI:p7:x-forms` [REVIEWED] — [I] Exterior calculus on open subsets of $\R^m$
+* `I:bpI:p7:x-hol` [REVIEWED] — [I] Holomorphic functions of several variables
+* `I:bpI:p7:x-weier` [REVIEWED] — [I] Weierstrass
+* `I:stepI:p7:ke-trig` [REVIEWED] — [I] Trigonometric bounds
+* `K:bp:p0:domains#complexStrip` [REVIEWED] — [K] Complex neighbourhoods and the fundamental domain: KAM.complexStrip
+* `K:bp:p1:cauchy-open` [REVIEWED] — [K] Cauchy estimate on open sets
+* `K:bp:p1:cauchy-strip` [REVIEWED] — [K] Cauchy estimate on strips
+* `K:bp:p1:decay` [REVIEWED] — [K] Coefficient decay
+* `K:bp:p1:exp-sums` [REVIEWED] — [K] Exponential sums over $\Z^n$
+* `K:bp:p1:ext-banach` [REVIEWED] — [K] Banach's fixed point theorem
+* `K:bp:p1:ext-cauchy` [REVIEWED] — [K] Cauchy's formulas in one variable
+* `K:bp:p1:ext-cramer` [REVIEWED] — [K] Cramer's rule
+* `K:bp:p1:ext-fourier` [REVIEWED] — [K] Fourier series on the torus
+* `K:bp:p1:ext-integral` [REVIEWED] — [K] Integrals
+* `K:bp:p1:ext-lebesgue` [REVIEWED] — [K] Lebesgue outer measure
+* `K:bp:p1:ext-measure` [REVIEWED] — [K] (E11) Lebesgue measure on products and boxes
+* `K:bp:p1:ext-mvt` [REVIEWED] — [K] Mean value inequality
+* `K:bp:p1:ext-rectangle` [REVIEWED] — [K] Cauchy's theorem for rectangles
+* `K:bp:p1:fourier-basic` [REVIEWED] — [K] Fourier coefficients of periodic functions
+* `K:bp:p1:holomorphic-analytic` [REVIEWED] — [K] Holomorphic maps are analytic
+* `K:bp:p1:lip-image` [REVIEWED] — [K] Lipschitz images and preimages
+* `K:bp:p1:lipeo` [REVIEWED] — [K] Lipeomorphisms
+* `K:bp:p1:mcshane` [REVIEWED] — [K] McShane extension
+* `K:bp:p1:real-restriction` [REVIEWED] — [K] Real restriction
+* `K:bp:p1:summation` [REVIEWED] — [K] Summation
+* `K:bp:p1:uniform-limits` [REVIEWED] — [K] Uniform limits
+* `K:bp:p4:lattice-count` [REVIEWED] — [K] Counting lattice points on $\ell^1$ spheres
+* `K:bp:p4:lattice-sum` [REVIEWED] — [K] Lattice sum
+* `N:bpN:p0:actionnbhd#actionNbhd` [REVIEWED] — [N] Complex action neighbourhood: KAM.actionNbhd
+* `N:bpN:p0:partial` [REVIEWED] — [N] N-PARTIAL-CONVEX: exponential stability of the fast actions, definite fast part, slow--fast
+* `N:bpN:p0:partial-complexify#complexifyPhase` [REVIEWED] — [N] \Lean{complexifyPhase}: KAM.Nekhoroshev.complexifyPhase
+* `N:bpN:p0:partial-core#innerCore` [REVIEWED] — [N] \Lean{innerCore}: closed max-norm erosion: KAM.Nekhoroshev.innerCore
+* `N:bpN:p0:partial-definite#HasDefiniteFastPart` [REVIEWED] — [N] \Lean{HasDefiniteFastPart}: KAM.Nekhoroshev.HasDefiniteFastPart
+* `N:bpN:p0:partial-domain#partialComplexDomain` [REVIEWED] — [N] \Lean{partialComplexDomain}: KAM.Nekhoroshev.partialComplexDomain
+* `N:bpN:p0:partial-exponents#partialDriftExponent` [REVIEWED] — [N] \Lean{partialTimeExponent}, \Lean{partialDriftExponent}: KAM.Nekhoroshev.partialDriftExponent
+* `N:bpN:p0:partial-exponents#partialTimeExponent` [REVIEWED] — [N] \Lean{partialTimeExponent}, \Lean{partialDriftExponent}: KAM.Nekhoroshev.partialTimeExponent
+* `N:bpN:p0:partial-pert#IsPartialPerturbation` [REVIEWED] — [N] \Lean{IsPartialPerturbation}: KAM.Nekhoroshev.IsPartialPerturbation
+* `N:bpN:p0:sol#IsSolutionOn` [REVIEWED] — [N] Solutions on a time set: KAM.Nekhoroshev.IsSolutionOn
+* `N:bpN:p3:gen-continuation` [REVIEWED] — [N] Continuation criterion, uniform form
+* `N:bpN:p3:gen-continuation-compact` [REVIEWED] — [N] Compact continuation
+* `N:bpN:p3:gen-exit` [REVIEWED] — [N] First exit
+* `N:bpN:p3:gen-lip` [REVIEWED] — [N] Bounds and Lipschitz constants on compact sets
+* `N:bpN:p3:gen-maximal` [REVIEWED] — [N] Maximal solution
+* `N:bpN:p3:gen-sol` [REVIEWED] — [N] Solutions in $W$
+* `N:bpN:p3:gen-symmetry` [REVIEWED] — [N] Symmetries
+* `N:bpN:p3:gen-uniform` [REVIEWED] — [N] Uniform data
+* `N:bpN:p3:gen-uniqueness` [REVIEWED] — [N] Uniqueness on arbitrary intervals
+* `N:bpN:p3:ham-smooth` [REVIEWED] — [N] Regularity of $X_H$
+* `N:bpN:p4:algebra` [REVIEWED] — [N] B.2
+* `N:bpN:p4:cauchy` [REVIEWED] — [N] B.3
+* `N:bpN:p4:coefficients` [REVIEWED] — [N] Coefficients, derivatives, series
+* `N:bpN:p4:domains` [REVIEWED] — [N] Domains
+* `N:bpN:p4:ext-param` [REVIEWED] — [N] Holomorphic dependence on a parameter
+* `N:bpN:p4:general-cauchy` [REVIEWED] — [N] C.1
+* `N:bpN:p4:norm` [REVIEWED] — [N] The class $\Os rs$ and the weighted norm
+* `N:bpN:p4:projections` [REVIEWED] — [N] $P_S$, $T_K$, averages
+* `N:bpN:p4:sup-weighted` [REVIEWED] — [N] B.1
+* `N:bpN:p5:adjoint` [REVIEWED] — [N] Iterated brackets
+* `N:bpN:p5:canonical` [REVIEWED] — [N] Canonical maps: bracket invariance and conjugation
+* `N:bpN:p5:canonical-map` [REVIEWED] — [N] Iterative-Lemma package for $\Phi$
+* `N:bpN:p5:composition` [REVIEWED] — [N] Lemma B.5: $\abs{u\circ X^1_\phi}\le(1-\eta)^{-1}\abs u$
+* `N:bpN:p5:composition-integral` [REVIEWED] — [N] Integral remainders in the weighted norm
+* `N:bpN:p5:flow` [REVIEWED] — [N] Flow of a small holomorphic field
+* `N:bpN:p5:lie-derivative` [REVIEWED] — [N] Derivative along the flow
+* `N:bpN:p5:setting` [REVIEWED] — [N] Hamiltonian field, bracket, scaled norm
+* `N:bpN:p5:symplectic` [REVIEWED] — [N] Symplectic flow
+* `N:bpN:p5:taylor` [REVIEWED] — [N] Taylor with integral remainder along the flow
+* `N:bpN:p5:transform` [REVIEWED] — [N] Lie transform with first-order remainder, in the weighted norm
+* `N:bpN:p5:vf-bound` [REVIEWED] — [N] Size of the field
+* `N:bpN:p6:divisor` [REVIEWED] — [N] Divisor bound
+* `N:bpN:p6:ext-numerics` [REVIEWED] — [N] Numerics
+* `N:bpN:p6:homological` [REVIEWED] — [N] Homological equation
+* `N:bpN:p6:iterative` [REVIEWED] — [N] Iterative Lemma
+* `N:bpN:p6:setting` [REVIEWED] — [N] Resonant setting
+* `N:bpN:p6:telescope` [REVIEWED] — [N] Telescoping
+* `bpI:p7:x-change` [REVIEWED] — Change of variables in R
+* `bpP:p10:f-fts` [REVIEWED] — bpP:p10:f-fts
+* `bpP:p10:f-id` [REVIEWED] — Identity theorem and integral domain
+* `bpP:p10:f-leib` [REVIEWED] — bpP:p10:f-leib
+* `bpP:p10:f-pol` [REVIEWED] — Polarization
+* `bpP:p11:e4` [REVIEWED] — Logarithmic asymptotics
+* `bpP:p11:e5` [REVIEWED] — Termwise integration and trigonometric moments
+* `bpP:p11a:f-leib` [REVIEWED] — Leibniz formula
+* `bpP:p11a:f-meas` [REVIEWED] — Lebesgue measure
+* `bpP:p11a:f-mvt` [REVIEWED] — Mean value inequality
+* `bpP:p11a:f-orth` [REVIEWED] — Orthonormal completion
+* `bpP:p11a:f-rolle` [REVIEWED] — Rolle and Lagrange interpolation
+* `bpP:p11a:x-cauchy` [REVIEWED] — Cauchy coefficient estimate in one variable
+* `bpP:p11a:x-duality` [REVIEWED] — bpP:p11a:x-duality
+* `bpP:p11a:x-ode` [REVIEWED] — bpP:p11a:x-ode
+* `bpP:p11a:y-conv` [REVIEWED] — (Y2) Convolution with a compactly supported C^k kernel
+* `bpP:p11a:y-down` [REVIEWED] — (Y3) Continuity of measure from above
+* `bpP:p11a:y-geom` [REVIEWED] — (Y4) Geometric series
+* `bpP:p11a:y-log` [REVIEWED] — (Y1) Tangent line of the logarithm
+* `bpP:p11a:z-chain` [REVIEWED] — (Z1) Chain rule, operator norms, exponential inequalities
+* `bpP:p11a:z-compact` [REVIEWED] — (Z2) Compactness and F_sigma facts
+* `bpP:p11a:z-uniform` [REVIEWED] — (Z3) Uniform Cauchy sequences and Lipschitz maps on convex sets
+* `bpP:p11b:e-ca` [REVIEWED] — Finite exact computation
+* `bpP:p11b:e-ode` [REVIEWED] — Analytic ODE
+* `bpP:p12:f-mono` [REVIEWED] — bpP:p12:f-mono
+* `bpP:p12:f-unif` [REVIEWED] — bpP:p12:f-unif
+* `bpP:p14:sb-x-alg` [REVIEWED] — bpP:p14:sb-x-alg
+* `bpP:p14:sb-x-calc` [REVIEWED] — bpP:p14:sb-x-calc
+* `bpP:p14:sb-x-int` [REVIEWED] — bpP:p14:sb-x-int
+* `bpP:p14:sb-x-top` [REVIEWED] — bpP:p14:sb-x-top
+* `bpP:p14:x-calc` [REVIEWED] — bpP:p14:x-calc
+* `bpP:p14:x-cx` [REVIEWED] — Complexification of real analytic functions
+* `bpP:p14:x-hol` [REVIEWED] — bpP:p14:x-hol
+* `bpP:p14:x-id` [REVIEWED] — Identity theorem
+* `bpP:p14:x-planar` [REVIEWED] — bpP:p14:x-planar
+* `bpP:p14:x-top` [REVIEWED] — bpP:p14:x-top
+* `bpP:p1:ext-area` [REVIEWED] — Borel
+* `bpP:p1:ext-borel` [REVIEWED] — Null sets need not be Borel
+* `bpP:p1:ext-comp` [REVIEWED] — bpP:p1:ext-comp
+* `bpP:p1:ext-det` [REVIEWED] — bpP:p1:ext-det
+* `bpP:p1:ext-ift` [REVIEWED] — bpP:p1:ext-ift
+* `bpP:p3:ext-ift` [REVIEWED] — Holomorphic inverse function theorem
+* `bpP:p3:ext-neumann` [REVIEWED] — bpP:p3:ext-neumann
+* `bpP:p3:ext-weierstrass` [REVIEWED] — Weierstrass theorem
+* `bpP:p4:ext-conn` [REVIEWED] — bpP:p4:ext-conn
+* `bpP:p4:ext-deriv` [REVIEWED] — bpP:p4:ext-deriv
+* `bpP:p4:ext-tonelli` [REVIEWED] — Tonelli
+* `bpP:p6:ext-chain` [REVIEWED] — bpP:p6:ext-chain
+* `bpP:p6:ext-meas` [REVIEWED] — bpP:p6:ext-meas
+* `bpP:p6:ext-sqrt` [REVIEWED] — bpP:p6:ext-sqrt
+* `bpP:p6:ext-sum` [REVIEWED] — bpP:p6:ext-sum
+* `bpP:p6:ext-top` [REVIEWED] — bpP:p6:ext-top
+* `bpP:p6:ext-tri` [REVIEWED] — bpP:p6:ext-tri
+* `bpP:p7:e-comp` [REVIEWED] — bpP:p7:e-comp
+* `bpP:p7:e-dense` [REVIEWED] — bpP:p7:e-dense
+* `bpP:p7:e-ift` [REVIEWED] — Real-analytic inverse function theorem
+* `bpP:p8:e-diff` [REVIEWED] — Differentiation under the integral:
+* `bpP:p8:e-param` [REVIEWED] — Holomorphic parameter integrals
+* `bpP:p8:e-poch` [REVIEWED] — bpP:p8:e-poch
+* `bpP:p8:e-taylor` [REVIEWED] — bpP:p8:e-taylor
+* `bpP:p8:e-weyl` [REVIEWED] — First fundamental theorem for $O(2)$
+* `bpP:p9:e-fts` [REVIEWED] — Fundamental theorem of symmetric polynomials
+* `bpP:p9:e-ibp` [REVIEWED] — bpP:p9:e-ibp
+* `bpP:p9:e-id` [REVIEWED] — Identity theorem
+* `bpP:p9:e-ift` [REVIEWED] — Analytic implicit function theorem
+* `bpP:p9:e-spec` [REVIEWED] — Real spectral theorem
+
+### Uncovered graph nodes
+
+* _(none)_
+
+### Nodes outside every root closure
+
+* _(none)_
+
+### Explicit source gaps
+
+* `bpP:p3:rem-norm` [REVIEWED] — Normalizations $\hat M\le M$, $\bar M_i\le\bar M$
+* `bpP:p3:step` [REVIEWED] — One KAM step
+* `bpP:p5:kam-cond#scales` [REVIEWED] — Scale-constant selection before r and mu
+* `bpP:p6:reconstruction-fixed#real-eps` [REVIEWED] — Unpaid arbitrary-real-epsilon Hamilton-equation bridge
+* `bpP:p9:diagonalize` [REVIEWED] — Diagonalisation and the frozen Birkhoff data
+* `stepP:p11:hc-mean` [REVIEWED] — (d) Mean
+* `stepP:p11:hc-rot` [REVIEWED] — Rotation and its extension
+* `stepP:p11a:cs-lip` [REVIEWED] — Real Lipschitz bound
+* `stepP:p11a:ps-lim` [REVIEWED] — Limits
+* `stepP:p11a:rl-deriv` [REVIEWED] — Derivative
+* `stepP:p11a:rl-global` [REVIEWED] — Global flow
+* `stepP:p11b:bt-rot#lift` [REVIEWED] — Lift of the eigenvector e_1 to an analytic angle on a simply connected domain
+* `stepP:p11b:fl-bd` [REVIEWED] — Bound
+* `stepP:p11b:li-tay` [REVIEWED] — Taylor along the flow
+* `stepP:p11b:lm-prop` [REVIEWED] — Properties
+* `stepP:p1:hc-real-derivative` [REVIEWED] — Real derivative on the real slice of an arbitrary complex open set
+* `stepP:p2:ob-der` [REVIEWED] — Derivative bounds
+* `stepP:p3:inv-conj` [REVIEWED] — Symplectic conjugation
+* `stepP:p3:inv-lim` [REVIEWED] — Passing to the limit
+* `stepP:p5:be-an` [REVIEWED] — Analyticity
+* `stepP:p5:be-coef` [REVIEWED] — Coefficients on $V$
+* `stepP:p5:be-jet` [REVIEWED] — (b) on $V$, then everywhere
+* `stepP:p5:bl-comp` [REVIEWED] — Compactness
+* `stepP:p5:bl-real` [REVIEWED] — Real facts
+* `stepP:p5:ext-glue` [REVIEWED] — Gluing
+* `stepP:p5:ext-loc` [REVIEWED] — Local extensions
+* `stepP:p5:fi-blk` [REVIEWED] — (b) Blocks
+* `stepP:p5:fi-inv` [REVIEWED] — Inverse
+* `stepP:p5:st-ivt` [REVIEWED] — Intermediate value
+* `stepP:p5:ur-schwarz` [REVIEWED] — Schwarz
+* `stepP:p7:ho-hol` [REVIEWED] — Holomorphy, reality, periodicity
+* `stepP:p7:pc-share` [REVIEWED] — Shared chart
+* `stepP:p9:d-d` [REVIEWED] — (d)
+* `stepP:p9:gs-c#roots-route` [REVIEWED] — Compact uniformity using continuity of roots
 <!-- END PROOF DEPGRAPH GENERATED -->

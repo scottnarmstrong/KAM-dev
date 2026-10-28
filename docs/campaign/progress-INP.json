@@ -15,7 +15,7 @@
    "title": "Blueprint, graph and proofs (estimate, refined after Phase 0)",
    "difficulty": "VH",
    "done": 0.55,
-   "note": "graph: global review rounds 1-2 handled, Part 1 gaps fixed in the blueprint, final check running; I-KEPLER SEALED; Parts 5/8 Lean design running",
+   "note": "graph I published; ALL FOUR track-I frozen theorems SEALED (I-KEPLER, I-G1, I-HEAD, I-R3BP); I Parts 1-3, 5-8 proved and audited",
    "auto": {
     "graph": "I",
     "parts": [
@@ -37,7 +37,7 @@
    "title": "Blueprint, graph and proofs (estimate, refined after Phase 0)",
    "difficulty": "VH",
    "done": 0.55,
-   "note": "graph: all 14 slices reviewed, global review running; N-QC, N-ZERO SEALED; shared ODE layer (blueprint-N Part 3 core, 7 packages, KAM/ODE/*) proved and audited; Parts 1/4/5 Lean design running",
+   "note": "graph N published; N-QC, N-ZERO SEALED; Lean: ODE layer (Part 3), Parts 1, 4, 5 (except C5-9) proved and audited; Parts 6-7 design in revision; Parts 2, 8-10 designs being written",
    "auto": {
     "graph": "N",
     "parts": [
@@ -69,7 +69,19 @@
    "title": "Properly degenerate KAM: blueprint, graph, proofs",
    "difficulty": "VH",
    "done": 0.4,
-   "note": "blueprint: P-G proved (Parts 1-5, reviewed)"
+   "note": "graph P published; Part 1 Lean design audited (PP1-1..3 proving); Parts 2-5 designs being written",
+   "auto": {
+    "graph": "P",
+    "parts": [
+     "blueprint-P/parts/p0-",
+     "blueprint-P/parts/p1-",
+     "blueprint-P/parts/p2-",
+     "blueprint-P/parts/p3a-",
+     "blueprint-P/parts/p3b-",
+     "blueprint-P/parts/p4-",
+     "blueprint-P/parts/p5-"
+    ]
+   }
   },
   {
    "group": "Track P (planetary)",
@@ -77,7 +89,22 @@
    "title": "Planar two-planet and fixed-Sun applications: coordinates, secular normal form, nondegeneracy",
    "difficulty": "VH",
    "done": 0.38,
-   "note": "blueprint: P-PLANAR proved (Parts 6-12); P-FIXED general n: Parts 11, 11a-1..3 written and in revision, 11a-4/5 and 13 to write; Kepler Lean design in revision"
+   "note": "graph P published; Kepler/Poincare layer (P6-1..4, P6-6, P7-1..5, P7-7) proved and audited; Parts 8-13 designs being written",
+   "auto": {
+    "graph": "P",
+    "parts": [
+     "blueprint-P/parts/p6-",
+     "blueprint-P/parts/p7-",
+     "blueprint-P/parts/p8-",
+     "blueprint-P/parts/p9-",
+     "blueprint-P/parts/p10-",
+     "blueprint-P/parts/p11-",
+     "blueprint-P/parts/p11a",
+     "blueprint-P/parts/p11b-",
+     "blueprint-P/parts/p12-",
+     "blueprint-P/parts/p13-"
+    ]
+   }
   },
   {
    "group": "Track N (Nekhoroshev)",
@@ -93,7 +120,7 @@
    "title": "N-PARTIAL-CONVEX and N-AVERAGING: blueprint, graph, proofs",
    "difficulty": "VH",
    "done": 0.3,
-   "note": "blueprints: N-PARTIAL-CONVEX Part 11 and N-AVERAGING Part 12 accepted; both in the N graph (reviewed)",
+   "note": "graph N published (Parts 11, 12 included); Lean designs for Parts 11 and 12 being written",
    "auto": {
     "graph": "N",
     "parts": [
@@ -116,7 +143,14 @@
    "title": "P-EXP-SAFE, P-AMD-CONFINEMENT, P-SECULAR-BOX: blueprint, graph, proofs",
    "difficulty": "VH",
    "done": 0.2,
-   "note": "blueprint: P-AMD-CONFINEMENT and P-EXP-SAFE proved (Part 14a); P-SECULAR-BOX pending"
+   "note": "graph P published; Parts 14a/b designs being written",
+   "auto": {
+    "graph": "P",
+    "parts": [
+     "blueprint-P/parts/p14a-",
+     "blueprint-P/parts/p14b-"
+    ]
+   }
   }
  ]
 }
