@@ -268,6 +268,68 @@ theorem rK_lt {d : PGData a b} {r : ℝ} (hr : 0 < r) (mu : ℝ) :
   have : (params d r mu).Ehat * (256*((a+b:ℕ):ℝ)) < 1/32 := by nlinarith
   nlinarith
 
+theorem params_Kbar (d : PGData a b) (r mu : ℝ) :
+    (params d r mu).Kbar = 30/pgWidth d*Real.log (1/r) := rfl
+
+theorem params_l1 (d : PGData a b) (r mu : ℝ) :
+    (params d r mu).l1 = (pgScales d).k1*r^(5/2:ℝ) := rfl
+
+theorem params_ell (d : PGData a b) (r mu : ℝ) :
+    (params d r mu).ell = r^2/2 - 3*(params d r mu).l1 := by
+  show r^2/2 - 3*(params d r mu).l1 = _
+  rfl
+
+theorem params_l2top (d : PGData a b) (r mu : ℝ) :
+    (params d r mu).l2top = r^2/2 - 2*(params d r mu).l1 := rfl
+
+theorem params_rhoBar (d : PGData a b) (r mu : ℝ) : (params d r mu).rhoBar =
+    (params d r mu).gammaBar/(2*(pgAnalytic d).M0*(params d r mu).Kbar^(pgTau a b+1)) := rfl
+
+theorem rpow_five_halves {r : ℝ} (hr : 0 < r) : r^(5/2:ℝ) = r^2 * Real.sqrt r := by
+  rw [Real.sqrt_eq_rpow, ← Real.rpow_natCast, ← Real.rpow_add hr]; norm_num
+
+theorem l1_le_rhoBar (d : PGData a b) {r : ℝ} (hr0 : 0 < r) (hr : r ≤ Real.exp (-1)) (mu : ℝ) :
+    (params d r mu).l1 ≤ (params d r mu).rhoBar := by
+  obtain ⟨-, -, -, hk1, hG⟩ := pgScales_spec d
+  obtain ⟨-, -, -, hM0, -⟩ := pgAnalytic_spec d
+  have hL := one_le_log_inv hr0 hr
+  have hK : 0 < (params d r mu).Kbar := by
+    rw [params_Kbar]; have := pgWidth_pos d; have : 0 < Real.log (1/r) := by linarith
+    positivity
+  have hKp : 0 < (params d r mu).Kbar^(pgTau a b+1) := Real.rpow_pos_of_pos hK _
+  have hg : (pgScales d).G * (r^(5/2:ℝ) * (params d r mu).Kbar^(pgTau a b+1)) ≤
+      (params d r mu).gammaBar := by
+    rw [params_gammaBar]; exact mul_le_mul_of_nonneg_left (le_max_right _ _) (pgScales_G_pos d).le
+  have h2 : 2*(pgAnalytic d).M0*(pgScales d).k1 ≤ (pgScales d).G := (le_max_left _ _).trans hG
+  rw [params_rhoBar, le_div_iff₀ (by positivity), params_l1]
+  have h52 : 0 < r^(5/2:ℝ) := Real.rpow_pos_of_pos hr0 _
+  calc (pgScales d).k1 * r^(5/2:ℝ) * (2*(pgAnalytic d).M0*(params d r mu).Kbar^(pgTau a b+1))
+      = (2*(pgAnalytic d).M0*(pgScales d).k1) * (r^(5/2:ℝ) * (params d r mu).Kbar^(pgTau a b+1)) := by
+        ring
+    _ ≤ (pgScales d).G * (r^(5/2:ℝ) * (params d r mu).Kbar^(pgTau a b+1)) :=
+        mul_le_mul_of_nonneg_right h2 (by positivity)
+    _ ≤ _ := hg
+
+theorem rhoBar_le {d : PGData a b} {r mu : ℝ} (h : ThrRange d r mu) :
+    (params d r mu).rhoBar ≤ pgCgamma d * Real.sqrt r / 2 := by
+  have hg := gammaBar_le h
+  obtain ⟨hr0, hr, -⟩ := h
+  obtain ⟨-, -, -, hM0, -⟩ := pgAnalytic_spec d
+  have hL := one_le_log_inv hr0 hr
+  have hK1 : 1 ≤ (params d r mu).Kbar := by
+    rw [params_Kbar]
+    nlinarith [one_le_pgKappa d]
+  have hKp : 1 ≤ (params d r mu).Kbar^(pgTau a b+1) :=
+    Real.one_le_rpow hK1 (by linarith [pgTau_pos a b])
+  have hg0 : 0 ≤ (params d r mu).gammaBar := by
+    rw [params_gammaBar]
+    refine mul_nonneg (pgScales_G_pos d).le (le_trans ?_ (le_max_right _ _))
+    exact mul_nonneg (Real.rpow_nonneg hr0.le _) (Real.rpow_nonneg (mul_nonneg (by linarith [one_le_pgKappa d]) (by linarith)) _)
+  have hm : 1 ≤ (pgAnalytic d).M0 * (params d r mu).Kbar^(pgTau a b+1) := by nlinarith
+  have hC : 0 ≤ pgCgamma d * Real.sqrt r := hg0.trans hg
+  rw [params_rhoBar, div_le_iff₀ (by positivity)]
+  nlinarith [mul_le_mul_of_nonneg_left hm hC]
+
 end KAM.Planetary
 
 end
