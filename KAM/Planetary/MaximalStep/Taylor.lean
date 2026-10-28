@@ -153,4 +153,107 @@ theorem p11_taylor_remainder {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ
     exact (h2.comp_hasDerivAt 0 h1).deriv
   simpa [hder] using h
 
+theorem p11_mem_domain_def {n : ℕ} {r s : ℝ} {B : Set (P11CVec n)} {θ η b : P11CVec n} :
+    ((θ, η), b) ∈ domain_def n r s B ↔ θ ∈ KAM.complexStrip n r ∧ ‖η‖ < s ∧ b ∈ B := by
+  simp [domain_def, KAM.Weighted.Dom, KAM.Weighted.polyNbhd, and_assoc]
+
+theorem p11_isOpen_domain_def {n : ℕ} (r s : ℝ) {B : Set (P11CVec n)} (hB : IsOpen B) :
+    IsOpen (domain_def n r s B) :=
+  (KAM.Weighted.isOpen_Dom _ _ _).prod hB
+
+/-- The `η`-slice of an admissible function is holomorphic on `ball 0 s`. -/
+theorem p11_slice_differentiableOn {n : ℕ} {r s : ℝ} {B : Set (P11CVec n)}
+    {F : P11Family n → ℂ} (hF : DifferentiableOn ℂ F (domain_def n r s B))
+    {θ b : P11CVec n} (hθ : θ ∈ KAM.complexStrip n r) (hb : b ∈ B) :
+    DifferentiableOn ℂ (fun η => F ((θ, η), b)) (ball 0 s) := by
+  refine hF.comp (f := fun η : P11CVec n => ((θ, η), b)) (by fun_prop) ?_
+  intro η hη
+  exact p11_mem_domain_def.mpr ⟨hθ, mem_ball_zero_iff.mp hη, hb⟩
+
+/-- The derivative of the `η`-slice at `0`, as a function of the base point. -/
+theorem p11_fderiv_slice {n : ℕ} {F : P11Family n → ℂ} {θ b : P11CVec n}
+    (hF : DifferentiableAt ℂ F ((θ, 0), b)) :
+    fderiv ℂ (fun η => F ((θ, η), b)) 0 =
+      (fderiv ℂ F ((θ, 0), b)).comp
+        (((0 : P11CVec n →L[ℂ] P11CVec n).prod (ContinuousLinearMap.id ℂ _)).prod
+          (0 : P11CVec n →L[ℂ] P11CVec n)) := by
+  have hψ : HasFDerivAt (fun η : P11CVec n => ((θ, η), b))
+      (((0 : P11CVec n →L[ℂ] P11CVec n).prod (ContinuousLinearMap.id ℂ _)).prod
+        (0 : P11CVec n →L[ℂ] P11CVec n)) 0 :=
+    ((hasFDerivAt_const θ 0).prodMk (hasFDerivAt_id 0)).prodMk (hasFDerivAt_const b 0)
+  exact (hF.hasFDerivAt.comp 0 hψ).fderiv
+
+theorem p11_taylor_admissible {n : ℕ} {r s : ℝ} (hs : 0 < s) {B : Set (P11CVec n)}
+    (hB : IsOpen B) {F : P11Family n → ℂ} (hF : p11Admissible r s B F) :
+    p11Admissible r s B (p11Taylor F) := by
+  set D := domain_def n r s B with hD
+  have hDo : IsOpen D := p11_isOpen_domain_def r s hB
+  have hc : ∀ z ∈ D, ((z.1.1, (0 : P11CVec n)), z.2) ∈ D := by
+    rintro ⟨⟨θ, η⟩, b⟩ hz
+    obtain ⟨h1, -, h3⟩ := p11_mem_domain_def.mp hz
+    exact p11_mem_domain_def.mpr ⟨h1, by simpa using hs, h3⟩
+  refine ⟨?_, ?_⟩
+  · have hcd : DifferentiableOn ℂ (fun z : P11Family n => ((z.1.1, (0 : P11CVec n)), z.2)) D :=
+      by fun_prop
+    have hF1 := hF.1.comp hcd hc
+    have hF2 := (KAM.differentiableOn_fderiv_of_isOpen hDo hF.1).comp hcd hc
+    have hL : DifferentiableOn ℂ (fun z : P11Family n =>
+        (((0 : P11CVec n →L[ℂ] P11CVec n).prod (ContinuousLinearMap.id ℂ _)).prod
+          (0 : P11CVec n →L[ℂ] P11CVec n)) z.1.2) D := by fun_prop
+    have := hF1.add (hF2.clm_apply hL)
+    refine this.congr ?_
+    rintro ⟨⟨θ, η⟩, b⟩ hz
+    have hz' := hc _ hz
+    simp only [p11Taylor]
+    rw [p11_fderiv_slice (hF.1.differentiableAt (hDo.mem_nhds hz'))]
+    rfl
+  · rintro j ⟨⟨θ, η⟩, b⟩ hz
+    obtain ⟨h1, h2, h3⟩ := p11_mem_domain_def.mp hz
+    have hper := hF.2 j
+    have hstrip : θ + Pi.single j 1 ∈ KAM.complexStrip n r := by
+      intro i
+      simpa [Pi.single_apply, apply_ite Complex.im] using h1 i
+    have hev : (fun η' => F ((θ + Pi.single j 1, η'), b)) =ᶠ[nhds 0]
+        (fun η' => F ((θ, η'), b)) := by
+      filter_upwards [ball_mem_nhds (0 : P11CVec n) hs] with η' hη'
+      exact hper ((θ, η'), b) (p11_mem_domain_def.mpr ⟨h1, mem_ball_zero_iff.mp hη', h3⟩)
+    have h0 := hper ((θ, 0), b) (p11_mem_domain_def.mpr ⟨h1, by simpa using hs, h3⟩)
+    simp only [p11Taylor] at h0 ⊢
+    rw [hev.fderiv_eq, h0]
+
+/-- `bpP:p11a:taylor-cutoff`. -/
+theorem taylor_cutoff {n : ℕ} {r s M q : ℝ} (hr : 0 < r) (hs : 0 < s)
+    (hM : 0 ≤ M) (hq : 0 < q) (hq1 : q < 1)
+    {B : Set (P11CVec n)} (hB : IsOpen B) {F : P11Family n → ℂ}
+    (hF : p11Admissible r s B F) (hb : p11Bound (domain_def n r s B) F M) :
+    p11Admissible r s B (p11Taylor F) ∧
+    p11Bound (domain_def n r s B) (p11Taylor F) (2*M) ∧
+    p11Bound (domain_def n r (q*s) B) (F-p11Taylor F) (M*q^2/(1-q)) ∧
+    ∀ theta ∈ KAM.complexStrip n r, ∀ b ∈ B,
+      ‖fderiv ℂ (fun eta => F ((theta,eta),b)) 0‖ ≤ M/s := by
+  have hslice : ∀ θ ∈ KAM.complexStrip n r, ∀ b ∈ B,
+      ‖fderiv ℂ (fun eta => F ((θ, eta), b)) 0‖ ≤ M / s := fun θ hθ b hb' =>
+    p11_norm_fderiv_le_of_ball hs (p11_slice_differentiableOn hF.1 hθ hb')
+      (fun w hw => hb _ (p11_mem_domain_def.mpr ⟨hθ, mem_ball_zero_iff.mp hw, hb'⟩))
+  refine ⟨p11_taylor_admissible hs hB hF, ?_, ?_, fun θ hθ b hb' => hslice θ hθ b hb'⟩
+  · rintro ⟨⟨θ, η⟩, b⟩ hz
+    obtain ⟨h1, h2, h3⟩ := p11_mem_domain_def.mp hz
+    have h0 := hb ((θ, 0), b) (p11_mem_domain_def.mpr ⟨h1, by simpa using hs, h3⟩)
+    have hd := hslice θ h1 b h3
+    simp only [p11Taylor]
+    calc ‖F ((θ, 0), b) + (fderiv ℂ (fun eta => F ((θ, eta), b)) 0) η‖
+        ≤ ‖F ((θ, 0), b)‖ + ‖fderiv ℂ (fun eta => F ((θ, eta), b)) 0‖ * ‖η‖ :=
+          (norm_add_le _ _).trans (by gcongr; exact ContinuousLinearMap.le_opNorm _ _)
+      _ ≤ M + M / s * s := by gcongr
+      _ = 2 * M := by field_simp; ring
+  · rintro ⟨⟨θ, η⟩, b⟩ hz
+    obtain ⟨h1, h2, h3⟩ := p11_mem_domain_def.mp hz
+    have h2' : ‖η‖ < s := h2.trans_le (by nlinarith)
+    have := p11_taylor_remainder (φ := fun eta => F ((θ, eta), b)) (s := s) (M := M) hq hq1
+      (p11_slice_differentiableOn hF.1 h1 h3)
+      (fun w hw => hb _ (p11_mem_domain_def.mpr ⟨h1, mem_ball_zero_iff.mp hw, h3⟩)) h2
+    simp only [Pi.sub_apply, p11Taylor]
+    convert this using 2
+    ring
+
 end KAM.Planetary
