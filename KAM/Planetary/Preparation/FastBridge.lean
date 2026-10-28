@@ -8,6 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.Preparation.Holomorphic
 public import KAM.Planetary.Averaging.OscillatorFinite
+public import KAM.Planetary.Preparation.FastDivisor
 
 /-!
 # Fast averaging: the oscillator dictionary (P11A-P5, `stepP:p11:af-apply`)
@@ -115,6 +116,79 @@ theorem oscBound_of_sup {D : Set (Fin n → ℝ)} {m : ℕ} {r rp rq σ σ' M : 
   have he : σ + σ' - σ' = σ := by ring
   rw [he] at h1 h2
   exact ⟨h1, h2⟩
+
+theorem p11WorkingDom_mono {J0 : P11Vec n} {s s' r r' rz rz' : ℝ} (hs : s ≤ s') (hr : r ≤ r')
+    (hrz : rz ≤ rz') : p11WorkingDom n J0 s r rz ⊆ p11WorkingDom n J0 s' r' rz' := by
+  rintro z ⟨h1, h2, h3, h4⟩
+  exact ⟨fun i => (h1 i).trans_le hs, h2.trans_le hr, h3.trans_le hrz, h4.trans_le hrz⟩
+
+theorem actionNbhd_sub_ball (J0 : P11Vec n) {s r : ℝ} (h : s ≤ r) :
+    KAM.actionNbhd {J0} s ⊆ Metric.ball (KAM.realInclusion n J0) r := by
+  rintro I ⟨J, hJ, hI⟩
+  have hJ0 : J = J0 := hJ
+  subst hJ0
+  have : KAM.realInclusion n J = fun i => (J i : ℂ) := by funext i; simp
+  rw [mem_ball, dist_eq_norm, this]
+  exact hI.trans_le h
+
+theorem coth_pos {x : ℝ} (hx : 0 < x) : 0 < coth x := by
+  unfold coth
+  exact div_pos (Real.cosh_pos x) (Real.sinh_pos_iff.2 hx)
+
+/-- `stepP:p11:af-apply`: the hypotheses of `osc_averaging` for the fast Hamiltonian
+`h̃ + ε F` (`D = {J₀}`, `r = s₁`, `rp = rq = r_z`, `s̄ = 0`, `s = σ_F`, `E = ε M_F`).  The
+reality of `h̃` at real points is a source premise of `osc_averaging`; it is the explicit
+hypothesis `hh`. -/
+theorem oscHyp_fast {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
+    (hh : ∀ J : P11Vec n, KAM.realInclusion n J ∈ Metric.ball (KAM.realInclusion n C.J0) (2 * C.rC) →
+      (C.h (KAM.realInclusion n J)).im = 0)
+    {eps K α s1 : ℝ} (heps : 0 < eps) (hs1 : 0 < s1) (hs1r : s1 ≤ C.rC) (hK : 0 < K)
+    (hα : 0 < α) (hbud : 6 ≤ 2 * Real.pi * K * C.sigma)
+    (hsK : K * C.L * s1 ≤ C.gamma * K ^ (-C.tau) / 4)
+    (hαK : α ≤ 3 / 4 * C.gamma * K ^ (-C.tau))
+    (hsmall : 2 ^ 12 * (1 + (n : ℝ)) * K * (eps * C.MF) * C.sigma ≤
+      α * min (s1 * C.sigma) (C.rz ^ 2)) :
+    OscHyp (m := n) {C.J0} s1 C.rz C.rz 0 C.sigma K α (eps * C.MF) C.h
+      (fun z => (eps : ℂ) * C.F z) := by
+  have hC' := hC
+  obtain ⟨-, -, -, -, hhd, -, -, -, -, -, -, hrC0, hrC1, -, hσ0, hσ1, hrz0, hrz1, hMF, hL1, -, -,
+    hFd, hFb, hFp, hFr, -⟩ := hC
+  have hn : 1 ≤ n := by have := D.n_ge; omega
+  have hsubW : ∀ S, S ≤ 2 * C.sigma → p11WorkingDom n C.J0 S s1 C.rz ⊆
+      p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz :=
+    fun S hS => p11WorkingDom_mono hS (by linarith) le_rfl
+  have hcoth := coth_pos (x := Real.pi * C.sigma) (by positivity)
+  have hcls : oscClass (m := n) {C.J0} s1 C.rz C.rz (C.sigma + C.sigma)
+      (fun z => (eps : ℂ) * C.F z) := by
+    rw [oscClass, oscDom_eq_workingDom]
+    have hsub' : p11WorkingDom n C.J0 (C.sigma + C.sigma) s1 C.rz ⊆
+        p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz :=
+      p11WorkingDom_mono (by linarith) (by linarith) le_rfl
+    refine ⟨(differentiableOn_const _).mul (hFd.mono hsub'), fun j z hz => ?_⟩
+    simp only [hFp z (hsub' hz) j]
+  refine ⟨hn, hn, ⟨hs1, hrz0, hrz0, hσ0, hK, hα⟩, le_rfl, mul_nonneg heps.le (by linarith), hbud,
+    (hhd.mono ((actionNbhd_sub_ball C.J0 (by linarith)))), ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · intro I hI
+    exact hh I (actionNbhd_sub_ball C.J0 (by linarith) hI)
+  · exact hcls.mono le_rfl le_rfl le_rfl (by linarith)
+  · have hM : ∀ z ∈ oscDom (m := n) {C.J0} s1 C.rz C.rz (C.sigma + C.sigma),
+        ‖(eps : ℂ) * C.F z‖ ≤ eps * C.MF / coth (Real.pi * C.sigma) ^ n := by
+      intro z hz
+      rw [oscDom_eq_workingDom] at hz
+      rw [norm_mul, Complex.norm_real, Real.norm_of_nonneg heps.le, mul_div_assoc]
+      exact mul_le_mul_of_nonneg_left (hFb z (hsubW _ (by linarith) hz)) heps.le
+    have := oscBound_of_sup (σ := C.sigma) (σ' := C.sigma) hσ0 hσ0 hcls hM
+    rw [mul_div_cancel₀ _ (pow_pos hcoth n).ne'] at this
+    rwa [zero_add]
+  · intro x hx
+    rw [zero_add, oscDom_eq_workingDom] at hx
+    have := hFr x (hsubW _ (by linarith) hx)
+    show ((eps : ℂ) * C.F (KAM.realInclusion₂ (n + n) x)).im = 0
+    rw [Complex.mul_im, this]
+    simp
+  · exact fast_divisor hC' hs1r hK hsK hαK
+  · rw [show C.rz * C.rz = C.rz ^ 2 by ring]
+    exact hsmall
 
 end KAM.Planetary
 
