@@ -25222,9 +25222,9 @@ EDGE: bpP:p11a:initial | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionT₀, selectiont₀, selectionXi, selectionThetaMax, selectionLambdaMax, selectionAdmissible, adm_params (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: audit B07 round 2 PASS WITH NOTES; definitions classified OK
 NOTE: -
 
 NODE: bpP:p11a:adm-choice
@@ -25255,9 +25255,9 @@ EDGE: bpP:p11a:smooth-cutoff | blueprint-P/parts/p11a3-iteration-selection.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-delta-P-ac
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adm_choice_initial, adm_choice, SelectionAdmissibility (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: audit B07 round 2 PASS WITH NOTES; A1-A6 via adm_choice, A7 via companion adm_choice_initial (consumes B06 initial)
 NOTE: CYCLE BREAK: the draft edges adm-choice -> adm-budget (L217: the polynomial lower bound is Proposition adm-budget, a pointer) and adm-choice -> strip-budget/initial (L214, L215: (A6), (A7) cite the lemmas that use or prove them; the proof ac-list cites initial) are not statement dependencies; the proof step carries the initial edge.
 
 NODE: stepP:p11a:ac-lam
@@ -25282,9 +25282,9 @@ EDGE: bpP:p11a:adm-params | blueprint-P/parts/p11a3-iteration-selection.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adm_choice (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: audit B07 PASS WITH NOTES; third conjunct eps0/s0 <= lambda_max
 NOTE: -
 
 NODE: stepP:p11a:ac-list
@@ -25312,9 +25312,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adm_choice_initial (KAM/Planetary/WeakKAM/Admissible.lean)
+LEAN_NOTE: audit B07 round 2 PASS WITH NOTES; A1-A7
 NOTE: -
 
 NODE: bpP:p11a:sec-retained#data
@@ -25371,9 +25371,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: finite_divisor, fd_tel, fd_test, fd_concl (KAM/Planetary/WeakKAM/FiniteDivisor.lean)
+LEAN_NOTE: audit B08 round 2 PASS WITH NOTES; composite of finite_divisor (signed) with fd_tel/fd_test/fd_concl for the full chain
 NOTE: CYCLE BREAKS: the draft edges to divisor-wide, canonical-step (L243: the last sentence says that their hypotheses hold, an interface sentence; the proof is direct), consumers (L244) and i3-corrected (L244) are deleted. divisor-wide (P-p11a12, proof L154) cites finite-divisor, never the reverse; finite-divisor consumes neither. The hypothesis S_m<=gamma T_m^{-tau-1} is SC2, supplied at the consumer (il-ret), so there is no edge to schedule-props here.
 
 NODE: stepP:p11a:fd-tel
@@ -25399,9 +25399,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fd_tel (KAM/Planetary/WeakKAM/FiniteDivisor.lean)
+LEAN_NOTE: audit B08 round 2 PASS WITH NOTES; full identity and inequality chain
 NOTE: -
 
 NODE: stepP:p11a:fd-test
@@ -25426,9 +25426,9 @@ EDGE: bpP:p11a:sec-retained#data | blueprint-P/parts/p11a3-iteration-selection.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fd_test (KAM/Planetary/WeakKAM/FiniteDivisor.lean)
+LEAN_NOTE: audit B08 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:fd-concl
@@ -25455,9 +25455,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fd_concl (KAM/Planetary/WeakKAM/FiniteDivisor.lean)
+LEAN_NOTE: audit B08 round 2 PASS WITH NOTES; divisor and D_nu endpoints
 NOTE: The parenthetical remark that this is also the conclusion of Lemma divisor-wide (L251) is a comparison, not a use: the draft edge fd-concl -> divisor-wide is deleted.
 
 NODE: bpP:p11a:finite-measure
@@ -26101,7 +26101,7 @@ EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit B13 PASS WITH NOTES covers E1-E3 scalar slice only; E4 (parameter Cauchy) belongs to B10 and es-3 real tail not separate; node stays NOT_STARTED
 NOTE: -
 
 NODE: stepP:p11a:es-1
@@ -26131,9 +26131,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exported_sums (KAM/Planetary/WeakKAM/Budgets.lean); wbud_stage (KAM/Planetary/WeakKAM/BudgetsStage.lean)
+LEAN_NOTE: audit B13 PASS WITH NOTES; E1 via exported_sums (adm_params radius)
 NOTE: -
 
 NODE: stepP:p11a:es-2
@@ -26164,9 +26164,9 @@ EDGE: bpP:p11a:y-geom | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exported_sums, wbud_nums, wbud_sums_Aα (KAM/Planetary/WeakKAM/Budgets.lean)
+LEAN_NOTE: audit B13 PASS WITH NOTES; E2 sums with constants 2^-12, 3 varsigma0 Q0/C_Q, s0 Q0/16
 NOTE: -
 
 NODE: stepP:p11a:es-3
@@ -26200,7 +26200,7 @@ EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit B13: collar tail exported (exported_sums last conjunct, wbud_tail) but the real tail sum Lambda_R tail <= 2^-10 is not a separate declaration
 NOTE: -
 
 NODE: stepP:p11a:es-4
@@ -26615,7 +26615,7 @@ EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: ruling: fr-other (free-radius transfer) stays NOT_STARTED until B10/B12 apply the lemmas at the adapted radius; free_radius is the scalar export only
 NOTE: These statement-level edges are the results whose validity at the new radius the lemma claims (proved in fr-list and fr-other). No result of 11a-3 depends on free-radius (its consumers are situation and later nodes), so no cycle.
 
 NODE: stepP:p11a:fr-small
@@ -26643,7 +26643,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: free_radius states s0<=adm s0, eps0 formula and lambda0<=lambda_max but not eps0=2 eps literally; left NOT_STARTED with free-radius
 NOTE: -
 
 NODE: stepP:p11a:fr-list
@@ -26676,7 +26676,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: free_radius gives A1-A6 only at the adapted radius; A7 (analytic attachment) not supplied, deferred to B10/B12
 NOTE: -
 
 NODE: stepP:p11a:fr-other
@@ -26713,7 +26713,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: ruling: NOT_STARTED until B10/B12 apply the lemmas at the adapted radius
 NOTE: -
 
 NODE: bpP:p11a:composition
@@ -26898,9 +26898,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a:par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: param_lip_sum, wbud_lip (KAM/Planetary/WeakKAM/Budgets.lean)
+LEAN_NOTE: audit B13 PASS WITH NOTES; adapted-radius summability and S_b <= 2^-10/16
 NOTE: -
 
 NODE: stepP:p11a:pl4-terms
@@ -26930,7 +26930,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: wbud_lip_term gives a combined geometric bound at rate 1/32, not the separate g4^j and (2 q g4)^j bounds
 NOTE: -
 
 NODE: stepP:p11a:pl4-sum
@@ -26962,7 +26962,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: wbud_lip states only the final 2^-10/16 bound, not the intermediate (32/31) Q0 Xi (2/C_Q+1/32) form
 NOTE: -
 
 NODE: bpP:p11a:limit-map
@@ -37615,9 +37615,9 @@ EDGE: bpP:p14:sb-x-top | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-Sdef@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_sdef, sb_s (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; definition body OK, openness by sb_s; theta-invariance not a separate declaration (follows from the definition not involving lambda)
 NOTE: -
 
 NODE: bpP:p14:sb-S
@@ -37654,9 +37654,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_geometry, sb_s (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; literal conclusion via companion sb_s_geometry (signed sb_s alone is narrower)
 NOTE: the last claim (NoColl of z(w;F)_1) needs the bridge stepP:p14:sb-th-8, stated later at L298 and cited by stepP:p14:sb-th-7; the Lemma's proof (L189-193) does not prove it (see report)
 
 NODE: stepP:p14:sb-S-1
@@ -37683,9 +37683,9 @@ EDGE: bpP:p14:sb-conv#secularGamma | blueprint-P/parts/p14b-secular-box.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_radicand, sb_s_geometry (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; radicand margin sb_s_radicand, k and Gamma<Lambda in sb_s_geometry
 NOTE: -
 
 NODE: stepP:p14:sb-S-2
@@ -37713,9 +37713,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-S-2@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_geometry (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; eccentricity and Jacobian bounds exported by companion
 NOTE: -
 
 NODE: stepP:p14:sb-S-3
@@ -37745,9 +37745,9 @@ EDGE: bpP:p6:ext-tri | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-S-3@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_geometry (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; radii, ordering and separation exported by companion
 NOTE: -
 
 NODE: bpP:p14:sb-smooth-prop
@@ -37782,9 +37782,9 @@ EDGE: bpP:p14:sb-regular#SecularRegular | blueprint-P/parts/p14b-secular-box.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_smooth_prop, secular_integrand_smooth, secular_integrand_identity (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; composite: (a) integral identity and lambda-independence, (b) smooth/periodic integrand, (c) C-infinity and Reg (iii),(iv)
 NOTE: -
 
 NODE: stepP:p14:sb-sm-1
@@ -37820,9 +37820,9 @@ EDGE: bpP:p14:sb-defs#longitudeJacobian | blueprint-P/parts/p14b-secular-box.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secular_integrand_identity, explicitSecularIntegrand, sb_smooth_prop (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; identity plus lambda-independence
 NOTE: -
 
 NODE: stepP:p14:sb-sm-2
@@ -37858,9 +37858,9 @@ EDGE: bpP:p6:ext-sqrt | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sm-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secular_integrand_smooth (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; C-infinity on S x R^2 and 2pi-periodicity
 NOTE: -
 
 NODE: stepP:p14:sb-sm-3
@@ -37889,9 +37889,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sm-3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: S4 secular_parametric_integral is the generic compact-parameter smoothness lemma (audit S4 PASS WITH NOTES); step concludes H_sec C^infty on S, which needs sm-1/sm-2 integrand instance, not discharged here
+LEAN_STATUS: PROVED
+LEAN_REF: sb_smooth_prop (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; first clause (C-infinity of exactSecularHamiltonian on S) via S4 parametric integral
 NOTE: the draft external bpP:p14:sb-x-diff is an alias of bpP:p8:e-diff (EXCLUDED); the edge goes to bpP:p8:e-diff
 
 NODE: stepP:p14:sb-sm-4
@@ -37921,9 +37921,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sm-4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_smooth_prop (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; SecularRegular clauses (integrability, differentiability)
 NOTE: -
 
 NODE: bpP:p14:sb-rot

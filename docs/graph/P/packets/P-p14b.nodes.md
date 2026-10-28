@@ -1046,9 +1046,9 @@ EDGE: bpP:p14:sb-x-top | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-Sdef@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_sdef, sb_s (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; definition body OK, openness by sb_s; theta-invariance not a separate declaration (follows from the definition not involving lambda)
 NOTE: -
 
 NODE: bpP:p14:sb-S
@@ -1085,9 +1085,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_geometry, sb_s (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; literal conclusion via companion sb_s_geometry (signed sb_s alone is narrower)
 NOTE: the last claim (NoColl of z(w;F)_1) needs the bridge stepP:p14:sb-th-8, stated later at L298 and cited by stepP:p14:sb-th-7; the Lemma's proof (L189-193) does not prove it (see report)
 
 NODE: stepP:p14:sb-S-1
@@ -1114,9 +1114,9 @@ EDGE: bpP:p14:sb-conv#secularGamma | blueprint-P/parts/p14b-secular-box.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_radicand, sb_s_geometry (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; radicand margin sb_s_radicand, k and Gamma<Lambda in sb_s_geometry
 NOTE: -
 
 NODE: stepP:p14:sb-S-2
@@ -1144,9 +1144,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-S-2@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_geometry (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; eccentricity and Jacobian bounds exported by companion
 NOTE: -
 
 NODE: stepP:p14:sb-S-3
@@ -1176,9 +1176,9 @@ EDGE: bpP:p6:ext-tri | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-S-3@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_s_geometry (KAM/Planetary/SecularBox/Region.lean)
+LEAN_NOTE: audit S3 round 2 PASS WITH NOTES; radii, ordering and separation exported by companion
 NOTE: -
 
 NODE: bpP:p14:sb-smooth-prop
@@ -1213,9 +1213,9 @@ EDGE: bpP:p14:sb-regular#SecularRegular | blueprint-P/parts/p14b-secular-box.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_smooth_prop, secular_integrand_smooth, secular_integrand_identity (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; composite: (a) integral identity and lambda-independence, (b) smooth/periodic integrand, (c) C-infinity and Reg (iii),(iv)
 NOTE: -
 
 NODE: stepP:p14:sb-sm-1
@@ -1251,9 +1251,9 @@ EDGE: bpP:p14:sb-defs#longitudeJacobian | blueprint-P/parts/p14b-secular-box.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secular_integrand_identity, explicitSecularIntegrand, sb_smooth_prop (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; identity plus lambda-independence
 NOTE: -
 
 NODE: stepP:p14:sb-sm-2
@@ -1289,9 +1289,9 @@ EDGE: bpP:p6:ext-sqrt | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sm-2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secular_integrand_smooth (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; C-infinity on S x R^2 and 2pi-periodicity
 NOTE: -
 
 NODE: stepP:p14:sb-sm-3
@@ -1320,9 +1320,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sm-3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: S4 secular_parametric_integral is the generic compact-parameter smoothness lemma (audit S4 PASS WITH NOTES); step concludes H_sec C^infty on S, which needs sm-1/sm-2 integrand instance, not discharged here
+LEAN_STATUS: PROVED
+LEAN_REF: sb_smooth_prop (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; first clause (C-infinity of exactSecularHamiltonian on S) via S4 parametric integral
 NOTE: the draft external bpP:p14:sb-x-diff is an alias of bpP:p8:e-diff (EXCLUDED); the edge goes to bpP:p8:e-diff
 
 NODE: stepP:p14:sb-sm-4
@@ -1352,9 +1352,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-sm-4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_smooth_prop (KAM/Planetary/SecularBox/Smooth.lean)
+LEAN_NOTE: audit S5 PASS WITH NOTES; SecularRegular clauses (integrability, differentiability)
 NOTE: -
 
 NODE: bpP:p14:sb-rot
