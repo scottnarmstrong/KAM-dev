@@ -162,6 +162,23 @@ theorem image_add_int_Dom (k : Fin n → ℤ) (a b : ℝ) :
       funext i; simp [sub_eq_add_neg]
     simpa [e] using this
 
+theorem U_sub_half (H : P11AffineHyp p0 p1 r s sigma A) :
+    KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2) ⊆
+      KAM.Canonical.gaugeInterior (affineGauge H) (KAM.Weighted.Dom n {0} s (r-sigma)) (1/2) :=
+  fun _ hz => mem_gaugeInterior (by linarith [H.s_pos]) (by linarith [H.sigma_pos]) hz
+
+theorem V_sub_one (H : P11AffineHyp p0 p1 r s sigma A) :
+    KAM.Weighted.Dom n {0} (s/2) (r-2*sigma) ⊆
+      KAM.Canonical.gaugeInterior (affineGauge H) (KAM.Weighted.Dom n {0} s (r-sigma)) 1 :=
+  fun _ hz => mem_gaugeInterior (by linarith [H.s_pos]) (by linarith [H.sigma_pos]) hz
+
+theorem V_sub_U (H : P11AffineHyp p0 p1 r s sigma A) :
+    KAM.Weighted.Dom (m := n) n {0} (s/2) (r-2*sigma) ⊆
+      KAM.Weighted.Dom n {0} (3*s/4) (r-3*sigma/2) := by
+  intro z hz
+  rw [mem_Dom_iff] at hz ⊢
+  exact ⟨fun i => (hz.1 i).trans (by linarith [H.sigma_pos]), by linarith [hz.2, H.s_pos]⟩
+
 end KAM.Planetary
 
 end
