@@ -233,7 +233,79 @@ theorem osc_adjoint_induction {r rp rq S r₀ rp₀ rq₀ S₀ ρ ρp ρq σ Φ 
     refine hK.trans (le_of_eq ?_)
     ring
 
+/-- Numerical comparison: `(1/h!) C^h h!/(2h)! ≤ q^h` for `C = c_m h² Φ/d`. -/
+theorem osc_final_estimate {Φ d A : ℝ} (m : ℕ) (hΦ : 0 ≤ Φ) (hd : 0 < d) (hA : 0 ≤ A) {h : ℕ}
+    (hh : 1 ≤ h) :
+    ((h.factorial : ℝ))⁻¹ *
+        ((2 * (1 / exp 1 + m) * (h : ℝ) ^ 2 * Φ / d) ^ h *
+          ((h.factorial : ℝ) / ((2 * h).factorial : ℝ)) * A) ≤
+      (oscLieRatio m Φ d) ^ h * A := by
+  have hh0 : (0 : ℝ) < h := by exact_mod_cast hh
+  have he : 0 < exp 1 := exp_pos 1
+  have hm : (0 : ℝ) ≤ m := Nat.cast_nonneg m
+  have hf0 : (0 : ℝ) < h.factorial := by exact_mod_cast h.factorial_pos
+  have hf2 : (0 : ℝ) < (2 * h).factorial := by exact_mod_cast (2 * h).factorial_pos
+  set C : ℝ := 2 * (1 / exp 1 + m) * (h : ℝ) ^ 2 * Φ / d with hC
+  have hC0 : 0 ≤ C := by positivity
+  have h1 : ((h.factorial : ℝ))⁻¹ * (C ^ h * ((h.factorial : ℝ) / ((2 * h).factorial : ℝ)) * A) =
+      C ^ h * (1 / ((2 * h).factorial : ℝ)) * A := by
+    field_simp
+  have h2 : oscLieRatio m Φ d = C * (exp 1 / (2 * h)) ^ 2 := by
+    unfold oscLieRatio; rw [hC]; field_simp
+  have h3 : 1 / ((2 * h).factorial : ℝ) ≤ (exp 1 / (2 * h)) ^ (2 * h) := by
+    have := factorial_ge (2 * h)
+    push_cast at this
+    have h4 := one_div_le_one_div_of_le (by positivity) this
+    rwa [div_pow, one_div_div, ← div_pow] at h4
+  rw [h1, h2, mul_pow, ← pow_mul]
+  exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left h3 (by positivity)) hA
+
 end Adjoint
+
+/-- General four-loss adjoint bound; includes the 3/4-loss instance used for identification. -/
+theorem osc_adjoint_bound {n m : ℕ} {D : Set (Fin n → ℝ)}
+    {r rp rq S r₀ rp₀ rq₀ S₀ ρ ρp ρq σ Φ A : ℝ} {φ u : CHam (n + m)}
+    (hn : 1 ≤ n) (hm : 1 ≤ m)
+    (hφ : oscClass D r₀ rp₀ rq₀ S₀ φ) (hu : oscClass D r rp rq S u)
+    (hbφ : oscBound D r₀ rp₀ rq₀ S₀ φ Φ) (hbu : oscBound D r rp rq S u A)
+    (hΦ : 0 ≤ Φ) (hA : 0 ≤ A)
+    (hwidths : 0 < ρ ∧ ρ < r ∧ 0 < ρp ∧ ρp < rp ∧
+      0 < ρq ∧ ρq < rq ∧ 0 < σ ∧ σ < S)
+    (houter : r + ρ ≤ r₀ ∧ rp + ρp ≤ rp₀ ∧ rq + ρq ≤ rq₀ ∧ S + σ ≤ S₀)
+    (j : ℕ) :
+    let d := min (ρ * σ) (ρp * ρq)
+    oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (adPow φ j u) ∧
+    oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => ((j.factorial : ℂ)⁻¹) * adPow φ j u z)
+      ((oscLieRatio m Φ d) ^ j * A) := by
+  intro d
+  obtain ⟨hρ, hρr, hρp, hρpr, hρq, hρqr, hσ, hσS⟩ := hwidths
+  obtain ⟨hr, hrp, hrq, hS⟩ := houter
+  have hd : 0 < d := lt_min (by positivity) (by positivity)
+  rcases Nat.eq_zero_or_pos j with rfl | hj
+  · have hc : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u :=
+      hu.mono (by linarith) (by linarith) (by linarith) (by linarith)
+    refine ⟨by simpa [adPow] using hc, ?_⟩
+    have hb : oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u A :=
+      hbu.mono_gen (by linarith) (by linarith) (by linarith) (by linarith) le_rfl
+    simpa [adPow] using hb
+  · obtain ⟨hc, hb⟩ := osc_adjoint_induction hn hm hφ hu hbφ hbu hΦ hA
+      ⟨hρ, hρr, hρp, hρpr, hρq, hρqr, hσ, hσS⟩ ⟨hr, hrp, hrq, hS⟩ hj j le_rfl
+    have hh0 : (0 : ℝ) < j := by exact_mod_cast hj
+    have e1 : r - (j : ℝ) * (ρ / j) = r - ρ := by field_simp
+    have e2 : rp - (j : ℝ) * (ρp / j) = rp - ρp := by field_simp
+    have e3 : rq - (j : ℝ) * (ρq / j) = rq - ρq := by field_simp
+    have e4 : S - (j : ℝ) * (σ / j) = S - σ := by field_simp
+    rw [e1, e2, e3, e4] at hc hb
+    have hprod : ∏ k ∈ range j, (2 * (1 / exp 1 + m) * (j : ℝ) ^ 2 * Φ /
+          (min (ρ * σ) (ρp * ρq) * ((j : ℝ) + 1 + k))) =
+        ∏ k ∈ range j, ((2 * (1 / exp 1 + m) * (j : ℝ) ^ 2 * Φ / d) / ((j : ℝ) + 1 + k)) :=
+      prod_congr rfl fun k _ => (div_div _ _ _).symm
+    rw [hprod, osc_prod_step] at hb
+    refine ⟨hc, ?_⟩
+    refine (osc_bound_const_mul ((j.factorial : ℂ)⁻¹) hb).mono_gen le_rfl le_rfl le_rfl le_rfl ?_
+    rw [norm_inv, Complex.norm_natCast]
+    exact osc_final_estimate m hΦ hd hA hj
 
 end KAM.Planetary
 
