@@ -192,6 +192,32 @@ theorem hessian_pair_form (hC : ContDiffAt ℝ 2 G 0) (ci cj cf : ℝ)
 
 end Generic
 
+/-- The second derivative of the pair average along an arbitrary ray (`stepP:p8:qf-pair`). -/
+theorem pair_second_derivative (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n}
+    (hij : i < j) (w : Vec 2 × Vec 2) :
+    iteratedDeriv 2 (fun s : ℝ => pairSlowSecular D i j (action D a i) (action D a j)
+      (s • w)) 0 =
+      2 * (-pairA D a i j / action D a i) * planeSq w.1 +
+        2 * (-pairA D a i j / action D a j) * planeSq w.2 +
+        4 * coeffs D a i j * planeDot w.1 w.2 :=
+  hessian_pair_form (analyticAt_pairSlowSecular D ha hij).contDiffAt _ _ _
+    (pair_diag_first D ha hij) (pair_diag_second D ha hij) (cross_hessian D ha hij)
+    (pairSlowSecular_reflect D ha hij) (pairSlowSecular_quarter D ha hij) w
+
+/-- The value of the pair average at the circular point. -/
+theorem pair_value_zero (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j) :
+    pairSlowSecular D i j (action D a i) (action D a j) (0, 0) =
+      -(D.G * D.m i * D.m j / a j * laplace_def (1 / 2) 0 (a i / a j)) := by
+  have hI := action_pos D ha i
+  have hJ := action_pos D ha j
+  have hab : action D a i ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) ≠
+      action D a j ^ 2 / (D.m j ^ 2 * (D.G * D.m0)) := by
+    rw [action_sq_div D ha i, action_sq_div D ha j]; exact (ha.2 hij).ne
+  rw [pairSlowSecular_zero D i j hI hJ hab]
+  simp only [action_sq_div D ha i, action_sq_div D ha j]
+  rw [radialPhi_eq_laplace (ha.1 i) (ha.2 hij)]
+  ring
+
 end SecularForm
 end KAM.Planetary
 end
