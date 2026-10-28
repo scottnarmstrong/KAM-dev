@@ -109,7 +109,8 @@ theorem qe_integrand (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ} (ha : a
       (((bodyVector (poincareProd p.m p.kappa (assemble (p.actions a) φ u.2 u.1)).1 i 0 : ℝ) : ℂ) +
         Complex.I * ((bodyVector (poincareProd p.m p.kappa
           (assemble (p.actions a) φ u.2 u.1)).1 i 1 : ℝ) : ℂ)) =
-        ((a i : ℝ) : ℂ) * p11c_orbit (φ i) ![(qeV (p.actions a) u).1 i, (qeV (p.actions a) u).2 i] := by
+        ((a i : ℝ) : ℂ) * p11c_orbit (φ i)
+          ![(qeV (p.actions a) u).1 i, (qeV (p.actions a) u).2 i] := by
     intro i
     have h1 : bodyVector (poincareProd p.m p.kappa (assemble (p.actions a) φ u.2 u.1)).1 i =
         (poincare (p.m i) p.kappa (planetBlock (assemble (p.actions a) φ u.2 u.1) i)).1 :=

@@ -11,8 +11,9 @@ public import Mathlib
 # Planar quartic torsion: jets of analytic remainders (P11C, package T6)
 
 Generic calculus used by `quartic_explicit` (`bpP:p11b:quartic-explicit`, step `qe-an`): an analytic
-function whose size near `0` is `O(‖z‖^N)` has vanishing diagonal iterated derivatives of every order
-below `N` (`qeJet_diag_eq_zero`), hence `qeJet_iteratedFDeriv_eq_zero`; conversely a vanishing jet of
+function whose size near `0` is `O(‖z‖^N)` has vanishing diagonal iterated derivatives of every
+order below `N` (`qeJet_diag_eq_zero`), hence `qeJet_iteratedFDeriv_eq_zero`; conversely a
+vanishing jet of
 order `N - 1` gives the bound `O(‖z‖^N)` (`qeJet_isBigO_of_jet_zero`).
 -/
 
