@@ -19920,9 +19920,9 @@ EDGE: bpP:p11:sec-conv#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avg_fast, p11FastData, p11SecularHReal_of_spec (KAM/Planetary/Preparation/FastSigned.lean); avg_fast_of_spec, P11FastSpec, p11eta1_source_rate, fast_spec_at (KAM/Planetary/Preparation/Fast.lean)
+LEAN_NOTE: composite of audits P11A-P5W PASS WITH NOTES (signed avg_fast) + P11A-P5 round 2 PASS (core, eta1 rate p11eta1_source_rate)
 NOTE: -
 
 NODE: stepP:p11:af-apply
@@ -19949,9 +19949,9 @@ EDGE: bpP:p11:sec-C#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: oscHyp_fast (KAM/Planetary/Preparation/FastBridge.lean)
+LEAN_NOTE: audit P11A-P5 round 2 PASS; af-apply row
 NOTE: -
 
 NODE: stepP:p11:af-o1
@@ -19979,9 +19979,9 @@ EDGE: bpP:p11:holo-chart | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fast_divisor (KAM/Planetary/Preparation/FastDivisor.lean)
+LEAN_NOTE: audit P11A-P5 round 2 PASS; af-o1 row
 NOTE: -
 
 NODE: stepP:p11:af-o2
@@ -20008,9 +20008,9 @@ EDGE: bpP:p11:e4 | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:af-o2@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fast_small_eventually (KAM/Planetary/Preparation/FastParams.lean)
+LEAN_NOTE: audit P11A-P5 round 2 PASS; af-o2 row
 NOTE: Uses the writer-authorized logarithmic asymptotic external bpP:p11:e4; no elementary input is left unrepresented.
 
 NODE: stepP:p11:af-concl
@@ -20041,9 +20041,9 @@ EDGE: bpP:p11:sec-conv#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fast_spec_at (KAM/Planetary/Preparation/Fast.lean)
+LEAN_NOTE: audit P11A-P5 round 2 PASS; af-concl row
 NOTE: -
 
 NODE: bpP:p11:aniso-bracket
@@ -21246,9 +21246,9 @@ EDGE: bpP:p11:holo-chart | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:se
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11K1, p11Alpha1, p11s1, p11d1, p11eta1, P11FastData, P11FastSpec (KAM/Planetary/Preparation/Fast.lean)
+LEAN_NOTE: audit P11A-P5 round 2 PASS; amended p11d1 = min (s1*sigma) (rz^2); nu_1=3 fixed in p11K1
 NOTE: -
 
 NODE: bpP:p11:sec-D#data
