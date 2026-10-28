@@ -117,6 +117,48 @@ lemma permFac_comp (k : Fin n → R) (s : Fin n → R) (e : Equiv.Perm (Fin n)) 
 
 end Symmetry
 
+lemma good_comp (s : Vec n) (p : Equiv.Perm (Fin n)) : good (s ∘ p) = good s := by
+  unfold good
+  have hd : discriminant (s ∘ p) = discriminant s := discrGen_comp s p
+  rw [hd]
+  congr 1
+  refine Finset.prod_congr rfl fun k _ => ?_
+  exact permFac_comp (fun j => (k j : ℝ)) s p
+
+lemma discriminant_ne_zero_iff (s : Vec n) : discriminant s ≠ 0 ↔ Function.Injective s := by
+  unfold discriminant
+  rw [Finset.prod_ne_zero_iff]
+  simp only [Finset.mem_univ, true_implies, Finset.prod_ne_zero_iff, Finset.mem_filter, true_and,
+    ne_eq, pow_eq_zero_iff, two_ne_zero, not_false_eq_true, sub_eq_zero]
+  constructor
+  · intro h i j hij
+    by_contra hne
+    rcases lt_or_gt_of_ne hne with hlt | hlt
+    · exact h i j hlt hij
+    · exact h j i hlt hij.symm
+  · intro h j l hjl heq
+    exact hjl.ne (h heq)
+
+lemma perm_sum_eq (k : Fin n → ℤ) (s : Vec n) (p : Equiv.Perm (Fin n)) :
+    ∑ j, (k j : ℝ) * s (p j) = ∑ i, ((k ∘ p.symm) i : ℝ) * s i := by
+  rw [← Equiv.sum_comp p (fun i => ((k ∘ p.symm) i : ℝ) * s i)]
+  simp
+
+lemma good_ne_zero_iff (s : Vec n) : good s ≠ 0 ↔ nr4 s := by
+  unfold good nr4
+  rw [mul_ne_zero_iff, discriminant_ne_zero_iff, Finset.prod_ne_zero_iff]
+  refine and_congr_right fun _ => ?_
+  simp only [Set.Finite.mem_toFinset, Finset.prod_ne_zero_iff, Finset.mem_univ, true_implies]
+  constructor
+  · intro h k hk
+    simpa using h k hk 1
+  · intro h k hk p
+    rw [perm_sum_eq]
+    refine h _ ⟨?_, ?_⟩
+    · simpa [Function.comp_def, Equiv.sum_comp p.symm (fun i => |k i|)] using hk.1
+    · simpa [Function.comp_def, Equiv.sum_comp p.symm (fun i => |k i|)] using hk.2
+
+
 end SecularSpectrum
 
 end KAM.Planetary
