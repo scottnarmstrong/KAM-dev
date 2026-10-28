@@ -98,6 +98,103 @@ theorem theta_derivative {D : Set (Fin n → ℝ)} {ϱ s M : ℝ} {u : (Fin n �
     filter_upwards [Ioo_mem_nhdsGT hs] with s' hs' using key s' hs'
   exact ⟨hsum, (euclid_le_sum_norm _).trans hsum⟩
 
+/-- `span_ℝ Λ ⊆ ℝⁿ`. -/
+def resSpan (Λ : Set (Fin n → ℤ)) : Submodule ℝ (Fin n → ℝ) :=
+  Submodule.span ℝ ((fun k i => (k i : ℝ)) '' Λ)
+
+/-- The real `θ`-gradient of `realH g` at a real point is the real part of `∂_θ g`. -/
+private theorem thetaGradR_realH {D : Set (Fin n → ℝ)} {r s : ℝ}
+    {g : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hs : 0 < s) (hg : InClass (cpx D) r s g)
+    {x : (Fin n → ℝ) × (Fin n → ℝ)} (hx : x ∈ realStrip D r) (i : Fin n) :
+    thetaGradR (realH g) x i = (dtheta i g (KAM.realInclusion₂ n x)).re := by
+  have hxD : KAM.realInclusion₂ n x ∈ Dom n (cpx D) r s := (realInclusion₂_mem_Dom_iff D hs x).2 hx
+  have hgd : DifferentiableAt ℂ g (KAM.realInclusion₂ n x) :=
+    hg.differentiableOn.differentiableAt ((isOpen_Dom (n := n) (cpx D) r s).mem_nhds hxD)
+  have h2 : HasFDerivAt (fun y => g (KAM.realInclusion₂ n y))
+      (((fderiv ℂ g (KAM.realInclusion₂ n x)).restrictScalars ℝ).comp (KAM.realInclusion₂ n)) x :=
+    (hgd.hasFDerivAt.restrictScalars ℝ).comp x (KAM.realInclusion₂ n).hasFDerivAt
+  have h3 := congrArg (fun L => L (Pi.single i 1, 0)) (Complex.reCLM.hasFDerivAt.comp x h2).fderiv
+  unfold thetaGradR realH dtheta
+  rw [show (fun y => (g (KAM.realInclusion₂ n y)).re) =
+    Complex.reCLM ∘ (fun y => g (KAM.realInclusion₂ n y)) from rfl]
+  simpa [KAM.realInclusion_single] using h3
+
+/-- `∑ⱼ vⱼ ∂_{θⱼ} g` vanishes at real points if `v ⊥ Λ` and the coefficients of `g` vanish
+off `Λ`. -/
+private theorem sum_dtheta_eq_zero {D : Set (Fin n → ℝ)} {r s M : ℝ} {Λ : Set (Fin n → ℤ)}
+    {g : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hs : 0 < s) (hg : InClass (cpx D) r s g)
+    (hb : WBound (cpx D) r s g M)
+    (hΛ : ∀ I ∈ polyNbhd (cpx D) r, ∀ k, k ∉ Λ → coeff g I k = 0) (v : Fin n → ℝ)
+    (hv : ∀ k ∈ Λ, ∑ i, (k i : ℝ) * v i = 0) {x : (Fin n → ℝ) × (Fin n → ℝ)}
+    (hx : x ∈ realStrip D r) : ∑ j, (v j : ℂ) * dtheta j g (KAM.realInclusion₂ n x) = 0 := by
+  obtain ⟨hcoef, -⟩ := coefficients_deriv hs hg
+  have hs2 : 0 < s / 2 := half_pos hs
+  have hlt : s / 2 < s := half_lt_self hs
+  obtain ⟨h1, h2⟩ := cauchy_theta hg hb hs2 hlt
+  have hz : KAM.realInclusion₂ n x ∈ Dom n (cpx D) r (s / 2) :=
+    (realInclusion₂_mem_Dom_iff D hs2 x).2 hx
+  have hI : KAM.realInclusion n x.2 ∈ polyNbhd (cpx D) r := realInclusion_mem_polyNbhd hx.2
+  have hrep : ∀ j, HasSum (fun k => KAM.character k (KAM.realInclusion₂ n x).1 •
+      coeff (dtheta j g) (KAM.realInclusion n x.2) k) (dtheta j g (KAM.realInclusion₂ n x)) :=
+    fun j => (coefficients_repr hs2 (inClass_mono' (hcoef j).1 hlt.le) (h2 j)).1 _ hz
+  have hsum := hasSum_sum (s := Finset.univ) fun j _ => (hrep j).mul_left (v j : ℂ)
+  have hzero : ∀ k, ∑ j, (v j : ℂ) * (KAM.character k (KAM.realInclusion₂ n x).1 •
+      coeff (dtheta j g) (KAM.realInclusion n x.2) k) = 0 := fun k => by
+    by_cases hk : k ∈ Λ
+    · have : ∀ j, coeff (dtheta j g) (KAM.realInclusion n x.2) k =
+          (2 * (Real.pi : ℂ) * Complex.I * (k j : ℂ)) • coeff g (KAM.realInclusion n x.2) k :=
+        fun j => (hcoef j).2 _ hI k
+      simp only [this, smul_eq_mul]
+      have hvk := hv k hk
+      have hvk' : ∑ j, (v j : ℂ) * (k j : ℂ) = 0 := by
+        have := congrArg (fun a : ℝ => (a : ℂ)) hvk
+        simpa [mul_comm] using this
+      calc ∑ j, (v j : ℂ) * (KAM.character k (KAM.realInclusion₂ n x).1 *
+            (2 * (Real.pi : ℂ) * Complex.I * (k j : ℂ) * coeff g (KAM.realInclusion n x.2) k))
+          = (KAM.character k (KAM.realInclusion₂ n x).1 * (2 * (Real.pi : ℂ) * Complex.I) *
+              coeff g (KAM.realInclusion n x.2) k) * ∑ j, (v j : ℂ) * (k j : ℂ) := by
+            rw [Finset.mul_sum]
+            exact Finset.sum_congr rfl fun j _ => by ring
+        _ = 0 := by rw [hvk', mul_zero]
+    · have hz0 := hΛ _ hI k hk
+      have : ∀ j, coeff (dtheta j g) (KAM.realInclusion n x.2) k = 0 := fun j => by
+        rw [(hcoef j).2 _ hI k, hz0, smul_zero]
+      simp [this]
+  simp only [hzero] at hsum
+  exact hsum.unique hasSum_zero
+
+theorem resonant_gradient {D : Set (Fin n → ℝ)} {r s M : ℝ} {Λ : Set (Fin n → ℤ)}
+    {g : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hs : 0 < s) (hg : InClass (cpx D) r s g)
+    (hgr : RealOn (Dom n (cpx D) r s) g) (hb : WBound (cpx D) r s g M)
+    (hΛ : ∀ I ∈ polyNbhd (cpx D) r, ∀ k, k ∉ Λ → coeff g I k = 0) :
+    ∀ x ∈ realStrip D r, thetaGradR (realH g) x ∈ resSpan Λ := by
+  intro x hx
+  by_contra hnot
+  obtain ⟨f, hfx, hfmap⟩ := Submodule.exists_dual_map_eq_bot_of_notMem hnot inferInstance
+  set v : Fin n → ℝ := fun i => f (Pi.single i 1) with hvdef
+  have hfv : ∀ w : Fin n → ℝ, f w = ∑ i, w i * v i := fun w => by
+    conv_lhs => rw [pi_eq_sum_univ w]
+    simp only [map_sum, map_smul, smul_eq_mul, hvdef]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    congr 2
+    funext j
+    simp [Pi.single_apply, eq_comm]
+  have hv : ∀ k ∈ Λ, ∑ i, (k i : ℝ) * v i = 0 := fun k hk => by
+    rw [← hfv]
+    have : f (fun i => (k i : ℝ)) ∈ (resSpan Λ).map f :=
+      ⟨_, Submodule.subset_span ⟨k, hk, rfl⟩, rfl⟩
+    rwa [hfmap, Submodule.mem_bot] at this
+  have hxD : KAM.realInclusion₂ n x ∈ Dom n (cpx D) r s := (realInclusion₂_mem_Dom_iff D hs x).2 hx
+  have h0 := sum_dtheta_eq_zero hs hg hb hΛ v hv hx
+  have h1 := congrArg Complex.re h0
+  simp only [Complex.re_sum, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul,
+    sub_zero, Complex.zero_re] at h1
+  apply hfx
+  rw [hfv]
+  simp only [thetaGradR_realH hs hg hx]
+  rw [← h1]
+  exact Finset.sum_congr rfl fun i _ => mul_comm _ _
+
 end KAM.Stability
 
 end
