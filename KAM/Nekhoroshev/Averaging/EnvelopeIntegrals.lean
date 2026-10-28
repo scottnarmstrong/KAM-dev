@@ -11,8 +11,8 @@ public import KAM.Nekhoroshev.Averaging.Coefficients
 /-!
 # Part N12: integrals of the envelopes (`bpN:p12:envelopes`)
 
-The `ℝ≥0∞` envelopes `avgWenv`, `avgW1env`, `avgBenv`, `avgRenv`, `avgPhiEnv` are integrated over `G`
-termwise (`en-term`, Tonelli for `tsum`) using the shell integrals, and summed with the weight
+The `ℝ≥0∞` envelopes `avgWenv`, `avgW1env`, `avgBenv`, `avgRenv`, `avgPhiEnv` are integrated over
+`G` termwise (`en-term`, Tonelli for `tsum`) using the shell integrals, and summed with the weight
 `(1 + |k|₁)³ e^(-π s |k|₁)` (`avgSigma`). The constants `avgCW`, `avgCB`, `avgCR`, `avgCPhi` are
 computed (`en-choice`). `envelopes_from_slab` takes the slab constant as a derived hypothesis;
 `envelopes` constructs it.

@@ -219,7 +219,8 @@ theorem integral_psiD (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ} (hC : 
   obtain ⟨N, hN⟩ := exists_N hκ hΩ0 k
   have hK0 : 0 < euclid (fun j => (k j : ℝ)) := by linarith
   refine (geom_shell_bound (Q_aemeasurable d k) (V := C₁ / euclid (fun j => (k j : ℝ)))
-    (A := κ⁻¹ ^ 2) (g := fun y => ENNReal.ofReal |avgPsiD κ y|) (by positivity) (by positivity) (fun u hu => vol_restrict hC hk hu) hκ
+    (A := κ⁻¹ ^ 2) (g := fun y => ENNReal.ofReal |avgPsiD κ y|) (by positivity)
+    (by positivity) (fun u hu => vol_restrict hC hk hu) hκ
     (fun y _ => ?_) (fun j y hy1 hy2 => ?_) N (ae_Q_le hΩ hN)).trans (le_of_eq ?_)
   · exact ENNReal.ofReal_le_ofReal ((corrector hκ).2 y).2.2.1
   · have hy0 : 0 < |y| := lt_of_le_of_lt (by positivity) hy1
@@ -297,7 +298,8 @@ theorem integral_psi (d : AveragingData n R s h f) {C₁ Ω₀ κ : ℝ} (hC : A
     fun u hu => (vol_restrict hC hk hu).trans (ENNReal.ofReal_le_ofReal (by
       have : C₁ / euclid (fun j => (k j : ℝ)) ≤ C₁ := div_le_self (by linarith) hK
       nlinarith))
-  refine (shell_bound (Q_aemeasurable d k) (V := C₁) (g := fun y => ENNReal.ofReal |avgPsi κ y|) (by linarith) hvol
+  refine (shell_bound (Q_aemeasurable d k) (V := C₁)
+    (g := fun y => ENNReal.ofReal |avgPsi κ y|) (by linarith) hvol
     (c := 1 / (2 * κ)) (a := fun j => 1 / (κ * 2 ^ j)) (by positivity) (fun j => by positivity)
     hκ (fun y _ => ?_) (fun j y hy1 hy2 => ?_) N (ae_Q_le hΩ hN)).trans
     (ENNReal.ofReal_le_ofReal ?_)
