@@ -461,6 +461,8 @@ public import KAM.Planetary.MaximalStep.Divisor
 public import KAM.Planetary.MaximalStep.FourierCutoff
 public import KAM.Planetary.MaximalStep.FourierCutoffCoeff
 public import KAM.Planetary.MaximalStep.FourierCutoffTail
+public import KAM.Planetary.MaximalStep.Homological
+public import KAM.Planetary.MaximalStep.HomologicalBracket
 public import KAM.Planetary.MaximalStep.Loss
 public import KAM.Planetary.MaximalStep.Parameter
 public import KAM.Planetary.MaximalStep.Taylor
@@ -509,6 +511,7 @@ public import KAM.Planetary.PGAssembly.JetsReal
 public import KAM.Planetary.PGAssembly.JetsRegular
 public import KAM.Planetary.PGAssembly.JetsSlice
 public import KAM.Planetary.PGAssembly.JetsVanish
+public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.Remainder
 public import KAM.Planetary.PGAssembly.Scales
@@ -531,6 +534,7 @@ public import KAM.Planetary.PGMeasure.ResonanceSlow
 public import KAM.Planetary.PGMeasure.Setting
 public import KAM.Planetary.PGMeasure.Tonelli
 public import KAM.Planetary.PGMeasure.TwoScale
+public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
 public import KAM.Planetary.Poincare.D25
@@ -541,6 +545,12 @@ public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
 public import KAM.Planetary.Poincare.Tube
 public import KAM.Planetary.Preparation.AnalyticExtension
+public import KAM.Planetary.Preparation.PolarAverage.EvenDescent
+public import KAM.Planetary.Preparation.PolarAverage.Iterate
+public import KAM.Planetary.Preparation.PolarAverage.Order
+public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
+public import KAM.Planetary.Preparation.PolarAverage.Torus
+public import KAM.Planetary.Preparation.PolarAverage
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
 public import KAM.Planetary.SecularForm.Analytic
@@ -569,6 +579,7 @@ public import KAM.Planetary.SecularForm.Symmetry
 public import KAM.Planetary.SecularSpectrum.Definiteness.Hadamard
 public import KAM.Planetary.SecularSpectrum.Definiteness.Laplace
 public import KAM.Planetary.SecularSpectrum.Definiteness
+public import KAM.Planetary.SecularSpectrum.GoodPolynomial
 public import KAM.Planetary.SecularSpectrum.Lift.Analytic
 public import KAM.Planetary.SecularSpectrum.Lift.Basic
 public import KAM.Planetary.SecularSpectrum.Lift.Calculus
