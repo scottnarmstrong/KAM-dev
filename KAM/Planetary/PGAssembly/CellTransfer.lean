@@ -191,6 +191,66 @@ theorem ct_phi_shift (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d)
   rw [angleScale_add_angleShift]
   exact (hshift _ hz M).2
 
+/-- Fast translates of points of the scaled representative are distinct (`stepP:p5:ct-disj`). -/
+theorem ct_translate_inj (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
+    {B : Set (Fin (a+b) → ℝ)} (hsub : B ⊆ pgD0 d r mu) {y y' : Phase (a+b)}
+    (hy : y ∈ outputRepresentative d r mu h B) (hy' : y' ∈ outputRepresentative d r mu h B)
+    {k k' : Fin a → ℤ}
+    (heq : phi d r mu h (angleScale (2*Real.pi) y) + fastShift k =
+      phi d r mu h (angleScale (2*Real.pi) y') + fastShift k') : y = y' ∧ k = k' := by
+  obtain ⟨-, -, -, hQ2⟩ := phi_chart d r mu h
+  set M : Fin (a+b) → ℤ := Fin.append k (0 : Fin b → ℤ) with hM
+  set M' : Fin (a+b) → ℤ := Fin.append k' (0 : Fin b → ℤ) with hM'
+  have e1 := ct_phi_shift d r mu h hsub hy.1 M
+  have e2 := ct_phi_shift d r mu h hsub hy'.1 M'
+  rw [hM, ct_blockFast_append] at e1
+  rw [hM', ct_blockFast_append] at e2
+  have hper := ct_rawUnion_period d r mu h hsub
+  have m1 : y + angleShift M ∈ rawUnion d r mu h B := by
+    rw [← hper M]; exact mem_image_of_mem _ hy.1
+  have m2 : y' + angleShift M' ∈ rawUnion d r mu h B := by
+    rw [← hper M']; exact mem_image_of_mem _ hy'.1
+  obtain ⟨m, hm⟩ := hQ2 _ (ct_scaled_subset d r mu h hsub ⟨_, m1, rfl⟩) _
+    (ct_scaled_subset d r mu h hsub ⟨_, m2, rfl⟩) 0
+    (by rw [ct_fastShift_zero, add_zero, e1, e2, heq])
+  have hm' : angleScale (2*Real.pi) (y' + angleShift M') =
+      angleScale (2*Real.pi) (y + angleShift M + angleShift m) := by
+    rw [angleScale_add_angleShift (2*Real.pi) (y + angleShift M) m]; exact hm
+  have hm'' := fam_angleScale_injective (by positivity) hm'
+  rw [add_assoc, ← ct_angleShift_add] at hm''
+  obtain ⟨hyy, -⟩ := ct_cell_shift_unique hy.2 hy'.2 hm''
+  subst hyy
+  refine ⟨rfl, ?_⟩
+  have h3 := add_left_cancel heq
+  funext i
+  have := congrArg (fun w : Phase (a+b) => w.1 (Fin.castAdd b i)) h3
+  simp only [fastShift_fst_castAdd] at this
+  have hp : (2 * Real.pi) ≠ 0 := by positivity
+  exact_mod_cast mul_left_cancel₀ hp this
+
+theorem ct_kset_cover (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
+    {B : Set (Fin (a+b) → ℝ)} (hsub : B ⊆ pgD0 d r mu) :
+    kset d r mu h B = ⋃ k : Fin a → ℤ, (fun z : Phase (a+b) => z + fastShift k) ''
+      (phi d r mu h '' (angleScale (2*Real.pi) '' outputRepresentative d r mu h B)) := by
+  have hper := ct_rawUnion_period d r mu h hsub
+  rw [ct_kset_eq]
+  ext z
+  constructor
+  · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
+    obtain ⟨m, hm⟩ := exists_shift_mem_unitCell (A := rawUnion d r mu h B) hper hy
+    have e := ct_phi_shift d r mu h hsub hy m
+    refine mem_iUnion.2 ⟨-(blockFast m), ?_⟩
+    refine ⟨_, ⟨_, ⟨_, ⟨hm.1, ?_⟩, rfl⟩, rfl⟩, ?_⟩
+    · exact Set.mem_pi.2 fun i _ => hm.2 i
+    · simp only [e, add_assoc, ← fastShift_add, add_neg_cancel, ct_fastShift_zero, add_zero]
+  · intro hz
+    obtain ⟨k, hk⟩ := mem_iUnion.1 hz
+    obtain ⟨_, ⟨_, ⟨y, hy, rfl⟩, rfl⟩, rfl⟩ := hk
+    have m1 : y + angleShift (Fin.append k (0 : Fin b → ℤ)) ∈ rawUnion d r mu h B := by
+      rw [← hper (Fin.append k (0 : Fin b → ℤ))]; exact mem_image_of_mem _ hy.1
+    refine ⟨_, ⟨_, m1, rfl⟩, ?_⟩
+    rw [ct_phi_shift d r mu h hsub hy.1, ct_blockFast_append]
+
 end KAM.Planetary
 
 end
