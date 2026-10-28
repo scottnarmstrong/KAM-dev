@@ -132,6 +132,36 @@ theorem fam_ham_eq (h : admissible d (pgRstar d) r mu) {z : Phase (a+b)}
   show (2*Real.pi)⁻¹ * (d.H0 (blockFast (phi d r mu h u).2) + mu * d.P mu (phi d r mu h u)) = _
   rw [div_eq_inv_mul]
 
+/-- Transfer of the lattice torus from `Re (kamH + kamF)` to the pulled-back physical
+Hamiltonian. -/
+theorem fam_lattice (h : admissible d (pgRstar d) r mu) {w : Fin (a+b) → ℝ}
+    {K : (Fin (a+b) → ℝ) → Phase (a+b)}
+    (hT : IsLatticeTorus KAM.ODE.angleShift
+      (fun z : Phase (a+b) => (kamH d mu (KAM.realInclusion (a+b) z.2) +
+        kamF d r mu h (KAM.realInclusion₂ (a+b) z)).re)
+      (univ ×ˢ realTube (pgActionDomain d r mu) (params d r mu).rK) w K) :
+    IsLatticeTorus KAM.ODE.angleShift
+      (chartPullback (2*Real.pi) (degenerateHamiltonian d.H0 d.P mu)
+        (phi d r mu h ∘ angleScale (2*Real.pi)))
+      (angleScale (2*Real.pi) ⁻¹' phiDomain d r mu) w K := by
+  obtain ⟨⟨han, hKO⟩, hlat, hinj, hD, hLag, hflow⟩ := hT
+  have hZo : IsOpen {z : Phase (a+b) | z.2 ∈ realNbhd (pgActionDomain d r mu)
+      (params d r mu).rK} := (fam_isOpen_realNbhd _ _).preimage continuous_snd
+  have hmem : ∀ θ, (K θ).2 ∈ realNbhd (pgActionDomain d r mu) (params d r mu).rK := fun θ => by
+    have := (hKO θ).1.2
+    rwa [fam_realTube_eq] at this
+  have hev : ∀ θ, (chartPullback (2*Real.pi) (degenerateHamiltonian d.H0 d.P mu)
+      (phi d r mu h ∘ angleScale (2*Real.pi))) =ᶠ[𝓝 (K θ)]
+      fun z : Phase (a+b) => (kamH d mu (KAM.realInclusion (a+b) z.2) +
+        kamF d r mu h (KAM.realInclusion₂ (a+b) z)).re := fun θ => by
+    filter_upwards [hZo.mem_nhds (hmem θ)] with z hz
+    exact fam_ham_eq h hz
+  refine ⟨⟨han, fun θ => ⟨(location d r mu h _ (hmem θ)).1, ?_⟩⟩, hlat, hinj, hD, hLag,
+    fun θ t => ?_⟩
+  · exact (show DifferentiableAt ℝ _ _ from (hKO θ).2).congr_of_eventuallyEq (hev θ)
+  · rw [fam_hvf_congr (hev (θ + t • w))]
+    exact hflow θ t
+
 end KAM.Planetary
 
 end
