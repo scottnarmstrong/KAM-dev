@@ -376,9 +376,13 @@ public import KAM.Nekhoroshev.NormalForm.StepsOut
 public import KAM.Nekhoroshev.NormalForm.StepsSeq
 public import KAM.Nekhoroshev.NormalForm.Telescope
 public import KAM.Nekhoroshev.ODE.Specialization
+public import KAM.Nekhoroshev.Partial.Bracket
 public import KAM.Nekhoroshev.Partial.Constants
+public import KAM.Nekhoroshev.Partial.Continuation
 public import KAM.Nekhoroshev.Partial.Coordinates
+public import KAM.Nekhoroshev.Partial.RealSystem
 public import KAM.Nekhoroshev.Partial.Setting
+public import KAM.Nekhoroshev.Partial.VectorField
 public import KAM.Nekhoroshev.Poschel.BlockHypotheses
 public import KAM.Nekhoroshev.Poschel.BlockStability
 public import KAM.Nekhoroshev.Poschel.Elementary
@@ -477,6 +481,7 @@ public import KAM.Planetary.Averaging.Splitting
 public import KAM.Planetary.Exponential.ComplexTube
 public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Exponential.Enlargement
+public import KAM.Planetary.Exponential.Hamiltonian
 public import KAM.Planetary.Exponential.KeplerData
 public import KAM.Planetary.Exponential.Lift
 public import KAM.Planetary.Exponential.LocalComplexification
@@ -642,6 +647,15 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
+public import KAM.Planetary.PlanarTorsion.Characters.Average
+public import KAM.Planetary.PlanarTorsion.Characters.Basic
+public import KAM.Planetary.PlanarTorsion.Characters.Bracket
+public import KAM.Planetary.PlanarTorsion.Characters.CharPoly
+public import KAM.Planetary.PlanarTorsion.Characters.Defs
+public import KAM.Planetary.PlanarTorsion.Characters.Factor
+public import KAM.Planetary.PlanarTorsion.Characters.Poly
+public import KAM.Planetary.PlanarTorsion.Characters.Trig
+public import KAM.Planetary.PlanarTorsion.Characters
 public import KAM.Planetary.PlanarTorsion.FrozenBridge
 public import KAM.Planetary.PlanarTorsion.LaplaceReduction
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Algebra
@@ -667,7 +681,11 @@ public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
 public import KAM.Planetary.Poincare.Tube
 public import KAM.Planetary.Preparation.AnalyticExtension
+public import KAM.Planetary.Preparation.BasePoint
+public import KAM.Planetary.Preparation.Basic
 public import KAM.Planetary.Preparation.ForwardTube
+public import KAM.Planetary.Preparation.Patch
+public import KAM.Planetary.Preparation.PatchHessian
 public import KAM.Planetary.Preparation.PolarAverage.EvenDescent
 public import KAM.Planetary.Preparation.PolarAverage.Iterate
 public import KAM.Planetary.Preparation.PolarAverage.Order
@@ -680,6 +698,7 @@ public import KAM.Planetary.Preparation.RectangularAverageDomain
 public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
+public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.Quantitative.Interface
 public import KAM.Planetary.Quantitative.Thresholds
 public import KAM.Planetary.Quantitative.Zero

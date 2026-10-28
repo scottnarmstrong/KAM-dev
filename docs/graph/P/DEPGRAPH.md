@@ -19383,9 +19383,9 @@ EDGE: bpP:p10:rnd-def | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:norm-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: norm_dict (KAM/Planetary/Preparation/Working.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:nd
@@ -19414,9 +19414,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nd_scalar_eq, nd_p11dg_smul, nd_rnd, norm_dict (KAM/Planetary/Preparation/Working.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: bpP:p11:select
@@ -19445,9 +19445,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:se
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:sel-hyp
@@ -19475,9 +19475,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select, bp_jet_bound (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:sel-gam
@@ -19504,9 +19504,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: stepP:p11:sel-int
@@ -19532,9 +19532,9 @@ EDGE: bpP:p11:sec-A#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: select, bp_dio_of_good, bp_dio_fast, bp_dio_slow (KAM/Planetary/Preparation/BasePoint.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled)
 NOTE: -
 
 NODE: bpP:p11:holo-chart
@@ -20890,9 +20890,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:fo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-delta-P-ae
 REVIEWER: sol-delta-P-bc
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: forward_tube_core (KAM/Planetary/Preparation/ForwardTube.lean); forward_tube, p11PhysicalDelta (KAM/Planetary/Preparation/Working.lean)
+LEAN_NOTE: composite of audits P11A-P9 PASS WITH NOTES (forward_tube_core, raw data) + P11A-P1 PASS WITH NOTES (signed wrapper forward_tube); U_zeta membership follows from the norm bound
 NOTE: the lemma bpP:p12:forward-tube is stated for two planets and replayed step by step (steps are the edges)
 
 NODE: bpP:p11:wrapper
@@ -21189,7 +21189,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Basic.lean is only an import facade; introduces no definition (conventions defined elsewhere)
 NOTE: the reference to Remark bpP:p2:use5(3) (an excluded administrative remark) is covered by bpP:p1:period-convert
 
 NODE: bpP:p11:sec-A#data
@@ -21219,9 +21219,9 @@ EDGE: bpP:p9:dict | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:sec-A#dat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: P11Physical, p11PhysicalDelta, p11SecularMatrix, P11PatchData, P11PatchSpec (KAM/Planetary/Preparation/Working.lean); p11SecularMatrix_eq (KAM/Planetary/Preparation/PatchHessian.lean); p11_patch, p11PatchData, p11PatchData_spec (KAM/Planetary/Preparation/Patch.lean)
+LEAN_NOTE: audit P11A-P1 PASS WITH NOTES (lint finding on older base overruled); patch data + spec + Hessian bridge
 NOTE: -
 
 NODE: bpP:p11:sec-C#data
@@ -30365,9 +30365,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:sec-bnf#d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: QuarticFamily, QuarticFamily.eval, p11c_rotation, p11c_NR4, p11c_n0, p11c_bracket (KAM/Planetary/PlanarTorsion/Characters/Defs.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; definitions classified OK
 NOTE: created from p11b:prose-L120-L124 (SPEC section data, tag p11b:prose-L120-L124); consumers: char, homological, flow, lie, lift-map, birkhoff-form and their steps
 
 NODE: bpP:p11b:char
@@ -30395,9 +30395,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: char (KAM/Planetary/PlanarTorsion/Characters/Basic.lean); character_polynomial (KAM/Planetary/PlanarTorsion/Characters/CharPoly.lean); character_bracket (KAM/Planetary/PlanarTorsion/Characters/Bracket.lean); average_action_polynomial (KAM/Planetary/PlanarTorsion/Characters/Average.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; four signed clauses cover all of the conclusion
 NOTE: -
 
 NODE: stepP:p11b:ch-mon
@@ -30422,9 +30422,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: char (KAM/Planetary/PlanarTorsion/Characters/Basic.lean); character_polynomial (KAM/Planetary/PlanarTorsion/Characters/CharPoly.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; step proved via local lemmas charG_expand, character_eq_sum, character_covariance
 NOTE: -
 
 NODE: stepP:p11b:ch-bra
@@ -30451,9 +30451,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: character_bracket (KAM/Planetary/PlanarTorsion/Characters/Bracket.lean); char (KAM/Planetary/PlanarTorsion/Characters/Basic.lean)
+LEAN_NOTE: audit T7 PASS WITH NOTES; reality (char) and bracket along rotation
 NOTE: -
 
 NODE: bpP:p11b:homological
@@ -35881,7 +35881,7 @@ EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: conclusion includes openness of calV, which is E11's obligation; Lean gives pointwise statements on working cylinder only
 NOTE: -
 
 NODE: stepP:p14:hn-eq
@@ -35913,9 +35913,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hnu (KAM/Planetary/Exponential/Hamiltonian.lean)
+LEAN_NOTE: audit E10 PASS WITH NOTES (round 2); exact signed hnu
 NOTE: -
 
 NODE: stepP:p14:hn-field
@@ -35944,9 +35944,9 @@ EDGE: bpP:p14:sec-stopped#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: differentiableAt_hnu_field, fderiv_eq_of_eqOn_open, hamiltonianVectorField_eq_of_eqOn_open, hamiltonianVectorField_neg, degenerateHamiltonian_neg (KAM/Planetary/Exponential/Hamiltonian.lean)
+LEAN_NOTE: audit E10 PASS WITH NOTES (round 2); differentiability bridge closed by differentiableAt_hnu_field
 NOTE: -
 
 NODE: bpP:p14:stopped
