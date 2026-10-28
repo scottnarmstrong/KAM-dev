@@ -369,6 +369,54 @@ theorem h_data (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible)
     exact div_le_div_of_nonneg_left (by positivity) (by positivity)
       (pow_le_pow_left₀ hl.le hre 4)
 
+/-! ### Analytic negation bridges for `-h` (`bpP:p14:h-data` (iv), (ii), (iii) for `-h`) -/
+
+/-- `bpP:p14:h-data` (iv)/(ii) for `-h`: holomorphy of `-planetaryKeplerC B.mass` on the action
+neighbourhood, by negation of the `h_data` clause. -/
+theorem keplerDataNeg_differentiableOn (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible)
+    {kappa e A rho : ℝ} (hd : EnlargedData B kappa e A)
+    (hrho : 0 < rho) (hrk : rho ≤ kappa) :
+    DifferentiableOn ℂ (-planetaryKeplerC B.mass)
+      (KAM.actionNbhd (fastBox B (2*kappa)) rho) := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, h1, -⟩ := h_data hn B hB hd hrho hrk
+  exact h1.neg
+
+/-- `bpP:p14:h-data` (ii) for `-h`: complex `C²` regularity of `-planetaryKeplerC B.mass` on the
+action neighbourhood, by negation of the `h_data` clause. -/
+theorem keplerDataNeg_contDiffOn (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible)
+    {kappa e A rho : ℝ} (hd : EnlargedData B kappa e A)
+    (hrho : 0 < rho) (hrk : rho ≤ kappa) :
+    ContDiffOn ℂ 2 (-planetaryKeplerC B.mass)
+      (KAM.actionNbhd (fastBox B (2*kappa)) rho) := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, h2, -⟩ := h_data hn B hB hd hrho hrk
+  exact h2.neg
+
+/-- `bpP:p14:h-data` (iii) for `-h`: `-planetaryKeplerC B.mass` is real at real points of the
+action neighbourhood, by negation of the `h_data` clause. -/
+theorem keplerDataNeg_im_eq_zero (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible)
+    {kappa e A rho : ℝ} (hd : EnlargedData B kappa e A)
+    (hrho : 0 < rho) (hrk : rho ≤ kappa) :
+    ∀ I : Fin n → ℝ, (fun i => (I i : ℂ)) ∈ KAM.actionNbhd (fastBox B (2*kappa)) rho →
+      ((-planetaryKeplerC B.mass) (fun i => (I i : ℂ))).im = 0 := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, h3, -⟩ := h_data hn B hB hd hrho hrk
+  intro I hI
+  simpa using h3 I hI
+
+/-- `bpP:p14:h-data` (iv) for `-h`: the nested-`fderiv` (curried bilinear operator norm) Hessian
+bound of `-planetaryKeplerC B.mass`, with the same constant `M` as for `h`. -/
+theorem keplerDataNeg_hess_norm_le (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible)
+    {kappa e A rho : ℝ} (hd : EnlargedData B kappa e A)
+    (hrho : 0 < rho) (hrk : rho ≤ kappa) :
+    ∃ M : ℝ, M = ∑ i, 3 * B.mass i^3 / (5 * B.lower i / 8)^4 ∧ 0 < M ∧
+      ∀ z ∈ KAM.actionNbhd (fastBox B (2*kappa)) rho,
+        ‖fderiv ℂ (fderiv ℂ (-planetaryKeplerC B.mass)) z‖ ≤ M := by
+  obtain ⟨-, -, -, M, -, -, -, -, hM, -, -, hMpos, -, -, -, h4, -⟩ := h_data hn B hB hd hrho hrk
+  refine ⟨M, hM, hMpos, fun z hz => ?_⟩
+  have e1 : fderiv ℂ (-planetaryKeplerC B.mass) = -fderiv ℂ (planetaryKeplerC B.mass) :=
+    funext fun _ => fderiv_neg
+  rw [e1, fderiv_neg, ContinuousLinearMap.opNorm_neg]
+  exact h4 z hz
+
 end KAM.Planetary
 
 end
