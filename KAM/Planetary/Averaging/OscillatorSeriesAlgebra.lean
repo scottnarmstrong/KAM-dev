@@ -231,6 +231,7 @@ theorem osc_bound_tsum (hS : 0 < S) {v : ℕ → CHam (n + m)} {b : ℕ → ℝ}
     ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N,
       oscBound D r rp rq S
         (fun z => (∑' j, v j z) - ∑ j ∈ Finset.range N', v j z) ε := by
+  have _ := hb0
   obtain ⟨h1, h2⟩ := osc_tsum_class_bound hS hv hb hs
   refine ⟨h1, h2, fun ε hε => ?_⟩
   have htail : Tendsto (fun N' => ∑' j, b (j + N')) atTop (nhds 0) :=
@@ -316,8 +317,11 @@ theorem osc_truncation_tail {σ K : ℝ} {f : CHam (n + m)}
     have hh := hpr x hxI
     rw [hTflat]
     exact hh
-  · refine oscBound_of_flat (S := S - σ) (G := fun y => oscFunction f y - truncate K (oscFunction f) y)
-      (by linarith) (fun y _ => by simp only [oscFunction, Function.comp, oscTruncate, oscPack_oscUnpack]) ?_
+  · refine oscBound_of_flat (S := S - σ)
+      (G := fun y => oscFunction f y - truncate K (oscFunction f) y)
+      (by linarith)
+      (fun y _ => by
+        simp only [oscFunction, Function.comp, oscTruncate, oscPack_oscUnpack]) ?_
     intro x hx
     obtain ⟨δ, hδ, hball, hc, hb⟩ := loc x hx
     have hxI : x ∈ polyNbhd ({x} : Set (Fin (n + (m + m)) → ℂ)) δ := by
