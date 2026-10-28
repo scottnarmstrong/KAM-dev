@@ -193,6 +193,74 @@ theorem freq_diff_bounds (H : KamHyp D sbar p h f) {J : Fin (a + b) → ℝ} (hJ
       (mul_le_mul_of_nonneg_left hnorm hMh.le)
 
 
+/-- Divisors `α₁ = (2/3) γ₁ K^(-τ)`, `α₂ = (2/3) γ₂ K^(-τ)` (`stepP:p3:st-nonres`). -/
+def alpha₁ (p : ScaleData) : ℝ := 2 / 3 * p.γ₁ / cutoff p ^ p.τ
+def alpha₂ (p : ScaleData) : ℝ := 2 / 3 * p.γ₂ / cutoff p ^ p.τ
+
+/-- Arithmetic core of the nonresonance estimate. -/
+theorem nonres_arith {γ T Tm m K M R x y d : ℝ} (hT : 0 < T) (hTm : 0 < Tm) (hTT : Tm ≤ T)
+    (hγ : 0 < γ) (hmK : m ≤ K) (hm0 : 0 ≤ m) (hM : 0 ≤ M) (hR : 0 ≤ R)
+    (hc : 3 * M * (T * K) * R ≤ γ) (hdio : γ / Tm ≤ x) (hy : y ≤ m * (M * R))
+    (hd : x - y ≤ d) : 2 / 3 * γ / T ≤ d := by
+  have h1 : γ / T ≤ γ / Tm := div_le_div_of_nonneg_left hγ.le hTm hTT
+  have h2 : m * (M * R) ≤ K * (M * R) := mul_le_mul_of_nonneg_right hmK (by positivity)
+  have h3 : K * (M * R) ≤ γ / (3 * T) := by
+    rw [le_div_iff₀ (by positivity)]; nlinarith
+  have h4 : γ / (3 * T) = γ / T / 3 := by field_simp
+  have h5 : 2 / 3 * γ / T = γ / T - γ / T / 3 := by field_simp; ring
+  linarith
+
+theorem twoDiv_of_kamHyp (H : KamHyp D sbar p h f)
+    (hD : ∀ I ∈ D, realFreq h I ∈ twoScaleDiophantine a b p.γ₁ p.γ₂ p.τ) :
+    TwoDiv (KAM.actionNbhd D (rhoHat p)) (cutoff p) (alpha₁ p) (alpha₂ p) 1 h := by
+  intro I ⟨J, hJ, hlt⟩ k hk hkK
+  have hK := H.K_pos
+  have hτ := H.τ_pos
+  have hρ := H.positive.2.2.1
+  have hR := H.R_pos
+  have hM := H.positive.2.2.2.2.1
+  have hMh := H.positive.2.2.2.2.2.1
+  have hsb : 0 < sbar + p.s := by have := H.widths.1; have := H.positive.2.1; linarith
+  have hcen : KAM.realInclusion (a + b) J ∈ KAM.actionNbhd D p.ρ :=
+    mem_actionNbhd_of_mem hρ hJ
+  have hfr := freq_realInclusion_eq H.holo hsb H.real_h hcen
+  obtain ⟨hd1, hd2⟩ := freq_diff_bounds H hJ hlt
+  obtain ⟨hdio1, hdio2⟩ := hD J hJ
+  set Δ := freq h I - freq h (KAM.realInclusion (a + b) J) with hΔ
+  have hsplit : dotC k (freq h I) = dotC k (freq h (KAM.realInclusion (a + b) J)) + dotC k Δ := by
+    simp only [hΔ, dotC, Pi.sub_apply, mul_sub, Finset.sum_sub_distrib]; ring
+  have hlow : ‖dotC k (freq h (KAM.realInclusion (a + b) J))‖ - ‖dotC k Δ‖ ≤
+      ‖dotC k (freq h I)‖ := by
+    rw [hsplit]
+    have h := norm_sub_le (dotC k (freq h (KAM.realInclusion (a + b) J)) + dotC k Δ) (dotC k Δ)
+    rw [add_sub_cancel_right] at h
+    linarith
+  rw [hfr, dotC_real] at hlow
+  have hm1 := modeSize_pos_of_ne hk
+  have hKt : cutoff p ^ (p.τ + 1) = cutoff p ^ p.τ * cutoff p := Real.rpow_add_one hK.ne' _
+  have hT : 0 < cutoff p ^ p.τ := Real.rpow_pos_of_pos hK _
+  have hmt : KAM.Fourier.modeSize k ^ p.τ ≤ cutoff p ^ p.τ :=
+    Real.rpow_le_rpow (by linarith) hkK hτ.le
+  have hmt0 : 0 < KAM.Fourier.modeSize k ^ p.τ := Real.rpow_pos_of_pos (by linarith) _
+  have hRγ₁ := H.R_le_γ₁
+  have hRγ₂ := H.R_le_γ₂
+  rw [hKt] at hRγ₁ hRγ₂
+  by_cases hfb : firstBlock (b := b) k = 0
+  · rw [if_pos hfb, div_one]
+    have hd := dotC_block_le hfb Δ
+    refine le_trans ?_ hlow
+    refine nonres_arith (x := |∑ i, (k i : ℝ) * realFreq h J i|)
+      (y := ‖dotC k Δ‖) (K := cutoff p) (M := p.Mhat) (R := rhoHat p) hT hmt0 hmt
+      H.positive.1 hkK (by linarith) hMh.le hR.le (by linarith) (hdio2 k hk hfb) ?_ le_rfl
+    exact hd.trans (mul_le_mul_of_nonneg_left hd2 (by linarith))
+  · rw [if_neg hfb, div_one]
+    have hd := norm_dotC_le k Δ
+    refine le_trans ?_ hlow
+    refine nonres_arith (x := |∑ i, (k i : ℝ) * realFreq h J i|)
+      (y := ‖dotC k Δ‖) (K := cutoff p) (M := p.M) (R := rhoHat p) hT hmt0 hmt
+      H.γ₁_pos hkK (by linarith) hM.le hR.le (by linarith) (hdio1 k hfb) ?_ le_rfl
+    exact hd.trans (mul_le_mul_of_nonneg_left hd1 (by linarith))
+
 end KAM.Planetary
 
 end
