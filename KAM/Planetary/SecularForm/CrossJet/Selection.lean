@@ -15,7 +15,8 @@ public import KAM.Planetary.SecularForm.Coefficients
 /-!
 # Cross jet: Fourier selection
 
-Blueprint P, Part 8, `stepP:p8:qf-cross` (Fourier selection): the double average of the cross kernel over
+Blueprint P, Part 8, `stepP:p8:qf-cross` (Fourier selection): the double average of the cross
+kernel over
 the two mean longitudes is evaluated by the torus change of variables `t = s - ϑ`; the average over
 `s` of the resulting quadratic form in `(cos s, sin s)` leaves a function of `ϑ` alone, which is
 reduced to `laplace_def (3/2) 2` by one periodic integration by parts. No Laplace series is used.
@@ -57,7 +58,8 @@ theorem ibp_selection {a b : ℝ} (ha : 0 < a) (hab : a < b) :
     ∫ ϑ in (0:ℝ)..2 * π, 3 * a * b * (Real.sin ϑ ^ 2 * Real.cos ϑ) / (√(sep2 a b ϑ)) ^ 5 =
       ∫ ϑ in (0:ℝ)..2 * π, Real.cos (2 * ϑ) * ((√(sep2 a b ϑ)) ^ 3)⁻¹ := by
   have hv : ∀ ϑ ∈ uIcc (0:ℝ) (2 * π), HasDerivAt (fun ϑ => ((√(sep2 a b ϑ)) ^ 3)⁻¹)
-      (-(3 * a * b * Real.sin ϑ) / (√(sep2 a b ϑ)) ^ 5) ϑ := fun ϑ _ => hasDerivAt_sep2_inv_cube ha hab ϑ
+      (-(3 * a * b * Real.sin ϑ) / (√(sep2 a b ϑ)) ^ 5) ϑ := fun ϑ _ => hasDerivAt_sep2_inv_cube
+          ha hab ϑ
   have hu : ∀ ϑ ∈ uIcc (0:ℝ) (2 * π), HasDerivAt (fun ϑ => Real.sin ϑ * Real.cos ϑ)
       (Real.cos ϑ ^ 2 - Real.sin ϑ ^ 2) ϑ := by
     intro ϑ _
@@ -69,7 +71,8 @@ theorem ibp_selection {a b : ℝ} (ha : 0 < a) (hab : a < b) :
   have hpos : ∀ ϑ, 0 < √(sep2 a b ϑ) := fun ϑ => Real.sqrt_pos.2 (sep2_pos ha hab ϑ)
   have h1 : IntervalIntegrable (fun ϑ => (Real.cos ϑ ^ 2 - Real.sin ϑ ^ 2)) volume 0 (2 * π) := by
     apply Continuous.intervalIntegrable; fun_prop
-  have h2 : IntervalIntegrable (fun ϑ => -(3 * a * b * Real.sin ϑ) / (√(sep2 a b ϑ)) ^ 5) volume 0 (2 * π) := by
+  have h2 : IntervalIntegrable (fun ϑ => -(3 * a * b * Real.sin ϑ) / (√(sep2 a b ϑ)) ^ 5) volume
+      0 (2 * π) := by
     apply Continuous.intervalIntegrable
     exact (by fun_prop : Continuous fun ϑ => -(3 * a * b * Real.sin ϑ)).div (hcont.pow 5)
       (fun ϑ => pow_ne_zero 5 (hpos ϑ).ne')
@@ -110,16 +113,20 @@ theorem torus_reduce {G : ℝ → ℝ → ℝ} (hG : Continuous (Function.uncurr
     rw [this]
     exact hG.comp (by fun_prop)
   have h2π : (0:ℝ) ≤ 2 * π := by positivity
-  have hsub : uIoc (0:ℝ) (2 * π) ×ˢ uIoc (0:ℝ) (2 * π) ⊆ Icc (0:ℝ) (2 * π) ×ˢ Icc (0:ℝ) (2 * π) := by
+  have hsub : uIoc (0:ℝ) (2 * π) ×ˢ uIoc (0:ℝ) (2 * π) ⊆ Icc (0:ℝ) (2 * π) ×ˢ Icc (0:ℝ) (2 * π)
+      := by
     rw [uIoc_of_le h2π]
     exact prod_mono Ioc_subset_Icc_self Ioc_subset_Icc_self
   exact (hc.continuousOn.integrableOn_compact
-    (isCompact_Icc (a := (0:ℝ)) (b := 2 * π) |>.prod (isCompact_Icc (a := (0:ℝ)) (b := 2 * π)))).mono_set hsub
+    (isCompact_Icc (a := (0:ℝ)) (b := 2 * π) |>.prod (isCompact_Icc (a := (0:ℝ)) (b := 2 *
+        π)))).mono_set hsub
 
 /-- The coefficients of the quadratic form in `(cos s, sin s)` obtained from the cross kernel on the
 diagonal `t = s - ϑ` (`x = cos ϑ`, `y = sin ϑ`). -/
-def cN20 (a b ϑ : ℝ) : ℝ := a^2*Real.cos ϑ^2 + 2*a^2*Real.sin ϑ^2 - a*b*Real.cos ϑ^3 - 2*a*b*Real.cos ϑ*Real.sin ϑ^2 - a*b*Real.cos ϑ + b^2*Real.cos ϑ^2
-def cN11 (a b ϑ : ℝ) : ℝ := -a^2*Real.cos ϑ*Real.sin ϑ - a*b*Real.cos ϑ^2*Real.sin ϑ - 4*a*b*Real.sin ϑ^3 - a*b*Real.sin ϑ + 3*b^2*Real.cos ϑ*Real.sin ϑ
+def cN20 (a b ϑ : ℝ) : ℝ := a^2*Real.cos ϑ^2 + 2*a^2*Real.sin ϑ^2 - a*b*Real.cos ϑ^3 -
+    2*a*b*Real.cos ϑ*Real.sin ϑ^2 - a*b*Real.cos ϑ + b^2*Real.cos ϑ^2
+def cN11 (a b ϑ : ℝ) : ℝ := -a^2*Real.cos ϑ*Real.sin ϑ - a*b*Real.cos ϑ^2*Real.sin ϑ -
+    4*a*b*Real.sin ϑ^3 - a*b*Real.sin ϑ + 3*b^2*Real.cos ϑ*Real.sin ϑ
 def cN02 (a b ϑ : ℝ) : ℝ := 2*a*b*Real.cos ϑ*Real.sin ϑ^2 + 2*b^2*Real.sin ϑ^2
 def cM20 (ϑ : ℝ) : ℝ := Real.cos ϑ^2 + 2*Real.sin ϑ^2
 def cM11 (ϑ : ℝ) : ℝ := -3*Real.cos ϑ*Real.sin ϑ
@@ -144,19 +151,30 @@ theorem crossU_diag (a b s ϑ : ℝ) :
       Matrix.cons_val_one, Real.cos_sub, Real.sin_sub]
     linear_combination (a ^ 2 - 2 * a * b * Real.cos ϑ + b ^ 2) * h1 +
       b ^ 2 * (Real.cos s ^ 2 + Real.sin s ^ 2) * h2
-  have hN : ((a • cvec s - b • cvec (s - ϑ)) 0 * uvec s 0 + (a • cvec s - b • cvec (s - ϑ)) 1 * uvec s 1) *
+  have hN : ((a • cvec s - b • cvec (s - ϑ)) 0 * uvec s 0 + (a • cvec s - b • cvec (s - ϑ)) 1 *
+      uvec s 1) *
       ((a • cvec s - b • cvec (s - ϑ)) 0 * uvec (s - ϑ) 0 +
         (a • cvec s - b • cvec (s - ϑ)) 1 * uvec (s - ϑ) 1) =
       cN20 a b ϑ * Real.cos s ^ 2 + cN11 a b ϑ * (Real.cos s * Real.sin s) +
         cN02 a b ϑ * Real.sin s ^ 2 := by
     simp only [cvec, uvec, cN20, cN11, cN02, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
       Matrix.cons_val_zero, Matrix.cons_val_one, Real.cos_sub, Real.sin_sub]
-    linear_combination (a^2*Real.cos s^2*Real.sin ϑ^2 - a^2*Real.cos s*Real.sin s*Real.cos ϑ*Real.sin ϑ - a^2*Real.cos ϑ^2 - a^2*Real.sin ϑ^2 + a^2 - a*b*Real.cos s^3*Real.sin s*Real.sin ϑ^3 + a*b*Real.cos s^2*Real.sin s^2*Real.cos ϑ*Real.sin ϑ^2 - a*b*Real.cos s^2*Real.cos ϑ*Real.sin ϑ^2 - a*b*Real.cos s*Real.sin s^3*Real.sin ϑ^3 + a*b*Real.cos s*Real.sin s*Real.cos ϑ^2*Real.sin ϑ - 2*a*b*Real.cos s*Real.sin s*Real.sin ϑ^3 - a*b*Real.cos s*Real.sin s*Real.sin ϑ + a*b*Real.sin s^4*Real.cos ϑ*Real.sin ϑ^2 + 2*a*b*Real.sin s^2*Real.cos ϑ*Real.sin ϑ^2 + a*b*Real.cos ϑ^3 + a*b*Real.cos ϑ*Real.sin ϑ^2 - a*b*Real.cos ϑ + b^2*Real.cos s*Real.sin s*Real.cos ϑ*Real.sin ϑ + b^2*Real.sin s^2*Real.sin ϑ^2) * h1 + (a^2*Real.sin s^2 - a^2 + 2*a*b*Real.cos s*Real.sin s*Real.sin ϑ - a*b*Real.sin s^2*Real.cos ϑ + a*b*Real.cos ϑ) * h2
+    linear_combination (a^2*Real.cos s^2*Real.sin ϑ^2 - a^2*Real.cos s*Real.sin s*Real.cos
+        ϑ*Real.sin ϑ - a^2*Real.cos ϑ^2 - a^2*Real.sin ϑ^2 + a^2 - a*b*Real.cos s^3*Real.sin
+        s*Real.sin ϑ^3 + a*b*Real.cos s^2*Real.sin s^2*Real.cos ϑ*Real.sin ϑ^2 - a*b*Real.cos
+        s^2*Real.cos ϑ*Real.sin ϑ^2 - a*b*Real.cos s*Real.sin s^3*Real.sin ϑ^3 + a*b*Real.cos
+        s*Real.sin s*Real.cos ϑ^2*Real.sin ϑ - 2*a*b*Real.cos s*Real.sin s*Real.sin ϑ^3 -
+        a*b*Real.cos s*Real.sin s*Real.sin ϑ + a*b*Real.sin s^4*Real.cos ϑ*Real.sin ϑ^2 +
+        2*a*b*Real.sin s^2*Real.cos ϑ*Real.sin ϑ^2 + a*b*Real.cos ϑ^3 + a*b*Real.cos ϑ*Real.sin
+        ϑ^2 - a*b*Real.cos ϑ + b^2*Real.cos s*Real.sin s*Real.cos ϑ*Real.sin ϑ + b^2*Real.sin
+        s^2*Real.sin ϑ^2) * h1 + (a^2*Real.sin s^2 - a^2 + 2*a*b*Real.cos s*Real.sin s*Real.sin ϑ
+        - a*b*Real.sin s^2*Real.cos ϑ + a*b*Real.cos ϑ) * h2
   have hM : uvec s 0 * uvec (s - ϑ) 0 + uvec s 1 * uvec (s - ϑ) 1 =
       cM20 ϑ * Real.cos s ^ 2 + cM11 ϑ * (Real.cos s * Real.sin s) + cM02 ϑ * Real.sin s ^ 2 := by
     simp only [uvec, cM20, cM11, cM02, Matrix.cons_val_zero,
       Matrix.cons_val_one, Real.cos_sub, Real.sin_sub]
-    linear_combination (-Real.cos s*Real.sin s*Real.cos ϑ*Real.sin ϑ + Real.sin s^2*Real.cos ϑ^2 - Real.cos ϑ^2 - Real.sin ϑ^2) * h1 + (-Real.sin s^2 - 1) * h2
+    linear_combination (-Real.cos s*Real.sin s*Real.cos ϑ*Real.sin ϑ + Real.sin s^2*Real.cos ϑ^2
+        - Real.cos ϑ^2 - Real.sin ϑ^2) * h1 + (-Real.sin s^2 - 1) * h2
   unfold crossU crossKernel
   rw [hℓ]
   rw [show ∀ A B : ℝ, 3 * A * B = 3 * (A * B) from fun A B => by ring, hN, hM]

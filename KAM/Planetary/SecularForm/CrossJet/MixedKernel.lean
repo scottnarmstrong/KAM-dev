@@ -12,7 +12,8 @@ public import KAM.Planetary.SecularForm.CrossJet.Variation
 /-!
 # Cross jet: the mixed Hessian of the pair kernel
 
-Blueprint P, Part 8, `stepP:p8:qf-cross`: the mixed second derivative of `-c/|α(s) - β(t)|` at `(0,0)`
+Blueprint P, Part 8, `stepP:p8:qf-cross`: the mixed second derivative of `-c/|α(s) - β(t)|` at
+`(0,0)`
 in terms of the first variations `α'`, `β'` and the separation `d = α 0 - β 0` is
 `c (3 (d·α')(d·β')/|d|⁵ - (α'·β')/|d|³)` (`crossKernel`). It is computed from the two one-variable
 derivatives (`t` first, then `s`), then identified with the second Fréchet derivative.

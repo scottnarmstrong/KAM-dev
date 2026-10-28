@@ -12,8 +12,10 @@ public import KAM.Planetary.SecularForm.CrossJet.Variation
 /-!
 # Cross jet: the pair integrand on the slice
 
-Blueprint P, Part 8, `stepP:p8:qf-cross`: the integrand `-c/|q₁ - q₂|` of the literal pair average, as a function
-of the two angles and the two slow parameters `ξ₁, ξ₂` (with `η = 0`), its open domain and analyticity.
+Blueprint P, Part 8, `stepP:p8:qf-cross`: the integrand `-c/|q₁ - q₂|` of the literal pair
+average, as a function
+of the two angles and the two slow parameters `ξ₁, ξ₂` (with `η = 0`), its open domain and
+analyticity.
 -/
 
 @[expose] public noncomputable section
@@ -33,9 +35,11 @@ theorem contDiff_sliceBlock (I : ℝ) (k : Fin 2) : ContDiff ℝ ω (sliceBlock 
   intro c
   fin_cases c
   · show ContDiff ℝ ω (fun x : Vec 2 × Vec 2 => x.1 k)
-    exact (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) k).contDiff.comp (contDiff_fst (E := Vec 2) (F := Vec 2))
+    exact (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) k).contDiff.comp
+        (contDiff_fst (E := Vec 2) (F := Vec 2))
   · show ContDiff ℝ ω (fun x : Vec 2 × Vec 2 => x.2 k)
-    exact (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) k).contDiff.comp (contDiff_snd (E := Vec 2) (F := Vec 2))
+    exact (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) k).contDiff.comp
+        (contDiff_snd (E := Vec 2) (F := Vec 2))
 
 /-- The pair integrand `-c/|q₁ - q₂|` along the slice. -/
 def pairIntegrand (c m₁ m₂ κ I₁ I₂ : ℝ) (p : Vec 2 × Vec 2) : ℝ :=

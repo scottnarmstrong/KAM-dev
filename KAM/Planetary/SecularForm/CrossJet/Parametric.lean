@@ -118,7 +118,8 @@ theorem integral_cell_two {g : Vec 2 → ℝ} (hg : ContinuousOn g (cell 2)) :
       rwa [← cell_two_eq] at this
   have hint : IntegrableOn h S := hcont.integrableOn_compact (isCompact_Icc.prod isCompact_Icc)
   calc ∫ t in cell 2, g t = ∫ x in e ⁻¹' S, h (e x) := by
-        rw [cell_two_eq]; exact setIntegral_congr_fun (e.measurable (hS ▸ measurableSet_Icc.prod measurableSet_Icc)) (fun x _ => hg' x)
+        rw [cell_two_eq]; exact setIntegral_congr_fun (e.measurable (hS ▸ measurableSet_Icc.prod
+            measurableSet_Icc)) (fun x _ => hg' x)
     _ = ∫ y in S, h y := hmp.setIntegral_preimage_emb e.measurableEmbedding h S
     _ = ∫ s in Icc 0 (2 * π), ∫ t in Icc 0 (2 * π), h (s, t) := setIntegral_prod _ hint
     _ = _ := by

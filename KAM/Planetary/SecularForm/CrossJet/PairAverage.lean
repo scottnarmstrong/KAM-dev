@@ -13,7 +13,8 @@ public import KAM.Planetary.SecularForm.Basic
 /-!
 # Cross jet: the mixed second derivative of the literal pair average
 
-Blueprint P, Part 8, `stepP:p8:qf-cross` (with `bpP:p8:e-diff`): for two planets with separated axes the
+Blueprint P, Part 8, `stepP:p8:qf-cross` (with `bpP:p8:e-diff`): for two planets with separated
+axes the
 mixed second derivative at `ξ₁ = ξ₂ = 0` of the literal pair average `pairSlowSecular` is the
 double average over `(λ₁, λ₂)` of `crossKernel` evaluated at the circular positions and the first
 orbit variations (`hasDerivAt_poincare_fst_xi`). No Laplace series is used here; the Fourier
@@ -82,7 +83,8 @@ theorem pairSlowSecular_mixed_jet (D : Data n) (i j : Fin n) {I J : ℝ} (hI : 0
   set F : Vec 2 × Vec 2 → ℝ := fun p => k * pairIntegrand c (D.m i) (D.m j) κ I J p with hF
   have hW := isOpen_pairDom (m₁ := D.m i) (m₂ := D.m j) (I₁ := I) (I₂ := J) (D.hm i) (D.hm j) hκ
   have hFd : ContDiffOn ℝ 2 F (pairDom (D.m i) (D.m j) κ I J) :=
-    contDiffOn_const.mul ((contDiffOn_pairIntegrand (c := c) (I₁ := I) (I₂ := J) (D.hm i) (D.hm j) hκ).of_le
+    contDiffOn_const.mul ((contDiffOn_pairIntegrand (c := c) (I₁ := I) (I₂ := J) (D.hm i) (D.hm
+        j) hκ).of_le
       (by exact_mod_cast le_top))
   obtain ⟨δ, hδ, hmem, hcont, heq⟩ := e_diff_slice hW hFd
     (fun t _ => slice_mem_pairDom (D.hm i) (D.hm j) hκ hI hJ hsep t)

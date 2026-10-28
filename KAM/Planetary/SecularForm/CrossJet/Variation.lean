@@ -31,7 +31,8 @@ theorem poincare_line_fst (m κ Λ l s : ℝ) :
       ![Λ ^ 2 / (m ^ 2 * κ) * ((1 - s ^ 2 / 2 / Λ) * Real.cos (keplerLong l ![lineC Λ s * s, 0])
           - lineC Λ s * s + (lineC Λ s * s * Real.cos (keplerLong l ![lineC Λ s * s, 0]) /
             (1 + (1 - s ^ 2 / 2 / Λ))) * (lineC Λ s * s)),
-        Λ ^ 2 / (m ^ 2 * κ) * ((1 - s ^ 2 / 2 / Λ) * Real.sin (keplerLong l ![lineC Λ s * s, 0]))] := by
+        Λ ^ 2 / (m ^ 2 * κ) * ((1 - s ^ 2 / 2 / Λ) * Real.sin (keplerLong l ![lineC Λ s * s,
+            0]))] := by
   ext c
   fin_cases c <;>
   simp [poincare, poincareK, poincareV, poincareGamma, poincareF, orbitalUnit, planeDot,
@@ -81,7 +82,8 @@ theorem hasDerivAt_keplerLong_line {Λ : ℝ} (hΛ : 0 < Λ) (l : ℝ) :
 /-- `stepP:p8:qf-cross`, first orbit variation: `∂_ξ q = (a/√Λ)(-1 - sin² λ, sin λ cos λ)`. -/
 theorem hasDerivAt_poincare_fst_xi {m κ Λ : ℝ} (hΛ : 0 < Λ) (l : ℝ) :
     HasDerivAt (fun s => (poincare m κ (![l, s], ![Λ, 0])).1)
-      ((Λ ^ 2 / (m ^ 2 * κ) / √Λ) • (![-1 - Real.sin l ^ 2, Real.sin l * Real.cos l] : Fin 2 → ℝ)) 0 := by
+      ((Λ ^ 2 / (m ^ 2 * κ) / √Λ) • (![-1 - Real.sin l ^ 2, Real.sin l * Real.cos l] : Fin 2 →
+          ℝ)) 0 := by
   simp_rw [poincare_line_fst]
   have hF := hasDerivAt_keplerLong_line hΛ l
   have hC := hasDerivAt_lineC hΛ

@@ -71,7 +71,8 @@ theorem cross_hessian (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n}
   have hsJ : 0 < √(action D a j) := Real.sqrt_pos.2 hJ
   have haj := (ha.1 j)
   calc _ = (D.G * D.m i * D.m j * (a i / √(action D a i)) * (a j / √(action D a j))) *
-        ((2 * π)⁻¹ * ((2 * π)⁻¹ * ∫ s in (0:ℝ)..2 * π, ∫ t in (0:ℝ)..2 * π, crossU (a i) (a j) s t)) := by
+        ((2 * π)⁻¹ * ((2 * π)⁻¹ * ∫ s in (0:ℝ)..2 * π, ∫ t in (0:ℝ)..2 * π, crossU (a i) (a j) s
+            t)) := by
         ring
     _ = _ := by
         rw [hc]
