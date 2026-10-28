@@ -42,6 +42,8 @@ public import KAM.Canonical.Lie
 public import KAM.Canonical.Setting
 public import KAM.Canonical.Symplectic
 public import KAM.Canonical.SymplecticForm
+public import KAM.Canonical.Transform
+public import KAM.Canonical.TransformSeries
 public import KAM.Canonical.VectorField
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
