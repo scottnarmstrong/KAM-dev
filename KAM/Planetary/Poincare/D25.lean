@@ -132,6 +132,54 @@ theorem ellipsePhase_eq_poincareProd_self {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m
   · simp [ofPlanets, ofBodies, ellipsePhase]
   · simp [ofPlanets, ofBodies, ellipsePhase]
 
+/-- (d): the Kepler functions of the physical point. -/
+theorem keplerFunctions_poincareProd {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i) {w : Phase (2 + 2)}
+    (hw : w ∈ poincareProdDom 2) (i : Fin 2) :
+    ProgradeElliptic m (poincareProd m 1 w) ∧
+    keplerEnergy m (poincareProd m 1 w) i = -(m i) ^ 3 / (2 * fast w.2 i ^ 2) ∧
+    keplerAxis m (poincareProd m 1 w) i = secularAxis m w i ∧
+    keplerAction m (poincareProd m 1 w) i = fast w.2 i ∧
+    planeCross (bodyVector (poincareProd m 1 w).1 i) (bodyVector (poincareProd m 1 w).2 i) =
+      fast w.2 i - secularGamma w i ∧
+    keplerEccVector m (poincareProd m 1 w) i = secularEccVector w i := by
+  have hb := poincareProd_block m 1 w i
+  have hq : bodyVector (poincareProd m 1 w).1 i = (poincare (m i) 1 (planetBlock w i)).1 := by
+    rw [← hb]
+  have hp : bodyVector (poincareProd m 1 w).2 i = (poincare (m i) 1 (planetBlock w i)).2 := by
+    rw [← hb]
+  obtain ⟨-, hE, hA, hAct, hCr, hLRL⟩ := poincare_elements (hm i) one_pos (hw i)
+  have hPE : ProgradeElliptic m (poincareProd m 1 w) :=
+    (regionProd_one_iff hm _).1 (poincareProd_mem_regionProd hm one_pos hw)
+  have hEn : keplerEnergy m (poincareProd m 1 w) i =
+      energyMK (m i) 1 (poincare (m i) 1 (planetBlock w i)) := by
+    simp only [keplerEnergy, energyMK, hq, hp, one_mul]
+  have hAx : keplerAxis m (poincareProd m 1 w) i =
+      axisMK (m i) 1 (poincare (m i) 1 (planetBlock w i)) := by
+    simp only [keplerAxis, axisMK, hEn, one_mul]
+  refine ⟨hPE, ?_, ?_, ?_, ?_, ?_⟩
+  · rw [hEn, hE]
+    simp only [one_pow, one_mul]
+    rfl
+  · rw [hAx, hA, secularAxis_eq]
+    rfl
+  · have h := hAct
+    unfold actionMK at h
+    unfold keplerAction
+    rw [hAx]
+    simp only [one_mul] at h
+    exact h
+  · rw [hq, hp, secularGamma_eq]
+    exact hCr
+  · rw [secularEccVector_eq, ← hLRL]
+    simp only [keplerEccVector, hq, hp, inv_one, one_smul]
+
+theorem exists_poincareProd_of_progradeElliptic {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i)
+    {z : Phase (2 * 2)} (hz : ProgradeElliptic m z) : ∃ w ∈ poincareProdDom 2, poincareProd m 1 w = z := by
+  have h : z ∈ regionProd m 1 := (regionProd_one_iff hm z).2 hz
+  rw [← poincareProd_image hm one_pos] at h
+  obtain ⟨w, hw, hwz⟩ := h
+  exact ⟨w, hw, hwz⟩
+
 end D25
 
 end KAM.Planetary
