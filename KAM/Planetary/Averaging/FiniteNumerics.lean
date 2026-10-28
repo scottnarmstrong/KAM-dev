@@ -89,7 +89,8 @@ theorem step_single {Q E q x : ℝ} (hQ : 0 < Q) (hE : 0 ≤ E) (hq0 : 0 ≤ q)
 /-- The inductive step: ratio `1/4`. -/
 theorem step_big {Q δ st x : ℝ} (hQ : 0 < Q) (hδ0 : 0 ≤ δ) (hδ : δ ≤ Q / 256) (hst0 : 0 ≤ st)
     (hst : st ≤ Q / 16) (hx : Real.exp (-x) ≤ 1 / 8) :
-    (1 - 2 * (1 * δ / Q))⁻¹ * (2 * 1 / (Real.exp 1 * Q) * (st + δ) + Real.exp (-x)) * δ ≤ δ / 4 := by
+    (1 - 2 * (1 * δ / Q))⁻¹ * (2 * 1 / (Real.exp 1 * Q) * (st + δ) + Real.exp (-x)) * δ ≤
+      δ / 4 := by
   have hu : δ / Q ≤ 1 / 256 := by
     rw [div_le_iff₀ hQ]; linarith
   have h1 : (1 - 2 * (1 * δ / Q))⁻¹ ≤ 128 / 127 := by

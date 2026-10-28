@@ -122,7 +122,8 @@ theorem goodSched_multi {D : Set (Fin (a + b) → ℝ)} {r sbar s K α₁ α₂ 
         have hδ := multi_eps_Q hr hs hα hκ0 hE hNr1 hNκ hEP l
         have e1 : exp 1 * (2 * π * α₂) * (multiSched r (sbar + s) s N).ρ (l + 1) *
             (multiSched r (sbar + s) s N).σ (l + 1) = exp 1 * (2 * π * α₂ *
-              (multiSched r (sbar + s) s N).ρ (l + 1) * (multiSched r (sbar + s) s N).σ (l + 1)) := by
+              (multiSched r (sbar + s) s N).ρ (l + 1) *
+              (multiSched r (sbar + s) s N).σ (l + 1)) := by
           ring
         have e2 : 2 * π * K * (multiSched r (sbar + s) s N).σ (l + 1) = κ / (4 * N) := by
           rw [multi_σ_succ, hκ]; field_simp

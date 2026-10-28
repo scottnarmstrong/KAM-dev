@@ -157,7 +157,8 @@ theorem goodSched_single (H : AvgHyp D r sbar s K α₁ α₂ E h f)
         have : Real.exp (-(κ / 3)) = q * q := by
           rw [hq, ← Real.exp_add]; congr 1; ring
         rw [this]; nlinarith
-      simp only [ε, Finset.univ_eq_empty, Finset.sum_empty, ite_true, one_ne_zero, ite_false, e1, e2]
+      simp only [ε, Finset.univ_eq_empty, Finset.sum_empty, ite_true, one_ne_zero, ite_false,
+        e1, e2]
       have := step_single (Q := 2 * π * α₂ * (r / 4) * (s / 3)) (E := E) (q := q) (x := κ / 3)
         (by positivity) hE hq0.le (by rw [hy]; linarith) (by rw [hy]; linarith) hx
       simpa using this

@@ -118,12 +118,14 @@ theorem gen_tail (hS : IterSetup Dc c K α₁ α₂ h f ε m) :
     InClass Dc (c.R (m + 1)) (c.S (m + 1))
       (fun z : CPhase (a + b) => c.gI Dc K h f m z.2 - coeff f z.2 0) ∧
     WBound Dc (c.R (m + 1)) (c.S (m + 1))
-      (fun z : CPhase (a + b) => c.gI Dc K h f m z.2 - coeff f z.2 0) (∑ j ∈ Finset.range m, ε (j + 1)) := by
+      (fun z : CPhase (a + b) => c.gI Dc K h f m z.2 - coeff f z.2 0)
+      (∑ j ∈ Finset.range m, ε (j + 1)) := by
   have inv := inv_all hS (m + 1) le_rfl
   obtain ⟨t1, t2⟩ := tail_sum hS m le_rfl
   have heq : EqOn (fun z : CPhase (a + b) => ∑ j ∈ Finset.range m,
       homRes K {0} (c.F Dc K h f (j + 1)) z)
-      (fun z => c.gI Dc K h f m z.2 - coeff f z.2 0) (Dom (a + b) Dc (c.R (m + 1)) (c.S (m + 1))) := by
+      (fun z => c.gI Dc K h f m z.2 - coeff f z.2 0)
+      (Dom (a + b) Dc (c.R (m + 1)) (c.S (m + 1))) := by
     intro z hz
     have e1 : ∀ j ∈ Finset.range m, homRes K {0} (c.F Dc K h f (j + 1)) z =
         coeff (c.F Dc K h f (j + 1)) z.2 0 := fun j hj => by

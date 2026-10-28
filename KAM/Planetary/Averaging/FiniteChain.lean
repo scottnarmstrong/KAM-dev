@@ -133,11 +133,13 @@ theorem stage_sub_big (hS : IterSetup Dc c K α₁ α₂ h f ε m) {i : ℕ} (hi
 /-- The block seminorms of the telescope. -/
 def semiFirst (a b : ℕ) : Seminorm ℂ (CPhase (a + b)) :=
   (normSeminorm ℂ (Fin a → ℂ)).comp
-    ((LinearMap.funLeft ℂ ℂ (Fin.castAdd b)).comp (LinearMap.snd ℂ (Fin (a + b) → ℂ) (Fin (a + b) → ℂ)))
+    ((LinearMap.funLeft ℂ ℂ (Fin.castAdd b)).comp
+      (LinearMap.snd ℂ (Fin (a + b) → ℂ) (Fin (a + b) → ℂ)))
 
 def semiLast (a b : ℕ) : Seminorm ℂ (CPhase (a + b)) :=
   (normSeminorm ℂ (Fin b → ℂ)).comp
-    ((LinearMap.funLeft ℂ ℂ (Fin.natAdd a)).comp (LinearMap.snd ℂ (Fin (a + b) → ℂ) (Fin (a + b) → ℂ)))
+    ((LinearMap.funLeft ℂ ℂ (Fin.natAdd a)).comp
+      (LinearMap.snd ℂ (Fin (a + b) → ℂ) (Fin (a + b) → ℂ)))
 
 def semiAngle (a b : ℕ) : Seminorm ℂ (CPhase (a + b)) :=
   (normSeminorm ℂ (Fin (a + b) → ℂ)).comp (LinearMap.fst ℂ (Fin (a + b) → ℂ) (Fin (a + b) → ℂ))

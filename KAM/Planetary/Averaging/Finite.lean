@@ -89,7 +89,8 @@ theorem nfb_core {D : Set (Fin (a + b) → ℝ)} {r sbar s K α₁ α₂ E : ℝ
   have hdisp := finite_disp hS hsc
   obtain ⟨t1, t2⟩ := gen_tail hS
   have hcls := (hsc m le_rfl).cls
-  have hact : KAM.actionNbhd D (r / 2) = polyNbhd (realBase D) (r / 2) := (conv_data D (r / 2) 0).1.symm
+  have hact : KAM.actionNbhd D (r / 2) = polyNbhd (realBase D) (r / 2) :=
+    (conv_data D (r / 2) 0).1.symm
   have hkap : E / (2 * π * K * s) ≤ E / 4 := by
     refine div_le_div_of_nonneg_left hE (by norm_num) ?_
     linarith
@@ -98,7 +99,8 @@ theorem nfb_core {D : Set (Fin (a + b) → ℝ)} {r sbar s K α₁ α₂ E : ℝ
   · show DifferentiableOn ℂ _ _ ∧ _
     refine ⟨s1.mono hVsub, s2.mono hVsub, ?_, fun z hz => s4 z (hVsub hz), fun z hz k =>
       s5 k z (hVsub hz), fun x hx => s6 x (hVsub hx), ?_, fun x hx => gI_real hS hsc x (hVsub hx),
-      fun x hx => (hsc m le_rfl).real_F x (hVsub hx), fun z hz => ?_, ?_, ?_, ?_, ?_, fun z hz => ?_⟩
+      fun x hx => (hsc m le_rfl).real_F x (hVsub hx), fun z hz => ?_, ?_, ?_, ?_, ?_,
+      fun z hz => ?_⟩
     · rw [hr, hs] at s3; exact s3.mono_left hVsub
     · rw [hact]
       exact (gI_differentiable hS).mono (polyNbhd_mono hR)
@@ -138,8 +140,10 @@ theorem nfb {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {r sbar s K α₁ α₂ 
       DifferentiableOn ℂ g (KAM.actionNbhd D (r / 2)) ∧
       RealOn V (fun z => g z.2) ∧ RealOn V fs ∧
       (∀ z ∈ V, h (Ψ z).2 + f (Ψ z) = h z.2 + g z.2 + fs z) ∧
-      WBound (realBase D) (r / 2) (sbar + s / 6) (fun z : CPhase (a + b) => g z.2 - coeff f z.2 0) (E / (2 * π * K * s)) ∧
-      WBound (realBase D) (r / 2) (sbar + s / 6) (fun z : CPhase (a + b) => g z.2 - coeff f z.2 0) (E / 4) ∧
+      WBound (realBase D) (r / 2) (sbar + s / 6)
+        (fun z : CPhase (a + b) => g z.2 - coeff f z.2 0) (E / (2 * π * K * s)) ∧
+      WBound (realBase D) (r / 2) (sbar + s / 6)
+        (fun z : CPhase (a + b) => g z.2 - coeff f z.2 0) (E / 4) ∧
       InClass (realBase D) (r / 2) (sbar + s / 6) fs ∧
       WBound (realBase D) (r / 2) (sbar + s / 6) fs (exp (-(2 * π * K * s) / 6) * E) ∧
       ∀ z ∈ V,
@@ -164,7 +168,8 @@ theorem avg {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {r sbar s K α₁ α₂ 
         Ψ (KAM.realInclusion₂ (a + b) x) ∈ range (KAM.realInclusion₂ (a + b))) ∧
       DifferentiableOn ℂ g (KAM.actionNbhd D (r / 2)) ∧ RealOn V (fun z => g z.2) ∧ RealOn V fs ∧
       (∀ z ∈ V, h (Ψ z).2 + f (Ψ z) = h z.2 + g z.2 + fs z) ∧
-      (∀ I ∈ KAM.actionNbhd D (r / 2), ‖g I - coeff f I 0‖ ≤ E / 4 ∧ ‖g I - coeff f I 0‖ ≤ E / (K * s)) ∧
+      (∀ I ∈ KAM.actionNbhd D (r / 2),
+        ‖g I - coeff f I 0‖ ≤ E / 4 ∧ ‖g I - coeff f I 0‖ ≤ E / (K * s)) ∧
       InClass (realBase D) (r / 2) (geometricWidth (sbar + s / 6)) fs ∧
       WBound (realBase D) (r / 2) (geometricWidth (sbar + s / 6)) fs (exp (-K * s / 6) * E) ∧
       ∀ z ∈ V, α₁ * s * ‖firstBlock (b := b) ((Ψ z).2 - z.2)‖ ≤ 3 * E ∧
