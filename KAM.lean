@@ -989,6 +989,7 @@ public import KAM.Planetary.TwoScale.ToriInvariance
 public import KAM.Planetary.TwoScale.ToriLagr
 public import KAM.Planetary.TwoScale.ToriSetup
 public import KAM.Planetary.WeakKAM.Admissible
+public import KAM.Planetary.WeakKAM.AdmissibleAdapted
 public import KAM.Planetary.WeakKAM.Budgets
 public import KAM.Planetary.WeakKAM.BudgetsStage
 public import KAM.Planetary.WeakKAM.BudgetsTail
