@@ -49,7 +49,8 @@ theorem p11_iteratedFDeriv_affine {V : Set (P11Vec n)} (hV : IsOpen V)
     hf.comp (contDiffOn_const.add contDiffOn_id) (fun z hz => hz)
   have hLo : IsOpen (L ⁻¹' V') := hV'o.preimage L.continuous
   have hmem : L y ∈ V' := by simpa [hV', hLy] using hy
-  have h1 := L.iteratedFDerivWithin_comp_right hgd hV'o.uniqueDiffOn hLo.uniqueDiffOn hmem (by exact_mod_cast hj)
+  have h1 := L.iteratedFDerivWithin_comp_right hgd hV'o.uniqueDiffOn hLo.uniqueDiffOn hmem
+    (by exact_mod_cast hj)
   rw [iteratedFDerivWithin_of_isOpen j hLo (by simpa using hmem),
     iteratedFDerivWithin_of_isOpen j hV'o hmem] at h1
   have h2 : (fun x => f (y0 + lambda • x)) = g ∘ L := by
