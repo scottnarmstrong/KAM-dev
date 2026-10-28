@@ -189,6 +189,64 @@ theorem ext_taylor_bound {Ω : Set (EC n k)} (hΩ : IsOpen Ω) {c : ℝ}
   · apply Continuous.intervalIntegrable
     fun_prop
 
+private theorem continuousOn_extAd_comp {Ω : Set (EC n k)} (hΩ : IsOpen Ω) {c : ℝ}
+    {φ u : EC n k → ℂ} (hφ : DifferentiableOn ℂ φ Ω) (hu : DifferentiableOn ℂ u Ω)
+    {γ : ℝ → EC n k} (hγ : KAM.ODE.IsSolutionIn (wfield c φ) Ω (Icc 0 1) γ) (j : ℕ) :
+    ContinuousOn (fun t => extAd c φ j u (γ t)) (Icc 0 1) :=
+  (contDiffOn_comp hΩ hφ hγ 0 _ (differentiableOn_extAd hΩ c hφ hu j)).continuousOn
+
+/-- Second display of `bpN:p11:ext-taylor` (step `et-taylor`): `N = 2` for `h` plus `N = 1` for
+`f₀`, with the integrand `{(1-t){h,φ}_c + f₀, φ}_c (γ t)`. -/
+theorem ext_taylor_second {Ω : Set (EC n k)} (hΩ : IsOpen Ω) {c : ℝ}
+    {φ h f₀ : EC n k → ℂ} (hφ : DifferentiableOn ℂ φ Ω) (hh : DifferentiableOn ℂ h Ω)
+    (hf : DifferentiableOn ℂ f₀ Ω) {γ : ℝ → EC n k}
+    (hγ : KAM.ODE.IsSolutionIn (wfield c φ) Ω (Icc 0 1) γ) {z : EC n k} (hz : γ 0 = z) :
+    (h + f₀) (γ 1) = h z + extBracket c h φ z + f₀ z +
+      ∫ t in (0:ℝ)..1, extBracket c
+        (fun w => (((1 - t : ℝ) : ℂ)) * extBracket c h φ w + f₀ w) φ (γ t) := by
+  have h2 := ext_taylor hΩ hφ hh hγ 2 (by norm_num)
+  have h1 := ext_taylor hΩ hφ hf hγ 1 le_rfl
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, hz, extAd] at h2 h1
+  have hw : DifferentiableOn ℂ (extBracket c h φ) Ω := differentiableOn_extBracket hΩ c hφ hh
+  have hc2 := continuousOn_extAd_comp hΩ hφ hh hγ 2
+  have hc1 := continuousOn_extAd_comp hΩ hφ hf hγ 1
+  have hI : uIcc (0 : ℝ) 1 = Icc 0 1 := uIcc_of_le zero_le_one
+  have hpt : ∀ t ∈ Icc (0 : ℝ) 1, extBracket c
+      (fun w => (((1 - t : ℝ) : ℂ)) * extBracket c h φ w + f₀ w) φ (γ t) =
+      (((1 - t) ^ (2 - 1) / (2 - 1).factorial : ℝ) : ℂ) *
+        extBracket c (extBracket c h φ) φ (γ t) +
+      (((1 - t) ^ (1 - 1) / (1 - 1).factorial : ℝ) : ℂ) * extBracket c f₀ φ (γ t) := by
+    intro t ht
+    have hmem := (hγ t ht).1
+    have hd1 : DifferentiableAt ℂ (extBracket c h φ) (γ t) :=
+      hw.differentiableAt (hΩ.mem_nhds hmem)
+    have hd2 : DifferentiableAt ℂ f₀ (γ t) := hf.differentiableAt (hΩ.mem_nhds hmem)
+    generalize extBracket c h φ = w at hd1 ⊢
+    unfold extBracket
+    rw [fderiv_fun_add (hd1.const_mul _) hd2, fderiv_const_mul hd1]
+    simp
+  have hint : ∫ t in (0:ℝ)..1, extBracket c
+        (fun w => (((1 - t : ℝ) : ℂ)) * extBracket c h φ w + f₀ w) φ (γ t) =
+      (∫ t in (0:ℝ)..1, (((1 - t) ^ (2 - 1) / (2 - 1).factorial : ℝ) : ℂ) *
+        extBracket c (extBracket c h φ) φ (γ t)) +
+      ∫ t in (0:ℝ)..1, (((1 - t) ^ (1 - 1) / (1 - 1).factorial : ℝ) : ℂ) *
+        extBracket c f₀ φ (γ t) := by
+    rw [← intervalIntegral.integral_add]
+    · refine intervalIntegral.integral_congr fun t ht => ?_
+      rw [hI] at ht
+      exact hpt t ht
+    · refine ContinuousOn.intervalIntegrable ?_
+      rw [hI]
+      exact (by fun_prop : Continuous fun t : ℝ =>
+        (((1 - t) ^ (2 - 1) / (2 - 1).factorial : ℝ) : ℂ)).continuousOn.mul hc2
+    · refine ContinuousOn.intervalIntegrable ?_
+      rw [hI]
+      exact (by fun_prop : Continuous fun t : ℝ =>
+        (((1 - t) ^ (1 - 1) / (1 - 1).factorial : ℝ) : ℂ)).continuousOn.mul hc1
+  show h (γ 1) + f₀ (γ 1) = _
+  rw [hint, h2, h1]
+  ring
+
 end KAM.Nekhoroshev
 
 end
