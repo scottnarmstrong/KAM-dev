@@ -383,6 +383,134 @@ private theorem rs_energy (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ)
     constructor <;> linarith [a1.1, a1.2, a2.1, a2.2, a3.1, a3.2, a4.1, a4.2]
   linarith
 
+/-- `bpN:p7:no-exit`: (i)-(iii) cannot hold together. -/
+theorem no_exit (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) {J : Set ℝ} (hJ : J.OrdConnected)
+    (h0 : (0 : ℝ) ∈ J) {z : ℝ → (Fin n → ℝ) × (Fin n → ℝ)}
+    (hz : IsOrbit (fun w => h w.2 + g w + fs w) D r J z) (hadm : IsAdmissible D δ M (z 0).2)
+    {t₁ : ℝ} (ht₁ : t₁ ∈ J) (ht₁0 : t₁ ≠ 0)
+    (hi : (∀ τ ∈ uIcc 0 t₁, KAM.Nekhoroshev.euclid ((z τ).2 - (z 0).2) ≤ r - resRho δ M) ∧
+      KAM.Nekhoroshev.euclid ((z t₁).2 - (z 0).2) = r - resRho δ M)
+    (hii : ∀ a ∈ Icc (0 : ℝ) 1, m * KAM.Nekhoroshev.euclid ((z t₁).2 - (z 0).2) ^ 2 ≤
+      hessR (KAM.Nekhoroshev.realPart h) ((z 0).2 + a • ((z t₁).2 - (z 0).2))
+        ((z t₁).2 - (z 0).2) ((z t₁).2 - (z 0).2))
+    (hiii : |t₁| * KAM.Nekhoroshev.euclid (KAM.frequencyMap h (z 0).2) * η ≤ s * m * r ^ 2 / 12) :
+    False := by
+  obtain ⟨P, hP, hPV, hPid⟩ := exists_orthProj (resSpan Λ)
+  have hρ := resRho_pos hRS
+  have hρr := resRho_le hRS
+  have hΔ := hi.2
+  obtain ⟨hd, hb⟩ := rs_energy hRS hP hPid hJ h0 hz hadm ht₁ hi.2.le
+  have hP0 := (admissible hRS hP hPV hPid hadm).2.2
+  have hX := term_arith hRS.hm hRS.hr hRS.hs hRS.η_nonneg (euclid_nonneg' _) le_rfl hb hiii
+  refine no_exit_arith hRS.hm hRS.hr hRS.δ_le hRS.ζ_le ?_ ?_ hP0 hX (hd m hii)
+  · rw [hΔ]; linarith
+  · rw [hΔ]; linarith
+
+private theorem rs_exit (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) {J : Set ℝ}
+    (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈ J) {z : ℝ → (Fin n → ℝ) × (Fin n → ℝ)}
+    (hz : IsOrbit (fun w => h w.2 + g w + fs w) D r J z) {t : ℝ} (ht : t ∈ J)
+    (hlt : r - resRho δ M < euclid ((z t).2 - (z 0).2)) :
+    ∃ ts ∈ J, |ts| ≤ |t| ∧ ts ≠ 0 ∧
+      (∀ τ ∈ uIcc 0 ts, euclid ((z τ).2 - (z 0).2) ≤ r - resRho δ M) ∧
+      euclid ((z ts).2 - (z 0).2) = r - resRho δ M := by
+  have hρ := resRho_pos hRS
+  have hρr := resRho_le hRS
+  have hr := hRS.hr
+  have hcont : ContinuousOn z J := fun t ht => (hz t ht).2.continuousAt.continuousWithinAt
+  obtain ⟨ts, hts, htsI, heq, hle⟩ := exit_ball (Nrm := fun a => euclid a) isActionNorm_euclid
+    hJ h0 hcont (by linarith) ht hlt
+  refine ⟨ts, hts, abs_le_of_mem_uIcc htsI, ?_, hle, heq⟩
+  rintro rfl
+  simp only [sub_self] at heq
+  have : euclid (0 : Fin n → ℝ) = 0 := by simp [KAM.Nekhoroshev.euclid]
+  linarith
+
+/-- `bpN:p7:resonant-lemma1` (Lemma 1; off the published graph, consumed by track I only). -/
+theorem resonant_lemma1 (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ)
+    (hconv : IsMConvex (realNbhd D r) h m) :
+    ∀ J : Set ℝ, J.OrdConnected → (0 : ℝ) ∈ J → ∀ z, IsOrbit (fun w => h w.2 + g w + fs w) D r J z →
+      IsAdmissible D δ M (z 0).2 → ∀ t ∈ J,
+        |t| * (12 * KAM.Nekhoroshev.euclid (KAM.frequencyMap h (z 0).2) * η) ≤ s * m * r ^ 2 →
+          KAM.Nekhoroshev.euclid ((z t).2 - (z 0).2) ≤ r - resRho δ M := by
+  intro J hJ h0 z hz hadm t ht hT
+  by_contra hlt
+  push_neg at hlt
+  obtain ⟨ts, hts, hle, hts0, hmax, heq⟩ := rs_exit hRS hJ h0 hz ht hlt
+  refine no_exit hRS hJ h0 hz hadm hts hts0 ⟨hmax, heq⟩ (fun a ha => ?_) ?_
+  · exact hconv _ (seg_mem hadm heq.le a ha) _
+  · have h1 : 0 ≤ euclid (KAM.frequencyMap h (z 0).2) * η :=
+      mul_nonneg (euclid_nonneg' _) hRS.η_nonneg
+    nlinarith [mul_le_mul_of_nonneg_right hle h1]
+
+/-- `bpN:p7:resonant-lemma2`; `Ω` is any bound of `‖ω‖₂` on the ball (the max is one). -/
+theorem resonant_lemma2 (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) {ℓ : ℝ}
+    (hqc : IsQuasiConvex (realNbhd D r) h ℓ m) (hR1 : r ≤ 2 * ℓ / m) (hR2 : M * r ≤ ℓ / 4)
+    {I₀ : Fin n → ℝ} (hI₀ : IsAdmissible D δ M I₀) {Ω : ℝ}
+    (hΩ : ∀ I, KAM.Nekhoroshev.euclid (I - I₀) ≤ r - resRho δ M →
+      KAM.Nekhoroshev.euclid (KAM.frequencyMap h I) ≤ Ω) :
+    ∀ J : Set ℝ, J.OrdConnected → (0 : ℝ) ∈ J → ∀ z, IsOrbit (fun w => h w.2 + g w + fs w) D r J z →
+      (z 0).2 = I₀ → ∀ t ∈ J, |t| * (12 * Ω * η) ≤ s * m * r ^ 2 →
+        KAM.Nekhoroshev.euclid ((z t).2 - I₀) ≤ r - resRho δ M := by
+  intro J hJ h0 z hz hz0 t ht hT
+  rw [← hz0] at hI₀ hΩ ⊢
+  by_contra hlt
+  push_neg at hlt
+  obtain ⟨P, hP, hPV, hPid⟩ := exists_orthProj (resSpan Λ)
+  have hM := M_pos hRS
+  have hρ := resRho_pos hRS
+  have hρr := resRho_le hRS
+  have hm := hRS.hm
+  have hr := hRS.hr
+  have hmr : m * r ≤ 2 * ℓ := by
+    have := (le_div_iff₀ hm).1 hR1
+    linarith
+  have hΩ0 : 0 ≤ Ω := (euclid_nonneg' _).trans (hΩ (z 0).2 (by simp [KAM.Nekhoroshev.euclid]; linarith))
+  obtain ⟨ts, hts, hle, hts0, hmax, heq⟩ := rs_exit hRS hJ h0 hz ht hlt
+  have hbΩ : |ts| * Ω * η ≤ s * m * r ^ 2 / 12 := by
+    have h1 : 0 ≤ Ω * η := mul_nonneg hΩ0 hRS.η_nonneg
+    nlinarith [mul_le_mul_of_nonneg_right hle h1]
+  obtain ⟨-, hperp⟩ := rs_energy hRS hP hPid hJ h0 hz hI₀ hts heq.le
+  refine no_exit hRS hJ h0 hz hI₀ hts hts0 ⟨hmax, heq⟩ (fun a ha => ?_) ?_
+  · set Δ := (z ts).2 - (z 0).2 with hΔ
+    have hIa : euclid (((z 0).2 + a • Δ) - (z 0).2) ≤ r - resRho δ M := by
+      rw [add_sub_cancel_left]
+      exact (euclid_smul_le ha _).trans heq.le
+    have hmem := seg_mem hI₀ heq.le a ha
+    rcases hqc _ hmem Δ with hcase | hcase
+    · exfalso
+      obtain ⟨-, hPb, -⟩ := admissible hRS hP hPV hPid hI₀
+      have hPa := hPb _ hIa
+      have hsplit : KAM.frequencyMap h ((z 0).2 + a • Δ) ⬝ᵥ Δ =
+          P (KAM.frequencyMap h ((z 0).2 + a • Δ)) ⬝ᵥ Δ +
+          KAM.frequencyMap h ((z 0).2 + a • Δ) ⬝ᵥ (Δ - P Δ) := by
+        rw [hP.symm, ← dotProduct_add]
+        congr 1
+        abel
+      have c1 := abs_dot_le_euclid (P (KAM.frequencyMap h ((z 0).2 + a • Δ))) Δ
+      have c2 := abs_dot_le_euclid (KAM.frequencyMap h ((z 0).2 + a • Δ)) (Δ - P Δ)
+      have hY := term_arith hm hr hRS.hs hRS.η_nonneg (euclid_nonneg' _) (hΩ _ hIa) hperp hbΩ
+      have hsm : euclid (a • Δ) ≤ euclid Δ := euclid_smul_le ha Δ
+      rw [add_sub_cancel_left] at hPa
+      have hcone := cone_arith (ℓ := ℓ) (M := M) (δ := δ) (Δ := euclid Δ)
+        (Y := euclid (KAM.frequencyMap h ((z 0).2 + a • Δ)) * euclid (Δ - P Δ)) hm hr hmr hR2
+        hRS.δ_le (by rw [heq]; linarith) hY
+      have hMr : M * euclid (a • Δ) ≤ M * r := by
+        apply mul_le_mul_of_nonneg_left _ hM.le
+        linarith
+      have hc1 : euclid (P (KAM.frequencyMap h ((z 0).2 + a • Δ))) * euclid Δ ≤
+          (5 / 4 * δ + M * r) * euclid Δ :=
+        mul_le_mul_of_nonneg_right (by linarith) (euclid_nonneg' _)
+      have habs : |KAM.frequencyMap h ((z 0).2 + a • Δ) ⬝ᵥ Δ| ≤
+          euclid (P (KAM.frequencyMap h ((z 0).2 + a • Δ))) * euclid Δ +
+          euclid (KAM.frequencyMap h ((z 0).2 + a • Δ)) * euclid (Δ - P Δ) := by
+        rw [hsplit]
+        exact (abs_add_le _ _).trans (add_le_add c1 c2)
+      linarith
+    · exact hcase
+  · have h1 := hΩ (z 0).2 (by simp [KAM.Nekhoroshev.euclid]; linarith)
+    have h2 : 0 ≤ |ts| * η := mul_nonneg (abs_nonneg _) hRS.η_nonneg
+    nlinarith [mul_le_mul_of_nonneg_left h1 h2]
+
 end Resonant
 
 end KAM.Stability
