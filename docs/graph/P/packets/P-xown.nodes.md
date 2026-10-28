@@ -52,9 +52,9 @@ EDGE: stepI:p7:sc-flow | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sc-flow@L321
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-xown-sonnet+sol-review-P-p
 REVIEWER: sol-delta-P-p
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: scaleMK_energy, scaleMK_symplectic, scaleMK_cross (KAM/Kepler/Energy.lean); energyMK_eq_mul_energy, scaleMK_hamiltonianVectorField, scaleMK_flow, delaunayMK_means (KAM/Kepler/Mass.lean)
+LEAN_NOTE: audit KEP-1 PASS (addendum) + KEP-10 PASS WITH NOTES; steps sc-* not named, left
 NOTE: P-OWNED: I excludes this proposition from its own root closure; P consumes it at bpP:p6:kepler-part, stepP:p7:rg-scale and (via bpI:p7:circular) Part 7. Source remains the I blueprint. Proof step sc-alg cites Lemma bpI:p6:conversion(a) and step sc-flow cites Step stepI:p7:sy-field (naturality of Hamiltonian fields) only as "as in" pointers to the same one-line algebra, so no edges are recorded; both are nodes of the published I graph, if the reviewer wants them as imports.
 
 NODE: bpI:p7:means
@@ -84,9 +84,9 @@ EDGE: stepI:p7:mv-int | blueprint-I/parts/p7-delaunay.tex#stepI:p7:mv-int@L300-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-xown-sonnet+sol-review-P-p
 REVIEWER: sol-delta-P-p
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbitMapR_mean_inv_radius, orbitMapR_mean_speed_sq, orbitMapR_mean_radius, integral_comp_eccAnom (KAM/Kepler/Means.lean)
+LEAN_NOTE: audit KEP-8 PASS WITH NOTES
 NOTE: P-OWNED: I excludes this proposition from its own root closure; P consumes it via circular, stepP:p7:ke-c and scaling. Source remains the I blueprint; not an I import. The P-owned external x-change supplies mv-cv; the labelled proof steps and direct orbit-map definition are explicitly attached. The averages are over one 2pi mean-anomaly period.
 
 NODE: bpI:p7:circular
@@ -116,9 +116,9 @@ EDGE: stepI:p7:ci-alg | blueprint-I/parts/p7-delaunay.tex#stepI:p7:ci-alg@L308-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-xown-sonnet+sol-review-P-p
 REVIEWER: sol-delta-P-p
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbitMapR_mean_inv_radius, orbitMapR_mean_speed_sq, orbitMapR_mean_radius (KAM/Kepler/Means.lean); orbitMapR_radius, orbitMapR_cross, orbitMapR_energy, orbitMapR_speed_sq (KAM/Kepler/Orbit.lean); delaunayMK_means (KAM/Kepler/Mass.lean)
+LEAN_NOTE: composite of audits KEP-5 PASS (addendum; e=0 endpoint formulas) + KEP-8 PASS WITH NOTES (means at e=0) + KEP-10 PASS WITH NOTES (mass dictionary means); step ci-alg not named, left
 NOTE: P-OWNED: I excludes this corollary from its own root closure; P consumes it at bpP:p7:kepler, stepP:p7:ke-c and stepP:p7:po-el. Source remains the I blueprint. The proof is the single labelled step ci-alg (same algebra, no e>0), explicitly linked below this corollary.
 
 NODE: bpI:p7:x-change
@@ -171,9 +171,9 @@ EDGE: bpI:p7:x-change | blueprint-I/parts/p7-delaunay.tex#stepI:p7:mv-cv@L298-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-p
 REVIEWER: sol-delta-P-p
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: integral_comp_eccAnom (KAM/Kepler/Means.lean)
+LEAN_NOTE: audit KEP-8 PASS WITH NOTES; named stepI:p7:mv-cv
 NOTE: -
 
 NODE: stepI:p7:mv-int
@@ -200,9 +200,9 @@ EDGE: I:bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:mv-int@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-p
 REVIEWER: sol-delta-P-p
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbitMapR_mean_inv_radius, orbitMapR_mean_speed_sq, orbitMapR_mean_radius (KAM/Kepler/Means.lean)
+LEAN_NOTE: audit KEP-8 PASS WITH NOTES; integrals of the three means
 NOTE: -
 
 NODE: stepI:p7:ci-alg

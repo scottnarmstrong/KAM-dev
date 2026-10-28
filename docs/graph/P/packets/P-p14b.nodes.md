@@ -126,9 +126,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularGamma (KAM/Frozen/Planetary/Defs/SecularGamma.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: frozen definition transcribed in the unlabelled prose of 14b 'Conventions' (texttt name, no frozen tag); anchor bound by the SPEC
 
 NODE: bpP:p14:sb-conv#secularAMD
@@ -154,9 +154,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularAMD (KAM/Frozen/Planetary/Defs/SecularAMD.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: frozen definition transcribed in the unlabelled prose of 14b 'Conventions' (texttt name, no frozen tag); anchor bound by the SPEC
 
 NODE: bpP:p14:sb-conv#secularRoot
@@ -183,9 +183,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularRoot (KAM/Frozen/Planetary/Defs/SecularRoot.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: frozen definition transcribed in the unlabelled prose of 14b 'Conventions' (texttt name, no frozen tag); anchor bound by the SPEC
 
 NODE: bpP:p14:sb-conv#secularEccVector
@@ -213,9 +213,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularEccVector (KAM/Frozen/Planetary/Defs/SecularEccVector.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: frozen definition transcribed in the unlabelled prose of 14b 'Conventions' (texttt name, no frozen tag); anchor bound by the SPEC
 
 NODE: bpP:p14:sb-conv#secularAxis
@@ -241,9 +241,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularAxis (KAM/Frozen/Planetary/Defs/SecularAxis.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: frozen definition transcribed in the unlabelled prose of 14b 'Conventions' (texttt name, no frozen tag); anchor bound by the SPEC
 
 NODE: bpP:p14:sb-conv#orbitalUnit
@@ -267,9 +267,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.orbitalUnit (KAM/Frozen/Planetary/Defs/OrbitalUnit.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: frozen definition transcribed in the unlabelled prose of 14b 'Conventions' (texttt name, no frozen tag); anchor bound by the SPEC
 
 NODE: bpP:p14:sb-conv#quarterTurn
@@ -293,9 +293,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.quarterTurn (KAM/Frozen/Planetary/Defs/QuarterTurn.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: frozen definition transcribed in the unlabelled prose of 14b 'Conventions' (texttt name, no frozen tag); anchor bound by the SPEC
 
 NODE: bpP:p14:sb-defs#secularIntegrand
@@ -325,9 +325,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.secularIntegrand (KAM/Frozen/Planetary/Defs/SecularIntegrand.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-defs#exactSecularHamiltonian
@@ -356,9 +356,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.exactSecularHamiltonian (KAM/Frozen/Planetary/Defs/ExactSecularHamiltonian.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-defs#ellipsePhase
@@ -385,9 +385,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.ellipsePhase (KAM/Frozen/Planetary/Defs/EllipsePhase.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-defs#ellipsePosition
@@ -417,9 +417,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.ellipsePosition (KAM/Frozen/Planetary/Defs/EllipsePosition.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-defs#ellipseMomentum
@@ -451,9 +451,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.ellipseMomentum (KAM/Frozen/Planetary/Defs/EllipseMomentum.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-defs#longitudeJacobian
@@ -481,9 +481,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.longitudeJacobian (KAM/Frozen/Planetary/Defs/LongitudeJacobian.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-box#SecularInputBox
@@ -514,9 +514,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-box
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.SecularInputBox (KAM/Frozen/Planetary/Defs/SecularInputBox.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-box#jupiterSaturnWeights
@@ -540,9 +540,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.jupiterSaturnWeights (KAM/Frozen/Planetary/Defs/JupiterSaturnWeights.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-regular#SecularRegular
@@ -576,9 +576,9 @@ EDGE: bpP:p0:blocks#slow | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-reg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.SecularRegular (KAM/Frozen/Planetary/Defs/SecularRegular.lean)
+LEAN_NOTE: sealed frozen definition; formalized, nothing to prove
 NOTE: -
 
 NODE: bpP:p14:sb-safety

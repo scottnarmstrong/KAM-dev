@@ -181,9 +181,9 @@ EDGE: bpP:p0:plane#planeDot | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planeLength_nonneg, planeLength_sq, planeLength_eq_zero_iff, planeLength_neg, planeLength_smul, planeLength_add_le, norm_le_planeLength, planeLength_le_sqrt_two_mul_norm, analyticAt_planeLength, analyticAt_inv_planeLength, hasFDerivAt_planeLength, hasFDerivAt_inv_planeLength (KAM/Kepler/Plane.lean)
+LEAN_NOTE: audit KEP-1 PASS (addendum); steps pl-* not named, left
 NOTE: -
 
 NODE: stepP:p6:pl-a
@@ -298,9 +298,9 @@ EDGE: bpP:p0:fixham#fixedHamiltonian | blueprint-P/parts/p6-newtonian-models.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collisionFreeDomain, isOpen_collisionFreeDomain, analyticOnNhd_movingHamiltonian, analyticOnNhd_fixedHamiltonian, differentiableAt_movingHamiltonian, differentiableAt_fixedHamiltonian (KAM/Planetary/Newtonian/Models.lean)
+LEAN_NOTE: audit P6-1 PASS WITH NOTES; steps dom-* not named, left
 NOTE: -
 
 NODE: stepP:p6:dom-open
@@ -389,9 +389,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:split@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: keplerPart, pairPotential, fMov, fFix, movingHamiltonian_split, fixedHamiltonian_split, moving_sub_fixed (KAM/Planetary/Newtonian/Models.lean)
+LEAN_NOTE: audit P6-1 PASS WITH NOTES; step sp-alg not named, left
 NOTE: -
 
 NODE: stepP:p6:sp-alg
@@ -448,9 +448,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:kepler
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: keplerPart, keplerPart_eq_sum, movingHamiltonian_split, fixedHamiltonian_split (KAM/Planetary/Newtonian/Models.lean)
+LEAN_NOTE: audit P6-1 PASS WITH NOTES
 NOTE: remark kept: its stated facts (H_Kep = sum m_i E_{k}, planet mass not reduced mass) are consumed by Part 7 stepP:p7:pc-dec and bpP:p7:same-chart and by Part 8 stepP:p8:l64-a. CROSS-OWNERSHIP CANDIDATE: bpI:p7:scaling is a genuine use (mass dictionary).
 
 NODE: bpP:p6:action-reaction
@@ -478,9 +478,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:action
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sum_mass_smul_fKernel (KAM/Planetary/Newtonian/Models.lean)
+LEAN_NOTE: audit P6-1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p6:hamilton-eqs
@@ -516,7 +516,7 @@ EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P6-1 PASS WITH NOTES: hamiltonianVectorField_moving/_fixed and forward hasDerivAt_bodyVector proved; the blueprint curve iff is not exported as a declaration; not marked proved
 NOTE: -
 
 NODE: stepP:p6:he-dir
@@ -669,9 +669,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:bary-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: barycentricPositions_succ_sub_zero, barycentricPositions_succ_sub_succ, barycentricPositions_zero, barycentricVelocities_zero, barycentricVelocities_succ, barycentricVelocities_succ_sub_zero, sum_actualMasses_smul_barycentricPositions, sum_actualMasses_smul_barycentricVelocities, planeLength_barycentricPositions_zero_le (KAM/Planetary/Newtonian/Barycentric.lean)
+LEAN_NOTE: audit P6-2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ba-ab
@@ -699,9 +699,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:ba-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: barycentricPositions_succ_sub_zero, barycentricPositions_succ_sub_succ, barycentricPositions_zero, barycentricVelocities_zero, barycentricVelocities_succ, barycentricVelocities_succ_sub_zero (KAM/Planetary/Newtonian/Barycentric.lean)
+LEAN_NOTE: audit P6-2 PASS WITH NOTES; named bary-algebra (a),(b)
 NOTE: -
 
 NODE: stepP:p6:ba-c
@@ -730,9 +730,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:ba-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sum_actualMasses_smul_barycentricPositions, sum_actualMasses_smul_barycentricVelocities (KAM/Planetary/Newtonian/Barycentric.lean)
+LEAN_NOTE: audit P6-2 PASS WITH NOTES; named bary-algebra (c)
 NOTE: -
 
 NODE: stepP:p6:ba-d
@@ -759,9 +759,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:ba-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planeLength_barycentricPositions_zero_le (KAM/Planetary/Newtonian/Barycentric.lean)
+LEAN_NOTE: audit P6-2 PASS WITH NOTES; named bary-algebra (d)
 NOTE: -
 
 NODE: bpP:p6:reconstruction
@@ -805,7 +805,7 @@ EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
 NOTE: -
 
 NODE: stepP:p6:rc-coords
@@ -1059,7 +1059,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
 NOTE: remark kept: consumed by Part 14a stepP:p14:amd-b. Its mention of N:bpN:p3:newton-reduction ("covers only the all-time predicates ... is not needed here") is a does-not-apply comparison and is not an edge.
 
 NODE: bpP:p6:reconstruction-fixed
@@ -1091,7 +1091,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
 NOTE: The current L184 has separate universal index quantifiers, matching the frozen predicate. The arbitrary-real-eps application at L191 is exposed by bpP:p6:reconstruction-fixed#real-eps.
 
 NODE: stepP:p6:rf-eq
@@ -1160,7 +1160,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P6-3 audit-1 verdict FAIL (hygiene only, inherited Orbit.lean line lengths; all 7 theorems PASS mathematically); no PASS addendum in the audit file, so not marked proved
 NOTE: -
 
 NODE: stepP:p6:ot-curve
@@ -1247,9 +1247,9 @@ EDGE: bpP:p6:tube-constants#a-max | blueprint-P/parts/p6-newtonian-models.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: AxisData, axisMax, axisGap, axisData_canonical, tubeRadius, tubeD, tubeBigD, tubeRadius_pos, tubeD_lt_tubeBigD (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p6:tube-geometry
@@ -1285,9 +1285,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:tube-g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularTube_mono, circularTube_euclidean, circularTube_distances, circularTube_pair_bounds, circularTube_pairBounds_barycentric, circularTube_pairBounds_fixed (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:tg-a
@@ -1314,9 +1314,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:tg-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularTube_mono (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES; named tube-geometry (a)
 NOTE: -
 
 NODE: stepP:p6:tg-b
@@ -1346,9 +1346,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularTube_euclidean (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES; named tube-geometry (b)
 NOTE: -
 
 NODE: stepP:p6:tg-c
@@ -1378,9 +1378,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularTube_distances (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES; named tube-geometry (c)
 NOTE: -
 
 NODE: stepP:p6:tg-d
@@ -1409,9 +1409,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:tg-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularTube_pair_bounds (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES; named tube-geometry (d)
 NOTE: -
 
 NODE: stepP:p6:tg-e
@@ -1442,9 +1442,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: circularTube_pairBounds_barycentric, circularTube_pairBounds_fixed (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES; named tube-geometry (e)
 NOTE: -
 
 NODE: bpP:p6:newton-in-tube
@@ -1477,9 +1477,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:newton
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: newton_in_tube, fixed_in_tube (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES; newton_in_tube applies reconstruction (P6-3, audit FAIL on hygiene only)
 NOTE: -
 
 NODE: bpP:p6:measure-positive
@@ -1760,9 +1760,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: collisionFreeDomain, gKernel, fKernel, ofBodies (KAM/Planetary/Newtonian/Models.lean)
+LEAN_NOTE: audit P6-1 PASS WITH NOTES
 NOTE: created from p6:prose-L20-L24 (SPEC section data); consumers: domain, split, action-reaction, hamilton-eqs and steps, bary-algebra, reconstruction(-fixed) and steps, newton-in-tube
 
 NODE: bpP:p6:tube-constants#a-max
@@ -1788,9 +1788,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:tube-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: axisMax (KAM/Planetary/Newtonian/Tube.lean)
+LEAN_NOTE: audit P6-4 PASS WITH NOTES
 NOTE: Definitional projection of the displayed a_max notation. Unlike gamma_a, this maximum is meaningful without pairwise distinctness; measure-positive(a) uses only this notation, not the distinct-axis bounds. No new estimate or hypothesis is introduced.
 
 NODE: bpP:p6:reconstruction-fixed#real-eps
