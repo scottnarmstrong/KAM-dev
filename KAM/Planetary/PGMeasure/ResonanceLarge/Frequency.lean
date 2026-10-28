@@ -44,10 +44,11 @@ def resonanceSet (d : MeasureData a b) (mu : ℝ) (Q : Set (Fin b → ℝ)) (k :
     (alpha : ℝ) : Set (Fin (a+b) → ℝ) :=
   {z | blockFast z ∈ freqCore d ∧ blockSlow z ∈ Q ∧ |pullFreq d mu k z| < alpha}
 
-theorem blockFast_append (I : Fin a → ℝ) (xi : Fin b → ℝ) : blockFast (Fin.append I xi) = I :=
+theorem blockFast_append_large (I : Fin a → ℝ) (xi : Fin b → ℝ) : blockFast (Fin.append I xi) = I :=
   funext fun i => Fin.append_left I xi i
 
-theorem blockSlow_append (I : Fin a → ℝ) (xi : Fin b → ℝ) : blockSlow (Fin.append I xi) = xi :=
+theorem blockSlow_append_large (I : Fin a → ℝ) (xi : Fin b → ℝ) :
+    blockSlow (Fin.append I xi) = xi :=
   funext fun i => Fin.append_right I xi i
 
 theorem pullFreq_eq (d : MeasureData a b) (mu : ℝ) (k : Fin (a+b) → ℤ) (z : Fin (a+b) → ℝ) :
@@ -60,7 +61,7 @@ theorem pullFreq_eq (d : MeasureData a b) (mu : ℝ) (k : Fin (a+b) → ℤ) (z 
   congr 1
   all_goals
     refine Finset.sum_congr rfl fun i _ => ?_
-    simp [kSlow, freq, blockFast_append, blockSlow_append]
+    simp [kSlow, freq, blockFast_append_large, blockSlow_append_large]
     try ring
 
 /-- Points of the frequency image of the core come from core actions. -/

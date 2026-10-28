@@ -68,7 +68,7 @@ theorem pullMap_pushMap (d : MeasureData a b) {J : Fin (a+b) → ℝ} (hJ : bloc
     pullMap d (pushMap d J) = J := by
   have hW : blockFast J ∈ d.W := d.hVW (subset_closure (d.hcoreV hJ))
   have : pullMap d (pushMap d J) = Fin.append (blockFast J) (blockSlow J) := by
-    simp [pullMap, pushMap, blockFast_append, blockSlow_append, d.hinv _ hW]
+    simp [pullMap, pushMap, blockFast_append_large, blockSlow_append_large, d.hinv _ hW]
   rw [this]
   exact Fin.append_castAdd_natAdd (f := J)
 
@@ -76,9 +76,9 @@ theorem pushMap_mem_sliceDomain (d : MeasureData a b) {Q : Set (Fin b → ℝ)}
     {J : Fin (a+b) → ℝ} (hJ : J ∈ joinedActions d.core Q) :
     blockFast (pushMap d J) ∈ freqCore d ∧ blockSlow (pushMap d J) ∈ Q := by
   refine ⟨?_, ?_⟩
-  · rw [pushMap, blockFast_append]
+  · rw [pushMap, blockFast_append_large]
     exact ⟨blockFast J, hJ.1, rfl⟩
-  · simpa [pushMap, blockSlow_append] using hJ.2
+  · simpa [pushMap, blockSlow_append_large] using hJ.2
 
 /-- `stepP:p4:dm-y`: a resonant action point `J ∈ core × Q` with a mode `k` is the `pullMap`-image
 of a point of the frequency-coordinate resonant set of `k`. -/
