@@ -39,6 +39,59 @@ open KAM KAM.Kepler
 
 namespace PlanarAssembly
 
+/-! ### The collar of a box -/
+
+private theorem frontier_box (l u : Fin 2 → ℝ) (hlu : ∀ i, l i < u i) :
+    frontier (pi univ (fun i => Ioo (l i) (u i))) =
+      pi univ (fun i => Icc (l i) (u i)) \ pi univ (fun i => Ioo (l i) (u i)) := by
+  rw [frontier, closure_pi_set, interior_pi_set Set.finite_univ]
+  simp only [closure_Ioo (hlu _).ne, interior_Ioo]
+
+private theorem collar_subset (l u : Fin 2 → ℝ) (hlu : ∀ i, l i < u i) (t : ℝ) (ht : 0 < t) :
+    {I : Fin 2 → ℝ | ∃ J ∈ frontier (pi univ (fun i => Ioo (l i) (u i))), dist I J < t} ⊆
+      pi univ (fun i => Ioo (l i - t) (u i + t)) \ Icc (fun i => l i + t) (fun i => u i - t) := by
+  rintro I ⟨J, hJ, hd⟩
+  rw [frontier_box l u hlu] at hJ
+  obtain ⟨hJc, hJo⟩ := hJ
+  have hd' : ∀ i, |I i - J i| < t := fun i => by
+    have := (dist_pi_lt_iff ht).mp hd i
+    rwa [Real.dist_eq] at this
+  refine ⟨fun i _ => ?_, fun hI => hJo fun j _ => ?_⟩
+  · have h1 := abs_lt.mp (hd' i)
+    have h2 := hJc i (mem_univ i)
+    constructor <;> linarith [h2.1, h2.2]
+  · have h1 := abs_lt.mp (hd' j)
+    have h2 := hI.1 j
+    have h3 := hI.2 j
+    constructor <;> linarith
+
+theorem collar (l u : Fin 2 → ℝ) (hlu : ∀ i, l i < u i)
+    (t : ℝ) (ht : 0 < t) (htl : ∀ i, t < (u i - l i) / 2) :
+    volume {I : Fin 2 → ℝ | ∃ J ∈ frontier (pi univ (fun i => Ioo (l i) (u i))),
+      dist I J < t} ≤ ENNReal.ofReal (4 * ((u 0 - l 0) + (u 1 - l 1)) * t) := by
+  have hle : (fun i => l i + t) ≤ fun i => u i - t := fun i => by
+    have := htl i; simp only; linarith
+  have hsub : Icc (fun i => l i + t) (fun i => u i - t) ⊆
+      pi univ (fun i => Ioo (l i - t) (u i + t)) := fun x hx i _ => by
+    have h1 := hx.1 i
+    have h2 := hx.2 i
+    constructor <;> linarith
+  have hfin : volume (Icc (fun i => l i + t) (fun i => u i - t)) ≠ ⊤ := by
+    rw [Real.volume_Icc_pi]
+    exact ENNReal.prod_ne_top fun _ _ => ENNReal.ofReal_ne_top
+  refine (measure_mono (collar_subset l u hlu t ht)).trans ?_
+  rw [measure_sdiff hsub measurableSet_Icc.nullMeasurableSet hfin, Real.volume_pi_Ioo,
+    Real.volume_Icc_pi]
+  simp only [Fin.prod_univ_two]
+  have h0 : 0 ≤ ((u 0 - t) - (l 0 + t)) := by have := htl 0; linarith
+  have h1 : 0 ≤ ((u 1 - t) - (l 1 + t)) := by have := htl 1; linarith
+  have h0' : 0 ≤ ((u 0 + t) - (l 0 - t)) := by have := htl 0; linarith
+  have h1' : 0 ≤ ((u 1 + t) - (l 1 - t)) := by have := htl 1; linarith
+  rw [← ENNReal.ofReal_mul h0', ← ENNReal.ofReal_mul h0,
+    ← ENNReal.ofReal_sub _ (mul_nonneg h0 h1)]
+  refine le_of_eq (congrArg ENNReal.ofReal ?_)
+  ring
+
 /-! ### Radius arithmetic -/
 
 /-- Elementary output of the P-G radius/threshold choices, not a P-G premise. -/
