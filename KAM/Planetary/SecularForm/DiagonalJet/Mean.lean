@@ -72,6 +72,38 @@ theorem integral_cos_pow_period (k : ℕ) (hk : k ≤ 5) :
     simpa using this
   interval_cases k <;> simp_all
 
+/-- The `k`-th term of the power series of an analytic function at `0`, on the diagonal. -/
+theorem powerSeries_diag {H : ℝ → ℝ} {p : FormalMultilinearSeries ℝ ℝ ℝ} {r : ENNReal}
+    (hp : HasFPowerSeriesOnBall H p 0 r) (k : ℕ) (y : ℝ) :
+    p k (fun _ => y) = iteratedDeriv k H 0 / k.factorial * y ^ k := by
+  have h1 := hp.factorial_smul 1 k
+  have h2 : p k (fun _ => y) = y ^ k * p k (fun _ => (1:ℝ)) := by
+    simp [smul_eq_mul]
+  rw [h2, iteratedDeriv_eq_iteratedFDeriv, ← h1, nsmul_eq_mul]
+  have : (k.factorial : ℝ) ≠ 0 := by positivity
+  field_simp
+
+/-- Taylor bound of order `6` for an analytic function at `0`, with continuity on the ball. -/
+theorem analytic_taylor_bound {H : ℝ → ℝ} (hH : AnalyticAt ℝ H 0) :
+    ∃ r C : ℝ, 0 < r ∧ 0 < C ∧ ∀ y : ℝ, |y| < r → ContinuousAt H y ∧
+      |H y - ∑ k ∈ Finset.range 6, iteratedDeriv k H 0 / k.factorial * y ^ k| ≤ C * |y| ^ 6 := by
+  obtain ⟨p, r0, hp⟩ := id hH
+  have hat : HasFPowerSeriesAt H p 0 := ⟨r0, hp⟩
+  have hbig := hat.isBigO_sub_partialSum_pow 6
+  obtain ⟨C, hCpos, hC⟩ := hbig.exists_pos
+  have hev1 := hC.bound
+  have hev2 : ∀ᶠ y in 𝓝 (0:ℝ), AnalyticAt ℝ H y := hH.eventually_analyticAt
+  obtain ⟨r, hr, hball⟩ := Metric.eventually_nhds_iff.1 (hev1.and hev2)
+  refine ⟨r, C, hr, hCpos, fun y hy => ?_⟩
+  have hy' : dist y 0 < r := by simpa using hy
+  obtain ⟨h1, h2⟩ := hball hy'
+  refine ⟨h2.continuousAt, ?_⟩
+  have hs : p.partialSum 6 y = ∑ k ∈ Finset.range 6, iteratedDeriv k H 0 / k.factorial * y ^ k := by
+    unfold FormalMultilinearSeries.partialSum
+    exact Finset.sum_congr rfl fun k _ => powerSeries_diag hp k y
+  rw [← hs]
+  simpa [Real.norm_eq_abs, zero_add] using h1
+
 end SecularForm
 end KAM.Planetary
 end
