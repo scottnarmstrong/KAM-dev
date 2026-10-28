@@ -118,7 +118,8 @@ theorem fd_tel {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionCha
         exact ⟨b, hbK, by rw [h0, norm_zero]; exact htj⟩
     _ ≤ selectionTail a m := Summable.sum_le_tsum _ (fun i _ => hnn i) hsum
 
-/-- `fd_test`: a point of `K_{ν+1}` lies in every `K_{m+1}`, hence passes the stage-`m` shell test. -/
+/-- `fd_test`: a point of `K_{ν+1}` lies in every `K_{m+1}`, hence passes the stage-`m`
+shell test. -/
 theorem fd_test {d : SelectionData n} {a : SelectionSchedule n} {c : SelectionChain n} {ν : ℕ}
     (hc : SelectionFiniteChain d a c ν) {m : ℕ} (hm : m ≤ ν) {b : SelectionR n}
     (hb : b ∈ selectionRetained a d c ν) {k : Fin n → ℤ} (hk : k ∈ selectionShell a m) :
