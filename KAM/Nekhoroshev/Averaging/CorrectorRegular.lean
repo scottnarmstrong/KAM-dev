@@ -354,6 +354,39 @@ private theorem core_ineq {N s κ M₂ β a b p m : ℝ} (hκ : 0 < κ) (hs : 0 
           nlinarith [mul_nonneg this (mul_nonneg (pow_nonneg hw0 3) hβ),
             mul_nonneg (by positivity : (0:ℝ) ≤ 1 / (2 * κ)) (mul_nonneg (pow_nonneg hw0 3) hβ)]
 
+private theorem avgBterm_nonneg (d : AveragingData n R s h f) {M₂ κ : ℝ} (hM0 : 0 ≤ M₂)
+    (k : Fin n → ℤ) (I : Fin n → ℝ) : 0 ≤ avgBterm h s M₂ κ k I := by
+  have h0 : 0 ≤ 2 * (n : ℝ) / s := by have := d.hs; positivity
+  exact mul_nonneg (mul_nonneg (norm_nonneg _) (avgBeta_nonneg s k))
+    (add_nonneg (mul_nonneg h0 (abs_nonneg _))
+      (mul_nonneg (mul_nonneg hM0 (KAM.Fourier.modeSize_nonneg k)) (abs_nonneg _)))
+
+private theorem psi_bounds {κ : ℝ} (hκ : 0 < κ) (y : ℝ) :
+    |avgPsi κ y| ≤ 1 / (2 * κ) ∧ |avgPsiD κ y| ≤ κ⁻¹ ^ 2 :=
+  ⟨((corrector hκ).2 y).2.1, ((corrector hκ).2 y).2.2.1⟩
+
+/-- Pointwise domination of the summand and of its derivative on `avgDomain`. -/
+private theorem gk_dom (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ) (hM0 : 0 ≤ M₂)
+    {z : AvgPhase n} (hz : z ∈ avgDomain n R) (k : Fin n → ℤ)
+    (hM : ∀ i, ∑ j, |avgM h z.2 i j| ≤ M₂) :
+    ‖gk h f κ k z‖ ≤ domC n s κ M₂ * ((1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k) ∧
+    ‖fderiv ℝ (gk h f κ k) z‖ ≤
+      domC n s κ M₂ * ((1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k) := by
+  have hb := psi_bounds hκ (avgQ h k z.2)
+  have hc := core_ineq (N := n) (β := avgBeta s k) (p := ‖fun j => (k j : ℝ)‖)
+    (m := KAM.Fourier.modeSize k) (M₂ := M₂) (κ := κ) (s := s) hκ d.hs (Nat.cast_nonneg n) hM0
+    (avgBeta_nonneg s k) (abs_nonneg _) hb.1 (abs_nonneg _) hb.2 (norm_nonneg _) (norm_k_le k)
+  refine ⟨?_, ?_⟩
+  · calc ‖gk h f κ k z‖ = ‖avgU h f κ k z.2‖ := by
+          simp [gk, norm_smul, norm_character_real]
+      _ ≤ _ := (norm_avgU_le d κ k hz.2).trans hc.2
+  · refine ContinuousLinearMap.opNorm_le_bound _ ?_ fun v => ?_
+    · have : 0 ≤ domC n s κ M₂ := by unfold domC; have := d.hs; positivity
+      exact mul_nonneg this (mul_nonneg (by have := KAM.Fourier.modeSize_nonneg k; positivity)
+        (avgBeta_nonneg s k))
+    · exact (hasFDerivAt_gk d hκ k hz hM).2.2 v |>.trans
+        (mul_le_mul_of_nonneg_right hc.1 (norm_nonneg v))
+
 end KAM.Nekhoroshev
 
 end
