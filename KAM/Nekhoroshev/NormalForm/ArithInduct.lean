@@ -14,8 +14,8 @@ import Mathlib.Tactic.Linarith
 /-!
 # The Normal Form Lemma: numerics, (6.1), (6.2), the induction constant and (a)
 
-`nf-case` (6.1), `nf-N` (6.2), `nf-induct` (`128/127 · 0.1915 < 1/4`), the decomposition norm and `nf-concl`
-(a). Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8.
+`nf-case` (6.1), `nf-N` (6.2), `nf-induct` (`128/127 · 0.1915 < 1/4`), the decomposition norm and
+`nf-concl` (a). Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8.
 -/
 
 @[expose] public noncomputable section
@@ -167,7 +167,8 @@ theorem star_sum_le {ε ε₁ c : ℝ} (hε0 : 0 ≤ ε) (hε₁ : 0 ≤ ε₁) 
             show w (j + 1) * (ε₁ / 4 ^ j) ≤ ε₁ * (1 / 4 ^ j)
             have h4 : 0 ≤ ε₁ / 4 ^ j := by positivity
             calc w (j + 1) * (ε₁ / 4 ^ j) ≤ 1 * (ε₁ / 4 ^ j) :=
-                  mul_le_mul_of_nonneg_right (hw _ (by omega) (by have := Finset.mem_range.mp hj; omega)) h4
+                  mul_le_mul_of_nonneg_right
+                    (hw _ (by omega) (by have := Finset.mem_range.mp hj; omega)) h4
               _ = ε₁ * (1 / 4 ^ j) := by ring
         _ = ε₁ * ∑ j ∈ Finset.range i, (1 : ℝ) / 4 ^ j := by rw [Finset.mul_sum]
         _ ≤ ε₁ * (4 / 3) := mul_le_mul_of_nonneg_left (sum_inv4_le i) hε₁
@@ -218,7 +219,8 @@ theorem star_small {N : ℕ} {S : ℝ} (hp : 1 < p) (hα : 0 < α) (hr : 0 < r) 
     calc 5 / (8 * (N : ℝ)) * iterU α p ε (r / (8 * N)) (s / (4 * N))
         ≤ 5 / (8 * (N : ℝ)) * (N / 32) := mul_le_mul_of_nonneg_left h1 (by positivity)
       _ = 5 / 256 := by field_simp; ring
-  have h4 : 4 / 3 * iterU α p (nfEps1 α p r s ε) (r / (8 * N)) (s / (4 * N)) ≤ 4 / 3 * (1 / 2 ^ 8) :=
+  have h4 : 4 / 3 * iterU α p (nfEps1 α p r s ε) (r / (8 * N)) (s / (4 * N)) ≤
+      4 / 3 * (1 / 2 ^ 8) :=
     mul_le_mul_of_nonneg_left hε₁ (by norm_num)
   have h5 : (5 / 256 : ℝ) + 4 / 3 * (1 / 2 ^ 8) ≤ 1 / 2 ^ 4 := by norm_num
   linarith

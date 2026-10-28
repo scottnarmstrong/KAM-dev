@@ -13,9 +13,9 @@ import Mathlib.Tactic.Linarith
 /-!
 # The Normal Form Lemma: the induction (`nf-first`, `nf-case`, `nf-N`, `nf-induct`)
 
-For `i ≤ N`, the invariant `NFInv i` makes step `i` an `IterHyp` (`nf_hyp`: admissibility, `nf-first`,
-(6.2)) and gives `NFInv (i+1)` (`nf_inv_succ`: Case A of `nf-case` for `i = 0`, the induction claim
-`εᵢ₊₁ ≤ εᵢ/4` with the decomposition norm of `nf-induct` for `i ≥ 1`). Design
+For `i ≤ N`, the invariant `NFInv i` makes step `i` an `IterHyp` (`nf_hyp`: admissibility,
+`nf-first`, (6.2)) and gives `NFInv (i+1)` (`nf_inv_succ`: Case A of `nf-case` for `i = 0`, the
+induction claim `εᵢ₊₁ ≤ εᵢ/4` with the decomposition norm of `nf-induct` for `i ≥ 1`). Design
 `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 1).
 -/
 
@@ -50,7 +50,8 @@ theorem nf_sixtwo (H : NFHyp D r s K α L p ε Λ h f)
   have h6 := eps_le_sixtwo H.hp H.hα H.hK H.hr H.hs H.hε0 H.hi hN1 (nf_floor H hN).2.2
   exact ⟨h6, eps1_sixtwo H.hp H.hα H.hr H.hs H.hε0 hN1 h6⟩
 
-/-- The decomposition norm of `g_{i-1}` is nonnegative and small (`nf-induct`, "size of `|g_{i-1}|_*`"). -/
+/-- The decomposition norm of `g_{i-1}` is nonnegative and small (`nf-induct`, "size of
+`|g_{i-1}|_*`"). -/
 theorem nf_star (H : NFHyp D r s K α L p ε Λ h f)
     (hN : N = ⌊2 * Real.pi * K * s / (12 * Real.log 2)⌋₊) {i : ℕ} (hi : i ≤ N) (hi1 : 1 ≤ i) :
     0 ≤ starNorm (nfR r N i) (nfS s N i) (nfRho r N i) (nfSig s N i) (nfRj r N i) (nfSj s N i)

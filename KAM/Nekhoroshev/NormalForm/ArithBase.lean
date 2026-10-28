@@ -12,10 +12,13 @@ import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.Linarith
 
 /-!
-# The Normal Form Lemma: numerics, Step 0 and the schedule (`bpN:p6:normal-form`, `nf-first`, `nf-case`, `nf-N`)
+# The Normal Form Lemma: numerics, Step 0 and the schedule
 
-The step schedule (`nfRho`, `nfSig`, `nfR`, `nfS`), the carried bound sequence `nfB` and the displayed
-inequalities of the proof as standalone real lemmas: Step 0 (`iterU_first`, Case A (6.1), Case B), the
+(`bpN:p6:normal-form`, `nf-first`, `nf-case`, `nf-N`)
+
+The step schedule (`nfRho`, `nfSig`, `nfR`, `nfS`), the carried bound sequence `nfB` and the
+displayed inequalities of the proof as standalone real lemmas: Step 0 (`iterU_first`, Case A (6.1),
+Case B), the
 number of steps `N` and (6.2), the induction constant `128/127 · 0.1915 < 1/4`, the conclusions (a),
 (b) and the displacement constants (1.17, `8 + 32/(36 ln 2) ≤ 10`). No `nlinarith`. Design
 `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8.
@@ -80,7 +83,8 @@ theorem log_two_gt : (2 : ℝ) / 3 < Real.log 2 := by
 
 /-- The coefficient identity `2q/(e ᾱ ρ σ) · δ = (2/e) · u`. -/
 theorem coef_mul_eq {ρ σ p δ : ℝ} (hα : 0 < α) (hρ : 0 < ρ) (hσ : 0 < σ) :
-    2 * conjExp p / (Real.exp 1 * (2 * Real.pi * α) * ρ * σ) * δ = 2 / Real.exp 1 * iterU α p δ ρ σ := by
+    2 * conjExp p / (Real.exp 1 * (2 * Real.pi * α) * ρ * σ) * δ =
+      2 / Real.exp 1 * iterU α p δ ρ σ := by
   have := Real.pi_pos
   have := Real.exp_pos 1
   unfold iterU

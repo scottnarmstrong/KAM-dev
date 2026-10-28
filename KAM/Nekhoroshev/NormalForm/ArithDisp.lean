@@ -14,7 +14,8 @@ import Mathlib.Tactic.Linarith
 /-!
 # The Normal Form Lemma: numerics, displacement and the radii
 
-`nf-disp` (the constants `1.17`, `8 + 32/(36 ln 2) ≤ 10`) and the closed forms of the schedule. Design
+`nf-disp` (the constants `1.17`, `8 + 32/(36 ln 2) ≤ 10`) and the closed forms of the schedule.
+Design
 `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8.
 -/
 

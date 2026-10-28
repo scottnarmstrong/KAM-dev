@@ -15,9 +15,9 @@ import Mathlib.Tactic.Linarith
 # The Normal Form Lemma: the step sequence (`bpN:p6:normal-form`, Case A)
 
 `nfState i = (g_{i-1}, f_i)` by recursion (`g_i = iterG`, `f_{i+1} = iterF` with the losses
-`ρᵢ, σᵢ` of `Arith`), the decomposition `g_{i-1} = ∑_{j<i} P_Λ T_K f_j` as an `IsDecomp` with `Fin i`
-parts (`rⱼ = nfR j`, `Mⱼ = nfB j`), the invariant `NFInv i` and the induction claim: step `i`
-is an `IterHyp` (`nf_hyp`) and `NFInv (i+1)` follows (`nf_inv_succ`). Design
+`ρᵢ, σᵢ` of `Arith`), the decomposition `g_{i-1} = ∑_{j<i} P_Λ T_K f_j` as an `IsDecomp` with
+`Fin i` parts (`rⱼ = nfR j`, `Mⱼ = nfB j`), the invariant `NFInv i` and the induction claim:
+step `i` is an `IterHyp` (`nf_hyp`) and `NFInv (i+1)` follows (`nf_inv_succ`). Design
 `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 1).
 -/
 
@@ -108,7 +108,8 @@ theorem nfF_succ (i : ℕ) :
 
 /-- `g_{i-1} = ∑_{j<i} P_Λ T_K f_j`. -/
 theorem nfG_eq_sum (i : ℕ) :
-    nfG D r s K Λ h f N i = fun z => ∑ j ∈ Finset.range i, homRes K Λ (nfF D r s K Λ h f N j) z := by
+    nfG D r s K Λ h f N i =
+      fun z => ∑ j ∈ Finset.range i, homRes K Λ (nfF D r s K Λ h f N j) z := by
   induction i with
   | zero => funext z; simp [nfG_zero]
   | succ i ih =>
