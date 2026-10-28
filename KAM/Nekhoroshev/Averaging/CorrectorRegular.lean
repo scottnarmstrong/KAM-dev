@@ -97,7 +97,7 @@ private theorem abs_dQ_le (k : Fin n → ℤ) {I : Fin n → ℝ} {M₂ : ℝ}
       _ = ‖v‖ * ∑ j, |avgM h I i j| := by rw [Finset.mul_sum]
       _ ≤ ‖v‖ * M₂ := mul_le_mul_of_nonneg_left (hM i) (norm_nonneg _)
       _ = M₂ * ‖v‖ := mul_comm _ _
-  simp only [ContinuousLinearMap.sum_apply, ContinuousLinearMap.smul_apply,
+  simp only [sum_apply, smul_apply,
     ContinuousLinearMap.comp_apply, ContinuousLinearMap.proj_apply, smul_eq_mul]
   calc |∑ i, (k i : ℝ) * fderiv ℝ (KAM.frequencyMap h) I v i|
       ≤ ∑ i, |(k i : ℝ) * fderiv ℝ (KAM.frequencyMap h) I v i| := Finset.abs_sum_le_sum_abs _ _
@@ -161,8 +161,8 @@ private theorem hasFDerivAt_aScal (d : AveragingData n R s h f) {κ M₂ : ℝ} 
     have hn : (0 : ℝ) ≤ n := Nat.cast_nonneg n
     have hc0 : ‖avgCoeff f (KAM.realInclusion n I) k‖ ≤ avgBeta s k :=
       (coef d).2.1 _ (real_mem d hI) k
-    simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply,
-      ContinuousLinearMap.comp_apply, Complex.coe_smul, smul_eq_mul]
+    simp only [add_apply, smul_apply,
+      ContinuousLinearMap.comp_apply, smul_eq_mul]
     refine (norm_add_le _ _).trans ?_
     have e1 : ‖avgCoeff f (KAM.realInclusion n I) k * Complex.ofRealCLM
         (avgPsiD κ (avgQ h k I) * (∑ i, (k i : ℝ) •
@@ -173,7 +173,7 @@ private theorem hasFDerivAt_aScal (d : AveragingData n R s h f) {κ M₂ : ℝ} 
       rw [norm_mul, Complex.ofRealCLM_apply, Complex.norm_real, Real.norm_eq_abs, abs_mul]
     have e2 : ‖(⇑Complex.ofRealCLM ∘ avgPsi κ ∘ avgQ h k) I * c' v‖ =
         |avgPsi κ (avgQ h k I)| * ‖c' v‖ := by
-      simp [norm_mul]
+      simp
     rw [e1, e2]
     have t1 : ‖avgCoeff f (KAM.realInclusion n I) k‖ * (|avgPsiD κ (avgQ h k I)| *
           |(∑ i, (k i : ℝ) • (ContinuousLinearMap.proj i).comp
@@ -232,7 +232,7 @@ private theorem norm_linK_le (k : Fin n → ℤ) (v : Fin n → ℝ) :
     refine (norm_sum_le _ _).trans ?_
     calc ∑ j, ‖(k j : ℂ) * (v j : ℂ)‖ ≤ ∑ j, |(k j : ℝ)| * ‖v‖ := Finset.sum_le_sum fun j _ => by
           rw [norm_mul]
-          simp only [Complex.norm_intCast, Complex.norm_real, Int.cast_abs]
+          simp only [Complex.norm_intCast, Complex.norm_real]
           exact mul_le_mul_of_nonneg_left (norm_le_pi_norm v j) (abs_nonneg _)
       _ = KAM.Fourier.modeSize k * ‖v‖ := by rw [← Finset.sum_mul]; rfl
   calc 2 * Real.pi * ‖∑ j, (k j : ℂ) * (v j : ℂ)‖
@@ -340,7 +340,7 @@ private theorem core_ineq {N s κ M₂ β a b p m : ℝ} (hκ : 0 < κ) (hs : 0 
       _ = β * (N / (s * κ) * (1 + m) + M₂ / κ ^ 2 * (1 + m) ^ 2 +
           Real.pi / κ * (1 + m) ^ 2) := by field_simp
       _ ≤ β * (N / (s * κ) * (1 + m) ^ 3 + M₂ / κ ^ 2 * (1 + m) ^ 3 +
-          Real.pi / κ * (1 + m) ^ 3) := by gcongr <;> linarith
+          Real.pi / κ * (1 + m) ^ 3) := by gcongr; linarith
       _ ≤ _ := by
           have : 0 ≤ 1 / (2 * κ) := by positivity
           nlinarith [mul_nonneg this (mul_nonneg (pow_nonneg hw0 3) hβ)]
@@ -419,7 +419,8 @@ private theorem hasFDerivAt_avgW (d : AveragingData n R s h f) {M₂ κ : ℝ} (
   have hsum := summable_dom d (domC n s κ M₂)
   refine ⟨?_, (Summable.of_norm_bounded hsum fun k => (hdom k z hz).2).hasSum⟩
   rw [avgW_eq]
-  exact hasFDerivAt_tsum_of_isPreconnected hsum (isOpen_avgDomain n R) (isPreconnected_avgDomain n R)
+  exact hasFDerivAt_tsum_of_isPreconnected hsum (isOpen_avgDomain n R)
+    (isPreconnected_avgDomain n R)
     (fun k x hx => (hasFDerivAt_gk d hκ k hx (hM x.2 (mem_closedBall_of_dom hx))).1)
     (fun k x hx => (hdom k x hx).2) hz
     (Summable.of_norm_bounded hsum fun k => (hdom k z hz).1) hz
@@ -514,6 +515,13 @@ private theorem ofReal_norm_le_tsum {ι E : Type*} [NormedAddCommGroup E] {g : �
   rw [← ENNReal.ofReal_tsum_of_nonneg hb0 hb]
   exact ENNReal.ofReal_le_ofReal (ha.norm_le_of_bounded hb.hasSum hg)
 
+private theorem ofReal_norm_le_tsum_mul {ι E : Type*} [NormedAddCommGroup E] {g : ι → E}
+    {b : ι → ℝ} (hb0 : ∀ i, 0 ≤ b i) (hb : Summable b) {a : E} (ha : HasSum g a) {c : ℝ}
+    (hg : ∀ i, ‖g i‖ ≤ b i * c) :
+    ENNReal.ofReal ‖a‖ ≤ (∑' i, ENNReal.ofReal (b i)) * ENNReal.ofReal c := by
+  rw [← ENNReal.ofReal_tsum_of_nonneg hb0 hb, ← ENNReal.ofReal_mul (tsum_nonneg hb0)]
+  exact ENNReal.ofReal_le_ofReal (ha.norm_le_of_bounded (hb.hasSum.mul_right c) hg)
+
 /-- The four real series behind the envelopes converge. -/
 private theorem env_summable (d : AveragingData n R s h f) {κ M₂ : ℝ} (hκ : 0 < κ)
     (hM0 : 0 ≤ M₂) (I : Fin n → ℝ) :
@@ -567,7 +575,7 @@ private theorem env_summable (d : AveragingData n R s h f) {κ M₂ : ℝ} (hκ 
             nlinarith [mul_nonneg Real.pi_pos.le hβ]
 
 private theorem measurable_freq (h : (Fin n → ℂ) → ℂ) : Measurable (KAM.frequencyMap h) :=
-  measurable_pi_iff.2 fun i => measurable_fderiv_apply_const ℝ _ _
+  measurable_pi_iff.2 fun _ => measurable_fderiv_apply_const ℝ _ _
 
 private theorem measurable_Q (h : (Fin n → ℂ) → ℂ) (k : Fin n → ℤ) : Measurable (avgQ h k) :=
   Finset.measurable_sum _ fun i _ =>
@@ -585,8 +593,10 @@ private theorem measurable_term_ofReal (h : (Fin n → ℂ) → ℂ) (k : Fin n 
 
 theorem envelope_regular (d : AveragingData n R s h f) {κ M₂ : ℝ}
     (hκ : 0 < κ) (hM0 : 0 ≤ M₂) :
-    Measurable ((actionBall n R).indicator (avgWenv h s κ)) ∧ Measurable ((actionBall n R).indicator (avgW1env h s κ)) ∧
-    Measurable ((actionBall n R).indicator (avgBenv h s M₂ κ)) ∧ Measurable ((actionBall n R).indicator (avgRenv h s κ)) ∧
+    Measurable ((actionBall n R).indicator (avgWenv h s κ)) ∧
+    Measurable ((actionBall n R).indicator (avgW1env h s κ)) ∧
+    Measurable ((actionBall n R).indicator (avgBenv h s M₂ κ)) ∧
+    Measurable ((actionBall n R).indicator (avgRenv h s κ)) ∧
     (∀ ε : ℝ, Measurable ((actionBall n R).indicator (avgPhiEnv h s M₂ ε κ))) ∧
     ∀ I ∈ actionBall n R, avgWenv h s κ I < ⊤ ∧ avgW1env h s κ I < ⊤ ∧
       avgBenv h s M₂ κ I < ⊤ ∧ avgRenv h s κ I < ⊤ := by
@@ -699,7 +709,51 @@ theorem wreg (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ)
         rw [linK_apply]; simp [avgQ]
       simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hQ, hr, avgU]
       ring
-    sorry
+    refine ⟨ofReal_norm_le_tsum (fun k => by have := avgBeta_nonneg s k; positivity) hS.1 hWsum
+      hnorm_g, ?_, hres, fun v => ?_, fun v => ?_, fun k v => ?_⟩
+    · refine ofReal_norm_le_tsum (fun k => by have := avgBeta_nonneg s k; positivity) hS.2.2.2 hres
+        fun k => ?_
+      have e : (fun j => -2 * (Real.pi : ℂ) * Complex.I * avgCoeff f (KAM.realInclusion n z.2) k *
+          ((κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2) : ℝ) : ℂ) * (k j : ℂ) *
+            KAM.character k (KAM.realInclusion n z.1)) =
+          (-(2 * (Real.pi : ℂ) * Complex.I * avgCoeff f (KAM.realInclusion n z.2) k *
+            ((κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2) : ℝ) : ℂ) *
+              KAM.character k (KAM.realInclusion n z.1))) • kvec k := by
+        funext j; simp [kvec]; ring
+      have hr0 : 0 ≤ κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2) := by positivity
+      rw [e, norm_smul, norm_kvec, norm_neg, norm_mul, norm_mul, norm_mul, norm_character_real,
+        mul_one, Complex.norm_real, Real.norm_of_nonneg hr0]
+      have h2 : ‖2 * (Real.pi : ℂ) * Complex.I‖ = 2 * Real.pi := by
+        simp [abs_of_pos Real.pi_pos]
+      have hc := (coef d).2.1 _ (real_mem d hI) k
+      calc ‖2 * (Real.pi : ℂ) * Complex.I‖ * ‖avgCoeff f (KAM.realInclusion n z.2) k‖ *
+            (κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2)) * ‖fun j => (k j : ℝ)‖
+          ≤ 2 * Real.pi * avgBeta s k * (κ ^ 2 / (avgQ h k z.2 ^ 2 + κ ^ 2)) *
+            ‖fun j => (k j : ℝ)‖ := by
+            rw [h2]
+            exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right
+              (mul_le_mul_of_nonneg_left hc (by positivity)) hr0) (norm_nonneg _)
+        _ = _ := by ring
+    · refine (ofReal_norm_le_tsum_mul (fun k => by
+        have := avgBeta_nonneg s k; have := KAM.Fourier.modeSize_nonneg k; positivity)
+        hS.2.1 (hdir (v, 0)) (c := ‖v‖) fun k => ?_).trans (le_of_eq ?_)
+      · rw [hfst k, norm_smul, norm_neg, norm_mul, norm_character_real, one_mul]
+        have hu := norm_avgU_le d κ k hI
+        have hl := norm_linK_le k v
+        calc ‖linK k v‖ * ‖avgU h f κ k z.2‖
+            ≤ (2 * Real.pi * KAM.Fourier.modeSize k * ‖v‖) *
+              (‖fun j => (k j : ℝ)‖ * avgBeta s k * |avgPsi κ (avgQ h k z.2)|) :=
+              mul_le_mul hl hu (norm_nonneg _) (by
+                have := KAM.Fourier.modeSize_nonneg k; positivity)
+          _ = _ := by ring
+      · rfl
+    · refine (ofReal_norm_le_tsum_mul (fun k => avgBterm_nonneg d hM0 k z.2) hS.2.2.1
+        (hdir (0, v)) (c := ‖v‖) fun k => ?_).trans (le_of_eq ?_)
+      · rw [hsnd k, norm_smul, norm_neg, norm_character_real, one_mul]
+        exact norm_dU_le d hκ k hI hMz v
+      · rfl
+    · rw [(hasFDerivAt_avgU d hκ k hI hMz).fderiv]
+      simpa using norm_dU_le d hκ k hI hMz v
 
 end KAM.Nekhoroshev
 
