@@ -90,21 +90,22 @@ variable (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) (hU : 0 ≤ U)
 include hc hk hU hu hb
 
 /-- `u ∘ X^t = ∑ t^j ad_φ^j u / j!` on `𝒟_{R-ρ,s-σ}`, `|t| ≤ 1`. -/
-theorem flow_series {t : ℝ} (ht : |t| ≤ 1) {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+private theorem flow_series {t : ℝ} (ht : |t| ≤ 1) {z : EC n k}
+    (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
     u (extFlow b R' s' ρ σ φ t z) =
       ∑' j : ℕ, (t : ℂ) ^ j * (((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) := by
-  have h1 := (hc.smul ht).series_eq hk hU hu hb hz
-  rw [hc.flow_smul hk ht hz] at h1
+  have h1 := (hc.smul_ext ht).ext_series_eq hk hU hu hb hz
+  rw [hc.extCompose_flow_smul hk ht hz] at h1
   rw [h1]
   exact tsum_congr fun j => by rw [extAd_const_mul_ext]; ring
 
 /-- The time integral of `u ∘ X^t`, `t ∈ [0, 1]`, termwise: `∑ ad_φ^j u / (j+1)!`. -/
-theorem integral_flow_hasSum {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+private theorem integral_flow_hasSum {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
     HasSum (fun j : ℕ => ((j : ℂ) + 1)⁻¹ * (((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z))
       (∫ t in (0 : ℝ)..1, u (extFlow b R' s' ρ σ φ t z)) := by
-  have hterm := hc.lieTerm_bound hU hu hb
+  have hterm := hc.extLieTerm_bound hU hu hb
   set q := Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8 with hq
-  have hsum := hc.lieSeries_summable (U := U)
+  have hsum := hc.extLieSeries_summable (U := U)
   have hcb : ∀ j, ‖((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z‖ ≤ q ^ j * U := fun j =>
     sup_le_wbound (hterm j).1 (hterm j).2 z hz
   have hFb : ∀ j, ∀ t ∈ Set.Icc (0 : ℝ) 1,
@@ -167,8 +168,8 @@ include hc hU hW hf hw hfb hwb in
 theorem extRemTerm_bound (i : ℕ) :
     InClass b.base (R-ρ) (s-σ) (extRemTerm b.c φ h f i) ∧
     WBound b.base (R-ρ) (s-σ) (extRemTerm b.c φ h f i) (extRemBound V ρ σ W U i) := by
-  obtain ⟨hc1, hb1⟩ := hc.lieTerm_bound hW hw hwb (i + 1)
-  obtain ⟨hc2, hb2⟩ := hc.lieTerm_bound hU hf hfb (i + 1)
+  obtain ⟨hc1, hb1⟩ := hc.extLieTerm_bound hW hw hwb (i + 1)
+  obtain ⟨hc2, hb2⟩ := hc.extLieTerm_bound hU hf hfb (i + 1)
   have hfac : (((i + 2).factorial : ℂ)⁻¹) = ((i : ℂ) + 2)⁻¹ * (((i + 1).factorial : ℂ)⁻¹) := by
     rw [Nat.factorial_succ (i + 1), Nat.cast_mul, mul_inv]
     push_cast
@@ -196,7 +197,7 @@ theorem extRemTerm_bound (i : ℕ) :
 include hc hW hU in
 omit hf hw hfb hwb in
 theorem extRemBound_summable : Summable (extRemBound V ρ σ W U) := by
-  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.ext_eta_nonneg
     (hc.small.trans (by norm_num))
   have hg : Summable fun i : ℕ => (Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8) ^ (i + 1) :=
     (summable_nat_add_iff 1).2 (summable_geometric_of_lt_one h0 hq)
@@ -213,7 +214,7 @@ include hc hW hU in
 omit hf hw hfb hwb in
 theorem extRemBound_tsum_le :
     ∑' i, extRemBound V ρ σ W U i ≤ (2 * V / (ρ * σ)) / (1 - 2 * V / (ρ * σ)) * (W / 2 + U) := by
-  obtain ⟨h0, hqη, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+  obtain ⟨h0, hqη, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.ext_eta_nonneg
     (hc.small.trans (by norm_num))
   set q := Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8 with hqdef
   set η := 2 * V / (ρ * σ) with hη
@@ -281,14 +282,15 @@ include hc hk in
 theorem traj_solution {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
     KAM.ODE.IsSolutionIn (wfield b.c φ) (Dom n b.base R s) (Set.Icc 0 1)
       (fun t => extFlow b R' s' ρ σ φ t z) ∧ extFlow b R' s' ρ σ φ 0 z = z := by
-  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.smallField hk) (hc.gaugeInterior_half hz)
+  obtain ⟨h0, hsol, -, -⟩ :=
+    KAM.Canonical.flow_a (hc.extSmallField hk) (hc.ext_gaugeInterior_half hz)
   refine ⟨fun t ht => ⟨?_, (hsol t ⟨by linarith [ht.1], ht.2⟩).2⟩, h0⟩
   exact hc.tube_sub ((composition_domain b hk hc).2 t
     (abs_le.2 ⟨by linarith [ht.1], ht.2⟩) hz)
 
 include hc hk hU hW hh hf hw hfb hwb in
 /-- Identity of the transform: the remainder series and `h ∘ X¹`. -/
-theorem transform_identity {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+private theorem transform_identity {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
     HasSum (fun i : ℕ => extRemTerm b.c φ h f i z)
       (((∫ t in (0 : ℝ)..1, extBracket b.c h φ (extFlow b R' s' ρ σ φ t z)) -
           extBracket b.c h φ z) + (f (extFlow b R' s' ρ σ φ 1 z) - f z)) ∧
@@ -373,7 +375,7 @@ theorem transform_integral (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ �
     InClass b.base (R-ρ) (s-σ) (fun z => ∫ t in (0:ℝ)..1, v t (extFlow b R' s' ρ σ φ t z)) ∧
     WBound b.base (R-ρ) (s-σ) (fun z => ∫ t in (0:ℝ)..1, v t (extFlow b R' s' ρ σ φ t z))
       ((1-2*V/(ρ*σ))⁻¹*U) :=
-  ⟨hc.integral_inClass hk hv hcont hdcont, hc.integral_bound hk hU hv hvb hcont⟩
+  ⟨hc.ext_integral_inClass hk hv hcont hdcont, hc.integral_bound hk hU hv hvb hcont⟩
 
 end KAM.Nekhoroshev
 

@@ -54,7 +54,7 @@ namespace ExtCompose
 variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ : EC n k → ℂ}
 
 /-- `X^c_φ` is periodic in the angles on `Ω` if `φ` is. -/
-theorem field_periodic (hc : ExtCompose b R' s' R s ρ σ V φ) (j : Fin n) {w : EC n k}
+private theorem field_periodic (hc : ExtCompose b R' s' R s ρ σ V φ) (j : Fin n) {w : EC n k}
     (hw : w ∈ Dom n b.base (R' - ρ) (s' - σ)) :
     wfield b.c φ (w + (Pi.single j 1, 0)) = wfield b.c φ w := by
   have hper : ∀ y ∈ Dom n b.base R' s', φ (y + (Pi.single j 1, 0)) = φ y := fun y hy => by
@@ -76,17 +76,17 @@ variable (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) {v : ℝ → EC
 include hc hk hv hcont hdcont
 
 /-- The integrand with clamped time is a `ParamHyp` family on `𝒟_{R-ρ,s-σ}`. -/
-theorem paramHyp_integrand :
+private theorem paramHyp_integrand :
     KAM.Canonical.ParamHyp (Dom n b.base (R - ρ) (s - σ))
       (fun τ z => v (KAM.Canonical.clampT τ)
         (extFlow b R' s' ρ σ φ (KAM.Canonical.clampT τ) z)) := by
-  obtain ⟨fc, -, -, fDc, -⟩ := KAM.Canonical.flow_b (hc.smallField hk)
+  obtain ⟨fc, -, -, fDc, -⟩ := KAM.Canonical.flow_b (hc.extSmallField hk)
   obtain ⟨fd, fm⟩ : (∀ t ∈ Icc (-1 : ℝ) 1, DifferentiableOn ℂ
       (KAM.Canonical.flow (wfield b.c φ) (Dom n b.base (R' - ρ) (s' - σ)) t)
-      (KAM.Canonical.gaugeInterior (extGauge hc.rho_pos hc.sig_pos)
+      (KAM.Canonical.gaugeInterior (extComposeGauge hc.rho_pos hc.sig_pos)
         (Dom n b.base (R' - ρ) (s' - σ)) (1 / 2))) ∧ True :=
-    ⟨(KAM.Canonical.flow_b (hc.smallField hk)).2.1, trivial⟩
-  have hΩG := hc.gaugeInterior_half
+    ⟨(KAM.Canonical.flow_b (hc.extSmallField hk)).2.1, trivial⟩
+  have hΩG := hc.ext_gaugeInterior_half
   have hdom := (composition_domain b hk hc).2
   have hdom' : ∀ z ∈ Dom n b.base (R - ρ) (s - σ), ∀ τ ∈ Icc (-1 : ℝ) 1,
       KAM.Canonical.flow (wfield b.c φ) (Dom n b.base (R' - ρ) (s' - σ))
@@ -97,7 +97,7 @@ theorem paramHyp_integrand :
     ((KAM.Canonical.continuous_clampT.comp continuous_fst).prodMk continuous_snd).continuousOn
   have hPm : MapsTo (fun p : ℝ × EC n k => (KAM.Canonical.clampT p.1, p.2))
       (Icc (-1 : ℝ) 1 ×ˢ Dom n b.base (R - ρ) (s - σ))
-      (Icc (-1 : ℝ) 1 ×ˢ KAM.Canonical.gaugeInterior (extGauge hc.rho_pos hc.sig_pos)
+      (Icc (-1 : ℝ) 1 ×ˢ KAM.Canonical.gaugeInterior (extComposeGauge hc.rho_pos hc.sig_pos)
         (Dom n b.base (R' - ρ) (s' - σ)) (1 / 2)) :=
     fun p hp => ⟨KAM.Canonical.clampT_mem_Icc _, hΩG hp.2⟩
   have hΦ : ContinuousOn (fun p : ℝ × EC n k => (KAM.Canonical.clampT p.1,
@@ -132,10 +132,10 @@ theorem paramHyp_integrand :
     exact ContinuousOn.congr (ContinuousOn.clm_comp (hdcont.comp hΦ hΦm) (fDc.comp hP hPm)) hcomp
 
 /-- The class part: `z ↦ ∫₀¹ v_t(X^t z) dt ∈ 𝒪_{R-ρ,s-σ}`. -/
-theorem integral_inClass :
+theorem ext_integral_inClass :
     InClass b.base (R - ρ) (s - σ)
       (fun z => ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t z)) := by
-  have hΩG := hc.gaugeInterior_half
+  have hΩG := hc.ext_gaugeInterior_half
   have hdom := (composition_domain b hk hc).2
   have hcg : ∀ z : EC n k, ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t z) =
       ∫ t in (0 : ℝ)..1, v (KAM.Canonical.clampT t)
@@ -161,7 +161,7 @@ theorem integral_inClass :
         exact (add_single_mem_Dom_iff_ext j w').2 hw'
       · exact (add_single_mem_Dom_iff_ext (D := b.base) (r := R' - ρ) (s := s' - σ) j _).1
           (by rw [hcancel]; exact hw)
-    obtain ⟨-, hflow⟩ := KAM.Canonical.flow_d (hc.smallField hk) hτΩ
+    obtain ⟨-, hflow⟩ := KAM.Canonical.flow_d (hc.extSmallField hk) hτΩ
       fun w hw => hc.field_periodic j hw
     show ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t (z.1 + Pi.single j 1, z.2)) = _
     rw [← add_single_eq_ext]
@@ -228,13 +228,13 @@ variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ : EC n k → ℂ
 
 include hc hk in
 /-- The integrand is jointly continuous in the time and the (real) angles. -/
-theorem continuousOn_integrand
+private theorem continuousOn_integrand
     (hcont : ContinuousOn (fun p : ℝ × EC n k => v p.1 p.2) (Icc 0 1 ×ˢ Dom n b.base R s))
     {I : Fin (n + (k + k)) → ℂ} (hI : I ∈ polyNbhd b.base (R - ρ)) :
     ContinuousOn (fun p : ℝ × (Fin n → ℝ) =>
       v p.1 (extFlow b R' s' ρ σ φ p.1 (fun j => (p.2 j : ℂ), I)))
       (Icc (0 : ℝ) 1 ×ˢ cubeE n) := by
-  obtain ⟨fc, -, -, -, -⟩ := KAM.Canonical.flow_b (hc.smallField hk)
+  obtain ⟨fc, -, -, -, -⟩ := KAM.Canonical.flow_b (hc.extSmallField hk)
   have hdom := (composition_domain b hk hc).2
   have hmem : ∀ x : Fin n → ℝ, ((fun j => (x j : ℂ)), I) ∈ Dom n b.base (R - ρ) (s - σ) :=
     fun x => ⟨KAM.ofReal_mem_complexStrip (by linarith [hc.sig_lt]) x, hI⟩
@@ -244,8 +244,8 @@ theorem continuousOn_integrand
       continuous_const)).continuousOn
   have hPm : MapsTo (fun p : ℝ × (Fin n → ℝ) => (p.1, ((fun j => (p.2 j : ℂ)), I)))
       (Icc (0 : ℝ) 1 ×ˢ cubeE n) (Icc (-1 : ℝ) 1 ×ˢ KAM.Canonical.gaugeInterior
-        (extGauge hc.rho_pos hc.sig_pos) (Dom n b.base (R' - ρ) (s' - σ)) (1 / 2)) :=
-    fun p hp => ⟨⟨by linarith [hp.1.1], hp.1.2⟩, hc.gaugeInterior_half (hmem p.2)⟩
+        (extComposeGauge hc.rho_pos hc.sig_pos) (Dom n b.base (R' - ρ) (s' - σ)) (1 / 2)) :=
+    fun p hp => ⟨⟨by linarith [hp.1.1], hp.1.2⟩, hc.ext_gaugeInterior_half (hmem p.2)⟩
   have hΦ : ContinuousOn (fun p : ℝ × (Fin n → ℝ) =>
       (p.1, extFlow b R' s' ρ σ φ p.1 (fun j => (p.2 j : ℂ), I)))
       (Icc (0 : ℝ) 1 ×ˢ cubeE n) :=
@@ -268,7 +268,7 @@ theorem integral_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) (
       (fun z => ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t z))
       ((1 - 2 * V / (ρ * σ))⁻¹ * U) := by
   have hη := hc.small
-  have hη0 := hc.eta_nonneg
+  have hη0 := hc.ext_eta_nonneg
   have hpos : 0 < 1 - 2 * V / (ρ * σ) := by linarith
   have hslice : ∀ t ∈ Icc (0 : ℝ) 1, WBound b.base (R - ρ) (s - σ)
       (fun z => v t (extFlow b R' s' ρ σ φ t z)) ((1 - 2 * V / (ρ * σ))⁻¹ * U) := fun t ht => by

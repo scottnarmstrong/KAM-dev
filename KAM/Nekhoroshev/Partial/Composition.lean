@@ -63,13 +63,13 @@ structure ExtCompose (b : PartialBlock n k) (R' s' R s ρ σ V : ℝ) (φ : EC n
 /-! ### The gauge `ν_{ρ,σ}` -/
 
 /-- The gauge `diag(σ⁻¹, ρ⁻¹)` of `scaled ρ σ`. -/
-def extGauge {ρ σ : ℝ} (hρ : 0 < ρ) (hσ : 0 < σ) : EC n k ≃L[ℂ] EC n k :=
+def extComposeGauge {ρ σ : ℝ} (hρ : 0 < ρ) (hσ : 0 < σ) : EC n k ≃L[ℂ] EC n k :=
   (ContinuousLinearEquiv.smulLeft (Units.mk0 ((σ : ℂ)⁻¹) (by simpa using hσ.ne'))).prodCongr
     (ContinuousLinearEquiv.smulLeft (Units.mk0 ((ρ : ℂ)⁻¹) (by simpa using hρ.ne')))
 
-theorem norm_extGauge {ρ σ : ℝ} (hρ : 0 < ρ) (hσ : 0 < σ) (z : EC n k) :
-    ‖extGauge hρ hσ z‖ = scaled ρ σ z := by
-  simp [extGauge, scaled, Prod.norm_def, norm_smul, abs_of_pos hρ, abs_of_pos hσ,
+theorem norm_extComposeGauge {ρ σ : ℝ} (hρ : 0 < ρ) (hσ : 0 < σ) (z : EC n k) :
+    ‖extComposeGauge hρ hσ z‖ = scaled ρ σ z := by
+  simp [extComposeGauge, scaled, Prod.norm_def, norm_smul, abs_of_pos hρ, abs_of_pos hσ,
     div_eq_inv_mul]
 
 /-- A point at scaled distance `≤ c` from `𝒟_{r₀,s₀}` lies in `𝒟_{r₀+ρc, s₀+σc}`. -/
@@ -138,7 +138,7 @@ theorem eta_half (hc : ExtCompose b R' s' R s ρ σ V φ) : V / (ρ * σ) ≤ 1 
 theorem div_nonneg' (hc : ExtCompose b R' s' R s ρ σ V φ) : 0 ≤ V / (ρ * σ) :=
   div_nonneg hc.bound_nonneg (mul_pos hc.rho_pos hc.sig_pos).le
 
-theorem eta_nonneg (hc : ExtCompose b R' s' R s ρ σ V φ) : 0 ≤ 2 * V / (ρ * σ) :=
+theorem ext_eta_nonneg (hc : ExtCompose b R' s' R s ρ σ V φ) : 0 ≤ 2 * V / (ρ * σ) :=
   div_nonneg (by linarith [hc.bound_nonneg]) (mul_pos hc.rho_pos hc.sig_pos).le
 
 theorem rho_lt' (hc : ExtCompose b R' s' R s ρ σ V φ) : ρ < R' := by
@@ -151,13 +151,14 @@ theorem dom_sub (hc : ExtCompose b R' s' R s ρ σ V φ) :
     Dom n b.base (R' - ρ) (s' - σ) ⊆ Dom n b.base R' s' :=
   Dom_mono (by linarith [hc.rho_pos]) (by linarith [hc.sig_pos])
 
-theorem field_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) :
+private theorem field_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) :
     ∀ z ∈ Dom n b.base (R' - ρ) (s' - σ), scaled ρ σ (wfield b.c φ z) ≤ V / (ρ * σ) :=
   fun z hz => (vf b hk hc.rho_pos hc.rho_lt' hc.sig_pos hc.sig_lt' hc.slow hc.bound_nonneg
     hc.hol hc.bound z hz).1
 
-theorem smallField (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) :
-    KAM.Canonical.SmallField (extGauge hc.rho_pos hc.sig_pos) (Dom n b.base (R' - ρ) (s' - σ))
+theorem extSmallField (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) :
+    KAM.Canonical.SmallField (extComposeGauge hc.rho_pos hc.sig_pos)
+      (Dom n b.base (R' - ρ) (s' - σ))
       (wfield b.c φ) (V / (ρ * σ)) where
   isOpen := isOpen_Dom _ _ _
   differentiableOn := differentiableOn_wfield' (isOpen_Dom _ _ _) _
@@ -165,15 +166,15 @@ theorem smallField (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) :
   eps_nonneg := hc.div_nonneg'
   eps_le := hc.eta_half.trans (by norm_num)
   bound z hz := by
-    rw [norm_extGauge]
+    rw [norm_extComposeGauge]
     exact hc.field_bound hk z hz
 
-theorem gaugeInterior_half (hc : ExtCompose b R' s' R s ρ σ V φ) :
+theorem ext_gaugeInterior_half (hc : ExtCompose b R' s' R s ρ σ V φ) :
     Dom n b.base (R - ρ) (s - σ) ⊆
-      KAM.Canonical.gaugeInterior (extGauge hc.rho_pos hc.sig_pos)
+      KAM.Canonical.gaugeInterior (extComposeGauge hc.rho_pos hc.sig_pos)
         (Dom n b.base (R' - ρ) (s' - σ)) (1 / 2) := by
   intro z hz w hw
-  rw [norm_extGauge] at hw
+  rw [norm_extComposeGauge] at hw
   have := mem_Dom_of_scaled_le (c := 1 / 2) hc.rho_pos hc.sig_pos hz (by simpa [scaled] using hw)
   exact Dom_mono (by nlinarith [hc.radii, hc.rho_pos]) (by nlinarith [hc.widths, hc.sig_pos]) this
 
@@ -187,9 +188,9 @@ theorem composition_domain (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ �
       (Dom n b.base (R-ρ) (s-σ))
       (Dom n b.base (R-(1-V/(ρ*σ))*ρ) (s-(1-V/(ρ*σ))*σ))) := by
   refine ⟨hc.field_bound hk, fun t ht z hz => ?_⟩
-  have hb := (KAM.Canonical.flow_a (hc.smallField hk) (hc.gaugeInterior_half hz)).2.2.2 t
+  have hb := (KAM.Canonical.flow_a (hc.extSmallField hk) (hc.ext_gaugeInterior_half hz)).2.2.2 t
     (abs_le.1 ht)
-  rw [norm_extGauge] at hb
+  rw [norm_extComposeGauge] at hb
   have hle : scaled ρ σ (extFlow b R' s' ρ σ φ t z - z) ≤ V / (ρ * σ) :=
     hb.trans (mul_le_of_le_one_left hc.div_nonneg' ht)
   have := mem_Dom_of_scaled_le hc.rho_pos hc.sig_pos hz (by simpa [scaled] using hle)
@@ -211,7 +212,7 @@ namespace ExtCompose
 
 variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ u : EC n k → ℂ}
 
-theorem lieTerm_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hU : 0 ≤ U)
+theorem extLieTerm_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hU : 0 ≤ U)
     (hu : InClass b.base R s u) (hb : WBound b.base R s u U) (j : ℕ) :
     InClass b.base (R-ρ) (s-σ) (fun z => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) ∧
     WBound b.base (R-ρ) (s-σ) (fun z => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
@@ -233,17 +234,17 @@ variable (hc : ExtCompose b R' s' R s ρ σ V φ) (hU : 0 ≤ U)
   (hu : InClass b.base R s u) (hb : WBound b.base R s u U)
 
 include hc in
-theorem lieSeries_summable : Summable fun j : ℕ =>
+theorem extLieSeries_summable : Summable fun j : ℕ =>
     (Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8) ^ j * U := by
-  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.ext_eta_nonneg
     (hc.small.trans (by norm_num))
   exact (summable_geometric_of_lt_one h0 hq).mul_right U
 
 include hc hU hu hb
 
-theorem lieSeries_class : InClass b.base (R-ρ) (s-σ)
+private theorem lieSeries_class : InClass b.base (R-ρ) (s-σ)
     (fun z => ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) := by
-  have hterm := hc.lieTerm_bound hU hu hb
+  have hterm := hc.extLieTerm_bound hU hu hb
   have hbd : ∀ j, ∀ z ∈ Dom n b.base (R-ρ) (s-σ),
       ‖((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z‖ ≤
         (Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8) ^ j * U := fun j =>
@@ -251,34 +252,34 @@ theorem lieSeries_class : InClass b.base (R-ρ) (s-σ)
   refine ⟨?_, fun j z hz => ?_⟩
   · refine (uniform_limit_holomorphic (isOpen_Dom _ _ _) (K := fun N z =>
       ∑ j ∈ range N, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
-      (fun N => ?_) (tendstoUniformlyOn_tsum_nat hc.lieSeries_summable hbd)).1
+      (fun N => ?_) (tendstoUniformlyOn_tsum_nat hc.extLieSeries_summable hbd)).1
     exact DifferentiableOn.fun_sum fun j _ => (hterm j).1.differentiableOn
   · exact tsum_congr fun i => by rw [(hterm i).1.periodic j z hz]
 
-theorem lieSeries_bound : WBound b.base (R-ρ) (s-σ)
+private theorem lieSeries_bound : WBound b.base (R-ρ) (s-σ)
     (fun z => ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
     ((1 - Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8)⁻¹ * U) := by
-  have hterm := hc.lieTerm_bound hU hu hb
+  have hterm := hc.extLieTerm_bound hU hu hb
   have h := wbound_tsum_ext (by linarith [hc.sig_lt]) (fun j => (hterm j).1)
-    (fun j => (hterm j).2) hc.lieSeries_summable
-  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+    (fun j => (hterm j).2) hc.extLieSeries_summable
+  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.ext_eta_nonneg
     (hc.small.trans (by norm_num))
   rwa [tsum_mul_right, tsum_geometric_of_lt_one h0 hq] at h
 
-theorem lieSeries_tail : ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N, WBound b.base (R-ρ) (s-σ)
+private theorem lieSeries_tail : ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N, WBound b.base (R-ρ) (s-σ)
     (fun z => (∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) -
       ∑ j ∈ range N', ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z) ε := by
   intro ε hε
-  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+  obtain ⟨h0, -, hq⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.ext_eta_nonneg
     (hc.small.trans (by norm_num))
   set q := Real.exp 1 ^ 2 * (2 * V / (ρ * σ)) / 8 with hqdef
-  have hterm := hc.lieTerm_bound hU hu hb
+  have hterm := hc.extLieTerm_bound hU hu hb
   have hlim : Tendsto (fun N : ℕ => q ^ N * ((1 - q)⁻¹ * U)) atTop (𝓝 0) := by
     simpa using (tendsto_pow_atTop_nhds_zero_of_lt_one h0 hq).mul_const ((1 - q)⁻¹ * U)
   obtain ⟨N, hN⟩ := (hlim.eventually (gt_mem_nhds hε)).exists_forall_of_atTop
   refine ⟨N, fun N' hN' => ?_⟩
   have h := wbound_tsum_ext (by linarith [hc.sig_lt]) (fun j => (hterm (j + N')).1)
-    (fun j => (hterm (j + N')).2) ((summable_nat_add_iff N').2 hc.lieSeries_summable)
+    (fun j => (hterm (j + N')).2) ((summable_nat_add_iff N').2 hc.extLieSeries_summable)
   have hsum : ∑' j : ℕ, q ^ (j + N') * U = q ^ N' * ((1 - q)⁻¹ * U) := by
     simp_rw [pow_add]
     rw [tsum_mul_right, tsum_mul_right, tsum_geometric_of_lt_one h0 hq]
@@ -287,7 +288,7 @@ theorem lieSeries_tail : ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N, WBo
   refine wbound_congr_ext (by linarith [hc.sig_lt]) (fun z hz => ?_)
     (h.mono le_rfl le_rfl (hN N' hN').le)
   have hs' : Summable fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z :=
-    Summable.of_norm_bounded hc.lieSeries_summable fun j =>
+    Summable.of_norm_bounded hc.extLieSeries_summable fun j =>
       sup_le_wbound (hterm j).1 (hterm j).2 z hz
   rw [← hs'.sum_add_tsum_nat_add N', add_sub_cancel_left]
 
@@ -341,27 +342,27 @@ theorem extAd_traj_bound {N : ℕ} (hN : 1 ≤ N) {z : EC n k}
     _ ≤ _ := mul_le_mul_of_nonneg_left h4 hf.le
 
 /-- On `𝒟_{R-ρ,s-σ}` the Lie series is `u ∘ X¹_φ`. -/
-theorem series_eq {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
+theorem ext_series_eq {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
     u (extFlow b R' s' ρ σ φ 1 z) =
       ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z := by
-  have hterm := hc.lieTerm_bound hU hu hb
+  have hterm := hc.extLieTerm_bound hU hu hb
   have hs' : Summable fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z :=
-    Summable.of_norm_bounded hc.lieSeries_summable fun j =>
+    Summable.of_norm_bounded hc.extLieSeries_summable fun j =>
       sup_le_wbound (hterm j).1 (hterm j).2 z hz
   have hlim1 := hs'.hasSum.tendsto_sum_nat
   have hη := hc.small
-  have hη0 := hc.eta_nonneg
+  have hη0 := hc.ext_eta_nonneg
   have hq := q_facts_ext (η := 16 / 9 * (2 * V / (ρ * σ))) (by positivity) (by linarith)
   rw [← hat_eta (V := V) hc.rho_pos hc.sig_pos] at hq
   obtain ⟨hq0, -, hq1⟩ := hq
-  have hz1 := hc.gaugeInterior_half hz
+  have hz1 := hc.ext_gaugeInterior_half hz
   have hΩ : IsOpen (Dom n b.base R s) := isOpen_Dom _ _ _
   have hsub : Dom n b.base R s ⊆ Dom n b.base (R' - ρ) (s' - σ) :=
     Dom_mono (by linarith [hc.radii]) (by linarith [hc.widths])
   have hφd : DifferentiableOn ℂ φ (Dom n b.base R s) :=
     hc.hol.differentiableOn.mono (hsub.trans hc.dom_sub)
   have hud : DifferentiableOn ℂ u (Dom n b.base R s) := hu.differentiableOn
-  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.smallField hk) hz1
+  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.extSmallField hk) hz1
   have hγ : KAM.ODE.IsSolutionIn (wfield b.c φ) (Dom n b.base R s) (Icc 0 1)
       (fun t => extFlow b R' s' ρ σ φ t z) := fun t ht => by
     refine ⟨?_, (hsol t ⟨by linarith [ht.1], ht.2⟩).2⟩
@@ -415,7 +416,7 @@ namespace ExtCompose
 variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ u : EC n k → ℂ}
 
 /-- The premises for `tφ`, `|t| ≤ 1`: `V` becomes `|t| V`. -/
-theorem smul (hc : ExtCompose b R' s' R s ρ σ V φ) {t : ℝ} (ht : |t| ≤ 1) :
+theorem smul_ext (hc : ExtCompose b R' s' R s ρ σ V φ) {t : ℝ} (ht : |t| ≤ 1) :
     ExtCompose b R' s' R s ρ σ (|t| * V) (fun z => (t : ℂ) * φ z) where
   rho_pos := hc.rho_pos
   rho_lt := hc.rho_lt
@@ -431,16 +432,17 @@ theorem smul (hc : ExtCompose b R' s' R s ρ σ V φ) {t : ℝ} (ht : |t| ≤ 1)
   small := by
     have h1 : 2 * (|t| * V) / (ρ * σ) = |t| * (2 * V / (ρ * σ)) := by ring
     rw [h1]
-    exact (mul_le_of_le_one_left hc.eta_nonneg ht).trans hc.small
+    exact (mul_le_of_le_one_left hc.ext_eta_nonneg ht).trans hc.small
   slow := hc.slow
 
 /-- `X^t_φ = X¹_{tφ}` on `𝒟_{R-ρ,s-σ}` (uniqueness of the flow). -/
-theorem flow_smul (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) {t : ℝ} (ht : |t| ≤ 1)
+theorem extCompose_flow_smul (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) {t : ℝ}
+    (ht : |t| ≤ 1)
     {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
     extFlow b R' s' ρ σ (fun z => (t : ℂ) * φ z) 1 z = extFlow b R' s' ρ σ φ t z := by
-  have hz1 := hc.gaugeInterior_half hz
-  have hz2 := (hc.smul ht).gaugeInterior_half hz
-  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.smallField hk) hz1
+  have hz1 := hc.ext_gaugeInterior_half hz
+  have hz2 := (hc.smul_ext ht).ext_gaugeInterior_half hz
+  obtain ⟨h0, hsol, -, -⟩ := KAM.Canonical.flow_a (hc.extSmallField hk) hz1
   have hγ : KAM.ODE.IsSolutionIn (wfield b.c fun z => (t : ℂ) * φ z)
       (Dom n b.base (R' - ρ) (s' - σ)) (Icc (-1) 1)
       (fun τ => extFlow b R' s' ρ σ φ (t * τ) z) := by
@@ -457,7 +459,7 @@ theorem flow_smul (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) {t : �
     rw [wfield_smul_real _ _ hdiff, Complex.coe_smul]
     simpa [extFlow, Function.comp_def] using this
   have h00 : (fun τ => extFlow b R' s' ρ σ φ (t * τ) z) 0 = z := by simpa [extFlow] using h0
-  have := (KAM.Canonical.flow_a ((hc.smul ht).smallField hk) hz2).2.2.1 (Icc (-1) 1)
+  have := (KAM.Canonical.flow_a ((hc.smul_ext ht).extSmallField hk) hz2).2.2.1 (Icc (-1) 1)
     ordConnected_Icc ⟨by norm_num, by norm_num⟩ _ hγ h00 1
     ⟨⟨by norm_num, by norm_num⟩, by norm_num, by norm_num⟩
   simpa [extFlow] using this.symm
@@ -469,11 +471,11 @@ include hc hk hU hu hb
 theorem hasSum_pt {z : EC n k} (hz : z ∈ Dom n b.base (R-ρ) (s-σ)) :
     HasSum (fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
       (u (extFlow b R' s' ρ σ φ 1 z)) := by
-  have hterm := hc.lieTerm_bound hU hu hb
+  have hterm := hc.extLieTerm_bound hU hu hb
   have hs' : Summable fun j : ℕ => ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z :=
-    Summable.of_norm_bounded hc.lieSeries_summable fun j =>
+    Summable.of_norm_bounded hc.extLieSeries_summable fun j =>
       sup_le_wbound (hterm j).1 (hterm j).2 z hz
-  rw [hc.series_eq hk hU hu hb hz]
+  rw [hc.ext_series_eq hk hU hu hb hz]
   exact hs'.hasSum
 
 /-- Class and norm of `u ∘ X¹_φ`. -/
@@ -483,10 +485,10 @@ theorem comp_one_class_bound :
       ((1 - 2 * V / (ρ * σ))⁻¹ * U) := by
   have heq : EqOn (fun z => ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * extAd b.c φ j u z)
       (fun z => u (extFlow b R' s' ρ σ φ 1 z)) (Dom n b.base (R-ρ) (s-σ)) :=
-    fun z hz => (hc.series_eq hk hU hu hb hz).symm
+    fun z hz => (hc.ext_series_eq hk hU hu hb hz).symm
   refine ⟨inClass_congr_ext heq (hc.lieSeries_class hU hu hb), ?_⟩
   have hbd := hc.lieSeries_bound hU hu hb
-  obtain ⟨-, hqη, -⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.eta_nonneg
+  obtain ⟨-, hqη, -⟩ := q_facts_ext (η := 2 * V / (ρ * σ)) hc.ext_eta_nonneg
     (hc.small.trans (by norm_num))
   have hpos : 0 < 1 - 2 * V / (ρ * σ) := by linarith [hc.small]
   refine wbound_congr_ext (by linarith [hc.sig_lt]) heq (hbd.mono le_rfl le_rfl ?_)
@@ -504,11 +506,11 @@ theorem comp_t_class_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ 
     InClass b.base (R-ρ) (s-σ) (u ∘ extFlow b R' s' ρ σ φ t) ∧
     WBound b.base (R-ρ) (s-σ) (u ∘ extFlow b R' s' ρ σ φ t)
       ((1 - |t| * (2 * V / (ρ * σ)))⁻¹ * U) := by
-  obtain ⟨h5, h6⟩ := (hc.smul ht).comp_one_class_bound hk hU hu hb
+  obtain ⟨h5, h6⟩ := (hc.smul_ext ht).comp_one_class_bound hk hU hu hb
   have heq : EqOn (fun z => u (extFlow b R' s' ρ σ (fun z => (t : ℂ) * φ z) 1 z))
       (u ∘ extFlow b R' s' ρ σ φ t) (Dom n b.base (R-ρ) (s-σ)) := fun z hz => by
     beta_reduce
-    rw [hc.flow_smul hk ht hz]
+    rw [hc.extCompose_flow_smul hk ht hz]
     rfl
   refine ⟨inClass_congr_ext heq h5, wbound_congr_ext (by linarith [hc.sig_lt]) heq ?_⟩
   have h : 2 * (|t| * V) / (ρ * σ) = |t| * (2 * V / (ρ * σ)) := by ring
@@ -535,7 +537,7 @@ theorem composition (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ σ V U :
   obtain ⟨N, hN⟩ := hc.lieSeries_tail hU hu hub ε hε
   refine ⟨N, fun N' hN' => ?_⟩
   refine wbound_congr_ext (by linarith [hc.sig_lt]) (fun z hz => ?_) (hN N' hN')
-  rw [hc.series_eq hk hU hu hub hz]
+  rw [hc.ext_series_eq hk hU hu hub hz]
 
 /-! ### Reality -/
 
@@ -565,8 +567,8 @@ theorem composition_real (b : PartialBlock n k) (hk : 1 ≤ k) {R' s' R s ρ σ 
   have hx' : extCx x ∈ Dom n b.base (R - ρ) (s - σ) := by
     rw [extCx_eq']
     exact hx
-  have hxg := hc.gaugeInterior_half hx'
-  have hrl := flow_real (extGauge hc.rho_pos hc.sig_pos) (hc.smallField hk) hreal hxg
+  have hxg := hc.ext_gaugeInterior_half hx'
+  have hrl := flow_real (extComposeGauge hc.rho_pos hc.sig_pos) (hc.extSmallField hk) hreal hxg
     (t := 1) (by norm_num)
   have hmem := hc.tube_sub ((composition_domain b hk hc).2 1 (by norm_num) hx')
   have hrel : extCx (extRe (extFlow b R' s' ρ σ φ 1 (extCx x))) =
