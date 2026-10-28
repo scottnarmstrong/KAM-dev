@@ -102,6 +102,46 @@ theorem p11hsInput_real {ρ : P11CVec n → Matrix (Fin n) (Fin n) ℂ}
       rw [hLc, hρL]
       exact hmv (slow z.2) l
 
+theorem assemble_fast_slow {m : ℕ} (w : Phase (m + m)) :
+    assemble (fast w.2) (fast w.1) (slow w.2) (slow w.1) = w :=
+  Prod.ext (Fin.append_castAdd_natAdd (f := w.1)) (Fin.append_castAdd_natAdd (f := w.2))
+
+open scoped Matrix.Norms.Elementwise in
+/-- `hc-mean`: `F = p11hsF D ρ` at a real working point is the real fixed perturbation of the
+real inverse lift, the integrand of the matched average of `SecularSpectrum.diagonalize`. -/
+theorem p11hsF_real_eq {D : Data n} {a : Vec n} {ρ : P11CVec n → Matrix (Fin n) (Fin n) ℂ}
+    {J0 : P11Vec n} {rC σ rz B B' r' σ' : ℝ} (hn : 0 < n) (ha : a ∈ axes n)
+    (h : P11HsHyp D a ρ J0 rC σ rz B B' r' σ')
+    {R : P11Vec n → Matrix (Fin n) (Fin n) ℝ} {z : Phase (n + n)}
+    (hz : KAM.realInclusion₂ (n + n) z ∈ p11WorkingDom n J0 (2 * σ) (2 * rC) rz)
+    (hρ : DifferentiableAt ℂ ρ (KAM.realInclusion n (fun i => fast z.2 i / (2 * π))))
+    (hev : ∀ᶠ y in 𝓝 (fun i => fast z.2 i / (2 * π)),
+      ρ (KAM.realInclusion n y) = (R y).map (fun r : ℝ => (r : ℂ)))
+    (hR : DifferentiableAt ℝ R (fun i => fast z.2 i / (2 * π))) :
+    p11hsF D ρ (KAM.realInclusion₂ (n + n) z) =
+      ((perturbation D false (SecularSpectrum.liftInv R
+        (assemble (fun i => fast z.2 i / (2 * π)) (fun l => 2 * π * fast z.1 l)
+          (slow z.2) (slow z.1))) : ℝ) : ℂ) := by
+  have hg := (p11hsInput_mem_good hn h hz).2.1
+  have hin := p11hsInput_real (R := R) z hρ hev hR
+  set w := SecularSpectrum.liftInv R
+    (assemble (fun i => fast z.2 i / (2 * π)) (fun l => 2 * π * fast z.1 l)
+      (slow z.2) (slow z.1)) with hw
+  unfold p11hsF
+  rw [hin] at hg ⊢
+  have hx : (fun i => w.1 (Fin.natAdd n i), fun i => w.2 (Fin.castAdd n i),
+      fun i => w.2 (Fin.natAdd n i)) ∈ realDisc D a r' := hg
+  have h1 := perturbationC_inclusion D ha h.r'_lt false hx (fun l => w.1 (Fin.castAdd n l))
+  have h2 : p11hsFHat D (KAM.realInclusion₂ (n + n) w) =
+      perturbationC D false (fun l => w.1 (Fin.castAdd n l))
+        (inclusion (fun i => w.1 (Fin.natAdd n i), fun i => w.2 (Fin.castAdd n i),
+          fun i => w.2 (Fin.natAdd n i))) := by
+    unfold p11hsFHat perturbationC
+    simp only [Bool.false_eq_true, ite_false, add_zero]
+    rfl
+  rw [h2, h1]
+  exact congrArg (fun v => ((perturbation D false v : ℝ) : ℂ)) (assemble_fast_slow w)
+
 end Real
 
 end KAM.Planetary
