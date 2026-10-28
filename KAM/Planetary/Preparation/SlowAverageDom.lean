@@ -98,6 +98,100 @@ theorem p11_polarC_mem (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
   · exact lt_of_le_of_lt (by
       rw [Prod.norm_def]; exact le_max_right _ _ |>.trans' le_rfl) hPr
 
+/-- The polar chart maps real points with positive oscillator actions to real points. -/
+theorem p11_polarC_real {z : Phase (n + n)} (hz : ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)) :
+    p11PolarC (KAM.realInclusion₂ (n + n) z) = KAM.realInclusion₂ (n + n) (p11PolarR z) := by
+  have hre : ∀ w : P11Phase (n + n), (∀ i, (w.1 i).im = 0) → (∀ i, (w.2 i).im = 0) →
+      w = KAM.realInclusion₂ (n + n) ((fun i => (w.1 i).re), (fun i => (w.2 i).re)) := by
+    intro w h1 h2
+    refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
+    · exact Complex.ext (by simp) (by simp [h1 i])
+    · exact Complex.ext (by simp) (by simp [h2 i])
+  have hsq : ∀ (a b : ℝ) (ha : 0 ≤ a), (Complex.sqrt ((a : ℂ) / (Real.pi : ℂ)) *
+      Complex.sin (2 * (Real.pi : ℂ) * (b : ℂ))).im = 0 ∧
+      (Complex.sqrt ((a : ℂ) / (Real.pi : ℂ)) * Complex.cos (2 * (Real.pi : ℂ) * (b : ℂ))).im = 0 := by
+    intro a b ha
+    have h' : Complex.sqrt ((a : ℂ) / (Real.pi : ℂ)) = ((Real.sqrt (a / Real.pi) : ℝ) : ℂ) := by
+      rw [← Complex.ofReal_div]; exact p11_sqrt_ofReal (div_nonneg ha Real.pi_pos.le)
+    have hs : Complex.sin (2 * (Real.pi : ℂ) * (b : ℂ)) = ((Real.sin (2 * Real.pi * b) : ℝ) : ℂ) := by
+      rw [Complex.ofReal_sin]; push_cast; rfl
+    have hc : Complex.cos (2 * (Real.pi : ℂ) * (b : ℂ)) = ((Real.cos (2 * Real.pi * b) : ℝ) : ℂ) := by
+      rw [Complex.ofReal_cos]; push_cast; rfl
+    rw [h', hs, hc, ← Complex.ofReal_mul, ← Complex.ofReal_mul]
+    exact ⟨Complex.ofReal_im _, Complex.ofReal_im _⟩
+  have := hre (p11PolarC (KAM.realInclusion₂ (n + n) z)) (fun j => ?_) (fun j => ?_)
+  · exact this
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) j
+    · simp [p11PolarC, Fin.append_left]
+    · simp only [p11PolarC, Fin.append_right, KAM.realInclusion₂_apply, KAM.realInclusion_apply]
+      exact (hsq _ _ (hz i).le).1
+  · refine Fin.addCases (fun i => ?_) (fun i => ?_) j
+    · simp [p11PolarC, Fin.append_left]
+    · simp only [p11PolarC, Fin.append_right, KAM.realInclusion₂_apply, KAM.realInclusion_apply]
+      exact (hsq _ _ (hz i).le).2
+
+theorem p11_natAdd_ne_castAdd (i j : Fin n) : Fin.natAdd n i ≠ Fin.castAdd n j := by
+  have := j.isLt
+  rw [Ne, Fin.ext_iff]; simp; omega
+
+theorem p11_addNat_ne_castAdd (i j : Fin n) : i.addNat n ≠ Fin.castAdd n j := by
+  have := j.isLt
+  rw [Ne, Fin.ext_iff]; simp; omega
+
+/-- The shift by a basis vector of the `θ`-angles is a lattice translation in the fast chart. -/
+theorem p11_append_single (j : Fin n) :
+    Fin.append (fun i : Fin n => (((Pi.single j (1 : ℤ) : Fin n → ℤ) i : ℤ) : ℂ))
+      (0 : Fin n → ℂ) = (Pi.single (Fin.castAdd n j) 1 : P11CVec (n + n)) := by
+  funext x
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) x
+  · simp [Pi.single_apply, Fin.castAdd_inj]
+  · simp [Pi.single_apply, p11_addNat_ne_castAdd]
+
+/-- `f₁` is `1`-periodic in the `θ`-angles (lattice clause of the fast chart plus periodicity
+of `F`). -/
+theorem p11_f1_periodic (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
+    (hF : P11FastSpec C eps Fast)
+    {z : P11Phase (n + n)}
+    (hz : z ∈ p11WorkingDom n C.J0 (C.sigma / 6) (p11s1 C eps / 2) (C.rz / 2)) (j : Fin n) :
+    Fast.f1 (z.1 + Pi.single (Fin.castAdd n j) 1, z.2) = Fast.f1 z := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩ := fast_consts hC
+  obtain ⟨-, -, -, -, -, -, -, -, hlat, hmaps, hid, -⟩ := hF
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hper, -⟩ := hC
+  set e : P11CVec (n + n) := Pi.single (Fin.castAdd n j) 1 with he
+  have hz' : (z.1 + e, z.2) ∈ p11WorkingDom n C.J0 (C.sigma / 6) (p11s1 C eps / 2) (C.rz / 2) := by
+    obtain ⟨h1, h2, h3, h4⟩ := hz
+    refine ⟨fun i => ?_, h2, ?_, h4⟩
+    · have := h1 i
+      simp only [Pi.add_apply, he, Pi.single_apply]
+      split_ifs <;> simpa using this
+    · convert h3 using 2
+      funext i
+      simp [he, p11_addNat_ne_castAdd]
+  have hmap := hlat z hz (Pi.single j 1)
+  rw [p11_append_single] at hmap
+  have hm2 : Fast.map z ∈ p11WorkingDom n C.J0 (2 * C.sigma) (2 * C.rC) C.rz := by
+    obtain ⟨a, b, c, d⟩ := hmaps hz
+    exact ⟨fun i => lt_of_lt_of_le (a i) (by linarith),
+      b.trans_le (by linarith [p11s1_le C eps]), c, d⟩
+  have hFp := hper _ hm2 j
+  have hnat : ∀ i : Fin n, ((z.1 + e) (Fin.natAdd n i)) = z.1 (Fin.natAdd n i) := by
+    intro i
+    simp [he, p11_addNat_ne_castAdd]
+  have e1 := hid z hz
+  have e2 := hid _ hz'
+  have hW : p11WorkingH C eps (Fast.map (z.1 + e, z.2)) = p11WorkingH C eps (Fast.map z) := by
+    rw [hmap]
+    unfold p11WorkingH
+    have hsplit : Fast.map z + (Pi.single (Fin.castAdd n j) 1, (0 : P11CVec (n + n))) =
+        ((Fast.map z).1 + Pi.single (Fin.castAdd n j) 1, (Fast.map z).2) :=
+      Prod.ext rfl (add_zero _)
+    rw [hsplit, hFp]
+  have hGeq : (fun i : Fin n => (z.1 + e) (Fin.natAdd n i)) =
+      fun i : Fin n => z.1 (Fin.natAdd n i) := funext hnat
+  simp only [hGeq] at e2
+  rw [hW] at e2
+  linear_combination e1 - e2
+
 end Dom
 
 end KAM.Planetary
