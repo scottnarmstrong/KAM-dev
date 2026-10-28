@@ -57,32 +57,22 @@ theorem curryLeft_symm {k : ℕ} (M : ContinuousMultilinearMap ℝ (fun _ : Fin 
   · simp
   · simp
 
-theorem diag_curryLeft {k : ℕ} (M : ContinuousMultilinearMap ℝ (fun _ : Fin (k + 1) => E) ℝ)
+/-- The derivative of the diagonal of a symmetric multilinear map along a line. -/
+theorem hasDerivAt_diag_line {k : ℕ} (M : ContinuousMultilinearMap ℝ (fun _ : Fin (k + 1) => E) ℝ)
     (hM : ∀ (σ : Equiv.Perm (Fin (k + 1))) (v : Fin (k + 1) → E), M (v ∘ σ) = M v)
-    (hd : ∀ y, M (fun _ => y) = 0) (v y : E) :
-    M.curryLeft v (fun _ => y) = 0 := by
+    (v u : E) (t : ℝ) :
+    HasDerivAt (fun s : ℝ => M (fun _ => v + s • u))
+      (((k + 1 : ℕ) : ℝ) * M.curryLeft u (fun _ => v + t • u)) t := by
   classical
-  have hline : ∀ t : ℝ, M (fun _ => y + t • v) = 0 := fun t => hd _
-  have hder : HasDerivAt (fun t : ℝ => M (fun _ : Fin (k + 1) => y + t • v))
-      (M.linearDeriv (fun _ => y) (fun _ => v)) 0 := by
-    have h1 : HasDerivAt (fun t : ℝ => (fun _ : Fin (k + 1) => y + t • v)) (fun _ => v) 0 := by
-      refine hasDerivAt_pi.2 fun _ => ?_
-      simpa using ((hasDerivAt_id (0 : ℝ)).smul_const v).const_add y
-    have h2 := (M.hasFDerivAt (fun _ : Fin (k + 1) => y + (0 : ℝ) • v)).comp_hasDerivAt
-      (0 : ℝ) h1
-    have e : (fun _ : Fin (k + 1) => y + (0 : ℝ) • v) = fun _ => y := by simp
-    rw [e] at h2
-    exact h2
-  have h0 : HasDerivAt (fun t : ℝ => M (fun _ : Fin (k + 1) => y + t • v)) 0 0 := by
-    have : (fun t : ℝ => M (fun _ : Fin (k + 1) => y + t • v)) = fun _ => 0 := funext hline
-    rw [this]; exact hasDerivAt_const _ _
-  have hz := hder.unique h0
-  rw [ContinuousMultilinearMap.linearDeriv_apply] at hz
-  have hterm : ∀ i : Fin (k + 1), M (Function.update (fun _ => y) i v) =
-      M.curryLeft v (fun _ => y) := by
+  have h1 : HasDerivAt (fun s : ℝ => (fun _ : Fin (k + 1) => v + s • u)) (fun _ => u) t := by
+    refine hasDerivAt_pi.2 fun _ => ?_
+    simpa using ((hasDerivAt_id t).smul_const u).const_add v
+  have h2 := (M.hasFDerivAt (fun _ : Fin (k + 1) => v + t • u)).comp_hasDerivAt t h1
+  have hterm : ∀ i : Fin (k + 1),
+      M (Function.update (fun _ => v + t • u) i u) = M.curryLeft u (fun _ => v + t • u) := by
     intro i
     rw [ContinuousMultilinearMap.curryLeft_apply, ← hM (Equiv.swap 0 i)
-      (Fin.cons v (fun _ : Fin k => y))]
+      (Fin.cons u (fun _ : Fin k => v + t • u))]
     congr 1
     funext j
     by_cases hj : j = i
@@ -93,8 +83,25 @@ theorem diag_curryLeft {k : ℕ} (M : ContinuousMultilinearMap ℝ (fun _ : Fin 
         simp [Function.update_of_ne hj]
       · obtain ⟨j', rfl⟩ := Fin.exists_succ_eq.2 hj0
         simp [Equiv.swap_apply_of_ne_of_ne hj0 hj, Function.update_of_ne hj]
-  simp only [hterm, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul] at hz
+  have h3 : (M.linearDeriv (fun _ => v + t • u)) (fun _ => u) =
+      ((k + 1 : ℕ) : ℝ) * M.curryLeft u (fun _ => v + t • u) := by
+    rw [ContinuousMultilinearMap.linearDeriv_apply]
+    simp only [hterm, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+  rw [← h3]
+  exact h2
+
+theorem diag_curryLeft {k : ℕ} (M : ContinuousMultilinearMap ℝ (fun _ : Fin (k + 1) => E) ℝ)
+    (hM : ∀ (σ : Equiv.Perm (Fin (k + 1))) (v : Fin (k + 1) → E), M (v ∘ σ) = M v)
+    (hd : ∀ y, M (fun _ => y) = 0) (v y : E) :
+    M.curryLeft v (fun _ => y) = 0 := by
+  have h := hasDerivAt_diag_line M hM y v 0
+  have h0 : HasDerivAt (fun s : ℝ => M (fun _ : Fin (k + 1) => y + s • v)) 0 0 := by
+    have : (fun s : ℝ => M (fun _ : Fin (k + 1) => y + s • v)) = fun _ => 0 :=
+      funext fun _ => hd _
+    rw [this]; exact hasDerivAt_const _ _
+  have hz := h.unique h0
   have hk : ((k + 1 : ℕ) : ℝ) ≠ 0 := by positivity
+  simp only [zero_smul, add_zero] at hz
   exact (mul_eq_zero.1 hz).resolve_left hk
 
 /-- Polarization: a symmetric multilinear map vanishing on the diagonal vanishes. -/
