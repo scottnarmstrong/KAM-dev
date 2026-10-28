@@ -114,6 +114,19 @@ theorem budget_facts (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar d)
   · exact (lt_min_iff.1 hrK).2
   · exact (lt_min_iff.1 hrK).1
 
+theorem measure_c1_nonneg (d : PGData a b) {core : Set (Fin a → ℝ)} (hcore : IsCompact core)
+    (hcoreV : core ⊆ d.V) (hvol : 0 < volume core) :
+    0 ≤ measure_c1 (pgMeasureData d core hcore hcoreV hvol) := by
+  unfold measure_c1 pgMeasureData
+  dsimp only
+  have hS : 0 ≤ latticeS (a+b) (pgTau a b) :=
+    latticeS_nonneg (by unfold pgTau; exact lt_add_of_pos_right _ one_pos)
+  have := (pgInverse_spec d).2.1
+  have := (pgInverse_spec d).1
+  refine mul_nonneg (div_nonneg (by positivity) ENNReal.toReal_nonneg)
+    (le_max_of_le_left ?_)
+  positivity
+
 theorem measure_c1_le (d : PGData a b) {core : Set (Fin a → ℝ)} (hcore : IsCompact core)
     (hcoreV : core ⊆ d.V) (hvol : 0 < volume core)
     (hhalf : ENNReal.ofReal (1/2) * volume d.V ≤ volume core) :
