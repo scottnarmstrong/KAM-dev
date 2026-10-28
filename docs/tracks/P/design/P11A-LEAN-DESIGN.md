@@ -1,6 +1,6 @@
 # Lean design: planetary finite preparation, weak measure and the maximal canonical step
 
-Design P11A, Revision 2, 2026-10-28, branch `inp-design-p11a`. Planning evidence only. Scope is the 164 graph
+Design P11A, Revision 3, 2026-10-28, branch `inp-design-p11a`. Planning evidence only. Scope is the 164 graph
 records whose statement source lies in `p11-cp09-preparation.tex`, `p11a1-weak-measure.tex` or
 `p11a2-cutoff-step.tex`. No frozen theorem is closed directly. The downstream P-FIXED assembly
 belongs to Part 13; this document does not claim any proof closure.
@@ -859,8 +859,10 @@ This yields the source's linear analytic averaging operator without assuming con
 For F5, apply `chart_scaling_jets` to `p11scalar rho w direction` for both rho=1 and rho=2, and to
 `p11scalar rho (wt k) direction - p11scalar rho w direction` for closeness. Polynomial composition
 supplies their `ContDiffOn` premises from D1-D3. Use `chart_scaling_upper` with k=mu+1 and
-`chart_scaling_closeness` with mu; geometry transfers the thickened set. The latter's numerical recheck
-is mandatory. D2's `M' ≥ beta'` follows from `M ≥ beta`, `max 1 (lambda^(mu+1)) ≥ 1` and
+`chart_scaling_closeness` with mu and the diagonal bound `p11JetBound true` supplied by D3;
+geometry transfers the thickened set. Use the diagonal identity from `chart_scaling_jets` directly,
+with no full-tensor premise or polarization factor. The numerical recheck is mandatory.
+D2's `M' ≥ beta'` follows from `M ≥ beta`, `max 1 (lambda^(mu+1)) ≥ 1` and
 `min 1 (lambda^mu) ≤ 1`. No chart-invariance assertion replaces this calculation.
 
 N1 is retained: `canonical_step_real` requires reality on R, supplied by the physical construction.
@@ -883,7 +885,7 @@ All implementation modules remain below 1500 lines, and each package stays in th
 No new pinned-paper erratum is asserted. F1-F5 were design omissions or departures; F2's former
 narrowing is removed, and the enlarged initial L is the only new declared output strengthening.
 
-Revision 2 validation receipt (2026-10-28):
+Revision 2 validation receipt (historical snapshot, 2026-10-28; file hashes and equality refer to R2):
 
 - Final targeted check: `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p11a .drafts/scratch/P11ASignaturesR2.lean`, exit 0. Exactly 67 warnings, all `declaration uses sorry`; zero errors or other warnings. Log: `.drafts/scratch/P11A-r2-check.log`.
 - Exact final signatures: 1319 lines, 171 named declarations, 67 theorem bodies all `sorry`; SHA-256 `1a4b339d7d9008ff8d1aa5f2a85addc1b0f3476c40ab8fbf7e922cf3f9be8493`. Appendix A, the scratch copy and `/root/code/KAM-inp/.drafts/design/P11ASignatures.lean` are byte-identical. Blank separators were compressed to keep the required single-file scratch comfortably below 1500 lines.
@@ -891,6 +893,50 @@ Revision 2 validation receipt (2026-10-28):
 - `PATH="$PWD/.drafts/scratch/sig-lint-bin:$PATH" sh scripts/lint_sources.sh`: exit 0; `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`; `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`. Log: `.drafts/scratch/P11A-r2-lint.log`. The existing wrapper routes the lint ABI elaboration through `inp_sig_check.sh`; it ran after the first revision elaboration and before the final signature check.
 - Static checks: all 164 unique graph rows preserved, 30 packages, exact-copy equality, 67 sorry-only theorem bodies, no forbidden declarations or resource overrides, no trailing whitespace, signature length below 1500. `git diff --check` and `git diff --cached --check`: exit 0.
 - No implementation module changed, so the signatures check is the applicable targeted Lean check under the common design brief; no library build or rebuild was run. Only this document is committed; the independent audit remains untouched and untracked.
+
+## Revision 3
+
+This revision responds to [`DESIGN-P11A-design-audit-2.md`](DESIGN-P11A-design-audit-2.md).
+Audit 2's sole remaining finding is F5-R2 (moderate); its resolutions of F1-F4 and the other F5
+clauses are preserved. Both audit reports remain historical FAIL reports, unchanged. This revision
+requests a new independent review and claims signature elaboration only, with no proof closure.
+
+| Finding / note | Revision 3 resolution |
+|---|---|
+| F5-R2 (moderate), source D3 gauge mismatch | Both the input `hb` and output of `chart_scaling_closeness` now use `p11JetBound true`. Its domain, regularity and numerical recheck remain unchanged. This is the exact diagonal companion proposed in audit 2; `chart_scaling_upper` retains the full-tensor D2 bound under its distinct name. The Revision 2 application explanation above is corrected accordingly. |
+| F1, source-local premises (resolved in audit 2) | Preserve all domain-restricted polynomial, uniqueness and periodicity premises; arbitrary extensions remain unconstrained. |
+| F2, full preparation/datum (resolved in audit 2) | Preserve the full unscaled domain, actual slow-stage derivative identification, zero/vector jets and the same selected Q in prepared/amount/data_star. No stronger input premise is introduced. |
+| F3, polar clause (d) (resolved in audit 2) | Preserve analytic-domain linearity, constant/quadratic normalization and fibrewise holomorphic extension uniqueness. |
+| F4, rectangular field (resolved in audit 2) | Preserve the frozen Hamiltonian-field estimate and separate action-block weights. |
+| F5, remaining chart clauses (accepted in audit 2) | Preserve geometry, both jet identities, amount, D2 upper size, good-set and excluded-measure transport. |
+| N1, reality guard | Retain `canonical_step_real`'s explicit guard and the p11a2 L248/L287 source-gap report; physical uses must supply reality. |
+| N2, upstream gates | Retain every exact-interface/proof obligation in Section 3, including the future admissibility bridge. Sorry packages certify none of them. |
+| N3, totality and choice | Retain boundedness/attainment and positive-small-epsilon choice gates. No theorem uses a default selector branch as evidence. |
+| Audit validation limitation | The corrected companion is included in the complete R3 gated signature check below; audit 2's exit-143 optional probe remains a historical unsuccessful check. No new Mathlib dependency or name-check claim is needed. |
+
+For the concrete D3 application fix a mode k and Euclidean unit direction c, and set
+`f := p11scalar rho (wt k) c - p11scalar rho w c`, `E := p11thick K v`, and
+`A y := y0 + lambda • y`. The existing D3 closeness field supplies `p11JetBound true mu E f theta`
+(with theta equal to its supplied bound). Polynomial composition gives `ContDiffOn` on V.
+The diagonal half of `chart_scaling_jets` gives, for every j <= mu and A y in E,
+`p11dg (f ∘ A) j y = lambda^j * p11dg f j (A y)`.
+Since lambda > 0 and theta >= 0, this is at most `max 1 (lambda^mu)*theta`; the explicit
+`hrecheck` then gives beta'/2. The output is precisely diagonal D3 on the preimage thickening,
+identified by `chart_scaling_geometry`. There is no conversion between the two tensor gauges and
+no change to D3, beta', the blueprint, or a frozen declaration.
+
+The package/module schedule remains 30 packages in 12 waves. W8 owns this corrected companion;
+its inputs already include W0 and affine calculus. All earlier source issues and upstream gates
+remain recorded. F5-R2 is a design adapter mismatch, not a pinned-paper erratum.
+
+Revision 3 validation receipt (2026-10-28):
+
+- `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p11a .drafts/scratch/P11ASignaturesR3.lean`: exit 0; 67 warnings, all `declaration uses sorry`; no errors or other warnings. Log: `.drafts/scratch/P11A-r3-check.log`.
+- Final signatures: 1320 lines, 171 named declarations, 67 theorem bodies all `sorry`; SHA-256 `c31fda0b479f2dd0488b12e7f2daeda18f965eb316610df1c65f14012dfcb092`. Appendix A, delivered signatures and R3 scratch copy are byte-identical. The only theorem-type delta from R2 is the two diagonal gauge selectors in `chart_scaling_closeness`.
+- `#print axioms` for `sublevel`, `canonical_step`, `wrapper`, `prepared`, `data_star`, and the corrected `chart_scaling_closeness`: each returned `[propext, sorryAx, Classical.choice, Quot.sound]`. This validates types only.
+- `LEAN_NUM_THREADS=1 PATH="$PWD/.drafts/scratch/sig-lint-bin:$PATH" nice -n 5 sh scripts/lint_sources.sh`: exit 0; `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`; `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`. Log: `.drafts/scratch/P11A-r3-lint.log`. The existing PATH wrapper routed ABI elaboration through the required gate after the signature check completed; the runs were sequential.
+- Static checks: all 164 unique graph mapping rows unchanged; 30 packages / 12 waves, each 150-800 lines; signature length below 1500; sorry-only theorem bodies; no forbidden declarations, resource overrides or trailing whitespace; Appendix/scratch/delivery equality. `git diff --check` and `git diff --cached --check`: exit 0 before commit.
+- No implementation module was changed; the complete signature elaboration is the applicable targeted Lean check. No library build/rebuild was run. Blueprint input hashes still match Section 1; both audit reports are untouched. Commit scope is this design document only.
 
 ## Appendix A. Exact signatures
 
@@ -2077,14 +2123,14 @@ theorem chart_scaling_upper {n m k : ℕ} (hn : 1 ≤ n)
     (y0 : P11Vec n) {lambda : ℝ} (hl : 0 < lambda) :
     ∀ j, 1 ≤ j → j ≤ k → ∀ y, y0+lambda • y ∈ E →
       p11op (fun x => f (y0+lambda • x)) j y ≤ max 1 (lambda^k)*M := sorry
-/-- Source chart-scaling (c): the closeness threshold is rechecked after scaling. -/
+/-- Source chart-scaling (c): diagonal closeness is rechecked after scaling. -/
 theorem chart_scaling_closeness {n m mu : ℕ} (hn : 1 ≤ n)
     {V : Set (P11Vec n)} (hV : IsOpen V) {f : P11Vec n → P11Vec m}
     (hf : ContDiffOn ℝ mu f V) {E : Set (P11Vec n)} (hEV : E ⊆ V)
-    {theta beta' : ℝ} (ht : 0 ≤ theta) (hb : p11JetBound false mu E f theta)
+    {theta beta' : ℝ} (ht : 0 ≤ theta) (hb : p11JetBound true mu E f theta)
     (y0 : P11Vec n) {lambda : ℝ} (hl : 0 < lambda)
     (hrecheck : max 1 (lambda^mu)*theta ≤ beta'/2) :
-    p11JetBound false mu ((fun y => y0+lambda • y) ⁻¹' E)
+    p11JetBound true mu ((fun y => y0+lambda • y) ⁻¹' E)
       (fun y => f (y0+lambda • y)) (beta'/2) := sorry
 /-- Unconditional physical output: Part 13 owns FixKol assembly and the frozen provider. -/
 theorem wrapper {n : ℕ} (D : P11Physical n) :
@@ -2212,6 +2258,7 @@ theorem p11_trig_derivative_bound {n : ℕ} (hn : 1 ≤ n) {T : ℝ} (hT : 0 ≤
 #print axioms KAM.Planetary.wrapper
 #print axioms KAM.Planetary.prepared
 #print axioms KAM.Planetary.data_star
+#print axioms KAM.Planetary.chart_scaling_closeness
 end KAM.Planetary
 end
 ```
