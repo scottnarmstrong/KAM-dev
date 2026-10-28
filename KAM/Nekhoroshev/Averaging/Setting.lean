@@ -77,8 +77,8 @@ private theorem contDiffOn_freq (d : AveragingData n R s h f) :
   refine contDiffOn_pi.2 fun i => ?_
   exact ContDiffOn.clm_apply hd (contDiffOn_const (c := (Pi.single i (1 : ℝ) : Fin n → ℝ)))
 
-/-- The finite compact bounds `Ω₀` (frequency map) and `M₂` (row sums of `avgM`) on `closedBall 0 R`.
--/
+/-- The finite compact bounds `Ω₀` (frequency map) and `M₂` (row sums of `avgM`) on
+`closedBall 0 R`. -/
 theorem avg_compact_bounds (d : AveragingData n R s h f) :
     ∃ Ω₀ M₂ : ℝ, 0 ≤ Ω₀ ∧ 0 ≤ M₂ ∧
       (∀ I ∈ closedBall (0 : Fin n → ℝ) R, ‖KAM.frequencyMap h I‖ ≤ Ω₀) ∧

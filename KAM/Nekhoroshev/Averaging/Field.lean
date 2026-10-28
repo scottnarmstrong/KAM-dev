@@ -94,13 +94,16 @@ private theorem abs_fderiv_avgF_le (d : AveragingData n R s h f) {z : AvgPhase n
   refine (Complex.abs_re_le_norm _).trans ?_
   refine ((fderiv ℂ f _).le_opNorm _).trans ?_
   rw [KAM.norm_realInclusion₂]
-  calc _ ≤ 2 / s * 1 := mul_le_mul (norm_fderiv_le d hz) hv (norm_nonneg _) (by have := d.hs; positivity)
+  have hs0 : 0 ≤ 2 / s := by have := d.hs; positivity
+  calc _ ≤ 2 / s * 1 := mul_le_mul (norm_fderiv_le d hz) hv (norm_nonneg _) hs0
     _ = 2 / s := mul_one _
 
-private theorem norm_single_prod_fst (j : Fin n) : ‖((Pi.single j (1 : ℝ), 0) : AvgPhase n)‖ ≤ 1 := by
+private theorem norm_single_prod_fst (j : Fin n) :
+    ‖((Pi.single j (1 : ℝ), 0) : AvgPhase n)‖ ≤ 1 := by
   simp [Prod.norm_def, Pi.norm_single]
 
-private theorem norm_single_prod_snd (j : Fin n) : ‖((0, Pi.single j (1 : ℝ)) : AvgPhase n)‖ ≤ 1 := by
+private theorem norm_single_prod_snd (j : Fin n) :
+    ‖((0, Pi.single j (1 : ℝ)) : AvgPhase n)‖ ≤ 1 := by
   simp [Prod.norm_def, Pi.norm_single]
 
 private theorem avgA_apply (z : AvgPhase n) (j : Fin n) :
@@ -144,10 +147,72 @@ theorem fbounds (d : AveragingData n R s h f) :
           ε • fderiv ℝ (avgF f) z) z := by
       rw [avgH_eq]
       exact (hg.hasFDerivAt.comp z (hasFDerivAt_snd)).add
-        (((hasFDerivAt_avgF d hW).const_smul ε).congr_fderiv (by rw [(hasFDerivAt_avgF d hW).fderiv]))
+        (((hasFDerivAt_avgF d hW).const_smul ε).congr_fderiv
+          (by rw [(hasFDerivAt_avgF d hW).fderiv]))
     ext j
     · simp [KAM.hamiltonianVectorField, hH.fderiv, avgB_apply, freq_apply]
     · simp [KAM.hamiltonianVectorField, hH.fderiv, avgA_apply]
+
+private theorem contDiff_slice (d : AveragingData n R s h f) {I : Fin n → ℝ}
+    (hI : I ∈ actionBall n R) : ContDiff ℝ 1 (fun θ : Fin n → ℝ => avgF f (θ, I)) := by
+  have hmem : ∀ θ : Fin n → ℝ, (θ, I) ∈ Wdom n R s := fun θ =>
+    ⟨mem_univ _, ball_subset_ball (by linarith [d.hs]) hI⟩
+  exact (contDiffOn_avgF d).comp_contDiff (contDiff_id.prodMk contDiff_const) hmem
+
+private theorem fderiv_slice (d : AveragingData n R s h f) {I : Fin n → ℝ}
+    (hI : I ∈ actionBall n R) (θ : Fin n → ℝ) (j : Fin n) :
+    fderiv ℝ (fun θ : Fin n → ℝ => avgF f (θ, I)) θ (Pi.single j 1) =
+      fderiv ℝ (avgF f) (θ, I) (Pi.single j 1, 0) := by
+  have hW : (θ, I) ∈ Wdom n R s := ⟨mem_univ _, ball_subset_ball (by linarith [d.hs]) hI⟩
+  have hF : DifferentiableAt ℝ (avgF f) (θ, I) :=
+    (hasFDerivAt_avgF d hW).differentiableAt
+  have hpr : HasFDerivAt (fun x : Fin n → ℝ => (x, I))
+      ((ContinuousLinearMap.id ℝ (Fin n → ℝ)).prod 0) θ :=
+    (hasFDerivAt_id θ).prodMk (hasFDerivAt_const I θ)
+  have := (HasFDerivAt.comp (g := avgF f) θ hF.hasFDerivAt hpr).fderiv
+  change fderiv ℝ (avgF f ∘ fun x : Fin n → ℝ => (x, I)) θ _ = _
+  rw [this]
+  simp
+
+private theorem periodic_slice (d : AveragingData n R s h f) {I : Fin n → ℝ}
+    (hI : I ∈ actionBall n R) (j : Fin n) (θ : Fin n → ℝ) :
+    avgF f (θ + Pi.single j 1, I) = avgF f (θ, I) := by
+  have hW : (θ, I) ∈ Wdom n R s := ⟨mem_univ _, ball_subset_ball (by linarith [d.hs]) hI⟩
+  have hp := d.hf.2.2.2.1 (KAM.realInclusion₂ n (θ, I)) (iota_mem d hW) (Pi.single j 1)
+  have e : KAM.realInclusion₂ n (θ + Pi.single j 1, I) =
+      ((KAM.realInclusion₂ n (θ, I)).1 + fun i => (((Pi.single j 1 : Fin n → ℤ) i : ℤ) : ℂ),
+        (KAM.realInclusion₂ n (θ, I)).2) := by
+    ext i
+    · by_cases hij : i = j <;> simp [hij, Pi.single_apply]
+    · rfl
+  unfold avgF
+  rw [e, hp]
+
+theorem averaged (d : AveragingData n R s h f) :
+    ∀ I ∈ actionBall n R, ∫ θ in Set.Icc (0 : Fin n → ℝ) 1, avgA f (θ, I) = 0 := by
+  intro I hI
+  have hG := contDiff_slice d hI
+  have hc : Continuous (fun θ : Fin n → ℝ => avgA f (θ, I)) := by
+    refine continuous_pi fun j => ?_
+    simp only [avgA_apply, ← fderiv_slice d hI]
+    exact (hG.continuous_fderiv one_ne_zero).clm_apply continuous_const |>.neg
+  have hcube : Set.Icc (0 : Fin n → ℝ) 1 = Set.pi Set.univ fun _ : Fin n => Icc (0 : ℝ) 1 :=
+    (Set.pi_univ_Icc _ _).symm
+  rw [hcube]
+  ext j
+  have hcomm := (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) j).integral_comp_comm
+    (μ := volume.restrict (Set.pi Set.univ fun _ : Fin n => Icc (0 : ℝ) 1))
+    (KAM.integrableOn_unitCube_of_continuous hc)
+  rw [show (∫ θ in Set.pi Set.univ fun _ : Fin n => Icc (0 : ℝ) 1, avgA f (θ, I)) j = _ from
+    hcomm.symm]
+  simp only [ContinuousLinearMap.proj_apply, avgA_apply, ← fderiv_slice d hI, integral_neg]
+  have := KAM.torusAverage_coordinate_eq_zero
+    (fun x => (hG.differentiable one_ne_zero x).hasFDerivAt) (hG.continuous_fderiv one_ne_zero) j
+    (periodic_slice d hI j)
+  have hj : ∫ x in Set.pi Set.univ fun _ : Fin n => Icc (0 : ℝ) 1,
+      fderiv ℝ (fun θ : Fin n → ℝ => avgF f (θ, I)) x (Pi.single j 1) = 0 := this
+  rw [hj, neg_zero]
+  rfl
 
 end KAM.Nekhoroshev
 
