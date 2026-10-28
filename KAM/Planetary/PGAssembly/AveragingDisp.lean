@@ -97,16 +97,19 @@ theorem avg_disp (h : admissible d (pgRstar d) r mu)
   set y := pgOscUnnormalize (KAM.realInclusion₂ (a+b) z) with hydef
   obtain ⟨d1, d2, d3⟩ := hd y hy
   have hs' : (Real.sqrt (2*Real.pi):ℂ) ≠ 0 := by exact_mod_cast hs.ne'
-  have ey2 : blockSlow (KAM.realInclusion₂ (a+b) z).2 = (Real.sqrt (2*Real.pi):ℂ) • blockSlow y.2 := by
+  have ey2 : blockSlow (KAM.realInclusion₂ (a+b) z).2 =
+      (Real.sqrt (2*Real.pi):ℂ) • blockSlow y.2 := by
     rw [hydef, blockSlow_unnormalize_snd, smul_smul, mul_inv_cancel₀ hs', one_smul]
-  have ey1 : blockSlow (KAM.realInclusion₂ (a+b) z).1 = (Real.sqrt (2*Real.pi):ℂ) • blockSlow y.1 := by
+  have ey1 : blockSlow (KAM.realInclusion₂ (a+b) z).1 =
+      (Real.sqrt (2*Real.pi):ℂ) • blockSlow y.1 := by
     rw [hydef, blockSlow_unnormalize_fst, smul_smul, mul_inv_cancel₀ hs', one_smul]
   have ef2 : blockFast (KAM.realInclusion₂ (a+b) z).2 = blockFast y.2 := by
     rw [hydef, blockFast_unnormalize_snd]
   have hn1 := congrArg (fun v => blockFast v.2) hW'
   have hn2 := congrArg (fun v => blockSlow v.2) hW'
   have hn3 := congrArg (fun v => blockSlow v.1) hW'
-  simp only [blockFast_normalize_snd, blockSlow_normalize_snd, blockSlow_normalize_fst] at hn1 hn2 hn3
+  simp only [blockFast_normalize_snd, blockSlow_normalize_snd, blockSlow_normalize_fst]
+    at hn1 hn2 hn3
   have f1 : KAM.realInclusion a (blockFast W.2 - blockFast z.2) =
       firstBlock (b := b) ((Ψ y).2 - y.2) := by
     funext i

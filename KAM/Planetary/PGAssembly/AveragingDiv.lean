@@ -145,7 +145,8 @@ theorem pg_osc_divisor (h : admissible d (pgRstar d) r mu) :
       ‖KAM.NormalForm.dotC k (complexFast d (KAM.realInclusion a J))‖ -
         KAM.Fourier.modeSize k * ((pgAnalytic d).M0 * ρ) := by
     have h1 := norm_dotC_le k (complexFast d (KAM.realInclusion a J) - complexFast d I)
-    have h2' : ‖complexFast d (KAM.realInclusion a J) - complexFast d I‖ ≤ (pgAnalytic d).M0 * ρ := by
+    have h2' : ‖complexFast d (KAM.realInclusion a J) - complexFast d I‖ ≤
+        (pgAnalytic d).M0 * ρ := by
       rw [norm_sub_rev]; exact h2
     have h3 := mul_le_mul_of_nonneg_left h2' (by linarith : 0 ≤ KAM.Fourier.modeSize k)
     have h4 := norm_sub_norm_le (KAM.NormalForm.dotC k (complexFast d (KAM.realInclusion a J)))

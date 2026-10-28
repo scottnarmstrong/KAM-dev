@@ -108,7 +108,8 @@ theorem pg_osc_small (h : admissible d (pgRstar d) r mu) :
   unfold pgOscE pgOscAlpha
   rw [← hKdef, ← hγdef]
   -- main estimate
-  have hkey : 2^14*(1+(b:ℝ))*(pgAnalytic d).M0*((pgAnalytic d).LP*mu)*(K^(pgTau a b))^2*K*K ≤ γ^2 := by
+  have hkey : 2^14*(1+(b:ℝ))*(pgAnalytic d).M0*((pgAnalytic d).LP*mu)*(K^(pgTau a b))^2*K*K
+      ≤ γ^2 := by
     have h1 : 2^14*(1+(b:ℝ))*(pgAnalytic d).M0*K ≤ (pgScales d).G^2 / r^5 := by
       rw [le_div_iff₀ hr5]
       calc 2^14*(1+(b:ℝ))*(pgAnalytic d).M0*K*r^5 ≤ 2^14*(1+(b:ℝ))*(pgAnalytic d).M0 * 1 := by

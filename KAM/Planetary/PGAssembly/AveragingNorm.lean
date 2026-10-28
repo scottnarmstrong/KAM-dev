@@ -60,13 +60,15 @@ theorem pgOscNormalize_eq (z : CPhase (a+b)) : pgOscNormalize z = oscNormCLM a b
 theorem pgOscNormalize_eq_fun : (pgOscNormalize : CPhase (a+b) → CPhase (a+b)) = oscNormCLM a b :=
   funext pgOscNormalize_eq
 
-theorem differentiable_pgOscNormalize : Differentiable ℂ (pgOscNormalize : CPhase (a+b) → CPhase (a+b)) := by
+theorem differentiable_pgOscNormalize :
+    Differentiable ℂ (pgOscNormalize : CPhase (a+b) → CPhase (a+b)) := by
   rw [pgOscNormalize_eq_fun]; exact (oscNormCLM a b).differentiable
 
 theorem continuous_pgOscNormalize : Continuous (pgOscNormalize : CPhase (a+b) → CPhase (a+b)) :=
   differentiable_pgOscNormalize.continuous
 
-theorem pgOscUnnormalize_normalize (z : CPhase (a+b)) : pgOscUnnormalize (pgOscNormalize z) = z := by
+theorem pgOscUnnormalize_normalize (z : CPhase (a+b)) :
+    pgOscUnnormalize (pgOscNormalize z) = z := by
   have h2 : (2*Real.pi:ℂ) ≠ 0 := by simp [Real.pi_ne_zero]
   have h3 : (Real.sqrt (2*Real.pi):ℂ) ≠ 0 := by
     have : 0 < Real.sqrt (2*Real.pi) := Real.sqrt_pos.2 (by positivity)
@@ -79,7 +81,8 @@ theorem pgOscUnnormalize_normalize (z : CPhase (a+b)) : pgOscUnnormalize (pgOscN
       smul_smul, inv_mul_cancel₀ h3, one_smul]
     exact append_blocks z.2
 
-theorem pgOscNormalize_unnormalize (z : CPhase (a+b)) : pgOscNormalize (pgOscUnnormalize z) = z := by
+theorem pgOscNormalize_unnormalize (z : CPhase (a+b)) :
+    pgOscNormalize (pgOscUnnormalize z) = z := by
   have h2 : (2*Real.pi:ℂ) ≠ 0 := by simp [Real.pi_ne_zero]
   have h3 : (Real.sqrt (2*Real.pi):ℂ) ≠ 0 := by
     have : 0 < Real.sqrt (2*Real.pi) := Real.sqrt_pos.2 (by positivity)

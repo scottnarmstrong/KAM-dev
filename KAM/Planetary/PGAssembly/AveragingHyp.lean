@@ -54,7 +54,8 @@ theorem normalize_mem_extensionDomain (h : admissible d (pgRstar d) r mu) {s' S 
     refine hv.trans_le ?_
     unfold pgOscEpsilon
     exact div_le_div_of_nonneg_right (pgOscRadius_le_delta d) hs.le
-  have hx : ‖((Real.sqrt (2*Real.pi):ℂ) • blockSlow z.1, (Real.sqrt (2*Real.pi):ℂ) • blockSlow z.2)‖ <
+  have hx : ‖((Real.sqrt (2*Real.pi):ℂ) • blockSlow z.1,
+      (Real.sqrt (2*Real.pi):ℂ) • blockSlow z.2)‖ <
       (pgExtension d).delta/4 := by
     rw [Prod.norm_def]; exact max_lt (hε _ z4) (hε _ z3)
   refine strip_mem_extensionDomain d hδ hI hx (strip_mono ?_ z1)

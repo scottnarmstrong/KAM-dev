@@ -36,7 +36,8 @@ structure PGAveraging (n : ℕ) where
 
 def averagingDomain (d : PGData a b) (r mu : ℝ) : Set (PGComplexPhase (a+b)) :=
   {z | blockFast z.2 ∈ KAM.actionNbhd (checkedCore d r mu) ((params d r mu).rhoBar/2) ∧
-    blockFast z.1 ∈ KAM.complexStrip a (pgWidth d/6) ∧ ‖(blockSlow z.2,blockSlow z.1)‖ < pgOscRadius d/2}
+    blockFast z.1 ∈ KAM.complexStrip a (pgWidth d/6) ∧
+      ‖(blockSlow z.2,blockSlow z.1)‖ < pgOscRadius d/2}
 
 def realAverageMap (A : PGAveraging n) (z : Phase n) : Phase n :=
   ((fun i => (A.Psi (KAM.realInclusion₂ n z)).1 i |>.re),
@@ -70,9 +71,12 @@ def AveragingSpec (d : PGData a b) (r mu : ℝ) (A : PGAveraging (a+b)) : Prop :
   IsChart 1 (realAverageMap A) ((KAM.realInclusion₂ (a+b)) ⁻¹' averagingDomain d r mu) ∧
   (∀ z : Phase (a+b), KAM.realInclusion₂ (a+b) z ∈ averagingDomain d r mu →
     ‖blockFast (realAverageMap A z).2-blockFast z.2‖ ≤
-      12*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/(pgWidth d*(params d r mu).gammaBar) ∧
-    ‖(blockSlow (realAverageMap A z).2-blockSlow z.2,blockSlow (realAverageMap A z).1-blockSlow z.1)‖ ≤
-      18*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/(pgOscRadius d*(params d r mu).gammaBar))
+      12*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (pgWidth d*(params d r mu).gammaBar) ∧
+    ‖(blockSlow (realAverageMap A z).2-blockSlow z.2,
+      blockSlow (realAverageMap A z).1-blockSlow z.1)‖ ≤
+      18*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
+        (pgOscRadius d*(params d r mu).gammaBar))
 
 /-- Mixed fast-angle/oscillator normalization, conformally symplectic with factor 2*pi. -/
 def pgOscNormalize (z : CPhase (a+b)) : CPhase (a+b) :=

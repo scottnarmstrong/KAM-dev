@@ -158,7 +158,8 @@ theorem isPreconnected_pgBase (d : PGData a b) : IsPreconnected (pgBase d) := by
   ext w
   constructor
   · rintro ⟨h1, h2⟩
-    refine ⟨(blockFast w.2, blockFast w.1, (blockSlow w.2, blockSlow w.1)), ⟨h1, mem_univ _, ?_⟩, ?_⟩
+    refine ⟨(blockFast w.2, blockFast w.1, (blockSlow w.2, blockSlow w.1)),
+      ⟨h1, mem_univ _, ?_⟩, ?_⟩
     · simpa using h2
     · exact Prod.ext (by simp only [assemble]; exact append_blocks _)
         (by simp only [assemble]; exact append_blocks _)

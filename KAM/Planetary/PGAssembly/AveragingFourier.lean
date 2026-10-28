@@ -140,7 +140,8 @@ theorem avg_rem_pointwise (h : admissible d (pgRstar d) r mu) {R : CHam (a+b)}
     simpa [abs_of_pos hpi] using Complex.norm_real (2*Real.pi)
   rw [h2]
   have := two_pi_avgB_le h
-  nlinarith [mul_le_mul_of_nonneg_left ‹‖R (pgOscUnnormalize z)‖ ≤ avgB d r mu› (by positivity : (0:ℝ) ≤ 2*Real.pi)]
+  nlinarith [mul_le_mul_of_nonneg_left ‹‖R (pgOscUnnormalize z)‖ ≤ avgB d r mu›
+    (by positivity : (0:ℝ) ≤ 2*Real.pi)]
 
 end KAM.Planetary
 

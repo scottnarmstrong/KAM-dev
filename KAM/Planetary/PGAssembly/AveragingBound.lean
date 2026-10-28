@@ -121,7 +121,8 @@ theorem pg_osc_bound (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d)
   intro x hx
   obtain ⟨hx1, hx2, hx3⟩ := hx
   have hxe : x = Fin.append (firstBlock (b := b + b) x) (Fin.append
-      (firstBlock (b := b) (lastBlock (a := a) x)) (lastBlock (a := b) (lastBlock (a := a) x))) := by
+      (firstBlock (b := b) (lastBlock (a := a) x))
+      (lastBlock (a := b) (lastBlock (a := a) x))) := by
     have := append_blocks x
     have h2 := append_blocks (lastBlock (a := a) x)
     rw [show Fin.append (firstBlock (b := b) (lastBlock (a := a) x))
