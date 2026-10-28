@@ -566,6 +566,65 @@ private theorem env_summable (d : AveragingData n R s h f) {κ M₂ : ℝ} (hκ 
         _ ≤ 2 * Real.pi * ((1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k) := by
             nlinarith [mul_nonneg Real.pi_pos.le hβ]
 
+private theorem measurable_freq (h : (Fin n → ℂ) → ℂ) : Measurable (KAM.frequencyMap h) :=
+  measurable_pi_iff.2 fun i => measurable_fderiv_apply_const ℝ _ _
+
+private theorem measurable_Q (h : (Fin n → ℂ) → ℂ) (k : Fin n → ℤ) : Measurable (avgQ h k) :=
+  Finset.measurable_sum _ fun i _ =>
+    measurable_const.mul ((measurable_pi_apply i).comp (measurable_freq h))
+
+private theorem measurable_psi (κ : ℝ) : Measurable (avgPsi κ) := by
+  unfold avgPsi; fun_prop
+
+private theorem measurable_psiD (κ : ℝ) : Measurable (avgPsiD κ) := by
+  unfold avgPsiD; fun_prop
+
+private theorem measurable_term_ofReal (h : (Fin n → ℂ) → ℂ) (k : Fin n → ℤ) {g : ℝ → ℝ}
+    (hg : Measurable g) : Measurable (fun I => ENNReal.ofReal (g (avgQ h k I))) :=
+  ENNReal.measurable_ofReal.comp (hg.comp (measurable_Q h k))
+
+theorem envelope_regular (d : AveragingData n R s h f) {κ M₂ : ℝ}
+    (hκ : 0 < κ) (hM0 : 0 ≤ M₂) :
+    Measurable ((actionBall n R).indicator (avgWenv h s κ)) ∧ Measurable ((actionBall n R).indicator (avgW1env h s κ)) ∧
+    Measurable ((actionBall n R).indicator (avgBenv h s M₂ κ)) ∧ Measurable ((actionBall n R).indicator (avgRenv h s κ)) ∧
+    (∀ ε : ℝ, Measurable ((actionBall n R).indicator (avgPhiEnv h s M₂ ε κ))) ∧
+    ∀ I ∈ actionBall n R, avgWenv h s κ I < ⊤ ∧ avgW1env h s κ I < ⊤ ∧
+      avgBenv h s M₂ κ I < ⊤ ∧ avgRenv h s κ I < ⊤ := by
+  have hset : MeasurableSet (actionBall n R) := measurableSet_ball
+  have mW : Measurable (avgWenv h s κ) := by
+    refine Measurable.ennreal_tsum fun k => ?_
+    exact measurable_term_ofReal h k (g := fun y => ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+      |avgPsi κ y|) (by have := measurable_psi κ; fun_prop)
+  have mW1 : Measurable (avgW1env h s κ) := by
+    refine Measurable.ennreal_tsum fun k => ?_
+    exact measurable_term_ofReal h k (g := fun y => 2 * Real.pi *
+      ‖fun j => (k j : ℝ)‖ * KAM.Fourier.modeSize k * avgBeta s k * |avgPsi κ y|)
+      (by have := measurable_psi κ; fun_prop)
+  have mB : Measurable (avgBenv h s M₂ κ) := by
+    refine Measurable.ennreal_tsum fun k => ?_
+    exact measurable_term_ofReal h k (g := fun y => ‖fun j => (k j : ℝ)‖ * avgBeta s k *
+      (2 * n / s * |avgPsi κ y| + M₂ * KAM.Fourier.modeSize k * |avgPsiD κ y|))
+      (by have := measurable_psi κ; have := measurable_psiD κ; fun_prop)
+  have mR : Measurable (avgRenv h s κ) := by
+    refine Measurable.ennreal_tsum fun k => ?_
+    exact measurable_term_ofReal h k (g := fun y => 2 * Real.pi * ‖fun j => (k j : ℝ)‖ *
+      avgBeta s k * (κ ^ 2 / (y ^ 2 + κ ^ 2))) (by fun_prop)
+  refine ⟨mW.indicator hset, mW1.indicator hset, mB.indicator hset, mR.indicator hset,
+    fun ε => ?_, fun I hI => ?_⟩
+  · have : Measurable (avgPhiEnv h s M₂ ε κ) :=
+      ((measurable_const.mul mB).add (measurable_const.mul mW1)).add mR
+    exact this.indicator hset
+  · have hs := env_summable d hκ hM0 I
+    have key : ∀ {b : (Fin n → ℤ) → ℝ}, (∀ k, 0 ≤ b k) → Summable b →
+        ∑' k, ENNReal.ofReal (b k) < ⊤ := fun hb0 hb => by
+      rw [← ENNReal.ofReal_tsum_of_nonneg hb0 hb]; exact ENNReal.ofReal_lt_top
+    have hbeta := fun k : Fin n → ℤ => avgBeta_nonneg s k
+    have hm := fun k : Fin n → ℤ => KAM.Fourier.modeSize_nonneg k
+    refine ⟨key (fun k => by have := hbeta k; positivity) hs.1,
+      key (fun k => by have := hbeta k; have := hm k; positivity) hs.2.1,
+      key (fun k => avgBterm_nonneg d hM0 k I) hs.2.2.1,
+      key (fun k => by have := hbeta k; positivity) hs.2.2.2⟩
+
 end KAM.Nekhoroshev
 
 end
