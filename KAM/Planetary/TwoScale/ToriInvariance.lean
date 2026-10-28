@@ -99,6 +99,25 @@ theorem stage_err_le (H : KamHyp D sbar p h f) {Rmax : ℝ} (hR : rhoHat p ≤ R
       _ = _ := by field_simp
   nlinarith
 
+theorem PsiSteps.eHat_tendsto (P : PsiSteps sbar p Ds hs fs Ψ Φ) :
+    Tendsto (fun j => eHat (seq p j)) atTop (𝓝 0) := by
+  have hb : ∀ j, eHat (seq p j) ≤ eHat p * (1 / 160) ^ j := by
+    intro j
+    induction j with
+    | zero => simp [seq]
+    | succ j ih =>
+      have h1 := P.eHat_sq j
+      have h2 := (P.hyp j).eHat_nonneg
+      have h3 := (P.hyp j).eHat_lt_small
+      calc eHat (seq p (j + 1)) ≤ eHat (seq p j) ^ 2 := h1.le
+        _ ≤ eHat (seq p j) * (1 / 160) := by nlinarith
+        _ ≤ eHat p * (1 / 160) ^ j * (1 / 160) := by gcongr
+        _ = _ := by ring
+  have hz : Tendsto (fun j : ℕ => eHat p * (1 / 160 : ℝ) ^ j) atTop (𝓝 0) := by
+    simpa using (tendsto_pow_atTop_nhds_zero_of_lt_one (by norm_num : (0 : ℝ) ≤ 1 / 160)
+      (by norm_num)).const_mul (eHat p)
+  exact squeeze_zero (fun j => (P.hyp j).eHat_nonneg) hb hz
+
 end KAM.Planetary
 
 end
