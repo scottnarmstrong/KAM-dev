@@ -159,6 +159,108 @@ theorem tori_jet_small :
   have := (h1.const_mul (2 * (a.ε₀ / a.s₀))).add (h3.const_mul (4 * a.ε₀ / a.strip))
   simpa using this
 
+section Invariance
+variable {ε : ℝ}
+
+include cx in
+theorem tori_limit_mem (hb : b ∈ L.Kinf) (θ : SelectionR n) :
+    (L.limitC b (selectionReal θ)).1 ∈ complexStrip n d.strip ∧
+      ‖(L.limitC b (selectionReal θ)).2‖ < d.ϑ := by
+  have hstrip := cx.hyp.hstrip
+  have hθ : selectionReal θ ∈ complexStrip n (d.strip / 4) :=
+    fun i => by simpa [selectionReal] using tori_strip_pos d.strip_pos
+  have hr := L.limit_real b hb θ
+  refine ⟨fun i => ?_, ?_⟩
+  · rw [hr]; simpa [phaseToC] using d.strip_pos
+  · have h1 := L.complex_action_bound b hb (selectionReal θ) hθ
+    obtain ⟨-, -, -, hα⟩ := wbud_sums_Aα cx
+    have hq := cx.adm.quadratic
+    have hv := (selectionVarpi_pos_le_one n a.μ cx.hyp.hτ).2
+    have hs0 := cx.hyp.hs
+    have hsθ := tori_s0_le_theta cx
+    have hQ0 : selectionQ₀ a ≤ 1 / 2 := by linarith
+    calc ‖(L.limitC b (selectionReal θ)).2‖ ≤ a.s₀ * selectionQ₀ a / 16 := h1.trans hα
+      _ < d.ϑ := by nlinarith
+
+include cx in
+theorem tori_H0_cont (hf : SelectionPerturbation d f ε) (hb : b ∈ L.Kinf) (θ : SelectionR n) :
+    ContinuousAt (hamiltonianVectorFieldℂ (toriH0 d f b)) (L.limitC b (selectionReal θ)) := by
+  have hV : IsOpen {y : SelectionPhaseC n | y.1 ∈ complexStrip n d.strip ∧ ‖y.2‖ < d.ϑ} :=
+    ((KAM.isOpen_complexStrip n _).preimage continuous_fst).inter
+      (isOpen_lt continuous_snd.norm continuous_const)
+  have hdiff : DifferentiableOn ℂ (toriH0 d f b)
+      {y : SelectionPhaseC n | y.1 ∈ complexStrip n d.strip ∧ ‖y.2‖ < d.ϑ} :=
+    fun y hy => (toriH0_diffAt d hf (tori_mem_d L hb) hy.1 hy.2).differentiableWithinAt
+  have han := KAM.analyticOnNhd_of_differentiableOn hV hdiff
+  have hfd : ContinuousAt (fderiv ℂ (toriH0 d f b)) (L.limitC b (selectionReal θ)) :=
+    han.fderiv.continuousOn.continuousAt (hV.mem_nhds (tori_limit_mem cx L hb θ))
+  have hap : ∀ v, ContinuousAt (fun y => fderiv ℂ (toriH0 d f b) y v)
+      (L.limitC b (selectionReal θ)) := fun v =>
+    ((ContinuousLinearMap.apply ℂ ℂ v).continuous.continuousAt).comp hfd
+  unfold hamiltonianVectorFieldℂ
+  exact (continuousAt_pi.2 fun i => hap _).prodMk (continuousAt_pi.2 fun i => (hap _).neg)
+
+include cx in
+/-- Steps `lt-field`, `lt-cov`, `lt-lim`: the complex invariance identity at real angles. -/
+theorem tori_invariance_C (hf : SelectionPerturbation d f ε) (hb : b ∈ L.Kinf)
+    (θ : SelectionR n) :
+    hamiltonianVectorFieldℂ (toriH0 d f b) (L.limitC b (selectionReal θ)) =
+      fderiv ℂ (L.limitC b) (selectionReal θ) (selectionReal (L.ωstar b)) := by
+  have hstrip := cx.hyp.hstrip
+  have hθ : selectionReal θ ∈ complexStrip n (d.strip / 4) :=
+    fun i => by simpa [selectionReal] using tori_strip_pos d.strip_pos
+  have hθ2 : selectionReal θ ∈ complexStrip n (a.strip / 2) :=
+    selectionReal_mem_complexStrip (by linarith) θ
+  have hΦ := (L.limit_uniform b hb).tendsto_at hθ
+  have hLHS := ((tori_H0_cont cx L hf hb θ).tendsto).comp hΦ
+  have hD := (L.derivative_uniform b hb).tendsto_at hθ
+  have hω := tori_freq_tendsto cx L hb
+  have hmain := ((continuous_fst.clm_apply continuous_snd).tendsto
+    (fderiv ℂ (L.limitC b) (selectionReal θ), selectionReal (L.ωstar b))).comp
+    (hD.prodMk_nhds hω)
+  -- the stage derivative applied to a vector `(w, 0)`
+  have e : ∀ ν, ∀ w : SelectionC n,
+      (fderiv ℂ (fun w => selectionCompose L.toSelectionChain (selectionReal b) ν (w, 0))
+        (selectionReal θ)) w =
+      fderiv ℂ (selectionCompose L.toSelectionChain (selectionReal b) ν)
+        (selectionReal θ, 0) (w, 0) := fun ν w => by
+    have h := selectionLim_stage_fderiv cx L.toSelectionComposition hb ν hθ2
+    have := congrArg (fun T => T w) h
+    simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.inl_apply] at this
+    exact this
+  have hsmall : Tendsto (fun ν => fderiv ℂ
+      (selectionCompose L.toSelectionChain (selectionReal b) ν) (selectionReal θ, 0)
+      (toriJet d L.toSelectionChain ν b (selectionReal θ, 0) -
+        (selectionFrequency d L.toSelectionChain ν (selectionReal b), 0))) atTop (𝓝 0) := by
+    have hB := (tori_jet_small cx).const_mul 2
+    rw [mul_zero] at hB
+    refine squeeze_zero_norm (fun ν => ?_) hB
+    have hz := L.composition_small ν ((selectionReal θ, 0), selectionReal b)
+      (selectionLim_mem cx L.toSelectionComposition hb ν hθ2)
+    have hn : ‖fderiv ℂ (selectionCompose L.toSelectionChain (selectionReal b) ν)
+        (selectionReal θ, 0)‖ ≤ 2 := by
+      have h1 := norm_le_insert' (fderiv ℂ (selectionCompose L.toSelectionChain (selectionReal b) ν)
+        (selectionReal θ, 0)) (ContinuousLinearMap.id ℂ (SelectionPhaseC n))
+      have h2 : ‖ContinuousLinearMap.id ℂ (SelectionPhaseC n)‖ ≤ 1 :=
+        ContinuousLinearMap.norm_id_le
+      have : ‖fderiv ℂ (selectionCompose L.toSelectionChain (selectionReal b) ν)
+          (selectionReal θ, 0) - ContinuousLinearMap.id ℂ (SelectionPhaseC n)‖ ≤ 1 :=
+        hz.trans (by norm_num)
+      linarith
+    refine ((ContinuousLinearMap.le_opNorm _ _).trans ?_)
+    have := tori_jet_bound cx L.toSelectionComposition hb θ ν
+    exact mul_le_mul hn this (norm_nonneg _) (by norm_num)
+  have hRHS := hmain.add hsmall
+  rw [add_zero] at hRHS
+  refine tendsto_nhds_unique hLHS (hRHS.congr fun ν => ?_)
+  have hc := tori_stage_cov cx L.toSelectionComposition hf hb θ ν
+  simp only [Function.comp_apply]
+  rw [e ν, hc, ← map_add]
+  congr 1
+  abel
+
+end Invariance
+
 end Frequency
 
 end KAM.Planetary
