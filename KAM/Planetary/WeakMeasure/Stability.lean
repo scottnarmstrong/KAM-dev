@@ -395,4 +395,55 @@ theorem p11op_scalar_le {g : P11Vec n → ℝ} {y : P11Vec n} {j : ℕ} (hg : Co
 
 end OperatorBound
 
+/-- `bpP:p11a:M-bound`. -/
+theorem M_bound {n m : ℕ} (hn : 1 ≤ n) {V A : Set (P11Vec n)}
+    (hV : IsOpen V) (hAV : A ⊆ V) {mu : ℕ} {w : P11Vec n → P11Vec m}
+    (hw : ContDiffOn ℝ (mu+1) w V) {M : ℝ} (hM : 0 ≤ M)
+    (hb : p11JetBound false (mu+1) A w M) :
+    ∀ c, p11euclid c=1 → ∀ j, 1 ≤ j → j ≤ mu+1 → ∀ y ∈ A,
+      p11op (p11scalar 1 w c) j y ≤ M ∧
+      p11op (p11scalar 2 w c) j y ≤ (2 : ℝ)^j*M^2 := by
+  intro c hc j _ hj y hy
+  have hyV := hAV hy
+  have hφ : ContDiffOn ℝ (mu + 1 : ℕ) (fun x => p11dot c (w x)) V := contDiffOn_p11dot hw c
+  have hat : ∀ {k : ℕ}, k ≤ mu + 1 → ContDiffAt ℝ k w y := fun hk =>
+    (hw.of_le (by exact_mod_cast hk)).contDiffAt (hV.mem_nhds hyV)
+  have hat' : ∀ {k : ℕ}, k ≤ mu + 1 → ContDiffAt ℝ k (fun x => p11dot c (w x)) y := fun hk =>
+    (hφ.of_le (by exact_mod_cast hk)).contDiffAt (hV.mem_nhds hyV)
+  have hnorm : ∀ k ≤ mu + 1, ‖iteratedFDeriv ℝ k ((fun x => p11dot c (w x)) ∘ p11toE.symm)
+      (p11toE y)‖ ≤ M := fun k hk => norm_comp_dot_le hc hM (hat hk) (by simpa using hb k hk y hy)
+  refine ⟨?_, ?_⟩
+  · have e : p11scalar 1 w c = fun x _ => p11dot c (w x) := by
+      funext x i; simp [p11scalar]
+    rw [e]
+    exact p11op_scalar_le (hat' hj) hM (hnorm j hj)
+  · have e : p11scalar 2 w c = fun x _ => p11dot c (w x) * p11dot c (w x) := by
+      funext x i; simp [p11scalar, sq]
+    rw [e]
+    have hB : 0 ≤ (2 : ℝ) ^ j * M ^ 2 := by positivity
+    refine p11op_scalar_le ((hat' hj).mul (hat' hj)) hB ?_
+    set U : Set (EuclideanSpace ℝ (Fin n)) := p11toE.symm ⁻¹' V with hU
+    have hUo : IsOpen U := hV.preimage p11toE.symm.continuous
+    have hxU : p11toE y ∈ U := by simpa [hU] using hyV
+    have hΦ : ContDiffOn ℝ (mu + 1 : ℕ) ((fun x => p11dot c (w x)) ∘ p11toE.symm) U :=
+      hφ.comp p11toE.symm.contDiff.contDiffOn (fun z hz => hz)
+    have hmul := norm_iteratedFDerivWithin_mul_le hΦ hΦ hUo.uniqueDiffOn hxU
+      (n := j) (by exact_mod_cast hj)
+    rw [iteratedFDerivWithin_of_isOpen _ hUo hxU] at hmul
+    simp only [iteratedFDerivWithin_of_isOpen _ hUo hxU] at hmul
+    have e2 : ((fun x => p11dot c (w x) * p11dot c (w x)) ∘ p11toE.symm) =
+        fun z => ((fun x => p11dot c (w x)) ∘ p11toE.symm) z *
+          ((fun x => p11dot c (w x)) ∘ p11toE.symm) z := rfl
+    rw [e2]
+    refine hmul.trans ?_
+    calc _ ≤ ∑ i ∈ Finset.range (j + 1), (j.choose i : ℝ) * (M * M) := by
+          refine Finset.sum_le_sum fun i hi => ?_
+          have hi' : i ≤ j := Nat.lt_succ_iff.1 (Finset.mem_range.1 hi)
+          rw [mul_assoc]
+          refine mul_le_mul_of_nonneg_left ?_ (Nat.cast_nonneg _)
+          exact mul_le_mul (hnorm i (hi'.trans hj)) (hnorm _ ((Nat.sub_le _ _).trans hj))
+            (norm_nonneg _) hM
+      _ = (2 : ℝ) ^ j * M ^ 2 := by
+          rw [← Finset.sum_mul, ← Nat.cast_sum, Nat.sum_range_choose]; push_cast; ring
+
 end KAM.Planetary
