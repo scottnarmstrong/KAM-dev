@@ -31,11 +31,11 @@ theorem pg_avg (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
     averaged_remainder (pg_osc_positive d r mu h).1 (pg_osc_positive d r mu h).2
       (pg_osc_hyp d r mu h) (pg_osc_bound d r mu h)
   have hb' : oscBound (checkedCore d r mu) ((params d r mu).rhoBar/2) (pgOscEpsilon d/2)
-      (pgOscEpsilon d/2) (pgOscWidth d/6) R (avgB d r mu) := hb
+      (pgOscEpsilon d/2) (pgOscWidth d/6) R (pgAvB d r mu) := hb
   have hcls : oscClass (checkedCore d r mu) ((params d r mu).rhoBar/2) (pgOscEpsilon d/2)
       (pgOscEpsilon d/2) (pgOscWidth d/6) R := cls
   have hr := avg_real_mem h c6
-  refine ⟨⟨avgPsi Ψ, avgRem R⟩, avg_diff h c1, avg_inj h c2, avg_maps h c3,
+  refine ⟨⟨pgAvPsi Ψ, avgRem R⟩, avg_diff h c1, avg_inj h c2, avg_maps h c3,
     avg_hamil h c7, avg_rem_diff h hcls, avg_rem_pointwise h hcls hb',
     fun I hI x hx => avg_rem_fourier h hb' hI hx, avg_periodic h c5,
     fun z hz => realAverageMap_spec (hr z hz), avg_chart h c1 c4 c6,

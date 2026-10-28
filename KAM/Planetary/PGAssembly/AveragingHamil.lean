@@ -33,7 +33,7 @@ theorem avgV_subset_zero_dom (h : admissible d (pgRstar d) r mu) :
   obtain ⟨y1, y2, y3, y4⟩ := mem_oscDom_pg.1 hy
   have he : 0 < pgOscEpsilon d := by unfold pgOscEpsilon; have := pgOscRadius_pos d; positivity
   have hw : 0 < pgOscWidth d := by unfold pgOscWidth; have := pgWidth_pos d; positivity
-  refine mem_oscDom_pg.2 ⟨strip_mono (by linarith) y1, ?_, y3.trans (by linarith),
+  refine mem_oscDom_pg.2 ⟨pgAv_strip_mono (by linarith) y1, ?_, y3.trans (by linarith),
     y4.trans (by linarith)⟩
   have := actionNbhd_checkedCore_le h (s := (params d r mu).rhoBar/2)
     (t := (pgExtension d).delta/2)
@@ -42,14 +42,14 @@ theorem avgV_subset_zero_dom (h : admissible d (pgRstar d) r mu) :
 
 theorem blockSlow_unnormalize_fst (z : CPhase (a+b)) :
     blockSlow (pgOscUnnormalize z).1 = (Real.sqrt (2*Real.pi):ℂ)⁻¹ • blockSlow z.1 :=
-  blockSlow_append _ _
+  pgAv_blockSlow_append _ _
 
 theorem blockSlow_unnormalize_snd (z : CPhase (a+b)) :
     blockSlow (pgOscUnnormalize z).2 = (Real.sqrt (2*Real.pi):ℂ)⁻¹ • blockSlow z.2 :=
-  blockSlow_append _ _
+  pgAv_blockSlow_append _ _
 
 theorem blockFast_unnormalize_snd (z : CPhase (a+b)) :
-    blockFast (pgOscUnnormalize z).2 = blockFast z.2 := blockFast_append _ _
+    blockFast (pgOscUnnormalize z).2 = blockFast z.2 := pgAv_blockFast_append _ _
 
 theorem avg_hamil (h : admissible d (pgRstar d) r mu)
     (hm : ∀ z ∈ avgV d r mu,
@@ -57,7 +57,7 @@ theorem avg_hamil (h : admissible d (pgRstar d) r mu)
         pgOscH d (firstBlock (b := b) z.2) + (pgOscE d mu : ℂ) *
           KAM.Weighted.coeff (oscFunction (pgOscP d mu)) (oscPack z).2 0 + R z) :
     ∀ z ∈ averagingDomain d r mu,
-      (pgExtension d).H0 (blockFast (avgPsi Ψ z).2) + mu * (pgExtension d).P mu (avgPsi Ψ z) =
+      (pgExtension d).H0 (blockFast (pgAvPsi Ψ z).2) + mu * (pgExtension d).P mu (pgAvPsi Ψ z) =
         complexIntegrable d mu (Fin.append (blockFast z.2)
           (fun j => ((blockSlow z.1 j)^2 + (blockSlow z.2 j)^2)/2)) +
         mu * pgRemainder d mu (blockFast z.2) (blockSlow z.1, blockSlow z.2) + avgRem R z := by
@@ -86,8 +86,8 @@ theorem avg_hamil (h : admissible d (pgRstar d) r mu)
     unfold pgRemainder; ring
   rw [hjet] at hm'
   unfold complexIntegrable
-  rw [blockFast_append]
-  simp only [avgPsi, avgRem, blockFast_normalize_snd]
+  rw [pgAv_blockFast_append]
+  simp only [pgAvPsi, avgRem, blockFast_normalize_snd]
   simp only [pgOscH, pgOscP, pgOscE, Complex.ofReal_div, Complex.ofReal_mul,
     Complex.ofReal_ofNat] at hm'
   field_simp at hm'

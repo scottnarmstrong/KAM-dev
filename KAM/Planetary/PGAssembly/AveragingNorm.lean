@@ -25,10 +25,10 @@ namespace KAM.Planetary
 
 variable {a b n : ℕ}
 
-theorem blockFast_append {F : Type*} (x : Fin a → F) (y : Fin b → F) :
+theorem pgAv_blockFast_append {F : Type*} (x : Fin a → F) (y : Fin b → F) :
     blockFast (Fin.append x y) = x := funext fun i => Fin.append_left x y i
 
-theorem blockSlow_append {F : Type*} (x : Fin a → F) (y : Fin b → F) :
+theorem pgAv_blockSlow_append {F : Type*} (x : Fin a → F) (y : Fin b → F) :
     blockSlow (Fin.append x y) = y := funext fun i => Fin.append_right x y i
 
 theorem append_blocks {F : Type*} (v : Fin (a+b) → F) :
@@ -74,10 +74,10 @@ theorem pgOscUnnormalize_normalize (z : CPhase (a+b)) :
     have : 0 < Real.sqrt (2*Real.pi) := Real.sqrt_pos.2 (by positivity)
     exact_mod_cast this.ne'
   refine Prod.ext ?_ ?_
-  · simp only [pgOscUnnormalize, pgOscNormalize, blockFast_append, blockSlow_append,
+  · simp only [pgOscUnnormalize, pgOscNormalize, pgAv_blockFast_append, pgAv_blockSlow_append,
       smul_smul, inv_mul_cancel₀ h2, inv_mul_cancel₀ h3, one_smul]
     exact append_blocks z.1
-  · simp only [pgOscUnnormalize, pgOscNormalize, blockFast_append, blockSlow_append,
+  · simp only [pgOscUnnormalize, pgOscNormalize, pgAv_blockFast_append, pgAv_blockSlow_append,
       smul_smul, inv_mul_cancel₀ h3, one_smul]
     exact append_blocks z.2
 
@@ -88,10 +88,10 @@ theorem pgOscNormalize_unnormalize (z : CPhase (a+b)) :
     have : 0 < Real.sqrt (2*Real.pi) := Real.sqrt_pos.2 (by positivity)
     exact_mod_cast this.ne'
   refine Prod.ext ?_ ?_
-  · simp only [pgOscUnnormalize, pgOscNormalize, blockFast_append, blockSlow_append,
+  · simp only [pgOscUnnormalize, pgOscNormalize, pgAv_blockFast_append, pgAv_blockSlow_append,
       smul_smul, mul_inv_cancel₀ h2, mul_inv_cancel₀ h3, one_smul]
     exact append_blocks z.1
-  · simp only [pgOscUnnormalize, pgOscNormalize, blockFast_append, blockSlow_append,
+  · simp only [pgOscUnnormalize, pgOscNormalize, pgAv_blockFast_append, pgAv_blockSlow_append,
       smul_smul, mul_inv_cancel₀ h3, one_smul]
     exact append_blocks z.2
 

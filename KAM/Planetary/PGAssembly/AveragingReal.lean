@@ -88,7 +88,7 @@ def pkC (z : PGComplexPhase n) : Fin (n+n) → ℂ := Fin.append z.1 z.2
 def upkC (y : Fin (n+n) → ℂ) : PGComplexPhase n := (blockFast y, blockSlow y)
 
 theorem upkC_pkC (z : PGComplexPhase n) : upkC (pkC z) = z :=
-  Prod.ext (blockFast_append _ _) (blockSlow_append _ _)
+  Prod.ext (pgAv_blockFast_append _ _) (pgAv_blockSlow_append _ _)
 
 theorem pkC_upkC (y : Fin (n+n) → ℂ) : pkC (upkC y) = y := append_blocks y
 
@@ -123,7 +123,7 @@ theorem pkC_realInclusion₂ (w : Phase n) :
       KAM.realInclusion₂_apply]
 
 theorem upkR_pkR (w : Phase n) : upkR (pkR w) = w :=
-  Prod.ext (blockFast_append _ _) (blockSlow_append _ _)
+  Prod.ext (pgAv_blockFast_append _ _) (pgAv_blockSlow_append _ _)
 
 theorem continuous_upkR : Continuous (upkR : (Fin (n+n) → ℝ) → Phase n) :=
   (continuous_pi fun j => continuous_apply _).prodMk (continuous_pi fun j => continuous_apply _)
@@ -166,9 +166,9 @@ theorem isPreconnected_pgBase (d : PGData a b) : IsPreconnected (pgBase d) := by
   · rintro ⟨⟨I, φ, p, q⟩, ⟨h1, -, h3⟩, rfl⟩
     refine ⟨?_, ?_⟩
     · show blockFast (Fin.append I p) ∈ closure d.V
-      rw [blockFast_append]; exact h1
+      rw [pgAv_blockFast_append]; exact h1
     · show ‖(blockSlow (Fin.append I p), blockSlow (Fin.append φ q))‖ ≤ d.r0/2
-      rw [blockSlow_append, blockSlow_append]
+      rw [pgAv_blockSlow_append, pgAv_blockSlow_append]
       simpa using h3
 
 theorem isPreconnected_extensionDomain (d : PGData a b) (δ : ℝ) :
@@ -235,7 +235,7 @@ theorem ext_P_real (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0) (w : P
   have hVne : Vr.Nonempty := by
     obtain ⟨I0, hI0⟩ := d.hVc.nonempty
     refine ⟨pkR ((0 : Fin (a+b) → ℝ), Fin.append I0 (0 : Fin b → ℝ)), ?_⟩
-    simp only [Vr, upkR_pkR, blockSlow_append, blockFast_append, mem_ofPred_eq]
+    simp only [Vr, upkR_pkR, pgAv_blockSlow_append, pgAv_blockFast_append, mem_ofPred_eq]
     refine ⟨hI0, ?_⟩
     have : blockSlow (0 : Fin (a+b) → ℝ) = 0 := rfl
     rw [this, Prod.norm_def]; simp [d.hr0]

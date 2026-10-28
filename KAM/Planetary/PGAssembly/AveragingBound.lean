@@ -40,21 +40,22 @@ theorem oscUnpack_flat (θ : Fin a → ℂ) (I : Fin a → ℂ) (p q : Fin b →
   · show Fin.append θ (lastBlock (a := b) (lastBlock (a := a) (Fin.append I (Fin.append p q)))) = _
     have : lastBlock (a := b) (lastBlock (a := a) (Fin.append I (Fin.append p q))) = q := by
       show blockSlow (blockSlow (Fin.append I (Fin.append p q))) = q
-      rw [blockSlow_append, blockSlow_append]
+      rw [pgAv_blockSlow_append, pgAv_blockSlow_append]
     rw [this]; rfl
   · show Fin.append (firstBlock (b := b + b) (Fin.append I (Fin.append p q)))
       (firstBlock (b := b) (lastBlock (a := a) (Fin.append I (Fin.append p q)))) = _
-    have h1 : firstBlock (b := b + b) (Fin.append I (Fin.append p q)) = I := blockFast_append _ _
+    have h1 : firstBlock (b := b + b) (Fin.append I (Fin.append p q)) = I :=
+      pgAv_blockFast_append _ _
     have h2 : firstBlock (b := b) (lastBlock (a := a) (Fin.append I (Fin.append p q))) = p := by
       show blockFast (blockSlow (Fin.append I (Fin.append p q))) = p
-      rw [blockSlow_append, blockFast_append]
+      rw [pgAv_blockSlow_append, pgAv_blockFast_append]
     rw [h1, h2]; rfl
 
 theorem normalize_assemble (I θ : Fin a → ℂ) (p q : Fin b → ℂ) :
     pgOscNormalize (assembleComplex I θ p q) =
       assembleComplex I ((2*Real.pi:ℂ) • θ) ((Real.sqrt (2*Real.pi):ℂ) • p)
         ((Real.sqrt (2*Real.pi):ℂ) • q) := by
-  simp only [pgOscNormalize, assembleComplex, blockFast_append, blockSlow_append]
+  simp only [pgOscNormalize, assembleComplex, pgAv_blockFast_append, pgAv_blockSlow_append]
 
 theorem realInclusion_smul (c : ℝ) (θ : Fin a → ℝ) :
     (c:ℂ) • KAM.realInclusion a θ = KAM.realInclusion a (c • θ) := by
