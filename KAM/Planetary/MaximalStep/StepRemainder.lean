@@ -55,7 +55,7 @@ theorem poissonBracket_congr {u u' v : P11Phase n → ℂ} {x : P11Phase n}
 variable {S : P11Step n} {h : P11CVec n → ℂ} {w : P11CVec n → P11CVec n} {R : P11Family n → ℂ}
 
 theorem step_A_le_quarter (H : P11StepHyp S h w R) : p11StepA S ≤ S.sigma / 4 := by
-  have := step_small S; have := step_A_nonneg H
+  have := p11_step_small S; have := step_A_nonneg H
   have hn : (0 : ℝ) ≤ n := Nat.cast_nonneg n
   nlinarith
 
@@ -63,7 +63,7 @@ theorem step_Aeta_le (H : P11StepHyp S h w R) :
     (n + 1) * S.s * p11StepA S / S.sigma ≤ S.s / 4 := by
   have hσ := S.sigma_pos
   rw [div_le_iff₀ hσ]
-  have h1 := mul_le_mul_of_nonneg_left (step_small S) S.s_pos.le
+  have h1 := mul_le_mul_of_nonneg_left (p11_step_small S) S.s_pos.le
   nlinarith
 
 theorem step_z_mem (S : P11Step n) {z : P11Phase n}

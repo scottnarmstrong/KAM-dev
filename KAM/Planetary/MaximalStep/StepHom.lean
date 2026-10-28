@@ -63,7 +63,7 @@ theorem step_A_nonneg (H : P11StepHyp S h w R) : 0 ≤ p11StepA S := by
   have := S.eps_nonneg
   positivity
 
-theorem step_small (S : P11Step n) : 4 * (n + 1) * p11StepA S ≤ S.sigma := by
+theorem p11_step_small (S : P11Step n) : 4 * (n + 1) * p11StepA S ≤ S.sigma := by
   unfold p11StepA
   have hπ : 0 < Real.pi * S.D * S.s := by
     have := S.D_pos; have := S.s_pos; positivity
@@ -138,7 +138,7 @@ theorem step_affHyp (H : P11StepHyp S h w R) {b : P11CVec n} (hb : b ∈ KAM.act
     fun hf => hf.comp (differentiableOn_id.prodMk (differentiableOn_const b))
       fun θ hθ => ⟨hθ, hb⟩
   have hA := step_A_nonneg H
-  refine ⟨S.n_pos, S.sigma_pos, by linarith [S.radius], S.s_pos, hA, step_small S,
+  refine ⟨S.n_pos, S.sigma_pos, by linarith [S.radius], S.s_pos, hA, p11_step_small S,
     comp a1.1, ?_, fun j x hx => a1.2 j (x, b) ⟨hx, hb⟩, ?_,
     fun θ hθ => a2 (θ, b) ⟨hθ, hb⟩, ?_⟩
   · exact differentiableOn_pi.2 fun i => comp (step_hm1 H i).1.1
