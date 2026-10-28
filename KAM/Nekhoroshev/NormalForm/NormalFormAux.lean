@@ -118,6 +118,56 @@ theorem coeff_sum_eq_zero (hs : 0 < s) (S : Set (Fin n → ℤ))
       funext z; rw [Finset.sum_range_succ]
     rw [e, coeff_add hs key.1 (hu m (by omega)).1 hI, ih', hz m (by omega) I hI k hk, add_zero]
 
+/-- The class shrinks with the domain. -/
+theorem inClass_mono_nf {r₀ s₀ : ℝ} {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hu : InClass D r₀ s₀ u)
+    (hr : r ≤ r₀) (hs : s ≤ s₀) : InClass D r s u :=
+  ⟨hu.differentiableOn.mono (Dom_mono hr hs), fun j z hz => hu.periodic j z (Dom_mono hr hs hz)⟩
+
+/-- The zero function has weighted norm `≤ M` for every `M ≥ 0`. -/
+theorem wbound_zero_nf {M : ℝ} (hM : 0 ≤ M) :
+    WBound D r s (fun _ : (Fin n → ℂ) × (Fin n → ℂ) => (0 : ℂ)) M := by
+  intro I _
+  have h0 : ∀ k : Fin n → ℤ, coeff (fun _ : (Fin n → ℂ) × (Fin n → ℂ) => (0 : ℂ)) I k = 0 :=
+    fun k => coeff_zero_fn k
+  simpa [WSummable, wsum, h0] using hM
+
+section Seq
+
+variable {K α p ε : ℝ} {Λ : Set (Fin n → ℤ)} {L : ℝ}
+  {h : (Fin n → ℂ) → ℂ} {f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {N : ℕ}
+
+/-- `ĝ_k = 0` for `k ∉ Λ ∩ Z_K`, `g = g_N` (a sum of the parts `P_Λ T_K f_j`). -/
+theorem nf_coeff_g (H : NFHyp D r s K α L p ε Λ h f)
+    (hinv : ∀ i ≤ N + 1, NFInv D r s K α p ε Λ h f N i) :
+    ∀ I ∈ polyNbhd D (r / 2), ∀ k, k ∉ Λ ∩ zBall n K →
+      coeff (nfG D r s K Λ h f N (N + 1)) I k = 0 := by
+  have hs' : 0 < s / 6 := by have := H.hs; positivity
+  have hr := nfR_half_le H.hr N
+  have hs6 := nfS_sixth_le H.hs N
+  have hj : ∀ j < N + 1, InClass D (r / 2) (s / 6) (nfF D r s K Λ h f N j) ∧
+      WBound D (r / 2) (s / 6) (nfF D r s K Λ h f N j) (nfB (nfEps1 α p r s ε) ε j) := by
+    intro j hj
+    have hjr : nfR r N (N + 1) ≤ nfR r N j := nfR_anti H.hr.le N (by omega)
+    have hjs : nfS s N (N + 1) ≤ nfS s N j := nfS_anti H.hs.le N (by omega)
+    obtain ⟨c1, c2, -⟩ := hinv j (by omega)
+    exact ⟨inClass_mono_nf c1 (by linarith) (by linarith),
+      c2.mono (by linarith) (by linarith) le_rfl⟩
+  have key := coeff_sum_eq_zero (D := D) (r := r / 2) (s := s / 6) hs' (Λ ∩ zBall n K)
+    (fun j => homRes K Λ (nfF D r s K Λ h f N j)) (fun j => nfB (nfEps1 α p r s ε) ε j) (N + 1)
+    (fun j hjN => by
+      have hjr : nfR r N (N + 1) ≤ nfR r N j := nfR_anti H.hr.le N (by omega)
+      have hjs : nfS s N (N + 1) ≤ nfS s N j := nfS_anti H.hs.le N (by omega)
+      obtain ⟨c1, c2⟩ := (hinv (N + 1) le_rfl).2.2 j hjN
+      exact ⟨inClass_mono_nf c1 (by linarith) (by linarith),
+        c2.mono (by linarith) (by linarith) le_rfl⟩)
+    (fun j hjN I hI k hk => by
+      rw [coeff_homRes hs' (hj j hjN).1 (hj j hjN).2 I hI k]
+      exact Set.indicator_of_notMem hk _)
+  rw [nfG_eq_sum]
+  exact key
+
+end Seq
+
 end Coeff
 
 end KAM.NormalForm
