@@ -1,8 +1,8 @@
 # Lean design for N Parts 8–9: resonance geometry and Pöschel Theorem 1
 
-Design draft, 2026-10-28, branch `inp-design-n89`. No statements are approved or frozen by this document.
+Design draft, Revision 2, 2026-10-28, branch `inp-design-n89`. No statements are approved or frozen by this document.
 Scope: every graph node whose source is `blueprint-N/parts/p8-resonance-geometry.tex` or
-`p9-poschel-theorem1.tex`, including the four additional claim nodes. The design closes no frozen
+`p9-poschel-theorem1.tex`, including the additional data and claim nodes. The design closes no frozen
 anchor. `thm1` is an internal theorem for Part 10, not a replacement for N-HEAD-C.
 
 Snapshot: worktree base `081967912d5200ad4711d6d16abde6a8cfafea71`.
@@ -23,7 +23,9 @@ warnings about specialized carriers, empty-domain norm bounds, and actual module
    in the ambient max norm. Matrix entries live in `ℤ` for bases/change of basis and in `ℝ` for Gram matrices.
 3. Take the canonical projector onto a subspace from its **unique** characterization, proved first in
    `projection_exists_unique`. Reuse `KAM.Stability.IsOrthProj` and `exists_orthProj`; expose
-   range/fixed-point/uniqueness, matrix formula, distance attainment and nested projection laws together.
+   range/fixed-point/uniqueness, arbitrary-real-column `projection_matrix`, arbitrary-subspace
+   `projection_distance_subspace`, and nested laws together. Retain the integer-basis formula as
+   `projection_matrix_lattice` and the lattice distance theorem as `projection_distance`.
    Never install an inner-product structure on a bare function type.
 4. `volume_def` is the square root of the Gram determinant of an integer basis, including rank zero:
    the empty determinant is 1. The basis choice is auxiliary and nonunique; the **value** is independent
@@ -154,9 +156,9 @@ The following locators are copied from the graph's `STATEMENT_SOURCE` / `PROOF_S
 | `stepN:p8:lb-unimod` | `lattice_basis / lattice_basis_change / lattice_basis_sub; local lb-unimod` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-unimod@L44-L44` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-unimod@L44-L44` |
 | `stepN:p8:lb-sub` | `lattice_basis / lattice_basis_change / lattice_basis_sub; local lb-sub` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-sub@L45-L45` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-sub@L45-L45` |
 | `bpN:p8:volume-def` | `volume_def` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:volume-def@L48-L51` | `-` |
-| `bpN:p8:projection` | `projection, projection_distance, projection_matrix, projection_zero` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:projection@L53-L63` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:projection@L64-L68` |
-| `stepN:p8:pr-alg` | `projection / projection_distance; local pr-alg` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-alg@L65-L65` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-alg@L65-L65` |
-| `stepN:p8:pr-dist` | `projection / projection_distance; local pr-dist` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-dist@L66-L66` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-dist@L66-L66` |
+| `bpN:p8:projection` | `projection, projection_distance_subspace, projection_matrix, projection_matrix_lattice, projection_distance, projection_zero` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:projection@L53-L63` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:projection@L64-L68` |
+| `stepN:p8:pr-alg` | `projection / projection_matrix; local pr-alg` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-alg@L65-L65` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-alg@L65-L65` |
+| `stepN:p8:pr-dist` | `projection_distance_subspace / projection_distance; local pr-dist` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-dist@L66-L66` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-dist@L66-L66` |
 | `stepN:p8:pr-nest` | `projection / projection_distance; local pr-nest` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-nest@L67-L67` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-nest@L67-L67` |
 | `bpN:p8:lattice-volume` | `lattice_volume, lattice_volume_index, lattice_volume_cyclic, lattice_volume_hadamard` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:lattice-volume@L70-L81` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:lattice-volume@L82-L88` |
 | `stepN:p8:lv-ab` | `lattice_volume / lattice_volume_index / lattice_volume_cyclic / lattice_volume_hadamard; local lv-ab` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-ab@L83-L83` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-ab@L83-L83` |
@@ -191,6 +193,7 @@ The following locators are copied from the graph's `STATEMENT_SOURCE` / `PROOF_S
 | `stepN:p8:cv-radii` | `covering; local cv-radii` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-radii@L200-L200` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-radii@L200-L200` |
 | `bpN:p8:cutoffs` | `cutoffs` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:cutoffs@L203-L211` | `blueprint-N/parts/p8-resonance-geometry.tex#bpN:p8:cutoffs@L212-L214` |
 | `stepN:p8:co-incl` | `cutoffs; local co-incl` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:co-incl@L213-L213` | `blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:co-incl@L213-L213` |
+| `bpN:p9#data` | `theoremCover` (p=9/8, b=1/8); existing `realNbhd`, `realStrip`, `realH`, `frequencyMap`, `zBall`, `eBall`, `maximalK`, `actionBlock`; q=9 arithmetic in `block_hyp`/`block_stab` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9@L12-L14` | `-` |
 | `bpN:p9:ext-num` | `Real.rpow_mul, Real.rpow_natCast; numerical inequalities in elementary/thm1` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:ext-num@L18-L18` | `-` |
 | `bpN:p9:ext-compact` | `IsCompact.exists_isMaxOn (frequency_maximum)` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:ext-compact@L19-L19` | `-` |
 | `bpN:p9:setting` | `setting, Theorem1Setting, thmA, thmEps0, thmK, omega0Ball` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:setting@L25-L39` | `-` |
@@ -225,7 +228,7 @@ The following locators are copied from the graph's `STATEMENT_SOURCE` / `PROOF_S
 | `bpN:p9:block-stab#local-field` | `local_field` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:block-stab#local-field@L103-L103` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:block-stab#local-field@L103-L103` |
 | `bpN:p9:block-stab#frequency-size` | `frequency_maximum, blockBall, block_frequency_radius` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:block-stab#frequency-size@L96-L96` | `blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:block-stab#frequency-size@L96-L96` |
 
-Coverage: **82 graph nodes**. Also sign the off-graph blueprint lemma `bpN:p9:m-le-M`
+Coverage: **83 graph nodes**. Also sign the off-graph blueprint lemma `bpN:p9:m-le-M`
 (p9:55–60, proof step `stepN:p9:mm-vec`) as `m_le_M`; its proof does not use the setting’s `hmM` field.
 
 The local obligations are literal proof goals of the enclosing declarations. `gl-vol` establishes
@@ -247,7 +250,7 @@ local subgoals, even though no additional public helper theorem is mandated.
 | `FrequencyBall.maximum` as guarded sSup | Exact maximum value with explicit attainment theorem; valid also for radius 0 and frequency 0. No arbitrary Ω is substituted for the maximum in `thm1`. |
 | Source zero-extension Hamiltonian vs total `realH` | `local_field` proves equality of the two fields on each open tube by local equality of Hamiltonians. Outside W the extension F is arbitrary in the statement. |
 | `P≠∅` omitted from `thm1` | Strictly stronger and valid: initial membership already supplies a point of P. No other source premise is dropped there. |
-| `m_le_M` uses `0≤ell` | Strictly stronger than positive ell; the transverse vector has dot product 0, so nonnegative ell suffices. Other premises remain explicit. |
+| `m_le_M` uses `0≤ell`, omits `0<m` and `0<M` | Strictly stronger: for a nonzero transverse vector ξ, quasi-convexity and the Hessian bound give `m * euclid ξ ^ 2 ≤ Q[ξ,ξ] ≤ M * euclid ξ ^ 2`. Since `euclid ξ ^ 2 > 0`, division gives `m≤M` without positivity of either constant. Nonnegative ell excludes the strict first disjunct when the dot product is zero. |
 | Part 8 linear algebra valid at n=0 in some helpers | Strictly stronger harmless algebraic statements; geometric/covering theorems keep n≥1. |
 | Public conjunctive declarations with local proof steps | Keeps shared witnesses/constants and the two branches together; internal lemmas may be introduced with distinct names but may not replace the source result. |
 
@@ -300,14 +303,14 @@ No package writes the same module as another concurrent package.
 | Package | Exact module paths (prefix `KAM/Nekhoroshev/`) | Lines | Inputs / outputs | Wave |
 |---|---|---:|---|---:|
 | N89-G1 | `ResonanceGeometry/Lattice.lean` | 500 | upstream `resSpan`, `resSpace`, Mathlib PID; lattice/rank/bases and `integer_independent_real` | 1 |
-| N89-G2 | `ResonanceGeometry/Projection.lean` | 600 | upstream `IsOrthProj`, `exists_orthProj`, `Norms`; unique `proj`, characterization, zero/nested/distance/matrix laws; G1 only for lattice-specialized formulas | 2 |
+| N89-G2 | `ResonanceGeometry/Projection.lean` | 650 | upstream `IsOrthProj`, `exists_orthProj`, `Norms`; unique `proj`, characterization, zero/nested laws, arbitrary-real `projection_matrix`, `projection_distance_subspace`; G1 for `projection_matrix_lattice` and `projection_distance` | 2 |
 | N89-G3 | `ResonanceGeometry/Volume.lean` | 650 | G1, G2, Gram/Schur; `volume_def`, full `lattice_volume` and index/cyclic/Hadamard companions | 3 |
 | N89-G4 | `ResonanceGeometry/Maximal.lean` | 500 | G3; `klattice`, `maximalK`, finiteness, all maximal parts and short independent generating sublattice | 4 |
 | N89-G5 | `ResonanceGeometry/Blocks.lean` | 300 | G4; zones, strata, blocks and finite `blocks_cover` | 5 |
 | N89-G6 | `ResonanceGeometry/Geometric.lean` | 650 | G5, G2/G3; `sqrt`, `geom_formula`, `geometric` with rank-one and higher-rank cases | 6 |
-| N89-G7 | `ResonanceGeometry/Covering.lean` | 400 | G6 + exact `zBall` and norm comparisons; `CoverParams`, all `covering`, `cutoffs` | 7 |
-| N89-P1 | `Poschel/Setting.lean`, `Poschel/Elementary.lean` | 450 total (200+250) | upstream Part 7 setting/energy predicates, `HeadParams.expo`; `setting`, constants, `elementary`; Setting does not import G7 | 1 |
-| N89-P2 | `Poschel/Frequency.lean` | 450 | P1 Setting, holomorphic regularity, scalar restriction, compact maximum; local regularity, `m_le_M`, all maximum definitions/theorems; no `blockBall` here | 2 |
+| N89-G7 | `ResonanceGeometry/Covering.lean` | 400 | G6 + P1 `Interfaces.CoverParams` + exact `zBall` and norm comparisons; `CoverParams.lam/radius/alpha/delta`, `actionBlock`, `covering`, `cutoffs` | 7 |
+| N89-P1 | `Interfaces/CoverParams.lean`, `Poschel/Setting.lean`, `Poschel/Elementary.lean` | 490 total (40+200+250) | Mathlib real sqrt, upstream Part 7 setting/energy predicates, `HeadParams.expo`; raw `CoverParams` and `CoverParams.Valid` first, `setting`, constants (`thmA`, `thmEps0`, `thmK`, `theoremCover`), `elementary`; no G7 import | 1 |
+| N89-P2 | `Poschel/Frequency.lean` | 450 | P1 Setting and Elementary (`thmA`), holomorphic regularity, scalar restriction, compact maximum; local regularity, `m_le_M`, all maximum definitions/theorems; no `blockBall` here | 2 |
 | N89-P3 | `Poschel/BlockHypotheses.lean` | 500 | G7, P1 Elementary, P2, `freq_realInclusion`, `lipschitz`; `block_hyp`, `full_rank_zone`, block radius guards, `blockBall`, `local_field`, `blockAdm` | 8 |
 | N89-P4 | `Poschel/BlockStability.lean` | 350 | P3, exact `nonresonant`, `resonant_prop2`, `stopped_extension`; `block_stab` | 9 |
 | N89-P5 | `Poschel/Theorem1.lean` | 400 | P4, G7, P2, Elementary; full joint `thm1` and time comparisons | 10 |
@@ -315,16 +318,17 @@ No package writes the same module as another concurrent package.
 DAG (arrow means imports):
 
 ```text
+Interfaces.CoverParams → Mathlib.Data.Real.Sqrt
 Lattice → Stability.Gradient, Stability.Energy, Interfaces.Norms, Mathlib PID
 Projection → Lattice, Stability.Energy, matrix Gram facts
 Volume → Projection, Lattice, matrix Schur facts
 Maximal → Volume
 Blocks → Maximal
 Geometric → Blocks, Projection, Volume
-Covering → Geometric, NormalForm.Setting, Interfaces.Norms
+Covering → Geometric, Interfaces.CoverParams, NormalForm.Setting, Interfaces.Norms
 Poschel.Setting → Stability.Setting, Stability.Energy, Weighted.Norm, Interfaces.Constants
-Poschel.Elementary → Poschel.Setting
-Poschel.Frequency → Poschel.Setting, Interfaces.Norms, Strip.Bridges, compactness
+Poschel.Elementary → Poschel.Setting, Interfaces.CoverParams
+Poschel.Frequency → Poschel.Setting, Poschel.Elementary, Interfaces.Norms, Strip.Bridges, compactness
 Poschel.BlockHypotheses → Covering, Poschel.Elementary, Poschel.Frequency, NormalForm.Setting
 Poschel.BlockStability → Poschel.BlockHypotheses, Stability.Nonresonant,
                          Stability.ResonantStability, Stability.Transfer
@@ -342,13 +346,23 @@ G1 proof plan: convert the subgroup with `toIntSubmodule`; use `basisOfPid (Pi.b
 prove real independence by minors or scalar extension; identify real span rank and reindex with Fin.
 G2: strengthen the upstream existence to uniqueness by orthogonal decomposition; the difference
 of two candidate images lies both in V and its dot-orthogonal space. Derive matrix formula with
-Gram invertibility, including empty matrices. G3: determinant under unimodular basis changes,
+Gram invertibility for arbitrary independent real columns, including empty matrices. Prove
+`projection_distance_subspace` by Pythagoras on V and its dot-orthogonal complement; specialize via
+`lattice_resonance` to `projection_distance`. Obtain `projection_matrix_lattice` from
+`projection_matrix`, real independence and the basis-span identity. G3: determinant under unimodular basis changes,
 integer positivity, then Schur complement for adding a vector and induction for Hadamard. G4:
 finite generating subsets of the finite integer coordinate box; maximal element at fixed rank.
 G5: largest occupied positive dimension, with Θ as the empty-strata case. G6: follow the five
 explicit projection/divisor steps; keep positive denominators and square roots separate so the
 algebra remains small. G7: specialize λd, use volume bounds in both directions and pull back blocks.
 
+P1 owns `Interfaces/CoverParams.lean`: only `CoverParams` and `CoverParams.Valid`, with a public
+import of `Mathlib.Data.Real.Sqrt`; neither uses a lattice, projector, zone or Hamiltonian. Build this
+40-line interface first within wave 1, then `Poschel/Setting.lean` and `Poschel/Elementary.lean`.
+`thmA`, `thmEps0`, `thmK`, `theoremCover` and `elementary` belong to Elementary; Setting owns
+`Theorem1Setting` and `setting` only. G7 imports the early interface and owns every geometry-dependent
+covering definition and theorem. The joint `elementary` statement, including its final Valid conjunct,
+needs no wave-7 declaration. The twelve packages now own fourteen files, each ≤650 lines.
 P1: unfold one numeric definition at a time; use `Real.rpow_mul` with positive base, no coercion
 shortcuts or resource-budget changes. P2: prove local C²/continuity from holomorphy and reality on
 the open tube; compactness of the closed Euclidean ball follows from max-norm closedness and
@@ -434,31 +448,58 @@ hygiene only. Every theorem body in Appendix A is `sorry`; no theorem or frozen 
 The design-check gate overrides direct build commands for this design-only task. Production briefs
 retain the repository build rule. Never edit frozen files, the manifest, generated README or root imports.
 
+## Revision 2
+
+Revision of `DESIGN-N89-design-audit-1.md`; all three findings are addressed below. This is a
+revision receipt, not an independent audit PASS or a proof claim.
+
+| Finding | Resolution | Exact owners / validation |
+|---|---|---|
+| F1 (major): projection coverage narrowed to integer bases | `projection_matrix` now takes an arbitrary real matrix with independent columns and identifies the projector onto its real column span. `projection_distance_subspace` supplies orthogonal-complement membership, minimum attainment and the lower bound for every real subspace. The previous integer formula remains `projection_matrix_lattice`; `projection_distance` remains the lattice corollary. Rank zero is retained. | G2, `ResonanceGeometry/Projection.lean`; §1, §4, §6 and Appendix A updated. Both new general types elaborate; no new premise beyond real column independence. |
+| F2 (major): wave-1 Elementary depended on wave-7 Covering | P1 owns early `Interfaces/CoverParams.lean` containing precisely the raw record and Valid predicate. Elementary imports it and owns `theoremCover`; G7 imports it and retains the geometry-dependent definitions and covering/cutoff theorems. The record and predicate are also placed first in the signatures to show their dependency-free types. | §6 ownership, file estimates, inputs, wave ordering and import DAG updated together. All existing theorem types except the intentional F1 generalization are preserved. Twelve packages, fourteen modules; no late geometry import into P1. |
+| N1 (low): incomplete list of dropped premises | §5 now explicitly lists `0<m`, `0<M` as omitted and `0<ell` as weakened to `0≤ell`, with the transverse-vector inequality and positive denominator justification. The signature docstring states all three changes. | `m_le_M` type unchanged; no source premise silently dropped. |
+
+A direct `STATEMENT_SOURCE`-based graph inventory also found `bpN:p9#data`, omitted by the
+original colon-only node matcher and therefore by the audit's 82-node count. Its §4 row now maps
+the conventions to the reused definitions and fixed numerical substitutions; no theorem type
+changes. The corrected inventory is **83/83** nodes, including IDs with `#` immediately after p9.
+
+The source/graph snapshot is unchanged, and all original 82 inventory nodes remain present.
+The additional conventions node `bpN:p9#data` is now listed explicitly. No frozen object, provider,
+blueprint, graph, or production Lean module is edited. Revised checks are recorded in §10.
+
 ## 10. Validation receipts
 
-- Final signatures: `/root/code/KAM-inp/.drafts/design/N89Signatures.lean`, 514 lines,
-  SHA-256 `ad4f6dff495383a78c6f46031a3c8db43eba559e16298cea1dbb8f5a0acc9f5e`.
+Revision-2 checks certify syntax, coverage and repository hygiene only. Every theorem body
+remains `sorry`; these checks do not establish any mathematical result or frozen-root closure.
+
+- Signatures: `/root/code/KAM-inp/.drafts/design/N89Signatures.lean`, 532 lines,
+  SHA-256 `01270a67c964001a1f6f86a2416ce572fee94f326c34cec43fcef7de0fea4b88`.
   Byte-identical to `.drafts/scratch/N89Signatures.lean` and Appendix A.
+- Mechanical inventory: **83/83** graph rows unique (82 original rows plus `bpN:p9#data`); **15/15** literal upstream
+  excerpts preserved; **35** theorem bodies, all exactly `:= sorry`. All original declaration
+  types/bodies are preserved except the intended generalization of `projection_matrix`; its
+  former type is retained verbatim under `projection_matrix_lattice`.
 - Exact targeted check:
   `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-n89 .drafts/scratch/N89Signatures.lean`.
-  Exit **0**, **33** diagnostics, all “declaration uses 'sorry'” warnings; no other diagnostics.
-  Log `.drafts/scratch/N89-elaboration.log`. No budget overrides or direct Lean/build invocation.
-- A separate copy `.drafts/scratch/N89Axioms.lean` was checked through the same gate, exit **0**.
-  `#print axioms` for `geometric`, `covering`, `block_hyp`, `block_stab`, `thm1` each reports
-  **`[propext, sorryAx, choice, Quot.sound]`**. Log `.drafts/scratch/N89-axioms.log`.
-  This is expected draft dependence, not proof closure or a standard-axioms certification.
-- Mechanical inventory check: **82/82** graph nodes, exactly one row each; 15 upstream definition
-  excerpts byte-identical to NPart67Signatures; 33 theorem bodies, each exactly `:= sorry`;
-  514 lines (<1500), no forbidden commands or global instances.
-- Repository lint: `PATH="/root/code/KAM-inp-design-n89/.drafts/scratch/gated-bin:$PATH" scripts/lint_sources.sh`,
-  exit **0**. The local PATH adapter routes the linter's internal ABI Lean command through the
-  required `inp_sig_check.sh` gate, restores the original PATH there, and serializes it after the
-  signature/axiom checks; no repository script was edited. Output:
-  `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`,
+  Exit **0**, exactly **35** “declaration uses `sorry`” warnings and no other Lean diagnostics.
+  Log `.drafts/scratch/N89-r2-elaboration.log`. No resource overrides or direct Lean/build command.
+- Axiom copy `.drafts/scratch/N89R2Axioms.lean` checked sequentially through the same gate,
+  exit **0**. `#print axioms` for `projection_matrix`, `projection_distance_subspace`,
+  `projection_matrix_lattice`, `geometric`, `covering`, `block_hyp`, `block_stab`, `thm1` each reports
+  `[propext, sorryAx, choice, Quot.sound]`. Log `.drafts/scratch/N89-r2-axioms.log`.
+  This is draft dependence, not proof closure.
+- Repository lint:
+  `PATH="$PWD/.drafts/scratch/gated-bin:$PATH" scripts/lint_sources.sh`, exit **0**.
+  The scratch PATH adapter restores the normal PATH before invoking `inp_sig_check.sh` for the
+  linter's ABI elaboration; all own Lean checks were sequential. No repository script was edited.
+  Exact output: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`,
   `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (144 frozen declarations)`.
-  Log `.drafts/scratch/N89-lint.log`.
-- `git -C /root/code/KAM-inp-design-n89 diff --check`: exit **0**. Commit owns only this Markdown
-  file. Frozen files, manifest, generated files, source blueprints and graph remain unedited.
+  Log `.drafts/scratch/N89-r2-lint.log`.
+- `git -C /root/code/KAM-inp-design-n89 diff --check`: exit **0**. Commit owns only this design
+  Markdown; signatures and handoff remain untracked design evidence.
+- No production module was created; the signature check is the targeted Lean check for this task.
+  Frozen files, manifest, generated files, source blueprints and graph remain unedited.
 
 ## Appendix A. Exact signatures
 
@@ -542,6 +583,28 @@ namespace KAM.Nekhoroshev
 open KAM.Weighted KAM.Canonical KAM.Stability
 variable {n : ℕ}
 
+/-! ## Early shared interface: Interfaces/CoverParams.lean (P1 owns, before Elementary).
+Only the raw record and its source-validity predicate live here; no geometry dependency.
+-/
+structure CoverParams (n : ℕ) where
+  p : ℝ
+  b : ℝ
+  r0 : ℝ
+  M : ℝ
+  m : ℝ
+  K : ℝ
+  A : ℝ
+
+structure CoverParams.Valid (c : CoverParams n) : Prop where
+  hn : 1 ≤ n
+  hp : 0 < c.p
+  hb : 0 < c.b
+  hr0 : 0 < c.r0
+  hM : 0 < c.M
+  hm : 0 < c.m
+  hK : 1 ≤ c.K
+  hA : c.p * c.M / (c.b * c.m) + Real.sqrt 2 ≤ c.A
+
 /-! ## Part 8: lattice geometry -/
 abbrev Lattice (n : ℕ) := AddSubgroup (Fin n → ℤ)
 def lattice (Λ : Lattice n) : Submodule ℝ (Fin n → ℝ) := resSpan (Λ : Set _)
@@ -612,6 +675,13 @@ theorem projection_zero : proj (⊥ : Submodule ℝ (Fin n → ℝ)) = 0 := sorr
 def resonanceDistance (Λ : Lattice n) (w : Fin n → ℝ) : ℝ :=
   euclid (proj (lattice Λ) w)
 
+/-- Distance to the dot-orthogonal complement of an arbitrary real subspace. -/
+theorem projection_distance_subspace (V : Submodule ℝ (Fin n → ℝ)) (w : Fin n → ℝ) :
+    (∀ v ∈ V, v ⬝ᵥ compProj V w = 0) ∧
+    euclid (w - compProj V w) = euclid (proj V w) ∧
+    (∀ u : Fin n → ℝ, (∀ v ∈ V, v ⬝ᵥ u = 0) →
+      euclid (proj V w) ≤ euclid (w - u)) := sorry
+
 theorem projection_distance (Λ : Lattice n) (w : Fin n → ℝ) :
     compProj (lattice Λ) w ∈ resonance Λ ∧
     euclid (w - compProj (lattice Λ) w) = resonanceDistance Λ w ∧
@@ -619,7 +689,15 @@ theorem projection_distance (Λ : Lattice n) (w : Fin n → ℝ) :
     Module.finrank ℝ (lattice Λ) +
       Module.finrank ℝ (LinearMap.ker (proj (lattice Λ))) = n := sorry
 
-theorem projection_matrix {d : ℕ} {Λ : Lattice n} (b : Basis (Fin d) ℤ Λ) :
+/-- Real-column formula for every real span, including the empty-column case. -/
+theorem projection_matrix {d : ℕ} (A : Matrix (Fin n) (Fin d) ℝ)
+    (hA : LinearIndependent ℝ (fun j => fun i => A i j)) :
+    ∀ v : Fin n → ℝ,
+      proj (Submodule.span ℝ (Set.range (fun j => fun i => A i j))) v =
+        (A * (A.transpose * A)⁻¹ * A.transpose).mulVec v := sorry
+
+/-- Lattice specialization of the real-column formula. -/
+theorem projection_matrix_lattice {d : ℕ} {Λ : Lattice n} (b : Basis (Fin d) ℤ Λ) :
     let A := (basisMatrix b).map (Int.castRingHom ℝ)
     ∀ v, proj (lattice Λ) v = (A * (A.transpose * A)⁻¹ * A.transpose).mulVec v := sorry
 
@@ -709,15 +787,6 @@ theorem geometric (hn : 1 ≤ n) {K E A : ℝ} (hK : 0 < K) (hE : 0 < E)
       ∀ k ∈ eBall n K, k ∉ Λ → E * K * (lam (latticeDim Λ) / volume_def Λ) ≤
         |integerReal k ⬝ᵥ w|) := sorry
 
-structure CoverParams (n : ℕ) where
-  p : ℝ
-  b : ℝ
-  r0 : ℝ
-  M : ℝ
-  m : ℝ
-  K : ℝ
-  A : ℝ
-
 def CoverParams.lam (c : CoverParams n) (d : ℕ) : ℝ :=
   c.b * c.m * c.r0 / (c.A * c.K) ^ n * (c.A * c.K) ^ d
 
@@ -730,16 +799,6 @@ def CoverParams.delta (c : CoverParams n) (Λ : Lattice n) : ℝ := c.b * c.m * 
 
 def actionBlock {ι : Type*} (c : CoverParams n) (P : Set ι) (freqR : ι → (Fin n → ℝ))
     (Λ : Lattice n) : Set ι := {I | I ∈ P ∧ freqR I ∈ blocks c.K c.lam Λ}
-
-structure CoverParams.Valid (c : CoverParams n) : Prop where
-  hn : 1 ≤ n
-  hp : 0 < c.p
-  hb : 0 < c.b
-  hr0 : 0 < c.r0
-  hM : 0 < c.M
-  hm : 0 < c.m
-  hK : 1 ≤ c.K
-  hA : c.p * c.M / (c.b * c.m) + Real.sqrt 2 ≤ c.A
 
 theorem covering {ι : Type*} (c : CoverParams n) (hc : c.Valid)
     (P : Set ι) (freqR : ι → (Fin n → ℝ)) :
@@ -802,7 +861,7 @@ section Theorem1
 variable {P : Set (Fin n → ℝ)} {r0 s m M ell : ℝ}
   {h : (Fin n → ℂ) → ℂ} {f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
 
-/-- Automatic m ≤ M: does not assume it, unlike the Theorem-1 setting. -/
+/-- Automatic m ≤ M: assumes neither m ≤ M nor positivity of m or M; ell may be zero. -/
 theorem m_le_M (hn : 2 ≤ n) (hP : P.Nonempty) (hr : 0 < r0) (hs : 0 < s)
     (hell : 0 ≤ ell) (hh : DifferentiableOn ℂ h (polyNbhd (cpx P) r0))
     (hreal : RealOn (Dom n (cpx P) r0 s) (fun w => h w.2))
