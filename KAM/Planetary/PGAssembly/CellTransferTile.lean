@@ -83,7 +83,8 @@ theorem volume_fastTranslates_inter_fastCell {E : Set (Phase (a + b))} (hE : Mea
     (measurable_add_const _) measurableSet_ctFastCell
   rw [iUnion_inter, measure_iUnion]
   · have hk : ∀ k : Fin a → ℤ, volume ((fun z : Phase (a + b) => z + fastShift k) '' E ∩
-        ctFastCell a b) = volume (E ∩ (fun z : Phase (a + b) => z + fastShift k) ⁻¹' ctFastCell a b) :=
+        ctFastCell a b) =
+        volume (E ∩ (fun z : Phase (a + b) => z + fastShift k) ⁻¹' ctFastCell a b) :=
       fun k => by rw [← image_inter_preimage, hvol]
     simp_rw [hk]
     rw [← measure_iUnion]
