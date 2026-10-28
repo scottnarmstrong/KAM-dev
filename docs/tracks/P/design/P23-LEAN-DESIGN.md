@@ -1243,3 +1243,414 @@ theorem two_scale_kam {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {
 
 end KAM.Planetary
 ```
+
+## Revision 3 (oscillator Lie-series transfer)
+
+2026-10-28, branch `inp-design-p23r3`. This addendum supersedes the size, ownership and release wave of the P23-13/P23-15 rows above. It preserves the entire Revision 2 `osc_iter` command in Appendix A, including every binder, let, function, constant, domain and reality guard. The shared signature file's original 861-line prefix is preserved byte for byte; the new signatures are appended in Appendix A.3 below. This is a design, not a proof or a new audit PASS.
+
+Authority: `DESIGN-P23R3.md`, `DESIGN-COMMON.md`, P23-13's handoff, `docs/tracks/P/audits/P23-13-audit-1.md` (F1), and `blueprint-P/parts/p2-averaging.tex:183–196`. The implemented `osc_iter_core` and `osc_fp_class` are accepted inputs to this plan at their actual narrower types. Neither is the full node. No frozen theorem/provider closes in this addendum.
+
+### R3.1 Decision and carriers
+
+**Choose B: oscillator-specific weighted estimates, with direct reuse of the existing analytic and Fourier machinery.** A would introduce generic modules beside N's audited files, separating Fourier dimension `n`, parameter dimension `N`, and canonical phase dimension `n+m`, together with a map relating them and anisotropic domain losses. Merely replacing N's parameter `n` by `N` is insufficient: its bracket and Hamiltonian flow are on a paired phase, while only the first `n` angles are periodic here. A full abstract bracket/domain interface would introduce more assumptions and applicability checks than this one consumer needs. It is plausible future shared infrastructure, but is not required for P23-15.
+
+B keeps `oscClass`, `oscBound`, `oscPack`, `oscParams`, the frozen field and the exact total flow. It ports the proofs of the weighted series estimates, rather than inventing a new coefficient representation or an oscillator ODE theory. Expect about 3,280 new implementation lines in nine packages, each file at most about 600 lines; these are estimates, not proof receipts. A would plausibly require at least these estimates plus generic adapters and regression audits of N instantiations. Audited N files, all frozen files and manifests remain untouched.
+
+The carrier is `CPhase (n+m) = (Fin (n+m) → ℂ) × (Fin (n+m) → ℂ)`, ordered `((θ,q),(I,p))`. `oscPack` gives `(θ,(I,p,q))` with flat parameter `Fin (n+(m+m))`; it is the same existing representation. All new public names are in `KAM.Planetary`. Period is 1; widths are geometric and the divisor is `2πα`. `oscTruncate K f` is literally `Weighted.truncate K (oscFunction f) ∘ oscPack`, not a second truncation operation. `adPow φ j u` is the existing `KAM.Canonical.adPow` at phase dimension `n+m`, with recursion `{adPow φ j u,φ}`. No Fourier expansion in `q` is allowed.
+
+The only new premise bundle is `OscComposeData`: dimension positivity, original widths with twice-loss margins, generator class/bound, nonnegative bound and numerical smallness. Its fields are source assumptions; it has no field asserting the existence of a flow, series, transformation, remainder bound or reality. At the final step instantiate `Φ=δ/(2πα)` using `oscGen_class_bound` and the original `hsmall`.
+
+Use the existing notation `O`, `U`, `V` from Revision 2. In composition lemmas, `r,rp,rq,S` always denote the ORIGINAL widths of the generator; the function being composed is controlled on `O`, and its composition is controlled on `V`. This avoids an ambiguous reuse of N's middle-domain radius names.
+
+### R3.2 Exact reuse and upstream interfaces
+
+| Input | Existing declarations, actual use | Reconciliation |
+|---|---|---|
+| Generator and zero mode | `oscGen`, `oscFunction_oscGen`, `oscFreq`, `oscGen_class_bound`, `oscZero`, `oscZero_class_bound`, `oscClass_of_flat`, `wbound_congr_flat` in `OscillatorGen.lean` | Existing; retain original formulas. `osc_hom_local` omits the homological equation and reality projections, so call `KAM.NormalForm.homological_param` again locally for those projections. |
+| Flat local analytic class | `FClass.inClass`, `FClass.mono_set`, `polyNbhd_singleton`, `oscClass.flat`, `oscBound_of_flat`, `oscPack_oscUnpack`, `oscUnpackL`, `oscPackL` in `OscillatorBracket.lean` | At each parameter choose a ball contained in `oscParams`; arbitrary-parameter Weighted lemmas apply on that ball. Do not import a signature fixture in production. |
+| Bracket and class | `osc_bracket`, `oscClass.mono`, `oscClass.fderiv_apply`, `oscDom_mono`, `isOpen_oscDom`, `oscBound.norm_le`; `oscClass.add/sub/sum/congr`, `oscBound.congr` | Existing. Need the new scalar/add/tsum bound helpers signed below. |
+| Geometry and actual flow | `norm_oscScale`, `oscDom_of_gauge_le`, `osc_flowHyp`; `OscFlowHyp.smallField`, `.half`, `.one`, `.gauge_disp`, `.real_flow`; `flow_a`, `flow_b`, `flow_e`, `symplectic` | Existing. `OscFlowHyp` is used directly or constructed from `OscComposeData`; no new flow definition or choice. |
+| Series identification and transform identity | `KAM.Canonical.taylor_lie`, `taylor_poschel`, `differentiableOn_adPow`, `poissonBracket_eq_fderiv_field`, `poissonBracket_antisymm` | Direct instantiation at phase dimension `n+m`, `W=oscScale`, `Ω=Ω₁=O`. These theorems have arbitrary gauge/open sets and do not read Fourier coefficients. |
+| Fourier/projections | `KAM.Weighted.projections`, `truncation_tail`, `coefficients_repr`, `uniform_limit_holomorphic`, `holomorphic_parametric_integral` | Direct reuse with independent parameter dimension `n+(m+m)` on local parameter balls. For integrals on phase space flatten the whole phase by a linear equivalence before applying `holomorphic_parametric_integral`. |
+| Proof templates only | `Canonical.coeff_const_mul`, `coeff_add`, `wbound_add`, `hasSum_coeff`, `wbound_tsum`, `adjoint_induction`, `prod_stepConst`, `factorial_ge`, `lieTerm_bound`, `lieSeries_bound/tail`, `series_eq`, `coeff_integral`, `composition_integral`; `NormalForm.IterHyp.integrand`, `.iterF_class_bound` | Their paired-dimension weighted types are NOT theorem inputs to this oscillator estimate. Port only the needed arguments under distinct `osc_*` names. Numerical `factorial_ge` itself is reusable if importing `Canonical.Adjoint` is convenient. |
+| Final inherited clauses | `osc_iter_core`, `osc_fp_class` in `OscillatorStep.lean` | Existing exact source hypotheses, same Ψ/gp/fp. Combine with new `osc_remainder_bound` and `osc_iter_reality`. |
+
+There is no not-yet-designed external mathematical interface for this revision. The internal exact interfaces are Appendix A.3; the neighbouring consumer remains the existing signed `osc_averaging`/`averaged_remainder` (P23-15). New modules may import the audited N modules as proof-template dependencies, but must not edit them or pretend their equal-dimension weighted theorems instantiate here. No provider or DRAFT_SORRY anchor import is permitted.
+
+### R3.3 Constants and proof obligations
+
+Put `d=min(ρσ,ρpρq)`, `b=1+m`, `Φ=δ/(2πα)`, `c_m=2(1/e+m)`,
+`q=e(1+em)Φ/(2d)` and `η=2ebΦ/d`. `oscLieRatio` and `oscTheta` encode q and η. Use both the sharper q from the handoff and the coarser η in the signed conclusion.
+
+For an h-fold bracket, divide ALL four losses by h. At induction index i the outer-to-inner ratios are at most `1/(h+1+i)`, while the minimum product is `d/h²`. `osc_bracket` thus costs at most `c_m h² Φ/(d(h+1+i))`. Antisymmetry changes the sign only, not the bound. Multiplying the h steps gives
+
+```text
+|ad^h φ u| ≤ (c_m h²/d)^h * h!/(2h)! * Φ^h * A.
+|ad^h φ u|/h! ≤ (c_m e² Φ/(4d))^h * A = q^h * A.
+```
+
+Use the existing factorial argument `factorial_ge (2*h)`; h=0 is a separate identity with class restriction. The inequality `(1+em)/2 ≤ 2(1+m)` proves `q≤η`. From the source smallness obtain `Φ/d≤1/(16b)`, `η≤e/8<1`, `(16/9)η≤2e/9<1`, and `Φ/d≤1/4`. The new `osc_ratio_range` signs these facts. Do not use the unsupported smaller ratio `b*(2Φ/d)`; the blueprint explicitly rejects it.
+
+For the pointwise equality of series and flow, first get V inside the gauge interior of O. The flow displacement is at most `Φ/d`, so its trajectories starting in V stay in `original−7ν/4`, contained in O. Apply the general adjoint theorem with middle widths `original−ν` and losses `3ν/4`; its minimum product is `9d/16` and its geometric ratio is `(16/9)q<1`. `taylor_lie` on O bounds the Taylor remainder by `((16/9)q)^N A`. It tends to zero, identifying the uniformly summable Lie series with the SAME flow on O. Never replace O by a smaller flow domain without a proved uniqueness bridge.
+
+For general t, rescale the generator to `tφ`, keeping the set O literally fixed. Prove equality `flow X_(tφ) O 1 z = flow X_φ O t z` by uniqueness of the exhibited curves (valid at t=0 and for negative t too). This gives the denominator `1−|t|η`. For the integral use the uniform weaker denominator `1−η` on `[0,1]`. Fourier coefficients commute with the integral by Fubini on the compact real angle cube times `[0,1]`; finite coefficient partial sums and Tonelli give the bound BEFORE passing to the parameter supremum. Holomorphy follows from the parametric-integral theorem; continuity of both the integrand and its phase derivative is an explicit helper premise, discharged below for the concrete polynomial-in-t bracket. No sup-to-weighted conversion loss is allowed here.
+
+Define `ξ(z)=coeff (oscFunction f) (oscPack z).2 0`, `T=oscTruncate K f`, `H₀(z)=h(firstBlock z.2)`. The local `homological_param` equation plus the bracket/derivative bridge proves `{H₀,φ}=ξ−T` on the original domain. Apply `taylor_poschel` with `h=H₀`, `f₀=g+T`, `Ω=Ω₁=O`. Its integrand is exactly
+
+```text
+v(t) = {g + (1−t)ξ + t T, φ},
+fp(z) = ∫₀¹ v(t)(flow X_φ O t z) dt + (f−T)(Ψ z),  z∈V.
+```
+
+For each gj use `osc_bracket` on its actual outer widths and the generator's original widths, with the full loss ν. The four ratios are exactly the four terms in the signed `Rsum`; `W≤2b*max ratios` gives `2b Φ/d*Rsum`. The convex combination `(1−t)ξ+tT` has bound δ (not 2δ), so its bracket contributes `2b Φδ/d`. Establish joint continuity of v and Dv from holomorphic bracket regularity and polynomial dependence on t; this is owned work, not a new premise of `osc_iter`.
+
+Thus B for the integral lemma is `2b Φ/d*(Rsum+δ)`. The tail `f−T` on O is bounded by `exp(−2πKσ)δ`, using the ORIGINAL width S and loss σ; composition spends the second σ. Sum the two bounds:
+
+```text
+(1−η)⁻¹ * [2b Φ/d*(Rsum+δ) + exp(−2πKσ)δ]
+ = (1−2ebδ/(2παd))⁻¹ * [2b/(2παd)*(Rsum+δ)+exp(−2πKσ)]δ.
+```
+
+This is exactly the signed bound. Positivity of the denominator is proved before reciprocal monotonicity. Empty D is split off first: every oscillator domain/parameter set is empty, and the bound is vacuous even if some Mj is negative. For nonempty D, evaluate each `oscBound` at a real base action and p=q=0 to derive `Mj≥0` and hence `Rsum≥0`. Do not add `0≤Mj` or `D.Nonempty` to `osc_iter`. The explicit nonnegative majorants in generic series/integral helpers are supplied this way. Zero δ, zero K and J=0 are retained; no division by δ or K is needed.
+
+Reality is a separate branch, not a consequence of the norm estimate. `osc_generator_real` recovers generator and zero-mode reality from `homological_param` conclusion 10 on local parameter balls. Transport real points via the literal append/unpack identity, proving `oscUnpack(realInclusion n θ,realInclusion (n+(m+m)) x)` is the real inclusion of `((θ,q),(I,p))`. Reality of freq h at real actions follows by differentiating the local real restriction of h; extract it from the supplied `RealOn H₀` by taking real θ=p=q=0 and varying I in the open tube. The ball centered at a real flat parameter need not be added as a new global source domain. The realness premise of `homological_param` holds at every real parameter in that ball by the domain containment.
+
+Then `gp=g+ξ` is real. Use `OscFlowHyp.real_flow` for Ψ on U from reality of φ; on V use V⊆U, maps-to O and O⊆original domain, so reality of h/g/f/gp makes the explicitly defined fp real. The assumption is reality of the SUM g, not separate reality of every gj; do not strengthen it. Reality has no dependence on Lie-series convergence.
+
+### R3.4 Node coverage and source limitations
+
+This is an addendum for the oscillator step only; every other row in the original 131-node table remains in force. No node is dropped or reclassified as proved by this design.
+
+| Node | Statement / proof source | Remaining declaration / ownership |
+|---|---|---|
+| `bpP:p2:s-osc#data` | `p2-averaging.tex:167–170` (setting) | Existing oscillator carriers; additive source-only `OscComposeData`, no replacement norm. |
+| `bpP:p2:osc-bracket`, `stepP:p2:ob-der/ob-prod/ob-field` | `p2-averaging.tex:172–180` | Reuse actual `osc_bracket`, `ob_der`, `ob_field`; no re-proof package. |
+| `stepP:p2:oi-transfer` | `p2-averaging.tex:191` | P23-13b–g transfer scalar algebra, adjoints, composition, integral transform; existing generator/flow transfer retained. |
+| `stepP:p2:oi-ratio` | `p2-averaging.tex:192` | `osc_adjoint_bound`, `osc_lie_series`, `osc_composition_t`, `osc_composition_integral`. |
+| `stepP:p2:oi-range` | `p2-averaging.tex:193` | `osc_ratio_range`, `osc_trajectory_hat`, `osc_series_eq`, then `osc_remainder_bound`. |
+| `stepP:p2:oi-disp` | `p2-averaging.tex:194` | Retain `osc_iter_core`'s four component clauses; final assembly preserves U. |
+| `bpP:p2:osc-iter` | statement `p2-averaging.tex:183–188`, proof `190–195`; inherited `blueprint-N/parts/p6-normal-form.tex:93–105` | Full unchanged `osc_iter`, assembled in P23-13j from core, fp class, bound and conditional reality. |
+| `bpP:p2:osc-averaging`, `bpP:p2:averaged-remainder` | Original node table and signed commands | P23-15 waits for P23-13j and its independent full-contract audit. |
+
+The p2:196 source gap says “the extension is stated by its (short) list of changes, not rewritten in N.” R3 pays it with explicit transfer lemmas and the quantitative derivation above, to be proved and audited. The quoted blueprint p2:177 use of `e(S_0-S)` under only `S−σ<S_0` remains the inherited ob-der issue; use the actual landed target-width derivative estimates, never that potentially nonpositive denominator. The global review's p3 normalization/domain-name defects and limit regularity/dynamics gaps remain governed by the original design dispositions, outside these new packages. No newly verified pinned-paper erratum is claimed; no PDF was freshly checked. CP10's different constant `e(1+em)/2` agrees with the sharper q used here and does not justify changing the signed η. The only new departure is B's direct integral transform identity instead of re-exporting N's full `liftRemainder` series: `taylor_poschel` already supplies exactly the identity consumed by this step; no graph result on the oscillator step requires a new full transform-series API.
+
+### R3.5 Packages, modules, waves and exact exports
+
+All paths below have prefix `KAM/Planetary/Averaging/`. New packages use relative waves R1–R7 after existing P23-13; do not confuse these with the original global wave 4. Each new module has a copyright header, `module`, public interface imports, module docstring and `@[expose] public noncomputable section`. New theorem bodies are proof obligations; only the scratch signatures may use `sorry` under the design brief's explicit exception.
+
+| Package | Module(s); estimated implementation lines | Inputs / imports | Wave | Exact signed exports / proof plan |
+|---|---|---|---|---|
+| P23-13b | `OscillatorSeriesAlgebra.lean`; 420 | `OscillatorClassAlgebra`, `OscillatorGen`, `Weighted.Parametric` | R1 | `oscTruncate`, `osc_bound_const_mul`, `osc_bound_add`, `osc_bound_tsum`, `osc_truncation_tail`. Port coefficient linearity/integral interchange at a fixed flat parameter, M-test and coefficient finite-sum bounds; retain summability in every bound. |
+| P23-13c | `OscillatorAdjoint.lean`; 470 | 13b, `OscillatorBracket`; optional `Canonical.Adjoint` for numerical factorial lemma only | R2 | `oscLieRatio`, `oscTheta`, `osc_adjoint_bound`, `osc_ratio_range`. h-fold induction at four losses/h; product of `(h+1+i)`, Stirling bound, h=0, q≤η and hatted ratio. |
+| P23-13d | `OscillatorCompositionSeries.lean`; 300 | 13c, 13b | R3 | `OscComposeData`, `osc_lie_series`. Bundle source premises, sum q-geometric bounds, holomorphic and periodic limit, HasSum and weighted tails. |
+| P23-13e | `OscillatorComposition.lean`; 480 | 13d, `OscillatorFlowProps`, `Canonical.Lie` | R4 | `osc_trajectory_hat`, `osc_series_eq`, `osc_composition_t`. Same flow on O, 3/4-loss adjoint for Taylor remainder, uniqueness for tφ. If necessary split identification into `OscillatorCompositionIdentify.lean` within this package before either file approaches 600 lines. |
+| P23-13f | `OscillatorCompositionIntegral.lean`; 420 | 13e, `Weighted.Parametric`; coefficient methods from 13b | R5 | `osc_composition_integral`. Joint integrand/derivative regularity, real-cube Fubini and finite coefficient sums; factor `(1−η)⁻¹`. May split into `OscillatorCompositionIntegralClass.lean` and the facade, each ≤600 lines. |
+| P23-13g | `OscillatorRemainderData.lean`; 500 | 13b, `OscillatorStep`, `Canonical.Lie`, existing `homological_param` | R2 | `oscRemIntegrand`, `osc_remainder_decomposition`. Recover local homological identity; bracket the finite decomposition and convex combination; joint continuity of v,Dv; `taylor_poschel` yields explicit fp identity. No series dependency or bound on h. |
+| P23-13h | `OscillatorRemainder.lean`; 250 | 13f, 13g, 13d, `OscillatorStep` | R6 | `osc_remainder_bound`. Instantiate data at Φ=δ/(2πα), integral and composed tail bounds, empty-D/majorant branch, exact algebraic constant. |
+| P23-13i | `OscillatorReality.lean`; 300 | `OscillatorStep`, `NormalForm.Homological`, real restriction / frozen real inclusions | R1 | `osc_generator_real`, `osc_iter_reality`. Real append/unpack bridge, real freq, conclusion 10, gp and explicit fp, real flow. Independent of remainder chain. |
+| P23-13j | `OscillatorStepComplete.lean`; 140 | 13h, 13i, `OscillatorStep` | R7 | Exact existing signed `osc_iter`. Reuse core/`osc_fp_class`, splice new bound and reality in the original conjunction order. No new map or witnesses. |
+
+Total is about 3,280 lines; estimates are deliberately larger than the old single-file 700-line allocation. Import arrows are exactly the table's input edges, all pointing to existing modules or lower waves. `OscillatorStep.lean` stays the existing partial-core module and must NOT import `OscillatorStepComplete` (that would cycle). P23-15 explicitly imports `OscillatorStepComplete`. This preserves every existing core import; it avoids renaming or editing audited implementations. The optional split files belong to their listed package, introduce no new mathematical interface, and retain the signed facade exports.
+
+### R3.6 Final assembly and P23-15 release gate
+
+P23-13j copies the original `osc_iter` statement verbatim. Apply
+`osc_iter_core hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg`,
+`osc_fp_class` with its existing explicit binders (no hn/hm at its narrower type),
+`osc_remainder_bound hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg`, and
+`osc_iter_reality hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg`.
+Reduce the identical lets; destruct the core conjunction, insert the fp class and bound after symplecticity and before the component displacements, then append conditional reality. All functions must be definitionally the signed Ψ/gp/fp. There is no frozen provider assembly in this revision.
+
+P23-15 then consumes the FULL `osc_iter` on each four-radius loss schedule, not `osc_iter_core` plus an assumed norm bound. It obtains generator/zero-mode bounds, actual maps-to U→O and lattice equivariance to compose the transformations, the original-domain gp increment of size δ, fp class and contraction on V with the exact Rsum, symplecticity, four displacements on U, inverse/derivative control on V, and conditional realness to carry g and f to the next stage. The zero mode is independent of fast angles by its existing literal coefficient formula. P23-15 proves the finite-iteration budget and the separate slow normal form / exponentially small fast remainder in `osc_averaging`, then the specialization `averaged_remainder`; neither theorem's signed statement changes. It retains its P23-12 schedule/telescope input, but its oscillator-step dependency is now 13j. Release requires an independent audit matching EVERY revised conjunction on the same maps and remainders. The present signature check does not release P23-15.
+
+### R3.7 Validation and risks
+
+The appended signatures are exact proposed interfaces; every new theorem body is `sorry`. The unchanged prefix still contains the original upstream definition fixtures. Production replaces fixtures with owning-module imports; elaboration of this draft alone does not verify that import adaptation or prove any estimate. The new source-only bundle and all conditional helper assumptions are expanded above. The scalar algebra, Fubini, four-radius induction and real restriction bridges are owned proof work, not unsupported upstream promises. No resource-limit override is authorized. Risks are default-heartbeat size of the four-radius induction and integral regularity; split focused proof files, preserving the facade names.
+
+Validation receipts and hashes are recorded below after the gated check. Full source lint can report inherited checkout issues; record its literal exit and output, never call them PASS by implication. Only the signature gate is used for Lean elaboration; no library build is requested for this Markdown-only design task.
+
+### R3.8 Current validation receipt (2026-10-28)
+
+- Gated command: `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p23r3 .drafts/scratch/P23Signatures.lean`, exit 0. Gate: `[sig-gate] slot 1 acquired 09:38:07 for .drafts/scratch/P23Signatures.lean`. Exactly 48 warnings, all `declaration uses 'sorry'`; no other warnings/errors. The scratch copy is byte-identical to the shared file (1,131 lines, 270 appended lines; 15 new theorem signatures, four definitions, one source-premise structure).
+- Shared signature SHA256: `d067d47dbabfdf4913da3e2b76886eb29598f4502ad16318d328568d82380cd3`. Original 861-line prefix SHA256: `7d7dae4308ea9ec0ca763a2a21ce4b83280bdbb4b91d2c4f5e7567b71085e834`; prefix equality was checked byte for byte. Original complete `osc_iter` command SHA256: `bf26e4b694ec606bad918efc12cee3a537800585a9eb216cbbcaaa1ea78c76f7`; matches both the preserved design Appendix A and shared signatures. Appendix A.3 equals the appended suffix byte for byte.
+- `#print axioms` of `osc_adjoint_bound`, `osc_series_eq`, `osc_composition_integral`, `osc_remainder_bound`, `osc_iter_reality`, and the original `osc_iter` each reports `[propext, sorryAx, Classical.choice, Quot.sound]`. This is design elaboration, not proof closure.
+- `scripts/lint_sources.sh`, with `LEAN_NUM_THREADS=1`, `nice -n 5`, and a scratch PATH wrapper routing its sole `lake env lean <ABI scratch>` subprocess through the SAME required `inp_sig_check.sh` gate: exit 1. Literal output: `KAM.lean is out of date; run scripts/gen_root_imports.py`; `check_lean_modules: PASS (496 Lean files, 0 comparator configurations)`; `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`. The stale generated root was not edited. This is a failed full lint with successful component checks, not a clean lint PASS.
+- `git -C /root/code/KAM-inp-design-p23r3 diff --check`: exit 0. Only this design document is changed among tracked files. All 11 repository hard rules remain verbatim in the earlier hard-rules section and bind every package brief. No production Lean, frozen file, manifest, audited N file, generated root or README was edited. No library build or kernel proof replay applies to the new sorry-only signatures.
+- Preliminary signature attempts found a missing namespace `open` in the appended section and underconstrained dimension arguments in unused helper-domain lets. These were fixed locally in the suffix (`m := m` on helper-domain lets); no original signed statement changed and no resource budgets were altered.
+
+### Appendix A.3 — appended exact Revision 3 signatures
+
+The following is the exact appended suffix of `/root/code/KAM-inp/.drafts/design/P23Signatures.lean`; the existing Appendix A `osc_iter` remains unchanged. No proof in this suffix is implemented.
+
+```lean
+
+
+/-! ## Revision 3: oscillator Lie-series transfer (design signatures, no proofs).
+These commands use the existing definition fixtures above. Production removes fixtures,
+imports the actual oscillator modules, and retains these exact names and types. -/
+namespace KAM.Planetary
+open KAM.Weighted KAM.Canonical KAM.NormalForm
+
+/-- The existing Fourier truncation, pulled back through the existing oscillator packing. -/
+def oscTruncate {n m : ℕ} (K : ℝ) (f : CHam (n + m)) : CHam (n + m) :=
+  fun z => truncate K (oscFunction f) (oscPack z)
+
+def oscLieRatio (m : ℕ) (Φ d : ℝ) : ℝ := exp 1 * (1 + exp 1 * m) * Φ / (2 * d)
+def oscTheta (m : ℕ) (Φ d : ℝ) : ℝ := 2 * exp 1 * (1 + (m : ℝ)) * Φ / d
+
+/-- Only source premises; no flow, series, remainder or reality conclusion is a field. -/
+structure OscComposeData {n m : ℕ} (D : Set (Fin n → ℝ))
+    (r rp rq S ρ ρp ρq σ Φ : ℝ) (φ : CHam (n + m)) : Prop where
+  hn : 1 ≤ n
+  hm : 1 ≤ m
+  widths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
+    0 < ρq ∧ 2 * ρq < rq ∧ 0 < σ ∧ 2 * σ < S
+  phi_class : oscClass D r rp rq S φ
+  phi_bound : oscBound D r rp rq S φ Φ
+  phi_nonneg : 0 ≤ Φ
+  small : Φ ≤ min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ)))
+
+section OscSeriesAlgebra
+variable {n m : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S A B : ℝ}
+
+theorem osc_bound_const_mul (c : ℂ) {u : CHam (n + m)}
+    (hu : oscBound D r rp rq S u A) :
+    oscBound D r rp rq S (fun z => c * u z) (‖c‖ * A) := sorry
+
+theorem osc_bound_add (hS : 0 < S) {u v : CHam (n + m)}
+    (hu : oscClass D r rp rq S u) (hv : oscClass D r rp rq S v)
+    (hA : oscBound D r rp rq S u A) (hB : oscBound D r rp rq S v B) :
+    oscBound D r rp rq S (fun z => u z + v z) (A + B) := sorry
+
+theorem osc_bound_tsum (hS : 0 < S) {v : ℕ → CHam (n + m)} {b : ℕ → ℝ}
+    (hv : ∀ j, oscClass D r rp rq S (v j))
+    (hb : ∀ j, oscBound D r rp rq S (v j) (b j))
+    (hb0 : ∀ j, 0 ≤ b j) (hs : Summable b) :
+    oscClass D r rp rq S (fun z => ∑' j, v j z) ∧
+    oscBound D r rp rq S (fun z => ∑' j, v j z) (∑' j, b j) ∧
+    ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N,
+      oscBound D r rp rq S
+        (fun z => (∑' j, v j z) - ∑ j ∈ Finset.range N', v j z) ε := sorry
+
+/-- Truncation uses Weighted.projections/truncation_tail locally on parameter balls. -/
+theorem osc_truncation_tail {σ K : ℝ} {f : CHam (n + m)}
+    (hf : oscClass D r rp rq S f) (hA : oscBound D r rp rq S f A)
+    (hσ : 0 < σ) (hσS : σ < S) (hK : 0 ≤ K) :
+    oscClass D r rp rq S (oscTruncate K f) ∧
+    oscBound D r rp rq S (oscTruncate K f) A ∧
+    oscBound D r rp rq (S - σ) (fun z => f z - oscTruncate K f z)
+      (exp (-(2 * π * K * σ)) * A) := sorry
+end OscSeriesAlgebra
+
+/-- General four-loss adjoint bound; includes the 3/4-loss instance used for identification. -/
+theorem osc_adjoint_bound {n m : ℕ} {D : Set (Fin n → ℝ)}
+    {r rp rq S r₀ rp₀ rq₀ S₀ ρ ρp ρq σ Φ A : ℝ} {φ u : CHam (n + m)}
+    (hn : 1 ≤ n) (hm : 1 ≤ m)
+    (hφ : oscClass D r₀ rp₀ rq₀ S₀ φ) (hu : oscClass D r rp rq S u)
+    (hbφ : oscBound D r₀ rp₀ rq₀ S₀ φ Φ) (hbu : oscBound D r rp rq S u A)
+    (hΦ : 0 ≤ Φ) (hA : 0 ≤ A)
+    (hwidths : 0 < ρ ∧ ρ < r ∧ 0 < ρp ∧ ρp < rp ∧
+      0 < ρq ∧ ρq < rq ∧ 0 < σ ∧ σ < S)
+    (houter : r + ρ ≤ r₀ ∧ rp + ρp ≤ rp₀ ∧ rq + ρq ≤ rq₀ ∧ S + σ ≤ S₀)
+    (j : ℕ) :
+    let d := min (ρ * σ) (ρp * ρq)
+    oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (adPow φ j u) ∧
+    oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+      (fun z => ((j.factorial : ℂ)⁻¹) * adPow φ j u z)
+      ((oscLieRatio m Φ d) ^ j * A) := sorry
+
+theorem osc_ratio_range (m : ℕ) {Φ d : ℝ} (hd : 0 < d) (hΦ : 0 ≤ Φ)
+    (hs : Φ ≤ d / (16 * (1 + (m : ℝ)))) :
+    0 ≤ oscLieRatio m Φ d ∧ oscLieRatio m Φ d ≤ oscTheta m Φ d ∧
+    oscTheta m Φ d ≤ exp 1 / 8 ∧
+    (16 / 9 : ℝ) * oscTheta m Φ d < 1 ∧ Φ / d ≤ 1 / 4 := sorry
+
+section OscComposition
+variable {n m : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ Φ A : ℝ}
+  {φ u : CHam (n + m)}
+
+/-- Flow domain remains the literal one-loss domain of oscStepMap. -/
+theorem osc_trajectory_hat (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ) :
+    ∀ z ∈ oscDom D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ),
+    ∀ t ∈ Icc (-1 : ℝ) 1,
+      flow (KAM.hamiltonianVectorFieldℂ φ)
+          (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) t z ∈
+        oscDom D (r - 7 * ρ / 4) (rp - 7 * ρp / 4)
+          (rq - 7 * ρq / 4) (S - 7 * σ / 4) := sorry
+
+theorem osc_lie_series (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ)
+    (hu : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u)
+    (hb : oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u A) (hA : 0 ≤ A) :
+    let V := oscDom (m := m) D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+    let L := fun z => ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * adPow φ j u z
+    (∀ z ∈ V, HasSum (fun j : ℕ => ((j.factorial : ℂ)⁻¹) * adPow φ j u z) (L z)) ∧
+    oscClass D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) L ∧
+    oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) L
+      ((1 - oscLieRatio m Φ (min (ρ * σ) (ρp * ρq)))⁻¹ * A) ∧
+    ∀ ε : ℝ, 0 < ε → ∃ N : ℕ, ∀ N' ≥ N,
+      oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+        (fun z => L z - ∑ j ∈ Finset.range N', ((j.factorial : ℂ)⁻¹) * adPow φ j u z) ε := sorry
+
+theorem osc_series_eq (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ)
+    (hu : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u)
+    (hb : oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u A) (hA : 0 ≤ A) :
+    ∀ z ∈ oscDom D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ),
+      u (flow (KAM.hamiltonianVectorFieldℂ φ)
+          (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) 1 z) =
+        ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * adPow φ j u z := sorry
+
+theorem osc_composition_t (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ)
+    (hu : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u)
+    (hb : oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u A) (hA : 0 ≤ A)
+    {t : ℝ} (ht : t ∈ Icc (-1 : ℝ) 1) :
+    let C := fun z => u (flow (KAM.hamiltonianVectorFieldℂ φ)
+      (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) t z)
+    oscClass D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) C ∧
+    oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) C
+      ((1 - |t| * oscTheta m Φ (min (ρ * σ) (ρp * ρq)))⁻¹ * A) := sorry
+
+theorem osc_composition_integral (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ)
+    {v : ℝ → CHam (n + m)} {B : ℝ} (hB : 0 ≤ B)
+    (hv : ∀ t ∈ Icc (0 : ℝ) 1,
+      oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (v t) ∧
+      oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (v t) B)
+    (hc : ContinuousOn (fun p : ℝ × CPhase (n + m) => v p.1 p.2)
+      (Icc 0 1 ×ˢ oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)))
+    (hDc : ContinuousOn (fun p : ℝ × CPhase (n + m) => fderiv ℂ (v p.1) p.2)
+      (Icc 0 1 ×ˢ oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ))) :
+    let R := fun z => ∫ t in (0 : ℝ)..1, v t (flow (KAM.hamiltonianVectorFieldℂ φ)
+      (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) t z)
+    oscClass D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) R ∧
+    oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) R
+      ((1 - oscTheta m Φ (min (ρ * σ) (ρp * ρq)))⁻¹ * B) := sorry
+end OscComposition
+
+/-- Literal integrand obtained from taylor_poschel and the homological identity. -/
+def oscRemIntegrand {n m : ℕ} (K : ℝ) (φ g f : CHam (n + m))
+    (t : ℝ) : CHam (n + m) :=
+  poissonBracket (fun z => g z + ((1 - t : ℝ) : ℂ) *
+    coeff (oscFunction f) (oscPack z).2 0 + (t : ℂ) * oscTruncate K f z) φ
+
+theorem osc_remainder_bound {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ K α δ : ℝ}
+    {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)} {gj : Fin J → CHam (n + m)}
+    {rj rpj rqj Sj Mj : Fin J → ℝ}
+    (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
+    (hwidths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
+      0 < ρq ∧ 2 * ρq < rq ∧ 0 < σ ∧ 2 * σ < S)
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hf : oscClass D r rp rq S f) (hδ : oscBound D r rp rq S f δ)
+    (hδpos : 0 ≤ δ) (hsmall : δ ≤ (2 * π * α) * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))))
+    (hg : ∀ j, oscClass D (rj j) (rpj j) (rqj j) (Sj j) (gj j) ∧
+      oscBound D (rj j) (rpj j) (rqj j) (Sj j) (gj j) (Mj j) ∧
+      r ≤ rj j ∧ rp ≤ rpj j ∧ rq ≤ rqj j ∧ S ≤ Sj j) :
+    let Ψ := oscStepMap D r rp rq S ρ ρp ρq σ K h f
+    let g := fun z => ∑ j, gj j z
+    let gp := fun z => g z + coeff (oscFunction f) (oscPack z).2 0
+    let fp := fun z => h (firstBlock (b := m) (Ψ z).2) + g (Ψ z) + f (Ψ z) -
+      h (firstBlock (b := m) z.2) - gp z
+    let d := min (ρ * σ) (ρp * ρq)
+    let Rsum := ∑ j, max (max (ρ / (rj j - r + ρ)) (σ / (Sj j - S + σ)))
+      (max (ρp / (rpj j - rp + ρp)) (ρq / (rqj j - rq + ρq))) * Mj j
+    let φ := oscGen K h f
+    let O := oscDom (m := m) D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+    let U := oscDom (m := m) D (r - 3 * ρ / 2) (rp - 3 * ρp / 2)
+      (rq - 3 * ρq / 2) (S - 3 * σ / 2)
+    let u := δ / (2 * π * α * d)
+    let V := oscDom (m := m) D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+    oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) fp
+      ((1 - 2 * exp 1 * (1 + (m : ℝ)) * δ / (2 * π * α * d))⁻¹ *
+        (2 * (1 + (m : ℝ)) / (2 * π * α * d) * (Rsum + δ) + exp (-(2 * π * K * σ))) * δ) := sorry
+
+theorem osc_iter_reality {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ K α δ : ℝ}
+    {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)} {gj : Fin J → CHam (n + m)}
+    {rj rpj rqj Sj Mj : Fin J → ℝ}
+    (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
+    (hwidths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
+      0 < ρq ∧ 2 * ρq < rq ∧ 0 < σ ∧ 2 * σ < S)
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hf : oscClass D r rp rq S f) (hδ : oscBound D r rp rq S f δ)
+    (hδpos : 0 ≤ δ) (hsmall : δ ≤ (2 * π * α) * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))))
+    (hg : ∀ j, oscClass D (rj j) (rpj j) (rqj j) (Sj j) (gj j) ∧
+      oscBound D (rj j) (rpj j) (rqj j) (Sj j) (gj j) (Mj j) ∧
+      r ≤ rj j ∧ rp ≤ rpj j ∧ rq ≤ rqj j ∧ S ≤ Sj j) :
+    let Ψ := oscStepMap D r rp rq S ρ ρp ρq σ K h f
+    let g := fun z => ∑ j, gj j z
+    let gp := fun z => g z + coeff (oscFunction f) (oscPack z).2 0
+    let fp := fun z => h (firstBlock (b := m) (Ψ z).2) + g (Ψ z) + f (Ψ z) -
+      h (firstBlock (b := m) z.2) - gp z
+    let d := min (ρ * σ) (ρp * ρq)
+    let Rsum := ∑ j, max (max (ρ / (rj j - r + ρ)) (σ / (Sj j - S + σ)))
+      (max (ρp / (rpj j - rp + ρp)) (ρq / (rqj j - rq + ρq))) * Mj j
+    let φ := oscGen K h f
+    let O := oscDom (m := m) D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+    let U := oscDom (m := m) D (r - 3 * ρ / 2) (rp - 3 * ρp / 2)
+      (rq - 3 * ρq / 2) (S - 3 * σ / 2)
+    let u := δ / (2 * π * α * d)
+    let V := oscDom (m := m) D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+    (RealOn (oscDom D r rp rq S) (fun z => h (firstBlock (b := m) z.2)) →
+      RealOn (oscDom D r rp rq S) g → RealOn (oscDom D r rp rq S) f →
+      RealOn (oscDom D r rp rq S) φ ∧ RealOn (oscDom D r rp rq S) gp ∧
+      RealOn V fp ∧
+      ∀ x : Phase (n + m), KAM.realInclusion₂ (n + m) x ∈ U →
+        Ψ (KAM.realInclusion₂ (n + m) x) ∈ range (KAM.realInclusion₂ (n + m))) := sorry
+
+theorem osc_remainder_decomposition {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ K α δ : ℝ}
+    {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)} {gj : Fin J → CHam (n + m)}
+    {rj rpj rqj Sj Mj : Fin J → ℝ}
+    (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
+    (hwidths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
+      0 < ρq ∧ 2 * ρq < rq ∧ 0 < σ ∧ 2 * σ < S)
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hf : oscClass D r rp rq S f) (hδ : oscBound D r rp rq S f δ)
+    (hδpos : 0 ≤ δ) (hsmall : δ ≤ (2 * π * α) * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))))
+    (hg : ∀ j, oscClass D (rj j) (rpj j) (rqj j) (Sj j) (gj j) ∧
+      oscBound D (rj j) (rpj j) (rqj j) (Sj j) (gj j) (Mj j) ∧
+      r ≤ rj j ∧ rp ≤ rpj j ∧ rq ≤ rqj j ∧ S ≤ Sj j) :
+    let Ψ := oscStepMap D r rp rq S ρ ρp ρq σ K h f
+    let g := fun z => ∑ j, gj j z
+    let gp := fun z => g z + coeff (oscFunction f) (oscPack z).2 0
+    let fp := fun z => h (firstBlock (b := m) (Ψ z).2) + g (Ψ z) + f (Ψ z) -
+      h (firstBlock (b := m) z.2) - gp z
+    let d := min (ρ * σ) (ρp * ρq)
+    let Rsum := ∑ j, max (max (ρ / (rj j - r + ρ)) (σ / (Sj j - S + σ)))
+      (max (ρp / (rpj j - rp + ρp)) (ρq / (rqj j - rq + ρq))) * Mj j
+    let φ := oscGen K h f
+    let O := oscDom (m := m) D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)
+    let U := oscDom (m := m) D (r - 3 * ρ / 2) (rp - 3 * ρp / 2)
+      (rq - 3 * ρq / 2) (S - 3 * σ / 2)
+    let u := δ / (2 * π * α * d)
+    let V := oscDom (m := m) D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+    let v := oscRemIntegrand K φ g f
+    let B := 2 * (1 + (m : ℝ)) * (δ / (2 * π * α)) / d * (Rsum + δ)
+    (∀ t ∈ Icc (0 : ℝ) 1,
+      oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (v t) ∧
+      oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (v t) B) ∧
+    ContinuousOn (fun p : ℝ × CPhase (n + m) => v p.1 p.2) (Icc 0 1 ×ˢ O) ∧
+    ContinuousOn (fun p : ℝ × CPhase (n + m) => fderiv ℂ (v p.1) p.2) (Icc 0 1 ×ˢ O) ∧
+    ∀ z ∈ V, fp z =
+      (∫ t in (0 : ℝ)..1, v t (flow (KAM.hamiltonianVectorFieldℂ φ) O t z)) +
+        f (Ψ z) - oscTruncate K f (Ψ z) := sorry
+
+theorem osc_generator_real {n m : ℕ} {D : Set (Fin n → ℝ)}
+    {r rp rq S K α δ : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)}
+    (hwidths : 0 < r ∧ 0 < rp ∧ 0 < rq ∧ 0 < S) (hK : 0 ≤ K) (hα : 0 < α)
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hf : oscClass D r rp rq S f) (hb : oscBound D r rp rq S f δ)
+    (hrh : RealOn (oscDom D r rp rq S) (fun z => h (firstBlock (b := m) z.2)))
+    (hrf : RealOn (oscDom D r rp rq S) f) :
+    RealOn (oscDom D r rp rq S) (oscGen K h f) ∧
+    RealOn (oscDom D r rp rq S) (fun z => coeff (oscFunction f) (oscPack z).2 0) := sorry
+
+#print axioms osc_adjoint_bound
+#print axioms osc_series_eq
+#print axioms osc_composition_integral
+#print axioms osc_remainder_bound
+#print axioms osc_iter_reality
+#print axioms osc_iter
+
+end KAM.Planetary
+```
