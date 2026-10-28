@@ -8,6 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Quartic.Defs
 public import KAM.Planetary.PlanarTorsion.Quartic.Bounds
+public import KAM.Planetary.PlanarTorsion.Quartic.Diagonal
 public import KAM.Planetary.SecularForm.ModelTransfer
 public import KAM.Planetary.PlanarTorsion.SpectralAdapter
 
@@ -214,6 +215,28 @@ theorem quartic_explicit (p : PlanarData) (hp : p.Valid) :
   unfold p11c_homogeneousPart at hf ⊢
   rw [qe_mov_jet p hp ha]
   exact hf
+
+/-- `stepP:p11b:qe-c12` (`bpP:p11b:quartic-explicit`, comparison with Part 8): the coefficients
+`c₁, c₂` of `p11c_coeffs` are `-G m₁ m₂ (h⁗(0)/64 - h''(0)/16)/Λ_i²` with `h = radialH aᵢ aⱼ`
+for the eccentric planet `i` (for `c₂` the swapped `h = radialH a₂ a₁`). -/
+theorem quartic_diagonal (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ} (ha : a ∈ p11c_axes) :
+    p11c_coeffs p a 0 = -p.G * p.m 0 * p.m 1 * (iteratedDeriv 4 (SecularForm.radialH (a 0) (a 1))
+        0 / 64 - iteratedDeriv 2 (SecularForm.radialH (a 0) (a 1)) 0 / 16) / p.actions a 0 ^ 2 ∧
+    p11c_coeffs p a 1 = -p.G * p.m 0 * p.m 1 * (iteratedDeriv 4 (SecularForm.radialH (a 1) (a 0))
+        0 / 64 - iteratedDeriv 2 (SecularForm.radialH (a 1) (a 0)) 0 / 16) / p.actions a 1 ^ 2 := by
+  have hev : p11c_secular (p11c_hatFix p) (p.actions a) =ᶠ[𝓝 0] qeS p a := by
+    filter_upwards [qe_eventually_small p hp ha] with u hu
+    exact qe_secular_eq p hp ha hu
+  have hP : AnalyticAt ℝ (p11c_secular (p11c_hatFix p) (p.actions a)) 0 :=
+    (qeS_analyticAt p hp ha).congr hev.symm
+  have h1 := (qe_fix_jet p hp ha ((![1, 0], ![0, 0]) : Phase 2)).symm.trans
+    (qeDiag_fix_first p hp ha hP)
+  have h2 := (qe_fix_jet p hp ha ((![0, 1], ![0, 0]) : Phase 2)).symm.trans
+    (qeDiag_fix_second p hp ha hP)
+  simp only [p11c_quartic, p11c_pairDot, Matrix.cons_val_zero, Matrix.cons_val_one] at h1 h2
+  constructor
+  · linarith
+  · linarith
 
 end KAM.Planetary
 
