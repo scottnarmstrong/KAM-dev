@@ -36,7 +36,7 @@ def balancedPart (Q : MvPolynomial (Fin n × Bool) ℂ) : MvPolynomial (Fin n ×
 
 theorem degT_add_degF (μ : Fin n × Bool →₀ ℕ) : degT μ + degF μ = μ.sum fun _ e => e := by
   rw [Finsupp.sum_fintype _ _ (fun _ => rfl), Fintype.sum_prod_type]
-  simp [degT, degF, Fintype.sum_bool, Finset.sum_add_distrib, add_comm]
+  simp [degT, degF, Finset.sum_add_distrib, add_comm]
 
 /-- The point `(t z, t⁻¹ w)`. -/
 def zwScale (t : ℂ) (ζ : Fin n × Bool → ℂ) : Fin n × Bool → ℂ :=
@@ -50,7 +50,7 @@ theorem prod_zwScale (t : ℂ) (ζ : Fin n × Bool → ℂ) (μ : Fin n × Bool 
     obtain ⟨k, b⟩ := i
     cases b <;> simp [zwScale, mul_pow]
   simp only [h1, Finset.prod_mul_distrib, Fintype.prod_prod_type, Fintype.prod_bool]
-  simp only [if_true, Bool.false_eq_true, if_false]
+  simp only [ite_true, Bool.false_eq_true, ite_false]
   rw [Finset.prod_pow_eq_pow_sum, Finset.prod_pow_eq_pow_sum]
   simp only [degT, degF]
   ring

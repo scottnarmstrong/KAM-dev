@@ -67,7 +67,8 @@ theorem exists_homogeneous_dot_poly (P : MvPolynomial (Fin n × Fin 2) ℝ) (k :
       simp [hg, planeDot, Fin.sum_univ_two]; ring
     rw [← h1]
     have h2 : MvPolynomial.eval (fun ij => r ^ 2 * g ij) Q0 =
-        ∑ j ∈ Finset.range (T + 1), (r ^ 2) ^ j * MvPolynomial.eval g (homogeneousComponent j Q0) := by
+        ∑ j ∈ Finset.range (T + 1),
+          (r ^ 2) ^ j * MvPolynomial.eval g (homogeneousComponent j Q0) := by
       conv_lhs => rw [← sum_homogeneousComponent (φ := Q0)]
       rw [map_sum]
       exact Finset.sum_congr rfl fun j _ =>

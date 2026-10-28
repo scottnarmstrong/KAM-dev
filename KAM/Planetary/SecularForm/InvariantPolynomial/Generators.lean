@@ -102,9 +102,11 @@ theorem balanced_mem (N : ℕ) :
       funext u
       conv_lhs => rw [hdecomp]
       simp only [Pi.mul_apply, mFn, Finsupp.add_apply, pow_add, Finset.prod_mul_distrib]
-      have e1 : ∏ i, zw u i ^ (Finsupp.single ((j, true) : Fin n × Bool) 1) i = zw u (j, true) := by
+      have e1 : ∏ i, zw u i ^ (Finsupp.single ((j, true) : Fin n × Bool) 1) i =
+          zw u (j, true) := by
         simp [Finsupp.single_apply, pow_ite]
-      have e2 : ∏ i, zw u i ^ (Finsupp.single ((k, false) : Fin n × Bool) 1) i = zw u (k, false) := by
+      have e2 : ∏ i, zw u i ^ (Finsupp.single ((k, false) : Fin n × Bool) 1) i =
+          zw u (k, false) := by
         simp [Finsupp.single_apply, pow_ite]
       rw [e1, e2]
       ring

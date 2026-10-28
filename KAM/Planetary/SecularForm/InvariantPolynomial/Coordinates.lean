@@ -27,10 +27,13 @@ namespace Weyl
 variable {n : ℕ}
 
 theorem infinite_unit_circle : Set.Infinite {t : ℂ | ‖t‖ = 1} := by
-  have hinj : Set.InjOn (fun θ : ℝ => (Real.cos θ : ℂ) + (Real.sin θ : ℂ) * Complex.I) (Set.Ioo (0:ℝ) 1) := by
+  have hinj : Set.InjOn (fun θ : ℝ => (Real.cos θ : ℂ) + (Real.sin θ : ℂ) * Complex.I)
+      (Set.Ioo (0:ℝ) 1) := by
     intro a ha b hb hab
-    have h1 := Complex.arg_cos_add_sin_mul_I (θ := a) ⟨by linarith [ha.1, Real.pi_pos], by linarith [ha.2, Real.pi_gt_three]⟩
-    have h2 := Complex.arg_cos_add_sin_mul_I (θ := b) ⟨by linarith [hb.1, Real.pi_pos], by linarith [hb.2, Real.pi_gt_three]⟩
+    have h1 := Complex.arg_cos_add_sin_mul_I (θ := a)
+      ⟨by linarith [ha.1, Real.pi_pos], by linarith [ha.2, Real.pi_gt_three]⟩
+    have h2 := Complex.arg_cos_add_sin_mul_I (θ := b)
+      ⟨by linarith [hb.1, Real.pi_pos], by linarith [hb.2, Real.pi_gt_three]⟩
     simp only [← Complex.ofReal_cos, ← Complex.ofReal_sin] at h1 h2
     rw [← h1, ← h2]
     exact congrArg Complex.arg hab
@@ -45,7 +48,8 @@ theorem sum_unbalanced_eq_zero {ι : Type*} (s : Finset ι) (a : ι → ℂ) (A 
   classical
   set E : ι → ℕ := fun i => A i + (N - B i) with hE
   set S := ∑ i ∈ s, a i with hS
-  let G : Polynomial ℂ := ∑ i ∈ s, Polynomial.C (a i) * Polynomial.X ^ E i - Polynomial.C S * Polynomial.X ^ N
+  let G : Polynomial ℂ :=
+    ∑ i ∈ s, Polynomial.C (a i) * Polynomial.X ^ E i - Polynomial.C S * Polynomial.X ^ N
   have hG : G = 0 := by
     apply Polynomial.eq_zero_of_infinite_isRoot
     refine infinite_unit_circle.mono ?_
@@ -96,7 +100,8 @@ theorem sum_unbalanced_eq_zero {ι : Type*} (s : Finset ι) (a : ι → ℂ) (A 
 
 /-- Complex coordinates `z = x + i y` (tag `true`) and `w = x - i y` (tag `false`). -/
 def zw (u : Fin n → Fin 2 → ℝ) : Fin n × Bool → ℂ := fun kb =>
-  if kb.2 then (u kb.1 0 : ℂ) + Complex.I * (u kb.1 1 : ℂ) else (u kb.1 0 : ℂ) - Complex.I * (u kb.1 1 : ℂ)
+  if kb.2 then (u kb.1 0 : ℂ) + Complex.I * (u kb.1 1 : ℂ)
+  else (u kb.1 0 : ℂ) - Complex.I * (u kb.1 1 : ℂ)
 
 def toZW : MvPolynomial (Fin n × Fin 2) ℝ →+* MvPolynomial (Fin n × Bool) ℂ :=
   MvPolynomial.eval₂Hom (MvPolynomial.C.comp (algebraMap ℝ ℂ)) (fun ic =>
@@ -104,7 +109,8 @@ def toZW : MvPolynomial (Fin n × Fin 2) ℝ →+* MvPolynomial (Fin n × Bool) 
     else C (-Complex.I/2) * (X (ic.1, true) - X (ic.1, false)))
 
 theorem eval_toZW (P : MvPolynomial (Fin n × Fin 2) ℝ) (u : Fin n → Fin 2 → ℝ) :
-    MvPolynomial.eval (zw u) (toZW P) = ((MvPolynomial.eval (fun ic => u ic.1 ic.2) P : ℝ) : ℂ) := by
+    MvPolynomial.eval (zw u) (toZW P) =
+      ((MvPolynomial.eval (fun ic => u ic.1 ic.2) P : ℝ) : ℂ) := by
   induction P using MvPolynomial.induction_on with
   | C a => simp [toZW]
   | add p q hp hq => simp [hp, hq]
@@ -130,7 +136,9 @@ theorem zw_rot (t : ℂ) (u : Fin n → Fin 2 → ℝ) (kb : Fin n × Bool) :
     zw (fun k => (rotMat t).mulVec (u k)) kb =
       if kb.2 then t * zw u kb else (starRingEnd ℂ t) * zw u kb := by
   obtain ⟨k, b⟩ := kb
-  cases b <;> simp [zw, rotMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Complex.ext_iff] <;> constructor <;> ring
+  cases b <;>
+    simp [zw, rotMat, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Complex.ext_iff] <;>
+    constructor <;> ring
 
 end Weyl
 end SecularForm
