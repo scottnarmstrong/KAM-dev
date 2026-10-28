@@ -133,7 +133,7 @@ theorem p11_sl_kappa {n : ℕ} (hn : 1 ≤ n) {d v β M : ℝ} (hd : 0 < d) (hv 
   have hle : (M / β) * (4 + v⁻¹) * A ≤ κ := by
     rw [← hxe, hκ]; exact Nat.le_ceil _
   refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [hκ]; exact Nat.ceil_pos.2 hx
+  · rw [hκ]; exact Nat.ceil_pos.2 (by rw [hxe]; exact hx)
   · refine le_trans ?_ hle
     have : 4 * M * Real.sqrt n * d / β = (M / β) * 4 * A := by rw [hAdef]; field_simp
     rw [this]
@@ -153,6 +153,8 @@ theorem p11_sl_kappa {n : ℕ} (hn : 1 ≤ n) {d v β M : ℝ} (hd : 0 < d) (hv 
   · have h1 : (κ : ℝ) < (M / β) * (4 + v⁻¹) * A + 1 := by
       rw [← hxe, hκ]; exact Nat.ceil_lt_add_one hx0
     have h2 : (M / β) * (4 + v⁻¹) * A + 1 ≤ (M / β) * (1 + (4 + v⁻¹) * A) := by nlinarith
+    have hye : (4 + v⁻¹) * Real.sqrt n * d = (4 + v⁻¹) * A := by rw [hAdef]; ring
+    rw [hye]
     exact (h1.trans_le h2).le
 
 end Kappa
