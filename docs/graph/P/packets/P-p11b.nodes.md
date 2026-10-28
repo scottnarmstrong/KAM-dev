@@ -231,9 +231,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: laplace_red, laplace_up, laplace_rational_reduction, laplace_reduction_denominator (KAM/Planetary/PlanarTorsion/LaplaceReduction.lean)
+LEAN_NOTE: audit P11C-T3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:lr-1
@@ -258,9 +258,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11c_laplace_red1 (KAM/Planetary/PlanarTorsion/LaplaceReduction.lean)
+LEAN_NOTE: audit P11C-T3 PASS; named lr-1
 NOTE: -
 
 NODE: stepP:p11b:lr-2
@@ -285,9 +285,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11c_laplace_red2 (KAM/Planetary/PlanarTorsion/LaplaceReduction.lean)
+LEAN_NOTE: audit P11C-T3 PASS; named lr-2
 NOTE: -
 
 NODE: stepP:p11b:lr-3
@@ -313,9 +313,9 @@ EDGE: stepP:p11b:lr-2 | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:lr-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11c_laplace_red3 (KAM/Planetary/PlanarTorsion/LaplaceReduction.lean)
+LEAN_NOTE: audit P11C-T3 PASS; named lr-3
 NOTE: -
 
 NODE: stepP:p11b:lr-red
@@ -343,9 +343,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: laplace_rational_reduction, laplace_reduction_denominator (KAM/Planetary/PlanarTorsion/LaplaceReduction.lean)
+LEAN_NOTE: audit P11C-T3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11b:pair-jet
