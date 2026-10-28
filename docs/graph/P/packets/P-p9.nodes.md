@@ -967,9 +967,9 @@ EDGE: bpP:p9:e-spec | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:good@L169
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: k4, nr4, discriminant, k4_finite, good, good_comp, good_ne_zero_iff (KAM/Planetary/SecularSpectrum/GoodPolynomial.lean)
+LEAN_NOTE: audit S9-G PASS WITH NOTES; definitions k4,nr4,discriminant,good plus nr4 characterisation and permutation invariance; compact uniformity clause not part of this node's Lean (handled by consumers)
 NOTE: -
 
 NODE: bpP:p9:good-set
@@ -1004,7 +1004,7 @@ EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S9-G PASS WITH NOTES covers (a), (b) iff and (c) dichotomy only; local-analytic eigenframes/diagonalisation and compact uniform non-resonance bound are separate interfaces, not in GoodPolynomial.lean
 NOTE: -
 
 NODE: stepP:p9:gs-a
@@ -1032,9 +1032,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-a@L181
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_characteristic, good_set, goodPoly_isSymmetric, eval_goodPoly (KAM/Planetary/SecularSpectrum/GoodPolynomial.lean)
+LEAN_NOTE: audit S9-G PASS WITH NOTES; symmetric polynomial in charpoly coefficients, real analytic on axes
 NOTE: -
 
 NODE: stepP:p9:gs-b
@@ -1061,9 +1061,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-b@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_set, good_ne_zero_iff, discriminant_ne_zero_iff (KAM/Planetary/SecularSpectrum/GoodPolynomial.lean)
+LEAN_NOTE: audit S9-G PASS WITH NOTES; good!=0 iff nr4 (includes injectivity = simple spectrum); local-analytic branches not claimed here
 NOTE: -
 
 NODE: stepP:p9:gs-c
@@ -1094,7 +1094,7 @@ EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit S9-G PASS WITH NOTES; good_set_dichotomy gives open/dense/null but the compact-uniformity half of the step is not in GoodPolynomial.lean
 NOTE: -
 
 NODE: bpP:p9:n2
