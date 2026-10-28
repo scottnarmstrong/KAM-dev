@@ -38,7 +38,8 @@ variable {n : ℕ}
 
 /-- Source premises of `bpN:p5:canonical-map`: `0 < ρ < r/2`, `0 < σ < s/2`, `φ ∈ Os r s` of finite
 norm `Φ`, `ε = Φ/(ρσ) ≤ 1/2`. -/
-structure CanonData (D : Set (Fin n → ℂ)) (r s ρ σ Φ : ℝ) (φ : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) : Prop where
+structure CanonData (D : Set (Fin n → ℂ)) (r s ρ σ Φ : ℝ)
+    (φ : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) : Prop where
   hρ : 0 < ρ
   hρr : ρ < r / 2
   hσ : 0 < σ
@@ -214,7 +215,8 @@ end CanonData
 
 /-! ### The statements -/
 
-/-- (a) field bound, definedness on `𝒟_{r-3ρ/2, s-3σ/2}`, displacement, explicit components (`t = ±1`). -/
+/-- (a) field bound, definedness on `𝒟_{r-3ρ/2, s-3σ/2}`, displacement, explicit components
+(`t = ±1`). -/
 theorem canonical_map_a {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {φ : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     (hd : CanonData D r s ρ σ Φ φ) :
     (∀ z ∈ hd.omega, scaledNorm ρ σ (KAM.hamiltonianVectorFieldℂ φ z) ≤ Φ / (ρ * σ)) ∧
@@ -224,7 +226,8 @@ theorem canonical_map_a {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {φ : (Fi
       (Dom n D (r - 3 * ρ / 2) (s - 3 * σ / 2))) ∧
     (∀ z ∈ Dom n D (r - 3 * ρ / 2) (s - 3 * σ / 2), ∀ t ∈ Icc (-1 : ℝ) 1,
       flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega t z ∈ hd.omega ∧
-      scaledNorm ρ σ (flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega t z - z) ≤ |t| * (Φ / (ρ * σ))) ∧
+      scaledNorm ρ σ (flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega t z - z) ≤
+        |t| * (Φ / (ρ * σ))) ∧
     (∀ z ∈ Dom n D (r - 3 * ρ / 2) (s - 3 * σ / 2),
       ‖(flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1 z).1 - z.1‖ ≤ Φ / ρ ∧
       ‖(flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1 z).2 - z.2‖ ≤ Φ / (Real.exp 1 * σ) ∧
@@ -309,7 +312,8 @@ theorem canonical_map_c {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {φ : (Fi
   have := h t ht v
   rwa [hd.norm_gauge, hd.norm_gauge] at this
 
-/-- (d) `(DΦ)ᵀ J DΦ = J` on `𝒟_{r-3ρ/2, s-3σ/2}` (the hypotheses of `canonical_*` hold there by (a)). -/
+/-- (d) `(DΦ)ᵀ J DΦ = J` on `𝒟_{r-3ρ/2, s-3σ/2}` (the hypotheses of `canonical_*` hold there
+by (a)). -/
 theorem canonical_map_d {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {φ : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     (hd : CanonData D r s ρ σ Φ φ) :
     ∀ z ∈ Dom n D (r - 3 * ρ / 2) (s - 3 * σ / 2), ∀ v w,
@@ -323,9 +327,12 @@ theorem canonical_map_d {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {φ : (Fi
 theorem canonical_map_e {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {φ : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     (hd : CanonData D r s ρ σ Φ φ) :
     ∀ z ∈ Dom n D (r - 2 * ρ) (s - 2 * σ),
-      flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega (-1) (flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1 z) = z ∧
-      flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1 (flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega (-1) z) = z ∧
-      flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1 z ∈ Dom n D (r - 3 * ρ / 2) (s - 3 * σ / 2) := by
+      flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega (-1)
+        (flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1 z) = z ∧
+      flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1
+        (flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega (-1) z) = z ∧
+      flow (KAM.hamiltonianVectorFieldℂ φ) hd.omega 1 z ∈
+        Dom n D (r - 3 * ρ / 2) (s - 3 * σ / 2) := by
   intro z hz
   have hsf := hd.smallField
   obtain ⟨-, h1, -, h2, -⟩ := flow_c hsf (hd.gaugeInterior_one hz)
