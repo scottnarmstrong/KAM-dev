@@ -170,6 +170,35 @@ theorem p11_slow_dotC_split {C : P11SecularData n} {Z h0 : P11CVec (n+n) → ℂ
   refine Finset.sum_congr rfl fun a _ => ?_
   rw [p11Jproj_single_cast, hω]
 
+variable {N : ℕ}
+
+/-- Cauchy bound for a coordinate derivative of a scalar holomorphic function on a polydisc. -/
+theorem p11_scalar_step_bound {U : Set (P11CVec N)} (hU : IsOpen U) {W : P11CVec N → ℂ}
+    (hW : DifferentiableOn ℂ W U) {I : P11CVec N} {R M : ℝ} (hR : 0 < R)
+    (hcl : closedBall I R ⊆ U) (hM : ∀ y ∈ closedBall I R, ‖W y‖ ≤ M) (i : Fin N) :
+    ‖fderiv ℂ W I (Pi.single i 1)‖ ≤ M/R := by
+  have hg : DifferentiableOn ℂ (fun x : P11CVec N => (fun _ : Fin 1 => W x)) U :=
+    differentiableOn_pi.2 fun _ => hW
+  have hb := p11Step_iterate_bound hU hg hR hcl ∅ i (by simp)
+    (B := M) (fun y _ hy => by
+      have hy' : y ∈ closedBall I R := by
+        rw [mem_closedBall_iff_norm, pi_norm_le_iff_of_nonneg hR.le]
+        intro j
+        simpa using hy j (by simp)
+      have := hM y hy'
+      refine (pi_norm_le_iff_of_nonneg ((norm_nonneg _).trans this)).2 fun _ => this)
+    1 I (by simp) (fun j _ => by simp [hR.le])
+  have hdi : DifferentiableAt ℂ W I := hW.differentiableAt (hU.mem_nhds (hcl (mem_closedBall_self hR.le)))
+  have hf : fderiv ℂ (fun x : P11CVec N => (fun _ : Fin 1 => W x)) I (Pi.single i 1) =
+      fun _ => fderiv ℂ W I (Pi.single i 1) := by
+    rw [fderiv_pi (fun _ => hdi)]
+    rfl
+  simp only [Function.iterate_one, p11Step, hf, Nat.factorial_one, Nat.cast_one, one_mul,
+    pow_one] at hb
+  have h0 : ‖fderiv ℂ W I (Pi.single i 1)‖ ≤ ‖fun _ : Fin 1 => fderiv ℂ W I (Pi.single i 1)‖ :=
+    norm_le_pi_norm (fun _ : Fin 1 => fderiv ℂ W I (Pi.single i 1)) 0
+  exact h0.trans hb
+
 end SlowDerivative
 
 end KAM.Planetary
