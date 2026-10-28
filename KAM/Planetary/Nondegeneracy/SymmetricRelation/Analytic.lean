@@ -95,6 +95,49 @@ lemma exists_relation_poly (c : Vec n) : ∃ P : MvPolynomial (Fin n) ℝ[X],
     exact congrArg (fun f => f P) this
   exact key
 
+lemma analyticAt_nu_action (D : Data n) {a : Vec n} (ha : a ∈ axes n) (i : Fin n) :
+    AnalyticAt ℝ (fun b : Vec n => nu D (action D b) i) a := by
+  have h0 : 0 < D.G * D.m0 * a i := mul_pos (mul_pos D.hG D.hm0) (ha.1 i)
+  have hin : AnalyticAt ℝ (fun b : Vec n => D.G * D.m0 * b i) a :=
+    analyticAt_const.mul (analyticAt_pi_iff.1 analyticAt_id i)
+  have h1 : AnalyticAt ℝ (fun b : Vec n => action D b i) a :=
+    analyticAt_const.mul (hin.contDiffAt.sqrt h0.ne').analyticAt
+  have hne : action D a i ≠ 0 := (mul_pos (D.hm i) (Real.sqrt_pos.2 h0)).ne'
+  have := analyticAt_const (v := (D.G * D.m0) ^ 2 * D.m i ^ 3) |>.div (h1.pow 3)
+    (pow_ne_zero 3 hne)
+  exact this
+
+/-- The symmetric product `∏_π L_{c,π}` is analytic on all of `axes n`. -/
+theorem fc_analytic_aux (D : Data n) (c : Vec n × Vec n) :
+    AnalyticOnNhd ℝ (fc_def D c) (axes n) := by
+  obtain ⟨P, hP⟩ := exists_relation_poly c.2
+  intro a ha
+  set x : Vec n → ℝ := fun b => ∑ i, c.1 i * nu D (action D b) i with hx
+  have hxa : AnalyticAt ℝ x a :=
+    Finset.analyticAt_fun_sum _ fun i _ => analyticAt_const.mul (analyticAt_nu_action D ha i)
+  have hfc : fc_def D c = fun b => MvPolynomial.eval₂ (Polynomial.evalRingHom (x b))
+      (fun i : Fin n => (-1 : ℝ) ^ (i.val + 1) * (coeffs D b).charpoly.coeff (Fin.rev i).val) P := by
+    funext b
+    have h1 := hP (x b) (sigma D b)
+    have h2 : (fun i : Fin n => MvPolynomial.eval (sigma D b)
+        (MvPolynomial.esymm (Fin n) ℝ (i.val + 1))) =
+        fun i : Fin n => (-1 : ℝ) ^ (i.val + 1) * (coeffs D b).charpoly.coeff (Fin.rev i).val :=
+      funext fun i => esymm_sorted (coeffs D b) (coeffs_hermitian D b) i
+    rw [h2] at h1
+    rw [← h1]
+    simp only [fc_def, relation, hx, Finset.prod_congr rfl]
+  have hE : ∀ i : Fin n, AnalyticAt ℝ
+      (fun b : Vec n => (-1 : ℝ) ^ (i.val + 1) * (coeffs D b).charpoly.coeff (Fin.rev i).val) a :=
+    fun i => analyticAt_const.mul
+      (analyticAt_charpoly_coeff (coeffs_analytic D a ha) (Fin.rev i).val)
+  rw [hfc]
+  simp_rw [MvPolynomial.eval₂_eq']
+  refine Finset.analyticAt_fun_sum _ fun d _ => ?_
+  refine AnalyticAt.mul ?_ ?_
+  · have := hxa.aeval_polynomial (A := ℝ) (P.coeff d)
+    simpa [Polynomial.aeval_def, Polynomial.eval₂_id] using this
+  · exact Finset.analyticAt_fun_prod _ fun i _ => (hE i).pow _
+
 end Nondegeneracy
 end KAM.Planetary
 end
