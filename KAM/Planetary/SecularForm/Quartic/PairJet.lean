@@ -67,7 +67,8 @@ theorem pair_contDiffOn :
   obtain ⟨N, hN, h0, -, hF, hA, -⟩ := pair_secular_nbhd D i j hI hJ hab
   have h1 : Continuous fun w : PairW => ((I0, J0), w) := continuous_const.prodMk continuous_id
   refine ⟨_, hN.preimage h1, h0, ?_⟩
-  have hAn : AnalyticOnNhd ℝ (fun w : PairW => secular (pairData D i j) false (pairEmb ((I0, J0), w)))
+  have hAn : AnalyticOnNhd ℝ
+      (fun w : PairW => secular (pairData D i j) false (pairEmb ((I0, J0), w)))
       ((fun w : PairW => ((I0, J0), w)) ⁻¹' N) := fun w hw =>
     (hA _ hw).comp (AnalyticAt.prod (analyticAt_const (v := (I0, J0))) analyticAt_id)
   have hAn' : AnalyticOnNhd ℝ (fun w : PairW => pairSlowSecular D i j I0 J0 w)

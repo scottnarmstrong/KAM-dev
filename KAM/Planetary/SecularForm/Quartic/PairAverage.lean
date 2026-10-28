@@ -40,7 +40,8 @@ private theorem prod_pair_ite {α : Type*} [CommMonoid α] {j k : Fin n} (hjk : 
       b * ∏ l ∈ (Finset.univ.erase j).erase k, (if l = k then b else c) := by
     rw [← Finset.mul_prod_erase _ (fun l : Fin n => if l = k then b else c) hk]; simp
   have h3 : ∏ l ∈ (Finset.univ.erase j).erase k, (if l = k then b else c) = c ^ (n - 2) := by
-    rw [Finset.prod_congr rfl (fun l hl => by rw [ite_eq_right_iff.2 fun h => absurd h (Finset.ne_of_mem_erase hl)]),
+    rw [Finset.prod_congr rfl (fun l hl => by
+        rw [ite_eq_right_iff.2 fun h => absurd h (Finset.ne_of_mem_erase hl)]),
       Finset.prod_const, Finset.card_erase_of_mem hk, Finset.card_erase_of_mem (Finset.mem_univ j)]
     simp; congr 1
   rw [h1, h2, h3, mul_assoc]

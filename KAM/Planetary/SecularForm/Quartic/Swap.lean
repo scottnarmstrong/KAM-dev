@@ -11,9 +11,9 @@ public import KAM.Planetary.SecularForm.Quartic.PairSymmetry
 /-!
 # Secular form: exchanging the two planets of a pair
 
-Blueprint P, Part 8, `stepP:p8:q4-b`: for continuous kernels the two normalised integrals of the pair
-average may be exchanged, so the pair average with the first planet circular is the pair average of
-the exchanged pair with the second planet circular.
+Blueprint P, Part 8, `stepP:p8:q4-b`: for continuous kernels the two normalised integrals of the
+pair average may be exchanged, so the pair average with the first planet circular is the pair
+average of the exchanged pair with the second planet circular.
 -/
 
 @[expose] public noncomputable section
@@ -51,14 +51,16 @@ theorem pairSlowSecular_eq_kernel (D : Data n) (i j : Fin n) (I J : ℝ) (w : Pa
 
 theorem pairKernel_eq_quarticPairKernel (D : Data n) (i j : Fin n) (I J : ℝ) (w : PairW)
     (s t : ℝ) :
-    pairKernel (pairData D i j) (pairEmb ((I, J), w)) 0 1 s t = quarticPairKernel D i j I J w s t := by
+    pairKernel (pairData D i j) (pairEmb ((I, J), w)) 0 1 s t =
+      quarticPairKernel D i j I J w s t := by
   simp [pairKernel, quarticPairKernel, ppos, blk, pairEmb_apply, pairData]
 
 /-- Exchanging the two planets of a pair. -/
 theorem pairSlowSecular_swap (D : Data n) (i j : Fin n) (I J : ℝ) (u : Fin 2 → ℝ)
     (hc : Continuous fun q : ℝ × ℝ => quarticPairKernel D i j I J (0, u) q.1 q.2) :
     pairSlowSecular D j i J I (u, 0) = pairSlowSecular D i j I J (0, u) := by
-  have hk : ∀ s t, quarticPairKernel D j i J I (u, 0) s t = quarticPairKernel D i j I J (0, u) t s := by
+  have hk : ∀ s t, quarticPairKernel D j i J I (u, 0) s t =
+      quarticPairKernel D i j I J (0, u) t s := by
     intro s t
     simp only [quarticPairKernel]
     have : ∀ x y : Fin 2 → ℝ, planeLength (x - y) = planeLength (y - x) := fun x y => by

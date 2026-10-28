@@ -22,7 +22,8 @@ open KAM KAM.Kepler
 
 namespace SecularForm
 
-theorem exists_angle {a c : ℝ} (h : a ^ 2 + c ^ 2 = 1) : ∃ θ : ℝ, Real.cos θ = a ∧ Real.sin θ = c := by
+theorem exists_angle {a c : ℝ} (h : a ^ 2 + c ^ 2 = 1) :
+    ∃ θ : ℝ, Real.cos θ = a ∧ Real.sin θ = c := by
   set z : ℂ := ⟨a, c⟩ with hz
   have hn : ‖z‖ = 1 := by
     have h1 : ‖z‖ ^ 2 = 1 := by

@@ -90,7 +90,8 @@ theorem quartic_jet (D : Data n) {I : Vec n} (hI : I ∈ actionDomain D) (u : Ve
         (fun _ => pairProj i j u) := h1
     rw [e2]
     have : iteratedFDeriv ℝ 4 (fun w' : PairW => f i j w') 0 (fun _ => pairProj i j u) =
-        24 * (iteratedFDeriv ℝ 4 (fun w' : PairW => f i j w') 0 (fun _ => pairProj i j u) / 24) := by
+        24 * (iteratedFDeriv ℝ 4 (fun w' : PairW => f i j w') 0
+          (fun _ => pairProj i j u) / 24) := by
       ring
     rw [this]
     congr 1

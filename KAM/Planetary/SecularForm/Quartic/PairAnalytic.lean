@@ -86,7 +86,8 @@ theorem pair_secular_nbhd (D : Data n) (i j : Fin n) {I0 J0 : ℝ} (hI : 0 < I0)
       (∀ p ∈ N, pairSlowSecular D i j p.1.1 p.1.2 p.2 =
         secular (pairData D i j) false (pairEmb p)) ∧
       (AnalyticOnNhd ℝ (fun p => secular (pairData D i j) false (pairEmb p)) N ∧
-        ∀ p ∈ N, Continuous fun q : ℝ × ℝ => pairKernel (pairData D i j) (pairEmb p) 0 1 q.1 q.2) := by
+        ∀ p ∈ N, Continuous fun q : ℝ × ℝ =>
+          pairKernel (pairData D i j) (pairEmb p) 0 1 q.1 q.2) := by
   set D2 := pairData D i j with hD2
   set a2 : Vec 2 := axis D2 ![I0, J0] with ha2
   have hpos : ∀ k, 0 < (![I0, J0] : Vec 2) k := fun k => by fin_cases k <;> simpa

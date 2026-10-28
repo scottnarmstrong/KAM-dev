@@ -21,7 +21,8 @@ namespace KAM.Planetary
 
 namespace SecularForm
 
-/-- A function analytic at `0` that is `O(|s|⁶)` near `0` has vanishing derivatives of order `< 6`. -/
+/-- A function analytic at `0` that is `O(|s|⁶)` near `0` has vanishing derivatives of order
+`< 6`. -/
 theorem iteratedDeriv_eq_zero_of_isBigO {g : ℝ → ℝ} (hg : AnalyticAt ℝ g 0) {K r : ℝ}
     (hr : 0 < r) (h : ∀ s, |s| < r → |g s| ≤ K * |s| ^ 6) :
     ∀ k < 6, iteratedDeriv k g 0 = 0 := by
