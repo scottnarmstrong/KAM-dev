@@ -94,7 +94,8 @@ private theorem poissonBracket_lin {u v w φ : (Fin n → ℂ) × (Fin n → ℂ
 /-- The bracket of a class function with `φ` is determined by values on an open set. -/
 private theorem poissonBracket_congr {u u' φ : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     {U : Set ((Fin n → ℂ) × (Fin n → ℂ))} (hU : IsOpen U) (h : EqOn u u' U)
-    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ U) : poissonBracket u φ z = poissonBracket u' φ z := by
+    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ U) :
+    poissonBracket u φ z = poissonBracket u' φ z := by
   have : fderiv ℂ u z = fderiv ℂ u' z :=
     Filter.EventuallyEq.fderiv_eq (Filter.eventuallyEq_of_mem (hU.mem_nhds hz) h)
   simp only [poissonBracket, this]
@@ -157,7 +158,8 @@ theorem iterMap_eq (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) (z) 
 
 /-- The generator `φ` is in `O(r,s)` with bound `Φ = qδ/(2πα)`, and `ξ`, `T_K f` are in the class
 with bound `δ`; the homological equation in the form `{h ∘ snd, φ} = ξ - T_K f`. -/
-theorem bracket_eq (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) {z : (Fin n → ℂ) × (Fin n → ℂ)}
+theorem bracket_eq (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj)
+    {z : (Fin n → ℂ) × (Fin n → ℂ)}
     (hz : z ∈ Dom n D r s) :
     poissonBracket (fun w => h w.2) (homGen K Λ h f) z = homRes K Λ f z - truncate K f z := by
   obtain ⟨-, -, -, c4, -⟩ :=
@@ -205,10 +207,12 @@ theorem integrand (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
       (c1.differentiableOn.mono hsub)
   have hBd : DifferentiableOn ℂ (poissonBracket (homRes K Λ f) (homGen K Λ h f))
       (Dom n D (r - ρ) (s - σ)) :=
-    differentiableOn_poissonBracket hΩ (c2.differentiableOn.mono hsub) (c1.differentiableOn.mono hsub)
+    differentiableOn_poissonBracket hΩ (c2.differentiableOn.mono hsub)
+      (c1.differentiableOn.mono hsub)
   have hCd : DifferentiableOn ℂ (poissonBracket (truncate K f) (homGen K Λ h f))
       (Dom n D (r - ρ) (s - σ)) :=
-    differentiableOn_poissonBracket hΩ (hTc.differentiableOn.mono hsub) (c1.differentiableOn.mono hsub)
+    differentiableOn_poissonBracket hΩ (hTc.differentiableOn.mono hsub)
+      (c1.differentiableOn.mono hsub)
   have hat : ∀ {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}, DifferentiableOn ℂ u (Dom n D r s) →
       ∀ z ∈ Dom n D r s, DifferentiableAt ℂ u z := fun hu z hz =>
     hu.differentiableAt (hΩr.mem_nhds hz)
@@ -245,7 +249,8 @@ theorem integrand (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
     rw [← h1.fderiv]
     exact Filter.EventuallyEq.fderiv_eq
       (Filter.eventuallyEq_of_mem (hΩ.mem_nhds hz) fun w hw => eq1 t w hw)
-  have hcont : ∀ {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}, DifferentiableOn ℂ u (Dom n D (r - ρ) (s - σ)) →
+  have hcont : ∀ {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ},
+      DifferentiableOn ℂ u (Dom n D (r - ρ) (s - σ)) →
       ContinuousOn (fun z => fderiv ℂ u z) (Dom n D (r - ρ) (s - σ)) := fun hu =>
     ((KAM.contDiffOn_infty_of_differentiableOn hΩ hu).of_le
       (by exact_mod_cast le_top)).continuousOn_fderiv_of_isOpen hΩ le_rfl
@@ -261,14 +266,16 @@ theorem integrand (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
   refine ⟨fun t ht => ?_, ?_, ?_⟩
   · -- class and bound through `bracket_g` with the extra term `f_t`
     have hξc := c2
-    have hft : InClass D r s (fun x => ((1 - t : ℝ) : ℂ) * homRes K Λ f x + (t : ℂ) * truncate K f x) ∧
-        WBound D r s (fun x => ((1 - t : ℝ) : ℂ) * homRes K Λ f x + (t : ℂ) * truncate K f x) δ := by
+    have hft : InClass D r s
+          (fun x => ((1 - t : ℝ) : ℂ) * homRes K Λ f x + (t : ℂ) * truncate K f x) ∧
+        WBound D r s
+          (fun x => ((1 - t : ℝ) : ℂ) * homRes K Λ f x + (t : ℂ) * truncate K f x) δ := by
       have e1 : ‖((1 - t : ℝ) : ℂ)‖ = 1 - t := by
         rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (by linarith [ht.2])]
       have e2 : ‖(t : ℂ)‖ = t := by
         rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg ht.1]
-      refine ⟨⟨(inClass_const_mul _ hξc).differentiableOn.add (inClass_const_mul _ hTc).differentiableOn,
-        fun j z hz => by
+      refine ⟨⟨(inClass_const_mul _ hξc).differentiableOn.add
+        (inClass_const_mul _ hTc).differentiableOn, fun j z hz => by
           simp only [(inClass_const_mul ((1 - t : ℝ) : ℂ) hξc).periodic j z hz,
             (inClass_const_mul (t : ℂ) hTc).periodic j z hz]⟩, ?_⟩
       refine (wbound_add H.hs (inClass_const_mul _ hξc) (inClass_const_mul _ hTc)
@@ -304,7 +311,116 @@ theorem integrand (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
     exact ((hsnd (hcont hAd)).add (hc1.continuousOn.smul (hsnd (hcont hBd)))).add
       (hc2.continuousOn.smul (hsnd (hcont hCd)))
 
+/-- `f₊ = 𝓡 + (f - T_K f) ∘ Φ`: class and the estimate of (d), before the final repackaging. -/
+theorem iterF_class_bound (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
+    InClass D (r - 2 * ρ) (s - 2 * σ) (iterF D r s ρ σ K Λ h g f) ∧
+    WBound D (r - 2 * ρ) (s - 2 * σ) (iterF D r s ρ σ K Λ h g f)
+      ((1 - 2 * iterU α p δ ρ σ)⁻¹ *
+        (2 * conjExp p / (Real.exp 1 * (2 * Real.pi * α) * ρ * σ) *
+            (starNorm r s ρ σ rj sj Mj + δ) + Real.exp (-(2 * Real.pi * K * σ))) * δ) := by
+  obtain ⟨c1, c2, -, -, -, -, c7, c8, c9, -⟩ :=
+    homological_direct H.hp H.hα H.hs H.hK H.h_holo H.divisor H.f_class H.f_bound
+  have hd := H.compose
+  have hρ := H.hρ
+  have hσ := H.hσ
+  have hs1 : 0 < s - σ := by linarith [H.hσs]
+  have hs2 : 0 < s - σ - σ := by linarith [H.hσs]
+  have hTc : InClass D r s (truncate K f) :=
+    (projections H.hs H.f_class H.f_bound {k | KAM.Fourier.modeSize k ≤ K}).1
+  obtain ⟨hgc, hgb⟩ := decomp_wbound H.decomp le_rfl le_rfl H.hs
+  -- inputs of `transform`
+  have hgc' : InClass D (r - ρ) (s - σ) g := inClass_mono' hgc (by linarith) (by linarith)
+  have hTc' : InClass D (r - ρ) (s - σ) (truncate K f) :=
+    inClass_mono' hTc (by linarith) (by linarith)
+  have hξc' : InClass D (r - ρ) (s - σ) (homRes K Λ f) :=
+    inClass_mono' c2 (by linarith) (by linarith)
+  have hf₀c : InClass D (r - ρ) (s - σ) (fun z => g z + truncate K f z) :=
+    ⟨hgc'.differentiableOn.add hTc'.differentiableOn, fun j z hz => by
+      simp only [hgc'.periodic j z hz, hTc'.periodic j z hz]⟩
+  have hf₀b : WBound D (r - ρ) (s - σ) (fun z => g z + truncate K f z) ((∑ j, Mj j) + δ) :=
+    wbound_add hs1 hgc' hTc' (hgb.mono (by linarith) (by linarith) le_rfl)
+      (c8.mono (by linarith) (by linarith) le_rfl)
+  have hw0 : WBound D (r - ρ) (s - σ) (fun z => homRes K Λ f z + (-1 : ℂ) * truncate K f z)
+      (δ + ‖(-1 : ℂ)‖ * δ) :=
+    wbound_add hs1 hξc' (inClass_const_mul _ hTc') (c7.mono (by linarith) (by linarith) le_rfl)
+      (wbound_const_mul _ (c8.mono (by linarith) (by linarith) le_rfl))
+  have hw : WBound D (r - ρ) (s - σ) (poissonBracket (fun w => h w.2) (homGen K Λ h f))
+      (2 * δ) := by
+    refine (wbound_congr hs1 (fun z hz => ?_) hw0).mono le_rfl le_rfl (by simp; linarith)
+    rw [H.bracket_eq (Dom_mono (by linarith) (by linarith) hz)]
+    ring
+  obtain ⟨T1, T2, -, T4, -, -, -⟩ := transform hd H.hClass hf₀c hw hf₀b
+  -- the remainder
+  obtain ⟨hv, hc, hDc⟩ := H.integrand
+  obtain ⟨hI1, hI2⟩ := composition_integral hd hv hc hDc
+  have hRb : WBound D (r - ρ - ρ) (s - σ - σ) (liftRemainder (homGen K Λ h f)
+      (fun w => h w.2) (fun z => g z + truncate K f z))
+      ((1 - 2 * (conjExp p * δ / (2 * Real.pi * α)) / (ρ * σ))⁻¹ *
+        (2 / (Real.exp 1 * ρ * σ) * (starNorm r s ρ σ rj sj Mj + δ) *
+          (conjExp p * δ / (2 * Real.pi * α)))) :=
+    wbound_congr hs2 (fun z hz => (T2 z hz).symm) hI2
+  -- the truncation tail
+  obtain ⟨-, htail⟩ := truncation_tail H.f_class H.f_bound hσ (by linarith [H.hσs]) H.hK
+  have htc : InClass D (r - ρ) (s - σ) (fun z => f z - truncate K f z) :=
+    ⟨(inClass_mono' H.f_class (by linarith) (by linarith)).differentiableOn.sub
+        hTc'.differentiableOn, fun j z hz => by
+      simp only [(inClass_mono' H.f_class (by linarith) (by linarith)).periodic j z hz,
+        hTc'.periodic j z hz]⟩
+  obtain ⟨-, -, -, -, t5, t6⟩ := composition_series hd htc
+    (htail.mono (by linarith [hρ]) le_rfl le_rfl)
+  -- `f₊ = 𝓡 + (f - T_K f) ∘ Φ`
+  have hEq : EqOn (fun z => liftRemainder (homGen K Λ h f) (fun w => h w.2)
+      (fun z => g z + truncate K f z) z + (fun z => f z - truncate K f z)
+        (flow (KAM.hamiltonianVectorFieldℂ (homGen K Λ h f)) hd.omega 1 z))
+      (iterF D r s ρ σ K Λ h g f) (Dom n D (r - ρ - ρ) (s - σ - σ)) := fun z hz => by
+    have h1 := T1 z hz
+    have h2 := H.bracket_eq (Dom_mono (by linarith) (by linarith) hz)
+    have hΦ : flow (KAM.hamiltonianVectorFieldℂ (homGen K Λ h f)) hd.omega 1 z =
+        iterMap D r s ρ σ K Λ h f z := rfl
+    beta_reduce at h1 ⊢
+    rw [hΦ] at h1 ⊢
+    unfold iterF iterG
+    beta_reduce
+    linear_combination (-1 : ℂ) * h1 + (-1 : ℂ) * h2
+  have e1 : r - 2 * ρ = r - ρ - ρ := by ring
+  have e2 : s - 2 * σ = s - σ - σ := by ring
+  rw [e1, e2]
+  refine ⟨inClass_congr hEq ⟨T4.differentiableOn.add t5.differentiableOn, fun j z hz => by
+    simp only [T4.periodic j z hz, t5.periodic j z hz]⟩, ?_⟩
+  refine (wbound_congr hs2 hEq (wbound_add hs2 T4 t5 hRb t6)).mono le_rfl le_rfl (le_of_eq ?_)
+  have hη : 2 * (conjExp p * δ / (2 * Real.pi * α)) / (ρ * σ) = 2 * iterU α p δ ρ σ := by
+    rw [mul_div_assoc, IterHyp.phi_div H]
+  rw [hη]
+  have hq := IterHyp.conjExp_pos H.hp
+  have hα := H.hα
+  have hπ := Real.pi_pos
+  have he : Real.exp 1 ≠ 0 := (Real.exp_pos 1).ne'
+  generalize (1 - 2 * iterU α p δ ρ σ)⁻¹ = w
+  field_simp
+
 end IterHyp
+
+/-- `bpN:p6:iterative-direct` (c): `H ∘ Φ = h + g₊ + f₊`, `g₊ = g + P_Λ T_K f`, `|g₊ - g| ≤ δ`,
+`f₊ ∈ O(r-2ρ,s-2σ)`. -/
+theorem iterative_direct_c (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
+    (∀ z ∈ Dom n D (r - 2 * ρ) (s - 2 * σ),
+      (fun w => h w.2 + g w + f w) (iterMap D r s ρ σ K Λ h f z) =
+        h z.2 + iterG K Λ g f z + iterF D r s ρ σ K Λ h g f z) ∧
+    InClass D r s (homRes K Λ f) ∧ WBound D r s (homRes K Λ f) δ ∧
+    InClass D (r - 2 * ρ) (s - 2 * σ) (iterF D r s ρ σ K Λ h g f) := by
+  obtain ⟨-, c2, -, -, -, -, c7, -⟩ :=
+    homological_direct H.hp H.hα H.hs H.hK H.h_holo H.divisor H.f_class H.f_bound
+  refine ⟨fun z _ => ?_, c2, c7, H.iterF_class_bound.1⟩
+  unfold iterF
+  ring
+
+/-- `bpN:p6:iterative-direct` (d): the estimate of `f₊`. -/
+theorem iterative_direct_d (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj Mj) :
+    WBound D (r - 2 * ρ) (s - 2 * σ) (iterF D r s ρ σ K Λ h g f)
+      ((1 - 2 * iterU α p δ ρ σ)⁻¹ *
+        (2 * conjExp p / (Real.exp 1 * (2 * Real.pi * α) * ρ * σ) *
+            (starNorm r s ρ σ rj sj Mj + δ) + Real.exp (-(2 * Real.pi * K * σ))) * δ) :=
+  H.iterF_class_bound.2
 
 end Iterative
 
