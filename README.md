@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 10:19 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 166,000
+> **Last updated: 2026-10-28 10:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 166,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,7 +127,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 39,965 |
+| Written on agent branches, not yet landed | 39,970 |
 | **Estimated total at completion** | **≈ 166,000** |
 | Estimated still to write | ≈ 52,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 10:19 UTC from `main` at `165b67f` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 10:20 UTC from `main` at `dfe09c6` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -302,7 +302,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **p4ra** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P4-M: two_scale_diophantine_measure, measure_c1/c2, resonanceBad_eq (TwoScale) | `inp-p4ra` | 4 (vs `inp`) |
 | **p5ex** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P5-EX: line-length cleanup | `inp-p5ex` | 9 (vs `inp`) |
 | **p5jet** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-JET: fourth_jet_unique | `inp-p5jet` | 11 (vs `inp`) |
-| **s10c** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S10-C: cp09_lemma1, cp09_unsquared, cp09_product | `inp-s10c` | 5 (vs `inp`) |
+| **s10c** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S10-C: tidy FiniteType (line widths, unused binders) | `inp-s10c` | 6 (vs `inp`) |
 | **s8a** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-A: AnalyticRegularity (holomorphy/continuity of perturbationC) | `inp-s8a` | 6 (vs `inp`) |
 | **s9l** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S9-L: lift theorem facade | `inp-s9l` | 8 (vs `inp`) |
 
