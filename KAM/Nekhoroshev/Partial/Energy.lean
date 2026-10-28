@@ -327,6 +327,209 @@ private theorem ef_bracket_bound (b : PartialBlock n k) {r s ε η : ℝ} {g fs 
   rw [e1, e2] at hc1 hb1
   exact (ef_re_abs_le b (by positivity) hc1 (hb1.mono le_rfl le_rfl key) hz)
 
+
+/-! ### The contradiction (step `ef-contra`) -/
+
+private theorem ef_arith {m M r s ε η ζ δ T e : ℝ} (hm : 0 < m) (hmM : m ≤ M) (hr : 0 < r)
+    (hs : 0 < s) (hε : 0 < ε) (hη : 0 ≤ η) (hζ : 0 < ζ) (hηζ : η ≤ ζ) (he : 2 ≤ e)
+    (hζε : ζ ≤ ε / e) (hsmall : ε ≤ m * r ^ 2 / 2 ^ 12) (hδ0 : 0 ≤ δ) (hδ : δ ≤ m * r / 16)
+    (_hT0 : 0 ≤ T) (hT : T ≤ s * m * r / (20 * M * ζ))
+    (hmain : m / 2 * (r / 4) ^ 2 ≤ (5 * ε / 2 + 2 * η) + (5 * δ / 4) * (r / 4) +
+      (2 * η + T * (5 * η * ε / (r * s) + (M * (r / 4) + 5 * δ / 4) * (η / (e * s))))) :
+    False := by
+  have hM : 0 < M := hm.trans_le hmM
+  have he0 : 0 < e := by linarith
+  have hE : 0 < m * r ^ 2 := by positivity
+  have hηε : η ≤ ε / 2 := by
+    calc η ≤ ζ := hηζ
+      _ ≤ ε / e := hζε
+      _ ≤ ε / 2 := by gcongr
+  have hηζ' : η / ζ ≤ 1 := (div_le_one hζ).2 hηζ
+  have hη0 : 0 ≤ η / ζ := div_nonneg hη hζ.le
+  set Q : ℝ := s * m * r / (20 * M * ζ) with hQ
+  have hQ0 : 0 ≤ Q := by positivity
+  -- first term of the bracket
+  have X1 : T * (5 * η * ε / (r * s)) ≤ ε / 4 := by
+    calc T * (5 * η * ε / (r * s)) ≤ Q * (5 * η * ε / (r * s)) := by gcongr
+      _ = (m / M) * (η / ζ) * ε / 4 := by rw [hQ]; field_simp; ring
+      _ ≤ 1 * 1 * ε / 4 := by
+          have : m / M ≤ 1 := (div_le_one hM).2 hmM
+          have : 0 ≤ m / M := by positivity
+          gcongr
+      _ = ε / 4 := by ring
+  have X2 : T * ((M * (r / 4) + 5 * δ / 4) * (η / (e * s))) ≤ 21 * (m * r ^ 2) / 2560 := by
+    have hb : M * (r / 4) + 5 * δ / 4 ≤ M * r * (21 / 64) := by nlinarith
+    calc T * ((M * (r / 4) + 5 * δ / 4) * (η / (e * s)))
+        ≤ Q * ((M * r * (21 / 64)) * (η / (e * s))) := by gcongr
+      _ = (21 / 64) * (m * r ^ 2 / (20 * e)) * (η / ζ) := by rw [hQ]; field_simp
+      _ ≤ (21 / 64) * (m * r ^ 2 / (20 * 2)) * 1 := by
+          have : m * r ^ 2 / (20 * e) ≤ m * r ^ 2 / (20 * 2) := by gcongr
+          have h0 : 0 ≤ m * r ^ 2 / (20 * e) := by positivity
+          gcongr
+      _ = 21 * (m * r ^ 2) / 2560 := by ring
+  have hεE : ε ≤ m * r ^ 2 / 4096 := by norm_num at hsmall ⊢; exact hsmall
+  have hδr : (5 * δ / 4) * (r / 4) ≤ 5 * (m * r ^ 2) / 256 := by nlinarith
+  nlinarith
+
+
+private theorem ef_abs_le_of_mem_uIcc {x t : ℝ} (hx : x ∈ uIcc 0 t) : |x| ≤ |t| := by
+  rcases mem_uIcc.1 hx with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;>
+    exact abs_le.2 ⟨by linarith [abs_nonneg t, neg_abs_le t],
+      by linarith [abs_nonneg t, le_abs_self t]⟩
+
+private theorem ef_exp_one_ge_two : (2 : ℝ) ≤ Real.exp 1 := by
+  have := Real.add_one_le_exp (1 : ℝ)
+  linarith
+
+/-- The contradiction at the first exit time `ts` (steps `ef-tube` to `ef-contra`). -/
+private theorem ef_contra (b : PartialBlock n k) {r s m M ε η ζ δ : ℝ}
+    {Λ : Set (Fin n → ℤ)} {h : (Fin n → ℂ) → ℂ} {g fs : EC n k → ℂ}
+    (hr : 0 < r) (hs : 0 < s) (hh : RealFastConvex b.Ic r m M h)
+    (hg : ext_class b r s g) (hf : ext_class b r s fs)
+    (hgb : WBound b.base r s g (5 * ε / 4)) (hfb : WBound b.base r s fs η)
+    (hsupp : ∀ J ∈ polyNbhd b.base r, ∀ j : Fin n → ℤ, j ∉ Λ → coeff g J j = 0)
+    (hε : 0 < ε) (hη : 0 ≤ η) (hζ : 0 < ζ) (hηζ : η ≤ ζ) (hζε : ζ ≤ ε / Real.exp 1)
+    (hsmall : ε ≤ m * r ^ 2 / 2 ^ 12) (hSL : 16 * k * b.c * s ≤ r)
+    (hδ : 0 < δ) (hδr : δ ≤ m * r / 16) (hnr : NearResonance Λ h b.Ic δ)
+    {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0 : ℝ) ∈ J) {y : ℝ → ER n k}
+    (hy : ExtOrbit b r (liftFast h + g + fs) J y)
+    (hinit : euclid (fastAction (y 0) - b.Ic) < δ / (4 * M))
+    (hslow : ∀ u ∈ J, ∃ v ∈ b.S, ‖slowPair (y u) - b.lam⁻¹ • v‖ < r / 2)
+    {ts : ℝ} (hts : ts ∈ J) (hTs : |ts| ≤ s * m * r / (20 * M * ζ))
+    (hexit : euclid (fastAction (y ts) - fastAction (y 0)) = r / 4)
+    (hle : ∀ τ ∈ uIcc 0 ts, euclid (fastAction (y τ) - fastAction (y 0)) ≤ r / 4) : False := by
+  have hm := hh.m_pos
+  have hmM := hh.m_le
+  have hM : 0 < M := hm.trans_le hmM
+  have hsub : uIcc 0 ts ⊆ J := hJ.uIcc_subset h0 hts
+  have hρ : δ / (4 * M) ≤ r / 64 := by
+    rw [div_le_iff₀ (by positivity)]
+    nlinarith [mul_le_mul_of_nonneg_right hmM hr.le]
+  have hI0c : euclid (fastAction (y 0) - b.Ic) < r / 64 := hinit.trans_le hρ
+  have hz0 : euclid (0 : Fin n → ℝ) = 0 := KAM.Stability.isActionNorm_euclid.map_zero
+  -- `ef-tube`
+  have hτI : ∀ τ ∈ uIcc 0 ts, euclid (fastAction (y τ) - b.Ic) < r / 2 := fun τ hτ => by
+    have e : fastAction (y τ) - b.Ic =
+        (fastAction (y τ) - fastAction (y 0)) + (fastAction (y 0) - b.Ic) := by abel
+    rw [e]
+    have := KAM.Stability.isActionNorm_euclid.add_le (fastAction (y τ) - fastAction (y 0))
+      (fastAction (y 0) - b.Ic)
+    have h2 := hle τ hτ
+    linarith
+  have hτdom : ∀ τ ∈ uIcc 0 ts, y τ ∈ b.realDom (r / 2) := fun τ hτ => by
+    obtain ⟨v, hv, hsl⟩ := hslow τ (hsub hτ)
+    exact ef_mem_realDom_of_tube b (hτI τ hτ) hv hsl
+  have hτdomr : ∀ τ ∈ uIcc 0 ts, y τ ∈ b.realDom r := fun τ hτ => (hy τ (hsub hτ)).1
+  have hseg : ∀ τ ∈ uIcc 0 ts, ∀ a ∈ Icc (0 : ℝ) 1, fastAction (y 0) +
+      a • (fastAction (y τ) - fastAction (y 0)) ∈ ball b.Ic r := fun τ hτ =>
+    ef_seg_mem (ρ := r / 4) (by linarith) (hle τ hτ)
+  have hts' : ts ∈ uIcc 0 ts := right_mem_uIcc
+  -- `ef-adm`
+  obtain ⟨P, hP, hPV, hPid⟩ := KAM.Stability.exists_orthProj (n := n) (KAM.Stability.resSpan Λ)
+  have hB4 : euclid (P (KAM.frequencyMap h (fastAction (y 0)))) ≤ 5 * δ / 4 := by
+    have hlip := ef_freq_lip hh (I := fastAction (y 0)) (J := b.Ic)
+      (ef_seg_mem (I₀ := b.Ic) (R := r) (ρ := euclid (fastAction (y 0) - b.Ic))
+        (by rw [sub_self, hz0]; linarith) le_rfl)
+    have e : P (KAM.frequencyMap h (fastAction (y 0))) =
+        P (KAM.frequencyMap h (fastAction (y 0)) - KAM.frequencyMap h b.Ic) +
+          P (KAM.frequencyMap h b.Ic) := by rw [← map_add, sub_add_cancel]
+    have b1 := ef_orth_euclid_le hP
+      (KAM.frequencyMap h (fastAction (y 0)) - KAM.frequencyMap h b.Ic)
+    have b2 := ef_proj_freq_le hδ.le hnr hP hPV
+    have b3 := KAM.Stability.isActionNorm_euclid.add_le
+      (P (KAM.frequencyMap h (fastAction (y 0)) - KAM.frequencyMap h b.Ic))
+      (P (KAM.frequencyMap h b.Ic))
+    have b4 : M * euclid (fastAction (y 0) - b.Ic) ≤ δ / 4 :=
+      (mul_le_mul_of_nonneg_left hinit.le hM.le).trans (le_of_eq (by field_simp))
+    rw [e]
+    linarith
+  -- `ef-C`
+  have hpair := transverse_pairing b hr hs hh hg hf hgb hsupp hJ hy hP hPid h0 hts
+    (B₁ := 5 * η * ε / (r * s)) (B₂ := η / (Real.exp 1 * s)) (B₃ := M * (r / 4))
+    (B₄ := 5 * δ / 4)
+    (fun τ hτ => ef_bracket_bound b hr hs hg.1 hf.1 hgb hfb hη hε hSL (hτdom τ hτ))
+    (fun τ hτ => ef_theta_bound b hs hf.1 hfb (hτdomr τ hτ))
+    (fun τ hτ => (ef_freq_lip hh (ef_seg_mem (ρ := r / 4) (by linarith) (hle τ hτ))).trans
+      (mul_le_mul_of_nonneg_left (hle τ hτ) hM.le)) hB4
+  -- `ef-en`
+  obtain ⟨a, ha, htay⟩ := ef_taylor_segment (U := ball b.Ic r) isOpen_ball
+    (ef_realPart_contDiffOn hh.hol) (hseg ts hts')
+  have e1 : fastAction (y 0) + (fastAction (y ts) - fastAction (y 0)) = fastAction (y ts) := by
+    abel
+  rw [e1] at htay
+  have hconv : m * euclid (fastAction (y ts) - fastAction (y 0)) ^ 2 ≤
+      hessR (realPart h) (fastAction (y 0) + a • (fastAction (y ts) - fastAction (y 0)))
+        (fastAction (y ts) - fastAction (y 0)) (fastAction (y ts) - fastAction (y 0)) :=
+    hh.convex _ (mem_ball_iff_norm.1 (hseg ts hts' a (Ioo_subset_Icc_self ha))) _
+  have hfd : fderiv ℝ (realPart h) (fastAction (y 0)) (fastAction (y ts) - fastAction (y 0)) =
+      KAM.frequencyMap h (fastAction (y 0)) ⬝ᵥ (fastAction (y ts) - fastAction (y 0)) :=
+    clm_eq_dot _ _
+  have hen := ef_energy b hr hs hh hg hf hJ hy hts h0
+  have hg1 := ef_re_abs_le b hs hg.1 hgb (hτdomr ts hts')
+  have hg0 := ef_re_abs_le b hs hg.1 hgb (hy 0 h0).1
+  have hf1 := ef_re_abs_le b hs hf.1 hfb (hτdomr ts hts')
+  have hf0 := ef_re_abs_le b hs hf.1 hfb (hy 0 h0).1
+  have hsplit : KAM.frequencyMap h (fastAction (y 0)) ⬝ᵥ (fastAction (y ts) - fastAction (y 0)) =
+      P (KAM.frequencyMap h (fastAction (y 0))) ⬝ᵥ (fastAction (y ts) - fastAction (y 0)) +
+        KAM.frequencyMap h (fastAction (y 0)) ⬝ᵥ ((fastAction (y ts) - fastAction (y 0)) -
+          P (fastAction (y ts) - fastAction (y 0))) := by
+    have h1 := hP.symm (KAM.frequencyMap h (fastAction (y 0)))
+      (fastAction (y ts) - fastAction (y 0))
+    have h2 := dotProduct_sub (KAM.frequencyMap h (fastAction (y 0)))
+      (fastAction (y ts) - fastAction (y 0)) (P (fastAction (y ts) - fastAction (y 0)))
+    rw [h1, h2]
+    ring
+  have hcs := abs_dot_le_euclid (P (KAM.frequencyMap h (fastAction (y 0))))
+    (fastAction (y ts) - fastAction (y 0))
+  rw [hexit] at hcs
+  have hPd : |P (KAM.frequencyMap h (fastAction (y 0))) ⬝ᵥ
+      (fastAction (y ts) - fastAction (y 0))| ≤ 5 * δ / 4 * (r / 4) :=
+    hcs.trans (mul_le_mul_of_nonneg_right hB4 (by positivity))
+  have hfs : |(fs (extCx (y ts))).re - (fs (extCx (y 0))).re| ≤ 2 * η := by
+    have := abs_sub (fs (extCx (y ts))).re (fs (extCx (y 0))).re
+    linarith
+  have hts0 : |ts| ≤ s * m * r / (20 * M * ζ) := hTs
+  rw [hexit] at hconv
+  have hmain : m / 2 * (r / 4) ^ 2 ≤ (5 * ε / 2 + 2 * η) + (5 * δ / 4) * (r / 4) +
+      (2 * η + |ts| * (5 * η * ε / (r * s) + (M * (r / 4) + 5 * δ / 4) *
+        (η / (Real.exp 1 * s)))) := by
+    have p1 := abs_le.1 hg1
+    have p2 := abs_le.1 hg0
+    have p3 := abs_le.1 hf1
+    have p4 := abs_le.1 hf0
+    have p5 := abs_le.1 hPd
+    have p6 := abs_le.1 hpair
+    rw [hfd] at htay
+    linarith
+  exact ef_arith hm hmM hr hs hε hη hζ hηζ ef_exp_one_ge_two hζε hsmall hδ.le hδr
+    (abs_nonneg ts) hts0 hmain
+
+
+/-- `bpN:p11:energy-free`: frequency-free energy confinement near a resonance (convex case). -/
+theorem energy_free (b : PartialBlock n k) {r s m M ε η ζ δ : ℝ}
+    {Λ : Set (Fin n → ℤ)} {h : (Fin n → ℂ) → ℂ} {g fs : EC n k → ℂ}
+    (hr : 0 < r) (hs : 0 < s) (hh : RealFastConvex b.Ic r m M h)
+    (hg : ext_class b r s g) (hf : ext_class b r s fs)
+    (hgb : WBound b.base r s g (5*ε/4)) (hfb : WBound b.base r s fs η)
+    (hsupp : ∀ J ∈ polyNbhd b.base r, ∀ j : Fin n → ℤ, j ∉ Λ → coeff g J j = 0)
+    (hε : 0 < ε) (hη : 0 ≤ η) (hζ : 0 < ζ) (hηζ : η ≤ ζ) (hζε : ζ ≤ ε/Real.exp 1)
+    (hsmall : ε ≤ m*r^2/2^12) (hSL : 16*k*b.c*s ≤ r)
+    (hδ : 0 < δ) (hδr : δ ≤ m*r/16) (hnr : NearResonance Λ h b.Ic δ)
+    {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0:ℝ) ∈ J) {y : ℝ → ER n k}
+    (hy : ExtOrbit b r (liftFast h+g+fs) J y)
+    (hinit : euclid (fastAction (y 0)-b.Ic) < δ/(4*M))
+    (hslow : ∀ u ∈ J, ∃ v ∈ b.S, ‖slowPair (y u)-b.lam⁻¹ • v‖ < r/2) :
+    ∀ t ∈ J, |t| ≤ s*m*r/(20*M*ζ) → euclid (fastAction (y t)-fastAction (y 0)) ≤ r/4 := by
+  intro t ht hT
+  by_contra hviol
+  push Not at hviol
+  have hM : 0 < M := hh.m_pos.trans_le hh.m_le
+  obtain ⟨ts, hts, htsI, hexit, hle⟩ := KAM.Stability.exit_ball (Nrm := fun a => euclid a)
+    KAM.Stability.isActionNorm_euclid hJ h0 (z := fun t => ((0 : Fin n → ℝ), fastAction (y t)))
+    (ef_fast_continuousOn hy) (ϱ := r / 4) (by positivity) ht hviol
+  refine ef_contra b hr hs hh hg hf hgb hfb hsupp hε hη hζ hηζ hζε hsmall hSL hδ hδr hnr hJ
+    h0 hy hinit hslow hts ((ef_abs_le_of_mem_uIcc htsI).trans hT) hexit hle
+
 end KAM.Nekhoroshev
 
 end
