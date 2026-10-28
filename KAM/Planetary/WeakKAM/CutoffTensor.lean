@@ -78,7 +78,8 @@ theorem selectionTensor_iteratedFDeriv (f : Fin n → ℝ → ℝ) :
       intro j
       have hle : selectionMult (Fin.tail i) j ≤ k := by
         unfold selectionMult
-        calc _ ≤ (Finset.univ : Finset (Fin k)).card := Finset.card_le_card (Finset.filter_subset _ _)
+        calc _ ≤ (Finset.univ : Finset (Fin k)).card :=
+              Finset.card_le_card (Finset.filter_subset _ _)
           _ = k := by simp
       exact ((hf j).differentiable_iteratedDeriv _
         (by exact_mod_cast Nat.lt_succ_of_le hle)) _

@@ -72,7 +72,8 @@ theorem selectionBumpScaled_L1 (μ : ℕ) {δ : ℝ} (hδ : 0 < δ) {m : ℕ} (h
   have : ∀ x : ℝ, |δ⁻¹ * (δ⁻¹ ^ m * iteratedDeriv m (selectionBump μ) (δ⁻¹ * x))| =
       (δ⁻¹ ^ (m + 1)) * (fun y => |iteratedDeriv m (selectionBump μ) y|) (δ⁻¹ * x) := by
     intro x
-    rw [abs_mul, abs_mul, abs_of_pos (inv_pos.2 hδ), abs_of_nonneg (pow_nonneg (inv_nonneg.2 hδ.le) _),
+    rw [abs_mul, abs_mul, abs_of_pos (inv_pos.2 hδ),
+      abs_of_nonneg (pow_nonneg (inv_nonneg.2 hδ.le) _),
       pow_succ]
     ring
   simp_rw [this]

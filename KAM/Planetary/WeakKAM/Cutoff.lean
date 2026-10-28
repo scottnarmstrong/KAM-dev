@@ -30,13 +30,15 @@ theorem selectionCutoffSet_bddAbove (n μ k : ℕ) :
   refine ⟨a, ?_, rfl⟩
   simp only [Finset.mem_coe, Fintype.mem_piFinset, Finset.mem_range]
   intro i
-  have : a i ≤ ∑ i, a i := Finset.single_le_sum (f := a) (fun _ _ => Nat.zero_le _) (Finset.mem_univ i)
+  have : a i ≤ ∑ i, a i := Finset.single_le_sum (f := a) (fun _ _ => Nat.zero_le _)
+      (Finset.mem_univ i)
   omega
 
 theorem selectionMultilinear_expand {k : ℕ}
     (F : ContinuousMultilinearMap ℝ (fun _ : Fin k => Fin n → ℝ) ℝ) (a : Fin k → Fin n → ℝ) :
     F a = ∑ i : Fin k → Fin n, (∏ l, a l (i l)) * F (fun l => Pi.single (i l) 1) := by
-  have ha : a = fun l => ∑ j ∈ (Finset.univ : Finset (Fin n)), a l j • (Pi.single j (1 : ℝ) : Fin n → ℝ) := by
+  have ha : a = fun l => ∑ j ∈ (Finset.univ : Finset (Fin n)),
+      a l j • (Pi.single j (1 : ℝ) : Fin n → ℝ) := by
     funext l j
     simp [Finset.sum_apply, Pi.single_apply]
   conv_lhs => rw [ha]
@@ -84,7 +86,8 @@ theorem selectionKernel_deriv_bound (n μ : ℕ) {δ : ℝ} (hδ : 0 < δ) {k : 
           sSup {v | ∃ a : Fin n → ℕ, (∑ i, a i) = k ∧ v = ∏ i, selectionBumpL1 μ (a i)} := by
         refine Finset.sum_le_sum fun i _ => ?_
         refine mul_le_mul_of_nonneg_left ?_ (pow_nonneg (inv_nonneg.2 hδ.le) _)
-        exact le_csSup (selectionCutoffSet_bddAbove n μ k) ⟨selectionMult i, selectionMult_sum i, rfl⟩
+        exact le_csSup (selectionCutoffSet_bddAbove n μ k)
+          ⟨selectionMult i, selectionMult_sum i, rfl⟩
     _ = selectionCutoffC n μ k * δ⁻¹ ^ k := by
         simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fun, Fintype.card_fin,
           nsmul_eq_mul, selectionCutoffC]
@@ -107,7 +110,8 @@ theorem smooth_cutoff (hn : 1 ≤ n) (hμ : 1 ≤ μ) (E : Set (SelectionR n))
   have hul : LocallyIntegrable u := (locallyIntegrable_const (1 : ℝ)).indicator hAc.measurableSet
   set L := ContinuousLinearMap.mul ℝ ℝ with hL
   have hφc : HasCompactSupport φ := selectionKernel_hasCompactSupport n μ hδ
-  have hφi : Integrable φ := (selectionKernel_contDiff n μ).continuous.integrable_of_hasCompactSupport hφc
+  have hφi : Integrable φ :=
+    (selectionKernel_contDiff n μ).continuous.integrable_of_hasCompactSupport hφc
   have hconv : ∀ y, (u ⋆[L] φ) y = ∫ z, A.indicator (fun z => φ (y - z)) z := by
     intro y
     rw [convolution_def]
