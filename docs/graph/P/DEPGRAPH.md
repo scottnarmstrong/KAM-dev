@@ -35044,9 +35044,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:h-data@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: h_data, keplerDataNeg_differentiableOn, keplerDataNeg_contDiffOn, keplerDataNeg_im_eq_zero, keplerDataNeg_hess_norm_le (KAM/Planetary/Exponential/KeplerData.lean)
+LEAN_NOTE: audit E4 round 2 PASS WITH NOTES; h_data (i)-(v) with sigma=-1 and +1, plus negation bridges for (ii)-(iv) of -h
 NOTE: -
 
 NODE: stepP:p14:hd-i
@@ -35072,9 +35072,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:hd-i@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: h_data (KAM/Planetary/Exponential/KeplerData.lean)
+LEAN_NOTE: audit E4 round 2 PASS WITH NOTES; handoff names step hd-i, covered by h_data
 NOTE: -
 
 NODE: stepP:p14:hd-ii
@@ -35102,9 +35102,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:hd-ii
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: h_data, keplerDataNeg_differentiableOn, keplerDataNeg_contDiffOn, keplerDataNeg_im_eq_zero, keplerDataNeg_hess_norm_le (KAM/Planetary/Exponential/KeplerData.lean)
+LEAN_NOTE: audit E4 round 2 PASS WITH NOTES; handoff names step hd-ii, covered by h_data
 NOTE: -
 
 NODE: stepP:p14:hd-iv
@@ -35131,9 +35131,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:hd-iv
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: h_data, keplerDataNeg_differentiableOn, keplerDataNeg_contDiffOn, keplerDataNeg_im_eq_zero, keplerDataNeg_hess_norm_le (KAM/Planetary/Exponential/KeplerData.lean)
+LEAN_NOTE: audit E4 round 2 PASS WITH NOTES; handoff names step hd-iv, covered by h_data
 NOTE: -
 
 NODE: stepP:p14:hd-v
@@ -35162,9 +35162,9 @@ EDGE: N:bpN:p0:actionnbhd#actionNbhd | blueprint-P/parts/p14a-amd-expsafe.tex#st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: h_data (KAM/Planetary/Exponential/KeplerData.lean)
+LEAN_NOTE: audit E4 round 2 PASS WITH NOTES; handoff names step hd-v, covered by h_data
 NOTE: -
 
 NODE: bpP:p14:tube
@@ -37265,9 +37265,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb-numer
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_numerics (KAM/Planetary/SecularBox/Numerics.lean)
+LEAN_NOTE: audit S0 PASS WITH NOTES; 33 conjuncts N1-N7 and source chain, closed rational
 NOTE: numerical certificate; checked in exact rational arithmetic by the scratch script (provenance), in Lean each row is a norm_num goal
 
 NODE: bpP:p14:sb-chart
@@ -37891,7 +37891,7 @@ EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: S4 secular_parametric_integral is the generic compact-parameter smoothness lemma (audit S4 PASS WITH NOTES); step concludes H_sec C^infty on S, which needs sm-1/sm-2 integrand instance, not discharged here
 NOTE: the draft external bpP:p14:sb-x-diff is an alias of bpP:p8:e-diff (EXCLUDED); the edge goes to bpP:p8:e-diff
 
 NODE: stepP:p14:sb-sm-4
