@@ -96,5 +96,34 @@ theorem laplace_bounds {α : ℝ} (hα : 0 ≤ α) (hα1 : α ≤ 1/2) :
   rw [e1] at h1; rw [e2] at h2
   exact ⟨by simpa using h1.1, by simpa using h1.2, by simpa using h2.1, by simpa using h2.2⟩
 
+theorem formula69 (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j)
+    (hα : a i/a j ≤ 1/2) :
+    ∃ θ θ' : ℝ, θ ∈ Icc 0 (4*(a i/a j)^2) ∧ θ' ∈ Icc 0 (4*(a i/a j)^2) ∧
+      pairA D a i j = (3/8)*D.G*D.m i*D.m j*(a i/a j)^2/a j*(1+θ) ∧
+      pairB D a i j = (15/32)*D.G*D.m i*D.m j*(a i/a j)^3/a j*(1+θ') := by
+  have hi := ha.1 i
+  have hj := ha.1 j
+  have hα0 : 0 < a i / a j := div_pos hi hj
+  obtain ⟨b1, b2, b3, b4⟩ := laplace_bounds hα0.le hα
+  set α := a i / a j with hαdef
+  refine ⟨laplace_def (3/2) 1 α / ((3/2)*α) - 1, laplace_def (3/2) 2 α / ((15/8)*α^2) - 1,
+    ⟨?_, ?_⟩, ⟨?_, ?_⟩, ?_, ?_⟩
+  · rw [sub_nonneg, le_div_iff₀ (by positivity)]; linarith
+  · rw [sub_le_iff_le_add, div_le_iff₀ (by positivity)]; nlinarith
+  · rw [sub_nonneg, le_div_iff₀ (by positivity)]; linarith
+  · rw [sub_le_iff_le_add, div_le_iff₀ (by positivity)]; nlinarith
+  · simp only [pairA, min_eq_left hij.le, max_eq_right hij.le]
+    rw [← hαdef]
+    field_simp
+    rw [hαdef]
+    field_simp
+    ring
+  · simp only [pairB, min_eq_left hij.le, max_eq_right hij.le]
+    rw [← hαdef]
+    field_simp
+    rw [hαdef]
+    field_simp
+    ring
+
 end Nondegeneracy
 end KAM.Planetary
