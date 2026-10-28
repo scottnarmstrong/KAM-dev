@@ -88,7 +88,8 @@ theorem jets_core (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ} (hrho :
 theorem same_jets_on (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     ∃ r : ℝ, 0 < r ∧ r < rho D a ∧ ∀ x ∈ realDisc D a r, ∀ k : ℕ, 0 < k → ∀ l : ℕ,
       iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D true I) (x.1,x.2.2)) x.2.1 =
-      iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D false I) (x.1,x.2.2)) x.2.1 := by
+      iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D false I) (x.1,x.2.2))
+        x.2.1 := by
   obtain ⟨r, hr, hrho, -, h⟩ := perturbation_analytic D ha
   refine ⟨r, hr, hrho, fun x hx k hk l => ?_⟩
   have hint : ∀ y ∈ realDisc D a r,
