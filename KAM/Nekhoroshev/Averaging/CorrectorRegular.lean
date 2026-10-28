@@ -387,6 +387,43 @@ private theorem gk_dom (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < 
     · exact (hasFDerivAt_gk d hκ k hz hM).2.2 v |>.trans
         (mul_le_mul_of_nonneg_right hc.1 (norm_nonneg v))
 
+private theorem avgW_eq (κ : ℝ) : avgW h f κ = fun y => ∑' k, gk h f κ k y := by
+  funext y; simp [avgW, gk, neg_smul, tsum_neg]
+
+private theorem mem_closedBall_of_dom {z : AvgPhase n} (hz : z ∈ avgDomain n R) :
+    z.2 ∈ closedBall (0 : Fin n → ℝ) R := ball_subset_closedBall hz.2
+
+private theorem isOpen_avgDomain (n : ℕ) (R : ℝ) : IsOpen (avgDomain n R) :=
+  isOpen_univ.prod isOpen_ball
+
+private theorem isPreconnected_avgDomain (n : ℕ) (R : ℝ) : IsPreconnected (avgDomain n R) :=
+  (convex_univ.prod (convex_ball _ _)).isPreconnected
+
+private theorem summable_dom (d : AveragingData n R s h f) (C : ℝ) :
+    Summable fun k : Fin n → ℤ => C * ((1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k) :=
+  (coef d).2.2.2.2.2.mul_left C
+
+/-- Termwise differentiation of the corrector series at every point of the domain. -/
+private theorem hasFDerivAt_avgW (d : AveragingData n R s h f) {M₂ κ : ℝ} (hκ : 0 < κ)
+    (hM : ∀ I ∈ closedBall (0 : Fin n → ℝ) R, ∀ i, ∑ j, |avgM h I i j| ≤ M₂) {z : AvgPhase n}
+    (hz : z ∈ avgDomain n R) :
+    HasFDerivAt (avgW h f κ) (∑' k, fderiv ℝ (gk h f κ k) z) z ∧
+    HasSum (fun k => fderiv ℝ (gk h f κ k) z) (∑' k, fderiv ℝ (gk h f κ k) z) := by
+  have hM0 : 0 ≤ M₂ := (Finset.sum_nonneg fun j _ => abs_nonneg _).trans
+    (hM 0 (by simpa using d.hR.le) ⟨0, d.hn⟩)
+  have hdom : ∀ k, ∀ x ∈ avgDomain n R, ‖gk h f κ k x‖ ≤
+      domC n s κ M₂ * ((1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k) ∧
+      ‖fderiv ℝ (gk h f κ k) x‖ ≤
+      domC n s κ M₂ * ((1 + KAM.Fourier.modeSize k) ^ 3 * avgBeta s k) :=
+    fun k x hx => gk_dom d hκ hM0 hx k (hM x.2 (mem_closedBall_of_dom hx))
+  have hsum := summable_dom d (domC n s κ M₂)
+  refine ⟨?_, (Summable.of_norm_bounded hsum fun k => (hdom k z hz).2).hasSum⟩
+  rw [avgW_eq]
+  exact hasFDerivAt_tsum_of_isPreconnected hsum (isOpen_avgDomain n R) (isPreconnected_avgDomain n R)
+    (fun k x hx => (hasFDerivAt_gk d hκ k hx (hM x.2 (mem_closedBall_of_dom hx))).1)
+    (fun k x hx => (hdom k x hx).2) hz
+    (Summable.of_norm_bounded hsum fun k => (hdom k z hz).1) hz
+
 end KAM.Nekhoroshev
 
 end
