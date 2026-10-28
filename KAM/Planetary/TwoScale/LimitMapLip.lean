@@ -218,6 +218,70 @@ theorem scaled_bound (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ)
       _ = 3 / 4 * eHat (seq p j) / 16 ^ j := by field_simp
       _ ≤ _ := by gcongr
 
+/-- `stepP:p3:pl-lip`: the rescaled Lipschitz constant of `Ψ_{j+1} − id` on `𝒟_{j+1} × ℝⁿ`. -/
+theorem psi_lip_step (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {x y : Phase (a + b)}
+    (hx : x ∈ phaseTube (Ds (j + 1)) ((seq p (j + 1)).ρ / 2))
+    (hy : y ∈ phaseTube (Ds (j + 1)) ((seq p (j + 1)).ρ / 2)) :
+    limitmap_data (rhoHat p) p.s
+        ((psiR (Ψ (j + 1)) x - x) - (psiR (Ψ (j + 1)) y - y)) ≤
+      192 * ((a + b : ℕ) : ℝ) * (((24 : ℝ) ^ (p.τ + 1) / 6) ^ j * eHat (seq p j)) *
+        limitmap_data (rhoHat p) p.s (x - y) := by
+  have h0 : 0 < rhoHat p := (P.hyp 0).R_pos
+  have hs0 : 0 < p.s := (P.hyp 0).positive.2.1
+  have hne : rhoHat p ≠ 0 := h0.ne'
+  have hsne : p.s ≠ 0 := hs0.ne'
+  have he := (P.hyp j).eHat_nonneg
+  have hτ : 0 ≤ p.τ := by
+    have : ((a + b : ℕ) : ℝ) < p.τ := (P.hyp 0).τ_gt
+    have h2 : (0 : ℝ) ≤ ((a + b : ℕ) : ℝ) := Nat.cast_nonneg _
+    linarith
+  set S : Set (Fin ((a + b) + (a + b)) → ℝ) :=
+    {w | (unsc (rhoHat p) p.s w).2 ∈ realTube (Ds (j + 1)) ((seq p (j + 1)).ρ / 2)} with hS
+  set Δ : (Fin ((a + b) + (a + b)) → ℂ) → (Fin ((a + b) + (a + b)) → ℂ) :=
+    fun z => sc (rhoHat p) p.s (Ψ (j + 1) (unsc (rhoHat p) p.s z) - unsc (rhoHat p) p.s z)
+    with hΔ
+  have hmap : MapsTo (unsc (rhoHat p) p.s) (KAM.actionNbhd S (stageEps p j))
+      (coefficientDom (Ds (j + 1)) (rhoHat (seq p j) / 16) (sbar + (seq p j).s / 12)) :=
+    fun z ⟨w, hw, hz⟩ => P.unsc_mem j hw hz
+  have hdiff : DifferentiableOn ℂ Δ (KAM.actionNbhd S (stageEps p j)) :=
+    (differentiable_sc _ _).comp_differentiableOn
+      (((P.psi_diff j).comp (differentiable_unsc _ _).differentiableOn hmap).sub
+        (differentiable_unsc _ _).differentiableOn)
+  have hbd : ∀ z ∈ KAM.actionNbhd S (stageEps p j), ‖Δ z‖ ≤ 3 / 4 * eHat (seq p j) / 12 ^ j :=
+    fun z hz => P.scaled_bound j (hmap hz)
+  have hA : 0 ≤ 3 / 4 * eHat (seq p j) / 12 ^ j := by positivity
+  have hlip := lip_sup (P.stageEps_pos j) hA hdiff hbd
+  -- transport to `x`, `y`
+  have hmem : ∀ z ∈ phaseTube (Ds (j + 1)) ((seq p (j + 1)).ρ / 2),
+      sc (rhoHat p) p.s z ∈ S := by
+    intro z hz
+    simp only [hS, mem_ofPred_eq]
+    rw [unsc_sc hne hsne]; exact hz.2
+  have hD : ∀ z ∈ phaseTube (Ds (j + 1)) ((seq p (j + 1)).ρ / 2),
+      Δ (KAM.realInclusion _ (sc (rhoHat p) p.s z)) =
+        KAM.realInclusion _ (sc (rhoHat p) p.s (psiR (Ψ (j + 1)) z - z)) := by
+    intro z hz
+    simp only [hΔ]
+    rw [unsc_incl, unsc_sc hne hsne, ← (P.psi_step j hz).1, ← map_sub, sc_incl]
+  have key := hlip _ (hmem x hx) _ (hmem y hy)
+  rw [hD x hx, hD y hy, ← map_sub, KAM.norm_realInclusion, ← sc_sub, ← sc_sub,
+    ← limitmap_data_eq_norm_sc h0 hs0] at key
+  rw [← limitmap_data_eq_norm_sc h0 hs0] at key
+  refine key.trans (mul_le_mul_of_nonneg_right ?_ (by
+    rw [limitmap_data_eq_norm_sc h0 hs0]; exact norm_nonneg _))
+  have hε := P.stageEps_lower j
+  have hq : (0 : ℝ) < (2 * (24 : ℝ) ^ (p.τ + 1)) ^ j := by positivity
+  have hc : ((24 : ℝ) ^ (p.τ + 1) / 6) ^ j = (2 * (24 : ℝ) ^ (p.τ + 1)) ^ j / 12 ^ j := by
+    rw [← div_pow]; congr 1; ring
+  have hn : (0 : ℝ) ≤ ((a + b : ℕ) : ℝ) := Nat.cast_nonneg _
+  rw [div_le_iff₀ (P.stageEps_pos j)]
+  calc 4 * ((a + b + (a + b) : ℕ) : ℝ) * (3 / 4 * eHat (seq p j) / 12 ^ j)
+      = 6 * ((a + b : ℕ) : ℝ) * eHat (seq p j) / 12 ^ j := by push_cast; ring
+    _ = 192 * ((a + b : ℕ) : ℝ) * (((24 : ℝ) ^ (p.τ + 1) / 6) ^ j * eHat (seq p j)) *
+          (1 / (32 * (2 * (24 : ℝ) ^ (p.τ + 1)) ^ j)) := by
+        rw [hc]; field_simp; ring
+    _ ≤ _ := mul_le_mul_of_nonneg_left hε (by positivity)
+
 end PsiSteps
 
 end Lip
