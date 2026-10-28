@@ -222,10 +222,12 @@ theorem qsc_good_real {y : ℝ × (Fin 2 → ℝ) × (Fin 2 → ℝ)} (hy : y �
   have q1 := qsc_planeSq_lt e1
   have q2 := qsc_planeSq_lt e2
   have r1 : (1 - (qscEmb y 1) ^ 2 - (qscEmb y 2) ^ 2) = ((1 - planeSq y.2.1 : ℝ) : ℂ) := by
-    rw [show qscEmb y 1 = ((y.2.1 0 : ℝ) : ℂ) from rfl, show qscEmb y 2 = ((y.2.1 1 : ℝ) : ℂ) from rfl]
+    rw [show qscEmb y 1 = ((y.2.1 0 : ℝ) : ℂ) from rfl,
+      show qscEmb y 2 = ((y.2.1 1 : ℝ) : ℂ) from rfl]
     rw [qsc_planeSq_two]; push_cast; ring
   have r2 : (1 - (qscEmb y 3) ^ 2 - (qscEmb y 4) ^ 2) = ((1 - planeSq y.2.2 : ℝ) : ℂ) := by
-    rw [show qscEmb y 3 = ((y.2.2 0 : ℝ) : ℂ) from rfl, show qscEmb y 4 = ((y.2.2 1 : ℝ) : ℂ) from rfl]
+    rw [show qscEmb y 3 = ((y.2.2 0 : ℝ) : ℂ) from rfl,
+      show qscEmb y 4 = ((y.2.2 1 : ℝ) : ℂ) from rfl]
     rw [qsc_planeSq_two]; push_cast; ring
   have a1 : qscEmb y 1 = ((y.2.1 0 : ℝ) : ℂ) := rfl
   have a2 : qscEmb y 2 = ((y.2.1 1 : ℝ) : ℂ) := rfl

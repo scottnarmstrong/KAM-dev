@@ -74,7 +74,8 @@ theorem qsc_differentiableOn {U : Set (Fin 5 → ℂ)} (hU : IsOpen U)
     intro t ht ζ hζ
     obtain ⟨h0, h1⟩ := hcell t ht
     exact (qsc_diffAt_KC _ _ (hg ζ hζ _ h0 _ h1)).differentiableWithinAt
-  exact (e_param hU (f := fun t ζ => qscIntC ζ (t 0) (t 1)) hcont hhol).const_smul (((2 * π) ^ (-((2 : ℕ) : ℤ)) : ℝ))
+  exact (e_param hU (f := fun t ζ => qscIntC ζ (t 0) (t 1)) hcont hhol).const_smul
+    (((2 * π) ^ (-((2 : ℕ) : ℤ)) : ℝ))
 
 theorem qsc_avgC_real {y : ℝ × (Fin 2 → ℝ) × (Fin 2 → ℝ)} (hy : y ∈ separatedDomain) :
     qscAvgC (qscEmb y) = ((avg (fun t : Vec 2 => qscG y (t 0) (t 1)) : ℝ) : ℂ) := by
