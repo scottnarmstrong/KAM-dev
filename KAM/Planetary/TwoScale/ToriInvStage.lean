@@ -68,7 +68,8 @@ theorem fderiv_f_le (H : KamHyp D sbar p h f) {θ I J : Fin (a + b) → ℝ} (hJ
   have hδ : 0 < min (p.ρ / 2) (sbar / (4 * π)) := lt_min (by positivity) (by positivity)
   have hf : DifferentiableOn ℂ f (coefficientDom D p.ρ (sbar + p.s)) :=
     H.f_class.differentiableOn
-  have hA : ∀ w ∈ coefficientDom D p.ρ (sbar + p.s), ‖f w‖ ≤ p.E := sup_le_wbound H.f_class H.f_bound
+  have hA : ∀ w ∈ coefficientDom D p.ρ (sbar + p.s), ‖f w‖ ≤ p.E :=
+    sup_le_wbound H.f_class H.f_bound
   refine KAM.norm_fderiv_le_of_closedBall (isOpen_coefficientDom _ _ _) hf hδ ?_ hA
   intro z hz
   have hz' : ‖z - KAM.realInclusion₂ (a + b) (θ, I)‖ ≤ min (p.ρ / 2) (sbar / (4 * π)) := by
@@ -166,7 +167,8 @@ theorem field_err (H : KamHyp D sbar p h f) {c J : Fin (a + b) → ℝ} (hc : c 
   rw [← KAM.norm_realInclusion₂, map_sub, hX']
   simp only [KAM.hamiltonianVectorFieldℂ, KAM.realInclusion₂_apply, map_zero, Prod.norm_def,
     Prod.fst_sub, Prod.snd_sub]
-  refine max_le ((pi_norm_le_iff_of_nonneg hP).2 fun i => ?_) ((pi_norm_le_iff_of_nonneg hP).2 fun i => ?_)
+  refine max_le ((pi_norm_le_iff_of_nonneg hP).2 fun i => ?_)
+    ((pi_norm_le_iff_of_nonneg hP).2 fun i => ?_)
   · rw [Pi.sub_apply, hGder, ← hfr]
     have e1 : ‖fderiv ℂ f w (0, Pi.single i 1)‖ ≤ p.E / min (p.ρ / 2) (sbar / (4 * π)) :=
       hDf1 _ (by rw [Prod.norm_def]; simp [Pi.norm_single])

@@ -38,10 +38,13 @@ theorem hvf_continuousOn {n : ℕ} {W : Set (CPhase n)} {G : CPhase n → ℂ} (
   have hC : ContinuousOn (fun z : CPhase n => KAM.hamiltonianVectorFieldℂ G z) W := by
     refine ContinuousOn.prodMk ?_ ?_
     · refine continuousOn_pi.2 fun i => ?_
-      exact (ContinuousLinearMap.apply ℂ ℂ (0, (Pi.single i 1 : Fin n → ℂ))).continuous.comp_continuousOn hfd
+      have hc := (ContinuousLinearMap.apply ℂ ℂ
+        ((0 : Fin n → ℂ), (Pi.single i 1 : Fin n → ℂ))).continuous
+      exact hc.comp_continuousOn hfd
     · refine continuousOn_pi.2 fun i => ?_
-      exact ((ContinuousLinearMap.apply ℂ ℂ ((Pi.single i 1 : Fin n → ℂ), 0)).continuous.comp_continuousOn
-        hfd).neg
+      have hc := (ContinuousLinearMap.apply ℂ ℂ
+        ((Pi.single i 1 : Fin n → ℂ), (0 : Fin n → ℂ))).continuous
+      exact (hc.comp_continuousOn hfd).neg
   have hind : Topology.IsInducing (KAM.realInclusion₂ n) := hiso.isEmbedding.isInducing
   rw [hind.continuousOn_iff]
   refine (hC.comp (KAM.realInclusion₂ n).continuous.continuousOn (fun z hz => hz)).congr ?_

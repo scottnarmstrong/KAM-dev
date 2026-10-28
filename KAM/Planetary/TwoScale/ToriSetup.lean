@@ -27,8 +27,8 @@ namespace KAM.Planetary
 
 open KAM.Weighted KAM.Canonical KAM.NormalForm
 
-/-- The outputs of `iterative` on the shared witnesses concerning the conjugacy `H ∘ Φ_j = h_j + f_j`
-and the symplecticity of `Φ_j` (not part of `ActionSteps`/`PsiSteps`). -/
+/-- The outputs of `iterative` on the shared witnesses concerning the conjugacy
+`H ∘ Φ_j = h_j + f_j` and the symplecticity of `Φ_j` (not part of `ActionSteps`/`PsiSteps`). -/
 structure StageSteps {a b : ℕ} (D : Set (Fin (a + b) → ℝ)) (sbar : ℝ) (p : ScaleData)
     (h : (Fin (a + b) → ℂ) → ℂ) (f : CHam (a + b))
     (Ds : ℕ → Set (Fin (a + b) → ℝ)) (hs : ℕ → (Fin (a + b) → ℂ) → ℂ)
