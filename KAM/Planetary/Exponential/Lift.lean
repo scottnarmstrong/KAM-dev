@@ -76,7 +76,8 @@ theorem liftPhysicalDeriv {m : Fin n → ℝ} (hm : ∀ i, 0 < m i) (mu : ℝ)
   have hyO' : (c.symm ∘ y) t ∈ poincareProdCastDom n := by
     show c (c.symm (y t)) ∈ poincareProdDom n
     rwa [c.apply_symm_apply]
-  have hy' : HasDerivAt (c.symm ∘ y) (c.symm (hamiltonianVectorField (liftChartHam m mu) (y t))) t :=
+  have hy' : HasDerivAt (c.symm ∘ y)
+      (c.symm (hamiltonianVectorField (liftChartHam m mu) (y t))) t :=
     c.symm.hasFDerivAt.comp_hasDerivAt t hy
   have hd' : DifferentiableAt ℝ (liftChartHam m mu) (c (c.symm (y t))) := by
     rwa [c.apply_symm_apply]
@@ -114,7 +115,7 @@ theorem contDiffOn_liftField {m : Fin n → ℝ} (hm : ∀ i, 0 < m i) (mu : ℝ
   ham_smooth_c1 (isOpen_chartSafe hm)
     ((analyticOnNhd_liftChartHam hm mu).contDiffOn (isOpen_chartSafe hm).uniqueDiffOn)
 
-theorem fastShift_neg (k : Fin n → ℤ) :
+theorem liftFastShift_neg (k : Fin n → ℤ) :
     (fastShift (a := n) (b := n) (-k) : Phase (n + n)) = -fastShift (a := n) (b := n) k := by
   refine Prod.ext (funext fun j => ?_) ?_
   · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [fastShift, Fin.append_left]
@@ -129,7 +130,7 @@ theorem chartSafe_shift_iff {m : Fin n → ℝ} (hm : ∀ i, 0 < m i) (k : Fin n
     exact ⟨h1, by simpa [h2] using hw.2⟩
   refine ⟨key k w, fun h => ?_⟩
   have := key (-k) _ h
-  rwa [fastShift_neg, add_neg_cancel_right] at this
+  rwa [liftFastShift_neg, add_neg_cancel_right] at this
 
 theorem liftField_periodic {m : Fin n → ℝ} (hm : ∀ i, 0 < m i) (mu : ℝ) (k : Fin n → ℤ) :
     ∀ w ∈ chartSafe m, hamiltonianVectorField (liftChartHam m mu)
