@@ -116,7 +116,7 @@ theorem uniform_data {W Q : Set (Phase (n+n))} (hW : IsOpen W)
     ext j
     · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [assemble, udAngle, fast, slow]
     · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [assemble, udAngle, fast, slow]
-  -- `stepP:p14:ud-transl`: translating by the lattice shift moves each ball into the cell's thickening
+  -- `stepP:p14:ud-transl`: the lattice shift moves each ball into the cell's thickening
   have key : ∀ x : Phase (n + n), assemble (fast x.2) 0 (slow x.2) (slow x.1) ∈ Q →
       ∀ y ∈ closedBall x δ,
         y - fastShift (fun i => ⌊x.1 (Fin.castAdd n i) / (2 * Real.pi)⌋) ∈ cthickening δ C := by
