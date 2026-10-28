@@ -377,3 +377,28 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   orchestrator, each followed by a delta audit: P11A-C8 helper `step_small` -> `p11_step_small` (reused short name);
   P23-22 three statement lines wrapped (whitespace only; lint). New pre-audit refusals: reused public short names
   (main_shortname_check.py) and root-name shadows (main_shadow_check.sh).
+- **18:17. Ruling (P11B B07 coverage).** B07's signed `adm_choice`/`free_radius` match the signature but are narrower
+  than their blueprint conclusions: (i) A7 (`eps0 = eps + N C1 s0^2/2`, `|R0| <= eps0`, p11a3:215, obtained from
+  `initial` at :222) is not attached; the design assigns the B06 input to B07, so B07b adds an A7 companion consuming
+  `initial`. (ii) `fr-other` (p11a4:39,46: A1-A7 and inductive-lemma / parameter-selection / exported-sums hold
+  verbatim with the adapted radius) refers to results that do not exist before B10/B12/B13; it is discharged where
+  those packages apply them at the adapted radius, and its graph node stays NOT_STARTED until then. No signed
+  statement changes.
+- **18:47. Ruling (audit scope: signed declarations vs literal graph nodes).** The main orchestrator's audit focus
+  had said "an exported lemma named after a graph node must state that node's literal conclusion". For SIGNED
+  declarations that conflicts with the approved signatures: N10-3's `cf_orbit`/`cf_branch` match their signatures
+  exactly and are proved soundly, but the design (N10 lines 135, 425-435) deliberately narrows them (shorter time
+  interval 2T <= T0; orbit applicability supplied inside `cf_branch`), so audit 1 failed them. Ruling: signed
+  declarations follow the signature file; the literal-node rule applies to unsigned exports only, and for a
+  deliberately narrowed signed export the audit checks that every consumer's needs are met. N10-3 gets a re-scope
+  audit with no code change.
+- **18:50. Ruling (short-name policy for signed names).** N11-B passed every mathematical check but audit 1
+  failed it on "no reused public short name" for the SIGNED definitions `constants` and `kappa` (fully qualified
+  names differ; no shadowing). Ruling: the short-name rule governs unsigned helpers only; signed names follow
+  the signature file. N11-B accepted without re-audit (N11-B-audit-1-ruling.md on inp-n11b).
+- **18:55. Progress.** `amdConfinement` sealed and landed (e4f373bd; 14 of 22 frozen statements now proved) with
+  `two_scale_kam` (P23-22), S9-Q/S9-T, S0/S4/E4/E8; graph P 608/1363. Track N chains under way: N10-3/N10-4 in audit,
+  N10-5 (`head` + provider of `quasiConvex_nekhoroshev_complexBound`) proving; N11-A/N11-B passed, N11-C/D/E3
+  proving. P5-FAM (toward `properlyDegenerateKAM`) proving. Tooling: compile gate raised to 3 slots (builds had
+  queued 13 min with 12 GB free); pre-audit checks refuse reused helper short names and root-name shadows that KAM
+  actually uses.
