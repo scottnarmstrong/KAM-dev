@@ -540,6 +540,9 @@ public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.Remainder
 public import KAM.Planetary.PGAssembly.Scales
+public import KAM.Planetary.PGAssembly.Threshold
+public import KAM.Planetary.PGAssembly.ThresholdAlg
+public import KAM.Planetary.PGAssembly.ThresholdLimits
 public import KAM.Planetary.PGMeasure.AffineSlab
 public import KAM.Planetary.PGMeasure.Collar
 public import KAM.Planetary.PGMeasure.CompactLipschitz
