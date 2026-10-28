@@ -279,8 +279,10 @@ theorem bracket (b : PartialBlock n k) {R0 s0 R s ρ σ U V : ℝ} {u v : EC n k
             (hS _ _).2.trans (mul_le_mul (hdIu _ I hI).2 (hdIv _ I hI).2 (wsum_nonneg' _ _ _)
               (by positivity))
       _ = k * (U / (R0 - R + ρ) * (V / ρ)) := by simp
-  have hC := hslow (fun i => Fin.natAdd n (Fin.castAdd k i)) (fun i => Fin.natAdd n (Fin.natAdd k i))
-  have hD := hslow (fun i => Fin.natAdd n (Fin.natAdd k i)) (fun i => Fin.natAdd n (Fin.castAdd k i))
+  have hC := hslow (fun i => Fin.natAdd n (Fin.castAdd k i))
+    (fun i => Fin.natAdd n (Fin.natAdd k i))
+  have hD := hslow (fun i => Fin.natAdd n (Fin.natAdd k i))
+    (fun i => Fin.natAdd n (Fin.castAdd k i))
   have hcC := mul_le_mul_of_nonneg_left hC hc
   have hcD := mul_le_mul_of_nonneg_left hD hc
   refine (add_le_add hA (add_le_add hB (add_le_add hcC hcD))).trans (le_of_eq ?_)
