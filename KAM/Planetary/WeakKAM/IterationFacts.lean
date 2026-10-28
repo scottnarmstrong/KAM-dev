@@ -227,6 +227,41 @@ theorem stepFacts_of_ctx (ν : ℕ) : StepFacts a d.C₁ ν := by
       (by have := h.inc; have := h.col; have := h.hC; have := h.ht; nlinarith) h.inc h.col ν 0
     exact this.2.2.2.2.2.2.2.2.2.2.2.2
 
+theorem iter_tail (m : ℕ) :
+    Summable (fun i => selectionell a (i + m)) ∧
+      selectionTail a m ≤ a.γ * selectionT a m ^ (-a.τ - 1) := by
+  have h := c.hyp
+  have := schedule_props a h.hn h.hμ h.hτ h.hγ h.hT h.ht h.hs h.he h.hstrip h.hC
+    (by have := h.inc; have := h.col; have := h.hC; have := h.ht; nlinarith) h.inc h.col 0 m
+  exact ⟨this.2.2.2.2.2.1, this.2.2.2.2.2.2.2.1⟩
+
+theorem iter_t_half (j : ℕ) : selectiont a (j + 1) ≤ selectiont a j / 2 := by
+  have h := c.hyp
+  exact (schedule_props a h.hn h.hμ h.hτ h.hγ h.hT h.ht h.hs h.he h.hstrip h.hC
+    (by have := h.inc; have := h.col; have := h.hC; have := h.ht; nlinarith) h.inc h.col j 0).2.2.1
+
+theorem iter_sum_le (ν : ℕ) :
+    (∑ i ∈ Finset.range ν, 4 * selectionε a i / (selections a i * selectiont a i)) ≤ d.C₁ := by
+  have h := c.hyp
+  exact (schedule_props a h.hn h.hμ h.hτ h.hγ h.hT h.ht h.hs h.he h.hstrip h.hC
+    (by have := h.inc; have := h.col; have := h.hC; have := h.ht; nlinarith) h.inc h.col
+    ν 0).2.2.2.2.2.2.2.2.2.1
+
+theorem iter_rr (ν : ℕ) :
+    selectionr a ν - selectiond a ν - selectionσ a ν - 2 * selectionσ a ν =
+      selectionr a (ν + 1) := by
+  rw [(iter_strip c ν).2.1]
+  ring
+
+theorem iter_E_le_one (ν : ℕ) : 1 + p11Error n (selectionT a ν) (selectiond a ν) ≤ 2 := by
+  have h1 := (wbud_E_bounds c.hyp ν).2
+  rw [selectionCutoffError_eq_p11Error] at h1
+  linarith
+
+theorem iter_E_nonneg' (ν : ℕ) : 0 ≤ p11Error n (selectionT a ν) (selectiond a ν) := by
+  rw [← selectionCutoffError_eq_p11Error]
+  exact iter_E_nonneg c ν
+
 end Stage
 
 end KAM.Planetary
