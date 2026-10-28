@@ -228,6 +228,31 @@ theorem separation_pair (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin 
   simp only at this
   linarith
 
+/-- `pa-circ` and `pa-unif`: the common radius with the separation bound. -/
+theorem exists_radius (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    ∃ r : ℝ, 0 < r ∧ r < rho D a ∧
+      ∀ t x, x ∈ polydisc D a r → ∀ i j, i < j →
+        ((a j - a i) ^ 2 / 2) ≤ (separationC D t x i j).re := by
+  have hρ := rho_pos D ha
+  have hev : ∀ i j : Fin n, ∀ᶠ r in 𝓝[>] (0 : ℝ), r < rho D a ∧
+      (i < j → ∀ t x, x ∈ polydisc D a r → (a j - a i) ^ 2 / 2 ≤ (separationC D t x i j).re) := by
+    intro i j
+    by_cases hij : i < j
+    · obtain ⟨δ, hδ, hδr, hδ'⟩ := separation_pair D ha hij
+      filter_upwards [Ioo_mem_nhdsGT hδ] with r hr
+      refine ⟨by linarith [hr.2], fun _ t x hx => hδ' t x ?_⟩
+      rw [polydisc_eq_ball D a hr.1] at hx
+      exact Metric.ball_subset_ball hr.2.le hx
+    · filter_upwards [Ioo_mem_nhdsGT hρ] with r hr
+      exact ⟨hr.2, fun h => absurd h hij⟩
+  have hall : ∀ᶠ r in 𝓝[>] (0 : ℝ), ∀ i j : Fin n, r < rho D a ∧
+      (i < j → ∀ t x, x ∈ polydisc D a r → (a j - a i) ^ 2 / 2 ≤ (separationC D t x i j).re) :=
+    Filter.eventually_all.2 fun i => Filter.eventually_all.2 (hev i)
+  obtain ⟨r, hr, hr0⟩ := (hall.and self_mem_nhdsWithin).exists
+  have hn : Nonempty (Fin n) := ⟨⟨0, D.hn⟩⟩
+  obtain ⟨i⟩ := hn
+  exact ⟨r, hr0, (hr i i).1, fun t x hx i j hij => (hr i j).2 hij t x hx⟩
+
 end SecularForm
 end KAM.Planetary
 end
