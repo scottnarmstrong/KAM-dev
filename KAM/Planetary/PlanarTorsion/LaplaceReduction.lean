@@ -67,9 +67,11 @@ theorem p11cI_red1 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (s : ℝ) (k : ℤ) :
     have hp := p11cKer_pos ha t
     have h1 : p11cKer a t ^ (s - 1) = p11cKer a t ^ s / p11cKer a t := Real.rpow_sub_one hp.ne' s
     have h2 := Real.rpow_pos_of_pos hp s
-    have e1 : cos (((k + 1 : ℤ) : ℝ) * t) = cos ((k : ℝ) * t) * cos t - sin ((k : ℝ) * t) * sin t := by
+    have e1 : cos (((k + 1 : ℤ) : ℝ) * t) =
+        cos ((k : ℝ) * t) * cos t - sin ((k : ℝ) * t) * sin t := by
       rw [← cos_add]; push_cast; ring_nf
-    have e2 : cos (((k - 1 : ℤ) : ℝ) * t) = cos ((k : ℝ) * t) * cos t + sin ((k : ℝ) * t) * sin t := by
+    have e2 : cos (((k - 1 : ℤ) : ℝ) * t) =
+        cos ((k : ℝ) * t) * cos t + sin ((k : ℝ) * t) * sin t := by
       rw [← cos_sub]; push_cast; ring_nf
     rw [h1, e1, e2]
     unfold p11cKer at *
@@ -106,9 +108,11 @@ theorem p11cI_red2 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (s : ℝ) (k : ℤ) :
       simpa using ((hasDerivAt_id t).const_mul (k : ℝ)).sin
     convert hsin.mul hs using 1
     have h2 := Real.rpow_pos_of_pos hp s
-    have e1 : cos (((k + 1 : ℤ) : ℝ) * t) = cos ((k : ℝ) * t) * cos t - sin ((k : ℝ) * t) * sin t := by
+    have e1 : cos (((k + 1 : ℤ) : ℝ) * t) =
+        cos ((k : ℝ) * t) * cos t - sin ((k : ℝ) * t) * sin t := by
       rw [← cos_add]; push_cast; ring_nf
-    have e2 : cos (((k - 1 : ℤ) : ℝ) * t) = cos ((k : ℝ) * t) * cos t + sin ((k : ℝ) * t) * sin t := by
+    have e2 : cos (((k - 1 : ℤ) : ℝ) * t) =
+        cos ((k : ℝ) * t) * cos t + sin ((k : ℝ) * t) * sin t := by
       rw [← cos_sub]; push_cast; ring_nf
     have h3 : p11cKer a t ^ (s - 1) = p11cKer a t ^ s / p11cKer a t := Real.rpow_sub_one hp.ne' s
     have h4 : p11cKer a t ^ (1 - s) = (p11cKer a t ^ (s - 1))⁻¹ := by
@@ -141,7 +145,8 @@ theorem p11cI_red2 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (s : ℝ) (k : ℤ) :
   · exact (p11cI_cont ha s _).intervalIntegrable 0 (2 * π)
   · exact (p11cI_cont ha s _).intervalIntegrable 0 (2 * π)
   · exact (continuous_const.mul (p11cI_cont ha (s - 1) k)).intervalIntegrable 0 (2 * π)
-  · exact (continuous_const.mul ((p11cI_cont ha s _).sub (p11cI_cont ha s _))).intervalIntegrable 0 (2 * π)
+  · exact (continuous_const.mul ((p11cI_cont ha s _).sub (p11cI_cont ha s _))).intervalIntegrable
+      0 (2 * π)
 
 /-! ### Statements -/
 
@@ -226,3 +231,140 @@ theorem laplace_up (s a : ℝ) (hs : 1 / 2 ≤ s) (ha : a ∈ Ioo (0 : ℝ) 1) :
     have hsa : s * a ≠ 0 := mul_ne_zero hs0 ha0
     field_simp
     linarith
+
+/-! ### Rational reduction -/
+
+/-- Evaluation of a rational polynomial at a real point. -/
+abbrev p11cEv (a : ℝ) (p : Polynomial ℚ) : ℝ := Polynomial.eval₂ (algebraMap ℚ ℝ) a p
+
+/-- `f` is a polynomial combination of `b_{1/2}^{(0)}`, `b_{1/2}^{(1)}` over a pole-free rational
+function. -/
+def p11cRep (f : ℝ → ℝ) : Prop :=
+  ∃ p0 p1 q : Polynomial ℚ, ∀ a ∈ Ioo (0 : ℝ) 1,
+    p11cEv a q ≠ 0 ∧
+      f a = (p11cEv a p0 * p11c_laplace (1 / 2) 0 a + p11cEv a p1 * p11c_laplace (1 / 2) 1 a) /
+        p11cEv a q
+
+theorem p11cRep_comb {f g F : ℝ → ℝ} (hf : p11cRep f) (hg : p11cRep g)
+    (U V W : Polynomial ℚ) (hW : ∀ a ∈ Ioo (0 : ℝ) 1, p11cEv a W ≠ 0)
+    (h : ∀ a ∈ Ioo (0 : ℝ) 1, F a = (p11cEv a U * f a + p11cEv a V * g a) / p11cEv a W) :
+    p11cRep F := by
+  obtain ⟨P0, P1, Q, hP⟩ := hf
+  obtain ⟨R0, R1, S, hR⟩ := hg
+  refine ⟨U * P0 * S + V * R0 * Q, U * P1 * S + V * R1 * Q, Q * S * W, fun a ha => ?_⟩
+  obtain ⟨hQ, hfa⟩ := hP a ha
+  obtain ⟨hS, hga⟩ := hR a ha
+  have hW' := hW a ha
+  refine ⟨by
+    simp only [p11cEv, Polynomial.eval₂_mul]
+    exact mul_ne_zero (mul_ne_zero hQ hS) hW', ?_⟩
+  rw [h a ha, hfa, hga]
+  simp only [p11cEv, Polynomial.eval₂_mul, Polynomial.eval₂_add] at *
+  field_simp
+  ring
+
+theorem p11cRep_zero : p11cRep (fun a => p11c_laplace (1 / 2) 0 a) :=
+  ⟨1, 0, 1, fun a _ => by simp [p11cEv]⟩
+
+theorem p11cRep_one : p11cRep (fun a => p11c_laplace (1 / 2) 1 a) :=
+  ⟨0, 1, 1, fun a _ => by simp [p11cEv]⟩
+
+theorem p11c_one_sub_sq_ne {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) : 1 - a ^ 2 ≠ 0 := by
+  nlinarith [ha.1, ha.2]
+
+/-- Levels `0` and `1` at half-integer order `1/2 + j`. -/
+theorem p11cRep_base (j : ℕ) :
+    p11cRep (fun a => p11c_laplace (1 / 2 + (j : ℝ)) 0 a) ∧
+      p11cRep (fun a => p11c_laplace (1 / 2 + (j : ℝ)) 1 a) := by
+  induction j with
+  | zero =>
+    simp only [Nat.cast_zero, add_zero]
+    exact ⟨p11cRep_zero, p11cRep_one⟩
+  | succ j ih =>
+    obtain ⟨h0, h1⟩ := ih
+    have hs : (1 / 2 : ℝ) ≤ 1 / 2 + (j : ℝ) := by
+      have : (0 : ℝ) ≤ j := Nat.cast_nonneg j
+      linarith
+    have hup := fun a (ha : a ∈ Ioo (0 : ℝ) 1) => laplace_up (1 / 2 + (j : ℝ)) a hs ha
+    have hW : ∀ a ∈ Ioo (0 : ℝ) 1, p11cEv a ((1 - Polynomial.X ^ 2) ^ 2) ≠ 0 := by
+      intro a ha
+      simp only [p11cEv, Polynomial.eval₂_pow, Polynomial.eval₂_sub, Polynomial.eval₂_one,
+        Polynomial.eval₂_X]
+      exact pow_ne_zero _ (p11c_one_sub_sq_ne ha)
+    have hc : (1 / 2 : ℝ) + ((j + 1 : ℕ) : ℝ) = 1 / 2 + (j : ℝ) + 1 := by push_cast; ring
+    rw [hc]
+    refine ⟨p11cRep_comb h0 h1 (1 + Polynomial.X ^ 2)
+      (Polynomial.C (2 * (1 - 1 / (1 / 2 + (j : ℚ)))) * Polynomial.X) _ hW
+      fun a ha => ?_, p11cRep_comb h1 h0
+      ((1 + Polynomial.X ^ 2) * Polynomial.C (1 - 1 / (1 / 2 + (j : ℚ))))
+      (Polynomial.C 2 * Polynomial.X) _ hW fun a ha => ?_⟩
+    · rw [(hup a ha).1]
+      simp [p11cEv]
+      ring
+    · rw [(hup a ha).2.1]
+      simp [p11cEv]
+
+theorem p11c_laplace_step {s a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (k : ℤ) (hk : s - 1 - k ≠ 0) :
+    p11c_laplace s (k + 1) a =
+      (((k : ℝ) + s - 1) * a * p11c_laplace s (k - 1) a -
+        (k : ℝ) * (1 + a ^ 2) * p11c_laplace s k a) / ((s - 1 - k) * a) := by
+  rw [eq_div_iff (mul_ne_zero hk ha.1.ne')]
+  linear_combination p11c_laplace_red3 ha s k
+
+theorem p11cRep_all (j : ℕ) (k : ℕ) :
+    p11cRep (fun a => p11c_laplace (1 / 2 + (j : ℝ)) (k : ℤ) a) ∧
+      p11cRep (fun a => p11c_laplace (1 / 2 + (j : ℝ)) ((k : ℤ) + 1) a) := by
+  induction k with
+  | zero => simpa using p11cRep_base j
+  | succ k ih =>
+    obtain ⟨hk0, hk1⟩ := ih
+    refine ⟨by simpa using hk1, ?_⟩
+    have hne : ((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ)) ≠ 0 := by
+      intro h
+      push_cast at h
+      have h2 : ((2 * (j : ℤ) - 1 - 2 * ((k : ℤ) + 1) : ℤ) : ℚ) = 0 := by push_cast; linarith
+      have := Int.cast_eq_zero.1 h2
+      omega
+    have hW : ∀ a ∈ Ioo (0 : ℝ) 1,
+        p11cEv a (Polynomial.C ((1 / 2 + (j : ℚ)) - 1 - ((k + 1 : ℕ) : ℚ)) * Polynomial.X) ≠ 0 := by
+      intro a ha
+      simp only [p11cEv, Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X]
+      refine mul_ne_zero ?_ ha.1.ne'
+      intro h
+      apply hne
+      have : (((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ) : ℚ) : ℝ) = 0 := by
+        push_cast at h ⊢; norm_num at h; linarith
+      exact_mod_cast this
+    refine p11cRep_comb (f := fun a => p11c_laplace (1 / 2 + (j : ℝ)) (k : ℤ) a)
+      (g := fun a => p11c_laplace (1 / 2 + (j : ℝ)) ((k : ℤ) + 1) a) hk0 hk1
+      (Polynomial.C (((k + 1 : ℕ) : ℚ) + (1 / 2 + (j : ℚ)) - 1) * Polynomial.X)
+      (-(Polynomial.C ((k + 1 : ℕ) : ℚ)) * (1 + Polynomial.X ^ 2)) _ hW fun a ha => ?_
+    have hk : (1 / 2 + (j : ℝ)) - 1 - (((k + 1 : ℕ) : ℤ) : ℝ) ≠ 0 := by
+      intro h
+      apply hne
+      have : (((j : ℚ) + 1 / 2 - 1 - ((k + 1 : ℕ) : ℚ) : ℚ) : ℝ) = 0 := by
+        push_cast at h ⊢; linarith
+      exact_mod_cast this
+    have := p11c_laplace_step (s := 1 / 2 + (j : ℝ)) ha ((k + 1 : ℕ) : ℤ) hk
+    have e1 : (((k + 1 : ℕ) : ℤ) + 1) = ((k : ℤ) + 1) + 1 := by push_cast; ring
+    have e2 : (((k + 1 : ℕ) : ℤ) - 1) = (k : ℤ) := by push_cast; ring
+    rw [e2] at this
+    have e3 : (((k + 1 : ℕ) : ℤ)) = (k : ℤ) + 1 := by push_cast; ring
+    rw [e3] at this ⊢
+    rw [show ((k : ℤ) + 1 + 1) = (k : ℤ) + 1 + 1 from rfl, this]
+    simp only [p11cEv, Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X,
+      Polynomial.eval₂_neg, Polynomial.eval₂_add, Polynomial.eval₂_one, Polynomial.eval₂_pow]
+    push_cast
+    norm_num
+    ring_nf
+
+theorem laplace_rational_reduction (j k : ℕ) :
+    ∃ p0 p1 q : Polynomial ℚ, ∀ a ∈ Ioo (0 : ℝ) 1,
+      Polynomial.eval₂ (algebraMap ℚ ℝ) a q ≠ 0 ∧
+      p11c_laplace (1 / 2 + (j : ℝ)) k a =
+        (Polynomial.eval₂ (algebraMap ℚ ℝ) a p0 * p11c_laplace (1 / 2) 0 a +
+         Polynomial.eval₂ (algebraMap ℚ ℝ) a p1 * p11c_laplace (1 / 2) 1 a) /
+          Polynomial.eval₂ (algebraMap ℚ ℝ) a q :=
+  (p11cRep_all j k).1
+
+end KAM.Planetary
