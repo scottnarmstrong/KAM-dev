@@ -114,7 +114,8 @@ theorem direct_step {n J : ℕ} {D : Set (Fin n → ℂ)} {r s K α q δ ρ σ :
     ((∀ k ∈ Λ, -k ∈ Λ) → RealOn (Dom n D r s) (fun z => h z.2) →
       RealOn (Dom n D r s) f → (∀ j, RealOn (Dom n D (rj j) (sj j)) (gj j)) →
       RealOn V gp ∧ RealOn V fp ∧
-      ∀ x : Phase n, KAM.realInclusion₂ n x ∈ V → Ψ (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n)) := by
+      ∀ x : Phase n, KAM.realInclusion₂ n x ∈ V →
+        Ψ (KAM.realInclusion₂ n x) ∈ range (KAM.realInclusion₂ n)) := by
   intro φ Ψ g gp fp u star V
   have hα : 0 < 2 * α / q := by
     have := H.α_pos
