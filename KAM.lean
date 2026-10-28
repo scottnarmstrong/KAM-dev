@@ -470,6 +470,7 @@ public import KAM.Planetary.Averaging.Splitting
 public import KAM.Planetary.Exponential.ComplexTube
 public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Exponential.Enlargement
+public import KAM.Planetary.Exponential.KeplerData
 public import KAM.Planetary.Exponential.LocalComplexification
 public import KAM.Planetary.Exponential.RealDomain
 public import KAM.Planetary.Exponential.Setting
@@ -658,6 +659,8 @@ public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
 public import KAM.Planetary.Quantitative.Interface
 public import KAM.Planetary.Quantitative.Thresholds
+public import KAM.Planetary.SecularBox.Numerics
+public import KAM.Planetary.SecularBox.ParametricIntegral
 public import KAM.Planetary.SecularForm.Analytic
 public import KAM.Planetary.SecularForm.AnalyticGeometry
 public import KAM.Planetary.SecularForm.AnalyticReal
