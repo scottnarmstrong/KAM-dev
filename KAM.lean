@@ -373,6 +373,8 @@ public import KAM.Nekhoroshev.NormalForm.StepsSeq
 public import KAM.Nekhoroshev.NormalForm.Telescope
 public import KAM.Nekhoroshev.ODE.Specialization
 public import KAM.Nekhoroshev.Partial.Constants
+public import KAM.Nekhoroshev.Partial.Coordinates
+public import KAM.Nekhoroshev.Partial.Setting
 public import KAM.Nekhoroshev.Poschel.BlockHypotheses
 public import KAM.Nekhoroshev.Poschel.BlockStability
 public import KAM.Nekhoroshev.Poschel.Elementary
