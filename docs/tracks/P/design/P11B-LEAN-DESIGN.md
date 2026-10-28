@@ -6,10 +6,10 @@
 
 1. Follow the current split files `p11a3-iteration-selection.tex` and `p11a4-limit-family.tex`, not a generic invocation of Rus01 or track K’s quadratic iteration. All 119 graph nodes sourced from these files are accounted for below. Read graph source from `/root/code/KAM-inp/docs/graph/P/DEPGRAPH.md`; this worktree has no assembled graph. Graph IDs are preserved.
 2. Use the frozen `Phase`, `complexStrip`, `actionNbhd`, `frequencyMap`, `IsDiophantine`, `hamiltonianVectorField`, `realHamiltonian`, and `symplecticForm` directly. Real and complex Pi/Prod norms are the max norms. Euclidean lengths occur only as explicit square-root-of-sum-of-squares functions for the measure-layer tensor bounds. No new norm instances.
-3. Run the geometric schedule, with `T_j = T₀ 2^j`, `t_j = t₀ 2^{-((τ+1)j)}`, `ε_j = ε₀ varpi^j`, and `s_j = s₀ q^j`. Keep every branch of `lambdaMax` and the full eight-rate lower-budget theorem. Constants are computed before the perturbation; `selectionFixedKey` explicitly removes beta while fixing all the other data.
+3. Run the geometric schedule, with `T_j = T₀ 2^j`, `t_j = t₀ 2^{-((τ+1)j)}`, `ε_j = ε₀ varpi^j`, and `s_j = s₀ q^j`. Keep every branch of `lambdaMax` and the full eight-rate lower-budget theorem. Constants are computed before the perturbation; `selectionFixedKey` explicitly removes beta while fixing only the numerical/geometric data, including actual M₀; h may vary with that key.
 4. Establish finite-stage divisors on `K_(ν+1)` before applying the canonical step; never infer them from a limit on `Kinf`. Smooth extensions are constructed from finite prefixes; their measure estimate makes the next retained set nonempty. Infinite iteration extends one existing chain coherently, rather than choosing unrelated finite witnesses.
 5. Use the ε-adapted radius `sqrt (2 ε/(N C₁))` for all 11a-4 results and keep `ε₀ = 2 ε`. The fixed initial radius remains available for the 11a-3 selection theorem, including ε=0. No division by a vanishing adapted radius is used.
-6. Return construction witnesses in output records. No source-facing theorem takes an iteration, good set, frequency limit, invariant torus, or Lipschitz estimate as a hypothesis. `SelectionFiniteChain` is the literal source-defined finite-chain premise of finite-divisor/finite-extension/finite-measure. Conditional implementation helpers must have separate names.
+6. Return construction witnesses in output records. No source-facing theorem takes an iteration, good set, frequency limit, invariant torus, or Lipschitz estimate as a hypothesis. `SelectionExtensionChain` contains exactly the analytic nested-prefix premises of finite-extension. `SelectionFiniteChain` extends it with resonance retention for finite-divisor/finite-measure; its generated `toSelectionExtensionChain` projection supplies finite-extension. Conditional implementation helpers must have separate names.
 7. `SelectionEvaluationOutput` extends the entire chain/selection/limit/torus/displacement construction, so all final clauses refer to the same witnesses. The public theorem `evaluation_bilipschitz` constructs that whole record from raw source data. Records are output packaging, never an additional assumption replacing a proof.
 8. Design the graph’s `ps-lim` SOURCE_GAP as the new local theorem `continuous_series_on_compact`. Supply reality when consuming the upstream canonical-step real-flow clause. Do not claim an off-section normal form on a common positive action radius.
 
@@ -25,7 +25,7 @@
 | Standing data | `SelectionData n` | exactly sel-data (a)–(d), including C₁≥1 and finite type/top derivatives |
 | Perturbation | `SelectionPerturbation d f ε` | holomorphic, periodic, real, pointwise bound only |
 | Schedule | `SelectionSchedule n` | scalar data, no claimed inequalities |
-| Finite chain | `SelectionChain n`, `SelectionFiniteChain d a c ν` | raw functions; source finite-chain properties |
+| Finite chain | `SelectionChain n`, `SelectionExtensionChain d a c ν`, `SelectionFiniteChain d a c ν` | raw functions; nested analytic prefixes, then retained prefixes |
 | Results, in dependency order | `SelectionIteration`, `SelectionOutput`, `SelectionComposition`, `SelectionLimit`, `SelectionTori`, `SelectionDisplacement`, `SelectionLipschitz`, `SelectionEvaluationOutput` | output records, progressively extending the same data |
 | Quotient target | `(Fin n → AddCircle (1 : ℝ)) × SelectionR n` | period-one quotient, no manifold layer |
 
@@ -182,7 +182,7 @@ Existing delivered APIs are used by their exact names. The unimplemented neighbo
 | p11a:fourier-cutoff, loss-choice, loss-sum | P11A: `fourier_cutoff`, `loss_choice`, `loss_sum` | T≥1, alpha=varpi/8, d_T≤1; consume cutoff error and geometric strip-loss sum |
 | p11a:domain-def | P11A: `domain_def` | three factors ((theta,eta),b); `selectionDomain` spells out the required carrier using frozen strip/collar, to become the same object when reconciled |
 | p11a:cutoff / cu-coeff | P11A: `cutoff`, local `cu_coeff` | use the WHOLE B_ν collar to obtain holomorphic zero Fourier/Taylor coefficients; never restrict these increments first to B_(ν+1) |
-| p11a:canonical-step | P11A: `canonical_step` | phase radius/strip/losses, finite retained E, collar t_(ν+1), L=2C₁, divisor D_ν, positive ε_ν, C1–C3 and reality supplied; consume O2–O5 and the unscaled map derivative |
+| p11a:canonical-step | P11A: `canonical_step`, `canonical_step_real`, `real_lipschitz` | phase radius/strip/losses, finite retained E, collar t_(ν+1), L=2C₁, divisor D_ν, positive ε_ν, C1–C3 and reality supplied; consume O2–O5 and the unscaled map derivative |
 | p11a:affine-flow | P11A: `affine_flow` | simple canonical affine-in-action map, not an arbitrary symplectomorphism; real-flow estimate receives real coefficients |
 | p11a:param-cauchy | P11A: `param_cauchy` | whole complex collar, inner collar t/2 or 3t/4; consume j^j A/(t-t')^j |
 | p11a:limit-bridge, divisor-wide | P11A: `limit_bridge`, `divisor_wide` | shell margin 2γ and single tail γ; direct finite-divisor does not depend on divisor-wide (avoid the graph cycle) |
@@ -190,7 +190,7 @@ Existing delivered APIs are used by their exact names. The unimplemented neighbo
 | p1:uniform-limits | `KAM.uniform_limits` (`KAM/Strip/Limits.lean`) | one fixed open complex strip and uniform derivative limit; used for lm-hol ONLY |
 | p1:exp-sums / decay | `KAM.Fourier.exp_sums`, `KAM.decay`, `KAM.decay_boundary_radius`; P11A cutoff coefficients | period-one coefficient factors 2π; use at geometric widths, never treat a coefficient radius as a geometric width |
 | p0 frozen dynamics | `KAM.hamiltonianVectorField`, `KAM.hamiltonianVectorFieldℂ`, `KAM.symplecticForm`, `KAM.IsDiophantine`, `KAM.realHamiltonian` | direct uses; complex form is existing `KAM.Canonical.symplFormC` |
-| real symplectic covariance | delivered P1 `KAM.Planetary.chart_field`, `chartPullback`, `IsChart` | use factor 1 after real restriction; supplies lt-cov without assuming N small-flow hypotheses for a composed map |
+| real symplectic covariance | delivered PP1-4 `KAM.Planetary.chart_field`, `chartPullback`, `IsChart` | land/build its own package in shared inp before B16; use factor 1 after real restriction; supplies lt-cov without assuming N small-flow hypotheses for a composed map |
 | McShane / lipeomorphism | `KAM.mcshane_prod`, `KAM.lipeo_onto`, `KAM.lipeo_bounds` | max-norm Phase target, lambda=2^-10; consumes unrestricted extension and inverse inequality |
 | image volume | `KAM.lip_image_prod` | exponent 2*n and product volume; apply to extension and inverse on the image |
 | quotient and lattice | existing `AddCircle`, `KAM.Planetary.fullShift` is RADIAN in P1 | this part uses the literal period-one integer shift; do not reuse `fullShift` without conversion |
@@ -225,15 +225,15 @@ Each row is one prover package and one focused module. All paths have prefix `KA
 | Package | Exact module suffix | Nodes / contents | Inputs (package IDs or exact upstream APIs) | Wave | Estimated lines |
 |---|---|---|---|---|---|
 | B01 | `Data` | sel-data, carriers and input restrictions | frozen definitions, Mathlib | 1 | 350 |
-| B02 | `Schedule` | schedule-consts, schedule-ratios, schedule, geom-recursion; raw SelectionChain/SelectionFiniteChain and shell/retained definitions | B01; P11A fourier_cutoff formula | 2 | 600 |
+| B02 | `Schedule` | schedule-consts, schedule-ratios, schedule, geom-recursion; raw SelectionChain/SelectionExtensionChain/SelectionFiniteChain and shell/retained definitions | B01; P11A fourier_cutoff formula | 2 | 600 |
 | B03 | `StripBudget` | strip-budget, schedule-props | B02; loss_choice, loss_sum; Real.log_le_sub_one_of_pos | 3 | 550 |
 | B04 | `Cutoff` | smooth-cutoff; exact bump integral constants | B01; HasCompactSupport.hasFDerivAt_convolution_right | 2 | 700 |
-| B05 | `Extension` | finite-extension; Leibniz and Euclidean/max norm conversion | B02,B04; param_cauchy | 3 | 650 |
+| B05 | `Extension` | finite-extension on arbitrary nested analytic prefixes; Leibniz and Euclidean/max norm conversion | B02,B04; param_cauchy | 3 | 650 |
 | B06 | `Initial` | initial Taylor remainder, periodicity and reality | B01; one-variable integral Taylor formula | 2 | 300 |
 | B07 | `Admissible` | adm-params, adm-choice, free-radius | B02,B04,B06; power_law explicit scalar constants | 3 | 650 |
 | B08 | `FiniteDivisor` | finite-divisor and shell-index characterization; raw retained definitions are in B02 | B03,B05; source chain and shell tests | 4 | 350 |
 | B09 | `FiniteMeasure` | finite-measure, coherent finite all-mode tests | B05,B07,B08; stability, power_law | 5 | 650 |
-| B10 | `Iteration` | inductive-lemma, coherent prefix recursion, O1–O5 | B03,B06,B07,B08,B09,B13; cutoff, canonical_step, affine_flow | 6 | 800 |
+| B10 | `Iteration` | inductive-lemma, coherent prefix recursion, O1–O5; parameter_blocks/parameter_first helpers | B03,B06,B07,B08,B09,B13; cutoff, canonical_step, affine_flow | 6 | 800 |
 | B11 | `ContinuousSeries` | continuous_series_on_compact (ps-lim gap) | B01; Mathlib uniform limits and summable envelopes | 2 | 200 |
 | B12 | `Selection` | parameter-selection and finite-test specifications | B10,B11; limit_bridge, tendsto_measure_iInter_atTop | 7 | 600 |
 | B13 | `Budgets` | exported-sums, param-lip-sum, adapted scalar budgets | B03,B07; explicit A/alpha/kappa formulas | 4 | 650 |
@@ -277,11 +277,11 @@ Before handing a package to a Sonnet prover, put the following hard rules verbat
 
 B04: normalize the compactly supported one-variable polynomial bump by its exact positive integral; tensor it in the coordinates. Differentiate convolution on the right. For the kth multilinear derivative sum over N^k coordinate choices, then maximize the finite multiindices. Prove the bump L1 constants finite and c-prime positive; approximate numerical integration is not a theorem input.
 
-B05/B09: support at max-distance ≤t_j/2 lies strictly inside B_j. Multiply by the increment there and extend by zero outside that support. At any fixed finite prefix, the same cutoff choices must be used for every mode referencing a stage. The temporary family for modes beyond the current cutoff is extended by min{modeStage(k),ν}; apply the all-mode measure theorem to that family, then include its good set in the finite tests. No circular use of the final retained set.
+B05/B09: B05 assumes only `SelectionExtensionChain`; B09 projects its retained chain via `hc.toSelectionExtensionChain`. No resonance equation enters B05. Support at max-distance ≤t_j/2 lies strictly inside B_j. Multiply by the increment there and extend by zero outside that support. At any fixed finite prefix, the same cutoff choices must be used for every mode referencing a stage. The temporary family for modes beyond the current cutoff is extended by min{modeStage(k),ν}; apply the all-mode measure theorem to that family, then include its good set in the finite tests. No circular use of the final retained set.
 
 B08: telescope from m=modeStage(k) to ν-1 directly, using S_m≤γ T_m^{-(τ+1)}. Multiply by |k|₁≤T_m. Subtract this ONE γ margin from the tested 2γ margin. For m=ν the increment sum is empty. The construction of the next map uses this finite result before any limit exists.
 
-B10: derive C1 from the strip budget; C2 from finite-divisor and t_(ν+1) T_ν 2C₁≤D_ν/2; C3 from Q_ν≤Q₀g1^ν≤varpi/2. Obtain the whole-collar zero Fourier/Taylor coefficients before restricting the canonical map to B_(ν+1). The remainder estimate is ε_ν(2q²+2E_ν+Q_ν)≤(7/8)varpi ε_ν. Prove raw, unscaled phase derivative bounds; weighted symplectic estimates alone do not fill the output field.
+B10: derive C1 from the strip budget; C2 from finite-divisor and t_(ν+1) T_ν 2C₁≤D_ν/2; C3 from Q_ν≤Q₀g1^ν≤varpi/2. Obtain the whole-collar zero Fourier/Taylor coefficients before restricting the canonical map to B_(ν+1). The remainder estimate is ε_ν(2q²+2E_ν+Q_ν)≤(7/8)varpi ε_ν. Prove raw, unscaled phase derivative bounds; weighted symplectic estimates alone do not fill the output field. Export O4 via `selection_iteration_parameter_blocks`: compose joint holomorphy with each coordinate projection and apply `param_cauchy` to its own sup bound A or alpha. Projecting the max bound alone does not yield the smaller constants. Export E4 via `selection_iteration_parameter_first` at inner radius t/2 and j=1.
 
 B12: first prove B11 using the exact Mathlib declarations `tendstoUniformlyOn_tsum_nat` and `continuousOn_tsum`, and use it twice on Kinf. Then continuity from above for the compact nested finite tests gives meas Hinf≥meas K-loss. Diophantine follows from the shell test and the same one-tail estimate. Distinguish Hinf from Kinf in every field: this source only claims the Diophantine conclusion on Hinf.
 
@@ -307,29 +307,32 @@ No frozen theorem is closed directly by this scope. No provider is created, no f
 - B10 must preserve finite prefixes, periodicity, reality and the affine map clause simultaneously. Independent existential chains of every length are insufficient.
 - The new continuous-series bridge and inherited real-flow guard must be independently audited before the graph gap is marked resolved. The signatures do not close either gap.
 
+## Revision 2
+
+This revision addresses every finding in `DESIGN-P11B-design-audit-1.md` (F1, F2, N1, N2). It changes the design surface, with no production proofs or frozen changes.
+
+| Finding | Resolution and package obligation |
+|---|---|
+| F1 (major), finite-extension domain | Added `SelectionExtensionChain` with initial, compact, nonempty, nested, holomorphic, real and bound fields only. `finite_extension` takes this weaker predicate. `SelectionFiniteChain` extends it with `retained`; its generated projection connects B09 to B05. B05 now covers arbitrary nested compact prefixes, including the audit's zero-increment example. |
+| F2 (major), Hamiltonian-independent constants | `selectionFixedKey` replaces `d.h` by `selectionM₀ d`. Both `adm_budget_beta` and `displacement_power` choose coefficients before quantifying over every d with the same numerical/geometric key, hence before h, beta, epsilon and f vary. In B20, prove the explicit `selectionCDelta d * selectionCGamma d` constant invariant under key equality and use the uniform budget for cstar. The h→h+1 family is admitted because it preserves actual M₀. The later bounded-M₀ monotone minorant is a separate P11a5 obligation. |
+| N1, upstream reconciliation | Standalone elaboration does not discharge any upstream bridge. B10 release requires checked bridges to the exact delivered P11A scalar/singleton tensor, thickening, finite-type amount, domain, cutoff and frozen frequency definitions. The collar supplier and B16 shared-build gate are specified below. |
+| N2, explicit recoverable clauses | Added the final derivative-sum ≤C₁ clause to `schedule_props` and lambda≤lambdaMax to `free_radius`. Added conditional implementation helpers `selection_iteration_parameter_blocks` (separate O4 bounds from separate sup bounds) and `selection_iteration_parameter_first` (E4 at j=1, t'=t/2) in B10. These helpers assume an output record only under distinct names; source exports still construct their records from raw premises. Finite-divisor intermediate estimates remain named local proof blocks as specified below. |
+
+**N1 collar supplier, B10 release gate.** Adjacent P11A `canonical_step_real` returns reality on the whole real collar but its angle-derivative estimate only for b∈S.E. The `SelectionIteration.real_angle_derivative` field requires every real b with `selectionReal b ∈ actionNbhd (K (ν+1)) (selectiont a (ν+1))`; membership in K alone cannot fill it. B10 must add a local supplier `selection_real_angle_derivative_on_collar`, after reconciling the P11A interfaces, with exactly that field's quantifiers and bound. For each such b, restrict the angle field of the real affine generator `p11StepPhi` to b, use whole-collar coefficient reality and divisor bounds to prove it is a real C² periodic field, with uniform sup bound and derivative bound `selectionRealBudget a ν`. Apply exact P11A `real_lipschitz` at time 1, and prove that its `p11RealFlow` equals the angle block of `p11StepMap` by ODE uniqueness, including equality of derivatives. This is a local proof obligation, not a new assumption or a provisional upstream theorem in the signatures. B10 remains unreleased until this supplier is proved or P11A exports the stronger collar clause. The output field is labelled accordingly in Appendix A.
+
+**N1 covariance, B16 release gate.** `chart_field` was inspected in the delivered PP1-4 worktree, but its module was absent from inp/shared build at audit time. Land and build that package through its owner before B16; use its actual factor-one type after proving the real restriction bridge. The present signature check imports no chart_field module and certifies neither its landing nor its applicability.
+
+**N2 finite-divisor local clauses, B08.** In `fd_tel`, for m=modeStage(k)≤ν prove the finite increment tail ≤`selectionTail a m` and ≤γ T_m^(-τ-1). In `fd_test`, use retained-prefix nesting to recover the stage-m shell test with margin 2γ. In `fd_concl`, multiply the tail by |k|₁≤T_m, bound the resulting error by γ|k|₁^(-τ), and subtract from the shell test; m=ν has empty tail. These are explicit internal source goals, not additional chain hypotheses. Only the final divisor inequality is public.
+
 ## Validation receipt
 
-The exact signature check
-`/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p11b .drafts/scratch/P11BSignatures.lean`
-exited 0 with exactly **28** `declaration uses 'sorry'` warnings and no other diagnostics
-(`.drafts/scratch/P11B-final.log`). The signature is **927 lines**, SHA256
-`d44e019cd741c2015a2534d1b20dd2f8b22905ca4d8e2f2a6b51ac8394ebc0df`.
-It is delivered untracked at `/root/code/KAM-inp/.drafts/design/P11BSignatures.lean`.
+The exact command `/mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh /root/code/KAM-inp-design-p11b .drafts/scratch/P11BSignatures-r2.lean` exited 0 with exactly **30** `declaration uses 'sorry'` warnings and no errors or other diagnostics (`.drafts/scratch/P11B-r2-signatures.log`). The delivered file and scratch copy are identical: **958 lines**, SHA256 `6800132b3e98b3badc215d5cb1cccc6b016e2f14ec976b661519e436cbf39596`. All 30 theorem bodies are `sorry`; no definition body is `sorry`.
 
-`scripts/lint_sources.sh` exited 0: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`;
-`FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)`.
-The ABI subprocess was routed through the same required signature gate with the untracked
-`.drafts/gated-bin/lake` PATH shim; the shim restores the original PATH inside the gate.
-No direct Lean invocation or library rebuild was performed.
+The mechanical receipt `.drafts/scratch/P11B-r2-coverage.log` confirms 119/119 live graph nodes, no duplicate rows, exact Appendix A equality and the line cap. Recomputed dependency waves agree for all 20 packages (maximum 14); all estimates remain 150–800 lines. No production Lean module is changed and no production build target exists for this design-only revision. The required signature elaboration is the targeted check; upstream gates above remain open proof/package obligations.
 
-The separate gated `P11BAxioms.lean` receipt runs `#print axioms` for `parameter_selection`,
-`limit_torus`, `evaluation_bilipschitz`, and `displacement_power`. These draft exports depend on
-`[propext, sorryAx, Classical.choice, Quot.sound]`; this is signature evidence, not proof closure.
-All 28 theorem bodies are `sorry`; no definition body is `sorry`. The final axiom receipt is `.drafts/scratch/P11B-axioms-final.log` (exit 0).
+`scripts/lint_sources.sh` exited 0: `check_lean_modules: PASS (412 Lean files, 0 comparator configurations)`; `FROZEN-ANCHOR GUARD OK`; `ABI HASHES OK (144 frozen declarations)` (`.drafts/scratch/P11B-r2-lint.log`). As in revision 1, the untracked `.drafts/gated-bin/lake` PATH shim routed its ABI subprocess through `inp_sig_check.sh` against the existing shared build. All Lean checks in this revision run sequentially through that gate, without a library rebuild.
 
-The coverage check confirms 119 unique rows, exact live-graph node coverage, exact Appendix A equality,
-and the 1500-line cap. The package checker recomputed all 20 waves from direct dependencies (maximum 14), with every package estimate between 150 and 800 lines. `git diff --check` passes. The document is the sole tracked deliverable;
-there is no production Lean module to build. The user-required signature elaboration is the targeted check.
+The separate gated `.drafts/scratch/P11BAxioms-r2.lean` check exited 0, with only the same 30 sorry warnings and six requested axiom reports (`.drafts/scratch/P11B-r2-axioms.log`). `#print axioms` for `finite_extension`, `adm_budget_beta`, `parameter_selection`, `limit_torus`, `evaluation_bilipschitz` and `displacement_power` each reports `[propext, sorryAx, Classical.choice, Quot.sound]`. These are unproved draft signatures; elaboration and axiom inspection establish no proof closure. `git diff --check` passes.
 
 Source snapshot: base worktree commit `081967912d5200ad4711d6d16abde6a8cfafea71`.
 
@@ -551,6 +554,8 @@ theorem schedule_props (a : SelectionSchedule n) (hn : 1 ≤ n) (hμ : 1 ≤ a.�
       selectionTail a m ≤ a.γ * selectionT a m ^ (-a.τ - 1) ∧
       (∑ i ∈ Finset.range j, 4 * selectionε a i / (selections a i * selectiont a i))
         ≤ 8 * (a.ε₀ / a.s₀) / a.t₀ ∧
+      (∑ i ∈ Finset.range j, 4 * selectionε a i / (selections a i * selectiont a i))
+        ≤ C₁ ∧
       (∑ i ∈ Finset.range j, selectionell a i / selectiont a i ^ a.μ)
         ≤ 4 * (a.ε₀ / a.s₀) / a.t₀ ^ a.μ ∧
       selectionQsharp a j = selectionQ₀ a * selectionG n a.μ a.τ 0 ^ j ∧
@@ -698,16 +703,15 @@ theorem free_radius (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
     0 < (selectionAdapted d ε).s₀ ∧
     (selectionAdapted d ε).s₀ ≤ (adm_params d ε).s₀ ∧
     (selectionAdapted d ε).ε₀ = ε + n / 2 * d.C₁ * (selectionAdapted d ε).s₀ ^ 2 ∧
-    (selectionAdapted d ε).ε₀ / (selectionAdapted d ε).s₀ = Real.sqrt (2 * n * d.C₁ * ε)
-    := sorry
+    (selectionAdapted d ε).ε₀ / (selectionAdapted d ε).s₀ = Real.sqrt (2 * n * d.C₁ * ε) ∧
+    (selectionAdapted d ε).ε₀ / (selectionAdapted d ε).s₀ ≤ selectionLambdaMax d := sorry
 
-/-- Source-defined finite chain premises, used only where the blueprint assumes a chain. -/
-structure SelectionFiniteChain (d : SelectionData n) (a : SelectionSchedule n)
+/-- Analytic nested-prefix premises of finite-extension; no resonance tests are required. -/
+structure SelectionExtensionChain (d : SelectionData n) (a : SelectionSchedule n)
     (c : SelectionChain n) (ν : ℕ) : Prop where
   initial : c.K 0 = d.K
   compact : ∀ j ≤ ν, IsCompact (c.K j)
   nonempty : ∀ j ≤ ν, (c.K j).Nonempty
-  retained : ∀ j < ν, c.K (j + 1) = selectionRetained a d c j
   nested : ∀ j < ν, c.K (j + 1) ⊆ c.K j
   holomorphic : ∀ j < ν, DifferentiableOn ℂ (c.Δω j) (actionNbhd (c.K j) (selectiont a j))
   real : ∀ j < ν, ∀ b : SelectionR n,
@@ -716,10 +720,16 @@ structure SelectionFiniteChain (d : SelectionData n) (a : SelectionSchedule n)
   bound : ∀ j < ν, ∀ b ∈ actionNbhd (c.K j) (selectiont a j),
     ‖c.Δω j b‖ ≤ selectionell a j
 
+/-- Retained prefixes additionally satisfy the shell tests used by divisor and measure estimates.
+The generated `toSelectionExtensionChain` projection supplies finite-extension's weaker input. -/
+structure SelectionFiniteChain (d : SelectionData n) (a : SelectionSchedule n)
+    (c : SelectionChain n) (ν : ℕ) : Prop extends SelectionExtensionChain d a c ν where
+  retained : ∀ j < ν, c.K (j + 1) = selectionRetained a d c j
+
 def sec_retained_data (c : SelectionChain n) := c
 
 theorem finite_extension (d : SelectionData n) (a : SelectionSchedule n)
-    (c : SelectionChain n) (ν : ℕ) (hc : SelectionFiniteChain d a c ν)
+    (c : SelectionChain n) (ν : ℕ) (hc : SelectionExtensionChain d a c ν)
     (hμ : a.μ = d.μ) (ht : 0 < a.t₀) (ht1 : a.t₀ ≤ 1)
     (htθ : a.t₀ ≤ d.ϑ / Real.sqrt n) (hτ : 0 ≤ a.τ) :
     ∃ χ : ℕ → SelectionR n → ℝ, ∃ w : SelectionR n → SelectionR n,
@@ -849,11 +859,35 @@ structure SelectionIteration (d : SelectionData n) (f : SelectionPhaseC n → �
   map_injective : ∀ ν, ∀ b ∈ actionNbhd (K (ν + 1)) (selectiont a (ν + 1)),
     InjOn (X ν b) {z | z.1 ∈ complexStrip n (selectionr a (ν + 1)) ∧
       ‖z.2‖ < selections a (ν + 1)}
+  /-- Requires the B10 real-collar supplier; canonical_step_real on S.E alone is insufficient. -/
   real_angle_derivative : ∀ ν, ∀ b : SelectionR n,
     selectionReal b ∈ actionNbhd (K (ν + 1)) (selectiont a (ν + 1)) → ∀ θ,
     ‖fderiv ℝ (fun v : SelectionR n =>
         selectionRe ((X ν (selectionReal b) (selectionReal v, 0)).1)) θ -
       ContinuousLinearMap.id ℝ (SelectionR n)‖ ≤ Real.exp (selectionRealBudget a ν) - 1
+
+/-- Conditional implementation helper for source O4. Apply parameter Cauchy separately to
+holomorphic angle/action defects with their separate sup bounds, not to the joint max estimate. -/
+theorem selection_iteration_parameter_blocks (d : SelectionData n)
+    (f : SelectionPhaseC n → ℂ) (a : SelectionSchedule n) (o : SelectionIteration d f a)
+    (ν : ℕ) (t' : ℝ) (ht' : 0 < t') (htt : t' < selectiont a (ν + 1))
+    (z : SelectionPhaseC n) (hz : z.1 ∈ complexStrip n (selectionr a (ν + 1)))
+    (hη : ‖z.2‖ < selections a (ν + 1))
+    (b : SelectionC n) (hb : b ∈ actionNbhd (o.K (ν + 1)) t') (j : ℕ) :
+    ‖iteratedFDeriv ℂ j (fun c => (o.X ν c z).1 - z.1) b‖ ≤
+      (j : ℝ) ^ j * selectionA a ν / (selectiont a (ν + 1) - t') ^ j ∧
+    ‖iteratedFDeriv ℂ j (fun c => (o.X ν c z).2 - z.2) b‖ ≤
+      (j : ℝ) ^ j * selectionAlpha a ν / (selectiont a (ν + 1) - t') ^ j := sorry
+
+/-- Conditional implementation helper exporting E4 from the joint j=1 Cauchy bound. -/
+theorem selection_iteration_parameter_first (d : SelectionData n)
+    (f : SelectionPhaseC n → ℂ) (a : SelectionSchedule n) (o : SelectionIteration d f a)
+    (ν : ℕ) (ht : 0 < selectiont a (ν + 1))
+    (z : SelectionPhaseC n) (hz : z.1 ∈ complexStrip n (selectionr a (ν + 1)))
+    (hη : ‖z.2‖ < selections a (ν + 1))
+    (b : SelectionC n) (hb : b ∈ actionNbhd (o.K (ν + 1)) (selectiont a (ν + 1) / 2)) :
+    ‖fderiv ℂ (fun c => o.X ν c z - z) b‖ ≤
+      2 * max (selectionA a ν) (selectionAlpha a ν) / selectiont a (ν + 1) := sorry
 
 /-- All finite chains are built coherently by extending the existing chain. -/
 theorem inductive_lemma (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
@@ -1199,20 +1233,20 @@ theorem evaluation_bilipschitz (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
 def situation (d : SelectionData n) (f : SelectionPhaseC n → ℂ) (ε : ℝ) :=
   SelectionEvaluationOutput d f ε
 
-/-- The data allowed to remain fixed while beta varies. -/
+/-- Only geometric/numerical data, including actual M₀, are fixed; h and beta vary. -/
 def selectionFixedKey (d : SelectionData n) :=
-  (d.μ, d.ρ, d.τ, d.ϑ, d.strip, d.C₁, d.M, d.loss, d.K, d.h)
+  (d.μ, d.ρ, d.τ, d.ϑ, d.strip, d.C₁, d.M, d.loss, d.K, selectionM₀ d)
 def selectionBetaExponent (d : SelectionData n) : ℝ :=
   2 * max (2 * (((d.μ : ℝ) + 1) / d.ρ))
     (1 + d.μ * (((d.μ : ℝ) + 1) / d.ρ))
 
-/-- c_* chosen BEFORE the varying beta and hence before f. -/
+/-- c_* chosen BEFORE varying h, beta, epsilon and f with the same numerical/geometric key. -/
 theorem adm_budget_beta (d₀ : SelectionData n) :
     ∃ c : ℝ, 0 < c ∧ ∀ d : SelectionData n,
       selectionFixedKey d = selectionFixedKey d₀ → d.β ≤ 1 →
       c * d.β ^ selectionBetaExponent d ≤ selectionAdmissible d := sorry
 
-/-- Both K5 and K6, with one family witness and constants uniform in beta and f. -/
+/-- Both K5 and K6, with one family witness and constants uniform in h, beta, epsilon and f at fixed key. -/
 theorem displacement_power (d₀ : SelectionData n) :
     ∃ cD cstar : ℝ, 0 < cD ∧ 0 < cstar ∧ ∀ d : SelectionData n,
       selectionFixedKey d = selectionFixedKey d₀ → d.β ≤ 1 →
