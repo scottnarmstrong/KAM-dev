@@ -16,10 +16,12 @@ import Mathlib.Tactic.Linarith
 # Part 11 (N11-E3): the real/complex Hessian bridge and the signed Hessian bounds
 
 `realPart_hessian_apply` identifies the real Hessian of `realPart h` at a real point with the
-real part of the complex Hessian of a holomorphic `h`; `FastConvex.toRealFastConvex` restricts the
-complex upper Hessian bound to the real slice; `hessian_at_sign` and `hessian` give the signed
-convexity data of `signedH`-type Hamiltonians `σ h / (2π)` (stated for the scaled function
-`σ h/(2π)` (`signedH`) at the selected source sign).
+real part of the complex Hessian of a holomorphic `h`; `realPart_derivs_real` shows (for `h` real
+at real points) that the complex derivatives on real vectors are real, so `Q_ℂ = D²h_ℝ` is
+symmetric and `∂h` is the real gradient (`bpN:p11:hessian#real-hessian`);
+`FastConvex.toRealFastConvex` restricts the complex upper Hessian bound to the real slice;
+`hessian_at_sign` and `hessian` give the signed convexity data of `signedH`-type Hamiltonians
+`σ h / (2π)` (stated for the scaled function `σ h/(2π)` (`signedH`) at the selected source sign).
 Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`, lemma `bpN:p11:hessian`.
 -/
 
@@ -101,6 +103,95 @@ theorem realPart_hessian_apply {Ω : Set (Fin n → ℂ)} (hΩ : IsOpen Ω) {h :
     simp
   rw [← h4, h3]
   exact h2.trans (by rw [h5])
+
+private theorem hessHelper_im_fderiv {F : (Fin n → ℂ) → ℂ} {J : Fin n → ℝ}
+    (hF : DifferentiableAt ℂ F (KAM.realInclusion n J)) (v : Fin n → ℝ) :
+    fderiv ℝ (fun I : Fin n → ℝ => (F (KAM.realInclusion n I)).im) J v =
+      (fderiv ℂ F (KAM.realInclusion n J) (KAM.realInclusion n v)).im := by
+  have h2 : HasFDerivAt (fun y => F (KAM.realInclusion n y))
+      (((fderiv ℂ F (KAM.realInclusion n J)).restrictScalars ℝ).comp (KAM.realInclusion n)) J :=
+    (hF.hasFDerivAt.restrictScalars ℝ).comp J (KAM.realInclusion n).hasFDerivAt
+  have h3 : HasFDerivAt (fun y => (F (KAM.realInclusion n y)).im)
+      (Complex.imCLM.comp
+        (((fderiv ℂ F (KAM.realInclusion n J)).restrictScalars ℝ).comp (KAM.realInclusion n))) J :=
+    Complex.imCLM.hasFDerivAt.comp J h2
+  rw [h3.fderiv]
+  rfl
+
+/-- A holomorphic function that is real on the real slice has real complex derivative on real
+vectors at real points. -/
+private theorem hessHelper_im_zero {Ω : Set (Fin n → ℂ)} (hΩ : IsOpen Ω) {F : (Fin n → ℂ) → ℂ}
+    (hF : DifferentiableOn ℂ F Ω)
+    (hreal : ∀ J : Fin n → ℝ, KAM.realInclusion n J ∈ Ω → (F (KAM.realInclusion n J)).im = 0)
+    {I : Fin n → ℝ} (hI : KAM.realInclusion n I ∈ Ω) (u : Fin n → ℝ) :
+    (fderiv ℂ F (KAM.realInclusion n I) (KAM.realInclusion n u)).im = 0 := by
+  rw [← hessHelper_im_fderiv (hF.differentiableAt (hΩ.mem_nhds hI))]
+  have hopen : ∀ᶠ J in 𝓝 I, KAM.realInclusion n J ∈ Ω :=
+    (KAM.realInclusion n).continuous.continuousAt.preimage_mem_nhds (hΩ.mem_nhds hI)
+  have hev : (fun J : Fin n → ℝ => (F (KAM.realInclusion n J)).im) =ᶠ[𝓝 I] fun _ => 0 := by
+    filter_upwards [hopen] with J hJ using hreal J hJ
+  rw [hev.fderiv_eq]
+  simp
+
+/-- `bpN:p11:hessian#real-hessian`: for `h` holomorphic on an open set and real at real points,
+the complex derivatives of `h` at a real point on real vectors are real: the frequency
+`∂h(I)` is the real gradient of `realPart h`, and the complex Hessian `Q_ℂ(I)` equals the real
+Hessian `D² (realPart h)(I)`, hence is real and symmetric. -/
+theorem realPart_derivs_real {Ω : Set (Fin n → ℂ)} (hΩ : IsOpen Ω) {h : (Fin n → ℂ) → ℂ}
+    (hh : DifferentiableOn ℂ h Ω)
+    (hreal : ∀ J : Fin n → ℝ, KAM.realInclusion n J ∈ Ω → (h (KAM.realInclusion n J)).im = 0)
+    {I : Fin n → ℝ} (hI : KAM.realInclusion n I ∈ Ω) (u v : Fin n → ℝ) :
+    (fderiv ℂ h (KAM.realInclusion n I) (KAM.realInclusion n u)).im = 0 ∧
+    fderiv ℂ h (KAM.realInclusion n I) (KAM.realInclusion n u) =
+      ((fderiv ℝ (realPart h) I u : ℝ) : ℂ) ∧
+    (fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I) (KAM.realInclusion n u)
+      (KAM.realInclusion n v)).im = 0 ∧
+    fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I) (KAM.realInclusion n u)
+      (KAM.realInclusion n v) = ((fderiv ℝ (fderiv ℝ (realPart h)) I u v : ℝ) : ℂ) ∧
+    fderiv ℝ (fderiv ℝ (realPart h)) I u v = fderiv ℝ (fderiv ℝ (realPart h)) I v u ∧
+    fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I) (KAM.realInclusion n u)
+      (KAM.realInclusion n v) =
+    fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I) (KAM.realInclusion n v)
+      (KAM.realInclusion n u) := by
+  have hreg := KAM.holomorphic_regularity_of_finiteDimensional hΩ hh
+  have hdh : DifferentiableOn ℂ (fderiv ℂ h) Ω := hreg.1
+  have h1 : ∀ w : Fin n → ℝ, (fderiv ℂ h (KAM.realInclusion n I) (KAM.realInclusion n w)).im = 0 :=
+    fun w => hessHelper_im_zero hΩ hh hreal hI w
+  have hG : ∀ w : Fin n → ℝ, DifferentiableOn ℂ
+      (fun x => fderiv ℂ h x (KAM.realInclusion n w)) Ω := fun w =>
+    hdh.clm_apply (differentiableOn_const _)
+  have h3 : ∀ w x : Fin n → ℝ, (fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I)
+      (KAM.realInclusion n x) (KAM.realInclusion n w)).im = 0 := fun w x => by
+    have := hessHelper_im_zero hΩ (hG w) (fun J hJ => by
+      exact hessHelper_im_zero hΩ hh hreal hJ w) hI x
+    have h5 : fderiv ℂ (fun x => fderiv ℂ h x (KAM.realInclusion n w)) (KAM.realInclusion n I)
+        (KAM.realInclusion n x) =
+        fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I) (KAM.realInclusion n x)
+          (KAM.realInclusion n w) := by
+      have := (hdh.differentiableAt (hΩ.mem_nhds hI)).hasFDerivAt.clm_apply
+        (hasFDerivAt_const (KAM.realInclusion n w) (KAM.realInclusion n I))
+      rw [this.fderiv]
+      simp
+    rwa [h5] at this
+  have hreC : ∀ z : ℂ, z.im = 0 → z = ((z.re : ℝ) : ℂ) := fun z hz =>
+    Complex.ext (by simp) (by simpa using hz)
+  have hre1 := hessHelper_real_fderiv (hh.differentiableAt (hΩ.mem_nhds hI)) u
+  have hre2 := realPart_hessian_apply hΩ hh hI u v
+  have hre3 := realPart_hessian_apply hΩ hh hI v u
+  have hcd : ContDiffAt ℝ 2 (realPart h) I := hessHelper_contDiffAt hΩ hh hI
+  have hsym : fderiv ℝ (fderiv ℝ (realPart h)) I u v = fderiv ℝ (fderiv ℝ (realPart h)) I v u :=
+    (hcd.isSymmSndFDerivAt (by simp)).eq u v
+  have hq : fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I) (KAM.realInclusion n u)
+      (KAM.realInclusion n v) = ((fderiv ℝ (fderiv ℝ (realPart h)) I u v : ℝ) : ℂ) := by
+    rw [hre2]; exact hreC _ (h3 v u)
+  refine ⟨h1 u, ?_, h3 v u, hq, hsym, ?_⟩
+  · have e : fderiv ℝ (realPart h) I u =
+        (fderiv ℂ h (KAM.realInclusion n I) (KAM.realInclusion n u)).re := hre1
+    rw [e]; exact hreC _ (h1 u)
+  · have hq2 : fderiv ℂ (fderiv ℂ h) (KAM.realInclusion n I) (KAM.realInclusion n v)
+        (KAM.realInclusion n u) = ((fderiv ℝ (fderiv ℝ (realPart h)) I v u : ℝ) : ℂ) := by
+      rw [hre3]; exact hreC _ (h3 u v)
+    rw [hq, hq2, hsym]
 
 private theorem hessHelper_sq_euclid {𝕜 : Type*} [RCLike 𝕜] (x : Fin n → 𝕜) :
     euclid x ^ 2 = ∑ i, ‖x i‖ ^ 2 :=
