@@ -651,6 +651,7 @@ public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.Remainder
 public import KAM.Planetary.PGAssembly.Scales
+public import KAM.Planetary.PGAssembly.Strictness
 public import KAM.Planetary.PGAssembly.Threshold
 public import KAM.Planetary.PGAssembly.ThresholdAlg
 public import KAM.Planetary.PGAssembly.ThresholdLimits
@@ -720,6 +721,12 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Reduction
 public import KAM.Planetary.PlanarTorsion.PairJet.Rot
 public import KAM.Planetary.PlanarTorsion.PairJet.Terms
 public import KAM.Planetary.PlanarTorsion.PairJet
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Analytic
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Compact
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Energy
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Field
+public import KAM.Planetary.PlanarTorsion.QuarticFlow.Spec
+public import KAM.Planetary.PlanarTorsion.QuarticFlow
 public import KAM.Planetary.PlanarTorsion.RealFlow.Analytic
 public import KAM.Planetary.PlanarTorsion.RealFlow.AnalyticCompact
 public import KAM.Planetary.PlanarTorsion.RealFlow.Local
