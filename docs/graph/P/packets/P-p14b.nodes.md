@@ -733,9 +733,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_chart, sb_chart_axis_mul_one_sub_pos, sb_chart_radius_pos (KAM/Planetary/SecularBox/Chart.lean)
+LEAN_NOTE: audit S1 round 2 PASS WITH NOTES (F1 closed by sb_chart_axis_mul_one_sub_pos, sb_chart_radius_pos)
 NOTE: -
 
 NODE: stepP:p14:sb-ch-a
@@ -763,9 +763,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-ch-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_chart (KAM/Planetary/SecularBox/Chart.lean)
+LEAN_NOTE: audit S1 round 2 PASS WITH NOTES (F1 closed by sb_chart_axis_mul_one_sub_pos, sb_chart_radius_pos); stated by corresponding conjuncts of sb_chart
 NOTE: the statement of Proposition bpP:p7:d25(a) is named as the same identity; per L43 it is a consistency check and is not a dependency
 
 NODE: stepP:p14:sb-ch-b
@@ -793,9 +793,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-ch-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_chart (KAM/Planetary/SecularBox/Chart.lean)
+LEAN_NOTE: audit S1 round 2 PASS WITH NOTES (F1 closed by sb_chart_axis_mul_one_sub_pos, sb_chart_radius_pos); stated by corresponding conjuncts of sb_chart
 NOTE: -
 
 NODE: stepP:p14:sb-ch-c
@@ -827,9 +827,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-ch-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_chart (KAM/Planetary/SecularBox/Chart.lean)
+LEAN_NOTE: audit S1 round 2 PASS WITH NOTES (F1 closed by sb_chart_axis_mul_one_sub_pos, sb_chart_radius_pos); stated by corresponding conjuncts of sb_chart
 NOTE: -
 
 NODE: stepP:p14:sb-ch-d
@@ -858,9 +858,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-ch-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_chart, sb_chart_axis_mul_one_sub_pos, sb_chart_radius_pos (KAM/Planetary/SecularBox/Chart.lean)
+LEAN_NOTE: audit S1 round 2 PASS WITH NOTES (F1 closed by sb_chart_axis_mul_one_sub_pos, sb_chart_radius_pos)
 NOTE: -
 
 NODE: bpP:p14:sb-cov
@@ -896,7 +896,7 @@ EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P14-S2 PASS WITH NOTES: sb_cov states Gamma, ecc vector, J, q, p covariance; the k/a/x invariance clauses (and sb-cv-1/2) hold only by unfolding, not stated; not marked proved
 NOTE: -
 
 NODE: stepP:p14:sb-cv-1
@@ -927,7 +927,7 @@ EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: sb_cov states only Gamma/ecc vector (cv-1) resp. J,q,p (cv-2); k,rho,a,x equalities not literal conjuncts; left
 NOTE: -
 
 NODE: stepP:p14:sb-cv-2
@@ -957,7 +957,7 @@ EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: sb_cov states only Gamma/ecc vector (cv-1) resp. J,q,p (cv-2); k,rho,a,x equalities not literal conjuncts; left
 NOTE: -
 
 NODE: stepP:p14:sb-cv-3
@@ -987,9 +987,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-cv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_cov (KAM/Planetary/SecularBox/Covariance.lean)
+LEAN_NOTE: audit S2 PASS WITH NOTES; position and momentum covariance
 NOTE: -
 
 NODE: bpP:p14:sb-smooth#data
