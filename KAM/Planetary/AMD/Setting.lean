@@ -16,8 +16,8 @@ public import KAM.Frozen.Planetary.Defs.PlaneLength
 /-!
 # AMD confinement: region definitions
 
-Blueprint `bpP:p14:conv#data`: the outer and inner low-AMD regions (literal wrappers around the frozen
-`LowAMDRegion`), the collar region, and the compact geometric region of an `AMDBox`.
+Blueprint `bpP:p14:conv#data`: the outer and inner low-AMD regions (literal wrappers around the
+frozen `LowAMDRegion`), the collar region, and the compact geometric region of an `AMDBox`.
 -/
 
 @[expose] public noncomputable section
