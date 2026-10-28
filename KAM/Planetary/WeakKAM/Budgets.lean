@@ -225,6 +225,91 @@ theorem wbud_geo (j : ℕ) :
             (selectionQ₀ a * (1 / 32 : ℝ) ^ j) := mul_le_mul_of_nonneg_left hQj hK
       _ = _ := by ring
 
+/-- Numerical consequences of `Q₀ Ξ ≤ 2⁻¹⁰` for the geometric constants. -/
+theorem wbud_nums :
+    32 / 31 * (selectionQ₀ a * (2 + a.t₀ / (a.strip / 24)) / 16) ≤ (2 : ℝ)⁻¹ ^ 12 ∧
+    32 / 31 * (4 * π / selectionCQ n * a.T₀ * (a.strip / 24) * selectionQ₀ a) ≤ (2 : ℝ)⁻¹ ^ 12 ∧
+    32 / 31 * (2 * (a.strip / 24) * selectionQ₀ a / selectionCQ n) ≤
+      3 * (a.strip / 24) * selectionQ₀ a / selectionCQ n ∧
+    32 / 31 * (selectionQ₀ a * a.s₀ / 32) ≤ a.s₀ * selectionQ₀ a / 16 ∧
+    32 / 31 * ((2 * (a.strip / 24) * selectionQ₀ a / selectionCQ n) *
+        (2 : ℝ) ^ (a.τ + 1) / a.t₀ + (selectionQ₀ a * a.s₀ / 32) * (2 : ℝ) ^ (a.τ + 1) / a.t₀)
+      ≤ (2 : ℝ)⁻¹ ^ 10 / 16 := by
+  have h := c.hyp
+  have hQ0 := wbud_Q₀_nonneg c
+  obtain ⟨hX1, hX2, hX3, hX4⟩ := wbud_Xi_le c
+  have hW := c.adm.weighted
+  have hCQ : 162 ≤ selectionCQ n := by
+    have : (1 : ℝ) ≤ n := by exact_mod_cast h.hn
+    unfold selectionCQ
+    nlinarith
+  have hCQ0 : 0 < selectionCQ n := by linarith
+  have hσ0 : 0 < a.strip / 24 := by have := h.hstrip; positivity
+  have hT : 0 < a.T₀ := by linarith [h.hT]
+  have ht := h.ht
+  have hs0 := h.hs
+  have hpi := Real.pi_le_four
+  have hpi0 := Real.pi_pos
+  have hst : a.s₀ ≤ a.t₀ := by
+    have hn : (1 : ℝ) ≤ n := by exact_mod_cast h.hn
+    refine c.adm.radius.trans ?_
+    rw [div_le_iff₀ (by linarith)]
+    nlinarith [h.ht]
+  have hw0 : 0 < (2 : ℝ) ^ (a.τ + 1) := by positivity
+  set q0 := selectionQ₀ a with hq0
+  set Ξ := selectionXi d
+  set w := (2 : ℝ) ^ (a.τ + 1)
+  have hP : q0 * Ξ ≤ (2 : ℝ)⁻¹ ^ 10 := hW
+  have h12 : (2 : ℝ)⁻¹ ^ 12 = (2 : ℝ)⁻¹ ^ 10 / 4 := by norm_num
+  have h10 : (0 : ℝ) < (2 : ℝ)⁻¹ ^ 10 := by positivity
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · have := mul_le_mul_of_nonneg_left hX1 hQ0
+    rw [h12]
+    nlinarith
+  · have hc4 : 4 * π / selectionCQ n ≤ 16 / 162 := by
+      rw [div_le_div_iff₀ hCQ0 (by norm_num)]
+      nlinarith
+    have hc0 : 0 ≤ 4 * π / selectionCQ n := by positivity
+    have e : 4 * π / selectionCQ n * a.T₀ * (a.strip / 24) * q0 =
+        (4 * π / selectionCQ n) * ((a.T₀ * (a.strip / 24)) * q0) := by ring
+    have h1 : (a.T₀ * (a.strip / 24)) * q0 ≤ q0 * Ξ / 2 := by
+      have := mul_le_mul_of_nonneg_right hX4 hQ0
+      nlinarith
+    have h2 := mul_le_mul hc4 h1 (by positivity) (by norm_num)
+    rw [e, h12]
+    nlinarith
+  · have : 0 ≤ (a.strip / 24) * q0 / selectionCQ n := by positivity
+    have e1 : 2 * (a.strip / 24) * q0 / selectionCQ n = 2 * ((a.strip / 24) * q0 / selectionCQ n) :=
+      by ring
+    have e2 : 3 * (a.strip / 24) * q0 / selectionCQ n = 3 * ((a.strip / 24) * q0 / selectionCQ n) :=
+      by ring
+    rw [e1, e2]
+    linarith
+  · have : 0 ≤ q0 * a.s₀ := by positivity
+    linarith
+  · have hA : (2 * (a.strip / 24) * q0 / selectionCQ n) * w / a.t₀ ≤ 2 / 162 * (q0 * Ξ) := by
+      have e : (2 * (a.strip / 24) * q0 / selectionCQ n) * w / a.t₀ =
+          (2 / selectionCQ n) * (q0 * (w * (a.strip / 24) / a.t₀)) := by
+        field_simp
+      rw [e]
+      have h1 : 2 / selectionCQ n ≤ 2 / 162 := by
+        rw [div_le_div_iff₀ hCQ0 (by norm_num)]
+        nlinarith
+      have h2 : q0 * (w * (a.strip / 24) / a.t₀) ≤ q0 * Ξ :=
+        mul_le_mul_of_nonneg_left hX2 hQ0
+      exact mul_le_mul h1 h2 (by positivity) (by norm_num)
+    have hB : (q0 * a.s₀ / 32) * w / a.t₀ ≤ q0 * Ξ / 32 := by
+      have e : (q0 * a.s₀ / 32) * w / a.t₀ = (q0 * w / 32) * (a.s₀ / a.t₀) := by
+        field_simp
+      rw [e]
+      have h1 : a.s₀ / a.t₀ ≤ 1 := (div_le_one ht).2 hst
+      have h2 : q0 * w ≤ q0 * Ξ := mul_le_mul_of_nonneg_left hX3 hQ0
+      have h3 : 0 ≤ q0 * w / 32 := by positivity
+      calc q0 * w / 32 * (a.s₀ / a.t₀) ≤ q0 * w / 32 * 1 := mul_le_mul_of_nonneg_left h1 h3
+        _ ≤ _ := by linarith
+    nlinarith
+
+
 end Main
 
 end KAM.Planetary
