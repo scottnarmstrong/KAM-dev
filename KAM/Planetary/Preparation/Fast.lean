@@ -386,6 +386,22 @@ theorem fast_spec_at (hC : P11SecularSpec D C) (hh : P11SecularHReal C) {eps : �
     · rw [max_eq_right h]; exact d3'
     · rw [max_eq_left h]; exact d4'
 
+/-- `bpP:p11:avg-fast` for an arbitrary secular package: the content of `avg_fast` with
+`C = p11SecularData D` replaced by any `C` with `P11SecularSpec D C`
+(steps `af-apply`, `af-o1`, `af-o2`, `af-concl`). The only premise beyond the specification is
+`hh`, the reality of `h̃` at real points, which `osc_averaging` takes as a hypothesis. -/
+theorem avg_fast_of_spec (hC : P11SecularSpec D C) (hh : P11SecularHReal C) :
+    ∃ eps1 : ℝ, 0 < eps1 ∧ eps1 < 1 ∧ ∀ eps, 0 < eps → eps ≤ eps1 →
+      2^12*(1+n)*p11K1 C eps*eps*C.MF*C.sigma ≤ p11Alpha1 C eps*p11d1 C eps ∧
+      ∃ A, P11FastSpec C eps A := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, hσ1, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨ε1, h0, h1, hε⟩ := fast_small_eventually (n := n) hγ0 hτ0 hL1 hrC0 hσ0 hσ1 hrz0 hMF
+  refine ⟨ε1, h0, h1, fun eps heps hle => ?_⟩
+  obtain ⟨hεM, hS⟩ := hε eps heps hle
+  have hS1 : 2^12*(1+n)*p11K1 C eps*eps*C.MF*C.sigma ≤ p11Alpha1 C eps*p11d1 C eps :=
+    hS (p11K1 C eps) rfl
+  exact ⟨hS1, fast_spec_at hC hh heps hεM hS1⟩
+
 end Core
 
 end KAM.Planetary
