@@ -322,3 +322,18 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     P0), P23-18 (after P23-17). Hardlinking build trees is not safe while provers rebuild in place. Owner option: a
     larger root disk, or worktree builds on the archive volume.
   - Account rotation: new provers now launch on claude-10 (49%); claude-12 is at 32% (reset 2026-10-29 21:00 UTC).
+- **13:08. Ruling (design gap, P810 S8-D/S8-X):** the P810 design lists S8-D (qf-scale/qf-c0/qf-diag) and S8-X
+  (qf-cross, orbit variations, Fourier selection) as proof cuts of the signed `quadratic_form` with no signatures of
+  their own; prover S8-D stopped correctly for lack of signatures. Same rule as the 09:00 P45 ruling: internal
+  helper lemmas with distinct names, blueprint-node citations, identities about the literal pair average with only
+  blueprint-stated hypotheses, shaped for S8-Q; no premise added to any signed declaration, no assumed coefficient
+  structure or quadratic matrix. Audits check each helper against its blueprint node. Reversal: a signed P810
+  addendum for these proof cuts. No statement frozen.
+- **14:05. Landing resumed and done.** Landing had been paused since 05:43 after an out-of-memory kill; the main
+  orchestrator wrongly treated the resume as an owner decision (it is routine; the owner asked for it at 12:30).
+  First attempt (12:37) failed in the full root build on a declaration-name clash (oscillator `fastShift` vs the
+  frozen definition), invisible to targeted builds and audits; kam-inp's fixes (a923eb0, 0d04590) renamed six
+  clashing declarations mechanically, no statement change. `main` is now d7c23ef: +285 Lean files (+57,456 lines),
+  695 modules; seals `averaging_mean` and `averaging_most` (D26, 02ae13f); graph sync N 270/728, P 334/1363 PROVED.
+  From now on: land after every merged batch; every audit runs a whole-library name-clash check
+  (orchestrator-tools/main_name_clash_check.sh); worktrees are swept after every event.
