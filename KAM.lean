@@ -676,6 +676,8 @@ public import KAM.Planetary.SecularBox.Chart
 public import KAM.Planetary.SecularBox.Covariance
 public import KAM.Planetary.SecularBox.Numerics
 public import KAM.Planetary.SecularBox.ParametricIntegral
+public import KAM.Planetary.SecularBox.Region
+public import KAM.Planetary.SecularBox.Smooth
 public import KAM.Planetary.SecularForm.Analytic
 public import KAM.Planetary.SecularForm.AnalyticGeometry
 public import KAM.Planetary.SecularForm.AnalyticReal
@@ -808,6 +810,9 @@ public import KAM.Planetary.TwoScale.ToriInvStage
 public import KAM.Planetary.TwoScale.ToriInvariance
 public import KAM.Planetary.TwoScale.ToriLagr
 public import KAM.Planetary.TwoScale.ToriSetup
+public import KAM.Planetary.WeakKAM.Admissible
+public import KAM.Planetary.WeakKAM.Budgets
+public import KAM.Planetary.WeakKAM.BudgetsStage
 public import KAM.Planetary.WeakKAM.ContinuousSeries
 public import KAM.Planetary.WeakKAM.Cutoff
 public import KAM.Planetary.WeakKAM.CutoffBump
@@ -819,6 +824,7 @@ public import KAM.Planetary.WeakKAM.Extension
 public import KAM.Planetary.WeakKAM.ExtensionFrequency
 public import KAM.Planetary.WeakKAM.ExtensionNorm
 public import KAM.Planetary.WeakKAM.ExtensionStage
+public import KAM.Planetary.WeakKAM.FiniteDivisor
 public import KAM.Planetary.WeakKAM.Initial
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakKAM.StripBudget
