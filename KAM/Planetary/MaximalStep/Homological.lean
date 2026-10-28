@@ -394,4 +394,78 @@ theorem torusCoeff_zero (k : Fin n → ℤ) :
 
 end Equation
 
+/-! ### Uniqueness and the main statement -/
+
+section Main
+variable {n : ℕ} {r M T D : ℝ} {B : Set (P11CVec n)} {P : P11CVec n × P11CVec n → ℂ}
+  {w : P11CVec n → P11CVec n}
+
+/-- Uniqueness among truncated, mean-zero solutions: all coefficients agree (`hm-coeff`). -/
+theorem solve_unique {delta : ℝ} (hT : 0 ≤ T) (hD : 0 < D) (hdr : 0 < r - delta)
+    (hpoly : ∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T P z = P z)
+    (hdiv : ∀ b ∈ B, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T → D/2 ≤ ‖p11dotC k (w b)‖)
+    (u : P11CVec n × P11CVec n → ℂ)
+    (hup : ∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T u z = u z)
+    (hu0 : ∀ b ∈ B, p11AngleAverage u b = 0)
+    (hue : ∀ theta ∈ KAM.complexStrip n (r-delta), ∀ b ∈ B,
+      fderiv ℂ (fun x => u (x, b)) theta (w b) = P (theta, b) - p11AngleAverage P b) :
+    ∀ z ∈ Set.univ ×ˢ B, u z = p11Solve T w P z.1 z.2 := by
+  rintro ⟨theta, b⟩ ⟨-, hb⟩
+  have hu : ∀ x, u (x, b) = KAM.fourierSum (hmCut T u b) x := fun x => by
+    rw [← truncate_eq, hup (x, b) ⟨trivial, hb⟩]
+  have hfun : (fun x => u (x, b)) = KAM.fourierSum (hmCut T u b) := funext hu
+  have hSu : ∀ k ∉ hmModes n T, hmCut T u b k = 0 := fun k hk => hmCut_eq_zero hk
+  -- the coefficient families agree
+  have hg : ∀ k, (hmCut T u b k - hmCoef T w P b k) * (2*Real.pi*Complex.I*p11dotC k (w b)) = 0 := by
+    set g : (Fin n → ℤ) → ℂ := fun k =>
+      (hmCut T u b k - hmCoef T w P b k) * (2*Real.pi*Complex.I*p11dotC k (w b)) with hgdef
+    have hgS : ∀ k ∉ hmModes n T, g k = 0 := fun k hk => by
+      simp [hgdef, hSu k hk, hmCoef_eq_zero hk]
+    have hzero : ∀ x : Fin n → ℝ, KAM.fourierSum g (fun j => (x j : ℂ)) = 0 := by
+      intro x
+      have hx := hue (fun j => (x j : ℂ)) (KAM.ofReal_mem_complexStrip hdr x) b hb
+      rw [hfun, fderiv_fourierSum_finset (S := hmModes n T) hSu] at hx
+      have h2 := fderiv_solve (P := P) hT (hdiv b hb) hD (fun j => (x j : ℂ))
+      rw [(funext fun x => p11Solve_eq T w P x b : (fun x => p11Solve T w P x b) = _),
+        fderiv_fourierSum_finset (S := hmModes n T) fun k hk => hmCoef_eq_zero hk,
+        hpoly (fun j => (x j : ℂ), b) ⟨trivial, hb⟩] at h2
+      have hsplit : ∑ k ∈ hmModes n T, g k * KAM.character k (fun j => (x j : ℂ)) =
+          ∑ k ∈ hmModes n T, hmCut T u b k * (2*Real.pi*Complex.I*p11dotC k (w b)) *
+            KAM.character k (fun j => (x j : ℂ)) -
+          ∑ k ∈ hmModes n T, hmCoef T w P b k * (2*Real.pi*Complex.I*p11dotC k (w b)) *
+            KAM.character k (fun j => (x j : ℂ)) := by
+        rw [← Finset.sum_sub_distrib]
+        refine Finset.sum_congr rfl fun k _ => ?_
+        simp only [hgdef]; ring
+      rw [fourierSum_finset hgS, hsplit, hx, h2]
+      simp [p11AngleAverage]
+    have hgk : ∀ k, g k = 0 := fun k => by
+      have h1 := torusCoeff_fourierSum_finset (a := g) hgS k
+      have h2 : (fun x : Fin n → ℝ => KAM.fourierSum g (fun j => (x j : ℂ))) =
+          fun _ => 0 := funext hzero
+      rw [h2, torusCoeff_zero] at h1
+      exact h1.symm
+    exact hgk
+  have hcoef : ∀ k, hmCut T u b k = hmCoef T w P b k := by
+    intro k
+    by_cases hk : k ∈ hmModes n T
+    · by_cases h0 : k = 0
+      · subst h0
+        rw [hmCut_zero hT, hmCoef_zero]
+        exact hu0 b hb
+      · by_cases hkT : KAM.Fourier.modeSize k ≤ T
+        · have h2 : 2*Real.pi*Complex.I*p11dotC k (w b) ≠ 0 := by
+            have := hdiv b hb k h0 hkT
+            have h3 : p11dotC k (w b) ≠ 0 := norm_pos_iff.1 (by linarith)
+            simp [h3, Real.pi_ne_zero, Complex.I_ne_zero]
+          exact sub_eq_zero.1 ((mul_eq_zero.1 (hg k)).resolve_right h2)
+        · have : T < KAM.Fourier.modeSize k := not_le.1 hkT
+          simp [hmCut, hmCoef, hkT, this]
+    · rw [hmCut_eq_zero hk, hmCoef_eq_zero hk]
+  have hcut : hmCut T u b = hmCoef T w P b := funext hcoef
+  show u (theta, b) = p11Solve T w P theta b
+  rw [hu, hcut, p11Solve_eq]
+
+end Main
+
 end KAM.Planetary
