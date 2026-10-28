@@ -64,6 +64,48 @@ theorem phi_chart (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r 
     rw [oscillatorPolar_fullShift, hm0] at hp
     exact oscillatorPolar_lattice (phiDomain_slow_pos h hz) (phiDomain_slow_pos h hz') k hp
 
+/-- `stepP:p5:pc-ham` (`bpP:p5:phi-chart`, "Moreover `H_mu ∘ Phi = h_mu + f_mu`"): the averaging
+identity composed with the polar map. On `phiDomain` (the real polar map lands in the averaging
+domain, `R_j ∘ Pol = J_2,j`), the complex extension `H0 + mu P` at the real point `Phi z` equals
+the integrable part at the actions of `z`, plus `mu` times the remainder and the averaging
+remainder at the polar point. -/
+theorem phi_comp_hamiltonian (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
+    {z : Phase (a+b)} (hz : z ∈ phiDomain d r mu) :
+    (pgExtension d).H0 (blockFast (KAM.realInclusion₂ (a+b) (phi d r mu h z)).2) +
+        mu*(pgExtension d).P mu (KAM.realInclusion₂ (a+b) (phi d r mu h z)) =
+      complexIntegrable d mu (Fin.append (KAM.realInclusion a (blockFast z.2))
+        (fun j => ((blockSlow z.2 j : ℝ) : ℂ))) +
+      mu*pgRemainder d mu (KAM.realInclusion a (blockFast z.2))
+        (blockSlow (KAM.realInclusion₂ (a+b) (oscillatorPolar z)).1,
+          blockSlow (KAM.realInclusion₂ (a+b) (oscillatorPolar z)).2) +
+      (pgAvg d r mu h).remainder (KAM.realInclusion₂ (a+b) (oscillatorPolar z)) := by
+  have hspec : AveragingSpec d r mu (pgAvg d r mu h) := (pg_avg d r mu h).choose_spec
+  obtain ⟨-, -, -, hham, -, -, -, -, hreal, -, -⟩ := hspec
+  have hmem := polar_mem_averagingDomain h hz
+  have h1 := hham _ hmem
+  have h2 : (pgAvg d r mu h).Psi (KAM.realInclusion₂ (a+b) (oscillatorPolar z)) =
+      KAM.realInclusion₂ (a+b) (phi d r mu h z) := hreal _ hmem
+  rw [h2] at h1
+  rw [h1]
+  have hf : blockFast (KAM.realInclusion₂ (a+b) (oscillatorPolar z)).2 =
+      KAM.realInclusion a (blockFast z.2) := by funext i; simp [blockFast]
+  have hs : (fun j => ((blockSlow (KAM.realInclusion₂ (a+b) (oscillatorPolar z)).1 j)^2 +
+      (blockSlow (KAM.realInclusion₂ (a+b) (oscillatorPolar z)).2 j)^2)/2) =
+      fun j => ((blockSlow z.2 j : ℝ) : ℂ) := by
+    funext j
+    have h0 : 0 ≤ 2*z.2 (Fin.natAdd a j) := by
+      have := phiDomain_slow_pos h hz j
+      simp only [blockSlow] at this; linarith
+    have key : (Real.sqrt (2*z.2 (Fin.natAdd a j)) * Real.sin (z.1 (Fin.natAdd a j)))^2 +
+        (Real.sqrt (2*z.2 (Fin.natAdd a j)) * Real.cos (z.1 (Fin.natAdd a j)))^2 =
+        2*z.2 (Fin.natAdd a j) := by
+      rw [mul_pow, mul_pow, ← mul_add, Real.sin_sq_add_cos_sq, mul_one, Real.sq_sqrt h0]
+    simp only [blockSlow, KAM.realInclusion₂_apply, KAM.realInclusion_apply,
+      oscillatorPolar_fst_natAdd, oscillatorPolar_snd_natAdd]
+    rw [← Complex.ofReal_pow, ← Complex.ofReal_pow, ← Complex.ofReal_add, key]
+    push_cast; ring
+  rw [hf, hs]
+
 theorem location (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
     (z : Phase (a+b)) (hz : z.2 ∈ realNbhd (pgActionDomain d r mu) (params d r mu).rK) :
     angleScale (2*Real.pi) z ∈ phiDomain d r mu ∧
