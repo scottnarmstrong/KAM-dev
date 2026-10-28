@@ -76,7 +76,7 @@ theorem osc_trajectory_hat (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ) 
       (oscO (m := m) D r rp rq S ρ ρp ρq σ) t z - z) ≤ 1 / 4 := by
     refine hd.trans ?_
     have h0 : 0 ≤ Φ / min (ρ * σ) (ρp * ρq) := div_nonneg H.phi_nonneg
-      (lt_min (mul_pos H.widths.1 H.widths.2.2.2.2.2.2.2.1)
+      (lt_min (mul_pos H.widths.1 H.widths.2.2.2.2.2.2.1)
         (mul_pos H.widths.2.2.1 H.widths.2.2.2.2.1)).le
     nlinarith
   have := oscDom_of_gauge_le F.hρ F.hρp F.hρq F.hσ hz hg
@@ -106,7 +106,6 @@ theorem osc_hat_ratio (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ) :
   rw [e]
   unfold oscLieRatio
   field_simp
-  ring
 
 /-- Terms of the series on the two-loss domain. -/
 theorem osc_term_bound (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ)
@@ -220,7 +219,7 @@ theorem osc_taylor_t (H : OscComposeData D r rp rq S ρ ρp ρq σ Φ φ)
     intro M
     have hmain := taylor_integral_aux hder M
     have hG01 : G 0 1 = u (flow (KAM.hamiltonianVectorFieldℂ φ)
-        (oscO (m := m) D r rp rq S ρ ρp ρq σ) t z) := by simp [hG]
+        (oscO (m := m) D r rp rq S ρ ρp ρq σ) t z) := by simp [hG, adPow]
     have hsum : ∑ j ∈ range (M + 1), ((j.factorial : ℂ)⁻¹) * G j 0 =
         ∑ j ∈ range (M + 1), ((t : ℂ) ^ j * ((j.factorial : ℂ)⁻¹)) * adPow φ j u z :=
       Finset.sum_congr rfl fun j _ => by simp only [hG, zero_mul, h0]; ring
