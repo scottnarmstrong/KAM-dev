@@ -337,3 +337,22 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   695 modules; seals `averaging_mean` and `averaging_most` (D26, 02ae13f); graph sync N 270/728, P 334/1363 PROVED.
   From now on: land after every merged batch; every audit runs a whole-library name-clash check
   (orchestrator-tools/main_name_clash_check.sh); worktrees are swept after every event.
+- **15:50. Progress since 14:05.** Landings now follow every merged batch (main at 17754da9 by 15:48). The three
+  untouched designs (P11B, P11C, P14) are offloaded and proving package by package. Ruling (P11A-P9): `forward_tube_core`
+  is an internal helper; the signed `forward_tube`/`p11PhysicalDelta` need `P11Physical` (Preparation/Working) and are
+  one-line wrappers deferred to P11A-P1. Root-build name clashes (p11Affine, p11Rad, `norm_append_le`) were renamed
+  mechanically; the whole-library clash check now runs before every audit. Disk: the generated C under each
+  worktree's `.lake/build/ir` (1.9 GB, never read by Lean checking) is hardlinked to inp's copy, freeing ~45 GiB;
+  root disk 80–87%, so disk no longer caps the number of provers.
+- **16:05. Ruling (P14 A3, signed name):** the audit proved that the signed theorem `KAM.Planetary.closure` shadows
+  Mathlib's topological `closure` inside `KAM.Planetary` (a module there writing `closure S` fails). Renamed to
+  `amd_closure`, no alias, statement unchanged (signature file, A3 branch, design note on inp 94907f2c); consumers
+  (A6, the `amdConfinement` provider) use the new name. Every audit now also runs a root-name shadow check
+  (orchestrator-tools/main_shadow_check.sh) and refuses packages that shadow a root constant.
+- **16:35. Ruling (P11A `cutoff_coefficients`, design-level signature; no frozen anchor involved):** the P11A-C8
+  prover showed the signed last clause `∀ z, p11Cutoff T R z = p11R0 … + ∑ i, p11R1 … * z.1.2 i` false: for
+  `z.2 ∉ B`, `p11Admissible` leaves `R` unconstrained and `KAM.Weighted.truncate` integrates over the torus, so a
+  non-integrable `f` with `g = 1 - f` gives cutoff 1 at `eta_1 = 1` while `R0 = R1 = 0`. Checked against the
+  definitions. The clause now reads `∀ z, z.2 ∈ B → …` (name kept; its only consumer, cs-cutoff, works on `B`);
+  design note on inp 177d8b6b. C8b proves the amended statement and the omitted companion
+  `canonical_step_simple_inverse`. Reversal: restore the old clause and add a hypothesis making `R` regular off `B`.
