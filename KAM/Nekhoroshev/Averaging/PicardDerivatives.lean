@@ -59,10 +59,12 @@ theorem hasFDerivAt_intervalIntegral_comp {F : E → E} {F' : E → E →L[ℝ] 
   · exact (hFc x hx).intervalIntegrable
   · exact (hDc.mono hsub).aestronglyMeasurable measurableSet_uIoc
   · refine MeasureTheory.ae_restrict_of_forall_mem measurableSet_uIoc fun τ hτ z hz => ?_
-    exact (ContinuousLinearMap.opNorm_comp_le _ _).trans (mul_le_mul (hFb τ (hsub hτ) z hz) (hUb τ (hsub hτ) z hz)
+    exact (ContinuousLinearMap.opNorm_comp_le _ _).trans
+      (mul_le_mul (hFb τ (hsub hτ) z hz) (hUb τ (hsub hτ) z hz)
       (norm_nonneg _) ((norm_nonneg _).trans (hFb τ (hsub hτ) z hz)))
   · exact intervalIntegrable_const
-  · exact MeasureTheory.ae_restrict_of_forall_mem measurableSet_uIoc fun τ hτ z hz => hdiff τ (hsub hτ) z hz
+  · exact MeasureTheory.ae_restrict_of_forall_mem measurableSet_uIoc fun τ hτ z hz =>
+      hdiff τ (hsub hτ) z hz
 
 end ParameterIntegral
 
@@ -125,7 +127,8 @@ def voltMap (ha : 0 ≤ a) {Gb : PicardBase x₀ a r → E →L[ℝ] E} (hG : Co
   BoundedContinuousFunction.mkOfBound ⟨voltFun ha Gb Z, continuous_voltFun ha hG Z⟩
     (2 * (1 + a * Λ * ‖Z‖)) (fun p q => by
       have hn : ∀ p, ‖voltFun ha Gb Z p‖ ≤ 1 + a * Λ * ‖Z‖ := fun p =>
-        (norm_add_le _ _).trans (add_le_add (ContinuousLinearMap.norm_id_le) (norm_integral_voltInt_le ha hb Z p))
+        (norm_add_le _ _).trans (add_le_add ContinuousLinearMap.norm_id_le
+          (norm_integral_voltInt_le ha hb Z p))
       calc dist _ _ ≤ ‖voltFun ha Gb Z p‖ + ‖voltFun ha Gb Z q‖ := dist_le_norm_add_norm _ _
         _ ≤ _ := by linarith [hn p, hn q])
 
@@ -187,12 +190,12 @@ theorem linear_family [CompleteSpace E] {G : ℝ → E → E →L[ℝ] E} (ha : 
         Y t x = ContinuousLinearMap.id ℝ E + ∫ τ in (0 : ℝ)..t, (G τ x).comp (Y τ x) := by
   set Gb : PicardBase x₀ a r → E →L[ℝ] E := fun p => G p.1.1 p.2.1 with hGbdef
   have hG : Continuous Gb := by
-    refine hGc.comp_continuous ?_ fun p => ⟨p.1.2, p.2.2⟩
-    exact (continuous_subtype_val.comp continuous_fst).prodMk
-      (continuous_subtype_val.comp continuous_snd)
+    refine hGc.comp_continuous (f := fun p : PicardBase x₀ a r => ((p.1 : ℝ), (p.2 : E)))
+      ((continuous_subtype_val.comp continuous_fst).prodMk
+        (continuous_subtype_val.comp continuous_snd)) fun p => ⟨p.1.2, p.2.2⟩
   have hb : ∀ p, ‖Gb p‖ ≤ Λ := fun p => hGb _ p.1.2 _ p.2.2
   have hc := contractingWith_voltMap ha hG hb hΛ hq
-  haveI : Nonempty (PicardBase x₀ a r →ᵇ (E →L[ℝ] E)) := ⟨0⟩
+  have : Nonempty (PicardBase x₀ a r →ᵇ (E →L[ℝ] E)) := ⟨0⟩
   set Zs := ContractingWith.fixedPoint (voltMap ha hG hb) hc with hZs
   have hfix : voltMap ha hG hb Zs = Zs :=
     ContractingWith.fixedPoint_isFixedPt (f := voltMap ha hG hb) hc
@@ -200,10 +203,10 @@ theorem linear_family [CompleteSpace E] {G : ℝ → E → E →L[ℝ] E} (ha : 
     rw [← voltMap_apply ha hG hb, hfix]
   let Y : ℝ → E → E →L[ℝ] E := fun t x =>
     if hx : x ∈ closedBall x₀ r then Zs (Set.projIcc (-a) a (neg_le_self ha) t, ⟨x, hx⟩) else 0
-  have hY : ∀ {t : ℝ}, t ∈ Icc (-a) a → ∀ {x : E} (hx : x ∈ closedBall x₀ r),
-      Y t x = Zs (⟨t, ‹t ∈ Icc (-a) a›⟩, ⟨x, hx⟩) := by
+  have hY : ∀ {t : ℝ} (ht : t ∈ Icc (-a) a) {x : E} (hx : x ∈ closedBall x₀ r),
+      Y t x = Zs (⟨t, ht⟩, ⟨x, hx⟩) := by
     intro t ht x hx
-    simp [Y, hx, Set.projIcc_of_mem _ ht]
+    simp only [Y, hx, dite_true, Set.projIcc_of_mem _ ht]
   refine ⟨Y, ?_, ?_, ?_⟩
   · rw [continuousOn_iff_continuous_domRestrict]
     have : Continuous fun q : ↥(Icc (-a) a ×ˢ closedBall x₀ r) =>
