@@ -232,6 +232,110 @@ theorem p11_mean_real_bound (D : P11Physical n) (d : P11HoloData D) {a : P11Vec 
             oscillatorAction y x j)| := by congr 1; ring
     _ ≤ _ := hb1
 
+/-- The explicit bound constant of the mean remainder. -/
+def p11MeanM0 (D : P11Physical n) (d : P11HoloData D) (a : P11Vec n) (rz : ℝ) : ℝ :=
+  2 * p11hsMInf (p11PhysicalData D) a + n * (2 * π * d.L) * rz ^ 2
+
+theorem p11_Omega_norm_le (d : P11HoloData D) {J : P11CVec n}
+    (hJ : J ∈ Metric.ball (KAM.realInclusion n d.J0) (2 * d.rC)) (i : Fin n) :
+    ‖d.Omega J i‖ ≤ 2 * π * d.L := by
+  have h0 := d.jets J hJ 0 (Nat.zero_le _)
+  rw [norm_iteratedFDeriv_zero] at h0
+  have h1 := (norm_le_pi_norm (Fin.append (d.omega J) ((2 * π : ℂ)⁻¹ • d.Omega J) :
+    Fin (n + n) → ℂ) (Fin.natAdd n i)).trans h0
+  simp only [Fin.append_right, Pi.smul_apply, smul_eq_mul, norm_mul, norm_inv] at h1
+  have hp : ‖(2 : ℂ)‖ * ‖(π : ℂ)‖ = 2 * π := by
+    simp [abs_of_pos Real.pi_pos]
+  rw [hp] at h1
+  have hp0 : 0 < 2 * π := by positivity
+  rw [inv_mul_le_iff₀ hp0] at h1
+  linarith
+
+/-- `hc-mean` (P11A-P2e): the mean clause of `P11SecularSpec` for `F = p11hsF D ρ`, with
+`C J = F₀(J, 0)` and any `M ≥ p11MeanM0`. -/
+theorem p11_hc_mean (D : P11Physical n) (d : P11HoloData D) {a : P11Vec n}
+    (ha : a ∈ axes n) {σ rz B B' r' σ' : ℝ}
+    (h : P11HsHyp (p11PhysicalData D) a d.rho d.J0 d.rC σ rz B B' r' σ')
+    (hΩ : ∀ J : P11Vec n, ‖J - d.J0‖ < 2 * d.rC → ∀ i, (d.Omega (KAM.realInclusion n J) i).im = 0)
+    {M : ℝ} (hM : p11MeanM0 D d a rz ≤ M) :
+    ∀ J ∈ Metric.ball (KAM.realInclusion n d.J0) (2 * d.rC), ∀ z : P11Phase n, ‖z‖ < rz →
+      ‖p11FastMean (p11hsF (p11PhysicalData D) d.rho) J z -
+          p11FastMean (p11hsF (p11PhysicalData D) d.rho) J 0 -
+          ∑ i, d.Omega J i * (z.1 i ^ 2 + z.2 i ^ 2) / 2‖ ≤ M * (‖z‖ / rz) ^ 4 := by
+  have hn : 0 < n := by have := D.n_ge; omega
+  set F := p11hsF (p11PhysicalData D) d.rho with hF
+  have hs : 0 < 2 * σ := by linarith [h.sigma_pos]
+  have hFd := p11hsF_differentiableOn hn ha h
+  have hF0 := p11_fastMean_differentiableOn hs hFd
+  have hr : 0 < 2 * d.rC := by linarith [d.rC_pos]
+  have hrz := h.rz_pos
+  have hmem0 : ∀ u ∈ p11MeanDom d.J0 (2 * d.rC) rz,
+      ((u.1, (0 : P11Phase n)) : P11CVec n × P11Phase n) ∈ p11MeanDom d.J0 (2 * d.rC) rz :=
+    fun u hu => ⟨hu.1, by simpa using hrz⟩
+  have hGd : DifferentiableOn ℂ (p11MeanRem F d.Omega) (p11MeanDom d.J0 (2 * d.rC) rz) := by
+    unfold p11MeanRem
+    refine (hF0.sub (hF0.comp ((differentiable_fst.prodMk (differentiable_const _)
+      ).differentiableOn) hmem0)).sub ?_
+    refine DifferentiableOn.fun_sum fun i _ => ?_
+    have hΩd : DifferentiableOn ℂ (fun u : P11CVec n × P11Phase n => d.Omega u.1 i)
+        (p11MeanDom d.J0 (2 * d.rC) rz) :=
+      (differentiableOn_pi.1 d.Omega_diff i).comp differentiable_fst.differentiableOn
+        (fun u hu => mem_ball_iff_norm.2 hu.1)
+    have hq : DifferentiableOn ℂ (fun u : P11CVec n × P11Phase n => u.2.1 i ^ 2 + u.2.2 i ^ 2)
+        (p11MeanDom d.J0 (2 * d.rC) rz) := by fun_prop
+    exact ((hΩd.fun_mul hq).fun_mul (differentiableOn_const ((2 : ℂ)⁻¹))).congr
+      fun u _ => by simp [div_eq_mul_inv]
+  have hb : ∀ u ∈ p11MeanDom d.J0 (2 * d.rC) rz, ‖p11MeanRem F d.Omega u‖ ≤ p11MeanM0 D d a rz := by
+    intro u hu
+    have hmean : ∀ u' ∈ p11MeanDom d.J0 (2 * d.rC) rz,
+        ‖p11FastMean F u'.1 u'.2‖ ≤ p11hsMInf (p11PhysicalData D) a := fun u' hu' =>
+      KAM.norm_torusAverage_le fun θ _ =>
+        p11hsF_norm_le hn ha h (p11MeanPt_mem (by linarith [h.sigma_pos]) θ hu')
+    have h1 := hmean u hu
+    have h2 := hmean _ (hmem0 u hu)
+    have hJb : u.1 ∈ Metric.ball (KAM.realInclusion n d.J0) (2 * d.rC) :=
+      mem_ball_iff_norm.2 hu.1
+    have hxy : ∀ i, ‖u.2.1 i ^ 2 + u.2.2 i ^ 2‖ ≤ 2 * rz ^ 2 := fun i => by
+      have hx := (norm_le_pi_norm u.2.1 i).trans (le_max_left _ _ |>.trans hu.2.le)
+      have hy := (norm_le_pi_norm u.2.2 i).trans (le_max_right _ _ |>.trans hu.2.le)
+      calc _ ≤ ‖u.2.1 i ^ 2‖ + ‖u.2.2 i ^ 2‖ := norm_add_le _ _
+        _ = ‖u.2.1 i‖ ^ 2 + ‖u.2.2 i‖ ^ 2 := by simp [norm_pow]
+        _ ≤ rz ^ 2 + rz ^ 2 := by gcongr
+        _ = 2 * rz ^ 2 := by ring
+    have h3 : ‖∑ i, d.Omega u.1 i * (u.2.1 i ^ 2 + u.2.2 i ^ 2) / 2‖ ≤
+        n * (2 * π * d.L) * rz ^ 2 := by
+      refine (norm_sum_le _ _).trans ?_
+      calc _ ≤ ∑ _i : Fin n, (2 * π * d.L) * rz ^ 2 := Finset.sum_le_sum fun i _ => by
+            rw [norm_div, norm_mul]
+            have := p11_Omega_norm_le d hJb i
+            have h4 := hxy i
+            have h5 : ‖(2 : ℂ)‖ = 2 := by simp
+            rw [h5]
+            have hL0 : 0 ≤ 2 * π * d.L := by
+              have := d.one_le_L; positivity
+            calc ‖d.Omega u.1 i‖ * ‖u.2.1 i ^ 2 + u.2.2 i ^ 2‖ / 2
+                ≤ (2 * π * d.L) * (2 * rz ^ 2) / 2 := by gcongr
+              _ = _ := by ring
+        _ = _ := by simp; ring
+    unfold p11MeanRem p11MeanM0
+    calc _ ≤ ‖p11FastMean F u.1 u.2‖ + ‖p11FastMean F u.1 0‖ +
+          ‖∑ i, d.Omega u.1 i * (u.2.1 i ^ 2 + u.2.2 i ^ 2) / 2‖ :=
+        (norm_sub_le _ _).trans (by gcongr; exact norm_sub_le _ _)
+      _ ≤ _ := by
+        have : ‖p11FastMean F u.1 0‖ ≤ p11hsMInf (p11PhysicalData D) a := h2
+        linarith
+  have hjets := p11_jets_zero_gen hr hrz hGd (k := 4) (fun J hJ =>
+    p11_mean_real_bound D d ha h hΩ hJ)
+  intro J hJ z hz
+  have hS := p11_radial_schwarz_diag (E := P11Phase n) (r := rz) (M := p11MeanM0 D d a rz) hrz
+    (F := fun z => p11MeanRem F d.Omega (J, z))
+    (hGd.comp ((differentiable_const J).prodMk differentiable_id).differentiableOn
+      (fun z hz => ⟨by simpa using mem_ball_iff_norm.1 hJ, by simpa using hz⟩))
+    (fun z hz => hb _ ⟨by simpa using mem_ball_iff_norm.1 hJ, by simpa using hz⟩)
+    (k := 4) (hjets J hJ) z (mem_ball_zero_iff.2 hz)
+  have hpow : 0 ≤ (‖z‖ / rz) ^ 4 := by positivity
+  exact hS.trans (by gcongr)
+
 end Mean
 
 end KAM.Planetary
