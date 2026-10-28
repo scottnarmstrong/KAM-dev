@@ -23,6 +23,36 @@ Format model: the complete `PART145-LEAN-DESIGN.md` and its two audits; their pr
 7. The draft imports only definitions and existing ordinary modules. N-PARTIAL-CONVEX remains a dependency to be
    released as a sealed anchor or ordinary library theorem, never a new assumption on `expsafe`.
 
+## Revision 2
+
+Reconciles every finding of `DESIGN-P14-design-audit-1.md`; these are design repairs, not proof receipts.
+No frozen telescope or definition changes. Appendix A and the untracked signatures are synchronized.
+
+| Finding | Resolution and assigned proof work |
+|---|---|
+| F1 (major) | `h_data` now constrains g,v to attained finite minima and M to the exact source sum; these characterize constants independently of rho,e,A. It exports the real-coordinate lower margin. E4 proves existence/uniqueness of the minima and the negation bridges for -h. |
+| F2 (medium) | `elements` and `eccentricity_deficit` require only the selected planet's four scalar hypotheses. A1 exports all elementary clauses (a)–(f); global consumers pass `hz i`. The old D1 premise strengthening is removed. |
+| F3 (medium) | `real_domain` now exports distance/2 pair separation for every i≠j as well as radial separation and eccentricity. E3 proves both index orders using symmetry. `original_cylinder_subset` retains the last source inclusion. |
+| F4 (low) | `uniform_data` returns delta≤pi jointly with UniformData. E8 chooses or shrinks delta before constructing the bounds; later consumers project the first conjunct. |
+| F5 (medium) | Correct FTC supplier to `intervalIntegral.integral_hasDerivAt_right`. Add exact wrappers `angle_quadrature`, `interval_constancy`, `complex_division`; replace the unusable supplier-table entries and assign them to S9,A5,E5 respectively. |
+| N1 (medium risk) | E5/E6 and S4 are feasibility gates: prove and check them at default resources before releasing dependent E7/E9–E12 or S5–S12 waves. Split focused modules before the cap; admitted signature elaboration does not pass these gates. |
+| N2 (medium availability) | E11 is explicitly held until an ordinary N root proof export or independently audited sealed anchor with the exact frozen type is available. No provider or draft-anchor import may bypass this release gate. |
+
+F5 executable routes: `angle_quadrature` uses continuous omega to supply interval integrability,
+strong measurability at the endpoint filter, and endpoint continuity to the FTC supplier. Its output is
+the two-sided derivative, including at t=0. `interval_constancy` converts OrdConnected to convexity and
+uses `Convex.is_const_of_fderivWithin_eq_zero`; the HasDerivAt premises give differentiability on J and
+zero fderivWithin at every point of J: where UniqueDiffWithinAt holds, restrict HasDerivAt and use
+its derivative-within identity; otherwise use `fderivWithin_zero_of_not_uniqueDiffWithinAt`
+(scalar-domain f). This handles singleton/empty J and endpoints without an added premise.
+`complex_division` uses `DifferentiableOn.inv` on the multivariable complex domain, then
+`DifferentiableOn.mul`, rewriting division as multiplication by the inverse. No scalar-domain
+`DifferentiableOn.div` or whole-line constancy theorem is used.
+
+The E4 exported margin and exact constants, E3 quantitative pair bound, E8 delta upper bound, and A1
+local premises are part of the public contracts below, not prose-only promises. No new source erratum is
+asserted; F1–F5 correct this design's transcription or library interfaces. Prior blueprint gaps remain.
+
 ## Carriers and standing structures
 
 | Object | Exact carrier or definition | Guard |
@@ -41,8 +71,8 @@ Format model: the complete `PART145-LEAN-DESIGN.md` and its two audits; their pr
 
 All aliases unfold to frozen objects or explicit new sets. `chartAMD` is an auxiliary n-planet quadratic sum;
 its bridge to `physicalAMD` is proved by `sec_domain_chart_facts`. It does not replace frozen `secularAMD` for n=2.
-Every division/square root in element identities is under `ProgradeElliptic`, or under positive fast action and
-Gamma < Lambda. Every secular integral used analytically is proved integrable; total Bochner-integral values
+Every division/square root in element identities is under the selected planet's scalar ellipticity premises,
+or under positive fast action and Gamma < Lambda. Every secular integral used analytically is proved integrable; total Bochner-integral values
 outside the safe domain are never a substitute for integrability.
 
 ## Node to declaration table
@@ -60,10 +90,10 @@ that parent's conclusion. Such rows deliberately have no separate Lean declarati
 |---|---|---|---|---|
 | `bpP:p14:x-planar` | `existing facts / x-planar` | KAM.Kepler.abs_planeDot_le, planeSq_mul_planeSq | `a#bpP:p14:x-planar@L28-L28` | `—` |
 | `bpP:p14:x-top` | `existing facts / x-top` | IsCompact.exists_cthickening_subset_open; Metric.isCompact_iff_isClosed_bounded | `a#bpP:p14:x-top@L29-L29` | `—` |
-| `bpP:p14:x-calc` | `existing facts / x-calc` | HasDerivAt.comp; is_const_of_deriv_eq_zero | `a#bpP:p14:x-calc@L30-L30` | `—` |
+| `bpP:p14:x-calc` | `existing facts / x-calc` | HasDerivAt.comp; interval_constancy (AMD/AngularMomentum) | `a#bpP:p14:x-calc@L30-L30` | `—` |
 | `bpP:p14:x-cx` | `existing facts / x-cx` | local_analytic_complexification (new obligation) | `a#bpP:p14:x-cx@L31-L31` | `—` |
 | `bpP:p14:x-id` | `existing facts / x-id` | real_trace_identity (new obligation) | `a#bpP:p14:x-id@L32-L32` | `—` |
-| `bpP:p14:x-hol` | `existing facts / x-hol` | DifferentiableOn.div; DifferentiableOn.mul | `a#bpP:p14:x-hol@L33-L33` | `—` |
+| `bpP:p14:x-hol` | `existing facts / x-hol` | complex_division (Exponential/LocalComplexification); DifferentiableOn.mul | `a#bpP:p14:x-hol@L33-L33` | `—` |
 | `bpP:p14:elements` | `elements` | AMD/Elements | `a#bpP:p14:elements@L42-L53` | `a#bpP:p14:elements@L54-L64` |
 | `stepP:p14:el-a` | `internal elements / el-a` | AMD/Elements | `a#stepP:p14:el-a@L55-L55` | `a#stepP:p14:el-a@L55-L55` |
 | `stepP:p14:el-b` | `internal elements / el-b` | AMD/Elements | `a#stepP:p14:el-b@L56-L59` | `a#stepP:p14:el-b@L56-L59` |
@@ -262,13 +292,19 @@ No proposed upstream theorem is assigned a hypothetical full Lean type here.
 | N root, pending proof release | `KAM.Nekhoroshev.partialConvex_nekhoroshev` (`bpN:p0:partial`) | n fast actions, k=n slow pairs; G=`fastBox B kappa`, G'= `fastBox B (2*kappa)`, D=`slowBall n A`; h_data and perturbation supply every hypothesis. Consume queried-time fast drift ≤ nu^b/2 for an arbitrary supplied segment C and verified slow erosion |
 | N Parts 11a–c, not yet delivered | owning root interface above; reconciliation only | require ordinary proof export with the exact frozen telescope, or wait for sealed anchor; no invented replacement theorem or conclusion-shaped hypothesis |
 | P Part 8 `bpP:p8:e-diff` | interface to reconcile: real compact-box parameter differentiation | need Ck integral on open subsets of Phase 4, joint Ck integrand, compact F box. Local theorem `secular_parametric_integral` supplies this instance independently if the upstream interface differs |
-| Mathlib | `hasFDerivAt_integral_of_dominated_of_fderiv_le`, `HasFDerivAt.restrictScalars`, `Function.Periodic.intervalIntegral_add_eq`, `intervalIntegral.integral_hasDerivAt` | parameter-integral induction, local real restriction, translation of each F variable, angle quadrature |
+| Local calculus wrappers (A5,E5,S9) | `interval_constancy`, `complex_division`, `angle_quadrature` | interval-local conservation, multivariable holomorphic quotients, two-sided angle quadrature; exact signatures in Appendix A |
+| Mathlib | `hasFDerivAt_integral_of_dominated_of_fderiv_le`, `HasFDerivAt.restrictScalars`, `Function.Periodic.intervalIntegral_add_eq`, `intervalIntegral.integral_hasDerivAt_right` | parameter-integral induction, local real restriction, translation of each F variable, angle quadrature |
 
 N's h-data has **curried bilinear operator norm**, not the max matrix-entry or matrix-operator norm.
 Use M = sum_i 3 m_i^3/(5 lower_i/8)^4; g = min_i m_i^3/(upper_i+3 kappa)^3 and
 v = min_i 3 m_i^3/(upper_i+3 kappa)^4. Positivity uses n≥2 and positive weights/axes.
 The signs in `HasDefiniteFastPart` are -1 for h and +1 for -h; the real-frequency lower bound is unchanged.
-The h_data signature existentially packages these scalars; it does not assume them.
+The h_data signature characterizes g and v by lower bounds and attained minima, and fixes M by the
+exact displayed sum. Thus the witnesses are uniquely determined by B.mass, B.lower, B.upper and kappa,
+independent of e,A,rho; existential placement after rho does not permit them to vary. E4 proves the
+finite-minimum existence using n≥2, and uniqueness by applying each minimum lower bound to the other's
+attaining index. It also exports the coordinate margin 0 < 5*lower_i/8 ≤ lower_i-3*kappa ≤ Re z_i.
+E4 derives holomorphy, C2, reality and the same Hessian bound for -h by negation.
 
 ## Conventions and departures
 
@@ -281,8 +317,10 @@ The h_data signature existentially packages these scalars; it does not assume th
   horizon endpoints can replace the frozen two-sided derivative. Continue strictly beyond ±T.
 - New files use copyright, `module`, `public import`, module docstring and `@[expose] public noncomputable section`.
   No bare Pi/matrix instances, no resource overrides. All theorem bodies in Appendix A are `sorry`, only in scratch.
-- Departure D1: `elements` is stated for a planet selected from frozen `ProgradeElliptic`, rather than a new
-  one-planet element structure. `eccentricity_deficit` carries clause (f) separately. This avoids duplicate objects.
+- D1 corrected in Revision 2: `elements` and `eccentricity_deficit` take only the selected planet's four
+  scalar conditions, exactly as the source. Global consumers pass `hz i` from frozen `ProgradeElliptic`.
+  No new one-planet structure is introduced. `elements` exports clauses (a)–(f), including nonnegative
+  eccentricity/deficit, C≤Lambda, and the second dot-product identity; the threshold deficit is separate.
 - Departure D2: `stopped` existentially bundles B0 and nu0 after B. The proof fixes the same B0 produced by
   perturbation. This hides intermediate choices without changing uniformity in mu,T,delta,z0.
 - Departure D3: `sb_cov` is strengthened to all w. Its equalities are algebraic and rotations preserve the
@@ -330,14 +368,14 @@ Every package brief must reproduce the hard rules below, and name Appendix A plu
 | A2 | 2 | `AMD/Geometry` | 500 | A0,A1, Barycentric; geometry, amd_compact |
 | A3 | 2 | `AMD/Closure` | 450 | A0,A1; closure and continuity on the negative-energy domain |
 | A4 | 1 | `AMD/MovingODE` | 200 | Newtonian/Models, ODE/Hamiltonian; moving_ode |
-| A5 | 2 | `AMD/AngularMomentum` | 350 | A4, hamiltonianVectorField_moving; ang_mom, ordered-pair cancellation |
+| A5 | 2 | `AMD/AngularMomentum` | 350 | A4, hamiltonianVectorField_moving; interval_constancy, ang_mom, ordered-pair cancellation |
 | A6 | 3 | `AMD/Confinement` | 750 | A2,A3,A4,A5, ODE/Exit,Maximal,Continuation, Reconstruction; amd |
 | E0 | 1 | `Exponential/Setting` | 180 | frozen blocks; chartAMD, chartSafe, boxes, cylinders, EnlargedData, planetaryKeplerC |
 | E1 | 2 | `Exponential/Dictionary` | 450 | E0, poincare_elements, Product; sec_domain_chart_facts, general-n prograde onto bridge |
 | E2 | 2 | `Exponential/Enlargement` | 300 | E0, admissibility; enlarge, positivity of slow erosion |
 | E3 | 3 | `Exponential/RealDomain` | 450 | E1,E2,A1; real_domain |
-| E4 | 3 | `Exponential/KeplerData` | 600 | E2, frozen HasDefiniteFastPart; h_data, both signs, sum Hessian bound |
-| E5 | 1 | `Exponential/LocalComplexification` | 650 | real analytic power series, restrictScalars; local_complex_restriction, local_analytic_complexification |
+| E4 | 3 | `Exponential/KeplerData` | 600 | E2,E5, frozen HasDefiniteFastPart; h_data, both signs, sum Hessian bound |
+| E5 | 1 | `Exponential/LocalComplexification` | 650 | real analytic power series, restrictScalars; complex_division, local_complex_restriction, local_analytic_complexification |
 | E6 | 2 | `Exponential/ComplexTube` | 750 | E5, compactness, real_trace_identity; tube |
 | E7 | 4 | `Exponential/Perturbation` | 550 | E3,E6, analyticOnNhd_fMov_poincareProd; chart_perturbation_analytic, perturbation |
 | E8 | 2 | `Exponential/UniformData` | 400 | E0, gen_lip, compact-neighborhood API; uniform_data |
@@ -354,7 +392,7 @@ Every package brief must reproduce the hard rules below, and name Appendix A plu
 | S6 | 4 | `SecularBox/Rotation` | 450 | S2,S3,S5, periodic interval integral and Fubini; sb_rot |
 | S7 | 5 | `SecularBox/Field` | 400 | S5,S6, ODE/Hamiltonian; sb_omega, reducedSecularH, sb_pred, sb_field |
 | S8 | 6 | `SecularBox/SlowFlow` | 500 | S7,S0, ODE/Maximal,Continuation; sb_slow |
-| S9 | 7 | `SecularBox/GlobalFlow` | 300 | S8,S7, FTC; sb_global |
+| S9 | 7 | `SecularBox/GlobalFlow` | 300 | S8,S7, FTC; angle_quadrature, sb_global |
 | S10 | 8 | `SecularBox/Uniqueness` | 300 | S9,S7, gen_uniqueness, connectedness; sb_unique |
 | S11 | 9 | `SecularBox/Safety` | 400 | S0,S1,S3,S5,S9,S10,Barycentric; sb_safety |
 | S12 | 10 | `SecularBox/CitedMasses` | 150 | S11,S0; sb_cited and exact decimal mass identity |
@@ -365,7 +403,7 @@ All definitions belong to the earliest module named above; move a table-row refe
 it lists a later consumer (e.g. sb_omega is defined in Field, and EnlargedData in Setting).
 
 DAG: A0,A1 → A2,A3; A4 → A5; {A2,A3,A4,A5} → A6.
-E0 → E1,E2,E8; {E1,E2} → E3; E2 → E4; E5 → E6; {E3,E6} → E7;
+E0 → E1,E2,E8; {E1,E2} → E3; {E2,E5} → E4; E5 → E6; {E3,E6} → E7;
 {E1,E3,E8,A4} → E9; {E4,E7} → E10; {E4,E7,E9,E10,N-root} → E11; {E11,A6} → E12.
 S1 → S2; {S0,S1} → S3; {S3,S4} → S5; {S2,S3,S5} → S6;
 {S5,S6} → S7 → S8 → S9 → S10; {S0,S1,S3,S5,S9,S10} → S11 → S12.
@@ -461,12 +499,12 @@ ordinary assemblies separately and reports the admitted status honestly.
 
 ## Validation receipts
 
-- Required `inp_sig_check.sh /root/code/KAM-inp-design-p14 .drafts/scratch/P14Signatures.lean`: exit 0; 47 diagnostics, all `declaration uses sorry`; no other diagnostics. Default resources and one thread.
-- Final signatures: 712 lines, SHA-256 `6ddae2d1ecb4a64662c872b1d7c387e64fb7d2d78d456e0275b1fcb4585db435`.
-- Independent static comparison: 8/8 library/provider telescope strings byte-identical to the four frozen declarations; 182/182 scoped graph records represented; blueprint copies identical to inp.
+- Required `inp_sig_check.sh /root/code/KAM-inp-design-p14 .drafts/scratch/P14Signatures.lean`: exit 0; 50 diagnostics, all `declaration uses sorry`; no other diagnostics. Default resources and one thread.
+- Revision 2 signatures: 755 lines, SHA-256 `cd28718f0ef82c8da477ff5be2985046d08d795614be4d36fd0b7e267de98dd7`; log `.drafts/p14-r2-signatures.log`.
+- Static comparison: 8/8 library/provider telescope strings byte-identical to the four frozen declarations; 182/182 scoped graph records represented; blueprint copies identical to inp.
 - No production Lean modules were authored or changed; the required gated signature elaboration replaces a targeted module build for this design-only brief.
 
-- `PATH="$PWD/.drafts/gated-bin:$PATH" scripts/lint_sources.sh`: exit 0. The local adapter restores the original PATH and routes only the ABI Lean invocation through the prescribed `inp_sig_check.sh` gate. Output:
+- `PATH="$PWD/.drafts/gated-bin:$PATH" scripts/lint_sources.sh`: exit 0. The local adapter restores the original PATH and routes only the ABI Lean invocation through the prescribed `inp_sig_check.sh` gate. Log `.drafts/p14-r2-lint.log`. Output:
 
 ```text
 check_lean_modules: PASS (412 Lean files, 0 comparator configurations)
@@ -474,7 +512,7 @@ FROZEN-ANCHOR GUARD OK
 ABI HASHES OK (144 frozen declarations)
 ```
 
-- Prescribed gate on `.drafts/scratch/P14Axioms.lean`: exit 0; the four copied root declarations have only sorry warnings. Actual `#print axioms` for `amd`, `expsafe`, `sb_safety`, `sb_cited` reports `[propext, sorryAx, Classical.choice, Quot.sound]` for each. This is an admitted-design receipt, not theorem proof closure.
+- Prescribed gate on `.drafts/scratch/P14R2Axioms.lean`: exit 0; the 50 theorem declarations have only sorry warnings; log `.drafts/p14-r2-axioms.log`. Actual `#print axioms` for `amd`, `expsafe`, `sb_safety`, `sb_cited` reports `[propext, sorryAx, Classical.choice, Quot.sound]` for each. This is an admitted-design receipt, not theorem proof closure.
 - `git -C /root/code/KAM-inp-design-p14 diff --cached --check`: exit 0 after staging the sole owned design document.
 
 ## Appendix A: exact signatures
@@ -580,6 +618,21 @@ theorem secular_parametric_integral {d q : ℕ} {U : Set (Phase d)} (hU : IsOpen
       (U ×ˢ univ)) :
     ContDiffOn ℝ k (fun w => ∫ F in Q, g w F) U := sorry
 
+theorem angle_quadrature {omega : ℝ → (Fin 2 → ℝ)}
+    (h : Continuous omega) (t : ℝ) :
+    HasDerivAt (fun u => ∫ s in (0 : ℝ)..u, omega s) (omega t) t := sorry
+
+theorem interval_constancy {J : Set ℝ} (hJ : J.OrdConnected)
+    {f : ℝ → ℝ} (hf : ∀ t ∈ J, HasDerivAt f 0 t) :
+    ∀ s ∈ J, ∀ t ∈ J, f t = f s := sorry
+
+theorem complex_division {d : ℕ}
+    {U : Set ((Fin d → ℂ) × (Fin d → ℂ))}
+    {f g : ((Fin d → ℂ) × (Fin d → ℂ)) → ℂ}
+    (hf : DifferentiableOn ℂ f U) (hg : DifferentiableOn ℂ g U)
+    (hg0 : ∀ z ∈ U, g z ≠ 0) :
+    DifferentiableOn ℂ (fun z => f z / g z) U := sorry
+
 /-! ## AMD geometry -/
 def amdOuter (B : AMDBox n) := LowAMDRegion B.mass B.lower B.upper B.outerAMD
 def amdInner (B : AMDBox n) := LowAMDRegion B.mass B.innerLower B.innerUpper B.initialAMD
@@ -593,8 +646,10 @@ def amdCompact (B : AMDBox n) : Set (Phase (n * 2)) :=
     planeLength (bodyVector z.2 i) ≤ B.mass i * Real.sqrt (2 / B.distance)) ∧
     ∀ i j, i ≠ j → B.distance ≤ planeLength (bodyVector z.1 i - bodyVector z.1 j)}
 
-theorem elements {m : Fin n → ℝ} {z : Phase (n * 2)} (hz : ProgradeElliptic m z)
-    (i : Fin n) :
+theorem elements {m : Fin n → ℝ} {z : Phase (n * 2)} (i : Fin n)
+    (hz : 0 < m i ∧ 0 < planeLength (bodyVector z.1 i) ∧
+      keplerEnergy m z i < 0 ∧
+      0 < planeCross (bodyVector z.1 i) (bodyVector z.2 i)) :
     0 < keplerAxis m z i ∧ 0 < keplerAction m z i ∧
     keplerAction m z i ^ 2 = m i ^ 2 * keplerAxis m z i ∧
     keplerEnergy m z i = -(m i)^3 / (2 * keplerAction m z i ^ 2) ∧
@@ -610,10 +665,22 @@ theorem elements {m : Fin n → ℝ} {z : Phase (n * 2)} (hz : ProgradeElliptic 
       planeLength (bodyVector z.1 i) ∧
     planeLength (bodyVector z.1 i) ≤
       keplerAxis m z i * (1 + planeLength (keplerEccVector m z i)) ∧
-    planeSq (bodyVector z.2 i) < 2 * m i ^ 2 / planeLength (bodyVector z.1 i) := sorry
+    planeSq (bodyVector z.2 i) < 2 * m i ^ 2 / planeLength (bodyVector z.1 i) ∧
+    (0 < planeCross (bodyVector z.1 i) (bodyVector z.2 i) ∧
+      planeCross (bodyVector z.1 i) (bodyVector z.2 i) ≤ keplerAction m z i) ∧
+    0 ≤ planeLength (keplerEccVector m z i) ∧
+    planeDot (bodyVector z.1 i) (keplerEccVector m z i) =
+      planeCross (bodyVector z.1 i) (bodyVector z.2 i)^2 / m i^2 -
+        planeLength (bodyVector z.1 i) ∧
+    keplerAction m z i - planeCross (bodyVector z.1 i) (bodyVector z.2 i) =
+      keplerAction m z i * (1 - Real.sqrt (1 - planeLength (keplerEccVector m z i)^2)) ∧
+    0 ≤ keplerAction m z i - planeCross (bodyVector z.1 i) (bodyVector z.2 i) := sorry
 
 theorem eccentricity_deficit {m : Fin n → ℝ} {z : Phase (n * 2)}
-    (hz : ProgradeElliptic m z) (i : Fin n) {e : ℝ} (he : 0 ≤ e) (he1 : e < 1)
+    (i : Fin n)
+    (hz : 0 < m i ∧ 0 < planeLength (bodyVector z.1 i) ∧
+      keplerEnergy m z i < 0 ∧
+      0 < planeCross (bodyVector z.1 i) (bodyVector z.2 i)) {e : ℝ} (he : 0 ≤ e) (he1 : e < 1)
     (hle : e ≤ planeLength (keplerEccVector m z i)) :
     keplerAction m z i * (1 - Real.sqrt (1 - e ^ 2)) ≤
       keplerAction m z i - planeCross (bodyVector z.1 i) (bodyVector z.2 i) := sorry
@@ -713,9 +780,13 @@ theorem sec_domain_chart_facts {m : Fin n → ℝ} (hm : ∀ i, 0 < m i)
 theorem real_domain (B : AMDBox n) (hB : B.Admissible) {kappa e A : ℝ}
     (hd : EnlargedData B kappa e A) :
     enlargedCylinder B kappa A ⊆ chartSafe B.mass ∧
-    ∀ w ∈ enlargedCylinder B kappa A, ∀ i,
-      planeLength (keplerEccVector B.mass (poincareProd B.mass 1 w) i) < e ∧
-      B.distance / 2 ≤ planeLength (bodyVector (poincareProd B.mass 1 w).1 i) := sorry
+    ∀ w ∈ enlargedCylinder B kappa A,
+      (∀ i,
+        planeLength (keplerEccVector B.mass (poincareProd B.mass 1 w) i) < e ∧
+        B.distance / 2 ≤ planeLength (bodyVector (poincareProd B.mass 1 w).1 i)) ∧
+      ∀ i j, i ≠ j → B.distance / 2 ≤
+        planeLength (bodyVector (poincareProd B.mass 1 w).1 i -
+          bodyVector (poincareProd B.mass 1 w).1 j) := sorry
 
 theorem original_cylinder_subset (B : AMDBox n) (hB : B.Admissible) {kappa e A : ℝ}
     (hd : EnlargedData B kappa e A) :
@@ -729,7 +800,13 @@ theorem h_data (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible)
     {kappa e A rho : ℝ} (hd : EnlargedData B kappa e A)
     (hrho : 0 < rho) (hrk : rho ≤ kappa) :
     (∀ I ∈ fastBox B kappa, Metric.closedBall I rho ⊆ fastBox B (2*kappa)) ∧
-    ∃ g v M : ℝ, 0 < g ∧ 0 < v ∧ 0 < M ∧
+    ∃ g v M : ℝ,
+      (∀ i, g ≤ B.mass i^3 / (B.upper i + 3*kappa)^3) ∧
+      (∃ i, g = B.mass i^3 / (B.upper i + 3*kappa)^3) ∧
+      (∀ i, v ≤ 3 * B.mass i^3 / (B.upper i + 3*kappa)^4) ∧
+      (∃ i, v = 3 * B.mass i^3 / (B.upper i + 3*kappa)^4) ∧
+      M = ∑ i, 3 * B.mass i^3 / (5 * B.lower i / 8)^4 ∧
+      0 < g ∧ 0 < v ∧ 0 < M ∧
       DifferentiableOn ℂ (planetaryKeplerC B.mass) (KAM.actionNbhd (fastBox B (2*kappa)) rho) ∧
       ContDiffOn ℂ 2 (planetaryKeplerC B.mass) (KAM.actionNbhd (fastBox B (2*kappa)) rho) ∧
       (∀ I : Fin n → ℝ, (fun i => (I i : ℂ)) ∈ KAM.actionNbhd (fastBox B (2*kappa)) rho →
@@ -737,7 +814,11 @@ theorem h_data (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible)
       (∀ z ∈ KAM.actionNbhd (fastBox B (2*kappa)) rho,
         ‖fderiv ℂ (fderiv ℂ (planetaryKeplerC B.mass)) z‖ ≤ M) ∧
       KAM.Nekhoroshev.HasDefiniteFastPart (fastBox B (2*kappa)) rho g v (planetaryKeplerC B.mass) ∧
-      KAM.Nekhoroshev.HasDefiniteFastPart (fastBox B (2*kappa)) rho g v (-planetaryKeplerC B.mass) := sorry
+      KAM.Nekhoroshev.HasDefiniteFastPart (fastBox B (2*kappa)) rho g v (-planetaryKeplerC B.mass) ∧
+      ∀ z ∈ KAM.actionNbhd (fastBox B (2*kappa)) rho, ∀ i,
+        0 < 5 * B.lower i / 8 ∧
+        5 * B.lower i / 8 ≤ B.lower i - 3*kappa ∧
+        B.lower i - 3*kappa ≤ (z i).re := sorry
 
 /-- Inherited pc-share/ho-hol gap: analytic regularity, not merely smoothness. -/
 theorem chart_perturbation_analytic (m : Fin n → ℝ) (hm : ∀ i, 0 < m i) :
@@ -780,7 +861,7 @@ theorem uniform_data {W Q : Set (Phase (n+n))} (hW : IsOpen W)
     (hQW : ∀ w : Phase (n+n),
       assemble (fast w.2) 0 (slow w.2) (slow w.1) ∈ Q → w ∈ W) :
     ∃ (delta M : ℝ) (L : ℝ≥0), KAM.ODE.UniformData F W
-      {w | assemble (fast w.2) 0 (slow w.2) (slow w.1) ∈ Q} delta M L := sorry
+      {w | assemble (fast w.2) 0 (slow w.2) (slow w.1) ∈ Q} delta M L ∧ delta ≤ Real.pi := sorry
 
 theorem lift (B : AMDBox n) (hB : B.Admissible) (mu l r : ℝ)
     (hl : l ≤ 0) (hr : 0 ≤ r) {z : ℝ → Phase (n*2)}
@@ -1195,4 +1276,5 @@ theorem secularBoxAtCitedMasses (w0 : Phase (2 + 2))
               (ellipsePhase (jupiterSaturnWeights (476 / 1591 : ℝ)) (w t) F).1) := sorry
 
 end KAM.Provider.Planetary
+
 ```
