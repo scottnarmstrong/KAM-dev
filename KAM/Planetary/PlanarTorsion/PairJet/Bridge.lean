@@ -22,7 +22,7 @@ secular average of Part 8, evaluated at the slow variable `x(z)` whose regular e
 
 @[expose] public noncomputable section
 open Set MeasureTheory Filter Real Function KAM KAM.Kepler
-open scoped Topology
+open scoped Topology ContDiff
 namespace KAM.Planetary
 open SecularForm
 
@@ -117,7 +117,8 @@ theorem p11cPJ_position {L v0 v1 : ℝ} (hL : 0 < L) (hv : v0 ^ 2 + v1 ^ 2 < 1) 
   have hsq : planeSq (![v0, v1] : Fin 2 → ℝ) = v0 ^ 2 + v1 ^ 2 := by
     rw [pjB_planeSq_two]; simp
   have hw2 : w.2 0 = L := rfl
-  simp only [poincare, hV, hK, hF, p11c_orbit, hsq, hw2]
+  simp only [poincare, hV, hK, hF, p11c_orbit, hsq, hw2, Pi.smul_apply, Pi.add_apply, Pi.sub_apply,
+    smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one]
   push_cast
   ring
 
@@ -146,7 +147,7 @@ theorem p11cPJ_action_pos {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (i : Fin 2) :
 
 theorem p11cPJ_perturbation {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) {z : Phase 2}
     (hz : ∀ i, z.1 i ^ 2 + z.2 i ^ 2 < 1) (φ : Vec 2) :
-    perturbation p11cPJD false (assemble (action p11cPJD (p11cPJax a)) φ (p11cPJx a z).2.2
+    perturbation p11cPJD false (assemble (p11cPJx a z).2.1 φ (p11cPJx a z).2.2
         (p11cPJx a z).1) =
       -‖(a : ℂ) * p11c_orbit (φ 0) ![z.1 0, z.2 0] - p11c_orbit (φ 1) ![z.1 1, z.2 1]‖⁻¹ := by
   have hpos0 := p11cPJ_position (p11cPJ_action_pos ha 0) (hz 0) (φ 0)
@@ -168,7 +169,7 @@ theorem p11cPJ_perturbation {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) {z : Phase 2}
           (p11cPJx a z).1)).1 0 - bodyVector (poincareProd p11cPJD.m
         (p11cPJD.G * p11cPJD.m0) (assemble (action p11cPJD (p11cPJax a)) φ (p11cPJx a z).2.2
           (p11cPJx a z).1)).1 1))⁻¹ := by
-    simp only [perturbation, fFix, Bool.false_eq_true, if_false]
+    simp only [perturbation, fFix, Bool.false_eq_true, ite_false]
     rw [show p11cPJD.G = 1 from rfl]
     have := p11cPJ_pairPotential_two (poincareProd p11cPJD.m (p11cPJD.G * p11cPJD.m0)
       (assemble (action p11cPJD (p11cPJax a)) φ (p11cPJx a z).2.2 (p11cPJx a z).1)).1
@@ -223,7 +224,7 @@ theorem p11cPJscale_analyticAt {L : ℝ} (hL : 0 < L) (i : Fin 2) :
 theorem p11cPJx_analyticAt {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) :
     AnalyticAt ℝ (p11cPJx a) 0 := by
   unfold p11cPJx
-  refine AnalyticAt.prodMk ?_ (AnalyticAt.prodMk analyticAt_const ?_)
+  refine AnalyticAt.prod ?_ (AnalyticAt.prod analyticAt_const ?_)
   · rw [analyticAt_pi_iff]
     intro i
     exact (p11cPJscale_analyticAt (p11cPJ_action_pos ha i) i).mul (pjB_analyticAt_fst i 0)
@@ -244,7 +245,7 @@ theorem p11cPJ_pairAverage_analyticAt {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) :
   have hmem : p11cPJx a 0 ∈ realDisc p11cPJD (p11cPJax a) r := by
     show inclusion (p11cPJx a 0) ∈ polydisc p11cPJD (p11cPJax a) r
     rw [polydisc_eq_ball _ _ hr0]
-    have : inclusion (p11cPJx a 0) = center p11cPJD (p11cPJax a) := by
+    have : inclusion (p11cPJx a 0) = SecularForm.center p11cPJD (p11cPJax a) := by
       simp [center, p11cPJx]
     rw [this]
     exact Metric.mem_ball_self hr0

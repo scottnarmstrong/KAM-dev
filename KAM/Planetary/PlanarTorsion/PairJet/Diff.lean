@@ -130,7 +130,7 @@ theorem p11cPJF4_eq (a : ℝ) (l : Fin 2 → ℝ) (y : Fin 4 → ℝ) :
 private theorem pjD_analyticAt_arg (m : Fin 2) (u v : Fin 4) (p : (Fin 2 → ℝ) × (Fin 4 → ℝ)) :
     AnalyticAt ℝ (fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) => ((p.1 m, ![p.2 u, p.2 v]) :
       ℝ × (Fin 2 → ℝ))) p := by
-  refine AnalyticAt.prodMk ?_ ?_
+  refine AnalyticAt.prod ?_ ?_
   · exact ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) m).comp
       (ContinuousLinearMap.fst ℝ (Fin 2 → ℝ) (Fin 4 → ℝ))).analyticAt p
   · rw [analyticAt_pi_iff]
@@ -146,11 +146,15 @@ theorem p11cPJG_analyticAt {a : ℝ} {p : (Fin 2 → ℝ) × (Fin 4 → ℝ)}
     AnalyticAt ℝ (p11cPJG a) p := by
   have e0 : AnalyticAt ℝ (fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) =>
       p11c_orbit (p.1 0) ![p.2 0, p.2 2]) p :=
-    (p11cPJ_orbit_analyticAt (x := (p.1 0, ![p.2 0, p.2 2])) h0).comp
+    AnalyticAt.comp (g := fun x : ℝ × (Fin 2 → ℝ) => p11c_orbit x.1 x.2)
+      (f := fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) => ((p.1 0, ![p.2 0, p.2 2]) : ℝ × (Fin 2 → ℝ)))
+      (x := p) (p11cPJ_orbit_analyticAt (x := (p.1 0, ![p.2 0, p.2 2])) h0)
       (pjD_analyticAt_arg 0 0 2 p)
   have e1 : AnalyticAt ℝ (fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) =>
       p11c_orbit (p.1 1) ![p.2 1, p.2 3]) p :=
-    (p11cPJ_orbit_analyticAt (x := (p.1 1, ![p.2 1, p.2 3])) h1).comp
+    AnalyticAt.comp (g := fun x : ℝ × (Fin 2 → ℝ) => p11c_orbit x.1 x.2)
+      (f := fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) => ((p.1 1, ![p.2 1, p.2 3]) : ℝ × (Fin 2 → ℝ)))
+      (x := p) (p11cPJ_orbit_analyticAt (x := (p.1 1, ![p.2 1, p.2 3])) h1)
       (pjD_analyticAt_arg 1 1 3 p)
   exact (analyticAt_const.mul e0).sub e1
 
@@ -177,28 +181,22 @@ theorem p11cPJF4_analyticAt {a : ℝ} {p : (Fin 2 → ℝ) × (Fin 4 → ℝ)} (
         (p11cPJG a p).im = 0)
   have hsqrt : AnalyticAt ℝ (fun p => √((p11cPJG a p).re ^ 2 + (p11cPJG a p).im ^ 2)) p :=
     ((hsq.contDiffAt (n := ω)).sqrt hpos.ne').analyticAt
-  have hnorm : (fun p => ‖p11cPJG a p‖) = fun p =>
-      √((p11cPJG a p).re ^ 2 + (p11cPJG a p).im ^ 2) := by
-    funext p; exact Complex.norm_eq_sqrt_sq_add_sq _
+  have hnorm : (fun q => ‖p11cPJG a q‖⁻¹) = fun q =>
+      (√((p11cPJG a q).re ^ 2 + (p11cPJG a q).im ^ 2))⁻¹ := by
+    funext q; rw [Complex.norm_eq_sqrt_sq_add_sq]
   unfold p11cPJF4
-  have hn0 : ‖p11cPJG a p‖ ≠ 0 := norm_ne_zero_iff.2 h2
-  rw [hnorm] at hn0 ⊢
+  have hn0 : √((p11cPJG a p).re ^ 2 + (p11cPJG a p).im ^ 2) ≠ 0 := Real.sqrt_pos.2 hpos |>.ne'
+  rw [hnorm]
   exact hsqrt.inv hn0
 
 theorem isOpen_p11cPJW (a : ℝ) : IsOpen (p11cPJW a) := by
-  have hc0 : Continuous fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) => planeLength ![p.2 0, p.2 2] := by
-    have := (continuous_planeLength).comp
-      ((by fun_prop : Continuous fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) =>
-        (![p.2 0, p.2 2] : Fin 2 → ℝ)))
-    exact this
-  have hc1 : Continuous fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) => planeLength ![p.2 1, p.2 3] := by
-    have := (continuous_planeLength).comp
-      ((by fun_prop : Continuous fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) =>
-        (![p.2 1, p.2 3] : Fin 2 → ℝ)))
-    exact this
+  have hc0 : Continuous fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) => (![p.2 0, p.2 2] : Fin 2 → ℝ) := by
+    fun_prop
+  have hc1 : Continuous fun p : (Fin 2 → ℝ) × (Fin 4 → ℝ) => (![p.2 1, p.2 3] : Fin 2 → ℝ) := by
+    fun_prop
   have hW1 : IsOpen {p : (Fin 2 → ℝ) × (Fin 4 → ℝ) |
       planeLength ![p.2 0, p.2 2] < 1 ∧ planeLength ![p.2 1, p.2 3] < 1} :=
-    (isOpen_lt hc0 continuous_const).inter (isOpen_lt hc1 continuous_const)
+    (isOpen_planeLength_lt_one.preimage hc0).inter (isOpen_planeLength_lt_one.preimage hc1)
   have hcont : ContinuousOn (p11cPJG a) {p : (Fin 2 → ℝ) × (Fin 4 → ℝ) |
       planeLength ![p.2 0, p.2 2] < 1 ∧ planeLength ![p.2 1, p.2 3] < 1} :=
     fun p hp => (p11cPJG_analyticAt hp.1 hp.2).continuousAt.continuousWithinAt
@@ -309,8 +307,9 @@ theorem p11cPJ_diag_integral {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) {j : ℕ} (h
   set c : ℝ := (2 * π) ^ (-2 : ℤ) with hc
   set F : (Fin 2 → ℝ) × (Fin 4 → ℝ) → ℝ := fun p => c * p11cPJF4 a p with hF
   have hAn : AnalyticOnNhd ℝ (p11cPJF4 a) (p11cPJW a) := fun p hp => p11cPJF4_analyticAt hp
-  have hFd : ContDiffOn ℝ 4 F (p11cPJW a) :=
-    contDiffOn_const.mul (hAn.contDiffOn.of_le (by exact_mod_cast le_top))
+  have hCD : ContDiffOn ℝ 4 (p11cPJF4 a) (p11cPJW a) := fun p hp =>
+    ((hAn p hp).contDiffAt).contDiffWithinAt
+  have hFd : ContDiffOn ℝ 4 F (p11cPJW a) := contDiffOn_const.mul hCD
   obtain ⟨δ, hδ, hmem, hcont, hdiff⟩ := p11cPJ_e_diff (isOpen_p11cPJW a) hFd
     (fun t _ => mem_p11cPJW_zero ha t)
   set y : Fin 4 → ℝ := p11cPJequiv.symm w with hy
@@ -334,16 +333,16 @@ theorem p11cPJ_diag_integral {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) {j : ℕ} (h
   rw [hcomm, ← integral_const_mul]
   refine setIntegral_congr_fun SecularForm.measurableSet_cell fun t ht => ?_
   have hfa : ContDiffAt ℝ j (fun y' => p11cPJF4 a (t, y')) 0 := by
-    have := (hAn.contDiffOn (n := ⊤)).contDiffAt
-      ((isOpen_p11cPJW a).mem_nhds (mem_p11cPJW_zero ha t))
-    exact (this.comp (0 : Fin 4 → ℝ) (contDiff_const.prodMk contDiff_id).contDiffAt).of_le
-      (by exact_mod_cast le_top)
+    have h0 : AnalyticAt ℝ (fun y' : Fin 4 → ℝ => p11cPJF4 a (t, y')) 0 :=
+      (hAn (t, 0) (mem_p11cPJW_zero ha t)).comp
+        (analyticAt_const.prod (analyticAt_id))
+    exact h0.contDiffAt
   have h2 : (fun y' => F (t, y')) = fun y' => c • p11cPJF4 a (t, y') := by
     funext y'; simp [hF]
   have h3 : (fun y' => p11cPJF4 a (t, y')) = (p11cPJF a t) ∘ p11cPJequiv := by
     funext y'; simp [p11cPJF4_eq]
   simp only [h2]
-  rw [iteratedFDeriv_const_smul_apply hfa, h3, p11cPJ_diag_comp_equiv, hey]
+  rw [iteratedFDeriv_const_smul_apply' hfa, h3, p11cPJ_diag_comp_equiv, hey]
   simp
 
 /-- The pair integrand is real analytic at `0`. -/
@@ -351,9 +350,10 @@ theorem p11cPJF_analyticAt {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (l : Fin 2 →
     AnalyticAt ℝ (p11cPJF a l) 0 := by
   have h := p11cPJF4_analyticAt (mem_p11cPJW_zero ha l)
   have h2 : AnalyticAt ℝ (fun z : Phase 2 => p11cPJF4 a (l, p11cPJequiv.symm z)) 0 := by
-    refine h.comp ?_
-    simp only [map_zero]
-    exact analyticAt_const.prodMk (p11cPJequiv.symm.toContinuousLinearMap.analyticAt 0)
+    refine AnalyticAt.comp (g := p11cPJF4 a)
+      (f := fun z : Phase 2 => ((l, p11cPJequiv.symm z) : (Fin 2 → ℝ) × (Fin 4 → ℝ))) (x := 0)
+      (by simpa using h) ?_
+    exact analyticAt_const.prod (p11cPJequiv.symm.toContinuousLinearMap.analyticAt 0)
   refine h2.congr (Filter.Eventually.of_forall fun z => ?_)
   simp [p11cPJF4_eq]
 
