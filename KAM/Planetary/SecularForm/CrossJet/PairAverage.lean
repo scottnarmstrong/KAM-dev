@@ -25,6 +25,7 @@ open Set MeasureTheory Filter Real Function Metric KAM KAM.Kepler
 open scoped Topology ContDiff
 namespace KAM.Planetary
 namespace SecularForm
+variable {n : ℕ}
 
 theorem poincare_circle_fst {m κ Λ : ℝ} (hm : 0 < m) (hκ : 0 < κ) (hΛ : 0 < Λ) (l : ℝ) :
     (poincare m κ (![l, 0], ![Λ, 0])).1 =
