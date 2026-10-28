@@ -30,8 +30,9 @@ theorem p11cPJ_mu2_0 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) :
       (1 : ℝ) * p11c_pairCoeffs a 0 := by
   have ha0 : a ≠ 0 := ha.1.ne'
   have hD : (1 - a ^ 2) ≠ 0 := p11c_one_sub_sq_ne ha
-  simp only [p11cPJC_q22a_0, p11cPJC_q22b_0, p11cPJtab_1_0 ha, p11cPJtab_1_1 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11c_pairCoeffs_apply a 0, p11cN0, p11cN1, p11cDn, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val, Fin.isValue]
+  simp only [p11cPJC_q22a_0, p11cPJC_q22b_0, p11cPJtab_1_0 ha, p11cPJtab_1_1 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11c_pairCoeffs_apply a 0]
+  simp only [p11cN0, p11cN1, p11cDn]
+  norm_num [Matrix.vecHead, Matrix.vecTail]
   generalize p11c_laplace (1 / 2) 0 a = b0
   generalize p11c_laplace (1 / 2) 1 a = b1
   field_simp
@@ -42,8 +43,9 @@ theorem p11cPJ_mu2_1 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) :
       (1/2 : ℝ) * p11c_pairCoeffs a 1 := by
   have ha0 : a ≠ 0 := ha.1.ne'
   have hD : (1 - a ^ 2) ≠ 0 := p11c_one_sub_sq_ne ha
-  simp only [p11cPJC_q22a_1, p11cPJC_q22b_1, p11cPJtab_1_0 ha, p11cPJtab_1_2 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11cPJtab_2_3 ha, p11c_pairCoeffs_apply a 1, p11cN0, p11cN1, p11cDn, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val, Fin.isValue]
+  simp only [p11cPJC_q22a_1, p11cPJC_q22b_1, p11cPJtab_1_0 ha, p11cPJtab_1_2 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11cPJtab_2_3 ha, p11c_pairCoeffs_apply a 1]
+  simp only [p11cN0, p11cN1, p11cDn]
+  norm_num [Matrix.vecHead, Matrix.vecTail]
   generalize p11c_laplace (1 / 2) 0 a = b0
   generalize p11c_laplace (1 / 2) 1 a = b1
   field_simp
@@ -54,8 +56,9 @@ theorem p11cPJ_mu2_2 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) :
       (1/2 : ℝ) * p11c_pairCoeffs a 1 := by
   have ha0 : a ≠ 0 := ha.1.ne'
   have hD : (1 - a ^ 2) ≠ 0 := p11c_one_sub_sq_ne ha
-  simp only [p11cPJC_q22a_2, p11cPJC_q22b_2, p11cPJtab_1_0 ha, p11cPJtab_1_2 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11cPJtab_2_3 ha, p11c_pairCoeffs_apply a 1, p11cN0, p11cN1, p11cDn, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val, Fin.isValue]
+  simp only [p11cPJC_q22a_2, p11cPJC_q22b_2, p11cPJtab_1_0 ha, p11cPJtab_1_2 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11cPJtab_2_3 ha, p11c_pairCoeffs_apply a 1]
+  simp only [p11cN0, p11cN1, p11cDn]
+  norm_num [Matrix.vecHead, Matrix.vecTail]
   generalize p11c_laplace (1 / 2) 0 a = b0
   generalize p11c_laplace (1 / 2) 1 a = b1
   field_simp
@@ -66,8 +69,9 @@ theorem p11cPJ_mu2_3 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) :
       (1 : ℝ) * p11c_pairCoeffs a 0 := by
   have ha0 : a ≠ 0 := ha.1.ne'
   have hD : (1 - a ^ 2) ≠ 0 := p11c_one_sub_sq_ne ha
-  simp only [p11cPJC_q22a_3, p11cPJC_q22b_3, p11cPJtab_1_0 ha, p11cPJtab_1_1 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11c_pairCoeffs_apply a 0, p11cN0, p11cN1, p11cDn, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val, Fin.isValue]
+  simp only [p11cPJC_q22a_3, p11cPJC_q22b_3, p11cPJtab_1_0 ha, p11cPJtab_1_1 ha, p11cPJtab_2_0 ha, p11cPJtab_2_1 ha, p11cPJtab_2_2 ha, p11c_pairCoeffs_apply a 0]
+  simp only [p11cN0, p11cN1, p11cDn]
+  norm_num [Matrix.vecHead, Matrix.vecTail]
   generalize p11c_laplace (1 / 2) 0 a = b0
   generalize p11c_laplace (1 / 2) 1 a = b1
   field_simp
@@ -99,7 +103,7 @@ theorem p11cPJ_avg2 {a : ℝ} (ha : a ∈ Ioo (0 : ℝ) 1) (ζ1 ζb1 ζ2 ζb2 : 
   have h3 := congrArg (fun x : ℝ => (x : ℂ)) (p11cPJ_mu2_3 ha)
   simp only [Complex.ofReal_add, Complex.ofReal_mul] at h3
   push_cast at *
-  linear_combination (((2 * π : ℝ) : ℂ) * ((2 * π : ℝ) : ℂ) * (ζ2 * ζb2)) * h0 + (((2 * π : ℝ) : ℂ) * ((2 * π : ℝ) : ℂ) * (ζb1 * ζ2)) * h1 + (((2 * π : ℝ) : ℂ) * ((2 * π : ℝ) : ℂ) * (ζ1 * ζb2)) * h2 + (((2 * π : ℝ) : ℂ) * ((2 * π : ℝ) : ℂ) * (ζ1 * ζb1)) * h3
+  linear_combination ((2 * (π : ℂ)) * (2 * (π : ℂ)) * (ζ2 * ζb2)) * h0 + ((2 * (π : ℂ)) * (2 * (π : ℂ)) * (ζb1 * ζ2)) * h1 + ((2 * (π : ℂ)) * (2 * (π : ℂ)) * (ζ1 * ζb2)) * h2 + ((2 * (π : ℂ)) * (2 * (π : ℂ)) * (ζ1 * ζb1)) * h3
 
 
 end KAM.Planetary
