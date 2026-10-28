@@ -223,6 +223,59 @@ theorem good_characteristic (n : ℕ) : ∃ P : MvPolynomial (Fin n) ℝ,
     simp
   rw [hf]
 
+/-! ### Analyticity of characteristic polynomial coefficients -/
+
+lemma charpoly_coeff_eq_aeval (A : Mat n) (i : ℕ) :
+    A.charpoly.coeff i = MvPolynomial.aeval (fun p : Fin n × Fin n => A p.1 p.2)
+      ((Matrix.charpoly.univ ℝ (Fin n)).coeff i) := by
+  have h := Matrix.charpoly.univ_map_eval₂Hom (n := Fin n) (RingHom.id ℝ) (fun p => A p.1 p.2)
+  have hA : (Matrix.of (Function.curry fun p : Fin n × Fin n => A p.1 p.2) : Mat n) = A := by
+    ext a b; rfl
+  rw [hA] at h
+  have := congrArg (fun q => q.coeff i) h
+  simp only [Polynomial.coeff_map] at this
+  rw [← this]
+  rfl
+
+lemma analyticAt_charpoly_coeff {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] {w : E}
+    {A : E → Mat n} (hA : AnalyticAt ℝ A w) (i : ℕ) :
+    AnalyticAt ℝ (fun x => (A x).charpoly.coeff i) w := by
+  simp_rw [charpoly_coeff_eq_aeval]
+  exact AnalyticAt.aeval_mvPolynomial (f := fun x (p : Fin n × Fin n) => A x p.1 p.2)
+    (fun p => analyticAt_mat_entry hA p.1 p.2) _
+
+theorem good_set (D : Data n) :
+    AnalyticOnNhd ℝ (fun a => good (sigma D a)) (axes n) ∧
+    (∀ a ∈ axes n, good (sigma D a) ≠ 0 ↔ nr4 (sigma D a)) ∧
+    (∀ p : Equiv.Perm (Fin n), ∀ s : Vec n, good (s ∘ p) = good s) := by
+  refine ⟨?_, fun a _ => good_ne_zero_iff _, fun p s => good_comp s p⟩
+  obtain ⟨P, hP⟩ := good_characteristic n
+  intro a ha
+  have h : (fun a => good (sigma D a)) = fun a => MvPolynomial.aeval
+      (fun i : Fin n => (coeffs D a).charpoly.coeff i.val) P := by
+    funext a
+    exact hP (coeffs D a) (coeffs_hermitian D a)
+  rw [h]
+  exact AnalyticAt.aeval_mvPolynomial (f := fun a (i : Fin n) => (coeffs D a).charpoly.coeff i.val)
+    (fun i => analyticAt_charpoly_coeff (coeffs_analytic D a ha) i.val) P
+
+theorem good_set_dichotomy (D : Data n) {B : Set (Vec n)} (hB : IsOpen B)
+    (hBc : IsConnected B) (hBA : B ⊆ axes n) :
+    (∀ a ∈ B, good (sigma D a) = 0) ∨
+    (IsOpen {a ∈ B | good (sigma D a) ≠ 0} ∧
+      B ⊆ closure {a ∈ B | good (sigma D a) ≠ 0} ∧
+      volume {a ∈ B | good (sigma D a) = 0} = 0) := by
+  by_cases h : ∀ a ∈ B, good (sigma D a) = 0
+  · exact Or.inl h
+  · right
+    push Not at h
+    have hf : AnalyticOnNhd ℝ (fun a => good (sigma D a)) B := (good_set D).1.mono hBA
+    obtain ⟨hopen, hcl, -⟩ := Nondegeneracy.generic hB hBc (r := 1)
+      (f := fun _ a => good (sigma D a)) (fun _ => hf) (fun _ => h)
+    refine ⟨?_, ?_, Nondegeneracy.analytic_zero_null hB hBc hf h⟩
+    · simpa using hopen
+    · simpa using hcl
+
 end SecularSpectrum
 
 end KAM.Planetary
