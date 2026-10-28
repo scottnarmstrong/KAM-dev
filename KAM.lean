@@ -321,7 +321,9 @@ public import KAM.Nekhoroshev.Interfaces.QuasiConvex
 public import KAM.Nekhoroshev.Interfaces.Setting
 public import KAM.Nekhoroshev.NormalForm.BracketDecomp
 public import KAM.Nekhoroshev.NormalForm.Homological
+public import KAM.Nekhoroshev.NormalForm.Iterative
 public import KAM.Nekhoroshev.NormalForm.IterativeMap
+public import KAM.Nekhoroshev.NormalForm.IterativeReal
 public import KAM.Nekhoroshev.NormalForm.IterativeRemainder
 public import KAM.Nekhoroshev.NormalForm.Setting
 public import KAM.Nekhoroshev.NormalForm.Telescope
@@ -376,6 +378,9 @@ public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
 public import KAM.Planetary.Poincare.Tube
 public import KAM.Planetary.TwoScale.Constants
+public import KAM.Planetary.TwoScale.Cover
+public import KAM.Planetary.TwoScale.FourierCompact
+public import KAM.Planetary.TwoScale.FourierCompactCauchy
 public import KAM.Planetary.TwoScale.Inverse
 public import KAM.Provider.AposterioriKam
 public import KAM.Provider.Iso.AllTimeConfinement
