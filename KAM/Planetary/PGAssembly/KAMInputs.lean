@@ -95,8 +95,17 @@ theorem pgKamScale_rhoHat {d : PGData a b} {r mu : ℝ} (h : admissible d (pgRst
     have := (pgK0_pos d (pgScales d)).ne'
     show mu*(pgScales d).k0*r^(5/2:ℝ)/_ = _
     field_simp
+    rfl
   rw [e, min_self]
   rfl
+
+theorem pgKamScale_eHat {d : PGData a b} {r mu : ℝ} (h : admissible d (pgRstar d) r mu) :
+    eHat (pgKamScale d r mu) = (params d r mu).Ehat := by
+  have hmu : 0 < mu := h.2.2.1
+  have hR : eHat (pgKamScale d r mu) =
+      (kam_c1 d*mu*r^5)*(pgKamScale d r mu).L/(rhoHat (pgKamScale d r mu))^2 := rfl
+  rw [hR, pgKamScale_L h, pgKamScale_rhoHat h, params_Ehat]
+  field_simp
 
 end KAM.Planetary
 
