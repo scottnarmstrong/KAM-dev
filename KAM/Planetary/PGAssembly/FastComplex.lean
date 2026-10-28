@@ -186,8 +186,8 @@ theorem norm_fderiv_complexFast_le (d : PGData a b) {z : Fin a → ℂ}
       ≤ ‖partialsCLM a‖ * ‖fderiv ℂ (fderiv ℂ (pgExtension d).H0) z‖ :=
         ContinuousLinearMap.opNorm_comp_le _ _
     _ ≤ 1 * (pgExtension d).M0 :=
-        mul_le_mul (norm_partialsCLM_le a) ((pgExtension d).h0bounds z hz).2.2 (ContinuousLinearMap.opNorm_nonneg _)
-          zero_le_one
+        mul_le_mul (norm_partialsCLM_le a) ((pgExtension d).h0bounds z hz).2.2
+          (ContinuousLinearMap.opNorm_nonneg _) zero_le_one
     _ = _ := one_mul _
 
 theorem realInclusion_single (i : Fin n) :
