@@ -1186,9 +1186,9 @@ EDGE: bpP:p9:n2 | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:sec-beta#da
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11c_Q, p11c_sigma, p11c_projector, p11c_Q_eq_coeffs, p11c_sigma_eq_sigma, p11c_sigma_lt, p11c_sigma_neg, p11c_projector_trace, p11c_projector_det, p11c_projector_symm, p11c_Q_mul_projector, p11c_projector_idem, p11c_projector_mulVec_eq_self_iff, p11c_projector_eq_frame (KAM/Planetary/PlanarTorsion/SpectralAdapter.lean)
+LEAN_NOTE: audit T12 round 2 PASS WITH NOTES (F1 closed); formula, physical spectrum, orthogonal projection, rank-one and SO(2)-frame clauses all proved; quadratic_physical_bridge also in file
 NOTE: created from p11b:prose-L180-L182 (SPEC section data); consumers: beta-def, beta-formula, bf-gram, bt-rot, as-pi
 
 NODE: bpP:p11b:beta-def
