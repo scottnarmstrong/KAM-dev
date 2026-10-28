@@ -1290,9 +1290,9 @@ EDGE: bpP:p5:kam-hyp#C1 | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kam-hyp@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kam_hyp, pg_kam_hyp (KAM/Planetary/PGAssembly/KAMInputs.lean); kamH, pgKamScale (KAM/Planetary/PGAssembly/KAMInputsBase.lean); kamF (KAM/Planetary/PGAssembly/KAMInputsF.lean)
+LEAN_NOTE: audit P5-KH PASS WITH NOTES; signed exports kamH, kamF, kam_hyp, pgKamScale, pg_kam_hyp (+ pg_kam_dictionary)
 NOTE: -
 
 NODE: stepP:p5:kh-dom
@@ -1324,9 +1324,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kh-dom@L204-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: actionNbhd_sub_analytic, kamH_differentiableOn (KAM/Planetary/PGAssembly/KAMInputsKamH.lean); kamPolar_mem, kamF_differentiableOn (KAM/Planetary/PGAssembly/KAMInputsF.lean); kamF_periodic, kamH_real, kamF_real (KAM/Planetary/PGAssembly/KAMInputsPer.lean); complexFrequency_realSlice (KAM/Planetary/PGAssembly/KAMInputsFreq.lean)
+LEAN_NOTE: audit P5-KH PASS WITH NOTES; audit table kh-dom PASS
 NOTE: -
 
 NODE: stepP:p5:kh-h
@@ -1353,9 +1353,9 @@ EDGE: stepP:p5:kh-dom | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kh-h@L205-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: freq_kamH, kamH_injOn, kamH_hessian (KAM/Planetary/PGAssembly/KAMInputsKamH.lean)
+LEAN_NOTE: audit P5-KH PASS WITH NOTES; audit table kh-h PASS
 NOTE: -
 
 NODE: stepP:p5:kh-f
@@ -1388,9 +1388,9 @@ EDGE: bpP:p5:kam-hyp#C1 | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kh-f@L20
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-delta-P-g
 REVIEWER: sol-delta2-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kamF_eq, kamF_sup (KAM/Planetary/PGAssembly/KAMInputsF.lean); kam_hyp (KAM/Planetary/PGAssembly/KAMInputs.lean)
+LEAN_NOTE: audit P5-KH PASS WITH NOTES; audit table kh-f PASS
 NOTE: -
 
 NODE: stepP:p5:kh-norm
@@ -1418,9 +1418,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kh-norm@L207-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: mu_lt_one_of_admissible (KAM/Planetary/PGAssembly/KAMInputsBase.lean); pg_kam_hyp (KAM/Planetary/PGAssembly/KAMInputs.lean)
+LEAN_NOTE: audit P5-KH PASS WITH NOTES; audit table kh-norm PASS
 NOTE: -
 
 NODE: bpP:p5:kam-cond

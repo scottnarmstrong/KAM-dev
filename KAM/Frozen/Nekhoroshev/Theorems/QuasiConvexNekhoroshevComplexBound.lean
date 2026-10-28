@@ -69,7 +69,8 @@ theorem quasiConvex_nekhoroshev_complexBound {n : ℕ} (hn : 3 ≤ n) {R s M m M
               IsSolutionOn (KAM.realHamiltonian h f) (actionBall n R)
                 (Set.Icc (-L) L) y → ∀ t ∈ Set.Icc (-L) L, y t = z t) :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Nekhoroshev.quasiConvex_nekhoroshev_complexBound hn hR hs hM hm hMcomplex
+      hωmin
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

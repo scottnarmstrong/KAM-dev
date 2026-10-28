@@ -2374,7 +2374,7 @@
     "module": "KAM.Provider.Nekhoroshev.QuasiConvexNekhoroshevComplexBound",
     "export": "KAM.Provider.Nekhoroshev.quasiConvex_nekhoroshev_complexBound"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "c1ff5891ac98e56c72636b9d552cd7e28faa75db411c9fcb3715197606f9dc70",
    "suffix_sha256": "1efcbce496c3a865046e94018aa1cc8bdafb0b9454c6939e2353d83cc98b6da8",
    "draft_allowlist": {

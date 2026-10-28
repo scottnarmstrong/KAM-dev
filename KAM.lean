@@ -117,6 +117,7 @@ public import KAM.Frozen.Nekhoroshev.Defs.RealPart
 public import KAM.Frozen.Nekhoroshev.Theorems.AveragingMean
 public import KAM.Frozen.Nekhoroshev.Theorems.AveragingMost
 public import KAM.Frozen.Nekhoroshev.Theorems.QuasiConvexIsoenergeticDerivative
+public import KAM.Frozen.Nekhoroshev.Theorems.QuasiConvexNekhoroshevComplexBound
 public import KAM.Frozen.Nekhoroshev.Theorems.ZeroPerturbation
 public import KAM.Frozen.Planetary.Defs.AMDBox
 public import KAM.Frozen.Planetary.Defs.AMDBoxAdmissible
@@ -311,6 +312,9 @@ public import KAM.Measure.Lipschitz
 public import KAM.Measure.McShane
 public import KAM.Measure.Slab
 public import KAM.Nekhoroshev.Assembly.Choice
+public import KAM.Nekhoroshev.Assembly.Confinement
+public import KAM.Nekhoroshev.Assembly.Existence
+public import KAM.Nekhoroshev.Assembly.Headline
 public import KAM.Nekhoroshev.Assembly.Hypotheses
 public import KAM.Nekhoroshev.Averaging.Coefficients
 public import KAM.Nekhoroshev.Averaging.CompactMaximum
@@ -474,6 +478,7 @@ public import KAM.Planetary.Exponential.ComplexTube
 public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Exponential.Enlargement
 public import KAM.Planetary.Exponential.KeplerData
+public import KAM.Planetary.Exponential.Lift
 public import KAM.Planetary.Exponential.LocalComplexification
 public import KAM.Planetary.Exponential.Perturbation
 public import KAM.Planetary.Exponential.RealDomain
@@ -601,6 +606,12 @@ public import KAM.Planetary.PGAssembly.JetsReal
 public import KAM.Planetary.PGAssembly.JetsRegular
 public import KAM.Planetary.PGAssembly.JetsSlice
 public import KAM.Planetary.PGAssembly.JetsVanish
+public import KAM.Planetary.PGAssembly.KAMInputs
+public import KAM.Planetary.PGAssembly.KAMInputsBase
+public import KAM.Planetary.PGAssembly.KAMInputsF
+public import KAM.Planetary.PGAssembly.KAMInputsFreq
+public import KAM.Planetary.PGAssembly.KAMInputsKamH
+public import KAM.Planetary.PGAssembly.KAMInputsPer
 public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.Remainder
@@ -851,6 +862,7 @@ public import KAM.Provider.LocalUniquenessFlow
 public import KAM.Provider.Nekhoroshev.AveragingMean
 public import KAM.Provider.Nekhoroshev.AveragingMost
 public import KAM.Provider.Nekhoroshev.QuasiConvexIsoenergeticDerivative
+public import KAM.Provider.Nekhoroshev.QuasiConvexNekhoroshevComplexBound
 public import KAM.Provider.Nekhoroshev.ZeroPerturbation
 public import KAM.Provider.Planetary.AmdConfinement
 public import KAM.Provider.VolumeNotDiophantineLe
