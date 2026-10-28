@@ -112,6 +112,63 @@ lemma charAvg_term {a : Fin 4 → Fin 5} (ha : a ∈ charIdx) (x0 y0 x1 y1 : ℝ
     rw [charFc_zero_odd _ _ hev, if_neg h1, if_neg h2, if_neg h3]
     simp
 
+/-- The quadratic-form coefficient of `J0 ^ 2` in the average. -/
+def charAvgA {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (I : Fin 2 → ℝ) : ℝ :=
+  ∑ a ∈ charIdx, if (a 0).val + (a 1).val = 4 then 4 * charLam a * F.coeff (fun i => (a i).val) I
+    else 0
+
+/-- The quadratic-form coefficient of `J0 * J1` in the average. -/
+def charAvgB {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (I : Fin 2 → ℝ) : ℝ :=
+  ∑ a ∈ charIdx, if (a 0).val + (a 1).val = 2 then 4 * charLam a * F.coeff (fun i => (a i).val) I
+    else 0
+
+/-- The quadratic-form coefficient of `J1 ^ 2` in the average. -/
+def charAvgC {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (I : Fin 2 → ℝ) : ℝ :=
+  ∑ a ∈ charIdx, if (a 0).val + (a 1).val = 0 then 4 * charLam a * F.coeff (fun i => (a i).val) I
+    else 0
+
+lemma charIte_analytic {O : Set (Fin 2 → ℝ)} {f : (Fin 2 → ℝ) → ℝ} (hf : AnalyticOnNhd ℝ f O)
+    (P : Prop) [Decidable P] (c : ℝ) : AnalyticOnNhd ℝ (fun I => if P then c * f I else 0) O := by
+  by_cases hP : P
+  · simpa [hP] using analyticOnNhd_const.mul hf
+  · simpa [hP] using (analyticOnNhd_const : AnalyticOnNhd ℝ (fun _ : Fin 2 → ℝ => (0 : ℝ)) O)
+
+lemma charAvgA_analytic {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) :
+    AnalyticOnNhd ℝ (charAvgA F) O :=
+  Finset.analyticOnNhd_fun_sum _ fun _ _ => charIte_analytic (F.analytic _) _ _
+
+lemma charAvgB_analytic {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) :
+    AnalyticOnNhd ℝ (charAvgB F) O :=
+  Finset.analyticOnNhd_fun_sum _ fun _ _ => charIte_analytic (F.analytic _) _ _
+
+lemma charAvgC_analytic {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) :
+    AnalyticOnNhd ℝ (charAvgC F) O :=
+  Finset.analyticOnNhd_fun_sum _ fun _ _ => charIte_analytic (F.analytic _) _ _
+
+/-- The average of a quartic family is a quadratic form in the oscillator actions. -/
+lemma average_formula {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) (I : Fin 2 → ℝ) (z : Phase 2) :
+    p11c_average F.eval I z =
+      charAvgA F I * (oscillatorAction z.2 z.1 0) ^ 2 +
+      charAvgB F I * oscillatorAction z.2 z.1 0 * oscillatorAction z.2 z.1 1 +
+      charAvgC F I * (oscillatorAction z.2 z.1 1) ^ 2 := by
+  unfold p11c_average
+  rw [character_eq_sum, Complex.re_sum]
+  simp only [oscillatorAction, charAvgA, charAvgB, charAvgC, Finset.sum_mul,
+    ← Finset.sum_add_distrib]
+  refine Finset.sum_congr rfl fun a ha => ?_
+  simp only [Pi.zero_apply]
+  rw [Complex.re_ofReal_mul, charAvg_term ha]
+  split_ifs <;> first | (exfalso; omega) | ring
+
+theorem average_action_polynomial {O : Set (Fin 2 → ℝ)} (F : QuarticFamily O) :
+    ∃ a b c : (Fin 2 → ℝ) → ℝ, AnalyticOnNhd ℝ a O ∧ AnalyticOnNhd ℝ b O ∧ AnalyticOnNhd ℝ c O ∧
+      ∀ I ∈ O, ∀ z, p11c_average F.eval I z =
+        a I * (oscillatorAction z.2 z.1 0) ^ 2 +
+        b I * oscillatorAction z.2 z.1 0 * oscillatorAction z.2 z.1 1 +
+        c I * (oscillatorAction z.2 z.1 1) ^ 2 :=
+  ⟨charAvgA F, charAvgB F, charAvgC F, charAvgA_analytic F, charAvgB_analytic F,
+    charAvgC_analytic F, fun I _ z => average_formula F I z⟩
+
 end KAM.Planetary
 
 end
