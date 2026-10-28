@@ -154,7 +154,7 @@ theorem sum_inv4_le (m : ℕ) : ∑ i ∈ Finset.range m, (1 : ℝ) / 4 ^ i ≤ 
 /-- The decomposition norm: weights `w₀ ≤ c` and `wⱼ ≤ 1` against the bounds `Bⱼ` sum to at most
 `c ε + (4/3) ε₁`. -/
 theorem star_sum_le {ε ε₁ c : ℝ} (hε0 : 0 ≤ ε) (hε₁ : 0 ≤ ε₁) (hc : 0 ≤ c) (i : ℕ) (w : ℕ → ℝ)
-    (hw0 : 0 < i → w 0 ≤ c) (hw : ∀ j, 1 ≤ j → j < i → w j ≤ 1) (_hwn : ∀ j, 0 ≤ w j) :
+    (hw0 : 0 < i → w 0 ≤ c) (hw : ∀ j, 1 ≤ j → j < i → w j ≤ 1) :
     ∑ j ∈ Finset.range i, w j * nfB ε₁ ε j ≤ c * ε + 4 / 3 * ε₁ := by
   cases i with
   | zero => simp; positivity

@@ -217,6 +217,115 @@ theorem nfS_final {N : ℕ} (hN : 1 ≤ N) (s : ℝ) : nfS s N (N + 1) = s / 6 :
   ring
 
 
+/-! ### Positivity and monotonicity of the schedule -/
+
+theorem nfRho_nonneg (hr : 0 ≤ r) (N i : ℕ) : 0 ≤ nfRho r N i := by
+  unfold nfRho
+  split_ifs <;> positivity
+
+theorem nfSig_nonneg (hs : 0 ≤ s) (N i : ℕ) : 0 ≤ nfSig s N i := by
+  unfold nfSig
+  split_ifs <;> positivity
+
+theorem nfRho_ne_zero {r : ℝ} {N i : ℕ} (hi : i ≠ 0) : nfRho r N i = r / (8 * N) := by
+  simp [nfRho, hi]
+
+theorem nfSig_ne_zero {s : ℝ} {N i : ℕ} (hi : i ≠ 0) : nfSig s N i = s / (4 * N) := by
+  simp [nfSig, hi]
+
+theorem nfRho_pos {N i : ℕ} (hr : 0 < r) (hi : i ≤ N) : 0 < nfRho r N i := by
+  rcases Nat.eq_zero_or_pos i with h | h
+  · subst h; simp [nfRho]; positivity
+  · have hN : (0 : ℝ) < N := by exact_mod_cast (h.trans_le hi)
+    rw [nfRho_ne_zero h.ne']
+    positivity
+
+theorem nfSig_pos {N i : ℕ} (hs : 0 < s) (hi : i ≤ N) : 0 < nfSig s N i := by
+  rcases Nat.eq_zero_or_pos i with h | h
+  · subst h; simp [nfSig]; positivity
+  · have hN : (0 : ℝ) < N := by exact_mod_cast (h.trans_le hi)
+    rw [nfSig_ne_zero h.ne']
+    positivity
+
+theorem nfR_anti (hr : 0 ≤ r) (N : ℕ) : Antitone (nfR r N) := by
+  refine antitone_nat_of_succ_le fun i => ?_
+  show nfR r N i - 2 * nfRho r N i ≤ nfR r N i
+  have := nfRho_nonneg hr N i
+  linarith
+
+theorem nfS_anti (hs : 0 ≤ s) (N : ℕ) : Antitone (nfS s N) := by
+  refine antitone_nat_of_succ_le fun i => ?_
+  show nfS s N i - 2 * nfSig s N i ≤ nfS s N i
+  have := nfSig_nonneg hs N i
+  linarith
+
+theorem nfR_le_three (hr : 0 ≤ r) {N i : ℕ} (hi : 1 ≤ i) : nfR r N i ≤ 3 * r / 4 := by
+  have h1 : nfR r N i ≤ nfR r N 1 := nfR_anti hr N hi
+  have : nfR r N 1 = 3 * r / 4 := by simp [nfR, nfRho]; ring
+  linarith
+
+theorem nfS_le_two (hs : 0 ≤ s) {N i : ℕ} (hi : 1 ≤ i) : nfS s N i ≤ 2 * s / 3 := by
+  have h1 : nfS s N i ≤ nfS s N 1 := nfS_anti hs N hi
+  have : nfS s N 1 = 2 * s / 3 := by simp [nfS, nfSig]; ring
+  linarith
+
+theorem nfR_gt_two_rho (hr : 0 < r) {N i : ℕ} (hi : i ≤ N) : 2 * nfRho r N i < nfR r N i := by
+  rcases Nat.eq_zero_or_pos i with h | h
+  · subst h; simp [nfR, nfRho]; linarith
+  · obtain ⟨j, rfl⟩ : ∃ j, i = j + 1 := ⟨i - 1, by omega⟩
+    have hN : (0 : ℝ) < N := by exact_mod_cast (h.trans_le hi)
+    have hj : (j : ℝ) + 1 ≤ N := by exact_mod_cast hi
+    rw [nfR_succ_closed, nfRho_ne_zero (Nat.succ_ne_zero j)]
+    set ρ := r / (8 * (N : ℝ)) with hρ
+    have hρ0 : 0 < ρ := by positivity
+    have key : 3 * r / 4 = 6 * N * ρ := by rw [hρ]; field_simp; ring
+    rw [key]
+    have h1 := mul_le_mul_of_nonneg_right hj hρ0.le
+    have h2 : 0 < (N : ℝ) * ρ := by positivity
+    linarith
+
+theorem nfS_gt_two_sig (hs : 0 < s) {N i : ℕ} (hi : i ≤ N) : 2 * nfSig s N i < nfS s N i := by
+  rcases Nat.eq_zero_or_pos i with h | h
+  · subst h; simp [nfS, nfSig]; linarith
+  · obtain ⟨j, rfl⟩ : ∃ j, i = j + 1 := ⟨i - 1, by omega⟩
+    have hN : (0 : ℝ) < N := by exact_mod_cast (h.trans_le hi)
+    have hj : (j : ℝ) + 1 ≤ N := by exact_mod_cast hi
+    rw [nfS_succ_closed, nfSig_ne_zero (Nat.succ_ne_zero j)]
+    set σ := s / (4 * (N : ℝ)) with hσ
+    have hσ0 : 0 < σ := by positivity
+    have key : 2 * s / 3 = 8 / 3 * N * σ := by rw [hσ]; field_simp; ring
+    rw [key]
+    have h1 := mul_le_mul_of_nonneg_right hj hσ0.le
+    have h2 : 0 < (N : ℝ) * σ := by positivity
+    linarith
+
+theorem nfR_half_le (hr : 0 < r) (N : ℕ) : r / 2 ≤ nfR r N (N + 1) := by
+  rcases Nat.eq_zero_or_pos N with h | h
+  · subst h; simp [nfR, nfRho]; linarith
+  · exact (nfR_final h r).ge
+
+theorem nfS_sixth_le (hs : 0 < s) (N : ℕ) : s / 6 ≤ nfS s N (N + 1) := by
+  rcases Nat.eq_zero_or_pos N with h | h
+  · subst h; simp [nfS, nfSig]; linarith
+  · exact (nfS_final h s).ge
+
+/-- `e^{-2πKσ} ≤ 1/8` for `σ = s/(4N)` and `N · 12 ln 2 ≤ κ`. -/
+theorem exp_sigma_le {N : ℕ} (hN : 1 ≤ N)
+    (hNle : (N : ℝ) * (12 * Real.log 2) ≤ 2 * Real.pi * K * s) :
+    Real.exp (-(2 * Real.pi * K * (s / (4 * N)))) ≤ 1 / 8 := by
+  have hN0 : (0 : ℝ) < N := by exact_mod_cast hN
+  have e : Real.exp (-(3 * Real.log 2)) = 1 / 8 := by
+    rw [Real.exp_neg, show 3 * Real.log 2 = Real.log 2 + Real.log 2 + Real.log 2 by ring,
+      Real.exp_add, Real.exp_add, Real.exp_log two_pos]
+    norm_num
+  rw [← e]
+  refine Real.exp_le_exp.mpr ?_
+  have : 3 * Real.log 2 ≤ 2 * Real.pi * K * (s / (4 * N)) := by
+    rw [show 2 * Real.pi * K * (s / (4 * N)) = 2 * Real.pi * K * s / (4 * N) by ring,
+      le_div_iff₀ (by positivity)]
+    linarith
+  linarith
+
 end Numerics
 
 end KAM.NormalForm
