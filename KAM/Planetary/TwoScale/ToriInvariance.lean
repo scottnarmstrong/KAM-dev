@@ -191,7 +191,31 @@ theorem tori_invariance_of_limit (H : KamHyp D sbar p h f)
       _ ≤ _ := by gcongr
   have hε : Tendsto (fun j => κ * (C0 * eHat (seq p j))) atTop (𝓝 0) := by
     simpa using (P.eHat_tendsto.const_mul C0).const_mul κ
-  sorry
+  have hconv : TendstoUniformly x (fun t : ℝ => Φinf (θ + t • ω, Is)) atTop := by
+    rw [Metric.tendstoUniformly_iff]
+    intro e he
+    filter_upwards [Metric.tendstoUniformlyOn_iff.1 T.phi_conv e he] with j hj t
+    exact hj (θ + t • ω, Is) ⟨trivial, hmemD⟩
+  have hLag := tori_lagr_of_limit H T hI₀
+  have hy : Continuous fun t : ℝ => Φinf (θ + t • ω, Is) :=
+    (continuousOn_univ.1 hLag.1.continuousOn).comp (by fun_prop)
+  have hW := isOpen_coefficientDom D p.ρ (sbar + p.s)
+  have hUo : IsOpen (KAM.realInclusion₂ (a + b) ⁻¹' coefficientDom D p.ρ (sbar + p.s)) :=
+    hW.preimage (KAM.realInclusion₂ (a + b)).continuous
+  have hyU : ∀ t : ℝ, Φinf (θ + t • ω, Is) ∈
+      KAM.realInclusion₂ (a + b) ⁻¹' coefficientDom D p.ρ (sbar + p.s) := by
+    intro t
+    obtain ⟨-, -, hloc⟩ := tori_estimates_of_limit H hD0 T hI₀
+    have hr : 32 * eHat p * rhoHat p ≤ p.ρ := by
+      nlinarith [H.eHat_lt_small, H.R_le_ρ, H.R_pos, H.eHat_nonneg]
+    have hm := realTube_mono hr (hloc (θ + t • ω))
+    show KAM.realInclusion₂ (a + b) (Φinf (θ + t • ω, Is)) ∈ coefficientDom D p.ρ (sbar + p.s)
+    rw [(conv_data _ _ _).2]
+    refine ⟨fun k => ?_, hm⟩
+    simp only [KAM.realInclusion₂_apply, KAM.realInclusion_apply, Complex.ofReal_im, abs_zero]
+    positivity
+  have hXc := hvf_continuousOn hW (kam_G_diff H) (kam_G_real H)
+  exact curve_limit_field hUo hXc (fun j t => (hxd j t).differentiableAt) hy hyU hconv hε hder t
 
 end KAM.Planetary
 
