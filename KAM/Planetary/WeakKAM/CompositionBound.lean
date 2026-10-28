@@ -55,8 +55,8 @@ theorem selectionComp_derivative (cx : WeakBudgetCtx d a) (o : SelectionIteratio
         (L - ContinuousLinearMap.id ℂ (SelectionPhaseC n)).comp M +
           (M - ContinuousLinearMap.id ℂ (SelectionPhaseC n)) := by
       refine ContinuousLinearMap.ext fun v => ?_
-      simp only [ContinuousLinearMap.sub_apply, ContinuousLinearMap.comp_apply,
-        ContinuousLinearMap.add_apply, ContinuousLinearMap.id_apply]
+      simp only [sub_apply, ContinuousLinearMap.comp_apply,
+        add_apply, ContinuousLinearMap.id_apply]
       abel
     rw [e, Finset.sum_range_succ, Real.exp_add]
     calc _ ≤ ‖(L - ContinuousLinearMap.id ℂ (SelectionPhaseC n)).comp M‖ +
@@ -120,7 +120,8 @@ theorem selectionComp_angle (cx : WeakBudgetCtx d a) (o : SelectionIteration d f
     rw [Finset.sum_range_succ]
     simp only at h1
     calc _ ≤ ‖(selectionCompose o.toSelectionChain x.2 ν (o.X ν x.2 x.1)).1 -
-          (o.X ν x.2 x.1).1‖ + ‖(o.X ν x.2 x.1).1 - x.1.1‖ := norm_sub_le_norm_sub_add_norm_sub _ _ _
+          (o.X ν x.2 x.1).1‖ + ‖(o.X ν x.2 x.1).1 - x.1.1‖ :=
+        norm_sub_le_norm_sub_add_norm_sub _ _ _
       _ ≤ _ := add_le_add h1 h2
 
 theorem selectionComp_action (cx : WeakBudgetCtx d a) (o : SelectionIteration d f a) (ν : ℕ) :
@@ -138,7 +139,8 @@ theorem selectionComp_action (cx : WeakBudgetCtx d a) (o : SelectionIteration d 
     rw [Finset.sum_range_succ]
     simp only at h1
     calc _ ≤ ‖(selectionCompose o.toSelectionChain x.2 ν (o.X ν x.2 x.1)).2 -
-          (o.X ν x.2 x.1).2‖ + ‖(o.X ν x.2 x.1).2 - x.1.2‖ := norm_sub_le_norm_sub_add_norm_sub _ _ _
+          (o.X ν x.2 x.1).2‖ + ‖(o.X ν x.2 x.1).2 - x.1.2‖ :=
+        norm_sub_le_norm_sub_add_norm_sub _ _ _
       _ ≤ _ := add_le_add h1 h2
 
 theorem selectionComp_increment (cx : WeakBudgetCtx d a) (o : SelectionIteration d f a) (ν : ℕ) :
