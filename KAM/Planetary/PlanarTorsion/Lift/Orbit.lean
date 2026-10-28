@@ -14,7 +14,8 @@ public import KAM.Planetary.PlanarTorsion.Lift.Field
 Blueprint P, Part 11b (`bpP:p11b:lm-ham`).  The slow flow of `p11c_flow` is a solution only on the
 closed interval `[-1, 1]`, so its endpoint derivatives are not controlled by an open interval.  For
 a start point of slow length `< r / 2` the flow `p11cL_ext` therefore re-centres the trajectory at
-the time `1/2`: the resulting solution lives on `(-1/2, 3/2)` and agrees with the flow on `[-1/2, 1]`.
+the time `1/2`: the resulting solution lives on `(-1/2, 3/2)` and agrees with the flow on
+`[-1/2, 1]`.
 On that open interval `p11cL_orbit_solution` shows that the slow solution together with the angle
 integral of `∂_I chi` solves the full Hamilton equations of `p11cL_ham chi`.
 -/
@@ -143,7 +144,7 @@ theorem p11cL_nbhd_isOpen {O' : Set (Fin 2 → ℝ)} (hO' : IsOpen O') (r : ℝ)
   have h2 : Continuous p11cL_ang := continuous_pi fun i => (continuous_apply _).comp continuous_fst
   have h3 : Continuous fun w => p11c_slowLength (p11cL_slow w) := by
     unfold p11c_slowLength p11cL_slow
-    refine Real.continuous_sqrt.comp (continuous_finset_sum _ fun i _ => ?_)
+    refine Real.continuous_sqrt.comp (continuous_finsetSum _ fun i _ => ?_)
     fun_prop
   exact (hO'.preimage h1).inter ((isOpen_lt h3 continuous_const).inter
     (isOpen_lt h2.norm continuous_const))

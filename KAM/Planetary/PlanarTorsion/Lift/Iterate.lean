@@ -156,7 +156,8 @@ theorem p11cL_chart_local (hO : IsOpen O) (hO' : IsOpen O')
       intro hj u v
       have hj' : j ≤ m := Nat.le_of_succ_le hj
       have hdj : DifferentiableAt ℝ (Ψ^[j]) w :=
-        (p11cQ_iterate_analyticAt hΨ fun i hi => horb w hw i (lt_of_lt_of_le hi hj')).differentiableAt
+        (p11cQ_iterate_analyticAt hΨ fun i hi =>
+          horb w hw i (lt_of_lt_of_le hi hj')).differentiableAt
       have hdΨ : DifferentiableAt ℝ Ψ (Ψ^[j] w) := (hΨ _ (horb w hw j (by omega))).differentiableAt
       have hc : fderiv ℝ (Ψ^[j + 1]) w = (fderiv ℝ Ψ (Ψ^[j] w)).comp (fderiv ℝ (Ψ^[j]) w) := by
         rw [Function.iterate_succ']

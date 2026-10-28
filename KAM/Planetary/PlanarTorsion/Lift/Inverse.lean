@@ -42,7 +42,7 @@ theorem p11cL_ang_shift (w : Phase (2 + 2)) (c : Fin 2 → ℝ) :
 theorem p11cL_slow_shift (w : Phase (2 + 2)) (c : Fin 2 → ℝ) :
     p11cL_slow (w + (Fin.append c (0 : Fin 2 → ℝ), (0 : Fin (2 + 2) → ℝ))) = p11cL_slow w := by
   refine Prod.ext (funext fun i => ?_) (funext fun i => ?_) <;>
-    simp [p11cL_slow, Fin.append_right]
+    simp [p11cL_slow]
 
 /-- Translation covariance in the angles (from the definition). -/
 theorem p11cL_liftFlow_translate (chi : (Fin 2 → ℝ) → Phase 2 → ℝ) (w : Phase (2 + 2))
