@@ -251,6 +251,43 @@ theorem ct_kset_cover (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d
     refine ⟨_, ⟨_, m1, rfl⟩, ?_⟩
     rw [ct_phi_shift d r mu h hsub hy.1, ct_blockFast_append]
 
+theorem cell_transfer (d : PGData a b) (r mu : ℝ) (h : admissible d (pgRstar d) r mu)
+    {B : Set (Fin (a+b) → ℝ)} (hB : IsSigmaCompact B) (hsub : B ⊆ pgD0 d r mu) :
+    IsSigmaCompact (outputRepresentative d r mu h B) ∧ MeasurableSet (kset d r mu h B) ∧
+    kset d r mu h B ⊆ cylinder d.V r ∧
+    volume (kset d r mu h B ∩ cylinderCell d.V r) =
+      ENNReal.ofReal ((2*Real.pi)^(a+b))*volume (outputRepresentative d r mu h B) := by
+  have hR0 : IsSigmaCompact (outputRepresentative d r mu h B) :=
+    ct_sigmaCompact_inter_cell (ct_rawUnion_sigmaCompact d r mu h hB hsub)
+  have hcyl := ct_kset_subset_cylinder d r mu h hsub
+  refine ⟨hR0, ct_kset_measurable d r mu h hB hsub, hcyl, ?_⟩
+  obtain ⟨hO, hΨ, -, -⟩ := phi_chart d r mu h
+  have hA0sub : angleScale (2*Real.pi) '' outputRepresentative d r mu h B ⊆ phiDomain d r mu :=
+    (image_mono inter_subset_left).trans (ct_scaled_subset d r mu h hsub)
+  have hA0meas : MeasurableSet (angleScale (2*Real.pi) '' outputRepresentative d r mu h B) :=
+    measurableSet_of_isSigmaCompact (hR0.image (ct_continuous_angleScale _))
+  have hEmeas : MeasurableSet
+      (phi d r mu h '' (angleScale (2*Real.pi) '' outputRepresentative d r mu h B)) :=
+    measurableSet_chart_image one_pos hO hΨ hA0sub hA0meas
+  have hinj : InjOn (phi d r mu h)
+      (angleScale (2*Real.pi) '' outputRepresentative d r mu h B) := by
+    rintro _ ⟨y, hy, rfl⟩ _ ⟨y', hy', rfl⟩ heq
+    have := (ct_translate_inj d r mu h hsub hy hy' (k := 0) (k' := 0)
+      (by simp only [ct_fastShift_zero, add_zero]; exact heq)).1
+    rw [this]
+  have hcell : kset d r mu h B ∩ cylinderCell d.V r = kset d r mu h B ∩ ctFastCell a b := by
+    ext z
+    exact ⟨fun hz => ⟨hz.1, hz.2.2⟩, fun hz => ⟨hz.1, hcyl hz.1, hz.2⟩⟩
+  rw [hcell, ct_kset_cover d r mu h hsub]
+  rw [volume_fastTranslates_inter_fastCell hEmeas]
+  · rw [(chart_measure_image one_pos hO hΨ hA0sub hA0meas.nullMeasurableSet).2.2 hinj,
+      volume_angleScale_image (by positivity)]
+    simp
+  · intro k k' x hx hx'
+    obtain ⟨_, ⟨_, ⟨y, hy, rfl⟩, rfl⟩, rfl⟩ := hx
+    obtain ⟨_, ⟨_, ⟨y', hy', rfl⟩, rfl⟩, he⟩ := hx'
+    exact (ct_translate_inj d r mu h hsub hy hy' he.symm).2
+
 end KAM.Planetary
 
 end
