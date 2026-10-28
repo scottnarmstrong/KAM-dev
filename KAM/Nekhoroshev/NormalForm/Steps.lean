@@ -94,10 +94,6 @@ theorem nf_chain_identity (H : NFHyp D r s K α L p ε Λ h f)
   | succ m ih =>
     intro hm z hz
     have hmN : m ≤ N := by omega
-    have hU : ∀ i ≤ m + 1, Dom n D (nfR r N (i + 1)) (nfS s N (i + 1)) ⊆
-        Dom n D (nfR r N i) (nfS s N i) := fun i _ =>
-      Dom_mono (by show nfR r N i - 2 * nfRho r N i ≤ _; linarith [nfRho_nonneg H.hr.le N i])
-        (by show nfS s N i - 2 * nfSig s N i ≤ _; linarith [nfSig_nonneg H.hs.le N i])
     have props := nf_step_props H hN hm (hinv (m + 1) hm)
     have hw : nfPhi D r s K Λ h f N (m + 1) z ∈ Dom n D (nfR r N (m + 1)) (nfS s N (m + 1)) :=
       props.2.1 hz
@@ -146,6 +142,104 @@ theorem nf_final_g_zero (hN0 : N = 0) :
   funext z
   show iterG K Λ (fun _ => 0) f z = _
   simp [iterG]
+
+private theorem wbound_zero' {D : Set (Fin n → ℂ)} {r s : ℝ} :
+    WBound D r s (fun _ : (Fin n → ℂ) × (Fin n → ℂ) => (0 : ℂ)) 0 := by
+  intro I _
+  have h0 : ∀ k : Fin n → ℤ, coeff (fun _ : (Fin n → ℂ) × (Fin n → ℂ) => (0 : ℂ)) I k = 0 :=
+    fun k => by simp [coeff, KAM.torusCoeffW, KAM.torusAverage]
+  simp [WSummable, wsum, h0]
+
+private theorem inClass_mono'' {D : Set (Fin n → ℂ)} {r₀ s₀ r s : ℝ}
+    {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hu : InClass D r₀ s₀ u) (hr : r ≤ r₀) (hs : s ≤ s₀) :
+    InClass D r s u :=
+  ⟨hu.differentiableOn.mono (Dom_mono hr hs), fun j z hz => hu.periodic j z (Dom_mono hr hs hz)⟩
+
+/-- A finite sum of members of the class with bounds `Mⱼ` is in the class with bound `∑ Mⱼ`. -/
+theorem sum_inClass_wbound {D : Set (Fin n → ℂ)} {r' s' : ℝ} (hs' : 0 < s')
+    (u : ℕ → (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (M : ℕ → ℝ) (m : ℕ)
+    (hu : ∀ j < m, InClass D r' s' (u j) ∧ WBound D r' s' (u j) (M j)) :
+    InClass D r' s' (fun z => ∑ j ∈ Finset.range m, u j z) ∧
+      WBound D r' s' (fun z => ∑ j ∈ Finset.range m, u j z) (∑ j ∈ Finset.range m, M j) := by
+  induction m with
+  | zero => exact ⟨⟨differentiableOn_const 0, fun _ _ _ => rfl⟩, by simpa using wbound_zero'⟩
+  | succ m ih =>
+    have ih' := ih fun j hj => hu j (by omega)
+    have hm := hu m (by omega)
+    have e : (fun z => ∑ j ∈ Finset.range (m + 1), u j z) =
+        fun z => (∑ j ∈ Finset.range m, u j z) + u m z := by
+      funext z; rw [Finset.sum_range_succ]
+    rw [e, Finset.sum_range_succ]
+    exact ⟨⟨ih'.1.differentiableOn.add hm.1.differentiableOn, fun j z hz => by
+      simp only [ih'.1.periodic j z hz, hm.1.periodic j z hz]⟩,
+      wbound_add hs' ih'.1 hm.1 ih'.2 hm.2⟩
+
+/-- `g = g_N ∈ O(r/2, s/6)`: a finite sum of the parts. -/
+theorem nf_final_g (H : NFHyp D r s K α L p ε Λ h f)
+    (hinv : NFInv D r s K α p ε Λ h f N (N + 1)) :
+    InClass D (r / 2) (s / 6) (nfG D r s K Λ h f N (N + 1)) := by
+  have hr := nfR_half_le H.hr N
+  have hs := nfS_sixth_le H.hs N
+  have key := sum_inClass_wbound (D := D) (r' := r / 2) (s' := s / 6) (by have := H.hs; positivity)
+    (fun j => homRes K Λ (nfF D r s K Λ h f N j)) (fun j => nfB (nfEps1 α p r s ε) ε j) (N + 1)
+    (fun j hj => by
+      have hjr : nfR r N (N + 1) ≤ nfR r N j := nfR_anti H.hr.le N (by omega)
+      have hjs : nfS s N (N + 1) ≤ nfS s N j := nfS_anti H.hs.le N (by omega)
+      obtain ⟨c1, c2⟩ := hinv.2.2 j hj
+      exact ⟨inClass_mono'' c1 (by linarith) (by linarith),
+        c2.mono (by linarith) (by linarith) le_rfl⟩)
+  rw [nfG_eq_sum]
+  exact key.1
+
+/-- (a): `|g - g₀|_{r/2, s/6} ≤ 16 c ε²` with `c = 2qK/(αr)`, `g = g_N`, `g₀ = P_Λ T_K f`. -/
+theorem nf_final_g_diff (H : NFHyp D r s K α L p ε Λ h f)
+    (hN : N = ⌊2 * Real.pi * K * s / (12 * Real.log 2)⌋₊)
+    (hinv : NFInv D r s K α p ε Λ h f N (N + 1)) :
+    WBound D (r / 2) (s / 6) (fun z => nfG D r s K Λ h f N (N + 1) z - homRes K Λ f z)
+      (16 * (2 * conjExp p * K / (α * r)) * ε ^ 2) := by
+  have hfl := nf_floor H hN
+  have hr := nfR_half_le H.hr N
+  have hs := nfS_sixth_le H.hs N
+  have hq : 0 < conjExp p := by
+    unfold conjExp; exact div_pos (by linarith [H.hp]) (by linarith [H.hp])
+  have h0 := nfEps1_nonneg H.hp H.hα H.hr H.hs (ε := ε)
+  have e : (fun z => nfG D r s K Λ h f N (N + 1) z - homRes K Λ f z) =
+      fun z => ∑ j ∈ Finset.range N, homRes K Λ (nfF D r s K Λ h f N (j + 1)) z := by
+    funext z
+    rw [nfG_eq_sum]
+    show ∑ j ∈ Finset.range (N + 1), homRes K Λ (nfF D r s K Λ h f N j) z - _ = _
+    rw [Finset.sum_range_succ' (fun j => homRes K Λ (nfF D r s K Λ h f N j) z) N, nfF_zero]
+    ring
+  have key := sum_inClass_wbound (D := D) (r' := r / 2) (s' := s / 6) (by have := H.hs; positivity)
+    (fun j => homRes K Λ (nfF D r s K Λ h f N (j + 1)))
+    (fun j => nfB (nfEps1 α p r s ε) ε (j + 1)) N
+    (fun j hj => by
+      have hjr : nfR r N (N + 1) ≤ nfR r N (j + 1) := nfR_anti H.hr.le N (by omega)
+      have hjs : nfS s N (N + 1) ≤ nfS s N (j + 1) := nfS_anti H.hs.le N (by omega)
+      obtain ⟨c1, c2⟩ := hinv.2.2 (j + 1) (by omega)
+      exact ⟨inClass_mono'' c1 (by linarith) (by linarith),
+        c2.mono (by linarith) (by linarith) le_rfl⟩)
+  rw [e]
+  refine key.2.mono le_rfl le_rfl ?_
+  have hsum : ∑ j ∈ Finset.range N, nfB (nfEps1 α p r s ε) ε (j + 1) ≤
+      4 / 3 * nfEps1 α p r s ε := by
+    have : ∑ j ∈ Finset.range N, nfB (nfEps1 α p r s ε) ε (j + 1) =
+        nfEps1 α p r s ε * ∑ j ∈ Finset.range N, (1 : ℝ) / 4 ^ j := by
+      rw [Finset.mul_sum]
+      exact Finset.sum_congr rfl fun j _ => by simp only [nfB]; ring
+    rw [this]
+    have := mul_le_mul_of_nonneg_left (sum_inv4_le N) h0
+    linarith
+  rcases Nat.eq_zero_or_pos N with hN0 | hN1
+  · subst hN0
+    simp only [Finset.range_zero, Finset.sum_empty]
+    have := H.hα
+    have := H.hr
+    have := H.hK
+    positivity
+  · exact hsum.trans (concl_a H.hp H.hα H.hK H.hr H.hs (by
+      have : (1 : ℝ) ≤ N := by exact_mod_cast hN1
+      linarith [hfl.2.2]))
 
 end Out
 
