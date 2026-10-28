@@ -321,6 +321,7 @@ public import KAM.Nekhoroshev.Interfaces.QuasiConvex
 public import KAM.Nekhoroshev.Interfaces.Setting
 public import KAM.Nekhoroshev.NormalForm.BracketDecomp
 public import KAM.Nekhoroshev.NormalForm.Homological
+public import KAM.Nekhoroshev.NormalForm.IterativeMap
 public import KAM.Nekhoroshev.NormalForm.Setting
 public import KAM.Nekhoroshev.NormalForm.Telescope
 public import KAM.Nekhoroshev.ODE.Specialization
@@ -353,6 +354,7 @@ public import KAM.Planetary.Hamiltonian.HolChart
 public import KAM.Planetary.Hamiltonian.Liouville
 public import KAM.Planetary.Hamiltonian.TorusUnion
 public import KAM.Planetary.Hamiltonian.Transport
+public import KAM.Planetary.Newtonian.Assembly
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
