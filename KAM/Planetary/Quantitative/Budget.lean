@@ -14,7 +14,7 @@ public import KAM.Planetary.Quantitative.BudgetPower
 # Quantitative budget: the `beta` power law and the K5/K6 statements (P11C-Q4)
 
 `qb_beta` (`stepP:p11a:qb-beta`: the threshold of the data with `beta` replaced by `b` is at least
-`c * b ^ B0`), `budget` (K5: `qb_comp`, `qb_mono` and `qb_beta` together) and
+`c * b ^ B0`), `p11c_budget` (K5: `qb_comp`, `qb_mono` and `qb_beta` together) and
 `displacement_power_flat` (K6: the displacement is at most `cD * eps ^ (1/2) * b ^ (-G0)`).
 Both power laws are specializations of `qb_poly` and `qbPoly_gamma_lower` to the rates
 `a_beta = 1` and all other rates `0`.
@@ -156,7 +156,7 @@ theorem qb_beta {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
     rfl rfl rfl b ⟨hb0, hb1'⟩ (qbBeta_rateBounds hd hb0)
   rwa [qbBeta_exponent d hd] at this
 
-theorem budget {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
+theorem p11c_budget {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
     (∀ M0' : ℝ, 0 < M0' → M0' ≤ d.M0 →
       0 < thresholds d ∧ thresholds d ≤ p11c_oldThreshold { d with M0 := M0' }) ∧
     (∀ d' : QuantitativeData N, d'.NumericalValid → BudgetOrder d d' →
