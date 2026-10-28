@@ -12,8 +12,8 @@ public import KAM.Strip.AnalyticTaylor
 /-!
 # P Part 5: the uniform fifth-order remainder (`bpP:p5:uniform-remainder`)
 
-`schwarz_order_five` is the higher-order Schwarz lemma (`stepP:p5:ur-schwarz`): a holomorphic function
-on a disc, bounded by `M` and vanishing to order five at the centre, satisfies
+`schwarz_order_five` is the higher-order Schwarz lemma (`stepP:p5:ur-schwarz`): a holomorphic
+function on a disc, bounded by `M` and vanishing to order five at the centre, satisfies
 `‖g z‖ ≤ M / R ^ 5 * ‖z‖ ^ 5`. It is derived from the maximum principle for `g z / z ^ 5` on
 circles of radius `R' < R`, then `R' ↑ R`.
 
@@ -158,8 +158,8 @@ theorem complexAverage_norm_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d
   rw [h2]
   rw [hvol] at hint
   have hpos : 0 < (2 * Real.pi) ^ a := by positivity
-  calc ((2 * Real.pi) ^ a)⁻¹ * _ ≤ ((2 * Real.pi) ^ a)⁻¹ * ((pgExtension d).MP * (2 * Real.pi) ^ a) :=
-        by gcongr
+  calc ((2 * Real.pi) ^ a)⁻¹ * _ ≤
+        ((2 * Real.pi) ^ a)⁻¹ * ((pgExtension d).MP * (2 * Real.pi) ^ a) := by gcongr
     _ = (pgExtension d).MP := by field_simp
 
 theorem complexAverage_differentiableOn (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
