@@ -108,6 +108,55 @@ theorem phi_step_diff (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {x : Phase 
   refine (norm_le_limitmap_data h0 hs0 _).trans ?_
   exact mul_le_mul_of_nonneg_left hbound hK
 
+theorem e_sums (P : PsiSteps sbar p Ds hs fs Ψ Φ) (m : ℕ) :
+    Summable (fun k => eHat (seq p (m + k))) ∧
+      ∑' k, eHat (seq p (m + k)) ≤ 2 * eHat (seq p m) := by
+  have h0 : eHat (seq p 0) < 1 / 2 := by have := (P.hyp 0).eHat_lt_small; linarith
+  exact (sums (e := fun j => eHat (seq p j)) (R := fun j => rhoHat (seq p j))
+    (s := fun j => (seq p j).s) (c := 0)
+    (fun j => (P.hyp j).eHat_nonneg) h0 (fun j => (P.eHat_sq j).le) le_rfl (by simp)
+    (fun j => ⟨(P.rho_pos j).le, P.rho_hi j⟩) (fun j => rfl)).2.1 m
+
+/-- Pointwise limit of the real maps on `W_* = ℝⁿ × D_*`, with the tail bound. -/
+theorem phi_limit (P : PsiSteps sbar p Ds hs fs Ψ Φ) {Dstar : Set (Fin (a + b) → ℝ)}
+    (hD : ∀ j, Dstar ⊆ realTube (Ds j) ((seq p j).ρ / 2)) :
+    ∃ Φinf : Phase (a + b) → Phase (a + b),
+      (∀ x ∈ (univ ×ˢ Dstar : Set (Phase (a + b))),
+        Tendsto (fun j => psiR (Φ j) x) atTop (𝓝 (Φinf x))) ∧
+      ∀ x ∈ (univ ×ˢ Dstar : Set (Phase (a + b))), ∀ j,
+        ‖Φinf x - psiR (Φ j) x‖ ≤
+          2 * (max (p.s / (2 * π)) (rhoHat p) * (33 / 40)) * eHat (seq p j) := by
+  classical
+  have h0 : 0 < rhoHat p := (P.hyp 0).R_pos
+  have hK : 0 ≤ max (p.s / (2 * π)) (rhoHat p) := le_max_of_le_right h0.le
+  set K := max (p.s / (2 * π)) (rhoHat p) with hKdef
+  have hex : ∀ x ∈ (univ ×ˢ Dstar : Set (Phase (a + b))), ∃ l,
+      Tendsto (fun j => psiR (Φ j) x) atTop (𝓝 l) ∧
+      ∀ j, ‖l - psiR (Φ j) x‖ ≤ 2 * (K * (33 / 40)) * eHat (seq p j) := by
+    intro x hx
+    have hxj : ∀ j, x ∈ phaseTube (Ds j) ((seq p j).ρ / 2) := fun j => ⟨trivial, hD j hx.2⟩
+    have hd : ∀ n, dist (psiR (Φ n) x) (psiR (Φ n.succ) x) ≤ K * (33 / 40 * eHat (seq p n)) :=
+      fun n => by
+        rw [dist_comm, dist_eq_norm]; exact P.phi_step_diff n (hxj (n + 1)) (hxj n)
+    have hsm : Summable (fun n => K * (33 / 40 * eHat (seq p n))) := by
+      have := (P.e_sums 0).1
+      simp only [zero_add] at this
+      exact (this.mul_left (33 / 40)).mul_left K
+    obtain ⟨l, hl⟩ := cauchySeq_tendsto_of_complete (cauchySeq_of_dist_le_of_summable _ hd hsm)
+    refine ⟨l, hl, fun j => ?_⟩
+    have := dist_le_tsum_of_dist_le_of_tendsto _ hd hsm hl j
+    rw [dist_comm, dist_eq_norm] at this
+    refine this.trans ?_
+    have hsm' := (P.e_sums j).1
+    calc ∑' m, K * (33 / 40 * eHat (seq p (j + m)))
+        = K * (33 / 40) * ∑' m, eHat (seq p (j + m)) := by
+          rw [← tsum_mul_left]; congr 1; ext m; ring
+      _ ≤ K * (33 / 40) * (2 * eHat (seq p j)) := by
+          gcongr; exact (P.e_sums j).2
+      _ = _ := by ring
+  choose! l hl using hex
+  exact ⟨l, fun x hx => (hl x hx).1, fun x hx => (hl x hx).2⟩
+
 end PsiSteps
 
 end KAM.Planetary
