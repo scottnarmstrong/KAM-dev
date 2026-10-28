@@ -14,11 +14,11 @@ import Mathlib.Tactic.Linarith
 /-!
 # The canonical map `Φ = X¹_φ` on weighted domains (`bpN:p5:canonical-map`)
 
-Blueprint-N Part 5, node `bpN:p5:canonical-map` (design `docs/tracks/N/design/PART145-LEAN-DESIGN.md`,
-package C5-10).
+Blueprint-N Part 5, node `bpN:p5:canonical-map` (design
+`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-10).
 
-* `KAM.Canonical.CanonData`: the source premises `0 < ρ < r/2`, `0 < σ < s/2`, `φ ∈ O(r,s)` of finite
-  norm `Φ`, `Φ/(ρσ) ≤ 1/2`; `.omega` is `Ω = 𝒟_{r-ρ,s-σ}` and `.gauge` the gauge `ν_{ρ,σ}`;
+* `KAM.Canonical.CanonData`: the source premises `0 < ρ < r/2`, `0 < σ < s/2`, `φ ∈ O(r,s)` of
+  finite norm `Φ`, `Φ/(ρσ) ≤ 1/2`; `.omega` is `Ω = 𝒟_{r-ρ,s-σ}` and `.gauge` the gauge `ν_{ρ,σ}`;
 * `KAM.Canonical.canonical_map_a`: field bound, definedness on `𝒟_{r-3ρ/2,s-3σ/2}`, displacement
   and the explicit component bounds (mean value along the trajectory, with `vf_bound`);
 * `canonical_map_b`: integer angle translations (`flow_d`) and reality (`flow_e`);
@@ -77,23 +77,26 @@ private theorem dom_shift {D : Set (Fin n → ℂ)} {r s : ℝ} {a : Fin n → �
     {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ Dom n D r s) : (z.1 + a, z.2) ∈ Dom n D r s :=
   ⟨fun i => by simpa [ha i] using hz.1 i, hz.2⟩
 
+private theorem prod_add_mk {w : (Fin n → ℂ) × (Fin n → ℂ)} (a : Fin n → ℂ) :
+    w + (a, 0) = (w.1 + a, w.2) := Prod.ext rfl (add_zero _)
+
 /-- Periodicity of a function of class `Os r s` under all integer translations of the angles. -/
 private theorem periodic_int {D : Set (Fin n → ℂ)} {r s : ℝ} {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     (hu : InClass D r s u) (k : Fin n → ℤ) {z : (Fin n → ℂ) × (Fin n → ℂ)}
     (hz : z ∈ Dom n D r s) : u (z.1 + (fun i => (k i : ℂ)), z.2) = u z := by
   let G : AddSubgroup (Fin n → ℝ) :=
     { carrier := {a | ∀ z ∈ Dom n D r s, u (z.1 + (fun i => (a i : ℂ)), z.2) = u z}
-      zero_mem' := fun z _ => by simp
+      zero_mem' := fun z _ => by
+        have : (z.1 + fun i => (((0 : Fin n → ℝ) i : ℝ) : ℂ)) = z.1 := by ext; simp
+        rw [this]
       add_mem' := by
         intro a b ha hb z hz
-        have h1 := hb _ (dom_shift (fun i => by simp) hz)
+        have h1 := hb _ (dom_shift (a := fun i => (a i : ℂ)) (fun i => by simp) hz)
         have h2 := ha z hz
-        simp only [Pi.add_apply, Complex.ofReal_add] at h1 ⊢
-        rw [← h2, ← h1]
-        congr 2
-        ext i
-        simp only [Pi.add_apply]
-        ring
+        have e : (fun i => (((a + b) i : ℝ) : ℂ)) =
+            (fun i => (a i : ℂ)) + (fun i => (b i : ℂ)) := by ext; simp
+        rw [e, ← add_assoc]
+        exact h1.trans h2
       neg_mem' := by
         intro a ha z hz
         have hw : (z.1 + (fun i => ((-a) i : ℂ)), z.2) ∈ Dom n D r s :=
@@ -127,8 +130,7 @@ private theorem field_periodic {D : Set (Fin n → ℂ)} {r s r₀ s₀ : ℝ}
   have hev : (fun x => φ (x + ((fun i => (k i : ℂ)), 0))) =ᶠ[nhds w] φ := by
     filter_upwards [(isOpen_Dom (n := n) D r₀ s₀).mem_nhds hw] with x hx
     have := periodic_int hφ k (Dom_mono hr hs hx)
-    rw [← this]
-    congr 1
+    rw [← this, prod_add_mk]
   have hf : fderiv ℂ φ (w + ((fun i => (k i : ℂ)), 0)) = fderiv ℂ φ w := by
     rw [← fderiv_comp_add_right, hev.fderiv_eq]
   simp only [KAM.hamiltonianVectorFieldℂ, hf]
@@ -272,16 +274,20 @@ theorem canonical_map_b {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {φ : (Fi
   · have hτΩ : (fun w => w + ((fun i => (k i : ℂ)), (0 : Fin n → ℂ))) '' hd.omega = hd.omega := by
       refine Subset.antisymm ?_ ?_
       · rintro _ ⟨w, hw, rfl⟩
+        beta_reduce
+        rw [prod_add_mk]
         exact dom_shift (a := fun i => (k i : ℂ)) (fun i => by simp) hw
       · intro w hw
         refine ⟨(w.1 + fun i => ((-k i : ℤ) : ℂ), w.2), dom_shift (fun i => by simp) hw, ?_⟩
+        beta_reduce
+        rw [prod_add_mk]
         ext i <;> simp
     have hτF : ∀ w ∈ hd.omega, KAM.hamiltonianVectorFieldℂ φ
         (w + ((fun i => (k i : ℂ)), (0 : Fin n → ℂ))) = KAM.hamiltonianVectorFieldℂ φ w :=
       fun w hw => field_periodic hd.φ_class (by linarith [hd.hρ]) (by linarith [hd.hσ]) k hw
     have := (flow_d hsf hτΩ hτF).2 z (hgi hz) 1 h1
     have e : z + ((fun i => (k i : ℂ)), (0 : Fin n → ℂ)) = (z.1 + fun i => (k i : ℂ), z.2) := by
-      ext i <;> simp
+      exact prod_add_mk _
     rwa [e] at this
   · have hreal : ∀ w ∈ hd.omega, w ∈ range (KAM.realInclusion₂ n) →
         KAM.hamiltonianVectorFieldℂ φ w ∈ range (KAM.realInclusion₂ n) := by
