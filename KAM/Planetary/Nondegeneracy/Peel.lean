@@ -125,5 +125,86 @@ theorem formula69 (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hi
     field_simp
     ring
 
+def outerData (D : Data (n+1)) (hn : 0 < n) : Data n :=
+  ⟨D.G,D.m0,(fun i => D.m i.succ),D.hG,D.hm0,(fun i => D.hm i.succ),hn⟩
+def peelError (D : Data (n+1)) (hn : 0 < n) (a : Vec (n+1)) : Mat (n+1) :=
+  fun i j => coeffs D a i j - Fin.cases 0
+    (fun i' => Fin.cases 0 (fun j' => coeffs (outerData D hn) (fun k => a k.succ) i' j') j) i
+
+theorem pairA_bounds (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j)
+    (hα : a i/a j ≤ 1/2) :
+    0 ≤ pairA D a i j ∧ pairA D a i j ≤ (3/4)*D.G*D.m i*D.m j*a i^2/a j^3 := by
+  obtain ⟨θ, θ', ⟨h1, h2⟩, -, hA, -⟩ := formula69 D ha hij hα
+  have hi := ha.1 i
+  have hj := ha.1 j
+  have hα0 : 0 < a i / a j := div_pos hi hj
+  have hG := D.hG
+  have hmi := D.hm i
+  have hmj := D.hm j
+  have hsq : (a i / a j)^2 ≤ 1/4 := by nlinarith
+  rw [hA]
+  refine ⟨by positivity, ?_⟩
+  have e : (3/8)*D.G*D.m i*D.m j*(a i/a j)^2/a j = (3/8) * (D.G*D.m i*D.m j*a i^2/a j^3) := by
+    field_simp
+  rw [e]
+  have hP : 0 ≤ D.G*D.m i*D.m j*a i^2/a j^3 := by positivity
+  have : (1 + θ) ≤ 2 := by nlinarith
+  have e2 : (3/4)*D.G*D.m i*D.m j*a i^2/a j^3 = (3/4) * (D.G*D.m i*D.m j*a i^2/a j^3) := by ring
+  rw [e2]
+  nlinarith
+
+theorem pairB_bounds (D : Data n) {a : Vec n} (ha : a ∈ axes n) {i j : Fin n} (hij : i < j)
+    (hα : a i/a j ≤ 1/2) :
+    0 ≤ pairB D a i j ∧ pairB D a i j ≤ (15/16)*D.G*D.m i*D.m j*a i^3/a j^4 := by
+  obtain ⟨θ, θ', -, ⟨h1, h2⟩, -, hB⟩ := formula69 D ha hij hα
+  have hi := ha.1 i
+  have hj := ha.1 j
+  have hα0 : 0 < a i / a j := div_pos hi hj
+  have hG := D.hG
+  have hmi := D.hm i
+  have hmj := D.hm j
+  have hsq : (a i / a j)^2 ≤ 1/4 := by nlinarith
+  rw [hB]
+  refine ⟨by positivity, ?_⟩
+  have e : (15/32)*D.G*D.m i*D.m j*(a i/a j)^3/a j = (15/32) * (D.G*D.m i*D.m j*a i^3/a j^4) := by
+    field_simp
+  rw [e]
+  have hP : 0 ≤ D.G*D.m i*D.m j*a i^3/a j^4 := by positivity
+  have : (1 + θ') ≤ 2 := by nlinarith
+  have e2 : (15/16)*D.G*D.m i*D.m j*a i^3/a j^4 = (15/16) * (D.G*D.m i*D.m j*a i^3/a j^4) := by
+    ring
+  rw [e2]
+  nlinarith
+
+theorem sqrt_action (D : Data n) {a : Vec n} {i : Fin n} (hi : 0 < a i) :
+    √(action D a i) = √(D.m i) * (D.G*D.m0)^((1:ℝ)/4) * (a i)^((1:ℝ)/4) := by
+  have hk : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have h : 0 ≤ D.G * D.m0 * a i := by positivity
+  unfold action
+  rw [Real.sqrt_mul (D.hm i).le, Real.sqrt_eq_rpow (√(D.G * D.m0 * a i)),
+    Real.sqrt_eq_rpow (D.G * D.m0 * a i), ← Real.rpow_mul h, Real.mul_rpow hk.le hi.le]
+  norm_num
+  ring
+
+theorem action_pos (D : Data n) {a : Vec n} {i : Fin n} (hi : 0 < a i) : 0 < action D a i :=
+  mul_pos (D.hm i) (Real.sqrt_pos.2 (by have := D.hG; have := D.hm0; positivity))
+
+/-- Reindexing under `Fin.succ`: the outer system has the same coefficients. -/
+theorem action_outer (D : Data (n+1)) (hn : 0 < n) (a : Vec (n+1)) (i : Fin n) :
+    action (outerData D hn) (fun k => a k.succ) i = action D a i.succ := rfl
+
+theorem pairA_outer (D : Data (n+1)) (hn : 0 < n) (a : Vec (n+1)) (i j : Fin n) :
+    pairA (outerData D hn) (fun k => a k.succ) i j = pairA D a i.succ j.succ := by
+  simp only [pairA, outerData, (Fin.strictMono_succ.monotone).map_min,
+    (Fin.strictMono_succ.monotone).map_max]
+
+theorem pairB_outer (D : Data (n+1)) (hn : 0 < n) (a : Vec (n+1)) (i j : Fin n) :
+    pairB (outerData D hn) (fun k => a k.succ) i j = pairB D a i.succ j.succ := by
+  simp only [pairB, outerData, (Fin.strictMono_succ.monotone).map_min,
+    (Fin.strictMono_succ.monotone).map_max]
+
+theorem pairA_comm (D : Data n) (a : Vec n) (i j : Fin n) : pairA D a i j = pairA D a j i := by
+  simp only [pairA, min_comm i j, max_comm i j]
+
 end Nondegeneracy
 end KAM.Planetary
