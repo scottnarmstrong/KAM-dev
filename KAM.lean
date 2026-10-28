@@ -309,9 +309,11 @@ public import KAM.Measure.McShane
 public import KAM.Measure.Slab
 public import KAM.Nekhoroshev.Assembly.Choice
 public import KAM.Nekhoroshev.Assembly.Hypotheses
+public import KAM.Nekhoroshev.Averaging.Coefficients
 public import KAM.Nekhoroshev.Averaging.CompactMaximum
 public import KAM.Nekhoroshev.Averaging.Field
 public import KAM.Nekhoroshev.Averaging.FlowDefs
+public import KAM.Nekhoroshev.Averaging.PicardDerivatives
 public import KAM.Nekhoroshev.Averaging.PicardFamilies
 public import KAM.Nekhoroshev.Averaging.Rank
 public import KAM.Nekhoroshev.Averaging.Setting
@@ -383,6 +385,7 @@ public import KAM.ODE.NewtonUniform
 public import KAM.ODE.UniformPeriodic
 public import KAM.ODE.Uniqueness
 public import KAM.Planetary.Averaging.Direct
+public import KAM.Planetary.Averaging.OscillatorBracket
 public import KAM.Planetary.Averaging.OscillatorSetting
 public import KAM.Planetary.Averaging.Setting
 public import KAM.Planetary.Averaging.Splitting
