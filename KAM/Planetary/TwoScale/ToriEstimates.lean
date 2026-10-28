@@ -59,7 +59,10 @@ theorem tori_complex_ext {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b)}
       DifferentiableOn ℂ KC (KAM.complexStrip (a + b) (geometricWidth sbar)) ∧
       (∀ θ, KC (KAM.realInclusion (a + b) θ) = KAM.realInclusion₂ (a + b) (Φinf (θ, I))) ∧
       (∀ θ ∈ KAM.complexStrip (a + b) (geometricWidth sbar),
-        ‖(KC θ).1 - θ‖ ≤ 3 / (4 * π) * eHat p * p.s) := by
+        ‖(KC θ).1 - θ‖ ≤ 3 / (4 * π) * eHat p * p.s) ∧
+      (∀ z ∈ KAM.complexStrip (a + b) (geometricWidth sbar), ∀ u,
+        Tendsto (fun j => fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z u) atTop
+          (𝓝 (fderiv ℂ KC z u))) := by
   obtain ⟨h1, h2, h3⟩ := T.phi_strip I hI
   choose G hG using h1
   choose Gf hGf using h2
@@ -77,7 +80,7 @@ theorem tori_complex_ext {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b)}
     induction c using Fin.addCases with
     | left k => simpa [A] using (hGf k).2.1 θ
     | right k => simpa [A] using (hGl k).2.1 θ
-  refine ⟨fun θ => (fun c => θ c + G c θ, fun c => (I c : ℂ) + A c θ), ?_, ?_, ?_⟩
+  refine ⟨fun θ => (fun c => θ c + G c θ, fun c => (I c : ℂ) + A c θ), ?_, ?_, ?_, ?_⟩
   · refine DifferentiableOn.prodMk ?_ ?_
     · exact differentiableOn_pi.2 fun c =>
         (((differentiable_apply c).differentiableOn).add (hG c).1)
@@ -95,6 +98,64 @@ theorem tori_complex_ext {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b)}
     refine ((hG c).2.2.1 θ hθ).trans (le_of_eq ?_)
     field_simp
     ring
+  · intro z hz u
+    haveI : Nonempty (Fin (a + b)) := ⟨⟨0, by have := H.a_pos; omega⟩⟩
+    have hzn := (KAM.isOpen_complexStrip (a + b) (geometricWidth sbar)).mem_nhds hz
+    have hFd : ∀ j, DifferentiableAt ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z :=
+      fun j => (T.stage_diff j I hI).differentiableAt hzn
+    have hGd : ∀ c, DifferentiableAt ℂ (G c) z := fun c => (hG c).1.differentiableAt hzn
+    have hAd' : ∀ c, DifferentiableAt ℂ (A c) z := fun c => (hAd c).differentiableAt hzn
+    have hK1 : HasFDerivAt (fun θ : Fin (a + b) → ℂ => fun c => θ c + G c θ)
+        (ContinuousLinearMap.pi fun c => (ContinuousLinearMap.proj c + fderiv ℂ (G c) z)) z := by
+      rw [hasFDerivAt_pi']
+      intro c
+      exact (hasFDerivAt_apply c z).add (hGd c).hasFDerivAt
+    have hK2 : HasFDerivAt (fun θ : Fin (a + b) → ℂ => fun c => (I c : ℂ) + A c θ)
+        (ContinuousLinearMap.pi fun c => fderiv ℂ (A c) z) z := by
+      rw [hasFDerivAt_pi']
+      intro c
+      simpa using (hAd' c).hasFDerivAt.const_add (I c : ℂ)
+    have hKC := congrArg (fun L => L u) (hK1.prodMk hK2).fderiv
+    simp only [ContinuousLinearMap.prod_apply, ContinuousLinearMap.pi_apply,
+      add_apply, ContinuousLinearMap.proj_apply] at hKC
+    have hstrip : ∀ (πc : CPhase (a + b) →L[ℂ] ℂ) j,
+        fderiv ℂ (PsiSteps.stripSeq Φ πc I j) z u =
+          πc (fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z u) - πc (u, 0) := by
+      intro πc j
+      have hg : HasFDerivAt (fun θ : Fin (a + b) → ℂ => (θ, KAM.realInclusion (a + b) I))
+          ((ContinuousLinearMap.id ℂ _).prod (0 : (Fin (a + b) → ℂ) →L[ℂ] _)) z :=
+        (hasFDerivAt_id z).prodMk (hasFDerivAt_const _ z)
+      have h1 : HasFDerivAt (PsiSteps.stripSeq Φ πc I j)
+          (πc.comp ((fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z) -
+            (ContinuousLinearMap.id ℂ _).prod (0 : (Fin (a + b) → ℂ) →L[ℂ] _))) z :=
+        πc.hasFDerivAt.comp z ((hFd j).hasFDerivAt.sub hg)
+      rw [h1.fderiv]
+      simp
+    rw [hKC]
+    refine Prod.tendsto_iff _ _ |>.2 ⟨tendsto_pi_nhds.2 fun c => ?_, tendsto_pi_nhds.2 fun c => ?_⟩
+      have e : ∀ j, (fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z u).1 c =
+          u c + fderiv ℂ (PsiSteps.stripSeq Φ ((ContinuousLinearMap.proj c).comp
+            (ContinuousLinearMap.fst ℂ _ _)) I j) z u := by
+        intro j; rw [hstrip]; simp
+      simp_rw [e]
+      exact tendsto_const_nhds.add ((hG c).fderiv_tendsto hz u)
+    · induction c using Fin.addCases with
+      | left k =>
+        have e : ∀ j, (fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z u).2
+            (Fin.castAdd b k) = fderiv ℂ (PsiSteps.stripSeq Φ
+            ((ContinuousLinearMap.proj (Fin.castAdd b k)).comp (ContinuousLinearMap.snd ℂ _ _)) I
+            j) z u := by
+          intro j; rw [hstrip]; simp
+        simp_rw [e]
+        simpa [A] using (hGf k).fderiv_tendsto hz u
+      | right k =>
+        have e : ∀ j, (fderiv ℂ (fun θ => Φ j (θ, KAM.realInclusion (a + b) I)) z u).2
+            (Fin.natAdd a k) = fderiv ℂ (PsiSteps.stripSeq Φ
+            ((ContinuousLinearMap.proj (Fin.natAdd a k)).comp (ContinuousLinearMap.snd ℂ _ _)) I
+            j) z u := by
+          intro j; rw [hstrip]; simp
+        simp_rw [e]
+        simpa [A] using (hGl k).fderiv_tendsto hz u
 
 /-- The local obligation `estimates` of `two_scale_kam` (private conditional helper, P23-20), on
 the shared limit data: for `I₀ ∈ D₀`, with `I_* = ǐ(I₀)` and the torus `θ ↦ Φ(θ, I_*) = (θ + u, v)`:
@@ -128,7 +189,8 @@ theorem tori_estimates_of_limit {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b
     div_nonneg H.positive.2.2.2.2.2.2.2.2.le H.positive.2.2.2.2.2.2.1.le
   have key : ∀ θ, ((Φinf (θ, i I₀)).2 - I₀) =
       (Φinf (θ, i I₀) - (θ, i I₀)).2 + (i I₀ - I₀) := by intro θ; simp
-  refine ⟨tori_complex_ext H T hmem, fun θ => ?_, fun θ => ?_⟩
+  obtain ⟨KC, k1, k2, k3, -⟩ := tori_complex_ext H T hmem
+  refine ⟨⟨KC, k1, k2, k3⟩, fun θ => ?_, fun θ => ?_⟩
   · have hx : (θ, i I₀) ∈ (univ ×ˢ (i '' Ds 0) : Set (Phase (a + b))) := ⟨trivial, hmem⟩
     obtain ⟨c1, c2, -⟩ := T.phi_block _ hx
     obtain ⟨d1, d2, -⟩ := T.i_block I₀ hI₀
