@@ -268,6 +268,75 @@ theorem regOn_extend {J₁ : Set ℝ} {U₁ : Set E} (hJ₁ : IsOpen J₁) (hU�
     simpa using this
   exact RegOn.union hU₂ hJ₁ isOpen_Ioo (RegOn.mono ⟨a1, a2, a3, a4, a5⟩ subset_rfl hsub) hJ₂
 
+/-- Regularity on an open time interval and open neighborhood, at a point `(T, x₁)` with `T ≥ 0`
+of the flow domain (chaining local flows along the orbit arc `[0, T]`). -/
+theorem reg_forward {x₁ : E} (hx₁ : x₁ ∈ W) {T : ℝ} (hT : 0 ≤ T)
+    (hTm : T ∈ eIoo (Tm x₁) (Tp x₁)) :
+    ∃ (J : Set ℝ) (U : Set E), IsOpen J ∧ IsOpen U ∧ T ∈ J ∧ x₁ ∈ U ∧
+      RegOn F W Tm Tp z J U := by
+  let S : Set ℝ := {T | 0 ≤ T ∧ ∃ (J : Set ℝ) (U : Set E), IsOpen J ∧ IsOpen U ∧
+    Icc 0 T ⊆ J ∧ x₁ ∈ U ∧ RegOn F W Tm Tp z J U}
+  have hS_mono : ∀ T ∈ S, ∀ T' ∈ Icc 0 T, T' ∈ S := by
+    rintro T ⟨-, J, U, hJ, hU, hsub, hx, hR⟩ T' hT'
+    exact ⟨hT'.1, J, U, hJ, hU, (Icc_subset_Icc_right hT'.2).trans hsub, hx, hR⟩
+  have hS_eIoo : ∀ T₀ ≥ 0, T₀ ∈ eIoo (Tm x₁) (Tp x₁) → T₀ ∈ S := by
+    intro T₀ hT₀ hT₀m
+    by_contra hnot
+    obtain ⟨a₀, r₀, y₀, hl₀⟩ := exists_localFlow hW hF hx₁
+    have h0S : (0 : ℝ) ∈ S := by
+      refine ⟨le_rfl, Ioo (0 - a₀) (0 + a₀), ball x₁ r₀, isOpen_Ioo, isOpen_ball, ?_,
+        mem_ball_self hl₀.hr, ?_⟩
+      · intro u hu
+        rw [Icc_self, mem_singleton_iff] at hu
+        subst hu
+        exact ⟨by linarith [hl₀.ha], by linarith [hl₀.ha]⟩
+      · refine regOn_comp isOpen_ball hl₀.ball_sub (g := id) (g' := fun _ => ContinuousLinearMap.id ℝ E)
+          (fun x _ => hasFDerivAt_id x) continuousOn_const hl₀.cont hl₀.dcont hl₀.hasF
+          (hl₀.deriv_t hW hF) (fun x hx => hx) (T := 0) ?_
+        intro x hx u hu
+        have hxW : x ∈ W := hl₀.ball_sub hx
+        have := shift_sol hW hF (hmax x hxW) (t₀ := 0) (KAM.ODE.zero_mem_eIoo (hmax x hxW))
+          (isOpen_Ioo (a := -a₀) (b := a₀)) ordConnected_Ioo (I := Ioo (-a₀) a₀)
+          ⟨by linarith [hl₀.ha], hl₀.ha⟩ (w := fun t => y₀ t x) (hl₀.sol x hx)
+          (by rw [hl₀.init x hx, (hmax x hxW).init]) (u - 0) ⟨by linarith [hu.1], by linarith [hu.2]⟩
+        simpa using this
+    set A : Set ℝ := S ∩ Icc 0 T₀ with hA
+    have hAne : A.Nonempty := ⟨0, h0S, le_rfl, hT₀⟩
+    have hAbdd : BddAbove A := ⟨T₀, fun u hu => hu.2.2⟩
+    set s := sSup A with hs
+    have hs0 : 0 ≤ s := le_csSup hAbdd ⟨h0S, le_rfl, hT₀⟩
+    have hsT : s ≤ T₀ := csSup_le hAne fun u hu => hu.2.2
+    have hsm : s ∈ eIoo (Tm x₁) (Tp x₁) :=
+      (KAM.ODE.ordConnected_eIoo _ _).out (KAM.ODE.zero_mem_eIoo (hmax x₁ hx₁)) hT₀m ⟨hs0, hsT⟩
+    have hsol := (hmax x₁ hx₁).isSolution s hsm
+    obtain ⟨a, r, y, hl⟩ := exists_localFlow hW hF hsol.1
+    obtain ⟨δ, hδ, hδb⟩ := Metric.continuousAt_iff.1 hsol.2.continuousAt r hl.hr
+    obtain ⟨T₁, ⟨hT₁S, hT₁0, hT₁T⟩, hT₁lt⟩ :=
+      exists_lt_of_lt_csSup hAne (show s - min δ (a / 4) < s by
+        have : 0 < min δ (a / 4) := lt_min hδ (by linarith [hl.ha])
+        linarith)
+    have hT₁s : T₁ ≤ s := le_csSup hAbdd ⟨hT₁S, hT₁0, hT₁T⟩
+    have hmin1 : min δ (a / 4) ≤ δ := min_le_left _ _
+    have hmin2 : min δ (a / 4) ≤ a / 4 := min_le_right _ _
+    have hdist : dist T₁ s < δ := by
+      rw [Real.dist_eq, abs_lt]; constructor <;> linarith
+    obtain ⟨-, J₁, U₁, hJ₁, hU₁, hsub, hx₁U, hR⟩ := hT₁S
+    obtain ⟨U₂, hU₂, hx₂, hR₂⟩ := regOn_extend hW hF hmax hJ₁ hU₁ hR
+      (hsub ⟨hT₁0, le_rfl⟩) hx₁U hl (hδb hdist)
+    have hT₂S : T₁ + a / 2 ∈ S := by
+      refine ⟨by linarith [hl.ha], J₁ ∪ Ioo (T₁ - a) (T₁ + a), U₂, hJ₁.union isOpen_Ioo, hU₂, ?_,
+        hx₂, hR₂⟩
+      intro u hu
+      by_cases hu1 : u ≤ T₁
+      · exact Or.inl (hsub ⟨hu.1, hu1⟩)
+      · exact Or.inr ⟨by linarith [hu.1, hl.ha], by linarith [hu.2, hl.ha]⟩
+    by_cases hle : T₁ + a / 2 ≤ T₀
+    · have := le_csSup hAbdd ⟨hT₂S, by linarith [hl.ha], hle⟩
+      linarith [hl.ha]
+    · exact hnot (hS_mono _ hT₂S T₀ ⟨hT₀, (not_le.1 hle).le⟩)
+  obtain ⟨-, J, U, hJ, hU, hsub, hx, hR⟩ := hS_eIoo T hT hTm
+  exact ⟨J, U, hJ, hU, hsub ⟨hT, le_rfl⟩, hx, hR⟩
+
 end Chain
 
 end KAM.Nekhoroshev.FlowChain
