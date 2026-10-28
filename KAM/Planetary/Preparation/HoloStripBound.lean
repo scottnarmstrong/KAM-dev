@@ -148,7 +148,8 @@ theorem p11hsPlanet_im_zero (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : �
     (him : ∀ l, (w.1 l).im = 0 ∧ (w.2 l).im = 0) (k : Fin n) (c : Fin 2) :
     ((p11hsPlanet D (p11hsAngle w) (p11hsSlow w) k).1 c).im = 0 := by
   have hmem := p11hsBlock_mem_nbhd D ha hr hw.2.1 hw.1 k
-  have hre : ∀ z : ℂ, z.im = 0 → z = ((z.re : ℝ) : ℂ) := fun z h => Complex.ext (by simp) (by simp [h])
+  have hre : ∀ z : ℂ, z.im = 0 → z = ((z.re : ℝ) : ℂ) := fun z h =>
+    Complex.ext (by simp) (by simp [h])
   set b : Phase 2 := (![(w.1 (Fin.castAdd n k)).re, (w.1 (Fin.natAdd n k)).re],
     ![(w.2 (Fin.castAdd n k)).re, (w.2 (Fin.natAdd n k)).re]) with hb
   have hblk : p11hsBlock (p11hsAngle w) (p11hsSlow w) k = phaseToC b := by
@@ -197,7 +198,8 @@ theorem p11hsFHat_real (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
     rw [← hs]
     norm_num
   have : p11hsFHat D w = ((-(D.G) * ∑ i, ∑ j ∈ Finset.univ.filter (i < ·),
-      D.m i * D.m j * (p11hsSep D (p11hsAngle w) (p11hsSlow w) i j).re ^ (-1 / 2 : ℝ) : ℝ) : ℂ) := by
+      D.m i * D.m j *
+        (p11hsSep D (p11hsAngle w) (p11hsSlow w) i j).re ^ (-1 / 2 : ℝ) : ℝ) : ℂ) := by
     unfold p11hsFHat
     push_cast
     congr 1
