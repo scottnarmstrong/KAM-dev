@@ -1,0 +1,103 @@
+\section{The proposed headline W-NLW2}\label{bpW:wh}
+
+\proposed
+
+This section states the headline proposed in the scoping report (\texttt{docs/explorations/}\allowbreak\texttt{pde-kam-and-leapfrogging.md}, \S2.3), adopted
+for the source/design phase by owner decision D30, with every definition written out in the conventions of
+\S\ref{bpW:w0}. It is a proposal for later independent statement audit and owner approval; nothing here is frozen. W-NLW2 is
+\emph{the D30 first headline (a declared weakening of P96-W's Main Theorem for $J=\{1,2\}$)}; it is not the full
+specialized Main Theorem. The weakenings are listed in Remark~\ref{bpW:wh:weakenings}.
+
+\subsection{Definitions}\label{bpW:wh:defs}
+
+Fix $m>0$, the weights $a=p=1$ (Convention~\ref{bpW:w0:weights}), the phase space $E=E_{1,1}$ with norm
+$\norm{(q,p)}_E=\max(\norm q_{1,1},\norm p_{1,1})$, the reconstruction $U_m,V_m$
+(Definition~\ref{bpW:w0:reconstruction}) and the cubic gradient $\Gq$ (Definition~\ref{bpW:w0:Gq}). Let
+$P=(0,\infty)^2$, $r(I)=\sqrt{I_1+I_2}$ for $I\in P$, and $B_h=\{I\in\R^2:\max_i\abs{I_i}<h\}$.
+
+\begin{definition}[Linear torus]\label{bpW:wh:lintorus}
+For $I\in P$, $K^0_I:\R^2\to E$ is the map of Convention~\ref{bpW:w0:periodone}.
+\end{definition}
+
+\begin{definition}[Analytic torus embedding]\label{bpW:wh:embedding}
+A map $K:\R^2\to E$ is an \emph{analytic torus embedding} if it is $\Z^2$-periodic, real analytic (each point has a
+neighbourhood on which $K$ is the restriction of a holomorphic map from a complex neighbourhood in $\C^2$ to the
+complexification $E_\C$), injective modulo $\Z^2$ ($K(\theta)=K(\theta')\Rightarrow\theta-\theta'\in\Z^2$), and has
+injective derivative $DK(\theta):\R^2\to E$ at every $\theta$.
+\end{definition}
+
+\begin{definition}[Derivative along a frequency]\label{bpW:wh:Dnu}
+For $\nu\in\R^2$ and differentiable $K$, $D_\nu K(\theta)=DK(\theta)\nu$.
+\end{definition}
+
+\begin{definition}[Diophantine]\label{bpW:wh:dioph}
+$\nu\in\R^2$ is $(\gamma,\tau)$-Diophantine if $\abs{k\cdot\nu}\ge\gamma\abs k_1^{-\tau}$ for all
+$k\in\Z^2\setminus\{0\}$, $\abs k_1=\abs{k_1}+\abs{k_2}$. (Same as the frozen track-K definition
+\Lean{KAM.IsDiophantine}.)
+\end{definition}
+
+\subsection{Statement}\label{bpW:wh:statement}
+
+\begin{theorem}[W-NLW2, proposed]\label{bpW:wh:nlw2}
+For every $m>0$ there exist $r_0>0$, $C>0$, $\tau>1$, a function $\eta:(0,r_0)\to[0,\infty)$ with
+$\eta(r)\to0$ as $r\downarrow0$, a Borel set $\Gamma\subset\{I\in P:r(I)<r_0\}$, a continuous map
+$\nu:\Gamma\to\R^2$, and maps $K_I=(Q_I,P_I):\R^2\to E$ ($I\in\Gamma$) such that $(I,\theta)\mapsto K_I(\theta)$ is
+continuous on $\Gamma\times\R^2$ and:
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{(Density one in actions.)}
+  $\displaystyle\lim_{h\downarrow0}\frac{\Leb_2(\Gamma\cap B_h)}{\Leb_2(P\cap B_h)}=1.$
+\item \emph{(Two independent frequencies.)} For every $I\in\Gamma$ there is $\gamma_I>0$ such that $\nu(I)$ is
+  $(\gamma_I,\tau)$-Diophantine, and $\nu(I)\to(\lambda_1,\lambda_2)/(2\pi)$ as $I\to0$ in $\Gamma$.
+\item \emph{(Small embedded tori.)} Each $K_I$ is an analytic torus embedding, and for all $I\in\Gamma$
+  \[\sup_\theta\norm{K_I(\theta)-K^0_I(\theta)}_E\le\eta(r(I))\,r(I),\qquad\sup_\theta\norm{K_I(\theta)}_E\le C\,r(I).\]
+\item \emph{(Exact invariance.)} For every $I\in\Gamma$, $\theta\in\R^2$ and $j\ge1$,
+  \[D_{\nu(I)}Q_{I,j}(\theta)=\lambda_jP_{I,j}(\theta),\qquad
+  D_{\nu(I)}P_{I,j}(\theta)=-\lambda_jQ_{I,j}(\theta)-\Gq(Q_I(\theta))_j.\]
+\item \emph{(PDE solutions.)} For every $I\in\Gamma$ and $\theta_0\in\R^2$, the function
+  $u(t,x)=U_m\bigl(Q_I(\theta_0+t\nu(I))\bigr)(x)$ is real analytic in a neighbourhood of every point of
+  $\R\times[0,\pi]$, is a classical solution of \eqref{bpW:w0:eq} on $\R$, satisfies
+  $u_t(t,\cdot)=V_m\bigl(P_I(\theta_0+t\nu(I))\bigr)$, and
+  \[\sup_{t\in\R,\,x\in[0,\pi]}\bigl(\abs u+\abs{u_x}+\abs{u_t}\bigr)\le C\,r(I).\]
+\item \emph{(Family injectivity.)} For all $I,I'\in\Gamma$ and $\theta,\theta'\in\R^2$, if
+  $K_I(\theta)=K_{I'}(\theta')$ then $I=I'$ and $\theta-\theta'\in\Z^2$. Thus distinct parameters give disjoint
+  tori, and each torus is embedded (with (3)).
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}[Reading of the statement]\label{bpW:wh:reading}
+\begin{itemize}
+\item \emph{Quantifier order.} $r_0,C,\tau,\eta,\Gamma,\nu,K$ are chosen after $m$ and before $I$ and $\theta_0$;
+  $\gamma_I$ may degenerate as $I\to0$. No uniformity in $m$ is claimed.
+\item \emph{Invariance} in (4) is the coefficient system \eqref{bpW:w0:coeffsys} along the linear flow on the torus
+  (period-one angles, Convention~\ref{bpW:w0:periodone}); by Proposition~\ref{bpW:w0n:pde-equiv}(i) it yields (5)
+  once the required time regularity is checked (W2). The cubic term is the physical force by
+  \eqref{bpW:w0n:force}.
+\item \emph{Normalization independence.} The statement uses only the fixed real Hamiltonian, the standard actions
+  $I_j=(q_j^2+p_j^2)/2$ (through $K^0_I$) and period-one angles; it contains none of the printed P96-W constants.
+  The frequency asymptotics in (2) are only the leading term; the twist $A$ of Theorem~\ref{bpW:w0n:AB} enters the
+  proof, not the statement.
+\item \emph{Family injectivity} (6) is proved in W8 from the source's family construction: the tori are images of
+  the parameter tori under a single map that is injective on the union of the parameter tori (P96-W Main Theorem
+  pp.~272--273, ``embedding'' of the family; Cantor Manifold Theorem and Remark~1 pp.~288--289).
+\item \emph{Deviations from the source} (to be audited): pure cubic nonlinearity; $J=\{1,2\}$; $a=p=1$; period-one
+  angles; Borel density-one set instead of a Cantor set (isolated points are allowed, cf.\ KP96 p.~24, Remark~2);
+  linear stability, Whitney regularity, and the Lipschitz extension of P96-W Remark~2 p.~289 are omitted; the
+  closeness to $K^0_I$ is a little-$o(r)$ bound rather than the $O(r^\sigma)$, $\sigma>1$, of the radial map of the
+  Cantor Manifold Theorem (P96-W p.~289), because the linearizing parametrization of Remark~1 there has a worse
+  estimate (KP96 \S7, Step~7).
+\end{itemize}
+\end{remark}
+
+\begin{remark}[Declared weakenings]\label{bpW:wh:weakenings}
+Relative to P96-W's Main Theorem specialized to $J=\{1,2\}$, W-NLW2 declares the following weakenings (orchestrator
+ruling W-A2, recorded for owner review). \emph{Deferred together} (D30~Q3): linear stability of the tori; Whitney
+regularity of the family; and the Lipschitz regularity of the family in Cartesian coordinates, i.e.\ the source's
+Lipschitz Cantor manifold (P96-W pp.~272--273, 288--289); W-NLW2 requires only continuity of
+$(I,\theta)\mapsto K_I(\theta)$ on $\Gamma\times\R^2$. \emph{Retained}: each torus is an analytic embedding (3), and
+the family is injective (6), so the union of the tori is a disjoint union of embedded tori; what is not asserted is
+that the induced map on $\Gamma\times\T^2$ is a Lipschitz (bi-Lipschitz-parametrized) embedding. \emph{Also
+declared}: Borel density-one parameter set instead of a Cantor set; $o(r)$ closeness instead of $O(r^\sigma)$;
+pure cubic nonlinearity, $a=p=1$, period-one angles (Remark~\ref{bpW:wh:reading}).
+\end{remark}
+\source{P96-W Main Theorem pp.~272--273 (condition (4) holds for $J=\{1,2\}$), Lemma~1 p.~278, Cantor Manifold
+Theorem and Remark~1 p.~289, assembly pp.~290--291; KP96 Theorem~2 p.~19 and \S7 pp.~25--31; P96-K Theorems~A, D.}

@@ -1,0 +1,46 @@
+% Shared preamble of the track-W blueprint (adapted from blueprint-P/preamble.tex).
+% Labels: bpW:w<k>:<slug> for results, stepW:w<k>:<slug> for substantive proof steps.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,enumitem,booktabs}
+\usepackage[margin=1in]{geometry}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Standing assumption}
+\newtheorem{convention}[theorem]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\avg}[1]{\langle #1\rangle}
+\newcommand{\jap}[1]{\langle #1\rangle}
+\newcommand{\Leb}{\operatorname{Leb}}
+\newcommand{\Lean}[1]{\texttt{#1}}
+% \source{text}: pinned source location. P96-W printed page = PDF page + 267; P96-K printed = PDF + 117;
+% KP96 = author version 2.1, author page numbers.
+\newcommand{\source}[1]{\par\noindent{\small\textsf{Source:} #1}\par}
+% \proofstep{title}: a substantive proof step; follow it with \label{stepW:...}.
+\newcounter{bpstep}[section]
+\renewcommand{\thebpstep}{S\thesection.\arabic{bpstep}}
+\newcommand{\proofstep}[1]{\par\medskip\noindent\refstepcounter{bpstep}\textbf{Step \thebpstep: #1.}\ }
+% \sourcegap{text}: the source asserts or needs this bridge without proving it.
+\newcommand{\sourcegap}[1]{\par\noindent{\small\textsf{SOURCE\_GAP:} #1}\par}
+% \proposed: the statement is a proposal, not frozen and not approved.
+\newcommand{\proposed}{\par\noindent{\small\textsf{Status:} PROPOSED (not frozen, not approved; for independent audit and owner review).}\par}
+% Track-W notation.
+\newcommand{\ellap}[2]{\ell^{#1,#2}}
+\newcommand{\Gq}{G_q}
+\emergencystretch=3em
