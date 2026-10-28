@@ -29,6 +29,20 @@ namespace KAM.Planetary
 
 variable {a b : ℕ}
 
+theorem continuousOn_jetBeta_real (d : PGData a b) (i j : Fin b) :
+    ContinuousOn (fun z : ℝ × (Fin a → ℝ) => jetBeta d z.1 (KAM.realInclusion a z.2) i j)
+      (Icc 0 d.mu0 ×ˢ closure d.V) := by
+  have hc := (jet_continuousOn d).2.2 i j
+  have hg : Continuous (fun z : ℝ × (Fin a → ℝ) =>
+      ((z.1, KAM.realInclusion a z.2) : ℝ × (Fin a → ℂ))) :=
+    continuous_fst.prodMk ((KAM.realInclusion a).continuous.comp continuous_snd)
+  have hm : MapsTo (fun z : ℝ × (Fin a → ℝ) =>
+      ((z.1, KAM.realInclusion a z.2) : ℝ × (Fin a → ℂ))) (Icc 0 d.mu0 ×ˢ closure d.V)
+      (Icc 0 d.mu0 ×ˢ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) :=
+    fun z hz => ⟨hz.1, realInclusion_mem_tube d hz.2⟩
+  have := hc.comp hg.continuousOn hm
+  exact this
+
 theorem jetBeta_lower (d : PGData a b) : ∃ m : ℝ, 0 < m ∧
     ∀ mu ∈ Icc 0 d.mu0, ∀ x ∈ closure d.V, ∀ v : Fin b → ℂ,
       m * ‖v‖ ≤ ‖(jetBeta d mu (KAM.realInclusion a x)).mulVec v‖ := by
@@ -39,18 +53,19 @@ theorem jetBeta_lower (d : PGData a b) : ∃ m : ℝ, 0 < m ∧
   set F : ℝ × (Fin a → ℝ) × (Fin b → ℂ) → ℝ := fun z =>
     ‖(jetBeta d z.1 (KAM.realInclusion a z.2.1)).mulVec z.2.2‖ with hF
   have hentry : ∀ i j, ContinuousOn
-      (fun z : ℝ × (Fin a → ℝ) × (Fin b → ℂ) => jetBeta d z.1 (KAM.realInclusion a z.2.1) i j) K := by
+      (fun z : ℝ × (Fin a → ℝ) × (Fin b → ℂ) => jetBeta d z.1 (KAM.realInclusion a z.2.1) i j)
+      K := by
     intro i j
-    have hc := (jet_continuousOn d).2.2 i j
-    have hg : ContinuousOn (fun z : ℝ × (Fin a → ℝ) × (Fin b → ℂ) =>
-        ((z.1, KAM.realInclusion a z.2.1) : ℝ × (Fin a → ℂ))) K :=
-      (continuous_fst.prodMk ((KAM.realInclusion a).continuous.comp
-        (continuous_fst.comp continuous_snd))).continuousOn
-    exact hc.comp hg fun z hz => ⟨hz.1, realInclusion_mem_tube d hz.2.1⟩
+    have hp : Continuous (fun z : ℝ × (Fin a → ℝ) × (Fin b → ℂ) => (z.1, z.2.1)) :=
+      continuous_fst.prodMk (continuous_fst.comp continuous_snd)
+    have hm : MapsTo (fun z : ℝ × (Fin a → ℝ) × (Fin b → ℂ) => ((z.1, z.2.1) : ℝ × (Fin a → ℝ)))
+        K (Icc 0 d.mu0 ×ˢ closure d.V) := fun z hz => ⟨hz.1, hz.2.1⟩
+    have := (continuousOn_jetBeta_real d i j).comp hp.continuousOn hm
+    exact this
   have hFc : ContinuousOn F K := by
     refine ContinuousOn.norm (continuousOn_pi.2 fun i => ?_)
     simp only [Matrix.mulVec, dotProduct]
-    refine continuousOn_finset_sum _ fun j _ => (hentry i j).mul ?_
+    refine continuousOn_finsetSum _ fun j _ => (hentry i j).mul ?_
     exact (continuous_apply j |>.comp (continuous_snd.comp continuous_snd)).continuousOn
   have hpos : ∀ z ∈ K, 0 < F z := by
     intro z hz
@@ -82,7 +97,7 @@ theorem jetBeta_lower (d : PGData a b) : ∃ m : ℝ, 0 < m ∧
     exact Matrix.mulVec_smul _ _ _
   rw [h2, norm_smul, Complex.norm_real, norm_norm]
   calc m * ‖v‖ = ‖v‖ * m := mul_comm _ _
-    _ ≤ ‖v‖ * ‖(jetBeta d mu (KAM.realInclusion a x)).mulVec w‖ := by gcongr; exact h1
+    _ ≤ ‖v‖ * ‖(jetBeta d mu (KAM.realInclusion a x)).mulVec w‖ := by gcongr
 
 /-- Homogeneous form of the Lipschitz bound of `Θ`: the matrix `jetBeta` is Lipschitz in `I`. -/
 theorem jetBeta_lip_mulVec (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
@@ -141,12 +156,11 @@ theorem jetBeta_lower_nbhd (d : PGData a b) {m : ℝ} (hm : 0 < m)
   have hρ2 : betaRadius d m ≤ m / (4 * lipConst d) := min_le_right _ _
   have hI0 : I ∈ KAM.actionNbhd (closure d.V) (lipRadius d) := ⟨x, hx, hxI.trans_le hρ⟩
   have hx0 : KAM.realInclusion a x ∈ KAM.actionNbhd (closure d.V) (lipRadius d) :=
-    ⟨x, hx, by simpa using lipRadius_pos d⟩
+    mem_actionNbhd_real (lipRadius_pos d) hx
   have h1 := jetBeta_lip_mulVec d hmu hI0 hx0 v
   have h2 := hlow mu hmu x hx v
   have hd : ‖I - KAM.realInclusion a x‖ ≤ m / (4 * lipConst d) := by
-    have : ‖I - KAM.realInclusion a x‖ < betaRadius d m := by
-      simpa [KAM.realInclusion] using hxI
+    have : ‖I - KAM.realInclusion a x‖ < betaRadius d m := hxI
     exact (this.le).trans hρ2
   have h3 : 2 * lipConst d * ‖I - KAM.realInclusion a x‖ ≤ m / 2 := by
     calc _ ≤ 2 * lipConst d * (m / (4 * lipConst d)) := by gcongr
