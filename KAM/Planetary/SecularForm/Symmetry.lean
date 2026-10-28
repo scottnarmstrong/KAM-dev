@@ -212,7 +212,8 @@ private theorem fundamentalDomain_twoPi (n : ℕ) :
 /-- A function periodic under the lattice `2π ℤⁿ` is invariant under the span of the basis. -/
 private theorem periodic_span {g : SecularForm.Vec n → ℝ}
     (hg : ∀ (k : Fin n → ℤ) t, g (t + fun i => 2 * π * k i) = g t)
-    {v : SecularForm.Vec n} (hv : v ∈ Submodule.span ℤ (range (twoPiBasis n))) (x : SecularForm.Vec n) :
+    {v : SecularForm.Vec n} (hv : v ∈ Submodule.span ℤ (range (twoPiBasis n)))
+    (x : SecularForm.Vec n) :
     g (v + x) = g x := by
   let H : AddSubgroup (SecularForm.Vec n) :=
     { carrier := {v | ∀ x, g (v + x) = g x}
@@ -244,7 +245,8 @@ private theorem isAddFundamentalDomain_cell (n : ℕ) :
   exact ZSpan.isAddFundamentalDomain' (twoPiBasis n) volume
 
 private theorem setIntegral_cell_eq_Ico (n : ℕ) (h : SecularForm.Vec n → ℝ) :
-    ∫ t in SecularForm.cell n, h t = ∫ t in Set.pi univ (fun _ : Fin n => Ico (0 : ℝ) (2 * π)), h t :=
+    ∫ t in SecularForm.cell n, h t =
+      ∫ t in Set.pi univ (fun _ : Fin n => Ico (0 : ℝ) (2 * π)), h t :=
   setIntegral_congr_set (MeasureTheory.Measure.ae_eq_set_pi fun _ _ => Ico_ae_eq_Icc.symm)
 
 /-- Translation invariance of the cell integral of a lattice-periodic function. -/
@@ -275,14 +277,17 @@ theorem cell_integral_neg {g : SecularForm.Vec n → ℝ}
     constructor
     · rintro ⟨x, hx, rfl⟩
       refine ⟨-x + fun _ => 2 * π, fun i => ?_, ?_⟩
-      · have := hx i; simp only [Pi.add_apply, Pi.neg_apply]; constructor <;> linarith [this.1, this.2]
+      · have := hx i; simp only [Pi.add_apply, Pi.neg_apply]
+        constructor <;> linarith [this.1, this.2]
       · ext i; simp
     · rintro ⟨x, hx, rfl⟩
       refine ⟨-x + fun _ => 2 * π, fun i => ?_, ?_⟩
-      · have := hx i; simp only [Pi.add_apply, Pi.neg_apply]; constructor <;> linarith [this.1, this.2]
+      · have := hx i; simp only [Pi.add_apply, Pi.neg_apply]
+        constructor <;> linarith [this.1, this.2]
       · ext i; simp; ring
-  have h1 := (Measure.measurePreserving_neg (volume : Measure (SecularForm.Vec n))).setIntegral_image_emb
-    measurableEmbedding_neg g (SecularForm.cell n)
+  have h1 := (Measure.measurePreserving_neg
+    (volume : Measure (SecularForm.Vec n))).setIntegral_image_emb measurableEmbedding_neg g
+    (SecularForm.cell n)
   have h2 := (measurePreserving_add_right (volume : Measure (SecularForm.Vec n))
     (fun _ : Fin n => -(2 * π))).setIntegral_image_emb (measurableEmbedding_addRight _) g
     (SecularForm.cell n)
@@ -292,6 +297,39 @@ theorem cell_integral_neg {g : SecularForm.Vec n → ℝ}
   exact cell_integral_add hg _
 
 end TorusAverage
+
+section OddDerivative
+
+/-- An even function has vanishing odd-order iterated derivatives at a point of evenness. -/
+theorem iteratedFDeriv_odd_eq_zero {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [NormedAddCommGroup F] [NormedSpace ℝ F] {f : E → F}
+    (h : f =ᶠ[𝓝 0] fun u => f (-u)) {m : ℕ} (hm : Odd m) :
+    iteratedFDeriv ℝ m f 0 = 0 := by
+  have e1 : iteratedFDeriv ℝ m f 0 = iteratedFDeriv ℝ m (fun u => f (-u)) 0 :=
+    (h.iteratedFDeriv ℝ m).eq_of_nhds
+  have e2 : iteratedFDeriv ℝ m (fun u => f (-u)) 0 =
+      (iteratedFDeriv ℝ m f (-0)).compContinuousLinearMap
+        fun _ => (ContinuousLinearEquiv.neg ℝ : E ≃L[ℝ] E) := by
+    have := (ContinuousLinearEquiv.neg ℝ : E ≃L[ℝ] E).iteratedFDerivWithin_comp_right f
+      (uniqueDiffOn_univ) (mem_univ (-(0 : E))) m
+    simp only [preimage_univ, iteratedFDerivWithin_univ] at this
+    exact this
+  have e3 : (iteratedFDeriv ℝ m f (-0)).compContinuousLinearMap
+        (fun _ => (ContinuousLinearEquiv.neg ℝ : E ≃L[ℝ] E)) =
+      -iteratedFDeriv ℝ m f 0 := by
+    ext v
+    simp only [ContinuousMultilinearMap.compContinuousLinearMap_apply,
+      ContinuousLinearEquiv.coe_coe, ContinuousLinearEquiv.neg_apply,
+      neg_apply, neg_zero]
+    have : (fun i => -v i) = fun i => (-1 : ℝ) • v i := by ext i; simp
+    rw [this, ContinuousMultilinearMap.map_smul_univ]
+    simp [hm.neg_one_pow]
+  have e4 : iteratedFDeriv ℝ m f 0 = -iteratedFDeriv ℝ m f 0 := e1.trans (e2.trans e3)
+  have e5 : (2 : ℝ) • iteratedFDeriv ℝ m f 0 = 0 := by
+    rw [two_smul]; nth_rewrite 1 [e4]; exact neg_add_cancel _
+  exact (smul_eq_zero.1 e5).resolve_left two_ne_zero
+
+end OddDerivative
 
 namespace SecularForm
 variable {n : ℕ}
@@ -409,10 +447,10 @@ private def rotHom (θ : ℝ) : (Fin 2 → ℝ) →+ (Fin 2 → ℝ) :=
   AddMonoidHom.mk' (rot θ) fun u v => by ext i; fin_cases i <;> simp [rot] <;> ring
 
 private def sigHom : (Fin 2 → ℝ) →+ (Fin 2 → ℝ) :=
-  AddMonoidHom.mk' sigmaRefl fun u v => by ext i; fin_cases i <;> simp [sigmaRefl] <;> ring
+  AddMonoidHom.mk' sigmaRefl fun u v => by ext i; fin_cases i <;> simp [sigmaRefl]; ring
 
 private def sigHom' : (Fin 2 → ℝ) →+ (Fin 2 → ℝ) :=
-  AddMonoidHom.mk' (fun v => ![-v 0, v 1]) fun u v => by ext i; fin_cases i <;> simp <;> ring
+  AddMonoidHom.mk' (fun v => ![-v 0, v 1]) fun u v => by ext i; fin_cases i <;> simp; ring
 
 theorem perturbation_antipode (D : Data n) (b : Bool) {x : Slow n} (hx : x ∈ slowDom D)
     (t : Vec n) :
@@ -451,9 +489,9 @@ theorem assemble_add_fastShift (I t p q : Vec n) (k : Fin n → ℤ) :
       assemble I (t + fun i => 2 * π * k i) p q := by
   refine Prod.ext (funext fun j => ?_) (funext fun j => ?_)
   · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
-      simp [assemble, fastShift, Fin.append_left, Fin.append_right]
+      simp [assemble, fastShift, Fin.append_left]
   · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
-      simp [assemble, fastShift, Fin.append_left, Fin.append_right]
+      simp [assemble, fastShift, Fin.append_left]
 
 theorem perturbation_periodic (D : Data n) (b : Bool) {x : Slow n} (hx : x ∈ slowDom D)
     (k : Fin n → ℤ) (t : Vec n) :
@@ -513,6 +551,28 @@ theorem evenness (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) (b : Bool) (θ
     have e : ((φ + fun _ => -θ) + fun _ => θ) = φ := by ext i; simp
     rw [e] at this
     exact this
+
+theorem evenness_taylor (D : Data n) {I : Vec n} (hI : I ∈ actionDomain D) (b : Bool) (k : ℕ) :
+    iteratedFDeriv ℝ (2*k+1) (slowSecular D b I) 0 = 0 := by
+  obtain ⟨a, ha, rfl⟩ := hI
+  have hpos : ∀ i, 0 < action D a i := fun i => by
+    have := ha.1 i
+    have := D.hm i; have := D.hG; have := D.hm0
+    unfold action; positivity
+  refine iteratedFDeriv_odd_eq_zero ?_ ⟨k, rfl⟩
+  have hev : ∀ᶠ u : Vec n × Vec n in 𝓝 0,
+      ∀ i, 0 < action D a i ∧ (u.1 i ^ 2 + u.2 i ^ 2) / 2 < action D a i := by
+    rw [Filter.eventually_all]
+    intro i
+    have hc : Continuous fun u : Vec n × Vec n => (u.1 i ^ 2 + u.2 i ^ 2) / 2 := by fun_prop
+    have h0 : (fun u : Vec n × Vec n => (u.1 i ^ 2 + u.2 i ^ 2) / 2) 0 < action D a i := by
+      simpa using hpos i
+    filter_upwards [hc.continuousAt.eventually_lt continuousAt_const h0] with u hu
+    exact ⟨hpos i, hu⟩
+  filter_upwards [hev] with u hu
+  have hx : ((u.1, action D a, u.2) : Slow n) ∈ slowDom D := (mem_slowDom_iff D _).2 hu
+  have := (evenness D hx b 0).1
+  simpa [slowSecular] using this.symm
 
 end SecularForm
 
