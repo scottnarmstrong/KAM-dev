@@ -252,6 +252,112 @@ theorem cutoff_R1 (hr : 0 < r) (hs : 0 < s) (hB : IsOpen B) (hR : p11Admissible 
   rw [e, fderiv_const_add, L.fderiv]
   simp [L, Pi.single_apply, C]
 
+/-! ### The outputs consumed by the step -/
+
+/-- The coefficient families as `η`-independent families. -/
+def stepFam0 (R : P11Family n → ℂ) (z : P11Family n) : ℂ := stepF0 R (z.1.1, z.2)
+
+def stepFam1 (R : P11Family n → ℂ) (i : Fin n) (z : P11Family n) : ℂ := stepF1 R i (z.1.1, z.2)
+
+theorem cut_stepFam0 (θ η b : P11CVec n) :
+    p11Cut T (stepFam0 R) ((θ, η), b) = KAM.Weighted.truncate T (stepF0 R) (θ, b) := rfl
+
+theorem cut_stepFam1 (i : Fin n) (θ η b : P11CVec n) :
+    p11Cut T (stepFam1 R i) ((θ, η), b) = KAM.Weighted.truncate T (stepF1 R i) (θ, b) := rfl
+
+/-- The coefficient facts of the cutoff (the corrected form of `cutoff_coefficients`: the affine
+decomposition is asserted only for parameters in `B`, where `R` is regular). -/
+theorem p11_cutoff_coeff {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
+    (hr : 0 < r) (hs : 0 < s) (hT : 0 ≤ T) (hd : 0 < d) (hdr : d < r)
+    (he : 0 ≤ eps) {B : Set (P11CVec n)} (hB : IsOpen B) {R : P11Family n → ℂ}
+    (hR : p11Admissible r s B R) (hb : p11Bound (domain_def n r s B) R eps) :
+    p11AngleClass (r-d) B (p11R0 T R) ∧
+    (∀ i, p11AngleClass (r-d) B (fun z => p11R1 T R z i)) ∧
+    (∀ z ∈ Set.univ ×ˢ B, KAM.Weighted.truncate T (p11R0 T R) z = p11R0 T R z) ∧
+    (∀ i, ∀ z ∈ Set.univ ×ˢ B,
+      KAM.Weighted.truncate T (fun z => p11R1 T R z i) z = p11R1 T R z i) ∧
+    p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R0 T R) ((1+p11Error n T d)*eps) ∧
+    p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R1 T R) ((1+p11Error n T d)*eps/s) ∧
+    (∀ z : P11Family n, z.2 ∈ B → p11Cutoff T R z = p11R0 T R (z.1.1, z.2) +
+      ∑ i, p11R1 T R (z.1.1, z.2) i * z.1.2 i) := by
+  have hs' : 0 < s := hs
+  -- admissibility and bounds of the coefficient families
+  have hF0 : p11Admissible r s B (stepFam0 R) := by
+    refine ⟨?_, fun j z hz => stepF0_periodic hs hR j (z.1.1, z.2) ⟨hz.1.1, hz.2⟩⟩
+    refine (stepF0_diff hr hs hR).comp (f := fun z : P11Family n => (z.1.1, z.2))
+      (by fun_prop) ?_
+    rintro ⟨⟨θ, η⟩, b⟩ hz
+    exact ⟨(p11_mem_domain_def.mp hz).1, (p11_mem_domain_def.mp hz).2.2⟩
+  have hF1 : ∀ i, p11Admissible r s B (stepFam1 R i) := fun i => by
+    refine ⟨?_, fun j z hz => stepF1_periodic hs hB hR j i (z.1.1, z.2) ⟨hz.1.1, hz.2⟩⟩
+    refine (stepF1_diff hr hs hB hR i).comp (f := fun z : P11Family n => (z.1.1, z.2))
+      (by fun_prop) ?_
+    rintro ⟨⟨θ, η⟩, b⟩ hz
+    exact ⟨(p11_mem_domain_def.mp hz).1, (p11_mem_domain_def.mp hz).2.2⟩
+  have hb0 : p11Bound (domain_def n r s B) (stepFam0 R) eps := by
+    rintro ⟨⟨θ, η⟩, b⟩ hz
+    exact norm_stepF0_le hs hb (θ, b) ⟨(p11_mem_domain_def.mp hz).1, (p11_mem_domain_def.mp hz).2.2⟩
+  have hb1 : ∀ i, p11Bound (domain_def n r s B) (stepFam1 R i) (eps / s) := fun i => by
+    rintro ⟨⟨θ, η⟩, b⟩ hz
+    exact norm_stepF1_le hr hs he hB hR hb i (θ, b)
+      ⟨(p11_mem_domain_def.mp hz).1, (p11_mem_domain_def.mp hz).2.2⟩
+  have hfc0 := fourier_cutoff hn hr hs hT hd hdr hB hF0 he hb0
+  have hfc1 := fun i => fourier_cutoff hn hr hs hT hd hdr hB (hF1 i)
+    (div_nonneg he hs.le) (hb1 i)
+  have hsub : ∀ {θ b : P11CVec n}, θ ∈ KAM.complexStrip n (r-d) → b ∈ B →
+      ((θ, (0 : P11CVec n)), b) ∈ domain_def n (r-d) s B := fun hθ hb' =>
+    p11_mem_domain_def.mpr ⟨hθ, by simpa using hs, hb'⟩
+  -- the angle classes through `p11Cut`
+  have hcls : ∀ F : P11Family n → ℂ, p11Admissible (r-d) s B (p11Cut T F) →
+      p11AngleClass (r-d) B (fun u => p11Cut T F ((u.1, 0), u.2)) := fun F hF => by
+    refine ⟨?_, fun j z hz => ?_⟩
+    · refine hF.1.comp (f := fun u : P11CVec n × P11CVec n => ((u.1, (0 : P11CVec n)), u.2))
+        (by fun_prop) ?_
+      rintro ⟨θ, b⟩ ⟨h1, h2⟩
+      exact hsub h1 h2
+    · exact hF.2 j ((z.1, 0), z.2) (hsub hz.1 hz.2)
+  have hR0fun : p11R0 T R = fun u => p11Cut T (stepFam0 R) ((u.1, 0), u.2) :=
+    funext fun u => cutoff_R0 u.1 u.2
+  have hR1eq : ∀ i, ∀ θ b, b ∈ B → p11R1 T R (θ, b) i = p11Cut T (stepFam1 R i) ((θ, 0), b) :=
+    fun i θ b hb' => cutoff_R1 hr hs hB hR θ hb' i
+  refine ⟨?_, fun i => ?_, ?_, fun i => ?_, ?_, ?_, ?_⟩
+  · rw [hR0fun]; exact hcls _ hfc0.2.1
+  · have := hcls _ (hfc1 i).2.1
+    refine ⟨this.1.congr fun u hu => hR1eq i u.1 u.2 hu.2, fun j z hz => ?_⟩
+    show p11R1 T R (z.1 + Pi.single j 1, z.2) i = p11R1 T R z i
+    rw [hR1eq i _ _ hz.2, show p11R1 T R z i = p11R1 T R (z.1, z.2) i from rfl,
+      hR1eq i _ _ hz.2]
+    exact this.2 j z hz
+  · rintro ⟨θ, b⟩ -
+    have hf : p11R0 T R = KAM.Weighted.truncate T (stepF0 R) :=
+      funext fun u => cutoff_R0 u.1 u.2
+    rw [hf]
+    exact truncate_truncate (stepF0 R) θ b
+  · rintro ⟨θ, b⟩ ⟨-, hbB⟩
+    have : ∀ θ', p11R1 T R (θ', b) i = KAM.Weighted.truncate T (stepF1 R i) (θ', b) :=
+      fun θ' => cutoff_R1 hr hs hB hR θ' hbB i
+    have h1 : KAM.Weighted.truncate T (fun z => p11R1 T R z i) (θ, b) =
+        KAM.Weighted.truncate T (KAM.Weighted.truncate T (stepF1 R i)) (θ, b) :=
+      truncate_congr_param (u := fun z => p11R1 T R z i)
+        (v := KAM.Weighted.truncate T (stepF1 R i)) (fun θ' => this θ') θ
+    rw [h1, truncate_truncate, ← this θ]
+  · rintro ⟨θ, b⟩ ⟨h1, h2⟩
+    rw [hR0fun]
+    exact hfc0.2.2.2.1 _ (hsub h1 h2)
+  · rintro ⟨θ, b⟩ ⟨h1, h2⟩
+    have hE : 0 ≤ p11Error n T d := by
+      unfold p11Error; have := p11C_ge_one hn; positivity
+    refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => ?_
+    rw [mul_div_assoc]
+    have := (hfc1 i).2.2.2.1 _ (hsub h1 h2)
+    simpa [hR1eq i θ b h2] using this
+  · rintro ⟨⟨θ, η⟩, b⟩ hbB
+    dsimp only
+    rw [cutoff_decomp hr hs hB hR θ η hbB, cutoff_R0]
+    congr 1
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [cutoff_R1 hr hs hB hR θ hbB i, mul_comm]
+
 end KAM.Planetary
 
 end
