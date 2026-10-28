@@ -1386,9 +1386,9 @@ EDGE: bpP:p14:sb-smooth#data | blueprint-P/parts/p14b-secular-box.tex#bpP:p14:sb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sb_rot (KAM/Planetary/SecularBox/Rotation.lean)
+LEAN_NOTE: audit P14-S6 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p14:sb-rot-1
@@ -1414,9 +1414,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-rot-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sbRot_mem (KAM/Planetary/SecularBox/Rotation.lean)
+LEAN_NOTE: audit P14-S6 PASS; named sb-rot-1
 NOTE: -
 
 NODE: stepP:p14:sb-rot-2
@@ -1445,9 +1445,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-rot
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sbRot_moving (KAM/Planetary/SecularBox/Rotation.lean)
+LEAN_NOTE: audit P14-S6 PASS; named sb-rot-2
 NOTE: -
 
 NODE: stepP:p14:sb-rot-3
@@ -1477,9 +1477,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-rot-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sbRot_explicit (KAM/Planetary/SecularBox/Rotation.lean)
+LEAN_NOTE: audit P14-S6 PASS; named sb-rot-3
 NOTE: -
 
 NODE: stepP:p14:sb-rot-4
@@ -1509,9 +1509,9 @@ EDGE: bpP:p14:sb-Sdef | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-rot-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sbRot_box_shift, sbRot_pi_shift, sb_rot (KAM/Planetary/SecularBox/Rotation.lean)
+LEAN_NOTE: audit P14-S6 PASS; named sb-rot-4
 NOTE: -
 
 NODE: bpP:p14:sb-pred
