@@ -27,7 +27,7 @@ Uses of `KAM.IsDiophantine` and `KAM.Diophantine.Condition` convert through
 | I-DIOPH-2 | Bridge `Condition ↔ IsDiophantine` | — | `KAM/Diophantine/Frozen.lean` | I-DIOPH-1 | done (orchestrator) |
 | I-STRIP-1 | Cauchy estimates on strips and on open sets | `bp:p1:cauchy-strip`, `bp:p1:cauchy-open` | `KAM/Strip/Cauchy.lean`, `Regularity.lean`, `HigherCauchy.lean` | — | done (Zohar, a664728) |
 | I-STRIP-2 | Fourier coefficients of periodic holomorphic functions: decay and summation | `bp:p1:decay`, `bp:p1:summation` | `KAM/Strip/Fourier.lean` | I-FOURIER-1 | done (Zohar, 2026-10-27): `bp:p1:decay` (`KAM/Strip/Fourier.lean`), `bp:p1:summation` (`KAM/Strip/FourierSeries.lean`, `FourierBasic.lean`), with `bp:p1:fourier-basic` (b, c); uses I-P1B's `exp-sums` and `strip-identity` |
-| I-STRIP-3 | Cohomological equation on strips (sup norms, crude exponent τ + n), real on reals | `bp:p1:cohomological` | `KAM/Strip/Cohomological.lean` | I-STRIP-2, I-DIOPH-1 | done (Zohar, 2026-10-27): about `KAM.cohSolution` and `KAM.cohConst` (design §2.4), scalar and vector-valued (`cohSolutionPi`, which is `Apost.cohR`; sup norm); the matrix operator-norm bound `bp:p1:cohomological-operator` is not included |
+| I-STRIP-3 | Cohomological equation on strips (sup norms, crude exponent τ + n), real on reals | `bp:p1:cohomological` | `KAM/Strip/Cohomological.lean` | I-STRIP-2, I-DIOPH-1 | done (Zohar, 2026-10-27): about `KAM.cohSolution` and `KAM.cohConst` (design §2.4), scalar and vector-valued (`cohSolutionPi`, which is `Apost.cohR`; sup norm); the matrix operator-norm form `bp:p1:cohomological-operator` is I-STRIP-3b (orchestrator, 01203aa7: `KAM/Strip/CohomologicalOperator.lean`, `KAM.cohomological_operator`) |
 | I-STRIP-4 | Averages of derivatives; Neumann series for matrix-valued functions | `bp:p1:averages`, `bp:p1:neumann` | `KAM/Strip/Averages.lean`, `KAM/Matrix/Neumann.lean` | — | done (Zohar, c2b079d) |
 | I-STRIP-5 | Holomorphic on an open subset of ℂᵐ implies analytic (power series); real restriction is real-analytic. Not in Mathlib beyond one variable; worth upstreaming | `bp:p1:holomorphic-analytic`, `bp:p1:real-restriction` | `KAM/Strip/Analytic.lean` | I-STRIP-1 (Regularity) | done (43c6f7b) |
 
@@ -82,6 +82,18 @@ If another form lands, Part 2 adds an adapter.
 | I-P4B | More ready Part 4 lemmas | `bp:p4:derivative-bounds`, `torsion-regular`, `shift`, `mixed-difference` | `KAM/Head/*` | done (bc93762) |
 | I-P1C | Taylor bound (factor ½) and increments on strips | `bp:p1:taylor`, `bp:p1:increments` | `KAM/Strip/{Taylor,Increments}.lean` | done (14ea2b3) |
 | P2-*, P3-* | Parts 2 and 3 (G1, G2), 21 packages in 10 waves | see the design §5 | see the design §4 | design audited (PASS); wave 1: P2-1b done (9d193ec), P2-1a in audit; wave 1 done (P2-1a 0f25ed7, P2-1b 9d193ec); wave 2: P2-11 done, P2-2 and P2-3 claimed (orchestrator, 2026-10-27) |
+
+## Track N, Part 11 (N-PARTIAL-CONVEX): collaborator claims (2026-10-28)
+
+The orchestrator dispatches the N11 chain of
+[`docs/tracks/N/design/N11-LEAN-DESIGN.md`](../tracks/N/design/N11-LEAN-DESIGN.md). Zohar takes the last two
+packages of the chain. They are written against the design's Appendix A signatures while their inputs (N11-E3,
+N11-G, N11-M1, N11-M2) are proved, and land once those inputs are on `main`. Please do not dispatch them.
+
+| ID | Goal | Graph nodes | Owned files | Status |
+|---|---|---|---|---|
+| N11-N | Stopped block stability `block` | `bpN:p11:block`, steps `bl-*` | `KAM/Nekhoroshev/Partial/Block.lean` | claimed (Zohar, 2026-10-28) |
+| N11-P | Provider of the frozen `partialConvex_nekhoroshev` | `bpN:p0:partial`, steps `final-*` | `KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean` | claimed (Zohar, 2026-10-28) |
 
 ## Waiting for the blueprint
 
