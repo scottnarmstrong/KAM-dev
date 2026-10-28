@@ -307,4 +307,139 @@ theorem lattice_volume_cyclic (g : Fin n → ℤ) (hg : g ≠ 0) :
   exact (sq_eq_sq₀ (volume_nonneg _) (euclid_nonneg' _)).1 h2
 
 end Closure
+
+section AddVector
+
+def addVector (Λ : Lattice n) (k : Fin n → ℤ) : Lattice n :=
+  Λ ⊔ AddSubgroup.closure {k}
+
+theorem addVector_eq_closure_snoc (Λ : Lattice n) (k : Fin n → ℤ) :
+    addVector Λ k = AddSubgroup.closure (Set.range (Fin.snoc (α := fun _ => Fin n → ℤ)
+      (fun j : Fin (latticeDim Λ) => ((latticeBasis Λ) j).val) k)) := by
+  rw [addVector, Fin.range_snoc, Set.insert_eq, AddSubgroup.closure_union,
+    ← basis_closure_eq (latticeBasis Λ)]
+  exact sup_comm _ _
+
+theorem snoc_independent (Λ : Lattice n) (k : Fin n → ℤ) (hk : integerReal k ∉ lattice Λ) :
+    LinearIndependent ℤ (Fin.snoc (α := fun _ => Fin n → ℤ)
+      (fun j : Fin (latticeDim Λ) => ((latticeBasis Λ) j).val) k) := by
+  apply integer_independent_of_real
+  have : (fun j => integerReal (Fin.snoc (α := fun _ => Fin n → ℤ)
+      (fun j : Fin (latticeDim Λ) => ((latticeBasis Λ) j).val) k j)) =
+      Fin.snoc (α := fun _ => Fin n → ℝ)
+        (fun j : Fin (latticeDim Λ) => integerReal ((latticeBasis Λ) j).val) (integerReal k) := by
+    funext j
+    refine Fin.lastCases ?_ (fun a => ?_) j <;> simp
+  rw [this, linearIndependent_finSnoc]
+  exact ⟨basis_real_linearIndependent _, by rw [basis_span_eq]; exact hk⟩
+
+theorem addVector_facts (Λ : Lattice n) (k : Fin n → ℤ) (hk : integerReal k ∉ lattice Λ) :
+    latticeDim (addVector Λ k) = latticeDim Λ + 1 ∧
+    volume_def (addVector Λ k) = volume_def Λ * euclid (compProj (lattice Λ) (integerReal k)) ∧
+    compProj (lattice Λ) (integerReal k) ≠ 0 := by
+  have hli := snoc_independent Λ k hk
+  set b := latticeBasis Λ with hb
+  set kv := integerReal k with hkv
+  set c := compProj (lattice Λ) kv with hc
+  have hne : c ≠ 0 := by
+    intro h
+    apply hk
+    have : kv = proj (lattice Λ) kv := by
+      have h' : kv - proj (lattice Λ) kv = 0 := h
+      exact sub_eq_zero.1 h'
+    rw [this]
+    exact (proj_spec _).2.1 _
+  refine ⟨?_, ?_, hne⟩
+  · rw [addVector_eq_closure_snoc]
+    exact latticeDim_closure _ hli
+  set A : Matrix (Fin n) (Fin (latticeDim Λ)) ℝ := (basisMatrix b).map (Int.castRingHom ℝ)
+    with hA
+  have hmem : proj (lattice Λ) kv ∈ Submodule.span ℝ (Set.range fun j => integerReal (b j).val) := by
+    rw [basis_span_eq b]
+    exact (proj_spec (lattice Λ)).2.1 kv
+  rw [Submodule.mem_span_range_iff_exists_fun] at hmem
+  obtain ⟨x, hx⟩ := hmem
+  have hAx : A.mulVec x = proj (lattice Λ) kv := by
+    rw [← hx]
+    ext i
+    simp [Matrix.mulVec, dotProduct, hA, basisMatrix, integerReal, mul_comm, Finset.sum_apply]
+  have hcx : c = kv - A.mulVec x := by rw [hAx]; rfl
+  have hperp : ∀ j, (fun i => A i j) ⬝ᵥ c = 0 := by
+    intro j
+    have : (fun i => A i j) = integerReal (b j).val := by
+      funext i; simp [hA, basisMatrix, integerReal]
+    rw [this, dotProduct_comm]
+    exact (projection (lattice Λ)).2.2.2.1 kv _ (integerReal_mem_lattice (b j).2)
+  have hBM : basisMatrix (closureBasis _ hli) = (Matrix.of fun i j =>
+      Fin.snoc (α := fun _ => Fin n → ℤ)
+        (fun j : Fin (latticeDim Λ) => ((latticeBasis Λ) j).val) k j i :
+        Matrix (Fin n) (Fin (latticeDim Λ + 1)) ℤ) := basisMatrix_closureBasis _ hli
+  have hS : snocCol A kv = (basisMatrix (closureBasis _ hli)).map (Int.castRingHom ℝ) := by
+    rw [hBM]
+    ext i j
+    refine Fin.lastCases ?_ (fun a => ?_) j
+    · simp [snocCol, hA, hkv, integerReal, basisMatrix]
+    · simp [snocCol, hA, hkv, integerReal, basisMatrix]
+      rfl
+  have hsq : volume_def (addVector Λ k) ^ 2 =
+      (gram (basisMatrix (closureBasis _ hli))).det := by
+    rw [addVector_eq_closure_snoc]
+    exact volume_sq_eq (closureBasis _ hli)
+  have hsq2 : volume_def (addVector Λ k) ^ 2 = (volume_def Λ * euclid c) ^ 2 := by
+    rw [hsq, gram, ← hS, ← det_gram_snoc_shear A kv x, ← hcx, det_gram_snoc_orth A c hperp,
+      mul_pow, volume_sq_eq b, euclid_sq_eq_dot]
+    rfl
+  exact (sq_eq_sq₀ (volume_nonneg _) (mul_nonneg (volume_nonneg _) (euclid_nonneg' _))).1 hsq2
+
+end AddVector
+
+theorem lattice_volume (Λ : Lattice n) :
+    (∀ d : ℕ, ∀ b : Basis (Fin d) ℤ Λ,
+      volume_def Λ ^ 2 = (gram (basisMatrix b)).det) ∧
+    (∃ q : ℤ, 0 < q ∧ volume_def Λ ^ 2 = (q : ℝ)) ∧
+    1 ≤ volume_def Λ ∧ volume_def (⊥ : Lattice n) = 1 ∧
+    volume_def (⊤ : Lattice n) = 1 ∧
+    (∀ Γ : Lattice n, Γ ≤ Λ → latticeDim Γ = latticeDim Λ →
+      volume_def Λ ≤ volume_def Γ) ∧
+    (∀ k : Fin n → ℤ, integerReal k ∉ lattice Λ →
+      latticeDim (addVector Λ k) = latticeDim Λ + 1 ∧
+      volume_def (addVector Λ k) = volume_def Λ * euclid (compProj (lattice Λ) (integerReal k)) ∧
+      compProj (lattice Λ) (integerReal k) ≠ 0) :=
+  ⟨fun _ b => volume_sq_eq b, volume_sq_int Λ, one_le_volume Λ, volume_bot, volume_top,
+    fun _ hΓ hd => volume_mono hΓ hd, fun k hk => addVector_facts Λ k hk⟩
+
+theorem lattice_volume_hadamard {d : ℕ} (v : Fin d → (Fin n → ℤ))
+    (hv : LinearIndependent ℝ (fun j => integerReal (v j))) :
+    volume_def (AddSubgroup.closure (Set.range v)) ≤ ∏ j, euclid (integerReal (v j)) := by
+  induction d with
+  | zero =>
+    have : AddSubgroup.closure (Set.range v) = ⊥ := by simp
+    rw [this, volume_bot]
+    simp
+  | succ d ih =>
+    have hsn : v = Fin.snoc (α := fun _ => Fin n → ℤ) (Fin.init v) (v (Fin.last d)) :=
+      (Fin.snoc_init_self v).symm
+    have hinit : LinearIndependent ℝ (fun j => integerReal (Fin.init v j)) :=
+      hv.comp Fin.castSucc (Fin.castSucc_injective d)
+    have hinitZ := integer_independent_of_real _ hinit
+    set Λ := AddSubgroup.closure (Set.range (Fin.init v)) with hΛ
+    set k := v (Fin.last d) with hkdef
+    have hsnR : (fun j => integerReal (v j)) = Fin.snoc (α := fun _ => Fin n → ℝ)
+        (fun j => integerReal (Fin.init v j)) (integerReal k) := by
+      funext j
+      refine Fin.lastCases ?_ (fun a => ?_) j <;> simp [Fin.init, hkdef]
+    have hk : integerReal k ∉ lattice Λ := by
+      rw [hΛ, lattice_closure_range _ hinitZ]
+      rw [hsnR, linearIndependent_finSnoc] at hv
+      exact hv.2
+    have hr : Set.range v = insert k (Set.range (Fin.init v)) := by
+      conv_lhs => rw [hsn]
+      exact Fin.range_snoc _ _
+    have hcl : AddSubgroup.closure (Set.range v) = addVector Λ k := by
+      rw [hr, Set.insert_eq, AddSubgroup.closure_union, addVector]
+      exact sup_comm _ _
+    rw [hcl, (addVector_facts Λ k hk).2.1, Fin.prod_univ_castSucc]
+    exact mul_le_mul (ih _ hinit) ((projection (lattice Λ)).2.2.2.2.2.1 _).2
+      (euclid_nonneg' _) (Finset.prod_nonneg fun _ _ => euclid_nonneg' _)
+
 end KAM.Nekhoroshev
