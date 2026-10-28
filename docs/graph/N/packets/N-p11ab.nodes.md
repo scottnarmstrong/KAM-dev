@@ -98,8 +98,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: wfield, realWfield, extBracket (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: audit N11-A PASS WITH NOTES; X^c and bracket defined but Omega_c matrix and X=Omega_c grad u not defined; partial
 NOTE: package bpN:p11:wfield (SPEC); c=1 with k=0 is Definition bpN:p5:setting, a comparison only (no edge)
 
 NODE: bpN:p11:orbit
@@ -128,9 +128,9 @@ EDGE: bpN:p0:partial-sec#Phase | blueprint-N/parts/p11a-partial-route.tex#bpN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbit, theta, thetaInv, converted, thetaCLM, thetaInvCLM (KAM/Nekhoroshev/Partial/Coordinates.lean)
+LEAN_NOTE: audit N11-A PASS WITH NOTES; signed iff theorem; Theta/Theta^{-1} as continuous linear equivalences
 NOTE: forward note: Lemma bpN:p1:period-convert (k=0, opposite normalisation) is a comparison, no edge; consumed by stepN:p11:final-orbit
 
 NODE: stepN:p11:or-chain
@@ -184,9 +184,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11a-partial-route.tex#stepN:p11:or-eq@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: realWfield_converted (KAM/Nekhoroshev/Partial/Coordinates.lean)
+LEAN_NOTE: audit N11-A PASS WITH NOTES; component identity realWfield(2pi)(converted H)(theta z)=theta(X_H z), converse via orbit
 NOTE: -
 
 NODE: bpN:p11:exponents
@@ -214,9 +214,9 @@ EDGE: bpN:p0:partial-exponents#partialDriftExponent | blueprint-N/parts/p11a-par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exponents (KAM/Nekhoroshev/Partial/Constants.lean)
+LEAN_NOTE: audit N11-B math PASS (audit 1; F1 naming finding overruled by orchestrator ruling); ex-den/ex-cmp internal
 NOTE: -
 
 NODE: stepN:p11:ex-den
@@ -301,7 +301,7 @@ EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: N11-B PartialConstants/PartialData/constants/DefiniteSign define only s,m1,M1,g1,r0,A,eps0,R0,kappaC,cK,eps,K,d,kappa,rTheta,blockTime; node also defines w=d/4, K_a=K/sqrt n, mu_0, and p,q,b_c (not defined there), so full SOURCE_CONCLUSION not covered
 NOTE: package bpN:p11:constants (SPEC). Dropped candidate edges: stepN:p11:final-mu (forward pointer: it defines mu_0 and itself uses these constants; an edge would close a cycle), bpN:p11:b-change (explanatory remark: the values p,q,b_c are fixed in this definition), bpN:p11:hessian (the side claim A>=pM_1/(b_c m_1)+sqrt 2 is re-derived in Lemma block-data; hessian itself uses these constants), bpN:p9:setting (provenance)
 
 NODE: bpN:p11:ext-class
@@ -331,7 +331,7 @@ EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit N11-A PASS WITH NOTES: carriers, projections, extBracket, ext_class defined; the claim (SL) implies (SL)_{rho,sigma} has no Lean statement; not marked proved
 NOTE: package bpN:p11:ext-class (SPEC); (SL) and (SL)_{rho,sigma} are items of this definition
 
 NODE: bpN:p11:ext-part4
@@ -656,8 +656,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: ExtCanonical (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: data predicate only; symplectic flow lemma not proved
 NOTE: -
 
 NODE: bpN:p11:adjoint
@@ -689,8 +689,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: extAd (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: definition of iterated bracket only; norm estimate not proved
 NOTE: -
 
 NODE: stepN:p11:ad-setup
@@ -1741,9 +1741,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PartialBlock, PartialBlock.lam, PartialBlock.c, PartialBlock.base (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: audit N11-A PASS WITH NOTES; x-tilde and S-tilde inlined in base, not separate defs
 NOTE: section-data node for coverage item p11b:prose-L4-L6 (SPEC table); used by symbol in ext-class, bracket, scaled, vf, adjoint, composition, transform, canonical-map, hom, iterative and the normal form lemma (and, in Part 11c, in block-setting and the real/stability results)
 
 NODE: bpN:p11:s-nf#data
@@ -1773,6 +1773,6 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: ExtNFHyp, liftFast (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: audit N11-A; dictionary constants (abar, kappa, q) not defined as such; partial
 NOTE: section-data node for coverage item p11b:prose-L104-L104; consumed by hom, iterative and nf

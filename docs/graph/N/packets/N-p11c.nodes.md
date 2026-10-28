@@ -161,8 +161,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: reExtMap, ExtConjHyp (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: data only; conjugation lemma not proved
 NOTE: -
 
 NODE: stepN:p11:cj
@@ -2144,9 +2144,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:s-re
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PartialBlock.realDom, realHamiltonianExt, ExtOrbit (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: audit N11-A PASS WITH NOTES; W^e, G^R, G-orbit
 NOTE: section-data node for coverage item p11c:prose-L4-L5 (SPEC table); the frozen IsSolutionOn is a comparison (no edge); consumed by real-system, conj, preimage, transfer, nonresonant, energy-free, resonant and block theorem
 
 NODE: bpN:p11:hessian#real-hessian

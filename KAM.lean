@@ -372,6 +372,9 @@ public import KAM.Nekhoroshev.NormalForm.StepsOut
 public import KAM.Nekhoroshev.NormalForm.StepsSeq
 public import KAM.Nekhoroshev.NormalForm.Telescope
 public import KAM.Nekhoroshev.ODE.Specialization
+public import KAM.Nekhoroshev.Partial.Constants
+public import KAM.Nekhoroshev.Partial.Coordinates
+public import KAM.Nekhoroshev.Partial.Setting
 public import KAM.Nekhoroshev.Poschel.BlockHypotheses
 public import KAM.Nekhoroshev.Poschel.BlockStability
 public import KAM.Nekhoroshev.Poschel.Elementary
@@ -528,6 +531,7 @@ public import KAM.Planetary.Nondegeneracy.GoodAxes.N2
 public import KAM.Planetary.Nondegeneracy.GoodAxes.Resonance
 public import KAM.Planetary.Nondegeneracy.GoodAxes.SortedAnalytic
 public import KAM.Planetary.Nondegeneracy.GoodAxes
+public import KAM.Planetary.Nondegeneracy.Interface
 public import KAM.Planetary.Nondegeneracy.Peel
 public import KAM.Planetary.Nondegeneracy.Stability
 public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Analytic
@@ -554,6 +558,10 @@ public import KAM.Planetary.PGAssembly.AveragingNorm
 public import KAM.Planetary.PGAssembly.AveragingReal
 public import KAM.Planetary.PGAssembly.AveragingRem
 public import KAM.Planetary.PGAssembly.AveragingSmall
+public import KAM.Planetary.PGAssembly.Chart
+public import KAM.Planetary.PGAssembly.ChartDefs
+public import KAM.Planetary.PGAssembly.ChartLoc
+public import KAM.Planetary.PGAssembly.ChartMem
 public import KAM.Planetary.PGAssembly.ComplexGlue
 public import KAM.Planetary.PGAssembly.ComplexLocal
 public import KAM.Planetary.PGAssembly.CutMeasure
@@ -622,6 +630,7 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
 public import KAM.Planetary.PlanarAssembly.Transport
+public import KAM.Planetary.PlanarTorsion.FrozenBridge
 public import KAM.Planetary.PlanarTorsion.LaplaceReduction
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Algebra
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Analytic

@@ -245,6 +245,13 @@ Each row is one prover package and one focused module. All paths have prefix `KA
 | B19 | `Evaluation` | evaluation-bilipschitz, half-cell, lattice/quotient compactness | B16,B17,B18; mcshane_prod, lipeo_onto, lip_image_prod | 13 | 650 |
 | B20 | `PolynomialBudget` | adm-budget, adm-budget-beta, uniform displacement-power | B07,B17,B19; explicit sublevel/power_law formulas | 14 | 700 |
 
+**Signature amendment B13 (2026-10-28, main-orchestrator ruling, OVERNIGHT 19:00).** In `exported_sums`
+(Appendix), the last conjunct had a precedence defect: `(∑' j, selectionA a (j + ν) + selectionAlpha a (j + ν)) /
+selectiont a (ν + 1)` parses with the second summand outside the tsum, leaving `j` unbound (it elaborated only with
+autoImplicit, which the project disables). The intended source form E3 is `(∑' j, (selectionA a (j + ν) +
+selectionAlpha a (j + ν))) / selectiont a (ν + 1)`. The Appendix and `.drafts/design/P11BSignatures.lean` carry the
+parenthesised form; consumers B14, B17 and B18 use it.
+
 **Coverage note B07 (2026-10-28, main-orchestrator ruling, OVERNIGHT 18:17).** The B07 audit found two coverage
 gaps inherited from the signature. (i) A7 (p11a3:215, obtained from B06 `initial` at :222) was not attached; a
 companion that consumes `initial` is added in round B07b. (ii) `fr-other` (p11a4:39,46: the later lemmas hold
@@ -989,7 +996,9 @@ theorem exported_sums (d : SelectionData n) (ε : ℝ) (he : 0 ≤ ε)
       selectionRealBudget a ν ≤ 4 * π / selectionCQ n * a.T₀ * (a.strip / 24) *
         selectionQactual a ν ∧
       selectionQactual a ν ≤ selectionQ₀ a * selectionG n a.μ a.τ 0 ^ ν) ∧
-    ∀ ν, (∑' j, selectionA a (j + ν) + selectionAlpha a (j + ν)) /
+    -- Amended 2026-10-28 (OVERNIGHT 19:00): the tsum binds both summands (source E3); the unparenthesised
+    -- form left `j` unbound and elaborated only with autoImplicit (disabled in this project).
+    ∀ ν, (∑' j, (selectionA a (j + ν) + selectionAlpha a (j + ν))) /
       selectiont a (ν + 1) ≤ (2 : ℝ)⁻¹ ^ 10 := sorry
 
 /-- Derived scalar budgets at the adapted radius; no iteration hypotheses. -/

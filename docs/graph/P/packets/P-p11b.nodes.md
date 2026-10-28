@@ -1353,7 +1353,7 @@ EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: T15 hasSecularBirkhoffForm_of_sixth_order is only a conditional conversion helper (hi, he premises); physical Birkhoff theorem is T16
 NOTE: -
 
 NODE: stepP:p11b:bt-rot
@@ -1549,7 +1549,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: T15 audit PASS WITH NOTES covers only the arithmetic disc conversion; audit says do not mark the physical step complete (continuity, average identification, beta symmetry left to T16)
 NOTE: -
 
 NODE: bpP:p11b:remain
