@@ -121,6 +121,135 @@ theorem schwarz_order_five {R M : ℝ} (hR : 0 < R) (hM : 0 ≤ M) {g : ℂ → 
   exact schwarz_quotient_bound hR hg hbound hjet hR'0 hR'lt z
     (by rw [mem_closedBall_zero_iff]; exact hzR'.le)
 
+/-! ### Bounds for the complex average and its jets -/
+
+theorem actionNbhd_mono_quarter (d : PGData a b) {I : Fin a → ℂ}
+    (hI : I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 4)) :
+    I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2) := by
+  have := (pgExtension d).delta_pos
+  obtain ⟨J, hJ, hlt⟩ := hI
+  exact ⟨J, hJ, by linarith⟩
+
+theorem pgOscRadius_lt_one (d : PGData a b) : pgOscRadius d < 1 := by
+  have h1 := (pgExtension d).delta_lt
+  have h2 : pgOscRadius d ≤ (pgExtension d).delta / 4 := min_le_right _ _
+  linarith
+
+/-- The complex average is bounded by the extension bound `MP`. -/
+theorem complexAverage_norm_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
+    {z : JetE a b} (hz : z ∈ avgDom d) : ‖complexAverage d mu z.1 z.2‖ ≤ (pgExtension d).MP := by
+  have hpi := Real.pi_pos
+  have hMP := (pgExtension d).MP_pos
+  set Q : Set (Fin a → ℝ) := pi univ fun _ : Fin a => Icc (0 : ℝ) (2 * Real.pi) with hQdef
+  have hQ : IsCompact Q := isCompact_univ_pi fun _ => isCompact_Icc
+  have hvol : (volume Q).toReal = (2 * Real.pi) ^ a := by
+    rw [hQdef, Set.pi_univ_Icc, Real.volume_Icc_pi_toReal (fun _ => by simp; positivity)]
+    simp
+  have hint : ‖∫ phi in Q, (pgExtension d).P mu
+      (assembleComplex z.1 (KAM.realInclusion a phi) z.2.2 z.2.1)‖ ≤
+      (pgExtension d).MP * (volume Q).toReal :=
+    norm_setIntegral_le_of_norm_le_const hQ.measure_lt_top fun phi _ =>
+      (pgExtension d).bound mu hmu _ (avgInt_mem d hz phi)
+  unfold complexAverage
+  rw [norm_mul, norm_inv, norm_pow]
+  have h2 : ‖((2 * Real.pi : ℝ) : ℂ)‖ = 2 * Real.pi := by
+    rw [Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by positivity)]
+  push_cast at h2
+  rw [h2]
+  rw [hvol] at hint
+  have hpos : 0 < (2 * Real.pi) ^ a := by positivity
+  calc ((2 * Real.pi) ^ a)⁻¹ * _ ≤ ((2 * Real.pi) ^ a)⁻¹ * ((pgExtension d).MP * (2 * Real.pi) ^ a) :=
+        by gcongr
+    _ = (pgExtension d).MP := by field_simp
+
+theorem complexAverage_differentiableOn (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
+    {I : Fin a → ℂ} (hI : I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) :
+    DifferentiableOn ℂ (complexAverage d mu I) (ball 0 (pgOscRadius d)) := by
+  have hf : DifferentiableOn ℂ (fun x : PGComplexPhase b => ((I, x) : JetE a b))
+      (ball 0 (pgOscRadius d)) :=
+    ((differentiable_const I).prodMk differentiable_id).differentiableOn
+  exact (avgFun_differentiableOn d hmu).comp hf fun x hx => ⟨hI, by simpa using hx⟩
+
+theorem remainder_slice_differentiableOn (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
+    {I : Fin a → ℂ} (hI : I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) :
+    DifferentiableOn ℂ (pgRemainder d mu I) (ball 0 (pgOscRadius d)) := by
+  have hf : DifferentiableOn ℂ (fun x : PGComplexPhase b => ((I, x) : JetE a b))
+      (ball 0 (pgOscRadius d)) :=
+    ((differentiable_const I).prodMk differentiable_id).differentiableOn
+  exact (pgRemainder_differentiableOn d hmu).comp hf fun x hx => ⟨hI, by simpa using hx⟩
+
+/-- Cauchy estimate for the jets of the average at `x = 0`, uniform in `mu` and `I`. -/
+theorem jet_norm_le (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
+    {I : Fin a → ℂ} (hI : I ∈ KAM.actionNbhd (closure d.V) ((pgExtension d).delta / 2)) (n : ℕ) :
+    ‖iteratedFDeriv ℂ n (complexAverage d mu I) 0‖ ≤
+      (n / (pgOscRadius d / 2)) ^ n * (pgExtension d).MP := by
+  have hpos := pgOscRadius_pos d
+  refine KAM.norm_iteratedFDeriv_le_of_closedBall isOpen_ball
+    (complexAverage_differentiableOn d hmu hI) (half_pos hpos)
+    (closedBall_subset_ball (by linarith)) (fun w hw => ?_) n
+  have hw' : ‖w‖ < pgOscRadius d := by
+    rw [mem_closedBall_zero_iff] at hw; linarith
+  exact complexAverage_norm_le d hmu (z := (I, w)) ⟨hI, hw'⟩
+
+theorem norm_single_le_one (j : Fin b) : ‖(Pi.single j (1 : ℂ) : Fin b → ℂ)‖ ≤ 1 := by
+  refine (pi_norm_le_iff_of_nonneg zero_le_one).2 fun i => ?_
+  by_cases h : i = j
+  · subst h; simp
+  · simp [h]
+
+theorem norm_yvec_le_one (j : Fin b) :
+    ‖((0 : Fin b → ℂ), (Pi.single j (1 : ℂ) : Fin b → ℂ))‖ ≤ 1 := by
+  rw [Prod.norm_def]
+  simpa using norm_single_le_one j
+
+theorem norm_cOsc_le {x : PGComplexPhase b} (hx : ‖x‖ ≤ 1) (j : Fin b) : ‖cOsc x j‖ ≤ 1 := by
+  have h1 : ‖x.1 j‖ ≤ 1 := (norm_le_pi_norm x.1 j).trans ((le_max_left _ _).trans hx)
+  have h2 : ‖x.2 j‖ ≤ 1 := (norm_le_pi_norm x.2 j).trans ((le_max_right _ _).trans hx)
+  unfold cOsc
+  have h2' : ‖(2 : ℂ)‖ = 2 := by simp
+  rw [norm_div, h2']
+  have : ‖x.1 j ^ 2 + x.2 j ^ 2‖ ≤ 2 := by
+    calc _ ≤ ‖x.1 j ^ 2‖ + ‖x.2 j ^ 2‖ := norm_add_le _ _
+      _ ≤ 1 + 1 := by
+        rw [norm_pow, norm_pow]
+        gcongr <;> simp [pow_le_one₀, h1, h2]
+      _ = 2 := by norm_num
+  linarith [div_le_one_of_le₀ this (by norm_num : (0:ℝ) ≤ 2)]
+
+theorem cPoly_norm_le {c0 : ℂ} {Om : Fin b → ℂ} {be : Matrix (Fin b) (Fin b) ℂ} {A0 A2 A4 : ℝ}
+    (h0 : ‖c0‖ ≤ A0) (h2 : ∀ j, ‖Om j‖ ≤ A2) (h4 : ∀ i j, ‖be i j‖ ≤ A4)
+    {x : PGComplexPhase b} (hx : ‖x‖ ≤ 1) :
+    ‖cPoly c0 Om be x‖ ≤ A0 + b * A2 + b ^ 2 * A4 := by
+  unfold cPoly
+  have hS1 : ‖∑ j, Om j * cOsc x j‖ ≤ b * A2 := by
+    refine (norm_sum_le _ _).trans ?_
+    calc ∑ j, ‖Om j * cOsc x j‖ ≤ ∑ _j : Fin b, A2 := Finset.sum_le_sum fun j _ => by
+          rw [norm_mul]
+          exact (mul_le_of_le_one_right (norm_nonneg _) (norm_cOsc_le hx j)).trans (h2 j)
+      _ = b * A2 := by simp
+  have hS2 : ‖(1 / 2 : ℂ) * ∑ i, ∑ j, be i j * cOsc x i * cOsc x j‖ ≤ b ^ 2 * A4 := by
+    have hn : ‖∑ i, ∑ j, be i j * cOsc x i * cOsc x j‖ ≤ b ^ 2 * A4 := by
+      refine (norm_sum_le _ _).trans ?_
+      calc ∑ i, ‖∑ j, be i j * cOsc x i * cOsc x j‖ ≤ ∑ _i : Fin b, (b * A4 : ℝ) :=
+            Finset.sum_le_sum fun i _ => by
+              refine (norm_sum_le _ _).trans ?_
+              calc ∑ j, ‖be i j * cOsc x i * cOsc x j‖ ≤ ∑ _j : Fin b, A4 :=
+                    Finset.sum_le_sum fun j _ => by
+                      rw [norm_mul, norm_mul]
+                      exact ((mul_le_of_le_one_right (mul_nonneg (norm_nonneg _) (norm_nonneg _))
+                        (norm_cOsc_le hx j)).trans
+                        (mul_le_of_le_one_right (norm_nonneg _) (norm_cOsc_le hx i))).trans
+                        (h4 i j)
+                _ = b * A4 := by simp
+        _ = b ^ 2 * A4 := by simp; ring
+    have h12 : ‖(1 / 2 : ℂ)‖ ≤ 1 := by norm_num
+    rw [norm_mul]
+    exact (mul_le_of_le_one_left (norm_nonneg _) h12).trans hn
+  calc _ ≤ ‖c0 + ∑ j, Om j * cOsc x j‖ + ‖(1 / 2 : ℂ) * ∑ i, ∑ j, be i j * cOsc x i * cOsc x j‖ :=
+        norm_add_le _ _
+    _ ≤ (‖c0‖ + ‖∑ j, Om j * cOsc x j‖) + _ := by gcongr; exact norm_add_le _ _
+    _ ≤ A0 + b * A2 + b ^ 2 * A4 := by linarith
+
 end KAM.Planetary
 
 end
