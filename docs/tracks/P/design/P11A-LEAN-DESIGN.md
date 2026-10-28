@@ -669,6 +669,15 @@ Other recorded conventions/departures:
   `canonical_step_simple_inverse`, `canonical_step_real`, `canonical_step_param`). The registry retains
   every original clause, including homological uniqueness, reality, entire theta extension, average bounds,
   simple-flow block derivatives, parameter holomorphy and rectangular action-block displacements.
+- **Amendment D29 (2026-10-28, found by the P11A-C8 prover, ruled by the main orchestrator).** The last
+  clause of `cutoff_coefficients` (Appendix) was false as first signed: `∀ z, p11Cutoff T R z = p11R0 T R
+  (z.1.1,z.2) + ∑ i, p11R1 T R (z.1.1,z.2) i * z.1.2 i` lacks `z.2 ∈ B`. Off `B`, `R` is unconstrained by
+  `p11Admissible`, and the truncation integrates over the torus. Counterexample: `R((x,η),b) = f(x) + η₁ g(x)`
+  with `f` non-integrable and `g = 1 - f` gives cutoff `1` at `η₁ = 1` but `R0 = R1 = 0`. The clause now reads
+  `∀ z, z.2 ∈ B → …`; the name is unchanged, and `cs-cutoff` uses it only on `B`. The signature file
+  `.drafts/design/P11ASignatures.lean` carries the same amendment. Package C8 is split: C8 proves
+  `canonical_step`, `canonical_step_param`, `canonical_step_real` and the helper `p11_cutoff_coeff`; round C8b
+  (same branch) adds the amended `cutoff_coefficients` and `canonical_step_simple_inverse`.
 - Do not replace the finite-stage divisor by two comparisons to the limit. Use the finite retained-set
   telescoping sum with shell UPPER endpoint T_m, including m=0, from `finite_divisor`.
 - Constants for `p11Order` are chosen before nu2, which is chosen before epsilon. K5 is a LOWER bound
@@ -716,7 +725,7 @@ may re-export the submodules but must not import a provider or a draft theorem a
 | P11A-C5 | 8 | `MaximalStep/Homological` | 550 | C4; finite coefficients, averages and parameter derivatives |
 | P11A-C6 | 2 | `MaximalStep/AffineFlow`, `MaximalStep/ParameterFlow` | 750 | C0; `Canonical.flow_a/b/c/d/e`, `flow_symplFormC`; no W/measure dependency |
 | P11A-C7 | 3 | `MaximalStep/GlobalRealFlow`, `MaximalStep/RealFlow` | 750 | C6; nonlinear continuation and variational bridges, Gronwall |
-| P11A-C8 | 9 | `MaximalStep/Step`, `MaximalStep/StepParameter` | 700 | C5,C6,C7; integral Lie identity, explicit U/bracket estimate |
+| P11A-C8 | 9 | `MaximalStep/Step`, `MaximalStep/StepParameter` | 700 | C5,C6,C7; integral Lie identity, explicit U/bracket estimate; `cutoff_coefficients` amended (D29, guard `z.2 ∈ B`), delivered in round C8b |
 | P11A-P0 | 3 | `Preparation/AnalyticExtension`, `Preparation/Schwarz` | 600 | C3; real analytic coefficient complexification, identity theorem, radial Schwarz |
 | P11A-P1 | 7 | `Preparation/Basic`, `Preparation/Working`, `Preparation/BasePoint` | 550 | W1,W2,W8,P9; P10 exact physical-frequency interface; norm_dict/select |
 | P11A-P2 | 8 | `Preparation/Holomorphic`, `Preparation/Polar` | 750 | P0,P1; P8/9 and existing P6/7; P1 hol_chart and exact period-one lattice |
@@ -2188,7 +2197,8 @@ theorem cutoff_coefficients {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
     (hR : p11Admissible r s B R) (hb : p11Bound (domain_def n r s B) R eps) :
     p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R0 T R) ((1+p11Error n T d)*eps) ∧
     p11Bound (KAM.complexStrip n (r-d) ×ˢ B) (p11R1 T R) ((1+p11Error n T d)*eps/s) ∧
-    ∀ z, p11Cutoff T R z=p11R0 T R (z.1.1,z.2)+∑ i, p11R1 T R (z.1.1,z.2) i*z.1.2 i := sorry
+    -- D29 (2026-10-28): `z.2 ∈ B →` added; the unguarded clause was false (see the companion-results note).
+    ∀ z, z.2 ∈ B → p11Cutoff T R z=p11R0 T R (z.1.1,z.2)+∑ i, p11R1 T R (z.1.1,z.2) i*z.1.2 i := sorry
 /-- Additional clauses of canonical-step(ii), with the same unmodified source premises. -/
 theorem canonical_step_simple_inverse {n : ℕ} {S : P11Step n} {h : P11CVec n → ℂ}
     {w : P11CVec n → P11CVec n} {R : P11Family n → ℂ} (H : P11StepHyp S h w R) :
