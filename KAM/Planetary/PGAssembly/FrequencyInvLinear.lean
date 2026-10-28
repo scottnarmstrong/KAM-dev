@@ -88,7 +88,8 @@ theorem inv_apriori {mu c0 AN LB X Y Wf Ws : ℝ} (hmu0 : 0 < mu) (hc0 : 0 < c0)
       have e2 : LB * (mu * AN) * ((1 + AN * LB) * W) ≤ 3 / 4 * c0 * LB * W := by
         have : LB * (mu * AN) * (1 + AN * LB) = LB * (mu * AN) + LB * (mu * AN ^ 2 * LB) := by ring
         have h6 : LB * (mu * AN) ≤ LB * (c0 / 2) := mul_le_mul_of_nonneg_left h3 hLB0
-        have h7 : LB * (mu * AN ^ 2 * LB) ≤ LB * (c0 / 4) := mul_le_mul_of_nonneg_left (by linarith) hLB0
+        have h7 : LB * (mu * AN ^ 2 * LB) ≤ LB * (c0 / 4) :=
+          mul_le_mul_of_nonneg_left (by linarith) hLB0
         calc LB * (mu * AN) * ((1 + AN * LB) * W) = (LB * (mu * AN) * (1 + AN * LB)) * W := by ring
           _ ≤ (3 / 4 * c0 * LB) * W := by
             apply mul_le_mul_of_nonneg_right _ hW0

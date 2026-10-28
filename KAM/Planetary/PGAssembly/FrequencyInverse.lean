@@ -69,7 +69,8 @@ theorem freq_injOn (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Ioc 0 (pgAnalytic d
     rw [hbt, hS', ← norm_neg, neg_sub]
     exact t1
   -- fast part
-  have hfa : complexFast d I - complexFast d I' = (mu : ℂ) • (jpGrad d mu ξ' I' - jpGrad d mu ξ I) := by
+  have hfa : complexFast d I - complexFast d I' =
+      (mu : ℂ) • (jpGrad d mu ξ' I' - jpGrad d mu ξ I) := by
     have : complexFast d I + (mu : ℂ) • jpGrad d mu ξ I =
         complexFast d I' + (mu : ℂ) • jpGrad d mu ξ' I' := hF
     rw [smul_sub]; linear_combination this
@@ -80,7 +81,8 @@ theorem freq_injOn (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Ioc 0 (pgAnalytic d
       _ ≤ mu * (p.LN * ‖I - I'‖ + p.LN * ‖ξ - ξ'‖) := by
           gcongr
           calc ‖jpGrad d mu ξ' I' - jpGrad d mu ξ I‖
-              = ‖-(jpGrad d mu ξ' I - jpGrad d mu ξ' I') - (jpGrad d mu ξ I - jpGrad d mu ξ' I)‖ := by
+              = ‖-(jpGrad d mu ξ' I - jpGrad d mu ξ' I') -
+                  (jpGrad d mu ξ I - jpGrad d mu ξ' I)‖ := by
                 congr 1; abel
             _ ≤ p.LN * ‖I - I'‖ + p.LN * ‖ξ - ξ'‖ := by
                 refine (norm_sub_le _ _).trans (add_le_add ?_ g2)

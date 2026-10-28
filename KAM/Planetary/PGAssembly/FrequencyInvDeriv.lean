@@ -11,7 +11,8 @@ public import KAM.Planetary.PGAssembly.FrequencyBounds
 /-!
 # P Part 5: the derivative of the complex frequency map (`stepP:p5:fi-inj`, `fi-blk`)
 
-Block projections, the splitting `complexFrequency = (complexFast ∘ blockFast, 0) + mu ∇jetPolynomial`
+Block projections, the splitting
+`complexFrequency = (complexFast ∘ blockFast, 0) + mu ∇jetPolynomial`
 and the formula for its derivative on the tube; the slow-slow block of the Hessian of
 `jetPolynomial` is `jetBeta` (`jetBeta_isSymm`).
 Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FI.
@@ -156,7 +157,8 @@ theorem fderiv_jp_embSlow (d : PGData a b) {mu : ℝ} (hmu : mu ∈ Icc 0 d.mu0)
   have h2 := ((hasFDerivAt_const (jetP0 d mu I) ξ).add hO).add (hB.const_mul (1 / 2 : ℂ))
   have h2' : HasFDerivAt (fun ξ' : Fin b → ℂ => jetPolynomial d mu (Fin.append I ξ'))
     (0 + ∑ i, jetOmega d mu I i • (ContinuousLinearMap.proj i : (Fin b → ℂ) →L[ℂ] ℂ) +
-      (1 / 2 : ℂ) • ∑ i, ∑ k, ((jetBeta d mu I i k * ξ i) • (ContinuousLinearMap.proj k : (Fin b → ℂ) →L[ℂ] ℂ) +
+      (1 / 2 : ℂ) • ∑ i, ∑ k, ((jetBeta d mu I i k * ξ i) •
+        (ContinuousLinearMap.proj k : (Fin b → ℂ) →L[ℂ] ℂ) +
         ξ k • jetBeta d mu I i k • (ContinuousLinearMap.proj i : (Fin b → ℂ) →L[ℂ] ℂ))) ξ := by
     rw [hQ]; exact h2
   have h3 := congrArg (fun L => L w) (h1.unique h2')
