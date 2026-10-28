@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-28 10:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 171,000
+> **Last updated: 2026-10-28 11:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 73.3 %** · frozen statements proved: 11 / 22 · **73,878 lines of Lean** of an estimated ≈ 172,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,15 +127,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **73,878** (52,947 excluding blank lines and comments) · **+73,878** since 2026-10-27 13:33 UTC |
-| Written on agent branches, not yet landed | 43,334 |
-| **Estimated total at completion** | **≈ 171,000** |
+| Written on agent branches, not yet landed | 44,360 |
+| **Estimated total at completion** | **≈ 172,000** |
 | Estimated still to write | ≈ 54,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-28 10:40 UTC from `main` at `904d9b3` by `scripts/hq-status.py`.*
+*Generated 2026-10-28 11:00 UTC from `main` at `b5a55ce` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,22 +292,20 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **n1212** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N12-12: wrap long lines | `inp-n1212` | 5 (vs `inp`) |
-| **n1214** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-n1213 | `inp-n1214` | 17 (vs `inp`) |
-| **n89p3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N89-P3: block_hyp | `inp-n89p3` | 4 (vs `inp`) |
-| **p11aw6** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-W6: Sublevel cleanup | `inp-p11aw6` | 7 (vs `inp`) |
-| **p11aw7** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W7: Diophantine measure (diophantine_measure) | `inp-p11aw7` | 8 (vs `inp`) |
-| **p2313b** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-13b: OscillatorSeriesAlgebra (oscTruncate, osc_bound_const_mul/add/tsum, osc_truncatio | `inp-p2313b` | 2 (vs `inp`) |
-| **p2313c** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-13c: oscLieRatio, oscTheta, osc_ratio_range | `inp-p2313c` | 3 (vs `inp`) |
-| **p2313g** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p2313b (P23-13b) | `inp-p2313g` | 2 (vs `inp`) |
-| **p2316** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-16: IterationStage (stage invariant, stage_step) | `inp-p2316` | 20 (vs `inp`) |
-| **p5bl** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-BL: bilip | `inp-p5bl` | 14 (vs `inp`) |
-| **p5jet** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-JET: oscillator polynomial jets | `inp-p5jet` | 18 (vs `inp`) |
+| **n1214** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N12-14: wrap long lines in Stopped | `inp-n1214` | 21 (vs `inp`) |
+| **n89p4** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N89-P3: handoff and independent audit (PASS WITH NOTES) | `inp-n89p4` | 5 (vs `inp`) |
+| **p11ac1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-C1: fourier_cutoff (bpP:p11a:fourier-cutoff) | `inp-p11ac1` | 3 (vs `inp`) |
+| **p11aw7** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-W7: Diophantine measure (diophantine_measure) | `inp-p11aw7` | 8 (vs `inp`) |
+| **p11aw8** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-W8: Bridge (limit_bridge) | `inp-p11aw8` | 9 (vs `inp`) |
+| **p2313c** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-13c: osc_adjoint_bound | `inp-p2313c` | 6 (vs `inp`) |
+| **p2313d** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-13c: osc_adjoint_bound | `inp-p2313d` | 6 (vs `inp`) |
+| **p2313g** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P23-13g: osc_remainder_decomposition proved | `inp-p2313g` | 5 (vs `inp`) |
+| **p2317** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P23-17: LimitActionsChain (ActionSteps, chain well-posedness, steps, frequency) | `inp-p2317` | 22 (vs `inp`) |
+| **p5jet** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P5-JET: Jets facade, birkhoff_ext and parameter regularity | `inp-p5jet` | 24 (vs `inp`) |
 | **s10s** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-s10c (S10-C) | `inp-s10s` | 6 (vs `inp`) |
-| **s7r** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S7-R: product_chart, pc_prod, pc_share, pc_dec, lattice proved | `inp-s7r` | 2 (vs `inp`) |
-| **s8a** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S8-A: rewrap long lines | `inp-s8a` | 9 (vs `inp`) |
-| **s8i** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-I: Laplace identities and radialPhi/radialH | `inp-s8i` | 7 (vs `inp`) |
-| **s9l** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: S9-L: rewrap long lines | `inp-s9l` | 9 (vs `inp`) |
+| **s8c** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-s8l | `inp-s8c` | 6 (vs `inp`) |
+| **s8m** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-M: Momentum block calculus WIP | `inp-s8m` | 4 (vs `inp`) |
+| **s8y** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: S8-Y: evenness (WIP) | `inp-s8y` | 4 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
