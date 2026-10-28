@@ -157,6 +157,35 @@ theorem phi_limit (P : PsiSteps sbar p Ds hs fs Ψ Φ) {Dstar : Set (Fin (a + b)
   choose! l hl using hex
   exact ⟨l, fun x hx => (hl x hx).1, fun x hx => (hl x hx).2⟩
 
+theorem phi_disp_real (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {x : Phase (a + b)}
+    (hx : x ∈ phaseTube (Ds j) ((seq p j).ρ / 2)) :
+    ‖firstBlock (b := b) ((psiR (Φ j) x - x).2)‖ ≤
+      3 / 2 * (p.Mhat / p.M) * eHat p * rhoHat p ∧
+    ‖lastBlock (a := a) ((psiR (Φ j) x - x).2)‖ ≤ 3 / 2 * eHat p * rhoHat p ∧
+    2 * π * ‖(psiR (Φ j) x - x).1‖ ≤ 3 / 2 * eHat p * p.s := by
+  have hr : 0 ≤ p.Mhat / p.M :=
+    div_nonneg (P.hyp 0).positive.2.2.2.2.2.1.le (P.hyp 0).positive.2.2.2.2.1.le
+  have h0 : 0 < rhoHat p := (P.hyp 0).R_pos
+  have hs0 : 0 < p.s := (P.hyp 0).positive.2.1
+  have hpart := P.partial_sum_le j
+  obtain ⟨b1, b2, b3⟩ := P.phi_disp_complex j _ (P.incl_mem_stage j hx)
+  rw [← P.phi_real_pt j hx] at b1 b2 b3
+  simp only [KAM.realInclusion₂_apply] at b1 b2 b3
+  rw [← map_sub] at b1 b2 b3
+  have e1 : ∀ v : Fin (a + b) → ℝ, ‖firstBlock (b := b) (KAM.realInclusion (a + b) v)‖ =
+      ‖firstBlock (b := b) v‖ := fun v => ActionSteps.norm_first_incl v
+  have e2 : ∀ v : Fin (a + b) → ℝ, ‖lastBlock (a := a) (KAM.realInclusion (a + b) v)‖ =
+      ‖lastBlock (a := a) v‖ := fun v => ActionSteps.norm_last_incl v
+  rw [e1] at b1
+  rw [e2] at b2
+  rw [KAM.norm_realInclusion] at b3
+  simp only [Prod.fst_sub, Prod.snd_sub]
+  refine ⟨b1.trans ?_, b2.trans ?_, b3.trans ?_⟩
+  · have := mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 3 / 4) hr) h0.le
+    nlinarith
+  · nlinarith
+  · nlinarith
+
 end PsiSteps
 
 end KAM.Planetary
