@@ -254,6 +254,61 @@ theorem continuousOn_integrand
 
 end ExtCompose
 
+namespace ExtCompose
+
+variable {b : PartialBlock n k} {R' s' R s ρ σ V U : ℝ} {φ : EC n k → ℂ} {v : ℝ → EC n k → ℂ}
+
+/-- The weighted bound `(1 - η)⁻¹ U` of `z ↦ ∫₀¹ v_t(X^t z) dt`. -/
+theorem integral_bound (hc : ExtCompose b R' s' R s ρ σ V φ) (hk : 1 ≤ k) (hU : 0 ≤ U)
+    (hv : ∀ t ∈ Icc (0 : ℝ) 1, InClass b.base R s (v t))
+    (hvb : ∀ t ∈ Icc (0 : ℝ) 1, WBound b.base R s (v t) U)
+    (hcont : ContinuousOn (fun p : ℝ × EC n k => v p.1 p.2) (Icc 0 1 ×ˢ Dom n b.base R s)) :
+    WBound b.base (R - ρ) (s - σ)
+      (fun z => ∫ t in (0 : ℝ)..1, v t (extFlow b R' s' ρ σ φ t z))
+      ((1 - 2 * V / (ρ * σ))⁻¹ * U) := by
+  have hη := hc.small
+  have hη0 := hc.eta_nonneg
+  have hpos : 0 < 1 - 2 * V / (ρ * σ) := by linarith
+  have hslice : ∀ t ∈ Icc (0 : ℝ) 1, WBound b.base (R - ρ) (s - σ)
+      (fun z => v t (extFlow b R' s' ρ σ φ t z)) ((1 - 2 * V / (ρ * σ))⁻¹ * U) := fun t ht => by
+    have h := (hc.comp_t_class_bound hk hU (hv t ht) (hvb t ht)
+      (t := t) (abs_le.2 ⟨by linarith [ht.1], ht.2⟩)).2
+    refine h.mono le_rfl le_rfl (mul_le_mul_of_nonneg_right (inv_anti₀ hpos ?_) hU)
+    rw [abs_of_nonneg ht.1]
+    nlinarith [ht.2]
+  refine wbound_of_finset_le_ext fun I hI Λ => ?_
+  have hF := hc.continuousOn_integrand hk hcont hI
+  have hw : ∀ k : Fin n → ℤ, 0 < modeWeight (s - σ) k := fun k => Real.exp_pos _
+  have hcoef : ∀ k, coeff (fun z => ∫ t in (0 : ℝ)..1,
+      v t (extFlow b R' s' ρ σ φ t z)) I k =
+      ∫ t in (0 : ℝ)..1, coeff (fun z => v t (extFlow b R' s' ρ σ φ t z)) I k
+      ∧ IntervalIntegrable (fun t => coeff (fun z => v t (extFlow b R' s' ρ σ φ t z)) I k)
+        volume 0 1 := fun k =>
+    coeff_integral_ext (w := fun t z => v t (extFlow b R' s' ρ σ φ t z)) k hF
+  calc ∑ k ∈ Λ, ‖coeff (fun z => ∫ t in (0 : ℝ)..1,
+        v t (extFlow b R' s' ρ σ φ t z)) I k‖ * modeWeight (s - σ) k
+      ≤ ∑ k ∈ Λ, (∫ t in (0 : ℝ)..1, ‖coeff (fun z => v t (extFlow b R' s' ρ σ φ t z)) I k‖) *
+          modeWeight (s - σ) k := by
+        refine Finset.sum_le_sum fun k _ => mul_le_mul_of_nonneg_right ?_ (hw k).le
+        rw [(hcoef k).1]
+        exact intervalIntegral.norm_integral_le_integral_norm zero_le_one
+    _ = ∫ t in (0 : ℝ)..1, ∑ k ∈ Λ, ‖coeff (fun z => v t (extFlow b R' s' ρ σ φ t z)) I k‖ *
+          modeWeight (s - σ) k := by
+        rw [intervalIntegral.integral_finsetSum fun k _ => ((hcoef k).2.norm).mul_const _]
+        exact Finset.sum_congr rfl fun k _ => (intervalIntegral.integral_mul_const _ _).symm
+    _ ≤ ∫ t in (0 : ℝ)..1, (1 - 2 * V / (ρ * σ))⁻¹ * U := by
+        refine intervalIntegral.integral_mono_on zero_le_one
+          (by
+            have := IntervalIntegrable.sum Λ fun k _ => ((hcoef k).2.norm).mul_const
+              (modeWeight (s - σ) k)
+            simpa [Finset.sum_fn] using this)
+          intervalIntegrable_const fun t ht => ?_
+        obtain ⟨h1, h2⟩ := hslice t ht I hI
+        exact (h1.sum_le_tsum Λ fun k _ => mul_nonneg (norm_nonneg _) (hw k).le).trans h2
+    _ = (1 - 2 * V / (ρ * σ))⁻¹ * U := by simp
+
+end ExtCompose
+
 end KAM.Nekhoroshev
 
 end
