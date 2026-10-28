@@ -116,6 +116,29 @@ theorem polar_mem_averagingDomain (h : admissible d (pgRstar d) r mu) {z : Phase
       rw [abs_of_nonneg (Real.sqrt_nonneg _)]
       exact (mul_le_of_le_one_right (Real.sqrt_nonneg _) (Real.abs_sin_le_one _)).trans_lt this
 
+theorem phiDomain_fullShift {z : Phase (a+b)} (hz : z ∈ phiDomain d r mu)
+    (k : Fin (a+b) → ℤ) : z + fullShift k ∈ phiDomain d r mu := by
+  simpa [phiDomain, fullShift] using hz
+
+theorem phiDomain_slow_pos (h : admissible d (pgRstar d) r mu) {z : Phase (a+b)}
+    (hz : z ∈ phiDomain d r mu) (j : Fin b) : 0 < blockSlow z.2 j := by
+  have := (phiDomain_slow hz j).1
+  have := (chart_dyn h).2.2.2.1
+  linarith
+
+theorem realAverageMap_add_fastShift {A : PGAveraging (a+b)}
+    (hper : ∀ z ∈ averagingDomain d r mu, ∀ k : Fin a → ℤ,
+      A.Psi (z+KAM.realInclusion₂ (a+b) (fastShift k)) =
+        A.Psi z+KAM.realInclusion₂ (a+b) (fastShift k))
+    (hreal : ∀ z : Phase (a+b), KAM.realInclusion₂ (a+b) z ∈ averagingDomain d r mu →
+      A.Psi (KAM.realInclusion₂ (a+b) z) = KAM.realInclusion₂ (a+b) (realAverageMap A z))
+    {w : Phase (a+b)} (hw : KAM.realInclusion₂ (a+b) w ∈ averagingDomain d r mu)
+    (k : Fin a → ℤ)
+    (hw' : KAM.realInclusion₂ (a+b) (w + fastShift k) ∈ averagingDomain d r mu) :
+    realAverageMap A (w + fastShift k) = realAverageMap A w + fastShift k := by
+  apply KAM.realInclusion₂_injective
+  rw [map_add, ← hreal _ hw', map_add, hper _ hw k, hreal _ hw]
+
 end KAM.Planetary
 
 end
