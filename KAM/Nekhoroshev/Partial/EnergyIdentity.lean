@@ -255,6 +255,77 @@ theorem energy_identity (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin n → �
   simp only [extBracket, wfield_eq_wvec, add_zero, dtheta, freq]
   simp only [mul_comm]
 
+/-! ### Real frequencies and the fast action along an orbit -/
+
+/-- On real fast actions the complex frequency is the real frequency map. -/
+private theorem freq_real {m M r : ℝ} {Ic : Fin n → ℝ} {h : (Fin n → ℂ) → ℂ}
+    (hh : RealFastConvex Ic r m M h) {I : Fin n → ℝ}
+    (hI : KAM.realInclusion n I ∈ polyNbhd {KAM.realInclusion n Ic} r) (i : Fin n) :
+    freq h (KAM.realInclusion n I) i = ((KAM.frequencyMap h I i : ℝ) : ℂ) := by
+  have hd : DifferentiableAt ℂ h (KAM.realInclusion n I) :=
+    (hh.hol _ hI).differentiableAt ((isOpen_polyNbhd _ r).mem_nhds hI)
+  have hev : ∀ᶠ J in nhds I, (h (KAM.realInclusion n J)).im = 0 := by
+    filter_upwards [((isOpen_polyNbhd _ r).preimage (KAM.realInclusion n).continuous).mem_nhds
+      hI] with J hJ using hh.real J hJ
+  have := KAM.Head.fderiv_realInclusion_of_real hd hev (Pi.single i 1)
+  rw [KAM.realInclusion_single] at this
+  exact this
+
+private theorem fastAction_mem_real {b : PartialBlock n k} {r s : ℝ} {z : ER n k} (hs : 0 < s)
+    (hz : z ∈ b.realDom r) :
+    KAM.realInclusion n (fastAction z) ∈ polyNbhd {KAM.realInclusion n b.Ic} r := by
+  have := fast_mem_polyNbhd b (z := extCx z) (mem_Dom_of_realDom b hs hz).2
+  rwa [fastAction_extCx] at this
+
+/-- The derivative of the real part of `fs ∘ y` (`ef-id`, real form). -/
+theorem energy_identity_re (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin n → ℂ) → ℂ}
+    {g fs : EC n k → ℂ} (hr : 0 < r) (hs : 0 < s) (hh : RealFastConvex b.Ic r m M h)
+    (hg : ext_class b r s g) (hf : ext_class b r s fs) {J : Set ℝ} {y : ℝ → ER n k}
+    (hy : ExtOrbit b r (liftFast h + g + fs) J y) {τ : ℝ} (hτ : τ ∈ J) :
+    HasDerivAt (fun t => (fs (extCx (y t))).re)
+      (∑ i, (dtheta i fs (extCx (y τ))).re * KAM.frequencyMap h (fastAction (y τ)) i +
+        (extBracket b.c fs g (extCx (y τ))).re) τ := by
+  have h1 := Complex.reCLM.hasFDerivAt.comp_hasDerivAt τ (energy_identity b hr hs hh hg hf hy hτ)
+  refine h1.congr_deriv ?_
+  simp only [Complex.reCLM_apply, Complex.add_re, Complex.re_sum]
+  rw [fastAction_extCx]
+  congr 1
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [freq_real hh (fastAction_mem_real hs (hy τ hτ).1)]
+  exact Complex.re_mul_ofReal _ _
+
+/-- The fast action moves with velocity `-∂_θ (g + fs)`. -/
+private theorem hasDerivAt_fast (b : PartialBlock n k) {r s m M : ℝ} {h : (Fin n → ℂ) → ℂ}
+    {g fs : EC n k → ℂ} (hr : 0 < r) (hs : 0 < s) (hh : RealFastConvex b.Ic r m M h)
+    (hg : ext_class b r s g) (hf : ext_class b r s fs) {J : Set ℝ} {y : ℝ → ER n k}
+    (hy : ExtOrbit b r (liftFast h + g + fs) J y) {τ : ℝ} (hτ : τ ∈ J) (w : Fin n → ℝ) :
+    HasDerivAt (fun t => w ⬝ᵥ fastAction (y t))
+      (-(w ⬝ᵥ ((fun i => (dtheta i g (extCx (y τ))).re) +
+        fun i => (dtheta i fs (extCx (y τ))).re))) τ := by
+  have hz : extCx (y τ) ∈ Dom n b.base r s := mem_Dom_of_realDom b hs (hy τ hτ).1
+  have hcx := (real_system b hr hs
+    (ext_class_add b (ext_class_add b (ext_class_liftFast b hh) hg) hf)).2.2.1 _ (hy τ hτ).1
+  have hcomp : ∀ i : Fin n, HasDerivAt (fun t => (y t).2 (Fin.castAdd (k+k) i))
+      (-((dtheta i g (extCx (y τ))).re + (dtheta i fs (extCx (y τ))).re)) τ := by
+    intro i
+    have h1 := hasDerivAt_pi.1 (hy τ hτ).2.snd (Fin.castAdd (k+k) i)
+    refine h1.congr_deriv ?_
+    have h2 := congrArg (fun v : EC n k => v.2 (Fin.castAdd (k+k) i)) hcx
+    simp only [wfield_eq_wvec, wvec, Fin.append_left] at h2
+    have h3 := congrArg Complex.re h2
+    rw [fderiv_hamiltonian b hs hh hg hf hz] at h3
+    simp only [extCx, Complex.ofReal_re] at h3
+    rw [h3]
+    simp [fastCLM_theta, dtheta, extCx]
+  have hdot : ∀ u v : Fin n → ℝ, u ⬝ᵥ v = ∑ i, u i * v i := fun _ _ => rfl
+  have := HasDerivAt.fun_sum (u := Finset.univ) fun i _ => (hcomp i).const_mul (w i)
+  have hfun : (fun t => w ⬝ᵥ fastAction (y t)) =
+      fun t => ∑ i, w i * (y t).2 (Fin.castAdd (k+k) i) := funext fun t => rfl
+  rw [hfun]
+  refine this.congr_deriv ?_
+  rw [hdot, ← Finset.sum_neg_distrib]
+  exact Finset.sum_congr rfl fun i _ => by simp only [Pi.add_apply]; ring
+
 end KAM.Nekhoroshev
 
 end
