@@ -41,7 +41,7 @@ theorem modeSize_ge_one {k : Fin n → ℤ} (hk : k ≠ 0) : 1 ≤ KAM.Fourier.m
     exact_mod_cast this
   exact h1.trans (KAM.Fourier.abs_coord_le_modeSize k i)
 
-theorem norm_dotC_le (k : Fin n → ℤ) (v : Fin n → ℂ) :
+theorem pgAv_norm_dotC_le (k : Fin n → ℤ) (v : Fin n → ℂ) :
     ‖KAM.NormalForm.dotC k v‖ ≤ KAM.Fourier.modeSize k * ‖v‖ := by
   unfold KAM.NormalForm.dotC KAM.Fourier.modeSize
   refine (norm_sum_le _ _).trans ?_
@@ -144,7 +144,7 @@ theorem pg_osc_divisor (h : admissible d (pgRstar d) r mu) :
   have hdot : ‖KAM.NormalForm.dotC k (complexFast d I)‖ ≥
       ‖KAM.NormalForm.dotC k (complexFast d (KAM.realInclusion a J))‖ -
         KAM.Fourier.modeSize k * ((pgAnalytic d).M0 * ρ) := by
-    have h1 := norm_dotC_le k (complexFast d (KAM.realInclusion a J) - complexFast d I)
+    have h1 := pgAv_norm_dotC_le k (complexFast d (KAM.realInclusion a J) - complexFast d I)
     have h2' : ‖complexFast d (KAM.realInclusion a J) - complexFast d I‖ ≤
         (pgAnalytic d).M0 * ρ := by
       rw [norm_sub_rev]; exact h2

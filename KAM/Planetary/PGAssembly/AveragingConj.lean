@@ -12,7 +12,7 @@ public import KAM.Planetary.Hamiltonian.HolChart
 /-!
 # P Part 5: conjugating the P2 map (`stepP:p5:av-dict`)
 
-For a P2 map `Ψ` on the half-domain, `avgPsi Ψ = T ∘ Ψ ∘ T⁻¹` is holomorphic and injective on
+For a P2 map `Ψ` on the half-domain, `pgAvPsi Ψ = T ∘ Ψ ∘ T⁻¹` is holomorphic and injective on
 `averagingDomain`, maps it into the extension domain, commutes with the physical lattice shifts,
 preserves the real slice and, with `T` conformally symplectic of factor `2π`, is again symplectic
 with factor one.
@@ -34,14 +34,14 @@ abbrev avgV (d : PGData a b) (r mu : ℝ) : Set (CPhase (a+b)) :=
 
 theorem avg_diff (h : admissible d (pgRstar d) r mu)
     (hΨ : DifferentiableOn ℂ Ψ (avgV d r mu)) :
-    DifferentiableOn ℂ (avgPsi Ψ) (averagingDomain d r mu) := by
+    DifferentiableOn ℂ (pgAvPsi Ψ) (averagingDomain d r mu) := by
   have : DifferentiableOn ℂ (Ψ ∘ pgOscUnnormalize) (averagingDomain d r mu) :=
     hΨ.comp differentiable_pgOscUnnormalize.differentiableOn
       (fun z hz => (mem_averagingDomain_iff h).1 hz)
   exact differentiable_pgOscNormalize.comp_differentiableOn this
 
 theorem avg_inj (h : admissible d (pgRstar d) r mu) (hΨ : InjOn Ψ (avgV d r mu)) :
-    InjOn (avgPsi Ψ) (averagingDomain d r mu) := by
+    InjOn (pgAvPsi Ψ) (averagingDomain d r mu) := by
   intro z hz z' hz' heq
   have h1 := pgOscNormalize_injective heq
   exact pgOscUnnormalize_injective
@@ -50,7 +50,7 @@ theorem avg_inj (h : admissible d (pgRstar d) r mu) (hΨ : InjOn Ψ (avgV d r mu
 theorem avg_maps (h : admissible d (pgRstar d) r mu)
     (hΨ : MapsTo Ψ (avgV d r mu) (oscDom (checkedCore d r mu) (params d r mu).rhoBar
       (pgOscEpsilon d) (pgOscEpsilon d) (pgOscWidth d))) :
-    MapsTo (avgPsi Ψ) (averagingDomain d r mu) (extensionDomain d (pgExtension d).delta) := by
+    MapsTo (pgAvPsi Ψ) (averagingDomain d r mu) (extensionDomain d (pgExtension d).delta) := by
   intro z hz
   exact normalize_mem_extensionDomain h
     (by linarith [av_rhoBar_lt_delta h, (pgExtension d).delta_pos]) le_rfl
@@ -61,11 +61,11 @@ theorem avg_periodic (h : admissible d (pgRstar d) r mu)
       Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) =
         Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) :
     ∀ z ∈ averagingDomain d r mu, ∀ k : Fin a → ℤ,
-      avgPsi Ψ (z + KAM.realInclusion₂ (a+b) (fastShift k)) =
-        avgPsi Ψ z + KAM.realInclusion₂ (a+b) (fastShift k) := by
+      pgAvPsi Ψ (z + KAM.realInclusion₂ (a+b) (fastShift k)) =
+        pgAvPsi Ψ z + KAM.realInclusion₂ (a+b) (fastShift k) := by
   intro z hz k
   have hy := (mem_averagingDomain_iff h).1 hz
-  unfold avgPsi
+  unfold pgAvPsi
   rw [pgOscUnnormalize_add, pgOscUnnormalize_lattice,
     show ((Fin.append (fun i => (k i : ℂ)) (0 : Fin b → ℂ), 0) : CPhase (a+b)) =
       (Fin.append (fun i => (k i : ℂ)) 0, 0) from rfl, hp _ hy k, pgOscNormalize_add,
@@ -75,12 +75,12 @@ theorem avg_real_mem (h : admissible d (pgRstar d) r mu)
     (hr : ∀ x : Phase (a+b), KAM.realInclusion₂ (a+b) x ∈ avgV d r mu →
       Ψ (KAM.realInclusion₂ (a+b) x) ∈ range (KAM.realInclusion₂ (a+b))) :
     ∀ z : Phase (a+b), KAM.realInclusion₂ (a+b) z ∈ averagingDomain d r mu →
-      avgPsi Ψ (KAM.realInclusion₂ (a+b) z) ∈ range (KAM.realInclusion₂ (a+b)) := by
+      pgAvPsi Ψ (KAM.realInclusion₂ (a+b) z) ∈ range (KAM.realInclusion₂ (a+b)) := by
   intro z hz
   have hy := (mem_averagingDomain_iff h).1 hz
   rw [pgOscUnnormalize_real] at hy
   obtain ⟨w, hw⟩ := hr _ hy
-  unfold avgPsi
+  unfold pgAvPsi
   rw [pgOscUnnormalize_real, ← hw]
   exact pgOscNormalize_mem_range w
 
@@ -115,13 +115,13 @@ theorem avg_sympl (h : admissible d (pgRstar d) r mu)
     (hs : ∀ z ∈ avgV d r mu, ∀ u v, KAM.Canonical.symplFormC (fderiv ℂ Ψ z u) (fderiv ℂ Ψ z v) =
       KAM.Canonical.symplFormC u v) :
     ∀ z ∈ averagingDomain d r mu, ∀ u v, KAM.Canonical.symplFormC
-      (fderiv ℂ (avgPsi Ψ) z u) (fderiv ℂ (avgPsi Ψ) z v) =
+      (fderiv ℂ (pgAvPsi Ψ) z u) (fderiv ℂ (pgAvPsi Ψ) z v) =
       ((1:ℝ):ℂ) * KAM.Canonical.symplFormC u v := by
   intro z hz u v
   have hy := (mem_averagingDomain_iff h).1 hz
   have hΨa : DifferentiableAt ℂ Ψ (pgOscUnnormalize z) :=
     hΨ.differentiableAt ((isOpen_oscDom _ _ _ _ _).mem_nhds hy)
-  have hder : HasFDerivAt (avgPsi Ψ) ((oscNormCLM a b).comp ((fderiv ℂ Ψ (pgOscUnnormalize z)).comp
+  have hder : HasFDerivAt (pgAvPsi Ψ) ((oscNormCLM a b).comp ((fderiv ℂ Ψ (pgOscUnnormalize z)).comp
       (oscUnnormCLM a b))) z := by
     have h1 : HasFDerivAt pgOscUnnormalize (oscUnnormCLM a b) z := by
       rw [pgOscUnnormalize_eq_fun]; exact (oscUnnormCLM a b).hasFDerivAt

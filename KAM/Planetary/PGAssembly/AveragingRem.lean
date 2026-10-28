@@ -27,11 +27,11 @@ namespace KAM.Planetary
 variable {a b n : ℕ} {d : PGData a b} {r mu : ℝ}
 
 /-- The P2 remainder constant. -/
-def avgB (d : PGData a b) (r mu : ℝ) : ℝ :=
+def pgAvB (d : PGData a b) (r mu : ℝ) : ℝ :=
   400 * (1 + (b:ℝ)) * (pgOscE d mu) ^ 2 / (2 * Real.pi * pgOscAlpha d r mu *
     min ((params d r mu).rhoBar * pgOscWidth d) (pgOscEpsilon d ^ 2)) + pgOscE d mu * r ^ 5
 
-theorem avgB_nonneg (h : admissible d (pgRstar d) r mu) : 0 ≤ avgB d r mu := by
+theorem avgB_nonneg (h : admissible d (pgRstar d) r mu) : 0 ≤ pgAvB d r mu := by
   have hw : 0 < pgOscWidth d := by unfold pgOscWidth; have := pgWidth_pos d; positivity
   have he : 0 < pgOscEpsilon d := by unfold pgOscEpsilon; have := pgOscRadius_pos d; positivity
   have hρ := av_rhoBar_pos h
@@ -43,7 +43,7 @@ theorem avgB_nonneg (h : admissible d (pgRstar d) r mu) : 0 ≤ avgB d r mu := b
     positivity
   have hE := (pg_osc_positive d r mu h).2
   have hr := h.1
-  unfold avgB
+  unfold pgAvB
   have : 0 < min ((params d r mu).rhoBar * pgOscWidth d) (pgOscEpsilon d ^ 2) :=
     lt_min (by positivity) (by positivity)
   have := Real.pi_pos
@@ -64,7 +64,7 @@ theorem pg_osc_min_eq (h : admissible d (pgRstar d) r mu) :
   exact av_rhoBar_width h
 
 theorem two_pi_avgB_le (h : admissible d (pgRstar d) r mu) :
-    2 * Real.pi * avgB d r mu ≤ 2 * (pgAnalytic d).LP * mu * r ^ 5 := by
+    2 * Real.pi * pgAvB d r mu ≤ 2 * (pgAnalytic d).LP * mu * r ^ 5 := by
   have hpi := Real.pi_pos
   have hw := pgWidth_pos d
   have hr0 := h.1
@@ -74,7 +74,7 @@ theorem two_pi_avgB_le (h : admissible d (pgRstar d) r mu) :
   have hγ := av_gamma_pos h
   have hM0 := pgAnalytic_M0_ge_one d
   have hw' : 0 < pgOscWidth d := by unfold pgOscWidth; positivity
-  unfold avgB
+  unfold pgAvB
   rw [pg_osc_min_eq h]
   set K := (params d r mu).Kbar with hKdef
   set γ := (params d r mu).gammaBar with hγdef

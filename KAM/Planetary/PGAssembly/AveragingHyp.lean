@@ -26,7 +26,7 @@ namespace KAM.Planetary
 
 variable {a b n : ℕ} {d : PGData a b} {r mu : ℝ}
 
-theorem strip_mono {N : ℕ} {S S' : ℝ} (h : S ≤ S') {θ : Fin N → ℂ}
+theorem pgAv_strip_mono {N : ℕ} {S S' : ℝ} (h : S ≤ S') {θ : Fin N → ℂ}
     (hθ : θ ∈ KAM.complexStrip N S) : θ ∈ KAM.complexStrip N S' :=
   fun i => (hθ i).trans_le h
 
@@ -58,7 +58,7 @@ theorem normalize_mem_extensionDomain (h : admissible d (pgRstar d) r mu) {s' S 
       (Real.sqrt (2*Real.pi):ℂ) • blockSlow z.2)‖ <
       (pgExtension d).delta/4 := by
     rw [Prod.norm_def]; exact max_lt (hε _ z4) (hε _ z3)
-  refine strip_mem_extensionDomain d hδ hI hx (strip_mono ?_ z1)
+  refine strip_mem_extensionDomain d hδ hI hx (pgAv_strip_mono ?_ z1)
   unfold pgOscWidth at hS
   have : pgWidth d/(2*Real.pi) ≤ (pgExtension d).delta/(2*Real.pi) :=
     div_le_div_of_nonneg_right (by rw [pgWidth_eq]; linarith) (by positivity)

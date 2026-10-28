@@ -41,15 +41,15 @@ theorem avg_chart (h : admissible d (pgRstar d) r mu)
       KAM.Canonical.symplFormC u v)
     (hr : ∀ x : Phase (a+b), KAM.realInclusion₂ (a+b) x ∈ avgV d r mu →
       Ψ (KAM.realInclusion₂ (a+b) x) ∈ range (KAM.realInclusion₂ (a+b))) :
-    IsChart 1 (realAverageMap (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
+    IsChart 1 (realAverageMap (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
       ((KAM.realInclusion₂ (a+b)) ⁻¹' averagingDomain d r mu) := by
   have hr' := avg_real_mem h hr
   have := hol_chart (c := 1) one_pos (isOpen_averagingDomain h) (avg_diff h hΨ)
     (fun z hz u v => by
       have := avg_sympl h hΨ hs (KAM.realInclusion₂ (a+b) z) hz u v
       exact this)
-    (Ψr := realAverageMap (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
-    (fun z hz => (realAverageMap_spec (A := (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
+    (Ψr := realAverageMap (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
+    (fun z hz => (realAverageMap_spec (A := (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
       (hr' z hz)).symm)
   exact this.2.1
 
@@ -64,13 +64,13 @@ theorem avg_disp (h : admissible d (pgRstar d) r mu)
       2 * Real.pi * pgOscAlpha d r mu * pgOscEpsilon d *
         ‖lastBlock (a := a) ((Ψ z).1 - z.1)‖ ≤ 9 * pgOscE d mu) :
     ∀ z : Phase (a+b), KAM.realInclusion₂ (a+b) z ∈ averagingDomain d r mu →
-      ‖blockFast (realAverageMap (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z).2 -
+      ‖blockFast (realAverageMap (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z).2 -
           blockFast z.2‖ ≤
         12*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
           (pgWidth d*(params d r mu).gammaBar) ∧
-      ‖(blockSlow (realAverageMap (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z).2 -
+      ‖(blockSlow (realAverageMap (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z).2 -
           blockSlow z.2,
-        blockSlow (realAverageMap (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z).1 -
+        blockSlow (realAverageMap (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z).1 -
           blockSlow z.1)‖ ≤
         18*(pgAnalytic d).LP*mu*(params d r mu).Kbar^(pgTau a b)/
           (pgOscRadius d*(params d r mu).gammaBar) := by
@@ -89,9 +89,9 @@ theorem avg_disp (h : admissible d (pgRstar d) r mu)
   have hy' := hy
   rw [pgOscUnnormalize_real] at hy'
   obtain ⟨w, hw'⟩ := hr _ hy'
-  have hW := realAverageMap_spec (A := (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
+  have hW := realAverageMap_spec (A := (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)))
     (avg_real_mem h hr z hz)
-  set W := realAverageMap (⟨avgPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z with hWdef
+  set W := realAverageMap (⟨pgAvPsi Ψ, avgRem R⟩ : PGAveraging (a+b)) z with hWdef
   have hW' : pgOscNormalize (Ψ (pgOscUnnormalize (KAM.realInclusion₂ (a+b) z))) =
       KAM.realInclusion₂ (a+b) W := hW
   set y := pgOscUnnormalize (KAM.realInclusion₂ (a+b) z) with hydef
