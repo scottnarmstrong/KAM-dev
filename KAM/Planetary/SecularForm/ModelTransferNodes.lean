@@ -250,16 +250,17 @@ private theorem first_order_at (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r :
     rw [hev.fderiv_eq]
     exact fderiv_fun_add hS hδ
 
-/-- `bpP:p8:same-jets#jets`: all `(ξ,η)`-jets of positive order of `S_mov` and `S_fix` agree (with
-all `Λ`-derivatives); (a) `S_mov = C₀ + δ + ξᵀ Q_h ξ + ηᵀ Q_h η + O(|(ξ,η)|⁴)` with the same `Q_h`
-(hence the same `σ_j`, `Ω_j`); (b) the `(ξ,η)`-gradients agree, so for `μ = ε` the secular
-equations coincide, and the `Λ`-gradients differ by that of `δ`. -/
-theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+/-- `bpP:p8:same-jets` (parent of `#jets` and `#transfer`), at one common radius `ρ*`:
+all-order jet equality, (a) quadratic form with the same `Q_h`, (b) equations, (c) transfer of
+`HasSecularBirkhoffForm` (both directions, `P₀ ↦ P₀ - δ`) when the points `(Λ, η, ξ)`,
+`Λ ∈ V`, `p_j² + q_j² < r₀²` lie in the real polydisc, and `S_mov ∘ χ - S_fix ∘ χ = δ(Λ)` for
+every slow change `χ` that keeps `Λ` and takes values in the real polydisc. -/
+theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     ∃ r C : ℝ, 0 < r ∧ r < rho D a / 2 ∧ 0 < C ∧
     AnalyticOnNhd ℝ (fun x : Slow n => secular D true x - constantTerm D (axis D x.2.1) -
       modelDelta D x.2.1 - quad (coeffs D (axis D x.2.1)) x.1 -
       quad (coeffs D (axis D x.2.1)) x.2.2) (realDisc D a r) ∧
-    ∀ x ∈ realDisc D a r,
+    (∀ x ∈ realDisc D a r,
       (∀ k : ℕ, 0 < k → ∀ l : ℕ,
         iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D true I) (x.1, x.2.2))
           x.2.1 =
@@ -272,7 +273,16 @@ theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
         fderiv ℝ (slowSecular D false x.2.1) (x.1, x.2.2) ∧
       fderiv ℝ (fun I => secular D true (x.1, I, x.2.2)) x.2.1 =
         fderiv ℝ (fun I => secular D false (x.1, I, x.2.2)) x.2.1 +
-          fderiv ℝ (modelDelta D) x.2.1 := by
+          fderiv ℝ (modelDelta D) x.2.1) ∧
+    (∀ {V : Set (Vec n)} {r0 μ0 : ℝ} {P0 : ℝ → Vec n → ℝ} {Ω : ℝ → Vec n → Vec n}
+      {β : ℝ → Vec n → Mat n},
+      (∀ I ∈ V, ∀ p q : Vec n, (∀ j, p j ^ 2 + q j ^ 2 < r0 ^ 2) → (q, I, p) ∈ realDisc D a r) →
+      (HasSecularBirkhoffForm (fun _ => perturbation D true) V r0 μ0 P0 Ω β ↔
+        HasSecularBirkhoffForm (fun _ => perturbation D false) V r0 μ0
+          (fun μ I => P0 μ I - modelDelta D I) Ω β)) ∧
+    ∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
+      (∀ y ∈ U, χ y ∈ realDisc D a r) →
+      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 := by
   obtain ⟨r1, hr1, hrh1, h1⟩ := radius_integrable D ha
   obtain ⟨r2, C, hr2, hr2rho, hC, hAn2, hB2⟩ := quadratic_form D ha
   have hρ := rho_pos D ha
@@ -296,7 +306,7 @@ theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
         quad (coeffs D (axis D y.2.1)) y.1 - quad (coeffs D (axis D y.2.1)) y.2.2 := by
     intro y hy
     rw [hid y hy]; ring
-  refine ⟨r, C, hr, (min_le_left _ _).trans_lt hrh1, hC, ?_, fun x hx => ?_⟩
+  refine ⟨r, C, hr, (min_le_left _ _).trans_lt hrh1, hC, ?_, fun x hx => ?_, ?_⟩
   · exact (hAn2.mono (realDisc_mono D a hrr2)).congr (isOpen_realDisc D a hr) heq
   · have hx2 : x ∈ realDisc D a r2 := realDisc_mono D a hrr2 hx
     refine ⟨fun k hk l => ?_, ?_, first_order_at D ha hr hrho hint hAn hx⟩
@@ -310,37 +320,20 @@ theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
       rw [(hev.iteratedFDeriv ℝ l).self_of_nhds]
     · rw [← heq x hx]
       exact (hB2 x hx2)
+  · refine ⟨fun {V r0 μ0 P0 Ω β} hV => ?_, fun {U χ} hΛ hχ y hy => ?_⟩
+    · exact same_jets_transfer D fun I hI p q hpq =>
+        realDisc_subset_slowDom D ha hrho (hV I hI p q hpq)
+    · have hid' := (identification D (realDisc_subset_slowDom D ha hrho (hχ y hy))).2.2.2
+        (hint _ (hχ y hy))
+      rw [hid', hΛ y hy]
+      ring
 
-/-- `bpP:p8:same-jets#transfer` (c): `HasBirkhoff` transfers in both directions with
-`P₀ ↦ P₀ - δ` when the points `(Λ, η, ξ)`, `Λ ∈ V`, `p_j² + q_j² < r₀²` lie in the real polydisc
-(unchanged `Ω`, `β`), and `S_mov ∘ χ - S_fix ∘ χ = δ(Λ)` for every slow change `χ` that keeps `Λ`
-and takes values in the real polydisc. -/
-theorem same_jets_transfer_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
-    ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧
-    (∀ {V : Set (Vec n)} {r0 μ0 : ℝ} {P0 : ℝ → Vec n → ℝ} {Ω : ℝ → Vec n → Vec n}
-      {β : ℝ → Vec n → Mat n},
-      (∀ I ∈ V, ∀ p q : Vec n, (∀ j, p j ^ 2 + q j ^ 2 < r0 ^ 2) → (q, I, p) ∈ realDisc D a r) →
-      (HasSecularBirkhoffForm (fun _ => perturbation D true) V r0 μ0 P0 Ω β ↔
-        HasSecularBirkhoffForm (fun _ => perturbation D false) V r0 μ0
-          (fun μ I => P0 μ I - modelDelta D I) Ω β)) ∧
-    ∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
-      (∀ y ∈ U, χ y ∈ realDisc D a r) →
-      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 := by
-  obtain ⟨r, hr0, hrh, h⟩ := radius_integrable D ha
-  have hρ := rho_pos D ha
-  have hrho : r < rho D a := by linarith
-  refine ⟨r, hr0, hrh, fun {V r0 μ0 P0 Ω β} hV => ?_, fun {U χ} hΛ hχ y hy => ?_⟩
-  · exact same_jets_transfer D fun I hI p q hpq =>
-      realDisc_subset_slowDom D ha hrho (hV I hI p q hpq)
-  · have hid := (identification D (realDisc_subset_slowDom D ha hrho (hχ y hy))).2.2.2
-      ((h false).1 _ (hχ y hy))
-    rw [hid, hΛ y hy]
-    ring
-
-/-- `bpP:p8:same-jets`: the jets/quadratic-form/equations clause and the Birkhoff-transfer
-clause. -/
-theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
-    (∃ r C : ℝ, 0 < r ∧ r < rho D a / 2 ∧ 0 < C ∧
+/-- `bpP:p8:same-jets#jets`: all `(ξ,η)`-jets of positive order of `S_mov` and `S_fix` agree (with
+all `Λ`-derivatives); (a) `S_mov = C₀ + δ + ξᵀ Q_h ξ + ηᵀ Q_h η + O(|(ξ,η)|⁴)` with the same `Q_h`
+(hence the same `σ_j`, `Ω_j`); (b) the `(ξ,η)`-gradients agree, so for `μ = ε` the secular
+equations coincide, and the `Λ`-gradients differ by that of `δ`. -/
+theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    ∃ r C : ℝ, 0 < r ∧ r < rho D a / 2 ∧ 0 < C ∧
     AnalyticOnNhd ℝ (fun x : Slow n => secular D true x - constantTerm D (axis D x.2.1) -
       modelDelta D x.2.1 - quad (coeffs D (axis D x.2.1)) x.1 -
       quad (coeffs D (axis D x.2.1)) x.2.2) (realDisc D a r) ∧
@@ -357,7 +350,15 @@ theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
         fderiv ℝ (slowSecular D false x.2.1) (x.1, x.2.2) ∧
       fderiv ℝ (fun I => secular D true (x.1, I, x.2.2)) x.2.1 =
         fderiv ℝ (fun I => secular D false (x.1, I, x.2.2)) x.2.1 +
-          fderiv ℝ (modelDelta D) x.2.1) ∧
+          fderiv ℝ (modelDelta D) x.2.1 := by
+  obtain ⟨r, C, hr, hrh, hC, hA, hJ, -⟩ := same_jets_full D ha
+  exact ⟨r, C, hr, hrh, hC, hA, hJ⟩
+
+/-- `bpP:p8:same-jets#transfer` (c): `HasBirkhoff` transfers in both directions with
+`P₀ ↦ P₀ - δ` when the points `(Λ, η, ξ)`, `Λ ∈ V`, `p_j² + q_j² < r₀²` lie in the real polydisc
+(unchanged `Ω`, `β`), and `S_mov ∘ χ - S_fix ∘ χ = δ(Λ)` for every slow change `χ` that keeps `Λ`
+and takes values in the real polydisc. -/
+theorem same_jets_transfer_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧
     (∀ {V : Set (Vec n)} {r0 μ0 : ℝ} {P0 : ℝ → Vec n → ℝ} {Ω : ℝ → Vec n → Vec n}
       {β : ℝ → Vec n → Mat n},
@@ -367,8 +368,9 @@ theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
           (fun μ I => P0 μ I - modelDelta D I) Ω β)) ∧
     ∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
       (∀ y ∈ U, χ y ∈ realDisc D a r) →
-      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 :=
-  ⟨same_jets_jets D ha, same_jets_transfer_full D ha⟩
+      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 := by
+  obtain ⟨r, C, hr, hrh, -, -, -, hT⟩ := same_jets_full D ha
+  exact ⟨r, hr, hrh, hT⟩
 
 /-! ### The quartic jet -/
 
