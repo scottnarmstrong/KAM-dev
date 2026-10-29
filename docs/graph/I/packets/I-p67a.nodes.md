@@ -1235,9 +1235,9 @@ EDGE: bpI:p7:x-hol | blueprint-I/parts/p7-delaunay.tex#stepI:p7:om-hol@L176-L176
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.orbitStep_om_hol (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:om-per
@@ -1554,9 +1554,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-ext@L236
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunayStep_sy_ext (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a; form statement under cv-sympl precedent, ruling 05:10
 NOTE: -
 
 NODE: stepI:p7:sy-field
@@ -1582,9 +1582,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-field@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunayStep_sy_field (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: bpI:p7:chart
