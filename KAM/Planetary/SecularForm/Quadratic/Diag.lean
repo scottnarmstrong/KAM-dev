@@ -12,11 +12,12 @@ public import KAM.Planetary.SecularSpectrum.Norms
 /-!
 # Quadratic part: the diagonalising rotation
 
-Blueprint P, Part 8, `stepP:p8:qf-diag2` (package S8-Q). For `ϱ ∈ SO(n)` with
+Blueprint P, Part 8, `stepP:p8:qf-diag2`. For `ϱ ∈ SO(n)` with
 `Q_h = ϱ diag(σ) ϱᵀ`, the map `(ξ, η) ↦ (ϱᵀ ξ, ϱᵀ η)` is symplectic for the frozen form
 `symplecticForm`, preserves `∑ (ξⱼ² + ηⱼ²)`, and with `Γ̃ⱼ = (ξ̃ⱼ² + η̃ⱼ²)/2` the quadratic part
 `ξᵀ Q_h ξ + ηᵀ Q_h η` equals `∑ 2 σⱼ Γ̃ⱼ`. The three statements are separate lemmas
-(`qfDiagSymplectic`, `qfDiagSumSq`, `qfDiagIdentity`), shaped for S9-Q's diagonalisation.
+(`qfDiagSymplectic`, `qfDiagSumSq`, `qfDiagIdentity`), shaped for the diagonalisation
+of the secular quadratic form.
 -/
 
 @[expose] public noncomputable section

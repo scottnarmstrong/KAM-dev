@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.Admissible
 
-/-! # P11B weak-KAM admissible parameters: A7 at the adapted radius
+/-! # Part 11a, weak-KAM admissible parameters: A7 at the adapted radius
 
 `stepP:p11a:fr-list`: the initial-remainder inequality A7 for the radius adapted to `ε`,
 the companion of `adm_choice_initial` (fixed schedule) and of `free_radius` (A1--A6).

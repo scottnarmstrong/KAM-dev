@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationPred
 public import KAM.Planetary.WeakKAM.FiniteDivisor
 
-/-! # P11B iteration: the frequency of a finite chain
+/-! # Part 11a, iteration: the frequency of a finite chain
 
 The gradient of the Hamiltonian is real at real points; the frequency `ω_ν = ∇h + ∑ Δω_j` of a
 finite chain is holomorphic and real on the collar `K_ν + t_ν`, and `‖Dω_ν‖ ≤ 2 C₁` there.

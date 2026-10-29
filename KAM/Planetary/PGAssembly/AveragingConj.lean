@@ -16,7 +16,6 @@ For a P2 map `Ψ` on the half-domain, `pgAvPsi Ψ = T ∘ Ψ ∘ T⁻¹` is holo
 `averagingDomain`, maps it into the extension domain, commutes with the physical lattice shifts,
 preserves the real slice and, with `T` conformally symplectic of factor `2π`, is again symplectic
 with factor one.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

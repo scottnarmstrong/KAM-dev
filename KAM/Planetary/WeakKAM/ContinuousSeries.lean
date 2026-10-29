@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.Data
 
-/-! # P11B continuous series on a compact carrier
+/-! # Part 11a, continuous series on a compact carrier
 
 Local bridge for the graph SOURCE_GAP `ps-lim`: a series of functions continuous on a subset with
 summable scalar envelopes converges uniformly there, and its sum is continuous there.

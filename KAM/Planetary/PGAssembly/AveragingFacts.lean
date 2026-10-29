@@ -16,7 +16,6 @@ public import KAM.Planetary.PGAssembly.RealSlice
 Specializations of the radius thresholds `rstar` and `param_facts` to the quantities that occur in
 the hypotheses of `averaged_remainder`, and the dictionary between the P2 domains `oscDom`
 and the strips of `averagingDomain`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

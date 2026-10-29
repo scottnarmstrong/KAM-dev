@@ -21,7 +21,6 @@ Proof: `local_real_complexification` at each point of `X`, a finite subcover by 
 balls, a uniform radius (the least half-radius), and gluing: two local complexifications agree on
 the (convex, hence connected) overlap of their complex balls by `real_slice_identity`, because the
 overlap contains a real point (the componentwise real part of any overlap point).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CG.
 -/
 
 @[expose] public noncomputable section

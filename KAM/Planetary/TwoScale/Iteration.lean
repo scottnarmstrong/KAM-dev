@@ -13,7 +13,7 @@ public import KAM.Planetary.TwoScale.IterationStage
 All stage witnesses of Proposition 3 (P3a) are introduced in one existence theorem, by a
 dependent induction on `StageInv` (`IterationStage`): stage `0` is the restriction to the
 Diophantine base set with `Φ₀ = id`, and stage `j + 1` is produced from stage `j` by `step`, with
-`Φ_{j+1} = Φⱼ ∘ Ψ_{j+1}`. The statement is that of `P23Signatures.lean`. Design package P23-16.
+`Φ_{j+1} = Φⱼ ∘ Ψ_{j+1}`.
 -/
 
 @[expose] public noncomputable section

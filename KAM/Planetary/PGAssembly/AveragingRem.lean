@@ -15,7 +15,6 @@ public import KAM.Planetary.Averaging.OscillatorBracket
 The quadratic term of the P2 remainder bound is at most `L μ r^5` by the existing `G` condition
 (`G² ≥ 1600 (1+b) M0 / w` and the first `gammaBar` branch), so the transformed remainder is at
 most `2 L μ r^5` pointwise and in the weighted Fourier norm on the physical torus.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

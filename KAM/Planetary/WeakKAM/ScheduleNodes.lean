@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.Extension
 public import KAM.Planetary.WeakKAM.ExtensionStage
 public import KAM.Planetary.WeakKAM.ExtensionNorm
 
-/-! # GAP-P11a-SQ: the support step of `finite-extension` as a literal node export
+/-! # The support step of `finite-extension` as a literal node export
 
 `fe_supp` is `stepP:p11a:fe-supp`: a cutoff `χ_j` (`j < ν`) supported in
 `{dist_∞(·, K_j) ≤ t_j/2}` has its support in `K + ϑ/(2√N)` (closed), hence at Euclidean distance

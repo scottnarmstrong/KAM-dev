@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.Budgets
 
-/-! # P11B weak-KAM budgets: the literal tail estimate (E3)
+/-! # Part 11a, weak-KAM budgets: the literal tail estimate (E3)
 
 `exported_sums_es_3` is the graph step `stepP:p11a:es-3` of `bpP:p11a:exported-sums`: the tails
 against the collars,

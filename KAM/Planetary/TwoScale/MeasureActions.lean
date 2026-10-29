@@ -16,7 +16,7 @@ public import KAM.Measure.Lipschitz
 Packages `stepP:p3:ma-ext` and `stepP:p3:ma-meas`. `ActionsMeas` bundles the proved outputs of
 `limit_actions_of_steps` on the shared witnesses (`D₀ = Ds 0`, `i` the limit action map); the
 helper is conditional on it and is discharged by the applicability theorem
-`meas_of_iterative` (design finding N2, package P23-21). Closed shells are the existential
+`meas_of_iterative`. Closed shells are the existential
 distances `∃ J ∈ D₀, ‖x - J‖ ≤ ρ`, contained in the open real tube `realTube D r` as `ρ < r`.
 -/
 

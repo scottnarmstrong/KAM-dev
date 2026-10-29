@@ -25,7 +25,7 @@ fifth-order remainder constants of `uniform_remainder`, the one-scale Diophantin
 inverse (`FrequencyBeta`), and finally a threshold `muStar` with `muStar ≤ min 1 mu0` and the three
 smallness inequalities of the source. `pgAnalytic` selects the witness and `pgCU` is the explicit
 constant `C_U` of `bpP:p5:freq-inj`. The definitions and the specification are in
-`FrequencyDefs`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FD.
+`FrequencyDefs`.
 -/
 
 @[expose] public noncomputable section

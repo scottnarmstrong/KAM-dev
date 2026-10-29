@@ -15,7 +15,6 @@ public import KAM.Planetary.PGAssembly.ChartLoc
 Periodicity of `kamF` in every angle on the strip domain, and reality of `kamH` and `kamF` on the
 real slice over the real neighbourhood of the action domain (via `oscillatorPolarComplex_real`,
 the real trace of the averaging map and `ext_P_real`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-KH.
 -/
 
 @[expose] public noncomputable section

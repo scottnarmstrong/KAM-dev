@@ -14,8 +14,7 @@ public import KAM.Planetary.Hamiltonian.Diophantine
 
 `realFreq`, `dioBase`, `omegaSet` and the hypothesis bundle `KamHyp` of Proposition 3 of the
 source (P3a), split from `Step` so that later modules import only the setting. The bundle contains
-only source premises, positivity and typing data. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`,
-package P23-14.
+only source premises, positivity and typing data.
 -/
 
 @[expose] public noncomputable section

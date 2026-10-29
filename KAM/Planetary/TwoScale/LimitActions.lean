@@ -10,7 +10,7 @@ public import KAM.Planetary.TwoScale.LimitActionsChain
 /-!
 # Two-scale KAM: the limit actions (`bpP:p3:limit-actions`)
 
-The private conditional helper `limit_actions_of_steps` (design package P23-17) for the local
+The private conditional helper `limit_actions_of_steps` for the local
 obligation `limit_actions` of `two_scale_kam`: on the shared stage witnesses of `iterative`
 (`ActionSteps`), the chain `ǐ_j = ĩ_j ∘ ⋯ ∘ ĩ_1` converges uniformly on `D₀` to `ǐ`, with
 * (i) `|ǐ_i − id_i| ≤ 20 (M̄_i/M̄) Ê₀ ρ̂₀` blockwise and the tail `|ǐ − ǐ_j| ≤ 20 ρ̂_j Ê_j`;

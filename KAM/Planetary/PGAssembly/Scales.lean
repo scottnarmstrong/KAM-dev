@@ -14,7 +14,7 @@ public import KAM.Planetary.PGAssembly.FrequencyBounds
 `kam_c1` is the stable numeric constant `C1` (`bpP:p5:kam-hyp#C1`). `log_power_dominated` is the
 growth comparison `K^2 / (log K)^p → ∞` (`isLittleO_log_rpow_rpow_atTop`). `PGScaleSpec` lists the
 inequalities of `bpP:p5:kam-cond`, `kam_cond` chooses `k0` first, `k1` second and `G` third, and
-`pgScales` selects the witness. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-SCALE.
+`pgScales` selects the witness.
 -/
 
 @[expose] public noncomputable section

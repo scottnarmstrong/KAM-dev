@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.Data
 
-/-! # P11B smooth cutoff: the one-variable bump
+/-! # Part 11a, smooth cutoff: the one-variable bump
 
 The exact polynomial bump `max (1 - x ^ 2) 0 ^ (μ + 1)`, its normalization by its exact positive
 integral, and the facts used by the tensor cutoff: `C^μ` regularity, support in `[-1, 1]`,

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.Displacement
 public import KAM.Planetary.WeakKAM.LimitSeries
 
-/-! # P11B parameter Lipschitz: `collar_increment_lipschitz` and `lipschitz_family`
+/-! # Part 11a, parameter Lipschitz: `collar_increment_lipschitz` and `lipschitz_family`
 
 The one-stage short/long-distance dichotomy (`stepP:p11a:lf-stage`): for a holomorphic map bounded
 by `e` on the collar `actionNbhd K t`, `‖g b - g b'‖ ≤ 4e/t ‖b - b'‖` for `b, b' ∈ K`. The short

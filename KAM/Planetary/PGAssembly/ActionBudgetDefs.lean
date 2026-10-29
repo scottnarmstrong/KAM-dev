@@ -14,8 +14,7 @@ public import KAM.Planetary.PGMeasure.OneScale
 
 `kamMeasureConstant` is the constant `c_n` of `bpP:p3:two-scale-kam`, `pgMeasureUpper1/2` the
 data-only upper bounds of the two P4 measure constants, and `pgBudget` the explicit data-only sum
-`C_b` of `bpP:p5:budget`, chosen before `r` and `mu`. Declarations are copied verbatim from
-`P45Signatures.lean`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-BU.
+`C_b` of `bpP:p5:budget`, chosen before `r` and `mu`.
 -/
 
 @[expose] public noncomputable section

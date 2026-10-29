@@ -21,8 +21,7 @@ because the raw family is Lipschitz on the lower-dimensional set `slice × [0,1)
 (`stepP:p5:st-null`). `finite_measure_coordinate_cut` (in `CutMeasure`) makes the cut mass
 continuous, and the intermediate value theorem produces the half-space cut of mass
 `min (total/2) (√r meas F/2)` (`stepP:p5:st-ivt`). The complement of the cut is a union of whole
-tori with the stated strict bounds (`stepP:p5:st-conc`, `strictness`). `strictness` is copied
-verbatim from `P45Signatures.lean`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, P5-ST.
+tori with the stated strict bounds (`stepP:p5:st-conc`, `strictness`).
 -/
 
 @[expose] public noncomputable section

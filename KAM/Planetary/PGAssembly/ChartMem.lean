@@ -13,7 +13,6 @@ public import KAM.Planetary.PGAssembly.ChartDefs
 
 Parameter facts, openness of `phiDomain`, lattice invariance of the polar chart and the fact that
 the polar chart maps `phiDomain` into the real trace of the averaging domain.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CH.
 -/
 
 @[expose] public noncomputable section

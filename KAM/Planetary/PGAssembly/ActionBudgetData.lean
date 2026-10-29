@@ -16,7 +16,7 @@ public import KAM.Planetary.PGMeasure.TwoScale
 `pgMeasureData d core` is the S4 data of `bpP:p4:data` for the frozen data `d` on a compact core
 of positive volume, with the constants `pgAnalytic`, `pgInverseL`, `pgInverseR`; its constants
 `measure_c1`, `measure_c2` are bounded by `pgMeasureUpper1/2` when the core has at least half the
-volume of `V`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-BU.
+volume of `V`.
 -/
 
 @[expose] public noncomputable section

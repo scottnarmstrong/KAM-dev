@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.FiniteMeasure
 public import KAM.Planetary.WeakKAM.FiniteMeasureExt
 public import KAM.Planetary.WeakKAM.SelectionRecord
 
-/-! # P11B selection: one cutoff family for every finite test
+/-! # Part 11a, selection: one cutoff family for every finite test
 
 `finite_measure` chooses its cutoffs for one prefix length `ν`. The infinite selection needs a
 single family `χ_j` serving every `ν` at once (`stepP:p11a:ps-H`). Cutoffs depend only on the

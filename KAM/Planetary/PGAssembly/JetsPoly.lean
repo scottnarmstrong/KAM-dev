@@ -16,7 +16,6 @@ For real data `P0, Ω, β` and `y = (q, p)` let `s_k(y) = (p_k² + q_k²)/2` and
 P0 + τ² Q2 y + τ⁴ Q4 y`, so its second and fourth diagonal jets are `2 Q2` and `24 Q4`
 (`iteratedFDeriv_two_oscPoly`, `iteratedFDeriv_four_oscPoly`). A symmetric 4-linear map with
 diagonal `24 Q4` has the value `2 (Q4 (v + t u))''(0)` on `(u, u, v, v)` (`mixed_value`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

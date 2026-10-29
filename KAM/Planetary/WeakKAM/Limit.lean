@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.LimitProps
 
-/-! # P11B limit: the output record `SelectionLimit` and `limit_map`
+/-! # Part 11a, limit: the output record `SelectionLimit` and `limit_map`
 
 Fixed-strip zero-section limits of the finite compositions (`bpP:p11a:limit-map`): holomorphy and
 uniform convergence of values and derivatives on `T_(s/4)`, reality and periodicity of the angle

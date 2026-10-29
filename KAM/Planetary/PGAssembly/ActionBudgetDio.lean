@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.ActionBudgetData
 The set `D \ D₀` of actions of the Cantor domain lost to the two-scale Diophantine condition is
 contained in the resonant set of the inner core times the action shell, to which the P4 measure
 estimate `two_scale_diophantine_measure` applies with `α_i = 2π γ_i` (`resonanceBad_eq`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-BU.
 -/
 
 @[expose] public noncomputable section

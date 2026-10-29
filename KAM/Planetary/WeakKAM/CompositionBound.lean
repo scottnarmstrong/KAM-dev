@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.CompositionStep
 
-/-! # P11B composition: quantitative bounds
+/-! # Part 11a, composition: quantitative bounds
 
 The derivative product recursion `D(C_{ν+1}) - 1 = (D C_ν - 1) D X_ν + (D X_ν - 1)` gives
 `‖D C_ν - 1‖ ≤ exp (∑_{j<ν} m_j) - 1 ≤ 2⁻¹¹`; the angle and action defects add up stage by stage,

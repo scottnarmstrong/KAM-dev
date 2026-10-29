@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.Evaluation
 
 /-!
-# The standing situation (S) of Part 11a-4 (GAP-E, `bpP:p11a:situation`)
+# The standing situation (S) of Part 11a-4 (`bpP:p11a:situation`)
 
 `StandingSituation d f ε` is the literal standing situation (S): the selection data `d`
 (with `γ = selectionGamma d`, i.e. `γ_*(ε*)/2`), `0 < ε ≤ ε_adm`, `|f| ≤ ε` (with the

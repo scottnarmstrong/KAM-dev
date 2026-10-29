@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.LimitSeries
 public import KAM.Planetary.WeakKAM.ExtensionNorm
 public import KAM.Planetary.WeakKAM.IterationStage
 
-/-! # P11B limit map: properties of the zero-section limit
+/-! # Part 11a, limit map: properties of the zero-section limit
 
 Equivariance, the exported angle and action bounds, the derivative bound `‖D(Φ - id)‖ ≤ 2⁻¹¹`
 (source step `lm-bounds`), reality of the limit on the real torus and the Lipschitz bound of the

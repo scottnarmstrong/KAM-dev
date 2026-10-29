@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.AveragingConj
 Multiplying the P2 identity by `2π` turns `h∘Ψ + μ P(Ψ)` into `H̃₀ + mu P̃` along the physical map;
 the zero Fourier coefficient is the actual `complexAverage` (`pg_osc_zero`), which is the sum of
 the integrable jet polynomial and the Birkhoff remainder by definition of `pgRemainder`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

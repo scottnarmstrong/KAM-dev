@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.AveragingDiv
 `pg_osc_small`: `2^12 (1+b) K E s ≤ α min(r s, ε²)` for the data supplied to `OscHyp`. It reduces
 to `G² ≥ 2^14 (1+b) M0 K r^5`, supplied by the existing `G` condition of `PGScaleSpec` and
 `K r^5 ≤ 1`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

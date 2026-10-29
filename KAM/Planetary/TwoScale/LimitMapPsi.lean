@@ -11,8 +11,8 @@ public import KAM.Planetary.TwoScale.LimitMapScale
 /-!
 # Two-scale KAM: the symplectic stage maps `Ψ_k` (`bpP:p3:psi-lip`, domains and displacement)
 
-The private conditional interface of the local obligation `psi_lip` (design package P23-18).
-`PsiSteps` collects exactly the outputs of `iterative` (P23-16) about the stage maps `Ψ_{j+1}`,
+The private conditional interface of the local obligation `psi_lip`.
+`PsiSteps` collects exactly the outputs of `iterative` about the stage maps `Ψ_{j+1}`,
 `Φ_j = Ψ_1 ∘ ⋯ ∘ Ψ_j` and the domains `D_j`, on the shared witnesses; `iterative_psiSteps` shows
 they are projections of the output of `iterative` (together with `ActionSteps`, on the same
 witnesses). Here: the real restriction `psiR` of `Ψ_{j+1}` maps the real half-radius domain

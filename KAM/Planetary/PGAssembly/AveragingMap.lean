@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.AveragingHyp
 The physical map is `T ∘ Ψ ∘ T⁻¹` and the physical remainder `2π · (R ∘ T⁻¹)`; this file records
 the elementary properties of the conjugation (linearity, shifts, real points, openness of
 `averagingDomain`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.Cutoff
 public import KAM.Planetary.WeakKAM.StripBudget
 public import KAM.Planetary.WeakKAM.Initial
 
-/-! # P11B weak-KAM admissible parameters
+/-! # Part 11a, weak-KAM admissible parameters
 
 The explicit admissible constants (`adm-params`), the scalar admissibility inequalities A1--A6
 (`adm-choice`) and the radius adapted to `ε` (`free-radius`). The initial-remainder inequality A7

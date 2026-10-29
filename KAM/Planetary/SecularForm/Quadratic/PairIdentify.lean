@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularForm.CrossJet.Parametric
 /-!
 # Quadratic part: the two-planet secular function is the literal pair average
 
-Blueprint P, Part 8, `stepP:p8:qf-pair` (package S8-Q). Away from collisions the two-planet secular
+Blueprint P, Part 8, `stepP:p8:qf-pair`. Away from collisions the two-planet secular
 function `secular (pairData D i j) false (pairSlow x i j)` is the iterated interval integral
 `pairSlowSecular` of `DiagonalJet`/`CrossJet`; `pairSlowSecular` is symmetric under exchanging the
 two planets.

@@ -13,7 +13,7 @@ public import KAM.Planetary.SecularForm.Momentum
 /-!
 # Quadratic part: the secular function is the sum of the pair averages
 
-Blueprint P, Part 8, `stepP:p8:qf-pair` (package S8-Q). The perturbation `-Σ_{i<j} G mᵢ mⱼ/|qᵢ-qⱼ|`
+Blueprint P, Part 8, `stepP:p8:qf-pair`. The perturbation `-Σ_{i<j} G mᵢ mⱼ/|qᵢ-qⱼ|`
 is a sum of pair terms each depending on two angles only; away from collisions the cell average of
 each is its two-planet secular function (`pairData`, `pairSlow`), by `avg_pair_marginal`.
 -/

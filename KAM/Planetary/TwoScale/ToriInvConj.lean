@@ -15,7 +15,7 @@ On the real half-radius stage domain `𝒟_j × ℝⁿ` (open) the real stage ma
 differentiable, `X_H ∘ ψ_j = Dψ_j · X_{H_j}` (`conj_field`, from `real_symplectic_conjugation` and
 the proved conjugacy `H ∘ Φ_j = h_j + f_j`), and `‖Dψ_j‖ ≤ 1 + κ₁κ₂/10` uniformly in `j`
 (`psiR_fderiv_bound`), from the proved rescaled Lipschitz bound `‖Φ_j − id‖ ≤ 768 n Ê₀` and the
-comparison of the rescaled norm with the max norm. Design package P23-20.
+comparison of the rescaled norm with the max norm.
 -/
 
 @[expose] public noncomputable section

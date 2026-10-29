@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularForm.CrossJet
 /-!
 # Quadratic part: the Hessian of the pair average
 
-Blueprint P, Part 8, `stepP:p8:qf-pair` and `stepP:p8:qf-assembly` (package S8-Q). A `C²` function
+Blueprint P, Part 8, `stepP:p8:qf-pair` and `stepP:p8:qf-assembly`. A `C²` function
 of `(u, v) ∈ ℝ² × ℝ²` that is invariant (near `0`) under the reflection `η ↦ -η` and the quarter
 turn of both planets, whose second derivatives along the rays `(s u, 0)`, `(0, s v)` are
 `2 cᵢ |u|²`, `2 cⱼ |v|²` and whose mixed derivative `∂ₛ∂ₜ G(s e₀, t e₀)` is `2 c`, has second

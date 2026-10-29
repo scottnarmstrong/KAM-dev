@@ -14,7 +14,7 @@ public import KAM.Planetary.TwoScale.MeasureScaled
 Packages `stepP:p3:mt-split`, `mt-ext`, `mt-pre`, `mt-meas`, `mt-shell`, `mt-sum`. `TorusMeas`
 bundles the proved outputs of `limit_actions_of_steps` and `limit_phi_real_of_steps` on the shared
 witnesses (`i`, `Φ`, `D_* = i '' D₀`); the helper is conditional on it and is discharged by
-`meas_of_iterative` (design finding N2, package P23-21).
+`meas_of_iterative`.
 
 The complement of `K_Ω = Φ(ℝⁿ × D_*)` in the angle cell over the open real tube `realTube D r`
 is covered by the cell over `realTube D r ∖ D_*` and by the image under the rescaled cover `Φ_e`

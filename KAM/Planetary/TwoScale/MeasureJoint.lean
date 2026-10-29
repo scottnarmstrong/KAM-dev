@@ -10,7 +10,7 @@ public import KAM.Planetary.TwoScale.StepConst
 public import KAM.Planetary.TwoScale.MeasureTorus
 
 /-!
-# Two-scale KAM: applicability of the measure helpers (design finding N2, package P23-21)
+# Two-scale KAM: applicability of the measure helpers
 
 `actionsMeas_of_limit` and `torusMeas_of_limit` build the bundles `ActionsMeas`/`TorusMeas` from
 the exact clause shapes of `two_scale_kam` for the limit action map `i` and the limit map `Φ`
@@ -169,7 +169,7 @@ theorem meas_torus_final (H : KamHyp D sbar p h f)
   rw [ko_eq hK (fun ω hω => (hI₀ ω hω).1) (exists_omega hI₀)]
   exact hT.meas_torus_of_limit
 
-/-- Joint applicability check (design finding N2): on the witnesses of one application of
+/-- Joint applicability check: on the witnesses of one application of
 `iterative`, `limit_actions_of_steps` and `limit_phi_real_of_steps` supply the clause data of
 `meas_torus_final` (with `D_* = ǐ(D₀)`) and both measure helpers apply. -/
 theorem meas_of_iterative (H : KamHyp D sbar p h f) :

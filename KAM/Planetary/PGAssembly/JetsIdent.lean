@@ -20,7 +20,6 @@ For `mu ∈ [0, mu0]` and `I ∈ V` the complex average restricted to real vecto
 `secularAverage`, so by `HasSecularBirkhoffForm` the real remainder `birkRem` is analytic and
 `o(‖y‖⁴)`; `fourth_jet_unique` then makes the real jets of the average those of the Birkhoff
 polynomial, which identifies `jetP0`, `jetOmega`, `jetBeta` with `P0`, `Omega`, `beta`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

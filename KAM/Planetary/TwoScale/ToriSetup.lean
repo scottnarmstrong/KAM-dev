@@ -11,12 +11,12 @@ public import KAM.Planetary.TwoScale.RealDynamics
 /-!
 # Two-scale KAM: the limit data of the tori (`bpP:p3:tori`), shared interface
 
-`ToriLimit` bundles the proved outputs of the P23-17/P23-18 helpers
+`ToriLimit` bundles the proved outputs of the limit helpers
 (`limit_actions_of_steps`, `limit_phi_real_of_steps`, `limit_phi_strip_of_steps`) on one family of
 witnesses `(Ds, hs, fs, Ψ, Φ, is)` of `iterative` with one limit action map `i` and one limit phase
-map `Φinf`. It is a Prop of proved outputs only (design finding N2); `tori_limit_of_iterative`
+map `Φinf`. It is a Prop of proved outputs only; `tori_limit_of_iterative`
 discharges it on the witnesses of `iterative`. The packages `estimates`, `lagr`, `invariance` of
-`Tori.lean` take it as their only limit hypothesis. Design package P23-20.
+`Tori.lean` take it as their only limit hypothesis.
 -/
 
 @[expose] public noncomputable section

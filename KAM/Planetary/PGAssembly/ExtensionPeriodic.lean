@@ -18,7 +18,6 @@ Abstract lemmas on `ℝᴺ`, used by `ExtensionExists`:
 * `exists_delta_shift_eq`: a uniform radius on which `f (y - s) = f y` for finitely many shifts;
 * `tube_glue`: a complexification `F` of a shift-periodic `f` satisfies `F x = F (x - ι s)` whenever
   both `x` and `x - ι s` lie in a thin tube.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
 -/
 
 @[expose] public noncomputable section

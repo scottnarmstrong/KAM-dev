@@ -15,7 +15,6 @@ public import KAM.Planetary.PGAssembly.ExtensionTubeP
 
 A measurable set `E` whose fast `2π`-lattice translates are pairwise disjoint: the measure of
 the union of its translates inside the fast cell `0 ≤ z₁,i < 2π` equals the measure of `E`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CT.
 -/
 
 @[expose] public noncomputable section

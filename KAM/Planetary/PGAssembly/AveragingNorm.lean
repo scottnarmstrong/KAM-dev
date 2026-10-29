@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.AveragingDefs
 `pgOscNormalize` is a diagonal linear map, hence a continuous linear map; `pg_osc_normalization`
 records that it is invertible with inverse `pgOscUnnormalize` and conformally symplectic with
 factor `2π`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

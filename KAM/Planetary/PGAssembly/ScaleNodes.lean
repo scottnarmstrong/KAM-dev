@@ -14,7 +14,7 @@ public import KAM.Planetary.PGAssembly.AveragingFacts
 `stepP:p5:rk-dir`)
 
 Unsigned exports stating the literal conclusions of the graph nodes of `bpP:p5:kam-cond` and
-`bpP:p5:rK` in terms of the landed `params`, `pgScales` and `pgKamScale`. The `L`, `K`, `ρ̂`, `Ê`
+`bpP:p5:rK` in terms of `params`, `pgScales` and `pgKamScale`. The `L`, `K`, `ρ̂`, `Ê`
 evaluations hold for every `0 < r` and `0 < mu ≤ 1`; `rk_dir` is stated on the admissible range.
 -/
 

@@ -12,7 +12,6 @@ public import Mathlib
 
 `schur_inverse_blocks`: the inverse of a complex block matrix whose top-left block and Schur
 complement are invertible, in the four-block form used for the row-wise bounds of `freq_inj`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FI.
 -/
 
 @[expose] public noncomputable section

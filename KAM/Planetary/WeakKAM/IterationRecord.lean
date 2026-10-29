@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.Budgets
 
-/-! # P11B iteration: the output record `SelectionIteration`
+/-! # Part 11a, iteration: the output record `SelectionIteration`
 
 The exact normal-form and simple-map outputs of the inductive lemma (signature record); never an
 assumption of a source export.

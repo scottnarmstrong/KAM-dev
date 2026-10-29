@@ -13,7 +13,7 @@ public import KAM.ODE.Basic
 
 `limit_phi_real_of_steps`: uniform convergence of `Φ_j` on `W_* = ℝⁿ × D_*`, the rescaled
 Lipschitz bound `768 n Ê₀ < 1/10` with the bi-Lipschitz factors `9/10`, `11/10`, injectivity, the
-full lattice identity and the three block sup bounds. Design package P23-18.
+full lattice identity and the three block sup bounds.
 -/
 
 @[expose] public noncomputable section

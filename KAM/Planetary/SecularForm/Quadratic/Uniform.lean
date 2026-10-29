@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularForm.Quadratic.Schwarz
 /-!
 # Quadratic part: the locally uniform fourth-order bound
 
-Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q). The remainder
+Blueprint P, Part 8, `stepP:p8:qf-assembly`. The remainder
 `S - C₀(axis Λ) - ξᵀQξ - ηᵀQη` is bounded by `C |(ξ, η)|⁴` uniformly for `Λ` near `action D a`:
 on the complex line through `(ξ, Λ, η)` the remainder extends holomorphically to a disc, with a
 bound uniform in `Λ`, and vanishes to order four at the origin (`iteratedDeriv_rayRemainder`), so

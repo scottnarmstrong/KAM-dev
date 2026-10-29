@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.Extension
 public import KAM.Planetary.WeakKAM.ExtensionNorm
 
-/-! # P11B finite measure: coherent cutoffs for every prefix
+/-! # Part 11a, finite measure: coherent cutoffs for every prefix
 
 `finite_extension` produces its cutoff sequence internally and reports properties of the full
 prefix only. The finite measure lemma needs the same cutoffs at every shorter prefix

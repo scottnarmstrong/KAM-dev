@@ -17,7 +17,7 @@ public import KAM.Planetary.PGMeasure.Collar
 `r → 0+` (`ThrStatic`, `ThrSmall`), so one radius serves them all. `pgRstar` selects it,
 `param_facts` collects the consequences of the parameter choice and `r_k` the bounds on the
 enlargement radius. The numerical estimates are in `ThresholdAlg`, the scalar limits in
-`ThresholdLimits`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-TH.
+`ThresholdLimits`.
 -/
 
 @[expose] public noncomputable section

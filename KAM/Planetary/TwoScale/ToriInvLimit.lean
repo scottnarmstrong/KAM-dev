@@ -14,8 +14,7 @@ public import KAM.Planetary.TwoScale.RealDynamics
 `y` with values in an open set `U` on which the field `X` is continuous, and
 `‖x_j' − X(x_j)‖ → 0` uniformly in `t`, then `y' = X(y)`. The field is compared at nearby points
 through uniform continuity on a compact `δ`-thickening of the range of `y` over a compact time set
-(the "common inner domain for close pairs" of design finding N2, not global uniform continuity).
-Design package P23-20.
+(a common inner domain for close pairs, not global uniform continuity).
 -/
 
 @[expose] public noncomputable section

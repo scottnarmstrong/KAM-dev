@@ -15,7 +15,6 @@ The S4 premises `N1`, `N2`, `N3` of the P4 measure data are real statements abou
 frequency map `freq` on `V`. They are read off the complex specification `PGAnalyticSpec` through
 the real slice: gradient and slow frequency of `jetPolynomial` agree with the real formulas
 (`jpGrad_realSlice`, `jetOmega_real`, `jetBeta_real`) and the inclusion `ℝⁿ → ℂⁿ` is isometric.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-BU.
 -/
 
 @[expose] public noncomputable section

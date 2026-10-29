@@ -15,7 +15,6 @@ The enlargement `N_{rK}(D) \ D` of the Cantor domain `D = checkedCore × shell` 
 `domain_collar_helper`: the fast part is controlled by the boundary collar of the inner core
 (`collar`) and the Diophantine loss `dio_one`-type estimate `pgAnalytic_dio`, the slow part by the
 relative enlargement of the shell (`r_k`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-BU.
 -/
 
 @[expose] public noncomputable section

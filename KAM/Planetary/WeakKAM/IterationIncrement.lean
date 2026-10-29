@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationBridge
 
-/-! # P11B iteration: the increments on the whole collar
+/-! # Part 11a, iteration: the increments on the whole collar
 
 `stepP:p11a:il-inc`: the increments `Δh = ⟨R_{*0}⟩`, `Δω = ⟨R_{*1}⟩` are formed from the cutoff of
 the remainder on the whole collar `B_ν`; they involve no divisor. Holomorphy, the sup bounds

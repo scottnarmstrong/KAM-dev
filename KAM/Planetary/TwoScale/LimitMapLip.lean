@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.LimitMapPsi
 
 `lip_sup` is applied in the scaled coordinates `sc`/`unsc` (`N = 2n`) to the scaled displacement
 `Δ = S (Ψ_{j+1} − id) S⁻¹` on the complex `ε_j`-neighbourhood of the real set `S(𝒟_{j+1} × ℝⁿ)`,
-`ε_j = min {ρ_{j+1}/(2ρ̂₀), s_{j+1}/s₀}`. Design package P23-18.
+`ε_j = min {ρ_{j+1}/(2ρ̂₀), s_{j+1}/s₀}`.
 -/
 
 @[expose] public noncomputable section

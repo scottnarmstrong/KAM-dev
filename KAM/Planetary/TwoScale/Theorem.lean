@@ -15,11 +15,11 @@ public import KAM.Planetary.TwoScale.Measure
 The joint construction: on the witnesses of one application of `iterative`
 (`tori_limit_of_iterative`), with the limit maps `(i, Φinf)`, the source inverse locus
 `I₀ : Ω → D₀` (`KamHyp.exists_inverse_locus`) and `K ω θ = Φinf (θ, i (I₀ ω))`, every clause of the
-signed statement is supplied by the private helpers of P23-17..21 applied to the same witnesses:
+signed statement is supplied by the private helpers applied to the same witnesses:
 the action clauses by `limit_actions_of_steps`, the map clauses by `ToriLimit`, the tori by
 `lattice_torus_of_limit` and `tori_estimates_of_limit`, the inverse-frequency estimates by
 `KamHyp.inverse_local`/`inverse_global`, and the measure clause by `meas_torus_final`. No premise
-beyond `KamHyp` and `hL`. Design package P23-22.
+beyond `KamHyp` and `hL`.
 -/
 
 @[expose] public noncomputable section

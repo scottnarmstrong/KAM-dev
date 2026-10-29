@@ -16,7 +16,6 @@ public import KAM.Planetary.PGAssembly.KAMInputsKamH
 (`kamPolar_mem`), where the averaging identity gives
 `kamF = (mu · pgRemainder + remainder)/(2π)` (`kamF_eq`); this yields holomorphy, periodicity
 and the sup bound used for the weighted bound.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-KH.
 -/
 
 @[expose] public noncomputable section

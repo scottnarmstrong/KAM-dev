@@ -17,7 +17,6 @@ public import KAM.Planetary.PGAssembly.FrequencySchur
 continuous linear equivalence with the four bounds of the source (`jacobian_bounds`; invertibility
 by finite dimension). The block inversion formula of the source is `schur_inverse_blocks`
 (`FrequencySchur`); the row-wise bounds are proved directly on vectors in `FrequencyInvBounds`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FI.
 -/
 
 @[expose] public noncomputable section

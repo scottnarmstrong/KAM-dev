@@ -12,9 +12,9 @@ public import KAM.Planetary.SecularForm.ParameterIntegral
 /-!
 # Secular form: literal exports for the analyticity nodes
 
-Blueprint P, Part 8, graph-gap package GAP-P8b. Unsigned exports stating the literal conclusions of
+Blueprint P, Part 8. Unsigned exports stating the literal conclusions of
 the proof steps `stepP:p8:pa-unif`, `stepP:p8:pa-hol`, `stepP:p8:pa-avg` and of the proposition
-`bpP:p8:perturbation-analytic` (bundle `perturbation_analytic_full`), built from the landed
+`bpP:p8:perturbation-analytic` (bundle `perturbation_analytic_full`), built from
 `AnalyticGeometry`, `AnalyticRegularity`, `AnalyticReal`, `Analytic` and `ParameterIntegral`.
 -/
 

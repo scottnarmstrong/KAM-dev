@@ -21,8 +21,7 @@ public import KAM.Planetary.Hamiltonian.TorusUnion
 (P1 Liouville), and cut by the fast cell it is the disjoint union of the fast translates of the
 `phi`-image of the scaled representative (`stepP:p5:ct-dec`, `ct-disj`, `ct-count`); `phi` is
 injective there and P1 `chart_measure_image` with `volume_angleScale_image` gives the exact
-factor `(2π)^(a+b)` (`stepP:p5:ct-liou`). Declarations are copied verbatim from
-`P45Signatures.lean`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CT.
+factor `(2π)^(a+b)` (`stepP:p5:ct-liou`).
 -/
 
 @[expose] public noncomputable section

@@ -18,7 +18,6 @@ For `F` holomorphic on an open `U ⊆ E₁ × E₂`, the iterated derivative in 
 `(I, x)` is the iterated derivative of `F` composed with `inr` (`iteratedFDeriv_slice`); hence
 `I ↦ iteratedFDeriv ℂ k (F (I, ·)) 0 w` is holomorphic (`differentiableOn_slice_jet`), and for a
 holomorphic family it is jointly continuous (`continuousOn_slice_jet`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

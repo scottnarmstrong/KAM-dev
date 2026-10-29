@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.LimitMapDisp
 
 `Φ_{j+1} − Φ_j = Φ_j ∘ Ψ_{j+1} − Φ_j` is at most `(11/10) · (3/4) Ê_j` in the rescaled norm on
 `W_* = ℝⁿ × D_*` (`D_*` in every real half-radius stage domain), hence the maps converge uniformly
-to `Φ`, and the Lipschitz and lattice properties pass to the limit. Design package P23-18.
+to `Φ`, and the Lipschitz and lattice properties pass to the limit.
 -/
 
 @[expose] public noncomputable section

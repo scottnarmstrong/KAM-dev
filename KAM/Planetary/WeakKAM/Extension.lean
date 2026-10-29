@@ -9,7 +9,7 @@ public import KAM.Planetary.WeakKAM.ExtensionFrequency
 public import KAM.Planetary.WeakKAM.Cutoff
 public import KAM.Planetary.WeakKAM.Schedule
 
-/-! # P11B finite extension (`finite-extension`)
+/-! # Part 11a, finite extension (`finite-extension`)
 
 For an arbitrary nested chain `K = K₀ ⊇ K₁ ⊇ … ⊇ K_ν` of nonempty compact sets carrying holomorphic,
 real, bounded increments `Δω_j` on the collars `K_j + t_j`, the cutoff-weighted frequency

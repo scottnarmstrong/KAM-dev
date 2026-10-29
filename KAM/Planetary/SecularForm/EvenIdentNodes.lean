@@ -21,8 +21,8 @@ public import KAM.Planetary.SecularForm.AnalyticNodes
 /-!
 # Secular form: literal exports of the evenness nodes of Part 8
 
-Graph-gap package GAP-P8c (append-only).  Literal conclusions of `stepP:p8:ev-tay`,
-`stepP:p8:ev-quad` and the bundle `bpP:p8:evenness`, built from the landed `evenness`,
+Literal conclusions of `stepP:p8:ev-tay`,
+`stepP:p8:ev-quad` and the bundle `bpP:p8:evenness`, built from `evenness`,
 `evenness_taylor`, `quadratic_form` and `same_jets`.
 
 * `iteratedFDeriv_invariant_of_equiv`: a function invariant near `0` under a continuous linear

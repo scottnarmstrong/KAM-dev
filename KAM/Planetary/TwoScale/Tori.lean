@@ -10,7 +10,7 @@ public import KAM.Planetary.TwoScale.ToriInvariance
 /-!
 # Two-scale KAM: the tori (`bpP:p3:estimates`, `bpP:p3:lagr`, `bpP:p3:invariance`), facade
 
-Private conditional interfaces (design finding N2); no signed declaration. Inventory (local
+Private conditional interfaces; no signed declaration. Inventory (local
 obligation → helper → application in the joint construction `tori_of_iterative`):
 
 * `estimates` → `tori_estimates_of_limit` (with `tori_complex_ext`, `ToriEstimates`);
@@ -19,8 +19,8 @@ obligation → helper → application in the joint construction `tori_of_iterati
   `ToriInvField`, `ToriInvLimit`, including the common inner domain for close pairs).
 
 The only hypotheses are `ActionSteps`/`PsiSteps`/`StageSteps` (proved outputs of `iterative`) and
-`ToriLimit` (proved outputs of the P23-17/P23-18 helpers), all on the same witnesses;
-`tori_of_iterative` is the applicability check. Design package P23-20.
+`ToriLimit` (proved outputs of the limit helpers), all on the same witnesses;
+`tori_of_iterative` is the applicability check.
 -/
 
 @[expose] public noncomputable section
@@ -32,7 +32,7 @@ namespace KAM.Planetary
 open KAM.Weighted KAM.Canonical KAM.NormalForm
 
 /-- Joint applicability check: on the witnesses of one application of `iterative`, with the limit
-maps `(i, Φinf)` of the P23-17/P23-18 helpers, the three helpers apply for every `I₀ ∈ D₀`. -/
+maps `(i, Φinf)` of the limit helpers, the three helpers apply for every `I₀ ∈ D₀`. -/
 theorem tori_of_iterative {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {p : ScaleData}
     {h : (Fin (a + b) → ℂ) → ℂ} {f : CHam (a + b)} (H : KamHyp D sbar p h f) :
     ∃ (Ds : ℕ → Set (Fin (a + b) → ℝ)) (hs : ℕ → (Fin (a + b) → ℂ) → ℂ)

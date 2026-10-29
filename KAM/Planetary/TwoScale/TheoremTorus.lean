@@ -15,9 +15,9 @@ public import KAM.Planetary.TwoScale.LimitMapScale
 # Two-scale KAM: the lattice tori (`bpP:p3:two-scale-kam`, clauses `IsLatticeTorus`)
 
 Assembly of `IsLatticeTorus angleShift Hr (univ ×ˢ realTube D r) ω (K ω)` from the local
-estimates, `lagr` and `invariance` of P23-20 (`Tori`) and the periodicity and injectivity of the
+estimates, `lagr` and `invariance` of `Tori` and the periodicity and injectivity of the
 limit map `Φinf`: injectivity of `Φinf` and of `i` on the base follows from the proved defect
-Lipschitz bounds (`768 n Ê < 1` resp. `2560 n Ê < 1`). Design package P23-22.
+Lipschitz bounds (`768 n Ê < 1` resp. `2560 n Ê < 1`).
 -/
 
 @[expose] public noncomputable section

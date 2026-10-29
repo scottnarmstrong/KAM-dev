@@ -14,7 +14,7 @@ public import KAM.Planetary.PGAssembly.Parameters
 Pointwise inequalities for `params d r mu` on the range `r ≤ e⁻¹`, `0 < mu < r^6/(log 1/r)^c`,
 `LP ≤ log 1/r`, `r^2 (log 1/r)^(τ+1) ≤ 1`: the bound `gammaBar ≤ Cγ √r`, the displacement ratio
 `LP mu Kbar^τ/gammaBar ≤ √r r^5/(G κ^{1/2})`, and the numerical consequences of `PGScaleSpec`
-(`ĉ Ê < 1`, `rK < ρ̂/(256 n)`). Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-TH.
+(`ĉ Ê < 1`, `rK < ρ̂/(256 n)`).
 -/
 
 @[expose] public noncomputable section

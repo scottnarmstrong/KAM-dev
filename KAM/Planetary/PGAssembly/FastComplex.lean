@@ -22,7 +22,6 @@ public import KAM.Planetary.PGAssembly.Extension
 `actionNbhd (closure V) ρ` with `‖∂²H̃₀‖` bounded on `actionNbhd (closure V) (2ρ)`
 (steps `bl-real`, `bl-comp`: injectivity and invertible derivative at real points from the frozen
 inverse; a compactness contradiction with the local linearisation).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-BL.
 -/
 
 @[expose] public noncomputable section

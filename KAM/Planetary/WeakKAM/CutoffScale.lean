@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.CutoffTensor
 
-/-! # P11B smooth cutoff: the scaled tensor kernel
+/-! # Part 11a, smooth cutoff: the scaled tensor kernel
 
 The rescaled bump `x ↦ δ⁻¹ * ψ (δ⁻¹ * x)` and the tensor kernel `w ↦ ∏ j, ψ_δ (w j)`: support in
 the sup-norm ball of radius `δ`, unit integral, and the exact `L¹` norm of every coordinate

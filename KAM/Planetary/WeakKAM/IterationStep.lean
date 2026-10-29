@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationStage
 public import KAM.Planetary.WeakKAM.IterationParam
 
-/-! # P11B iteration: the step fields (`O2`–`O5`, the map)
+/-! # Part 11a, iteration: the step fields (`O2`–`O5`, the map)
 
 Everything one inductive step contributes: the increments on the whole collar (`stage_delta`),
 the scalar bridges between the schedule budgets and the canonical-step constants, and the fields

@@ -11,7 +11,7 @@ public import KAM.Planetary.WeakMeasure.Stability
 public import KAM.Planetary.WeakKAM.Admissible
 public import KAM.Planetary.WeakKAM.FiniteDivisor
 
-/-! # P11B finite measure: bridge to the P11A weak-measure interface
+/-! # Part 11a, finite measure: bridge to the P11A weak-measure interface
 
 Dictionary between the selection carriers (`selectionLength`, `selectionDG`, `selectionThick`,
 `SelectionData`) and the P11A weak-measure interface (`p11euclid`, `p11dg`, `p11thick`,
