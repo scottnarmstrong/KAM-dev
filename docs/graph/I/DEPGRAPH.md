@@ -1199,9 +1199,9 @@ EDGE: stepI:p1:eb-holo-conclude | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-global-I+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_holo (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: K:step:p2:fb-holo is only compared with (stated under K (A2)-(A4)), not used; the former SOURCE_GAP is closed by the direct substeps.
 
 NODE: stepI:p1:eb-holo-frame
@@ -1258,9 +1258,9 @@ EDGE: bpI:p1:ext-chain | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:eb-holo-in
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_holo_inverse (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:eb-holo-field
@@ -1289,9 +1289,9 @@ EDGE: bpI:p1:ext-chain | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:eb-holo-fi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_holo_field (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:eb-holo-torsion
@@ -1321,9 +1321,9 @@ EDGE: bpI:p0:extended#extendedTorsion | blueprint-I/parts/p1-iso-linear.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_holo_torsion (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:eb-holo-conclude
@@ -1352,9 +1352,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:eb-holo-conc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_holo_conclude (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:eb-period
@@ -1382,9 +1382,9 @@ EDGE: bpI:p1:setting#k-bridge | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:eb-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_period (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:eb-average
@@ -1413,9 +1413,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:eb-average@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_average (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:eb-bounds
@@ -1443,9 +1443,9 @@ EDGE: bpI:p1:setting#k-bridge | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:eb-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_eb_bounds (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: |DH(K)| read as row-sum norm
 NOTE: -
 
 NODE: bpI:p1:trivial
@@ -1733,9 +1733,9 @@ EDGE: bpI:p0:stripdata#omegaZero | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_lr_gradient (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:lr-insert
@@ -1798,9 +1798,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:lr-average@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_lr_average (KAM/Iso/Linear/FullRangeStepsExt.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: bpI:p1:energy-approx
@@ -1865,9 +1865,9 @@ EDGE: K:bp:p2:averages | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ea-chain@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ea_chain (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:ea-omega
@@ -1927,9 +1927,9 @@ EDGE: K:bp:p2:exactness | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ea-gradie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ea_gradient (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:ea-avg
@@ -1956,9 +1956,9 @@ EDGE: stepI:p1:ea-avg#gradient-route | blueprint-I/parts/p1-iso-linear.tex#stepI
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ea_avg (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:ea-size
@@ -1988,9 +1988,9 @@ EDGE: K:bp:p1:cauchy-strip | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ea-siz
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ea_size (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:ea-defect
@@ -2021,9 +2021,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ea-defect@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ea_defect_node (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS (replacement step_ea_defect_node, audit 2 F1 PASS); accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: bpI:p1:energy-conservation
@@ -2082,9 +2082,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ec-derivativ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ec_derivative (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:ec-unique
@@ -2111,9 +2111,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ec-unique@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ec_unique (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: stepI:p1:ec-pointwise
@@ -2140,9 +2140,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ec-pointwise
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ec_pointwise (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: carries parent standing hyps (K primary, real on reals, K(T_r) in D)
 NOTE: -
 
 NODE: bpI:p1:border-solve
@@ -2477,9 +2477,9 @@ EDGE: bpI:p1:ext-chain | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:rd-expand@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_rd_expand (KAM/Iso/Linear/FullRangeStepsFrame.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:rd-consequence
@@ -2510,9 +2510,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:rd-consequen
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-global-I+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_rd_consequence (KAM/Iso/Linear/FullRangeStepsFrame.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS; accepted deviation: keeps det P on T_r'
 NOTE: -
 
 NODE: bpI:p1:geometry-noA5
@@ -2575,9 +2575,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:geo-de@L548-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_geo_de (KAM/Iso/Linear/FullRangeStepsFrame.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:geo-red
@@ -2605,9 +2605,9 @@ EDGE: K:bp:p2:constants | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:geo-red@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_geo_red (KAM/Iso/Linear/FullRangeStepsFrame.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: K:step:p2:geo-domegak and K:step:p2:geo-ered are only compared with (stated under A5); the former SOURCE_GAP is closed by the direct substeps.
 
 NODE: stepI:p1:geo-red-domega
@@ -2638,9 +2638,9 @@ EDGE: K:bp:p2:constants | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:geo-red-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_geo_red_domega (KAM/Iso/Linear/FullRangeStepsFrame.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:geo-red-ered
@@ -2671,9 +2671,9 @@ EDGE: K:bp:p2:constants | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:geo-red-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_geo_red_ered (KAM/Iso/Linear/FullRangeStepsFrame.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:geo-sym
@@ -2704,9 +2704,9 @@ EDGE: stepI:p1:geo-red | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:geo-sym@L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-delta-I-a
 REVIEWER: sol-delta-I-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_geo_sym (KAM/Iso/Linear/FullRangeStepsFrame.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: bpI:p1:perturbation-noA5
@@ -2766,9 +2766,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:pt-small@L58
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_pt_small (KAM/Iso/Linear/FullRangeStepsPert.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:pt-domain
@@ -2795,9 +2795,9 @@ EDGE: bpI:p1:setting#k-bridge | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:pt-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_pt_domain (KAM/Iso/Linear/FullRangeStepsPert.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:pt-frame
@@ -2827,9 +2827,9 @@ EDGE: K:bp:p2:constants | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:pt-frame@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_pt_frame (KAM/Iso/Linear/FullRangeStepsPert.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:pt-torsion
@@ -2862,9 +2862,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:pt-torsion@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_pt_torsion (KAM/Iso/Linear/FullRangeStepsPert.lean)
+LEAN_NOTE: GAP-I1b audit 1 PASS
 NOTE: -
 
 NODE: stepI:p1:ea-avg#exactness-route
@@ -2893,9 +2893,9 @@ EDGE: bpI:p1:setting#k-bridge | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ea-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.step_ea_avg (KAM/Iso/Linear/FullRangeStepsEnergy.lean)
+LEAN_NOTE: route closes with ea-avg (GAP-I1b audit 1 PASS)
 NOTE: Alternative source route; requires independent delta review. Exactness supplies both avg Omega_K = 0 and avg eta^N = 0.
 
 NODE: stepI:p1:ea-avg#gradient-route
