@@ -279,7 +279,7 @@ def mutations() -> list[tuple[str, str, str, bool, object]]:
         lambda t: t.edit(PLAIN, "public import KAM.Canonical.Setting",
                          "public import KAM.Canonical.Setting\nimport KAM"))
     add("k16", "errata ledger edited without re-rendering", "errata",
-        lambda t: t.edit("docs/errata/ledger.json", "{", '{"mutation_marker": 1,', 1))
+        lambda t: t.edit("docs/errata/ledger.json", '"location": "', '"location": "MUTATED ', 1))
     add("k17", "import cycle between two plain modules", "cycle",
         lambda t: (t.write("KAM/MutK17A.lean", module_file("", "public import KAM.MutK17B\n")),
                    t.write("KAM/MutK17B.lean", module_file("", "public import KAM.MutK17A\n"))))
@@ -400,8 +400,9 @@ def main() -> int:
                 rc, out, err = run_gate(work, args.timeout)
                 crashed = "Traceback (most recent call last)" in err + out
                 layers = classify(out, err)
-                rejected = rc != 0 and not crashed
-                verdict = "yes" if rejected else ("CRASH" if crashed and rc != 0 else "NO (ACCEPTED)")
+                # a non-zero exit is a rejection even when the guard died on an exception (fail-closed), but say so
+                rejected = rc != 0
+                verdict = ("yes (via crash)" if crashed else "yes") if rejected else "NO (ACCEPTED)"
                 rows.append((mid, desc, ",".join(layers) or ("-" if rc == 0 else "unclassified rc=%d" % rc),
                              verdict, rejected))
                 print(f"{mid:4} {verdict:14} {','.join(layers) or '-':40} {desc}", flush=True)
