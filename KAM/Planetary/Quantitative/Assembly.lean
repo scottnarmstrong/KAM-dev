@@ -75,6 +75,65 @@ theorem p11c_asm_action_lt (ds : SelectionData N) (ε : ℝ) (he : 0 < ε)
   have hpos : 0 < ds.ϑ := ds.theta_pos
   nlinarith
 
+theorem p11c_asm_cell (H : Set (Fin N → ℝ)) : unitCube N ×ˢ H = selectionHalfCell H := by
+  ext z
+  simp only [unitCube, selectionHalfCell, mem_prod, mem_univ_pi, mem_ofPred_eq]
+  tauto
+
+theorem p11c_asm_closed_cell (H : Set (Fin N → ℝ)) :
+    (Set.pi univ fun _ => Icc (0 : ℝ) 1) ×ˢ H = selectionClosedCell H := by
+  ext z
+  simp only [selectionClosedCell, mem_prod, mem_univ_pi, mem_ofPred_eq]
+  tauto
+
+theorem p11c_asm_zpow10 : (2 : ℝ) ^ (-10 : ℤ) = (2 : ℝ)⁻¹ ^ 10 := by norm_num
+theorem p11c_asm_zpow18 : (2 : ℝ) ^ (-18 : ℤ) = (2 : ℝ)⁻¹ ^ 18 := by norm_num
+theorem p11c_asm_zpow2N : (2 : ℝ) ^ (-(2 * N : ℤ)) = (2 : ℝ)⁻¹ ^ (2 * N) := by
+  rw [zpow_neg, inv_pow]; norm_cast
+
+/-- The lattice torus of the upstream evaluation over a good parameter. -/
+theorem p11c_asm_lattice (ds : SelectionData N) (m0 : ℝ) (ε : ℝ) (he : 0 < ε)
+    (hsmall : ε ≤ selectionAdmissible ds) (f : SelectionPhaseC N → ℂ)
+    (hpert : SelectionPerturbation ds f ε) (o : SelectionEvaluationOutput ds f ε)
+    {b : Fin N → ℝ} (hb : b ∈ o.Kinf) (hbK : b ∈ ds.K) :
+    IsLatticeTorus angleShift (realHamiltonian ds.h f) (p11c_realDomain (qbcOfSelection ds m0))
+      (o.ωstar b) (selectionEvaluation o.defect b) := by
+  have hc : (0 : ℝ) < 1 - (2 : ℝ)⁻¹ ^ 11 := by norm_num
+  have hmem : ∀ θ, selectionEvaluation o.defect b θ ∈
+      p11c_realDomain (qbcOfSelection ds m0) := fun θ => by
+    refine ⟨b, hbK, ?_⟩
+    have e : realInclusion N (selectionEvaluation o.defect b θ).2 -
+        (fun i => (b i : ℂ)) = realInclusion N (o.defect b θ).2 := by
+      funext i; simp [selectionEvaluation]
+    show ‖realInclusion N (selectionEvaluation o.defect b θ).2 - fun i => (b i : ℂ)‖ <
+      2 * ds.ϑ
+    rw [e]
+    refine lt_of_le_of_lt ?_ (p11c_asm_action_lt ds ε he hsmall f o.toSelectionDisplacement
+      b hb θ)
+    exact (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => by
+      simpa using norm_le_pi_norm (o.defect b θ).2 i
+  refine ⟨⟨o.analytic b hb, fun θ => ⟨hmem θ, ?_⟩⟩, fun θ k => ?_, fun θ θ' hθ => ?_,
+    fun θ => ?_, fun θ v w => o.lagrangian b hb θ v w, fun θ t => o.orbit b hb θ t⟩
+  · exact p11c_asm_diffAt (qbcOfSelection ds m0) ds.strip_pos ds.h f ds.holo hpert.holo (hmem θ)
+  · ext i
+    · simp [selectionEvaluation, angleShift, o.periodic b hb θ k]
+      ring
+    · simp [selectionEvaluation, angleShift, o.periodic b hb θ k]
+  · refine ⟨0, ?_⟩
+    have h1 := o.embedding_bound b hb θ θ'
+    rw [hθ, sub_self, norm_zero] at h1
+    have : ‖θ - θ'‖ ≤ 0 := by nlinarith [norm_nonneg (θ - θ')]
+    have : θ = θ' := sub_eq_zero.1 (norm_le_zero_iff.1 this)
+    subst this
+    funext i
+    simp
+  · rw [injective_iff_map_eq_zero]
+    intro v hv
+    have h1 := o.immersion_bound b hb θ v
+    rw [hv, norm_zero] at h1
+    have : ‖v‖ ≤ 0 := by nlinarith [norm_nonneg v]
+    exact norm_le_zero_iff.1 this
+
 end KAM.Planetary
 
 end
