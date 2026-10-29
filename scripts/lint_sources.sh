@@ -51,6 +51,46 @@ if [ -n "$euclid" ]; then
   status=1
 fi
 
+# Proof escapes past the kernel and metaprogramming that can add declarations, in code only (comments and strings
+# may mention them). Found missing by the guard mutation suite (I-GUARDS, 2026-10-29: 18 accepted mutations).
+# Providers may be imported only by a frozen anchor and the generated root KAM.lean (ruling 2026-10-29 15:35).
+escapes=$(lean_files | python3 -I -c '
+import sys, re, importlib.util
+spec = importlib.util.spec_from_file_location("m", sys.argv[1]); m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+root = sys.argv[2]
+bad = [
+    (r"\bnative_decide\b", "native_decide"),
+    (r"\bdecide\s*\+\s*native\b|\bnative\s*:=\s*true\b", "decide +native"),
+    (r"\bofReduce(Bool|Nat)\b", "Lean.ofReduceBool / ofReduceNat"),
+    (r"\bskipKernelTC\b", "debug.skipKernelTC"),
+    (r"#eval\b|\brun_cmd\b|\brun_elab\b|\brun_meta\b|\bby_elab\b", "code execution (#eval, run_cmd, run_elab, run_meta, by_elab)"),
+    (r"\baddDecl\b|\baddDeclCore\b", "addDecl"),
+    (r"^\s*(@\[[^\]]*\]\s*)*((private|protected|local|scoped)\s+)*(elab|elab_rules|declare_syntax_cat)\b",
+     "elaborator definition (runs arbitrary meta code)"),
+    # File-local tactic macros only expand syntax to ordinary tactics, so they are allowed; global ones are not.
+    (r"^\s*(@\[[^\]]*\]\s*)*((private|protected|scoped)\s+)*(macro|macro_rules|syntax)\b",
+     "non-local macro or syntax definition (use `local macro`)"),
+    (r"\b(command_elab|term_elab|tactic_elab|tactic)\s*\]|@\[\s*(command_elab|term_elab|tactic)\b", "elaborator attribute"),
+    (r"\bsorryAx\b", "sorryAx"),
+    (r"\bimplemented_by\b|@\[\s*extern\b", "implemented_by / extern"),
+]
+for f in sys.stdin.read().split():
+    code = m.code_mask(open(f, encoding="utf-8").read())
+    rel = f[len(root) + 1:]
+    for i, line in enumerate(code.splitlines(), 1):
+        for pat, label in bad:
+            if re.search(pat, line):
+                print(f"{rel}:{i}: {label}")
+        if re.match(r"\s*(public\s+)?(meta\s+)?import\s+KAM\.Provider\.", line) and not (
+                rel.startswith("KAM/Frozen/") or rel == "KAM.lean"):
+            print(f"{rel}:{i}: provider imported outside its frozen anchor and the generated root")
+' "$project_root/scripts/check_lean_modules.py" "$project_root")
+if [ -n "$escapes" ]; then
+  printf '%s\n%s\n' 'forbidden proof escapes or provider imports in code:' "$escapes" >&2
+  status=1
+fi
+
 # Count Unicode characters consistently: some awk versions count UTF-8 bytes.
 overlong_lines=$(python3 -I - "$project_root" <<'PY'
 import re
