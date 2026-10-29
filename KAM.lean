@@ -269,6 +269,7 @@ public import KAM.Iso.Confinement.RealHam
 public import KAM.Iso.Confinement.Separation
 public import KAM.Iso.Confinement.Setting
 public import KAM.Iso.Conversion
+public import KAM.Iso.DelaunayStepNodes
 public import KAM.Iso.ExactHamiltonian
 public import KAM.Iso.Kepler
 public import KAM.Iso.KeplerHamiltonian
