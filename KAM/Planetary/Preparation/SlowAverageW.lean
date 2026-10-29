@@ -1,0 +1,122 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib
+public import KAM.Planetary.Preparation.SlowAverageF2
+
+/-!
+# Slow averaging: holomorphy, reality and periodicity of `f₂`, and its weighted bound
+(P11A-P7b, graph steps `as-osc`, `as-concl`)
+-/
+
+@[expose] public noncomputable section
+open Set MeasureTheory Metric
+open scoped BigOperators
+namespace KAM.Planetary
+
+section W
+
+variable {n : ℕ} {D : P11Physical n} {C : P11SecularData n}
+
+/-- Pointwise data of a point of the strip `σ/6` over the box. -/
+theorem p11_slow_pt (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {z : P11Phase (n + n)}
+    (hz : z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps) :
+    (p11SlowJ z.2, p11SlowR z.2) ∈ ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ×ˢ
+        ball (0 : P11CVec n) (Real.pi * (C.rz / 2) ^ 2 / 4) ∧
+      (∀ i, 0 < (p11SlowR z.2 i).re) ∧ z ∈ p11RePos n ∧
+      (p11SlowJ z.2, p11PolPt z) ∈ ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ×ˢ
+        ball (0 : P11Phase n) (C.rz / 2) ∧
+      p11PolarC z ∈ p11WorkingDom n C.J0 (C.sigma / 6) (p11s1 C eps / 2) (C.rz / 2) := by
+  obtain ⟨-, -, -, hrC0, -, hσ0, hσ1, hrz0, -⟩ := fast_consts hC
+  have hs0 := p11s1_pos hC heps hεM
+  obtain ⟨hz1, hI⟩ := hz
+  obtain ⟨hJ4, hρ, hre⟩ := p11SlowBox_mem heps hs0 hI
+  have hJ2 : ‖p11SlowJ z.2 - KAM.realInclusion n C.J0‖ < p11s1 C eps / 2 := by linarith
+  obtain ⟨-, hPr, hU⟩ := p11_polarC_mem hC heps hsm hz1 hJ2 hρ
+  have hpi := Real.pi_pos
+  refine ⟨⟨mem_ball_iff_norm.2 hJ2, mem_ball_zero_iff.2 ?_⟩, hre, hre, ⟨mem_ball_iff_norm.2 hJ2,
+    mem_ball_zero_iff.2 hPr⟩, hU⟩
+  have : 3 * Real.pi * eps < Real.pi * (C.rz / 2) ^ 2 / 4 := by nlinarith
+  linarith
+
+theorem p11SlowJ_differentiable : Differentiable ℂ (fun I : P11CVec (n + n) => p11SlowJ I) := by
+  unfold p11SlowJ; fun_prop
+
+theorem p11SlowR_differentiable : Differentiable ℂ (fun I : P11CVec (n + n) => p11SlowR I) := by
+  unfold p11SlowR; fun_prop
+
+/-- Holomorphy of the secular part `C + Σ Ω ρ̃/2π`. -/
+theorem p11SlowSec_differentiableOn (hC : P11SecularSpec D C) {s : ℝ} (hs : s ≤ 2 * C.rC) :
+    DifferentiableOn ℂ (p11SlowSec C)
+      {I : P11CVec (n + n) | ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < s} := by
+  obtain ⟨hOm, -⟩ := secular_extract hC
+  have hmem : ∀ I ∈ {I : P11CVec (n + n) | ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < s},
+      p11SlowJ I ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) := fun I hI =>
+    mem_ball_iff_norm.2 (lt_of_lt_of_le hI hs)
+  have h1 : DifferentiableOn ℂ (fun I : P11CVec (n + n) => C.C (p11SlowJ I))
+      {I : P11CVec (n + n) | ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < s} :=
+    (p11C_differentiableOn hC).comp p11SlowJ_differentiable.differentiableOn hmem
+  have h2 : DifferentiableOn ℂ (fun I : P11CVec (n + n) => ∑ i : Fin n,
+      C.Omega (p11SlowJ I) i / (2 * Real.pi) * I (Fin.natAdd n i))
+      {I : P11CVec (n + n) | ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < s} := by
+    refine DifferentiableOn.fun_sum fun i _ => ?_
+    have h0 : DifferentiableOn ℂ (fun I : P11CVec (n + n) => C.Omega (p11SlowJ I) i)
+        {I : P11CVec (n + n) | ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < s} :=
+      (differentiableOn_pi.1 hOm i).comp p11SlowJ_differentiable.differentiableOn hmem
+    have h3 : DifferentiableOn ℂ (fun I : P11CVec (n + n) => I (Fin.natAdd n i))
+        {I : P11CVec (n + n) | ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < s} :=
+      Differentiable.differentiableOn (by fun_prop)
+    have h2pi : (2 * (Real.pi : ℂ)) ≠ 0 := by
+      have := Real.pi_pos
+      exact mul_ne_zero two_ne_zero (Complex.ofReal_ne_zero.2 this.ne')
+    have h4 := (h0.mul (differentiableOn_const ((2 * (Real.pi : ℂ))⁻¹))).mul h3
+    exact h4.congr fun I _ => by simp [div_eq_mul_inv]
+  exact h1.add h2
+
+/-- `f₂` is holomorphic on the strip `σ/6` over the box. -/
+theorem p11_slow_f2_differentiableOn (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
+    (hF : P11FastSpec C eps Fast) {AR AB : P11CVec n × P11CVec n → ℂ}
+    (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) :
+    DifferentiableOn ℂ (p11SlowF2 C Fast eps (p11SlowZ AR AB))
+      (KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps) := by
+  obtain ⟨-, -, hf1d, -, hGd, -⟩ := id hF
+  obtain ⟨hARd, hABd, -⟩ := hP
+  set S := KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps with hS
+  have hpt := fun z (hz : z ∈ S) => p11_slow_pt hC heps hεM hsm hz
+  have hPol : DifferentiableOn ℂ p11PolarC S :=
+    p11_polarC_differentiableOn.mono fun z hz => (hpt z hz).2.2.1
+  have hPi : DifferentiableOn ℂ (fun z : P11Phase (n + n) => p11PolPt z) S := by
+    refine DifferentiableOn.prodMk ?_ ?_
+    · exact differentiableOn_pi.2 fun i => differentiableOn_pi.1 hPol.fst (Fin.natAdd n i)
+    · exact differentiableOn_pi.2 fun i => differentiableOn_pi.1 hPol.snd (Fin.natAdd n i)
+  have hJ : DifferentiableOn ℂ (fun z : P11Phase (n + n) => p11SlowJ z.2) S :=
+    (p11SlowJ_differentiable.comp differentiable_snd).differentiableOn
+  have hR : DifferentiableOn ℂ (fun z : P11Phase (n + n) => p11SlowR z.2) S :=
+    (p11SlowR_differentiable.comp differentiable_snd).differentiableOn
+  have hJR : DifferentiableOn ℂ (fun z : P11Phase (n + n) => (p11SlowJ z.2, p11SlowR z.2)) S :=
+    hJ.prodMk hR
+  have hG : DifferentiableOn ℂ (fun z : P11Phase (n + n) => Fast.G (p11SlowJ z.2, p11PolPt z)) S :=
+    hGd.comp (hJ.prodMk hPi) fun z hz => (hpt z hz).2.2.2.1
+  have hsec : DifferentiableOn ℂ (fun z : P11Phase (n + n) => p11SlowSec C z.2) S := by
+    obtain ⟨-, -, -, hrC0, -⟩ := fast_consts hC
+    have := (p11SlowSec_differentiableOn hC (s := p11s1 C eps / 2)
+      (by linarith [p11s1_le C eps])).comp
+      differentiable_snd.differentiableOn (fun z hz => (mem_ball_iff_norm.1 (hpt z hz).1.1 : _))
+    exact this
+  have hZ : DifferentiableOn ℂ (fun z : P11Phase (n + n) => p11SlowZ AR AB z.2) S :=
+    (hARd.comp hJR fun z hz => (hpt z hz).1).add (hABd.comp hJR fun z hz => (hpt z hz).1)
+  have hf1 : DifferentiableOn ℂ (fun z : P11Phase (n + n) => Fast.f1 (p11PolarC z)) S :=
+    hf1d.comp hPol fun z hz => (hpt z hz).2.2.2.2
+  exact (((hG.sub (hsec.add hZ)).const_smul eps).add hf1 : _)
+
+end W
+
+end KAM.Planetary
+
+end
