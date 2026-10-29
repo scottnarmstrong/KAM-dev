@@ -69,3 +69,10 @@
 - No suspected errata in pinned sources. No deviation from the signed statements.
 
 AUDIT FOCUS: (1) SoGraphCert, checkSoGraph, soBarrier_of_cert, soRotBarrier_of_cert byte-identical to /root/code/KAM-inp/.drafts/design/SOSignaturesLunar.lean §I.5 (lines 390-468); the landed SoGraph.torus_of_rot and soBarrier_of_exact_rotTorus are used, not restated; (2) checkSoGraph's body: it bounds exactly ∂_{θ₀} of component (.1 0) (the DK entry (0,0)) from below and component (.2 0) above and below on the REAL torus, with the SOS residual paid through checkRealLowerBound_sound, and the strict margin disp < mono·ρ∞; confirm the models enclose those exact quantities (dkModels_encloses, realCompModel_encloses) and that every getD/default read is harmless; (3) the Cauchy transfer soGraph_deriv_transfer: the displacement from CertifiedTorus holds on the open strip T_{ρ∞}, every δ < ρ∞ is used and the limit argument is sound, so |Δ Re ∂_{θ₀}| ≤ disp/ρ∞ on the reals; values move by ≤ disp in the right norm; (4) soGraph_exactTorus: m = mono − disp/ρ∞ > 0, band [pLo − disp, pHi + disp], the Diophantine premise for s∞ω* from isDiophantine_smul_scale with s∞ > 1 (constant direction: γ' = s∞γ ≥ γ?), and that the conclusions match the hypotheses of soBarrier_of_exact_rotTorus exactly (frame: hham, c.H = (soRotHamExprScaled c).eval); (5) the original-frame route through soBarrier_of_exact_torus; (6) tests positive and fail-closed; (7) no conclusion-shaped hypotheses, kernel replay, axioms. Suspected design or source defects go in the report as errata candidates.
+
+## Round 2 (after audit 1, F1)
+Fix commit d68b8820: SoGraphCert, checkSoGraph and the two model helpers moved to namespace KAM.SpinOrbit (the whole
+Cert.lean is one KAM.SpinOrbit block); Tests/GraphCert.lean follows; stale docstring locator fixed. Nothing else
+changed (diff 9791e24a..d68b8820: 2 files, +11 -14).
+ROUND 2 FOCUS (delta): F1 resolved (fully qualified signed names exactly as in SOSignaturesLunar.lean); the move
+changed no statement, body or proof beyond namespace/open lines; build, tests, axioms and kernel replay still pass.
