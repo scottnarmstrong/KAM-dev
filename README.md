@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 12:18 UTC from `main` at `af9e58a7` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 12:18 UTC from `main` at `7aca06c1` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -163,7 +163,7 @@ Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md
 | **I** | All-time confinement in two degrees of freedom (isoenergetic KAM); restricted circular planar three-body problem | 4 / 4 | 450 / 450 nodes resolved | **complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form |
 | **N** | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 5 / 6 | 410 / 728 nodes resolved | **paused (2026-10-29), handed to Zohar's team**: Parts 1, 3, 4, 5 proved; open work and N11 branches on GitHub (`inp-n11f1`, `inp-n11f2`, `lane-n-handoff`); 5 of 6 frozen theorems sealed |
 | **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 6 / 7 | 1319 / 1363 nodes resolved | **anchors complete except one**: fixedSunPlanetaryKAM sealed 2026-10-29; the last open theorem (planetaryExponentialSafety) needs lane N; remaining open graph nodes are lane-N steps and owner-review items |
-| **SO** | A general Lean certificate checker turning numerical KAM tori into theorems; lunar spin–orbit confinement |p(t) − 1| ≤ 33/1000 for all time | 0 / 0 | not published yet | **started 2026-10-29 (D30)**: plan [`SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); model, Diophantine bounds, clock lemma, π enclosures, constants, generator data, arithmetic interface and barrier theorem landed or landing; design of the general black box in its third audit; replay-cost gate under study |
+| **SO** | A general Lean certificate checker turning numerical KAM tori into theorems; the Moon's spin rate stays within 3.3% of its orbital rate for all time | 0 / 0 | not published yet | **started 2026-10-29 (D30)**: plan [`SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); model, Diophantine bounds, clock lemma, π enclosures, constants, generator data, arithmetic interface and barrier theorem landed or landing; design of the general black box in its third audit; replay-cost gate under study |
 <!-- /AUTO:tracks -->
 
 **Track SO, the lunar spin–orbit certificate.** Numerical KAM computations find invariant tori to 100+ digits, but a
@@ -323,6 +323,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 12:18 | `7aca06c1` | HQ: track SO headline without table-breaking pipes |
 | 2026-10-29 12:17 | `68eabb9b` | HQ: add track SO (lunar spin-orbit certificate) to the README; refresh track N/P stages and the current phase |
 | 2026-10-29 12:16 | `cd8e13a2` | Land inp into main |
 | 2026-10-29 12:06 | `00deb18a` | OVERNIGHT: track SO 11:40-11:55 (SO-GEN ruling, replay gate verdict, constants study) |
@@ -334,7 +335,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 11:14 | `177a88bd` | SO plan: owner rulings O1-O4 (momentum window; division and pi package now; analyticity later) |
 | 2026-10-29 10:59 | `870e3617` | Land inp into main |
 | 2026-10-29 10:42 | `2676fe90` | SO plan: owner chose the fully general certificate black box; SO-DESIGN next |
-| 2026-10-29 10:37 | `c9eb4103` | D30: start the lunar spin-orbit certificate project (3.3% band); plan SPIN-ORBIT-PLAN.md |
 <!-- /AUTO:landed -->
 
 ## Decisions
