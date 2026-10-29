@@ -30785,9 +30785,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit T11 PASS WITH NOTES explicitly does not certify the composed T (rotation composition, inverse-rotation adapter); only chi-flow lift_map and full_lift_hamiltonian are proved
+LEAN_STATUS: PROVED
+LEAN_REF: birkhoff_form_full, lift_map_explicit, lift_map_properties (KAM/Planetary/PlanarTorsion/BirkhoffClauses.lean)
+LEAN_NOTE: audit GAP-D round 2 PASS WITH NOTES: explicit T = (lambda + g + H, Lambda, rho Y) plus chart/injection, action preservation, angle covariance for the same witnesses
 NOTE: -
 
 NODE: stepP:p11b:lm-ham
@@ -31038,9 +31038,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: T15 hasSecularBirkhoffForm_of_sixth_order is only a conditional conversion helper (hi, he premises); physical Birkhoff theorem is T16
+LEAN_STATUS: PROVED
+LEAN_REF: birkhoff_form_full, birkhoff_form_hamiltonian (KAM/Planetary/PlanarTorsion/BirkhoffClauses.lean)
+LEAN_NOTE: audit GAP-D round 2 PASS WITH NOTES: birkhoff_form_full keeps all PlanarBirkhoffResult clauses (T16) and attaches clause (a) H^Psi o T = h + mu P to the same witnesses
 NOTE: -
 
 NODE: stepP:p11b:bt-rot
