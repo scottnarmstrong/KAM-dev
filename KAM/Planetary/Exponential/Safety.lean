@@ -12,6 +12,7 @@ public import KAM.Frozen.Planetary.Defs.PlanetaryDriftExponent
 public import KAM.Frozen.Planetary.Defs.PlanetaryTimeExponent
 public import KAM.Frozen.Planetary.Defs.StoppedActionBound
 public import KAM.Planetary.AMD.Confinement
+public import KAM.Planetary.Exponential.Stopped
 
 /-!
 # P14 package E12: exponential safety from the stopped action bound
@@ -225,6 +226,35 @@ theorem expsafe_of_stopped {n : ℕ} (hn : 2 ≤ n)
         mul_le_mul_of_nonneg_right
           (mul_le_mul_of_nonneg_left hsingle (Real.rpow_pos_of_pos hB0pos _).le)
           (Real.rpow_pos_of_pos hmu _).le
+
+/-- Exact frozen type, ordinary library assembly (`bpP:p14:expsafe`): E12 applied to E11. -/
+theorem expsafe {n : ℕ} (hn : 2 ≤ n)
+    (B : AMDBox n) (hB : B.Admissible) :
+    ∃ muStar c C : ℝ, 0 < muStar ∧ 0 < c ∧ 0 < C ∧
+      ∀ mu : ℝ, 0 < mu → mu < muStar →
+      ∀ z0 ∈ LowAMDRegion B.mass B.innerLower B.innerUpper B.initialAMD,
+      ∃ z : ℝ → Phase (n * 2), z 0 = z0 ∧
+        (IsMovingSolutionOn B.mass mu (Set.Icc (-Real.exp (c * mu ^ (-planetaryTimeExponent n)))
+                  (Real.exp (c * mu ^ (-planetaryTimeExponent n)))) z ∧ MovingUniqueOn B.mass mu
+                    (Set.Icc (-Real.exp (c * mu ^ (-planetaryTimeExponent n)))
+                  (Real.exp (c * mu ^ (-planetaryTimeExponent n)))) z ∧
+        IsNewtonSolutionOn (actualMasses 1 B.mass mu) (Set.Icc (-Real.exp (c * mu ^
+          (-planetaryTimeExponent n)))
+                  (Real.exp (c * mu ^ (-planetaryTimeExponent n))))
+          (fun t => barycentricPositions 1 B.mass mu (z t).1)
+          (fun t => barycentricVelocities 1 B.mass mu (z t).2) ∧
+        ∀ t ∈ (Set.Icc (-Real.exp (c * mu ^ (-planetaryTimeExponent n)))
+                  (Real.exp (c * mu ^ (-planetaryTimeExponent n)))),
+          z t ∈ LowAMDRegion B.mass B.lower B.upper B.outerAMD ∧
+          totalMomentum (z t) = totalMomentum (z 0) ∧
+          (∀ i, planeLength (keplerEccVector B.mass (z t) i) < B.ecc ∧
+            B.distance ≤ planeLength (bodyVector (z t).1 i) ∧
+            planeLength (bodyVector (z t).1 i) ≤ B.radius) ∧
+          PairBounds B.distance (2 * B.radius) (barycentricPositions 1 B.mass mu (z t).1)) ∧
+        ∀ t : ℝ, |t| ≤ Real.exp (c * mu ^ (-planetaryTimeExponent n)) →
+          ∀ i, |keplerAxis B.mass (z t) i - keplerAxis B.mass z0 i| ≤
+            C * mu ^ planetaryDriftExponent n :=
+  expsafe_of_stopped hn (stopped hn) B hB
 
 end KAM.Planetary
 
