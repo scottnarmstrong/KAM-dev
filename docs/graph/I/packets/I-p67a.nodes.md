@@ -823,9 +823,9 @@ EDGE: bpI:p0:restricted#restrictedHamiltonian | blueprint-I/parts/p7-delaunay.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.he_smooth (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: GAP-I7b (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:he-deriv
@@ -1206,9 +1206,9 @@ EDGE: stepI:p7:om-per | blueprint-I/parts/p7-delaunay.tex#bpI:p7:orbit-maps-e@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: orbitMapC_differentiableOn, orbitMapC_periodic, orbitMapC_real, orbitMapC_ofReal, orbitDomC_mem_ofReal (KAM/Kepler/OrbitComplex.lean)
-LEAN_NOTE: REVERTED to NOT_STARTED (over-claim, survey 2.5) (survey 2.5): 'k = sqrt(1-e^2) holomorphic' is stated by no Lean declaration; GAP-I7b adds it
+LEAN_STATUS: PROVED
+LEAN_REF: orbitMapC_differentiableOn, orbitMapC_periodic, orbitMapC_real, orbitMapC_ofReal, orbitDomC_mem_ofReal (KAM/Kepler/OrbitComplex.lean); KAM.Iso.orbitMapC_k_holomorphic (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: holomorphy/periodicity/reality clauses KEP-9 PASS WITH NOTES; k = sqrt(1-e^2) clause GAP-I7b-audit-1.md:42 PASS (orbitMapC_k_holomorphic); re-closed after survey 2.5 over-claim revert
 NOTE: -
 
 NODE: stepI:p7:om-hol
