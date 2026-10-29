@@ -103,7 +103,7 @@ def ofRat (q : ℚ) : CertBall α :=
     (addErr (ofRatUp q) (neg (ofRatDown q)))⟩
 
 /-- The constant `1`. -/
-def one : CertBall α := ⟨⟨ofInt 1, ofInt 0⟩, ofInt 0⟩
+def oneBall : CertBall α := ⟨⟨ofInt 1, ofInt 0⟩, ofInt 0⟩
 
 /-- Sum of balls. -/
 def plus (b₁ b₂ : CertBall α) : CertBall α :=
@@ -145,12 +145,12 @@ theorem mem_ofRat (q : ℚ) : Mem (q : ℂ) (ofRat (α := α) q) := by
   rw [hz, Complex.norm_real, Real.norm_eq_abs, abs_le]
   constructor <;> simp only [ofRat] <;> linarith [h3.1, h3.2]
 
-theorem mem_one : Mem (1 : ℂ) (one (α := α)) := by
-  have hz : (1 : ℂ) - (one (α := α)).c.toC = 0 := by
-    apply Complex.ext <;> simp [one, CC.toC, LawfulCertArith.val_ofInt]
+theorem mem_one : Mem (1 : ℂ) (oneBall (α := α)) := by
+  have hz : (1 : ℂ) - (oneBall (α := α)).c.toC = 0 := by
+    apply Complex.ext <;> simp [oneBall, CC.toC, LawfulCertArith.val_ofInt]
   unfold Mem
   rw [hz]
-  simp [one, LawfulCertArith.val_ofInt]
+  simp [oneBall, LawfulCertArith.val_ofInt]
 
 theorem mem_plus {w₁ w₂ : ℂ} {b₁ b₂ : CertBall α} (h₁ : Mem w₁ b₁) (h₂ : Mem w₂ b₂) :
     Mem (w₁ + w₂) (plus b₁ b₂) := by
@@ -265,7 +265,7 @@ theorem mem_times {w₁ w₂ : ℂ} {b₁ b₂ : CertBall α} (h₁ : Mem w₁ b
 /-- Taylor data for `exp`: after `m` steps, the balls of `w ^ m / m !` and `∑_{i ≤ m} w ^ i / i !`.
 -/
 def expAux (zb : CertBall α) : ℕ → CertBall α × CertBall α
-  | 0 => (one, one)
+  | 0 => (oneBall, oneBall)
   | m + 1 =>
     let t := times (times (expAux zb m).1 zb) (ofRat (1 / ((m : ℚ) + 1)))
     (t, plus (expAux zb m).2 t)
