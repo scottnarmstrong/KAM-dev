@@ -15,7 +15,6 @@ public import KAM.Planetary.Averaging.OscillatorFiniteSingle
 `oscGood_multi` proves the schedule `multiOSched` admissible when `e^{-κ/6} ≤ 2 b y₀` (Case A):
 induction hypothesis `ε_{i+1} ≤ ε_i/4`, the final bound `ε_{N+1} ≤ e^{-κ/6} E`, the correction
 bound `∑ εᵢ ≤ 400 b E²/(2π α d)` and the displacement budgets `3E`, `9E`, `9E`, `9E`.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
 -/
 
 @[expose] public noncomputable section

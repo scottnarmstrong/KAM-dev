@@ -13,7 +13,7 @@ public import KAM.Planetary.Averaging.OscillatorFiniteSched
 `ostep_conc` proves `OStepConc` for stage `i` by applying the complete step `osc_iter` on the
 stage domain, with the earlier zero-mode increments as the decomposition `g = ∑ⱼ gⱼ`; it uses the
 invariant `OInv` of stage `i` and the stage data of the earlier stages, and `oinv_all` propagates
-both. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
+both.
 -/
 
 @[expose] public noncomputable section

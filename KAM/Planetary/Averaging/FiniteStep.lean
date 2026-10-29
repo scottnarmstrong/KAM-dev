@@ -14,7 +14,6 @@ public import KAM.Planetary.Averaging.FiniteSchedule
 `ε`; `StepConc` is everything one stage delivers: it combines `direct_step`, `split` and the N
 `iterative_direct_a` (the integer translation law on the same flow). `step_conc` proves it from the
 stage invariant `Inv` of all earlier stages, and `inv_all` propagates `Inv`.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12.
 -/
 
 @[expose] public noncomputable section

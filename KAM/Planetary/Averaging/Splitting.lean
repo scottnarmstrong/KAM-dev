@@ -16,7 +16,7 @@ public import KAM.Canonical.Adjoint
 `directMap` is the time-one map of `homGen K {0} h f`, i.e. the N `iterMap` with `Λ = {0}`.
 `split` follows the three source steps: the coefficient bounds (`stepP:p2:sp-coef`), the
 field bounds on `𝒟_{r-ρ,s-σ}` (`stepP:p2:sp-field`), and the mean value inequality along the
-trajectory (`stepP:p2:sp-int`). Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-10.
+trajectory (`stepP:p2:sp-int`).
 -/
 
 @[expose] public noncomputable section

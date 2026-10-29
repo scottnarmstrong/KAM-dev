@@ -25,7 +25,7 @@ Carrier abbreviations `CPhase`, `CHam`, the coefficient/geometric width dictiona
 adapters `firstBlock`, `lastBlock` (`block_bridge` identifies them with the frozen `fast`,
 `slow`), the P2 divisor setting `setting`, the two-scale divisor predicate `TwoDiv`, and the
 source-premise bundles `DirectHyp`, `AvgHyp`.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-01. The bundles contain source
+ The bundles contain source
 premises, positivity and typing data only.
 -/
 

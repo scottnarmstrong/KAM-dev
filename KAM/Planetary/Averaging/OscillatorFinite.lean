@@ -20,7 +20,6 @@ step with losses `(r/8, rp/8, rq/8, s/6)` and `N = ⌊κ/(12 ln 2)⌋` steps wit
 `OscillatorFiniteSched`, `OscillatorFiniteStep`, `OscillatorFiniteChain`, `OscillatorFiniteGen`,
 `OscillatorFiniteNumerics`, `OscillatorFiniteSetup`, `OscillatorFiniteSingle`,
 `OscillatorFiniteMulti`, `OscillatorFiniteCaseA` hold the proof.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
 -/
 
 @[expose] public noncomputable section

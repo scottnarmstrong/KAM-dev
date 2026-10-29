@@ -27,7 +27,7 @@ and `dI` of `oscFunction u` (`osc_deriv_eqs`, `oscPack_*`). In the flat layer th
 of `KAM.Weighted` are redone at a fixed parameter with a separate loss in every coordinate
 direction (a one-dimensional disc `t ↦ x + t eᵢ`, `wsum_dI_le`), since the oscillator parameter set
 has four unequal radii and is not a `polyNbhd`; the angular estimate `wsum_dtheta_le` sums over the
-angles inside the supremum (design gap G1: every angular derivative is taken at the target width
+angles inside the supremum (every angular derivative is taken at the target width
 `S - σ`, no premise `S < S₀` is added). The bracket is a signed finite sum of four families of
 products, bounded with `coeff_mul`.
 -/

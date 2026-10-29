@@ -15,7 +15,6 @@ public import KAM.Planetary.Averaging.FiniteNumerics
 Pure real-number lemmas, with the oscillator factor `b = 1 + m`: the first step (cases A and B),
 the inductive step with ratio `1/4`, the stage budget `b δ / Q`, and the bounds of the first
 remainder `c₁ = 293 b E² / P`. No operator analysis enters here.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
 -/
 
 @[expose] public noncomputable section

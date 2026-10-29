@@ -27,8 +27,6 @@ For `OscComposeData` and a family `v_t` of the oscillator class on the one-loss 
 * `osc_composition_integral`: the weighted bound, from the bound of each slice
   (`osc_composition_t`), the triangle inequality for the integral, and the finite partial sums of
   the coefficient series (no supremum-to-weighted conversion loss).
-
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13f.
 -/
 
 @[expose] public noncomputable section

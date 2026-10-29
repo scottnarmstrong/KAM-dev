@@ -14,7 +14,7 @@ public import KAM.Planetary.Averaging.FiniteStep
 `∑_{j ≤ m} f̂ⱼ,₀`. Given `StepConc` at every stage, the telescope of N6-4 together with the
 fast-lattice law, reality and the Hamiltonian identity of each stage give the structural
 conclusions of `nfb` on `𝒟_{R_{m+1},S_{m+1}}`, the weighted bounds of `g - f̂₀` and the
-summed component displacements. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12.
+summed component displacements.
 -/
 
 @[expose] public noncomputable section

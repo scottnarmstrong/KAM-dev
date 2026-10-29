@@ -17,8 +17,8 @@ import Mathlib.Tactic.Linarith
 # P Part 2: literal graph-node exports for the oscillator averaging steps
 
 Unsigned exports stating the literal conclusions of `stepP:p2:oi-ratio`, `stepP:p2:oi-range`,
-`stepP:p2:ar-apply` and `stepP:p2:ar-collect` from the source hypotheses (graph-gap package
-GAP-P2). Here `b = 1 + m`, `δ_ν = min (ρσ) (ρpρq)` and `ᾱ` is the (positive) weight of the source.
+`stepP:p2:ar-apply` and `stepP:p2:ar-collect` from the source hypotheses.
+Here `b = 1 + m`, `δ_ν = min (ρσ) (ρpρq)` and `ᾱ` is the (positive) weight of the source.
 -/
 
 @[expose] public noncomputable section
