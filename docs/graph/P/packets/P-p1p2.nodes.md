@@ -2011,9 +2011,9 @@ EDGE: bpP:p2:s-osc#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:oi-ratio@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p2_oi_ratio (KAM/Planetary/Averaging/OscillatorNodes.lean)
+LEAN_NOTE: audit GAP-P2 round 4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p2:oi-range
@@ -2043,9 +2043,9 @@ EDGE: bpP:p2:s-osc#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:oi-range@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p2_oi_range (KAM/Planetary/Averaging/OscillatorNodes.lean)
+LEAN_NOTE: audit GAP-P2 round 4 PASS WITH NOTES (theta_phi from the actual generator norm)
 NOTE: the forward mention that the assumption holds at every step of Prop osc-averaging is a consistency pointer and not an edge (osc-averaging uses osc-iter)
 
 NODE: stepP:p2:oi-disp
@@ -2259,9 +2259,9 @@ EDGE: bpP:p2:s-osc#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:ar-apply@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p2_ar_apply (KAM/Planetary/Averaging/OscillatorNodes.lean)
+LEAN_NOTE: audit GAP-P2 round 4 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p2:ar-collect
@@ -2289,9 +2289,9 @@ EDGE: bpP:p2:s-osc#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:ar-collect
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p2_ar_apply_collect (KAM/Planetary/Averaging/OscillatorNodes.lean)
+LEAN_NOTE: audit GAP-P2 round 4 PASS WITH NOTES (joint export with ar-apply)
 NOTE: -
 
 NODE: bpP:p2:use5
