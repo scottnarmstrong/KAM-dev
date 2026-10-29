@@ -342,7 +342,8 @@ def p11DevProj (n : ℕ) : P11CVec (n + n) →L[ℂ] P11CVec n :=
 theorem p11DevProj_apply (I : P11CVec (n + n)) : p11DevProj n I = fun i => I (Fin.castAdd n i) :=
   rfl
 
-private theorem p11DevProj_natAdd (i : Fin n) : p11DevProj n (Pi.single (Fin.natAdd n i) 1) = 0 := by
+private theorem p11DevProj_natAdd (i : Fin n) :
+    p11DevProj n (Pi.single (Fin.natAdd n i) 1) = 0 := by
   funext j
   have hne : (Fin.castAdd n j : Fin (n + n)) ≠ Fin.natAdd n i := fun h => by
     have := congrArg Fin.val h
@@ -422,7 +423,8 @@ theorem p11_dev_Z_slice {Z : P11CVec (n + n) → ℂ} (J ρ : P11CVec n) (k : Fi
     (hZ : DifferentiableAt ℂ Z (Fin.append J ρ)) :
     fderiv ℂ (fun ρ' : P11CVec n => Z (Fin.append J ρ')) ρ (Pi.single k 1) =
       fderiv ℂ Z (Fin.append J ρ) (Pi.single (Fin.natAdd n k) 1) := by
-  have hκ : HasFDerivAt (fun ρ' : P11CVec n => (Fin.append J ρ' : P11CVec (n + n))) (opsExtR n) ρ := by
+  have hκ : HasFDerivAt (fun ρ' : P11CVec n => (Fin.append J ρ' : P11CVec (n + n)))
+      (opsExtR n) ρ := by
     have h : (fun ρ' : P11CVec n => (Fin.append J ρ' : P11CVec (n + n))) =
         fun ρ' => opsExtR n ρ' + Fin.append J (0 : P11CVec n) := by
       funext ρ' i
