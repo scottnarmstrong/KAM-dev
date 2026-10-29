@@ -217,7 +217,7 @@ theorem p11appR_apply (ρ : P11CVec n) :
     rw [p11appR, ContinuousLinearMap.pi_apply, Fin.addCases_right]
     rfl
 
-theorem append_eq_add (J ρ : P11CVec n) :
+theorem p11Slow_append_eq_add (J ρ : P11CVec n) :
     (Fin.append J ρ : P11CVec (n+n)) = Fin.append J 0 + p11appR n ρ := by
   rw [p11appR_apply]
   funext j
@@ -248,7 +248,7 @@ theorem fderiv_append_slice {Z : P11CVec (n+n) → ℂ} {J ρ : P11CVec n}
     have h2 := h.const_add (Fin.append J (0 : P11CVec n) : P11CVec (n+n))
     convert h2 using 1
     funext x
-    exact append_eq_add J x
+    exact p11Slow_append_eq_add J x
   have := hZ.hasFDerivAt.comp ρ hφ
   have h3 := congrArg (fun L => L (Pi.single a 1)) this.fderiv
   simp only [ContinuousLinearMap.coe_comp', Function.comp_apply] at h3
