@@ -489,6 +489,7 @@ public import KAM.Planetary.Averaging.OscillatorFlowMap
 public import KAM.Planetary.Averaging.OscillatorFlowProps
 public import KAM.Planetary.Averaging.OscillatorGen
 public import KAM.Planetary.Averaging.OscillatorHyp
+public import KAM.Planetary.Averaging.OscillatorNodes
 public import KAM.Planetary.Averaging.OscillatorReality
 public import KAM.Planetary.Averaging.OscillatorRemainder
 public import KAM.Planetary.Averaging.OscillatorRemainderData
@@ -535,10 +536,12 @@ public import KAM.Planetary.MaximalStep.FourierCutoffTail
 public import KAM.Planetary.MaximalStep.GlobalRealFlow
 public import KAM.Planetary.MaximalStep.Homological
 public import KAM.Planetary.MaximalStep.HomologicalBracket
+public import KAM.Planetary.MaximalStep.HomologicalNodes
 public import KAM.Planetary.MaximalStep.Loss
 public import KAM.Planetary.MaximalStep.Parameter
 public import KAM.Planetary.MaximalStep.ParameterFlow
 public import KAM.Planetary.MaximalStep.RealFlow
+public import KAM.Planetary.MaximalStep.RealLipschitzNodes
 public import KAM.Planetary.MaximalStep.Step
 public import KAM.Planetary.MaximalStep.StepBound
 public import KAM.Planetary.MaximalStep.StepCoeff
@@ -1136,6 +1139,7 @@ public import KAM.Planetary.WeakKAM.IterationStep
 public import KAM.Planetary.WeakKAM.Limit
 public import KAM.Planetary.WeakKAM.LimitProps
 public import KAM.Planetary.WeakKAM.LimitSeries
+public import KAM.Planetary.WeakKAM.LipSumNodes
 public import KAM.Planetary.WeakKAM.ParameterLipschitz
 public import KAM.Planetary.WeakKAM.PolynomialBudget
 public import KAM.Planetary.WeakKAM.Schedule
