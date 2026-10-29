@@ -11,8 +11,7 @@ public import KAM.Planetary.Averaging.OscillatorFiniteSetup
 # P Part 2: the single doubled-loss step of oscillator averaging (`stepP:p2:oa-first`, Case B)
 
 When `e^{-κ/6} > 2 b y₀` one step with losses `(r/4, rp/4, rq/4, s/3)` already brings the
-remainder below `e^{-κ/6} E`. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3,
-package P23-15.
+remainder below `e^{-κ/6} E`.
 -/
 
 @[expose] public noncomputable section

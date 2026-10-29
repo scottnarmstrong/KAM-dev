@@ -16,7 +16,6 @@ import Mathlib.Tactic.Linarith
 
 Sums, congruence on the domain, and the pointwise-defined pieces of the step
 (`bpP:p2:osc-iter`): the accumulated `g = ∑ⱼ gⱼ` and `gp = g + ⟨f⟩`.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-13.
 -/
 
 @[expose] public noncomputable section

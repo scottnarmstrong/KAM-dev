@@ -13,12 +13,13 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Chi
 public import KAM.Planetary.PlanarTorsion.NormalForm
 
 /-!
-# Planar quartic torsion: the sixth-order estimate for the transformed average (package T16)
+# Planar quartic torsion: the sixth-order estimate for the transformed average
 
 Blueprint P, Part 11b (`stepP:p11b:bt-avg`, `stepP:p11b:bt-nf`).  Combining the Lie-series estimate
-`lie` (T10) for the rotated secular function with the identification of the torus average of
-`f̂ ∘ T` (`p11cB_secular_T`), the constant `δ(I)` of the moving average cancels in the difference
-(`p11cB_secular_mov`), and `p11cB_average_beta` turns the average of the quartic into `½ ∑ β R R`.
+`lie` (`PlanarTorsion/NormalForm`) for the rotated secular function with the identification of the
+torus average of `f̂ ∘ T` (`p11cB_secular_T`), the constant `δ(I)` of the moving average cancels in
+the difference (`p11cB_secular_mov`), and `p11cB_average_beta` turns the average of the quartic into
+`½ ∑ β R R`.
 -/
 
 @[expose] public noncomputable section

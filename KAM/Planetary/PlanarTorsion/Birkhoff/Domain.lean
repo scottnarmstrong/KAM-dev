@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.Lift.Defs
 public import KAM.Planetary.SecularForm.Symmetry
 
 /-!
-# Planar quartic torsion: the physical domain of the Birkhoff map (package T16)
+# Planar quartic torsion: the physical domain of the Birkhoff map
 
 Blueprint P, Part 11b (`stepP:p11b:bt-K`, radius `ρ_K`).  `p11cB_good p` is the open set of phase
 points inside the Poincaré chart domain whose image is collision free; the physical perturbations

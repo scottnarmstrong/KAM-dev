@@ -14,7 +14,6 @@ public import KAM.Nekhoroshev.NormalForm.Telescope
 `Sched` is a loss schedule `(ρᵢ, σᵢ)`; `Sched.seq` is the recursive sequence `(gᵢ, fᵢ)` of the
 finite iteration (`f₀ = f`, `g₀ = 0`, one step of the N `iterG`, `iterF` with `Λ = {0}` at
 stage `i`).
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12.
 -/
 
 @[expose] public noncomputable section

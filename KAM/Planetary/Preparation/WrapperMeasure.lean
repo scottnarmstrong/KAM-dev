@@ -11,7 +11,7 @@ public import KAM.ODE.Basic
 public import KAM.Frozen.Planetary.Defs.Phase
 
 /-!
-# The saturated torus family (P11A-P10, `stepP:p11:wr-meas`, first half)
+# The saturated torus family (`stepP:p11:wr-meas`, first half)
 
 `A = ⋃_k (B + ι_k)`: the set of all points of all tori of the family is Borel, invariant under the
 integer angle lattice and of positive measure when the parameter cell image `B` is.

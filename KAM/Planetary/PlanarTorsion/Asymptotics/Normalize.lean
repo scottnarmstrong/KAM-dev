@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.AsymptoticEntries
 public import KAM.Planetary.PlanarTorsion.Asymptotics.Homogeneity
 
 /-!
-# Planar quartic torsion: normalisation of the physical scales (P11C, package T19)
+# Planar quartic torsion: normalisation of the physical scales
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, uniformity clause): for valid data `p` with mass
 ratio `p.m 0 / p.m 1 = r` the matrix `p11c_Q p ![α, 1]` is a positive multiple of the matrix of

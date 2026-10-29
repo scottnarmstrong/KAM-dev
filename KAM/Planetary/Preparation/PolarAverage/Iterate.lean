@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PolarAverage.Torus
 public import KAM.Planetary.Preparation.PolarAverage.EvenDescent
 
 /-!
-# Descent of the radial polar average through all squares (P11A-P6 helper)
+# Descent of the radial polar average through all squares
 
 `p11PolarW G (J, w)` is even in each coordinate of `w`. Replacing the coordinates of `w` one at a
 time by the principal square roots of new variables `u_k = w_k²` preserves holomorphy

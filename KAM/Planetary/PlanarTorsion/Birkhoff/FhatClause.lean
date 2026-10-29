@@ -10,11 +10,11 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Estimate
 public import KAM.Planetary.PlanarTorsion.FrozenBridge
 
 /-!
-# Planar quartic torsion: the clause for one physical perturbation (package T16)
+# Planar quartic torsion: the clause for one physical perturbation
 
 Blueprint P, Part 11b (`stepP:p11b:bt-frozen`).  For `f̂ ∈ {f̂_fix, f̂_mov}` pulled back by the same
 `T`, the function `f̂ ∘ T` is analytic on the tube, its torus average has the sixth-order expansion
-(`p11cB_estimate`), and `hasSecularBirkhoffForm_of_sixth_order` (T15), applied to this actual
+(`p11cB_estimate`), and `hasSecularBirkhoffForm_of_sixth_order`, applied to this actual
 pullback, yields the frozen predicate `HasSecularBirkhoffForm`.
 -/
 

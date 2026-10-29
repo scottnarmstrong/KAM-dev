@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.NormalForm.Remainder
 public import KAM.Planetary.PlanarTorsion.Frame
 
 /-!
-# Planar quartic torsion: diagonal derivatives at the origin (package T16)
+# Planar quartic torsion: diagonal derivatives at the origin
 
 Helper lemmas for `stepP:p11b:bt-K`: the diagonal derivative `iteratedFDeriv ℝ j f 0 (fun _ => z)`
 of a function analytic at `0` is the `j`-th derivative at `0` of `t ↦ f (t • z)`; it is natural

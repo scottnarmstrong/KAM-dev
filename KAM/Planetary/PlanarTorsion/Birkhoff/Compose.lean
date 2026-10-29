@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Map
 
 /-!
-# Planar quartic torsion: composition of the lift and the rotation lift (package T16)
+# Planar quartic torsion: composition of the lift and the rotation lift
 
 Blueprint P, Part 11b (`stepP:p11b:bt-rot#lift`).  `T = p11c_rotationLift p ∘ p11c_liftFlow chi` is
 a chart, injective, action preserving and angle-translation covariant on every set `S` over which

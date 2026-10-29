@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
 
 /-!
-# Descent of an even holomorphic function to its square (P11A-P6 helper)
+# Descent of an even holomorphic function to its square
 
 If `h(s, p)` is holomorphic on `D(0, R) × Ω` and even in `s`, then `(u, p) ↦ h(√u, p)` is
 holomorphic on `D(0, R²) × Ω`, with the principal square root `Complex.sqrt` and no branch

@@ -17,7 +17,6 @@ public import KAM.Planetary.Averaging.OscillatorFiniteNumerics
 iteration is admissible (`OIter`) and the final domain, remainder, correction and displacement
 bounds of `osc_averaging` hold. `oiter_of_hyp` builds `OIter` from `OscHyp`, and `oscGood_single` is
 the single doubled-loss step, used when `e^{-κ/6} > 2 b y₀`.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
 -/
 
 @[expose] public noncomputable section

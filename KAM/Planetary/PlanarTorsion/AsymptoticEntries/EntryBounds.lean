@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Calculus
 
 /-!
-# Planar quartic torsion: the polynomial bookkeeping of `beta_def` (P11C, package T18)
+# Planar quartic torsion: the polynomial bookkeeping of `beta_def`
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, step `stepP:p11b:as-ent`): abstract bounds for the
 three entries of `beta_def c P` in terms of the six coefficient sizes `c₁ = O(α)`, `c₂ = O(α²)`,

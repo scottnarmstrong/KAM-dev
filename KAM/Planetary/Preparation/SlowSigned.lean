@@ -11,7 +11,7 @@ public import KAM.Planetary.Preparation.SlowData
 public import KAM.Planetary.Preparation.FastSigned
 
 /-!
-# Signed `P11SlowSpec`, `avg_slow`, `p11SlowConstant`, `p11SlowData` (P11A-P7d)
+# Signed `P11SlowSpec`, `avg_slow`, `p11SlowConstant`, `p11SlowData`
 
 Verbatim signed statements (long lines re-wrapped); `avg_slow` is a wrapper over the core
 `avg_slow_of_spec` at `p11SecularData D` (from `holo_chart`) and `p11FastData D` (from the

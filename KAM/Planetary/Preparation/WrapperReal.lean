@@ -12,7 +12,7 @@ public import KAM.Strip.RealRestriction
 public import KAM.Strip.AnalyticTaylor
 
 /-!
-# Real restriction of a holomorphic symplectic map (P11A-P10, `stepP:p11:wr-chain`)
+# Real restriction of a holomorphic symplectic map (`stepP:p11:wr-chain`)
 
 A holomorphic map `F` that is `ℂ`-symplectic on an open set `U` and takes real points of `U` to
 real points restricts to a real analytic map `FR` that is `IsSymplecticOn 1` on

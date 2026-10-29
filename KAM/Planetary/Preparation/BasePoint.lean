@@ -15,7 +15,7 @@ public import KAM.Frozen.Planetary.Defs.Slow
 public import KAM.Frozen.Defs.IsDiophantine
 
 /-!
-# The base point (P11A-P1, `bpP:p11:select`)
+# The base point (`bpP:p11:select`)
 
 `select`: the patch `p11PatchData D` contains an interior point `J₀` whose frequency vector
 `varpi J₀` and its fast and slow blocks are `(γ, τ)`-Diophantine, `τ = max (n μ) (2n)`; no

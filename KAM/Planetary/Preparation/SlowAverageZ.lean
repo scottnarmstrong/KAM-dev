@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.SlowMean
 public import KAM.Planetary.Preparation.SlowCauchy
 
 /-!
-# Slow averaging: the polar averages of `R₄` and `ḡ` (P11A-P7b, graph step `as-osc`)
+# Slow averaging: the polar averages of `R₄` and `ḡ` (graph step `as-osc`)
 
 `p11_slow_polar` applies `polar_avg` to the quartic remainder `p11R4` (`S = M_F/16`, jets from
 `p11R4_jets`) and to the fast-averaging remainder `p11Gbar` (`S = η₁`) on

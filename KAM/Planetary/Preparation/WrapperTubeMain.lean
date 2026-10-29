@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.WrapperTube
 
 /-!
-# `stepP:p11:wr-tube` (P11A-P10)
+# `stepP:p11:wr-tube`
 
 Real points of `Ξ_ε` with actions in `[-1,1]` lie in the circular tube of radius `ζ_*`.
 -/

@@ -8,7 +8,7 @@ module
 public import KAM.Planetary.Averaging.FiniteMulti
 
 /-!
-# Rectangular averaging: the quadratic first-step bound (P11A-P4, `stepP:p11:aa-quad`)
+# Rectangular averaging: the quadratic first-step bound (`stepP:p11:aa-quad`)
 
 The numerical inequalities of the finite averaging iteration with the first remainder bound
 `ε₁ = E₁` an arbitrary number in `[0, 3E/(4κ)]` (the source takes `E₁ = 2 y₀ E`, `y₀ = E/Q`,

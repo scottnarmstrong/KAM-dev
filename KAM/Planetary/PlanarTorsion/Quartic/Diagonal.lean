@@ -13,7 +13,7 @@ public import KAM.Planetary.SecularForm.DiagonalJet
 public import KAM.Planetary.SecularForm.Quadratic.PairDiag
 
 /-!
-# Planar quartic torsion: the diagonal coefficients against Part 8 (P11C, package T6)
+# Planar quartic torsion: the diagonal coefficients against Part 8
 
 Blueprint P, Part 11b (`stepP:p11b:qe-c12`).  Along a ray with one planet circular, the physical
 fixed secular average is the literal pair average `pairSlowSecular` of Part 8 (for the swapped

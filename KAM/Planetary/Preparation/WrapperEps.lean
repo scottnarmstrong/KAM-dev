@@ -14,7 +14,7 @@ public import KAM.Planetary.Preparation.WrapperMeasure
 public import KAM.Planetary.Newtonian.AssemblyNodes
 
 /-!
-# The wrapper at fixed `ε` (P11A-P10, `stepP:p11:wr-tor`, `wr-meas`)
+# The wrapper at fixed `ε` (`stepP:p11:wr-tor`, `wr-meas`)
 
 Given a family of lattice tori of `Ĥ_ε` with displacement at most `1/2`, the image of all of them
 under `Ξ_ε` is a Borel set of positive finite measure in the circular tube, through every point of

@@ -17,7 +17,6 @@ public import KAM.Planetary.Averaging.OscillatorReality
 (every clause except the class and the bound of `fp` and the conditional reality),
 `osc_fp_class`, `osc_remainder_bound` and `osc_iter_reality`, all stated for the same maps
 `Ψ`, `gp`, `fp`; the conjuncts are spliced in the order of the signed statement.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13j.
 -/
 
 @[expose] public noncomputable section
@@ -28,7 +27,7 @@ namespace KAM.Planetary
 
 open KAM.Weighted KAM.Canonical KAM.NormalForm
 
-/-- Full inherited oscillator step contract (audit 1 F1, Revision 2).
+/-- Full inherited oscillator step contract.
 Finite source decomposition only; reality is a conditional conclusion. -/
 theorem osc_iter {n m J : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ K α δ : ℝ}
     {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)} {gj : Fin J → CHam (n + m)}

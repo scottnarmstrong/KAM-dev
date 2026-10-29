@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.SlowAverage
 public import KAM.Planetary.Preparation.SlowDivisor
 
 /-!
-# Slow averaging: sup bound of the bracket `C + ΣΩρ/2π + Ẑ` (P11A-P7d)
+# Slow averaging: sup bound of the bracket `C + ΣΩρ/2π + Ẑ`
 
 `p11_slow_MW`: an `ε`-independent bound `p11SlowMW C` of `p11SlowW C Z` on the domain of `Z`,
 given the sup bound of `Ẑ` and `η₁ ≤ 1`; it is the hypothesis `hMW` of `p11_slow_divisor`.

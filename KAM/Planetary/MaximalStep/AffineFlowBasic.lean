@@ -13,7 +13,7 @@ public import KAM.Planetary.MaximalStep.Basic
 public import KAM.Planetary.MaximalStep.Affine
 
 /-!
-# Affine generating functions: data and field estimates (P11A-C6)
+# Affine generating functions: data and field estimates
 
 The affine-in-action generating function `p11Affine`, its flow `p11Flow` (the existing
 `Canonical.flow` for the frozen Hamiltonian field on `Dom n {0} s (r-σ)`), the scaled-gauge bound

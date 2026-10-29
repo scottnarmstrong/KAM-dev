@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.Frame
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Jets
 
 /-!
-# Planar quartic torsion: the average of the rotated quartic is the `β` form (package T16)
+# Planar quartic torsion: the average of the rotated quartic is the `β` form
 
 Blueprint P, Part 11b (`stepP:p11b:bt-nf`, `bpP:p11b:beta-formula`).  For the global frame
 `U = p11c_frame p a` (`U = [[g, -s], [s, g]]`, `g² + s² = 1`) the spectral projector of `p11c_Q` is

@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.Parameter
 public import KAM.Planetary.WeakMeasure.Bridge
 
 /-!
-# Divisors on the complex neighbourhood (P11A-C4, `bpP:p11a:divisor-perturb`, `divisor_wide`)
+# Divisors on the complex neighbourhood (`bpP:p11a:divisor-perturb`, `divisor_wide`)
 
 `p11_norm_dotC_le` is the finite Hölder duality `|k·v| ≤ |k|₁ ‖v‖` (`bpP:p11a:x-duality`).
 `divisor_perturb`: a lower bound `D` on the divisors `|k·ω(b)|`, `0<|k|₁≤T`, at the real points of

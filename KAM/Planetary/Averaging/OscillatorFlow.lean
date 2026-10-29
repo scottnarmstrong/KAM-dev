@@ -18,7 +18,6 @@ import Mathlib.Tactic.Linarith
 The gauge `oscScale` is the diagonal equivalence with `‖oscScale z‖ = oscGauge ρ ρp ρq σ z`;
 it is the `W` of the abstract flow theory `KAM.Canonical.flow_a`–`flow_e`. This file also proves
 the gauge-ball inclusions between the oscillator domains `V ⊆ U ⊆ O`.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-13.
 -/
 
 @[expose] public noncomputable section

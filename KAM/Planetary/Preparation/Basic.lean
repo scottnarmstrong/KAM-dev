@@ -15,7 +15,7 @@ public import KAM.Frozen.Planetary.Defs.SecularAverage
 public import KAM.Frozen.Planetary.Defs.IsPhysicalTorus
 
 /-!
-# Preparation conventions (P11A-P1, `bpP:p11:sec-conv#data`)
+# Preparation conventions (`bpP:p11:sec-conv#data`)
 
 The conventions node of the finite preparation introduces no new definition: it is carried by the
 existing `Weighted` domains and norms, the frozen `Phase`, `complexStrip`, `actionNbhd`,

@@ -15,8 +15,7 @@ the loss schedule of the source (a single doubled-loss step when `y₀ < e^{-κ/
 first step with losses `(r/8, s/6)` and `N = ⌊κ/(12 ln 2)⌋` steps with losses `(r/(8N), s/(4N))`),
 the telescope of N6-4 and the zero-mode normal form `∑ f̂ᵢ,₀`. `avg` is the Part 3 reading of
 the same construction with geometric widths. The integer-translation law of the composition comes
-from the N `iterative_direct_a` on the same flow. Design
-`docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12; modules `FiniteSchedule`, `FiniteStep`,
+from the N `iterative_direct_a` on the same flow. Modules `FiniteSchedule`, `FiniteStep`,
 `FiniteChain`, `FiniteGen`, `FiniteNumerics`, `FiniteSetup`, `FiniteMulti`, `FiniteCaseA`.
 -/
 

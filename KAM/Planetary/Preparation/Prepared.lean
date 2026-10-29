@@ -12,7 +12,7 @@ public import KAM.Planetary.Preparation.PreparedClose
 public import KAM.Planetary.Preparation.PreparedM
 
 /-!
-# The prepared datum (P11A-P8e, `bpP:p11:prepared`)
+# The prepared datum (`bpP:p11:prepared`)
 
 The signed `prepared`: for small `eps` the data `p11PrepQ D nu eps` (the core construction of
 `PreparedBasic` with the frequency datum `p11PrepChk`) satisfies `P11PreparedFullSpec`.

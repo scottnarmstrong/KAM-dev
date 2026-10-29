@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowAverageKey
 
 /-!
-# Slow averaging: the polar chart on the slow-stage domain (P11A-P7b)
+# Slow averaging: the polar chart on the slow-stage domain
 
 Holomorphy of `p11PolarC` where `Re ρ̃ > 0`, membership of `p11PolarC z` in the fast domain,
 reality of `p11PolarC` at real points, and 1-periodicity in all angles.

@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.Characters.Defs
 public import KAM.ODE.Basic
 
 /-!
-# Planar quartic torsion: the real Lie-Taylor formula (package T10)
+# Planar quartic torsion: the real Lie-Taylor formula
 
 Blueprint P, Part 11b (`bpP:p11b:lie`, `stepP:p11b:li-tay`).  Along an actual solution `g` of the
 Hamiltonian field of `chi` in an open set `U`, an analytic `K` satisfies the chain rule

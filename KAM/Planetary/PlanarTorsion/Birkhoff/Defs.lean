@@ -14,7 +14,7 @@ public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Frozen.Planetary.Defs.HasSecularBirkhoffForm
 
 /-!
-# Planar quartic torsion: the signed definitions of the Birkhoff theorem (package T16)
+# Planar quartic torsion: the signed definitions of the Birkhoff theorem
 
 Blueprint P, Part 11b (`bpP:p11b:birkhoff-form`).  The nonresonance polynomial `p11c_phi4` and the
 output predicate `PlanarBirkhoffResult` are exactly the signed declarations; they are split into

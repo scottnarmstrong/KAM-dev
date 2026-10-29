@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularSpectrum.Lift
 public import KAM.Planetary.SecularSpectrum.Diagonalize
 
 /-!
-# The lift on real points (P11A-P2b, `stepP:p11:hc-lift`)
+# The lift on real points (`stepP:p11:hc-lift`)
 
 The literal inverse lift `p11ChartInput C` of the secular data equals the real inverse lift
 `SecularSpectrum.liftInv R` of the real frame `R` after the period conversion

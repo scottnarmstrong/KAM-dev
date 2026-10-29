@@ -13,7 +13,7 @@ public import KAM.Planetary.Averaging.FiniteChain
 `Sched.gI` is the sum of the zero modes of the successive remainders. This module shows it is
 holomorphic in the action, real, equal to the accumulated generator `gₘ₊₁` on the final domain,
 and that `g - f̂₀` is the finite sum of the later zero-mode increments, which gives its weighted
-bound. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12.
+bound.
 -/
 
 @[expose] public noncomputable section

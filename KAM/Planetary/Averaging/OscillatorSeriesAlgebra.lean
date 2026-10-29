@@ -21,7 +21,6 @@ import Mathlib.Tactic.Linarith
 every bound. The proofs port `Canonical.wbound_add`, `wbound_tsum`, `hasSum_coeff` to an
 independent parameter dimension, and reuse `Weighted.projections`/`truncation_tail` on local
 parameter balls.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13b.
 -/
 
 @[expose] public noncomputable section

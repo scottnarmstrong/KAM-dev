@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.Constants
 public import KAM.Planetary.MaximalStep.FourierCutoffTail
 
 /-!
-# The loss of the Fourier cutoff (P11A-C2)
+# The loss of the Fourier cutoff
 
 `loss_choice` (`bpP:p11a:loss-choice`): with `d_T(α) = p11Loss n T α` the cutoff error
 `p11Error n T d_T` is at most `α` once `d_T ≤ 1`, and `d_T(α)` is antitone in `T ∈ [1,∞)` and in

@@ -9,12 +9,12 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.RealFlow.AnalyticCompact
 
 /-!
-# Planar quartic torsion: compact analytic flow on a finite-dimensional space (package T9)
+# Planar quartic torsion: compact analytic flow on a finite-dimensional space
 
 Blueprint P, Part 11b (`bpP:p11b:fl-an`).  The compact common-neighbourhood analytic flow of
-package R2 (`p11c_analytic_flow_compact_nbhd`, stated on `Fin n → ℝ`) is transported along a
-continuous linear equivalence to an arbitrary finite-dimensional real normed space; the parameter
-space `(Fin 2 → ℝ) × Phase 2` of the augmented field is the case of interest.
+`RealFlow/AnalyticCompact` (`p11c_analytic_flow_compact_nbhd`, stated on `Fin n → ℝ`) is transported
+along a continuous linear equivalence to an arbitrary finite-dimensional real normed space; the
+parameter space `(Fin 2 → ℝ) × Phase 2` of the augmented field is the case of interest.
 -/
 
 @[expose] public noncomputable section

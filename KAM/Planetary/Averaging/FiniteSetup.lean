@@ -15,8 +15,7 @@ public import KAM.Planetary.Averaging.FiniteNumerics
 `GoodSched` packages a schedule, remainder bounds `ε` and a number of stages for which the
 iteration is admissible (`IterSetup`) and the final domain, remainder, correction and displacement
 bounds of `nfb` hold. `goodSched_single` is the single doubled-loss step, used when
-`y₀ < e^{-κ/6}` (this includes `N = 0`). Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`,
-package P23-12.
+`y₀ < e^{-κ/6}` (this includes `N = 0`).
 -/
 
 @[expose] public noncomputable section

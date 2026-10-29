@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Weighted.Domains
 
 /-!
-# Rectangular averaging: the base polydisc (P11A-P4)
+# Rectangular averaging: the base polydisc
 
 The rectangle `p11Box c r₁ r₂` is the `m`-neighbourhood, `m = min r₁ r₂`, of the closed polydisc
 `p11AvgBase c r₁ r₂` of radii `r_j - m` about `c`; the isotropic averaging iteration is applied to

@@ -8,7 +8,7 @@ module
 public import Mathlib
 
 /-!
-# Elementary real inequalities for the rescaled deviation bounds (P11A-P8b2)
+# Elementary real inequalities for the rescaled deviation bounds
 
 Pure inequalities among powers of `ε`, with no reference to the KAM data: the rescaling by
 `ε ^ |β|` turns each Cauchy bound of step `pr-in` into a bound `≤ ε · (…)`.

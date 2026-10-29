@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.PreparedBasic
 
 /-!
-# Literal-carrier domain chain and Hamiltonian identity (GAP-WR, `stepP:p11:wr-chain`)
+# Literal-carrier domain chain and Hamiltonian identity (`stepP:p11:wr-chain`)
 
 The domain chain and the identity `H_fix ∘ chart ∘ ... = ε (N + P)` of `PreparedBasic`, with the
 rescaled-domain membership as a hypothesis instead of membership in the complex prepared domain.

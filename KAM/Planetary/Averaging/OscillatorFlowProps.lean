@@ -14,7 +14,7 @@ import Mathlib.Tactic.Linarith
 # P Part 2: properties of the oscillator time-one map
 
 Instantiation of `flow_a`–`flow_e` and `symplectic` at the gauge `oscScale` and the domains
-`V ⊆ U ⊆ 𝒪` of `osc_iter`. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-13.
+`V ⊆ U ⊆ 𝒪` of `osc_iter`.
 -/
 
 @[expose] public noncomputable section
@@ -29,7 +29,7 @@ section Props
 
 variable {n m : ℕ} {D : Set (Fin n → ℝ)} {r rp rq S ρ ρp ρq σ E : ℝ} {φ : CHam (n + m)}
 
-/-- Common hypotheses of the flow package. -/
+/-- Common hypotheses of the flow modules. -/
 structure OscFlowHyp (D : Set (Fin n → ℝ)) (r rp rq S ρ ρp ρq σ E : ℝ) (φ : CHam (n + m)) :
     Prop where
   hρ : 0 < ρ

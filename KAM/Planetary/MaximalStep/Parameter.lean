@@ -11,7 +11,7 @@ public import KAM.Frozen.Defs.ActionNbhd
 public import KAM.Planetary.MaximalStep.Basic
 
 /-!
-# Parameter Cauchy estimates (P11A-C3, `bpP:p11a:param-cauchy`)
+# Parameter Cauchy estimates (`bpP:p11a:param-cauchy`)
 
 Iterated Cauchy estimates for a holomorphic map on the complex collar `E + t`: the `j`-th Fréchet
 derivative at a point of the inner collar `E + t'` is bounded by `j^j M / (t - t')^j`. The proof

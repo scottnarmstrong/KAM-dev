@@ -10,9 +10,9 @@ public import KAM.Planetary.PlanarTorsion.QuarticFlow.Energy
 public import KAM.Planetary.PlanarTorsion.QuarticFlow.Field
 
 /-!
-# Planar quartic torsion: the restricted flow and its specification (package T9)
+# Planar quartic torsion: the restricted flow and its specification
 
-Blueprint P, Part 11b (`bpP:p11b:flow`).  `p11c_flow` (copied verbatim from the signature file)
+Blueprint P, Part 11b (`bpP:p11b:flow`).  `p11c_flow` (the signed definition)
 picks a solution on `[-1, 1]` when one exists.  By ODE uniqueness the choice is irrelevant:
 `p11cQ_flow_eq` identifies the flow with every solution on `[-1, 1]`, and `p11cQ_flow_spec`
 records existence, the initial value and the energy bound under the smallness condition

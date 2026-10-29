@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.FastBridge
 public import KAM.Planetary.Preparation.FastParams
 
 /-!
-# Fast averaging (P11A-P5, `bpP:p11:avg-fast`, `bpP:p11:sec-C#data`)
+# Fast averaging (`bpP:p11:avg-fast`, `bpP:p11:sec-C#data`)
 
 The exact CP09 preparation parameters `p11K1, p11Alpha1, p11s1, p11d1, p11eta1` (`ν₁ = 3`), the
 fast data `P11FastData` with its specification `P11FastSpec`, and the exported core theorem
@@ -401,7 +401,7 @@ theorem avg_fast_of_spec (hC : P11SecularSpec D C) (hh : P11SecularHReal C) :
 
 /-- Source rate for `η₁` (blueprint `p11-cp09-preparation.tex`, line 108, the closing note of
 `bpP:p11:avg-fast`: `η₁(ε) ≤ c ε (log (1/ε))^{2τ₀+1}`, CP09 (25)). Unsigned companion to
-the signed `p11eta1`; the design maps it to the graph node `bpP:p11:avg-fast` (its final clause),
+the signed `p11eta1`; it corresponds to the graph node `bpP:p11:avg-fast` (its final clause),
 which `stepP:p11:as-osc` (line 181, `ε² + η₁ √ε`) consumes. -/
 theorem p11eta1_source_rate (hC : P11SecularSpec D C) :
     ∃ c eps1 : ℝ, 0 < eps1 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps1 →

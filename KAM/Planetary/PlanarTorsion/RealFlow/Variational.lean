@@ -13,9 +13,9 @@ public import KAM.ODE.Basic
 public import KAM.Planetary.PlanarTorsion.RealFlow.Analytic
 
 /-!
-# Planar quartic torsion: variational equation and symplecticity (package R3)
+# Planar quartic torsion: variational equation and symplecticity
 
-Blueprint P, Part 11b (`bpP:p11b:e-ode`, package R3).  For the jointly analytic local Hamiltonian
+Blueprint P, Part 11b (`bpP:p11b:e-ode`).  For the jointly analytic local Hamiltonian
 flow `Φ` of `p11c_analytic_hamiltonian_flow` we prove
 
 * `p11cVar_variational`: the variational equation `∂ₜ DΦₜ(y) u = D X_H (Φₜ y) (DΦₜ(y) u)`,
@@ -24,7 +24,7 @@ flow `Φ` of `p11c_analytic_hamiltonian_flow` we prove
 * `p11cVar_form_add_form_eq_zero`: `Ω (DX_H w, v) + Ω (w, DX_H v) = 0`, i.e. Hessian symmetry
   of the real analytic `H`;
 * `p11cVar_form_const`: `t ↦ Ω (DΦₜ u, DΦₜ v)` is constant (frozen form conservation);
-* `real_analytic_hamiltonian_local_flow`: the signed real bridge of the design.
+* `real_analytic_hamiltonian_local_flow`: the signed real bridge.
 -/
 
 @[expose] public noncomputable section
@@ -272,8 +272,8 @@ theorem p11cVar_isSymplecticOn
 
 end Flow
 
-/-- New real parametric ODE bridge: local solution/existence, analytic dependence,
-variational equation and symplecticity are to be proved, not assumed. -/
+/-- Real parametric ODE bridge: local solution/existence, analytic dependence,
+variational equation and symplecticity, all proved (not assumed). -/
 theorem real_analytic_hamiltonian_local_flow {d : ℕ} {W : Set (Phase d)} (hW : IsOpen W)
     (H : Phase d → ℝ) (hH : AnalyticOnNhd ℝ H W) (x : Phase d) (hx : x ∈ W) :
     ∃ r T : ℝ, 0 < r ∧ 0 < T ∧ ∃ Phi : ℝ → Phase d → Phase d,

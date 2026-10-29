@@ -13,7 +13,7 @@ public import KAM.Planetary.WeakMeasure.Basic
 public import KAM.Frozen.Planetary.Defs.FixedHamiltonian
 
 /-!
-# Prepared data and specifications (P11A-P8, `bpP:p11:sec-E#data`)
+# Prepared data and specifications (`bpP:p11:sec-E#data`)
 
 Verbatim signed `P11PreparedData`, `p11PreparedFreq`, `p11PreparedFreqR`, `P11PreparedSpec`,
 `p11M0`, `p11SlowNormalizedFreq`, `P11PreparedFullSpec`, `p11PreparedData`.

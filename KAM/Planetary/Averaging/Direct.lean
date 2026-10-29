@@ -15,7 +15,7 @@ public import KAM.Nekhoroshev.NormalForm.IterativeReal
 `homological_direct` and `iterative_direct_a`–`iterative_direct_e`, instantiated at `p = 2` and
 `α_N = 2α/q`, so that `conjExp 2 = 2`, `α_N / conjExp 2 = α / q` and `conjExp 2 / α_N = q / α`.
 The generator is the unchanged `homGen K Λ h f` and the flow is the unchanged `iterMap`; no
-premise is added. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-05.
+premise is added.
 -/
 
 @[expose] public noncomputable section

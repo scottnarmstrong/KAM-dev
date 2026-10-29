@@ -20,7 +20,6 @@ the oscillator coordinates and the strip (the `Sched` fields `r`, `ρ` are the r
 `g₀ = 0`, `f₀ = f`, `gᵢ₊₁ = gᵢ + f̂ᵢ,₀`, and `fᵢ₊₁` the remainder `fp` of the complete step
 `osc_iter` applied at stage `i`. `OIter` is the premise bundle with claimed remainder bounds `ε`;
 `OStepConc` is everything one stage delivers, obtained from `osc_iter` on the same maps.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
 -/
 
 @[expose] public noncomputable section

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.Step
 
 /-!
-# Reality of the canonical step (P11A-C8, `stepP:p11a:cs-lip`, reality clauses)
+# Reality of the canonical step (`stepP:p11a:cs-lip`, reality clauses)
 
 With the explicit guard `p11Real ... R`: the cutoff coefficients, the homological generators, the
 averages, the time-one map at real points and the remainder are real at real points.

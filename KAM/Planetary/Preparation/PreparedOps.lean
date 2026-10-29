@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.SlowCauchy
 public import KAM.Planetary.WeakMeasure.Basic
 
 /-!
-# Coordinate partials versus iterated derivatives (P11A-P8b2, brick for `pr-b`, `pr-c`, `pr-d`)
+# Coordinate partials versus iterated derivatives (brick for `pr-b`, `pr-c`, `pr-d`)
 
 * `p11PartialVec_single`: `p11PartialVec (single j) f = fun x => fderiv ℂ f x (single j 1)`.
 * `p11_iteratedFDeriv_eq_partial`: for `f` holomorphic on an open `U`, the iterated Fréchet

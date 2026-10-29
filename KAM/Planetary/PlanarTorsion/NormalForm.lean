@@ -13,7 +13,7 @@ public import KAM.Planetary.PlanarTorsion.QuarticFlow
 public import KAM.Planetary.PlanarTorsion.Homological.Reality
 
 /-!
-# Planar quartic torsion: the Lie-series normal form estimate (package T10)
+# Planar quartic torsion: the Lie-series normal form estimate
 
 Blueprint P, Part 11b (`bpP:p11b:lie`, with `stepP:p11b:li-tay`, `stepP:p11b:li-ord`,
 `stepP:p11b:li-sum`).  Composing `n₀ + F + R` with the time-one map of the homological solution

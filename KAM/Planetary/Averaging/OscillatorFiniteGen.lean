@@ -13,8 +13,7 @@ public import KAM.Planetary.Averaging.OscillatorFiniteChain
 `OSched.G` is the sum of the zero-mode increments of the successive remainders. This module shows
 it depends on the phase only through the flat parameter `(oscPack z).2` (so it is independent of
 the fast angles), and that `g - f̂₀` is the finite sum of the later zero-mode increments, which
-gives its weighted bound. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3,
-package P23-15.
+gives its weighted bound.
 -/
 
 @[expose] public noncomputable section

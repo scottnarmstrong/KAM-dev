@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PreparedJets
 public import KAM.Planetary.Preparation.PreparedOps
 
 /-!
-# Deviation of the partials of `h = h₀ + g₂` from the main terms (P11A-P8b2, pr-b, pr-c, pr-d)
+# Deviation of the partials of `h = h₀ + g₂` from the main terms (pr-b, pr-c, pr-d)
 
 Identities (no estimates) for the coordinate partials of `h = A.h₀ + A.g₂` at a point
 `P = (J, ρ̃)` of the Cauchy region (`‖J - J₀‖ < s₂/4`, `‖ρ̃ - 2πε‖ < 5ε/4`):

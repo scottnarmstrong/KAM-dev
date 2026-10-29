@@ -10,7 +10,7 @@ public import KAM.Strip.Analytic
 public import KAM.Planetary.MaximalStep.Basic
 
 /-!
-# Complexification of real analytic maps and the real-slice identity theorem (P11A-P0)
+# Complexification of real analytic maps and the real-slice identity theorem
 
 `p11_real_slice_identity` (`stepP:p11:hc-rot`): a holomorphic `F` on a max-norm ball around a real
 point that vanishes on the real slice vanishes on the whole ball. The proof frees one coordinate

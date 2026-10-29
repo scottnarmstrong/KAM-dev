@@ -11,7 +11,7 @@ public import KAM.Nekhoroshev.Averaging.FlowChain
 public import KAM.Planetary.WeakMeasure.Basic
 
 /-!
-# Global real flows of bounded `C¹` fields (P11A-C7)
+# Global real flows of bounded `C¹` fields
 
 `rl-global` and `rl-deriv` suppliers of `bpP:p11a:real-lipschitz`: a bounded `C¹` field on
 `Fin n → ℝ` has a complete flow (`p11_bounded_global_flow`, by the maximal solution and the

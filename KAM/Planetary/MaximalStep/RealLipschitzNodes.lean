@@ -12,7 +12,7 @@ public import KAM.Planetary.MaximalStep.Divisor
 public import KAM.Strip.FourierBasic
 
 /-!
-# The angle map on the reals: the literal nodes (P11A-C7)
+# The angle map on the reals: the literal nodes
 
 Unsigned literal exports of `stepP:p11a:rl-const` and `bpP:p11a:real-lipschitz` for a real
 `1`-periodic trigonometric polynomial `φ₁ : ℝᴺ → ℝᴺ` of degree `≤ T` (`RealTrigPolyDeg`):
@@ -203,7 +203,7 @@ theorem value_bddAbove (hφ : RealTrigPolyDeg T φ) : BddAbove (Set.range fun x 
 /-- `stepP:p11a:rl-const`: `Λ ≤ 2πT max_i ∑_{0<|k|₁≤T} |φ̂_{1,i,k}|`, and under the decay bound
 `|φ̂_{1,i,k}| ≤ M₁ e^{-2π|k|₁ r_*}/(πD)` this is `≤ 2 T M₁ Λ_{r_*}/D`.
 The degree-zero (constant) case `T = 0` is included. The premise `0 ≤ M₁` is a candidate source
-erratum (orchestrator ruling OVERNIGHT 03:15, owner to review; audit 1, F1): the standalone
+erratum: the standalone
 source statement needs it, as `M₁ < 0` with a vacuous decay hypothesis is a counterexample. -/
 theorem rl_const_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 ≤ T) (hrs : 0 < rs) (hD : 0 < D)
     (hM1 : 0 ≤ M1) {φ : P11Vec n → P11Vec n} (hφ : RealTrigPolyDeg T φ) :
@@ -247,7 +247,7 @@ theorem rl_const_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 ≤ T) (hrs : 0 < rs) 
     _ = 2 * T * M1 * p11Lambda n rs / D := by field_simp
 
 /-- `bpP:p11a:real-lipschitz`: for a real `1`-periodic trigonometric polynomial `φ₁` of degree
-`≤ T` (`0 ≤ T`, including constants; `0 ≤ M₁` as in `rl_const_node`, ruling OVERNIGHT 03:15),
+`≤ T` (`0 ≤ T`, including constants; `0 ≤ M₁` as in `rl_const_node`),
 with `Λ = sup ‖Dφ₁‖` and `Θᵗ` the flow, for `|t| ≤ 1`: `‖DΘᵗ - 1‖ ≤ e^Λ - 1`,
 `Θᵗ(θ + k) = Θᵗ(θ) + k`, `‖Θᵗ(θ) - θ‖ ≤ sup‖φ₁‖`; and the two clauses of `rl_const_node`. -/
 theorem real_lipschitz_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 ≤ T) (hrs : 0 < rs) (hD : 0 < D)

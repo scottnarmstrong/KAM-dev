@@ -13,7 +13,7 @@ public import KAM.Strip.AnalyticTaylor
 public import KAM.Strip.RealRestriction
 
 /-!
-# Complex jets from real bounds, in `(J, z)` (P11A-P2e, `stepP:p11:hc-mean`)
+# Complex jets from real bounds, in `(J, z)` (`stepP:p11:hc-mean`)
 
 `p11_jets_zero_gen`: a holomorphic `G (J, z)` on the product domain `p11MeanDom J₀ r rz` that is
 `O(‖z‖ᵏ)` on real points `(ι J, ι₂ z)` for each real `J` has vanishing `z`-jets of order `< k` at

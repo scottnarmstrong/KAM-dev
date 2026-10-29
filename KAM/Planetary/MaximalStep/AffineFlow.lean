@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.AffineFlowSimple
 
 /-!
-# Affine generating functions: the time-one flow (P11A-C6)
+# Affine generating functions: the time-one flow
 
 `bpP:p11a:affine-flow` (`affine_flow`). The standing hypotheses of `bpN:p5:flow` hold in the gauge
 `scaleCLE (s/2) σ` with `ε = κ = 2(n+1)A/σ ≤ 1/2` (`stepP:p11a:af-field`); the flow `Φ = X^1` is

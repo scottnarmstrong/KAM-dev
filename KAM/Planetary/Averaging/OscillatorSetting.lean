@@ -19,7 +19,6 @@ the transported function `oscFunction`, the parameter set `oscParams`, the domai
 class `oscClass`, the weighted bound `oscBound` (evaluated with the existing `Weighted.coeff`,
 `WSummable`, `wsum` at the flat parameter), the gauge `oscGauge`, and `s_osc_data`
 (`oscUnpack ∘ oscPack = id`).
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-06.
 -/
 
 @[expose] public noncomputable section

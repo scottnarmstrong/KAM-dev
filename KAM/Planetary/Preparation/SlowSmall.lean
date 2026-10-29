@@ -12,7 +12,7 @@ public import KAM.Planetary.Preparation.LogBounds
 public import KAM.Planetary.Preparation.SlowRates
 
 /-!
-# Slow averaging: polynomial-in-`log` bounds of the radii (P11A-P7c, `stepP:p11:as-nr`, `as-b2`)
+# Slow averaging: polynomial-in-`log` bounds of the radii (`stepP:p11:as-nr`, `as-b2`)
 
 `s₁ ≥ c / (log 1/ε)^{τ+1}` and `s₂ ≥ c' / (log 1/ε)^{τ+1}`, and the eventual inequalities
 `ε ℓ^m ≤ δ` obtained from `e4`.

@@ -17,8 +17,7 @@ import Mathlib.Tactic.Linarith
 conclusion 10 of `homological_param`, applied at every real flat parameter on a small ball; the
 real append/unpack bridge identifies the real points of the oscillator domain with the real flat
 parameters. `osc_iter_reality` then transports reality to `gp`, to `fp` on `V` and to the step
-map `Ψ` (via `OscFlowHyp.real_flow`). Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`,
-package P23-13i.
+map `Ψ` (via `OscFlowHyp.real_flow`).
 -/
 
 @[expose] public noncomputable section

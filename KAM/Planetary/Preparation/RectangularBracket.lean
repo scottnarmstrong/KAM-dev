@@ -14,7 +14,7 @@ public import KAM.Frozen.Defs.HamiltonianVectorFieldC
 public import KAM.Planetary.WeakMeasure.Basic
 
 /-!
-# Rectangular bracket and field estimates (P11A-P3, `bpP:p11:aniso-bracket`)
+# Rectangular bracket and field estimates (`bpP:p11:aniso-bracket`)
 
 The blockwise action domain `p11Box`, the weighted bound `p11WBound` over an arbitrary action set,
 the field estimate `aniso_field` and the bracket estimate `aniso_bracket` with separate action

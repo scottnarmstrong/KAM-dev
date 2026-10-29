@@ -15,7 +15,7 @@ public import KAM.Planetary.Averaging.FiniteChain
 N6-4, the fast-lattice law, reality and the Hamiltonian identity of each stage give the structural
 conclusions of `osc_averaging` on `oscDom (R_{M+1}, Rp_{M+1}, Rq_{M+1}, S_{M+1})`, the summed
 component displacements, and the weighted bound of the accumulated normal form minus its first
-term. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
+term.
 -/
 
 @[expose] public noncomputable section

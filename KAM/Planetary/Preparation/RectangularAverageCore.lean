@@ -9,7 +9,7 @@ public import KAM.Planetary.Averaging.Finite
 public import KAM.Planetary.Preparation.RectangularAverageEps
 
 /-!
-# Rectangular averaging: the finite iteration over a complex base set (P11A-P4)
+# Rectangular averaging: the finite iteration over a complex base set
 
 `aniso_avg` is the finite averaging iteration of `KAM.Planetary.nfb` over the complex base set
 `Dc` (a closed polydisc of radii `r_j - r_*` about an arbitrary complex centre), with the

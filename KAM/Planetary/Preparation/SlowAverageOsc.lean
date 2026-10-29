@@ -10,7 +10,7 @@ public import KAM.Kepler.EquationComplex
 public import KAM.Planetary.Preparation.SlowAverageZ
 
 /-!
-# Slow averaging: the oscillation estimate (P11A-P7b, graph step `as-osc`)
+# Slow averaging: the oscillation estimate (graph step `as-osc`)
 
 `G ∘ Π - Ĝ₀ = (R₄ + ḡ) ∘ Π - (𝒜R₄ + 𝒜ḡ)` on the polar region, bounded by
 `c (ε² + η₁ √ε)`: `p11_slow_osc_pointwise`.  Here `Π = p11PolPt z` is the polar point of

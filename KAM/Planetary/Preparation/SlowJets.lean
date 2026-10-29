@@ -11,7 +11,7 @@ public import KAM.Planetary.PGAssembly.JetsPolar
 public import KAM.Planetary.Preparation.PolarAverage.Order
 
 /-!
-# Vanishing jets from a quartic growth bound (P11A-P7 helper)
+# Vanishing jets from a quartic growth bound
 
 `p11_jets_vanish_of_pow_bound`: a holomorphic `F` on a ball around `0` of a finite-dimensional
 complex normed space with `‖F z‖ ≤ M ‖z‖ ^ 4` has `iteratedFDeriv ℂ j F 0 = 0` for `j < 4`.

@@ -8,7 +8,7 @@ module
 public import Mathlib
 
 /-!
-# Planar quartic torsion: the exact conversion remainder (P11C, package T6)
+# Planar quartic torsion: the exact conversion remainder
 
 Blueprint P, Part 11b (`stepP:p11b:qe-conv`).  With `a_i = |u_i|²/I_i`, `d = u₁·u₂/√(I₁I₂)` and
 `σ = √((1 - a₁/4)(1 - a₂/4))`, the squared lengths of the eccentricity vectors are exactly

@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.WrapperTubeMain
 public import KAM.Planetary.Preparation.SlowSmall
 
 /-!
-# Asymptotic smallness for the wrapper (P11A-P10, `stepP:p11:wr-nu`)
+# Asymptotic smallness for the wrapper (`stepP:p11:wr-nu`)
 
 Eventual (as `ε → 0⁺`) validity of the numerical hypotheses of `p11_wr_tube`.
 -/

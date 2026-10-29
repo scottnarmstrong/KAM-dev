@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.WrapperEps
 public import KAM.Planetary.Preparation.WrapperNodeCore
 
 /-!
-# Literal export of `stepP:p11:wr-chain` (GAP-WR)
+# Literal export of `stepP:p11:wr-chain`
 
 The source states that the chain `Ξ_ε = Ψ_c ∘ Φ¹_ε ∘ Θ̂ ∘ Ψ₂ ∘ A_ε` is defined and real analytic on
 `ℛ = {|r| < 2, |ρ'| < π/2}` (real points), is an `ε`-chart with the full integer angle lattice,

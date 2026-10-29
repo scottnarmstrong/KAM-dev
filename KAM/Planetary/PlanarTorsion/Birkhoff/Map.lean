@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.Lift
 public import KAM.Planetary.PlanarTorsion.QuarticFlow
 
 /-!
-# Planar quartic torsion: the composite map `T = rotationLift ∘ liftFlow` (package T16)
+# Planar quartic torsion: the composite map `T = rotationLift ∘ liftFlow`
 
 Blueprint P, Part 11b (`stepP:p11b:bt-rot#lift`, `stepP:p11b:bt-avg`).  On a point
 `assemble I φ z.2 z.1` of the tube, `T` only translates the angles by a vector independent of `φ`

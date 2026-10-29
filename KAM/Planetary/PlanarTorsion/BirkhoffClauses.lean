@@ -9,10 +9,10 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Birkhoff
 
 /-!
-# Planar quartic torsion: clause (a) of `birkhoff_form` and the explicit lift map (package GAP-D)
+# Planar quartic torsion: clause (a) of `birkhoff_form` and the explicit lift map
 
-Blueprint P, Part 11b (`bpP:p11b:birkhoff-form` clause (a), `bpP:p11b:lift-map`).  Append-only gap
-fill after T16: unsigned lemmas that only consume `birkhoff_form`.
+Blueprint P, Part 11b (`bpP:p11b:birkhoff-form` clause (a), `bpP:p11b:lift-map`).  Unsigned
+lemmas that only consume `birkhoff_form`.
 
 * `birkhoff_form_hamiltonian`: for the map `T` of `birkhoff_form`, on the tube the pullbacks
   `f̂ ∘ T` (`f̂ ∈ {f̂_fix, f̂_mov}`) are real analytic, `2π`-periodic in the angles, and
@@ -23,7 +23,8 @@ fill after T16: unsigned lemmas that only consume `birkhoff_form`.
   `T = p11c_rotationLift ∘ p11c_liftFlow chi`, with `g` the time integral of `∂_Λ chi` along the
   flow and `H` the frame-rotation angle correction.
 * `p11cG_attach`: universal attachment of clause (a) to any `T` with the source data.
-* `birkhoff_form_full`: joint export (all T16 clauses, clause (a), explicit form; same witnesses).
+* `birkhoff_form_full`: joint export (all clauses of `birkhoff_form`, clause (a), explicit form;
+  same witnesses).
 * `lift_map_properties`: with the three properties of the node (analytic symplectic chart,
   injectivity, action preservation, commutation with angle translations) for the `T` of
   `birkhoff_form`.

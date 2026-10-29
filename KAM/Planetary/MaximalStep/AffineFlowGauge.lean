@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.AffineFlowBasic
 
 /-!
-# Affine flow: gauge interiors, displacement and periodicity (P11A-C6)
+# Affine flow: gauge interiors, displacement and periodicity
 
 Gauge-interior inclusions `U ⊆ Ω^{1/2}`, `V ⊆ Ω^1` for `U = Dom (3s/4) (r-3σ/2)`,
 `V = Dom (s/2) (r-2σ)` and `Ω = Dom s (r-σ)` in the gauge `scaleCLE (s/2) σ`; the displacement

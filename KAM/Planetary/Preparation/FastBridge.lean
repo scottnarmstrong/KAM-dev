@@ -11,7 +11,7 @@ public import KAM.Planetary.Averaging.OscillatorFinite
 public import KAM.Planetary.Preparation.FastDivisor
 
 /-!
-# Fast averaging: the oscillator dictionary (P11A-P5, `stepP:p11:af-apply`)
+# Fast averaging: the oscillator dictionary (`stepP:p11:af-apply`)
 
 The working carrier `p11WorkingDom` is the oscillator domain `oscDom {J0}` with `m = n`, the
 secular position `x` playing the oscillator coordinate `q` and the momentum `y` playing `p`

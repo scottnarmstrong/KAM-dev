@@ -11,9 +11,9 @@ public import KAM.Weighted.Parametric
 public import KAM.Planetary.PlanarTorsion.RealFlow.PicardOp
 
 /-!
-# Planar quartic torsion: complex-time Picard convergence (package R2)
+# Planar quartic torsion: complex-time Picard convergence
 
-Blueprint P, Part 11b (`bpP:p11b:e-ode`, package R2).  Let `F : ℂⁿ → ℂⁿ` be holomorphic, bounded by
+Blueprint P, Part 11b (`bpP:p11b:e-ode`).  Let `F : ℂⁿ → ℂⁿ` be holomorphic, bounded by
 `M` and `L`-Lipschitz on the ball `D = B(c, ρ)`.  On `U = {|s| < T, ‖w - c‖ < r}` with
 `M T + r ≤ ρ` and `L T ≤ 1/2` the Picard iterates `u₀ = w`, `uₖ₊₁ = p11cPicardOp (F ∘ uₖ)` are
 holomorphic on `U`, stay in `D`, and converge uniformly (geometrically) to a map `u` that is

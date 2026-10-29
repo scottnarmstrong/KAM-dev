@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowAverageOsc
 
 /-!
-# Slow averaging: the polar average of `G` (P11A-P7b, graph step `as-osc`, items (b), (d))
+# Slow averaging: the polar average of `G` (graph step `as-osc`, items (b), (d))
 
 `p11_slow_key`: for `Re ρ̃ > 0`, `𝒜 G = C + Σ Ω_i ρ̃_i / 2π + 𝒜R₄ + 𝒜ḡ`, by linearity
 (`polar_average_linear`) and the normalization (`polar_average_normalization`) of the polar

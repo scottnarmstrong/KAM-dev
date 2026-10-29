@@ -16,7 +16,7 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Combine2
 public import KAM.Planetary.PlanarTorsion.PairJet.Combine4
 
 /-!
-# Planar quartic torsion: the actual averaged interaction `pair_jet` (P11C, package T5)
+# Planar quartic torsion: the actual averaged interaction `pair_jet`
 
 Blueprint P, Part 11b (`bpP:p11b:pair-jet`; steps `pj-formal`, `pj-bin`, `pj-avg`, `pj-red`).  The
     pair

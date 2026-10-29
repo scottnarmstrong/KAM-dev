@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.PreparedJets
 
 /-!
-# The polar average `Ĝ₀`: the normalized jet bound (P11A-P8b, `stepP:p11:pr-in` (i))
+# The polar average `Ĝ₀`: the normalized jet bound (`stepP:p11:pr-in` (i))
 
 * `p11_prin_MF_eta1_le`: `M_F + η₁(ε) ≤ K M_F` with `K` fixed before `ε`, on the whole range
   `ε M_F ≤ e⁻¹` (no further shrinking is needed, since `ε ℓ^p ≤ (2p)^p` for `ε ≤ 1`).

@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Jets
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Defs
 
 /-!
-# Planar quartic torsion: the action neighbourhoods of the Birkhoff map (package T16)
+# Planar quartic torsion: the action neighbourhoods of the Birkhoff map
 
 Blueprint P, Part 11b (`stepP:p11b:bt-nf`).  The good axis set `{a ∈ p11c_axes | p11c_phi4 p a ≠ 0}`
 is open (`p11c_phi4` is continuous on the axis cone), and `p11c_phi4 p a ≠ 0` gives the

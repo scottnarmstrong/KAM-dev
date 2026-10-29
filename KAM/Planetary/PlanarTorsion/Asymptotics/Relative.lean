@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries
 
 /-!
-# Planar quartic torsion: relative errors (P11C, package T19)
+# Planar quartic torsion: relative errors
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`): `p11c_relativeError f g` says that
 `f / g - 1 = O(α ^ 2)` as `α → 0⁺`.  `p11cAs_rel` turns the absolute form

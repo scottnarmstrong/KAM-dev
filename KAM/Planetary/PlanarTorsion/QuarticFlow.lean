@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.QuarticFlow.Analytic
 
 /-!
-# Planar quartic torsion: the quartic flow (package T9)
+# Planar quartic torsion: the quartic flow
 
 Blueprint P, Part 11b (`bpP:p11b:flow`, with `stepP:p11b:fl-bd` and `stepP:p11b:fl-an`): the
 restricted time-one maps `p11c_flow` of the quartic Hamiltonians `chi.eval I` and the theorem

@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Choice
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Defs
 
 /-!
-# Planar quartic torsion: assembly of `PlanarBirkhoffResult` for a given neighbourhood (package T16)
+# Planar quartic torsion: assembly of `PlanarBirkhoffResult` for a given neighbourhood
 
 Blueprint P, Part 11b (`bpP:p11b:birkhoff-form`).  Given the radius, constant and the data of the
 normal form (quartic family `F₀`, homological solution `chi`, the lift chart on a fixed tube, the

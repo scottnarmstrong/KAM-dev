@@ -11,7 +11,7 @@ public import KAM.Strip.Bridges
 public import KAM.Planetary.MaximalStep.Basic
 
 /-!
-# Fourier cutoff: coefficients of an admissible function (P11A-C1)
+# Fourier cutoff: coefficients of an admissible function
 
 For `F` holomorphic on `domain_def n r s B` the angle coefficient
 `(η, b) ↦ û_k(η, b) = ∫_{[0,1]ⁿ} F(x, η, b) e^{-2πi k·x} dx` is holomorphic on the

@@ -8,7 +8,7 @@ module
 public import Mathlib
 
 /-!
-# Logarithmic domination (P11A-P5, `bpP:p11:e4`)
+# Logarithmic domination (`bpP:p11:e4`)
 
 `e4` is the elementary fact `ε ^ a * (log (1/ε)) ^ b → 0` as `ε → 0+` for `a > 0`, `b ≥ 0`; its
 companion `log_inv_ge_one` is the first clause `log (1/ε) ≥ 1` on `(0, e⁻¹]`.

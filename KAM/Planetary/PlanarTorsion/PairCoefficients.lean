@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.OrbitJet.Analytic
 public import KAM.Planetary.PlanarTorsion.PairCoefficients.Laplace
 
 /-!
-# Planar quartic torsion: the pair coefficients `A, B, p₁, …, p₆` (P11C, package T4)
+# Planar quartic torsion: the pair coefficients `A, B, p₁, …, p₆`
 
 Blueprint P, Part 11b (`bpP:p11b:pair-jet`): the eight rational coefficients `p11c_pairCoeffs`
 written in `b_{1/2}^{(0)}, b_{1/2}^{(1)}`, their analyticity on `(-1, 1)` and the explicit series

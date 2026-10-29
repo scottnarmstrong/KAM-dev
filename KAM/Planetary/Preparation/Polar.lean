@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.Holomorphic
 public import KAM.Planetary.Poincare.Lattice
 
 /-!
-# The total chart (P11A-P2, `bpP:p11:total-chart`)
+# The total chart (`bpP:p11:total-chart`)
 
 The period-one polar chart `p11PolarC` (complex) and `p11PolarR` (its real restriction), and the
 lattice compatibility `total_chart` and `total_chart_transport`. The real chart is the existing
