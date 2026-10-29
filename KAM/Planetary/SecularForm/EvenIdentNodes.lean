@@ -16,6 +16,7 @@ public import KAM.Planetary.SecularForm.Coefficients
 public import KAM.Planetary.PGAssembly.JetsPolar
 public import KAM.Planetary.SecularForm.Laplace
 public import KAM.Planetary.SecularForm.LaplaceIdentities
+public import KAM.Planetary.SecularForm.AnalyticNodes
 
 /-!
 # Secular form: literal exports of the evenness nodes of Part 8
@@ -440,6 +441,94 @@ theorem p8_evenness_nbhd (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     fun b => ⟨fun x hx θ => evenness D (realDisc_subset_slowDom D ha hrho hx) b θ,
       fun x hx => (hfull b).2.1 x.2.1 (hslice ⟨x, hx, rfl⟩),
       fun k => ((hfull b).2.2.1 k).mono hslice, ((hfull b).2.2.2).mono hslice⟩⟩
+
+/-- `bpP:p8:evenness`, joint export.  For data `D` and base axes `a`, a single radius `r`
+(`0 < r < rho D a`, as every conclusion of `perturbation_analytic` persists on a smaller radius)
+carries the full conclusion of `perturbation_analytic_full` restricted to `r`, together with every
+evenness conclusion of `p8_evenness_nbhd` at the same `r`. -/
+theorem p8_evenness_joint (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    ∃ r : ℝ, 0 < r ∧ r < rho D a ∧
+    ((∀ t x, x ∈ polydisc D a r → ∀ i j, i < j →
+      ((a j - a i) ^ 2 / 2) ≤ (separationC D t x i j).re) ∧
+    (∀ x ∈ realDisc D a r, ∀ t : Vec n,
+      (∀ i j, separationC D t (inclusion x) i j =
+        ((planeSq (bodyVector (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1)).1 i -
+          bodyVector (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1)).1 j) : ℝ) :
+          ℂ)) ∧
+      (∀ i j, i < j → (a j - a i) / √2 ≤
+        planeLength (bodyVector (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1)).1 i -
+          bodyVector (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1)).1 j)) ∧
+      poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1) ∈ collisionFreeDomain n) ∧
+    ∀ b : Bool,
+      ((∀ t, DifferentiableOn ℂ (perturbationC D b t) (polydisc D a r)) ∧
+        ContinuousOn (fun z : Vec n × CSlow n => perturbationC D b z.1 z.2)
+          (univ ×ˢ polydisc D a r) ∧
+        (∀ x ∈ polydisc D a r, ∀ t i,
+          perturbationC D b (Function.update t i (t i + 2 * π)) x = perturbationC D b t x) ∧
+        (∀ x ∈ realDisc D a r, ∀ t,
+          perturbationC D b t (inclusion x) =
+            ((if b then fMov D.G D.m0 D.m
+                (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1))
+              else fFix D.G D.m
+                (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1)) : ℝ) : ℂ))) ∧
+      DifferentiableOn ℂ (secularC D b) (polydisc D a r) ∧
+      (∀ x ∈ realDisc D a r, secularC D b (inclusion x) = (secular D b x : ℂ)) ∧
+      AnalyticOnNhd ℝ (secular D b) (realDisc D a r) ∧
+      (∀ k : ℕ, ∀ x ∈ realDisc D a r, iteratedFDeriv ℝ k (secular D b) x =
+        avg (fun t => iteratedFDeriv ℝ k
+          (fun y : Slow n => perturbation D b (assemble y.2.1 t y.2.2 y.1)) x)) ∧
+      ∀ k : ℕ, ∀ x ∈ polydisc D a r, iteratedFDeriv ℂ k (secularC D b) x =
+        avg (fun t => iteratedFDeriv ℂ k (perturbationC D b t) x)) ∧
+    ∀ b : Bool,
+      (∀ x ∈ realDisc D a r, ∀ θ : ℝ,
+        secular D b (-x.1, x.2.1, -x.2.2) = secular D b x ∧
+        secular D b (x.1, x.2.1, -x.2.2) = secular D b x ∧
+        secular D b (-x.1, x.2.1, x.2.2) = secular D b x ∧
+        secular D b (rotateSlow θ x) = secular D b x) ∧
+      (∀ x ∈ realDisc D a r,
+        (∀ k : ℕ, iteratedFDeriv ℝ (2 * k + 1) (slowSecular D b x.2.1) 0 = 0) ∧
+        fderiv ℝ (slowSecular D b x.2.1) 0 = 0 ∧
+        (∀ (k : ℕ) (θ : ℝ) (u : Vec n × Vec n),
+          iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => slowRotCLE θ u) =
+            iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => u)) ∧
+        (∀ (k : ℕ) (u : Vec n × Vec n),
+          iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => (u.1, -u.2)) =
+            iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => u)) ∧
+        (∀ u : Vec n × Vec n, iteratedFDeriv ℝ 2 (slowSecular D b x.2.1) 0 (fun _ => u) / 2 =
+          quad (coeffs D (axis D x.2.1)) u.1 + quad (coeffs D (axis D x.2.1)) u.2) ∧
+        (coeffs D (axis D x.2.1)).transpose = coeffs D (axis D x.2.1)) ∧
+      (∀ k : ℕ, AnalyticOnNhd ℝ (fun I => iteratedFDeriv ℝ k (slowSecular D b I) 0)
+        ((fun x : Slow n => x.2.1) '' realDisc D a r)) ∧
+      AnalyticOnNhd ℝ (fun I => coeffs D (axis D I))
+        ((fun x : Slow n => x.2.1) '' realDisc D a r) := by
+  obtain ⟨r0, hr0, hrh, hsep, hreal, hall⟩ := perturbation_analytic_full D ha
+  have hρ := rho_pos D ha
+  obtain ⟨ε, hε, hball⟩ := Metric.eventually_nhds_iff.1 (eventually_mem_actionDomain D ha)
+  have hrε : min r0 ε ≤ r0 := min_le_left _ _
+  have hsub : polydisc D a (min r0 ε) ⊆ polydisc D a r0 := fun x hx i =>
+    ⟨(hx i).1.trans_le hrε, (hx i).2.1.trans_le hrε, (hx i).2.2.trans_le hrε⟩
+  have hsubR : realDisc D a (min r0 ε) ⊆ realDisc D a r0 := Set.preimage_mono hsub
+  have hslice : (fun x : Slow n => x.2.1) '' realDisc D a (min r0 ε) ⊆ actionDomain D := by
+    rintro _ ⟨x, hx, rfl⟩
+    refine hball ?_
+    rw [dist_pi_lt_iff hε]
+    intro i
+    have h2 : ‖((x.2.1 i : ℝ) : ℂ) - (action D a i : ℂ)‖ < min r0 ε := (hx i).2.1
+    rw [← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs] at h2
+    rw [Real.dist_eq]
+    exact h2.trans_le (min_le_right _ _)
+  have hrho : min r0 ε < rho D a := by linarith [min_le_left r0 ε]
+  have hfull := p8_evenness_full D
+  refine ⟨min r0 ε, lt_min hr0 hε, hrho, ⟨fun t x hx i j hij => hsep t x (hsub hx) i j hij,
+    fun x hx t => hreal x (hsubR hx) t, fun b => ?_⟩, fun b => ?_⟩
+  · obtain ⟨⟨h1, h2, h3, h4⟩, h5, h6, h7, h8, h9⟩ := hall b
+    exact ⟨⟨fun t => (h1 t).mono hsub, h2.mono (Set.prod_mono subset_rfl hsub),
+      fun x hx => h3 x (hsub hx), fun x hx => h4 x (hsubR hx)⟩, h5.mono hsub,
+      fun x hx => h6 x (hsubR hx), h7.mono hsubR, fun k x hx => h8 k x (hsubR hx),
+      fun k x hx => h9 k x (hsub hx)⟩
+  · exact ⟨fun x hx θ => evenness D (realDisc_subset_slowDom D ha hrho hx) b θ,
+      fun x hx => (hfull b).2.1 x.2.1 (hslice ⟨x, hx, rfl⟩),
+      fun k => ((hfull b).2.2.1 k).mono hslice, ((hfull b).2.2.2).mono hslice⟩
 
 /-! ### Laplace coefficients: parity and analyticity at `α = 0` -/
 
