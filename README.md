@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 17:37 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · SO checker 51 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 17:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · SO checker 51 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 274,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -201,7 +201,7 @@ Overall, everything together: 88.6 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **261,251** (204,394 excluding blank lines and comments) · **+108,455** since 2026-10-28 17:20 UTC |
+| On `main` now | **261,251** (204,394 excluding blank lines and comments) · **+108,455** since 2026-10-28 17:40 UTC |
 | Written on agent branches, not yet landed | 3,020 |
 | **Estimated total at completion** | **≈ 274,000** |
 | Estimated still to write | ≈ 10,000 |
@@ -210,7 +210,7 @@ Overall, everything together: 88.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 17:37 UTC from `main` at `2cc3a5a1` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 17:40 UTC from `main` at `8d3b7d5f` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -219,7 +219,7 @@ Overall, everything together: 88.6 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 31 modules · 7,030 lines. **Packages landed: 15 / 25**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 11 modules · 2,225 lines. **Packages landed: 14 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-DIO3, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GEN, SO-GEN2, SO-DATA-PY.
-- **Now:** proving — · in audit SO-POLY-B
+- **Now:** proving SO-MALG · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -369,12 +369,12 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: kernel_replay: C-locale comm | `inp-iguards` | 3 (vs `inp`) |
 | **ncloselean** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N-CLOSE-LEAN: round-2 audit request | `inp-ncloselean` | 5 (vs `inp`) |
+| **somalg** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-POLY-B: audit request | `inp-somalg` | 13 (vs `inp`) |
 | **sopolyb** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-POLY-B: audit request | `inp-sopolyb` | 13 (vs `inp`) |
-| **sotoygen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYGEN: report wording (exact certificate values; float margins for reading only) | `inp-sotoygen` | 5 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -384,6 +384,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 17:39 | `8d3b7d5f` | Land inp into main |
 | 2026-10-29 17:37 | `2cc3a5a1` | HQ: track SO in two parts (general certificate checker; the Moon's spin rate) in the estimate, glance and tracks table; SO packages detected as landed from files on main (no hand-kept list) |
 | 2026-10-29 17:34 | `e79da9a4` | Land inp into main |
 | 2026-10-29 17:32 | `f1941156` | D32: graph N blueprint scope repair of three Part 1 steps (H1-H5 added by reviewed amendment) |
@@ -395,7 +396,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 16:45 | `96c7d422` | HQ: track P complete (graph P fully resolved); current phase: original project complete, track SO next |
 | 2026-10-29 16:43 | `93ba348b` | Land inp into main |
 | 2026-10-29 16:36 | `d435f648` | Land inp into main |
-| 2026-10-29 16:34 | `9b258fbb` | README: frozen statements moved to docs/STATEMENTS.md (per track: Lean link, source with paper, docstring, status, provider; frozen definitions per track), README keeps a linked index; collaborator row removed from the agent list |
 <!-- /AUTO:landed -->
 
 ## Decisions
