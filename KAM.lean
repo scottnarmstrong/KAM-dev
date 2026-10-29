@@ -70,6 +70,9 @@ public import KAM.Certificate.Expr.Slp
 public import KAM.Certificate.Freq
 public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.Model.Basic
+public import KAM.Certificate.Model.Exp
+public import KAM.Certificate.Model.ExpBounds
+public import KAM.Certificate.Model.Inv
 public import KAM.Certificate.Model.Ops
 public import KAM.Certificate.Model.Terms
 public import KAM.Certificate.NormBridge
@@ -88,6 +91,7 @@ public import KAM.Certificate.Tests.ComplexExp
 public import KAM.Certificate.Tests.Model
 public import KAM.Certificate.Tests.Packed
 public import KAM.Certificate.Tests.Positivity
+public import KAM.Certificate.Tests.Witness
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
 public import KAM.Diophantine.FrequencyDependence
