@@ -34098,9 +34098,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:cl-b@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27: route not taken by any sealed proof (P-GRAPH-CLOSE-audit-1.md:24 BYPASSED); the sealed route uses the alternative recorded there
 NOTE: -
 
 NODE: stepP:p14:cl-c
@@ -34129,9 +34129,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:cl-c@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1
 REVIEWER: sol-review-P-n
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amd_closure, AMD/Closure.lean:193–227
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:25 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: bpP:p14:moving-ode
@@ -34164,9 +34164,9 @@ EDGE: bpP:p0:d25-movsol#IsHamiltonianSolutionOn | blueprint-P/parts/p14a-amd-exp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit A4 PASS WITH NOTES but moving_ode covers only the H_mov part; the -H clause (X_{-H} = -X_H equivalence) is not stated
+LEAN_NOTE: D27: route not taken by any sealed proof (P-GRAPH-CLOSE-audit-1.md:26 BYPASSED); the sealed route uses the alternative recorded there
 NOTE: -
 
 NODE: stepP:p14:mo-reg
@@ -34195,9 +34195,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:mo-re
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: moving_ode, AMD/MovingODE.lean:36–39; analyticOnNhd_movingHamiltonian, KAM/Planetary/Newtonian/Models.lean; KAM.ODE.ham_smooth_c1
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:27 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: stepP:p14:mo-eq
@@ -34228,9 +34228,9 @@ EDGE: bpP:p0:d25-movsol#IsHamiltonianSolutionOn | blueprint-P/parts/p14a-amd-exp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a1+sol-review-P-n
 REVIEWER: sol-delta-P-r
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27: route not taken by any sealed proof (P-GRAPH-CLOSE-audit-1.md:28 BYPASSED); the sealed route uses the alternative recorded there
 NOTE: -
 
 NODE: bpP:p14:ang-mom
@@ -35376,9 +35376,9 @@ EDGE: bpP:p14:x-top | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:pt-input@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: internal to perturbation; not exported as separate declaration (steps not named, left)
+LEAN_STATUS: PROVED
+LEAN_REF: isCompact_perturbationCore, Exponential/Perturbation.lean:48–87; perturbation, Perturbation.lean:238–244
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:29 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: stepP:p14:pt-rho
@@ -35408,9 +35408,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-delta-P-s
 REVIEWER: sol-delta-P-ag
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: internal to perturbation; not exported as separate declaration (steps not named, left)
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation, Exponential/Perturbation.lean:245–285; exists_shift_mem_core, :148–185
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:30 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: stepP:p14:pt-def
@@ -35436,9 +35436,9 @@ EDGE: stepP:p14:pt-rho | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:pt-def
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: internal to perturbation; not exported as separate declaration (steps not named, left)
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation, Exponential/Perturbation.lean:286–288
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:31 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: stepP:p14:pt-p12
@@ -35465,9 +35465,9 @@ EDGE: N:bpN:p0:partial-pert#IsPartialPerturbation | blueprint-P/parts/p14a-amd-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: internal to perturbation; not exported as separate declaration (steps not named, left)
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation, Exponential/Perturbation.lean:289–298
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:32 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: stepP:p14:pt-p3
@@ -35500,9 +35500,9 @@ EDGE: N:bpN:p0:partial-domain#partialComplexDomain | blueprint-P/parts/p14a-amd-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-delta-P-s
 REVIEWER: sol-delta-P-ag
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: internal to perturbation; not exported as separate declaration (steps not named, left)
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation, Exponential/Perturbation.lean:299–302,308–319
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:33 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: stepP:p14:pt-p4
@@ -35533,9 +35533,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: internal to perturbation; not exported as separate declaration (steps not named, left)
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation, Exponential/Perturbation.lean:303–307
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:34 PROVED (ruling (b), proof block by line range)
 NOTE: -
 
 NODE: stepP:p14:pt-neg
@@ -35879,9 +35879,9 @@ EDGE: bpP:p14:enlarge | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:hnu@L265-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: conclusion includes openness of calV, which is E11's obligation; Lean gives pointwise statements on working cylinder only
+LEAN_STATUS: PROVED
+LEAN_REF: hnu, Exponential/Hamiltonian.lean:50–72; differentiableAt_hnu_field, :89–113; hamiltonianVectorField_neg, :116–119; stopped_hamiltonian_neg, Exponential/Stopped.lean:180–188; isOpen_workingCylinder, :64–71; consumers :208–209,231–239
+LEAN_NOTE: P-GRAPH-CLOSE-audit-1.md:35 PROVED
 NOTE: -
 
 NODE: stepP:p14:hn-eq
@@ -36486,9 +36486,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:sec-dom
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chartAMD, chartSafe, Exponential/Setting.lean:32–38; planetBlock, poincareProd, poincareProdDom, Poincare/Product.lean:41–51; isOpen_poincareProd_preimage, :300–303; chartSafe_shift_iff, Exponential/Perturbation.lean:207–215; sec_domain_chart_facts, Exponential/Dictionary.lean:64–79
+LEAN_NOTE: definition-node policy: P-GRAPH-CLOSE-audit-1.md:36 definition-confirmed
 NOTE: created from p14a:prose-L159-L168 (first part, SPEC section data); consumers: Chart facts (Ch1)-(Ch3) and the lemmas of §sec-domain onward
 
 NODE: bpP:p14:sec-domain#chart-facts
@@ -36562,9 +36562,9 @@ EDGE: bpP:p0:blocks#fast | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:sec-st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-delta-P-s
 REVIEWER: sol-delta-P-ag
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Frozen degenerateHamiltonian, KAM.Nekhoroshev.realPart, complexifyPhase; Exponential/Hamiltonian.lean:50–58,122–127; Exponential/Stopped.lean:180–188,245ff
+LEAN_NOTE: definition-node policy: P-GRAPH-CLOSE-audit-1.md:37 definition-confirmed
 NOTE: created from p14a:prose-L260-L262 (SPEC section data); consumers: hnu, stopped and its steps
 
 NODE: bpP:p14:sb-x-alg
@@ -37583,9 +37583,9 @@ EDGE: bpP:p14:sb-box#jupiterSaturnWeights | blueprint-P/parts/p14b-secular-box.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Frozen jupiterSaturnWeights; sb_smooth_prop, SecularBox/Smooth.lean:317–323; sb_safety, SecularBox/Safety.lean:156ff
+LEAN_NOTE: definition-node policy: P-GRAPH-CLOSE-audit-1.md:41 definition-confirmed
 NOTE: section data for the subsection sb-smooth (the SPEC suggested the name bpP:p14:sb-flow#data; the paragraph is the opening of sb-smooth, L177, and governs sb-smooth and sb-flow)
 
 NODE: bpP:p14:sb-Sdef
@@ -39153,9 +39153,9 @@ EDGE: N:bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#bpN:p6:iterative-spec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-d
 REVIEWER: sol-review-P-p
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27: route not taken by any sealed proof (P-GRAPH-CLOSE-audit-1.md:42 BYPASSED); the sealed route uses the alternative recorded there
 NOTE: P-OWNED: N excludes this remark from its own root closure; P consumes its first-step and averaging facts through p2:direct. Source remains the N blueprint; do not label it an N import.
 
 NODE: bpI:p7:scaling

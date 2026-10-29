@@ -1014,9 +1014,9 @@ EDGE: bpP:p14:sb-box#jupiterSaturnWeights | blueprint-P/parts/p14b-secular-box.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Frozen jupiterSaturnWeights; sb_smooth_prop, SecularBox/Smooth.lean:317–323; sb_safety, SecularBox/Safety.lean:156ff
+LEAN_NOTE: definition-node policy: P-GRAPH-CLOSE-audit-1.md:41 definition-confirmed
 NOTE: section data for the subsection sb-smooth (the SPEC suggested the name bpP:p14:sb-flow#data; the paragraph is the opening of sb-smooth, L177, and governs sb-smooth and sb-flow)
 
 NODE: bpP:p14:sb-Sdef

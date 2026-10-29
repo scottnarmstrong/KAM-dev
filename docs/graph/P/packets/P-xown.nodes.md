@@ -23,9 +23,9 @@ EDGE: N:bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#bpN:p6:iterative-spec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-d
 REVIEWER: sol-review-P-p
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27: route not taken by any sealed proof (P-GRAPH-CLOSE-audit-1.md:42 BYPASSED); the sealed route uses the alternative recorded there
 NOTE: P-OWNED: N excludes this remark from its own root closure; P consumes its first-step and averaging facts through p2:direct. Source remains the N blueprint; do not label it an N import.
 
 NODE: bpI:p7:scaling
