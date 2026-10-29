@@ -152,11 +152,20 @@ theorem kc_small (d : PGData a b) {r mu : ℝ} (hr : 0 < r) (_hmu : 0 < mu) (h1 
   · show mu*(pgScales d).k0*r^(5/2:ℝ) ≤ (pgScales d).k0*r^(5/2:ℝ)
     nlinarith [mul_pos hk0 h52]
 
-/-- `bpP:p5:kam-cond`: the evaluations of `kc_eval`, the KAM condition, `γ₁ ≥ γ₂`, and `τ > n`. -/
-theorem kam_cond_node (d : PGData a b) {r mu : ℝ} (hr : 0 < r) (hmu : 0 < mu) (h1 : mu ≤ 1) :
-    (pgKamScale d r mu).L = kam_c1 d/mu ∧
+/-- `bpP:p5:kam-cond`: the constants `κ₀, κ₁, G` (items 1-3, `PGScaleSpec`), fixed by `d` alone
+before `(r, mu)`; then for all `0 < r`, `0 < mu ≤ 1`: `L = C₁/μ`, the actual Part 3 expression
+`E M² L/γ₁²` equals `C₁⁴/κ₀² ≤ 1`, `K = K₀`, the bridges of `ρ̂`, `Ê` to `params`, the radius and
+error formulas, the KAM condition `ĉ Ê < 1`, `γ₁ ≥ γ₂` and `τ > n`. -/
+theorem kam_cond_node (d : PGData a b) :
+    PGScaleSpec d (pgScales d) ∧
+    ∀ {r mu : ℝ}, 0 < r → 0 < mu → mu ≤ 1 →
+    ((pgKamScale d r mu).L = kam_c1 d/mu ∧
+    (pgKamScale d r mu).E*(pgKamScale d r mu).M^2*(pgKamScale d r mu).L/
+      (pgKamScale d r mu).γ₁^2 = (kam_c1 d)^4/(pgScales d).k0^2 ∧
     (kam_c1 d)^4/(pgScales d).k0^2 ≤ 1 ∧
     cutoff (pgKamScale d r mu) = pgK0 d (pgScales d) ∧
+    rhoHat (pgKamScale d r mu) = (params d r mu).rhoHat ∧
+    eHat (pgKamScale d r mu) = (params d r mu).Ehat ∧
     (params d r mu).rhoHat =
       min ((pgScales d).k0*r^(5/2:ℝ)/(3*kam_c1 d*(pgK0 d (pgScales d))^(pgTau a b+1)))
         ((pgScales d).k1*r^(5/2:ℝ)/2) ∧
@@ -165,10 +174,11 @@ theorem kam_cond_node (d : PGData a b) {r mu : ℝ} (hr : 0 < r) (hmu : 0 < mu) 
       (pgScales d).k0^2) (4*(kam_c1 d)^2/(pgScales d).k1^2) ∧
     pgChat a b*(params d r mu).Ehat < 1 ∧
     (params d r mu).gamma2 ≤ (params d r mu).gamma1 ∧
-    ((a+b:ℕ):ℝ) < pgTau a b := by
-  obtain ⟨hL, -, hx, hK, hρ, -, -, hE2, hmax⟩ := kc_eval d hr hmu h1
+    ((a+b:ℕ):ℝ) < pgTau a b) := by
+  refine ⟨pgScales_spec d, fun {r mu} hr hmu h1 => ?_⟩
+  obtain ⟨hL, hxe, hx, hK, hρ, hb1, hb2, hE2, hmax⟩ := kc_eval d hr hmu h1
   obtain ⟨hE, -, hg⟩ := kc_small d hr hmu h1
-  exact ⟨hL, hx, hK, hρ, hE2, hmax, hE, hg, by unfold pgTau; linarith⟩
+  exact ⟨hL, hxe, hx, hK, hb1, hb2, hρ, hE2, hmax, hE, hg, by unfold pgTau; linarith⟩
 
 /-- `stepP:p5:rk-dir`: `Ê < 2⁻¹³/n`, `r_K < ρ̂/(256 n) ≤ λ₁/(512 n)`, `r_K < min{t, λ₁}`,
 `r_K < ρ̄/2`, `2 r_K/ℓ ≤ κ₁ √r/(64 n)` and `(1 + 2 r_K/ℓ)^b < 2` for admissible `(r, mu)`. -/
