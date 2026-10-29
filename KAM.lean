@@ -855,6 +855,7 @@ public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
 public import KAM.Planetary.Preparation.Slow
+public import KAM.Planetary.Preparation.SlowAssembly
 public import KAM.Planetary.Preparation.SlowAverage
 public import KAM.Planetary.Preparation.SlowAverageDom
 public import KAM.Planetary.Preparation.SlowAverageF2
@@ -865,13 +866,16 @@ public import KAM.Planetary.Preparation.SlowAverageReal
 public import KAM.Planetary.Preparation.SlowAverageW
 public import KAM.Planetary.Preparation.SlowAverageZ
 public import KAM.Planetary.Preparation.SlowCauchy
+public import KAM.Planetary.Preparation.SlowCoeff
 public import KAM.Planetary.Preparation.SlowConclude
 public import KAM.Planetary.Preparation.SlowData
 public import KAM.Planetary.Preparation.SlowDerivative
 public import KAM.Planetary.Preparation.SlowDivisor
 public import KAM.Planetary.Preparation.SlowJets
+public import KAM.Planetary.Preparation.SlowMW
 public import KAM.Planetary.Preparation.SlowMean
 public import KAM.Planetary.Preparation.SlowRates
+public import KAM.Planetary.Preparation.SlowSigned
 public import KAM.Planetary.Preparation.SlowSmall
 public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.Quantitative.Assembly
@@ -887,6 +891,7 @@ public import KAM.Planetary.Quantitative.BudgetPower.Positivity
 public import KAM.Planetary.Quantitative.BudgetPower.Rates
 public import KAM.Planetary.Quantitative.BudgetPower
 public import KAM.Planetary.Quantitative.Interface
+public import KAM.Planetary.Quantitative.Physical
 public import KAM.Planetary.Quantitative.Thresholds
 public import KAM.Planetary.Quantitative.Zero
 public import KAM.Planetary.SecularBox.Chart

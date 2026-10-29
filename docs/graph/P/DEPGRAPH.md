@@ -20381,9 +20381,9 @@ EDGE: bpP:p11:sec-C#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:av
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: assembled in P7d; P7b covers only clause (a)
+LEAN_STATUS: PROVED
+LEAN_REF: P11SlowSpec, avg_slow, p11SlowConstant, p11SlowData (KAM/Planetary/Preparation/SlowSigned.lean); avg_slow_of_spec, p11_slow_eventually, p11SlowAsmC, p11_slow_at (KAM/Planetary/Preparation/SlowAssembly.lean); p11_slow_MW, p11SlowMW (KAM/Planetary/Preparation/SlowMW.lean); p11_slow_coeff_zero, p11_torusAverage_natAdd (KAM/Planetary/Preparation/SlowCoeff.lean)
+LEAN_NOTE: audit P11A-P7d round 2 PASS WITH NOTES (signed P11SlowSpec/avg_slow exact); signed spec states (a) f2 weighted bound, h0/Z decomposition and Z jets, (b) B1 and B2 (E<=...), (c) Psi2 conjugation with g2, f3 bounds, (d) displacements; kappa>=6 clause belongs to step as-b2 (GAP-E), not to this node's conclusion
 NOTE: -
 
 NODE: stepP:p11:as-osc
@@ -20511,9 +20511,9 @@ EDGE: bpP:p11:sec-D#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only f2 weighted preparation delivered; P7c
+LEAN_STATUS: PROVED
+LEAN_REF: p11_slow_conclude (KAM/Planetary/Preparation/SlowConclude.lean); p11_slow_coeff_zero, p11_torusAverage_natAdd (KAM/Planetary/Preparation/SlowCoeff.lean); avg_slow_of_spec (KAM/Planetary/Preparation/SlowAssembly.lean)
+LEAN_NOTE: audit P11A-P7d round 2 PASS WITH NOTES; g2 and f3 bounds, zero-mode size eps^3 and displacement bounds in signed P11SlowSpec; unconditional via avg_slow_of_spec (per orchestrator)
 NOTE: -
 
 NODE: bpP:p11:prepared
