@@ -47,3 +47,15 @@
 CONTEXT: track SO (plan /root/code/KAM/docs/campaign/design/SPIN-ORBIT-PLAN.md; design /root/code/KAM-inp-design-so/docs/tracks/SO/design/SO-LEAN-DESIGN.md, Revision 4, which repaired design audit 3 finding F10); draft signatures /root/code/KAM-inp/.drafts/design/SOSignatures.lean section D (cexpHalvings, Slp.balls, Slp.val_mem_ball, HamExpr.nonvanishingOn_of_balls) and section J 'Range-reduction tests'. Check: every exp slot and compiled sin/cos goes through certCExpReduced and FAILS CLOSED on none (no caller-side size hypothesis anywhere); the ball soundness Slp.val_mem_ball holds on the whole certified domain; nonvanishingOn_of_balls proves NonvanishingOn for every divisor from the checked balls; the tests reduce by decide +kernel with false controls. Orchestrator rename: BallRel.nil/snoc -> BallRel.ballRel_nil/ballRel_snoc. The branch is stacked on inp-soexprb (landed) and merged inp.
 
 AUDIT FOCUS: signed declarations match verbatim; soundness with no added premise; the slice complete. Audit ONLY KAM/Certificate/Expr/Ball.lean, KAM/Certificate/Tests/Ball.lean, KAM/Certificate/Tests/ComplexExp.lean. Common to all: (a) every SIGNED declaration = signature file EXACTLY (including fully qualified names); (b) the slice COMPLETE; (c) proof soundness, no added premises; (d) hygiene: no EuclideanSpace, no public short name reused from KAM or Mathlib, no harmful root shadow, lines <= 100, no native_decide or axiom.
+
+## Round 2 (prover repair, commit 527aead5)
+
+Repair of audit F1 (docs/tracks/SO/audits/SO-BALL-audit-1.md): all signed tests unchanged; added soundness pairings.
+- Tests/ComplexExp.lean: `cexpTest_zero_small_mem`, `cexpTest_two_reduced_mem`, `cexpTest_large_pin_mem` (via `certCExpReduced_sound`).
+- Tests/Ball.lean: `ballTest_exp_cos_mode_mem`, `ballTest_cos_large_action_mem` (via `Slp.val_mem_ball`, as `ballTest_exp_const_mem`).
+- Module docstrings updated. Short-name check: OK. Build of both modules through inp_lake_build.sh: success. lint_sources: only the known stale KAM.lean.
+- `#print axioms` of all five new theorems: [propext, Classical.choice, Quot.sound].
+- No errata, no deviations.
+ROUND 2 FOCUS: is F1 closed (each of the three successful complex-exponential tests and the two remaining ball
+scenarios now has a containment corollary of the exact value, through certCExpReduced_sound / Slp.val_mem_ball)? Are the
+signed tests unchanged? Any new issue? Verdict.
