@@ -384,6 +384,135 @@ theorem p11_partial_proj_rho {U : Set (P11CVec n)} {f : P11CVec n → P11CVec m}
   rw [p11_partial_congr hUo h0 β hP]
   exact congrFun (devPartial_zero_foldl _) P
 
+private theorem dev_prod_append (α γ : Fin n → ℕ) (f : ℕ → ℝ) :
+    ∏ j : Fin (n + n), f (Fin.append α γ j) = (∏ i, f (α i)) * ∏ i, f (γ i) := by
+  rw [Fin.prod_univ_add]; simp [Fin.append_left]
+
+private theorem dev_poly_prod (α γ : Fin n → ℕ) (r1 r2 : ℝ) :
+    ∏ j : Fin (n + n), p11BoxRad n n r1 r2 j ^ (Fin.append α γ j) =
+      r1 ^ (∑ i, α i) * r2 ^ (∑ i, γ i) := by
+  rw [Fin.prod_univ_add]
+  simp [p11BoxRad, Fin.append_left, Finset.prod_pow_eq_pow_sum]
+
+/-- The linear part of the slice `ρ ↦ (J, ρ)`: extension by zero in the `J` block. -/
+private def opsExtR (n : ℕ) : P11CVec n →L[ℂ] P11CVec (n + n) :=
+  LinearMap.toContinuousLinearMap
+    { toFun := fun v => Fin.append (0 : P11CVec n) v
+      map_add' := fun v w => by
+        funext i; refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp
+      map_smul' := fun a v => by
+        funext i; refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp }
+
+private theorem opsExtR_single (a : Fin n) :
+    opsExtR n (Pi.single a 1) = Pi.single (Fin.natAdd n a) 1 := by
+  show Fin.append (0 : P11CVec n) (Pi.single a 1) = _
+  funext i
+  refine Fin.addCases (fun j => ?_) (fun j => ?_) i
+  · have hne : (Fin.castAdd n j : Fin (n + n)) ≠ Fin.natAdd n a := fun h => by
+      have := congrArg Fin.val h
+      simp at this
+      have := j.isLt
+      omega
+    simp only [Fin.append_left]
+    rw [Pi.single_eq_of_ne hne]; rfl
+  · simp [Pi.single_apply, Fin.ext_iff]
+
+/-- The `ρ̃_k`-derivative of `Z` is the derivative of the slice `ρ ↦ Z (J, ρ)`. -/
+theorem p11_dev_Z_slice {Z : P11CVec (n + n) → ℂ} (J ρ : P11CVec n) (k : Fin n)
+    (hZ : DifferentiableAt ℂ Z (Fin.append J ρ)) :
+    fderiv ℂ (fun ρ' : P11CVec n => Z (Fin.append J ρ')) ρ (Pi.single k 1) =
+      fderiv ℂ Z (Fin.append J ρ) (Pi.single (Fin.natAdd n k) 1) := by
+  have hκ : HasFDerivAt (fun ρ' : P11CVec n => (Fin.append J ρ' : P11CVec (n + n))) (opsExtR n) ρ := by
+    have h : (fun ρ' : P11CVec n => (Fin.append J ρ' : P11CVec (n + n))) =
+        fun ρ' => opsExtR n ρ' + Fin.append J (0 : P11CVec n) := by
+      funext ρ' i
+      refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp [opsExtR]
+    rw [h]
+    exact (opsExtR n).hasFDerivAt.add_const _
+  have := (hZ.hasFDerivAt.comp ρ hκ).fderiv
+  rw [show (fun ρ' : P11CVec n => Z (Fin.append J ρ')) =
+    Z ∘ (fun ρ' : P11CVec n => (Fin.append J ρ' : P11CVec (n + n))) from rfl, this]
+  simp [opsExtR_single]
+
+/-- Mixed Cauchy estimate for the `ρ̃_k`-derivative `∂_{ρ̃_k} Z` on the polydisc of radii `s₂/2`
+(in `J`) and `ε` (in `ρ̃`) around a point of the Cauchy region; the supremum is the `α = 0` case of
+the spec bound on `∂_ρ Z`. -/
+theorem p11_dev_Z_jet (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
+    {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
+    (hA : P11SlowSpecOf C Fast nu eps c A)
+    (hzs : 3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16) (k : Fin n) (α γ : Fin n → ℕ)
+    (J ρ : P11CVec n) (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4)
+    (hρ : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4) :
+    ‖p11PartialVec (Fin.append α γ)
+        (p11Step (Fin.natAdd n k) (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.Z I))
+        (Fin.append J ρ)‖ ≤
+      (∏ i, ((α i).factorial : ℝ)) * (∏ i, ((γ i).factorial : ℝ)) *
+        (c * (eps + p11eta1 C eps)) / ((p11s2 C nu eps / 2) ^ (∑ i, α i) * eps ^ (∑ i, γ i)) := by
+  obtain ⟨hK, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  have hspec := p11s2_spec hC hK
+  have hπ := Real.pi_gt_three
+  obtain ⟨-, -, -, hZd, hZj, -⟩ := id hA
+  have hVo := p11_dev_box_isOpen (p11DevCenter C eps) (p11s2 C nu eps) (Real.pi * eps)
+  have hsub := p11_dev_V_sub_Z (nu := nu) (eps := eps) hC hnu heps hεM hzs
+  have hZo := p11_dev_Z_open C (p11s1 C eps / 2) (Real.pi * C.rz ^ 2 / 16)
+  have hZv : DifferentiableOn ℂ (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.Z I)
+      {I : P11CVec (n + n) |
+        ‖(fun i : Fin n => I (Fin.castAdd n i)) - KAM.realInclusion n C.J0‖ < p11s1 C eps / 2 ∧
+          ‖(fun i : Fin n => I (Fin.natAdd n i))‖ < Real.pi * C.rz ^ 2 / 16} :=
+    differentiableOn_pi.2 fun _ => hZd
+  have hg := (p11Step_differentiableOn hZo hZv (Fin.natAdd n k)).mono hsub
+  have hR : ∀ j, 0 < p11BoxRad n n (p11s2 C nu eps / 2) eps j := fun j => by
+    refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [p11BoxRad] <;> positivity
+  have hcl : {y : P11CVec (n + n) | ∀ j, ‖y j - Fin.append J ρ j‖ ≤
+      p11BoxRad n n (p11s2 C nu eps / 2) eps j} ⊆
+      p11Box (p11DevCenter C eps) (p11s2 C nu eps) (Real.pi * eps) := by
+    intro y hy
+    refine ⟨fun i => ?_, fun i => ?_⟩
+    · have h1 := hy (Fin.castAdd n i)
+      simp only [p11BoxRad, Fin.append_left] at h1 ⊢
+      have h2 : ‖J i - KAM.realInclusion n C.J0 i‖ < p11s2 C nu eps / 4 :=
+        lt_of_le_of_lt (by simpa using norm_le_pi_norm (J - KAM.realInclusion n C.J0) i) hJ
+      have := norm_sub_le_norm_sub_add_norm_sub (y (Fin.castAdd n i)) (J i)
+        (KAM.realInclusion n C.J0 i)
+      linarith
+    · have h1 := hy (Fin.natAdd n i)
+      simp only [p11BoxRad, Fin.append_right] at h1 ⊢
+      have h2 : ‖ρ i - (2 * Real.pi * eps : ℂ)‖ < 5 * eps / 4 :=
+        lt_of_le_of_lt (norm_le_pi_norm (ρ - fun _ : Fin n => (2 * Real.pi * eps : ℂ)) i) hρ
+      have := norm_sub_le_norm_sub_add_norm_sub (y (Fin.natAdd n i)) (ρ i) (2 * Real.pi * eps : ℂ)
+      nlinarith
+  have hM : ∀ w ∈ p11Box (p11DevCenter C eps) (p11s2 C nu eps) (Real.pi * eps),
+      ‖p11Step (Fin.natAdd n k) (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.Z I) w‖ ≤
+        c * (eps + p11eta1 C eps) := by
+    intro w hw
+    have hwZ : DifferentiableAt ℂ A.Z w := hZd.differentiableAt (hZo.mem_nhds (hsub hw))
+    rw [p11_dev_step_const _ hwZ, pi_norm_const]
+    obtain ⟨hw1, hw2⟩ := hw
+    set J' : P11CVec n := fun i => w (Fin.castAdd n i) with hJ'
+    set ρ' : P11CVec n := fun i => w (Fin.natAdd n i) with hρ'
+    have hwe : (Fin.append J' ρ' : P11CVec (n + n)) = w := Fin.append_castAdd_natAdd (f := w)
+    have hJn : ‖J' - KAM.realInclusion n C.J0‖ < p11s1 C eps / 4 := by
+      refine (pi_norm_lt_iff (by linarith)).2 fun i => ?_
+      have := hw1 i
+      simp only [Fin.append_left, Pi.sub_apply] at this ⊢
+      linarith
+    have hρn : ‖ρ' - (fun _ => (2 * Real.pi * eps : ℂ))‖ < Real.pi * eps := by
+      refine (pi_norm_lt_iff (by positivity)).2 fun i => ?_
+      have := hw2 i
+      simp only [Fin.append_right] at this
+      exact this
+    have h1 := hZj 0 J' hJn ρ' hρn
+    rw [p11PartialVec_zero] at h1
+    have h2 := (norm_le_pi_norm _ k).trans h1
+    have h3 := p11_dev_Z_slice (Z := A.Z) J' ρ' k (by rw [hwe]; exact hwZ)
+    rw [hwe] at h3
+    rw [← h3]
+    simpa using h2
+  have h := p11PartialVec_norm_le_poly hVo hg hR hcl hM (Fin.append α γ)
+  rw [dev_prod_append α γ (fun k => (k.factorial : ℝ)), dev_poly_prod] at h
+  refine h.trans (le_of_eq ?_)
+  ring
+
 end Dev
 
 end KAM.Planetary
