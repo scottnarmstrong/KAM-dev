@@ -63,7 +63,8 @@ Revision 5 inputs (base `inp-design-so` `79ec938c`; `inp` read at `f8405551`, KA
 
 Revision 5 is a targeted revision for owner ruling **O5** (2026-10-29, 14:20: the lunar client in the
 rotated frame, parameter package R1, replay gate GO), the orchestrator's item 6 (the advice-checked
-product architecture of SO-REPLAY2), the split of the signature file, and audit 4's documentation
+product architecture of SO-REPLAY2), item 7 (SO-ROTDIO's fixed rotated-frame Diophantine signatures,
+adopted verbatim), the split of the signature file, and audit 4's documentation
 finding F11 (base `79ec938c`, audit 4 PASS WITH NOTES). The general black box, its theorem and every
 Revision 2–4 contract are unchanged except where this table says so. Several packages landed on `inp`
 during the revision (NormBridge, CubicDiophantine, Expr/Slp/Diff, SpinOrbit/HamExpr, Graph/Inverse,
