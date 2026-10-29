@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 16:44 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 16:45 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 274,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:44 UTC from `main` at `93ba348b` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:45 UTC from `main` at `96c7d422` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -374,6 +374,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 16:45 | `96c7d422` | HQ: track P complete (graph P fully resolved); current phase: original project complete, track SO next |
 | 2026-10-29 16:43 | `93ba348b` | Land inp into main |
 | 2026-10-29 16:36 | `d435f648` | Land inp into main |
 | 2026-10-29 16:34 | `9b258fbb` | README: frozen statements moved to docs/STATEMENTS.md (per track: Lean link, source with paper, docstring, status, provider; frozen definitions per track), README keeps a linked index; collaborator row removed from the agent list |
@@ -385,7 +386,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 16:10 | `e4dd2117` | Land inp into main |
 | 2026-10-29 16:00 | `86cf4006` | README: main theorem 1 states the boundary-regularity premise |
 | 2026-10-29 15:59 | `4eecace1` | README: Main theorems section (two per track, plain-language statements linked to the exact frozen Lean declarations) |
-| 2026-10-29 15:54 | `52633b9d` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
