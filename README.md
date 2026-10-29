@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 16:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **260,375 lines of Lean** of an estimated ≈ 272,000
+> **Last updated: 2026-10-29 16:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **260,375 lines of Lean** of an estimated ≈ 272,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -195,7 +195,7 @@ Overall, both together: 89.1 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **260,375** (203,735 excluding blank lines and comments) · **+112,911** since 2026-10-28 16:01 UTC |
+| On `main` now | **260,375** (203,735 excluding blank lines and comments) · **+112,329** since 2026-10-28 16:20 UTC |
 | Written on agent branches, not yet landed | 1,523 |
 | **Estimated total at completion** | **≈ 272,000** |
 | Estimated still to write | ≈ 10,000 |
@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:18 UTC from `main` at `be2cfcd8` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:20 UTC from `main` at `7413774e` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -383,7 +383,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: I-GUARDS: kernel_replay.sh and guard_mutation_suite (WIP) | `inp-iguards` | 1 (vs `inp`) |
-| **pcloselean** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P-CLOSE-LEAN: export geometry_radial and sb_cov_full for graph P nodes | `inp-pcloselean` | 1 (vs `inp`) |
+| **pcloselean** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P-CLOSE-LEAN: audit request | `inp-pcloselean` | 2 (vs `inp`) |
 | **sodatapy** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-PY: product recorder, advice emitter with verification and negative tests, option- | `inp-sodatapy` | 2 (vs `inp`) |
 | **sopolyb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-POLY-B: Poly/OverlapAdd (exact overlap-add of shards, checkPackedProduct_sound) | `inp-sopolyb` | 3 (vs `inp`) |
 
