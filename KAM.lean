@@ -46,7 +46,11 @@ public import KAM.Canonical.SymplecticForm
 public import KAM.Canonical.Transform
 public import KAM.Canonical.TransformSeries
 public import KAM.Canonical.VectorField
+public import KAM.Certificate.Arith.Interface
+public import KAM.Certificate.Arith.PiEnclosure
 public import KAM.Certificate.Arith.PiHigh
+public import KAM.Certificate.Arith.Roots
+public import KAM.Certificate.Arith.Transcendental
 public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
 public import KAM.Certificate.PhaseBasis
@@ -1244,6 +1248,7 @@ public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
+public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
