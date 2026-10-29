@@ -846,9 +846,9 @@ EDGE: bpI:p0:hamsol#IsHamiltonianSolutionOn | blueprint-I/parts/p7-delaunay.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.tr_cf (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: GAP-I7b (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:tr-open
@@ -918,9 +918,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:tr-chain@L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.tr_chain (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: GAP-I7b (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: bpI:p7:nondeg

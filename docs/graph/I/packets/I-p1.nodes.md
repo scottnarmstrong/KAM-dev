@@ -26,9 +26,9 @@ EDGE: K:bp:p2:constants | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:setting@L45
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.Setting landed (audit I-D0-2 PASS)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.SettingSrc (KAM/Iso/Linear/SettingSrc.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: bpI:p1:setting#k-bridge
@@ -60,9 +60,9 @@ EDGE: bpI:p0:stripdata#invarianceError | blueprint-I/parts/p1-iso-linear.tex#bpI
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Part 1 Lean statements specialise to tau>=n-1 (N1, accepted in audits I1-x PWN) vs source tau>=0; no audit row confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.SettingSrc.k_bridge (KAM/Iso/Linear/SettingSrc.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: K:bp:p2:standing prose at blueprint/parts/p2-aposteriori.tex L67-L69 explicitly states that only tau >= 0 and n >= 1 are used below. The positive sigma parameters are free constants, not admissibility bounds in the standing package; each bound used by a consumer is supplied locally. No SOURCE_GAP is established by the different parameter lists. This bridge identifies common data, not the stronger tau >= n-1 proposition literally.
 
 NODE: bpI:p1:ray
@@ -200,9 +200,9 @@ EDGE: stepI:p1:eb-bounds | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:extended-b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.extended_basic (Linear/Extended) (audit I1-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.extended_basic_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:eb-holo
@@ -736,9 +736,9 @@ EDGE: stepI:p1:lr-average | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:last-row@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.last_row (Linear/LastRow) (audit I1-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.last_row_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:lr-gradient
@@ -868,9 +868,9 @@ EDGE: stepI:p1:ea-defect | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:energy-app
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.energy_approx/energy_defect (Linear/Energy*) (audit I1-3-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.energy_approx_src, KAM.Iso.Linear.energy_defect_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:ea-chain
@@ -1086,9 +1086,9 @@ EDGE: stepI:p1:ec-pointwise | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:energy-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.energy_conservation (Linear/Energy) (audit I1-3-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.energy_conservation_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:ec-derivative
@@ -1577,9 +1577,9 @@ EDGE: stepI:p1:geo-sym | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:geometry-noA
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.geometry_noA5 (Linear/NoTwist) (audit I1-7 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.geometry_noA5_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:geo-de
