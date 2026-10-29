@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 04:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.0 %** · frozen statements proved: 19 / 22 · **238,957 lines of Lean** of an estimated ≈ 272,000
+> **Last updated: 2026-10-29 04:43 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.0 %** · frozen statements proved: 19 / 22 · **238,957 lines of Lean** of an estimated ≈ 272,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -127,7 +127,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | | Lines of Lean |
 |---|---|
 | On `main` now | **238,957** (187,017 excluding blank lines and comments) · **+168,730** since 2026-10-28 04:40 UTC |
-| Written on agent branches, not yet landed | 10,682 |
+| Written on agent branches, not yet landed | 10,838 |
 | **Estimated total at completion** | **≈ 272,000** |
 | Estimated still to write | ≈ 22,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 04:40 UTC from `main` at `493fa9ac` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 04:43 UTC from `main` at `04c12fcf` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,7 +292,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **gwr** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-WR: literal wr-chain node on ∣r∣<2, ∣rho'∣<pi/2 | `inp-gwr` | 2 (vs `inp`) |
+| **gwr** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-WR: wr-chain node, xi node, eventual smallness | `inp-gwr` | 3 (vs `inp`) |
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
@@ -306,6 +306,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 04:43 | `04c12fcf` | OVERNIGHT: fixedSunPlanetaryKAM sealed (anchors 20/22); 04:25-04:50 entries |
 | 2026-10-29 04:18 | `08048af7` | OVERNIGHT: 04:00-04:20 (graph schema owner item; P13-C passed, anchor batch pending) |
 | 2026-10-29 04:01 | `a216402e` | Land inp into main |
 | 2026-10-29 03:52 | `1a05a3e2` | Land inp into main |
@@ -317,7 +318,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 03:08 | `b49fdfdd` | Land inp into main |
 | 2026-10-29 02:56 | `fa541022` | Land inp into main |
 | 2026-10-29 02:54 | `0db18280` | Land inp into main |
-| 2026-10-29 02:52 | `7dcf2fe7` | OVERNIGHT: lane-P rulings 02:25-02:50 (shared radius, second gap survey, pr-d split, definitions audit) |
 <!-- /AUTO:landed -->
 
 ## Decisions
