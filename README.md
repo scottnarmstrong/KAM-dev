@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 01:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 90.4 %** · frozen statements proved: 19 / 22 · **221,171 lines of Lean** of an estimated ≈ 264,000
+> **Last updated: 2026-10-29 01:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 90.4 %** · frozen statements proved: 19 / 22 · **223,848 lines of Lean** of an estimated ≈ 266,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -67,7 +67,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | Measure of the invariant tori | 5 | 12 | 12.0 | `██████████` 100 % |
 | Track I (isoenergetic, confinement, R3BP) | 2 | 12 | 12.0 | `██████████` 100 % |
 | Track N (Nekhoroshev) | 4 | 22 | 15.1 | `███████░░░` 69 % |
-| Track P (planetary) | 5 | 30 | 25.1 | `████████░░` 84 % |
+| Track P (planetary) | 5 | 30 | 25.2 | `████████░░` 84 % |
 | Sealing of the frozen statements | 22 | 22 | 19.0 | `█████████░` 86 % |
 | **Total** | 62 | 177 | 160.0 | **90.4 %** |
 
@@ -112,7 +112,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 | N.PROOF | Blueprint, graph and proofs (estimate, refined after Phase 0) | VH | 🟨 53 % | *graph N* · graph N published; N-QC, N-ZERO SEALED; Lean: ODE layer (Part 3), Parts 1, 4, 5 (except C5-9) proved and audited; Parts 6-7 design in revision; Parts 2, 8-10 designs being written |
 | P.PHASE0 | Sources, statements, owner approval, freeze | H | ✅ 100 % | approved and frozen (D20) |
 | P.PROOF.PDKAM | Properly degenerate KAM: blueprint, graph, proofs | VH | 🟨 85 % | *graph P* · graph P published; Part 1 Lean design audited (PP1-1..3 proving); Parts 2-5 designs being written |
-| P.PROOF.PLANAR | Planar two-planet and fixed-Sun applications: coordinates, secular normal form, nondegeneracy | VH | 🟨 73 % | *graph P* · graph P published; Kepler/Poincare layer (P6-1..4, P6-6, P7-1..5, P7-7) proved and audited; Parts 8-13 designs being written |
+| P.PROOF.PLANAR | Planar two-planet and fixed-Sun applications: coordinates, secular normal form, nondegeneracy | VH | 🟨 74 % | *graph P* · graph P published; Kepler/Poincare layer (P6-1..4, P6-6, P7-1..5, P7-7) proved and audited; Parts 8-13 designs being written |
 | N.ADD.PHASE0 | N-PARTIAL-CONVEX and N-AVERAGING: statements, audit, approval, freeze | M | ✅ 100 % | N-PARTIAL-CONVEX frozen (D25), N-AVERAGING frozen (D28) |
 | N.ADD.PROOF | N-PARTIAL-CONVEX and N-AVERAGING: blueprint, graph, proofs | VH | 🟨 61 % | *graph N* · graph N published (Parts 11, 12 included); Lean designs for Parts 11 and 12 being written |
 | P.ADD.PHASE0 | P-EXP-SAFE, P-AMD-CONFINEMENT, P-SECULAR-BOX: statements, audit, approval, freeze | M | ✅ 100 % | approved and frozen (D25): 38 anchors |
@@ -126,22 +126,22 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **221,171** (172,157 excluding blank lines and comments) · **+178,332** since 2026-10-28 01:00 UTC |
-| Written on agent branches, not yet landed | 13,854 |
-| **Estimated total at completion** | **≈ 264,000** |
+| On `main` now | **223,848** (174,406 excluding blank lines and comments) · **+181,009** since 2026-10-28 01:00 UTC |
+| Written on agent branches, not yet landed | 13,259 |
+| **Estimated total at completion** | **≈ 266,000** |
 | Estimated still to write | ≈ 29,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 01:00 UTC from `main` at `c94ccaf2` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 01:18 UTC from `main` at `8bfedd5b` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
 **Frozen statements proved: 19 / 22** · frozen definitions: 122
 
-**Lean on `main`:** 1179 modules · 221,171 lines · 9,528 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1192 modules · 223,848 lines · 9,621 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 3 (KAM/Frozen/Planetary/Theorems/FixedSunPlanetaryKAM.lean, KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean, KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean)
@@ -161,7 +161,7 @@ Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md
 | **K** | Positive-measure KAM for nearly-integrable analytic Hamiltonians, complement ≤ C·ε^{1/4} | 5 / 5 | 453 / 453 nodes resolved | **complete**: blueprint, graph and all five frozen theorems sealed (2026-10-28) |
 | **I** | All-time confinement in two degrees of freedom (isoenergetic KAM); restricted circular planar three-body problem | 4 / 4 | 345 / 450 nodes resolved | **complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form |
 | **N** | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 5 / 6 | 410 / 728 nodes resolved | proof campaign: Parts 1, 3, 4, 5 proved; Parts 6–7 Lean design in audit; 2 of 6 frozen theorems sealed |
-| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 5 / 7 | 1072 / 1363 nodes resolved | proof campaign: Kepler/Delaunay, Poincaré and Newtonian layers proved; Part 1 Lean design in audit; graph in global review |
+| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 5 / 7 | 1078 / 1363 nodes resolved | proof campaign: Kepler/Delaunay, Poincaré and Newtonian layers proved; Part 1 Lean design in audit; graph in global review |
 <!-- /AUTO:tracks -->
 
 The phase table below is track K's.
@@ -274,7 +274,7 @@ flowchart BT
 | [`KAM/Weighted/`](KAM/Weighted) | Track N: weighted domains and norms | 9 | 1,847 | 71 |
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 21 | 4,684 | 195 |
 | [`KAM/Nekhoroshev/`](KAM/Nekhoroshev) | Track N: Nekhoroshev stability | 121 | 28,441 | 1269 |
-| [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 669 | 125,816 | 5306 |
+| [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 682 | 128,493 | 5399 |
 <!-- /AUTO:areas -->
 
 ## What the agents are doing now
@@ -290,16 +290,17 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
+| **gape** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: GAP-E: StandingSituation draft | `inp-gape` | 3 (vs `inp`) |
+| **gp13** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-P13: SumsNodes lint | `inp-gp13` | 2 (vs `inp`) |
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
-| **p11ap7c** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-P7c: as-nr mixed bound delta0/2 (audit F1), slow_R4_eventually | `inp-p11ap7c` | 26 (vs `inp`) |
-| **p11ap7d** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-P7d: adapt assembly to P7cb delta0/4 divisor | `inp-p11ap7d` | 34 (vs `inp`) |
-| **p11ap8** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p11ap7d (P7db) | `inp-p11ap8` | 35 (vs `inp`) |
-| **p11c-q6** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Q6: weak_kam_quantitative | `inp-p11c-q6` | 5 (vs `inp`) |
-| **p11c-q7** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p11c-q6 | `inp-p11c-q7` | 5 (vs `inp`) |
+| **p11ap8** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Merge inp-p11ap7d (P7db) | `inp-p11ap8` | 1 (vs `inp`) |
+| **p11ap8a** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-P8a: wrap long line | `inp-p11ap8a` | 8 (vs `inp`) |
+| **p11ap8b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-P8b: holomorphy of C on D(J0, s2) | `inp-p11ap8b` | 8 (vs `inp`) |
+| **p11ap8c** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-P8c: rename p11euclid_sq to p11euclid_sq_sum (clash with WeakMeasure.BallSublevel) | `inp-p11ap8c` | 4 (vs `inp`) |
 | **p14-e11** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p14-e10 | `inp-p14-e11` | 0 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
@@ -310,6 +311,10 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 01:18 | `8bfedd5b` | OVERNIGHT: lane-P rulings 00:10-01:20 (P8 split, GAP-E, graph-gap programme for p0-p10) |
+| 2026-10-29 01:11 | `8dd1a092` | Land inp into main |
+| 2026-10-29 01:08 | `a93396ff` | Land inp into main |
+| 2026-10-29 01:04 | `634b86d2` | Land inp into main |
 | 2026-10-29 00:57 | `c94ccaf2` | Land inp into main |
 | 2026-10-29 00:50 | `b0b55711` | Land inp into main |
 | 2026-10-29 00:43 | `c657fe46` | Land inp into main |
@@ -318,10 +323,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 00:26 | `932094c2` | Land inp into main |
 | 2026-10-29 00:22 | `8ebbf7cb` | Land inp into main |
 | 2026-10-29 00:18 | `f2461eb0` | Land inp into main |
-| 2026-10-29 00:14 | `d92eb997` | Land inp into main |
-| 2026-10-29 00:07 | `47bafb18` | Land inp into main |
-| 2026-10-29 00:02 | `ab39cf92` | Land inp into main |
-| 2026-10-28 23:57 | `c073acbe` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
