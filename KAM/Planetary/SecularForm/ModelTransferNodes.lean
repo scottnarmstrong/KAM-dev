@@ -85,7 +85,8 @@ private theorem radius_integrable (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
       AnalyticOnNhd ℝ (secular D b) (realDisc D a r) := by
   obtain ⟨r1, hr1, hrho1, -, h1⟩ := perturbation_analytic D ha
   obtain ⟨r2, hr2, hrh2, -⟩ := perturbation_analytic_full D ha
-  refine ⟨min r1 r2, lt_min hr1 hr2, (min_le_right _ _).trans_lt hrh2, fun b => ⟨fun x hx => ?_, ?_⟩⟩
+  refine ⟨min r1 r2, lt_min hr1 hr2, (min_le_right _ _).trans_lt hrh2,
+    fun b => ⟨fun x hx => ?_, ?_⟩⟩
   · exact (h1 b).2.2.2.2.2.2 x (realDisc_mono D a (min_le_left _ _) hx)
   · exact (h1 b).2.2.2.2.1.mono (realDisc_mono D a (min_le_left _ _))
 
@@ -160,7 +161,8 @@ private theorem avg_hamiltonians (D : Data n) {x : Slow n} (hx : x ∈ slowDom D
 
 /-- `bpP:p8:identification`: the difference is continuous with average `δ(Λ)`; integrability of
 `f̂_fix` and `f̂_mov` is equivalent and then `S_mov = S_fix + δ`; on the real polydisc this holds
-unconditionally, with `⟨H_mov^Ψ⟩ = h + μ S_mov = h + μ S_fix + μ δ` and `⟨H_fix^Ψ⟩ = h + ε S_fix`. -/
+unconditionally, with `⟨H_mov^Ψ⟩ = h + μ S_mov = h + μ S_fix + μ δ` and
+`⟨H_fix^Ψ⟩ = h + ε S_fix`. -/
 theorem identification_full (D : Data n) :
     (∀ x ∈ slowDom D,
       Continuous (fun t : Vec n => perturbation D true (assemble x.2.1 t x.2.2 x.1) -
@@ -335,7 +337,8 @@ theorem same_jets_transfer_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     rw [hid, hΛ y hy]
     ring
 
-/-- `bpP:p8:same-jets`: the jets/quadratic-form/equations clause and the Birkhoff-transfer clause. -/
+/-- `bpP:p8:same-jets`: the jets/quadratic-form/equations clause and the Birkhoff-transfer
+clause. -/
 theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     (∃ r C : ℝ, 0 < r ∧ r < rho D a / 2 ∧ 0 < C ∧
     AnalyticOnNhd ℝ (fun x : Slow n => secular D true x - constantTerm D (axis D x.2.1) -
