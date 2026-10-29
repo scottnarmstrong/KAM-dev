@@ -6976,7 +6976,7 @@ EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): wsum/wnorm carry junk values off the summable locus; WBound is a guarded predicate (same whole-carrier issue as p11 sec-conv#data); owner review
 NOTE: section data of Part 3a (prose L11-L34). The Hamilton equations here are in the order (action,angle) of CP10; the frozen order is bpP:p1:order
 
 NODE: bpP:p3b#kam-bounds
@@ -7034,7 +7034,7 @@ EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): no general conjugation G -> S o G o S^-1 and no L_* object in Lean; owner review
 NOTE: section data of Part 3b (prose L43)
 
 NODE: bpP:p3:tori#data
@@ -14492,7 +14492,7 @@ EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-q
 REVIEWER: sol-delta-P-ah
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): delaunay public carrier is Phase 2 with an explicit Kepler-solver fallback; faithful on deDom only; owner review
 NOTE: created from p7:prose-L27-L33 (SPEC section data); consumers: nearly every statement of Part 7
 
 NODE: bpP:p7:sec-product#data
@@ -14519,9 +14519,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Phase (KAM/Frozen/Planetary/Defs/Phase.lean); assemble (KAM/Frozen/Planetary/Defs/Assemble.lean); fast (KAM/Frozen/Planetary/Defs/Fast.lean); slow (KAM/Frozen/Planetary/Defs/Slow.lean); bodyVector (KAM/Frozen/Planetary/Defs/BodyVector.lean); planetBlock (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: definitions audit DEFS-P2-audit-1 CLOSABLE
 NOTE: created from p7:prose-L188-L188 (SPEC section data); consumers: product-def, product-chart and its steps
 
 NODE: stepP:p7:po-el#circular
@@ -17547,7 +17547,7 @@ EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: audit S10-R PASS WITH NOTES covers only the action diffeomorphism part (action_diffeomorphism); U_n, G_n, sigma etc. not all in this package
+LEAN_NOTE: DEFS-P2-audit-1: all located except the cone clause (positive-dilation closure of axes n); GAP-LREF adds it
 NOTE: Section data from L15-L21. The negative spectrum and the identification of the fast frequencies have direct suppliers; the product-chart citation identifies the fast frequencies, rather than merely comparing notation. Restored R-nondegeneracy consumers also use these data.
 
 NODE: bpP:p10:generic
@@ -31676,9 +31676,9 @@ EDGE: bpP:p0:oscaction#oscillatorAction | blueprint-P/parts/p12-planar-assembly.
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: asserted cylinder-norm property now exported by cylnorm (GAP-PX, FastInverseNodes.lean); definitions not yet classified by an audit (DEFS-P2 pending); left open
+LEAN_STATUS: PROVED
+LEAN_REF: PlanarData, p11c_axes (KAM/Planetary/PlanarTorsion/Setting.lean); assemble (KAM/Frozen/Planetary/Defs/Assemble.lean); poincareProd (KAM/Planetary/Poincare/Product.lean); cylnorm (KAM/Planetary/PlanarAssembly/FastInverseNodes.lean)
+LEAN_NOTE: definitions located by DEFS-P2-audit-1 (dictionary, Euclidean length; audit taken before cylnorm landed); asserted cylinder inequality exported by cylnorm (audit GAP-PX PASS WITH NOTES)
 NOTE: section data of 12.1 (SPEC section-data table); coverage prose-L15-L20. The dictionary section label bpP:p8:conv has no node of its own in the P-p8 draft, so no edge to it
 
 NODE: bpP:p12:forward-tube
