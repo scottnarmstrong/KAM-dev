@@ -672,3 +672,21 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   jobs), axioms propext, Classical.choice, Quot.sound, leanchecker exit 0 on the frozen module and provider, lint OK.
   Remaining DRAFT_SORRY anchors: planetaryExponentialSafety and partialConvex_nekhoroshev (both lane N, with Zohar's
   team). Graph P about 1150 of 1363; wr-chain and wr-tube literal exports in GAP-WR.
+- **04:55. Next work: track I graph gaps.** With lane P's anchors done and lane N paused, the next open graph is track I
+  (about 105 NOT_STARTED nodes, all its anchors SEALED; the root bpI:p0:r3bp is stale: KAM.Iso.restricted_near_circular
+  is SEALED). The sub-orchestrator resyncs graph I; a read-only survey plans the gap packages (same programme as P).
+  Track K's graph has no open node.
+- **05:10. Track I gap programme (plan: .drafts/briefs/offload-main/GAP-PLAN-I.md).** 85 open nodes: 8 stale, 44
+  gap-fill (five packages, about 1,150 lines), 4 bypass, 22 closable under ruling (b), 7 definition/remark/route.
+  **Owner to review:** (N1) Part 1's Lean Setting forces tau >= n-1 where the source says tau >= 0; ruled option (i),
+  the literal route: prove the n-dimensional emptiness lemma (for n >= 2 the Diophantine set is empty when
+  tau < n-1) and a literal SettingSrc, no erratum; ruling (b) extended to audit rows that confirm a step's content by
+  line range; matrix-form symplecticity follows the cv-sympl precedent (I-2-audit-1.md:24); the free-omega reading of
+  reduced / perturbation-noA5 is kept literal (GAP-I1c funded, not ruled away); bpI:p3:tori and orbit-maps-e get
+  over-claim notes and are repaired by GAP-I3T / GAP-I7b. Wave 1 started: GAP-I1a, GAP-I3T, GAP-I7b, GAP-I7a.
+- **06:20. Track I gap programme complete.** GAP-I1a (literal tau >= 0 via the n-dimensional Dirichlet lemma), GAP-I1b
+  (29 Part 1 steps), GAP-I1c (free-omega reduced, perturbation-noA5), GAP-I3T (tori-ig1, both signs), GAP-I7a, GAP-I7b
+  and GAP-ISM (k-pos for Omega != 0, tori-patch, sec-ham#data) all passed; graph I 369 of 450 PROVED before GAP-ISM,
+  Part 1 with no open node. Remaining open work across the campaign: lane N (paused for Zohar's team) and the owner
+  rulings logged above (definition fidelity for totalized definitions, errata candidates, interpretation rulings,
+  graph-schema remark kind).
