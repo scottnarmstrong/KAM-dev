@@ -20450,9 +20450,9 @@ EDGE: bpP:p11:sec-C#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: P7c, not merged
+LEAN_STATUS: PROVED
+LEAN_REF: p11_slow_divisor, p11_slow_alpha1_le_half (KAM/Planetary/Preparation/SlowDivisor.lean); slow_R4_eventually, slow_base_eventually (KAM/Planetary/Preparation/SlowSmall.lean)
+LEAN_NOTE: audit P11A-P7c round 2 PASS WITH NOTES; literal pure-slow 3/4 eps delta0 and mixed delta0/2 (F1 resolved); alpha1<=delta0/2 via p11_slow_alpha1_le_half; alpha2<=alpha1 eventual via slow_base_eventually+slow_pos; smallness/MW/dZ are source-data premises, MW bound still a P7d input
 NOTE: Uses the writer-authorized logarithmic asymptotic external bpP:p11:e4; no elementary input is left unrepresented.
 
 NODE: stepP:p11:as-b2
