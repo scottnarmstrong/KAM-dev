@@ -235,3 +235,15 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     cubic-gradient interface). Exact Lean statements follow the normal pipeline, with independent audit and owner
     approval before any freeze. Track W changes no K/I/N/P frozen surface.
   - Lean namespace `KAM.Wave` (provisional).
+- **D31 (2026-10-29, 16:10) Graph P definition and convention nodes after all 22 frozen theorems were sealed.** *(Scott,
+  answering the four owner questions of P-GRAPH-CLOSE-audit-1, all with the recommended option.)* None affects a sealed
+  theorem; they decide how seven graph P nodes close.
+  - `bpP:p0:totality`, `bpP:p1:order`: accepted as reviewed conventions, enforced by guard proofs at each consumer; the
+    graph records them with a supported non-PROVED representation and this ruling.
+  - `bpP:p3:conv#data`, `bpP:p11:sec-conv#data`: the weighted-norm interface (WSummable / HasFiniteWNorm / WBound and a
+    real norm totalized off the finite locus) is accepted as faithful.
+  - `bpP:p7:conv#data`: accepted as faithful on its domain deDom; the totalized solver value off deDom is not claimed as
+    the source map.
+  - `bpP:p11:sec-D#data`, `bpP:p11:sec-E#data`: choose-or-default records accepted under their proved local specification
+    guards; the missing source objects (the exact shell of sec-D, the complex pullback identifications of sec-E) are
+    formalized before these two nodes close (package P-SEC).

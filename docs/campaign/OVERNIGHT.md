@@ -872,3 +872,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   every Lean check in Python and fixing the option-A data format before SO-DEFS). The engine chain after SO-POLY-B is
   sequential (each package needs the previous one's definitions). The heartbeat template still names track K waves and
   I-STRIP-3, complete since 2026-10-28.
+- **16:10. All 22 frozen theorems of the original project sealed** (planetaryExponentialSafety at 32090afa: E11
+  `stopped` 377 lines, E12Q `expsafe` and the provider, all audited; leanchecker clean). Graph P closure audit
+  (P-GRAPH-CLOSE-audit-1): of the 28 open nodes, 9 PROVED, 3 definitions confirmed, 4 BYPASSED (applied by kam-inp:
+  1181 PROVED / 23 BYPASSED / 12 open); 5 need two literal exports (P-CLOSE-LEAN running); 7 were owner questions,
+  answered by the owner (D31). README: new 'Main theorems' section (two per track, linked to the frozen declarations).
+  Note: docs/DECISIONS.md has two entries numbered D30 (track SO, 2026-10-29, and track W, 2026-10-28); left as is.
