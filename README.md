@@ -149,7 +149,7 @@ Overall, both together: 87.7 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 15:33 UTC from `main` at `9c9824e1` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 15:33 UTC from `main` at `17989d76` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -340,6 +340,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 15:33 | `17989d76` | OVERNIGHT 15:35: track N complete (Zohar's seal), E11/E12Q started, N seal-key audit (Q1 ruling, A1 F2 retro audit), design audit 6, I-GUARDS; SO-GRAPHR landed |
 | 2026-10-29 15:30 | `9c9824e1` | Land inp into main |
 | 2026-10-29 15:28 | `aecaca56` | HQ: track SO package names in the live list; gates text |
 | 2026-10-29 15:28 | `e05cbb60` | HQ: track SO in the completion estimate (original project / track SO / overall), its own work items (progress-SO.json, auto from landed packages), SO block at the top of At a glance, SO in the size estimate |
@@ -351,7 +352,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 15:07 | `5543dc08` | Land inp into main |
 | 2026-10-29 15:04 | `d7aec4ae` | Land inp into main |
 | 2026-10-29 14:47 | `d736ccea` | HQ: track SO package landed (SO-ABK) |
-| 2026-10-29 14:46 | `00841c89` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
