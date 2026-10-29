@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 15:33 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 97.3 % · track SO 47 %** · frozen statements proved: 21 / 22 · **259,632 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 15:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 97.3 % · track SO 47 %** · frozen statements proved: 21 / 22 · **259,632 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -141,7 +141,7 @@ Overall, both together: 87.7 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **259,632** (203,135 excluding blank lines and comments) · **+114,211** since 2026-10-28 15:20 UTC |
-| Written on agent branches, not yet landed | 689 |
+| Written on agent branches, not yet landed | 696 |
 | **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 14,000 |
 
@@ -149,7 +149,7 @@ Overall, both together: 87.7 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 15:33 UTC from `main` at `17989d76` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 15:40 UTC from `main` at `5baeabfb` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -157,7 +157,7 @@ Overall, both together: 87.7 %
 
 - **Lean on `main`:** 42 modules · 9,255 lines · 486 theorems in `KAM/Certificate` and `KAM/SpinOrbit` (design estimate ≈ 18,500 lines, 21,500–23,000 with overrun)
 - **Packages landed: 27 / 41** (SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF, SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-DIO3, SO-NORM, SO-HAMX, SO-GRAPHM, SO-ABK, SO-BALL, SO-ROTDIO, SO-EXPR-A, SO-EXPR-B1, SO-GEN2, SO-EXPR-B2, SO-POLY-A, SO-RFREQ, SO-GRAPHR)
-- **Now:** proving SO-ADVCOUNT · in audit —
+- **Now:** proving — · in audit SO-DESIGN
 - **Gates:** design of the general checker: Revision 6 in its sixth audit (the rotated lunar frame and the advice-checked packed products of Revision 5, plus the repair of the carry-cancellation and scale-0 findings of audit 5). Replay gate GO. SO-GEN2 confirmed the rotated-frame package R1: threshold 10^-74.7, about 8.5k terms per torus at 318 bits, invariance error about 1e-3 of the threshold. Open owner question: how certificate data enters Lean (design §7.2).
 
 **Frozen statements proved: 21 / 22** · frozen definitions: 122
@@ -328,9 +328,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **nseal** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N11-F2: restore the audit-1 report from inp-n11f2; round-2 retro delta audit request (F2-C | `inp-nseal` | 3 (vs `inp`) |
-| **p14-e11** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: E11 Stopped: stopped proved (gate build green) | `inp-p14-e11` | 2 (vs `inp`) |
-| **p14-e12** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P14 Q: planetaryExponentialSafety_of_expsafe (provider, parametric in expsafe) | `inp-p14-e12` | 2 (vs `inp`) |
-| **soadv** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-ADVCOUNT: packed-product simulator and recorded product driver | `inp-soadv` | 2 (vs `inp`) |
+| **p14-e11** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: E11: audit request | `inp-p14-e11` | 4 (vs `inp`) |
+| **p14-e12** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: E12Q: audit request | `inp-p14-e12` | 4 (vs `inp`) |
+| **soadv** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-ADVCOUNT: study report (128 products per torus, 3 full precision, ~4 MB advice per toru | `inp-soadv` | 4 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
