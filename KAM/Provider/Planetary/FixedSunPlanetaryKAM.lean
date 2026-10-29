@@ -50,7 +50,7 @@ theorem fixedSunPlanetaryKAM_of_wrapper {n : ℕ}
   FixedAssembly.fixed_of_wrapper hw hn G m0 m a hG hm0 hm ha hsep eta heta
 
 /-- **Provider** for the frozen anchor `fixedSunPlanetaryKAM`:
-`fixedSunPlanetaryKAM_of_wrapper` applied to the signed `wrapper` (ruling OVERNIGHT 03:50). -/
+`fixedSunPlanetaryKAM_of_wrapper` applied to the signed `wrapper`. -/
 theorem fixedSunPlanetaryKAM {n : ℕ} (hn : 2 ≤ n)
     (G m0 : ℝ) (m a : Fin n → ℝ)
     (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)
