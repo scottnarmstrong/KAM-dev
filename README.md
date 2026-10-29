@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 04:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.0 %** · frozen statements proved: 19 / 22 · **238,957 lines of Lean** of an estimated ≈ 271,000
+> **Last updated: 2026-10-29 04:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.0 %** · frozen statements proved: 19 / 22 · **238,957 lines of Lean** of an estimated ≈ 271,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,7 +126,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **238,957** (187,017 excluding blank lines and comments) · **+173,987** since 2026-10-28 04:00 UTC |
+| On `main` now | **238,957** (187,017 excluding blank lines and comments) · **+170,893** since 2026-10-28 04:20 UTC |
 | Written on agent branches, not yet landed | 10,260 |
 | **Estimated total at completion** | **≈ 271,000** |
 | Estimated still to write | ≈ 22,000 |
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 04:18 UTC from `main` at `08048af7` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 04:20 UTC from `main` at `62ff3ce3` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -296,7 +296,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
-| **p11ap10** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp into inp-p11ap10 | `inp-p11ap10` | 22 (vs `inp`) |
+| **p11ap10** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-fx13c (P13-C parametric provider) | `inp-p11ap10` | 25 (vs `inp`) |
 | **p14-e11** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p14-e10 | `inp-p14-e11` | 0 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
