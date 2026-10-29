@@ -134,6 +134,47 @@ theorem p11c_asm_lattice (ds : SelectionData N) (m0 : ℝ) (ε : ℝ) (he : 0 < 
     have : ‖v‖ ≤ 0 := by nlinarith [norm_nonneg v]
     exact norm_le_zero_iff.1 this
 
+/-- Positive branch at selection level: the family at the adapted schedule. -/
+theorem p11c_asm_family (ds : SelectionData N) (m0 : ℝ)
+    (hv : (qbcOfSelection ds m0).NumericalValid) (hM : selectionM₀ ds ≤ m0)
+    (f : SelectionPhaseC N → ℂ) (ε : ℝ) (he : 0 < ε)
+    (hth : ε ≤ thresholds (qbcOfSelection ds m0)) (hpert : SelectionPerturbation ds f ε) :
+    Nonempty (QuantitativeFamily (qbcOfSelection ds m0) (realHamiltonian ds.h f)
+      (selectionCDelta ds) ε) := by
+  have hsmall : ε ≤ selectionAdmissible ds := hth.trans (polyBudget_threshold_le hv hM)
+  obtain ⟨o⟩ := evaluation_bilipschitz ds ε he hsmall f hpert
+  have hg : (qbcOfSelection ds m0).gamma = selectionGamma ds := qbc_gamma_sel ds m0 ds.beta_pos
+  have hHK : ∀ b ∈ o.Hinf, b ∈ ds.K := fun b hb => by
+    rw [o.Hinf_eq] at hb; exact hb.1
+  have hbK : ∀ b ∈ o.Hinf, b ∈ o.Kinf := fun b hb => o.H_subset hb
+  have hsel : ∀ (b θ : Fin N → ℝ), selectionEvaluation o.defect b θ - (θ, b) = o.defect b θ :=
+    fun b θ => by simp [selectionEvaluation]
+  refine ⟨QuantitativeFamily.mk o.Hinf (selectionEvaluation o.defect) o.ωstar o.compact_H hHK ?_
+    (fun b hb => p11c_asm_lattice ds m0 ε he hsmall f hpert o (hbK b hb) (hHK b hb))
+    (fun b hb => ?_) (fun b hb θ => ?_) (fun b hb b' hb' θ θ' => ?_)
+    (fun b hb b' hb' θ θ' => ?_) ?_ ?_ ?_⟩
+  · exact tsub_le_iff_right.1 o.measure_H
+  · rw [hg]
+    exact o.diophantine b hb
+  · rw [hsel, p11c_displacement, hg]
+    refine le_min ?_ ?_
+    · rw [p11c_asm_zpow18]; exact o.delta_absolute.trans' (o.displacement b (hbK b hb) θ)
+    · exact (o.displacement b (hbK b hb) θ).trans o.delta_power
+  · rw [p11c_asm_zpow10]; exact (o.bilipschitz b (hbK b hb) b' (hbK b' hb') θ θ').1
+  · rw [p11c_asm_zpow10]; exact (o.bilipschitz b (hbK b hb) b' (hbK b' hb') θ θ').2
+  · show MeasurableSet ((fun z : Phase N => selectionEvaluation o.defect z.2 z.1) ''
+      (unitCube N ×ˢ o.Hinf))
+    rw [p11c_asm_cell]
+    exact o.image_measurable _ o.compact_H o.H_subset
+  · show ENNReal.ofReal ((2 : ℝ) ^ (-(2 * N : ℤ))) * volume o.Hinf ≤ volume
+      ((fun z : Phase N => selectionEvaluation o.defect z.2 z.1) '' (unitCube N ×ˢ o.Hinf))
+    rw [p11c_asm_cell, p11c_asm_zpow2N]
+    exact o.measure_coarse _ o.compact_H o.H_subset
+  · show IsCompact ((fun z : Phase N => selectionEvaluation o.defect z.2 z.1) ''
+      ((Set.pi univ fun _ => Icc (0 : ℝ) 1) ×ˢ o.Hinf))
+    rw [p11c_asm_closed_cell]
+    exact o.closed_image_compact _ o.compact_H o.H_subset
+
 end KAM.Planetary
 
 end
