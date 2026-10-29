@@ -65,28 +65,42 @@ theorem good_zero_set_small (D : Data n) {B : Set (Vec n)} (hB : IsOpen B)
     obtain ⟨z, hzG, hzZ⟩ := (mem_closure_iff.1 hcl) _ hopen hgG
     exact hzG.2 hzZ.2
 
+/-- At a good axis point the dimension is at least `2`: for `n = 1` the spectrum is `0`, so the mode
+`k = 1` is resonant. -/
+theorem two_le_of_mem_goodAxes (D : Data n) {a : Vec n} (ha : a ∈ goodAxes D) : 2 ≤ n := by
+  have h1 := D.hn
+  by_contra hlt
+  obtain rfl : n = 1 := by omega
+  have hnr := ((good_ne_zero_iff _).1 ha.2).2 (fun _ => 1) (by
+    simp [k4])
+  exact hnr (by simp [sigma_one D a 0])
+
 /-- `stepP:p9:gs-c` (second half), `bpP:p9:good-set` (c): uniform non-resonance on compact subsets
 of `goodAxes D`: some `α > 0` bounds `|k·Ω|` from below for every `k ∈ k4 n`, `Ω = 2σ`. -/
-theorem good_uniform_nonresonance (D : Data n) (hn : 2 ≤ n) {K : Set (Vec n)}
+theorem good_uniform_nonresonance (D : Data n) {K : Set (Vec n)}
     (hK : IsCompact K) (hKG : K ⊆ goodAxes D) :
     ∃ α : ℝ, 0 < α ∧ ∀ a ∈ K, ∀ k ∈ k4 n, α ≤ |∑ j, (k j : ℝ) * (2 * sigma D a j)| := by
-  obtain ⟨hne, hcont, hpos⟩ := min_mode_continuous_positive D hn
   rcases K.eq_empty_or_nonempty with rfl | hKne
   · exact ⟨1, one_pos, by simp⟩
+  obtain ⟨a1, ha1⟩ := hKne
+  obtain ⟨hne, hcont, hpos⟩ := min_mode_continuous_positive D (two_le_of_mem_goodAxes D (hKG ha1))
+  have hKne : K.Nonempty := ⟨a1, ha1⟩
   obtain ⟨a0, ha0, hmin⟩ := hK.exists_isMinOn hKne (hcont.mono hKG)
   refine ⟨_, hpos a0 (hKG ha0), fun a ha k hk => ?_⟩
   refine (hmin ha).trans ?_
   exact Finset.inf'_le _ ((Set.Finite.mem_toFinset _).2 hk)
 
 /-- `bpP:p9:good-set` (b): at a good axis point, every `2σⱼ ≠ 0`. -/
-theorem two_sigma_ne_zero (D : Data n) (hn : 2 ≤ n) {a : Vec n} (ha : a ∈ goodAxes D) (j : Fin n) :
+theorem two_sigma_ne_zero (D : Data n) {a : Vec n} (ha : a ∈ goodAxes D) (j : Fin n) :
     2 * sigma D a j ≠ 0 :=
-  mul_ne_zero two_ne_zero (sigma_neg D hn ha.1 j).ne
+  mul_ne_zero two_ne_zero (sigma_neg D (two_le_of_mem_goodAxes D ha) ha.1 j).ne
 
 /-- `bpP:p9:good-set` (b): the hypotheses of `diagonalize` hold on the action image of a small
 ball around a good axis point (open, inside `actionDomain D`, analytic special orthogonal frame,
-diagonalisation with the sorted spectrum, `Ω = 2σ` never zero). -/
-theorem good_diagonalize_data (D : Data n) (hn : 2 ≤ n) {a : Vec n} (ha : a ∈ goodAxes D) :
+diagonalisation with the sorted spectrum, `Ω = 2σ` never zero), and the eigenvalues are analytic
+at `a` and strictly increasing there. -/
+theorem good_diagonalize_data (D : Data n) {a : Vec n} (ha : a ∈ goodAxes D) :
+    AnalyticAt ℝ (sigma D) a ∧ StrictMono (sigma D a) ∧
     ∃ r : ℝ, 0 < r ∧ ∃ R : Vec n → Mat n,
       IsOpen (action D '' Metric.ball a r) ∧ action D '' Metric.ball a r ⊆ actionDomain D ∧
       action D a ∈ action D '' Metric.ball a r ∧
@@ -95,9 +109,11 @@ theorem good_diagonalize_data (D : Data n) (hn : 2 ≤ n) {a : Vec n} (ha : a �
       (∀ I ∈ action D '' Metric.ball a r, coeffs D (axis D I) =
         R I * Matrix.diagonal (sigma D (axis D I)) * (R I).transpose) ∧
       (∀ I ∈ action D '' Metric.ball a r, ∀ j, 2 * sigma D (axis D I) j ≠ 0) := by
-  have hinj : Function.Injective (sigma D a) :=
-    (discriminant_ne_zero_iff _).1
-      ((discriminant_ne_zero_iff _).2 ((good_ne_zero_iff _).1 ha.2).1)
+  have hn := two_le_of_mem_goodAxes D ha
+  have hinj : Function.Injective (sigma D a) := ((good_ne_zero_iff _).1 ha.2).1
+  have hdisc : discriminant (sigma D a) ≠ 0 := (discriminant_ne_zero_iff _).2 hinj
+  refine ⟨sorted_analytic D a ⟨ha.1, hdisc⟩,
+    (sorted_monotone (coeffs_hermitian D a)).strictMono_of_injective hinj, ?_⟩
   obtain ⟨r, hr, hball, s, R, hs, hR, h⟩ := local_analytic (isOpen_axes n)
     (fun x _ => coeffs_hermitian D x) (coeffs_analytic D) ha.1
     (eigenvalues_injective_of_sorted _ hinj)
@@ -119,20 +135,22 @@ theorem good_diagonalize_data (D : Data n) (hn : 2 ≤ n) {a : Vec n} (ha : a �
     rwa [hsig _ (hax I hI).1] at this
   · exact mul_ne_zero two_ne_zero (sigma_neg D hn (hax I hI).2 j).ne
 
-/-- `bpP:p9:good-set` (a)–(c) as one bundle, from the source hypotheses only (`2 ≤ n`, the secular
+/-- `bpP:p9:good-set` (a)–(c) as one bundle, from the source hypotheses only (the secular
 data `D`; in (c) `B` open and connected in the axes): (a) `good` is a symmetric polynomial in `σ`,
 a polynomial in the characteristic coefficients, analytic on `axes n`, label independent;
-(b) `Φ₄ ≠ 0 ↔ NR₄`, and at such a point the spectrum is simple, every `2σⱼ ≠ 0` and
+(b) `Φ₄ ≠ 0 ↔ NR₄`, and at such a point the eigenvalues are analytic and distinct (strictly
+increasing), every `2σⱼ ≠ 0` and
 `diagonalize` applies on an action ball; (c) the dichotomy, with the good set of the nonzero branch
 uniformly non-resonant on compacts. -/
-theorem good_set_bundle (D : Data n) (hn : 2 ≤ n) :
+theorem good_set_bundle (D : Data n) :
     ((goodPoly n).IsSymmetric ∧
       (∃ P : MvPolynomial (Fin n) ℝ, ∀ M : Mat n, ∀ hM : M.IsHermitian,
         good (sorted M hM) = MvPolynomial.eval (fun i => M.charpoly.coeff i.val) P) ∧
       AnalyticOnNhd ℝ (fun a => good (sigma D a)) (axes n) ∧
       (∀ p : Equiv.Perm (Fin n), ∀ s : Vec n, good (s ∘ p) = good s)) ∧
     (∀ a ∈ axes n, (good (sigma D a) ≠ 0 ↔ nr4 (sigma D a)) ∧
-      (good (sigma D a) ≠ 0 → Function.Injective (sigma D a) ∧ (∀ j, 2 * sigma D a j ≠ 0) ∧
+      (good (sigma D a) ≠ 0 → AnalyticAt ℝ (sigma D) a ∧ StrictMono (sigma D a) ∧
+        Function.Injective (sigma D a) ∧ (∀ j, 2 * sigma D a j ≠ 0) ∧
         ∃ r : ℝ, 0 < r ∧ ∃ R : Vec n → Mat n,
           IsOpen (action D '' Metric.ball a r) ∧ action D '' Metric.ball a r ⊆ actionDomain D ∧
           action D a ∈ action D '' Metric.ball a r ∧
@@ -149,12 +167,14 @@ theorem good_set_bundle (D : Data n) (hn : 2 ≤ n) :
             ∃ α : ℝ, 0 < α ∧ ∀ a ∈ K, ∀ k ∈ k4 n,
               α ≤ |∑ j, (k j : ℝ) * (2 * sigma D a j)|))) := by
   refine ⟨⟨goodPoly_isSymmetric n, good_characteristic n, (good_set D).1, (good_set D).2.2⟩,
-    fun a ha => ⟨(good_set D).2.1 a ha, fun hg => ⟨?_, ?_, ?_⟩⟩, fun B hB hBc hBA => ?_⟩
+    fun a ha => ⟨(good_set D).2.1 a ha, fun hg => ⟨?_, ?_, ?_, ?_, ?_⟩⟩, fun B hB hBc hBA => ?_⟩
+  · exact (good_diagonalize_data D (a := a) ⟨ha, hg⟩).1
+  · exact (good_diagonalize_data D (a := a) ⟨ha, hg⟩).2.1
   · exact ((good_ne_zero_iff _).1 hg).1
-  · exact fun j => mul_ne_zero two_ne_zero (sigma_neg D hn ha j).ne
-  · obtain ⟨r, hr, R, h⟩ := good_diagonalize_data D hn (a := a) ⟨ha, hg⟩
+  · exact two_sigma_ne_zero D (a := a) ⟨ha, hg⟩
+  · obtain ⟨r, hr, R, h⟩ := (good_diagonalize_data D (a := a) ⟨ha, hg⟩).2.2
     exact ⟨r, hr, R, h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1⟩
   · rcases good_set_dichotomy D hB hBc hBA with h | ⟨h1, h2, h3⟩
     · exact Or.inl h
     · refine Or.inr ⟨h1, h2, h3, fun K hK hKB => ?_⟩
-      exact good_uniform_nonresonance D hn hK fun a ha => ⟨hBA (hKB ha).1, (hKB ha).2⟩
+      exact good_uniform_nonresonance D hK fun a ha => ⟨hBA (hKB ha).1, (hKB ha).2⟩
