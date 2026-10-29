@@ -327,6 +327,16 @@ theorem slow_base_eventually (hC : P11SecularSpec D C) :
   rw [lt_div_iff₀ hM0] at h1
   exact ⟨heps, h1.le, le_trans (by nlinarith) h1.le, by linarith⟩
 
+/-- The `δ₀/4` form of `slow_R_eventually`, as used by `p11_slow_divisor` (`stepP:p11:as-nr`). -/
+theorem slow_R4_eventually (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) {MW : ℝ}
+    (hMW : 0 ≤ MW) :
+    ∀ᶠ eps : ℝ in nhdsWithin 0 (Ioi 0), 0 < eps → eps * C.MF ≤ Real.exp (-1) →
+      eps * p11K2 C nu eps * MW ≤ C.gamma * p11K2 C nu eps ^ (-C.tau) / 4 *
+        min (p11s1 C eps / 4) (Real.pi * C.rz ^ 2 / 32) := by
+  filter_upwards [slow_R_eventually hC hnu (MW := 2 * MW) (by positivity)] with eps h he1 he2
+  have := h he1 he2
+  linarith
+
 end Small
 
 end KAM.Planetary
