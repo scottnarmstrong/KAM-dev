@@ -27408,9 +27408,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a4-limit-family.tex#bpP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionDelta, selectionCDelta, SelectionDisplacement, displacement (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: audit B17 PASS WITH NOTES; SelectionDisplacement fields give sup, angle/action, Q0/128, 2^-18 and cDelta sqrt(eps)/gamma bounds
 NOTE: The exported-sums and composition edges at L163 (\source) are provenance at statement level; the proof consumes (E2) in dp-tel (edge there).
 
 NODE: stepP:p11a:dp-tel
@@ -27500,9 +27500,9 @@ EDGE: bpP:p11a:power-law | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a:gam
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionCGamma, gamma_inverse (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: audit B17 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:gi-branches
@@ -27591,9 +27591,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionDelta_le_power (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: audit B17 PASS WITH NOTES; unsigned export states literal pointwise Delta<=cDelta cGamma sqrt(eps) beta^{-(mu+1)/rho}
 NOTE: -
 
 NODE: bpP:p11a:lipschitz-family
