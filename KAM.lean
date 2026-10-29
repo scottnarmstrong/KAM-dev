@@ -566,6 +566,7 @@ public import KAM.Planetary.Nondegeneracy.GoodAxes.N2
 public import KAM.Planetary.Nondegeneracy.GoodAxes.Resonance
 public import KAM.Planetary.Nondegeneracy.GoodAxes.SortedAnalytic
 public import KAM.Planetary.Nondegeneracy.GoodAxes
+public import KAM.Planetary.Nondegeneracy.GoodAxesNodes
 public import KAM.Planetary.Nondegeneracy.Interface
 public import KAM.Planetary.Nondegeneracy.Peel
 public import KAM.Planetary.Nondegeneracy.Stability
