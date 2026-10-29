@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 11:14 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,982 lines of Lean** of an estimated ≈ 270,000
+> **Last updated: 2026-10-29 11:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,982 lines of Lean** of an estimated ≈ 270,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,8 +126,8 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **244,982** (191,767 excluding blank lines and comments) · **+171,104** since 2026-10-28 11:00 UTC |
-| Written on agent branches, not yet landed | 3,278 |
+| On `main` now | **244,982** (191,767 excluding blank lines and comments) · **+171,104** since 2026-10-28 11:20 UTC |
+| Written on agent branches, not yet landed | 4,037 |
 | **Estimated total at completion** | **≈ 270,000** |
 | Estimated still to write | ≈ 21,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 11:14 UTC from `main` at `177a88bd` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 11:20 UTC from `main` at `3ba82ab0` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -296,8 +296,10 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
-| **sogen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GEN: exact constants, model, double-precision solver (WIP) | `inp-sogen` | 1 (vs `inp`) |
-| **somodel** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-MODEL: rename hasDerivAt_line to soHasDerivAt_line (short-name clash with Nekhoroshev/A | `inp-somodel` | 7 (vs `inp`) |
+| **soclock** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-CLOCK: clock_frequency | `inp-soclock` | 2 (vs `inp`) |
+| **soconst** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-CONST: mirrors of track-K constants (WIP) | `inp-soconst` | 1 (vs `inp`) |
+| **sogen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GEN: hp solver, exact residual evaluator, emitter, schema (WIP) | `inp-sogen` | 2 (vs `inp`) |
+| **sopi** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PI: Machin series bounds for pi (PiHigh) | `inp-sopi` | 1 (vs `inp`) |
 | **soreplay** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-REPLAY: kernel replay-cost prototype (fixed-point and exact sparse Fourier polys) | `inp-soreplay` | 1 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
