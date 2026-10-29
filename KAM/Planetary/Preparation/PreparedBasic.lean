@@ -21,7 +21,8 @@ rescaled domain, and the chain `Phi^1 o Theta-hat o Psi_2 o A_eps` read through 
 The frequency data `checkW` is a free parameter `W` (supplied by P8b/P8c/P8e).
 
 Exported helper lemmas, one per clause of `P11PreparedSpec` that concerns only `N`, `P`, `chain`:
-domain chain (`p11Rescale_*`, `p11PreparedCore_chain_mem`), holomorphy, periodicity, reality,
+domain chain (`p11Rescale_*`, `p11PreparedCoreOf_chain_dom`, `P11PreparedDomSpec`),
+holomorphy, periodicity, reality,
 the sup bound of `P_eps` (`pr-a`) and the fixed Hamiltonian identity (`H_2 o A_eps = eps H-hat`).
 -/
 
@@ -417,6 +418,74 @@ theorem p11PreparedCoreOf_chain_eq {D : P11Physical n} (hC : P11SecularSpec D C)
 
 end Chain
 
+section ChainDom
+
+variable {n : ℕ} {C : P11SecularData n} {Fast : P11FastData n} {A : P11SlowData n} {nu eps : ℝ}
+
+/-- The full complex domain chain of `stepP:p11:pr-basic`: for `z` in the complex prepared domain,
+`A_eps z in T_{sigma/72} x V_2/2`, `Psi_2 (A_eps z) in T_{sigma/12} x V_2`, its polar image
+lies in `T_{sigma/6} x D(J_0, s_2) x B_{r_z/4} subset D_1'`, and `Theta-hat` maps it into
+`D_1` (here `D_1' = WorkingDom (sigma/6) (s_1/2) (r_z/2)`). -/
+theorem p11PreparedCoreOf_chain_dom {D : P11Physical n} (hC : P11SecularSpec D C) (heps : 0 < eps)
+    (hpe : Real.pi*eps ≤ p11s2 C nu eps) (hsm : 256*eps < C.rz^2)
+    (hFmaps : MapsTo Fast.map (p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2))
+      (p11WorkingDom n C.J0 C.sigma (p11s1 C eps) C.rz))
+    (hPsimaps : MapsTo A.Psi (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2))
+      (KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps)))
+    {z : P11Phase (n+n)}
+    (hz : z ∈ KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1) :
+    p11Rescale C.J0 eps z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) ∧
+      A.Psi (p11Rescale C.J0 eps z) ∈ KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s2 C nu eps) (C.rz/4) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2) ∧
+      Fast.map (p11PolarC (A.Psi (p11Rescale C.J0 eps z))) ∈
+        p11WorkingDom n C.J0 C.sigma (p11s1 C eps) C.rz := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩ := fast_consts hC
+  have hs2pos : 0 < p11s2 C nu eps := lt_of_lt_of_le (by positivity) hpe
+  have hs2le : p11s2 C nu eps ≤ p11s1 C eps/4 := min_le_left _ _
+  have hs1rC : p11s1 C eps ≤ C.rC := min_le_left _ _
+  have hs1pos : 0 < p11s1 C eps := by linarith
+  have hydom := p11Rescale_mem_dom (C := C) (nu := nu) heps hpe hz
+  have hPsi := hPsimaps hydom
+  have hbox := p11SlowBox_mem (C := C) (nu := nu) hs2pos heps (I := (A.Psi _).2) hPsi.2
+  have hsm' : 64*eps < C.rz^2 := by nlinarith
+  have hmem := p11_polarC_mem hC heps hsm' (z := A.Psi (p11Rescale C.J0 eps z)) (by
+      intro i
+      exact (hPsi.1 i).trans (by linarith)) (lt_of_lt_of_le hbox.1 (by linarith)) (by
+      have h1 := hbox.2
+      have h2 : ‖(fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ ≤ 2*Real.pi*eps :=
+        (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => by
+          simp [abs_of_pos heps, abs_of_pos Real.pi_pos]
+      have h3 := norm_le_norm_add_norm_sub' (p11SlowR (A.Psi (p11Rescale C.J0 eps z)).2)
+        (fun _ : Fin n => (2*Real.pi*eps : ℂ))
+      have h4 : ‖p11SlowR (A.Psi (p11Rescale C.J0 eps z)).2 -
+          fun _ : Fin n => (2*Real.pi*eps : ℂ)‖ < Real.pi*eps := h1
+      linarith)
+  have hPr : ‖p11PolPt (A.Psi (p11Rescale C.J0 eps z))‖ < C.rz/4 := by
+    refine lt_of_le_of_lt hmem.1 ?_
+    have : (4 * Real.sqrt eps) ^ 2 < (C.rz / 4) ^ 2 := by
+      nlinarith [Real.sq_sqrt heps.le]
+    exact lt_of_pow_lt_pow_left₀ 2 (by positivity) this
+  refine ⟨hydom, hPsi, ⟨hmem.2.2.1, ?_, ?_, ?_⟩, hmem.2.2, hFmaps hmem.2.2⟩
+  · have h : (fun i : Fin n => (p11PolarC (A.Psi (p11Rescale C.J0 eps z))).2 (Fin.castAdd n i)) =
+        p11SlowJ (A.Psi (p11Rescale C.J0 eps z)).2 := by
+      funext i; simp [p11PolarC, p11SlowJ]
+    show ‖(fun i : Fin n =>
+      (p11PolarC (A.Psi (p11Rescale C.J0 eps z))).2 (Fin.castAdd n i)) - _‖ < _
+    rw [h]; exact hbox.1
+  · exact lt_of_le_of_lt (by
+      rw [Prod.norm_def]; exact le_max_left _ _ |>.trans' le_rfl) hPr
+  · exact lt_of_le_of_lt (by
+      rw [Prod.norm_def]; exact le_max_right _ _ |>.trans' le_rfl) hPr
+
+end ChainDom
+
 section Assembly
 
 variable {n : ℕ}
@@ -445,6 +514,23 @@ def P11PreparedBasicSpec (D : P11Physical n) (nu eps c : ℝ) (Q : P11PreparedDa
   (∀ z : Phase (n+n), KAM.realInclusion₂ (n+n) z ∈ V →
     fixedHamiltonian D.G D.m0 D.m eps (Q.chain z)=eps*(Q.N (KAM.realInclusion (n+n) z.2)+
       Q.P (KAM.realInclusion₂ (n+n) z)).re)
+
+/-- The complex domain chain of `stepP:p11:pr-basic` for the signed data of a physical datum
+(`T_{sigma/6} x D(J_0, s_2) x B_{r_z/4} subset D_1'`, `Theta-hat` into `D_1`). -/
+def P11PreparedDomSpec (D : P11Physical n) (nu eps : ℝ) : Prop :=
+  let C := p11SecularData D
+  let A := p11SlowData D nu eps
+  ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1,
+    p11Rescale C.J0 eps z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) ∧
+      A.Psi (p11Rescale C.J0 eps z) ∈ KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s2 C nu eps) (C.rz/4) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2) ∧
+      (p11FastData D eps).map (p11PolarC (A.Psi (p11Rescale C.J0 eps z))) ∈
+        p11WorkingDom n C.J0 C.sigma (p11s1 C eps) C.rz
 
 end Assembly
 
@@ -496,12 +582,14 @@ theorem p11_prepared_basic_of_spec {D : P11Physical n} {nu eps c : ℝ}
     exact p11PreparedCoreOf_chain_eq hC heps hpe hsm (fixedHamiltonian D.G D.m0 D.m eps)
       (fun w hw => p11_secular_ham_chart hC eps w hw) hFreal hFmaps hPsireal hmaps hf2 hid hz
 
-/-- `stepP:p11:pr-basic` and `stepP:p11:pr-a` packaged as one existence statement: for all small
-`eps` and every frequency datum `W`, the core prepared data satisfies the basic spec. -/
-theorem p11_prepared_basic (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
+/-- `stepP:p11:pr-basic` (with its complex domain chain) and `stepP:p11:pr-a` as one existence
+statement: for all small `eps` and every frequency datum `W`, the core prepared data satisfies the
+basic spec and the domain chain holds. -/
+theorem p11_prepared_basic_dom (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
     ∃ eps3 : ℝ, 0 < eps3 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps3 → ∀ c : ℝ,
       p11SlowConstant D nu ≤ c → ∀ W : P11Vec (n+n) → P11Vec (n+n),
-        P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) := by
+        P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) ∧
+          P11PreparedDomSpec D nu eps := by
   have hC : P11SecularSpec D (p11SecularData D) := (holo_chart D).choose_spec.1
   obtain ⟨-, -, -, -, -, -, -, hrz0, -, hMF⟩ := fast_consts hC
   obtain ⟨eps1, h1pos, -, hfast⟩ := avg_fast D
@@ -511,7 +599,7 @@ theorem p11_prepared_basic (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
   obtain ⟨u, hu, hsub⟩ := (mem_nhdsGT_iff_exists_Ioo_subset).1 (slow_pe_eventually hC hnu)
   have hM0 : 0 < (p11SecularData D).MF := by linarith
   refine ⟨min (u/2) (min eps1 (min (avg_slow D hnu).choose
-    (min (Real.exp (-1)/(p11SecularData D).MF) ((p11SecularData D).rz^2/65)))),
+    (min (Real.exp (-1)/(p11SecularData D).MF) ((p11SecularData D).rz^2/257)))),
     lt_min (by simpa using hu) (lt_min h1pos (lt_min h2pos (lt_min (by positivity)
       (by positivity)))), fun eps heps hle c hc W => ?_⟩
   have hle1 := hle.trans (min_le_left _ _)
@@ -524,9 +612,10 @@ theorem p11_prepared_basic (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
   have hεM : eps*(p11SecularData D).MF ≤ Real.exp (-1) := by
     have := (le_div_iff₀ hM0).1 hle4
     exact this
-  have hsm : 64*eps < (p11SecularData D).rz^2 := by
+  have hsm' : 256*eps < (p11SecularData D).rz^2 := by
     have : 0 < (p11SecularData D).rz^2 := by positivity
     linarith
+  have hsm : 64*eps < (p11SecularData D).rz^2 := by linarith
   have hpe := hsub ⟨heps, by linarith⟩ heps hεM
   have hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps) := by
     have h := (hfast eps heps hle2).2
@@ -539,7 +628,19 @@ theorem p11_prepared_basic (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
     unfold p11SlowData
     rw [dif_pos h]
     exact h.choose_spec
-  exact p11_prepared_basic_of_spec hC hF hS heps hεM hpe hsm hc
+  refine ⟨p11_prepared_basic_of_spec hC hF hS heps hεM hpe hsm hc, fun z hz => ?_⟩
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hmaps, -, -, -, -, -, -⟩ := hS
+  obtain ⟨-, -, -, -, -, -, -, -, -, hFmaps, -⟩ := hF
+  exact p11PreparedCoreOf_chain_dom hC heps hpe hsm' hFmaps hmaps hz
+
+/-- `stepP:p11:pr-basic` and `stepP:p11:pr-a` packaged as one existence statement: for all small
+`eps` and every frequency datum `W`, the core prepared data satisfies the basic spec. -/
+theorem p11_prepared_basic (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ eps3 : ℝ, 0 < eps3 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps3 → ∀ c : ℝ,
+      p11SlowConstant D nu ≤ c → ∀ W : P11Vec (n+n) → P11Vec (n+n),
+        P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) := by
+  obtain ⟨e, he, h⟩ := p11_prepared_basic_dom D hnu
+  exact ⟨e, he, fun eps heps hle c hc W => (h eps heps hle c hc W).1⟩
 
 end Main
 
