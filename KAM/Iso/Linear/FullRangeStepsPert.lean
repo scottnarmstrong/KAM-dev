@@ -128,4 +128,59 @@ theorem step_pt_frame (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r) (hδ : 0 <
   exact ⟨hΔ, hXt θ hθ, hL, h4, (hc θ hθ).1, by simpa only [mSize_max_one] using (hc θ hθ).2.1, by
     simpa only [C_B, C_G, mSize_max_one] using (hc θ hθ).2.2⟩
 
+/-- `bpI:p1:perturbation-noA5`, step `pt-torsion`: on `T_{r-δ}`, `|Ñ - N| ≤ C_{ΔN} d/δ`,
+`|Ñ| ≤ 2𝔪²`, `|Ñᵀ| ≤ 4n𝔪²`; on `T_{r-2δ}`, `|X̃_Ñ - X_N| ≤ C_{ΔX} d/δ²` and
+`|T̃ - T| ≤ C_{ΔT} d/δ²`. -/
+theorem step_pt_torsion (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (hω : ‖ω‖ ≤ Theta n M σK σB σT) (hK : DifferentiableOn ℂ K (complexStrip n r))
+    (hball : ∀ θ ∈ complexStrip n r, Metric.ball (K θ) β ⊆ D)
+    (hDK : ∀ θ ∈ complexStrip n r, ‖fderiv ℂ K θ‖ ≤ σK)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det ∧ ‖(gramMatrix K θ)⁻¹‖ ≤ σB)
+    (hK' : DifferentiableOn ℂ K' (complexStrip n r)) (hd : ∀ θ ∈ complexStrip n r, ‖K' θ - K θ‖ ≤ d)
+    (hdβ : d < β) (hsmall : 2 * mSize M σK σB σT * C_DT n M σK σB σT * d / δ ^ 2 ≤ 1) :
+    (∀ θ ∈ complexStrip n (r - δ), ‖normalMat K' θ - normalMat K θ‖ ≤ C_DN n M σK σB σT * d / δ ∧
+      ‖normalMat K' θ‖ ≤ 2 * mSize M σK σB σT ^ 2 ∧
+      ‖(normalMat K' θ)ᵀ‖ ≤ 4 * n * mSize M σK σB σT ^ 2) ∧
+    ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖normalFieldMat H K' ω θ - normalFieldMat H K ω θ‖ ≤ C_DX n M σK σB σT * d / δ ^ 2 ∧
+      ‖torsion H K' ω θ - torsion H K ω θ‖ ≤ C_DT n M σK σB σT * d / δ ^ 2 := by
+  have hSt := (hS.setting (σK := max σK 1) (σB := max σB 1) (σT := max σT 1) (by positivity)
+    (by positivity) (by positivity)).toStanding
+  have hP := hSt.toParams
+  have h0 : (0 : Fin n → ℂ) ∈ complexStrip n r := fun i => by simpa using hr
+  have hd0 : 0 ≤ d := (norm_nonneg _).trans (hd 0 h0)
+  have hβ : 0 < β := lt_of_le_of_lt hd0 hdβ
+  have hsmall' : 2 * mSize M (max σK 1) (max σB 1) (max σT 1) *
+      C_DT n M (max σK 1) (max σB 1) (max σT 1) * d / δ ^ 2 ≤ 1 := by
+    simpa only [C_DT, C_DX, C_DN, C_B, C_G, C_X, Theta, mSize_max_one] using hsmall
+  have hω' : ‖ω‖ ≤ Theta n M (max σK 1) (max σB 1) (max σT 1) := by
+    simpa only [Theta, mSize_max_one] using hω
+  have hDK' : ∀ θ ∈ complexStrip n r, ‖fderiv ℂ K θ‖ ≤ max σK 1 := fun θ hθ =>
+    (hDK θ hθ).trans (le_max_left _ _)
+  have hG' : ∀ θ ∈ complexStrip n r,
+      IsUnit (gramMatrix K θ).det ∧ ‖(gramMatrix K θ)⁻¹‖ ≤ max σB 1 := fun θ hθ =>
+    ⟨(hG θ hθ).1, (hG θ hθ).2.trans (le_max_left _ _)⟩
+  have hsub : complexStrip n (r - δ) ⊆ complexStrip n r :=
+    PerturbationAux.complexStrip_mono (by linarith)
+  obtain ⟨-, hc, hdN⟩ := PerturbationAux.frame_items hP hδ hδ1 hd0 hK hDK' hG' hK' hd hsmall'
+  have hG1 : ∀ θ ∈ complexStrip n (r - δ), IsUnit (gramMatrix K' θ).det :=
+    fun θ hθ => (hc θ hθ).1
+  have hK𝔅 : ∀ θ ∈ complexStrip n r, K θ ∈ D := fun θ hθ =>
+    hball θ hθ (Metric.mem_ball_self hβ)
+  have hAb : ∀ θ ∈ complexStrip n r, ‖linMat H K θ‖ ≤ mSize M (max σK 1) (max σB 1) (max σT 1) :=
+    fun θ hθ => FrameAux.norm_linMat_le hSt (hK𝔅 θ hθ)
+  have hXX := PerturbationAux.norm_normalField_sub_le_strip hSt hδ hδ1 hd0 hω' hK hball
+    (fun θ hθ => (hG θ hθ).1) hK' hd hdβ hG1 hdN hAb
+  have he := PerturbationAux.norm_torsion_sub_le hSt hδ hδ1 hω' hK hK𝔅 hDK' hG' hK' hG1 hdN hXX
+  refine ⟨fun θ hθ => ⟨?_, ?_, ?_⟩, fun θ hθ => ⟨?_, ?_⟩⟩
+  · simpa only [C_DN, C_B, C_G, mSize_max_one] using (hdN θ hθ).1
+  · simpa only [mSize_max_one] using (hdN θ hθ).2
+  · have h2 : ‖normalMat K' θ‖ ≤ 2 * mSize M σK σB σT ^ 2 := by
+      simpa only [mSize_max_one] using (hdN θ hθ).2
+    calc ‖(normalMat K' θ)ᵀ‖ ≤ 2 * n * ‖normalMat K' θ‖ := FrameAux.norm_transpose_le_two_mul _
+      _ ≤ 2 * n * (2 * mSize M σK σB σT ^ 2) := by gcongr
+      _ = 4 * n * mSize M σK σB σT ^ 2 := by ring
+  · simpa only [C_DX, C_DN, C_B, C_G, Theta, mSize_max_one] using hXX θ hθ
+  · simpa only [C_DT, C_DX, C_DN, C_B, C_G, C_X, Theta, mSize_max_one] using he θ hθ
+
 end KAM.Iso.Linear
