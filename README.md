@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 06:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,508 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 07:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,508 lines of Lean** of an estimated ≈ 274,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,7 +126,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **244,508** (191,422 excluding blank lines and comments) · **+170,630** since 2026-10-28 06:40 UTC |
+| On `main` now | **244,508** (191,422 excluding blank lines and comments) · **+170,630** since 2026-10-28 07:00 UTC |
 | Written on agent branches, not yet landed | 8,080 |
 | **Estimated total at completion** | **≈ 274,000** |
 | Estimated still to write | ≈ 22,000 |
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 06:40 UTC from `main` at `4202c3fd` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 07:00 UTC from `main` at `50afb4da` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
