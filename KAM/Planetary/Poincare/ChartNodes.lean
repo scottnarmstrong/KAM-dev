@@ -319,6 +319,179 @@ theorem product_chart_full (D : Data n) :
 
 end SecularForm
 
+/-! ### `stepP:p7:d25-e` and `bpP:p7:d25` -/
+
+section D25Nodes
+
+/-- The clause (e) of `bpP:p7:d25` for one planet: `(ξᵢ, ηᵢ) = ρᵢ e_{gᵢ}` with `ρᵢ = √(2 Γᵢ)`
+is solvable, and for every such `gᵢ` (with `eᵢ = √(1 - kᵢ²)`, `ℓᵢ = λᵢ - gᵢ`, `uᵢ = eccAnom ℓᵢ eᵢ`):
+`0 < eᵢ < 1`, `Fᵢ = gᵢ + uᵢ` and `λᵢ = ℓᵢ + gᵢ`. -/
+def D25Polar (w : Phase (2 + 2)) (i : Fin 2) : Prop :=
+  (∃ g : ℝ, slow w.1 i = √(2 * secularGamma w i) * Real.cos g ∧
+      slow w.2 i = √(2 * secularGamma w i) * Real.sin g) ∧
+  ∀ g : ℝ, slow w.1 i = √(2 * secularGamma w i) * Real.cos g →
+    slow w.2 i = √(2 * secularGamma w i) * Real.sin g →
+      0 < √(1 - secularRoot w i ^ 2) ∧ √(1 - secularRoot w i ^ 2) < 1 ∧
+      poincareF (planetBlock w i) =
+        g + eccAnom (fast w.1 i - g) (√(1 - secularRoot w i ^ 2)) ∧
+      fast w.1 i = (fast w.1 i - g) + g
+
+private theorem secularGamma_eq_half (w : Phase (2 + 2)) (i : Fin 2) :
+    secularGamma w i = (slow w.1 i ^ 2 + slow w.2 i ^ 2) / 2 := by
+  rw [secularGamma_eq]; rfl
+
+/-- `stepP:p7:d25-e`: on `O₂` with `Γᵢ > 0`: `(ξᵢ, ηᵢ) = ρᵢ e_{gᵢ}`, `Fᵢ = gᵢ + uᵢ`,
+`λᵢ = ℓᵢ + gᵢ`. -/
+theorem d25_e {w : Phase (2 + 2)} (hw : w ∈ poincareProdDom 2) (i : Fin 2)
+    (hΓ : 0 < secularGamma w i) : D25Polar w i := by
+  have hΓ2 : 2 * secularGamma w i = slow w.1 i ^ 2 + slow w.2 i ^ 2 := by
+    rw [secularGamma_eq_half]; ring
+  have hρ : 0 < √(2 * secularGamma w i) := Real.sqrt_pos.2 (by linarith)
+  refine ⟨?_, fun g hξ hη => ?_⟩
+  · set z : ℂ := ⟨slow w.1 i, slow w.2 i⟩ with hz
+    have hn : √(2 * secularGamma w i) = ‖z‖ := by
+      have : ‖z‖ ^ 2 = 2 * secularGamma w i := by
+        rw [Complex.sq_norm, Complex.normSq_mk, hΓ2]; ring
+      rw [← this, Real.sqrt_sq (norm_nonneg z)]
+    refine ⟨Complex.arg z, ?_, ?_⟩
+    · rw [hn]; exact (Complex.norm_mul_cos_arg z).symm
+    · rw [hn]; exact (Complex.norm_mul_sin_arg z).symm
+  · obtain ⟨-, hK0, -, -, -, -, -⟩ := poincare_facts (hw i)
+    have hK : secularRoot w i = poincareK (planetBlock w i) := secularRoot_eq w i
+    have hK1 : poincareK (planetBlock w i) < 1 := by
+      have h1 : 0 < poincareGamma (planetBlock w i) := by
+        rw [← secularGamma_eq]; exact hΓ
+      have h2 : 0 < (planetBlock w i).2 0 := (hw i).1
+      unfold poincareK
+      have : 0 < poincareGamma (planetBlock w i) / (planetBlock w i).2 0 := div_pos h1 h2
+      linarith
+    have he0 : 0 < √(1 - poincareK (planetBlock w i) ^ 2) :=
+      Real.sqrt_pos.2 (by nlinarith)
+    have he1 : √(1 - poincareK (planetBlock w i) ^ 2) < 1 :=
+      (Real.sqrt_lt' one_pos).2 (by nlinarith)
+    obtain ⟨-, hV, -⟩ := poincare_facts_polar (hw i) hρ (g := g) hξ hη
+    rw [hK]
+    refine ⟨he0, he1, ?_, by ring⟩
+    show keplerLong (fast w.1 i) (poincareV (planetBlock w i)) = _
+    rw [hV]
+    exact keplerLong_eq_add_eccAnom he0 he1 _
+
+/-- `bpP:p7:d25` (`n = 2`, `κ = 1`): (a) the secular quantities `Γ, k, v, a`; (b) the regular
+Kepler equation (`Φ(·, vᵢ)` an analytic increasing bijection commuting with `F ↦ F + 2π`, derivative
+`J ≥ 1 - eᵢ > 0`, `Fᵢ(w)` its unique solution of `Φ = λᵢ`, analytic on `O₂`); (c) the ellipse
+dictionary `Ψ_{mᵢ,1}` and `ellipsePhase m w F = Ψ⁽²⁾(…)`, with `ellipsePhase m w (F(w)) = Ψ⁽²⁾(w)`;
+(d) the Kepler functions of `Ψ⁽²⁾(w)` and the converse (every prograde elliptic `z` is `Ψ⁽²⁾(w)`,
+`w` unique modulo `λ ↦ λ + 2π k`); (e) the polar form (`d25_e`). -/
+theorem d25 {m : Fin 2 → ℝ} (hm : ∀ i, 0 < m i) :
+    (∀ w ∈ poincareProdDom 2, ∀ i : Fin 2,
+      (secularGamma w i = (slow w.1 i ^ 2 + slow w.2 i ^ 2) / 2 ∧ 0 ≤ secularGamma w i ∧
+        secularRoot w i = 1 - secularGamma w i / fast w.2 i ∧
+        0 < secularRoot w i ∧ secularRoot w i ≤ 1 ∧
+        secularEccVector w i = poincareV (planetBlock w i) ∧
+        planeSq (secularEccVector w i) = 1 - secularRoot w i ^ 2 ∧
+        secularAxis m w i = (fast w.2 i / m i) ^ 2) ∧
+      ((∀ F, keplerMeanLongitude w i F = keplerPhi (secularEccVector w i) F) ∧
+        AnalyticOnNhd ℝ (keplerMeanLongitude w i) univ ∧
+        StrictMono (keplerMeanLongitude w i) ∧ Function.Bijective (keplerMeanLongitude w i) ∧
+        (∀ F, keplerMeanLongitude w i (F + 2 * π) = keplerMeanLongitude w i F + 2 * π) ∧
+        (∀ F, HasDerivAt (keplerMeanLongitude w i) (longitudeJacobian w i F) F ∧
+          1 - planeLength (secularEccVector w i) ≤ longitudeJacobian w i F ∧
+          0 < longitudeJacobian w i F) ∧
+        keplerMeanLongitude w i (poincareF (planetBlock w i)) = fast w.1 i ∧
+        (∀ F, keplerMeanLongitude w i F = fast w.1 i → F = poincareF (planetBlock w i)) ∧
+        AnalyticOnNhd ℝ (fun w' : Phase (2 + 2) => poincareF (planetBlock w' i))
+          (poincareProdDom 2)) ∧
+      (poincare (m i) 1 (planetBlock w i) =
+          (ellipsePosition m w i (poincareF (planetBlock w i)),
+            ellipseMomentum m w i (poincareF (planetBlock w i))) ∧
+        ellipsePhase m w (fun j => poincareF (planetBlock w j)) = poincareProd m 1 w ∧
+        (∀ F : Fin 2 → ℝ, ellipsePhase m w F = poincareProd m 1
+          (assemble (fast w.2) (fun j => keplerMeanLongitude w j (F j)) (slow w.2) (slow w.1))) ∧
+        (∀ F : ℝ, poincare (m i) 1
+          (![keplerMeanLongitude w i F, slow w.1 i], ![fast w.2 i, slow w.2 i]) =
+            (ellipsePosition m w i F, ellipseMomentum m w i F))) ∧
+      (ProgradeElliptic m (poincareProd m 1 w) ∧
+        keplerEnergy m (poincareProd m 1 w) i = -(m i) ^ 3 / (2 * fast w.2 i ^ 2) ∧
+        keplerAxis m (poincareProd m 1 w) i = secularAxis m w i ∧
+        keplerAction m (poincareProd m 1 w) i = fast w.2 i ∧
+        planeCross (bodyVector (poincareProd m 1 w).1 i) (bodyVector (poincareProd m 1 w).2 i) =
+          fast w.2 i - secularGamma w i ∧
+        keplerEccVector m (poincareProd m 1 w) i = secularEccVector w i) ∧
+      (0 < secularGamma w i → D25Polar w i)) ∧
+    (∀ z : Phase (2 * 2), ProgradeElliptic m z → ∃ w ∈ poincareProdDom 2,
+      poincareProd m 1 w = z ∧ ∀ w' ∈ poincareProdDom 2,
+        poincareProd m 1 w' = z ↔ ∃ k : Fin 2 → ℤ, w' = w + fastShift (a := 2) (b := 2) k) := by
+  refine ⟨fun w hw i => ?_, fun z hz => ?_⟩
+  swap
+  · obtain ⟨w, hw, hwz⟩ := exists_poincareProd_of_progradeElliptic hm hz
+    refine ⟨w, hw, hwz, fun w' hw' => ?_⟩
+    rw [← hwz, eq_comm]
+    exact poincareProd_eq_iff hm one_pos hw hw'
+  obtain ⟨hΓ0, hK0, hK1, -, hsq, hlen, hJ⟩ := poincare_facts (hw i)
+  have hv : planeLength (secularEccVector w i) < 1 := by rw [secularEccVector_eq]; exact hlen
+  have hKM : keplerMeanLongitude w i = keplerPhi (secularEccVector w i) :=
+    funext (keplerMeanLongitude_eq w i)
+  refine ⟨⟨secularGamma_eq_half w i, by rw [secularGamma_eq]; exact hΓ0,
+    by rw [secularRoot_eq, secularGamma_eq]; rfl, by rw [secularRoot_eq]; exact hK0,
+    by rw [secularRoot_eq]; exact hK1, secularEccVector_eq w i,
+    by rw [secularEccVector_eq, secularRoot_eq]; exact hsq,
+    by rw [secularAxis_eq, div_pow, mul_one]⟩, ⟨keplerMeanLongitude_eq w i, ?_, ?_, ?_, ?_, ?_, ?_,
+    ?_, ?_⟩, ⟨?_, ?_, ?_, ?_⟩, (keplerFunctions_poincareProd hm hw i), fun hΓ => d25_e hw i hΓ⟩
+  · rw [hKM]
+    intro F _
+    unfold keplerPhi
+    exact (analyticAt_id.sub (analyticAt_const.mul Real.analyticAt_sin)).add
+      (analyticAt_const.mul Real.analyticAt_cos)
+  · rw [hKM]; exact keplerPhi_strictMono hv
+  · rw [hKM]; exact keplerPhi_bijective hv
+  · intro F; rw [hKM]; exact keplerPhi_shift _ F
+  · intro F
+    rw [hKM]
+    exact ⟨hasDerivAt_keplerPhi _ F, keplerJac_ge F, keplerJac_pos hv F⟩
+  · rw [hKM, secularEccVector_eq]; exact keplerPhi_keplerLong hlen _
+  · intro F hF
+    rw [hKM, secularEccVector_eq] at hF
+    exact (keplerLong_unique hlen hF).symm
+  · intro w' hw'
+    have h := (analyticOnNhd_poincareF (blockCLM i w') (by rw [blockCLM_apply]; exact hw' i)).comp
+      ((blockCLM i).analyticAt w')
+    have e : (poincareF ∘ ⇑(blockCLM i)) = fun w' => poincareF (planetBlock w' i) :=
+      funext fun x => by rw [Function.comp_apply, blockCLM_apply]
+    rwa [e] at h
+  · exact poincare_block_eq_ellipse m w i _ _ rfl rfl rfl
+  · exact ellipsePhase_eq_poincareProd_self hm hw
+  · intro F
+    rw [ellipsePhase_eq_poincareProd hm hw F]
+    have : (fun j => keplerMeanLongitude w j (F j)) =
+        fun j => keplerPhi (poincareV (planetBlock w j)) (F j) :=
+      funext fun j => by rw [keplerMeanLongitude_eq, secularEccVector_eq]
+    rw [this]
+  · intro F
+    refine poincare_block_eq_ellipse m w i _ F rfl rfl ?_
+    exact keplerLong_unique hlen (by rw [hKM, secularEccVector_eq] at *; rfl)
+
+end D25Nodes
+
+/-! ### `stepP:p7:po-el#circular` -/
+
+/-- `stepP:p7:po-el#circular`: for `m, κ > 0`, `λ` real and `Λ > 0`, the point
+`(q, p) = Ψ_{m,κ}(λ, 0, Λ, 0)` has `q ≠ 0`, `E_{m,κ}(q, p) = -κ² m³ / (2 Λ²)`,
+`cr(q, p) = Λ > 0`, `a(q, p) = Λ² / (m² κ)` and physical action `Λ`. -/
+theorem po_el_circular {m κ : ℝ} (hm : 0 < m) (hκ : 0 < κ) (lam Λ : ℝ) (hΛ : 0 < Λ) :
+    (poincare m κ (![lam, 0], ![Λ, 0])).1 ≠ 0 ∧
+    energyMK m κ (poincare m κ (![lam, 0], ![Λ, 0])) = -(κ ^ 2 * m ^ 3) / (2 * Λ ^ 2) ∧
+    planeCross (poincare m κ (![lam, 0], ![Λ, 0])).1 (poincare m κ (![lam, 0], ![Λ, 0])).2 = Λ ∧
+    0 < Λ ∧
+    axisMK m κ (poincare m κ (![lam, 0], ![Λ, 0])) = Λ ^ 2 / (m ^ 2 * κ) ∧
+    actionMK m κ (poincare m κ (![lam, 0], ![Λ, 0])) = Λ := by
+  have hw : ((![lam, 0], ![Λ, 0]) : Phase 2) ∈ poincareDom := by
+    refine ⟨hΛ, ?_⟩
+    simpa [poincareGamma] using hΛ
+  obtain ⟨hreg, hE, hA, hAct, hCr, -⟩ := poincare_elements hm hκ hw
+  have hΓ : poincareGamma ((![lam, 0], ![Λ, 0]) : Phase 2) = 0 := by simp [poincareGamma]
+  refine ⟨planeLength_pos_iff.mp hreg.1, hE, ?_, hΛ, hA, hAct⟩
+  rw [hCr, hΓ]; simp
+
 end KAM.Planetary
 
 end
