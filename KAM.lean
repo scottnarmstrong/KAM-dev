@@ -276,13 +276,16 @@ public import KAM.Iso.KeplerHamiltonian
 public import KAM.Iso.Linear.BorderSolve
 public import KAM.Iso.Linear.BorderUnique
 public import KAM.Iso.Linear.Defs
+public import KAM.Iso.Linear.DioDirichlet
 public import KAM.Iso.Linear.Energy
 public import KAM.Iso.Linear.EnergyDefect
 public import KAM.Iso.Linear.Extended
 public import KAM.Iso.Linear.FreqMap
+public import KAM.Iso.Linear.FullRange
 public import KAM.Iso.Linear.LastRow
 public import KAM.Iso.Linear.NoTwist
 public import KAM.Iso.Linear.Reduced
+public import KAM.Iso.Linear.SettingSrc
 public import KAM.Iso.Linear.Tools
 public import KAM.Iso.Linear.Trivial
 public import KAM.Iso.NearCircular
@@ -294,6 +297,7 @@ public import KAM.Iso.R3bp.Safe
 public import KAM.Iso.R3bp.Uniqueness
 public import KAM.Iso.RestrictedHam
 public import KAM.Iso.ShiftPotential
+public import KAM.Iso.TransferStepNodes
 public import KAM.Kepler.Basic
 public import KAM.Kepler.DelaunayChart
 public import KAM.Kepler.DelaunayJacobian
