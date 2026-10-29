@@ -1,204 +1,268 @@
 #!/usr/bin/env python3
-"""Python mirror of `checkTorusCertificate` (A-E §G) for ℚ certificates on the `direct` product route.
+"""Python mirror of `checkTorusCertificate` (KAM/Certificate/Defs.lean) for ℚ certificates, direct route.
 
-Untrusted tooling (SO-TOYGEN).  The eight sub-check bodies are still `sorry` in the signatures; this module
-implements them from their docstrings, design §1 decisions 2, 3, 7, 8, 9, 10 and the contracts of A-E §G,
-over the exact backend ℚ.  Where a reading had to be chosen it is marked READING; every one is listed in
-docs/tracks/SO/studies/SO-TOYGEN.md §4.  The landed parts (`Slp.balls`, `checkWeight`, `checkPiEnclosure`,
-`HamExpr.jet` via the extracted program) are mirrored literally (toy_arith.py).
+Untrusted tooling (SO-TOYGEN, aligned with the landed Lean by SO-PYALIGN).  Every function transcribes the Lean
+declaration of the same (snake-cased where needed) name over the exact backend ℚ, using the model engine of
+toy_model.py: `Slp.compose` over the WHOLE program in slot order with the Lean witness numbering and advice
+keys, `gramCheck`, `torsionModels`, `torsionAvgCheck`, and the eight sub-checks of Defs.lean.  The alignment
+table is docs/tracks/SO/studies/SO-PYALIGN.md.  Two shape tests of `checkStatic` are DELIBERATELY STRICTER than
+Lean (box radii >= 0, embedding list lengths = n); they are reported separately (`mirrorOnly`).
 
-A certificate is a dict (see toy_gen.py); every number is a Fraction.  `check(cert)` returns
-(ok, report) where report[sub] = (ok, details) for the eight sub-checks in checker order.
+A certificate is a dict (see toy_gen.py); every number is a Fraction, every polynomial a Lean-ordered term
+list.  `check(cert)` returns (ok, report) where report[sub] = (ok, details) in checker order.
 """
 from fractions import Fraction as F
 import toy_arith as A
 import toy_model as Mo
-from toy_model import Model, m_add, m_mul, m_neg, m_const, m_zero, supBound, p_wnorm
+from toy_model import Model, getD
 import toy_constants as C
 
 SUBS = ["checkStatic", "checkHamBounds", "checkEmbedding", "checkInvariance", "checkEnergy", "checkGram",
         "checkTorsion", "checkSmallness"]
 
 
-def swap(a, n):
+def swapNat(n, a):
     return a + n if a < n else a - n
 
 
-def hamSign(a, n):
-    return 1 if a < n else -1
+def opt(L, i):
+    """`L[i]?`"""
+    return L[i] if i < len(L) else None
 
 
-# ---------------------------------------------------------------- embedding data
-def emb_polys(c):
-    """(U_i, dU_i, A_i, dA_i) as exact polynomials; a missing component denotes 0 (F2)."""
-    n, e = c["n"], c["emb"]
-    U, A_ = [], []
-    for i in range(n):
-        if i < len(e["angle"]):
-            z, h = e["angle"][i]
-            U.append((Mo.realpoly_to_poly(z, h, n), e["angleDeg"][i] if i < len(e["angleDeg"]) else 0,
-                      F(z) == 0 and len(h) == 0))
-        else:
-            U.append((Mo.p_zero(), 0, True))
-        if i < len(e["action"]):
-            z, h = e["action"][i]
-            A_.append((Mo.realpoly_to_poly(z, h, n), e["actionDeg"][i] if i < len(e["actionDeg"]) else 0))
-        else:
-            A_.append((Mo.p_zero(), 0))
-    return U, A_
+# ---------------------------------------------------------------- embedding (Gram.lean, Torsion/Models.lean)
+def compDerivModel(c, d, Pr, j):
+    n, w, pe = c["n"], c["weight"][1], c["piEnc"]
+    return Mo.toDeg(w, pe, 0, Mo.ofDeriv(j, d, Mo.realCompPoly(n, Pr)), c["_log"])
 
 
-def dk_models(c):
-    """DK as a 2n x n model matrix (rows in sumVec order)."""
-    n, w = c["n"], c["weight"][1]
-    U, A_ = emb_polys(c)
-    rows = []
-    for i in range(n):
-        P, d, _ = U[i]
-        rows.append([m_add(m_const((1 if i == j else 0, 0), n), Mo.m_ofDeriv(j, d, P), w, c["piEnc"], c["_log"])
-                     for j in range(n)])
-    for i in range(n):
-        P, d = A_[i]
-        rows.append([Mo.m_ofDeriv(j, d, P) for j in range(n)])
-    return rows
+def dkAngleModel(c, i, j):
+    e = c["emb"]
+    m = compDerivModel(c, getD(e["angleDeg"], i), opt(e["angle"], i), j)
+    return Mo.add(Mo.constModel(c["n"], 1, 0, 0), m) if i == j else m
 
 
-def d2k_models(c):
-    """∂_m DK_{l i} as models: list over m of 2n x n matrices."""
-    n = c["n"]
-    U, A_ = emb_polys(c)
-    out = []
-    for m in range(n):
-        rows = []
-        for i in range(n):
-            P, d, _ = U[i]
-            rows.append([Model(d + 2, Mo.p_deriv(Mo.p_deriv(P, j), m)) for j in range(n)])
-        for i in range(n):
-            P, d = A_[i]
-            rows.append([Model(d + 2, Mo.p_deriv(Mo.p_deriv(P, j), m)) for j in range(n)])
-        out.append(rows)
-    return out
+def dkActionModel(c, i, j):
+    e = c["emb"]
+    return compDerivModel(c, getD(e["actionDeg"], i), opt(e["action"], i), j)
 
 
-# ---------------------------------------------------------------- composition (Slp.compose, READING)
-def deps(ops, wanted):
-    need, stack = set(), list(wanted)
-    while stack:
-        s = stack.pop()
-        if s in need or s >= len(ops):
+def dkModels(c):
+    if "_dk" not in c:
+        n = c["n"]
+        c["_dk"] = [[dkAngleModel(c, i, j) if i < n else dkActionModel(c, i - n, j) for j in range(n)]
+                    for i in range(2 * n)]
+    return c["_dk"]
+
+
+def entry(M, i, j):
+    """modelMatrixEntry (zeroModel off the list)."""
+    if i < len(M) and j < len(M[i]):
+        return M[i][j]
+    return Mo.zeroModel()
+
+
+def d2kModel(c, i, j, l):
+    n, w, pe, e = c["n"], c["weight"][1], c["piEnc"], c["emb"]
+    if i < n:
+        m = Mo.ofDeriv2(j, l, getD(e["angleDeg"], i), Mo.realCompPoly(n, opt(e["angle"], i)))
+    else:
+        m = Mo.ofDeriv2(j, l, getD(e["actionDeg"], i - n), Mo.realCompPoly(n, opt(e["action"], i - n)))
+    return Mo.toDeg(w, pe, 0, m, c["_log"])
+
+
+def ballModel(n, cc, r):
+    return Model(0, Mo.constModel(n, cc, 0, 0).poly, F(r))
+
+
+def freqModel(c, l):
+    s, box = c["params"]["s"], c["freqBox"]
+    cc, r = box[l] if l < len(box) else (F(0), F(0))
+    return ballModel(c["n"], s * cc, abs(s) * r)
+
+
+# ---------------------------------------------------------------- composition (Expr/Compose.lean)
+def angleIsZero(c, j):
+    P = opt(c["emb"]["angle"], j)
+    return P is None or Mo.isZeroData(P)
+
+
+def normKey(c, k):
+    return tuple(0 if angleIsZero(c, j) else getD(k, j) for j in range(c["n"]))
+
+
+def charPhaseModel(c, k):
+    n, w, pe, e = c["n"], c["weight"][1], c["piEnc"], c["emb"]
+    acc = Mo.zeroModel()
+    for j in range(n):
+        m = getD(k, j)
+        if m == 0:
             continue
-        need.add(s)
-        op = ops[s]
-        if op[0] in "+*":
-            stack += [op[1], op[2]]
-        elif op[0] in "EI":
-            stack.append(op[1])
-    return need
+        P = opt(e["angle"], j)
+        if P is None:
+            ph = Mo.zeroModel()
+        else:
+            ph = Model(getD(e["angleDeg"], j) + 1,
+                       [(kk, (-x[1] * m, x[0] * m)) for kk, x in Mo.toSortedPoly(n, P)], F(0))
+        acc = Mo.add(acc, Mo.toDeg(w, pe, 0, ph, c["_log"]))
+    return acc
 
 
-def compose(c, cfg, wanted, tag):
-    """Models of the wanted slots of the jet program composed with K, or None (fail closed).
+def findKeyIdx(k, L):
+    for i, (kk, v) in enumerate(L):
+        if tuple(kk) == tuple(k):
+            return i, v
+    return None
 
-    READING: slots are computed in program order over the dependency closure of `wanted`; witnesses are
-    consumed in slot order (one per `exp` / `inv` slot of the whole program); products are keyed
-    [0, slot] (compose), [1, 1, char, j] (character-witness residuals), [2, inv] (reciprocal check)."""
+
+def charResolve(c, cfg, cache, kk, info):
+    hit = findKeyIdx(kk, cache)
+    if hit is not None:
+        return hit[1], cache
+    hit = findKeyIdx(kk, c["wit"]["charWit"])
+    if hit is None:
+        return None
+    ci, Ew = hit
+    r = Mo.expWitnessRadius(c["n"], c["weight"][1], c["weight"][0],
+                            cfg.forWitness(1, len(c["wit"]["expWit"]) + ci), charPhaseModel(c, kk), Ew)
+    info["char"].append((kk, ci, r))
+    if r is None:
+        return None
+    return (Ew[0], r), [(kk, (Ew[0], r))] + cache
+
+
+def charEntry(c, cfg, cache, kk, info):
+    e = charResolve(c, cfg, cache, kk, info)
+    if e is not None:
+        return e
+    nk = tuple(-x for x in kk)
+    e = charResolve(c, cfg, cache, nk, info)
+    if e is None:
+        return None
+    (P, r), cache2 = e
+    R = Mo.reflectSorted(P)
+    return (R, r), [(kk, (R, r))] + cache2
+
+
+def compose(c, cfg, wanted):
+    """Slp.compose: every op of the program in order (fail closed), then the wanted slots (zeroModel off the
+    program).  Returns (models or None, info)."""
     n, w, rho, pe = c["n"], c["weight"][1], c["weight"][0], c["piEnc"]
-    ops = c["_ops"]
-    U, A_ = emb_polys(c)
-    need = deps(ops, wanted)
-    exp_idx = {s: i for i, s in enumerate([s for s, op in enumerate(ops) if op[0] == "E"])}
-    inv_idx = {s: i for i, s in enumerate([s for s, op in enumerate(ops) if op[0] == "I"])}
-    vals, info = {}, {"inv": [], "char": []}
-    for s in sorted(need):
-        op = ops[s]
-        g = lambda a: vals.get(a, m_zero(n))
-        if op[0] == "C":
-            vals[s] = m_const((op[1], op[2]), n, op[3])
-        elif op[0] == "A":
+    e, wit, log = c["emb"], c["wit"], c["_log"]
+    slots, norms, nExp, nInv, cache = [], [], 0, 0, []
+    info = {"inv": [], "char": [], "exp": []}
+
+    def slot(i):
+        if i < len(slots):
+            return slots[i], norms[i]
+        return Mo.zeroModel(), F(0)
+
+    def push(m):
+        slots.append(m)
+        norms.append(Mo.supNormUp(m.poly, w))
+
+    for op in c["_ops"]:
+        t = op[0]
+        if t == "C":
+            push(Mo.constModel(n, op[1], op[2], op[3]))
+        elif t == "A":
             j = op[1]
-            vals[s] = Model(A_[j][1], A_[j][0]) if j < n else m_zero(n)
-        elif op[0] == "X":
-            k = tuple(op[1]) + (0,) * (n - len(op[1]))
-            nk = tuple(0 if U[j][2] else k[j] for j in range(n))      # normalized index
-            gm = m_zero(n)
-            for j in range(n):
-                if nk[j] != 0:
-                    P, d, _ = U[j]
-                    gm = m_add(gm, Model(1 + d, Mo.p_scale(P, (0, k[j]))), w, pe, c["_log"])
-            gm = Mo.m_toDeg(gm, 0, w, pe, c["_log"])
-            wit = dict((tuple(kk) + (0,) * (n - len(kk)), E) for kk, E in c["wit"]["charWit"]).get(nk)
-            if wit is None:
-                return None, dict(info, fail="no character witness for %s" % (nk,))
-            r = Mo.expWitnessRadius(n, w, rho, cfg, gm, wit, [1, 1, s])
+            push(Mo.realCompModel(n, getD(e["actionDeg"], j), opt(e["action"], j)) if j < n else Mo.zeroModel())
+        elif t == "X":
+            k = tuple(op[1])
+            ent = charEntry(c, cfg, cache, normKey(c, k), info)
+            if ent is None:
+                return None, dict(info, fail="character slot %d: no witness or check failed (key %s)"
+                                  % (len(slots), normKey(c, k)))
+            (P, r), cache = ent
+            pk = Mo.padKey(n, k)
+            push(Model(0, Mo.shift(pk, P), Mo.weightTermUp(w, pk, r)))
+        elif t == "+":
+            a = slot(op[1])[0]
+            push(Mo.add(a, Mo.toDeg(w, pe, a.deg, slot(op[2])[0], log)))
+        elif t == "*":
+            (a, na), (b, nb) = slot(op[1]), slot(op[2])
+            push(Mo.mulN(w, cfg, (0, len(slots)), a, na, b, nb))
+        elif t == "E":
+            if nExp >= len(wit["expWit"]):
+                return None, dict(info, fail="missing exp witness %d" % nExp)
+            Ew = wit["expWit"][nExp]
+            r = Mo.expWitnessRadius(n, w, rho, cfg.forWitness(1, nExp), Mo.toDeg(w, pe, 0, slot(op[1])[0], log), Ew)
+            info["exp"].append((len(slots), nExp, r))
             if r is None:
-                return None, dict(info, fail="character witness %s rejected (pin or degree)" % (nk,))
-            info["char"].append((s, nk, r))
-            vals[s] = Model(0, Mo.p_shift(wit[0], k), r * F(w) ** Mo.kabs(k))
-        elif op[0] == "+":
-            vals[s] = m_add(g(op[1]), g(op[2]), w, pe, c["_log"])
-        elif op[0] == "*":
-            vals[s] = m_mul(g(op[1]), g(op[2]), w, cfg, [0, s])
-        elif op[0] == "E":
-            i = exp_idx[s]
-            if i >= len(c["wit"]["expWit"]):
-                return None, dict(info, fail="missing exp witness")
-            gm = Mo.m_toDeg(g(op[1]), 0, w, pe, c["_log"])
-            r = Mo.expWitnessRadius(n, w, rho, cfg, gm, c["wit"]["expWit"][i], [1, 0, i])
+                return None, dict(info, fail="exp witness %d rejected" % nExp)
+            push(Model(0, Ew[0], r))
+            nExp += 1
+        elif t == "I":
+            if nInv >= len(wit["invWit"]):
+                return None, dict(info, fail="missing reciprocal witness %d" % nInv)
+            Q = wit["invWit"][nInv]
+            b = slot(op[1])[0]
+            r, delta = Mo.invWitnessRadius(n, w, cfg.forWitness(2, nInv), b, Q)
+            info["inv"].append((len(slots), delta, r))
             if r is None:
-                return None, dict(info, fail="exp witness %d rejected" % i)
-            vals[s] = Model(0, c["wit"]["expWit"][i][0], r)
-        elif op[0] == "I":
-            i = inv_idx[s]
-            if i >= len(c["wit"]["invWit"]):
-                return None, dict(info, fail="missing reciprocal witness")
-            b = g(op[1])
-            r, delta = Mo.invWitnessRadius(n, w, cfg, b, c["wit"]["invWit"][i], [2, i])
-            info["inv"].append((s, delta, r))
-            if r is None:
-                return None, dict(info, fail="reciprocal witness %d: delta = %s >= 1" % (i, float(delta)))
-            vals[s] = Model(-b.deg, c["wit"]["invWit"][i], r)
-    return [vals[s] for s in wanted], info
+                return None, dict(info, fail="reciprocal witness %d: delta = %s" % (nInv, float(delta)))
+            push(Model(-b.deg, Q, r))
+            nInv += 1
+        else:
+            raise ValueError(op)
+    return [slot(i)[0] for i in wanted], info
 
 
-# ---------------------------------------------------------------- sub-checks
+# ---------------------------------------------------------------- sub-checks (Defs.lean)
+def freqNormLo(box):
+    acc = F(0)
+    for cc, r in reversed(box):
+        acc = max(abs(cc) - r, acc)
+    return acc
+
+
 def check_static(c):
-    p, n = c["params"], c["n"]
-    box = c["freqBox"]
-    L = max((abs(cc) - rr for cc, rr in box), default=F(-1))
+    p, n, box = c["params"], c["n"], c["freqBox"]
+    L = freqNormLo(box)
     conds = {
-        "n>=2": n >= 2, "n-1<=tau": n - 1 <= p["tau"], "0<rhoInf": 0 < p["rhoInf"],
-        "rhoInf<rho": p["rhoInf"] < p["rho"], "0<M": 0 < p["M"], "0<sK": 0 < p["sK"], "0<sB": 0 < p["sB"],
-        "0<sT": 0 < p["sT"], "0<mu": 0 < p["mu"], "0<gbar": 0 < p["gbar"], "1<sigma_omega": 1 < p["sigma_omega"],
-        "0<nuRay": 0 < p["nuRay"], "1<s": 1 < p["s"], "s<sigma_omega": p["s"] < p["sigma_omega"],
-        "0<gamma": 0 < p["gamma"], "gamma<=gbar": p["gamma"] <= p["gbar"], "0<=err": 0 <= p["err"],
+        "box.length=n": len(box) == n, "centre.length=n": len(c["centre"]) == n,
+        "radius.length=n": len(c["radius"]) == n, "2<=n": 2 <= n, "n<=tau+1": n <= p["tau"] + 1,
+        "0<rhoInf": 0 < p["rhoInf"], "rhoInf<rho": p["rhoInf"] < p["rho"], "0<M": 0 < p["M"],
+        "0<sK": 0 < p["sK"], "0<sB": 0 < p["sB"], "0<sT": 0 < p["sT"], "0<mu": 0 < p["mu"],
+        "0<gbar": 0 < p["gbar"], "1<sigma_omega": 1 < p["sigma_omega"], "0<nuRay": 0 < p["nuRay"],
+        "1<s": 1 < p["s"], "s<sigma_omega": p["s"] < p["sigma_omega"], "0<gamma": 0 < p["gamma"],
+        "gamma<=gbar": p["gamma"] <= p["gbar"], "0<=err": 0 <= p["err"],
         "weight.rho=rho": c["weight"][0] == p["rho"],
         "checkWeight(weight)": A.checkWeight(c["weight"][0], c["weight"][1], c["expHalvings"], c["expOrder"]),
         "checkWeight(weightH)": A.checkWeight(c["weightH"][0], c["weightH"][1], c["expHalvings"], c["expOrder"]),
         "checkPiEnclosure": A.checkPiEnclosure(*c["piEnc"]),
-        "box.length=n": len(box) == n, "box radii>=0": all(r >= 0 for _, r in box),
-        "centre/radius length n": len(c["centre"]) == n and len(c["radius"]) == n,
-        "emb lengths n": all(len(c["emb"][k]) == n for k in ("angle", "angleDeg", "action", "actionDeg")),
-        "box excludes 0": L > 0,
+        "0<freqNormLo": 0 < L,
         "nu<=(s-1)L": p["nuRay"] <= (p["s"] - 1) * L,
         "nu<=(sigma_omega-s)L": p["nuRay"] <= (p["sigma_omega"] - p["s"]) * L,
     }
-    return all(conds.values()), dict(conds=conds, normLower=L)
+    mirror_only = {     # deliberately stricter than Lean (not in checkStatic)
+        "box radii>=0": all(r >= 0 for _, r in box),
+        "emb lengths n": all(len(c["emb"][k]) == n for k in ("angle", "angleDeg", "action", "actionDeg")),
+    }
+    ok = all(conds.values()) and all(mirror_only.values())
+    return ok, dict(conds=conds, mirrorOnly=mirror_only, lean=all(conds.values()), normLower=L)
 
 
 def ball_bounds(c):
-    n = c["n"]
-    jet = c["_jet"]
-    bs = A.slp_balls(n, c["_ops"], c["weightH"][1], c["centre"], c["radius"], c["cfgFull"]["taylorN"])
+    """Slp.balls at the certificate's expOrder, then the five hamBoundsOk quantities (getD defaults)."""
+    n, jet = c["n"], c["_jet"]
+    bs = A.slp_balls(n, c["_ops"], c["weightH"][1], c["centre"], c["radius"], c["expOrder"])
     if bs is None:
         return None, None
-    U = lambda s: A.normUp(bs[s][0]) + bs[s][1]
+    BZ = A.BALL_ZERO
+    mag = lambda i: (lambda b: abs(b[0][0]) + abs(b[0][1]) + b[1])(bs[i] if i < len(bs) else BZ)
     d1, d2, d3 = jet["d1"], jet["d2"], jet["d3"]
-    N2 = 2 * n
-    b = {"DH": sum(U(d1[a]) for a in range(N2)),
-         "X_H": max(U(d1[swap(a, n)]) for a in range(N2)),
-         "DX_H": max(sum(U(d2[swap(a, n)][bb]) for bb in range(N2)) for a in range(N2)),
-         "D2X_H": max(sum(U(d3[swap(a, n)][bb][cc]) for bb in range(N2) for cc in range(N2)) for a in range(N2)),
-         "D2H": sum(U(d2[a][bb]) for a in range(N2) for bb in range(N2))}
+    m = 2 * n
+    s1 = lambda a: getD(d1, a)
+    s2 = lambda a, b: getD(d2[a] if a < len(d2) else [], b)
+    s3 = lambda a, b, e: getD((d3[a][b] if b < len(d3[a]) else []) if a < len(d3) else [], e)
+    sm = lambda f: Mo.sumUp(f(a) for a in range(m))
+    b = {"DH": sm(lambda a: mag(s1(a))),
+         "X_H": max(mag(s1(a)) for a in range(m)),
+         "DX_H": max(sm(lambda bb: mag(s2(a, bb))) for a in range(m)),
+         "D2X_H": max(sm(lambda bb: sm(lambda e: mag(s3(a, bb, e)))) for a in range(m)),
+         "D2H": sm(lambda a: sm(lambda bb: mag(s2(a, bb))))}
     return b, bs
 
 
@@ -211,112 +275,118 @@ def check_ham_bounds(c):
 
 
 def check_embedding(c):
-    n, p, w = c["n"], c["params"], c["weight"][1]
-    U, A_ = emb_polys(c)
-    rho, mu, rhoH = p["rho"], p["mu"], c["weightH"][0]
+    n, p, w, pe, e = c["n"], c["params"], c["weight"][1], c["piEnc"], c["emb"]
+    room = c["weightH"][0] - p["rho"] - p["mu"]
     angle_ok, iotas = True, []
     for i in range(n):
-        P, d, _ = U[i]
-        supU = supBound(Model(d, P), w)
-        supDU = sum((supBound(Mo.m_ofDeriv(j, d, P), w) for j in range(n)), F(0))
-        iota = min(supU, rho * supDU)
-        iotas.append(iota)
-        angle_ok = angle_ok and rho + iota + mu <= rhoH
+        d, P = getD(e["angleDeg"], i), opt(e["angle"], i)
+        supU = Mo.supBound(Mo.realCompModel(n, d, P), w)
+        supDU = p["rho"] * Mo.sumUp(Mo.supBound(compDerivModel(c, d, P, j), w) for j in range(n))
+        iotas.append(min(supU, supDU))
+        angle_ok = angle_ok and (supU <= room or supDU <= room)
     act_ok, dists = True, []
     for i in range(n):
-        P, d = A_[i]
-        if d != 0 and not Mo.p_is_zero(P):
-            mdl = Mo.m_toDeg(Model(d, P), 0, w, c["piEnc"], c["_log"])
-        else:
-            mdl = Model(0, P)
-        diff = m_add(mdl, m_const((c["centre"][i], 0), n), w, c["piEnc"], c["_log"], sign=-1)
-        dist = supBound(diff, w)
+        m = Mo.addMixed(w, pe, Mo.realCompModel(n, getD(e["actionDeg"], i), opt(e["action"], i)),
+                        Mo.constModel(n, -getD(c["centre"], i), 0, 0), c["_log"])
+        dist = Mo.supBound(m, w)
         dists.append(dist)
-        act_ok = act_ok and dist + mu <= c["radius"][i]
-    DK = dk_models(c)
-    rowsums = [sum((supBound(m, w) for m in row), F(0)) for row in DK]
-    dk_ok = max(rowsums) <= p["sK"] - mu
+        act_ok = act_ok and dist <= getD(c["radius"], i) - p["mu"]
+    DK = dkModels(c)
+    rowsums = [Mo.sumUp(Mo.supBound(entry(DK, r, j), w) for j in range(n)) for r in range(2 * n)]
+    dk_ok = all(r <= p["sK"] - p["mu"] for r in rowsums)
     return angle_ok and act_ok and dk_ok, dict(iota=iotas, actionDist=dists, DKnorm=max(rowsums),
                                                 angle_ok=angle_ok, action_ok=act_ok, DK_ok=dk_ok)
 
 
-def freq_balls(c):
-    s = c["params"]["s"]
-    return [(s * cc, s * rr) for cc, rr in c["freqBox"]]
+def dkFreqModel(c, cfg, a):
+    n, w, pe = c["n"], c["weight"][1], c["piEnc"]
+    DK = dkModels(c)
+    return Mo.toDeg(w, pe, 0, Mo.modelSum(w, pe, [Mo.mul(w, cfg, (5, a, l), freqModel(c, l), entry(DK, a, l))
+                                                  for l in range(n)], c["_log"]), c["_log"])
 
 
 def check_invariance(c):
     n, p, w, pe = c["n"], c["params"], c["weight"][1], c["piEnc"]
     cfg = c["_cfgFull"]
     jet = c["_jet"]
-    ms, info = compose(c, cfg, list(jet["d1"]), "invariance")
+    ms, info = compose(c, cfg, [getD(jet["d1"], a) for a in range(2 * n)])
     if ms is None:
         return False, dict(fail=info.get("fail"))
-    DK = dk_models(c)
-    v = freq_balls(c)
     comps = []
     for a in range(2 * n):
-        xa = ms[swap(a, n)] if a < n else m_neg(ms[swap(a, n)])
-        dkv = m_zero(n)
-        for j in range(n):
-            dkv = m_add(dkv, Mo.m_scale_ball(DK[a][j], (v[j][0], 0), v[j][1], w), w, pe, c["_log"])
-        comps.append(supBound(m_add(xa, dkv, w, pe, c["_log"], sign=-1), w))
+        x = getD(ms, swapNat(n, a)) if swapNat(n, a) < len(ms) else Mo.zeroModel()
+        xa = x if a < n else Mo.negM(x)
+        comps.append(Mo.supBound(Mo.addMixed(w, pe, xa, Mo.negM(dkFreqModel(c, cfg, a)), c["_log"]), w))
     e = max(comps)
-    return e <= p["err"], dict(components=comps, bound=e, err=p["err"], info=info)
+    return all(x <= p["err"] for x in comps), dict(components=comps, bound=e, err=p["err"], info=info)
+
+
+def zeroModeBall(n, m):
+    return Mo.coeffSumBall([t for t in m.poly if Mo.isZeroKeyN(n, t[0])])
 
 
 def check_energy(c):
     n, p, w, pe = c["n"], c["params"], c["weight"][1], c["piEnc"]
-    ms, info = compose(c, c["_cfgFull"], [c["_jet"]["v0"]], "energy")
-    if ms is None:
+    ms, info = compose(c, c["_cfgFull"], [c["_jet"]["v0"]])
+    if ms is None or len(ms) != 1:
         return False, dict(fail=info.get("fail"))
-    m = Mo.m_toDeg(ms[0], 0, w, pe, c["_log"])
-    c0 = Mo.p_coeff0(m.poly, n)
-    bound = A.normUp((c0[0] - p["E0"], c0[1])) + m.rad
-    return bound <= p["err"], dict(average=c0, radius=m.rad, bound=bound, err=p["err"])
+    d = Mo.addMixed(w, pe, Mo.toDeg(w, pe, 0, ms[0], c["_log"]), Mo.constModel(n, -p["E0"], 0, 0), c["_log"])
+    z = zeroModeBall(n, d)
+    bound = (Mo.normUp(z[0]) + z[1]) + d.rad
+    return d.deg == 0 and bound <= p["err"], dict(average=z[0], radius=d.rad, bound=bound, err=p["err"])
 
 
-def mat_mul(X, Y, w, cfg, key, pe, log):
-    n_r, n_k, n_c = len(X), len(Y), len(Y[0])
-    out = []
-    for i in range(n_r):
-        row = []
-        for j in range(n_c):
-            acc = None
-            for k in range(n_k):
-                t = m_mul(X[i][k], Y[k][j], w, cfg, list(key) + [i, j, k])
-                acc = t if acc is None else m_add(acc, t, w, pe, log)
-            row.append(acc)
-        out.append(row)
-    return out
+# ---------------------------------------------------------------- Gram (Gram.lean)
+def gramModels(c, cfg):
+    n, w, pe = c["n"], c["weight"][1], c["piEnc"]
+
+    def ent(a, b):
+        L = [Mo.mul(w, cfg, (3, 0, a, b, k), dkAngleModel(c, k, a), dkAngleModel(c, k, b)) for k in range(n)]
+        L += [Mo.mul(w, cfg, (3, 0, a, b, n + k), dkActionModel(c, k, a), dkActionModel(c, k, b))
+              for k in range(n)]
+        return Mo.modelSum(w, pe, L, c["_log"])
+    return [[ent(a, b) if a <= b else ent(b, a) for b in range(n)] for a in range(n)]
 
 
-def omega0(X, n):
-    """Ω₀ applied to the rows of a 2n-row matrix: (a, b) ↦ (-b, a)."""
-    return [[m_neg(m) for m in X[n + i]] for i in range(n)] + [list(X[i]) for i in range(n)]
+def gramInvPoly(B, i, k):
+    return B[i][k] if i < len(B) and k < len(B[i]) else []
+
+
+def maxCandidate(L):
+    acc = F(0)
+    for a in reversed(L):
+        acc = acc if a <= acc else a
+    return acc
 
 
 def gram_check(c):
+    """gramCheck: ((δ, β) or None, details)."""
     n, p, w, pe = c["n"], c["params"], c["weight"][1], c["piEnc"]
     cfg = c["_cfgLow"]
     B = c["gramInv"]
-    if len(B) != n or any(len(r) != n for r in B):
+    sBmu = p["sB"] - p["mu"]
+    if not (len(B) == n and all(len(r) == n for r in B)):
         return None, dict(fail="gramInv shape")
-    DK = dk_models(c)
-    DKt = [[DK[l][i] for l in range(2 * n)] for i in range(n)]
-    G = mat_mul(DKt, DK, w, cfg, [3, 0], pe, c["_log"])
-    Bm = [[Model(0, P) for P in row] for row in B]
-    BG = mat_mul(Bm, G, w, cfg, [3, 1], pe, c["_log"])
-    E = [[m_add(m_const((1 if i == j else 0, 0), n), BG[i][j], w, pe, c["_log"], sign=-1) for j in range(n)]
-         for i in range(n)]
-    delta = max(sum((supBound(m, w) for m in row), F(0)) for row in E)
-    beta = max(sum((p_wnorm(P, w) for P in row), F(0)) for row in B)
+    G = gramModels(c, cfg)
+
+    def bg(i, j):
+        return Mo.toDeg(w, pe, 0, Mo.modelSum(w, pe, [Mo.mul(w, cfg, (3, 1, i, j, k), Model(0, gramInvPoly(B, i, k)),
+                                                            entry(G, k, j)) for k in range(n)], c["_log"]), c["_log"])
+
+    def defect(i, j, u):
+        return Mo.oneSubSupUp(w, u) if i == j else Mo.supNormUp(u.poly, w) + u.rad
+    dRows = [Mo.sumUp(defect(i, j, bg(i, j)) for j in range(n)) for i in range(n)]
+    bRows = [Mo.sumUp(Mo.supNormUp(gramInvPoly(B, i, j), w) for j in range(n)) for i in range(n)]
+    delta, beta = maxCandidate(dRows), maxCandidate(bRows)
     det = dict(delta=delta, beta=beta, G=G)
-    if not delta < 1:
-        return None, dict(det, fail="delta >= 1")
-    if not beta / (1 - delta) <= p["sB"] - p["mu"]:
-        return None, dict(det, fail="beta/(1-delta) > sB - mu")
+    if not gramBoundsOk(dRows, bRows, delta, beta, sBmu):
+        return None, dict(det, fail="gramBoundsOk")
     return (delta, beta), det
+
+
+def gramBoundsOk(dRows, bRows, d, b, sig):
+    return (all(r <= d for r in dRows) and all(r <= b for r in bRows) and d < 1 and 0 <= d and 0 <= sig
+            and b + sig * d <= sig)
 
 
 def check_gram(c):
@@ -324,83 +394,107 @@ def check_gram(c):
     return db is not None, {k: v for k, v in det.items() if k != "G"}
 
 
+# ---------------------------------------------------------------- torsion (Torsion/Models.lean, Average.lean)
+def matMul(c, cfg, key, r, m, cc, X, Y):
+    w, pe, log = c["weight"][1], c["piEnc"], c["_log"]
+    return [[Mo.toDeg(w, pe, 0, Mo.modelSum(w, pe, [Mo.mul(w, cfg, tuple(key) + (i, j, k), entry(X, i, k), entry(Y, k, j))
+                                                    for k in range(m)], log), log)
+             for j in range(cc)] for i in range(r)]
+
+
+def matAdd(c, r, cc, X, Y):
+    return [[Mo.addMixed(c["weight"][1], c["piEnc"], entry(X, i, j), entry(Y, i, j), c["_log"]) for j in range(cc)]
+            for i in range(r)]
+
+
+def matNeg(r, cc, X):
+    return [[Mo.negM(entry(X, i, j)) for j in range(cc)] for i in range(r)]
+
+
+def matT(r, cc, X):
+    return [[entry(X, j, i) for j in range(r)] for i in range(cc)]
+
+
+def matOmega(n, cc, X):
+    return [[Mo.negM(entry(X, n + i, j)) if i < n else entry(X, i - n, j) for j in range(cc)]
+            for i in range(2 * n)]
+
+
+def gramInvRadius(db):
+    d, b = db
+    if 0 <= d and 0 <= b and d < 1:
+        t = Mo.recipOneSubUp(d)
+        return None if t is None else d * b * t
+    return None
+
+
+def torsionSlots(n, jet):
+    m = 2 * n
+    d2 = jet["d2"]
+    return [getD(jet["d1"], a) for a in range(m)] + \
+        [getD(d2[q // m] if q // m < len(d2) else [], q % m) for q in range(m * m)]
+
+
 def torsion_models(c, db):
-    n, p, w, pe, log = c["n"], c["params"], c["weight"][1], c["piEnc"], c["_log"]
+    n, w, pe, log = c["n"], c["weight"][1], c["piEnc"], c["_log"]
     cfg = c["_cfgLow"]
     jet = c["_jet"]
-    delta, beta = db
-    eps = delta * beta / (1 - delta)
-    Ginv = [[Model(0, P, eps) for P in row] for row in c["gramInv"]]
-    DK = dk_models(c)
-    N = omega0(mat_mul(DK, Ginv, w, cfg, [4, 0], pe, log), n)
-    v = freq_balls(c)
-    D2K = d2k_models(c)
-    D2Kv = [[m_zero(n) for _ in range(n)] for _ in range(2 * n)]
-    for m in range(n):
-        for l in range(2 * n):
-            for i in range(n):
-                D2Kv[l][i] = m_add(D2Kv[l][i], Mo.m_scale_ball(D2K[m][l][i], (v[m][0], 0), v[m][1], w), w, pe, log)
-    DKt = [[DK[l][i] for l in range(2 * n)] for i in range(n)]
-    D2Kvt = [[D2Kv[l][i] for l in range(2 * n)] for i in range(n)]
-    DG1 = mat_mul(D2Kvt, DK, w, cfg, [4, 1], pe, log)
-    DG2 = mat_mul(DKt, D2Kv, w, cfg, [4, 2], pe, log)
-    DG = [[m_add(DG1[i][j], DG2[i][j], w, pe, log) for j in range(n)] for i in range(n)]
-    DGinv = [[m_neg(m) for m in row] for row in
-             mat_mul(mat_mul(Ginv, DG, w, cfg, [4, 3], pe, log), Ginv, w, cfg, [4, 4], pe, log)]
-    T1 = mat_mul(D2Kv, Ginv, w, cfg, [4, 5], pe, log)
-    T2 = mat_mul(DK, DGinv, w, cfg, [4, 6], pe, log)
-    DN = omega0([[m_add(T1[l][j], T2[l][j], w, pe, log) for j in range(n)] for l in range(2 * n)], n)
-    d1, d2 = jet["d1"], jet["d2"]
-    flat = list(d1) + [d2[a][b] for a in range(2 * n) for b in range(2 * n)]
-    ms, info = compose(c, cfg, flat, "torsion")
+    eps = gramInvRadius(db)
+    ms, info = compose(c, cfg, torsionSlots(n, jet))
+    if eps is None:
+        return None, dict(info, fail="gramInvRadius")
     if ms is None:
         return None, info
-    D1 = ms[:2 * n]
-    D2 = [ms[2 * n + 2 * n * a: 2 * n + 2 * n * (a + 1)] for a in range(2 * n)]
-    DXH = [[(D2[swap(a, n)][b] if a < n else m_neg(D2[swap(a, n)][b])) for b in range(2 * n)]
-           for a in range(2 * n)]
-    XN0 = mat_mul(DXH, N, w, cfg, [4, 7], pe, log)
-    XN = [[m_add(XN0[l][j], DN[l][j], w, pe, log, sign=-1) for j in range(n)] for l in range(2 * n)]
-    Nt = [[N[l][i] for l in range(2 * n)] for i in range(n)]
-    T = mat_mul(Nt, omega0(XN, n), w, cfg, [4, 8], pe, log)
-    last = mat_mul([D1], N, w, cfg, [4, 9], pe, log)[0]
-    rows = [T[a] + [m_const((v[a][0], 0), n, 0, v[a][1])] for a in range(n)]
-    rows.append(last + [m_zero(n)])
+    m2 = 2 * n
+    L = dkModels(c)
+    Gi = [[Model(0, gramInvPoly(c["gramInv"], k, j), eps) for j in range(n)] for k in range(n)]
+    DL = [[Mo.toDeg(w, pe, 0, Mo.modelSum(w, pe, [Mo.mul(w, cfg, (4, 10, i, j, l), freqModel(c, l), d2kModel(c, i, j, l))
+                                                  for l in range(n)], log), log) for j in range(n)] for i in range(m2)]
+    N = matOmega(n, n, matMul(c, cfg, (4, 0), m2, n, n, L, Gi))
+    DG = matAdd(c, n, n, matMul(c, cfg, (4, 1), n, m2, n, matT(m2, n, DL), L),
+                matMul(c, cfg, (4, 2), n, m2, n, matT(m2, n, L), DL))
+    DGi = matNeg(n, n, matMul(c, cfg, (4, 4), n, n, n, matMul(c, cfg, (4, 3), n, n, n, Gi, DG), Gi))
+    DN = matOmega(n, n, matAdd(c, m2, n, matMul(c, cfg, (4, 5), m2, n, n, DL, Gi),
+                               matMul(c, cfg, (4, 6), m2, n, n, L, DGi)))
+    msg = lambda i: ms[i] if i < len(ms) else Mo.zeroModel()
+    DXH = [[(msg(m2 + m2 * swapNat(n, a) + b) if a < n else Mo.negM(msg(m2 + m2 * swapNat(n, a) + b)))
+            for b in range(m2)] for a in range(m2)]
+    XN = matAdd(c, m2, n, matMul(c, cfg, (4, 7), m2, m2, n, DXH, N), matNeg(m2, n, DN))
+    Tb = matMul(c, cfg, (4, 8), n, m2, n, matT(m2, n, N), matOmega(n, n, XN))
+    Y = matMul(c, cfg, (4, 9), 1, m2, n, [[msg(a) for a in range(m2)]], N)
+    rows = [[(entry(Tb, i, j) if j < n else freqModel(c, i)) if i < n else
+             (entry(Y, 0, j) if j < n else Mo.zeroModel()) for j in range(n + 1)] for i in range(n + 1)]
     return rows, info
 
 
-def torsion_avg_check(c, T, S, bound):
-    n, w, pe = c["n"], c["weight"][1], c["piEnc"]
+def ccEntry(S, i, j):
+    return S[i][j] if i < len(S) and j < len(S[i]) else (F(0), F(0))
+
+
+def torsion_avg_check(c, T, S, sig):
+    n = c["n"]
     k = n + 1
-    if len(T) != k or any(len(r) != k for r in T) or len(S) != k or any(len(r) != k for r in S):
+    shape = lambda M: len(M) == k and all(len(r) == k for r in M)
+    if not (shape(T) and shape(S)):
         return False, dict(fail="shape (F7)")
-    Cm, R = [], []
-    for row in T:
-        cr, rr = [], []
-        for m in row:
-            m0 = Mo.m_toDeg(m, 0, w, pe, c["_log"])
-            cr.append(Mo.p_coeff0(m0.poly, n))
-            rr.append(m0.rad)
-        Cm.append(cr)
-        R.append(rr)
-    cm = lambda a, b: (a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0])
-    ISC = []
-    for i in range(k):
-        row = []
-        for j in range(k):
-            acc = (F(1 if i == j else 0), F(0))
-            for l in range(k):
-                t = cm(S[i][l], Cm[l][j])
-                acc = (acc[0] - t[0], acc[1] - t[1])
-            row.append(acc)
-        ISC.append(row)
-    nISC = max(sum(A.normUp(x) for x in row) for row in ISC)
-    nS = max(sum(A.normUp(x) for x in row) for row in S)
-    nR = max(sum(row) for row in R)
-    dT = nISC + nS * nR
-    ok = dT < 1 and nS / (1 - dT) <= bound
-    return ok, dict(deltaT=dT, normISC=nISC, normS=nS, normR=nR, normInvBound=(nS / (1 - dT) if dT < 1 else None),
-                    bound=bound, centre=Cm, radius=R)
+    if not all(entry(T, i, j).deg == 0 for i in range(k) for j in range(k)):
+        return False, dict(fail="avgDegOk: an entry of nonzero degree")
+    Cm = [[zeroModeBall(n, entry(T, l, j))[0] for j in range(k)] for l in range(k)]
+    Rm = [[zeroModeBall(n, entry(T, l, j))[1] + entry(T, l, j).rad for j in range(k)] for l in range(k)]
+
+    def defect(i, j):
+        p = Mo.listSumBall([A.b_times((ccEntry(S, i, l), F(0)), (Cm[l][j], F(0))) for l in range(k)])
+        d = A.b_plus(A.b_one() if i == j else ((F(0), F(0)), F(0)), (Mo.neg(p[0]), p[1]))
+        return Mo.normUp(d[0]) + d[1]
+    dRows = [Mo.sumUp(defect(i, j) for j in range(k)) for i in range(k)]
+    bRows = [Mo.sumUp(Mo.normUp(ccEntry(S, i, j)) for j in range(k)) for i in range(k)]
+    rRows = [Mo.sumUp(Rm[i][j] for j in range(k)) for i in range(k)]
+    a, b, r = maxCandidate(dRows), maxCandidate(bRows), maxCandidate(rRows)
+    dT = a + b * r
+    ok = (all(x <= a for x in dRows) and all(x <= r for x in rRows) and 0 <= r
+          and gramBoundsOk([dT], bRows, dT, b, sig))
+    return ok, dict(deltaT=dT, normISC=a, normS=b, normR=r, normInvBound=(b / (1 - dT) if dT < 1 else None),
+                    bound=sig, centre=Cm, radius=Rm)
 
 
 def check_torsion(c):
@@ -417,21 +511,23 @@ def check_torsion(c):
 def check_smallness(c):
     p = dict(c["params"])
     p["n"] = c["n"]
-    ok, d = C.smallness(p)
-    return ok, d
+    return C.smallness(p)
 
 
-def prepare(c):
-    import toy_model as Mo2
+def prepare(c, books=None):
+    """books: None (GENERATE: record every lookup) or {"cfgFull": keys, "cfgLow": keys} (CHECK)."""
     c["_ops"] = A.parse_ops(c["_jet"]["ops"])
     c["_log"] = []
-    c["_cfgFull"] = Mo2.Cfg("cfgFull", c["cfgFull"]["cutoff"], c["cfgFull"]["taylorN"], c["cfgFull"]["halvings"])
-    c["_cfgLow"] = Mo2.Cfg("cfgLow", c["cfgLow"]["cutoff"], c["cfgLow"]["taylorN"], c["cfgLow"]["halvings"])
+    c.pop("_dk", None)
+    for nm in ("cfgFull", "cfgLow"):
+        cf = c[nm]
+        c["_" + nm] = Mo.Cfg(nm, cf["cutoff"], cf["taylorN"], cf["halvings"],
+                             None if books is None else books[nm])
     return c
 
 
-def check(c, only=None):
-    prepare(c)
+def check(c, only=None, books=None):
+    prepare(c, books)
     fns = dict(checkStatic=check_static, checkHamBounds=check_ham_bounds, checkEmbedding=check_embedding,
                checkInvariance=check_invariance, checkEnergy=check_energy, checkGram=check_gram,
                checkTorsion=check_torsion, checkSmallness=check_smallness)

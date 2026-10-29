@@ -94,7 +94,7 @@ def base_cert(toy, n, jets, rho, rhoH, centre, radius, box, action, params, cfg_
                       action=[(F(a), []) for a in action]),
              weight=(F(rho), weight_for(rho, s, N)),
              wit=wit or dict(expWit=[], invWit=[], charWit=[]),
-             gramInv=[[Mo.p_const((1, 0), n) if i == j else Mo.p_zero() for j in range(n)] for i in range(n)],
+             gramInv=[[[(Mo.zeros(n), (F(1), F(0)))] if i == j else [] for j in range(n)] for i in range(n)],
              torsInv=None, cfgFull=cfg_full, cfgLow=cfg_low, piEnc=pi_enc(), expHalvings=s, expOrder=N)
     return c
 
@@ -109,8 +109,8 @@ def torsion_witness(c):
     for row in T:
         r = []
         for m in row:
-            m0 = Mo.m_toDeg(m, 0, c["weight"][1], c["piEnc"], c["_log"])
-            z = Mo.p_coeff0(m0.poly, n)
+            assert m.deg == 0                                       # avgDegOk
+            z = K.zeroModeBall(n, m)[0]
             assert z[1] == 0
             r.append(z[0])
         Cm.append(r)
@@ -233,7 +233,7 @@ def recip_witness(K_, P, aconst=3):
         if k:
             terms.append(((-k, 0), (ck, F(0))))
         pw = pw * r // S
-    return Mo.p_reduce(Mo.p_from_terms(terms))
+    return sorted(t for t in terms if t[1][0] != 0)     # ascending keys of length n (Lean merges need it)
 
 
 def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), cut_low=None, aconst=3):
@@ -245,9 +245,11 @@ def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), 
     p = params_common(2, 1, rho, rhoinf, mu, F(49, 100), GAMMA2)
     s_pin, N_pin = 0, 400
     Q = recip_witness(Kq, Pq, aconst)
-    wit = dict(expWit=[], invWit=[Q], charWit=[((0, 0), (Mo.p_const((1, 0), 2), s_pin, N_pin))])
+    wit = dict(expWit=[], invWit=[Q], charWit=[((0, 0), ([((0, 0), (F(1), F(0)))], s_pin, N_pin))])
     c = base_cert("T2d", 2, jets, rho, rhoH, [nu_t, -nu_t ** 2 / 2], [rr, rr], box, [nu_t, -nu_t ** 2 / 2], p,
-                  cfg(2 * Kq + 2), cfg(cut_low if cut_low is not None else 2 * Kq + 2), wit=wit)
+                  cfg(SAFE_CUTOFF), cfg(cut_low if cut_low is not None else SAFE_CUTOFF), wit=wit)
+    # SO-PYALIGN: Lean composes the WHOLE jet program (d2, d3 slots too), whose products reach |k|₁ > 2K + 2;
+    # the full stage must not truncate, so it gets the literal SAFE_CUTOFF like the other toys
     c["root"] = dict(m=2, d=5, lo=lo, hi=hi, coeffs=NU_COEFFS)
     c["recip"] = dict(K=Kq, P=Pq, a=aconst)
     return finish_params(c, err if err is not None else 4 * box[0][1], GAMMA2)
@@ -269,7 +271,7 @@ def js(x):
 
 
 def poly_json(P):
-    return [[list(k), [str(re), str(im)]] for k, (re, im) in Mo.p_terms(P)]
+    return [[list(k), [str(re), str(im)]] for k, (re, im) in P]          # Lean list order
 
 
 def cert_json(c):
@@ -305,7 +307,21 @@ def cert_json(c):
 
 # ---------------------------------------------------------------- driver
 def run_checks(c):
-    ok, rep = K.check(c)
+    """GENERATE (every advice lookup answers `direct` and is recorded), then CHECK with exactly the recorded
+    books: Lean's verdict on the emitted data, with no missing key."""
+    K.check(c)
+    books = {}
+    for nm in ("cfgFull", "cfgLow"):
+        seen, keys = set(), []
+        for k in c["_" + nm].lookups:
+            if k not in seen:
+                seen.add(k)
+                keys.append(k)
+        books[nm] = keys
+    ok, rep = K.check(c, books=books)
+    for nm in ("cfgFull", "cfgLow"):
+        assert not c["_" + nm].misses, (c["toy"], nm, c["_" + nm].misses[:5])
+    c["_books"] = books
     return ok, rep
 
 
@@ -355,15 +371,19 @@ def products_of(c):
     for name in ("_cfgFull", "_cfgLow"):
         cf = c[name]
         keys, seen = [], set()
-        for key, la, lb, pairs in cf.products:
+        for key, la, lb, pairs, route in cf.products:
             if key not in seen:
                 seen.add(key)
-                keys.append((key, la, lb, pairs))
-        out[cf.name] = dict(distinct=len(keys), calls=len(cf.products), cutoff=cf.cutoff, maxProductK=cf.maxK,
-                            truncates=cf.maxK > cf.cutoff,
+                keys.append((key, la, lb, pairs, route))
+        routes = {}
+        for t in cf.products:
+            routes[t[4]] = routes.get(t[4], 0) + 1
+        out[cf.name] = dict(distinct=len(keys), calls=len(cf.products), routes=routes, cutoff=cf.cutoff,
+                            maxProductK=cf.maxK, truncates=cf.maxK > cf.cutoff,
+                            adviceKeys=len(c["_books"][cf.name]), lookups=len(cf.lookups),
                             pairs_distinct=sum(k[3] for k in keys), pairs_calls=sum(k[3] for k in cf.products),
                             largest=sorted(keys, key=lambda t: -t[3])[:6])
-        c["_adv" + cf.name[3:]] = [[list(k[0]), "direct"] for k in keys]
+        c["_adv" + cf.name[3:]] = [[list(k), "direct"] for k in c["_books"][cf.name]]
     return out
 
 
@@ -374,7 +394,7 @@ def emit(c, outdir, extra=None):
         assert v["truncates"] == (c["toy"] == "T2d" and name == "cfgLow"), (c["toy"], name, v["maxProductK"])
     summ = summarize(c, ok, rep)
     cj = cert_json(c)
-    doc = dict(certificate=cj, verification=dict(summ, products={k: dict(v, largest=[[list(t[0]), t[1], t[2], t[3]]
+    doc = dict(certificate=cj, verification=dict(summ, products={k: dict(v, largest=[[list(t[0]), t[1], t[2], t[3], t[4]]
                                                                                     for t in v["largest"]])
                                                                 for k, v in prods.items()},
                                                   toDegCalls=len(c["_log"])))
