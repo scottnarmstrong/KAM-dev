@@ -46,7 +46,7 @@ def main(which, pkl, out, thr="1e-130"):
         for c in range(nt):
             k = a if a < nx // 2 else a - nx; l = c if c < nt // 2 else c - nt
             if a == nx // 2 or c == nt // 2 or not in_H(k, l): continue
-            n = (-int(vim[a, c]) + (1 << (sh - 1))) >> sh
+            n = (-2 * int(vim[a, c]) + (1 << (sh - 1))) >> sh      # b = -2 Im(vhat)
             maxre = max(maxre, abs(int(vre[a, c])))
             if abs(n) >= ti: vb[(k, l)] = n
     # rebuild v-hat from the emitted v: vhat_kappa = -i b/2 (kappa in H), +i b/2 at -kappa; scale 2^P

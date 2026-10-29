@@ -15,9 +15,6 @@ def fx(fr, prec=P):
     """Fraction -> fixed point int."""
     return (fr.numerator << prec) // fr.denominator if fr >= 0 else -((-fr.numerator << prec) // fr.denominator)
 
-def to_int_array(x, prec=P):
-    return np.array([[int(mpmath.nint(mpmath.mpf(v) * 2**prec)) if False else 0 for v in r] for r in x], dtype=object)
-
 class HP:
     def __init__(self, nx, nt, which):
         self.nx, self.nt, self.which = nx, nt, which
@@ -45,7 +42,7 @@ class HP:
         """double array -> fixed-point (exact for the double value)."""
         out = np.empty(a.shape, dtype=object)
         for idx in np.ndindex(a.shape):
-            out[idx] = int(F(float(a[idx]))*2**P) if False else (int(float(a[idx]) * 2**53) << (P - 53))
+            out[idx] = int(float(a[idx]) * 2**53) << (P - 53)
         return out
 
     def vhat_from_double(self, v):
@@ -103,10 +100,6 @@ class HP:
             Rr = Rr + ((c * qr) >> P); Ri = Ri + ((c * qi) >> P)
         return Rr, Ri
 
-    def fx_to_float(self, a, e):
-        """fixed ints -> double array of a / 2^(P - e)... i.e. value * 2^e."""
-        return np.array([[float(int(x) / 2**P) * 2.0**e if abs(int(x)) < 2**(P + 900) else 0.0 for x in r] for r in a])
-
     def maxabs(self, re, im):
         m = 0
         for a, b in zip(re.ravel(), im.ravel()):
@@ -119,12 +112,6 @@ class HP:
         m = self.maxabs(Rr, Ri)
         e = max(m.bit_length() - P, -10**6)       # value magnitude ~ 2^e
         # scaled float arrays: value * 2^-e
-        def sfl(a):
-            out = np.empty(a.shape)
-            for idx in np.ndindex(a.shape):
-                x = int(a[idx]); out[idx] = (x >> max(0, -e + P - 60 - P + P)) if False else 0
-            return out
-        sh = P - 60 + e   # float(x * 2^(-e-P+...)) ; use exact big-int division
         def toflt(a):
             out = np.empty(a.shape)
             for idx in np.ndindex(a.shape):
@@ -132,7 +119,6 @@ class HP:
             return out
         rh = toflt(Rr) + 1j * toflt(Ri)
         rh = rh * self.G.mask
-        rg = np.real(np.fft.ifft2(rh * self.N)) if False else None
         rg = np.fft.ifft2(rh) * self.N
         rg = self.G.odd(np.real(rg))
         sol = self.G.solve_lin(vbase, eps, rg)
@@ -144,7 +130,10 @@ class HP:
                 sh2 = P + e - 53
                 out[idx] = x << sh2 if sh2 >= 0 else x >> (-sh2)
             return out
-        return tofx(dh.real), tofx(dh.imag)
+        refl = lambda a: np.roll(np.flip(a, (0, 1)), 1, axis=(0, 1))
+        dim = tofx(dh.imag)
+        dim = (dim - refl(dim)) >> 1        # keep vhat exactly odd (the float solve is odd only to ~1e-16)
+        return zeros(dim.shape), dim
 
     def run(self, vre, vim, vbase, eps, iters, tag="", log=print, tol_exp=150):
         t0 = time.time()

@@ -44,7 +44,7 @@ def residual(b, E, P, which):
         if x != 0 or y != 0: out[(k, l)] = (x, y)
     return out
 
-def weighted_l1(rho, wa=0.01, wb=0.005, prec=330):
+def weighted_l1(rho, wa=0.01, wb=0.005, prec=900):
     """sum |rho_kappa| exp(2 pi (wa|k| + wb|l|)) times 2 (kappa and -kappa), as mpmath numbers; also unweighted."""
     import mpmath
     mpmath.mp.prec = prec
@@ -64,8 +64,8 @@ if __name__ == "__main__":
     # usage: exact_residual.py data.json [which]
     d = json.load(open(sys.argv[1]))
     P = d["scale_bits"]
-    b = {(k, l): n for k, l, n in d["v_sin"]}
-    E = {(k, l): n for k, l, n in d["E_re"]}
+    b = {(k, l): int(n) for k, l, n in d["v_sin"]}
+    E = {(k, l): int(n) for k, l, n in d["E_re"]}
     rho = residual(b, E, P, d["which"])
     tw, tu, mx = weighted_l1(rho)
     import mpmath

@@ -54,7 +54,11 @@ class Grid:
         J = self.jac_op(v, eps)
         sc = np.max(np.abs(rhs))
         if sc == 0: return np.zeros_like(rhs)
-        x, info = gmres(J, (rhs / sc).ravel(), M=self.precond(), rtol=tol, restart=restart, maxiter=maxiter)
+        b = (rhs / sc).ravel()
+        for rs, mi in ((restart, maxiter), (100, 100), (200, 400), (400, 2000)):
+            x, info = gmres(J, b, M=self.precond(), rtol=tol, restart=rs, maxiter=mi)
+            if np.max(np.abs(J.matvec(x) - b)) <= 1e-9 * np.max(np.abs(b)):
+                break
         return x.reshape(rhs.shape) * sc
 
     def newton(self, v, eps, tol=1e-14, maxit=30, verbose=False):
