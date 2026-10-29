@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/I/SPEC.md "Conventions to watch": 1-periodic angles, ave
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-I external inputs are the labelled items of the parts' external-fact lists (bpI:p1:ext-*, bpI:p3:ext-*, bpI:p5:ext-*, bpI:p7:x-*, bpI:p8:x-*; an item that only restates another external or points to a proved result is excluded as an alias); every result of another track's blueprint cited by \Kref or \Nref is an IMPORTED node K:<label> or N:<label> (plus the two authorized track-P definition imports P:bpP:p0:fixedsol#IsFixedSolution, P:bpP:p0:newton#IsNewtonSolution, SPEC revision G05) (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, NOTE IMPORTED: proved in the track-K (resp. N) graph, node <label>; shared Lean provider), K's Mathlib-level externals included (K:bp:p1:ext-*); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpI:p0:domains#complexStrip, bpI:p0:domains#actionNbhd, bpI:p0:diophantine#IsDiophantine, bpI:p0:hamiltonian#hamiltonianVectorField, bpI:p0:hamiltonian#hamiltonianVectorFieldC, bpI:p0:realham#realHamiltonian, bpI:p0:realham#frequencyMap, bpI:p0:stripdata#IsPrimaryOnStrip, bpI:p0:stripdata#IsRealOnReals, bpI:p0:stripdata#dotC, bpI:p0:stripdata#omegaZero, bpI:p0:stripdata#invarianceError, bpI:p0:stripdata#gramMatrix, bpI:p0:stripdata#normalFrame, bpI:p0:stripdata#torsion, bpI:p0:extended#energyAverage, bpI:p0:extended#extendedTorsion, bpI:p0:extended#extendedTorsionAverage, bpI:p0:bordered#borderedHessian, bpI:p0:hamsol#IsHamiltonianSolutionOn, bpI:p0:primaries#radiusSq, bpI:p0:primaries#radius, bpI:p0:primaries#primary1, bpI:p0:primaries#primary2, bpI:p0:primaries#CollisionFree, bpI:p0:restricted#restrictedHamiltonian, bpI:p0:restricted#restrictedVectorField, bpI:p0:restricted#IsRestrictedSolutionOn, bpI:p0:nearcircular#NearCircular, bpI:p0:keplerborder#keplerBorder, bpI:p0:g1, bpI:p0:head, bpI:p0:kepler, bpI:p0:r3bp
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:b9b9fee8fa72332435a780c4b41d8250b2db4577594360bcf3891c85790488d2
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:72c4edf1cb8c091083d8e0f3064d32831a311c5cb26a43ad200b3b6dac4131a8
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-I
 GLOBAL_REVIEW_REF: docs/graph/I/reviews/GLOBAL-review-3.md
@@ -960,9 +960,9 @@ EDGE: bpI:p8:constants | blueprint-I/parts/p8-r3bp.tex#bpI:p0:r3bp@L215-L215 | c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p0+sol-review-I-p0
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frozen theorem anchor not yet sealed (manifest DRAFT_SORRY)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.restricted_near_circular (KAM/Frozen/Iso/Theorems/RestrictedNearCircular.lean)
+LEAN_NOTE: I-R3BP anchor SEALED (manifest iso.restricted_near_circular.v1, seal 931c7f6); provider audit I-R3BP-audit-1 PASS
 NOTE: -
 
 NODE: bpI:p1:setting
@@ -1029,7 +1029,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Part 1 Lean statements specialise to tau>=n-1 (N1, accepted in audits I1-x PWN) vs source tau>=0; no audit row confirms this step
 NOTE: K:bp:p2:standing prose at blueprint/parts/p2-aposteriori.tex L67-L69 explicitly states that only tau >= 0 and n >= 1 are used below. The positive sigma parameters are free constants, not admissibility bounds in the standing package; each bound used by a consumer is supplied locally. No SOURCE_GAP is established by the different parameter lists. This bridge identifies common data, not the stronger tau >= n-1 proposition literally.
 
 NODE: bpI:p1:ray
@@ -1201,7 +1201,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-global-I+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: K:step:p2:fb-holo is only compared with (stated under K (A2)-(A4)), not used; the former SOURCE_GAP is closed by the direct substeps.
 
 NODE: stepI:p1:eb-holo-frame
@@ -1230,7 +1230,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-inverse
@@ -1260,7 +1260,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-field
@@ -1291,7 +1291,7 @@ EXTRACTOR: sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-torsion
@@ -1323,7 +1323,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-conclude
@@ -1354,7 +1354,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-period
@@ -1384,7 +1384,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-average
@@ -1415,7 +1415,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-bounds
@@ -1445,7 +1445,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:trivial
@@ -1735,7 +1735,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:lr-insert
@@ -1767,7 +1767,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:lr-average
@@ -1800,7 +1800,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:energy-approx
@@ -1867,7 +1867,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-omega
@@ -1898,7 +1898,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-gradient
@@ -1929,7 +1929,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-avg
@@ -1958,7 +1958,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-size
@@ -1990,7 +1990,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-defect
@@ -2023,7 +2023,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:energy-conservation
@@ -2084,7 +2084,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ec-unique
@@ -2113,7 +2113,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ec-pointwise
@@ -2142,7 +2142,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:border-solve
@@ -2445,9 +2445,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:rd-ql@L507-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: reducer_mul_tangentMat, omegaZeroMatrix_mul_fromRows (KAM/Iso/Linear/Reduced.lean)
+LEAN_NOTE: audit I1-6 PASS WITH NOTES; pointwise statement needing only IsUnit det Gram (no Setting, so no N1 restriction)
 NOTE: -
 
 NODE: stepI:p1:rd-expand
@@ -2479,7 +2479,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:rd-consequence
@@ -2512,7 +2512,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-global-I+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:geometry-noA5
@@ -2577,7 +2577,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:geo-red
@@ -2607,7 +2607,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: K:step:p2:geo-domegak and K:step:p2:geo-ered are only compared with (stated under A5); the former SOURCE_GAP is closed by the direct substeps.
 
 NODE: stepI:p1:geo-red-domega
@@ -2640,7 +2640,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:geo-red-ered
@@ -2673,7 +2673,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:geo-sym
@@ -2706,7 +2706,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-delta-I-a
 REVIEWER: sol-delta-I-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:perturbation-noA5
@@ -2768,7 +2768,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:pt-domain
@@ -2797,7 +2797,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:pt-frame
@@ -2829,7 +2829,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:pt-torsion
@@ -2864,7 +2864,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-avg#exactness-route
@@ -2895,7 +2895,7 @@ EXTRACTOR: new+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: Alternative source route; requires independent delta review. Exactness supplies both avg Omega_K = 0 and avg eta^N = 0.
 
 NODE: stepI:p1:ea-avg#gradient-route
@@ -2927,7 +2927,7 @@ EXTRACTOR: new+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: Alternative source route; requires independent delta review. Exactness supplies avg Omega_K = 0; (c) supplies avg eta^N = 0.
 
 NODE: bpI:p2:standing
@@ -3046,7 +3046,7 @@ EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ray-margin
@@ -3073,7 +3073,7 @@ EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:constants
@@ -3214,7 +3214,7 @@ EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-xi0
@@ -3245,7 +3245,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-xi
@@ -3279,7 +3279,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-omega
@@ -3310,7 +3310,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-dk
@@ -3344,7 +3344,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-reg
@@ -3379,7 +3379,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:newton-error
@@ -3449,7 +3449,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-expand
@@ -3480,7 +3480,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-reduce
@@ -3514,7 +3514,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-est
@@ -3549,7 +3549,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-energy
@@ -3586,7 +3586,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-delta-I-b
 REVIEWER: sol-delta-I-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:torsion
@@ -3886,7 +3886,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:st-frame
@@ -3919,7 +3919,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:schedule
@@ -4208,7 +4208,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:lim-margins
@@ -4239,7 +4239,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:lim-inv
@@ -5975,7 +5975,7 @@ EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: SOURCE_GAP: literal use of the full statements bpI:p1:last-row and extended-basic at L312-L313 lacks a Diophantine premise in the generic torus lemma. This is an attempted premise-discharge obligation, not an assumption that the entire Part 1 setting already holds, and not a gap in the separate direct flat-formula route. The actual ray application later supplies Diophantinity; that does not prove this generic premise.
 
 NODE: stepI:p3:to-neumann
@@ -6397,7 +6397,7 @@ EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: -
 
 NODE: stepI:p3:tori-base
@@ -6463,7 +6463,7 @@ EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: -
 
 NODE: stepI:p3:tori-close
@@ -6636,7 +6636,7 @@ EXTRACTOR: new+sol-delta-I-b
 REVIEWER: sol-delta-I-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: This route retains the actual Part 1 citations and their exposed SOURCE_GAP premise check. It is an alternative to the direct flat-formula route, not a mandatory extra premise for that route.
 
 NODE: bpI:p5:real-ham
@@ -7895,9 +7895,9 @@ EDGE: bpI:p5:eps0 | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-eps@L181-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: The eps0 dependency is used only in the B' nonempty branch. All geometric data and constants in that branch are chosen before f, epsilon, z_0.
 
 NODE: stepI:p5:hd-fix
@@ -7925,9 +7925,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-fix@L182
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5
 REVIEWER: sol-review-I-p5p8
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: -
 
 NODE: stepI:p5:hd-sol
@@ -7957,9 +7957,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-sol@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: -
 
 NODE: stepI:p5:hd-uniq
@@ -7989,9 +7989,9 @@ EDGE: N:bpN:p3:gen-sol | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-uniq@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: -
 
 NODE: bpI:p6:det-formula
@@ -8047,7 +8047,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p6:eval
@@ -8074,7 +8074,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p6:kepler
@@ -8130,7 +8130,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p6:k-pos
@@ -8157,7 +8157,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p6:kep-ham
@@ -8821,7 +8821,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:he-deriv
@@ -8853,7 +8853,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:he-sol
@@ -8885,7 +8885,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:kepler-eq
@@ -9233,7 +9233,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:om-per
@@ -9261,7 +9261,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:orbit-identities
@@ -9465,7 +9465,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-coord
@@ -9493,7 +9493,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-compare
@@ -9523,7 +9523,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-ext
@@ -9552,7 +9552,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-field
@@ -9580,7 +9580,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:chart
@@ -9826,7 +9826,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: data definition not named in any audited table
 NOTE: section data node (SPEC): openness of W_mu is consumed by the ODE layer
 
 NODE: bpI:p7:near-circular
@@ -10679,7 +10679,7 @@ EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:tr-open
@@ -10751,7 +10751,7 @@ EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:nondeg
@@ -10871,7 +10871,7 @@ EXTRACTOR: sonnet-extract-I-p7b+sol-review-I-p67
 REVIEWER: sol-delta-I-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: data definition not named in any audited table
 NOTE: section data node (SPEC, Part 7 L325-335)
 
 NODE: bpI:p8:x-topo
@@ -11004,7 +11004,7 @@ EXTRACTOR: sonnet-extract-I-p8
 REVIEWER: sol-review-I-p5p8
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: data definition not named in any audited table
 NOTE: Section data paragraph L132 (SPEC): rho_* < 1 and e_+ < 1/4 are consumed by sr-radii and the safe definition.
 
 NODE: bpI:p8:A
@@ -11551,9 +11551,9 @@ EDGE: bpI:p6:kep-ham | blueprint-I/parts/p8-r3bp.tex#bpI:p8:head-data@L170-L178 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_headData, r3bp_perturbData, r3bpH (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; (a) r3bp_headData, (b) r3bp_perturbData, (c) constants depend only on (a_pm,e_pm)
 NOTE: The statement reproduces the hypotheses of Theorem I-HEAD (a check, not a use of its conclusion): no edge to bpI:p0:head here; the application is stepI:p8:pf-head.
 
 NODE: stepI:p8:hd-h
@@ -11582,9 +11582,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:hd-h@L180-L180 | K, B
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_headData (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; named hd-h/hd-sets row
 NOTE: -
 
 NODE: stepI:p8:hd-f
@@ -11610,9 +11610,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:hd-f@L182-L182 | K, B
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_perturbData (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; named hd-f row
 NOTE: -
 
 NODE: stepI:p8:hd-sets
@@ -11640,9 +11640,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:hd-sets@L184-L184 | K
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_headData (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; named hd-h/hd-sets row
 NOTE: -
 
 NODE: bpI:p8:constants
@@ -11673,9 +11673,9 @@ EDGE: bpI:p6:kep-ham | blueprint-I/parts/p8-r3bp.tex#bpI:p8:constants@L190-L202 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: shellNu, r3bpMu0, r3bpD, r3bpR, r3bp_constants_pos (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS; eps_H is a parameter, instantiated by I-HEAD in the sealed provider; documented D2 (abs(C_F)+1)
 NOTE: -
 
 NODE: bpI:p8:bounds
@@ -11704,9 +11704,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#bpI:p8:bounds@L205-L205 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8
 REVIEWER: sol-review-I-p5p8
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunay_orbit_bounds (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS
 NOTE: -
 
 NODE: stepI:p8:bd-r
@@ -11733,9 +11733,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:bd-r@L209-L209 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunay_radius_bounds, delaunay_orbit_bounds (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES (named adapter row)
 NOTE: -
 
 NODE: stepI:p8:bd-p
@@ -11765,9 +11765,9 @@ EDGE: bpI:p7:elements | blueprint-I/parts/p8-r3bp.tex#stepI:p8:bd-p@L211-L211 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunay_energy, delaunay_orbit_bounds (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES (named adapter row)
 NOTE: -
 
 NODE: stepI:p8:pf-coord
@@ -11795,9 +11795,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-coord@L217-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-small
@@ -11825,9 +11825,9 @@ EDGE: bpI:p6:kep-ham | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-small@L219-L219
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_small, r3bp_core (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS; step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-head
@@ -11860,9 +11860,9 @@ EDGE: bpI:p8:constants | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-head@L221-L22
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit I-R3BP PASS (row names pf-head -> provider); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-sol
@@ -11895,9 +11895,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-sol@L223-L22
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-bounds
@@ -11930,9 +11930,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-bounds@L225-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-dist
@@ -11964,9 +11964,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-dist@L227-L227 | r
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-uniq

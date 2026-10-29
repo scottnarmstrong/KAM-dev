@@ -114,7 +114,7 @@ EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ray-margin
@@ -141,7 +141,7 @@ EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:constants
@@ -282,7 +282,7 @@ EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-xi0
@@ -313,7 +313,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-xi
@@ -347,7 +347,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-omega
@@ -378,7 +378,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-dk
@@ -412,7 +412,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:co-reg
@@ -447,7 +447,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:newton-error
@@ -517,7 +517,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-expand
@@ -548,7 +548,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-reduce
@@ -582,7 +582,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-est
@@ -617,7 +617,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:ne-energy
@@ -654,7 +654,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-delta-I-b
 REVIEWER: sol-delta-I-d
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:torsion
@@ -954,7 +954,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:st-frame
@@ -987,7 +987,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: bpI:p2:schedule
@@ -1276,7 +1276,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:lim-margins
@@ -1307,7 +1307,7 @@ EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: I2-2 audit covers only scalar arithmetic pieces (not attached to actual sequences); step not fully stated
 NOTE: -
 
 NODE: stepI:p2:lim-inv

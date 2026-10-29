@@ -51,7 +51,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p6:eval
@@ -78,7 +78,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p6:kepler
@@ -134,7 +134,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p6:k-pos
@@ -161,7 +161,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p6:kep-ham
@@ -825,7 +825,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:he-deriv
@@ -857,7 +857,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:he-sol
@@ -889,7 +889,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:kepler-eq
@@ -1237,7 +1237,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:om-per
@@ -1265,7 +1265,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:orbit-identities
@@ -1469,7 +1469,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-coord
@@ -1497,7 +1497,7 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-compare
@@ -1527,7 +1527,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-ext
@@ -1556,7 +1556,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:sy-field
@@ -1584,7 +1584,7 @@ EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:chart
@@ -1830,5 +1830,5 @@ EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: data definition not named in any audited table
 NOTE: section data node (SPEC): openness of W_mu is consumed by the ODE layer

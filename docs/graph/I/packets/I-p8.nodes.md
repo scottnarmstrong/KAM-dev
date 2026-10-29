@@ -128,7 +128,7 @@ EXTRACTOR: sonnet-extract-I-p8
 REVIEWER: sol-review-I-p5p8
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: data definition not named in any audited table
 NOTE: Section data paragraph L132 (SPEC): rho_* < 1 and e_+ < 1/4 are consumed by sr-radii and the safe definition.
 
 NODE: bpI:p8:A
@@ -675,9 +675,9 @@ EDGE: bpI:p6:kep-ham | blueprint-I/parts/p8-r3bp.tex#bpI:p8:head-data@L170-L178 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_headData, r3bp_perturbData, r3bpH (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; (a) r3bp_headData, (b) r3bp_perturbData, (c) constants depend only on (a_pm,e_pm)
 NOTE: The statement reproduces the hypotheses of Theorem I-HEAD (a check, not a use of its conclusion): no edge to bpI:p0:head here; the application is stepI:p8:pf-head.
 
 NODE: stepI:p8:hd-h
@@ -706,9 +706,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:hd-h@L180-L180 | K, B
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_headData (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; named hd-h/hd-sets row
 NOTE: -
 
 NODE: stepI:p8:hd-f
@@ -734,9 +734,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:hd-f@L182-L182 | K, B
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_perturbData (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; named hd-f row
 NOTE: -
 
 NODE: stepI:p8:hd-sets
@@ -764,9 +764,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:hd-sets@L184-L184 | K
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_headData (KAM/Iso/R3bp/HeadData.lean)
+LEAN_NOTE: audit P8-4 PASS WITH NOTES; named hd-h/hd-sets row
 NOTE: -
 
 NODE: bpI:p8:constants
@@ -797,9 +797,9 @@ EDGE: bpI:p6:kep-ham | blueprint-I/parts/p8-r3bp.tex#bpI:p8:constants@L190-L202 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: shellNu, r3bpMu0, r3bpD, r3bpR, r3bp_constants_pos (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS; eps_H is a parameter, instantiated by I-HEAD in the sealed provider; documented D2 (abs(C_F)+1)
 NOTE: -
 
 NODE: bpI:p8:bounds
@@ -828,9 +828,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#bpI:p8:bounds@L205-L205 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8
 REVIEWER: sol-review-I-p5p8
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunay_orbit_bounds (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS
 NOTE: -
 
 NODE: stepI:p8:bd-r
@@ -857,9 +857,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:bd-r@L209-L209 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunay_radius_bounds, delaunay_orbit_bounds (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES (named adapter row)
 NOTE: -
 
 NODE: stepI:p8:bd-p
@@ -889,9 +889,9 @@ EDGE: bpI:p7:elements | blueprint-I/parts/p8-r3bp.tex#stepI:p8:bd-p@L211-L211 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: delaunay_energy, delaunay_orbit_bounds (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES (named adapter row)
 NOTE: -
 
 NODE: stepI:p8:pf-coord
@@ -919,9 +919,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-coord@L217-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-small
@@ -949,9 +949,9 @@ EDGE: bpI:p6:kep-ham | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-small@L219-L219
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_small, r3bp_core (KAM/Iso/R3bp/Constants.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS; step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-head
@@ -984,9 +984,9 @@ EDGE: bpI:p8:constants | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-head@L221-L22
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit I-R3BP PASS (row names pf-head -> provider); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-sol
@@ -1019,9 +1019,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-sol@L223-L22
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-bounds
@@ -1054,9 +1054,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-bounds@L225-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-dist
@@ -1088,9 +1088,9 @@ EDGE: bpI:p8:safe | blueprint-I/parts/p8-r3bp.tex#stepI:p8:pf-dist@L227-L227 | r
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8+sol-delta-I-d
 REVIEWER: sol-delta-I-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: r3bp_core (KAM/Iso/R3bp/Constants.lean); restricted_near_circular (KAM/Provider/Iso/RestrictedNearCircular.lean)
+LEAN_NOTE: audit P8-5 PASS WITH NOTES + I-R3BP PASS (row names r3bp_core); step of PROVED parent bpI:p0:r3bp (ruling b)
 NOTE: -
 
 NODE: stepI:p8:pf-uniq
