@@ -5,6 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Iso.Linear.FullRange
 public import KAM.Iso.Linear.Reduced
 public import KAM.Iso.Linear.NoTwist
 
@@ -311,6 +312,68 @@ theorem perturbation_noA5_anyOmega (hS : Setting n τ M σK σB σT D H ω₀ γ
     _ = 4 * n * mSize M σK σB σT ^ 2 := by ring
 
 end Perturbation
+
+section Src
+
+/-- `bpI:p1:reduced` (a)–(d) at an arbitrary `ω`, under the literal source setting `τ ≥ 0`
+(`SettingSrc` at the source's own frequency `ω₀`, GAP-I1a ruling N1 option (i)). -/
+theorem reduced_anyOmega_src (hS : SettingSrc n τ M D H ω₀ γ) {r : ℝ} (hr : 0 < r)
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
+    (hKD : ∀ θ ∈ complexStrip n r, K θ ∈ D)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det) (ω : Fin n → ℝ) {r' : ℝ}
+    (hr' : 0 < r') (hr'r : r' ≤ r) {ξ : (Fin n → ℂ) → Fin n ⊕ Fin n → ℂ}
+    (hξ : DifferentiableOn ℂ ξ (complexStrip n r')) (ξω : ℂ) :
+    (∀ θ ∈ complexStrip n r', reducer K θ * tangentMat K θ = Matrix.fromRows 1 (-lagrangeMat K θ)) ∧
+    (∀ θ ∈ complexStrip n r', reducer K θ *ᵥ isoResidual H K ω ξ ξω θ =
+      bordOp H K ω ξ ξω θ - eta H K ω θ + isoLinError H K ω ξ ξω θ) ∧
+    (∀ θ ∈ complexStrip n r', bordOp H K ω ξ ξω θ = eta H K ω θ →
+      reducer K θ *ᵥ isoResidual H K ω ξ ξω θ = isoLinError H K ω ξ ξω θ) ∧
+    (∀ θ ∈ complexStrip n r', ‖isoLinError H K ω ξ ξω θ‖ ≤ ‖redDefect H K ω θ‖ * ‖ξ θ‖ +
+      ‖symDefect K θ‖ * ‖fderiv ℂ ξ θ (fun l => (ω l : ℂ))‖ + ‖lagrangeMat K θ‖ * ‖ω‖ * ‖ξω‖) ∧
+    ((∀ θ ∈ complexStrip n r', IsUnit (frameMat K θ).det) → ∀ θ ∈ complexStrip n r',
+      (bordOp H K ω ξ ξω θ = eta H K ω θ →
+        isoResidual H K ω ξ ξω θ = (reducer K θ)⁻¹ *ᵥ isoLinError H K ω ξ ξω θ) ∧
+      (isoResidual H K ω ξ ξω θ = 0 ↔
+        bordOp H K ω ξ ξω θ = eta H K ω θ - isoLinError H K ω ξ ξω θ)) :=
+  reduced_anyOmega (hS.setting one_pos one_pos one_pos) hr hK hKD hG ω hr' hr'r hξ ξω
+
+/-- `bpI:p1:perturbation-noA5` (a)–(e) at an arbitrary `ω` with `‖ω‖ ≤ Θ`, under the literal
+source setting `τ ≥ 0` (`SettingSrc` at the source's own frequency `ω₀`), with free
+`σK σB σT` (they enter the constants only through `𝔪`, unchanged by `σ ↦ max σ 1`). -/
+theorem perturbation_noA5_anyOmega_src (hS : SettingSrc n τ M D H ω₀ γ) {r δ β d : ℝ}
+    (hr : 0 < r) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (h2δ : 2 * δ < r) (ω : Fin n → ℝ)
+    {σK σB σT : ℝ} (hω : ‖ω‖ ≤ Theta n M σK σB σT)
+    {K K' : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : DifferentiableOn ℂ K (complexStrip n r))
+    (hball : ∀ θ ∈ complexStrip n r, Metric.ball (K θ) β ⊆ D)
+    (hDK : ∀ θ ∈ complexStrip n r, ‖fderiv ℂ K θ‖ ≤ σK)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det ∧ ‖(gramMatrix K θ)⁻¹‖ ≤ σB)
+    (hK' : DifferentiableOn ℂ K' (complexStrip n r)) (hd : ∀ θ ∈ complexStrip n r, ‖K' θ - K θ‖ ≤ d)
+    (hdβ : d < β) (hsmall : 2 * mSize M σK σB σT * C_DT n M σK σB σT * d / δ ^ 2 ≤ 1) :
+    (∀ θ ∈ complexStrip n r, Metric.ball (K' θ) (β - d) ⊆ D ∧
+      ‖linMat H K' θ - linMat H K θ‖ ≤ mSize M σK σB σT * d) ∧
+    (∀ θ ∈ complexStrip n (r - δ), ‖fderiv ℂ K' θ - fderiv ℂ K θ‖ ≤ n * d / δ) ∧
+    (∀ θ ∈ complexStrip n (r - δ), IsUnit (gramMatrix K' θ).det ∧
+      ‖(gramMatrix K' θ)⁻¹‖ ≤ 2 * mSize M σK σB σT ∧
+      ‖(gramMatrix K' θ)⁻¹ - (gramMatrix K θ)⁻¹‖ ≤ C_B n M σK σB σT * d / δ) ∧
+    (∀ θ ∈ complexStrip n (r - δ), ‖normalMat K' θ - normalMat K θ‖ ≤ C_DN n M σK σB σT * d / δ ∧
+      ‖normalMat K' θ‖ ≤ 2 * mSize M σK σB σT ^ 2 ∧
+      ‖(normalMat K' θ)ᵀ‖ ≤ 4 * n * mSize M σK σB σT ^ 2) ∧
+    (∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖torsion H K' ω θ - torsion H K ω θ‖ ≤ C_DT n M σK σB σT * d / δ ^ 2) := by
+  have hω' : ‖ω‖ ≤ Theta n M (max σK 1) (max σB 1) (max σT 1) := by
+    simpa only [Theta, mSize_max_one] using hω
+  have hsmall' : 2 * mSize M (max σK 1) (max σB 1) (max σT 1) *
+      C_DT n M (max σK 1) (max σB 1) (max σT 1) * d / δ ^ 2 ≤ 1 := by
+    simpa only [C_DT, C_DX, C_DN, C_B, C_G, C_X, Theta, mSize_max_one] using hsmall
+  have h := perturbation_noA5_anyOmega (hS.setting (σK := max σK 1) (σB := max σB 1)
+    (σT := max σT 1) (by positivity) (by positivity) (by positivity)) hr hδ hδ1 h2δ ω hω' hK
+    hball (fun θ hθ => (hDK θ hθ).trans (le_max_left _ _))
+    (fun θ hθ => ⟨(hG θ hθ).1, (hG θ hθ).2.trans (le_max_left _ _)⟩) hK' hd hdβ hsmall'
+  simp only [C_DT, C_DX, C_DN, C_B, C_G, C_X, Theta, mSize_max_one] at h ⊢
+  exact h
+
+end Src
 
 end KAM.Iso.Linear.AnyOmega
 
