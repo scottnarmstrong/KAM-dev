@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.Torsion.Frame
+public import KAM.Certificate.Torsion.Average
 public import KAM.Certificate.Expr.Compose
 public import KAM.Certificate.Expr.Diff
 public import KAM.Certificate.Freq
@@ -29,7 +30,8 @@ public import KAM.Certificate.Model.Inv
   `hamSign a`), `X_N = (DX_H ∘ K) N - DN`, the block `Nᵀ (Ω₀ X_N)`;
 * the border column `(s ω)_a` (`freqModel`), the last row `(∂_a H ∘ K) N` and the corner `0`.
 
-Product keys `[4, t, i, j, k]` (`t = 0, …, 10`). Contract: `torsionModels_sound`.
+Product keys `[4, t, i, j, k]` (`t = 0, …, 10`). Contract: `torsionModels_sound`. This module
+also re-exports the averaging check (`Torsion/Average`: `torsionAvgCheck`, its contracts).
 -/
 
 @[expose] public noncomputable section
