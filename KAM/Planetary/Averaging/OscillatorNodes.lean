@@ -48,10 +48,10 @@ theorem OscComposeData.ofDeltaBound (hn : 1 ≤ n) (hm : 1 ≤ m)
   calc δ ≤ ᾱ * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))) := hδ
     _ = min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))) * ᾱ := by ring
 
-/-- `stepP:p2:oi-ratio`, Lie series: with `θ_φ = 2 e b |φ| / δ_ν = e b η`, `η = 2|φ|/δ_ν`,
+/-- Conditional helper (not a node export; the generator bound is a premise): Lie series: with `θ_φ = 2 e b |φ| / δ_ν = e b η`, `η = 2|φ|/δ_ν`,
 `e² b η / 4 ≤ e b η`, the iterates satisfy `|ad_φ^h u| / h! ≤ θ_φ^h |u|` and
 `|u ∘ X¹_φ| ≤ (1 - θ_φ)⁻¹ |u|` (in the class, at two losses). -/
-theorem p2_oi_ratio (hn : 1 ≤ n) (hm : 1 ≤ m)
+theorem osc_ratio_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
     (hw : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧ 0 < ρq ∧ 2 * ρq < rq ∧
       0 < σ ∧ 2 * σ < S)
     (hc : oscClass D r rp rq S φ) (hb : oscBound D r rp rq S φ Φ) (hΦ : 0 ≤ Φ)
@@ -92,9 +92,9 @@ theorem p2_oi_ratio (hn : 1 ≤ n) (hm : 1 ≤ m)
   · have := osc_composition_t H hu hbu hA (t := 1) ⟨by norm_num, le_rfl⟩
     simpa [θ, oscTheta] using this
 
-/-- `stepP:p2:oi-ratio`, integral remainders: the same bound `(1 - θ_φ)⁻¹` holds for the
+/-- Conditional helper (generator bound a premise): integral remainders: the same bound `(1 - θ_φ)⁻¹` holds for the
 integral remainders along the flow. -/
-theorem p2_oi_ratio_integral (hn : 1 ≤ n) (hm : 1 ≤ m)
+theorem osc_ratio_integral_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
     (hw : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧ 0 < ρq ∧ 2 * ρq < rq ∧
       0 < σ ∧ 2 * σ < S)
     (hc : oscClass D r rp rq S φ) (hb : oscBound D r rp rq S φ Φ) (hΦ : 0 ≤ Φ)
@@ -116,9 +116,9 @@ theorem p2_oi_ratio_integral (hn : 1 ≤ n) (hm : 1 ≤ m)
   osc_composition_integral (OscComposeData.ofDeltaBound hn hm hw hc hb hΦ hᾱ hΦδ hδ) hB hv hcv
     hDc
 
-/-- `stepP:p2:oi-range`, numerics and series: `θ_φ ≤ 2 e b δ / (ᾱ δ_ν) ≤ e/8 < 0.34`,
+/-- Conditional helper (generator bound a premise): numerics and series: `θ_φ ≤ 2 e b δ / (ᾱ δ_ν) ≤ e/8 < 0.34`,
 `(16/9) θ_φ < 0.61 < 1`, and the Lie series equals the composition on the two-loss domain. -/
-theorem p2_oi_range (hn : 1 ≤ n) (hm : 1 ≤ m)
+theorem osc_range_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
     (hw : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧ 0 < ρq ∧ 2 * ρq < rq ∧
       0 < σ ∧ 2 * σ < S)
     (hc : oscClass D r rp rq S φ) (hb : oscBound D r rp rq S φ Φ) (hΦ : 0 ≤ Φ)
