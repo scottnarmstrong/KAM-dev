@@ -365,7 +365,7 @@ private theorem devPartial_zero_foldl {N m : ℕ} :
     exact ih
 
 /-- A function of `J` only has no partial derivative with a `ρ̃`-index. -/
-theorem p11_partial_proj_rho {U : Set (P11CVec n)} {f : P11CVec n → P11CVec m}
+theorem p11_partial_proj_rho {m : ℕ} {U : Set (P11CVec n)} {f : P11CVec n → P11CVec m}
     (hf : DifferentiableOn ℂ f U) (β : Fin (n + n) → ℕ) (i : Fin n) {P : P11CVec (n + n)}
     (hP : p11DevProj n P ∈ U) (hU : IsOpen U) :
     p11PartialVec (β + Pi.single (Fin.natAdd n i) 1) (fun I => f (p11DevProj n I)) P = 0 := by
