@@ -99,7 +99,8 @@ theorem p11_fderiv_pi_one {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   rw [this.fderiv]
   rfl
 
-/-- Clause 11 of `P11PreparedSpec`: the prepared frequency is `diag(1, eps) checkW` on `‖y‖ ≤ 5/4`. -/
+/-- Clause 11 of `P11PreparedSpec`: the prepared frequency is `diag(1, eps) checkW` on
+`‖y‖ ≤ 5/4`. -/
 theorem p11_prep_freqR_eq {D : P11Physical n} {nu eps : ℝ} (heps : 0 < eps)
     (h5 : 5 * eps ≤ p11s2 (p11SecularData D) nu eps) (hs2 : 0 ≤ p11s2 (p11SecularData D) nu eps)
     (hA : P11SlowSpecOf (p11SecularData D) (p11FastData D eps) nu eps (p11SlowConstant D nu)
