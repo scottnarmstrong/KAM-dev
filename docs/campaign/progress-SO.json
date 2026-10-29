@@ -185,9 +185,22 @@
       "KAM/Certificate/Defs.lean"
      ]
     ],
-    "SO-SOUND": [
-     1400,
+    "SO-SOUND-A": [
+     700,
      [
+      "KAM/Certificate/Sound/Static.lean",
+      "KAM/Certificate/Sound/Ham.lean",
+      "KAM/Certificate/Sound/Embedding.lean",
+      "KAM/Certificate/Sound/Gram.lean"
+     ]
+    ],
+    "SO-SOUND-B": [
+     700,
+     [
+      "KAM/Certificate/Sound/Invariance.lean",
+      "KAM/Certificate/Sound/Energy.lean",
+      "KAM/Certificate/Sound/Torsion.lean",
+      "KAM/Certificate/Sound/Smallness.lean",
       "KAM/Certificate/Soundness.lean"
      ]
     ],

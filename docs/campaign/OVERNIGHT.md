@@ -937,3 +937,30 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   contributor rewritten). ERRATA writer's draft done, held off main until the refute-first PDF verification (running,
   codex-4) passes. SO-MAT (Gram) in audit; SO-TORS (torsion) started. Disk reached 99 %: two finished worktrees removed and
   the old SO-REPLAY scratch archived to the HC volume.
+- **20:22. SO-TOYFIX done.** The toy data's cutoff 0 was exact by accident for T2/T3/TR (constant models) but would fail
+  T2d; the generator now emits literal cutoffs (10^6 or the measured maximum), all four toys pass, deterministic. It
+  found nine convention mismatches between the Python mirror (SO-DATA-PY / SO-TOYGEN) and the landed Lean (report
+  docs/tracks/SO/studies/SO-TOYGEN.md §10): the advice keys of character and exp witnesses ([1, len+c, j] versus
+  [1, 1, slot, j]; [1, nExp, j] versus [1, 0, i, j]), unpadded charWit keys and the reflected -k lookup, Lean's
+  recipOneSubUp versus the mirror's exact 1/(1-delta), the exp radius shape, toDeg 0 on exp arguments, toMant as a
+  placeholder, and Gram/torsion keys with no Lean consumer yet. Harmless for the toys; they must be fixed in the mirror
+  before SO-DATA emits the lunar advice (the Lean modules are authoritative).
+- **21:35. Track SO: SO-TORS landed; SO-DEFS in audit; soundness started.** SO-TORS (torsion check) passed its
+  independent audit (PASS WITH NOTES: lunar-scale kernel cost unmeasured, for SO-SOUND/SO-DATA) and landed (inp
+  c353bbf5); worktree removed. SO-DEFS (certificate, eight sub-checks, checkTorusCertificate, G1Hyps, CertifiedTorus;
+  498 lines) screened and in audit (codex-4), with a sufficiency focus: every G1Hyps hypothesis must map to a
+  sub-check conjunct. On claude-12 (owner: use it as much as possible): SO-SOUND-A (static, Hamiltonian, embedding,
+  Gram contracts; Opus; Sound/Static first so part B can start on it), SO-PYALIGN (Python mirror aligned to the
+  landed Lean before SO-DATA: key layouts, degrees, bounds never more optimistic than Lean, key-coverage test) and
+  ERRATA-R3 (verifier round 2 returned the record for revision: D-P-APPROX named the frequency-extension cutoff
+  instead of the Fourier/Taylor truncation; two quotation labels; two internal-history remnants). Disk: six more
+  duplicate Codex rollouts replaced by archive links (2.0 -> 4.6 GB free with the SO-TORS sweep); 4.5 GB is held by
+  deleted files of long-running Codex sessions of other projects (owner's call).
+- **21:45. SO-DEFS passed; soundness in two halves.** SO-DEFS audit 1: PASS WITH NOTES (signed surface verbatim; every
+  G1Hyps field has a sufficient checker conjunct, so the checker is strong enough for its soundness theorem; the only
+  note, a test docstring that overstated coverage, corrected before landing). Sent to kam-inp to land. SO-SOUND-A
+  committed Sound/Static in three minutes; SO-SOUND-B (invariance, energy, torsion, smallness, the black-box assembly
+  through g1_explicit) started on it at once (claude-12, Opus), using the parametric pattern: helpers take part A's
+  signed conclusions verbatim, the signed theorems become one-liners when A's files merge. ERRATA-R3 done (all audit-2
+  findings fixed, checked against the pinned PDFs); round-3 refute-first verification running (codex-4). SO-R1
+  (LunarParams, 60 lines) folds into SO-LUNAR as the design says: its residual budgets come from SO-DATA.

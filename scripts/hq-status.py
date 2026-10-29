@@ -281,7 +281,7 @@ def section_glance(rows):
 def so_package(suffix):
     """Track SO package name of a worktree suffix: `soexpr` -> SO-EXPR, `design-so` -> SO-DESIGN."""
     special = {'design-so': 'SO-DESIGN', 'soadv': 'SO-ADVCOUNT', 'sopolya': 'SO-POLY-A', 'sopolyb': 'SO-POLY-B',
-               'soexprc': 'SO-EXPR-B2'}
+               'soexprc': 'SO-EXPR-B2', 'sosounda': 'SO-SOUND-A', 'sosoundb': 'SO-SOUND-B'}
     return special.get(suffix, 'SO-' + suffix[2:].upper())
 
 
