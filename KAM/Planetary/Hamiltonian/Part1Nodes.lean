@@ -23,7 +23,7 @@ open Set Real Function
 
 namespace KAM.Planetary
 
-open KAM KAM.Kepler
+open KAM KAM.ODE
 
 section Transport
 
@@ -151,7 +151,7 @@ theorem pc_a (c : ℝ) :
   refine ⟨fun u v => ?_, fun z => ?_, angleScale_add_angleShift c⟩
   · simp only [symplecticForm, angleScale, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
     exact Finset.sum_congr rfl fun i _ => by ring
-  · have h : (angleScaleCLM c : Phase d →ₗ[ℝ] Phase d) =
+  · have h : ((angleScaleCLM c : Phase d →L[ℝ] Phase d) : Phase d →ₗ[ℝ] Phase d) =
         LinearMap.prodMap (c • LinearMap.id) LinearMap.id := by
       ext z <;> simp [angleScaleCLM]
     rw [show (angleScale c : Phase d → Phase d) = angleScaleCLM c from rfl,
@@ -185,8 +185,11 @@ theorem pc_b {c : ℝ} (hc : 0 < c) (H : Phase d → ℝ) (z : Phase d) :
     · ext v
       simp [angleScaleCLM]
     · ext v
-      simp [angleScaleCLM]
-      left; field_simp
+      have h : ((c • v, 0) : Phase d) = c • ((v, 0) : Phase d) := by simp
+      simp only [angleScaleCLM, smul_apply, ContinuousLinearMap.comp_apply,
+        ContinuousLinearMap.inl_apply]
+      simp
+      rw [h, map_smul, smul_eq_mul, ← mul_assoc, inv_mul_cancel₀ hc.ne', one_mul]
   · have hG : ¬ DifferentiableAt ℝ (chartPullback c H (angleScale c)) z :=
       fun hG => hH ((chart_field_differentiableAt_iff hc hΨ H (mem_univ z)).1 hG)
     rw [fderiv_zero_of_not_differentiableAt hG, fderiv_zero_of_not_differentiableAt hH]
@@ -196,21 +199,42 @@ theorem pc_b {c : ℝ} (hc : 0 < c) (H : Phase d → ℝ) (z : Phase d) :
 `{R > 0}`, invariant under `ψ ↦ ψ + 2π`; (2) `S_c` is a `c`-chart; (3) charts compose, and
 `(H^{Ψ₂})^{Ψ₁} = H^{Ψ₂ ∘ Ψ₁}`. -/
 theorem typical (d : ℕ) :
-    (IsChart 1 (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)),
-        (fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)))) {z : Phase 1 | 0 < z.2 0} ∧
+    (IsChart 1 (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)),
+        (fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)))) {z : Phase 1 | 0 < z.2 0} ∧
       ∀ (z : Phase 1) (k : Fin 1 → ℤ),
-        (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)),
-          (fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)))) (z + fullShift k) =
-        (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)),
-          (fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)))) z) ∧
+        (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)),
+          (fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)))) (z + fullShift k) =
+        (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)),
+          (fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)))) z) ∧
     (∀ c : ℝ, 0 < c → IsChart c (angleScale c) (univ : Set (Phase d))) ∧
     ∀ (c₁ c₂ : ℝ) (H : Phase d → ℝ) (Ψ₁ Ψ₂ : Phase d → Phase d) (O₁ O₂ : Set (Phase d)),
       IsChart c₁ Ψ₁ O₁ → IsChart c₂ Ψ₂ O₂ → MapsTo Ψ₁ O₁ O₂ →
         IsChart (c₁ * c₂) (Ψ₂ ∘ Ψ₁) O₁ ∧
         chartPullback c₁ (chartPullback c₂ H Ψ₂) Ψ₁ = chartPullback (c₁ * c₂) H (Ψ₂ ∘ Ψ₁) :=
-  ⟨⟨(disc_measure_chart (a := 0) (b := 1)).1, fun z k => by
-    refine Prod.ext (funext fun i => ?_) (funext fun i => ?_) <;>
-    simp [fullShift, Real.cos_add_int_mul_two_pi, mul_comm, Real.sin_add_int_mul_two_pi]⟩,
+  ⟨⟨by
+      have hf : (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)),
+          (fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)))) =
+          oscillatorPolar (a := 0) (b := 1) := by
+        funext z
+        refine Prod.ext (funext fun i => ?_) (funext fun i => ?_) <;>
+        · rw [show i = Fin.natAdd 0 (0 : Fin 1) from Subsingleton.elim _ _]
+          simp only [oscillatorPolar, assemble, Fin.append_right]
+          simp [blockSlow]
+      have hO : {z : Phase 1 | 0 < z.2 0} =
+          {z : Phase (0 + 1) | ∀ j : Fin 1, 0 < blockSlow z.2 j} := by
+        ext z
+        simp [blockSlow, Fin.forall_fin_one]
+      rw [hf, hO]
+      exact (disc_measure_chart (a := 0) (b := 1)).1, fun z k => by
+    have h2 : (z + fullShift k).2 0 = z.2 0 := by simp [fullShift]
+    have h1 : (z + fullShift k).1 0 = z.1 0 + (k 0) * (2 * π) := by simp [fullShift]; ring
+    refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
+    · show √(2 * (z + fullShift k).2 0) * Real.sin ((z + fullShift k).1 0) =
+        √(2 * z.2 0) * Real.sin (z.1 0)
+      rw [h2, h1, Real.sin_add_int_mul_two_pi]
+    · show √(2 * (z + fullShift k).2 0) * Real.cos ((z + fullShift k).1 0) =
+        √(2 * z.2 0) * Real.cos (z.1 0)
+      rw [h2, h1, Real.cos_add_int_mul_two_pi]⟩,
     fun c hc => isChart_angleScale hc, fun c₁ c₂ H Ψ₁ Ψ₂ O₁ O₂ h₁ h₂ hm =>
     ⟨h₁.comp h₂ hm, chartPullback_comp c₁ c₂ H Ψ₁ Ψ₂⟩⟩
 
