@@ -105,6 +105,77 @@ theorem p11_chartInput_gamma {D : P11Physical n} (hC : P11SecularSpec D (p11Secu
   rw [this]
   linarith
 
+theorem p11_patch_near (D : P11Physical n) {J : P11Vec n} (hJ : J ∈ (p11PatchData D).K)
+    (i : Fin n) : |J i/(2*Real.pi) - D.m i*Real.sqrt (D.G*D.m0*D.a i)| < p11PhysicalDelta D/8 := by
+  have h := (p11_patch D).choose_spec
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, hnear⟩ := h
+  exact hnear J hJ i
+
+theorem p11_abs_le_of_pi_norm {a b : ℝ} {f : Fin n → ℂ} {i : Fin n} {M : ℝ}
+    (hf : f i = (a : ℂ) - (b : ℂ)) (h : ‖f‖ ≤ M) : |a - b| ≤ M := by
+  have := (norm_le_pi_norm f i).trans h
+  rwa [hf, ← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs] at this
+
+/-- Displacement of the slow stage on real points. -/
+theorem p11_wr_psi_disp {D : P11Physical n} {nu eps : ℝ}
+    (hS : P11SlowSpec D nu eps (p11SlowConstant D nu) (p11SlowData D nu eps))
+    {y : Phase (n+n)} (hy : KAM.realInclusion₂ (n+n) y ∈ p11WrSlowDom D nu eps) :
+    (∀ i : Fin n, |(p11WrPsiR D nu eps y).2 (Fin.natAdd n i) - y.2 (Fin.natAdd n i)| ≤
+      p11SlowConstant D nu*eps^(3/2 : ℝ)*Real.log (1/eps)^(3*(p11SecularData D).tau+1)) ∧
+    ∀ i : Fin n, |(p11WrPsiR D nu eps y).2 (Fin.castAdd n i) - y.2 (Fin.castAdd n i)| ≤
+      p11SlowConstant D nu*eps^(5/2 : ℝ)*Real.log (1/eps)^(3*(p11SecularData D).tau+1) := by
+  obtain ⟨-, -, hPsiReal, -⟩ := p11WrPsiR_facts hS
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hS26⟩ := hS
+  obtain ⟨hb1, hb2, -⟩ := hS26 _ hy
+  rw [← hPsiReal y hy] at hb1 hb2
+  exact ⟨fun i => p11_abs_le_of_pi_norm (f := fun i : Fin n =>
+      (KAM.realInclusion₂ (n+n) (p11WrPsiR D nu eps y)).2 (Fin.natAdd n i) -
+      (KAM.realInclusion₂ (n+n) y).2 (Fin.natAdd n i)) (i := i) rfl hb1,
+    fun i => p11_abs_le_of_pi_norm (f := fun i : Fin n =>
+      (KAM.realInclusion₂ (n+n) (p11WrPsiR D nu eps y)).2 (Fin.castAdd n i) -
+      (KAM.realInclusion₂ (n+n) y).2 (Fin.castAdd n i)) (i := i) rfl hb2⟩
+
+/-- Displacement of the fast stage on real points. -/
+theorem p11_wr_fast_disp {D : P11Physical n} {eps : ℝ}
+    (hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps))
+    (hα : 0 < p11Alpha1 (p11SecularData D) eps) (hσ : 0 < (p11SecularData D).sigma)
+    (hrz : 0 < (p11SecularData D).rz) {u : Phase (n+n)}
+    (hu : KAM.realInclusion₂ (n+n) u ∈ p11WrFastDom D eps) :
+    (∀ i : Fin n, |(p11WrFastR D eps u).2 (Fin.castAdd n i) - u.2 (Fin.castAdd n i)| ≤
+      3*eps*(p11SecularData D).MF/(2*Real.pi*p11Alpha1 (p11SecularData D) eps*
+        (p11SecularData D).sigma)) ∧
+    (∀ i : Fin n, |(p11WrFastR D eps u).1 (Fin.natAdd n i) - u.1 (Fin.natAdd n i)| ≤
+      9*eps*(p11SecularData D).MF/(2*Real.pi*p11Alpha1 (p11SecularData D) eps*
+        (p11SecularData D).rz)) ∧
+    ∀ i : Fin n, |(p11WrFastR D eps u).2 (Fin.natAdd n i) - u.2 (Fin.natAdd n i)| ≤
+      9*eps*(p11SecularData D).MF/(2*Real.pi*p11Alpha1 (p11SecularData D) eps*
+        (p11SecularData D).rz) := by
+  obtain ⟨-, -, hFReal, -⟩ := p11WrFastR_facts hF
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, hFb⟩ := hF
+  obtain ⟨hFJ, -, hFxy⟩ := hFb _ hu
+  rw [← hFReal u hu] at hFJ hFxy
+  have hpi := Real.pi_pos
+  refine ⟨fun i => ?_, fun i => ?_, fun i => ?_⟩
+  · refine p11_abs_le_of_pi_norm (f := fun i : Fin n => (KAM.realInclusion₂ (n+n)
+      (p11WrFastR D eps u)).2 (Fin.castAdd n i) - (KAM.realInclusion₂ (n+n) u).2
+      (Fin.castAdd n i)) (i := i) rfl ?_
+    rw [le_div_iff₀ (by positivity)]
+    linarith
+  · refine p11_abs_le_of_pi_norm (f := fun i : Fin n => (KAM.realInclusion₂ (n+n)
+      (p11WrFastR D eps u)).1 (Fin.natAdd n i) - (KAM.realInclusion₂ (n+n) u).1
+      (Fin.natAdd n i)) (i := i) rfl ?_
+    rw [le_div_iff₀ (by positivity), mul_comm]
+    exact (mul_le_mul_of_nonneg_left (le_max_left _ _)
+      (by positivity : (0:ℝ) ≤ 2*Real.pi*p11Alpha1 (p11SecularData D) eps*
+        (p11SecularData D).rz)).trans hFxy
+  · refine p11_abs_le_of_pi_norm (f := fun i : Fin n => (KAM.realInclusion₂ (n+n)
+      (p11WrFastR D eps u)).2 (Fin.natAdd n i) - (KAM.realInclusion₂ (n+n) u).2
+      (Fin.natAdd n i)) (i := i) rfl ?_
+    rw [le_div_iff₀ (by positivity), mul_comm]
+    exact (mul_le_mul_of_nonneg_left (le_max_right _ _)
+      (by positivity : (0:ℝ) ≤ 2*Real.pi*p11Alpha1 (p11SecularData D) eps*
+        (p11SecularData D).rz)).trans hFxy
+
 end Tube
 
 end KAM.Planetary
