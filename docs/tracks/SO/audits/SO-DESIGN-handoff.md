@@ -127,3 +127,18 @@ wrapper use SO-GRAPHM's landed core correctly? (2) the advice-checked products: 
 product the enclosure of the EXACT product (no trust in the advice), with packing/injectivity/remainder lemmas stated
 and no conclusion-shaped premise? (3) both signature files elaborate and match the landed modules; (4) any new blocking
 issue. Verdict and numbered findings.
+
+## Round 6 (design Revision 6)
+
+Revision 6 (section '## Revision 6' of the design; handoff .drafts/handoff-SO-DESIGN.md '## Revision 6') answers round
+5's F12 (explicit anti-carry guard reconFits on advice and residual budget; shard_reconstruct with checkable premises
+only, so both digit lists lie in the injective range; checkShard_sound and checkPackedProduct_guards; the auditor's
+carry-cancellation example proved rejected) and F13 (1 <= scale inside shapeOK / checkPackedProduct, exported; scale-0
+and positive-overlap tests); SO-GEN2's measured R1 numbers (lunarR1TimeScale = 237/125, majorants 1987/1000, single
+character witness with pinHalvings = 0, bordered torsion witness); the rename isDiophantine_smul -> soIsDiophantine_smul.
+Signatures: /root/code/KAM-inp/.drafts/design/SOSignatures.lean (1152 lines) and SOSignaturesLunar.lean (540).
+ROUND 6 FOCUS: are F12 and F13 closed (try to construct advice that passes every new guard yet decodes to a wrong
+coefficient, at any scale >= 1, including overlapping shards)? Is checkPackedProduct_sound's only premise the
+checker's success? Do the R1 numbers match the SO-GEN2 report
+(/root/code/KAM-inp-sogen2 is removed; the report is on inp at docs/tracks/SO/studies/SO-GEN2-rotated-frame-candidates.md)?
+Any new blocking issue? Re-run the signature gate on both files. Verdict and numbered findings.
