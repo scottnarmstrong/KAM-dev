@@ -40,7 +40,7 @@ theorem p11_slow_eventually (hC : P11SecularSpec D C) {nu c : ℝ} (hnu : 1 ≤ 
         p11K2 C nu eps * (c * (eps + p11eta1 C eps)) ≤
           C.gamma * p11K2 C nu eps ^ (-C.tau) / 8) ∧
       (0 < eps → eps * C.MF ≤ Real.exp (-1) →
-        eps * p11K2 C nu eps * p11SlowMW C ≤ C.gamma * p11K2 C nu eps ^ (-C.tau) / 2 *
+        eps * p11K2 C nu eps * p11SlowMW C ≤ C.gamma * p11K2 C nu eps ^ (-C.tau) / 4 *
           min (p11s1 C eps / 4) (Real.pi * C.rz ^ 2 / 32)) ∧
       c * eps ^ (5 / 2 : ℝ) * Real.log (1 / eps) ^ (2 * C.tau + 1) ≤
         (eps * (C.gamma / 4 * (3 * nu / (Real.pi * (C.sigma / 12)) * Real.log (1 / eps)) ^
@@ -67,7 +67,7 @@ theorem p11_slow_eventually (hC : P11SecularSpec D C) {nu c : ℝ} (hnu : 1 ≤ 
       _ ≤ 1 := by
           rw [mul_one_div, div_le_one (by positivity)]; linarith
   filter_upwards [slow_base_eventually hC, hη1, slow_pe_eventually hC hnu,
-    slow_cz_eventually hC hnu hc, slow_R_eventually hC hnu (p11SlowMW_nonneg hC),
+    slow_cz_eventually hC hnu hc, slow_R4_eventually hC hnu (p11SlowMW_nonneg hC),
     slow_b2_eventually c ha hγ0 hτ0.le] with eps h1 h2 h3 h4 h5 h6
   exact ⟨h1, h2, h3, h4, h5, h6⟩
 
@@ -91,7 +91,7 @@ theorem p11_slow_at (hC : P11SecularSpec D C) {nu eps c0 : ℝ} (hnu : 1 ≤ nu)
         p11K2 C nu eps * (p11SlowAsmC C nu c0 * (eps + p11eta1 C eps)) ≤
           C.gamma * p11K2 C nu eps ^ (-C.tau) / 8) ∧
       (0 < eps → eps * C.MF ≤ Real.exp (-1) →
-        eps * p11K2 C nu eps * p11SlowMW C ≤ C.gamma * p11K2 C nu eps ^ (-C.tau) / 2 *
+        eps * p11K2 C nu eps * p11SlowMW C ≤ C.gamma * p11K2 C nu eps ^ (-C.tau) / 4 *
           min (p11s1 C eps / 4) (Real.pi * C.rz ^ 2 / 32)) ∧
       p11SlowAsmC C nu c0 * eps ^ (5 / 2 : ℝ) * Real.log (1 / eps) ^ (2 * C.tau + 1) ≤
         (eps * (C.gamma / 4 * (3 * nu / (Real.pi * (C.sigma / 12)) * Real.log (1 / eps)) ^
@@ -133,10 +133,23 @@ theorem p11_slow_at (hC : P11SecularSpec D C) {nu eps c0 : ℝ} (hnu : 1 ≤ nu)
         ∀ i : Fin n, ‖fderiv ℂ (fun rho : P11CVec n => Z (Fin.append J rho)) rho
           (Pi.single i 1)‖ ≤ c * (eps + p11eta1 C eps) := fun J hJ rho hρ i =>
     (hdZ0 J hJ rho hρ i).trans (mul_le_mul_of_nonneg_right hcc0 (by linarith))
-  have hdiv := p11_slow_divisor hC (h0 := h0) (Z := Z) (cZ := c * (eps + p11eta1 C eps))
+  have hdiv0 := p11_slow_divisor hC (h0 := h0) (Z := Z) (cZ := c * (eps + p11eta1 C eps))
     (MW := p11SlowMW C) heps hK hs1 hs2 hrz
     (mul_nonneg (by linarith [le_max_left (1 : ℝ) c0]) (by linarith)) h3 o4
     (p11_slow_MW hC hη1 (p11s1_le C eps) o5) hdZ (hcz heps hεM) (hR heps hεM)
+  have hδ : 0 ≤ C.gamma * p11K2 C nu eps ^ (-C.tau) :=
+    mul_nonneg hγ0.le (Real.rpow_pos_of_pos hK _).le
+  have hα := p11_slow_alpha1_le_half (τ := C.tau) hγ0.le hK
+  have hdiv : ∀ I ∈ p11SlowBox C nu eps, ∀ k : Fin (n + n) → ℤ, k ≠ 0 →
+      KAM.Fourier.modeSize k ≤ p11K2 C nu eps →
+      (if (fun i : Fin n => k (Fin.castAdd n i)) = 0 then eps else 1) *
+        C.gamma / 4 * p11K2 C nu eps ^ (-C.tau) ≤
+        ‖p11dotC k (fun i => fderiv ℂ h0 I (Pi.single i 1))‖ := by
+    intro I hI k hk hkK
+    refine le_trans ?_ (hdiv0 I hI k hk hkK)
+    split_ifs
+    · nlinarith [mul_nonneg heps.le hδ]
+    · linarith
   have hf0 : ∀ I ∈ p11Box (p11SlowCenter C eps) (p11s2 C nu eps / 2) (Real.pi * eps / 2),
       ‖KAM.Weighted.coeff f2 I 0‖ ≤ C.MF ^ 3 * eps ^ 3 := fun I hI => by
     have := p11_slow_coeff_zero hC Fast hF heps hεM hsm o1 o2 (hhalf hI)
