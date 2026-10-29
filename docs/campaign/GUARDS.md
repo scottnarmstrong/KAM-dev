@@ -54,7 +54,7 @@ Measured:
 |---|---|---|---|---|
 | `--fast` | OK, 166/166 modules, 42 batches | 1358 s (22.6 min) | 18.1 GB (largest batch) | CPU 1703 s |
 | `--fresh KAM` alone | rc 0 | 2193 s (36.5 min) | 9.7 GB | CPU 2163 s; the whole closure |
-| `--full` | FULLRESULT |||
+| `--full` | OK (`--fresh KAM` + 2 modules outside the root closure: the `DRAFT_SORRY` anchor and its provider) | 1898 s (31.6 min) | 8.6 GB | CPU 1889 s; exit 0, all expected modules reported |
 
 ## `scripts/guard_mutation_suite.sh`
 
@@ -73,9 +73,9 @@ copy (the suite then needs no build); `--with-abi` keeps it (symlinks `.lake` of
 mutation j2. The suite only reports; it never fixes a guard. Runtime: about 26-60 s per mutation (the gate scans
 1337 files), 33 min for all 72 mutations under load.
 
-### Latest result (72 mutations; 53 rejected, 18 accepted, 1 skipped)
+### Latest result (72 mutations; 54 rejected, 18 accepted)
 
-Run 2026-10-29 (the three mutations whose setup was corrected, j5/k16/k18, were rerun alone and are shown as rerun).
+Run 2026-10-29 (the three mutations whose setup was corrected, j5/k16/k18, were rerun alone, as was j2 with `--with-abi`: rejected by `abi_hashes`, 120 s for the pair).
 
 | id | mutation | guard layer(s) that fired | rejected |
 |---|---|---|---|
@@ -122,7 +122,7 @@ Run 2026-10-29 (the three mutations whose setup was corrected, j5/k16/k18, were 
 | i3 | symlinked `.lean` file | gen_root_imports,check_lean_modules | yes |
 | i4 | existing module loses its `module` header | check_lean_modules | yes |
 | j1 | manifest full_file_sha256 edited | check_frozen_anchors | yes |
-| j2 | manifest abi_sha256 edited (needs Lean: --with-abi) | - | SKIPPED (needs --with-abi) |
+| j2 | manifest abi_sha256 edited (needs Lean: --with-abi) | abi_hashes | yes |
 | j3 | anchor removed from the manifest (its file stays) | check_frozen_anchors | yes |
 | j4 | manifest state SEALED -> DRAFT_SORRY for a sealed theorem | gen_root_imports,check_frozen_anchors | yes |
 | j5 | manifest is invalid JSON | lint:empty-manifest | yes (via crash) |
