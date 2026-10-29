@@ -11,7 +11,7 @@ cR = max 1 (cohConst n tau), cohConst n tau = (2 pi)^-1 (tau/(e pi))^tau (8n/pi)
 so e pi^4 > 261 > 128), hence cR = 1 exactly.  All exponents here are integers.
 """
 from fractions import Fraction as F
-import json, sys
+import json, sys, math
 
 def constants(n, tau, rho, rhoinf, M, sK, sB, sT, mu, nu, gbar):
     assert n == 2 and tau == 1, "cR = 1 is only justified for n = 2, tau = 1"
@@ -62,7 +62,44 @@ def constants(n, tau, rho, rhoinf, M, sK, sB, sT, mu, nu, gbar):
                 hatcSum=hatcSum, hatcStar=hatcStar, active=active, isoC1=isoC1, isoC2=isoC2,
                 terms={"E": t_E, "step": t_step, "sum": t_sum, "nu": t_nu})
 
+def package_R1(c, m):
+    """Owner ruling O5, package R1 (rotated frame): rho' = 1/70, rho_inf = rho'/1000, mu = 1/160, ray scalar
+    s = 1 + 10^-6, ray margin nu = 10^-6, sigma_omega = 2, time scale c (H -> c H', omega* = c (nu - 1, 1)/s),
+    gamma = gbar = c/(42 s) (gamma((nu - 1, 1)) = 1/42 from SO-DIO's (nu/2, 1/2) in Dio(1/42, 1)), and
+    M = sK = sB = sT = m (only mSize = max enters the constants).  Exact rationals; returns (params, extra)."""
+    c = F(c); m = F(m)
+    s = 1 + F(1, 10**6)
+    gbar = c / (42 * s)
+    p = dict(n=2, tau=1, rho=F(1, 70), rhoinf=F(1, 70000), M=m, sK=m, sB=m, sT=m, mu=F(1, 160),
+             nu=F(1, 10**6), gbar=gbar)
+    return p, dict(s=s, sigma_omega=F(2), c=c, gamma=gbar)
+
+def threshold_of(p, gamma):
+    """exact threshold: e < threshold  <=>  isoC1 e/(gamma^4 rho^4) < 1; also the displacement coefficient."""
+    k = constants(**p)
+    thr = gamma**4 * p["rho"]**4 / k["isoC1"]
+    coef = k["isoC2"] / (gamma**2 * p["rho"]**2)
+    return thr, coef, k
+
+def main_R1(c, m, out=None):
+    p, x = package_R1(c, m)
+    thr, coef, k = threshold_of(p, x["gamma"])
+    lg = lambda q: math.log10(q.numerator) - math.log10(q.denominator)
+    print("R1 package: c =", c, " m =", m, " gamma = gbar =", x["gamma"], " active:", k["active"])
+    print("threshold log10 = %.6f   threshold float = %.16e" % (lg(thr), float(thr)))
+    print("displacement coefficient float = %.16e" % float(coef))
+    res = dict(package="R1", params={kk: str(v) for kk, v in p.items()}, s=str(x["s"]), sigma_omega=str(x["sigma_omega"]),
+               c=str(x["c"]), gamma=str(x["gamma"]), hatCDelta=str(k["hatCDelta"]), hatcStar=str(k["hatcStar"]),
+               active=k["active"], isoC1=str(k["isoC1"]), isoC2=str(k["isoC2"]), threshold=str(thr),
+               threshold_log10=lg(thr), displacement_coefficient=str(coef))
+    if out:
+        json.dump(res, open(out, "w"), indent=1)
+    return res
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "R1":
+        main_R1(F(sys.argv[2]), F(sys.argv[3]), sys.argv[4] if len(sys.argv) > 4 else None)
+        return
     p = dict(n=2, tau=1, rho=F(1, 200), rhoinf=F(1, 400), M=F(4), sK=F(4), sB=F(4), sT=F(4),
              mu=F(1, 1000), nu=F(1, 4), gbar=F(1, 42))
     c = constants(**p)
