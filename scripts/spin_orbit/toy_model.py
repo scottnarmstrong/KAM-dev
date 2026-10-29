@@ -1,293 +1,492 @@
 #!/usr/bin/env python3
-"""Exact ℚ Fourier models for the SO toy certificates (the `direct` product route of A-E §C).
+"""Exact ℚ transcription of the LANDED Fourier-model engine of the SO checker (SO-PYALIGN).
 
-Untrusted tooling (SO-TOYGEN).  Mirrors the LANDED `CertPoly`, `CertRealPoly.toPoly`, `CertWeight`,
-`CertPoly.weightedNormUp`, `degFactorUp`, `CertModel.supBound` and the DESIGN semantics (bodies still `sorry`
-in the signatures) of `CertModel.{add, mul, trim, toDeg, ofDeriv}`, `CertPoly.shift`, `expWitnessRadius`,
-`invWitnessRadius`, over the exact backend (no rounding terms).
+Untrusted tooling.  Every function transcribes the Lean declaration named in its docstring over the exact
+backend `ℚ` (`instCertArithRat`: add/mul exact, addErr = mulErr = 0, upAdd = +, upMul = *, ofRatUp =
+ofRatDown = id, ble = <=, blt = <), so every rounding error is 0 and only the STRUCTURE of the Lean
+computation remains: term lists in Lean order (no dict merging: `mergeErrTerms` merges equal keys only where
+the Lean merge meets them), literal key lists (`packAddZ`, no padding), balanced `sumUp` / `modelSum` /
+`CertBall.listSum` trees, `toDeg` with the Machin bounds of the `π` enclosure (`twoPiZpowHi/Lo`), `crossUp`,
+the scalar product route for constant factors, and the advice lookup with its crude fallback.
 
-Representation: a polynomial is (den, {key: (re, im)}) with integer re, im over the common positive integer
-denominator `den` (exact; avoids per-term gcds in the large T2d products).  A model is (deg, poly, rad) with
-`rad` a Fraction and the denotation `(2π)^deg (P + T)`, `sup_{T_ρ} |T| ≤ rad`.
+Files: Model/{Basic,Ops,Terms,Exp,ExpBounds,Inv}.lean, Expr/{Compose,ComposeModels}.lean, Gram.lean,
+Torsion/{Frame,Models,Average}.lean, Poly/{Basic,Ops}.lean.
+
+Representation: a polynomial is a list of terms (key tuple, (re, im)) with Fraction coefficients, in Lean list
+order; a model is (deg, poly, rad).
 """
 from fractions import Fraction as F
-from math import gcd
 import toy_arith as A
 
-ZERO_KEY_CACHE = {}
+PI_LO, PI_UP = A.PI_LO, A.PI_UP
+ZERO = F(0)
 
 
-def zkey(n):
-    return (0,) * n
-
-
-def kabs(k):
+# ---------------------------------------------------------------- keys (Poly/Basic, Model/Terms, Poly/Advice)
+def keyDeg(k):
+    """keyDeg: |k|₁ of the stored key."""
     return sum(abs(x) for x in k)
 
 
-# ---------------------------------------------------------------- polynomials
-def p_zero():
-    return (1, {})
+def packAddZ(k, l):
+    """packAddZ: zero-extended coordinatewise sum (length max)."""
+    if len(k) < len(l):
+        k, l = l, k
+    return tuple(k[i] + (l[i] if i < len(l) else 0) for i in range(len(k)))
 
 
-def p_const(c, n):
-    re, im = F(c[0]), F(c[1])
-    den = re.denominator * im.denominator // gcd(re.denominator, im.denominator)
-    return (den, {zkey(n): (re.numerator * (den // re.denominator), im.numerator * (den // im.denominator))})
+def getD(k, j):
+    return k[j] if j < len(k) else 0
 
 
-def p_from_terms(terms):
-    """terms: list of (key tuple, (re Fraction, im Fraction)); repeated keys add."""
-    den = 1
-    for _, (re, im) in terms:
-        for x in (F(re), F(im)):
-            den = den * x.denominator // gcd(den, x.denominator)
-    d = {}
-    for k, (re, im) in terms:
-        re, im = F(re), F(im)
-        a, b = d.get(k, (0, 0))
-        d[k] = (a + re.numerator * (den // re.denominator), b + im.numerator * (den // im.denominator))
-    return (den, d)
+def zeros(n):
+    return (0,) * n
 
 
-def p_terms(P):
-    den, d = P
-    return [(k, (F(a, den), F(b, den))) for k, (a, b) in sorted(d.items())]
+def padKey(n, k):
+    """padKey: length-n key with the same index."""
+    return tuple(getD(k, j) for j in range(n))
 
 
-def p_rescale(P, den):
-    pd, d = P
-    assert den % pd == 0
-    f = den // pd
-    return (den, {k: (a * f, b * f) for k, (a, b) in d.items()})
+def isZeroKey(k):
+    """Model/Inv isZeroKey: every entry zero (any length)."""
+    return all(z == 0 for z in k)
 
 
-def p_add(P, Q, sign=1):
-    den = P[0] * Q[0] // gcd(P[0], Q[0])
-    P2, Q2 = p_rescale(P, den), p_rescale(Q, den)
-    d = dict(P2[1])
-    for k, (a, b) in Q2[1].items():
-        x, y = d.get(k, (0, 0))
-        d[k] = (x + sign * a, y + sign * b)
-    return (den, d)
+def isZeroKeyN(n, k):
+    """Torsion/Average isZeroKeyN: the first n entries (getD 0) are zero."""
+    return all(getD(k, i) == 0 for i in range(n))
 
 
-def p_scale(P, c):
-    """multiply by the exact complex constant c = (re, im)."""
-    re, im = F(c[0]), F(c[1])
-    cd = re.denominator * im.denominator // gcd(re.denominator, im.denominator)
-    cr, ci = re.numerator * (cd // re.denominator), im.numerator * (cd // im.denominator)
-    return (P[0] * cd, {k: (a * cr - b * ci, a * ci + b * cr) for k, (a, b) in P[1].items()})
+# ---------------------------------------------------------------- complex numbers and balls (exact)
+def normUp(c):
+    return abs(c[0]) + abs(c[1])
 
 
-def p_mul(P, Q, stats=None):
-    """Exact product; stats counts the coefficient pairs (the kernel cost driver of the direct route)."""
-    d = {}
-    for k1, (a, b) in P[1].items():
-        for k2, (c, e) in Q[1].items():
-            k = tuple(x + y for x, y in zip(k1, k2))
-            x, y = d.get(k, (0, 0))
-            d[k] = (x + a * c - b * e, y + a * e + b * c)
-    if stats is not None:
-        stats["pairs"] = stats.get("pairs", 0) + len(P[1]) * len(Q[1])
-    return (P[0] * Q[0], d)
+def cmul(c, d):
+    return (c[0] * d[0] - c[1] * d[1], c[0] * d[1] + c[1] * d[0])
 
 
-def p_shift(P, m):
-    return (P[0], {tuple(x + y for x, y in zip(k, m)): v for k, v in P[1].items()})
+def conj(c):
+    return (c[0], -c[1])
 
 
-def p_wnorm(P, w):
-    """weightedNormUp over ℚ: Σ (|re| + |im|) w^{|k|₁}."""
-    den, d = P
-    by = {}
-    for k, (a, b) in d.items():
-        m = kabs(k)
-        by[m] = by.get(m, 0) + abs(a) + abs(b)
-    w = F(w)
-    return sum((F(v, den) * w ** m for m, v in by.items()), F(0))
+def neg(c):
+    return (-c[0], -c[1])
 
 
-def p_coeff0(P, n):
-    a, b = P[1].get(zkey(n), (0, 0))
-    return (F(a, P[0]), F(b, P[0]))
-
-
-def p_value0(P):
-    """value at θ = 0: the sum of all coefficients."""
-    return (F(sum(a for a, _ in P[1].values()), P[0]), F(sum(b for _, b in P[1].values()), P[0]))
-
-
-def p_deriv(P, j):
-    """∂_j at (2π)-degree +1: coefficient i k_j c (exact)."""
-    return (P[0], {k: (-k[j] * b, k[j] * a) for k, (a, b) in P[1].items() if k[j] != 0})
-
-
-def p_truncate(P, cutoff, w):
-    """keep |k|₁ <= cutoff; return (kept, weighted norm of the dropped part).  The cutoff is literal, as in the
-    Lean `truncPoly cfg.cutoff` (a natural number; there is no "no truncation" value)."""
-    assert isinstance(cutoff, int) and not isinstance(cutoff, bool) and cutoff >= 0, cutoff
-    keep = {k: v for k, v in P[1].items() if kabs(k) <= cutoff}
-    drop = (P[0], {k: v for k, v in P[1].items() if kabs(k) > cutoff})
-    return (P[0], keep), p_wnorm(drop, w)
-
-
-def p_is_zero(P):
-    return all(a == 0 and b == 0 for a, b in P[1].values())
-
-
-def p_reduce(P):
-    """drop exact zero coefficients and reduce the common denominator (exactness preserved)."""
-    den, d = P
-    d = {k: v for k, v in d.items() if v != (0, 0)}
-    g = den
-    for a, b in d.values():
-        g = gcd(g, gcd(abs(a), abs(b)))
-        if g == 1:
+# ---------------------------------------------------------------- balanced sums
+def sumUp(vals):
+    """Model/Terms sumUp: 64 rounds of pairwise sums, then foldr (exact: order is structural only)."""
+    L = list(vals)
+    for _ in range(64):
+        if len(L) <= 1:
             break
-    if g > 1:
-        den //= g
-        d = {k: (a // g, b // g) for k, (a, b) in d.items()}
-    return (den, d)
+        L = [L[i] + L[i + 1] if i + 1 < len(L) else L[i] for i in range(0, len(L), 2)]
+    return sum(reversed(L), ZERO) if L else ZERO
 
 
-def realpoly_to_poly(zero, half, n):
-    """CertRealPoly.toPoly: zero term, each half term and its conjugate at -k."""
-    terms = [(zkey(n), (F(zero), F(0)))]
-    for k, (re, im) in half:
-        k = tuple(k) + (0,) * (n - len(k))
-        terms.append((k, (F(re), F(im))))
-        terms.append((tuple(-x for x in k), (F(re), -F(im))))
-    return p_reduce(p_from_terms(terms))
+def listSumBall(balls):
+    """ExpBounds CertBall.listSum over exact balls ((re, im), r)."""
+    L = list(balls)
+    for _ in range(64):
+        if len(L) <= 1:
+            break
+        L = [A.b_plus(L[i], L[i + 1]) if i + 1 < len(L) else L[i] for i in range(0, len(L), 2)]
+    if not L:
+        return ((ZERO, ZERO), ZERO)
+    out = L[-1]
+    for b in reversed(L[:-1]):
+        out = A.b_plus(b, out)
+    return out
+
+
+def coeffSumBall(P):
+    """CertPoly.coeffSumBall: balanced ball sum of the coefficients (radius 0 over ℚ)."""
+    return listSumBall([((t[1][0], t[1][1]), ZERO) for t in P])
+
+
+# ---------------------------------------------------------------- polynomials
+def weightTermUp(w, k, e):
+    return abs(e) * F(w) ** keyDeg(k)
+
+
+def supNormUp(P, w):
+    """CertPoly.supNormUp (= weightedNormUp over ℚ): Σ |c| w^{|k|₁} over the stored terms."""
+    return sumUp(weightTermUp(w, k, normUp(c)) for k, c in P)
+
+
+def isConst(P):
+    """CertPoly.isConst: every key all zero (the empty polynomial included)."""
+    return all(isZeroKey(k) for k, _ in P)
+
+
+def negP(P):
+    return [(k, neg(c)) for k, c in P]
+
+
+def _strict_sorted(P):
+    return all(P[i][0] < P[i + 1][0] for i in range(len(P) - 1))
+
+
+def merge(xs, ys):
+    """mergeErrTerms (exact): the literal lexicographic merge, equal keys added (keyCmp = tuple order)."""
+    out, i, j = [], 0, 0
+    while i < len(xs) and j < len(ys):
+        x, y = xs[i], ys[j]
+        if x[0] < y[0]:
+            out.append(x); i += 1
+        elif y[0] < x[0]:
+            out.append(y); j += 1
+        else:
+            out.append((x[0], (x[1][0] + y[1][0], x[1][1] + y[1][1]))); i += 1; j += 1
+    out.extend(xs[i:]); out.extend(ys[j:])
+    return out
+
+
+def rowItems(s, bs):
+    return [(packAddZ(s[0], t[0]), cmul(s[1], t[1])) for t in bs]
+
+
+def directItems(As, Bs, stats=None):
+    """directItems: foldl of merges of the rows.  Fast path (identical result): both term lists strictly
+    ascending with keys of one common length, so every row is ascending and every merge is a sorted union."""
+    if stats is not None:
+        stats["pairs"] = stats.get("pairs", 0) + len(As) * len(Bs)
+    lens = {len(k) for k, _ in As} | {len(k) for k, _ in Bs}
+    if len(lens) <= 1 and _strict_sorted(As) and _strict_sorted(Bs):
+        d = {}
+        for ka, (a, b) in As:
+            for kb, (c, e) in Bs:
+                k = tuple(x + y for x, y in zip(ka, kb))
+                x, y = d.get(k, (ZERO, ZERO))
+                d[k] = (x + a * c - b * e, y + a * e + b * c)
+        return sorted(d.items())
+    acc = []
+    for s in As:
+        acc = merge(acc, rowItems(s, Bs))
+    return acc
+
+
+def shift(m, P):
+    """CertPoly.shift."""
+    return [(packAddZ(m, k), c) for k, c in P]
+
+
+def conjReflect(P):
+    return [(tuple(-x for x in k), conj(c)) for k, c in P]
+
+
+def reflectSorted(P):
+    return list(reversed(conjReflect(P)))
+
+
+def toSortedPoly(n, Pr):
+    """CertRealPoly.toSortedPoly: conjugates of the half terms (reversed), the zero term, the half terms."""
+    zero, half = Pr
+    half = [(tuple(k), (F(c[0]), F(c[1]))) for k, c in half]
+    return ([(tuple(-x for x in k), conj(c)) for k, c in reversed(half)] + [(zeros(n), (F(zero), ZERO))]
+            + half)
+
+
+def isZeroData(Pr):
+    return len(Pr[1]) == 0 and F(Pr[0]) == 0
 
 
 # ---------------------------------------------------------------- models
 class Model:
     __slots__ = ("deg", "poly", "rad")
 
-    def __init__(self, deg, poly, rad=F(0)):
-        self.deg, self.poly, self.rad = int(deg), p_reduce(poly), F(rad)
-
-    def is_zero(self):
-        return self.rad == 0 and p_is_zero(self.poly)
+    def __init__(self, deg, poly, rad=ZERO):
+        self.deg, self.poly, self.rad = int(deg), poly, F(rad)
 
 
-def m_const(c, n, deg=0, rad=F(0)):
-    return Model(deg, p_const(c, n), rad)
+def zeroModel():
+    return Model(0, [], ZERO)
 
 
-def m_zero(n):
-    return Model(0, p_zero(), F(0))
+def constModel(n, re, im, deg=0):
+    return Model(deg, [(zeros(n), (F(re), F(im)))], ZERO)
+
+
+def realCompModel(n, d, Pr):
+    return zeroModel() if Pr is None else Model(d, toSortedPoly(n, Pr), ZERO)
+
+
+def realCompPoly(n, Pr):
+    return [] if Pr is None else toSortedPoly(n, Pr)
+
+
+def negM(a):
+    return Model(a.deg, negP(a.poly), a.rad)
+
+
+def degFactorUp(d):
+    return (2 * PI_UP) ** d if d >= 0 else (2 * PI_LO) ** d
 
 
 def supBound(m, w):
-    return A.degFactorUp(m.deg) * (p_wnorm(m.poly, w) + m.rad)
+    """CertModel.supBound."""
+    return degFactorUp(m.deg) * (supNormUp(m.poly, w) + m.rad)
 
 
-def pi_pow_ball(d, pe):
-    """ball (centre, radius) of (2π)^d from the validated π enclosure pe = (centre, rad), d integer."""
-    c, r = F(pe[0]), F(pe[1])
-    lo, hi = 2 * (c - r), 2 * (c + r)
-    assert lo > 0
-    vals = [lo ** d, hi ** d]
-    a, b = min(vals), max(vals)
-    return (a + b) / 2, (b - a) / 2
+def piLowPos(k, j):
+    return max(A.piLowRat(k, j), PI_LO)
 
 
-def m_toDeg(m, d, w, pe, log):
-    """Re-express at degree d: (2π)^deg P = (2π)^d ((2π)^(deg-d) P)."""
-    if m.deg == d:
-        return m
-    if m.is_zero():
-        return Model(d, p_zero(), F(0))
-    log.append(("toDeg", m.deg, d))
-    c, r = pi_pow_ball(m.deg - d, pe)
-    return Model(d, p_scale(m.poly, (c, 0)), r * p_wnorm(m.poly, w) + (c + r) * m.rad)
+def piUpMin(k, j):
+    return min(A.piUpRat(k, j), PI_UP)
 
 
-def m_add(a, b, w, pe, log, sign=1):
-    if a.is_zero():
-        return b if sign == 1 else m_neg(b)
-    if b.is_zero():
+def twoPiZpowLo(k, j, e):
+    return (2 * piLowPos(k, j)) ** e if e >= 0 else 1 / (2 * piUpMin(k, j)) ** (-e)
+
+
+def twoPiZpowHi(k, j, e):
+    return (2 * piUpMin(k, j)) ** e if e >= 0 else 1 / (2 * piLowPos(k, j)) ** (-e)
+
+
+def toDeg(w, pe, d, a, log=None):
+    """CertModel.toDeg: centre the UPPER bound c of (2π)^e, radius (c - lo)|P|_w + c rad."""
+    if a.deg == d:
         return a
-    if a.deg != b.deg:
-        b = m_toDeg(b, a.deg, w, pe, log)
-    return Model(a.deg, p_add(a.poly, b.poly, sign), a.rad + b.rad)
+    if log is not None:
+        log.append(("toDeg", a.deg, d))
+    e = a.deg - d
+    c = twoPiZpowHi(pe[2], pe[3], e)
+    lo = twoPiZpowLo(pe[2], pe[3], e)
+    return Model(d, [(k, (c * x[0], c * x[1])) for k, x in a.poly], c * a.rad + (c - lo) * supNormUp(a.poly, w))
 
 
-def m_neg(a):
-    return Model(a.deg, p_scale(a.poly, (-1, 0)), a.rad)
+def add(a, b):
+    """CertModel.add (degree of a; no re-expression)."""
+    return Model(a.deg, merge(a.poly, b.poly), a.rad + b.rad)
 
 
-def m_scale_ball(a, c, r, w):
-    """multiply by a scalar ball (c complex exact, radius r): the model of a constant times a."""
-    return Model(a.deg, p_scale(a.poly, c), (abs(c[0]) + abs(c[1]) + r) * a.rad + r * p_wnorm(a.poly, w))
+def addMixed(w, pe, a, b, log=None):
+    """CertModel.addMixed (Gram.lean)."""
+    b2 = toDeg(w, pe, a.deg, b, log)
+    if not b2.poly:
+        return Model(a.deg, a.poly, a.rad + b2.rad)
+    if not a.poly:
+        return Model(a.deg, b2.poly, a.rad + b2.rad)
+    return add(a, b2)
 
 
+def modelSum(w, pe, L, log=None):
+    """modelSum: 64 rounds of pairwise addMixed, then a left fold; zeroModel for []."""
+    L = list(L)
+    for _ in range(64):
+        if len(L) <= 1:
+            break
+        L = [addMixed(w, pe, L[i], L[i + 1], log) if i + 1 < len(L) else L[i] for i in range(0, len(L), 2)]
+    if not L:
+        return zeroModel()
+    acc = L[0]
+    for m in L[1:]:
+        acc = addMixed(w, pe, acc, m, log)
+    return acc
+
+
+def derivItems(j, P):
+    """filterMap derivItem j: i k_j c, terms with k_j = 0 dropped."""
+    out = []
+    for k, (a, b) in P:
+        kj = getD(k, j)
+        if kj != 0:
+            out.append((k, (-b * kj, a * kj)))
+    return out
+
+
+def ofDeriv(j, d, P):
+    return Model(d + 1, derivItems(j, P), ZERO)
+
+
+def ofDeriv2(j, l, d, P):
+    """CertModel.ofDeriv2 (Torsion/Frame): -k_j k_l c, factor 0 dropped, degree d + 2."""
+    out = []
+    for k, (a, b) in P:
+        m = -(getD(k, j) * getD(k, l))
+        if m != 0:
+            out.append((k, (a * m, b * m)))
+    return Model(d + 2, out, ZERO)
+
+
+# ---------------------------------------------------------------- advice books
 class Cfg:
-    def __init__(self, name, cutoff, taylorN, halvings):
+    """ModelConfig over ℚ on the direct route.  `book` is None in GENERATE mode (every advice lookup answers
+    `direct` and is recorded) or a set of key tuples in CHECK mode (a missing key gives Lean's fallback:
+    the crude enclosure in `CertModel.mul`, the direct product in `expResidualProduct`)."""
+
+    def __init__(self, name, cutoff, taylorN, halvings, book=None):
+        assert isinstance(cutoff, int) and not isinstance(cutoff, bool) and cutoff >= 0, cutoff
         self.name, self.cutoff, self.taylorN, self.halvings = name, cutoff, taylorN, halvings
-        self.products = []          # (key, |a|, |b|, pairs)
-        self.maxK = 0               # the largest |k|₁ of any exact product, before truncation
+        self.book = None if book is None else set(tuple(k) for k in book)
+        self.products = []          # every CertModel.mul / residual product: (full key, |a|, |b|, pairs, route)
+        self.lookups = []           # full keys looked up, in call order
+        self.misses = []            # looked up but absent (CHECK mode)
+        self.maxK = 0               # largest |k|₁ of any CertModel.mul product before truncation
+        self.prefix = None          # forWitness (s, i)
 
-    def advice(self):
-        return [[list(k), "direct"] for k, *_ in self.products]
+    def forWitness(self, s, i):
+        """ModelConfig.forWitness: the sub-book of keys s :: i :: rest, re-keyed s :: rest."""
+        assert self.prefix is None, "nested forWitness does not occur in the checker"
+        c = Cfg.__new__(Cfg)
+        c.name, c.cutoff, c.taylorN, c.halvings = self.name, self.cutoff, self.taylorN, self.halvings
+        c.parent, c.prefix = self, (s, i)
+        return c
+
+    def root(self):
+        return self.parent.root() if self.prefix is not None else self
+
+    def full_key(self, key):
+        key = tuple(key)
+        if self.prefix is None:
+            return key
+        s, i = self.prefix
+        return (s, i) + key[1:] if key and key[0] == s else None     # never found in the sub-book
+
+    def lookup(self, key):
+        """adviceLookup through the (sub-)book: True iff `direct` advice is found."""
+        fk = self.full_key(key)
+        r = self.root()
+        if fk is None:
+            r.misses.append(("unmappable", self.prefix, tuple(key)))
+            return False
+        r.lookups.append(fk)
+        if r.book is None or fk in r.book:
+            return True
+        r.misses.append(fk)
+        return False
 
 
-def m_mul(a, b, w, cfg, key):
-    """CertModel.mul, `direct` advice: exact product, cutoff truncation into the radius, cross terms."""
+def polyProduct(w, cfg, key, a, b):
+    """CertModel.polyProduct: (items, err) or None.  Scalar route for a constant factor (no lookup)."""
     st = {}
-    if a.is_zero() or b.is_zero():
-        cfg.products.append((tuple(key), len(a.poly[1]), len(b.poly[1]), 0))
-        return Model(a.deg + b.deg, p_zero(), F(0))
-    P = p_mul(a.poly, b.poly, st)
-    cfg.maxK = max([cfg.maxK] + [kabs(k) for k in P[1]])
-    P, drop = p_truncate(P, cfg.cutoff, w)
-    na, nb = p_wnorm(a.poly, w), p_wnorm(b.poly, w)
-    cfg.products.append((tuple(key), len(a.poly[1]), len(b.poly[1]), st["pairs"]))
-    return Model(a.deg + b.deg, P, drop + na * b.rad + nb * a.rad + a.rad * b.rad)
+    root = cfg.root()
+    if isConst(a):
+        out = directItems(a, b, st); route = "scalar"
+    elif isConst(b):
+        out = directItems(b, a, st); route = "scalar"
+    elif cfg.lookup(key):
+        out = directItems(a, b, st); route = "direct"
+    else:
+        out = None; route = "missing"
+    fk = cfg.full_key(key)
+    root.products.append((fk if fk is not None else tuple(key), len(a), len(b), st.get("pairs", 0), route))
+    return None if out is None else (out, ZERO)
 
 
-def m_ofDeriv(j, d, P):
-    return Model(d + 1, p_deriv(P, j), F(0))
+def crossUp(nv, r):
+    return ZERO if r == 0 else nv * r
 
 
-# ---------------------------------------------------------------- witnesses
-def expPinBall(g):
-    """g₀(0) = sum of the coefficients of the polynomial part (exact over ℚ, radius 0)."""
-    return p_value0(g.poly), F(0)
+def mulN(w, cfg, key, a, na, b, nb):
+    """CertModel.mulN / CertModel.mul (na, nb the factors' supNormUp)."""
+    out = polyProduct(w, cfg, key, a.poly, b.poly)
+    if out is None:
+        return Model(a.deg + b.deg, [], (na + a.rad) * (nb + b.rad))
+    items, err = out
+    root = cfg.root()
+    if items:
+        root.maxK = max(root.maxK, max(keyDeg(k) for k, _ in items))
+    keep = [t for t in items if keyDeg(t[0]) <= cfg.cutoff]
+    drop = sumUp(weightTermUp(w, k, normUp(c)) for k, c in items if keyDeg(k) > cfg.cutoff)
+    return Model(a.deg + b.deg, keep,
+                 (err + drop) + ((crossUp(na, b.rad) + crossUp(nb, a.rad)) + a.rad * b.rad))
 
 
-def expWitnessRadius(n, w, rho, cfg, g, E, key):
-    """E = (poly, pinHalvings, pinOrder).  Returns the radius or None (design §1.7, A-E §C)."""
-    Epoly, s, N = E
-    if g.deg != 0:
+def mul(w, cfg, key, a, b):
+    return mulN(w, cfg, key, a, supNormUp(a.poly, w), b, supNormUp(b.poly, w))
+
+
+# ---------------------------------------------------------------- real exponential bounds (Model/ExpBounds)
+def expRemFactor(M):
+    return F(M + 1) / (A.factorial(M) * M)
+
+
+def expSeriesUp(y, k, m, p, S):
+    while k > 0:
+        S = S + p * y * (F(1) / A.factorial(m + 1))
+        p, m, k = p * y, m + 1, k - 1
+    return S + p * y * expRemFactor(m + 1)
+
+
+def expm1Up(s, N, x):
+    """expm1Up: an upper bound of exp x - 1 (None unless x/2^s <= 1 and N >= 1)."""
+    y = F(x) * (F(1) / 2 ** s)
+    if not (y <= 1 and N >= 1):
         return None
-    B = p_wnorm(g.poly, w)
-    pin, prad = expPinBall(g)
-    out = A.certCExpReduced(pin, prad, s, N)
+    z = expSeriesUp(y, N - 1, 0, F(1), ZERO)
+    for _ in range(s):
+        z = z * (2 + z)
+    return z
+
+
+# ---------------------------------------------------------------- witnesses (Model/Exp, Model/Inv)
+def expPinBall(g):
+    b = coeffSumBall(g.poly)
+    return b[0], b[1]
+
+
+def expPinErr(E, out):
+    d = A.b_plus(coeffSumBall(E), (neg(out[0]), out[1]))
+    return normUp(d[0]) + d[1]
+
+
+def expResidualProduct(w, cfg, g0, E, j):
+    dg = derivItems(j, g0)
+    out = polyProduct(w, cfg, (1, j), dg, negP(E))
+    return out if out is not None else (directItems(dg, negP(E)), ZERO)
+
+
+def expResidualUp(w, cfg, g0, E, eN, j):
+    items, err = expResidualProduct(w, cfg, g0, E, j)
+    merged = merge(derivItems(j, E), items)
+    return 2 * PI_UP * ((sumUp(weightTermUp(w, k, normUp(c)) for k, c in merged) + err) + crossUp(eN, ZERO))
+
+
+def expWitnessRadiusOf(n, w, rho, cfg, g, E, out):
+    mB = expm1Up(cfg.halvings, cfg.taylorN, supNormUp(g.poly, w))
+    mEta = expm1Up(cfg.halvings, cfg.taylorN, g.rad)
+    if mB is None or mEta is None:
+        return None
+    eB = 1 + mB
+    eN = supNormUp(E, w)
+    res = sumUp(expResidualUp(w, cfg, g.poly, E, eN, j) for j in range(n))
+    return eB * eB * (expPinErr(E, out) + (F(1, 2) + F(rho)) * res) + eB * mEta
+
+
+def expWitnessRadius(n, w, rho, cfg, g, Ew):
+    """expWitnessRadius: Ew = (poly, pinHalvings, pinOrder)."""
+    E, s, N = Ew
+    z, zr = expPinBall(g)
+    out = A.certCExpReduced(z, zr, s, N)
     if out is None:
         return None
-    E0 = p_value0(Epoly)
-    eps0 = A.normUp((E0[0] - out[0][0], E0[1] - out[0][1])) + out[1]
-    res = F(0)
-    Em = Model(0, Epoly)
-    for j in range(n):
-        dE = m_ofDeriv(j, 0, Epoly)
-        dg = m_ofDeriv(j, 0, g.poly)
-        prod = m_mul(dg, Em, w, cfg, list(key) + [j])
-        diff = Model(1, p_add(dE.poly, prod.poly, -1), prod.rad)
-        res += (F(1, 2) + F(rho)) * supBound(diff, w)
-    eta = g.rad
-    up = lambda q: A.ratExpUp(q, cfg.halvings, cfg.taylorN)
-    return up(2 * B) * (eps0 + res) + up(B) * (up(eta) - 1)
+    return expWitnessRadiusOf(n, w, rho, cfg, g, E, out)
 
 
-def invWitnessRadius(n, w, cfg, b, Q, key):
-    """δ >= sup|1 - Q (P + T)|, δ < 1; radius sup|Q| δ/(1 - δ) (design §1.7, ruling O2)."""
-    prod = m_mul(Model(0, Q), Model(0, b.poly, b.rad), w, cfg, key)
-    one_minus = p_add(p_const((1, 0), n), prod.poly, -1)
-    delta = p_wnorm(one_minus, w) + prod.rad
-    if not delta < 1:
-        return None, delta
-    return p_wnorm(Q, w) * delta / (1 - delta), delta
+def oneSubSupUp(w, u):
+    z = coeffSumBall([t for t in u.poly if isZeroKey(t[0])])
+    d = A.b_plus(A.b_one(), (neg(z[0]), z[1]))
+    return ((normUp(d[0]) + d[1]) + supNormUp([t for t in u.poly if not isZeroKey(t[0])], w)) + u.rad
+
+
+def recipOneSubUp(d):
+    """recipBoundAux 64 δ 1: Π (1 + δ^{2^i}) closed by (1 + 2x) once 2x <= 1 (None after 64 squarings)."""
+    x, acc = F(d), F(1)
+    for _ in range(64):
+        if x + x <= 1:
+            return acc * (1 + (x + x))
+        x, acc = x * x, acc * (1 + x)
+    return None
+
+
+def invWitnessRadius(n, w, cfg, b, Q):
+    """invWitnessRadius: (radius or None, δ)."""
+    d = oneSubSupUp(w, mul(w, cfg, (2,), Model(0, Q, ZERO), Model(0, b.poly, b.rad)))
+    if d < 1:
+        t = recipOneSubUp(d)
+        return (None if t is None else supNormUp(Q, w) * d * t), d
+    return None, d
