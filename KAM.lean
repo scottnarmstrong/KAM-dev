@@ -508,6 +508,8 @@ public import KAM.Planetary.Exponential.Perturbation
 public import KAM.Planetary.Exponential.RealDomain
 public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Exponential.UniformData
+public import KAM.Planetary.FixedAssembly.Data
+public import KAM.Planetary.FixedAssembly.TwoPlanet
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Hamiltonian.Diophantine
@@ -1092,6 +1094,7 @@ public import KAM.Planetary.WeakKAM.Limit
 public import KAM.Planetary.WeakKAM.LimitProps
 public import KAM.Planetary.WeakKAM.LimitSeries
 public import KAM.Planetary.WeakKAM.ParameterLipschitz
+public import KAM.Planetary.WeakKAM.PolynomialBudget
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakKAM.Selection
 public import KAM.Planetary.WeakKAM.SelectionRecord
