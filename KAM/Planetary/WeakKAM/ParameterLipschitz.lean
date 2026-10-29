@@ -37,7 +37,9 @@ theorem collar_increment_lipschitz (K : Set (SelectionR n)) (t e : ℝ)
       ‖g (selectionReal b) - g (selectionReal b')‖ ≤ 4 * e / t * ‖b - b'‖ := by
   intro b hb0 b' hb'
   have hmem : ∀ x ∈ K, selectionReal x ∈ actionNbhd K t := fun x hx =>
-    ⟨x, hx, by simpa using ht⟩
+    ⟨x, hx, by
+      have : selectionReal x - (fun i => ((x i : ℝ) : ℂ)) = 0 := sub_self _
+      rw [this, norm_zero]; exact ht⟩
   have hnn : 0 ≤ ‖b - b'‖ := norm_nonneg _
   by_cases hfar : t / 2 ≤ ‖b - b'‖
   · have h2 : ‖g (selectionReal b) - g (selectionReal b')‖ ≤ 2 * e :=
@@ -45,7 +47,7 @@ theorem collar_increment_lipschitz (K : Set (SelectionR n)) (t e : ℝ)
     refine h2.trans ?_
     rw [div_mul_eq_mul_div, le_div_iff₀ ht]
     nlinarith
-  · push_neg at hfar
+  · push Not at hfar
     have hU : IsOpen (actionNbhd K t) := p11_isOpen_actionNbhd K t
     have hseg : ∀ x ∈ segment ℝ (selectionReal b) (selectionReal b'),
         closedBall x (t / 2) ⊆ actionNbhd K t := by
@@ -60,10 +62,10 @@ theorem collar_increment_lipschitz (K : Set (SelectionR n)) (t e : ℝ)
           collar_real_sub, norm_selectionReal, Real.norm_of_nonneg hβ]
         nlinarith
       rw [mem_closedBall, dist_eq_norm] at hw
-      calc ‖w - selectionReal b‖ = ‖(w - (α • selectionReal b + β • selectionReal b')) +
-            (α • selectionReal b + β • selectionReal b' - selectionReal b)‖ := by congr 1; abel
-        _ < t := by linarith [norm_add_le (w - (α • selectionReal b + β • selectionReal b'))
-            (α • selectionReal b + β • selectionReal b' - selectionReal b)]
+      have h2 := norm_sub_le_norm_sub_add_norm_sub w (α • selectionReal b + β • selectionReal b')
+        (selectionReal b)
+      show ‖w - selectionReal b‖ < t
+      linarith
     have hder : ∀ x ∈ segment ℝ (selectionReal b) (selectionReal b'),
         ‖fderiv ℂ g x‖ ≤ e / (t / 2) := fun x hx =>
       KAM.norm_fderiv_le_of_closedBall hU hg (half_pos ht) (hseg x hx) hb
@@ -104,7 +106,7 @@ theorem lipFam_t_succ_le (j : ℕ) : selectiont a (j + 1) ≤ selectiont a j := 
     inv_le_one_of_one_le₀ (Real.one_le_rpow (by norm_num) (by linarith [h.hτ]))
   rw [selectiont_eq, selectiont_eq, pow_succ]
   have h0 : 0 ≤ (((2 : ℝ) ^ (a.τ + 1))⁻¹) ^ j := by positivity
-  nlinarith [h.ht]
+  exact mul_le_mul_of_nonneg_left (mul_le_of_le_one_right h0 hx) h.ht.le
 
 /-- Step `lf-stage` of `bpP:p11a:lipschitz-family`, for the parameter increment of one stage. -/
 theorem lipFam_stage (hb : b ∈ c.Kinf) (hb' : b' ∈ c.Kinf) (θ : SelectionR n) (j : ℕ) :
@@ -126,7 +128,8 @@ theorem lipFam_stage (hb : b ∈ c.Kinf) (hb' : b' ∈ c.Kinf) (θ : SelectionR 
         (actionNbhd (c.K ν) (selectiont a ν)) := fun ν hν β hβ => by
     obtain ⟨J, hJ, hd⟩ := hβ
     refine ⟨fun i => (hθ i).trans_le (iter_strip cx ν).1, ?_, J, hKinf ν hJ, hd.trans_le hν⟩
-    simpa using wbud_s_pos cx.hyp ν
+    show ‖(0 : SelectionC n)‖ < _
+    rw [norm_zero]; exact wbud_s_pos cx.hyp ν
   have hd1 : ∀ β ∈ actionNbhd c.Kinf (selectiont a (j + 1)),
       (z0, β) ∈ selectionDomain (selectionr a (j + 1)) (selections a (j + 1))
         (actionNbhd (c.K (j + 1)) (selectiont a (j + 1))) := fun β hβ => hdom (j + 1) le_rfl β hβ
@@ -181,10 +184,10 @@ theorem lipFam_limit (cx : WeakBudgetCtx d a)
       max_le (by linarith [lipFam_alpha_nonneg cx j]) (by linarith [(wbud_stage cx.hyp j).2.1])
     have : selectionLimBound a j ≤ (1 + (2 : ℝ)⁻¹ ^ 11) * (selectionA a j + selectionAlpha a j) :=
       mul_le_mul_of_nonneg_left hm (by positivity)
-    rw [hv]
-    simp only
-    rw [div_le_iff₀ ht, mul_assoc, mul_div_assoc', div_mul_cancel₀ _ ht.ne']
-    linarith
+    calc 4 * selectionLimBound a j / selectiont a (j + 1)
+        ≤ 4 * ((1 + (2 : ℝ)⁻¹ ^ 11) * (selectionA a j + selectionAlpha a j)) /
+          selectiont a (j + 1) := by gcongr
+      _ = 4 * (1 + (2 : ℝ)⁻¹ ^ 11) * v j := by rw [hv]; ring
   have hstage : ∀ ν, ‖selectionLimStage L.toSelectionChain b ν (selectionReal θ) -
       selectionLimStage L.toSelectionChain b' ν (selectionReal θ)‖ ≤
       (4 * (1 + (2 : ℝ)⁻¹ ^ 11) * ∑' j, v j) * ‖b - b'‖ := fun ν => by
