@@ -7,7 +7,7 @@ module
 
 public import KAM.Certificate.Arith.ComplexExp
 public import KAM.Certificate.Arith.Rat
-public import KAM.Certificate.Expr.Slp
+public import KAM.Certificate.Expr.Diff
 public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.Arith.PiHigh
 
@@ -314,6 +314,206 @@ theorem ballStep_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight
     convert hb using 1
     push_cast
     rfl
+
+theorem ballsAux_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight WH s N = true)
+    {centre radius : List ℚ} {taylorN : ℕ} {z : (Fin n → ℂ) × (Fin n → ℂ)}
+    (hz : z ∈ certDomain n WH.rho centre radius) (ops : List SlpOp) :
+    ∀ (V : List ℂ) (acc bs : List (CC ℚ × ℚ)), BallRel V acc →
+      ballsAux n WH centre radius taylorN acc ops = some bs →
+      BallRel (ops.foldl (fun acc op => acc ++ [op.step n z acc]) V) bs := by
+  induction ops with
+  | nil =>
+    intro V acc bs hR h
+    simp only [ballsAux, Option.some.injEq] at h
+    subst h
+    exact hR
+  | cons op ops ih =>
+    intro V acc bs hR h
+    simp only [ballsAux, Option.bind_eq_some_iff] at h
+    obtain ⟨b, hb, h⟩ := h
+    exact ih _ _ _ (hR.snoc (ballStep_sound hW hz hR hb)) h
+
+theorem Slp.val_mem_ball {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
+    (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
+    {bs : List (CC ℚ × ℚ)} (h : p.balls n WH centre radius taylorN = some bs)
+    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ certDomain n WH.rho centre radius) (i : ℕ)
+    (hi : i < bs.length) :
+    ‖p.val n z i - (bs.getD i (⟨0, 0⟩, 0)).1.toC‖ ≤ (bs.getD i (⟨0, 0⟩, 0)).2 :=
+  have _ := hi
+  (ballsAux_sound hW hz p.ops [] [] bs BallRel.nil h).2 i
+
+/-! ### Certified denominators -/
+
+theorem ballsAux_prefix_inv {n : ℕ} {WH : CertWeight} {centre radius : List ℚ} {taylorN : ℕ}
+    (ops : List SlpOp) :
+    ∀ (acc bs : List (CC ℚ × ℚ)), ballsAux n WH centre radius taylorN acc ops = some bs →
+      acc <+: bs ∧ ∀ j a : ℕ, ops[j]? = some (SlpOp.inv a) →
+        (bs.getD a ballZero).2 < max |(bs.getD a ballZero).1.re| |(bs.getD a ballZero).1.im| := by
+  induction ops with
+  | nil =>
+    intro acc bs h
+    simp only [ballsAux, Option.some.injEq] at h
+    subst h
+    exact ⟨List.prefix_refl _, fun j a hj => by simp at hj⟩
+  | cons op ops ih =>
+    intro acc bs h
+    simp only [ballsAux, Option.bind_eq_some_iff] at h
+    obtain ⟨b, hb, h⟩ := h
+    obtain ⟨hp, hinv⟩ := ih _ _ h
+    refine ⟨(List.prefix_append acc [b]).trans hp, fun j a hj => ?_⟩
+    cases j with
+    | succ j => exact hinv j a hj
+    | zero =>
+      simp only [List.getElem?_cons_zero, Option.some.injEq] at hj
+      subst hj
+      simp only [ballStep] at hb
+      split_ifs at hb with hlt
+      by_cases ha : a < acc.length
+      · obtain ⟨t, ht⟩ := (List.prefix_append acc [b]).trans hp
+        rw [← ht, List.getD_eq_getElem?_getD, List.getElem?_append_left ha,
+          ← List.getD_eq_getElem?_getD]
+        exact hlt
+      · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega)] at hlt
+        simp [ballZero] at hlt
+
+/-- Every `inv` operation of `ops` has an operand that is nonzero at every point of `S`. -/
+def SlpInvGood (n : ℕ) (S : Set ((Fin n → ℂ) × (Fin n → ℂ))) (ops : List SlpOp) : Prop :=
+  ∀ j a : ℕ, ops[j]? = some (SlpOp.inv a) → ∀ z ∈ S, (Slp.vals n z ops).getD a 0 ≠ 0
+
+/-- Successful ball arithmetic certifies every `inv` operand on `D`. -/
+theorem Slp.invGood_of_balls {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
+    (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
+    {bs : List (CC ℚ × ℚ)} (h : p.balls n WH centre radius taylorN = some bs) :
+    SlpInvGood n (certDomain n WH.rho centre radius) p.ops := by
+  intro j a hj z hz
+  obtain ⟨-, hinv⟩ := ballsAux_prefix_inv p.ops [] bs h
+  have hlt := hinv j a hj
+  have ha : a < bs.length := by
+    by_contra hna
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega)] at hlt
+    simp [ballZero] at hlt
+  have hmem := Slp.val_mem_ball p hW h hz a ha
+  set x := bs.getD a ballZero with hx
+  have hmem' : ‖Slp.val n p z a - x.1.toC‖ ≤ (x.2 : ℝ) := hmem
+  have hlt' : (x.2 : ℝ) < max |(x.1.re : ℝ)| |(x.1.im : ℝ)| := by exact_mod_cast hlt
+  have hmc : max |(x.1.re : ℝ)| |(x.1.im : ℝ)| ≤ ‖x.1.toC‖ :=
+    max_le (Complex.abs_re_le_norm x.1.toC) (Complex.abs_im_le_norm x.1.toC)
+  exact (inv_ball_bound hlt' hmc hmem').1
+
+variable {n : ℕ}
+
+local notation "Ph" => (Fin n → ℂ) × (Fin n → ℂ)
+
+theorem jetSmoothOn_empty (f : Ph → ℂ) : JetSmoothOn (∅ : Set Ph) f := contDiffOn_empty
+
+theorem slpInvNode_emit_prefix {S : Set Ph} (hS : IsOpen S) {f : Ph → ℂ}
+    (hf : JetSmoothOn S f) (h0 : ∀ z ∈ S, f z ≠ 0) {s : List SlpOp} {A : SlpNode}
+    (hA : A.Sound n S f s) : s ++ [SlpOp.inv A.v] <+: (slpInvNode n s A).1 := by
+  have hp1 : s <+: (slpEmit s (.inv A.v)).1 := slpEmit_prefix _ _
+  have hw : Realizes n S (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+      (fun z => (f z)⁻¹) :=
+    slpEmit_realizes _ _ _ fun z _ => by simp only [SlpOp.step]; rw [hA.val z]
+  obtain ⟨p2, hw2⟩ := slpMulO_spec hw hw
+  obtain ⟨p3, hw3⟩ := slpMulO_spec (hw.mono p2) hw2
+  have hvlt : s.length < (slpEmit s (.inv A.v)).1.length := by simp [slpEmit]
+  have hval : ∀ z : Ph, (Slp.vals n z (slpMulO (slpMulO (slpEmit s (.inv A.v)).1
+      (slpEmit s (.inv A.v)).2 (slpEmit s (.inv A.v)).2).1 (slpEmit s (.inv A.v)).2
+      (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+        (slpEmit s (.inv A.v)).2).2).1).getD s.length 0 = (f z)⁻¹ := by
+    intro z
+    obtain ⟨t, ht⟩ := p2.trans p3
+    rw [← ht, Slp.val_append n z _ t hvlt]
+    show (Slp.vals n z (s ++ [SlpOp.inv A.v])).getD s.length 0 = _
+    rw [Slp.val_snoc_self]
+    simp only [SlpOp.step]
+    rw [hA.val z]
+  have hp : s <+: (slpMulO (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+      (slpEmit s (.inv A.v)).2).1 (slpEmit s (.inv A.v)).2
+      (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+        (slpEmit s (.inv A.v)).2).2).1 := hp1.trans (p2.trans p3)
+  obtain ⟨p, -⟩ := slpInvTail_sound hS hf h0 (hA.mono hp)
+    (hvlt.trans_le (p2.trans p3).length_le) hval (hw2.mono p3) hw3
+  exact (p2.trans p3).trans p
+
+theorem HamExpr.nonvanishingOn_of_inv_good {D : Set Ph} (hD : IsOpen D) (e : HamExpr n) :
+    ∀ (s ops : List SlpOp), (slpCompile e s).1 <+: ops → SlpInvGood n D ops →
+      e.NonvanishingOn D := by
+  induction e with
+  | const q => intros; trivial
+  | pi => intros; trivial
+  | action j => intros; trivial
+  | cosMode k => intros; trivial
+  | sinMode k => intros; trivial
+  | add a b iha ihb =>
+    intro s ops hp hg
+    obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    obtain ⟨p2, h2⟩ := slpCompile_sound b isOpen_empty b.nonvanishingOn_empty (slpCompile a s).1
+    obtain ⟨p3, -⟩ := slpAddNode_sound isOpen_empty (jetSmoothOn_empty _) (jetSmoothOn_empty _)
+      (h1.mono p2) h2
+    exact ⟨iha s ops ((p2.trans p3).trans hp) hg, ihb _ ops (p3.trans hp) hg⟩
+  | mul a b iha ihb =>
+    intro s ops hp hg
+    obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    obtain ⟨p2, h2⟩ := slpCompile_sound b isOpen_empty b.nonvanishingOn_empty (slpCompile a s).1
+    obtain ⟨p3, -⟩ := slpMulNode_sound isOpen_empty (jetSmoothOn_empty _) (jetSmoothOn_empty _)
+      (h1.mono p2) h2
+    exact ⟨iha s ops ((p2.trans p3).trans hp) hg, ihb _ ops (p3.trans hp) hg⟩
+  | div a b iha ihb =>
+    intro s ops hp hg
+    obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    obtain ⟨p2, h2⟩ := slpCompile_sound b isOpen_empty b.nonvanishingOn_empty (slpCompile a s).1
+    have h2' := slpInvNode_sound isOpen_empty (jetSmoothOn_empty _) (fun z hz => absurd hz
+      (Set.notMem_empty z)) h2
+    have hemit := slpInvNode_emit_prefix isOpen_empty (jetSmoothOn_empty _)
+      (fun z hz => absurd hz (Set.notMem_empty z)) h2
+    obtain ⟨p3, -⟩ := slpMulNode_sound isOpen_empty (jetSmoothOn_empty _) (jetSmoothOn_empty _)
+      ((h1.mono p2).mono h2'.1) h2'.2
+    have hp' : (slpInvNode n (slpCompile b (slpCompile a s).1).1
+        (slpCompile b (slpCompile a s).1).2).1 <+: ops :=
+      p3.trans hp
+    have hA := iha s ops (p2.trans (h2'.1.trans p3) |>.trans hp) hg
+    have hB := ihb _ ops ((h2'.1).trans hp') hg
+    refine ⟨hA, hB, fun z hz => ?_⟩
+    obtain ⟨hpb, hb⟩ := slpCompile_sound b hD hB (slpCompile a s).1
+    have hget : ops[(slpCompile b (slpCompile a s).1).1.length]? =
+        some (SlpOp.inv (slpCompile b (slpCompile a s).1).2.v) := by
+      obtain ⟨t, ht⟩ := hemit.trans hp'
+      rw [← ht, List.getElem?_append_left (by simp)]
+      simp
+    have hne := hg _ _ hget z hz
+    obtain ⟨t, ht⟩ := hemit.trans hp'
+    have e : ops = (slpCompile b (slpCompile a s).1).1 ++ ([SlpOp.inv
+        (slpCompile b (slpCompile a s).1).2.v] ++ t) := by rw [← ht]; simp
+    rw [e, Slp.val_append n z _ _ hb.v_lt, hb.val z] at hne
+    exact hne
+  | pow a m iha =>
+    intro s ops hp hg
+    obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    obtain ⟨p2, -⟩ := slpPowNode_sound isOpen_empty (jetSmoothOn_empty _) h1 m
+    exact iha s ops (p2.trans hp) hg
+  | exp a iha =>
+    intro s ops hp hg
+    obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    obtain ⟨p2, -⟩ := slpExpNode_sound isOpen_empty (jetSmoothOn_empty _) h1
+    exact iha s ops (p2.trans hp) hg
+  | sin a iha =>
+    intro s ops hp hg
+    obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    obtain ⟨p2, -⟩ := slpTrigNode_sound isOpen_empty (jetSmoothOn_empty _) h1 0 (-1 / 2) 0 (1 / 2)
+    exact iha s ops (p2.trans hp) hg
+  | cos a iha =>
+    intro s ops hp hg
+    obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    obtain ⟨p2, -⟩ := slpTrigNode_sound isOpen_empty (jetSmoothOn_empty _) h1 (1 / 2) 0 (1 / 2) 0
+    exact iha s ops (p2.trans hp) hg
+
+/-- Successful ball arithmetic on the jet program certifies every denominator on `D`. -/
+theorem HamExpr.nonvanishingOn_of_balls {n : ℕ} (e : HamExpr n) {WH : CertWeight} {s N : ℕ}
+    (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
+    {bs : List (CC ℚ × ℚ)} (h : e.jet.prog.balls n WH centre radius taylorN = some bs) :
+    e.NonvanishingOn (certDomain n WH.rho centre radius) :=
+  HamExpr.nonvanishingOn_of_inv_good (isOpen_certDomain n WH.rho centre radius) e [.const 0 0 0]
+    e.jet.prog.ops (List.prefix_refl _) (Slp.invGood_of_balls e.jet.prog hW h)
 
 end KAM.Certificate
 
