@@ -225,17 +225,27 @@ theorem ci_alg {L : ℝ} (hL : 0 < L) (ℓ g : ℝ) :
       (2 * π)⁻¹ * ∫ s in (0 : ℝ)..2 * π, 1 / planeLength (orbitMapR s g L e).1 = 1 / L ^ 2 ∧
       (2 * π)⁻¹ * ∫ s in (0 : ℝ)..2 * π, planeSq (orbitMapR s g L e).2 = 1 / L ^ 2 ∧
       (2 * π)⁻¹ * ∫ s in (0 : ℝ)..2 * π, planeLength (orbitMapR s g L e).1 =
-        L ^ 2 * (1 + e ^ 2 / 2)) ∧
+        L ^ 2 * (1 + e ^ 2 / 2) ∧
+      (L ^ 2 * (1 - e) ≤ planeLength (orbitMapR ℓ g L e).1 ∧
+        planeLength (orbitMapR ℓ g L e).1 ≤ L ^ 2 * (1 + e)) ∧
+      planeDot (orbitMapR ℓ g L e).1 (orbitMapR ℓ g L e).2 =
+        L * e * Real.sin (eccAnom ℓ e)) ∧
     (eccAnom ℓ 0 = ℓ ∧ planeLength (orbitMapR ℓ g L 0).1 = L ^ 2 ∧
       planeLength (orbitMapR ℓ g L 0).2 = 1 / L ∧ kE (orbitMapR ℓ g L 0) = -1 / (2 * L ^ 2) ∧
-      planeCross (orbitMapR ℓ g L 0).1 (orbitMapR ℓ g L 0).2 = L) := by
+      planeCross (orbitMapR ℓ g L 0).1 (orbitMapR ℓ g L 0).2 = L ∧
+      (L ^ 2 * (1 - 0) ≤ planeLength (orbitMapR ℓ g L 0).1 ∧
+        planeLength (orbitMapR ℓ g L 0).1 ≤ L ^ 2 * (1 + 0)) ∧
+      planeDot (orbitMapR ℓ g L 0).1 (orbitMapR ℓ g L 0).2 =
+        L * 0 * Real.sin (eccAnom ℓ 0)) := by
   refine ⟨fun e he0 he1 => ⟨orbitMapR_radius hL he0 he1, orbitMapR_speed_sq hL he0 he1,
     orbitMapR_energy hL he0 he1, orbitMapR_cross hL he0 he1,
     orbitMapR_mean_inv_radius hL he0 he1, orbitMapR_mean_speed_sq hL he0 he1,
-    orbitMapR_mean_radius hL he0 he1⟩, ?_⟩
+    orbitMapR_mean_radius hL he0 he1, orbitMapR_radius_bounds hL he0 he1,
+    orbitMapR_dot hL he0 he1⟩, ?_⟩
   have h0 : (0 : ℝ) ≤ 0 := le_rfl
   have h1 : (0 : ℝ) < 1 := one_pos
-  refine ⟨eccAnom_zero_ecc ℓ, ?_, ?_, orbitMapR_energy hL h0 h1, ?_⟩
+  refine ⟨eccAnom_zero_ecc ℓ, ?_, ?_, orbitMapR_energy hL h0 h1, ?_,
+    orbitMapR_radius_bounds hL h0 h1, orbitMapR_dot hL h0 h1⟩
   · rw [orbitMapR_radius hL h0 h1]; ring
   · have hsq := orbitMapR_speed_sq (ℓ := ℓ) (g := g) hL h0 h1
     have hp : planeLength (orbitMapR ℓ g L 0).2 ^ 2 = (1 / L) ^ 2 := by
