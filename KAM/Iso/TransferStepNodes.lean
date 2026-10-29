@@ -29,6 +29,7 @@ landed declarations.
 @[expose] public noncomputable section
 
 open Set Metric Real
+open scoped ContDiff
 
 namespace KAM.Iso
 
@@ -84,7 +85,7 @@ theorem he_smooth (μ : ℝ) :
     simp only [hsq]
     exact ((((a1 0 z hz).pow 2).add ((a1 1 z hz).pow 2)).div_const).add
       ((a0 1 z hz).mul (a1 0 z hz)) |>.sub ((a0 0 z hz).mul (a1 1 z hz))
-  · exact (analyticOnNhd_restrictedHamTotal μ).contDiffOn
+  · exact (analyticOnNhd_restrictedHamTotal μ).contDiffOn (isOpen_collisionFree μ).uniqueDiffOn
 
 /-- The `k = √(1 - e²)` clause of `bpI:p7:orbit-maps-e`: on `{(ℓ, g, L, e, k) : (ℓ, e) ∈ 𝒫(e₁),
 L ≠ 0}` one has `Re (1 - e²) > 0`, so the principal square root `k = (1 - e²)^{1/2}` is
@@ -100,7 +101,7 @@ theorem orbitMapC_k_holomorphic {e₁ : ℝ} (h0 : 0 < e₁) (h1 : e₁ < 1) :
       (orbitDomC e₁) := by
   have hre : ∀ x ∈ orbitDomC e₁, 0 < (1 - x 3 ^ 2).re := by
     intro x hx
-    have hb := (KAM.Kepler.tube_bounds h0 hx.1).1
+    have hb := (Tube.tube_bounds h0 hx.1).1
     have hlt : ‖x 3‖ < 1 := lt_of_le_of_lt hb (by unfold keplerE2; linarith)
     have h2 : (x 3 ^ 2).re ≤ ‖x 3 ^ 2‖ := Complex.re_le_norm _
     rw [norm_pow] at h2
@@ -116,13 +117,12 @@ theorem orbitMapC_k_holomorphic {e₁ : ℝ} (h0 : 0 < e₁) (h1 : e₁ < 1) :
     exact (hd.cpow (differentiableAt_const _) (hslit x hx)).differentiableWithinAt
   have hsqrt : ∀ x ∈ orbitDomC e₁, ((1 - x 3 ^ 2) ^ (2⁻¹ : ℂ)) ^ 2 = 1 - x 3 ^ 2 := by
     intro x _
-    have := Complex.cpow_nat_inv_pow (1 - x 3 ^ 2) (n := 2) (by norm_num)
-    simpa using this
+    simp
   refine ⟨hre, hk, hsqrt, ?_, ?_⟩
   · intro e he
     have h : (0 : ℝ) ≤ 1 - e ^ 2 := by linarith
     have := Complex.ofReal_cpow h (2⁻¹ : ℝ)
-    rw [Real.sqrt_eq_rpow]
+    rw [Real.sqrt_eq_rpow, one_div]
     push_cast at this ⊢
     exact this.symm
   · have hu : DifferentiableOn ℂ
@@ -163,7 +163,8 @@ theorem tr_cf {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K < 1
   exact periodOneMapC_mem_UDelta hδ hB hmem
 
 open PeriodOneAux in
-/-- `stepI:p7:tr-chain`: for `t ∈ J`, `z̃'(t) = X_{realHamiltonian h̃ f̃_μ}(z̃(t)) = X_{H ∘ 𝖰 ∘ 𝖲}(z̃(t))`;
+/-- `stepI:p7:tr-chain`: for `t ∈ J`, `z̃'(t) = X_{realHamiltonian h̃ f̃_μ}(z̃(t))
+= X_{H ∘ 𝖰 ∘ 𝖲}(z̃(t))`;
 `(𝖰 ∘ 𝖲 ∘ z̃)'(t) = D𝖰(𝖲 z̃(t)) (𝖲 z̃'(t)) = X_{H^R3_μ}(z(t)) = V_μ(z(t))`; and the formulas for
 `rad(q)` and the energy. -/
 theorem tr_chain {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K < 1)
@@ -208,8 +209,8 @@ theorem tr_chain {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K 
   have hev : realHamiltonian (keplerRotH ((2 * π) ^ 2) (1 / (2 * π))) (tildeF K μ)
       =ᶠ[nhds (zt t)] fun z => restrictedHamTotal μ (delaunay (periodOneMap z)) := by
     filter_upwards [hOopen.mem_nhds hmem] with z hzO
-    obtain ⟨-, -, -, heq⟩ := periodOne_real hK hρ hB hμ hzO
-    exact heq.symm
+    obtain ⟨-, -, hcf', hh⟩ := periodOne_real hK hρ hB hμ hzO
+    exact hh.symm
   have hRd : DifferentiableAt ℝ (restrictedHamTotal μ) (delaunay (periodOneMap (zt t))) :=
     ((analyticOnNhd_restrictedHamTotal μ) _ hcf).differentiableAt
   have hQd : DifferentiableAt ℝ delaunay (periodOneMap (zt t)) :=
@@ -233,15 +234,15 @@ theorem tr_chain {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K 
       hamiltonianVectorField (restrictedHamTotal μ) (delaunay (periodOneMap (zt t))) := by
     rw [hSv]
     exact delaunay_hamiltonianVectorField hdom hRd
-  refine ⟨hder, hfield, ?_, hX, ⟨hcf, restrictedVectorField_eq_hamiltonian hcf |>.symm⟩, ?_⟩
+  refine ⟨hder, hfield, ?_, ⟨hX, hcf, (restrictedVectorField_eq_hamiltonian hcf).symm⟩, ?_⟩
   · rw [hSv]; exact hQ
   · intro w z
     obtain ⟨hG, hGL⟩ := hdom
     have hL : 0 < w.2 0 := hG.trans hGL
     obtain ⟨he0, he1⟩ := ComplexDomainAux.eccOf_pos_lt_one hG hGL
     have hel := delaunay_elements ⟨hG, hGL⟩
-    obtain ⟨-, -, hcf', heq⟩ := periodOne_real hK hρ hB hμ hmem
-    exact ⟨orbitMapR_radius hL he0.le he1, hel.1, hel.2.1, hel.2.2.1, hel.2.2.2, hcf', heq⟩
+    obtain ⟨-, -, hcf', hh⟩ := periodOne_real hK hρ hB hμ hmem
+    exact ⟨orbitMapR_radius hL he0.le he1, hel.1, hel.2.1, hel.2.2.1, hel.2.2.2, hcf', hh⟩
 
 end Part7TransferSteps
 
