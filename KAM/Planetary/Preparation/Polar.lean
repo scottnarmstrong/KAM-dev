@@ -115,7 +115,7 @@ def p11PolarScaleL : Phase (n + n) →ₗ[ℝ] Phase (n + n) where
 def p11PolarScale : Phase (n + n) →L[ℝ] Phase (n + n) :=
   LinearMap.toContinuousLinearMap p11PolarScaleL
 
-private theorem p11PolarScale_apply (z : Phase (n + n)) :
+theorem p11PolarScale_apply (z : Phase (n + n)) :
     p11PolarScale z = (Fin.append (fast z.1) ((2 * Real.pi) • slow z.1),
       Fin.append (fast z.2) ((2 * Real.pi)⁻¹ • slow z.2)) := rfl
 
