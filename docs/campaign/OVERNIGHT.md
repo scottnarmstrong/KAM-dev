@@ -742,3 +742,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   LipStar, instance psi_lipStar). p11:sec-E#data: F1/F2 resolved (literal E and the mapping iff 2 eps <= s2/2); the node
   still needs the owner's F3 ruling (p11PreparedData selector) and coverage of its H2 identity, domain table and
   normalized frequency formulas. Graph P: 1153 PROVED, 44 open (lane N or owner rulings).
+- **11:40. Track SO progress; SO-GEN lands without an independent audit (ruling).** SO-GEN (Python generator and
+  exact candidate data) reproduces the pilot: p ranges to all displayed digits, Ĉ_Δ, ĉ_*, the 1.3366e-100 threshold;
+  at truncation 1e-130 the exact finite-data residual is 2.4e-117 (lower) and 2.6e-112 (upper), with about 19k
+  coefficients and 1.6 MB per torus. The residual cancels massively in Q(sqrt 5) (1e-3 terms down to 1e-121), so the
+  Lean checker must use exact Q(sqrt 5) arithmetic. Ruling: the generator is untrusted tooling whose outputs the Lean
+  checker verifies, so it lands after an orchestrator review without a Codex audit (Codex quota is low: codex-1 2%,
+  codex-3 3%). Landed so far: SO-DIO, SO-MODEL, SO-CLOCK, SO-PI. Design Revision 2 and SO-CONST are in round-2 audits.
+- **11:55. Replay gate verdict and the constants lever (owner decision: study first).** SO-REPLAY: NO-GO for naive
+  sparse products at the lunar scale (kernel interpretation ~2.3 ms and ~190 KB per coefficient pair; precision is
+  nearly free; numeral cap 2^24 bits); conditional GO for sharded Kronecker-packed products checked against supplied
+  advice (projected tens of CPU-hours), measured next by SO-REPLAY2. Owner chose "study first, decide later" on a
+  sharper explicit-constants theorem: a read-only Opus study (factor decomposition of the 1.3e-100 threshold, best
+  in-theorem parameters, ranked sharpening options) runs in parallel. Incident: SO-REPLAY ran `pkill -x lean` at about
+  11:04, which signals every lean process on the machine; all briefs now forbid killing by name.
