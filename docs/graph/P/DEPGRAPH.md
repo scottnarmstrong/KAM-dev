@@ -11307,9 +11307,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:dom-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: isOpen_collisionFreeDomain (KAM/Planetary/Newtonian/Models.lean)
+LEAN_NOTE: LEAN_REF audit LREF-P-audit-1 CLOSABLE
 NOTE: -
 
 NODE: stepP:p6:dom-smooth
@@ -11584,9 +11584,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:he-f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hamilton_eqs_fixed, fixedField_blocks (KAM/Planetary/Newtonian/HamiltonNodes.lean); hamiltonianVectorField_fixed (KAM/Planetary/Newtonian/Models.lean)
+LEAN_NOTE: LEAN_REF audit LREF-P-audit-1 CLOSABLE (first component of hamilton_eqs_fixed G m0 m eps)
 NOTE: -
 
 NODE: stepP:p6:he-curve
