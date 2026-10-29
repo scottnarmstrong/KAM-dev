@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakMeasure.Sublevel
 
 /-!
-# Measure of the small-divisor set (blueprint `bpP:p11a:diophantine-measure`, P11A-W7)
+# Measure of the small-divisor set (blueprint `bpP:p11a:diophantine-measure`)
 
 Compactness of the good set (`stepP:p11a:dm-compact`, `p11_dm_compact`), the union of sublevel sets
 (`stepP:p11a:dm-union`, `p11_dm_union`), the sublevel estimate for one mode

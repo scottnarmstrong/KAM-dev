@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Nekhoroshev.Interfaces.Norms
 
 /-!
-# Weak-measure conventions and amounts (P11A-W0)
+# Weak-measure conventions and amounts
 
 Carriers, Euclidean gauges `p11dg`/`p11op`, thickenings, jet bounds, the amount `index_def` and the
 least positive index `p11Index`, the patch/hypothesis structures of the sublevel and Diophantine

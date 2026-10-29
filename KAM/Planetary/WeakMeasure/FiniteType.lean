@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakMeasure.Basic
 public import KAM.Planetary.Nondegeneracy.FiniteType
 
 /-!
-# Weak-measure finite type: port of Part 10 (P11A-W2b)
+# Weak-measure finite type: port of Part 10
 
 Blueprint P, Part 11a (`bpP:p11a:rank-compact`). The Part 10 declarations `finite_type`,
 `cp09_lemma1`, `cp09_unsquared` (and `rnd_def`) already exist in

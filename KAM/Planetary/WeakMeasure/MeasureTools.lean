@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakMeasure.Basic
 
 /-!
-# Measure tools for the weak-measure layer (blueprint `bpP:p11a:f-meas`, P11A-W5)
+# Measure tools for the weak-measure layer (blueprint `bpP:p11a:f-meas`)
 
 Two Lebesgue-measure helpers on the ambient Pi carriers:
 
