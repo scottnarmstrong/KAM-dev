@@ -95,7 +95,7 @@ theorem prepared {n : ℕ} (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
     (p11PrepQ D nu eps) heps hεM (by linarith) hc3c hzs h5 hF hS
     (fun ρ _ J _ => p11_prep_chk_eq D nu heps.ne' J ρ)
   have hfr := p11_prep_freqR_eq heps h5 hs2 hS
-  exact ⟨⟨b1, b2, b3, b4, b5, b6, b7, b8, hbb.1, hbb.2, hfr, fun ρ hρ => hcc ρ hρ, hdd.1, b9⟩,
+  exact ⟨⟨b1, b2, b3, b4, b5, b6, b7, b8, hbb.1, hbb.2.1, hfr, fun ρ hρ => hcc ρ hρ, hdd.1, b9⟩,
     fun ρ _ J _ => p11_prep_chk_eq D nu heps.ne' J ρ, fun ρ hρ => hcc ρ hρ, hdd.2.1, hdd.2.2⟩
 
 end KAM.Planetary
