@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 18:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · SO checker 56 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **264,109 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 18:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · SO checker 56 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **264,109 lines of Lean** of an estimated ≈ 274,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -202,7 +202,7 @@ Overall, everything together: 89.3 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **264,109** (206,542 excluding blank lines and comments) · **+111,313** since 2026-10-28 18:00 UTC |
-| Written on agent branches, not yet landed | 1,215 |
+| Written on agent branches, not yet landed | 1,426 |
 | **Estimated total at completion** | **≈ 274,000** |
 | Estimated still to write | ≈ 9,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 89.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 18:00 UTC from `main` at `da067b01` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 18:20 UTC from `main` at `4f975c82` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -371,8 +371,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: kernel_replay: C-locale comm | `inp-iguards` | 3 (vs `inp`) |
-| **somalg** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-MALG: Model/Ops (ModelConfig, add/mul/trim/toDeg/ofDeriv and their Encloses contracts,  | `inp-somalg` | 2 (vs `inp`) |
+| **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: kernel_replay: batched, direct leanchecker, robust timing; fast mode verified | `inp-iguards` | 4 (vs `inp`) |
+| **somalg** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-MALG: Tests/Model (product routes, scalar route, crude fallback, add/trim/ofDeriv/toDeg | `inp-somalg` | 3 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
