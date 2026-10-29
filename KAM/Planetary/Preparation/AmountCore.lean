@@ -42,14 +42,14 @@ theorem p11dot_diagVec (eps : ℝ) (c v : P11Vec (n+n)) :
   congr 1
   exact Finset.sum_congr rfl fun i _ => by ring
 
-theorem p11euclid_sq {m : ℕ} (x : P11Vec m) : p11euclid x ^ 2 = ∑ i, x i ^ 2 := by
+theorem p11euclid_sq_sum {m : ℕ} (x : P11Vec m) : p11euclid x ^ 2 = ∑ i, x i ^ 2 := by
   simp only [p11euclid, KAM.Nekhoroshev.euclid, Real.norm_eq_abs, sq_abs]
   exact Real.sq_sqrt (Finset.sum_nonneg fun i _ => sq_nonneg _)
 
 theorem p11euclid_diagVec_sq (eps : ℝ) (c : P11Vec (n+n)) :
     p11euclid (p11DiagVec eps c) ^ 2 =
       (∑ i : Fin n, c (Fin.castAdd n i) ^ 2) + eps ^ 2 * ∑ i : Fin n, c (Fin.natAdd n i) ^ 2 := by
-  rw [p11euclid_sq]
+  rw [p11euclid_sq_sum]
   simp only [p11DiagVec, Fin.sum_univ_add, Fin.append_left, Fin.append_right, mul_pow,
     Finset.mul_sum]
 
@@ -57,7 +57,7 @@ theorem p11euclid_diagVec_bounds {eps : ℝ} (he0 : 0 < eps) (he1 : eps ≤ 1) {
     (hc : p11euclid c = 1) :
     eps ^ 2 ≤ p11euclid (p11DiagVec eps c) ^ 2 := by
   have h1 : (∑ i : Fin n, c (Fin.castAdd n i) ^ 2) + ∑ i : Fin n, c (Fin.natAdd n i) ^ 2 = 1 := by
-    have := p11euclid_sq c
+    have := p11euclid_sq_sum c
     rw [hc, Fin.sum_univ_add] at this
     linarith
   have hB : 0 ≤ ∑ i : Fin n, c (Fin.natAdd n i) ^ 2 := Finset.sum_nonneg fun i _ => sq_nonneg _
@@ -206,7 +206,7 @@ theorem p11_append_eq (r rho : P11Vec n) :
 
 theorem p11euclid_inl (a : P11Vec n) : p11euclid (p11Inl n a) = p11euclid a := by
   refine (sq_eq_sq₀ (p11euclid_nonneg _) (p11euclid_nonneg _)).1 ?_
-  rw [p11euclid_sq, p11euclid_sq, Fin.sum_univ_add]
+  rw [p11euclid_sq_sum, p11euclid_sq_sum, Fin.sum_univ_add]
   simp only [p11Inl_apply, Fin.append_left, Fin.append_right, Pi.zero_apply, ne_eq,
     OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow, Finset.sum_const_zero, add_zero]
 
