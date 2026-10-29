@@ -47,6 +47,7 @@ public import KAM.Canonical.Transform
 public import KAM.Canonical.TransformSeries
 public import KAM.Canonical.VectorField
 public import KAM.Certificate.Arith.ComplexExp
+public import KAM.Certificate.Arith.Fixed
 public import KAM.Certificate.Arith.Interface
 public import KAM.Certificate.Arith.PiEnclosure
 public import KAM.Certificate.Arith.PiHigh
