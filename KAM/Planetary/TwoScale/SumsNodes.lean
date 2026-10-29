@@ -51,9 +51,9 @@ private theorem sum_pow_le {e : ℕ → ℝ} (he : ∀ j, 0 ≤ e j) (he₀ : e 
   (sums (e := e) (R := fun _ => 0) (s := fun _ => 0) (c := 0) he he₀ hquad le_rfl (by simp)
     (fun _ => ⟨le_rfl, by simp⟩) (fun _ => by simp)).1 m k hmk
 
-/-- `stepP:p3:sum-doubling`: `Ê_k ≤ Ê_m^{2^{k-m}} ≤ Ê_m^{k-m+1}` for `m ≤ k`, and
+/-- Conditional helper (not a node export): `Ê_k ≤ Ê_m^{2^{k-m}} ≤ Ê_m^{k-m+1}` for `m ≤ k`, and
 `Σ_{k≥m} Ê_k ≤ Ê_m/(1-Ê_m) ≤ 2 Ê_m`. -/
-theorem sum_doubling {e : ℕ → ℝ} (he : ∀ j, 0 ≤ e j) (he₀ : e 0 < 1 / 2)
+theorem sums_doubling_of_quad {e : ℕ → ℝ} (he : ∀ j, 0 ≤ e j) (he₀ : e 0 < 1 / 2)
     (hquad : ∀ j, e (j + 1) ≤ e j ^ 2) (m : ℕ) :
     (∀ k, m ≤ k → e k ≤ e m ^ (2 ^ (k - m)) ∧ e m ^ (2 ^ (k - m)) ≤ e m ^ (k - m + 1)) ∧
     Summable (fun k => e (m + k)) ∧
@@ -80,9 +80,9 @@ theorem sum_doubling {e : ℕ → ℝ} (he : ∀ j, 0 ≤ e j) (he₀ : e 0 < 1 
     exact (hs.tsum_le_tsum hbd hg).trans hgs.le
   · rw [div_le_iff₀ hm1]; nlinarith [he m]
 
-/-- `stepP:p3:sum-weighted`: `c^k Ê_k ≤ c^k Ê₀^{k+1} = Ê₀ (c Ê₀)^k ≤ Ê₀ 2^{-k}` and
+/-- Conditional helper (not a node export): `c^k Ê_k ≤ c^k Ê₀^{k+1} = Ê₀ (c Ê₀)^k ≤ Ê₀ 2^{-k}` and
 `Σ c^k Ê_k ≤ 2 Ê₀`. -/
-theorem sum_weighted {e : ℕ → ℝ} {c : ℝ} (he : ∀ j, 0 ≤ e j) (he₀ : e 0 < 1 / 2)
+theorem sums_weighted_of_quad {e : ℕ → ℝ} {c : ℝ} (he : ∀ j, 0 ≤ e j) (he₀ : e 0 < 1 / 2)
     (hquad : ∀ j, e (j + 1) ≤ e j ^ 2) (hc : 0 ≤ c) (hce : c * e 0 ≤ 1 / 2) :
     (∀ k, c ^ k * e k ≤ c ^ k * e 0 ^ (k + 1) ∧ c ^ k * e 0 ^ (k + 1) = e 0 * (c * e 0) ^ k ∧
       e 0 * (c * e 0) ^ k ≤ e 0 * (1 / 2) ^ k) ∧
@@ -110,7 +110,7 @@ theorem seq_sum_doubling (P : PsiSteps sbar p Ds hs fs Ψ Φ) (m : ℕ) :
     Summable (fun k => eHat (seq p (m + k))) ∧
       ∑' k, eHat (seq p (m + k)) ≤ eHat (seq p m) / (1 - eHat (seq p m)) ∧
       eHat (seq p m) / (1 - eHat (seq p m)) ≤ 2 * eHat (seq p m) :=
-  sum_doubling (fun j => (P.hyp j).eHat_nonneg)
+  sums_doubling_of_quad (fun j => (P.hyp j).eHat_nonneg)
     (by have := (P.hyp 0).eHat_lt_small; linarith) (fun j => (P.eHat_sq j).le) m
 
 /-- `stepP:p3:sum-weighted` for `Ê_k = eHat (seq p k)`, `c = 24^{τ+1}/6`. -/
@@ -122,10 +122,35 @@ theorem seq_sum_weighted (P : PsiSteps sbar p Ds hs fs Ψ Φ) :
       eHat p * ((24 : ℝ) ^ (p.τ + 1) / 6 * eHat p) ^ k ≤ eHat p * (1 / 2) ^ k) ∧
     Summable (fun k => ((24 : ℝ) ^ (p.τ + 1) / 6) ^ k * eHat (seq p k)) ∧
       ∑' k, ((24 : ℝ) ^ (p.τ + 1) / 6) ^ k * eHat (seq p k) ≤ 2 * eHat p :=
-  sum_weighted (e := fun j => eHat (seq p j)) (fun j => (P.hyp j).eHat_nonneg)
+  sums_weighted_of_quad (e := fun j => eHat (seq p j)) (fun j => (P.hyp j).eHat_nonneg)
     (by have := (P.hyp 0).eHat_lt_small; linarith) (fun j => (P.eHat_sq j).le)
     (by positivity) (P.kam_small).1
 
 end PsiSteps
+
+variable {a b : ℕ} {D : Set (Fin (a + b) → ℝ)} {sbar : ℝ} {p : ScaleData}
+  {h : (Fin (a + b) → ℂ) → ℂ} {f : CHam (a + b)}
+
+/-- `stepP:p3:sum-doubling` from the original KAM hypotheses only. -/
+theorem sum_doubling (H : KamHyp D sbar p h f) (m : ℕ) :
+    (∀ k, m ≤ k → eHat (seq p k) ≤ eHat (seq p m) ^ (2 ^ (k - m)) ∧
+      eHat (seq p m) ^ (2 ^ (k - m)) ≤ eHat (seq p m) ^ (k - m + 1)) ∧
+    Summable (fun k => eHat (seq p (m + k))) ∧
+      ∑' k, eHat (seq p (m + k)) ≤ eHat (seq p m) / (1 - eHat (seq p m)) ∧
+      eHat (seq p m) / (1 - eHat (seq p m)) ≤ 2 * eHat (seq p m) := by
+  obtain ⟨Ds, hs, fs, Ψ, Φ, is, _, _, P⟩ := iterative_steps H
+  exact P.seq_sum_doubling m
+
+/-- `stepP:p3:sum-weighted` from the original KAM hypotheses only. -/
+theorem sum_weighted (H : KamHyp D sbar p h f) :
+    (∀ k, ((24 : ℝ) ^ (p.τ + 1) / 6) ^ k * eHat (seq p k) ≤
+        ((24 : ℝ) ^ (p.τ + 1) / 6) ^ k * eHat p ^ (k + 1) ∧
+      ((24 : ℝ) ^ (p.τ + 1) / 6) ^ k * eHat p ^ (k + 1) =
+        eHat p * ((24 : ℝ) ^ (p.τ + 1) / 6 * eHat p) ^ k ∧
+      eHat p * ((24 : ℝ) ^ (p.τ + 1) / 6 * eHat p) ^ k ≤ eHat p * (1 / 2) ^ k) ∧
+    Summable (fun k => ((24 : ℝ) ^ (p.τ + 1) / 6) ^ k * eHat (seq p k)) ∧
+      ∑' k, ((24 : ℝ) ^ (p.τ + 1) / 6) ^ k * eHat (seq p k) ≤ 2 * eHat p := by
+  obtain ⟨Ds, hs, fs, Ψ, Φ, is, _, _, P⟩ := iterative_steps H
+  exact P.seq_sum_weighted
 
 end KAM.Planetary
