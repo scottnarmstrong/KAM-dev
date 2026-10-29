@@ -2772,9 +2772,9 @@ EDGE: bpP:p1:two-scale | blueprint-P/parts/p3a-two-scale-iteration.tex#bpP:p3:co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P2-audit-1): wsum/wnorm carry junk values off the summable locus; WBound is a guarded predicate (same whole-carrier issue as p11 sec-conv#data); owner review
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Weighted.coeff, modeWeight, wsum, WSummable, WBound, wnorm, KAM/Weighted/Norm.lean:48–83
+LEAN_NOTE: definition-node policy, D31 (weighted-norm interface WSummable/HasFiniteWNorm/WBound with real norm totalized off the finite locus accepted as faithful); P-GRAPH-CLOSE-audit-1.md:17 definition-confirmed
 NOTE: section data of Part 3a (prose L11-L34). The Hamilton equations here are in the order (action,angle) of CP10; the frozen order is bpP:p1:order
 
 NODE: bpP:p3b#kam-bounds
