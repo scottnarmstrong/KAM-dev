@@ -143,6 +143,21 @@ theorem sb_cov_full (m : Fin 2 → ℝ) (w : Phase (2+2)) (theta : ℝ) :
   · unfold secularAxis; rw [sbCov_fast_snd]
   · rw [sbCov_ecc, sbCov_orbitalUnit theta F, planeDot_rot]
 
+/-- `stepP:p14:sb-cv-1`: invariance of `Γ`, `k`, the source `ρ = √((1 - Γ/(2Λ))/Λ)` and `a`, and
+the rotation covariance of the eccentricity vector `v`. -/
+theorem sb_cov_slow_data (m : Fin 2 → ℝ) (w : Phase (2+2)) (theta : ℝ) :
+    ∀ i, secularGamma (secularRotation theta w) i = secularGamma w i ∧
+      secularRoot (secularRotation theta w) i = secularRoot w i ∧
+      Real.sqrt ((1 - secularGamma (secularRotation theta w) i /
+          (2 * fast (secularRotation theta w).2 i)) / fast (secularRotation theta w).2 i) =
+        Real.sqrt ((1 - secularGamma w i / (2 * fast w.2 i)) / fast w.2 i) ∧
+      secularAxis m (secularRotation theta w) i = secularAxis m w i ∧
+      secularEccVector (secularRotation theta w) i = rot theta (secularEccVector w i) := by
+  intro i
+  refine ⟨sbCov_gamma theta w i, sbCov_root theta w i, ?_, ?_, sbCov_ecc theta w i⟩
+  · rw [sbCov_gamma, sbCov_fast_snd]
+  · unfold secularAxis; rw [sbCov_fast_snd]
+
 end KAM.Planetary
 
 end
