@@ -138,27 +138,31 @@ theorem p11_rhoDeriv_differentiableOn {U : Set (P11CVec n)} (hU : IsOpen U) {R0 
   rw [this, (hasFDerivAt_prodMk_right J' ρ0).fderiv]
   simp
 
-/-- Cauchy estimate in `ρ` followed by the sharp `J`-jet estimate: for `Zq` holomorphic and
-bounded by `M` on `U × B(ρ₀, δ')`, `J`-jets of `∂ρ Zq (·, ρ₀)` of order `α` are bounded by
-`α! (M/δ) R^{-|α|}`. -/
-theorem p11_partial_rho_jet {U : Set (P11CVec n)} (hU : IsOpen U) {R0 : ℝ}
-    {Zq : P11CVec n × P11CVec n → ℂ} (hZ : DifferentiableOn ℂ Zq (U ×ˢ ball 0 R0))
-    {ρ0 : P11CVec n} {δ δ' M : ℝ} (hδ : 0 < δ) (hδδ : δ < δ')
-    (hball : ball ρ0 δ' ⊆ ball (0 : P11CVec n) R0) (hρ0 : ρ0 ∈ ball (0 : P11CVec n) R0)
-    (hM : ∀ J ∈ U, ∀ ρ ∈ ball ρ0 δ', ‖Zq (J, ρ)‖ ≤ M)
-    {J : P11CVec n} {R : ℝ} (hR : 0 < R) (hJ : closedBall J R ⊆ U) (α : Fin n → ℕ) :
-    ‖p11PartialVec α (fun J' : P11CVec n => fun i : Fin n =>
-        fderiv ℂ (fun ρ => Zq (J', ρ)) ρ0 (Pi.single i 1)) J‖ ≤
-      (∏ i, ((α i).factorial : ℝ)) * (M / δ) / R ^ (∑ i, α i) := by
-  refine p11PartialVec_norm_le hU (p11_rhoDeriv_differentiableOn hU hZ hρ0) hR hJ ?_ α
-  intro w hw
+/-- Cauchy estimate in `ρ`: if `Zq` is holomorphic and bounded by `K` on `U × B(ρ₀, δ')`, then
+`‖∂_{ρ_i} Zq (w, ρ₀)‖ ≤ K/δ` for `δ < δ'`. -/
+theorem p11_rho_cauchy {U : Set (P11CVec n)} {R0 : ℝ} {Zq : P11CVec n × P11CVec n → ℂ}
+    (hZ : DifferentiableOn ℂ Zq (U ×ˢ ball 0 R0)) {ρ0 : P11CVec n} {δ δ' K : ℝ} (hδ : 0 < δ)
+    (hδδ : δ < δ') (hball : ball ρ0 δ' ⊆ ball (0 : P11CVec n) R0)
+    (hK : ∀ J ∈ U, ∀ ρ ∈ ball ρ0 δ', ‖Zq (J, ρ)‖ ≤ K) {w : P11CVec n} (hw : w ∈ U) (i : Fin n) :
+    ‖fderiv ℂ (fun ρ => Zq (w, ρ)) ρ0 (Pi.single i 1)‖ ≤ K / δ := by
   have hfd : DifferentiableOn ℂ (fun ρ => Zq (w, ρ)) (ball ρ0 δ') :=
     hZ.comp (by fun_prop : DifferentiableOn ℂ (fun ρ : P11CVec n => (w, ρ)) _)
       (fun ρ hρ => ⟨hw, hball hρ⟩)
-  have hc := (cauchy_open isOpen_ball hfd hδ (z := ρ0)
-    (closedBall_subset_ball hδδ) (fun ρ hρ => hM w hw ρ hρ)).1
-  refine (pi_norm_le_iff_of_nonneg ?_).2 fun i => hc i
-  exact div_nonneg ((norm_nonneg _).trans (hM w hw ρ0 (mem_ball_self (hδ.trans hδδ)))) hδ.le
+  exact (cauchy_open isOpen_ball hfd hδ (z := ρ0)
+    (closedBall_subset_ball hδδ) (fun ρ hρ => hK w hw ρ hρ)).1 i
+
+/-- Sharp `J`-jet estimate for the `ρ`-derivative: a uniform bound `M` on `∂ρ Zq (·, ρ₀)` over `U`
+gives `‖∂_J^α ∂ρ Zq (J, ρ₀)‖ ≤ α! M R^{-|α|}`. -/
+theorem p11_partial_rho_jet {U : Set (P11CVec n)} (hU : IsOpen U) {R0 : ℝ}
+    {Zq : P11CVec n × P11CVec n → ℂ} (hZ : DifferentiableOn ℂ Zq (U ×ˢ ball 0 R0))
+    {ρ0 : P11CVec n} (hρ0 : ρ0 ∈ ball (0 : P11CVec n) R0) {M : ℝ} (hM0 : 0 ≤ M)
+    (hM : ∀ w ∈ U, ∀ i : Fin n, ‖fderiv ℂ (fun ρ => Zq (w, ρ)) ρ0 (Pi.single i 1)‖ ≤ M)
+    {J : P11CVec n} {R : ℝ} (hR : 0 < R) (hJ : closedBall J R ⊆ U) (α : Fin n → ℕ) :
+    ‖p11PartialVec α (fun J' : P11CVec n => fun i : Fin n =>
+        fderiv ℂ (fun ρ => Zq (J', ρ)) ρ0 (Pi.single i 1)) J‖ ≤
+      (∏ i, ((α i).factorial : ℝ)) * M / R ^ (∑ i, α i) :=
+  p11PartialVec_norm_le hU (p11_rhoDeriv_differentiableOn hU hZ hρ0) hR hJ
+    (fun w hw => (pi_norm_le_iff_of_nonneg hM0).2 (hM w hw)) α
 
 end Jet
 
