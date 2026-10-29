@@ -1031,6 +1031,7 @@ public import KAM.Planetary.SecularSpectrum.Definiteness.Hadamard
 public import KAM.Planetary.SecularSpectrum.Definiteness.Laplace
 public import KAM.Planetary.SecularSpectrum.Definiteness
 public import KAM.Planetary.SecularSpectrum.Diagonalize
+public import KAM.Planetary.SecularSpectrum.DictNodes
 public import KAM.Planetary.SecularSpectrum.GoodPolynomial
 public import KAM.Planetary.SecularSpectrum.GoodSetNodes
 public import KAM.Planetary.SecularSpectrum.Lift.Analytic
