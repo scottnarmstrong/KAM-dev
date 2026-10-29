@@ -63,6 +63,48 @@ theorem p11_orth_sq {R : Matrix (Fin n) (Fin n) ℂ} (hre : ∀ i j, (R i j).im 
     _ = ∑ j, a j * a j := by
       rw [this, ← Matrix.mulVec_transpose, Matrix.mulVec_mulVec, h2, Matrix.one_mulVec]; rfl
 
+/-- The `Γ_i` of the chart input is bounded by half the Euclidean norm of the oscillator point. -/
+theorem p11_chartInput_gamma {D : P11Physical n} (hC : P11SecularSpec D (p11SecularData D))
+    {v : Phase (n+n)}
+    (hv : ‖(fun i : Fin n => v.2 (Fin.castAdd n i)) - (p11SecularData D).J0‖ <
+      2*(p11SecularData D).rC) (i : Fin n) :
+    poincareGamma (planetBlock (p11ChartInput (p11SecularData D) v) i) ≤
+      (1/2) * ∑ j : Fin n, (v.1 (Fin.natAdd n j) ^ 2 + v.2 (Fin.natAdd n j) ^ 2) := by
+  set C := p11SecularData D with hCd
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hrc, hrb, -⟩ :=
+    hC
+  set L : P11Vec n := fun i => fast v.2 i / (2*Real.pi) with hL
+  have hLn : ‖L - (2*Real.pi)⁻¹ • C.J0‖ < C.rC/Real.pi := by
+    have : L - (2*Real.pi)⁻¹ • C.J0 = (2*Real.pi)⁻¹ • ((fun i : Fin n => v.2 (Fin.castAdd n i)) -
+        C.J0) := by
+      funext i; simp [hL, fast, div_eq_inv_mul, mul_sub]
+    rw [this, norm_smul, Real.norm_of_nonneg (by positivity)]
+    calc (2*Real.pi)⁻¹ * ‖(fun i : Fin n => v.2 (Fin.castAdd n i)) - C.J0‖
+        < (2*Real.pi)⁻¹ * (2*C.rC) := mul_lt_mul_of_pos_left hv (by positivity)
+      _ = C.rC/Real.pi := by field_simp
+  have hre := (hrc L hLn).1
+  have hball : KAM.realInclusion n L ∈ Metric.ball ((2*Real.pi)⁻¹ • KAM.realInclusion n C.J0)
+      (C.rC/Real.pi) := by
+    rw [Metric.mem_ball, dist_eq_norm, ← map_smul, ← map_sub, KAM.norm_realInclusion]
+    exact hLn
+  have horth := (hrb.2 _ hball).1
+  have hsq := fun a => p11_orth_sq (R := C.rho (KAM.realInclusion n L)) hre horth a
+  have hpt : poincareGamma (planetBlock (p11ChartInput C v) i) =
+      (((C.rho (KAM.realInclusion n L)).mulVec (KAM.realInclusion n (slow v.1)) i).re ^ 2 +
+        ((C.rho (KAM.realInclusion n L)).mulVec (KAM.realInclusion n (slow v.2)) i).re ^ 2)/2 := by
+    simp [poincareGamma, planetBlock, p11ChartInput, assemble, slow, fast, hL]
+  rw [hpt]
+  have h1 := Finset.single_le_sum (f := fun i => ((C.rho (KAM.realInclusion n L)).mulVec
+    (KAM.realInclusion n (slow v.1)) i).re ^ 2) (fun i _ => sq_nonneg _) (Finset.mem_univ i)
+  have h2 := Finset.single_le_sum (f := fun i => ((C.rho (KAM.realInclusion n L)).mulVec
+    (KAM.realInclusion n (slow v.2)) i).re ^ 2) (fun i _ => sq_nonneg _) (Finset.mem_univ i)
+  rw [hsq] at h1 h2
+  have : ∑ j : Fin n, (v.1 (Fin.natAdd n j) ^ 2 + v.2 (Fin.natAdd n j) ^ 2) =
+      ∑ j, slow v.1 j ^ 2 + ∑ j, slow v.2 j ^ 2 := by
+    rw [← Finset.sum_add_distrib]; rfl
+  rw [this]
+  linarith
+
 end Tube
 
 end KAM.Planetary
