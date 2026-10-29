@@ -30,6 +30,17 @@ xp = root / 'docs/campaign/progress-INP.json'
 if xp.exists():
     ids = {it['id'] for it in progress['items']}
     progress['items'] = progress['items'] + [it for it in json.loads(xp.read_text())['items'] if it['id'] not in ids]
+# Track SO (D30): its items take their done fraction from the design's package line estimates and the landed list.
+SO_GROUP = 'Track SO (lunar spin–orbit certificate)'
+xp = root / 'docs/campaign/progress-SO.json'
+if xp.exists():
+    landed = set(campaign.get('so', {}).get('landed', []))
+    for it in json.loads(xp.read_text())['items']:
+        if 'so_packages' in it:
+            pk = it['so_packages']
+            it['done'] = sum(v for k, v in pk.items() if k in landed) / sum(pk.values())
+            it['note'] = 'landed: ' + (', '.join(k for k in pk if k in landed) or 'none') + ' (of ' + ', '.join(pk) + ')'
+        progress['items'].append(it)
 
 
 def graph_counts(graph, parts=('',)):
@@ -164,7 +175,7 @@ def section_glance(rows):
     ndefs = sum(1 for a in manifest['anchors'] if a['kind'] == 'definition')
     drafts = [r[5] for r in rows if r[4] != 'sealed']
     out = [f'*Generated {NOW} from `main` at `{head}` by `scripts/hq-status.py`.*', '',
-           f'**Current phase:** {campaign["current_phase"]}', '',
+           f'**Current phase:** {campaign["current_phase"]}', ''] + so_glance() + ['',
            f'**Frozen statements proved: {sealed} / {len(rows)}** · frozen definitions: {ndefs}', '',
            f'**Lean on `main`:** {n} modules · {lines:,} lines · {thms:,} theorems · '
            f'`sorry` outside frozen anchors: {len(bad_sorry)} files · `axiom` declarations: {len(bad_axiom)}', '',
@@ -174,7 +185,7 @@ def section_glance(rows):
            'DRAFT_IMPORT_VIOLATIONS: 0 (frozen-anchor guard, run at every landing)',
            f'SEALED: {sealed} / {len(rows)}' + (f' ({", ".join(r[0] for r in rows if r[4] == "sealed")})'
                                                  if sealed else ''),
-           '```', ''] + so_glance()
+           '```']
     return '\n'.join(out)
 
 
@@ -362,9 +373,19 @@ def completion(rows):
     if rows:
         sealed = sum(1 for r in rows if r[4] == 'sealed')
         groups['Sealing of the frozen statements'] = [float(len(rows)), float(sealed), len(rows)]
+    if SO_GROUP in groups:  # list track SO after the sealing row, just before the total
+        groups[SO_GROUP] = groups.pop(SO_GROUP)
     total = sum(g[0] for g in groups.values())
     done = sum(g[1] for g in groups.values())
     return 100 * done / total, groups, total, done
+
+
+def completion_split(rows):
+    """(original project %, track SO %, overall %): the original project is every group except track SO."""
+    pct, groups, total, done = completion(rows)
+    so = groups.get(SO_GROUP, [0.0, 0.0, 0])
+    orig = 100 * (done - so[1]) / (total - so[0])
+    return orig, (100 * so[1] / so[0] if so[0] else 0.0), pct
 
 
 def loc(dirs):
@@ -457,10 +478,19 @@ def section_size(rows):
     lean_done = sum(w[it['difficulty']] * it['done'] for it in lean)
     rate_based = lean_done >= 8
     est = (total + unl) / lean_done * sum(w[it['difficulty']] for it in lean) if rate_based else PLANNED_TOTAL
+    # Track SO is sized by its design instead: its lines on main, plus the design's estimates of the unlanded Lean
+    # packages (the Python generator packages excluded); the rate-based figure above then covers the other tracks.
+    so_on_main = loc([root / 'KAM' / 'Certificate', root / 'KAM' / 'SpinOrbit'])[0]
+    landed = set(campaign.get('so', {}).get('landed', []))
+    so_left = sum(v for it in progress['items'] for k, v in it.get('so_packages', {}).items()
+                  if k not in landed and k not in ('SO-GEN', 'SO-GEN2'))
+    if rate_based and so_on_main:
+        est = (total - so_on_main + unl) / lean_done * sum(w[it['difficulty']] for it in lean) + so_on_main + so_left
     how = ('scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work '
            'items, weighted by difficulty: track K\'s analysis, a-posteriori and measure items and the proof items of '
            'tracks I, N and P. It is as good as those done fractions: track K\'s come from its proof graph, the others '
-           'from the sub-orchestrator\'s assessment' if rate_based else
+           'from the sub-orchestrator\'s assessment; track SO is added from its design (lines on `main` plus the '
+           'line estimates of its packages not yet landed)' if rate_based else
            'is a planning figure; it switches to a rate-based estimate once 8 weight units of Lean work are done')
     out = ['### Size of the formalization', '',
            '| | Lines of Lean |', '|---|---|',
@@ -479,24 +509,30 @@ def bar(pct, n=25):
 
 
 def section_updated(rows, est):
-    pct = completion(rows)[0]
+    orig, so, pct = completion_split(rows)
     sealed = sum(1 for r in rows if r[4] == 'sealed')
     total = loc(LIB)[0]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
-            f'**estimated completion {pct:.1f} %** · frozen statements proved: {sealed} / {len(rows)} · '
+            f'**estimated completion: original project {orig:.1f} % · track SO {so:.0f} %** · '
+            f'frozen statements proved: {sealed} / {len(rows)} · '
             f'**{total:,} lines of Lean** of an estimated ≈ {round(est, -3):,.0f}')
 
 
 def section_progress(rows):
     pct, groups, total, done = completion(rows)
-    out = [f'### Estimated completion: **{pct:.1f} %**', '', f'`{bar(pct)}` {pct:.1f} %', '',
+    orig, so, _ = completion_split(rows)
+    out = [f'### Estimated completion: original project **{orig:.1f} %** · track SO **{so:.0f} %**', '',
+           f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
+           f'Track SO (lunar spin–orbit certificate, started 2026-10-29): `{bar(so)}` {so:.1f} %', '',
+           f'Overall, both together: {pct:.1f} %', '',
            '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
     for name, (wt, dn, n) in groups.items():
         out.append(f'| {name} | {n} | {wt:.0f} | {dn:.1f} | `{bar(100 * dn / wt, 10)}` {100 * dn / wt:.0f} % |')
     out.append(f'| **Total** | {sum(g[2] for g in groups.values())} | {total:.0f} | {done:.1f} | **{pct:.1f} %** |')
     out += ['', f'**How this is estimated.** The project is divided into {len(progress["items"])} work items: planning '
-            'deliverables, campaign infrastructure, the four layers of track K\'s proof, and the proof campaigns of '
-            'tracks I, N and P. Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and '
+            'deliverables, campaign infrastructure, the four layers of track K\'s proof, the proof campaigns of '
+            'tracks I, N and P, and track SO (its items count the design\'s line estimates of the packages landed so '
+            'far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and '
             'counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* '
             'take that fraction from their proof graph (nodes `PROVED`, `BYPASSED` or `EXTERNAL` in '
             '[`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once '

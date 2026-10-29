@@ -185,7 +185,6 @@
    "SO-FREQ",
    "SO-DIO3",
    "SO-PBASE",
-   "SO-EXPR",
    "SO-BALL",
    "SO-NORM",
    "SO-MINV",
@@ -193,7 +192,6 @@
    "SO-CONF",
    "SO-GRAPHM",
    "SO-ABK",
-   "SO-POLY",
    "SO-MALG",
    "SO-EXPW",
    "SO-EMB",
@@ -209,7 +207,13 @@
    "SO-ROTDIO",
    "SO-ROT",
    "SO-RFREQ",
-   "SO-GRAPHR"
+   "SO-GRAPHR",
+   "SO-EXPR-A",
+   "SO-EXPR-B1",
+   "SO-EXPR-B2",
+   "SO-POLY-A",
+   "SO-POLY-B",
+   "SO-GEN2"
   ],
   "landed": [
    "SO-DIO",
@@ -231,7 +235,13 @@
    "SO-GRAPHM",
    "SO-ABK",
    "SO-BALL",
-   "SO-ROTDIO"
+   "SO-ROTDIO",
+   "SO-EXPR-A",
+   "SO-EXPR-B1",
+   "SO-GEN2",
+   "SO-EXPR-B2",
+   "SO-POLY-A",
+   "SO-RFREQ"
   ],
   "gates": "design of the general checker: Revision 5 (rotated lunar frame, advice-checked packed products) failed its fifth audit on the packed-product contract (F12 carry cancellation, F13 scale 0); Revision 6 in progress. Replay gate GO. SO-GEN2 confirmed the rotated-frame package R1: threshold 10^-74.7, about 8.5k terms per torus at 318 bits, invariance error about 1e-3 of the threshold."
  }

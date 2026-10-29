@@ -1,0 +1,118 @@
+{
+ "method": "Track SO (D30). Items are weighted by difficulty like every other item (L=1, M=2, H=4, VH=8). An item with \"so_packages\" takes its done fraction automatically: the design's line estimate of each of its packages (SO-LEAN-DESIGN.md §7) counts once the package is listed as landed in campaign.json so.landed. SO.PLAN and SO.FREEZE are the orchestrator's assessment.",
+ "items": [
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.PLAN",
+   "title": "Plan, owner rulings O1–O5, replay gate, constants study, Lean design of the general checker (six revisions, independent design audits)",
+   "difficulty": "H",
+   "done": 0.9,
+   "note": "design Revision 6 in its sixth audit; replay gate GO; rotated frame and package R1 adopted"
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.ARITH",
+   "title": "Certified arithmetic: interface, exact and fixed-point backends, π and exp enclosures, range-reduced complex exponential, explicit KAM constants",
+   "difficulty": "H",
+   "so_packages": {
+    "SO-AIF": 700,
+    "SO-RAT": 100,
+    "SO-CEXP": 150,
+    "SO-PI": 500,
+    "SO-ABK": 500,
+    "SO-CONST": 700
+   }
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.FOURIER",
+   "title": "Exact Fourier data and Fourier models: packed products checked against advice, model algebra, exponential and inverse witnesses",
+   "difficulty": "VH",
+   "so_packages": {
+    "SO-PBASE": 800,
+    "SO-POLY-A": 550,
+    "SO-POLY-B": 700,
+    "SO-MALG": 750,
+    "SO-EXPW": 850
+   }
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.EXPR",
+   "title": "Hamiltonians as expressions: semantics, symbolic jets to third order, certified ball evaluation, norm bridges",
+   "difficulty": "H",
+   "so_packages": {
+    "SO-EXPR-A": 600,
+    "SO-EXPR-B1": 550,
+    "SO-EXPR-B2": 550,
+    "SO-BALL": 500,
+    "SO-NORM": 400
+   }
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.MATRIX",
+   "title": "Matrix certificates: approximate inverses, embeddings, Gram and torsion checks, positivity",
+   "difficulty": "H",
+   "so_packages": {
+    "SO-MINV": 300,
+    "SO-EMB": 830,
+    "SO-MAT": 630,
+    "SO-TORS": 1040,
+    "SO-POS": 350
+   }
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.CHECK",
+   "title": "The certificate, the checker and its soundness theorem through the sealed isoenergetic theorem; toy and negative tests",
+   "difficulty": "VH",
+   "so_packages": {
+    "SO-DEFS": 600,
+    "SO-SOUND": 1400,
+    "SO-TEST": 450
+   }
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.LUNAR",
+   "title": "Lunar client: model, Diophantine frequencies, clock, barriers, rotated frame, graph inversion, confinement theorem",
+   "difficulty": "H",
+   "so_packages": {
+    "SO-MODEL": 600,
+    "SO-DIO": 300,
+    "SO-DIO3": 350,
+    "SO-CLOCK": 400,
+    "SO-FREQ": 350,
+    "SO-CONF": 600,
+    "SO-GRAPHM": 600,
+    "SO-HAMX": 200,
+    "SO-ROT": 300,
+    "SO-ROTDIO": 150,
+    "SO-RFREQ": 100,
+    "SO-GRAPHR": 300,
+    "SO-GRAPH": 500,
+    "SO-LUNAR": 400
+   }
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.DATA",
+   "title": "Numerical candidates and certificate data: generator, rotated-frame package R1, advice emitter, data shards and their kernel replay",
+   "difficulty": "H",
+   "so_packages": {
+    "SO-GEN": 600,
+    "SO-GEN2": 600,
+    "SO-DATA": 1500
+   }
+  },
+  {
+   "group": "Track SO (lunar spin–orbit certificate)",
+   "id": "SO.FREEZE",
+   "title": "Owner approval of the final SO statements, freeze, and seal",
+   "difficulty": "M",
+   "done": 0.0,
+   "note": "the final statements are approved by the owner before freezing"
+  }
+ ]
+}
