@@ -9,9 +9,18 @@ public import KAM.Planetary.Preparation.SlowData
 public import KAM.Planetary.Preparation.SlowCauchy
 public import KAM.Planetary.Preparation.SlowJets
 public import KAM.Planetary.Preparation.SlowMean
+public import KAM.Planetary.Preparation.SlowAverage
+public import KAM.Planetary.Preparation.SlowDivisor
+public import KAM.Planetary.Preparation.SlowRates
+public import KAM.Planetary.Preparation.SlowSmall
+public import KAM.Planetary.Preparation.SlowConclude
+public import KAM.Planetary.Preparation.SlowCoeff
+public import KAM.Planetary.Preparation.SlowMW
+public import KAM.Planetary.Preparation.SlowAssembly
+public import KAM.Planetary.Preparation.SlowSigned
 
 /-!
 # Slow averaging facade (P11A-P7, `bpP:p11:avg-slow`)
 
-Facade over the P7 modules. PARTIAL: the core theorem `avg_slow_of_spec` is not yet proved.
+Facade over the P7, P7b, P7c and P7d modules; `avg_slow` (signed) is proved in `SlowSigned`.
 -/
