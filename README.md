@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 01:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 90.4 %** · frozen statements proved: 19 / 22 · **223,848 lines of Lean** of an estimated ≈ 266,000
+> **Last updated: 2026-10-29 01:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 90.4 %** · frozen statements proved: 19 / 22 · **223,848 lines of Lean** of an estimated ≈ 267,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,16 +126,16 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **223,848** (174,406 excluding blank lines and comments) · **+181,009** since 2026-10-28 01:00 UTC |
-| Written on agent branches, not yet landed | 13,259 |
-| **Estimated total at completion** | **≈ 266,000** |
+| On `main` now | **223,848** (174,406 excluding blank lines and comments) · **+181,009** since 2026-10-28 01:20 UTC |
+| Written on agent branches, not yet landed | 14,285 |
+| **Estimated total at completion** | **≈ 267,000** |
 | Estimated still to write | ≈ 29,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 01:18 UTC from `main` at `8bfedd5b` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 01:20 UTC from `main` at `cac17314` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -293,14 +293,17 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **gape** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: GAP-E: StandingSituation draft | `inp-gape` | 3 (vs `inp`) |
-| **gp13** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-P13: SumsNodes lint | `inp-gp13` | 2 (vs `inp`) |
+| **gp13** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-P13: Part1Nodes WIP | `inp-gp13` | 3 (vs `inp`) |
+| **gp6b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-P6b: draft AssemblyNodes exports | `inp-gp6b` | 1 (vs `inp`) |
+| **gp7** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-P7: Kepler scaling node exports (sc_alg, sc_flow, rg_scale, ci_alg) | `inp-gp7` | 1 (vs `inp`) |
+| **gp8b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-P8b: pa-unif and periodicity exports (AnalyticNodes) | `inp-gp8b` | 1 (vs `inp`) |
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
 | **p11ap8** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Merge inp-p11ap7d (P7db) | `inp-p11ap8` | 1 (vs `inp`) |
-| **p11ap8a** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-P8a: wrap long line | `inp-p11ap8a` | 8 (vs `inp`) |
-| **p11ap8b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-P8b: holomorphy of C on D(J0, s2) | `inp-p11ap8b` | 8 (vs `inp`) |
-| **p11ap8c** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-P8c: rename p11euclid_sq to p11euclid_sq_sum (clash with WeakMeasure.BallSublevel) | `inp-p11ap8c` | 4 (vs `inp`) |
+| **p11ap8a** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P11A-P8a: wrap long line | `inp-p11ap8a` | 8 (vs `inp`) |
+| **p11ap8b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P11A-P8b: pr-in (i) jets of the polar average G0 | `inp-p11ap8b` | 10 (vs `inp`) |
+| **p11ap8c** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: P11A-P8c: handoff and independent audit (PASS WITH NOTES; parametric amount steps) | `inp-p11ap8c` | 5 (vs `inp`) |
 | **p14-e11** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-p14-e10 | `inp-p14-e11` | 0 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
