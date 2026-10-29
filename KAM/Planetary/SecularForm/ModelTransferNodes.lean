@@ -284,25 +284,28 @@ private theorem phaseSlow_natAdd_fst (i : Fin n) :
     phaseSlow n (Pi.single (Fin.natAdd n i) 1, 0) = (Pi.single i 1, 0, 0) := by
   rw [phaseSlow_apply]
   refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
-    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+    simp [Pi.single_apply, Fin.ext_iff]
 
 private theorem phaseSlow_natAdd_snd (i : Fin n) :
     phaseSlow n (0, Pi.single (Fin.natAdd n i) 1) = (0, 0, Pi.single i 1) := by
   rw [phaseSlow_apply]
   refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
-    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+    simp [Pi.single_apply, Fin.ext_iff]
+  omega
 
 private theorem phaseSlow_castAdd_fst (i : Fin n) :
     phaseSlow n (Pi.single (Fin.castAdd n i) 1, 0) = 0 := by
   rw [phaseSlow_apply]
   refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
-    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+    simp [Pi.single_apply, Fin.ext_iff]
+  omega
 
 private theorem phaseSlow_castAdd_snd (i : Fin n) :
     phaseSlow n (0, Pi.single (Fin.castAdd n i) 1) = (0, Pi.single i 1, 0) := by
   rw [phaseSlow_apply]
   refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
-    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+    simp [Pi.single_apply, Fin.ext_iff]
+  omega
 
 private theorem differentiableAt_keplerActionHam (D : Data n) {I : Vec n}
     (hI : ∀ i, I i ≠ 0) : DifferentiableAt ℝ (keplerActionHam D) I := by
