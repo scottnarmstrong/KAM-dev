@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 21:53 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **272,070 lines of Lean** of an estimated ≈ 276,000
+> **Last updated: 2026-10-29 21:54 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **272,070 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -210,7 +210,7 @@ Overall, everything together: 95.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 21:53 UTC from `main` at `99855c33` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 21:54 UTC from `main` at `06a4e1bc` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -371,10 +371,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **b2a1** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: CLEANUP-B2: scrub KAM/Planetary/MaximalStep | `inp-b2a1` | 4 (vs `inp`) |
-| **b2a2** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: CLEANUP-B2: scrub KAM/Planetary/WeakKAM | `inp-b2a2` | 4 (vs `inp`) |
-| **b2a3** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: CLEANUP-B2: scrub KAM/Planetary/WeakMeasure | `inp-b2a3` | 14 (vs `inp`) |
-| **b2r** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: CLEANUP-B2: reflow the FreqMap docstring paragraph | `inp-b2r` | 16 (vs `inp`) |
 | **sograph** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GRAPH: SoGraphCert, checkSoGraph, soBarrier_of_cert, soRotBarrier_of_cert, tests, hando | `inp-sograph` | 1 (vs `inp`) |
 | **sopyalign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp-sodefs' into inp-sopyalign | `inp-sopyalign` | 0 (vs `inp`) |
 
@@ -386,6 +382,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 21:54 | `06a4e1bc` | Overnight log: correct a time label |
 | 2026-10-29 21:53 | `a69ed1a5` | Overnight log: soundness audited, release scrub B2 complete |
 | 2026-10-29 21:52 | `9fcf0411` | Land inp into main |
 | 2026-10-29 21:50 | `4d8f89f1` | Land inp into main |
@@ -397,7 +394,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 21:33 | `a364773e` | Land inp into main |
 | 2026-10-29 21:33 | `2c801db0` | HQ: track SO soundness split into SO-SOUND-A/B; overnight log 21:35-21:45 |
 | 2026-10-29 21:21 | `c353bbf5` | Land inp into main |
-| 2026-10-29 20:47 | `adfdf7a9` | land-branch: refresh the campaign HQ README after every landing (merges run with HQ_UPDATING=1, which the hooks skip) |
 <!-- /AUTO:landed -->
 
 ## Decisions
