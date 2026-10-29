@@ -72,7 +72,7 @@ open Set Metric KAM.Iso.Confinement
 
 /-- `stepI:p3:tori-patch`: the patches `(c, W_c, Ψ_c, δ_E, δ_m, ρ_c)` (`bpI:p3:patch`) of a finite
 cover of `closure B'` (`bpI:p3:cover`) are fixed with `ε₁ ≤ δ_{E,c} / 2` (`bpI:p3:uniform`)
-before `ε, E, I₀`; for `0 ≤ ε < ε₁`, `I₀ ∈ closure B'` and `|E - h(I₀)| ≤ ε` there is a patch
+before `ε, E, I₀`; for `ε < ε₁`, `I₀ ∈ closure B'` and `|E - h(I₀)| ≤ ε` there is a patch
 centre `c` with `‖I₀ - c‖ < ρ_c`, `|h(I₀) - h(c)| < δ_E/2`, and
 `|E - h(c)| ≤ ε + δ_E/2 ≤ δ_E`. -/
 theorem tori_patch_node {h : (Fin 2 → ℂ) → ℂ} {B : Set (Fin 2 → ℝ)} {r₀ : ℝ}
@@ -81,7 +81,7 @@ theorem tori_patch_node {h : (Fin 2 → ℂ) → ℂ} {B : Set (Fin 2 → ℝ)} 
     (δE δm ρc : (Fin 2 → ℝ) → ℝ)
     (hP : ∀ c ∈ P, IsPatch h B r₀ B' η₁ c (W c) (Ψ c) (δE c) (δm c) (ρc c))
     (hcov : closure B' ⊆ ⋃ c ∈ P, ball c (ρc c)) {ε₁ : ℝ} (hε₁ : ∀ c ∈ P, ε₁ ≤ δE c / 2)
-    {ε : ℝ} (hε0 : 0 ≤ ε) (hε : ε < ε₁) {I₀ : Fin 2 → ℝ} (hI₀ : I₀ ∈ closure B') {E : ℝ}
+    {ε : ℝ} (hε : ε < ε₁) {I₀ : Fin 2 → ℝ} (hI₀ : I₀ ∈ closure B') {E : ℝ}
     (hE : |E - realPart h I₀| ≤ ε) :
     ∃ c ∈ P, ‖I₀ - c‖ < ρc c ∧ |realPart h I₀ - realPart h c| < δE c / 2 ∧
       |E - realPart h c| ≤ ε + δE c / 2 ∧ ε + δE c / 2 ≤ δE c := by
