@@ -1071,6 +1071,12 @@ public import KAM.Planetary.WeakKAM.Selection
 public import KAM.Planetary.WeakKAM.SelectionRecord
 public import KAM.Planetary.WeakKAM.SelectionTests
 public import KAM.Planetary.WeakKAM.StripBudget
+public import KAM.Planetary.WeakKAM.Tori
+public import KAM.Planetary.WeakKAM.ToriBridge
+public import KAM.Planetary.WeakKAM.ToriField
+public import KAM.Planetary.WeakKAM.ToriLimit
+public import KAM.Planetary.WeakKAM.ToriReal
+public import KAM.Planetary.WeakKAM.ToriStage
 public import KAM.Planetary.WeakMeasure.BallSublevel
 public import KAM.Planetary.WeakMeasure.Basic
 public import KAM.Planetary.WeakMeasure.Bridge
