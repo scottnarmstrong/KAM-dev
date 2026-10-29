@@ -61,11 +61,27 @@ def expPinErr (E : CertPoly α) (out : CC α × α) : α :=
   let d := CertBall.plus (CertPoly.coeffSumBall E) ⟨CC.negC out.1, out.2⟩
   upAdd d.c.normUp d.r
 
-/-- The residual model `∂_j E + (∂_j g₀)(-E)` of direction `j` (degree `1`). -/
-def expResidual (W : CertWeight) (cfg : ModelConfig α) (g₀ E : CertPoly α) (j : ℕ) :
-    CertModel α :=
-  CertModel.add W (CertModel.ofDeriv W j 0 E)
-    (CertModel.mul W cfg [1, j] (CertModel.ofDeriv W j 0 g₀) ⟨0, E.negP, ofInt 0⟩)
+/-- The product terms `(∂_j g₀ / 2π)(-E)` with a sup-norm error: the advice under `[1, j]`
+(`CertModel.polyProduct`), or the direct product if the advice is missing or fails. -/
+def expResidualProduct (W : CertWeight) (cfg : ModelConfig α) (g₀ E : CertPoly α) (j : ℕ) :
+    List (ErrTerm α) × α :=
+  match CertModel.polyProduct W cfg [1, j] (itemsPoly (g₀.terms.filterMap (derivItem j)))
+      E.negP with
+  | some out => out
+  | none =>
+    (directItems (itemsPoly (g₀.terms.filterMap (derivItem j))).terms E.negP.terms, ofInt 0)
+
+/-- An upper bound of `sup_{T_ρ} |∂_j E - (∂_j g₀) E|` given `eN ≥ sup |E|`: the terms of
+`∂_j E / 2π` merged with the product terms, bounded in one weighted pass
+`Σ (|c_k| + e_k) w^{|k|₁}`, plus the product error and `|∂_j g₀ rounding|_w · eN`, times an
+upper bound of `2π`. -/
+def expResidualUp (W : CertWeight) (cfg : ModelConfig α) (g₀ E : CertPoly α) (eN : α) (j : ℕ) :
+    α :=
+  let pr := expResidualProduct W cfg g₀ E j
+  upMul (ofRatUp (2 * piUpQ))
+    (upAdd (upAdd (sumUp (fun t => weightTermUp W t.1 (upAdd t.2.1.normUp t.2.2))
+        (mergeErrTerms (E.terms.filterMap (derivItem j)) pr.1)) pr.2)
+      (crossUp eN (errRadius W (g₀.terms.filterMap (derivItem j)))))
 
 /-- The radius certified by the exp witness polynomial `E` once the pin ball `out` is known
 (`none` if a real exponential bound fails). -/
@@ -75,8 +91,8 @@ def expWitnessRadiusOf (n : ℕ) (W : CertWeight) (cfg : ModelConfig α) (g : Ce
     expm1Up cfg.halvings cfg.taylorN g.rad with
   | some mB, some mη =>
     let eB := upAdd (ofInt 1) mB
-    let res := sumUp (fun j : Fin n => (expResidual W cfg g.poly E j.val).supUp W)
-      (List.finRange n)
+    let eN := E.supNormUp W
+    let res := sumUp (fun j : Fin n => expResidualUp W cfg g.poly E eN j.val) (List.finRange n)
     some (upAdd (upMul (upMul eB eB)
         (upAdd (expPinErr E out) (upMul (ofRatUp (1 / 2 + W.rho)) res)))
       (upMul eB mη))
@@ -135,23 +151,117 @@ theorem norm_sub_le_expPinErr (n : ℕ) (E : CertPoly α) (out : CC α × α) {w
     simpa using norm_sub_le_norm_sub_add_norm_sub (E.eval n 0 - w) d.c.toC 0
   exact this.trans (by simp only [expPinErr]; linarith)
 
-/-- The residual model encloses `∂_j E - (∂_j g₀) E`. -/
-theorem expResidual_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
-    (hW : checkWeight W s N = true) (cfg : ModelConfig α) (g₀ E : CertPoly α) (j : Fin n) :
-    (expResidual W cfg g₀ E j.val).Encloses n W.rho (fun θ =>
-      fderiv ℂ (E.eval n) θ (Pi.single j 1) -
-        fderiv ℂ (g₀.eval n) θ (Pi.single j 1) * E.eval n θ) := by
-  have h1 := CertModel.Encloses.ofDeriv hW j 0 E
-  have h2 := CertModel.Encloses.ofDeriv hW j 0 g₀
-  have h3 : (⟨0, E.negP, ofInt 0⟩ : CertModel α).Encloses n W.rho (fun θ => -E.eval n θ) := by
-    intro θ _
-    simp [CertPoly.eval_negP, LawfulCertArith.val_ofInt]
-  have h4 := CertModel.Encloses.mul hW cfg [1, j.val] h2 h3
-  have h5 := CertModel.Encloses.add hW h1 h4 (by rw [CertModel.mul_deg]; simp [CertModel.ofDeriv])
-  intro θ hθ
-  have := h5 θ hθ
-  simp only [zpow_zero, one_mul, Pi.add_apply, Pi.mul_apply] at this
-  simpa [expResidual, sub_eq_add_neg] using this
+omit [LawfulCertArith α] in
+/-- The directional derivative of a polynomial: `∂_j P = 2π Σ i k_j c_k χ_k`. -/
+theorem fderiv_eval_single {n : ℕ} (P : CertPoly α) (j : Fin n) (θ : Fin n → ℂ) :
+    fderiv ℂ (P.eval n) θ (Pi.single j 1) = (2 * Real.pi) * (P.terms.map fun t =>
+      Complex.I * ((certKeyFun n t.1 j : ℤ) : ℂ) * t.2.toC * character (certKeyFun n t.1) θ).sum := by
+  obtain ⟨D, hD, hv⟩ := hasFDerivAt_termSum j θ P.terms
+  have : P.eval n = fun θ => (P.terms.map fun t => t.2.toC * character (certKeyFun n t.1) θ).sum :=
+    rfl
+  rw [this, hD.fderiv, hv]
+
+/-- One weighted pass bounds the value and the error budget of an error-term list. -/
+theorem norm_errTermsEval_add_le {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) (L : List (ErrTerm α)) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n W.rho) :
+    ‖errTermsEval n L θ‖ + errTermsErr n L θ ≤
+      val (sumUp (fun t => weightTermUp W t.1 (upAdd t.2.1.normUp t.2.2)) L) := by
+  refine le_trans ?_ (sumUp_ge _ _)
+  induction L with
+  | nil => simp
+  | cons t L ih =>
+    simp only [errTermsEval_cons, errTermsErr_cons, List.map_cons, List.sum_cons]
+    have h1 := weightTermUp_ge hW t.1 (upAdd t.2.1.normUp t.2.2) hθ
+    have h2 := LawfulCertArith.upAdd_ge t.2.1.normUp t.2.2
+    have h3 := CC.norm_le_normUp t.2.1
+    have hχ := norm_nonneg (character (certKeyFun n t.1) θ)
+    have h4 : ‖t.2.1.toC * character (certKeyFun n t.1) θ‖ +
+        val t.2.2 * ‖character (certKeyFun n t.1) θ‖ ≤
+        val (upAdd t.2.1.normUp t.2.2) * ‖character (certKeyFun n t.1) θ‖ := by
+      rw [norm_mul, ← add_mul]
+      exact mul_le_mul_of_nonneg_right (by linarith) hχ
+    have := norm_add_le (t.2.1.toC * character (certKeyFun n t.1) θ) (errTermsEval n L θ)
+    linarith
+
+/-- The fused residual bound. -/
+theorem norm_le_expResidualUp {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) (cfg : ModelConfig α) (g₀ E : CertPoly α) {eN : α}
+    (heN0 : 0 ≤ val eN) (j : Fin n) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho)
+    (heN : ‖E.eval n θ‖ ≤ val eN) :
+    ‖fderiv ℂ (E.eval n) θ (Pi.single j 1) -
+        fderiv ℂ (g₀.eval n) θ (Pi.single j 1) * E.eval n θ‖ ≤
+      val (expResidualUp W cfg g₀ E eN j.val) := by
+  set dE := E.terms.filterMap (derivItem j.val)
+  set dG := g₀.terms.filterMap (derivItem j.val)
+  set pr := expResidualProduct W cfg g₀ E j.val
+  set M := mergeErrTerms dE pr.1
+  set SE := (E.terms.map fun t => Complex.I * ((certKeyFun n t.1 j : ℤ) : ℂ) * t.2.toC *
+    character (certKeyFun n t.1) θ).sum
+  set SG := (g₀.terms.map fun t => Complex.I * ((certKeyFun n t.1 j : ℤ) : ℂ) * t.2.toC *
+    character (certKeyFun n t.1) θ).sum
+  have hE := derivItems_spec j θ E.terms
+  have hG := derivItems_spec j θ g₀.terms
+  have hP : ‖(itemsPoly dG).eval n θ * E.negP.eval n θ - errTermsEval n pr.1 θ‖ ≤
+      errTermsErr n pr.1 θ + val pr.2 := by
+    simp only [pr, expResidualProduct]
+    split
+    · rename_i out hout
+      exact CertModel.polyProduct_sound hW hout hθ
+    · rw [LawfulCertArith.val_ofInt, Int.cast_zero, add_zero]
+      exact directItems_spec n _ _ θ
+  have hM := mergeErrTerms_spec n θ dE pr.1
+  have hS := norm_errTermsEval_add_le hW M hθ
+  have hR := errTermsErr_le_errRadius hW dG hθ
+  have hR0 : 0 ≤ val (errRadius W dG) := sumUp_nonneg (fun _ => weightTermUp_nonneg hW _ _) _
+  have hc := crossUp_ge eN (errRadius W dG) heN0 hR0
+  have hneg := CertPoly.eval_negP n E θ
+  rw [itemsPoly_eval] at hP
+  rw [hneg] at hP
+  -- the residual divided by `2π`
+  have key : ‖SE - SG * E.eval n θ‖ ≤ errTermsErr n M θ + ‖errTermsEval n M θ‖ + val pr.2 +
+      val (errRadius W dG) * val eN := by
+    have e : SE - SG * E.eval n θ = (SE - errTermsEval n dE θ) +
+        (errTermsEval n dE θ + errTermsEval n pr.1 θ - errTermsEval n M θ) +
+        errTermsEval n M θ + (errTermsEval n dG θ * -E.eval n θ - errTermsEval n pr.1 θ) +
+        (errTermsEval n dG θ - SG) * E.eval n θ := by ring
+    rw [e]
+    have n1 := norm_add_le ((SE - errTermsEval n dE θ) +
+        (errTermsEval n dE θ + errTermsEval n pr.1 θ - errTermsEval n M θ) +
+        errTermsEval n M θ + (errTermsEval n dG θ * -E.eval n θ - errTermsEval n pr.1 θ))
+      ((errTermsEval n dG θ - SG) * E.eval n θ)
+    have n2 := norm_add_le ((SE - errTermsEval n dE θ) +
+        (errTermsEval n dE θ + errTermsEval n pr.1 θ - errTermsEval n M θ) +
+        errTermsEval n M θ) (errTermsEval n dG θ * -E.eval n θ - errTermsEval n pr.1 θ)
+    have n3 := norm_add_le ((SE - errTermsEval n dE θ) +
+        (errTermsEval n dE θ + errTermsEval n pr.1 θ - errTermsEval n M θ))
+      (errTermsEval n M θ)
+    have n4 := norm_add_le (SE - errTermsEval n dE θ)
+      (errTermsEval n dE θ + errTermsEval n pr.1 θ - errTermsEval n M θ)
+    have n5 : ‖(errTermsEval n dG θ - SG) * E.eval n θ‖ ≤ val (errRadius W dG) * val eN := by
+      rw [norm_mul, norm_sub_rev]
+      exact mul_le_mul (hG.trans hR) heN (norm_nonneg _) hR0
+    linarith
+  have h2pi := LawfulCertArith.ofRatUp_ge (α := α) (2 * piUpQ)
+  have hpi : 2 * Real.pi ≤ ((2 * piUpQ : ℚ) : ℝ) := by push_cast; linarith [pi_lt_piUpQ]
+  have u1 := LawfulCertArith.upAdd_ge
+    (sumUp (fun t => weightTermUp W t.1 (upAdd t.2.1.normUp t.2.2)) M) pr.2
+  have u2 := LawfulCertArith.upAdd_ge
+    (upAdd (sumUp (fun t => weightTermUp W t.1 (upAdd t.2.1.normUp t.2.2)) M) pr.2)
+    (crossUp eN (errRadius W dG))
+  have hX0 : 0 ≤ ‖SE - SG * E.eval n θ‖ := norm_nonneg _
+  have hU : ‖SE - SG * E.eval n θ‖ ≤ val (upAdd (upAdd (sumUp (fun t => weightTermUp W t.1
+      (upAdd t.2.1.normUp t.2.2)) M) pr.2) (crossUp eN (errRadius W dG))) := by linarith
+  have h2pos : (0 : ℝ) ≤ val (ofRatUp (2 * piUpQ) : α) :=
+    (by positivity : (0 : ℝ) ≤ 2 * Real.pi).trans (hpi.trans h2pi)
+  have hm := LawfulCertArith.upMul_ge _ _ h2pos (hX0.trans hU)
+  rw [fderiv_eval_single, fderiv_eval_single]
+  have e2 : (2 * (Real.pi : ℂ)) * SE - (2 * (Real.pi : ℂ)) * SG * E.eval n θ =
+      (2 * (Real.pi : ℂ)) * (SE - SG * E.eval n θ) := by ring
+  rw [e2, norm_mul]
+  have h2 : ‖(2 * (Real.pi : ℂ))‖ = 2 * Real.pi := by simp [abs_of_pos Real.pi_pos]
+  rw [h2]
+  exact (mul_le_mul (hpi.trans h2pi) hU hX0 h2pos).trans hm
 
 /-- A linear functional on `Fin n → ℂ` is bounded by the sum of its values on the basis. -/
 theorem norm_clm_le_sum_single {n : ℕ} (L : (Fin n → ℂ) →L[ℂ] ℂ) :
@@ -289,16 +399,18 @@ theorem expWitnessRadiusOf_sound {n : ℕ} {W : CertWeight} {s N : ℕ}
   have heB0 : 0 ≤ val eB := (Real.exp_pos _).le.trans heB
   have he2 := LawfulCertArith.upMul_ge eB eB heB0 heB0
   -- residuals
-  set R : Fin n → CertModel α := fun j => expResidual W cfg g.poly E j.val
+  set eN : α := E.supNormUp W
+  have heN0 : 0 ≤ val eN := E.supNormUp_nonneg hW
+  set R : Fin n → α := fun j => expResidualUp W cfg g.poly E eN j.val
   have hR : ∀ j, ∀ θ ∈ complexStrip n W.rho, ‖fderiv ℂ (E.eval n) θ (Pi.single j 1) -
-      fderiv ℂ (g.poly.eval n) θ (Pi.single j 1) * E.eval n θ‖ ≤ val ((R j).supUp W) :=
-    fun j θ hθ => CertModel.norm_le_supUp hW (expResidual_encloses hW cfg g.poly E j) hθ
-  set res : α := sumUp (fun j : Fin n => (R j).supUp W) (List.finRange n)
-  have hres : ∑ j, val ((R j).supUp W) ≤ val res := by
-    have := sumUp_ge (fun j : Fin n => (R j).supUp W) (List.finRange n)
+      fderiv ℂ (g.poly.eval n) θ (Pi.single j 1) * E.eval n θ‖ ≤ val (R j) :=
+    fun j θ hθ => norm_le_expResidualUp hW cfg g.poly E heN0 j hθ (E.norm_eval_le_supNormUp hW hθ)
+  set res : α := sumUp (fun j : Fin n => R j) (List.finRange n)
+  have hres : ∑ j, val (R j) ≤ val res := by
+    have := sumUp_ge (fun j : Fin n => R j) (List.finRange n)
     rwa [← List.ofFn_eq_map, List.sum_ofFn] at this
   have h0 : (0 : Fin n → ℂ) ∈ complexStrip n W.rho := fun i => by simpa using hρ
-  have hS0 : 0 ≤ ∑ j, val ((R j).supUp W) :=
+  have hS0 : 0 ≤ ∑ j, val (R j) :=
     Finset.sum_nonneg fun j _ => (norm_nonneg _).trans (hR j 0 h0)
   -- pin
   have hε := norm_sub_le_expPinErr n E out hpin
@@ -312,13 +424,13 @@ theorem expWitnessRadiusOf_sound {n : ℕ} {W : CertWeight} {s N : ℕ}
   have hm1 := LawfulCertArith.upMul_ge half res hh0 (hS0.trans hres)
   set inner : α := upAdd (expPinErr E out) (upMul half res)
   have hin := LawfulCertArith.upAdd_ge (expPinErr E out) (upMul half res)
-  have hinner : val (expPinErr E out) + (1 / 2 + (W.rho : ℝ)) * ∑ j, val ((R j).supUp W) ≤
+  have hinner : val (expPinErr E out) + (1 / 2 + (W.rho : ℝ)) * ∑ j, val (R j) ≤
       val inner := by
-    have : (1 / 2 + (W.rho : ℝ)) * ∑ j, val ((R j).supUp W) ≤ val half * val res :=
+    have : (1 / 2 + (W.rho : ℝ)) * ∑ j, val (R j) ≤ val half * val res :=
       mul_le_mul hhalf hres hS0 hh0
     linarith
   have hin0 : 0 ≤ val inner := by
-    have : 0 ≤ (1 / 2 + (W.rho : ℝ)) * ∑ j, val ((R j).supUp W) := by positivity
+    have : 0 ≤ (1 / 2 + (W.rho : ℝ)) * ∑ j, val (R j) := by positivity
     linarith
   have hm2 := LawfulCertArith.upMul_ge (upMul eB eB) inner ((mul_nonneg heB0 heB0).trans he2)
     hin0
@@ -346,7 +458,7 @@ theorem expWitnessRadiusOf_sound {n : ℕ} {W : CertWeight} {s N : ℕ}
   have hsq : Real.exp (val B) ^ 2 ≤ val (upMul eB eB) := by
     rw [sq]; exact (mul_le_mul heB heB (Real.exp_pos _).le heB0).trans he2
   have hX : Real.exp (val B) ^ 2 * (val (expPinErr E out) +
-      (1 / 2 + (W.rho : ℝ)) * ∑ j, val ((R j).supUp W)) ≤
+      (1 / 2 + (W.rho : ℝ)) * ∑ j, val (R j)) ≤
       val (upMul (upMul eB eB) inner) :=
     (mul_le_mul hsq hinner (by positivity) ((sq_nonneg _).trans hsq)).trans hm2
   have hY : Real.exp (val B) * (Real.exp (val g.rad) - 1) ≤ val (upMul eB mη) :=
