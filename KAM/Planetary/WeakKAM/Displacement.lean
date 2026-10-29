@@ -72,6 +72,9 @@ theorem disp_inv_B :
   have hl := d.loss_pos
   have hexp : (-1 - (d.μ : ℝ)⁻¹) * ((d.μ : ℝ) / d.ρ) = -((d.μ : ℝ) + 1) / d.ρ := by
     field_simp
+    ring
+  have hCD : 0 < selectionCDio d :=
+    mul_pos hC (Real.rpow_pos_of_pos hβ0 _)
   rw [← Real.inv_rpow (by positivity)]
   have : (d.loss / selectionCDio d)⁻¹ = (selectionChat d / d.loss) * d.β ^ (-1 - (d.μ : ℝ)⁻¹) := by
     unfold selectionCDio
@@ -93,12 +96,16 @@ theorem gamma_inverse (d : SelectionData n) (hβ : d.β ≤ 1) :
   unfold selectionCGamma
   rcases min_choice ((1 / 2 : ℝ) * (Real.sqrt n)⁻¹ * (d.β / 4) ^ ((d.ρ : ℝ)⁻¹))
       ((d.loss / selectionCDio d) ^ ((d.μ : ℝ) / d.ρ)) with h | h
-  · rw [h, mul_assoc]
-    refine mul_le_mul_of_nonneg_left ?_ (by norm_num)
-    exact (disp_inv_A d hβ).trans (mul_le_mul_of_nonneg_right (le_max_left _ _) hg0.le)
-  · rw [h, disp_inv_B, mul_assoc]
-    refine mul_le_mul_of_nonneg_left ?_ (by norm_num)
-    exact mul_le_mul_of_nonneg_right (le_max_right _ _) hg0.le
+  · rw [h]
+    have hk := mul_le_mul_of_nonneg_right (le_max_left
+      (2 * Real.sqrt n * (4 : ℝ) ^ ((d.ρ : ℝ)⁻¹))
+      ((selectionChat d / d.loss) ^ ((d.μ : ℝ) / d.ρ))) hg0.le
+    linarith [disp_inv_A d hβ]
+  · rw [h, disp_inv_B]
+    have hk := mul_le_mul_of_nonneg_right (le_max_right
+      (2 * Real.sqrt n * (4 : ℝ) ^ ((d.ρ : ℝ)⁻¹))
+      ((selectionChat d / d.loss) ^ ((d.μ : ℝ) / d.ρ))) hg0.le
+    linarith
 
 end GammaInverse
 
@@ -162,9 +169,8 @@ theorem disp_scalar (hε : 0 < ε) (hsmall : ε ≤ selectionAdmissible d) :
   have hCQ : (162 : ℝ) ≤ selectionCQ n := by unfold selectionCQ; nlinarith
   have hx : 3 * (a.strip / 24) / selectionCQ n ≤ 1 / 128 := by
     rw [div_le_iff₀ (by linarith)]
-    have : a.strip ≤ 1 := d.strip_le
     show 3 * (d.strip / 24) ≤ _
-    nlinarith [d.strip_pos]
+    linarith [d.strip_le]
   have hy : a.s₀ / 16 ≤ 1 / 128 := by
     have h1 := hadm.radius
     have h2 := hadm.t_le
@@ -216,7 +222,8 @@ theorem selectionDelta_le_power (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
     have := selectionT₀_pos d
     have hT : 0 < selectionT₀ d := lt_of_lt_of_le one_pos this
     have : 0 < d.strip / 24 := by linarith [d.strip_pos]
-    have := selectionCQ_pos d.n_pos
+    have hn : (0 : ℝ) < n := by exact_mod_cast d.n_pos
+    have : 0 < selectionCQ n := by unfold selectionCQ; positivity
     positivity
   calc selectionDelta d ε ≤ selectionCDelta d * Real.sqrt ε / selectionGamma d := h
     _ = selectionCDelta d * Real.sqrt ε * (selectionGamma d)⁻¹ := by rw [div_eq_mul_inv]
