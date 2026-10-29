@@ -250,3 +250,11 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - *(Addendum 2026-10-29, 16:58; Scott, recommended option.)* `bpN:p0:avg-totality` (the averaging remark: attained
     sup, nonempty compact interval, ω_h of class C²) is treated like `bpP:p0:totality`: a reviewed convention recorded as
     ASSUMED, enforced by guard proofs at each consumer (mean_family, Averaging/Mean.lean).
+- **D32 (2026-10-29, 17:15) Graph N blueprint scope repair of three Part 1 steps.** *(Scott, recommended option.)*
+  N-SYNC-audit-1 (F1, F2) found that `stepN:p1:co-exc`, `stepN:p1:co-time` and the compound `stepN:p1:co-conc` state
+  frequency bounds without the hypotheses H1–H5 on h (blueprint-N `p1-interfaces.tex:227-230` binds them only in
+  clause (d)); as written they are false (h = 0). The Lean proofs `const_exceptional`, `const_time`, `const_conclusion`
+  assume H1–H5 (`HeadHyp`), which the sealed theorems supply. Ruling: a reviewed graph amendment adds H1–H5 to the
+  three steps' SOURCE_HYPOTHESES, recorded as a repair of our own blueprint (not a source erratum), with
+  N-SYNC-audit-1 as the independent review; the steps are then PROVED by those theorems, and co-conc is split so its
+  proved identities count separately. No frozen statement changes.
