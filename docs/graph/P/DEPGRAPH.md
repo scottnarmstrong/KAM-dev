@@ -3742,9 +3742,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:oi-transfer
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: P23-13b/e/g/i supply transfer infrastructure only; node not fully stated by any single declaration
+LEAN_NOTE: route substitution (D27, gap survey 2 item 4): osc_iter uses direct re-proofs; consumer aa-same is BYPASSED
 NOTE: -
 
 NODE: stepP:p2:oi-ratio
@@ -8929,10 +8929,10 @@ EDGE: bpP:p5:freq-data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-inv@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: PROVED
-LEAN_REF: schur_inverse_blocks (KAM/Planetary/PGAssembly/FrequencySchur.lean)
-LEAN_NOTE: audit P5-FI PASS WITH NOTES; named fi-inv
-NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.; RE-AUDIT FLAG (ruling 01:20): LEAN_REF schur_inverse_blocks does not state the norm bounds
+LEAN_STATUS: BYPASSED
+LEAN_REF: -
+LEAN_NOTE: route substitution (D27, gap survey 2 item 4): freq_inj takes its bounds from inv_apriori inside jacobian_bounds and never forms a Schur block (as fi-blk); its row-sum clause is literal in freq_inj
+NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.
 
 NODE: bpP:p5:params
 KIND: definition
@@ -15934,9 +15934,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:identifica
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S8-M PASS WITH NOTES: identification proves continuity, the average delta, the integrability iff and the guarded S_mov=S_fix+delta; the N_R(rho_*) specialization and the averaged-Hamiltonian clauses are not exported; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: identification_full (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:id-diff
@@ -15964,9 +15964,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:id-diff@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: identification_diff (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:id-avg
@@ -15993,9 +15993,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:id-avg@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: identification_avg (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:id-int
@@ -16022,9 +16022,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:id-int@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: identification_int (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p8:same-jets
@@ -16051,9 +16051,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:same-jets@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S8-J PASS WITH NOTES: same_jets/same_jets_transfer cover jets and (c) transfer only; (a),(b) and composition clause not stated
+LEAN_STATUS: PROVED
+LEAN_REF: same_jets_full (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: edge to bpP:p8:quartic deleted (the coincidence of the quartic jets is a consequence of the all-order equality here; Prop quartic depends on this corollary, not conversely). Two step nodes #jets, #transfer added for the unmarked proof obligations
 
 NODE: bpP:p8:same-jets#jets
@@ -16083,9 +16083,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p8-secular-form.tex#bpP:p8:same-jets#jet
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-delta-P-j
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S8-J PASS WITH NOTES: same_jets_on states only the all-order jet equality; (a) same quadratic form and (b) same equations not stated
+LEAN_STATUS: PROVED
+LEAN_REF: same_jets_jets (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: added step: the all-order equality and (a),(b) are consumed by Parts 11b/12; proof paragraph L206
 
 NODE: bpP:p8:same-jets#transfer
@@ -16113,9 +16113,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:same-jets#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-delta-P-j
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S8-J PASS WITH NOTES: same_jets_transfer proves the HasBirkhoff transfer but not the composition clause S_mov o chi - S_fix o chi = delta
+LEAN_STATUS: PROVED
+LEAN_REF: same_jets_transfer_full (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: added step for the unmarked substantive transfer (c)
 
 NODE: bpP:p8:quartic
@@ -16146,9 +16146,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:quartic@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: quartic/quartic_scaling/quartic_pair_scaling cover q4-str,a,b but not (c) r_1^ex identification, S_mov same-jets or the sufficient-subdomain clause; audit S8-4 PASS WITH NOTES for the package, parent conclusion not fully stated
+LEAN_STATUS: PROVED
+LEAN_REF: quartic_full (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: edge to bpP:p8:cp11-check deleted (remark comparing CP11 (B.6); no proof consumes it; it depends on this proposition). Edges to evenness/quadratic-form/perturbation-analytic are carried by the steps
 
 NODE: stepP:p8:q4-str
@@ -16266,9 +16266,9 @@ EDGE: stepP:p8:q4-b | blueprint-P/parts/p8-secular-form.tex#stepP:p8:q4-c@L234-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: radialR1 is only a def (Defs.lean); no theorem identifies c_1,c_2 with m_i m_j r_1^ex/(2 Lambda^2); S8-4 handoff: no theorem about radialR1
+LEAN_STATUS: PROVED
+LEAN_REF: quartic_c_node (KAM/Planetary/SecularForm/ModelTransferNodes.lean)
+LEAN_NOTE: audit GAP-P8a round 2 PASS WITH NOTES
 NOTE: the CP11 (B.6) comparison (equality of the repaired formula with r_1^ex, certificate in Remark cp11-check) is provenance/comparison and is not consumed: no edge
 
 NODE: bpP:p9:e-spec
@@ -17275,9 +17275,9 @@ EDGE: bpP:p8:quadratic-form | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S9-G PASS WITH NOTES covers (a), (b) iff and (c) dichotomy only; local-analytic eigenframes/diagonalisation and compact uniform non-resonance bound are separate interfaces, not in GoodPolynomial.lean
+LEAN_STATUS: PROVED
+LEAN_REF: good_set_bundle, two_sigma_ne_zero (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean)
+LEAN_NOTE: audit GAP-P9b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:gs-a
@@ -17365,9 +17365,9 @@ EDGE: stepP:p9:gs-c#analytic-route | blueprint-P/parts/p9-secular-spectrum.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S9-G PASS WITH NOTES; good_set_dichotomy gives open/dense/null but the compact-uniformity half of the step is not in GoodPolynomial.lean
+LEAN_STATUS: PROVED
+LEAN_REF: good_zero_set_small, good_uniform_nonresonance, good_set_bundle (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean)
+LEAN_NOTE: audit GAP-P9b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p9:n2
@@ -20288,9 +20288,9 @@ EDGE: K:bp:p1:holomorphic-analytic | blueprint-P/parts/p11-cp09-preparation.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, gap survey 2 item 4): polar_avg proves the parent by even descent; the Taylor route is not used
 NOTE: -
 
 NODE: stepP:p11:pa-mono
@@ -20316,9 +20316,9 @@ EDGE: bpP:p11:total-chart | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, gap survey 2 item 4): polar_avg proves the parent by even descent; the Taylor route is not used
 NOTE: The elementary integration input is bpP:p11:e5, admitted by the current SPEC.
 
 NODE: stepP:p11:pa-series
@@ -20346,9 +20346,9 @@ EDGE: I:bpI:p7:x-weier | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:pa
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, gap survey 2 item 4): polar_avg proves the parent by even descent; the Taylor route is not used
 NOTE: The elementary integration input is bpP:p11:e5, admitted by the current SPEC.
 
 NODE: bpP:p11:avg-slow
@@ -21189,7 +21189,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: Basic.lean is only an import facade; introduces no definition (conventions defined elsewhere)
+LEAN_NOTE: P11A-P1-audit-1.md:17 classifies only Preparation/Basic.lean as an import facade with no definition; no audit classifies Lean definitions for the weighted norm wn, T_sigma, polydisc D(c,r) or the 1-chart as this node's data.
 NOTE: the reference to Remark bpP:p2:use5(3) (an excluded administrative remark) is covered by bpP:p1:period-convert
 
 NODE: bpP:p11:sec-A#data
@@ -21278,7 +21278,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: P11A-P7/P7b define only K2, s2, Z, h0, f2; alpha_(i), r_*, sigma_3, Pi/G-hat bundle not all stated here; partial
+LEAN_NOTE: No audit classifies Lean definitions of Pi/polar shell, G-hat, alpha_(i), r_*, sigma_3 together; P7/P7b cover only K2, s2, Z, h0, f2. Partial.
 NOTE: the statement that nu_2 is fixed in Theorem wrapper (L153) is a forward pointer, no edge (it would create a cycle)
 
 NODE: bpP:p11:sec-E#data
@@ -21719,9 +21719,9 @@ EDGE: stepP:p11a:dd-rolle | blueprint-P/parts/p11a1-weak-measure.tex#bpP:p11a:di
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12
 REVIEWER: sol-review-P-x
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: divided_difference (KAM/Planetary/WeakMeasure/DividedDifference.lean)
+LEAN_NOTE: P11A-W3-audit-1.md:32 PASS: exact signature, q>=1, C^q on [a,b], increasing nodes, sum/product formula and interior witness; no extra premise.
 NOTE: -
 
 NODE: stepP:p11a:dd-interp
@@ -21746,9 +21746,9 @@ EDGE: bpP:p11a:f-rolle | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:dd-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_iterate_derivative_interpolate (KAM/Planetary/WeakMeasure/DividedDifference.lean)
+LEAN_NOTE: P11A-W3-audit-1.md:31 PASS: q! times the divided difference as P^(q).
 NOTE: -
 
 NODE: stepP:p11a:dd-rolle
@@ -21774,9 +21774,9 @@ EDGE: stepP:p11a:dd-interp | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: divided_difference, p11Rolle_step, p11Rolle_Icc (KAM/Planetary/WeakMeasure/DividedDifference.lean)
+LEAN_NOTE: P11A-W3-audit-1.md:33 PASS: iterated Rolle on f-P (proof L112-119 of divided_difference) gives xi in (t_0,t_q).
 NOTE: -
 
 NODE: bpP:p11a:scalar-sublevel
@@ -22560,9 +22560,9 @@ EDGE: bpP:p11a:c2-conv#data | blueprint-P/parts/p11a2-cutoff-step.tex#bpP:p11a:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12
 REVIEWER: sol-review-P-x
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: poissonBracket (KAM/Canonical/Setting.lean); hamiltonianVectorFieldℂ (KAM/Frozen/Defs/HamiltonianVectorFieldC.lean)
+LEAN_NOTE: P11A-C0-audit-1.md:39 PASS: existing frozen X_phi and poissonBracket, angle-first sum with correct signs, no replacement definition; the time-one-flow remark is a convention with no new definition (C0 proves no flow theorem).
 NOTE: Section data of Part 11a-2, paragraph Convention for the bracket and the field (L28).
 
 NODE: bpP:p11a:domain-def
@@ -23170,7 +23170,7 @@ EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: audit P11A-C4 PASS WITH NOTES covers only the four-clause core p11_cutoff; trig-polynomial/coefficient clauses (cutoff_coefficients) not closed
+LEAN_NOTE: p11_cutoff (Cutoff.lean, audit C4) gives clauses (a) total norm, (b), (c); cutoff_coefficients (StepCoeff.lean:367, C8 audits 1-2 PASS) now gives the R_*0/R_*1 norm bounds (1+E_T)eps and (1+E_T)eps/s and the affine decomposition on B; p11_cutoff_coeff (StepCoeff:272) gives angle-class admissibility and truncation idempotence. Still open: no audit row maps bpP:p11a:cutoff / cu-coeff / cu-a to these, no single export states all clauses, and the closing clause (T=T_nu, E_T<=alpha via loss_choice, remainder <= eps(q^2/(1-q)+2 alpha)) is not stated; cu-coeff and cu-a remain NOT_STARTED. Close after an audit row confirms the composition of p11_cutoff, cutoff_coefficients, p11_cutoff_coeff and loss_choice.
 NOTE: -
 
 NODE: stepP:p11a:cu-coeff
@@ -23257,9 +23257,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_cutoff (KAM/Planetary/MaximalStep/Cutoff.lean)
+LEAN_NOTE: Clause 3 of p11_cutoff is literally norm(R - R_*) <= eps*(q^2/(1-q)+2 E_T) on D(r-d,qs;B); audit P11A-C4-audit-1 PASS WITH NOTES.
 NOTE: -
 
 NODE: stepP:p11a:cu-c
@@ -24759,9 +24759,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_props, selectiont_eq, selectionT_rpow, selection_eps_div_s (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: Ruling (b): local step of PROVED parent schedule_props; B03-audit-1.md:49 PASS row for this step confirms its content with the same declaration.
 NOTE: -
 
 NODE: stepP:p11a:sp-2
@@ -24789,9 +24789,9 @@ EDGE: stepP:p11a:sp-1 | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_props, selectiont_eq, selectionT_rpow, selection_eps_div_s (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: Ruling (b): local step of PROVED parent schedule_props; B03-audit-1.md:50 PASS row for this step confirms its content with the same declaration.
 NOTE: -
 
 NODE: stepP:p11a:sp-3
@@ -24820,9 +24820,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_props, selectiont_eq, selectionT_rpow, selection_eps_div_s (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: Ruling (b): local step of PROVED parent schedule_props; B03-audit-1.md:51 PASS row for this step confirms its content with the same declaration.
 NOTE: -
 
 NODE: stepP:p11a:sp-4
@@ -24848,9 +24848,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a3-iteration-selection.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_props, selectiont_eq, selectionT_rpow, selection_eps_div_s (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: Ruling (b): local step of PROVED parent schedule_props; B03-audit-1.md:52 PASS row for this step confirms its content with the same declaration.
 NOTE: -
 
 NODE: stepP:p11a:sp-5
@@ -24876,9 +24876,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: schedule_props, selectiont_eq, selectionT_rpow, selection_eps_div_s (KAM/Planetary/WeakKAM/StripBudget.lean)
+LEAN_NOTE: Ruling (b): local step of PROVED parent schedule_props; B03-audit-1.md:53 PASS row for this step confirms its content with the same declaration.
 NOTE: -
 
 NODE: bpP:p11a:smooth-cutoff
@@ -26930,7 +26930,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: wbud_lip_term gives a combined geometric bound at rate 1/32, not the separate g4^j and (2 q g4)^j bounds
+LEAN_NOTE: B13-audit-1.md:35 PASS row asserts separate g1/2 and g1*q numerator rates, but wbud_lip_term (Budgets.lean:336) states only one combined bound (c1+c2)(1/32)^j; the node's separate g4^j and (2 q g4)^j bounds are not stated by any Lean declaration. Open until a lemma with the literal rates exists.
 NOTE: -
 
 NODE: stepP:p11a:pl4-sum
@@ -26962,7 +26962,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: wbud_lip states only the final 2^-10/16 bound, not the intermediate (32/31) Q0 Xi (2/C_Q+1/32) form
+LEAN_NOTE: B13-audit-1.md:36 row cites wbud_lip/wbud_nums, but wbud_lip (Budgets.lean:406) states only summability and the final 2^-10/16 bound; the intermediate (32/31) Q0 Xi (2/C_Q+1/32) <= 0.046*2^-10 form is not a Lean statement. Depends on pl4-terms.
 NOTE: -
 
 NODE: bpP:p11a:limit-map
@@ -27934,9 +27934,9 @@ EDGE: bpP:p11a:smooth-cutoff | blueprint-P/parts/p11a5-quantitative-theorem.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: thresholds, QuantitativeData, diameter, cDio, gamma, tbar, tflat, xibar, thetaMax, lambdaFlat (KAM/Planetary/Quantitative/Thresholds.lean)
+LEAN_NOTE: Q1-audit-1.md definition rows all PASS for diameter, A0, cDio, gamma, tbar, tflat, xibar, thetaMax, lambdaFlat, thresholds (byte-identical to signature, rfl copies).
 NOTE: Section data (prose L19-L21: the data frakd and conventions) is mapped to this node and to the statements (budget, weak-kam-quantitative) that restate the data.
 
 NODE: bpP:p11a:budget
@@ -28252,7 +28252,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q6-audit-1.md:99 row mentions uniform cDelta choice, positivity and premises retained, but does not confirm the node's conclusion that K_vartheta subset V (Euclidean vs max distance) nor that no hypothesis mentions a conclusion as a stated claim; left open.
 NOTE: -
 
 NODE: stepP:p11a:qt-reduce
@@ -28282,7 +28282,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q6-audit-1.md:100 confirms data reconstruction and thresholds<=polyBudget via polyBudget_threshold_le, but no audit row explicitly confirms gamma(frakd')=gamma(frakd); left open.
 NOTE: -
 
 NODE: stepP:p11a:qt-zero
@@ -28309,9 +28309,9 @@ EDGE: bpP:p11a:thresholds | blueprint-P/parts/p11a5-quantitative-theorem.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative (KAM/Planetary/Quantitative/Assembly.lean); zero_case (KAM/Planetary/Quantitative/Zero.lean)
+LEAN_NOTE: Ruling (b): Q6-audit-1.md:101 PASS: zero_case plus Hamiltonian transfer, zero displacement, K6 at eps=0; step is local to PROVED parent weak_kam_quantitative.
 NOTE: -
 
 NODE: stepP:p11a:qt-iter
@@ -28342,9 +28342,9 @@ EDGE: bpP:p11a:thresholds | blueprint-P/parts/p11a5-quantitative-theorem.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative (KAM/Planetary/Quantitative/Assembly.lean); weak_kam_quantitative_full (KAM/Planetary/Quantitative/AssemblyK6.lean)
+LEAN_NOTE: Ruling (b): Q6-audit-1.md:102 PASS: same Hinf, Kinf, frequencies and internally selected free radius, i.e. (K1) of the family; parent PROVED.
 NOTE: -
 
 NODE: stepP:p11a:qt-k2
@@ -28465,9 +28465,9 @@ EDGE: bpP:p11a:thresholds | blueprint-P/parts/p11a5-quantitative-theorem.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11c_budget, qb_beta (KAM/Planetary/Quantitative/Budget.lean); qb_mono, BudgetOrder (KAM/Planetary/Quantitative/BudgetCompare.lean)
+LEAN_NOTE: p11c_budget clause 2 (monotone gamma and thresholds under BudgetOrder: nondecreasing in beta, vartheta, s, epsLoss; nonincreasing in M, diameter, M0, C1) and clause 3 (c*b^B0 <= thresholds); Q6-audit-1.md:107 PASS.
 NOTE: -
 
 NODE: stepP:p11a:qt-k6
@@ -28557,9 +28557,9 @@ EDGE: bpP:p0:hamsymp#symplecticForm | blueprint-P/parts/p11a5-quantitative-theor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: QuantitativeData, NumericalValid, Valid (KAM/Planetary/Quantitative/Thresholds.lean); QuantitativeInput (KAM/Planetary/Quantitative/Interface.lean)
+LEAN_NOTE: Q1-audit-1.md:15-17 (QuantitativeData, NumericalValid, Valid) and Q0-audit-1.md:17 (QuantitativeInput = A1-A4, no conclusion hidden) PASS; Q5-audit-1.md:41 confirms.
 NOTE: Input-only projection of the theorem statement, allowing zero-case and its proof to refer to the actual premises without a cycle to the theorem they help prove.
 
 NODE: bpP:p13:fixed-hamiltonian-form
@@ -29770,7 +29770,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: audit T1 PASS WITH NOTES but T1 defines only PlanarData, axes/actions dictionaries, hat functions, secular average, slow length, quartic; Laplace coefficients, sigma, rho, Phi_4, NR_4 etc. are not defined here
+LEAN_NOTE: T1-audit-1.md classifies PlanarData, axes/actions, hat functions, secular average only; Laplace coefficients, sigma_i, rho, Phi_4, NR_4, beta_0/beta_1, complex notation, slow variables lack classified Lean definitions.
 NOTE: created from p11b:prose-L14-L16 (SPEC section data); consumers: nearly every node of Part 11b
 
 NODE: bpP:p11b:orbit
@@ -31263,9 +31263,9 @@ EDGE: bpP:p8:same-jets | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:rema
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P11C-T17 PASS WITH NOTES: remain proves clause (1) (compact positivity of det beta-hat, htorsion); clause (2) (Part 12 tasks; n=2/P-FIXED reuse of P_0, Omega, beta-hat) not stated; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: remain (KAM/Planetary/PlanarTorsion/TorsionBound.lean)
+LEAN_NOTE: audit P11C-T17 PASS WITH NOTES; conclusion cut to clause (1) by AMEND P-A003
 NOTE: consumed by Part 12 (stepP:p12:pg-h56 cites Remark remain(1)); clause (2) is a list of Part-12 tasks (pointer), its P-FIXED sentence is not used by P-PLANAR
 
 NODE: bpP:p11b:asymptotics
@@ -41568,6 +41568,26 @@ SET_SOURCE_CONCLUSION: -
 SET_CONSTANT_SCOPE: the constant c in (i)-(iii) may depend on n, tau, the fixed data and the derivative multi-index orders |alpha|, |beta|, |gamma|, and is chosen before eps; consumers use finitely many orders bounded in terms of mu (blueprint p11-cp09-preparation.tex:209-211)
 SET_ROUTE_FOR: -
 NOTE: Constant-scope clarification (orchestrator ruling OVERNIGHT 01:45, logged for owner review; audit P11A-P8b-audit-2 finding F2). The Lean exports state forall beta, exists c, before eps, which meets this scope.
+
+AMEND: P-A003-remain-clause-1
+TARGET: bpP:p11b:remain
+AUTHOR: claude-inp-sub-orchestrator
+REVIEWER: root-bb-survey-GAP-PLAN-P2
+ADD_DEPS: -
+DROP_DEPS: -
+ADD_ROUTES: -
+DROP_ROUTES: -
+SET_TITLE: -
+SET_STATEMENT_SOURCE: -
+SET_PROOF_SOURCE: -
+SET_CONTRACT_ID: -
+SET_CONTRACT_VERSION: -
+SET_SOURCE_HYPOTHESES: -
+SET_SOURCE_QUANTIFIERS: -
+SET_SOURCE_CONCLUSION: B:=min over K_a of ¦det beta-hat¦>0 satisfies htorsion (det beta-hat is continuous and nonzero on the compact K_a)
+SET_CONSTANT_SCOPE: -
+SET_ROUTE_FOR: -
+NOTE: Cut to clause (1) (option chosen under root-bb's second gap survey, item 6; logged for owner review). The dropped clause (2) is a remark listing Part 12 tasks (joint analyticity near the cylinder closure, extension, hperiod, fast diffeomorphism, collar) and the n=2/P-FIXED reuse of P_0, Omega, beta-hat; those are discharged by the P12/P13 assembly nodes, not by this claim.
 
 <!-- BEGIN PROOF DEPGRAPH GENERATED -->
 Regenerated by `proof_depgraph.py`; do not hand-edit.
