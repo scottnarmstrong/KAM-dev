@@ -96,14 +96,13 @@ def p11SlowZeta (z : P11CVec (n + n)) : P11CVec n := fun i => z (Fin.natAdd n i)
 /-- `p11PolPt` is `Π(ζ, ρ̃)`. -/
 theorem p11PolPt_eq_pi (z : P11Phase (n + n)) :
     p11PolPt z = p11Pi (p11SlowZeta z.1) (p11SlowR z.2) := by
-  ext i <;> simp [p11PolPt, p11PolarC, p11Pi, p11SlowZeta, p11SlowR, Fin.append_right]
+  ext i <;> simp [p11PolPt, p11PolarC, p11Pi, p11SlowZeta, p11SlowR]
 
 /-- `p11PolarC = (id_{θ,J}, Π)`: the slow block is unchanged, the fast block is `Π`. -/
 theorem p11PolarC_eq_pi (z : P11Phase (n + n)) :
     p11PolarC z = (Fin.append (fun i : Fin n => z.1 (Fin.castAdd n i))
         (p11Pi (p11SlowZeta z.1) (p11SlowR z.2)).1,
-      Fin.append (p11SlowJ z.2) (p11Pi (p11SlowZeta z.1) (p11SlowR z.2)).2) := by
-  simp only [p11PolarC, p11Pi, p11SlowZeta, p11SlowR, p11SlowJ]
+      Fin.append (p11SlowJ z.2) (p11Pi (p11SlowZeta z.1) (p11SlowR z.2)).2) := rfl
 
 /-- `|Π|_∞ ≤ √(3ε) e^{πσ_F/3}` on `𝒫_ε`. -/
 theorem p11Pi_norm_le {C : P11SecularData n} {eps : ℝ} {p : P11CVec n × P11CVec n}
@@ -153,7 +152,7 @@ def p11SourceH0 (C : P11SecularData n) (Fast : P11FastData n) (eps : ℝ)
   C.h (p11SlowJ I) + eps * p11GHat0 Fast (p11SlowJ I) (p11SlowR I)
 
 /-- Source `f₂ = ε (Ĝ - Ĝ₀) + f₁ ∘ (id, Π)`. -/
-def p11SourceF2 (C : P11SecularData n) (Fast : P11FastData n) (eps : ℝ)
+def p11SourceF2 (Fast : P11FastData n) (eps : ℝ)
     (z : P11Phase (n + n)) : ℂ :=
   eps * (p11GHat Fast (p11SlowJ z.2) (p11SlowZeta z.1) (p11SlowR z.2) -
       p11GHat0 Fast (p11SlowJ z.2) (p11SlowR z.2)) + Fast.f1 (p11PolarC z)
@@ -164,15 +163,15 @@ theorem p11SlowH0_eq_source_iff (C : P11SecularData n) (Fast : P11FastData n) {e
     p11SlowH0 C eps Z I = p11SourceH0 C Fast eps I ↔
       p11SlowSec C I + Z I = p11GHat0 Fast (p11SlowJ I) (p11SlowR I) := by
   have he : (eps : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 heps
-  simp only [p11SlowH0, p11SourceH0, p11SlowJ]
+  simp only [p11SlowH0, p11SourceH0]
   constructor
   · intro h; exact mul_left_cancel₀ he (add_left_cancel h)
-  · intro h; rw [h]
+  · intro h; rw [h]; rfl
 
 /-- The helper `f₂` with correction `Z` is the source `f₂` iff `C + Σ Ω ρ̃/2π + Z = Ĝ₀`. -/
 theorem p11SlowF2_eq_source_iff (C : P11SecularData n) (Fast : P11FastData n) {eps : ℝ}
     (heps : eps ≠ 0) (Z : P11CVec (n + n) → ℂ) (z : P11Phase (n + n)) :
-    p11SlowF2 C Fast eps Z z = p11SourceF2 C Fast eps z ↔
+    p11SlowF2 C Fast eps Z z = p11SourceF2 Fast eps z ↔
       p11SlowSec C z.2 + Z z.2 = p11GHat0 Fast (p11SlowJ z.2) (p11SlowR z.2) := by
   have he : (eps : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 heps
   simp only [p11SlowF2, p11SourceF2, p11GHat, ← p11PolPt_eq_pi]
@@ -210,7 +209,7 @@ theorem p11SlowF2_eq_source (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11Fas
     (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {z : P11Phase (n + n)}
     (hz : z.2 ∈ p11SlowAvgBox C eps) :
-    p11SlowF2 C Fast eps (p11SlowZ AR AB) z = p11SourceF2 C Fast eps z :=
+    p11SlowF2 C Fast eps (p11SlowZ AR AB) z = p11SourceF2 Fast eps z :=
   (p11SlowF2_eq_source_iff C Fast heps.ne' _ z).2 (p11_slow_secZ_eq hC Fast hF hP heps hεM hsm hz)
 
 /-- The chosen datum's `h₀` is the source `h₀ = h̃ + ε Ĝ₀` on all of `V₂`. -/
@@ -228,11 +227,11 @@ theorem P11SlowSpecOf.f2_eq_source (hC : P11SecularSpec D C) {Fast : P11FastData
     (hsm : 64 * eps < C.rz ^ 2) {z : P11Phase (n + n)}
     (hz : z ∈ KAM.complexStrip (n + n) (p11Sigma3 C) ×ˢ
       p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi * eps)) :
-    A.f2 z = p11SourceF2 C Fast eps z := by
+    A.f2 z = p11SourceF2 Fast eps z := by
   obtain ⟨-, -, -, -, -, hσ0, -⟩ := fast_consts hC
   have hs1 := p11s1_pos hC heps hεM
   have hbox : z.2 ∈ p11SlowAvgBox C eps :=
-    p11Box_mono _ (min_le_left _ _) le_rfl hz.2
+    ⟨fun i => (hz.2.1 i).trans_le (min_le_left _ _), hz.2.2⟩
   obtain ⟨hJ, hρ, -⟩ := p11SlowAvgBox_mem heps hs1 hbox
   have hstrip : z.1 ∈ KAM.complexStrip (n + n) (C.sigma / 6) := fun i =>
     (hz.1 i).trans_le (by unfold p11Sigma3; linarith)
@@ -248,7 +247,9 @@ theorem P11SlowSpecOf.f2_eq_source (hC : P11SecularSpec D C) {Fast : P11FastData
   have key : A.f2 z = p11WorkingH C eps (Fast.map (p11PolarC z)) - A.h0 z.2 := by
     rw [← h1]; ring
   rw [key, h3, h2]
-  simp only [p11SourceF2, p11GHat, p11SlowJ]
+  simp only [p11SourceF2, p11GHat, p11GHat0_eq_polarAverage]
+  rw [show (fun i : Fin n => z.2 (Fin.castAdd n i)) = p11SlowJ z.2 from rfl,
+    show (fun i : Fin n => z.2 (Fin.natAdd n i)) = p11SlowR z.2 from rfl]
   ring
 
 /-- The signed `p11SlowData` (under its choice guard and the fast guard) has `h₀`, `f₂` equal to
@@ -264,13 +265,13 @@ theorem p11SlowData_h0_f2_eq_source {D : P11Physical n} {nu eps : ℝ}
     ∀ z ∈ KAM.complexStrip (n + n) (p11Sigma3 (p11SecularData D)) ×ˢ
         p11Box (p11SlowCenter (p11SecularData D) eps) (p11s2 (p11SecularData D) nu eps)
           (Real.pi * eps),
-      (p11SlowData D nu eps).f2 z = p11SourceF2 (p11SecularData D) (p11FastData D eps) eps z := by
+      (p11SlowData D nu eps).f2 z = p11SourceF2 (p11FastData D eps) eps z := by
   have hA : P11SlowSpecOf (p11SecularData D) (p11FastData D eps) nu eps (p11SlowConstant D nu)
       (p11SlowData D nu eps) := by
-    have h := hS.choose_spec
     unfold p11SlowData
-    rw [dif_pos hS]
-    exact h
+    split
+    · rename_i h; exact h.choose_spec
+    · exact absurd hS ‹_›
   exact ⟨fun I hI => hA.h0_eq_source hI, fun z hz =>
     hA.f2_eq_source (holo_chart D).choose_spec.1 hF heps hεM hsm hz⟩
 
