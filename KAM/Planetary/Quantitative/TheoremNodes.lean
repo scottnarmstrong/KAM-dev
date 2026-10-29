@@ -71,7 +71,7 @@ theorem qt_reduce {N : ℕ} (d : QuantitativeData N) (hd : d.Valid) (h : (Fin N 
   obtain ⟨ds, m0, rfl, rfl, hM⟩ := p11c_selData_exists d hd.1 h f hh
   obtain ⟨-, hfhol, hper, -, hfreal, -⟩ := hh
   exact ⟨ds, m0, rfl, rfl, hM, fun ε _ hf => ⟨hfhol, hper, fun z hz => hfreal z hz, hf⟩,
-    qbc_gamma_sel ds m0 ds.beta_pos, polyBudget_threshold_le hd.1 hM⟩
+    (qbc_gamma_sel ds m0 ds.beta_pos).symm, polyBudget_threshold_le hd.1 hM⟩
 
 end KAM.Planetary
 
