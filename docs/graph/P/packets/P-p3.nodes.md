@@ -2774,7 +2774,7 @@ EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): wsum/wnorm carry junk values off the summable locus; WBound is a guarded predicate (same whole-carrier issue as p11 sec-conv#data); owner review
 NOTE: section data of Part 3a (prose L11-L34). The Hamilton equations here are in the order (action,angle) of CP10; the frozen order is bpP:p1:order
 
 NODE: bpP:p3b#kam-bounds
@@ -2832,7 +2832,7 @@ EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): no general conjugation G -> S o G o S^-1 and no L_* object in Lean; owner review
 NOTE: section data of Part 3b (prose L43)
 
 NODE: bpP:p3:tori#data
