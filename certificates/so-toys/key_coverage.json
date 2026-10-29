@@ -1,0 +1,97 @@
+{
+ "all_ok": true,
+ "toys": {
+  "T2": {
+   "cfgFull": {
+    "allDirect": true,
+    "emitted": 0,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 0,
+    "lookups": 0,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "cfgLow": {
+    "allDirect": true,
+    "emitted": 0,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 0,
+    "lookups": 0,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "ok": true
+  },
+  "T2d": {
+   "cfgFull": {
+    "allDirect": true,
+    "emitted": 34,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 34,
+    "lookups": 68,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "cfgLow": {
+    "allDirect": true,
+    "emitted": 34,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 34,
+    "lookups": 34,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "ok": true
+  },
+  "T3": {
+   "cfgFull": {
+    "allDirect": true,
+    "emitted": 0,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 0,
+    "lookups": 0,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "cfgLow": {
+    "allDirect": true,
+    "emitted": 0,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 0,
+    "lookups": 0,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "ok": true
+  },
+  "TR": {
+   "cfgFull": {
+    "allDirect": true,
+    "emitted": 0,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 0,
+    "lookups": 0,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "cfgLow": {
+    "allDirect": true,
+    "emitted": 0,
+    "emittedDuplicates": 0,
+    "lookedUpDistinct": 0,
+    "lookups": 0,
+    "missing": [],
+    "ok": true,
+    "unused": []
+   },
+   "ok": true
+  }
+ }
+}
