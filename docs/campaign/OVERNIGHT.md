@@ -974,3 +974,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   and docstrings, owner rulings D33) started as four directory-disjoint workers on claude-12, each checked by a new
   comment-only guard (comments stripped, code and strings compared). Fixed: the landing script's README refresh ran
   under sh and failed on `pipefail`; it now uses bash.
+- **21:50. Heartbeat.** Running: SO-SOUND-B audit (codex-4); provers SO-GRAPH, SO-PYALIGN, CLEANUP-B2A1, B2A2, B2R (all
+  claude-12, Opus; claude-12 100 % weekly, codex-3 100 %, codex-4 91 %). Done since 21:45: SO-SOUND-A audit PASS WITH
+  NOTES, sent to land; recorded deviation: `TorusCertificate.ham_structural` omits an unused `[LawfulCertArith α]`
+  binder, so it is strictly more general than its signature (every consumer applies it unchanged; accepted, no
+  owner action needed). CLEANUP-B2A3 done (87 files, comment-only guard: 0 code changes); the four B2 branches will
+  land together so the library rebuilds once. B3 (unused declarations) and B4 (duplicates) wait for B2 to land (same
+  files). SO-TEST (A positive toys, B negative and packed tests) is briefed and starts on SO-PYALIGN's aligned data.
+  Track K items in the heartbeat prompt are complete (2026-10-28); the prompt is applied to tracks SO and release.
