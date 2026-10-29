@@ -341,18 +341,20 @@ theorem p2_oi_range {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CH
         ‖lastBlock (a := n) ((Ψ z).1 - z.1)‖ ≤ δ / (2 * π * α * ρp) ∧
         ‖lastBlock (a := n) ((Ψ z).2 - z.2)‖ ≤ δ / (2 * π * α * ρq)) ∧
       oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) fp
-        ((1 - 2 * exp 1 * (1 + (m : ℝ)) * δ / (2 * π * α * d))⁻¹ *
+        ((1 - θ)⁻¹ *
           (2 * (1 + (m : ℝ)) / (2 * π * α * d) * (Rsum + δ) +
             exp (-(2 * π * K * σ))) * δ)) := by
   have hπ := Real.pi_pos
-  refine ⟨?_, osc_iter_range_ab hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg⟩
   have hS : 0 < S := by
     obtain ⟨-, -, -, -, -, -, h7, h8⟩ := hwidths
     linarith
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
   obtain ⟨c3, c4, c5⟩ := osc_actual_norm c2 (div_nonneg hδpos (by positivity))
-  exact osc_range_of_gen_bound hn hm hwidths c1 c3 c4
-    (by positivity) c5 hsmall hu hbu hA
+  refine ⟨osc_range_of_gen_bound hn hm hwidths c1 c3 c4
+    (by positivity) c5 hsmall hu hbu hA, ?_⟩
+  intro Ψ g gp fp d Rsum U
+  exact ⟨(osc_iter_range_ab hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg).1,
+    osc_remainder_of_gen_bound hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall c1 c3 c4 c5 hg⟩
 
 end OiNodes
 
