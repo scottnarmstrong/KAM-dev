@@ -60,3 +60,16 @@ data are its first client. Consequences:
   (SO-DIO) discharges it for n = 2 and the lunar frequencies.
 - Estimated size: about 21–37k hand-written lines (the 13–22k spin–orbit estimate plus 8–15k for generality), plus
   generated certificate data.
+
+## Owner rulings on the design's open questions (2026-10-29, 11:10)
+
+- **O1:** the headline initial region is a constant momentum window (every (q, φ) with p in an explicit interval,
+  about (0.9819, 1.0181) by the pilot); graph-error transport (proposal §7.2) is deferred.
+- **O2:** the expression language includes **division** by certified nonvanishing expressions in version 1.
+- **O3:** the high-precision π enclosure package (SO-PI) is built **now**.
+- **O4:** real-analytic barrier graphs and the analytic conjugacy stay out of the first frozen statement (later
+  corollary).
+
+The design (docs/tracks/SO/design/SO-LEAN-DESIGN.md, branch inp-design-so) gets a Revision 2 for O2 and O3 together
+with its independent design audit's findings.
+
