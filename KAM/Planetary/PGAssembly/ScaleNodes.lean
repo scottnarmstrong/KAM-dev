@@ -157,14 +157,18 @@ theorem kam_cond_node (d : PGData a b) {r mu : ℝ} (hr : 0 < r) (hmu : 0 < mu) 
     (pgKamScale d r mu).L = kam_c1 d/mu ∧
     (kam_c1 d)^4/(pgScales d).k0^2 ≤ 1 ∧
     cutoff (pgKamScale d r mu) = pgK0 d (pgScales d) ∧
+    (params d r mu).rhoHat =
+      min ((pgScales d).k0*r^(5/2:ℝ)/(3*kam_c1 d*(pgK0 d (pgScales d))^(pgTau a b+1)))
+        ((pgScales d).k1*r^(5/2:ℝ)/2) ∧
+    (params d r mu).Ehat = (kam_c1 d)^2*r^5/(params d r mu).rhoHat^2 ∧
     (params d r mu).Ehat = max (9*(kam_c1 d)^4*(pgK0 d (pgScales d))^(2*pgTau a b+2)/
       (pgScales d).k0^2) (4*(kam_c1 d)^2/(pgScales d).k1^2) ∧
     pgChat a b*(params d r mu).Ehat < 1 ∧
     (params d r mu).gamma2 ≤ (params d r mu).gamma1 ∧
     ((a+b:ℕ):ℝ) < pgTau a b := by
-  obtain ⟨hL, -, hx, hK, -, -, -, -, hmax⟩ := kc_eval d hr hmu h1
+  obtain ⟨hL, -, hx, hK, hρ, -, -, hE2, hmax⟩ := kc_eval d hr hmu h1
   obtain ⟨hE, -, hg⟩ := kc_small d hr hmu h1
-  exact ⟨hL, hx, hK, hmax, hE, hg, by unfold pgTau; linarith⟩
+  exact ⟨hL, hx, hK, hρ, hE2, hmax, hE, hg, by unfold pgTau; linarith⟩
 
 /-- `stepP:p5:rk-dir`: `Ê < 2⁻¹³/n`, `r_K < ρ̂/(256 n) ≤ λ₁/(512 n)`, `r_K < min{t, λ₁}`,
 `r_K < ρ̄/2`, `2 r_K/ℓ ≤ κ₁ √r/(64 n)` and `(1 + 2 r_K/ℓ)^b < 2` for admissible `(r, mu)`. -/
