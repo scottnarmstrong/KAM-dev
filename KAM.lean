@@ -97,7 +97,11 @@ public import KAM.Certificate.Tests.Gram
 public import KAM.Certificate.Tests.Model
 public import KAM.Certificate.Tests.Packed
 public import KAM.Certificate.Tests.Positivity
+public import KAM.Certificate.Tests.Torsion
 public import KAM.Certificate.Tests.Witness
+public import KAM.Certificate.Torsion.Average
+public import KAM.Certificate.Torsion.Frame
+public import KAM.Certificate.Torsion.Models
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
 public import KAM.Diophantine.FrequencyDependence
