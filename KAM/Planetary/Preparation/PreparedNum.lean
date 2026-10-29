@@ -78,6 +78,88 @@ theorem p11_num_a {e s P R : ℝ} (he : 0 < e) (hs : 0 < s) (hP : 0 ≤ P) (hR :
   have : 0 ≤ P * R := by positivity
   nlinarith
 
+/-- Collecting the `Z` term. -/
+theorem p11_num_z_final {e c k2 F PQ η lx : ℝ} (he : 0 < e) (hc : 0 ≤ c) (hη0 : 0 ≤ η)
+    (hlx : 1 ≤ lx) (hPQ0 : 0 ≤ PQ) (hPQ : PQ ≤ F) (hη : η ≤ k2 * e * lx) :
+    e * (PQ * (c * (e + η))) ≤ F * (c * (1 + k2) * e ^ 2 * lx) := by
+  have hk2 : 0 ≤ k2 := by
+    by_contra hk
+    push Not at hk
+    have : k2 * e * lx < 0 := by
+      have : 0 < e * lx := by positivity
+      nlinarith
+    linarith
+  have h1 : e + η ≤ (1 + k2) * e * lx := by nlinarith
+  have h2 : 0 ≤ (1 + k2) * e * lx := by positivity
+  have h3 : c * (e + η) ≤ c * ((1 + k2) * e * lx) := mul_le_mul_of_nonneg_left h1 hc
+  have h4 : PQ * (c * (e + η)) ≤ F * (c * ((1 + k2) * e * lx)) := by
+    have : 0 ≤ c * (e + η) := by positivity
+    have : 0 ≤ c * ((1 + k2) * e * lx) := by positivity
+    exact mul_le_mul hPQ h3 (by positivity) (hPQ0.trans hPQ)
+  calc e * (PQ * (c * (e + η))) ≤ e * (F * (c * ((1 + k2) * e * lx))) :=
+        mul_le_mul_of_nonneg_left h4 he.le
+    _ = F * (c * (1 + k2) * e ^ 2 * lx) := by ring
+
+/-- Final collection, pure `J` case. -/
+theorem p11_num_collect_pure {e c K F a l1 l5 lQ T3 X : ℝ} (he : 0 < e) (he1 : e ≤ 1)
+    (hc : 0 ≤ c) (hF : 0 ≤ F) (hl1 : 0 ≤ l1) (hl5 : 0 ≤ l5) (h1 : l1 ≤ lQ)
+    (h5 : l5 ≤ lQ) (haK : a ≤ K) (hFK : F ≤ K) (hX : X ≤ T3 + a * (e * l1) + F * (c * e ^ 2 * l5)) :
+    X ≤ T3 + K * (1 + c) * e * lQ := by
+  have hK : 0 ≤ K := hF.trans hFK
+  have h2 : e ^ 2 ≤ e := by nlinarith
+  have t1 : a * (e * l1) ≤ K * e * lQ := by
+    have : 0 ≤ e := he.le
+    calc a * (e * l1) ≤ K * (e * lQ) := mul_le_mul haK (mul_le_mul_of_nonneg_left h1 he.le)
+          (by positivity) hK
+      _ = K * e * lQ := by ring
+  have t2 : F * (c * e ^ 2 * l5) ≤ K * c * e * lQ := by
+    have h3 : c * e ^ 2 * l5 ≤ c * e * lQ := by
+      have : 0 ≤ c := hc
+      calc c * e ^ 2 * l5 ≤ c * e * l5 := by gcongr
+        _ ≤ c * e * lQ := by gcongr
+    calc F * (c * e ^ 2 * l5) ≤ K * (c * e * lQ) :=
+          mul_le_mul hFK h3 (by positivity) hK
+      _ = K * c * e * lQ := by ring
+  calc X ≤ T3 + a * (e * l1) + F * (c * e ^ 2 * l5) := hX
+    _ ≤ T3 + K * e * lQ + K * c * e * lQ := by linarith
+    _ = T3 + K * (1 + c) * e * lQ := by ring
+
+/-- Final collection, `ρ̃`-index case. -/
+theorem p11_num_collect_rho {e c K F k2 M l2 l5 lQ T3 X m : ℝ} (he : 0 < e) (he1 : e ≤ 1)
+    (hc : 0 ≤ c) (hF : 0 ≤ F) (hk2 : 0 ≤ k2) (hM : 0 ≤ M) (hl2 : 0 ≤ l2) (hl5 : 0 ≤ l5)
+    (h2 : l2 ≤ lQ) (h5 : l5 ≤ lQ) (hK : F * (1 + k2) + F * M ≤ K)
+    (hX : X ≤ m + F * (c * (1 + k2) * e ^ 2 * l2) + F * M * (c * e ^ 2 * l5))
+    (hm : m ≤ T3) : X ≤ T3 + K * (1 + c) * e * lQ := by
+  have hK0 : 0 ≤ K := by
+    have : 0 ≤ F * (1 + k2) + F * M := by positivity
+    linarith
+  have he2 : e ^ 2 ≤ e := by nlinarith
+  have hlQ0 : 0 ≤ lQ := hl2.trans h2
+  have t1 : F * (c * (1 + k2) * e ^ 2 * l2) ≤ F * (1 + k2) * c * e * lQ := by
+    have h3 : c * (1 + k2) * e ^ 2 * l2 ≤ (1 + k2) * c * e * lQ := by
+      calc c * (1 + k2) * e ^ 2 * l2 ≤ c * (1 + k2) * e * l2 := by gcongr
+        _ ≤ c * (1 + k2) * e * lQ := by gcongr
+        _ = (1 + k2) * c * e * lQ := by ring
+    calc F * (c * (1 + k2) * e ^ 2 * l2) ≤ F * ((1 + k2) * c * e * lQ) :=
+          mul_le_mul_of_nonneg_left h3 hF
+      _ = F * (1 + k2) * c * e * lQ := by ring
+  have t2 : F * M * (c * e ^ 2 * l5) ≤ F * M * c * e * lQ := by
+    have h3 : c * e ^ 2 * l5 ≤ c * e * lQ := by
+      calc c * e ^ 2 * l5 ≤ c * e * l5 := by gcongr
+        _ ≤ c * e * lQ := by gcongr
+    calc F * M * (c * e ^ 2 * l5) ≤ F * M * (c * e * lQ) :=
+          mul_le_mul_of_nonneg_left h3 (by positivity)
+      _ = F * M * c * e * lQ := by ring
+  have t3 : (F * (1 + k2) + F * M) * c * e * lQ ≤ K * c * e * lQ := by gcongr
+  calc X ≤ m + F * (c * (1 + k2) * e ^ 2 * l2) + F * M * (c * e ^ 2 * l5) := hX
+    _ ≤ T3 + (F * (1 + k2) + F * M) * c * e * lQ := by nlinarith
+    _ ≤ T3 + K * c * e * lQ := by linarith
+    _ ≤ T3 + K * (1 + c) * e * lQ := by
+        have hlQ0 : 0 ≤ lQ := hl2.trans h2
+        have hh : 0 ≤ K * e * lQ := by positivity
+        have : K * (1 + c) * e * lQ = K * e * lQ + K * c * e * lQ := by ring
+        linarith
+
 end Num
 
 end KAM.Planetary
