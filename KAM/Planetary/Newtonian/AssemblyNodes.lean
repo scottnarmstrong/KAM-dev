@@ -199,7 +199,8 @@ theorem mp_a_box {G m0 : ℝ} {m a : Fin n → ℝ} {η : ℝ} (hG : 0 < G) (hm0
     ENNReal.ofReal_lt_top⟩
 
 /-- `stepP:p6:mp-b`: the measure clauses of `liouville_lattice` for the chart image of a
-lattice-periodic set `A` of positive measure, with finiteness when the image lies in `U_η`. -/
+lattice-periodic set `A` of positive measure (formula, `0 < vol Ψ(A) ↔ 0 < vol A`, positivity),
+with finiteness when the image lies in `U_η`. -/
 theorem mp_b_measure {G m0 : ℝ} {m a : Fin n → ℝ} {η c : ℝ} (hG : 0 < G) (hm0 : 0 < m0)
     (ha : ∀ i, 0 < a i) (hc : 0 < c) {O : Set (Phase (n * 2))} (hO : IsOpen O)
     {Ψ : Phase (n * 2) → Phase (n * 2)} (hΨ : IsChart c Ψ O)
@@ -211,10 +212,10 @@ theorem mp_b_measure {G m0 : ℝ} {m a : Fin n → ℝ} {η c : ℝ} (hG : 0 < G
     (hApos : 0 < volume A) :
     NullMeasurableSet (Ψ '' A) ∧
       volume (Ψ '' A) = ENNReal.ofReal (c ^ (n * 2)) * volume (A ∩ unitCell (n * 2)) ∧
-      0 < volume (Ψ '' A) ∧
+      (0 < volume (Ψ '' A) ↔ 0 < volume A) ∧ 0 < volume (Ψ '' A) ∧
       (Ψ '' A ⊆ circularTube G m0 m a η → volume (Ψ '' A) < ⊤) := by
   have h := liouville_lattice hc hO hΨ hQ1 hQ2 hA hAO hAper
-  exact ⟨h.1, h.2.2.1, h.2.2.2.1.2 hApos, fun hS =>
+  exact ⟨h.1, h.2.2.1, h.2.2.2.1, h.2.2.2.1.2 hApos, fun hS =>
     volume_lt_top_of_subset_circularTube hG hm0 ha hS⟩
 
 /-- `stepP:p6:mp-b`, Borel clause: the chart image of a Borel lattice-periodic set is Borel. -/
@@ -249,7 +250,7 @@ theorem measure_positive {G m0 : ℝ} {m a : Fin n → ℝ} {η : ℝ} (hG : 0 <
       (∀ k : Fin (n * 2) → ℤ, (fun z => z + angleShift k) '' A = A) → 0 < volume A →
       NullMeasurableSet (Ψ '' A) ∧ (MeasurableSet A → MeasurableSet (Ψ '' A)) ∧
         volume (Ψ '' A) = ENNReal.ofReal (c ^ (n * 2)) * volume (A ∩ unitCell (n * 2)) ∧
-        0 < volume (Ψ '' A) ∧
+        (0 < volume (Ψ '' A) ↔ 0 < volume A) ∧ 0 < volume (Ψ '' A) ∧
         (Ψ '' A ⊆ circularTube G m0 m a η → volume (Ψ '' A) < ⊤) := by
   refine ⟨mp_a_box hG hm0 hm ha hη, fun c hc O hO Ψ hΨ hQ1 hQ2 A hA hAO hAper hApos => ?_⟩
   have h := mp_b_measure (G := G) (m0 := m0) (m := m) (a := a) (η := η) hG hm0 ha hc hO hΨ hQ1
