@@ -925,6 +925,7 @@ public import KAM.Planetary.SecularBox.Smooth
 public import KAM.Planetary.SecularBox.Uniqueness
 public import KAM.Planetary.SecularForm.Analytic
 public import KAM.Planetary.SecularForm.AnalyticGeometry
+public import KAM.Planetary.SecularForm.AnalyticNodes
 public import KAM.Planetary.SecularForm.AnalyticReal
 public import KAM.Planetary.SecularForm.AnalyticRegularity
 public import KAM.Planetary.SecularForm.Basic

@@ -14835,9 +14835,9 @@ EDGE: bpP:p6:domain | blueprint-P/parts/p8-secular-form.tex#bpP:p8:perturbation-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S8-A PASS WITH NOTES: perturbation_analytic matches the design contract; the blueprint clauses collision-free membership Psi(lambda,w) in W, full lambda-periodicity and d^alpha S=<d^alpha f> are not exported as one declaration; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation_analytic_full (KAM/Planetary/SecularForm/AnalyticNodes.lean)
+LEAN_NOTE: audit GAP-P8b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:pa-circ
@@ -14897,9 +14897,9 @@ EDGE: bpP:p12:f-unif | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-unif@L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-delta-P-bf
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation_unif (KAM/Planetary/SecularForm/AnalyticNodes.lean)
+LEAN_NOTE: audit GAP-P8b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:pa-hol
@@ -14928,9 +14928,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-hol@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation_hol (KAM/Planetary/SecularForm/AnalyticNodes.lean)
+LEAN_NOTE: audit GAP-P8b round 3 PASS WITH NOTES
 NOTE: retargeted from bpP:p7:e-hol (excluded as alias in P-p7) to I:bpI:p7:x-hol; the Weierstrass part (I:bpI:p7:x-weier) is not used
 
 NODE: stepP:p8:pa-avg
@@ -14960,9 +14960,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:pa-avg@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation_avg_node (KAM/Planetary/SecularForm/AnalyticNodes.lean)
+LEAN_NOTE: audit GAP-P8b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p8:symmetries
