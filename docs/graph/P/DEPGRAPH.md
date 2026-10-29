@@ -7032,9 +7032,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:limitm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P2-audit-1): no general conjugation G -> S o G o S^-1 and no L_* object in Lean; owner review
+LEAN_STATUS: PROVED
+LEAN_REF: sc, unsc (KAM/Planetary/TwoScale/LimitMapScale.lean); limitmap_data (KAM/Planetary/TwoScale/LimitMapScale.lean); limitmapCheck, limitmapCheck_apply, limitmapCheck_comp, limitmapCheck_id, limitmapCheck_sc, limitmapCheck_sub_id, LipStar, lipStar_iff_check, PsiSteps.psi_lipStar (KAM/Planetary/TwoScale/LimitMapDefs.lean); realTube (KAM/Planetary/Averaging/Setting.lean); phaseTube (KAM/Planetary/TwoScale/LimitMapPsi.lean)
+LEAN_NOTE: GAP-DEF-audit-1 CLOSABLE (with DEFS-P2-audit-1): Gcheck = S G S^-1 via limitmapCheck, L_* via LipStar/lipStar_iff_check, source use PsiSteps.psi_lipStar, calD_j via realTube/phaseTube
 NOTE: section data of Part 3b (prose L43)
 
 NODE: bpP:p3:tori#data
@@ -21311,7 +21311,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P3-audit-1 F1-F3): F1 literal domain E (strip x action polydisc radius (2,pi/2)) not defined, p11WrV strictly smaller; F2 no exact chart-domain mapping iff; F3 signed p11PreparedData is a choose-or-default selector (owner question, as p11SlowData). F1/F2 held pending owner ruling on F3
+LEAN_NOTE: not closable yet: DEFS-P3 F1/F2 resolved by GAP-DEF (p11SecE, mem_p11SecE, p11Rescale_polydisc_iff, p11Rescale_secE_iff in KAM/Planetary/Preparation/SecEDefs.lean); still needs owner ruling on F3 (signed p11PreparedData choose-or-default selector) and coverage of complex H2 identity, domain table, normalized frequency formulas (DEFS-P3-audit-1.md:34-38)
 NOTE: -
 
 NODE: bpP:p11:e4
