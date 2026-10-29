@@ -15,7 +15,7 @@ public import KAM.Planetary.Preparation.SlowAverageReal
 `P11SlowOscSpec C Fast eps c Z h0 f2` collects the outputs of graph step `stepP:p11:as-osc`
 (`bpP:p11:avg-slow` (a)): the holomorphic `Ẑ = 𝒜(R₄ + ε ḡ)`, `h₀ = h + ε (C + Σ Ω ρ̃/2π + Ẑ)`
 and `f₂ = ε (G ∘ Π - (C + Σ Ω ρ̃/2π + Ẑ)) + f₁ ∘ Π` on the box `D(J₀, s₁/4) × D(2πε, πε)`
-(`p11SlowBox`), which contains the box `V₂` of `P11SlowSpecOf` since `s₂ ≤ s₁/4`.
+(`p11SlowAvgBox`), which contains the box `V₂` of `P11SlowSpecOf` since `s₂ ≤ s₁/4`.
 
 * the fast identity `h₀ + f₂ = H ∘ (Φ¹ ∘ Π)` (`P11SlowSpecOf`, clause 1),
 * `h₀ = h + ε 𝒜 G` (clause 2) and `h₀ = h + ε (C + Σ Ω ρ̃/2π + Ẑ)` (clause 3),
@@ -40,7 +40,7 @@ variable {n : ℕ} {D : P11Physical n} {C : P11SecularData n}
 /-- Outputs of graph step `stepP:p11:as-osc` (unsigned; all fields are existential outputs). -/
 def P11SlowOscSpec (C : P11SecularData n) (Fast : P11FastData n) (eps c : ℝ)
     (Z h0 : P11CVec (n + n) → ℂ) (f2 : P11Phase (n + n) → ℂ) : Prop :=
-  let V := p11SlowBox C eps
+  let V := p11SlowAvgBox C eps
   let s := C.sigma / 12
   let E := c * eps ^ (5 / 2 : ℝ) * Real.log (1 / eps) ^ (2 * C.tau + 1)
   (∀ z ∈ KAM.complexStrip (n + n) s ×ˢ V,
@@ -95,8 +95,8 @@ theorem p11_slow_osc_at (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDat
     ?_⟩
   have hsub : KAM.complexStrip (n + n) (C.sigma / 12) ⊆ KAM.complexStrip (n + n) (C.sigma / 6) :=
     fun θ hθ i => (hθ i).trans (by linarith)
-  have hSsub : KAM.complexStrip (n + n) (C.sigma / 12) ×ˢ p11SlowBox C eps ⊆
-      KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps := prod_mono hsub subset_rfl
+  have hSsub : KAM.complexStrip (n + n) (C.sigma / 12) ×ˢ p11SlowAvgBox C eps ⊆
+      KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps := prod_mono hsub subset_rfl
   have hidd := hF.2.2.2.2.2.2.2.2.2.2.1
   have hZm : ∀ I : P11CVec (n + n),
       I ∈ {I : P11CVec (n + n) |
@@ -111,12 +111,12 @@ theorem p11_slow_osc_at (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDat
     refine ⟨hI, mem_ball_iff_norm.2 hI.1, mem_ball_zero_iff.2 ?_⟩
     have : Real.pi * (C.rz / 2) ^ 2 / 4 = Real.pi * C.rz ^ 2 / 16 := by ring
     rw [this]; exact hI.2
-  have hboxZ : ∀ I ∈ p11SlowBox C eps,
+  have hboxZ : ∀ I ∈ p11SlowAvgBox C eps,
       I ∈ {I : P11CVec (n + n) |
         ‖(fun i : Fin n => I (Fin.castAdd n i)) - KAM.realInclusion n C.J0‖ < p11s1 C eps / 2 ∧
         ‖(fun i : Fin n => I (Fin.natAdd n i))‖ < Real.pi * C.rz ^ 2 / 16} := by
     intro I hI
-    obtain ⟨hJ4, hρ, -⟩ := p11SlowBox_mem heps hs0 hI
+    obtain ⟨hJ4, hρ, -⟩ := p11SlowAvgBox_mem heps hs0 hI
     have hpi := Real.pi_pos
     have hJ4' : ‖(fun i : Fin n => I (Fin.castAdd n i)) - KAM.realInclusion n C.J0‖ <
         p11s1 C eps / 4 := hJ4
@@ -182,11 +182,11 @@ theorem p11_slow_osc_at (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDat
   · -- jets
     exact p11_slow_Z_jets hC Fast heps hεM hsm hP hcZ
   · -- `h₀` holomorphic on the box
-    have hbox : p11SlowBox C eps ⊆
+    have hbox : p11SlowAvgBox C eps ⊆
         {I : P11CVec (n + n) | ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < p11s1 C eps / 4} :=
-      fun I hI => (p11SlowBox_mem heps hs0 hI).1
+      fun I hI => (p11SlowAvgBox_mem heps hs0 hI).1
     have hh : DifferentiableOn ℂ (fun I : P11CVec (n + n) => C.h (p11SlowJ I))
-        (p11SlowBox C eps) := by
+        (p11SlowAvgBox C eps) := by
       obtain ⟨-, -, -, -, hhd, -⟩ := id hC
       exact hhd.comp p11SlowJ_differentiable.differentiableOn fun I hI =>
         mem_ball_iff_norm.2 (lt_of_lt_of_le (hbox hI) (by linarith [p11s1_le C eps]))

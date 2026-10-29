@@ -13,7 +13,7 @@ public import KAM.Planetary.Preparation.SlowAverageDom
 
 `P11SlowPolarOut` packages the output of `p11_slow_polar`; `p11SlowZ`, `p11SlowH0`, `p11SlowF2`
 are the explicit `Ẑ = 𝒜R₄ + 𝒜ḡ`, `h₀ = h + ε (C + Σ Ω ρ̃/2π + Ẑ)` and
-`f₂ = ε (G ∘ Π - (C + Σ Ω ρ̃/2π + Ẑ)) + f₁ ∘ Π`.  The box `p11SlowBox` is
+`f₂ = ε (G ∘ Π - (C + Σ Ω ρ̃/2π + Ẑ)) + f₁ ∘ Π`.  The box `p11SlowAvgBox` is
 `D(J₀, s₁/4) × D(2πε, πε)`.  `p11_slow_f2_sup`: `sup |f₂| ≤ c ε^{5/2} (log 1/ε)^{2τ+1}` on the
 strip `|Im ·| < σ/6`.
 -/
@@ -28,7 +28,7 @@ section F2
 variable {n : ℕ} {D : P11Physical n} {C : P11SecularData n}
 
 /-- The action box `D(J₀, s₁/4) × D(2πε, πε)`. -/
-def p11SlowBox (C : P11SecularData n) (eps : ℝ) : Set (P11CVec (n + n)) :=
+def p11SlowAvgBox (C : P11SecularData n) (eps : ℝ) : Set (P11CVec (n + n)) :=
   p11Box (Fin.append (KAM.realInclusion n C.J0) (fun _ : Fin n => (2 * Real.pi * eps : ℂ)))
     (p11s1 C eps / 4) (Real.pi * eps)
 
@@ -66,8 +66,8 @@ def p11SlowF2 (C : P11SecularData n) (Fast : P11FastData n) (eps : ℝ)
     Fast.f1 (p11PolarC z)
 
 /-- Data of a point of the box: `J` within `s₁/4`, `ρ̃` with positive real part, `‖ρ̃‖ < 3πε`. -/
-theorem p11SlowBox_mem {eps : ℝ} (heps : 0 < eps) (hs : 0 < p11s1 C eps) {I : P11CVec (n + n)}
-    (hI : I ∈ p11SlowBox C eps) :
+theorem p11SlowAvgBox_mem {eps : ℝ} (heps : 0 < eps) (hs : 0 < p11s1 C eps) {I : P11CVec (n + n)}
+    (hI : I ∈ p11SlowAvgBox C eps) :
     ‖p11SlowJ I - KAM.realInclusion n C.J0‖ < p11s1 C eps / 4 ∧
       ‖p11SlowR I‖ < 3 * Real.pi * eps ∧ ∀ i, 0 < (p11SlowR I i).re := by
   obtain ⟨hJ, hR⟩ := hI
@@ -138,7 +138,7 @@ theorem p11_slow_f2_sup (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDat
     (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {c1 : ℝ}
     (hrate : p11eta1 C eps ≤ c1 * eps * Real.log (1 / eps) ^ (2 * C.tau + 1)) :
-    ∀ z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps,
+    ∀ z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps,
       ‖p11SlowF2 C Fast eps (p11SlowZ AR AB) z‖ ≤
         p11SlowC0 C c1 * eps ^ (5 / 2 : ℝ) * Real.log (1 / eps) ^ (2 * C.tau + 1) := by
   obtain ⟨hγ0, hτ0, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩ := fast_consts hC
@@ -146,7 +146,7 @@ theorem p11_slow_f2_sup (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDat
   obtain ⟨-, -, hARb, -, hAe⟩ := hP
   have hs0 := p11s1_pos hC heps hεM
   rintro z ⟨hz1, hI⟩
-  obtain ⟨hJ4, hρ, hre⟩ := p11SlowBox_mem heps hs0 hI
+  obtain ⟨hJ4, hρ, hre⟩ := p11SlowAvgBox_mem heps hs0 hI
   have hJ2 : ‖p11SlowJ z.2 - KAM.realInclusion n C.J0‖ < p11s1 C eps / 2 := by linarith
   have hJm : p11SlowJ z.2 ∈ ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) :=
     mem_ball_iff_norm.2 hJ2

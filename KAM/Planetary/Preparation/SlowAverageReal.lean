@@ -27,13 +27,13 @@ variable {n : ℕ} {D : P11Physical n} {C : P11SecularData n}
 /-- Data of a point of the action box. -/
 theorem p11_slow_box_pt (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {I : P11CVec (n + n)}
-    (hI : I ∈ p11SlowBox C eps) :
+    (hI : I ∈ p11SlowAvgBox C eps) :
     (p11SlowJ I, p11SlowR I) ∈ ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ×ˢ
         ball (0 : P11CVec n) (Real.pi * (C.rz / 2) ^ 2 / 4) ∧
       (∀ i, 0 < (p11SlowR I i).re) := by
   obtain ⟨-, -, -, -, -, -, -, hrz0, -⟩ := fast_consts hC
   have hs0 := p11s1_pos hC heps hεM
-  obtain ⟨hJ4, hρ, hre⟩ := p11SlowBox_mem heps hs0 hI
+  obtain ⟨hJ4, hρ, hre⟩ := p11SlowAvgBox_mem heps hs0 hI
   have hpi := Real.pi_pos
   refine ⟨⟨mem_ball_iff_norm.2 (by linarith), mem_ball_zero_iff.2 ?_⟩, hre⟩
   have : 3 * Real.pi * eps < Real.pi * (C.rz / 2) ^ 2 / 4 := by nlinarith
@@ -44,7 +44,7 @@ theorem p11_slow_secZ_eq (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDa
     (hF : P11FastSpec C eps Fast) {AR AB : P11CVec n × P11CVec n → ℂ}
     (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {I : P11CVec (n + n)}
-    (hI : I ∈ p11SlowBox C eps) :
+    (hI : I ∈ p11SlowAvgBox C eps) :
     p11SlowSec C I + p11SlowZ AR AB I = p11PolarAverage Fast.G (p11SlowJ I, p11SlowR I) := by
   obtain ⟨hz, hre⟩ := p11_slow_box_pt hC heps hεM hsm hI
   obtain ⟨-, -, -, -, hAe⟩ := id hP
@@ -64,7 +64,7 @@ theorem p11SlowR_real (I : P11Vec (n + n)) :
 theorem p11_slow_PA_real (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
     (hF : P11FastSpec C eps Fast) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
     (hsm : 64 * eps < C.rz ^ 2) {I : P11Vec (n + n)}
-    (hI : KAM.realInclusion (n + n) I ∈ p11SlowBox C eps) :
+    (hI : KAM.realInclusion (n + n) I ∈ p11SlowAvgBox C eps) :
     (p11PolarAverage Fast.G (p11SlowJ (KAM.realInclusion (n + n) I),
       p11SlowR (KAM.realInclusion (n + n) I))).im = 0 := by
   obtain ⟨hz, hre⟩ := p11_slow_box_pt hC heps hεM hsm hI
@@ -88,11 +88,11 @@ theorem p11_slow_h0_real (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDa
     (hF : P11FastSpec C eps Fast) {AR AB : P11CVec n × P11CVec n → ℂ}
     (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {I : P11Vec (n + n)}
-    (hI : KAM.realInclusion (n + n) I ∈ p11SlowBox C eps) :
+    (hI : KAM.realInclusion (n + n) I ∈ p11SlowAvgBox C eps) :
     (p11SlowH0 C eps (p11SlowZ AR AB) (KAM.realInclusion (n + n) I)).im = 0 := by
   obtain ⟨-, hh, -⟩ := id hC
   have hs0 := p11s1_pos hC heps hεM
-  obtain ⟨hJ4, -, -⟩ := p11SlowBox_mem heps hs0 hI
+  obtain ⟨hJ4, -, -⟩ := p11SlowAvgBox_mem heps hs0 hI
   have hJ : ‖(fun i => I (Fin.castAdd n i)) - C.J0‖ < 2 * C.rC := by
     rw [p11SlowJ_real, ← map_sub, KAM.norm_realInclusion] at hJ4
     linarith [p11s1_le C eps, (fast_consts hC).2.2.2.1]
@@ -111,7 +111,7 @@ theorem p11_slow_f2_real (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDa
     (hF : P11FastSpec C eps Fast) {AR AB : P11CVec n × P11CVec n → ℂ}
     (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) :
-    KAM.Canonical.RealOn (KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps)
+    KAM.Canonical.RealOn (KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps)
       (p11SlowF2 C Fast eps (p11SlowZ AR AB)) := by
   obtain ⟨-, -, -, hf1r, -, hGr, -⟩ := id hF
   intro x hx
@@ -142,7 +142,7 @@ theorem p11_slow_f2_real (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDa
     rwa [hPt, KAM.norm_realInclusion₂] at this
   have hsecim : (p11SlowSec C (KAM.realInclusion₂ (n + n) x).2 +
       p11SlowZ AR AB (KAM.realInclusion₂ (n + n) x).2).im = 0 := by
-    have hI : (KAM.realInclusion₂ (n + n) x).2 ∈ p11SlowBox C eps := hx.2
+    have hI : (KAM.realInclusion₂ (n + n) x).2 ∈ p11SlowAvgBox C eps := hx.2
     rw [p11_slow_secZ_eq hC Fast hF hP heps hεM hsm hI]
     exact p11_slow_PA_real hC Fast hF heps hεM hsm (I := x.2) hI
   have hf1im : (Fast.f1 (p11PolarC (KAM.realInclusion₂ (n + n) x))).im = 0 := by

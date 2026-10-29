@@ -25,7 +25,7 @@ variable {n : ℕ} {D : P11Physical n} {C : P11SecularData n}
 /-- Pointwise data of a point of the strip `σ/6` over the box. -/
 theorem p11_slow_pt (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {z : P11Phase (n + n)}
-    (hz : z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps) :
+    (hz : z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps) :
     (p11SlowJ z.2, p11SlowR z.2) ∈ ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ×ˢ
         ball (0 : P11CVec n) (Real.pi * (C.rz / 2) ^ 2 / 4) ∧
       (∀ i, 0 < (p11SlowR z.2 i).re) ∧ z ∈ p11RePos n ∧
@@ -35,7 +35,7 @@ theorem p11_slow_pt (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
   obtain ⟨-, -, -, hrC0, -, hσ0, hσ1, hrz0, -⟩ := fast_consts hC
   have hs0 := p11s1_pos hC heps hεM
   obtain ⟨hz1, hI⟩ := hz
-  obtain ⟨hJ4, hρ, hre⟩ := p11SlowBox_mem heps hs0 hI
+  obtain ⟨hJ4, hρ, hre⟩ := p11SlowAvgBox_mem heps hs0 hI
   have hJ2 : ‖p11SlowJ z.2 - KAM.realInclusion n C.J0‖ < p11s1 C eps / 2 := by linarith
   obtain ⟨-, hPr, hU⟩ := p11_polarC_mem hC heps hsm hz1 hJ2 hρ
   have hpi := Real.pi_pos
@@ -84,10 +84,10 @@ theorem p11_slow_f2_differentiableOn (hC : P11SecularSpec D C) {eps : ℝ} (Fast
     (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) :
     DifferentiableOn ℂ (p11SlowF2 C Fast eps (p11SlowZ AR AB))
-      (KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps) := by
+      (KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps) := by
   obtain ⟨-, -, hf1d, -, hGd, -⟩ := id hF
   obtain ⟨hARd, hABd, -⟩ := hP
-  set S := KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps with hS
+  set S := KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps with hS
   have hpt := fun z (hz : z ∈ S) => p11_slow_pt hC heps hεM hsm hz
   have hPol : DifferentiableOn ℂ p11PolarC S :=
     p11_polarC_differentiableOn.mono fun z hz => (hpt z hz).2.2.1
@@ -157,7 +157,7 @@ theorem p11PolarC_shift_zeta (z : P11Phase (n + n)) (j : Fin n) :
 theorem p11_slow_f2_periodic (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
     (hF : P11FastSpec C eps Fast) (Z : P11CVec (n + n) → ℂ) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) :
-    ∀ z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps, ∀ i : Fin (n + n),
+    ∀ z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps, ∀ i : Fin (n + n),
       p11SlowF2 C Fast eps Z (z.1 + Pi.single i 1, z.2) = p11SlowF2 C Fast eps Z z := by
   intro z hz i
   have hw := (p11_slow_pt hC heps hεM hsm hz).2.2.2.2
@@ -186,7 +186,7 @@ theorem p11_slow_f2_wbound (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11Fast
     (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
     (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {c1 : ℝ}
     (hrate : p11eta1 C eps ≤ c1 * eps * Real.log (1 / eps) ^ (2 * C.tau + 1)) :
-    p11WBound (p11SlowBox C eps) (C.sigma / 12) (p11SlowF2 C Fast eps (p11SlowZ AR AB))
+    p11WBound (p11SlowAvgBox C eps) (C.sigma / 12) (p11SlowF2 C Fast eps (p11SlowZ AR AB))
       ((Real.cosh (Real.pi * (C.sigma / 12)) / Real.sinh (Real.pi * (C.sigma / 12))) ^ (n + n) *
         (p11SlowC0 C c1 * eps ^ (5 / 2 : ℝ) * Real.log (1 / eps) ^ (2 * C.tau + 1))) := by
   obtain ⟨-, -, -, -, -, hσ0, -⟩ := fast_consts hC
@@ -195,7 +195,7 @@ theorem p11_slow_f2_wbound (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11Fast
   have hper := p11_slow_f2_periodic hC Fast hF (p11SlowZ AR AB) heps hεM hsm
   have hsup := p11_slow_f2_sup hC Fast hF hP heps hεM hsm hrate
   have hmem : ∀ θ ∈ KAM.complexStrip (n + n) (C.sigma / 6), (θ, I) ∈
-      KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps := fun θ hθ => ⟨hθ, hI⟩
+      KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowAvgBox C eps := fun θ hθ => ⟨hθ, hI⟩
   have hu : DifferentiableOn ℂ (fun θ : P11CVec (n + n) =>
       p11SlowF2 C Fast eps (p11SlowZ AR AB) (θ, I)) (KAM.complexStrip (n + n) (C.sigma / 6)) :=
     hS.comp (by fun_prop : DifferentiableOn ℂ (fun θ : P11CVec (n + n) => (θ, I)) _) hmem
