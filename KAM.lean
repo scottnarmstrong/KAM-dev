@@ -81,11 +81,13 @@ public import KAM.Certificate.Poly.MulPacked
 public import KAM.Certificate.Poly.Ops
 public import KAM.Certificate.Poly.OverlapAdd
 public import KAM.Certificate.Poly.Packed
+public import KAM.Certificate.Positivity
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Tests.Ball
 public import KAM.Certificate.Tests.ComplexExp
 public import KAM.Certificate.Tests.Model
 public import KAM.Certificate.Tests.Packed
+public import KAM.Certificate.Tests.Positivity
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
 public import KAM.Diophantine.FrequencyDependence
