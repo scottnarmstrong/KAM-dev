@@ -495,39 +495,120 @@ theorem p8_identities_full {α : ℝ} (hα : α ∈ Ico (0 : ℝ) 1) :
       2 * laplace_def (1/2) 1 α = α * laplace_def (3/2) 2 α :=
   ⟨p8_identity_one hα, p8_identity_two hα⟩
 
-/-- `stepP:p8:id-1`: the coefficient of `α^(2q+1)` in `α β'' + 2 β'` is
-`(2q+2)(2q+3) ((1/2)_{q+1}/(q+1)!)²`, and it equals the coefficient of `α^(2q+1)` in
-`b_{3/2}^{(1)}`, `(3/2)_{q+1} (3/2)_q / ((q+1)! q!)`. -/
+/-- Derivative of the monomial `c x^(p+1)`. -/
+theorem deriv_monomial_succ (c : ℝ) (p : ℕ) :
+    deriv (fun x : ℝ => c * x ^ (p + 1)) = fun x => c * (((p + 1 : ℕ) : ℝ) * x ^ p) := by
+  funext x
+  simpa using ((hasDerivAt_pow (p + 1) x).const_mul c).deriv
+
+/-- `iteratedDeriv 2` as a double derivative. -/
+theorem iteratedDeriv_two_eq_deriv (f : ℝ → ℝ) : iteratedDeriv 2 f = deriv (deriv f) := by
+  rw [iteratedDeriv_succ, iteratedDeriv_one]
+
+/-- `stepP:p8:id-1`: on the `α^(2q+2)` monomial of `β = b_{1/2}^{(0)}`, the operator
+`α ∂² + 2 ∂` gives `(2q+2)(2q+3) ((1/2)_{q+1}/(q+1)!)² α^(2q+1)`; this coefficient equals
+`(3/2)_{q+1} (3/2)_q / ((q+1)! q!)`, the coefficient of the `α^(2q+1)` term of `b_{3/2}^{(1)}`, so
+the differentiated monomial is that term. -/
 theorem p8_id1 (q : ℕ) :
+    (∀ α : ℝ, α * iteratedDeriv 2 (laplaceTerm (1/2) 0 (q + 1)) α +
+        2 * deriv (laplaceTerm (1/2) 0 (q + 1)) α =
+      (pcoef (1/2) (q + 1) ^ 2 * (((2 * (q + 1) : ℕ) : ℝ) * (((2 * (q + 1) : ℕ) : ℝ) + 1))) *
+        α ^ (2 * q + 1)) ∧
     pcoef (1/2) (q + 1) ^ 2 * (((2 * (q + 1) : ℕ) : ℝ) * (((2 * (q + 1) : ℕ) : ℝ) + 1)) =
       poch (3/2) (q + 1) * poch (3/2) q / (((q + 1).factorial : ℝ) * q.factorial) ∧
-    laplaceTerm (3/2) 1 q = fun α =>
+    laplaceTerm (3/2) 1 q = (fun α =>
       (poch (3/2) (q + 1) * poch (3/2) q / (((q + 1).factorial : ℝ) * q.factorial)) *
-        α ^ (2 * q + 1) := by
-  refine ⟨?_, ?_⟩
-  · have h := coef1 q
+        α ^ (2 * q + 1)) ∧
+    (∀ α : ℝ, α * iteratedDeriv 2 (laplaceTerm (1/2) 0 (q + 1)) α +
+        2 * deriv (laplaceTerm (1/2) 0 (q + 1)) α = laplaceTerm (3/2) 1 q α) := by
+  have hc : pcoef (1/2) (q + 1) ^ 2 * (((2 * (q + 1) : ℕ) : ℝ) * (((2 * (q + 1) : ℕ) : ℝ) + 1)) =
+      poch (3/2) (q + 1) * poch (3/2) q / (((q + 1).factorial : ℝ) * q.factorial) := by
+    have h := coef1 q
     have e : halfCoef 0 (q + 1) = pcoef (1/2) (q + 1) ^ 2 := by simp [halfCoef, sq]
     rw [e] at h
     rw [← h]; ring_nf
+  have hf : laplaceTerm (1/2) 0 (q + 1) =
+      fun x : ℝ => halfCoef 0 (q + 1) * x ^ ((2 * q + 1) + 1) := by
+    funext x; rw [laplaceTerm_half]
+  have hop : ∀ α : ℝ, α * iteratedDeriv 2 (laplaceTerm (1/2) 0 (q + 1)) α +
+      2 * deriv (laplaceTerm (1/2) 0 (q + 1)) α =
+      (pcoef (1/2) (q + 1) ^ 2 * (((2 * (q + 1) : ℕ) : ℝ) * (((2 * (q + 1) : ℕ) : ℝ) + 1))) *
+        α ^ (2 * q + 1) := by
+    intro α
+    have e : halfCoef 0 (q + 1) = pcoef (1/2) (q + 1) ^ 2 := by simp [halfCoef, sq]
+    rw [hf, iteratedDeriv_two_eq_deriv, deriv_monomial_succ, ← e]
+    have h2 := deriv_monomial_succ (halfCoef 0 (q + 1) * (((2 * q + 1 + 1 : ℕ) : ℝ))) (2 * q)
+    have h2' : deriv (fun x : ℝ => halfCoef 0 (q + 1) * (((2 * q + 1 + 1 : ℕ) : ℝ) * x ^ (2 * q + 1)))
+        α = halfCoef 0 (q + 1) * (((2 * q + 1 + 1 : ℕ) : ℝ) *
+          (((2 * q + 1 : ℕ) : ℝ) * α ^ (2 * q))) := by
+      have := congrFun h2 α
+      simp only [mul_assoc] at this ⊢
+      exact this
+    rw [h2']
+    push_cast
+    ring
+  refine ⟨hop, hc, ?_, fun α => ?_⟩
   · funext α; rw [laplaceTerm_eq_coef_mul]
+  · rw [hop, hc, laplaceTerm_eq_coef_mul]; rfl
 
-/-- `stepP:p8:id-2`: with `c_q = halfCoef 1 q` the coefficient of `α^(2q+1)` in `b_{1/2}^{(1)}`,
-the coefficient of `α^(2q+1)` in `α² b'' + 2 α b' - 2 b` is `0` for `q = 0` and
-`2q(2q+3) c_q` for `q ≥ 1`; it equals the coefficient of `α^(2q+1)` in `α b_{3/2}^{(2)}`, namely
-`(3/2)_{q+1} (3/2)_{q-1} / ((q+1)! (q-1)!)` (written with `q = r + 1`); for `q = 0` the right side
-has no `α^1` term. -/
+/-- `stepP:p8:id-2`: with `c_q = halfCoef 1 q` the coefficient of `α^(2q+1)` in `b_{1/2}^{(1)}`, the
+operator `α² ∂² + 2 α ∂ - 2` sends the monomial `c_q α^(2q+1)` to `0` for `q = 0` and to
+`2q(2q+3) c_q α^(2q+1)` for `q = r + 1`.  The latter equals the monomial
+`(3/2)_{r+2} (3/2)_r / ((r+2)! r!) α^(2r+3)` of `α b_{3/2}^{(2)}`, which is `α` times the term
+`laplaceTerm (3/2) 2 r` of degree `2r + 2`; all its degrees `2r + 3` are `≥ 3`, so the multiplied
+right side has no `α^1` term. -/
 theorem p8_id2 (r : ℕ) :
+    (∀ α : ℝ, α ^ 2 * iteratedDeriv 2 (laplaceTerm (1/2) 1 0) α +
+        2 * α * deriv (laplaceTerm (1/2) 1 0) α - 2 * laplaceTerm (1/2) 1 0 α = 0) ∧
     halfCoef 1 0 * (((2 * 0 : ℕ) : ℝ) * ((2 * 0 + 3 : ℕ) : ℝ)) = 0 ∧
+    (∀ α : ℝ, α ^ 2 * iteratedDeriv 2 (laplaceTerm (1/2) 1 (r + 1)) α +
+        2 * α * deriv (laplaceTerm (1/2) 1 (r + 1)) α - 2 * laplaceTerm (1/2) 1 (r + 1) α =
+      (halfCoef 1 (r + 1) * (((2 * (r + 1) : ℕ) : ℝ) * ((2 * (r + 1) + 3 : ℕ) : ℝ))) *
+        α ^ (2 * (r + 1) + 1)) ∧
     halfCoef 1 (r + 1) * (((2 * (r + 1) : ℕ) : ℝ) * ((2 * (r + 1) + 3 : ℕ) : ℝ)) =
       poch (3/2) (r + 2) * poch (3/2) r / (((r + 2).factorial : ℝ) * r.factorial) ∧
-    laplaceTerm (3/2) 2 r = fun α =>
+    (∀ α : ℝ, α * laplaceTerm (3/2) 2 r α =
       (poch (3/2) (r + 2) * poch (3/2) r / (((r + 2).factorial : ℝ) * r.factorial)) *
-        α ^ (2 * r + 2) := by
-  refine ⟨by simp, ?_, ?_⟩
-  · have h := coef2 r
+        α ^ (2 * (r + 1) + 1)) ∧
+    (∀ α : ℝ, α ^ 2 * iteratedDeriv 2 (laplaceTerm (1/2) 1 (r + 1)) α +
+        2 * α * deriv (laplaceTerm (1/2) 1 (r + 1)) α - 2 * laplaceTerm (1/2) 1 (r + 1) α =
+      α * laplaceTerm (3/2) 2 r α) ∧
+    2 * r + 3 ≠ 2 * 0 + 1 := by
+  have hc : halfCoef 1 (r + 1) * (((2 * (r + 1) : ℕ) : ℝ) * ((2 * (r + 1) + 3 : ℕ) : ℝ)) =
+      poch (3/2) (r + 2) * poch (3/2) r / (((r + 2).factorial : ℝ) * r.factorial) := by
+    have h := coef2 r
     push_cast at h ⊢
     linear_combination 2 * h
-  · funext α; rw [laplaceTerm_eq_coef_mul]
+  have hR : ∀ α : ℝ, α * laplaceTerm (3/2) 2 r α =
+      (poch (3/2) (r + 2) * poch (3/2) r / (((r + 2).factorial : ℝ) * r.factorial)) *
+        α ^ (2 * (r + 1) + 1) := by
+    intro α; rw [laplaceTerm_eq_coef_mul]; ring
+  have hop : ∀ α : ℝ, α ^ 2 * iteratedDeriv 2 (laplaceTerm (1/2) 1 (r + 1)) α +
+      2 * α * deriv (laplaceTerm (1/2) 1 (r + 1)) α - 2 * laplaceTerm (1/2) 1 (r + 1) α =
+      (halfCoef 1 (r + 1) * (((2 * (r + 1) : ℕ) : ℝ) * ((2 * (r + 1) + 3 : ℕ) : ℝ))) *
+        α ^ (2 * (r + 1) + 1) := by
+    intro α
+    have hf : laplaceTerm (1/2) 1 (r + 1) =
+        fun x : ℝ => halfCoef 1 (r + 1) * x ^ ((2 * r + 2) + 1) := by
+      funext x; rw [laplaceTerm_half]
+    rw [hf, iteratedDeriv_two_eq_deriv, deriv_monomial_succ]
+    have h2 := deriv_monomial_succ (halfCoef 1 (r + 1) * (((2 * r + 2 + 1 : ℕ) : ℝ))) (2 * r + 1)
+    have h2' : deriv (fun x : ℝ => halfCoef 1 (r + 1) *
+        (((2 * r + 2 + 1 : ℕ) : ℝ) * x ^ (2 * r + 2))) α =
+        halfCoef 1 (r + 1) * (((2 * r + 2 + 1 : ℕ) : ℝ) *
+          (((2 * r + 2 : ℕ) : ℝ) * α ^ (2 * r + 1))) := by
+      have := congrFun h2 α
+      simp only [mul_assoc] at this ⊢
+      exact this
+    rw [h2']
+    push_cast
+    ring
+  refine ⟨fun α => ?_, by simp, hop, hc, hR, fun α => ?_, by omega⟩
+  · have hf : laplaceTerm (1/2) 1 0 = fun x : ℝ => halfCoef 1 0 * x ^ (0 + 1) := by
+      funext x; rw [laplaceTerm_half]
+    rw [hf, iteratedDeriv_two_eq_deriv, deriv_monomial_succ]
+    simp
+  · rw [hop, hc, hR]
 
 end SecularForm
 
