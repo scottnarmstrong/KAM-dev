@@ -305,6 +305,178 @@ theorem p11_close_block2 (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu ep
         p11DevG C nu eps c α (0 + Pi.single k 1)) := by gcongr
     _ = _ := by field_simp
 
+theorem p11_close_Reta {C : P11SecularData n} {eps l k2 : ℝ} (hl : 1 ≤ l)
+    {lx : ℝ} (hlx : 1 ≤ lx) (he1 : eps ≤ 1) (heps : 0 < eps) (hk2 : 0 ≤ k2) {η : ℝ}
+    (hηb : η ≤ k2 * eps * lx) (hMF : 1 ≤ C.MF) : C.MF + η ≤ (C.MF + k2) * lx := by
+  have h1 : k2 * eps * lx ≤ k2 * lx := by
+    have : 0 ≤ k2 * lx := by positivity
+    nlinarith
+  nlinarith
+
+theorem p11_close_fin1 {nu eps c k2 Rc Λ F l : ℝ} {mu : ℕ} {C : P11SecularData n}
+    (heps : 0 < eps) (he1 : eps ≤ 1) (hl : 1 ≤ l) (hc : 0 ≤ c) (hΛ : 1 ≤ Λ)
+    (hτ : 0 ≤ C.tau) {α' : Fin n → ℕ} (hs : ∑ i, α' i ≤ mu + 1) (hs1 : 0 < p11s1 C eps)
+    (hs2 : 0 < p11s2 C nu eps) (h41 : 4 / p11s1 C eps ≤ Λ * l ^ (C.tau + 1))
+    (h42 : 4 / p11s2 C nu eps ≤ Λ * l ^ (C.tau + 1))
+    (hR : C.MF + p11eta1 C eps ≤ Rc * l ^ (2 * C.tau + 1)) (hF0 : 0 ≤ F)
+    (hPF : ((∑ i, α' i).factorial : ℝ) ≤ F) (hk2 : 0 ≤ k2) (hRc : Rc = C.MF + k2)
+    (hMF : 1 ≤ C.MF) (hη0 : 0 ≤ p11eta1 C eps) (hlE : l = Real.log (1 / eps)) :
+    eps * p11DevA C eps α' + p11DevG C nu eps c α' 0 ≤
+      F * Λ ^ (mu + 1) * (Rc + k2 + 5) * (1 + c) *
+        (eps * l ^ (5 * C.tau + 2 + (C.tau + 1) * (((mu + 1 : ℕ) : ℝ)))) := by
+  have hP : (∏ i, ((α' i).factorial : ℝ)) ≤ F := (p11_resc_prod_le α').trans hPF
+  have hP0 : 0 ≤ ∏ i, ((α' i).factorial : ℝ) := Finset.prod_nonneg fun _ _ => by positivity
+  have hnum := p11_num_cl1 (e := eps) (c := c) (l := l) (F := F) (Rc := Rc) (Λ := Λ)
+    (τ := C.tau) (P := ∏ i, ((α' i).factorial : ℝ)) (R := C.MF + p11eta1 C eps)
+    (s1 := p11s1 C eps) (s2 := p11s2 C nu eps) (s := ∑ i, α' i) (M := mu + 1) heps he1 hl hc hΛ
+    hτ hP0 hP (by linarith) hR hs1 hs2 h41 h42 hs
+  have e1 : eps * p11DevA C eps α' + p11DevG C nu eps c α' 0 =
+      eps * ((∏ i, ((α' i).factorial : ℝ)) * (C.MF + p11eta1 C eps) /
+        (p11s1 C eps / 4) ^ (∑ i, α' i)) +
+      (∏ i, ((α' i).factorial : ℝ)) * (c * eps ^ 3 * l ^ (5 * C.tau + 2)) /
+        (p11s2 C nu eps / 4) ^ (∑ i, α' i) := by
+    simp [p11DevA, p11DevG, mul_assoc, hlE]
+  rw [e1]
+  refine hnum.trans ?_
+  have hRc0 : 0 ≤ Rc := by rw [hRc]; linarith
+  have hFΛ : 0 ≤ F * Λ ^ (mu + 1) := by positivity
+  have hLQ : 0 ≤ eps * l ^ (5 * C.tau + 2 + (C.tau + 1) * (((mu + 1 : ℕ) : ℝ))) := by
+    have := Real.rpow_nonneg (by linarith : (0 : ℝ) ≤ l) (5 * C.tau + 2 + (C.tau + 1) *
+      (((mu + 1 : ℕ) : ℝ)))
+    positivity
+  have h2 : Rc + c ≤ (Rc + k2 + 5) * (1 + c) := by nlinarith [mul_nonneg hk2 hc]
+  calc F * Λ ^ (mu + 1) * (Rc + c) * (eps * l ^ (5 * C.tau + 2 + (C.tau + 1) *
+        (((mu + 1 : ℕ) : ℝ)))) ≤ F * Λ ^ (mu + 1) * ((Rc + k2 + 5) * (1 + c)) *
+        (eps * l ^ (5 * C.tau + 2 + (C.tau + 1) * (((mu + 1 : ℕ) : ℝ)))) := by
+        gcongr
+    _ = _ := by ring
+
+theorem p11_close_fin2 {nu eps c k2 Rc Λ F l : ℝ} {mu : ℕ} {C : P11SecularData n}
+    (heps : 0 < eps) (he1 : eps ≤ 1) (hl : 1 ≤ l) (hc : 0 ≤ c) (hΛ : 1 ≤ Λ)
+    (hτ : 0 ≤ C.tau) {α : Fin n → ℕ} (hs : ∑ i, α i ≤ mu + 1) (hs2 : 0 < p11s2 C nu eps)
+    (h42 : 4 / p11s2 C nu eps ≤ Λ * l ^ (C.tau + 1)) (hη0 : 0 ≤ p11eta1 C eps)
+    (hηb : p11eta1 C eps ≤ k2 * eps * l ^ (2 * C.tau + 1)) (hF0 : 0 ≤ F)
+    (hPF : ((∑ i, α i).factorial : ℝ) ≤ F) (hk2 : 0 ≤ k2) {k : Fin n} (hRc : Rc = C.MF + k2)
+    (hMF : 1 ≤ C.MF) (hlE : l = Real.log (1 / eps)) :
+    p11DevZ C nu eps c α 0 + p11DevG C nu eps c α (0 + Pi.single k 1) / eps ≤
+      F * Λ ^ (mu + 1) * (Rc + k2 + 5) * (1 + c) *
+        (eps * l ^ (5 * C.tau + 2 + (C.tau + 1) * (((mu + 1 : ℕ) : ℝ)))) := by
+  have hP : (∏ i, ((α i).factorial : ℝ)) ≤ F := (p11_resc_prod_le α).trans hPF
+  have hP0 : 0 ≤ ∏ i, ((α i).factorial : ℝ) := Finset.prod_nonneg fun _ _ => by positivity
+  have hnum := p11_num_cl2 (e := eps) (c := c) (l := l) (F := F) (k2 := k2) (Λ := Λ)
+    (τ := C.tau) (P := ∏ i, ((α i).factorial : ℝ)) (η := p11eta1 C eps) (s2 := p11s2 C nu eps)
+    (j := ∑ i, α i) (M := mu + 1) heps he1 hl hc hΛ hτ hP0 hP hη0 hηb hs2 h42 hs
+  have e1 : p11DevZ C nu eps c α 0 + p11DevG C nu eps c α (0 + Pi.single k 1) / eps =
+      (∏ i, ((α i).factorial : ℝ)) * (c * (eps + p11eta1 C eps)) / (p11s2 C nu eps / 2) ^ (∑ i, α i) +
+      (∏ i, ((α i).factorial : ℝ)) * (c * eps ^ 3 * l ^ (5 * C.tau + 2)) /
+        ((p11s2 C nu eps / 4) ^ (∑ i, α i) * (eps / 4) ^ 1) / eps := by
+    have hq : (∏ x : Fin n, (((if x = k then 1 else 0 : ℕ)).factorial : ℝ)) = 1 :=
+      Finset.prod_eq_one fun x _ => by split_ifs <;> simp
+    simp [p11DevZ, p11DevG, Pi.single_apply, mul_assoc, hlE]
+    rw [hq, one_mul]
+  rw [e1]
+  refine hnum.trans ?_
+  have hFΛ : 0 ≤ F * Λ ^ (mu + 1) := by positivity
+  have hRc0 : 0 ≤ Rc := by rw [hRc]; linarith
+  have h2 : c * (1 + k2) + 4 * c ≤ (Rc + k2 + 5) * (1 + c) := by
+    nlinarith [mul_nonneg hk2 hc]
+  calc F * Λ ^ (mu + 1) * (c * (1 + k2) + 4 * c) * (eps * l ^ (5 * C.tau + 2 + (C.tau + 1) *
+        (((mu + 1 : ℕ) : ℝ)))) ≤ F * Λ ^ (mu + 1) * ((Rc + k2 + 5) * (1 + c)) *
+        (eps * l ^ (5 * C.tau + 2 + (C.tau + 1) * (((mu + 1 : ℕ) : ℝ)))) := by
+        gcongr
+    _ = _ := by ring
+
+theorem p11_close_partial (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ Kb : ℝ, 0 < Kb ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c → P11FastSpec C eps Fast →
+      P11SlowSpecOf C Fast nu eps c A →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      ∀ ρ J : P11CVec n, ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4 →
+      ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4 →
+      ∀ α : Fin n → ℕ, ∑ i, α i ≤ (p11PatchData D).mu →
+      ‖p11PartialVec α (p11CloseFun C A eps ρ) J‖ ≤ Kb * (1 + c) * (eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu + 1 : ℕ) : ℝ))) := by
+  obtain ⟨k1, hk1, hs1inv⟩ := p11_prin_s1_inv hC
+  obtain ⟨k2, hk2, heta⟩ := p11_prin_eta1_le hC
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  set m0 : ℝ := min (min C.rC (C.gamma / (4 * C.L)) / (4 * (6 / (Real.pi * C.sigma)) ^ (C.tau + 1)))
+      (C.gamma / (8 * C.L * (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1))) with hm0
+  have hnu0 : 0 < nu := by linarith
+  have hm0pos : 0 < m0 := by
+    have hπ := Real.pi_pos
+    have hL0 : 0 < C.L := by linarith
+    have hr1 : 0 < (6 / (Real.pi * C.sigma)) ^ (C.tau + 1) :=
+      Real.rpow_pos_of_pos (by positivity) _
+    have hr2 : 0 < (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1) :=
+      Real.rpow_pos_of_pos (by positivity) _
+    have h1 : 0 < min C.rC (C.gamma / (4 * C.L)) := lt_min hrC0 (by positivity)
+    exact lt_min (by positivity) (by positivity)
+  set mu := (p11PatchData D).mu with hmu
+  set F : ℝ := ((mu + 1).factorial : ℝ) with hF
+  set Λ : ℝ := 1 + 4 * k1 + 4 / m0 with hΛ
+  have hΛ1 : 1 ≤ Λ := by
+    have : 0 ≤ 4 / m0 := by positivity
+    rw [hΛ]; linarith
+  set Rc : ℝ := C.MF + k2 with hRc
+  refine ⟨F * Λ ^ (mu + 1) * (Rc + k2 + 5) , by positivity, ?_⟩
+  intro Fast eps c A heps hεM hc0 hFs hA hzs h5 ρ J hJ hρ α hα
+  obtain ⟨hK2, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  have hl : 1 ≤ Real.log (1 / eps) := slow_log_ge_one hC heps hεM
+  have he1 : eps ≤ 1 := by
+    have h1 : Real.exp (-1) ≤ 1 := Real.exp_le_one_iff.2 (by norm_num)
+    nlinarith
+  have hs1' : 4 / p11s1 C eps ≤ Λ * Real.log (1 / eps) ^ (C.tau + 1) := by
+    have h1 := hs1inv heps hεM
+    have : 4 / p11s1 C eps = 4 * (p11s1 C eps)⁻¹ := by rw [div_eq_mul_inv]
+    rw [this]
+    have hl1 : 0 ≤ Real.log (1 / eps) ^ (C.tau + 1) := Real.rpow_nonneg (by linarith) _
+    calc 4 * (p11s1 C eps)⁻¹ ≤ 4 * (k1 * Real.log (1 / eps) ^ (C.tau + 1)) := by gcongr
+      _ ≤ Λ * Real.log (1 / eps) ^ (C.tau + 1) := by
+          have : 4 * k1 ≤ Λ := by
+            have : 0 ≤ 4 / m0 := by positivity
+            rw [hΛ]; linarith
+          nlinarith
+  have hs2' : 4 / p11s2 C nu eps ≤ Λ * Real.log (1 / eps) ^ (C.tau + 1) := by
+    have h1 := p11s2_log_lower hC hnu0 heps hεM
+    have hlp : 0 < Real.log (1 / eps) ^ (C.tau + 1) := Real.rpow_pos_of_pos (by linarith) _
+    rw [← hm0] at h1
+    have h2 : m0 / Real.log (1 / eps) ^ (C.tau + 1) ≤ p11s2 C nu eps := h1
+    have h3 : 4 / p11s2 C nu eps ≤ 4 / (m0 / Real.log (1 / eps) ^ (C.tau + 1)) :=
+      div_le_div_of_nonneg_left (by norm_num) (by positivity) h2
+    refine h3.trans ?_
+    have : 4 / (m0 / Real.log (1 / eps) ^ (C.tau + 1)) =
+        (4 / m0) * Real.log (1 / eps) ^ (C.tau + 1) := by field_simp
+    rw [this]
+    have : 4 / m0 ≤ Λ := by
+      have : 0 ≤ 4 * k1 := by positivity
+      rw [hΛ]; linarith
+    exact mul_le_mul_of_nonneg_right this hlp.le
+  have hη0 : 0 ≤ p11eta1 C eps := by
+    obtain ⟨-, -, -, -, hGd, -, -, -, -, -, -, -, -, hGη, -⟩ := hFs
+    have hr : 0 < C.rz / 2 := by positivity
+    have := hGη (KAM.realInclusion n C.J0) (by simp; linarith only [hs1]) 0 (by simpa using hr)
+    exact (norm_nonneg _).trans this
+  have hηb : p11eta1 C eps ≤ k2 * eps * Real.log (1 / eps) ^ (2 * C.tau + 1) := heta heps hεM
+  have hl0 : 0 < Real.log (1 / eps) := by linarith
+  have hlx : 1 ≤ Real.log (1 / eps) ^ (2 * C.tau + 1) := Real.one_le_rpow hl (by linarith)
+  have hF0 : 0 < F := by rw [hF]; exact_mod_cast Nat.factorial_pos _
+  have hΛM : 0 < Λ ^ (mu + 1) := by positivity
+  have hRη : C.MF + p11eta1 C eps ≤ Rc * Real.log (1 / eps) ^ (2 * C.tau + 1) :=
+    p11_close_Reta hl hlx he1 heps hk2.le hηb hMF
+  have hfac : ∀ s : ℕ, s ≤ mu + 1 → ((s.factorial : ℕ) : ℝ) ≤ F := fun s hs => by
+    rw [hF]; exact_mod_cast Nat.factorial_le hs
+  refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun c' => ?_
+  refine Fin.addCases (fun k => ?_) (fun k => ?_) c'
+  · have hb := p11_close_block1 hC hnu heps hεM hFs hA hzs h5 k α J ρ hJ hρ
+    have hs : ∑ i, (α + Pi.single k 1 : Fin n → ℕ) i ≤ mu + 1 := by
+      simp [Finset.sum_add_distrib]; omega
+    exact hb.trans (p11_close_fin1 (C := C) (nu := nu) heps he1 hl hc0 hΛ1 hτ0.le hs hs1 hs2 hs1'
+      hs2' hRη hF0.le (hfac _ hs) hk2.le rfl hMF hη0 rfl)
+  · have hb := p11_close_block2 hC hnu heps hεM hA hzs h5 k α J ρ hJ hρ
+    have hs : ∑ i, α i ≤ mu + 1 := by omega
+    exact hb.trans (p11_close_fin2 (C := C) (nu := nu) (c := c) heps he1 hl hc0 hΛ1 hτ0.le hs hs2
+      hs2' hη0 hηb hF0.le (hfac _ (by omega)) hk2.le (k := k) (α := α) (Rc := Rc) rfl hMF rfl)
+
 end Close
 
 end KAM.Planetary
