@@ -12,8 +12,7 @@ public import KAM.Planetary.PGMeasure.ResonanceLarge.Sections
 /-!
 # P Part 4: the large-mode resonances `ℛ^(B)` (`stepP:p4:dm-Bstruct`, `stepP:p4:dm-B`)
 
-Internal helpers for `two_scale_diophantine_measure` (consumed by P4-M). Design
-`docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RB.
+Internal helpers for `two_scale_diophantine_measure` .
 
 * `large_mode_structure` (`stepP:p4:dm-Bstruct`): structure of the modes `𝒦_B`.
 * `largeSection`, `volume_largeSection_le` (`stepP:p4:dm-B`): slicing in a slow coordinate.
@@ -21,7 +20,7 @@ Internal helpers for `two_scale_diophantine_measure` (consumed by P4-M). Design
   of the frequency-coordinate resonant sets `ℛ'_k`, `k ∈ 𝒦_B`, has measure at most
   bound `4b²L_β (2R_y)^a C_T (4Λ_NΛ_g)^{τ+1-n} α₁ μ^{τ-n} λ⁻¹ (2λ)^b`.
   The factor `Λ_g^n` from the Lipschitz image (`stepP:p4:dm-y`) and the division by `vol core` in
-  `c₁` are applied by P4-M.
+  `c₁` are applied in `two_scale_diophantine_measure`.
 -/
 
 @[expose] public noncomputable section

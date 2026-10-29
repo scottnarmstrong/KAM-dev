@@ -18,10 +18,9 @@ public import KAM.Planetary.Hamiltonian.Diophantine
 
 The explicit constants `measure_c1`, `measure_c2`, the identification `resonanceBad_eq` of the
 resonance union with the complement of the two-scale set `𝒟_{α₁,α₂,τ}`, and the measure estimate
-`two_scale_diophantine_measure`, assembled from the slow (`stepP:p4:dm-slow`, P4-R0), fast
-(`stepP:p4:dm-y`, `stepP:p4:dm-A`, P4-RA) and large (`stepP:p4:dm-Bstruct`, `stepP:p4:dm-B`, P4-RB)
-resonance helpers (`stepP:p4:dm-sum`). Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`,
-package P4-M.
+`two_scale_diophantine_measure`, assembled from the slow (`stepP:p4:dm-slow`), fast
+(`stepP:p4:dm-y`, `stepP:p4:dm-A`) and large (`stepP:p4:dm-Bstruct`, `stepP:p4:dm-B`)
+resonance helpers (`stepP:p4:dm-sum`).
 -/
 
 @[expose] public noncomputable section

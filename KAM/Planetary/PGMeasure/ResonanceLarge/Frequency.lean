@@ -16,7 +16,7 @@ In coordinates `z = (y, ξ)` with `y = fastFrequency H₀ I` the resonance funct
 `pullFreq d μ k z = k · freq (g y, ξ)`; `resonanceSet` is the part of `ω(core) × Q` where it is
 smaller than a threshold. This file fixes the carriers and the decomposition of `pullFreq` into its
 fast and slow parts, using only the literal premises `N1`, `N2`, `N3` and `hRybound` of
-`MeasureData`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RB.
+`MeasureData`.
 -/
 
 @[expose] public noncomputable section
