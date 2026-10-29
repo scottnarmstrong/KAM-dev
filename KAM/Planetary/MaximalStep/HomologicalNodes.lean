@@ -88,9 +88,9 @@ def HmMaxSolution {n : ℕ} (E : Set (P11Vec n)) (t T D rs delta M : ℝ)
 theorem hmMaxSolution_of_empty {n : ℕ} {t T D rs delta M : ℝ} (w : P11CVec n → P11CVec n)
     (P phi : P11CVec n × P11CVec n → ℂ) :
     HmMaxSolution (∅ : Set (P11Vec n)) t T D rs delta M w P phi := by
-  have h : KAM.actionNbhd (∅ : Set (P11Vec n)) t = ∅ := by
+  have h : ∀ s : ℝ, KAM.actionNbhd (∅ : Set (P11Vec n)) s = ∅ := fun s => by
     ext I; simp [KAM.actionNbhd]
-  simp [HmMaxSolution, HmZeroMeanTrig, h]
+  simp [HmMaxSolution, HmZeroMeanTrig, h, p11Bound, differentiableOn_empty]
 
 section Solve
 variable {n : ℕ} {E : Set (P11Vec n)} {t T D rs delta M : ℝ} {w : P11CVec n → P11CVec n}
@@ -109,7 +109,7 @@ theorem hm_diff_at {B : Set (P11CVec n)} (hr : 0 < rs) (hB : IsOpen B) (hD : 0 <
 
 /-- The solution `p11Solve` realises every clause of the proposition for one scalar datum. -/
 theorem hmMaxSolution_solve (hr : 0 < rs) (hd : 0 < delta) (hdr : delta < rs) (hT : 0 < T)
-    (hD : 0 < D) (hM : 0 ≤ M) (ht : 0 < t)
+    (hD : 0 < D) (hM : 0 ≤ M)
     (hw : DifferentiableOn ℂ w (KAM.actionNbhd E t))
     (hdiv : ∀ b ∈ KAM.actionNbhd E t, ∀ k, k ≠ 0 → KAM.Fourier.modeSize k ≤ T →
       D/2 ≤ ‖p11dotC k (w b)‖)
@@ -189,7 +189,7 @@ theorem hmMaxSolution_solve' (hr : 0 < rs) (hd : 0 < delta) (hdr : delta < rs) (
       have := hb ((fun i => (((0 : Fin n → ℝ) i : ℝ) : ℂ)), fun i => (b0 i : ℂ))
         ⟨KAM.ofReal_mem_complexStrip hr 0, ⟨b0, hb0E, by simpa using ht⟩⟩
       exact (norm_nonneg _).trans this
-    exact hmMaxSolution_solve hr hd hdr hT hD hM ht hw hdiv hP hpoly hb
+    exact hmMaxSolution_solve hr hd hdr hT hD hM hw hdiv hP hpoly hb
 
 /-- The bracket identity for the solutions `φ₀ = p11Solve P₀`, `φ₁ⱼ = p11Solve P₁ⱼ`. -/
 theorem hm_bracket_solve (hr : 0 < rs) (hT : 0 < T) (hD : 0 < D)
