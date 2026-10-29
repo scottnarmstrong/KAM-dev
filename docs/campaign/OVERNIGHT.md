@@ -690,3 +690,46 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   Part 1 with no open node. Remaining open work across the campaign: lane N (paused for Zohar's team) and the owner
   rulings logged above (definition fidelity for totalized definitions, errata candidates, interpretation rulings,
   graph-schema remark kind).
+- **06:30. Graph I complete; graph P's last movable nodes.** Graph I final: 372 PROVED, 72 EXTERNAL, 6 BYPASSED, 0
+  NOT_STARTED. Graph P: 1148 PROVED, 52 NOT_STARTED. Ruling (D27): of the six P route nodes (p7 po-el circular, p9 gs-c,
+  p12 pl-phys), the route the PROVED parent's Lean takes closes with the parent; the other is BYPASSED. A definitions
+  audit (DEFS-P3) classifies p11:sec-E#data (now that the preparation chain has landed) and p5:rstar#Cgamma. All
+  other open P nodes need lane N (p14, p0:expsafe) or an owner ruling (definition fidelity, remarks, errata).
+- **06:35. DEFS-P3 (owner to review with 02:50 and 03:20).** p5:rstar#Cgamma closes (pgCgamma, exact signed formula).
+  p11:sec-E#data is NOT closable: (F1) the literal domain E (strip x action polydisc of radius (2, pi/2)) is not defined;
+  the wrapper's domain is strictly smaller; (F2) the exact chart-domain mapping iff is not stated; (F3) the signed
+  p11PreparedData is a choose-or-default selector. F1/F2 are small Lean additions; F3 is the same definition-fidelity
+  question as p11SlowData, wsum/wnorm and delaunay. Route nodes applied: graph P 1151 PROVED, 19 BYPASSED, 46 open.
+- **06:40. END-OF-NIGHT SUMMARY (main orchestrator).**
+  - **Anchors:** 20 of 22 sealed. fixedSunPlanetaryKAM was sealed tonight (04:50). The two DRAFT_SORRY anchors,
+    planetaryExponentialSafety and partialConvex_nekhoroshev, are lane N (paused for Zohar's team).
+  - **Graphs:**
+    - K: complete.
+    - I: complete (372 PROVED, 72 EXTERNAL, 6 BYPASSED, 0 open).
+    - P: 1152 PROVED, 147 EXTERNAL, 19 BYPASSED, 45 open (started the night at 922 PROVED).
+  - **The 45 open P nodes:**
+    - 38 are lane N: 37 p14 nodes and p0:expsafe.
+    - 1 is cross-graph: bpN:p6:iterative-special.
+    - 6 wait on owner rulings: 5 definition nodes, plus p11:sec-E#data.
+    - 2 are the remark nodes.
+  - **Owner decisions (details in the entries above):**
+    1. Definition fidelity for totalized or choice-based definitions: KAM.Weighted wsum/wnorm (p3 conv#data,
+       p11 sec-conv#data), delaunay's Kepler-solver fallback (p7 conv#data), the signed p11SlowData /
+       p11PreparedData choose-or-default selectors (p11 sec-D#data, sec-E#data). Also p3 limitmap#data, which lacks
+       the conjugation and L_* objects.
+    2. Amendments P-A001 (p5:ext on cl C(V, r0)), P-A002 (pr-in constants depend on derivative orders) and P-A003
+       (p11b:remain cut to clause (1)).
+    3. Candidate errata:
+       - the cutoff-loss addendum needs d <= 1 and T >= 1 (p11a2:124);
+       - real-Lipschitz needs 0 <= M1 (p11a2:229-242);
+       - the frozen fixedSunPlanetaryKAM prose shows a bare seal recipe that does not elaborate.
+    4. Interpretation rulings made overnight:
+       - the shared rho_* in Part 8 is handled by joint exports;
+       - Part 1 uses the literal tau >= 0 via the n-dimensional Dirichlet lemma, with arbitrary omega;
+       - the cv-sympl matrix-form precedent;
+       - the definition-node closure policy;
+       - ruling (b) is extended to audit rows that cite line ranges.
+    5. Tooling: a SET_KIND amendment plus a remark kind in scripts/proof_depgraph.py, for p0:totality and
+       p1:order.
+  - **Workers:** no provers or auditors are running; the sub-orchestrator is idle. Nothing more can start until
+    lane N resumes or the owner rules.
