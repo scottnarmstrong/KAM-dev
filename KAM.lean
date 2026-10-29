@@ -955,6 +955,7 @@ public import KAM.Planetary.SecularForm.LaplaceIdentities
 public import KAM.Planetary.SecularForm.LaplacePoch
 public import KAM.Planetary.SecularForm.LaplaceSeries
 public import KAM.Planetary.SecularForm.ModelTransfer
+public import KAM.Planetary.SecularForm.ModelTransferNodes
 public import KAM.Planetary.SecularForm.Momentum
 public import KAM.Planetary.SecularForm.ParameterIntegral
 public import KAM.Planetary.SecularForm.ProductInterface
@@ -1003,6 +1004,7 @@ public import KAM.Planetary.SecularSpectrum.Definiteness.Laplace
 public import KAM.Planetary.SecularSpectrum.Definiteness
 public import KAM.Planetary.SecularSpectrum.Diagonalize
 public import KAM.Planetary.SecularSpectrum.GoodPolynomial
+public import KAM.Planetary.SecularSpectrum.GoodSetNodes
 public import KAM.Planetary.SecularSpectrum.Lift.Analytic
 public import KAM.Planetary.SecularSpectrum.Lift.Basic
 public import KAM.Planetary.SecularSpectrum.Lift.Calculus

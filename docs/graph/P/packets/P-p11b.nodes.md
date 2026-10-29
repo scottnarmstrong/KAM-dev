@@ -83,7 +83,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: audit T1 PASS WITH NOTES but T1 defines only PlanarData, axes/actions dictionaries, hat functions, secular average, slow length, quartic; Laplace coefficients, sigma, rho, Phi_4, NR_4 etc. are not defined here
+LEAN_NOTE: T1-audit-1.md classifies PlanarData, axes/actions, hat functions, secular average only; Laplace coefficients, sigma_i, rho, Phi_4, NR_4, beta_0/beta_1, complex notation, slow variables lack classified Lean definitions.
 NOTE: created from p11b:prose-L14-L16 (SPEC section data); consumers: nearly every node of Part 11b
 
 NODE: bpP:p11b:orbit
@@ -1576,9 +1576,9 @@ EDGE: bpP:p8:same-jets | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:rema
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P11C-T17 PASS WITH NOTES: remain proves clause (1) (compact positivity of det beta-hat, htorsion); clause (2) (Part 12 tasks; n=2/P-FIXED reuse of P_0, Omega, beta-hat) not stated; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: remain (KAM/Planetary/PlanarTorsion/TorsionBound.lean)
+LEAN_NOTE: audit P11C-T17 PASS WITH NOTES; conclusion cut to clause (1) by AMEND P-A003
 NOTE: consumed by Part 12 (stepP:p12:pg-h56 cites Remark remain(1)); clause (2) is a list of Part-12 tasks (pointer), its P-FIXED sentence is not used by P-PLANAR
 
 NODE: bpP:p11b:asymptotics
