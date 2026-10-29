@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:34 UTC from `main` at `b2ce3060` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:34 UTC from `main` at `9b258fbb` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -375,6 +375,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 16:34 | `9b258fbb` | README: frozen statements moved to docs/STATEMENTS.md (per track: Lean link, source with paper, docstring, status, provider; frozen definitions per track), README keeps a linked index; collaborator row removed from the agent list |
 | 2026-10-29 16:32 | `b2ce3060` | Land inp into main |
 | 2026-10-29 16:22 | `d6946670` | README: papers moved to docs/PAPERS.md (grouped, annotated: links, use, citing frozen theorems, errata), README keeps a linked index; landed table drops author names from commit subjects; HL19 is Haro-Luque |
 | 2026-10-29 16:18 | `be2cfcd8` | README: no per-author credit for parts of the project (collaborative project); track N and phase text, collaborator row, progress notes |
@@ -386,7 +387,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 15:54 | `52633b9d` | Land inp into main |
 | 2026-10-29 15:50 | `4d2ccfac` | OVERNIGHT 15:45-15:50 (P14 assembled, SO design accepted, data packaging A); HQ: SO plan item done, gates |
 | 2026-10-29 15:49 | `9dadb354` | Land inp into main |
-| 2026-10-29 15:47 | `200a95ed` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
