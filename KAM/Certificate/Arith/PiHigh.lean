@@ -186,4 +186,53 @@ def PiHighCert.ofParams (k j : ℕ) : PiHighCert where
   lo_lt := piLowRat_lt_pi k j
   lt_hi := pi_lt_piUpRat k j
 
+/-- Kernel-checked enclosures of `π`: `piLowRat k j < π < piUpRat k j` of width at most
+`10 ^ (-N)`. -/
+theorem piHigh_50 : piUpRat 18 5 - piLowRat 18 5 ≤ 1 / 10 ^ 50 := by decide +kernel
+
+theorem piHigh_100 : piUpRat 36 11 - piLowRat 36 11 ≤ 1 / 10 ^ 100 := by decide +kernel
+
+theorem piHigh_140 : piUpRat 50 15 - piLowRat 50 15 ≤ 1 / 10 ^ 140 := by decide +kernel
+
+/-! ### Enclosure of `e` -/
+
+/-- Taylor partial sum `∑_{m<n} 1/m!`. -/
+def eSum (n : ℕ) : ℚ := ∑ m ∈ range n, 1 / (m.factorial : ℚ)
+
+/-- The `Real.exp_bound` remainder at `x = 1`: `(n+1) / (n! n)`. -/
+def eRem (n : ℕ) : ℚ := ((n : ℚ) + 1) / ((n.factorial : ℚ) * n)
+
+def eLowRat (n : ℕ) : ℚ := eSum n - 2 * eRem n
+
+def eUpRat (n : ℕ) : ℚ := eSum n + 2 * eRem n
+
+private theorem exp_one_sub_eSum {n : ℕ} (hn : 0 < n) :
+    |Real.exp 1 - (eSum n : ℝ)| ≤ (eRem n : ℝ) := by
+  have h := Real.exp_bound (x := 1) (by simp) hn
+  have e1 : (eSum n : ℝ) = ∑ m ∈ range n, (1 : ℝ) ^ m / m.factorial := by
+    unfold eSum; push_cast; simp
+  rw [e1]
+  convert h using 2
+  unfold eRem
+  push_cast
+  simp [Nat.succ_eq_add_one, div_eq_mul_inv]
+
+private theorem eRem_pos {n : ℕ} (hn : 0 < n) : (0 : ℝ) < (eRem n : ℝ) := by
+  unfold eRem
+  have : (0 : ℚ) < ((n : ℚ) + 1) / ((n.factorial : ℚ) * n) := by positivity
+  exact_mod_cast this
+
+theorem eLowRat_lt_exp_one {n : ℕ} (hn : 0 < n) : (eLowRat n : ℝ) < Real.exp 1 := by
+  have h := (abs_le.mp (exp_one_sub_eSum hn)).1
+  have := eRem_pos hn
+  unfold eLowRat; push_cast; linarith
+
+theorem exp_one_lt_eUpRat {n : ℕ} (hn : 0 < n) : Real.exp 1 < (eUpRat n : ℝ) := by
+  have h := (abs_le.mp (exp_one_sub_eSum hn)).2
+  have := eRem_pos hn
+  unfold eUpRat; push_cast; linarith
+
+/-- Kernel-checked: `e` to 30 digits. -/
+theorem eHigh_30 : eUpRat 40 - eLowRat 40 ≤ 1 / 10 ^ 30 := by decide +kernel
+
 end KAM.Certificate
