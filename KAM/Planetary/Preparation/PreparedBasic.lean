@@ -306,8 +306,9 @@ variable {n : ℕ} {C : P11SecularData n} {Fast : P11FastData n} {A : P11SlowDat
   {W : P11Vec (n+n) → P11Vec (n+n)}
 
 /-- The oscillator actions of a point of `V_2` have real part above `pi eps`. -/
-theorem p11_slowBox_re_pos {I : P11CVec (n+n)} (hI : I ∈ p11Box (p11SlowCenter C eps) (p11s2 C nu eps)
-    (Real.pi*eps)) (i : Fin n) : Real.pi*eps < (I (Fin.natAdd n i)).re := by
+theorem p11_slowBox_re_pos {I : P11CVec (n+n)}
+    (hI : I ∈ p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps)) (i : Fin n) :
+    Real.pi*eps < (I (Fin.natAdd n i)).re := by
   have h := hI.2 i
   have h2 : p11SlowCenter C eps (Fin.natAdd n i) = ((2*Real.pi*eps : ℝ) : ℂ) := by
     simp [p11SlowCenter]
