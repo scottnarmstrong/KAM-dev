@@ -22,6 +22,8 @@ fill after T16: unsigned lemmas that only consume `birkhoff_form`.
 * `lift_map_explicit`: `T (λ, Λ, z) = (λ + g(Λ, z) + H(Λ, Y), Λ, ρ(Λ) Y)` for
   `T = p11c_rotationLift ∘ p11c_liftFlow chi`, with `g` the time integral of `∂_Λ chi` along the
   flow and `H` the frame-rotation angle correction.
+* `p11cG_attach`: universal attachment of clause (a) to any `T` with the source data.
+* `birkhoff_form_full`: joint export (all T16 clauses, clause (a), explicit form; same witnesses).
 * `lift_map_properties`: with the three properties of the node (analytic symplectic chart,
   injectivity, action preservation, commutation with angle translations) for the `T` of
   `birkhoff_form`.
@@ -176,6 +178,114 @@ theorem lift_map_properties (p : PlanarData) (hp : p.Valid)
   obtain ⟨O', hO', hKO, hcpt, hcl, F, chi, _, _, T, hT, _, hch, hinj, hact, htr, _⟩ :=
     h Oa hOa hK hOg
   refine ⟨O', hO', hKO, hcpt, hcl, chi, T, hT, ?_, hch, hinj, hact, htr⟩
+  intro I φ z
+  rw [hT]
+  exact lift_map_explicit p chi.eval I φ z
+
+/-- Universal attachment of clause (a): for ANY map `T` with the source data of `birkhoff_form`
+(action preservation, covariance under real angle translations, image in the product-chart
+domain), both physical perturbations are `2π`-periodic after `T` and satisfy the Hamiltonian
+identities.  Neither the identities nor the normal-form conclusions are assumed. -/
+theorem p11cG_attach (p : PlanarData) (hp : p.Valid) (O' : Set (Fin 2 → ℝ)) (r : ℝ)
+    (T : Phase (2 + 2) → Phase (2 + 2))
+    (hact : ∀ w ∈ p11c_tube O' r, (fun i => (T w).2 (Fin.castAdd 2 i)) =
+      fun i => w.2 (Fin.castAdd 2 i))
+    (htr : ∀ w ∈ p11c_tube O' r, ∀ c : Fin 2 → ℝ,
+      T (w + (Fin.append c 0, 0)) = T w + (Fin.append c 0, 0))
+    (hdom : ∀ w ∈ p11c_tube O' r, T w ∈ poincareProdDom 2 ∧
+      NoCollision (poincareProd p.m p.kappa (T w)).1) :
+    ∀ fhat ∈ ({p11c_hatFix p, p11c_hatMov p} : Set (Phase (2 + 2) → ℝ)),
+      (∀ w ∈ p11c_tube O' r, ∀ k : Fin 2 → ℤ,
+        (fhat ∘ T) (w + fastShift (a := 2) (b := 2) k) = (fhat ∘ T) w) ∧
+      (fhat = p11c_hatMov p → ∀ w ∈ p11c_tube O' r, ∀ μ : ℝ,
+        movingHamiltonian p.G p.m0 p.m μ (poincareProd p.m p.kappa (T w)) =
+          hProd p.kappa p.m w + μ * (fhat ∘ T) w) ∧
+      (fhat = p11c_hatFix p → ∀ w ∈ p11c_tube O' r, ∀ ε : ℝ,
+        fixedHamiltonian p.G p.m0 p.m ε (poincareProd p.m p.kappa (T w)) =
+          hProd p.kappa p.m w + ε * (fhat ∘ T) w) := by
+  intro fhat hmem
+  refine ⟨?_, ?_, ?_⟩
+  · intro w hw k
+    have hfh : ∃ f : Phase (2 * 2) → ℝ, fhat = f ∘ poincareProd p.m p.kappa := by
+      rcases hmem with rfl | rfl
+      · exact ⟨fFix p.G p.m, rfl⟩
+      · exact ⟨fMov p.G p.m0 p.m, rfl⟩
+    obtain ⟨f, rfl⟩ := hfh
+    exact p11cG_periodic p hp f k (htr w hw (fun i => 2 * Real.pi * (k i : ℝ)))
+      (hdom w hw).1
+  · rintro rfl w hw μ
+    exact (p11cG_split p hp (hact w hw) (hdom w hw).1).1 μ
+  · rintro rfl w hw ε
+    exact (p11cG_split p hp (hact w hw) (hdom w hw).1).2 ε
+
+/-- `bpP:p11b:birkhoff-form` and `bpP:p11b:lift-map`, joint export.  One existential provides
+the witnesses `O', F, chi, T` of `birkhoff_form` together with its normal-form clauses (b), (c),
+clause (a) (periodicity and `H^Ψ ∘ T = h(Λ) + μ (f̂ ∘ T)` for both perturbations) and the
+explicit lift-map form, all for the SAME `r, C, O', chi, T`. -/
+theorem birkhoff_form_full (p : PlanarData) (hp : p.Valid)
+    (a0 : Fin 2 → ℝ) (rho : ℝ)
+    (hgoodK : closedBall a0 rho ⊆ {a ∈ p11c_axes | p11c_phi4 p a ≠ 0}) :
+    ∃ r C : ℝ, 0 < r ∧ 0 < C ∧ ∀ Oa : Set (Fin 2 → ℝ),
+      IsOpen Oa → closedBall a0 rho ⊆ Oa →
+      Oa ⊆ {a ∈ p11c_axes | p11c_phi4 p a ≠ 0} →
+      ∃ O' : Set (Fin 2 → ℝ), IsOpen O' ∧ p.actions '' closedBall a0 rho ⊆ O' ∧
+        IsCompact (closure O') ∧ closure O' ⊆ p.actions '' Oa ∧
+        ∃ F chi : QuarticFamily O',
+          (∀ I ∈ O', ∀ z, F.eval I z = p11c_quartic (p11c_coeffs p (p.axes I))
+            (p11c_rotateSlow (p11c_frame p (p.axes I)) z)) ∧
+          (∀ I ∈ O', chi.eval I = p11c_chi F (fun J j => 2 * p11c_sigma p (p.axes J) j) I) ∧
+          ∃ T : Phase (2 + 2) → Phase (2 + 2),
+          T = p11c_rotationLift p ∘ p11c_liftFlow chi.eval ∧
+          (∀ I ∈ O', ∀ j, 2 * p11c_sigma p (p.axes I) j < 0) ∧
+          IsChart 1 T (p11c_tube O' r) ∧ InjOn T (p11c_tube O' r) ∧
+          (∀ w ∈ p11c_tube O' r, (fun i => (T w).2 (Fin.castAdd 2 i)) =
+            (fun i => w.2 (Fin.castAdd 2 i))) ∧
+          (∀ w ∈ p11c_tube O' r, ∀ c : Fin 2 → ℝ,
+            T (w + (Fin.append c 0, 0)) = T w + (Fin.append c 0, 0)) ∧
+          (∀ w ∈ p11c_tube O' r, T w ∈ poincareProdDom 2 ∧
+            NoCollision (poincareProd p.m p.kappa (T w)).1) ∧
+          (∀ fhat ∈ ({p11c_hatFix p, p11c_hatMov p} : Set (Phase (2 + 2) → ℝ)),
+            (AnalyticOnNhd ℝ (fhat ∘ T) (p11c_tube O' r) ∧
+              ∃ P0 : (Fin 2 → ℝ) → ℝ, (∀ I ∈ p.actions '' closedBall a0 rho,
+                P0 I = p11c_secular fhat I 0) ∧
+              (∀ I ∈ p.actions '' closedBall a0 rho, ∀ z : Phase 2, p11c_slowLength z < r →
+                |p11c_secular (fhat ∘ T) I z - (P0 I +
+                  (∑ j, 2 * p11c_sigma p (p.axes I) j * oscillatorAction z.2 z.1 j) +
+                  (1 / 2 : ℝ) * ∑ i, ∑ j, p11c_beta p (p.axes I) i j *
+                    oscillatorAction z.2 z.1 i * oscillatorAction z.2 z.1 j)| ≤
+                C * (p11c_slowLength z) ^ 6) ∧
+              ∀ mu0 : ℝ, 0 < mu0 → ∀ r0 : ℝ, 0 < r0 → r0 ≤ r / sqrt 2 →
+                HasSecularBirkhoffForm (fun _ => fhat ∘ T)
+                  (interior (p.actions '' closedBall a0 rho)) r0 mu0 (fun _ => P0)
+                  (fun _ I j => 2 * p11c_sigma p (p.axes I) j)
+                  (fun _ I => p11c_beta p (p.axes I))) ∧
+            (∀ w ∈ p11c_tube O' r, ∀ k : Fin 2 → ℤ,
+              (fhat ∘ T) (w + fastShift (a := 2) (b := 2) k) = (fhat ∘ T) w) ∧
+            (fhat = p11c_hatMov p → ∀ w ∈ p11c_tube O' r, ∀ μ : ℝ,
+              movingHamiltonian p.G p.m0 p.m μ (poincareProd p.m p.kappa (T w)) =
+                hProd p.kappa p.m w + μ * (fhat ∘ T) w) ∧
+            (fhat = p11c_hatFix p → ∀ w ∈ p11c_tube O' r, ∀ ε : ℝ,
+              fixedHamiltonian p.G p.m0 p.m ε (poincareProd p.m p.kappa (T w)) =
+                hProd p.kappa p.m w + ε * (fhat ∘ T) w)) ∧
+          ∀ I φ : Fin 2 → ℝ, ∀ z : Phase 2,
+            T (assemble I φ z.2 z.1) =
+              assemble I
+                (φ + (fun l => ∫ t in (0 : ℝ)..1,
+                    fderiv ℝ (fun J => chi.eval J (p11c_flow chi.eval I t z)) I
+                      (Pi.single l 1)) +
+                  fun l => ∑ i, ∑ j, ∑ k, (p11c_flow chi.eval I 1 z).2 i *
+                    p11c_frame p (p.axes I) k i *
+                    fderiv ℝ (fun J => p11c_frame p (p.axes J) k j) I (Pi.single l 1) *
+                      (p11c_flow chi.eval I 1 z).1 j)
+                (p11c_rotateSlow (p11c_frame p (p.axes I)) (p11c_flow chi.eval I 1 z)).2
+                (p11c_rotateSlow (p11c_frame p (p.axes I)) (p11c_flow chi.eval I 1 z)).1 := by
+  obtain ⟨r, C, hr, hC, h⟩ := birkhoff_form p hp a0 rho hgoodK
+  refine ⟨r, C, hr, hC, fun Oa hOa hK hOg => ?_⟩
+  obtain ⟨O', hO', hKO, hcpt, hcl, F, chi, hF, hchi, T, hT, hs, hch, hinj, hact, htr, hdom,
+    hf⟩ := h Oa hOa hK hOg
+  have hat := p11cG_attach p hp O' r T hact htr hdom
+  refine ⟨O', hO', hKO, hcpt, hcl, F, chi, hF, hchi, T, hT, hs, hch, hinj, hact, htr, hdom,
+    fun fhat hmem => ⟨hf fhat hmem, hat fhat hmem⟩, ?_⟩
   intro I φ z
   rw [hT]
   exact lift_map_explicit p chi.eval I φ z
