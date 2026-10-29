@@ -98,3 +98,16 @@ what the design must change.
 
 ROUND 3 FOCUS: are F7, F8, F9 and the F3/F6 residuals closed? Is the certCExp change compatible with the design's uses?
 Any new blocking issue? Re-run the signature check. Verdict and numbered findings.
+
+## Round 4 (design Revision 4, commit 5767956a)
+
+Revision 4 answers round 3's single blocking finding F10 (section '## Revision 4' of the design; mapping in
+.drafts/handoff-SO-DESIGN.md). The orchestrator fixed the general primitive's signature (`certCExpReduced`,
+`certCExpReduced_sound`, an Option-returning range-reduced complex exponential whose successful call is sound with no
+size hypothesis); package SO-CEXP has proved it in /root/code/KAM-inp-socexp/KAM/Certificate/Arith/ComplexExp.lean
+(separately audited). Signatures: /root/code/KAM-inp/.drafts/design/SOSignatures.lean (1494 lines).
+ROUND 4 FOCUS: is F10 closed for EVERY consumer of your round-3 table (Slp.balls with cexpHalvings, the expWitness
+scalar pin with per-witness halvings and the eps_0 budget including reduction, rounding and squaring errors,
+character witnesses in Slp.compose)? Do the landed Roots.lean signatures appear verbatim? Is the fail-closed
+contract stated on successful calls only, with no caller-side size hypothesis anywhere? Any new blocking issue?
+Re-run the signature gate. Verdict and numbered findings.
