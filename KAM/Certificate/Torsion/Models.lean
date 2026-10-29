@@ -457,6 +457,63 @@ theorem swapNat_phaseNat (a : Fin n ⊕ Fin n) : swapNat n (phaseNat a) = phaseN
   · have : ¬(n + a.val < n) := by omega
     simp [swapNat, phaseNat, this]
 
+/-- The composed jet slots enclose the derivatives of `H` along `K` (the contract of
+`Slp.compose`, read through `torsionSlots`). -/
+omit [LawfulCertArith α] in
+def SlotsEnclose (n : ℕ) (e : HamExpr n) (K : CertEmbedding α) (ρ : ℝ)
+    (ms : List (CertModel α)) : Prop :=
+  ms.length = (torsionSlots n e.jet).length ∧ ∀ idx (h : idx < ms.length), ms[idx].Encloses n ρ
+    (fun θ => e.jet.prog.val n (K.eval n θ) ((torsionSlots n e.jet).getD idx 0))
+
+theorem dxhModels_encloses {e : HamExpr n} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    (hD : IsOpen D) (hnv : e.NonvanishingOn D) {K : CertEmbedding α} {ρ : ℝ}
+    (hKD : ∀ θ ∈ complexStrip n ρ, K.eval n θ ∈ D) {ms : List (CertModel α)}
+    (hms : SlotsEnclose n e K ρ ms) :
+    (dxhModels n ms).EntryEncloses n ρ phaseNat phaseNat (linMat e.eval (K.eval n)) := by
+  have hslot : ∀ a b : Fin n ⊕ Fin n,
+      (ms.getD (n + n + (n + n) * swapNat n (phaseNat a) + phaseNat b) zeroModel).Encloses n ρ
+        (fun θ => iteratedFDeriv ℂ 2 e.eval (K.eval n θ) ![phaseBasis a.swap, phaseBasis b]) := by
+    intro a b
+    have ha := phaseNat_lt_add a.swap
+    have hb := phaseNat_lt_add b
+    rw [swapNat_phaseNat]
+    have hq : n + n + (n + n) * phaseNat a.swap + phaseNat b < ms.length := by
+      rw [hms.1, torsionSlots_length]; nlinarith
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hq, Option.getD_some]
+    refine (hms.2 _ hq).of_eqOn fun θ hθ => ?_
+    rw [torsionSlots_getD_d2 _ ha hb]
+    exact e.jet_d2 hD hnv (hKD θ hθ) a.swap b
+  intro a b
+  rw [dxhModels, buildMat_entry _ (phaseNat_lt_add a) (phaseNat_lt_add b)]
+  have hlin : ∀ θ ∈ complexStrip n ρ, linMat e.eval (K.eval n) θ a b = hamSign a *
+      iteratedFDeriv ℂ 2 e.eval (K.eval n θ) ![phaseBasis a.swap, phaseBasis b] := fun θ hθ =>
+    linMat_apply_eq (((e.contDiffOn_eval hD hnv).contDiffAt
+      (hD.mem_nhds (hKD θ hθ))).of_le le_top) a b
+  rcases a with i | i
+  · have hlt : phaseNat (Sum.inl i : Fin n ⊕ Fin n) < n := i.isLt
+    simp only [hlt, ↓reduceIte]
+    exact (hslot (Sum.inl i) b).of_eqOn fun θ hθ => by rw [hlin θ hθ]; simp [hamSign]
+  · have hlt : ¬(phaseNat (Sum.inr i : Fin n ⊕ Fin n) < n) := by simp [phaseNat]
+    simp only [hlt, ↓reduceIte]
+    exact (hslot (Sum.inr i) b).negM.of_eqOn fun θ hθ => by rw [hlin θ hθ]; simp [hamSign]
+
+omit [LawfulCertArith α] in
+theorem d1Models_encloses {e : HamExpr n} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    (hD : IsOpen D) (hnv : e.NonvanishingOn D) {K : CertEmbedding α} {ρ : ℝ}
+    (hKD : ∀ θ ∈ complexStrip n ρ, K.eval n θ ∈ D) {ms : List (CertModel α)}
+    (hms : SlotsEnclose n e K ρ ms) :
+    (d1Models n ms).EntryEncloses n ρ (fun _ : Unit => 0) phaseNat
+      (fun θ => Matrix.of fun _ a => fderiv ℂ e.eval (K.eval n θ) (phaseBasis a)) := by
+  intro _ a
+  rw [d1Models, buildMat_entry _ Nat.one_pos (phaseNat_lt_add a)]
+  have ha := phaseNat_lt_add a
+  have hq : phaseNat a < ms.length := by
+    rw [hms.1, torsionSlots_length]; omega
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hq, Option.getD_some]
+  refine (hms.2 _ hq).of_eqOn fun θ hθ => ?_
+  rw [torsionSlots_getD_d1 _ ha, e.jet_d1 hD hnv (hKD θ hθ) a]
+  rfl
+
 end Base
 
 end KAM.Certificate
