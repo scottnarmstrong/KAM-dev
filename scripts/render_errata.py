@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the working errata and deviations record docs/ERRATA-AND-DEVIATIONS.md from docs/errata/ledger.json.
+"""Render the working errata and deviations record docs/errata/working-record.md from docs/errata/ledger.json.
 
 usage: scripts/render_errata.py [--check]
 
@@ -15,18 +15,18 @@ from pathlib import Path
 root = Path(__file__).resolve().parent.parent
 ledger = json.loads((root / 'docs/errata/ledger.json').read_text())
 sources = {s['key']: s for s in json.loads((root / 'docs/sources.json').read_text())['sources']}
-target = root / 'docs/ERRATA-AND-DEVIATIONS.md'
+target = root / 'docs/errata/working-record.md'
 
 INTRO = """# Errata and deviations
 
-*Working record, generated from the findings ledger [`errata/ledger.json`](errata/ledger.json) by
-`scripts/render_errata.py`; do not edit by hand. Before release it is rewritten in reader-facing language and every
+*Working record, generated from the findings ledger [`ledger.json`](ledger.json) by
+`scripts/render_errata.py`; do not edit by hand. The reader-facing record is [`ERRATA-AND-DEVIATIONS.md`](../ERRATA-AND-DEVIATIONS.md); every
 erratum is verified against the pinned PDF by its writer and then by an independent refute-first verifier. Until
 then an erratum marked CANDIDATE is a report to check, not a claim.*
 
 **Policy.** {policy}
 
-Locations refer to the pinned versions in [`sources.json`](sources.json); counts are of entries, not occurrences.
+Locations refer to the pinned versions in [`sources.json`](../sources.json); counts are of entries, not occurrences.
 """
 
 
@@ -75,7 +75,7 @@ def main():
     text = render()
     if a.check:
         if not target.exists() or target.read_text() != text:
-            print('docs/ERRATA-AND-DEVIATIONS.md is out of date; run scripts/render_errata.py', file=sys.stderr)
+            print('docs/errata/working-record.md is out of date; run scripts/render_errata.py', file=sys.stderr)
             return 1
         return 0
     target.write_text(text)

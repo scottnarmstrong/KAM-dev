@@ -23,8 +23,8 @@
    "claim": "missing hypothesis: the condition Kσ ≥ 1 is missing in the printed version; the author's own footnote in arXiv v1.3 says so and the pinned arXiv version contains it",
    "kind": "missing hypothesis",
    "evidence": "author's footnote, arXiv v1.3 p. 29",
-   "status": "CANDIDATE",
-   "checked_by": "research survey 2026-10-27 (not yet verified against the pinned PDF by a writer and an independent verifier)",
+   "status": "CONFIRMED",
+   "checked_by": "research survey 2026-10-27 (not yet verified against the pinned PDF by a writer and an independent verifier). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 29 footnote explicitly reports the missing Kσ≥1 in the original print. The pinned lemma already contains it. Evidence proves the historical author report, not a defect in this pinned version; separate historical counts.",
    "effect": "none on the pinned version; relevant only if the measure layer uses Pöschel's Appendix A"
   },
   {
@@ -36,8 +36,8 @@
    "claim": "the choices of h₀ and K₀ violate h₀ ≤ α(2K₀^ν)⁻¹ (Bou20, footnote 1); Kou19 Rem. 2.1.5(4), p. 28: 'Theorem A and B are not valid for ν = τ+1' with that proof; Bou20 restores Theorem A as stated by Rüssmann approximation and a linear scheme",
    "kind": "gap",
    "evidence": "Bou20 (arXiv:2006.04453v1) footnote 1; Kou19 (arXiv:1904.13062v1) Rem. 2.1.5(4)",
-   "status": "CANDIDATE",
-   "checked_by": "research survey 2026-10-27 (unverified)",
+   "status": "CONFIRMED",
+   "checked_by": "research survey 2026-10-27 (unverified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. The draft has no quotation. Pinned PDF 24–25 contains h₀=αc₀E₀σ₀^ν and the incompatible initial choices; Bou20 PDF 1 footnote 1 expressly identifies the violated upper bound, and Kou19 PDF 32 (printed 28), Remark 2.1.5(4), supplies the obstruction. Correct local proof defect; not a false KAM theorem. Correct the Pos01 locator from 23 to 24–25.",
    "effect": "relevant only if the measure layer follows Pöschel's proof"
   },
   {
@@ -49,8 +49,8 @@
    "claim": "should be the measure of (Ω ∖ Ωα) × Tⁿ",
    "kind": "typo",
    "evidence": "context of the measure estimate",
-   "status": "CANDIDATE",
-   "checked_by": "research survey; confirmed against the pinned PDF by the blueprint Part 4 writer 2026-10-27 (independent verifier pending)",
+   "status": "CONFIRMED",
+   "checked_by": "research survey; confirmed against the pinned PDF by the blueprint Part 4 writer 2026-10-27 (independent verifier pending). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 13 actually says “measure of Ωα × Tn”. That good set has large measure as α→0; the stated O(α) target is the complement. Context establishes the missing complement.",
    "effect": "none"
   },
   {
@@ -62,8 +62,8 @@
    "claim": "presumably cγ^{−2}δ^{−2σ}, as in Theorems 1 and 5",
    "kind": "typo",
    "evidence": "comparison with Theorems 1, 5 and the proof",
-   "status": "CANDIDATE",
-   "checked_by": "measure-layer research 2026-10-27 (unverified)",
+   "status": "CONFIRMED",
+   "checked_by": "measure-layer research 2026-10-27 (unverified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Theorem 3's conclusion is on printed 864 (PDF 10), not 862. It prints γ² in both embedding and parameter bounds while the step and Theorems 1/5 use γ^(-2). The cited comparison supports a sign-of-exponent typo; repair the locator and mention both occurrences.",
    "effect": "none if confirmed as a typo"
   },
   {
@@ -75,8 +75,8 @@
    "claim": "ρ₀ is not defined in the statement (presumably ρ)",
    "kind": "typo",
    "evidence": "statement of Theorem 5",
-   "status": "CANDIDATE",
-   "checked_by": "measure-layer research 2026-10-27 (unverified)",
+   "status": "CONFIRMED",
+   "checked_by": "measure-layer research 2026-10-27 (unverified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 11, printed 865, has ‖e₀‖ρ₀ in the second smallness condition although the statement fixes ρ. This is a directly checked stray subscript.",
    "effect": "none"
   },
   {
@@ -88,8 +88,8 @@
    "claim": "δ is introduced but unused; the bound presumably involves δ",
    "kind": "typo",
    "evidence": "statement of Theorem 3.14",
-   "status": "CANDIDATE",
-   "checked_by": "measure-layer research 2026-10-27 (unverified)",
+   "status": "DROPPED",
+   "checked_by": "measure-layer research 2026-10-27 (unverified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: WRONG, dropped. Reason: PDF 13 does use ρ^(-2ν) and mentions δ=ρ/4. But δ^(-2ν)=4^(2ν)ρ^(-2ν), which is absorbed into C, allowed to depend on ν. An unused δ does not make either assertion wrong. The evidence establishes no erratum; remove this allegation or label only redundant notation.",
    "effect": "none"
   },
   {
@@ -102,7 +102,7 @@
    "kind": "gap",
    "evidence": "the Lipschitz constant ~γ⁻² of ω ↦ K_ω is not small relative to the unperturbed map",
    "status": "CANDIDATE",
-   "checked_by": "measure-layer research 2026-10-27 (unverified)",
+   "checked_by": "measure-layer research 2026-10-27 (unverified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 42–43 really passes from bi-Lipschitz dependence of embeddings to positive 2l-dimensional measure. The draft's printed field is a description, not quotation. Its general function-space objection does not refute this theorem under all dynamical/nondegeneracy hypotheses. Evidence establishes a missing phase-space argument, not a false source assertion; classify as proof supplement pending a source-admissible counterexample.",
    "effect": "none on our statements; we do not use §7.1's conclusion"
   },
   {
@@ -114,8 +114,8 @@
    "claim": "the two pages describe ℓ = 2 inconsistently",
    "kind": "typo",
    "evidence": "pp. 31 vs 32",
-   "status": "CANDIDATE",
-   "checked_by": "measure-layer research 2026-10-27 (unverified)",
+   "status": "CONFIRMED",
+   "checked_by": "measure-layer research 2026-10-27 (unverified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 31 says ℓ=2 gives constants independent of λ; PDF 32 repeats ℓ=2 with constants depending on λ, while its final line again says uniform. The local contradiction is real. Replace the placeholder “meaning of ℓ=2” by those two literal sentences.",
    "effect": "none"
   },
   {
@@ -190,8 +190,8 @@
    "claim": "the strict inequality is false when E = 0, where it would require ‖K∞ − K‖ < 0; it should read ≤",
    "kind": "typo",
    "evidence": "with E = 0 the bound reads ‖K∞ − K‖ < 0, which no K∞ satisfies",
-   "status": "CANDIDATE",
-   "checked_by": "statement audit 2026-10-27 (to be re-verified by writer and verifier)",
+   "status": "CONFIRMED",
+   "checked_by": "statement audit 2026-10-27 (to be re-verified by writer and verifier). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 18 (3.11) prints strict bounds, including the first-integral-average bound. At an exact admissible torus E=0 both demand a nonnegative quantity <0. Evidence directly establishes the defect; frozen AposterioriKam uses ≤.",
    "effect": "none; G1 uses ≤"
   },
   {
@@ -203,8 +203,8 @@
    "claim": "in the estimate for the twist term the denominator should be σ_T − |⟨T⟩⁻¹|",
    "kind": "typo",
    "evidence": "the left side of the same display (5.66) has σ_T − |⟨T⟩⁻¹|",
-   "status": "CANDIDATE",
-   "checked_by": "statement audit 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "statement audit 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 42 (5.66) changes σ_T−\\",
    "effect": "none on the statements"
   },
   {
@@ -226,8 +226,8 @@
    "claim": "the proof never shows that Ψ maps Θ into itself, and Θ is open; Ψ(0) can be as large as ‖T‖_ρ‖K₁ − K₂‖_ρ. Correction: use the closed ball of radius 2‖T‖_ρ‖K₁ − K₂‖_ρ",
    "kind": "gap",
    "evidence": "Ψ(0) estimate in the proof",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 3 writer 2026-10-27, against the rendered PDF (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 3 writer 2026-10-27, against the rendered PDF (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 30–31 uses the open ball of radius ‖K₁−K₂‖. At K₁=K₂ that ball is empty, already refuting the literal existence assertion. For positive error the contraction estimate alone also omits self-mapping. KAM/Uniq/Phase.lean:39 explicitly uses a closed ball of radius 2 C_P η.",
    "effect": "none on our statements; G2's proof uses the closed ball"
   },
   {
@@ -239,8 +239,8 @@
    "claim": "should read 0 < δ < ρ/2",
    "kind": "typo",
    "evidence": "context",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 3 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 3 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 31, printed 885, has “0 < δ, ρ/2”. The prior lemma and loss calculations require 0<δ<ρ/2. Direct editorial typo.",
    "effect": "none"
   },
   {
@@ -248,12 +248,12 @@
    "type": "erratum",
    "source": "GJLV05",
    "location": "p. 889, Prop. 18",
-   "printed": "∂v/∂θ_i … ‖v‖_ρ (right-hand side)",
+   "printed": "Σ_(j=1)^n ω_j ∂v/∂θ_i = h; ‖v‖_(ρ−δ) ≤ c δ^(−σ) γ^(−1) ‖v‖_ρ",
    "claim": "the derivative index should be θ_j, and the right-hand side norm should be ‖h‖_ρ",
    "kind": "typo",
    "evidence": "the statement's own variables",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 3 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 3 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 35, printed 889, sums over j but differentiates with θ_i, and bounds the solution by its own ρ-norm. The intended source RHS is h. The displayed equation and variables establish both typos.",
    "effect": "none"
   },
   {
@@ -265,8 +265,8 @@
    "claim": "false for M̄ = M (it would give 0 < 0); should be ≤. Also (A.3)'s '< ½' only follows with ≤",
    "kind": "typo",
    "evidence": "take M̄ = M",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 55 Lemma A.1 fails at M̄=M. The draft's A.3 comment also needs precision: its last <1/2 must be ≤1/2 under (A.1), and its first strict comparison fails at zero difference. The inverse existence conclusion itself survives.",
    "effect": "none; our Neumann lemma uses ≤"
   },
   {
@@ -278,8 +278,8 @@
    "claim": "false when E = 0; should be ≤ (the origin of E-HL19-1)",
    "kind": "typo",
    "evidence": "E = 0",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 33 (5.15)–(5.18) and PDF 43 (5.68) really use < for error-proportional quantities. E=0 is allowed by the smallness hypotheses and gives 0<0. Supply the formulas rather than “strict inequalities in the step estimates” as a quotation.",
    "effect": "none"
   },
   {
@@ -291,8 +291,8 @@
    "claim": "should refer to (5.13) and (5.17)",
    "kind": "typo",
    "evidence": "context",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 42 ends with “(5.12) and (5.16)” after estimating inverse twist. Those labels concern B; (5.13) and (5.17) concern inverse twist. Direct cross-reference check.",
    "effect": "none"
   },
   {
@@ -304,8 +304,8 @@
    "claim": "should read s → ∞",
    "kind": "typo",
    "evidence": "the iteration index grows",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 2 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 44 prints s→0 at the error-sequence limit. Since s is the nonnegative iteration index and a₁>1, the limit is s→∞.",
    "effect": "none"
   },
   {
@@ -317,8 +317,8 @@
    "claim": "the proof's concluding sentence states the margin on the real torus only, but (5.73) does control dist(K_s(T_{ρ_s}), ∂B) on the complex strips, so the theorem's strip margin is proved; the sentence on p. 44 misstates what (5.73) gives",
    "kind": "typo",
    "evidence": "HL19 (5.73), p. 44 (blueprint Part 2 review, finding 3)",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 2 writer and Part 2 reviewer 2026-10-27 (to be re-verified)",
+   "status": "DROPPED",
+   "checked_by": "blueprint Part 2 writer and Part 2 reviewer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: WRONG, dropped. Reason: PDF 44 concludes the positive distance for the real torus, whereas (5.73) proves the stronger strip margin. A true weaker consequence is still true. The draft itself says the theorem is proved. Under its false-assertion policy this is at most an expository improvement, not an erratum.",
    "effect": "none"
   },
   {
@@ -330,8 +330,8 @@
    "claim": "Hausdorff dimension n − 1 of the boundary does not give O(α) boundary layers. Counterexample: n = 1, Ω = (0,1) ∖ {1/k : k ≥ 1}: the boundary has dimension 0 but the inner α-layer has measure ≳ √α. The right condition is finite upper Minkowski content, or a layer bound as in our HEAD",
    "kind": "false as stated",
    "evidence": "the counterexample",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 4 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 4 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 6 contains the quoted boundary-dimension sentence. For Ω=(0,1) minus {1/k}, about α^(-1/2) separated boundary points already give layer length of order √α. Hausdorff dimension zero does not imply the claimed O(α).",
    "effect": "none; HEAD assumes the layer bound directly"
   },
   {
@@ -343,8 +343,8 @@
    "claim": "the Lipschitz constant must be raised to the power n (Lipschitz maps scale n-dimensional measure by L^n; compare BC17 footnote 32)",
    "kind": "wrong constant",
    "evidence": "scaling of Lebesgue measure under Lipschitz maps",
-   "status": "CANDIDATE",
-   "checked_by": "blueprint Part 4 writer 2026-10-27 (to be re-verified)",
+   "status": "CONFIRMED",
+   "checked_by": "blueprint Part 4 writer 2026-10-27 (to be re-verified). Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 11 prints the Lipschitz constant to the first power. In dimension n the scaling map x↦Lx has image measure L^n times the original; a map with L>1 disproves the displayed general estimate. KAM/Measure/Lipschitz.lean:115 uses Λ^d.",
    "effect": "none; our measure lemma uses Λ^d"
   },
   {
@@ -366,8 +366,8 @@
    "claim": "the same compactness lemma is printed with one label and cited with another; numbering only",
    "kind": "typo",
    "evidence": "p. 56 label vs p. 58 citation",
-   "status": "CANDIDATE",
-   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier",
+   "status": "CONFIRMED",
+   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Rendered printed 56 labels the lemma 12.3.A; printed 58 cites 12.4.A. Replace the printed-field summary by those two labels. This confirms a numbering typo.",
    "effect": "none; cite by page and title"
   },
   {
@@ -379,8 +379,8 @@
    "claim": "duplicate factor 1/2 in the kinetic energy; the momentum formula (12.8) Pᵢ = mᵢẋᵢ + mᵢΣmⱼẋⱼ on the same page follows from T = (1/2) Σ mᵢ ẋᵢ²",
    "kind": "typo",
    "evidence": "differentiate both candidate kinetic energies and compare with (12.8)",
-   "status": "CANDIDATE",
-   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier",
+   "status": "CONFIRMED",
+   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Rendered printed 56 (12.6) has both halves. Differentiating the resulting kinetic energy gives half of (12.8). Removing the inner half agrees with the momentum formula. Direct source calculation.",
    "effect": "none; the frozen moving Hamiltonian matches LP17 (5)–(6) independently"
   },
   {
@@ -392,8 +392,8 @@
    "claim": "when two bodies approach one another the reciprocal-distance interaction grows; the sentence should read 'ceases to be small'",
    "kind": "typo",
    "evidence": "context of §1.18 (angular-momentum discussion)",
-   "status": "CANDIDATE",
-   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier",
+   "status": "CONFIRMED",
+   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Printed 15 indeed says the perturbation “becomes small” when bodies approach. The reciprocal-distance singularity has the opposite behavior. This is a local prose typo, not a claim that close-encounter stability is impossible.",
    "effect": "none; not used as an analytic assumption"
   },
   {
@@ -405,8 +405,8 @@
    "claim": "F is not introduced in that argument; the surrounding brackets use the integral K, so it should read {K, H₀} = 0",
    "kind": "typo",
    "evidence": "rendered page",
-   "status": "CANDIDATE",
-   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier",
+   "status": "CONFIRMED",
+   "checked_by": "statement audits of the D22 additions 2026-10-27 (v0.3 audit and v0.4 delta audit, rendered page checked); to be re-verified by writer and independent verifier. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 17 between B.9 and B.10 has {F,H₀}=0 while the invariant and surrounding identities use K. F is not the integral being used. Direct symbol check.",
    "effect": "none; the frozen statements use only (B.5), (B.8) and rotational invariance"
   },
   {
@@ -451,8 +451,8 @@
    "claim": "Both strict estimates fail for exact input E_c=0; replace < by ≤. Extension of existing E-HL19-1 to the isoenergetic theorem.",
    "kind": "strict zero-error bound",
    "evidence": "An exact admissible torus makes both right sides zero; a norm cannot be strictly negative.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 19 (3.16) has both strict bounds. Exact input with correct energy has E_c=0 and violates both. Frozen IsoenergeticKam includes non-strict bounds.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -464,8 +464,8 @@
    "claim": "The sign conflicts with L_ω=−Σω_i∂_i and with (3.14). Read X_h(K)=−L_ωK.",
    "kind": "sign",
    "evidence": "Substitution of an exact torus with nonzero frequency distinguishes the signs.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 18 (3.12) has X_h(K)=L_ωK; PDF 20 (4.1) defines L_ω=−ω·∂. PDF 19 (3.14) instead uses X_h(K)−DKω. These printed conventions force the minus sign in (3.12).",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -477,8 +477,8 @@
    "claim": "Insert a minus before X_hᵀΩN in the first equality; the subsequent sign and final ωᵀ row have the intended value.",
    "kind": "sign",
    "evidence": "ΩX_h=Dhᵀ and Ωᵀ=−Ω imply Dh=−X_hᵀΩ.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 19 Remark 3.7 prints the plus sign in its first equality. From ΩX_h=Dhᵀ and Ωᵀ=−Ω, Dh=−X_hᵀΩ. The next equality also changes sign inconsistently. Direct matrix algebra establishes the claim.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -490,8 +490,8 @@
    "claim": "The table collects (6.45)–(6.51), hence Section 6.3.",
    "kind": "cross-reference",
    "evidence": "Caption and formula labels read directly.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 59 Table 5 caption says “Section 5.3”. Its constants refer to the isoenergetic Section 6.3 and (6.45)–(6.51). Editorial reference defect.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -503,8 +503,8 @@
    "claim": "The same C₃ is attached to different powers of γρ^τ in (6.51) and (3.16); a uniform rescaling is necessary. This does not refute an existentially rescaled theorem.",
    "kind": "constant normalization",
    "evidence": "Table 5 defines the (6.51) constant. No γρ^τ≤1 guard makes the displayed implication automatic.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 53 (6.51) defines C₃ with denominator γρ^τ; PDF 19 (3.16) uses γ²ρ^(2τ) with the same named constant. No displayed γρ^τ≤1 premise justifies the comparison. Evidence establishes a normalization mismatch, not failure of a rescaled existential theorem.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -516,8 +516,8 @@
    "claim": "Use the combined error ‖E_c‖ρ, including the prescribed-energy error; E alone cannot bound these corrections.",
    "kind": "wrong error quantity",
    "evidence": "With E=0 and energy discrepancy e≠0, the bordered solve gives ξ₀ᴺ=−eω/|ω|², ξ^ω=e/|ω|²; a variable torsion gives nonzero L_ωξᴸ. For H=|I|²/2 the bordered inverse changes despite E=0. See audit §9.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 49–51 really print E rather than E_c in (6.33), (6.36), (6.44). At E=0 but prescribed-energy discrepancy e≠0, the bordered zero-mode solve changes frequency/actions, so E alone cannot bound all these quantities. The ledger's quadratic-Hamiltonian example suffices for the inverse bordered-twist change. Cite the actual isoenergetic review instead of the unlocated “audit §9”.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -529,8 +529,8 @@
    "claim": "The iteration number s tends to infinity. Separate occurrence from existing E-HL19-6 on p. 44.",
    "kind": "limit-index typo",
    "evidence": "The preceding bound is a₁^(−4τs)‖E_c‖, a₁>1.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 52 repeats s→0 for the decaying sequence. It is a separate occurrence of the same iteration-index typo as PDF 44.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -542,8 +542,8 @@
    "claim": "The eighth term is in the maximum (6.16), not the pair of inequalities (6.15).",
    "kind": "cross-reference",
    "evidence": "Compare p. 49 explicit eighth-term reference to (6.16).",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 52 says “the eight term in (6.15)”; PDF 49 explicitly identifies it as a term of (6.16). The maximum is (6.16).",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -569,7 +569,7 @@
    "kind": "boundary convention / missing qualification",
    "evidence": "Direct topology check; frozen ν is explicitly the distance to the two endpoints.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 19 really asserts positive dist(ω,∂Θ). It is false for ambient boundary in ℝ^d, d≥2, and correct for the relative boundary of the stated line segment. The source's obvious one-dimensional intention has not been excluded. Record an explicit boundary convention/deviation, not an unconditional mathematical error.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -581,8 +581,8 @@
    "claim": "The printed domain also includes the secondary collision x^(2)=x_circ^(1)(t), where the displayed potential is singular if m₁>0. Exclude it.",
    "kind": "missing domain exclusion",
    "evidence": "x_circ^(1)(t) has unit length, is nonzero and belongs to the printed domain; the secondary denominator vanishes.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 13–14 (3.38)–(3.39) gives (ℝ² minus {0})×ℝ² while retaining the secondary-collision denominator. Its moving secondary position is nonzero and is included. The printed domain is too large.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -608,7 +608,7 @@
    "kind": "scope clarification",
    "evidence": "Rendered p. 7 checked. The phrase “similar statement” may intend complexified objects, so no unconditional refutation is asserted.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: intended complexified interpretation is unspecified; real-flow reading only is challenged.",
+   "checked_by": "Writer: docs/tracks/I/AUDIT-statements-v0.1.md §9; blueprint-I/reviews/p1-review-1.md and p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: intended complexified interpretation is unspecified; real-flow reading only is challenged. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: Rendered PDF 7 Theorem 1.1 really allows “any complex perturbative parameter”. Its “similar statement” may concern complexified trajectories rather than a real physical flow. The draft correctly admits that ambiguity; no source-admissible contradiction is supplied.",
    "effect": "Unused comparator; no blocker for frozen track I."
   },
   {
@@ -633,8 +633,8 @@
    "claim": "A uniform image-ball radius cannot be independent of an unrestricted λ₀>0 in Ψ_h(I,λ)=(h(I),λω(I)); the centre also suppresses λ₀. Retain the pointwise inverse theorem or restrict λ₀ quantitatively.",
    "kind": "missing parameter margin / notation",
    "evidence": "For h(I)=|I|²/2+v·I, transverse frequency directions contract proportionally to λ₀, so no fixed C>0 works as λ₀→0.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 9 Lemma 3.3 asserts stable ρ₀,C for unrestricted λ₀>0, and writes Ψ_h(I₀) for the center. PDF 10 gives the derivative with λ₀ multiplying transverse Hessian directions. Its smallest singular value tends to zero as λ₀→0 in the quadratic example. Correct uniform-radius objection, with the ball-contained-in-domain guard retained.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -646,8 +646,8 @@
    "claim": "A displacement bound independent of the distance of I₀ to the boundary does not imply restart in the same inner ball for all I₀∈B(0,R/2).",
    "kind": "missing boundary margin in inference",
    "evidence": "Choose I₀ within less than the allowed outward displacement of ∂B(0,R/2). A larger-domain resonant contract supplies the repair; this refutes the printed implication, not Theorem 2.1.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 13 really infers I(t*)∈B(0,R/2) by a uniformly small displacement from arbitrary I₀ in that open ball. No uniform inward margin exists. This refutes that stated inference only; enlarging the restart domain repairs it.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -659,8 +659,8 @@
    "claim": "Real-slice derivative bounds B(M) do not supply the uniform complex Hessian bound required by that literal Pos93 import. Additional analytic control or a different proof is needed.",
    "kind": "missing import hypothesis",
    "evidence": "h_N=3I₀+|I|²/2+sin(NI₁)/(4N³) has uniformly bounded real derivatives through order 3 but no uniform complex Hessian on a fixed strip. No counterexample to the headline BM theorem is claimed.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 8 says “exactly the content of Theorem 3” of Pos93, while printed 190 of Pos93 imposes a uniform complex Hessian bound. BM11's real derivative bounds do not imply that stable bound; the given high-frequency analytic example proves this. This is an import-contract defect, not a counterexample to BM's main theorem.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -672,8 +672,8 @@
    "claim": "Require k′≠0 before deducing primitivity: i=j and p=q=1 give zero despite coprimality. The ambient integer set is Z^n.",
    "kind": "missing guard / type typo",
    "evidence": "Choose a strictly interior approximating rational excluding the degenerate coincidence and recheck numerical constants.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 12 literally writes k′∈ℤ for a vector in ℤ^n: confirmed type typo. Coprimality alone also does not imply k′≠0 when i=j,p=q=1; the selection argument needs a nonendpoint rational guard. The vector-type defect is established; the generic guard example is not a counterexample to the stability theorem.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -686,7 +686,7 @@
    "kind": "endpoint convention",
    "evidence": "The printed parameter interval includes zero and the time uses negative powers.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 4 includes ε=0 and prints T/√ε exp(c/ε^a). It needs a limiting/integrable convention at zero. Such conventions are common and the draft supplies no false positive-ε assertion. Treat as an endpoint convention unless the intended finite-real interpretation is specified.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -698,8 +698,8 @@
    "claim": "The steepness indices run through n−1; the last subscript should be n−1.",
    "kind": "index typo",
    "evidence": "Compare the steepness definition on the same page.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 3 prints α₁=⋯=α_n=1 immediately before the definition with n−1 steepness indices. Direct last-index typo.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -711,8 +711,8 @@
    "claim": "The summand of the intended ℓ¹ norm must be |u_i|.",
    "kind": "index typo",
    "evidence": "As printed, a vector with u₁=0 and another nonzero coordinate has zero size.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 3 footnote 5 sums \\",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -724,8 +724,8 @@
    "claim": "Restrict this equality to real symmetric Q. It is false for arbitrary complex symmetric Hessians on V_(r₀)P; retain the operator norm in the preceding hypothesis.",
    "kind": "false complex norm identification",
    "evidence": "Q=[[i,1],[1,−i]] is symmetric, nonzero, and Q²=0. Its spectral radius is zero but its operator norm is positive.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md and AUDIT-statements-v0.1.md §9. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Rendered PDF 5, printed 190, says the complex symmetric Hessian's operator norm is its spectral radius. The stated nilpotent symmetric 2×2 matrix has Q²=0 and Q≠0. The claim holds for real symmetric matrices, not the complex Hessians in that bound.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -737,8 +737,8 @@
    "claim": "The concluding target has lost its minus sign; the preceding calculation gives e^(−Ks/6)ε. The printed plus-sign upper bound is weaker and true, but does not express the intended remainder estimate.",
    "kind": "exponent-sign misprint",
    "evidence": "Rendered scan read; compare the first line of the display and Normal Form Lemma target.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-N/parts/p6-normal-form.tex and p7-stability.tex; reviews/p6-review-1.md and p7-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-N/parts/p6-normal-form.tex and p7-stability.tex; reviews/p6-review-1.md and p7-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Rendered PDF 9, printed 194, ends Case B with e^(+Ks/6)ε. The preceding negative exponent and the normal-form target show a lost minus. The plus-bound is itself weaker and true; classify strictly as an editorial target typo.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -751,7 +751,7 @@
    "kind": "unverified estimate allegation",
    "evidence": "Printed display and scale arithmetic checked. Failure of the coarse telescoping estimate alone does not disprove the sharper bound.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-N/parts/p6-normal-form.tex and p7-stability.tex; reviews/p6-review-1.md and p7-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no counterexample or complete source-scale refutation of the derivative estimate.",
+   "checked_by": "Writer: blueprint-N/parts/p6-normal-form.tex and p7-stability.tex; reviews/p6-review-1.md and p7-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no counterexample or complete source-scale refutation of the derivative estimate. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: Rendered PDF 10, printed 195, includes the weighted derivative telescoping bound, with a factor 1/2 on its LHS. The draft omits that factor when naming the questioned bound. Scale arithmetic does not refute a sharper estimate; no violating map is supplied. Keep unverified, or record only the alternative componentwise proof.",
    "effect": "Do not use the questioned derivative constant; use proved componentwise displacement and separate preimage arguments."
   },
   {
@@ -777,7 +777,7 @@
    "kind": "unverified printed inference / missing proof guard",
    "evidence": "Fresh scan pp. 198–200: mean value gives ‖Pω(I(s))‖≤5δ/4+M‖I(s)−I₀‖, not the quoted bound on the entire segment. The headline lemma might admit another proof.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-N/parts/p6-normal-form.tex and p7-stability.tex; reviews/p6-review-1.md and p7-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: the source proof fails to justify this inference; no counterexample to the full lemma is supplied.",
+   "checked_by": "Writer: blueprint-N/parts/p6-normal-form.tex and p7-stability.tex; reviews/p6-review-1.md and p7-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: the source proof fails to justify this inference; no counterexample to the full lemma is supplied. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: Rendered PDF 14, printed 199, contains the asserted 5δ/4 projected-frequency estimate. The ledger identifies a domain/control gap, but does not instantiate a Hamiltonian and segment satisfying all preceding hypotheses and violating the estimate. Proposed Mr guards are sufficient repairs, not proof of source falsehood. Do not upgrade under the stated policy.",
    "effect": "Use repaired helper. Full-rank block r=r₀ additionally needs r₀≤ℓ/(2M); non-full blocks satisfy the bound using A=11M/m and K≥1."
   },
   {
@@ -815,8 +815,8 @@
    "claim": "The equality interchanges supremum and initial-data integration. Only sup_t∫error≤∫sup_t error is automatic; the fixed-time Gronwall bound does not establish the required mean maximum.",
    "kind": "false sup/integral identity in proof",
    "evidence": "All four pinned pages read; (17) rendered. On two equal-measure data groups with errors peaking at different times, the two sides differ. This is not a counterexample to the averaging theorems.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/N/notes.md v0.5. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/N/notes.md v0.5. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. All four rendered Russian pages checked. PDF 3 defines z(t) as the initial-data integral of the fixed-time error; PDF 1 defines h as its time supremum pointwise; PDF 4 (17) equates sup z with ∫h. Different peak times on two data groups refute this identity. This establishes a false printed identity, not false averaging theorems.",
    "effect": "D-NAVG-3 records the explicit maximum-envelope/cohort repair; it remains a proof obligation."
   },
   {
@@ -841,8 +841,8 @@
    "claim": "Invertibility on an open V need not extend uniformly to V_ρ₀ at its boundary. A neighborhood of cl V with a quantitative inverse bound is an extra assumption or localization.",
    "kind": "missing boundary hypothesis",
    "evidence": "h(I)=I^16/16 on (0,1) has invertible real Hessian there but degeneracy at the boundary. The frequency sublevel near zero scales as γ^(1/15), not γ.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 12, printed 556, says “Without loss of generality” before extending the frequency diffeomorphism to Vρ₀. Invertibility on V alone permits a degenerate boundary Hessian (h=I^16/16 on (0,1)); no fixed collar then works. Frozen properlyDegenerateKAM explicitly assumes W⊃cl V.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -854,8 +854,8 @@
    "claim": "An arbitrary bounded open set need not have a linear boundary-collar volume estimate. Add a boundary regularity/collar hypothesis or localize to interior boxes.",
    "kind": "missing boundary regularity",
    "evidence": "A bounded open comb with many increasingly narrow gaps gives collar volume decaying more slowly than its thickness. Frozen hboundary is a disclosed repair.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 17, printed 561, asserts a linear collar-volume bound without boundary regularity on V. Bounded open combs violate a uniform linear rate. Frozen hboundary is an actual extra geometric hypothesis.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -867,8 +867,8 @@
    "claim": "For the positive rectangular action shell the excluded fraction is 1−(1−c√ε)^n₂, asymptotic to n₂c√ε, rather than O(ε^(n₂/2)) when n₂≥2.",
    "kind": "wrong dimension exponent",
    "evidence": "Elementary product-volume calculation with c=check c₁/check c₂. The final O(√ε) rate is unaffected; a signed ambient action ball additionally changes normalization.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 17 (56) prints ε^(n₂/2), while PDF 15 (47) removes a √ε-fraction at each rectangular action face: 1−(1−c√ε)^n₂ is order √ε. Also the source compares this positive shell to a signed action ball; its leading-volume normalization needs separate correction. Neither issue changes the intended final O(√ε) rate.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -881,7 +881,7 @@
    "kind": "unverified saturation inference",
    "evidence": "An intersection of an invariant set with an arbitrary cylinder need not be invariant; this logical observation is not itself a counterexample to this particular constructed family.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no specific CP10 family crossing the selected cylinder has been exhibited.",
+   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no specific CP10 family crossing the selected cylinder has been exhibited. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 20, printed 564, defines K=K*∩P. Arbitrary intersections need not be invariant, but the ledger supplies no constructed CP10 torus cut by this particular cylinder after all chosen margins. Evidence supports whole-torus selection as a supplement, not a demonstrated false assertion.",
    "effect": "D-P-CELL records whole-torus selection; do not count bare intersection as a proof of frozen saturation."
   },
   {
@@ -893,8 +893,8 @@
    "claim": "The index ranges define the last n₂ rows, an n₂×n matrix, not n×n₁.",
    "kind": "dimension typo",
    "evidence": "Read definition against the block Hessian estimates.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 10, printed 554, calls Û an n×n₁ submatrix but indexes its last n₂ rows and all n columns. The index ranges force n₂×n.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -906,8 +906,8 @@
    "claim": "Initialize the slow Hessian bound by M̂, not M, consistently with Proposition 3.",
    "kind": "initialization typo",
    "evidence": "The slow-scale radius in (73) depends on M̂_j.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 21, printed 565, initializes M̂₀=M rather than the separately supplied M̂. The subsequent slow-Hessian radius and M̂₀/M₀ displacement bookkeeping require the latter. Direct inconsistent initialization.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -919,8 +919,8 @@
    "claim": "This is the identity and has the wrong target domain. Read ω_j⁻¹ ◦ ω_(j−1), as the one-step construction on p. 568 does.",
    "kind": "map-index typo",
    "evidence": "Typed domains D_(j−1)→D_j and the conjugacy of frequencies identify the corrected order.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 22, printed 566, repeats ω_(j−1) in the inverse composition, so it is the identity. The stated codomain D_j and ω_j(D_j)=ω_(j−1)(D_(j−1)) require ω_j^(-1)∘ω_(j−1).",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -933,7 +933,7 @@
    "kind": "unverified estimate mismatch",
    "evidence": "The separate normalization M̄_i≤M̄ in (74) can be ensured by compatible choices of bounds and is not an intrinsic obstruction.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no counterexample to the sharper slow-displacement theorem; only a mismatch in the cited proof.",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no counterexample to the sharper slow-displacement theorem; only a mismatch in the cited proof. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 11 (35) contains the slow M̂/M refinement; PDF 28 (107) gives a slow displacement without that refinement. This does not rule out a stronger proof. The cited review itself qualifies the accusation; no counterexample to (35) is established.",
    "effect": "Use the independently proved two-scale bounds with stated compatible constants."
   },
   {
@@ -946,7 +946,7 @@
    "kind": "unverified blanket norm allegation",
    "evidence": "P3 review E5/E10 qualifies the accusation. Our max-norm McShane replacement and larger constants are deviations.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no concrete source-norm counterexample; only the norm mismatch and proposed adaptation were checked.",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no concrete source-norm counterexample; only the norm mismatch and proposed adaptation were checked. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 7 explicitly sets mixed norms. That is not itself inconsistent, and no particular false bound in those norms is identified. McShane and larger constants are deviations. Do not count a blanket numerical allegation as confirmed.",
    "effect": "Do not represent incompatible-looking norms as a proved counterexample; use D-P-NORM."
   },
   {
@@ -958,8 +958,8 @@
    "claim": "Without phase normalization the embedding is not unique: φ_ω(θ+a) has the same torus, frequency, analyticity and equations.",
    "kind": "missing normalization",
    "evidence": "Translation of the parameter torus preserves every listed invariant-torus condition.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 11 says “a unique real–analytic embedding” with no phase normalization. For an exact torus and positive allowed error budget, small phase translations satisfy the same bounds and equation. Uniqueness of the geometric image does not imply uniqueness of the embedding.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -971,8 +971,8 @@
    "claim": "An arbitrary unbounded disconnected D does not give a global inverse-Lipschitz frequency map from a bounded inverse differential. At f=0 this can obstruct the claimed global parameter Lipschitz map.",
    "kind": "missing global-domain control",
    "evidence": "Take separated action islands near j² with local h′(I)=I−j²+j, h″=1. The frequencies lie near j but action distances grow quadratically; nonresonant centers can be chosen with uniformly separated fractional part. Local bounds are uniform but the inverse is not globally Lipschitz.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 11 asserts a global Lipschitz evaluation map for arbitrary D. The separated-island example gives locally bounded inverse differential but action distances growing faster than frequency distances; A=Dρ may be disconnected and unbounded in the proposition. Nonresonant frequency choices preserve that obstruction at f=0. This refutes the global formulation, not its compact/local repair.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -984,8 +984,8 @@
    "claim": "The sums must run over k∉Λ, including (0,k₂)∉Λ in the slow part. Retained resonant modes are not divided by their divisors.",
    "kind": "wrong mode set",
    "evidence": "For Λ={0} the printed sum includes division of the zero mode by zero and removes no nonresonant mode; compare (64) and g₊−g=Π_ΛT_K f.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 21 (70) and its split sums use k∈Λ. The hypothesis only controls divisors off Λ and the conclusion retains Λ-modes. Taking Λ={0} exposes division by the zero divisor. All three mode conditions must be complemented.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -997,8 +997,8 @@
    "claim": "The target angular width should be s, not σ.",
    "kind": "wrong target strip",
    "evidence": "Set f=g=0. The map is the identity and cannot send all of width s−2σ to width σ when s>3σ.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/parts/p3b-two-scale-limit.tex; blueprint-P/reviews/p3-review-1.md (E1–E11). Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 20 (66) targets W_(v,σ), not W_(v,s). With f=g=0 the identity cannot map width s−2σ into σ for s>3σ. Direct domain counterexample.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1010,8 +1010,8 @@
    "claim": "This substitution violates A.1 requirement ρ<r/2. To obtain the stated output action radius ρ̄/2, the natural inferred loss is ρ=ρ̄/4.",
    "kind": "inconsistent loss substitution",
    "evidence": "Rendered source and A.1 assumptions checked; the proposed value is a repair, not a quotation.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p2-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 19, printed 563, substitutes ρ=r=ρ̄ into a lemma requiring ρ<r/2 (PDF 20). This is a literal inconsistent invocation. ρ̄/4 is a proposed repair, not source text.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1036,8 +1036,8 @@
    "claim": "The asserted restricted dependence is too strong for the abstract lemma when the slow radius r̂ shrinks. The covering number, hence its constants, can grow as 1/r̂.",
    "kind": "missing radius dependence",
    "evidence": "For D̄=[0,1], ω=(I₁,I₁+I₂), β=1, all stated fixed data stay fixed, but p≥(1+2r̂)/(2ar̂). The divisor at (1,−1) is |I₂|. Let γ₂/r̂→0 to force c₁≳1/r̂. This refutes abstract uniformity, not properly degenerate KAM.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 18 restricts the covering integer p to depend on D̄ and ω₁. With ω=(I₁,I₁+I₂), mixed resonance (1,−1) has divisor \\",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1049,8 +1049,8 @@
    "claim": "Rescaling only the slow block changes mixed resonances. A measure bound for ω_resc does not directly bound the originally defined ω_μ=(fast, μ slow) mixed-resonant set.",
    "kind": "invalid resonance-set substitution",
    "evidence": "H₀(I)=I²/2, N(ξ)=ξ+ξ²/2, μ=√2/10, (I,ξ)=(μ,0): ω_μ=(μ,μ) is resonant at (1,−1); ω_resc=(μ,1) is Diophantine for small thresholds. Both maps are diffeomorphisms.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/AUDIT-statements-v0.1.md; statement.md; blueprint-P/reviews/p3-review-1.md and p4-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 18 substitutes ω_resc for ω_μ in a resonance-set inclusion. Rescaling only the slow block changes the mixed divisors. At (I,ξ)=(μ,0), μ=√2/10, the original map is resonant at (1,−1), while (μ,1) obeys a small-threshold quadratic-irrational Diophantine bound. This refutes the asserted set inclusion.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1101,8 +1101,8 @@
    "claim": "Replace these mass products by m_jm_k. The second diagonal sum also lacks the denominator factor 2 present in the first and required by (36).",
    "kind": "mass indices / relative coefficient",
    "evidence": "Unequal masses refute symmetry as printed. Compare pairwise quadratic form (36) and the j>k expression. The additional global normalization issue is E-P-Fej04r-3.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 55 really has m_k m_k twice and a missing 2 in the second diagonal denominator. Comparing j<k with j>k and (36) exposes the unequal-mass asymmetry and diagonal inconsistency. Distinct from global halving.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1114,8 +1114,8 @@
    "claim": "The universal single-valued meromorphic/pole assertion is false. b_(1/2)^(0)(α) has logarithmic divergence at α=1 and is regular at zero.",
    "kind": "false analytic continuation",
    "evidence": "Near θ=0 its defining mean contains ∫dθ/√((1−α)²+θ²), logarithmic as α→1. Local holomorphy for |α|<1 suffices.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 56 Lemma 76 says meromorphic on the sphere with four poles. The defining b_(1/2)^(0) average has logarithmic divergence at α=1 and is regular at zero. Thus this is not a single-valued meromorphic function with the listed poles.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1127,8 +1127,8 @@
    "claim": "Under the pinned corrected sqrt(2Λ) chart normalization, the coefficients of the quadratic matrix in (35)–(37) are twice the canonical ones. Halve both C₁ and C₂ in the displayed matrix convention.",
    "kind": "normalization factor",
    "evidence": "Independent circular-chart average: diagonal −m_jm_k α b₁/(4a_outer Λ_j), mixed Hessian m_jm_k α b₂/(2a_outer√(Λ_jΛ_k)). Fresh scratch rerun agrees at 96 and 192 nodes. Historical missing sqrt(2) belongs to the original printing, not pinned (31).",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 47 (31) already has √(2Λ); PDF 50–51 (35)–(37) retains the coefficients for the older scale. The pair-average radial derivative gives the canonical diagonal −m_jm_k αb₁/(4 a_outer Λ_j), half the printed coefficient. The cited p8 review contains a derivation and independent quadrature. No rerun of its absent historical scratch is claimed.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1166,8 +1166,8 @@
    "claim": "A uniform boundedness assumption on the family A_ε is missing.",
    "kind": "missing boundedness hypothesis",
    "evidence": "D=diag(1,0), A_ε=[[0,1/ε],[1/ε,0]], c₁=c₂=0: D+εA_ε has fixed eigenvalues (1±√5)/2, none O(ε²).",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 53–54 imposes no bound on A_ε. D=diag(1,0), A_ε=[[0,1/ε],[1/ε,0]] satisfies its last-entry condition with c₁=c₂=0 but yields two fixed nonzero eigenvalues, contradicting the O(ε²) conclusion. Direct admissible example.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1179,8 +1179,8 @@
    "claim": "The old diagonal block generically has a nonzero O(a_n²) correction, so the stronger printed O(a_n^(5/2)) assertion is false. The off-diagonal O(a_n^(5/2)) is a valid weaker bound than O(a_n^(11/4)).",
    "kind": "wrong block exponent",
    "evidence": "b_(3/2)^(1)(α)=3α/2+O(α³); the added inner-planet contribution to a fixed outer diagonal is a nonzero constant times a_n². The normalization factor does not change this exponent.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 58 prints O(a_n^(5/2)) on the old diagonal block. In (39), b_(3/2)^(1)(a_n/a_j)=3a_n/(2a_j)+O(a_n³) supplies a nonzero order-a_n² change with outer actions fixed. Such a term is not O(a_n^(5/2)). Keep the coupling bound separate: its sharper order 11/4 implies the printed 5/2.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1205,8 +1205,8 @@
    "claim": "A^C as defined is not simply connected: simultaneously rotate all nonzero axes through one full turn. Ratios stay fixed while each axis winds around zero.",
    "kind": "false topology",
    "evidence": "Projection to a₁∈C* sends the loop to winding number one, so it cannot contract inside A^C. This was called E-P-Fej04r-3 in the early statement audit; that ID now denotes the quadratic factor error.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 56 calls A^C simply connected. Simultaneously rotating all a_j preserves every ratio inequality; projection to a₁∈ℂ* has winding number one. That loop cannot contract. The early ID collision must remain documented.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1218,8 +1218,8 @@
    "claim": "Uniqueness needs a diagonal/skew normalization. If U solves [D,U]=−A, so does U+C for every diagonal C. A unique zero-diagonal skew solution is the intended choice.",
    "kind": "missing normalization",
    "evidence": "First-order commutator expansion; taking A=0 already leaves every diagonal U as a solution. This is separate from the refuted coefficient allegation E-P-Fej04r-4.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: Codex independent backlog inspection, with P9 review source-normalization observation. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: Codex independent backlog inspection, with P9 review source-normalization observation. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 53 asserts a unique U∈M_n(ℝ). Taking A=0 leaves every diagonal U commuting with D and satisfying the identity exactly. A zero-diagonal skew normalization restores the intended uniqueness.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1231,8 +1231,8 @@
    "claim": "The leading factors should be √Λ_j after the corrected sqrt(2) in (31). These are stale asymptotics in the revised text.",
    "kind": "normalization factor",
    "evidence": "2(Λ−G)=Λe²+O(e⁴), so |r|=√Λ e(1+O(e²)); similarly for inclination.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 48 retains √(Λ/2) in the small-eccentricity/inclination asymptotics. Squaring the corrected (31) on PDF 47 gives \\",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1244,8 +1244,8 @@
    "claim": "The derivative expression for momentum misses an extra μ_j: mean motion is μ_j³M_j²/Λ_j³, whereas Y_j=μ_j Ẋ_j.",
    "kind": "missing mass factor",
    "evidence": "Use (33) p. 48 and the kinetic convention |Y|²/(2μ). The correct last coefficient is μ_j⁴M_j²/Λ_j³.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 50 writes Y_j=μ_j Ẋ_j with final coefficient μ_j³M_j²/Λ_j³. PDF 48 (33) makes that coefficient the mean motion alone; the momentum needs one additional μ_j. The zero-average argument remains valid.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1257,8 +1257,8 @@
    "claim": "Historical author-reported corrections: Corollary 22 inverse parameter argument; inverse-operator constants A_j→A_j A′_(j+p+τ+1)/(2π); pair masses (28); sqrt(2) in (31). Pp. 3–4 also distinguish smooth construction and analytic planar addendum. The pinned revision already includes the (28)/(31) corrections.",
    "kind": "author-reported original errata",
    "evidence": "Pinned 5-page erratum inspected; original unrevised printing is not pinned, so verification is of the author report, not original text.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: original 2004 printing absent; author report verified only.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: original 2004 printing absent; author report verified only. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Pinned erratum PDF 1–3 contains the quoted reports of insufficient arguments, wrong inverse constants, corrected pair masses and √2 coordinates. These verify the author's report only. The unrevised original is unpinned, and the revised (31) is already corrected; do not count this as a fresh defect of the revision.",
    "effect": "Use revised formulas and corrected smooth argument where relevant; do not claim historical missing sqrt(2) persists in revised (31)."
   },
   {
@@ -1271,7 +1271,7 @@
    "kind": "reported exponent typo",
    "evidence": "CP11 footnote read. An available Russian scan is not a substitute for verifying the cited English printing.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: the cited original English page is unpinned.",
+   "checked_by": "Writer: docs/tracks/P/notes.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: the cited original English page is unpinned. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: CP11 PDF 34 footnote 53 genuinely reports a₂⁴→a₂⁷ and the factor-two convention. Registry Arn63b has pdf=null and sha256=null. There is no pinned cited English original to open. Retain as an attributed secondary report, never as independently verified original-text erratum.",
    "effect": "Derive quartic coefficients directly; do not promote the reported correction to original-text verification."
   },
   {
@@ -1283,8 +1283,8 @@
    "claim": "Insert 1/2 for this off-diagonal matrix coefficient under the frozen sqrt(2Λ) normalization.",
    "kind": "missing factor 1/2",
    "evidence": "Direct pair-average derivation and differentiation: the cross coefficient differs by two, while the diagonal/overall convention agrees with (6.9). P8 scratch mixed Hessian agrees numerically.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 62 B.2 prints C₂=αβ₂^(3)/b. PDF 21 (6.9) already puts the overall 1/2 in the quadratic form. The same canonical pair-average mixed Hessian as in the p8 review therefore requires halving C₂ alone, leaving C₁ and the overall convention fixed.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1292,12 +1292,12 @@
    "type": "erratum",
    "source": "CP11",
    "location": "p. 63, Appendix B (B.6), r₁",
-   "printed": "37 α⁴ b_(9/2)^(4)(α)",
+   "printed": "37 α⁴ β₄^(9)(α)  [CP11 p. 61: β_k^(r) := b_(r/2),k]",
    "claim": "The r₁ expression is only asymptotically correct as printed; its final 37α⁴ must be 37α³ to match the exact quartic coefficient. At axes (1,2) the printed and exact coefficients have opposite signs.",
    "kind": "wrong exponent in exact quartic coefficient",
    "evidence": "Fresh independent scratch: masses .7,1.9, inner-axis coefficient exact −0.03097386529961853 versus printed +0.05742931465995163. Exact symbolic integration-by-parts residual for the replacement is zero; printed-minus-exact starts 238095 α⁸(1−α)/(32768β).",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: docs/tracks/P/notes.md; blueprint-P/reviews/p7-review-1.md, p8-review-1.md, p9-review-1.md, p10-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 63 B.6 genuinely prints 37α⁴β₄^(9). I independently reconstructed the cosine kernels from the printed coefficients and verified the repaired α³ integration-by-parts identity by SymPy (residual exactly 0). Independent quadrature also gives opposite signs for printed versus exact at α=1/2. This supports the exact r₁ repair only; r₂,r₃,r₄ remain unchecked.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1310,7 +1310,7 @@
    "kind": "wrong inequality direction in proof",
    "evidence": "The needed implication is remainder≤c ε^ν≤ε₀, not ε₀≤c ε^ν. Does not refute the KAM theorem.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 21 genuinely prints ε₀≤c̄ε^ν₀ and then applies the theorem to a higher-order remainder. An upper bound alone is insufficient, but it may be an editorial reversal of a chosen sufficient threshold. No counterexample to the printed existence statement is established. Record the missing lower-budget proof or a carefully scoped inequality-direction typo, not a false KAM theorem.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1322,8 +1322,8 @@
    "claim": "A Euclidean radius controlled by |ρ₀| does not protect every oscillator component from zero. Use a radius smaller than a fixed fraction of min_j ρ₀j.",
    "kind": "missing component margin",
    "evidence": "ρ₀=(1,.01), ρ=(0,−.02) lies in the printed ball but ρ₀₂+ρ₂<0, so the real polar square root is undefined.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 15 domain M₅ uses D^p(0,\\",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1335,8 +1335,8 @@
    "claim": "An action-dependent slow canonical change generally requires a fast-angle lift; it cannot leave both fast blocks unchanged while remaining symplectic.",
    "kind": "missing symplectic lift",
    "evidence": "The mixed terms dI∧(slow one-form) from an I-dependent oscillator rotation are nonzero. Fixing θ as well cannot cancel them; add its exact angle correction.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 14 Lemma 7 prints (θ,r)=(x̃,ỹ), not the draft's (θ̃,r̃). A parameter/action-dependent oscillator canonical transformation produces mixed two-form terms, so preserving both fast blocks is not generally symplectic. The cited canonical-lift review supplies the missing correction. Fix the quotation's variables.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1348,8 +1348,8 @@
    "claim": "The quadratic oscillator term is already written separately; including it again in Q_* double counts it. Q_* must start at degree two in the slow actions in that decomposition.",
    "kind": "degree / decomposition typo",
    "evidence": "Compare the explicit linear Ω·r term to the displayed polynomial indexing.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 15 explicitly starts Q_* with ⟨Ω̂,I⟩, while PDF 14 has already separated εΩ̂·(u²+v²)/2. Taken together this duplicates the quadratic term and contradicts preservation of that quadratic part. The printed field should quote the actual polynomial, not its prose summary.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1361,8 +1361,8 @@
    "claim": "There are p slow actions, so their torsion Hessian is p×p, not 2p×2p.",
    "kind": "dimension typo",
    "evidence": "The oscillator phase space has dimension 2p; its action Hessian does not.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 15 calls T a 2p×2p matrix in ⟨TI,I⟩ with I∈ℝ^p. The torsion matrix must be p×p. Direct dimension check.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1374,8 +1374,8 @@
    "claim": "The second term should be the variable ρ_j.",
    "kind": "repeated subscript",
    "evidence": "The change must parametrize variable radial actions, consistently with the next normal form.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. The repeated ρ₀j+ρ₀j is in the transformed H_ε^5 on PDF 15, not the polar-coordinate display (27), which correctly has ρ₀j+ρ_j. Correct the locator and retain the typo claim.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1387,8 +1387,8 @@
    "claim": "D_(γ,τ) is a frequency set; the action set is K∩ω⁻¹(D_(γ,τ)).",
    "kind": "missing preimage",
    "evidence": "Action and frequency spaces have distinct meanings despite equal dimensions.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 11 (18) and the following measure formula write K∩D and K minus D even though K is an action set and D a frequency set. Its RHS immediately evaluates ω(b), confirming the missing preimage. This is a notation/type-of-set defect.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1400,8 +1400,8 @@
    "claim": "The local result is Lemma 2, and the statement of Rüssmann Theorem 1.7 starts on printed p. 126 in the pinned Rus01, with continuation/proof remarks on p. 127.",
    "kind": "cross-reference",
    "evidence": "Internal numbering and Rus01 pinned pagination checked.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 11 refers to “Theorem 2” where the scalar tool is Lemma 2. PDF 6 footnote 8 points to Rus01 p.127, but Theorem 1.7 starts on p.126 (PDF 8). Direct reference checks confirm both.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1414,7 +1414,7 @@
    "kind": "missing dependency",
    "evidence": "Rus01 Theorem 1.7 explicitly quantifies A and CP09 Lemma 8 has ϑ-dependent C*. Treat A as fixed or include it.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 6 explicitly lists ε₀'s dependencies without A, and its quantitative construction uses the analytic margin. But A has been fixed as part of the analytic problem. The omission alone does not settle whether uniformity over varying A is intended. Evidence warrants listing the domain dependency, not an unqualified false-theorem verdict.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1426,8 +1426,8 @@
    "claim": "The repeated constant in the two shifted oscillator blocks should use the two distinct shifts c̄₁,c̄₂ defined in preparation.",
    "kind": "repeated symbol",
    "evidence": "Compare definitions of the translation immediately preceding this displayed composition.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 17 defines distinct c̄₁,c̄₂ but then prints f(r,ρ,c̄₁,c̄₁) in the lower bound. Replace the final repeated subscript by 2. Direct nearby-definition check.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1440,7 +1440,7 @@
    "kind": "source-interface qualification",
    "evidence": "The prepared masses/actions and frequency data vary with the perturbation parameter. The existence of an appropriate uniform wrapper is plausible, not proved by merely identifying the formulas.",
    "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no counterexample to the planetary theorem; only literal interface mismatch verified.",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; printed/reporting text checked, but mathematical allegation UNVERIFIED: no counterexample to the planetary theorem; only literal interface mismatch verified. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: UNCLEAR, remains a candidate. Note: PDF 22 explicitly acknowledges regular ε-dependence of H^i and calls it non-influential. The placeholder “Theorem 4” is not a quote establishing a false uniform inference. A uniform-family wrapper is a real formalization obligation, but no admissible failing family is supplied.",
    "effect": "Use joint analytic parameter control and a proved uniform wrapper; do not alter frozen P-FIXED."
   },
   {
@@ -1452,8 +1452,8 @@
    "claim": "The elliptic z-block has 2p coordinates, so its symmetric quadratic matrix A must be 2p×2p.",
    "kind": "dimension typo",
    "evidence": "Compare z∈R^(2p), A J_p and the 2p eigenvalues in §1.3.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Printed 123 (PDF 5), (1.2), gives A:Y→ℝ^(p×p) while z has 2p coordinates and A J_p acts on them. The matrix dimension must be 2p×2p.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1465,8 +1465,8 @@
    "claim": "The defining bound (14.7) uses |A|, not just its elliptic frequencies |Ω|. General symmetric quadratic matrices with nonuniform conditioning are not controlled by their Hamiltonian eigenfrequencies alone.",
    "kind": "inconsistent norm definition",
    "evidence": "For A=diag(L,L⁻¹), A J has fixed frequencies while ‖A‖→∞; (14.7) requires the full matrix norm.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Printed 171 item 5 uses the elliptic-frequency norm \\",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1478,8 +1478,8 @@
    "claim": "A boundedness or suitable growth hypothesis is needed to discard vertical contour sides and ensure the improper integral converges.",
    "kind": "missing growth hypothesis",
    "evidence": "The entire function exp(z²) grows quadratically exponentially on horizontal lines; the displayed strip kernel cannot make the improper integrals converge. Actual periodic bounded applications on narrower strips are safe.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Printed 26 Lemma 8 says “Every holomorphic function” on the strip has the improper integral representation. H(z)=exp(z²) grows faster on horizontal lines than the cosh kernel decays; its improper integral does not converge. Bounded periodic applications are unaffected.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1491,8 +1491,8 @@
    "claim": "For the multipliers constructed there, dimension rescaling changes E(Tρ) to E(Tρ/n). The printed estimate fails for that construction; this is not a counterexample to existence of different approximation multipliers.",
    "kind": "dimension rescaling / constant",
    "evidence": "n=4,T=4,q=e^(−10),ρ=5,r=6,F=e^(3ix₁−18). Cube cutoff T/√n=2 removes the mode 3. Error on radius 1 is e^(−15)=3.0590e−7, above claimed [(1+8e^(−20)/π)^4−1]=2.0995e−8.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Rendered printed 30 confirms both cutoff rescaling T/√n and ρ=n log(1/q)/(2T), so n=4,T=4,q=e^(-10),ρ=5 is admissible. The mode 3 is removed by cube cutoff 2. Independently recomputed error 3.059023205e−7 exceeds claimed upper 2.099473856e−8. This refutes (46) for the constructed multipliers only.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -1504,8 +1504,8 @@
    "claim": "The pinned Rus01 footnote explaining the approximation source is on p. 135.",
    "kind": "cross-reference",
    "evidence": "Rus01 pp. 134–136 and Rus05 abstract compared.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md and p11a-russmann-check.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Printed 21 says “p. 136”; the Rus01 explanatory footnote is printed 135 (PDF 17). Adjacent PDF 18 confirms printed 136. Direct page-reference typo.",
    "effect": "No frozen statement changed; provider/blueprint must use the documented correction."
   },
   {
@@ -2078,8 +2078,8 @@
    "claim": "The derivative formula needs ζ² in the denominator; the printed integral with ζ returns u itself. The next integral estimate needs the corresponding derivative kernel.",
    "kind": "Cauchy denominator typo",
    "evidence": "For u≡1 the printed derivative identity reads 0=1. Scan rendered and checked independently.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-N/reviews/p45-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-N/reviews/p45-review-1.md. Independent verifier: Codex, errata-backlog 2026-10-27; pinned text and local mathematical check independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. Rendered PDF 29, printed 214, genuinely has ζ rather than ζ² in the derivative Cauchy kernel. For u≡1 its RHS is 1 and derivative is 0. The integral estimate must change consistently.",
    "effect": "The blueprint uses the correct ζ⁻² kernel; no frozen change."
   },
   {
@@ -2113,8 +2113,8 @@
    "claim": "Smooth flatness alone does not imply an exponential-in-inverse-radius estimate. It implies every fixed polynomial order; this weaker consequence can suffice after a finite threshold is chosen.",
    "kind": "overstated flatness inference",
    "evidence": "For x>0 take f(x)=exp(−(log(1/x))²), extended by zero at x=0. It is C∞ and flat, but for every a,c>0 it is larger than exp(−c/x^a) for sufficiently small x. This challenges the stated inference, not the existence of KAM tori.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 45 infers exponential smallness from an infinite zero jet. The C∞ flat function exp(−log(1/x)²) is larger than exp(−c/x^a) for every a,c>0 near zero. This refutes the general stated inference; finite-order flatness can suffice instead.",
    "effect": "Use explicit finite polynomial flatness bounds with domains/constants; no analytic identity theorem for a merely smooth flat remainder."
   },
   {
@@ -2126,8 +2126,8 @@
    "claim": "A fixed γ is incompatible with normal frequencies β=O(ε) and positive volume for every arbitrarily small ε when q>0. The proof instead chooses a shrinking γ̂.",
    "kind": "fixed arithmetic constant / missing rescaling",
    "evidence": "Definition 32 includes k=0 and l=e_j, requiring |β_j|≥γ. The stated ε-closeness to zero excludes it for ε<γ (or γ/C under an O(ε) interpretation). Step 6 p. 45 explicitly sets γ̂=(εδ^(p+q−1))^(p+q+1).",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 42 fixes γ>0 and β=O(ε) but claims positive volume for every small ε; Definition 32 on PDF 17 requires \\",
    "effect": "Specify coupling-dependent full-frequency arithmetic constants; frozen P headlines permit them. This does not show absence of invariant tori with smaller γ."
   },
   {
@@ -2139,8 +2139,8 @@
    "claim": "These constants fail for the printed Euclidean operator norm. Choose appropriate dimension-dependent constants.",
    "kind": "wrong example constants",
    "evidence": "At p=2,t=1 the derivative matrix is [[1,1],[0,1]], whose operator norm and inverse norm are (1+√5)/2>1. Claimed b=1 and inverse bound 1/(a√p)=1 both fail.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 33 fixes the Euclidean operator norm; Example 47 on PDF 34 gives constants (1/√p,(p−1)!). At p=2,t=1 both the matrix [[1,1],[0,1]] and its inverse have norm (1+√5)/2>1. The stated pair of bounds fails.",
    "effect": "No core theorem depends on this numerical example."
   },
   {
@@ -2152,8 +2152,8 @@
    "claim": "The linewise estimate concerns the bad set, but the p. 39 displays switch to the good set. They need ∉. The p. 38 reciprocal ratio also differs from the b/a factor in the theorem and preceding one-dimensional bound.",
    "kind": "wrong set complement / reciprocal ratio",
    "evidence": "For p=1, ν≡1 and 0<γ<1, the good set is the whole nonzero-length interval, while any stated bound tending to zero with γ fails. Thus it is the bad set that can have the small measure. Reconstruct Fubini with cover/Jacobian constants.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 38 uses a/b instead of the preceding b/a factor; PDF 39 has ∈DH for the two sets whose measures are declared small. A constant nonzero frequency at p=1 has the entire interval in the good set for small γ. Thus the latter displays need ∉. The ledger's counterexample establishes the complement typo.",
    "effect": "Keep the intended bad-set theorem and supply its quantitative slicing proof; no refutation of qualitative almost-everywhere Diophantinity."
   },
   {
@@ -2165,8 +2165,8 @@
    "claim": "For an arbitrary positive vector ρᵒ this radius need not stay inside the positive action orthant. Choose comparable components or a radius controlled by min_j ρᵒ_j.",
    "kind": "missing component margin",
    "evidence": "ρᵒ=(1,.01) and increment (0,−.02) has norm less than ‖ρᵒ‖/2 but makes its second action negative. This is the same domain issue as E-CP09-2.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 44 chooses radius ‖ρ⁰‖/2 after arbitrary positive ρ⁰. For a small rescaling of (1,.01), the stated ball contains a negative second action. The polar map is undefined there. Choosing comparable components or a min-component radius repairs localization.",
    "effect": "Harmless dimension-dependent localization repair, not a global obstruction to the KAM route."
   },
   {
@@ -2178,8 +2178,8 @@
    "claim": "The (n−1)-planet old block has n−1 eigenvalues; end the hatted list at n−1.",
    "kind": "index typo",
    "evidence": "The immediately preceding text lists σ_j=σ̂_j+O(a_n^(5/2)) for j=1,...,n−1. See p10-review-1 source handoff.",
-   "status": "CANDIDATE",
-   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected.",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 58 lists n hatted eigenvalues for an (n−1)×(n−1) old block, immediately after listing j=1,…,n−1. Direct end-index typo.",
    "effect": "Correct the list independently of the remainder-exponent repair E-P-Fej04r-7."
   }
  ]
