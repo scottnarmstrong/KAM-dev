@@ -115,6 +115,69 @@ theorem p11_slow_f2_differentiableOn (hC : P11SecularSpec D C) {eps : ℝ} (Fast
     hf1d.comp hPol fun z hz => (hpt z hz).2.2.2.2
   exact (((hG.sub (hsec.add hZ)).const_smul eps).add hf1 : _)
 
+theorem p11PolarC_shift_theta (z : P11Phase (n + n)) (j : Fin n) :
+    p11PolarC (z.1 + Pi.single (Fin.castAdd n j) 1, z.2) =
+      ((p11PolarC z).1 + Pi.single (Fin.castAdd n j) 1, (p11PolarC z).2) := by
+  refine Prod.ext (funext fun x => ?_) (funext fun x => ?_) <;>
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) x
+  · simp [p11PolarC, Fin.append_left]
+  · simp [p11PolarC, p11_addNat_ne_castAdd]
+  · simp [p11PolarC, Fin.append_left]
+  · simp [p11PolarC, p11_addNat_ne_castAdd]
+
+theorem p11PolarC_shift_zeta (z : P11Phase (n + n)) (j : Fin n) :
+    p11PolarC (z.1 + Pi.single (Fin.natAdd n j) 1, z.2) = p11PolarC z := by
+  have hper : ∀ a : ℂ, Complex.sin (2 * Real.pi * (a + 1)) = Complex.sin (2 * Real.pi * a) ∧
+      Complex.cos (2 * Real.pi * (a + 1)) = Complex.cos (2 * Real.pi * a) := by
+    intro a
+    have : (2 * (Real.pi : ℂ) * (a + 1)) = 2 * Real.pi * a + 2 * Real.pi := by ring
+    rw [this, Complex.sin_add_two_pi, Complex.cos_add_two_pi]
+    exact ⟨rfl, rfl⟩
+  have hsh : ∀ i : Fin n, (z.1 + (Pi.single (Fin.natAdd n j) 1 : P11CVec (n + n)))
+      (Fin.natAdd n i) = z.1 (Fin.natAdd n i) + (if i = j then 1 else 0) := by
+    intro i
+    by_cases h : i = j
+    · subst h; simp
+    · have : Fin.natAdd n i ≠ Fin.natAdd n j := fun h' => h (by simpa [Fin.ext_iff] using h')
+      simp [h]
+  refine Prod.ext (funext fun x => ?_) (funext fun x => ?_) <;>
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) x
+  · simp [p11PolarC, Fin.append_left, p11_addNat_ne_castAdd]
+  · simp only [p11PolarC, Fin.append_right, hsh]
+    split_ifs
+    · rw [(hper _).1]
+    · rw [add_zero]
+  · simp [p11PolarC, Fin.append_left]
+  · simp only [p11PolarC, Fin.append_right, hsh]
+    split_ifs
+    · rw [(hper _).2]
+    · rw [add_zero]
+
+/-- `f₂` is `1`-periodic in every angle. -/
+theorem p11_slow_f2_periodic (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
+    (hF : P11FastSpec C eps Fast) (Z : P11CVec (n + n) → ℂ) (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) :
+    ∀ z ∈ KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps, ∀ i : Fin (n + n),
+      p11SlowF2 C Fast eps Z (z.1 + Pi.single i 1, z.2) = p11SlowF2 C Fast eps Z z := by
+  intro z hz i
+  have hw := (p11_slow_pt hC heps hεM hsm hz).2.2.2.2
+  refine Fin.addCases (fun j => ?_) (fun j => ?_) i
+  · have h := p11PolarC_shift_theta z j
+    have hPt : p11PolPt (z.1 + Pi.single (Fin.castAdd n j) 1, z.2) = p11PolPt z := by
+      unfold p11PolPt
+      rw [h]
+      refine Prod.ext (funext fun i => ?_) rfl
+      simp [p11_addNat_ne_castAdd]
+    have hf1 := p11_f1_periodic hC Fast hF hw j
+    unfold p11SlowF2
+    rw [hPt, h, hf1]
+  · have h := p11PolarC_shift_zeta z j
+    have hPt : p11PolPt (z.1 + Pi.single (Fin.natAdd n j) 1, z.2) = p11PolPt z := by
+      unfold p11PolPt
+      rw [h]
+    unfold p11SlowF2
+    rw [hPt, h]
+
 end W
 
 end KAM.Planetary
