@@ -211,6 +211,111 @@ theorem lo_lost_budget (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar 
   have h2 : volume (pgActionDomain d r mu) ≤ volume F := hQvol ▸ measure_mono hQF
   exact ⟨h1, h2, h1.trans (by gcongr)⟩
 
+/-- `stepP:p5:lo-lost`, final addition (`stepP:p5:lo-bad` plus the lost tori): in `(angle, action)`
+coordinates the cell `F' = V × (0, λ₂)^b × [0,1)^n` minus the output representative `L` has
+measure `≤ C_* √r meas F'`, `C_* = (A + c_dio C_γ)/meas V + 6 b κ₁ + c_n C_b`, so that
+`meas (S ∩ F) ≥ (1 - C_* √r) meas F`. -/
+theorem lo_lost_complement (d : PGData a b) {r mu : ℝ}
+    (h : admissible d (pgRstar d) r mu) :
+    volume ({z : Phase (a+b) | blockFast z.2 ∈ d.V ∧
+        blockSlow z.2 ∈ actionShell b 0 (r^2/2) ∧ z.1 ∈ unitCube (a+b)} \
+        outputRepresentative d r mu h (pgD0 d r mu)) ≤
+      ENNReal.ofReal (((pgBoundaryA d + (pgAnalytic d).Cdio * pgCgamma d) / (volume d.V).toReal +
+          6 * b * (pgScales d).k1 + kamMeasureConstant (a+b) * pgBudget d) * Real.sqrt r) *
+        volume {z : Phase (a+b) | blockFast z.2 ∈ d.V ∧
+          blockSlow z.2 ∈ actionShell b 0 (r^2/2) ∧ z.1 ∈ unitCube (a+b)} := by
+  obtain ⟨hlost, -, -⟩ := lo_lost_budget d h
+  have hbad := lo_bad_ratio d h
+  obtain ⟨hr0, -, -, -, -, hl1, -, hell, -, -, -, -, -⟩ := budget_facts d h
+  have hv := volume_V_pos d
+  have hsq : 0 < Real.sqrt r := Real.sqrt_pos.2 hr0
+  have hcn : 0 < kamMeasureConstant (a+b) := by unfold kamMeasureConstant; positivity
+  have hκ0 : 0 < kamMeasureConstant (a+b) * pgBudget d := mul_pos hcn (budget d).1
+  have hk1 := pgScales_k1_pos d
+  have hCg := pgCgamma_pos d
+  have hA := (pgBoundary_spec d).1
+  have hCd := (pgAnalytic_spec d).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  set Q := {z : Phase (a+b) | z.2 ∈ pgActionDomain d r mu ∧ z.1 ∈ unitCube (a+b)} with hQ
+  set F := {z : Phase (a+b) | blockFast z.2 ∈ d.V ∧
+    blockSlow z.2 ∈ actionShell b 0 (r^2/2) ∧ z.1 ∈ unitCube (a+b)} with hF
+  set L := outputRepresentative d r mu h (pgD0 d r mu) with hL
+  set D := pgActionDomain d r mu with hD
+  set s := Real.sqrt r with hs
+  set v := (volume d.V).toReal with hvdef
+  set P := (r^2/2)^b with hP
+  have hP0 : 0 < P := by positivity
+  have hQ' : Q = unitCube (a+b) ×ˢ D := by ext z; simp [hQ, and_comm]
+  have hQvol : volume Q = volume D := by
+    rw [hQ', Measure.volume_eq_prod, Measure.prod_prod, lbn_volume_unitCube, one_mul]
+  have hQF : Q ⊆ F := by
+    rintro z ⟨hz2, hz1⟩
+    obtain ⟨⟨⟨hV, -⟩, -⟩, hsh⟩ := hz2
+    refine ⟨hV, fun j _ => ?_, hz1⟩
+    have hj := hsh j (mem_univ j)
+    have hl : (params d r mu).l2top ≤ r^2/2 := by
+      rw [params_l2top]; linarith
+    exact ⟨by linarith [hj.1], by linarith [hj.2]⟩
+  have hXm : MeasurableSet (checkedCore d r mu) :=
+    (checkedCore_isClosed d r mu hr0).measurableSet
+  have hDm : MeasurableSet D :=
+    ((measurable_pi_iff.2 fun _ => measurable_pi_apply _ :
+      Measurable (fun J : Fin (a+b) → ℝ => (blockFast J : Fin a → ℝ))) hXm).inter
+      ((measurable_pi_iff.2 fun _ => measurable_pi_apply _ :
+        Measurable (fun J : Fin (a+b) → ℝ => (blockSlow J : Fin b → ℝ)))
+        (MeasurableSet.univ_pi fun _ => measurableSet_Ioo))
+  have hQm : MeasurableSet Q := by
+    rw [hQ']; exact (MeasurableSet.univ_pi fun _ => measurableSet_Ico).prod hDm
+  have hF' : F = unitCube (a+b) ×ˢ joinedActions d.V (actionShell b 0 (r^2/2)) := by
+    ext z; simp [hF, joinedActions, and_comm]; tauto
+  have hVfin : volume d.V ≠ ⊤ := d.hVb.measure_lt_top.ne
+  have hFvol : volume F = ENNReal.ofReal (v * P) := by
+    rw [hF', Measure.volume_eq_prod, Measure.prod_prod, lbn_volume_unitCube,
+      volume_joinedActions, actionShell, Real.volume_pi_Ioo, one_mul]
+    simp only [Finset.prod_const, Finset.card_univ, Fintype.card_fin, sub_zero]
+    rw [ENNReal.ofReal_mul hv.le, ENNReal.ofReal_toReal hVfin, ENNReal.ofReal_pow (by positivity)]
+  have hDfin : volume D ≠ ⊤ := ((param_facts d).2 r mu h).2.2.2.2.ne
+  have hDle : (volume D).toReal ≤ v * P := by
+    have := ENNReal.toReal_mono (by rw [hFvol]; exact ENNReal.ofReal_ne_top)
+      (hQvol ▸ measure_mono hQF : volume D ≤ volume F)
+    rwa [hFvol, ENNReal.toReal_ofReal (by positivity)] at this
+  set vD := (volume D).toReal with hvD
+  have hvD0 : 0 ≤ vD := ENNReal.toReal_nonneg
+  have hdiff : F \ L ⊆ (F \ Q) ∪ (Q \ L) := by
+    rintro z ⟨hzF, hzL⟩
+    by_cases hzQ : z ∈ Q
+    · exact Or.inr ⟨hzQ, hzL⟩
+    · exact Or.inl ⟨hzF, hzQ⟩
+  have e1 : volume (F \ Q) = ENNReal.ofReal (v*P - vD) := by
+    rw [measure_sdiff hQF hQm.nullMeasurableSet (hQvol ▸ hDfin), hFvol, hQvol,
+      ← ENNReal.ofReal_toReal hDfin, ← ENNReal.ofReal_sub _ hvD0]
+  have e2 : volume (Q \ L) ≤ ENNReal.ofReal (kamMeasureConstant (a+b) * pgBudget d * s * vD) := by
+    refine hlost.trans (le_of_eq ?_)
+    rw [← ENNReal.ofReal_toReal hDfin, ← ENNReal.ofReal_mul (by positivity)]
+  have hreal : (v*P - vD) + kamMeasureConstant (a+b) * pgBudget d * s * vD ≤
+      (((pgBoundaryA d + (pgAnalytic d).Cdio * pgCgamma d) / v + 6 * b * (pgScales d).k1 +
+        kamMeasureConstant (a+b) * pgBudget d) * s) * (v * P) := by
+    have hbad' : v*P - vD ≤ ((pgBoundaryA d + (pgAnalytic d).Cdio * pgCgamma d) / v +
+        6 * b * (pgScales d).k1) * s * (v * P) := by
+      have hl2 : (params d r mu).l2 = r^2/2 := rfl
+      rw [hl2, div_le_iff₀ (by positivity)] at hbad
+      linarith
+    have : kamMeasureConstant (a+b) * pgBudget d * s * vD ≤
+        kamMeasureConstant (a+b) * pgBudget d * s * (v*P) :=
+      mul_le_mul_of_nonneg_left hDle (by positivity)
+    nlinarith
+  rw [hFvol]
+  calc volume (F \ L) ≤ volume (F \ Q) + volume (Q \ L) :=
+        (measure_mono hdiff).trans (measure_union_le _ _)
+    _ ≤ ENNReal.ofReal (v*P - vD) +
+        ENNReal.ofReal (kamMeasureConstant (a+b) * pgBudget d * s * vD) := by
+      rw [e1]; exact add_le_add le_rfl e2
+    _ = ENNReal.ofReal ((v*P - vD) + kamMeasureConstant (a+b) * pgBudget d * s * vD) :=
+      (ENNReal.ofReal_add (by linarith) (by positivity)).symm
+    _ ≤ ENNReal.ofReal ((((pgBoundaryA d + (pgAnalytic d).Cdio * pgCgamma d) / v +
+        6 * b * (pgScales d).k1 + kamMeasureConstant (a+b) * pgBudget d) * s) * (v * P)) :=
+      ENNReal.ofReal_le_ofReal hreal
+    _ = _ := ENNReal.ofReal_mul (by positivity)
+
 /-- Coordinatewise real neighbourhood of an open interval. -/
 private theorem dcn_nbhd_Ioo {l u s y : ℝ} (hlu : l < u) (hs : 0 < s) :
     (∃ x ∈ Ioo l u, |y - x| < s) ↔ y ∈ Ioo (l - s) (u + s) := by

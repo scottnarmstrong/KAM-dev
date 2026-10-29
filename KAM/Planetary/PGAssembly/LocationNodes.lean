@@ -79,9 +79,13 @@ theorem tc_freq_node (d : PGData a b) : ∃ Cw : ℝ, 0 < Cw ∧ ∀ r mu : ℝ,
 
 /-- `bpP:p5:torus-conv`: for every `J ∈ D₀` (that is, `ω = ω₀(J) ∈ Ω_*`) the torus
 `K_ω = physicalTorus J` is a frozen cylinder torus of `H_μ` in `C(V, r)` with frequency
-`w = ω`, `w` is `(min γ₁ γ₂, τ)`-Diophantine with `τ = n + 1 > a + b`, and the frequency
-bounds hold with a constant `C_w` independent of `(r, μ)`; `K_ω(ℝⁿ) ⊆ C(V, r)`. -/
-theorem torus_conv_node (d : PGData a b) : ∃ Cw : ℝ, 0 < Cw ∧ ∀ r mu : ℝ,
+`w = ω`, `w` is `(min γ₁ γ₂, τ)`-Diophantine with `τ = n + 1 > a + b`, and
+`|w^f|_∞ ≤ C_w`, `|w^s|_∞ ≤ C_w μ` with the source constant
+`C_w = (M_ω + A_N)/2π + 1`, `M_ω = sup_{closure V} |ω̄₀|`, where `A_N ≥ 1` is the data-only
+constant of `bpP:p5:freq-data` (chosen before `r, μ`); `K_ω(ℝⁿ) ⊆ C(V, r)`. -/
+theorem torus_conv_node (d : PGData a b) : ∃ AN : ℝ, 1 ≤ AN ∧
+    ∀ Cw : ℝ, Cw = (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + AN) /
+        (2*Real.pi) + 1 → ∀ r mu : ℝ,
     ∀ h : admissible d (pgRstar d) r mu, ∀ J ∈ pgD0 d r mu,
       IsCylinderTorus (degenerateHamiltonian d.H0 d.P mu) (cylinder d.V r)
         ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J)
@@ -92,12 +96,26 @@ theorem torus_conv_node (d : PGData a b) : ∃ Cw : ℝ, 0 < Cw ∧ ∀ r mu : �
       ‖(blockFast ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ ≤ Cw ∧
       ‖(blockSlow ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ ≤ Cw*mu ∧
       range (physicalTorus d r mu h (pgFamily d r mu h) J) ⊆ cylinder d.V r := by
-  obtain ⟨Cw, hCw, hfr⟩ := tc_freq_node d
-  refine ⟨Cw, hCw, fun r mu h J hJ => ?_⟩
+  obtain ⟨Cw0, hCw0, hfr⟩ := tc_freq_node d
+  have hpi := Real.pi_pos
+  refine ⟨max 1 (2*Real.pi*Cw0), le_max_left _ _, fun Cw hCw r mu h J hJ => ?_⟩
   obtain ⟨hf, hs, hdio, htau, htau'⟩ := hfr r mu h J hJ
+  have hM : 0 ≤ sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) :=
+    Real.sSup_nonneg (by rintro _ ⟨I, -, rfl⟩; exact norm_nonneg _)
+  have hCw0le : Cw0 ≤ Cw := by
+    have h1 : Cw0 ≤ (max 1 (2*Real.pi*Cw0)) / (2*Real.pi) := by
+      rw [le_div_iff₀ (by positivity)]
+      nlinarith [le_max_right 1 (2*Real.pi*Cw0)]
+    have h2 : (max 1 (2*Real.pi*Cw0)) / (2*Real.pi) ≤
+        (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) +
+          max 1 (2*Real.pi*Cw0)) / (2*Real.pi) :=
+      div_le_div_of_nonneg_right (by linarith) (by positivity)
+    rw [hCw]; linarith
+  have hmu0 : 0 < mu := h.2.2.1
   have hspec := (torus_conv d r mu h).choose_spec
   have hT := hspec.2.2.2.2.2.2 J hJ
-  refine ⟨hT, hdio, htau, htau', hf, hs, ?_⟩
+  refine ⟨hT, hdio, htau, htau', hf.trans hCw0le,
+    hs.trans (mul_le_mul_of_nonneg_right hCw0le hmu0.le), ?_⟩
   rintro _ ⟨θ, rfl⟩
   exact (hT.2.1 θ).1
 
