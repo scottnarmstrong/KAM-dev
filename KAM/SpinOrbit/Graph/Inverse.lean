@@ -186,7 +186,7 @@ theorem Torus.graph_apply (T : Torus Q Pp dQ ν c m) (x y : ℝ) :
   rw [T.inv_apply, add_sub_cancel_right]
 
 /-- Derivative along the flow line, at every time (not only at `t = 0`). -/
-theorem hasDerivAt_line {f d : ℝ → ℝ → ℝ} (h : ∀ x y, HasDerivAt (fun t => f (x + t * ν) (y + t))
+theorem graphHasDerivAt_line {f d : ℝ → ℝ → ℝ} (h : ∀ x y, HasDerivAt (fun t => f (x + t * ν) (y + t))
     (d x y) 0) (x y s : ℝ) :
     HasDerivAt (fun t => f (x + t * ν) (y + t)) (d (x + s * ν) (y + s)) s := by
   have h0 := h (x + s * ν) (y + s)
@@ -202,8 +202,8 @@ def Torus.orbit (_T : Torus Q Pp dQ ν c m) (x y t₁ t : ℝ) : ℝ × ℝ × �
 theorem Torus.hasDerivAt_orbit (T : Torus Q Pp dQ ν c m) (x y t₁ t : ℝ) :
     HasDerivAt (T.orbit x y t₁) (soField (T.orbit x y t₁ t)) t := by
   have hs : HasDerivAt (fun t : ℝ => t - t₁) 1 t := (hasDerivAt_id t).sub_const t₁
-  have hQ := (hasDerivAt_line T.flowQ x y (t - t₁)).comp t hs
-  have hP := (hasDerivAt_line T.flowP x y (t - t₁)).comp t hs
+  have hQ := (graphHasDerivAt_line T.flowQ x y (t - t₁)).comp t hs
+  have hP := (graphHasDerivAt_line T.flowP x y (t - t₁)).comp t hs
   have hφ : HasDerivAt (fun t : ℝ => y + (t - t₁) + c) 1 t := by
     simpa using (hs.const_add y).add_const c
   rw [soField_eq]
@@ -302,7 +302,7 @@ theorem realP_eq (hreal : IsRealOnReals Kinf) (x y : ℝ) :
   simp [realP, this]
 
 /-- Derivative of `K∞` along a real line, at every time. -/
-theorem hasDerivAt_line_K {ρ : ℝ} (hholo : DifferentiableOn ℂ Kinf (complexStrip 2 ρ))
+theorem graphHasDerivAt_lineK {ρ : ℝ} (hholo : DifferentiableOn ℂ Kinf (complexStrip 2 ρ))
     (hρ : 0 < ρ) (θ v : Fin 2 → ℝ) (t : ℝ) :
     HasDerivAt (fun s : ℝ => Kinf (fun i => ((θ i + s * v i : ℝ) : ℂ)))
       (fderiv ℂ Kinf (fun i => ((θ i + t * v i : ℝ) : ℂ)) (fun i => (v i : ℂ))) t := by
@@ -374,7 +374,7 @@ theorem soBarrier_of_exact_torus {Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × 
   have hflow : ∀ x y : ℝ, HasDerivAt (fun s : ℝ => Kinf (realPt (x + s * ν) (y + s)))
       (soExtFieldC (Kinf (realPt x y))) 0 := by
     intro x y
-    have h := hasDerivAt_line_K hholo hρ ![x, y] ![ν, 1] 0
+    have h := graphHasDerivAt_lineK hholo hρ ![x, y] ![ν, 1] 0
     have e := hinv (realPt x y) (realPt_mem hρ x y)
     rw [invarianceError, hω, hamiltonianVectorFieldℂ_soHC, sub_eq_zero] at e
     have e2 : (fun i => ((![x, y] i + (0 : ℝ) * ![ν, 1] i : ℝ) : ℂ)) = realPt x y := by
@@ -424,7 +424,7 @@ theorem soBarrier_of_exact_torus {Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × 
     rw [e] at h
     simpa [realP] using congrArg (fun u => (u.2 0).re) h
   · intro x y
-    have h := hasDerivAt_line_K hholo hρ ![0, y] ![1, 0] x
+    have h := graphHasDerivAt_lineK hholo hρ ![0, y] ![1, 0] x
     simp only [realPt_zero_line] at h
     exact hasDerivAt_re_comp h
   · intro x y
