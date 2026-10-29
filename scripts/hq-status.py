@@ -261,8 +261,13 @@ def section_workers():
             continue
         subj = git('log', '-1', '--format=%s', b).replace('|', '∣')
         aud = pane_state(f'inp-maud-{b[4:]}')
+        prov = pane_state(f'inp-mprov-{b[4:]}')
+        # 2026-10-29: 'not yet audited' matched 'audit', and branches without a prover session showed as proving.
         state = ('🔍 in audit' if aud and aud != '⚠️ session missing' else
-                 '✅ audited, handed back' if 'audit' in subj else '🔄 proving')
+                 '🔄 proving' if prov and prov != '⚠️ session missing' else
+                 '❌ audit failed, parked' if 'FAIL' in subj else
+                 '✅ audited, handed back' if 'audit' in subj and 'not yet audited' not in subj else
+                 '⏸ parked (no session)')
         ahead = git('rev-list', '--count', '--no-merges', f'inp..{b}')
         out.append(f'| **{b[4:]}** | prover (offload) | Claude Sonnet 5.5 | — | {state} | last commit: {subj[:90]} | '
                    f'`{b}` | {ahead} (vs `inp`) |')
