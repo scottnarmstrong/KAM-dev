@@ -258,3 +258,8 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   three steps' SOURCE_HYPOTHESES, recorded as a repair of our own blueprint (not a source erratum), with
   N-SYNC-audit-1 as the independent review; the steps are then PROVED by those theorems, and co-conc is split so its
   proved identities count separately. No frozen statement changes.
+- **D33 (2026-10-29, 20:45) Release clean-up decisions for the original project.** *(Scott, on CLEANUP-PLAN.)*
+  - Renames of the ~1,840 package-prefixed declarations: later (not part of this clean-up).
+  - Copyright: one uniform two-author line (and Authors line) in every file; no comment credits one contributor.
+  - The blueprints ship, so the `bp*:` labels cited in Lean comments stay.
+  - The proof dependency graphs (`docs/graph/*/DEPGRAPH.md`) ship; the built PDFs do not.

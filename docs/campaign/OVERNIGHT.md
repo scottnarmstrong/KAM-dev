@@ -930,3 +930,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   21:00 reset: SO-TOYFIX (real cutoffs in the toy data), SO-ABKFAST (positive-only ceiling division in the fixed-point
   backend), ERRATA (draft errata-and-deviations record, release preparation) and CLEANUP-PLAN (read-only release clean-up
   plan) run on it; SO-MAT (Gram check) on claude-4.
+- **20:45. Release preparation and track SO.** SO-ABKFAST (positive-only ceiling division): correct but no measurable
+  kernel speed-up (the extra branch test offsets it); not landed, branch kept. CLEANUP-PLAN delivered (branch
+  inp-cleanup, docs/campaign/release/CLEANUP-PLAN.md): owner rulings D33 (renames later; uniform copyright; blueprints and
+  graphs ship, PDFs not). Batch B1 done (uniform copyright and Authors lines in 16 files; three comments crediting one
+  contributor rewritten). ERRATA writer's draft done, held off main until the refute-first PDF verification (running,
+  codex-4) passes. SO-MAT (Gram) in audit; SO-TORS (torsion) started. Disk reached 99 %: two finished worktrees removed and
+  the old SO-REPLAY scratch archived to the HC volume.
