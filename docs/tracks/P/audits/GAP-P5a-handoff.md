@@ -1,5 +1,4 @@
-# GAP-P5a prover handoff (branch inp-gp5a, bf0e581c; off inp; graph-gap programme package run by the main orchestrator)
-
+# Handoff GAP-P5a (branch inp-gp5a)
 
 ## Files (new, append-only)
 - `KAM/Planetary/PGAssembly/ScaleNodes.lean` (~205 lines)
@@ -42,6 +41,16 @@ be-jet uses `differentiableOn_slice_jet`, `remainder_jet_real`, `remainder_jet_t
 2. Domain: be_jet holds for all complex I in the tube and all v; kc_* for all real r>0, mu∈(0,1].
 3. Literal clauses: `kam_cond_node` now also states the ρ̂ min-display and Ê = C₁²r⁵/ρ̂² (previously omitted); K = K₀ is `cutoff = pgK0 d (pgScales d)`, (r,mu)-independent. The κ₀,κ₁,G choice is landed as `pgScales_spec`, not restated.
 
-ORCHESTRATOR RULING (OVERNIGHT 01:20, 01:35): graph-gap programme for the landed parts. This package appends UNSIGNED exports whose job is to state the LITERAL conclusion of each listed graph node, built from landed declarations; nodes already PROVED or BYPASSED in the graph are skipped. Package definition: section '**GAP-P5a:**' of /root/code/KAM-inp/.drafts/briefs/offload-main/GAP-PLAN-P.md. KAM.lean regeneration is the sub-orchestrator's job at merge, not a finding.
+## Round 2 (fix of audit-1 finding F1)
 
-AUDIT FOCUS: for EVERY node in the handoff's node table, read its NODE record in docs/graph/P/DEPGRAPH.md (SOURCE_HYPOTHESES, SOURCE_QUANTIFIERS, SOURCE_CONCLUSION) and the blueprint lines it cites, and give a per-node verdict: does the named declaration state that node's literal conclusion under only the source's hypotheses, with quantifiers in the source's order? An export that takes a proved dependency's OUTPUT as a premise is a FAIL (export from the source hypotheses and build the dependency inside). A node whose export is weaker, conditional on an unsourced premise, or a different statement is a FAIL for that node; list each such node precisely. Also verify that every node the handoff lists as 'already closed' is PROVED or BYPASSED in docs/graph/P/DEPGRAPH.md or docs/graph/P/packets/AMENDMENTS.md. Audit ONLY KAM/Planetary/PGAssembly/ExtensionNodes.lean and KAM/Planetary/PGAssembly/ScaleNodes.lean. Common to all: (a) every SIGNED declaration = signature file EXACTLY; (b) the slice COMPLETE: every graph node the design's node table maps to these modules is established (in the proof or as an export); an UNSIGNED export named after a graph node must state that node's literal conclusion, while a SIGNED declaration follows the signature file (where the design deliberately narrows it, check that every consumer's needs are met); (c) proof soundness, no added premises; (d) hygiene: no EuclideanSpace, no reused public HELPER short name, no harmful root shadow, lines <= 100.
+- File changed: `KAM/Planetary/PGAssembly/ScaleNodes.lean` only (`kam_cond_node`); other nodes untouched.
+- Approach: `kam_cond_node d` now states `PGScaleSpec d (pgScales d)` (κ₀, κ₁, G items 1-3, fixed by `d`
+  before `(r, mu)`), then for all `0<r`, `0<mu≤1`: `L = C₁/μ`; the actual P3 expression
+  `E*M^2*L/γ₁^2 = C₁^4/κ₀^2`; `C₁^4/κ₀^2 ≤ 1`; `K = K₀`; bridges `rhoHat (pgKamScale ..) =
+  (params ..).rhoHat`, `eHat (pgKamScale ..) = (params ..).Ehat`; ρ̂ min display; Ê = C₁²r⁵/ρ̂²;
+  Ê max display; `ĉÊ<1`; `γ₂≤γ₁`; `n<τ`. Components come from `kc_eval`/`kc_small`/`pgScales_spec`.
+  No new premise. Signature changed from `{r mu} → hyps → conj` to `spec ∧ ∀ {r mu}, hyps → conj`
+  (no other users in the repo).
+- Checks: gate build of ScaleNodes succeeded (9230 jobs); lines ≤ 100; axioms of `kam_cond_node`:
+ `[propext, Classical.choice, Quot.sound]`; `scripts/lint_sources.sh` run (KAM.lean out-of-date notice is the permitted exception).
+- Uncertainties/errata/deviations: none new.
