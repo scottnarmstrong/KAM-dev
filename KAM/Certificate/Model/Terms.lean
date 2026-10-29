@@ -13,9 +13,9 @@ public import KAM.Certificate.Poly.Ops
 An error term `(k, c, e)` is a Fourier term `c χ_k` computed by the backend together with a bound
 `e` on its rounding error, paid at the weight of its key: on the strip the term stands for an
 exact value within `val e · |χ_k|`. This module supplies the backend complex operations with
-their error bounds (`CC.addC`, `CC.mulC`), sums with a forced accumulator (`sumUp`: the running
-value is compared with itself at every step, so the kernel never builds a deep chain of pending
-additions), the strip-weighted radius of a term list (`errRadius`, `CertPoly.supNormUp`), the
+their error bounds (`CC.addC`, `CC.mulC`), balanced upward sums (`sumUp`: pairwise rounds, so the
+kernel evaluates sums of depth about `log₂ N` and never a long accumulator chain), the
+strip-weighted radius of a term list (`errRadius`, `CertPoly.supNormUp`), the
 sorted merge of two term lists (`mergeErrTerms`, structural; merging is sound for any input
 order and complete for lexicographically sorted keys), the direct product (`directItems`), and
 the truncation at a cutoff (`truncKeep`, `truncErr`).
@@ -113,50 +113,69 @@ theorem CC.norm_scale_sub_scaleC (s : α) (c : CC α) :
 
 end Arith
 
-/-! ### Sums with a forced accumulator -/
+/-! ### Balanced upward sums -/
 
 section Sums
 
 variable {α : Type} [CertArith α]
 
-/-- `acc + Σ g x` rounded upward, the running value forced at every step (`beq acc acc` is
-evaluated before the next step; both branches agree). -/
-def sumUpAux {β : Type} (g : β → α) : α → List β → α
-  | acc, [] => acc
-  | acc, x :: xs =>
-    cond (beq acc acc) (sumUpAux g (upAdd acc (g x)) xs) (sumUpAux g (upAdd acc (g x)) xs)
+/-- One round of pairwise upward sums: `[a, b, c, d, e] ↦ [a + b, c + d, e]`. -/
+def pairUp : List α → List α
+  | a :: b :: rest => upAdd a b :: pairUp rest
+  | l => l
 
-/-- `Σ g x` rounded upward (forced accumulator). -/
-def sumUp {β : Type} (g : β → α) (L : List β) : α := sumUpAux g (ofInt 0) L
+/-- `r` rounds of `pairUp` (a list of length `≤ 2^r` collapses to at most one entry). -/
+def pairRounds : ℕ → List α → List α
+  | 0, l => l
+  | r + 1, l => pairRounds r (pairUp l)
 
-/-- The weighted size `e · w^{|k|₁}` of an error at key `k`, rounded upward (`0` if `e ≤ 0`). -/
+/-- `Σ g x` rounded upward, summed as a balanced tree (64 rounds of pairwise sums, then a
+`foldr` of what remains): the kernel evaluates nested sums of depth about `log₂` of the length,
+never a long accumulator chain. -/
+def sumUp {β : Type} (g : β → α) (L : List β) : α :=
+  (pairRounds 64 (L.map g)).foldr upAdd (ofInt 0)
+
+/-- The weighted size `|e| · w^{|k|₁}` of an error at key `k`, rounded upward. -/
 def weightTermUp (W : CertWeight) (k : CertKey) (e : α) : α :=
-  if ble e (ofInt 0) then ofInt 0 else upMul (abs e) (ofRatUp (W.w ^ keyDeg k))
+  upMul (abs e) (ofRatUp (W.w ^ keyDeg k))
 
 /-- The strip-weighted radius `Σ e · w^{|k|₁}` of a list of error terms. -/
 def errRadius (W : CertWeight) (L : List (ErrTerm α)) : α :=
   sumUp (fun t => weightTermUp W t.1 t.2.2) L
 
-/-- A kernel-safe upper bound of `sup_{T_ρ} |P|`: `Σ |c_k| w^{|k|₁}` (forced accumulator). -/
+/-- A kernel-safe upper bound of `sup_{T_ρ} |P|`: `Σ |c_k| w^{|k|₁}` (balanced sum). -/
 def CertPoly.supNormUp (W : CertWeight) (P : CertPoly α) : α :=
   sumUp (fun t => weightTermUp W t.1 t.2.normUp) P.terms
 
 variable [LawfulCertArith α]
 
-theorem sumUpAux_ge {β : Type} (g : β → α) : ∀ (acc : α) (L : List β),
-    val acc + (L.map fun x => val (g x)).sum ≤ val (sumUpAux g acc L)
-  | acc, [] => by simp [sumUpAux]
-  | acc, x :: xs => by
-    have ih := sumUpAux_ge g (upAdd acc (g x)) xs
-    have hu := LawfulCertArith.upAdd_ge acc (g x)
-    simp only [sumUpAux, Bool.cond_self, List.map_cons, List.sum_cons]
+theorem pairUp_ge : ∀ l : List α, (l.map val).sum ≤ ((pairUp l).map val).sum
+  | [] => le_rfl
+  | [a] => le_rfl
+  | a :: b :: rest => by
+    have ih := pairUp_ge rest
+    have hu := LawfulCertArith.upAdd_ge a b
+    simp only [pairUp, List.map_cons, List.sum_cons]
+    linarith
+
+theorem pairRounds_ge : ∀ (r : ℕ) (l : List α),
+    (l.map val).sum ≤ ((pairRounds r l).map val).sum
+  | 0, _ => le_rfl
+  | r + 1, l => (pairUp_ge l).trans (pairRounds_ge r (pairUp l))
+
+theorem foldr_upAdd_ge : ∀ l : List α, (l.map val).sum ≤ val (l.foldr upAdd (ofInt 0))
+  | [] => by simp [LawfulCertArith.val_ofInt]
+  | a :: l => by
+    have ih := foldr_upAdd_ge l
+    have hu := LawfulCertArith.upAdd_ge a (l.foldr upAdd (ofInt 0))
+    simp only [List.foldr_cons, List.map_cons, List.sum_cons]
     linarith
 
 theorem sumUp_ge {β : Type} (g : β → α) (L : List β) :
     (L.map fun x => val (g x)).sum ≤ val (sumUp g L) := by
-  have := sumUpAux_ge g (ofInt 0) L
-  rw [LawfulCertArith.val_ofInt, Int.cast_zero, zero_add] at this
-  exact this
+  have h := (pairRounds_ge 64 (L.map g)).trans (foldr_upAdd_ge _)
+  rw [List.map_map] at h
+  exact h
 
 theorem norm_character_le_keyDeg {n : ℕ} {W : CertWeight} {s N : ℕ}
     (hW : checkWeight W s N = true) (k : CertKey) {θ : Fin n → ℂ}
@@ -167,40 +186,32 @@ theorem norm_character_le_keyDeg {n : ℕ} {W : CertWeight} {s N : ℕ}
 
 theorem weightTermUp_nonneg {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true)
     (k : CertKey) (e : α) : 0 ≤ val (weightTermUp W k e) := by
-  unfold weightTermUp
-  split_ifs
-  · simp [LawfulCertArith.val_ofInt]
-  · have hw : (0 : ℝ) ≤ ((W.w ^ keyDeg k : ℚ) : ℝ) := by
-      have := CertWeight.one_le_w hW
-      push_cast; positivity
-    have h1 := LawfulCertArith.ofRatUp_ge (α := α) (W.w ^ keyDeg k)
-    have h2 := LawfulCertArith.upMul_ge (abs e) (ofRatUp (W.w ^ keyDeg k))
-      (by rw [LawfulCertArith.val_abs]; positivity) (hw.trans h1)
-    rw [LawfulCertArith.val_abs] at h2
-    exact (mul_nonneg (abs_nonneg _) (hw.trans h1)).trans h2
+  have hw : (0 : ℝ) ≤ ((W.w ^ keyDeg k : ℚ) : ℝ) := by
+    have := CertWeight.one_le_w hW
+    push_cast; positivity
+  have h1 := LawfulCertArith.ofRatUp_ge (α := α) (W.w ^ keyDeg k)
+  have h2 := LawfulCertArith.upMul_ge (abs e) (ofRatUp (W.w ^ keyDeg k))
+    (by rw [LawfulCertArith.val_abs]; positivity) (hw.trans h1)
+  rw [LawfulCertArith.val_abs] at h2
+  exact (mul_nonneg (abs_nonneg _) (hw.trans h1)).trans h2
 
 theorem weightTermUp_ge {n : ℕ} {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true)
     (k : CertKey) (e : α) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho) :
     val e * ‖character (certKeyFun n k) θ‖ ≤ val (weightTermUp W k e) := by
   have hc := norm_character_le_keyDeg hW k hθ
-  unfold weightTermUp
-  split_ifs with h
-  · have := LawfulCertArith.ble_sound _ _ h
-    rw [LawfulCertArith.val_ofInt, Int.cast_zero] at this ⊢
-    exact mul_nonpos_of_nonpos_of_nonneg this (norm_nonneg _)
-  · have hw : (0 : ℝ) ≤ ((W.w ^ keyDeg k : ℚ) : ℝ) := by
-      have := CertWeight.one_le_w hW
-      push_cast; positivity
-    have h1 := LawfulCertArith.ofRatUp_ge (α := α) (W.w ^ keyDeg k)
-    have h2 := LawfulCertArith.upMul_ge (abs e) (ofRatUp (W.w ^ keyDeg k))
-      (by rw [LawfulCertArith.val_abs]; positivity) (hw.trans h1)
-    rw [LawfulCertArith.val_abs] at h2
-    push_cast at h1
-    calc val e * ‖character (certKeyFun n k) θ‖ ≤ |val e| * ‖character (certKeyFun n k) θ‖ :=
-          mul_le_mul_of_nonneg_right (le_abs_self _) (norm_nonneg _)
-      _ ≤ |val e| * val (ofRatUp (W.w ^ keyDeg k) : α) :=
-          mul_le_mul_of_nonneg_left (hc.trans h1) (abs_nonneg _)
-      _ ≤ _ := h2
+  have hw : (0 : ℝ) ≤ ((W.w ^ keyDeg k : ℚ) : ℝ) := by
+    have := CertWeight.one_le_w hW
+    push_cast; positivity
+  have h1 := LawfulCertArith.ofRatUp_ge (α := α) (W.w ^ keyDeg k)
+  have h2 := LawfulCertArith.upMul_ge (abs e) (ofRatUp (W.w ^ keyDeg k))
+    (by rw [LawfulCertArith.val_abs]; positivity) (hw.trans h1)
+  rw [LawfulCertArith.val_abs] at h2
+  push_cast at h1
+  calc val e * ‖character (certKeyFun n k) θ‖ ≤ |val e| * ‖character (certKeyFun n k) θ‖ :=
+        mul_le_mul_of_nonneg_right (le_abs_self _) (norm_nonneg _)
+    _ ≤ |val e| * val (ofRatUp (W.w ^ keyDeg k) : α) :=
+        mul_le_mul_of_nonneg_left (hc.trans h1) (abs_nonneg _)
+    _ ≤ _ := h2
 
 theorem sumUp_nonneg {β : Type} {g : β → α} (hg : ∀ x, 0 ≤ val (g x)) (L : List β) :
     0 ≤ val (sumUp g L) :=
