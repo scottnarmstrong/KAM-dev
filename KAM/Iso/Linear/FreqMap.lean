@@ -16,8 +16,8 @@ import KAM.Strip.Regularity
 
 The fixed-frequency version `KAM.Head.freq_map` (items (ii)-(iii) of `bp:p4:freq-map`) carries
 `KAM.Head.Data`, whose `nondeg` field is the Kolmogorov condition, unavailable for an
-isoenergetically nondegenerate `h`. The proofs of (ii)-(iii) never use it; they are restated here for a Hamiltonian `h` that is
-holomorphic on an open set `U` and real at the real points of `U`.
+isoenergetically nondegenerate `h`. The proofs of (ii)-(iii) never use it; they are restated here
+for a Hamiltonian `h` that is holomorphic on an open set `U` and real at the real points of `U`.
 
 * `freq_map_local`: on the real slice of `U`, the frozen frequency map is the complex gradient,
   it is differentiable, its derivative is the (real, symmetric) complex Hessian.
