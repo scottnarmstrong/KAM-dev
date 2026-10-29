@@ -615,3 +615,34 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   definition, and the h0/f2 helpers carry a free correction Z. The report also notes that the signed p11SlowData
   (P11A design, audited with P7d) is `if h : exists A, ... then h.choose else default`, a non-unique choice with a
   default fallback. Nothing is changed overnight; these need an owner ruling on definition fidelity.
+- **03:10. P8e started ahead of its inputs' audits.** P11A-P8b2 (pr-b, pr-c) and P11A-P8b3 (pr-d) finished and are in
+  audit; PreparedM was rebuilt against P8b2's final modules. To keep the fixed-Sun chain moving, P11A-P8e (assembly
+  of the signed prepared and amount) starts now on a branch carrying both, with inp merged. If either audit fails,
+  P8e merges the fix. Graph P 1102 of 1363 PROVED.
+- **03:15. Candidate source erratum (owner to review): Part 11a real-Lipschitz coefficient chain.** The audit of
+  GAP-P11a-HOM shows that rl-const / real-lipschitz (p11a2:229-242) need the premise 0 <= M1: without it the second
+  inequality can fail when no nonzero mode is at most T. Ruling: the export keeps 0 <= M1 as a ruled premise (like
+  the cutoff's d <= 1, T >= 1 at 02:30); the degree-zero case T = 0 that the source covers is being added. LREF-P
+  closes dom-open and he-fix by LEAN_REF; seven split steps get one-line bundles in GAP-LREF.
+- **03:20. Definitions audit DEFS-P2 (owner to review with 02:50).** p7:sec-product#data and p12:sec-set#data close;
+  p10:conv#data closes once a positive-dilation (cone) lemma for axes n lands (GAP-LREF). Three definition nodes are
+  NOT closable under the whole-carrier rule and stay open: p3:conv#data (KAM.Weighted wsum/wnorm junk values off the
+  summable locus, as for p11:sec-conv#data), p7:conv#data (delaunay's public carrier is Phase 2 with an explicit
+  Kepler-solver fallback; faithful on deDom), p3:limitmap#data (no general conjugation G -> S o G o S^-1 or L_*).
+  One owner ruling on totalized definitions (accept them with guarded characterizations, or require new carriers)
+  would settle p3/p7/p11 conv nodes together.
+- **03:25. P8D and P10 started in parametric form.** To keep the fixed-Sun chain moving while P11A-P8e proves the
+  signed prepared/amount, P11A-P8D proves data_star_of_amount (hypothesis: exactly the signed amount's conclusion)
+  and P11A-P10 proves wrapper_of_data_star (hypothesis: exactly the signed data_star's conclusion). The signed
+  data_star and wrapper are then one-line applications once their upstream lands; no signed statement changes.
+- **03:40. Signed prepared, amount and data_star proved (in audit).** P11A-P8e assembled the signed prepared and amount
+  from the P8 pieces (axioms: propext, Classical.choice, Quot.sound); the orchestrator added the signed data_star as
+  data_star_of_amount applied to amount. All three are in one audit. P11A-P10 (wrapper_of_data_star) is proving.
+- **03:50. P11A-P8e passed; P13-C started in parametric form.** The signed prepared, amount and data_star are proved
+  and audited (PASS WITH NOTES) and went to the sub-orchestrator. P13-C (general route, dimension split, provider for
+  fixedSunPlanetaryKAM) proves n_general_of_wrapper, fixed_of_wrapper and fixedSunPlanetaryKAM_of_wrapper, whose one
+  extra hypothesis is exactly the signed wrapper's statement; when P11A-P10 lands wrapper, three one-line
+  applications finish the chain and the anchor goes to seal-key audit.
+- **03:55. Remark nodes (owner to review).** bpP:p0:totality and bpP:p1:order are conventions whose content is purely
+  definitional (first gap survey, section 2 item 6); they are re-kinded as remarks by append-only amendment. bpP:p9:dict
+  has real content (Omega_j = 2 sigma_j via the eigenvalues of 2 Q_h) and goes to package GAP-P9dict.
