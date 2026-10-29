@@ -1905,7 +1905,7 @@ EDGE: bpP:p10:interface | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:pat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-l
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: patch, PlanarFrequencyPatch, p11c_combinedFrequency, torsion_patch_geometry (KAM/Planetary/PlanarTorsion/Patch.lean)
+LEAN_NOTE: audit T21 PASS WITH NOTES; signed patch (full geometry, determinant, Birkhoff, frequency data on one patch)
 NOTE: The last sentence is part of the retained source conclusion and explicitly invokes interface. Part 12 uses only the good-patch clauses, but that does not erase a direct dependency of this full corollary. Keep the full source statement and the direct edge; no P-FIXED theorem is thereby added as a root.
