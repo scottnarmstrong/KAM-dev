@@ -148,6 +148,10 @@ class HP:
 
     def run(self, vre, vim, vbase, eps, iters, tag="", log=print, tol_exp=150):
         t0 = time.time()
+        # enforce vhat purely imaginary and odd (the double-precision start is odd only to ~1e-17)
+        refl = lambda a: np.roll(np.flip(a, (0, 1)), 1, axis=(0, 1))
+        vim = (vim - refl(vim)) >> 1
+        vre = zeros(vre.shape)
         gr, gi = self.vgrid(vre, vim)
         er, ei = self.expj2(gr)
         hist = []
