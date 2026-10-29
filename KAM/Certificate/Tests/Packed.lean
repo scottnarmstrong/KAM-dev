@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.Poly.Ops
+public import KAM.Certificate.Model.Ops
 
 /-!
 # Packed-product tests (design §8, `Tests/Packed`)
@@ -24,6 +25,10 @@ Every check below is decided by `decide +kernel` (kernel reduction only).
 * **Negative.** An advice slot off by `+2` (SO-REPLAY2's control); advice equal modulo the packing
   (`packSum` unchanged) but violating the slot range; a wrapping stride (`compat = false`); a
   mantissa decoder returning a wrong integer (`mantCheck` rejects); a key outside the layout box.
+* **Model level.** `CertModel.mul` with packed advice under its key: the correct decoder takes the
+  packed route (a polynomial part, radius `≤ 4`); the wrong decoder falls back to the crude
+  enclosure (no polynomial part, radius `> 4`), so a margin of `4` relying on that product fails.
+  `CertModel.Encloses.mul` is instantiated on both routes.
 * **P2 (F12, audit 5).** Factors `[0, 0]`, advice `[16, -1, 0]` at `w = 4`, `scale = 1`: the packed
   residual decodes (the carry cancels), but `reconFits` rejects, hence `checkShard` and
   `checkPackedProduct`.
@@ -244,6 +249,54 @@ theorem packedTest_keyOutside :
       packedTestBogus packedTestBogus (packedTestRe (([2, 0], 1) :: packedTestA2))
       (packedTestRe packedTestB2) = none := by
   decide +kernel
+
+/-! ### Model level: the packed route and the fallback -/
+
+/-- Packed advice for the `n = 2` product under the key `[9]`, with the decoder `dec`. -/
+def packedTestCfg (dec : ℕ → CertFixed 4 → Option ℤ) : ModelConfig (CertFixed 4) :=
+  ⟨1000, 10, 4, dec,
+    [([9], .packed 4 packedTestAdv2 packedTestBogus packedTestBogus packedTestBogus)]⟩
+
+/-- The decoder returning the wrong integer. -/
+def packedTestBadDec : ℕ → CertFixed 4 → Option ℤ :=
+  fun P a => (CertFixed.toMant 4 P a).map (· + 1)
+
+def packedTestModelA : CertModel (CertFixed 4) := ⟨0, packedTestRe packedTestA2, ⟨0⟩⟩
+
+def packedTestModelB : CertModel (CertFixed 4) := ⟨0, packedTestRe packedTestB2, ⟨0⟩⟩
+
+/-- The packed route: a polynomial part and the margin `rad ≤ 4` (`64` mantissa units). -/
+theorem packedTest_model_packed :
+    (CertModel.mul packedTestW (packedTestCfg (CertFixed.toMant 4)) [9] packedTestModelA
+        packedTestModelB).poly.terms.length ≠ 0 ∧
+      (CertModel.mul packedTestW (packedTestCfg (CertFixed.toMant 4)) [9] packedTestModelA
+        packedTestModelB).rad.m ≤ 64 := by
+  decide +kernel
+
+/-- The wrong decoder: `mantCheck` rejects, `CertModel.mul` falls back to the crude enclosure
+(no polynomial part), and the margin `rad ≤ 4` relying on that product fails. -/
+theorem packedTest_model_fallback :
+    (CertModel.mul packedTestW (packedTestCfg packedTestBadDec) [9] packedTestModelA
+        packedTestModelB).poly.terms.length = 0 ∧
+      ¬ (CertModel.mul packedTestW (packedTestCfg packedTestBadDec) [9] packedTestModelA
+        packedTestModelB).rad.m ≤ 64 := by
+  decide +kernel
+
+/-- **Contract instance** on the packed route. -/
+theorem packedTest_model_packed_encloses {f g : (Fin 2 → ℂ) → ℂ}
+    (hf : packedTestModelA.Encloses 2 packedTestW.rho f)
+    (hg : packedTestModelB.Encloses 2 packedTestW.rho g) :
+    (CertModel.mul packedTestW (packedTestCfg (CertFixed.toMant 4)) [9] packedTestModelA
+      packedTestModelB).Encloses 2 packedTestW.rho (f * g) :=
+  CertModel.Encloses.mul packedTest_weight _ _ hf hg
+
+/-- **Contract instance** on the fallback. -/
+theorem packedTest_model_fallback_encloses {f g : (Fin 2 → ℂ) → ℂ}
+    (hf : packedTestModelA.Encloses 2 packedTestW.rho f)
+    (hg : packedTestModelB.Encloses 2 packedTestW.rho g) :
+    (CertModel.mul packedTestW (packedTestCfg packedTestBadDec) [9] packedTestModelA
+      packedTestModelB).Encloses 2 packedTestW.rho (f * g) :=
+  CertModel.Encloses.mul packedTest_weight _ _ hf hg
 
 /-! ### P2 (F12): carry cancellation -/
 
