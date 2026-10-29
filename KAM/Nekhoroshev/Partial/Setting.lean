@@ -17,13 +17,12 @@ public import KAM.Frozen.Nekhoroshev.Defs.RealPart
 public import KAM.Frozen.Planetary.Defs.Phase
 
 /-!
-# Setting of the partial convex Nekhoroshev theorem (Part 11, package N11-A)
+# Setting of the partial convex Nekhoroshev theorem (Part 11)
 
 The extended phase space `Ext n k 𝕜 = 𝕜ⁿ × 𝕜^{n+(k+k)}` (angles, then fast actions and the slow
 pair), its projections, the weighted vector field and bracket, the block geometry
 `PartialBlock`, the classes `ext_class`, the source bundles `ExtNFHyp`, `ExtConjHyp`,
 `FastConvex`, `RealFastConvex` and the closeness predicate `NearResonance`.
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
 -/
 
 @[expose] public noncomputable section

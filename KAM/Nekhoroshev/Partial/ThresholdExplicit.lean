@@ -12,7 +12,7 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.FieldSimp
 
 /-!
-# Part 11 (N11-O2): the explicit threshold constants
+# Part 11: the explicit threshold constants
 
 Literal forms of the proof steps `stepN:p11:final-time` and `stepN:p11:final-mu` of Part 11c.
 `nthr_final_time` gives the closed form of the block time

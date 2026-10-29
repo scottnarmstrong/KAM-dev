@@ -14,8 +14,7 @@ import Mathlib.Tactic.Linarith
 
 The number of steps `nfSteps K s = ⌊κ/(12 ln 2)⌋`, the conclusion `NFConcl` of
 `bpN:p6:normal-form` (the statement of `normal_form` after its hypotheses) and its proof in Case A
-(`exp(-κ/6) ≤ iterU …`, any `N ≥ 0`): `Ψ = Φ₀ ∘ ⋯ ∘ Φ_N`, `g = g_N`, `f_* = f_{N+1}`. Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 2).
+(`exp(-κ/6) ≤ iterU …`, any `N ≥ 0`): `Ψ = Φ₀ ∘ ⋯ ∘ Φ_N`, `g = g_N`, `f_* = f_{N+1}`.
 -/
 
 @[expose] public noncomputable section

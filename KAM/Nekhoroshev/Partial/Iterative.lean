@@ -11,21 +11,20 @@ public import KAM.Nekhoroshev.Partial.IterativeRemainder
 /-!
 # The Iterative Lemma with slow parameters (`bpN:p11:iterative`)
 
-Part 11, package N11-H. The signed `iterative` (Lemma B.6ᵉ): for the generating function
+Part 11. The signed `iterative` (Lemma B.6ᵉ): for the generating function
 `φ = homGenerator K Λ h f` of the homological equation and `Φ = X¹_φ = extFlow b R s ρ σ φ 1`,
 
 * (a) `Φ` is holomorphic on `𝒟_{R-3ρ/2,s-3σ/2}` with values in `𝒟_{R-ρ,s-σ}`, commutes with
   integer angle translations, is canonical (`ExtCanonical b.c`), and on `𝒟_{R-2ρ,s-2σ}` has the
-  left inverse `X⁻¹_φ`, hence is injective there (design Revision 2, F2);
+  left inverse `X⁻¹_φ`, hence is injective there;
 * (b) the componentwise displacements;
 * (c), (d) `H ∘ Φ = h + g₊ + f₊`, `|g₊ - g| ≤ δ`, `f₊ ∈ 𝒪_{R-2ρ,s-2σ}` with the source bound;
 * (e) reality.
 
 Steps: `it-gen` (`NitHyp.nit_hom`, `NitHyp.nit_V_le`), `it-map` (the signed `canonical_map`,
 `NitHyp.nit_disp`, `nit_injOn`), `it-taylor` and `it-est` (`NitHyp.nit_remainder`); reality by
-`NitHyp.nit_real` and the reality clause of `canonical_map`. The premise `hc : 0 < b.c` is the
-lane-N ruling F2-C1 (option (a) of `N11-F2-audit-1`), needed by the signed `canonical_map`.
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
+`NitHyp.nit_real` and the reality clause of `canonical_map`. The premise `hc : 0 < b.c` is
+needed by the signed `canonical_map` (`b.c = 2π/(w/r_B)²` vanishes in Lean when `w` or `r_B` does).
 -/
 
 @[expose] public noncomputable section

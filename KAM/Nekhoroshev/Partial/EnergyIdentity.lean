@@ -10,7 +10,7 @@ public import KAM.Head.Frequency
 public import KAM.Nekhoroshev.Stability.Energy
 
 /-!
-# The frequency-free energy identity (Part 11, package N11-L1)
+# The frequency-free energy identity (Part 11)
 
 Along an orbit `y` of `liftFast h + g + fs` in the extended phase space, `fs ∘ y` has
 derivative `∂_θ fs · ω(I) + {fs, g}_c` (`bpN:p11:eq:lie`, step `ef-id`): the Poisson bracket of

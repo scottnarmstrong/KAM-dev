@@ -16,7 +16,7 @@ import Mathlib.Tactic.Ring
 /-!
 # The Iterative Lemma on the extended phase space: the map (`bpN:p11:iterative`)
 
-Part 11, package N11-H, first module. The source premises of `iterative` (without the
+Part 11, first module. The source premises of `iterative` (without the
 decomposition of `g`) are bundled in `NitHyp`; from them:
 
 * step `it-gen`: `NitHyp.nit_hom` (the signed `hom`, specialized, with `q = conjExp p`, `U = δ`, so
@@ -31,8 +31,6 @@ decomposition of `g`) are bundled in `NitHyp`; from them:
 * `NitHyp.nit_gp_bound` (`|g₊ - g| ≤ δ`), the class and reality of `h` lifted to `EC n k`
   (`nit_liftFast_class`, `nit_liftFast_real`), the reality of the frequency
   (`nit_freq_im`) and the class of a finite decomposition (`nit_sum_class`).
-
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md` (Revision 2, F2 for `iterative`).
 -/
 
 @[expose] public noncomputable section

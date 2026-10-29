@@ -13,7 +13,7 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.FieldSimp
 
 /-!
-# Iterated brackets (`bpN:p11:adjoint`, Part 11, package N11-E2)
+# Iterated brackets (`bpN:p11:adjoint`, Part 11)
 
 `adjoint`: for `φ ∈ 𝒪^e_{R',s'}`, `u ∈ 𝒪^e_{R,s}` with `R+ρ ≤ R'`, `s+σ ≤ s'` and `(SL)_{ρ,σ}`,
 `ad^j_φ u ∈ 𝒪^e_{R-ρ,s-σ}` and `(1/j!) |ad^j_φ u|_{R-ρ,s-σ} ≤ (e² η/8)^j |u|_{R,s}` with

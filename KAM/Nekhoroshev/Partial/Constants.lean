@@ -19,7 +19,7 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 
 /-!
-# Part 11 (N11-B): the source data, the numerical constants and the exponents
+# Part 11: the source data, the numerical constants and the exponents
 
 `PartialData` bundles exactly the frozen source premises of the partial convex Nekhoroshev
 theorem; `PartialConstants` carries the literal numerical formulas of Part 11a, independent of

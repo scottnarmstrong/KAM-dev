@@ -18,7 +18,7 @@ import Mathlib.Analysis.SpecificLimits.Basic
 import Mathlib.Topology.Algebra.Module.Equiv.Prod
 
 /-!
-# Composition with the extended time-one map (`bpN:p11:composition`, Part 11, package N11-F1)
+# Composition with the extended time-one map (`bpN:p11:composition`, Part 11)
 
 For `ExtCompose b R' s' R s ρ σ V φ` (the source premises `0 < ρ < R`, `R + ρ ≤ R'`, `0 < σ < s`,
 `s + σ ≤ s'`, `φ ∈ 𝒪_{R',s'}` of norm `≤ V`, `η = 2V/(ρσ) ≤ 1/2`, `(SL)_{ρ,σ}`) and `X^t = extFlow`

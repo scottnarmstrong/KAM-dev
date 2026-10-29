@@ -16,7 +16,7 @@ import Mathlib.Tactic.Ring
 /-!
 # The Iterative Lemma on the extended phase space: the remainder (`bpN:p11:iterative`)
 
-Part 11, package N11-H, second module: clauses (c), (d), (e) of the source.
+Part 11, second module: clauses (c), (d), (e) of the source.
 
 * `nitF` is `f₊ = H ∘ Φ - h - g₊` (`g₊ = g + ξ`, `ξ = P_Λ T_K f`), so the identity
   `H ∘ Φ = h + g₊ + f₊` is `nitF_identity`.
@@ -31,8 +31,6 @@ Part 11, package N11-H, second module: clauses (c), (d), (e) of the source.
   `(f - T_K f) ∘ Φ` (`nit_remainder_core`, `NitHyp.nit_remainder`).
 * Clause (e): `NitHyp.nit_real` (reality of `φ`, `g₊`, `f₊`; the reality of `Φ` is the last
   clause of `canonical_map`).
-
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
 -/
 
 @[expose] public noncomputable section
