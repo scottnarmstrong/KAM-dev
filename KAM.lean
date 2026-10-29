@@ -551,6 +551,7 @@ public import KAM.Planetary.MaximalStep.StepRealFlow
 public import KAM.Planetary.MaximalStep.StepRemainder
 public import KAM.Planetary.MaximalStep.Taylor
 public import KAM.Planetary.Newtonian.Assembly
+public import KAM.Planetary.Newtonian.AssemblyNewtonNodes
 public import KAM.Planetary.Newtonian.AssemblyNodes
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.HamiltonNodes
@@ -658,7 +659,9 @@ public import KAM.Planetary.PGAssembly.KAMInputsF
 public import KAM.Planetary.PGAssembly.KAMInputsFreq
 public import KAM.Planetary.PGAssembly.KAMInputsKamH
 public import KAM.Planetary.PGAssembly.KAMInputsPer
+public import KAM.Planetary.PGAssembly.LocationNodes
 public import KAM.Planetary.PGAssembly.Lower
+public import KAM.Planetary.PGAssembly.LowerNodes
 public import KAM.Planetary.PGAssembly.Main
 public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
@@ -692,6 +695,7 @@ public import KAM.Planetary.PlanarAssembly.Boxes
 public import KAM.Planetary.PlanarAssembly.ChartData
 public import KAM.Planetary.PlanarAssembly.Data
 public import KAM.Planetary.PlanarAssembly.DataBox
+public import KAM.Planetary.PlanarAssembly.FastInverseNodes
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Main
 public import KAM.Planetary.PlanarAssembly.Measure
@@ -909,7 +913,9 @@ public import KAM.Planetary.Quantitative.BudgetPower.Positivity
 public import KAM.Planetary.Quantitative.BudgetPower.Rates
 public import KAM.Planetary.Quantitative.BudgetPower
 public import KAM.Planetary.Quantitative.Interface
+public import KAM.Planetary.Quantitative.KamInputNodes
 public import KAM.Planetary.Quantitative.Physical
+public import KAM.Planetary.Quantitative.TheoremNodes
 public import KAM.Planetary.Quantitative.Thresholds
 public import KAM.Planetary.Quantitative.Zero
 public import KAM.Planetary.SecularBox.Chart
@@ -1074,6 +1080,7 @@ public import KAM.Planetary.TwoScale.StepPerturb
 public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
 public import KAM.Planetary.TwoScale.SumsNodes
+public import KAM.Planetary.TwoScale.SumsRadiiNodes
 public import KAM.Planetary.TwoScale.Theorem
 public import KAM.Planetary.TwoScale.TheoremInverse
 public import KAM.Planetary.TwoScale.TheoremTorus
@@ -1132,6 +1139,7 @@ public import KAM.Planetary.WeakKAM.LimitSeries
 public import KAM.Planetary.WeakKAM.ParameterLipschitz
 public import KAM.Planetary.WeakKAM.PolynomialBudget
 public import KAM.Planetary.WeakKAM.Schedule
+public import KAM.Planetary.WeakKAM.ScheduleNodes
 public import KAM.Planetary.WeakKAM.Selection
 public import KAM.Planetary.WeakKAM.SelectionRecord
 public import KAM.Planetary.WeakKAM.SelectionTests
