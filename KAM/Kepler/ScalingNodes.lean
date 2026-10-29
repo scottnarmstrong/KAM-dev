@@ -17,8 +17,8 @@ the dependency graph, built from the landed declarations of `KAM.Kepler.Energy`,
 `KAM.Kepler.Means` and `KAM.Kepler.Mass`:
 
 * `ci_alg` (`stepI:p7:ci-alg`): the orbit formulas and the three means extend to `e = 0`;
-* `sc_alg` (`stepI:p7:sc-alg`): `E_k ∘ S_k = k² E₁`, `DS_k = diag (k⁻¹, k⁻¹, k, k)`, `S_k` symplectic
-  of factor one;
+* `sc_alg` (`stepI:p7:sc-alg`): `E_k ∘ S_k = k² E₁`, `DS_k = diag (k⁻¹, k⁻¹, k, k)`, `S_k`
+  symplectic of factor one;
 * `sc_flow` (`stepI:p7:sc-flow`): the two field identities, the time change, `a_k = a / k` and the
   scaled means;
 * `rg_scale` (`stepP:p7:rg-scale`): scaling a physical Kepler point to strength one.
@@ -78,7 +78,8 @@ private theorem differentiableAt_energyMK_of_pos {κ : ℝ} {z : Phase 2} (hz : 
   have hi : AnalyticAt ℝ (fun x : Phase 2 => (planeLength x.1)⁻¹) z :=
     (analyticAt_inv_planeLength hv).comp
       ((ContinuousLinearMap.fst ℝ (Fin 2 → ℝ) (Fin 2 → ℝ)).analyticAt z)
-  have h : AnalyticAt ℝ (fun x : Phase 2 => planeSq x.2 / (2 * 1) - κ * 1 * (planeLength x.1)⁻¹) z :=
+  have h : AnalyticAt ℝ
+      (fun x : Phase 2 => planeSq x.2 / (2 * 1) - κ * 1 * (planeLength x.1)⁻¹) z :=
     hs.div_const.sub (analyticAt_const.mul hi)
   have e : energyMK 1 κ =
       fun x : Phase 2 => planeSq x.2 / (2 * 1) - κ * 1 * (planeLength x.1)⁻¹ :=
