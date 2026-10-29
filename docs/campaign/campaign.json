@@ -205,7 +205,11 @@
    "SO-TEST",
    "SO-GRAPH",
    "SO-DATA",
-   "SO-LUNAR"
+   "SO-LUNAR",
+   "SO-ROTDIO",
+   "SO-ROT",
+   "SO-RFREQ",
+   "SO-GRAPHR"
   ],
   "landed": [
    "SO-DIO",
@@ -225,8 +229,10 @@
    "SO-NORM",
    "SO-HAMX",
    "SO-GRAPHM",
-   "SO-ABK"
+   "SO-ABK",
+   "SO-BALL",
+   "SO-ROTDIO"
   ],
-  "gates": "design of the general checker: passed its fourth audit (Revision 4); Revision 5 (lunar client in the rotated frame, owner ruling O5) in progress. Kernel replay gate: GO (sharded products checked against supplied advice, about 1.5–3 kernel CPU-minutes per product); the remaining cost is data volume. SO-GEN2 is regenerating the candidates in the rotated frame to confirm the projected threshold of about 1e-75."
+  "gates": "design of the general checker: Revision 5 (rotated lunar frame, advice-checked packed products) failed its fifth audit on the packed-product contract (F12 carry cancellation, F13 scale 0); Revision 6 in progress. Replay gate GO. SO-GEN2 confirmed the rotated-frame package R1: threshold 10^-74.7, about 8.5k terms per torus at 318 bits, invariance error about 1e-3 of the threshold."
  }
 }

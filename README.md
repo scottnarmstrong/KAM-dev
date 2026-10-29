@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 15:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 97.2 %** · frozen statements proved: 21 / 22 · **257,476 lines of Lean** of an estimated ≈ 263,000
+> **Last updated: 2026-10-29 15:11 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 97.2 %** · frozen statements proved: 21 / 22 · **258,276 lines of Lean** of an estimated ≈ 264,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,22 +126,22 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **257,476** (201,452 excluding blank lines and comments) · **+113,496** since 2026-10-28 15:00 UTC |
-| Written on agent branches, not yet landed | 1,357 |
-| **Estimated total at completion** | **≈ 263,000** |
+| On `main` now | **258,276** (202,068 excluding blank lines and comments) · **+114,296** since 2026-10-28 15:00 UTC |
+| Written on agent branches, not yet landed | 1,292 |
+| **Estimated total at completion** | **≈ 264,000** |
 | Estimated still to write | ≈ 4,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 15:00 UTC from `main` at `45ac4f36` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 15:11 UTC from `main` at `5543dc08` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
 **Frozen statements proved: 21 / 22** · frozen definitions: 122
 
-**Lean on `main`:** 1325 modules · 257,476 lines · 10,928 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1329 modules · 258,276 lines · 10,971 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 1 (KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean)
@@ -152,10 +152,10 @@ SEALED: 21 / 22 (kam.aposteriori_kam.v1, kam.kam_positive_measure.v1, kam.kam_po
 
 **Track SO, lunar spin–orbit certificate** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)): a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within 3.3% of its orbital rate (|p(t) − 1| ≤ 33/1000) for all time.
 
-- **Lean on `main`:** 32 modules · 7,099 lines · 382 theorems in `KAM/Certificate` and `KAM/SpinOrbit` (design estimate ≈ 18,500 lines, 21,500–23,000 with overrun)
-- **Packages landed: 18 / 33** (SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF, SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-DIO3, SO-NORM, SO-HAMX, SO-GRAPHM, SO-ABK)
-- **Now:** proving SO-GEN2 · in audit SO-DESIGN, SO-EXPRC, SO-ROTDIO
-- **Gates:** design of the general checker: passed its fourth audit (Revision 4); Revision 5 (lunar client in the rotated frame, owner ruling O5) in progress. Kernel replay gate: GO (sharded products checked against supplied advice, about 1.5–3 kernel CPU-minutes per product); the remaining cost is data volume. SO-GEN2 is regenerating the candidates in the rotated frame to confirm the projected threshold of about 1e-75.
+- **Lean on `main`:** 36 modules · 7,899 lines · 425 theorems in `KAM/Certificate` and `KAM/SpinOrbit` (design estimate ≈ 18,500 lines, 21,500–23,000 with overrun)
+- **Packages landed: 20 / 37** (SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF, SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-DIO3, SO-NORM, SO-HAMX, SO-GRAPHM, SO-ABK, SO-BALL, SO-ROTDIO)
+- **Now:** proving SO-ADV, SO-DESIGN, SO-EXPRC, SO-GRAPHR · in audit SO-ROT
+- **Gates:** design of the general checker: Revision 5 (rotated lunar frame, advice-checked packed products) failed its fifth audit on the packed-product contract (F12 carry cancellation, F13 scale 0); Revision 6 in progress. Replay gate GO. SO-GEN2 confirmed the rotated-frame package R1: threshold 10^-74.7, about 8.5k terms per torus at 318 bits, invariance error about 1e-3 of the threshold.
 <!-- /AUTO:glance -->
 
 ## Tracks
@@ -294,7 +294,7 @@ flowchart BT
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 21 | 4,684 | 195 |
 | [`KAM/Nekhoroshev/`](KAM/Nekhoroshev) | Track N: Nekhoroshev stability | 135 | 33,957 | 1505 |
 | [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 755 | 146,479 | 6001 |
-| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 24 | 5,335 | 262 |
+| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 28 | 6,135 | 305 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 8 | 1,764 | 120 |
 <!-- /AUTO:areas -->
 
@@ -313,10 +313,11 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **soball** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-BALL: round-2 audit request | `inp-soball` | 8 (vs `inp`) |
-| **soexprc** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-EXPR-B2: rename JetSmoothOn.neg to JetSmoothOn.jetNeg (Mathlib short name) | `inp-soexprc` | 4 (vs `inp`) |
-| **sogen2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GEN2: rotated-frame model library, exact residual builder, rigorous norm enclosures, R1 | `inp-sogen2` | 1 (vs `inp`) |
-| **sorotdio** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-ROTDIO: Diophantine transfer along index maps; rotated lunar bounds | `inp-sorotdio` | 1 (vs `inp`) |
+| **soexprc** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp' into inp-soexprc | `inp-soexprc` | 5 (vs `inp`) |
+| **sographr** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-ROT: rotated-frame lunar client (KAM/SpinOrbit/Rotated.lean) | `inp-sographr` | 1 (vs `inp`) |
+| **sopolya** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-POLY-A: Poly/Packed slot bounds, shards, slot decoding | `inp-sopolya` | 3 (vs `inp`) |
+| **sorfreq** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-RFREQ: draft RotFreq | `inp-sorfreq` | 1 (vs `inp`) |
+| **sorot** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-ROT: rotated-frame lunar client (KAM/SpinOrbit/Rotated.lean) | `inp-sorot` | 1 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -326,6 +327,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 15:07 | `5543dc08` | Land inp into main |
+| 2026-10-29 15:04 | `d7aec4ae` | Land inp into main |
 | 2026-10-29 14:47 | `d736ccea` | HQ: track SO package landed (SO-ABK) |
 | 2026-10-29 14:46 | `00841c89` | Land inp into main |
 | 2026-10-29 14:41 | `996f309e` | HQ: track SO packages landed (SO-DIO3, SO-NORM, SO-HAMX, SO-GRAPHM) |
@@ -336,8 +339,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 10:31 | `cd1a35ad` | Merge pull request #7 from zkomargo/zohar/n11 |
 | 2026-10-29 14:30 | `c02f510d` | OVERNIGHT: orchestrator pause at 14:35 with resumption state; README: track SO packages landed and gates |
 | 2026-10-29 14:21 | `cbf24c9b` | Land inp into main |
-| 2026-10-29 14:21 | `e429c950` | Track SO: replay gate GO (SO-REPLAY, SO-REPLAY2 reports), constants study, owner ruling O5 (rotated lunar frame) |
-| 2026-10-29 12:40 | `01476ebc` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions

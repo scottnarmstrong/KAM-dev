@@ -796,3 +796,42 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   backend is fixed point (SO-REPLAY's recommendation); SO-ABK started. All other post-gate packages chain through
   SO-POLY, whose design must adopt SO-REPLAY2's advice-checked packed products: added as item 6 to the running design
   Revision 5 (author confirmed). Quotas: claude-7 36%, -8 31%, -10 26%, -12 19% (resets 21:00), codex-2 60%, -4 32%.
+- **14:52. Heartbeat (track SO).** Landed since 14:30: SO-DIO3, SO-NORM, SO-HAMX, SO-EXPR-B1, SO-GRAPHM, SO-ABK
+  (18 / 33 packages). SO-BALL audit 1: all signed soundness results PASS; FAIL F1 only on missing test pairings
+  (containment corollaries for three exponential and two ball tests); sent back for a short repair round. New:
+  SO-ROTDIO (orchestrator-fixed signatures, the parametric pattern used for SO-CEXP): a generic Diophantine transfer
+  along an integer index map, and the rotated lunar frequencies (nu -+ - 1, 1) at gamma = 1/42 (half vectors 1/84),
+  derived from the landed SO-DIO bounds; design Revision 5 told to adopt them verbatim. The heartbeat template still
+  names track K waves and I-STRIP-3, all complete since 2026-10-28; the provers work on track SO.
+- **15:00. Track SO: design Revision 5 delivered; OWNER QUESTION on data packaging.** Revision 5 implements O5 (rotated
+  lunar client, package R1), the advice-checked packed products (SO-POLY split into SO-POLY-A/B), the SO-ROTDIO
+  signatures, and splits the signatures into SOSignatures.lean (engine, 1049 lines) and SOSignaturesLunar.lean (539).
+  Round-5 design audit running. **Owner decision needed later (not urgent; SO-DATA is last in the DAG), design §7.2:**
+  how certificate data enters Lean at the R1 scale (about 66–310 MB of product advice per torus): (A) lint-clean
+  chunked modules, about 1,000–4,800 files, fully compliant; (B) an exemption from the 100-column lint for generated
+  data files, about 25–105 files, still <= 1500 lines each; (C) out-of-tree data files read at elaboration time by a
+  small parser (the kernel still checks every term). Started (parametric, design in audit): SO-ROT (rotated frame),
+  SO-RFREQ (rotated frequencies, on SO-ROTDIO), SO-POLY-A (mantissas, packing, injectivity, Kronecker shards).
+  SO-EXPR-B2 audited with scope limited to its own diff (four flagged dot-API names landed earlier with B1's PASS).
+- **15:06. SO-GEN2 confirms package R1 (rotated frame) with enclosed numbers.** Exact threshold 2.14e-75
+  (10^-74.67) at c = 237/125, 𝔪 = 1987/1000; enclosed c·η = 2.0e-78 (lower) / 3.9e-78 (upper), about 1e-3 of the
+  threshold; truncation L = 88, 318 bits; about 8.5k v and 8.3k E terms per torus. Report:
+  docs/tracks/SO/studies/SO-GEN2-rotated-frame-candidates.md. The study's projection held except the Gram inverse
+  (weighted-l1 bound 1.98 instead of the projected 1.925); a grid-sup sub-check would give 1.835 and one more order of
+  threshold (about 3 % fewer terms). Orchestrator decision: not now (a new sub-check for a 3 % gain); recorded as an
+  optional later improvement. The design takes SO-GEN2's concrete numbers (c, 𝔪, domain, G-J split, one character
+  witness with pinHalvings = 0, bordered torsion) in the fix round after its round-5 audit. SO-BALL passed round 2;
+  SO-ROTDIO passed; both and SO-GEN2 (Python and data, no Lean audit, as SO-GEN) sent to kam-inp.
+- **15:10. Track SO: design audit 5 FAIL (F12, F13 on packed products); Revision 6 started.** F12 (HIGH): advice that
+  is correct modulo the slot radix can carry and cancel between slots (auditor's example: advice [16, -1, 0] packs to
+  the right zero but slot 0 is off by 32); the checker must bound reconstructed digits on both sides so that
+  injectivity applies. F13 (MEDIUM): scale = 0 lets overlapping shard errors reach 2 where 1 is promised; guard
+  scale >= 1 inside the checker. Revision 6 (Opus) fixes both and folds in SO-GEN2's measured R1 numbers; SO-POLY-A
+  (proving) was told. SO-EXPR-B2 passed (SO-EXPR complete) and went to kam-inp. SO-ROT (rotated frame) in audit;
+  SO-GRAPHR (rotated graph inversion) and SO-ADVCOUNT (real product count and advice volume for the owner's §7.2
+  decision) started.
+- **15:15. Integration conflict caught at landing.** SO-BALL and SO-EXPR-B2 were both built on SO-EXPR-B1; B2 changed
+  `slpInvTail_sound` (a new fourth-power witness) that SO-BALL's inverse case calls, so each built alone but not
+  together. kam-inp's full build caught it and reset inp (nothing pushed). Fix: inp merged into inp-soexprc, a prover
+  adapts Ball.lean's helper proofs (signed declarations unchanged), then a delta audit. Process note: siblings stacked
+  on one base get a trial merge with current inp and a build of the shared modules before they are sent to kam-inp.
