@@ -1240,6 +1240,10 @@ public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
+public import KAM.SpinOrbit.Hamiltonian
+public import KAM.SpinOrbit.Model
+public import KAM.SpinOrbit.PeriodOne
+public import KAM.SpinOrbit.ScalarEmbedding
 public import KAM.Strip.Analytic
 public import KAM.Strip.AnalyticCauchy
 public import KAM.Strip.AnalyticSeries
