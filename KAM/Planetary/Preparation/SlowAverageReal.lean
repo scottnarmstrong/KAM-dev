@@ -52,7 +52,8 @@ theorem p11_slow_secZ_eq (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDa
     (fun z hz hre => (hAe z hz hre).2) hz hre
 
 theorem p11SlowJ_real (I : P11Vec (n + n)) :
-    p11SlowJ (KAM.realInclusion (n + n) I) = KAM.realInclusion n (fun i => I (Fin.castAdd n i)) := by
+    p11SlowJ (KAM.realInclusion (n + n) I) =
+      KAM.realInclusion n (fun i => I (Fin.castAdd n i)) := by
   funext i; simp [p11SlowJ]
 
 theorem p11SlowR_real (I : P11Vec (n + n)) :
@@ -121,7 +122,8 @@ theorem p11_slow_f2_real (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDa
   have hpol := p11_polarC_real hxpos
   -- the polar point is real
   have hPt : p11PolPt (KAM.realInclusion₂ (n + n) x) = KAM.realInclusion₂ n
-      ((fun i => (p11PolarR x).1 (Fin.natAdd n i)), (fun i => (p11PolarR x).2 (Fin.natAdd n i))) := by
+      ((fun i => (p11PolarR x).1 (Fin.natAdd n i)),
+        (fun i => (p11PolarR x).2 (Fin.natAdd n i))) := by
     unfold p11PolPt
     rw [hpol]
     rfl

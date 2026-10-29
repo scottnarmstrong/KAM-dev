@@ -213,6 +213,34 @@ theorem p11_slow_osc_at (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDat
           mul_le_mul_of_nonneg_right hcw h0
       _ = _ := by ring
 
+/-- **P11A-P7b main output** (graph steps `stepP:p11:as-osc` and, for the weighted bound,
+`stepP:p11:as-concl`; `bpP:p11:avg-slow` (a)): constants `c ≥ 1`, `ε₂ > 0`, depending only on
+the secular data, such that for every `ε ≤ ε₂` and every fast datum satisfying `P11FastSpec`
+there are `Ẑ`, `h₀`, `f₂` with `P11SlowOscSpec`.  Unsigned; consumed by P7c and P7d. -/
+theorem p11_slow_osc (hC : P11SecularSpec D C) :
+    ∃ c eps2 : ℝ, 1 ≤ c ∧ 0 < eps2 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps2 →
+      ∀ Fast : P11FastData n, P11FastSpec C eps Fast →
+        ∃ Z h0 : P11CVec (n + n) → ℂ, ∃ f2 : P11Phase (n + n) → ℂ,
+          P11SlowOscSpec C Fast eps c Z h0 f2 := by
+  obtain ⟨-, -, -, -, -, -, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨c1, eps1, h1, hrate⟩ := p11eta1_source_rate hC
+  have hM0 : 0 < C.MF := by linarith
+  refine ⟨max 1 (max (p11SlowCZ C) ((Real.cosh (Real.pi * (C.sigma / 12)) /
+    Real.sinh (Real.pi * (C.sigma / 12))) ^ (n + n) * p11SlowC0 C c1)),
+    min (min (Real.exp (-1) / C.MF) (C.rz ^ 2 / 129)) eps1, le_max_left _ _, ?_, ?_⟩
+  · exact lt_min (lt_min (div_pos (Real.exp_pos _) hM0) (by positivity)) h1
+  · intro eps heps hle Fast hF
+    have h1' : eps ≤ Real.exp (-1) / C.MF := hle.trans ((min_le_left _ _).trans (min_le_left _ _))
+    have h2' : eps ≤ C.rz ^ 2 / 129 := hle.trans ((min_le_left _ _).trans (min_le_right _ _))
+    have h3' : eps ≤ eps1 := hle.trans (min_le_right _ _)
+    refine p11_slow_osc_at hC Fast hF heps ?_ ?_ (hrate eps heps h3')
+      ((le_max_left _ _).trans (le_max_right _ _))
+      ((le_max_right _ _).trans (le_max_right _ _))
+    · rwa [le_div_iff₀ hM0] at h1'
+    · have : 0 < C.rz ^ 2 := by positivity
+      rw [le_div_iff₀ (by norm_num)] at h2'
+      linarith
+
 end Main
 
 end KAM.Planetary

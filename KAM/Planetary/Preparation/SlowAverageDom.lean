@@ -109,13 +109,16 @@ theorem p11_polarC_real {z : Phase (n + n)} (hz : ∀ i : Fin n, 0 < z.2 (Fin.na
     · exact Complex.ext (by simp) (by simp [h2 i])
   have hsq : ∀ (a b : ℝ) (ha : 0 ≤ a), (Complex.sqrt ((a : ℂ) / (Real.pi : ℂ)) *
       Complex.sin (2 * (Real.pi : ℂ) * (b : ℂ))).im = 0 ∧
-      (Complex.sqrt ((a : ℂ) / (Real.pi : ℂ)) * Complex.cos (2 * (Real.pi : ℂ) * (b : ℂ))).im = 0 := by
+      (Complex.sqrt ((a : ℂ) / (Real.pi : ℂ)) *
+        Complex.cos (2 * (Real.pi : ℂ) * (b : ℂ))).im = 0 := by
     intro a b ha
     have h' : Complex.sqrt ((a : ℂ) / (Real.pi : ℂ)) = ((Real.sqrt (a / Real.pi) : ℝ) : ℂ) := by
       rw [← Complex.ofReal_div]; exact p11_sqrt_ofReal (div_nonneg ha Real.pi_pos.le)
-    have hs : Complex.sin (2 * (Real.pi : ℂ) * (b : ℂ)) = ((Real.sin (2 * Real.pi * b) : ℝ) : ℂ) := by
+    have hs : Complex.sin (2 * (Real.pi : ℂ) * (b : ℂ)) =
+        ((Real.sin (2 * Real.pi * b) : ℝ) : ℂ) := by
       rw [Complex.ofReal_sin]; push_cast; rfl
-    have hc : Complex.cos (2 * (Real.pi : ℂ) * (b : ℂ)) = ((Real.cos (2 * Real.pi * b) : ℝ) : ℂ) := by
+    have hc : Complex.cos (2 * (Real.pi : ℂ) * (b : ℂ)) =
+        ((Real.cos (2 * Real.pi * b) : ℝ) : ℂ) := by
       rw [Complex.ofReal_cos]; push_cast; rfl
     rw [h', hs, hc, ← Complex.ofReal_mul, ← Complex.ofReal_mul]
     exact ⟨Complex.ofReal_im _, Complex.ofReal_im _⟩
