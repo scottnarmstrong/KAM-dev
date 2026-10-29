@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 07:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,508 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 07:36 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,508 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,16 +126,16 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **244,508** (191,422 excluding blank lines and comments) · **+170,630** since 2026-10-28 07:20 UTC |
-| Written on agent branches, not yet landed | 8,080 |
-| **Estimated total at completion** | **≈ 274,000** |
+| On `main` now | **244,508** (191,422 excluding blank lines and comments) · **+170,630** since 2026-10-28 07:30 UTC |
+| Written on agent branches, not yet landed | 8,291 |
+| **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 22,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 07:20 UTC from `main` at `7c0cbafb` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 07:36 UTC from `main` at `d115546d` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -290,7 +290,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
@@ -305,6 +305,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 07:36 | `d115546d` | OVERNIGHT: 06:55-07:40 (GAP-DEF: limitmap#data closes; sec-E F1/F2) |
 | 2026-10-29 06:30 | `64be4273` | OVERNIGHT: end-of-night summary (anchors 20/22; graphs K, I complete; P 1152/1363; owner decisions) |
 | 2026-10-29 06:29 | `edd4d4c3` | Land inp into main |
 | 2026-10-29 06:22 | `cf5bffc2` | Land inp into main |
@@ -316,7 +317,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 05:25 | `3cec8097` | Land inp into main |
 | 2026-10-29 05:23 | `4a079674` | Land inp into main |
 | 2026-10-29 05:16 | `0520704e` | Land inp into main |
-| 2026-10-29 04:53 | `f0b0f144` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
