@@ -520,6 +520,93 @@ theorem p11_pd_zero (hCF : P11SecularFullSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
   show KAM.Nekhoroshev.euclid (p11PreparedFreqR Q y) ≤ 2 * C.L + 1
   linarith
 
+theorem p11_pd_prem {K K' c e l : ℝ} (hK : K' ≤ K) (h0 : 0 ≤ (1 + c) * e * l)
+    (h : K * (1 + c) * e * l ≤ 1) : K' * (1 + c) * e * l ≤ 1 := by
+  have h1 : K' * ((1 + c) * e * l) ≤ K * ((1 + c) * e * l) := mul_le_mul_of_nonneg_right hK h0
+  linarith
+
+theorem p11_pd_num {N K0 L K1 eps X : ℝ} {j mu : ℕ} (hN0 : 0 ≤ N) (hK0 : 0 ≤ K0) (hL : 0 ≤ L)
+    (hK1 : 0 ≤ K1) (hX0 : 0 ≤ X) (hεX : eps ≤ X) (heps : 0 ≤ eps) (hj : j + 1 ≤ mu + 2)
+    (hKX : ((N + 1) ^ (mu + 2) * (K0 + L) + K1 + 1) * X ≤ 1) :
+    Real.sqrt N * (N ^ j * (eps * L + K0 * X)) ≤ 1 := by
+  have hsq : Real.sqrt N ≤ N + 1 := Real.sqrt_le_iff.2 ⟨by positivity, by nlinarith⟩
+  have hpw : N ^ j ≤ (N + 1) ^ j := pow_le_pow_left₀ hN0 (by linarith) j
+  have hB0 : 0 ≤ eps * L + K0 * X := by positivity
+  have hBle : eps * L + K0 * X ≤ (K0 + L) * X := by nlinarith
+  have hFn' : Real.sqrt N * N ^ j ≤ (N + 1) ^ (mu + 2) := by
+    calc _ ≤ (N + 1) * (N + 1) ^ j := mul_le_mul hsq hpw (by positivity) (by positivity)
+      _ = (N + 1) ^ (j + 1) := by ring
+      _ ≤ _ := pow_le_pow_right₀ (by linarith) hj
+  have h3 : Real.sqrt N * (N ^ j * (eps * L + K0 * X)) ≤ (N + 1) ^ (mu + 2) * ((K0 + L) * X) := by
+    rw [← mul_assoc]
+    exact mul_le_mul hFn' hBle hB0 (by positivity)
+  have h4 : (N + 1) ^ (mu + 2) * ((K0 + L) * X) ≤ 1 := by
+    have h5 : 0 ≤ ((N + 1) ^ (mu + 2) * (K0 + L)) * X := by positivity
+    have h6 : 0 ≤ K1 * X := by positivity
+    nlinarith
+  linarith
+
+/-- Operator bound of the real slice of the derivatives of order `1 ≤ j ≤ μ̄ + 1`. -/
+theorem p11_pd_ord (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ K : ℝ, 0 < K ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n}
+      {Q : P11PreparedData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c →
+      K * (1 + c) * eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) ≤ 1 →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      P11FastSpec C eps Fast → P11SlowSpecOf C Fast nu eps c A →
+      (∀ I ∈ KAM.actionNbhd (p11PreparedBox n) 1, Q.N I =
+        (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) /
+          (eps : ℂ)) →
+      ∀ j : ℕ, 1 ≤ j → j ≤ (p11PatchData D).mu + 1 →
+        ∀ y ∈ p11thick (p11PreparedBox n) (1 / 4),
+          p11op (p11PreparedFreqR Q) j y ≤ 2 * C.L + 1 := by
+  obtain ⟨K0, hK0, hpart⟩ := p11_freq_partial hC hnu
+  obtain ⟨-, -, hL1, -, -, -, -, -, -, hMF⟩ := fast_consts hC
+  have hN0 : (0 : ℝ) ≤ ((n + n : ℕ) : ℝ) := Nat.cast_nonneg _
+  refine ⟨(((n + n : ℕ) : ℝ) + 1) ^ ((p11PatchData D).mu + 2) * (K0 + C.L) + K0 + 1,
+    by positivity, ?_⟩
+  intro Fast eps c A Q heps hεM hc0 hθ hzs h5 hFs hA hN j hj1 hj y hy
+  have hl : 1 ≤ Real.log (1 / eps) := slow_log_ge_one hC heps hεM
+  have hlQ : 1 ≤ Real.log (1 / eps) ^
+      (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1)) := by
+    refine Real.one_le_rpow hl ?_
+    have hτ0 := (fast_consts hC).2.1
+    have : (0 : ℝ) ≤ (p11PatchData D).mu := Nat.cast_nonneg _
+    nlinarith
+  generalize hX : (1 + c) * eps * Real.log (1 / eps) ^
+    (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1)) = X
+  have hX0 : 0 ≤ X := by rw [← hX]; positivity
+  have hεX : eps ≤ X := by
+    rw [← hX]
+    nlinarith [mul_nonneg heps.le hc0, mul_nonneg heps.le (sub_nonneg.2 hlQ)]
+  have hKX : ((((n + n : ℕ) : ℝ) + 1) ^ ((p11PatchData D).mu + 2) * (K0 + C.L) + K0 + 1) * X ≤ 1 :=
+    by rw [← hX]; exact le_trans (le_of_eq (by ring)) hθ
+  have hK0X : K0 * X ≤ 1 := by
+    have h1 : 0 ≤ (((n + n : ℕ) : ℝ) + 1) ^ ((p11PatchData D).mu + 2) * (K0 + C.L) := by
+      positivity
+    nlinarith
+  have hyI := p11_pd_thick_mem (r := 3 / 4) (by norm_num) hy
+  have hyU := p11_pd_thick_mem (r := 1) (by norm_num) hy
+  have hWd := p11_pd_freq_diff (C := C) heps h5 (slow_pos hC hnu heps hεM).2.2.le hA hN (Q := Q)
+  have hB : ∀ α : Fin (n + n) → ℕ, ∑ i, α i = j →
+      ‖p11PartialVec α (p11PreparedFreq Q) (KAM.realInclusion (n + n) y)‖ ≤
+        eps * C.L + K0 * X := by
+    intro α hα
+    have := hpart (Fast := Fast) (A := A) (Q := Q) heps hεM hc0
+      (by rw [← hX] at hK0X; linarith) hzs h5 hFs hA hN _ hyI j hj α hα
+    have hj0 : j ≠ 0 := by omega
+    simp only [hj0, ↓reduceIte] at this
+    refine this.trans (le_of_eq ?_)
+    rw [← hX]; ring
+  have h1 := p11op_re_le (p11_freq_isOpen_actionNbhd _ _) hWd hyU hB
+  have h2 : p11op (p11PreparedFreqR Q) j y ≤
+      Real.sqrt ((n + n : ℕ) : ℝ) * (((n + n : ℕ) : ℝ) ^ j * (eps * C.L + K0 * X)) := h1
+  have h3 := p11_pd_num (N := ((n + n : ℕ) : ℝ)) (L := C.L) (K1 := 0) (j := j)
+    (mu := (p11PatchData D).mu) hN0 hK0.le (by linarith) le_rfl hX0 hεX heps.le (by omega)
+    (by nlinarith [mul_nonneg hK0.le hX0])
+  linarith
+
 end Pd
 
 end KAM.Planetary
