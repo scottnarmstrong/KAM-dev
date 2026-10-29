@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 15:19 UTC from `main` at `58a800e9` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 15:19 UTC from `main` at `df128568` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -327,6 +327,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 15:19 | `df128568` | HQ: track N complete (partialConvex_nekhoroshev sealed by Zohar's team, PR #7); I.HQ done; I.GUARDS note; current phase |
 | 2026-10-29 15:16 | `58a800e9` | Land inp into main |
 | 2026-10-29 15:11 | `5ea96d05` | OVERNIGHT: track SO 14:52-15:15 (Revision 5/6, SO-GEN2 R1 numbers, packaging question, B2/Ball conflict); README landed list |
 | 2026-10-29 15:07 | `5543dc08` | Land inp into main |
@@ -338,7 +339,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 14:37 | `04fe9dd2` | Land inp into main |
 | 2026-10-29 14:36 | `ff143140` | OVERNIGHT: track SO heartbeat 14:30 (checker fix, SO-ABK, Revision 5 scope) |
 | 2026-10-29 14:34 | `a103445d` | Land inp into main |
-| 2026-10-29 10:31 | `cd1a35ad` | Merge pull request #7 from zkomargo/zohar/n11 |
 <!-- /AUTO:landed -->
 
 ## Decisions
