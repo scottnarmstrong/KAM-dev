@@ -19112,9 +19112,9 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p0-conventions.tex#bpN:p0:avg-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12
 REVIEWER: sol-review-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: KAM.Nekhoroshev.mean_family (KAM/Nekhoroshev/Averaging/Mean.lean)
-LEAN_NOTE: OWNER: mean_family (Mean.lean L44-86, audit N12-16-audit-1.md L33-35, PASS WITH NOTES) proves guards (b),(c) for the used family (0<=error<=3R/2 and pointwise displacement<=error for eps>0, K in inner ball), but no declaration states the remark as such (attained sup, nonempty compact interval, omega_h C^2 so fderiv is the true derivative). Question: may this remark claim be closed by the mean_family/N12-18 audit rows alone (guards discharged at use sites), or does the owner want an explicit Lean statement of (a)-(c) and of the C^2 clause for omega_h?
+LEAN_STATUS: ASSUMED
+LEAN_REF: -
+LEAN_NOTE: reviewed convention (D31 addendum), enforced by guard proofs at each consumer (mean_family, Averaging/Mean.lean)
 NOTE: claim kept because stepN:p12:me-cont cites it (sSup is the true supremum, attained). Its justification is the inline list (a)-(c). Not a defect: statement only used at me-cont.
 
 NODE: bpN:p0:avg-mean
