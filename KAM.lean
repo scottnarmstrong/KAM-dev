@@ -71,6 +71,7 @@ public import KAM.Certificate.Expr.DiffCalculus3
 public import KAM.Certificate.Expr.DiffNode
 public import KAM.Certificate.Expr.Slp
 public import KAM.Certificate.Freq
+public import KAM.Certificate.Gram
 public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.Model.Exp
@@ -92,6 +93,7 @@ public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Tests.Ball
 public import KAM.Certificate.Tests.ComplexExp
 public import KAM.Certificate.Tests.Compose
+public import KAM.Certificate.Tests.Gram
 public import KAM.Certificate.Tests.Model
 public import KAM.Certificate.Tests.Packed
 public import KAM.Certificate.Tests.Positivity
