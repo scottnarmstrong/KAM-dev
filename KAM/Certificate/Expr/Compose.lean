@@ -17,10 +17,12 @@ witness check fails (fail closed). Slot by slot:
 * `const`: `constModel` (key `[]`); `action j`: the exact data `(2π)^{dA_j} A_j`;
 * `char k`: `χ_k ∘ K = χ_k · exp(2πi k·(2π)^{dU} U)`. The character witness is looked up under
   the normalized index `K.normKey n k` (coordinates with syntactically zero `U_j` zeroed); if
-  that key is absent, the witness of `-k` is used through `CertPoly.conjReflect`. Each witness is
-  an `ExpWitness` checked once by `expWitnessRadius` against `charPhaseModel` (its pin
-  `exp(2πi k·U(0))` goes through `certCExpReduced`; a failed reduction fails the composition)
-  and cached; the slot model is the exact shift by `k` (`shiftModel`);
+  that key has none (or its check fails), the witness of `-k` is used through
+  `CertPoly.reflectSorted` (`conjReflect`, order kept ascending). Each table witness is an
+  `ExpWitness` checked once by `expWitnessRadius` against `charPhaseModel` (its pin
+  `exp(2πi k·U(0))` goes through `certCExpReduced`; a failed reduction fails the composition);
+  certified witnesses and reflections are cached under their normalized key; the slot model is
+  the exact shift by `k` (`shiftModel`);
 * `add`: `CertModel.add`, the second operand re-expressed at the first operand's degree;
 * `mul`: `CertModel.mul` at the product key `[0, slot]`, with the factors' weighted norms cached
   per slot (`CertModel.mulN`, SO-MALG signal 1(c)). A constant operand (every key zero) is a
@@ -111,26 +113,33 @@ def charResolve (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertW
       | none => none
     | none => none
 
+/-- The certified character witness of the normalized key `kk`: its own (`charResolve`), or
+else the reflection `CertPoly.reflectSorted` of the witness of `-kk`, cached under `kk`. -/
+def charEntry (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
+    (cfg : ModelConfig α) (pe : PiEnclosure α) (cache : List (CertKey × CertPoly α × α))
+    (kk : CertKey) : Option ((CertPoly α × α) × List (CertKey × CertPoly α × α)) :=
+  match charResolve n K wit W cfg pe cache kk with
+  | some e => some e
+  | none =>
+    match charResolve n K wit W cfg pe cache (kk.map Neg.neg) with
+    | some (e, c) => some ((e.1.reflectSorted, e.2), (kk, e.1.reflectSorted, e.2) :: c)
+    | none => none
+
 /-- The model of the character slot `χ_k ∘ K`, with the new cache. -/
 def charSlot (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
     (cfg : ModelConfig α) (pe : PiEnclosure α) (cache : List (CertKey × CertPoly α × α))
     (k : CertKey) : Option (CertModel α × List (CertKey × CertPoly α × α)) :=
-  if (findKeyIdx (K.normKey n k) wit.charWit).isSome then
-    match charResolve n K wit W cfg pe cache (K.normKey n k) with
-    | some (e, c) => some (shiftModel W (padKey n k) e.1 e.2, c)
-    | none => none
-  else
-    match charResolve n K wit W cfg pe cache ((K.normKey n k).map Neg.neg) with
-    | some (e, c) => some (shiftModel W (padKey n k) e.1.conjReflect e.2, c)
-    | none => none
+  match charEntry n K wit W cfg pe cache (K.normKey n k) with
+  | some (e, c) => some (shiftModel W (padKey n k) e.1 e.2, c)
+  | none => none
 
 /-- One slot of the composition. -/
 def composeStep (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
     (cfg : ModelConfig α) (pe : PiEnclosure α) (st : ComposeState α) :
     SlpOp → Option (ComposeState α)
-  | .const re im deg => some (st.push W (constModel re im deg))
+  | .const re im deg => some (st.push W (constModel n re im deg))
   | .action j => some (st.push W
-      (if j < n then realCompModel (K.actionDeg.getD j 0) K.action[j]? else zeroModel))
+      (if j < n then realCompModel n (K.actionDeg.getD j 0) K.action[j]? else zeroModel))
   | .char k =>
     match charSlot n K wit W cfg pe st.cache k with
     | some (m, c) => some { st.push W m with cache := c }
@@ -297,6 +306,38 @@ theorem charResolve_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} 
         · exact hE
         · exact hc f hf
 
+theorem charEntry_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W : CertWeight}
+    {s N : ℕ} (hW : checkWeight W s N = true) {cfg : ModelConfig α} {pe : PiEnclosure α}
+    (hpe : checkPiEnclosure pe = true) {cache : List (CertKey × CertPoly α × α)}
+    (hc : CacheValid n K W.rho cache) {kk : CertKey} {e : CertPoly α × α}
+    {c : List (CertKey × CertPoly α × α)} (h : charEntry n K wit W cfg pe cache kk = some (e, c)) :
+    (⟨0, e.1, e.2⟩ : CertModel α).Encloses n W.rho (charExpFun n K kk) ∧
+      CacheValid n K W.rho c := by
+  unfold charEntry at h
+  cases h1 : charResolve n K wit W cfg pe cache kk with
+  | some f =>
+    rw [h1] at h
+    rw [Option.some.inj h] at h1
+    exact charResolve_sound hW hpe hc h1
+  | none =>
+    rw [h1] at h
+    cases h2 : charResolve n K wit W cfg pe cache (kk.map Neg.neg) with
+    | none => rw [h2] at h; exact absurd h (by simp)
+    | some f =>
+      obtain ⟨f1, c'⟩ := f
+      rw [h2] at h
+      dsimp only at h
+      have h' := Option.some.inj h
+      rw [Prod.mk.injEq] at h'
+      obtain ⟨he, hc'⟩ := h'
+      subst he hc'
+      obtain ⟨hE, hcv⟩ := charResolve_sound hW hpe hc h2
+      have hR := charExpFun_reflectSorted K kk hE
+      refine ⟨hR, fun g hg => ?_⟩
+      rcases List.mem_cons.mp hg with rfl | hg
+      · exact hR
+      · exact hcv g hg
+
 theorem charSlot_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W : CertWeight}
     {s N : ℕ} (hW : checkWeight W s N = true) {cfg : ModelConfig α} {pe : PiEnclosure α}
     (hpe : checkPiEnclosure pe = true) {cache : List (CertKey × CertPoly α × α)}
@@ -310,24 +351,19 @@ theorem charSlot_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W 
     rw [exp_I_modePhase_eval, certKeyFun_padKey]
   rw [hval]
   unfold charSlot at h
-  split_ifs at h
-  · split at h
-    · rename_i e c' hr
-      simp only [Option.some.injEq, Prod.mk.injEq] at h
-      obtain ⟨rfl, rfl⟩ := h
-      obtain ⟨hE, hc'⟩ := charResolve_sound hW hpe hc hr
-      rw [charExpFun_normKey] at hE
-      exact ⟨shiftModel_encloses hW (padKey_length n k) hE, hc'⟩
-    · simp at h
-  · split at h
-    · rename_i e c' hr
-      simp only [Option.some.injEq, Prod.mk.injEq] at h
-      obtain ⟨rfl, rfl⟩ := h
-      obtain ⟨hE, hc'⟩ := charResolve_sound hW hpe hc hr
-      have hE' := charExpFun_conjReflect K _ hE
-      rw [charExpFun_normKey] at hE'
-      exact ⟨shiftModel_encloses hW (padKey_length n k) hE', hc'⟩
-    · simp at h
+  cases h1 : charEntry n K wit W cfg pe cache (K.normKey n k) with
+  | none => rw [h1] at h; exact absurd h (by simp)
+  | some f =>
+    obtain ⟨e, c'⟩ := f
+    rw [h1] at h
+    dsimp only at h
+    have h' := Option.some.inj h
+    rw [Prod.mk.injEq] at h'
+    obtain ⟨hm, hc'⟩ := h'
+    subst hm hc'
+    obtain ⟨hE, hcv⟩ := charEntry_sound hW hpe hc h1
+    rw [charExpFun_normKey] at hE
+    exact ⟨shiftModel_encloses hW (padKey_length n k) hE, hcv⟩
 
 theorem composeStep_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W : CertWeight}
     {s N : ℕ} (hW : checkWeight W s N = true) {cfg : ModelConfig α} {pe : PiEnclosure α}

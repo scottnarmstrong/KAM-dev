@@ -17,15 +17,17 @@ The building blocks of `Slp.compose` (SO design §1.7), each with its enclosure 
 open strip:
 
 * `constModel`: a constant `(re + i im) (2π)^deg` with outward conversion (`ofRatUp`), the
-  conversion error in the radius; its key is `[]`, so a `mul` with a constant operand takes
+  conversion error in the radius; its key is zero, so a `mul` with a constant operand takes
   `CertModel.mul`'s scalar route (SO-ADVCOUNT lever 1);
-* `realCompModel`: an action component `(2π)^{dA_j} A_j`, exact;
+* `realCompModel`: an action component `(2π)^{dA_j} A_j`, exact, in the canonical (ascending)
+  key order of `CertRealPoly.toSortedPoly` (the zero key has length `n`);
 * `charPhaseModel`: the degree-zero model of the character phase `2πi k·(2π)^{dU} U`, the sum
   over the coordinates with `k_j ≠ 0` of the exact multipliers `i k_j` on `U_j` (the backend
   products in the radius) at degree `dU_j + 1`, re-expressed at degree `0`;
 * `charExpFun`: the function `exp(2πi k·(2π)^{dU} U)` that a character witness encloses, its
   invariance under the key normalization `CertEmbedding.normKey` (coordinates with syntactically
-  zero `U_j` zeroed) and under `-k` with `CertPoly.conjReflect` (`charExpFun_conjReflect`);
+  zero `U_j` zeroed) and under `-k` with `CertPoly.conjReflect`, term order reversed so that
+  ascending keys stay ascending (`CertPoly.reflectSorted`, `charExpFun_reflectSorted`);
 * `shiftModel`: multiplication by a character `χ_k` (exact index shift, radius times
   `w^{|k|₁}`);
 * `ModelConfig.forWitness`: the advice of witness number `i` at site `s` (keys `s :: i :: rest`
@@ -50,14 +52,25 @@ def zeroModel : CertModel α := ⟨0, ⟨[]⟩, ofInt 0⟩
 def ratErrUp (q : ℚ) : α :=
   upAdd (CertArith.add (ofRatUp q) (neg (ofRatDown q))) (addErr (ofRatUp q) (neg (ofRatDown q)))
 
-/-- The model of the constant `(re + i im) (2π)^deg`: one term at the key `[]`. -/
-def constModel (re im : ℚ) (deg : ℤ) : CertModel α :=
-  ⟨deg, ⟨[([], ⟨ofRatUp re, ofRatUp im⟩)]⟩, upAdd (ratErrUp re) (ratErrUp im)⟩
+/-- A key of length `n` with the same index as `k`. -/
+def padKey (n : ℕ) (k : CertKey) : CertKey := (List.range n).map fun j => k.getD j 0
+
+/-- The model of the constant `(re + i im) (2π)^deg`: one term at the zero key of length `n`. -/
+def constModel (n : ℕ) (re im : ℚ) (deg : ℤ) : CertModel α :=
+  ⟨deg, ⟨[(padKey n [], ⟨ofRatUp re, ofRatUp im⟩)]⟩, upAdd (ratErrUp re) (ratErrUp im)⟩
+
+/-- The full polynomial of real data in canonical order: the conjugate terms at `-k` (reversed),
+the constant at the zero key of length `n`, the half terms. If the half keys have length `n`, are
+lexicographically positive and ascending, the keys are ascending, so the model algebra's sorted
+merges combine equal keys (any order is sound). -/
+def CertRealPoly.toSortedPoly (n : ℕ) (P : CertRealPoly α) : CertPoly α :=
+  ⟨(P.half.reverse.map fun t => (t.1.map Neg.neg, t.2.conj)) ++
+    (padKey n [], ⟨P.zero, ofInt 0⟩) :: P.half⟩
 
 /-- The exact model of an optional real component at degree `d` (`0` if missing). -/
-def realCompModel (d : ℤ) : Option (CertRealPoly α) → CertModel α
+def realCompModel (n : ℕ) (d : ℤ) : Option (CertRealPoly α) → CertModel α
   | none => zeroModel
-  | some P => ⟨d, P.toPoly, ofInt 0⟩
+  | some P => ⟨d, P.toSortedPoly n, ofInt 0⟩
 
 /-- The terms of `i m P` (integer `m`) with their rounding errors. -/
 def imulItems (m : ℤ) (P : CertPoly α) : List (ErrTerm α) :=
@@ -65,9 +78,10 @@ def imulItems (m : ℤ) (P : CertPoly α) : List (ErrTerm α) :=
     upAdd (mulErr t.2.im (ofInt m)) (mulErr t.2.re (ofInt m)))
 
 /-- The model of `i m 2π (2π)^d U` for an optional real component `U` (degree `d + 1`). -/
-def phaseTermModel (W : CertWeight) (d m : ℤ) : Option (CertRealPoly α) → CertModel α
+def phaseTermModel (n : ℕ) (W : CertWeight) (d m : ℤ) : Option (CertRealPoly α) → CertModel α
   | none => zeroModel
-  | some P => ⟨d + 1, itemsPoly (imulItems m P.toPoly), errRadius W (imulItems m P.toPoly)⟩
+  | some P =>
+    ⟨d + 1, itemsPoly (imulItems m (P.toSortedPoly n)), errRadius W (imulItems m (P.toSortedPoly n))⟩
 
 /-- The degree-zero model of the character phase `i · 2π k·(2π)^{dU} U` of the key `k`: the
 coordinates `j < n` with `k_j ≠ 0`, each re-expressed at degree `0`. -/
@@ -76,7 +90,7 @@ def charPhaseModel (n : ℕ) (K : CertEmbedding α) (W : CertWeight) (pe : PiEnc
   (List.range n).foldl (fun acc j =>
     if k.getD j 0 = 0 then acc else
       CertModel.add W acc (CertModel.toDeg W pe 0
-        (phaseTermModel W (K.angleDeg.getD j 0) (k.getD j 0) K.angle[j]?))) zeroModel
+        (phaseTermModel n W (K.angleDeg.getD j 0) (k.getD j 0) K.angle[j]?))) zeroModel
 
 /-- Syntactically zero real data: no half terms and a zero constant. -/
 def CertRealPoly.isZeroData (P : CertRealPoly α) : Bool := P.half.isEmpty && beq P.zero (ofInt 0)
@@ -92,8 +106,8 @@ zeroed. Character witnesses are keyed by it. -/
 def CertEmbedding.normKey (n : ℕ) (K : CertEmbedding α) (k : CertKey) : CertKey :=
   (List.range n).map fun j => if K.angleIsZero j then 0 else k.getD j 0
 
-/-- A key of length `n` with the same index as `k`. -/
-def padKey (n : ℕ) (k : CertKey) : CertKey := (List.range n).map fun j => k.getD j 0
+/-- The conjugate reflection with the term order reversed (ascending keys stay ascending). -/
+def CertPoly.reflectSorted (P : CertPoly α) : CertPoly α := ⟨P.conjReflect.terms.reverse⟩
 
 /-- Multiplication of `⟨0, P, r⟩` by the character `χ_k` (`k` of length `n`). -/
 def shiftModel (W : CertWeight) (k : CertKey) (P : CertPoly α) (r : α) : CertModel α :=
@@ -169,6 +183,10 @@ theorem exp_I_modePhase_eval (n : ℕ) (K : CertEmbedding α) (k : CertKey) (θ 
   have : (K.eval n θ).1 = θ + fun i => K.angleAt n i.val θ := funext fun i => rfl
   rw [this, modePhase_add, mul_add, Complex.exp_add, exp_I_modePhase, charExpFun]
 
+theorem CertPoly.eval_reflectSorted (n : ℕ) (P : CertPoly α) (θ : Fin n → ℂ) :
+    P.reflectSorted.eval n θ = P.conjReflect.eval n θ := by
+  simp only [CertPoly.eval, CertPoly.reflectSorted, List.map_reverse, List.sum_reverse]
+
 theorem toDeg_deg (W : CertWeight) (pe : PiEnclosure α) (d : ℤ) (a : CertModel α) :
     (CertModel.toDeg W pe d a).deg = d := by
   unfold CertModel.toDeg
@@ -210,13 +228,13 @@ theorem ratErrUp_ge (q : ℚ) : |val (ofRatUp q : α) - q| ≤ val (ratErrUp q :
   linarith [(abs_le.mp ha).1]
 
 theorem constModel_encloses (n : ℕ) (ρ : ℝ) (re im : ℚ) (deg : ℤ) :
-    (constModel re im deg : CertModel α).Encloses n ρ fun _ => slpConstVal re im deg := by
+    (constModel n re im deg : CertModel α).Encloses n ρ fun _ => slpConstVal re im deg := by
   intro θ _
   have hr := ratErrUp_ge (α := α) re
   have hi := ratErrUp_ge (α := α) im
   have hs := LawfulCertArith.upAdd_ge (ratErrUp re : α) (ratErrUp im)
   simp only [constModel, CertPoly.eval, List.map_cons, List.map_nil, List.sum_cons,
-    List.sum_nil, add_zero, character_certKeyFun_nil, mul_one, slpConstVal]
+    List.sum_nil, add_zero, certKeyFun_padKey, character_certKeyFun_nil, mul_one, slpConstVal]
   rw [show ((re : ℂ) + (im : ℂ) * Complex.I) * (2 * (Real.pi : ℂ)) ^ deg -
       (2 * (Real.pi : ℂ)) ^ deg * (⟨ofRatUp re, ofRatUp im⟩ : CC α).toC =
       (2 * (Real.pi : ℂ)) ^ deg * (((re : ℂ) + (im : ℂ) * Complex.I) -
@@ -227,15 +245,26 @@ theorem constModel_encloses (n : ℕ) (ρ : ℝ) (re im : ℚ) (deg : ℤ) :
   · simpa [CC.toC, abs_sub_comm] using hr
   · simpa [CC.toC, abs_sub_comm] using hi
 
+/-- The canonical order denotes the real data (needs the laws: backend zero and conjugation). -/
+theorem CertRealPoly.eval_toSortedPoly (n : ℕ) (P : CertRealPoly α) (θ : Fin n → ℂ) :
+    (P.toSortedPoly n).eval n θ = P.eval n θ := by
+  have h0 : (⟨P.zero, ofInt 0⟩ : CC α).toC = (val P.zero : ℂ) := by
+    simp [CC.toC, LawfulCertArith.val_ofInt, Complex.ext_iff]
+  simp only [CertPoly.eval, CertRealPoly.toSortedPoly, CertRealPoly.eval, List.map_append,
+    List.sum_append, List.map_cons, List.sum_cons, List.map_reverse, List.sum_reverse,
+    List.map_map, Function.comp_def, CC.toC_conj, certKeyFun_map_neg, h0,
+    certKeyFun_padKey, character_certKeyFun_nil, mul_one, List.sum_map_add]
+  ring
+
 theorem realCompModel_encloses (n : ℕ) (ρ : ℝ) (d : ℤ) (P : Option (CertRealPoly α)) :
-    (realCompModel d P).Encloses n ρ (realComp n d P) := by
+    (realCompModel n d P).Encloses n ρ (realComp n d P) := by
   cases P with
   | none =>
     intro θ hθ
     simpa [realComp, realCompModel] using zeroModel_encloses (α := α) n ρ θ hθ
   | some P =>
     intro θ _
-    simp [realCompModel, realComp, CertRealPoly.eval_toPoly, LawfulCertArith.val_ofInt]
+    simp [realCompModel, realComp, CertRealPoly.eval_toSortedPoly, LawfulCertArith.val_ofInt]
 
 theorem imulItems_spec (n : ℕ) (m : ℤ) (θ : Fin n → ℂ) : ∀ L : List (CertKey × CC α),
     ‖Complex.I * (m : ℂ) * (⟨L⟩ : CertPoly α).eval n θ - errTermsEval n (imulItems m ⟨L⟩) θ‖ ≤
@@ -264,7 +293,7 @@ theorem imulItems_spec (n : ℕ) (m : ℤ) (θ : Fin n → ℂ) : ∀ L : List (
 
 theorem phaseTermModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
     (hW : checkWeight W s N = true) (d m : ℤ) (P : Option (CertRealPoly α)) :
-    (phaseTermModel W d m P).Encloses n W.rho
+    (phaseTermModel n W d m P).Encloses n W.rho
       (fun θ => Complex.I * (m : ℂ) * (2 * Real.pi) * realComp n d P θ) := by
   cases P with
   | none =>
@@ -272,18 +301,19 @@ theorem phaseTermModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
     simpa [realComp, phaseTermModel] using zeroModel_encloses (α := α) n W.rho θ hθ
   | some P =>
     intro θ hθ
-    have hS := imulItems_spec n m θ P.toPoly.terms
-    have hR := errTermsErr_le_errRadius hW (imulItems m P.toPoly) hθ
+    have hS := imulItems_spec n m θ (P.toSortedPoly n).terms
+    have hR := errTermsErr_le_errRadius hW (imulItems m (P.toSortedPoly n)) hθ
     have h2pi : (2 * (Real.pi : ℂ)) ≠ 0 := by
       have := Real.pi_pos; exact_mod_cast (by positivity : (2 * Real.pi) ≠ 0)
     simp only [phaseTermModel, itemsPoly_eval, realComp, Option.map_some, Option.getD_some]
     rw [zpow_add_one₀ h2pi, zpow_add_one₀ (by positivity : (2 * Real.pi) ≠ 0),
-      ← CertRealPoly.eval_toPoly n P θ]
+      ← CertRealPoly.eval_toSortedPoly n P θ]
     rw [show Complex.I * (m : ℂ) * (2 * Real.pi) * ((2 * (Real.pi : ℂ)) ^ d *
-        P.toPoly.eval n θ) - (2 * (Real.pi : ℂ)) ^ d * (2 * Real.pi) *
-          errTermsEval n (imulItems m P.toPoly) θ =
+        (P.toSortedPoly n).eval n θ) - (2 * (Real.pi : ℂ)) ^ d * (2 * Real.pi) *
+          errTermsEval n (imulItems m (P.toSortedPoly n)) θ =
         ((2 * (Real.pi : ℂ)) ^ d * (2 * Real.pi)) * (Complex.I * (m : ℂ) *
-          (⟨P.toPoly.terms⟩ : CertPoly α).eval n θ - errTermsEval n (imulItems m P.toPoly) θ)
+          (⟨(P.toSortedPoly n).terms⟩ : CertPoly α).eval n θ -
+            errTermsEval n (imulItems m (P.toSortedPoly n)) θ)
         by ring, norm_mul, norm_mul, norm_two_pi_zpow]
     have h2 : ‖(2 * (Real.pi : ℂ))‖ = 2 * Real.pi := by simp [abs_of_pos Real.pi_pos]
     rw [h2]
@@ -296,11 +326,11 @@ theorem charPhaseModel_aux {n : ℕ} (K : CertEmbedding α) {W : CertWeight} {s 
     ((List.range m).foldl (fun acc j =>
       if k.getD j 0 = 0 then acc else
         CertModel.add W acc (CertModel.toDeg W pe 0
-          (phaseTermModel W (K.angleDeg.getD j 0) (k.getD j 0) K.angle[j]?))) zeroModel).deg = 0 ∧
+          (phaseTermModel n W (K.angleDeg.getD j 0) (k.getD j 0) K.angle[j]?))) zeroModel).deg = 0 ∧
     ((List.range m).foldl (fun acc j =>
       if k.getD j 0 = 0 then acc else
         CertModel.add W acc (CertModel.toDeg W pe 0
-          (phaseTermModel W (K.angleDeg.getD j 0) (k.getD j 0) K.angle[j]?))) zeroModel).Encloses
+          (phaseTermModel n W (K.angleDeg.getD j 0) (k.getD j 0) K.angle[j]?))) zeroModel).Encloses
       n W.rho (fun θ => ∑ j ∈ Finset.range m,
         Complex.I * (k.getD j 0 : ℂ) * (2 * Real.pi) * K.angleAt n j θ)
   | 0 => ⟨rfl, by simpa using zeroModel_encloses (α := α) n W.rho⟩
@@ -370,13 +400,13 @@ theorem charExpFun_normKey (n : ℕ) (K : CertEmbedding α) (k : CertKey) :
   · rfl
 
 /-- A conjugate-reflected witness of `-k` encloses the character exponential of `k`. -/
-theorem charExpFun_conjReflect {n : ℕ} {ρ : ℝ} (K : CertEmbedding α) (k : CertKey)
+theorem charExpFun_reflectSorted {n : ℕ} {ρ : ℝ} (K : CertEmbedding α) (k : CertKey)
     {E : CertPoly α} {r : α}
     (h : (⟨0, E, r⟩ : CertModel α).Encloses n ρ (charExpFun n K (k.map Neg.neg))) :
-    (⟨0, E.conjReflect, r⟩ : CertModel α).Encloses n ρ (charExpFun n K k) := by
+    (⟨0, E.reflectSorted, r⟩ : CertModel α).Encloses n ρ (charExpFun n K k) := by
   intro θ hθ
   have h1 := h _ (conj_mem_complexStrip hθ)
-  simp only [zpow_zero, one_mul] at h1 ⊢
+  simp only [zpow_zero, one_mul, CertPoly.eval_reflectSorted] at h1 ⊢
   rw [charExpFun_neg_conj, CertPoly.eval_conjReflect, ← map_sub, Complex.norm_conj]
   exact h1
 
