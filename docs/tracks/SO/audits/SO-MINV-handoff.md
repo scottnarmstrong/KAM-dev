@@ -24,3 +24,12 @@ Errata/deviations: none.
 CONTEXT: track SO (plan /root/code/KAM/docs/campaign/design/SPIN-ORBIT-PLAN.md; design /root/code/KAM-inp-design-so/docs/tracks/SO/design/SO-LEAN-DESIGN.md, Revision 3); draft signatures /root/code/KAM-inp/.drafts/design/SOSignatures.lean. Design section F (matrix inverse part, Revision 3 F7 shape predicate ModelMatrix.HasShape). Check that the Neumann-defect inverse bound is stated in the form the Gram and torsion checks of the design consume.
 
 AUDIT FOCUS: the package's signed declarations match the draft signatures verbatim; every proof is sound with no added premise; the slice the design assigns to these modules is complete. Audit ONLY KAM/Certificate/MatrixInv.lean. Common to all: (a) every SIGNED declaration = signature file EXACTLY; (b) the slice COMPLETE; (c) proof soundness, no added premises; (d) hygiene: no EuclideanSpace, no reused public HELPER short name, no harmful root shadow, lines <= 100, no native_decide or axiom.
+
+## Round 2 (orchestrator fix, commit 27dee06f)
+
+Audit 1 failed only on the interface: the two declarations sat in the root namespace instead of `KAM.Certificate`.
+The orchestrator wrapped the module body in `namespace KAM.Certificate ... end KAM.Certificate`; nothing else
+changed. Rebuilt through the compile gate (success) and the short-name check passed.
+ROUND 2 FOCUS: are `KAM.Certificate.matrix_inv_of_approx_inverse` and `KAM.Certificate.ModelMatrix.HasShape` now
+exactly the signed declarations (re-run your exact-type probe against the signature file)? Any new issue from the
+namespace move? Verdict and numbered findings.
