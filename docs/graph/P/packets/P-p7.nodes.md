@@ -1655,7 +1655,7 @@ EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-q
 REVIEWER: sol-delta-P-ah
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): delaunay public carrier is Phase 2 with an explicit Kepler-solver fallback; faithful on deDom only; owner review
 NOTE: created from p7:prose-L27-L33 (SPEC section data); consumers: nearly every statement of Part 7
 
 NODE: bpP:p7:sec-product#data
@@ -1682,9 +1682,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Phase (KAM/Frozen/Planetary/Defs/Phase.lean); assemble (KAM/Frozen/Planetary/Defs/Assemble.lean); fast (KAM/Frozen/Planetary/Defs/Fast.lean); slow (KAM/Frozen/Planetary/Defs/Slow.lean); bodyVector (KAM/Frozen/Planetary/Defs/BodyVector.lean); planetBlock (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: definitions audit DEFS-P2-audit-1 CLOSABLE
 NOTE: created from p7:prose-L188-L188 (SPEC section data); consumers: product-def, product-chart and its steps
 
 NODE: stepP:p7:po-el#circular
