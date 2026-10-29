@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/P/SPEC.md "Conventions to watch": R^d = Fin d -> R with 
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-P external inputs are the labelled items of the parts' external-fact lists (bpP:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:e-*, p8:e-*, p9:e-*, p10:f-*, p11b:e-*, p12:f-*, p14:x-*, p14:sb-x-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref, \Iref, \Nref) is an IMPORTED node K:<node>, I:<node> or N:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, source fields copied from the owning graph docs/graph/<X>/DEPGRAPH.md, NOTE IMPORTED ...; I and N ownership pending their publication); a cited I/N result that the owning graph excludes and a track-P proof uses is a P-owned node with a blueprint-I/N locator (slice P-xown); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpP:p0:diophantine#IsDiophantine, bpP:p0:hamsymp#hamiltonianVectorField, bpP:p0:hamsymp#symplecticForm, bpP:p0:phase#Phase, bpP:p0:plane#planeSq, bpP:p0:plane#planeLength, bpP:p0:plane#planeDot, bpP:p0:body#bodyVector, bpP:p0:blocks#fast, bpP:p0:blocks#slow, bpP:p0:blocks#assemble, bpP:p0:oscaction#oscillatorAction, bpP:p0:fastshift#fastShift, bpP:p0:fastfreq#fastFrequency, bpP:p0:cylinder#cylinder, bpP:p0:cylinder#cylinderCell, bpP:p0:degham#degenerateHamiltonian, bpP:p0:secavg#secularAverage, bpP:p0:fastdiffeo#HasFastDiffeomorphism, bpP:p0:birkhoff#HasSecularBirkhoffForm, bpP:p0:cyltorus#IsCylinderTorus, bpP:p0:cylkol#IsCylinderKolmogorovSet, bpP:p0:circular#circularPoint, bpP:p0:circular#circularTube, bpP:p0:nocoll#NoCollision, bpP:p0:nocoll#PairBounds, bpP:p0:barycentric#actualMasses, bpP:p0:barycentric#barycentricPositions, bpP:p0:barycentric#barycentricVelocities, bpP:p0:newton#IsNewtonSolution, bpP:p0:fixedsol#IsFixedSolution, bpP:p0:movham#movingHamiltonian, bpP:p0:fixham#fixedHamiltonian, bpP:p0:phystorus#IsPhysicalTorus, bpP:p0:movkol#MovingKolmogorovSet, bpP:p0:fixkol#FixedKolmogorovSet, bpP:p0:pg, bpP:p0:planar, bpP:p0:fixed, bpP:p0:d25-cross#planeCross, bpP:p0:d25-kepler#keplerEnergy, bpP:p0:d25-kepler#keplerAxis, bpP:p0:d25-kepler#keplerAction, bpP:p0:d25-kepler#keplerEccVector, bpP:p0:d25-amd#totalMomentum, bpP:p0:d25-amd#physicalAMD, bpP:p0:d25-prograde#ProgradeElliptic, bpP:p0:d25-lowamd#LowAMDRegion, bpP:p0:d25-box#AMDBox, bpP:p0:d25-box#Admissible, bpP:p0:d25-movsol#IsMovingSolutionOn, bpP:p0:d25-movsol#IsHamiltonianSolutionOn, bpP:p0:d25-newton#IsNewtonSolutionOn, bpP:p0:d25-unique#MovingUniqueOn, bpP:p0:d25-stopped#StoppedActionBound, bpP:p0:d25-exponents#planetaryTimeExponent, bpP:p0:d25-exponents#planetaryDriftExponent, bpP:p0:amd, bpP:p0:expsafe, bpP:p14:sb-conv#secularGamma, bpP:p14:sb-conv#secularAMD, bpP:p14:sb-conv#secularRoot, bpP:p14:sb-conv#secularEccVector, bpP:p14:sb-conv#secularAxis, bpP:p14:sb-conv#orbitalUnit, bpP:p14:sb-conv#quarterTurn, bpP:p14:sb-defs#secularIntegrand, bpP:p14:sb-defs#exactSecularHamiltonian, bpP:p14:sb-defs#ellipsePhase, bpP:p14:sb-defs#ellipsePosition, bpP:p14:sb-defs#ellipseMomentum, bpP:p14:sb-defs#longitudeJacobian, bpP:p14:sb-box#SecularInputBox, bpP:p14:sb-box#jupiterSaturnWeights, bpP:p14:sb-regular#SecularRegular, bpP:p14:sb-safety, bpP:p14:sb-cited
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:368e490a37b95feb1705570828d76c64a8a46c96a31166ab4d61a1d40cccaa7f
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:7a0de3e609f423378cd1e26c86b04df3bfb6fbd5869c2230189a51353222e0fa
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-P
 GLOBAL_REVIEW_REF: docs/graph/P/reviews/GLOBAL-review.md (FAIL G1/G2 repaired; delta docs/graph/P/reviews/P-p8-delta-global.md PASS by sol-delta-P-bf)
@@ -1757,9 +1757,9 @@ EDGE: bpP:p0:nocoll#PairBounds | blueprint-P/parts/p0-conventions.tex#bpP:p0:exp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planetaryExponentialSafety (KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean); KAM.Provider.Planetary.planetaryExponentialSafety (KAM/Provider/Planetary/PlanetaryExponentialSafety.lean)
+LEAN_NOTE: anchor planetary.d25.planetaryExponentialSafety.v1 SEALED (D26, 2026-10-29); seal-key audit P14-SEAL-audit-1 PASS WITH NOTES; provider via expsafe (E12Q-audit-1) on stopped (E11-audit-1); axioms propext, Classical.choice, Quot.sound; leanchecker exit 0
 NOTE: root anchor. Proof: Theorem bpP:p14:expsafe (Part 14a). The edge to bpP:p0:amd is kept because the statement incorporates clauses (a)-(c) of P-AMD-CONFINEMENT by reference (statement-level use); the proof applies the helper bpP:p14:amd (step es-amd).
 
 NODE: bpP:p1:ext-comp
@@ -35983,9 +35983,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:stopped
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:28 PASS
 NOTE: -
 
 NODE: stepP:p14:st-thr
@@ -36018,9 +36018,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:st-th
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped, KAM.Planetary.planetaryTimeExponent_eq_partial, KAM.Planetary.planetaryDriftExponent_eq_partial (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:20-21,29 PASS (stopped 252-278)
 NOTE: -
 
 NODE: stepP:p14:st-seg
@@ -36051,9 +36051,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:st-se
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:30 PASS (stopped 308-323)
 NOTE: -
 
 NODE: stepP:p14:st-sol
@@ -36084,9 +36084,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-delta-P-s
 REVIEWER: sol-delta-P-ag
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped_hamiltonian_neg, KAM.Planetary.stopped_isSolutionOn_forward, KAM.Planetary.stopped_isSolutionOn_reverse, KAM.Planetary.isOpen_workingCylinder (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:19,25-27 PASS
 NOTE: -
 
 NODE: stepP:p14:st-core
@@ -36116,9 +36116,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped, KAM.Planetary.stopped_fast_erosion, KAM.Planetary.stopped_slow_erosion (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:23-24,31 PASS (stopped 324-337)
 NOTE: -
 
 NODE: stepP:p14:st-fwd
@@ -36152,9 +36152,9 @@ EDGE: bpP:p14:enlarge | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:st-fwd@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:34 PASS (stopped 366-373)
 NOTE: -
 
 NODE: stepP:p14:st-bwd
@@ -36188,9 +36188,9 @@ EDGE: bpP:p14:enlarge | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:st-bwd@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:33 PASS (stopped 351-364)
 NOTE: -
 
 NODE: stepP:p14:st-phys
@@ -36219,9 +36219,9 @@ EDGE: bpP:p14:sec-domain#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.stopped (KAM/Planetary/Exponential/Stopped.lean)
+LEAN_NOTE: E11-audit-1.md:32 PASS (stopped 339-345)
 NOTE: -
 
 NODE: bpP:p14:expsafe
@@ -36258,9 +36258,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#bpP:p14:expsafe
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.expsafe, KAM.Planetary.expsafe_of_stopped (KAM/Planetary/Exponential/Safety.lean)
+LEAN_NOTE: P14-SEAL-audit-1.md:79 PASS (expsafe = expsafe_of_stopped hn (stopped hn)); E12Q-audit-1.md:24 PASS WITH NOTES
 NOTE: proof of the frozen root bpP:p0:expsafe (the root lists this node as its proof; no edge back to the root). Statement fields copied from the Part 0 transcription at L513-L522. The remark bpP:p14:constants cited in the statement is excluded (order of choice is recorded in CONSTANT_SCOPE of es-const). [pre-extract: dropped reference to bpP:p0:expsafe, which part p14a proves or sets up]
 
 NODE: stepP:p14:es-const
@@ -36292,9 +36292,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:es-co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2
 REVIEWER: sol-review-P-o
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.amdBox_exists_margin (KAM/Planetary/Exponential/Safety.lean)
+LEAN_NOTE: E12Q-audit-1.md:21 PASS
 NOTE: -
 
 NODE: stepP:p14:es-par
@@ -36323,9 +36323,9 @@ EDGE: bpP:p14:sec-stopped#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.expsafe_of_stopped (KAM/Planetary/Exponential/Safety.lean)
+LEAN_NOTE: E12Q-audit-1.md:25 PASS (Safety 173-195)
 NOTE: -
 
 NODE: stepP:p14:es-stop
@@ -36353,9 +36353,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:es-st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.expsafe_of_stopped (KAM/Planetary/Exponential/Safety.lean)
+LEAN_NOTE: E12Q-audit-1.md:26 PASS (Safety 196-197)
 NOTE: -
 
 NODE: stepP:p14:es-amd
@@ -36384,9 +36384,9 @@ EDGE: bpP:p14:conv#data | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:es-am
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-review-P-o
 REVIEWER: sol-delta-P-s
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.expsafe_of_stopped (KAM/Planetary/Exponential/Safety.lean)
+LEAN_NOTE: E12Q-audit-1.md:27 PASS (Safety 198-211)
 NOTE: [pre-extract: dropped reference to bpP:p0:expsafe, which part p14a proves or sets up]
 
 NODE: stepP:p14:es-axis
@@ -36419,9 +36419,9 @@ EDGE: stepP:p14:es-par | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:es-axi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-delta-P-s
 REVIEWER: sol-delta-P-ag
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.keplerAxis_eq_action_div_sq, KAM.Planetary.keplerAxis_drift_le (KAM/Planetary/Exponential/Safety.lean)
+LEAN_NOTE: E12Q-audit-1.md:22-23 PASS
 NOTE: -
 
 NODE: stepP:p14:es-assemble
@@ -36450,9 +36450,9 @@ EDGE: stepP:p14:es-par | blueprint-P/parts/p14a-amd-expsafe.tex#stepP:p14:es-ass
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14a2+sol-delta-P-s
 REVIEWER: sol-delta-P-ag
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.expsafe_of_stopped (KAM/Planetary/Exponential/Safety.lean)
+LEAN_NOTE: E12Q-audit-1.md:28 PASS (Safety 212-227)
 NOTE: [pre-extract: dropped references to bpP:p0:amd and bpP:p0:expsafe, which part p14a proves or sets up]
 
 NODE: bpP:p14:sec-domain#data

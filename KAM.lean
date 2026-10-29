@@ -221,6 +221,7 @@ public import KAM.Frozen.Planetary.Defs.TotalMomentum
 public import KAM.Frozen.Planetary.Theorems.AmdConfinement
 public import KAM.Frozen.Planetary.Theorems.FixedSunPlanetaryKAM
 public import KAM.Frozen.Planetary.Theorems.PlanarTwoPlanetKAM
+public import KAM.Frozen.Planetary.Theorems.PlanetaryExponentialSafety
 public import KAM.Frozen.Planetary.Theorems.ProperlyDegenerateKAM
 public import KAM.Frozen.Planetary.Theorems.SecularBoxAtCitedMasses
 public import KAM.Frozen.Planetary.Theorems.SecularBoxSafety
@@ -568,7 +569,9 @@ public import KAM.Planetary.Exponential.Lift
 public import KAM.Planetary.Exponential.LocalComplexification
 public import KAM.Planetary.Exponential.Perturbation
 public import KAM.Planetary.Exponential.RealDomain
+public import KAM.Planetary.Exponential.Safety
 public import KAM.Planetary.Exponential.Setting
+public import KAM.Planetary.Exponential.Stopped
 public import KAM.Planetary.Exponential.UniformData
 public import KAM.Planetary.FixedAssembly.Data
 public import KAM.Planetary.FixedAssembly.General
@@ -1282,6 +1285,7 @@ public import KAM.Provider.Nekhoroshev.ZeroPerturbation
 public import KAM.Provider.Planetary.AmdConfinement
 public import KAM.Provider.Planetary.FixedSunPlanetaryKAM
 public import KAM.Provider.Planetary.PlanarTwoPlanetKAM
+public import KAM.Provider.Planetary.PlanetaryExponentialSafety
 public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
