@@ -13,7 +13,7 @@ public import KAM.Certificate.Defs
 CONSTANTS-STUDY §2.2 and §4, owner ruling O5: `ρ' = 1/70`, `ρ∞ = ρ'/1000`, `μ = 1/160`, ray
 scalar `s = 1 + 10⁻⁶`, `ν = 10⁻⁶`, `σω = 2`, time scale `c = 237/125`, one majorant
 `σK = σB = σT = 1987/1000` (SO-GEN2's measured package; binding `σB`, the weighted-ℓ¹
-Gram inverse bound 1.97994), `M = 203/100` (ruling D29: the `checkHamBounds` D²H sum is 2.0205),
+Gram inverse bound 1.97994), `M = 203/100` (above the `checkHamBounds` D²H sum, 2.0205 on both tori),
 `γ = γ̄ = c/(42 s)`, `τ = 1`, `E₀ = 0`. The residual budget `err` and the displacement `disp` of
 each torus are parameters (filled by SO-DATA).
 -/
