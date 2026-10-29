@@ -690,6 +690,11 @@ public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Leading
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Pair
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Projector
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries
+public import KAM.Planetary.PlanarTorsion.Asymptotics.Homogeneity
+public import KAM.Planetary.PlanarTorsion.Asymptotics.Limits
+public import KAM.Planetary.PlanarTorsion.Asymptotics.Normalize
+public import KAM.Planetary.PlanarTorsion.Asymptotics.Relative
+public import KAM.Planetary.PlanarTorsion.Asymptotics
 public import KAM.Planetary.PlanarTorsion.Beta
 public import KAM.Planetary.PlanarTorsion.Characters.Average
 public import KAM.Planetary.PlanarTorsion.Characters.Basic
