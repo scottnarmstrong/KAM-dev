@@ -158,7 +158,108 @@ theorem Torus.continuous_inv (T : Torus Q Pp dQ ν c m) :
   have := lt_of_mul_lt_mul_left h5 T.pos.le
   rwa [abs_sub_comm] at this
 
+theorem Torus.inv_add_one (T : Torus Q Pp dQ ν c m) (q φ : ℝ) :
+    T.inv (q + 1) φ = T.inv q φ + 1 := by
+  refine T.inv_unique (y := φ - c) ?_
+  rw [T.inv_spec, T.perQ₀, T.inv_spec]
+
+theorem Torus.inv_φ_add_one (T : Torus Q Pp dQ ν c m) (q φ : ℝ) :
+    T.inv q (φ + 1) = T.inv q φ := by
+  refine T.inv_unique (y := φ - c) ?_
+  have h := T.inv_spec q (φ + 1)
+  rw [show φ + 1 - c = (φ - c) + 1 by ring, T.perQ₁] at h
+  rw [h, T.inv_spec]
+
+/-- The graph function `P(q, φ) = Pp (G(q, φ), φ - c)`. -/
+def Torus.graph (T : Torus Q Pp dQ ν c m) (q φ : ℝ) : ℝ := Pp (T.inv q φ) (φ - c)
+
+theorem Torus.continuous_graph (T : Torus Q Pp dQ ν c m) :
+    Continuous fun z : ℝ × ℝ => T.graph z.1 z.2 := by
+  unfold Torus.graph
+  exact T.contP.comp (T.continuous_inv.prodMk (continuous_snd.sub continuous_const))
+
+theorem Torus.graph_apply (T : Torus Q Pp dQ ν c m) (x y : ℝ) :
+    T.graph (Q x y) (y + c) = Pp x y := by
+  unfold Torus.graph
+  rw [T.inv_apply, add_sub_cancel_right]
+
+/-- Derivative along the flow line, at every time (not only at `t = 0`). -/
+theorem hasDerivAt_line {f d : ℝ → ℝ → ℝ} (h : ∀ x y, HasDerivAt (fun t => f (x + t * ν) (y + t))
+    (d x y) 0) (x y s : ℝ) :
+    HasDerivAt (fun t => f (x + t * ν) (y + t)) (d (x + s * ν) (y + s)) s := by
+  have h0 := h (x + s * ν) (y + s)
+  rw [← sub_self s] at h0
+  have := h0.comp_sub_const s s
+  convert this using 2 <;> ring_nf
+
+/-- The solution of the physical flow running along the torus through `(x, y)` at time `t₁`. -/
+def Torus.orbit (_T : Torus Q Pp dQ ν c m) (x y t₁ t : ℝ) : ℝ × ℝ × ℝ :=
+  (Q (x + (t - t₁) * ν) (y + (t - t₁)), Pp (x + (t - t₁) * ν) (y + (t - t₁)),
+    y + (t - t₁) + c)
+
+theorem Torus.hasDerivAt_orbit (T : Torus Q Pp dQ ν c m) (x y t₁ t : ℝ) :
+    HasDerivAt (T.orbit x y t₁) (soField (T.orbit x y t₁ t)) t := by
+  have hs : HasDerivAt (fun t : ℝ => t - t₁) 1 t := (hasDerivAt_id t).sub_const t₁
+  have hQ := (hasDerivAt_line T.flowQ x y (t - t₁)).comp t hs
+  have hP := (hasDerivAt_line T.flowP x y (t - t₁)).comp t hs
+  have hφ : HasDerivAt (fun t : ℝ => y + (t - t₁) + c) 1 t := by
+    simpa using (hs.const_add y).add_const c
+  rw [soField_eq]
+  refine HasDerivAt.prodMk ?_ (HasDerivAt.prodMk ?_ ?_)
+  · exact hQ.congr_deriv (mul_one _)
+  · exact hP.congr_deriv (mul_one _)
+  · exact hφ
+
+theorem Torus.orbit_mem (T : Torus Q Pp dQ ν c m) (x y t₁ t : ℝ) :
+    (T.orbit x y t₁ t).2.1 = T.graph (T.orbit x y t₁ t).1 (T.orbit x y t₁ t).2.2 := by
+  simp only [Torus.orbit]
+  rw [T.graph_apply]
+
+theorem Torus.invariant (T : Torus Q Pp dQ ν c m) :
+    KAM.ODE.IsInvariantSet soField Set.univ {x | x.2.1 = T.graph x.1 x.2.2} := by
+  intro J y hJ hy t₁ ht₁ hS t ht
+  have hS' : (y t₁).2.1 = T.graph (y t₁).1 (y t₁).2.2 := hS
+  set X := T.inv (y t₁).1 (y t₁).2.2 with hX
+  set Y := (y t₁).2.2 - c with hY
+  have hQ : Q X Y = (y t₁).1 := T.inv_spec _ _
+  have hP : Pp X Y = (y t₁).2.1 := by rw [hS']; rfl
+  have h0 : T.orbit X Y t₁ t₁ = y t₁ := by
+    simp only [Torus.orbit, sub_self, zero_mul, add_zero]
+    refine Prod.ext hQ (Prod.ext hP ?_)
+    simp [hY]
+  have hw : KAM.ODE.IsSolutionIn soField Set.univ J (T.orbit X Y t₁) :=
+    fun s _ => ⟨Set.mem_univ _, T.hasDerivAt_orbit X Y t₁ s⟩
+  have := KAM.ODE.gen_uniqueness isOpen_univ soField_contDiff.contDiffOn hJ ht₁ hy hw h0.symm ht
+  rw [this]
+  exact T.orbit_mem X Y t₁ t
+
 end SoGraph
+
+/-- **Graph inversion of an exact torus** (proposal §7.2, owner ruling O4: continuous graphs).
+Let `(Q, Pp)` be the angle `q` and the momentum `p` of an exact torus on the reals, as functions of
+the torus angles `(x, y)`, where the clock lemma gave `φ = y + c` and the frequency `(ν, 1)`:
+both are continuous, `Q - x` and `Pp` are doubly 1-periodic, `∂_x Q ≥ m > 0`, and
+`d/dt Q = Pp`, `d/dt Pp = -∂_q V(Q, y + c)` along `t ↦ (x + tν, y + t)`. Then the torus is the
+graph `p = P(q, φ)` of a continuous doubly periodic function, with values in `[lo, hi]` whenever
+`Pp` is, and it is an invariant barrier. -/
+theorem soBarrier_of_torus {Q Pp dQ : ℝ → ℝ → ℝ} {ν c m lo hi : ℝ} (hm : 0 < m)
+    (hQc : Continuous fun z : ℝ × ℝ => Q z.1 z.2) (hPc : Continuous fun z : ℝ × ℝ => Pp z.1 z.2)
+    (hQ₀ : ∀ x y, Q (x + 1) y = Q x y + 1) (hQ₁ : ∀ x y, Q x (y + 1) = Q x y)
+    (hP₀ : ∀ x y, Pp (x + 1) y = Pp x y) (hP₁ : ∀ x y, Pp x (y + 1) = Pp x y)
+    (hdQ : ∀ x y, HasDerivAt (fun s => Q s y) (dQ x y) x) (hmono : ∀ x y, m ≤ dQ x y)
+    (hflowQ : ∀ x y, HasDerivAt (fun t => Q (x + t * ν) (y + t)) (Pp x y) 0)
+    (hflowP : ∀ x y,
+      HasDerivAt (fun t => Pp (x + t * ν) (y + t)) (-soVq (Q x y) (y + c)) 0)
+    (hlo : ∀ x y, lo ≤ Pp x y) (hhi : ∀ x y, Pp x y ≤ hi) :
+    Nonempty (SoBarrier lo hi) := by
+  have T : SoGraph.Torus Q Pp dQ ν c m :=
+    ⟨hm, hQc, hPc, hQ₀, hQ₁, hP₀, hP₁, hdQ, hmono, hflowQ, hflowP⟩
+  refine ⟨⟨T.graph, T.continuous_graph, fun q φ => ?_, fun q φ => ?_, T.invariant,
+    fun q φ => hlo _ _, fun q φ => hhi _ _⟩⟩
+  · unfold SoGraph.Torus.graph
+    rw [T.inv_add_one, hP₀]
+  · unfold SoGraph.Torus.graph
+    rw [T.inv_φ_add_one, show φ + 1 - c = (φ - c) + 1 by ring, hP₁]
 
 end KAM.SpinOrbit
 
