@@ -159,7 +159,8 @@ private theorem avg_hamiltonians (D : Data n) {x : Slow n} (hx : x ∈ slowDom D
       rfl
     rw [this, avg_const_add_mul hF, secular_eq_avg]
 
-/-- `bpP:p8:identification`: the difference is continuous with average `δ(Λ)`; integrability of
+/-- `bpP:p8:identification`: the difference `f̂_mov - f̂_fix = |∑ p⁽ⁱ⁾|²/(2 m₀)` is continuous with
+average `δ(Λ)`; integrability of
 `f̂_fix` and `f̂_mov` is equivalent and then `S_mov = S_fix + δ`; on the real polydisc this holds
 unconditionally, with `⟨H_mov^Ψ⟩ = h + μ S_mov = h + μ S_fix + μ δ` and
 `⟨H_fix^Ψ⟩ = h + ε S_fix`. -/
@@ -172,7 +173,10 @@ theorem identification_full (D : Data n) :
       (IntegrableOn (fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1)) (cell n) ↔
         IntegrableOn (fun t => perturbation D true (assemble x.2.1 t x.2.2 x.1)) (cell n)) ∧
       (IntegrableOn (fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1)) (cell n) →
-        secular D true x = secular D false x + modelDelta D x.2.1)) ∧
+        secular D true x = secular D false x + modelDelta D x.2.1) ∧
+      ∀ t : Vec n, perturbation D true (assemble x.2.1 t x.2.2 x.1) -
+        perturbation D false (assemble x.2.1 t x.2.2 x.1) =
+        (2 * D.m0)⁻¹ * planeSq (∑ i, momentum D x t i)) ∧
     ∀ {a : Vec n}, a ∈ axes n → ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧ ∀ x ∈ realDisc D a r,
       secular D true x = secular D false x + modelDelta D x.2.1 ∧
       (∀ μ : ℝ, avg (fun t : Vec n => movingHamiltonian D.G D.m0 D.m μ
@@ -184,7 +188,8 @@ theorem identification_full (D : Data n) :
           (poincareProd D.m (D.G * D.m0) (assemble x.2.1 t x.2.2 x.1))) =
         keplerActionHam D x.2.1 + ε * secular D false x := by
   refine ⟨fun x hx => ⟨(identification D hx).1, (identification D hx).2.1,
-    (identification D hx).2.2.1.symm, (identification D hx).2.2.2⟩, fun {a} ha => ?_⟩
+    (identification D hx).2.2.1.symm, (identification D hx).2.2.2,
+    fun t => perturbation_diff D x t⟩, fun {a} ha => ?_⟩
   obtain ⟨r, hr0, hrh, h⟩ := radius_integrable D ha
   have hrho : r < rho D a := by have := rho_pos D ha; linarith
   refine ⟨r, hr0, hrh, fun x hx => ?_⟩
@@ -250,6 +255,173 @@ private theorem first_order_at (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r :
     rw [hev.fderiv_eq]
     exact fderiv_fun_add hS hδ
 
+/-! ### The secular Hamilton equations of the averaged Hamiltonians -/
+
+/-- The slow coordinates `(ξ, Λ, η) = (q, I, p)` of a phase point. -/
+private def phaseSlow (n : ℕ) : Phase (n + n) →L[ℝ] Slow n :=
+  ContinuousLinearMap.prod
+    (ContinuousLinearMap.pi fun k => (ContinuousLinearMap.proj (R := ℝ)
+      (φ := fun _ : Fin (n + n) => ℝ) (Fin.natAdd n k)).comp
+        (ContinuousLinearMap.fst ℝ (Fin (n + n) → ℝ) (Fin (n + n) → ℝ)))
+    (ContinuousLinearMap.prod
+      (ContinuousLinearMap.pi fun k => (ContinuousLinearMap.proj (R := ℝ)
+        (φ := fun _ : Fin (n + n) => ℝ) (Fin.castAdd n k)).comp
+          (ContinuousLinearMap.snd ℝ (Fin (n + n) → ℝ) (Fin (n + n) → ℝ)))
+      (ContinuousLinearMap.pi fun k => (ContinuousLinearMap.proj (R := ℝ)
+        (φ := fun _ : Fin (n + n) => ℝ) (Fin.natAdd n k)).comp
+          (ContinuousLinearMap.snd ℝ (Fin (n + n) → ℝ) (Fin (n + n) → ℝ))))
+
+private theorem phaseSlow_apply (w : Phase (n + n)) : phaseSlow n w =
+    (fun k => w.1 (Fin.natAdd n k), fun k => w.2 (Fin.castAdd n k),
+      fun k => w.2 (Fin.natAdd n k)) := rfl
+
+private theorem phaseSlow_assemble (I φ p q : Vec n) :
+    phaseSlow n (assemble I φ p q) = (q, I, p) := by
+  rw [phaseSlow_apply]
+  simp [assemble]
+
+private theorem phaseSlow_natAdd_fst (i : Fin n) :
+    phaseSlow n (Pi.single (Fin.natAdd n i) 1, 0) = (Pi.single i 1, 0, 0) := by
+  rw [phaseSlow_apply]
+  refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
+    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+
+private theorem phaseSlow_natAdd_snd (i : Fin n) :
+    phaseSlow n (0, Pi.single (Fin.natAdd n i) 1) = (0, 0, Pi.single i 1) := by
+  rw [phaseSlow_apply]
+  refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
+    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+
+private theorem phaseSlow_castAdd_fst (i : Fin n) :
+    phaseSlow n (Pi.single (Fin.castAdd n i) 1, 0) = 0 := by
+  rw [phaseSlow_apply]
+  refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
+    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+
+private theorem phaseSlow_castAdd_snd (i : Fin n) :
+    phaseSlow n (0, Pi.single (Fin.castAdd n i) 1) = (0, Pi.single i 1, 0) := by
+  rw [phaseSlow_apply]
+  refine Prod.ext (funext fun k => ?_) (Prod.ext (funext fun k => ?_) (funext fun k => ?_)) <;>
+    simp [Pi.single_apply, Fin.ext_iff] <;> omega
+
+private theorem differentiableAt_keplerActionHam (D : Data n) {I : Vec n}
+    (hI : ∀ i, I i ≠ 0) : DifferentiableAt ℝ (keplerActionHam D) I := by
+  have h : keplerActionHam D = fun I : Vec n =>
+      -∑ i, (D.G * D.m0) ^ 2 * D.m i ^ 3 / (2 * I i ^ 2) := funext fun I => by
+    simp [keplerActionHam, hProd, fast, assemble]
+  rw [h]
+  refine DifferentiableAt.neg (DifferentiableAt.fun_sum fun i _ => ?_)
+  have hp : DifferentiableAt ℝ (fun I : Vec n => I i) I :=
+    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i).differentiableAt
+  fun_prop (disch := exact mul_ne_zero two_ne_zero (pow_ne_zero 2 (hI i)))
+
+/-- `bpP:p8:same-jets` (b), literally: for `μ = ε` the Hamilton equations of the averaged
+Hamiltonians `⟨H_mov^Ψ⟩`, `⟨H_fix^Ψ⟩` (frozen `hamiltonianVectorField`, at any `λ`) give
+`ξ̇ = μ ∂_η S`, `η̇ = -μ ∂_ξ S`, identically in the two models, `Λ̇ = 0`, and the frequencies
+`λ̇` differ by `μ ∂_Λ δ`. -/
+private theorem dynamics_at (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ} (hr : 0 < r)
+    (hrho : r < rho D a)
+    (hint : ∀ x ∈ realDisc D a r,
+      IntegrableOn (fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1)) (cell n))
+    (hAn : AnalyticOnNhd ℝ (secular D false) (realDisc D a r)) :
+    ∀ (μ : ℝ) (Hm Hf : Phase (n + n) → ℝ),
+      Hm = (fun z => avg (fun t : Vec n => movingHamiltonian D.G D.m0 D.m μ
+        (poincareProd D.m (D.G * D.m0) (assemble (fun k => z.2 (Fin.castAdd n k)) t
+          (fun k => z.2 (Fin.natAdd n k)) (fun k => z.1 (Fin.natAdd n k)))))) →
+      Hf = (fun z => avg (fun t : Vec n => fixedHamiltonian D.G D.m0 D.m μ
+        (poincareProd D.m (D.G * D.m0) (assemble (fun k => z.2 (Fin.castAdd n k)) t
+          (fun k => z.2 (Fin.natAdd n k)) (fun k => z.1 (Fin.natAdd n k)))))) →
+      ∀ x ∈ realDisc D a r, ∀ (φ : Vec n) (i : Fin n) (z : Phase (n + n)),
+        z = assemble x.2.1 φ x.2.2 x.1 →
+        (hamiltonianVectorField Hm z).1 (Fin.natAdd n i) =
+          μ * fderiv ℝ (secular D true) x (0, 0, Pi.single i 1) ∧
+        (hamiltonianVectorField Hm z).2 (Fin.natAdd n i) =
+          -(μ * fderiv ℝ (secular D true) x (Pi.single i 1, 0, 0)) ∧
+        (hamiltonianVectorField Hm z).2 (Fin.castAdd n i) = 0 ∧
+        (hamiltonianVectorField Hf z).1 (Fin.natAdd n i) =
+          μ * fderiv ℝ (secular D false) x (0, 0, Pi.single i 1) ∧
+        (hamiltonianVectorField Hf z).2 (Fin.natAdd n i) =
+          -(μ * fderiv ℝ (secular D false) x (Pi.single i 1, 0, 0)) ∧
+        (hamiltonianVectorField Hf z).2 (Fin.castAdd n i) = 0 ∧
+        (hamiltonianVectorField Hm z).1 (Fin.natAdd n i) =
+          (hamiltonianVectorField Hf z).1 (Fin.natAdd n i) ∧
+        (hamiltonianVectorField Hm z).2 (Fin.natAdd n i) =
+          (hamiltonianVectorField Hf z).2 (Fin.natAdd n i) ∧
+        (hamiltonianVectorField Hm z).1 (Fin.castAdd n i) =
+          (hamiltonianVectorField Hf z).1 (Fin.castAdd n i) +
+            μ * fderiv ℝ (modelDelta D) x.2.1 (Pi.single i 1) := by
+  intro μ Hm Hf hHm hHf x hx φ i z hz
+  have hxd := realDisc_subset_slowDom D ha hrho hx
+  have hπz : phaseSlow n z = x := by rw [hz, phaseSlow_assemble]
+  have hopen := (isOpen_realDisc D a hr).mem_nhds hx
+  have hSf : HasFDerivAt (secular D false) (fderiv ℝ (secular D false) x) x :=
+    (hAn x hx).differentiableAt.hasFDerivAt
+  have hδ : HasFDerivAt (modelDelta D) (fderiv ℝ (modelDelta D) x.2.1) x.2.1 :=
+    (differentiableAt_modelDelta D fun k => (pos_of_realDisc D ha hrho hx k).ne').hasFDerivAt
+  have hh : HasFDerivAt (keplerActionHam D) (fderiv ℝ (keplerActionHam D) x.2.1) x.2.1 :=
+    (differentiableAt_keplerActionHam D fun k => (pos_of_realDisc D ha hrho hx k).ne').hasFDerivAt
+  set ΛL : Slow n →L[ℝ] Vec n := (ContinuousLinearMap.fst ℝ (Vec n) (Vec n)).comp
+    (ContinuousLinearMap.snd ℝ (Vec n) (Vec n × Vec n)) with hΛL
+  have hΛ : HasFDerivAt (fun y : Slow n => y.2.1) ΛL x := ΛL.hasFDerivAt
+  have hδΛ := hδ.comp x hΛ
+  have hhΛ := hh.comp x hΛ
+  have hev : secular D true =ᶠ[𝓝 x] fun y => secular D false y + modelDelta D y.2.1 := by
+    filter_upwards [hopen] with y hy
+    exact (identification D (realDisc_subset_slowDom D ha hrho hy)).2.2.2 (hint y hy)
+  have hSm : HasFDerivAt (secular D true)
+      (fderiv ℝ (secular D false) x + (fderiv ℝ (modelDelta D) x.2.1).comp ΛL) x :=
+    (hSf.add hδΛ).congr_of_eventuallyEq hev
+  have hav : ∀ y ∈ realDisc D a r,
+      avg (fun t : Vec n => movingHamiltonian D.G D.m0 D.m μ
+        (poincareProd D.m (D.G * D.m0) (assemble y.2.1 t y.2.2 y.1))) =
+        keplerActionHam D y.2.1 + μ * secular D true y ∧
+      avg (fun t : Vec n => fixedHamiltonian D.G D.m0 D.m μ
+        (poincareProd D.m (D.G * D.m0) (assemble y.2.1 t y.2.2 y.1))) =
+        keplerActionHam D y.2.1 + μ * secular D false y := fun y hy =>
+    avg_hamiltonians D (realDisc_subset_slowDom D ha hrho hy) (hint y hy)
+      ((identification D (realDisc_subset_slowDom D ha hrho hy)).2.2.1.2 (hint y hy)) μ
+  have hcont : Tendsto (phaseSlow n) (𝓝 z) (𝓝 x) := by
+    have h : Tendsto (phaseSlow n) (𝓝 z) (𝓝 (phaseSlow n z)) :=
+      (phaseSlow n).continuous.continuousAt
+    rwa [hπz] at h
+  have hK : ∀ (S : Slow n → ℝ) (S' : Slow n →L[ℝ] ℝ), HasFDerivAt S S' x →
+      HasFDerivAt (fun y => keplerActionHam D y.2.1 + μ * S y)
+        ((fderiv ℝ (keplerActionHam D) x.2.1).comp ΛL + μ • S') x :=
+    fun S S' hS => hhΛ.add (hS.const_mul μ)
+  have hK' : ∀ (S : Slow n → ℝ) (S' : Slow n →L[ℝ] ℝ), HasFDerivAt S S' x →
+      HasFDerivAt (fun y => keplerActionHam D y.2.1 + μ * S y)
+        ((fderiv ℝ (keplerActionHam D) x.2.1).comp ΛL + μ • S') (phaseSlow n z) :=
+    fun S S' hS => by rw [hπz]; exact hK S S' hS
+  have hfm : ∀ v, fderiv ℝ Hm z v = fderiv ℝ (keplerActionHam D) x.2.1 (ΛL (phaseSlow n v)) +
+      μ * fderiv ℝ (secular D true) x (phaseSlow n v) := by
+    intro v
+    have h1 := (hK' _ _ hSm).comp z (phaseSlow n).hasFDerivAt
+    have h2 := h1.congr_of_eventuallyEq (f₁ := Hm) (by
+      filter_upwards [hcont.eventually hopen] with z' hz'
+      rw [hHm]
+      exact (hav _ hz').1)
+    rw [h2.fderiv, hSm.fderiv]
+    simp [hΛL]
+    ring
+  have hff : ∀ v, fderiv ℝ Hf z v = fderiv ℝ (keplerActionHam D) x.2.1 (ΛL (phaseSlow n v)) +
+      μ * fderiv ℝ (secular D false) x (phaseSlow n v) := by
+    intro v
+    have h1 := (hK' _ _ hSf).comp z (phaseSlow n).hasFDerivAt
+    have h2 := h1.congr_of_eventuallyEq (f₁ := Hf) (by
+      filter_upwards [hcont.eventually hopen] with z' hz'
+      rw [hHf]
+      exact (hav _ hz').2)
+    rw [h2.fderiv]
+    simp [hΛL]
+  have hsm : ∀ w : Slow n, fderiv ℝ (secular D true) x w =
+      fderiv ℝ (secular D false) x w + fderiv ℝ (modelDelta D) x.2.1 w.2.1 := fun w => by
+    rw [hSm.fderiv]
+    simp [hΛL]
+  simp only [hamiltonianVectorField, hfm, hff, phaseSlow_natAdd_fst, phaseSlow_natAdd_snd,
+    phaseSlow_castAdd_fst, phaseSlow_castAdd_snd, hsm]
+  simp [hΛL]
+  ring
+
 /-- `bpP:p8:same-jets` (parent of `#jets` and `#transfer`), at one common radius `ρ*`:
 all-order jet equality, (a) quadratic form with the same `Q_h`, (b) equations, (c) transfer of
 `HasSecularBirkhoffForm` (both directions, `P₀ ↦ P₀ - δ`) when the points `(Λ, η, ξ)`,
@@ -280,9 +452,35 @@ theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
       (HasSecularBirkhoffForm (fun _ => perturbation D true) V r0 μ0 P0 Ω β ↔
         HasSecularBirkhoffForm (fun _ => perturbation D false) V r0 μ0
           (fun μ I => P0 μ I - modelDelta D I) Ω β)) ∧
-    ∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
+    (∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
       (∀ y ∈ U, χ y ∈ realDisc D a r) →
-      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 := by
+      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1) ∧
+    ∀ (μ : ℝ) (Hm Hf : Phase (n + n) → ℝ),
+    Hm = (fun z => avg (fun t : Vec n => movingHamiltonian D.G D.m0 D.m μ
+      (poincareProd D.m (D.G * D.m0) (assemble (fun k => z.2 (Fin.castAdd n k)) t
+        (fun k => z.2 (Fin.natAdd n k)) (fun k => z.1 (Fin.natAdd n k)))))) →
+    Hf = (fun z => avg (fun t : Vec n => fixedHamiltonian D.G D.m0 D.m μ
+      (poincareProd D.m (D.G * D.m0) (assemble (fun k => z.2 (Fin.castAdd n k)) t
+        (fun k => z.2 (Fin.natAdd n k)) (fun k => z.1 (Fin.natAdd n k)))))) →
+    ∀ x ∈ realDisc D a r, ∀ (φ : Vec n) (i : Fin n) (z : Phase (n + n)),
+      z = assemble x.2.1 φ x.2.2 x.1 →
+      (hamiltonianVectorField Hm z).1 (Fin.natAdd n i) =
+        μ * fderiv ℝ (secular D true) x (0, 0, Pi.single i 1) ∧
+      (hamiltonianVectorField Hm z).2 (Fin.natAdd n i) =
+        -(μ * fderiv ℝ (secular D true) x (Pi.single i 1, 0, 0)) ∧
+      (hamiltonianVectorField Hm z).2 (Fin.castAdd n i) = 0 ∧
+      (hamiltonianVectorField Hf z).1 (Fin.natAdd n i) =
+        μ * fderiv ℝ (secular D false) x (0, 0, Pi.single i 1) ∧
+      (hamiltonianVectorField Hf z).2 (Fin.natAdd n i) =
+        -(μ * fderiv ℝ (secular D false) x (Pi.single i 1, 0, 0)) ∧
+      (hamiltonianVectorField Hf z).2 (Fin.castAdd n i) = 0 ∧
+      (hamiltonianVectorField Hm z).1 (Fin.natAdd n i) =
+        (hamiltonianVectorField Hf z).1 (Fin.natAdd n i) ∧
+      (hamiltonianVectorField Hm z).2 (Fin.natAdd n i) =
+        (hamiltonianVectorField Hf z).2 (Fin.natAdd n i) ∧
+      (hamiltonianVectorField Hm z).1 (Fin.castAdd n i) =
+        (hamiltonianVectorField Hf z).1 (Fin.castAdd n i) +
+          μ * fderiv ℝ (modelDelta D) x.2.1 (Pi.single i 1) := by
   obtain ⟨r1, hr1, hrh1, h1⟩ := radius_integrable D ha
   obtain ⟨r2, C, hr2, hr2rho, hC, hAn2, hB2⟩ := quadratic_form D ha
   have hρ := rho_pos D ha
@@ -320,7 +518,8 @@ theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
       rw [(hev.iteratedFDeriv ℝ l).self_of_nhds]
     · rw [← heq x hx]
       exact (hB2 x hx2)
-  · refine ⟨fun {V r0 μ0 P0 Ω β} hV => ?_, fun {U χ} hΛ hχ y hy => ?_⟩
+  · refine ⟨fun {V r0 μ0 P0 Ω β} hV => ?_, fun {U χ} hΛ hχ y hy => ?_,
+      dynamics_at D ha hr hrho hint hAn⟩
     · exact same_jets_transfer D fun I hI p q hpq =>
         realDisc_subset_slowDom D ha hrho (hV I hI p q hpq)
     · have hid' := (identification D (realDisc_subset_slowDom D ha hrho (hχ y hy))).2.2.2
@@ -337,7 +536,7 @@ theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     AnalyticOnNhd ℝ (fun x : Slow n => secular D true x - constantTerm D (axis D x.2.1) -
       modelDelta D x.2.1 - quad (coeffs D (axis D x.2.1)) x.1 -
       quad (coeffs D (axis D x.2.1)) x.2.2) (realDisc D a r) ∧
-    ∀ x ∈ realDisc D a r,
+    (∀ x ∈ realDisc D a r,
       (∀ k : ℕ, 0 < k → ∀ l : ℕ,
         iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D true I) (x.1, x.2.2))
           x.2.1 =
@@ -350,9 +549,35 @@ theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
         fderiv ℝ (slowSecular D false x.2.1) (x.1, x.2.2) ∧
       fderiv ℝ (fun I => secular D true (x.1, I, x.2.2)) x.2.1 =
         fderiv ℝ (fun I => secular D false (x.1, I, x.2.2)) x.2.1 +
-          fderiv ℝ (modelDelta D) x.2.1 := by
-  obtain ⟨r, C, hr, hrh, hC, hA, hJ, -⟩ := same_jets_full D ha
-  exact ⟨r, C, hr, hrh, hC, hA, hJ⟩
+          fderiv ℝ (modelDelta D) x.2.1) ∧
+    ∀ (μ : ℝ) (Hm Hf : Phase (n + n) → ℝ),
+    Hm = (fun z => avg (fun t : Vec n => movingHamiltonian D.G D.m0 D.m μ
+      (poincareProd D.m (D.G * D.m0) (assemble (fun k => z.2 (Fin.castAdd n k)) t
+        (fun k => z.2 (Fin.natAdd n k)) (fun k => z.1 (Fin.natAdd n k)))))) →
+    Hf = (fun z => avg (fun t : Vec n => fixedHamiltonian D.G D.m0 D.m μ
+      (poincareProd D.m (D.G * D.m0) (assemble (fun k => z.2 (Fin.castAdd n k)) t
+        (fun k => z.2 (Fin.natAdd n k)) (fun k => z.1 (Fin.natAdd n k)))))) →
+    ∀ x ∈ realDisc D a r, ∀ (φ : Vec n) (i : Fin n) (z : Phase (n + n)),
+      z = assemble x.2.1 φ x.2.2 x.1 →
+      (hamiltonianVectorField Hm z).1 (Fin.natAdd n i) =
+        μ * fderiv ℝ (secular D true) x (0, 0, Pi.single i 1) ∧
+      (hamiltonianVectorField Hm z).2 (Fin.natAdd n i) =
+        -(μ * fderiv ℝ (secular D true) x (Pi.single i 1, 0, 0)) ∧
+      (hamiltonianVectorField Hm z).2 (Fin.castAdd n i) = 0 ∧
+      (hamiltonianVectorField Hf z).1 (Fin.natAdd n i) =
+        μ * fderiv ℝ (secular D false) x (0, 0, Pi.single i 1) ∧
+      (hamiltonianVectorField Hf z).2 (Fin.natAdd n i) =
+        -(μ * fderiv ℝ (secular D false) x (Pi.single i 1, 0, 0)) ∧
+      (hamiltonianVectorField Hf z).2 (Fin.castAdd n i) = 0 ∧
+      (hamiltonianVectorField Hm z).1 (Fin.natAdd n i) =
+        (hamiltonianVectorField Hf z).1 (Fin.natAdd n i) ∧
+      (hamiltonianVectorField Hm z).2 (Fin.natAdd n i) =
+        (hamiltonianVectorField Hf z).2 (Fin.natAdd n i) ∧
+      (hamiltonianVectorField Hm z).1 (Fin.castAdd n i) =
+        (hamiltonianVectorField Hf z).1 (Fin.castAdd n i) +
+          μ * fderiv ℝ (modelDelta D) x.2.1 (Pi.single i 1) := by
+  obtain ⟨r, C, hr, hrh, hC, hA, hJ, -, -, hD⟩ := same_jets_full D ha
+  exact ⟨r, C, hr, hrh, hC, hA, hJ, hD⟩
 
 /-- `bpP:p8:same-jets#transfer` (c): `HasBirkhoff` transfers in both directions with
 `P₀ ↦ P₀ - δ` when the points `(Λ, η, ξ)`, `Λ ∈ V`, `p_j² + q_j² < r₀²` lie in the real polydisc
@@ -369,8 +594,8 @@ theorem same_jets_transfer_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     ∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
       (∀ y ∈ U, χ y ∈ realDisc D a r) →
       ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 := by
-  obtain ⟨r, C, hr, hrh, -, -, -, hT⟩ := same_jets_full D ha
-  exact ⟨r, hr, hrh, hT⟩
+  obtain ⟨r, C, hr, hrh, -, -, -, hT, hT', -⟩ := same_jets_full D ha
+  exact ⟨r, hr, hrh, hT, hT'⟩
 
 /-! ### The quartic jet -/
 
@@ -405,12 +630,54 @@ private theorem mem_separatedDomain_of_small {α : ℝ} (hα0 : 0 < α) (hα1 : 
   refine ⟨hα0, hα1, hi1, hj1, ?_⟩
   nlinarith
 
+/-- The Taylor coefficients of `𝒲(α; ·)` at `v = 0`, of every order, are real analytic in `α` on the
+whole interval `(0, 1)`. -/
+private theorem taylor_analytic_alpha (k : ℕ) :
+    AnalyticOnNhd ℝ (fun α : ℝ => iteratedFDeriv ℝ k
+      (fun v : (Fin 2 → ℝ) × (Fin 2 → ℝ) => dimensionlessPair (α, v.1, v.2)) 0) (Ioo 0 1) := by
+  set F : ℝ × PairW → ℝ := fun p => dimensionlessPair (p.1, p.2.1, p.2.2) with hF
+  set W : Set (ℝ × PairW) := {p | (p.1, p.2.1, p.2.2) ∈ separatedDomain} with hW
+  have hWo : IsOpen W := qsc_isOpen_separatedDomain.preimage (by fun_prop)
+  have hFa : AnalyticOnNhd ℝ F W := fun p hp =>
+    (quartic_scaling _ hp).comp_of_eq (analyticAt_fst.prod
+      ((analyticAt_fst.comp analyticAt_snd).prod (analyticAt_snd.comp analyticAt_snd))) rfl
+  have hmem : ∀ α ∈ Ioo (0 : ℝ) 1, (α, (0 : PairW)) ∈ W := fun α hα => by
+    refine ⟨hα.1, hα.2, ?_, ?_, ?_⟩ <;> simp [planeLength, planeSq]
+    linarith [hα.1, hα.2]
+  set ι := ContinuousLinearMap.inr ℝ ℝ PairW with hι
+  have hslice : ∀ α ∈ Ioo (0 : ℝ) 1, iteratedFDeriv ℝ k (fun v : PairW => F (α, v)) 0 =
+      (iteratedFDeriv ℝ k F (α, 0)).compContinuousLinearMap fun _ => ι := by
+    intro α hα
+    set a : ℝ × PairW := (α, 0) with ha
+    set S : Set (ℝ × PairW) := (fun z => a + z) ⁻¹' W with hS
+    have hSo : IsOpen S := hWo.preimage (continuous_const.add continuous_id)
+    have hFa' : ContDiffOn ℝ k (fun z => F (a + z)) S :=
+      (hFa.contDiffOn_of_completeSpace.mono (fun z hz => hz) : ContDiffOn ℝ k F W).comp
+        (contDiff_const.add contDiff_id).contDiffOn (fun z hz => hz)
+    have hy : ι 0 ∈ S := by simpa [hS, ha, hι] using hmem α hα
+    have h1 := ι.iteratedFDerivWithin_comp_right (f := fun z => F (a + z)) hFa'
+      hSo.uniqueDiffOn ((hSo.preimage ι.continuous).uniqueDiffOn) hy (i := k)
+      (by exact_mod_cast le_rfl)
+    rw [iteratedFDerivWithin_of_isOpen _ hSo hy,
+      iteratedFDerivWithin_of_isOpen _ (hSo.preimage ι.continuous) (by exact hy)] at h1
+    have hfun : (fun v : PairW => F (α, v)) = (fun z => F (a + z)) ∘ ι := by
+      funext y'; simp [ha, hι, hF]
+    rw [hfun, h1, iteratedFDeriv_comp_add_left]
+    simp [ha, hι]
+  have hA : AnalyticOnNhd ℝ (fun α : ℝ => iteratedFDeriv ℝ k F (α, 0)) (Ioo 0 1) := by
+    refine (hFa.iteratedFDeriv_of_isOpen hWo k).comp
+      (analyticOnNhd_id.prod analyticOnNhd_const) (fun α hα => hmem α hα)
+  have hL := (ContinuousMultilinearMap.compContinuousLinearMapL
+    (fun _ : Fin k => ι) : ContinuousMultilinearMap ℝ (fun _ : Fin k => ℝ × PairW) ℝ →L[ℝ]
+      ContinuousMultilinearMap ℝ (fun _ : Fin k => PairW) ℝ).comp_analyticOnNhd hA
+  exact hL.congr (isOpen_Ioo) (fun α hα => (hslice α hα).symm)
+
 /-- `bpP:p8:quartic`: the six invariant coefficients (analytic in the two actions) give the
 degree-four jet of `S_fix` and of `S_mov`; the diagonal coefficients are the explicit
 `radialR1` values; the pair average is `-G mᵢ mⱼ a_j⁻¹ 𝒲(α; vᵢ, vⱼ)` with `𝒲 = dimensionlessPair`
 real analytic on the separated domain, which contains the sufficient subdomain; and the exact
 passage to `u` is the stated expansion. -/
-theorem quartic_full (D : Data n) (hn : 2 ≤ n) :
+theorem quartic_full (D : Data n) (_hn : 2 ≤ n) :
     (∃ c : Fin n → Fin n → (ℝ × ℝ) → Fin 6 → ℝ,
       (∀ i j, i < j → AnalyticOnNhd ℝ (c i j)
         {IJ | 0 < IJ.1 ∧ 0 < IJ.2 ∧ IJ.1 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) <
@@ -422,11 +689,28 @@ theorem quartic_full (D : Data n) (hn : 2 ≤ n) :
         iteratedFDeriv ℝ 4 (slowSecular D true I) 0 (fun _ => u) / 24 =
           ∑ i, ∑ j ∈ Finset.univ.filter (i < ·),
             ∑ k, c i j (I i, I j) k * quarticMonomials ![u.1 i, u.2 i] ![u.1 j, u.2 j] k) ∧
-      ∀ I ∈ actionDomain D, ∀ i j, i < j →
+      (∀ I ∈ actionDomain D, ∀ i j, i < j →
         c i j (I i, I j) 0 =
           D.G * D.m i * D.m j * radialR1 (axis D I i) (axis D I j) / (2 * I i ^ 2) ∧
         c i j (I i, I j) 1 =
           D.G * D.m i * D.m j * radialR1 (axis D I j) (axis D I i) / (2 * I j ^ 2)) ∧
+      ∀ i j, i < j → ∀ {I0 J0 : ℝ}, 0 < I0 → 0 < J0 →
+        I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) < J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0)) →
+        ∃ (A A' B : ℝ) (cW : Fin 6 → ℝ),
+          (fun v : (Fin 2 → ℝ) × (Fin 2 → ℝ) =>
+            dimensionlessPair (I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) /
+              (J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))), v.1, v.2) -
+            dimensionlessPair (I0 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) /
+              (J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))), 0, 0) -
+            (A * planeSq v.1 + A' * planeSq v.2 + B * planeDot v.1 v.2) -
+            ∑ k, cW k * quarticMonomials v.1 v.2 k) =O[𝓝 0] (fun v => ‖v‖ ^ 5) ∧
+          ∀ w : (Fin 2 → ℝ) × (Fin 2 → ℝ),
+            ∑ k, c i j (I0, J0) k * quarticMonomials w.1 w.2 k =
+              -D.G * D.m i * D.m j / (J0 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))) *
+                (∑ k, cW k * quarticMonomials ((√I0)⁻¹ • w.1) ((√J0)⁻¹ • w.2) k -
+                  (A / 4 * planeSq w.1 ^ 2 / I0 ^ 2 + A' / 4 * planeSq w.2 ^ 2 / J0 ^ 2 +
+                    B / 8 * (planeDot w.1 w.2 / (√I0 * √J0)) *
+                      (planeSq w.1 / I0 + planeSq w.2 / J0))) ) ∧
     AnalyticOnNhd ℝ dimensionlessPair separatedDomain ∧
     (∀ {i j : Fin n}, i < j → ∀ {L1 L2 : ℝ}, 0 < L1 → 0 < L2 → ∀ u v : Fin 2 → ℝ,
       (![0, u 0], ![L1, u 1]) ∈ poincareDom → (![0, v 0], ![L2, v 1]) ∈ poincareDom →
@@ -441,30 +725,20 @@ theorem quartic_full (D : Data n) (hn : 2 ≤ n) :
     (∀ {α : ℝ} {vi vj : Fin 2 → ℝ}, 0 < α → α < 1 →
       planeLength vi < min (1 / 4) ((1 - α) / (1 + α)) →
       planeLength vj < min (1 / 4) ((1 - α) / (1 + α)) → (α, vi, vj) ∈ separatedDomain) ∧
-    (∀ {Λ₁ Λ₂ : ℝ}, 0 < Λ₁ → 0 < Λ₂ → ∀ (A A' B : ℝ) (c : Fin 6 → ℝ)
-      (W : (Fin 2 → ℝ) × (Fin 2 → ℝ) → ℝ),
-      (fun v => W v - (A * planeSq v.1 + A' * planeSq v.2 + B * planeDot v.1 v.2) -
-        ∑ m, c m * quarticMonomials v.1 v.2 m) =O[𝓝 0] (fun v => ‖v‖ ^ 5) →
-      (fun u : (Fin 2 → ℝ) × (Fin 2 → ℝ) =>
-        W ((√(1 - planeSq u.1 / (4 * Λ₁)) / √Λ₁) • u.1,
-            (√(1 - planeSq u.2 / (4 * Λ₂)) / √Λ₂) • u.2) -
-          (A * (planeSq u.1 / Λ₁) + A' * (planeSq u.2 / Λ₂) +
-            B * (planeDot u.1 u.2 / (√Λ₁ * √Λ₂))) -
-          (∑ m, c m * quarticMonomials ((√Λ₁)⁻¹ • u.1) ((√Λ₂)⁻¹ • u.2) m -
-            (A / 4 * planeSq u.1 ^ 2 / Λ₁ ^ 2 + A' / 4 * planeSq u.2 ^ 2 / Λ₂ ^ 2 +
-              B / 8 * (planeDot u.1 u.2 / (√Λ₁ * √Λ₂)) *
-                (planeSq u.1 / Λ₁ + planeSq u.2 / Λ₂)))) =O[𝓝 0] fun u => ‖u‖ ^ 5) := by
-  obtain ⟨c, hc, hjet, hval⟩ := quartic D hn
-  refine ⟨⟨c, hc, fun I hI u => ⟨hjet I hI u, ?_⟩, ?_⟩, quartic_scaling,
+    ∀ k : ℕ, AnalyticOnNhd ℝ (fun α : ℝ => iteratedFDeriv ℝ k
+      (fun v : (Fin 2 → ℝ) × (Fin 2 → ℝ) => dimensionlessPair (α, v.1, v.2)) 0) (Ioo 0 1) := by
+  refine ⟨⟨fun i j IJ => quarticCoeff D i j IJ, fun i j _ IJ hIJ =>
+    analyticAt_quarticCoeff D i j hIJ.1 hIJ.2.1 hIJ.2.2, fun I hI u => ⟨?_, ?_⟩,
+    fun I hI i j hij => quartic_c_node D hI hij,
+    fun i j hij {I0 J0} hI hJ hab => quartic_pair_chart_conversion hij hI hJ hab⟩,
+    quartic_scaling,
     fun {i j} hij {L1 L2} hI hJ u v hu hv hSep =>
       quartic_pair_scaling D hij hI hJ u v hu hv hSep,
     fun {α vi vj} h0 h1 hi hj => mem_separatedDomain_of_small h0 h1 hi hj,
-    fun {Λ₁ Λ₂} h₁ h₂ A A' B c W hW => quartic_sqrt_chart_conversion h₁ h₂ A A' B c W hW⟩
+    taylor_analytic_alpha⟩
+  · exact quartic_jet D hI u
   · rw [same_jets D hI 4 (by norm_num)]
-    exact hjet I hI u
-  · intro I hI i j hij
-    obtain ⟨h0, h1⟩ := hval I hI i j hij
-    exact ⟨by rw [h0]; unfold radialR1; ring, by rw [h1]; unfold radialR1; ring⟩
+    exact quartic_jet D hI u
 
 end SecularForm
 end KAM.Planetary
