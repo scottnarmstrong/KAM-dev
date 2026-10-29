@@ -56,9 +56,12 @@ def CertBall.listSum (L : List (CertBall α)) : CertBall α :=
 def CertPoly.coeffSumBall (P : CertPoly α) : CertBall α :=
   CertBall.listSum (P.terms.map fun t => ⟨t.2, ofInt 0⟩)
 
+/-- The negation `-c` of a backend complex number (exact). -/
+def CC.negC (c : CC α) : CC α := ⟨neg c.re, neg c.im⟩
+
 /-- Exact negation of a polynomial. -/
 def CertPoly.negP (P : CertPoly α) : CertPoly α :=
-  ⟨P.terms.map fun t => (t.1, ⟨neg t.2.re, neg t.2.im⟩)⟩
+  ⟨P.terms.map fun t => (t.1, CC.negC t.2)⟩
 
 /-- The sup bound `(2π)^deg (|P|_w + rad)` of a model (`supNormUp`, upper `(2π)^deg`). -/
 def CertModel.supUp (W : CertWeight) (m : CertModel α) : α :=
@@ -71,6 +74,9 @@ def ballCentreSum (L : List (CertBall α)) : ℂ := (L.map fun b => b.c.toC).sum
 def ballRadSum (L : List (CertBall α)) : ℝ := (L.map fun b => val b.r).sum
 
 variable [LawfulCertArith α]
+
+theorem CC.toC_negC (c : CC α) : (CC.negC c).toC = -c.toC := by
+  apply Complex.ext <;> simp [CC.negC, CC.toC, LawfulCertArith.val_neg]
 
 theorem CertBall.plus_spec (b₁ b₂ : CertBall α) :
     ‖b₁.c.toC + b₂.c.toC - (CertBall.plus b₁ b₂).c.toC‖ + val b₁.r + val b₂.r ≤
@@ -170,9 +176,8 @@ theorem CertPoly.mem_coeffSumBall (n : ℕ) (P : CertPoly α) :
 
 theorem CertPoly.eval_negP (n : ℕ) (P : CertPoly α) (θ : Fin n → ℂ) :
     P.negP.eval n θ = -P.eval n θ := by
-  have hc : ∀ c : CC α, (⟨neg c.re, neg c.im⟩ : CC α).toC = -c.toC := fun c => by
-    apply Complex.ext <;> simp [CC.toC, LawfulCertArith.val_neg]
-  simp only [CertPoly.negP, CertPoly.eval, List.map_map, Function.comp_def, hc, neg_mul]
+  simp only [CertPoly.negP, CertPoly.eval, List.map_map, Function.comp_def, CC.toC_negC,
+    neg_mul]
   induction P.terms with
   | nil => simp
   | cons t L ih => simp only [List.map_cons, List.sum_cons, ih]; ring

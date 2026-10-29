@@ -55,9 +55,6 @@ rounding in the radius). -/
 def expPinBall {α : Type} [CertArith α] (g : CertModel α) : CC α × α :=
   ((CertPoly.coeffSumBall g.poly).c, (CertPoly.coeffSumBall g.poly).r)
 
-/-- The negation `-c` of a backend complex number (exact). -/
-def CC.negC (c : CC α) : CC α := ⟨neg c.re, neg c.im⟩
-
 /-- The pin error `ε₀ ≥ |E(0) - exp g₀(0)|` from the reduced exponential ball `out`: the ball
 sum of `E(0)` plus the negated `out`, then `|centre|↑ + radius`. -/
 def expPinErr (E : CertPoly α) (out : CC α × α) : α :=
@@ -119,9 +116,6 @@ theorem expWitnessRadius_pin {α : Type} [CertArith α] [LawfulCertArith α] {n 
 section Sound
 
 variable {α : Type} [CertArith α] [LawfulCertArith α]
-
-theorem CC.toC_negC (c : CC α) : (CC.negC c).toC = -c.toC := by
-  apply Complex.ext <;> simp [CC.negC, CC.toC, LawfulCertArith.val_neg]
 
 /-- The pin error bounds `|E(0) - exp g₀(0)|`. -/
 theorem norm_sub_le_expPinErr (n : ℕ) (E : CertPoly α) (out : CC α × α) {w : ℂ}
