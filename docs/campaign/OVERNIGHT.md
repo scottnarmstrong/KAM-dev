@@ -878,3 +878,8 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   1181 PROVED / 23 BYPASSED / 12 open); 5 need two literal exports (P-CLOSE-LEAN running); 7 were owner questions,
   answered by the owner (D31). README: new 'Main theorems' section (two per track, linked to the frozen declarations).
   Note: docs/DECISIONS.md has two entries numbered D30 (track SO, 2026-10-29, and track W, 2026-10-28); left as is.
+- **16:45. Track P complete.** P-CLOSE-LEAN (geometry_radial, geometry_complete, sb_cov_full, sb_cov_slow_data) and
+  P-SEC (the D31 source objects of sec-D and sec-E, three new modules) passed audit and landed; graph P has no open node
+  (1191 PROVED, 147 EXTERNAL, 23 BYPASSED, 2 ASSUMED by D31). Graph I fully resolved. Graph N (258 nodes not yet synced
+  since the lane N handoff) is being synced by kam-inp against the landed N11 code and audits. All capacity now goes to
+  track SO. README: frozen statements moved to docs/STATEMENTS.md; papers to docs/PAPERS.md; collaborator row removed.
