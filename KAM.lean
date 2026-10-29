@@ -830,7 +830,9 @@ public import KAM.Planetary.Poincare.Lattice
 public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Poincare.Symplectic
 public import KAM.Planetary.Poincare.Tube
+public import KAM.Planetary.Preparation.Amount
 public import KAM.Planetary.Preparation.AmountCore
+public import KAM.Planetary.Preparation.AmountSetup
 public import KAM.Planetary.Preparation.AnalyticExtension
 public import KAM.Planetary.Preparation.BasePoint
 public import KAM.Planetary.Preparation.Basic
@@ -870,8 +872,10 @@ public import KAM.Planetary.Preparation.PolarAverage.Order
 public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
 public import KAM.Planetary.Preparation.PolarAverage.Torus
 public import KAM.Planetary.Preparation.PolarAverage
+public import KAM.Planetary.Preparation.Prepared
 public import KAM.Planetary.Preparation.PreparedBasic
 public import KAM.Planetary.Preparation.PreparedCauchy
+public import KAM.Planetary.Preparation.PreparedChoice
 public import KAM.Planetary.Preparation.PreparedClose
 public import KAM.Planetary.Preparation.PreparedData
 public import KAM.Planetary.Preparation.PreparedDev
@@ -882,6 +886,7 @@ public import KAM.Planetary.Preparation.PreparedM
 public import KAM.Planetary.Preparation.PreparedNum
 public import KAM.Planetary.Preparation.PreparedOps
 public import KAM.Planetary.Preparation.PreparedResc
+public import KAM.Planetary.Preparation.PreparedSmall
 public import KAM.Planetary.Preparation.RectangularAverage
 public import KAM.Planetary.Preparation.RectangularAverageCore
 public import KAM.Planetary.Preparation.RectangularAverageDomain
