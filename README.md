@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 21:34 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 83 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **271,067 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 21:35 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 83 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **271,067 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -210,7 +210,7 @@ Overall, everything together: 93.5 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 21:34 UTC from `main` at `7103aa35` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 21:35 UTC from `main` at `593c06b2` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -369,7 +369,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **errata** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Audit errata round 3 quotations and proof-route corrections | `inp-errata` | 9 (vs `inp`) |
 | **sopyalign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp-sodefs' into inp-sopyalign | `inp-sopyalign` | 0 (vs `inp`) |
@@ -384,6 +384,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 21:35 | `593c06b2` | Overnight log: correct two time labels |
 | 2026-10-29 21:33 | `7103aa35` | land-branch: run the HQ refresh with bash (hq-update.sh uses pipefail; sh failed silently) |
 | 2026-10-29 21:33 | `a364773e` | Land inp into main |
 | 2026-10-29 21:33 | `2c801db0` | HQ: track SO soundness split into SO-SOUND-A/B; overnight log 21:35-21:45 |
@@ -395,7 +396,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 20:23 | `31f7f4e7` | Land inp into main |
 | 2026-10-29 20:19 | `7c44119b` | OVERNIGHT: 18:45-20:18 (SO-MALG..SO-EMB, guards complete, claude-12 jobs) |
 | 2026-10-29 20:03 | `39bc846d` | Land inp into main |
-| 2026-10-29 19:53 | `52d6b07e` | guards: mid-line elaborators, elaborator attributes with arguments, DRAFT_SORRY exports outside their anchor, manifest seal limits capped at D26; mutation suite re-run: all real mutations rejected; I.GUARDS done |
 <!-- /AUTO:landed -->
 
 ## Decisions
