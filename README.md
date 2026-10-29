@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 20:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 71 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **268,313 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 20:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 71 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **268,313 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -201,8 +201,8 @@ Overall, everything together: 91.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **268,313** (209,640 excluding blank lines and comments) · **+94,960** since 2026-10-28 20:20 UTC |
-| Written on agent branches, not yet landed | 719 |
+| On `main` now | **268,313** (209,640 excluding blank lines and comments) · **+94,129** since 2026-10-28 20:40 UTC |
+| Written on agent branches, not yet landed | 770 |
 | **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 6,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 91.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 20:20 UTC from `main` at `f878a0b2` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 20:40 UTC from `main` at `16d9063b` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -219,7 +219,7 @@ Overall, everything together: 91.8 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 50 modules · 13,939 lines. **Packages landed: 20 / 25**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 11 modules · 2,225 lines. **Packages landed: 14 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-POS, SO-DIO3, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GEN, SO-GEN2, SO-DATA-PY.
-- **Now:** proving SO-ABKFAST, SO-MAT, SO-TOYFIX · in audit —
+- **Now:** proving SO-TORS · in audit SO-MAT
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -369,11 +369,12 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **soabkfast** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-ABKFAST: branch cdiv onto nonnegative ediv numerators | `inp-soabkfast` | 1 (vs `inp`) |
-| **somat** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-MAT: rename Encloses.of_eq to of_eq_fun (Mathlib short name) | `inp-somat` | 5 (vs `inp`) |
-| **sotoyfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYFIX: literal cutoffs in the toy data (10^6 where no truncation), Python mirror cutof | `inp-sotoyfix` | 1 (vs `inp`) |
+| **errata** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Audit errata and deviations against pinned sources | `inp-errata` | 3 (vs `inp`) |
+| **relb1** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: release B1: uniform two-author copyright and Authors lines (16 files); neutral wording in  | `inp-relb1` | 1 (vs `inp`) |
+| **somat** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-MAT: audit request | `inp-somat` | 7 (vs `inp`) |
+| **sotors** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-MAT: audit request | `inp-sotors` | 7 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -383,6 +384,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 20:39 | `16d9063b` | D33: release clean-up decisions; OVERNIGHT 20:45 |
+| 2026-10-29 20:23 | `31f7f4e7` | Land inp into main |
 | 2026-10-29 20:19 | `7c44119b` | OVERNIGHT: 18:45-20:18 (SO-MALG..SO-EMB, guards complete, claude-12 jobs) |
 | 2026-10-29 20:03 | `39bc846d` | Land inp into main |
 | 2026-10-29 19:53 | `52d6b07e` | guards: mid-line elaborators, elaborator attributes with arguments, DRAFT_SORRY exports outside their anchor, manifest seal limits capped at D26; mutation suite re-run: all real mutations rejected; I.GUARDS done |
@@ -393,8 +396,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 18:58 | `a8a11020` | Land inp into main |
 | 2026-10-29 18:50 | `a6e293ae` | Land inp into main |
 | 2026-10-29 17:43 | `3dbaee42` | HQ: original project complete (all graphs K, I, N, P resolved; 144/144 frozen declarations sealed); OVERNIGHT 16:50-17:45 |
-| 2026-10-29 17:42 | `98ebb692` | Land inp into main |
-| 2026-10-29 17:39 | `8d3b7d5f` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
