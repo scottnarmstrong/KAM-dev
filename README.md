@@ -153,7 +153,8 @@ SEALED: 20 / 22 (kam.aposteriori_kam.v1, kam.kam_positive_measure.v1, kam.kam_po
 
 ## Tracks
 
-Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md)):
+Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md)), and since 2026-10-29 a fifth, track SO
+(decision D30):
 
 <!-- AUTO:tracks -->
 | Track | Headline | Frozen theorems sealed | Proof graph | Stage |
@@ -163,6 +164,16 @@ Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md
 | **N** | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 5 / 6 | 410 / 728 nodes resolved | proof campaign: Parts 1, 3, 4, 5 proved; Parts 6–7 Lean design in audit; 2 of 6 frozen theorems sealed |
 | **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 6 / 7 | 1319 / 1363 nodes resolved | proof campaign: Kepler/Delaunay, Poincaré and Newtonian layers proved; Part 1 Lean design in audit; graph in global review |
 <!-- /AUTO:tracks -->
+
+**Track SO, the lunar spin–orbit certificate.** Numerical KAM computations find invariant tori to 100+ digits, but a
+number is not a proof. Track SO builds a general *certificate checker* inside Lean: an external solver supplies a
+finite candidate torus (Fourier data in any dimension, for Hamiltonians given as finite expressions), the Lean kernel
+evaluates a checker on it, and one soundness theorem, proved once, turns a passing check into an exact invariant torus
+with explicit error bounds through the sealed isoenergetic theorem I-G1. The first client is the classical lunar
+spin–orbit problem: two certified barrier tori around the synchronous resonance prove that the Moon's spin rate stays
+within 3.3% of its orbital rate for all time, for every initial condition in an explicit window. Plan and owner
+decisions: [`docs/campaign/design/SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); proposal and
+numerical pilot: [`docs/explorations/`](docs/explorations).
 
 The phase table below is track K's.
 

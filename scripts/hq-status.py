@@ -285,6 +285,8 @@ TRACKS = [
                  'three-body problem'),
     ('N', 'nekhoroshev', 'Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n)'),
     ('P', 'planetary', 'Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun'),
+    ('SO', 'so', 'A general Lean certificate checker turning numerical KAM tori into theorems; lunar spin–orbit '
+                 'confinement |p(t) − 1| ≤ 33/1000 for all time'),
 ]
 
 
