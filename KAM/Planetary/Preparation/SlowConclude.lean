@@ -51,6 +51,132 @@ theorem p11_norm_le_of_wbound {m : ℕ} {V : Set (P11CVec m)} {s M : ℝ} {φ : 
   rw [hw, mul_one] at h0
   exact h0.trans hle
 
+/-- `stepP:p11:as-concl`: the application of `aniso_avg` to `(h₀, f₂)` on the slow box `V₂`, with
+the conclusions repackaged as clauses 9-28 of `P11SlowSpecOf` (clause 24 and clause 8 are
+inputs).  Here `E₀ = c₀ ε^{5/2} ℓ^{2τ+1}` is the actual bound of `f₂` (clause 23 holds for any
+`c ≥ c₀`), `‖f̂₂,₀‖ ≤ c_f ε³` on `V₂/2`, and `c` dominates the explicit constants of `g₂` and of
+the displacements. -/
+theorem p11_slow_conclude {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
+    {nu eps c0 cf0 c : ℝ} {h0 : P11CVec (n+n) → ℂ} {f2 : P11Phase (n+n) → ℂ}
+    (hnu : 1 ≤ nu) (heps : 0 < eps) (hepsE : eps ≤ Real.exp (-1))
+    (hpe : Real.pi*eps ≤ p11s2 C nu eps) (hc0 : 0 ≤ c0)
+    (hh0 : DifferentiableOn ℂ h0 (p11SlowBox C nu eps))
+    (hf2 : DifferentiableOn ℂ f2 (KAM.complexStrip (n+n) (C.sigma/12) ×ˢ p11SlowBox C nu eps))
+    (hper : ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/12) ×ˢ p11SlowBox C nu eps,
+      ∀ i : Fin (n+n), f2 (z.1+Pi.single i 1,z.2)=f2 z)
+    (hreal_h : ∀ I : P11Vec (n+n), KAM.realInclusion (n+n) I ∈ p11SlowBox C nu eps →
+      (h0 (KAM.realInclusion (n+n) I)).im=0)
+    (hreal_f : KAM.Canonical.RealOn
+      (KAM.complexStrip (n+n) (C.sigma/12) ×ˢ p11SlowBox C nu eps) f2)
+    (hb : p11WBound (p11SlowBox C nu eps) (C.sigma/12) f2
+      (c0*eps^(5/2 : ℝ)*Real.log (1/eps)^(2*C.tau+1)))
+    (hf0 : ∀ I ∈ p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2),
+      ‖KAM.Weighted.coeff f2 I 0‖ ≤ cf0*eps^3)
+    (hdiv : ∀ I ∈ p11SlowBox C nu eps, ∀ k : Fin (n+n) → ℤ, k ≠ 0 →
+      KAM.Fourier.modeSize k ≤ p11K2 C nu eps →
+      (if (fun i : Fin n => k (Fin.castAdd n i))=0 then eps else 1)*
+        C.gamma/4*p11K2 C nu eps^(-C.tau) ≤
+        ‖p11dotC k (fun i => fderiv ℂ h0 I (Pi.single i 1))‖)
+    (hb2 : c*eps^(5/2 : ℝ)*Real.log (1/eps)^(2*C.tau+1) ≤
+      (eps*C.gamma/4*p11K2 C nu eps^(-C.tau))*Real.pi*eps/(128*p11K2 C nu eps))
+    (hcE : c0 ≤ c)
+    (hcg : cf0+260*c0^2*(3*nu/(Real.pi*(C.sigma/12)))^C.tau/
+      (Real.pi^2*C.gamma*(C.sigma/12)) ≤ c)
+    (hcd1 : 6*c0*(3*nu/(Real.pi*(C.sigma/12)))^C.tau/(Real.pi*C.gamma*(C.sigma/12)) ≤ c)
+    (hcd3 : 18*c0*(3*nu/(Real.pi*(C.sigma/12)))^C.tau/(Real.pi^2*C.gamma) ≤ c) :
+    ∃ (Psi : P11Phase (n+n) → P11Phase (n+n)) (g2 : P11CVec (n+n) → ℂ)
+      (f3 : P11Phase (n+n) → ℂ),
+      let V := p11SlowBox C nu eps
+      let Vh := p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)
+      let s := C.sigma/12
+      let E := c*eps^(5/2 : ℝ)*Real.log (1/eps)^(2*C.tau+1)
+      DifferentiableOn ℂ h0 V ∧ DifferentiableOn ℂ g2 Vh ∧
+      DifferentiableOn ℂ f2 (KAM.complexStrip (n+n) s ×ˢ V) ∧
+      DifferentiableOn ℂ f3 (KAM.complexStrip (n+n) (s/6) ×ˢ Vh) ∧
+      KAM.Canonical.RealOn (KAM.complexStrip (n+n) (s/6) ×ˢ Vh) f3 ∧
+      KAM.Canonical.RealOn (KAM.complexStrip (n+n) s ×ˢ V) f2 ∧
+      (∀ I : P11Vec (n+n), KAM.realInclusion (n+n) I ∈ Vh →
+        (g2 (KAM.realInclusion (n+n) I)).im=0 ∧ (h0 (KAM.realInclusion (n+n) I)).im=0) ∧
+      (∀ z : Phase (n+n), KAM.realInclusion₂ (n+n) z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh →
+        ∀ i, ((Psi (KAM.realInclusion₂ (n+n) z)).1 i).im=0 ∧
+          ((Psi (KAM.realInclusion₂ (n+n) z)).2 i).im=0) ∧
+      (∀ z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh, ∀ i : Fin (n+n),
+        f3 (z.1+Pi.single i 1,z.2)=f3 z) ∧
+      DifferentiableOn ℂ Psi (KAM.complexStrip (n+n) (s/6) ×ˢ Vh) ∧
+      (∀ z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh, ∀ u v,
+        KAM.Canonical.symplFormC (fderiv ℂ Psi z u) (fderiv ℂ Psi z v)=
+          KAM.Canonical.symplFormC u v) ∧
+      (∀ z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh, ∀ k : Fin (n+n) → ℤ,
+        Psi (z.1+(fun i => (k i : ℂ)),z.2)=Psi z+((fun i => (k i : ℂ)),0)) ∧
+      InjOn Psi (KAM.complexStrip (n+n) (s/6) ×ˢ Vh) ∧
+      MapsTo Psi (KAM.complexStrip (n+n) (s/6) ×ˢ Vh) (KAM.complexStrip (n+n) s ×ˢ V) ∧
+      p11WBound V s f2 E ∧
+      E ≤ (eps*C.gamma/4*p11K2 C nu eps^(-C.tau))*Real.pi*eps/(128*p11K2 C nu eps) ∧
+      p11WBound Vh (s/6) f3 (eps^nu*E) ∧
+      p11Bound Vh g2 (c*eps^3*Real.log (1/eps)^(5*C.tau+2)) ∧
+      (∀ z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh,
+        h0 (Psi z).2+f2 (Psi z)=h0 z.2+g2 z.2+f3 z) ∧
+      (∀ z ∈ KAM.complexStrip (n+n) (s/6) ×ˢ Vh,
+        ‖(fun i : Fin n => (Psi z).2 (Fin.natAdd n i)-z.2 (Fin.natAdd n i))‖ ≤
+          c*eps^(3/2 : ℝ)*Real.log (1/eps)^(3*C.tau+1) ∧
+        ‖(fun i : Fin n => (Psi z).2 (Fin.castAdd n i)-z.2 (Fin.castAdd n i))‖ ≤
+          c*eps^(5/2 : ℝ)*Real.log (1/eps)^(3*C.tau+1) ∧
+        ‖(Psi z).1-z.1‖ ≤ c*eps^(1/2 : ℝ)*Real.log (1/eps)^(3*C.tau+1)) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, hσ1, hrz0, -, -⟩ := fast_consts hC
+  have hπ := Real.pi_pos
+  have hl1 : 1 ≤ Real.log (1/eps) := log_inv_ge_one heps hepsE
+  set l := Real.log (1/eps) with hldef
+  have hl : 0 < l := by linarith
+  set s := C.sigma/12 with hsdef
+  have hs : 0 < s := by positivity
+  set a : ℝ := 3*nu/(Real.pi*(C.sigma/12)) with hadef
+  have ha : 0 < a := by positivity
+  have hKdef : p11K2 C nu eps = a*l := rfl
+  set K := p11K2 C nu eps with hK'
+  have hK : 0 < K := by rw [hKdef]; positivity
+  have heps1 : eps ≤ 1 := hepsE.trans (by rw [Real.exp_le_one_iff]; norm_num)
+  have hs2 : 0 < p11s2 C nu eps := lt_of_lt_of_le (by positivity) hpe
+  have hKt : 0 < K ^ (-C.tau) := Real.rpow_pos_of_pos hK _
+  set α1 : ℝ := C.gamma/4*K^(-C.tau) with hα1
+  have hα1pos : 0 < α1 := by positivity
+  set α2 : ℝ := eps*α1 with hα2
+  have hα2pos : 0 < α2 := by positivity
+  set E0 : ℝ := c0*eps^(5/2 : ℝ)*l^(2*C.tau+1) with hE0
+  set E : ℝ := c*eps^(5/2 : ℝ)*l^(2*C.tau+1) with hE
+  have hbase : 0 ≤ eps^(5/2 : ℝ)*l^(2*C.tau+1) := by positivity
+  have hE0E : E0 ≤ E := by
+    rw [hE0, hE, mul_assoc, mul_assoc]
+    exact mul_le_mul_of_nonneg_right hcE hbase
+  have hE0nn : 0 ≤ E0 := by positivity
+  have hmin : min (p11s2 C nu eps) (Real.pi*eps) = Real.pi*eps := min_eq_right hpe
+  have hk6 : 6 ≤ 2*Real.pi*K*s := by
+    have : 2*Real.pi*K*s = 6*nu*l := by
+      rw [hKdef, hadef, hsdef]
+      field_simp
+      ring
+    rw [this]; nlinarith
+  have hsmall : E0 ≤ α2*min (p11s2 C nu eps) (Real.pi*eps)/(128*K) := by
+    rw [hmin]
+    refine hE0E.trans (hb2.trans (le_of_eq ?_))
+    rw [hα2, hα1]; ring
+  have hdiv' : ∀ I ∈ p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps),
+      ∀ k : Fin (n+n) → ℤ, k ≠ 0 → KAM.Fourier.modeSize k ≤ K →
+      (if (fun i : Fin n => k (Fin.castAdd n i))=0 then α2 else α1) ≤
+        ‖p11dotC k (fun i => fderiv ℂ h0 I (Pi.single i 1))‖ := by
+    intro I hI k hk hkK
+    have := hdiv I hI k hk hkK
+    split_ifs at this ⊢
+    · rw [hα2, hα1]; linarith
+    · rw [hα1]; linarith
+  obtain ⟨Psi, g, fs, hU⟩ := aniso_avg (a := n) (b := n) (c := p11SlowCenter C eps)
+    (r1 := p11s2 C nu eps) (r2 := Real.pi*eps) (s := s) (T := K) (alpha1 := α1) (alpha2 := α2)
+    (E := E0) hs2 (by positivity) hs hK hk6 hα2pos
+    (by rw [hα2]; exact mul_le_of_le_one_left hα1pos.le heps1) hh0 hf2 hper hreal_h hreal_f hE0nn
+    hb hsmall hdiv'
+  refine ⟨Psi, g, fs, ?_⟩
+  intro V Vh s' E'
+  sorry
+
 end Conclude
 
 end KAM.Planetary
