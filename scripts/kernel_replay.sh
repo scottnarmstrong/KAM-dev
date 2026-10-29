@@ -97,9 +97,9 @@ if [ -n "$noise" ]; then
   echo "KERNEL-REPLAY FAILED: unexpected output from leanchecker:" >&2
   printf '%s\n' "$noise" | head -40 >&2; status=1
 fi
-sed -n 's/^replaying //p' "$log" | sort -u > "$work/replayed.txt"
-missing=$(comm -23 "$work/expected.txt" "$work/replayed.txt" || true)
-extra=$(comm -13 "$work/expected.txt" "$work/replayed.txt" || true)
+sed -n 's/^replaying //p' "$log" | LC_ALL=C sort -u > "$work/replayed.txt"
+missing=$(LC_ALL=C comm -23 "$work/expected.txt" "$work/replayed.txt" || true)
+extra=$(LC_ALL=C comm -13 "$work/expected.txt" "$work/replayed.txt" || true)
 if [ -n "$missing" ]; then
   echo "KERNEL-REPLAY FAILED: expected modules not replayed ($(printf '%s\n' "$missing" | wc -l)):" >&2
   printf '%s\n' "$missing" | head -20 >&2; status=1
