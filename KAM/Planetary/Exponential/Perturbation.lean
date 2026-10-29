@@ -13,7 +13,7 @@ public import KAM.Planetary.Exponential.ComplexTube
 public import KAM.Planetary.Poincare.Product
 
 /-!
-# P14 package E7: the normalized perturbation
+# The normalized perturbation
 
 Blueprint P, Part 14 (`bpP:p14:perturbation`, steps `pt-input`, `pt-rho`, `pt-def`, `pt-p12`,
 `pt-p3`, `pt-p4`, `pt-neg`).

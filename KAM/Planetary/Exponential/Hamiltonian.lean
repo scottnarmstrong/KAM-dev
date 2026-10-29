@@ -18,7 +18,7 @@ public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Poincare.Product
 
 /-!
-# P14 package E10: the N-Hamiltonian is the chart Hamiltonian
+# The N-Hamiltonian is the chart Hamiltonian
 
 Blueprint P, Part 14 (`bpP:p14:hnu`, `stepP:p14:hn-eq`, `stepP:p14:hn-field`).  For `ν = B₀ μ`
 the degenerate Hamiltonian `h(Λ) + ν Re P(cx w)` built from the Kepler part and the complexified

@@ -16,7 +16,7 @@ public import KAM.Planetary.Exponential.Enlargement
 public import KAM.Planetary.Exponential.LocalComplexification
 
 /-!
-# P14 package E4: the Kepler data `h_data`
+# The Kepler data `h_data`
 
 Blueprint P, Part 14 (`bpP:p14:h-data`, steps `hd-i`, `hd-ii`, `hd-iv`, `hd-v`): the
 complexified Kepler part `planetaryKeplerC m I = -∑ m_i³ / (2 I_i²)` on the complex collar of the

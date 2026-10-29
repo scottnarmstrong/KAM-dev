@@ -23,7 +23,7 @@ public import KAM.Planetary.Exponential.UniformData
 public import KAM.Planetary.Hamiltonian.Chart
 
 /-!
-# P14 package E9: lifting a physical solution segment to the Poincaré chart
+# Lifting a physical solution segment to the Poincaré chart
 
 Blueprint P, Part 14 (`bpP:p14:lift`, steps `li-init`, `li-max`, `li-proj`, `li-cont`,
 `li-concl`).  A moving-frame solution `z` on `[l, r] ∋ 0` that stays in the outer AMD region is
@@ -35,8 +35,9 @@ pulled-back Hamiltonian field on the safe chart domain `chartSafe`.
   angles; `y` is the maximal solution through `w₀`;
 * `li-proj`: `Ψ ∘ y` is a physical solution (`chart_orbit`) and equals `z` by uniqueness;
 * `li-cont`: on `(Tm, Tp) ∩ [l, r]` the solution stays over the compact zero-angle set
-  `liftQ B`, so uniform data (E8) forces `Tp = ⊤` and `Tm = ⊥` unless `[l, r] ⊂ (Tm, Tp)`;
-* `li-concl`: the conclusion, with the action and AMD identities from the E1 dictionary.
+  `liftQ B`, so uniform data (`UniformData`) forces `Tp = ⊤` and `Tm = ⊥` unless
+  `[l, r] ⊂ (Tm, Tp)`;
+* `li-concl`: the conclusion, with the action and AMD identities from the chart dictionary.
 -/
 
 @[expose] public noncomputable section

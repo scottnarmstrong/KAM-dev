@@ -13,7 +13,7 @@ public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.ExtensionTubeP
 
 /-!
-# P14 package E6: the complex tube of a real-analytic periodic function
+# The complex tube of a real-analytic periodic function
 
 * `real_trace_identity`: two holomorphic functions on the intersection of two real-centered complex
   balls which agree on the real points of the intersection agree on the intersection (the real-slice

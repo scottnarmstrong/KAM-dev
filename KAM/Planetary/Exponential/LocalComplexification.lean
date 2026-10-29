@@ -12,14 +12,14 @@ public import KAM.Strip.RealRestriction
 public import KAM.Planetary.PGAssembly.ComplexLocal
 
 /-!
-# P14 package E5: local complexification wrappers
+# Local complexification wrappers
 
 * `complex_division`: quotient of holomorphic functions with non-vanishing denominator on a
   subset of `ℂᵈ × ℂᵈ` (via `DifferentiableOn.inv` and `DifferentiableOn.mul`).
 * `local_complex_restriction`: the real derivative of `Re ∘ f ∘ complexifyPhase` is the real part
   of the complex derivative (local; no strip hypothesis).
 * `local_analytic_complexification`: a real-analytic function on phase space is the real trace of
-  a holomorphic function on a complex ball around `complexifyPhase x`; obtained from the P5-CL
+  a holomorphic function on a complex ball around `complexifyPhase x`; obtained from
   `local_real_complexification` on `Fin (d + d) → ℝ` transported by the isometric packing
   `Fin.append`.
 -/

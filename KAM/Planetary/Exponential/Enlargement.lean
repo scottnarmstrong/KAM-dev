@@ -10,7 +10,7 @@ public import KAM.Frozen.Planetary.Defs.AMDBoxAdmissible
 public import KAM.Planetary.Exponential.Setting
 
 /-!
-# P14 package E2: the enlarged data
+# The enlarged data
 
 Blueprint P, Part 14 (`bpP:p14:enlarge`): for an admissible box there are `κ > 0`,
 `e ∈ (e_*, 1)` and `A > A₁` satisfying the source inequalities (E1)–(E3).  Proof: all inequalities
