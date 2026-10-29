@@ -84,7 +84,8 @@ theorem p11cGe_det_neg (p : PlanarData) (hp : p.Valid) :
   have hg : -117 / (16 * p.m0 ^ 2) * t ^ 3 < 0 := by
     have := hp.2.1
     have : 0 < 117 / (16 * p.m0 ^ 2) * t ^ 3 := by positivity
-    linarith [neg_div (16 * p.m0 ^ 2) 117]
+    rw [neg_div]
+    linarith [neg_mul (117 / (16 * p.m0 ^ 2)) (t ^ 3)]
   have hpos : 0 < (p11c_beta p ![t, 1]).det / (-117 / (16 * p.m0 ^ 2) * t ^ 3) := by
     have := (abs_lt.1 (h1.trans_lt hCt)).1
     linarith
@@ -120,7 +121,7 @@ theorem torsion (p : PlanarData) (hp : p.Valid) :
   have e3 : {a ∈ p11c_axes | ∀ j : Fin 2, (![fun a => p11c_phi4 p a,
       fun a => (p11c_beta p a).det] : Fin 2 → (Fin 2 → ℝ) → ℝ) j a ≠ 0} =
       {a ∈ p11c_axes | p11c_phi4 p a * (p11c_beta p a).det ≠ 0} := by
-    ext a; simp [Fin.forall_fin_two, mul_ne_zero_iff]
+    ext a; simp [Fin.forall_fin_two]
   have e4 : {a ∈ p11c_axes | ∃ j : Fin 2, (![fun a => p11c_phi4 p a,
       fun a => (p11c_beta p a).det] : Fin 2 → (Fin 2 → ℝ) → ℝ) j a = 0} =
       {a ∈ p11c_axes | p11c_phi4 p a * (p11c_beta p a).det = 0} := by
