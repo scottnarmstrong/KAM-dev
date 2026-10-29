@@ -12,7 +12,7 @@ public import KAM.Planetary.Preparation.WrapperSmall
 public import KAM.Planetary.Preparation.Datum
 
 /-!
-# The local wrapper for P-FIXED, parametric in `data_star` (P11A-P10, `bpP:p11:wrapper`)
+# The local wrapper for P-FIXED, parametric in `data_star` (`bpP:p11:wrapper`)
 
 `wrapper_of_data_star D hDS` is the signed `wrapper D` with the signed `data_star D` as hypothesis
 (its literal conclusion).  The final theorem `wrapper D := wrapper_of_data_star D (data_star D)` is
@@ -154,7 +154,7 @@ theorem wrapper_of_data_star {n : ℕ} (D : P11Physical n)
     Q'.lattice hγ hdβ.2.1 Q'.dio hdisp Q'.borel Q'.cell_lower
 
 /-- **Signed `wrapper`** (bpP:p11:wrapper): the parametric `wrapper_of_data_star`
-applied to the signed `data_star` (ruling OVERNIGHT 03:25). -/
+applied to the signed `data_star`. -/
 theorem wrapper {n : ℕ} (D : P11Physical n) :
     ∃ eps0 : ℝ, 0 < eps0 ∧ ∀ eps, 0 < eps → eps < eps0 →
       ∃ S : Set (Phase (n*2)), MeasurableSet S ∧ 0 < volume S ∧ volume S < ⊤ ∧

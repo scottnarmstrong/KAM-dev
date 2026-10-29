@@ -12,7 +12,7 @@ public import KAM.Planetary.Preparation.HoloMeanJets
 public import KAM.Planetary.Preparation.HoloData
 
 /-!
-# The fast mean `F₀` (P11A-P2e, `stepP:p11:hc-mean`)
+# The fast mean `F₀` (`stepP:p11:hc-mean`)
 
 For the working function `F = p11hsF D ρ` of `hc-F` (parametric in the data `d : P11HoloData D`
 and the strip hypotheses `P11HsHyp`), `p11_hc_mean` proves the mean clause of
@@ -251,7 +251,7 @@ theorem p11_Omega_norm_le (d : P11HoloData D) {J : P11CVec n}
   rw [inv_mul_le_iff₀ hp0] at h1
   linarith
 
-/-- `hc-mean` (P11A-P2e): the mean clause of `P11SecularSpec` for `F = p11hsF D ρ`, with
+/-- `hc-mean`: the mean clause of `P11SecularSpec` for `F = p11hsF D ρ`, with
 `C J = F₀(J, 0)` and any `M ≥ p11MeanM0`. -/
 theorem p11_hc_mean (D : P11Physical n) (d : P11HoloData D) {a : P11Vec n}
     (ha : a ∈ axes n) {σ rz B B' r' σ' : ℝ}

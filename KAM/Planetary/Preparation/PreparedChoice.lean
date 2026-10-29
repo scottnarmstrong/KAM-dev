@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PreparedBasic
 public import KAM.Planetary.Preparation.PreparedFreq
 
 /-!
-# The chosen frequency datum of the prepared assembly (P11A-P8e)
+# The chosen frequency datum of the prepared assembly
 
 `p11PrepChk D nu eps` is the normalized frequency `checkW`: the derivative of `h₀ + g₂` at the
 rescaled point (head as is, tail divided by `eps`). The chosen prepared data is

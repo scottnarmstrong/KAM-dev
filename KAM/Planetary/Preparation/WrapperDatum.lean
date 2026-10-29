@@ -13,7 +13,7 @@ public import KAM.Planetary.Quantitative.AssemblyK6
 public import KAM.Planetary.Quantitative.KamInputNodes
 
 /-!
-# The datum `𝔡_ε` of the KAM input (P11A-P10, `bpP:p11:data-star` admissibility)
+# The datum `𝔡_ε` of the KAM input (`bpP:p11:data-star` admissibility)
 
 `p11WrDatum D b` is the KAM datum `(μ̄, b, K_ε, 1/4, σ/72, M_*, M_0^*, C_1, τ_D, 1/2)` of Remark
 data-star.

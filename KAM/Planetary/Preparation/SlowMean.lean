@@ -12,7 +12,7 @@ public import KAM.Planetary.Preparation.PolarAverage
 public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
 
 /-!
-# Slow averaging: the secular mean and the quartic remainder (P11A-P7, `as-osc` inputs)
+# Slow averaging: the secular mean and the quartic remainder (`as-osc` inputs)
 
 For a package `C` with `P11SecularSpec D C`: the constant `C.C` equals the fast mean at the
 origin (hence is holomorphic), the fast mean is jointly holomorphic, and

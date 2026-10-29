@@ -12,7 +12,7 @@ public import KAM.Strip.AnalyticTaylor
 public import KAM.Nekhoroshev.Interfaces.Norms
 
 /-!
-# The Keplerian part of the holomorphic secular data (P11A-P2b, `stepP:p11:hc-rot`/`hc-F`)
+# The Keplerian part of the holomorphic secular data (`stepP:p11:hc-rot`/`hc-F`)
 
 The explicit holomorphic Keplerian energy `p11HoloH D J = -∑ᵢ (2π²cᵢ)/Jᵢ²`, `cᵢ = (G m₀)² mᵢ³`
 (the value `-∑ᵢ cᵢ/(2 (Jᵢ/2π)²)` of the specification on real points) and its gradient

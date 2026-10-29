@@ -11,7 +11,7 @@ public import KAM.Planetary.Preparation.HoloAssembly
 public import KAM.Planetary.Preparation.Polar
 
 /-!
-# The chain of charts `Ξ_ε` (P11A-P10, `stepP:p11:wr-chain`)
+# The chain of charts `Ξ_ε` (`stepP:p11:wr-chain`)
 
 `Ξ_ε = chart ∘ FastR ∘ PolarR ∘ PsiR ∘ ResR` is a real analytic `ε`-chart on the real points of the
 prepared domain, with the lattice properties (Q1)-(Q2) for the full integer angle lattice.

@@ -13,7 +13,7 @@ public import KAM.Planetary.Nondegeneracy.GoodAxes.SortedAnalytic
 public import KAM.Planetary.Nondegeneracy.Frequency
 
 /-!
-# The analytic secular frame at the base point (P11A-P2b, `stepP:p11:hc-rot`)
+# The analytic secular frame at the base point (`stepP:p11:hc-rot`)
 
 Around `Λ₀ = J₀/(2π)` the patch of `p11PatchData D` is in the actions of ordered axes
 (`p11_axis_mem_axes`: the forward tube bounds `|a'ᵢ - aᵢ|` by `p11Zeta`, which is at most a sixth of

@@ -11,11 +11,11 @@ public import KAM.Planetary.Preparation.PreparedCauchy
 public import KAM.Planetary.Preparation.SlowSmall
 
 /-!
-# Jet inputs of the prepared frequency (P11A-P8b, `stepP:p11:pr-in`)
+# Jet inputs of the prepared frequency (`stepP:p11:pr-in`)
 
 Helper lemmas, parametric in the slow datum `A` with `P11SlowSpecOf C Fast nu eps c A` (so they
 apply to `p11SlowData D nu eps` through `P11SlowSpec`).  They are exported helpers, not the signed
-`prepared` / `amount` (which are assembled in P8e).
+`prepared` / `amount` (which are assembled in `Prepared` and `Amount`).
 
 * `p11_prin_g2_jet`, `p11_prin_g2_jet_log`: step pr-in (iii), the mixed Cauchy estimate for `g₂`
   with radii `s₂/4` in `J` and `ε/4` in `ρ̃`.

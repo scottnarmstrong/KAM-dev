@@ -13,13 +13,14 @@ public import KAM.Planetary.Preparation.SlowCoeff
 public import KAM.Planetary.Preparation.SlowMW
 
 /-!
-# Slow averaging: assembly of `avg_slow_of_spec` (P11A-P7d)
+# Slow averaging: assembly of `avg_slow_of_spec`
 
 `avg_slow_of_spec`: for `C` with `P11SecularSpec D C`, `1 ≤ ν` and fast data satisfying
 `P11FastSpec` for all small `ε`, there are `ε₂`, `c₂` such that `P11SlowSpecOf` holds for every
-`ε ≤ ε₂`. P7b supplies `Ẑ, h₀, f₂` (`p11_slow_osc`), P7c the divisor clause and the
-averaging step (`p11_slow_divisor`, `p11_slow_conclude`); the constant `c₂` dominates all the
-explicit constants and `ε₂` is chosen by the eventual lemmas of `SlowSmall`/`SlowRates`.
+`ε ≤ ε₂`. `SlowAverage` supplies `Ẑ, h₀, f₂` (`p11_slow_osc`), `SlowDivisor` and `SlowConclude` the
+divisor clause and the averaging step (`p11_slow_divisor`, `p11_slow_conclude`); the constant `c₂`
+dominates all the explicit constants and `ε₂` is chosen by the eventual lemmas of
+`SlowSmall`/`SlowRates`.
 -/
 
 @[expose] public noncomputable section
@@ -177,7 +178,7 @@ theorem p11_slow_at (hC : P11SecularSpec D C) {nu eps c0 : ℝ} (hnu : 1 ≤ nu)
   exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right
     (mul_le_mul_of_nonneg_right hcc0 hX) hY) hZ
 
-/-- **P11A-P7d core**: the conclusion of `avg_slow` for an arbitrary `C` with
+/-- **Core**: the conclusion of `avg_slow` for an arbitrary `C` with
 `P11SecularSpec D C` and fast data satisfying `P11FastSpec` for all `ε ≤ ε₁`. -/
 theorem avg_slow_of_spec (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) {eps1 : ℝ}
     (heps1 : 0 < eps1) (Fast : ℝ → P11FastData n)

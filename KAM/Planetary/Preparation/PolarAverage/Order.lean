@@ -10,11 +10,11 @@ public import KAM.Strip.AnalyticTaylor
 public import KAM.Planetary.Preparation.Schwarz
 
 /-!
-# Vanishing order from decay, and radial Schwarz on a product (P11A-P6 helper)
+# Vanishing order from decay, and radial Schwarz on a product
 
 * `p11_vanish_of_decay`: a holomorphic `g` on a disc with `‖g t‖ ≤ C √t^k` for small `t > 0`
   has vanishing derivatives of order `j` with `2 j < k` at `0` (factor out the lowest power).
-* `p11_radial_schwarz_gen`: the radial Schwarz lemma of `P11A-P0` (`p11_radial_schwarz`) on an
+* `p11_radial_schwarz_gen`: the radial Schwarz lemma (`p11_radial_schwarz`) on an
   arbitrary finite-dimensional complex normed space, used on the phase product `ℂⁿ × ℂⁿ`.
 -/
 

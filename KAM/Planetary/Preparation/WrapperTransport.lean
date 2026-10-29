@@ -12,7 +12,7 @@ public import KAM.Kepler.Basic
 public import KAM.Frozen.Planetary.Defs.IsPhysicalTorus
 
 /-!
-# Transport helpers for the wrapper (P11A-P10, `stepP:p11:wr-tor`)
+# Transport helpers for the wrapper (`stepP:p11:wr-tor`)
 
 Reindexing `Fin d ≃ Fin e` of a physical torus, and changing the Hamiltonian of a lattice torus
 by one that agrees with it on an open neighbourhood of its range.

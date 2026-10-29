@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowData
 
 /-!
-# Sharp polydisc Cauchy estimate for coordinate multi-index derivatives (P11A-P7)
+# Sharp polydisc Cauchy estimate for coordinate multi-index derivatives
 
 `p11PartialVec_norm_le`: if `g` is holomorphic on an open `U`, bounded by `M`, and the closed
 polydisc of radius `R` around `J` lies in `U`, then

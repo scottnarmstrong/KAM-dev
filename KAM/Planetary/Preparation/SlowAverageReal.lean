@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowAverageW
 
 /-!
-# Slow averaging: the averaged Hamiltonian identity and reality (P11A-P7b, `as-osc`)
+# Slow averaging: the averaged Hamiltonian identity and reality (`as-osc`)
 
 `p11_slow_secZ_eq`: on the box, `C + Σ Ω ρ̃/2π + Ẑ = 𝒜 G` (so `h₀ = h + ε 𝒜 G`); `h₀` and `f₂` are
 real at real points.

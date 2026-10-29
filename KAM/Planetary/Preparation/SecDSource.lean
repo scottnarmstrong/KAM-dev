@@ -11,7 +11,7 @@ public import KAM.Planetary.Preparation.SlowSigned
 public import KAM.Planetary.Preparation.SlowAverageReal
 
 /-!
-# Source objects of Step D (`bpP:p11:sec-D#data`, package P-SEC)
+# Source objects of Step D (`bpP:p11:sec-D#data`)
 
 The literal objects of display `(par2)` of blueprint-P Part 11, with their identifications:
 

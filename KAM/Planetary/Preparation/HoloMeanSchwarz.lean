@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.Schwarz
 
 /-!
-# Jets from real bounds and the diagonal Schwarz lemma (P11A-P2e, `stepP:p11:hc-mean`)
+# Jets from real bounds and the diagonal Schwarz lemma (`stepP:p11:hc-mean`)
 
 Helpers of the proof of `hc-mean` (jets of the fast mean vanish to order `3`, hence the Schwarz
 bound `M (‖z‖/r)⁴`):

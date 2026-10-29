@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.AmountSetup
 public import KAM.Planetary.Preparation.PreparedM
 
 /-!
-# The amount lemma (P11A-P8e, `bpP:p11:amount`)
+# The amount lemma (`bpP:p11:amount`)
 
 The signed `amount`: the chosen prepared data `p11PreparedData D nu eps c3` satisfies
 `P11PreparedFullSpec` and the scalar amount of `p11PreparedFreqR` on the prepared box is at

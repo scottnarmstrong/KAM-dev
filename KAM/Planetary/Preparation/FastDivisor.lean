@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.Holomorphic
 public import KAM.Nekhoroshev.NormalForm.Setting
 
 /-!
-# Fast averaging: the divisor bound (P11A-P5, `stepP:p11:af-o1`)
+# Fast averaging: the divisor bound (`stepP:p11:af-o1`)
 
 For `J` in the polydisc of radius `s₁` around `J₀` and `0 < |k|₁ ≤ K₁`:
 `|k·ω(J)| ≥ |k·ω(J₀)| - |k|₁ |ω(J) - ω(J₀)| ≥ γ K₁^{-τ} - K₁ L s₁ ≥ (3/4) γ K₁^{-τ} ≥ α₁`.

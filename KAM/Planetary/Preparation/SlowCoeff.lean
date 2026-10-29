@@ -10,7 +10,7 @@ public import KAM.Measure.Lipschitz
 public import KAM.Planetary.Preparation.SlowAverage
 
 /-!
-# Slow averaging: the zero angle-mode of `f₂` (P11A-P7d)
+# Slow averaging: the zero angle-mode of `f₂`
 
 `p11_slow_coeff_zero`: for any `h₀`, `f₂` satisfying the fast identity and the polar-average
 formula of `h₀` (clauses 1-2 of `P11SlowSpecOf`), the zero Fourier mode of `f₂` in the `2n`

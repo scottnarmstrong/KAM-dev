@@ -10,7 +10,7 @@ public import KAM.Planetary.SecularForm.Basic
 public import KAM.Strip.Averages
 
 /-!
-# The torus average after the period conversion (P11A-P2e, `stepP:p11:hc-mean`)
+# The torus average after the period conversion (`stepP:p11:hc-mean`)
 
 `p11_torusAverage_eq_avg`: the unit-cube average of `θ ↦ φ (2π θ)` is the `2π`-cell average
 `SecularForm.avg φ` used by `SecularSpectrum.diagonalize`.

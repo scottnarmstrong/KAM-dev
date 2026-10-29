@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.HoloData
 
 /-!
-# Shrinking the radius `r_C` of `P11HoloData` (P11A-P2f)
+# Shrinking the radius `r_C` of `P11HoloData`
 
 Every clause of `P11HoloData` is monotone in `r_C`, so the interface of `p11_holo_data` restricts
 to any smaller positive radius (needed to fit the strip radius `r'` of `hc-strip`).

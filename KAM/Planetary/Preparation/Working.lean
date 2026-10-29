@@ -13,7 +13,7 @@ public import KAM.Planetary.WeakMeasure.Stability
 public import KAM.Planetary.Newtonian.Models
 
 /-!
-# Preparation working data (P11A-P1, `bpP:p11:sec-A#data`, `bpP:p11:norm-dict`)
+# Preparation working data (`bpP:p11:sec-A#data`, `bpP:p11:norm-dict`)
 
 The physical data `P11Physical`, the tube radius `p11Zeta`, the packaged forward tube
 `forward_tube` and `p11PhysicalDelta` (one-line consequences of `forward_tube_core`), the literal

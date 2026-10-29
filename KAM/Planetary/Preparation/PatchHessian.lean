@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.SecularForm.Quadratic
 
 /-!
-# The literal secular Hessian is the Part 8 matrix (P11A-P1, `bpP:p11:sec-A#data`)
+# The literal secular Hessian is the Part 8 matrix (`bpP:p11:sec-A#data`)
 
 `p11SecularMatrix D L` is the literal Hessian of the frozen secular average of the fixed
 Hamiltonian in the position variable `ξ`. At `L = action D a` it equals Part 8's `coeffs D a`:

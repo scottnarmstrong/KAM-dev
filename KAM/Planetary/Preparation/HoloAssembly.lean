@@ -12,10 +12,10 @@ public import KAM.Planetary.Preparation.HoloMean
 public import KAM.Planetary.Preparation.Polar
 
 /-!
-# Assembly of `holo_chart` (P11A-P2f, `bpP:p11:holo-chart`)
+# Assembly of `holo_chart` (`bpP:p11:holo-chart`)
 
-The signed theorem `holo_chart` is assembled from `p11_holo_data` (P2b, shrunk to the strip
-radius), `p11hs_F`/`p11hs_strip_data` (P2c), `P11HoloData.chart_spec` (P2d) and `p11_hc_mean` (P2e).
+The signed theorem `holo_chart` is assembled from `p11_holo_data` (shrunk to the strip radius),
+`p11hs_F`/`p11hs_strip_data`, `P11HoloData.chart_spec` and `p11_hc_mean`.
 The base axis is `a = axis (J₀/2π)`, so the strip centre is exactly `J₀/2π`.
 -/
 

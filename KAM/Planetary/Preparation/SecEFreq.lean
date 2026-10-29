@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SecESource
 
 /-!
-# The frequency map of Step E (`bpP:p11:sec-E#data`, package P-SEC)
+# The frequency map of Step E (`bpP:p11:sec-E#data`)
 
 For the chosen slow datum and every point `I` of the action polydisc `{|r|<2, |ρ'|<π/2}` of `E`:
 

@@ -11,7 +11,7 @@ public import KAM.Planetary.WeakMeasure.Basic
 public import KAM.Head.Frequency
 
 /-!
-# Admissibility of `Ĥ_ε` (P11A-P10, `bpP:p11:data-star`, KAM clauses (A1)-(A4))
+# Admissibility of `Ĥ_ε` (`bpP:p11:data-star`, KAM clauses (A1)-(A4))
 
 `p11_wr_qi`: the prepared data `(N_ε, P_ε)` of the full spec, with amount `β ≤ index_def`, is
 `QuantitativeInput` for the datum `p11WrDatum D β`.

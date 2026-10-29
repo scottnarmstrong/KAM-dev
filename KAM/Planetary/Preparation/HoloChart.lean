@@ -12,7 +12,7 @@ public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.Poincare.Product
 
 /-!
-# The real chart `Ψ_c` (P11A-P2d, `stepP:p11:hc-id`, `stepP:p11:hc-lat`)
+# The real chart `Ψ_c` (`stepP:p11:hc-id`, `stepP:p11:hc-lat`)
 
 The real chart of `holo_chart` is `Ψ_c = Ψ^{(n)} ∘ Φ_ρ⁻¹ ∘ T₁`, with `T₁ = p11FastScale` the linear
 period conversion `(θ, J) ↦ (2πθ, J/2π)` on the fast block, `Φ_ρ⁻¹ = liftInv R` the real inverse

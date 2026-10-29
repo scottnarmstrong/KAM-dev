@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.WrapperAsym
 public import KAM.Planetary.Preparation.WrapperTubeMain
 
 /-!
-# Literal export of `stepP:p11:wr-tube` (GAP-WR)
+# Literal export of `stepP:p11:wr-tube`
 
 The source asserts, for real points with actions in `[-1,1]` and `ε` small, that
 `∑ (ξ_i² + η_i²) ≤ 4 n ε`, `Γ_i ≤ 2 n ε`, and that `Ξ_ε` lies in the circular tube. The earlier

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Strip.Regularity
 
 /-!
-# Holomorphic dependence of a parameter integral (P11A-P6 helper)
+# Holomorphic dependence of a parameter integral
 
 If `f : E × A → ℂ` is holomorphic on an open set `W`, `γ : α → A` is continuous, and `K ⊆ α` is
 compact with `(q, γ a) ∈ W` for all `q` in an open set `U` and `a ∈ K`, then

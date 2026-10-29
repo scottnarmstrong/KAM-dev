@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PatchHessian
 public import KAM.Planetary.SecularForm.Analytic
 
 /-!
-# Complex-angle separation and the uniform strip (P11A-P2c, `stepP:p11:hc-strip`)
+# Complex-angle separation and the uniform strip (`stepP:p11:hc-strip`)
 
 The complexified squared separation `p11hsSep` of two planets, with a COMPLEX angle `λ`
 (`SecularForm.separationC` only has real angles): it agrees with `separationC` at real angles,

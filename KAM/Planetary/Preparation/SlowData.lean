@@ -12,7 +12,7 @@ public import KAM.Planetary.Preparation.PolarAverage
 public import KAM.Planetary.Preparation.RectangularBracket
 
 /-!
-# Slow averaging: data and specification (P11A-P7, `bpP:p11:sec-D#data`)
+# Slow averaging: data and specification (`bpP:p11:sec-D#data`)
 
 The signed parametric definitions `p11Rescale`, `p11PreparedBox`, `p11K2`, `p11s2`,
 `P11SlowData`, `p11PartialVec` (verbatim), and the unsigned parametric copy `P11SlowSpecOf C Fast`

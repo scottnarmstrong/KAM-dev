@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PreparedResc
 public import KAM.Planetary.Preparation.PreparedData
 
 /-!
-# The prepared frequency (P11A-P8b2, `stepP:p11:pr-b`)
+# The prepared frequency (`stepP:p11:pr-b`)
 
 For the prepared datum `Q` with `Q.N = (h₀ + g₂) ∘ (rescaling) / ε` on `actionNbhd box 1`:
 

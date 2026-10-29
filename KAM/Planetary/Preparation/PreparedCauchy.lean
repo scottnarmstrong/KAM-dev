@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowCauchy
 
 /-!
-# Polydisc Cauchy estimate with one radius per coordinate (P11A-P8b, `stepP:p11:pr-in`)
+# Polydisc Cauchy estimate with one radius per coordinate (`stepP:p11:pr-in`)
 
 `p11PartialVec_norm_le_poly`: if `g` is holomorphic on an open `U`, bounded by `M`, and the closed
 polydisc `{y | ∀ j, ‖y j - J j‖ ≤ R j}` lies in `U`, then

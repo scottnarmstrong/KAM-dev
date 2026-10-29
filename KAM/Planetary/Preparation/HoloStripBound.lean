@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.HoloStripGeometry
 
 /-!
-# The complexified fixed perturbation on the strip (P11A-P2c, `stepP:p11:hc-strip`)
+# The complexified fixed perturbation on the strip (`stepP:p11:hc-strip`)
 
 `p11hsFHat D w = -G Σ_{i<j} m_i m_j s_ij^{-1/2}` (principal root) on a complex phase point `w` of
 `P11Phase (n+n)` (fast block first), with `s_ij = p11hsSep` the complexified squared separation of
