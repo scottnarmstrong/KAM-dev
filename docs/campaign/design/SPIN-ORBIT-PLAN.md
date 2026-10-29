@@ -70,6 +70,29 @@ data are its first client. Consequences:
 - **O4:** real-analytic barrier graphs and the analytic conjugacy stay out of the first frozen statement (later
   corollary).
 
+## Owner ruling O5 and the replay gate (2026-10-29, 14:20)
+
+- **Replay gate: GO.** SO-REPLAY ([report](../../tracks/SO/studies/SO-REPLAY-kernel-replay-cost.md)) showed that naive
+  sparse products cost about 2.3 ms and 190 KB per coefficient pair in the kernel, hopeless at the lunar scale.
+  SO-REPLAY2 ([report](../../tracks/SO/studies/SO-REPLAY2-advice-sharded-products.md)) measured the replacement:
+  Kronecker-packed products in shards of 32 rows x 256 slots, each checked against supplied advice by one kernel
+  multiplication. Even at the original 1e-130 data this is about 1.5–3 kernel CPU-minutes per product (about one
+  CPU-hour for the whole residual check, plus about 1.3 hours of elaboration), at most about 4 GB per declaration.
+  The binding cost is now data volume (about 260 MB of Lean source at the original scale), a packaging question for
+  SO-DATA.
+- **Constants study** ([report](../../tracks/SO/studies/CONSTANTS-STUDY.md), scripts in `constants-scripts/`): the
+  1.3e-100 threshold is exactly gamma^4 delta_0^(2a) / c_*; the torsion bound |T| <= C_T/delta alone costs about 38 orders.
+- **O5 (owner): adopt the rotated frame now.** The lunar client works in the data's own angles: Q1 = q - phi,
+  Q2 = phi, P1 = p, P2 = p + J (symplectic, unimodular), H' = P1^2/2 - P1 + P2 + V(Q1 + Q2, Q2), frequency
+  (nu - 1, 1), with the parameter package R1 (rho' = 1/70, rho_inf = rho'/1000, mu = 1/160, ray scalar 1 + 1e-6, a tight
+  Gram-inverse enclosure). Projected threshold about 1e-75 (about 300 bits), about 8k coefficients per torus (0.35x the
+  product work). The sealed KAM theorem is unchanged; confinement transfers since P1 = p. The projection rests on a
+  reconstructed norm table, so the generator first regenerates the candidates in this frame and encloses the norms
+  (SO-GEN2) before anything is frozen; the lunar client's design changes in Revision 5.
+- **Sharper KAM theorem: not funded now.** The replay gate does not need it. Revisit only if SO-DATA's packaging
+  makes the data volume unacceptable; the cheapest option then is the HL19 torsion route plus the Parseval
+  small-divisor estimate (about 1e-52, 3–4k Lean lines).
+
 The design (docs/tracks/SO/design/SO-LEAN-DESIGN.md, branch inp-design-so) gets a Revision 2 for O2 and O3 together
 with its independent design audit's findings.
 
