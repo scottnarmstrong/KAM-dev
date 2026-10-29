@@ -8,7 +8,7 @@ module
 public import Mathlib
 
 /-!
-# Planar quartic torsion: reduction of Laplace coefficients (P11C, package T3)
+# Planar quartic torsion: reduction of Laplace coefficients
 
 The normalized radian Laplace integral `p11c_laplace`, the three recurrences `laplace_red`
 (integration by parts over the period), the upward recurrences `laplace_up`, and the rational

@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.Fast
 public import KAM.Planetary.Preparation.HoloAssembly
 
 /-!
-# Signed `avg_fast` and `p11FastData` (P11A-P5W, `bpP:p11:avg-fast`)
+# Signed `avg_fast` and `p11FastData` (`bpP:p11:avg-fast`)
 
 Short wrappers of the core `avg_fast_of_spec` at `C = p11SecularData D`, whose
 `P11SecularSpec` comes from `holo_chart`. The reality premise `P11SecularHReal` of the core is

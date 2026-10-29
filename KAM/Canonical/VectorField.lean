@@ -13,8 +13,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # Hamiltonian fields and their size (`bpN:p5:vf-bound`)
 
-Blueprint-N Part 5, node `bpN:p5:vf-bound` (design `docs/tracks/N/design/PART145-LEAN-DESIGN.md`,
-package C5-4).
+Blueprint-N Part 5, node `bpN:p5:vf-bound`.
 
 * `KAM.Canonical.differentiableOn_hamField`: the frozen field `KAM.hamiltonianVectorFieldℂ φ` of a
   holomorphic `φ` is holomorphic;

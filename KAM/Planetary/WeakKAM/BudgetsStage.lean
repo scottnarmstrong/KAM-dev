@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.Admissible
 
-/-! # P11B weak-KAM scalar budgets: definitions and stagewise bounds
+/-! # Part 11a, weak-KAM scalar budgets: definitions and stagewise bounds
 
 The exact scalar schedules `selectionA`, `selectionAlpha`, `selectionKappa`, `selectionMapBudget`,
 `selectionRealBudget`, `selectionQactual` and the homological factor `selectionΛ`, together with

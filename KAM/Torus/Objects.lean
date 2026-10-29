@@ -17,7 +17,7 @@ public import Mathlib.Data.Matrix.Block
 # The objects of Definition `bp:p2:objects`
 
 Blueprint Part 2, Definition `bp:p2:objects`. The objects attached to a torus `K`, a Hamiltonian
-`h` and a frequency `ω` are total functions of the angle `θ` (design §1.3, departure L2):
+`h` and a frequency `ω` are total functions of the angle `θ`:
 holomorphy, `K(T_r) ⊆ 𝔅` and `det G ≠ 0` are hypotheses of the lemmas that use the objects, not
 part of the definitions. All `2n`-row matrices are indexed by `Fin n ⊕ Fin n`; the vector `E` of
 the frozen `KAM.invarianceError` enters products as `KAM.Torus.sumVec n E`.

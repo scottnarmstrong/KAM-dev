@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Pair
 
 /-!
-# Planar quartic torsion: a small big-O calculus for real powers (P11C, package T18)
+# Planar quartic torsion: a small big-O calculus for real powers
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`): products of `a ^ r` powers, division by `a`, and
 the lower-bound transfer used for the projector estimates, all along `a → 0⁺`.

@@ -16,7 +16,6 @@ public import KAM.Canonical.Setting
 The data of blueprint-N Part 6: the cut-off set `Z_K`, the frequency `ω = ∂_I h`, the pairing
 `k · v`, the conjugate exponent, the nonresonance, Lipschitz and divisor predicates, finite
 decompositions with the `*`-norm, and the lemmas `lipschitz`, `lipschitz_entries`, `divisor`.
-Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-1.
 -/
 
 @[expose] public noncomputable section

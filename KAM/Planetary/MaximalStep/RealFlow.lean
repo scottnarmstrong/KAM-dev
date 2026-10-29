@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.GlobalRealFlow
 
 /-!
-# The real-flow Lipschitz estimate (P11A-C7)
+# The real-flow Lipschitz estimate
 
 `bpP:p11a:real-lipschitz` (`real_lipschitz`): the time-`t` flow of a periodic bounded `C²` field
 with bounded derivative satisfies the displacement bound, the periodicity and the Gronwall bound

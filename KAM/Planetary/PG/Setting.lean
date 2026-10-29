@@ -20,7 +20,7 @@ Scalar-generic block extensions `blockFast`, `blockSlow` (identified with the fr
 `slow` on real vectors), the source-data structure `PGData` (the frozen P-G binders and
 nothing else), the boundary-constant extractors, and the plain coordinate carriers
 `realNbhd`, `innerCore`, `actionShell`, `joinedActions`, `unitCube`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P45-S. This module contains only
+This module contains only
 source and coordinate data, no chosen witnesses that depend on downstream existence lemmas.
 -/
 

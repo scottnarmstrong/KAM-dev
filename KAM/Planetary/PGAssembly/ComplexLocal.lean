@@ -17,7 +17,6 @@ points of a function `F` holomorphic and bounded on a complex ball around `ι x`
 The complexified series is built coordinatewise: for the real power series `p` of `f`, the
 `n`-th complex multilinear map is `q n m = ∑_{i : Fin n → Fin N} c n i ∏_j m j (i j)` with
 `c n i = p n (e_{i 0}, …, e_{i (n-1)})`. Then `‖q n‖ ≤ Nⁿ ‖p n‖` and `q n (ι v) = p n v`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CL.
 -/
 
 @[expose] public noncomputable section

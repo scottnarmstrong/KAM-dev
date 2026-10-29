@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PreparedBasic
 public import KAM.Planetary.Preparation.WrapperDatum
 
 /-!
-# Smallness of `ε` for the wrapper (P11A-P10, `stepP:p11:wr-nu`, first part)
+# Smallness of `ε` for the wrapper (`stepP:p11:wr-nu`, first part)
 
 `p11_wr_small`: the signed fast and slow specifications and the elementary smallness conditions
 (`hεM`, `hpe`, `hsm`) hold for all small `ε`.

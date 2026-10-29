@@ -12,7 +12,7 @@ public import KAM.Planetary.WeakKAM.Iteration
 public import KAM.Planetary.WeakKAM.ContinuousSeries
 public import KAM.Planetary.WeakMeasure.Bridge
 
-/-! # P11B parameter selection (`bpP:p11a:parameter-selection`)
+/-! # Part 11a, parameter selection (`bpP:p11a:parameter-selection`)
 
 `parameter_selection` builds `SelectionOutput d f (adm_params d ε)` from the iteration of the
 inductive lemma: one cutoff family `χ_j` (`ps-iter`), the frequency and energy series on

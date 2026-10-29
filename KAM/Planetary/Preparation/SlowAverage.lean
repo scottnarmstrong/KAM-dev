@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.SlowAverageJet
 public import KAM.Planetary.Preparation.SlowAverageReal
 
 /-!
-# Slow averaging, polar normalization (P11A-P7b; plan steps 1-2 of `avg_slow`)
+# Slow averaging, polar normalization (steps 1-2 of `avg_slow`)
 
 `P11SlowOscSpec C Fast eps c Z h0 f2` collects the outputs of graph step `stepP:p11:as-osc`
 (`bpP:p11:avg-slow` (a)): the holomorphic `Ẑ = 𝒜(R₄ + ε ḡ)`, `h₀ = h + ε (C + Σ Ω ρ̃/2π + Ẑ)`
@@ -25,7 +25,7 @@ and `f₂ = ε (G ∘ Π - (C + Σ Ω ρ̃/2π + Ẑ)) + f₁ ∘ Π` on the box
 * the weighted bound `wn(f₂) ≤ c ε^{5/2} (log 1/ε)^{2τ+1}` at width `σ/12`.
 
 `p11_slow_osc` states the existence for all small `ε` and all fast data (unsigned; consumed by
-P7c/P7d).
+`SlowConclude` and `SlowAssembly`).
 -/
 
 @[expose] public noncomputable section
@@ -213,10 +213,11 @@ theorem p11_slow_osc_at (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDat
           mul_le_mul_of_nonneg_right hcw h0
       _ = _ := by ring
 
-/-- **P11A-P7b main output** (graph steps `stepP:p11:as-osc` and, for the weighted bound,
+/-- **Main output** (graph steps `stepP:p11:as-osc` and, for the weighted bound,
 `stepP:p11:as-concl`; `bpP:p11:avg-slow` (a)): constants `c ≥ 1`, `ε₂ > 0`, depending only on
 the secular data, such that for every `ε ≤ ε₂` and every fast datum satisfying `P11FastSpec`
-there are `Ẑ`, `h₀`, `f₂` with `P11SlowOscSpec`.  Unsigned; consumed by P7c and P7d. -/
+there are `Ẑ`, `h₀`, `f₂` with `P11SlowOscSpec`.  Unsigned; consumed by `SlowConclude` and
+`SlowAssembly`. -/
 theorem p11_slow_osc (hC : P11SecularSpec D C) :
     ∃ c eps2 : ℝ, 1 ≤ c ∧ 0 < eps2 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps2 →
       ∀ Fast : P11FastData n, P11FastSpec C eps Fast →

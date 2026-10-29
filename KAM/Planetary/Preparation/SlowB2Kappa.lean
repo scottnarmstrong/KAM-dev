@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowRates
 
 /-!
-# Slow averaging: the literal (B2) conclusion (GAP-E, `stepP:p11:as-b2`)
+# Slow averaging: the literal (B2) conclusion (`stepP:p11:as-b2`)
 
 `slow_b2_literal`: for `K₂ = (3 ν₂ / (π σ₃)) ℓ`, `ℓ = log (1/ε)`, `ν₂ ≥ 1`, and all small `ε`:
 `E₂ ≤ α₍₂₎ π ε/(128 K₂)`, the closed form `α₍₂₎ π ε/(128 K₂) = (π γ₀/512) ε² K₂^{-τ₀-1}`,

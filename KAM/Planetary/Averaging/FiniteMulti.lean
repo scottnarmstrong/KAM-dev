@@ -14,7 +14,6 @@ public import KAM.Planetary.Averaging.FiniteSetup
 The schedule of Case A: a first step with losses `(r/8, s/6)` followed by `N` steps with losses
 `(r/(8N), s/(4N))`, with the remainder bounds `ε₀ = E`, `εᵢ = (3E/(4κ)) 4^{1-i}`. This module proves
 the closed forms of the radii, the weights of the star norm and the admissibility of every stage.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12.
 -/
 
 @[expose] public noncomputable section

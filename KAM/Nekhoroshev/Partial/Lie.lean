@@ -11,7 +11,7 @@ import Mathlib.Analysis.Calculus.Taylor
 import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 
 /-!
-# Taylor formula along the extended flow (`bpN:p11:ext-taylor`, Part 11, package N11-E2)
+# Taylor formula along the extended flow (`bpN:p11:ext-taylor`, Part 11)
 
 Along a solution `γ` of `γ' = X^c_φ(γ)` in an open set `Ω` where `φ` and `u` are holomorphic,
 `(u ∘ γ)^{(j)} = (ad^j_φ u) ∘ γ` (steps `et-one`, `et-ind`), and Taylor's formula with integral

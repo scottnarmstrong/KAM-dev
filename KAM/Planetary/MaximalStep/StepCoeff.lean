@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.StepData
 public import KAM.Planetary.MaximalStep.Homological
 
 /-!
-# Coefficients of the cutoff (P11A-C8, `stepP:p11a:cs-cutoff`)
+# Coefficients of the cutoff (`stepP:p11a:cs-cutoff`)
 
 The cutoff `R_* = p11Cutoff T R` is affine in the action: `R_* = R_{*0} + R_{*1} · η` with
 `R_{*0} = T_T [R(·, 0)]` and `R_{*1,i} = T_T [∂_{η_i} R(·, 0)]`. This file proves the affine
@@ -361,9 +361,8 @@ theorem p11_cutoff_coeff {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
     rw [cutoff_R1 hr hs hB hR θ hbB i, mul_comm]
 
 /-- Coefficient bounds of cutoff(a), needed separately by cs-cutoff. The affine decomposition is
-asserted only for parameters in `B` (orchestrator ruling 2026-10-28, P11A-C8: without `z.2 ∈ B` it
-is false, since `R` is unconstrained off `B` and the truncation integrates non-integrable data
-to 0). -/
+asserted only for parameters in `B`: without `z.2 ∈ B` it is false, since `R` is unconstrained off
+`B` and the truncation integrates non-integrable data to 0. -/
 theorem cutoff_coefficients {n : ℕ} (hn : 1 ≤ n) {r s T d eps : ℝ}
     (hr : 0 < r) (hs : 0 < s) (hT : 0 ≤ T) (hd : 0 < d) (hdr : d < r)
     (he : 0 ≤ eps) {B : Set (P11CVec n)} (hB : IsOpen B) {R : P11Family n → ℂ}

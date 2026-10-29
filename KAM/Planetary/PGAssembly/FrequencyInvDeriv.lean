@@ -15,7 +15,6 @@ Block projections, the splitting
 `complexFrequency = (complexFast ∘ blockFast, 0) + mu ∇jetPolynomial`
 and the formula for its derivative on the tube; the slow-slow block of the Hessian of
 `jetPolynomial` is `jetBeta` (`jetBeta_isSymm`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FI.
 -/
 
 @[expose] public noncomputable section

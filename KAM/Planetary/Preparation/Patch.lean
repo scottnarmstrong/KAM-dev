@@ -12,7 +12,7 @@ public import KAM.Planetary.Nondegeneracy.GoodAxes
 public import KAM.Planetary.WeakMeasure.FiniteType
 
 /-!
-# The Part 10 patch (P11A-P1, `bpP:p11:sec-A#data`, `bpP:p11:norm-dict`)
+# The Part 10 patch (`bpP:p11:sec-A#data`, `bpP:p11:norm-dict`)
 
 `p11_patch`: around the physical action point there is a Part 10 patch of simple axes, and the
 `2π`-rescaled cube `K` inside it with the specification `P11PatchSpec`. The clause on the

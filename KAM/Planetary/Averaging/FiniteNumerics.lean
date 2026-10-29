@@ -13,7 +13,7 @@ public import Mathlib
 
 Pure real-number lemmas: the first step (cases A and B), the inductive step with ratio `1/4`,
 the choice of the number of steps `N = ⌊κ/(12 ln 2)⌋`, and the geometric sums. No operator
-analysis enters here. Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12.
+analysis enters here.
 -/
 
 @[expose] public noncomputable section

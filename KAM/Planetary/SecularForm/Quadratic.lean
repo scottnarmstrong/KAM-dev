@@ -12,16 +12,16 @@ public import KAM.Planetary.SecularForm.Quadratic.Diag
 /-!
 # Secular form: the quadratic part of the secular function
 
-Blueprint P, Part 8, `bpP:p8:quadratic-form` (package S8-Q), with the proof cuts `stepP:p8:qf-pair`,
+Blueprint P, Part 8, `bpP:p8:quadratic-form`, with the proof cuts `stepP:p8:qf-pair`,
 `qf-assembly` and `qf-diag2`.
 
 `quadratic_form`: near `action D a`, the secular function of the fixed model is
 `C₀(a(Λ)) + ξᵀ Q_h ξ + ηᵀ Q_h η + O(|(ξ, η)|⁴)`, the error real analytic and `O(|(ξ, η)|⁴)` locally
 uniformly in `Λ`, with `Q_h = coeffs D (axis D Λ)`. The matrix is never assumed: the pair
 decomposition (`secular_eq_sum_pair`) writes the secular function as the sum of the literal pair
-averages `pairSlowSecular`, whose values, diagonal second derivatives (S8-D) and cross second
-derivative (S8-X) are summed by `quad_pair_sum`; the remaining mixed second derivatives follow from
-the reflection and quarter-turn symmetries (S8-Y, `hessian_pair_form`); the uniform bound is the
+averages `pairSlowSecular`, whose values, diagonal second derivatives and cross second derivative
+are summed by `quad_pair_sum`; the remaining mixed second derivatives follow from
+the reflection and quarter-turn symmetries (`hessian_pair_form`); the uniform bound is the
 Schwarz lemma of order four on the complex line through `(ξ, Λ, η)` (`remainder_pointwise`).
 
 The modules of the proof are in `Quadratic/`: `Marginal`, `PairSplit`, `PairIdentify`,

@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularForm.Quadratic
 public import KAM.Planetary.SecularSpectrum.TwoPlanets
 
 /-!
-# Planar quartic torsion: the physical quadratic form and its spectral data (P11C, package T12)
+# Planar quartic torsion: the physical quadratic form and its spectral data
 
 Blueprint P, Part 11b (`bpP:p11b:sec-beta#data`): the explicit physical matrix `p11c_Q`, its sorted
 eigenvalues `p11c_sigma` and its spectral projector `p11c_projector`, together with
@@ -281,7 +281,7 @@ theorem quadratic_physical_bridge (p : PlanarData) (hp : p.Valid) (a : Fin 2 →
 /-! ### Attachment of the spectral data (`bpP:p11b:sec-beta#data`)
 
 The explicit sorted spectrum and spectral projector are identified with the upstream Part-9
-objects; nothing is assumed.  The rotation lift itself belongs to package T14. -/
+objects; nothing is assumed.  The rotation lift itself is built in `PlanarTorsion/Frame`. -/
 
 theorem p11c_Q_symm (p : PlanarData) (a : Fin 2 → ℝ) : p11c_Q p a 1 0 = p11c_Q p a 0 1 := by
   simp [p11c_Q]

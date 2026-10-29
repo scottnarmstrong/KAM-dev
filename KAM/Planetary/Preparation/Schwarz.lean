@@ -10,7 +10,7 @@ public import KAM.Strip.AnalyticTaylor
 public import KAM.Planetary.MaximalStep.Basic
 
 /-!
-# Higher-order Schwarz lemma on complex radial lines (P11A-P0, `stepP:p11:hc-mean`)
+# Higher-order Schwarz lemma on complex radial lines (`stepP:p11:hc-mean`)
 
 If `F` is holomorphic on the ball `B(0,r) ⊆ ℂⁿ`, bounded by `M` there and its jets of order `< k`
 vanish at `0`, then `‖F z‖ ≤ M (‖z‖/r)^k`.

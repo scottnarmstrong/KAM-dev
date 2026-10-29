@@ -15,7 +15,7 @@ public import Mathlib.Analysis.Calculus.Deriv.Prod
 public import Mathlib.Analysis.Calculus.MeanValue
 
 /-!
-# The Hamiltonian layer of the ODE package
+# The Hamiltonian layer of the ODE library
 
 Blueprint N Part 3 (`bpN:p3:ham-smooth`, `ham-energy`, `ham-periodic`, `ham-reduction`).
 
@@ -148,8 +148,8 @@ private theorem diff_of_mem {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} {U 
     {x : (Fin n → ℝ) × (Fin n → ℝ)} (hx : x.2 ∈ U) : DifferentiableAt ℝ H x :=
   (ham_smooth (k := 1) hW (by rwa [one_add_one_eq_two])).2 x (hUW ⟨mem_univ _, hx⟩)
 
-/-- `bpN:p3:ham-reduction`: the frozen predicates `IsSolutionOn` (track N) and
-`IsHamiltonianSolutionOn` (track I) are `IsSolutionIn` for `X_H` in `ℝⁿ × U`. The blueprint's
+/-- `bpN:p3:ham-reduction`: the frozen predicates `IsSolutionOn` and
+`IsHamiltonianSolutionOn` are `IsSolutionIn` for `X_H` in `ℝⁿ × U`. The blueprint's
 "`U` open" is not used and is omitted. -/
 theorem ham_reduction {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} {U : Set (Fin n → ℝ)}
     {W : Set ((Fin n → ℝ) × (Fin n → ℝ))} (hW : IsOpen W)

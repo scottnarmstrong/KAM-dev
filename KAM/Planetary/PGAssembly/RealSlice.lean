@@ -17,8 +17,6 @@ public import KAM.Frozen.Defs.ActionNbhd
   identity theorem on a polydisc around a real point (induction on the set of complexified
   coordinates), then analytic continuation.
 * `connected_complex_tube`: the complex `ρ`-neighbourhood of a connected real set is connected.
-
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-ID.
 -/
 
 @[expose] public noncomputable section

@@ -18,8 +18,7 @@ public import KAM.Planetary.PGMeasure.Polar
 `stepP:p5:lo-setup` (cell transfer and the exact cell volume `disc_measure`),
 `stepP:p5:lo-bad` (the bad actions `V \ D`, through the collar and Diophantine loss, and the
 shell ends `6 b κ₁ √r`) and `stepP:p5:lo-lost` (the lost tori, `budget`). `finalRadius` is the
-data-only shrink of the preliminary radius `pgRstar`. Declarations are copied verbatim from
-`P45Signatures.lean`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-LO.
+data-only shrink of the preliminary radius `pgRstar`.
 -/
 
 @[expose] public noncomputable section

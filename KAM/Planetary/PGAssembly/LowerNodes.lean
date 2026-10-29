@@ -10,7 +10,7 @@ public import KAM.Planetary.PGAssembly.Lower
 public import KAM.Planetary.PGMeasure.Collar
 
 /-!
-# P Part 5: literal exports of the lower-bound steps (GAP-P5b)
+# P Part 5: literal exports of the lower-bound steps
 
 Append-only exports stating the literal conclusions of `stepP:p5:lo-bad` (`lo_bad_ratio`),
 `stepP:p5:lo-lost` (`lo_lost_budget`) and `stepP:p4:dc-prod` (`dc_prod_node`). The private

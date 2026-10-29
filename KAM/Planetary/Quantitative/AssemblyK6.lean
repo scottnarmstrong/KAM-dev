@@ -10,7 +10,7 @@ public import KAM.Planetary.Quantitative.Assembly
 public import KAM.Planetary.Quantitative.Budget
 
 /-!
-# Quantitative weak KAM: the joint statement (K1)-(K6) (GAP-E)
+# Quantitative weak KAM: the joint statement (K1)-(K6)
 
 `weak_kam_quantitative_full` (`bpP:p11a:weak-kam-quantitative`, `stepP:p11a:qt-k6`): for one
 family `Q` (clauses K1-K4), the literal composed displacement bound (K6)

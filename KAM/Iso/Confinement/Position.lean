@@ -10,7 +10,7 @@ public import KAM.Iso.Confinement.Setting
 /-!
 # Position of the torus graphs in the chart
 
-Blueprint `bpI:p5:mu` (package P5-6 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md`). For a torus
+Blueprint `bpI:p5:mu`. For a torus
 graph `Y` with data `GraphData p H E Cε Y I mσ` in a chart patch `p` with constants
 `PatchConst p r Lm LΦ κ`, the slope function `μ = m ∘ Y` satisfies:
 

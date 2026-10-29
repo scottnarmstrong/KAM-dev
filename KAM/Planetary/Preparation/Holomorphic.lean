@@ -15,7 +15,7 @@ public import KAM.Planetary.Poincare.Product
 public import KAM.Planetary.Hamiltonian.HolChart
 
 /-!
-# The holomorphic secular form (P11A-P2, `bpP:p11:holo-chart`)
+# The holomorphic secular form (`bpP:p11:holo-chart`)
 
 The working carrier `p11WorkingDom`, the data package `P11SecularData` with its specification
 `P11SecularSpec`/`P11SecularFullSpec`, and the theorem `holo_chart` selecting the data from the

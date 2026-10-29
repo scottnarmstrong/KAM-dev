@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.LogBounds
 
 /-!
-# Fast averaging: the parameter arithmetic (P11A-P5, `stepP:p11:af-o2`)
+# Fast averaging: the parameter arithmetic (`stepP:p11:af-o2`)
 
 With `K = 6/(πσ) · log (1/(ε M))`, `α = γ/2 · K^{-τ}`, `s₁ = min r_C (γ/(4 L K^{τ+1}))` and
 `d = min (s₁ σ) r_z^2` (the signed `p11d1`), the smallness `(S1)`

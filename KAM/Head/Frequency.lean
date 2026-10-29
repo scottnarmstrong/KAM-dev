@@ -14,8 +14,7 @@ import KAM.Strip.Bridges
 /-!
 # The frequency map
 
-Blueprint Part 4, `bp:p4:freq-map` (package P4-1; signature copied verbatim from Appendix A,
-section 3, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). With `U = {I ∈ ℝⁿ : ι I ∈ B_{r₀}}`
+Blueprint Part 4, `bp:p4:freq-map`. With `U = {I ∈ ℝⁿ : ι I ∈ B_{r₀}}`
 (`KAM.Head.realDomain`) and `g = KAM.frequencyMap h`:
 
 * (i) `U` is open and contains the closure of `B`

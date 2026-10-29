@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.CompositionBound
 public import KAM.Planetary.WeakKAM.Selection
 
-/-! # P11B composition: the output record `SelectionComposition`
+/-! # Part 11a, composition: the output record `SelectionComposition`
 
 The finite compositions `X₀ ∘ ⋯ ∘ X_{ν-1}` with one common chosen chain (`bpP:p11a:composition`):
 holomorphy, domain, derivative product recursion, angle/action/increment bounds, periodicity,

@@ -14,7 +14,7 @@ public import KAM.Strip.HigherCauchy
 
 Cauchy estimates for the averaged action function `g` (`‖∂g‖ ≤ 5E/R`, `‖∂²g‖ ≤ 80E/R²` on the
 quarter-radius neighbourhood), the Hessian of `h + g`, and its inverse with the block bounds, via
-the Neumann series (`ext_neumann`). Design package P23-14.
+the Neumann series (`ext_neumann`).
 -/
 
 @[expose] public noncomputable section

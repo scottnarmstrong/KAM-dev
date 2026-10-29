@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Coeffs
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Entries
 
 /-!
-# Planar quartic torsion: asymptotic entries (P11C, package T18)
+# Planar quartic torsion: asymptotic entries
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, local steps `as-in`, `as-pi`, `as-c`, `as-ent`),
 at the hierarchical axes `a = ![α, 1]` as `α → 0⁺`:
@@ -23,10 +23,10 @@ at the hierarchical axes `a = ![α, 1]` as `α → 0⁺`:
 * `as_c` (`AsymptoticEntries/Coeffs`): the sizes of the six quartic coefficients;
 * `as_ent` (`AsymptoticEntries/Entries`): the entries of `p11c_beta` and their three limits.
 
-This file is the facade of the package; `Pair`, `Calculus`, `Leading`, `CoeffEq` and
+This file is the facade of the asymptotic entries; `Pair`, `Calculus`, `Leading`, `CoeffEq` and
 `EntryBounds` hold the supporting big-O bookkeeping.  The relative errors are kept in the absolute
 form `leading + O(α ^ (leading exponent + 2))`; the determinant (`as-det`) and homogeneity belong
-to package T19.
+to `PlanarTorsion/Asymptotics`.
 -/
 
 @[expose] public section

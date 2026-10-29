@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.StepLie
 
 /-!
-# The size of the Lie integrand (P11A-C8, `stepP:p11a:cs-u`)
+# The size of the Lie integrand (`stepP:p11a:cs-u`)
 
 For `b ∈ B`, the function `u_t = (1-t) w + R(·, b)` with `w = -(R_* - ⟨R_*⟩)` is holomorphic on
 `D(r-d, s)` and bounded there by `U = ε (5 + 4 E_T)`.

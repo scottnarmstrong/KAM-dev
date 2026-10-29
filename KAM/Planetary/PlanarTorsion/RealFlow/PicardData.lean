@@ -10,9 +10,9 @@ public import KAM.Weighted.Parametric
 public import KAM.Planetary.PlanarTorsion.RealFlow.PicardComplex
 
 /-!
-# Planar quartic torsion: Picard data from a holomorphic map (package R2)
+# Planar quartic torsion: Picard data from a holomorphic map
 
-Blueprint P, Part 11b (`bpP:p11b:e-ode`, package R2).  A map `F : ℂⁿ → ℂⁿ` holomorphic on a ball
+Blueprint P, Part 11b (`bpP:p11b:e-ode`).  A map `F : ℂⁿ → ℂⁿ` holomorphic on a ball
 `B(c, R)` is bounded and Lipschitz on `B(c, R / 2)` (Cauchy estimates,
 `KAM.Weighted.general_cauchy`), so `P11cPicardData` holds for suitable `M, L, T, r`.
 -/

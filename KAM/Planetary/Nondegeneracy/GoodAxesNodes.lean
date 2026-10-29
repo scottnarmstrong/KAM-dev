@@ -14,9 +14,9 @@ public import KAM.Planetary.Nondegeneracy.Interface
 /-!
 # Good axes: literal node statements
 
-Blueprint P, Part 10 (package GAP-P10a): unsigned exports stating the literal conclusions of the
+Blueprint P, Part 10: unsigned exports stating the literal conclusions of the
 nodes `bpP:p10:conv#data` (supplements), `stepP:p10:n2-t`, `bpP:p10:n2`, `stepP:p10:sa-loc`,
-`stepP:p10:sa-n2`, `bpP:p10:sorted-analytic` and `bpP:p10:good-set`, built from the landed
+`stepP:p10:sa-n2`, `bpP:p10:sorted-analytic` and `bpP:p10:good-set`, built from the
 declarations.
 -/
 

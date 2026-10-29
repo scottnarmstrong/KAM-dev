@@ -11,7 +11,7 @@ public import KAM.Measure.Lattice
 public import KAM.Planetary.MaximalStep.Constants
 
 /-!
-# Fourier cutoff: the constant and the lattice tail (P11A-C1)
+# Fourier cutoff: the constant and the lattice tail
 
 Steps `stepP:p11a:fc-const`, `fc-count`, `fc-poly` and `fc-assemble` of `bpP:p11a:fourier-cutoff`:
 `1 ≤ p11C n`, and the tail estimate

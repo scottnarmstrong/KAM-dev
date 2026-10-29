@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.SlowAverageF2
 
 /-!
 # Slow averaging: holomorphy, reality and periodicity of `f₂`, and its weighted bound
-(P11A-P7b, graph steps `as-osc`, `as-concl`)
+(graph steps `as-osc`, `as-concl`)
 -/
 
 @[expose] public noncomputable section

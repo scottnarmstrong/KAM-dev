@@ -11,7 +11,7 @@ public import KAM.Planetary.MaximalStep.Basic
 public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
 
 /-!
-# The radial-variable polar average (P11A-P6 helper)
+# The radial-variable polar average
 
 `p11PolarW G (J, w)` is the torus average of `G (J, (w_i sin 2πθ_i, w_i cos 2πθ_i))` in the radial
 variable `w = √(ρ/π)`. For `G` holomorphic on `D × B(0, r)` it is holomorphic in `(J, w)` on

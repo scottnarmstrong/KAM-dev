@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.Parameter
 public import KAM.Planetary.PGAssembly.JetsPolar
 public import KAM.Strip.AnalyticTaylor
 
-/-! # P11B finite extension: one cut-off increment
+/-! # Part 11a, finite extension: one cut-off increment
 
 The real trace of a complex increment `Δω` on a collar `E + t` is smooth on the real collar, and its
 iterated derivatives at real points within `t / 2` of `E` are bounded by the parameter Cauchy

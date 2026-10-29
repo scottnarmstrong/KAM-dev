@@ -17,7 +17,6 @@ The bridge `complexFrequency_realSlice` between the complex frequency map of the
 frequency formula `freq` on `V` (the design's `complexFrequency_real`), the identification of the
 frequency map of `kamH` with `(2π)⁻¹` times `complexFrequency`, and the `kamH`-only parts of
 `kam_hyp`: the domain inclusion, differentiability, injectivity and the Hessian bounds.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-KH.
 -/
 
 @[expose] public noncomputable section

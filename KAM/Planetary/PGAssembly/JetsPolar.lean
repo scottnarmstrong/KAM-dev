@@ -14,8 +14,6 @@ public import Mathlib
   `g` and `f` smooth on an open set (no global smoothness).
 * `eq_zero_of_diag_of_symm`: a symmetric multilinear map vanishing on the diagonal is zero
   (polarization, by induction on the arity).
-
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

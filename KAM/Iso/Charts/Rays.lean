@@ -10,7 +10,7 @@ public import KAM.Iso.Charts.Chart
 /-!
 # Part 3 (local charts): Diophantine vectors in an open set, rays of a patch
 
-Package I3-3 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p3:dio-open`,
+Blueprint nodes `bpI:p3:dio-open`,
 `bpI:p3:rays` and `bpI:p3:patch-rays`. `n = 2`, `τ = 2`.
 
 * `dio_open` (`bpI:p3:dio-open`): a nonempty, open, bounded `O ⊆ ℝ²` contains a

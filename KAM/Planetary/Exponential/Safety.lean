@@ -15,7 +15,7 @@ public import KAM.Planetary.AMD.Confinement
 public import KAM.Planetary.Exponential.Stopped
 
 /-!
-# P14 package E12: exponential safety from the stopped action bound
+# Exponential safety from the stopped action bound
 
 Blueprint P, Part 14 (`bpP:p14:expsafe`, steps `es-const`, `es-par`, `es-stop`, `es-amd`,
 `es-axis`, `es-assemble`).  The theorem `expsafe_of_stopped` proves the statement of `expsafe`
@@ -26,7 +26,8 @@ From the constants `B₀ ≥ 1` and `ν₀ ∈ (0, 1]` of `hstop`, the margin `�
 (`amdBox_exists_margin`) gives `μ* = B₀⁻¹ min(ν₀/2, (θ/2)^{1/b})`, `c = B₀^{-a}` and
 `C = B₀^b ∑ᵢ uᵢ/mᵢ²`.  For `0 < μ < μ*`, with `ν = B₀ μ`, the horizon `T = exp(c μ^{-a})` equals
 `exp(ν^{-a}) ≤ ν⁻¹ exp(ν^{-a})` and `δ = ν^b/2` satisfies all collar margins of `amd`
-(package A6).  The axis drift follows from `aᵢ = (Λᵢ/mᵢ)²` (`keplerAxis_eq_action_div_sq`) and
+(`KAM.Planetary.AMD.Confinement`).  The axis drift follows from `aᵢ = (Λᵢ/mᵢ)²`
+(`keplerAxis_eq_action_div_sq`) and
 the action drift `δ` (`keplerAxis_drift_le`).
 
 The constant `C` uses the sum `∑ᵢ uᵢ/mᵢ²` in place of the blueprint's `maxᵢ uᵢ/mᵢ²`; it is a
@@ -227,7 +228,8 @@ theorem expsafe_of_stopped {n : ℕ} (hn : 2 ≤ n)
           (mul_le_mul_of_nonneg_left hsingle (Real.rpow_pos_of_pos hB0pos _).le)
           (Real.rpow_pos_of_pos hmu _).le
 
-/-- Exact frozen type, ordinary library assembly (`bpP:p14:expsafe`): E12 applied to E11. -/
+/-- Exact frozen type, ordinary library assembly (`bpP:p14:expsafe`): `expsafe_of_stopped`
+applied to `stopped`. -/
 theorem expsafe {n : ℕ} (hn : 2 ≤ n)
     (B : AMDBox n) (hB : B.Admissible) :
     ∃ muStar c C : ℝ, 0 < muStar ∧ 0 < c ∧ 0 < C ∧

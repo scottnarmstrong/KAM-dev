@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.Prepared
 public import KAM.Planetary.Preparation.AmountCore
 
 /-!
-# Setup lemmas for `amount` (P11A-P8e)
+# Setup lemmas for `amount`
 
 A compactness jet bound in the diagonal gauge, smoothness of `checkW` on the ball of radius
 `5/4` from the prepared specification, and the geometry of the box `J₀ + eps R`.

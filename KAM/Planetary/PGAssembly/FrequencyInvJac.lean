@@ -16,7 +16,6 @@ The fast block of `complexFrequency` is `complexFast + mu G`, the slow block is 
 (`blockFast_complexFrequency`, `blockSlow_complexFrequency`). For a derivative `T0` of the map the
 fast row is `∂complexFast x + mu (Hessian row)` and the slow row is `mu (Hessian row)`, with the
 slow-slow Hessian block equal to `jetBeta` (`jac_fast_eq`, `jac_slow_eq`, `jac_slow_slow`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FI.
 -/
 
 @[expose] public noncomputable section

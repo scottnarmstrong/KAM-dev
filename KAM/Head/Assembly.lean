@@ -16,8 +16,7 @@ import KAM.Head.Parameters
 
 Blueprint Part 4, the proof of `bp:p0:head` (steps `step:p4:head-empty`, `step:p4:head-constants`,
 `step:p4:head-negative`, `step:p4:head-positive`, `step:p4:head-zero`), as the conditional helper
-`KAM.Head.head_of_gValid` of the Part 4 design (package P4-12; signature copied verbatim from
-Appendix A, section 18, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). The premise `GValid`
+`KAM.Head.head_of_gValid`. The premise `GValid`
 carries the constants of the frozen G1, G2 and G3; the HEAD provider supplies it. This module
 imports neither a frozen theorem nor a provider.
 

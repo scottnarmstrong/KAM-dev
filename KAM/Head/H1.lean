@@ -11,8 +11,7 @@ import KAM.Strip.Limits
 /-!
 # The Hamiltonian hypothesis H1
 
-Blueprint Part 4, `bp:p4:h1` (package P4-2; signature copied verbatim from Appendix A, section 5,
-of `docs/campaign/design/PART4-LEAN-DESIGN.md`). For `ε ≤ 1`, the domain `𝔇 = T_{s/2} × B_{r₀/2}`
+Blueprint Part 4, `bp:p4:h1`. For `ε ≤ 1`, the domain `𝔇 = T_{s/2} × B_{r₀/2}`
 and the Hamiltonian `𝐡 = h + f` satisfy the block H1 of the frozen G1 and G2
 (`KAM.aposteriori_kam`, `KAM.local_uniqueness_flow`) with the constant `M`.
 

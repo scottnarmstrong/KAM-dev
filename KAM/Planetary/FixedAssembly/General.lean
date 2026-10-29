@@ -71,8 +71,7 @@ theorem n_general_of_wrapper {n : ℕ}
   exact ⟨w, K, θ, hz.symm, hK, hT⟩
 
 /-- **Signed `n_general`** (bpP:p13:n-general): `n_general_of_wrapper` applied to the
-signed `wrapper`
-(ruling OVERNIGHT 03:50). -/
+signed `wrapper`. -/
 theorem n_general {n : ℕ} (hn : 2 ≤ n)
     (G m0 : ℝ) (m a : Fin n → ℝ)
     (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)

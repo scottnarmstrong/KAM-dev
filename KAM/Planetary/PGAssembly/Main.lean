@@ -20,9 +20,7 @@ the declaration name changed. The constants are chosen first (`stepP:p5:mn-const
 `rStar = finalRadius d`, `C = max (pgLoss d + 1) Cw` and `c = 2 * pgTau a b + 2`; for given
 `r, mu` the pair is `admissible` (`stepP:p5:mn-given`); the set is `kset` over the surviving
 parameters of `strictness` (`stepP:p5:mn-set`), and the measure bounds follow from the strict
-slack `ofReal_mul_lt_of_slack` (`stepP:p5:mn-meas`). Design
-`docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-MAIN; `main` is copied verbatim from
-`P45Signatures.lean`.
+slack `ofReal_mul_lt_of_slack` (`stepP:p5:mn-meas`).
 -/
 
 @[expose] public noncomputable section

@@ -19,7 +19,6 @@ import Mathlib.Tactic.Linarith
 generator on its original domain and `u` on the one-loss domain): the series converges pointwise on
 the two-loss domain, its sum is again in the oscillator class, with weighted bound
 `(1 - q)⁻¹ A`, and its weighted tails tend to zero.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13d.
 -/
 
 @[expose] public noncomputable section

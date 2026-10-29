@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PreparedDev
 public import KAM.Planetary.Preparation.PreparedNum
 
 /-!
-# Rescaled bounds of the partials of `h = h₀ + g₂` (P11A-P8b2, pr-b and pr-d)
+# Rescaled bounds of the partials of `h = h₀ + g₂` (pr-b and pr-d)
 
 `p11_dev_resc`: at a point of the Cauchy region, for every multi-index `β` of order `j + 1`
 (`j ≤ μ̄ + 1`), `ε^j |∂^β h| ≤ (L if j = 0 else εL) + K (1 + c) ε ℓ^Q`, with `Q` the exponent of

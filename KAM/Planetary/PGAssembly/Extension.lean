@@ -16,12 +16,11 @@ public import KAM.Planetary.PGAssembly.ExtensionConsts
 /-!
 # P Part 5: the thin periodic complex extension (`bpP:p5:ext`, `bpP:p5:consts`)
 
-Facade of package P5-EX. `ext` (with the steps `ext-loc`, `ext-glue`, `ext-per`, `ext-H0` in
+Facade. `ext` (with the steps `ext-loc`, `ext-glue`, `ext-per`, `ext-H0` in
 `ExtensionTubeData`, `ExtensionTubeP`, `ExtensionProps`, `ExtensionExists`), the selected
 extension `pgExtension`, the width/radius `pgWidth`, `pgOscRadius`, the complex angular average
 `complexAverage` with its attachment `complexAverage_real` to the frozen `secularAverage`, and
 the fixed weighted bound `consts` (from `ExtensionConsts`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md` (revision 4), package P5-EX.
 -/
 
 @[expose] public noncomputable section

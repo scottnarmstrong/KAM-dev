@@ -11,8 +11,8 @@ public import KAM.Canonical.FlowRegularIntegral
 /-!
 # Picard iterates of the canonical flow
 
-Helper module of `KAM.Canonical.FlowRegular` (blueprint-N Part 5, node `bpN:p5:flow` (b),
-design package C5-3). For a small field `F` (`SmallField W Ω F ε`) the Picard iterates
+Helper module of `KAM.Canonical.FlowRegular` (blueprint-N Part 5, node `bpN:p5:flow`
+(b)). For a small field `F` (`SmallField W Ω F ε`) the Picard iterates
 
   `y₀(t, z) = z`,   `y_{k+1}(t, z) = z + ∫₀ᵗ F(y_k(τ, z)) dτ`
 

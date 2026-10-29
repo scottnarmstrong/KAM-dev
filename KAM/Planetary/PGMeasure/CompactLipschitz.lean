@@ -18,7 +18,6 @@ public import KAM.Planetary.PG.Setting
 compact-pair estimate; `lip_compact_c1` is the separately named joint-C1 corollary (conditional
 helper, not a substitute for the source result). `lip_inverse` extracts a Lipschitz constant and a
 norm bound for the frozen inverse of `fastFrequency H0` on the image of `closure V`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-LI.
 -/
 
 public section

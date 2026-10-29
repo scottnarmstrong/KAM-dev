@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PreparedFreq
 public import KAM.Planetary.Preparation.PreparedData
 
 /-!
-# Closeness of the normalised frequency (P11A-P8b2, `stepP:p11:pr-c`)
+# Closeness of the normalised frequency (`stepP:p11:pr-c`)
 
 `p11CloseFun C A ε ρ̃` is the complex `J`-holomorphic vector `(∂_J h - ω, ∂_ρ̃ h / ε - Ω/(2π))`
 at fixed `ρ̃`, `h = h₀ + g₂`; its real part on real `J` is `ψ - ϖ`.  The partials of order

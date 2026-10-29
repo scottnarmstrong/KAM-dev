@@ -14,8 +14,7 @@ public import KAM.Planetary.TwoScale.Setting
 
 `kamH` is the normalized complex integrable Hamiltonian and `pgKamScale` the exact P3 scale record;
 the helpers give the `L`, `rhoHat` and `eHat` clauses of `pg_kam_dictionary`. The facade
-`KAM.Planetary.PGAssembly.KAMInputs` carries the remaining declarations of package P5-KH.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-KH.
+`KAM.Planetary.PGAssembly.KAMInputs` carries the remaining declarations.
 -/
 
 @[expose] public noncomputable section

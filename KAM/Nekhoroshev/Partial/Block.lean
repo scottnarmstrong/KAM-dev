@@ -13,11 +13,11 @@ import KAM.Nekhoroshev.Partial.Resonant
 import KAM.Nekhoroshev.Partial.Threshold
 
 /-!
-# Stopped block stability (Part 11, package N11-N)
+# Stopped block stability (Part 11)
 
 `block` (`bpN:p11:block`): Pöschel's Theorem 1 with slow parameters. The block data come from
 `block_data`; the slow coordinates are rescaled by `λ = w/r`, and the nonresonant or resonant
-stability proposition applies. Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
+stability proposition applies.
 -/
 
 @[expose] public noncomputable section

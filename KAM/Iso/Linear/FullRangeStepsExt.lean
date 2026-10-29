@@ -8,7 +8,7 @@ module
 public import KAM.Iso.Linear.FullRange
 
 /-!
-# Part 1 step exports: the extended torsion and the last row (graph gap GAP-I1b)
+# Part 1 step exports: the extended torsion and the last row
 
 Literal exports of the proof-step nodes of `bpI:p1:extended-basic` (`eb-*`) and `bpI:p1:last-row`
 (`lr-gradient`, `lr-average`), each under the source setting `SettingSrc` (`τ ≥ 0`) and built

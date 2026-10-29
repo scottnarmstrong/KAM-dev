@@ -14,7 +14,7 @@ public import KAM.Planetary.TwoScale.FourierCompact
 For `I ∈ D_*`, each real coordinate of `θ ↦ Φ(θ, I) − (θ, I)` extends holomorphically to the whole
 strip `|Im θ| < s̄/2π`, periodic, with the uniform bound of the finite-stage maps, and the
 finite-stage coordinate functions converge to it with all derivatives
-(`fourier_compact`, applied coordinatewise). Design package P23-18.
+(`fourier_compact`, applied coordinatewise).
 -/
 
 @[expose] public noncomputable section

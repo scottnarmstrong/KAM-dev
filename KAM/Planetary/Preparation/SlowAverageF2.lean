@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowAverageDom
 
 /-!
-# Slow averaging: the objects `Z`, `h₀`, `f₂` and the sup bound of `f₂` (P11A-P7b, `as-osc`)
+# Slow averaging: the objects `Z`, `h₀`, `f₂` and the sup bound of `f₂` (`as-osc`)
 
 `P11SlowPolarOut` packages the output of `p11_slow_polar`; `p11SlowZ`, `p11SlowH0`, `p11SlowF2`
 are the explicit `Ẑ = 𝒜R₄ + 𝒜ḡ`, `h₀ = h + ε (C + Σ Ω ρ̃/2π + Ẑ)` and

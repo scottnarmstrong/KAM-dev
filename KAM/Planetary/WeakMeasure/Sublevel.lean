@@ -11,7 +11,7 @@ public import KAM.Planetary.WeakMeasure.Stability
 public import KAM.Planetary.WeakMeasure.BallSublevel
 
 /-!
-# Sublevel estimate on a patch (blueprint `bpP:p11a:sublevel`, P11A-W6)
+# Sublevel estimate on a patch (blueprint `bpP:p11a:sublevel`)
 
 For `0 < ε < β/4`, `vol {y ∈ K | |g̃ y| ≤ ε} ≤ C_sub (ε/β)^(1/μ)` (`KAM.Planetary.sublevel`).
 

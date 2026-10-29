@@ -11,7 +11,7 @@ public import KAM.Planetary.TwoScale.StepFreq
 /-!
 # Two-scale KAM iteration: composition of stage maps and restriction of `KamHyp`
 
-Generic facts used by `iterative` (design package P23-16, node `stepP:p3:it-comp`): the
+Generic facts used by `iterative` (node `stepP:p3:it-comp`): the
 differentiability, injectivity, reality, lattice-equivariance and symplecticity of a composite
 `Φ ∘ Ψ` on a set `V ⊆ Vb`, when `Ψ` has these properties on the open set `Vb` and maps it into the
 open set `W` on which `Φ` has them; and the restriction of the hypothesis bundle to a smaller base

@@ -18,7 +18,7 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # The canonical map `Φ = X¹_φ` on the extended phase space (`bpN:p11:canonical-map`)
 
-Part 11, package N11-F2. The canonical map `Φ = extFlow … 1` and its inverse `Ψ = extFlow … (-1)`
+Part 11. The canonical map `Φ = extFlow … 1` and its inverse `Ψ = extFlow … (-1)`
 are obtained from the generic Part 5 flow of the weighted field `wfield b.c φ` on
 `Ω = 𝒟_{R-ρ,s-σ}`, with the gauge `W = diag(σ⁻¹, ρ⁻¹)` of the scaled norm `scaled ρ σ`:
 
@@ -26,7 +26,7 @@ are obtained from the generic Part 5 flow of the weighted field `wfield b.c φ` 
   (holomorphy and images of `Φ`, `Ψ` on `U = 𝒟_{R-3ρ/2,s-3σ/2}`, the displacement bounds
   including the slow one, integer angle equivariance, two-sided inverse and `Φ z ∈ U` on
   `𝒟_{R-2ρ,s-2σ}`, the derivative estimate, reality);
-* `canonical_map` (signed; `hc : 0 < b.c` added by ruling 21:15): the same together with
+* `canonical_map` (signed; with the premise `hc : 0 < b.c`): the same together with
   `ExtCanonical b.c U Φ`.
 -/
 
@@ -281,7 +281,7 @@ theorem canonical_map_core (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ V : 
       (t := 1) (by simp)
 
 /-- The signed `canonical_map` (`bpN:p11:canonical-map`, clauses a-e). The premise
-`hc : 0 < b.c` was added to the signature by orchestrator ruling 21:15: `b.c = 2π/(w/r_B)²` is
+`hc : 0 < b.c` is needed because `b.c = 2π/(w/r_B)²` is
 zero in Lean when `w` or `r_B` vanishes, and the source radii are positive. -/
 theorem canonical_map (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ V : ℝ}
     {φ : EC n k → ℂ} (hc : 0 < b.c)

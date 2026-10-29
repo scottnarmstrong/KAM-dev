@@ -22,8 +22,7 @@ For `f ∈ O(r,s)` with `|f|_{r,s} ≤ δ` the generating function
 The core `homological_param` has an independent parameter dimension `m` and an arbitrary
 holomorphic frequency field `ω : ℂᵐ → ℂⁿ` (the bracket is stated as the directional derivative
 `∑ᵢ ∂_{θᵢ}φ · ωᵢ`); `homological_direct` is its `m = n`, `ω = freq h` specialization and
-`homological` follows from it and `divisor`. Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-2.
+`homological` follows from it and `divisor`.
 -/
 
 @[expose] public noncomputable section

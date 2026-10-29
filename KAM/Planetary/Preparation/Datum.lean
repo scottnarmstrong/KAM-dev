@@ -10,10 +10,10 @@ public import KAM.Planetary.Preparation.PreparedData
 public import KAM.Planetary.Preparation.Amount
 
 /-!
-# The prepared admissibility datum (P11A-P8D, `bpP:p11:data-star`), parametric form
+# The prepared admissibility datum (`bpP:p11:data-star`), parametric form
 
 `data_star_of_amount` assumes, for every `ν ≥ 1`, exactly the conclusion of the signed `amount`
-(P11A-P8e, proved elsewhere) and concludes exactly the statement of the signed `data_star`.
+(proved elsewhere) and concludes exactly the statement of the signed `data_star`.
 When `amount` lands the signed theorem is `data_star D := data_star_of_amount D (amount D ·)`.
 The purely numeric and box clauses are separate helper lemmas.
 -/
@@ -154,7 +154,7 @@ theorem data_star_of_amount (D : P11Physical n)
   exact ⟨hpos, hbeta, p11_one_le_M0 D, H eps heps hleA⟩
 
 /-- **Signed `data_star`** (bpP:p11:data-star): the parametric `data_star_of_amount` applied to the
-signed `amount` (ruling OVERNIGHT 03:25). -/
+signed `amount`. -/
 theorem data_star {n : ℕ} (D : P11Physical n) :
     IsCompact (p11PreparedBox n) ∧ volume (p11PreparedBox n)=1 ∧
     Metric.diam (p11PreparedBox n)=1 ∧

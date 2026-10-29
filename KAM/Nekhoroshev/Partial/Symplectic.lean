@@ -11,7 +11,7 @@ public import KAM.Canonical.Symplectic
 public import KAM.Strip.Bridges
 
 /-!
-# Weighted symplectic structure of the extended flow (Part 11, package N11-E1)
+# Weighted symplectic structure of the extended flow (Part 11)
 
 Blueprint node `bpN:p11:symplectic`.
 

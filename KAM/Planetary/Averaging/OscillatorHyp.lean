@@ -11,9 +11,8 @@ public import KAM.Planetary.Averaging.OscillatorSetting
 /-!
 # P Parts 2-3: the joint source hypotheses of oscillator averaging (`bpP:p2:osc-averaging`)
 
-`OscHyp` is copied verbatim from the design signatures (`P23Signatures.lean`); it contains only
+`OscHyp` contains only
 literal source assumptions and typing/positivity data.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, packages P23-06 and P23-15.
 -/
 
 @[expose] public noncomputable section

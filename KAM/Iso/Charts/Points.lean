@@ -10,7 +10,7 @@ public import KAM.Iso.Charts.Rays
 /-!
 # Part 3 (local charts): the point of an energy curve on a ray
 
-Package I3-3 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p3:points`. `n = 2`.
+Blueprint node `bpI:p3:points`. `n = 2`.
 
 * `points` (`bpI:p3:points`, one ray; both signs are instances): for a patch with centre `c`, a
   ray `ω*` of slope `m` (`|m| < δ_m`) and an energy `E` with `|E - h(c)| ≤ δ_E`, the point

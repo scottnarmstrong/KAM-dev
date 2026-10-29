@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.WrapperChain
 
 /-!
-# Tube helper lemmas (P11A-P10, `stepP:p11:wr-tube`)
+# Tube helper lemmas (`stepP:p11:wr-tube`)
 
 Real polar formulas and the orthogonality estimate for the rotation chart input.
 -/

@@ -15,8 +15,7 @@ public import KAM.Nekhoroshev.NormalForm.StepsCaseB
 
 Re-exports `StepsSeq` (`nfState`, `NFHyp`, `NFInv`, the decomposition of `g_{i-1}`), `StepsInduct`
 (`nf_hyp`, `nf_inv_succ`, `nf_inv_all`), `StepsOut` (per-step properties, chain identity,
-displacement sums, final state) and `StepsCaseB` (reality, Case B). Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 1).
+displacement sums, final state) and `StepsCaseB` (reality, Case B).
 -/
 
 public section

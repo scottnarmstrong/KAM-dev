@@ -14,7 +14,7 @@ public import KAM.Iso.Linear.Reduced
 public import KAM.Iso.Linear.NoTwist
 
 /-!
-# Part 1 parents under the source setting `τ ≥ 0` (graph gap GAP-I1a, ruling N1 option (i))
+# Part 1 parents under the source setting `τ ≥ 0`
 
 Literal exports of the eight Part 1 parent nodes: each states the landed conclusion with
 `SettingSrc` (the source's `τ ≥ 0`, no `σ`'s) in place of `Setting`, and is proved by projecting
@@ -48,7 +48,7 @@ theorem mSize_max_one (M σK σB σT : ℝ) :
     ((le_max_left _ _).trans σK_le_mSize) (max_le ((le_max_left _ _).trans σB_le_mSize)
     ((le_max_left _ _).trans σT_le_mSize)))))
 
-/-- `bpI:p1:extended-basic`: literal export, source setting `τ ≥ 0` (GAP-I1a).
+/-- `bpI:p1:extended-basic`: literal export, source setting `τ ≥ 0`.
 The landed conclusion of `extended_basic`, verbatim, with `SettingSrc` in place of `Setting`. -/
 theorem extended_basic_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
@@ -69,7 +69,7 @@ theorem extended_basic_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 
           ‖KAM.Iso.extendedTorsion H K ω θ‖ ≤ max (CT + ‖ω‖) (M * σK' * σB') :=
   extended_basic (hS.setting one_pos one_pos one_pos) hr hK hKp hKr hKD hG
 
-/-- `bpI:p1:last-row`: literal export, source setting `τ ≥ 0` (GAP-I1a).
+/-- `bpI:p1:last-row`: literal export, source setting `τ ≥ 0`.
 The landed conclusion of `last_row`, verbatim, with `SettingSrc` in place of `Setting`. -/
 theorem last_row_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
@@ -91,7 +91,7 @@ theorem last_row_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
         2 * n ^ 2 * σK' * σB' * e :=
   last_row (hS.setting one_pos one_pos one_pos) hr hK hKD hG
 
-/-- `bpI:p1:energy-approx (a)–(e)`: literal export, source setting `τ ≥ 0` (GAP-I1a).
+/-- `bpI:p1:energy-approx (a)–(e)`: literal export, source setting `τ ≥ 0`.
 The landed conclusion of `energy_approx`, verbatim, with `SettingSrc` in place of `Setting`. -/
 theorem energy_approx_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
@@ -115,7 +115,7 @@ theorem energy_approx_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 <
         ‖fderiv ℂ (fun y => H (K y)) θ‖ ≤ n * M * (cR n τ * γ⁻¹ * δ ^ (-kappa n τ)) * ε / δ' :=
   energy_approx (hS.setting one_pos one_pos one_pos) hr hK hKp hKr hKD
 
-/-- `bpI:p1:energy-approx (f)`: literal export, source setting `τ ≥ 0` (GAP-I1a).
+/-- `bpI:p1:energy-approx (f)`: literal export, source setting `τ ≥ 0`.
 The landed conclusion of `energy_defect`, verbatim, with `SettingSrc` in place of `Setting`. -/
 theorem energy_defect_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
@@ -140,7 +140,7 @@ theorem energy_defect_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 <
       ‖avg (fun θ => fderiv ℂ (fun y => H (K y)) θ (ξL θ))‖ ≤ A * X :=
   energy_defect (hS.setting one_pos one_pos one_pos) hr hK hKp hKr hKD hG hr' hr'r hξL hξN
 
-/-- `bpI:p1:energy-conservation`: literal export, source setting `τ ≥ 0` (GAP-I1a).
+/-- `bpI:p1:energy-conservation`: literal export, source setting `τ ≥ 0`.
 The landed conclusion of `energy_conservation`, verbatim, with `SettingSrc` for `Setting`. -/
 theorem energy_conservation_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
@@ -151,7 +151,7 @@ theorem energy_conservation_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr
     ∀ E₀ : ℂ, ∀ θ ∈ complexStrip n r, ‖H (K θ) - E₀‖ = ‖KAM.Iso.energyAverage H K - E₀‖ :=
   energy_conservation (hS.setting one_pos one_pos one_pos) hr hK hKp hKr hKD hE
 
-/-- `bpI:p1:reduced`: literal export, source setting `τ ≥ 0` (GAP-I1a).
+/-- `bpI:p1:reduced`: literal export, source setting `τ ≥ 0`.
 The landed conclusion of `reduced`, verbatim, with `SettingSrc` in place of `Setting`. -/
 theorem reduced_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
@@ -173,8 +173,8 @@ theorem reduced_src (hS : SettingSrc n τ M D H ω γ) {r : ℝ} (hr : 0 < r)
         bordOp H K ω ξ ξω θ = eta H K ω θ - isoLinError H K ω ξ ξω θ)) :=
   reduced (hS.setting one_pos one_pos one_pos) hr hK hKD hG hr' hr'r hξ ξω
 
-/-- `bpI:p1:geometry-noA5`: literal export under the source setting `τ ≥ 0` (graph gap
-GAP-I1a). The landed conclusion of `geometry_noA5`, verbatim, with `SettingSrc` in place of
+/-- `bpI:p1:geometry-noA5`: literal export under the source setting `τ ≥ 0`.
+The landed conclusion of `geometry_noA5`, verbatim, with `SettingSrc` in place of
 `Setting` and free `σK σB σT` (they enter the constants only through `𝔪`). -/
 theorem geometry_noA5_src (hS : SettingSrc n τ M D H ω γ) {σK σB σT : ℝ} {r β ε δ : ℝ}
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : AdmissibleNoTwist σK σB D H ω r β ε K)
@@ -203,8 +203,8 @@ theorem geometry_noA5_src (hS : SettingSrc n τ M D H ω γ) {σK σB σT : ℝ}
   simp only [C_red, C_Omega, C_sym, Theta, C_X, C_T, mSize_max_one] at h ⊢
   exact h
 
-/-- `bpI:p1:perturbation-noA5`: literal export under the source setting `τ ≥ 0` (graph gap
-GAP-I1a). The landed conclusion of `perturbation_noA5`, verbatim, with `SettingSrc` in place of
+/-- `bpI:p1:perturbation-noA5`: literal export under the source setting `τ ≥ 0`.
+The landed conclusion of `perturbation_noA5`, verbatim, with `SettingSrc` in place of
 `Setting` and free `σK σB σT` (they enter the constants only through `𝔪`). -/
 theorem perturbation_noA5_src (hS : SettingSrc n τ M D H ω γ) {σK σB σT : ℝ} {r δ β d : ℝ}
     (hr : 0 < r) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (h2δ : 2 * δ < r)

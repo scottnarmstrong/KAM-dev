@@ -16,7 +16,7 @@ public import KAM.Frozen.Planetary.Defs.NoCollision
 public import KAM.Frozen.Planetary.Defs.PairBounds
 
 /-!
-# AMD geometry (P14, package A2)
+# AMD geometry
 
 Blueprint P, Part 14 (`bpP:p14:geometry`, steps `geo-a` to `geo-d`, `geo-k`).  On the outer low-AMD
 region of an admissible box the axes, radii, momenta, eccentricities and pairwise distances obey

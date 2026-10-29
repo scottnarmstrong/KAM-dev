@@ -20,7 +20,7 @@ public import KAM.Kepler.DelaunayJacobian
     i.e. `IsSymplecticOn 1 delaunay deDom`),
 invertibility of `D𝖰`, the Liouville primitive `𝖰^*(Σ p dq) = L dℓ + G dg + dF` with
 `F = 2 L e sin u` (`delaunayGen`), and the Hamiltonian-field consequence
-(`bpI:p7:symplectic`, KEP-6).
+(`bpI:p7:symplectic`).
 
 The explicit Jacobian columns `orbitMapColumn` live in `KAM.Kepler.DelaunayJacobian` (imported
 publicly, so they are available here and to every importer of this module). Proof plan:
@@ -480,7 +480,7 @@ end DelaunayLevel
 
 section Liouville
 
-/-- F-audit C6 (`bpI:p7:symplectic`, Liouville primitive): `𝖰^*(Σ p dq) = L dℓ + G dg + dF`,
+/-- The Liouville primitive (`bpI:p7:symplectic`): `𝖰^*(Σ p dq) = L dℓ + G dg + dF`,
     `F = 2 L e sin u`. -/
 def delaunayGen (w : Phase 2) : ℝ :=
   2 * w.2 0 * eccOf (w.2 0) (w.2 1) * Real.sin (eccAnom (w.1 0) (eccOf (w.2 0) (w.2 1)))
@@ -654,7 +654,7 @@ end Liouville
 section Invertibility
 
 /-- Explicit Jacobian columns, in the intermediate variables (helper for the proof; the symplectic
-identity is then six rational identities, see the design document). -/
+identity is then six rational identities). -/
 theorem delaunay_hasFDerivAt {w : Phase 2} (hw : w ∈ deDom) :
     HasFDerivAt delaunay (fderiv ℝ delaunay w) w :=
   (analyticOnNhd_delaunay w hw).differentiableAt.hasFDerivAt

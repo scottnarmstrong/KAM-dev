@@ -9,7 +9,7 @@ public import KAM.Planetary.Preparation.RectangularAverageCore
 public import KAM.Planetary.Preparation.RectangularAverageDomain
 
 /-!
-# Rectangular two-scale averaging (P11A-P4, `bpP:p11:aniso-avg`)
+# Rectangular two-scale averaging (`bpP:p11:aniso-avg`)
 
 `aniso_avg` is the finite averaging iteration `p11_nfb_core` applied to the closed polydisc
 `p11AvgBase c r₁ r₂` with the single radius `r_* = min r₁ r₂` (`stepP:p11:aa-same`): its

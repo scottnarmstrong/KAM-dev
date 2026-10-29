@@ -14,7 +14,7 @@ public import KAM.ODE.Lipschitz
 public import KAM.Planetary.Exponential.Setting
 
 /-!
-# P14 package E8: uniform data on the compact fast cylinder
+# Uniform data on the compact fast cylinder
 
 Blueprint P, Part 14 (`bpP:p14:uniform-data`, `stepP:p14:ud-cell`, `stepP:p14:ud-transl`): the
 radian-period generalization of `KAM.ODE.gen_uniform_periodic`.  A `C¹` field on an open set `W`

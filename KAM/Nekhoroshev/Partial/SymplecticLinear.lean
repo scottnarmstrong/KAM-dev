@@ -11,7 +11,7 @@ public import KAM.Canonical.SymplecticForm
 public import Mathlib.Analysis.Normed.Module.HahnBanach
 
 /-!
-# Linear algebra of the weighted symplectic structure (Part 11, package N11-E1)
+# Linear algebra of the weighted symplectic structure (Part 11)
 
 Helper module of `KAM.Nekhoroshev.Partial.Symplectic`. The weighted structure on
 `EC n k = ℂⁿ × ℂ^{n+(k+k)}` (angles; fast actions, slow `q`, slow `p`) is the standard one on

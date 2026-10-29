@@ -13,8 +13,8 @@ public import KAM.Planetary.Nondegeneracy.Stability
 /-!
 # R-nondegeneracy relation nodes: scalings
 
-Blueprint P, Part 10 (package GAP-P10b): an unsigned export stating the literal conclusion of the
-node `bpP:p10:scaling`, built from the landed `scaling` and `scaling_amount`. The nodes
+Blueprint P, Part 10: an unsigned export stating the literal conclusion of the
+node `bpP:p10:scaling`, built from the `scaling` and `scaling_amount`. The nodes
 `stepP:p10:F-A`, `F-B`, `F-C`, `ft-pt`, `ft-cover`, `ft-min` and `st-prod` are already closed in
 the graph (named to their parents).
 -/

@@ -11,8 +11,8 @@ public import KAM.ODE.Lipschitz
 /-!
 # Convergence of the Picard iterates to the canonical flow
 
-Helper module of `KAM.Canonical.FlowRegular` (blueprint-N Part 5, node `bpN:p5:flow` (b),
-design package C5-3). For `z₀ ∈ Ω^{1/2}` there are `η > 0` and `Λ ≥ 0` such that, for every `z` with
+Helper module of `KAM.Canonical.FlowRegular` (blueprint-N Part 5, node `bpN:p5:flow`
+(b)). For `z₀ ∈ Ω^{1/2}` there are `η > 0` and `Λ ≥ 0` such that, for every `z` with
 `ν(z - z₀) < η`, the Picard iterates `y_k` satisfy
 
   `ν(y_k(t, z) - X^t(z)) ≤ ε Λ^k |t|^{k+1} / (k+1)!`   for `|t| ≤ 1`

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationAux
 public import KAM.Planetary.WeakKAM.Initial
 
-/-! # P11B iteration: the base case `(P₀)`
+/-! # Part 11a, iteration: the base case `(P₀)`
 
 `stepP:p11a:il-p0`: the chain of length zero (`K₀ = K`, no increments) with the initial
 remainder `R₀` of `initial`.

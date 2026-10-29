@@ -14,10 +14,9 @@ Facade over `LimitMapScale` (rescaled norm `limitmap_data`), `LimitMapPsi` (`Psi
 `iterative_steps`, domains and displacement), `LimitMapLip`/`LimitMapPack` (`psi_lip_of_steps`),
 `LimitMapPhi`/`LimitMapDisp`/`LimitMapLimit`/`LimitMapReal` (composition rule, uniform limit
 `limit_phi_real_of_steps`) and `LimitMapStrip` (`limit_phi_strip_of_steps`). These are private
-conditional interfaces (design finding N2): the only hypotheses are `ActionSteps`/`PsiSteps`,
+conditional interfaces: the only hypotheses are `ActionSteps`/`PsiSteps`,
 proved outputs of `iterative` on the same witnesses, and `D_*` the image of `D₀` under the limit
 action map of `limit_actions_of_steps`. `limit_map_of_iterative` is the joint applicability check.
-Design package P23-18.
 -/
 
 @[expose] public noncomputable section

@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.CutoffConv
 
-/-! # P11B smooth cutoff (`smooth-cutoff`)
+/-! # Part 11a, smooth cutoff (`smooth-cutoff`)
 
 The cutoff is the convolution of the indicator of the closed `t / 4`-neighbourhood of `E` with the
 tensor kernel of width `t / 4`. The exact bump constants (`selectionBump`, `selectionBumpL1`,

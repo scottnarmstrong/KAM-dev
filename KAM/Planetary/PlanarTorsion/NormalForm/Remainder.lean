@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.OrbitJet.Analytic
 
 /-!
-# Planar quartic torsion: uniform sixth-order bound for analytic remainders (package T10)
+# Planar quartic torsion: uniform sixth-order bound for analytic remainders
 
 Blueprint P, Part 11b (`bpP:p11b:lie`, `stepP:p11b:li-ord`).  An analytic remainder
 `R (I, z)` with vanishing five-jet in `z` at `z = 0` is `O (‖z‖ ^ 6)` uniformly for `I` in a

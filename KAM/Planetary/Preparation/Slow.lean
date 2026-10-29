@@ -20,7 +20,7 @@ public import KAM.Planetary.Preparation.SlowAssembly
 public import KAM.Planetary.Preparation.SlowSigned
 
 /-!
-# Slow averaging facade (P11A-P7, `bpP:p11:avg-slow`)
+# Slow averaging facade (`bpP:p11:avg-slow`)
 
-Facade over the P7, P7b, P7c and P7d modules; `avg_slow` (signed) is proved in `SlowSigned`.
+Facade over the slow-averaging modules; `avg_slow` (signed) is proved in `SlowSigned`.
 -/

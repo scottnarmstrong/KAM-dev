@@ -11,7 +11,7 @@ public import KAM.Planetary.WeakMeasure.ScalarSublevel
 public import KAM.Planetary.WeakMeasure.MeasureTools
 
 /-!
-# Ball sublevel estimate (blueprint `bpP:p11a:ball-sublevel`, P11A-W5)
+# Ball sublevel estimate (blueprint `bpP:p11a:ball-sublevel`)
 
 For `g` of class `C^q` near the closed Euclidean ball `U = {|y - y₀|₂ ≤ r}` with
 `β ≤ |D^q g(y)(a^q)|` on `U` (`|a|₂ = 1`),

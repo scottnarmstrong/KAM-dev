@@ -18,7 +18,6 @@ For `φ` of oscillator class with weighted bound `E` and `E/d ≤ 1/2` (`d = min
 abstract flow theory `flow_a`–`flow_e` with the gauge `oscScale` gives the properties of
 `Ψ = flow X_φ 𝒪 1` on the domains `V ⊆ U ⊆ 𝒪`: holomorphy, maps-to, injectivity, inverse flow,
 fast-lattice equivariance, symplecticity, gauge displacement and derivative bounds, reality.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-13.
 -/
 
 @[expose] public noncomputable section

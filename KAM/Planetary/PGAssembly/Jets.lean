@@ -13,14 +13,13 @@ public import KAM.Planetary.PGAssembly.JetsRegular
 /-!
 # P Part 5: the extended Birkhoff data (`bpP:p5:birkhoff-ext`, `stepP:p5:be-*`)
 
-Facade of package P5-JET. `fourth_jet_unique` (`JetsFourth`), the jets `jetP0`, `jetOmega`,
+Facade. `fourth_jet_unique` (`JetsFourth`), the jets `jetP0`, `jetOmega`,
 `jetBeta`, `jetPolynomial` and the remainder `pgRemainder` (`JetsDefs`), and the two Birkhoff
 extension theorems `birkhoff_ext` and `birkhoff_ext_parameter_regularity`:
 identification with the frozen `P0, Omega, beta` on `V` (`JetsIdent`), holomorphy and joint
 continuity of the jets, symmetry of `jetBeta` (`JetsRegular`), vanishing of the remainder jet of
 order `≤ 4` on the whole tube (`JetsVanish`, identity theorem in `JetsRegular`), and the closure
 torsion bound (below).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

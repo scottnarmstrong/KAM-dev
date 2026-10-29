@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationBridge
 
-/-! # P11B iteration: parameter Cauchy for vector-valued maps and the real collar supplier
+/-! # Part 11a, iteration: parameter Cauchy for vector-valued maps and the real collar supplier
 
 `param_cauchy_gen` is `param_cauchy` for maps with values in any complex Banach space (the joint
 angle-action defect), valid also for `j = 0`. `step_real_lipschitz_collar` is the real

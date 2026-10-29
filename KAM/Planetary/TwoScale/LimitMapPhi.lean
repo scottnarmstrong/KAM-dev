@@ -13,7 +13,7 @@ public import KAM.Planetary.TwoScale.LimitMapPack
 The real restrictions `Φ_j = Ψ_1 ∘ ⋯ ∘ Ψ_j` satisfy `Φ_{j+1} = Φ_j ∘ Ψ_{j+1}` on `𝒟_{j+1} × ℝⁿ`
 (`phiR_succ`), and the rescaled Lipschitz constant of `Φ_j − id` is
 `∏_{k<j} (1 + ς_k) − 1 ≤ 768 n Ê₀` (`stepP:p3:lp-cauchy`, the composition rule of
-`stepP:p3:la-lip`). Design package P23-18.
+`stepP:p3:la-lip`).
 -/
 
 @[expose] public noncomputable section

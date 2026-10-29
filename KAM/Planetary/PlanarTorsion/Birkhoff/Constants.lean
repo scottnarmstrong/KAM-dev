@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.Lift
 public import KAM.Planetary.PlanarTorsion.QuarticFlow
 
 /-!
-# Planar quartic torsion: the constants of the Birkhoff theorem (package T16)
+# Planar quartic torsion: the constants of the Birkhoff theorem
 
 Blueprint P, Part 11b (`bpP:p11b:birkhoff-form`).  The slow radius `r` and the remainder constant
 `C` are chosen before the good axis neighbourhood `Oa`, depending only on the physical data and the

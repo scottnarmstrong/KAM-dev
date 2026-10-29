@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularForm.AnalyticGeometry
 /-!
 # Quadratic part: the quadratic form as a sum over pairs
 
-Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q). The quadratic form
+Blueprint P, Part 8, `stepP:p8:qf-assembly`. The quadratic form
 `ξᵀ Q ξ + ηᵀ Q η`, `Q = coeffs D a`, is the sum over pairs `i < j` of
 `-(pairA/Λᵢ)|uᵢ|² - (pairA/Λⱼ)|uⱼ|² + 2 Qᵢⱼ uᵢ·uⱼ`, `uᵢ = (ξᵢ, ηᵢ)`.
 -/

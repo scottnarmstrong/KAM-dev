@@ -13,7 +13,7 @@ import Mathlib.MeasureTheory.Constructions.Pi
 /-!
 # Integral of a time-dependent family along the extended flow (`bpN:p11:transform`, class part)
 
-Part 11, package N11-F1; the engine of `transform_integral`, ported from
+Part 11; the engine of `transform_integral`, ported from
 `KAM.Canonical.CompositionIntegral*` to the unequal product `EC n k`. For `ExtCompose` and a family
 `v_t ∈ 𝒪_{R,s}`, `|v_t| ≤ U` on `t ∈ [0,1]`, continuous together with its derivative:
 

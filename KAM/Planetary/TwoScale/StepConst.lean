@@ -12,7 +12,6 @@ public import KAM.Planetary.TwoScale.StepNonres
 
 `cutoff (nextScale p) ≤ 24 cutoff p`, `rhoHat (nextScale p) ≥ rhoHat p / (2·24^(τ+1))`,
 `eHat (nextScale p) ≤ (8/9) (4s)^(2(τ+1)) eHat p²` and the strict quadratic bound.
-Design package P23-14.
 -/
 
 @[expose] public noncomputable section

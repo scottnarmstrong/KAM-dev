@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Lift.Defs
 
 /-!
-# Planar quartic torsion: the full Hamiltonian field of the lift (package T11)
+# Planar quartic torsion: the full Hamiltonian field of the lift
 
 Blueprint P, Part 11b (`bpP:p11b:lm-ham`).  For `H w = chi (I w) (z w)` on `Phase (2 + 2)` the
 Hamiltonian field at `assemble I lam z.2 z.1` is `(∂_I chi, ∂_p chi ; 0, -∂_q chi)`, i.e. the

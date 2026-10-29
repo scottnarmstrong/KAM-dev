@@ -20,7 +20,7 @@ import Mathlib.Tactic.Positivity
 # The cohomological equation on strips
 
 Blueprint `bp:p1:cohomological`, stated about the interface definitions `KAM.cohSolution` and
-`KAM.cohConst` of `KAM/Strip/CohomologicalDefs.lean` (design §2.4).
+`KAM.cohConst` of `KAM/Strip/CohomologicalDefs.lean`.
 
 Let `ω` be `(γ, τ)`-Diophantine and let `g` be holomorphic, `1`-periodic and bounded by `A` on the
 strip of width `ρ`, with `⟨g⟩ = 0`. For `0 < δ < ρ` the map `cohSolution ω g`, the Fourier series

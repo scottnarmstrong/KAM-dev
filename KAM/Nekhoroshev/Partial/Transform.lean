@@ -10,7 +10,7 @@ import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 import Mathlib.MeasureTheory.Integral.DominatedConvergence
 
 /-!
-# The Lie transform of `h + f` (`bpN:p11:transform`, Part 11, package N11-F1)
+# The Lie transform of `h + f` (`bpN:p11:transform`, Part 11)
 
 For `ExtCompose b R' s' R s ρ σ V φ`, `h, f ∈ 𝒪_{R,s}` with `w = {h, φ}_c ∈ 𝒪_{R,s}` of norms
 `W`, `U`:

@@ -18,8 +18,8 @@ import Mathlib.Tactic.FieldSimp
 
 `oscStepMap` is the time-one map of the Hamiltonian flow of `oscGen` on the domain `𝒪`.
 `osc_iter_core` proves every clause of `osc_iter` except the class, the weighted bound and the
-reality of the new remainder `fp` (see the handoff: the Lie-series transfer is not yet done).
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-13.
+reality of the new remainder `fp`; those are proved in
+`OscillatorStepComplete`.
 -/
 
 @[expose] public noncomputable section

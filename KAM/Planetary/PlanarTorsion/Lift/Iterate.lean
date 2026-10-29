@@ -9,12 +9,12 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Lift.Orbit
 
 /-!
-# Planar quartic torsion: analyticity and symplecticity of the lift near zero angles (package T11)
+# Planar quartic torsion: analyticity and symplecticity of the lift near zero angles
 
 Blueprint P, Part 11b (`bpP:p11b:lm-prop`).  The orbit of the full lift
 (`p11cL_orbit_exists`) stays in one compact subset `K₃` of the domain of the Hamiltonian
-`p11cL_ham chi`.  The compact common-neighbourhood flow of package R2 for the full field then
-gives a short-time map `Ψ`, jointly real analytic and (package R3) symplectic on a neighbourhood
+`p11cL_ham chi`.  The compact common-neighbourhood flow of `RealFlow/AnalyticCompact` for the full
+field then gives a short-time map `Ψ`, jointly real analytic and symplectic on a neighbourhood
 `U ⊇ K₃`, and by ODE uniqueness `p11c_liftFlow chi.eval` equals the `m`-fold iterate `Ψ^[m]` on
 `p11cL_nbhd O' r`.  Hence it is analytic and symplectic there.  No complex domain or `SmallField`
 hypothesis enters.

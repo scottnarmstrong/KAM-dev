@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Inputs
 
 /-!
-# Planar quartic torsion: the spectral projector at hierarchical axes (P11C, package T18)
+# Planar quartic torsion: the spectral projector at hierarchical axes
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, step `stepP:p11b:as-pi`): with `Δ_Q = Q₁₁ - Q₂₂ < 0`
 and `R = √(Δ_Q² + 4 Q₁₂²) ≥ |Δ_Q|`, the projector satisfies `π₁₂ = -Q₁₂ / R`,

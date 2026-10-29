@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.StepBound
 
 /-!
-# The remainder of the canonical step (P11A-C8, `stepP:p11a:cs-taylor`, `cs-bracket`, `cs-assemble`)
+# The remainder of the canonical step (`stepP:p11a:cs-taylor`, `cs-bracket`, `cs-assemble`)
 
 For `b ∈ B` and `z ∈ D(r_+, qs)` the integral Lie identity (`Canonical.taylor_poschel`) gives
 `R_+(z) = (R - R_*)(z) + ∫₀¹ {u_t, φ}(X^t z) dt`, and the Cauchy estimates bound the integrand by

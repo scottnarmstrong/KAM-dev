@@ -10,7 +10,7 @@ public import KAM.Planetary.Quantitative.BudgetPower.Positivity
 public import KAM.Planetary.Quantitative.BudgetPower.Rates
 
 /-!
-# Polynomial lower bound for the loss `gamma` (P11C-Q3, fragment `ab_gamma`)
+# Polynomial lower bound for the loss `gamma`
 
 The Diophantine constant `cDio` is positive and at most `C * u ^ (-D)`, hence the loss
 `gamma` is at least `k * u ^ G` (`stepP:p11a:ab-gamma`).

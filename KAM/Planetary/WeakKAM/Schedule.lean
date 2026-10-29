@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.Data
 
-/-! # P11B weak-KAM schedule
+/-! # Part 11a, weak-KAM schedule
 
 The constants of the geometric schedule (`schedule-consts`, `schedule-ratios`), the geometric
 recursion (`geom-recursion`), the schedule record `SelectionSchedule` and its scalar sequences

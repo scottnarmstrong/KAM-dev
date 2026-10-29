@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.Quartic.Defs
 public import KAM.Planetary.PlanarTorsion.Quartic.Jet
 
 /-!
-# Planar quartic torsion: the sixth-order remainder of the secular average (P11C, package T6)
+# Planar quartic torsion: the sixth-order remainder of the secular average
 
 Blueprint P, Part 11b (`stepP:p11b:qe-an`).  With `qeS p a u = pref · pairAverage α (qeV I u)` and
 the polynomial `qePoly p a u` (constant, quadratic and the explicit quartic), the difference is

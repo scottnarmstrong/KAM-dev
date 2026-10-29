@@ -9,12 +9,12 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.PairCoefficients
 
 /-!
-# Planar quartic torsion: big-O bookkeeping for the pair coefficients (P11C, package T18)
+# Planar quartic torsion: big-O bookkeeping for the pair coefficients
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, steps `as-in`, `as-c`): the eight pair coefficients
 `p11c_pairCoeffs a` agree with their explicit series jet `p11c_pairSeriesJet a` up to `O(a ^ 7)`
 as `a → 0⁺` (`p11cAe_pair`), and the power-comparison helper `p11cAe_pow_isBigO` used throughout
-the asymptotic package.
+the asymptotic entries.
 -/
 
 @[expose] public noncomputable section

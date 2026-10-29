@@ -15,7 +15,7 @@ public import KAM.Planetary.PlanarTorsion.Setting
 
 Blueprint P, Part 11b (`bpP:p11b:pair-jet`): `p11c_pairAverage` is the double radian mean of the
 inverse distance of the two planets (the first one scaled by `a = a₁/a₂`), and `p11c_pairJet` the
-displayed degree-four jet, copied verbatim from the signature file of the P11C design.
+displayed degree-four jet.
 -/
 
 @[expose] public noncomputable section

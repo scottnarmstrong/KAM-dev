@@ -13,8 +13,7 @@ public import KAM.Strip.RealRestriction
 /-!
 # Canonical setting: Poisson bracket, iterated brackets, scaled norm, symplectic form
 
-Blueprint-N Part 5, node `bpN:p5:setting` (design `docs/tracks/N/design/PART145-LEAN-DESIGN.md`,
-package C5-1). Phase space is `ℂⁿ × ℂⁿ` (angles first).
+Blueprint-N Part 5, node `bpN:p5:setting`. Phase space is `ℂⁿ × ℂⁿ` (angles first).
 
 * `KAM.Canonical.poissonBracket`, `KAM.Canonical.adPow`: the bracket `{u, v}` and the iterated
   bracket `ad_φ^j u`, defined from Fréchet derivatives (hence total);

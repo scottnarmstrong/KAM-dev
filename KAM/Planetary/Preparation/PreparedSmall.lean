@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.PreparedBasic
 
 /-!
-# Smallness bridge for the prepared assembly (P11A-P8e)
+# Smallness bridge for the prepared assembly
 
 The signed data `p11FastData D eps`, `p11SlowData D nu eps` satisfy their specifications for
 small `eps`, together with the numeric smallness conditions of the prepared steps

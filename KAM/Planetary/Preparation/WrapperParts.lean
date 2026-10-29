@@ -13,7 +13,7 @@ public import KAM.Planetary.Preparation.FastBridge
 public import KAM.ODE.Basic
 
 /-!
-# The real factors of the chain `Ξ_ε` (P11A-P10, `stepP:p11:wr-chain`)
+# The real factors of the chain `Ξ_ε` (`stepP:p11:wr-chain`)
 
 `Ξ_ε = chart ∘ FastR ∘ PolarR ∘ PsiR ∘ ResR` where `PsiR` and `FastR` are the real restrictions of
 the holomorphic maps `Ψ₂` and `Θ̂ ∘ …` of the signed `avg_slow`, `avg_fast`.  This file proves, for

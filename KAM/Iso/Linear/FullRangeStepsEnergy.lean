@@ -8,7 +8,7 @@ module
 public import KAM.Iso.Linear.FullRange
 
 /-!
-# Part 1 step exports: the energy identities (graph gap GAP-I1b)
+# Part 1 step exports: the energy identities
 
 Literal exports of the proof-step nodes of `bpI:p1:energy-approx` (`ea-*`) and
 `bpI:p1:energy-conservation` (`ec-*`) under the source setting `SettingSrc` (`τ ≥ 0`), built from
@@ -136,7 +136,7 @@ theorem step_ea_defect (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r)
     exact mul_le_mul_of_nonneg_left (add_le_add (hη x hx)
       (mul_le_mul_of_nonneg_left (hΩ x hx) (norm_nonneg _))) (Nat.cast_nonneg n)
 
-/-- `bpI:p1:energy-approx`, step `ea-defect` (f), full node conclusion (audit F1): everything in
+/-- `bpI:p1:energy-approx`, step `ea-defect` (f), full node conclusion: everything in
 `step_ea_defect`, together with the first averaged estimate of the source chain
 `|⟨D(H ∘ K) ξᴸ⟩| ≤ sup|D(H ∘ K)| · sup|ξᴸ|` over the cube, for every uniform bounds `A`, `X`. -/
 theorem step_ea_defect_node (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r)

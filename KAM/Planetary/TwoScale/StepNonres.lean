@@ -13,7 +13,7 @@ public import KAM.Planetary.TwoScale.StepFreq
 Consequences of `KamHyp` on the constants (`rhoHat`, `cutoff`, `eHat`, `L`), and the two-scale
 nonresonance estimate on the complex `rhoHat`-neighbourhood of `D` with the divisors
 `α₁ = (2/3) γ₁ K^(-τ)`, `α₂ = (2/3) γ₂ K^(-τ)`, from the mean value inequality on the Hessian
-bounds. Design package P23-14.
+bounds.
 -/
 
 @[expose] public noncomputable section

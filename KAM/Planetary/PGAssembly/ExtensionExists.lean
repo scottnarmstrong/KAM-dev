@@ -12,10 +12,9 @@ public import KAM.Planetary.PGAssembly.ExtensionProps
 /-!
 # P Part 5: existence of the extension (`bpP:p5:ext`, `stepP:p5:ext-H0`)
 
-The holomorphic extension of `H0` to a thin tube over `closure V` (P5-CG on the compact
+The holomorphic extension of `H0` to a thin tube over `closure V` (`ComplexGlue` on the compact
 `closure V`, using `hfreq.1`), Cauchy estimates for its first two derivatives, and the assembly of
 a `PGExtension d` from the periodized `PGTube.P` and this `H0` extension.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
 -/
 
 @[expose] public noncomputable section

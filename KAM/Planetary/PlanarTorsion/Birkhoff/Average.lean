@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Map
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Jets
 
 /-!
-# Planar quartic torsion: the torus average of the transformed perturbation (package T16)
+# Planar quartic torsion: the torus average of the transformed perturbation
 
 Blueprint P, Part 11b (`stepP:p11b:bt-avg`).  Since `T` only translates the angles over a point
 `assemble I φ z.2 z.1` (`p11cB_T_assemble`) and the physical perturbations are `2π`-periodic in the

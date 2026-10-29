@@ -11,7 +11,7 @@ public import KAM.Canonical.FlowRegular
 public import KAM.Canonical.FlowInverse
 
 /-!
-# The canonical flow on the extended phase space (Part 11, package N11-E1)
+# The canonical flow on the extended phase space (Part 11)
 
 Blueprint node `bpN:p11:flow`.
 

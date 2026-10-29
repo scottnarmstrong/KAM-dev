@@ -9,7 +9,7 @@ public import KAM.Planetary.Hamiltonian.Transport
 public import KAM.Planetary.PGMeasure.Polar
 
 /-!
-# Part 1: literal exports of the chart and transport nodes (GAP-P13)
+# Part 1: literal exports of the chart and transport nodes
 
 Unsigned exports stating the literal conclusions of `bpP:p1:typical`, `stepP:p1:pc-a`,
 `stepP:p1:pc-b` and the six clauses `stepP:p1:tt-an`, `tt-lat`, `tt-inj`, `tt-lag`, `tt-flow`,

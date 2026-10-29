@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationBridge
 
-/-! # P11B iteration: stage-wise scalar facts
+/-! # Part 11a, iteration: stage-wise scalar facts
 
 For an admissible schedule `a` (a `WeakBudgetCtx`), the scalar inequalities of one inductive
 step: `C1` (strip budget), `C2` (divisor smallness), `C3` (flow smallness) and the remainder

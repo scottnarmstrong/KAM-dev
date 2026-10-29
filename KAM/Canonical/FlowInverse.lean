@@ -11,8 +11,7 @@ public import KAM.Strip.RealRestriction
 /-!
 # The canonical flow: inverse, derivative bound and reality
 
-Blueprint-N Part 5, node `bpN:p5:flow`, parts (c) and (e) (design
-`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-5).
+Blueprint-N Part 5, node `bpN:p5:flow`, parts (c) and (e).
 
 * `KAM.Canonical.flow_c`: for `z ∈ Ω¹` the time-one map and its inverse `X^{-1}` stay in `Ω^{1/2}`
   and invert each other, and `ν(DX^t(z) v - v) ≤ 2 ε ν(v)` for `|t| ≤ 1`.

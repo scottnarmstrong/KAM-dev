@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.BetaAvg
 public import KAM.Planetary.PlanarTorsion.Quartic
 
 /-!
-# Planar quartic torsion: the physical quartic family and restriction (package T16)
+# Planar quartic torsion: the physical quartic family and restriction
 
 Blueprint P, Part 11b (`stepP:p11b:bt-nf`).  `p11cB_family` realises the frame-rotated physical
 quartic as a `QuarticFamily` over every set of actions inside the frame domain; the families

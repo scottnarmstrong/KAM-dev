@@ -16,7 +16,7 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Iterated brackets in the weighted norm (`bpN:p5:adjoint`)
 
-Blueprint-N Part 5, Lemma B.5 (iterated brackets), design package C5-7.  For `φ ∈ O(r', s')`,
+Blueprint-N Part 5, Lemma B.5 (iterated brackets).  For `φ ∈ O(r', s')`,
 `u ∈ O(r, s)` with bounds `Φ`, `U` and losses `ρ < r`, `σ < s`, `r + ρ ≤ r'`, `s + σ ≤ s'`:
 `|ad_φ^h u|_{r-ρ,s-σ} ≤ (2h²/(eρσ))^h (h!/(2h)!) Φ^h U`, hence
 `|ad_φ^h u / h!|_{r-ρ,s-σ} ≤ (e η/4)^h U` with `η = 2Φ/(ρσ)`.

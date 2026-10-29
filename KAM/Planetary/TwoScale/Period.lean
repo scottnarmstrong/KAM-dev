@@ -21,8 +21,6 @@ convention of CP and the period-one convention:
 * the conversion while Cartesian oscillators remain (`oscPeriodChart`, `use5`, `use5_constants`):
   only the fast angles/actions are rescaled (`θ ↦ 2πθ`, `I ↦ I/(2π)`), the Cartesian oscillator
   coordinates are untouched, so the chart is symplectic and the Hamiltonian is unchanged.
-
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-08.
 -/
 
 @[expose] public noncomputable section

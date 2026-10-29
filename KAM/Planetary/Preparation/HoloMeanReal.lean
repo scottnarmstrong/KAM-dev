@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularSpectrum.Diagonalize
 public import KAM.Planetary.SecularForm.AnalyticReal
 
 /-!
-# `F` on real points is the real fixed perturbation of the real lift (P11A-P2e, `hc-mean`)
+# `F` on real points is the real fixed perturbation of the real lift (`hc-mean`)
 
 For a rotation family `ρ` extending a real frame `R` (`ρ (ι y) = (R y)ℂ` near `Λ`),
 `p11hsInput_real` identifies the complexified chart input at a real point with the real inverse

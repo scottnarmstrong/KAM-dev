@@ -12,7 +12,7 @@ public import KAM.Apost.Frame
 /-!
 # Part 2 (isoenergetic iteration): the standing data, the ray, the frequency bound
 
-Package I2-1 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p2:standing#k-bridge`,
+Blueprint nodes `bpI:p2:standing#k-bridge`,
 `bpI:p2:ray` and the display `bpI:p2:freq` of `bpI:p2:admissible`.
 
 * `IsoStanding.setting` (`bpI:p2:standing#k-bridge`): for `s ≥ 1` the Part 1 setting (hence track
@@ -21,7 +21,7 @@ Package I2-1 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p2:sta
   `γ ≤ |ω*₁| ≤ ‖ω*‖`, the distance identity `‖s' ω* - s ω*‖ = |s' - s| ‖ω*‖` and the Lipschitz
   property of the endpoint margin `rayMargin` (`ν(s)`), with the "in particular" clause.
 * `IsoAdmissible.freq` (`bpI:p2:admissible`, display `bpI:p2:freq`): `γ ≤ ‖s ω*‖ ≤ Θ`, from
-  track K's `frequency` (`bp:p2:frequency`).
+  `KAM.Apost.frequency` (`bp:p2:frequency`).
 
 The definitions `IsoStanding`, `rayMargin`, `IsoAdmissible` live in `KAM.Iso.Apost.Defs`.
 -/

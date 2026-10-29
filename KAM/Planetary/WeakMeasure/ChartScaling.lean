@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakMeasure.Stability
 
 /-!
-# Affine chart scaling (blueprint `bpP:p11a:chart-scaling`, P11A-W8)
+# Affine chart scaling (blueprint `bpP:p11a:chart-scaling`)
 
 The chart `A y = y₀ + λ y` (`λ > 0`) rescales derivatives by `λ^j`
 (`chart_scaling_jets`, from the iterated-derivative identity `p11_iteratedFDeriv_affine`), maps

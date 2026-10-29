@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.SecEDefs
 public import KAM.Planetary.Preparation.SecDSource
 
 /-!
-# Source objects of Step E (`bpP:p11:sec-E#data`, package P-SEC)
+# Source objects of Step E (`bpP:p11:sec-E#data`)
 
 The literal objects of `§ Step E` of blueprint-P Part 11 and their identifications on the full
 complex source domain `E` (`p11SecE`):

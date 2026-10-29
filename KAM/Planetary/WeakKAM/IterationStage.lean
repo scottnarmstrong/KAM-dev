@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.IterationBase
 public import KAM.Planetary.WeakKAM.IterationIncrement
 public import KAM.Planetary.WeakKAM.IterationRetained
 
-/-! # P11B iteration: the canonical-step hypotheses at stage `ν`
+/-! # Part 11a, iteration: the canonical-step hypotheses at stage `ν`
 
 `stepChain` extends a chain by the data of one step, and `stage_hyp` verifies the hypotheses of
 the canonical step (`stepP:p11a:il-c2`): the energy, frequency and remainder of stage `ν`

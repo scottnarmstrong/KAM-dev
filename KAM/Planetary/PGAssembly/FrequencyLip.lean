@@ -15,7 +15,7 @@ For the fast gradient `G(I, ξ) = ∂_I (jetPolynomial (I, ξ))` and the slow fr
 `Θ(I, ξ) = jetOmega I + jetBeta I ξ` (`‖ξ‖ ≤ 1`): Lipschitz bounds in `I` (from `lip_complex` on the
 radius `2 ρ₀`, `ρ₀ = δ/32`, using the radius-2 bounds) and, for `G`, in `ξ` (mean value inequality
 with the second derivative bound). The constant `lipConst d` is explicit and depends on the data
-only. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FD.
+only.
 -/
 
 @[expose] public noncomputable section

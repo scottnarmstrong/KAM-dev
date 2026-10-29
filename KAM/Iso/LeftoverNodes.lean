@@ -11,9 +11,9 @@ public import KAM.Iso.Collision
 public import KAM.Iso.Charts.Defs
 
 /-!
-# Track I leftover node exports (GAP-ISM)
+# Leftover node exports
 
-Literal exports of three nodes left open by the track I sync:
+Literal exports of three nodes of Blueprint-I:
 
 * `k_pos_node` (`stepI:p6:k-pos`): for `κ > 0`, `Ω ≠ 0`, `L > 0`, `3 κ Ω² / L⁴ > 0` and
   `det K_{κ,Ω}(L) > 0`.

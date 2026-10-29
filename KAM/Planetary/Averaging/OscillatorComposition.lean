@@ -24,8 +24,6 @@ On the one-loss domain `𝒪` of `oscStepMap` the flow of the generator `φ` is 
   the full loss, `< 1`);
 * `osc_composition_t`: `u ∘ X^t_φ` for `t ∈ [-1, 1]` is the series `∑ t^j ad_φ^j u / j!`, in the
   class with the weighted bound `(1 - |t| θ)⁻¹ A` (Taylor along the same flow, rescaled in time).
-
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13e.
 -/
 
 @[expose] public noncomputable section

@@ -13,7 +13,7 @@ import KAM.Head.H1
 # The frame side of the unperturbed torus
 
 Blueprint Part 4, `bp:p4:unperturbed`, items (a), (b), (c) and (g), steps `step:p4:unp-frame`,
-`step:p4:unp-normal` and `step:p4:unp-ball` (package P4-2; internal module of
+`step:p4:unp-normal` and `step:p4:unp-ball` (internal module of
 `KAM/Head/Unperturbed.lean`). The torus `K⁰_{I_*}(θ) = (θ, ι I_*)` is affine, so the tangent
 frame, the Gram matrix and the normal frame are computed directly from the frozen definitions;
 nothing here depends on `h`, `f` or `ε` except the ball inclusion (g).

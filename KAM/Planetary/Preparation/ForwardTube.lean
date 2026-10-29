@@ -20,8 +20,8 @@ For physical data `(G, m0, m, a)` and `ζ > 0` there is `δ > 0`, at most a quar
 Poincaré product domain with `‖Ψ^{(n)}(w) - circ(λ/2π)‖ < ζ`.
 
 The statement is proved for raw physical data (`forward_tube_core`); the `P11Physical` packaging
-`forward_tube` and `p11PhysicalDelta` of the design is a one-line consequence, to be added where
-`P11Physical` is defined.  The proof is the compactness argument of the circular torus: the torus
+`forward_tube` and `p11PhysicalDelta` is a one-line consequence, given in
+`Preparation/Working`.  The proof is the compactness argument of the circular torus: the torus
 is compact, `Ψ - circ` vanishes on it, and both are `2π`-periodic in the angles.
 -/
 

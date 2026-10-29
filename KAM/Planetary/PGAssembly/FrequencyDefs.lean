@@ -18,7 +18,6 @@ public import KAM.Planetary.PGAssembly.FastComplex
 `PGAnalytic` (numeric carriers), the complex domains, `complexIntegrable`, `complexFrequency` and
 the specification `PGAnalyticSpec` of the constants. The specification is produced from `PGData`
 by `freq_data` (see `KAM.Planetary.PGAssembly.FrequencyBounds`); every clause is proved there.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FD.
 -/
 
 @[expose] public noncomputable section

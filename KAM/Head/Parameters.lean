@@ -11,8 +11,7 @@ import Mathlib.Analysis.SpecialFunctions.Pow.Real
 /-!
 # The parameters of the applications of G1 and G2, and the smallness consequences
 
-Blueprint Part 4: Definition `bp:p4:parameters` (its claims) and Lemma `bp:p4:smallness`
-(package P4-3; design `docs/campaign/design/PART4-LEAN-DESIGN.md`, Appendix A section 7).
+Blueprint Part 4: Definition `bp:p4:parameters` (its claims) and Lemma `bp:p4:smallness`.
 
 The constants (`sigmaK`, ..., `A0`-`A4`, `lamStar`, `cT`, `etaStar`, `cStar`) are defined in
 `KAM/Head/Defs.lean`. This module proves, once and for all, the inequalities about them; later

@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.Quartic.Reduce
 public import KAM.Planetary.PlanarTorsion.Quartic.Algebra
 
 /-!
-# Planar quartic torsion: the pair jet at the eccentricity vector (P11C, package T6)
+# Planar quartic torsion: the pair jet at the eccentricity vector
 
 Blueprint P, Part 11b (`stepP:p11b:qe-conv`).  In the variables `a_i = |u_i|²/I_i`,
 `d = u₁·u₂/√(I₁I₂)`, `σ = √(1 - a₁/4)√(1 - a₂/4)` the squared lengths and the scalar product of

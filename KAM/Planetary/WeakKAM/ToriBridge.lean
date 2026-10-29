@@ -14,7 +14,7 @@ public import KAM.Frozen.Defs.SymplecticForm
 public import KAM.Frozen.Defs.RealHamiltonian
 public import KAM.Kepler.Basic
 
-/-! # P11B tori: complex/real Hamiltonian-field bridges
+/-! # Part 11a, tori: complex/real Hamiltonian-field bridges
 
 Pure bridges used by `limit_torus`: one-variable Cauchy bound for a directional derivative,
 the identity `dH(w) = -Ω(X_H, w)` for the complexified frozen form `Canonical.symplFormC`,

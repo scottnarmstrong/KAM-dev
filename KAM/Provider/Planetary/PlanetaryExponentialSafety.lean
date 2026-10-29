@@ -16,12 +16,10 @@ The proof of `KAM.Planetary.planetaryExponentialSafety` is assembled here as
 inputs only. While the frozen anchor is `DRAFT_SORRY`, this module is quarantined: no module other
 than the anchor may import it.
 
-Until the signed `KAM.Planetary.expsafe` is proved (it waits for `stopped`, package E11), the
-parametric form `planetaryExponentialSafety_of_expsafe` is provided; it takes the signed statement
-of `expsafe` (for the given `n` and `hn`) verbatim as its single hypothesis `hexpsafe`. The
-provider theorem itself is the one-line assembly
-`planetaryExponentialSafety_of_expsafe hn (KAM.Planetary.expsafe hn) B hB`, added once
-`expsafe` lands.
+The parametric form `planetaryExponentialSafety_of_expsafe` takes the signed statement of
+`expsafe` (for the given `n` and `hn`) verbatim as its single hypothesis `hexpsafe`. The provider
+theorem itself is the one-line assembly
+`planetaryExponentialSafety_of_expsafe hn (KAM.Planetary.expsafe hn) B hB`.
 -/
 
 @[expose] public noncomputable section

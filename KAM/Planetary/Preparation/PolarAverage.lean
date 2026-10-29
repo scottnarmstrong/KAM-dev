@@ -13,7 +13,7 @@ public import KAM.Planetary.Preparation.PolarAverage.Iterate
 public import KAM.Planetary.Preparation.PolarAverage.Order
 
 /-!
-# The polar average (P11A-P6, `bpP:p11:polar-avg`, `bpP:p11:e5`)
+# The polar average (`bpP:p11:polar-avg`, `bpP:p11:e5`)
 
 `p11PolarAverage G (J, ρ)` is the torus average of `G (J, (w_i sin 2πθ_i, w_i cos 2πθ_i))` with
 `w_i = √(ρ_i/π)` (principal root). The route avoids multi-index Taylor series:
@@ -28,7 +28,7 @@ public import KAM.Planetary.Preparation.PolarAverage.Order
 * Bound (a): the raw average is a mean of values of `G` in `B(0, r)`. Bound (c): the radial
   Schwarz lemma bounds the integrand by `S (‖(x,y)‖/r)^k`, hence along real rays the average
   decays like `√t^k`, which forces vanishing order `⌈k/2⌉` in `ρ`
-  (`p11_vanish_of_decay`); the one-variable Schwarz lemma of `P11A-P0` finishes.
+  (`p11_vanish_of_decay`); the one-variable Schwarz lemma of `Schwarz` finishes.
 * `polar_extension_unique` is the identity theorem on the connected action polydisc.
 * `e5` is the reflection `t ↦ 1 - t` (odd `a`) or `t ↦ 1/2 - t` (odd `b`) on a period.
 -/

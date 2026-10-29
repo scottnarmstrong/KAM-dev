@@ -10,7 +10,7 @@ public import Mathlib
 /-!
 # Quadratic part: one-variable calculus along rays
 
-Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q): the second derivative of a function
+Blueprint P, Part 8, `stepP:p8:qf-assembly`: the second derivative of a function
 along a ray is its Hessian form, and an analytic function that is `O(|s|^m)` has vanishing jet of
 order `< m`.
 -/

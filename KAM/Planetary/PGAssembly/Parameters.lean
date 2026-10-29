@@ -16,8 +16,7 @@ public import KAM.Planetary.Hamiltonian.Diophantine
 `PGParameters` collects the explicit parameters of `bpP:p5:params`; `params` evaluates them at
 `(r, mu)` from the data-only scales `pgScales`. `checkedCore` is the Diophantine part of the inner
 core, `pgActionDomain` the joined action domain, `pgD0` the early parameter set of `bpP:p5:kset`
-(owned here, after `pgActionDomain`, per design finding F8) and `admissible` the range of `(r, mu)`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-PAR.
+(defined here, after `pgActionDomain`, on which it depends) and `admissible` the range of `(r, mu)`.
 -/
 
 @[expose] public noncomputable section

@@ -11,7 +11,7 @@ public import KAM.Planetary.AMD.Setting
 public import KAM.Planetary.AMD.Elements
 
 /-!
-# Closure and continuity on the negative-energy domain (P14, package A3)
+# Closure and continuity on the negative-energy domain
 
 Blueprint P, Part 14 (`bpP:p14:closure`).  `element_continuity`: on the open set of phases with
 every radius positive and every Kepler energy negative, the Kepler actions and the physical AMD

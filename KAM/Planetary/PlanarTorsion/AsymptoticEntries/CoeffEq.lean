@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Leading
 public import KAM.Planetary.PlanarTorsion.Quartic.Defs
 
 /-!
-# Planar quartic torsion: the quartic coefficients at hierarchical axes (P11C, package T18)
+# Planar quartic torsion: the quartic coefficients at hierarchical axes
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, step `stepP:p11b:as-c`): exact formulas for
 `p11c_coeffs p ![α, 1]` as constants times the pair-coefficient combinations

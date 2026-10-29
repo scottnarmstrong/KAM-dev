@@ -13,7 +13,7 @@ public import KAM.Planetary.SecularForm.AnalyticGeometry
 /-!
 # Secular form: the cross jet of the pair average
 
-Blueprint P, Part 8, `stepP:p8:qf-cross` (package S8-X). The mixed second derivative at
+Blueprint P, Part 8, `stepP:p8:qf-cross`. The mixed second derivative at
 `ξ_i = ξ_j = 0` of the literal pair average `pairSlowSecular` is the Hermitian entry of the
 quadratic form: `cross_hessian` states `∂_{ξ_i}∂_{ξ_j} S_{ij} = 2 · coeffs D a i j`, with the value
 recomputed from the regular orbit map (`hasDerivAt_poincare_fst_xi`), differentiation under the

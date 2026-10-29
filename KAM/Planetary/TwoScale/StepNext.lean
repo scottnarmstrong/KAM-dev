@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.StepConst
 # Two-scale KAM step: assembly of the next `KamHyp`
 
 `KamHyp Dp sbar (nextScale p) hp fs` from the averaging outputs `g`, `fs`, the Hessian bounds
-of `hp = h + g`, injectivity of `ω₊` and the new constants. Design package P23-14.
+of `hp = h + g`, injectivity of `ω₊` and the new constants.
 -/
 
 @[expose] public noncomputable section

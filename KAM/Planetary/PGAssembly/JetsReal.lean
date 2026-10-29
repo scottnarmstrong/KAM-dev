@@ -16,7 +16,6 @@ If `R` is complex analytic at `0` and agrees with `ofReal ∘ r` on real vectors
 complex iterated derivative of `R` at real vectors is the real iterated derivative of `r`
 (`jet_real_restrict`). A complex multilinear map on `ℂᵇ × ℂᵇ` vanishing on all tuples of real
 vectors is zero (`multilinear_eq_zero_of_real`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

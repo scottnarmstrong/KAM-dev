@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.QuarticFlow.Field
 public import KAM.Planetary.PlanarTorsion.Characters
 
 /-!
-# Planar quartic torsion: uniform gradient bounds for quartic families (package T10)
+# Planar quartic torsion: uniform gradient bounds for quartic families
 
 Blueprint P, Part 11b (`bpP:p11b:lie`, `stepP:p11b:li-ord`).  The derivative of a quartic family
 is homogeneous cubic, hence bounded by `C ‖w‖ ^ 3` uniformly on a compact parameter set

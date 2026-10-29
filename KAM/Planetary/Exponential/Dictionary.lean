@@ -14,7 +14,7 @@ public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Poincare.Product
 
 /-!
-# P14 package E1: the general-`n` chart dictionary
+# The general-`n` chart dictionary
 
 Blueprint P, Part 14 (`bpP:p14:sec-domain#chart-facts`): on the product chart domain the physical
 point `poincareProd m 1 w` is prograde elliptic, its Kepler action, axis and angular momentum are

@@ -28,7 +28,7 @@ open Set Metric MeasureTheory
 
 namespace KAM.Weighted
 
--- The signatures keep K's instance block (audit F6); not every lemma uses all of it.
+-- The signatures keep the common instance block; not every lemma uses all of it.
 set_option linter.unusedSectionVars false
 
 variable {n m : ℕ}
@@ -42,7 +42,7 @@ private def cauchyEquiv : ((Fin n → ℤ) × (Fin n → ℤ)) ≃ ((Fin n → �
   left_inv p := by ext j <;> simp
   right_inv p := by ext j <;> simp
 
-/-- Weighted summability in K's convention, from ours. -/
+/-- Weighted summability in the `KAM.Fourier` convention, from ours. -/
 private theorem summableWeighted_of {s : ℝ} {a : (Fin n → ℤ) → ℂ}
     (h : Summable fun k : Fin n → ℤ => ‖a k‖ * modeWeight s k) :
     KAM.Fourier.SummableWeighted (2 * Real.pi * s) a := by
@@ -147,7 +147,7 @@ private theorem inClass_mul {u v : (Fin n → ℂ) × (Fin m → ℂ) → ℂ} (
   ⟨hu.differentiableOn.mul hv.differentiableOn, fun j z hz => by
     simp only [hu.periodic j z hz, hv.periodic j z hz]⟩
 
-/-- Pointwise in `I`, with the coefficient convolution (K's `KAM.Fourier.convolution`). -/
+/-- Pointwise in `I`, with the coefficient convolution (`KAM.Fourier.convolution`). -/
 theorem coeff_mul {u v : (Fin n → ℂ) × (Fin m → ℂ) → ℂ}
     (hs : 0 < s) (hu : InClass D r s u) (hv : InClass D r s v) {I : Fin m → ℂ}
     (hI : I ∈ polyNbhd D r) (hu' : WSummable u s I) (hv' : WSummable v s I) :

@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationRecord
 
-/-! # P11B selection: the output record `SelectionOutput`
+/-! # Part 11a, selection: the output record `SelectionOutput`
 
 The finite all-mode tests, the limit sets and the frequency/energy limits of the parameter
 selection, packaged as an output record over the iteration (signature record; never an assumption

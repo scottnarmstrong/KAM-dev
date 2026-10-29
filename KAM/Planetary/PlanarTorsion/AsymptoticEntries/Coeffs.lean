@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.CoeffEq
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Inputs
 
 /-!
-# Planar quartic torsion: sizes of the quartic coefficients (P11C, package T18)
+# Planar quartic torsion: sizes of the quartic coefficients
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, step `stepP:p11b:as-c`): at `a = ![α, 1]` with
 `g₀ = 1 / m₀`,

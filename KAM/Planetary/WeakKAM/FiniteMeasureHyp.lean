@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.FiniteMeasureBridge
 
-/-! # P11B finite measure: the hypotheses `D1`-`D3` of the Diophantine measure estimate
+/-! # Part 11a, finite measure: the hypotheses `D1`-`D3` of the Diophantine measure estimate
 
 `selectionM₀_bddAbove` and `selection_jet_le_M₀` make `selectionM₀` a genuine bound of the jets
 of the frequency map; `selection_eta_le` is the `η_ρ(θ_max) ≤ β/2` step of `stepP:p11a:fm-close`;

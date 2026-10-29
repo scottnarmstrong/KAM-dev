@@ -463,7 +463,7 @@ theorem frame_identities (hS : Standing n τ M σK σB σT 𝔅 h ω γ) {r : �
         triangularMat (torsion h K ω θ) + redDefect h K ω θ ∧
       (reducer K θ * frameMat K θ = 1 - omegaZeroMatrix n * symDefect K θ ∧
         reducer K θ *ᵥ sumVec n (invarianceError h K ω θ) = -eta h K ω θ) := by
-  -- `0 < r` is the strip-width convention (design L5); no item needs it.
+  -- `0 < r` is the strip-width convention; no item needs it.
   have _hr : 0 < r := hr
   intro θ hθ
   exact ⟨⟨fi_LtON K (hG θ hθ), fi_NtOL K (hG θ hθ), fi_NtON K⟩,

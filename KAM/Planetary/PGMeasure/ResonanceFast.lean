@@ -15,15 +15,15 @@ public import KAM.Planetary.PGMeasure.ResonanceLarge.Measurable
 /-!
 # P Part 4: the fast-dominant resonances `ℛ^(A)` (`stepP:p4:dm-y`, `stepP:p4:dm-A`)
 
-Internal helpers for `two_scale_diophantine_measure` (consumed by P4-M). Design
-`docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RA.
+Internal helpers for `two_scale_diophantine_measure` .
 
 * `pullMap`, `volume_pullMap_image_le`, `mem_pullMap_image_of_resonant` (`stepP:p4:dm-y`): the
   change to frequency coordinates, with the Lipschitz-image factor `Λ_g^(a+b)`.
 * `fastSection_line_diam`, `volume_resonanceSet_fast_le` (`stepP:p4:dm-A`): slicing in `y_j`.
 * `fast_modes_measure_le` (`stepP:p4:dm-A`, final display; Lemma `lattice-tail`(a)): the union of
   the frequency-coordinate resonant sets `ℛ'_k`, `k ∈ 𝒦_A`, has measure at most
-  `4 (2R_y)^(a-1) S₁ α₁ (2λ)^b`; the factors `Λ_g^n` and `1/vol core` of `c₁` are applied by P4-M.
+  `4 (2R_y)^(a-1) S₁ α₁ (2λ)^b`; the factors `Λ_g^n` and `1/vol core` of `c₁` are applied in
+  `two_scale_diophantine_measure`.
 -/
 
 @[expose] public noncomputable section

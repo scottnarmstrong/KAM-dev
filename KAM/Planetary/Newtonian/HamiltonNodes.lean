@@ -13,7 +13,7 @@ public import KAM.Planetary.Newtonian.Reconstruction
 /-!
 # Hamilton-equation nodes of Part 6 (literal conclusions)
 
-Blueprint P, Part 6, graph-gap package GAP-P6a. Unsigned exports stating the literal conclusions
+Blueprint P, Part 6. Unsigned exports stating the literal conclusions
 of `bpP:p6:hamilton-eqs` (block form of `X_Hmov`, `X_Hfix` for every real `μ`, `ε`, and the curve
 statement), its steps `he-dir`, `he-coef`, `he-curve`, the coordinate step `rc-coords` of
 `bpP:p6:reconstruction`, the arbitrary-real-`ε` bridge `reconstruction-fixed#real-eps` with the step

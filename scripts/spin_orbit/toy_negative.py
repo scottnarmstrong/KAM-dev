@@ -34,19 +34,19 @@ def mutations(bases):
     add("false residual bound (err = bound/2)", "§8.1", T2,
         lambda c: c["params"].__setitem__("err", inv_bound / 2), "checkInvariance")
     add("Gram witness B = 0", "§8.2", T2,
-        lambda c: c.__setitem__("gramInv", [[Mo.p_zero(), Mo.p_zero()], [Mo.p_zero(), Mo.p_zero()]]), "checkGram")
+        lambda c: c.__setitem__("gramInv", [[[], []], [[], []]]), "checkGram")
     add("torsion witness S = 0", "§8.2", T2,
         lambda c: c.__setitem__("torsInv", [[(F(0), F(0))] * 3 for _ in range(3)]), "checkTorsion")
     add("mu = 0", "§8.3", T2, lambda c: c["params"].__setitem__("mu", F(0)), "checkStatic")
     add("character witness with wrong mean (E = 2)", "§8.4", T2d,
-        lambda c: c["wit"].__setitem__("charWit", [((0, 0), (Mo.p_const((2, 0), 2), 0, 400))]), "checkInvariance")
+        lambda c: c["wit"].__setitem__("charWit", [((0, 0), ([((0, 0), (F(2), F(0)))], 0, 400))]), "checkInvariance")
     add("strip weight w < e^{2 pi rho} (w = 1)", "§8.5", T2,
         lambda c: c.__setitem__("weight", (c["weight"][0], F(1))), "checkStatic")
     add("denominator ball contains 0 on D (rhoH = 1/5, w_H >= 3)", "§8.6", T2d,
         lambda c: c.__setitem__("weightH", (F(1, 5), G.weight_for(F(1, 5), c["expHalvings"], c["expOrder"]))),
         "checkHamBounds")
     add("reciprocal witness with delta >= 1 (Q = 0)", "§8.6", T2d,
-        lambda c: c["wit"].__setitem__("invWit", [Mo.p_zero()]), "checkInvariance")
+        lambda c: c["wit"].__setitem__("invWit", [[]]), "checkInvariance")
     add("box does not exclude 0", "§8.7", T2,
         lambda c: c.__setitem__("freqBox", [(F(0), F(1)), (F(0), F(1))]), "checkStatic")
     add("ray margin violated (nu = 6/10 > (s-1) |omega|_lo = 1/2)", "§8.7", T2,
@@ -94,9 +94,13 @@ def main():
     jets = json.load(open(sys.argv[1]))["jets"]
     outdir = sys.argv[2]
     bases = {"T2": G.build("T2", jets), "T2d": G.build("T2d", jets)}
+    books = {}
+    for name, b in bases.items():          # the emitted advice of the base toy (CHECK mode, as Lean reads it)
+        G.run_checks(b)
+        books[name] = b["_books"]
     res = []
     for label, item, c, intended in mutations(bases):
-        ok, rep = K.check(c)
+        ok, rep = K.check(c, books=books[c["toy"]])
         failed = [s for s in K.SUBS if not rep[s][0]]
         res.append(dict(test=label, design=item, toy=c["toy"], intended=intended, failed=failed,
                         passes_checker=ok, as_intended=(not ok) and intended in failed))

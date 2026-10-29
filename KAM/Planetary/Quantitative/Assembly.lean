@@ -11,7 +11,7 @@ public import KAM.Planetary.WeakKAM.Evaluation
 public import KAM.Planetary.WeakKAM.Displacement
 
 /-!
-# Quantitative weak KAM: assembly (P11C-Q6)
+# Quantitative weak KAM: assembly
 
 `weak_kam_quantitative` (`bpP:p11a:weak-kam-quantitative`, `stepP:p11a:qt-order` ... `qt-k6`):
 the uniform displacement constant is chosen first from `(N, mu, tau, s, C1)`; the case `eps = 0`

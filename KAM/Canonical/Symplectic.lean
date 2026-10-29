@@ -11,8 +11,7 @@ public import KAM.Canonical.SymplecticForm
 /-!
 # The Hamiltonian flow is symplectic; canonical maps
 
-Blueprint-N Part 5, nodes `bpN:p5:symplectic` and `bpN:p5:canonical` (design
-`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-5).
+Blueprint-N Part 5, nodes `bpN:p5:symplectic` and `bpN:p5:canonical`.
 
 * `KAM.Canonical.symplectic`: for `Y = DX^t_φ(z)`: `ω(Yv, Yw) = ω(v, w)`, `ξ(Y J(η∘Y)) = ξ(Jη)`
   and `det Y = ±1`.

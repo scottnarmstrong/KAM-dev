@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.PairCoefficients.Series
 public import KAM.Planetary.SecularForm.LaplaceIdentities
 
 /-!
-# Planar quartic torsion: `b_{1/2}^{(k)}` as a power series on `(-1, 1)` (P11C, package T4)
+# Planar quartic torsion: `b_{1/2}^{(k)}` as a power series on `(-1, 1)`
 
 The adapter `p11c_laplace (1/2) k` agrees on all of `(-1, 1)` with the even/odd power series
 `a ^ k * ∑ halfCoef k q (a ^ 2) ^ q` of Part 8, hence is analytic there, and its Taylor head is an

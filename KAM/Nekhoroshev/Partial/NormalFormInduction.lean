@@ -15,12 +15,12 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Ring
 
 /-!
-# Normal Form Lemma with slow parameters: the induction (Part 11, package N11-K1)
+# Normal Form Lemma with slow parameters: the induction (Part 11)
 
 Blueprint node `bpN:p11:nf` (`blueprint-N/parts/p11b-partial-nf.tex`), steps `nf-sl`,
 `nf-first`, `nf-case`, `nf-N`, `nf-induct`, `nf-real`; data `bpN:p11:s-nf#data`.
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md` (package N11-K1). The joint theorem `nf` and the
-displacement are in `KAM.Nekhoroshev.Partial.NormalForm` (N11-K2).
+The joint theorem `nf` and the
+displacement are in `KAM.Nekhoroshev.Partial.NormalForm`.
 
 * Numerics of the bound of the signed `iterative` (coefficient `q/(ᾱρσ)`, no `2/e` factor):
   `nnfBound`, Case A (6.1) `nnfBound_caseA`, Case B `nnfBound_caseB`, the induction constant
@@ -441,7 +441,7 @@ theorem nnf_hi (hsm : ε ≤ α*b.rB/(2^7*conjExp p*K)) :
   rw [e]
   exact hsm
 
-/-- `c = 2π/λ² > 0` for the block (premise `hc` of the signed `iterative`, ruling F2-C1). -/
+/-- `c = 2π/λ² > 0` for the block (premise `hc` of the signed `iterative`). -/
 theorem nnf_c_pos (ha : ExtNFHyp b s K α L p ε Λ h f) : 0 < b.c := by
   have h1 := ha.radius_pos
   have h2 := ha.slow_width_pos

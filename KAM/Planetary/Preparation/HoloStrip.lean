@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.HoloStripInput
 public import KAM.Weighted.Norm
 
 /-!
-# `F = f̂_fix ∘ Φ_ρ⁻¹ ∘ T₁` on the working strip (P11A-P2c, `stepP:p11:hc-strip`, `hc-F`)
+# `F = f̂_fix ∘ Φ_ρ⁻¹ ∘ T₁` on the working strip (`stepP:p11:hc-strip`, `hc-F`)
 
 Parametric in the rotation family `ρ` (hypotheses `P11HsHyp`, no concrete choice): `p11hsF D ρ` is
 holomorphic on `p11WorkingDom n J0 (2σ) (2 rC) rz` (`p11hsF_differentiableOn`), bounded by the

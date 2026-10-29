@@ -13,7 +13,6 @@ public import KAM.Planetary.Averaging.Finite
 
 `KamHyp` together with `hD` yields `AvgHyp` at radius `rhoHat p` with the divisors
 `alpha₁ p`, `alpha₂ p` and the strict smallness `64 e K E < α₂ R`, so `avg` applies.
-Design package P23-14.
 -/
 
 @[expose] public noncomputable section

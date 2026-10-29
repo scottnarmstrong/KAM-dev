@@ -10,7 +10,7 @@ public import Mathlib
 /-!
 # Quadratic part: Schwarz lemma of order four and real versus complex derivatives
 
-Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q), uniform half.
+Blueprint P, Part 8, `stepP:p8:qf-assembly`, uniform half.
 `schwarz_order_four` is the
 higher-order Schwarz lemma for a holomorphic function bounded by `M` on a disc of radius `R` and
 vanishing to order four at the centre (the order-five version of `uniform_remainder`, with the

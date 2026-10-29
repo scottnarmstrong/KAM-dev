@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.KAMInputsFreq
 The frequency map of `kamH` is `(2π)⁻¹` times `complexFrequency` (`freq_kamH`); the domain inclusion
 of the action neighbourhood into the analytic domain, differentiability, injectivity, the Hessian
 bounds with `kam_c1 ≥ 2π pgCU`, reality, and the dictionary clause `dioBase = pgD0`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-KH.
 -/
 
 @[expose] public noncomputable section

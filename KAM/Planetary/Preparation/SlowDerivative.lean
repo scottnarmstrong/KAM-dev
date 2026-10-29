@@ -11,7 +11,7 @@ public import KAM.Planetary.Preparation.SlowCauchy
 public import KAM.Planetary.Preparation.SlowMean
 
 /-!
-# Slow averaging: derivatives of `h₀` (P11A-P7c, `stepP:p11:as-nr` inputs)
+# Slow averaging: derivatives of `h₀` (`stepP:p11:as-nr` inputs)
 
 For `W I = C.C J + ∑ Ωᵢ(J)/(2π) ρᵢ + Z I` (the bracket of the secular formula of `h₀`):
 the coordinate derivative of `W` in an action direction is bounded by Cauchy from a sup bound

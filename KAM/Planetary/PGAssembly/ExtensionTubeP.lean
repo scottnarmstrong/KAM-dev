@@ -16,7 +16,6 @@ From a `PGTube d` define `tubeP T mu z = F (pack mu (z - ι (fastShift k)))` for
 the packed point lies in the thin tube (`Valid`); the value is independent of `k` by the shift
 identities of `PGTube`. Holomorphy, joint continuity, periodicity, the bound and the agreement
 with `d.P` on the real points of the closed cylinder are proved here.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
 -/
 
 @[expose] public noncomputable section

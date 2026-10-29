@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.BudgetsStage
 
-/-! # P11B weak-KAM summable budgets
+/-! # Part 11a, weak-KAM summable budgets
 
 `exported_sums` (`bpP:p11a:exported-sums`, items (E1)--(E3); (E4) is the returned map estimate) and
 `param_lip_sum` (`bpP:p11a:param-lip-sum`). Both are derived from one general estimate for every

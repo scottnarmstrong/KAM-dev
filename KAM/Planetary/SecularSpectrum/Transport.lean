@@ -13,7 +13,7 @@ public import KAM.Planetary.SecularSpectrum.Lift
 /-!
 # Secular spectrum: transport of the rotated physical chart
 
-Blueprint P, Part 9 (`bpP:p9:diagonalize`, the transport step; package S9-T). The rotated physical
+Blueprint P, Part 9 (`bpP:p9:diagonalize`, the transport step). The rotated physical
 chart is `Ψ ∘ liftInv R ∘ polarMap ∘ phaseCast`, with `Ψ = poincareProd`. `diagonalize_transport`
 shows it is an analytic symplectic chart (`IsChart 1`) on an open domain with the radian lattice
 properties (Q1) and (Q2) for `fullShift`; `diagonalize_period_one` feeds them to `phys_pipeline`,

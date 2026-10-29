@@ -14,7 +14,7 @@ public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 `section_measure_le_of_pairwise_dist` bounds the Lebesgue measure of an arbitrary subset of `ℝ`
 of diameter at most `δ`, and `ext_tonelli` is Tonelli on `(Fin m → ℝ) × ℝ`: a measurable set
 whose vertical sections all have measure at most `δ` and which lies over `P` has measure at most
-`δ * volume P`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-TO.
+`δ * volume P`.
 -/
 
 public section

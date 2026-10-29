@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.SlowAverageW
 
 /-!
-# Slow averaging: the derivative bounds of `Ẑ` (P11A-P7b, graph step `as-osc`)
+# Slow averaging: the derivative bounds of `Ẑ` (graph step `as-osc`)
 
 `p11_slow_rho_bound`: `‖∂_ρ̃ (𝒜R₄ + 𝒜ḡ)‖ ≤ c (ε + η₁)` on `D(J₀, s₁/2) × D(2πε, πε)` by
 `cauchy_open` (radius `πε/4` for `𝒜R₄` with `‖𝒜R₄‖ ≲ ε²`; radius `π r_z²/64` for `𝒜ḡ`).

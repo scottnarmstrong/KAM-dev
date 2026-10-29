@@ -13,7 +13,7 @@ public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Poincare.Product
 
 /-!
-# Enlarged analytic data: the setting of the exponential-safety package
+# Enlarged analytic data: the setting of exponential safety
 
 Blueprint P, Part 14 (`bpP:p14:sec-domain#data`): the chart AMD `chartAMD`, the Poincaré chart's
 collision-free domain `chartSafe`, the fast action box `fastBox`, the slow ball `slowBall`, the

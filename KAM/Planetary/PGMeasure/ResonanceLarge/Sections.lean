@@ -17,8 +17,7 @@ For a large mode `k` and a slow index `j`, `largeSection` is the part of the res
 `ξ ↦ ξ + s e_j` (with `y` and the other slow coordinates fixed, so `I = g y` is fixed) the
 resonance function moves by `μ s (βᵀ k₂)_j + k₁ · (fast increment)`, which `N2` and the structure
 of the large modes bound below by `μ |s| ‖k₂‖/(2 L_β)`. Hence every such line meets the section in a
-set of diameter `≤ 4 L_β α/(μ ‖k₂‖)`, and Tonelli bounds the volume. Design
-`docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RB.
+set of diameter `≤ 4 L_β α/(μ ‖k₂‖)`, and Tonelli bounds the volume.
 -/
 
 @[expose] public noncomputable section

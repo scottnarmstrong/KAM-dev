@@ -14,8 +14,7 @@ import Mathlib.Tactic.Linarith
 # The Normal Form Lemma: reality along the steps and Case B
 
 Reality of `g_i`, `f_i` and of the maps (`nf-real`), and Case B of `nf-case`: the single step
-with the doubled losses `(r/4, s/3)` (`nfCaseB_hyp`, `nfCaseB_bound`, `nfCaseB_disp`). Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 1).
+with the doubled losses `(r/4, s/3)` (`nfCaseB_hyp`, `nfCaseB_bound`, `nfCaseB_disp`).
 -/
 
 @[expose] public noncomputable section

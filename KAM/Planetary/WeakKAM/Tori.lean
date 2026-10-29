@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.ToriField
 
-/-! # P11B tori: the output record `SelectionTori` and `limit_torus`
+/-! # Part 11a, tori: the output record `SelectionTori` and `limit_torus`
 
 The limit-torus theorem (`bpP:p11a:limit-torus`) for the adapted schedule: for every
 `b ∈ K_∞` the evaluation `θ ↦ (θ, b) + defect b θ` is real analytic, invariant under the real

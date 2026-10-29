@@ -13,10 +13,8 @@ public import KAM.Planetary.PGMeasure.Polar
 # P Part 5: the chart `phi`, definitions (`bpP:p5:phi`)
 
 `phi` composes the real averaging map with the oscillator polar chart, `phiDomain` is its
-domain and `oscillatorPolarComplex` the complexification of the polar chart. Declarations are
-copied verbatim from `P45Signatures.lean`; the membership and periodicity lemmas used by
-`phi_chart` and `location` follow.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CH.
+domain and `oscillatorPolarComplex` the complexification of the polar chart; the membership and
+periodicity lemmas used by `phi_chart` and `location` follow.
 -/
 
 @[expose] public noncomputable section

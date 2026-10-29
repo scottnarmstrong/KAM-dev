@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Calculus
 
 /-!
-# Planar quartic torsion: leading terms of the pair coefficients (P11C, package T18)
+# Planar quartic torsion: leading terms of the pair coefficients
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, steps `as-in`, `as-c`): each pair coefficient
 `A, B, p₁, …, p₆` equals its leading monomial up to a relative `O(a ^ 2)` error as `a → 0⁺`

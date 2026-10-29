@@ -16,8 +16,7 @@ The proof of `KAM.kam_positive_measure_qualitative` is assembled here as
 inputs only. While the frozen anchor is `DRAFT_SORRY`, this module is quarantined: no module other
 than the anchor may import it.
 
-This file imports the sealed frozen theorem `KAM.kam_positive_measure` (HEAD) (design
-`docs/campaign/design/PART4-LEAN-DESIGN.md`, sections 2.2 and 6).
+This file imports the sealed frozen theorem `KAM.kam_positive_measure` (HEAD).
 
 * `KAM.Provider.kam_positive_measure_qualitative` is the HEAD-Q theorem with exactly the type of
   the frozen `KAM.kam_positive_measure_qualitative`. It applies `KAM.Head.headq_of_head`, supplying

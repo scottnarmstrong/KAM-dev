@@ -17,11 +17,10 @@ import Mathlib.Tactic.Positivity
 /-!
 # Adapters from the existing strip infrastructure to the Part 1 graph nodes
 
-The packages `I-STRIP-1` and `I-STRIP-4` proved the Cauchy estimates, the regularity of holomorphic
-maps and the averages of periodic functions before the dependency graph existed. This file states,
+The strip infrastructure proves the Cauchy estimates, the regularity of holomorphic maps and the
+averages of periodic functions in forms that predate the blueprint statements. This file states,
 for the nodes where the existing declarations do not match the blueprint statement exactly, the
-blueprint statement itself and derives it from those declarations. No existing file is edited.
-The node-by-node map is `docs/campaign/audits/I-ZMAP-map.md`.
+blueprint statement itself and derives it from those declarations.
 
 * `bp:p1:holomorphic-regularity`: `KAM.holomorphic_regularity` (the lemma on `Fin m → ℂ`), built
   from `KAM.holomorphic_regularity_of_finiteDimensional` (any finite-dimensional complex domain),

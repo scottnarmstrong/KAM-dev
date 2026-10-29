@@ -16,7 +16,7 @@ import Mathlib.Tactic.Positivity
 * (b) `wbound_of_sup_bound`: `|u|_{r,s} ≤ coth(πσ)ⁿ M` if `|u| ≤ M` on `𝒟_{r,s+σ}`, fixed-`I` case
   `KAM.summableWeighted_torusCoeffW`.
 
-`coth` is defined in `KAM.Weighted.Norm` (design module table).
+`coth` is defined in `KAM.Weighted.Norm`.
 -/
 
 @[expose] public noncomputable section
@@ -25,7 +25,7 @@ open Set Metric
 
 namespace KAM.Weighted
 
--- The signatures keep K's instance block (audit F6); not every lemma uses all of it.
+-- The signatures keep the common instance block; not every lemma uses all of it.
 set_option linter.unusedSectionVars false
 
 variable {n m : ℕ} {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W] [NormedSpace ℝ W]

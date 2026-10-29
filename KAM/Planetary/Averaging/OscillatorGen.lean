@@ -17,8 +17,7 @@ import Mathlib.Tactic.Linarith
 `oscGen` is the homological polynomial of the oscillator step. Its flat transport is the
 parametric generator `homGenParam` with the frequency field `x ↦ freq h (firstBlock x)`, so the
 class and the weighted bound follow from the upstream `homological_param`, applied at every flat
-parameter on a small ball (`D = {x}`). Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`,
-package P23-13.
+parameter on a small ball (`D = {x}`).
 -/
 
 @[expose] public noncomputable section

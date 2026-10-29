@@ -12,14 +12,14 @@ public import KAM.Planetary.Preparation.HoloFrame
 public import KAM.Planetary.Preparation.HoloScalar
 
 /-!
-# The single data interface of `holo_chart` (P11A-P2b, `stepP:p11:hc-rot`)
+# The single data interface of `holo_chart` (`stepP:p11:hc-rot`)
 
 `P11HoloData D` packages everything of `P11SecularSpec` that does not involve the periodic
 perturbation `F`, the chart and the mean: the base point `(γ, J₀)` of `select`, the radius `r_C`,
 the holomorphic energy `h` with its frequency `ω̃ = ∇h` and the secular frequency `Ω̃`, the
 constant `L`, the holomorphic rotation `ρ` with its constants `B_ρ`, `B'_ρ`, and the real analytic
-frame `R` it extends. `p11_holo_data` is the existence theorem; the later packages P2c–P2f read
-only this structure.
+frame `R` it extends. `p11_holo_data` is the existence theorem; the modules `HoloStrip*`,
+`HoloChart` and `HoloMean*` read only this structure.
 -/
 
 @[expose] public noncomputable section
@@ -86,7 +86,7 @@ structure P11HoloData (D : P11Physical n) where
   h_re : ∀ J : P11Vec n, ‖J - J0‖ < 2 * rC →
     (h (KAM.realInclusion n J)).re =
       -∑ i, (D.G * D.m0) ^ 2 * D.m i ^ 3 / (2 * (J i / (2 * Real.pi)) ^ 2)
-  /-- typing datum: `h̃` is real on real points (ruling 22:50) -/
+  /-- typing datum: `h̃` is real on real points -/
   h_im : ∀ J : P11Vec n, ‖J - J0‖ < 2 * rC → (h (KAM.realInclusion n J)).im = 0
   /-- typing datum: `Ω̃` is real on real points (used only by the mean clause) -/
   Omega_real : ∀ J : P11Vec n, ‖J - J0‖ < 2 * rC → ∀ i, (Omega (KAM.realInclusion n J) i).im = 0
@@ -135,7 +135,7 @@ theorem differentiableOn_p11_append {m k : ℕ} {U : Set (P11CVec n)} {f : P11CV
   · simpa [Fin.append_left] using differentiableOn_pi.1 hf i
   · simpa [Fin.append_right] using differentiableOn_pi.1 hg i
 
-/-- `hc-rot`, data: existence of the single interface used by the later packages. -/
+/-- `hc-rot`, data: existence of the single interface used by the later steps. -/
 theorem p11_holo_data (D : P11Physical n) : Nonempty (P11HoloData D) := by
   have hpi : (2 * Real.pi) ≠ 0 := by positivity
   have hsel := select D

@@ -11,13 +11,13 @@ public import KAM.Planetary.MaximalStep.Basic
 public import KAM.Planetary.MaximalStep.Affine
 
 /-!
-# The bracket sign bridge (P11A-C5, `stepP:p11a:hm-bracket`)
+# The bracket sign bridge (`stepP:p11a:hm-bracket`)
 
 For the normal form `N = h + ω·η` and the affine generating function `p0(θ) + p1(θ)·η`, the
 existing Poisson bracket is `{N, φ} = -(ω·∂_θ p0 + (ω·∂_θ p1)·η)`, independently of any equation
 solved by `p0, p1`.
 
-`p11Affine` is shared with `P11A-C6` (`AffineFlowBasic`), which defines it with the same body; the
+`p11Affine` is shared with `AffineFlowBasic`, which defines it with the same body; the
 merge keeps one copy.
 -/
 

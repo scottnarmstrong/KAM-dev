@@ -16,7 +16,6 @@ coordinate slice `{x | x j = s}`, the cut mass `s ↦ nu {x | x j ≤ s}` is con
 Proof: right continuity from `tendsto_measure_biInter_gt`; left continuity from continuity from
 below along `a - 1/(n+1)`, the union being `{x j < a}`, which differs from `{x j ≤ a}` by a slice;
 monotonicity upgrades the sequential limit to the one-sided limit.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CUT.
 -/
 
 public section

@@ -212,8 +212,8 @@ theorem liouville_lattice_measurableSet {c : ℝ} (hc : 0 < c) {O : Set (Phase d
   exact measurableSet_chart_image hc hO hΨ (inter_subset_left.trans hAO)
     (hA.inter (measurableSet_unitCell d))
 
-/-- The Kepler design's consumer form of `bpP:p1:liouville-lattice` (P6-5 (b)), adopted VERBATIM
-(signature of `KeplerSignaturesP.lean`); FULL position lattice only (audit F6 caveat). -/
+/-- The consumer form of `bpP:p1:liouville-lattice` used by the Kepler layer; it is stated for
+the full position lattice only. -/
 theorem measure_chart_image {d : ℕ} {c : ℝ} (hc : 0 < c) {O : Set (Phase d)} (hO : IsOpen O)
     {Ψ : Phase d → Phase d} (hΨ : AnalyticOnNhd ℝ Ψ O) (hs : IsSymplecticOn c Ψ O)
     (hQ1 : ∀ z ∈ O, ∀ k : Fin d → ℤ, z + ((fun i => (k i : ℝ)), 0) ∈ O ∧

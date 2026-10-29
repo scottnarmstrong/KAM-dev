@@ -13,12 +13,12 @@ public import KAM.Planetary.Preparation.SlowDivisor
 public import KAM.Weighted.SupWeighted
 
 /-!
-# Prepared data: the basic construction (P11A-P8a, `stepP:p11:pr-basic`, `stepP:p11:pr-a`)
+# Prepared data: the basic construction (`stepP:p11:pr-basic`, `stepP:p11:pr-a`)
 
 The prepared data `Q = p11PreparedCore D nu eps W` is built from the signed `avg_slow`, `avg_fast`,
 `holo_chart` data: `N_eps = (h_0 + g_2) o A_eps / eps` and `P_eps = f_3 o A_eps / eps` on the
 rescaled domain, and the chain `Phi^1 o Theta-hat o Psi_2 o A_eps` read through the secular chart.
-The frequency data `checkW` is a free parameter `W` (supplied by P8b/P8c/P8e).
+The frequency data `checkW` is a free parameter `W` (supplied by the prepared assembly).
 
 Exported helper lemmas, one per clause of `P11PreparedSpec` that concerns only `N`, `P`, `chain`:
 domain chain (`p11Rescale_*`, `p11PreparedCoreOf_chain_dom`, `P11PreparedDomSpec`),

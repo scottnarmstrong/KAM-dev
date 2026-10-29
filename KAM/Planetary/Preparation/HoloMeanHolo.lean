@@ -11,7 +11,7 @@ public import KAM.Planetary.PGAssembly.JetsParam
 public import KAM.Strip.Bridges
 
 /-!
-# Holomorphy of the fast mean (P11A-P2e, `stepP:p11:hc-mean`)
+# Holomorphy of the fast mean (`stepP:p11:hc-mean`)
 
 `p11_fastMean_differentiableOn`: if `F` is holomorphic on the working domain
 `p11WorkingDom n J₀ s r rz` (with `s > 0`), then `(J, z) ↦ p11FastMean F J z` is holomorphic

@@ -15,7 +15,6 @@ public import KAM.Planetary.Averaging.FiniteMulti
 The schedule of Case A for the four radii (`multiOSched`, built from `multiSched`), the remainder
 bounds `ε₀ = E`, `εᵢ = c₁ 4^{1-i}`, the weights `oscW` of the star norm (at most `1/3` for the later
 stages and at most `3/(4N)` for the first one) and the geometric sums for the displacements.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, Revision 3, package P23-15.
 -/
 
 @[expose] public noncomputable section

@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.KAMInputs
 `frequency_bounds` bounds the fast frequency by a constant and the slow frequency by that
 constant times `mu` on the parameter set `pgD0`, from the jet bounds of `FrequencyLip`,
 the bound `M0` of the complexified fast Hamiltonian, and the real/complex frequency bridge.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FAM.
 -/
 
 @[expose] public noncomputable section

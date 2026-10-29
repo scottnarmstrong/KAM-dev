@@ -12,7 +12,7 @@ public import KAM.Planetary.MaximalStep.Constants
 public import KAM.Planetary.MaximalStep.Parameter
 
 /-!
-# The homological stage of the canonical step (P11A-C8, `stepP:p11a:cs-hom`)
+# The homological stage of the canonical step (`stepP:p11a:cs-hom`)
 
 From the step hypotheses `P11StepHyp` this file derives the coefficient datum of the cutoff
 (`p11_cutoff_coeff`), the divisor bound on `B` (`divisor_perturb`), and, for the generators

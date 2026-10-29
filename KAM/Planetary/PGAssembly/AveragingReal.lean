@@ -17,7 +17,6 @@ The tube `extensionDomain d δ` is open, connected and invariant under complex c
 extension `P̃` agrees with the real function `d.P` on an open real subset of it. The reflection
 `z ↦ conj (P̃ (conj z))` is holomorphic, so the identity theorem gives `P̃` real at every real point
 of the tube (`ext_P_real`), with no off-cylinder equality assumed.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV (revision 4).
 -/
 
 @[expose] public noncomputable section

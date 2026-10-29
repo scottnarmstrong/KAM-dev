@@ -13,13 +13,12 @@ import Mathlib.Tactic.Linarith
 /-!
 # Part 1 (isoenergetic linear step): geometry and perturbation without the twist condition
 
-Blueprint nodes `bpI:p1:geometry-noA5` and `bpI:p1:perturbation-noA5` (package I1-7 of
-`docs/tracks/I/design/PART123-LEAN-DESIGN.md`).
+Blueprint nodes `bpI:p1:geometry-noA5` and `bpI:p1:perturbation-noA5`.
 
 The isoenergetic problem has no (A5) (the Kolmogorov twist condition on `⟨T⟩`); it is replaced
 by the bordered twist condition (B5), which lives on the bordered matrix. The geometric and the
-perturbative estimates of track K never use (A5) except in the last item of the perturbation
-lemma, so they are re-assembled here from track K's helper lemmas:
+perturbative estimates of the Kolmogorov `KAM.Apost` never use (A5) except in the last item of
+the perturbation lemma, so they are re-assembled here from its helper lemmas:
 
 * `geometry_noA5` is `KAM.Apost.geometry` (the bounds on `DE`, `∂_ω Ω_K`, `E_red`, `Ω_K`,
   `E_sym`) together with `KAM.Apost.frame_basic` (b)-(d) (the pointwise frame bounds, the bounds
@@ -28,7 +27,7 @@ lemma, so they are re-assembled here from track K's helper lemmas:
   the Gram matrix and normal-frame perturbation, the torsion perturbation), without its twist
   hypothesis `hT` and its item (f).
 
-The standing data is `Setting` (`Setting.toStanding` is track K's `Standing`).
+The standing data is `Setting` (`Setting.toStanding` is `KAM.Apost.Standing`).
 -/
 
 @[expose] public section

@@ -187,7 +187,7 @@ theorem interface (D : Data n) (hn : 2 ≤ n) {aStar : Vec n} (ha : aStar ∈ ax
   intro c hc I hI
   exact betaFamily_le hc hI
 
-/-! ### Companions (round 2): the finite-minimum function, spectrum, rescalings and stability -/
+/-! ### Companions: the finite-minimum function, spectrum, rescalings and stability -/
 
 lemma k4_toFinset_nonempty (hn : 2 ≤ n) : (k4_finite n).toFinset.Nonempty := by
   refine ⟨Pi.single ⟨0, by omega⟩ 1, ?_⟩
@@ -270,7 +270,7 @@ theorem patch_rnd (D : Data n) (hn : 2 ≤ n) {a0 : Vec n} {R0 : ℝ} (hR0 : 0 <
     ⟨⟨a0, Metric.mem_ball_self hR0⟩, (convex_ball a0 R0).isPreconnected⟩ hS
   exact ⟨hν, hσ, fun s hs p => ⟨scaling hν hs p, scaling hσ hs p⟩, fun s hs p => scaling hf hs p⟩
 
-/-- `bpP:p10:interface` together with its S10-S/`bpP:p10:stability` clause: on the same exported
+/-- `bpP:p10:interface` together with its `bpP:p10:stability` clause: on the same exported
 patch, stability of `betaMu` for `ω = ϖ̃ = frequency D` under any analytic perturbation `ω'`, for
 every order `μ ≥ μ0` (positivity of `β` from monotonicity), plus the ancillary spectrum and
 R-nondegeneracy clauses. -/

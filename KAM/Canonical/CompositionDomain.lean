@@ -15,8 +15,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # Composition with the time-one map: premises and domain (`bpN:p5:composition` (i))
 
-Blueprint-N Part 5, node `bpN:p5:composition` (design `docs/tracks/N/design/PART145-LEAN-DESIGN.md`,
-package C5-8).
+Blueprint-N Part 5, node `bpN:p5:composition`.
 
 * `KAM.Canonical.ComposeData`: the source premises `0 < ρ < r ≤ r' - ρ`, `0 < σ < s ≤ s' - σ`,
   `φ ∈ O(r', s')` of finite norm `Φ ≥ 0`, `η = 2Φ/(ρσ) ≤ 1/2`; `.omega` is `Ω = 𝒟_{r'-ρ, s'-σ}`

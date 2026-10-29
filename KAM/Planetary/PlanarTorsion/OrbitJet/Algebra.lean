@@ -18,7 +18,7 @@ the eccentricity vector `v = t w`, with `ζ = w₀ + i w₁`, `ζ̄ = w₀ - i w
 * `kepJet_aJet`: the degree-four solution `aJet` of the Kepler fixed-point equation
   `y = t (A e^y - B e^{-y}) / 2` is a fixed point of the jet map;
 * `oJet_eq_refJet`: the assembled jet of the orbit `k e^{iF} - z + (d / (1 + k)) z` is the displayed
-  jet `p11c_orbitJet` of the design.
+  jet `p11c_orbitJet`.
 -/
 
 @[expose] public noncomputable section
@@ -54,7 +54,7 @@ def oJet (ζ ζb X Xi : ℂ) : Jet5 :=
       (smul (ζ * Xi) (exp (neg (aJet (ζb * X) (ζ * Xi))))))))
       (wJet (ζ * ζb))) (smul ζ var))
 
-/-- The displayed jet of the design, at `v = t w`. -/
+/-- The displayed jet, at `v = t w`. -/
 def refJet (ζ ζb X Xi : ℂ) : Jet5 :=
   ⟨X, X ^ 2 * ζb / 2 - 3 * ζ / 2, 3 * X ^ 3 * ζb ^ 2 / 8 - X * ζ * ζb / 2 + Xi * ζ ^ 2 / 8,
     X ^ 4 * ζb ^ 3 / 3 - 3 * X ^ 2 * ζ * ζb ^ 2 / 8 + Xi ^ 2 * ζ ^ 3 / 24,

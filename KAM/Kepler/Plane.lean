@@ -296,8 +296,8 @@ theorem hasFDerivAt_inv_planeLength {v : Fin 2 → ℝ} (hv : v ≠ 0) :
 
 /-- `KAM.Iso.radius` is the frozen planar length (`rfl`); likewise `radiusSq` is `planeSq`. These
 and the three helpers `norm_le_planeLength`, `planeLength_le_sqrt_two_mul_norm`,
-`planeLength_add_le` above are the FINAL forms imported by the ODE design's N3-8
-(`KAM.ODE.NewtonDefs`): same statements as `NPart3Signatures.lean`. -/
+`planeLength_add_le` above are the forms imported by
+`KAM.ODE.NewtonDefs`. -/
 theorem radius_eq_planeLength : KAM.Iso.radius = planeLength := rfl
 theorem radiusSq_eq_planeSq : KAM.Iso.radiusSq = planeSq := rfl
 

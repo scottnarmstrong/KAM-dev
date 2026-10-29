@@ -11,7 +11,7 @@ public import KAM.Iso.RestrictedHam
 public import KAM.Iso.PeriodOne
 
 /-!
-# Literal exports of the restricted-Hamiltonian and transfer steps (package GAP-I7b)
+# Literal exports of the restricted-Hamiltonian and transfer steps
 
 Append-only exports stating the literal conclusions of graph nodes of Blueprint-I Part 7 from the
 landed declarations.

@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Defs
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Constants
 
 /-!
-# Planar quartic torsion: the secular Birkhoff form (package T16)
+# Planar quartic torsion: the secular Birkhoff form
 
 Blueprint P, Part 11b (`bpP:p11b:birkhoff-form`, with `stepP:p11b:bt-rot`, `stepP:p11b:bt-rot#lift`,
 `stepP:p11b:bt-K`, `stepP:p11b:bt-nf`, `stepP:p11b:bt-avg`, `stepP:p11b:bt-frozen`).

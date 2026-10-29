@@ -18,8 +18,7 @@ For `i ≤ N` (given `NFInv i`): the properties of the `i`-th map on `Uᵢ₊₁
 (`nf_step_props`),
 the identity `(h + f) ∘ Ψₘ = h + g_m + f_{m+1}` on `Uₘ₊₁` (`nf_chain_identity`), the sums of the
 displacement bounds (`nf_disp_sums`), the final-state facts in Case A (`nf_final_f`, `nf_final_g`,
-`nf_final_g_diff`), reality (`nf_real`, `nf_phi_real`) and Case B (`nfCaseB_*`). Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 1).
+`nf_final_g_diff`), reality (`nf_real`, `nf_phi_real`) and Case B (`nfCaseB_*`).
 -/
 
 @[expose] public noncomputable section

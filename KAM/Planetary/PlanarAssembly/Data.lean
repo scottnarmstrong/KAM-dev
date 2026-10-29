@@ -23,7 +23,7 @@ public import KAM.Planetary.Hamiltonian.Chart
 Blueprint P, Part 12 (`bpP:p12:data`, `bpP:p12:chart`, `bpP:p12:pg-hypotheses` and their steps):
 `PlanarAssembly.pg_hypotheses` is the single joint construction of the action boxes, the open
 set `O`, the Birkhoff map `T`, the radii and the secular jets.  The good cube and the map `T` come
-from the owner declaration `patch` (T21, containing `birkhoff_form` of T16): the jets are the
+from the declaration `patch` (T21, containing `birkhoff_form` of T16): the jets are the
 actual `p11c_secular fhat I 0`, `2 σ` and `p11c_beta`, and the Hamiltonian identity is the
 product-chart splitting for the fast-action preserving `T`.  The Hamiltonian-form clause and the
 periodicity use only the exports of `PlanarBirkhoffResult` and the product chart; the smallness of
@@ -77,9 +77,8 @@ private theorem slowLength_lt {z : Phase (2 + 2)} {r0 rS : ℝ} (hrS : 0 < rS)
 
 /-- Joint output of data, chart and pg-hypotheses. All derived clauses are conclusions.
 T, O, V and the jet witnesses are shared, selected once before the coupling.
-The 11b writer owns their finer source characterization; see the upstream table.
-This projection is not a certificate of canonical jets, the axis cube, or a common
-moving/fixed T. Exact characterization exports must be reconciled before P12-C/P13-A. -/
+Their finer source characterization lives upstream. This projection is not a certificate
+of canonical jets, the axis cube, or a common moving/fixed T. -/
 theorem pg_hypotheses (G m0 : ℝ) (m a : Fin 2 → ℝ)
     (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)
     (ha : ∀ i, 0 < a i) (hsep : a 0 < a 1) (η : ℝ) (hη : 0 < η) :

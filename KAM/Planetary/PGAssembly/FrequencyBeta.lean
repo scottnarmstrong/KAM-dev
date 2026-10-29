@@ -17,7 +17,6 @@ bound `‖jetBeta d mu x v‖ ≥ m ‖v‖` holds uniformly (`jetBeta_lower`); 
 `jetBeta_lower_nbhd` perturbs it with the Lipschitz bound of `Θ`. (The adjugate/Cramer bound of the
 source gives an explicit constant; compactness gives the same conclusion with a data-only
 constant, which is all that `PGAnalyticSpec` records.)
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FD.
 -/
 
 @[expose] public noncomputable section

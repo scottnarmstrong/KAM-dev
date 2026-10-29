@@ -8,7 +8,7 @@ module
 public import Mathlib
 
 /-!
-# Planar quartic torsion: jets of analytic remainders (P11C, package T6)
+# Planar quartic torsion: jets of analytic remainders
 
 Generic calculus used by `quartic_explicit` (`bpP:p11b:quartic-explicit`, step `qe-an`): an analytic
 function whose size near `0` is `O(‖z‖^N)` has vanishing diagonal iterated derivatives of every

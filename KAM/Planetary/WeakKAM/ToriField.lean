@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.ToriLimit
 
-/-! # P11B tori: the real Hamiltonian field along the limit tori
+/-! # Part 11a, tori: the real Hamiltonian field along the limit tori
 
 From the complex invariance identity `X_{H₀}(K_b(θ)) = DK_b(θ) ω_*` to the frozen real field
 `hamiltonianVectorField (realHamiltonian h f)` at the real point `(θ, b) + defect b θ`, using

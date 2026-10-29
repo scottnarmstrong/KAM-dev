@@ -18,8 +18,6 @@ public import KAM.Planetary.Hamiltonian.Chart
 The produced averaging record `PGAveraging`, its specification `AveragingSpec`, the conformally
 symplectic oscillator normalization `pgOscNormalize` and the data supplied to the P2 theorem
 `averaged_remainder` (`pgOscP`, `pgOscH`, `pgOscE`, `pgOscEpsilon`, `pgOscWidth`, `pgOscAlpha`).
-Declarations are copied verbatim from `P45Signatures.lean`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

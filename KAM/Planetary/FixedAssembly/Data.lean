@@ -15,7 +15,7 @@ Blueprint P, Part 13 (`bpP:p13:fixed-hamiltonian-form`, `bpP:p13:data`, `bpP:p13
 `bpP:p13:pg-hypotheses` and their steps).  The fixed-Sun constant coupling family is the existing
 total `fFix` composed with the same `PlanarAssembly.total_chart`; `FixedAssembly.pg_hypotheses`
 repeats the joint construction of the planar assembly with the fixed branch `p11c_hatFix` of the
-owner declarations `patch` / `PlanarBirkhoffResult`, which share the same Birkhoff map `T` and the
+declarations `patch` / `PlanarBirkhoffResult`, which share the same Birkhoff map `T` and the
 same jets (`2 σ`, `p11c_beta`) for both perturbations.  Nothing is imported from a P-G theorem.
 -/
 

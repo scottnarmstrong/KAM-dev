@@ -10,7 +10,7 @@ public import KAM.Iso.Linear.BorderUnique
 /-!
 # The bordered triangular system (HL19 Lemma 6.1)
 
-Package I1-5 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p1:border-solve`
+Blueprint node `bpI:p1:border-solve`
 (`KAM.Iso.Linear.border_solve`), second module. The solution is the explicit construction
 `bordSol`, `bordXi0`, `bordXiOmega`, `bordXiN`, `bordGL`, `bordXiL` of `Linear/Defs`; the proof
 follows the steps `bs-first`, `bs-averages`, `bs-bordered`, `bs-energy`, `bs-second`, `bs-unique`,

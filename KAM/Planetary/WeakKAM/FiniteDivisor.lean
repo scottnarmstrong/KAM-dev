@@ -8,7 +8,7 @@ module
 public import KAM.Planetary.WeakKAM.StripBudget
 public import KAM.Planetary.WeakKAM.Extension
 
-/-! # P11B weak-KAM finite-stage divisor invariant
+/-! # Part 11a, weak-KAM finite-stage divisor invariant
 
 `finite_divisor` (`bpP:p11a:finite-divisor`): on the retained set `K_{ν+1}`, every nonzero mode
 `k` with `|k|₁ ≤ T_ν` satisfies `|k·ω_ν(b)| ≥ γ |k|₁^{-τ} ≥ D_ν`. The three source steps are

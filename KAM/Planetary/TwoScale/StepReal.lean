@@ -13,7 +13,7 @@ public import KAM.Planetary.TwoScale.StepSchwarz
 
 For real `I ∈ D` the point `ĩ₊(I)` is real: `ω₊` commutes with complex conjugation on a polydisc
 centred at a real point (Schwarz reflection, `schwarz_vec`), so `conj ĩ₊(I)` is a second preimage of
-the real `ω₀(I)` in the injectivity domain. Design package P23-14.
+the real `ω₀(I)` in the injectivity domain.
 -/
 
 @[expose] public noncomputable section

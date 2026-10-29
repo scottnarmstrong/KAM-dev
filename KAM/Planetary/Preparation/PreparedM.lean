@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.PreparedFreq
 public import KAM.Planetary.WeakMeasure.Stability
 
 /-!
-# The scalar bound `2^k M₁²`, `M*` and `M₀*` (P11A-P8b3, `stepP:p11:pr-d`)
+# The scalar bound `2^k M₁²`, `M*` and `M₀*` (`stepP:p11:pr-d`)
 
 Order-zero Euclidean control of the prepared frequency (the main terms `(ω, εΩ̃/(2π))` have
 Euclidean size `≤ L`, the deviations are `≤ c ε ℓ^b`), operator bounds of the real slice of the

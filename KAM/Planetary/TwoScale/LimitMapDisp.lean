@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.LimitMapPhi
 
 The telescoping `Φ_j z − z = Σ_k (Ψ_k y_k − y_k)` on the complex stage domain
 `V_j = coefficientDom (D_j) ρ_j (s̄ + s_j)`, uniformly in `j` (`(3/2) Ê₀` after summation), and the
-bound `∏ (1 + ς_k) − 1 ≤ 768 n Ê₀`. Design package P23-18.
+bound `∏ (1 + ς_k) − 1 ≤ 768 n Ê₀`.
 -/
 
 @[expose] public noncomputable section

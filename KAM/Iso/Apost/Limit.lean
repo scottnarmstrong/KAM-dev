@@ -17,14 +17,14 @@ import Mathlib.Tactic.FieldSimp
 /-!
 # Part 2 (isoenergetic iteration): the limit torus and the limit energy
 
-Package I2-9 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p2:limit`
+Blueprint nodes `bpI:p2:limit`
 (`KAM.Iso.Apost.limit`) and `bpI:p2:energy-limit` (`KAM.Iso.Apost.energy_limit`).
 
 The limits are the explicit `KAM.Iso.Apost.isoLimit` (`K_∞ = lim K_j` on `T_{ρ∞}`, `K` elsewhere)
 and `KAM.Iso.Apost.isoSLimit` (`s_∞ = lim s_j`) of the sequence `isoSeq` of `bpI:p2:iteration`.
 Both are `limUnder` selectors, so they are landed here together with the theorems that prove the
-sequences converge and characterize the definitions as those limits (audit ruling F1 of package
-I-D0), exactly as track K landed `kamLimit` with `limit` (`KAM/Apost/Limit.lean`):
+sequences converge and characterize the definitions as those limits,
+exactly as `KAM/Apost` lands `kamLimit` with `limit` (`KAM/Apost/Limit.lean`):
 
 * `limit` proves, under the hypotheses `IterHyp` of `iteration`, that `K_j → isoLimit` uniformly
   with the derivatives, that `s_j → isoSLimit`, and items (a)–(e) of the blueprint;
@@ -34,7 +34,7 @@ I-D0), exactly as track K landed `kamLimit` with `limit` (`KAM/Apost/Limit.lean`
   both into the characterization `K_∞ θ = z ↔ K_j θ → z`, `s_∞ = l ↔ s_j → l`;
   `isoLimit_of_not_mem` is the value `K` off the strip.
 
-The proof of `limit` mirrors track K's `KAM/Apost/Limit.lean`, whose abstract steps `lim_k`,
+The proof of `limit` mirrors `KAM/Apost/Limit.lean`, whose abstract steps `lim_k`,
 `lim_dk`, `lim_holo`, `lim_primary`, `lim_close`, `lim_margins` are reused. New here are the
 Cauchy property of the ray parameters `s_j` (`exists_tendsto_of_dist_ray`), the invariance of the
 limit at the moving frequency `s_∞ ω*` (`lim_invariance_moving`), and the convergence of the

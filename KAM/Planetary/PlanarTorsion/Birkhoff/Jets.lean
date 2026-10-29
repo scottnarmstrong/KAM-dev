@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Diag
 public import KAM.Planetary.SecularForm.Symmetry
 
 /-!
-# Planar quartic torsion: the rotated secular function and its sixth-order remainder (T16)
+# Planar quartic torsion: the rotated secular function and its sixth-order remainder
 
 Blueprint P, Part 11b (`stepP:p11b:bt-K`).  `p11cB_K p I z` is the fixed secular average at the
 rotated slow point `U(I) z`, with `U` the global frame.  Writing it as

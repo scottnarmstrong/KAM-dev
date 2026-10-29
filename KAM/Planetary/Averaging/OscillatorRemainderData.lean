@@ -20,7 +20,6 @@ is the integral of the explicit family `v t = {g + (1 - t) ξ + t T, φ}` along 
 `(f - T) ∘ Ψ`; each `v t` is in the oscillator class with the weighted bound `B`, and `v`, `D v`
 are jointly continuous. The local homological equation `{H₀, φ} = ξ - T` is recovered from
 `homological_param`, and `taylor_poschel` (at phase dimension `n + m`) gives the identity.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13g.
 -/
 
 @[expose] public noncomputable section

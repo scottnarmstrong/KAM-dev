@@ -10,14 +10,14 @@ public import KAM.Planetary.PlanarTorsion.QuarticFlow.Compact
 public import KAM.Planetary.PlanarTorsion.QuarticFlow.Spec
 
 /-!
-# Planar quartic torsion: analytic dependence of the time-one map (package T9)
+# Planar quartic torsion: analytic dependence of the time-one map
 
 Blueprint P, Part 11b (`bpP:p11b:fl-an`).  The parameter `I` is carried by the augmented
-autonomous field `p11cQ_aug chi (I, z) = (0, X_I z)` on `(Fin 2 → ℝ) × Phase 2`.  Package R2
-(through `p11cQ_flow_compact_nbhd`) gives one short-time flow `Φ`, jointly analytic on a
-neighbourhood of the compact set `K₁ × (closed ball)`; the time-one map is the `m`-th iterate of
-the time-`1/m` map as long as the trajectory stays in that compact set, which the energy bound
-`|z(t)|² ≤ 2 |z|²` guarantees.
+autonomous field `p11cQ_aug chi (I, z) = (0, X_I z)` on `(Fin 2 → ℝ) × Phase 2`.
+`RealFlow/AnalyticCompact` (through `p11cQ_flow_compact_nbhd`) gives one short-time flow `Φ`,
+jointly analytic on a neighbourhood of the compact set `K₁ × (closed ball)`; the time-one map is the
+`m`-th iterate of the time-`1/m` map as long as the trajectory stays in that compact set, which the
+energy bound `|z(t)|² ≤ 2 |z|²` guarantees.
 -/
 
 @[expose] public noncomputable section

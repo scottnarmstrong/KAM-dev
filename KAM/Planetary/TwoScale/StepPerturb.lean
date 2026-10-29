@@ -11,7 +11,7 @@ public import KAM.Planetary.TwoScale.Inverse
 # Two-scale KAM step: small perturbations of invertible operators
 
 `A + B` with `‖B‖ ‖A⁻¹‖ ≤ 1/2` is invertible, with inverse of the form `A⁻¹ ∘ N⁻¹`, `‖N⁻¹‖ ≤ 2`.
-Design package P23-14 (`stepP:p3:st-U`).
+Blueprint `stepP:p3:st-U`.
 -/
 
 @[expose] public noncomputable section

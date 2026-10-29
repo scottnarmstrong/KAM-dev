@@ -15,7 +15,6 @@ public import KAM.Planetary.PGAssembly.FastComplex
 At a core point the frozen Diophantine hypothesis gives the divisor `gammaBar/|k|₁^τ`; throughout
 the complex `rhoBar`-neighbourhood this loses at most half, because `‖∂²H̃₀‖ ≤ M0` and
 `rhoBar = gammaBar/(2 M0 Kbar^(τ+1))`; dividing `H̃₀` by `2π` gives `pgOscAlpha`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV (F7).
 -/
 
 @[expose] public noncomputable section

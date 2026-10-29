@@ -13,7 +13,7 @@ public import KAM.Canonical.SymplecticForm
 `chain Φ m = Φ₀ ∘ Φ₁ ∘ ⋯ ∘ Φₘ`. On a decreasing family of sets `Uᵢ` with `Φᵢ : Uᵢ₊₁ → Uᵢ`, the
 composition maps `Uₘ₊₁` into `U₀`, its displacement is bounded by the sum of the displacements
 (for any seminorm), and, on open sets, holomorphy, preservation of `symplFormC` and injectivity
-pass to the composition. Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-4.
+pass to the composition.
 -/
 
 @[expose] public noncomputable section

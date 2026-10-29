@@ -16,7 +16,7 @@ If `h`, `g`, `f` are real on real points and `Λ = -Λ`, then `φ = homGen`, `g�
 `f₊ = iterF` are real on real points and `Φ = X¹_φ` maps real points of `𝒟_{r-3ρ/2,s-3σ/2}` to real
 points. The frequency `ω = ∂_I h` is real at real points because `h` is real on a real neighbourhood
 (`freq_im_real`); then `homological_direct` (c), `composition_real` for `H ∘ Φ` and
-`canonical_map_b` give the claim. Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-7.
+`canonical_map_b` give the claim.
 -/
 
 @[expose] public noncomputable section

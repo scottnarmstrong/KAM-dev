@@ -16,7 +16,7 @@ public import KAM.Frozen.Planetary.Defs.OscillatorAction
 Blueprint P, Part 11b (`bpP:p11b:sec-bnf#data`, `bpP:p11b:char`): the finite quartic families
 `QuarticFamily`, the rotation action `p11c_rotation`, the character `p11c_character` and the
 average `p11c_average`, the non-resonance predicate `p11c_NR4`, the oscillator part `p11c_n0` and
-the bracket `p11c_bracket`.  The declarations are copied verbatim from the signature file.
+the bracket `p11c_bracket`.  These are the signed definitions.
 -/
 
 @[expose] public noncomputable section

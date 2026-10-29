@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Leading
 public import KAM.Planetary.PlanarTorsion.SpectralAdapter
 
 /-!
-# Planar quartic torsion: the entries of `Q` at hierarchical axes (P11C, package T18)
+# Planar quartic torsion: the entries of `Q` at hierarchical axes
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, step `stepP:p11b:as-in`): at the axes
 `a = ![α, 1]` the secular quadratic form satisfies `Q₁₁ = -(3 G m₂ / (8 √κ)) α ^ (3/2) (1 + O(α²))`,

@@ -11,8 +11,7 @@ public import Mathlib
 # P Part 5: scalar limits for the radius thresholds (`bpP:p5:rstar`)
 
 `r^m (log 1/r)^q → 0` as `r → 0+`, the monotonicity of `r^2 (log 1/r)^q` below `e^{-q}`, and the
-packaging of `∀ᶠ r in 𝓝[>] 0` into a uniform radius. Design
-`docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-TH.
+packaging of `∀ᶠ r in 𝓝[>] 0` into a uniform radius.
 -/
 
 @[expose] public noncomputable section

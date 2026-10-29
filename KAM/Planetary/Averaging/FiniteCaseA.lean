@@ -13,7 +13,6 @@ public import KAM.Planetary.Averaging.FiniteMulti
 `goodSched_multi` proves the schedule `multiSched` admissible when `e^{-κ/6} ≤ y₀` (Case A):
 induction hypothesis `ε_{i+1} ≤ ε_i/4`, the final bound `ε_{N+1} ≤ e^{-κ/6} E`, the correction
 bound `∑ εᵢ ≤ E/κ` and the displacement budgets `3E`, `3E`, `9E`.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-12.
 -/
 
 @[expose] public noncomputable section

@@ -12,7 +12,7 @@ public import KAM.Head.DerivativeBounds
 /-!
 # Part 3 (local charts): the compact action set and the constants are well defined
 
-Package I3-1 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p3:compact`. `n = 2`.
+Blueprint node `bpI:p3:compact`. `n = 2`.
 
 * `compact` (`bpI:p3:compact`): `d_B > 0`, `𝒮 = sSet B B'` is compact with
   `closure B' ⊆ 𝒮 ⊆ B`, and the extrema `m_h`, `M_g`, `S_h` of `bpI:p3:constants` (c) are

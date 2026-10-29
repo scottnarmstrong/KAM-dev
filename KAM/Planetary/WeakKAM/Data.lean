@@ -23,7 +23,7 @@ public import KAM.Measure.McShane
 public import KAM.Measure.Lipeo
 public import KAM.Measure.Lipschitz
 
-/-! # P11B weak-KAM selection data
+/-! # Part 11a, weak-KAM selection data
 
 Carriers, explicit Euclidean seminorm helpers, the standing input structure `SelectionData`
 (`sel-data`) and the separate perturbation premises `SelectionPerturbation`. No construction

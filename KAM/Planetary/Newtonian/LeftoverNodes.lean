@@ -14,7 +14,7 @@ public import KAM.Planetary.Newtonian.Reconstruction
 # Bundle exports for Part 6 step nodes
 
 One-line exports of `stepP:p6:pl-a`, `pl-b`, `pl-c`, `dom-smooth`, `rc-pack` and `ot-apply`,
-each assembled from landed declarations of `KAM.Kepler.Plane`, `KAM.Planetary.Newtonian.Models`
+each assembled from declarations of `KAM.Kepler.Plane`, `KAM.Planetary.Newtonian.Models`
 and `KAM.Planetary.Newtonian.Reconstruction`.
 -/
 

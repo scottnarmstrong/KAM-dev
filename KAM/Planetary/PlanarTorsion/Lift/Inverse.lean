@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Lift.Iterate
 
 /-!
-# Planar quartic torsion: angle translations, inverse and chart on the whole tube (package T11)
+# Planar quartic torsion: angle translations, inverse and chart on the whole tube
 
 Blueprint P, Part 11b (`bpP:p11b:lm-prop`).  `p11c_liftFlow` commutes with every translation of the
 angles (`p11cL_liftFlow_translate`, immediate from the definition), which transports the chart

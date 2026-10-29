@@ -17,8 +17,7 @@ import KAM.Strip.Increments
 /-!
 # LIP: Lipschitz dependence of the normalized tori on the frequency
 
-Blueprint Part 4, `bp:p4:lip` (package P4-10; signature copied verbatim from Appendix A, section 12,
-of `docs/campaign/design/PART4-LEAN-DESIGN.md`). Under `(SA)`, for all `ω, ω' ∈ Ω_γ` and all
+Blueprint Part 4, `bp:p4:lip`. Under `(SA)`, for all `ω, ω' ∈ Ω_γ` and all
 `θ ∈ T_{s/32}`,
 `|W_{ω'}(θ) - W_ω(θ)| ≤ A₃ ε γ⁻⁴ |ω' - ω|`.
 

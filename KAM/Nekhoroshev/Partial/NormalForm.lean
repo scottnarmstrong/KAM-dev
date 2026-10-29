@@ -13,12 +13,11 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Ring
 
 /-!
-# Normal Form Lemma with slow parameters (`bpN:p11:nf`, Part 11, package N11-K2)
+# Normal Form Lemma with slow parameters (`bpN:p11:nf`, Part 11)
 
 The signed theorem `KAM.Nekhoroshev.nf` (blueprint `bpN:p11:nf`,
 `blueprint-N/parts/p11b-partial-nf.tex`), steps `nf-concl`, `nf-disp`, `nf-real`, and the Case
-A / Case B assembly of the induction of `KAM.Nekhoroshev.Partial.NormalFormInduction` (N11-K1).
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md` (package N11-K2).
+A / Case B assembly of the induction of `KAM.Nekhoroshev.Partial.NormalFormInduction`.
 
 * The Part 6 telescope (`bpN:p6:telescope`, `KAM.NormalForm.telescope`) is stated on
   `ℂⁿ × ℂⁿ` with `symplFormC`; it is generalized locally to the extended space `EC n k`, with

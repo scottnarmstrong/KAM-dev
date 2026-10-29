@@ -15,7 +15,7 @@ The Borelness of `ℛ_k` in the proof of the two-scale measure estimate comes fr
 premises `N1`, `N2` and the Lipschitz inverse `g` (not from an extra assumption): on the slice
 domain `{z | blockFast z ∈ ω(core), blockSlow z ∈ Q}` the function `pullFreq d μ k` and the slow
 column coefficients `y ↦ (β(g y)ᵀ v)_j` are continuous, and the domain is Borel since `ω(core)` is
-compact. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RB.
+compact.
 -/
 
 @[expose] public noncomputable section

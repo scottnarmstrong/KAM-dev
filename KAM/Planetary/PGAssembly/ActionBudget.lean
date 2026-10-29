@@ -18,7 +18,7 @@ public import KAM.Planetary.PGAssembly.ActionBudgetCollar
 The proof reads the measure clause (3.1) of `PGFamilySpec` (`stepP:p5:bu-read`), bounds
 `D \ D₀` by the P4 two-scale Diophantine measure estimate (`stepP:p5:bu-dio`,
 `ActionBudgetDio`) and the enlargement `N_{rK}(D) \ D` through the collar (`stepP:p5:bu-collar`,
-`ActionBudgetCollar`). Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-BU.
+`ActionBudgetCollar`).
 -/
 
 @[expose] public noncomputable section

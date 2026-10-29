@@ -15,7 +15,6 @@ public import KAM.Planetary.PGAssembly.FamilyAux
 (the inner-core, the Diophantine conditions on the fast and the full frequencies), hence sigma
 compact. The full frequency is the real frequency of `kamH`, continuous on a tube around the
 action domain by holomorphy.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FAM.
 -/
 
 @[expose] public noncomputable section

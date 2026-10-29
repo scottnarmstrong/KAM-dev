@@ -18,7 +18,7 @@ public import KAM.Kepler.Orbit
 The explicit Jacobian columns `orbitMapColumn` of the orbit map `(ℓ, g, L, e) ↦ orbitMapR ℓ g L e`
 (`fderiv_orbitMapR_basis`) and of the Delaunay map (`fderiv_delaunay_basis`, the chain rule through
 `e = eccOf L G`), obtained from a single curve lemma `hasDerivAt_orbitMapR_curve`
-(`bpI:p7:symplectic`, KEP-6, first half). The curve lemma computes the derivative of the frame
+(`bpI:p7:symplectic`, first half). The curve lemma computes the derivative of the frame
 entries by `HasDerivAt` algebra and implicit differentiation of Kepler's equation
 (`hasDerivAt_eccAnom_curve`); `fderiv` on a basis vector is the derivative along the coordinate line
 (`fderiv_apply_eq_of_hasDerivAt_line`).
@@ -179,8 +179,7 @@ theorem hasDerivAt_eccAnom_curve {ℓ e : ℝ → ℝ} {ℓ' e' t : ℝ} (hℓ :
   field_simp
   linear_combination heq
 
-/-- EXPLICIT Jacobian columns (audit: the decomposition promised for KEP-6 is designed here, not
-    only asserted).
+/-- Explicit Jacobian columns.
 Frame derivatives, with `u = eccAnom ℓ e`, `c = cos u`, `s = sin u`, `k = √(1-e²)`, `D = 1 - e c`:
 `∂_u (X, Y, P_X, P_Y) = (-L² s, L² k c, -(c-e)/(L D²), -k s/(L D²))`,
 `∂_e (at fixed u) = (-L², -L² e s/k, -s c/(L D²), c (c-e)/(L D² k))`,

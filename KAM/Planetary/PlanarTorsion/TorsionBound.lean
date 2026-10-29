@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Beta
 
 /-!
-# Planar quartic torsion: uniform lower bound on a compact set (P11C, package T17)
+# Planar quartic torsion: uniform lower bound on a compact set
 
 Blueprint P, Part 11b (`bpP:p11b:remain`): the determinant of `p11c_beta` is bounded away from
 zero on a compact set where it is continuous and nonvanishing, by the compact minimum of `|det|`.

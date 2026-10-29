@@ -17,7 +17,7 @@ public import KAM.Measure.Lipschitz
 `ω(core) × ℝᵇ`, so it multiplies measure by at most `Λ_g^(a+b)` (`volume_pullMap_image_le`), and the
 resonant set of a mode in actions `(I, ξ)` lies in the image under `pullMap` of its frequency
 coordinate set `resonanceSet` (`mem_pullMap_image_of_resonant`). Internal helper for
-`two_scale_diophantine_measure`; design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RA.
+`two_scale_diophantine_measure`.
 -/
 
 @[expose] public noncomputable section

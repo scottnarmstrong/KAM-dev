@@ -16,11 +16,10 @@ public import KAM.Nekhoroshev.Partial.CompositionCoeff
 public import KAM.Weighted.Projections
 
 /-!
-# Resonant block stability (Part 11, package N11-M2)
+# Resonant block stability (Part 11)
 
 `resonant` (`bpN:p11:resonant`): on a resonant block of a fast-convex Hamiltonian the fast
 actions of an orbit that starts at the block centre move by at most `r_B/2` (Euclidean).
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
 
 Proof, following the blueprint steps:
 * `stepN:p11:rs-red`: `p = 9/8`, `q = 9` (`nrs_q`); from `K L r ≤ α/p`, `L = √n M` and

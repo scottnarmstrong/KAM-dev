@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakMeasure.ChartScaling
 
 /-!
-# Amount transfer helpers (P11A-P8c, `bpP:p11:amount`)
+# Amount transfer helpers (`bpP:p11:amount`)
 
 Parametric exported helpers for the steps of `bpP:p11:amount` (they are not the signed `amount`):
 

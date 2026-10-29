@@ -15,7 +15,7 @@ public import KAM.Planetary.PGMeasure.Tonelli
 `volume_le_of_line_diam`: a measurable subset `R` of a box in `ℝᴺ` all of whose lines in direction
 `e_i` meet `R` in a set of diameter at most `δ` has volume at most `δ ∏_{l ≠ i} 2 ρ_l`. Tonelli
 over the coordinate split `piFinSuccAbove`, with `section_measure_le_of_pairwise_dist` for the
-sections. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RB.
+sections.
 -/
 
 public section

@@ -11,7 +11,7 @@ public import KAM.Planetary.Preparation.Holomorphic
 public import KAM.Strip.AnalyticTaylor
 
 /-!
-# The complexified chart input `Φ_ρ⁻¹ ∘ T₁` (P11A-P2c, `stepP:p11:hc-lift`, `hc-F`)
+# The complexified chart input `Φ_ρ⁻¹ ∘ T₁` (`stepP:p11:hc-lift`, `hc-F`)
 
 For a rotation family `ρ` (parametric: holomorphic on a complex ball, with the row-sum bounds
 `B`, `B'` of `p11_rotation_bounds`) `p11hsInput ρ z` is the complexified chart input of

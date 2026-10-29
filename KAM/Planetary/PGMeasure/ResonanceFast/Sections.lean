@@ -14,8 +14,7 @@ public import KAM.Planetary.PGMeasure.ResonanceLarge.Sections
 For a mode `k ∈ 𝒦_A` (`k₁ ≠ 0` and `μ Λ_N Λ_g |k|₁ ≤ ‖k₁‖/2`) and a fast index `j` with
 `|k₁,j| = ‖k₁‖`, the resonance function moves along `y ↦ y + s e_j` by at least `|k₁,j||s|/2`
 (`N1` and the bi-Lipschitz bound of `g`), so every line in direction `e_j` meets the frequency
-coordinate resonant set `ℛ'_k` in a set of diameter at most `4 α_k`. Design
-`docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RA.
+coordinate resonant set `ℛ'_k` in a set of diameter at most `4 α_k`.
 -/
 
 @[expose] public noncomputable section

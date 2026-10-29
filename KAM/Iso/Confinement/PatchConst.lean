@@ -10,8 +10,7 @@ public import KAM.Iso.Confinement.Setting
 /-!
 # Part 5: the patch sets, the patch constants and the threshold `ε₀`
 
-Package P5-1 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (nodes `bpI:p5:sec-patch`,
-`bpI:p5:patch-const`, `bpI:p5:eps0`).
+Blueprint nodes `bpI:p5:sec-patch`, `bpI:p5:patch-const`, `bpI:p5:eps0`.
 
 * `EnergyPatch.K_eq_image`, `EnergyPatch.isCompact_K`: `𝒦 = Φ⁻¹(Q) = Ψ(Q)` is compact.
 * `EnergyPatch.isOpen_Omega`, `EnergyPatch.Omega_subset_K`: `Ω = Φ⁻¹(O)` is open and `Ω ⊆ 𝒦`.

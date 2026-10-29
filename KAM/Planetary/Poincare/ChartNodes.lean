@@ -17,8 +17,8 @@ public import KAM.Planetary.SecularForm.ProductInterface
 /-!
 # Poincaré product chart, D25 and the circular endpoint: literal exports of the graph nodes
 
-Graph-gap package GAP-P7 (append-only).  Each theorem states the literal conclusion of one node of
-the dependency graph, built from the landed declarations of `SecularForm.ProductInterface`,
+Each theorem states the literal conclusion of one node of
+the dependency graph, built from the declarations of `SecularForm.ProductInterface`,
 `Poincare.Product`, `Poincare.Lattice`, `Poincare.D25`, `Poincare.Chart`, `Poincare.Symplectic`
 and `Hamiltonian.Chart`:
 

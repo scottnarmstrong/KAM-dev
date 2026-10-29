@@ -11,7 +11,7 @@ public import KAM.Measure.McShane
 public import KAM.Measure.Lipeo
 public import KAM.Measure.Lipschitz
 
-/-! # P11B evaluation map: `evaluation_bilipschitz`
+/-! # Part 11a, evaluation map: `evaluation_bilipschitz`
 
 The evaluation `z ↦ (θ, b) + defect b θ` on `Kinf`-fibres is extended (McShane, `mcshane_prod`) to a
 globally `lam`-Lipschitz perturbation of the identity, `lam = 2⁻¹⁰`. Then `lipeo_onto` gives the

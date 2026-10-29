@@ -12,10 +12,10 @@ public import KAM.Planetary.PlanarTorsion.QuarticFlow
 public import KAM.Planetary.PlanarTorsion.RealFlow.Variational
 
 /-!
-# Planar quartic torsion: the lifted slow flow, definitions and coordinates (package T11)
+# Planar quartic torsion: the lifted slow flow, definitions and coordinates
 
 Blueprint P, Part 11b (`bpP:p11b:lift-map`).  The signed definitions `p11c_liftFlow` and
-`p11c_tube` (verbatim from the signature file) and the coordinate API of the assembled
+`p11c_tube` (signed) and the coordinate API of the assembled
 `(φ, q; I, p)` phase space `Phase (2 + 2)`: the action, angle and slow components of a point, the
 Hamiltonian `p11cL_ham chi w = chi (I w) (z w)` of the full lift, and its Hamiltonian field in
 terms of the partial derivatives of `chi`.

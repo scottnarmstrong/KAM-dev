@@ -13,7 +13,7 @@ public import KAM.Planetary.TwoScale.StepMono
 
 `g` is holomorphic on `D_{R/2}` with `|g| ≤ 5E/4`. Then `|∂g| ≤ 5E/R`, `‖∂²g‖ ≤ 80E/R²` on
 `D_{R/4}`, and `ω₊ = ω₀ + ∂g` is injective on `D_{R/8}`, by the ball lemma `ball` and the mean value
-inequality for `∂g` (source `P3a`, step `st-inj`). Design package P23-14.
+inequality for `∂g` (source `P3a`, step `st-inj`).
 -/
 
 @[expose] public noncomputable section

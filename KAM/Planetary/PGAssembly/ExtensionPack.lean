@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.ExtensionDefs
 `packVec mu z = (mu, z.1, z.2) ∈ R^(n+n+1)`, the continuous linear unpacking `unpackL`, and the
 elementary algebra (sub, real inclusion, norms, differentiability) used to complexify in the
 parameter `mu` together with the phase point.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
 -/
 
 @[expose] public noncomputable section

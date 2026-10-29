@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.LimitMapLip
 
 Packages `stepP:p3:pl-dom`, `stepP:p3:pl-disp`, `stepP:p3:pl-lip`, `stepP:p3:pl-sum` for the
 stage maps `Ψ_{j+1}` of `iterative`, from `PsiSteps` (the proved outputs of `iterative` on the
-shared witnesses; `iterative_steps` discharges it). Design package P23-18.
+shared witnesses; `iterative_steps` discharges it).
 -/
 
 @[expose] public noncomputable section
@@ -68,7 +68,7 @@ theorem psi_disp (P : PsiSteps sbar p Ds hs fs Ψ Φ) (j : ℕ) {x : Phase (a + 
 
 end PsiSteps
 
-/-- The local obligation `psi_lip` of `two_scale_kam` (private conditional helper, P23-18):
+/-- The local obligation `psi_lip` of `two_scale_kam` (private conditional helper):
 * (`pl-dom`) `Ψ_{k}` maps `𝒟_k × ℝⁿ` into `𝒟_{k-1} × ℝⁿ` (`𝒟_j = Re(D_j)_{ρ_j/2}`), and the real
   restriction `psiR` is the real part of the complex map;
 * (`pl-disp`) scaled displacement `≤ (3/4) Ê_{k-1} 12^{-(k-1)}`;

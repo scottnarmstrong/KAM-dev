@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakMeasure.Basic
 
 /-!
-# Stability of the amount and size bound for the scalar families (P11A-W1)
+# Stability of the amount and size bound for the scalar families
 
 `stability` and `M_bound`: iterated Leibniz formulas (diagonal, via the line `t ↦ y + t a`, and the
 operator-norm form on the `L²` Pi space `PiLp 2`, used only as an internal bridge) and

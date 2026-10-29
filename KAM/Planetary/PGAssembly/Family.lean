@@ -17,9 +17,8 @@ applied to the exact P3 record `pg_kam_hyp`, transports it through the chart `ph
 P1 `cyl_pipeline`, and retains the quantitative data (Lipschitz bound, lattice periodicity,
 injectivity in the parameter, location, measure of the missed set) as `PGFamilySpec`.
 `pgFamily` chooses the witness; `kset` and `rawUnion` are unions of whole ranges over a parameter
-set. Declarations are copied verbatim from `P45Signatures.lean`; `frequency_bounds` lives in
+set. `frequency_bounds` lives in
 `FamilyFreq` and the auxiliary lemmas in `FamilyAux` and `FamilySigma`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FAM.
 -/
 
 @[expose] public noncomputable section

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.LogBounds
 
 /-!
-# Slow averaging: exponent bookkeeping (P11A-P7c, `stepP:p11:as-b2`, `as-concl`)
+# Slow averaging: exponent bookkeeping (`stepP:p11:as-b2`, `as-concl`)
 
 With `K = a ℓ`, `ℓ = log (1/ε)`, `α₁ = (γ/4) K^{-τ}`, `α₂ = ε α₁` and `E₀ = c₀ ε^{5/2} ℓ^{2τ+1}`
 the displacement and `g`-bounds of the rectangular averaging lemma are exact powers of `ε` and

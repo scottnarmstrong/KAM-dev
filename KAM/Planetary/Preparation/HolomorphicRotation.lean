@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.AnalyticExtension
 public import KAM.Strip.AnalyticTaylor
 
 /-!
-# Holomorphic extension of the secular rotation (P11A-P2, `stepP:p11:hc-rot`)
+# Holomorphic extension of the secular rotation (`stepP:p11:hc-rot`)
 
 A real analytic family of matrices `R` on a real ball extends entrywise to a holomorphic family
 `ρ` on a complex max-norm ball (`p11_complexification`); the polynomial identity `RᵀR = 1`

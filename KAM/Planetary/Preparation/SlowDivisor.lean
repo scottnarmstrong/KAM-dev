@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.SlowDerivative
 public import KAM.Planetary.Preparation.FastDivisor
 
 /-!
-# Slow averaging: the divisor clause (P11A-P7c, `stepP:p11:as-nr`)
+# Slow averaging: the divisor clause (`stepP:p11:as-nr`)
 
 The pure-slow and mixed divisor bounds `(B1)` for `h₀ = C.h ∘ J + ε W` on the box `V₂`:
 the mixed case via `fast_divisor`, the pure-slow case via the Diophantine bound on the secular
@@ -488,7 +488,7 @@ theorem p11_drho_of_clause6 {C : P11SecularData n} {Z : P11CVec (n+n) → ℂ} {
     Finset.sum_const_zero, pow_zero] at h
   exact (norm_le_pi_norm _ i).trans h
 
-/-- The spec box `V₂` lies in P7b's averaging box `D(J₀, s₁/4) × D(2πε, πε)`. -/
+/-- The spec box `V₂` lies in the averaging box of `SlowAverage`, `D(J₀, s₁/4) × D(2πε, πε)`. -/
 theorem p11SlowBox_subset_avg {D : P11Physical n} {C : P11SecularData n}
     (hC : P11SecularSpec D C) {nu eps : ℝ} (hK : 0 < p11K2 C nu eps) :
     p11SlowBox C nu eps ⊆ p11Box (Fin.append (KAM.realInclusion n C.J0)

@@ -22,7 +22,6 @@ flow plus `(f - T) ∘ Ψ`, `osc_composition_integral` bounds the integral and `
 (at `t = 1`) bounds the tail composition, both with the factor `(1 - θ)⁻¹`. When the parameter
 set of the target domain is empty the bound holds vacuously, so no positivity of the majorants
 `Mj` is assumed.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13h.
 -/
 
 @[expose] public noncomputable section

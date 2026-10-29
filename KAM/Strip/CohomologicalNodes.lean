@@ -25,7 +25,7 @@ node-level statements, with the exact constant `KAM.cohConst` and the bound writ
   (`KAM.cohSolutionMat`), and the a-priori bound for every holomorphic `1`-periodic zero-average `u`
   with `‖∂_ω u‖ ≤ H` on `T_ρ`.
 
-## Map of the Part 1 nodes of package I-STRIP-3
+## Map of the Part 1 nodes
 
 * `bp:p1:fourier-basic` (a): `KAM.torusCoeff_fderiv` (holomorphic form, `Strip/Cohomological`)
   and `KAM.torusCoeff_fderiv_coordinate_real`, `KAM.torusCoeff_fderiv_real` (real `C¹` form,

@@ -10,7 +10,7 @@ public import KAM.Planetary.Preparation.WrapperNodeChain
 public import KAM.Planetary.Preparation.WrapperNodeTube
 
 /-!
-# Literal node exports for the wrapper steps (GAP-WR)
+# Literal node exports for the wrapper steps
 
 Facade for `p11_wr_chain_node`, `p11_wr_xi_node`, `p11_wr_ham_node` (`stepP:p11:wr-chain`, on the
 literal carrier `|r| < 2`, `|ρ'| < π/2`) and `p11_wr_tube_node` (`stepP:p11:wr-tube`, with the

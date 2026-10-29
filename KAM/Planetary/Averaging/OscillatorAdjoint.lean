@@ -23,7 +23,6 @@ outer-to-inner ratios are at most `1/(h+1+i)` and the minimum product is `d/h²`
 constant is at most `c_m h² Φ / (d (h+1+i))` with `c_m = 2 (1/e + m)`. The product of the step
 constants is `(c_m h² Φ/d)^h h!/(2h)!`, and `(2h)! ≥ (2h/e)^(2h)` gives
 `|ad_φ^h u / h!| ≤ q^h A` with `q = e (1 + e m) Φ / (2 d)`. The case `h = 0` is a restriction.
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md` (Revision 3), package P23-13c.
 -/
 
 @[expose] public noncomputable section

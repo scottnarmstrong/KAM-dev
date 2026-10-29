@@ -17,14 +17,15 @@ public import KAM.Planetary.Exponential.Lift
 public import KAM.Planetary.Exponential.Perturbation
 
 /-!
-# P14 package E11: the stopped action bound from N-PARTIAL-CONVEX
+# The stopped action bound from the partial-convex Nekhoroshev theorem
 
 Blueprint P, Part 14 (`bpP:p14:stopped`, steps `st-thr`, `st-seg`, `st-sol`, `st-core`,
 `st-fwd`, `st-bwd`, `st-phys`).  The sealed root `KAM.Nekhoroshev.partialConvex_nekhoroshev` is
 applied with `n` fast actions and `k = n` slow pairs, `G = fastBox B κ`, `G' = fastBox B (2κ)`,
 `D = slowBall n A`, once to the Kepler part `h` and once to `-h`, giving thresholds `μ₊, μ₋`.
-A physical segment in the outer AMD region lifts to the chart (E9); there the N-Hamiltonian is the
-chart Hamiltonian (E10).  Forward times use `(h, P)` on `[0, r]`; backward times use `(-h, -P)` on
+A physical segment in the outer AMD region lifts to the chart (`Lift`); there the N-Hamiltonian is
+the chart Hamiltonian (`Exponential.Hamiltonian`).  Forward times use `(h, P)` on `[0, r]`;
+backward times use `(-h, -P)` on
 the reversed segment `s ↦ y (-s)` over `[0, -l]`.
 
 * `st-thr`: `ν₀ = min {1, μ₊, μ₋, κ^{1/b}, ε_D^{1/b}}` with
@@ -241,7 +242,8 @@ theorem stopped_isSolutionOn_reverse (B : AMDBox n) (hB : B.Admissible) {kappa e
 
 /-! ### `bpP:p14:stopped` -/
 
-/-- `bpP:p14:stopped`: the stopped action bound from N-PARTIAL-CONVEX. -/
+/-- `bpP:p14:stopped`: the stopped action bound from the partial-convex Nekhoroshev
+theorem. -/
 theorem stopped (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible) :
     ∃ B0 nu0 : ℝ, 1 ≤ B0 ∧ 0 < nu0 ∧ nu0 ≤ 1 ∧
       ∀ mu T delta : ℝ, 0 < mu → B0 * mu < nu0 → 0 < T → 0 < delta →

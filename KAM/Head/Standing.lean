@@ -13,8 +13,7 @@ public import KAM.Frozen.Defs.KamCover
 /-!
 # The standing data of Part 4
 
-Definitions only (design `docs/campaign/design/PART4-LEAN-DESIGN.md`, section 2.1 and Appendix A
-section 1; package P4-0a). The definitions are copied verbatim from Appendix A.
+Definitions only.
 
 * `KAM.Head.Data` is the data of HEAD (`bp:p4:sec-data`) with the witness `L_h` of the
   nondegeneracy hypothesis; the fields are the frozen HEAD binders.

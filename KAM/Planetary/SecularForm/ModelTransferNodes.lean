@@ -15,9 +15,9 @@ public import KAM.Planetary.SecularForm.Quartic
 /-!
 # Secular form: literal exports for the model-identification nodes
 
-Blueprint P, Part 8, graph-gap package GAP-P8a (identification half). Unsigned exports stating the
-literal conclusions of `stepP:p8:id-diff`, `stepP:p8:id-avg`, `stepP:p8:id-int` and of the theorem
-`bpP:p8:identification` (`identification_full`), built from the landed `identification`,
+Blueprint P, Part 8 (identification half). Unsigned exports stating the literal
+conclusions of `stepP:p8:id-diff`, `stepP:p8:id-avg`, `stepP:p8:id-int` and of the theorem
+`bpP:p8:identification` (`identification_full`), built from `identification`,
 `lemma64`, `perturbation_analytic_full` and the product-chart facts.
 -/
 

@@ -23,7 +23,7 @@ constant `a * Λ` when `F` is `Λ`-Lipschitz on the trap, `‖F‖ ≤ L` there,
 * `KAM.Nekhoroshev.PicardBounds`: the numerical and regularity data of the trap.
 * `KAM.Nekhoroshev.picardMap`, `contractingWith_picardMap`: the contraction on the complete trap.
 * `KAM.Nekhoroshev.picard_family`: the real-variable output (iterates, limit, integral equation,
-  geometric rate, time derivative) consumed by the derivative packages.
+  geometric rate, time derivative) consumed by the derivative modules.
 -/
 
 @[expose] public noncomputable section

@@ -13,7 +13,7 @@ import Mathlib.Tactic.Module
 /-!
 # Part 1 (isoenergetic linear step): the linearized equation in the frame
 
-Blueprint node `bpI:p1:reduced` (package I1-6 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`).
+Blueprint node `bpI:p1:reduced`.
 
 For a frame `P = (L N)` of a torus `K` with reducer `Q = -Ω₀ Pᵀ Ω₀`, a holomorphic
 `ξ = (ξᴸ, ξᴺ)` and a scalar `ξ^ω`, the correction is `ΔK = P ξ`, `Δω = -ω ξ^ω`, and the residual of
@@ -26,10 +26,11 @@ the linearized equation is `Res = A ΔK - ∂_ω ΔK + L ω ξ^ω + E` (`isoResi
 * (c) `Q Res = E_lin` when the bordered system `bordOp = η` holds, and the bound on `E_lin`;
 * (d) if the frame `P` is invertible, `Res = Q⁻¹ E_lin` and `Res = 0 ↔ bordOp = η - E_lin`.
 
-It is built from track K's `frame_identities` helpers (`fi_NtOL`, `fi_reduced`, `fi_QP`, `fi_QE`)
+It is built from the `KAM.Apost` `frame_identities`
+helpers (`fi_NtOL`, `fi_reduced`, `fi_QP`, `fi_QE`)
 and the product rule for `y ↦ A y *ᵥ u y` (`fderiv_matrix_mulVec_apply`); nothing is entrywise on
-`2n × 2n` products. The `Setting` is the Diophantine standing data of K's helpers (design
-departure D3: the source text says `ω ∈ ℝⁿ`, every use is at a Diophantine `ω`).
+`2n × 2n` products. The `Setting` is the Diophantine standing data of those helpers (the
+source text says `ω ∈ ℝⁿ`, every use is at a Diophantine `ω`).
 -/
 
 @[expose] public section

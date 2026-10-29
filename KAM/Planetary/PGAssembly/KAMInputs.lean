@@ -19,7 +19,6 @@ public import KAM.Planetary.PGAssembly.KAMInputsPer
 injectivity, reality and Hessian bounds of `kamH`), `pg_kam_hyp` assembles the P3 record `KamHyp`
 for the exact scale record `pgKamScale`, and `pg_kam_dictionary` identifies its constants with
 `params` and `pgD0`. Definitions and lemmas live in the `KAMInputs{Base,Freq,KamH,F,Per}` modules.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-KH.
 -/
 
 @[expose] public noncomputable section

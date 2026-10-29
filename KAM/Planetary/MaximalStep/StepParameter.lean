@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.Step
 
 /-!
-# Parameter derivatives of the canonical step (P11A-C8, `stepP:p11a:cs-param`)
+# Parameter derivatives of the canonical step (`stepP:p11a:cs-param`)
 
 `canonical_step_param`: Cauchy estimates in the parameter (`param_cauchy`), applied for each fixed
 point of `D_+` to `ΔH`, `ΔW`, the displacements and the remainder, with the bounds of
