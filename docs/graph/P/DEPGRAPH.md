@@ -27186,9 +27186,9 @@ EDGE: bpP:p0:hamsymp#symplecticForm | blueprint-P/parts/p11a4-limit-family.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionHamiltonian, SelectionTori, limit_torus (KAM/Planetary/WeakKAM/Tori.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; signed limit_torus; (a),(e) via inherited periodic/diophantine fields of SelectionLimit/SelectionOutput
 NOTE: -
 
 NODE: stepP:p11a:lt-field
@@ -27218,9 +27218,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_stage_cov, tori_jet_bound (KAM/Planetary/WeakKAM/ToriStage.lean); tori_jet_small (KAM/Planetary/WeakKAM/ToriLimit.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-cov
@@ -27250,9 +27250,9 @@ EDGE: bpP:p11a:z-chain | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:lt-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_field_cov (KAM/Planetary/WeakKAM/ToriBridge.lean); tori_stage_cov (KAM/Planetary/WeakKAM/ToriStage.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-lim
@@ -27287,9 +27287,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_invariance_C (KAM/Planetary/WeakKAM/ToriLimit.lean); tori_H0_field, tori_invariance_real (KAM/Planetary/WeakKAM/ToriField.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-lag
@@ -27319,9 +27319,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_lagrangian_C, tori_lagrangian (KAM/Planetary/WeakKAM/ToriReal.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-emb
@@ -27348,9 +27348,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_immersion, tori_embedding (KAM/Planetary/WeakKAM/ToriReal.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-dio
@@ -27376,9 +27376,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: SelectionOutput (KAM/Planetary/WeakKAM/SelectionRecord.lean); SelectionTori (KAM/Planetary/WeakKAM/Tori.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; inherited SelectionOutput.diophantine field (IsDiophantine on Hinf)
 NOTE: -
 
 NODE: bpP:p11a:displacement
