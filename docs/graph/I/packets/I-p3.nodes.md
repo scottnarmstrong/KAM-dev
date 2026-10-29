@@ -1318,9 +1318,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p3-iso-local-charts.tex#stepI:p3:to-tor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): the flat route is the one implemented
 NOTE: SOURCE_GAP: literal use of the full statements bpI:p1:last-row and extended-basic at L312-L313 lacks a Diophantine premise in the generic torus lemma. This is an attempted premise-discharge obligation, not an assumption that the entire Part 1 setting already holds, and not a gap in the separate direct flat-formula route. The actual ray application later supplies Diophantinity; that does not prove this generic premise.
 
 NODE: stepI:p3:to-neumann
@@ -1710,9 +1710,9 @@ EDGE: bpI:p3:coordinates | blueprint-I/parts/p3-iso-local-charts.tex#bpI:p3:tori
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: PROVED
+LEAN_STATUS: NOT_STARTED
 LEAN_REF: tori, exists_ray_consts, part3_tori_of (KAM/Iso/Charts/Tori.lean)
-LEAN_NOTE: audit I3-5 PASS WITH NOTES; T1-T7 encoded
+LEAN_NOTE: REVERTED to NOT_STARTED (over-claim, survey 2.5) (survey 2.5): no Lean statement covers the T1 real-analyticity and the real-theta T3 clause; GAP-I3T repairs
 NOTE: Preextract candidate edge to bpI:p0:g1 at the statement dropped: I-G1 is consumed in stepI:p3:tori-ig1 and tori-position (the statement quotes it as provenance).
 
 NODE: stepI:p3:tori-patch
@@ -1979,7 +1979,7 @@ EDGE: bpI:p0:stripdata#torsion | blueprint-I/parts/p3-iso-local-charts.tex#stepI
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-I-b
 REVIEWER: sol-delta-I-c
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): alternative route not used; the flat route is implemented
 NOTE: This route retains the actual Part 1 citations and their exposed SOURCE_GAP premise check. It is an alternative to the direct flat-formula route, not a mandatory extra premise for that route.
