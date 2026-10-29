@@ -51,7 +51,7 @@ h.write_text("\n".join(head + sorted({l for l in lines if not l.startswith("utc,
 EOF
       python3 -I scripts/gen_root_imports.py
       python3 -I scripts/hq-status.py >/dev/null
-      git add README.md KAM.lean docs/campaign/history.csv
+      git add README.md KAM.lean docs/campaign/history.csv docs/PAPERS.md
       HQ_UPDATING=1 git commit -q --no-edit
       echo "$(stamp) merged origin/main (generated-file conflicts settled) $(git rev-parse --short HEAD)"
     fi
@@ -61,9 +61,9 @@ EOF
 fi
 
 python3 -I scripts/hq-status.py >/dev/null
-git add -- README.md docs/campaign/history.csv
-if ! git diff --cached --quiet -- README.md docs/campaign/history.csv; then
-  HQ_UPDATING=1 git commit -q -m "HQ status ($(date -u '+%Y-%m-%d %H:%M UTC'))" -- README.md docs/campaign/history.csv
+git add -- README.md docs/campaign/history.csv docs/PAPERS.md
+if ! git diff --cached --quiet -- README.md docs/campaign/history.csv docs/PAPERS.md; then
+  HQ_UPDATING=1 git commit -q -m "HQ status ($(date -u '+%Y-%m-%d %H:%M UTC'))" -- README.md docs/campaign/history.csv docs/PAPERS.md
   echo "$(stamp) committed $(git rev-parse --short HEAD)"
 fi
 if [ "$remote" = 1 ]; then
