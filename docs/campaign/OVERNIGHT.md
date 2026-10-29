@@ -964,3 +964,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   signed conclusions verbatim, the signed theorems become one-liners when A's files merge. ERRATA-R3 done (all audit-2
   findings fixed, checked against the pinned PDFs); round-3 refute-first verification running (codex-4). SO-R1
   (LunarParams, 60 lines) folds into SO-LUNAR as the design says: its residual budgets come from SO-DATA.
+- **21:45. The certificate checker is sound (in audit); errata record landed; release scrub started.** SO-SOUND-A
+  (static, Hamiltonian, embedding, Gram contracts; 521 lines) and SO-SOUND-B (invariance, energy, torsion, smallness and
+  the assembly; 482 lines) both done on claude-12 within 13 minutes. `checkTorusCertificate_sound`, the black box of
+  track SO part 1, is proved: a passing certificate, a frequency in its box and a Diophantine premise give an
+  invariant torus through the sealed `g1_explicit` (standard axioms). Both halves in independent audit (codex-4). The
+  errata-and-deviations record passed its third refute-first verification and landed (82 current defects, 2
+  historical reports, 13 unverified, 64 deviations). Release clean-up batch B2 (campaign-language scrub of comments
+  and docstrings, owner rulings D33) started as four directory-disjoint workers on claude-12, each checked by a new
+  comment-only guard (comments stripped, code and strings compared). Fixed: the landing script's README refresh ran
+  under sh and failed on `pipefail`; it now uses bash.
