@@ -296,7 +296,8 @@ theorem p11_pd_dev0 (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
       linarith
   · have h := p11_pd_dev_rho hC hnu heps hεM hA hc0 hzs h5 k J ρ hJ hρ hη0 hη hl
     refine le_trans ?_ (le_of_eq (zero_add _))
-    refine p11_num_collect_rho (m := 0) (T3 := 0) (F := 1) (M := 4) (K := K) heps he1 hc0 zero_le_one
+    refine p11_num_collect_rho (m := 0) (T3 := 0) (F := 1) (M := 4) (K := K) heps he1 hc0
+      zero_le_one
       hk2.le (by norm_num) hl2 hl5 hlQ2 hlQ3 ?_ ?_ le_rfl
     · have : 0 ≤ (C.MF + 1) * 4 * k1 := by positivity
       linarith
@@ -397,7 +398,8 @@ theorem p11_pd_single_cast (i : Fin n) :
   refine Fin.addCases (fun a => ?_) (fun a => ?_) j
   · by_cases h : a = i
     · subst h; simp
-    · have : (Fin.castAdd n a : Fin (n + n)) ≠ Fin.castAdd n i := fun h' => h (Fin.castAdd_injective _ _ h')
+    · have : (Fin.castAdd n a : Fin (n + n)) ≠ Fin.castAdd n i := fun h' =>
+        h (Fin.castAdd_injective _ _ h')
       simp [h, this]
   · have : (Fin.natAdd n a : Fin (n + n)) ≠ Fin.castAdd n i := by
       intro h'
