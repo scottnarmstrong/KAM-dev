@@ -158,7 +158,8 @@
   "I": "**complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form",
   "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29)",
   "P": "**complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31)",
-  "SO": "**started 2026-10-29 (D30)**: plan [`SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); model, Diophantine bounds, clock lemma, π enclosures, constants, generator data, arithmetic interface and barrier theorem landed or landing; design of the general black box in its third audit; replay-cost gate under study"
+  "SO-1": "design accepted (seven audited revisions); arithmetic, Fourier data, expressions and balls landed; packed products in audit; model algebra, witnesses, embedding, Gram, torsion and soundness next",
+  "SO-2": "model, Diophantine frequencies, clock, rotated frame, barriers and graph inversion landed; parameter package R1 and the advice data confirmed numerically; the certificates wait on the checker"
  },
  "so": {
   "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within 3.3% of its orbital rate (|p(t) − 1| ≤ 33/1000) for all time.",

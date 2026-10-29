@@ -1,118 +1,368 @@
 {
- "method": "Track SO (D30). Items are weighted by difficulty like every other item (L=1, M=2, H=4, VH=8). An item with \"so_packages\" takes its done fraction automatically: the design's line estimate of each of its packages (SO-LEAN-DESIGN.md §7) counts once the package is listed as landed in campaign.json so.landed. SO.PLAN and SO.FREEZE are the orchestrator's assessment.",
+ "method": "Track SO (D30), in two parts: the general Lean certificate checker and its first client, the Moon's spin rate. Items are weighted by difficulty like every other item (L=1, M=2, H=4, VH=8). An item with \"so_packages\" takes its done fraction automatically: each package is [design line estimate, files]; it counts as landed when all its files exist on main. The DESIGN, PLAN and FREEZE items are the orchestrator's assessment.",
  "items": [
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.PLAN",
-   "title": "Plan, owner rulings O1–O5, replay gate, constants study, Lean design of the general checker (six revisions, independent design audits)",
+   "group": "Track SO, part 1: general Lean certificate checker",
+   "id": "SO1.DESIGN",
+   "title": "Lean design of the general checker: seven revisions, independent design audits, replay gate (packed products checked against supplied advice)",
    "difficulty": "H",
    "done": 1.0,
-   "note": "design accepted (Revision 7, seventh audit PASS WITH NOTES); replay gate GO; rotated frame, package R1 and data packaging option A adopted"
+   "note": "design accepted (Revision 7, seventh audit PASS WITH NOTES); replay gate GO"
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.ARITH",
+   "group": "Track SO, part 1: general Lean certificate checker",
+   "id": "SO1.ARITH",
    "title": "Certified arithmetic: interface, exact and fixed-point backends, π and exp enclosures, range-reduced complex exponential, explicit KAM constants",
    "difficulty": "H",
    "so_packages": {
-    "SO-AIF": 700,
-    "SO-RAT": 100,
-    "SO-CEXP": 150,
-    "SO-PI": 500,
-    "SO-ABK": 500,
-    "SO-CONST": 700
+    "SO-AIF": [
+     700,
+     [
+      "KAM/Certificate/Arith/Interface.lean"
+     ]
+    ],
+    "SO-RAT": [
+     100,
+     [
+      "KAM/Certificate/Arith/Rat.lean"
+     ]
+    ],
+    "SO-CEXP": [
+     150,
+     [
+      "KAM/Certificate/Arith/ComplexExp.lean"
+     ]
+    ],
+    "SO-PI": [
+     500,
+     [
+      "KAM/Certificate/Arith/PiHigh.lean"
+     ]
+    ],
+    "SO-ABK": [
+     500,
+     [
+      "KAM/Certificate/Arith/Fixed.lean"
+     ]
+    ],
+    "SO-CONST": [
+     700,
+     [
+      "KAM/Certificate/Constants.lean"
+     ]
+    ]
    }
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.FOURIER",
+   "group": "Track SO, part 1: general Lean certificate checker",
+   "id": "SO1.FOURIER",
    "title": "Exact Fourier data and Fourier models: packed products checked against advice, model algebra, exponential and inverse witnesses",
    "difficulty": "VH",
    "so_packages": {
-    "SO-PBASE": 800,
-    "SO-POLY-A": 550,
-    "SO-POLY-B": 700,
-    "SO-MALG": 750,
-    "SO-EXPW": 850
+    "SO-PBASE": [
+     800,
+     [
+      "KAM/Certificate/Poly/Basic.lean",
+      "KAM/Certificate/Model/Basic.lean"
+     ]
+    ],
+    "SO-POLY-A": [
+     550,
+     [
+      "KAM/Certificate/Poly/Packed.lean",
+      "KAM/Certificate/Arith/Mantissa.lean"
+     ]
+    ],
+    "SO-POLY-B": [
+     700,
+     [
+      "KAM/Certificate/Poly/Advice.lean",
+      "KAM/Certificate/Poly/MulPacked.lean"
+     ]
+    ],
+    "SO-MALG": [
+     750,
+     [
+      "KAM/Certificate/Model/Ops.lean"
+     ]
+    ],
+    "SO-EXPW": [
+     850,
+     [
+      "KAM/Certificate/Model/Exp.lean",
+      "KAM/Certificate/Model/Inv.lean"
+     ]
+    ]
    }
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.EXPR",
+   "group": "Track SO, part 1: general Lean certificate checker",
+   "id": "SO1.EXPR",
    "title": "Hamiltonians as expressions: semantics, symbolic jets to third order, certified ball evaluation, norm bridges",
    "difficulty": "H",
    "so_packages": {
-    "SO-EXPR-A": 600,
-    "SO-EXPR-B1": 550,
-    "SO-EXPR-B2": 550,
-    "SO-BALL": 500,
-    "SO-NORM": 400
+    "SO-EXPR-A": [
+     600,
+     [
+      "KAM/Certificate/Expr/Basic.lean"
+     ]
+    ],
+    "SO-EXPR-B1": [
+     550,
+     [
+      "KAM/Certificate/Expr/Slp.lean",
+      "KAM/Certificate/Expr/Diff.lean"
+     ]
+    ],
+    "SO-EXPR-B2": [
+     550,
+     [
+      "KAM/Certificate/Expr/DiffCalculus3.lean"
+     ]
+    ],
+    "SO-BALL": [
+     500,
+     [
+      "KAM/Certificate/Expr/Ball.lean"
+     ]
+    ],
+    "SO-NORM": [
+     400,
+     [
+      "KAM/Certificate/NormBridge.lean"
+     ]
+    ]
    }
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.MATRIX",
+   "group": "Track SO, part 1: general Lean certificate checker",
+   "id": "SO1.MATRIX",
    "title": "Matrix certificates: approximate inverses, embeddings, Gram and torsion checks, positivity",
    "difficulty": "H",
    "so_packages": {
-    "SO-MINV": 300,
-    "SO-EMB": 830,
-    "SO-MAT": 630,
-    "SO-TORS": 1040,
-    "SO-POS": 350
+    "SO-MINV": [
+     300,
+     [
+      "KAM/Certificate/MatrixInv.lean"
+     ]
+    ],
+    "SO-EMB": [
+     830,
+     [
+      "KAM/Certificate/Embedding.lean"
+     ]
+    ],
+    "SO-MAT": [
+     630,
+     [
+      "KAM/Certificate/Gram.lean"
+     ]
+    ],
+    "SO-TORS": [
+     1040,
+     [
+      "KAM/Certificate/Torsion/Frame.lean",
+      "KAM/Certificate/Torsion/Models.lean"
+     ]
+    ],
+    "SO-POS": [
+     350,
+     [
+      "KAM/Certificate/Positivity.lean"
+     ]
+    ]
    }
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.CHECK",
+   "group": "Track SO, part 1: general Lean certificate checker",
+   "id": "SO1.CHECK",
    "title": "The certificate, the checker and its soundness theorem through the sealed isoenergetic theorem; toy and negative tests",
    "difficulty": "VH",
    "so_packages": {
-    "SO-DEFS": 600,
-    "SO-SOUND": 1400,
-    "SO-TEST": 450
+    "SO-DEFS": [
+     600,
+     [
+      "KAM/Certificate/Defs.lean"
+     ]
+    ],
+    "SO-SOUND": [
+     1400,
+     [
+      "KAM/Certificate/Soundness.lean"
+     ]
+    ],
+    "SO-DIO3": [
+     350,
+     [
+      "KAM/Certificate/CubicDiophantine.lean"
+     ]
+    ],
+    "SO-TEST": [
+     450,
+     [
+      "KAM/Certificate/Tests/Toy2.lean",
+      "KAM/Certificate/Tests/Toy3.lean"
+     ]
+    ]
    }
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.LUNAR",
-   "title": "Lunar client: model, Diophantine frequencies, clock, barriers, rotated frame, graph inversion, confinement theorem",
+   "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
+   "id": "SO2.PLAN",
+   "title": "Plan and owner rulings O1–O5: momentum window, rotated frame, parameter package R1 (confirmed with enclosed numbers), data packaging option A",
+   "difficulty": "M",
+   "done": 1.0,
+   "note": "SO-GEN2: threshold 10^-74.7, about 8.5k terms per torus; SO-ADVCOUNT: about 4 MB of advice per torus"
+  },
+  {
+   "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
+   "id": "SO2.MODEL",
+   "title": "Lunar model: the spin–orbit Hamiltonian, Diophantine lunar frequencies, clock, rotated frame",
    "difficulty": "H",
    "so_packages": {
-    "SO-MODEL": 600,
-    "SO-DIO": 300,
-    "SO-DIO3": 350,
-    "SO-CLOCK": 400,
-    "SO-FREQ": 350,
-    "SO-CONF": 600,
-    "SO-GRAPHM": 600,
-    "SO-HAMX": 200,
-    "SO-ROT": 300,
-    "SO-ROTDIO": 150,
-    "SO-RFREQ": 100,
-    "SO-GRAPHR": 300,
-    "SO-GRAPH": 500,
-    "SO-LUNAR": 400
+    "SO-MODEL": [
+     600,
+     [
+      "KAM/SpinOrbit/Model.lean",
+      "KAM/SpinOrbit/Hamiltonian.lean"
+     ]
+    ],
+    "SO-DIO": [
+     300,
+     [
+      "KAM/Certificate/QuadraticDiophantine.lean"
+     ]
+    ],
+    "SO-CLOCK": [
+     400,
+     [
+      "KAM/Certificate/Clock.lean"
+     ]
+    ],
+    "SO-FREQ": [
+     350,
+     [
+      "KAM/Certificate/Freq.lean",
+      "KAM/SpinOrbit/Freq.lean"
+     ]
+    ],
+    "SO-HAMX": [
+     200,
+     [
+      "KAM/SpinOrbit/HamExpr.lean"
+     ]
+    ],
+    "SO-ROT": [
+     300,
+     [
+      "KAM/SpinOrbit/Rotated.lean"
+     ]
+    ],
+    "SO-ROTDIO": [
+     150,
+     [
+      "KAM/Certificate/DiophantineTransfer.lean"
+     ]
+    ],
+    "SO-RFREQ": [
+     100,
+     [
+      "KAM/SpinOrbit/RotFreq.lean"
+     ]
+    ]
    }
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.DATA",
-   "title": "Numerical candidates and certificate data: generator, rotated-frame package R1, advice emitter, data shards and their kernel replay",
+   "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
+   "id": "SO2.BARRIER",
+   "title": "Confinement: two invariant barriers confine every solution for all time; graph inversion of an exact torus in both frames; certified graphs",
    "difficulty": "H",
    "so_packages": {
-    "SO-GEN": 600,
-    "SO-GEN2": 600,
-    "SO-DATA": 1500
+    "SO-CONF": [
+     600,
+     [
+      "KAM/SpinOrbit/Barrier.lean"
+     ]
+    ],
+    "SO-GRAPHM": [
+     600,
+     [
+      "KAM/SpinOrbit/Graph/Inverse.lean"
+     ]
+    ],
+    "SO-GRAPHR": [
+     300,
+     [
+      "KAM/SpinOrbit/Graph/Rot.lean"
+     ]
+    ],
+    "SO-GRAPH": [
+     500,
+     [
+      "KAM/SpinOrbit/Graph/Cert.lean"
+     ]
+    ]
    }
   },
   {
-   "group": "Track SO (lunar spin–orbit certificate)",
-   "id": "SO.FREEZE",
-   "title": "Owner approval of the final SO statements, freeze, and seal",
+   "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
+   "id": "SO2.DATA",
+   "title": "Numerical candidates and certificate data: generator, rotated-frame package R1, advice emitter, Lean data modules and their kernel replay",
+   "difficulty": "H",
+   "so_packages": {
+    "SO-GEN": [
+     600,
+     [
+      "scripts/spin_orbit/run_hp.py"
+     ]
+    ],
+    "SO-GEN2": [
+     600,
+     [
+      "scripts/spin_orbit/rot_build.py"
+     ]
+    ],
+    "SO-DATA-PY": [
+     600,
+     [
+      "scripts/spin_orbit/sodata_emit.py"
+     ]
+    ],
+    "SO-DATA": [
+     900,
+     [
+      "KAM/SpinOrbit/Data"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
+   "id": "SO2.LUNAR",
+   "title": "The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within 3.3 % of its orbital rate for all time",
+   "difficulty": "H",
+   "so_packages": {
+    "SO-R1": [
+     200,
+     [
+      "KAM/SpinOrbit/LunarParams.lean"
+     ]
+    ],
+    "SO-LUNAR": [
+     400,
+     [
+      "KAM/SpinOrbit/LunarConfinement.lean"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
+   "id": "SO2.FREEZE",
+   "title": "Owner approval of the final statement, freeze, and seal",
    "difficulty": "M",
    "done": 0.0,
-   "note": "the final statements are approved by the owner before freezing"
+   "note": "the final statement is approved by the owner before freezing"
   }
  ]
 }

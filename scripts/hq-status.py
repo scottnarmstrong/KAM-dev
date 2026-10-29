@@ -31,16 +31,25 @@ if xp.exists():
     ids = {it['id'] for it in progress['items']}
     progress['items'] = progress['items'] + [it for it in json.loads(xp.read_text())['items'] if it['id'] not in ids]
 # Track SO (D30): its items take their done fraction from the design's package line estimates and the landed list.
-SO_GROUP = 'Track SO (lunar spin–orbit certificate)'
+# 2026-10-29: in two parts (owner); a package counts as landed when all its files exist on main (no hand-kept list).
+SO_GROUPS = ['Track SO, part 1: general Lean certificate checker',
+             "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)"]
+SO_PARTS = {}
 xp = root / 'docs/campaign/progress-SO.json'
 if xp.exists():
-    landed = set(campaign.get('so', {}).get('landed', []))
     for it in json.loads(xp.read_text())['items']:
         if 'so_packages' in it:
             pk = it['so_packages']
-            it['done'] = sum(v for k, v in pk.items() if k in landed) / sum(pk.values())
-            it['note'] = 'landed: ' + (', '.join(k for k in pk if k in landed) or 'none') + ' (of ' + ', '.join(pk) + ')'
+            here = {k for k, (_, fs) in pk.items() if all((root / f).exists() for f in fs)}
+            part = SO_PARTS.setdefault(it['group'], {'landed': [], 'packages': []})
+            part['packages'] += list(pk)
+            part['landed'] += [k for k in pk if k in here]
+            it['done'] = sum(v[0] for k, v in pk.items() if k in here) / sum(v[0] for v in pk.values())
+            it['note'] = 'landed: ' + (', '.join(k for k in pk if k in here) or 'none') + ' (of ' + ', '.join(pk) + ')'
         progress['items'].append(it)
+    if 'so' in campaign:
+        campaign['so']['landed'] = [k for p in SO_PARTS.values() for k in p['landed']]
+        campaign['so']['packages'] = [k for p in SO_PARTS.values() for k in p['packages']]
 
 
 def graph_counts(graph, parts=('',)):
@@ -293,12 +302,18 @@ def so_glance():
             sfx = s[len(pre):]
             if s.startswith(pre) and (sfx.startswith('so') or sfx == 'design-so') and pane_state(s) == '🔄 working':
                 flight[pre].add(so_package(sfx))
-    landed = so['landed']
-    out = [f'**Track SO, lunar spin–orbit certificate** (D30, started 2026-10-29; '
-           f'[plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)): {so["goal"]}', '',
-           f'- **Lean on `main`:** {n} modules · {lines:,} lines · {thms:,} theorems in `KAM/Certificate` and '
-           f'`KAM/SpinOrbit` (design estimate {so["planned_lines"]})',
-           f'- **Packages landed: {len(landed)} / {len(so["packages"])}** ({", ".join(landed)})']
+    nc, lc, tc = lean_stats([root / 'KAM' / 'Certificate'])
+    ns, ls, ts = lean_stats([root / 'KAM' / 'SpinOrbit'])
+    p1, p2 = (SO_PARTS.get(g, {'landed': [], 'packages': []}) for g in SO_GROUPS)
+    out = [f'**Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in two parts:', '',
+           '- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians '
+           'given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an '
+           f'exact invariant torus. `KAM/Certificate`: {nc} modules · {lc:,} lines. '
+           f'**Packages landed: {len(p1["landed"])} / {len(p1["packages"])}**.',
+           "- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays "
+           'within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: '
+           f'{ns} modules · {ls:,} lines. **Packages landed: {len(p2["landed"])} / {len(p2["packages"])}**.',
+           f'- Design estimate for both: {so["planned_lines"]}; landed: {", ".join(so["landed"])}.']
     if flight['inp-mprov-'] or flight['inp-maud-']:
         out.append(f'- **Now:** proving {", ".join(sorted(flight["inp-mprov-"])) or "—"} · '
                    f'in audit {", ".join(sorted(flight["inp-maud-"])) or "—"}')
@@ -415,8 +430,8 @@ TRACKS = [
                  'three-body problem'),
     ('N', 'nekhoroshev', 'Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n)'),
     ('P', 'planetary', 'Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun'),
-    ('SO', 'so', 'A general Lean certificate checker turning numerical KAM tori into theorems; the Moon\'s spin '
-                 'rate stays within 3.3% of its orbital rate for all time'),
+    ('SO-1', 'so', 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
+    ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within 3.3% of its orbital rate for all time'),
 ]
 
 
@@ -466,19 +481,21 @@ def completion(rows):
     if rows:
         sealed = sum(1 for r in rows if r[4] == 'sealed')
         groups['Sealing of the frozen statements'] = [float(len(rows)), float(sealed), len(rows)]
-    if SO_GROUP in groups:  # list track SO after the sealing row, just before the total
-        groups[SO_GROUP] = groups.pop(SO_GROUP)
+    for g in SO_GROUPS:  # list track SO's two parts after the sealing row, just before the total
+        if g in groups:
+            groups[g] = groups.pop(g)
     total = sum(g[0] for g in groups.values())
     done = sum(g[1] for g in groups.values())
     return 100 * done / total, groups, total, done
 
 
 def completion_split(rows):
-    """(original project %, track SO %, overall %): the original project is every group except track SO."""
+    """(original project %, SO checker %, SO Moon %, overall %): the original project is every group except SO."""
     pct, groups, total, done = completion(rows)
-    so = groups.get(SO_GROUP, [0.0, 0.0, 0])
-    orig = 100 * (done - so[1]) / (total - so[0])
-    return orig, (100 * so[1] / so[0] if so[0] else 0.0), pct
+    parts = [groups.get(g, [0.0, 0.0, 0]) for g in SO_GROUPS]
+    orig = 100 * (done - sum(p[1] for p in parts)) / (total - sum(p[0] for p in parts))
+    so1, so2 = (100 * p[1] / p[0] if p[0] else 0.0 for p in parts)
+    return orig, so1, so2, pct
 
 
 def loc(dirs):
@@ -575,8 +592,8 @@ def section_size(rows):
     # packages (the Python generator packages excluded); the rate-based figure above then covers the other tracks.
     so_on_main = loc([root / 'KAM' / 'Certificate', root / 'KAM' / 'SpinOrbit'])[0]
     landed = set(campaign.get('so', {}).get('landed', []))
-    so_left = sum(v for it in progress['items'] for k, v in it.get('so_packages', {}).items()
-                  if k not in landed and k not in ('SO-GEN', 'SO-GEN2'))
+    so_left = sum(v[0] for it in progress['items'] for k, v in it.get('so_packages', {}).items()
+                  if k not in landed and not v[1][0].startswith('scripts/'))
     if rate_based and so_on_main:
         est = (total - so_on_main + unl) / lean_done * sum(w[it['difficulty']] for it in lean) + so_on_main + so_left
     how = ('scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work '
@@ -602,22 +619,24 @@ def bar(pct, n=25):
 
 
 def section_updated(rows, est):
-    orig, so, pct = completion_split(rows)
+    orig, so1, so2, pct = completion_split(rows)
     sealed = sum(1 for r in rows if r[4] == 'sealed')
     total = loc(LIB)[0]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
-            f'**estimated completion: original project {orig:.1f} % · track SO {so:.0f} %** · '
+            f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} %** · '
             f'frozen statements proved: {sealed} / {len(rows)} · '
             f'**{total:,} lines of Lean** of an estimated ≈ {round(est, -3):,.0f}')
 
 
 def section_progress(rows):
     pct, groups, total, done = completion(rows)
-    orig, so, _ = completion_split(rows)
-    out = [f'### Estimated completion: original project **{orig:.1f} %** · track SO **{so:.0f} %**', '',
+    orig, so1, so2, _ = completion_split(rows)
+    out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
+           f'SO Moon **{so2:.0f} %**', '',
            f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
-           f'Track SO (lunar spin–orbit certificate, started 2026-10-29): `{bar(so)}` {so:.1f} %', '',
-           f'Overall, both together: {pct:.1f} %', '',
+           f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
+           f"Track SO, part 2, the Moon's spin rate (its first client): `{bar(so2)}` {so2:.1f} %", '',
+           f'Overall, everything together: {pct:.1f} %', '',
            '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
     for name, (wt, dn, n) in groups.items():
         out.append(f'| {name} | {n} | {wt:.0f} | {dn:.1f} | `{bar(100 * dn / wt, 10)}` {100 * dn / wt:.0f} % |')
