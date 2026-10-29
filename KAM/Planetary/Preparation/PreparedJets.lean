@@ -155,6 +155,121 @@ theorem p11_prin_g2_jet_log (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu
         gcongr
     _ = _ := by rw [mul_pow]; ring
 
+theorem p11_prin_K1_le (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) :
+    p11K1 C eps ≤ 6 / (Real.pi * C.sigma) * Real.log (1 / eps) := by
+  obtain ⟨-, -, -, -, -, hσ0, -, -, -, hMF⟩ := fast_consts hC
+  have hM0 : 0 < C.MF := by linarith
+  have hℓ : Real.log (1 / (eps * C.MF)) ≤ Real.log (1 / eps) := by
+    rw [one_div, one_div, Real.log_inv, Real.log_inv, Real.log_mul heps.ne' hM0.ne']
+    have := Real.log_nonneg hMF
+    linarith
+  exact mul_le_mul_of_nonneg_left hℓ (by positivity)
+
+/-- `s₁⁻¹ ≤ k ℓ^{τ₀+1}`. -/
+theorem p11_prin_s1_inv (hC : P11SecularSpec D C) :
+    ∃ k : ℝ, 0 < k ∧ ∀ {eps : ℝ}, 0 < eps → eps * C.MF ≤ Real.exp (-1) →
+      (p11s1 C eps)⁻¹ ≤ k * Real.log (1 / eps) ^ (C.tau + 1) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, -, -, hMF⟩ := fast_consts hC
+  have hL0 : 0 < C.L := by linarith
+  have hA : 0 < min C.rC (C.gamma / (4 * C.L)) := lt_min hrC0 (by positivity)
+  refine ⟨(6 / (Real.pi * C.sigma)) ^ (C.tau + 1) / min C.rC (C.gamma / (4 * C.L)),
+    by have := Real.rpow_pos_of_pos (show 0 < 6 / (Real.pi * C.sigma) by positivity) (C.tau + 1)
+       positivity, ?_⟩
+  intro eps heps hεM
+  have hl0 : 0 < Real.log (1 / eps) := by linarith [slow_log_ge_one hC heps hεM]
+  have hq : 0 < Real.log (1 / eps) ^ (C.tau + 1) := Real.rpow_pos_of_pos hl0 _
+  have hX : 0 < (6 / (Real.pi * C.sigma)) ^ (C.tau + 1) :=
+    Real.rpow_pos_of_pos (by positivity) _
+  have h := p11s1_log_lower hC heps hεM
+  have h2 := inv_anti₀ (by positivity) h
+  refine h2.trans (le_of_eq ?_)
+  field_simp
+
+/-- `(1/α₁)` grows at most like `ℓ^{τ₀}`. -/
+theorem p11_prin_alpha1_inv (hC : P11SecularSpec D C) :
+    ∃ k : ℝ, 0 < k ∧ ∀ {eps : ℝ}, 0 < eps → eps * C.MF ≤ Real.exp (-1) →
+      (p11Alpha1 C eps)⁻¹ ≤ k * Real.log (1 / eps) ^ C.tau := by
+  obtain ⟨hγ0, hτ0, -, -, -, hσ0, -, -, -, -⟩ := fast_consts hC
+  have hc : 0 < 6 / (Real.pi * C.sigma) := by positivity
+  refine ⟨2 / C.gamma * (6 / (Real.pi * C.sigma)) ^ C.tau,
+    by have := Real.rpow_pos_of_pos hc C.tau; positivity, ?_⟩
+  intro eps heps hεM
+  have hl0 : 0 < Real.log (1 / eps) := by linarith [slow_log_ge_one hC heps hεM]
+  have hK1 := p11K1_ge_one hC heps hεM
+  have hK0 : 0 < p11K1 C eps := by linarith
+  have hKl := p11_prin_K1_le hC heps hεM
+  have h1 : p11K1 C eps ^ C.tau ≤
+      (6 / (Real.pi * C.sigma)) ^ C.tau * Real.log (1 / eps) ^ C.tau := by
+    rw [← Real.mul_rpow hc.le hl0.le]; exact Real.rpow_le_rpow hK0.le hKl hτ0.le
+  have : (p11Alpha1 C eps)⁻¹ = 2 / C.gamma * p11K1 C eps ^ C.tau := by
+    unfold p11Alpha1
+    rw [Real.rpow_neg hK0.le]; field_simp
+  rw [this]
+  calc _ ≤ 2 / C.gamma * ((6 / (Real.pi * C.sigma)) ^ C.tau * Real.log (1 / eps) ^ C.tau) :=
+        mul_le_mul_of_nonneg_left h1 (by positivity)
+    _ = _ := by ring
+
+/-- `(1/d₁)` grows at most like `ℓ^{τ₀+1}`. -/
+theorem p11_prin_d1_inv (hC : P11SecularSpec D C) :
+    ∃ k : ℝ, 0 < k ∧ ∀ {eps : ℝ}, 0 < eps → eps * C.MF ≤ Real.exp (-1) →
+      (p11d1 C eps)⁻¹ ≤ k * Real.log (1 / eps) ^ (C.tau + 1) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨k, hk, hs1⟩ := p11_prin_s1_inv hC
+  refine ⟨k / C.sigma + (C.rz ^ 2)⁻¹, by positivity, ?_⟩
+  intro eps heps hεM
+  have hl1 := slow_log_ge_one hC heps hεM
+  have hl0 : 0 < Real.log (1 / eps) := by linarith
+  have hq1 : 1 ≤ Real.log (1 / eps) ^ (C.tau + 1) := Real.one_le_rpow hl1 (by linarith)
+  have hs := (slow_pos hC (nu := 1) le_rfl heps hεM).2.1
+  have hd : 0 < p11d1 C eps := lt_min (by positivity) (by positivity)
+  have hmin : (p11d1 C eps)⁻¹ ≤ (p11s1 C eps * C.sigma)⁻¹ + (C.rz ^ 2)⁻¹ := by
+    unfold p11d1
+    rcases min_choice (p11s1 C eps * C.sigma) (C.rz ^ 2) with h | h <;> rw [h]
+    · have : 0 ≤ (C.rz ^ 2)⁻¹ := by positivity
+      linarith
+    · have : 0 ≤ (p11s1 C eps * C.sigma)⁻¹ := by positivity
+      linarith
+  refine hmin.trans ?_
+  have h1 : (p11s1 C eps * C.sigma)⁻¹ ≤ k / C.sigma * Real.log (1 / eps) ^ (C.tau + 1) := by
+    calc (p11s1 C eps * C.sigma)⁻¹ = (p11s1 C eps)⁻¹ * C.sigma⁻¹ := mul_inv _ _
+      _ ≤ (k * Real.log (1 / eps) ^ (C.tau + 1)) * C.sigma⁻¹ :=
+          mul_le_mul_of_nonneg_right (hs1 heps hεM) (by positivity)
+      _ = _ := by ring
+  have h2 : (C.rz ^ 2)⁻¹ ≤ (C.rz ^ 2)⁻¹ * Real.log (1 / eps) ^ (C.tau + 1) :=
+    le_mul_of_one_le_right (by positivity) hq1
+  nlinarith
+
+/-- Step pr-in: `η₁ ≤ c ε ℓ^{2τ₀+1}`. -/
+theorem p11_prin_eta1_le (hC : P11SecularSpec D C) :
+    ∃ k : ℝ, 0 < k ∧ ∀ {eps : ℝ}, 0 < eps → eps * C.MF ≤ Real.exp (-1) →
+      p11eta1 C eps ≤ k * eps * Real.log (1 / eps) ^ (2 * C.tau + 1) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨ka, hka, ha⟩ := p11_prin_alpha1_inv hC
+  obtain ⟨kd, hkd, hd⟩ := p11_prin_d1_inv hC
+  refine ⟨400 * (1 + n) * C.MF ^ 2 / (2 * Real.pi) * (ka * kd), by positivity, ?_⟩
+  intro eps heps hεM
+  have hl0 : 0 < Real.log (1 / eps) := by linarith [slow_log_ge_one hC heps hεM]
+  have hK1 := p11K1_ge_one hC heps hεM
+  have hK0 : 0 < p11K1 C eps := by linarith
+  have hα : 0 < p11Alpha1 C eps := by
+    unfold p11Alpha1; have := Real.rpow_pos_of_pos hK0 (-C.tau); positivity
+  have hs := (slow_pos hC (nu := 1) le_rfl heps hεM).2.1
+  have hd0 : 0 < p11d1 C eps := lt_min (by positivity) (by positivity)
+  have e : p11eta1 C eps = 400 * (1 + n) * C.MF ^ 2 / (2 * Real.pi) * eps *
+      ((p11Alpha1 C eps)⁻¹ * (p11d1 C eps)⁻¹) := by
+    unfold p11eta1; field_simp
+  rw [e]
+  have hprod := mul_le_mul (ha heps hεM) (hd heps hεM) (by positivity) (by positivity)
+  have hpow : Real.log (1 / eps) ^ (2 * C.tau + 1) =
+      Real.log (1 / eps) ^ C.tau * Real.log (1 / eps) ^ (C.tau + 1) := by
+    rw [← Real.rpow_add hl0]; congr 1; ring
+  rw [hpow]
+  calc _ ≤ 400 * (1 + n) * C.MF ^ 2 / (2 * Real.pi) * eps *
+        (ka * Real.log (1 / eps) ^ C.tau * (kd * Real.log (1 / eps) ^ (C.tau + 1))) := by
+        gcongr
+    _ = _ := by ring
+
 end PrIn
 
 end KAM.Planetary
