@@ -58,6 +58,7 @@ public import KAM.Certificate.Arith.Transcendental
 public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
 public import KAM.Certificate.CubicDiophantine
+public import KAM.Certificate.Defs
 public import KAM.Certificate.DiophantineTransfer
 public import KAM.Certificate.Embedding
 public import KAM.Certificate.Expr.Ball
@@ -93,6 +94,7 @@ public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Tests.Ball
 public import KAM.Certificate.Tests.ComplexExp
 public import KAM.Certificate.Tests.Compose
+public import KAM.Certificate.Tests.Defs
 public import KAM.Certificate.Tests.Gram
 public import KAM.Certificate.Tests.Model
 public import KAM.Certificate.Tests.Packed
