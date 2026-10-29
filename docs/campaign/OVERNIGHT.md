@@ -901,3 +901,32 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   bpN:p10:hypotheses-check; graphs I, N and P have no open node (N: 658 PROVED, 48 EXTERNAL, 21 BYPASSED, 1 ASSUMED;
   P: 1191 / 147 / 23 / 2; I: 372 / 72 / 6), manifest 144 / 144 SEALED. SO-POLY-B (advice-checked packed products, F12-F14
   closed in implementation) landed; SO-MALG proving on top of it.
+- **17:48. Heartbeat.** Two provers (SO-MALG, I-GUARDS): the remaining SO packages chain through SO-MALG's definitions, so nothing else is dependency-ready; after SO-MALG: SO-EXPW and SO-POS in parallel. Release preparation of the completed original project awaits the owner.
+- **18:45. SO-MALG done (model algebra, 12 signed declarations, about 1,450 lines; kernel 1.5–4 ms per term) and in
+  audit; SO-EXPW (exp and reciprocal witnesses, Opus) and SO-POS (positivity) started on top of it.** SO-MALG's design
+  signals, recorded for later packages: (1) per-term weights dominate kernel cost; levers (one weight per operation,
+  a weight table, caching slot norms in SO-EMB) to be measured by SO-EMB/SO-DATA; (2) a forced accumulator is quadratic
+  in the kernel and per-term zero tests on CertFixed are slow, both removed; a positive-only `cdiv` in SO-ABK would make
+  every upward rounding 5–10x faster; (3) `cutoff = 0` keeps only the constant term: SO-TOYGEN's data uses 0 for "no
+  truncation" and must emit a real bound before SO-TEST.
+- **19:20. I-GUARDS done: the library replays clean, the landing guards had gaps (fixed).** scripts/kernel_replay.sh
+  (leanchecker; full library 32 min, 8.6 GB; fast mode for anchors, providers and implementation modules) reports
+  KERNEL-REPLAY OK. The guard mutation suite (72 mutations) found 18 accepted: native_decide / decide +native /
+  ofReduceBool, elaborators and macros, run_cmd, addDecl, skipKernelTC, sorryAx, and non-anchor imports of SEALED
+  providers. None occurs anywhere in the library (scanned). scripts/lint_sources.sh now forbids them in masked code
+  (file-local tactic macros stay allowed: they only expand syntax; elaborators, which run meta code, are forbidden) and
+  restricts provider imports to frozen anchors and the generated root (ruling 15:35). Main passes. The suite is re-run
+  against the new lint after I-GUARDS lands. Also: a post-merge hook now refreshes the README after landings (merges did
+  not trigger the post-commit hook, so the README lagged up to 20 min).
+- **19:50. Heartbeat.** SO-EXPW landed; a duplicate CertModel.mul_deg (parallel SO-POS / SO-EXPW) moved into
+  Model/Ops by kam-inp; the pre-audit name checker now also scans dotted names on sibling branches and names landed on
+  inp since a package branched. SO-EMB proving (the only dependency-ready package; SO-MAT waits on it). The mutation suite
+  re-run against the new lint is finishing; residual accepted mutations so far: `open ... in elab`, `attribute
+  [command_elab ...]` (patterns to tighten), a DRAFT_SORRY export used without import (moot: no draft anchors remain) and
+  a raised manifest seal limit (to check). codex-4 quota reset to 98 %.
+- **20:18. Heartbeat.** Landed since 19:50: SO-EXPW, SO-EMB (track SO checker 71 %). Guards: the mutation suite re-run
+  after the lint fix left three real gaps (mid-line elab, elaborator attributes with arguments, manifest seal limits),
+  all fixed and re-run 3/3 rejected; I.GUARDS done (original project 99.3 %). Owner asked to use claude-12 before its
+  21:00 reset: SO-TOYFIX (real cutoffs in the toy data), SO-ABKFAST (positive-only ceiling division in the fixed-point
+  backend), ERRATA (draft errata-and-deviations record, release preparation) and CLEANUP-PLAN (read-only release clean-up
+  plan) run on it; SO-MAT (Gram check) on claude-4.
