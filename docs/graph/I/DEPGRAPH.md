@@ -6365,9 +6365,9 @@ EDGE: bpI:p3:coordinates | blueprint-I/parts/p3-iso-local-charts.tex#bpI:p3:tori
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: tori, exists_ray_consts, part3_tori_of (KAM/Iso/Charts/Tori.lean)
-LEAN_NOTE: REVERTED to NOT_STARTED (over-claim, survey 2.5) (survey 2.5): no Lean statement covers the T1 real-analyticity and the real-theta T3 clause; GAP-I3T repairs
+LEAN_STATUS: PROVED
+LEAN_REF: tori, exists_ray_consts, part3_tori_of (KAM/Iso/Charts/Tori.lean); KAM.Iso.Confinement.TorusOutput.realRestriction_analyticOnNhd, KAM.Iso.Confinement.TorusOutput.realHamiltonian_realRestriction_eq, KAM.Iso.Charts.tori_ig1_full (KAM/Iso/Charts/ToriIG1.lean)
+LEAN_NOTE: re-closed after survey 2.5 over-claim revert: T1 real-analyticity and real-theta T3 for the tori witnesses now stated (GAP-I3T-audit-3.md:14-17,55-56,61 PASS as consequences); remaining clauses as previously audited
 NOTE: Preextract candidate edge to bpI:p0:g1 at the statement dropped: I-G1 is consumed in stepI:p3:tori-ig1 and tori-position (the statement quotes it as provenance).
 
 NODE: stepI:p3:tori-patch
@@ -6461,9 +6461,9 @@ EDGE: bpI:p3:constants | blueprint-I/parts/p3-iso-local-charts.tex#stepI:p3:tori
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Charts.tori_ig1_full (KAM/Iso/Charts/ToriIG1.lean)
+LEAN_NOTE: GAP-I3T-audit-3.md:60 PASS (round 3, PASS WITH NOTES): both signs, common constants, fixed rays, literal T1/T2/T3/T5; tori constructed from source data
 NOTE: -
 
 NODE: stepI:p3:tori-close
