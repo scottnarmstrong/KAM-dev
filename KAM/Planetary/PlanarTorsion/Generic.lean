@@ -7,7 +7,7 @@ module
 
 public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Asymptotics
-public import KAM.Planetary.PlanarTorsion.Phi4
+public import KAM.Planetary.PlanarTorsion.Birkhoff.Defs
 public import KAM.Planetary.Nondegeneracy.GoodAxes
 public import KAM.Planetary.Nondegeneracy.AnalyticZeros
 
