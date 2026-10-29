@@ -1,9 +1,10 @@
 # Lean design: the general torus-certificate black box and its lunar client (track SO)
 
-Design SO-DESIGN, **Revision 5**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
+Design SO-DESIGN, **Revision 6**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
 `d2352a2d`, audited FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-2.md`; Revision 3: `b442a912`, audited
 FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-3.md`; Revision 4: `5767956a`, audited PASS WITH NOTES in
-`docs/tracks/SO/audits/SO-DESIGN-audit-4.md`). This is planning evidence only. It claims no proof,
+`docs/tracks/SO/audits/SO-DESIGN-audit-4.md`; Revision 5: `8a08ba30`, audited FAIL (F12, F13) in
+`docs/tracks/SO/audits/SO-DESIGN-audit-5.md`). This is planning evidence only. It claims no proof,
 touches no frozen file and freezes nothing. Appendix A (the exact draft signatures, two files since
 Revision 5: engine "A-E" and lunar client "A-L") elaborates against the shared `inp` build with `sorry`
 bodies only (§9).
@@ -58,6 +59,27 @@ Revision 5 inputs (base `inp-design-so` `79ec938c`; `inp` read at `f8405551`, KA
 | `inp:KAM/Certificate/Arith/Interface.lean` | `ad54915c379aa1cea665672e250298fbcc6ca496e846a92d28d7e8b2e44287e0` |
 | `inp:KAM/Certificate/MatrixInv.lean` | `d5e94c5d279b356aed5aa6a02095772895051224416141c90b7e5e3652cec3cc` |
 | `inp:KAM/Certificate/Arith/Fixed.lean` | `c2896ac698f4f087981ff826da068ed3846ead29466dfaf3ce7c9fe2b9815a47` |
+
+## Revision 6
+
+Revision 6 is a targeted revision (base `fc1231d2`, audit 5 FAIL with F12 HIGH and F13 MEDIUM on the
+packed-product contract) that also replaces the R1 projections by SO-GEN2's measured numbers. Every other
+Revision 2–5 contract is unchanged. Inputs:
+
+| Input | SHA-256 |
+|---|---|
+| `docs/tracks/SO/audits/SO-DESIGN-audit-5.md` | `115bdb9ed25598f5d7fc4ea3ead64fde95ebccc633649c6b3dd9ee196d5b0abd` |
+| brief `SO-DESIGN-R6.md` | `44c59d2b9291c5ee75ab12b6e4ea5a43beaba2cb6cb687aded366dc35018542a` |
+| `inp-sogen2:docs/tracks/SO/studies/SO-GEN2-rotated-frame-candidates.md` (`5d18380a`) | `5b61190362c9a6ee18bc82361b3ef6547cbb2b792cbc45c26641b1731f0f18ec` |
+
+| Item | Change | Where |
+|---|---|---|
+| **F12** (HIGH) anti-carry | The untrusted advice is now validated explicitly. New A-E §B′ "Untrusted-advice validation": `reconSlots` (`2^scale·r + e` slotwise) with `packSum_reconSlots`; the runtime guard **`reconFits w scale logs r`** (concrete, decidable: `2(2^scale|r_i| + 2^(logs i)) < 2^w` on every advice slot), with `slotsBounded_reconSlots`; the exact shard convolution `shardConv L A B s` (`shardConv_length`, `packSum_shardConv`) and its fit test `shardFits` (`slotsBounded_shardConv`); and **`shard_reconstruct`**, whose premises are only checkable guards (block lengths, `shardFits`, `reconFits`, advice length, a passing `intSlotsBound`): BOTH the exact shard convolution and the reconstruction lie in the injective range, so `packSum_injective` gives slotwise `|conv_i − 2^scale r_i| ≤ 2^(logs i)`. `PackedAdvice.{blockLen, cut, cut_length, shardLogs}` name the blocks and per-slot logs; **`PackedAdvice.shapeOK`** (decidable) checks positive width and `blockRows`, `compat`, equal widths, the target a sub-box of the product window, advice window lengths `2·blockLen − 1`, and **zero advice outside the target box and beyond the product window** (no unchecked high slots). `checkShard` now contains the length checks, `shardFits`, `reconFits` and the decode; **`checkShard_sound`** has the check as its only premise. **`checkPackedProduct_guards`** exports `1 ≤ scale`, `shapeOK`, `0 < blockLen`, the shard count and every `checkShard` from success. `checkPackedProduct_sound` is unchanged in statement (its only premise was and is the check), now with an explicit route. Audit 5's counterexample is §8 negative test P2: `packSum_audit5_cancel : packSum 4 [16, -1, 0] = 0` and `reconFits_audit5_rejects : reconFits 4 1 (fun _ => 0) [16, -1, 0] = false`, both **proved by `decide`** in the draft. | §1.16, §5, §8; A-E §B′ |
+| **F13** (MEDIUM) `scale = 0` | `shapeOK` (hence `checkPackedProduct`) requires `1 ≤ scale`; exported by `checkPackedProduct_guards`; contract `checkPackedProduct_scale_zero` (`scale = 0 ⇒ false`, any data). The public theorems stay unconditional in the data. §8 adds the positive-scale overlap test (P3) and the scale-0 test (P4, audit 5's blocks). | §1.16, §8; A-E §B′ |
+| SO-POLY-A stability | **No SO-POLY-A signature changes.** `packSum`, `packShift`, `packShift_eq`, `SlotsBounded`, `packSum_injective`, `listConv`, `packSum_listConv`, `convFits`, `slotsBounded_listConv`, `packSum_flatten_mul_shards`, `intSlotsBound`, `intSlotsBound_sound` and the `PackLayout`/`PackedAdvice` structures are byte-identical to Revision 5. Every new declaration above belongs to SO-POLY-B. Changed in SO-POLY-B: only docstrings of `checkShard`, `checkPackedProduct`, `checkPackedProduct_sound` (types unchanged). | §7; A-E §B′ |
+| **SO-GEN2** R1 measured | `c = 237/125` (was `7/4`), `𝔪 = M = σK = σB = σT = 1987/1000` (was `39/20`; binding `σB`: the checker's weighted-ℓ¹ Gram inverse bound `1.97994`, not the projected sup ×1.05), `γ = κ/42 = 316000/7000007 = 79/(1750 s)`, enclosed threshold `10^{−74.669}`, `L = 88`, 318 bits; `e± = 4.03e-78 / 7.84e-78` (≈ 2·c·η), domain `ρ_H = 257/10000`, `P₀` disc `48769/50000 ± 191/12500` (upper torus `51231/50000 ± 1529/100000`), `P₁` disc `24983/50000 ± 127/20000`; one character witness for all seven keys with `pinHalvings = 0`, `pinOrder = 1`; torsion witness in the bordered `3×3` form (its `T` block is nearly singular). G-J: met except `B₂ ≤ 10⁻⁹⁰`, which is withdrawn (norms are enclosed on `K̃` itself). | §6; A-L §I.2, §I.4 |
+| Grid-sup Gram sub-check | NOT adopted (orchestrator decision, 15:06). Possible later improvement: package R1grid (`c = 1757/1000`, `𝔪 = 1841/1000`, `10^{−73.588}`, about one order of threshold). | §6, §11 |
+| Landed since R5 | `HamExpr.jet_d3` landed verbatim (SO-EXPR-B2); its draft copy is removed. | A-E §D |
 
 ## Revision 5
 
@@ -257,8 +279,12 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
     integer mantissas (untrusted decoder `cfg.toMant`, each value re-verified by `mantCheck`), packs
     them by shifts into one integer per block of 32 rows (`w = 2·bits + 16`), and checks every shard
     with one kernel multiplication per block pair: `Σ_{i+j=s} pack(A_i) pack(B_j) − 2^scale pack(r_s)`
-    must decode to bounded slots. Soundness chain: `packShift_eq` → `packSum_listConv` (Kronecker) and
-    `packSum_flatten_mul_shards` (shards) → `intSlotsBound_sound` + `packSum_injective` (decoding) →
+    must decode to bounded slots. **Revision 6 (F12, F13):** the advice is untrusted, so each shard also
+    checks `shardFits` (exact side) and `reconFits` (advice side, `2^scale·r + e`) to put both lists in
+    the injective range, and `shapeOK` checks `1 ≤ scale`, layouts, advice lengths and zero advice off
+    the target; all are exported from success (`checkShard_sound`, `checkPackedProduct_guards`).
+    Soundness chain: `packShift_eq` → `packSum_listConv` (Kronecker) and
+    `packSum_flatten_mul_shards` (shards) → `intSlotsBound_sound` + `shard_reconstruct` (decoding) →
     `checkPackedProduct_sound` (slot remainders) → `PackLayout.intEval_mul` + `toMants_sound` +
     `ofDyadic_sound` → `CertPoly.mulPacked_sound` (strip enclosure of the exact product) →
     `CertModel.Encloses.mul` (unchanged meaning). A missing or failing advice falls back to the crude
@@ -437,7 +463,7 @@ on the headline route.
   `soRotHamExpr = P₁ + (P₀²/2 − P₀) + Σ_{m=1}^{7} (−ε A_m) cos 2π(2Q₀ + (2 − m)Q₁)` (modes
   `(2, 2 − m)`; the `m = 2` mode does not depend on `Q₁`), division-free, `soRotHamExpr_eval`
   against the landed `soHC`, clock `∂_{P₁} H' ≡ 1` (`soRotHamExpr_clock`, direction `inr 1`). R1's
-  time scale `c = 7/4` (CONSTANTS-STUDY P4) enters as `soRotHamExprScaled c = c · H'` (clock
+  time scale `c = 237/125` (SO-GEN2, measured; Revision 5 projected `7/4`) enters as `soRotHamExprScaled c = c · H'` (clock
   derivative `c`); `invarianceError_const_mul` moves an exact torus of `c·H'` at `s∞ ω*` to one of
   `H'` at `(s∞/c) ω*`.
 - **Frequencies.** `ω*± = κ (ν± − 1, 1)` with `κ = c/s` (`lunarRotFreq`), so the candidate's torus
@@ -449,19 +475,34 @@ on the headline route.
   `lunarNu±_rot_isDiophantine : IsDiophantine (1/42) 1 ![ν± − 1, 1]` (and `1/84` for the half
   vectors, unused by R1), and scaling by `κ` gives
   **`IsDiophantine (κ/42) 1 ω*±`** (`isDiophantine_smul`, `lunarRotFreq{Minus,Plus}_isDiophantine`).
-  The constant is `κ/42 = 125000/3000003 = 1/(24 s)` at R1 (CONSTANTS-STUDY: numerical infimum
+  The constant is `κ/42 = 316000/7000007 = 79/(1750 s)` at R1 (Revision 6) (CONSTANTS-STUDY: numerical infimum
   `α = 0.02462` at `k = (1, 0)`, proved `1/42`, −1.20 orders against `1/21`).
 - **Parameter package R1** (`lunarR1 err disp`, rationals): `n = 2`, `τ = 1`, `ρ = 1/70`,
-  `ρ∞ = 1/70000`, `μ = 1/160`, `M = σK = σB = σT = 39/20` (= 𝔪, sharp certified majorants ×1.05),
-  `σω = 2`, `ν = 10⁻⁶`, `s = 1 + 10⁻⁶`, `γ = γ̄ = κ/42`, `E₀ = 0`, time scale `7/4`. Ray margins:
-  `ν ≤ (s − 1)‖ω*‖` and `ν ≤ (σω − s)‖ω*‖` hold with `‖ω*‖ = κ ≈ 1.75`. Projected threshold
-  `10^{−74.51}` (R2, with pilot-loose majorants: `10^{−80.29}`). `err` and `disp` per torus are named
+  `ρ∞ = 1/70000`, `μ = 1/160`, `M = σK = σB = σT = 1987/1000` (= 𝔪, Revision 6: SO-GEN2's
+  certified majorants; binding `σB − μ ≥ 1.97994`, the weighted-ℓ¹ Gram inverse; also `M ≥ c·M₁ =
+  1.98625`, `σK − μ ≥ 1.3604`, `σT − μ ≥ 1.0225/c`), `σω = 2`, `ν = 10⁻⁶`, `s = 1 + 10⁻⁶`,
+  `γ = γ̄ = κ/42`, `E₀ = 0`, time scale `237/125`. Ray margins: `ν ≤ (s − 1)‖ω*‖` and
+  `ν ≤ (σω − s)‖ω*‖` hold with `‖ω*‖ = κ ≈ 1.896`. Enclosed threshold `10^{−74.669}` (both tori; the
+  Revision 5 projection was `10^{−74.51}` at `𝔪 = 39/20`, `c = 7/4`). SO-GEN2 measured, at `L = 88`
+  (318 bits): `c·η = 2.010e-78 / 3.919e-78`, chosen `e± = 4.03e-78 / 7.84e-78`, smallness
+  `C₁e/(γ⁴ρ⁴) = 1.9e-3 / 3.7e-3`; minimum feasible `L = 86`. `err` and `disp` per torus are named
   placeholders (`lunar{Lower,Upper}{Err,Disp}`); SO-GEN2 regenerates the candidates in this frame and
   encloses the norms before anything is frozen (O5).
-- **Candidate.** `K' = (ψ + u, φ, p, P̃₁)` with `U = (u/2π, 0)`, `angleDeg = −1`, primary. `D`:
-  `T_{ρ_H}` times discs around the action centres (`P₀ ≈ 1`, `P₁ = p + J ≈ 1/2`), radii and `ρ_H`
-  from SO-GEN2. The Gram inverse is certified with an enclosure that tracks its sup (≈ 1.83, Fourier
-  approximate inverse with a Neumann check), as R1 assumes.
+- **Candidate.** `K' = (ψ + u, φ, p, P̃₁)` with `U = (u/2π, 0)`, `angleDeg = −1`, primary, keys
+  `(2, 2 − m)`. `D` (SO-GEN2, Revision 6): `T_{ρ_H}` with `ρ_H = 257/10000`, times the `P₀` disc
+  `48769/50000 ± 191/12500` (upper torus `51231/50000 ± 1529/100000`) and the `P₁ = p + J` disc
+  `24983/50000 ± 127/20000`. **One character witness** `E ≈ exp(2iv)` serves all seven keys (normalized
+  index `k·U = 2U₀`); its pin is `exp(2iv(0)) = 1` exactly (`v` odd), so **`pinHalvings = 0`**,
+  `pinOrder = 1`, `ε₀ = 6.0e-88 / 2.9e-87`. The Gram inverse is certified by the designed weighted-ℓ¹
+  row sums of a Fourier approximate inverse with a Neumann check (`δ = 2.48e-12`, `‖G⁻¹‖ ≤ 1.97994`);
+  this, not the projected sup ≈ 1.83, sets `𝔪 = 1987/1000`. A grid-sup sub-check (maximum principle on
+  the distinguished boundary, `4096 × 1024` grid, Lipschitz remainder) would give `1.8347` and package
+  R1grid (`c = 1757/1000`, `𝔪 = 1841/1000`, `10^{−73.588}`); it is **not adopted** (orchestrator
+  decision, 15:06) and is recorded as a possible later improvement. **Torsion witness:** the average is
+  ≈ `[[1.12148, 0, −0.02462], [0, 0, 1], [−0.02462, 1, 0]]`; its `T` block is nearly singular
+  (`T₁₁ ≈ 0`, `T₀₁ ≈ 1e-15`) and invertible only through the border, so the `3 × 3` witness `S` is
+  computed in exactly the bordered form (`δ_T = 5.7e-11 / 8.0e-11`, `‖avg⁻¹‖ ≤ 1.022493` at `c = 1`);
+  `torsionAvgCheck` already inverts the full bordered `(n+1) × (n+1)` matrix, so nothing changes.
 - **Gate G-J restated (rotated, time-scaled; SO-GEN2 fills every named number).** Let
   `P₁⁰ = −(P₀²/2 − P₀) − V(Q₀ + Q₁, Q₁)` (the exact energy lift at `E₀ = 0`) and `ΔP₁ = P̃₁ − P₁⁰`
   (finite Fourier data). Exactly, `c·H'(K̃) − E₀ = c ΔP₁`. `H'` is affine in `P₁` with `∂_{P₁} H' ≡ 1`
@@ -478,7 +519,12 @@ on the headline route.
   | `B_q` | `sup` of the `Q₀, Q₁, P₀` rows of `E(K₀)` (`= c sup|r|` in the `P₀` row under the identities) | `B_q + B_c ≤ e/2` |
   | `B_c` | every other candidate-replacement error (Fourier `Q, P₀` data versus the scalar embedding, rounding, truncation) | as above |
   | `B₀` | `c · sup |ΔP₁|` | `B₀ ≤ e/4` (energy) |
-  | `B₂` | `max(sup|∂ΔP₁|, sup|∂²ΔP₁|)` | `B₂ ≤ β₂`, `β₂` from the `σK`, `σB`, `σT` headroom at `𝔪 = 39/20` |
+  | `B₂` | `max(sup|∂ΔP₁|, sup|∂²ΔP₁|)` | **withdrawn (Revision 6)**: every norm (DK, Gram, torsion) is enclosed on the actual `K̃` including `J̃`; measured `8.1e-75 / 1.6e-74` |
+
+  **SO-GEN2's measured G-J (Revision 6, package R1):** `B₀ = 1.25e-80 / 2.29e-80 ≤ e/4`;
+  `B₁ = 5.22e-79 / 8.62e-79`, `B_r = 6.8e-80 / 1.3e-79`, `B_c = c·η_{Q₀} = 4.3e-88 / 8.9e-88`, with
+  `B_r + B₁ + B_c ≤ e/2`; the `Q₀, Q₁, P₀` rows plus `B_c` are `≤ e/2`, which is why **`e ≈ 2·c·η`**
+  (the direct `P₁`-row enclosure is `c·η₄ = 5.6e-79 / 9.7e-79`). The gate passes.
 
   SO-GEN2 also reports every sub-check margin on `K̃` by its exact evaluator (invariance, energy, `DK`,
   ball, Gram `δ`, torsion `δ_T`, smallness, graph `mono`, `p` range), every character pin's
@@ -575,7 +621,7 @@ packaging decision (§7.2).
 | **SO-GRAPHR** | pre (new, R5) | SpinOrbit/Graph/Rot | 300 | SO-GRAPHM, SO-ROT |
 | SO-ABK | landed | Arith/Fixed | 500 | SO-AIF |
 | **SO-POLY-A** | post (R5) | Arith/Mantissa, Poly/Packed (packing, injectivity, Kronecker, shards, slot decoding) | 550 | SO-PBASE, SO-ABK |
-| **SO-POLY-B** | post (R5) | Poly/Packed (layout, advice, `checkPackedProduct`, `toMants`, `mulPacked` glue), Poly/Ops | 600 | SO-POLY-A |
+| **SO-POLY-B** | post (R5; R6 +100) | Poly/Packed (layout, advice, anti-carry guards `reconFits`/`shardFits`/`shapeOK`, `shard_reconstruct`, `checkPackedProduct`, `toMants`, `mulPacked` glue), Poly/Ops | 700 | SO-POLY-A |
 | SO-MALG | post | Model/Ops (`ModelConfig α`, advice lookup, fallback) | 750 | SO-POLY-B |
 | SO-EXPW | post | Model/{Exp,Inv} | 850 | SO-MALG, SO-CEXP |
 | SO-EMB | post | Embedding, Expr/Compose | 830 | SO-EXPW, SO-EXPR |
@@ -593,7 +639,9 @@ packaging decision (§7.2).
 - Pre-gate: Revision 4's 7,850 + SO-ROT 300 + SO-ROTDIO 150 + SO-RFREQ 100 + SO-GRAPHR 300 = **8,700**.
 - Post-gate: Revision 4's 8,650 + SO-POLY 500 + SO-MALG 100 + SO-EMB/MAT/TORS 100 + SO-GRAPH 100 +
   SO-DATA glue 150 = **9,600**.
-- Hand-written total **18,300**; with wave 0 and SO-CLOCK, about 20,200. With a 30–40% overrun on the
+- Revision 6: SO-POLY-B +100 (the anti-carry guards and reconstruction), post-gate **9,700**, total
+  **18,400**.
+- Hand-written total (Revision 5) **18,300**; with wave 0 and SO-CLOCK, about 20,200. With a 30–40% overrun on the
   18,300: 23.8k–25.6k new lines, about 25.7–27.5k overall, inside the plan's 21–37k.
 
 The estimate risks (third-order jets, fixed-point error accounting, the complex path argument, torsion
@@ -691,6 +739,15 @@ fallback is the sharper theorem (HL19 torsion route plus Parseval, about 1e-52, 
   integer (`mantCheck` rejects, and `CertModel.mul` falls back: a certificate relying on that product
   then fails its margin); a missing key. Model level: `CertModel.Encloses.mul` on the packed route and
   on the fallback.
+  **Revision 6 (audit 5).** P2 (F12): audit 5's carry-cancelling advice: radix `2^4`, `scale = 1`, factors
+  `[0, 0]`, advice `[16, −1, 0]` (`packSum 4 [16, −1, 0] = 0`, so the packed residual is zero) is rejected
+  by `reconFits` (`2(2·16 + 1) = 66 ≥ 16`), hence by `checkShard` and `checkPackedProduct`
+  (`packSum_audit5_cancel` and `reconFits_audit5_rejects` are already proved by `decide` in A-E; the
+  whole-product test is SO-TEST's). P3 (F13, positive): a multi-shard product at `scale ≥ 1` whose
+  target slot receives two overlapping windows, each error `2^(scale−1)`, passes, with combined error
+  `= 2^scale` (the bound is attained). P4 (F13, negative): audit 5's blocks `A₀ = [1,1], A₁ = [0,0]`,
+  `B₀ = [1,1], B₁ = [1,0]` at `scale = 0`, `w = 8`, advice `[1,2,0], [0,1,0], [0,0,0]`, fails
+  `checkPackedProduct` (`checkPackedProduct_scale_zero`), although each window meets `2^(0−1) = 1`.
 - **Rotated client (Revision 5).** `soRotHamExpr_eval`, `soRotHamExpr_clock`, the two
   `lunarRotFreq*_eq` and `*_isDiophantine` are proved outright (no data). T2 is restated in the rotated
   frame as a second positive toy (`H = c(P₁ + P₀²/2 − P₀)`, `K = (θ, (ν̃, ν̃ − ν̃²/2))` with
@@ -714,7 +771,12 @@ python3 -I docs/tracks/SO/design/check_so_standins.py \
   .drafts/design/SOSignatures.lean .drafts/design/SOSignaturesLunar.lean
 ```
 
-Result on Revision 5 (shared build of `inp` `f8405551`): engine **exit 0, 110 warnings, all
+Result on Revision 6 (shared build of `inp` `074bd0c5`): engine **exit 0, 125 warnings, all
+`declaration uses 'sorry'`, no error** (1152 lines; the two F12 controls are proved by `decide`);
+lunar client **exit 0, 54 warnings, all `declaration uses 'sorry'`, no error** (540 lines); stand-in
+check **PASS** (20 stand-ins verbatim, no line over 100 characters).
+
+*Historical:* Result on Revision 5 (shared build of `inp` `f8405551`): engine **exit 0, 110 warnings, all
 `declaration uses 'sorry'`, no error** (1049 lines); lunar client **exit 0, 54 warnings, all
 `declaration uses 'sorry'`, no error** (539 lines); stand-in check **PASS** (20 engine stand-ins
 verbatim, no line over 100 characters). This establishes elaboration only.
@@ -744,7 +806,7 @@ SO-CLOCK (both landed since); Revision 3: 156 warnings, 1360 lines; Revision 2: 
 | Data volume (§7.2) unacceptable even with the chosen packaging | SO-GEN2 product count × 2.2–2.6 MB | hex, truncation sized to the threshold; else the sharper theorem (owner fallback) |
 | Packed glue (layout bijection, overlap-add, complex split) longer than estimated | SO-POLY-B overrun | split `Poly/Packed` into layout and glue modules (each < 1500 lines) |
 | `mono > disp/ρ∞` at `ρ∞ = ρ'/1000` | graph margin | `disp ≈ C₂e/(γ²ρ²)` is tiny at `e < 10^{−74}`; SO-GEN2 reports the margin; raise `ρ∞` if needed (costs ≈ 4.8 orders per ×1000) |
-| R1 majorants (`𝔪 = 39/20`) not certified with ×1.05 headroom | SO-GEN2 enclosures | fall back to R2 (`𝔪 = 2.84`, `10^{−80.3}`), the theorem unchanged |
+| R1 majorants not certified | SO-GEN2 enclosures | **resolved (Revision 6):** certified at `𝔪 = 1987/1000`, `c = 237/125`, `10^{−74.669}`; R2 not needed |
 
 ## 11. Owner rulings and open points
 
@@ -758,6 +820,9 @@ Open for the owner:
 1. **Data packaging (§7.2):** option A (lint-clean, about 1,000–4,800 files), B (a 100-column lint
    exemption for generated data only, about 25–105 files) or C (out-of-tree data read by an elaborator).
    The design does not choose.
+
+- **Orchestrator decision 15:06** (Revision 6): SO-GEN2's grid-sup Gram sub-check is not adopted;
+  a possible later improvement (about one order of threshold).
 
 Remaining items for the freeze: the literal rational window endpoints, `err`/`disp` per torus,
 `soPrecision` (from SO-GEN2/SO-DATA).
@@ -1053,29 +1118,139 @@ structure PackedAdvice where
   rounded : List (List ℤ)
   outLog : ℕ
 
+/-! ### Untrusted-advice validation (Revision 6, audit 5 F12 and F13)
+
+`intSlotsBound` alone only exports SOME bounded residual digit list; `packSum_injective` needs
+BOTH compared lists in the signed-slot range. The exact side is bounded by `shardFits`; the
+advice side by the runtime guard `reconFits` on `2^scale · r + e`. Without the latter, advice
+`[16, -1, 0]` at `w = 4`, `scale = 1` cancels a carry (`packSum 4 [16, -1, 0] = 0`) against the
+zero product (audit 5, F12). `1 ≤ scale` is a guard (F13: at `scale = 0` two overlapping windows
+with per-window bound `2^(0-1) = 1` would exceed `2^0`). -/
+
+/-- Slotwise reconstruction `2^scale · r_i + e_i` of a shard from advice and residual digits. -/
+def reconSlots (scale : ℕ) (r e : List ℤ) : List ℤ :=
+  List.zipWith (fun a b => 2 ^ scale * a + b) r e
+
+theorem packSum_reconSlots (w scale : ℕ) {r e : List ℤ} (hl : r.length = e.length) :
+    packSum w (reconSlots scale r e) = 2 ^ scale * packSum w r + packSum w e := sorry
+
+/-- **Anti-carry guard on untrusted advice (F12).** Every advice slot plus its residual budget
+stays in the signed slot range: `2 · (2^scale |r_i| + 2^(logs i)) < 2^w`. -/
+def reconFits (w scale : ℕ) (logs : ℕ → ℕ) (r : List ℤ) : Bool :=
+  (List.range r.length).all fun i => decide (2 * (2 ^ scale * |r.getD i 0| + 2 ^ logs i) < 2 ^ w)
+
+theorem slotsBounded_reconSlots {w scale : ℕ} {logs : ℕ → ℕ} {r e : List ℤ}
+    (h : reconFits w scale logs r = true) (hl : e.length = r.length)
+    (he : ∀ i < r.length, |e.getD i 0| ≤ 2 ^ logs i) :
+    SlotsBounded w (reconSlots scale r e) := sorry
+
+/-- The exact local convolution of shard `s` (blocks of `L` slots): `Σ_{i+j=s} A_i * B_j`,
+zero-padded to `2L - 1` slots. -/
+def shardConv (L : ℕ) (A B : List (List ℤ)) (s : ℕ) : List ℤ := sorry
+
+theorem shardConv_length (L : ℕ) (A B : List (List ℤ)) (s : ℕ) :
+    (shardConv L A B s).length = 2 * L - 1 := sorry
+
+/-- Kronecker substitution for one shard (factor blocks of length `L`). -/
+theorem packSum_shardConv (w L : ℕ) (A B : List (List ℤ))
+    (hA : ∀ x ∈ A, x.length = L) (hB : ∀ x ∈ B, x.length = L) (s : ℕ) :
+    packSum w (shardConv L A B s) =
+      ∑ i ∈ Finset.range (s + 1), packSum w (A.getD i []) * packSum w (B.getD (s - i) []) :=
+  sorry
+
+/-- Cheap sufficient test that the exact shard convolution fits the slots:
+`2 · (s + 1) · L · max|A| · max|B| < 2^w`. -/
+def shardFits (w L : ℕ) (A B : List (List ℤ)) (s : ℕ) : Bool := sorry
+
+theorem slotsBounded_shardConv {w L : ℕ} {A B : List (List ℤ)} {s : ℕ}
+    (h : shardFits w L A B s = true) : SlotsBounded w (shardConv L A B s) := sorry
+
+/-- **Shard reconstruction (F12).** Premises are checkable guards only: block lengths, the exact
+side fits (`shardFits`), the advice side fits (`reconFits`), the advice length and a passing slot
+decode of the packed residual. Then the exact shard convolution is slotwise within `2^(logs i)`
+of `2^scale · r` (both lists in the injective range, so `packSum_injective` applies). -/
+theorem shard_reconstruct {w scale L : ℕ} {logs : ℕ → ℕ} {A B : List (List ℤ)} {s : ℕ}
+    {r : List ℤ} (hA : ∀ x ∈ A, x.length = L) (hB : ∀ x ∈ B, x.length = L)
+    (hfit : shardFits w L A B s = true) (hrec : reconFits w scale logs r = true)
+    (hlen : r.length = 2 * L - 1)
+    (hdec : intSlotsBound w (2 * L - 1) logs
+      ((∑ i ∈ Finset.range (s + 1), packSum w (A.getD i []) * packSum w (B.getD (s - i) [])) -
+        2 ^ scale * packSum w r) = true) :
+    ∀ i < 2 * L - 1, |(shardConv L A B s).getD i 0 - 2 ^ scale * r.getD i 0| ≤ 2 ^ logs i :=
+  sorry
+
+/-- Slots per factor block (`blockRows` rows of the factor layout). -/
+def PackedAdvice.blockLen (adv : PackedAdvice) : ℕ := sorry
+
+/-- A dense factor cut into blocks of `blockLen` slots, the last one zero-padded. -/
+def PackedAdvice.cut (adv : PackedAdvice) (d : List ℤ) : List (List ℤ) := sorry
+
+theorem PackedAdvice.cut_length {adv : PackedAdvice} {d : List ℤ} :
+    ∀ x ∈ adv.cut d, x.length = adv.blockLen := sorry
+
+/-- Per-slot log-bounds of shard `s`: `scale - 1` on target slots, `outLog` elsewhere. -/
+def PackedAdvice.shardLogs (adv : PackedAdvice) (s : ℕ) : ℕ → ℕ := sorry
+
 /-- Overlap-add of the shard windows: the combined rounded result, one entry per product slot. -/
 def PackedAdvice.combined (adv : PackedAdvice) : List ℤ := sorry
 
 /-- Whether product slot `i` lies in the target box. -/
 def PackedAdvice.inBox (adv : PackedAdvice) (i : ℕ) : Bool := sorry
 
-/-- One shard `s`: `Σ_{i+j=s} packShift(A_i)·packShift(B_j) - 2^scale · packShift(r_s)` passes
-`intSlotsBound` with log-bounds `scale - 1` on target slots and `outLog` elsewhere. -/
+/-- **Structural guards (F12, F13)**, decidable: `1 ≤ scale`; positive `width` and `blockRows`;
+`compat` at `la.dims.length` with equal widths for `la`, `lb`, `target`; `target` a sub-box of
+the product window; `blockLen` divides the row layout; every advice window `rounded[s]` has
+length `2·blockLen - 1`; advice is ZERO on every slot outside the target box and beyond the
+product window (no unchecked high slots). -/
+def PackedAdvice.shapeOK (adv : PackedAdvice) : Bool := sorry
+
+/-- One shard `s`, all guards inside: the blocks of `A`, `B` have length `blockLen`, the advice
+window has length `2·blockLen - 1`, `shardFits`, `reconFits` with `shardLogs s`, and
+`Σ_{i+j=s} packShift(A_i)·packShift(B_j) - 2^scale · packShift(r_s)` passes `intSlotsBound`
+with `shardLogs s`. -/
 def checkShard (adv : PackedAdvice) (A B : List (List ℤ)) (s : ℕ) : Bool := sorry
 
-/-- The whole product: `compat`, `convFits`, the factor blocks of `blockRows` rows, every
-shard. -/
+/-- **Shard soundness** (premise: the check only). -/
+theorem checkShard_sound {adv : PackedAdvice} {A B : List (List ℤ)} {s : ℕ}
+    (h : checkShard adv A B s = true) :
+    (adv.rounded.getD s []).length = 2 * adv.blockLen - 1 ∧
+      ∀ i < 2 * adv.blockLen - 1,
+        |(shardConv adv.blockLen A B s).getD i 0 - 2 ^ adv.scale * (adv.rounded.getD s []).getD i 0|
+          ≤ 2 ^ adv.shardLogs s i := sorry
+
+/-- The whole product: `shapeOK` (with `1 ≤ scale`), the dense factors cut by `cut`, and
+`checkShard` on every shard `s < (cut da).length + (cut db).length - 1`. -/
 def checkPackedProduct (adv : PackedAdvice) (da db : List ℤ) : Bool := sorry
 
-/-- **Rounding/remainder glue (slots).** A passing check gives, slot by slot of the exact
-convolution, `|conv_i - 2^scale r_i| ≤ 2^scale` on the target box (two overlapping shard
-windows, each `≤ 2^(scale-1)`) and `|conv_i| ≤ 2^(outLog+1)` elsewhere. -/
+/-- **Guards exported from success** (F12, F13): no premise but the check. -/
+theorem checkPackedProduct_guards {adv : PackedAdvice} {da db : List ℤ}
+    (h : checkPackedProduct adv da db = true) :
+    1 ≤ adv.scale ∧ adv.shapeOK = true ∧ 0 < adv.blockLen ∧
+      adv.rounded.length = (adv.cut da).length + (adv.cut db).length - 1 ∧
+      ∀ s < (adv.cut da).length + (adv.cut db).length - 1,
+        checkShard adv (adv.cut da) (adv.cut db) s = true := sorry
+
+/-- F13 negative contract: scale zero is rejected (whatever the data). -/
+theorem checkPackedProduct_scale_zero {adv : PackedAdvice} (h0 : adv.scale = 0)
+    (da db : List ℤ) : checkPackedProduct adv da db = false := sorry
+
+/-- **Rounding/remainder glue (slots).** A passing check (the ONLY premise) gives, slot by slot of
+the exact convolution, `|conv_i - 2^scale r_i| ≤ 2^scale` on the target box (at most two
+overlapping shard windows, each `≤ 2^(scale-1)`, and `1 ≤ scale` from the guards) and
+`|conv_i| ≤ 2^(outLog+1)` elsewhere (advice zero there). Route: `checkPackedProduct_guards`,
+`checkShard_sound` (via `shard_reconstruct`), `packSum_flatten_mul_shards`, overlap-add. -/
 theorem checkPackedProduct_sound {adv : PackedAdvice} {da db : List ℤ}
     (h : checkPackedProduct adv da db = true) :
     adv.combined.length = (listConv da db).length ∧ ∀ i < (listConv da db).length,
       (adv.inBox i = true →
         |(listConv da db).getD i 0 - 2 ^ adv.scale * adv.combined.getD i 0| ≤ 2 ^ adv.scale) ∧
       (adv.inBox i = false → |(listConv da db).getD i 0| ≤ 2 ^ (adv.outLog + 1)) := sorry
+
+/-- §8 negative test (audit 5, F12): the carry-cancelling advice `[16, -1, 0]` packs to `0` at
+`w = 4` but fails the anti-carry guard (decided now; the guard body is concrete). -/
+theorem packSum_audit5_cancel : packSum 4 [16, -1, 0] = 0 := by decide
+
+theorem reconFits_audit5_rejects : reconFits 4 1 (fun _ => 0) [16, -1, 0] = false := by decide
 
 /-- Integer mantissas `(re, im)` of a backend polynomial at scale `P`, read with the decoder
 `dec` and each verified by `mantCheck` (`none` on any failure: fail closed). -/
@@ -1262,18 +1437,11 @@ theorem invWitness_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : �
 
 /-! ## §D. The Hamiltonian language (`KAM/Certificate/{PhaseBasis,Expr/*}`)
 
-LANDED (SO-CLOCK, SO-EXPR-A/B1): `phaseBasis`; `HamExpr`, `modePhase`, `HamExpr.eval`,
+LANDED (SO-CLOCK, SO-EXPR-A/B1/B2): `phaseBasis`; `HamExpr`, `modePhase`, `HamExpr.eval`,
 `HamExpr.NonvanishingOn`, `contDiffOn_eval`, `eval_add_int`, `eval_real`, `certDomain`,
 `isOpen_certDomain`, `certDomain_add_int`; `SlpOp`, `Slp`, `Slp.val`, `HamJet`, `phaseNat`,
-`HamExpr.jet`, `jet_v0`, `jet_d1`, `jet_d2`. Pending: `jet_d3` (SO-EXPR-B2), `Slp.balls`
+`HamExpr.jet`, `jet_v0`, `jet_d1`, `jet_d2`, `jet_d3` (landed verbatim). Pending: `Slp.balls`
 (SO-BALL), the embedding and composition (SO-EMB). -/
-
-theorem HamExpr.jet_d3 {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (Fin n → ℂ))}
-    (hS : IsOpen S) (hnv : e.NonvanishingOn S) {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ S)
-    (a b c : Fin n ⊕ Fin n) :
-    e.jet.prog.val n z
-        (((e.jet.d3.getD (phaseNat a) []).getD (phaseNat b) []).getD (phaseNat c) 0) =
-      iteratedFDeriv ℂ 3 e.eval z ![phaseBasis a, phaseBasis b, phaseBasis c] := sorry
 
 /-- Ball arithmetic of every slot on `D` (no embedding), in `ℚ`: `(centre, radius)` with
 `|slot - centre| ≤ radius` on `D`. Constants exact; actions `(c_j, r_j)`; characters
@@ -2134,7 +2302,7 @@ theorem soRotHamExpr_eval (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : soRotHamExp
 theorem soRotHamExpr_clock (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
     fderiv ℂ soRotHamExpr.eval z (phaseBasis (.inr 1)) = 1 := sorry
 
-/-- The time-scaled client Hamiltonian `c · H'` (package R1: `c = 7/4`, CONSTANTS-STUDY P4). -/
+/-- The time-scaled client Hamiltonian `c · H'` (package R1: `c = 237/125`, SO-GEN2). -/
 def soRotHamExprScaled (c : ℚ) : HamExpr 2 := .mul (.const c) soRotHamExpr
 
 theorem soRotHamExprScaled_eval (c : ℚ) (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
@@ -2184,12 +2352,13 @@ theorem lunarRotFreqPlus_isDiophantine {κ : ℚ} (hκ : 0 < κ) :
 /-! ## §I.4 The lunar parameter package R1 (`KAM/SpinOrbit/LunarParams.lean`, package SO-R1)
 
 CONSTANTS-STUDY §2.2 and §4, owner ruling O5: `ρ' = 1/70`, `ρ∞ = ρ'/1000`, `μ = 1/160`, ray
-scalar `s = 1 + 10⁻⁶`, `ν = 10⁻⁶`, `σω = 2`, time scale `c = 7/4`, one majorant
-`𝔪 = M = σK = σB = σT = 39/20` (sharp certified majorants, ×1.05 headroom), `γ = γ̄ = c/(42 s)`,
-`τ = 1`, `E₀ = 0`. Projected threshold `10^{-74.51}`. The residual budget `err` and the
-displacement `disp` of each torus are named placeholders filled by SO-DATA (from SO-GEN2). -/
+scalar `s = 1 + 10⁻⁶`, `ν = 10⁻⁶`, `σω = 2`, time scale `c = 237/125`, one majorant
+`𝔪 = M = σK = σB = σT = 1987/1000` (Revision 6: SO-GEN2's measured package; binding `σB`, the
+weighted-ℓ¹ Gram inverse bound 1.97994), `γ = γ̄ = c/(42 s)`, `τ = 1`, `E₀ = 0`. Enclosed
+threshold `10^{-74.669}`. The residual budget `err` and the displacement `disp` of each torus are
+named placeholders filled by SO-DATA (from SO-GEN2: `e ≈ 2 c η`, 4.03e-78 / 7.84e-78). -/
 
-def lunarR1TimeScale : ℚ := 7 / 4
+def lunarR1TimeScale : ℚ := 237 / 125
 
 def lunarR1Scalar : ℚ := 1 + 1 / 10 ^ 6
 
@@ -2201,10 +2370,10 @@ def lunarR1 (err disp : ℚ) : CertParams where
   tau := 1
   rho := 1 / 70
   rhoInf := 1 / 70000
-  M := 39 / 20
-  σK := 39 / 20
-  σB := 39 / 20
-  σT := 39 / 20
+  M := 1987 / 1000
+  σK := 1987 / 1000
+  σB := 1987 / 1000
+  σT := 1987 / 1000
   μ := 1 / 160
   γbar := lunarR1Kappa / 42
   σω := 2
@@ -2215,7 +2384,7 @@ def lunarR1 (err disp : ℚ) : CertParams where
   E0 := 0
   disp := disp
 
-theorem lunarR1Kappa_div : lunarR1Kappa / 42 = 125000 / 3000003 := sorry
+theorem lunarR1Kappa_div : lunarR1Kappa / 42 = 316000 / 7000007 := sorry
 
 /-- Placeholders (SO-DATA; literal rationals before the freeze). -/
 def lunarLowerErr : ℚ := sorry
@@ -2313,8 +2482,8 @@ Barrier and confinement: `SoBarrier`, `so_global_exists_unique`, `so_confinement
 `KAM/SpinOrbit/Data/{Lower,Upper}/*` (design §7.2: chunked data modules, each below the 1500-line
 cap; the line-width policy for generated data is an OWNER decision). -/
 
-/-- The mantissa precision of the production backend: a named placeholder (SO-GEN2 reports about
-300 bits at R1; the literal, with guard bits, is set by SO-DATA before the freeze). -/
+/-- The mantissa precision of the production backend: a named placeholder (SO-GEN2 measured
+318 bits at R1, L = 88; the literal, with guard bits, is set by SO-DATA before the freeze). -/
 def soPrecision : ℕ := 320
 
 /-- The production backend: fixed point (SO-REPLAY recommendation; LANDED `CertFixed`, SO-ABK). -/
