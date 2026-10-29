@@ -187,6 +187,136 @@ theorem pc_eq (D : Data n) (b : Bool) (μ : ℝ) {w : Phase (n + n)} (hw : w ∈
       (differentiableAt_movingHamiltonian D.G D.m0 D.m μ hW)
       (fun v hv => movingHamiltonian_poincareProd D.hm hκ hv)
 
+/-! ### `stepP:p7:la-ham` and `bpP:p7:product-chart` -/
+
+private theorem fast_assemble_snd (I phi p q : Vec n) :
+    fast (assemble I phi p q : Phase (n + n)).2 = I := by
+  funext i
+  simp [fast, assemble]
+
+private theorem hProd_eq_keplerActionHam (D : Data n) (w : Phase (n + n)) :
+    hProd (D.G * D.m0) D.m w = keplerActionHam D (fast w.2) := by
+  unfold keplerActionHam hProd
+  rw [fast_assemble_snd]
+
+/-- `stepP:p7:la-ham`: on `O₀ = polarDom n`, `H ∘ Ψ ∘ Θ_n = h(I) + μ f̂ ∘ Θ_n` with `I = Λ`
+(`fast z.2`) for the moving (`b = true`) and the fixed (`b = false`) model, and the unperturbed
+part `h ∘ Θ_n` is independent of `(ψ, R)`. -/
+theorem la_ham (D : Data n) (b : Bool) (μ : ℝ) :
+    (∀ z ∈ polarDom n,
+      (if b then movingHamiltonian D.G D.m0 D.m μ else fixedHamiltonian D.G D.m0 D.m μ)
+          (poincareProd D.m (D.G * D.m0) (polarMap z)) =
+        keplerActionHam D (fast z.2) + μ * perturbation D b (polarMap z)) ∧
+    (∀ z z' : Phase (n + n), fast z.2 = fast z'.2 →
+      hProd (D.G * D.m0) D.m (polarMap z) = hProd (D.G * D.m0) D.m (polarMap z')) := by
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have hfast : ∀ z : Phase (n + n), fast (polarMap z).2 = fast z.2 := fun z =>
+    fast_assemble_snd _ _ _ _
+  refine ⟨fun z hz => ?_, fun z z' h => ?_⟩
+  · have hmem := polarMap_mapsTo n hz
+    have hh : hProd (D.G * D.m0) D.m (polarMap z) = keplerActionHam D (fast z.2) := by
+      rw [hProd_eq_keplerActionHam, hfast]
+    rw [← hh]
+    cases b
+    · exact fixedHamiltonian_poincareProd D.hm hκ hmem
+    · exact movingHamiltonian_poincareProd D.hm hκ hmem
+  · rw [hProd_eq_keplerActionHam, hProd_eq_keplerActionHam, hfast, hfast, h]
+
+/-- `bpP:p7:product-chart`, parts (a)–(d).  (a) `Ψ` is a real-analytic `1`-chart on `O_n`
+(also as the equal-dimension chart `poincareProdCast`), `O_n` and `Ψ` are invariant under the fast
+lattice, `Ψ w' = Ψ w` iff `w' = w + ((2π k, 0), 0)`, `Ψ` maps onto `𝒦⁽ⁿ⁾`, is a local analytic
+diffeomorphism and induces a bijection `O_n / lattice → 𝒦⁽ⁿ⁾`.  (b) `H_Kep ∘ Ψ = h(Λ)`, `h`
+independent of `λ, ξ, η`, `∂h/∂Λᵢ = νᵢ`, `∂²h/∂Λᵢ² = -3κ²mᵢ³/Λᵢ⁴ ≠ 0`, `h` analytic on
+`{Λᵢ > 0}`.  (c) `H^Ψ = h + μ f̂` for both models with `f̂` independent of `μ, ε`, analytic on
+`Ψ⁻¹(W)`, the field identity `DΨ X_{H^Ψ} = X_H ∘ Ψ` and the transfer of orbits.  (d) the Hamilton
+equations (`pc_eq`). -/
+theorem product_chart_full (D : Data n) :
+    (IsChart 1 (poincareProdCast D.m (D.G * D.m0)) (poincareProdCastDom n) ∧
+      AnalyticOnNhd ℝ (poincareProd D.m (D.G * D.m0)) (poincareProdDom n) ∧
+      IsSymplecticOn 1 (poincareProd D.m (D.G * D.m0)) (poincareProdDom n) ∧
+      (∀ w ∈ poincareProdDom n, ∀ k : Fin n → ℤ,
+        w + fastShift (a := n) (b := n) k ∈ poincareProdDom n ∧
+          poincareProd D.m (D.G * D.m0) (w + fastShift (a := n) (b := n) k) =
+            poincareProd D.m (D.G * D.m0) w) ∧
+      (∀ w ∈ poincareProdDom n, ∀ w' ∈ poincareProdDom n,
+        poincareProd D.m (D.G * D.m0) w = poincareProd D.m (D.G * D.m0) w' ↔
+          ∃ k : Fin n → ℤ, w' = w + fastShift (a := n) (b := n) k) ∧
+      poincareProd D.m (D.G * D.m0) '' poincareProdDom n = regionProd D.m (D.G * D.m0) ∧
+      (∀ w ∈ poincareProdDom n,
+        ∃ φ : OpenPartialHomeomorph (Phase (n + n)) (Phase (n * 2)), w ∈ φ.source ∧
+          (φ : Phase (n + n) → Phase (n * 2)) = poincareProd D.m (D.G * D.m0) ∧
+          AnalyticOnNhd ℝ φ.symm φ.target) ∧
+      ∃ f : Quotient (fastLatticeSetoid n) → regionProd D.m (D.G * D.m0),
+        Function.Bijective f ∧
+          ∀ w : poincareProdDom n, (f (Quotient.mk _ w) : Phase (n * 2)) =
+            poincareProd D.m (D.G * D.m0) w) ∧
+    ((∀ w ∈ poincareProdDom n,
+        keplerPart (D.G * D.m0) D.m (poincareProd D.m (D.G * D.m0) w) =
+          hProd (D.G * D.m0) D.m w) ∧
+      (∀ w : Phase (n + n), hProd (D.G * D.m0) D.m w = keplerActionHam D (fast w.2)) ∧
+      AnalyticOnNhd ℝ (keplerActionHam D) {I | ∀ i, 0 < I i} ∧
+      (∀ I : Vec n, (∀ i, 0 < I i) → ∀ i,
+        fderiv ℝ (keplerActionHam D) I (Pi.single i 1) = nu D I i ∧
+        nu D I i = (D.G * D.m0) ^ 2 * D.m i ^ 3 / I i ^ 3 ∧
+        fderiv ℝ (fun J => nu D J i) I (Pi.single i 1) =
+          -3 * (D.G * D.m0) ^ 2 * D.m i ^ 3 / I i ^ 4 ∧
+        -3 * (D.G * D.m0) ^ 2 * D.m i ^ 3 / I i ^ 4 ≠ 0) ∧
+      ∀ w ∈ poincareProdDom n,
+        hamiltonianVectorField (hProd (D.G * D.m0) D.m) w = (Fin.append (nu D (fast w.2)) 0, 0)) ∧
+    (∀ b : Bool,
+      (∀ μ : ℝ, ∀ w ∈ poincareProdDom n,
+        (if b then movingHamiltonian D.G D.m0 D.m μ else fixedHamiltonian D.G D.m0 D.m μ)
+            (poincareProd D.m (D.G * D.m0) w) =
+          hProd (D.G * D.m0) D.m w + μ * perturbation D b w) ∧
+      AnalyticOnNhd ℝ (perturbation D b)
+        (poincareProdDom n ∩ poincareProd D.m (D.G * D.m0) ⁻¹' collisionFreeDomain n) ∧
+      (∀ μ : ℝ, ∀ w ∈ poincareProdDom n, NoCollision (poincareProd D.m (D.G * D.m0) w).1 →
+        fderiv ℝ (poincareProd D.m (D.G * D.m0)) w
+            (hamiltonianVectorField
+              ((if b then movingHamiltonian D.G D.m0 D.m μ
+                else fixedHamiltonian D.G D.m0 D.m μ) ∘ poincareProd D.m (D.G * D.m0)) w) =
+          hamiltonianVectorField
+            (if b then movingHamiltonian D.G D.m0 D.m μ else fixedHamiltonian D.G D.m0 D.m μ)
+            (poincareProd D.m (D.G * D.m0) w)) ∧
+      (∀ (μ : ℝ) (J : Set ℝ) (y : ℝ → Phase (n + n)),
+        (∀ t ∈ J, y t ∈ poincareProdDom n ∧ NoCollision (poincareProd D.m (D.G * D.m0) (y t)).1) →
+        (∀ t ∈ J, HasDerivAt y (hamiltonianVectorField
+          ((if b then movingHamiltonian D.G D.m0 D.m μ else fixedHamiltonian D.G D.m0 D.m μ) ∘
+            poincareProd D.m (D.G * D.m0)) (y t)) t) →
+        ∀ t ∈ J, HasDerivAt (poincareProd D.m (D.G * D.m0) ∘ y)
+          (hamiltonianVectorField
+            (if b then movingHamiltonian D.G D.m0 D.m μ else fixedHamiltonian D.G D.m0 D.m μ)
+            (poincareProd D.m (D.G * D.m0) (y t))) t)) ∧
+    (∀ (b : Bool) (μ : ℝ) {w : Phase (n + n)}, w ∈ poincareProdDom n →
+      NoCollision (poincareProd D.m (D.G * D.m0) w).1 →
+      ChartHamiltonEq D
+        (if b then movingHamiltonian D.G D.m0 D.m μ else fixedHamiltonian D.G D.m0 D.m μ)
+        (perturbation D b) μ w) := by
+  have hκ : 0 < D.G * D.m0 := mul_pos D.hG D.hm0
+  have hpc := pc_prod D
+  have hpcf := product_chart D
+  refine ⟨⟨⟨analyticOnNhd_poincareProdCast D.hm hκ, poincareProdCast_symplectic D.hm hκ⟩,
+    hpc.1, hpc.2.1, fun w hw k => poincareProd_lattice D.hm hκ hw k, hpc.2.2.2.1, hpc.2.2.1,
+    hpc.2.2.2.2, exists_quotient_bijection D⟩,
+    ⟨fun w hw => keplerPart_poincareProd D.hm hκ hw, hProd_eq_keplerActionHam D, hpcf.1,
+      fun I hI i => ⟨(hpcf.2.1 I hI i).1, rfl, (hpcf.2.1 I hI i).2⟩, hpcf.2.2⟩, ?_, ?_⟩
+  · intro b
+    refine ⟨fun μ w hw => ?_, ?_, fun μ w hw hW => (pc_share D b μ hw hW).2, ?_⟩
+    · cases b
+      · exact fixedHamiltonian_poincareProd D.hm hκ hw
+      · exact movingHamiltonian_poincareProd D.hm hκ hw
+    · cases b
+      · exact analyticOnNhd_fFix_poincareProd D.hm hκ
+      · exact analyticOnNhd_fMov_poincareProd D.hm hκ
+    · intro μ J y hyd hy t ht
+      have hΨ : DifferentiableAt ℝ (poincareProd D.m (D.G * D.m0)) (y t) :=
+        (analyticOnNhd_poincareProd D.hm hκ _ (hyd t ht).1).differentiableAt
+      have h := hΨ.hasFDerivAt.comp_hasDerivAt t (hy t ht)
+      rw [(pc_share D b μ (hyd t ht).1 (hyd t ht).2).2] at h
+      exact h
+  · intro b μ w hw hW
+    exact pc_eq D b μ hw hW
+
 end SecularForm
 
 end KAM.Planetary
