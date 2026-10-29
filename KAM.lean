@@ -187,6 +187,7 @@ public import KAM.Frozen.Planetary.Defs.Slow
 public import KAM.Frozen.Planetary.Defs.StoppedActionBound
 public import KAM.Frozen.Planetary.Defs.TotalMomentum
 public import KAM.Frozen.Planetary.Theorems.AmdConfinement
+public import KAM.Frozen.Planetary.Theorems.FixedSunPlanetaryKAM
 public import KAM.Frozen.Planetary.Theorems.PlanarTwoPlanetKAM
 public import KAM.Frozen.Planetary.Theorems.ProperlyDegenerateKAM
 public import KAM.Frozen.Planetary.Theorems.SecularBoxAtCitedMasses
@@ -511,6 +512,8 @@ public import KAM.Planetary.Exponential.RealDomain
 public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Exponential.UniformData
 public import KAM.Planetary.FixedAssembly.Data
+public import KAM.Planetary.FixedAssembly.General
+public import KAM.Planetary.FixedAssembly.Main
 public import KAM.Planetary.FixedAssembly.TwoPlanet
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
@@ -918,6 +921,19 @@ public import KAM.Planetary.Preparation.SlowRates
 public import KAM.Planetary.Preparation.SlowSigned
 public import KAM.Planetary.Preparation.SlowSmall
 public import KAM.Planetary.Preparation.Working
+public import KAM.Planetary.Preparation.Wrapper
+public import KAM.Planetary.Preparation.WrapperAsym
+public import KAM.Planetary.Preparation.WrapperChain
+public import KAM.Planetary.Preparation.WrapperDatum
+public import KAM.Planetary.Preparation.WrapperEps
+public import KAM.Planetary.Preparation.WrapperMeasure
+public import KAM.Planetary.Preparation.WrapperParts
+public import KAM.Planetary.Preparation.WrapperQI
+public import KAM.Planetary.Preparation.WrapperReal
+public import KAM.Planetary.Preparation.WrapperSmall
+public import KAM.Planetary.Preparation.WrapperTransport
+public import KAM.Planetary.Preparation.WrapperTube
+public import KAM.Planetary.Preparation.WrapperTubeMain
 public import KAM.Planetary.Quantitative.Assembly
 public import KAM.Planetary.Quantitative.AssemblyData
 public import KAM.Planetary.Quantitative.AssemblyK6
@@ -1198,6 +1214,7 @@ public import KAM.Provider.Nekhoroshev.QuasiConvexIsoenergeticDerivative
 public import KAM.Provider.Nekhoroshev.QuasiConvexNekhoroshevComplexBound
 public import KAM.Provider.Nekhoroshev.ZeroPerturbation
 public import KAM.Provider.Planetary.AmdConfinement
+public import KAM.Provider.Planetary.FixedSunPlanetaryKAM
 public import KAM.Provider.Planetary.PlanarTwoPlanetKAM
 public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
