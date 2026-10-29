@@ -48,6 +48,7 @@ public import KAM.Canonical.TransformSeries
 public import KAM.Canonical.VectorField
 public import KAM.Certificate.Arith.PiHigh
 public import KAM.Certificate.Clock
+public import KAM.Certificate.Constants
 public import KAM.Certificate.PhaseBasis
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Diophantine.Basic
