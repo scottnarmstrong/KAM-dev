@@ -180,4 +180,236 @@ def gramCheck {α : Type} [CertArith α] (n : ℕ) (K : CertEmbedding α) (Binv 
 
 end Defs
 
+/-! ### Contracts -/
+
+section Sound
+
+variable {α : Type} [CertArith α] [LawfulCertArith α]
+
+omit [LawfulCertArith α] in
+theorem CertModel.Encloses.of_eq {n : ℕ} {ρ : ℝ} {m : CertModel α} {f g : (Fin n → ℂ) → ℂ}
+    (h : m.Encloses n ρ f) (hfg : ∀ θ, f θ = g θ) : m.Encloses n ρ g := by
+  rwa [← funext hfg]
+
+theorem CertModel.Encloses.addMixed {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true)
+    {a b : CertModel α} {f g : (Fin n → ℂ) → ℂ} (ha : a.Encloses n W.rho f)
+    (hb : b.Encloses n W.rho g) : (CertModel.addMixed W pe a b).Encloses n W.rho (f + g) :=
+  CertModel.Encloses.add hW ha (hb.toDeg hW hpe a.deg) (toDeg_deg W pe a.deg b).symm
+
+section ModelSum
+
+variable {n : ℕ} {W : CertWeight} {s N : ℕ} {pe : PiEnclosure α}
+
+/-- Pairs of a model and the function it encloses. -/
+abbrev EnclosedList (α : Type) (n : ℕ) : Type := List (CertModel α × ((Fin n → ℂ) → ℂ))
+
+theorem modelSumPairs_spec (hW : checkWeight W s N = true) (hpe : checkPiEnclosure pe = true) :
+    ∀ L : EnclosedList α n, (∀ p ∈ L, p.1.Encloses n W.rho p.2) →
+    ∃ L' : EnclosedList α n, (∀ p ∈ L', p.1.Encloses n W.rho p.2) ∧
+      modelSumPairs W pe (L.map Prod.fst) = L'.map Prod.fst ∧
+      ∀ θ, (L'.map fun p => p.2 θ).sum = (L.map fun p => p.2 θ).sum
+  | [], _ => ⟨[], by simp, rfl, fun _ => rfl⟩
+  | [a], h => ⟨[a], h, rfl, fun _ => rfl⟩
+  | a :: b :: rest, h => by
+    obtain ⟨L', h1, h2, h3⟩ :=
+      modelSumPairs_spec hW hpe rest fun p hp => h p (by simp [hp])
+    refine ⟨(CertModel.addMixed W pe a.1 b.1, a.2 + b.2) :: L', ?_, ?_, ?_⟩
+    · intro p hp
+      rcases List.mem_cons.mp hp with rfl | hp
+      · exact (h a (by simp)).addMixed hW hpe (h b (by simp))
+      · exact h1 p hp
+    · simp only [List.map_cons, modelSumPairs, h2]
+    · intro θ
+      simp only [List.map_cons, List.sum_cons, h3, Pi.add_apply, add_assoc]
+
+theorem modelSumRounds_spec (hW : checkWeight W s N = true)
+    (hpe : checkPiEnclosure pe = true) :
+    ∀ (r : ℕ) (L : EnclosedList α n), (∀ p ∈ L, p.1.Encloses n W.rho p.2) →
+    ∃ L' : EnclosedList α n, (∀ p ∈ L', p.1.Encloses n W.rho p.2) ∧
+      modelSumRounds W pe r (L.map Prod.fst) = L'.map Prod.fst ∧
+      ∀ θ, (L'.map fun p => p.2 θ).sum = (L.map fun p => p.2 θ).sum
+  | 0, L, h => ⟨L, h, rfl, fun _ => rfl⟩
+  | r + 1, L, h => by
+    obtain ⟨L1, h1, e1, s1⟩ := modelSumPairs_spec hW hpe L h
+    obtain ⟨L2, h2, e2, s2⟩ := modelSumRounds_spec hW hpe r L1 h1
+    exact ⟨L2, h2, by simp only [modelSumRounds, e1, e2], fun θ => (s2 θ).trans (s1 θ)⟩
+
+theorem foldl_addMixed_spec (hW : checkWeight W s N = true)
+    (hpe : checkPiEnclosure pe = true) :
+    ∀ (L : EnclosedList α n) (a : CertModel α) (f : (Fin n → ℂ) → ℂ),
+    a.Encloses n W.rho f → (∀ p ∈ L, p.1.Encloses n W.rho p.2) →
+    ((L.map Prod.fst).foldl (CertModel.addMixed W pe) a).Encloses n W.rho
+      (fun θ => f θ + (L.map fun p => p.2 θ).sum)
+  | [], a, f, ha, _ => ha.of_eq fun θ => by simp
+  | p :: L, a, f, ha, h => by
+    have := foldl_addMixed_spec hW hpe L _ _ (ha.addMixed hW hpe (h p (by simp)))
+      fun q hq => h q (by simp [hq])
+    simp only [List.map_cons, List.foldl_cons]
+    exact this.of_eq fun θ => by simp only [Pi.add_apply, List.sum_cons, add_assoc]
+
+/-- **Balanced sum contract.** -/
+theorem modelSum_encloses (hW : checkWeight W s N = true) (hpe : checkPiEnclosure pe = true)
+    (L : EnclosedList α n) (h : ∀ p ∈ L, p.1.Encloses n W.rho p.2) :
+    (modelSum W pe (L.map Prod.fst)).Encloses n W.rho (fun θ => (L.map fun p => p.2 θ).sum) := by
+  obtain ⟨L', h1, e1, s1⟩ := modelSumRounds_spec hW hpe 64 L h
+  unfold modelSum
+  rw [e1]
+  refine CertModel.Encloses.of_eq (f := fun θ => (L'.map fun p => p.2 θ).sum) ?_ s1
+  cases L' with
+  | nil => exact (zeroModel_encloses n W.rho).of_eq fun θ => by simp
+  | cons p L' =>
+    exact (foldl_addMixed_spec hW hpe L' p.1 p.2 (h1 p (by simp))
+      fun q hq => h1 q (by simp [hq])).of_eq fun θ => by simp
+
+end ModelSum
+
+/-! #### `DK` -/
+
+theorem realComp_eq_realCompPoly (n : ℕ) (d : ℤ) (P : Option (CertRealPoly α)) (θ : Fin n → ℂ) :
+    realComp n d P θ = (2 * (Real.pi : ℂ)) ^ d * (realCompPoly n P).eval n θ := by
+  cases P with
+  | none => simp [realComp, realCompPoly, CertPoly.eval]
+  | some P =>
+    simp only [realComp, realCompPoly, Option.map_some, Option.getD_some,
+      CertRealPoly.eval_toSortedPoly]
+
+theorem fderiv_realComp_apply (n : ℕ) (d : ℤ) (P : Option (CertRealPoly α))
+    (θ v : Fin n → ℂ) : fderiv ℂ (realComp n d P) θ v =
+      (2 * (Real.pi : ℂ)) ^ d * fderiv ℂ ((realCompPoly n P).eval n) θ v := by
+  have h : realComp n d P = fun θ => (2 * (Real.pi : ℂ)) ^ d * (realCompPoly n P).eval n θ :=
+    funext (realComp_eq_realCompPoly n d P)
+  rw [h, fderiv_const_mul ((realCompPoly n P).differentiable_eval n θ)]
+  rfl
+
+theorem compDerivModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true)
+    (d : ℤ) (P : Option (CertRealPoly α)) (j : Fin n) :
+    (compDerivModel n W pe d P j.val).Encloses n W.rho
+      (fun θ => fderiv ℂ (realComp n d P) θ (Pi.single j 1)) :=
+  ((CertModel.Encloses.ofDeriv hW j d (realCompPoly n P)).toDeg hW hpe 0).of_eq
+    fun θ => (fderiv_realComp_apply n d P θ _).symm
+
+omit [LawfulCertArith α] in
+theorem compDerivModel_deg (n : ℕ) (W : CertWeight) (pe : PiEnclosure α) (d : ℤ)
+    (P : Option (CertRealPoly α)) (j : ℕ) : (compDerivModel n W pe d P j).deg = 0 :=
+  toDeg_deg W pe 0 _
+
+omit [LawfulCertArith α] in
+/-- The angle rows of `DK`: `(DK v)_{1,i} = v_i + D U_i v`. -/
+theorem CertEmbedding.fderiv_eval_fst (n : ℕ) (K : CertEmbedding α) (θ v : Fin n → ℂ)
+    (i : Fin n) : (fderiv ℂ (K.eval n) θ v).1 i = v i + fderiv ℂ (K.angleAt n i.val) θ v := by
+  let L : ((Fin n → ℂ) × (Fin n → ℂ)) →L[ℂ] ℂ :=
+    (ContinuousLinearMap.proj i).comp (ContinuousLinearMap.fst ℂ (Fin n → ℂ) (Fin n → ℂ))
+  have h1 : HasFDerivAt (fun θ => (K.eval n θ).1 i) (L.comp (fderiv ℂ (K.eval n) θ)) θ :=
+    L.hasFDerivAt.comp θ (K.differentiable_eval n θ).hasFDerivAt
+  have h2 : HasFDerivAt (fun θ => (K.eval n θ).1 i)
+      (ContinuousLinearMap.proj i + fderiv ℂ (K.angleAt n i.val) θ) θ :=
+    (hasFDerivAt_apply i θ).add ((differentiable_angleAt n K i.val) θ).hasFDerivAt
+  have := congrArg (fun T => T v) (h1.unique h2)
+  simpa [L] using this
+
+omit [LawfulCertArith α] in
+/-- The action rows of `DK`: `(DK v)_{2,i} = D A_i v`. -/
+theorem CertEmbedding.fderiv_eval_snd (n : ℕ) (K : CertEmbedding α) (θ v : Fin n → ℂ)
+    (i : Fin n) : (fderiv ℂ (K.eval n) θ v).2 i = fderiv ℂ (K.actionAt n i.val) θ v := by
+  let L : ((Fin n → ℂ) × (Fin n → ℂ)) →L[ℂ] ℂ :=
+    (ContinuousLinearMap.proj i).comp (ContinuousLinearMap.snd ℂ (Fin n → ℂ) (Fin n → ℂ))
+  have h1 : HasFDerivAt (fun θ => (K.eval n θ).2 i) (L.comp (fderiv ℂ (K.eval n) θ)) θ :=
+    L.hasFDerivAt.comp θ (K.differentiable_eval n θ).hasFDerivAt
+  have h2 : HasFDerivAt (fun θ => (K.eval n θ).2 i) (fderiv ℂ (K.actionAt n i.val) θ) θ :=
+    (differentiable_realComp n _ _ θ).hasFDerivAt
+  have := congrArg (fun T => T v) (h1.unique h2)
+  simpa [L] using this
+
+/-- **`DK` angle entries.** -/
+theorem dkAngleModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true)
+    (K : CertEmbedding α) (i j : Fin n) :
+    (dkAngleModel n K W pe i.val j.val).Encloses n W.rho
+      (fun θ => (fderiv ℂ (K.eval n) θ (Pi.single j 1)).1 i) := by
+  have hD := compDerivModel_encloses hW hpe (K.angleDeg.getD i.val 0) K.angle[i.val]? j
+  have hA : K.angleAt n i.val = realComp n (K.angleDeg.getD i.val 0) K.angle[i.val]? := rfl
+  unfold dkAngleModel
+  split_ifs with hij
+  · have hij' : i = j := Fin.ext hij
+    subst hij'
+    refine (CertModel.Encloses.add hW (constModel_encloses n W.rho 1 0 0) hD
+      (compDerivModel_deg n W pe _ _ _).symm).of_eq fun θ => ?_
+    rw [CertEmbedding.fderiv_eval_fst, hA]
+    simp [slpConstVal]
+  · have hij' : i ≠ j := fun h => hij (congrArg Fin.val h)
+    refine hD.of_eq fun θ => ?_
+    rw [CertEmbedding.fderiv_eval_fst, hA]
+    simp [hij']
+
+/-- **`DK` action entries.** -/
+theorem dkActionModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true)
+    (K : CertEmbedding α) (i j : Fin n) :
+    (dkActionModel n K W pe i.val j.val).Encloses n W.rho
+      (fun θ => (fderiv ℂ (K.eval n) θ (Pi.single j 1)).2 i) :=
+  (compDerivModel_encloses hW hpe (K.actionDeg.getD i.val 0) K.action[i.val]? j).of_eq
+    fun θ => by rw [CertEmbedding.fderiv_eval_snd]; rfl
+
+/-! #### Gram models -/
+
+omit [LawfulCertArith α] in
+theorem gramMatrix_comm {n : ℕ} (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ))
+    (θ : Fin n → ℂ) (i j : Fin n) : gramMatrix K θ i j = gramMatrix K θ j i := by
+  simp only [gramMatrix, dotℂ]
+  exact Finset.sum_congr rfl fun k _ => by ring
+
+theorem gramEntryModel_encloses {n : ℕ} (K : CertEmbedding α) {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) (cfg : ModelConfig α) {pe : PiEnclosure α}
+    (hpe : checkPiEnclosure pe = true) (a b : Fin n) :
+    (gramEntryModel n K W cfg pe a.val b.val).Encloses n W.rho
+      (fun θ => gramMatrix (K.eval n) θ a b) := by
+  set DK := fun θ v => fderiv ℂ (K.eval n) θ (Pi.single v (1 : ℂ)) with hDK
+  let L : EnclosedList α n :=
+    List.ofFn (fun k : Fin n => (CertModel.mul W cfg [3, 0, a.val, b.val, k.val]
+        (dkAngleModel n K W pe k.val a.val) (dkAngleModel n K W pe k.val b.val),
+      (fun θ => (DK θ a).1 k) * (fun θ => (DK θ b).1 k))) ++
+    List.ofFn (fun k : Fin n => (CertModel.mul W cfg [3, 0, a.val, b.val, n + k.val]
+        (dkActionModel n K W pe k.val a.val) (dkActionModel n K W pe k.val b.val),
+      (fun θ => (DK θ a).2 k) * (fun θ => (DK θ b).2 k)))
+  have hL : ∀ p ∈ L, p.1.Encloses n W.rho p.2 := by
+    intro p hp
+    rcases List.mem_append.mp hp with hp | hp
+    · obtain ⟨k, rfl⟩ := (List.mem_ofFn' _ _).mp hp
+      exact CertModel.Encloses.mul hW cfg _ (dkAngleModel_encloses hW hpe K k a)
+        (dkAngleModel_encloses hW hpe K k b)
+    · obtain ⟨k, rfl⟩ := (List.mem_ofFn' _ _).mp hp
+      exact CertModel.Encloses.mul hW cfg _ (dkActionModel_encloses hW hpe K k a)
+        (dkActionModel_encloses hW hpe K k b)
+  have := modelSum_encloses hW hpe L hL
+  have hfst : L.map Prod.fst = List.ofFn (fun k : Fin n =>
+      CertModel.mul W cfg [3, 0, a.val, b.val, k.val]
+        (dkAngleModel n K W pe k.val a.val) (dkAngleModel n K W pe k.val b.val)) ++
+      List.ofFn (fun k : Fin n => CertModel.mul W cfg [3, 0, a.val, b.val, n + k.val]
+        (dkActionModel n K W pe k.val a.val) (dkActionModel n K W pe k.val b.val)) := by
+    simp only [L, List.map_append, List.map_ofFn]
+    rfl
+  rw [hfst] at this
+  refine this.of_eq fun θ => ?_
+  simp only [L, List.map_append, List.map_ofFn, List.sum_append, List.sum_ofFn,
+    Function.comp_def, Pi.mul_apply, gramMatrix, dotℂ, Finset.sum_add_distrib, hDK]
+
+/-- **Gram models contract.** -/
+theorem gramModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
+    (K : CertEmbedding α) {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true)
+    (cfg : ModelConfig α) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true) :
+    (gramModels n K W cfg pe).Encloses n (fun i : Fin n => i.val) W.rho
+      (gramMatrix (K.eval n)) := by
+  intro i j
+  by_cases hij : i.val ≤ j.val
+  · refine ⟨gramEntryModel n K W cfg pe i.val j.val, ?_,
+      gramEntryModel_encloses K hW cfg hpe i j⟩
+    simp [gramModels, hij]
+  · refine ⟨gramEntryModel n K W cfg pe j.val i.val, ?_,
+      (gramEntryModel_encloses K hW cfg hpe j i).of_eq fun θ => gramMatrix_comm _ θ j i⟩
+    simp [gramModels, hij]
+
+end Sound
+
 end KAM.Certificate
