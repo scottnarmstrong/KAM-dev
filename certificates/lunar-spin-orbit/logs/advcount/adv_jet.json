@@ -1,0 +1,53 @@
+{
+ "program_length": 887,
+ "ops": {
+  "const": 204,
+  "action": 3,
+  "char": 14,
+  "add": 180,
+  "mul": 486
+ },
+ "mul_classes_whole": {
+  "CC": 7,
+  "CM": 478,
+  "MM": 1
+ },
+ "per_call": {
+  "invariance (d1)": {
+   "slots": 170,
+   "CC": 3,
+   "CM": 72,
+   "MM": 0,
+   "MM_products": []
+  },
+  "energy (v0)": {
+   "slots": 86,
+   "CC": 0,
+   "CM": 25,
+   "MM": 1,
+   "MM_products": [
+    "(A0*A0)"
+   ]
+  },
+  "torsion (d1, d2)": {
+   "slots": 401,
+   "CC": 7,
+   "CM": 201,
+   "MM": 0,
+   "MM_products": []
+  },
+  "whole program (naive left fold, incl. d3)": {
+   "slots": 887,
+   "CC": 7,
+   "CM": 478,
+   "MM": 1,
+   "MM_products": [
+    "(A0*A0)"
+   ]
+  }
+ },
+ "zero_slots_in_tables": {
+  "d1": 0,
+  "d2": 11
+ }
+}
