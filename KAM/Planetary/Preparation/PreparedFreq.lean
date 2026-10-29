@@ -257,6 +257,98 @@ theorem p11_freq_partial (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
   gcongr
   exact (norm_le_pi_norm _ 0)
 
+/-- Operator norm of a derivative from the norms of its values on the basis vectors. -/
+theorem p11_freq_opNorm_le {N : ℕ} (L : P11CVec N →L[ℂ] P11CVec N) {B : ℝ}
+    (hB : ∀ c : Fin N, ‖L (Pi.single c 1)‖ ≤ B) : ‖L‖ ≤ N * B := by
+  have hB0 : 0 ≤ B ∨ N = 0 := by
+    rcases Nat.eq_zero_or_pos N with h | h
+    · exact Or.inr h
+    · exact Or.inl ((norm_nonneg _).trans (hB ⟨0, h⟩))
+  rcases hB0 with hB0 | hN0
+  · refine ContinuousLinearMap.opNorm_le_bound _ (by positivity) fun v => ?_
+    have hv : v = ∑ c : Fin N, v c • (Pi.single c 1 : P11CVec N) := by
+      funext i; simp [Finset.sum_apply, Pi.single_apply]
+    conv_lhs => rw [hv]
+    rw [map_sum]
+    refine (norm_sum_le _ _).trans ?_
+    calc ∑ c : Fin N, ‖L (v c • (Pi.single c 1 : P11CVec N))‖
+        ≤ ∑ _c : Fin N, B * ‖v‖ := by
+          refine Finset.sum_le_sum fun c _ => ?_
+          rw [map_smul, norm_smul]
+          calc ‖v c‖ * ‖L (Pi.single c 1)‖ ≤ ‖v‖ * B :=
+                mul_le_mul (norm_le_pi_norm v c) (hB c) (norm_nonneg _) (norm_nonneg _)
+            _ = B * ‖v‖ := mul_comm _ _
+      _ = N * B * ‖v‖ := by simp; ring
+  · subst hN0
+    have : L = 0 := by ext v i; exact i.elim0
+    simp [this]
+
+theorem p11_pr_b (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ K : ℝ, 0 < K ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n}
+      {Q : P11PreparedData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c →
+      K * (1 + c) * eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) ≤ 1 →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      P11FastSpec C eps Fast → P11SlowSpecOf C Fast nu eps c A →
+      (∀ I ∈ KAM.actionNbhd (p11PreparedBox n) 1, Q.N I =
+        (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) /
+          (eps : ℂ)) →
+      p11Bound (KAM.actionNbhd (p11PreparedBox n) (3 / 4)) (p11PreparedFreq Q) (2 * C.L + 1) ∧
+      ∀ I ∈ KAM.actionNbhd (p11PreparedBox n) (3 / 4),
+        ‖fderiv ℂ (p11PreparedFreq Q) I‖ ≤ 2 * C.L + 1 := by
+  obtain ⟨K0, hK0, hpart⟩ := p11_freq_partial hC hnu
+  obtain ⟨-, hτ0, hL1, -, -, -, -, -, -, -⟩ := fast_consts hC
+  have hnn : (0 : ℝ) ≤ ((n + n : ℕ) : ℝ) := Nat.cast_nonneg _
+  refine ⟨((n + n : ℕ) : ℝ) * (K0 + C.L) + K0 + 1, by positivity, ?_⟩
+  intro Fast eps c A Q heps hεM hc0 hθ hzs h5 hFs hA hN
+  have hl : 1 ≤ Real.log (1 / eps) := slow_log_ge_one hC heps hεM
+  generalize hQe : 5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1) = Qe at hθ
+  have hQ0 : 0 ≤ Qe := by
+    rw [← hQe]
+    have : (0 : ℝ) ≤ (p11PatchData D).mu := Nat.cast_nonneg _
+    positivity
+  have hlQ : 1 ≤ Real.log (1 / eps) ^ Qe := Real.one_le_rpow hl hQ0
+  generalize hE : Real.log (1 / eps) ^ Qe = lQ at hθ hlQ
+  have hKK : K0 ≤ ((n + n : ℕ) : ℝ) * (K0 + C.L) + K0 + 1 := by
+    have : 0 ≤ ((n + n : ℕ) : ℝ) * (K0 + C.L) := by positivity
+    linarith
+  have hθ0 : K0 * (1 + c) * eps * lQ ≤ 1 := by
+    refine le_trans ?_ hθ
+    have : 0 ≤ (1 + c) * eps * lQ := by positivity
+    nlinarith
+  have hpart' := hpart (Fast := Fast) (A := A) (Q := Q) heps hεM hc0
+  rw [hQe, hE] at hpart'
+  have hpart'' := hpart' hθ0 hzs h5 hFs hA hN
+  refine ⟨fun I hI => ?_, fun I hI => ?_⟩
+  · have h0 := hpart'' I hI 0 (by omega) 0 (by simp)
+    rw [p11PartialVec_zero] at h0
+    simp only [ite_true] at h0
+    show ‖p11PreparedFreq Q I‖ ≤ 2 * C.L + 1
+    linarith
+  · have hb : ∀ c' : Fin (n + n), ‖fderiv ℂ (p11PreparedFreq Q) I (Pi.single c' 1)‖ ≤
+        eps * C.L + K0 * (1 + c) * eps * lQ := by
+      intro c'
+      have h1 := hpart'' I hI 1 (by omega) (Pi.single c' 1) (by simp)
+      rw [p11PartialVec_single] at h1
+      simpa using h1
+    have hop := p11_freq_opNorm_le (fderiv ℂ (p11PreparedFreq Q) I) hb
+    refine hop.trans ?_
+    have h2 : ((n + n : ℕ) : ℝ) * (eps * C.L + K0 * (1 + c) * eps * lQ) ≤ 1 := by
+      refine le_trans ?_ hθ
+      have hLe : eps * C.L ≤ C.L * (1 + c) * eps * lQ := by
+        have : 0 ≤ C.L * eps := by positivity
+        nlinarith [mul_nonneg this hc0, mul_nonneg this (sub_nonneg.2 hlQ)]
+      have h3 : eps * C.L + K0 * (1 + c) * eps * lQ ≤ (K0 + C.L) * (1 + c) * eps * lQ := by
+        nlinarith
+      calc ((n + n : ℕ) : ℝ) * (eps * C.L + K0 * (1 + c) * eps * lQ)
+          ≤ ((n + n : ℕ) : ℝ) * ((K0 + C.L) * (1 + c) * eps * lQ) :=
+            mul_le_mul_of_nonneg_left h3 hnn
+        _ ≤ _ := by
+            have : 0 ≤ (K0 + C.L) * (1 + c) * eps * lQ := by positivity
+            nlinarith
+    linarith
+
 end Freq
 
 end KAM.Planetary
