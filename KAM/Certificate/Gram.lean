@@ -57,10 +57,15 @@ section Defs
 
 variable {α : Type} [CertArith α]
 
-/-- `a + b` at the degree of `a` (`b` re-expressed by `toDeg`; a no-op at equal degrees). -/
+/-- `a + b` at the degree of `a` (`b` re-expressed by `toDeg`; a no-op at equal degrees). A
+summand without terms (e.g. a product with an entry of `DK` that is identically zero) adds only
+its radius: no merge and no weighted pass over the other summand's terms. -/
 def CertModel.addMixed (W : CertWeight) (pe : PiEnclosure α) (a b : CertModel α) :
     CertModel α :=
-  CertModel.add W a (CertModel.toDeg W pe a.deg b)
+  let b' := CertModel.toDeg W pe a.deg b
+  if b'.poly.terms.isEmpty then ⟨a.deg, a.poly, upAdd a.rad b'.rad⟩
+  else if a.poly.terms.isEmpty then ⟨a.deg, b'.poly, upAdd a.rad b'.rad⟩
+  else CertModel.add W a b'
 
 /-- One round of pairwise model sums: `[a, b, c, d, e] ↦ [a + b, c + d, e]`. -/
 def modelSumPairs (W : CertWeight) (pe : PiEnclosure α) : List (CertModel α) → List (CertModel α)
@@ -191,11 +196,43 @@ theorem CertModel.Encloses.of_eq_fun {n : ℕ} {ρ : ℝ} {m : CertModel α} {f 
     (h : m.Encloses n ρ f) (hfg : ∀ θ, f θ = g θ) : m.Encloses n ρ g := by
   rwa [← funext hfg]
 
+/-- Two enclosures at the same degree, with a polynomial `P` denoting the sum of theirs, give
+`⟨deg, P, rad_a + rad_b⟩` (rounded upward) for the sum. -/
+theorem encloses_add_of_eval {n : ℕ} {ρ : ℝ} {a b : CertModel α} {P : CertPoly α}
+    {f g : (Fin n → ℂ) → ℂ} (ha : a.Encloses n ρ f) (hb : b.Encloses n ρ g) (hdeg : a.deg = b.deg)
+    (hP : ∀ θ, P.eval n θ = a.poly.eval n θ + b.poly.eval n θ) :
+    (⟨a.deg, P, upAdd a.rad b.rad⟩ : CertModel α).Encloses n ρ (f + g) := by
+  intro θ hθ
+  have hA := ha θ hθ
+  have hB := hb θ hθ
+  rw [← hdeg] at hB
+  have hu := LawfulCertArith.upAdd_ge a.rad b.rad
+  have h2 : (0 : ℝ) < (2 * Real.pi) ^ a.deg := by positivity
+  change ‖f θ + g θ - (2 * (Real.pi : ℂ)) ^ a.deg * P.eval n θ‖ ≤
+    (2 * Real.pi) ^ a.deg * val (upAdd a.rad b.rad)
+  rw [hP, show f θ + g θ - (2 * (Real.pi : ℂ)) ^ a.deg * (a.poly.eval n θ + b.poly.eval n θ) =
+    (f θ - (2 * (Real.pi : ℂ)) ^ a.deg * a.poly.eval n θ) +
+      (g θ - (2 * (Real.pi : ℂ)) ^ a.deg * b.poly.eval n θ) by ring]
+  refine (norm_add_le _ _).trans ?_
+  nlinarith
+
 theorem CertModel.Encloses.addMixed {n : ℕ} {W : CertWeight} {s N : ℕ}
     (hW : checkWeight W s N = true) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true)
     {a b : CertModel α} {f g : (Fin n → ℂ) → ℂ} (ha : a.Encloses n W.rho f)
-    (hb : b.Encloses n W.rho g) : (CertModel.addMixed W pe a b).Encloses n W.rho (f + g) :=
-  CertModel.Encloses.add hW ha (hb.toDeg hW hpe a.deg) (toDeg_deg W pe a.deg b).symm
+    (hb : b.Encloses n W.rho g) : (CertModel.addMixed W pe a b).Encloses n W.rho (f + g) := by
+  have hb' := hb.toDeg hW hpe a.deg
+  have hd := toDeg_deg W pe a.deg b
+  unfold CertModel.addMixed
+  dsimp only
+  split_ifs with h1 h2
+  · exact encloses_add_of_eval ha hb' hd.symm fun θ => by
+      have : (CertModel.toDeg W pe a.deg b).poly.eval n θ = 0 := by
+        rw [CertPoly.eval, List.isEmpty_iff.mp h1]; simp
+      rw [this, add_zero]
+  · exact encloses_add_of_eval ha hb' hd.symm fun θ => by
+      have : a.poly.eval n θ = 0 := by rw [CertPoly.eval, List.isEmpty_iff.mp h2]; simp
+      rw [this, zero_add]
+  · exact CertModel.Encloses.add hW ha hb' hd.symm
 
 section ModelSum
 
