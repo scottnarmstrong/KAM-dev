@@ -59,6 +59,60 @@ theorem p11cGe_phi4_exists (p : PlanarData) (hp : p.Valid) :
   rw [← p11c_sigma_eq_sigma p hp ha'] at this
   simpa using this
 
+/-- Nonresonance of the adapter product is exactly `nr4` of the spectrum `p11c_sigma`:
+the integer-mode enumeration (`Fin 9` encoding) against `SecularSpectrum.k4 2`. -/
+theorem p11cGe_phi4_ne_zero_iff_nr4 (p : PlanarData) (a : Fin 2 → ℝ) :
+    p11c_phi4 p a ≠ 0 ↔ SecularSpectrum.nr4 (p11c_sigma p a) := by
+  unfold p11c_phi4 SecularSpectrum.nr4
+  rw [Finset.prod_ne_zero_iff]
+  constructor
+  · intro h
+    have hk : ∀ k : Fin 2 → ℤ, k ∈ SecularSpectrum.k4 2 →
+        ∑ i, (k i : ℝ) * p11c_sigma p a i ≠ 0 := by
+      intro k hk
+      obtain ⟨hk0, hk4⟩ := hk
+      have hbd : ∀ i, -4 ≤ k i ∧ k i ≤ 4 := by
+        intro i
+        have : |k i| ≤ ∑ j, |k j| :=
+          Finset.single_le_sum (f := fun j => |k j|) (fun j _ => abs_nonneg _)
+            (Finset.mem_univ i)
+        exact abs_le.1 (this.trans hk4)
+      let k' : Fin 2 → Fin 9 := fun i => ⟨(k i + 4).toNat, by have := hbd i; omega⟩
+      have hk'v : ∀ i, ((k' i).val : ℤ) - 4 = k i := by
+        intro i
+        have := hbd i
+        simp only [k']
+        omega
+      have hmem : k' ∈ (Finset.univ : Finset (Fin 2 → Fin 9)).filter
+          (fun k => 0 < (∑ i, |((k i).val : ℤ) - 4|) ∧
+            (∑ i, |((k i).val : ℤ) - 4|) ≤ 4) := by
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and, hk'v]
+        exact ⟨hk0, hk4⟩
+      have hne := h k' hmem
+      have hcast : ∀ i, (((k' i).val : ℝ) - 4) = (k i : ℝ) := fun i => by
+        exact_mod_cast hk'v i
+      simpa only [hcast] using hne
+    refine ⟨fun i j hij => ?_, hk⟩
+    by_contra hne
+    have hk1 := hk ![1, -1] ⟨by simp [Fin.sum_univ_two], by simp [Fin.sum_univ_two]⟩
+    apply hk1
+    have : ∀ x y : Fin 2, x ≠ y → x = 0 ∧ y = 1 ∨ x = 1 ∧ y = 0 := by decide
+    rcases this i j hne with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
+      simp [Fin.sum_univ_two, hij]
+  · rintro ⟨-, h⟩ k hk
+    rw [Finset.mem_filter] at hk
+    have := h (fun i => ((k i).val : ℤ) - 4) hk.2
+    simpa using this
+
+/-- Locus bridge (design P11C L187, U9 L54): on the axis cone the nonzero locus of the adapter
+`p11c_phi4` is that of the Part-9 product `SecularSpectrum.good` of the secular spectrum. -/
+theorem p11cGe_phi4_ne_zero_iff_good (p : PlanarData) (hp : p.Valid) :
+    ∀ a ∈ p11c_axes, p11c_phi4 p a ≠ 0 ↔
+      SecularSpectrum.good (SecularSpectrum.sigma (p11cSecularData p hp) a) ≠ 0 := by
+  intro a ha
+  rw [p11cGe_phi4_ne_zero_iff_nr4, SecularSpectrum.good_ne_zero_iff,
+    p11c_sigma_eq_sigma p hp ha]
+
 theorem p11cGe_det_analytic (p : PlanarData) (hp : p.Valid) :
     AnalyticOnNhd ℝ (fun a => (p11c_beta p a).det) p11c_axes := by
   intro a ha
