@@ -14581,9 +14581,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-el
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 ruling 06:30: parent stepP:p7:po-el#circular is PROVED via the direct route (po_el_circular)
 NOTE: covers only the scalar circular identities; the parent separately treats the LRL identity at L158-L159
 
 NODE: stepP:p7:po-el#circular-direct
@@ -14611,9 +14611,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: po_el_circular (KAM/Planetary/Poincare/ChartNodes.lean); poincare_elements (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: route taken (ruling 06:30, D27): parent po-el#circular proves the scalars by direct computation via poincare_elements/poincare_facts on the Poincare formula, not via the scaled track-I endpoint
 NOTE: covers only the scalar circular identities; the parent separately treats the LRL identity at L158-L159
 
 NODE: bpP:p8:e-param
@@ -17483,9 +17483,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-c@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 ruling 06:30: parent stepP:p9:gs-c is PROVED via the analytic route (good_uniform_nonresonance)
 NOTE: SOURCE_GAP: L183 asserts continuity of roots as one alternative. No admitted external or imported source contract in this packet supplies that general theorem. This branch records the asserted bridge; the analytic-route is the explicitly supplied alternative.
 
 NODE: stepP:p9:gs-c#analytic-route
@@ -17512,9 +17512,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-c@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_uniform_nonresonance (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean); min_mode_continuous_positive (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: route taken (ruling 06:30, D27): continuity of the minimal mode comes from sorted_analytic (local analytic eigenvalue branches)
 NOTE: The analytic eigenvalue branches are local on the simple-spectrum good set. Finiteness of K_4 and compactness give a positive minimum; no global eigenvector frame is assumed.
 
 NODE: bpP:p10:conv#data
@@ -33227,9 +33227,9 @@ EDGE: bpP:p6:tube-geometry | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: alternative route node; audit marks it alternative, not a separately stated declaration
+LEAN_STATUS: PROVED
+LEAN_REF: movingKolmogorovSet_of_tube (KAM/Planetary/Newtonian/Assembly.lean)
+LEAN_NOTE: route taken (ruling 06:30, D27): the Newton solution clause is orbit_transfer_moving (orbit-transfer), Assembly.lean:130
 NOTE: route node; alternative of stepP:p12:pl-phys#route-tube
 
 NODE: stepP:p12:pl-phys#route-tube
@@ -33258,9 +33258,9 @@ EDGE: stepP:p12:pl-tori | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:pl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: alternative route node; audit marks it alternative, not a separately stated declaration
+LEAN_NOTE: D27 ruling 06:30: parent stepP:p12:pl-phys is PROVED via route-orbit (orbit_transfer_moving)
 NOTE: route node; alternative of stepP:p12:pl-phys#route-orbit
 
 NODE: bpP:p12:quantifiers
