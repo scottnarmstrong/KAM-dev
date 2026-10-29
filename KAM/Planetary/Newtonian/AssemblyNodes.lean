@@ -24,7 +24,7 @@ open MeasureTheory
 
 namespace KAM.Planetary
 
-open KAM KAM.Kepler
+open KAM KAM.Kepler KAM.ODE
 
 section AssemblyNodes
 
@@ -47,7 +47,8 @@ theorem rc_a_lengths {m0 μ : ℝ} {m : Fin n → ℝ} {J : Set ℝ} {z : ℝ �
             planeLength (bodyVector (z t).1 j - bodyVector (z t).1 i) ∧
           0 < planeLength (bodyVector (z t).1 j - bodyVector (z t).1 i)) ∧
       (∀ i j : Fin (n + 1),
-        planeLength (barycentricPositions m0 m μ (z t).1 j - barycentricPositions m0 m μ (z t).1 i) =
+        planeLength (barycentricPositions m0 m μ (z t).1 j -
+            barycentricPositions m0 m μ (z t).1 i) =
           planeLength (barycentricPositions m0 m μ (z t).1 i -
             barycentricPositions m0 m μ (z t).1 j)) := by
   intro t ht
@@ -239,18 +240,18 @@ theorem measure_positive {G m0 : ℝ} {m a : Fin n → ℝ} {η : ℝ} (hG : 0 <
             ENNReal.ofReal ((2 * ((⨆ i, m i * √(G * m0 / a i)) + η)) ^ (n * 2)) ∧
           ENNReal.ofReal ((2 * ((⨆ i, a i) + η)) ^ (n * 2)) *
             ENNReal.ofReal ((2 * ((⨆ i, m i * √(G * m0 / a i)) + η)) ^ (n * 2)) < ⊤) ∧
-    ∀ {c : ℝ}, 0 < c → ∀ {O : Set (Phase (n * 2))}, IsOpen O →
-      ∀ {Ψ : Phase (n * 2) → Phase (n * 2)}, IsChart c Ψ O →
+    ∀ (c : ℝ), 0 < c → ∀ (O : Set (Phase (n * 2))), IsOpen O →
+      ∀ (Ψ : Phase (n * 2) → Phase (n * 2)), IsChart c Ψ O →
       (∀ z ∈ O, ∀ k : Fin (n * 2) → ℤ,
         z + angleShift k ∈ O ∧ Ψ (z + angleShift k) = Ψ z) →
       (∀ z ∈ O, ∀ z' ∈ O, Ψ z' = Ψ z → ∃ k : Fin (n * 2) → ℤ, z' = z + angleShift k) →
-      ∀ {A : Set (Phase (n * 2))}, NullMeasurableSet A → A ⊆ O →
+      ∀ (A : Set (Phase (n * 2))), NullMeasurableSet A → A ⊆ O →
       (∀ k : Fin (n * 2) → ℤ, (fun z => z + angleShift k) '' A = A) → 0 < volume A →
       NullMeasurableSet (Ψ '' A) ∧ (MeasurableSet A → MeasurableSet (Ψ '' A)) ∧
         volume (Ψ '' A) = ENNReal.ofReal (c ^ (n * 2)) * volume (A ∩ unitCell (n * 2)) ∧
         0 < volume (Ψ '' A) ∧
         (Ψ '' A ⊆ circularTube G m0 m a η → volume (Ψ '' A) < ⊤) := by
-  refine ⟨mp_a_box hG hm0 hm ha hη, fun hc hO hΨ hQ1 hQ2 hA hAO hAper hApos => ?_⟩
+  refine ⟨mp_a_box hG hm0 hm ha hη, fun c hc O hO Ψ hΨ hQ1 hQ2 A hA hAO hAper hApos => ?_⟩
   have h := mp_b_measure (G := G) (m0 := m0) (m := m) (a := a) (η := η) hG hm0 ha hc hO hΨ hQ1
     hQ2 hA hAO hAper hApos
   exact ⟨h.1, fun hB => mp_b_measurableSet hc hO hΨ hQ1 hQ2 hB hAO hAper, h.2⟩
