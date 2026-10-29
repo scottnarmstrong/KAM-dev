@@ -33,3 +33,15 @@ inv: `-6w⁴ f_i f_j f_k + 2w³(cross) - w² f_ijk`). `jet_d3` via `iteratedFDer
 CONTEXT: track SO (plan /root/code/KAM/docs/campaign/design/SPIN-ORBIT-PLAN.md; design /root/code/KAM-inp-design-so/docs/tracks/SO/design/SO-LEAN-DESIGN.md, Revision 4); draft signatures /root/code/KAM-inp/.drafts/design/SOSignatures.lean section D: HamExpr.jet_d3 (the third-order jet), extending SO-EXPR-B1 (landed on inp after its own PASS audit). SCOPE: audit ONLY what this branch adds or changes relative to inp (git diff inp -- KAM): about 31 new declarations, in Expr/{Diff,DiffBuild,DiffNode,DiffCalculus3}.lean. Declarations that landed with SO-EXPR-B1 (e.g. SlpEnt.pure, SlpEnt.mul, SlpEnt.scale, SlpNode.Sound.mono) are out of scope. Check that jet_d3 identifies the compiled program's third-order values with the third iterated derivative of HamExpr.eval in all directions on the open set where every divisor is nonvanishing, with no hypothesis beyond the signed ones. Orchestrator rename: JetSmoothOn.neg -> JetSmoothOn.jetNeg.
 
 AUDIT FOCUS: signed declarations match verbatim; soundness with no added premise; the B2 slice complete. Common to all: (a) every SIGNED declaration = signature file EXACTLY (including fully qualified names); (b) the slice COMPLETE; (c) proof soundness, no added premises; (d) hygiene: no EuclideanSpace, no public short name reused from KAM or Mathlib among the declarations THIS BRANCH ADDS, no harmful root shadow, lines <= 100, no native_decide or axiom.
+
+## Round 2 (integration fix, commits 3627099d merge of inp + edec1f19)
+
+At landing, SO-EXPR-B2 conflicted with SO-BALL (landed meanwhile; both built on SO-EXPR-B1): B2 changed
+slpInvTail_sound (a new hw4 fourth-power witness, a third slpMulO in the inverse-case program) that Ball.lean's
+inverse case called. The orchestrator merged inp into this branch; a prover then changed ONLY
+KAM/Certificate/Expr/Ball.lean: the proof of slpInvNode_emit_prefix (statement unchanged) now goes through DiffNode's
+slpInvPre_spec, plus two new helpers slpMulO_prefix_self and slpInvPre_emit_prefix. All four signed Ball declarations
+are unchanged. Builds: Expr.Ball, Tests.Ball, Tests.ComplexExp, Expr.Diff all succeed.
+ROUND 2 FOCUS (delta): audit ONLY the Ball.lean diff (git diff 3627099d -- KAM/Certificate/Expr/Ball.lean) and the merge
+(no other file changed by it beyond inp's own content): are the signed Ball declarations byte-identical to the signed
+versions, is the new proof sound with no added premise, are the two helpers hygienic (names, lines)? Verdict.
