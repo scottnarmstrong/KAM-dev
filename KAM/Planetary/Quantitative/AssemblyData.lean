@@ -69,8 +69,8 @@ theorem p11c_mem_thick {d : QuantitativeData N} (hv : 0 ≤ d.vartheta) {y : Fin
 derivative supremum bounded by `d.M0`. -/
 theorem p11c_selData_exists (d : QuantitativeData N) (hd : d.NumericalValid)
     (h : (Fin N → ℂ) → ℂ) (f : (Fin N → ℂ) × (Fin N → ℂ) → ℂ) (hh : QuantitativeInput d h f) :
-    ∃ ds : SelectionData N, ds.h = h ∧ qbcOfSelection ds d.M0 = d ∧
-      selectionM₀ ds ≤ d.M0 := by
+    ∃ (ds : SelectionData N) (m0 : ℝ), ds.h = h ∧ qbcOfSelection ds m0 = d ∧
+      selectionM₀ ds ≤ m0 := by
   obtain ⟨hN, hmu, hrho, hgap, htau, hv0, hv1, hs0, hs1, hC1, hM0, hb0, hbM, hKc, hl0, hlK⟩ := hd
   obtain ⟨hhol, -, -, hreal, -, hfin, htop, hhess, hM0b⟩ := hh
   have hvol : 0 < volume d.K := (ENNReal.ofReal_pos.2 hl0).trans hlK
@@ -86,7 +86,7 @@ theorem p11c_selData_exists (d : QuantitativeData N) (hd : d.NumericalValid)
       selectionDGVector j (frequencyMap h) y ≤ d.M0 := hM0le
   refine ⟨SelectionData.mk d.mu d.rho d.tau d.vartheta d.s d.C1 d.beta d.M d.epsLoss d.K h
     hN hmu hrho htau hgap hKc hvol hv0 hv1 hs0 hs1 hC1 hb0 hbM hl0 hlK hhol
-    (fun y hy => hreal y hy) hhess ?_ ?_, rfl, rfl, ?_⟩
+    (fun y hy => hreal y hy) hhess ?_ ?_, d.M0, rfl, rfl, ?_⟩
   · intro c hc y hy
     obtain ⟨j, hj, v, hv, hge⟩ := hfin c (by rw [p11c_euclid_eq]; exact hc) y hy
     refine ⟨j, hj, hge.trans ?_⟩
