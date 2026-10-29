@@ -111,3 +111,19 @@ scalar pin with per-witness halvings and the eps_0 budget including reduction, r
 character witnesses in Slp.compose)? Do the landed Roots.lean signatures appear verbatim? Is the fail-closed
 contract stated on successful calls only, with no caller-side size hypothesis anywhere? Any new blocking issue?
 Re-run the signature gate. Verdict and numbered findings.
+
+## Round 5 (design Revision 5, commits 9de9c4bf, 8a08ba30, ecc4666c)
+
+Revision 5 (section '## Revision 5' of the design; full handoff .drafts/handoff-SO-DESIGN-R5.md) implements:
+owner ruling O5 (the lunar client in the rotated frame Q1 = q - phi, Q2 = phi, P1 = p, P2 = p + J; parameter package
+R1; G-J restated); the advice-checked Kronecker-packed product architecture from SO-REPLAY2
+(/root/code/KAM/docs/tracks/SO/studies/SO-REPLAY2-advice-sharded-products.md) for Poly/Ops and Model/Ops; the
+orchestrator-fixed rotated Diophantine signatures (SO-ROTDIO) adopted verbatim; the signature file split into
+/root/code/KAM-inp/.drafts/design/SOSignatures.lean (engine) and SOSignaturesLunar.lean (lunar client); design audit 4's
+F11; a new §7.2 on data packaging that leaves an OWNER decision open (not a finding by itself).
+ROUND 5 FOCUS: (1) the rotated client: is the final confinement statement unchanged in the original coordinates, is H'
+exactly soHC composed with the symplectic map, are the clock and frequency facts right, does the exact-torus-to-barrier
+wrapper use SO-GRAPHM's landed core correctly? (2) the advice-checked products: is the soundness contract of every
+product the enclosure of the EXACT product (no trust in the advice), with packing/injectivity/remainder lemmas stated
+and no conclusion-shaped premise? (3) both signature files elaborate and match the landed modules; (4) any new blocking
+issue. Verdict and numbered findings.
