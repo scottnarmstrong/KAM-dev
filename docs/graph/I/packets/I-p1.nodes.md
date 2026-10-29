@@ -261,9 +261,9 @@ EDGE: bpI:p1:ext-chain | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:eb-holo-fr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Torus.differentiableOn_tangentMat, KAM.Torus.differentiableOn_gramMatrix (KAM/Torus/FrozenAgreement.lean)
+LEAN_NOTE: Setting-free (premise hK only; precedent rd-ql). Same LEAN_REF as PROVED K node step:p3:red-holomorphy.
 NOTE: -
 
 NODE: stepI:p1:eb-holo-inverse
@@ -798,9 +798,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:lr-insert@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.LastRowAux.energyRow_eq_sub_etaL, KAM.Iso.Linear.LastRowAux.sum_norm_energyRow_sub_le (KAM/Iso/Linear/LastRow.lean)
+LEAN_NOTE: Premise IsUnit det G only; Y = omega - etaL and sum|Y_b - omega_b| <= n|etaL|; I1-2-audit-1.md:60-61 PASS.
 NOTE: -
 
 NODE: stepI:p1:lr-average
@@ -929,9 +929,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ea-omega@L30
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.Energy.fderiv_comp_apply, KAM.Iso.Linear.Energy.fderiv_comp_omega (KAM/Iso/Linear/Energy.lean)
+LEAN_NOTE: Pointwise differentiability only; chain rule gives D(H o K)omega = DH(K)L omega, and = -DH(K)E; I1-3-audit-1.md:71-73 PASS.
 NOTE: -
 
 NODE: stepI:p1:ea-gradient
@@ -1958,7 +1958,7 @@ EDGE: stepI:p1:ea-gradient | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:ea-avg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): alternative route; ea-avg closes via its exactness route
 NOTE: Alternative source route; requires independent delta review. Exactness supplies avg Omega_K = 0; (c) supplies avg eta^N = 0.

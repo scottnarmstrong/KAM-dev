@@ -143,9 +143,9 @@ EDGE: bpI:p7:elements | blueprint-I/parts/p7-delaunay.tex#bpI:p7:h0@L282-L283 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p7b+sol-review-I-p67
 REVIEWER: sol-delta-I-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit KEP-5 PASS: delaunay_hamiltonian (KAM/Kepler/Orbit.lean) proves only H^K o Q = -1/(2L^2) - G; the identity H^R3_0 = H^K at collision-free z is not in an audited table
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunay_hamiltonian (KAM/Kepler/Orbit.lean); KAM.Iso.restrictedHamTotal_zero, KAM.Iso.restrictedHamiltonian_eq (KAM/Iso/RestrictedHam.lean)
+LEAN_NOTE: First clause: delaunay_hamiltonian (kE - planeCross o Q = -1/(2L^2) - G on deDom; KEP-5-audit-1.md:58). Second clause: restrictedHamTotal_zero + restrictedHamiltonian_eq (rfl) (I-3-audit-1.md:36).
 NOTE: -
 
 NODE: stepI:p7:h0-formula
@@ -173,9 +173,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:h0-formula@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit KEP-5 PASS: delaunay_hamiltonian covers only the H^K o Q formula; the mu = 0 identification is not in an audited table
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunay_hamiltonian (KAM/Kepler/Orbit.lean); KAM.Iso.restrictedHamTotal_zero, KAM.Iso.restrictedHamiltonian_eq (KAM/Iso/RestrictedHam.lean)
+LEAN_NOTE: Rule 05:10, conditional on parent bpI:p7:h0 being PROVED in this same map: KEP-5-audit-1.md:58, I-3-audit-1.md:36.
 NOTE: -
 
 NODE: bpI:p7:complex-domain
@@ -1038,7 +1038,7 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#bpI:p7:sec-complex@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p7b+sol-review-I-p67
 REVIEWER: sol-delta-I-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: data definition not named in any audited table
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.SafeAction, KAM.Iso.kEccMin, KAM.Iso.kEccMax, KAM.Iso.kLMin, KAM.Iso.kGMin, KAM.Iso.kRmin, KAM.Iso.kRhoMax, KAM.Iso.UDelta (KAM/Iso/ComplexDomain.lean); KAM.Kepler.keplerE2, KAM.Kepler.keplerDeltaK, KAM.Kepler.keplerTube (KAM/Kepler/KeplerTube.lean); KAM.actionNbhd (KAM/Frozen/Defs/ActionNbhd.lean)
+LEAN_NOTE: Every defined object classified: I-6-audit-1.md:47-53 and 'Definition classification' (SafeAction, six extrema, UDelta over frozen actionNbhd), KEP-4-audit-1.md:75,78,80,120-125 (e2, delta_K, P(e1)); K_delta = sealed actionNbhd, openness I-8-audit-1.md:70.
 NOTE: section data node (SPEC, Part 7 L325-335)

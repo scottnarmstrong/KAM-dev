@@ -126,9 +126,9 @@ EDGE: bpI:p8:A | blueprint-I/parts/p8-r3bp.tex#bpI:p8:sec-safe#data@L132-L132 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p8
 REVIEWER: sol-review-I-p5p8
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: data definition not named in any audited table
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.R3bp.R3bpParams, KAM.Iso.R3bp.actionRegion, KAM.Iso.R3bp.actionRegionCl (KAM/Iso/R3bp/Region.lean)
+LEAN_NOTE: R3bpParams = six verbatim source premises incl. rho_*<1 (field hinner); actionRegion/actionRegionCl; P8-2-audit-1.md:44,48-49 PASS.
 NOTE: Section data paragraph L132 (SPEC): rho_* < 1 and e_+ < 1/4 are consumed by sr-radii and the safe definition.
 
 NODE: bpI:p8:A
