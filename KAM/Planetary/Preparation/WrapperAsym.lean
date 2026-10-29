@@ -169,6 +169,78 @@ theorem p11_ev_tube {D : P11Physical n} (hC : P11SecularSpec D (p11SecularData D
       mul_le_mul_of_nonneg_left (hd2'.trans hd2) (by positivity)
     linarith
 
+theorem p11_rpow_natpow {eps : ℝ} (heps : 0 < eps) (k : ℕ) (x : ℝ) :
+    ((eps ^ k : ℝ)) ^ x = eps ^ ((k : ℝ) * x) := by
+  rw [← Real.rpow_natCast, ← Real.rpow_mul heps.le]
+
+theorem p11_rpow_scale {eps : ℝ} (heps : 0 < eps) {βJ : ℝ} (hβ : 0 < βJ) (k : ℕ) (x : ℝ) :
+    ((1/2 : ℝ)*eps ^ k*βJ) ^ x = (βJ/2) ^ x * eps ^ ((k : ℝ) * x) := by
+  have : (1/2 : ℝ)*eps ^ k*βJ = (βJ/2)*eps ^ k := by ring
+  rw [this, Real.mul_rpow (by positivity) (by positivity), p11_rpow_natpow heps]
+
+/-- The threshold and displacement inequalities of `wr-nu`, for small `ε`. -/
+theorem p11_ev_thr {c q βJ cstar cD B0 G0 nu : ℝ} {mu : ℕ} (hc : 0 < c) (hq : 0 ≤ q)
+    (hβ : 0 < βJ) (hcs : 0 < cstar) (hcD : 0 < cD) (hG0 : 0 ≤ G0)
+    (hν1 : ((mu + 2 : ℕ) : ℝ)*B0 + 2 ≤ nu) (hν2 : 2*((mu + 2 : ℕ) : ℝ)*G0 + 4 ≤ nu) :
+    ∀ᶠ eps : ℝ in nhdsWithin 0 (Ioi 0), 0 < eps →
+      c*eps^(nu+3/2)*Real.log (1/eps)^q ≤ cstar*((1/2 : ℝ)*eps^(mu+2)*βJ)^B0 ∧
+      cD*(c*eps^(nu+3/2)*Real.log (1/eps)^q)^(1/2 : ℝ)*((1/2 : ℝ)*eps^(mu+2)*βJ)^(-G0) ≤ 1/2 := by
+  set m : ℝ := ((mu + 2 : ℕ) : ℝ) with hm
+  have hm0 : 0 ≤ m := by positivity
+  set K1 : ℝ := cstar*(βJ/2)^B0 with hK1
+  have hK10 : 0 < K1 := by positivity
+  set K2 : ℝ := cD*c^(1/2 : ℝ)*(βJ/2)^(-G0) with hK2
+  have hK20 : 0 < K2 := by positivity
+  filter_upwards [p11_ev_pow_log (a := 1/2) (b := q) (δ := K1/c) (by norm_num) hq (by positivity),
+    p11_ev_pow_log (a := 1/2) (b := q/2) (δ := 1/(2*K2)) (by norm_num) (by positivity)
+      (by positivity), p11_ev_lt one_pos] with eps h1 h2 h3 heps
+  have hℓ : 0 ≤ Real.log (1/eps) := by
+    rw [one_div, Real.log_inv]
+    have := Real.log_nonpos heps.le h3.le
+    linarith
+  have hℓq : 0 ≤ Real.log (1/eps)^q := Real.rpow_nonneg hℓ _
+  have hmon : ∀ x : ℝ, 1/2 ≤ x → eps^x ≤ eps^(1/2 : ℝ) := fun x hx =>
+    Real.rpow_le_rpow_of_exponent_ge heps h3.le hx
+  refine ⟨?_, ?_⟩
+  · have e1 : eps^(nu+3/2) = eps^(m*B0)*eps^(nu+3/2-m*B0) := by
+      rw [← Real.rpow_add heps]; ring_nf
+    rw [p11_rpow_scale heps hβ, e1]
+    have h4 : eps^(nu+3/2-m*B0) ≤ eps^(1/2 : ℝ) := hmon _ (by linarith)
+    have h5 : c*eps^(1/2 : ℝ)*Real.log (1/eps)^q ≤ K1 := by
+      have := mul_le_mul_of_nonneg_left h1 hc.le
+      calc c*eps^(1/2 : ℝ)*Real.log (1/eps)^q = c*(eps^(1/2 : ℝ)*Real.log (1/eps)^q) := by ring
+        _ ≤ c*(K1/c) := this
+        _ = K1 := by field_simp
+    have h6 : c*(eps^(m*B0)*eps^(nu+3/2-m*B0))*Real.log (1/eps)^q ≤ eps^(m*B0)*K1 := by
+      calc c*(eps^(m*B0)*eps^(nu+3/2-m*B0))*Real.log (1/eps)^q =
+          eps^(m*B0)*(c*eps^(nu+3/2-m*B0)*Real.log (1/eps)^q) := by ring
+        _ ≤ eps^(m*B0)*(c*eps^(1/2 : ℝ)*Real.log (1/eps)^q) := by
+          refine mul_le_mul_of_nonneg_left ?_ (by positivity)
+          exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left h4 hc.le) hℓq
+        _ ≤ eps^(m*B0)*K1 := mul_le_mul_of_nonneg_left h5 (by positivity)
+    calc _ ≤ eps^(m*B0)*K1 := h6
+      _ = cstar*((βJ/2)^B0*eps^(m*B0)) := by rw [hK1]; ring
+  · rw [p11_rpow_scale heps hβ, Real.mul_rpow (by positivity) hℓq]
+    rw [Real.mul_rpow (by positivity) (by positivity), ← Real.rpow_mul hℓ,
+      ← Real.rpow_mul heps.le]
+    have e2 : eps^((nu+3/2)*(1/2 : ℝ))*eps^(m*(-G0)) = eps^((nu+3/2)*(1/2 : ℝ)+m*(-G0)) := by
+      rw [← Real.rpow_add heps]
+    have h4 : eps^((nu+3/2)*(1/2 : ℝ)+m*(-G0)) ≤ eps^(1/2 : ℝ) := hmon _ (by nlinarith)
+    have h5 : K2*(eps^(1/2 : ℝ)*Real.log (1/eps)^(q/2)) ≤ 1/2 := by
+      have := mul_le_mul_of_nonneg_left h2 hK20.le
+      calc _ ≤ K2*(1/(2*K2)) := this
+        _ = 1/2 := by field_simp
+    have e3 : q*(1/2 : ℝ) = q/2 := by ring
+    rw [e3]
+    calc _ =
+        K2*((eps^((nu+3/2)*(1/2 : ℝ))*eps^(m*(-G0)))*Real.log (1/eps)^(q/2)) := by
+          rw [hK2, hm]; ring
+      _ ≤ K2*(eps^(1/2 : ℝ)*Real.log (1/eps)^(q/2)) := by
+          rw [e2]
+          exact mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right h4
+            (Real.rpow_nonneg hℓ _)) hK20.le
+      _ ≤ 1/2 := h5
+
 end Asym
 
 end KAM.Planetary
