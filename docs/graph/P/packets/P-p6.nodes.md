@@ -1700,9 +1700,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not in GAP-P6b
+LEAN_STATUS: PROVED
+LEAN_REF: ma_newton (KAM/Planetary/Newtonian/AssemblyNewtonNodes.lean)
+LEAN_NOTE: audit GAP-PX PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ma-pair
