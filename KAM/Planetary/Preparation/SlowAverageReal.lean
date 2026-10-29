@@ -105,6 +105,52 @@ theorem p11_slow_h0_real (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastDa
   rw [this]
   simp [Complex.add_im, Complex.mul_im, hhr, hPA]
 
+/-- `f₂` is real at the real points of the strip over the box. -/
+theorem p11_slow_f2_real (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
+    (hF : P11FastSpec C eps Fast) {AR AB : P11CVec n × P11CVec n → ℂ}
+    (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) :
+    KAM.Canonical.RealOn (KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps)
+      (p11SlowF2 C Fast eps (p11SlowZ AR AB)) := by
+  obtain ⟨-, -, -, hf1r, -, hGr, -⟩ := id hF
+  intro x hx
+  obtain ⟨hz, hre, -, hG, hU⟩ := p11_slow_pt hC heps hεM hsm hx
+  have hxpos : ∀ i : Fin n, 0 < x.2 (Fin.natAdd n i) := fun i => by
+    have := hre i
+    simpa [p11SlowR] using this
+  have hpol := p11_polarC_real hxpos
+  -- the polar point is real
+  have hPt : p11PolPt (KAM.realInclusion₂ (n + n) x) = KAM.realInclusion₂ n
+      ((fun i => (p11PolarR x).1 (Fin.natAdd n i)), (fun i => (p11PolarR x).2 (Fin.natAdd n i))) := by
+    unfold p11PolPt
+    rw [hpol]
+    rfl
+  have hGim : (Fast.G (p11SlowJ (KAM.realInclusion₂ (n + n) x).2,
+      p11PolPt (KAM.realInclusion₂ (n + n) x))).im = 0 := by
+    rw [hPt]
+    have hJ' : p11SlowJ (KAM.realInclusion₂ (n + n) x).2 =
+        KAM.realInclusion n (fun i => x.2 (Fin.castAdd n i)) := p11SlowJ_real x.2
+    rw [hJ']
+    have hJn : ‖(fun i => x.2 (Fin.castAdd n i)) - C.J0‖ < p11s1 C eps / 2 := by
+      have := mem_ball_iff_norm.1 hG.1
+      rw [hJ', ← map_sub, KAM.norm_realInclusion] at this
+      exact this
+    refine hGr _ hJn _ ?_
+    have := mem_ball_zero_iff.1 hG.2
+    rwa [hPt, KAM.norm_realInclusion₂] at this
+  have hsecim : (p11SlowSec C (KAM.realInclusion₂ (n + n) x).2 +
+      p11SlowZ AR AB (KAM.realInclusion₂ (n + n) x).2).im = 0 := by
+    have hI : (KAM.realInclusion₂ (n + n) x).2 ∈ p11SlowBox C eps := hx.2
+    rw [p11_slow_secZ_eq hC Fast hF hP heps hεM hsm hI]
+    exact p11_slow_PA_real hC Fast hF heps hεM hsm (I := x.2) hI
+  have hf1im : (Fast.f1 (p11PolarC (KAM.realInclusion₂ (n + n) x))).im = 0 := by
+    rw [hpol]
+    refine hf1r _ ?_
+    rw [← hpol]; exact hU
+  unfold p11SlowF2
+  rw [Complex.add_im, Complex.mul_im, Complex.sub_im, hGim, hsecim, hf1im]
+  simp
+
 end Real
 
 end KAM.Planetary
