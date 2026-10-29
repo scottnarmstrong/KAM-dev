@@ -770,3 +770,19 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   Lane N work for Zohar's team is unaffected (it lives on GitHub). Also: SO-MINV audit 1 failed only on the
   namespace (root instead of KAM.Certificate); the orchestrator moved it and requested a delta re-audit; launched
   SO-EXPR-A (expression language basics) and SO-RAT (the exact rational backend that Revision 3 moved pre-gate).
+- **14:35. Orchestrator pause for a session restart (owner request). State for resumption.**
+  - Landed on main via kam-inp (track SO): SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF,
+    SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-EXPR-A (Expr/Basic).
+  - Owner decisions today: constants "study first" (done; studies in docs/tracks/SO/studies/); O5 rotated lunar frame
+    adopted; sharper KAM theorem not funded; replay gate GO.
+  - Running provers (tmux inp-mprov-*): SO-EXPR-B2 (soexprc, claude-8, off inp-soexprb), SO-BALL (soball, claude-12,
+    off inp-soexprb), SO-GEN2 (sogen2, claude-7 Opus, Python only), SO-DESIGN-R5 (design-so, claude-10 Opus).
+  - Running audits (tmux inp-maud-*): SO-GRAPHM round 2 (after orchestrator hygiene renames), SO-NORM, SO-EXPR-B1,
+    SO-HAMX, SO-DIO3 (round 1).
+  - Waiter to re-arm: main_wait.sh "inp-maud-sographm:maud-sographm-2 inp-maud-sonorm:maud-sonorm-1
+    inp-maud-soexprb:maud-soexprb-1 inp-maud-sohamx:maud-sohamx-1 inp-maud-sodio3:maud-sodio3-1"
+    "soexprc:SO-EXPR-B2 soball:SO-BALL sogen2:SO-GEN2 design-so:SO-DESIGN-R5".
+  - Held, not for merge: inp-design-so (until Revision 5 passes), inp-soreplay (prototype; worktree removed, drafts
+    archived). Next after audits pass: send SO-GRAPHM, SO-NORM, SO-EXPR-B1, SO-HAMX, SO-DIO3 to kam-inp; then
+    SO-HAMX-ROT and the rotated lunar packages per Revision 5; data packaging (lint exemption?) is an owner question.
+  - Disk: root at 96% (6.5 GB free); sweep worktrees after each landing.
