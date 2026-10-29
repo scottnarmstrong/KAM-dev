@@ -46,8 +46,8 @@ theorem exp_le_ratExpUp {q : ℚ} (hq : 0 ≤ q) (s N : ℕ) : Real.exp q ≤ ra
     set x : ℚ := q / 2 ^ s with hx
     have hx0 : 0 ≤ x := by positivity
     have hx1 : (x : ℝ) ≤ 1 := by exact_mod_cast h1
-    have hb := Real.exp_bound (x := (x : ℝ)) (by rw [abs_of_nonneg (by exact_mod_cast hx0)]; exact hx1)
-      hN
+    have hb := Real.exp_bound (x := (x : ℝ))
+      (by rw [abs_of_nonneg (by exact_mod_cast hx0)]; exact hx1) hN
     have hxq : (q : ℝ) = (2 ^ s : ℕ) * (x : ℝ) := by
       rw [hx]; push_cast; field_simp
     rw [sqIter_cast, hxq, Real.exp_nat_mul]
@@ -56,6 +56,7 @@ theorem exp_le_ratExpUp {q : ℚ} (hq : 0 ≤ q) (s N : ℕ) : Real.exp q ≤ ra
     rw [abs_of_nonneg (by exact_mod_cast hx0)] at this
     push_cast
     simp only [Nat.succ_eq_add_one] at this
+    push_cast at this
     linarith
   · have h1 : Real.exp (q : ℝ) ≤ Real.exp (⌈q⌉₊ : ℝ) := by
       apply Real.exp_le_exp.mpr
