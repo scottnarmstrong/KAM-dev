@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 12:06 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **247,165 lines of Lean** of an estimated ≈ 272,000
+> **Last updated: 2026-10-29 12:17 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **247,983 lines of Lean** of an estimated ≈ 273,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,22 +126,22 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **247,165** (193,368 excluding blank lines and comments) · **+173,287** since 2026-10-28 12:00 UTC |
-| Written on agent branches, not yet landed | 3,323 |
-| **Estimated total at completion** | **≈ 272,000** |
+| On `main` now | **247,983** (193,955 excluding blank lines and comments) · **+174,105** since 2026-10-28 12:00 UTC |
+| Written on agent branches, not yet landed | 3,054 |
+| **Estimated total at completion** | **≈ 273,000** |
 | Estimated still to write | ≈ 22,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment. History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 12:06 UTC from `main` at `00deb18a` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 12:17 UTC from `main` at `68eabb9b` by `scripts/hq-status.py`.*
 
-**Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
+**Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
 **Frozen statements proved: 20 / 22** · frozen definitions: 122
 
-**Lean on `main`:** 1288 modules · 247,165 lines · 10,466 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1293 modules · 247,983 lines · 10,496 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 2 (KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean, KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean)
@@ -161,8 +161,9 @@ Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md
 |---|---|---|---|---|
 | **K** | Positive-measure KAM for nearly-integrable analytic Hamiltonians, complement ≤ C·ε^{1/4} | 5 / 5 | 453 / 453 nodes resolved | **complete**: blueprint, graph and all five frozen theorems sealed (2026-10-28) |
 | **I** | All-time confinement in two degrees of freedom (isoenergetic KAM); restricted circular planar three-body problem | 4 / 4 | 450 / 450 nodes resolved | **complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form |
-| **N** | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 5 / 6 | 410 / 728 nodes resolved | proof campaign: Parts 1, 3, 4, 5 proved; Parts 6–7 Lean design in audit; 2 of 6 frozen theorems sealed |
-| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 6 / 7 | 1319 / 1363 nodes resolved | proof campaign: Kepler/Delaunay, Poincaré and Newtonian layers proved; Part 1 Lean design in audit; graph in global review |
+| **N** | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 5 / 6 | 410 / 728 nodes resolved | **paused (2026-10-29), handed to Zohar's team**: Parts 1, 3, 4, 5 proved; open work and N11 branches on GitHub (`inp-n11f1`, `inp-n11f2`, `lane-n-handoff`); 5 of 6 frozen theorems sealed |
+| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 6 / 7 | 1319 / 1363 nodes resolved | **anchors complete except one**: fixedSunPlanetaryKAM sealed 2026-10-29; the last open theorem (planetaryExponentialSafety) needs lane N; remaining open graph nodes are lane-N steps and owner-review items |
+| **SO** | A general Lean certificate checker turning numerical KAM tori into theorems; lunar spin–orbit confinement |p(t) − 1| ≤ 33/1000 for all time | 0 / 0 | not published yet | **started 2026-10-29 (D30)**: plan [`SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); model, Diophantine bounds, clock lemma, π enclosures, constants, generator data, arithmetic interface and barrier theorem landed or landing; design of the general black box in its third audit; replay-cost gate under study |
 <!-- /AUTO:tracks -->
 
 **Track SO, the lunar spin–orbit certificate.** Numerical KAM computations find invariant tori to 100+ digits, but a
@@ -286,8 +287,8 @@ flowchart BT
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 21 | 4,684 | 195 |
 | [`KAM/Nekhoroshev/`](KAM/Nekhoroshev) | Track N: Nekhoroshev stability | 121 | 28,441 | 1269 |
 | [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 755 | 146,479 | 6001 |
-| [`KAM/Certificate/`](KAM/Certificate) | — | 5 | 1,486 | 87 |
-| [`KAM/SpinOrbit/`](KAM/SpinOrbit) | — | 4 | 960 | 73 |
+| [`KAM/Certificate/`](KAM/Certificate) | — | 9 | 2,072 | 106 |
+| [`KAM/SpinOrbit/`](KAM/SpinOrbit) | — | 5 | 1,192 | 84 |
 <!-- /AUTO:areas -->
 
 ## What the agents are doing now
@@ -303,13 +304,15 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
-| **soaif** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-AIF: Roots, certCExp ball arithmetic, line-length fixes | `inp-soaif` | 3 (vs `inp`) |
-| **soconf** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-CONF: global existence, uniqueness and barrier confinement | `inp-soconf` | 2 (vs `inp`) |
+| **sofreq** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-FREQ: exact frequencies with rational boxes; lunar Q(sqrt 5) instance | `inp-sofreq` | 1 (vs `inp`) |
+| **sominv** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-MINV: expose HasShape | `inp-sominv` | 2 (vs `inp`) |
+| **sonorm** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-NORM: X_H partials (wip) | `inp-sonorm` | 2 (vs `inp`) |
+| **sopbase** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PBASE: Poly/Basic part 1 (CertPoly, CertRealPoly, eval, bridge, reality) | `inp-sopbase` | 1 (vs `inp`) |
 | **soreplay** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-REPLAY: wrap long docstring line | `inp-soreplay` | 4 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
@@ -320,6 +323,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 12:17 | `68eabb9b` | HQ: add track SO (lunar spin-orbit certificate) to the README; refresh track N/P stages and the current phase |
+| 2026-10-29 12:16 | `cd8e13a2` | Land inp into main |
 | 2026-10-29 12:06 | `00deb18a` | OVERNIGHT: track SO 11:40-11:55 (SO-GEN ruling, replay gate verdict, constants study) |
 | 2026-10-29 11:41 | `dccc14ed` | Land inp into main |
 | 2026-10-29 11:39 | `c5f43114` | Land inp into main |
@@ -330,8 +335,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 10:59 | `870e3617` | Land inp into main |
 | 2026-10-29 10:42 | `2676fe90` | SO plan: owner chose the fully general certificate black box; SO-DESIGN next |
 | 2026-10-29 10:37 | `c9eb4103` | D30: start the lunar spin-orbit certificate project (3.3% band); plan SPIN-ORBIT-PLAN.md |
-| 2026-10-29 10:16 | `8beff117` | HQ: offloaded-branch states from live prover/audit sessions; refresh stale INP worker entries |
-| 2026-10-29 10:15 | `6e6971ff` | HQ: count unlanded Lean lines per unlanded commit, not by main...branch diff |
 <!-- /AUTO:landed -->
 
 ## Decisions
