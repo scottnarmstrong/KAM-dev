@@ -192,7 +192,6 @@
    "as_intended": true,
    "design": "control",
    "failed": [
-    "checkHamBounds",
     "checkEmbedding"
    ],
    "intended": "checkEmbedding",

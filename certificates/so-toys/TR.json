@@ -1966,7 +1966,7 @@
   "n": 2,
   "params": {
    "E0": "0",
-   "M": "153/100",
+   "M": "89/50",
    "disp": "0",
    "err": "0",
    "gamma": "1/42",
@@ -1976,9 +1976,9 @@
    "rho": "9",
    "rhoInf": "1",
    "s": "2",
-   "sB": "51/50",
-   "sK": "51/50",
-   "sT": "177/100",
+   "sB": "89/50",
+   "sK": "89/50",
+   "sT": "89/50",
    "sigma_omega": "3",
    "tau": 1
   },
@@ -2067,7 +2067,7 @@
      9.01,
      9.02
     ],
-    "sK_minus_mu": 1.01
+    "sK_minus_mu": 1.77
    },
    "checkEnergy": {
     "bound": 0.0,
@@ -2076,10 +2076,10 @@
    "checkGram": {
     "beta": 1.0,
     "delta": 0.0,
-    "sB_minus_mu": 1.01
+    "sB_minus_mu": 1.77
    },
    "checkHamBounds": {
-    "M": 1.53,
+    "M": 1.78,
     "bounds": {
      "D2H": 1.0,
      "D2X_H": 0.0,
@@ -2098,8 +2098,8 @@
     "disp_min": 0.0,
     "log10_err": null,
     "log10_ratio_C1": null,
-    "log10_threshold": -29.96587408179468,
-    "mSize": 1.77,
+    "log10_threshold": -30.055122070743444,
+    "mSize": 1.78,
     "ratio_C1": 0.0
    },
    "checkStatic": {
@@ -2113,7 +2113,7 @@
     "normInvBound": 1.75,
     "normR": 0.0,
     "normS": 1.75,
-    "sT_minus_mu": 1.76
+    "sT_minus_mu": 1.77
    }
   },
   "passes": true,

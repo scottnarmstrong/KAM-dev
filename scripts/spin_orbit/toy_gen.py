@@ -141,12 +141,17 @@ def finish_params(c, err, gamma, extra_disp=F(1)):
     p = c["params"]
     K.prepare(c)
     b, _ = K.ball_bounds(c)
-    p["M"] = round_up(max(b.values()) * F(1001, 1000))
-    p["sK"] = round_up(1 + p["mu"] + F(1, 1000))
-    p["sB"] = round_up(1 + p["mu"] + F(1, 1000))
+    # sigma_K, sigma_B first at their minimum (the torsion witness needs the Gram check); then, since only
+    # mSize = max(1, M, sK, sB, sT) enters the constants, every one of them is raised to that maximum for free
+    p["sK"] = round_up(1 + p["mu"] + F(1, 100))
+    p["sB"] = round_up(1 + p["mu"] + F(1, 100))
     S, Cm = torsion_witness(c)
     c["torsInv"] = S
-    p["sT"] = round_up(norm_S(S) * F(1001, 1000) + p["mu"])
+    p["sT"] = round_up(norm_S(S) * F(101, 100) + p["mu"])
+    p["M"] = round_up(max(b.values()) * F(21, 20))
+    top = max(p["M"], p["sK"], p["sB"], p["sT"])
+    for k in ("M", "sK", "sB", "sT"):
+        p[k] = top
     p["err"] = err
     p["disp"] = F(0)
     q = dict(p, n=c["n"])
