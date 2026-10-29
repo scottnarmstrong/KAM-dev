@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 20:47 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 74 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **269,028 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 21:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 74 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **269,028 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -201,16 +201,16 @@ Overall, everything together: 92.2 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **269,028** (210,153 excluding blank lines and comments) · **+94,844** since 2026-10-28 20:40 UTC |
-| Written on agent branches, not yet landed | 0 |
-| **Estimated total at completion** | **≈ 275,000** |
+| On `main` now | **269,028** (210,153 excluding blank lines and comments) · **+93,277** since 2026-10-28 21:00 UTC |
+| Written on agent branches, not yet landed | 1,265 |
+| **Estimated total at completion** | **≈ 276,000** |
 | Estimated still to write | ≈ 5,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 20:47 UTC from `main` at `adfdf7a9` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 21:00 UTC from `main` at `ea4f6ea5` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -369,9 +369,10 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **errata** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Audit errata and deviations against pinned sources | `inp-errata` | 3 (vs `inp`) |
+| **errata** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: ERRATA: round-2 verification request | `inp-errata` | 5 (vs `inp`) |
+| **sotors** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TORS: fix omit placement | `inp-sotors` | 9 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
