@@ -106,6 +106,34 @@ theorem p11s2_log_lower (hC : P11SecularSpec D C) {nu eps : ℝ} (hnu : 0 < nu) 
           div_le_div_of_nonneg_right (min_le_right _ _) hq.le
       _ = _ := by field_simp
 
+/-- Atoms of the divisor smallness `K c (ε + η₁) ≤ γ K^{-τ}/8`. -/
+theorem small_arith_cz {t l a u γ eps c ce η : ℝ} (ht : 1 ≤ t) (hl : 1 ≤ l) (ha : 0 < a)
+    (hu : 0 < u) (hγ : 0 < γ) (heps : 0 < eps) (hc : 0 ≤ c) (hce : 0 ≤ ce)
+    (hη : η ≤ ce * eps * (t ^ 2 * l))
+    (hsm : 8 * u * a * (c * (1 + ce) + 1) * (eps * (t ^ 3 * l ^ 2)) ≤ γ) :
+    a * l * (c * (eps + η)) ≤ γ * (u * t)⁻¹ / 8 := by
+  have ht0 : 0 < t := by linarith
+  have hl0 : 0 < l := by linarith
+  have h1 : 1 ≤ t ^ 2 * l := by nlinarith [pow_le_pow_left₀ zero_le_one ht 2, one_le_pow₀ ht (n := 2)]
+  have h2 : eps ≤ eps * (t ^ 2 * l) := by nlinarith
+  have h3 : eps + η ≤ (1 + ce) * (eps * (t ^ 2 * l)) := by nlinarith
+  have h4 : a * l * (c * (eps + η)) ≤ a * l * (c * ((1 + ce) * (eps * (t ^ 2 * l)))) :=
+    mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left h3 hc) (by positivity)
+  refine h4.trans ?_
+  rw [div_eq_mul_inv, ← div_eq_mul_inv, le_div_iff₀ (by norm_num : (0 : ℝ) < 8)]
+  have hut : 0 < u * t := by positivity
+  have : a * l * (c * ((1 + ce) * (eps * (t ^ 2 * l)))) * 8 * (u * t) =
+      8 * u * a * (c * (1 + ce)) * (eps * (t ^ 3 * l ^ 2)) := by ring
+  have hpos : 0 ≤ 8 * u * a * (c * (1 + ce)) * (eps * (t ^ 3 * l ^ 2)) := by positivity
+  calc a * l * (c * ((1 + ce) * (eps * (t ^ 2 * l)))) * 8
+      = a * l * (c * ((1 + ce) * (eps * (t ^ 2 * l)))) * 8 * (u * t) * (u * t)⁻¹ := by
+        field_simp
+    _ ≤ γ * (u * t)⁻¹ := by
+        rw [this]
+        refine mul_le_mul_of_nonneg_right ?_ (by positivity)
+        nlinarith [mul_nonneg (mul_nonneg (by positivity : (0:ℝ) ≤ 8 * u * a)
+          (by positivity : 0 ≤ eps * (t ^ 3 * l ^ 2))) (by norm_num : (0:ℝ) ≤ 1)]
+
 end Small
 
 end KAM.Planetary
