@@ -136,6 +136,44 @@ theorem step_ea_defect (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r)
     exact mul_le_mul_of_nonneg_left (add_le_add (hη x hx)
       (mul_le_mul_of_nonneg_left (hΩ x hx) (norm_nonneg _))) (Nat.cast_nonneg n)
 
+/-- `bpI:p1:energy-approx`, step `ea-defect` (f), full node conclusion (audit F1): everything in
+`step_ea_defect`, together with the first averaged estimate of the source chain
+`|⟨D(H ∘ K) ξᴸ⟩| ≤ sup|D(H ∘ K)| · sup|ξᴸ|` over the cube, for every uniform bounds `A`, `X`. -/
+theorem step_ea_defect_node (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r)
+    (hK : DifferentiableOn ℂ K (complexStrip n r)) (hKp : IsPrimaryOnStrip K r)
+    (hKr : IsRealOnReals K) (hKD : ∀ θ ∈ complexStrip n r, K θ ∈ D)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det) {r' : ℝ} (hr' : 0 < r')
+    (hr'r : r' ≤ r) {ξL ξN : (Fin n → ℂ) → Fin n → ℂ}
+    (hξL : DifferentiableOn ℂ ξL (complexStrip n r'))
+    (hξN : DifferentiableOn ℂ ξN (complexStrip n r')) :
+    ((∀ θ ∈ complexStrip n r',
+      fderiv ℂ H (K θ) ((sumVec n).symm (frameMat K θ *ᵥ Sum.elim (ξL θ) (ξN θ))) =
+        energyRow H K θ ⬝ᵥ ξN θ + fderiv ℂ (fun y => H (K y)) θ (ξL θ) ∧
+      fderiv ℂ (fun y => H (K y)) θ (ξL θ) =
+        etaN H K ω θ ⬝ᵥ ξL θ - (fun l => (ω l : ℂ)) ⬝ᵥ (lagrangeMat K θ *ᵥ ξL θ)) ∧
+    avg (fun θ => fderiv ℂ H (K θ) ((sumVec n).symm (frameMat K θ *ᵥ Sum.elim (ξL θ) (ξN θ)))) =
+      avg (fun θ => energyRow H K θ ⬝ᵥ ξN θ) + avg (fun θ => fderiv ℂ (fun y => H (K y)) θ (ξL θ)) ∧
+    (∀ ηω : ℂ, avg (fun θ => energyRow H K θ ⬝ᵥ ξN θ) = ηω →
+      avg (fun θ => fderiv ℂ H (K θ) ((sumVec n).symm (frameMat K θ *ᵥ Sum.elim (ξL θ) (ξN θ)))) =
+        ηω + avg (fun θ => fderiv ℂ (fun y => H (K y)) θ (ξL θ)))) ∧
+    (∀ A X : ℝ,
+      (∀ x ∈ Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
+        ‖fderiv ℂ (fun y => H (K y)) (fun i => (x i : ℂ))‖ ≤ A) →
+      (∀ x ∈ Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
+        ‖ξL (fun i => (x i : ℂ))‖ ≤ X) →
+      ‖avg (fun θ => fderiv ℂ (fun y => H (K y)) θ (ξL θ))‖ ≤ A * X) ∧
+    ∀ Aη AΩ X : ℝ,
+      (∀ x ∈ Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
+        ‖etaN H K ω (fun i => (x i : ℂ))‖ ≤ Aη) →
+      (∀ x ∈ Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
+        ‖lagrangeMat K (fun i => (x i : ℂ))‖ ≤ AΩ) →
+      (∀ x ∈ Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
+        ‖ξL (fun i => (x i : ℂ))‖ ≤ X) →
+      ‖avg (fun θ => fderiv ℂ (fun y => H (K y)) θ (ξL θ))‖ ≤ n * (Aη + ‖ω‖ * AΩ) * X := by
+  have h := step_ea_defect hS hr hK hKp hKr hKD hG hr' hr'r hξL hξN
+  exact ⟨⟨h.1, h.2.1, h.2.2.1⟩,
+    (energy_defect_src hS hr hK hKp hKr hKD hG hr' hr'r hξL hξN).2.2, h.2.2.2.2⟩
+
 /-- `bpI:p1:energy-conservation`, step `ec-derivative`: if `E = 0` on `T_r`, then
 `u = H ∘ K - ⟨H ∘ K⟩` is holomorphic, `1`-periodic on `T_r` with `⟨u⟩ = 0` and `Du ω = 0`. -/
 theorem step_ec_derivative (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r)
