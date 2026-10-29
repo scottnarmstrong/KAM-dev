@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 15:59 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **260,375 lines of Lean** of an estimated ≈ 271,000
+> **Last updated: 2026-10-29 16:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **260,375 lines of Lean** of an estimated ≈ 271,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 15:59 UTC from `main` at `4eecace1` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:00 UTC from `main` at `a91bf83c` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
