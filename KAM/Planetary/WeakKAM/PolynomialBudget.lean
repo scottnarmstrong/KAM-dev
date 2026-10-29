@@ -81,9 +81,11 @@ theorem polyBudget_thetaMax_le {d : SelectionData n} {m0 : ℝ} (hm : selectionM
   have h0 := selectionM₀_nonneg d
   unfold QuantitativeData.thetaMax selectionThetaMax
   simp only [qbcOfSelection]
-  split_ifs
-  · exact le_rfl
-  · refine min_le_min le_rfl ?_
+  by_cases hr : d.ρ = 1
+  · simp only [hr, ite_true]
+    exact le_rfl
+  · simp only [hr, ite_false]
+    refine min_le_min le_rfl ?_
     have hc : (0 : ℝ) < 2 ^ (d.μ + 1) := by positivity
     have h1 : 0 < 2 ^ (d.μ + 1) * (2 * selectionM₀ d + d.β) := by positivity
     refine div_le_div_of_nonneg_left hb.le h1 ?_
@@ -127,14 +129,12 @@ theorem polyBudget_exponent_eq (n μ ρ : ℕ) (τ : ℝ) (r : SelectionRates) :
     (BudgetRates.exponent n μ ρ τ
       ⟨r.theta, r.strip, r.beta, r.loss, r.M, r.M₀, r.C₁, r.diam⟩) =
       selectionBudgetExponent n μ ρ τ r := by
-  have hL : (if 0 < r.strip then r.strip + 1 else 0) = selectionBudgetL r := by
-    unfold selectionBudgetL
+  have hL : (if 0 < r.strip then r.strip + 1 else 0) = if r.strip = 0 then 0 else r.strip + 1 := by
     rcases r.nonneg.2.1.lt_or_eq with h | h
     · simp [h, h.ne']
     · simp [← h]
-  unfold BudgetRates.exponent selectionBudgetExponent selectionBudgetH selectionBudgetJ
-    selectionBudgetX selectionBudgetG selectionBudgetD
-  simp only [one_div, hL]
+  simp only [BudgetRates.exponent, selectionBudgetExponent, selectionBudgetH, selectionBudgetJ,
+    selectionBudgetX, selectionBudgetG, selectionBudgetD, selectionBudgetL, one_div, hL, max_assoc]
 
 /-- Uniform coefficient depends on the strip rate but not the other seven rates. -/
 theorem adm_budget (n μ ρ : ℕ) (τ c as_ : ℝ) (hn : 1 ≤ n) (hμ : 1 ≤ μ)
@@ -217,9 +217,8 @@ theorem polyBudget_exponent_beta (n μ ρ : ℕ) (hμ : 1 ≤ μ) (hρ : ρ = 1 
     exact max_eq_left hG0
   unfold selectionBudgetExponent selectionBudgetH
   rw [hJ, hG, hL, hX]
-  simp only [mul_zero, add_zero, zero_add]
+  simp only [mul_zero, add_zero]
   rw [max_eq_right (le_max_of_le_left (by linarith)), ← two_mul]
-  congr 1
 
 /-- c_* chosen BEFORE varying h, beta, epsilon and f with the same numerical/geometric key. -/
 theorem adm_budget_beta (d₀ : SelectionData n) :
@@ -282,7 +281,8 @@ theorem polyBudget_CGamma {d d₀ : SelectionData n}
   obtain ⟨hμ, hρ, hτ, hϑ, hs, hC, hMd, hl, hK, hM0⟩ := polyBudget_key hk
   simp only [selectionCGamma, selectionChat, hμ, hρ, hτ, hϑ, hMd, hl, hK]
 
-/-- Both K5 and K6, with one family witness and constants uniform in h, beta, epsilon and f at fixed key. -/
+/-- Both K5 and K6, with one family witness and constants uniform in h, beta, epsilon and f at
+fixed key. -/
 theorem displacement_power (d₀ : SelectionData n) :
     ∃ cD cstar : ℝ, 0 < cD ∧ 0 < cstar ∧ ∀ d : SelectionData n,
       selectionFixedKey d = selectionFixedKey d₀ → d.β ≤ 1 →
