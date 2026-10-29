@@ -1003,3 +1003,12 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   below the threshold (log10 headroom 2.73 and 2.44), not 5300x and 2700x. The C2 condition needs disp >= 1.164e35
   err. Both sent to land after the B2 scrub. Running: SO-PYALIGN, SO-TEST-B; CLEANUP-B34 (unused helpers, duplicate
   statements) briefed for after B2.
+- **22:18. SO-PYALIGN done; SO-TEST-A started.** The Python mirror is now a literal transcription of the landed
+  checker (model engine, eight sub-checks, compose, Gram, torsion); the four toys pass all eight sub-checks again,
+  deterministic; key coverage: every emitted advice key is looked up and every lookup is emitted; the 16 negative
+  mutations fail as before. Two old mirror bounds were optimistic (toDeg centre, recipOneSubUp), now fixed. T2d's
+  full-stage cutoff rose to 10^6 (the d2/d3 slots reach |k| = 1064). Caveats recorded for SO-DATA: every toDeg pays
+  the Machin gap, so the lunar pi enclosure must be far below err ~1e-78 (k = j = 4 gives 1e-12); keys [5, a, l] and
+  [4, 10, ...] are never looked up; a mirror run of T2d takes ~400 s, so the lunar mirror needs the packed route.
+  Landing as Python/data (the Lean checker is authoritative and fails closed). SO-TEST-A (toys through the whole
+  checker in the kernel, the first whole-certificate kernel measurement) started on the aligned data.
