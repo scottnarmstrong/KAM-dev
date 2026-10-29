@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:22 UTC from `main` at `f0beaace` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:22 UTC from `main` at `d6946670` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -380,7 +380,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: I-GUARDS: kernel_replay.sh and guard_mutation_suite (WIP) | `inp-iguards` | 1 (vs `inp`) |
 | **pcloselean** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P-CLOSE-LEAN: audit request | `inp-pcloselean` | 2 (vs `inp`) |
@@ -396,6 +396,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 16:22 | `d6946670` | README: papers moved to docs/PAPERS.md (grouped, annotated: links, use, citing frozen theorems, errata), README keeps a linked index; landed table drops author names from commit subjects; HL19 is Haro-Luque |
 | 2026-10-29 16:18 | `be2cfcd8` | README: no per-author credit for parts of the project (collaborative project); track N and phase text, collaborator row, progress notes |
 | 2026-10-29 16:17 | `2ec85e19` | Land inp into main |
 | 2026-10-29 16:16 | `2e00eef7` | D31: owner rulings on the graph P definition and convention nodes; OVERNIGHT 16:10 (all 22 frozen theorems sealed) |
@@ -407,7 +408,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 15:49 | `9dadb354` | Land inp into main |
 | 2026-10-29 15:47 | `200a95ed` | Land inp into main |
 | 2026-10-29 15:33 | `17989d76` | OVERNIGHT 15:35: track N complete, E11/E12Q started, N seal-key audit (Q1 ruling, A1 F2 retro audit), design audit 6, I-GUARDS; SO-GRAPHR landed |
-| 2026-10-29 15:30 | `9c9824e1` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
