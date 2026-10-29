@@ -16,7 +16,7 @@ import Mathlib.Analysis.LocallyConvex.SeparatingDual
 # Tools for Part 2: matrix norms, averages, the cohomological operator
 
 This file specializes the infrastructure of Part 1 to the form used in Part 2
-(blueprint subsection "Tools"; design `docs/campaign/design/PART23-LEAN-DESIGN.md`, §3.1).
+(blueprint subsection "Tools").
 
 * `KAM.Apost.matrix_facts` (Corollary `bp:p2:matrix`): the matrix norm facts (a)–(d), for every
   finite index type, with `Fin n ⊕ Fin n` for the `2n` of the blueprint. The steps are
@@ -40,7 +40,7 @@ This file specializes the infrastructure of Part 1 to the form used in Part 2
 ## `bp:p2:cohomological`
 
 `KAM.Apost.cohomological` (the properties of `cohR` and the a-priori bound in the operator norm) is
-proved from Part 1's `KAM.cohomological` and `KAM.cohomological_operator` (package I-STRIP-3),
+proved from Part 1's `KAM.cohomological` and `KAM.cohomological_operator`,
 which use the exact constant `KAM.cohConst`; `c_R = max {1, cohConst n τ}` only enlarges it
 (`KAM.Apost.Tools.cohConst_div_le_cR`).
 -/
@@ -285,7 +285,7 @@ def cohR {n p : ℕ} (ω : Fin n → ℝ) (g : (Fin n → ℂ) → Fin p → ℂ
 
 /-! ### The Part 2 corollary `bp:p2:cohomological`
 
-Part 1's `KAM.cohomological` and `KAM.cohomological_operator` (package I-STRIP-3) are stated with
+Part 1's `KAM.cohomological` and `KAM.cohomological_operator` are stated with
 the exact constant `KAM.cohConst n τ`, in the form `cohConst n τ / (γ δ^{τ+n}) A`. Part 2 uses
 the larger `c_R = max {1, cohConst n τ}` and writes the bound as `c_R γ⁻¹ δ^{-κ}` with
 `κ = τ + n`. -/
