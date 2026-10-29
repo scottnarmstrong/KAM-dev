@@ -570,6 +570,7 @@ public import KAM.Planetary.Nondegeneracy.GoodAxes
 public import KAM.Planetary.Nondegeneracy.GoodAxesNodes
 public import KAM.Planetary.Nondegeneracy.Interface
 public import KAM.Planetary.Nondegeneracy.Peel
+public import KAM.Planetary.Nondegeneracy.RelationNodes
 public import KAM.Planetary.Nondegeneracy.Stability
 public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Analytic
 public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Cases
@@ -942,6 +943,7 @@ public import KAM.Planetary.SecularForm.DiagonalJet.Orbit
 public import KAM.Planetary.SecularForm.DiagonalJet.Pair
 public import KAM.Planetary.SecularForm.DiagonalJet.Radial
 public import KAM.Planetary.SecularForm.DiagonalJet
+public import KAM.Planetary.SecularForm.EvenIdentNodes
 public import KAM.Planetary.SecularForm.InvariantPolynomial.Balanced
 public import KAM.Planetary.SecularForm.InvariantPolynomial.Coordinates
 public import KAM.Planetary.SecularForm.InvariantPolynomial.Generators
