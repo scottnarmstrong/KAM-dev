@@ -8098,6 +8098,7 @@
   "products": {
    "cfgFull": {
     "calls": 54,
+    "cutoff": 532,
     "distinct": 37,
     "largest": [
      [
@@ -8155,11 +8156,14 @@
       1064
      ]
     ],
+    "maxProductK": 532,
     "pairs_calls": 297761,
-    "pairs_distinct": 294568
+    "pairs_distinct": 294568,
+    "truncates": false
    },
    "cfgLow": {
     "calls": 261,
+    "cutoff": 30,
     "distinct": 237,
     "largest": [
      [
@@ -8217,8 +8221,10 @@
       1062
      ]
     ],
+    "maxProductK": 530,
     "pairs_calls": 321475,
-    "pairs_distinct": 321471
+    "pairs_distinct": 321471,
+    "truncates": true
    }
   },
   "subchecks": {

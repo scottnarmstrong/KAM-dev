@@ -124,9 +124,9 @@ def p_deriv(P, j):
 
 
 def p_truncate(P, cutoff, w):
-    """keep |k|₁ <= cutoff; return (kept, weighted norm of the dropped part)."""
-    if cutoff is None:
-        return P, F(0)
+    """keep |k|₁ <= cutoff; return (kept, weighted norm of the dropped part).  The cutoff is literal, as in the
+    Lean `truncPoly cfg.cutoff` (a natural number; there is no "no truncation" value)."""
+    assert isinstance(cutoff, int) and not isinstance(cutoff, bool) and cutoff >= 0, cutoff
     keep = {k: v for k, v in P[1].items() if kabs(k) <= cutoff}
     drop = (P[0], {k: v for k, v in P[1].items() if kabs(k) > cutoff})
     return (P[0], keep), p_wnorm(drop, w)
@@ -228,6 +228,7 @@ class Cfg:
     def __init__(self, name, cutoff, taylorN, halvings):
         self.name, self.cutoff, self.taylorN, self.halvings = name, cutoff, taylorN, halvings
         self.products = []          # (key, |a|, |b|, pairs)
+        self.maxK = 0               # the largest |k|₁ of any exact product, before truncation
 
     def advice(self):
         return [[list(k), "direct"] for k, *_ in self.products]
@@ -240,6 +241,7 @@ def m_mul(a, b, w, cfg, key):
         cfg.products.append((tuple(key), len(a.poly[1]), len(b.poly[1]), 0))
         return Model(a.deg + b.deg, p_zero(), F(0))
     P = p_mul(a.poly, b.poly, st)
+    cfg.maxK = max([cfg.maxK] + [kabs(k) for k in P[1]])
     P, drop = p_truncate(P, cfg.cutoff, w)
     na, nb = p_wnorm(a.poly, w), p_wnorm(b.poly, w)
     cfg.products.append((tuple(key), len(a.poly[1]), len(b.poly[1]), st["pairs"]))
