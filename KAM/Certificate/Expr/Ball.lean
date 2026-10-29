@@ -406,34 +406,20 @@ local notation "Ph" => (Fin n → ℂ) × (Fin n → ℂ)
 
 theorem jetSmoothOn_empty (f : Ph → ℂ) : JetSmoothOn (∅ : Set Ph) f := contDiffOn_empty
 
+theorem slpMulO_prefix_self (s : List SlpOp) (a b : Option ℕ) : s <+: (slpMulO s a b).1 := by
+  cases a <;> cases b <;> simp [slpMulO, slpEmit]
+
+theorem slpInvPre_emit_prefix (s : List SlpOp) (A : SlpNode) :
+    s ++ [SlpOp.inv A.v] <+: (slpInvPre s A).1 :=
+  (slpMulO_prefix_self _ _ _).trans ((slpMulO_prefix_self _ _ _).trans
+    (slpMulO_prefix_self _ _ _))
+
 theorem slpInvNode_emit_prefix {S : Set Ph} (hS : IsOpen S) {f : Ph → ℂ}
     (hf : JetSmoothOn S f) (h0 : ∀ z ∈ S, f z ≠ 0) {s : List SlpOp} {A : SlpNode}
     (hA : A.Sound n S f s) : s ++ [SlpOp.inv A.v] <+: (slpInvNode n s A).1 := by
-  have hp1 : s <+: (slpEmit s (.inv A.v)).1 := slpEmit_prefix _ _
-  have hw : Realizes n S (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
-      (fun z => (f z)⁻¹) :=
-    slpEmit_realizes _ _ _ fun z _ => by simp only [SlpOp.step]; rw [hA.val z]
-  obtain ⟨p2, hw2⟩ := slpMulO_spec hw hw
-  obtain ⟨p3, hw3⟩ := slpMulO_spec (hw.mono p2) hw2
-  have hvlt : s.length < (slpEmit s (.inv A.v)).1.length := by simp [slpEmit]
-  have hval : ∀ z : Ph, (Slp.vals n z (slpMulO (slpMulO (slpEmit s (.inv A.v)).1
-      (slpEmit s (.inv A.v)).2 (slpEmit s (.inv A.v)).2).1 (slpEmit s (.inv A.v)).2
-      (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
-        (slpEmit s (.inv A.v)).2).2).1).getD s.length 0 = (f z)⁻¹ := by
-    intro z
-    obtain ⟨t, ht⟩ := p2.trans p3
-    rw [← ht, Slp.val_append n z _ t hvlt]
-    show (Slp.vals n z (s ++ [SlpOp.inv A.v])).getD s.length 0 = _
-    rw [Slp.val_snoc_self]
-    simp only [SlpOp.step]
-    rw [hA.val z]
-  have hp : s <+: (slpMulO (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
-      (slpEmit s (.inv A.v)).2).1 (slpEmit s (.inv A.v)).2
-      (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
-        (slpEmit s (.inv A.v)).2).2).1 := hp1.trans (p2.trans p3)
-  obtain ⟨p, -⟩ := slpInvTail_sound hS hf h0 (hA.mono hp)
-    (hvlt.trans_le (p2.trans p3).length_le) hval (hw2.mono p3) hw3
-  exact (p2.trans p3).trans p
+  obtain ⟨hp, hvlt, hval, hw2, hw3, hw4⟩ := slpInvPre_spec hA
+  obtain ⟨p, -⟩ := slpInvTail_sound hS hf h0 (hA.mono hp) hvlt hval hw2 hw3 hw4
+  exact (slpInvPre_emit_prefix s A).trans p
 
 theorem HamExpr.nonvanishingOn_of_inv_good {D : Set Ph} (hD : IsOpen D) (e : HamExpr n) :
     ∀ (s ops : List SlpOp), (slpCompile e s).1 <+: ops → SlpInvGood n D ops →
