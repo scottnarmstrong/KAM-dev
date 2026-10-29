@@ -13,10 +13,10 @@ public import KAM.Certificate.Expr.DiffCalculus3
 
 A jet node `SlpNode` is a slot `v` of a program together with the tables `d1 i`, `d2 i j` and
 `d3 i j k` (`i, j, k < 2n`, folded slots) of its first, second and third directional derivatives
-along the coordinate directions `dirVec n i`. `SlpNode.Sound` says that, on an open set `S`, the node of a program `s`
-computes the function `f` and its derivative tables (`jetDeriv`). We build nodes for the seven
-operations of the straight-line program (constants, actions, characters, sums, products, `exp`,
-`inv`) and prove each sound from the second- and third-order rules of
+along the coordinate directions `dirVec n i`. `SlpNode.Sound` says that, on an open set `S`, the
+node of a program `s` computes the function `f` and its derivative tables (`jetDeriv`). We build
+nodes for the seven operations of the straight-line program (constants, actions, characters, sums,
+products, `exp`, `inv`) and prove each sound from the second- and third-order rules of
 `KAM.Certificate.Expr.DiffCalculus3`.
 -/
 

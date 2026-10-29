@@ -10,10 +10,11 @@ public import KAM.Certificate.Expr.DiffCalculus
 /-!
 # Second- and third-order rules for directional derivatives
 
-The second-order rules (sums, products, `exp`, the inverse) and their third-order analogues, on top of the first-order rules of `KAM.Certificate.Expr.DiffCalculus`: sums, products,
-`exp` and the inverse, each as an equality on an open set `S` of the iterated directional derivative
-`jetDeriv u (jetDeriv v (jetDeriv w f))`, plus the identification of the third iterated derivative
-with an iterated directional derivative (the counterpart of `iteratedFDeriv_two_eq_jetDeriv`).
+The second-order rules (sums, products, `exp`, the inverse) and their third-order analogues, on
+top of the first-order rules of `KAM.Certificate.Expr.DiffCalculus`. Each is an equality on an open
+set `S` of the iterated directional derivative `jetDeriv u (jetDeriv v (jetDeriv w f))`. The module
+also identifies the third iterated derivative with an iterated directional derivative (the
+counterpart of `iteratedFDeriv_two_eq_jetDeriv`).
 -/
 
 @[expose] public noncomputable section
