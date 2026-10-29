@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Iso.Charts.Apply
+import KAM.Head.Parameters
 public import KAM.Iso.Charts.Tori
 public import KAM.Iso.Confinement.RealHam
 public import KAM.Strip.RealRestriction
@@ -25,12 +26,15 @@ and `TorusOutput`, which carry the strip statements only.
 * `Ig1Clauses`, `tori_ig1_node`: the node export `stepI:p3:tori-ig1`, stated from its source
   hypotheses in source order (patch and ray, then the constants, then `f, ε, I₀, E`); the
   `ToriSide` is constructed inside the proof by `apply` and `toriSide_of_applyOut`.
+* `tori_ig1_full`: the full node `stepI:p3:tori-ig1` with the proposition's quantifiers (patches and
+  both rays, then common `ε₁, C_K`, then `f, ε, I₀, E`; `Ig1Clauses` for each sign).
 -/
 
 public section
 
 namespace KAM.Iso.Charts
 
+open Set Metric
 open KAM KAM.Torus KAM.Iso.Confinement
 open KAM.Head (Fconst)
 
@@ -175,6 +179,102 @@ theorem tori_ig1_node {B : Set (Fin 2 → ℝ)} {s₀ r₀ : ℝ} {h : (Fin 2 �
     ‖frequencyMap h (Ψ (E, m))‖ / ‖ωs‖, hpar, hsc2, hsc4, hclose, ?_⟩
   conv_lhs => rw [hpar]
   rw [← sub_smul, norm_smul, Real.norm_eq_abs]
+
+/-- `stepI:p3:tori-ig1` with the proposition's quantifiers (cf. `tori`): the cover, and for each
+patch its centre, chart identity and its two fixed rays, then the COMMON uniform `ε₁, C_K`, and
+only then `f, ε, I₀, E`; for each sign a torus with `Ig1Clauses` on exactly the fixed ray of the
+patch. Built from `tori_ig1_node` at each patch and sign, with `uniform` for the common
+constants. -/
+theorem tori_ig1_full {B : Set (Fin 2 → ℝ)} {s₀ r₀ : ℝ} {h : (Fin 2 → ℂ) → ℂ}
+    {B' : Set (Fin 2 → ℝ)} {η : ℝ} (hd : HeadData B s₀ r₀ h B' η) (hne : B'.Nonempty)
+    (hG1 : IG1Statement) (hG3 : G3Statement) :
+    ∃ (patches : Set (EnergyPatch (realPart h) B (eta1 η B B')))
+      (γp γm : EnergyPatch (realPart h) B (eta1 η B B') → ℝ)
+      (ωsp ωsm : EnergyPatch (realPart h) B (eta1 η B B') → Fin 2 → ℝ) (ε₁ C_K : ℝ),
+      ChartCover B s₀ r₀ h B' η (eta1 η B B') (Fconst 2 s₀ r₀ 1) patches ∧
+      (∀ p ∈ patches, p.c ∈ closure B' ∧ p.W ⊆ chartDom h B r₀ p.c ∧ p.m = chartM h p.c ∧
+        IsRay h B B' p.c (γp p) (ωsp p) p.mPlus ∧ IsRay h B B' p.c (γm p) (ωsm p) p.mMinus) ∧
+      0 < ε₁ ∧ ε₁ ≤ 1 ∧ 0 < C_K ∧
+      ∀ (f : (Fin 2 → ℂ) × (Fin 2 → ℂ) → ℂ) (ε : ℝ), PerturbData B s₀ r₀ f ε → ε < ε₁ →
+        ∀ I₀ ∈ closure B', ∀ E : ℝ, |E - realPart h I₀| ≤ ε →
+          ∃ p ∈ patches, ‖I₀ - p.c‖ < p.ρc ∧ |p.m I₀| < p.δm / 4 ∧
+            (∃ (Kp : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sp : ℝ),
+              Ig1Clauses B s₀ h B' f ε C_K E (γp p) (ωsp p) (p.Ψ (E, p.mPlus)) Kp sp) ∧
+            ∃ (Km : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sm : ℝ),
+              Ig1Clauses B s₀ h B' f ε C_K E (γm p) (ωsm p) (p.Ψ (E, p.mMinus)) Km sm := by
+  classical
+  have hs := hd.hs
+  have hr := hd.hr
+  obtain ⟨P, W, Ψ, δE, δm, ρc, hP, hcov⟩ := cover hd hne
+  have hrays : ∀ c ∈ P, ∃ (γp γm mp mm : ℝ) (ωp ωm : Fin 2 → ℝ),
+      IsRay h B B' c γp ωp mp ∧ mp ∈ Ioo (δm c / 2) (δm c) ∧
+      IsRay h B B' c γm ωm mm ∧ mm ∈ Ioo (-δm c) (-(δm c / 2)) :=
+    fun c hc => patch_rays hd hne hG3 (hP c hc)
+  choose! γp γm mp mm ωp ωm hrp hmp hrm hmm using hrays
+  have hmabsp : ∀ c ∈ P, |mp c| < δm c := fun c hc =>
+    abs_lt.2 ⟨by linarith [(hmp c hc).1, (hP c hc).δm_pos], (hmp c hc).2⟩
+  have hmabsm : ∀ c ∈ P, |mm c| < δm c := fun c hc =>
+    abs_lt.2 ⟨(hmm c hc).1, by linarith [(hmm c hc).2, (hP c hc).δm_pos]⟩
+  have hNp := fun c (hc : c ∈ P) =>
+    tori_ig1_node hd hne hG1 (hP c hc) (hrp c hc) (hmabsp c hc)
+  have hNm := fun c (hc : c ∈ P) =>
+    tori_ig1_node hd hne hG1 (hP c hc) (hrm c hc) (hmabsm c hc)
+  choose! C₁p C₂p C₃p h1p h2p h3p hKp using hNp
+  choose! C₁m C₂m C₃m h1m h2m h3m hKm using hNm
+  have hF : 0 < Fconst 2 s₀ r₀ 1 := KAM.Head.Parameters.Fconst_pos 2 hs hr 1
+  have hρ : 0 < rhoIso s₀ := ApplyAux.rhoIso_pos hs
+  obtain ⟨hdB, -, -, -, -, -, hSh, -⟩ := compact hd hne
+  have hη1 : 0 < eta1 η B B' := lt_min hd.hη (by linarith)
+  have hepsT : 0 < epsT h B B' s₀ r₀ := by
+    unfold epsT
+    have := KAM.Head.Parameters.Fconst_pos 2 hs hr 2
+    positivity
+  have hCKp : ∀ i ∈ (Finset.univ : Finset Bool) ×ˢ P, 0 < (cond i.1
+      (Fconst 2 s₀ r₀ 1 * max (C₂p i.2) (C₃p i.2) / (γp i.2 ^ 2 * rhoIso s₀ ^ 4))
+      (Fconst 2 s₀ r₀ 1 * max (C₂m i.2) (C₃m i.2) / (γm i.2 ^ 2 * rhoIso s₀ ^ 4)) : ℝ) := by
+    rintro ⟨b, c⟩ hi
+    have hc := (Finset.mem_product.1 hi).2
+    cases b
+    · have := (hrm c hc).1
+      exact div_pos (mul_pos hF (lt_max_of_lt_left (h2m c hc))) (by positivity)
+    · have := (hrp c hc).1
+      exact div_pos (mul_pos hF (lt_max_of_lt_left (h2p c hc))) (by positivity)
+  have hεp : ∀ i ∈ (Finset.univ : Finset Bool) ×ˢ P, 0 < (cond i.1
+      (min (δE i.2 / 2) (γp i.2 ^ 4 * rhoIso s₀ ^ 8 / (C₁p i.2 * Fconst 2 s₀ r₀ 1)))
+      (min (δE i.2 / 2) (γm i.2 ^ 4 * rhoIso s₀ ^ 8 / (C₁m i.2 * Fconst 2 s₀ r₀ 1))) : ℝ) := by
+    rintro ⟨b, c⟩ hi
+    have hc := (Finset.mem_product.1 hi).2
+    have hδE := (hP c hc).δE_pos
+    cases b
+    · have := (hrm c hc).1
+      exact lt_min (by linarith) (div_pos (by positivity) (mul_pos (h1m c hc) hF))
+    · have := (hrp c hc).1
+      exact lt_min (by linarith) (div_pos (by positivity) (mul_pos (h1p c hc) hF))
+  obtain ⟨C_K, ε₁, hCKpos, hε₁pos, hε₁1, hε₁T, hε₁η, hu⟩ := uniform _ _ _ hCKp hεp hepsT hη1
+  let toEP : ∀ c ∈ P, EnergyPatch (realPart h) B (eta1 η B B') := fun c hc =>
+    (hP c hc).toEnergyPatch (mp c) (mm c) (hmp c hc) (hmm c hc)
+  refine ⟨Set.range (fun x : {c // c ∈ P} => toEP x.1 x.2), fun p => γp p.c, fun p => γm p.c,
+    fun p => ωp p.c, fun p => ωm p.c, ε₁, C_K, ⟨Set.finite_range _, ?_, hη1, min_le_left _ _,
+    hF, ?_⟩, ?_, hε₁pos, hε₁1, hCKpos, ?_⟩
+  · intro x hx
+    obtain ⟨c, hc, hxc⟩ := Set.mem_iUnion₂.1 (hcov hx)
+    exact Set.mem_iUnion₂.2 ⟨toEP c hc, ⟨⟨c, hc⟩, rfl⟩, hxc⟩
+  · intro f ε hf hε1 z hz
+    exact ((hypothesis_d hd hf hε1).2.2.2.2.2.2 z hz).2.1
+  · rintro p ⟨⟨c, hc⟩, rfl⟩
+    exact ⟨(hP c hc).c_mem, (hP c hc).W_dom, rfl, hrp c hc, hrm c hc⟩
+  · intro f ε hf hεlt I₀ hI₀ E hE
+    obtain ⟨c, hcP, hcb⟩ := Set.mem_iUnion₂.1 (hcov hI₀)
+    have hmem : ∀ b : Bool, (b, c) ∈ (Finset.univ : Finset Bool) ×ˢ P := fun b =>
+      Finset.mem_product.2 ⟨Finset.mem_univ _, hcP⟩
+    have hI₀c : ‖I₀ - c‖ < ρc c := mem_ball_iff_norm.1 hcb
+    refine ⟨toEP c hcP, ⟨⟨c, hcP⟩, rfl⟩, hI₀c, (hP c hcP).ball_m I₀ hcb, ?_, ?_⟩
+    · have hu' := hu (true, c) (hmem true)
+      exact hKp c hcP C_K ε₁ hCKpos hu'.1 hε₁1 hε₁T ((min_le_left _ _).trans' hu'.2)
+        ((min_le_right _ _).trans' hu'.2) hε₁η f ε hf hεlt I₀ hI₀ hI₀c E hE
+    · have hu' := hu (false, c) (hmem false)
+      exact hKm c hcP C_K ε₁ hCKpos hu'.1 hε₁1 hε₁T ((min_le_left _ _).trans' hu'.2)
+        ((min_le_right _ _).trans' hu'.2) hε₁η f ε hf hεlt I₀ hI₀ hI₀c E hE
 
 end KAM.Iso.Charts
 
