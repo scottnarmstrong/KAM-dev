@@ -84,9 +84,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:vf-deriv
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: vf_bound (KAM/Canonical/VectorField.lean)
+LEAN_NOTE: audit C5-4 PASS, proof item 2 (vf_bound lines 62-72: cauchy_loss with six source premises, WBound.mono restriction, coefficients_deriv, sup_le_wbound), explicitly 'follows blueprint step vf-deriv' at C5-4-audit-1.md:95; item 3 gives Phi>=0.
 NOTE: -
 
 NODE: stepN:p5:vf-field
@@ -113,9 +113,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:vf-field@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: vf_bound (KAM/Canonical/VectorField.lean)
+LEAN_NOTE: audit C5-4 PASS, proof item 4 (vf_bound lines 75-91: coordinate bounds to Pi max-norm, 1<=exp 1, bound Phi/(rho sigma), no dimension factor) at C5-4-audit-1.md:97; row vf_bound C5-4-audit-1.md:30.
 NOTE: -
 
 NODE: bpN:p5:flow
@@ -271,9 +271,9 @@ EDGE: bpN:p4:general-cauchy | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow_c (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, row flow (c) flow_c (FlowInverse:132) at C5-5-audit-1.md:50 and paragraph at C5-5-audit-1.md:31: both inverse identities, half-interior memberships and the 2 epsilon bound for all t in [-1,1].
 NOTE: -
 
 NODE: stepN:p5:fl-symmetry
@@ -301,9 +301,9 @@ EDGE: stepN:p5:fl-max | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:fl-symm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Partial: (d) flow_d (KAM/Canonical/Flow.lean, audit C5-2 PASS WITH NOTES) proved; (e) real restriction not yet audited
+LEAN_STATUS: PROVED
+LEAN_REF: flow_d (KAM/Canonical/Flow.lean); flow_e (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: (d) flow_d (Flow:273), audit C5-2 PASS WITH NOTES row C5-2-audit-1.md:40; (e) flow_e (FlowInverse:196), audit C5-5 PASS WITH NOTES row C5-5-audit-1.md:55 (exact two-block real-locus statement, proved by Picard iterates; the audit calls this a valid alternative to the real-ODE route).
 NOTE: -
 
 NODE: bpN:p5:symplectic
@@ -360,9 +360,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:sy-var@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES: variational equation via fderiv_flow_zero, hasDerivAt_flow_fderiv, continuousOn_flow_fderiv_time (Symplectic:61-76), rows at C5-5-audit-1.md:77 and C5-5-audit-1.md:78; carrier symplectic (Symplectic:157).
 NOTE: -
 
 NODE: stepN:p5:sy-field
@@ -388,9 +388,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:sy-field
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES: Hessian symmetry and skewness of the derivative of the field, rows symplFormC_fderiv_field, fderiv_fderiv_symm, symplFormC_fderiv_field_skew (SymplecticForm:196-235) at C5-5-audit-1.md:72; carrier symplectic.
 NOTE: -
 
 NODE: stepN:p5:sy-conserve
@@ -417,9 +417,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:sy-conse
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES: rows flow_symplFormC (Symplectic:127), det_eq_one_or_neg_one, map_hamiltonianJ_comp (SymplecticForm:122,151), symplectic (Symplectic:157) at C5-5-audit-1.md:80 and C5-5-audit-1.md:26: conservation of omega, det^2=1, YJ(eta o Y)=J eta.
 NOTE: -
 
 NODE: bpN:p5:canonical
@@ -476,9 +476,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ca-chain
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_bracket, canonical_field (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, row flow_fderiv_J (Symplectic:177, chain rule plus proved symplectic identity) at C5-5-audit-1.md:82; holomorphy of Phi from flow_b used inside canonical_bracket/canonical_field.
 NOTE: -
 
 NODE: stepN:p5:ca-a
@@ -505,9 +505,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ca-a@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_bracket (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, row canonical (a) canonical_bracket (Symplectic:206) at C5-5-audit-1.md:83.
 NOTE: -
 
 NODE: stepN:p5:ca-b
@@ -534,9 +534,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ca-b@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_field, canonical_orbit (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, rows canonical (b) canonical_field (Symplectic:225) and (c) canonical_orbit (Symplectic:238) at C5-5-audit-1.md:84 and C5-5-audit-1.md:85.
 NOTE: -
 
 NODE: bpN:p5:lie-derivative
@@ -770,9 +770,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ad-setup
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint_bound (KAM/Canonical/Adjoint.lean)
+LEAN_NOTE: audit C5-7 PASS WITH NOTES, row stepN:p5:ad-setup adjoint_induction (Adjoint:128) at C5-7-audit-1.md:28; carrier adjoint_bound (Adjoint:235).
 NOTE: -
 
 NODE: stepN:p5:ad-step
@@ -801,9 +801,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ad-step@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint_bound (KAM/Canonical/Adjoint.lean)
+LEAN_NOTE: audit C5-7 PASS WITH NOTES, rows stepN:p5:ad-step adjoint_succ sign/arithmetic (adPow_succ_eq_neg Adjoint:76, step_const_le Adjoint:83) at C5-7-audit-1.md:24.
 NOTE: -
 
 NODE: stepN:p5:ad-product
@@ -831,9 +831,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ad-produ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint_bound (KAM/Canonical/Adjoint.lean)
+LEAN_NOTE: audit C5-7 PASS WITH NOTES, rows stepN:p5:ad-product prod_stepConst (Adjoint:168), final_estimate (Adjoint:205), factorial_ge (Adjoint:194) at C5-7-audit-1.md:29.
 NOTE: -
 
 NODE: bpN:p5:composition
@@ -896,9 +896,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-field@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_domain (KAM/Canonical/CompositionDomain.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition (i) composition_domain at C5-8-audit-1.md:55; proof paragraph (CompositionDomain:67-153) at C5-8-audit-1.md:107.
 NOTE: -
 
 NODE: stepN:p5:co-series
@@ -929,9 +929,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-serie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_series (KAM/Canonical/Composition.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition (ii) composition_series at C5-8-audit-1.md:56; proof paragraph (CompositionSeries:62-230, adjoint bounds, uniform limits, coefficient integration) at C5-8-audit-1.md:107.
 NOTE: -
 
 NODE: stepN:p5:co-remainder
@@ -963,9 +963,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-remai
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_series (KAM/Canonical/Composition.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES: composition_series (ii) 'pointwise identity' (C5-8-audit-1.md:56); proof paragraph C5-8-audit-1.md:107 states the sum is identified by C5-6 Taylor remainders with hatted ratio 16 eta/9 <= 8/9 (lieSeries_tail CompositionSeries:134).
 NOTE: This step supplies the identification u∘X^1 = Σ ad^h/h! that Pos93 does not prove (\sourcegap L167)
 
 NODE: stepN:p5:co-t
@@ -995,9 +995,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-t@L18
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_t, composition_real (KAM/Canonical/Composition.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES: composition (iii) composition_t, (iv) composition_real (C5-8-audit-1.md:57, C5-8-audit-1.md:58); X^t = X^1_{t phi} via ComposeData.smul, flow_smul rows (C5-8-audit-1.md:43). Interface note 2 accepts that composition_t exports class and coarse bound, series statements from composition_series applied to t phi.
 NOTE: -
 
 NODE: bpN:p5:transform
@@ -1064,9 +1064,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-h@L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: BYPASSED (D27): Lean transform replaces the order-N Taylor route for h by order-one Taylor h(X^1)=h+int w(X^t) and termwise integration of the already-proved composition series for the bounded w (audit C5-9 PASS WITH NOTES, C5-9-audit-1.md:106), so h never needs a finite norm. Route taken: transform_identity (Transform.lean:148) with integral_flow_hasSum (Transform.lean:93).
 NOTE: -
 
 NODE: stepN:p5:tr-f
@@ -1094,9 +1094,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-f@L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_series (KAM/Canonical/Composition.lean); transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: audit C5-9 PASS WITH NOTES, row flow_series (Transform:83: series_eq for t phi and flow_smul) at C5-9-audit-1.md:51; f0 o X^1 = sum ad^j f0/j! is composition_series (ii) (audit C5-8 C5-8-audit-1.md:56).
 NOTE: -
 
 NODE: stepN:p5:tr-sum
@@ -1127,9 +1127,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-sum@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: audit C5-9 PASS WITH NOTES: rows remTerm_bound, remBound_summable, remBound_tsum_le, remSeries_class, remSeries_bound, remSeries_tail (TS:138-251) at C5-9-audit-1.md:39 to C5-9-audit-1.md:46; carrier transform (Transform:218), seven conjuncts.
 NOTE: -
 
 NODE: stepN:p5:tr-int
@@ -1158,9 +1158,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-int@L200
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: audit C5-9 PASS WITH NOTES, row transform_identity (Transform:148: Taylor N=1 for h, integrated series) at C5-9-audit-1.md:53 and transform (all seven conjuncts incl. integral identity, no norm bound on h) at C5-9-audit-1.md:47.
 NOTE: -
 
 NODE: bpN:p5:composition-integral
@@ -1221,9 +1221,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ci-integ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_integral (KAM/Canonical/CompositionIntegral.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition-integral (C5-8-audit-1.md:59) and proof paragraph CompositionIntegralClass:54-179 (joint continuity, chain-rule derivative of the clamped integrand, periodicity) at C5-8-audit-1.md:111.
 NOTE: -
 
 NODE: stepN:p5:ci-coeff
@@ -1254,9 +1254,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ci-coeff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_integral (KAM/Canonical/CompositionIntegral.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition-integral (C5-8-audit-1.md:59) and proof paragraph CompositionIntegral:48-173 (Fubini on compact time x angle cube, coefficient integrals, holomorphy under the integral, bound (1-eta)^-1 V) at C5-8-audit-1.md:111.
 NOTE: -
 
 NODE: bpN:p5:canonical-map
@@ -1319,9 +1319,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:cm-field@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_map_a (KAM/Canonical/CanonicalMap.lean)
+LEAN_NOTE: audit C5-10 PASS WITH NOTES rows CanonData.field_bound, smallField, gaugeInterior_half, gaugeInterior_one (CanonData fields, Canonical map) at C5-10-audit-1.md:39 to C5-10-audit-1.md:43; field bound and Omega^c interior inclusions are proved inside CanonData, used by canonical_map_a.
 NOTE: -
 
 NODE: stepN:p5:cm-ab
@@ -1352,9 +1352,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:cm-ab@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_map_a, canonical_map_b (KAM/Canonical/CanonicalMap.lean)
+LEAN_NOTE: audit C5-10 PASS WITH NOTES, rows (a) canonical_map_a (:218) and (b) canonical_map_b (:261) at C5-10-audit-1.md:44 and C5-10-audit-1.md:45.
 NOTE: -
 
 NODE: stepN:p5:cm-cde
@@ -1385,9 +1385,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:cm-cde@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_map_c, canonical_map_d, canonical_map_e (KAM/Canonical/CanonicalMap.lean)
+LEAN_NOTE: audit C5-10 PASS WITH NOTES, rows (c) canonical_map_c (:302), (d) canonical_map_d (:313), (e) canonical_map_e (:323) at C5-10-audit-1.md:46 to C5-10-audit-1.md:48.
 NOTE: -
 
 NODE: stepN:p5:fl-symmetry#real-restriction
@@ -1413,7 +1413,7 @@ EDGE: bpN:p1:ext-restrict | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:fl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: flow_e (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: BYPASSED (D27): the Lean flow_e (FlowInverse.lean:196, audit C5-5 C5-5-audit-1.md:33) proves reality via real-linear imaginary-part maps (imCLM, imCLM2) commuting with the Picard integrals plus a factorial convergence estimate; it never restricts F to the real open set W = Omega cap R^N, so the C^1-real-restriction bridge is not used. Route taken: flow_e.
 NOTE: SOURCE_GAP: L73 cites K:bp:p1:real-restriction, whose statement is on an entire strip T_ρ, whereas Ω is arbitrary. The strip hypothesis is not supplied. This node exposes the general-domain, real-codomain restriction bridge; the available inputs are recorded, but the blueprint does not state this extension of the cited lemma. No additional hypothesis on Ω is introduced.

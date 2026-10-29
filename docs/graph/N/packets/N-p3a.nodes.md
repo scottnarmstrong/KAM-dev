@@ -289,9 +289,9 @@ EDGE: bpN:p3:ext-lip-local | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a
 REVIEWER: sol-review-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Route taken by gen_lip (Lipschitz.lean L35-45: LocallyLipschitzOn from ContDiffAt.exists_lipschitzOnWith, then LocallyLipschitzOn.exists_lipschitzOnWith_of_compact). Audit N3-1-audit-1.md L42 (PASS) and refute-first item 4 at L105.
 NOTE: -
 
 NODE: stepN:p3:lip-explicit
@@ -317,9 +317,9 @@ EDGE: stepN:p3:lip-compact | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Explicit contradiction/subsequence route is not taken; gen_lip (KAM/ODE/Lipschitz.lean L35-45, audit N3-1-audit-1.md L42,L105) uses the Mathlib route stepN:p3:lip-mathlib.
 NOTE: new route node: the remaining steps lip-bdd..lip-compact of Lemma gen-lip ('The remaining steps are the explanatory proof of that fact', L122); lip-bdd is shared with the other route; STATEMENT/PROOF_SOURCE are L124-L133
 
 NODE: stepN:p3:lip-bdd
@@ -344,9 +344,9 @@ EDGE: bpN:p3:ext-compact | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:lip
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Bound |F|<=M on compact K proved verbatim by IsCompact.exists_bound_of_continuousOn with max C 0 (Lipschitz.lean L40-42); audit N3-1-audit-1.md L42 and refute-first item 4 (L105).
 NOTE: -
 
 NODE: stepN:p3:lip-contra
@@ -371,9 +371,9 @@ EDGE: stepN:p3:lip-bdd | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:lip-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-delta-N-c
 REVIEWER: sol-delta2-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Step belongs only to the explicit contradiction route; the route actually taken is stepN:p3:lip-mathlib inside KAM.ODE.gen_lip (Lipschitz.lean L35-45; audit N3-1-audit-1.md L105).
 NOTE: -
 
 NODE: stepN:p3:lip-compact
@@ -400,9 +400,9 @@ EDGE: stepN:p3:lip-contra | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:li
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Step belongs only to the explicit contradiction route; the route actually taken is stepN:p3:lip-mathlib (compact local-to-global Lipschitz theorem of Mathlib) inside KAM.ODE.gen_lip (Lipschitz.lean L43-44).
 NOTE: -
 
 NODE: bpN:p3:gen-uniform
@@ -482,9 +482,9 @@ EDGE: bpN:p3:ext-compact | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a
 REVIEWER: sol-review-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_compact, KAM.ODE.closedThickening (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Lipschitz.lean L61-68: delta>0 from IsCompact.exists_cthickening_subset_open, closedThickening K delta = cthickening, hence inside W and compact (ProperSpace). Same conclusion by Mathlib instead of the explicit 2delta=min dist construction. Audit N3-1-audit-1.md L45 and refute-first item 5 (L106).
 NOTE: -
 
 NODE: stepN:p3:uc-data
@@ -511,9 +511,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_compact (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Lipschitz.lean L69-73: gen_lip applied to the compact thickening, every centre ball included in it. Audit N3-1-audit-1.md L45 and item 5 (L106).
 NOTE: -
 
 NODE: bpN:p3:gen-uniform-periodic
@@ -570,9 +570,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:up-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_periodic (KAM/ODE/UniformPeriodic.lean)
+LEAN_NOTE: Compact cell [-1,2]^n x cthickening delta K with delta=min(delta0,1), constants M,L chosen before the centre. Audit N3-63-audit-1.md L42 (row, PASS WITH NOTES package) and proof review L121.
 NOTE: -
 
 NODE: stepN:p3:up-translate
@@ -598,9 +598,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:up-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_periodic (KAM/ODE/UniformPeriodic.lean)
+LEAN_NOTE: Integer shift floor(x.1) translates each ball into the cell; periodicity gives the bounds. Audit N3-63-audit-1.md L42 and proof review L121 (same shift for all ball points).
 NOTE: -
 
 NODE: bpN:p3:gen-short
@@ -654,9 +654,9 @@ EDGE: bpN:p3:gen-sol#consequences | blueprint-N/parts/p3-hamiltonian-ode.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-delta-N-c
 REVIEWER: sol-delta2-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_short_forward, KAM.ODE.gen_short (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L59-111 (bootstrap: closed set S cap Icc, t0 in S, Icc_subset_of_forall_exists_gt) and L120-143 (t<t0 via gen_symmetry_neg). Audit N3-45-audit-1.md L18-19 (Part 3 L173-183) and proof bullet L253.
 NOTE: -
 
 NODE: stepN:p3:short-ext
@@ -683,9 +683,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:short-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_short_forward (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L83-111: continuity gives epsilon-neighbourhood, mean value inequality (Convex.norm_image_sub_le_of_norm_hasDerivWithin_le) extends the bound past u. Audit N3-45-audit-1.md L18 and bullet L253.
 NOTE: -
 
 NODE: bpN:p3:gen-uniform-exist
@@ -741,9 +741,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ue-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_exist, KAM.ODE.picard_lindelof_ball (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L155-160: picard_lindelof_ball with a=delta, bound max M 1, T=delta/max M 1. Audit N3-45-audit-1.md L17,L20 and bullet L252,L254.
 NOTE: -
 
 NODE: stepN:p3:ue-stay
@@ -771,9 +771,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ue-stay
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_exist (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L161-176: gen_short gives strict ||alpha-x||<delta, closedBall_subset yields membership in W. Audit N3-45-audit-1.md L20 and bullet L254.
 NOTE: -
 
 NODE: bpN:p3:gen-local
@@ -829,9 +829,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:loc-red
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_local (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L184-199: uniform data on compact K (singleton for x0) via gen_uniform_compact, epsilon=delta/max M 1 chosen before x0,t0. Audit N3-45-audit-1.md L21 and bullet L254.
 NOTE: -
 
 NODE: bpN:p3:gen-uniqueness
@@ -889,9 +889,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uq-comp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniqueness (KAM/ODE/Uniqueness.lean)
+LEAN_NOTE: Private lipschitz_on_images (Uniqueness.lean L33-47): union of images of [t0,t1] under the two solutions is compact and inside W. Audit N3-45-audit-1.md L30 and bullet L255.
 NOTE: -
 
 NODE: stepN:p3:uq-lip
@@ -918,9 +918,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uq-lip@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniqueness (KAM/ODE/Uniqueness.lean)
+LEAN_NOTE: lipschitz_on_images obtains L from gen_lip on that compact set (Uniqueness.lean L46). Audit N3-45-audit-1.md L30 (PASS: constructs K and L from the compact images and gen_lip).
 NOTE: -
 
 NODE: stepN:p3:uq-apply
@@ -948,9 +948,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uq-appl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniqueness (KAM/ODE/Uniqueness.lean)
+LEAN_NOTE: Uniqueness.lean L56-77: Mathlib ODE_solution_unique_of_mem_Icc_right/left on [t0,t] and [t,t0]. Audit N3-45-audit-1.md L22 and bullet L255.
 NOTE: -
 
 NODE: bpN:p3:gen-extend
@@ -1007,9 +1007,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ext-rig
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-delta-N-c
 REVIEWER: sol-delta2-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_extend (KAM/ODE/Maximal.lean)
+LEAN_NOTE: Private extend_right (Maximal.lean L89-153): local existence at the greatest endpoint, gluing with two one-sided derivatives (L122-133). Audit N3-63-audit-1.md L32,L34 and review L115.
 NOTE: -
 
 NODE: stepN:p3:ext-left
@@ -1036,9 +1036,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ext-lef
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_extend (KAM/ODE/Maximal.lean)
+LEAN_NOTE: Private extend_open (Maximal.lean L155-192): reverses time, extends the other end, proves no endpoints remain. Audit N3-63-audit-1.md L33-34.
 NOTE: -
 
 NODE: bpN:p3:gen-maximal
@@ -1095,9 +1095,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:max-uni
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_maximal (KAM/ODE/Maximal.lean)
+LEAN_NOTE: exists_maximal (Maximal.lean L244-277): GoodInterval family nonempty by gen_local, I = eIoo Tm Tp open interval through 0 (hIlt, hIeq). Audit N3-63-audit-1.md L36-37 and review L117.
 NOTE: -
 
 NODE: stepN:p3:max-glue
@@ -1125,9 +1125,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:max-glu
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_maximal (KAM/ODE/Maximal.lean)
+LEAN_NOTE: exists_maximal (Maximal.lean L278-292): z defined by choice on good intervals, independence via gen_uniqueness_inter (hz_key), solution on I by isSolutionIn_congr_of_isOpen, z 0 = x0. Audit N3-63-audit-1.md L37 and review L117.
 NOTE: -
 
 NODE: stepN:p3:max-max
@@ -1156,9 +1156,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:max-max
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_maximal (KAM/ODE/Maximal.lean)
+LEAN_NOTE: Maximality via gen_extend (Maximal.lean L296-302) and uniqueness of interval/z via eIoo_subset_of_maximal, left/right_eq_of_eIoo_subset (L308-343). Audit N3-63-audit-1.md L34,L38-41 and review L119.
 NOTE: -
 
 NODE: bpN:p3:gen-continuation
@@ -1216,9 +1216,9 @@ EDGE: bpN:p3:gen-maximal | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_continuation (KAM/ODE/Continuation.lean)
+LEAN_NOTE: Private continuation_right (Continuation.lean L45-110): epsilon=delta/max(M,1), t1=max(t_star,T-epsilon/2). Audit N3-7-audit-1.md L29 and proof audit L35.
 NOTE: -
 
 NODE: stepN:p3:cont-alpha
@@ -1247,9 +1247,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:cont-al
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_continuation (KAM/ODE/Continuation.lean)
+LEAN_NOTE: continuation_right: local existence at z(t1) from uniform data, agreement with z on the overlap by uniqueness (Continuation.lean L58-100). Audit N3-7-audit-1.md L29 and proof audit L35-36.
 NOTE: -
 
 NODE: stepN:p3:cont-glue
@@ -1279,9 +1279,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_continuation (KAM/ODE/Continuation.lean)
+LEAN_NOTE: continuation_right gluing by IsSolutionIn.union_of_isOpen and contradiction with maximality at L104; left end via IsMaximalSolution.neg and UniformData.neg (L38-42). Audit N3-7-audit-1.md L29 and proof audit L36-37.
 NOTE: -
 
 NODE: bpN:p3:gen-continuation-compact
@@ -1400,9 +1400,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:conf-no
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_confinement (KAM/ODE/Continuation.lean)
+LEAN_NOTE: gen_confinement (Continuation.lean L145-182): gen_maximal supplies z; if Tp<=tau confinement plus continuation forces Tp=top; left end symmetric. Audit N3-7-audit-1.md L27 and proof audit L39-40.
 NOTE: -
 
 NODE: stepN:p3:conf-concl
@@ -1430,7 +1430,7 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_confinement (KAM/ODE/Continuation.lean)
+LEAN_NOTE: gen_confinement conclusion: closed-interval solution by restriction, confinement, agreement with every competing solution for 0<=r<=tau via uniqueness. Audit N3-7-audit-1.md L27 and proof audit L39-40.
 NOTE: -

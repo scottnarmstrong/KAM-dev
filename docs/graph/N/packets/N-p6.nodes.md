@@ -131,9 +131,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-N/parts/p6-normal-form.tex#stepN:p6:lip-seg@L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipschitz (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS, row lipschitz (Setting.lean:93): 'segment mean-value proof matches blueprint L43-47' at N6-1-audit-1.md:49.
 NOTE: -
 
 NODE: bpN:p6:divisor
@@ -189,9 +189,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:div@L55-L55 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: divisor (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS, row divisor (Setting.lean:148: both alpha-KLr and alpha/q bounds on V_rD) at N6-1-audit-1.md:51; helper norm_dotC_le (N6-1-audit-1.md:47).
 NOTE: -
 
 NODE: bpN:p6:homological
@@ -258,9 +258,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-def@L72
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, rows homGenParam, genCoeff, genCoeff_differentiableOn, divisor_ne_zero (Homological) at N6-2-audit-1.md:146 to N6-2-audit-1.md:173; homological (Homological:491) at N6-2-audit-1.md:64.
 NOTE: -
 
 NODE: stepN:p6:hom-norm
@@ -291,9 +291,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-norm@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-delta-N-d
 REVIEWER: sol-delta2-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, row norm_genCoeff_le (Homological:172, correct modulus 2 pi|k.omega|) at N6-2-audit-1.md:174 with homResParam_eq_projMode and W4 projections for T_K f and xi; carrier homological.
 NOTE: -
 
 NODE: stepN:p6:hom-eq
@@ -323,9 +323,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-eq@L76-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, rows hasFDerivAt_genTerm, fderiv_homGenParam, dotC_eq_sum, directional_homGenParam (Homological:234-278) at N6-2-audit-1.md:180; proof paragraph 'directional identity plus the resonant finite sum partitions the cutoff, proving the equation pointwise'.
 NOTE: -
 
 NODE: stepN:p6:hom-real
@@ -353,9 +353,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-real@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, rows im_tsum_indicator_eq_zero (:304), conj_dotC, dotC_neg, conj_coeff (:330) at N6-2-audit-1.md:186; conditional reality conclusion (Lambda=-Lambda, f real, real frequency) at N6-2-audit-1.md:120.
 NOTE: -
 
 NODE: bpN:p6:bracket-g
@@ -414,9 +414,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:bg-term@L87
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_g (KAM/Nekhoroshev/NormalForm/BracketDecomp.lean)
+LEAN_NOTE: audit N6-3 PASS WITH NOTES, row bracket_g (BracketDecomp.lean:92) exact constants 2/(e rho sigma), 2/(rho sigma) at N6-3-audit-1.md:40; proof paragraph 'For each summand the proof applies wbound_bracket' at N6-3-audit-1.md:86.
 NOTE: -
 
 NODE: stepN:p6:bg-sum
@@ -445,9 +445,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:bg-sum@L88-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_g (KAM/Nekhoroshev/NormalForm/BracketDecomp.lean)
+LEAN_NOTE: audit N6-3 PASS WITH NOTES, rows stepN:p6:bg-sum wsum_finset_sum_le (:48) and poissonBracket_sum (:77) at N6-3-audit-1.md:43.
 NOTE: -
 
 NODE: bpN:p6:iterative
@@ -516,9 +516,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-gen@L110-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological_direct (KAM/Nekhoroshev/NormalForm/Homological.lean); iterHyp_of_source (KAM/Nekhoroshev/NormalForm/IterativeMap.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES, row IterHyp.canon (it-gen / it-map bridge, uses the homological_direct conjuncts) at N6-5-audit-1.md:31, iterU_le (u<=1/4) and phi_div at N6-5-audit-1.md:30; homological_direct audited in N6-2 N6-2-audit-1.md:63.
 NOTE: -
 
 NODE: stepN:p6:it-map
@@ -548,9 +548,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-map@L112-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_a, iterative_direct_b (KAM/Nekhoroshev/NormalForm/IterativeMap.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES, rows labelled it-map: iterative_direct_a (:131) and iterative_direct_b (:159) at N6-5-audit-1.md:33 and N6-5-audit-1.md:34.
 NOTE: -
 
 NODE: stepN:p6:it-taylor
@@ -583,9 +583,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-taylor@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_c (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, rows labelled stepN:p6:it-taylor: IterHyp.compose (:140), IterHyp.bracket_eq (:161) at N6-6-audit-1.md:27 and N6-6-audit-1.md:29.
 NOTE: -
 
 NODE: stepN:p6:it-decomp
@@ -615,9 +615,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-decomp@L117
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_c (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, row labelled it-decomp/it-terms: IterHyp.iterF_class_bound (:315) at N6-6-audit-1.md:33 (transform, composition_integral, truncation_tail, composition_series).
 NOTE: -
 
 NODE: stepN:p6:it-integrand
@@ -649,9 +649,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-integrand@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_c (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, rows labelled stepN:p6:it-integrand: IterHyp.remIntegrand (:178), IterHyp.integrand (:185: class, weighted bound, joint continuity of v and Dv) at N6-6-audit-1.md:32.
 NOTE: -
 
 NODE: stepN:p6:it-terms
@@ -685,9 +685,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-terms@L124-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_d (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, row labelled it-decomp/it-terms IterHyp.iterF_class_bound (:315) at N6-6-audit-1.md:33; (d) iterative_direct_d (:418) states the final remainder bound (N6-6-audit-1.md:35).
 NOTE: -
 
 NODE: stepN:p6:it-real
@@ -716,9 +716,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-real@L12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_e (KAM/Nekhoroshev/NormalForm/IterativeReal.lean)
+LEAN_NOTE: audit N6-7 PASS WITH NOTES, rows labelled stepN:p6:it-real: freq_im_real (IterativeReal:33) and iterative_direct_e (IterativeReal:89) at N6-7-audit-1.md:33 and N6-7-audit-1.md:36.
 NOTE: -
 
 NODE: bpN:p6:iterative-direct
@@ -787,9 +787,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:dir-use@L136-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_a, IterHyp (KAM/Nekhoroshev/NormalForm/IterativeMap.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES: IterHyp carries the divisor lower bound as the explicit direct-form premise, so homological_direct, IterHyp.canon and the iterative proofs use the hypotheses only through that bound (N6-5-audit-1.md:27; N6-2-audit-1.md:63).
 NOTE: -
 
 NODE: stepN:p6:dir-concl
@@ -817,9 +817,9 @@ EDGE: stepN:p6:hom-norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:dir-conc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterHyp_of_source (KAM/Nekhoroshev/NormalForm/IterativeMap.lean); homological_direct (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES, row iterHyp_of_source (:191) derives the direct-form divisor field from the original hypotheses via (divisor ...).2 at N6-5-audit-1.md:35; audit N6-2 row homological_direct N6-2-audit-1.md:63; so the direct-form corollary generalises the theorem.
 NOTE: -
 
 NODE: bpN:p6:telescope
@@ -873,9 +873,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:tel@L152-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: telescope (KAM/Nekhoroshev/NormalForm/Telescope.lean)
+LEAN_NOTE: audit N6-4 PASS, rows chain, chain_mapsTo, chain_disp, chain_diff_sympl, telescope (Telescope.lean:30-105) at N6-4-audit-1.md:36; step id referenced in N6-4 audit and handoff.
 NOTE: -
 
 NODE: bpN:p6:normal-form
@@ -942,9 +942,9 @@ EDGE: bpN:p6:normal-form#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, row nf-first iterU_first (ArithBase:104: u0<=1/16 from (i),(ii)) at N6-8a-audit-1.md:65 and nfRho/nfSig rows; carrier normal_form (N6-8b audit N6-8b-audit-1.md:49).
 NOTE: -
 
 NODE: stepN:p6:nf-case
@@ -976,9 +976,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-case@L18
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-case: nfEps1, nfBound, nfBound_caseA, nfBound_caseB, eps1_le_div, eps1_le_quarter at N6-8a-audit-1.md:71 and N6-8a-audit-1.md:42; N6-8b rows nfConcl_caseB (N6-8b-audit-1.md:64).
 NOTE: -
 
 NODE: stepN:p6:nf-N
@@ -1009,9 +1009,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-N@L186-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-N: nfSteps/nfR/nfS, quarter_lt_exp, floor_facts, schedule rows nfR_succ_closed...nfS_sixth_le, eps_le_sixtwo, eps1_sixtwo at N6-8a-audit-1.md:44 to N6-8a-audit-1.md:101; nfSteps in N6-8b N6-8b-audit-1.md:36.
 NOTE: -
 
 NODE: stepN:p6:nf-induct
@@ -1046,9 +1046,9 @@ EDGE: bpN:p4:norm#monotone | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-in
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-induct: nfB, induct_step (49/254<1/4), star_sum_le, w0_le, star_small at N6-8a-audit-1.md:41 to N6-8a-audit-1.md:108.
 NOTE: -
 
 NODE: stepN:p6:nf-concl
@@ -1084,9 +1084,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-concl@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a/8b PASS WITH NOTES, rows nf-concl: final_b, concl_a (N6-8a N6-8a-audit-1.md:75, N6-8a-audit-1.md:109); chain_translate, coeff_homRes, coeff_sum_eq_zero, nf_coeff_g, nfConcl_caseA (N6-8b N6-8b-audit-1.md:52 to N6-8b-audit-1.md:63).
 NOTE: -
 
 NODE: stepN:p6:nf-disp
@@ -1118,9 +1118,9 @@ EDGE: bpN:p6:normal-form#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-disp (c): disp_I, disp_theta, disp_B (ArithDisp:32,96,150) at N6-8a-audit-1.md:76 to N6-8a-audit-1.md:78; N6-8b rows fstSeminorm, sndSeminorm, nfConcl_caseA.
 NOTE: -
 
 NODE: stepN:p6:nf-real
@@ -1147,9 +1147,9 @@ EDGE: bpN:p6:normal-form#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, row nf-real (d) nf_real (StepsCaseB:41) at N6-8a-audit-1.md:35; N6-8b row chain_real (N6-8b-audit-1.md:53).
 NOTE: -
 
 NODE: bpN:p6:nonresonant-case
@@ -1204,9 +1204,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nr-triv@L229-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant_case (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8b PASS WITH NOTES, row nonresonant-case / nr-triv nonresonant_case (NormalForm:139) at N6-8b-audit-1.md:50.
 NOTE: -
 
 NODE: bpN:p6#data

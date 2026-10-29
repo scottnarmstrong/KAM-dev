@@ -239,9 +239,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#bpN:p4:n-zero@L56
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: coeff_mul (KAM/Weighted/Algebra.lean); coefficients_series (KAM/Weighted/Coefficients.lean)
+LEAN_NOTE: BYPASSED (D27): the Lean weighted-norm API (Weighted/Norm, Coefficients, Algebra, Cauchy, Projections) is dimension-generic in n and never takes the n=0 singleton branch; audits confirm n=0 is covered directly with no NeZero or n>=1 premise (W4-5-audit-1.md:42; W4-3-audit-1.md:108). Route taken: the all-n declarations coeff_mul, coefficients_series, cauchy_theta.
 NOTE: Remark bpN:p4:n-zero (G1): consumed by stepN:p4:co-series, co-repr, b1-a, b1-b and by stepN:p1:nc-decay, nc-sum as the n=0 singleton branch; the K strip results are stated for n≥1 only (K Part 1 standing convention)
 
 NODE: bpN:p4:coefficients
@@ -548,9 +548,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b2-class
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coeff_mul (KAM/Weighted/Algebra.lean)
+LEAN_NOTE: audit W4-5 PASS WITH NOTES, row stepN:p4:b2-class `inClass_mul` (Algebra.lean:145) at W4-5-audit-1.md:21; public carrier coeff_mul (Algebra.lean:151) gives the class clause.
 NOTE: -
 
 NODE: stepN:p4:b2-coeff
@@ -578,9 +578,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b2-coeff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coeff_mul (KAM/Weighted/Algebra.lean)
+LEAN_NOTE: audit W4-5 PASS WITH NOTES, rows stepN:p4:b2-coeff (cauchyEquiv, fourierSum_mul, eq_fourierSum_coeff) at W4-5-audit-1.md:15 to W4-5-audit-1.md:20; coeff_mul Algebra.lean:151-190 states convolution coefficient, absolute summability, product coefficient identity.
 NOTE: -
 
 NODE: stepN:p4:b2-norm
@@ -608,9 +608,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b2-norm@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coeff_mul, wbound_mul (KAM/Weighted/Algebra.lean)
+LEAN_NOTE: audit W4-5 PASS WITH NOTES, row coeff_mul 'class/coefficient/norm clauses' (W4-5-audit-1.md:22) and wbound_mul W4-5-audit-1.md:23: pointwise-in-I submultiplicative weighted bound (Algebra.lean:151-200), no new constant; powers by wbound_pow.
 NOTE: -
 
 NODE: bpN:p4:cauchy
@@ -727,9 +727,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p4-weighted-norms.tex#bpN:p4:s-b4#data@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Canonical.poissonBracket, KAM.Canonical.poissonBracket_eq_fderiv_field (KAM/Canonical/Setting.lean)
+LEAN_NOTE: definition node: audit C5-1 PASS WITH NOTES classifies poissonBracket as the literal angle-first coordinate sum with correct sign (C5-1-audit-1.md:37, definition-verdict row C5-1-audit-1.md:102) and poissonBracket_eq_fderiv_field proves {u,v}=Du.X_v for the frozen field (C5-1-audit-1.md:43); W4-8 audit row `Canonical.poissonBracket` (W4-8-audit-1.md:98).
 NOTE: section-data node created from coverage item p4:prose-L144-L144 (SPEC option); notation only, but Lemma bracket and its proof use the bracket by symbol
 
 NODE: bpN:p4:bracket
@@ -792,9 +792,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b4-four@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: wbound_bracket (KAM/Weighted/Bracket.lean)
+LEAN_NOTE: audit W4-8 PASS: Bracket.lean 134-190, rows poissonBracket_eq_sum, wsum_sum_le, and proof paragraph at W4-8-audit-1.md:102 (coeff_mul pointwise product bound plus finite-sum triangle inequality, angular sums kept pointwise in I).
 NOTE: -
 
 NODE: stepN:p4:b4-prod
@@ -824,9 +824,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b4-prod@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: wbound_bracket (KAM/Weighted/Bracket.lean)
+LEAN_NOTE: audit W4-8 PASS: Bracket.lean 109-133 (four Cauchy estimates, cauchy_theta with coordinate sum inside, cauchy_action then WBound.mono) and 166-190 (final combination, no factor n), paragraphs at W4-8-audit-1.md:100 and W4-8-audit-1.md:104.
 NOTE: -
 
 NODE: bpN:p4:general-cauchy
@@ -878,9 +878,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: general_cauchy (KAM/Weighted/Parametric.lean)
+LEAN_NOTE: BYPASSED (D27): Lean general_cauchy (Parametric.lean:83-98, audit W4-2 PASS WITH NOTES row W4-2-audit-1.md:35) does not reduce to one variable itself; it applies K's closed-ball bound KAM.norm_fderiv_le_of_closedBall_bound (KAM/Strip/Cauchy.lean:53), which carries the line reduction f(zeta)=G(v+zeta u), and then lets delta increase to R. Route taken: general_cauchy.
 NOTE: -
 
 NODE: stepN:p4:c1-cauchy
@@ -906,9 +906,9 @@ EDGE: stepN:p4:c1-line | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:c1-cau
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: general_cauchy (KAM/Weighted/Parametric.lean)
+LEAN_NOTE: audit W4-2 PASS WITH NOTES, row general_cauchy (Parametric.lean:83-98) at W4-2-audit-1.md:35: exact open-ball bound ||DG(v)|| <= M/R; the Cauchy estimate for each closed radius and the limit delta -> R are Parametric.lean:88-98.
 NOTE: -
 
 NODE: bpN:p4:projections
@@ -965,9 +965,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:pr-class
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projections (KAM/Weighted/Projections.lean)
+LEAN_NOTE: audit W4-7 PASS, row projections (Projections.lean:62) at W4-7-audit-1.md:38 and proof paragraph at W4-7-audit-1.md:103: indicator coefficients are holomorphic with weighted majorant, then coefficients_series; class, coefficient formula and norm bound.
 NOTE: P_Su := Σ_{k∈S} û_kχ_k; T_K := P_{¦k¦₁≤K}. These are local definitions from L182–184; no edge to the parent projections lemma (which depends on this step).
 
 NODE: stepN:p4:pr-tail
@@ -994,7 +994,7 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:pr-tail@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: truncation_tail (KAM/Weighted/Projections.lean)
+LEAN_NOTE: audit W4-7 PASS, row truncation_tail (Projections.lean:111) at W4-7-audit-1.md:39 and proof paragraph W4-7-audit-1.md:105: identity u - T_K u = P_{|k|>K} u via coefficients_repr and tail factor exp(-2 pi K sigma).
 NOTE: P_Su := Σ_{k∈S} û_kχ_k; T_K := P_{¦k¦₁≤K}. These are local definitions from L182–184; no edge to the parent projections lemma (which depends on this step).

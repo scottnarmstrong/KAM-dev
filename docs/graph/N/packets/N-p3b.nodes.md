@@ -53,9 +53,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-cl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: Lean gen_exit (Exit.lean L36-104) replaces closedness of A in J cap [0,inf) by closedness of exitSet cap Icc 0 a for an actual a in A and compactness (hclosed, hcpt, L56-68); audit N3-45-audit-1.md L25 and bullet L256 (minimization on a compact segment). Route taken: compact-segment minimisation in gen_exit.
 NOTE: -
 
 NODE: stepN:p3:exit-min
@@ -81,9 +81,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-mi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: IsLeast (exitSet J z V) t_star, 0<t_star, t_star in J (Exit.lean L68-78). Audit N3-45-audit-1.md L25 and bullet L256 (global leastness, positivity).
 NOTE: -
 
 NODE: stepN:p3:exit-bdry
@@ -110,9 +110,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-bd
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: hbelow: z t in V on [0,t_star); hfront: z t_star in frontier V by left closure limit (Exit.lean L79-89). Audit N3-45-audit-1.md L25 and bullet L256.
 NOTE: -
 
 NODE: stepN:p3:exit-sup
@@ -139,9 +139,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-su
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: t_star = sSup of {t in J, 0<=t, z[0,t] in V}, both inequalities (Exit.lean L90-104). Audit N3-45-audit-1.md L25 and bullet L256.
 NOTE: -
 
 NODE: bpN:p3:ham-smooth
@@ -195,9 +195,9 @@ EDGE: bpN:p3:ext-calc | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:hs-der
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b
 REVIEWER: sol-review-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_smooth (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: fderiv H is C^k on open W (hH.fderiv_of_isOpen, Hamiltonian.lean L47). Audit N3-2-audit-1.md L24 (Part 3 L377-385).
 NOTE: -
 
 NODE: stepN:p3:hs-comp
@@ -223,9 +223,9 @@ EDGE: bpN:p0:vf#hamiltonianVectorField | blueprint-N/parts/p3-hamiltonian-ode.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_smooth (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: Each coordinate is fderiv H applied to a fixed vector (clm_apply) and its negative; ContDiffOn.prodMk (Hamiltonian.lean L48-52). Audit N3-2-audit-1.md L24.
 NOTE: -
 
 NODE: bpN:p3:ham-energy
@@ -395,9 +395,9 @@ EDGE: bpN:p0:vf#hamiltonianVectorField | blueprint-N/parts/p3-hamiltonian-ode.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_periodic (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: hX (Hamiltonian.lean L127-135): eventual equality of H and H(.+shift) gives fderiv equality, hence X_H periodic on W. Audit N3-2-audit-1.md L30 (Part 3 L402-411).
 NOTE: -
 
 NODE: stepN:p3:per-sol
@@ -424,9 +424,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:per-sol
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_periodic (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: gen_symmetry_translate with v=angleShift k (Hamiltonian.lean L136-138). Audit N3-2-audit-1.md L30.
 NOTE: -
 
 NODE: bpN:p3:ham-reduction
@@ -482,9 +482,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_reduction (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: Membership iff in ham_reduction (Hamiltonian.lean L160-168: mem_univ times (h t ht).1 and back). Audit N3-2-audit-1.md L32 (Part 3 L416-431, preserves the frozen action membership).
 NOTE: -
 
 NODE: stepN:p3:red-diff
@@ -544,9 +544,9 @@ EDGE: bpN:p0:rdomain-eq | blueprint-N/parts/p3-hamiltonian-ode.tex#bpN:p3:s-N#da
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.Data, KAM.Nekhoroshev.Wdom (KAM/Nekhoroshev/Interfaces/Setting.lean)
+LEAN_NOTE: Definition node: W_s = Wdom (literal univ x ball 0 (R+s), audit P1-1-audit-1.md L21,L45 and P1-2-audit-1.md L20,L54, PASS); H = frozen realHamiltonian; B(0,R+s)=B_s(R) is rdomain-eq (PROVED); U open subset is the hypothesis of the consuming theorems (N3-10b-audit-1.md L26-35). Same refs as p1:s-holo#data.
 NOTE: section data for coverage item p3:prose-L472-L477; consumers: holo-input, local-exist, uniqueness-closed, confinement-glue
 
 NODE: bpN:p3:holo-input
@@ -601,9 +601,9 @@ EDGE: bpN:p3:s-N#data | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:hi-cit
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_input (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: holo_input (HoloReal.lean L352-361) is exactly holo_real_b,c,d: C-infty on Wdom, X_H = X_{h+f} at real points, angle periodicity. Audit P1-2-audit-1.md L48 (PASS).
 NOTE: -
 
 NODE: bpN:p3:local-exist
@@ -662,9 +662,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:le-red@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.local_exist (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: Private reduction (Specialization.lean L64-77): ham_reduction with W=Wdom, C2 from holo_input. Audit N3-10b-audit-1.md L30 and counterchecks L142.
 NOTE: -
 
 NODE: stepN:p3:le-apply
@@ -694,9 +694,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:le-appl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.local_exist (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: local_exist L100-114: gen_local and gen_uniqueness through the reduction iff. Audit N3-10b-audit-1.md L30.
 NOTE: -
 
 NODE: bpN:p3:uniqueness-closed
@@ -752,9 +752,9 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.uniqueness_closed (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: uniqueness_closed L174-186 applies gen_uniqueness (the same uniqueness clause as local_exist) on Icc(-L,L) with t0=0; L<0 handled as empty. Audit N3-10b-audit-1.md L34,L148.
 NOTE: -
 
 NODE: bpN:p3:confinement-glue
@@ -815,9 +815,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:cg-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.confinement_glue (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: confinement_glue L202: gen_uniform_periodic with isCompact_closedBall I0 rho and hball gives delta<=1 and uniform data of univ x K. Audit N3-10b-audit-1.md L35 and counterchecks L146-148.
 NOTE: -
 
 NODE: stepN:p3:cg-glue
@@ -848,7 +848,7 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.confinement_glue (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: confinement_glue L203-212: hconf translated through the reduction iff and mem set, then gen_confinement. Audit N3-10b-audit-1.md L35 and counterchecks L146-148.
 NOTE: -
