@@ -55,7 +55,9 @@ public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
 public import KAM.Certificate.Freq
 public import KAM.Certificate.MatrixInv
+public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.PhaseBasis
+public import KAM.Certificate.Poly.Basic
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
