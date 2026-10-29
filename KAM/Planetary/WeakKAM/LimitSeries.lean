@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.Composition
 public import KAM.Strip.Cauchy
 public import KAM.Strip.Limits
 
-/-! # P11B limit map: fixed-strip series of the compositions
+/-! # Part 11a, limit map: fixed-strip series of the compositions
 
 For `b ∈ K_∞` the zero-section compositions `θ ↦ C_ν(θ, 0)` differ by at most
 `(1 + 2⁻¹¹) max (A_ν, α_ν)` on the strip `T_(s/2)` (source step `lm-inc`); the Cauchy estimate

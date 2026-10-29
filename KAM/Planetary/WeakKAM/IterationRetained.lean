@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.FiniteMeasure
 public import KAM.Planetary.WeakKAM.IterationFacts
 public import KAM.Planetary.WeakKAM.IterationAux
 
-/-! # P11B iteration: the retained set at an arbitrary admissible radius
+/-! # Part 11a, iteration: the retained set at an arbitrary admissible radius
 
 `finite_measure` of the finite-measure package is stated at `adm_params d ε`. The inductive lemma
 is also needed at the adapted radius, so the same proof is repeated for the schedule

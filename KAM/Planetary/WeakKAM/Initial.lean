@@ -8,7 +8,7 @@ module
 public import KAM.Planetary.WeakKAM.Data
 public import KAM.Head.DerivativeBounds
 
-/-! # P11B initial remainder (`initial`)
+/-! # Part 11a, initial remainder (`initial`)
 
 The initial remainder `selectionInitial` of the translated Hamiltonian `h(b + η) + f(θ, b + η)`
 over the frozen frequency, its holomorphy, the Taylor bound `ε + n C₁ s₀² / 2`, periodicity and

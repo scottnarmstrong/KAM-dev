@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.SelectionRecord
 public import KAM.Planetary.WeakKAM.Budgets
 
-/-! # P11B composition: domains, holomorphy and the chain rule
+/-! # Part 11a, composition: domains, holomorphy and the chain rule
 
 The finite composition `X₀ ∘ ⋯ ∘ X_{ν-1}` with a shared parameter is computed on the domain
 `selectionCompDom a K ν` of stage `ν`. Each stage domain is open, contained in the previous one,

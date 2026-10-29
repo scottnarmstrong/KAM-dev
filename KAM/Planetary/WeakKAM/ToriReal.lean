@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.ToriStage
 public import KAM.Strip.RealRestriction
 
-/-! # P11B tori: real restriction of the limit map
+/-! # Part 11a, tori: real restriction of the limit map
 
 The limit map `limitC b` is holomorphic on `T_(s/4)` and real on real angles, so its real
 restriction is the evaluation `θ ↦ (θ, b) + defect b θ` shifted by the constant `(0, b)`

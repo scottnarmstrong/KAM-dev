@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.Budgets
 public import KAM.Planetary.MaximalStep.StepRealFlow
 public import KAM.Planetary.MaximalStep.StepParameter
 
-/-! # P11B iteration: bridges to the P11A canonical step
+/-! # Part 11a, iteration: bridges to the P11A canonical step
 
 Domain, `Λ` and sup-norm bridges between the selection schedule and the exact P11A objects.
 -/

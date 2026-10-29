@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.CutoffBump
 
-/-! # P11B finite extension: Euclidean/max norm conversion
+/-! # Part 11a, finite extension: Euclidean/max norm conversion
 
 The ambient norm on `Fin n → ℝ` is the max norm; `selectionLength` is the explicit Euclidean
 length. This file converts between the two by explicit inequalities (never through a Euclidean

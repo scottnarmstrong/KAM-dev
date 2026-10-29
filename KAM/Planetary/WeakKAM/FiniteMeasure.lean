@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.FiniteMeasureHyp
 public import KAM.Planetary.WeakKAM.FiniteMeasureExt
 
-/-! # P11B finite-stage measure (`finite-measure`)
+/-! # Part 11a, finite-stage measure (`finite-measure`)
 
 `finite_measure` (`bpP:p11a:finite-measure`): for a retained prefix of length `ν`, one cutoff
 sequence `χ` (chosen here, coherently for every shorter prefix, `selection_coherent_cutoffs`)

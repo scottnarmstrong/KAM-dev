@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakKAM.Evaluation
 public import KAM.Planetary.Quantitative.BudgetPower
 public import KAM.Planetary.Quantitative.BudgetAdmissible
 
-/-! # P11B polynomial budget
+/-! # Part 11a, polynomial budget
 
 The polynomial lower bound `adm_budget` for the admissibility threshold `selectionAdmissible`
 (`bpP:p11a:budget`, step `ab-lam`), its beta-variation form `adm_budget_beta` and the uniform

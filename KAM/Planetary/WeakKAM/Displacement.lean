@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.Tori
 public import KAM.Planetary.WeakKAM.Budgets
 
-/-! # P11B displacement: `displacement`, `gamma_inverse`, the pointwise power
+/-! # Part 11a, displacement: `displacement`, `gamma_inverse`, the pointwise power
 
 The displacement of the defect (`bpP:p11a:displacement`, steps `dp-tel`, `dp-size`), the size of
 `γ⁻¹` (`bpP:p11a:gamma-inverse`, step `gi-branches`) and their pointwise combination

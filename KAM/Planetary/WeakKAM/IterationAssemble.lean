@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationPred
 public import KAM.Planetary.WeakKAM.IterationRecord
 
-/-! # P11B iteration: coherent assembly
+/-! # Part 11a, iteration: coherent assembly
 
 `selectionIteration_of_step`: a base prefix and a coherent one-step extension of every prefix
 produce an infinite iteration. The chain is read off the sequence of prefixes, so that every

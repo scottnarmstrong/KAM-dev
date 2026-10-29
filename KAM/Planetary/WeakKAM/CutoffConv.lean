@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.CutoffScale
 
-/-! # P11B smooth cutoff: iterated derivatives of a convolution
+/-! # Part 11a, smooth cutoff: iterated derivatives of a convolution
 
 For a locally integrable `u` and a compactly supported `C^k` function `g` on `Fin n → ℝ`, the
 `k`-th derivative of `u ⋆ g` is `u ⋆` the `k`-th derivative of `g` (evaluated on a fixed tuple of

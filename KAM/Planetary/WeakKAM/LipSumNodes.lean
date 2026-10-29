@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.Budgets
 
 /-!
-# The increments against the collars: the literal steps (P11A-4)
+# The increments against the collars: the literal steps
 
 Unsigned literal exports of `stepP:p11a:pl4-terms` and `stepP:p11a:pl4-sum` (proof steps of
 `bpP:p11a:param-lip-sum`) at the adapted schedule `a = selectionAdapted d ε`, `0 < ε ≤ ε_adm`:

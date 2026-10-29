@@ -7,7 +7,7 @@ module
 
 public import KAM.Planetary.WeakKAM.CutoffBump
 
-/-! # P11B smooth cutoff: iterated coordinate derivatives of a tensor product
+/-! # Part 11a, smooth cutoff: iterated coordinate derivatives of a tensor product
 
 For `g w = ∏ j, f j (w j)` on `Fin n → ℝ`, the `k`-th derivative in the coordinate directions
 `e_{i 1}, …, e_{i k}` is the product of the one-variable derivatives of order equal to the

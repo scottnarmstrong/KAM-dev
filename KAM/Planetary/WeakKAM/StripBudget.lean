@@ -8,7 +8,7 @@ module
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.MaximalStep.Loss
 
-/-! # P11B weak-KAM strip budget and elementary schedule properties
+/-! # Part 11a, weak-KAM strip budget and elementary schedule properties
 
 `strip_budget` (`bpP:p11a:strip-budget`): the cutoff losses `selectiond` are summable with total at
 most `strip / 4`, the geometric widths `3 σ_j` sum to `strip / 4`, the strip radii stay above

@@ -8,7 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.WeakKAM.IterationFacts
 
-/-! # P11B iteration: stage predicates and coherent prefixes
+/-! # Part 11a, iteration: stage predicates and coherent prefixes
 
 `IterPre` collects the fields of `SelectionIteration` about the index `ν` itself (chain,
 remainder, normal form); `IterPost` collects those about the step `ν → ν + 1`. `IterPrefix ν c`

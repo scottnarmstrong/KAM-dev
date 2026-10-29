@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.ToriReal
 public import KAM.Strip.AnalyticTaylor
 
-/-! # P11B tori: frequencies and decay of the first jet
+/-! # Part 11a, tori: frequencies and decay of the first jet
 
 Source step `lt-field`/`lt-lim` inputs: the frequencies `ω_ν(b)` at a real parameter are real and
 converge to `ω_*(b)`, and the Cauchy bounds `ε_ν/s_ν`, `ε_ν/r` of the first jet tend to zero.

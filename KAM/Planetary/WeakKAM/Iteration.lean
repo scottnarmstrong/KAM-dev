@@ -11,7 +11,7 @@ public import KAM.Planetary.WeakKAM.IterationAssemble
 public import KAM.Planetary.WeakKAM.IterationStep
 public import KAM.Planetary.WeakKAM.Budgets
 
-/-! # P11B inductive lemma (`bpP:p11a:inductive-lemma`)
+/-! # Part 11a, inductive lemma (`bpP:p11a:inductive-lemma`)
 
 `inductive_lemma` and `inductive_lemma_adapted` build a whole coherent iteration
 `SelectionIteration d f a` at the schedule `adm_params d ε` and at the ε-adapted schedule

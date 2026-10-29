@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.WeakKAM.Limit
 public import KAM.Planetary.WeakKAM.ToriBridge
 
-/-! # P11B tori: the field at the zero section of a finite stage
+/-! # Part 11a, tori: the field at the zero section of a finite stage
 
 Source steps `lt-field` and `lt-cov` of `limit_torus`: at the zero section of stage `ν` the
 Hamiltonian field of the initial Hamiltonian `H₀` at `Φ_ν(θ, 0)` equals
