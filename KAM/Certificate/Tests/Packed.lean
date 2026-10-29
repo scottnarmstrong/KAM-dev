@@ -12,6 +12,8 @@ public import KAM.Certificate.Poly.Ops
 
 Every check below is decided by `decide +kernel` (no `native_decide`).
 
+* **Layout.** Dense lists by the linear fill (slots in order) and by the binary scatter (unsorted,
+  repeated keys add); a key of the wrong length is outside the box.
 * **Positive.** A two-dimensional product (`n = 2`, two blocks per factor), a three-dimensional
   one (`n = 3`, target a proper sub-box, so out-of-box slots use `outLog`) and a multi-shard one
   (three blocks per factor, five overlapping shard windows) pass `checkPackedProduct` with correct
@@ -60,6 +62,16 @@ def packedTestAdv2 : PackedAdvice :=
 theorem packedTest_dense2 :
     packedTestLay2.dense packedTestA2 = some [3, -5, 7, 0, 0, 2, 11, -4] ∧
       packedTestLay2.dense packedTestB2 = some [6, 1, -9, 0, 0, -3, 8, 5] := by
+  decide +kernel
+
+/-- Unsorted keys with a repeated key go through the binary scatter; repeated keys add. -/
+theorem packedTest_dense2_scatter :
+    packedTestLay2.dense [([1, 1], 2), ([0, -1], 3), ([1, 1], -6)] =
+      some [3, 0, 0, 0, 0, 0, 0, -4] := by
+  decide +kernel
+
+/-- A key of the wrong length is outside the box. -/
+theorem packedTest_dense2_badKey : packedTestLay2.dense [([0], 1)] = none := by
   decide +kernel
 
 theorem packedTest_pass2 :
