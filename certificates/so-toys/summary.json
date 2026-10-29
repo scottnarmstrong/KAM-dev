@@ -1,0 +1,74 @@
+{
+ "T2": {
+  "bytes": 22731,
+  "log10_err": -42.493876110852824,
+  "log10_threshold": -38.22944280240576,
+  "passes": true,
+  "ratio_C1": 5.439596573706115e-05,
+  "sha256": "c7fb4618cdb10dbc9ef2d71955139b8b6fd63f0b6c40c01771fe98d0aa70f697",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ },
+ "T2d": {
+  "bytes": 246858,
+  "log10_err": -192.0,
+  "log10_threshold": -188.78500263855048,
+  "passes": true,
+  "ratio_C1": 0.0006095406004849275,
+  "sha256": "9e831bfcdfb1b0f319162a23e369cffb987a2bd60bb34ce1525bd743b7b8ff66",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ },
+ "T3": {
+  "bytes": 62515,
+  "log10_err": -63.59862667244802,
+  "log10_threshold": -59.30081780068849,
+  "passes": true,
+  "ratio_C1": 5.037222426518714e-05,
+  "sha256": "f0def590fb403078f917c5d298d38c9658db976bc544b51af6d6593102273969",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ },
+ "TR": {
+  "bytes": 21303,
+  "log10_err": null,
+  "log10_threshold": -30.055122070743444,
+  "passes": true,
+  "ratio_C1": 0.0,
+  "sha256": "222de91dd11d04242f54f730cc2e36426ca9597d7d82bdea7ea5f8b0a6afbe44",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ }
+}
