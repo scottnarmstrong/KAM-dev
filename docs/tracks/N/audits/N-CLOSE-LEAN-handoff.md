@@ -50,3 +50,10 @@ Lean mapping (hypotheses: hn : 3 ≤ n, p.Pos, HeadHyp p h (H1-H4 etc.), IsAnaly
 CONTEXT: all six frozen N theorems are sealed and graph N is synced; bpN:p10:hypotheses-check was open because its (a)-(h) proposition was proved only in pieces (N10-2-audit-1:24: hypotheses_check does not claim the whole setting or the Omega0 specification; the setting assembly was the private cf_setting). This package adds hypotheses_check_full and the public wrapper head_theorem1_setting, changing no existing statement.
 
 AUDIT FOCUS: does hypotheses_check_full state the node's COMPLETE literal SOURCE_CONCLUSION (docs/graph/N/DEPGRAPH.md node bpN:p10:hypotheses-check; blueprint-N Part 10), items (a)-(h) including (d) r0 <= l/(2 B_c), the Theorem-1 setting with its constants, and (g)'s Omega_0 specification, from its SOURCE_HYPOTHESES, with nothing omitted, no extra premise and the source's quantifier order? Is the setting in (e) the genuine Theorem-1 setting (not a weaker record)? Hygiene: names (KAM and Mathlib), lines <= 100, no native_decide or axiom; head_theorem1_setting does not change cf_setting. Verdict for the node: PROVED / not. Audit ONLY KAM/Nekhoroshev/Assembly/HypothesesFull.lean and the diff of KAM/Nekhoroshev/Assembly/Confinement.lean.
+
+## Round 2 (prover repair, commit 253b2b84)
+
+Audit 1 failed only on F1: item (a) of hypotheses_check_full must also state literally the two intermediate inclusions
+actionBall n (5R/8) ⊆ actionBall n R and actionBall n R ⊆ realActionDomain n R s. The prover added both as conjuncts of
+item (a) (full handoff .drafts/handoff-N-CLOSE-LEAN-R2.md). ROUND 2 FOCUS (delta): is F1 closed, is item (a) now the
+literal SOURCE_CONCLUSION, and is nothing else changed? Verdict for bpN:p10:hypotheses-check: PROVED / not.
