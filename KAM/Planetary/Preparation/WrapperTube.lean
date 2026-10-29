@@ -71,8 +71,8 @@ theorem p11_chartInput_gamma {D : P11Physical n} (hC : P11SecularSpec D (p11Secu
     poincareGamma (planetBlock (p11ChartInput (p11SecularData D) v) i) ≤
       (1/2) * ∑ j : Fin n, (v.1 (Fin.natAdd n j) ^ 2 + v.2 (Fin.natAdd n j) ^ 2) := by
   set C := p11SecularData D with hCd
-  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hrc, hrb, -⟩ :=
-    hC
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -,
+    hrc, hrb, -⟩ := hC
   set L : P11Vec n := fun i => fast v.2 i / (2*Real.pi) with hL
   have hLn : ‖L - (2*Real.pi)⁻¹ • C.J0‖ < C.rC/Real.pi := by
     have : L - (2*Real.pi)⁻¹ • C.J0 = (2*Real.pi)⁻¹ • ((fun i : Fin n => v.2 (Fin.castAdd n i)) -

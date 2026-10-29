@@ -133,7 +133,8 @@ theorem p11_wr_set {D : P11Physical n} {nu eps c : ℝ} {Q : P11PreparedData n}
     (hR2 : 3*n*eps + 2*n*(9*eps*(p11SecularData D).MF/(2*Real.pi*
       p11Alpha1 (p11SecularData D) eps*(p11SecularData D).rz))^2 ≤ p11PhysicalDelta D)
     (hspec : P11PreparedFullSpec D nu eps c Q) {β : ℝ} {good : Set (Fin (n+n) → ℝ)}
-    {torus : (Fin (n+n) → ℝ) → (Fin (n+n) → ℝ) → Phase (n+n)} {freq : (Fin (n+n) → ℝ) → Fin (n+n) → ℝ}
+    {torus : (Fin (n+n) → ℝ) → (Fin (n+n) → ℝ) → Phase (n+n)}
+    {freq : (Fin (n+n) → ℝ) → Fin (n+n) → ℝ}
     (hgood : 0 < volume good) (hgoodsub : good ⊆ p11PreparedBox n)
     (hlat : ∀ b ∈ good, IsLatticeTorus KAM.ODE.angleShift (KAM.realHamiltonian Q.N Q.P)
       (p11c_realDomain (p11WrDatum D β)) (freq b) (torus b))
@@ -152,7 +153,8 @@ theorem p11_wr_set {D : P11Physical n} {nu eps c : ℝ} {Q : P11PreparedData n}
       torus b (θ + fun i => (k i : ℝ)) = torus b θ + KAM.ODE.angleShift k :=
     fun b hb => (hlat b hb).2.1
   have hBpos : 0 < volume ((fun z : Phase (n+n) => torus z.2 z.1) '' (unitCube (n+n) ×ˢ good)) :=
-    lt_of_lt_of_le (ENNReal.mul_pos (ENNReal.ofReal_pos.2 (zpow_pos (by norm_num) _)).ne' hgood.ne') hcell
+    lt_of_lt_of_le (ENNReal.mul_pos (ENNReal.ofReal_pos.2 (zpow_pos (by norm_num) _)).ne'
+      hgood.ne') hcell
   obtain ⟨hAm, hAper, hApos⟩ := p11TorusUnion_props hlat' hbor hBpos
   have hAO : p11TorusUnion good torus ⊆ p11WrO D := by
     rintro _ ⟨b, hb, θ, rfl⟩

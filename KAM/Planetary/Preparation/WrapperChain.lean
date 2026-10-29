@@ -221,7 +221,8 @@ theorem p11_wr_chain {D : P11Physical n} {nu eps : ℝ}
     (fun y hy => (hFAn y hy).differentiableAt) m3
   have s5 := KAM.Kepler.IsSymplecticOn.comp s4 cSy (fun z hz => (a4 z hz).differentiableAt)
     (fun y hy => (cAn y hy).differentiableAt) m4
-  refine ⟨a5, by have h5 := s5; simp only [one_mul] at h5; exact h5, fun z hz k => ⟨p11WrO_shift hz k, ?_⟩, ?_⟩
+  refine ⟨a5, by have h5 := s5; simp only [one_mul] at h5; exact h5,
+    fun z hz k => ⟨p11WrO_shift hz k, ?_⟩, ?_⟩
   · obtain ⟨hy, hw, hu, hv, -⟩ := hdom z hz
     set y := p11RescaleReal (p11SecularData D).J0 eps z with hy_def
     set w := p11WrPsiR D nu eps y with hw_def
@@ -259,7 +260,8 @@ theorem p11_wr_chain {D : P11Physical n} {nu eps : ℝ}
       have : (fun i : Fin n => m0 (Fin.castAdd n i)) = kf := by
         funext i; simp [hm0]
       rw [this]
-    have hwm : w + KAM.ODE.angleShift m0 ∈ {z : Phase (n+n) | ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)} := by
+    have hwm : w + KAM.ODE.angleShift m0 ∈
+        {z : Phase (n+n) | ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)} := by
       intro i; simpa [KAM.ODE.angleShift] using hw i
     obtain ⟨ks, hks⟩ := tInj _ hwm w' hw' hpm
     set m : Fin (n+n) → ℤ := fun i => m0 i + Fin.append (0 : Fin n → ℤ) ks i with hm_def

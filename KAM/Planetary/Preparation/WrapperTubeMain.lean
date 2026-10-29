@@ -112,7 +112,8 @@ theorem p11_wr_tube {D : P11Physical n} {nu eps : ℝ}
         C.J0) := by funext i; simp
     rw [e, KAM.norm_realInclusion] at h
     exact h
-  have hΓ : ∀ i, poincareGamma (planetBlock (p11ChartInput C v) i) ≤ p11PhysicalDelta D := fun i => by
+  have hΓ : ∀ i, poincareGamma (planetBlock (p11ChartInput C v) i) ≤
+      p11PhysicalDelta D := fun i => by
     refine (p11_chartInput_gamma hC hvn i).trans ?_
     have hs : ∑ j : Fin n, (v.1 (Fin.natAdd n j) ^ 2 + v.2 (Fin.natAdd n j) ^ 2) ≤
         n * (6*eps + 4*(9*eps*C.MF/(2*Real.pi*p11Alpha1 C eps*C.rz))^2) := by
