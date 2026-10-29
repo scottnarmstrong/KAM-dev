@@ -849,6 +849,7 @@ public import KAM.Planetary.Preparation.PolarAverage.Order
 public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
 public import KAM.Planetary.Preparation.PolarAverage.Torus
 public import KAM.Planetary.Preparation.PolarAverage
+public import KAM.Planetary.Preparation.PreparedBasic
 public import KAM.Planetary.Preparation.PreparedData
 public import KAM.Planetary.Preparation.RectangularAverage
 public import KAM.Planetary.Preparation.RectangularAverageCore
@@ -867,6 +868,7 @@ public import KAM.Planetary.Preparation.SlowAverageOsc
 public import KAM.Planetary.Preparation.SlowAverageReal
 public import KAM.Planetary.Preparation.SlowAverageW
 public import KAM.Planetary.Preparation.SlowAverageZ
+public import KAM.Planetary.Preparation.SlowB2Kappa
 public import KAM.Planetary.Preparation.SlowCauchy
 public import KAM.Planetary.Preparation.SlowCoeff
 public import KAM.Planetary.Preparation.SlowConclude
@@ -882,6 +884,7 @@ public import KAM.Planetary.Preparation.SlowSmall
 public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.Quantitative.Assembly
 public import KAM.Planetary.Quantitative.AssemblyData
+public import KAM.Planetary.Quantitative.AssemblyK6
 public import KAM.Planetary.Quantitative.AssemblyTori
 public import KAM.Planetary.Quantitative.Budget
 public import KAM.Planetary.Quantitative.BudgetAdmissible
@@ -1114,6 +1117,7 @@ public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakKAM.Selection
 public import KAM.Planetary.WeakKAM.SelectionRecord
 public import KAM.Planetary.WeakKAM.SelectionTests
+public import KAM.Planetary.WeakKAM.Situation
 public import KAM.Planetary.WeakKAM.StripBudget
 public import KAM.Planetary.WeakKAM.Tori
 public import KAM.Planetary.WeakKAM.ToriBridge
