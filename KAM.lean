@@ -305,6 +305,7 @@ public import KAM.Kepler.Means
 public import KAM.Kepler.Orbit
 public import KAM.Kepler.OrbitComplex
 public import KAM.Kepler.Plane
+public import KAM.Kepler.ScalingNodes
 public import KAM.Matrix.Bridges
 public import KAM.Matrix.Calculus
 public import KAM.Matrix.Inverse
@@ -515,6 +516,7 @@ public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Hamiltonian.Diophantine
 public import KAM.Planetary.Hamiltonian.HolChart
 public import KAM.Planetary.Hamiltonian.Liouville
+public import KAM.Planetary.Hamiltonian.Part1Nodes
 public import KAM.Planetary.Hamiltonian.TorusUnion
 public import KAM.Planetary.Hamiltonian.Transport
 public import KAM.Planetary.MaximalStep.Affine
@@ -548,6 +550,7 @@ public import KAM.Planetary.MaximalStep.StepRealFlow
 public import KAM.Planetary.MaximalStep.StepRemainder
 public import KAM.Planetary.MaximalStep.Taylor
 public import KAM.Planetary.Newtonian.Assembly
+public import KAM.Planetary.Newtonian.AssemblyNodes
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
@@ -803,6 +806,7 @@ public import KAM.Planetary.PlanarTorsion.SpectralAdapter
 public import KAM.Planetary.PlanarTorsion.TorsionBound
 public import KAM.Planetary.Poincare.Bijective
 public import KAM.Planetary.Poincare.Chart
+public import KAM.Planetary.Poincare.ChartNodes
 public import KAM.Planetary.Poincare.D25
 public import KAM.Planetary.Poincare.Holomorphic
 public import KAM.Planetary.Poincare.HolomorphicSymplectic
@@ -850,7 +854,10 @@ public import KAM.Planetary.Preparation.PolarAverage.ParamIntegral
 public import KAM.Planetary.Preparation.PolarAverage.Torus
 public import KAM.Planetary.Preparation.PolarAverage
 public import KAM.Planetary.Preparation.PreparedBasic
+public import KAM.Planetary.Preparation.PreparedCauchy
 public import KAM.Planetary.Preparation.PreparedData
+public import KAM.Planetary.Preparation.PreparedJets
+public import KAM.Planetary.Preparation.PreparedJetsG0
 public import KAM.Planetary.Preparation.RectangularAverage
 public import KAM.Planetary.Preparation.RectangularAverageCore
 public import KAM.Planetary.Preparation.RectangularAverageDomain
@@ -1056,6 +1063,7 @@ public import KAM.Planetary.TwoScale.StepNonres
 public import KAM.Planetary.TwoScale.StepPerturb
 public import KAM.Planetary.TwoScale.StepReal
 public import KAM.Planetary.TwoScale.StepSchwarz
+public import KAM.Planetary.TwoScale.SumsNodes
 public import KAM.Planetary.TwoScale.Theorem
 public import KAM.Planetary.TwoScale.TheoremInverse
 public import KAM.Planetary.TwoScale.TheoremTorus
