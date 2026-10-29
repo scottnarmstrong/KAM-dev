@@ -11398,9 +11398,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:sp-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sp_alg (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: -
 
 NODE: bpP:p6:kepler-part
@@ -11493,9 +11493,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P6-1 PASS WITH NOTES: hamiltonianVectorField_moving/_fixed and forward hasDerivAt_bodyVector proved; the blueprint curve iff is not exported as a declaration; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: hamilton_eqs_moving (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: -
 
 NODE: stepP:p6:he-dir
@@ -11524,9 +11524,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:he-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fderiv_movingHamiltonian_dir (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: -
 
 NODE: stepP:p6:he-coef
@@ -11554,9 +11554,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:he-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fderiv_movingHamiltonian_partials (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: -
 
 NODE: stepP:p6:he-fix
@@ -11615,9 +11615,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:he-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hasDerivAt_iff_bodyVector (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: -
 
 NODE: bpP:p6:bary-algebra
@@ -11812,9 +11812,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:rc-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not in GAP-P6b
+LEAN_STATUS: PROVED
+LEAN_REF: rc_coords_moving (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: -
 
 NODE: stepP:p6:rc-a
@@ -12099,9 +12099,9 @@ EDGE: bpP:p6:reconstruction-fixed#real-eps | blueprint-P/parts/p6-newtonian-mode
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixedField_rf_eq (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: -
 
 NODE: bpP:p6:orbit-transfer
@@ -12795,9 +12795,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#bpP:p6:recons
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixedField_equations (KAM/Planetary/Newtonian/HamiltonNodes.lean)
+LEAN_NOTE: audit GAP-P6a PASS WITH NOTES (node PASS)
 NOTE: SOURCE_GAP: L184 explicitly permits eps in R, but hamilton-eqs at L82-L92 inherits eps>=0 from L20 and does not state the negative-eps case. L191 applies that result without providing the extension. The algebra suggests an extension, but this review does not supply it. Preserve the arbitrary-real-eps source contract.
 
 NODE: bpP:p6:fixkol-assembly
