@@ -9,15 +9,6 @@
    "session": null,
    "assignment": "Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README",
    "state": "active"
-  },
-  {
-   "id": "zohar",
-   "kind": "collaborator",
-   "model": "—",
-   "account": "GitHub zkomargo",
-   "session": null,
-   "assignment": "Co-author",
-   "state": "active"
   }
  ],
  "queued": [],
