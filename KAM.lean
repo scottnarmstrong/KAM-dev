@@ -59,8 +59,11 @@ public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
 public import KAM.Certificate.CubicDiophantine
 public import KAM.Certificate.DiophantineTransfer
+public import KAM.Certificate.Embedding
 public import KAM.Certificate.Expr.Ball
 public import KAM.Certificate.Expr.Basic
+public import KAM.Certificate.Expr.Compose
+public import KAM.Certificate.Expr.ComposeModels
 public import KAM.Certificate.Expr.Diff
 public import KAM.Certificate.Expr.DiffBuild
 public import KAM.Certificate.Expr.DiffCalculus
@@ -88,6 +91,7 @@ public import KAM.Certificate.Positivity
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Tests.Ball
 public import KAM.Certificate.Tests.ComplexExp
+public import KAM.Certificate.Tests.Compose
 public import KAM.Certificate.Tests.Model
 public import KAM.Certificate.Tests.Packed
 public import KAM.Certificate.Tests.Positivity
