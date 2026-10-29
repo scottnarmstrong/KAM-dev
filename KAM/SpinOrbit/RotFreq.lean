@@ -47,7 +47,7 @@ theorem lunarRotFreqPlus_eq (κ : ℚ) :
   ring
 
 /-- Positive scaling of a Diophantine vector. -/
-theorem isDiophantine_smul {n : ℕ} {γ τ t : ℝ} {ω : Fin n → ℝ} (ht : 0 < t)
+theorem soIsDiophantine_smul {n : ℕ} {γ τ t : ℝ} {ω : Fin n → ℝ} (ht : 0 < t)
     (h : IsDiophantine γ τ ω) : IsDiophantine (t * γ) τ (t • ω) := by
   intro k hk
   have hsum : ∑ i, (k i : ℝ) * (t • ω) i = t * ∑ i, (k i : ℝ) * ω i := by
@@ -63,17 +63,17 @@ private lemma lunarRotFreq_eq_smul (ν : ℝ) (κ : ℚ) :
   ext i
   fin_cases i <;> simp [lunarRotFreq]
 
-/-- From `lunarNuMinus_rot_isDiophantine` (`1/42`) and `isDiophantine_smul`. -/
+/-- From `lunarNuMinus_rot_isDiophantine` (`1/42`) and `soIsDiophantine_smul`. -/
 theorem lunarRotFreqMinus_isDiophantine {κ : ℚ} (hκ : 0 < κ) :
     IsDiophantine ((κ : ℝ) / 42) 1 (lunarRotFreq lunarNuMinus κ) := by
-  have := isDiophantine_smul (Rat.cast_pos.mpr hκ) lunarNuMinus_rot_isDiophantine
+  have := soIsDiophantine_smul (Rat.cast_pos.mpr hκ) lunarNuMinus_rot_isDiophantine
   rw [lunarRotFreq_eq_smul]
   convert this using 1
   ring
 
 theorem lunarRotFreqPlus_isDiophantine {κ : ℚ} (hκ : 0 < κ) :
     IsDiophantine ((κ : ℝ) / 42) 1 (lunarRotFreq lunarNuPlus κ) := by
-  have := isDiophantine_smul (Rat.cast_pos.mpr hκ) lunarNuPlus_rot_isDiophantine
+  have := soIsDiophantine_smul (Rat.cast_pos.mpr hκ) lunarNuPlus_rot_isDiophantine
   rw [lunarRotFreq_eq_smul]
   convert this using 1
   ring
