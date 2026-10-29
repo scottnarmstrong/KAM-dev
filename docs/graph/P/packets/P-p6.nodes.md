@@ -835,7 +835,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not in GAP-P6b
 NOTE: -
 
 NODE: stepP:p6:rc-a
@@ -863,9 +863,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:rc-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rc_a_lengths (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:rc-sun
@@ -894,9 +894,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:rc-s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rc_sun_hasDerivAt (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:rc-planets
@@ -925,9 +925,9 @@ EDGE: bpP:p6:ext-chain | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:rc-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rc_planets_hasDerivAt (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:rc-vplanet
@@ -958,9 +958,9 @@ EDGE: bpP:p6:ext-chain | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:rc-v
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rc_vplanet_hasDerivAt (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:rc-vsun
@@ -990,9 +990,9 @@ EDGE: bpP:p6:ext-chain | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:rc-v
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rc_vsun_hasDerivAt (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:rc-pack
@@ -1026,7 +1026,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not in GAP-P6b
 NOTE: -
 
 NODE: bpP:p6:units
@@ -1188,9 +1188,9 @@ EDGE: bpP:p0:nocoll#NoCollision | blueprint-P/parts/p6-newtonian-models.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ot_curve (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ot-apply
@@ -1220,7 +1220,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not in GAP-P6b
 NOTE: -
 
 NODE: bpP:p6:tube-constants
@@ -1512,9 +1512,9 @@ EDGE: bpP:p6:tube-constants#a-max | blueprint-P/parts/p6-newtonian-models.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P6-5 PASS WITH NOTES: (a) boundedness/finiteness exported (circularTube_norm_lt, volume_lt_top_of_subset_circularTube) but the explicit box-volume estimate is not; (b) only via Part 1 measure_chart_image under full-lattice assumptions; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: measure_positive (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:mp-a
@@ -1543,9 +1543,9 @@ EDGE: bpP:p6:tube-constants#a-max | blueprint-P/parts/p6-newtonian-models.tex#st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: mp_a_box (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:mp-b
@@ -1573,9 +1573,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:mp-b@L25
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-delta-P-h
 REVIEWER: sol-delta2-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: mp_b_measure, mp_b_measurableSet (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES; audit-1 F1 closed
 NOTE: -
 
 NODE: bpP:p6:movkol-assembly
@@ -1639,9 +1639,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ma_tube (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ma-coll
@@ -1669,9 +1669,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ma_coll (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ma-newton
@@ -1702,7 +1702,7 @@ EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not in GAP-P6b
 NOTE: -
 
 NODE: stepP:p6:ma-pair
@@ -1730,9 +1730,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ma_pair (KAM/Planetary/Newtonian/AssemblyNodes.lean)
+LEAN_NOTE: audit GAP-P6b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p6:conv#data
