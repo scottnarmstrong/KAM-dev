@@ -3234,8 +3234,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Nekhoroshev.const_exceptional (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
-LEAN_NOTE: const_exceptional proves the full chain m_P r0/8 <= pi wmin < 2 pi wmin <= |omega-tilde(I0)|_2. Audit P1-6-audit-1.md L22 and P1-5-audit-1.md L76 (PASS). Supersedes the earlier LEAN_NOTE.
+LEAN_REF: KAM.Nekhoroshev.const_exceptional (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean:128-146)
+LEAN_NOTE: PROVED under amendment N-A001 (H1–H5 added, D32): const_exceptional assumes HeadHyp; N-SYNC-audit-1 F1 lines 143-145
 NOTE: SOURCE_GAP: the lemma explicitly assumes H1–H5 only in clause (d). This clause needs the corresponding hypotheses on h (H3 for the frequency lower bound; H5 also for the time upper bound). The cited conditional conversions do not supply those premises. No such premise is added to the source contract.
 
 NODE: stepN:p1:co-time
@@ -3267,8 +3267,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Nekhoroshev.const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
-LEAN_NOTE: const_time: Euclidean frequency bound 2 pi sqrt(n) M on the R0-ball and 2T <= A^2 s0/Omega0 for Omega0 in (0, 2 pi n M]. Audit P1-6-audit-1.md L23 and P1-5-audit-1.md L75 (PASS). Supersedes the earlier LEAN_NOTE.
+LEAN_REF: KAM.Nekhoroshev.const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean:148-171)
+LEAN_NOTE: PROVED under amendment N-A002 (H1–H5 added, D32): const_time assumes HeadHyp; N-SYNC-audit-1 F1 lines 143-145
 NOTE: SOURCE_GAP: In addition to the already recorded missing h-bound scope, the current partials contract inherits IsAnalyticPerturbation R s ε f from §s-holo. This application does not bind or supply that datum. No source hypothesis is added here. SOURCE_GAP: the lemma explicitly assumes H1–H5 only in clause (d). This clause needs the corresponding hypotheses on h (H3 for the frequency lower bound; H5 also for the time upper bound). The cited conditional conversions do not supply those premises. No such premise is added to the source contract.
 
 NODE: stepN:p1:co-conc
@@ -3296,8 +3296,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Nekhoroshev.const_conclusion (KAM/Nekhoroshev/Interfaces/Constants.lean)
-LEAN_NOTE: const_conclusion gives both radius/time equalities R0 (F eps/eps_star)^a = C eps^a and c eps^(-a); T<=T0/2 is const_time. Audit P1-5-audit-1.md L74 (PASS) and P1-6-audit-1.md L23.
+LEAN_REF: KAM.Nekhoroshev.const_conclusion (KAM/Nekhoroshev/Interfaces/Constants.lean:338-354); KAM.Nekhoroshev.const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean:148-171)
+LEAN_NOTE: PROVED under amendment N-A003 (H1–H5 added, D32), whole row: radius/exponent identities via const_conclusion, T <= T0/2 via const_time under HeadHyp; D32 split not representable (no node-split/SET_KIND amendment), so both parts are cited on this row; N-SYNC-audit-1 F2 line 147
 NOTE: Expression comparison only. Do not depend on Theorem 1 as a proved result; the time inequality uses co-time, which exposes the missing h-premise scope.
 
 NODE: bpN:p1:norm-convert#decay-route
@@ -14877,9 +14877,9 @@ EDGE: bpN:p8:covering | blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9#data@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: DEFS-AUDIT NEEDED: definition node (Part 9 fixed parameters q=9, p=9/8, b=1/8 and the section conventions); not covered by the graph-N sync; needs a definitions-audit row classifying each object
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.theoremCover, eBall, maximalK, CoverParams.radius, CoverParams.alpha, CoverParams.delta, actionBlock; KAM.NormalForm.conjExp, zBall; KAM.Weighted.polyNbhd, Dom, InClass, coeff, modeWeight, WSummable, WBound, HasFiniteWNorm, wnorm; KAM.Canonical.RealOn; KAM.Stability.cpx, realNbhd, realStrip, realH, IsOrbit; frozen KAM.frequencyMap, KAM.Nekhoroshev.realPart (per N-SYNC-audit-1.md:155-157 definitions row)
+LEAN_NOTE: definition-node policy: N-SYNC-audit-1.md:155 onward, definitions-audit row PASS WITH NOTES on the analytic/finite-norm/open-domain locus; the zero-extension whole-carrier convention is the weighted-norm interface accepted in D31 (not a whole-carrier identification)
 NOTE: Section data (SPEC table, p9:prose-L12-L14): the fixed parameters q = 9, p = 9/8, b = 1/8 are consumed by elementary(a), the block steps and the stability steps; the conventions are notation.
 
 NODE: bpN:p9:s-blocks#data
@@ -21832,9 +21832,9 @@ EDGE: bpN:p12:ext-dep#complete-contraction | blueprint-N/parts/p12-averaging.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: PROVED
-LEAN_REF: ext_dep (KAM/Nekhoroshev/Averaging/LocalDependence.lean); picard_family (KAM/Nekhoroshev/Averaging/PicardFamilies.lean)
-LEAN_NOTE: N12-03c-audit-1.md:44 (PASS WITH NOTES): ext_dep constructs positive a,r and local solutions from C1 on open W only; trapping ball choice and picard_family call at LocalDependence.lean:381-460 (N12-03c audit :61 notes radius-delta trap instead of 2delta as a valid internal choice); picard_family N12-03a-audit-1.md:53.
+LEAN_STATUS: BYPASSED
+LEAN_REF: -
+LEAN_NOTE: D27: literal 2delta Picard trap not taken; route actually taken is the smaller global trap (delta = eps0/2, picard_family with trap radius delta) inside ext_dep (KAM/Nekhoroshev/Averaging/LocalDependence.lean:381-423), per N12-03c-audit-1:61; N-SYNC-audit-1 F3 lines 149-151
 NOTE: Substantive construction and time/ball choice at L37; no averaging premise or normalized Part-5 flow is assumed.
 
 NODE: bpN:p12:ext-dep#linear
@@ -22314,6 +22314,68 @@ LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: IMPORTED: external input of the track-K graph, node bp:p1:ext-measure (Mathlib-level; not re-proved there either); shared Lean provider. There: KIND external, contract bp:p1:ext-measure v1. Cited as \Kref{bp:p1:ext-measure}.
+
+## Append-only structural amendments
+
+AMEND: N-A001-coexc-head-hyp
+TARGET: stepN:p1:co-exc
+AUTHOR: claude-inp-sub-orchestrator
+REVIEWER: N-SYNC-audit-1-F1-F2-ruling-D32
+ADD_DEPS: -
+DROP_DEPS: -
+ADD_ROUTES: -
+DROP_ROUTES: -
+SET_TITLE: -
+SET_STATEMENT_SOURCE: -
+SET_PROOF_SOURCE: -
+SET_CONTRACT_ID: -
+SET_CONTRACT_VERSION: -
+SET_SOURCE_HYPOTHESES: n ≥ 3 (only n ≥ 2 used by Pöschel); R, s, M, m, M_ℂ, ω_min > 0; local dictionary definitions of constants#data; I₀∈B(0,R/2); h satisfies H1–H5 (HeadHyp; blueprint-N p1-interfaces.tex:227-230, as bound in clause (d))
+SET_SOURCE_QUANTIFIERS: -
+SET_SOURCE_CONCLUSION: -
+SET_CONSTANT_SCOPE: -
+SET_ROUTE_FOR: -
+NOTE: Repair of our own blueprint, not a source erratum (D32): blueprint-N p1-interfaces.tex:227-230 binds H1–H5 on h only in clause (d), so the frequency bounds of this step are false as written (h = 0). Independent review N-SYNC-audit-1 (F1 lines 143-145). No frozen statement changes.
+
+AMEND: N-A002-cotime-head-hyp
+TARGET: stepN:p1:co-time
+AUTHOR: claude-inp-sub-orchestrator
+REVIEWER: N-SYNC-audit-1-F1-F2-ruling-D32
+ADD_DEPS: -
+DROP_DEPS: -
+ADD_ROUTES: -
+DROP_ROUTES: -
+SET_TITLE: -
+SET_STATEMENT_SOURCE: -
+SET_PROOF_SOURCE: -
+SET_CONTRACT_ID: -
+SET_CONTRACT_VERSION: -
+SET_SOURCE_HYPOTHESES: n ≥ 3 (only n ≥ 2 used by Pöschel); R, s, M, m, M_ℂ, ω_min > 0; local dictionary definitions of constants#data; I₀∈B(0,R/2); h satisfies H1–H5 (HeadHyp; blueprint-N p1-interfaces.tex:227-230, as bound in clause (d))
+SET_SOURCE_QUANTIFIERS: -
+SET_SOURCE_CONCLUSION: -
+SET_CONSTANT_SCOPE: -
+SET_ROUTE_FOR: -
+NOTE: Repair of our own blueprint, not a source erratum (D32): blueprint-N p1-interfaces.tex:227-230 binds H1–H5 on h only in clause (d), so the frequency bounds of this step are false as written (h = 0). Independent review N-SYNC-audit-1 (F1 lines 143-145). No frozen statement changes.
+
+AMEND: N-A003-coconc-head-hyp
+TARGET: stepN:p1:co-conc
+AUTHOR: claude-inp-sub-orchestrator
+REVIEWER: N-SYNC-audit-1-F1-F2-ruling-D32
+ADD_DEPS: -
+DROP_DEPS: -
+ADD_ROUTES: -
+DROP_ROUTES: -
+SET_TITLE: -
+SET_STATEMENT_SOURCE: -
+SET_PROOF_SOURCE: -
+SET_CONTRACT_ID: -
+SET_CONTRACT_VERSION: -
+SET_SOURCE_HYPOTHESES: n ≥ 3 (only n ≥ 2 used by Pöschel); R, s, M, m, M_ℂ, ω_min > 0; local dictionary definitions of constants#data; ε>0, ε_P=Fε; T₀,Ω₀ as in clause (g); h satisfies H1–H5 (HeadHyp; blueprint-N p1-interfaces.tex:227-230, as bound in clause (d))
+SET_SOURCE_QUANTIFIERS: -
+SET_SOURCE_CONCLUSION: -
+SET_CONSTANT_SCOPE: -
+SET_ROUTE_FOR: -
+NOTE: Repair of our own blueprint, not a source erratum (D32): blueprint-N p1-interfaces.tex:227-230 binds H1–H5 on h only in clause (d), so the frequency bounds of this step are false as written (h = 0). Independent review N-SYNC-audit-1 (F1 lines 143-145, F2 line 147). No frozen statement changes.
 
 <!-- BEGIN PROOF DEPGRAPH GENERATED -->
 Regenerated by `proof_depgraph.py`; do not hand-edit.

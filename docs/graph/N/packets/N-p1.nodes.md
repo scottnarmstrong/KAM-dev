@@ -1513,8 +1513,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Nekhoroshev.const_exceptional (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
-LEAN_NOTE: const_exceptional proves the full chain m_P r0/8 <= pi wmin < 2 pi wmin <= |omega-tilde(I0)|_2. Audit P1-6-audit-1.md L22 and P1-5-audit-1.md L76 (PASS). Supersedes the earlier LEAN_NOTE.
+LEAN_REF: KAM.Nekhoroshev.const_exceptional (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean:128-146)
+LEAN_NOTE: PROVED under amendment N-A001 (H1–H5 added, D32): const_exceptional assumes HeadHyp; N-SYNC-audit-1 F1 lines 143-145
 NOTE: SOURCE_GAP: the lemma explicitly assumes H1–H5 only in clause (d). This clause needs the corresponding hypotheses on h (H3 for the frequency lower bound; H5 also for the time upper bound). The cited conditional conversions do not supply those premises. No such premise is added to the source contract.
 
 NODE: stepN:p1:co-time
@@ -1546,8 +1546,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Nekhoroshev.const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
-LEAN_NOTE: const_time: Euclidean frequency bound 2 pi sqrt(n) M on the R0-ball and 2T <= A^2 s0/Omega0 for Omega0 in (0, 2 pi n M]. Audit P1-6-audit-1.md L23 and P1-5-audit-1.md L75 (PASS). Supersedes the earlier LEAN_NOTE.
+LEAN_REF: KAM.Nekhoroshev.const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean:148-171)
+LEAN_NOTE: PROVED under amendment N-A002 (H1–H5 added, D32): const_time assumes HeadHyp; N-SYNC-audit-1 F1 lines 143-145
 NOTE: SOURCE_GAP: In addition to the already recorded missing h-bound scope, the current partials contract inherits IsAnalyticPerturbation R s ε f from §s-holo. This application does not bind or supply that datum. No source hypothesis is added here. SOURCE_GAP: the lemma explicitly assumes H1–H5 only in clause (d). This clause needs the corresponding hypotheses on h (H3 for the frequency lower bound; H5 also for the time upper bound). The cited conditional conversions do not supply those premises. No such premise is added to the source contract.
 
 NODE: stepN:p1:co-conc
@@ -1575,8 +1575,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
 LEAN_STATUS: PROVED
-LEAN_REF: KAM.Nekhoroshev.const_conclusion (KAM/Nekhoroshev/Interfaces/Constants.lean)
-LEAN_NOTE: const_conclusion gives both radius/time equalities R0 (F eps/eps_star)^a = C eps^a and c eps^(-a); T<=T0/2 is const_time. Audit P1-5-audit-1.md L74 (PASS) and P1-6-audit-1.md L23.
+LEAN_REF: KAM.Nekhoroshev.const_conclusion (KAM/Nekhoroshev/Interfaces/Constants.lean:338-354); KAM.Nekhoroshev.const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean:148-171)
+LEAN_NOTE: PROVED under amendment N-A003 (H1–H5 added, D32), whole row: radius/exponent identities via const_conclusion, T <= T0/2 via const_time under HeadHyp; D32 split not representable (no node-split/SET_KIND amendment), so both parts are cited on this row; N-SYNC-audit-1 F2 line 147
 NOTE: Expression comparison only. Do not depend on Theorem 1 as a proved result; the time inequality uses co-time, which exposes the missing h-premise scope.
 
 NODE: bpN:p1:norm-convert#decay-route
