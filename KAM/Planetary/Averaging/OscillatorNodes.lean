@@ -206,8 +206,25 @@ theorem osc_iter_range_ab {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {
     osc_iter hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg
   exact ⟨a, b⟩
 
+/-- The actual weighted norm `|φ|` of a class function (the supremum over the parameter domain
+of the weighted Fourier sums) is a valid bound, is nonnegative and is at most any valid
+bound `Φ₀ ≥ 0`. -/
+private theorem osc_actual_norm {r rp rq S Φ₀ : ℝ} {φ : CHam (n + m)}
+    (hb : oscBound D r rp rq S φ Φ₀) (hΦ₀ : 0 ≤ Φ₀) :
+    let N := sSup ((fun x => wsum (oscFunction φ) S x) '' oscParams (m := m) D r rp rq)
+    oscBound D r rp rq S φ N ∧ 0 ≤ N ∧ N ≤ Φ₀ := by
+  intro N
+  have hup : BddAbove ((fun x => wsum (oscFunction φ) S x) '' oscParams (m := m) D r rp rq) :=
+    ⟨Φ₀, by rintro _ ⟨x, hx, rfl⟩; exact (hb x hx).2⟩
+  refine ⟨fun x hx => ⟨(hb x hx).1, le_csSup hup ⟨x, hx, rfl⟩⟩, ?_, ?_⟩
+  · exact Real.sSup_nonneg (by
+      rintro _ ⟨x, -, rfl⟩
+      exact tsum_nonneg fun _ => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le)
+  · exact Real.sSup_le (by rintro _ ⟨x, hx, rfl⟩; exact (hb x hx).2) hΦ₀
+
 /-- `stepP:p2:oi-ratio`, Lie series, from the source data: the generator is `φ = oscGen K h f`
-(its class and bound `|φ| ≤ δ/ᾱ`, `ᾱ = 2 π α`, are derived inside); with `θ_φ = 2 e b |φ| / δ_ν
+(its class and bound `|φ| ≤ δ/ᾱ`, `ᾱ = 2 π α`, are derived inside); `|φ|` is the actual weighted
+norm of `φ` (supremum of its weighted Fourier sums); with `θ_φ = 2 e b |φ| / δ_ν
 = e b η`, `η = 2|φ|/δ_ν`, we have `e² b η / 4 ≤ e b η`, `|ad_φ^h u| / h! ≤ θ_φ^h |u|` and
 `|u ∘ X¹_φ| ≤ (1 - θ_φ)⁻¹ |u|`. -/
 theorem p2_oi_ratio {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)}
@@ -221,7 +238,7 @@ theorem p2_oi_ratio {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)
     (hu : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u)
     (hbu : oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u A) (hA : 0 ≤ A) :
     let φ := oscGen K h f
-    let Φ := δ / (2 * π * α)
+    let Φ := sSup ((fun x => wsum (oscFunction φ) S x) '' oscParams (m := m) D r rp rq)
     let η := 2 * Φ / min (ρ * σ) (ρp * ρq)
     let θ := 2 * exp 1 * (1 + (m : ℝ)) * Φ / min (ρ * σ) (ρp * ρq)
     θ = exp 1 * (1 + (m : ℝ)) * η ∧
@@ -242,8 +259,9 @@ theorem p2_oi_ratio {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)
     obtain ⟨-, -, -, -, -, -, h7, h8⟩ := hwidths
     linarith
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
-  exact osc_ratio_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
-    (by positivity) le_rfl hsmall hu hbu hA
+  obtain ⟨c3, c4, c5⟩ := osc_actual_norm c2 (div_nonneg hδpos (by positivity))
+  exact osc_ratio_of_gen_bound hn hm hwidths c1 c3 c4
+    (by positivity) c5 hsmall hu hbu hA
 
 /-- `stepP:p2:oi-ratio`, integral remainders, from the source data: for the generator
 `φ = oscGen K h f` the remainders `∫₀¹ v_t ∘ X^t_φ dt` have the factor `(1 - θ_φ)⁻¹`. -/
@@ -264,7 +282,7 @@ theorem p2_oi_ratio_integral {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHa
     (hDc : ContinuousOn (fun p : ℝ × CPhase (n + m) => fderiv ℂ (v p.1) p.2)
       (Icc 0 1 ×ˢ oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ))) :
     let φ := oscGen K h f
-    let Φ := δ / (2 * π * α)
+    let Φ := sSup ((fun x => wsum (oscFunction φ) S x) '' oscParams (m := m) D r rp rq)
     let R := fun z => ∫ t in (0 : ℝ)..1, v t (flow (KAM.hamiltonianVectorFieldℂ φ)
       (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) t z)
     oscClass D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) R ∧
@@ -275,8 +293,9 @@ theorem p2_oi_ratio_integral {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHa
     obtain ⟨-, -, -, -, -, -, h7, h8⟩ := hwidths
     linarith
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
-  exact osc_ratio_integral_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
-    (by positivity) le_rfl hsmall hB hv hcv hDc
+  obtain ⟨c3, c4, c5⟩ := osc_actual_norm c2 (div_nonneg hδpos (by positivity))
+  exact osc_ratio_integral_of_gen_bound hn hm hwidths c1 c3 c4
+    (by positivity) c5 hsmall hB hv hcv hDc
 
 /-- `stepP:p2:oi-range`, from the source data and for the generator `φ = oscGen K h f`:
 numerics `θ_φ ≤ 2 e b δ / (ᾱ δ_ν) ≤ e/8 < 0.34`, `(16/9) θ_φ < 0.61 < 1`, the Lie series equals
@@ -297,7 +316,7 @@ theorem p2_oi_range {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CH
       oscBound D (rj j) (rpj j) (rqj j) (Sj j) (gj j) (Mj j) ∧
       r ≤ rj j ∧ rp ≤ rpj j ∧ rq ≤ rqj j ∧ S ≤ Sj j) :
     let φ := oscGen K h f
-    let Φ := δ / (2 * π * α)
+    let Φ := sSup ((fun x => wsum (oscFunction φ) S x) '' oscParams (m := m) D r rp rq)
     let θ := 2 * exp 1 * (1 + (m : ℝ)) * Φ / min (ρ * σ) (ρp * ρq)
     (θ ≤ 2 * exp 1 * (1 + (m : ℝ)) * δ / ((2 * π * α) * min (ρ * σ) (ρp * ρq)) ∧
       2 * exp 1 * (1 + (m : ℝ)) * δ / ((2 * π * α) * min (ρ * σ) (ρp * ρq)) ≤ exp 1 / 8 ∧
@@ -331,8 +350,9 @@ theorem p2_oi_range {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CH
     obtain ⟨-, -, -, -, -, -, h7, h8⟩ := hwidths
     linarith
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
-  exact osc_range_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
-    (by positivity) le_rfl hsmall hu hbu hA
+  obtain ⟨c3, c4, c5⟩ := osc_actual_norm c2 (div_nonneg hδpos (by positivity))
+  exact osc_range_of_gen_bound hn hm hwidths c1 c3 c4
+    (by positivity) c5 hsmall hu hbu hA
 
 end OiNodes
 
