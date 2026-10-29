@@ -149,6 +149,84 @@ theorem soSolution_norm_le {J : Set ℝ} (hJ : J.OrdConnected) (h0 : (0 : ℝ) �
   simp only [Real.norm_eq_abs, max_le_iff]
   refine ⟨?_, ?_, ?_⟩ <;> linarith
 
+/-! ### Global existence and uniqueness -/
+
+/-- Global existence and uniqueness of the solution of `soField` through any point: the force
+is bounded, so solutions stay in a ball on every bounded time interval (`soSolution_norm_le`),
+and `gen_confinement` makes the maximal interval infinite. -/
+theorem so_global_exists_unique (x₀ : ℝ × ℝ × ℝ) :
+    ∃ z : ℝ → ℝ × ℝ × ℝ, z 0 = x₀ ∧ (∀ t, HasDerivAt z (soField (z t)) t) ∧
+      ∀ y : ℝ → ℝ × ℝ × ℝ, y 0 = x₀ → (∀ t, HasDerivAt y (soField (y t)) t) → y = z := by
+  have hW : IsOpen (univ : Set (ℝ × ℝ × ℝ)) := isOpen_univ
+  have hF : ContDiffOn ℝ 1 soField univ := soField_contDiff.contDiffOn
+  obtain ⟨⟨Tm, Tp, z, hz⟩, huniq⟩ := KAM.ODE.gen_maximal hW hF (x₀ := x₀) (mem_univ _)
+  have hconf : ∀ τ : ℝ, 0 < τ → (Tm : EReal) < ((-τ : ℝ) : EReal) ∧ ((τ : ℝ) : EReal) < Tp := by
+    intro τ hτ
+    set R := soRadius ‖x₀‖ τ
+    obtain ⟨δ, M, L, hU, -, -⟩ := KAM.ODE.gen_uniform_compact hW hF
+      (isCompact_closedBall (0 : ℝ × ℝ × ℝ) R) (subset_univ _)
+    obtain ⟨Tm', Tp', z', hz', hTm, hTp, -⟩ := KAM.ODE.gen_confinement hW hF (mem_univ x₀) hτ hU
+      (fun J y _ hJ h0 hy0 hy t ht htτ => by
+        rw [mem_closedBall_zero_iff]
+        have := soSolution_norm_le hJ h0 hy ht htτ
+        rwa [hy0] at this)
+    obtain ⟨h1, h2, -⟩ := huniq _ _ _ _ _ _ hz hz'
+    exact ⟨h1 ▸ hTm, h2 ▸ hTp⟩
+  have hTp : Tp = ⊤ := (EReal.eq_top_iff_forall_lt Tp).2 fun r =>
+    lt_of_lt_of_le (by exact_mod_cast (show r < max r 0 + 1 by linarith [le_max_left r 0]))
+      (hconf (max r 0 + 1) (by linarith [le_max_right r 0])).2.le
+  have hTm : Tm = ⊥ := (EReal.eq_bot_iff_forall_lt Tm).2 fun r =>
+    lt_of_le_of_lt (hconf (max (-r) 0 + 1) (by linarith [le_max_right (-r) 0])).1.le
+      (by exact_mod_cast (show -(max (-r) 0 + 1) < r by linarith [le_max_left (-r) 0]))
+  subst hTp hTm
+  have hsol := hz.isSolution
+  rw [KAM.ODE.eIoo_bot_top] at hsol
+  refine ⟨z, hz.init, fun t => (hsol t (mem_univ t)).2, fun y hy0 hy => ?_⟩
+  have := KAM.ODE.gen_uniqueness hW hF ordConnected_univ (mem_univ 0) (y₁ := y) (y₂ := z)
+    (KAM.ODE.isSolutionIn_univ_iff.2 fun t _ => hy t |> fun h => h)
+    hsol (by rw [hy0, hz.init])
+  exact funext fun t => this (mem_univ t)
+
+/-! ### Confinement between two barriers -/
+
+/-- Two barrier graphs confine, in both time directions, every solution that starts strictly
+between them, and that solution is global and unique. -/
+theorem so_confinement {lo₁ hi₁ lo₂ hi₂ : ℝ} (B₁ : SoBarrier lo₁ hi₁) (B₂ : SoBarrier lo₂ hi₂)
+    (x₀ : ℝ × ℝ × ℝ) (h₁ : B₁.P x₀.1 x₀.2.2 < x₀.2.1) (h₂ : x₀.2.1 < B₂.P x₀.1 x₀.2.2) :
+    ∃ z : ℝ → ℝ × ℝ × ℝ, (z 0 = x₀ ∧ ∀ t, HasDerivAt z (soField (z t)) t) ∧
+      (∀ t, B₁.P (z t).1 (z t).2.2 < (z t).2.1 ∧ (z t).2.1 < B₂.P (z t).1 (z t).2.2) ∧
+      ∀ y : ℝ → ℝ × ℝ × ℝ, (y 0 = x₀ ∧ ∀ t, HasDerivAt y (soField (y t)) t) → y = z := by
+  obtain ⟨z, hz0, hzd, huniq⟩ := so_global_exists_unique x₀
+  refine ⟨z, ⟨hz0, hzd⟩, ?_, fun y hy => huniq y hy.1 hy.2⟩
+  have hc₁ : Continuous fun x : ℝ × ℝ × ℝ => B₁.P x.1 x.2.2 :=
+    B₁.continuous.comp (continuous_fst.prodMk (continuous_snd.comp continuous_snd))
+  have hc₂ : Continuous fun x : ℝ × ℝ × ℝ => B₂.P x.1 x.2.2 :=
+    B₂.continuous.comp (continuous_fst.prodMk (continuous_snd.comp continuous_snd))
+  have hp : Continuous fun x : ℝ × ℝ × ℝ => x.2.1 := continuous_fst.comp continuous_snd
+  set V : Set (ℝ × ℝ × ℝ) := {x | B₁.P x.1 x.2.2 < x.2.1 ∧ x.2.1 < B₂.P x.1 x.2.2} with hV
+  have hVo : IsOpen V := (isOpen_lt hc₁ hp).inter (isOpen_lt hp hc₂)
+  have hcl : closure V ⊆ {x | B₁.P x.1 x.2.2 ≤ x.2.1 ∧ x.2.1 ≤ B₂.P x.1 x.2.2} :=
+    closure_minimal (fun x hx => ⟨hx.1.le, hx.2.le⟩)
+      ((isClosed_le hc₁ hp).inter (isClosed_le hp hc₂))
+  have hsol : KAM.ODE.IsSolutionIn soField univ univ z := KAM.ODE.isSolutionIn_univ_iff.2
+    fun t _ => hzd t
+  have hS := KAM.ODE.isInvariantSet_union B₁.invariant B₂.invariant
+  have key := KAM.ODE.gen_barrier (F := soField) (W := univ) ordConnected_univ (mem_univ (0 : ℝ))
+    hsol hVo (by rw [hz0]; exact ⟨h₁, h₂⟩) (G := univ) (subset_univ _)
+    (S := {x | x.2.1 = B₁.P x.1 x.2.2} ∪ {x | x.2.1 = B₂.P x.1 x.2.2}) hS
+    (fun x hx => by
+      have hxc := hcl hx.1.1
+      have hxV : x ∉ V := fun h => hx.1.2 (by rwa [hVo.interior_eq])
+      simp only [hV, mem_ofPred_eq, not_and_or, not_lt] at hxV
+      rcases hxV with h | h
+      · exact Or.inl (le_antisymm h hxc.1)
+      · exact Or.inr (le_antisymm hxc.2 h))
+    (by
+      rw [hz0]
+      simp only [mem_union, mem_ofPred_eq, not_or]
+      exact ⟨h₁.ne', h₂.ne⟩)
+  exact fun t => key t (mem_univ t)
+
 end KAM.SpinOrbit
 
 end
