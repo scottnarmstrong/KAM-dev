@@ -282,6 +282,7 @@ public import KAM.Iso.Linear.EnergyDefect
 public import KAM.Iso.Linear.Extended
 public import KAM.Iso.Linear.FreqMap
 public import KAM.Iso.Linear.FullRange
+public import KAM.Iso.Linear.FullRangeAnyOmega
 public import KAM.Iso.Linear.LastRow
 public import KAM.Iso.Linear.NoTwist
 public import KAM.Iso.Linear.Reduced
