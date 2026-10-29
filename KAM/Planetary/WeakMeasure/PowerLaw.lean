@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakMeasure.Diophantine
 public import KAM.Measure.Lattice
 
 /-!
-# The power-law Diophantine set (blueprint `bpP:p11a:power-law`, P11A-W8)
+# The power-law Diophantine set (blueprint `bpP:p11a:power-law`)
 
 For the profile `Ψ(k) = γ |k|₁^(-τ)`: the per-mode ratio `Ψ(k)/|k|₂ ≤ √m γ |k|₁^(-τ-1) ≤ √m γ`
 (`stepP:p11a:pl-profile`, `p11_pl_profile`), the lattice-sum bound

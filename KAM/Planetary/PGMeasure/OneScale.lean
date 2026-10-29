@@ -20,7 +20,7 @@ at most `dioConstant d τ * γ`, where `dioConstant = 2 Λg^a S(a+b, τ) (2 Ry)^
 the resonant slabs `{y ∈ [-Ry, Ry]^a : |k·y| < γ |k|₁^(-τ)}` (`affine_slab`, summed with
 `lattice_tail`) through the `Λg`-Lipschitz frozen inverse, using `μH[a] = volume` on `ℝ^a` with the
 max norm. Also fixes the chosen inverse and its constants `pgInverse`, `pgInverseL`, `pgInverseR`
-(design signature of `bpP:p4:lip-inverse`), which are used by downstream modules.
+(signature of `bpP:p4:lip-inverse`), which are used by downstream modules.
 -/
 
 @[expose] public noncomputable section

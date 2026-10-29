@@ -11,7 +11,7 @@ public import KAM.Planetary.Quantitative.BudgetAdmissible
 public import KAM.Planetary.WeakKAM.PolynomialBudget
 
 /-!
-# Quantitative weak KAM assembly: data bridge (P11C-Q6)
+# Quantitative weak KAM assembly: data bridge
 
 The upstream `SelectionData` carrying the quantitative data `d` and the Hamiltonian `h`
 (`p11c_selData_exists`), the identification of the norms (`euclid` with `selectionLength`), and the

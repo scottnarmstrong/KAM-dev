@@ -18,8 +18,7 @@ bounded by `M` and determinant at least `B` in absolute value, by the adjugate f
 (no symmetry is used). The slow resonances (`k_f = 0`, case `stepP:p4:dm-slow` of
 `bpP:p4:two-scale-diophantine-measure`) are bounded by internal helpers: per-mode `affine_slab`
 sections with the N3 lower bound, Tonelli over the fast actions, and the `lattice_tail` sum
-(`slow_resonance_measure_le`, consumed by P4-M). Design
-`docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-R0.
+(`slow_resonance_measure_le`, consumed by `two_scale_diophantine_measure`).
 -/
 
 public section

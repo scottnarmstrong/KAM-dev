@@ -10,7 +10,7 @@ public import KAM.Planetary.WeakMeasure.Diophantine
 public import KAM.Frozen.Defs.IsDiophantine
 
 /-!
-# The limit bridge (blueprint `bpP:p11a:limit-bridge`, P11A-W8)
+# The limit bridge (blueprint `bpP:p11a:limit-bridge`)
 
 A frequency within `γ |k|₁^(-τ-1)` of a frequency that is `2γ |k|₁^(-τ)`-non-resonant in the
 direction `k` is `γ |k|₁^(-τ)`-non-resonant (`limit_bridge`), and a point of the doubled good set

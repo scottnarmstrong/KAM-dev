@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Quantitative.BudgetPositivity
 
 /-!
-# Quantitative budget: comparison and monotonicity of thresholds (P11C-Q2)
+# Quantitative budget: comparison and monotonicity of thresholds
 
 `qb_comp` (the data-only threshold is positive and below the old threshold's numerical
 projection) and `qb_mono` (`gamma` and `thresholds` are monotone for `BudgetOrder`).

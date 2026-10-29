@@ -52,8 +52,7 @@ theorem fixed_of_wrapper {n : ℕ}
       n_general_of_wrapper hw hn G m0 m a hG hm0 hm ha hsep eta heta
     exact ⟨eps0, _, _, he0, hd, hdD, h⟩
 
-/-- **Signed `fixed`** (bpP:p13:fixed): `fixed_of_wrapper` applied to the signed `wrapper`
-(ruling OVERNIGHT 03:50). -/
+/-- **Signed `fixed`** (bpP:p13:fixed): `fixed_of_wrapper` applied to the signed `wrapper`. -/
 theorem fixed {n : ℕ} (hn : 2 ≤ n)
     (G m0 : ℝ) (m a : Fin n → ℝ)
     (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)

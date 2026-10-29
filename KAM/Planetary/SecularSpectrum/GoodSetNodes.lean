@@ -12,7 +12,7 @@ public import KAM.Planetary.Nondegeneracy.Interface
 # Secular spectrum: the literal good-set nodes
 
 Blueprint P, Part 9 (`bpP:p9:good-set`, `stepP:p9:gs-c`, `bpP:p9:dict`).  Unsigned literal exports
-built from the landed `good_set`, `good_set_dichotomy`, `local_analytic`, `diagonalize` and
+built from the `good_set`, `good_set_dichotomy`, `local_analytic`, `diagonalize` and
 `min_mode_continuous_positive`: the zero set of `good ∘ σ` on an open connected set of axes is
 relatively closed, nowhere dense and null once one point is good; the non-resonance bound is
 uniform on compact subsets of `goodAxes`; `2σⱼ ≠ 0`; the hypotheses of `diagonalize` hold on an

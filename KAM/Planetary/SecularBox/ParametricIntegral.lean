@@ -10,7 +10,7 @@ public import Mathlib.Analysis.Calculus.ContDiff.Operations
 public import KAM.Frozen.Planetary.Defs.Phase
 
 /-!
-# Smooth dependence of a compact-box integral on a parameter (P14, package S4)
+# Smooth dependence of a compact-box integral on a parameter
 
 `secular_parametric_integral`: if `g` is jointly `C^k` on `U ×ˢ univ` (`U` open) and `Q` is compact,
 then `w ↦ ∫ F in Q, g w F` is `C^k` on `U`.  Mathlib has only the first-derivative theorem

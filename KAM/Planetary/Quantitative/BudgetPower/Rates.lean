@@ -8,7 +8,7 @@ module
 public import Mathlib
 
 /-!
-# Power-rate algebra on `(0, 1]` (P11C-Q3)
+# Power-rate algebra on `(0, 1]`
 
 Elementary monotonicity and product rules for `u ^ e` with `u ∈ (0, 1]`, used to chain the
 polynomial rate bounds of `qb_poly` (the fragments `ab_gamma`, `ab_T0`, `ab_t0`, `ab_lam`).

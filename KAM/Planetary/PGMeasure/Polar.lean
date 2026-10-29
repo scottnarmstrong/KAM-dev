@@ -16,13 +16,13 @@ public import KAM.Planetary.Poincare.Lattice
 /-!
 # P Parts 4-5: the general oscillator polar chart and the disc measure
 
-`bpP:p4:s-disc#chart`, `bpP:p4:disc-measure`.  The chart `oscillatorPolar` extends the P7 `polarMap`
+`bpP:p4:s-disc#chart`, `bpP:p4:disc-measure`.  The chart `oscillatorPolar` extends the Part 7
+`polarMap`
 to arbitrary `a, b` (`oscillatorPolar_eq_polarMap` at `a = b`), `disc_measure_chart` gives
 analyticity,
 symplecticity, the unit Jacobian, injectivity on one cell and lattice injectivity,
 `disc_measure_image` the area formula for the cell map, and `disc_measure`, `disc_measure_shell` the
 cell volume, the null-centre coverage and the shell estimate.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-POL.
 -/
 
 @[expose] public noncomputable section

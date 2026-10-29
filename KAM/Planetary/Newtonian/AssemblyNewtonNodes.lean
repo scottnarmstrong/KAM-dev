@@ -9,10 +9,10 @@ public import Mathlib
 public import KAM.Planetary.Newtonian.AssemblyNodes
 
 /-!
-# Graph-node export: the Newton projection of the tube assembly (GAP-PX)
+# Graph-node export: the Newton projection of the tube assembly
 
 Unsigned export stating the literal conclusion of `stepP:p6:ma-newton` from its source
-hypotheses (S1), (S2), built from the landed `ma_coll` and `orbit_transfer_moving`.
+hypotheses (S1), (S2), built from the `ma_coll` and `orbit_transfer_moving`.
 -/
 
 public section

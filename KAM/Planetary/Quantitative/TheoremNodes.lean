@@ -10,7 +10,7 @@ public import KAM.Planetary.Quantitative.Assembly
 public import KAM.Planetary.Quantitative.AssemblyK6
 public import KAM.Planetary.WeakKAM.ExtensionNorm
 
-/-! # GAP-P11a-SQ: literal node exports of the quantitative-theorem steps
+/-! # Literal node exports of the quantitative-theorem steps
 
 * `sel_data_gamma` (`bpP:p11a:sel-data`): the loss `γ = γ_*(ε*)/2` of the selection data, i.e.
   `2γ = γ_*(ε*)` with `γ_*` the power-law constant `p11GammaStar` for `m = N`.

@@ -14,7 +14,6 @@ public import KAM.Planetary.PG.Setting
 The frontier crossing `ext_conn`, the collar lemma `collar` for the inner core of a bounded open
 set, the product-neighbourhood identity `realNbhd_joinedActions` (max norm) and the unnormalised
 enlargement estimate `domain_collar_helper`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-CO.
 -/
 
 @[expose] public noncomputable section

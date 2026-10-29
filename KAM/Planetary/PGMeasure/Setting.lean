@@ -16,7 +16,7 @@ public import KAM.Frozen.Planetary.Defs.FastFrequency
 The actual frequency map `freq`, its secular ingredients `secularPolynomial` and
 `slowFrequency`, the literal S4 standing hypotheses `MeasureData`, and the resonance union
 helper `resonanceBad`. `joinedActions` (`bpP:p4:conv#shell`) is owned by `KAM.Planetary.PG.Setting`
-and is reused, not redeclared. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-S.
+and is reused, not redeclared.
 -/
 
 @[expose] public noncomputable section

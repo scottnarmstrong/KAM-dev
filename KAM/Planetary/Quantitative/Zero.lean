@@ -11,7 +11,7 @@ public import KAM.Planetary.WeakMeasure.PowerLaw
 public import KAM.Strip.Regularity
 
 /-!
-# Quantitative weak KAM: the zero perturbation (P11C-Q5)
+# Quantitative weak KAM: the zero perturbation
 
 `bpP:p11a:zero-case`: for `f = 0` the unperturbed tori `θ ↦ (θ, b)` over the good set
 `p11c_zeroGood` (the `2γ`-Diophantine frequencies in `K`) form a `QuantitativeFamily`.

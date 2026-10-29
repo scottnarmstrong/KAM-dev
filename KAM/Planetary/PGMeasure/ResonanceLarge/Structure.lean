@@ -15,7 +15,7 @@ For an integer vector `k = (k₁, k₂)` write `|k|₁` for its `ℓ¹` norm and
 norms of its blocks. The *large modes* are those with `k₁ ≠ 0` and `μ Λ_N Λ_g |k|₁ > ‖k₁‖/2`
 (the complement of `𝒦_A`). `large_mode_structure` proves `|k|₁ > (2 μ Λ_N Λ_g)⁻¹`,
 `|k₂|₁ > M |k₁|₁` with `M = 2 b Λ_N L_β`, hence `|k|₁ < 2 b ‖k₂‖` and
-`Λ_N |k₁|₁ ≤ ‖k₂‖/(2 L_β)`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P4-RB.
+`Λ_N |k₁|₁ ≤ ‖k₂‖/(2 L_β)`.
 -/
 
 @[expose] public noncomputable section

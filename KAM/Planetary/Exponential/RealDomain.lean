@@ -12,7 +12,7 @@ public import KAM.Planetary.Exponential.Dictionary
 public import KAM.Planetary.Exponential.Setting
 
 /-!
-# P14 package E3: the real domain is collision free
+# The real domain is collision free
 
 Blueprint P, Part 14 (`bpP:p14:real-domain`).  For enlargement data `EnlargedData B kappa e A`, the
 enlarged cylinder lies in the collision-free part of the Poincaré chart domain, the physical

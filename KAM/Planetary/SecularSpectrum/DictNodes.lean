@@ -12,11 +12,11 @@ public import KAM.Planetary.Nondegeneracy.SymmetricRelation.Limits
 /-!
 # Secular spectrum: the dictionary `Ω_j = 2 σ_j`
 
-Blueprint P, Part 9 (`bpP:p9:dict`, package GAP-P9dict).  `sorted_smul` says that the sorted
+Blueprint P, Part 9 (`bpP:p9:dict`).  `sorted_smul` says that the sorted
 eigenvalue list of `c • A` is `c` times that of `A` for a real symmetric `A` and `c > 0`.
 `p9_dict` is the node's literal conclusion: the sorted eigenvalue list of `2 • Q_h` (the matrix of
 Fej04r (36)--(37)) is `2 σ`, every `σ_j` and every `2 σ_j` is negative (`n ≥ 2`), and for `n = 1`
-the matrix `Q_h` and the entry `Ω₁ = 2 σ₁` vanish.  `p9_dict_planar` identifies the landed frozen
+the matrix `Q_h` and the entry `Ω₁ = 2 σ₁` vanish.  `p9_dict_planar` identifies the frozen
 `Ω_j = 2 * p11c_sigma` with that eigenvalue list.
 -/
 
@@ -80,7 +80,7 @@ theorem p9_dict :
     change (2 : ℝ) * sigma D a j = 0
     rw [sigma_one D a j]; ring
 
-/-- `bpP:p9:dict` for the landed frozen frequency: the `Ω_j = 2 * p11c_sigma` fed to
+/-- `bpP:p9:dict` for the frozen frequency: the `Ω_j = 2 * p11c_sigma` fed to
 `HasSecularBirkhoffForm` is the sorted eigenvalue list of `2 Q_h`, and every entry is negative. -/
 theorem p9_dict_planar (p : PlanarData) (hp : p.Valid) {a : Fin 2 → ℝ} (ha : a ∈ p11c_axes) :
     (∀ h, sorted ((2 : ℝ) • coeffs (p11cSecularData p hp) a) h =

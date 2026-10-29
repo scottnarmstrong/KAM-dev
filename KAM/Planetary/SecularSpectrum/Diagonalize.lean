@@ -15,15 +15,15 @@ public import KAM.Planetary.SecularSpectrum.Lift
 /-!
 # Secular spectrum: diagonalization of the secular quadratic form
 
-Blueprint P, Part 9 (`bpP:p9:diagonalize`, `stepP:p9:d-a`, `d-b`, `d-c`, `bpP:p9:dict`; package
-S9-Q). For an analytic family `R` of rotations diagonalizing `coeffs D (axis D I)` on an open set
+Blueprint P, Part 9 (`bpP:p9:diagonalize`, `stepP:p9:d-a`, `d-b`, `d-c`, `bpP:p9:dict`).
+For an analytic family `R` of rotations diagonalizing `coeffs D (axis D I)` on an open set
 `W` of actions, `diagonalize` exports the exact quadratic identity in the rotated variables, the
 matched average identity under the lift `liftInv R` (with the model parameter `b` appearing once),
 the negativity `2 σ_j < 0`, and the locally uniform fourth-order bound of the rotated average.
 
 The average identity is the translation invariance of the torus average (`cell_integral_add`): in
 the lift only the fast angles are shifted, by a constant vector. The uniform bound combines
-`quadratic_form` (S8-Q), the model difference `identification` (S8-M) and the elementary rotation
+`quadratic_form`, the model difference `identification` and the elementary rotation
 estimate `‖R x‖ ≤ n ‖x‖` of the max norm.
 -/
 

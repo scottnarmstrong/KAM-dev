@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Quantitative.BudgetPower.Gamma
 
 /-!
-# Polynomial bounds for `tbar`, `tflat`, `xibar` (P11C-Q3, fragments `ab_T0`, `ab_t0`)
+# Polynomial bounds for `tbar`, `tflat`, `xibar`
 
 `tbar ≤ C u^{-L}` (`stepP:p11a:ab-T0`), `tflat ≥ k u^J` and `xibar ≤ C u^{-X}`
 (`stepP:p11a:ab-t0`).

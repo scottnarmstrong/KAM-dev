@@ -15,8 +15,7 @@ public import KAM.Measure.Slab
 `affine_slab`: for `ell ≠ 0` in `ℝⁿ`, the set of `x ∈ [-λ, λ]ⁿ` with `|ell · x + c| < ε` has
 Lebesgue measure at most `2 ε (2λ)^(n-1) / ‖ell‖` (max norm). The proof takes a coordinate `i`
 with `|ell i| = ‖ell‖`, splits `ℝⁿ = ℝ × ℝⁿ⁻¹` along `i` (Fubini) and bounds each section by
-`KAM.Measure.volume_abs_affine_lt_le`. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`,
-package P4-AF.
+`KAM.Measure.volume_abs_affine_lt_le`.
 -/
 
 public section

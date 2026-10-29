@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Quantitative.Thresholds
 
 /-!
-# Quantitative budget: positivity of the threshold data (P11C-Q2 helper)
+# Quantitative budget: positivity of the threshold data
 
 Positivity of the cutoff constant, the Diophantine constant, `gamma`, `tbar`, `tflat`, `xibar`,
 `thetaMax`, `lambdaFlat` and `thresholds` for numerically valid data.
