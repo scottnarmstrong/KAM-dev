@@ -79,12 +79,15 @@ theorem identification_avg (D : Data n) {x : Slow n} (hx : x ∈ slowDom D) :
 (the real-analytic radius of `perturbation_analytic` shrunk to that of
 `perturbation_analytic_full`). -/
 private theorem radius_integrable (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
-    ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧ ∀ b : Bool, ∀ x ∈ realDisc D a r,
-      IntegrableOn (fun t => perturbation D b (assemble x.2.1 t x.2.2 x.1)) (cell n) := by
+    ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧ ∀ b : Bool,
+      (∀ x ∈ realDisc D a r,
+        IntegrableOn (fun t => perturbation D b (assemble x.2.1 t x.2.2 x.1)) (cell n)) ∧
+      AnalyticOnNhd ℝ (secular D b) (realDisc D a r) := by
   obtain ⟨r1, hr1, hrho1, -, h1⟩ := perturbation_analytic D ha
   obtain ⟨r2, hr2, hrh2, -⟩ := perturbation_analytic_full D ha
-  refine ⟨min r1 r2, lt_min hr1 hr2, (min_le_right _ _).trans_lt hrh2, fun b x hx => ?_⟩
-  exact (h1 b).2.2.2.2.2.2 x (realDisc_mono D a (min_le_left _ _) hx)
+  refine ⟨min r1 r2, lt_min hr1 hr2, (min_le_right _ _).trans_lt hrh2, fun b => ⟨fun x hx => ?_, ?_⟩⟩
+  · exact (h1 b).2.2.2.2.2.2 x (realDisc_mono D a (min_le_left _ _) hx)
+  · exact (h1 b).2.2.2.2.1.mono (realDisc_mono D a (min_le_left _ _))
 
 /-- `stepP:p8:id-int`: integrability of `f̂_fix` is that of `f̂_mov` and the averages subtract; on
 the real polydisc both are integrable. -/
@@ -106,7 +109,7 @@ theorem identification_int (D : Data n) :
     unfold avg
     rw [integral_sub hM hF, smul_sub]
   · obtain ⟨r, hr0, hrh, h⟩ := radius_integrable D ha
-    exact ⟨r, hr0, hrh, fun x hx => ⟨h true x hx, h false x hx⟩⟩
+    exact ⟨r, hr0, hrh, fun x hx => ⟨((h true).1 x hx), ((h false).1 x hx)⟩⟩
 
 private theorem avg_const_real (c : ℝ) : avg (fun _ : Vec n => c) = c := by
   have h1 : avg (fun _ : Vec n => (1 : ℝ)) = 1 := by
@@ -184,11 +187,185 @@ theorem identification_full (D : Data n) :
   have hrho : r < rho D a := by have := rho_pos D ha; linarith
   refine ⟨r, hr0, hrh, fun x hx => ?_⟩
   have hxd := realDisc_subset_slowDom D ha hrho hx
-  have hid := (identification D hxd).2.2.2 (h false x hx)
-  have hH := avg_hamiltonians D hxd (h false x hx) (h true x hx)
+  have hid := (identification D hxd).2.2.2 ((h false).1 x hx)
+  have hH := avg_hamiltonians D hxd ((h false).1 x hx) ((h true).1 x hx)
   refine ⟨hid, fun μ => ⟨(hH μ).1, ?_⟩, fun ε => (hH ε).2⟩
   rw [hid]
   ring
+
+/-! ### Same jets, same quadratic form, same equations, transfer -/
+
+private theorem differentiableAt_modelDelta (D : Data n) {I : Vec n} (hI : ∀ i, I i ≠ 0) :
+    DifferentiableAt ℝ (modelDelta D) I := by
+  unfold modelDelta
+  refine DifferentiableAt.const_mul (DifferentiableAt.fun_sum fun i _ => ?_) _
+  have h : DifferentiableAt ℝ (fun I : Vec n => I i) I :=
+    (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin n => ℝ) i).differentiableAt
+  have h2 : DifferentiableAt ℝ (fun I : Vec n => I i ^ 2) I := h.pow 2
+  fun_prop (disch := exact pow_ne_zero 2 (hI i))
+
+private theorem pos_of_realDisc (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
+    (hrho : r < rho D a) {x : Slow n} (hx : x ∈ realDisc D a r) (i : Fin n) : 0 < x.2.1 i := by
+  have := (mem_slowDom_iff' D x).1 (realDisc_subset_slowDom D ha hrho hx) i
+  exact this.1
+
+/-- The first-order data of the identification at a point of the real polydisc. -/
+private theorem first_order_at (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ} (hr : 0 < r)
+    (hrho : r < rho D a)
+    (hint : ∀ x ∈ realDisc D a r,
+      IntegrableOn (fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1)) (cell n))
+    (hAn : AnalyticOnNhd ℝ (secular D false) (realDisc D a r)) {x : Slow n}
+    (hx : x ∈ realDisc D a r) :
+    fderiv ℝ (slowSecular D true x.2.1) (x.1, x.2.2) =
+      fderiv ℝ (slowSecular D false x.2.1) (x.1, x.2.2) ∧
+    fderiv ℝ (fun I => secular D true (x.1, I, x.2.2)) x.2.1 =
+      fderiv ℝ (fun I => secular D false (x.1, I, x.2.2)) x.2.1 +
+        fderiv ℝ (modelDelta D) x.2.1 := by
+  have hid : ∀ y ∈ realDisc D a r,
+      secular D true y = secular D false y + modelDelta D y.2.1 := fun y hy =>
+    (identification D (realDisc_subset_slowDom D ha hrho hy)).2.2.2 (hint y hy)
+  constructor
+  · let emb : Vec n × Vec n → Slow n := fun u => (u.1, x.2.1, u.2)
+    have hopen : IsOpen (emb ⁻¹' realDisc D a r) :=
+      (isOpen_realDisc D a hr).preimage (by fun_prop)
+    have hev : slowSecular D true x.2.1 =ᶠ[𝓝 (x.1, x.2.2)]
+        fun u => slowSecular D false x.2.1 u + modelDelta D x.2.1 := by
+      filter_upwards [hopen.mem_nhds (show (x.1, x.2.2) ∈ emb ⁻¹' realDisc D a r from hx)]
+        with u hu
+      exact hid _ hu
+    rw [hev.fderiv_eq, fderiv_add_const]
+  · let emb : Vec n → Slow n := fun I => (x.1, I, x.2.2)
+    have hopen : IsOpen (emb ⁻¹' realDisc D a r) :=
+      (isOpen_realDisc D a hr).preimage (by fun_prop)
+    have hev : (fun I => secular D true (x.1, I, x.2.2)) =ᶠ[𝓝 x.2.1]
+        fun I => secular D false (x.1, I, x.2.2) + modelDelta D I := by
+      filter_upwards [hopen.mem_nhds (show x.2.1 ∈ emb ⁻¹' realDisc D a r from hx)] with I hI
+      exact hid _ hI
+    have hS : DifferentiableAt ℝ (fun I => secular D false (x.1, I, x.2.2)) x.2.1 :=
+      DifferentiableAt.comp (g := secular D false) (f := fun I : Vec n => (x.1, I, x.2.2))
+        x.2.1 (hAn x hx).differentiableAt (by fun_prop)
+    have hδ := differentiableAt_modelDelta D (fun i => (pos_of_realDisc D ha hrho hx i).ne')
+    rw [hev.fderiv_eq]
+    exact fderiv_fun_add hS hδ
+
+/-- `bpP:p8:same-jets#jets`: all `(ξ,η)`-jets of positive order of `S_mov` and `S_fix` agree (with
+all `Λ`-derivatives); (a) `S_mov = C₀ + δ + ξᵀ Q_h ξ + ηᵀ Q_h η + O(|(ξ,η)|⁴)` with the same `Q_h`
+(hence the same `σ_j`, `Ω_j`); (b) the `(ξ,η)`-gradients agree, so for `μ = ε` the secular
+equations coincide, and the `Λ`-gradients differ by that of `δ`. -/
+theorem same_jets_jets (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    ∃ r C : ℝ, 0 < r ∧ r < rho D a / 2 ∧ 0 < C ∧
+    AnalyticOnNhd ℝ (fun x : Slow n => secular D true x - constantTerm D (axis D x.2.1) -
+      modelDelta D x.2.1 - quad (coeffs D (axis D x.2.1)) x.1 -
+      quad (coeffs D (axis D x.2.1)) x.2.2) (realDisc D a r) ∧
+    ∀ x ∈ realDisc D a r,
+      (∀ k : ℕ, 0 < k → ∀ l : ℕ,
+        iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D true I) (x.1, x.2.2))
+          x.2.1 =
+        iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D false I) (x.1, x.2.2))
+          x.2.1) ∧
+      |secular D true x - constantTerm D (axis D x.2.1) - modelDelta D x.2.1 -
+        quad (coeffs D (axis D x.2.1)) x.1 - quad (coeffs D (axis D x.2.1)) x.2.2| ≤
+        C * ‖(x.1, x.2.2)‖ ^ 4 ∧
+      fderiv ℝ (slowSecular D true x.2.1) (x.1, x.2.2) =
+        fderiv ℝ (slowSecular D false x.2.1) (x.1, x.2.2) ∧
+      fderiv ℝ (fun I => secular D true (x.1, I, x.2.2)) x.2.1 =
+        fderiv ℝ (fun I => secular D false (x.1, I, x.2.2)) x.2.1 +
+          fderiv ℝ (modelDelta D) x.2.1 := by
+  obtain ⟨r1, hr1, hrh1, h1⟩ := radius_integrable D ha
+  obtain ⟨r2, C, hr2, hr2rho, hC, hAn2, hB2⟩ := quadratic_form D ha
+  have hρ := rho_pos D ha
+  have hrho1 : r1 < rho D a := by linarith
+  set r := min r1 r2 with hrdef
+  have hr : 0 < r := lt_min hr1 hr2
+  have hrr1 : r ≤ r1 := min_le_left _ _
+  have hrr2 : r ≤ r2 := min_le_right _ _
+  have hrho : r < rho D a := lt_of_le_of_lt hrr1 hrho1
+  have hint : ∀ x ∈ realDisc D a r,
+      IntegrableOn (fun t => perturbation D false (assemble x.2.1 t x.2.2 x.1)) (cell n) :=
+    fun x hx => ((h1 false).1 x (realDisc_mono D a hrr1 hx))
+  have hAn : AnalyticOnNhd ℝ (secular D false) (realDisc D a r) :=
+    (h1 false).2.mono (realDisc_mono D a hrr1)
+  have hid : ∀ y ∈ realDisc D a r,
+      secular D true y = secular D false y + modelDelta D y.2.1 := fun y hy =>
+    (identification D (realDisc_subset_slowDom D ha hrho hy)).2.2.2 (hint y hy)
+  have heq : ∀ y ∈ realDisc D a r, secular D false y - constantTerm D (axis D y.2.1) -
+      quad (coeffs D (axis D y.2.1)) y.1 - quad (coeffs D (axis D y.2.1)) y.2.2 =
+      secular D true y - constantTerm D (axis D y.2.1) - modelDelta D y.2.1 -
+        quad (coeffs D (axis D y.2.1)) y.1 - quad (coeffs D (axis D y.2.1)) y.2.2 := by
+    intro y hy
+    rw [hid y hy]; ring
+  refine ⟨r, C, hr, (min_le_left _ _).trans_lt hrh1, hC, ?_, fun x hx => ?_⟩
+  · exact (hAn2.mono (realDisc_mono D a hrr2)).congr (isOpen_realDisc D a hr) heq
+  · have hx2 : x ∈ realDisc D a r2 := realDisc_mono D a hrr2 hx
+    refine ⟨fun k hk l => ?_, ?_, first_order_at D ha hr hrho hint hAn hx⟩
+    · let emb : Vec n → Slow n := fun I => (x.1, I, x.2.2)
+      have hopen : IsOpen (emb ⁻¹' realDisc D a r) :=
+        (isOpen_realDisc D a hr).preimage (by fun_prop)
+      have hev : (fun I => iteratedFDeriv ℝ k (slowSecular D true I) (x.1, x.2.2)) =ᶠ[𝓝 x.2.1]
+          fun I => iteratedFDeriv ℝ k (slowSecular D false I) (x.1, x.2.2) := by
+        filter_upwards [hopen.mem_nhds (show x.2.1 ∈ emb ⁻¹' realDisc D a r from hx)] with I hI
+        exact jets_core D ha hrho hint hr (x := emb I) hI hk
+      rw [(hev.iteratedFDeriv ℝ l).self_of_nhds]
+    · rw [← heq x hx]
+      exact (hB2 x hx2)
+
+/-- `bpP:p8:same-jets#transfer` (c): `HasBirkhoff` transfers in both directions with
+`P₀ ↦ P₀ - δ` when the points `(Λ, η, ξ)`, `Λ ∈ V`, `p_j² + q_j² < r₀²` lie in the real polydisc
+(unchanged `Ω`, `β`), and `S_mov ∘ χ - S_fix ∘ χ = δ(Λ)` for every slow change `χ` that keeps `Λ`
+and takes values in the real polydisc. -/
+theorem same_jets_transfer_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧
+    (∀ {V : Set (Vec n)} {r0 μ0 : ℝ} {P0 : ℝ → Vec n → ℝ} {Ω : ℝ → Vec n → Vec n}
+      {β : ℝ → Vec n → Mat n},
+      (∀ I ∈ V, ∀ p q : Vec n, (∀ j, p j ^ 2 + q j ^ 2 < r0 ^ 2) → (q, I, p) ∈ realDisc D a r) →
+      (HasSecularBirkhoffForm (fun _ => perturbation D true) V r0 μ0 P0 Ω β ↔
+        HasSecularBirkhoffForm (fun _ => perturbation D false) V r0 μ0
+          (fun μ I => P0 μ I - modelDelta D I) Ω β)) ∧
+    ∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
+      (∀ y ∈ U, χ y ∈ realDisc D a r) →
+      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 := by
+  obtain ⟨r, hr0, hrh, h⟩ := radius_integrable D ha
+  have hρ := rho_pos D ha
+  have hrho : r < rho D a := by linarith
+  refine ⟨r, hr0, hrh, fun {V r0 μ0 P0 Ω β} hV => ?_, fun {U χ} hΛ hχ y hy => ?_⟩
+  · exact same_jets_transfer D fun I hI p q hpq =>
+      realDisc_subset_slowDom D ha hrho (hV I hI p q hpq)
+  · have hid := (identification D (realDisc_subset_slowDom D ha hrho (hχ y hy))).2.2.2
+      ((h false).1 _ (hχ y hy))
+    rw [hid, hΛ y hy]
+    ring
+
+/-- `bpP:p8:same-jets`: the jets/quadratic-form/equations clause and the Birkhoff-transfer clause. -/
+theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    (∃ r C : ℝ, 0 < r ∧ r < rho D a / 2 ∧ 0 < C ∧
+    AnalyticOnNhd ℝ (fun x : Slow n => secular D true x - constantTerm D (axis D x.2.1) -
+      modelDelta D x.2.1 - quad (coeffs D (axis D x.2.1)) x.1 -
+      quad (coeffs D (axis D x.2.1)) x.2.2) (realDisc D a r) ∧
+    ∀ x ∈ realDisc D a r,
+      (∀ k : ℕ, 0 < k → ∀ l : ℕ,
+        iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D true I) (x.1, x.2.2))
+          x.2.1 =
+        iteratedFDeriv ℝ l (fun I => iteratedFDeriv ℝ k (slowSecular D false I) (x.1, x.2.2))
+          x.2.1) ∧
+      |secular D true x - constantTerm D (axis D x.2.1) - modelDelta D x.2.1 -
+        quad (coeffs D (axis D x.2.1)) x.1 - quad (coeffs D (axis D x.2.1)) x.2.2| ≤
+        C * ‖(x.1, x.2.2)‖ ^ 4 ∧
+      fderiv ℝ (slowSecular D true x.2.1) (x.1, x.2.2) =
+        fderiv ℝ (slowSecular D false x.2.1) (x.1, x.2.2) ∧
+      fderiv ℝ (fun I => secular D true (x.1, I, x.2.2)) x.2.1 =
+        fderiv ℝ (fun I => secular D false (x.1, I, x.2.2)) x.2.1 +
+          fderiv ℝ (modelDelta D) x.2.1) ∧
+    ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧
+    (∀ {V : Set (Vec n)} {r0 μ0 : ℝ} {P0 : ℝ → Vec n → ℝ} {Ω : ℝ → Vec n → Vec n}
+      {β : ℝ → Vec n → Mat n},
+      (∀ I ∈ V, ∀ p q : Vec n, (∀ j, p j ^ 2 + q j ^ 2 < r0 ^ 2) → (q, I, p) ∈ realDisc D a r) →
+      (HasSecularBirkhoffForm (fun _ => perturbation D true) V r0 μ0 P0 Ω β ↔
+        HasSecularBirkhoffForm (fun _ => perturbation D false) V r0 μ0
+          (fun μ I => P0 μ I - modelDelta D I) Ω β)) ∧
+    ∀ {U : Set (Slow n)} {χ : Slow n → Slow n}, (∀ y ∈ U, (χ y).2.1 = y.2.1) →
+      (∀ y ∈ U, χ y ∈ realDisc D a r) →
+      ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 :=
+  ⟨same_jets_jets D ha, same_jets_transfer_full D ha⟩
 
 end SecularForm
 end KAM.Planetary
