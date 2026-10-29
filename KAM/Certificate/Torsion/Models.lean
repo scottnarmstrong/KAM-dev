@@ -304,6 +304,161 @@ theorem ModelMatrix.EntryEncloses.omega {ρ : ℝ} [Fintype κ] {c : ℕ} (hci :
 
 end Generic
 
+/-! ### The base models -/
+
+section Base
+
+variable {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ} {W : CertWeight} {s N : ℕ}
+  {pe : PiEnclosure α}
+
+theorem dkModels_encloses (hW : checkWeight W s N = true) (hpe : checkPiEnclosure pe = true)
+    (K : CertEmbedding α) :
+    (dkModels n K W pe).EntryEncloses n W.rho phaseNat Fin.val (tangentMat (K.eval n)) := by
+  rintro (i | i) j
+  · rw [dkModels, buildMat_entry _ (phaseNat_lt_add _) j.isLt]
+    simp only [phaseNat, i.isLt, ↓reduceIte]
+    exact (dkAngleModel_encloses hW hpe K i j).of_eq_fun fun θ => by
+      rw [tangentMat_apply, sumVec_apply, Sum.elim_inl]
+  · rw [dkModels, buildMat_entry _ (phaseNat_lt_add _) j.isLt]
+    have : ¬(n + i.val < n) := by omega
+    simp only [phaseNat, this, ↓reduceIte, Nat.add_sub_cancel_left]
+    exact (dkActionModel_encloses hW hpe K i j).of_eq_fun fun θ => by
+      rw [tangentMat_apply, sumVec_apply, Sum.elim_inr]
+
+omit [LawfulCertArith α] in
+theorem gramInvModels_encloses {ρ : ℝ} (B : List (List (CertPoly α))) {eps : α}
+    {F : (Fin n → ℂ) → Matrix (Fin n) (Fin n) ℂ}
+    (h : ∀ θ ∈ complexStrip n ρ, ‖F θ - polyMatrix n B θ‖ ≤ val eps) :
+    (gramInvModels n B eps).EntryEncloses n ρ Fin.val Fin.val F := by
+  intro k j θ hθ
+  rw [gramInvModels, buildMat_entry _ k.isLt j.isLt]
+  have := (norm_entry_le (F θ - polyMatrix n B θ) k j).trans (h θ hθ)
+  rw [Matrix.sub_apply, polyMatrix_apply] at this
+  simpa using this
+
+theorem gramInvRadius_spec {δβ : α × α} {eps : α} (h : gramInvRadius δβ = some eps) :
+    val δβ.1 * val δβ.2 / (1 - val δβ.1) ≤ val eps := by
+  unfold gramInvRadius at h
+  split_ifs at h with hc
+  simp only [Bool.and_eq_true] at hc
+  obtain ⟨⟨h0, h1⟩, h2⟩ := hc
+  have hδ0 := LawfulCertArith.ble_sound _ _ h0
+  have hβ0 := LawfulCertArith.ble_sound _ _ h1
+  have hδ1 := LawfulCertArith.blt_sound _ _ h2
+  rw [LawfulCertArith.val_ofInt, Int.cast_zero] at hδ0 hβ0
+  rw [LawfulCertArith.val_ofInt, Int.cast_one] at hδ1
+  obtain ⟨t, ht, rfl⟩ := Option.map_eq_some_iff.mp h
+  have hti := recipOneSubUp_ge ht hδ0 hδ1
+  have hpos : 0 < 1 - val δβ.1 := by linarith
+  have ht0 : 0 ≤ val t := le_trans (by positivity) hti
+  have hm1 := LawfulCertArith.upMul_ge δβ.1 δβ.2 hδ0 hβ0
+  have hm0 : 0 ≤ val (upMul δβ.1 δβ.2) := le_trans (mul_nonneg hδ0 hβ0) hm1
+  have hm2 := LawfulCertArith.upMul_ge (upMul δβ.1 δβ.2) t hm0 ht0
+  calc val δβ.1 * val δβ.2 / (1 - val δβ.1) = val δβ.1 * val δβ.2 * (1 / (1 - val δβ.1)) := by
+        ring
+    _ ≤ val (upMul δβ.1 δβ.2) * val t := mul_le_mul hm1 hti (by positivity) hm0
+    _ ≤ _ := hm2
+
+theorem freqModel_encloses {ρ : ℝ} {box : FreqBox} {ω : Fin n → ℝ} (hω : FreqEncloses n box ω)
+    (sc : ℚ) (l : Fin n) :
+    (freqModel n box sc l.val : CertModel α).Encloses n ρ
+      (fun _ => ((((sc : ℝ) • ω) l : ℝ) : ℂ)) := by
+  intro θ hθ
+  set c := (box.getD l.val (0, 0)).1
+  set r := (box.getD l.val (0, 0)).2
+  have hc := constModel_encloses (α := α) n ρ (sc * c) 0 0 θ hθ
+  have hdeg : (constModel n (sc * c) 0 0 : CertModel α).deg = 0 := rfl
+  rw [hdeg] at hc
+  simp only [slpConstVal, zpow_zero, mul_one, one_mul, Rat.cast_zero, zero_mul, add_zero]
+    at hc
+  have hb := hω l
+  have hr := LawfulCertArith.ofRatUp_ge (α := α) (|sc| * r)
+  have hu := LawfulCertArith.upAdd_ge (constModel n (sc * c) 0 0 : CertModel α).rad
+    (ofRatUp (|sc| * r))
+  simp only [freqModel, ballModel, zpow_zero, one_mul]
+  have hx : ‖(((((sc : ℝ) • ω) l : ℝ) : ℂ)) - ((sc * c : ℚ) : ℂ)‖ ≤ ((|sc| * r : ℚ) : ℝ) := by
+    rw [show ((((sc : ℝ) • ω) l : ℝ) : ℂ) - ((sc * c : ℚ) : ℂ) =
+      (((sc : ℝ) * (ω l - (c : ℝ)) : ℝ) : ℂ) by push_cast; simp; ring, Complex.norm_real,
+      Real.norm_eq_abs, abs_mul]
+    push_cast
+    exact mul_le_mul_of_nonneg_left hb (abs_nonneg _)
+  calc _ ≤ ‖(((((sc : ℝ) • ω) l : ℝ) : ℂ)) - ((sc * c : ℚ) : ℂ)‖ +
+        ‖((sc * c : ℚ) : ℂ) - (constModel n (sc * c) 0 0 : CertModel α).poly.eval n θ‖ :=
+        norm_sub_le_norm_sub_add_norm_sub _ _ _
+    _ ≤ _ := by linarith
+
+theorem d2kModel_encloses (hW : checkWeight W s N = true) (hpe : checkPiEnclosure pe = true)
+    (K : CertEmbedding α) (x : Fin n ⊕ Fin n) (j l : Fin n) :
+    (d2kModel n K W pe (phaseNat x) j.val l.val).Encloses n W.rho
+      (fun θ => fderiv ℂ (fun y => tangentMat (K.eval n) y x j) θ (Pi.single l 1)) := by
+  rcases x with i | i
+  · simp only [d2kModel, phaseNat, i.isLt, ↓reduceIte]
+    exact ((CertModel.Encloses.ofDeriv2 hW j l _ _).toDeg hW hpe 0).of_eq_fun
+      fun θ => (fderiv_tangentMat_eval_inl K θ i j l).symm
+  · have : ¬(n + i.val < n) := by omega
+    simp only [d2kModel, phaseNat, this, ↓reduceIte, Nat.add_sub_cancel_left]
+    exact ((CertModel.Encloses.ofDeriv2 hW j l _ _).toDeg hW hpe 0).of_eq_fun
+      fun θ => (fderiv_tangentMat_eval_inr K θ i j l).symm
+
+theorem dkwModels_encloses (hW : checkWeight W s N = true) (cfg : ModelConfig α)
+    (hpe : checkPiEnclosure pe = true) (K : CertEmbedding α) {box : FreqBox} {ω : Fin n → ℝ}
+    (hω : FreqEncloses n box ω) (sc : ℚ) :
+    (dkwModels n K box sc W cfg pe).EntryEncloses n W.rho phaseNat Fin.val
+      (fun θ => fderiv ℂ (tangentMat (K.eval n)) θ (fun l => ((((sc : ℝ) • ω) l : ℝ) : ℂ))) := by
+  intro x j
+  rw [dkwModels, buildMat_entry _ (phaseNat_lt_add _) j.isLt]
+  let L : EnclosedList α n := List.ofFn fun l : Fin n =>
+    (CertModel.mul W cfg [4, 10, phaseNat x, j.val, l.val] (freqModel n box sc l.val)
+      (d2kModel n K W pe (phaseNat x) j.val l.val),
+     fun θ => ((((sc : ℝ) • ω) l : ℝ) : ℂ) *
+      fderiv ℂ (fun y => tangentMat (K.eval n) y x j) θ (Pi.single l 1))
+  have hL : ∀ p ∈ L, p.1.Encloses n W.rho p.2 := by
+    intro p hp
+    obtain ⟨l, rfl⟩ := (List.mem_ofFn' _ _).mp hp
+    exact CertModel.Encloses.mul hW cfg _ (freqModel_encloses hω sc l)
+      (d2kModel_encloses hW hpe K x j l)
+  have := (modelSum_encloses hW hpe L hL).toDeg hW hpe 0
+  have hfst : L.map Prod.fst = List.ofFn fun l : Fin n =>
+      CertModel.mul W cfg [4, 10, phaseNat x, j.val, l.val] (freqModel n box sc l.val)
+        (d2kModel n K W pe (phaseNat x) j.val l.val) := by
+    simp only [L, List.map_ofFn]
+    rfl
+  rw [hfst] at this
+  refine this.of_eqOn fun θ hθ => ?_
+  have hLd := differentiableOn_tangentMat (r := W.rho) (K.differentiable_eval n).differentiableOn
+  beta_reduce
+  rw [fderiv_tangentMat_apply (hLd.differentiableAt ((isOpen_complexStrip n _).mem_nhds hθ))]
+  simp only [L, List.map_ofFn, List.sum_ofFn, Function.comp_def]
+
+/-! #### The jet slots -/
+
+theorem torsionSlots_length (J : HamJet) :
+    (torsionSlots n J).length = n + n + (n + n) * (n + n) := by
+  simp [torsionSlots]
+
+theorem torsionSlots_getD_d1 (J : HamJet) {a : ℕ} (ha : a < n + n) :
+    (torsionSlots n J).getD a 0 = J.d1.getD a 0 := by
+  rw [torsionSlots, List.getD_eq_getElem?_getD, List.getElem?_append_left (by simpa using ha)]
+  simp [ha]
+
+theorem torsionSlots_getD_d2 (J : HamJet) {a b : ℕ} (ha : a < n + n) (hb : b < n + n) :
+    (torsionSlots n J).getD (n + n + (n + n) * a + b) 0 = (J.d2.getD a []).getD b 0 := by
+  have hq : (n + n) * a + b < (n + n) * (n + n) := by nlinarith
+  rw [torsionSlots, add_assoc, List.getD_eq_getElem?_getD,
+    List.getElem?_append_right (by simp)]
+  simp only [List.length_map, List.length_range, Nat.add_sub_cancel_left, List.getElem?_ofFn, hq]
+  have hpos : 0 < n + n := by omega
+  rw [Nat.mul_add_div hpos, Nat.div_eq_of_lt hb, add_zero, Nat.mul_add_mod, Nat.mod_eq_of_lt hb]
+  simp
+
+theorem swapNat_phaseNat (a : Fin n ⊕ Fin n) : swapNat n (phaseNat a) = phaseNat a.swap := by
+  rcases a with a | a
+  · simp [swapNat, phaseNat, add_comm]
+  · have : ¬(n + a.val < n) := by omega
+    simp [swapNat, phaseNat, this]
+
+end Base
+
 end KAM.Certificate
 
 end
