@@ -2830,9 +2830,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:limitm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P2-audit-1): no general conjugation G -> S o G o S^-1 and no L_* object in Lean; owner review
+LEAN_STATUS: PROVED
+LEAN_REF: sc, unsc (KAM/Planetary/TwoScale/LimitMapScale.lean); limitmap_data (KAM/Planetary/TwoScale/LimitMapScale.lean); limitmapCheck, limitmapCheck_apply, limitmapCheck_comp, limitmapCheck_id, limitmapCheck_sc, limitmapCheck_sub_id, LipStar, lipStar_iff_check, PsiSteps.psi_lipStar (KAM/Planetary/TwoScale/LimitMapDefs.lean); realTube (KAM/Planetary/Averaging/Setting.lean); phaseTube (KAM/Planetary/TwoScale/LimitMapPsi.lean)
+LEAN_NOTE: GAP-DEF-audit-1 CLOSABLE (with DEFS-P2-audit-1): Gcheck = S G S^-1 via limitmapCheck, L_* via LipStar/lipStar_iff_check, source use PsiSteps.psi_lipStar, calD_j via realTube/phaseTube
 NOTE: section data of Part 3b (prose L43)
 
 NODE: bpP:p3:tori#data
