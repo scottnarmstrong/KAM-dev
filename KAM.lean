@@ -1290,6 +1290,7 @@ public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
+public import KAM.SpinOrbit.Rotated
 public import KAM.SpinOrbit.ScalarEmbedding
 public import KAM.Strip.Analytic
 public import KAM.Strip.AnalyticCauchy
