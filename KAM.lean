@@ -552,6 +552,7 @@ public import KAM.Planetary.MaximalStep.Taylor
 public import KAM.Planetary.Newtonian.Assembly
 public import KAM.Planetary.Newtonian.AssemblyNodes
 public import KAM.Planetary.Newtonian.Barycentric
+public import KAM.Planetary.Newtonian.HamiltonNodes
 public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
 public import KAM.Planetary.Newtonian.Reduction
