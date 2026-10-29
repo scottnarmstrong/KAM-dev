@@ -60,7 +60,7 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 2. **p. 865, Theorem 5.** *typo; CONFIRMED* (E-GJLV05-2). Printed: ‖e₀‖_{ρ₀}. ρ₀ is not defined in the statement (presumably ρ). Evidence: statement of Theorem 5. Effect: none.
 3. **pp. 884–885, Lemma 14 (choice of the phase).** *gap; CONFIRMED* (E-GJLV05-3). Printed: contraction Ψ on Θ = {|τ| < ‖K₁ − K₂‖_ρ}. the proof never shows that Ψ maps Θ into itself, and Θ is open; Ψ(0) can be as large as ‖T‖_ρ‖K₁ − K₂‖_ρ. Correction: use the closed ball of radius 2‖T‖_ρ‖K₁ − K₂‖_ρ. Evidence: Ψ(0) estimate in the proof. Effect: none on our statements; G2's proof uses the closed ball.
 4. **p. 885, proof of Theorem 2.** *typo; CONFIRMED* (E-GJLV05-4). Printed: 0 < δ, ρ/2. should read 0 < δ < ρ/2. Evidence: context. Effect: none.
-5. **p. 889, Prop. 18.** *typo; CONFIRMED* (E-GJLV05-5). Printed: ∂v/∂θ_i … ‖v‖_ρ (right-hand side). the derivative index should be θ_j, and the right-hand side norm should be ‖h‖_ρ. Evidence: the statement's own variables. Effect: none.
+5. **p. 889, Prop. 18.** *typo; CONFIRMED* (E-GJLV05-5). Printed: Σ_(j=1)^n ω_j ∂v/∂θ_i = h; ‖v‖_(ρ−δ) ≤ c δ^(−σ) γ^(−1) ‖v‖_ρ. the derivative index should be θ_j, and the right-hand side norm should be ‖h‖_ρ. Evidence: the statement's own variables. Effect: none.
 
 ### Deviations
 
@@ -351,7 +351,7 @@ None.
 ### Errata
 
 1. **p. 62, Appendix B (B.2).** *missing factor 1/2; CONFIRMED* (E-P-CP11-1). Printed: C₂(a,b) = α β₂^(3)(α)/b. Insert 1/2 for this off-diagonal matrix coefficient under the frozen sqrt(2Λ) normalization. Evidence: Direct pair-average derivation and differentiation: the cross coefficient differs by two, while the diagonal/overall convention agrees with (6.9). P8 scratch mixed Hessian agrees numerically.. Effect: No frozen statement changed; provider/blueprint must use the documented correction..
-2. **p. 63, Appendix B (B.6), r₁.** *wrong exponent in exact quartic coefficient; CONFIRMED* (E-P-CP11-2). Printed: 37 α⁴ b_(9/2)^(4)(α). The r₁ expression is only asymptotically correct as printed; its final 37α⁴ must be 37α³ to match the exact quartic coefficient. At axes (1,2) the printed and exact coefficients have opposite signs. Evidence: Fresh independent scratch: masses .7,1.9, inner-axis coefficient exact −0.03097386529961853 versus printed +0.05742931465995163. Exact symbolic integration-by-parts residual for the replacement is zero; printed-minus-exact starts 238095 α⁸(1−α)/(32768β).. Effect: No frozen statement changed; provider/blueprint must use the documented correction..
+2. **p. 63, Appendix B (B.6), r₁.** *wrong exponent in exact quartic coefficient; CONFIRMED* (E-P-CP11-2). Printed: 37 α⁴ β₄^(9)(α)  [CP11 p. 61: β_k^(r) := b_(r/2),k]. The r₁ expression is only asymptotically correct as printed; its final 37α⁴ must be 37α³ to match the exact quartic coefficient. At axes (1,2) the printed and exact coefficients have opposite signs. Evidence: Fresh independent scratch: masses .7,1.9, inner-axis coefficient exact −0.03097386529961853 versus printed +0.05742931465995163. Exact symbolic integration-by-parts residual for the replacement is zero; printed-minus-exact starts 238095 α⁸(1−α)/(32768β).. Effect: No frozen statement changed; provider/blueprint must use the documented correction..
 
 ### Deviations
 
