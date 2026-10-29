@@ -1040,6 +1040,7 @@ public import KAM.Planetary.WeakKAM.CutoffConv
 public import KAM.Planetary.WeakKAM.CutoffScale
 public import KAM.Planetary.WeakKAM.CutoffTensor
 public import KAM.Planetary.WeakKAM.Data
+public import KAM.Planetary.WeakKAM.Displacement
 public import KAM.Planetary.WeakKAM.Extension
 public import KAM.Planetary.WeakKAM.ExtensionFrequency
 public import KAM.Planetary.WeakKAM.ExtensionNorm
