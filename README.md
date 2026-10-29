@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 19:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · SO checker 62 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **265,785 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 19:14 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · SO checker 62 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **265,785 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -202,7 +202,7 @@ Overall, everything together: 90.2 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **265,785** (207,774 excluding blank lines and comments) · **+102,275** since 2026-10-28 18:57 UTC |
-| Written on agent branches, not yet landed | 1,042 |
+| Written on agent branches, not yet landed | 1,437 |
 | **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 8,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 90.2 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 19:00 UTC from `main` at `a8a11020` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 19:14 UTC from `main` at `3f30ddf4` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -371,8 +371,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: docs/campaign/GUARDS.md (draft) | `inp-iguards` | 6 (vs `inp`) |
-| **soexpw** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EXPW: Model/Inv draft; CC.negC moved to ExpBounds | `inp-soexpw` | 3 (vs `inp`) |
+| **iguards** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: I-GUARDS: GUARDS.md results, kernel replay and mutation suite verified | `inp-iguards` | 7 (vs `inp`) |
+| **soexpw** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EXPW: drop unused supUp; docstrings for the fused residual | `inp-soexpw` | 9 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -382,6 +382,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 19:14 | `3f30ddf4` | lint: forbid proof escapes and meta code (native_decide, ofReduceBool, skipKernelTC, run_cmd/#eval, addDecl, elab, global macros/syntax, sorryAx, implemented_by/extern) and provider imports outside frozen anchors and the generated root; found missing by the I-GUARDS mutation suite |
 | 2026-10-29 18:58 | `a8a11020` | Land inp into main |
 | 2026-10-29 18:50 | `a6e293ae` | Land inp into main |
 | 2026-10-29 17:43 | `3dbaee42` | HQ: original project complete (all graphs K, I, N, P resolved; 144/144 frozen declarations sealed); OVERNIGHT 16:50-17:45 |
@@ -393,7 +394,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 16:59 | `4e216f66` | Land inp into main |
 | 2026-10-29 16:58 | `f4c2091d` | D31 addendum: graph N averaging totality remark treated as a reviewed convention |
 | 2026-10-29 16:53 | `257bf902` | Land inp into main |
-| 2026-10-29 16:45 | `e474aaaf` | HQ: estimate text names ASSUMED nodes |
 <!-- /AUTO:landed -->
 
 ## Decisions
