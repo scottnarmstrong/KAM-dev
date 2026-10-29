@@ -93,6 +93,10 @@ def CertModel.polyProduct (W : CertWeight) (cfg : ModelConfig α) (key : Product
       | none => none
     | none => none
 
+/-- The cross term `n · r` rounded upward; `0` without evaluating `n` when `r` is exactly zero
+(an exact factor does not pay for the other factor's weighted norm). -/
+def crossUp (n r : α) : α := if beq r (ofInt 0) then ofInt 0 else upMul n r
+
 /-- Model product (Revision 5). The polynomial part comes from `cfg.advice` at `key`:
 `packed` ⇒ `CertPoly.mulPacked` (kernel: one multiplication per shard block pair); `direct` ⇒
 the direct product. The radius adds the packed remainder and the cross terms
@@ -105,7 +109,7 @@ def CertModel.mul {α : Type} [CertArith α] (W : CertWeight) (cfg : ModelConfig
   | some out =>
     ⟨a.deg + b.deg, truncPoly cfg.cutoff out.1,
       upAdd (upAdd out.2 (errRadius W (out.1.map (truncErr cfg.cutoff))))
-        (upAdd (upAdd (upMul (a.poly.supNormUp W) b.rad) (upMul (b.poly.supNormUp W) a.rad))
+        (upAdd (upAdd (crossUp (a.poly.supNormUp W) b.rad) (crossUp (b.poly.supNormUp W) a.rad))
           (upMul a.rad b.rad))⟩
   | none =>
     ⟨a.deg + b.deg, ⟨[]⟩,
@@ -227,6 +231,13 @@ theorem CertModel.Encloses.rad_nonneg {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) {m : C
 
 variable [LawfulCertArith α]
 
+theorem crossUp_ge (n r : α) (hn : 0 ≤ val n) (hr : 0 ≤ val r) :
+    val n * val r ≤ val (crossUp n r) := by
+  unfold crossUp
+  split_ifs with h
+  · rw [LawfulCertArith.beq_sound _ _ h, LawfulCertArith.val_ofInt, Int.cast_zero, mul_zero]
+  · exact LawfulCertArith.upMul_ge n r hn hr
+
 theorem CertModel.Encloses.add {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
     {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) {a b : CertModel α}
     {f g : (Fin n → ℂ) → ℂ} (ha : a.Encloses n W.rho f) (hb : b.Encloses n W.rho g)
@@ -339,13 +350,13 @@ theorem CertModel.Encloses.mul {α : Type} [CertArith α] [LawfulCertArith α] {
       (2 * (Real.pi : ℂ)) ^ a.deg * (2 * (Real.pi : ℂ)) ^ b.deg := zpow_add₀ h2pi _ _
   have hsplitR : (2 * Real.pi) ^ (a.deg + b.deg) =
       (2 * Real.pi) ^ a.deg * (2 * Real.pi) ^ b.deg := zpow_add₀ h2pi' _ _
-  have m1 := LawfulCertArith.upMul_ge (a.poly.supNormUp W) b.rad na0 rb0
-  have m2 := LawfulCertArith.upMul_ge (b.poly.supNormUp W) a.rad nb0 ra0
+  have m1 := crossUp_ge (a.poly.supNormUp W) b.rad na0 rb0
+  have m2 := crossUp_ge (b.poly.supNormUp W) a.rad nb0 ra0
   have m3 := LawfulCertArith.upMul_ge a.rad b.rad ra0 rb0
-  have u1 := LawfulCertArith.upAdd_ge (upMul (a.poly.supNormUp W) b.rad)
-    (upMul (b.poly.supNormUp W) a.rad)
-  have u2 := LawfulCertArith.upAdd_ge (upAdd (upMul (a.poly.supNormUp W) b.rad)
-    (upMul (b.poly.supNormUp W) a.rad)) (upMul a.rad b.rad)
+  have u1 := LawfulCertArith.upAdd_ge (crossUp (a.poly.supNormUp W) b.rad)
+    (crossUp (b.poly.supNormUp W) a.rad)
+  have u2 := LawfulCertArith.upAdd_ge (upAdd (crossUp (a.poly.supNormUp W) b.rad)
+    (crossUp (b.poly.supNormUp W) a.rad)) (upMul a.rad b.rad)
   unfold CertModel.mul
   split
   · rename_i out hout
