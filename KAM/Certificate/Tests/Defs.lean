@@ -14,8 +14,9 @@ public import KAM.Certificate.Arith.Rat
 The toy of `Tests/Torsion` (data copied) (`n = 1`, `H = I²/2`, `K(θ) = (θ + U/2π, A)`) as a whole
 `TorusCertificate 1 ℚ` on `D = T_{1/20} × {|I - 1| < 1/10}`: the sub-checks `checkHamBounds`,
 `checkEmbedding`, `checkInvariance`, `checkEnergy`, `checkGram` and `checkTorsion` pass by
-`decide +kernel`; each fails closed when its bound is tightened. `checkStatic` (hence
-`checkTorusCertificate`) rejects the toy (`n = 1`, `s = 1`).
+`decide +kernel`; the first four fail closed when their bound is tightened (negative Gram and
+torsion tests are in `Tests/Torsion`). `checkStatic` (hence `checkTorusCertificate`) rejects the
+toy (`n = 1`, `s = 1`); positive whole-checker and `checkSmallness` tests are SO-TEST's toys.
 -/
 
 public section
