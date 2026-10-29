@@ -20545,9 +20545,9 @@ EDGE: bpP:p11a:index-def | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:pr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: prepared (KAM/Planetary/Preparation/Prepared.lean)
+LEAN_NOTE: audit P11A-P8e PASS WITH NOTES (signed, equal to the signature file)
 NOTE: -
 
 NODE: stepP:p11:pr-basic
@@ -20765,9 +20765,9 @@ EDGE: bpP:p11:sec-E#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:am
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amount (KAM/Planetary/Preparation/Amount.lean)
+LEAN_NOTE: audit P11A-P8e PASS WITH NOTES (signed, equal to the signature file)
 NOTE: -
 
 NODE: stepP:p11:am-norm
@@ -20959,9 +20959,9 @@ EDGE: bpP:p11:sec-E#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:da
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: parametric data_star_of_amount landed (P11A-P8D, Preparation/Datum.lean); closes when amount lands
+LEAN_STATUS: PROVED
+LEAN_REF: data_star, data_star_of_amount (KAM/Planetary/Preparation/Datum.lean)
+LEAN_NOTE: audit P11A-P8e PASS WITH NOTES (signed, equal to the signature file); data_star = data_star_of_amount applied to amount (ruling 03:25)
 NOTE: the mention of the physical distance d of tube-constants is a disambiguation (deleted)
 
 NODE: stepP:p11:wr-nu
