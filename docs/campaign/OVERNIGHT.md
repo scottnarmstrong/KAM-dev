@@ -557,3 +557,32 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   points of X_delta" is false (design revision 4, P5-EX counterexample); the node gets the amended conclusion
   "on cl C(V, r0)", which the Lean proves (ext, PGExtension, pgExtension), recorded as an erratum. Wave 1 launches
   GAP-P7, GAP-P8b, GAP-P13, GAP-P6b now, GAP-P8a/P8c after GAP-P8b.
+- **01:25. P11A-P8 pieces.** P8b proved step pr-in only (PreparedCauchy, PreparedJets); pr-b, pr-c and pr-d continue
+  in P11A-P8b2 on top of it. The first P8 module, PreparedData.lean (signed prepared/amount definitions), had never
+  been audited; its audit now runs, and P8a and P8c merge only after it. stepP:p11:aa-same ruled BYPASSED (D27: the
+  parent audit records a different construction route). The sub-orchestrator applied the 01:20 rulings: graph P
+  979 PROVED and 10 BYPASSED of 1363.
+- **01:30. Round-2 fixes.** GAP-E audit: as-b2 and situation PASS; weak-kam-quantitative/qt-k6 FAIL (the export
+  omits the K3 bound Delta <= cD eps^(1/2) b^(-G0) for the same cD). P11A-P8a audit: pr-a PASS; pr-basic FAIL (the
+  complex domain chain into T x D(J0,s2) x B_(rz/4) is proved only locally). Both are back with their provers.
+  GAP-P6b and GAP-P8b finished (no flags) and are in audit; GAP-P8a and GAP-P8c started. Ruling: GAP-P8c proves
+  the Laplace identities (I1)/(I2) on the source's literal interval, alpha = 0 included, not the interior form.
+- **01:42. Passes and round-2 fixes.** GAP-E (K1-K6 with the K3 Delta bound; as-b2; situation) and P11A-P8a
+  (pr-basic with the rz/4 domain chain; pr-a) passed round 2 and went to the sub-orchestrator. GAP-P6b failed on
+  mp-b only (missing 0 < meas Psi(A) iff 0 < meas A); GAP-P8b failed on pa-avg only (derivative identity proved at
+  real points; the node quantifies over the complex neighbourhood N(rho_*)). Both fixes are additive, so GAP-P8a,
+  which builds on GAP-P8b, keeps compiling.
+- **01:45. Source reading for owner review: order-dependent constants in pr-in.** The blueprint's preparation
+  estimates (p11-cp09-preparation.tex:208; graph stepP:p11:pr-in, CONSTANT_SCOPE none) write one suppressed c for
+  arbitrary multi-indices alpha, beta, gamma, while Cauchy estimates necessarily carry order factors (the source's
+  own display (ii) shows alpha!). Ruling: c may depend on n, tau, the fixed data and the derivative orders, fixed
+  before eps; the consumers use finitely many orders. P8b's audit F2 is closed by this ruling. Its F1 (prefactor
+  MF + eta1(eps) instead of c MF) is being fixed. GAP-P13 failed only on sum-doubling/sum-weighted (exports took
+  derived step outputs as premises); fixed by exporting from KamHyp.
+- **02:05. Gap audits, and the pr-in constant scope recorded in the graph.** GAP-P13, GAP-P6b and GAP-P7 passed (round
+  2) and went to the sub-orchestrator; with them 31 more p1, p3, p6 and p7 nodes become PROVED, including
+  p7:product-chart (28 proved consumers) and p3b:kam-bounds. P11A-P8b audit 2 closed F1 (the uniform prefactor;
+  MF >= 1 makes it hold without a smaller threshold) and left only F2 (constant scope); the 01:45 ruling is to be
+  recorded as an append-only amendment SET_CONSTANT_SCOPE on stepP:p11:pr-in before pr-in is marked PROVED.
+  **Owner to review** with the 01:45 entry. GAP-P5a (kam-cond: x not identified with the Part 3 expression) and
+  GAP-P8c (evenness on the source neighbourhood; id-1/id-2 coefficient identification) are being fixed.
