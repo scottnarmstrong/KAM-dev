@@ -111,7 +111,10 @@ theorem p11_wr_dom {D : P11Physical n} {nu eps : ℝ}
     KAM.realInclusion₂ (n+n) y ∈ p11WrSlowDom D nu eps ∧ (∀ i : Fin n, 0 < w.2 (Fin.natAdd n i)) ∧
       KAM.realInclusion₂ (n+n) u ∈ p11WrFastDom D eps ∧
       KAM.realInclusion₂ (n+n) v ∈ p11WorkingDom n (p11SecularData D).J0
-        (2*(p11SecularData D).sigma) (2*(p11SecularData D).rC) (p11SecularData D).rz := by
+        (2*(p11SecularData D).sigma) (2*(p11SecularData D).rC) (p11SecularData D).rz ∧
+      (p11FastData D eps).map (p11PolarC ((p11SlowData D nu eps).Psi
+        (p11Rescale (p11SecularData D).J0 eps (KAM.realInclusion₂ (n+n) z)))) =
+        KAM.realInclusion₂ (n+n) v := by
   intro y w u v
   obtain ⟨-, -, -, hrC0, -, hσ0, -, -, -, -⟩ := fast_consts hC
   have hS' := hS
@@ -149,7 +152,8 @@ theorem p11_wr_dom {D : P11Physical n} {nu eps : ℝ}
       ((p11SecularData D).gamma/(4*(p11SecularData D).L*
         p11K1 (p11SecularData D) eps^((p11SecularData D).tau+1)))
     unfold p11s1; linarith
-  exact ⟨hyd, hpos, hud, p11WorkingDom_mono (by linarith) hs1 le_rfl h5⟩
+  refine ⟨hyd, hpos, hud, p11WorkingDom_mono (by linarith) hs1 le_rfl h5, ?_⟩
+  rw [← hy, hPsi, hpol, hFv]
 
 theorem p11WrO_shift {D : P11Physical n} {z : Phase (n+n)} (hz : z ∈ p11WrO D)
     (k : Fin (n+n) → ℤ) : z + KAM.ODE.angleShift k ∈ p11WrO D := by
@@ -172,6 +176,122 @@ theorem p11PolarR_angleShift {w : Phase (n+n)} (hw : ∀ i : Fin n, 0 < w.2 (Fin
   rw [h1, tLat (w.1 + Fin.append (fun i => ((k (Fin.castAdd n i) : ℤ) : ℝ)) 0, w.2) hw,
     p11PolarR_fast_shift]
   refine Prod.ext ?_ ?_ <;> simp [p11FastShift]
+
+/-- `stepP:p11:wr-chain`: `Ξ_ε` is a real analytic `ε`-chart on the real points of the prepared
+domain, with the lattice properties (Q1)-(Q2) for the full integer angle lattice. -/
+theorem p11_wr_chain {D : P11Physical n} {nu eps : ℝ}
+    (hC : P11SecularSpec D (p11SecularData D))
+    (hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps))
+    (hS : P11SlowSpec D nu eps (p11SlowConstant D nu) (p11SlowData D nu eps))
+    (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 (p11SecularData D) nu eps)
+    (hsm : 256*eps < (p11SecularData D).rz^2) :
+    AnalyticOnNhd ℝ (p11WrChain D nu eps) (p11WrO D) ∧
+    KAM.Kepler.IsSymplecticOn eps (p11WrChain D nu eps) (p11WrO D) ∧
+    (∀ z ∈ p11WrO D, ∀ k : Fin (n+n) → ℤ, z + KAM.ODE.angleShift k ∈ p11WrO D ∧
+      p11WrChain D nu eps (z + KAM.ODE.angleShift k) = p11WrChain D nu eps z) ∧
+    (∀ z ∈ p11WrO D, ∀ z' ∈ p11WrO D, p11WrChain D nu eps z' = p11WrChain D nu eps z →
+      ∃ m : Fin (n+n) → ℤ, z' = z + KAM.ODE.angleShift m) := by
+  obtain ⟨hPsiAn, hPsiSy, -, hPsiE, hPsiI⟩ := p11WrPsiR_facts hS
+  obtain ⟨hFAn, hFSy, -, hFE, hFI⟩ := p11WrFastR_facts hF
+  obtain ⟨cAn, cSy, -, cLat, cInj, -⟩ := hC.chart_part
+  obtain ⟨tAn, tSy, tLat, tInj⟩ := total_chart (n := n)
+  obtain ⟨rAn, rSy⟩ := p11RescaleReal_chart (p11SecularData D).J0 eps (p11WrO D)
+  have hdom := fun z hz => p11_wr_dom hC hF hS heps hpe hsm (z := z) hz
+  have m1 : MapsTo (p11RescaleReal (p11SecularData D).J0 eps) (p11WrO D)
+      (KAM.realInclusion₂ (n+n) ⁻¹' p11WrSlowDom D nu eps) := fun z hz => (hdom z hz).1
+  have m2 : MapsTo (p11WrPsiR D nu eps ∘ p11RescaleReal (p11SecularData D).J0 eps) (p11WrO D)
+      {z : Phase (n+n) | ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)} := fun z hz => (hdom z hz).2.1
+  have m3 : MapsTo (p11PolarR ∘ p11WrPsiR D nu eps ∘ p11RescaleReal (p11SecularData D).J0 eps)
+      (p11WrO D) (KAM.realInclusion₂ (n+n) ⁻¹' p11WrFastDom D eps) :=
+    fun z hz => (hdom z hz).2.2.1
+  have m4 : MapsTo (p11WrFastR D eps ∘ p11PolarR ∘ p11WrPsiR D nu eps ∘
+      p11RescaleReal (p11SecularData D).J0 eps) (p11WrO D)
+      (KAM.realInclusion₂ (n+n) ⁻¹' p11WorkingDom n (p11SecularData D).J0
+        (2*(p11SecularData D).sigma) (2*(p11SecularData D).rC) (p11SecularData D).rz) :=
+    fun z hz => (hdom z hz).2.2.2.1
+  have a2 := hPsiAn.comp rAn m1
+  have a3 := tAn.comp a2 m2
+  have a4 := hFAn.comp a3 m3
+  have a5 := cAn.comp a4 m4
+  have s2 := KAM.Kepler.IsSymplecticOn.comp rSy hPsiSy (fun z hz => (rAn z hz).differentiableAt)
+    (fun y hy => (hPsiAn y hy).differentiableAt) m1
+  have s3 := KAM.Kepler.IsSymplecticOn.comp s2 tSy (fun z hz => (a2 z hz).differentiableAt)
+    (fun y hy => (tAn y hy).differentiableAt) m2
+  have s4 := KAM.Kepler.IsSymplecticOn.comp s3 hFSy (fun z hz => (a3 z hz).differentiableAt)
+    (fun y hy => (hFAn y hy).differentiableAt) m3
+  have s5 := KAM.Kepler.IsSymplecticOn.comp s4 cSy (fun z hz => (a4 z hz).differentiableAt)
+    (fun y hy => (cAn y hy).differentiableAt) m4
+  refine ⟨a5, by have h5 := s5; simp only [one_mul] at h5; exact h5, fun z hz k => ⟨p11WrO_shift hz k, ?_⟩, ?_⟩
+  · obtain ⟨hy, hw, hu, hv, -⟩ := hdom z hz
+    set y := p11RescaleReal (p11SecularData D).J0 eps z with hy_def
+    set w := p11WrPsiR D nu eps y with hw_def
+    set u := p11PolarR w with hu_def
+    set v := p11WrFastR D eps u with hv_def
+    obtain ⟨-, hwe⟩ := hPsiE y hy k
+    obtain ⟨-, hue⟩ := hFE u hu (fun i => k (Fin.castAdd n i))
+    have hce := cLat v hv (fun i => k (Fin.castAdd n i))
+    simp only [p11WrChain, Function.comp_apply]
+    rw [p11RescaleReal_shift, hwe, p11PolarR_angleShift hw, hue, ← hy_def, ← hw_def, ← hu_def,
+      ← hv_def]
+    rw [← hce]
+    congr 1
+    refine Prod.ext ?_ ?_ <;> simp [p11FastShift]
+  · intro z hz z' hz' heq
+    obtain ⟨hy, hw, hu, hv, -⟩ := hdom z hz
+    obtain ⟨hy', hw', hu', hv', -⟩ := hdom z' hz'
+    set y := p11RescaleReal (p11SecularData D).J0 eps z with hy_def
+    set w := p11WrPsiR D nu eps y with hw_def
+    set u := p11PolarR w with hu_def
+    set v := p11WrFastR D eps u with hv_def
+    set y' := p11RescaleReal (p11SecularData D).J0 eps z' with hy'_def
+    set w' := p11WrPsiR D nu eps y' with hw'_def
+    set u' := p11PolarR w' with hu'_def
+    set v' := p11WrFastR D eps u' with hv'_def
+    obtain ⟨kf, hkf⟩ := cInj v hv v' hv' (show (p11SecularData D).chart v = _ from heq.symm)
+    have hvv : v' = v + p11FastShift kf := by
+      rw [hkf]; refine Prod.ext ?_ ?_ <;> simp [p11FastShift]
+    obtain ⟨hus, hvs⟩ := hFE u hu kf
+    have hu2 : u' = u + p11FastShift kf :=
+      hFI hu' hus (by rw [← hv_def] at hvs; rw [hvs, ← hvv])
+    set m0 : Fin (n+n) → ℤ := Fin.append kf 0 with hm0
+    have hpm : p11PolarR (w + KAM.ODE.angleShift m0) = u' := by
+      rw [p11PolarR_angleShift hw, hu2]
+      have : (fun i : Fin n => m0 (Fin.castAdd n i)) = kf := by
+        funext i; simp [hm0]
+      rw [this]
+    have hwm : w + KAM.ODE.angleShift m0 ∈ {z : Phase (n+n) | ∀ i : Fin n, 0 < z.2 (Fin.natAdd n i)} := by
+      intro i; simpa [KAM.ODE.angleShift] using hw i
+    obtain ⟨ks, hks⟩ := tInj _ hwm w' hw' hpm
+    set m : Fin (n+n) → ℤ := fun i => m0 i + Fin.append (0 : Fin n → ℤ) ks i with hm_def
+    have hww : w' = w + KAM.ODE.angleShift m := by
+      rw [hks]
+      refine Prod.ext ?_ ?_
+      · funext j
+        refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;>
+          simp [hm_def, hm0, KAM.ODE.angleShift]
+      · simp [KAM.ODE.angleShift]
+    obtain ⟨hy2, hwe2⟩ := hPsiE y hy m
+    have hyy : y' = y + KAM.ODE.angleShift m :=
+      hPsiI hy' hy2 (by rw [← hw'_def, ← hw_def] at *; rw [hwe2, hww])
+    refine ⟨m, p11RescaleReal_injective (J0 := (p11SecularData D).J0) heps.ne' ?_⟩
+    rw [p11RescaleReal_shift, ← hy_def, ← hy'_def, hyy]
+
+/-- The chain agrees with the formula of the prepared data. -/
+theorem p11_wr_chain_eq {D : P11Physical n} {nu eps : ℝ}
+    (hC : P11SecularSpec D (p11SecularData D))
+    (hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps))
+    (hS : P11SlowSpec D nu eps (p11SlowConstant D nu) (p11SlowData D nu eps))
+    (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 (p11SecularData D) nu eps)
+    (hsm : 256*eps < (p11SecularData D).rz^2) {z : Phase (n+n)} (hz : z ∈ p11WrO D) :
+    (p11SecularData D).chart
+      ((fun i => (((p11FastData D eps).map (p11PolarC ((p11SlowData D nu eps).Psi
+        (p11Rescale (p11SecularData D).J0 eps (KAM.realInclusion₂ (n+n) z))))).1 i).re),
+       fun i => (((p11FastData D eps).map (p11PolarC ((p11SlowData D nu eps).Psi
+        (p11Rescale (p11SecularData D).J0 eps (KAM.realInclusion₂ (n+n) z))))).2 i).re) =
+      p11WrChain D nu eps z := by
+  obtain ⟨-, -, -, -, h⟩ := p11_wr_dom hC hF hS heps hpe hsm hz
+  rw [h]
+  rfl
 
 end Chain
 
