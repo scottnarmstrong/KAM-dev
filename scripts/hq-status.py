@@ -627,7 +627,7 @@ def section_progress(rows):
             'tracks I, N and P, and track SO (its items count the design\'s line estimates of the packages landed so '
             'far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and '
             'counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* '
-            'take that fraction from their proof graph (nodes `PROVED`, `BYPASSED` or `EXTERNAL` in '
+            'take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in '
             '[`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once '
             'every frozen theorem of their track is sealed; the other items are the '
             f'orchestrators\' assessment, last reviewed **{progress["reviewed"]}**. Files: '

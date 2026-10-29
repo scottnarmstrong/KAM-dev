@@ -131,7 +131,7 @@ Overall, both together: 89.1 %
 | Track SO (lunar spin–orbit certificate) | 9 | 42 | 20.2 | `█████░░░░░` 48 % |
 | **Total** | 71 | 219 | 195.1 | **89.1 %** |
 
-**How this is estimated.** The project is divided into 49 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED` or `EXTERNAL` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
+**How this is estimated.** The project is divided into 49 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
 
 <details><summary>All work items with their weight and status</summary>
 
@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:45 UTC from `main` at `2593f680` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:45 UTC from `main` at `0b67faab` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
