@@ -47,8 +47,16 @@ approves their exact Lean text. Existing KAM/Fourier and KAM/Diophantine modules
   and global solutions. The black-box soundness theorem closes here.
 - **W3:** lunar data, passing checks, final theorems; statement review and freeze; seal and audit.
 
-## Open scope decision (owner)
+## Scope decision (owner, 2026-10-29): fully general black box
 
-How general the first black box is: (a) general in the data within the spin–orbit class H = J + p²/2 + V(q, φ),
-V a trigonometric polynomial (the proposal's recommendation), or (b) general n-dimensional analytic Hamiltonians
-given as finite expressions, with general Fourier embeddings. W0 is the same either way.
+The first black box is **fully general**: any dimension n, analytic Hamiltonians given as finite expressions, and
+general Fourier embeddings in all coordinates, all running through `g1_explicit`. The spin–orbit class and the lunar
+data are its first client. Consequences:
+
+- **SO-DESIGN** (Opus, before wave 1): an exact-signature Lean design for the general checker and its soundness theorem
+  (`docs/tracks/SO/design/SO-LEAN-DESIGN.md`, draft signatures in `.drafts/design/SOSignatures.lean`), then an
+  independent design audit. The arithmetic representation is fixed after the replay gate (SO-REPLAY).
+- The Diophantine hypothesis enters the general theorem as a proved `IsDiophantine` input; the quadratic-field module
+  (SO-DIO) discharges it for n = 2 and the lunar frequencies.
+- Estimated size: about 21–37k hand-written lines (the 13–22k spin–orbit estimate plus 8–15k for generality), plus
+  generated certificate data.
