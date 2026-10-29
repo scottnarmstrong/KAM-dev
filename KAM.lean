@@ -874,6 +874,9 @@ public import KAM.Planetary.Preparation.SlowMean
 public import KAM.Planetary.Preparation.SlowRates
 public import KAM.Planetary.Preparation.SlowSmall
 public import KAM.Planetary.Preparation.Working
+public import KAM.Planetary.Quantitative.Assembly
+public import KAM.Planetary.Quantitative.AssemblyData
+public import KAM.Planetary.Quantitative.AssemblyTori
 public import KAM.Planetary.Quantitative.Budget
 public import KAM.Planetary.Quantitative.BudgetAdmissible
 public import KAM.Planetary.Quantitative.BudgetCompare
