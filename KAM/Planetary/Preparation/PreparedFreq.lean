@@ -170,6 +170,93 @@ theorem p11_freq_partial_eq {Fast : P11FastData n} {nu eps c : ℝ} {A : P11Slow
   rw [pow_succ]
   field_simp
 
+theorem p11_freq_smallV_norm {r : ℝ} {I : P11CVec (n + n)}
+    (hI : I ∈ KAM.actionNbhd (p11PreparedBox n) r) : ‖I‖ < 1 / 2 + r := by
+  obtain ⟨x, hx, hIx⟩ := hI
+  have hxn : ‖(fun i => (x i : ℂ) : P11CVec (n + n))‖ ≤ 1 / 2 := by
+    refine (pi_norm_le_iff_of_nonneg (by norm_num)).2 fun i => ?_
+    have := hx i (Set.mem_univ i)
+    rw [Complex.norm_real, Real.norm_eq_abs, abs_le]
+    constructor <;> linarith [this.1, this.2]
+  have := norm_le_norm_add_norm_sub' I (fun i => (x i : ℂ) : P11CVec (n + n))
+  linarith
+
+theorem p11_freq_partial (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ K : ℝ, 0 < K ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n}
+      {Q : P11PreparedData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c →
+      K * (1 + c) * eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) ≤ 1 →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      P11FastSpec C eps Fast → P11SlowSpecOf C Fast nu eps c A →
+      (∀ I ∈ KAM.actionNbhd (p11PreparedBox n) 1, Q.N I =
+        (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) /
+          (eps : ℂ)) →
+      ∀ I ∈ KAM.actionNbhd (p11PreparedBox n) (3 / 4), ∀ j : ℕ, j ≤ (p11PatchData D).mu + 1 →
+        ∀ α : Fin (n + n) → ℕ, ∑ i, α i = j →
+        ‖p11PartialVec α (p11PreparedFreq Q) I‖ ≤
+          (if j = 0 then C.L else eps * C.L) + K * (1 + c) * eps * Real.log (1 / eps) ^
+            (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) := by
+  obtain ⟨K, hK, hres⟩ := p11_dev_resc hC hnu
+  refine ⟨K, hK, ?_⟩
+  intro Fast eps c A Q heps hεM hc0 hθ hzs h5 hFs hA hN I hI j hj α hα
+  obtain ⟨hK2, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  obtain ⟨-, -, hL1, -, -, -, -, -, -, -⟩ := fast_consts hC
+  have hl : 1 ≤ Real.log (1 / eps) := slow_log_ge_one hC heps hεM
+  have hRn : 0 ≤ (if j = 0 then C.L else eps * C.L) + K * (1 + c) * eps *
+      Real.log (1 / eps) ^ (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) := by
+    have h1 : 0 ≤ C.L := by linarith
+    have h2 : 0 ≤ Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1)) :=
+      Real.rpow_nonneg (by linarith) _
+    have h3 : 0 ≤ (if j = 0 then C.L else eps * C.L) := by
+      split_ifs
+      · exact h1
+      · positivity
+    positivity
+  have hU1 : I ∈ KAM.actionNbhd (p11PreparedBox n) 1 := by
+    obtain ⟨x, hx, hIx⟩ := hI
+    exact ⟨x, hx, by linarith⟩
+  have hIn := p11_freq_smallV_norm hI
+  refine (pi_norm_le_iff_of_nonneg hRn).2 fun c' => ?_
+  rw [p11_freq_partial_eq heps h5 hs2.le hA hN hU1 α c']
+  rw [norm_mul, norm_pow, Complex.norm_real, Real.norm_of_nonneg heps.le, hα]
+  have hβ : ∑ i, (α + Pi.single c' 1 : Fin (n + n) → ℕ) i = j + 1 := by
+    simp [Finset.sum_add_distrib, hα]
+  obtain ⟨J, ρ, hJρ⟩ : ∃ (J ρ : P11CVec n), (p11Rescale C.J0 eps (0, I)).2 = Fin.append J ρ :=
+    ⟨_, _, (Fin.append_castAdd_natAdd (f := (p11Rescale C.J0 eps (0, I)).2)).symm⟩
+  have hres' : (p11Rescale C.J0 eps (0, I)).2 = (Fin.append (KAM.realInclusion n C.J0)
+      (fun _ => (2 * Real.pi * eps : ℂ)) : P11CVec (n + n)) + (eps : ℂ) • I :=
+    p11_freq_res_eq C.J0 eps I
+  have hdiff : (p11Rescale C.J0 eps (0, I)).2 - (Fin.append (KAM.realInclusion n C.J0)
+      (fun _ => (2 * Real.pi * eps : ℂ)) : P11CVec (n + n)) = (eps : ℂ) • I := by
+    rw [hres']; abel
+  have hnorm : ‖(Fin.append J ρ : P11CVec (n + n)) - Fin.append (KAM.realInclusion n C.J0)
+      (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4 := by
+    rw [← hJρ, hdiff, norm_smul, Complex.norm_real, Real.norm_of_nonneg heps.le]
+    nlinarith
+  have hJ' : ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4 := by
+    have h1 : ‖J - KAM.realInclusion n C.J0‖ ≤ ‖(Fin.append J ρ : P11CVec (n + n)) -
+        Fin.append (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))‖ := by
+      refine (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => ?_
+      have := norm_le_pi_norm ((Fin.append J ρ : P11CVec (n + n)) - Fin.append
+        (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))) (Fin.castAdd n i)
+      simpa using this
+    linarith
+  have hρ' : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4 := by
+    have h1 : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ ≤ ‖(Fin.append J ρ : P11CVec (n + n)) -
+        Fin.append (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))‖ := by
+      refine (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => ?_
+      have := norm_le_pi_norm ((Fin.append J ρ : P11CVec (n + n)) - Fin.append
+        (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))) (Fin.natAdd n i)
+      simpa using this
+    linarith
+  have hb := hres heps hεM hc0 hθ hzs h5 hFs hA j hj (α + Pi.single c' 1) hβ J ρ hJ' hρ'
+  rw [hJρ]
+  refine le_trans ?_ hb
+  gcongr
+  exact (norm_le_pi_norm _ 0)
+
 end Freq
 
 end KAM.Planetary
