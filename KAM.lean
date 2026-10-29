@@ -958,7 +958,10 @@ public import KAM.Planetary.Preparation.RectangularAverageDomain
 public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
+public import KAM.Planetary.Preparation.SecDSource
 public import KAM.Planetary.Preparation.SecEDefs
+public import KAM.Planetary.Preparation.SecEFreq
+public import KAM.Planetary.Preparation.SecESource
 public import KAM.Planetary.Preparation.Slow
 public import KAM.Planetary.Preparation.SlowAssembly
 public import KAM.Planetary.Preparation.SlowAverage
