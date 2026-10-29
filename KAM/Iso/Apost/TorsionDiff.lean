@@ -14,8 +14,8 @@ import Mathlib.Tactic.Positivity
 /-!
 # Part 2 (isoenergetic iteration): differences of the bordered torsion
 
-Helper lemmas for `bpI:p2:torsion` (`KAM.Iso.Apost.torsion_step`, package I2-5 of
-`docs/tracks/I/design/PART123-LEAN-DESIGN.md`), none of which involves the correction: they compare
+Helper lemmas for `bpI:p2:torsion` (`KAM.Iso.Apost.torsion_step`), none of
+which involves the correction: they compare
 the bordered torsion `𝖳 = (T ω; Y 0)` of two tori `K`, `K'` at two frequencies `ω`, `ω'`.
 
 * `torsion_sub_freq`, `norm_torsion_sub_freq_le` (step `to-omega`): the torsion is affine in the

@@ -10,12 +10,12 @@ public import KAM.Iso.Linear.DioDirichlet
 public import KAM.Torus.FrozenAgreement
 
 /-!
-# The literal Part 1 setting (graph gap GAP-I1a, ruling N1 option (i))
+# The literal Part 1 setting
 
 * `SettingSrc` is `bpI:p1:setting` as the source states it: `n ≥ 2`, `τ ≥ 0`, `M > 0`, no `σ`'s.
 * `SettingSrc.setting` projects it to the landed `Setting n τ M σK σB σT` at the same `τ`, for
   every positive `σ` (the exponent range is bridged by `KAM.IsDiophantine.n_sub_one_le_tau`).
-* `SettingSrc.k_bridge` is `bpI:p1:setting#k-bridge`: track K's `Standing` data with `h := H`,
+* `SettingSrc.k_bridge` is `bpI:p1:setting#k-bridge`: the `KAM.Apost.Standing` data with `h := H`,
   `𝔅 := D`, the extra bound on `DH`, `τ ≥ 0`, `n ≥ 1`, and the frozen agreement of the objects.
 -/
 

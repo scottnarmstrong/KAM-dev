@@ -13,14 +13,14 @@ public import KAM.Iso.Confinement.Separation
 /-!
 # Part 5: confinement and global existence
 
-Package P5-8 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (blueprint `bpI:p5:confinement`,
-steps `cf-conf`, `cf-cont`). Keep the notation of `§sec-sep` (`SepSetting`). The maximal solution
+Blueprint `bpI:p5:confinement`, steps
+`cf-conf`, `cf-cont`. Keep the notation of `§sec-sep` (`SepSetting`). The maximal solution
 `z` of `ż = X_ℝ(z)` in `W_B = ℝ² × B` through `z₀` (`IsMaximalSolution`, a source premise; its
 existence is `gen_maximal`) satisfies `T_± = ±∞`, `z(t) ∈ 𝒱` and `z(t)₂ ∈ 𝒦` for all `t`, and
 `‖z(t)₂ - I₀‖ < η₁/2`.
 
 * `confinement_prop_of_invariant`: conditional helper, takes the invariance of `𝒯₊ ∪ 𝒯₋` as a
-  premise (distinct name; audit F03).
+  premise (distinct name).
 * `confinement_prop`: source-facing; takes the named Part 3 output (`TorusOutput` for both tori)
   and the identifications `𝒯_± = graph Y_±` and derives the invariance through
   `separation_confined`.
@@ -88,7 +88,7 @@ theorem confinement_prop_of_invariant
     (separation_confined_of_invariant S hz₀ hE hinv (ordConnected_eIoo Tm Tp) (zero_mem_eIoo hz)
       hz.isSolution hz.init)
 
-/-- SOURCE-FACING `bpI:p5:confinement` (audit F03): as `confinement_prop_of_invariant`, with the
+/-- SOURCE-FACING `bpI:p5:confinement`: as `confinement_prop_of_invariant`, with the
 named Part 3 output and the graph identifications instead of `hinv`. -/
 theorem confinement_prop (S : SepSetting B s₀ r₀ h f ε η₁ F₁ C_K p r Lm LΦ κ E Yp Ym Ip Im)
     {Kp Km : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)} {ωp ωm : Fin 2 → ℝ}

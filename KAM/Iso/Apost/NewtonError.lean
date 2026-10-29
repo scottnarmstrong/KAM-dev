@@ -17,8 +17,8 @@ import Mathlib.Tactic.Module
 /-!
 # Part 2 (isoenergetic iteration): the new errors
 
-Package I2-4 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p2:newton-error`
-(`KAM.Iso.Apost.newton_error`). Track K's `KAM.Apost.NewtonError` is the model. For an
+Blueprint node `bpI:p2:newton-error`
+(`KAM.Iso.Apost.newton_error`). `KAM.Apost.NewtonError` is the model. For an
 `IsoAdmissible` torus `K` at the frequency `ω = s ω*`, the correction `ΔK = P ξ`, `ξ = (ξᴸ, ξᴺ)`,
 `ξ^ω` of `bpI:p2:correction` and `K̄ = K + ΔK` on `T_{r-2δ}` (`isoNewtonMap`, defined in
 `KAM.Iso.Apost.Defs` together with `isoQuadX`, `isoQuadH`), the theorem `newton_error` proves

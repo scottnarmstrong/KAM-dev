@@ -14,10 +14,9 @@ public import KAM.Frozen.Iso.Defs.EnergyAverage
 /-!
 # Part 1 (isoenergetic linear step): standing data and definitions
 
-Definitions only (package I-D0 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, copied verbatim
-from the audited signatures; the only proof is the `ext`/`rfl` bridge `extendedTorsion_eq_bordMat`).
+Definitions only (the only proof is the `ext`/`rfl` bridge `extendedTorsion_eq_bordMat`).
 
-* `Setting` (`bpI:p1:setting`): track K's `KAM.Apost.Standing` plus `‖DH‖ ≤ M`.
+* `Setting` (`bpI:p1:setting`): `KAM.Apost.Standing` plus `‖DH‖ ≤ M`.
 * The last row `energyRow` (`Y = DH(K) N`), the bordered matrix `bordMat` (`(A c; yᵀ 0)` over
   `Fin n ⊕ Unit`) and the bridge `extendedTorsion_eq_bordMat` to the frozen `extendedTorsion`.
 * `BordData` and the explicit solution of the bordered triangular system of `bpI:p1:border-solve`:

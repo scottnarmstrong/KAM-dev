@@ -14,11 +14,11 @@ import KAM.Head.HamiltonianField
 /-!
 # Part 3 (local charts): hypothesis (d) and the flat torus
 
-Package I3-4 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p3:hypothesis-d` and
+Blueprint nodes `bpI:p3:hypothesis-d` and
 `bpI:p3:torus`. `n = 2`, `τ = 2`.
 
 * `hypothesis_d` (`bpI:p3:hypothesis-d`): (I1)-(I4) of I-G1 for `(𝔇, h + f)` with `M = Mconst`,
-  and `|D^j f| ≤ F_j ε`. A wrapper on track K's `derivative_bounds_design`, `h1_domainD_*`,
+  and `|D^j f| ≤ F_j ε`. A wrapper on the Kolmogorov `derivative_bounds_design`, `h1_domainD_*`,
   `norm_iteratedFDeriv_hbold_le`, `cbar_mul_le_derivConstM` (none of which needs the Kolmogorov
   field of `KAM.Head.Data`).
 * `torus` (`bpI:p3:torus`): the flat torus `K⁰(θ) = (θ, I)` is an approximately invariant torus of
@@ -26,7 +26,7 @@ Package I3-4 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p3:hyp
   `R = flatRemainder`, a bounded perturbation, an invertible average for small `ε`, and an energy
   average within `ε` of `h(I)`.
 
-Track K's `KAM.Head.unperturbed` carries `KAM.Head.Data` (Kolmogorov); the flat-torus facts are
+The Kolmogorov `KAM.Head.unperturbed` carries `KAM.Head.Data` (Kolmogorov); the flat-torus facts are
 restated here for `HeadData` and `PerturbData`, with the same proofs (`TorusAux`).
 -/
 

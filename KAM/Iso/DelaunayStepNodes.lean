@@ -11,7 +11,7 @@ public import KAM.Kepler.DelaunaySymplectic
 public import KAM.Iso.ComplexDomain
 
 /-!
-# Literal exports for the Delaunay orbit-map and symplectic steps (GAP-I7a)
+# Literal exports for the Delaunay orbit-map and symplectic steps
 
 Unsigned exports stating the literal conclusions of `stepI:p7:om-hol`, `stepI:p7:sy-ext` and
 `stepI:p7:sy-field` from the landed declarations of `KAM.Kepler.OrbitComplex`,

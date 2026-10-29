@@ -17,7 +17,7 @@ import Mathlib.Tactic.Ring
 `bpI:p2:error-decay`)
 
 The schedule of Definition `bpI:p2:schedule` consists of the sequences `δ_s = 2^{-s} δ₀` and
-`r_s = ρ - 8 δ₀ (1 - 2^{-s})`, which are track K's `KAM.Apost.deltaSeq` and `KAM.Apost.rSeq`
+`r_s = ρ - 8 δ₀ (1 - 2^{-s})`, which are `KAM.Apost.deltaSeq` and `KAM.Apost.rSeq`
 (reused unchanged; the claims of the schedule `r₀ = ρ`, `r_{s+1} = r_s - 4 δ_s`,
 `ρ_∞ ≤ ρ - 8 δ₀ < r_s`, `δ_s ≤ 1`, `4 δ_s < r_s` are `KAM.Apost.schedule`), and of the two
 sequences `isoEpsSeq` (`ε_s`, `ε₀ = e`, `ε_{s+1} = Ĉ_E ε_s² / (γ⁴ δ_s^{2a})`) and `isoDSeq`

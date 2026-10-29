@@ -14,7 +14,7 @@ import KAM.Strip.Regularity
 /-!
 # Part 1 (isoenergetic linear step): the frequency map without the Kolmogorov field
 
-Package I1-1 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, issue B4. Track K's
+The Kolmogorov
 `KAM.Head.freq_map` (items (ii)-(iii) of `bp:p4:freq-map`) carries `KAM.Head.Data`, whose
 `nondeg` field is the Kolmogorov condition, unavailable for an isoenergetically nondegenerate `h`.
 The proofs of (ii)-(iii) never use it; they are restated here for a Hamiltonian `h` that is

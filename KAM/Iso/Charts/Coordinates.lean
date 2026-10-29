@@ -10,7 +10,7 @@ public import KAM.Iso.Charts.Constants
 /-!
 # Part 3 (local charts): the bordered determinant, direction coordinates and slopes
 
-Package I3-1 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p3:det-identity`,
+Blueprint nodes `bpI:p3:det-identity`,
 `bpI:p3:coordinates` and `bpI:p3:slope-ray`. `n = 2`.
 
 * `det_identity` (`bpI:p3:det-identity`): on the real slice, `∇²h` is symmetric,

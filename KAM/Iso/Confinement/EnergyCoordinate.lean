@@ -10,8 +10,7 @@ public import KAM.Iso.Confinement.RealHam
 /-!
 # Part 5: the energy coordinate
 
-Package P5-5 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (blueprint
-`bpI:p5:energy-coordinate`, steps `ec-reduce` and `ec-lip`).
+Blueprint `bpI:p5:energy-coordinate`, steps `ec-reduce` and `ec-lip`.
 
 * `energy_coordinate`: on the chart window `Q`, over a fixed slope `m`, the energy
   `H_ℝ(φ, Φ⁻¹(·, m))` is injective as a function of the chart energy `e = h(I)` (this is where

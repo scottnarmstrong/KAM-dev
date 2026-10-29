@@ -16,8 +16,8 @@ public import KAM.Iso.Confinement.Invariance
 /-!
 # Part 5: separation
 
-Package P5-7 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (blueprint `bpI:p5:separation`,
-steps `sp-open`, `sp-init`, `sp-closure`, `sp-window`, `sp-bdry`, `sp-barrier`). The data are those
+Blueprint `bpI:p5:separation`, steps `sp-open`, `sp-init`, `sp-closure`, `sp-window`, `sp-bdry`,
+`sp-barrier`. The data are those
 of `§sec-sep` (`SepSetting`): one chart patch `p`, its constants, the smallness, and the two
 torus graphs `Y₊, Y₋` at the energy `E`; the region is
 `𝒱 = sepRegion p Y₊ Y₋ = {(φ, I) : I ∈ Ω, μ₋(φ) < m(I) < μ₊(φ)}`, `μ_± = m ∘ Y_±`.
@@ -232,7 +232,7 @@ theorem separation_boundary (S : SepSetting B s₀ r₀ h f ε η₁ F₁ C_K p 
 
 /-! ## (c) the barrier -/
 
-/-- (c), the barrier, CONDITIONAL HELPER (distinct name; audit F03): `hinv` is a produced fact.
+/-- (c), the barrier, CONDITIONAL HELPER (distinct name): `hinv` is a produced fact.
 The source-facing `separation_confined` below derives it. The barrier (step `sp-barrier`): a
 solution of `X_ℝ` in `W_B` on an interval `J ∋ 0` through `z₀` stays in `𝒱`. `hinv` is Lemma
 `invariance` for `𝒯₊ ∪ 𝒯₋` (`range k_± = graphSet Y_±`, `isInvariantSet_union`). -/

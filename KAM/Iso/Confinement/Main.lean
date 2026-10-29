@@ -14,8 +14,8 @@ public import KAM.Iso.Confinement.Confinement
 /-!
 # Part 5: the assembly of I-HEAD from the output of Part 3
 
-Package P5-9 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (blueprint nodes `bpI:p5:hd-eps`,
-`hd-fix`, `hd-sol`, `hd-uniq`). `confinement_main_of_tori` is the CONDITIONAL HELPER of the
+Blueprint nodes `bpI:p5:hd-eps`,
+`hd-fix`, `hd-sol`, `hd-uniq`. `confinement_main_of_tori` is the CONDITIONAL HELPER of the
 quarantine: it assumes the output structures of Part 3 (`ChartCover`, `ToriExistence`, which say
 "tori exist for a finite cover of `closure B'` by patches") and never stands in for I-HEAD; the
 provider closes the gap with Part 3's producer.
@@ -151,7 +151,7 @@ theorem confinement_main_of_tori (hd : HeadData B s₀ r₀ h B' η) (hne : B'.N
             ∀ (a b : ℝ) (y : ℝ → P2), a < 0 → 0 < b → y 0 = z₀ →
               KAM.Iso.IsHamiltonianSolutionOn (realHamiltonian h f) B (Ioo a b) y →
               ∀ t ∈ Ioo a b, y t = z t := by
-  -- `hne` is a frozen binder of I-HEAD that Part 5 does not use (design B7: `B' = ∅` is vacuous).
+  -- `hne` is a frozen binder of I-HEAD that Part 5 does not use (`B' = ∅` is vacuous).
   have _ := hne
   have hρ : 0 < rhoInf s₀ := div_pos (lt_min hd.hs one_pos) (by norm_num)
   obtain ⟨ε₀, hε₀, hε₀₁, hpatch⟩ :=

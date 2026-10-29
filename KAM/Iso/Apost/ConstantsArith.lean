@@ -17,7 +17,7 @@ import Mathlib.Tactic.FieldSimp
 Every inequality between the constants of `bpI:p2:constants` that the later modules of Part 2 use
 is proved here, as an abstract statement about reals (the constants stay folded), so that no later
 module unfolds a constant. They are grouped by the blueprint step that uses them; the steps are
-those of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, section 5.2. All are in the namespace
+those of the blueprint `bpI:p2`. All are in the namespace
 `KAM.Iso.Apost.Arith`, and each statement has the exact shape that the corresponding estimate of
 the blueprint produces.
 
@@ -33,7 +33,8 @@ the blueprint produces.
 * `g1-e`, `g1-o` (`isoC1_pos`, `isoC2_pos`, `iso_g1_error_small`, `iso_g1_closeness_eq`).
 
 The hypothesis `γ ≤ Θ` of the absorption lemmas is the conclusion of the frequency estimate
-(`IsoAdmissible.freq`); the lemmas here take it as a hypothesis. They rest on track K's absorption
+(`IsoAdmissible.freq`); the lemmas here take it as a hypothesis. They rest on the `KAM.Apost`
+absorption
 pack (`mul_rpow_le`, `div_absorb`, `absorb_mul_le`, `Correction.le_Theta_div`,
 `Correction.rpow_add_one_le`, `Correction.xi0_arith`).
 -/

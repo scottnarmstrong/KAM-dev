@@ -15,7 +15,7 @@ import KAM.Strip.Averages
 /-!
 # Part 1 (isoenergetic linear step): the extended torsion at the trivial torus
 
-Package I1-4 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p1:trivial`.
+Blueprint node `bpI:p1:trivial`.
 For `H(θ, J) = h(J)` on `D = ℂⁿ × U` and the trivial torus `K⁰(θ) = (θ, ι I)` with
 `ω = ∇h(I)` (`KAM.frequencyMap`), the extended torsion is the constant real matrix
 `𝖡_h(I)` (`KAM.Iso.borderedHessian`):
@@ -25,9 +25,10 @@ For `H(θ, J) = h(J)` on `D = ℂⁿ × U` and the trivial torus `K⁰(θ) = (θ
   determinant, total inverse and row-sum norm of the inverse correspond under the cast
   `ℝ → ℂ`.
 
-The frame side is track K's `KAM.Head.*_unperturbedTorus`; the frequency map and the Hessian are
-`freq_map_local` (the Kolmogorov-free restatement of K's `freq_map`, issue B4). The torsion is
-computed as in K's `torsion_unperturbedTorus_eq`, but for `h ∘ pr₂` on `ℂⁿ × U` instead of
+The frame side is the Kolmogorov `KAM.Head.*_unperturbedTorus`; the frequency map and the Hessian
+are
+`freq_map_local` (the Kolmogorov-free restatement of `KAM.Head.freq_map`). The torsion is
+computed as in `KAM.Head.torsion_unperturbedTorus_eq`, but for `h ∘ pr₂` on `ℂⁿ × U` instead of
 `KAM.Head.hbold` on `𝔇`, since `KAM.Head.Data` is not available here.
 -/
 

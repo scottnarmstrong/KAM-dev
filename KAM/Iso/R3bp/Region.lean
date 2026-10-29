@@ -11,8 +11,7 @@ public import KAM.Iso.NearCircular
 /-!
 # The action region and the topology of `𝒩`
 
-Blueprint-I Part 8: `bpI:p8:A`, `bpI:p8:e-vs-k` and `bpI:p8:topology` (package P8-2 of
-`docs/tracks/I/design/PART58-LEAN-DESIGN.md`).
+Blueprint-I Part 8: `bpI:p8:A`, `bpI:p8:e-vs-k` and `bpI:p8:topology`.
 
 * `R3bpParams`: the six source premises of I-R3BP; `RegionParams`: the weaker parameter shape
   `0 < a₋ < a₊`, `0 < e₋ < e₊ < 1` of the action region (it also holds for the enlarged
@@ -234,7 +233,7 @@ theorem exists_delaunay_preimage {am ap em ep : ℝ} (hp : RegionParams am ap em
   obtain ⟨w, hw, rfl⟩ := hz₀
   exact ⟨w, hw, rfl⟩
 
-/-- `bpI:p8:topology` (c): `𝒩` is open (the Kepler design's `isOpen_nearCircular`). -/
+/-- `bpI:p8:topology` (c): `𝒩` is open (`isOpen_nearCircular`). -/
 theorem isOpen_nearCircular_region (am ap em ep : ℝ) : IsOpen (NearCircular am ap em ep) :=
   isOpen_nearCircular am ap em ep
 

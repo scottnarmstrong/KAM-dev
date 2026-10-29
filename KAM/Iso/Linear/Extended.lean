@@ -20,7 +20,7 @@ Blueprint node `bpI:p1:extended-basic` (`KAM.Iso.Linear.extended_basic`) and the
 The last row `Y = DH(K) N` (`energyRow`) is first rewritten as a matrix expression,
 `Y = Nᵀ (Ω₀ (X_H ∘ K))` in the `sumVec`-coordinates (`ExtendedAux.energyRow_eq_mulVec`); this
 reduces holomorphy, periodicity and realness of `Y` to the corresponding facts about `N` and
-`X_H ∘ K` proved by track K (`KAM.Apost.periodicity`, `KAM.Apost.ham_real_of_K`,
+`X_H ∘ K` proved in `KAM.Apost` (`KAM.Apost.periodicity`, `KAM.Apost.ham_real_of_K`,
 `KAM.Apost.FrameAux.differentiableOn_*`). The bordered matrix is `bordMat T ω Y`
 (`extendedTorsion_eq_bordMat`), so every statement about `𝖳_H` is entrywise over
 `Fin n ⊕ Unit`. The size bound `‖Y‖ ≤ M σ_K' σ_B'` uses the hypothesis `‖DH‖ ≤ M` of `Setting`

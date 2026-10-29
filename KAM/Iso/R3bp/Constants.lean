@@ -14,7 +14,7 @@ public import KAM.Iso.R3bp.HeadData
 # The constants and the core of I-R3BP
 
 Blueprint-I Part 8: `bpI:p8:constants`, `pf-small`, `bounds`, `pf-coord`, `pf-sol`, `pf-bounds`,
-`pf-dist` (package P8-5 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md`).
+`pf-dist`.
 
 * `shellNu`, `r3bpMu0`, `r3bpD`, `r3bpR`: the constants `ν₀`, `μ₀`, `d`, `R`.
 * `r3bp_constants_pos`, `r3bp_small`: positivity and smallness of the constants.

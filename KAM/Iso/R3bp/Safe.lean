@@ -12,8 +12,7 @@ public import KAM.Iso.R3bp.Region
 /-!
 # The enlarged safe region
 
-Blueprint-I Part 8: `bpI:p8:safe` and `bpI:p8:safe-region` (package P8-3 of
-`docs/tracks/I/design/PART58-LEAN-DESIGN.md`, section M).
+Blueprint-I Part 8: `bpI:p8:safe` and `bpI:p8:safe-region`.
 
 * `safeT`, `safeAminus`, `safeAplus`, `safeEminus`, `safeEplus`: the enlarged parameters
   `a₋' = a₋ / 2`, `a₊' = a₊ (1 + t)`, `e₋' = e₋ / 2`, `e₊' = e₊ + t`.

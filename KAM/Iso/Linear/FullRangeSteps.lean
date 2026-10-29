@@ -11,7 +11,7 @@ public import KAM.Iso.Linear.FullRangeStepsFrame
 public import KAM.Iso.Linear.FullRangeStepsPert
 
 /-!
-# Part 1 step exports under the source setting (graph gap GAP-I1b)
+# Part 1 step exports under the source setting
 
 Facade for the 29 literal step exports of Part 1 (`step_eb_*`, `step_lr_*`, `step_ea_*`,
 `step_ec_*`, `step_rd_*`, `step_geo_*`, `step_pt_*`); see the four `FullRangeSteps*` modules.

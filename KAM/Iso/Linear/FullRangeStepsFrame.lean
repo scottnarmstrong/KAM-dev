@@ -9,12 +9,13 @@ public import KAM.Iso.Linear.FullRange
 public import KAM.Iso.Linear.Tools
 
 /-!
-# Part 1 step exports: reduced equation, geometry, perturbation (graph gap GAP-I1b)
+# Part 1 step exports: reduced equation, geometry, perturbation
 
 Literal exports of the proof-step nodes of `bpI:p1:reduced` (`rd-expand`, `rd-consequence`),
 `bpI:p1:geometry-noA5` (`geo-*`) and `bpI:p1:perturbation-noA5` (`pt-*`) under the source setting
 `SettingSrc` (`τ ≥ 0`), built from the landed `reduced_src`, `geometry_noA5_src`,
-`perturbation_noA5_src` and track K's helper lemmas. In the geometry and perturbation steps the
+`perturbation_noA5_src` and the `KAM.Apost` helper lemmas. In the
+geometry and perturbation steps the
 `σ`'s are free reals: the constants depend on them only through `𝔪`, which is unchanged by
 replacing each `σ` by `max σ 1` (`mSize_max_one`).
 

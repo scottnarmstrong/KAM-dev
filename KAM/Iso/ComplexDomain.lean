@@ -22,8 +22,8 @@ For a safe action region `K` (compact, nonempty, inside the cone `0 < G < L`) th
 complex neighbourhood `UDelta K δ` and the complex Delaunay map `delaunayC K`.
 
 `ComplexDomainData K δ₁` bundles the conclusions of `bpI:p7:complex-domain` at a radius `δ₁`
-(with the quantifier "nearest `(L', G')`" replaced by "every `(L', G') ∈ K` within `δ₁`", error
-B1 of the design); `complexDelta K` is the radius selected by classical choice, and
+(with the quantifier "nearest `(L', G')`" replaced by "every `(L', G') ∈ K` within `δ₁`");
+`complexDelta K` is the radius selected by classical choice, and
 `complex_domain_spec` certifies it.
 
 The proof follows `stepI:p7:cd-uc` and `stepI:p7:cd-branch`: uniform continuity of
@@ -191,7 +191,7 @@ def complexTau (K : Set (Fin 2 → ℝ)) : ℝ :=
   min (kEccMin K ^ 2 / 2) (kEccMin K * keplerDeltaE (kEccMax K))
 
 /-- The full output of `bpI:p7:complex-domain` at a given `δ₁` (exact factorization of the earlier
-statement). Amendment (audit I-6, F1): the last three conjuncts add the quantitative conclusions of
+statement). The last three conjuncts add the quantitative conclusions of
 the blueprint lemma, namely the ratio bound `|G²/L² - G'²/L'²| < τ`, the radicand-disk membership
 `1 - G²/L² ∈ D(e(L', G')², e₋²/2) ⊂ {Re z > 0}` and `e² = 1 - G²/L²`. -/
 def ComplexDomainData (K : Set (Fin 2 → ℝ)) (δ₁ : ℝ) : Prop :=
@@ -215,7 +215,7 @@ def ComplexDomainData (K : Set (Fin 2 → ℝ)) (δ₁ : ℝ) : Prop :=
     (∀ x ∈ actionNbhd K δ₁, eccC (x 0) (x 1) ^ 2 = 1 - x 1 ^ 2 / x 0 ^ 2)
 
 open scoped Classical in
-/-- The selected `δ₁` (F3). -/
+/-- The selected `δ₁`. -/
 def complexDelta (K : Set (Fin 2 → ℝ)) : ℝ :=
   if h : ∃ δ₁ : ℝ, ComplexDomainData K δ₁ then h.choose else 0
 
@@ -670,7 +670,7 @@ theorem complex_domain_spec {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) :
   · rename_i h'
     exact absurd h h'
 
-/-- Audit I-6, F1: the ratio bound `|G²/L² - G'²/L'²| < τ` of `bpI:p7:complex-domain` holds at the
+/-- The ratio bound `|G²/L² - G'²/L'²| < τ` of `bpI:p7:complex-domain` holds at the
 selected radius `complexDelta K`. -/
 theorem complexDelta_ratio_bound {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) :
     ∀ x ∈ actionNbhd K (complexDelta K), ∀ y ∈ K, ‖x - fun i => (y i : ℂ)‖ < complexDelta K →
@@ -678,7 +678,7 @@ theorem complexDelta_ratio_bound {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) :
   obtain ⟨-, -, -, -, -, -, -, -, -, h, -⟩ := complex_domain_spec hK
   exact h
 
-/-- Audit I-6, F1: the radicand `1 - G²/L²` lies in `D(e(L', G')², e₋²/2)`, where its real part
+/-- The radicand `1 - G²/L²` lies in `D(e(L', G')², e₋²/2)`, where its real part
 exceeds `e₋²/2 > 0`, at the selected radius. -/
 theorem complexDelta_radicand_disk {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) :
     ∀ x ∈ actionNbhd K (complexDelta K), ∀ y ∈ K, ‖x - fun i => (y i : ℂ)‖ < complexDelta K →
@@ -693,7 +693,7 @@ theorem complexDelta_ecc_sq {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) :
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, h⟩ := complex_domain_spec hK
   exact h
 
-/-- Audit I-6, N1: `delaunayC K` is `2π`-periodic in `ℓ` and in `g` on `𝒰(complexDelta K)`
+/-- `delaunayC K` is `2π`-periodic in `ℓ` and in `g` on `𝒰(complexDelta K)`
 (`bpI:p7:complex-domain`). -/
 theorem delaunayC_periodic {K : Set (Fin 2 → ℝ)} (hK : SafeAction K)
     {w : (Fin 2 → ℂ) × (Fin 2 → ℂ)} (hw : w ∈ UDelta K (complexDelta K)) :

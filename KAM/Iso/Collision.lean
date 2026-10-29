@@ -16,8 +16,8 @@ public import KAM.Frozen.Iso.Defs.CollisionFree
 /-!
 # Collision exclusion
 
-Blueprint-I Part 8: `bpI:p8:collision-exclusion`, `bpI:p8:shell-exclusion` and (shared with
-track P) `bpI:p8:min-distance`.
+Blueprint-I Part 8: `bpI:p8:collision-exclusion`, `bpI:p8:shell-exclusion` and
+`bpI:p8:min-distance`.
 
 * The physical length `radius` is the Euclidean length of `Fin 2 → ℝ`, not the ambient sup
   norm (blueprint issue B1). Its subadditivity, evenness and definiteness are the plane-length
@@ -242,7 +242,7 @@ theorem shell_collisionFree {rmin ρmax : ℝ} (h0 : 0 < rmin) (h1 : rmin ≤ ρ
   obtain ⟨ha, hb⟩ := shell_exclusion h0 h1 h2 hμ hq
   exact ⟨lt_of_lt_of_le hν ha, lt_of_lt_of_le hν hb⟩
 
-/-- `bpI:p8:min-distance` (track P): a compact set of `N`-body configurations of pairwise
+/-- `bpI:p8:min-distance`: a compact set of `N`-body configurations of pairwise
 distinct points has a positive minimal separation, for any continuous definite length `ℓ`. -/
 theorem min_distance {ι X : Type*} [Finite ι] [AddCommGroup X] [TopologicalSpace X]
     [IsTopologicalAddGroup X] (ℓ : X → ℝ) (hcont : Continuous ℓ) (hnonneg : ∀ u, 0 ≤ ℓ u)

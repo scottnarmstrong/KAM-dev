@@ -14,7 +14,7 @@ public import KAM.Strip.RealRestriction
 /-!
 # Part 3: the literal conclusion of `stepI:p3:tori-ig1`
 
-Append-only exports (package GAP-I3T) stating the real form of the application of I-G1 in
+Exports stating the real form of the application of I-G1 in
 `bpI:p3:tori`: T1 including real-analyticity of the real restriction, T2, T3 including
 `Ham_{h,f}(K(θ)) = E` for real `θ`, T5, and `ω_± ≠ 0`. They repair the over-claim of `ToriSide`
 and `TorusOutput`, which carry the strip statements only.

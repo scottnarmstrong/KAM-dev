@@ -18,14 +18,14 @@ import Mathlib.Tactic.Positivity
 /-!
 # Part 2 (isoenergetic iteration): the Newton correction
 
-Package I2-3 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p2:correction`
+Blueprint node `bpI:p2:correction`
 (`KAM.Iso.Apost.correction`). For an `IsoAdmissible` torus `K` at the frequency `ω = s ω*` the data
 `ηᴸ, ηᴺ, T, Y` of `K` and `η^ω = -(Ē_H(K) - E₀)` feed the bordered triangular system of
 `bpI:p1:border-solve` (`KAM.Iso.Linear.border_solve`); the explicit solution is `isoXi`,
 `isoXiOmega`, the correction is `ΔK = P ξ` (`isoCorrection`) and the new frequency parameter is
 `s̄ = s (1 - Re ξ^ω)` (`isoNewS`, all in `KAM.Iso.Apost.Defs`).
 
-The proof follows the steps of the blueprint, with track K's `KAM.Apost.correction_spec` as model.
+The proof follows the steps of the blueprint, with `KAM.Apost.correction_spec` as model.
 
 * `correction_core` (`co-data`, `co-xi0`, `co-xi`, `co-omega`'s first half, `co-dk`): everything
   that only involves the frequency `ω` as a Diophantine vector: the Part 1 data (`geometry_noA5`,
@@ -35,7 +35,7 @@ The proof follows the steps of the blueprint, with track K's `KAM.Apost.correcti
 * `correction`: the claims of `bpI:p2:correction`, adding the frequency update `s̄`.
 
 The helper lemmas are in `KAM.Iso.Apost.CorrectionAux`. `isoNewS_smul_eq` records
-`s̄ ω* = (1 - ξ^ω) s ω*` (as complex vectors) once and for all (used by package I2-4).
+`s̄ ω* = (1 - ξ^ω) s ω*` (as complex vectors) once and for all (used by `newton_error`).
 -/
 
 @[expose] public section

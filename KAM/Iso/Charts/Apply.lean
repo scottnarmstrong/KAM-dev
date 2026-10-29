@@ -13,13 +13,13 @@ import KAM.Matrix.Norms
 /-!
 # Part 3 (local charts): one application of I-G1
 
-Package I3-5 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p3:apply` and
+Blueprint nodes `bpI:p3:apply` and
 `bpI:p3:apply#constants`. `n = 2`, `τ = 2`.
 
 * `apply_local`: the hypotheses (I1)-(I13) of the frozen I-G1 body `IG1Body` hold for the flat
   torus `K⁰(θ) = (θ, I)` of `h + f` (`hypothesis_d`, `torus`), one hypothesis at a time; the
   output (O1)-(O6) is read back with the Part 3 constants.
-* `apply` (`bpI:p3:apply`, audit fix F1): the constants `C₁ C₂ C₃` are chosen per patch and ray
+* `apply` (`bpI:p3:apply`): the constants `C₁ C₂ C₃` are chosen per patch and ray
   before `f, ε, E` by the premise `IG1Statement`, together with the full frozen conditional body
   `IG1Body` at the chosen tuple; then the local application at `I = Ψ(E, m)` and
   `s = ‖∇h(I)‖/‖ω*‖` (`points`).
@@ -184,7 +184,7 @@ theorem apply_local (hd : HeadData B s₀ r₀ h B' η) (hne : B'.Nonempty)
     exact k11
 
 open ApplyAux in
-/-- `bpI:p3:apply` with `#constants` (audit F1): constants `C_i`, chosen per patch and ray before
+/-- `bpI:p3:apply` with `#constants`: constants `C_i`, chosen per patch and ray before
 `f, ε, E`, together with the FULL frozen I-G1 body at that tuple (`IG1Body`, the `GValid`
 precedent), then (O1)–(O6) for `K = K⁰(I)`, `I = Ψ(E, m)`, `s = |∇h(I)|/|ω*|`, `e = F₁ε`,
 `E₀ = E`. -/
