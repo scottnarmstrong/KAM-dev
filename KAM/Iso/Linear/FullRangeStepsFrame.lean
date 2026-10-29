@@ -1,0 +1,111 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Iso.Linear.FullRange
+public import KAM.Iso.Linear.Tools
+
+/-!
+# Part 1 step exports: reduced equation, geometry, perturbation (graph gap GAP-I1b)
+
+Literal exports of the proof-step nodes of `bpI:p1:reduced` (`rd-expand`, `rd-consequence`),
+`bpI:p1:geometry-noA5` (`geo-*`) and `bpI:p1:perturbation-noA5` (`pt-*`) under the source setting
+`SettingSrc` (`τ ≥ 0`), built from the landed `reduced_src`, `geometry_noA5_src`,
+`perturbation_noA5_src` and track K's helper lemmas. In the geometry and perturbation steps the
+`σ`'s are free reals: the constants depend on them only through `𝔪`, which is unchanged by
+replacing each `σ` by `max σ 1` (`mSize_max_one`).
+
+* `step_rd_expand`, `step_rd_consequence`;
+* `step_geo_de`, `step_geo_red`, `step_geo_red_domega`, `step_geo_red_ered`, `step_geo_sym`;
+* `step_pt_small`, `step_pt_domain`, `step_pt_frame`, `step_pt_torsion`.
+-/
+
+public section
+
+open scoped Matrix.Norms.Operator
+open Matrix
+
+namespace KAM.Iso.Linear
+
+open KAM KAM.Torus KAM.Apost
+
+variable {n : ℕ} {τ M γ : ℝ} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+  {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ}
+  {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {r : ℝ}
+
+/-- `bpI:p1:reduced`, step `rd-expand` (b): for `ξ` holomorphic on `T_{r'}`, `ξ^ω ∈ ℂ`,
+`ΔK = Pξ`, `Δω = -ω ξ^ω`, on `T_{r'}`:
+`Q(AΔK - ∂_ωΔK - DK Δω) + QE = (Λ + E_red) ξ - ∂_ω ξ + Ω₀ E_sym ∂_ω ξ + (ω; 0) ξ^ω
+  - (0; Ω_K ω) ξ^ω - η`. -/
+theorem step_rd_expand (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r)
+    (hK : DifferentiableOn ℂ K (complexStrip n r)) (hKD : ∀ θ ∈ complexStrip n r, K θ ∈ D)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det) {r' : ℝ} (hr' : 0 < r')
+    (hr'r : r' ≤ r) {ξ : (Fin n → ℂ) → Fin n ⊕ Fin n → ℂ}
+    (hξ : DifferentiableOn ℂ ξ (complexStrip n r')) (ξω : ℂ) :
+    ∀ θ ∈ complexStrip n r',
+      reducer K θ *ᵥ (linMat H K θ *ᵥ (frameMat K θ *ᵥ ξ θ) -
+          fderiv ℂ (fun y => frameMat K y *ᵥ ξ y) θ (fun l => (ω l : ℂ)) -
+          tangentMat K θ *ᵥ (-(ξω • fun l => (ω l : ℂ)))) +
+        reducer K θ *ᵥ sumVec n (invarianceError H K ω θ) =
+      (triangularMat (torsion H K ω θ) + redDefect H K ω θ) *ᵥ ξ θ -
+          fderiv ℂ ξ θ (fun l => (ω l : ℂ)) +
+        (omegaZeroMatrix n * symDefect K θ) *ᵥ fderiv ℂ ξ θ (fun l => (ω l : ℂ)) +
+        ξω • Sum.elim (fun l => (ω l : ℂ)) (0 : Fin n → ℂ) -
+        ξω • Sum.elim (0 : Fin n → ℂ) (lagrangeMat K θ *ᵥ fun l => (ω l : ℂ)) - eta H K ω θ := by
+  intro θ hθ
+  have h := (reduced_src hS hr hK hKD hG hr' hr'r hξ ξω).2.1 θ hθ
+  have e1 : linMat H K θ *ᵥ (frameMat K θ *ᵥ ξ θ) -
+      fderiv ℂ (fun y => frameMat K y *ᵥ ξ y) θ (fun l => (ω l : ℂ)) -
+      tangentMat K θ *ᵥ (-(ξω • fun l => (ω l : ℂ))) + sumVec n (invarianceError H K ω θ) =
+      isoResidual H K ω ξ ξω θ := by
+    simp only [isoResidual, Matrix.mulVec_neg, Matrix.mulVec_smul]
+    abel
+  rw [← Matrix.mulVec_add, e1, h, bordOp, isoLinError, triangularMat, Matrix.add_mulVec]
+  module
+
+/-- `bpI:p1:reduced`, step `rd-consequence`: (c) if the bordered system holds then
+`Q Res = E_lin`, with the bound on `E_lin`; (d) `|E_sym| < 1` gives `det P ≠ 0` (Neumann
+criterion of radius one, `Q` invertible too); if `det P ≠ 0` on `T_{r'}` then `Res = Q⁻¹ E_lin`
+and `Res = 0 ↔ Λξ - ∂_ωξ + (ω;0)ξ^ω = η - E_lin`. -/
+theorem step_rd_consequence (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r)
+    (hK : DifferentiableOn ℂ K (complexStrip n r)) (hKD : ∀ θ ∈ complexStrip n r, K θ ∈ D)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det) {r' : ℝ} (hr' : 0 < r')
+    (hr'r : r' ≤ r) {ξ : (Fin n → ℂ) → Fin n ⊕ Fin n → ℂ}
+    (hξ : DifferentiableOn ℂ ξ (complexStrip n r')) (ξω : ℂ) :
+    (∀ θ ∈ complexStrip n r', bordOp H K ω ξ ξω θ = eta H K ω θ →
+      reducer K θ *ᵥ isoResidual H K ω ξ ξω θ = isoLinError H K ω ξ ξω θ) ∧
+    (∀ θ ∈ complexStrip n r', ‖isoLinError H K ω ξ ξω θ‖ ≤ ‖redDefect H K ω θ‖ * ‖ξ θ‖ +
+      ‖symDefect K θ‖ * ‖fderiv ℂ ξ θ (fun l => (ω l : ℂ))‖ + ‖lagrangeMat K θ‖ * ‖ω‖ * ‖ξω‖) ∧
+    (∀ θ : Fin n → ℂ, ‖symDefect K θ‖ < 1 →
+      IsUnit (frameMat K θ).det ∧ IsUnit (reducer K θ).det) ∧
+    ((∀ θ ∈ complexStrip n r', IsUnit (frameMat K θ).det) → ∀ θ ∈ complexStrip n r',
+      (bordOp H K ω ξ ξω θ = eta H K ω θ →
+        isoResidual H K ω ξ ξω θ = (reducer K θ)⁻¹ *ᵥ isoLinError H K ω ξ ξω θ) ∧
+      (isoResidual H K ω ξ ξω θ = 0 ↔
+        bordOp H K ω ξ ξω θ = eta H K ω θ - isoLinError H K ω ξ ξω θ)) := by
+  obtain ⟨-, -, hc, hbd, hd⟩ := reduced_src hS hr hK hKD hG hr' hr'r hξ ξω
+  refine ⟨hc, hbd, fun θ hθ => ?_, hd⟩
+  have hΩ : IsUnit (omegaZeroMatrix n) :=
+    IsUnit.of_mul_eq_one (-omegaZeroMatrix n) (by
+      rw [Matrix.mul_neg, omegaZeroMatrix_mul_self, neg_neg])
+  have hX : ‖omegaZeroMatrix n * symDefect K θ‖ < 1 := by
+    rw [norm_omegaZeroMatrix_mul]
+    exact hθ
+  have hPOP : (frameMat K θ)ᵀ * omegaZeroMatrix n * frameMat K θ =
+      omegaZeroMatrix n * (1 - omegaZeroMatrix n * symDefect K θ) := by
+    have h : (frameMat K θ)ᵀ * omegaZeroMatrix n * frameMat K θ =
+        symDefect K θ + omegaZeroMatrix n := by
+      simp [symDefect]
+    rw [h, Matrix.mul_sub, ← Matrix.mul_assoc, omegaZeroMatrix_mul_self]
+    simp [add_comm]
+  have hu : IsUnit ((frameMat K θ)ᵀ * omegaZeroMatrix n * frameMat K θ).det := by
+    rw [hPOP, Matrix.det_mul]
+    exact ((Matrix.isUnit_iff_isUnit_det _).1 hΩ).mul (isUnit_det_one_sub hX)
+  rw [Matrix.det_mul, Matrix.det_mul] at hu
+  have hP : IsUnit (frameMat K θ).det := (IsUnit.mul_iff.1 hu).2
+  exact ⟨hP, isUnit_det_reducer K hP⟩
+
+end KAM.Iso.Linear
