@@ -65,3 +65,21 @@ AUDIT FOCUS (refute-first; write docs/tracks/SO/audits/SO-DESIGN-design-audit-1.
 5. Feasibility: are the package line estimates and the wave/dependency structure credible? Which packages can start before the replay gate (SO-REPLAY)?
 6. Signatures: do they elaborate (re-run the check command the handoff names), follow AGENTS.md (modules, no EuclideanSpace, names not clashing with KAM), and match the design text?
 Give a verdict PASS / PASS WITH NOTES / FAIL with numbered findings (severity, location, required change). Do not edit any file other than your report.
+
+## Round 2 (design Revision 2, commit d2352a2d)
+
+The designer's Revision 2 (section '## Revision 2' of docs/tracks/SO/design/SO-LEAN-DESIGN.md; mapping table in
+.drafts/handoff-SO-DESIGN.md, Revision 2 section) answers audit 1's F1-F6 and the owner's rulings O1-O4 from
+/root/code/KAM/docs/campaign/design/SPIN-ORBIT-PLAN.md (O2: division in the expression language now; O3: the
+high-precision pi package now, landed as KAM/Certificate/Arith/PiHigh.lean). The draft signatures are
+/root/code/KAM-inp/.drafts/design/SOSignatures.lean (1337 lines). Landed track SO modules the design now imports:
+KAM/SpinOrbit/{Model,PeriodOne,Hamiltonian,ScalarEmbedding}, KAM/Certificate/{QuadraticDiophantine,PhaseBasis,
+Clock}, KAM/Certificate/Arith/PiHigh.
+
+ROUND 2 FOCUS: (1) is each of F1-F6 actually closed (F1 especially: does the exact-real frequency with a proved
+rational enclosure and IsDiophantine as the external input make n >= 3 certificates non-vacuous, and does the
+soundness theorem still discharge every IG1Body binder)? (2) is the division extension sound: the denotation of
+HamExpr.div, the NonvanishingOn certification by ball arithmetic on the whole domain D, holomorphy/periodicity/
+reality and the jets being conditional on nonvanishing? (3) is the pi interface consistent with the landed
+PiHigh module? (4) any NEW blocking issue introduced by the revision; (5) re-run the signature check. Verdict and
+numbered findings as in round 1.
