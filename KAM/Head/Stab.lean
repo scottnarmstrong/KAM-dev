@@ -14,8 +14,7 @@ import KAM.Apost.PerturbationTorsion
 /-!
 # STAB: stability of the frame, the torsion and the twist under a small displacement
 
-Blueprint Part 4, `bp:p4:stab` (package P4-4; signature copied verbatim from Appendix A, section 9,
-of `docs/campaign/design/PART4-LEAN-DESIGN.md`). Let `K` be holomorphic on `T_ρ` with
+Blueprint Part 4, `bp:p4:stab`. Let `K` be holomorphic on `T_ρ` with
 `|K - K⁰_{I_*}| ≤ η ≤ η_*(δ)`. The frame side (steps `step:p4:stab-small`, `-cauchy`, `-gram` and
 `-frame`: the tangent frame, the Gram matrix, the normal frame and the bounds on `∂_ω L`,
 `∂_ω N`) is in `KAM/Head/StabFrame.lean`. This file proves the remaining steps and assembles the

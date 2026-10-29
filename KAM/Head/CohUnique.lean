@@ -12,11 +12,11 @@ public import KAM.Diophantine.Frozen
 /-!
 # Homogeneous uniqueness for the cohomological equation
 
-The adapter `KAM.Head.coh_unique_zero` of the Part 4 design (Appendix A section 0, package P4-0;
-used by `bp:p4:lagrangian`): a holomorphic, `1`-periodic function `w` on `T_r` with zero average
+The adapter `KAM.Head.coh_unique_zero` (used by `bp:p4:lagrangian`): a
+holomorphic, `1`-periodic function `w` on `T_r` with zero average
 and `∂_ω w = 0` on `T_r` is identically zero, for `ω` that is `(γ, τ)`-Diophantine with `γ > 0`.
 
-The statement holds for every real `τ`, with no bound on `w` and no strip loss. The landed
+The statement holds for every real `τ`, with no bound on `w` and no strip loss. The lemma
 `KAM.eq_cohSolution` (`KAM/Strip/Cohomological.lean`) carries the premises `0 ≤ τ`, a bound on the
 forcing and a strip loss of its section, so it is not applied. Instead the proof follows its
 coefficient step: `ŵ_k` satisfies `2πi (k · ω) ŵ_k = 0` (`KAM.torusCoeff_fderiv`), the nonresonance

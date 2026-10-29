@@ -15,8 +15,7 @@ public import KAM.Matrix.Norms
 /-!
 # APPLY: a torus for every Diophantine frequency
 
-Blueprint Part 4, `bp:p4:apply` (package P4-5; signature copied verbatim from Appendix A,
-section 8, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). Under the standing assumption
+Blueprint Part 4, `bp:p4:apply`. Under the standing assumption
 `(SA)` and for `ω ∈ Ω_γ = ∇h(B) ∩ Dio_{γ,τ}`, the frozen G1 is applied at the first tuple of
 Definition `bp:p4:parameters`, `(ρ, ρ_∞) = (s/4, s/8)`, at the unperturbed torus `K⁰_{I_ω}`.
 G1 enters only through the premise `GValid.g1a`. The conclusion clauses are the predicate

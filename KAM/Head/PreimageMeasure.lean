@@ -11,12 +11,11 @@ import KAM.Measure.Lipschitz
 /-!
 # Actions with non-Diophantine frequency
 
-Blueprint Part 4, `bp:p4:preimage-measure` (package P4-6; signature copied verbatim from
-Appendix A, section 15, of `docs/campaign/design/PART4-LEAN-DESIGN.md`).
+Blueprint Part 4, `bp:p4:preimage-measure`.
 
 * `KAM.Head.preimage_measure`: if `C₃` is a constant of Theorem G3 for the bounded set
-  `Ω = ∇h(B)` (the premise `hC3`, which is the conclusion of G3 at the constant `C₃`; the design
-  records this as departure P16), then for every `α > 0` the set of actions `I ∈ B` whose frequency
+  `Ω = ∇h(B)` (the premise `hC3`, which is the conclusion of G3 at the constant `C₃`),
+  then for every `α > 0` the set of actions `I ∈ B` whose frequency
   `∇h(I)` is not `(α, τ)`-Diophantine has measure at most `L₊ⁿ C₃⁺ α`, where `C₃⁺ = max (C₃, 0)`.
 
 The proof is step `step:p4:pm-proof`: the set is contained in the image of

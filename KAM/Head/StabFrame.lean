@@ -14,7 +14,7 @@ import KAM.Strip.HigherCauchy
 /-!
 # STAB, the frame side: the tangent frame, the Gram matrix and the normal frame of a nearby torus
 
-Blueprint Part 4, `bp:p4:stab` (package P4-4; internal module of `KAM/Head/Stab.lean`), steps
+Blueprint Part 4, `bp:p4:stab` (internal module of `KAM/Head/Stab.lean`), steps
 `step:p4:stab-small`, `step:p4:stab-cauchy`, `step:p4:stab-gram` and `step:p4:stab-frame`.
 Let `K` be holomorphic on `T_ρ` with `|K - K⁰_{I_*}| ≤ η` there, `0 < δ`, and put `L = DK`,
 `G = LᵀL`, `B = G⁻¹`, `N = Ω₀ L B`, `a = n η / δ`. All matrices carry the row-sum operator norm.

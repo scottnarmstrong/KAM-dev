@@ -19,18 +19,16 @@ public import KAM.Frozen.Defs.TorsionAverage
 /-!
 # The definitions of Part 4
 
-Definitions only (design `docs/campaign/design/PART4-LEAN-DESIGN.md`, section 1.2 and Appendix A
-sections 0 and 2; package P4-0b). The definitions are copied verbatim from Appendix A. Theorems
-about them live in the later `KAM/Head/*` modules; the adapters to the landed
+Definitions only. Theorems about them live in the later `KAM/Head/*` modules; the adapters to
 `KAM.Head.derivative_bounds` and its companions are in `KAM/Head/Adapters.lean`.
 
 * `Hconst`, `Fconst`, `Mconst` are the constants `H_j`, `F_j`, `M` of `bp:p4:derivative-bounds`, in
-  the division-by-power form of the design. They equal the landed `derivConstH`, `derivConstF` and
+  the division-by-power form. They equal `derivConstH`, `derivConstF` and
   `derivConstM` (`KAM.Head.Hconst_eq_derivConstH`, ...).
 * `realDomain`, `gradC`, `hessian`, `actionHessian`, `LambdaG`, `Winf` and `invFreq` are the objects
   of `bp:p4:freq-map`, `bp:p4:inverse-freq` and `bp:p4:unperturbed`.
 * `GConsts`, `GConsts.Pos`, `G1Body`, `G2Body` and `GValid` carry the constants of the frozen G1,
-  G2 and G3 as plain data plus their defining property (design section 2.2). `G1Body` and
+  G2 and G3 as plain data plus their defining property. `G1Body` and
   `G2Body` are the bodies of the frozen `KAM.aposteriori_kam` and `KAM.local_uniqueness_flow` after
   their leading `∃` over the constants.
 * `sigmaK`, `sigmaB`, `sigmaT`, `A0`-`A4`, `lamStar`, `cT`, `etaStar`, `cStar`, `SA`, `eta0` and
@@ -49,14 +47,14 @@ namespace KAM.Head
 
 /-! ### The constants of `bp:p4:derivative-bounds` -/
 
-/-- `H_j = c̄ M_h δ_*^{-j}` of `bp:p4:derivative-bounds` (owner I-P4B). -/
+/-- `H_j = c̄ M_h δ_*^{-j}` of `bp:p4:derivative-bounds`. -/
 def Hconst {n : ℕ} (s₀ r₀ : ℝ) (B : Set (Fin n → ℝ)) (h : (Fin n → ℂ) → ℂ) (j : ℕ) : ℝ :=
   cbar n * hBound h B r₀ / deltaStar s₀ r₀ ^ j
 
-/-- `F_j = c̄ δ_*^{-j}` of `bp:p4:derivative-bounds` (owner I-P4B). -/
+/-- `F_j = c̄ δ_*^{-j}` of `bp:p4:derivative-bounds`. -/
 def Fconst (n : ℕ) (s₀ r₀ : ℝ) (j : ℕ) : ℝ := cbar n / deltaStar s₀ r₀ ^ j
 
-/-- `M = c̄ (M_h + 1) δ_*^{-3}` of `bp:p4:derivative-bounds` (owner I-P4B). -/
+/-- `M = c̄ (M_h + 1) δ_*^{-3}` of `bp:p4:derivative-bounds`. -/
 def Mconst {n : ℕ} (s₀ r₀ : ℝ) (B : Set (Fin n → ℝ)) (h : (Fin n → ℂ) → ℂ) : ℝ :=
   cbar n * (hBound h B r₀ + 1) / deltaStar s₀ r₀ ^ 3
 
@@ -126,7 +124,7 @@ def sigmaB (s₀ r₀ : ℝ) : ℝ := 2 + muParam s₀ r₀
 def sigmaT (Lh s₀ r₀ : ℝ) : ℝ := 4 * Lplus Lh + muParam s₀ r₀
 
 /-- The body of the frozen G1 (`KAM.aposteriori_kam`) after `∃ C₁ C₂, 0 < C₁ ∧ 0 < C₂ ∧`,
-verbatim (checked by `exact` in §P). -/
+verbatim (checked by `exact` against the frozen statement). -/
 def G1Body (n : ℕ) (τ ρ ρinf M σK σB σT μ γbar C₁ C₂ : ℝ) : Prop :=
   ∀ (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))) (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
     (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (γ e : ℝ),
@@ -164,7 +162,7 @@ def G1Body (n : ℕ) (τ ρ ρinf M σK σB σT μ γbar C₁ C₂ : ℝ) : Prop
       ∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K θ‖ ≤ C₂ * e / (γ ^ 2 * ρ ^ (2 * τ))
 
 /-- The body of the frozen G2 (`KAM.local_uniqueness_flow`) after `∃ c, 0 < c ∧`, verbatim
-(checked by `exact` in §P). -/
+(checked by `exact` against the frozen statement). -/
 def G2Body (n : ℕ) (τ ρ M σK σB σT μ c : ℝ) : Prop :=
   ∀ (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))) (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
     (K₁ K₂ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (γ : ℝ),

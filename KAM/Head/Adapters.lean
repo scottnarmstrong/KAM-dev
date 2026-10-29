@@ -13,15 +13,14 @@ public import KAM.Head.MixedDifference
 public import KAM.Torus.FrozenAgreement
 
 /-!
-# Adapters from the landed I-P4B lemmas to the forms of the Part 4 design
+# Adapters from the Part 4 support lemmas to the forms the Part 4 proofs consume
 
-The design (`docs/campaign/design/PART4-LEAN-DESIGN.md`, Appendix A section 0) consumes the four
-lemmas of package I-P4B in a form that differs from the landed one (audit
-`docs/campaign/audits/DESIGN-P4-audit-1.md`, finding 1). The landed names stay untouched; the
-design's forms are proved here under the new names `*_design`, from the landed lemmas. Later
-packages call the adapters, and write the design's name in their own statements only through them.
+The Part 4 proofs consume four support lemmas in a form that differs from the one in which they
+are proved. The original names stay untouched; the consumed forms are proved here under the new
+names `*_design`, from the original lemmas. Later modules call the adapters, and use the consumed
+names in their own statements only through them.
 
-| Design (Appendix A section 0) | Landed lemma | Adapter |
+| Consumed form | Original lemma | Adapter |
 |---|---|---|
 | `derivative_bounds` | `KAM.Head.derivative_bounds` | `KAM.Head.derivative_bounds_design` |
 | `torsion_regular` | `KAM.Head.torsion_regular` | `KAM.Head.torsion_regular_design` |
@@ -33,14 +32,14 @@ packages call the adapters, and write the design's name in their own statements 
 
 What differs, adapter by adapter:
 
-* `derivative_bounds_design`: the landed statement has six conjunction blocks (the vector-field
+* `derivative_bounds_design`: the original statement has six conjunction blocks (the vector-field
   bounds of (c) are a separate block, and the order of `j` and the point is swapped in (b), (c));
   the constants are `derivConst*`. The adapter regroups the blocks and rewrites the constants.
-* `torsion_regular_design`: the landed hypothesis is `det G_K ≠ 0`, here `IsUnit (det G_K)`. The
-  landed column identity (b) is for the direction `ω`; the design's is for every direction `v`
-  (the underlying `KAM.Torus.sumVec_fderiv_normalFrame` is for every direction). The landed (c)
-  has two extra items (the formula for `X_N` and `⟨T⟩ = avg T`, both dropped), and the landed (d)
-  uses `IsZPeriodicOn` and also lists `fderiv K`; the design's uses `IsPeriodicOn`
+* `torsion_regular_design`: the original hypothesis is `det G_K ≠ 0`, here `IsUnit (det G_K)`. The
+  original column identity (b) is for the direction `ω`; the consumed one is for every direction `v`
+  (the underlying `KAM.Torus.sumVec_fderiv_normalFrame` is for every direction). The original (c)
+  has two extra items (the formula for `X_N` and `⟨T⟩ = avg T`, both dropped), and the original (d)
+  uses `IsZPeriodicOn` and also lists `fderiv K`; the consumed uses `IsPeriodicOn`
   (`IsZPeriodicOn.isPeriodicOn`).
 * `shift_design`: the Hamiltonian of clause (b) is universally quantified inside the clause, and
   clause (d) lists `IsNormalized (phaseShift K (-phaseAverage K))` instead of the iff.
@@ -56,18 +55,18 @@ namespace KAM.Head
 
 /-! ### The constants -/
 
-/-- `H_j` of the design is the landed `derivConstH` at `M_h = hBound h B r₀`. -/
+/-- `H_j` of the consumed form is the original `derivConstH` at `M_h = hBound h B r₀`. -/
 theorem Hconst_eq_derivConstH {n : ℕ} (s₀ r₀ : ℝ) (B : Set (Fin n → ℝ))
     (h : (Fin n → ℂ) → ℂ) (j : ℕ) :
     Hconst s₀ r₀ B h j = derivConstH n s₀ r₀ (hBound h B r₀) j := by
   simp only [Hconst, derivConstH, div_eq_mul_inv, inv_pow]
 
-/-- `F_j` of the design is the landed `derivConstF`. -/
+/-- `F_j` of the consumed form is the original `derivConstF`. -/
 theorem Fconst_eq_derivConstF (n : ℕ) (s₀ r₀ : ℝ) (j : ℕ) :
     Fconst n s₀ r₀ j = derivConstF n s₀ r₀ j := by
   simp only [Fconst, derivConstF, div_eq_mul_inv, inv_pow]
 
-/-- `M` of the design is the landed `derivConstM` at `M_h = hBound h B r₀`. -/
+/-- `M` of the consumed form is the original `derivConstM` at `M_h = hBound h B r₀`. -/
 theorem Mconst_eq_derivConstM {n : ℕ} (s₀ r₀ : ℝ) (B : Set (Fin n → ℝ))
     (h : (Fin n → ℂ) → ℂ) :
     Mconst s₀ r₀ B h = derivConstM n s₀ r₀ (hBound h B r₀) := by
@@ -75,7 +74,7 @@ theorem Mconst_eq_derivConstM {n : ℕ} (s₀ r₀ : ℝ) (B : Set (Fin n → �
 
 /-! ### The adapters -/
 
-/-- Blueprint `bp:p4:derivative-bounds` in the form the design consumes (adapter of
+/-- Blueprint `bp:p4:derivative-bounds` in the form the Part 4 proofs consume (adapter of
 `KAM.Head.derivative_bounds`). -/
 theorem derivative_bounds_design {n : ℕ} {s₀ r₀ : ℝ} (hs₀ : 0 < s₀) (hr₀ : 0 < r₀)
     {B : Set (Fin n → ℝ)} (hB : Bornology.IsBounded B) {h : (Fin n → ℂ) → ℂ}
@@ -114,7 +113,7 @@ theorem derivative_bounds_design {n : ℕ} {s₀ r₀ : ℝ} (hs₀ : 0 < s₀) 
   · simp only [Mconst_eq_derivConstM]
     exact e hε z hz
 
-/-- Blueprint `bp:p4:torsion-regular` in the form the design consumes (adapter of
+/-- Blueprint `bp:p4:torsion-regular` in the form the Part 4 proofs consume (adapter of
 `KAM.Head.torsion_regular`). `K(T_ρ) ⊆ 𝔇`, `det G_K` a
 unit on `T_ρ`; frames in the Part 2 carrier (`KAM.Torus`). -/
 theorem torsion_regular_design {n : ℕ} {s₀ r₀ : ℝ} (hs₀ : 0 < s₀) (hr₀ : 0 < r₀)
@@ -160,7 +159,7 @@ theorem torsion_regular_design {n : ℕ} {s₀ r₀ : ℝ} (hs₀ : 0 < s₀) (h
     exact ⟨p1.isPeriodicOn, p2.isPeriodicOn, p4.isPeriodicOn, p5.isPeriodicOn, p6.isPeriodicOn,
       p7.isPeriodicOn⟩
 
-/-- Blueprint `bp:p4:shift` in the form the design consumes (adapter of
+/-- Blueprint `bp:p4:shift` in the form the Part 4 proofs consume (adapter of
 `KAM.Head.phase_shift`). -/
 theorem shift_design {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hK : DifferentiableOn ℂ K (complexStrip n ρ)) (hKp : IsPrimaryOnStrip K ρ)
@@ -197,7 +196,7 @@ theorem shift_design {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) {K : (Fin n → ℂ) �
   exact ⟨ha, fun φ => (phase_shift hρ hK hKp hKr a ω φ).2.1, hc,
     ⟨hd.1, (hd.2.1 (-phaseAverage K)).2 rfl, hd.2.2⟩, he⟩
 
-/-- Blueprint `bp:p4:mixed-difference` in the form the design consumes (adapter of
+/-- Blueprint `bp:p4:mixed-difference` in the form the Part 4 proofs consume (adapter of
 `KAM.Head.mixed_difference`). -/
 theorem mixed_difference_design {n : ℕ} {U : Set (Fin n → ℂ)} (hU : IsOpen U)
     {F : (Fin n → ℂ) → Fin n → ℂ} (hF : DifferentiableOn ℂ F U) {a v w : Fin n → ℂ}
