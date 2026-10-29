@@ -16,7 +16,7 @@ public import KAM.Frozen.Planetary.Defs.PhysicalAMD
 public import KAM.Frozen.Planetary.Defs.TotalMomentum
 
 /-!
-# Elementary Kepler elements and the eccentricity bound (P14, package A1)
+# Elementary Kepler elements and the eccentricity bound
 
 Blueprint P, Part 14 (`bpP:p14:elements`, `bpP:p14:ecc-bound`).  For one planet with positive
 mass, positive radius, negative Kepler energy and positive angular momentum, `elements` exports

@@ -22,7 +22,7 @@ public import KAM.ODE.Uniqueness
 public import KAM.ODE.Lipschitz
 
 /-!
-# AMD confinement (P14, package A6)
+# AMD confinement
 
 Blueprint P, Part 14 (`bpP:p14:amd`).  Under the stopped action bound, the maximal solution of
 the moving-frame system through an inner datum stays in the collar region on `[-T, T]`
