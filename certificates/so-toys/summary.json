@@ -18,12 +18,12 @@
   }
  },
  "T2d": {
-  "bytes": 230787,
+  "bytes": 230790,
   "log10_err": -192.0,
   "log10_threshold": -188.78500263855048,
   "passes": true,
   "ratio_C1": 0.0006095406004849275,
-  "sha256": "ab4815d0f79001ae3f61cea7d90e86da2870984a46c35a7a645629e9e45ec9bb",
+  "sha256": "7ede5e03ad02d015de8780d46baa2dfa70d1045ffa9b6008a4434d5c257f0e9e",
   "subchecks": {
    "checkEmbedding": true,
    "checkEnergy": true,

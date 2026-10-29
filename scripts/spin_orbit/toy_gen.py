@@ -236,7 +236,8 @@ def recip_witness(K_, P, aconst=3):
     return sorted(t for t in terms if t[1][0] != 0)     # ascending keys of length n (Lean merges need it)
 
 
-def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), cut_low=None, aconst=3):
+def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), cut_low=None, aconst=3,
+            cut_full=None):
     lo, hi = root_encl(5, 2, digits)
     box = alg_box(NU_COEFFS, lo, hi)
     nu_t = 2 * box[0][0]
@@ -247,9 +248,10 @@ def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), 
     Q = recip_witness(Kq, Pq, aconst)
     wit = dict(expWit=[], invWit=[Q], charWit=[((0, 0), ([((0, 0), (F(1), F(0)))], s_pin, N_pin))])
     c = base_cert("T2d", 2, jets, rho, rhoH, [nu_t, -nu_t ** 2 / 2], [rr, rr], box, [nu_t, -nu_t ** 2 / 2], p,
-                  cfg(SAFE_CUTOFF), cfg(cut_low if cut_low is not None else SAFE_CUTOFF), wit=wit)
-    # SO-PYALIGN: Lean composes the WHOLE jet program (d2, d3 slots too), whose products reach |k|₁ > 2K + 2;
-    # the full stage must not truncate, so it gets the literal SAFE_CUTOFF like the other toys
+                  cfg(cut_full if cut_full is not None else SAFE_CUTOFF),
+                  cfg(cut_low if cut_low is not None else SAFE_CUTOFF), wit=wit)
+    # SO-TOYFIX2: the full stage truncates at `cut_full` (>= K): the truncated tails go to the radius
+    # (weighted size ~ (r w)^|k| below err), instead of carrying products up to |k|₁ = 4K + 4
     c["root"] = dict(m=2, d=5, lo=lo, hi=hi, coeffs=NU_COEFFS)
     c["recip"] = dict(K=Kq, P=Pq, a=aconst)
     return finish_params(c, err if err is not None else 4 * box[0][1], GAMMA2)
@@ -390,8 +392,8 @@ def products_of(c):
 def emit(c, outdir, extra=None):
     ok, rep = run_checks(c)
     prods = products_of(c)
-    for name, v in prods.items():                                 # only T2d's cfgLow truncates, by design
-        assert v["truncates"] == (c["toy"] == "T2d" and name == "cfgLow"), (c["toy"], name, v["maxProductK"])
+    for name, v in prods.items():                                 # only T2d truncates (both stages), by design
+        assert v["truncates"] == (c["toy"] == "T2d"), (c["toy"], name, v["maxProductK"])
     summ = summarize(c, ok, rep)
     cj = cert_json(c)
     doc = dict(certificate=cj, verification=dict(summ, products={k: dict(v, largest=[[list(t[0]), t[1], t[2], t[3], t[4]]
@@ -415,7 +417,8 @@ def pow10_floor(q):
     return F(1, 10 ** k)
 
 
-def t2d_plan(jets, rhoH=F(1, 100), mu=F(1, 1000), rr=F(3, 2000), rhoinf_frac=F(1, 10), cut_low=30):
+def t2d_plan(jets, rhoH=F(1, 100), mu=F(1, 1000), rr=F(3, 2000), rhoinf_frac=F(1, 10), cut_low=30,
+             cut_full=270):
     """parameters of T2d: err = 10^-k <= MARGIN * threshold; digits and (K, P) sized against err."""
     c = toy_T2d(jets, 10, rhoH, mu, rr, 4, 60, rhoinf_frac=rhoinf_frac)
     thr = threshold(c)
@@ -425,7 +428,8 @@ def t2d_plan(jets, rhoH=F(1, 100), mu=F(1, 1000), rr=F(3, 2000), rhoinf_frac=F(1
     digits = math.ceil(-lg(err)) + 2                               # 4 r0 = 10^-digits/3118 <= err/100
     Kq = math.ceil((-lg(err) + 5) / (-math.log10(r * w)))           # tail <= err * 1e-5
     Pq = math.ceil((-lg(err) + 5 + math.log10(2 * Kq + 1) + Kq * math.log10(w)) / math.log10(2))
-    return dict(rhoH=rhoH, mu=mu, rr=rr, rhoinf_frac=rhoinf_frac, cut_low=cut_low, err=err, digits=digits, K=Kq,
+    return dict(rhoH=rhoH, mu=mu, rr=rr, rhoinf_frac=rhoinf_frac, cut_low=cut_low, cut_full=cut_full,
+                err=err, digits=digits, K=Kq,
                 P=Pq, threshold=thr)
 
 
@@ -449,7 +453,8 @@ def build(name, jets):
     if name == "T2d":
         pl = t2d_plan(jets)
         c = toy_T2d(jets, pl["digits"], pl["rhoH"], pl["mu"], pl["rr"], pl["K"], pl["P"], err=pl["err"],
-                    rhoinf_frac=pl["rhoinf_frac"], cut_low=pl["cut_low"])
+                    rhoinf_frac=pl["rhoinf_frac"], cut_low=pl["cut_low"],
+                    cut_full=pl["cut_full"])
         c["_plan"] = pl
         return c
     raise ValueError(name)

@@ -19,12 +19,14 @@ public import KAM.Certificate.QuadraticDiophantine
   `J + (p²/2)·((3 + cos 2πq)/(3 + cos 2πq))`: it exercises `div`, the ball pass and a reciprocal
   witness (`531` terms), a character witness and a nonempty advice book (`34` keys per stage, the
   `[0, slot]` keys and `[2, 0]`; no `[5, a, l]` key: `freqModel` is constant, so the invariance
-  products take the scalar route). `cfgFull.cutoff = 10^6` (no truncation of the full stage).
+  products take the scalar route). `cfgFull.cutoff = 270` (SO-TOYFIX2: the truncated tails go to
+  the radius; the invariance bound stays `≈ 10^{-196.4}` against `err = 10^{-192}`).
 
 `toyCert2_passes` is `decide +kernel` on the whole checker. For T2d only the light sub-checks
-are proved: its composition (products up to `531 × 1591` terms, `|k|₁ ≤ 1064`) costs the kernel
-`12` GB in `checkEnergy` and more than `6` GB in `checkTorsion` and `18` GB in `checkInvariance`
-(handoff SO-TEST-A: a design signal). The frequency box encloses
+are proved: its exact-ℚ composition (a `531`-term witness with `2^{-683}` coefficients, forced by
+`err = 10^{-192}`) exceeds a `6` GB kernel cap in `checkEnergy`, `checkInvariance` and
+`checkTorsion` even at `cfgFull.cutoff = 270` (handoffs SO-TEST-A, SO-TOYFIX2: a design signal).
+The frequency box encloses
 `(ν₋/2, 1/2)` by a root enclosure of `√5` and `checkAlgBox` (both `decide +kernel`), and
 `toyCert2_torus` applies `checkTorusCertificate_sound` with `lunarNuMinus_half_isDiophantine`.
 -/

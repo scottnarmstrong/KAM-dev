@@ -1079,14 +1079,14 @@ def toyT2dTorsInv : List (List (CC ℚ)) :=
   828606860556905456887031070939684222209662493740472893388), 0⟩], [⟨0, 0⟩, ⟨1, 0⟩, ⟨0, 0⟩]]
 
 def toyT2dCfgFull : ModelConfig ℚ :=
-  ⟨1000000, 24, 8, fun _ _ => none, [([2, 0], .direct), ([0, 80], .direct), ([0, 81], .direct),
-  ([0, 82], .direct), ([0, 83], .direct), ([0, 86], .direct), ([0, 87], .direct), ([0, 90],
-  .direct), ([0, 94], .direct), ([0, 95], .direct), ([0, 96], .direct), ([0, 99], .direct), ([0,
-  100], .direct), ([0, 102], .direct), ([0, 104], .direct), ([0, 107], .direct), ([0, 112],
-  .direct), ([0, 113], .direct), ([0, 114], .direct), ([0, 115], .direct), ([0, 116], .direct),
-  ([0, 117], .direct), ([0, 119], .direct), ([0, 120], .direct), ([0, 122], .direct), ([0, 123],
-  .direct), ([0, 126], .direct), ([0, 127], .direct), ([0, 129], .direct), ([0, 130], .direct),
-  ([0, 133], .direct), ([0, 134], .direct), ([0, 136], .direct), ([0, 137], .direct)]⟩
+  ⟨270, 24, 8, fun _ _ => none, [([2, 0], .direct), ([0, 80], .direct), ([0, 81], .direct), ([0,
+  82], .direct), ([0, 83], .direct), ([0, 86], .direct), ([0, 87], .direct), ([0, 90], .direct),
+  ([0, 94], .direct), ([0, 95], .direct), ([0, 96], .direct), ([0, 99], .direct), ([0, 100],
+  .direct), ([0, 102], .direct), ([0, 104], .direct), ([0, 107], .direct), ([0, 112], .direct),
+  ([0, 113], .direct), ([0, 114], .direct), ([0, 115], .direct), ([0, 116], .direct), ([0, 117],
+  .direct), ([0, 119], .direct), ([0, 120], .direct), ([0, 122], .direct), ([0, 123], .direct),
+  ([0, 126], .direct), ([0, 127], .direct), ([0, 129], .direct), ([0, 130], .direct), ([0, 133],
+  .direct), ([0, 134], .direct), ([0, 136], .direct), ([0, 137], .direct)]⟩
 
 def toyT2dCfgLow : ModelConfig ℚ :=
   ⟨30, 24, 8, fun _ _ => none, [([2, 0], .direct), ([0, 80], .direct), ([0, 81], .direct), ([0,
