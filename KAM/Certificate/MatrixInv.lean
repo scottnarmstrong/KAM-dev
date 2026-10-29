@@ -27,7 +27,7 @@ open scoped Matrix.Norms.Operator
 /-- Exact shape of a list matrix: `k` rows, each of length `k` (audit 2 F7). With
 `ModelMatrix.Encloses n (torsionIdx n)` and `k = n + 1`, the checked list matrix is then the
 whole denoted bordered matrix, not a larger matrix containing it as a leading block. -/
-def ModelMatrix.HasShape {β : Type} (k : ℕ) (M : List (List β)) : Prop :=
+@[expose] def ModelMatrix.HasShape {β : Type} (k : ℕ) (M : List (List β)) : Prop :=
   M.length = k ∧ ∀ r ∈ M, r.length = k
 
 /-- Pointwise approximate-inverse certificate: `‖I - B A‖ ≤ δ < 1` gives `A` invertible and
