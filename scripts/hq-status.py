@@ -344,15 +344,20 @@ def worktree_branches():
 
 
 def unlanded_lines():
-    """Lean lines added on the agents' branches (every branch checked out in a worktree) and not yet on main.
-    Stacked branches share files, so each file counts once, with its largest addition."""
-    per = {}
+    """Lean lines added by the agents' unlanded commits (every branch checked out in a worktree).
+    Each non-merge commit not reachable from main counts once, so stacked branches are not double counted.
+    2026-10-29: the former `git diff main...b` used one of several merge bases of long-lived branches and
+    counted already-landed files as unlanded (8,080 shown for about 2,300 real lines)."""
+    commits = set()
     for b in worktree_branches():
-        for l in git('diff', '--numstat', f'main...{b}', '--', '*.lean').splitlines():
+        commits.update(git('rev-list', '--no-merges', f'main..{b}').split())
+    added = 0
+    for c in commits:
+        for l in git('show', '--numstat', '--format=', c, '--', '*.lean').splitlines():
             a, _, path = l.split('\t', 2)
             if a.isdigit() and path != 'KAM.lean':
-                per[path] = max(per.get(path, 0), int(a))
-    return sum(per.values())
+                added += int(a)
+    return added
 
 
 def size_estimate(rows):
