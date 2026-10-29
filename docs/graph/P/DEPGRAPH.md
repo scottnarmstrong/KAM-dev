@@ -17212,9 +17212,9 @@ EDGE: bpP:p0:birkhoff#HasSecularBirkhoffForm | blueprint-P/parts/p9-secular-spec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p9_dict, p9_dict_planar (KAM/Planetary/SecularSpectrum/DictNodes.lean)
+LEAN_NOTE: audit GAP-P9dict PASS WITH NOTES (Omega_j = 2 sigma_j, all negative; n = 1 clause)
 NOTE: kept as claim: Part 10 L192 cites it for the dictionary Omega_j=2 sigma_j; if the P-p10 extractor finds no consumer, exclude it. Edge to bpP:p8:factor-half deleted (provenance/erratum remark)
 
 NODE: bpP:p9:good
