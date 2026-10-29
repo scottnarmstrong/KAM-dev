@@ -170,6 +170,34 @@ theorem geometry (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
   exact ⟨fun i => hd.trans_le (hr1 i).1,
     fun i j hij => hd.trans_le (hpair i j hij)⟩
 
+/-- `bpP:p14:geometry` and `stepP:p14:geo-b`: the literal radial inequalities
+`a_i (1 - e_i) ≤ |q_i| ≤ a_i (1 + e_i)` and the box bounds `d ≤ |q_i| ≤ R`, together with the
+conclusion of `geometry`. -/
+theorem geometry_radial (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
+    (hz : z ∈ amdOuter B) :
+    (∀ i, keplerAxis B.mass z i * (1 - planeLength (keplerEccVector B.mass z i)) ≤
+        planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤
+        keplerAxis B.mass z i * (1 + planeLength (keplerEccVector B.mass z i)) ∧
+      B.distance ≤ planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤ B.radius) ∧
+    ((∀ i, (B.lower i / B.mass i)^2 < keplerAxis B.mass z i ∧
+      keplerAxis B.mass z i < (B.upper i / B.mass i)^2 ∧
+      planeLength (bodyVector z.2 i) < B.mass i * Real.sqrt (2 / B.distance)) ∧
+    (∀ i j, i < j → B.distance ≤
+      planeLength (bodyVector z.1 j) - planeLength (bodyVector z.1 i)) ∧
+    z ∈ amdCompact B ∧ NoCollision z.1 ∧
+    (∀ i, planeLength (keplerEccVector B.mass z i) < B.ecc ∧
+      B.distance ≤ planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤ B.radius) ∧
+    ∀ mu : ℝ, PairBounds B.distance (2 * B.radius)
+      (barycentricPositions 1 B.mass mu z.1)) := by
+  have hg := geometry B hB hz
+  refine ⟨fun i => ?_, hg⟩
+  obtain ⟨-, -, -, -, -, -, -, -, hlow, hup, -⟩ :=
+    elements (m := B.mass) (z := z) i (hz.1 i)
+  exact ⟨hlow, hup, (hg.2.2.2.2.1 i).2⟩
+
 /-- `bpP:p14:geometry` (`geo-k`): the geometric compact set is compact and collision free. -/
 theorem amd_compact (B : AMDBox n) (hB : B.Admissible) :
     IsCompact (amdCompact B) ∧ amdCompact B ⊆ collisionFreeDomain n := by
@@ -225,6 +253,42 @@ theorem amd_compact (B : AMDBox n) (hB : B.Admissible) :
         Real.sqrt (2 / B.distance)) (fun j _ => hterm j) (Finset.mem_univ i))
   exact ⟨Metric.isCompact_of_isClosed_isBounded hcl hbd, fun z hz =>
     ⟨fun i => hd.trans_le (hz.1 i).1, fun i j hij => hd.trans_le (hz.2 i j hij)⟩⟩
+
+/-- `bpP:p14:geometry`, complete literal conclusion: everything in `geometry_radial`, the compact
+set `K₁` is compact and contained in the collision-free domain, and the pair-distance chain
+`d ≤ |q_i - q_j| ≤ |q_i| + |q_j| ≤ 2R` holds for `i ≠ j`. -/
+theorem geometry_complete (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
+    (hz : z ∈ amdOuter B) :
+    (∀ i, keplerAxis B.mass z i * (1 - planeLength (keplerEccVector B.mass z i)) ≤
+        planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤
+        keplerAxis B.mass z i * (1 + planeLength (keplerEccVector B.mass z i)) ∧
+      B.distance ≤ planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤ B.radius) ∧
+    ((∀ i, (B.lower i / B.mass i)^2 < keplerAxis B.mass z i ∧
+      keplerAxis B.mass z i < (B.upper i / B.mass i)^2 ∧
+      planeLength (bodyVector z.2 i) < B.mass i * Real.sqrt (2 / B.distance)) ∧
+    (∀ i j, i < j → B.distance ≤
+      planeLength (bodyVector z.1 j) - planeLength (bodyVector z.1 i)) ∧
+    z ∈ amdCompact B ∧ NoCollision z.1 ∧
+    (∀ i, planeLength (keplerEccVector B.mass z i) < B.ecc ∧
+      B.distance ≤ planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤ B.radius) ∧
+    ∀ mu : ℝ, PairBounds B.distance (2 * B.radius)
+      (barycentricPositions 1 B.mass mu z.1)) ∧
+    IsCompact (amdCompact B) ∧ amdCompact B ⊆ collisionFreeDomain n ∧
+    ∀ i j, i ≠ j → B.distance ≤ planeLength (bodyVector z.1 i - bodyVector z.1 j) ∧
+      planeLength (bodyVector z.1 i - bodyVector z.1 j) ≤
+        planeLength (bodyVector z.1 i) + planeLength (bodyVector z.1 j) ∧
+      planeLength (bodyVector z.1 i) + planeLength (bodyVector z.1 j) ≤ 2 * B.radius := by
+  have hr := geometry_radial B hB hz
+  have hc := amd_compact B hB
+  refine ⟨hr.1, hr.2, hc.1, hc.2, fun i j hij => ⟨hr.2.2.2.1.2 i j hij, ?_, ?_⟩⟩
+  · have := KAM.Kepler.planeLength_add_le (bodyVector z.1 i) (-bodyVector z.1 j)
+    rwa [← sub_eq_add_neg, KAM.Kepler.planeLength_neg] at this
+  · have h1 := (hr.1 i).2.2.2
+    have h2 := (hr.1 j).2.2.2
+    linarith
 
 end KAM.Planetary
 
