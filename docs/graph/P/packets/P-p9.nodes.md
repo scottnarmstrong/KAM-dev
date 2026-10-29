@@ -939,9 +939,9 @@ EDGE: bpP:p0:birkhoff#HasSecularBirkhoffForm | blueprint-P/parts/p9-secular-spec
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p9_dict, p9_dict_planar (KAM/Planetary/SecularSpectrum/DictNodes.lean)
+LEAN_NOTE: audit GAP-P9dict PASS WITH NOTES (Omega_j = 2 sigma_j, all negative; n = 1 clause)
 NOTE: kept as claim: Part 10 L192 cites it for the dictionary Omega_j=2 sigma_j; if the P-p10 extractor finds no consumer, exclude it. Edge to bpP:p8:factor-half deleted (provenance/erratum remark)
 
 NODE: bpP:p9:good
@@ -1002,9 +1002,9 @@ EDGE: bpP:p8:quadratic-form | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S9-G PASS WITH NOTES covers (a), (b) iff and (c) dichotomy only; local-analytic eigenframes/diagonalisation and compact uniform non-resonance bound are separate interfaces, not in GoodPolynomial.lean
+LEAN_STATUS: PROVED
+LEAN_REF: good_set_bundle, two_sigma_ne_zero (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean)
+LEAN_NOTE: audit GAP-P9b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:gs-a
@@ -1092,9 +1092,9 @@ EDGE: stepP:p9:gs-c#analytic-route | blueprint-P/parts/p9-secular-spectrum.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S9-G PASS WITH NOTES; good_set_dichotomy gives open/dense/null but the compact-uniformity half of the step is not in GoodPolynomial.lean
+LEAN_STATUS: PROVED
+LEAN_REF: good_zero_set_small, good_uniform_nonresonance, good_set_bundle (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean)
+LEAN_NOTE: audit GAP-P9b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p9:n2
@@ -1210,9 +1210,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-c@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 ruling 06:30: parent stepP:p9:gs-c is PROVED via the analytic route (good_uniform_nonresonance)
 NOTE: SOURCE_GAP: L183 asserts continuity of roots as one alternative. No admitted external or imported source contract in this packet supplies that general theorem. This branch records the asserted bridge; the analytic-route is the explicitly supplied alternative.
 
 NODE: stepP:p9:gs-c#analytic-route
@@ -1239,7 +1239,7 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-c@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_uniform_nonresonance (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean); min_mode_continuous_positive (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: route taken (ruling 06:30, D27): continuity of the minimal mode comes from sorted_analytic (local analytic eigenvalue branches)
 NOTE: The analytic eigenvalue branches are local on the simple-spectrum good set. Finiteness of K_4 and compactness give a positive minimum; no global eigenvector frame is assumed.

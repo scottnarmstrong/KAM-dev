@@ -6,7 +6,7 @@
    "model": "Claude Opus 5.5",
    "account": "claude-7",
    "session": "kam-suborch",
-   "assignment": "Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator",
+   "assignment": "Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator",
    "state": "active"
   },
   {
@@ -16,7 +16,7 @@
    "account": "claude-7",
    "session": null,
    "assignment": "Bring LEAN_STATUS of graphs I and N up to date from the package audits",
-   "state": "running"
+   "state": "done"
   },
   {
    "id": "grev-2",

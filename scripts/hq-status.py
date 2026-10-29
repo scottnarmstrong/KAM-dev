@@ -174,8 +174,43 @@ def section_glance(rows):
            'DRAFT_IMPORT_VIOLATIONS: 0 (frozen-anchor guard, run at every landing)',
            f'SEALED: {sealed} / {len(rows)}' + (f' ({", ".join(r[0] for r in rows if r[4] == "sealed")})'
                                                  if sealed else ''),
-           '```']
+           '```', ''] + so_glance()
     return '\n'.join(out)
+
+
+def so_package(suffix):
+    """Track SO package name of a worktree suffix: `soexpr` -> SO-EXPR, `design-so` -> SO-DESIGN."""
+    return 'SO-DESIGN' if suffix == 'design-so' else 'SO-' + suffix[2:].upper()
+
+
+def so_glance():
+    """Track SO block of the glance: live Lean size, packages landed / planned, packages in flight."""
+    so = campaign.get('so')
+    if not so:
+        return []
+    n, lines, thms = lean_stats([root / 'KAM' / 'Certificate', root / 'KAM' / 'SpinOrbit'])
+    try:
+        r = subprocess.run(['tmux', 'ls', '-F', '#S'], capture_output=True, text=True)
+        sessions = r.stdout.split() if r.returncode == 0 else []
+    except FileNotFoundError:
+        sessions = []
+    flight = {'inp-mprov-': set(), 'inp-maud-': set()}
+    for s in sessions:
+        for pre in flight:
+            sfx = s[len(pre):]
+            if s.startswith(pre) and (sfx.startswith('so') or sfx == 'design-so') and pane_state(s) == '🔄 working':
+                flight[pre].add(so_package(sfx))
+    landed = so['landed']
+    out = [f'**Track SO, lunar spin–orbit certificate** (D30, started 2026-10-29; '
+           f'[plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)): {so["goal"]}', '',
+           f'- **Lean on `main`:** {n} modules · {lines:,} lines · {thms:,} theorems in `KAM/Certificate` and '
+           f'`KAM/SpinOrbit` (design estimate {so["planned_lines"]})',
+           f'- **Packages landed: {len(landed)} / {len(so["packages"])}** ({", ".join(landed)})']
+    if flight['inp-mprov-'] or flight['inp-maud-']:
+        out.append(f'- **Now:** proving {", ".join(sorted(flight["inp-mprov-"])) or "—"} · '
+                   f'in audit {", ".join(sorted(flight["inp-maud-"])) or "—"}')
+    out.append(f'- **Gates:** {so["gates"]}')
+    return out
 
 
 AREAS = [
@@ -198,6 +233,8 @@ AREAS = [
     ('Canonical', 'Track N: canonical flows and maps'),
     ('Nekhoroshev', 'Track N: Nekhoroshev stability'),
     ('Planetary', 'Track P: planetary KAM'),
+    ('Certificate', 'Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies)'),
+    ('SpinOrbit', 'Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs)'),
 ]
 
 
@@ -261,8 +298,13 @@ def section_workers():
             continue
         subj = git('log', '-1', '--format=%s', b).replace('|', '∣')
         aud = pane_state(f'inp-maud-{b[4:]}')
+        prov = pane_state(f'inp-mprov-{b[4:]}')
+        # 2026-10-29: 'not yet audited' matched 'audit', and branches without a prover session showed as proving.
         state = ('🔍 in audit' if aud and aud != '⚠️ session missing' else
-                 '✅ audited, handed back' if 'audit' in subj else '🔄 proving')
+                 '🔄 proving' if prov and prov != '⚠️ session missing' else
+                 '❌ audit failed, parked' if 'FAIL' in subj else
+                 '✅ audited, handed back' if 'audit' in subj and 'not yet audited' not in subj else
+                 '⏸ parked (no session)')
         ahead = git('rev-list', '--count', '--no-merges', f'inp..{b}')
         out.append(f'| **{b[4:]}** | prover (offload) | Claude Sonnet 5.5 | — | {state} | last commit: {subj[:90]} | '
                    f'`{b}` | {ahead} (vs `inp`) |')
@@ -280,6 +322,8 @@ TRACKS = [
                  'three-body problem'),
     ('N', 'nekhoroshev', 'Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n)'),
     ('P', 'planetary', 'Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun'),
+    ('SO', 'so', 'A general Lean certificate checker turning numerical KAM tori into theorems; the Moon\'s spin '
+                 'rate stays within 3.3% of its orbital rate for all time'),
 ]
 
 
@@ -344,15 +388,20 @@ def worktree_branches():
 
 
 def unlanded_lines():
-    """Lean lines added on the agents' branches (every branch checked out in a worktree) and not yet on main.
-    Stacked branches share files, so each file counts once, with its largest addition."""
-    per = {}
+    """Lean lines added by the agents' unlanded commits (every branch checked out in a worktree).
+    Each non-merge commit not reachable from main counts once, so stacked branches are not double counted.
+    2026-10-29: the former `git diff main...b` used one of several merge bases of long-lived branches and
+    counted already-landed files as unlanded (8,080 shown for about 2,300 real lines)."""
+    commits = set()
     for b in worktree_branches():
-        for l in git('diff', '--numstat', f'main...{b}', '--', '*.lean').splitlines():
+        commits.update(git('rev-list', '--no-merges', f'main..{b}').split())
+    added = 0
+    for c in commits:
+        for l in git('show', '--numstat', '--format=', c, '--', '*.lean').splitlines():
             a, _, path = l.split('\t', 2)
             if a.isdigit() and path != 'KAM.lean':
-                per[path] = max(per.get(path, 0), int(a))
-    return sum(per.values())
+                added += int(a)
+    return added
 
 
 def size_estimate(rows):

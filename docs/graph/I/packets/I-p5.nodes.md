@@ -1254,9 +1254,9 @@ EDGE: bpI:p5:eps0 | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-eps@L181-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: The eps0 dependency is used only in the B' nonempty branch. All geometric data and constants in that branch are chosen before f, epsilon, z_0.
 
 NODE: stepI:p5:hd-fix
@@ -1284,9 +1284,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-fix@L182
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5
 REVIEWER: sol-review-I-p5p8
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: -
 
 NODE: stepI:p5:hd-sol
@@ -1316,9 +1316,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-sol@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: -
 
 NODE: stepI:p5:hd-uniq
@@ -1348,7 +1348,7 @@ EDGE: N:bpN:p3:gen-sol | blueprint-I/parts/p5-confinement.tex#stepI:p5:hd-uniq@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p5+sol-review-I-p5p8
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: only conditional helper confinement_main_of_tori (KAM/Iso/Confinement/Main.lean) assuming Part-3 tori/cover outputs; audit P5-9 PASS WITH NOTES
+LEAN_STATUS: PROVED
+LEAN_REF: confinement_main, all_time_confinement (KAM/Provider/Iso/AllTimeConfinement.lean)
+LEAN_NOTE: audit I-HEAD PASS (row names this step -> confinement_main); step of PROVED parent bpI:p0:head (ruling b)
 NOTE: -

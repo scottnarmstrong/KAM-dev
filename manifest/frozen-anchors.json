@@ -3952,7 +3952,7 @@
     "module": "KAM.Provider.Planetary.FixedSunPlanetaryKAM",
     "export": "KAM.Provider.Planetary.fixedSunPlanetaryKAM"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "433008517470c4a05ac8c1df920d35fb6c3f9e7d0be2ceab3c3a30582e79bb82",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {

@@ -112,9 +112,9 @@ EDGE: bpI:p0:diophantine#IsDiophantine | blueprint-I/parts/p2-iso-iteration.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.ray (KAM/Iso/Apost/Standing.lean)
+LEAN_NOTE: Rule 05:10: ray conjuncts (a),(c) resp. (d),(e); I2-1-audit-1.md:40 and proof narrative (Standing:76-102) confirm by line range; parent ray PROVED.
 NOTE: -
 
 NODE: stepI:p2:ray-margin
@@ -139,9 +139,9 @@ EDGE: bpI:p2:standing | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:ray-marg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.ray (KAM/Iso/Apost/Standing.lean)
+LEAN_NOTE: Rule 05:10: ray conjuncts (a),(c) resp. (d),(e); I2-1-audit-1.md:40 and proof narrative (Standing:76-102) confirm by line range; parent ray PROVED.
 NOTE: -
 
 NODE: bpI:p2:constants
@@ -280,9 +280,9 @@ EDGE: K:bp:p2:frame-basic | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:co-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2
 REVIEWER: sol-review-I-p2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.correction, KAM.Iso.Apost.CorrectionAux.correction_core, KAM.Iso.Apost.isoNewS_smul_sub, KAM.Iso.Apost.isoNewS_smul_eq, KAM.Iso.Apost.CorrectionAux.norm_fderiv_frameMat_le (KAM/Iso/Apost/Correction.lean)
+LEAN_NOTE: Rule 05:10: I2-3-audit-1.md:47 (Correction.lean:385-438 matches blueprint p2 L132-166) with items 3-5; bodies are step-labelled locals in correction_core (205-335); parent correction PROVED. Lean proves H_L,H_N on T_r (stronger).
 NOTE: -
 
 NODE: stepI:p2:co-xi0
@@ -311,9 +311,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:co-xi0
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.correction, KAM.Iso.Apost.CorrectionAux.correction_core, KAM.Iso.Apost.isoNewS_smul_sub, KAM.Iso.Apost.isoNewS_smul_eq, KAM.Iso.Apost.CorrectionAux.norm_fderiv_frameMat_le (KAM/Iso/Apost/Correction.lean)
+LEAN_NOTE: Rule 05:10: I2-3-audit-1.md:47 (Correction.lean:385-438 matches blueprint p2 L132-166) with items 3-5; bodies are step-labelled locals in correction_core (205-335); parent correction PROVED. Lean proves H_L,H_N on T_r (stronger).
 NOTE: -
 
 NODE: stepI:p2:co-xi
@@ -345,9 +345,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:co-xi@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.correction, KAM.Iso.Apost.CorrectionAux.correction_core, KAM.Iso.Apost.isoNewS_smul_sub, KAM.Iso.Apost.isoNewS_smul_eq, KAM.Iso.Apost.CorrectionAux.norm_fderiv_frameMat_le (KAM/Iso/Apost/Correction.lean)
+LEAN_NOTE: Rule 05:10: I2-3-audit-1.md:47 (Correction.lean:385-438 matches blueprint p2 L132-166) with items 3-5; bodies are step-labelled locals in correction_core (205-335); parent correction PROVED. Lean proves H_L,H_N on T_r (stronger).
 NOTE: -
 
 NODE: stepI:p2:co-omega
@@ -376,9 +376,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:co-ome
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.correction, KAM.Iso.Apost.CorrectionAux.correction_core, KAM.Iso.Apost.isoNewS_smul_sub, KAM.Iso.Apost.isoNewS_smul_eq, KAM.Iso.Apost.CorrectionAux.norm_fderiv_frameMat_le (KAM/Iso/Apost/Correction.lean)
+LEAN_NOTE: Rule 05:10: I2-3-audit-1.md:47 (Correction.lean:385-438 matches blueprint p2 L132-166) with items 3-5; bodies are step-labelled locals in correction_core (205-335); parent correction PROVED. Lean proves H_L,H_N on T_r (stronger).
 NOTE: -
 
 NODE: stepI:p2:co-dk
@@ -410,9 +410,9 @@ EDGE: bpI:p1:geometry-noA5 | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:co-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.correction, KAM.Iso.Apost.CorrectionAux.correction_core, KAM.Iso.Apost.isoNewS_smul_sub, KAM.Iso.Apost.isoNewS_smul_eq, KAM.Iso.Apost.CorrectionAux.norm_fderiv_frameMat_le (KAM/Iso/Apost/Correction.lean)
+LEAN_NOTE: Rule 05:10: I2-3-audit-1.md:47 (Correction.lean:385-438 matches blueprint p2 L132-166) with items 3-5; bodies are step-labelled locals in correction_core (205-335); parent correction PROVED. Lean proves H_L,H_N on T_r (stronger).
 NOTE: -
 
 NODE: stepI:p2:co-reg
@@ -445,9 +445,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:co-reg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.correction, KAM.Iso.Apost.CorrectionAux.correction_core, KAM.Iso.Apost.isoNewS_smul_sub, KAM.Iso.Apost.isoNewS_smul_eq, KAM.Iso.Apost.CorrectionAux.norm_fderiv_frameMat_le (KAM/Iso/Apost/Correction.lean)
+LEAN_NOTE: Rule 05:10: I2-3-audit-1.md:47 (Correction.lean:385-438 matches blueprint p2 L132-166) with items 3-5; bodies are step-labelled locals in correction_core (205-335); parent correction PROVED. Lean proves H_L,H_N on T_r (stronger).
 NOTE: -
 
 NODE: bpI:p2:newton-error
@@ -515,9 +515,9 @@ EDGE: bpI:p2:constants | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:ne-inve
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.NewtonErrorAux.sMat_bounds, KAM.Iso.Apost.NewtonErrorAux.isoResidual_eq_frame, KAM.Iso.Apost.newton_error (KAM/Iso/Apost/NewtonError.lean)
+LEAN_NOTE: Rule 05:10: I2-4-audit-1.md:61-66 (table by Lean line ranges 321-328, 331-361, 374-438, 451-570) and 'Expansion and reduction/Invariance bound/Energy' paragraphs; parent newton-error PROVED. Lean uses M for source m; D(H o K) bound sharper than source form.
 NOTE: -
 
 NODE: stepI:p2:ne-expand
@@ -546,9 +546,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:ne-exp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.NewtonErrorAux.sumVec_invarianceError_isoNewtonMap (KAM/Iso/Apost/NewtonError.lean)
+LEAN_NOTE: Rule 05:10: I2-4-audit-1.md:61-66 (table by Lean line ranges 321-328, 331-361, 374-438, 451-570) and 'Expansion and reduction/Invariance bound/Energy' paragraphs; parent newton-error PROVED. Lean uses M for source m; D(H o K) bound sharper than source form.
 NOTE: -
 
 NODE: stepI:p2:ne-reduce
@@ -580,9 +580,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:ne-red
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.NewtonErrorAux.sumVec_error_eq (KAM/Iso/Apost/NewtonError.lean)
+LEAN_NOTE: Rule 05:10: I2-4-audit-1.md:61-66 (table by Lean line ranges 321-328, 331-361, 374-438, 451-570) and 'Expansion and reduction/Invariance bound/Energy' paragraphs; parent newton-error PROVED. Lean uses M for source m; D(H o K) bound sharper than source form.
 NOTE: -
 
 NODE: stepI:p2:ne-est
@@ -615,9 +615,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:ne-est
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.NewtonErrorAux.norm_error_le, KAM.Iso.Apost.NewtonErrorAux.norm_isoQuadX_le (KAM/Iso/Apost/NewtonError.lean)
+LEAN_NOTE: Rule 05:10: I2-4-audit-1.md:61-66 (table by Lean line ranges 321-328, 331-361, 374-438, 451-570) and 'Expansion and reduction/Invariance bound/Energy' paragraphs; parent newton-error PROVED. Lean uses M for source m; D(H o K) bound sharper than source form.
 NOTE: -
 
 NODE: stepI:p2:ne-energy
@@ -652,9 +652,9 @@ EDGE: K:bp:p1:ext-integral | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:ne-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-delta-I-b
 REVIEWER: sol-delta-I-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.NewtonErrorAux.energyAverage_sub_eq, KAM.Iso.Apost.NewtonErrorAux.norm_energyAverage_sub_le, KAM.Iso.Apost.NewtonErrorAux.norm_isoQuadH_le (KAM/Iso/Apost/NewtonError.lean)
+LEAN_NOTE: Rule 05:10: I2-4-audit-1.md:61-66 (table by Lean line ranges 321-328, 331-361, 374-438, 451-570) and 'Expansion and reduction/Invariance bound/Energy' paragraphs; parent newton-error PROVED. Lean uses M for source m; D(H o K) bound sharper than source form.
 NOTE: -
 
 NODE: bpI:p2:torsion
@@ -952,9 +952,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:st-err
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.step (KAM/Iso/Apost/Step.lean); KAM.Iso.Apost.torsion_step (KAM/Iso/Apost/Torsion.lean)
+LEAN_NOTE: Rule 05:10: I2-6-audit-1.md:32-36 maps blueprint L234-238 items (a)-(e) to Step.lean:54-80; parent step PROVED.
 NOTE: -
 
 NODE: stepI:p2:st-frame
@@ -985,9 +985,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:st-fra
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.step (KAM/Iso/Apost/Step.lean); KAM.Iso.Apost.torsion_step (KAM/Iso/Apost/Torsion.lean)
+LEAN_NOTE: Rule 05:10: I2-6-audit-1.md:32-36 maps blueprint L234-238 items (a)-(e) to Step.lean:54-80; parent step PROVED.
 NOTE: -
 
 NODE: bpI:p2:schedule
@@ -1274,9 +1274,9 @@ EDGE: bpI:p2:schedule | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:lim-clos
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.limit (KAM/Iso/Apost/Limit.lean)
+LEAN_NOTE: Rule 05:10: I2-9-audit-1.md:61 and narrative on Limit.lean:408-428 (ray displacement, nu/2 margin, derivative and ball estimates); parent limit PROVED. (c) via ray Lipschitz at s_inf, same conclusion.
 NOTE: -
 
 NODE: stepI:p2:lim-margins
@@ -1305,9 +1305,9 @@ EDGE: bpI:p2:admissible | blueprint-I/parts/p2-iso-iteration.tex#stepI:p2:lim-ma
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p2+sol-review-I-p2
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Apost.limit (KAM/Iso/Apost/Limit.lean)
+LEAN_NOTE: Rule 05:10: I2-9-audit-1.md:61 and narrative on Limit.lean:408-428 (ray displacement, nu/2 margin, derivative and ball estimates); parent limit PROVED. (c) via ray Lipschitz at s_inf, same conclusion.
 NOTE: -
 
 NODE: stepI:p2:lim-inv
