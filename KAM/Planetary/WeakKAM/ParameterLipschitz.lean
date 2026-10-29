@@ -75,7 +75,8 @@ theorem collar_increment_lipschitz (K : Set (SelectionR n)) (t e : ℝ)
       ((hg.differentiableAt (hU.mem_nhds
         (hseg x hx (mem_closedBall_self (half_pos ht).le)))).hasFDerivAt.restrictScalars
           ℝ).hasFDerivWithinAt
-    have hmv := (convex_segment (selectionReal b) (selectionReal b')).norm_image_sub_le_of_norm_hasFDerivWithin_le
+    have hmv := (convex_segment (selectionReal b)
+      (selectionReal b')).norm_image_sub_le_of_norm_hasFDerivWithin_le
       (f := g) (f' := fun x => (fderiv ℂ g x).restrictScalars ℝ) hfd
       (fun x hx => by
         rw [ContinuousLinearMap.norm_restrictScalars]; exact hder x hx)
@@ -123,7 +124,8 @@ theorem lipFam_stage (hb : b ∈ c.Kinf) (hb' : b' ∈ c.Kinf) (θ : SelectionR 
   have hθ : selectionReal θ ∈ complexStrip n (a.strip / 2) :=
     selectionReal_mem_complexStrip (by linarith [cx.hyp.hstrip]) θ
   have ht1 := wbud_t_pos cx (j + 1)
-  have hdom : ∀ ν, selectiont a (j + 1) ≤ selectiont a ν → ∀ β ∈ actionNbhd c.Kinf (selectiont a (j + 1)),
+  have hdom : ∀ ν, selectiont a (j + 1) ≤ selectiont a ν →
+      ∀ β ∈ actionNbhd c.Kinf (selectiont a (j + 1)),
       (z0, β) ∈ selectionDomain (selectionr a ν) (selections a ν)
         (actionNbhd (c.K ν) (selectiont a ν)) := fun ν hν β hβ => by
     obtain ⟨J, hJ, hd⟩ := hβ
