@@ -142,3 +142,13 @@ coefficient, at any scale >= 1, including overlapping shards)? Is checkPackedPro
 checker's success? Do the R1 numbers match the SO-GEN2 report
 (/root/code/KAM-inp-sogen2 is removed; the report is on inp at docs/tracks/SO/studies/SO-GEN2-rotated-frame-candidates.md)?
 Any new blocking issue? Re-run the signature gate on both files. Verdict and numbered findings.
+
+## Round 7 (design Revision 7)
+
+Revision 7 (section '## Revision 7' of the design; handoff .drafts/handoff-SO-DESIGN.md '## Revision 7') answers round 6's
+F14 (raw factor lengths validated against the canonical dense lengths of adv.la / adv.lb, cropping of `combined` to the
+exact convolution length, exported from success; the padding-alias pair as a §8 test) and F15 (B₀ documentation).
+ROUND 7 FOCUS: is F14 closed (try again to build two inputs that the checks cannot distinguish but that the soundness
+contract treats differently, including empty factors)? Is checkPackedProduct_sound's only premise still the checker's
+success? Did any landed SO-POLY-A declaration change? Is F15 fixed? Any new blocking issue? Re-run the signature gate on
+both signature files. Verdict and numbered findings.
