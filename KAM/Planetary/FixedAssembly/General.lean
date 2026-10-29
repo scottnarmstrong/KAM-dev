@@ -29,7 +29,6 @@ open KAM KAM.Kepler
 
 namespace FixedAssembly
 
-open Newtonian.Assembly in
 /-- bpP:p13:n-general, conditional on the signed wrapper `hw` (its statement verbatim). -/
 theorem n_general_of_wrapper {n : ℕ}
     (hw : ∀ {n : ℕ} (D : P11Physical n),
