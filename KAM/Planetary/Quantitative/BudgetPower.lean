@@ -13,7 +13,7 @@ public import KAM.Planetary.Quantitative.BudgetPower.Gamma
 public import KAM.Planetary.Quantitative.BudgetPower.Collar
 
 /-!
-# Polynomial budget for the quantitative threshold (P11C-Q3)
+# Polynomial budget for the quantitative threshold
 
 The rate structure `BudgetRates`, the exact exponent `BudgetRates.exponent`, the predicate
 `RateBounds` and `qb_poly` (`bpP:p11a:bu-poly`): `thresholds d ≥ c' u^B` whenever the data obey the

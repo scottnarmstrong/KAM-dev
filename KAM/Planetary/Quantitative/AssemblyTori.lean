@@ -10,7 +10,7 @@ public import KAM.Planetary.Quantitative.AssemblyData
 public import KAM.Planetary.Quantitative.Zero
 
 /-!
-# Quantitative weak KAM assembly: real Hamiltonian and torus geometry (P11C-Q6)
+# Quantitative weak KAM assembly: real Hamiltonian and torus geometry
 
 Differentiability of the real Hamiltonian on the real domain, the transfer of a lattice torus
 between Hamiltonians that agree on that (open) domain, and the location of the upstream tori

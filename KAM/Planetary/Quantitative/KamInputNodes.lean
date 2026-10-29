@@ -10,7 +10,7 @@ public import KAM.Planetary.Quantitative.Assembly
 public import KAM.Planetary.Quantitative.AssemblyK6
 public import KAM.Planetary.Quantitative.TheoremNodes
 
-/-! # GAP-P11a-SQ: the Part-11 KAM input (`bpP:p11:kam-input`)
+/-! # The Part-11 KAM input (`bpP:p11:kam-input`)
 
 `kam_input` states the quantitative KAM input in the form in which Part 11 uses it
 (`N = n + n`, squared convention `ρ = 2`): for a valid datum `𝔡` there are `γ = γ(𝔡) > 0` and

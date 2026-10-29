@@ -11,7 +11,7 @@ public import KAM.Planetary.Quantitative.BudgetCompare
 public import KAM.Planetary.Quantitative.BudgetPower
 
 /-!
-# Quantitative budget: the `beta` power law and the K5/K6 statements (P11C-Q4)
+# Quantitative budget: the `beta` power law and the K5/K6 statements
 
 `qb_beta` (`stepP:p11a:qb-beta`: the threshold of the data with `beta` replaced by `b` is at least
 `c * b ^ B0`), `p11c_budget` (K5: `qb_comp`, `qb_mono` and `qb_beta` together) and

@@ -10,7 +10,7 @@ public import KAM.Planetary.Quantitative.BudgetCompare
 public import KAM.Planetary.WeakKAM.Admissible
 
 /-!
-# Quantitative budget: identification with the upstream admissibility threshold (P11C-Q2)
+# Quantitative budget: identification with the upstream admissibility threshold
 
 Reconciliation `stepP:p11a:qb-comp` / `bpP:p11a:budget` with the delivered File 11a-3 threshold:
 the local old-threshold projection `p11c_oldThreshold` and the mollifier constants equal the

@@ -18,7 +18,7 @@ public import KAM.Nekhoroshev.Interfaces.Norms
 public import KAM.Strip.RealRestriction
 
 /-!
-# Quantitative weak KAM: input and family interface (P11C-Q0)
+# Quantitative weak KAM: input and family interface
 
 `QuantitativeInput` is the local projection of the source hypotheses A1--A4 (holomorphy,
 reality, finite-type lower bound, derivative bounds, max-to-max Hessian bound), and

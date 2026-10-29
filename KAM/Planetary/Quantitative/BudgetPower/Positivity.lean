@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Quantitative.Thresholds
 
 /-!
-# Positivity of the explicit cutoff constant and of the diameter (P11C-Q3)
+# Positivity of the explicit cutoff constant and of the diameter
 
 Fragments for `qb_poly`: the explicit cutoff constant `p11c_cutoffConstant N mu` is strictly
 positive for `1 ≤ N`, and a valid datum has positive diameter (its compact set has positive

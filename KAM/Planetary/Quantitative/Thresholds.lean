@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.Constants
 
 /-!
-# Quantitative weak KAM: data, validity, explicit constants and thresholds (P11C-Q1)
+# Quantitative weak KAM: data, validity, explicit constants and thresholds
 
 The numerical projection `QuantitativeData` of `bpP:p11a:sec-q-thm#data`, its validity predicates,
 the explicit cutoff constant, the Fourier-cutoff constant `cN`, `gamma`, `tbar`, `tflat`, `xibar`,

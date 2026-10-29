@@ -12,7 +12,7 @@ public import KAM.ODE.Hamiltonian
 public import KAM.Head.DerivativeBounds
 
 /-!
-# Quantitative weak KAM: the physical interface (P11C-Q7)
+# Quantitative weak KAM: the physical interface
 
 `physical_interface` (`bpP:p11a:physical-interface`): measure, displacement, global curves,
 local uniqueness and lattice saturation of the family `QuantitativeFamily`.
