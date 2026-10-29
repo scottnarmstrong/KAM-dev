@@ -646,3 +646,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **03:55. Remark nodes (owner to review).** bpP:p0:totality and bpP:p1:order are conventions whose content is purely
   definitional (first gap survey, section 2 item 6); they are re-kinded as remarks by append-only amendment. bpP:p9:dict
   has real content (Omega_j = 2 sigma_j via the eigenvalues of 2 Q_h) and goes to package GAP-P9dict.
+- **04:00. Correction to 03:55; owner item (tooling).** The graph schema (scripts/proof_depgraph.py) has no SET_KIND
+  amendment and no remark kind, so bpP:p0:totality and bpP:p1:order stay KIND claim / NOT_STARTED with a LEAN_NOTE
+  citing the survey. **Owner to decide:** extend the schema with SET_KIND and a remark kind (then re-kind both), or
+  leave them as open claims. Also: P8b2's appended Hessian conjunct changed a `.2` projection in Prepared.lean; the
+  sub-orchestrator fixed it at landing (6944c2d1, no statement changed). Future statement fixes add a separate lemma.
+- **04:20. Status.** P13-C passed (parametric n_general / fixed / provider for fixedSunPlanetaryKAM, axioms clean,
+  provider type equal to the frozen anchor); held to land together with P11A-P10 (wrapper_of_data_star, finishing)
+  and the four one-line applications, then the seal-key audit. GAP-P9dict passed (p9:dict). Graph P 1131+ of 1363.
