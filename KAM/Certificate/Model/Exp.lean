@@ -153,9 +153,10 @@ theorem norm_sub_le_expPinErr (n : ℕ) (E : CertPoly α) (out : CC α × α) {w
 
 omit [LawfulCertArith α] in
 /-- The directional derivative of a polynomial: `∂_j P = 2π Σ i k_j c_k χ_k`. -/
-theorem fderiv_eval_single {n : ℕ} (P : CertPoly α) (j : Fin n) (θ : Fin n → ℂ) :
-    fderiv ℂ (P.eval n) θ (Pi.single j 1) = (2 * Real.pi) * (P.terms.map fun t =>
-      Complex.I * ((certKeyFun n t.1 j : ℤ) : ℂ) * t.2.toC * character (certKeyFun n t.1) θ).sum := by
+theorem CertPoly.fderiv_eval_single {n : ℕ} (P : CertPoly α) (j : Fin n) (θ : Fin n → ℂ) :
+    fderiv ℂ (P.eval n) θ (Pi.single j 1) = (2 * Real.pi) *
+      (P.terms.map fun t => Complex.I * ((certKeyFun n t.1 j : ℤ) : ℂ) * t.2.toC *
+        character (certKeyFun n t.1) θ).sum := by
   obtain ⟨D, hD, hv⟩ := hasFDerivAt_termSum j θ P.terms
   have : P.eval n = fun θ => (P.terms.map fun t => t.2.toC * character (certKeyFun n t.1) θ).sum :=
     rfl
@@ -255,7 +256,7 @@ theorem norm_le_expResidualUp {n : ℕ} {W : CertWeight} {s N : ℕ}
   have h2pos : (0 : ℝ) ≤ val (ofRatUp (2 * piUpQ) : α) :=
     (by positivity : (0 : ℝ) ≤ 2 * Real.pi).trans (hpi.trans h2pi)
   have hm := LawfulCertArith.upMul_ge _ _ h2pos (hX0.trans hU)
-  rw [fderiv_eval_single, fderiv_eval_single]
+  rw [CertPoly.fderiv_eval_single, CertPoly.fderiv_eval_single]
   have e2 : (2 * (Real.pi : ℂ)) * SE - (2 * (Real.pi : ℂ)) * SG * E.eval n θ =
       (2 * (Real.pi : ℂ)) * (SE - SG * E.eval n θ) := by ring
   rw [e2, norm_mul]
