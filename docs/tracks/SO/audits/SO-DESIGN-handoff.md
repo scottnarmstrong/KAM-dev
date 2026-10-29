@@ -83,3 +83,18 @@ HamExpr.div, the NonvanishingOn certification by ball arithmetic on the whole do
 reality and the jets being conditional on nonvanishing? (3) is the pi interface consistent with the landed
 PiHigh module? (4) any NEW blocking issue introduced by the revision; (5) re-run the signature check. Verdict and
 numbered findings as in round 1.
+
+## Round 3 (design Revision 3, commit b442a912)
+
+Revision 3 (section '## Revision 3' of the design; mapping in .drafts/handoff-SO-DESIGN.md) answers round 2's F7
+(torsionAvgCheck takes n and checks exact (n+1)x(n+1) shapes; ModelMatrix.HasShape), F8 (1 <= n on the two
+NormBridge bounds), F9 (corrected J-row identity E(K~)_J = E(K0)_J - D DeltaJ and the budget), and the F3/F6
+residuals (instCertArithRat moves to pre-gate SO-AIF). Signatures: /root/code/KAM-inp/.drafts/design/SOSignatures.lean
+(1360 lines). ALSO evaluate one deviation found by the SO-AIF prover (orchestrator ruling 12:10): the signed
+certCExp_sound (no size hypothesis) is false; the replacement certCExp_sound_of_small (hypothesis
+norm(z) + val zRad <= 1) with the checkable test certCExpSmall is in /root/code/KAM-inp-soaif/KAM/Certificate/Arith/
+Roots.lean; check that every consumer of certCExp in the design only needs small balls (or argument reduction) and say
+what the design must change.
+
+ROUND 3 FOCUS: are F7, F8, F9 and the F3/F6 residuals closed? Is the certCExp change compatible with the design's uses?
+Any new blocking issue? Re-run the signature check. Verdict and numbered findings.
