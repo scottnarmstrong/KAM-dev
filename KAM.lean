@@ -57,6 +57,7 @@ public import KAM.Certificate.Arith.Transcendental
 public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
 public import KAM.Certificate.CubicDiophantine
+public import KAM.Certificate.DiophantineTransfer
 public import KAM.Certificate.Expr.Basic
 public import KAM.Certificate.Expr.Diff
 public import KAM.Certificate.Expr.DiffBuild
