@@ -120,14 +120,14 @@ section Sums
 variable {α : Type} [CertArith α]
 
 /-- One round of pairwise upward sums: `[a, b, c, d, e] ↦ [a + b, c + d, e]`. -/
-def pairUp : List α → List α
-  | a :: b :: rest => upAdd a b :: pairUp rest
+def sumPairsUp : List α → List α
+  | a :: b :: rest => upAdd a b :: sumPairsUp rest
   | l => l
 
-/-- `r` rounds of `pairUp` (a list of length `≤ 2^r` collapses to at most one entry). -/
+/-- `r` rounds of `sumPairsUp` (a list of length `≤ 2^r` collapses to at most one entry). -/
 def pairRounds : ℕ → List α → List α
   | 0, l => l
-  | r + 1, l => pairRounds r (pairUp l)
+  | r + 1, l => pairRounds r (sumPairsUp l)
 
 /-- `Σ g x` rounded upward, summed as a balanced tree (64 rounds of pairwise sums, then a
 `foldr` of what remains): the kernel evaluates nested sums of depth about `log₂` of the length,
@@ -149,19 +149,19 @@ def CertPoly.supNormUp (W : CertWeight) (P : CertPoly α) : α :=
 
 variable [LawfulCertArith α]
 
-theorem pairUp_ge : ∀ l : List α, (l.map val).sum ≤ ((pairUp l).map val).sum
+theorem sumPairsUp_ge : ∀ l : List α, (l.map val).sum ≤ ((sumPairsUp l).map val).sum
   | [] => le_rfl
   | [a] => le_rfl
   | a :: b :: rest => by
-    have ih := pairUp_ge rest
+    have ih := sumPairsUp_ge rest
     have hu := LawfulCertArith.upAdd_ge a b
-    simp only [pairUp, List.map_cons, List.sum_cons]
+    simp only [sumPairsUp, List.map_cons, List.sum_cons]
     linarith
 
 theorem pairRounds_ge : ∀ (r : ℕ) (l : List α),
     (l.map val).sum ≤ ((pairRounds r l).map val).sum
   | 0, _ => le_rfl
-  | r + 1, l => (pairUp_ge l).trans (pairRounds_ge r (pairUp l))
+  | r + 1, l => (sumPairsUp_ge l).trans (pairRounds_ge r (sumPairsUp l))
 
 theorem foldr_upAdd_ge : ∀ l : List α, (l.map val).sum ≤ val (l.foldr upAdd (ofInt 0))
   | [] => by simp [LawfulCertArith.val_ofInt]
