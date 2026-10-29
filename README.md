@@ -210,7 +210,7 @@ Overall, everything together: 89.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 17:43 UTC from `main` at `98ebb692` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 17:43 UTC from `main` at `3dbaee42` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -381,6 +381,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 17:43 | `3dbaee42` | HQ: original project complete (all graphs K, I, N, P resolved; 144/144 frozen declarations sealed); OVERNIGHT 16:50-17:45 |
 | 2026-10-29 17:42 | `98ebb692` | Land inp into main |
 | 2026-10-29 17:39 | `8d3b7d5f` | Land inp into main |
 | 2026-10-29 17:37 | `2cc3a5a1` | HQ: track SO in two parts (general certificate checker; the Moon's spin rate) in the estimate, glance and tracks table; SO packages detected as landed from files on main (no hand-kept list) |
@@ -392,7 +393,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 16:45 | `e474aaaf` | HQ: estimate text names ASSUMED nodes |
 | 2026-10-29 16:45 | `2593f680` | HQ: count owner-accepted ASSUMED graph nodes as resolved |
 | 2026-10-29 16:45 | `96c7d422` | HQ: track P complete (graph P fully resolved); current phase: original project complete, track SO next |
-| 2026-10-29 16:43 | `93ba348b` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
