@@ -145,14 +145,14 @@ theorem lo_bad_ratio (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar d)
     linarith
   have hLb : P*(1 - w*s) ≤ (params d r mu).ell ^ b := by
     have := lbn_ell_pow d h
-    rw [hP, hw, hs]; convert this using 2; ring
+    rw [hP, hw, hs]; convert this using 2
   have hcore0 : 0 ≤ core := ENNReal.toReal_nonneg
   set m := max (v - c*s) 0 with hmdef
   have hm1 : v - c*s ≤ m := le_max_left _ _
   have hm0 : 0 ≤ m := le_max_right _ _
   have hmc : m ≤ core := max_le hm hcore0
   have hws : 0 ≤ w*s := by positivity
-  have hell0 : 0 ≤ (params d r mu).ell ^ b := pow_nonneg (by linarith [hell, hP0, hr0]) _
+  have hell0 : 0 ≤ (params d r mu).ell ^ b := pow_nonneg (le_trans (by positivity) hell) _
   have hmv : m ≤ v := max_le (by nlinarith [mul_nonneg hc0.le hsq.le]) hv.le
   have h1 : m * (P*(1 - w*s)) ≤ core * (params d r mu).ell ^ b :=
     (mul_le_mul_of_nonneg_left hLb hm0).trans (mul_le_mul hmc le_rfl hell0 hcore0)
@@ -262,7 +262,7 @@ theorem dc_prod_node {V : Set (Fin a → ℝ)} (hV : IsOpen V) (hVb : Bornology.
     {A d : ℝ}
     (hc : ∀ s : ℝ, 0 < s → s < d →
       volume {I : Fin a → ℝ | ∃ J ∈ frontier V, dist I J < s} ≤ ENNReal.ofReal (A*s))
-    {t rK l1 l2 : ℝ} (ht : 0 < t) (htd : t < d) (hrK : 0 < rK) (hrKt : rK < t)
+    {t rK l1 l2 : ℝ} (_ht : 0 < t) (_htd : t < d) (hrK : 0 < rK) (hrKt : rK < t)
     (hrKl : rK < l1) (hl : l1 < l2) :
     realNbhd (joinedActions (innerCore V t) (actionShell b l1 l2)) rK =
       joinedActions (realNbhd (innerCore V t) rK) (actionShell b (l1 - rK) (l2 + rK)) ∧
