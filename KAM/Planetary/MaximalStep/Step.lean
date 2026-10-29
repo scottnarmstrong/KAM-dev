@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.StepRemainder
 public import KAM.Planetary.MaximalStep.ParameterFlow
 
 /-!
-# The canonical step in the maximal case (P11A-C8, `bpP:p11a:canonical-step`)
+# The canonical step in the maximal case (`bpP:p11a:canonical-step`)
 
 `canonical_step` is assembled from the fibrewise affine flow (`affine_flow`, `affine_flow_param`),
 the homological stage (`StepHom`) and the integral Lie identity with its Cauchy bracket estimate

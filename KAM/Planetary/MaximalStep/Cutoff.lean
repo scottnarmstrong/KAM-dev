@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.FourierCutoff
 public import KAM.Planetary.MaximalStep.Taylor
 
 /-!
-# The cutoff of the remainder (P11A-C4, `bpP:p11a:cutoff`)
+# The cutoff of the remainder (`bpP:p11a:cutoff`)
 
 `p11Cutoff T R = p11Cut T (p11Taylor R)`: the first-order Taylor part of `R` in the action
 (`taylor_cutoff`, `M = ε`) followed by the Fourier truncation (`fourier_cutoff`, `M = 2ε`). The

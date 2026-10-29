@@ -13,10 +13,10 @@ public import KAM.Canonical.Symplectic
 public import KAM.Frozen.Planetary.Defs.CircularTube
 
 /-!
-# Canonical-step data (P11A-C8)
+# Canonical-step data
 
 The step parameters `P11Step`, the explicit output functions and the hypotheses `P11StepHyp` of
-`bpP:p11a:canonical-step`, copied verbatim from the design signatures. No conclusion is a field.
+`bpP:p11a:canonical-step`. No conclusion is a field.
 -/
 
 @[expose] public noncomputable section

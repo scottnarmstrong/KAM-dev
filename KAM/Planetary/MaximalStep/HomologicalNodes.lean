@@ -12,7 +12,7 @@ public import KAM.Planetary.MaximalStep.StepReal
 public import KAM.Planetary.MaximalStep.StepBound
 
 /-!
-# The maximal homological equation: the literal nodes (P11A-C5)
+# The maximal homological equation: the literal nodes
 
 Unsigned literal exports of `stepP:p11a:hm-div`, `stepP:p11a:hm-bracket` and
 `bpP:p11a:homological-maximal`, from the source premises only (no `0 ≤ L`, no divisor bundle):

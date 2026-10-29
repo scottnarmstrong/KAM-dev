@@ -11,7 +11,7 @@ public import KAM.Weighted.Norm
 public import KAM.Planetary.MaximalStep.Basic
 
 /-!
-# Maximal canonical step: constants (P11A-C0)
+# Maximal canonical step: constants
 
 The Fourier-cutoff constants `p11C`, `p11Error`, `p11Loss` and the homological constant
 `p11Lambda n delta = coth(pi delta)^n - 1` (`bpP:p11a:sec-hom#lambda`), with `p11_lambda_spec`: its

@@ -12,7 +12,7 @@ public import KAM.Frozen.Planetary.Defs.Phase
 public import KAM.Planetary.WeakMeasure.Basic
 
 /-!
-# Maximal canonical step: domains, admissibility and truncation (P11A-C0)
+# Maximal canonical step: domains, admissibility and truncation
 
 Source objects of `p11a2-cutoff-step.tex`: the domain `domain_def` (`bpP:p11a:domain-def`, built
 from the existing `Weighted.Dom`), admissible functions, the sup bound `p11Bound`, the reality

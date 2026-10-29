@@ -9,10 +9,10 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.Basic
 
 /-!
-# Affine generating functions (P11A-C5/C6 shared definition)
+# Affine generating functions (shared definition)
 
-The affine-in-action generating function `p11Affine`, shared by `MaximalStep/HomologicalBracket`
-(P11A-C5) and `MaximalStep/AffineFlowBasic` (P11A-C6), which both use the signature definition.
+The affine-in-action generating function `p11Affine`, shared by `MaximalStep/HomologicalBracket` and
+`MaximalStep/AffineFlowBasic`, which both use this definition.
 -/
 
 @[expose] public noncomputable section

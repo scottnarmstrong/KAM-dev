@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.StepHom
 public import KAM.Canonical.Lie
 
 /-!
-# Analytic tools for the bracket estimate (P11A-C8, `stepP:p11a:cs-bracket`)
+# Analytic tools for the bracket estimate (`stepP:p11a:cs-bracket`)
 
 The displacement of the affine flow at every time `t ∈ [-1, 1]`, the one-variable Cauchy estimate
 along a coordinate direction, and the resulting bound of `Du(x)(a, c)` on the phase space.

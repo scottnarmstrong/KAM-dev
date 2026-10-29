@@ -10,7 +10,7 @@ public import KAM.Planetary.MaximalStep.StepReal
 public import KAM.Planetary.MaximalStep.RealFlow
 
 /-!
-# The real flow of the angle equation (P11A-C8, `stepP:p11a:cs-lip`)
+# The real flow of the angle equation (`stepP:p11a:cs-lip`)
 
 At a real parameter `b` the angle component of the time-one map at `η = 0` is the real flow of
 the field `v = Re φ_1(·, b)` (uniqueness for `θ' = φ_1(θ, b)`); `v` is a trigonometric polynomial

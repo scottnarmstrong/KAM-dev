@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.AffineFlowGauge
 
 /-!
-# Affine flow: trajectories and the simple form (P11A-C6)
+# Affine flow: trajectories and the simple form
 
 `stepP:p11a:af-simple`: the angle component of the flow does not depend on the action
 (uniqueness for `θ' = p1 θ`), and the action component is affine in the initial action

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.MaximalStep.AffineFlow
 
 /-!
-# Affine flow: joint holomorphy in the parameter (P11A-C6)
+# Affine flow: joint holomorphy in the parameter
 
 `stepP:p11a:af-rest` / `bpP:p11a:affine-flow` (f): the augmented field `(b, z) ↦ (0, X_{φ_b}(z))`
 on `B × Ω` is holomorphic and small in the gauge `diag(δ₀⁻¹, W)` on a parameter disc of radius

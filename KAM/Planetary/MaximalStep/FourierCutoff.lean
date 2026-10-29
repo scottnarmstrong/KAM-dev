@@ -13,7 +13,7 @@ public import KAM.Planetary.MaximalStep.FourierCutoffTail
 public import KAM.Planetary.MaximalStep.FourierCutoffCoeff
 
 /-!
-# The elementary Fourier cutoff (P11A-C1)
+# The elementary Fourier cutoff
 
 `fourier_cutoff` (`bpP:p11a:fourier-cutoff`): for `F` admissible on `D(r,s;B)` and bounded by `M`,
 the truncation `p11Cut T F` is a finite trigonometric sum in the angles, admissible on

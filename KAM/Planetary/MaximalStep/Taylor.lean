@@ -11,7 +11,7 @@ public import KAM.Strip.Regularity
 public import KAM.Planetary.MaximalStep.Basic
 
 /-!
-# First-order Taylor part in the action (P11A-C3, `bpP:p11a:taylor-cutoff`)
+# First-order Taylor part in the action (`bpP:p11a:taylor-cutoff`)
 
 For `F` admissible on `D(r,s;B)` with `|F| ≤ M`, the first-order Taylor polynomial `F^{(≤1)}` in
 `η` at `η = 0` is admissible, bounded by `2M`, with remainder `≤ M q²/(1-q)` on `D(r,qs;B)`, and

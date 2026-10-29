@@ -14,7 +14,7 @@ public import KAM.Planetary.MaximalStep.Parameter
 public import KAM.Planetary.MaximalStep.HomologicalBracket
 
 /-!
-# Maximal homological equation (P11A-C5, `bpP:p11a:homological-maximal`)
+# Maximal homological equation (`bpP:p11a:homological-maximal`)
 
 The solution `p11Solve T w P` of `ω(b)·∂_θ φ = P - ⟨P⟩` is the explicit finite trigonometric sum
 `∑_{0<|k|₁≤T} P̂_k(b) / (2πi k·ω(b)) χ_k(θ)`. Here `hmCoef` is its coefficient family and

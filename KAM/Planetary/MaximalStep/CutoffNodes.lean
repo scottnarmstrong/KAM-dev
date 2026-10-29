@@ -12,7 +12,7 @@ public import KAM.Planetary.MaximalStep.FourierCutoff
 public import KAM.Planetary.MaximalStep.Parameter
 
 /-!
-# Literal exports for the cutoff step (GAP-P11a2-cut)
+# Literal exports for the cutoff step
 
 Unsigned exports stating the literal conclusions of the nodes `bpP:p11a:c2-conv#data`,
 `stepP:p11a:fc-tail`, `tc-a`, `tc-b`, `cu-coeff`, `cu-a` and `bpP:p11a:cutoff` of
