@@ -53,7 +53,7 @@ theorem planarTwoPlanetKAM (G m0 : ℝ) (m a : Fin 2 → ℝ)
         ∃ S : Set (Phase (2 * 2)), 0 < volume S ∧ volume S < ⊤ ∧
           MovingKolmogorovSet G m0 m a mu eta d D S :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Planetary.planarTwoPlanetKAM G m0 m a hG hm0 hm ha hsep eta heta
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
