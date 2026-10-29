@@ -1282,7 +1282,7 @@ EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
 LEAN_STATUS: PROVED
 LEAN_REF: iterative (KAM/Nekhoroshev/Partial/Iterative.lean); helpers in IterativeMap.lean, IterativeRemainder.lean
-LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c)
+LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c); retro delta audit N11-F2-audit-2 PASS WITH NOTES (F2-C1 resolved by hc premise)
 NOTE: -
 
 NODE: stepN:p11:it-gen
