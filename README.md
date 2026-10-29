@@ -210,7 +210,7 @@ Overall, everything together: 91.4 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 19:53 UTC from `main` at `e8f9640d` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 19:53 UTC from `main` at `52d6b07e` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -381,6 +381,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 19:53 | `52d6b07e` | guards: mid-line elaborators, elaborator attributes with arguments, DRAFT_SORRY exports outside their anchor, manifest seal limits capped at D26; mutation suite re-run: all real mutations rejected; I.GUARDS done |
 | 2026-10-29 19:29 | `7a8e0f2e` | Land inp into main |
 | 2026-10-29 19:26 | `5a275611` | Land inp into main |
 | 2026-10-29 19:16 | `d3bbfa81` | Land inp into main |
@@ -392,7 +393,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 17:39 | `8d3b7d5f` | Land inp into main |
 | 2026-10-29 17:37 | `2cc3a5a1` | HQ: track SO in two parts (general certificate checker; the Moon's spin rate) in the estimate, glance and tracks table; SO packages detected as landed from files on main (no hand-kept list) |
 | 2026-10-29 17:34 | `e79da9a4` | Land inp into main |
-| 2026-10-29 17:32 | `f1941156` | D32: graph N blueprint scope repair of three Part 1 steps (H1-H5 added by reviewed amendment) |
 <!-- /AUTO:landed -->
 
 ## Decisions
