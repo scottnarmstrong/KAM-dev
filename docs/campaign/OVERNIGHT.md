@@ -521,3 +521,39 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   the design's 650). The remainder is split: P7b (polar averages, Z, h0, f2 and its bounds) and P7c (divisor clauses,
   displacement, aniso_avg application, parametric in P7b's outputs) run in parallel; P7d assembles avg_slow_of_spec
   and the signed wrappers; P7 is audited once, whole.
+- **00:10. Ruling (T16 graph gaps: GAP-D and a D27 bypass).** After T16 landed, the sub-orchestrator kept
+  bpP:p11b:birkhoff-form and bpP:p11b:lift-map open (clause (a) H^Psi o T = h(Lambda) + mu P, and the explicit
+  T = (lambda + g + H, Lambda, rho Y), are not stated). GAP-D exports both from T16's objects and the Poincare/Product
+  splits. stepP:p11b:bt-rot and bt-rot#lift (the analytic angle psi) are BYPASSED under D27: T14's global_planar_frame
+  replaces the simply-connected angle lift, and every consumer of bt-rot is proved through that route.
+- **00:20. P11A-P7 audit plan revised.** The 23:35 split audits P7b, P7c and P7d as each finishes (as for the
+  P11A-P2 split) rather than once at the end, so the assembly P7d is not delayed by a whole-package audit.
+- **00:46. planarTwoPlanetKAM seal-ready.** P12-E (PlanarAssembly/Main: planar, plus the provider
+  KAM.Provider.Planetary.planarTwoPlanetKAM) passed its seal-key audit: exact frozen type, prospective seal with no
+  extra premise and no sorryAx. Its inputs P12-C (pg_hypotheses; delivery gates pass), the P11C T-chain through T21,
+  GAP-D and the sealed properlyDegenerateKAM are all audited. Go given to the sub-orchestrator to seal (19 of 22).
+- **00:50. planarTwoPlanetKAM sealed (19 of 22).** The sub-orchestrator sealed it (seal commit 38b4d910) through the
+  P12-E provider over PlanarAssembly.planar, which applies the sealed properlyDegenerateKAM to P12-C's pg_hypotheses:
+  full build OK (10210 jobs), axioms propext/Classical.choice/Quot.sound only, leanchecker 0 on the frozen and provider
+  modules, lint OK. Remaining DRAFT anchors: fixedSunPlanetaryKAM (P13-A/B in audit; P13-C waits for P11A-P10 via
+  P8 -> P8D), planetaryExponentialSafety (blocked on lane N), partialConvex_nekhoroshev (lane N, Zohar's team).
+- **01:05. Ruling (P11A-P8 split; design-size signal).** P8 delivered only the signed Prepared/Amount definitions;
+  the prover estimates several thousand lines for prepared and amount against the design's 750. Split by graph step:
+  P8a (pr-basic, pr-a: construction of N_eps, P_eps and the composition/domain/sup clauses), P8b (pr-in, pr-b, pr-c,
+  pr-d: Cauchy jet estimates and the frequency/Hessian/jet bounds, against the signed p11PreparedFreq) and P8c (amount:
+  am-norm, am-scale, am-dir, parametric in prepared's conclusions) run in parallel; P8e assembles the signed prepared
+  and amount. Each piece is audited as it finishes.
+- **01:10. Gap fill GAP-E (sub-orchestrator report).** Three nodes stay open after landing: weak-kam-quantitative
+  (K6 is only the composition displacement_power_flat o family.displacement, plus qt-k6), as-b2 (the kappa >= 6
+  clause) and bpP:p11a:situation (B19's signed situation only aliases the output record). GAP-E exports the literal
+  conclusions, append-only.
+- **01:20. Graph-gap programme for landed parts p0-p10 (survey: .drafts/briefs/offload-main/GAP-PLAN-P.md).** 144
+  NOT_STARTED nodes classified: 112 gap-fill (mathematics proved, no declaration states the literal conclusion; about
+  4,400 lines in 14 packages, two waves), 7 bypass candidates, 2 blocked roots (p0 fixed, expsafe), 23 other.
+  Rulings: (a) the 7 bypass candidates (p1 tu-ext, p5 fi-blk, p5 lo-setup, p7 rg-lagrange, p10 gen-prod, weyl-mm,
+  rnd-b) are BYPASSED under D27; (b) a step whose design node table maps it as local to a parent that is PROVED and
+  whose parent audit confirms the step's content inside the proof is PROVED by naming the parent (existing precedent:
+  p3 st-*/it-*, p2 nfb-*, T16 bt-*); (c) **owner to review:** bpP:p5:ext's printed clause "P-tilde = P at all real
+  points of X_delta" is false (design revision 4, P5-EX counterexample); the node gets the amended conclusion
+  "on cl C(V, r0)", which the Lean proves (ext, PGExtension, pgExtension), recorded as an erratum. Wave 1 launches
+  GAP-P7, GAP-P8b, GAP-P13, GAP-P6b now, GAP-P8a/P8c after GAP-P8b.
