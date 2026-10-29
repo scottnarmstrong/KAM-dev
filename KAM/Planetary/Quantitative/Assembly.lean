@@ -175,6 +175,55 @@ theorem p11c_asm_family (ds : SelectionData N) (m0 : ℝ)
     rw [p11c_asm_closed_cell]
     exact o.closed_image_compact _ o.compact_H o.H_subset
 
+/-- The case `eps = 0`: `zero_case` for `h`, transferred to `h + f` since `f` vanishes. -/
+theorem p11c_asm_zero_family (d : QuantitativeData N) (hd : d.Valid) (h : (Fin N → ℂ) → ℂ)
+    (f : (Fin N → ℂ) × (Fin N → ℂ) → ℂ) (hh : QuantitativeInput d h f) (cDelta : ℝ)
+    (hf : ∀ z ∈ complexStrip N d.s ×ˢ actionNbhd d.K (2 * d.vartheta), ‖f z‖ ≤ 0) :
+    Nonempty (QuantitativeFamily d (realHamiltonian h f) cDelta 0) := by
+  have hs : 0 < d.s := hd.1.2.2.2.2.2.2.2.1
+  have hh0 : QuantitativeInput d h 0 := by
+    obtain ⟨hhol, -, -, hreal, -, hfin, htop, hhess, hM0b⟩ := hh
+    exact ⟨hhol, differentiableOn_const 0, fun _ _ _ => rfl, hreal, fun _ _ => by simp, hfin,
+      htop, hhess, hM0b⟩
+  obtain ⟨Q, -, -, -⟩ := zero_case d hd h hh0 cDelta
+  have hGG : ∀ z ∈ p11c_realDomain d, realHamiltonian h f z = realHamiltonian h 0 z := by
+    intro z hz
+    have hmem : realInclusion₂ N z ∈ complexStrip N d.s ×ˢ actionNbhd d.K (2 * d.vartheta) :=
+      ⟨realInclusion_mem_complexStrip hs _, hz⟩
+    have h0 : f (realInclusion₂ N z) = 0 := norm_le_zero_iff.1 (hf _ hmem)
+    have e : realHamiltonian h f z = (h (realInclusion N z.2) + f (realInclusion₂ N z)).re := rfl
+    rw [e, h0]
+    simp only [realHamiltonian, Pi.zero_apply, add_zero]
+    rfl
+  exact ⟨QuantitativeFamily.mk Q.good Q.torus Q.freq Q.compact Q.subset Q.measure
+    (fun b hb => p11c_asm_transfer (p11c_asm_isOpen_domain d) hGG (Q.lattice b hb)) Q.dio
+    Q.displacement Q.lower Q.upper Q.borel Q.cell_lower Q.compact_closed⟩
+
+/-- Uniform cDelta depends on precisely N,mu,tau,s,C1, before K,beta,M,M0,h,f. -/
+theorem weak_kam_quantitative (N mu : ℕ) (tau s C1 : ℝ) :
+    ∃ cDelta : ℝ, 0 < cDelta ∧ ∀ d : QuantitativeData N,
+      d.Valid → d.mu = mu → d.tau = tau → d.s = s → d.C1 = C1 →
+      ∀ h f, QuantitativeInput d h f → ∀ eps : ℝ, 0 ≤ eps → eps ≤ thresholds d →
+      (∀ z ∈ complexStrip N d.s ×ˢ actionNbhd d.K (2 * d.vartheta), ‖f z‖ ≤ eps) →
+      Nonempty (QuantitativeFamily d (realHamiltonian h f) cDelta eps) := by
+  by_cases hpos : 1 ≤ N ∧ 0 < s ∧ 1 ≤ C1
+  · refine ⟨p11c_cDelta N mu tau s C1, p11c_cDelta_pos hpos.1 hpos.2.1 hpos.2.2, ?_⟩
+    intro d hd hmu htau hs hC1 h f hh eps he0 heps hf
+    rcases he0.eq_or_lt with h0 | hpos'
+    · subst h0
+      exact p11c_asm_zero_family d hd h f hh _ hf
+    · obtain ⟨ds, m0, rfl, rfl, hM⟩ := p11c_selData_exists d hd.1 h f hh
+      obtain ⟨hhol, hfhol, hper, hreal, hfreal, -⟩ := hh
+      have e : p11c_cDelta N mu tau s C1 = selectionCDelta ds := by
+        rw [← hmu, ← htau, ← hs, ← hC1]; rfl
+      rw [e]
+      exact p11c_asm_family ds m0 hd.1 hM f eps hpos' heps
+        ⟨hfhol, hper, fun z hz => hfreal z hz, hf⟩
+  · refine ⟨1, one_pos, fun d hd hmu htau hs hC1 => ?_⟩
+    exfalso
+    obtain ⟨hN, -, -, -, -, -, -, hs0, -, hC, -⟩ := hd.1
+    exact hpos ⟨hN, hs ▸ hs0, hC1 ▸ hC⟩
+
 end KAM.Planetary
 
 end
