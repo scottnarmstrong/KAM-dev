@@ -250,6 +250,54 @@ theorem p11PreparedCoreOf_NP_real (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 
   rw [Complex.add_im, h1, h2]
   simp
 
+/-- A pointwise weighted bound over an open action set bounds the sup (`N:bpN:p4:sup-weighted`). -/
+theorem p11_norm_le_of_wbound_open {s M : ℝ} {f : P11Phase (n+n) → ℂ} {V : Set (P11CVec (n+n))}
+    (hV : IsOpen V) (hd : DifferentiableOn ℂ f (KAM.complexStrip (n+n) s ×ˢ V))
+    (hper : ∀ z ∈ KAM.complexStrip (n+n) s ×ˢ V, ∀ i, f (z.1+Pi.single i 1, z.2) = f z)
+    (hb : p11WBound V s f M) : ∀ z ∈ KAM.complexStrip (n+n) s ×ˢ V, ‖f z‖ ≤ M := by
+  intro z hz
+  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.1 hV z.2 hz.2
+  have hsub : KAM.Weighted.Dom (n+n) ({z.2} : Set (P11CVec (n+n))) δ s ⊆
+      KAM.complexStrip (n+n) s ×ˢ V := by
+    rintro w ⟨hw1, I', hI', hw2⟩
+    rw [Set.mem_singleton_iff] at hI'
+    subst hI'
+    exact ⟨hw1, hball (by simpa [Metric.mem_ball, dist_eq_norm] using hw2)⟩
+  have hu : KAM.Weighted.InClass ({z.2} : Set (P11CVec (n+n))) δ s f :=
+    ⟨hd.mono hsub, fun j w hw => hper w (hsub hw) j⟩
+  have hb' : KAM.Weighted.WBound ({z.2} : Set (P11CVec (n+n))) δ s f M := by
+    intro I hI
+    obtain ⟨I', hI', hI2⟩ := hI
+    rw [Set.mem_singleton_iff] at hI'
+    subst hI'
+    exact hb I (hball (by simpa [Metric.mem_ball, dist_eq_norm] using hI2))
+  exact KAM.Weighted.sup_le_wbound hu hb' z ⟨hz.1, z.2, rfl, by simpa using hδ⟩
+
+/-- `stepP:p11:pr-a`: `sup |P_eps| <= eps^{-1} sup |f_3| <= c eps^{nu+3/2} ell^{2 tau_0+1}`. -/
+theorem p11PreparedCoreOf_P_bound (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hd : DifferentiableOn ℂ A.f3 (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)))
+    (hper : ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2),
+      ∀ i : Fin (n+n), A.f3 (z.1+Pi.single i 1, z.2) = A.f3 z)
+    {c : ℝ}
+    (hb : p11WBound (p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2))
+      (C.sigma/12/6) A.f3 (eps^nu*(c*eps^(5/2 : ℝ)*Real.log (1/eps)^(2*C.tau+1)))) :
+    p11Bound (KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1)
+      (p11PreparedCoreOf C Fast A eps W).P
+      (c*eps^(nu+3/2)*Real.log (1/eps)^(2*C.tau+1)) := by
+  intro z hz
+  have hsup := p11_norm_le_of_wbound_open (p11Box_isOpen _ _ _) hd hper hb _
+    (p11Rescale_mem_dom heps hpe hz)
+  show ‖A.f3 (p11Rescale C.J0 eps z)/(eps : ℂ)‖ ≤ _
+  rw [norm_div, Complex.norm_real, Real.norm_eq_abs, abs_of_pos heps, div_le_iff₀ heps]
+  refine hsup.trans (le_of_eq ?_)
+  have h1 : eps^(nu+3/2)*eps = eps^nu*eps^(5/2 : ℝ) := by
+    rw [← Real.rpow_add_one heps.ne', ← Real.rpow_add heps]; ring_nf
+  calc eps^nu*(c*eps^(5/2 : ℝ)*Real.log (1/eps)^(2*C.tau+1))
+      = c*(eps^nu*eps^(5/2 : ℝ))*Real.log (1/eps)^(2*C.tau+1) := by ring
+    _ = _ := by rw [← h1]; ring
+
 end Clauses
 
 end KAM.Planetary
