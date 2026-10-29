@@ -1,6 +1,7 @@
 # Lean design: the general torus-certificate black box and its lunar client (track SO)
 
-Design SO-DESIGN, **Revision 2**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`). This is
+Design SO-DESIGN, **Revision 3**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
+`d2352a2d`, audited FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-2.md`). This is
 planning evidence only. It claims no proof, touches no frozen file and freezes nothing. Appendix A (the
 exact draft signatures) elaborates against the shared `inp` build with `sorry` bodies only (§9).
 
@@ -34,6 +35,20 @@ includes the landed SO-MODEL, SO-DIO and SO-CLOCK. Running siblings were read at
 | `inp:KAM/SpinOrbit/Model.lean` | `d9b99918c48809dd7713fcd0560a58b0c347a99bb603bea05d316aef22f8d46f` |
 | `inp:KAM/SpinOrbit/Hamiltonian.lean` | `586af68ee2cc4d5bdefbabc9d40aa7950d24c2970ea026d3d9d69e63e6bb295e` |
 
+## Revision 3
+
+Revision 3 is a small, targeted repair of the three new findings of the independent design audit 2
+(verdict FAIL, base `0cb95879`) and of the residual items it lists under F3 and F6. Nothing else changes;
+the Revision 2 table below stays valid except where this table supersedes it.
+
+| Item | Change | Where |
+|---|---|---|
+| **F7** (HIGH) averaged torsion not attached to the dimension | `torsionAvgCheck` now takes `n` and **first** checks the exact shapes `ModelMatrix.HasShape (n + 1) T` and `HasShape (n + 1) S` (decidable list-length tests: `n + 1` rows, each of length `n + 1`); it rejects otherwise, and all its matrix arithmetic is on `(n+1) × (n+1)` arrays. New law-free contract `torsionAvgCheck_shape` (pass ⇒ both shapes; this also states the F7 negative test). `torsionAvgCheck_sound` is stated for that same `n` (`h : torsionAvgCheck n T S σTμ = true`). Because `torsionIdx n` is a bijection onto `{0, …, n}`, `HasShape (n+1) T` plus `T.Encloses n (torsionIdx n) ρ F` makes the checked list matrix exactly the denoted bordered matrix, so the audit's `3×3` matrix `A` with singular leading block can no longer certify the `n = 1` average. The producer now also exports the shape: `torsionModels_sound` concludes `HasShape (n + 1) T ∧ T.Encloses … ∧ continuity`. `checkTorsion` calls `torsionAvgCheck n` with `c.torsInv`, and `checkTorsion_sound` assembles at the certificate's own `n`. The general inverse test is not restricted (no principal-block condition, no `2 ≤ n` substitute). New negative test 9 (§8). | §1.9, §4, §8; A §F, §G |
+| **F8** (MEDIUM) norm bounds false at `n = 0` | `norm_fderiv_hamiltonianVectorFieldℂ_le` and `norm_iteratedFDeriv_two_hamiltonianVectorFieldℂ_le` take `(hn : 1 ≤ n)`; the row-sum premise is then nonvacuous and forces `0 ≤ B`. The checker derives `1 ≤ n` from `StaticFacts.hn : 2 ≤ n` in `checkHamBounds_sound`. | §1.3, §4; A §E |
+| **F9** (MEDIUM) lunar `J`-row identity | Corrected. Since `H` is affine in `J` with `∂_J H ≡ 1` and the other partials independent of `J`, `X_H(K̃) = X_H(K₀)`, so `E(K̃) = E(K₀) − (0, 0, 0, D_{sω*}ΔJ)`: **`E(K̃)_J = E(K₀)_J − D_{sω*}ΔJ`**, which is `p r − D_{sω*}ΔJ` under the scalar pilot identities (and only then). Gate G-J now budgets the **sum**: `B_r + B₁ + B_c ≤ e/2`, where `B_r = sup|E(K₀)_J|` (`= sup|p r|` under the pilot identities), `B₁ = sup|D_{sω*}ΔJ|`, and `B_c` bounds every other candidate-replacement error (finite Fourier `q, φ, p` data differing from the pilot's scalar embedding, coefficient rounding/truncation), with the `q, φ, p` rows `≤ e/2` likewise. The previous stand-alone target `B₁ ≤ e/4` is withdrawn. The mandatory recomputation of the **actual full residual** of `K̃` by the checker (and by SO-GEN's exact evaluator) is unchanged; no identity is used in soundness. | §6, §10 |
+| **F3** residual (torsion/sub-check contract) | Closed by F7: the producer→consumer pair `torsionModels_sound` → `torsionAvgCheck_sound` now matches on `n`, shape, enclosure and continuity, with no unstated premise. Also from the audit's soundness notes: `CertPoly.add` is **exact list concatenation** (law-free, no error term) with `eval_add` an equality, because a uniform bound for all complex `θ` cannot hold for rounded nonzero modes; rounded coefficient merging lives only in the strip-weighted `CertModel.add`. Implementation obligations recorded for SO-EXPR/SO-BALL: jet compilation/pruning must keep every denominator-validation slot (folding `0 * (1/0)` to `0`, or `.pow a 0` to `1`, must not drop a denominator that `NonvanishingOn` requires). | §1.4, §4, §7; A §B |
+| **F6** residual (SO-BALL's dependence on `CertArith ℚ`) | The trivial exact instance `instCertArithRat` / `instLawfulCertArithRat` (`val = cast`, zero errors) moves to the **pre-gate** SO-AIF (`Arith/Rat.lean`); SO-BALL imports it. SO-ABK (post-gate) keeps only `Arith/Fixed` and the production-backend choice. Lines move from SO-ABK to SO-AIF; totals are unchanged. | §5, §7; A §A |
+
 ## Revision 2
 
 Revision 2 answers every finding of the independent design audit 1 (verdict FAIL) and the owner rulings
@@ -45,7 +60,7 @@ O1–O4. The table lists each change and where it lives. "A §X" means section X
 | **F2** (HIGH) arithmetic laws | Option "restructure". (a) Real data has a **law-free direct denotation** `CertRealPoly.eval` (constant `val zero` plus the sum of `c χ_k + c̄ χ_{−k}`). `CertEmbedding.eval` uses it, and a missing component denotes `0` rather than a backend `ofInt 0`. Reality of `K` (`isRealOnReals`), differentiability and periodicity are law-free and unconditional; the audit's `α = Unit` carrier is harmless for them. (b) Every theorem about a *computed* object assumes `[LawfulCertArith α]`: `eval_toPoly` (the explicit "constant plus conjugate-pair sum" denotation theorem), `conjugateSymmetric`, `CC.toC_conj`, `CC.toC_zero`, `eval_add`, `eval_conjReflect`, the model and witness theorems, and all sub-check contracts. (c) Backend default values were rechecked. `ModelMatrix.Encloses` requires every entry to be present, `polyMatrix` and `CertEmbedding.eval` default to `0`, and `compose_sound` states `ms.length = wanted.length` and indexes without a default. | §2; A §A, §B, §D, §F |
 | **F3** (MEDIUM) torsion contract | `torsionModels_sound` is stated. Its inputs are the validated weight and `π`, a successful `gramCheck` whose certified `(δ, β)` is passed into `torsionModels`, successful construction, the frequency box with `FreqEncloses` of the exact `ω`, the scalar `s`, `K` mapping the strip into an open `D`, and `e.NonvanishingOn D`. Its conclusion is the entrywise enclosure of the **literal frozen** `extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω)` (the `torsion` block with `DN[sω]`, the border column `sω`, and the last row `DH(K) N`) together with its continuity. `gramCheck_sound` now also exports `‖G⁻¹ − B‖ ≤ δβ/(1−δ)`. All eight sub-check contracts are stated, with an acyclic assembly route to every `G1Hyps` field (§4). `hT`, Gram invertibility and torsion continuity are derived, never assumed. | §1.9, §4; A §F, §G "Sub-check contracts" |
 | **F4** (MEDIUM) toy | Revision 1's zero-error `ℚ(√5)` toy was unrepresentable and is replaced. **T2**: `H = J + p²/2`, `K = (θ, (ν̃, −ν̃²/2))` with **rational** `ν̃ ≈ ν₋`, reference vector `(ν₋/2, 1/2)` from SO-DIO, `s = 2`, and a **positive** residual budget `err ≥ |ν̃ − ν₋|`. **T2d** is T2 with a division in `H`, to exercise O2. **T3** is the `n = 3` analogue with `cubicFreq`. All three discharge the Diophantine premise (`toyCert{2,2d,3}_torus`). A separate checker-only test **TR** keeps exact rational `ν = 1/2` and zero error, and is labelled as having no Diophantine premise (its vector is resonant). | §8; A §J |
-| **F5** (MEDIUM) Fourier `J` | Both remedies apply. (a) The checker evaluates **every** sub-check on the actual four-component candidate `K̃ = (q, φ, p, J̃)`: invariance, energy, `DK`, Gram, torsion and graph checks all read `J̃`'s data. No pilot identity (`H(K) = E₀`, zero energy error) is used anywhere in soundness. (b) Feasibility gate **G-J** applies before SO-DATA. SO-GEN must deliver exact finite data plus explicit strip-weighted budgets for `ΔJ := J̃ − J₀`, where `J₀ = E₀ − p²/2 − V(q, φ)` is the exact energy lift and `H(K̃) − E₀ = ΔJ` holds identically. The budgets are `B₀ = sup_{T_ρ}|ΔJ|`, `B₁ = sup_{T_ρ}|D_{sω*}ΔJ|`, and `B₂ = max(sup|∂ΔJ|, sup|∂²ΔJ|)`, with targets `B₀, B₁ ≤ e/4` and `B₂ ≤ 10⁻⁹⁰`. SO-GEN must also recompute every sub-check margin on `K̃` independently of the scalar pilot. | §6, §7 (gate G-J) |
+| **F5** (MEDIUM) Fourier `J` | Both remedies apply. (a) The checker evaluates **every** sub-check on the actual four-component candidate `K̃ = (q, φ, p, J̃)`: invariance, energy, `DK`, Gram, torsion and graph checks all read `J̃`'s data. No pilot identity (`H(K) = E₀`, zero energy error) is used anywhere in soundness. (b) Feasibility gate **G-J** applies before SO-DATA. SO-GEN must deliver exact finite data plus explicit strip-weighted budgets for `ΔJ := J̃ − J₀`, where `J₀ = E₀ − p²/2 − V(q, φ)` is the exact energy lift and `H(K̃) − E₀ = ΔJ` holds identically. The budgets are `B₀ = sup_{T_ρ}|ΔJ|`, `B₁ = sup_{T_ρ}|D_{sω*}ΔJ|`, and `B₂ = max(sup|∂ΔJ|, sup|∂²ΔJ|)`, with targets `B₀, B₁ ≤ e/4` and `B₂ ≤ 10⁻⁹⁰`. SO-GEN must also recompute every sub-check margin on `K̃` independently of the scalar pilot. *(Revision 3, F9: the `J`-row identity and the G-J targets are corrected; see the Revision 3 table.)* | §6, §7 (gate G-J) |
 | **F6** (MEDIUM) gating | Packages are split into a **pre-gate** set (backend-neutral interfaces, ℚ-only mathematics, structural semantics) and a **post-gate** set (backend instances, performance-sensitive algorithms, data), which waits for the SO-REPLAY verdict. SO-ARITH is split into SO-AIF (interface, pre-gate) and SO-ABK (backends, post-gate). SO-CONST and SO-PI are running pre-gate, and SO-CLOCK has **landed** (`inp` `092a9d11`). `phaseBasis` lives in the shared basic module `KAM/Certificate/PhaseBasis.lean` (landed), which `Expr/Diff`, `NormBridge` and `Clock` import. The line totals are recomputed. | §7 |
 | **O1** momentum window | Kept: the headline initial region is the constant window `lunarPLo < p₀ < lunarPHi` (about `(0.9819, 1.0181)`), and graph-error transport is deferred. Literal rational endpoints replace the names before the freeze. | §6 |
 | **O2** division | `HamExpr.div` and `SlpOp.inv` are added; `HamExpr.eval` uses `/`. `HamExpr.NonvanishingOn` (recursive, concrete) states that every denominator is nonzero on a set. Holomorphy is structural on open sets where it holds (`contDiffOn_eval`), and the jets need it (`jet_d1/d2/d3`). Periodicity and reality stay unconditional. Nonvanishing on `D` is **certified** by the new ℚ ball arithmetic `Slp.balls`, which fails on any `inv` whose operand ball contains `0` (`nonvanishingOn_of_balls`, part of `checkHamBounds`). Along `K`, a reciprocal **a-posteriori witness** (`invWitness_sound`, scalar Neumann series) certifies nonvanishing on the strip and encloses `1/b`, with no lower-bound data. The norm bridges take local `ContDiffAt`. | §1.1, §1.4, §1.7; A §C, §D, §E |
@@ -79,7 +94,9 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
 3. **Norms.** These are exactly the existing API: max norms on `Fin n → ℂ` and on the product; operator
    norms of `fderiv` and `iteratedFDeriv`; the matrix row-sum norm via `open scoped Matrix.Norms.Operator`.
    New bridges (A §E) bound `‖DH‖`, `‖D²H‖`, `‖DX_H‖` and `‖D²X_H‖` by sums of partials along
-   `phaseBasis a`, assuming **local** `ContDiffAt` (division).
+   `phaseBasis a`, assuming **local** `ContDiffAt` (division). The two `X_H` bridges also take
+   `1 ≤ n` (Revision 3, F8: at `n = 0` the row-sum premise is vacuous and a negative `B` would make
+   them false); the checker supplies it from `2 ≤ n`.
 4. **Derivatives: the checker differentiates symbolically.** The certificate carries no derivative data.
    `HamExpr` is compiled to a straight-line program (`Slp`) whose ops are const with `2π`-degree, action,
    character, add, mul, exp and **inv**. `HamExpr.jet` appends forward-mode derivative slots up to order 3
@@ -88,7 +105,10 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
    `exp` via `certCExp`). Balls replace Revision 1's majorants (majorant = `|centre| + radius`) and also
    certify every `inv` operand away from `0`. Cauchy-only bounds remain rejected (a factor of about 6 in
    `M`, about `6^{30}` in the constants). Derivatives of `K` are exact Fourier multipliers on its data
-   (`CertModel.ofDeriv`).
+   (`CertModel.ofDeriv`). Implementation obligation (audit 2, Revision 3): constant folding and pruning
+   in the jet compiler must preserve every denominator-validation slot that `NonvanishingOn` of the
+   source expression needs (`0 * (1/0)` folded to `0`, or `.pow a 0` to `1`, keeps its `inv` operand in
+   the ball pass), so a successful ball evaluation always certifies the syntactic expression.
 5. **Enclosure semantics: Fourier models in the sup norm on the open strip.** A model `(deg, P, r)`
    denotes `(2π)^deg (P + T)`, where `P` is a finite polynomial and `sup_{T_ρ}|T| ≤ r`
    (`CertModel.Encloses`). Truncation and rounding move `|c_k| w^{|k|₁}` into `r`, where `w ≥ e^{2πρ}` is
@@ -121,7 +141,10 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
    - the last row `DH(K)N` (jet `d1` composed with `K`).
 
    The average is the zero mode ± radius. A constant witness `S` gives
-   `δ_T = ‖I − SC‖ + ‖S‖‖R‖ < 1`.
+   `δ_T = ‖I − SC‖ + ‖S‖‖R‖ < 1`. **(Revision 3, F7.)** `torsionAvgCheck n` first checks that `T`
+   and `S` have exactly `n + 1` rows of length `n + 1` (`ModelMatrix.HasShape`), and
+   `torsionModels_sound` exports that shape for the producer's output, so the certified inverse is the
+   inverse of the whole `(n+1) × (n+1)` average and never of a larger matrix containing it.
 10. **Frequencies (F1).** The certificate carries a rational box, and the theorem takes the exact
     `ωstar : Fin n → ℝ` with `FreqEncloses` and `IsDiophantine`. `ω* ≠ 0`, the ray margins
     `ν ≤ (s−1)‖ω*‖`, `ν ≤ (σω−s)‖ω*‖` and every `sω`-dependent model use only the box. The box fact is
@@ -234,7 +257,10 @@ instead of a projection).
 
 Notes on the table:
 - `K θ ∈ D` follows from `hball` with `μ > 0`.
-- The continuity premise of `torsionAvgCheck_sound` is the second conjunct of `torsionModels_sound`.
+- The continuity premise of `torsionAvgCheck_sound` is the last conjunct of `torsionModels_sound`; its
+  enclosure premise is the middle conjunct, at the same `n`; the exact shape (first conjunct, and
+  `torsionAvgCheck_shape`) ties the checked list dimension to `n + 1` (Revision 3, F7).
+- `checkHamBounds_sound` passes `1 ≤ n` (from `StaticFacts.hn`) to the two §E norm bridges (F8).
 - `CertifiedTorus c ωstar` is the `IG1Body` conclusion verbatim, with `disp` as the closeness bound. It
   is never a hypothesis (rule 6). `hω` is a typing fact about the input vector, of the same kind as
   `hdio`, and is supplied by a provider.
@@ -243,7 +269,8 @@ Notes on the table:
 
 The checker is generic in `α` with `[CertArith α]`; soundness needs `[LawfulCertArith α]`. Two instances
 are planned:
-- `ℚ`: exact, with zero error terms;
+- `ℚ`: exact, with zero error terms; trivial, hence **pre-gate** in SO-AIF (`Arith/Rat.lean`), because the
+  pre-gate ball arithmetic (SO-BALL) denotes its `CC ℚ` balls through it (Revision 3, F6);
 - `CertFixed P`: floor rounding, with ulp errors carried in `mulErr`/`addErr`.
 
 Data numbers are exact in both; only computed centres round. Ball arithmetic on `D`, frequency boxes,
@@ -280,10 +307,19 @@ overrides.
   - `U = (v/2π, 0)` with `angleDeg = −1`; `A = (p, J̃)`.
 - **Four-component candidate and budgets (F5).** `J̃ = J₀ + ΔJ` is finite Fourier data.
   - The checker re-evaluates every sub-check on `K̃ = (q, φ, p, J̃)`, so soundness uses no pilot identity.
-  - Exactly, `H(K̃) − E₀ = ΔJ` and the `J` row of the invariance error is `−D_{sω*}ΔJ`. The other rows are
-    those of the scalar pilot.
-  - Feasibility gate **G-J** (SO-GEN, before SO-DATA): report `B₀ = sup|ΔJ|`, `B₁ = sup|D_{sω*}ΔJ|` and
-    `B₂ = max(sup|∂ΔJ|, sup|∂²ΔJ|)` on `T_{1/200}`, with `B₀, B₁ ≤ e/4` and `B₂ ≤ 10⁻⁹⁰`.
+  - Exactly, `H(K̃) − E₀ = ΔJ`. Since `𝓗` is affine in `J` with `∂_J 𝓗 ≡ 1` and its other partials do
+    not depend on `J`, `X_H(K̃) = X_H(K₀)`, hence (Revision 3, F9, correcting Revision 2)
+    `E(K̃) = E(K₀) − (0, 0, 0, D_{sω*}ΔJ)`, i.e. **`E(K̃)_J = E(K₀)_J − D_{sω*}ΔJ`**, and the
+    `q, φ, p` rows of `E(K̃)` equal those of `E(K₀)`. Under the scalar pilot identities `E(K₀)_J = p r`,
+    so `E(K̃)_J = p r − D_{sω*}ΔJ`; if the Fourier `q, φ, p` data no longer satisfy those identities,
+    only the general difference formula and the actual full residual apply.
+  - Feasibility gate **G-J** (SO-GEN, before SO-DATA), on `T_{1/200}`: report `B₀ = sup|ΔJ|`,
+    `B₁ = sup|D_{sω*}ΔJ|`, `B₂ = max(sup|∂ΔJ|, sup|∂²ΔJ|)`, `B_r = sup|E(K₀)_J|` (`= sup|p r|` under the
+    pilot identities), and `B_c`, a bound for every other candidate-replacement error (finite Fourier
+    `q, φ, p` data versus the pilot's scalar embedding, coefficient rounding and truncation). Targets:
+    `B_r + B₁ + B_c ≤ e/2`, the `q, φ, p` rows of `E(K₀)` plus `B_c` `≤ e/2`, `B₀ ≤ e/4` (energy),
+    `B₂ ≤ 10⁻⁹⁰`. The Revision 2 target `B₁ ≤ e/4` alone did not account for `B_r` and is withdrawn.
+    These are feasibility targets only: the checker recomputes the actual full residual of `K̃`.
   - SO-GEN must also report every sub-check margin on `K̃`, recomputed by its exact evaluator:
     invariance, energy, `DK`, ball, Gram `δ`, torsion `δ_T`, smallness `C₁e/(γ⁴ρ⁴) ≤ 1/2`, graph `mono`,
     and `p` range.
@@ -312,7 +348,8 @@ Certificate/PhaseBasis                         (landed, SO-CLOCK)  → Torus/Bas
 Certificate/Clock                              (landed, SO-CLOCK)  → PhaseBasis, Frozen defs, Strip/*
 Certificate/Arith/PiHigh                       (SO-PI, running)    → Mathlib only
 Certificate/Arith/{Interface,PiEnclosure,Roots,Transcendental}     → Arith/PiHigh
-Certificate/Arith/{Rat,Fixed}                  (post-gate)         → Arith/Interface
+Certificate/Arith/Rat                          (pre-gate, SO-AIF)  → Arith/Interface
+Certificate/Arith/Fixed                        (post-gate)         → Arith/Interface
 Certificate/Freq                               → Arith/Roots, Frozen/Defs/IsDiophantine
 Certificate/CubicDiophantine                   → Freq
 Certificate/Poly/Basic                         → Arith/Interface, Strip/FourierSeries
@@ -322,7 +359,7 @@ Certificate/Model/Ops                          (post-gate)         → Model/Bas
 Certificate/Model/{Exp,Inv}                    (post-gate)         → Model/Ops
 Certificate/Expr/Basic                         → PhaseBasis, Poly/Basic (CertKey)
 Certificate/Expr/{Slp,Diff}                    → Expr/Basic, PhaseBasis
-Certificate/Expr/Ball                          → Expr/Slp, Model/Basic (weights), Arith/Transcendental
+Certificate/Expr/Ball                          → Expr/Slp, Model/Basic (weights), Arith/{Rat,Transcendental}
 Certificate/NormBridge                         → PhaseBasis, Frozen/Defs/HamiltonianVectorFieldC
 Certificate/MatrixInv                          → Matrix/Neumann, Matrix/Inverse   (approx-inverse lemmas)
 Certificate/Embedding                          (post-gate)         → Poly/*, Model/Ops
@@ -361,18 +398,18 @@ precision split, shard sizes) depend on it. SO-DATA additionally waits for gate 
 | SO-CLOCK | landed | PhaseBasis, Clock | (400, done) | — |
 | SO-PI | pre (running) | Arith/PiHigh | 500 | — |
 | SO-CONST | pre (running) | Constants | 700 | SO-PI (`eLowRat`; or Mathlib bounds) |
-| SO-AIF | pre | Arith/{Interface,PiEnclosure,Roots,Transcendental} | 600 | SO-PI |
+| SO-AIF | pre | Arith/{Interface,PiEnclosure,Roots,Transcendental,Rat} | 700 | SO-PI |
 | SO-FREQ | pre | Freq, SpinOrbit/Freq | 350 | SO-AIF |
 | SO-DIO3 | pre | CubicDiophantine | 350 | SO-FREQ |
 | SO-PBASE | pre | Poly/Basic, Model/Basic | 800 (A: Poly 400, B: Model 400) | SO-AIF |
 | SO-EXPR | pre | Expr/{Basic,Slp,Diff} | 1700 (A: Basic+structural+`NonvanishingOn` 600; B1: Slp+`d1`/`d2` 550; B2: `d3` 550) | SO-PBASE (A) |
-| SO-BALL | pre | Expr/Ball | 450 | SO-EXPR |
+| SO-BALL | pre | Expr/Ball | 450 | SO-EXPR, SO-AIF (`Arith/Rat`) |
 | SO-NORM | pre | NormBridge | 400 | — |
 | SO-MINV | pre | MatrixInv | 300 | — |
 | SO-HAMX | pre | SpinOrbit/HamExpr | 200 | SO-EXPR |
 | SO-CONF | pre | SpinOrbit/Barrier | 600 | — |
 | SO-GRAPHM | pre | SpinOrbit/Graph/Inverse | 600 | SO-CONF |
-| SO-ABK | post | Arith/{Rat,Fixed} | 600 | SO-AIF, SO-REPLAY |
+| SO-ABK | post | Arith/Fixed (and the production-backend choice) | 500 | SO-AIF, SO-REPLAY |
 | SO-POLY | post | Poly/Ops | 650 | SO-PBASE, SO-ABK |
 | SO-MALG | post | Model/Ops | 650 | SO-POLY |
 | SO-EXPW | post | Model/{Exp,Inv} | 800 | SO-MALG |
@@ -388,9 +425,9 @@ precision split, shard sizes) depend on it. SO-DATA additionally waits for gate 
 | SO-LUNAR | post | Lunar*Passes, LunarConfinement | 400 | all |
 
 **Totals (recomputed, F6/feasibility note).**
-- Pre-gate: 500 + 700 + 600 + 350 + 350 + 800 + 1700 + 450 + 400 + 300 + 200 + 600 + 600 = **7,550**
+- Pre-gate: 500 + 700 + 700 + 350 + 350 + 800 + 1700 + 450 + 400 + 300 + 200 + 600 + 600 = **7,650**
   (plus SO-CLOCK's landed 400).
-- Post-gate: 600 + 650 + 650 + 800 + 800 + 600 + 1000 + 350 + 600 + 1400 + 450 + 400 + 400 = **8,700**.
+- Post-gate: 500 + 650 + 650 + 800 + 800 + 600 + 1000 + 350 + 600 + 1400 + 450 + 400 + 400 = **8,600**. (Revision 3 moved 100 lines of `Arith/Rat` from SO-ABK to SO-AIF.)
 - Hand-written total still to write: **16,250**. Adding SO-CLOCK (landed, 400) and the rest of wave 0
   (landed, about 1,500) gives about 18,150 in all.
 - With a 30–40% overrun on the unwritten 16,250: 21.1k–22.8k new lines, about 23–24.7k overall, inside the
@@ -425,7 +462,10 @@ argument, torsion derivative models, graph inversion) are unchanged and carry th
   6. **(O2)** a division whose denominator ball contains `0` on `D` fails `checkHamBounds`, and a
      reciprocal witness with `δ ≥ 1` fails composition;
   7. **(F1)** a box that does not exclude `0`, or that violates a ray margin, fails `checkStatic`;
-  8. **(O3)** a `PiEnclosure` narrower than the Machin bounds fails `checkPiEnclosure`.
+  8. **(O3)** a `PiEnclosure` narrower than the Machin bounds fails `checkPiEnclosure`;
+  9. **(F7)** at `n = 1`, a torsion model matrix or witness `S` with `3` rows (or a row of length `≠ 2`),
+     e.g. the audit's self-inverse `A = [1 0 0; 0 0 1; 0 1 0]`, fails `torsionAvgCheck 1` and hence
+     `checkTorsion`, although `A` is a valid inverse pair with zero defect.
 - **Axiom audit.** `#print axioms` of `checkTorusCertificate_sound`, every `*Passes` and `*_torus` theorem
   and the two lunar theorems shows only `propext`, `Classical.choice` and `Quot.sound`.
 - **Cross-check.** SO-GEN's exact evaluator recomputes every sub-check margin from the same data (gate
@@ -440,8 +480,8 @@ LEAN_NUM_THREADS=1 /mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh 
   /root/code/KAM-inp-design-so .drafts/design/SOSignatures.lean
 ```
 
-Result on Revision 2: **exit 0, 156 warnings, all `declaration uses 'sorry'`, no error**. This
-establishes elaboration only. The file has 1337 lines, imports the real `KAM.SpinOrbit.{Model,
+Result on Revision 3: **exit 0, 156 warnings, all `declaration uses 'sorry'`, no error** (Revision 2:
+the same counts, 1337 lines). This establishes elaboration only. The file has 1360 lines, imports the real `KAM.SpinOrbit.{Model,
 Hamiltonian}` and `KAM.Certificate.QuadraticDiophantine`, and keeps verbatim stand-ins only for SO-PI
 (running) and for SO-CLOCK's `phaseBasis` and `clock_frequency`. SO-CLOCK has landed on `inp` but is not
 yet in the shared build. The landed `clock_frequency` statement was compared and is identical.
@@ -453,7 +493,7 @@ yet in the shared build. The landed `clock_frequency` statement was compared and
 | Kernel replay too slow or too deep | SO-REPLAY; a stage needs an override | shard with `List.all`; fixed point; sharper `n = 2` constants (plan lever); never an override |
 | Ball arithmetic on `D` exceeds `M = 4` | `checkHamBounds` margin | per-coordinate radii, smaller `ρ_H`; the pilot majorant 2.69 leaves room |
 | Witness pin radius dominated by `e^{2B}` | `checkInvariance` margin | halving rewrite `exp a ↦ (exp(a/2))²` |
-| `ΔJ` budgets exceed `e/4` | gate G-J | raise the SO-GEN truncation threshold for `J̃`; `J̃` is cheap (no witness) |
+| `B_r + B₁ + B_c` exceeds `e/2` | gate G-J | raise the SO-GEN truncation threshold for `J̃`; `J̃` is cheap (no witness) |
 | Gram/torsion witnesses weak | `δ`, `δ_T` near 1 | Fourier-model `B`; Newton-refined `B` from the generator |
 | Toy T3 constants (`n = 3`, `τ = 2`) huge | `isoC1Q` | larger `N` (rational size only), larger `ρ` (the toy is entire) |
 | Coarse balls for a division client | inv fails on `D` | smaller `D`, or split the denominator's constant part |
@@ -507,7 +547,7 @@ public import KAM.SpinOrbit.Hamiltonian
 public import KAM.Certificate.QuadraticDiophantine
 
 /-!
-# SO-DESIGN Revision 2: exact draft signatures (track SO, lunar spin-orbit certificate project)
+# SO-DESIGN Revision 3: exact draft signatures (track SO, lunar spin-orbit certificate project)
 
 Design document: `docs/tracks/SO/design/SO-LEAN-DESIGN.md` (Appendix A is this file). Every proof
 and every non-trivial definition body is `sorry`: this file only fixes the Lean surface. It is a
@@ -608,9 +648,14 @@ theorem CC.toC_conj {α : Type} [CertArith α] [LawfulCertArith α] (c : CC α) 
 theorem CC.toC_zero {α : Type} [CertArith α] [LawfulCertArith α] :
     (⟨ofInt 0, ofInt 0⟩ : CC α).toC = 0 := sorry
 
-/-! ### Backends (`KAM/Certificate/Arith/{Rat,Fixed}.lean`; AFTER the SO-REPLAY verdict) -/
+/-! ### Backends (`KAM/Certificate/Arith/{Rat,Fixed}.lean`)
 
-/-- Backend 1: exact rationals (`addErr = mulErr = 0`). -/
+The exact rational instance is trivial (`val = cast`, zero errors) and is PRE-gate, in SO-AIF
+(`Arith/Rat.lean`): the pre-gate ball arithmetic `Slp.balls` (SO-BALL) denotes `CC ℚ` through it
+(audit 2, F6). Only the fixed-point backend and the choice of the production backend wait for
+the SO-REPLAY verdict (SO-ABK). -/
+
+/-- Backend 1: exact rationals (`addErr = mulErr = 0`; pre-gate, SO-AIF). -/
 instance instCertArithRat : CertArith ℚ := sorry
 
 instance instLawfulCertArithRat : LawfulCertArith ℚ := sorry
@@ -779,13 +824,13 @@ theorem CertRealPoly.eval_toPoly {α : Type} [CertArith α] [LawfulCertArith α]
 theorem CertRealPoly.conjugateSymmetric {α : Type} [CertArith α] [LawfulCertArith α] (n : ℕ)
     (P : CertRealPoly α) : Fourier.ConjugateSymmetric (P.toPoly.coeff n) := sorry
 
-/-- Exact (or rounded, with the error returned) addition. -/
-def CertPoly.add {α : Type} [CertArith α] (P Q : CertPoly α) : CertPoly α × α := sorry
+/-- Exact addition by list concatenation (no rounding, law-free). Coefficient merging with
+rounding is a model operation (`CertModel.add`), whose error is paid in the strip-weighted
+radius; a global bound for all complex `θ` would be false for nonzero modes (audit 2). -/
+def CertPoly.add {α : Type} (P Q : CertPoly α) : CertPoly α := ⟨P.terms ++ Q.terms⟩
 
-theorem CertPoly.eval_add {α : Type} [CertArith α] [LawfulCertArith α] (n : ℕ) (P Q : CertPoly α)
-    (θ : Fin n → ℂ) :
-    ‖(P.add Q).1.eval n θ - (P.eval n θ + Q.eval n θ)‖ ≤
-      val (P.add Q).2 * ‖character (0 : Fin n → ℤ) θ‖ := sorry
+theorem CertPoly.eval_add {α : Type} [CertArith α] (n : ℕ) (P Q : CertPoly α)
+    (θ : Fin n → ℂ) : (P.add Q).eval n θ = P.eval n θ + Q.eval n θ := sorry
 
 /-- Multiplication by the character `χ_m` (index shift; exact, law-free). -/
 def CertPoly.shift {α : Type} [CertArith α] (m : CertKey) (P : CertPoly α) : CertPoly α := sorry
@@ -1156,15 +1201,18 @@ theorem hamiltonianVectorFieldℂ_sumVec {n : ℕ} (H : (Fin n → ℂ) × (Fin 
       Sum.elim (fun i => fderiv ℂ H z (phaseBasis (.inr i)))
         (fun i => -fderiv ℂ H z (phaseBasis (.inl i))) a := sorry
 
-/-- Row-sum bound for `DX_H` from second partials; local `C²` (division, O2). -/
-theorem norm_fderiv_hamiltonianVectorFieldℂ_le {n : ℕ} {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+/-- Row-sum bound for `DX_H` from second partials; local `C²` (division, O2). `1 ≤ n` makes the
+row-sum premise nonvacuous, hence `0 ≤ B` (at `n = 0` the statement fails for `B < 0`, audit 2
+F8); the checker derives it from `StaticFacts.hn : 2 ≤ n`. -/
+theorem norm_fderiv_hamiltonianVectorFieldℂ_le {n : ℕ} (hn : 1 ≤ n)
+    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 2 H z) {B : ℝ}
     (hB : ∀ a : Fin n ⊕ Fin n, ∑ b : Fin n ⊕ Fin n,
       ‖iteratedFDeriv ℂ 2 H z ![phaseBasis (Sum.swap a), phaseBasis b]‖ ≤ B) :
     ‖fderiv ℂ (hamiltonianVectorFieldℂ H) z‖ ≤ B := sorry
 
-/-- Bound for `D²X_H` from third partials; local `C³`. -/
-theorem norm_iteratedFDeriv_two_hamiltonianVectorFieldℂ_le {n : ℕ}
+/-- Bound for `D²X_H` from third partials; local `C³`; `1 ≤ n` as above (F8). -/
+theorem norm_iteratedFDeriv_two_hamiltonianVectorFieldℂ_le {n : ℕ} (hn : 1 ≤ n)
     {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 3 H z)
     {B : ℝ} (hB : ∀ a : Fin n ⊕ Fin n, ∑ b : Fin n ⊕ Fin n, ∑ c : Fin n ⊕ Fin n,
       ‖iteratedFDeriv ℂ 3 H z ![phaseBasis (Sum.swap a), phaseBasis b, phaseBasis c]‖ ≤ B) :
@@ -1187,6 +1235,12 @@ def ModelMatrix.Encloses {α : Type} [CertArith α] (n : ℕ) {ι : Type*} (idx 
     (M : ModelMatrix α) (F : (Fin n → ℂ) → Matrix ι ι ℂ) : Prop :=
   ∀ i j, ∃ m : CertModel α, (M[idx i]?.bind fun r => r[idx j]?) = some m ∧
     m.Encloses n ρ (fun θ => F θ i j)
+
+/-- Exact shape of a list matrix: `k` rows, each of length `k` (audit 2 F7). With
+`ModelMatrix.Encloses n (torsionIdx n)` and `k = n + 1`, the checked list matrix is then the
+whole denoted bordered matrix, not a larger matrix containing it as a leading block. -/
+def ModelMatrix.HasShape {β : Type} (k : ℕ) (M : List (List β)) : Prop :=
+  M.length = k ∧ ∀ r ∈ M, r.length = k
 
 /-- The matrix of a polynomial-matrix witness (missing entries `0`). -/
 def polyMatrix {α : Type} [CertArith α] (n : ℕ) (B : List (List (CertPoly α))) (θ : Fin n → ℂ) :
@@ -1252,15 +1306,22 @@ theorem torsionModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n :
     (hG : gramCheck n K Binv W cfg pe σBμ = some δβ) (box : FreqBox) (s : ℚ)
     {T : ModelMatrix α} (hT : torsionModels n e K wit Binv δβ box s W cfg pe = some T)
     {ω : Fin n → ℝ} (hω : FreqEncloses n box ω) :
-    T.Encloses n (torsionIdx n) W.rho
+    ModelMatrix.HasShape (n + 1) T ∧ T.Encloses n (torsionIdx n) W.rho
         (KAM.Iso.extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω)) ∧
       ∀ a b, ContinuousOn (fun θ => KAM.Iso.extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω) θ a b)
         (complexStrip n W.rho) := sorry
 
-/-- The averaged bordered torsion check: centre `C` = zero modes, radius matrix `R`; with the
-constant witness `S`, `‖I - S C‖ + ‖S‖ ‖R‖ =: δ_T < 1` and `‖S‖/(1-δ_T) ≤ σT - μ`. -/
-def torsionAvgCheck {α : Type} [CertArith α] (T : ModelMatrix α) (S : List (List (CC α)))
-    (σTμ : ℚ) : Bool := sorry
+/-- The averaged bordered torsion check at dimension `n` (audit 2 F7). It FIRST checks the exact
+shapes `HasShape (n + 1) T` and `HasShape (n + 1) S` (decidable list-length tests) and rejects
+otherwise; then centre `C` = zero modes, radius matrix `R`; with the constant witness `S`,
+`‖I - S C‖ + ‖S‖ ‖R‖ =: δ_T < 1` and `‖S‖/(1-δ_T) ≤ σT - μ`, all on `(n+1) × (n+1)` arrays. -/
+def torsionAvgCheck {α : Type} [CertArith α] (n : ℕ) (T : ModelMatrix α)
+    (S : List (List (CC α))) (σTμ : ℚ) : Bool := sorry
+
+/-- A passing averaging check has exact `(n+1) × (n+1)` inputs (law-free; F7 negative tests). -/
+theorem torsionAvgCheck_shape {α : Type} [CertArith α] {n : ℕ} {T : ModelMatrix α}
+    {S : List (List (CC α))} {σTμ : ℚ} (h : torsionAvgCheck n T S σTμ = true) :
+    ModelMatrix.HasShape (n + 1) T ∧ ModelMatrix.HasShape (n + 1) S := sorry
 
 theorem torsionAvgCheck_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
     {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
@@ -1268,7 +1329,7 @@ theorem torsionAvgCheck_sound {α : Type} [CertArith α] [LawfulCertArith α] {n
     (hT : T.Encloses n (torsionIdx n) ρ (KAM.Iso.extendedTorsion H K ω))
     (hcont : ∀ a b, ContinuousOn (fun θ => KAM.Iso.extendedTorsion H K ω θ a b)
       (complexStrip n ρ))
-    (S : List (List (CC α))) (σTμ : ℚ) (h : torsionAvgCheck T S σTμ = true) :
+    (S : List (List (CC α))) (σTμ : ℚ) (h : torsionAvgCheck n T S σTμ = true) :
     IsUnit (KAM.Iso.extendedTorsionAverage H K ω).det ∧
       ∀ i, ∑ j, ‖(KAM.Iso.extendedTorsionAverage H K ω)⁻¹ i j‖ ≤ σTμ := sorry
 
@@ -1411,7 +1472,8 @@ def checkEnergy {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α)
 /-- The Gram certificate (`gramCheck`) with bound `σB - μ`. -/
 def checkGram {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
 
-/-- `torsionModels` at `s` and the box, then `torsionAvgCheck` with bound `σT - μ`. -/
+/-- `torsionModels` at `s` and the box, then `torsionAvgCheck n` (exact `(n+1)×(n+1)` shapes of
+`T` and the witness `c.torsInv`) with bound `σT - μ`. -/
 def checkTorsion {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
 
 /-- `isoC1Q e < γ⁴ ρ^{4τ}` and `isoC2Q e ≤ disp γ² ρ^{2τ}`. -/
@@ -1579,7 +1641,8 @@ theorem checkEnergy_sound {c : TorusCertificate n α} (hs : checkStatic c = true
     ‖KAM.Iso.energyAverage c.H c.K - ((c.params.E0 : ℝ) : ℂ)‖ ≤ c.params.err := sorry
 
 /-- Assembled from `torsionModels_sound` (with `D := c.D`, `hKD` from `checkEmbedding_sound`,
-`hnv` from `checkHamBounds_sound`, `hG` from `checkGram`) and `torsionAvgCheck_sound`. -/
+`hnv` from `checkHamBounds_sound`, `hG` from `checkGram`) and `torsionAvgCheck_sound` at the
+certificate's own `n` (`torsionAvgCheck n`, exact shapes, F7). -/
 theorem checkTorsion_sound {c : TorusCertificate n α} (hs : checkStatic c = true)
     (hh : checkHamBounds c = true) (he : checkEmbedding c = true) (hg : checkGram c = true)
     (h : checkTorsion c = true) {ωstar : Fin n → ℝ} (hω : FreqEncloses n c.freqBox ωstar) :
