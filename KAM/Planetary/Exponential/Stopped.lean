@@ -132,7 +132,11 @@ theorem stopped_slow_erosion {A₁ A ε : ℝ} (hε : 0 ≤ ε) (hA₁ : 0 ≤ A
       · simpa [D, sq_abs] using pow_le_pow_left₀ (abs_nonneg _) (h2 i) 2
     have hSD : ∑ j, D j ^ 2 ≤ (2 * n) * ε ^ 2 := by
       calc ∑ j, D j ^ 2 ≤ ∑ _j : Fin n ⊕ Fin n, ε ^ 2 := Finset.sum_le_sum fun j _ => hDj j
-        _ = (2 * n) * ε ^ 2 := by simp; ring
+        _ = (2 * n) * ε ^ 2 := by
+          rw [Finset.sum_const, Finset.card_univ, Fintype.card_sum, Fintype.card_fin,
+            nsmul_eq_mul]
+          push_cast
+          ring
     have hexp : ∑ j, (X j + D j) ^ 2 =
         ∑ j, X j ^ 2 + 2 * ∑ j, X j * D j + ∑ j, D j ^ 2 := by
       have : ∀ j, (X j + D j) ^ 2 = X j ^ 2 + 2 * (X j * D j) + D j ^ 2 := fun j => by ring
@@ -228,11 +232,12 @@ theorem stopped_isSolutionOn_reverse (B : AMDBox n) (hB : B.Admissible) {kappa e
     (isOpen_workingCylinder B kappa A) subset_rfl hW
   rw [stopped_hamiltonian_neg]
   refine ⟨hW.1, hdiff.neg, ?_⟩
-  have hcomp := hder.scomp s (hasDerivAt_neg' s)
+  have hcomp : HasDerivAt (fun s => y (-s)) ((-1 : ℝ) • KAM.hamiltonianVectorField
+      (fun w => movingHamiltonian 1 1 B.mass mu (poincareProd B.mass 1 w)) (y (-s))) s :=
+    hder.scomp s (hasDerivAt_neg' s)
+  rw [neg_one_smul] at hcomp
   rw [hamiltonianVectorField_neg]
-  convert hcomp using 1
-  rw [neg_one_smul]
-  exact congrArg Neg.neg hfield
+  convert hcomp using 2
 
 /-! ### `bpP:p14:stopped` -/
 
