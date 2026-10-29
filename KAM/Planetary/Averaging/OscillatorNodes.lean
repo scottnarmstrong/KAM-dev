@@ -239,8 +239,7 @@ theorem p2_oi_ratio {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)
         (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) 1 z)) ((1 - θ)⁻¹ * A) := by
   have hπ := Real.pi_pos
   have hS : 0 < S := by
-    obtain ⟨-, -, -, -, -, -, -, h8⟩ := hwidths
-    have := hwidths.2.2.2.2.2.2.1
+    obtain ⟨-, -, -, -, -, -, h7, h8⟩ := hwidths
     linarith
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
   exact osc_ratio_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
@@ -273,8 +272,7 @@ theorem p2_oi_ratio_integral {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHa
       ((1 - 2 * exp 1 * (1 + (m : ℝ)) * Φ / min (ρ * σ) (ρp * ρq))⁻¹ * B) := by
   have hπ := Real.pi_pos
   have hS : 0 < S := by
-    obtain ⟨-, -, -, -, -, -, -, h8⟩ := hwidths
-    have := hwidths.2.2.2.2.2.2.1
+    obtain ⟨-, -, -, -, -, -, h7, h8⟩ := hwidths
     linarith
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
   exact osc_ratio_integral_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
@@ -330,8 +328,7 @@ theorem p2_oi_range {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CH
   have hπ := Real.pi_pos
   refine ⟨?_, osc_iter_range_ab hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg⟩
   have hS : 0 < S := by
-    obtain ⟨-, -, -, -, -, -, -, h8⟩ := hwidths
-    have := hwidths.2.2.2.2.2.2.1
+    obtain ⟨-, -, -, -, -, -, h7, h8⟩ := hwidths
     linarith
   obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
   exact osc_range_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
