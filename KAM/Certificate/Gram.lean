@@ -187,7 +187,7 @@ section Sound
 variable {α : Type} [CertArith α] [LawfulCertArith α]
 
 omit [LawfulCertArith α] in
-theorem CertModel.Encloses.of_eq {n : ℕ} {ρ : ℝ} {m : CertModel α} {f g : (Fin n → ℂ) → ℂ}
+theorem CertModel.Encloses.of_eq_fun {n : ℕ} {ρ : ℝ} {m : CertModel α} {f g : (Fin n → ℂ) → ℂ}
     (h : m.Encloses n ρ f) (hfg : ∀ θ, f θ = g θ) : m.Encloses n ρ g := by
   rwa [← funext hfg]
 
@@ -241,12 +241,12 @@ theorem foldl_addMixed_spec (hW : checkWeight W s N = true)
     a.Encloses n W.rho f → (∀ p ∈ L, p.1.Encloses n W.rho p.2) →
     ((L.map Prod.fst).foldl (CertModel.addMixed W pe) a).Encloses n W.rho
       (fun θ => f θ + (L.map fun p => p.2 θ).sum)
-  | [], a, f, ha, _ => ha.of_eq fun θ => by simp
+  | [], a, f, ha, _ => ha.of_eq_fun fun θ => by simp
   | p :: L, a, f, ha, h => by
     have := foldl_addMixed_spec hW hpe L _ _ (ha.addMixed hW hpe (h p (by simp)))
       fun q hq => h q (by simp [hq])
     simp only [List.map_cons, List.foldl_cons]
-    exact this.of_eq fun θ => by simp only [Pi.add_apply, List.sum_cons, add_assoc]
+    exact this.of_eq_fun fun θ => by simp only [Pi.add_apply, List.sum_cons, add_assoc]
 
 /-- **Balanced sum contract.** -/
 theorem modelSum_encloses (hW : checkWeight W s N = true) (hpe : checkPiEnclosure pe = true)
@@ -255,12 +255,12 @@ theorem modelSum_encloses (hW : checkWeight W s N = true) (hpe : checkPiEnclosur
   obtain ⟨L', h1, e1, s1⟩ := modelSumRounds_spec hW hpe 64 L h
   unfold modelSum
   rw [e1]
-  refine CertModel.Encloses.of_eq (f := fun θ => (L'.map fun p => p.2 θ).sum) ?_ s1
+  refine CertModel.Encloses.of_eq_fun (f := fun θ => (L'.map fun p => p.2 θ).sum) ?_ s1
   cases L' with
-  | nil => exact (zeroModel_encloses n W.rho).of_eq fun θ => by simp
+  | nil => exact (zeroModel_encloses n W.rho).of_eq_fun fun θ => by simp
   | cons p L' =>
     exact (foldl_addMixed_spec hW hpe L' p.1 p.2 (h1 p (by simp))
-      fun q hq => h1 q (by simp [hq])).of_eq fun θ => by simp
+      fun q hq => h1 q (by simp [hq])).of_eq_fun fun θ => by simp
 
 end ModelSum
 
@@ -287,7 +287,7 @@ theorem compDerivModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
     (d : ℤ) (P : Option (CertRealPoly α)) (j : Fin n) :
     (compDerivModel n W pe d P j.val).Encloses n W.rho
       (fun θ => fderiv ℂ (realComp n d P) θ (Pi.single j 1)) :=
-  ((CertModel.Encloses.ofDeriv hW j d (realCompPoly n P)).toDeg hW hpe 0).of_eq
+  ((CertModel.Encloses.ofDeriv hW j d (realCompPoly n P)).toDeg hW hpe 0).of_eq_fun
     fun θ => (fderiv_realComp_apply n d P θ _).symm
 
 omit [LawfulCertArith α] in
@@ -335,11 +335,11 @@ theorem dkAngleModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
   · have hij' : i = j := Fin.ext hij
     subst hij'
     refine (CertModel.Encloses.add hW (constModel_encloses n W.rho 1 0 0) hD
-      (compDerivModel_deg n W pe _ _ _).symm).of_eq fun θ => ?_
+      (compDerivModel_deg n W pe _ _ _).symm).of_eq_fun fun θ => ?_
     rw [CertEmbedding.fderiv_eval_fst, hA]
     simp [slpConstVal]
   · have hij' : i ≠ j := fun h => hij (congrArg Fin.val h)
-    refine hD.of_eq fun θ => ?_
+    refine hD.of_eq_fun fun θ => ?_
     rw [CertEmbedding.fderiv_eval_fst, hA]
     simp [hij']
 
@@ -349,7 +349,7 @@ theorem dkActionModel_encloses {n : ℕ} {W : CertWeight} {s N : ℕ}
     (K : CertEmbedding α) (i j : Fin n) :
     (dkActionModel n K W pe i.val j.val).Encloses n W.rho
       (fun θ => (fderiv ℂ (K.eval n) θ (Pi.single j 1)).2 i) :=
-  (compDerivModel_encloses hW hpe (K.actionDeg.getD i.val 0) K.action[i.val]? j).of_eq
+  (compDerivModel_encloses hW hpe (K.actionDeg.getD i.val 0) K.action[i.val]? j).of_eq_fun
     fun θ => by rw [CertEmbedding.fderiv_eval_snd]; rfl
 
 /-! #### Gram models -/
@@ -391,7 +391,7 @@ theorem gramEntryModel_encloses {n : ℕ} (K : CertEmbedding α) {W : CertWeight
     simp only [L, List.map_append, List.map_ofFn]
     rfl
   rw [hfst] at this
-  refine this.of_eq fun θ => ?_
+  refine this.of_eq_fun fun θ => ?_
   simp only [L, List.map_append, List.map_ofFn, List.sum_append, List.sum_ofFn,
     Function.comp_def, Pi.mul_apply, gramMatrix, dotℂ, Finset.sum_add_distrib, hDK]
 
@@ -407,7 +407,7 @@ theorem gramModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : �
       gramEntryModel_encloses K hW cfg hpe i j⟩
     simp [gramModels, hij]
   · refine ⟨gramEntryModel n K W cfg pe j.val i.val, ?_,
-      (gramEntryModel_encloses K hW cfg hpe j i).of_eq fun θ => gramMatrix_comm _ θ j i⟩
+      (gramEntryModel_encloses K hW cfg hpe j i).of_eq_fun fun θ => gramMatrix_comm _ θ j i⟩
     simp [gramModels, hij]
 
 /-! #### The Gram check -/
@@ -451,7 +451,7 @@ theorem gramBGModel_encloses {n : ℕ} (K : CertEmbedding α) (B : List (List (C
     rfl
   unfold gramBGModel
   rw [← hfst]
-  refine this.of_eq fun θ => ?_
+  refine this.of_eq_fun fun θ => ?_
   simp only [L, List.map_ofFn, List.sum_ofFn, Function.comp_def, Pi.mul_apply, Matrix.mul_apply,
     polyMatrix_apply]
 
