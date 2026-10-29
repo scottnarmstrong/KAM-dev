@@ -733,3 +733,12 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
        p1:order.
   - **Workers:** no provers or auditors are running; the sub-orchestrator is idle. Nothing more can start until
     lane N resumes or the owner rules.
+- **06:55. GAP-DEF (missing source definitions, independent of the pending owner ruling).** p3:limitmap#data lacks a
+  general Gcheck = S G S^-1 and an L_* Lipschitz predicate; p11:sec-E#data lacks the literal domain E (strip
+  sigma_F/72 x action polydisc of radius (2, pi/2)) and the mapping iff (2 eps <= s_2/2). Both gaps are missing objects,
+  not totalization questions, so GAP-DEF adds them (unsigned, with characterizations). sec-E#data still needs the
+  owner's ruling on p11PreparedData (F3) to close.
+- **07:40. GAP-DEF passed.** p3:limitmap#data closes (general Gcheck = S G S^-1 as limitmapCheck; L_* as the predicate
+  LipStar, instance psi_lipStar). p11:sec-E#data: F1/F2 resolved (literal E and the mapping iff 2 eps <= s2/2); the node
+  still needs the owner's F3 ruling (p11PreparedData selector) and coverage of its H2 identity, domain table and
+  normalized frequency formulas. Graph P: 1153 PROVED, 44 open (lane N or owner rulings).
