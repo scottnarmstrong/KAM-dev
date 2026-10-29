@@ -664,8 +664,10 @@ end Compare
 
 theorem isoC1_le_isoC1Q {n τ : ℕ} {ρ ρinf M σK σB σT μ ν γbar : ℚ} (hn : 2 ≤ n)
     (hτ : n - 1 ≤ τ) (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hM : 0 < M) (hσK : 0 < σK)
-    (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ) (hν : 0 < ν) (_hγbar : 0 < γbar) :
+    (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ) (hν : 0 < ν) (hγbar : 0 < γbar) :
     Iso.Apost.isoC1 n τ ρ ρinf M σK σB σT μ ν γbar ≤ isoC1Q n τ ρ ρinf M σK σB σT μ ν γbar := by
+  -- `hγbar` is part of the signed API (named-argument calls); the bound does not need it.
+  have _ := hγbar
   have hP := params_of_rat hn hτ hM hσK hσB hσT
   have hρ0 : (0 : ℝ) < ρ := by exact_mod_cast hρinf.trans hρ
   have hd : (0 : ℝ) < (delta0Q ρ ρinf : ℝ) := by
