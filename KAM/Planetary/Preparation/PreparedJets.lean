@@ -517,6 +517,87 @@ theorem p11_prin_C_jet_log (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu)
   calc _ ≤ (∏ i, ((β i).factorial : ℝ)) * C.MF * (4 / c0 * t) ^ a := by gcongr
     _ = _ := by rw [mul_pow]; ring
 
+/-- The secular `F` is bounded by `M_F` on its working domain. -/
+theorem p11_prin_F_bound (hC : P11SecularSpec D C) {z : P11Phase (n+n)}
+    (hz : z ∈ p11WorkingDom n C.J0 (2*C.sigma) (2*C.rC) C.rz) : ‖C.F z‖ ≤ C.MF := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hFd, hFb, -, -,
+    hmean, -⟩ := id hC
+  refine (hFb _ hz).trans ?_
+  have hc := prin_coth_ge_one (show 0 < Real.pi * C.sigma by positivity)
+  have hp : 1 ≤ KAM.Weighted.coth (Real.pi * C.sigma) ^ n := one_le_pow₀ hc
+  exact div_le_self (by linarith) hp
+
+/-- The fast mean of `F` is bounded by `M_F`. -/
+theorem p11_prin_fastMean_bound (hC : P11SecularSpec D C) {eps : ℝ}
+    (J : P11CVec n) (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s1 C eps / 2)
+    (hs1 : 0 < p11s1 C eps) (z : P11Phase n) (hz : ‖z‖ < C.rz) :
+    ‖p11FastMean C.F J z‖ ≤ C.MF := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  have hs1r := p11s1_le C eps
+  refine KAM.norm_torusAverage_le fun θ _ => p11_prin_F_bound hC ?_
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · simpa [Fin.append_left] using KAM.ofReal_mem_complexStrip (n := n)
+      (by positivity : (0 : ℝ) < 2*C.sigma) θ
+  · have hc : (fun i : Fin n => (Fin.append J z.2 : P11CVec (n+n)) (Fin.castAdd n i)) = J := by
+      funext i; simp
+    rw [hc]; linarith
+  · have hc : (fun i : Fin n => (Fin.append (KAM.realInclusion n θ) z.1 : P11CVec (n+n))
+        (Fin.natAdd n i)) = z.1 := by funext i; simp
+    rw [hc]; exact lt_of_le_of_lt (norm_fst_le z) hz
+  · have hc : (fun i : Fin n => (Fin.append J z.2 : P11CVec (n+n)) (Fin.natAdd n i)) = z.2 := by
+      funext i; simp
+    rw [hc]; exact lt_of_le_of_lt (norm_snd_le z) hz
+
+/-- Step pr-in (i): `|∂_J^β Ĝ₀| ≤ (M_F + η₁) β! (4/s₁)^{|β|}` for the polar average
+`Ĝ₀ = p11PolarAverage Fast.G` (Cauchy radius `s₁/4`, `|J - J₀| < s₁/4`, `|ρ̃| < π r_z²/4`). -/
+theorem p11_prin_G0_jet (hC : P11SecularSpec D C) {Fast : P11FastData n} {eps : ℝ}
+    (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1)) (hF : P11FastSpec C eps Fast)
+    (β : Fin n → ℕ) (J ρ : P11CVec n)
+    (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s1 C eps / 4)
+    (hρ : ‖ρ‖ < Real.pi * (C.rz / 2) ^ 2) :
+    ‖p11PartialVec β (fun (J : P11CVec n) (_ : Fin 1) => p11PolarAverage Fast.G (J, ρ)) J‖ ≤
+      (∏ i, ((β i).factorial : ℝ)) * (C.MF + p11eta1 C eps) / (p11s1 C eps / 4) ^ (∑ i, β i) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨-, -, -, -, hGd, -, -, -, -, -, -, -, -, hGη, -⟩ := hF
+  have hs1 := (slow_pos hC (nu := 1) le_rfl heps hεM).2.1
+  have hr : 0 < C.rz / 2 := by positivity
+  have hη0 : 0 ≤ p11eta1 C eps := by
+    have := hGη (KAM.realInclusion n C.J0) (by simp; positivity) 0 (by simpa using hr)
+    exact (norm_nonneg _).trans this
+  have hS : 0 ≤ C.MF + p11eta1 C eps := by linarith
+  have hb : p11Bound (ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) ×ˢ
+      ball (0 : P11Phase n) (C.rz / 2)) Fast.G (C.MF + p11eta1 C eps) := by
+    rintro ⟨J', z⟩ ⟨hJ', hz⟩
+    rw [mem_ball_iff_norm] at hJ'
+    rw [mem_ball_zero_iff] at hz
+    have h1 := hGη J' hJ' z hz
+    have h2 := p11_prin_fastMean_bound hC J' hJ' hs1 z (by linarith)
+    calc ‖Fast.G (J', z)‖ ≤ ‖Fast.G (J', z) - p11FastMean C.F J' z‖ + ‖p11FastMean C.F J' z‖ := by
+          simpa using norm_add_le (Fast.G (J', z) - p11FastMean C.F J' z) (p11FastMean C.F J' z)
+      _ ≤ _ := by linarith
+  have hpa : ∀ J' ∈ ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2),
+      ‖p11PolarAverage Fast.G (J', ρ)‖ ≤ C.MF + p11eta1 C eps := fun J' hJ' => by
+    have := p11PolarAverage_norm_le_pow hr hS hGd hb (k := 0)
+      (fun _ _ j hj => absurd hj (Nat.not_lt_zero _)) hJ' hρ
+    simpa using this
+  have hdiff := p11PolarAverage_differentiableOn (isOpen_ball (x := KAM.realInclusion n C.J0)
+    (ε := p11s1 C eps / 2)) hr hGd
+  have hg : DifferentiableOn ℂ (fun (J : P11CVec n) (_ : Fin 1) => p11PolarAverage Fast.G (J, ρ))
+      (ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2)) := by
+    refine differentiableOn_pi.2 fun _ => ?_
+    exact hdiff.comp (by fun_prop : DifferentiableOn ℂ (fun J : P11CVec n => (J, ρ)) _)
+      (fun J' hJ' => ⟨hJ', mem_ball_zero_iff.2 hρ⟩)
+  have hcl : closedBall J (p11s1 C eps / 4) ⊆
+      ball (KAM.realInclusion n C.J0) (p11s1 C eps / 2) := by
+    intro y hy
+    rw [mem_closedBall_iff_norm] at hy
+    rw [mem_ball_iff_norm]
+    have := norm_sub_le_norm_sub_add_norm_sub y J (KAM.realInclusion n C.J0)
+    linarith
+  exact p11PartialVec_norm_le isOpen_ball hg (by positivity) hcl
+    (fun w hw => by rw [pi_norm_const]; exact hpa w hw) β
+
 end PrIn
 
 end KAM.Planetary
