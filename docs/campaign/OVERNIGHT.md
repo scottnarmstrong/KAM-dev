@@ -742,3 +742,96 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   LipStar, instance psi_lipStar). p11:sec-E#data: F1/F2 resolved (literal E and the mapping iff 2 eps <= s2/2); the node
   still needs the owner's F3 ruling (p11PreparedData selector) and coverage of its H2 identity, domain table and
   normalized frequency formulas. Graph P: 1153 PROVED, 44 open (lane N or owner rulings).
+- **11:40. Track SO progress; SO-GEN lands without an independent audit (ruling).** SO-GEN (Python generator and
+  exact candidate data) reproduces the pilot: p ranges to all displayed digits, Ĉ_Δ, ĉ_*, the 1.3366e-100 threshold;
+  at truncation 1e-130 the exact finite-data residual is 2.4e-117 (lower) and 2.6e-112 (upper), with about 19k
+  coefficients and 1.6 MB per torus. The residual cancels massively in Q(sqrt 5) (1e-3 terms down to 1e-121), so the
+  Lean checker must use exact Q(sqrt 5) arithmetic. Ruling: the generator is untrusted tooling whose outputs the Lean
+  checker verifies, so it lands after an orchestrator review without a Codex audit (Codex quota is low: codex-1 2%,
+  codex-3 3%). Landed so far: SO-DIO, SO-MODEL, SO-CLOCK, SO-PI. Design Revision 2 and SO-CONST are in round-2 audits.
+- **11:55. Replay gate verdict and the constants lever (owner decision: study first).** SO-REPLAY: NO-GO for naive
+  sparse products at the lunar scale (kernel interpretation ~2.3 ms and ~190 KB per coefficient pair; precision is
+  nearly free; numeral cap 2^24 bits); conditional GO for sharded Kronecker-packed products checked against supplied
+  advice (projected tens of CPU-hours), measured next by SO-REPLAY2. Owner chose "study first, decide later" on a
+  sharper explicit-constants theorem: a read-only Opus study (factor decomposition of the 1.3e-100 threshold, best
+  in-theorem parameters, ranked sharpening options) runs in parallel. Incident: SO-REPLAY ran `pkill -x lean` at about
+  11:04, which signals every lean process on the machine; all briefs now forbid killing by name.
+- **12:25. Track SO: design audit 3 FAIL on F10 only; range-reduced complex exponential.** Audit 3 closed F7, F8, F9
+  and the F3/F6 residuals; its one new blocking finding F10 is that the design's consumers (general HamExpr.exp,
+  the scalar witness pin, character witnesses) pass large balls to the small-ball exponential. Decision: a
+  range-reduced wrapper `certCExpReduced z zRad s N : Option (CC α × α)` (scale by 2^-s, check `certCExpSmall`,
+  square s times) with soundness on every successful call and no caller-side size hypothesis. The orchestrator fixed
+  its signature; package SO-CEXP proves it while design Revision 4 reconciles every consumer to fail closed. Also
+  landed: SO-AIF and SO-CONF (inp 1c8cbfd1); README now lists track SO.
+- **12:35. Disk and lane N worktrees.** The root disk reached 97% (4.6 GB free) with track SO running eleven
+  worktrees. The three lane N worktrees (KAM-inp-lanen, -n11f1, -n11f2) were clean, fully pushed (origin/lane-n-handoff,
+  origin/inp-n11f1, origin/inp-n11f2) and idle, so they were removed; branches kept locally and on GitHub, their
+  ignored .drafts notes archived to /mnt/HC_Volume_106379410/root-archive/kam-lane-n-worktree-drafts-2026-10-29.
+  Lane N work for Zohar's team is unaffected (it lives on GitHub). Also: SO-MINV audit 1 failed only on the
+  namespace (root instead of KAM.Certificate); the orchestrator moved it and requested a delta re-audit; launched
+  SO-EXPR-A (expression language basics) and SO-RAT (the exact rational backend that Revision 3 moved pre-gate).
+- **14:35. Orchestrator pause for a session restart (owner request). State for resumption.**
+  - Landed on main via kam-inp (track SO): SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF,
+    SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-EXPR-A (Expr/Basic).
+  - Owner decisions today: constants "study first" (done; studies in docs/tracks/SO/studies/); O5 rotated lunar frame
+    adopted; sharper KAM theorem not funded; replay gate GO.
+  - Running provers (tmux inp-mprov-*): SO-EXPR-B2 (soexprc, claude-8, off inp-soexprb), SO-BALL (soball, claude-12,
+    off inp-soexprb), SO-GEN2 (sogen2, claude-7 Opus, Python only), SO-DESIGN-R5 (design-so, claude-10 Opus).
+  - Running audits (tmux inp-maud-*): SO-GRAPHM round 2 (after orchestrator hygiene renames), SO-NORM, SO-EXPR-B1,
+    SO-HAMX, SO-DIO3 (round 1).
+  - Waiter to re-arm: main_wait.sh "inp-maud-sographm:maud-sographm-2 inp-maud-sonorm:maud-sonorm-1
+    inp-maud-soexprb:maud-soexprb-1 inp-maud-sohamx:maud-sohamx-1 inp-maud-sodio3:maud-sodio3-1"
+    "soexprc:SO-EXPR-B2 soball:SO-BALL sogen2:SO-GEN2 design-so:SO-DESIGN-R5".
+  - Held, not for merge: inp-design-so (until Revision 5 passes), inp-soreplay (prototype; worktree removed, drafts
+    archived). Next after audits pass: send SO-GRAPHM, SO-NORM, SO-EXPR-B1, SO-HAMX, SO-DIO3 to kam-inp; then
+    SO-HAMX-ROT and the rotated lunar packages per Revision 5; data packaging (lint exemption?) is an owner question.
+  - Disk: root at 96% (6.5 GB free); sweep worktrees after each landing.
+- **14:30. Heartbeat (track SO).** Passed and sent to kam-inp: SO-DIO3 (cubic Diophantine frequency), SO-NORM (norm
+  bridges to IG1Body), SO-HAMX (lunar Hamiltonian as an expression, original frame). SO-GRAPHM failed round 2 again on
+  three Mathlib short names (Torus.graph, Torus.orbit, Torus.invariant); renamed, round 3 running. Root cause: the
+  orchestrator's short-name checker skipped dotted helpers and never scanned Mathlib; it now checks the last component
+  of every unsigned public declaration against Mathlib (cached per revision) and KAM, and a regression test on the
+  pre-rename file reproduces exactly the audit's three findings.
+  Decisions (orchestrator, per the design's rule that the backend is chosen after the replay gate): the production
+  backend is fixed point (SO-REPLAY's recommendation); SO-ABK started. All other post-gate packages chain through
+  SO-POLY, whose design must adopt SO-REPLAY2's advice-checked packed products: added as item 6 to the running design
+  Revision 5 (author confirmed). Quotas: claude-7 36%, -8 31%, -10 26%, -12 19% (resets 21:00), codex-2 60%, -4 32%.
+- **14:52. Heartbeat (track SO).** Landed since 14:30: SO-DIO3, SO-NORM, SO-HAMX, SO-EXPR-B1, SO-GRAPHM, SO-ABK
+  (18 / 33 packages). SO-BALL audit 1: all signed soundness results PASS; FAIL F1 only on missing test pairings
+  (containment corollaries for three exponential and two ball tests); sent back for a short repair round. New:
+  SO-ROTDIO (orchestrator-fixed signatures, the parametric pattern used for SO-CEXP): a generic Diophantine transfer
+  along an integer index map, and the rotated lunar frequencies (nu -+ - 1, 1) at gamma = 1/42 (half vectors 1/84),
+  derived from the landed SO-DIO bounds; design Revision 5 told to adopt them verbatim. The heartbeat template still
+  names track K waves and I-STRIP-3, all complete since 2026-10-28; the provers work on track SO.
+- **15:00. Track SO: design Revision 5 delivered; OWNER QUESTION on data packaging.** Revision 5 implements O5 (rotated
+  lunar client, package R1), the advice-checked packed products (SO-POLY split into SO-POLY-A/B), the SO-ROTDIO
+  signatures, and splits the signatures into SOSignatures.lean (engine, 1049 lines) and SOSignaturesLunar.lean (539).
+  Round-5 design audit running. **Owner decision needed later (not urgent; SO-DATA is last in the DAG), design §7.2:**
+  how certificate data enters Lean at the R1 scale (about 66–310 MB of product advice per torus): (A) lint-clean
+  chunked modules, about 1,000–4,800 files, fully compliant; (B) an exemption from the 100-column lint for generated
+  data files, about 25–105 files, still <= 1500 lines each; (C) out-of-tree data files read at elaboration time by a
+  small parser (the kernel still checks every term). Started (parametric, design in audit): SO-ROT (rotated frame),
+  SO-RFREQ (rotated frequencies, on SO-ROTDIO), SO-POLY-A (mantissas, packing, injectivity, Kronecker shards).
+  SO-EXPR-B2 audited with scope limited to its own diff (four flagged dot-API names landed earlier with B1's PASS).
+- **15:06. SO-GEN2 confirms package R1 (rotated frame) with enclosed numbers.** Exact threshold 2.14e-75
+  (10^-74.67) at c = 237/125, 𝔪 = 1987/1000; enclosed c·η = 2.0e-78 (lower) / 3.9e-78 (upper), about 1e-3 of the
+  threshold; truncation L = 88, 318 bits; about 8.5k v and 8.3k E terms per torus. Report:
+  docs/tracks/SO/studies/SO-GEN2-rotated-frame-candidates.md. The study's projection held except the Gram inverse
+  (weighted-l1 bound 1.98 instead of the projected 1.925); a grid-sup sub-check would give 1.835 and one more order of
+  threshold (about 3 % fewer terms). Orchestrator decision: not now (a new sub-check for a 3 % gain); recorded as an
+  optional later improvement. The design takes SO-GEN2's concrete numbers (c, 𝔪, domain, G-J split, one character
+  witness with pinHalvings = 0, bordered torsion) in the fix round after its round-5 audit. SO-BALL passed round 2;
+  SO-ROTDIO passed; both and SO-GEN2 (Python and data, no Lean audit, as SO-GEN) sent to kam-inp.
+- **15:10. Track SO: design audit 5 FAIL (F12, F13 on packed products); Revision 6 started.** F12 (HIGH): advice that
+  is correct modulo the slot radix can carry and cancel between slots (auditor's example: advice [16, -1, 0] packs to
+  the right zero but slot 0 is off by 32); the checker must bound reconstructed digits on both sides so that
+  injectivity applies. F13 (MEDIUM): scale = 0 lets overlapping shard errors reach 2 where 1 is promised; guard
+  scale >= 1 inside the checker. Revision 6 (Opus) fixes both and folds in SO-GEN2's measured R1 numbers; SO-POLY-A
+  (proving) was told. SO-EXPR-B2 passed (SO-EXPR complete) and went to kam-inp. SO-ROT (rotated frame) in audit;
+  SO-GRAPHR (rotated graph inversion) and SO-ADVCOUNT (real product count and advice volume for the owner's §7.2
+  decision) started.
+- **15:15. Integration conflict caught at landing.** SO-BALL and SO-EXPR-B2 were both built on SO-EXPR-B1; B2 changed
+  `slpInvTail_sound` (a new fourth-power witness) that SO-BALL's inverse case calls, so each built alone but not
+  together. kam-inp's full build caught it and reset inp (nothing pushed). Fix: inp merged into inp-soexprc, a prover
+  adapts Ball.lean's helper proofs (signed declarations unchanged), then a delta audit. Process note: siblings stacked
+  on one base get a trial merge with current inp and a build of the shared modules before they are sent to kam-inp.
