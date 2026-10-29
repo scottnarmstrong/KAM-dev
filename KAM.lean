@@ -72,11 +72,17 @@ public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.NormBridge
 public import KAM.Certificate.PhaseBasis
+public import KAM.Certificate.Poly.Advice
 public import KAM.Certificate.Poly.Basic
+public import KAM.Certificate.Poly.Layout
+public import KAM.Certificate.Poly.MulPacked
+public import KAM.Certificate.Poly.Ops
+public import KAM.Certificate.Poly.OverlapAdd
 public import KAM.Certificate.Poly.Packed
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Tests.Ball
 public import KAM.Certificate.Tests.ComplexExp
+public import KAM.Certificate.Tests.Packed
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
 public import KAM.Diophantine.FrequencyDependence
@@ -368,6 +374,7 @@ public import KAM.Nekhoroshev.Assembly.Confinement
 public import KAM.Nekhoroshev.Assembly.Existence
 public import KAM.Nekhoroshev.Assembly.Headline
 public import KAM.Nekhoroshev.Assembly.Hypotheses
+public import KAM.Nekhoroshev.Assembly.HypothesesFull
 public import KAM.Nekhoroshev.Averaging.Coefficients
 public import KAM.Nekhoroshev.Averaging.CompactMaximum
 public import KAM.Nekhoroshev.Averaging.Corrector
