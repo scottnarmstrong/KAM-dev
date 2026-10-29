@@ -527,6 +527,7 @@ public import KAM.Planetary.MaximalStep.AffineFlowSimple
 public import KAM.Planetary.MaximalStep.Basic
 public import KAM.Planetary.MaximalStep.Constants
 public import KAM.Planetary.MaximalStep.Cutoff
+public import KAM.Planetary.MaximalStep.CutoffNodes
 public import KAM.Planetary.MaximalStep.Divisor
 public import KAM.Planetary.MaximalStep.FourierCutoff
 public import KAM.Planetary.MaximalStep.FourierCutoffCoeff
