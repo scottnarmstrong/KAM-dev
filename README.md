@@ -210,7 +210,7 @@ Overall, everything together: 88.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 17:37 UTC from `main` at `e79da9a4` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 17:37 UTC from `main` at `2cc3a5a1` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -384,6 +384,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 17:37 | `2cc3a5a1` | HQ: track SO in two parts (general certificate checker; the Moon's spin rate) in the estimate, glance and tracks table; SO packages detected as landed from files on main (no hand-kept list) |
 | 2026-10-29 17:34 | `e79da9a4` | Land inp into main |
 | 2026-10-29 17:32 | `f1941156` | D32: graph N blueprint scope repair of three Part 1 steps (H1-H5 added by reviewed amendment) |
 | 2026-10-29 16:59 | `4e216f66` | Land inp into main |
@@ -395,7 +396,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 16:43 | `93ba348b` | Land inp into main |
 | 2026-10-29 16:36 | `d435f648` | Land inp into main |
 | 2026-10-29 16:34 | `9b258fbb` | README: frozen statements moved to docs/STATEMENTS.md (per track: Lean link, source with paper, docstring, status, provider; frozen definitions per track), README keeps a linked index; collaborator row removed from the agent list |
-| 2026-10-29 16:32 | `b2ce3060` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
