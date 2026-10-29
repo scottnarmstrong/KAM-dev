@@ -25,9 +25,8 @@ For `H(θ, J) = h(J)` on `D = ℂⁿ × U` and the trivial torus `K⁰(θ) = (θ
   determinant, total inverse and row-sum norm of the inverse correspond under the cast
   `ℝ → ℂ`.
 
-The frame side is the Kolmogorov `KAM.Head.*_unperturbedTorus`; the frequency map and the Hessian
-are
-`freq_map_local` (the Kolmogorov-free restatement of `KAM.Head.freq_map`). The torsion is
+The frame side is `KAM.Head.*_unperturbedTorus`; the frequency map and the Hessian are
+`freq_map_local` (the restatement of `KAM.Head.freq_map` without the Kolmogorov condition). The torsion is
 computed as in `KAM.Head.torsion_unperturbedTorus_eq`, but for `h ∘ pr₂` on `ℂⁿ × U` instead of
 `KAM.Head.hbold` on `𝔇`, since `KAM.Head.Data` is not available here.
 -/
