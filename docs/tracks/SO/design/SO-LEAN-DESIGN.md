@@ -1,7 +1,8 @@
 # Lean design: the general torus-certificate black box and its lunar client (track SO)
 
-Design SO-DESIGN, **Revision 3**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
-`d2352a2d`, audited FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-2.md`). This is
+Design SO-DESIGN, **Revision 4**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
+`d2352a2d`, audited FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-2.md`; Revision 3: `b442a912`, audited
+FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-3.md`). This is
 planning evidence only. It claims no proof, touches no frozen file and freezes nothing. Appendix A (the
 exact draft signatures) elaborates against the shared `inp` build with `sorry` bodies only (§9).
 
@@ -34,6 +35,28 @@ includes the landed SO-MODEL, SO-DIO and SO-CLOCK. Running siblings were read at
 | `inp:KAM/Certificate/QuadraticDiophantine.lean` | `511dafebbd09f98e74dcdf9f7cb95401186269e1c04efe2d5f55ab5aa14af632` |
 | `inp:KAM/SpinOrbit/Model.lean` | `d9b99918c48809dd7713fcd0560a58b0c347a99bb603bea05d316aef22f8d46f` |
 | `inp:KAM/SpinOrbit/Hamiltonian.lean` | `586af68ee2cc4d5bdefbabc9d40aa7950d24c2970ea026d3d9d69e63e6bb295e` |
+
+## Revision 4
+
+Revision 4 is a targeted repair of the single blocking finding of the independent design audit 3 (verdict
+FAIL, base `b442a912`): **F10**, the unrestricted scalar complex exponential. Nothing else changes; the
+Revision 3 and Revision 2 tables below stay valid except where this table supersedes them. The general
+primitive and its signatures are the orchestrator's (2026-10-29, 12:25); SO-CEXP proves exactly them in
+`KAM/Certificate/Arith/ComplexExp.lean`. The real route (`ratExpUp`, `checkWeight`, the factors `exp(2B)`,
+`exp(B)`, `exp(η) − 1`, `ModelConfig.taylorN/halvings`, `TorusCertificate.expHalvings/expOrder`) is
+unchanged.
+
+| Item (audit 3 consumer table) | Change | Where |
+|---|---|---|
+| **F10** contract | The draft's unrestricted `certCExp_sound` is **withdrawn** (false for the Taylor implementation: `z = 2`, `zRad = 0`, `N = 0` would give `|e² − 1| ≤ 2`). A §A now restates the LANDED SO-AIF `Roots.lean` declarations verbatim: `certCExp`, `certCExpSmall`, `certCExpSmall_sound` (`‖z‖ + zRad ≤ 1`), `certCExp_sound_of_small` (with `hsmall`), and the ball primitives they and the wrapper use (`CertBall`, `CertBall.Mem`, `CC.normUp`, `CertBall.ofRat`, `CertBall.times`, `mem_ofRat`, `mem_times`). No consumer calls `certCExp` directly. | §1.4, §1.7; A §A |
+| **F10** general primitive | New subsection `Arith/ComplexExp` (package **SO-CEXP**, pre-gate, ~150 lines, depends on SO-AIF): `certCExpReduced z zRad s N : Option (CC α × α)` scales the ball by `2^(−s)` (ball product with `CertBall.ofRat (1/2^s)`), returns `none` unless the **rounded** reduced ball passes `certCExpSmall`, applies `certCExp` of order `N`, and squares `s` times with `CertBall.times`; `certCExpReduced_sound` holds on every successful call with no side condition. Every contribution (scaling rounding, Taylor remainder and sum rounding, each squaring's growth `r(2|c| + r)` and rounding) is inside the returned radius. Structural recursion on `s`; `s = 0` is the guarded small call. | §1.4, §1.7, §7; A §A |
+| **F10** `Slp.balls` (general `HamExpr.exp`, compiled `sin`/`cos`) | Every `exp` slot (hence also `sin`, `cos`, compiled through `exp`) calls `certCExpReduced c r (cexpHalvings c r) taylorN` on its operand ball. The count `cexpHalvings c r = log₂⌈2(|re| + |im| + r)⌉ + 1` is **computed from the ball** (never a caller hypothesis); `taylorN` is certificate data (`expOrder`). A `none` makes `Slp.balls` return `none` (fail closed, so `checkHamBounds = false`). `Slp.val_mem_ball` and `nonvanishingOn_of_balls` are stated on the successful call, unchanged. Over the exact backend `certCExpReduced_cexpHalvings_isSome` (SO-BALL) shows the computed count never fails: `.exp (.const 2)`, large action balls and `exp` of a cosine mode with radius `> 1` are all handled. | §1.4, §8; A §A, §D |
+| **F10** scalar pin in `expWitnessRadius` | Exp witnesses become `ExpWitness α = (poly, pinHalvings, pinOrder)`: the pin's halving count and order are **certificate data** per witness. `expPinBall g` encloses `g₀(0)` (sum of coefficients, rounding in the radius; `expPinBall_sound`). Then `out := certCExpReduced (expPinBall g) pinHalvings pinOrder`; `none` ⇒ `expWitnessRadius = none`. The pin error is `ε₀ := upAdd(|E(0) − out.1|↑, out.2)`, so `ε₀` pays input rounding, scaling, Taylor remainder, Taylor-sum rounding, the `s` squarings and the final subtraction. New contract `expWitnessRadius_pin` (successful call ⇒ the reduced call succeeded and encloses `exp g₀(0)`). `expWitness_sound` is otherwise unchanged (statement on success; `E.poly` for `E`). No unit-size hypothesis anywhere. | §1.7; A §C |
+| **F10** character witnesses in `Slp.compose` | `Witnesses.expWit : List (ExpWitness α)` and `charWit : List (CertKey × ExpWitness α)`: each character witness `≈ exp(2πi k·U)` uses the same repaired pin path with its own count (for `|2π k·U(0)|` of any size). A failed reduction makes `Slp.compose` return `none` (fail closed); `Slp.compose_sound` is stated on success, unchanged. The whole-witness halving rewrite `exp a ↦ (exp(a/2))²` is not used for pins. | §1.7; A §D |
+| **F10** real bounds (`exp(2B)`, `exp(B)`, `exp(η) − 1`, weights) | Unchanged: they stay on `ratExpUp` (rational upper bounds with SO-AIF's halving and coarse `3^⌈q⌉` fallback). `ModelConfig.taylorN/halvings` are now documented as real-route parameters only. | §1.7; A §C |
+| **F10** lunar pins / D balls | No smallness is inferred from tiny residuals. The lunar Hamiltonian has no `exp` slot (balls unaffected); every lunar character pin (`2πi k·U(0) = i k_q v(0)`) carries its own `pinHalvings`, chosen by SO-GEN, and gate G-J now reports them and the resulting `ε₀` (§6). | §6 |
+| **F10** tests and replay | New tests (SO-CEXP, `Tests/ComplexExp`): `s = 0` small (pass) and large (reject), the audit's `z = 2` rejected at `s = 0` and accepted at `s = 2`, a large imaginary pin at `s = 5`; negative test 10 (a pin with too few halvings fails composition, hence `checkTorusCertificate`); ball test 11 (`.exp (.const 2)` passes `Slp.balls`). SO-REPLAY item 7: cost of one `certCExpReduced` at the intended precision. | §5, §8; A §J |
+| Packages | SO-CEXP added (pre, 150, after SO-AIF). SO-BALL 450 → 500 (`cexpHalvings`, completeness), SO-EXPW 800 → 850 (`ExpWitness`, `expPinBall`, pin contract); both now depend on SO-CEXP. Totals: pre 7,850, post 8,650, 16,500. | §7 |
 
 ## Revision 3
 
@@ -102,7 +125,8 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
    character, add, mul, exp and **inv**. `HamExpr.jet` appends forward-mode derivative slots up to order 3
    (`(x⁻¹)' = −x⁻¹x⁻¹x'`). `jet_d1/d2/d3` hold at every point of an open set where `NonvanishingOn`
    holds. On `D`, all slots are evaluated by **ℚ ball arithmetic** (`Slp.balls`: centre and radius, with
-   `exp` via `certCExp`). Balls replace Revision 1's majorants (majorant = `|centre| + radius`) and also
+   `exp`, and the compiled `sin`/`cos`, via the range-reduced `certCExpReduced` at the halving count
+   `cexpHalvings` computed from the operand ball; a `none` fails closed. Revision 4, F10). Balls replace Revision 1's majorants (majorant = `|centre| + radius`) and also
    certify every `inv` operand away from `0`. Cauchy-only bounds remain rejected (a factor of about 6 in
    `M`, about `6^{30}` in the constants). Derivatives of `K` are exact Fourier multipliers on its data
    (`CertModel.ofDeriv`). Implementation obligation (audit 2, Revision 3): constant folding and pruning
@@ -122,11 +146,18 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
    - *`exp`:* the witness `E ≈ exp g₀`, where `g₀` is the degree-zero polynomial part. With `|g₀| ≤ B`, pin
      error `ε₀` and residuals `r_j ≥ sup|∂_jE − (∂_j g₀)E|`, the radius is
      `exp(2B)(ε₀ + Σ_j(1/2 + ρ)r_j) + exp(B)(exp η − 1)`, where `η` is the radius of `g`.
-   - *Characters:* `χ_k∘K = χ_k · exp(2πi k·U)`, with witnesses keyed by the normalized index.
+     *Pin (Revision 4, F10):* `ε₀ := upAdd(|E(0) − out.1|↑, out.2)` with
+     `out = certCExpReduced (expPinBall g) pinHalvings pinOrder` (per-witness certificate data;
+     `none` ⇒ the witness fails). `ε₀` therefore contains the rounding of `g₀(0)`, the scaling, the
+     Taylor remainder and sum rounding, all `s` squarings and the final subtraction. The real factors
+     stay on `ratExpUp`.
+   - *Characters:* `χ_k∘K = χ_k · exp(2πi k·U)`, with witnesses keyed by the normalized index; each
+     is an `ExpWitness` and its pin `exp(2πi k·U(0))` uses the same reduced path.
    - *Reciprocal (O2):* the witness `Q ≈ 1/(P + T)`. From `δ ≥ sup|1 − Q(P + T)|` and `δ < 1` it follows
      that `b ≠ 0` on `T_ρ` and `|1/(P + T) − Q| ≤ sup|Q| δ/(1 − δ)` (`invWitness_sound`). It needs one
      product and no lower-bound data.
-   - *Halving fallback:* `exp a ↦ (exp(a/2))²`, a syntactic rewrite.
+   - *Halving fallback:* `exp a ↦ (exp(a/2))²`, a syntactic rewrite of the whole witness (for the
+     `e^{2B}` factor only; the scalar pin uses `certCExpReduced`, not this rewrite).
 8. **Gram inverse on the complex strip (bilinear `DKᵀDK`).** This is unchanged. The certificate supplies a
    polynomial matrix `B(θ)`, and the checker certifies `δ = sup‖I − BG‖ < 1`, `β ≥ sup‖B‖` and
    `β/(1 − δ) ≤ σB − μ`. `gramCheck_sound` exports invertibility, the row-sum bound **and**
@@ -290,6 +321,11 @@ Additions for Revision 2:
 5. One reciprocal-witness check (one product), for a client with division.
 6. One `checkPiEnclosure` at `(50, 15)`.
 
+Addition for Revision 4 (F10):
+7. One `certCExpReduced` at the intended precision (backend precision of the pins, `s` up to the
+   lunar maximum reported by SO-GEN, `N` at the pin order), and one ℚ `Slp.balls` `exp` slot at
+   `cexpHalvings`: time, memory and the growth of rational sizes over the `s` squarings.
+
 If nothing fits, the levers are those of the plan (sharper `n = 2`, `τ = 1` constants), never
 overrides.
 
@@ -320,6 +356,10 @@ overrides.
     `B_r + B₁ + B_c ≤ e/2`, the `q, φ, p` rows of `E(K₀)` plus `B_c` `≤ e/2`, `B₀ ≤ e/4` (energy),
     `B₂ ≤ 10⁻⁹⁰`. The Revision 2 target `B₁ ≤ e/4` alone did not account for `B_r` and is withdrawn.
     These are feasibility targets only: the checker recomputes the actual full residual of `K̃`.
+  - Pins (Revision 4, F10): SO-GEN chooses `pinHalvings`/`pinOrder` for every character witness (the
+    pin is `exp(i k_q v(0))`, of any size) and reports each reduced-pin `ε₀` within its residual budget.
+    Smallness of a pin is never inferred from a small residual. `soHamExpr` has no `exp` slot, so the
+    `D` balls are unaffected.
   - SO-GEN must also report every sub-check margin on `K̃`, recomputed by its exact evaluator:
     invariance, energy, `DK`, ball, Gram `δ`, torsion `δ_T`, smallness `C₁e/(γ⁴ρ⁴) ≤ 1/2`, graph `mono`,
     and `p` range.
@@ -349,6 +389,7 @@ Certificate/Clock                              (landed, SO-CLOCK)  → PhaseBasi
 Certificate/Arith/PiHigh                       (SO-PI, running)    → Mathlib only
 Certificate/Arith/{Interface,PiEnclosure,Roots,Transcendental}     → Arith/PiHigh
 Certificate/Arith/Rat                          (pre-gate, SO-AIF)  → Arith/Interface
+Certificate/Arith/ComplexExp                   (pre-gate, SO-CEXP) → Arith/Roots
 Certificate/Arith/Fixed                        (post-gate)         → Arith/Interface
 Certificate/Freq                               → Arith/Roots, Frozen/Defs/IsDiophantine
 Certificate/CubicDiophantine                   → Freq
@@ -356,10 +397,10 @@ Certificate/Poly/Basic                         → Arith/Interface, Strip/Fourie
 Certificate/Poly/Ops                           (post-gate)         → Poly/Basic
 Certificate/Model/Basic                        → Poly/Basic, Arith/Transcendental, Strip/Averages
 Certificate/Model/Ops                          (post-gate)         → Model/Basic, Poly/Ops, Arith/PiEnclosure
-Certificate/Model/{Exp,Inv}                    (post-gate)         → Model/Ops
+Certificate/Model/{Exp,Inv}                    (post-gate)         → Model/Ops, Arith/ComplexExp
 Certificate/Expr/Basic                         → PhaseBasis, Poly/Basic (CertKey)
 Certificate/Expr/{Slp,Diff}                    → Expr/Basic, PhaseBasis
-Certificate/Expr/Ball                          → Expr/Slp, Model/Basic (weights), Arith/{Rat,Transcendental}
+Certificate/Expr/Ball                          → Expr/Slp, Model/Basic (weights), Arith/{Rat,Transcendental,ComplexExp}
 Certificate/NormBridge                         → PhaseBasis, Frozen/Defs/HamiltonianVectorFieldC
 Certificate/MatrixInv                          → Matrix/Neumann, Matrix/Inverse   (approx-inverse lemmas)
 Certificate/Embedding                          (post-gate)         → Poly/*, Model/Ops
@@ -372,6 +413,7 @@ Certificate/Defs                               (post-gate)         → all of th
 Certificate/Sound/{Static,Ham,Embedding,Invariance,Energy,Gram,Torsion,Smallness} → Defs, NormBridge
 Certificate/Soundness                          → Sound/*, Iso/Apost/G1
 Certificate/Tests/{Toy2,Toy3,Rat,Negative}     → Soundness, CubicDiophantine, QuadraticDiophantine
+Certificate/Tests/ComplexExp                   (pre-gate, SO-CEXP) → Arith/{ComplexExp,Rat}
 SpinOrbit/{Model,PeriodOne,Hamiltonian,ScalarEmbedding}   (landed, SO-MODEL)
 Certificate/QuadraticDiophantine                          (landed, SO-DIO)
 SpinOrbit/HamExpr                              → Expr/Basic, SpinOrbit/Hamiltonian
@@ -398,12 +440,13 @@ precision split, shard sizes) depend on it. SO-DATA additionally waits for gate 
 | SO-CLOCK | landed | PhaseBasis, Clock | (400, done) | — |
 | SO-PI | pre (running) | Arith/PiHigh | 500 | — |
 | SO-CONST | pre (running) | Constants | 700 | SO-PI (`eLowRat`; or Mathlib bounds) |
-| SO-AIF | pre | Arith/{Interface,PiEnclosure,Roots,Transcendental,Rat} | 700 | SO-PI |
+| SO-AIF | pre (landed) | Arith/{Interface,PiEnclosure,Roots,Transcendental,Rat} | 700 | SO-PI |
+| SO-CEXP | pre (running) | Arith/ComplexExp, Tests/ComplexExp | 150 | SO-AIF |
 | SO-FREQ | pre | Freq, SpinOrbit/Freq | 350 | SO-AIF |
 | SO-DIO3 | pre | CubicDiophantine | 350 | SO-FREQ |
 | SO-PBASE | pre | Poly/Basic, Model/Basic | 800 (A: Poly 400, B: Model 400) | SO-AIF |
 | SO-EXPR | pre | Expr/{Basic,Slp,Diff} | 1700 (A: Basic+structural+`NonvanishingOn` 600; B1: Slp+`d1`/`d2` 550; B2: `d3` 550) | SO-PBASE (A) |
-| SO-BALL | pre | Expr/Ball | 450 | SO-EXPR, SO-AIF (`Arith/Rat`) |
+| SO-BALL | pre | Expr/Ball | 500 | SO-EXPR, SO-AIF (`Arith/Rat`), SO-CEXP |
 | SO-NORM | pre | NormBridge | 400 | — |
 | SO-MINV | pre | MatrixInv | 300 | — |
 | SO-HAMX | pre | SpinOrbit/HamExpr | 200 | SO-EXPR |
@@ -412,7 +455,7 @@ precision split, shard sizes) depend on it. SO-DATA additionally waits for gate 
 | SO-ABK | post | Arith/Fixed (and the production-backend choice) | 500 | SO-AIF, SO-REPLAY |
 | SO-POLY | post | Poly/Ops | 650 | SO-PBASE, SO-ABK |
 | SO-MALG | post | Model/Ops | 650 | SO-POLY |
-| SO-EXPW | post | Model/{Exp,Inv} | 800 | SO-MALG |
+| SO-EXPW | post | Model/{Exp,Inv} | 850 | SO-MALG, SO-CEXP |
 | SO-EMB | post | Embedding, Expr/Compose | 800 | SO-EXPW, SO-EXPR |
 | SO-MAT | post | Gram | 600 | SO-MALG, SO-EMB, SO-MINV |
 | SO-TORS | post | Torsion/{Frame,Models} | 1000 (two packages) | SO-MAT, SO-EMB, SO-FREQ |
@@ -425,12 +468,12 @@ precision split, shard sizes) depend on it. SO-DATA additionally waits for gate 
 | SO-LUNAR | post | Lunar*Passes, LunarConfinement | 400 | all |
 
 **Totals (recomputed, F6/feasibility note).**
-- Pre-gate: 500 + 700 + 700 + 350 + 350 + 800 + 1700 + 450 + 400 + 300 + 200 + 600 + 600 = **7,650**
-  (plus SO-CLOCK's landed 400).
-- Post-gate: 500 + 650 + 650 + 800 + 800 + 600 + 1000 + 350 + 600 + 1400 + 450 + 400 + 400 = **8,600**. (Revision 3 moved 100 lines of `Arith/Rat` from SO-ABK to SO-AIF.)
-- Hand-written total still to write: **16,250**. Adding SO-CLOCK (landed, 400) and the rest of wave 0
-  (landed, about 1,500) gives about 18,150 in all.
-- With a 30–40% overrun on the unwritten 16,250: 21.1k–22.8k new lines, about 23–24.7k overall, inside the
+- Pre-gate: 500 + 700 + 150 + 700 + 350 + 350 + 800 + 1700 + 500 + 400 + 300 + 200 + 600 + 600 = **7,850**
+  (plus SO-CLOCK's landed 400; SO-AIF 700 has since landed and is still counted here for comparability).
+- Post-gate: 500 + 650 + 650 + 850 + 800 + 600 + 1000 + 350 + 600 + 1400 + 450 + 400 + 400 = **8,650**. (Revision 3 moved 100 lines of `Arith/Rat` from SO-ABK to SO-AIF; Revision 4 adds SO-CEXP 150, SO-BALL +50, SO-EXPW +50.)
+- Hand-written total: **16,500**. Adding SO-CLOCK (landed, 400) and the rest of wave 0
+  (landed, about 1,500) gives about 18,400 in all.
+- With a 30–40% overrun on the 16,500: 21.5k–23.1k new lines, about 23.4–25.0k overall, inside the
   plan's 21–37k. (This replaces Revision 1's "16–17k plus wave 0", which audit 1 found inconsistent with
   its own table.)
 
@@ -466,6 +509,16 @@ argument, torsion derivative models, graph inversion) are unchanged and carry th
   9. **(F7)** at `n = 1`, a torsion model matrix or witness `S` with `3` rows (or a row of length `≠ 2`),
      e.g. the audit's self-inverse `A = [1 0 0; 0 0 1; 0 1 0]`, fails `torsionAvgCheck 1` and hence
      `checkTorsion`, although `A` is a valid inverse pair with zero defect.
+  10. **(F10)** a character witness whose pin `exp(2πi k·U(0))` has `|2π k·U(0)| > 1` and `pinHalvings = 0`
+      (rounded reduced ball fails `certCExpSmall`) fails `Slp.compose`, hence `checkTorusCertificate`;
+      the same certificate with a sufficient count passes that pin.
+- **Range-reduction tests (F10, SO-CEXP `Tests/ComplexExp`, A §J):** `cexpTest_zero_small` (`s = 0`, small
+  ball, success), `cexpTest_zero_large` (`s = 0`, `‖z‖ + r = 3/2`, `none`), `cexpTest_two_rejected` /
+  `cexpTest_two_reduced` (the audit's `z = 2`: `none` at `s = 0`, success at `s = 2`), `cexpTest_large_pin`
+  (`19i`, `s = 5`). Each success is paired with `certCExpReduced_sound` (radius contains `exp`).
+- **Ball test 11 (F10, SO-BALL):** `Slp.balls` on `.exp (.const 2)`, on `exp` of a cosine mode with ball
+  radius `> 1`, and on `cos` of a large action ball returns `some` (count `cexpHalvings`) and its
+  `exp`-slot ball contains the exact value.
 - **Axiom audit.** `#print axioms` of `checkTorusCertificate_sound`, every `*Passes` and `*_torus` theorem
   and the two lunar theorems shows only `propext`, `Classical.choice` and `Quot.sound`.
 - **Cross-check.** SO-GEN's exact evaluator recomputes every sub-check margin from the same data (gate
@@ -480,8 +533,11 @@ LEAN_NUM_THREADS=1 /mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh 
   /root/code/KAM-inp-design-so .drafts/design/SOSignatures.lean
 ```
 
-Result on Revision 3: **exit 0, 156 warnings, all `declaration uses 'sorry'`, no error** (Revision 2:
-the same counts, 1337 lines). This establishes elaboration only. The file has 1360 lines, imports the real `KAM.SpinOrbit.{Model,
+Result on Revision 4: **exit 0, 174 warnings, all `declaration uses 'sorry'`, no error** (Revision 3:
+156 warnings, 1360 lines; Revision 2: 156, 1337 lines). The 18 new warnings are the restated landed
+ball/small-exp declarations, the SO-CEXP pair and completeness lemma, the pin declarations and the five
+range-reduction tests, minus the withdrawn `certCExp_sound`. This establishes elaboration only. The file
+has 1494 lines (under the 1500 cap, so no split was needed), imports the real `KAM.SpinOrbit.{Model,
 Hamiltonian}` and `KAM.Certificate.QuadraticDiophantine`, and keeps verbatim stand-ins only for SO-PI
 (running) and for SO-CLOCK's `phaseBasis` and `clock_frequency`. SO-CLOCK has landed on `inp` but is not
 yet in the shared build. The landed `clock_frequency` statement was compared and is identical.
@@ -493,6 +549,7 @@ yet in the shared build. The landed `clock_frequency` statement was compared and
 | Kernel replay too slow or too deep | SO-REPLAY; a stage needs an override | shard with `List.all`; fixed point; sharper `n = 2` constants (plan lever); never an override |
 | Ball arithmetic on `D` exceeds `M = 4` | `checkHamBounds` margin | per-coordinate radii, smaller `ρ_H`; the pilot majorant 2.69 leaves room |
 | Witness pin radius dominated by `e^{2B}` | `checkInvariance` margin | halving rewrite `exp a ↦ (exp(a/2))²` |
+| Reduced pin radius amplified by `s` squarings (`≈ 2^s |exp|` relative) | `ε₀` vs residual budget | per-witness `pinHalvings` (minimal `s`), higher `pinOrder` and pin precision; SO-REPLAY item 7 |
 | `B_r + B₁ + B_c` exceeds `e/2` | gate G-J | raise the SO-GEN truncation threshold for `J̃`; `J̃` is cheap (no witness) |
 | Gram/torsion witnesses weak | `δ`, `δ_T` near 1 | Fourier-model `B`; Newton-refined `B` from the generator |
 | Toy T3 constants (`n = 3`, `τ = 2`) huge | `isoC1Q` | larger `N` (rational size only), larger `ρ` (the toy is entire) |
@@ -547,7 +604,7 @@ public import KAM.SpinOrbit.Hamiltonian
 public import KAM.Certificate.QuadraticDiophantine
 
 /-!
-# SO-DESIGN Revision 3: exact draft signatures (track SO, lunar spin-orbit certificate project)
+# SO-DESIGN Revision 4: exact draft signatures (track SO, lunar spin-orbit certificate project)
 
 Design document: `docs/tracks/SO/design/SO-LEAN-DESIGN.md` (Appendix A is this file). Every proof
 and every non-trivial definition body is `sorry`: this file only fixes the Lean surface. It is a
@@ -555,9 +612,11 @@ transient elaboration check against the shared `inp` build; it is never imported
 
 Sections mirror the planned modules (§7 of the design):
 
-* §A `KAM/Certificate/Arith/{Interface,Transcendental,PiHigh,Roots}`: the late-bound arithmetic
-  interface (laws separate from data; correctness theorems carry `[LawfulCertArith α]`), the
-  backend-independent rational transcendental bounds, SO-PI (stand-in block), root enclosures.
+* §A `KAM/Certificate/Arith/{Interface,Transcendental,PiHigh,Roots,ComplexExp}`: the late-bound
+  arithmetic interface (laws separate from data; correctness theorems carry `[LawfulCertArith α]`),
+  the backend-independent rational transcendental bounds, SO-PI (stand-in block), root enclosures,
+  complex balls and the small-ball exponential (LANDED SO-AIF, `Roots.lean`), and the range-reduced
+  complex exponential `certCExpReduced` (SO-CEXP, Revision 4, design audit 3 F10).
 * §B `KAM/Certificate/Poly/*`: exact finite Fourier data, law-free denotations.
 * §C `KAM/Certificate/Model/*`: Fourier models; `exp` and reciprocal a-posteriori witnesses.
 * §D `KAM/Certificate/{PhaseBasis,Expr/*}`: the expression language (with division, ruling O2),
@@ -753,13 +812,92 @@ theorem sqrt_mem_of_checkRootEnclosure {d : ℕ} {lo hi : ℚ}
     (h : checkRootEnclosure 2 d lo hi = true) :
     (lo : ℝ) ≤ Real.sqrt d ∧ Real.sqrt d ≤ hi := sorry
 
+/-! ### Complex balls (LANDED in `Roots.lean`, SO-AIF; restated with `sorry` bodies) -/
+
+/-- A complex ball with backend centre and radius. -/
+structure CertBall (α : Type) where
+  c : CC α
+  r : α
+
+/-- The ball contains `w`. -/
+def CertBall.Mem {α : Type} [CertArith α] (w : ℂ) (b : CertBall α) : Prop :=
+  ‖w - b.c.toC‖ ≤ val b.r
+
+/-- An upper bound of `‖c.toC‖` (`upAdd |re| |im|`). -/
+def CC.normUp {α : Type} [CertArith α] (c : CC α) : α := sorry
+
+/-- The rational constant `q` as a ball (outward conversions, rounding paid in the radius). -/
+def CertBall.ofRat {α : Type} [CertArith α] (q : ℚ) : CertBall α := sorry
+
+/-- Product of balls (rounding errors of both parts paid in the radius). -/
+def CertBall.times {α : Type} [CertArith α] (b₁ b₂ : CertBall α) : CertBall α := sorry
+
+theorem CertBall.mem_ofRat {α : Type} [CertArith α] [LawfulCertArith α] (q : ℚ) :
+    CertBall.Mem (q : ℂ) (CertBall.ofRat (α := α) q) := sorry
+
+theorem CertBall.mem_times {α : Type} [CertArith α] [LawfulCertArith α] {w₁ w₂ : ℂ}
+    {b₁ b₂ : CertBall α} (h₁ : CertBall.Mem w₁ b₁) (h₂ : CertBall.Mem w₂ b₂) :
+    CertBall.Mem (w₁ * w₂) (CertBall.times b₁ b₂) := sorry
+
+/-! ### The small-ball scalar exponential (LANDED in `Roots.lean`, SO-AIF; signatures verbatim)
+
+Revision 4 (design audit 3, F10): the unrestricted `certCExp_sound` of Revisions 1–3 is
+WITHDRAWN. It is false for the Taylor implementation (`z = 2`, `zRad = 0`, `N = 0` over `ℚ`
+would give `|exp 2 - 1| ≤ 2`). The landed contract needs the size hypothesis
+`‖z‖ + zRad ≤ 1`, discharged by the backend test `certCExpSmall`. No consumer calls
+`certCExp` directly; every consumer goes through `certCExpReduced` below. -/
+
 /-- A certified scalar complex exponential ball (Taylor order `N`, `Complex.exp_bound`):
-returns a centre and a radius. -/
+returns a centre and a radius. The Taylor sum has `N + 1` terms, evaluated in ball arithmetic
+over the input ball `(z, zRad)`; the remainder is `eRem (N + 1)`. -/
 def certCExp {α : Type} [CertArith α] (z : CC α) (zRad : α) (N : ℕ) : CC α × α := sorry
 
-theorem certCExp_sound {α : Type} [CertArith α] [LawfulCertArith α] (z : CC α) (zRad : α)
-    (N : ℕ) {w : ℂ} (hw : ‖w - z.toC‖ ≤ val zRad) :
+/-- The backend test that the input ball lies in the unit disc (`‖z‖ + zRad ≤ 1`). -/
+def certCExpSmall {α : Type} [CertArith α] (z : CC α) (zRad : α) : Bool := sorry
+
+theorem certCExpSmall_sound {α : Type} [CertArith α] [LawfulCertArith α] {z : CC α} {zRad : α}
+    (h : certCExpSmall z zRad = true) : ‖z.toC‖ + val zRad ≤ 1 := sorry
+
+/-- Soundness of `certCExp` for balls inside the unit disc. The signed statement without the size
+hypothesis `hsmall` is false (see the module docstring); `certCExpSmall_sound` discharges it
+from a backend test. -/
+theorem certCExp_sound_of_small {α : Type} [CertArith α] [LawfulCertArith α] (z : CC α)
+    (zRad : α) (N : ℕ) (hsmall : ‖z.toC‖ + val zRad ≤ 1) {w : ℂ}
+    (hw : ‖w - z.toC‖ ≤ val zRad) :
     ‖Complex.exp w - (certCExp z zRad N).1.toC‖ ≤ val (certCExp z zRad N).2 := sorry
+
+/-! ### Range-reduced complex exponential (`KAM/Certificate/Arith/ComplexExp.lean`, SO-CEXP)
+
+Signatures FIXED by the orchestrator (2026-10-29, 12:25). `exp w = (exp (w / 2^s))^(2^s)`: the
+input ball is scaled by `2^(-s)` with a proved ball product, the *rounded* reduced ball must
+pass `certCExpSmall` (else `none`: fail closed), `certCExp_sound_of_small` applies to it, and
+the output ball is squared `s` times with `CertBall.times` (`exp (2u) = (exp u)^2`). Every
+contribution (scaling rounding, Taylor remainder, Taylor-sum rounding, each squaring's
+`r(2|c| + r)` growth and rounding) is inside the returned radius, so the contract has no
+side condition. Structural recursion on `s`; no resource override. `s = 0` is exactly the
+guarded small call. -/
+
+/-- Range-reduced certified complex exponential ball. Scales the input ball by `2^(-s)` (ball
+product with `CertBall.ofRat (1 / 2 ^ s)`), returns `none` unless the reduced ball passes
+`certCExpSmall`, evaluates `certCExp` of order `N` there, and squares the result ball `s` times
+with `CertBall.times`. -/
+def certCExpReduced {α : Type} [CertArith α] (z : CC α) (zRad : α) (s N : ℕ) :
+    Option (CC α × α) := sorry
+
+theorem certCExpReduced_sound {α : Type} [CertArith α] [LawfulCertArith α] {z : CC α}
+    {zRad : α} {s N : ℕ} {out : CC α × α} (h : certCExpReduced z zRad s N = some out) {w : ℂ}
+    (hw : ‖w - z.toC‖ ≤ val zRad) :
+    ‖Complex.exp w - out.1.toC‖ ≤ val out.2 := sorry
+
+/-- The halving count computed from a rational ball (used by `Slp.balls`, never a caller-side
+hypothesis): `2^s > 2 (|re| + |im| + r)`, so the exact reduced ball has `normUp + radius ≤ 1/2`. -/
+def cexpHalvings (z : CC ℚ) (r : ℚ) : ℕ :=
+  Nat.log2 ⌈2 * (|z.re| + |z.im| + r)⌉₊ + 1
+
+/-- Completeness over the exact backend (SO-BALL): with the computed count the reduction never
+fails, so `Slp.balls` returns `none` at an `exp` slot only on a malformed program. -/
+theorem certCExpReduced_cexpHalvings_isSome (z : CC ℚ) {r : ℚ} (hr : 0 ≤ r) (N : ℕ) :
+    (certCExpReduced z r (cexpHalvings z r) N).isSome = true := sorry
 
 /-! ## §B. Exact finite Fourier data (`KAM/Certificate/Poly/Basic.lean`, `Poly/Ops.lean`) -/
 
@@ -888,7 +1026,8 @@ theorem CertModel.norm_le_supBound {α : Type} [CertArith α] [LawfulCertArith �
 structure ModelConfig where
   /-- keep only product terms with `|k|₁ ≤ cutoff` -/
   cutoff : ℕ
-  /-- `exp` Taylor order and halvings for weights and pins -/
+  /-- Taylor order and halvings of the REAL upper bounds `ratExpUp` (`exp(2B)`, `exp(B)`,
+  `exp(η) - 1`); complex pins carry their own counts (`ExpWitness`, Revision 4) -/
   taylorN : ℕ
   halvings : ℕ
 
@@ -947,23 +1086,55 @@ theorem CertModel.Encloses.average {α : Type} [CertArith α] [LawfulCertArith �
 /-! ### A-posteriori witnesses (`KAM/Certificate/Model/{Exp,Inv}.lean`)
 
 `exp`: the witness `E ≈ exp g₀` for the degree-zero POLYNOMIAL part `g₀` of `g` (exact
-derivative). With `|g₀| ≤ B`, pin error `ε₀ = |E(0) - exp g₀(0)|` (`certCExp`) and residual bounds
+derivative). With `|g₀| ≤ B`, pin error `ε₀ ≥ |E(0) - exp g₀(0)|` and residual bounds
 `r_j ≥ sup |∂_j E - (∂_j g₀) E|`, the certified radius is
 `exp(2B) (ε₀ + Σ_j (1/2 + ρ) r_j) + exp(B) (exp(η) - 1)`, `η` the radius of `g`.
+Pin (Revision 4, F10): `expPinBall g` is a ball `(c, rc)` enclosing `g₀(0) = Σ_k ĝ₀(k)`, the
+rounding of that sum paid in `rc`; then `out := certCExpReduced c rc E.pinHalvings E.pinOrder`
+(`none` ⇒ `expWitnessRadius = none`), and `ε₀ := upAdd (|E(0) - out.1|↑) out.2`, where `|·|↑`
+is the outward `normUp` of the rounded difference `E(0) - out.1` plus its rounding. Thus `ε₀`
+pays input rounding, scaling, Taylor remainder, Taylor-sum rounding, the `s` squarings and the
+final subtraction. The real factors `exp(2B)`, `exp(B)`, `exp(η) - 1` stay on the `ratExpUp`
+route (unchanged). Pin counts are certificate data, per witness; no smallness of `g₀(0)` is
+assumed anywhere.
 Reciprocal (ruling O2): the witness `Q ≈ 1/b` for a model `b = (2π)^d (P + T)`; with
 `δ ≥ sup |1 - Q (P + T)|` (one product) and `δ < 1`, `b` has no zero on `T_ρ` and
 `|1/(P + T) - Q| ≤ sup|Q| δ/(1 - δ)` (scalar Neumann series); no lower bound is assumed. -/
 
-/-- The radius certified for `exp g` by the witness `E` (or `none` if a check fails). -/
+/-- An exp witness: the polynomial `E ≈ exp g₀` and the pin's halving count and Taylor order
+(certificate data, chosen by the generator from the size of `g₀(0)`). -/
+structure ExpWitness (α : Type) where
+  poly : CertPoly α
+  pinHalvings : ℕ
+  pinOrder : ℕ
+
+/-- A ball enclosing `g₀(0)`, the value at `θ = 0` of the polynomial part (sum of coefficients,
+rounding in the radius). -/
+def expPinBall {α : Type} [CertArith α] (g : CertModel α) : CC α × α := sorry
+
+theorem expPinBall_sound {α : Type} [CertArith α] [LawfulCertArith α] (n : ℕ)
+    (g : CertModel α) :
+    ‖g.poly.eval n 0 - (expPinBall g).1.toC‖ ≤ val (expPinBall g).2 := sorry
+
+/-- The radius certified for `exp g` by the witness `E` (or `none` if a check fails, including
+a failed range reduction of the pin). -/
 def expWitnessRadius {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (cfg : ModelConfig)
-    (g : CertModel α) (E : CertPoly α) : Option α := sorry
+    (g : CertModel α) (E : ExpWitness α) : Option α := sorry
+
+/-- The pin contract on a successful call: the reduced exponential succeeded on `expPinBall g`
+and encloses `exp g₀(0)` (all reduction, rounding and squaring errors inside `out.2`). -/
+theorem expWitnessRadius_pin {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
+    {W : CertWeight} {cfg : ModelConfig} {g : CertModel α} {E : ExpWitness α} {r : α}
+    (hE : expWitnessRadius n W cfg g E = some r) :
+    ∃ out, certCExpReduced (expPinBall g).1 (expPinBall g).2 E.pinHalvings E.pinOrder = some out ∧
+      ‖Complex.exp (g.poly.eval n 0) - out.1.toC‖ ≤ val out.2 := sorry
 
 theorem expWitness_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
     {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig)
     {g : CertModel α} {gf : (Fin n → ℂ) → ℂ} (hg : g.Encloses n W.rho gf) (hdeg : g.deg = 0)
-    {E : CertPoly α} {r : α}
+    {E : ExpWitness α} {r : α}
     (hE : expWitnessRadius n W cfg g E = some r) :
-    (⟨0, E, r⟩ : CertModel α).Encloses n W.rho (fun θ => Complex.exp (gf θ)) := sorry
+    (⟨0, E.poly, r⟩ : CertModel α).Encloses n W.rho (fun θ => Complex.exp (gf θ)) := sorry
 
 /-- The radius certified for `1/b` by the witness `Q` (or `none` if `δ < 1` fails). -/
 def invWitnessRadius {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (cfg : ModelConfig)
@@ -1116,7 +1287,10 @@ theorem certDomain_add_int {n : ℕ} {rhoH : ℚ} {centre radius : List ℚ}
 
 /-- Ball arithmetic of every slot on `D` (no embedding), in `ℚ`: `(centre, radius)` with
 `|slot - centre| ≤ radius` on `D`. Constants exact; actions `(c_j, r_j)`; characters
-`(0, w_H^{|k|₁})` (`k ≠ 0`); sums and products; `exp` via `certCExp`; `inv` fails (`none`) unless
+`(0, w_H^{|k|₁})` (`k ≠ 0`); sums and products; `exp` (also the compiled `sin`, `cos`) via
+`certCExpReduced c r (cexpHalvings c r) taylorN` on the operand ball `(c, r)` (Revision 4, F10:
+range reduction with the count computed from the ball; a `none` from it makes `Slp.balls` return
+`none`, fail closed; `taylorN` is certificate data); `inv` fails (`none`) unless
 the operand ball excludes `0`, i.e. `radius < max(|re|, |im|)` of its centre (O2). -/
 def Slp.balls (n : ℕ) (p : Slp) (WH : CertWeight) (centre radius : List ℚ) (taylorN : ℕ) :
     Option (List (CC ℚ × ℚ)) := sorry
@@ -1161,14 +1335,16 @@ theorem CertEmbedding.isRealOnReals {α : Type} [CertArith α] (n : ℕ) (K : Ce
 
 /-- Witnesses: one per `exp` slot and one per `inv` slot of the jet program (slot order), and
 the character table keyed by the normalized index (coordinates with syntactically zero `U_j`
-zeroed; `-k` uses `conjReflect`). -/
+zeroed; `-k` uses `conjReflect`). Exp and character witnesses are `ExpWitness`es: each carries
+its own pin halving count and order, and its pin `exp(2πi k·U(0))` (characters) or
+`exp g₀(0)` goes through `certCExpReduced` (Revision 4, F10). -/
 structure Witnesses (α : Type) where
-  expWit : List (CertPoly α)
+  expWit : List (ExpWitness α)
   invWit : List (CertPoly α)
-  charWit : List (CertKey × CertPoly α)
+  charWit : List (CertKey × ExpWitness α)
 
 /-- Composition of the jet slots with `K`: one model per requested slot, or `none` if a witness
-check fails. -/
+check fails (including a failed range reduction of an exp or character pin: fail closed). -/
 def Slp.compose {α : Type} [CertArith α] (n : ℕ) (p : Slp) (K : CertEmbedding α)
     (wit : Witnesses α) (W : CertWeight) (cfg : ModelConfig) (pe : PiEnclosure α)
     (wanted : List ℕ) : Option (List (CertModel α)) := sorry
@@ -1754,6 +1930,21 @@ is resonant): zero error, exact rational `ν = 1/2`. It exercises the checker on
 def toyRatCert : TorusCertificate 2 ℚ := sorry
 
 theorem toyRatCert_passes : checkTorusCertificate toyRatCert = true := sorry
+
+/-! ### Range-reduction tests (`KAM/Certificate/Tests/ComplexExp.lean`, SO-CEXP; Revision 4):
+`s = 0` small (passes) and large (`‖z‖ + r = 3/2`, rejected); the audit's centre `z = 2` rejected
+at `s = 0` and accepted at `s = 2`; a large imaginary pin `2πi k·U(0) ≈ 19i` at `s = 5`. -/
+
+theorem cexpTest_zero_small : (certCExpReduced (⟨1 / 2, 0⟩ : CC ℚ) 0 0 8).isSome = true := sorry
+
+theorem cexpTest_zero_large : certCExpReduced (⟨1, 0⟩ : CC ℚ) (1 / 2) 0 8 = none := sorry
+
+theorem cexpTest_two_rejected : certCExpReduced (⟨2, 0⟩ : CC ℚ) 0 0 8 = none := sorry
+
+theorem cexpTest_two_reduced : (certCExpReduced (⟨2, 0⟩ : CC ℚ) 0 2 8).isSome = true := sorry
+
+theorem cexpTest_large_pin : (certCExpReduced (⟨0, 19⟩ : CC ℚ) (1 / 1000) 5 12).isSome = true :=
+  sorry
 
 end KAM.Certificate
 
