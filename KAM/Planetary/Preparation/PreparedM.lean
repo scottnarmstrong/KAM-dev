@@ -607,6 +607,120 @@ theorem p11_pd_ord (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
     (by nlinarith [mul_nonneg hK0.le hX0])
   linarith
 
+theorem p11_pd_contdiff {Q : P11PreparedData n} {U : Set (P11CVec (n + n))} (hU : IsOpen U)
+    (hW : DifferentiableOn ℂ (p11PreparedFreq Q) U) (r : ℕ) :
+    ContDiffOn ℝ r (p11PreparedFreqR Q) (KAM.realInclusion (n + n) ⁻¹' U) := by
+  have hcdC : ContDiffOn ℂ r (p11PreparedFreq Q) U :=
+    (KAM.analyticOnNhd_of_differentiableOn hU hW).contDiffOn hU.uniqueDiffOn
+  have hcomp := (hcdC.restrict_scalars ℝ).comp_continuousLinearMap (KAM.realInclusion (n + n))
+  exact contDiffOn_pi.2 fun l => Complex.reCLM.contDiff.comp_contDiffOn ((contDiffOn_pi.1 hcomp) l)
+
+/-- The operator jet bound `M₁ ≤ 2L + 1` of the real prepared frequency, orders `0..μ̄+1`. -/
+theorem p11_pd_jet (hCF : P11SecularFullSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ K : ℝ, 0 < K ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n}
+      {Q : P11PreparedData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c →
+      K * (1 + c) * eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) ≤ 1 →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      P11FastSpec C eps Fast → P11SlowSpecOf C Fast nu eps c A →
+      (∀ I ∈ KAM.actionNbhd (p11PreparedBox n) 1, Q.N I =
+        (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) /
+          (eps : ℂ)) →
+      p11JetBound false ((p11PatchData D).mu + 1) (p11thick (p11PreparedBox n) (1 / 4))
+        (p11PreparedFreqR Q) (2 * C.L + 1) := by
+  obtain ⟨K0, hK0, hord⟩ := p11_pd_ord hCF.1 hnu
+  obtain ⟨K1, hK1, hzero⟩ := p11_pd_zero hCF hnu
+  refine ⟨K0 + K1, by positivity, ?_⟩
+  intro Fast eps c A Q heps hεM hc0 hθ hzs h5 hFs hA hN j hj y hy
+  have hS : 0 ≤ (1 + c) * eps * Real.log (1 / eps) ^
+      (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1)) := by
+    have := Real.rpow_nonneg (show (0 : ℝ) ≤ Real.log (1 / eps) by
+      linarith [slow_log_ge_one hCF.1 heps hεM]) (5 * C.tau + 2 +
+        (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))
+    positivity
+  simp only [Bool.false_eq_true, ↓reduceIte]
+  rcases Nat.eq_zero_or_pos j with rfl | hj0
+  · obtain ⟨a, -, ha⟩ := p11op_attained (n := n + n) (m := n + n) (p11PreparedFreqR Q) 0 y
+    rw [ha]
+    have := hzero heps hεM hc0 (p11_pd_prem (by linarith) hS hθ) hzs h5 hFs hA hN y hy
+    simpa using this
+  · exact hord heps hεM hc0 (p11_pd_prem (by linarith) hS hθ) hzs h5 hFs hA hN j hj0 hj y hy
+
+/-- `stepP:p11:pr-d`: the scalar bound `2^k M₁²` (orders `1 ≤ j ≤ μ̄ + 1` and order zero), and the
+diagonal bound `M₀*`, for the real prepared frequency on the `1/4`-thickened box. The only
+extra premises are the numeric smallness (`ε ≤ ε₃`) conditions of the other prepared steps. -/
+theorem p11_pr_d (hCF : P11SecularFullSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ K : ℝ, 0 < K ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n}
+      {Q : P11PreparedData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c →
+      K * (1 + c) * eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) ≤ 1 →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      P11FastSpec C eps Fast → P11SlowSpecOf C Fast nu eps c A →
+      (∀ I ∈ KAM.actionNbhd (p11PreparedBox n) 1, Q.N I =
+        (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) /
+          (eps : ℂ)) →
+      (∀ direction : P11Vec (n + n), p11euclid direction = 1 →
+        ∀ j, 1 ≤ j → j ≤ (p11PatchData D).mu + 1 →
+          ∀ y ∈ p11thick (p11PreparedBox n) (1 / 4),
+            p11op (p11scalar 2 (p11PreparedFreqR Q) direction) j y ≤
+              (2 : ℝ) ^ ((p11PatchData D).mu + 1) * (2 * C.L + 1) ^ 2) ∧
+      p11JetBound true (p11PatchData D).mu (p11thick (p11PreparedBox n) (1 / 4))
+        (p11PreparedFreqR Q) (p11M0 n (p11PatchData D).mu C.L) ∧
+      (∀ direction : P11Vec (n + n), p11euclid direction = 1 →
+        ∀ y ∈ p11thick (p11PreparedBox n) (1 / 4),
+          p11op (p11scalar 2 (p11PreparedFreqR Q) direction) 0 y ≤
+            (2 : ℝ) ^ ((p11PatchData D).mu + 1) * (2 * C.L + 1) ^ 2) := by
+  have hC := hCF.1
+  obtain ⟨K, hK, hjet⟩ := p11_pd_jet hCF hnu
+  obtain ⟨K1, hK1, hzero⟩ := p11_pd_zero hCF hnu
+  have hn : 1 ≤ n + n := by have := D.n_ge; omega
+  have hL1 := (fast_consts hC).2.2.1
+  refine ⟨K + K1, by positivity, ?_⟩
+  intro Fast eps c A Q heps hεM hc0 hθ hzs h5 hFs hA hN
+  have hS : 0 ≤ (1 + c) * eps * Real.log (1 / eps) ^
+      (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1)) := by
+    have := Real.rpow_nonneg (show (0 : ℝ) ≤ Real.log (1 / eps) by
+      linarith [slow_log_ge_one hC heps hεM]) (5 * C.tau + 2 +
+        (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))
+    positivity
+  have hjet' := hjet heps hεM hc0 (p11_pd_prem (by linarith) hS hθ) hzs h5 hFs hA hN
+  have hzero' := hzero heps hεM hc0 (p11_pd_prem (by linarith) hS hθ) hzs h5 hFs hA hN
+  have hU1o : IsOpen (KAM.actionNbhd (p11PreparedBox n) 1) := p11_freq_isOpen_actionNbhd _ _
+  have hWd := p11_pd_freq_diff (C := C) heps h5 (slow_pos hC hnu heps hεM).2.2.le hA hN (Q := Q)
+  have hVo : IsOpen (KAM.realInclusion (n + n) ⁻¹' KAM.actionNbhd (p11PreparedBox n) 1) :=
+    hU1o.preimage (KAM.realInclusion (n + n)).continuous
+  have hAV : p11thick (p11PreparedBox n) (1 / 4) ⊆
+      KAM.realInclusion (n + n) ⁻¹' KAM.actionNbhd (p11PreparedBox n) 1 := fun y hy =>
+    p11_pd_thick_mem (r := 1) (by norm_num) hy
+  have hMb := M_bound hn hVo hAV (p11_pd_contdiff hU1o hWd _) (by linarith) hjet'
+  refine ⟨fun d hd j hj1 hj y hy => ?_, fun j hj y hy => ?_, fun d hd y hy => ?_⟩
+  · refine (hMb d hd j hj1 hj y hy).2.trans ?_
+    exact mul_le_mul_of_nonneg_right (pow_le_pow_right₀ (by norm_num) hj) (by positivity)
+  · simp only [↓reduceIte]
+    refine (p11dg_le_p11op _ j y hn).trans ((hjet' j (by omega) y hy).trans ?_)
+    unfold p11M0
+    have : (1 : ℝ) ≤ (2 * (n : ℝ) + 1) ^ ((p11PatchData D).mu + 1) :=
+      one_le_pow₀ (by have : (0 : ℝ) ≤ n := Nat.cast_nonneg _; linarith)
+    nlinarith
+  · obtain ⟨a, -, ha⟩ := p11op_attained (n := n + n) (m := 1)
+      (p11scalar 2 (p11PreparedFreqR Q) d) 0 y
+    rw [ha]
+    simp only [iteratedFDeriv_zero_apply]
+    have hdot := abs_p11dot_le d (p11PreparedFreqR Q y)
+    have hdw : |p11dot d (p11PreparedFreqR Q y)| ≤ 2 * C.L + 1 := by
+      rw [hd, one_mul] at hdot
+      exact hdot.trans (hzero' y hy)
+    have hval : p11euclid (p11scalar 2 (p11PreparedFreqR Q) d y) =
+        |p11dot d (p11PreparedFreqR Q y)| ^ 2 := by
+      unfold p11euclid KAM.Nekhoroshev.euclid p11scalar
+      simp [← sq_abs]
+    rw [hval]
+    refine (pow_le_pow_left₀ (abs_nonneg _) hdw 2).trans ?_
+    have : (1 : ℝ) ≤ 2 ^ ((p11PatchData D).mu + 1) := one_le_pow₀ (by norm_num)
+    nlinarith [sq_nonneg (2 * C.L + 1)]
+
 end Pd
 
 end KAM.Planetary
