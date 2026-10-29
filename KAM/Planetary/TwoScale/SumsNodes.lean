@@ -71,7 +71,7 @@ theorem sum_doubling {e : ℕ → ℝ} (he : ∀ j, 0 ≤ e j) (he₀ : e 0 < 1 
       (summable_geometric_of_lt_one (he m) (by linarith : e m < 1)).mul_right (e m)
   have hs : Summable (fun k => e (m + k)) :=
     Summable.of_nonneg_of_le (fun k => he _) hbd hg
-  refine ⟨fun k hk => ⟨sum_pow_le he he₀ hquad hk, hpow _ |>.trans (by simpa using le_rfl)⟩,
+  refine ⟨fun k hk => ⟨sum_pow_le he he₀ hquad hk, hpow _⟩,
     hs, ?_, ?_⟩
   · have hgs : ∑' k : ℕ, e m ^ (k + 1) = e m / (1 - e m) := by
       have : ∑' k : ℕ, e m ^ (k + 1) = e m * ∑' k : ℕ, e m ^ k := by
