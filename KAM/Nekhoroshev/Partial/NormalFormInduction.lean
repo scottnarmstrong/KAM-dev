@@ -503,7 +503,7 @@ theorem nnf_small_at (ha : ExtNFHyp b s K α L p ε Λ h f) (hsm : ε ≤ α*b.r
     have h8 : (1 : ℝ) / 2 ^ 8 ≤ 1 / 4 := by norm_num
     linarith
 
-/-- `nf-induct`, size of `|g_{i-1}|_*`: weights `≤ 5/(8N)` for `g₀`, `≤ 1` (in fact `≤ 1/2`)
+/-- `nf-induct`, size of `|g_{i-1}|_*`: weights `≤ 5/(8N)` for `g₀`, `≤ 1`
 afterwards, so `u(|g_{i-1}|_*) ≤ 2⁻⁴`. -/
 theorem nnf_star_at (ha : ExtNFHyp b s K α L p ε Λ h f) (hsm : ε ≤ α*b.rB/(2^7*conjExp p*K))
     (hN : N = ⌊2 * Real.pi * K * s / (12 * Real.log 2)⌋₊) {i : ℕ} (hi : i ≤ N) (hi1 : 1 ≤ i) :

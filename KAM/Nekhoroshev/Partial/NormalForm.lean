@@ -630,6 +630,26 @@ theorem nf (b : PartialBlock n k) {s K α L p ε : ℝ} {Λ : Set (Fin n → ℤ
   · exact nnf_caseA ha hsmall hA
   · exact nnf_caseB ha hsmall (not_le.1 hA)
 
+/-- The radius tails of `bpN:p11:nf` (c) and of step `nf-disp`, which the signed `nf` omits: under
+its smallness premise, `q K ε/α ≤ R/2⁷` and `(1/8) q K ε/α ≤ R/2¹⁰`, and an extended slow
+displacement `R/2¹⁰` is the physical slow displacement `λ R/2¹⁰ = w/2¹⁰`. -/
+theorem nnf_disp_radius (b : PartialBlock n k) {s K α L p ε : ℝ} {Λ : Set (Fin n → ℤ)}
+    {h : (Fin n → ℂ) → ℂ} {f : EC n k → ℂ} (ha : ExtNFHyp b s K α L p ε Λ h f)
+    (hsmall : ε ≤ α*b.rB/(2^7*conjExp p*K)) :
+    conjExp p*K*ε/α ≤ b.rB/2^7 ∧ conjExp p*K*ε/(8*α) ≤ b.rB/2^10 ∧
+      b.lam*(b.rB/2^10) = b.w/2^10 := by
+  have hα := ha.alpha_pos
+  have hq := conjExp_pos' ha.p_gt
+  have hD : 0 < 2^7*conjExp p*K := by have := ha.K_pos; positivity
+  have h1 : ε*(2^7*conjExp p*K) ≤ α*b.rB := (le_div_iff₀ hD).1 hsmall
+  refine ⟨?_, ?_, ?_⟩
+  · rw [div_le_div_iff₀ hα (by norm_num)]
+    nlinarith
+  · rw [div_le_div_iff₀ (by positivity) (by norm_num)]
+    nlinarith
+  · rw [PartialBlock.lam, div_mul_div_comm, mul_comm b.w b.rB,
+      mul_div_mul_left _ _ ha.radius_pos.ne']
+
 end KAM.Nekhoroshev
 
 end
