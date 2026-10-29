@@ -410,6 +410,139 @@ theorem gramModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : �
       (gramEntryModel_encloses K hW cfg hpe j i).of_eq fun θ => gramMatrix_comm _ θ j i⟩
     simp [gramModels, hij]
 
+/-! #### The Gram check -/
+
+omit [LawfulCertArith α] in
+theorem polyMatrix_apply (n : ℕ) (B : List (List (CertPoly α))) (θ : Fin n → ℂ) (i j : Fin n) :
+    polyMatrix n B θ i j = (gramInvPoly B i.val j.val).eval n θ := by
+  unfold polyMatrix gramInvPoly
+  cases ((B[i.val]?).bind fun r => r[j.val]?) <;> simp [CertPoly.eval]
+
+theorem exactModel_encloses (n : ℕ) (ρ : ℝ) (P : CertPoly α) :
+    (⟨0, P, ofInt 0⟩ : CertModel α).Encloses n ρ (P.eval n) := by
+  intro θ _
+  simp [LawfulCertArith.val_ofInt]
+
+theorem gramBGModel_encloses {n : ℕ} (K : CertEmbedding α) (B : List (List (CertPoly α)))
+    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig α)
+    {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true) (i j : Fin n) :
+    (gramBGModel n B (gramModels n K W cfg pe) W cfg pe i.val j.val).Encloses n W.rho
+      (fun θ => (polyMatrix n B θ * gramMatrix (K.eval n) θ) i j) := by
+  have hG := gramModels_sound (n := n) K hW cfg hpe
+  let L : EnclosedList α n := List.ofFn fun k : Fin n =>
+    (CertModel.mul W cfg [3, 1, i.val, j.val, k.val] ⟨0, gramInvPoly B i.val k.val, ofInt 0⟩
+      (modelMatrixEntry (gramModels n K W cfg pe) k.val j.val),
+     (gramInvPoly B i.val k.val).eval n * fun θ => gramMatrix (K.eval n) θ k j)
+  have hL : ∀ p ∈ L, p.1.Encloses n W.rho p.2 := by
+    intro p hp
+    obtain ⟨k, rfl⟩ := (List.mem_ofFn' _ _).mp hp
+    obtain ⟨m, hm, hme⟩ := hG k j
+    have he : modelMatrixEntry (gramModels n K W cfg pe) k.val j.val = m := by
+      simp only [modelMatrixEntry] at hm ⊢
+      rw [hm, Option.getD_some]
+    dsimp only
+    rw [he]
+    exact CertModel.Encloses.mul hW cfg _ (exactModel_encloses n W.rho _) hme
+  have := (modelSum_encloses hW hpe L hL).toDeg hW hpe 0
+  have hfst : L.map Prod.fst = List.ofFn fun k : Fin n =>
+      CertModel.mul W cfg [3, 1, i.val, j.val, k.val] ⟨0, gramInvPoly B i.val k.val, ofInt 0⟩
+        (modelMatrixEntry (gramModels n K W cfg pe) k.val j.val) := by
+    simp only [L, List.map_ofFn]
+    rfl
+  unfold gramBGModel
+  rw [← hfst]
+  refine this.of_eq fun θ => ?_
+  simp only [L, List.map_ofFn, List.sum_ofFn, Function.comp_def, Pi.mul_apply, Matrix.mul_apply,
+    polyMatrix_apply]
+
+theorem norm_sub_le_gramDefectUp {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) {u : CertModel α} {f : (Fin n → ℂ) → ℂ}
+    (hu : u.Encloses n W.rho f) (hdeg : u.deg = 0) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n W.rho) (i j : Fin n) :
+    ‖(1 : Matrix (Fin n) (Fin n) ℂ) i j - f θ‖ ≤ val (gramDefectUp W i.val j.val u) := by
+  unfold gramDefectUp
+  split_ifs with hij
+  · rw [Fin.ext hij, Matrix.one_apply_eq]
+    exact norm_one_sub_le_oneSubSupUp hW hu hdeg hθ
+  · rw [Matrix.one_apply_ne (fun h => hij (congrArg Fin.val h)), zero_sub, norm_neg]
+    have hf := hu θ hθ
+    rw [hdeg, zpow_zero, zpow_zero, one_mul, one_mul] at hf
+    have hP := u.poly.norm_eval_le_supNormUp hW hθ
+    have hs := LawfulCertArith.upAdd_ge (u.poly.supNormUp W) u.rad
+    calc ‖f θ‖ = ‖(f θ - u.poly.eval n θ) + u.poly.eval n θ‖ := by rw [sub_add_cancel]
+      _ ≤ ‖f θ - u.poly.eval n θ‖ + ‖u.poly.eval n θ‖ := norm_add_le _ _
+      _ ≤ _ := by linarith
+
+theorem gramBoundsOk_spec {dRows bRows : List α} {δ β : α} {σ : ℚ}
+    (h : gramBoundsOk dRows bRows δ β σ = true) :
+    (∀ r ∈ dRows, val r ≤ val δ) ∧ (∀ r ∈ bRows, val r ≤ val β) ∧ val δ < 1 ∧ 0 ≤ val δ ∧
+      val β + σ * val δ ≤ σ := by
+  simp only [gramBoundsOk, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
+  obtain ⟨⟨⟨⟨⟨hd, hb⟩, h1⟩, h0⟩, hσ⟩, hf⟩ := h
+  have h1' := LawfulCertArith.blt_sound _ _ h1
+  have h0' := LawfulCertArith.ble_sound _ _ h0
+  rw [LawfulCertArith.val_ofInt, Int.cast_one] at h1'
+  rw [LawfulCertArith.val_ofInt, Int.cast_zero] at h0'
+  refine ⟨fun r hr => LawfulCertArith.ble_sound _ _ (hd r hr),
+    fun r hr => LawfulCertArith.ble_sound _ _ (hb r hr), h1', h0', ?_⟩
+  have hσ' : (0 : ℝ) ≤ σ := by exact_mod_cast hσ
+  have hu := LawfulCertArith.ofRatUp_ge (α := α) σ
+  have hd' := LawfulCertArith.ofRatDown_le (α := α) σ
+  have hm := LawfulCertArith.upMul_ge (ofRatUp σ : α) δ (hσ'.trans hu) h0'
+  have ha := LawfulCertArith.upAdd_ge β (upMul (ofRatUp σ) δ)
+  have hf' := LawfulCertArith.ble_sound _ _ hf
+  have : (σ : ℝ) * val δ ≤ val (ofRatUp σ : α) * val δ := mul_le_mul_of_nonneg_right hu h0'
+  linarith
+
+/-- **Gram check contract.** -/
+theorem gramCheck_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ} (hn : 1 ≤ n)
+    (K : CertEmbedding α) (Binv : List (List (CertPoly α))) {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) (cfg : ModelConfig α) {pe : PiEnclosure α}
+    (hpe : checkPiEnclosure pe = true) (σBμ : ℚ) {δβ : α × α}
+    (h : gramCheck n K Binv W cfg pe σBμ = some δβ) :
+    val δβ.1 < 1 ∧ ∀ θ ∈ complexStrip n W.rho, IsUnit (gramMatrix (K.eval n) θ).det ∧
+      (∀ i, ∑ j, ‖(gramMatrix (K.eval n) θ)⁻¹ i j‖ ≤ σBμ) ∧
+      ‖(gramMatrix (K.eval n) θ)⁻¹ - polyMatrix n Binv θ‖ ≤
+        val δβ.1 * val δβ.2 / (1 - val δβ.1) := by
+  unfold gramCheck at h
+  dsimp only at h
+  split_ifs at h with hsh hok
+  obtain rfl := (Option.some.inj h).symm
+  obtain ⟨hd, hb, hδ1, hδ0, hfin⟩ := gramBoundsOk_spec hok
+  set δ := maxCandidate (gramDefectRows n Binv (gramModels n K W cfg pe) W cfg pe)
+  set β := maxCandidate (gramInvRows n Binv W)
+  refine ⟨hδ1, fun θ hθ => ?_⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have hE : ‖1 - polyMatrix n Binv θ * gramMatrix (K.eval n) θ‖ ≤ val δ := by
+    rw [norm_le_iff_forall_rowSum hδ0]
+    intro i
+    have hrow := hd _ ((List.mem_ofFn' _ _).mpr ⟨i, rfl⟩)
+    refine le_trans ?_ ((sumUp_ge _ _).trans hrow)
+    rw [Fin.sum_univ_def]
+    refine List.sum_le_sum fun j _ => ?_
+    rw [Matrix.sub_apply]
+    exact norm_sub_le_gramDefectUp hW (gramBGModel_encloses K Binv hW cfg hpe i j)
+      (toDeg_deg W pe 0 _) hθ i j
+  have hrowB : ∀ i : Fin n, ∑ k, ‖polyMatrix n Binv θ i k‖ ≤
+      val (sumUp (fun k : Fin n => (gramInvPoly Binv i.val k.val).supNormUp W)
+        (List.finRange n)) := by
+    intro i
+    refine le_trans ?_ (sumUp_ge _ _)
+    rw [Fin.sum_univ_def]
+    refine List.sum_le_sum fun k _ => ?_
+    rw [polyMatrix_apply]
+    exact (gramInvPoly Binv i.val k.val).norm_eval_le_supNormUp hW hθ
+  have hβ0 : 0 ≤ val β := by
+    refine le_trans ?_ (hb _ ((List.mem_ofFn' _ _).mpr ⟨⟨0, hn⟩, rfl⟩))
+    exact sumUp_nonneg (fun _ => CertPoly.supNormUp_nonneg hW _) _
+  have hB : ‖polyMatrix n Binv θ‖ ≤ val β := by
+    rw [norm_le_iff_forall_rowSum hβ0]
+    exact fun i => (hrowB i).trans (hb _ ((List.mem_ofFn' _ _).mpr ⟨i, rfl⟩))
+  obtain ⟨hU, hInv, hDiff⟩ := matrix_inv_of_approx_inverse hE hδ1 hB
+  refine ⟨hU, fun i => (rowSum_le_norm _ i).trans (hInv.trans ?_), hDiff⟩
+  rw [div_le_iff₀ (by linarith)]
+  nlinarith
+
 end Sound
 
 end KAM.Certificate
