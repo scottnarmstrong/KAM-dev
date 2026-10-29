@@ -1787,9 +1787,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torsion, p11cGe_phi4_ne_zero_iff_good, p11cGe_phi4_ne_zero_iff_nr4 (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS WITH NOTES (nonzero-locus bridge to SecularSpectrum.good closes F1)
 NOTE: -
 
 NODE: stepP:p11b:to-an
@@ -1814,9 +1814,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGe_det_analytic (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; named to-an
 NOTE: -
 
 NODE: stepP:p11b:to-pt
@@ -1841,9 +1841,9 @@ EDGE: bpP:p11b:asymptotics | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGe_det_neg (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; named to-pt
 NOTE: -
 
 NODE: stepP:p11b:to-id
@@ -1873,9 +1873,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torsion, p11cGe_phi4_ne_zero_iff_good (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; step inside torsion + bridge
 NOTE: -
 
 NODE: bpP:p11b:patch
