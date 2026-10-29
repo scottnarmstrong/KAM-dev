@@ -198,6 +198,123 @@ def Slp.balls (n : ℕ) (p : Slp) (WH : CertWeight) (centre radius : List ℚ) (
     Option (List (CC ℚ × ℚ)) :=
   ballsAux n WH centre radius taylorN [] p.ops
 
+/-! ### Soundness of the slot balls -/
+
+/-- The slot values `V` lie in the balls `acc`. -/
+def BallRel (V : List ℂ) (acc : List (CC ℚ × ℚ)) : Prop :=
+  V.length = acc.length ∧
+    ∀ i, ‖V.getD i 0 - (acc.getD i ballZero).1.toC‖ ≤ ((acc.getD i ballZero).2 : ℝ)
+
+theorem toC_zero_rat : CC.toC (⟨0, 0⟩ : CC ℚ) = 0 := by
+  apply Complex.ext <;> simp [CC.toC, CertArith.val, instCertArithRat]
+
+theorem toC_ratCast (q : ℚ) : CC.toC (⟨q, 0⟩ : CC ℚ) = ((q : ℝ) : ℂ) := by
+  apply Complex.ext <;> simp [CC.toC, CertArith.val, instCertArithRat]
+
+theorem ballZero_mem : ‖(0 : ℂ) - ballZero.1.toC‖ ≤ (ballZero.2 : ℝ) := by
+  show ‖(0 : ℂ) - CC.toC (⟨0, 0⟩ : CC ℚ)‖ ≤ ((0 : ℚ) : ℝ)
+  rw [toC_zero_rat]
+  simp
+
+theorem BallRel.nil : BallRel [] [] := ⟨rfl, fun i => by simpa using ballZero_mem⟩
+
+theorem BallRel.snoc {V : List ℂ} {acc : List (CC ℚ × ℚ)} (h : BallRel V acc) {v : ℂ}
+    {b : CC ℚ × ℚ} (hb : ‖v - b.1.toC‖ ≤ (b.2 : ℝ)) : BallRel (V ++ [v]) (acc ++ [b]) := by
+  refine ⟨by simp [h.1], fun i => ?_⟩
+  simp only [List.getD_eq_getElem?_getD]
+  rcases lt_trichotomy i V.length with hi | hi | hi
+  · have hi' : i < acc.length := h.1 ▸ hi
+    rw [List.getElem?_append_left hi, List.getElem?_append_left hi']
+    have := h.2 i
+    simpa [List.getD_eq_getElem?_getD] using this
+  · have hi' : i = acc.length := hi.trans h.1
+    subst hi
+    rw [List.getElem?_append_right (le_refl _), List.getElem?_append_right (le_of_eq h.1.symm),
+      ← h.1]
+    simpa using hb
+  · have hi' : acc.length < i := h.1 ▸ hi
+    rw [List.getElem?_eq_none (by simp; omega), List.getElem?_eq_none (by simp; omega)]
+    simpa using ballZero_mem
+
+theorem ballStep_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight WH s N = true)
+    {centre radius : List ℚ} {taylorN : ℕ} {z : (Fin n → ℂ) × (Fin n → ℂ)}
+    (hz : z ∈ certDomain n WH.rho centre radius) {V : List ℂ} {acc : List (CC ℚ × ℚ)}
+    (hR : BallRel V acc) {op : SlpOp} {b : CC ℚ × ℚ}
+    (h : ballStep n WH centre radius taylorN acc op = some b) :
+    ‖op.step n z V - b.1.toC‖ ≤ (b.2 : ℝ) := by
+  cases op with
+  | const re im deg =>
+    simp only [ballStep, Option.some.injEq] at h
+    subst h
+    exact mem_constBall re im deg
+  | action j =>
+    simp only [ballStep] at h
+    by_cases hj : j < n
+    · simp only [hj, ite_true, Option.some.injEq] at h
+      subst h
+      have := (hz.2 ⟨j, hj⟩).le
+      simp only [SlpOp.step, hj, dite_true]
+      rw [toC_ratCast]
+      exact_mod_cast this
+    · simp only [hj, ite_false, Option.some.injEq] at h
+      subst h
+      simp only [SlpOp.step, hj, dite_false]
+      exact ballZero_mem
+  | char k =>
+    simp only [ballStep, Option.some.injEq] at h
+    subst h
+    simp only [SlpOp.step]
+    rw [toC_zero_rat, sub_zero]
+    have hθ := norm_character_le_weight hW (certKeyFun n k) hz.1
+    have hc : Complex.exp (Complex.I * modePhase n k z.1) = character (certKeyFun n k) z.1 := by
+      unfold character modePhase
+      congr 1
+      ring
+    rw [hc]
+    refine hθ.trans ?_
+    have h1 := CertWeight.one_le_w hW
+    have h2 := sum_natAbs_certKeyFun_le n k
+    show _ ≤ ((WH.w ^ (k.map Int.natAbs).sum : ℚ) : ℝ)
+    push_cast
+    exact pow_le_pow_right₀ h1 h2
+  | add a b =>
+    simp only [ballStep, Option.some.injEq] at h
+    subst h
+    exact CertBall.mem_plus (b₁ := ballOf (acc.getD a ballZero))
+      (b₂ := ballOf (acc.getD b ballZero)) (hR.2 a) (hR.2 b)
+  | mul a b =>
+    simp only [ballStep, Option.some.injEq] at h
+    subst h
+    exact CertBall.mem_times (b₁ := ballOf (acc.getD a ballZero))
+      (b₂ := ballOf (acc.getD b ballZero)) (hR.2 a) (hR.2 b)
+  | exp a =>
+    simp only [ballStep] at h
+    exact certCExpReduced_sound h (hR.2 a)
+  | inv a =>
+    simp only [ballStep] at h
+    split_ifs at h with hlt
+    simp only [Option.some.injEq] at h
+    subst h
+    simp only [SlpOp.step]
+    set x := acc.getD a ballZero with hx
+    have hmem := hR.2 a
+    rw [← hx] at hmem
+    have hlt' : (x.2 : ℝ) < max |(x.1.re : ℝ)| |(x.1.im : ℝ)| := by exact_mod_cast hlt
+    have hmc : max |(x.1.re : ℝ)| |(x.1.im : ℝ)| ≤ ‖x.1.toC‖ := by
+      refine max_le ?_ ?_
+      · exact Complex.abs_re_le_norm x.1.toC
+      · exact Complex.abs_im_le_norm x.1.toC
+    obtain ⟨-, hb⟩ := inv_ball_bound hlt' hmc hmem
+    have hc : x.1.toC⁻¹ = CC.toC (⟨x.1.re / (x.1.re ^ 2 + x.1.im ^ 2),
+        -x.1.im / (x.1.re ^ 2 + x.1.im ^ 2)⟩ : CC ℚ) := by
+      apply Complex.ext <;>
+        simp [CC.toC, CertArith.val, instCertArithRat, Complex.inv_re, Complex.inv_im,
+          Complex.normSq_apply, sq, neg_div]
+    rw [← hc]
+    convert hb using 1
+    push_cast
+    rfl
+
 end KAM.Certificate
 
 end
