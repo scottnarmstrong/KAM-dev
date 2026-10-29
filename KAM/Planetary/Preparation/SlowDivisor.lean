@@ -265,7 +265,9 @@ theorem dotC_Omega_lower {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
 
 `h₀ = C.h ∘ J + ε W` on `V₂`, `Z` holomorphic on its domain with `‖W‖ ≤ MW` there and the
 `ρ`-slice derivative bound `cZ` (clause 6 of the spec for `α = 0`); the smallness hypotheses
-are `K cZ ≤ δ₀/8` and `ε K MW ≤ (δ₀/2) R` with `δ₀ = γ K^{-τ}`, `R = min (s₁/4) (π r_z²/32)`. -/
+are `K cZ ≤ δ₀/8` and `ε K MW ≤ (δ₀/4) R` with `δ₀ = γ K^{-τ}`, `R = min (s₁/4) (π r_z²/32)`.
+Conclusion, as in the node: pure slow `|k·∂h₀| ≥ ε(δ₀ - δ₀/8 - δ₀/8) = ε (3/4) δ₀`; mixed
+`|k·∂h₀| ≥ δ₀/2` (the fast bound `3δ₀/4` less a perturbation of at most `δ₀/4`). -/
 theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11SecularSpec D C)
     {nu eps : ℝ} {h0 Z : P11CVec (n+n) → ℂ} {cZ MW : ℝ}
     (heps : 0 < eps) (hK : 0 < p11K2 C nu eps) (hs1 : 0 < p11s1 C eps)
@@ -279,11 +281,11 @@ theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
         ‖fderiv ℂ (fun rho : P11CVec n => Z (Fin.append J rho)) rho (Pi.single i 1)‖ ≤ cZ)
     (hcZ : p11K2 C nu eps*cZ ≤ C.gamma*p11K2 C nu eps^(-C.tau)/8)
     (hMWs : eps*p11K2 C nu eps*MW ≤
-      C.gamma*p11K2 C nu eps^(-C.tau)/2*min (p11s1 C eps/4) (Real.pi*C.rz^2/32)) :
+      C.gamma*p11K2 C nu eps^(-C.tau)/4*min (p11s1 C eps/4) (Real.pi*C.rz^2/32)) :
     ∀ I ∈ p11SlowBox C nu eps, ∀ k : Fin (n+n) → ℤ, k ≠ 0 →
       KAM.Fourier.modeSize k ≤ p11K2 C nu eps →
-      (if (fun i : Fin n => k (Fin.castAdd n i))=0 then eps else 1)*
-        C.gamma/4*p11K2 C nu eps^(-C.tau) ≤
+      (if (fun i : Fin n => k (Fin.castAdd n i))=0 then
+        eps*(3/4*(C.gamma*p11K2 C nu eps^(-C.tau))) else C.gamma*p11K2 C nu eps^(-C.tau)/2) ≤
         ‖p11dotC k (fun i => fderiv ℂ h0 I (Pi.single i 1))‖ := by
   intro I hI k hk0 hkK
   have hC' := hC
@@ -353,14 +355,12 @@ theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
   set δ0 := C.gamma * K ^ (-C.tau) with hδ0
   have hKt : 0 < K ^ (-C.tau) := Real.rpow_pos_of_pos hK _
   have hδpos : 0 < δ0 := mul_pos hγ0 hKt
-  have hrhs : ∀ c : ℝ, c * C.gamma / 4 * K ^ (-C.tau) = c * (δ0 / 4) := fun c => by
-    rw [hδ0]; ring
   have hmk1 : KAM.Fourier.modeSize (fun i : Fin n => k (Fin.castAdd n i)) ≤ K := by
     have := modeSize_split k
     have h2 := KAM.Fourier.modeSize_nonneg (fun i : Fin n => k (Fin.natAdd n i))
     linarith
   by_cases hk1 : (fun i : Fin n => k (Fin.castAdd n i)) = 0
-  · rw [if_pos hk1, hrhs]
+  · rw [if_pos hk1]
     have hk2 : (fun i : Fin n => k (Fin.natAdd n i)) ≠ 0 := by
       intro h; apply hk0; funext j
       refine Fin.addCases (fun a => ?_) (fun a => ?_) j
@@ -412,11 +412,11 @@ theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
       ((2 * Real.pi : ℂ)⁻¹ • C.Omega J) + dotC (fun i : Fin n => k (Fin.natAdd n i)) zz)
       (dotC (fun i : Fin n => k (Fin.natAdd n i)) zz)
     rw [add_sub_cancel_right] at hA
-    have hge : δ0 / 4 ≤ ‖dotC (fun i : Fin n => k (Fin.natAdd n i))
+    have hge : 3 / 4 * δ0 ≤ ‖dotC (fun i : Fin n => k (Fin.natAdd n i))
         ((2 * Real.pi : ℂ)⁻¹ • C.Omega J) + dotC (fun i : Fin n => k (Fin.natAdd n i)) zz‖ := by
       linarith
     exact mul_le_mul_of_nonneg_left hge heps.le
-  · rw [if_neg hk1, hrhs]
+  · rw [if_neg hk1]
     have hKs' : K * C.L * s2 ≤ C.gamma * K ^ (-C.tau) / 4 := by linarith
     have hdb := fast_divisor hC (s1 := s2) (K := K) (α := 3 / 4 * C.gamma * K ^ (-C.tau))
       (hs1 := hs2le.trans (by linarith)) hK hKs' le_rfl
@@ -437,7 +437,7 @@ theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
         (pi_norm_le_iff_of_nonneg h0MW).2 hCau
       refine (p11fd_norm_dotC_le k _).trans ?_
       exact mul_le_mul hkK hv (norm_nonneg _) hK.le
-    have hsm : eps * (K * (MW / Rrad)) ≤ δ0 / 2 := by
+    have hsm : eps * (K * (MW / Rrad)) ≤ δ0 / 4 := by
       have : eps * (K * (MW / Rrad)) = eps * K * MW / Rrad := by ring
       rw [this, div_le_iff₀ hRpos]
       exact hMWs
@@ -458,6 +458,12 @@ theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
       have : 3 / 4 * C.gamma * K ^ (-C.tau) = 3 / 4 * δ0 := by rw [hδ0, mul_assoc]
       rw [← this]; exact hfd
     linarith
+
+/-- `α₁ = (γ/4) K^{-τ} ≤ δ₀/2`, the last inequality of the mixed case of `stepP:p11:as-nr`. -/
+theorem p11_slow_alpha1_le_half {γ K τ : ℝ} (hγ : 0 ≤ γ) (hK : 0 < K) :
+    γ / 4 * K ^ (-τ) ≤ γ * K ^ (-τ) / 2 := by
+  have := mul_nonneg hγ (Real.rpow_pos_of_pos hK (-τ)).le
+  linarith
 
 theorem p11PartialVec_zero {m : ℕ} (f : P11CVec n → P11CVec m) :
     p11PartialVec (0 : Fin n → ℕ) f = f := by
