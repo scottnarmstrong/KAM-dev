@@ -786,3 +786,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     archived). Next after audits pass: send SO-GRAPHM, SO-NORM, SO-EXPR-B1, SO-HAMX, SO-DIO3 to kam-inp; then
     SO-HAMX-ROT and the rotated lunar packages per Revision 5; data packaging (lint exemption?) is an owner question.
   - Disk: root at 96% (6.5 GB free); sweep worktrees after each landing.
+- **14:30. Heartbeat (track SO).** Passed and sent to kam-inp: SO-DIO3 (cubic Diophantine frequency), SO-NORM (norm
+  bridges to IG1Body), SO-HAMX (lunar Hamiltonian as an expression, original frame). SO-GRAPHM failed round 2 again on
+  three Mathlib short names (Torus.graph, Torus.orbit, Torus.invariant); renamed, round 3 running. Root cause: the
+  orchestrator's short-name checker skipped dotted helpers and never scanned Mathlib; it now checks the last component
+  of every unsigned public declaration against Mathlib (cached per revision) and KAM, and a regression test on the
+  pre-rename file reproduces exactly the audit's three findings.
+  Decisions (orchestrator, per the design's rule that the backend is chosen after the replay gate): the production
+  backend is fixed point (SO-REPLAY's recommendation); SO-ABK started. All other post-gate packages chain through
+  SO-POLY, whose design must adopt SO-REPLAY2's advice-checked packed products: added as item 6 to the running design
+  Revision 5 (author confirmed). Quotas: claude-7 36%, -8 31%, -10 26%, -12 19% (resets 21:00), codex-2 60%, -4 32%.
