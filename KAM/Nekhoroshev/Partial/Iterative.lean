@@ -39,8 +39,8 @@ open KAM.Weighted KAM.NormalForm
 
 variable {n k : ℕ}
 
--- Lane-N ruling F2-C1 (Zohar's team, 2026-10-28): `(hc : 0 < b.c)` added, option (a) of
--- N11-F2-audit-1; `nf` supplies it from `ExtNFHyp.radius_pos`/`slow_width_pos`.
+-- The positivity premise `(hc : 0 < b.c)` is supplied by `nf` from
+-- `ExtNFHyp.radius_pos`/`slow_width_pos`.
 theorem iterative (b : PartialBlock n k) (hk : 1 ≤ k) {R s ρ σ K α p δ : ℝ}
     (h : (Fin n → ℂ) → ℂ) (f : EC n k → ℂ) (Λ : Set (Fin n → ℤ))
     (hR : 0 < ρ) (hR' : 2*ρ < R) (hs : 0 < σ) (hs' : 2*σ < s)

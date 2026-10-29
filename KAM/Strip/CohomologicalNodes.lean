@@ -10,7 +10,7 @@ public import KAM.Strip.CohomologicalOperator
 /-!
 # The node-level statements of `bp:p1:cohomological` and `bp:p1:cohomological-operator`
 
-Package I-STRIP-3. The scalar and vector parts are Zohar's (`KAM.Strip.Cohomological`); the matrix
+The scalar and vector parts are in `KAM.Strip.Cohomological`; the matrix
 parts are in `KAM.Strip.CohomologicalOperator`. This file only assembles them into the two
 node-level statements, with the exact constant `KAM.cohConst` and the bound written, as in
 `KAM.norm_cohSolution_le`, as `cohConst n τ / (γ * δ ^ (τ + n)) * A`.
@@ -27,8 +27,8 @@ node-level statements, with the exact constant `KAM.cohConst` and the bound writ
 
 ## Map of the Part 1 nodes of package I-STRIP-3
 
-* `bp:p1:fourier-basic` (a): `KAM.torusCoeff_fderiv` (holomorphic form, `Strip/Cohomological`,
-  Zohar) and `KAM.torusCoeff_fderiv_coordinate_real`, `KAM.torusCoeff_fderiv_real` (real `C¹` form,
+* `bp:p1:fourier-basic` (a): `KAM.torusCoeff_fderiv` (holomorphic form, `Strip/Cohomological`)
+  and `KAM.torusCoeff_fderiv_coordinate_real`, `KAM.torusCoeff_fderiv_real` (real `C¹` form,
   `Strip/FourierDerivative`). (b), (c): `KAM.hasSum_torusCoeff_mul_character`,
   `KAM.eq_zero_of_torusCoeff_eq_zero`, `KAM.eq_zero_of_torusCoeff_holomorphic`
   (`Strip/FourierBasic`).
