@@ -10,7 +10,7 @@ public import KAM.Planetary.PlanarAssembly.Data
 public import KAM.Planetary.PlanarAssembly.Boxes
 
 /-!
-# Planar assembly: literal exports of the cylinder norm and the fast inverse (GAP-PX)
+# Planar assembly: literal exports of the cylinder norm and the fast inverse
 
 Unsigned exports stating the literal conclusions of `bpP:p12:sec-set#data` (the cylinder
 inequality `cylnorm`) and `stepP:p12:fd-inv` (the explicit analytic inverse of the Kepler
