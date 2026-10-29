@@ -51,3 +51,13 @@ soGraphInv/soGraphInv_add_one/soGraphInv_periodic_φ (the names the module docst
 three lines over 100 columns wrapped. Rebuilt through the compile gate: success; short-name check OK.
 ROUND 2 FOCUS: are all audit-1 hygiene findings closed (no public short name reused from Mathlib or KAM, no root
 shadow, lines <= 100, docstring accurate)? Did the renames change any statement (they must not)? Verdict.
+
+## Round 3 (orchestrator naming repair, commit 0fecbb3f)
+
+Audit 2: mathematics PASS WITH NOTES, FAIL on three reused short names. Renamed (no proof or statement change):
+Torus.graph -> Torus.soGraphFun (with continuous_graph -> continuous_soGraphFun, graph_apply -> soGraphFun_apply),
+Torus.orbit -> Torus.soOrbit (hasDerivAt_orbit -> hasDerivAt_soOrbit, orbit_mem -> soOrbit_mem),
+Torus.invariant -> Torus.soGraph_invariant. The orchestrator then scanned ALL 36 public short names of the module
+against every declaration header in Mathlib and in KAM (theorem/lemma/def/abbrev/structure/class/instance, any
+namespace): no match. Rebuilt through the compile gate: success.
+ROUND 3 FOCUS: naming closed? Any statement changed by the renames (must not)? Verdict.
