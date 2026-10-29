@@ -57,6 +57,11 @@ public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
 public import KAM.Certificate.CubicDiophantine
 public import KAM.Certificate.Expr.Basic
+public import KAM.Certificate.Expr.Diff
+public import KAM.Certificate.Expr.DiffBuild
+public import KAM.Certificate.Expr.DiffCalculus
+public import KAM.Certificate.Expr.DiffNode
+public import KAM.Certificate.Expr.Slp
 public import KAM.Certificate.Freq
 public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.Model.Basic
