@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.ExtensionTubeP
 For `delta ≤ T.rho`: every point of `extensionDomain d delta` admits a valid shift; `tubeP` is
 holomorphic, jointly continuous, periodic, bounded, and agrees with `d.P` at real points of the
 closed cylinder (`stepP:p5:ext-per`, `bpP:p5:ext`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
 -/
 
 @[expose] public noncomputable section

@@ -13,7 +13,6 @@ public import KAM.Planetary.PGAssembly.ChartMem
 
 Scalar and geometric lemmas used by `location`: the oscillator radial margin and the inner core
 margin in the fast action.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CH.
 -/
 
 @[expose] public noncomputable section

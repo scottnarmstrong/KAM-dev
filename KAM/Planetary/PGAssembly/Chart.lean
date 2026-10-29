@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.ChartLoc
 `phi_chart` shows that `phi = realAverageMap ∘ oscillatorPolar` is a chart on the open set
 `phiDomain`, equivariant under the lattice and injective modulo it; `location` places the scaled
 action collar inside `phiDomain` and its image inside the cylinder.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-CH.
 -/
 
 @[expose] public noncomputable section

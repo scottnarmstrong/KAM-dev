@@ -16,7 +16,6 @@ The compact one-period box `pgX d ⊆ ℝ^(n+n+1)` (parameter in `[0, mu0]`, fas
 fast action in `closure V`, slow part of norm at most `r0/2`), the packed real function `pgF d`,
 and the real-analytic input needed for the complexification:
 `pgF d` is analytic on the packed closed cylinder and shift-periodic near `pgX d`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
 -/
 
 @[expose] public noncomputable section

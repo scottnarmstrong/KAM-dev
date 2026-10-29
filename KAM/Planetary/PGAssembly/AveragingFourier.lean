@@ -13,7 +13,6 @@ public import KAM.Planetary.PGAssembly.AveragingRem
 
 Conjugation by the normalization turns the P2 flat coefficients of `R` into the torus
 coefficients of `avgRem R` (a factor `2π`, the same Fourier modes and width `w/6`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

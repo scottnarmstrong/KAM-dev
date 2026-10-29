@@ -15,7 +15,6 @@ public import KAM.Strip.Regularity
 If `F μ` is holomorphic on an open `U` for every `μ` in a compact `T` and `(μ, z) ↦ F μ z` is
 continuous on `T × U`, then every iterated derivative `(μ, z) ↦ iteratedFDeriv ℂ n (F μ) z` is
 continuous on `T × U` (Cauchy estimate on the difference `F μ - F μ₀`, then induction).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

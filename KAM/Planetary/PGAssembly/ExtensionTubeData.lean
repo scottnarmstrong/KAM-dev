@@ -14,9 +14,9 @@ public import KAM.Planetary.PGAssembly.ExtensionTube
 `PGTube d`: a holomorphic bounded `F` on the thin tube `actionNbhd (pgX d) rho` around the packed
 period box, real-analytic complexification of `pgF d` on the real points of the tube, with the
 shift identities `F x = F (x - ι (pgShift m))` for `|m_i| ≤ 1`.
-Proof: `compact_real_complexification` (P5-CG) on `pgX d`, the identity theorem for the finitely
-many shifts (`exists_delta_shift_eq`, using `hperiod` on the open packed cylinder) and `tube_glue`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
+Proof: `compact_real_complexification` (`ComplexGlue`) on `pgX d`, the identity theorem for the
+finitely many shifts (`exists_delta_shift_eq`, using `hperiod` on the open packed cylinder) and
+`tube_glue`.
 -/
 
 @[expose] public noncomputable section

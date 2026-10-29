@@ -14,7 +14,7 @@ public import KAM.Planetary.PGAssembly.Extension
 `jetP0`, `jetOmega`, `jetBeta` are derivatives of `complexAverage` at `0` (constructed from the
 average, not from arbitrary boundary values), `jetPolynomial` is the degree-four polynomial they
 define and `pgRemainder` the average minus that polynomial. Declarations as in the design
-signature file. Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
+signature file.
 -/
 
 @[expose] public noncomputable section

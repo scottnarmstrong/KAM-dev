@@ -17,7 +17,6 @@ public import KAM.Planetary.PGAssembly.RealSlice
 On the tube `actionNbhd (closure V) (δ/2)`: `jetP0`, `jetOmega`, `jetBeta` are holomorphic in `I`
 for each `mu` and jointly continuous in `(mu, I)`; `jetBeta` is symmetric (permutation symmetry
 of the fourth derivative of the analytic average).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

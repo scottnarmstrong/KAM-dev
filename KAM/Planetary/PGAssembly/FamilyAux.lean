@@ -20,7 +20,6 @@ extension with the real Hamiltonian on the cylinder, the identity
 `H ∘ phi ∘ angleScale / (2*pi) = Re (kamH + kamF)` on the real strip (the Hamiltonian input of
 `cyl_pipeline`), the transfer of a lattice torus from `Re (kamH + kamF)` to the chart-pulled-back
 physical Hamiltonian, and the Lipschitz estimate from the two defect bounds of `two_scale_kam`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FAM.
 -/
 
 @[expose] public noncomputable section

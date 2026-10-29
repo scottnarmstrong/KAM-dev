@@ -15,8 +15,8 @@ public import KAM.Planetary.PG.Setting
 # P Part 5: the extension data (`bpP:p5:ext`, definitions)
 
 The complex phase carrier `PGComplexPhase`, `assembleComplex`, the thin domain `extensionDomain`
-and the produced witness structure `PGExtension` (design revision 4: `agrees` only at real points
-of the closed cylinder). Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
+and the produced witness structure `PGExtension` (`agrees` only at real
+points of the closed cylinder).
 -/
 
 @[expose] public noncomputable section

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PGAssembly.Main
 
 /-!
-# P Part 5: literal exports of the torus nodes (GAP-P5b)
+# P Part 5: literal exports of the torus nodes
 
 Append-only exports stating the literal conclusions of `bpP:p5:kset` (relative closedness and
 `σ`-compactness of `D₀`: `pgD0_relClosed`), `stepP:p5:tc-freq` (`tc_freq_node`) and

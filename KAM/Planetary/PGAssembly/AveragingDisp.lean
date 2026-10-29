@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.AveragingHamil
 The real trace of the conjugated P2 map is a chart (`hol_chart`), the conjugated remainder is
 holomorphic, and the four P2 displacement estimates become the stated physical bounds
 (constants `12` and `18`, each with a factor-two slack).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

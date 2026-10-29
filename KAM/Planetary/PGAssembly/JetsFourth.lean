@@ -15,7 +15,6 @@ public import KAM.Planetary.PGAssembly.JetsPolar
 derivatives of every order `≤ 4` there (the Taylor polynomial is fixed by the little-o bound,
 not merely its value). Proof: the one-variable statement along every line through `0`
 (analytic order), then polarization for the symmetric iterated derivative.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

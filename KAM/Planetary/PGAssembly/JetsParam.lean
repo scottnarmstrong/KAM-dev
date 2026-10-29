@@ -14,7 +14,6 @@ public import KAM.Weighted.Parametric
 `holomorphic_parametric_integral_gen` is `KAM.Weighted.holomorphic_parametric_integral`
 (`bpN:p4:ext-param`) transported along a continuous linear equivalence with `Fin q → ℂ`, so that
 it applies to the product domain `ℂᵃ × ℂᵇ × ℂᵇ` of the jets.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

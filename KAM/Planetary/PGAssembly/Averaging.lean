@@ -14,7 +14,6 @@ public import KAM.Planetary.PGAssembly.AveragingDisp
 `pg_avg` (signed as `avg`; renamed because `KAM.Planetary.avg` is the P2/P3 averaging export)
 applies the P2 theorem `averaged_remainder` to the normalized data of `pg_osc_hyp`,
 `pg_osc_bound` and conjugates by the normalization; `pgAvg` is the chosen record.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

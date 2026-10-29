@@ -13,7 +13,6 @@ public import Mathlib
 `lower_of_hasFDerivAt`: a lower Lipschitz bound on an open set passes to the derivative.
 `inv_apriori`: the a priori estimate of the block system (`stepP:p5:fi-blk`, `fi-inv`) as
 an inequality between the norms of the two blocks of a vector and of its image.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FI.
 -/
 
 @[expose] public noncomputable section

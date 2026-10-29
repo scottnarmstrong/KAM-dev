@@ -17,7 +17,7 @@ Uniform bounds in `mu ∈ [0, mu0]` for the jets `jetP0`, `jetOmega`, `jetBeta` 
 radius `δ/2` (from the extension bound and Cauchy estimates, as in the remainder), the polynomial
 bound for `jetPolynomial` on `|J₂| ≤ s`, and the Cauchy estimates for `jetPolynomial` and its first
 two derivatives on `analyticBoundDomain`-type domains of fast radius `δ/16` (the constant
-`jpBound d`). Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FD.
+`jpBound d`).
 -/
 
 @[expose] public noncomputable section

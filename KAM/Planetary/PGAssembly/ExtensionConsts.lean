@@ -17,7 +17,6 @@ public import KAM.Planetary.PGAssembly.ExtensionExists
 For any `E : PGExtension d`: complex angle strips over the thin domain, periodicity of the angle
 slices, and the weighted Fourier bound from `KAM.summableWeighted_torusCoeff`. Also the real
 attachment `assembleComplex ∘ ι = ι₂ ∘ assemble`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-EX.
 -/
 
 @[expose] public noncomputable section

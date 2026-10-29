@@ -14,7 +14,6 @@ public import KAM.Strip.Cohomological
 
 `pg_osc_bound` (the unit weighted bound of `pgOscP`) and `pg_osc_zero` (its zero Fourier
 coefficient is the actual `complexAverage` over the physical period `2π`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

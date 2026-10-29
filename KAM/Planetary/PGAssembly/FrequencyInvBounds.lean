@@ -15,7 +15,6 @@ For `mu ∈ (0, muStar]` and `J` in the analytic domain, any derivative `T0` of 
 satisfies the four estimates of `freq_inj`: `‖T0‖ ≤ C_U`, `‖v‖ ≤ (C_U/mu) ‖T0 v‖`, the fast block
 of `T0⁻¹` is `O(1)` and the slow block of `T0` is `O(mu)` (`jacobian_bounds`). The proof estimates
 the two block rows of `T0 v = w` against the constants of `PGAnalyticSpec` (`inv_apriori`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-FI.
 -/
 
 @[expose] public noncomputable section

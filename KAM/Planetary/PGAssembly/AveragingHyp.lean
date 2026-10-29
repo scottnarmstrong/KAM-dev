@@ -15,7 +15,6 @@ public import KAM.Planetary.PGAssembly.AveragingReal
 `pg_osc_hyp` assembles the record `OscHyp` for the normalized data: holomorphy, periodicity and
 reality of `pgOscE • pgOscP` on the P2 domain, its weighted bound, the divisor and smallness
 conditions.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

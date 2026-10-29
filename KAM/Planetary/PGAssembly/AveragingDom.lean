@@ -13,7 +13,6 @@ public import KAM.Planetary.PGAssembly.AveragingFacts
 
 `pg_osc_positive` and `pg_osc_domain`: the image of the P2 half-domain under the normalization is
 exactly `averagingDomain`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-AV.
 -/
 
 @[expose] public noncomputable section

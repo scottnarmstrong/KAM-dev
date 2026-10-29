@@ -18,7 +18,6 @@ complex average `(I, x) ↦ complexAverage d mu I x` is holomorphic for every `m
 jointly continuous in `(mu, I, x)`. Proof: the integrand is `P mu` composed with an affine map,
 `holomorphic_parametric_integral` for holomorphy; dominated convergence (the bound `MP`) for the
 joint continuity in `mu`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

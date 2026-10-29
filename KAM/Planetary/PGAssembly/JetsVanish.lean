@@ -15,7 +15,6 @@ For `I ∈ V` the complex remainder `pgRemainder` restricted to real vectors is
 `ofReal ∘ birkRem`, an analytic `o(‖y‖⁴)` function; hence its real jets vanish through order four
 and, a complex multilinear map being determined by its values on real vectors, so do its complex
 jets (`remainder_jet_real`).
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-JET.
 -/
 
 @[expose] public noncomputable section

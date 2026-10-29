@@ -20,7 +20,6 @@ circles of radius `R' < R`, then `R' ↑ R`.
 `uniform_remainder` (`stepP:p5:ur-bound`, `stepP:p5:ur-schwarz`) bounds the average by the
 extension bound `MP`, the jets by Cauchy estimates, and applies `schwarz_order_five` on the complex
 line through `x` using the vanishing remainder jet of `birkhoff_ext`.
-Design `docs/tracks/P/design/P45-LEAN-DESIGN.md`, package P5-REM.
 -/
 
 @[expose] public noncomputable section
