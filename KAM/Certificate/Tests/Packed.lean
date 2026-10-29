@@ -10,7 +10,7 @@ public import KAM.Certificate.Poly.Ops
 /-!
 # Packed-product tests (design §8, `Tests/Packed`)
 
-Every check below is decided by `decide +kernel` (no `native_decide`).
+Every check below is decided by `decide +kernel` (kernel reduction only).
 
 * **Layout.** Dense lists by the linear fill (slots in order) and by the binary scatter (unsorted,
   repeated keys add); a key of the wrong length is outside the box.
