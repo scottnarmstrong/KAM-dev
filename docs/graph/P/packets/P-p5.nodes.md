@@ -2797,9 +2797,9 @@ EDGE: bpP:p5:kam-cond#scales | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:rstar
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.pgCgamma (KAM/Planetary/PGAssembly/ThresholdAlg.lean)
+LEAN_NOTE: DEFS-P3-audit-1 CLOSABLE: pgCgamma = G*(30/s_*)^(tau+1) on every PGData, no fallback
 NOTE: -
 
 NODE: bpP:p5:budget#constant
