@@ -44,7 +44,7 @@ if xp.exists():
 
 
 def graph_counts(graph, parts=('',)):
-    """(resolved, total) graph nodes whose statement source names a part; resolved = PROVED, BYPASSED or EXTERNAL."""
+    """(resolved, total) graph nodes whose statement source names a part; resolved = PROVED, BYPASSED, EXTERNAL or ASSUMED (an owner-accepted convention, D31)."""
     path = root / 'docs/graph' / graph / 'DEPGRAPH.md'
     if not path.exists():
         return None
@@ -54,7 +54,7 @@ def graph_counts(graph, parts=('',)):
         src = re.search(r'^STATEMENT_SOURCE: (\S+)', rec, re.M)
         if st and src and any(p in src.group(1) for p in parts):
             total += 1
-            done += st.group(1) in ('PROVED', 'BYPASSED', 'EXTERNAL')
+            done += st.group(1) in ('PROVED', 'BYPASSED', 'EXTERNAL', 'ASSUMED')
     return done, total
 
 
