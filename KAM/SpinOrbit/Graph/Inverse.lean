@@ -44,7 +44,7 @@ theorem mul_sub_le (hdQ : ∀ x y, HasDerivAt (fun s => Q s y) (dQ x y) x)
   rw [(hdQ s y).deriv]
   exact hmono s y
 
-theorem abs_sub_le (hm : 0 < m) (hdQ : ∀ x y, HasDerivAt (fun s => Q s y) (dQ x y) x)
+theorem graphAbs_sub_le (hm : 0 < m) (hdQ : ∀ x y, HasDerivAt (fun s => Q s y) (dQ x y) x)
     (hmono : ∀ x y, m ≤ dQ x y) (x x' y : ℝ) :
     m * |x' - x| ≤ |Q x' y - Q x y| := by
   rcases le_total x x' with h | h
@@ -110,7 +110,7 @@ theorem Torus.exists_inv (T : Torus Q Pp dQ ν c m) (q y : ℝ) : ∃ x, Q x y =
 
 theorem Torus.inv_unique (T : Torus Q Pp dQ ν c m) {x x' y : ℝ} (h : Q x y = Q x' y) :
     x = x' := by
-  have := abs_sub_le T.pos T.derivQ T.mono x x' y
+  have := graphAbs_sub_le T.pos T.derivQ T.mono x x' y
   rw [h, sub_self, abs_zero] at this
   have h0 : |x' - x| = 0 := le_antisymm (by nlinarith [abs_nonneg (x' - x), T.pos]) (abs_nonneg _)
   linarith [abs_eq_zero.1 h0]
@@ -147,7 +147,7 @@ theorem Torus.continuous_inv (T : Torus Q Pp dQ ν c m) :
   have hφ1 : dist φ φ₀ < δ :=
     lt_of_le_of_lt (le_max_right _ _) (hd'.trans_le (min_le_left _ _))
   have h1 := hδ' hφ1
-  have h2 := abs_sub_le T.pos T.derivQ T.mono (T.inv q φ) x₀ (φ - c)
+  have h2 := graphAbs_sub_le T.pos T.derivQ T.mono (T.inv q φ) x₀ (φ - c)
   rw [T.inv_spec q φ] at h2
   have h3 : Q x₀ (φ₀ - c) = q₀ := T.inv_spec q₀ φ₀
   rw [Real.dist_eq, h3] at h1
