@@ -10,9 +10,9 @@ public import KAM.Planetary.PlanarTorsion.Characters.Defs
 public import KAM.Planetary.PlanarTorsion.Setting
 
 /-!
-# Planar quartic torsion: the quartic Hamiltonian field (package T9)
+# Planar quartic torsion: the quartic Hamiltonian field
 
-Blueprint P, Part 11b (`bpP:p11b:flow`, package T9).  For a quartic family `chi` the Hamiltonian
+Blueprint P, Part 11b (`bpP:p11b:flow`).  For a quartic family `chi` the Hamiltonian
 `chi.eval I z` is jointly analytic in `(I, z)` on `O × Phase 2`, homogeneous of degree four in
 `z`, so that its Hamiltonian field is homogeneous cubic and bounded by `C ‖z‖³` uniformly on a
 compact parameter set `K ⊆ O` (`p11cQ_field_bound`).

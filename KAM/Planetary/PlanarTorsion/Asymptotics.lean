@@ -13,7 +13,7 @@ public import KAM.Planetary.PlanarTorsion.Asymptotics.Limits
 public import KAM.Planetary.PlanarTorsion.Asymptotics.Normalize
 
 /-!
-# Planar quartic torsion: asymptotics of `beta` (P11C, package T19)
+# Planar quartic torsion: asymptotics of `beta`
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, steps `as-in`, `as-pi`, `as-c`, `as-ent`,
 `as-det`): `asymptotics` (the three entry limits and the determinant limit `-117/16`, each with

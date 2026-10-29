@@ -10,9 +10,9 @@ public import KAM.Strip.Analytic
 public import KAM.Weighted.Parametric
 
 /-!
-# Planar quartic torsion: the complex time-Picard operator (package R2)
+# Planar quartic torsion: the complex time-Picard operator
 
-Blueprint P, Part 11b (`bpP:p11b:e-ode`, package R2).  For a map `v : ℂⁿ⁺¹ → ℂⁿ`, write a point of
+Blueprint P, Part 11b (`bpP:p11b:e-ode`).  For a map `v : ℂⁿ⁺¹ → ℂⁿ`, write a point of
 `ℂⁿ⁺¹` as `ζ = (s, w)` (time `ζ 0`, space `fun i => ζ i.succ`) and set
 `p11cPicardOp v ζ = w + s • ∫₀¹ v (σ s, w) dσ`.  This is the complex-time Picard operator
 `w + ∫₀ˢ v (τ, w) dτ` written along the real segment `σ ↦ σ s`.  We prove that it preserves

@@ -12,7 +12,7 @@ public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Projector
 public import KAM.Planetary.PlanarTorsion.Beta
 
 /-!
-# Planar quartic torsion: the entries of `beta` at hierarchical axes (P11C, package T18)
+# Planar quartic torsion: the entries of `beta` at hierarchical axes
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, step `stepP:p11b:as-ent`): inserting the sizes of
 `as_c` and `as_pi` into `beta_def`, the entries of `p11c_beta p ![α, 1]` satisfy

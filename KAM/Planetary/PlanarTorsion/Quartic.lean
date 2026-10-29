@@ -13,7 +13,7 @@ public import KAM.Planetary.SecularForm.ModelTransfer
 public import KAM.Planetary.PlanarTorsion.SpectralAdapter
 
 /-!
-# Planar quartic torsion: the six quartic coefficients (P11C, package T6)
+# Planar quartic torsion: the six quartic coefficients
 
 Blueprint P, Part 11b (`bpP:p11b:quartic-explicit`; steps `qe-conv`, `qe-an`, `qe-c12`).  The
 coefficients `p11c_coeffs p a` (`Quartic/Defs`) are real analytic on the admissible axes, and the
@@ -21,7 +21,7 @@ degree-four homogeneous part of the actual fixed and moving secular averages at 
 is the quartic `p11c_quartic (p11c_coeffs p a)`.
 
 *Proof.*  `qe_secular_eq` writes the fixed secular average as `pref · pairAverage α (qeV I u)`; with
-the jet of `pairAverage` (`pair_jet`, package T5) and the exact conversion algebra (`qe_alg`),
+the jet of `pairAverage` (`pair_jet`) and the exact conversion algebra (`qe_alg`),
 the difference with the polynomial `qePoly p a` is analytic and `O(‖u‖⁶)`
 (`qe_remainder_bound`), so its fourth jet vanishes (`qeJet_iteratedFDeriv_eq_zero`).  The fourth
 homogeneous part of `qePoly` is read off along lines.  The moving secular average has the same

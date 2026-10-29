@@ -14,7 +14,7 @@ public import KAM.Planetary.SecularForm.Symmetry
 public import KAM.Planetary.SecularForm.Momentum
 
 /-!
-# Planar quartic torsion: the physical secular average as the pair average (P11C, package T6)
+# Planar quartic torsion: the physical secular average as the pair average
 
 Blueprint P, Part 11b (`stepP:p11b:qe-conv`, `qe-an`).  For two planets with axes `a` and actions
 `I = p.actions a`, the fixed-center secular average at the Poincaré variables `u = (ξ, η)` is

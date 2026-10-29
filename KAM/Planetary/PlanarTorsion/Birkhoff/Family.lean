@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.Beta
 public import KAM.Planetary.PlanarTorsion.Homological
 
 /-!
-# Planar quartic torsion: the rotated quartic family (package T16)
+# Planar quartic torsion: the rotated quartic family
 
 Blueprint P, Part 11b (`stepP:p11b:bt-nf`, `stepP:p11b:bf-gram`).  The rotated physical quartic
 `z ↦ p11c_quartic (p11c_coeffs p (p.axes I)) (p11c_rotateSlow (p11c_frame p (p.axes I)) z)` is a

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Lift.Field
 
 /-!
-# Planar quartic torsion: the lifted orbit solves the full Hamilton equations (package T11)
+# Planar quartic torsion: the lifted orbit solves the full Hamilton equations
 
 Blueprint P, Part 11b (`bpP:p11b:lm-ham`).  The slow flow of `p11c_flow` is a solution only on the
 closed interval `[-1, 1]`, so its endpoint derivatives are not controlled by an open interval.  For

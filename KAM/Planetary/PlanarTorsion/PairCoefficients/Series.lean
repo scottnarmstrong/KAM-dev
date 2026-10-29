@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.PairCoefficients.Vanish
 
 /-!
-# Planar quartic torsion: power series on the unit interval (P11C, package T4)
+# Planar quartic torsion: power series on the unit interval
 
 Power series `∑ w q x ^ q` whose coefficients are bounded: analyticity on `(-1, 1)` and the split
 into a finite head and a tail that is again such a series.

@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.Quartic
 public import KAM.Planetary.PlanarTorsion.Characters
 
 /-!
-# Planar quartic torsion: the torsion matrix `beta` (P11C, package T13)
+# Planar quartic torsion: the torsion matrix `beta`
 
 Blueprint P, Part 11b (`bpP:p11b:beta-def`, `bpP:p11b:beta-formula`, `stepP:p11b:bf-gram`,
 `stepP:p11b:bf-avg`): `beta_def` is the explicit projector-only torsion formula (factors 8 on the

@@ -14,8 +14,8 @@ public import KAM.Planetary.PlanarTorsion.PairCoefficients
 
 Blueprint P, Part 11b (`bpP:p11b:quartic-explicit`): `p11c_coeffs p a` is the vector
 `(c₁, …, c₆)` of the displayed formulas in the pair coefficients `A, B, p₁, …, p₆`, with
-`pref = -G m₁ m₂ / a₂` and the actions `Λ_i = m_i √(κ a_i)`; the declaration is copied verbatim
-from the signature file of the P11C design.
+`pref = -G m₁ m₂ / a₂` and the actions `Λ_i = m_i √(κ a_i)`; the declaration is the displayed
+formula verbatim.
 -/
 
 @[expose] public noncomputable section

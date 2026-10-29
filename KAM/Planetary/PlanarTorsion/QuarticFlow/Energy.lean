@@ -11,7 +11,7 @@ public import KAM.ODE.Uniqueness
 public import KAM.Planetary.PlanarTorsion.Setting
 
 /-!
-# Planar quartic torsion: energy estimate and existence on `[-1, 1]` (package T9)
+# Planar quartic torsion: energy estimate and existence on `[-1, 1]`
 
 Blueprint P, Part 11b (`bpP:p11b:fl-bd`).  For a `C¹` field `F` on `Phase 2` with the cubic bound
 `‖F z‖ ≤ C ‖z‖³`, the squared slow length `u = |z|²` of a solution satisfies `u' ≤ 8 C u²`

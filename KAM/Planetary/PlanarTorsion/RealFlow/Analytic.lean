@@ -14,9 +14,9 @@ public import KAM.Planetary.Preparation.AnalyticExtension
 public import KAM.Planetary.PlanarTorsion.RealFlow.PicardData
 
 /-!
-# Planar quartic torsion: real analytic parametric flow (package R2)
+# Planar quartic torsion: real analytic parametric flow
 
-Blueprint P, Part 11b (`bpP:p11b:e-ode`, package R2).  For a real analytic vector field `f` near
+Blueprint P, Part 11b (`bpP:p11b:e-ode`).  For a real analytic vector field `f` near
 `x ∈ ℝⁿ` the local flow `Φ (t, y)` is jointly real analytic on `Ioo (-T) T ×ˢ ball x r`.  The proof
 extends `f` to a holomorphic `F` on a complex ball (`p11_complexification`), runs the complex-time
 Picard iteration of `PicardComplex` (holomorphic iterates, geometric uniform convergence,
@@ -217,7 +217,7 @@ def p11cPhaseEquiv (d : ℕ) : Phase d ≃L[ℝ] (Fin (d + d) → ℝ) :=
     (LinearEquiv.funCongrLeft ℝ ℝ (finSumFinEquiv (m := d) (n := d)).symm)).toContinuousLinearEquiv
 
 /-- Joint real analyticity of the local Hamiltonian flow (the analytic and solution clauses of
-`real_analytic_hamiltonian_local_flow`; symplecticity is the subject of package R3). -/
+`real_analytic_hamiltonian_local_flow`; symplecticity is proved in `RealFlow/Variational`). -/
 theorem p11c_analytic_hamiltonian_flow {d : ℕ} {W : Set (Phase d)} (hW : IsOpen W)
     {H : Phase d → ℝ} (hH : AnalyticOnNhd ℝ H W) {x : Phase d} (hx : x ∈ W) :
     ∃ r T : ℝ, 0 < r ∧ 0 < T ∧ ∃ Φ : ℝ → Phase d → Phase d,

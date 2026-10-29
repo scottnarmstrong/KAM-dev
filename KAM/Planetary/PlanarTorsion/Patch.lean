@@ -13,15 +13,15 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff
 public import KAM.Planetary.Nondegeneracy.Interface
 
 /-!
-# Planar quartic torsion: the good patch (P11C, package T21)
+# Planar quartic torsion: the good patch
 
 Blueprint P, Part 11b (`bpP:p11b:patch`): `PlanarFrequencyPatch`, `patch` and the geometric helper
 `torsion_patch_geometry`.  The upstream interface `Nondegeneracy.interface` is applied to the
 nonresonance polynomial `p11c_phi4` and the torsion determinant (analytic and not identically zero
-on the axis cone by T20), which gives a closed ball `closedBall a0 (2 * r)` of good axes in the
-prescribed neighbourhood on which both are nonzero, together with the frequency data.  The
-determinant has a positive minimum on the compact inner ball (T17 `remain`), and `birkhoff_form`
-(T16) is applied with the open outer ball.
+on the axis cone by `PlanarTorsion/Generic`), which gives a closed ball `closedBall a0 (2 * r)` of
+good axes in the prescribed neighbourhood on which both are nonzero, together with the frequency
+data.  The determinant has a positive minimum on the compact inner ball (`remain` of
+`PlanarTorsion/TorsionBound`), and `birkhoff_form` is applied with the open outer ball.
 -/
 
 @[expose] public noncomputable section

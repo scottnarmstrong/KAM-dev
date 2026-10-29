@@ -8,7 +8,7 @@ module
 public import Mathlib
 
 /-!
-# Planar quartic torsion: vanishing order and iterated derivatives (P11C, package T4)
+# Planar quartic torsion: vanishing order and iterated derivatives
 
 A real function `f` *vanishes to order `m`* at `0` when it is locally `a ^ m * h a` with `h`
 analytic at `0`. Then every iterated derivative of order `< m` vanishes, so two analytic

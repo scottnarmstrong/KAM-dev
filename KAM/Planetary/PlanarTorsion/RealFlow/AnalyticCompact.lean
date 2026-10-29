@@ -10,10 +10,10 @@ public import KAM.ODE.Uniqueness
 public import KAM.Planetary.PlanarTorsion.RealFlow.Analytic
 
 /-!
-# Planar quartic torsion: real analytic flow on a common neighbourhood (package R2)
+# Planar quartic torsion: real analytic flow on a common neighbourhood
 
-Blueprint P, Part 11b (`bpP:p11b:e-ode`, package R2, design row R2 "real analytic parametric
-Picard convergence on common neighbourhoods").  The local analytic flow of
+Blueprint P, Part 11b (`bpP:p11b:e-ode`: real analytic parametric Picard
+convergence on common neighbourhoods).  The local analytic flow of
 `p11c_analytic_flow_fin` is glued over a finite subcover of a compact set `K ⊆ W`: one open
 neighbourhood `U ⊇ K` and one time `T > 0` carry a single flow `Φ`, jointly real analytic on
 `Ioo (-T) T ×ˢ U`.  Parameters are handled, as usual, by the augmented autonomous field on the
@@ -31,7 +31,7 @@ namespace KAM.Planetary
 
 variable {n : ℕ}
 
-/-- `bpP:p11b:e-ode` (package R2), compact common neighbourhood: a real analytic vector field `f`
+/-- `bpP:p11b:e-ode`, compact common neighbourhood: a real analytic vector field `f`
 on an open `W ⊆ ℝⁿ` has, around every compact `K ⊆ W`, an open neighbourhood `U ⊆ W` and a time
 `T > 0` with one flow `Φ`, jointly real analytic on `Ioo (-T) T ×ˢ U`, with `Φ 0 y = y` and
 `t ↦ Φ t y` a solution in `W` on `Ioo (-T) T` for every `y ∈ U`. -/

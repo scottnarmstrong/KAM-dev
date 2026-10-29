@@ -12,7 +12,7 @@ public import KAM.Planetary.Nondegeneracy.GoodAxes
 public import KAM.Planetary.Nondegeneracy.AnalyticZeros
 
 /-!
-# Planar quartic torsion: genericity of the torsion determinant (P11C, package T20)
+# Planar quartic torsion: genericity of the torsion determinant
 
 Blueprint P, Part 11b (`bpP:p11b:torsion`, steps `to-an`, `to-pt`, `to-id`): `torsion`.  The
 determinant of `p11c_beta` is analytic on the axis cone (`to-an`), negative at a point deep in the
@@ -104,7 +104,7 @@ theorem p11cGe_phi4_ne_zero_iff_nr4 (p : PlanarData) (a : Fin 2 → ℝ) :
     have := h (fun i => ((k i).val : ℤ) - 4) hk.2
     simpa using this
 
-/-- Locus bridge (design P11C L187, U9 L54): on the axis cone the nonzero locus of the adapter
+/-- Locus bridge: on the axis cone the nonzero locus of the adapter
 `p11c_phi4` is that of the Part-9 product `SecularSpectrum.good` of the secular spectrum. -/
 theorem p11cGe_phi4_ne_zero_iff_good (p : PlanarData) (hp : p.Valid) :
     ∀ a ∈ p11c_axes, p11c_phi4 p a ≠ 0 ↔

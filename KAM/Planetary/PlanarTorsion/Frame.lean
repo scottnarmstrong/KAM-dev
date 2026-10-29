@@ -13,7 +13,7 @@ public import KAM.Planetary.SecularSpectrum.Transport
 public import KAM.Planetary.Hamiltonian.Chart
 
 /-!
-# Planar quartic torsion: the global eigenframe and the rotation lift (P11C, package T14)
+# Planar quartic torsion: the global eigenframe and the rotation lift
 
 Blueprint P, Part 11b (`bpP:p11b:bt-rot`, `bt-rot#lift`): the explicit oriented eigenframe
 `p11c_frame` built from the nonzero vector `(-Q₁₂, Q₁₁ - σ₁)`, and `global_planar_frame`, which
@@ -222,7 +222,7 @@ theorem p11c_frameFamily_isSO (p : PlanarData) (hp : p.Valid) :
   let h := (global_planar_frame p hp).2 _ hI
   ⟨h.1, h.2.1⟩
 
-/-- Part 9 identification (`bpP:p9:lift`, design U9): on valid data and actions whose axes lie
+/-- Part 9 identification (`bpP:p9:lift`): on valid data and actions whose axes lie
 in `p11c_axes`, the concrete `p11c_rotationLift` is the upstream `SecularSpectrum.liftInv` of
 the frame family.  Differentiability of the family comes from `global_planar_frame`'s analytic
 frame and the analytic axis map; the scalar entry derivatives of the signed formula are the entries
@@ -243,7 +243,7 @@ theorem p11c_rotationLift_eq_liftInv (p : PlanarData) (hp : p.Valid) (w : Phase 
 
 /-- Part 9 transported to `p11c_rotationLift` on the lift domain of the frame domain:
 chart (analytic and symplectic for `c = 1`), injectivity, action preservation and translation
-covariance, for the consumer `PlanarBirkhoffResult` (design U9). -/
+covariance, for the consumer `PlanarBirkhoffResult`. -/
 theorem p11c_rotationLift_chart (p : PlanarData) (hp : p.Valid) :
     IsChart 1 (p11c_rotationLift p) (SecularSpectrum.liftDomain (p11c_frameActionDomain p)) ∧
     InjOn (p11c_rotationLift p) (SecularSpectrum.liftDomain (p11c_frameActionDomain p)) ∧

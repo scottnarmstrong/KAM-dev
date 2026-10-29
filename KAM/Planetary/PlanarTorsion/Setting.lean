@@ -16,7 +16,7 @@ Blueprint P, Part 11b (`bpP:p11b:sec-set#data`): the physical data `PlanarData` 
 three-body problem, the action/axis dictionary, the two physical perturbations pulled back by the
 Poincaré product chart (`p11c_hatFix`, `p11c_hatMov`), their secular averages in the frozen
 `(φ, q; I, p)` coordinates, and the slow-length and quartic adapters on `Phase 2`.  The generic
-homogeneous-part helper `p11c_homogeneousPart` is placed here (design audit N2).
+homogeneous-part helper `p11c_homogeneousPart` is placed here.
 -/
 
 @[expose] public noncomputable section

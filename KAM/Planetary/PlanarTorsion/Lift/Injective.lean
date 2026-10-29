@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Lift.Inverse
 
 /-!
-# Planar quartic torsion: the lift of `-chi` inverts the lift of `chi` (package T11)
+# Planar quartic torsion: the lift of `-chi` inverts the lift of `chi`
 
 Blueprint P, Part 11b (`bpP:p11b:lm-prop`, injectivity).  On the tube the lift of `-chi` is a left
 inverse of the lift of `chi`: the action is constant, the slow part is inverted by the last clause

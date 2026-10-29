@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Beta
 
 /-!
-# Planar quartic torsion: homogeneity of `beta` (P11C, package T19)
+# Planar quartic torsion: homogeneity of `beta`
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, homogeneity clause): under `a ↦ s • a`
 the matrix `p11c_Q` is multiplied by `(s √s)⁻¹`, hence the spectral projector is unchanged, the six

@@ -9,7 +9,7 @@ public import Mathlib
 public import KAM.Planetary.PlanarTorsion.Lift.Injective
 
 /-!
-# Planar quartic torsion: the lift of the slow flow (package T11)
+# Planar quartic torsion: the lift of the slow flow
 
 Blueprint P, Part 11b (`bpP:p11b:lift-map`, with `stepP:p11b:lm-ham` and `stepP:p11b:lm-prop`):
 the signed theorems `full_lift_hamiltonian` and `lift_map`, with the signed definitions
@@ -20,9 +20,9 @@ the signed theorems `full_lift_hamiltonian` and `lift_map`, with the signed defi
   starts at an assembled point and ends at its `p11c_liftFlow` image (`Lift/Field`, `Lift/Orbit`);
 * `lift_map` proves that `p11c_liftFlow chi.eval` is an analytic symplectic injective map on
   `p11c_tube O' r` commuting with all angle translations.  Analyticity and symplecticity come from
-  the real variational theory of package R3 applied to the full field (`Lift/Iterate`,
+  the real variational theory of `RealFlow/Variational` applied to the full field (`Lift/Iterate`,
   `Lift/Inverse`); injectivity from the explicit inverse, the lift of `-chi` (`Lift/Injective`).
-  The composition with the rotation lift is left to `PlanarBirkhoffResult` (design audit).
+  The composition with the rotation lift is left to `PlanarBirkhoffResult`.
 
 No complex `SmallField` hypothesis and no `KAM.Canonical` theorem is used.
 -/

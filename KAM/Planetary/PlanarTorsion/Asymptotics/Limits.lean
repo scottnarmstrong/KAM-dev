@@ -11,7 +11,7 @@ public import KAM.Planetary.PlanarTorsion.Asymptotics.Homogeneity
 public import KAM.Planetary.PlanarTorsion.Asymptotics.Relative
 
 /-!
-# Planar quartic torsion: the limits of `beta` (P11C, package T19)
+# Planar quartic torsion: the limits of `beta`
 
 Blueprint P, Part 11b (`bpP:p11b:asymptotics`, step `stepP:p11b:as-det`): the three entry limits
 with relative error `O(α ^ 2)` (from `as_ent`), the determinant limit `-117/16` (the leading

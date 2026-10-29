@@ -14,12 +14,13 @@ public import KAM.Frozen.Planetary.Defs.Phase
 /-!
 # Planar quartic torsion: real local Hamiltonian flow
 
-Blueprint P, Part 11b (`bpP:p11b:e-ode`, package R1): local and maximal existence of solutions of
+Blueprint P, Part 11b (`bpP:p11b:e-ode`): local and maximal existence of solutions of
 the real Hamiltonian system `z' = X_H(z)` for a real analytic `H` on an open `W ⊆ Phase d`, with
 existence times and confinement radii that are uniform on compact subsets of `W`.  Only the
 existing real ODE results `KAM.ODE.gen_uniform_compact`, `gen_uniform_exist` and `gen_maximal`
 are used; no complexification and no smallness hypothesis enters.  Analytic dependence,
-variational equation and symplecticity are the subject of R2 and R3.
+variational equation and symplecticity are proved in `RealFlow/Analytic`,
+`RealFlow/AnalyticCompact` and `RealFlow/Variational`.
 -/
 
 @[expose] public noncomputable section
