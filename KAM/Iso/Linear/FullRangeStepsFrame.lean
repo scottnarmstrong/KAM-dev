@@ -178,7 +178,8 @@ theorem step_geo_sym (hS : SettingSrc n τ M D H ω γ) (hK : AdmissibleNoTwist 
   obtain ⟨hdiff, hper, havg, -⟩ := Geometry.geo_omegak_inputs hSt
     hK.r_pos hK.holo hK.primary hKD (fun θ hθ => (hK.deriv_le θ hθ).trans (le_max_left _ _))
     hK.error_le hδ
-  exact ⟨hdiff, hper, havg, fun θ hθ => ((geometry_noA5_src (σT := σT) hS hK hδ hδ1 h2δ).2.1 θ hθ).1,
+  exact ⟨hdiff, hper, havg,
+    fun θ hθ => ((geometry_noA5_src (σT := σT) hS hK hδ hδ1 h2δ).2.1 θ hθ).1,
     fun θ hθ => Geometry.geo_esym_le (hK.gram θ hθ).1 (hK.gram θ hθ).2⟩
 
 end Geometry
