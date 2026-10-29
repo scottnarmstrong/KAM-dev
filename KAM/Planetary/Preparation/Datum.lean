@@ -7,6 +7,7 @@ module
 
 public import Mathlib
 public import KAM.Planetary.Preparation.PreparedData
+public import KAM.Planetary.Preparation.Amount
 
 /-!
 # The prepared admissibility datum (P11A-P8D, `bpP:p11:data-star`), parametric form
@@ -151,6 +152,29 @@ theorem data_star_of_amount (D : P11Physical n)
     nlinarith
   obtain ⟨hpos, hbeta⟩ := p11_beta_bounds D heps (lt_of_le_of_lt hleA hA1) hsmall
   exact ⟨hpos, hbeta, p11_one_le_M0 D, H eps heps hleA⟩
+
+/-- **Signed `data_star`** (bpP:p11:data-star): the parametric `data_star_of_amount` applied to the
+signed `amount` (ruling OVERNIGHT 03:25). -/
+theorem data_star {n : ℕ} (D : P11Physical n) :
+    IsCompact (p11PreparedBox n) ∧ volume (p11PreparedBox n)=1 ∧
+    Metric.diam (p11PreparedBox n)=1 ∧
+    0 < (1/4 : ℝ) ∧ 0 < (1/2 : ℝ) ∧
+    max ((n : ℝ)*(p11PatchData D).mu) (2*n) >
+      max (((n+n : ℕ) : ℝ)*(p11PatchData D).mu/2-1)
+        (((n+n : ℕ) : ℝ)-1) ∧
+    ∀ nu : ℝ, 1 ≤ nu →
+      ∃ epsA c : ℝ, 0 < epsA ∧ epsA < 1 ∧ 1 ≤ c ∧
+      ∀ eps, 0 < eps → eps ≤ epsA →
+        let C := p11SecularData D
+        let A := p11PatchData D
+        let beta := (1/2 : ℝ)*eps^(A.mu+2)*A.beta
+        let M := (2 : ℝ)^(A.mu+1)*(2*C.L+1)^2
+        0 < beta ∧ beta ≤ min 1 M ∧
+        1 ≤ p11M0 n A.mu C.L ∧
+        let Q := p11PreparedData D nu eps c
+        P11PreparedFullSpec D nu eps c Q ∧
+          beta ≤ index_def 2 A.mu (p11PreparedFreqR Q) (p11PreparedBox n) :=
+  data_star_of_amount D (fun _nu hnu => amount D hnu)
 
 end Datum
 
