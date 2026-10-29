@@ -21,9 +21,9 @@ range or the strict Cauchy margin `disp < mono ρ∞` is tightened. Only the fie
 
 public section
 
-namespace KAM.Certificate
+namespace KAM.SpinOrbit
 
-open CertArith
+open KAM.Certificate CertArith
 
 def graphToyW : CertWeight := ⟨1 / 100, 11 / 10⟩
 
@@ -89,4 +89,4 @@ theorem graphTest_margin_fail :
     checkSoGraph (graphToy (1 / 200) (4 / 5) (97 / 100) (103 / 100)) = false := by
   decide +kernel
 
-end KAM.Certificate
+end KAM.SpinOrbit

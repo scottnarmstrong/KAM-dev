@@ -19,17 +19,18 @@ component `(.1 0)` and the range `[pLo, pHi]` of the action component `(.2 0)` o
 each with a paid SOS residual (`checkRealLowerBound`, SO-POS). `checkSoGraph` checks them on the
 certificate's own embedding `K` together with the strict margin `mono > disp/ρ∞`.
 
-The transfer to the black box's exact torus `K∞` (`soGraph_transfer`): `K∞ - K` is holomorphic
-on `T_{ρ∞}` with sup at most `disp`, so Cauchy bounds its real `∂_{θ₀}` by `disp/ρ∞`, and the
-values move by at most `disp`. Then `soBarrier_of_exact_torus` (original frame) and
-`soBarrier_of_exact_rotTorus` (rotated frame) give the barrier with the band widened by `disp`.
+The transfer to the black box's exact torus `K∞` (`soGraph_deriv_transfer`, then
+`soGraph_exactTorus`): `K∞ - K` is holomorphic on `T_{ρ∞}` with sup at most `disp`, so Cauchy
+bounds its real `∂_{θ₀}` by `disp/ρ∞`, and the values move by at most `disp`.
+Then `soBarrier_of_exact_torus` (original frame) and `soBarrier_of_exact_rotTorus` (rotated frame)
+give the barrier with the band widened by `disp`.
 -/
 
 @[expose] public noncomputable section
 
-namespace KAM.Certificate
+namespace KAM.SpinOrbit
 
-open KAM CertArith
+open KAM KAM.Certificate CertArith
 
 /-- Graph data checked on top of a passing torus certificate: a monotonicity margin `mono` for
 `∂_{θ₀}` of the angle component `(.1 0)` (checked with the strict margin `mono > disp/ρ∞`), the
@@ -71,11 +72,7 @@ def checkSoGraph {α : Type} [CertArith α] (g : SoGraphCert α) : Bool :=
     checkRealLowerBound g.base.weight g.base.cfgLow (soGraphActionModel g).negM (-g.pHi₀)
       (-g.pHi) g.sosHi
 
-end KAM.Certificate
-
-namespace KAM.SpinOrbit
-
-open KAM KAM.Certificate SoGraph
+open SoGraph
 
 theorem norm_fst_apply_sub_le (u v : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
     ‖u.1 0 - v.1 0‖ ≤ ‖u - v‖ := by
