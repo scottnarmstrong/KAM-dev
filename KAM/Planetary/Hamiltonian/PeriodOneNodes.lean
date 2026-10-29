@@ -12,7 +12,7 @@ public import KAM.Planetary.Hamiltonian.Transport
 # Period conversion bundle
 
 `stepP:p1:pc-c`: one-line export of all claims of `bpP:p1:period-convert` (c), together with (d),
-assembled from the landed conversion results of `KAM.Planetary.Hamiltonian.Transport` and
+assembled from the conversion results of `KAM.Planetary.Hamiltonian.Transport` and
 `KAM.Planetary.Hamiltonian.Chart`.
 -/
 

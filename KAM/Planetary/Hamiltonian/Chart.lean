@@ -36,7 +36,7 @@ section Chart
 variable {d : ℕ}
 
 /-- `bpP:p1:chart`: `Ψ` is a `c`-chart on `O` (openness of `O` and `0 < c` are separate hypotheses
-at use sites). Unfolds to `AnalyticOnNhd` + the Kepler design's `IsSymplecticOn`. -/
+at use sites). Unfolds to `AnalyticOnNhd` + the Kepler layer's `IsSymplecticOn`. -/
 def IsChart (c : ℝ) (Ψ : Phase d → Phase d) (O : Set (Phase d)) : Prop :=
   AnalyticOnNhd ℝ Ψ O ∧ IsSymplecticOn c Ψ O
 
@@ -163,7 +163,7 @@ theorem isChart_continuousLinearEquiv {c : ℝ} (L : Phase d ≃L[ℝ] Phase d)
   rw [ContinuousLinearEquiv.fderiv]
   exact hL u v
 
-/-- `bpP:p1:conv#data`: `S_c(z₁, z₂) = (c z₁, z₂)` (Kepler design: `angleScale`, P7-6). -/
+/-- `bpP:p1:conv#data`: `S_c(z₁, z₂) = (c z₁, z₂)` (Kepler layer: `angleScale`). -/
 def angleScale (c : ℝ) (z : Phase d) : Phase d := (c • z.1, z.2)
 
 /-- `S_c` as a continuous linear map. -/
@@ -173,7 +173,7 @@ def angleScaleCLM (c : ℝ) : Phase d →L[ℝ] Phase d :=
 
 theorem angleScaleCLM_apply (c : ℝ) (z : Phase d) : angleScaleCLM c z = angleScale c z := rfl
 
-/-- The full `2π`-lattice `(2π k, 0)` (Kepler design: `fullShift`, P7-6; here for every `d`). -/
+/-- The full `2π`-lattice `(2π k, 0)` (Kepler layer: `fullShift`; here for every `d`). -/
 def fullShift (k : Fin d → ℤ) : Phase d := (fun i => 2 * π * (k i : ℝ), 0)
 
 theorem fullShift_eq_angleScale (k : Fin d → ℤ) : fullShift k = angleScale (2 * π) (angleShift k) :=
