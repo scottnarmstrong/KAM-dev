@@ -28224,7 +28224,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q6 weak_kam_quantitative (audit PASS WITH NOTES) states only K1-K4; K5 is the separate Budget.p11c_budget (Q4) and K6 is only a composition of displacement_power_flat with family.displacement, not a declaration; full conclusion K1-K6 not in one declaration
 NOTE: The input-only package sec-q-thm#data breaks the zero-case statement-reference cycle. No edge back to kam-input is added. The explicit K5 budget assertions and their direct budget supplier are retained.
 
 NODE: stepP:p11a:qt-order
@@ -28373,9 +28373,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative, p11c_asm_lattice (KAM/Planetary/Quantitative/Assembly.lean)
+LEAN_NOTE: audit Q6 PASS WITH NOTES; K2 clauses (lattice torus, Lagrangian, injective derivative, orbit, Diophantine) are QuantitativeFamily fields of weak_kam_quantitative
 NOTE: -
 
 NODE: stepP:p11a:qt-k3
@@ -28405,9 +28405,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative (KAM/Planetary/Quantitative/Assembly.lean)
+LEAN_NOTE: audit Q6 PASS WITH NOTES; QuantitativeFamily.displacement with p11c_displacement = min{2^-18, cDelta sqrt eps/gamma}
 NOTE: -
 
 NODE: stepP:p11a:qt-k4
@@ -28436,9 +28436,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative (KAM/Planetary/Quantitative/Assembly.lean)
+LEAN_NOTE: audit Q6 PASS WITH NOTES; lower/upper Lipschitz, Borel image, measure, compact closed-cell image fields
 NOTE: -
 
 NODE: stepP:p11a:qt-k5
