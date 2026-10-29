@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 22:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **272,070 lines of Lean** of an estimated ≈ 276,000
+> **Last updated: 2026-10-29 22:15 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **272,070 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -202,7 +202,7 @@ Overall, everything together: 95.3 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **272,070** (212,336 excluding blank lines and comments) · **+91,405** since 2026-10-28 21:40 UTC |
-| Written on agent branches, not yet landed | 1,359 |
+| Written on agent branches, not yet landed | 1,504 |
 | **Estimated total at completion** | **≈ 276,000** |
 | Estimated still to write | ≈ 2,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 95.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 22:00 UTC from `main` at `16e19fa3` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 22:15 UTC from `main` at `ee820b90` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -219,7 +219,7 @@ Overall, everything together: 95.3 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 67 modules · 17,696 lines. **Packages landed: 25 / 26**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 11 modules · 2,225 lines. **Packages landed: 14 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GEN, SO-GEN2, SO-DATA-PY.
-- **Now:** proving SO-R1, SO-TESTB · in audit SO-GRAPH
+- **Now:** proving SO-PYALIGN, SO-TESTB · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -371,9 +371,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **sograph** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-GRAPH: audit request | `inp-sograph` | 2 (vs `inp`) |
-| **sopyalign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp-sodefs' into inp-sopyalign | `inp-sopyalign` | 0 (vs `inp`) |
-| **sor1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GRAPH: audit request | `inp-sor1` | 2 (vs `inp`) |
+| **sograph** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GRAPH: independent audit 2 (PASS WITH NOTES; F1 resolved) | `inp-sograph` | 6 (vs `inp`) |
+| **sopyalign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PYALIGN: align the Python mirror with the landed Lean checker; regenerate toys; key-cov | `inp-sopyalign` | 1 (vs `inp`) |
+| **sor1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: SO-R1: independent audit 1 (PASS WITH NOTES); handoff margin corrected (532x / 273x) | `inp-sor1` | 5 (vs `inp`) |
 | **sotestb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GRAPH: audit request | `inp-sotestb` | 2 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
@@ -384,6 +384,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 22:15 | `ee820b90` | Overnight log: SO-GRAPH and SO-R1 audited |
 | 2026-10-29 21:54 | `06a4e1bc` | Overnight log: correct a time label |
 | 2026-10-29 21:53 | `a69ed1a5` | Overnight log: soundness audited, release scrub B2 complete |
 | 2026-10-29 21:52 | `9fcf0411` | Land inp into main |
@@ -395,7 +396,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 21:33 | `7103aa35` | land-branch: run the HQ refresh with bash (hq-update.sh uses pipefail; sh failed silently) |
 | 2026-10-29 21:33 | `a364773e` | Land inp into main |
 | 2026-10-29 21:33 | `2c801db0` | HQ: track SO soundness split into SO-SOUND-A/B; overnight log 21:35-21:45 |
-| 2026-10-29 21:21 | `c353bbf5` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
