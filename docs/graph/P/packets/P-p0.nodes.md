@@ -1739,7 +1739,7 @@ EDGE: bpP:p0:nocoll#PairBounds | blueprint-P/parts/p0-conventions.tex#bpP:p0:exp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planetaryExponentialSafety (KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean); KAM.Provider.Planetary.planetaryExponentialSafety (KAM/Provider/Planetary/PlanetaryExponentialSafety.lean)
+LEAN_NOTE: anchor planetary.d25.planetaryExponentialSafety.v1 SEALED (D26, 2026-10-29); seal-key audit P14-SEAL-audit-1 PASS WITH NOTES; provider via expsafe (E12Q-audit-1) on stopped (E11-audit-1); axioms propext, Classical.choice, Quot.sound; leanchecker exit 0
 NOTE: root anchor. Proof: Theorem bpP:p14:expsafe (Part 14a). The edge to bpP:p0:amd is kept because the statement incorporates clauses (a)-(c) of P-AMD-CONFINEMENT by reference (statement-level use); the proof applies the helper bpP:p14:amd (step es-amd).

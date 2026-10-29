@@ -8006,7 +8006,7 @@
     "module": "KAM.Provider.Planetary.PlanetaryExponentialSafety",
     "export": "KAM.Provider.Planetary.planetaryExponentialSafety"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "1a0ae80137b58ffe13b2def679d969632e53054566209bc375ef3cda0f344216",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {

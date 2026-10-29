@@ -77,7 +77,7 @@ theorem planetaryExponentialSafety {n : ℕ} (hn : 2 ≤ n)
           ∀ i, |keplerAxis B.mass (z t) i - keplerAxis B.mass z0 i| ≤
             C * mu ^ planetaryDriftExponent n :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Planetary.planetaryExponentialSafety hn B hB
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
