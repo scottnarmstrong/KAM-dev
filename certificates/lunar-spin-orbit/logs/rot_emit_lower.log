@@ -1,0 +1,22 @@
+lower: v half 4237, E 8307, p half 4237  (0.1s)
+  p~^2 and J_E: 34703 terms (13.2s)
+  defect products (32.8s)
+  bounds (33.6s): Delta 1.824e-77  eta1 2.293e-88  eta3 1.060e-78  eta4 2.936e-79  energy 3.901e-81  B0 1.247e-80 B1 2.753e-79 B2 8.143e-75
+  total 47.2s
+  DK row sums ['1.360355', '1.000000', '0.124111', '0.001426']
+  domain: iota1 0.00515 (supU 0.02744, MVT 0.00515) rho_H 257/10000  P1 in 48769/50000 +- 191/12500  P2 in 24983/50000 +- 127/20000
+  H' majorant (c=1): M1 1.047601  [dH 1.043118 XH 1.000000 DXH 1.000000 D2XH 0.598168 D2H 1.047601]
+  Gram models: sizes 375 343 305, radii 1.40e-14 8.03e-15 4.72e-15 (0.1s)
+  Gram inverse ALTERNATIVE (grid + Lipschitz on the distinguished boundary): sup||B|| <= 1.834651 -> 1.834651
+  Gram inverse: beta 1.979942 delta 2.483e-12 -> ||G^-1|| <= 1.979942  (sampled sup 1.833038; B terms [345, 315, 291]) (3.8s)
+  torsion avg (c=1):
+[[ 1.121482e+00 -8.994357e-16 -2.461961e-02]
+ [-9.003721e-16  0.000000e+00  1.000000e+00]
+ [-2.461961e-02  1.000000e+00  0.000000e+00]]
+   radii ['3.8e-11', '1.9e-11', '5.2e-12']
+   ||S|| 1.022493  delta_T 5.667e-11 -> ||avg^-1|| <= 1.022493 (float 1.022493) (1.1s)
+checks: {'M >= c M1': True, 'sigmaK - mu >= ||DK||': True, 'sigmaB - mu >= ||G^-1||': True, 'sigmaT - mu >= ||avg^-1||/c': True, '1 < s < sigma_omega': True, 'nu <= (s-1)|omega*|': True, 'nu <= (sigma_omega-s)|omega*|': True, 'e >= c eta (invariance)': True, 'e >= c energy error': True, 'C1 e/(gamma^4 rho^4) <= 1/2': True}
+margin: {'eta_c': 2.0103899809329407e-78, 'e': '403/100000000000000000000000000000000000000000000000000000000000000000000000000000000', 'e_float': 4.03e-78, 'threshold': 2.1424798055294127e-75, 'log10_threshold': -74.66908326293496, 'eta_over_threshold': 0.0009383472253714745, 'smallness_ratio': 0.0018809978930019254, 'slack_orders': 3.0276364258440065}
+alternative: {'c': '1757/1000', 'm': '1841/1000', 'gamma': '125500/3000003', 'threshold': '13398075751277987694027061314023140547832250257441388530121884059553849510848522186279296875/519215050074711782421090912599350698036045874647816898251316312514643915257795809909080604142627131609362825630058352691848745959456783941021253494683603353219366912', 'log10_threshold': -73.58830484360809, 'err': '373/100000000000000000000000000000000000000000000000000000000000000000000000000000000', 'eta_c': 1.863003795621929e-78, 'eta_over_threshold': 7.219690551017754e-05, 'smallness_ratio': 0.00014454852866419596, 'displacement_coefficient': 3.4507581004439453e+34, 'checks': {'M >= c M1': True, 'sigmaK - mu >= ||DK||': True, 'sigmaB - mu >= ||G^-1|| (grid alternative)': True, 'sigmaT - mu >= ||avg^-1||/c': True, 'nu <= (s-1)|omega*|': True, 'C1 e/(gamma^4 rho^4) <= 1/2': True}}
+G-J: {'B0': 1.246998931880274e-80, 'B1': 5.2204618255261943e-79, 'B2': 8.142676396779079e-75, 'Br': 6.75747294280504e-80, 'Bc': 4.3477048654083953e-88, 'eta_P2_row_direct': 5.566585923394211e-79, 'target_Br_B1_Bc': 2.015e-78, 'ok_Br_B1_Bc': True, 'qphip_rows_plus_Bc': 2.0103899813677088e-78, 'ok_qphip': True, 'ok_B0': True, 'ok_B2_1e90': False}
+wrote ../../certificates/lunar-spin-orbit/lower_rot.json in 52.5s
