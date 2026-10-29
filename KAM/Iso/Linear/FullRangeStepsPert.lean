@@ -77,4 +77,55 @@ theorem step_pt_domain (hS : SettingSrc n τ M D H ω γ)
     rw [heq, norm_sqMat]
     exact h1.trans (mul_le_mul_of_nonneg_left hdθ hS.M_pos.le)
 
+/-- `bpI:p1:perturbation-noA5`, step `pt-frame`: on `T_{r-δ}`, `|L̃ - L| ≤ n d/δ`,
+`|(L̃ - L)ᵀ| ≤ 2n d/δ`, `|L̃| ≤ 2𝔪`, `|L̃ᵀ| ≤ 4n𝔪`; `G̃` is invertible, `|B̃| ≤ 2𝔪`,
+`|B̃ - B| ≤ C_B d/δ`. -/
+theorem step_pt_frame (hS : SettingSrc n τ M D H ω γ) (hr : 0 < r) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (hK : DifferentiableOn ℂ K (complexStrip n r))
+    (hDK : ∀ θ ∈ complexStrip n r, ‖fderiv ℂ K θ‖ ≤ σK)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det ∧ ‖(gramMatrix K θ)⁻¹‖ ≤ σB)
+    (hK' : DifferentiableOn ℂ K' (complexStrip n r)) (hd : ∀ θ ∈ complexStrip n r, ‖K' θ - K θ‖ ≤ d)
+    (hsmall : 2 * mSize M σK σB σT * C_DT n M σK σB σT * d / δ ^ 2 ≤ 1) :
+    ∀ θ ∈ complexStrip n (r - δ),
+      ‖tangentMat K' θ - tangentMat K θ‖ ≤ n * d / δ ∧
+      ‖(tangentMat K' θ - tangentMat K θ)ᵀ‖ ≤ 2 * n * d / δ ∧
+      ‖tangentMat K' θ‖ ≤ 2 * mSize M σK σB σT ∧
+      ‖(tangentMat K' θ)ᵀ‖ ≤ 4 * n * mSize M σK σB σT ∧
+      IsUnit (gramMatrix K' θ).det ∧ ‖(gramMatrix K' θ)⁻¹‖ ≤ 2 * mSize M σK σB σT ∧
+      ‖(gramMatrix K' θ)⁻¹ - (gramMatrix K θ)⁻¹‖ ≤ C_B n M σK σB σT * d / δ := by
+  have hP := (hS.setting (σK := max σK 1) (σB := max σB 1) (σT := max σT 1) (by positivity)
+    (by positivity) (by positivity)).toStanding.toParams
+  have h0 : (0 : Fin n → ℂ) ∈ complexStrip n r := fun i => by simpa using hr
+  have hd0 : 0 ≤ d := (norm_nonneg _).trans (hd 0 h0)
+  have hs := (step_pt_small (σK := σK) (σB := σB) (σT := σT) hS hr hδ hδ1 hd hsmall).2.1
+  have hsmall' : 2 * mSize M (max σK 1) (max σB 1) (max σT 1) *
+      C_DT n M (max σK 1) (max σB 1) (max σT 1) * d / δ ^ 2 ≤ 1 := by
+    simpa only [C_DT, C_DX, C_DN, C_B, C_G, C_X, Theta, mSize_max_one] using hsmall
+  have hDK' : ∀ θ ∈ complexStrip n r, ‖fderiv ℂ K θ‖ ≤ max σK 1 := fun θ hθ =>
+    (hDK θ hθ).trans (le_max_left _ _)
+  have hG' : ∀ θ ∈ complexStrip n r,
+      IsUnit (gramMatrix K θ).det ∧ ‖(gramMatrix K θ)⁻¹‖ ≤ max σB 1 := fun θ hθ =>
+    ⟨(hG θ hθ).1, (hG θ hθ).2.trans (le_max_left _ _)⟩
+  obtain ⟨hb, hc, -⟩ := PerturbationAux.frame_items hP hδ hδ1 hd0 hK hDK' hG' hK' hd hsmall'
+  have hXt := PerturbationAux.norm_transpose_tangentMat_sub_le hK hK' hd hδ
+  intro θ hθ
+  have hθr : θ ∈ complexStrip n r := PerturbationAux.complexStrip_mono (by linarith) hθ
+  have hs' : (n : ℝ) * d / δ ≤ mSize M (max σK 1) (max σB 1) (max σT 1) := by
+    rwa [mSize_max_one]
+  have h4 := PerturbationAux.norm_transpose_tangentMat_le_four hP (hDK' θ hθr) (hXt θ hθ) hs'
+  rw [mSize_max_one] at h4
+  have hΔ : ‖tangentMat K' θ - tangentMat K θ‖ ≤ n * d / δ := by
+    rw [PerturbationAux.norm_tangentMat_sub]
+    exact hb θ hθ
+  have hL : ‖tangentMat K' θ‖ ≤ 2 * mSize M σK σB σT := by
+    have hσ : ‖tangentMat K θ‖ ≤ mSize M σK σB σT := by
+      rw [FrameAux.norm_tangentMat]
+      exact (hDK θ hθr).trans σK_le_mSize
+    calc ‖tangentMat K' θ‖
+        = ‖tangentMat K θ + (tangentMat K' θ - tangentMat K θ)‖ := by rw [add_sub_cancel]
+      _ ≤ ‖tangentMat K θ‖ + ‖tangentMat K' θ - tangentMat K θ‖ := norm_add_le _ _
+      _ ≤ 2 * mSize M σK σB σT := by linarith
+  exact ⟨hΔ, hXt θ hθ, hL, h4, (hc θ hθ).1, by simpa only [mSize_max_one] using (hc θ hθ).2.1, by
+    simpa only [C_B, C_G, mSize_max_one] using (hc θ hθ).2.2⟩
+
 end KAM.Iso.Linear
