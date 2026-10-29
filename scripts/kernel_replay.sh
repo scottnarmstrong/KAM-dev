@@ -5,9 +5,9 @@
 # declarations added with `debug.skipKernelTC` or through `addDecl` (landing-guards.md section 1).
 #
 # usage: scripts/kernel_replay.sh [--full | --fast] [--timeout MINUTES] [--mem-gb GB] [--batch N] [--log FILE]
-#   --full   (default) every module of the library: the whole `KAM.*` tree, frozen anchors and
-#            provider modules and DRAFT_SORRY anchors included (the root file skips some, so the
-#            module list is enumerated from the source tree, not read from `KAM.lean`).
+#   --full   (default) every module of the library: `leanchecker --fresh KAM` (the root's whole import
+#            closure, Mathlib included, in one process) plus the modules the root does not reach (the
+#            DRAFT_SORRY anchors and their providers), enumerated from the source tree.
 #   --fast   only the frozen anchors, their implementation modules (manifest) and every module under
 #            KAM/Provider.
 #   --timeout  wall-clock limit (default 90); the run is stopped and fails when it is exceeded.
@@ -53,8 +53,22 @@ def mod(p: Path) -> str:
     return '.'.join(p.relative_to(root).with_suffix('').parts)
 everything = {mod(p) for p in (root / 'KAM').rglob('*.lean')}
 if mode == 'full':
-    expected = everything
-    args = sorted(expected)  # explicit names (leanchecker matches by prefix, so extras are possible)
+    # `leanchecker --fresh KAM` replays the whole import closure of the root (Mathlib and every KAM
+    # module the root reaches). Modules outside that closure (the DRAFT_SORRY anchors and their
+    # providers, which the quarantine keeps out of the root) are replayed on top of it, one batch each.
+    import re
+    imp = re.compile(r'(?m)^[ \t]*(?:public[ \t]+)?(?:meta[ \t]+)?import[ \t]+(?:all[ \t]+)?(KAM(?:\.\S+)?)[ \t]*$')
+    seen, todo = set(), ['KAM']
+    while todo:
+        m = todo.pop()
+        if m in seen:
+            continue
+        seen.add(m)
+        f = root / (m.replace('.', '/') + '.lean') if m != 'KAM' else root / 'KAM.lean'
+        todo += imp.findall(f.read_text(encoding='utf-8'))
+    outside = everything - seen
+    expected = outside | {'KAM with --fresh'}
+    args = sorted(outside)
 else:
     manifest = json.loads((root / 'manifest/frozen-anchors.json').read_text())
     expected = set()
@@ -83,9 +97,12 @@ start=$(date +%s)
 deadline=$(( start + timeout_min * 60 ))
 rc=0 peak=0 cpu=0 batches=0
 : > "$log"
-for ((i = 0; i < ${#modules[@]}; i += batch)); do
+# run_batch LABEL ARG...: one leanchecker process; sets brc and updates peak/cpu/batches.
+run_batch() {
+  local label=$1; shift
+  local now rss ut st
   now=$(date +%s)
-  if [ "$now" -ge "$deadline" ]; then rc=124; break; fi
+  if [ "$now" -ge "$deadline" ]; then brc=124; return; fi
   batches=$((batches + 1))
   set +e
   (
@@ -93,7 +110,7 @@ for ((i = 0; i < ${#modules[@]}; i += batch)); do
     export LEAN_PATH="$lean_path"
     exec /usr/bin/time -f '%M %U %S' -o "$work/time.txt" \
       timeout --signal=TERM --kill-after=30 "$(( deadline - now ))s" \
-      nice -n 10 leanchecker --verbose "${modules[@]:i:batch}"
+      nice -n 10 leanchecker --verbose "$@"
   ) >>"$log" 2>&1
   brc=$?
   set -e
@@ -101,8 +118,16 @@ for ((i = 0; i < ${#modules[@]}; i += batch)); do
   [[ "${rss:-}" =~ ^[0-9]+$ ]] || { rss=0 ut=0 st=0; }
   [ "${rss:-0}" -gt "$peak" ] && peak=$rss
   cpu=$(python3 -c "print(round($cpu + ${ut:-0} + ${st:-0}))")
-  echo "  batch $batches ($(( i + 1 ))..$(( i + batch < ${#modules[@]} ? i + batch : ${#modules[@]} )) of ${#modules[@]}): rc=$brc, $(( $(date +%s) - start )) s elapsed"
-  if [ "$brc" -ne 0 ]; then rc=$brc; break; fi
+  echo "  batch $batches ($label): rc=$brc, $(( $(date +%s) - start )) s elapsed"
+}
+brc=0
+if [ "$mode" = full ]; then
+  run_batch "--fresh KAM: whole import closure of the root" --fresh KAM
+  rc=$brc
+fi
+for ((i = 0; i < ${#modules[@]} && rc == 0; i += batch)); do
+  run_batch "modules $(( i + 1 )).. of ${#modules[@]}" "${modules[@]:i:batch}"
+  rc=$brc
 done
 elapsed=$(( $(date +%s) - start ))
 
@@ -120,14 +145,9 @@ if [ -n "$noise" ]; then
 fi
 sed -n 's/^replaying //p' "$log" | LC_ALL=C sort -u > "$work/replayed.txt"
 missing=$(LC_ALL=C comm -23 "$work/expected.txt" "$work/replayed.txt" || true)
-extra=$(LC_ALL=C comm -13 "$work/expected.txt" "$work/replayed.txt" || true)
 if [ -n "$missing" ]; then
   echo "KERNEL-REPLAY FAILED: expected modules not replayed ($(printf '%s\n' "$missing" | wc -l)):" >&2
   printf '%s\n' "$missing" | head -20 >&2; status=1
-fi
-if [ -n "$extra" ] && [ "$mode" = full ]; then
-  echo "KERNEL-REPLAY FAILED: modules replayed that are not in the source tree:" >&2
-  printf '%s\n' "$extra" | head -20 >&2; status=1
 fi
 echo "replayed $(wc -l < "$work/replayed.txt") modules (of $n_expected expected) in $batches batches; wall ${elapsed}s;" \
      "peak RSS $(( peak / 1024 )) MiB (largest batch); cpu ${cpu} s"
