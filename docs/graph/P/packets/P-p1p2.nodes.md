@@ -818,9 +818,9 @@ EDGE: bpP:p1:ext-comp | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:pc-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: period_convert_bundle (KAM/Planetary/Hamiltonian/PeriodOneNodes.lean)
+LEAN_NOTE: audit GAP-LREF PASS WITH NOTES (bundle export)
 NOTE: -
 
 NODE: bpP:p1:cyl-pipeline

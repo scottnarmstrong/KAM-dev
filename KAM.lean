@@ -518,6 +518,7 @@ public import KAM.Planetary.Hamiltonian.Diophantine
 public import KAM.Planetary.Hamiltonian.HolChart
 public import KAM.Planetary.Hamiltonian.Liouville
 public import KAM.Planetary.Hamiltonian.Part1Nodes
+public import KAM.Planetary.Hamiltonian.PeriodOneNodes
 public import KAM.Planetary.Hamiltonian.TorusUnion
 public import KAM.Planetary.Hamiltonian.Transport
 public import KAM.Planetary.MaximalStep.Affine
@@ -558,11 +559,13 @@ public import KAM.Planetary.Newtonian.AssemblyNewtonNodes
 public import KAM.Planetary.Newtonian.AssemblyNodes
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.HamiltonNodes
+public import KAM.Planetary.Newtonian.LeftoverNodes
 public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
 public import KAM.Planetary.Newtonian.Reduction
 public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.Nondegeneracy.AnalyticZeros
+public import KAM.Planetary.Nondegeneracy.ConvNodes
 public import KAM.Planetary.Nondegeneracy.DiagonalTensor
 public import KAM.Planetary.Nondegeneracy.FiniteType
 public import KAM.Planetary.Nondegeneracy.Frequency
@@ -831,6 +834,7 @@ public import KAM.Planetary.Preparation.AmountCore
 public import KAM.Planetary.Preparation.AnalyticExtension
 public import KAM.Planetary.Preparation.BasePoint
 public import KAM.Planetary.Preparation.Basic
+public import KAM.Planetary.Preparation.Datum
 public import KAM.Planetary.Preparation.Fast
 public import KAM.Planetary.Preparation.FastBridge
 public import KAM.Planetary.Preparation.FastDivisor
@@ -868,9 +872,16 @@ public import KAM.Planetary.Preparation.PolarAverage.Torus
 public import KAM.Planetary.Preparation.PolarAverage
 public import KAM.Planetary.Preparation.PreparedBasic
 public import KAM.Planetary.Preparation.PreparedCauchy
+public import KAM.Planetary.Preparation.PreparedClose
 public import KAM.Planetary.Preparation.PreparedData
+public import KAM.Planetary.Preparation.PreparedDev
+public import KAM.Planetary.Preparation.PreparedFreq
 public import KAM.Planetary.Preparation.PreparedJets
 public import KAM.Planetary.Preparation.PreparedJetsG0
+public import KAM.Planetary.Preparation.PreparedM
+public import KAM.Planetary.Preparation.PreparedNum
+public import KAM.Planetary.Preparation.PreparedOps
+public import KAM.Planetary.Preparation.PreparedResc
 public import KAM.Planetary.Preparation.RectangularAverage
 public import KAM.Planetary.Preparation.RectangularAverageCore
 public import KAM.Planetary.Preparation.RectangularAverageDomain
