@@ -53,6 +53,8 @@ public import KAM.Certificate.Arith.Roots
 public import KAM.Certificate.Arith.Transcendental
 public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
+public import KAM.Certificate.Freq
+public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.PhaseBasis
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Diophantine.Basic
@@ -1249,6 +1251,7 @@ public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
 public import KAM.SpinOrbit.Barrier
+public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
