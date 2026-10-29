@@ -103,7 +103,7 @@ private theorem kcnode_Ehat_max (d : PGData a b) {r : ℝ} (hr : 0 < r) (mu : �
       9*(kam_c1 d)^4*(pgK0 d (pgScales d))^(2*pgTau a b+2)/(pgScales d).k0^2 := by
     rw [hA, div_pow, mul_pow, mul_pow, hX, hY2]; field_simp; ring
   have e2 : (kam_c1 d)^2*r^5/B^2 = 4*(kam_c1 d)^2/(pgScales d).k1^2 := by
-    rw [hB, div_pow, mul_pow, hX]; field_simp
+    rw [hB, div_pow, mul_pow, hX]; field_simp; norm_num
   rw [params_Ehat, params_rhoHat, ← hA, ← hB, ← e1, ← e2]
   have hp : 0 ≤ (kam_c1 d)^2*r^5 := by positivity
   rcases le_total A B with h | h
@@ -140,7 +140,7 @@ theorem kc_eval (d : PGData a b) {r mu : ℝ} (hr : 0 < r) (hmu : 0 < mu) (h1 : 
   nlinarith
 
 /-- `stepP:p5:kc-small`: the KAM condition `ĉ Ê < 1` and `γ₂ = μ γ₁ ≤ γ₁`. -/
-theorem kc_small (d : PGData a b) {r mu : ℝ} (hr : 0 < r) (hmu : 0 < mu) (h1 : mu ≤ 1) :
+theorem kc_small (d : PGData a b) {r mu : ℝ} (hr : 0 < r) (_hmu : 0 < mu) (h1 : mu ≤ 1) :
     pgChat a b*(params d r mu).Ehat < 1 ∧
     (params d r mu).gamma2 = mu*(params d r mu).gamma1 ∧
     (params d r mu).gamma2 ≤ (params d r mu).gamma1 := by
@@ -183,14 +183,17 @@ theorem rk_dir (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar d) r mu)
   have hE0 : 0 ≤ (params d r mu).Ehat := by
     rw [params_Ehat]
     have := params_rhoHat_pos d h.1 mu
+    have := h.1
+    have := one_le_kam_c1 d
     positivity
   obtain ⟨h1, h2, h3⟩ := r_k d r mu h
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, hmin, hrb, -⟩ := av_dyn h
   refine ⟨?_, h1, ?_, hmin, hrb, h2, h3⟩
   · rw [lt_div_iff₀ (by positivity)]
     nlinarith [mul_le_mul_of_nonneg_right hcn hE0]
-  · rw [show (512:ℝ)*((a+b:ℕ):ℝ) = 2*(256*((a+b:ℕ):ℝ)) by ring, ← div_div]
-    exact div_le_div_of_nonneg_right (rhoHat_le_l1 d r mu) (by positivity)
+  · rw [div_le_div_iff₀ (by positivity) (by positivity)]
+    nlinarith [mul_le_mul_of_nonneg_right (rhoHat_le_l1 d r mu) (by positivity :
+      (0:ℝ) ≤ 512*((a+b:ℕ):ℝ))]
 
 end KAM.Planetary
 
