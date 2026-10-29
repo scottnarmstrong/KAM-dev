@@ -477,6 +477,135 @@ theorem p11_close_partial (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) 
     exact hb.trans (p11_close_fin2 (C := C) (nu := nu) (c := c) heps he1 hl hc0 hΛ1 hτ0.le hs hs2
       hs2' hη0 hηb hF0.le (hfac _ (by omega)) hk2.le (k := k) (α := α) (Rc := Rc) rfl hMF rfl)
 
+theorem p11_close_re_eq (hC : P11SecularSpec D C) {A : P11SlowData n} {eps : ℝ} (heps : 0 < eps)
+    (ρt : P11CVec n) {J : P11Vec n} (ψ : P11Vec n → P11Vec (n + n))
+    (hJ : KAM.realInclusion n J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC))
+    (hψ : ψ J = Fin.append
+      (fun i => (fderiv ℂ (fun I => A.h0 I + A.g2 I) (Fin.append (KAM.realInclusion n J) ρt)
+        (Pi.single (Fin.castAdd n i) 1)).re)
+      (fun i => (fderiv ℂ (fun I => A.h0 I + A.g2 I) (Fin.append (KAM.realInclusion n J) ρt)
+        (Pi.single (Fin.natAdd n i) 1)).re / eps)) :
+    (fun l => (p11CloseFun C A eps ρt (KAM.realInclusion n J) l).re) =
+      ψ J - (p11PatchData D).varpi J := by
+  obtain ⟨hω, hΩ⟩ := (hC.1 J hJ).2
+  funext l
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) l
+  · simp only [p11CloseFun, Fin.append_left, Complex.sub_re, Pi.sub_apply, hψ]
+    rw [← hω i]
+  · simp only [p11CloseFun, Fin.append_right, Complex.sub_re, Pi.sub_apply, hψ]
+    have h1 : ((2 * Real.pi : ℂ)⁻¹ * C.Omega (KAM.realInclusion n J) i).re =
+        (C.Omega (KAM.realInclusion n J) i).re / (2 * Real.pi) := by
+      have : (2 * Real.pi : ℂ)⁻¹ = (((2 * Real.pi)⁻¹ : ℝ) : ℂ) := by push_cast; ring
+      rw [this, Complex.re_ofReal_mul]
+      ring
+    rw [Complex.div_ofReal_re, h1, hΩ i]
+    have : Real.pi ≠ 0 := Real.pi_ne_zero
+    field_simp
+
+/-- `stepP:p11:pr-c`: the closeness clause of `P11PreparedFullSpec`. -/
+theorem p11_pr_c (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) (hn : 1 ≤ n) :
+    ∃ K : ℝ, 0 < K ∧ ∀ {Fast : P11FastData n} {eps c cc : ℝ} {A : P11SlowData n}
+      (Q : P11PreparedData n),
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c → K * (1 + c) ≤ cc →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      P11FastSpec C eps Fast → P11SlowSpecOf C Fast nu eps c A →
+      (∀ ρ : P11Vec n, ‖ρ‖ < 5 / 4 → ∀ J : P11Vec n, ‖J - C.J0‖ < p11s2 C nu eps / 4 →
+        Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J - C.J0)) ρ) = Fin.append
+          (fun i => (fderiv ℂ (A.h0 + A.g2) (Fin.append (KAM.realInclusion n J)
+            (fun i : Fin n => (eps * (2 * Real.pi + ρ i) : ℂ))) (Pi.single (Fin.castAdd n i) 1)).re)
+          (fun i => (fderiv ℂ (A.h0 + A.g2) (Fin.append (KAM.realInclusion n J)
+            (fun i : Fin n => (eps * (2 * Real.pi + ρ i) : ℂ))) (Pi.single (Fin.natAdd n i) 1)).re
+              / eps)) →
+      ∀ ρ : P11Vec n, ‖ρ‖ < 5 / 4 →
+        p11JetBound true (p11PatchData D).mu {J | ‖J - C.J0‖ < p11s2 C nu eps / 4}
+          ((fun J => Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J - C.J0)) ρ)) -
+            (p11PatchData D).varpi)
+          (cc * eps * Real.log (1 / eps) ^
+            (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))) := by
+  obtain ⟨Kb, hKb, hpart⟩ := p11_close_partial hC hnu
+  refine ⟨((n + n : ℕ) : ℝ) * (n : ℝ) ^ (p11PatchData D).mu * Kb, by positivity, ?_⟩
+  intro Fast eps c cc A Q heps hεM hc0 hcc hzs h5 hFs hA hcheck ρ hρ j hj y hy
+  obtain ⟨hK, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  obtain ⟨-, -, hL1, hrC0, -, -, -, hrz0, -, hMF⟩ := fast_consts hC
+  have hspec := p11s2_spec hC hK
+  have hs1r := p11s1_le C eps
+  have hπ := Real.pi_gt_three
+  have hl : 1 ≤ Real.log (1 / eps) := slow_log_ge_one hC heps hεM
+  set ρt : P11CVec n := fun i => (eps * (2 * Real.pi + ρ i) : ℂ) with hρt
+  have hρt' : ‖ρt - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4 := by
+    have hρi : ‖ρ‖ < 5 / 4 := hρ
+    have hb : ∀ i, ‖(ρt - (fun _ => (2 * Real.pi * eps : ℂ)) : P11CVec n) i‖ ≤ eps * ‖ρ‖ := by
+      intro i
+      have : (ρt - (fun _ => (2 * Real.pi * eps : ℂ)) : P11CVec n) i = ((eps * ρ i : ℝ) : ℂ) := by
+        simp [hρt]; ring
+      rw [this, Complex.norm_real, norm_mul, Real.norm_of_nonneg heps.le]
+      exact mul_le_mul_of_nonneg_left (norm_le_pi_norm ρ i) heps.le
+    have : ‖ρt - (fun _ => (2 * Real.pi * eps : ℂ))‖ ≤ eps * ‖ρ‖ :=
+      (pi_norm_le_iff_of_nonneg (by positivity)).2 hb
+    nlinarith
+  have hyι : ‖KAM.realInclusion n y - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4 := by
+    rw [← map_sub, KAM.norm_realInclusion]; exact hy
+  have hP : (Fin.append (KAM.realInclusion n y) ρt : P11CVec (n + n)) ∈
+      p11Box (p11DevCenter C eps) (p11s2 C nu eps / 2) (Real.pi * eps / 2) :=
+    p11_dev_mem_box _ _ (by linarith) (by nlinarith) hyι hρt'
+  have hyU : KAM.realInclusion n y ∈ p11CloseDom C eps (p11s2 C nu eps / 2) ρt := by
+    refine ⟨hP, ?_⟩
+    rw [mem_ball_iff_norm]; linarith
+  have hg := p11_close_Phi_diff hC hs2.le heps.le hA ρt
+  have hn' : 1 ≤ n := hn
+  have hB : ∀ α : Fin n → ℕ, ∑ i, α i = j →
+      ‖p11PartialVec α (p11CloseFun C A eps ρt) (KAM.realInclusion n y)‖ ≤
+        Kb * (1 + c) * (eps * Real.log (1 / eps) ^
+          (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu + 1 : ℕ) : ℝ))) := fun α hα =>
+    hpart heps hεM hc0 hFs hA hzs h5 ρt _ hyι hρt' α (by omega)
+  have hdg := p11dg_re_le hn' (p11_close_dom_open C eps _ ρt) hg hyU hB
+  have hSo : IsOpen {J : P11Vec n | ‖J - C.J0‖ < p11s2 C nu eps / 4} :=
+    isOpen_lt (by fun_prop) continuous_const
+  have hEv : ((fun J => Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J - C.J0)) ρ)) -
+      (p11PatchData D).varpi) =ᶠ[nhds y] fun x : P11Vec n =>
+        fun l => (p11CloseFun C A eps ρt (KAM.realInclusion n x) l).re := by
+    filter_upwards [hSo.mem_nhds hy] with J' hJ'
+    have hJ'ι : KAM.realInclusion n J' ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) := by
+      rw [mem_ball_iff_norm, ← map_sub, KAM.norm_realInclusion]
+      have : ‖J' - C.J0‖ < p11s2 C nu eps / 4 := hJ'
+      linarith
+    have h1 := p11_close_re_eq hC (A := A) heps ρt
+      (fun J => Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J - C.J0)) ρ)) hJ'ι (hcheck ρ hρ J' hJ')
+    exact h1.symm
+  have hit := (hEv.iteratedFDeriv ℝ j).eq_of_nhds
+  have hdgeq : p11dg ((fun J => Q.checkW (Fin.append ((eps : ℝ)⁻¹ • (J - C.J0)) ρ)) -
+      (p11PatchData D).varpi) j y = p11dg (fun x : P11Vec n =>
+        fun l => (p11CloseFun C A eps ρt (KAM.realInclusion n x) l).re) j y := by
+    simp only [p11dg, hit]
+  show (if true = true then p11dg _ j y else p11op _ j y) ≤ _
+  simp only [if_true]
+  rw [hdgeq]
+  refine hdg.trans ?_
+  have hLQ : 0 ≤ eps * Real.log (1 / eps) ^ (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu + 1 : ℕ) : ℝ)) :=
+    mul_nonneg heps.le (Real.rpow_nonneg (by linarith) _)
+  have hm : (1 : ℝ) ≤ ((n + n : ℕ) : ℝ) := by exact_mod_cast (by omega : 1 ≤ n + n)
+  have hsq : Real.sqrt ((n + n : ℕ) : ℝ) ≤ ((n + n : ℕ) : ℝ) := by
+    rw [Real.sqrt_le_left (by linarith)]
+    nlinarith
+  have hnj : (n : ℝ) ^ j ≤ (n : ℝ) ^ (p11PatchData D).mu :=
+    pow_le_pow_right₀ (by exact_mod_cast hn') hj
+  have hexp : (((p11PatchData D).mu + 1 : ℕ) : ℝ) = ((p11PatchData D).mu : ℝ) + 1 := by push_cast; ring
+  rw [hexp] at hLQ ⊢
+  have hB0 : 0 ≤ Kb * (1 + c) * (eps * Real.log (1 / eps) ^
+      (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))) := by positivity
+  calc Real.sqrt ((n + n : ℕ) : ℝ) * ((n : ℝ) ^ j * (Kb * (1 + c) * (eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1)))))
+      ≤ ((n + n : ℕ) : ℝ) * ((n : ℝ) ^ (p11PatchData D).mu * (Kb * (1 + c) * (eps *
+        Real.log (1 / eps) ^ (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))))) :=
+        mul_le_mul hsq (mul_le_mul_of_nonneg_right hnj hB0) (by positivity) (by positivity)
+    _ = (((n + n : ℕ) : ℝ) * (n : ℝ) ^ (p11PatchData D).mu * Kb) * (1 + c) * (eps *
+        Real.log (1 / eps) ^ (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))) := by
+        ring
+    _ ≤ cc * (eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))) :=
+        mul_le_mul_of_nonneg_right hcc hLQ
+    _ = _ := by ring
+
 end Close
 
 end KAM.Planetary
