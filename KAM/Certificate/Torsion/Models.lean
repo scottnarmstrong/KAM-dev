@@ -232,7 +232,7 @@ theorem CertModel.Encloses.negM {n : ℕ} {ρ : ℝ} {a : CertModel α} {f : (Fi
 variable {n : ℕ} {W : CertWeight} {s N : ℕ} {pe : PiEnclosure α} {ι κ μ : Type*}
   {ri : ι → ℕ} {ci : κ → ℕ}
 
-theorem ModelMatrix.EntryEncloses.mul [Fintype μ] (hW : checkWeight W s N = true)
+theorem ModelMatrix.EntryEncloses.modelMul [Fintype μ] (hW : checkWeight W s N = true)
     (cfg : ModelConfig α) (hpe : checkPiEnclosure pe = true) (key : ProductKey) {r m c : ℕ}
     (hri : ∀ i, ri i < r) (hci : ∀ j, ci j < c) {mi : μ → ℕ} (e : Fin m ≃ μ)
     (he : ∀ k, mi (e k) = k.val) {A B : ModelMatrix α} {FA : (Fin n → ℂ) → Matrix ι μ ℂ}
@@ -263,7 +263,7 @@ theorem ModelMatrix.EntryEncloses.mul [Fintype μ] (hW : checkWeight W s N = tru
   simp only [L, List.map_ofFn, List.sum_ofFn, Function.comp_def, Matrix.mul_apply]
   exact e.sum_comp (fun k => FA θ i k * FB θ k j)
 
-theorem ModelMatrix.EntryEncloses.add (hW : checkWeight W s N = true)
+theorem ModelMatrix.EntryEncloses.modelAdd (hW : checkWeight W s N = true)
     (hpe : checkPiEnclosure pe = true) {r c : ℕ} (hri : ∀ i, ri i < r) (hci : ∀ j, ci j < c)
     {A B : ModelMatrix α} {FA FB : (Fin n → ℂ) → Matrix ι κ ℂ}
     (hA : A.EntryEncloses n W.rho ri ci FA) (hB : B.EntryEncloses n W.rho ri ci FB) :
@@ -272,7 +272,7 @@ theorem ModelMatrix.EntryEncloses.add (hW : checkWeight W s N = true)
   rw [modelMatAdd, buildMat_entry _ (hri i) (hci j)]
   exact ((hA i j).addMixed hW hpe (hB i j)).of_eq_fun fun θ => by simp [Matrix.add_apply]
 
-theorem ModelMatrix.EntryEncloses.neg {ρ : ℝ} {r c : ℕ} (hri : ∀ i, ri i < r)
+theorem ModelMatrix.EntryEncloses.modelNeg {ρ : ℝ} {r c : ℕ} (hri : ∀ i, ri i < r)
     (hci : ∀ j, ci j < c) {A : ModelMatrix α} {F : (Fin n → ℂ) → Matrix ι κ ℂ}
     (hA : A.EntryEncloses n ρ ri ci F) :
     (modelMatNeg r c A).EntryEncloses n ρ ri ci (fun θ => -F θ) := by
@@ -281,7 +281,7 @@ theorem ModelMatrix.EntryEncloses.neg {ρ : ℝ} {r c : ℕ} (hri : ∀ i, ri i 
   exact (hA i j).negM.of_eq_fun fun θ => by simp
 
 omit [LawfulCertArith α] in
-theorem ModelMatrix.EntryEncloses.transpose {ρ : ℝ} {r c : ℕ} (hri : ∀ i, ri i < r)
+theorem ModelMatrix.EntryEncloses.modelTranspose {ρ : ℝ} {r c : ℕ} (hri : ∀ i, ri i < r)
     (hci : ∀ j, ci j < c) {A : ModelMatrix α} {F : (Fin n → ℂ) → Matrix ι κ ℂ}
     (hA : A.EntryEncloses n ρ ri ci F) :
     (modelMatTranspose r c A).EntryEncloses n ρ ci ri (fun θ => (F θ)ᵀ) := by
@@ -289,7 +289,7 @@ theorem ModelMatrix.EntryEncloses.transpose {ρ : ℝ} {r c : ℕ} (hri : ∀ i,
   rw [modelMatTranspose, buildMat_entry _ (hci j) (hri i)]
   exact hA i j
 
-theorem ModelMatrix.EntryEncloses.omega {ρ : ℝ} [Fintype κ] {c : ℕ} (hci : ∀ j, ci j < c)
+theorem ModelMatrix.EntryEncloses.modelOmega {ρ : ℝ} [Fintype κ] {c : ℕ} (hci : ∀ j, ci j < c)
     {A : ModelMatrix α} {F : (Fin n → ℂ) → Matrix (Fin n ⊕ Fin n) κ ℂ}
     (hA : A.EntryEncloses n ρ phaseNat ci F) :
     (modelMatOmega n c A).EntryEncloses n ρ phaseNat ci (fun θ => omegaZeroMatrix n * F θ) := by
@@ -427,7 +427,8 @@ theorem dkwModels_encloses (hW : checkWeight W s N = true) (cfg : ModelConfig α
   refine this.of_eqOn fun θ hθ => ?_
   have hLd := differentiableOn_tangentMat (r := W.rho) (K.differentiable_eval n).differentiableOn
   beta_reduce
-  rw [fderiv_tangentMat_apply (hLd.differentiableAt ((isOpen_complexStrip n _).mem_nhds hθ))]
+  rw [fderiv_tangentMat_eq_sum_partials
+    (hLd.differentiableAt ((isOpen_complexStrip n _).mem_nhds hθ))]
   simp only [L, List.map_ofFn, List.sum_ofFn, Function.comp_def]
 
 /-! #### The jet slots -/
@@ -582,22 +583,24 @@ theorem torsionModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n :
     have hD1 := d1Models_encloses hD hnv hKD hms
     -- the products
     have he1 : ∀ k : Fin n, (Equiv.refl (Fin n) k).val = k.val := fun _ => rfl
-    have hN := (hL.mul hW cfg hpe [4, 0] phaseNat_lt_add hfin (Equiv.refl _) he1 hGi).omega hfin
-    have hDG := ((hDL.transpose phaseNat_lt_add hfin).mul hW cfg hpe [4, 1] hfin hfin
-      finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm hL).add hW hpe hfin hfin
-      ((hL.transpose phaseNat_lt_add hfin).mul hW cfg hpe [4, 2] hfin hfin
+    have hN := (hL.modelMul hW cfg hpe [4, 0] phaseNat_lt_add hfin (Equiv.refl _) he1
+      hGi).modelOmega hfin
+    have hDG := ((hDL.modelTranspose phaseNat_lt_add hfin).modelMul hW cfg hpe [4, 1] hfin
+      hfin finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm hL).modelAdd hW hpe hfin hfin
+      ((hL.modelTranspose phaseNat_lt_add hfin).modelMul hW cfg hpe [4, 2] hfin hfin
         finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm hDL)
-    have hDGi := ((hGi.mul hW cfg hpe [4, 3] hfin hfin (Equiv.refl _) he1 hDG).mul hW cfg hpe
-      [4, 4] hfin hfin (Equiv.refl _) he1 hGi).neg hfin hfin
-    have hDN := ((hDL.mul hW cfg hpe [4, 5] phaseNat_lt_add hfin (Equiv.refl _) he1 hGi).add
-      hW hpe phaseNat_lt_add hfin
-      (hL.mul hW cfg hpe [4, 6] phaseNat_lt_add hfin (Equiv.refl _) he1 hDGi)).omega hfin
-    have hXN := (hA.mul hW cfg hpe [4, 7] phaseNat_lt_add hfin finSumFinEquiv.symm
-      phaseNat_finSumFinEquiv_symm hN).add hW hpe phaseNat_lt_add hfin
-      (hDN.neg phaseNat_lt_add hfin)
-    have hTb := (hN.transpose phaseNat_lt_add hfin).mul hW cfg hpe [4, 8] hfin hfin
-      finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm (hXN.omega hfin)
-    have hY := hD1.mul hW cfg hpe [4, 9] (r := 1) (fun _ => Nat.one_pos) hfin
+    have hDGi := ((hGi.modelMul hW cfg hpe [4, 3] hfin hfin (Equiv.refl _) he1
+      hDG).modelMul hW cfg hpe [4, 4] hfin hfin (Equiv.refl _) he1 hGi).modelNeg hfin hfin
+    have hDN := ((hDL.modelMul hW cfg hpe [4, 5] phaseNat_lt_add hfin (Equiv.refl _) he1
+      hGi).modelAdd hW hpe phaseNat_lt_add hfin
+      (hL.modelMul hW cfg hpe [4, 6] phaseNat_lt_add hfin (Equiv.refl _) he1
+        hDGi)).modelOmega hfin
+    have hXN := (hA.modelMul hW cfg hpe [4, 7] phaseNat_lt_add hfin finSumFinEquiv.symm
+      phaseNat_finSumFinEquiv_symm hN).modelAdd hW hpe phaseNat_lt_add hfin
+      (hDN.modelNeg phaseNat_lt_add hfin)
+    have hTb := (hN.modelTranspose phaseNat_lt_add hfin).modelMul hW cfg hpe [4, 8] hfin hfin
+      finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm (hXN.modelOmega hfin)
+    have hY := hD1.modelMul hW cfg hpe [4, 9] (r := 1) (fun _ => Nat.one_pos) hfin
       finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm hN
     refine ⟨buildMat_hasShape _ _, ?_,
       fun a b => continuousOn_extendedTorsion hD hH hK hKD hGu _ a b⟩

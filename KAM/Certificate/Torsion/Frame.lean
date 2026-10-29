@@ -16,7 +16,7 @@ public import KAM.Frozen.Iso.Defs.ExtendedTorsionAverage
 The analytic identities behind the torsion models (SO design §1.9), for an embedding `K`
 holomorphic on `ℂⁿ` whose Gram matrix is invertible on the open strip `T_ρ`:
 
-* `fderiv_tangentMat_apply`: `(D L[v])_{sj} = Σ_l v_l ∂_l L_{sj}` (`L = DK`);
+* `fderiv_tangentMat_eq_sum_partials`: `(D L[v])_{sj} = Σ_l v_l ∂_l L_{sj}` (`L = DK`);
 * `fderiv_normalMat_apply`: `D N[v] = Ω₀ (D L[v] G⁻¹ + L D(G⁻¹)[v])` with
   `D(G⁻¹)[v] = -G⁻¹ (D L[v]ᵀ L + Lᵀ D L[v]) G⁻¹`;
 * `linMat_apply_eq`: `(DX_H ∘ K)_{ab} = ± ∂_{a'} ∂_b H (K)` (`a' = a.swap`, sign `hamSign a`);
@@ -52,7 +52,7 @@ section Generic
 variable {n : ℕ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ρ : ℝ}
 
 /-- The directional derivative of `L = DK` as the sum of its partials. -/
-theorem fderiv_tangentMat_apply {θ : Fin n → ℂ} (hL : DifferentiableAt ℂ (tangentMat K) θ)
+theorem fderiv_tangentMat_eq_sum_partials {θ : Fin n → ℂ} (hL : DifferentiableAt ℂ (tangentMat K) θ)
     (v : Fin n → ℂ) (s : Fin n ⊕ Fin n) (j : Fin n) :
     fderiv ℂ (tangentMat K) θ v s j =
       ∑ l, v l * fderiv ℂ (fun y => tangentMat K y s j) θ (Pi.single l 1) := by
@@ -90,7 +90,7 @@ theorem fderiv_normalMat_apply (hK : Differentiable ℂ K)
   simp only [Matrix.mul_add, Matrix.mul_assoc]
 
 /-- The torsion is holomorphic on the strip when `N` and `X_N` are. -/
-theorem differentiableOn_torsion_of {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ}
+theorem differentiableOn_torsion_of_frame {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ}
     (hN : DifferentiableOn ℂ (normalMat K) (complexStrip n ρ))
     (hX : DifferentiableOn ℂ (normalFieldMat H K ω) (complexStrip n ρ)) :
     DifferentiableOn ℂ (torsion H K ω) (complexStrip n ρ) :=
@@ -157,7 +157,7 @@ theorem continuousOn_extendedTorsion {H : (Fin n → ℂ) × (Fin n → ℂ) →
   have hDN : DifferentiableOn ℂ (fun θ => fderiv ℂ (normalMat K) θ (fun l => (ω l : ℂ)))
       (complexStrip n ρ) :=
     (holomorphic_regularity hS hN).1.clm_apply (differentiableOn_const _)
-  have hT := differentiableOn_torsion_of (H := H) (ω := ω) hN ((hA.matrix_mul hN).sub hDN)
+  have hT := differentiableOn_torsion_of_frame (H := H) (ω := ω) hN ((hA.matrix_mul hN).sub hDN)
   rcases a with a | ⟨⟩ <;> rcases b with b | ⟨⟩
   · exact (differentiableOn_matrix_iff_entries.1 hT a b).continuousOn
   · exact continuousOn_const
