@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 14:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **248,689 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 14:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **248,689 lines of Lean** of an estimated ≈ 274,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,8 +126,8 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **248,689** (194,453 excluding blank lines and comments) · **+174,811** since 2026-10-28 13:40 UTC |
-| Written on agent branches, not yet landed | 3,786 |
+| On `main` now | **248,689** (194,453 excluding blank lines and comments) · **+113,519** since 2026-10-28 14:20 UTC |
+| Written on agent branches, not yet landed | 3,824 |
 | **Estimated total at completion** | **≈ 274,000** |
 | Estimated still to write | ≈ 22,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 14:00 UTC from `main` at `7374a6a0` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 14:20 UTC from `main` at `bfdb53ca` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -316,7 +316,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **sodio3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DIO3: cubic Diophantine frequency (cbrt 2) | `inp-sodio3` | 1 (vs `inp`) |
 | **soexpr** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-EXPR-A: wrap docstring line | `inp-soexpr` | 2 (vs `inp`) |
 | **soexprb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EXPR-B1: Expr/Diff (slpCompile, HamExpr.jet, jet_v0/d1/d2) | `inp-soexprb` | 9 (vs `inp`) |
-| **sographm** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-GRAPHM: rename SoGraph.abs_sub_le to graphAbs_sub_le (root shadow) | `inp-sographm` | 5 (vs `inp`) |
+| **sographm** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: SO-GRAPHM: round-2 audit request | `inp-sographm` | 7 (vs `inp`) |
 | **sohamx** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-HAMX: SpinOrbit/HamExpr (soHamExpr, eval = soHC, clock derivative) | `inp-sohamx` | 3 (vs `inp`) |
 | **sonorm** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-NORM: norms on C^n x C^n from partial derivatives | `inp-sonorm` | 3 (vs `inp`) |
 | **sorat** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-RAT: exact rational CertArith backend with kernel examples | `inp-sorat` | 1 (vs `inp`) |
