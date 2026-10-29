@@ -345,9 +345,31 @@ theorem listConv_length {a b : List ℤ} (ha : a ≠ []) (hb : b ≠ []) :
 empty-factor policy of `checkPackedProduct`). -/
 def PackedAdvice.prodLen (adv : PackedAdvice) : ℕ := adv.la.denseLen + adv.lb.denseLen - 1
 
-/-- Whether product slot `i` lies in the target box. -/
+/-- Mixed-radix window test: the digits of `i` for the strides `ss` lie in `[a_j, b_j)` on every
+axis (natural-number arithmetic only; the kernel form of `PackedAdvice.inBox`). -/
+def packDigitsIn : List ℕ → List ℕ → List ℕ → ℕ → Bool
+  | s :: ss, a :: as, b :: bs, i =>
+    decide (a ≤ i / s) && decide (i / s < b) && packDigitsIn ss as bs (i % s)
+  | _, _, _, _ => true
+
+/-- Lower digit bounds of the target box: `target.lo_j - lo_a_j - lo_b_j` (clamped at `0`). -/
+def PackedAdvice.boxLow (adv : PackedAdvice) : List ℕ :=
+  (List.range adv.la.dims.length).map fun j =>
+    (adv.target.lo.getD j 0 - adv.la.lo.getD j 0 - adv.lb.lo.getD j 0).toNat
+
+/-- Upper digit bounds of the target box: `target.lo_j + target.dims_j - lo_a_j - lo_b_j`. -/
+def PackedAdvice.boxHigh (adv : PackedAdvice) : List ℕ :=
+  (List.range adv.la.dims.length).map fun j =>
+    (adv.target.lo.getD j 0 + (adv.target.dims.getD j 0 : ℤ) - adv.la.lo.getD j 0 -
+      adv.lb.lo.getD j 0).toNat
+
+/-- Whether product slot `i` lies in the target box: the key `lo_a + lo_b + digits(i)` of the slot
+(`PackLayout.prodKey`) satisfies `target.lo ≤ key < target.lo + target.dims` on every axis
+(`PackedAdvice.inBox_eq`). Computed on the digits with natural numbers only (it runs on every
+slot of every shard). -/
 def PackedAdvice.inBox (adv : PackedAdvice) (i : ℕ) : Bool :=
-  (adv.target.slot (adv.la.prodKey adv.lb i)).isSome
+  adv.target.dims.length == adv.la.dims.length && adv.la.stride.length == adv.la.dims.length &&
+    packDigitsIn adv.la.stride adv.boxLow adv.boxHigh i
 
 /-- Per-slot log-bounds of shard `s`: `scale - 1` on target slots, `outLog` elsewhere. -/
 def PackedAdvice.shardLogs (adv : PackedAdvice) (s : ℕ) : ℕ → ℕ :=
@@ -374,6 +396,73 @@ def PackedAdvice.combined (adv : PackedAdvice) : List ℤ :=
 theorem PackedAdvice.combined_length (adv : PackedAdvice) :
     adv.combined.length = adv.prodLen := by
   simp [PackedAdvice.combined]
+
+theorem packDigitsIn_iff : ∀ (ss as bs : List ℕ) (i : ℕ), as.length = ss.length →
+    bs.length = ss.length → (packDigitsIn ss as bs i = true ↔
+      ∀ j < ss.length, as.getD j 0 ≤ (packDigits ss i).getD j 0 ∧
+        (packDigits ss i).getD j 0 < bs.getD j 0)
+  | [], _, _, _, _, _ => by simp [packDigitsIn]
+  | s :: ss, a :: as, b :: bs, i, ha, hb => by
+    have ih := packDigitsIn_iff ss as bs (i % s) (by simpa using ha) (by simpa using hb)
+    simp only [packDigitsIn, packDigits, Bool.and_eq_true, decide_eq_true_eq, ih,
+      List.length_cons]
+    constructor
+    · rintro ⟨⟨h1, h2⟩, h3⟩ j hj
+      cases j with
+      | zero => exact ⟨h1, h2⟩
+      | succ j => simpa using h3 j (by omega)
+    · intro h
+      refine ⟨⟨by simpa using (h 0 (by omega)).1, by simpa using (h 0 (by omega)).2⟩,
+        fun j hj => by simpa using h (j + 1) (by omega)⟩
+  | s :: ss, [], _, _, ha, _ => by simp at ha
+  | s :: ss, _ :: _, [], _, _, hb => by simp at hb
+
+/-- `inBox` is the target-box test of the slot's product key. -/
+theorem PackedAdvice.inBox_eq (adv : PackedAdvice) (hs : adv.la.stride.length = adv.la.dims.length)
+    (i : ℕ) : adv.inBox i = (adv.target.slot (adv.la.prodKey adv.lb i)).isSome := by
+  have hslot : (adv.target.slot (adv.la.prodKey adv.lb i)).isSome =
+      adv.target.keyInBox (adv.la.prodKey adv.lb i) := by
+    unfold PackLayout.slot
+    split_ifs with h <;> simp [h]
+  rw [hslot]
+  have hk : (adv.la.prodKey adv.lb i).length = adv.la.dims.length := by
+    simp [PackLayout.prodKey]
+  have hD := packDigitsIn_iff adv.la.stride adv.boxLow adv.boxHigh i
+    (by simp [PackedAdvice.boxLow, hs]) (by simp [PackedAdvice.boxHigh, hs])
+  rw [hs] at hD
+  have hlow : ∀ j < adv.la.dims.length, adv.boxLow.getD j 0 =
+      (adv.target.lo.getD j 0 - adv.la.lo.getD j 0 - adv.lb.lo.getD j 0).toNat := by
+    intro j hj
+    simp [PackedAdvice.boxLow, List.getD_eq_getElem?_getD, List.getElem?_range hj]
+  have hhigh : ∀ j < adv.la.dims.length, adv.boxHigh.getD j 0 =
+      (adv.target.lo.getD j 0 + (adv.target.dims.getD j 0 : ℤ) - adv.la.lo.getD j 0 -
+        adv.lb.lo.getD j 0).toNat := by
+    intro j hj
+    simp [PackedAdvice.boxHigh, List.getD_eq_getElem?_getD, List.getElem?_range hj]
+  have hkey : ∀ j < adv.la.dims.length, (adv.la.prodKey adv.lb i).getD j 0 =
+      adv.la.lo.getD j 0 + adv.lb.lo.getD j 0 + ((packDigits adv.la.stride i).getD j 0 : ℤ) := by
+    intro j hj
+    simp [PackLayout.prodKey, List.getD_eq_getElem?_getD, List.getElem?_range hj]
+  apply Bool.eq_iff_iff.mpr
+  rw [PackedAdvice.inBox, PackLayout.keyInBox]
+  simp only [Bool.and_eq_true, beq_iff_eq, hs, and_true, List.all_eq_true, List.mem_range,
+    decide_eq_true_eq, hD, hk]
+  constructor
+  · rintro ⟨htn, h⟩
+    refine ⟨htn.symm, fun j hj => ?_⟩
+    have hj' : j < adv.la.dims.length := htn ▸ hj
+    obtain ⟨h1, h2⟩ := h j hj'
+    rw [hlow j hj'] at h1
+    rw [hhigh j hj'] at h2
+    rw [hkey j hj']
+    constructor <;> omega
+  · rintro ⟨htn, h⟩
+    refine ⟨htn.symm, fun j hj => ?_⟩
+    have hj' : j < adv.target.dims.length := htn ▸ hj
+    obtain ⟨h1, h2⟩ := h j hj'
+    rw [hkey j hj] at h1 h2
+    rw [hlow j hj, hhigh j hj]
+    constructor <;> omega
 
 /-! ### Structural guards and the checks -/
 

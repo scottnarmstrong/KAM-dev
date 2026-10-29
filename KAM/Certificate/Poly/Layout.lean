@@ -233,10 +233,39 @@ theorem packScatter_eq (fuel : ℕ) : ∀ (base size : ℕ) (es : List (ℕ × �
         · have he' : ¬ e.1 = base + size / 2 + q := by omega
           simp [he', ← Nat.add_assoc]
 
-/-- Dense slot list of integer Fourier data (`none` on an out-of-box key; repeated keys add). -/
+/-- The slot of a key computed by walking the key, `lo`, `dims` and `stride` together (the kernel
+form of `PackLayout.slot`, `packSlotAux_eq`). -/
+def packSlotAux : List ℤ → List ℤ → List ℕ → List ℕ → Option ℕ
+  | [], _, [], _ => some 0
+  | x :: xs, lo, d :: ds, ss =>
+    match x - lo.headD 0 with
+    | Int.ofNat u => if u < d then (packSlotAux xs lo.tail ds ss.tail).map (u * ss.headD 0 + ·)
+        else none
+    | Int.negSucc _ => none
+  | _, _, _, _ => none
+
+/-- Strictly increasing slots (decidable): the linear fill applies. -/
+def packStrictAsc : List (ℕ × ℤ) → Bool
+  | a :: b :: rest => decide (a.1 < b.1) && packStrictAsc (b :: rest)
+  | _ => true
+
+/-- Linear fill of `n` dense slots from slot `p` by strictly increasing `(slot, value)` pairs. -/
+def packFill : ℕ → ℕ → List (ℕ × ℤ) → List ℤ
+  | 0, _, _ => []
+  | n + 1, p, [] => 0 :: packFill n (p + 1) []
+  | n + 1, p, e :: es =>
+    if e.1 = p then e.2 :: packFill n (p + 1) es else 0 :: packFill n (p + 1) (e :: es)
+
+/-- Dense slot list of integer Fourier data (`none` on an out-of-box key; repeated keys add).
+Strictly increasing slots are filled in one pass; any other order (or repetition) goes through
+the binary scatter. -/
 def PackLayout.dense (L : PackLayout) (cs : List (CertKey × ℤ)) : Option (List ℤ) :=
-  if cs.all fun t => (L.slot t.1).isSome then
-    some (packScatter L.denseLen 0 L.denseLen (cs.map fun t => ((L.slot t.1).getD 0, t.2)))
+  if cs.all fun t => (packSlotAux t.1 L.lo L.dims L.stride).isSome then
+    some (if packStrictAsc (cs.map fun t => ((packSlotAux t.1 L.lo L.dims L.stride).getD 0, t.2))
+      then packFill L.denseLen 0
+        (cs.map fun t => ((packSlotAux t.1 L.lo L.dims L.stride).getD 0, t.2))
+      else packScatter L.denseLen 0 L.denseLen
+        (cs.map fun t => ((packSlotAux t.1 L.lo L.dims L.stride).getD 0, t.2)))
   else none
 
 /-- The key carried by slot `i` of the product window of two layouts (mixed-radix digits of `i`
@@ -307,6 +336,129 @@ theorem PackLayout.slot_lt_denseLen {L : PackLayout} {k : CertKey} {p : ℕ}
     omega
   omega
 
+theorem getD_succ_eq_tail_getD (l : List ℤ) (j : ℕ) : l.getD (j + 1) 0 = l.tail.getD j 0 := by
+  cases l <;> simp
+
+theorem packDot_cons_left (a : ℕ) (u ss : List ℕ) :
+    packDot (a :: u) ss = a * ss.headD 0 + packDot u ss.tail := by
+  cases ss <;> simp [packDot]
+
+/-- The kernel walk computes `PackLayout.slot`. -/
+theorem packSlotAux_eq (ds : List ℕ) : ∀ (k lo : List ℤ) (ss : List ℕ) (w b : ℕ),
+    packSlotAux k lo ds ss = PackLayout.slot ⟨lo, ds, ss, w, b⟩ k := by
+  induction ds with
+  | nil =>
+    intro k lo ss w b
+    cases k with
+    | nil => simp [packSlotAux, PackLayout.slot, PackLayout.keyInBox, PackLayout.keyOffsets,
+        packDot]
+    | cons x xs => simp [packSlotAux, PackLayout.slot, PackLayout.keyInBox]
+  | cons d ds ih =>
+    intro k lo ss w b
+    cases k with
+    | nil => simp [packSlotAux, PackLayout.slot, PackLayout.keyInBox]
+    | cons x xs =>
+      have hbox : (⟨lo, d :: ds, ss, w, b⟩ : PackLayout).keyInBox (x :: xs) =
+          ((decide (0 ≤ x - lo.headD 0) && decide (x - lo.headD 0 < (d : ℤ))) &&
+            (⟨lo.tail, ds, ss.tail, w, b⟩ : PackLayout).keyInBox xs) := by
+        have h0 : lo.getD 0 0 = lo.headD 0 := by cases lo <;> rfl
+        apply Bool.eq_iff_iff.mpr
+        simp only [PackLayout.keyInBox, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
+          List.mem_range, decide_eq_true_eq, List.length_cons, Nat.add_right_cancel_iff]
+        constructor
+        · rintro ⟨hl, h⟩
+          have h00 := h 0 (by omega)
+          simp only [List.getD_cons_zero, h0] at h00
+          refine ⟨h00, hl, fun j hj => ?_⟩
+          have := h (j + 1) (by omega)
+          simpa [getD_succ_eq_tail_getD] using this
+        · rintro ⟨h00, hl, h⟩
+          refine ⟨hl, fun j hj => ?_⟩
+          cases j with
+          | zero =>
+            simp only [List.getD_cons_zero, h0]
+            exact h00
+          | succ j => simpa [getD_succ_eq_tail_getD] using h j (by omega)
+      have hoff : ((⟨lo, d :: ds, ss, w, b⟩ : PackLayout).keyOffsets (x :: xs)).map Int.toNat =
+          (x - lo.headD 0).toNat ::
+            ((⟨lo.tail, ds, ss.tail, w, b⟩ : PackLayout).keyOffsets xs).map Int.toNat := by
+        simp only [PackLayout.keyOffsets, List.length_cons, List.range_succ_eq_map, List.map_cons,
+          List.map_map, List.getD_cons_zero, Function.comp_def, List.getD_cons_succ,
+          getD_succ_eq_tail_getD]
+        cases lo <;> rfl
+      have ih' := ih xs lo.tail ss.tail w b
+      rw [PackLayout.slot, hbox, hoff, packDot_cons_left, packSlotAux]
+      rw [PackLayout.slot] at ih'
+      rcases hx : x - lo.headD 0 with u | u
+      · simp only [Int.ofNat_eq_natCast, Nat.cast_nonneg, decide_true, Nat.cast_lt,
+          Bool.true_and, Int.toNat_natCast]
+        by_cases hu : u < d
+        · simp only [hu, ite_true, decide_true, Bool.true_and, ih']
+          split_ifs <;> rfl
+        · simp [hu]
+      · simp
+
+theorem packStrictAsc_pairwise : ∀ {es : List (ℕ × ℤ)}, packStrictAsc es = true →
+    es.Pairwise fun a b => a.1 < b.1
+  | [], _ => List.Pairwise.nil
+  | [_], _ => List.pairwise_singleton _ _
+  | a :: b :: rest, h => by
+    simp only [packStrictAsc, Bool.and_eq_true, decide_eq_true_eq] at h
+    have ih := packStrictAsc_pairwise h.2
+    refine List.Pairwise.cons (fun c hc => ?_) ih
+    rcases List.mem_cons.mp hc with rfl | hc
+    · exact h.1
+    · exact h.1.trans (List.rel_of_pairwise_cons ih hc)
+
+theorem packSlotTotal_eq_zero {es : List (ℕ × ℤ)} {p : ℕ} (h : ∀ e ∈ es, e.1 ≠ p) :
+    packSlotTotal es p = 0 := by
+  have : (es.filter fun e => e.1 == p) = [] :=
+    List.filter_eq_nil_iff.mpr fun e he => by simpa using h e he
+  simp [packSlotTotal, this]
+
+/-- The linear fill is the dense list of strictly increasing pairs at or above the start. -/
+theorem packFill_eq (n : ℕ) : ∀ (p : ℕ) (es : List (ℕ × ℤ)), es.Pairwise (fun a b => a.1 < b.1) →
+    (∀ e ∈ es, p ≤ e.1) →
+    packFill n p es = (List.range n).map fun q => packSlotTotal es (p + q) := by
+  induction n with
+  | zero => intro p es _ _; rfl
+  | succ n ih =>
+    intro p es hs hp
+    rw [List.range_succ_eq_map, List.map_cons, List.map_map]
+    cases es with
+    | nil =>
+      rw [packFill, ih (p + 1) [] List.Pairwise.nil (by simp)]
+      simp [packSlotTotal, Function.comp_def]
+    | cons e es =>
+      have hrest : ∀ e' ∈ es, e.1 < e'.1 := fun e' he' => List.rel_of_pairwise_cons hs he'
+      rw [packFill]
+      split_ifs with he
+      · rw [ih (p + 1) es (List.Pairwise.of_cons hs) (fun e' he' => by
+          have := hrest e' he'; omega)]
+        congr 1
+        · rw [Nat.add_zero, packSlotTotal]
+          simp only [List.filter_cons, he, beq_self_eq_true, ite_true, List.map_cons,
+            List.sum_cons]
+          have h0 := packSlotTotal_eq_zero (es := es) (p := p) fun e' he' => by
+            have := hrest e' he'; omega
+          rw [packSlotTotal] at h0
+          rw [h0, add_zero]
+        · refine List.map_congr_left fun q _ => ?_
+          simp only [Function.comp_apply, packSlotTotal, List.filter_cons]
+          have : ¬ (e.1 = p + (q + 1)) := by omega
+          simp [this, Nat.add_assoc, Nat.add_comm 1 q]
+      · rw [ih (p + 1) (e :: es) hs (fun e' he' => by
+          rcases List.mem_cons.mp he' with rfl | he'
+          · have := hp e' (by simp); omega
+          · have := hrest e' he'; have := hp e (by simp); omega)]
+        congr 1
+        · rw [Nat.add_zero, packSlotTotal_eq_zero fun e' he' => by
+            rcases List.mem_cons.mp he' with rfl | he'
+            · exact he
+            · have := hrest e' he'; have := hp e (by simp); omega]
+        · refine List.map_congr_left fun q _ => ?_
+          simp only [Function.comp_apply, Nat.add_assoc, Nat.add_comm 1 q]
+
 /-- The dense list's characterization: every key in the box, and slot `p` carries the total of
 the values at `p`. -/
 theorem PackLayout.dense_spec {L : PackLayout} {cs : List (CertKey × ℤ)} {d : List ℤ}
@@ -314,16 +466,27 @@ theorem PackLayout.dense_spec {L : PackLayout} {cs : List (CertKey × ℤ)} {d :
     (∀ t ∈ cs, L.slot t.1 = some ((L.slot t.1).getD 0)) ∧
       d = (List.range L.denseLen).map fun p =>
         packSlotTotal (cs.map fun t => ((L.slot t.1).getD 0, t.2)) p := by
+  have hs : ∀ k, packSlotAux k L.lo L.dims L.stride = L.slot k := fun k =>
+    packSlotAux_eq L.dims k L.lo L.stride L.width L.blockRows
   unfold PackLayout.dense at h
-  split_ifs at h with hall
-  simp only [Option.some.injEq] at h
-  refine ⟨fun t ht => ?_, ?_⟩
-  · have := List.all_eq_true.mp hall t ht
-    cases hs : L.slot t.1 with
-    | none => simp [hs] at this
-    | some p => rfl
-  · rw [← h, packScatter_eq]
-    simp
+  simp only [hs] at h
+  split_ifs at h with hall hasc
+  · simp only [Option.some.injEq] at h
+    refine ⟨fun t ht => ?_, ?_⟩
+    · have := List.all_eq_true.mp hall t ht
+      cases hs' : L.slot t.1 with
+      | none => simp [hs'] at this
+      | some p => rfl
+    · rw [← h, packFill_eq _ _ _ (packStrictAsc_pairwise hasc) (by simp)]
+      simp
+  · simp only [Option.some.injEq] at h
+    refine ⟨fun t ht => ?_, ?_⟩
+    · have := List.all_eq_true.mp hall t ht
+      cases hs' : L.slot t.1 with
+      | none => simp [hs'] at this
+      | some p => rfl
+    · rw [← h, packScatter_eq]
+      simp
 
 theorem PackLayout.dense_length {L : PackLayout} {cs : List (CertKey × ℤ)} {d : List ℤ}
     (h : L.dense cs = some d) : d.length = L.denseLen := by
