@@ -20479,9 +20479,9 @@ EDGE: bpP:p11:e4 | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:as-b2@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: P7c, not merged
+LEAN_STATUS: PROVED
+LEAN_REF: slow_b2_literal (KAM/Planetary/Preparation/SlowB2Kappa.lean)
+LEAN_NOTE: audit GAP-E round 2 PASS WITH NOTES: literal B2 with kappa >= 6
 NOTE: Uses the writer-authorized logarithmic asymptotic external bpP:p11:e4; no elementary input is left unrepresented.
 
 NODE: stepP:p11:as-concl
@@ -20577,9 +20577,9 @@ EDGE: bpP:p11:sec-C#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_prepared_basic_dom (KAM/Planetary/Preparation/PreparedBasic.lean)
+LEAN_NOTE: audit P11A-P8a round 2 PASS WITH NOTES: includes the complex domain chain (radius rz/4)
 NOTE: -
 
 NODE: stepP:p11:pr-a
@@ -20607,9 +20607,9 @@ EDGE: bpP:p11:sec-conv#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-delta-P-ae
 REVIEWER: sol-delta-P-bc
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11PreparedCoreOf_P_bound (KAM/Planetary/Preparation/PreparedBasic.lean)
+LEAN_NOTE: audit P11A-P8a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11:pr-in
@@ -26499,9 +26499,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a:si
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: situation (KAM/Planetary/WeakKAM/Evaluation.lean)
-LEAN_NOTE: audit B19 PASS WITH NOTES, but Lean situation is only an alias of SelectionEvaluationOutput; the source (S) standing situation (iteration, schedule) is inherited upstream, not defined here
+LEAN_STATUS: PROVED
+LEAN_REF: StandingSituation, standingSituation_of_selection, standingSituation_of_evaluation, standingSituation_exists (KAM/Planetary/WeakKAM/Situation.lean)
+LEAN_NOTE: audit GAP-E round 2 PASS WITH NOTES: unsigned standing situation (S) plus delivery lemmas; B19 signed situation unchanged
 NOTE: Section data (conventions L28 and the situation (S), L30-L32); the conventions paragraph L28 is mapped to limit-torus and the lemmas that use X_phi, Omega_0, canonical maps.
 
 NODE: bpP:p11a:z-chain
@@ -28222,9 +28222,9 @@ EDGE: bpP:p11a:budget | blueprint-P/parts/p11a5-quantitative-theorem.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Q6 weak_kam_quantitative (audit PASS WITH NOTES) states only K1-K4; K5 is the separate Budget.p11c_budget (Q4) and K6 is only a composition of displacement_power_flat with family.displacement, not a declaration; full conclusion K1-K6 not in one declaration
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative_full (KAM/Planetary/Quantitative/AssemblyK6.lean)
+LEAN_NOTE: audit GAP-E round 2 PASS WITH NOTES: weak_kam_quantitative_full states K1-K6 for one family
 NOTE: The input-only package sec-q-thm#data breaks the zero-case statement-reference cycle. No edge back to kam-input is added. The explicit K5 budget assertions and their direct budget supplier are retained.
 
 NODE: stepP:p11a:qt-order
@@ -28500,9 +28500,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: displacement_power_flat is only the numerical K6 input; torus displacement assembly is Q6
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative_full (KAM/Planetary/Quantitative/AssemblyK6.lean)
+LEAN_NOTE: audit GAP-E round 2 PASS WITH NOTES: K6 bound Delta <= cD eps^(1/2) b^(-G0) with the same cD
 NOTE: -
 
 NODE: bpP:p11a:sec-comp#data
