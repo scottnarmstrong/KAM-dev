@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 12:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **247,983 lines of Lean** of an estimated ≈ 273,000
+> **Last updated: 2026-10-29 12:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **247,983 lines of Lean** of an estimated ≈ 273,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,8 +126,8 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **247,983** (193,955 excluding blank lines and comments) · **+174,105** since 2026-10-28 12:00 UTC |
-| Written on agent branches, not yet landed | 3,054 |
+| On `main` now | **247,983** (193,955 excluding blank lines and comments) · **+174,105** since 2026-10-28 12:20 UTC |
+| Written on agent branches, not yet landed | 3,219 |
 | **Estimated total at completion** | **≈ 273,000** |
 | Estimated still to write | ≈ 22,000 |
 
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 12:18 UTC from `main` at `b2778cbe` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 12:20 UTC from `main` at `ddaf3438` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -310,6 +310,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
 | **sofreq** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-FREQ: exact frequencies with rational boxes; lunar Q(sqrt 5) instance | `inp-sofreq` | 1 (vs `inp`) |
+| **sographm** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GRAPHM: inverse of the angular projection (WIP) | `inp-sographm` | 1 (vs `inp`) |
 | **sominv** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-MINV: expose HasShape | `inp-sominv` | 2 (vs `inp`) |
 | **sonorm** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-NORM: X_H partials (wip) | `inp-sonorm` | 2 (vs `inp`) |
 | **sopbase** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PBASE: Poly/Basic part 1 (CertPoly, CertRealPoly, eval, bridge, reality) | `inp-sopbase` | 1 (vs `inp`) |
