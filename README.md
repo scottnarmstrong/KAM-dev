@@ -149,7 +149,7 @@ Overall, both together: 87.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 15:28 UTC from `main` at `e05cbb60` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 15:28 UTC from `main` at `93fcbc62` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -157,8 +157,8 @@ Overall, both together: 87.6 %
 
 - **Lean on `main`:** 41 modules · 9,031 lines · 483 theorems in `KAM/Certificate` and `KAM/SpinOrbit` (design estimate ≈ 18,500 lines, 21,500–23,000 with overrun)
 - **Packages landed: 26 / 41** (SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF, SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-DIO3, SO-NORM, SO-HAMX, SO-GRAPHM, SO-ABK, SO-BALL, SO-ROTDIO, SO-EXPR-A, SO-EXPR-B1, SO-GEN2, SO-EXPR-B2, SO-POLY-A, SO-RFREQ)
-- **Now:** proving SO-ADV · in audit —
-- **Gates:** design of the general checker: Revision 5 (rotated lunar frame, advice-checked packed products) failed its fifth audit on the packed-product contract (F12 carry cancellation, F13 scale 0); Revision 6 in progress. Replay gate GO. SO-GEN2 confirmed the rotated-frame package R1: threshold 10^-74.7, about 8.5k terms per torus at 318 bits, invariance error about 1e-3 of the threshold.
+- **Now:** proving SO-ADVCOUNT · in audit —
+- **Gates:** design of the general checker: Revision 6 in its sixth audit (the rotated lunar frame and the advice-checked packed products of Revision 5, plus the repair of the carry-cancellation and scale-0 findings of audit 5). Replay gate GO. SO-GEN2 confirmed the rotated-frame package R1: threshold 10^-74.7, about 8.5k terms per torus at 318 bits, invariance error about 1e-3 of the threshold. Open owner question: how certificate data enters Lean (design §7.2).
 
 **Frozen statements proved: 21 / 22** · frozen definitions: 122
 
