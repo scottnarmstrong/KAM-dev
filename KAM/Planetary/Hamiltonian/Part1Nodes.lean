@@ -23,7 +23,7 @@ open Set Real Function
 
 namespace KAM.Planetary
 
-open KAM
+open KAM KAM.Kepler
 
 section Transport
 
@@ -170,7 +170,9 @@ theorem pc_b {c : ℝ} (hc : 0 < c) (H : Phase d → ℝ) (z : Phase d) :
   have hΨ := isChart_angleScale (d := d) hc
   have hfield := chart_field hc hΨ H (mem_univ z)
   refine ⟨hfield, ?_⟩
-  have hA : (fderiv ℝ (angleScale c) z) = angleScaleCLM c := ContinuousLinearMap.fderiv _
+  have hA : (fderiv ℝ (angleScale c) z) = angleScaleCLM c := by
+    rw [show (angleScale c : Phase d → Phase d) = angleScaleCLM c from rfl]
+    exact ContinuousLinearMap.fderiv _
   by_cases hH : DifferentiableAt ℝ H (angleScale c z)
   · have hΨd : DifferentiableAt ℝ (angleScale c) z := ((angleScaleCLM c).differentiableAt)
     have hd : fderiv ℝ (chartPullback c H (angleScale c)) z =
@@ -194,13 +196,13 @@ theorem pc_b {c : ℝ} (hc : 0 < c) (H : Phase d → ℝ) (z : Phase d) :
 `{R > 0}`, invariant under `ψ ↦ ψ + 2π`; (2) `S_c` is a `c`-chart; (3) charts compose, and
 `(H^{Ψ₂})^{Ψ₁} = H^{Ψ₂ ∘ Ψ₁}`. -/
 theorem typical (d : ℕ) :
-    (IsChart 1 (fun z : Phase 1 => ((fun _ => √(2 * z.2 0) * Real.cos (z.1 0)),
-        (fun _ => √(2 * z.2 0) * Real.sin (z.1 0)))) {z : Phase 1 | 0 < z.2 0} ∧
+    (IsChart 1 (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)),
+        (fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)))) {z : Phase 1 | 0 < z.2 0} ∧
       ∀ (z : Phase 1) (k : Fin 1 → ℤ),
-        (fun z : Phase 1 => ((fun _ => √(2 * z.2 0) * Real.cos (z.1 0)),
-          (fun _ => √(2 * z.2 0) * Real.sin (z.1 0)))) (z + fullShift k) =
-        (fun z : Phase 1 => ((fun _ => √(2 * z.2 0) * Real.cos (z.1 0)),
-          (fun _ => √(2 * z.2 0) * Real.sin (z.1 0)))) z) ∧
+        (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)),
+          (fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)))) (z + fullShift k) =
+        (fun z : Phase 1 => ((fun _ : Fin 1 => √(2 * z.2 0) * Real.cos (z.1 0)),
+          (fun _ : Fin 1 => √(2 * z.2 0) * Real.sin (z.1 0)))) z) ∧
     (∀ c : ℝ, 0 < c → IsChart c (angleScale c) (univ : Set (Phase d))) ∧
     ∀ (c₁ c₂ : ℝ) (H : Phase d → ℝ) (Ψ₁ Ψ₂ : Phase d → Phase d) (O₁ O₂ : Set (Phase d)),
       IsChart c₁ Ψ₁ O₁ → IsChart c₂ Ψ₂ O₂ → MapsTo Ψ₁ O₁ O₂ →
