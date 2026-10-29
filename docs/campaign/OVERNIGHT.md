@@ -586,3 +586,32 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   recorded as an append-only amendment SET_CONSTANT_SCOPE on stepP:p11:pr-in before pr-in is marked PROVED.
   **Owner to review** with the 01:45 entry. GAP-P5a (kam-cond: x not identified with the Part 3 expression) and
   GAP-P8c (evenness on the source neighbourhood; id-1/id-2 coefficient identification) are being fixed.
+- **02:25. Source reading for owner review: the shared radius rho_* in Part 8.** Several p8 nodes are stated "on N(rho_*)
+  with rho_* of perturbation-analytic". rho_* is an existential witness, and every conclusion of perturbation-analytic
+  persists on a smaller radius. Ruling (an audit's option (b)): a p8 node export may choose its own radius r provided
+  it states, at that same r, the full perturbation-analytic conclusion together with the node's own conclusions.
+  GAP-P8c's evenness export is being rebuilt in this joint form. GAP-P9b failed on an unsourced n >= 2 guard (the
+  source allows n >= 1) and is being fixed; GAP-P5b, GAP-P8a and GAP-P8b fixes are in progress or in audit.
+- **02:30. Second graph-gap survey (Part 11/11a/11b/12 and p0-p10 leftovers; .drafts/briefs/offload-main/GAP-PLAN-P2.md).**
+  64 nodes: 31 gap-fills in six packages (about 1,700 lines), 5 bypass candidates, 3 blocked/in progress, 25 graph-only.
+  Rulings: (a) D27 BYPASSED: p11 pa-taylor, pa-mono, pa-series (polar_avg's even-descent route), p2 oi-transfer, and
+  p5 fi-inv re-statused PROVED -> BYPASSED (freq_inj never forms the Schur blocks, as for fi-blk); (b) ruling 01:20 (b)
+  re-applied to sp-1..5, pl4-*, qt-*, dd-* where audit rows confirm them; (c) **owner to review: definition-node
+  policy:** a pure definition node closes by naming its Lean definitions plus a definitions-audit row; a definition
+  node that also asserts a property gets a gap lemma; (d) **owner to review, source errata candidates:** the Part 11a
+  cutoff addendum (p11a2:124) omits the premises d <= 1 and T >= 1; tc-b's series identity uses coefficients that
+  exist only inside a proof (the inequality chain is exported); p11b:remain re-kinded as a remark or cut to clause (1).
+  GAP-P11a2-cut and GAP-PX started; GAP-P11a3-sel and GAP-P11a5-qt wait for (b).
+- **02:40. Split pr-d; remaining Part 11a gaps; definitions audit.** To shorten the fixed-Sun chain, step pr-d moved
+  from P11A-P8b2 to a parallel package P11A-P8b3 (branched after pr-b). The sub-orchestrator applied the second survey:
+  graph P 1073 PROVED and 16 BYPASSED; p11b:remain cut to its clause (1) by AMEND P-A003 (**owner to review**). The
+  remaining Part 11a gap nodes went to GAP-P11a-SQ (sel-data, fe-supp, qt-order, qt-reduce, kam-input) and
+  GAP-P11a-HOM (homological equation, real-Lipschitz, pl4-terms, pl4-sum). A definitions audit (DEFS-P11) classifies
+  the objects of p11:sec-conv#data, p11:sec-D#data and p11b:sec-set#data.
+- **02:50. Definitions audit DEFS-P11: owner to review.** p11b:sec-set#data closes as definitions only (Phi_4 is
+  SecularSpectrum.good). Two Part 11 definition nodes are NOT closable and stay open: (1) p11:sec-conv#data: the
+  source's weighted norm is [0, inf]-valued, while KAM.Weighted.wsum/wnorm are real-valued totalizations (0 off
+  summability) and p11WBound is only a finite-bound predicate; (2) p11:sec-D#data: there is no exact polar-shell
+  definition, and the h0/f2 helpers carry a free correction Z. The report also notes that the signed p11SlowData
+  (P11A design, audited with P7d) is `if h : exists A, ... then h.choose else default`, a non-unique choice with a
+  default fallback. Nothing is changed overnight; these need an owner ruling on definition fidelity.
