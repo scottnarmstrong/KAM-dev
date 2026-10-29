@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:45 UTC from `main` at `0b67faab` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:45 UTC from `main` at `e474aaaf` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -374,6 +374,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 16:45 | `e474aaaf` | HQ: estimate text names ASSUMED nodes |
 | 2026-10-29 16:45 | `2593f680` | HQ: count owner-accepted ASSUMED graph nodes as resolved |
 | 2026-10-29 16:45 | `96c7d422` | HQ: track P complete (graph P fully resolved); current phase: original project complete, track SO next |
 | 2026-10-29 16:43 | `93ba348b` | Land inp into main |
@@ -385,7 +386,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 16:17 | `2ec85e19` | Land inp into main |
 | 2026-10-29 16:16 | `2e00eef7` | D31: owner rulings on the graph P definition and convention nodes; OVERNIGHT 16:10 (all 22 frozen theorems sealed) |
 | 2026-10-29 16:10 | `e4dd2117` | Land inp into main |
-| 2026-10-29 16:00 | `86cf4006` | README: main theorem 1 states the boundary-regularity premise |
 <!-- /AUTO:landed -->
 
 ## Decisions
