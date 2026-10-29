@@ -65,3 +65,9 @@ No source errata. Deviation: the base is a TR-like n = 2 cert at ρ = 1/100, not
 Design signal: none; everything elaborates at default heartbeats.
 
 AUDIT FOCUS: (1) each of the ten negative tests of design §8 (/root/code/KAM/docs/tracks/SO/design/SO-LEAN-DESIGN.md lines 730-760) is present, proves `checkTorusCertificate c = false` (or the stated sub-check-level substitute for items 4, 9 and 10, with the reason given) AND that the INTENDED sub-check is the one that fails, by `decide +kernel`; a test that fails for an unintended reason is a FAIL; (2) negBase_passes and negDiv_passes really pass the whole checker (positive controls), so the negatives are single mutations of passing data; (3) the packed model-level tests: the packed route encloses and the wrong-decoder fallback gives the crude enclosure; (4) no landed module (Defs, Sound/*, Soundness, Packed's earlier tests) changed in meaning; (5) the handoff's claim that the Lean checker needs the invariance advice keys [5, a, l] contradicts SO-PYALIGN (docs/tracks/SO/studies/SO-PYALIGN.md: never looked up, constant freqModel, scalar route); determine from Defs.lean/Model/Ops.lean which is correct; (6) kernel replay, axioms, lint, no forbidden constructs.
+
+## Correction after audit 1 (orchestrator)
+The claim above that "the Lean checker needs [5, a, l]" and that "generators must emit them" is false (audit 1, N1):
+`freqModel` is a constant model, so the invariance products take the scalar route and the keys [5, a, l] (and
+[4, 10, ...]) are never looked up, as docs/tracks/SO/studies/SO-PYALIGN.md states. Generators must NOT emit them;
+the test fixtures' surplus keys are harmless.
