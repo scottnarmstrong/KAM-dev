@@ -2414,9 +2414,9 @@ EDGE: stepI:p1:rd-consequence | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:reduc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.reduced (Linear/Reduced); omega Diophantine (audit I1-6 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.AnyOmega.reduced_anyOmega_src (KAM/Iso/Linear/FullRangeAnyOmega.lean)
+LEAN_NOTE: GAP-I1c audit 2 PASS WITH NOTES; literal SettingSrc (tau>=0), arbitrary tested omega with |omega|<=Theta (ruling 05:10, free omega literal)
 NOTE: -
 
 NODE: stepI:p1:rd-ql
@@ -2737,9 +2737,9 @@ EDGE: stepI:p1:pt-torsion | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:perturbat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.perturbation_noA5 (Linear/NoTwist) (audit I1-7 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.AnyOmega.perturbation_noA5_anyOmega_src (KAM/Iso/Linear/FullRangeAnyOmega.lean)
+LEAN_NOTE: GAP-I1c audit 2 PASS WITH NOTES; literal SettingSrc (tau>=0), arbitrary tested omega with |omega|<=Theta (ruling 05:10, free omega literal)
 NOTE: -
 
 NODE: stepI:p1:pt-small
