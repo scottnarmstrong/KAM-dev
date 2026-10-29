@@ -982,3 +982,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   land together so the library rebuilds once. B3 (unused declarations) and B4 (duplicates) wait for B2 to land (same
   files). SO-TEST (A positive toys, B negative and packed tests) is briefed and starts on SO-PYALIGN's aligned data.
   Track K items in the heartbeat prompt are complete (2026-10-28); the prompt is applied to tracks SO and release.
+- **21:58. Soundness audited; release scrub B2 complete.** SO-SOUND-B audit 1: PASS WITH NOTES (hygiene notes only), so
+  both halves of the black-box soundness theorem `checkTorusCertificate_sound` passed independent audit; both sent to
+  land. The four B2 scrub batches finished (763 files: B2A1 262, B2A2 220, B2A3 87, B2R 194). Each passes the
+  comment-only guard (0 code changes), the module and frozen-anchor checks and the 100-column rule, and they share no
+  file. Personal attribution, package codes, audit and ruling references and design-doc paths are gone; nine stale
+  docstrings were corrected after checking the code. I polished three "Kolmogorov" rewordings in Iso. Sent to kam-inp
+  to land together with one full build. Checked and kept: WeakKAM headings "P11B" -> "Part 11a" (the code cites
+  `bpP:p11a`). Examined: a dropped note "departure P16" (Head/PreimageMeasure: a helper taking G3's conclusion as a
+  premise, i.e. a conditional helper, not a deviation from a source statement); no public-record entry needed.
+  Light worktrees picked up a 196 MB lake package fetch when one worker ran the lint script; the workers were told
+  not to run lake there, and the worktrees go with the sweep.
