@@ -1,0 +1,10 @@
+lower R3 l1w recomputed 1.5922132e-79  emitter 1.592213e-79
+lower R4 l1w recomputed 4.5548367e-80  emitter 4.554837e-80
+lower energy polynomial part 3.168e-97 (emitter bound incl. witness 3.901e-81)
+lower all package checks: True  alternative: True
+lower OK
+upper R3 l1w recomputed 3.1041539e-79  emitter 3.104154e-79
+upper R4 l1w recomputed 7.9111904e-80  emitter 7.911190e-80
+upper energy polynomial part 6.914e-98 (emitter bound incl. witness 7.590e-81)
+upper all package checks: True  alternative: True
+upper OK
