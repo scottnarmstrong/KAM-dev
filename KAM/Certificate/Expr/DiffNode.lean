@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.Expr.DiffBuild
+public import KAM.Certificate.Expr.DiffCalculus3
 
 /-!
 # Jet nodes: first and second derivative tables of a program slot
@@ -28,73 +29,6 @@ open KAM
 variable {n : ℕ}
 
 local notation "Ph" => (Fin n → ℂ) × (Fin n → ℂ)
-
-/-! ### Second-order rules -/
-
-theorem JetSmoothOn.neg {S : Set Ph} {f : Ph → ℂ} (hf : JetSmoothOn S f) :
-    JetSmoothOn S (fun z => -f z) := ContDiffOn.neg hf
-
-theorem jetDeriv_neg {S : Set Ph} (hS : IsOpen S) (u : Ph) {f : Ph → ℂ}
-    (hf : JetSmoothOn S f) :
-    Set.EqOn (jetDeriv u (fun z => -f z)) (fun z => -jetDeriv u f z) S := by
-  intro z hz
-  have h1 := hf.differentiableAt hS hz
-  have e : fderiv ℂ (fun z => -f z) z = -fderiv ℂ f z := h1.hasFDerivAt.neg.fderiv
-  simp only [jetDeriv]
-  rw [e]
-  rfl
-
-theorem jetDeriv2_mul {S : Set Ph} (hS : IsOpen S) (u v : Ph) {f g : Ph → ℂ}
-    (hf : JetSmoothOn S f) (hg : JetSmoothOn S g) :
-    Set.EqOn (jetDeriv u (jetDeriv v (fun z => f z * g z)))
-      (fun z => (jetDeriv u (jetDeriv v f) z * g z + jetDeriv v f z * jetDeriv u g z) +
-        (jetDeriv u f z * jetDeriv v g z + f z * jetDeriv u (jetDeriv v g) z)) S := by
-  intro z hz
-  rw [jetDeriv_congr hS u (jetDeriv_mul hS v hf hg) hz,
-    jetDeriv_add hS u ((hf.jetDeriv hS v).mul hg) (hf.mul (hg.jetDeriv hS v)) hz]
-  beta_reduce
-  rw [jetDeriv_mul hS u (hf.jetDeriv hS v) hg hz, jetDeriv_mul hS u hf (hg.jetDeriv hS v) hz]
-
-theorem jetDeriv2_add {S : Set Ph} (hS : IsOpen S) (u v : Ph) {f g : Ph → ℂ}
-    (hf : JetSmoothOn S f) (hg : JetSmoothOn S g) :
-    Set.EqOn (jetDeriv u (jetDeriv v (fun z => f z + g z)))
-      (fun z => jetDeriv u (jetDeriv v f) z + jetDeriv u (jetDeriv v g) z) S := by
-  intro z hz
-  rw [jetDeriv_congr hS u (jetDeriv_add hS v hf hg) hz]
-  beta_reduce
-  rw [jetDeriv_add hS u (hf.jetDeriv hS v) (hg.jetDeriv hS v) hz]
-
-theorem jetDeriv2_cexp {S : Set Ph} (hS : IsOpen S) (u v : Ph) {f : Ph → ℂ}
-    (hf : JetSmoothOn S f) :
-    Set.EqOn (jetDeriv u (jetDeriv v (fun z => Complex.exp (f z))))
-      (fun z => Complex.exp (f z) * (jetDeriv u f z * jetDeriv v f z) +
-        Complex.exp (f z) * jetDeriv u (jetDeriv v f) z) S := by
-  intro z hz
-  rw [jetDeriv_congr hS u (jetDeriv_cexp hS v hf) hz,
-    jetDeriv_mul hS u hf.cexp (hf.jetDeriv hS v) hz]
-  beta_reduce
-  rw [jetDeriv_cexp hS u hf hz]
-  ring
-
-theorem jetDeriv2_inv {S : Set Ph} (hS : IsOpen S) (u v : Ph) {f : Ph → ℂ}
-    (hf : JetSmoothOn S f) (h0 : ∀ z ∈ S, f z ≠ 0) :
-    Set.EqOn (jetDeriv u (jetDeriv v (fun z => (f z)⁻¹)))
-      (fun z => 2 * ((f z)⁻¹ * ((f z)⁻¹ * (f z)⁻¹)) * (jetDeriv u f z * jetDeriv v f z) +
-        (-1) * ((f z)⁻¹ * (f z)⁻¹) * jetDeriv u (jetDeriv v f) z) S := by
-  intro z hz
-  have hw := hf.inv h0
-  have hww := hw.mul hw
-  have hnww := hww.neg
-  rw [jetDeriv_congr hS u (jetDeriv_inv hS v hf h0) hz]
-  have hm : JetSmoothOn S (fun z => -((f z)⁻¹ * (f z)⁻¹)) := hnww
-  rw [jetDeriv_mul hS u hm (hf.jetDeriv hS v) hz]
-  beta_reduce
-  rw [jetDeriv_neg hS u hww hz]
-  beta_reduce
-  rw [jetDeriv_mul hS u hw hw hz]
-  beta_reduce
-  rw [jetDeriv_inv hS u hf h0 hz]
-  ring
 
 theorem jetDeriv_modePhase (k : CertKey) (u : Ph) :
     jetDeriv u (fun z => modePhase n k z.1) = fun _ => modePhase n k u.1 := by
