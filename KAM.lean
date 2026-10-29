@@ -1280,6 +1280,7 @@ public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
+public import KAM.SpinOrbit.Graph.Inverse
 public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.Model
