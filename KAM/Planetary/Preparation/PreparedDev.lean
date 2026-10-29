@@ -513,6 +513,168 @@ theorem p11_dev_Z_jet (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c
   refine h.trans (le_of_eq ?_)
   ring
 
+/-- `h = h₀ + g₂` as a one-component vector function. -/
+def p11DevH (A : P11SlowData n) : P11CVec (n + n) → P11CVec 1 := fun I _ => A.h0 I + A.g2 I
+
+theorem p11DevH_eq (A : P11SlowData n) :
+    p11DevH A = (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.h0 I) +
+      fun (I : P11CVec (n + n)) (_ : Fin 1) => A.g2 I := rfl
+
+/-- Cauchy bound of `∂^α Ĝ₀` (step pr-in (i)). -/
+def p11DevA (C : P11SecularData n) (eps : ℝ) (α : Fin n → ℕ) : ℝ :=
+  (∏ i, ((α i).factorial : ℝ)) * (C.MF + p11eta1 C eps) / (p11s1 C eps / 4) ^ (∑ i, α i)
+
+/-- Cauchy bound of `∂_J^α ∂_ρ̃^γ g₂` (step pr-in (iii)). -/
+def p11DevG (C : P11SecularData n) (nu eps c : ℝ) (α γ : Fin n → ℕ) : ℝ :=
+  (∏ i, ((α i).factorial : ℝ)) * (∏ i, ((γ i).factorial : ℝ)) *
+    (c * eps ^ 3 * Real.log (1 / eps) ^ (5 * C.tau + 2)) /
+    ((p11s2 C nu eps / 4) ^ (∑ i, α i) * (eps / 4) ^ (∑ i, γ i))
+
+/-- Cauchy bound of `∂_J^α ∂_ρ̃^γ ∂_ρ̃ Z` (spec bound on `∂_ρ Z`, polydisc `s₂/2`, `ε`). -/
+def p11DevZ (C : P11SecularData n) (nu eps c : ℝ) (α γ : Fin n → ℕ) : ℝ :=
+  (∏ i, ((α i).factorial : ℝ)) * (∏ i, ((γ i).factorial : ℝ)) * (c * (eps + p11eta1 C eps)) /
+    ((p11s2 C nu eps / 2) ^ (∑ i, α i) * eps ^ (∑ i, γ i))
+
+theorem p11_dev_Vh_sub {C : P11SecularData n} {nu eps : ℝ} (hs2 : 0 ≤ p11s2 C nu eps)
+    (heps : 0 ≤ eps) :
+    p11Box (p11DevCenter C eps) (p11s2 C nu eps / 2) (Real.pi * eps / 2) ⊆
+      p11Box (p11DevCenter C eps) (p11s2 C nu eps) (Real.pi * eps) := by
+  have hπ := Real.pi_pos
+  intro I ⟨h1, h2⟩
+  exact ⟨fun i => lt_of_lt_of_le (h1 i) (by linarith), fun i => lt_of_lt_of_le (h2 i)
+    (by nlinarith)⟩
+
+/-- Pure `J` deviation: `∂^{(α,0)} h = ∂^α C.h + ε ∂^α Ĝ₀ + ∂^{(α,0)} g₂`. -/
+theorem p11_dev_J_bound (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
+    {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
+    (hF : P11FastSpec C eps Fast) (hA : P11SlowSpecOf C Fast nu eps c A)
+    (hzs : 3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16)
+    (h5 : 5 * eps ≤ p11s2 C nu eps) (α : Fin n → ℕ) (J ρ : P11CVec n)
+    (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4)
+    (hρ : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4) :
+    ‖p11PartialVec (Fin.append α (0 : Fin n → ℕ)) (p11DevH A) (Fin.append J ρ) -
+        p11PartialVec α (fun (J : P11CVec n) (_ : Fin 1) => C.h J) J‖ ≤
+      eps * p11DevA C eps α + p11DevG C nu eps c α 0 := by
+  obtain ⟨hK, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  obtain ⟨-, -, -, hrC0, -, -, -, hrz0, -, -⟩ := fast_consts hC
+  have hspec := p11s2_spec hC hK
+  have hπ := Real.pi_gt_three
+  obtain ⟨-, -, -, -, -, -, hh0d, hdg, -⟩ := id hA
+  set Vh := p11Box (p11DevCenter C eps) (p11s2 C nu eps / 2) (Real.pi * eps / 2) with hVh
+  have hVho : IsOpen Vh := p11_dev_box_isOpen _ _ _
+  have hP : (Fin.append J ρ : P11CVec (n + n)) ∈ Vh :=
+    p11_dev_mem_box J ρ (by linarith) (by nlinarith) hJ hρ
+  have hsub := p11_dev_Vh_sub (C := C) (nu := nu) hs2.le heps.le
+  have hh0 : DifferentiableOn ℂ (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.h0 I) Vh :=
+    (differentiableOn_pi.2 fun _ => hh0d).mono hsub
+  have hg2 : DifferentiableOn ℂ (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.g2 I) Vh :=
+    differentiableOn_pi.2 fun _ => hdg
+  rw [p11DevH_eq, p11_partial_add hVho hh0 hg2 _ hP]
+  have hid := p11_dev_J hC hnu heps hεM hF hA hzs h5 α J ρ hJ hρ
+  have hhh : p11PartialVec (Fin.append α (0 : Fin n → ℕ))
+      (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.h0 I) (Fin.append J ρ) =
+      p11PartialVec α (fun (J : P11CVec n) (_ : Fin 1) => C.h J) J +
+        (eps : ℂ) • p11PartialVec α
+          (fun (J : P11CVec n) (_ : Fin 1) => p11PolarAverage Fast.G (J, ρ)) J := hid
+  simp only [Pi.add_apply, hhh]
+  have hG0 := p11_prin_G0_jet hC heps hεM hF α J ρ
+    (by linarith) (p11_dev_rho_norm heps hrz0 hzs hρ)
+  have hg := p11_prin_g2_jet hs2 heps hA α (0 : Fin n → ℕ) J ρ hJ hρ
+  calc ‖p11PartialVec α (fun (J : P11CVec n) (_ : Fin 1) => C.h J) J +
+          (eps : ℂ) • p11PartialVec α
+            (fun (J : P11CVec n) (_ : Fin 1) => p11PolarAverage Fast.G (J, ρ)) J +
+          p11PartialVec (Fin.append α (0 : Fin n → ℕ))
+            (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.g2 I) (Fin.append J ρ) -
+        p11PartialVec α (fun (J : P11CVec n) (_ : Fin 1) => C.h J) J‖
+      = ‖(eps : ℂ) • p11PartialVec α
+            (fun (J : P11CVec n) (_ : Fin 1) => p11PolarAverage Fast.G (J, ρ)) J +
+          p11PartialVec (Fin.append α (0 : Fin n → ℕ))
+            (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.g2 I) (Fin.append J ρ)‖ := by
+        congr 1; abel
+    _ ≤ eps * p11DevA C eps α + p11DevG C nu eps c α 0 := by
+        refine (norm_add_le _ _).trans (add_le_add ?_ ?_)
+        · rw [norm_smul, Complex.norm_real, Real.norm_of_nonneg heps.le]
+          exact mul_le_mul_of_nonneg_left hG0 heps.le
+        · refine hg.trans (le_of_eq ?_)
+          simp [p11DevG]
+
+theorem p11_dev_append_add (α γ : Fin n → ℕ) (k : Fin n) :
+    (Fin.append α γ : Fin (n + n) → ℕ) + Pi.single (Fin.natAdd n k) 1 =
+      Fin.append α (γ + Pi.single k 1) := by
+  funext i
+  refine Fin.addCases (fun j => ?_) (fun j => ?_) i
+  · have hne : (Fin.castAdd n j : Fin (n + n)) ≠ Fin.natAdd n k := fun h => by
+      have := congrArg Fin.val h
+      simp at this
+      have := j.isLt
+      omega
+    simp only [Pi.add_apply, Fin.append_left]
+    rw [Pi.single_eq_of_ne hne, add_zero]
+  · by_cases h : j = k
+    · subst h
+      simp only [Pi.add_apply, Fin.append_right, Pi.single_eq_same]
+    · have hne : (Fin.natAdd n j : Fin (n + n)) ≠ Fin.natAdd n k := fun h' => h (by
+        have := congrArg Fin.val h'
+        simp at this
+        exact Fin.ext this)
+      simp only [Pi.add_apply, Fin.append_right]
+      rw [Pi.single_eq_of_ne hne, Pi.single_eq_of_ne h]
+
+/-- Deviation of a partial with a `ρ̃`-index:
+`∂^{β'+e_k} h = ε ∂^{β'} Ω̃_k + ε ∂^{β'} ∂_{ρ̃_k} Z + ∂^{β'+e_k} g₂`. -/
+theorem p11_dev_rho_bound (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
+    {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
+    (hA : P11SlowSpecOf C Fast nu eps c A)
+    (hzs : 3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16)
+    (h5 : 5 * eps ≤ p11s2 C nu eps) (k : Fin n) (α γ : Fin n → ℕ) (J ρ : P11CVec n)
+    (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4)
+    (hρ : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4) :
+    ‖p11PartialVec (Fin.append α γ + Pi.single (Fin.natAdd n k) 1) (p11DevH A)
+          (Fin.append J ρ) -
+        (eps : ℂ) • p11PartialVec (Fin.append α γ) (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+          (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun i : Fin n => I (Fin.castAdd n i)) k)
+          (Fin.append J ρ)‖ ≤
+      eps * p11DevZ C nu eps c α γ + p11DevG C nu eps c α (γ + Pi.single k 1) := by
+  obtain ⟨hK, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  have hspec := p11s2_spec hC hK
+  have hπ := Real.pi_gt_three
+  obtain ⟨-, -, -, -, -, -, hh0d, hdg, -⟩ := id hA
+  set Vh := p11Box (p11DevCenter C eps) (p11s2 C nu eps / 2) (Real.pi * eps / 2) with hVh
+  have hVho : IsOpen Vh := p11_dev_box_isOpen _ _ _
+  have hP : (Fin.append J ρ : P11CVec (n + n)) ∈ Vh :=
+    p11_dev_mem_box J ρ (by linarith) (by nlinarith) hJ hρ
+  have hsub := p11_dev_Vh_sub (C := C) (nu := nu) hs2.le heps.le
+  have hh0 : DifferentiableOn ℂ (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.h0 I) Vh :=
+    (differentiableOn_pi.2 fun _ => hh0d).mono hsub
+  have hg2 : DifferentiableOn ℂ (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.g2 I) Vh :=
+    differentiableOn_pi.2 fun _ => hdg
+  rw [p11DevH_eq, p11_partial_add hVho hh0 hg2 _ hP]
+  have hid := p11_dev_rho hC hnu heps hεM hA hzs h5 k (Fin.append α γ) J ρ hJ hρ
+  simp only [Pi.add_apply, hid]
+  have hz := p11_dev_Z_jet hC hnu heps hεM hA hzs k α γ J ρ hJ hρ
+  have hg := p11_prin_g2_jet hs2 heps hA α (γ + Pi.single k 1) J ρ hJ hρ
+  rw [← p11_dev_append_add] at hg
+  calc ‖(eps : ℂ) • (p11PartialVec (Fin.append α γ) (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+            (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun i : Fin n => I (Fin.castAdd n i)) k)
+            (Fin.append J ρ) +
+          p11PartialVec (Fin.append α γ) (p11Step (Fin.natAdd n k)
+            (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.Z I)) (Fin.append J ρ)) +
+        p11PartialVec (Fin.append α γ + Pi.single (Fin.natAdd n k) 1)
+          (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.g2 I) (Fin.append J ρ) -
+        (eps : ℂ) • p11PartialVec (Fin.append α γ) (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+          (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun i : Fin n => I (Fin.castAdd n i)) k)
+          (Fin.append J ρ)‖
+      = ‖(eps : ℂ) • p11PartialVec (Fin.append α γ) (p11Step (Fin.natAdd n k)
+            (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.Z I)) (Fin.append J ρ) +
+        p11PartialVec (Fin.append α γ + Pi.single (Fin.natAdd n k) 1)
+          (fun (I : P11CVec (n + n)) (_ : Fin 1) => A.g2 I) (Fin.append J ρ)‖ := by
+        congr 1; rw [smul_add]; abel
+    _ ≤ eps * p11DevZ C nu eps c α γ + p11DevG C nu eps c α (γ + Pi.single k 1) := by
+        refine (norm_add_le _ _).trans (add_le_add ?_ ?_)
+        · rw [norm_smul, Complex.norm_real, Real.norm_of_nonneg heps.le]
+          exact mul_le_mul_of_nonneg_left hz heps.le
+        · exact hg
+
 end Dev
 
 end KAM.Planetary
