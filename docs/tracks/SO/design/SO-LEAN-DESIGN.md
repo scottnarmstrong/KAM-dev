@@ -1,10 +1,11 @@
 # Lean design: the general torus-certificate black box and its lunar client (track SO)
 
-Design SO-DESIGN, **Revision 6**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
+Design SO-DESIGN, **Revision 7**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
 `d2352a2d`, audited FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-2.md`; Revision 3: `b442a912`, audited
 FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-3.md`; Revision 4: `5767956a`, audited PASS WITH NOTES in
 `docs/tracks/SO/audits/SO-DESIGN-audit-4.md`; Revision 5: `8a08ba30`, audited FAIL (F12, F13) in
-`docs/tracks/SO/audits/SO-DESIGN-audit-5.md`). This is planning evidence only. It claims no proof,
+`docs/tracks/SO/audits/SO-DESIGN-audit-5.md`; Revision 6: `a9af2ba2`, audited FAIL (F14) in
+`docs/tracks/SO/audits/SO-DESIGN-audit-6.md`). This is planning evidence only. It claims no proof,
 touches no frozen file and freezes nothing. Appendix A (the exact draft signatures, two files since
 Revision 5: engine "A-E" and lunar client "A-L") elaborates against the shared `inp` build with `sorry`
 bodies only (§9).
@@ -59,6 +60,22 @@ Revision 5 inputs (base `inp-design-so` `79ec938c`; `inp` read at `f8405551`, KA
 | `inp:KAM/Certificate/Arith/Interface.lean` | `ad54915c379aa1cea665672e250298fbcc6ca496e846a92d28d7e8b2e44287e0` |
 | `inp:KAM/Certificate/MatrixInv.lean` | `d5e94c5d279b356aed5aa6a02095772895051224416141c90b7e5e3652cec3cc` |
 | `inp:KAM/Certificate/Arith/Fixed.lean` | `c2896ac698f4f087981ff826da068ed3846ead29466dfaf3ce7c9fe2b9815a47` |
+
+## Revision 7
+
+Revision 7 is a targeted revision (base `d965c152`, audit 6 FAIL with F14 MEDIUM; F15 LOW). Every other
+Revision 2–6 contract is unchanged. Inputs:
+
+| Input | SHA-256 |
+|---|---|
+| `docs/tracks/SO/audits/SO-DESIGN-audit-6.md` | `8530622d1a4d22329c11cc9888bd9b93af3237f8027b039e83520c37329994dd` |
+| brief `SO-DESIGN-R7.md` | `66979862994657e6c0a343c6cb61323c0b0a7003f7422df2eddb5ddef720bdb4` |
+
+| Item | Change | Where |
+|---|---|---|
+| **F14** (MEDIUM) raw factor lengths | New `PackLayout.denseLen` (`1 + Σ (dims_j − 1)·stride_j`, `0` on an empty box) with `PackLayout.dense_length` (`dense` returns lists of that length), `listConv_length` (nonempty factors), `PackedAdvice.prodLen := la.denseLen + lb.denseLen − 1`, and `PackedAdvice.combined_length : combined.length = prodLen`: the overlap-add is zero-extended and cropped by `take prodLen` (documented on `combined`). `checkPackedProduct` now checks the RAW `da.length = la.denseLen`, `db.length = lb.denseLen`, both positive. **Empty-factor policy:** an empty raw factor or empty layout box is rejected; a zero factor is sent as zeros on a nonempty box or by the direct route. `checkPackedProduct_guards` exports these four raw-shape facts, so the first conjunct of `checkPackedProduct_sound` follows: `combined_length`, `prodLen`, `listConv_length`. `checkPackedProduct_sound` keeps its statement and sole premise (success). New negative contract `checkPackedProduct_raw_length`. §8 P5: audit 6's alias `[0]` versus `[0, 0]`, the short call rejected. | §8; A-E §B′ |
+| **F15** (LOW) units | §6: SO-GEN2's unscaled `B₀ = sup|ΔJ|` multiplied by `c = 237/125`: `≈ 2.37e-80 / 4.34e-80 ≤ e/4`. | §6 |
+| SO-POLY-A stability | **No SO-POLY-A declaration changes** (landed `KAM/Certificate/Poly/Packed.lean` untouched: `listConv`'s body already gives `listConv_length`, which is new, SO-POLY-B). All new declarations are SO-POLY-B; changed SO-POLY-B types: `checkPackedProduct_guards` (four added conjuncts); docstrings of `combined`, `checkPackedProduct`, `checkPackedProduct_sound`. | §7 |
 
 ## Revision 6
 
@@ -523,7 +540,9 @@ on the headline route.
   | `B₀` | `c · sup |ΔP₁|` | `B₀ ≤ e/4` (energy) |
   | `B₂` | `max(sup|∂ΔP₁|, sup|∂²ΔP₁|)` | **withdrawn (Revision 6)**: every norm (DK, Gram, torsion) is enclosed on the actual `K̃` including `J̃`; measured `8.1e-75 / 1.6e-74` |
 
-  **SO-GEN2's measured G-J (Revision 6, package R1):** `B₀ = 1.25e-80 / 2.29e-80 ≤ e/4`;
+  **SO-GEN2's measured G-J (Revision 6, package R1):** `B₀ = c · 1.25e-80 / c · 2.29e-80 ≈ 2.37e-80 /
+  4.34e-80 ≤ e/4 = 1.0075e-78 / 1.96e-78` (Revision 7, audit 6 F15: SO-GEN2 tabulates the UNSCALED
+  `sup|ΔJ|`, here multiplied by `c = 237/125`);
   `B₁ = 5.22e-79 / 8.62e-79`, `B_r = 6.8e-80 / 1.3e-79`, `B_c = c·η_{Q₀} = 4.3e-88 / 8.9e-88`, with
   `B_r + B₁ + B_c ≤ e/2`; the `Q₀, Q₁, P₀` rows plus `B_c` are `≤ e/2`, which is why **`e ≈ 2·c·η`**
   (the direct `P₁`-row enclosure is `c·η₄ = 5.6e-79 / 9.7e-79`). The gate passes.
@@ -750,6 +769,11 @@ fallback is the sharper theorem (HL19 torsion route plus Parseval, about 1e-52, 
   `= 2^scale` (the bound is attained). P4 (F13, negative): audit 5's blocks `A₀ = [1,1], A₁ = [0,0]`,
   `B₀ = [1,1], B₁ = [1,0]` at `scale = 0`, `w = 8`, advice `[1,2,0], [0,1,0], [0,0,0]`, fails
   `checkPackedProduct` (`checkPackedProduct_scale_zero`), although each window meets `2^(0−1) = 1`.
+  **Revision 7 (audit 6).** P5 (F14, padding alias): a two-slot factor layout (`la = lb`, `denseLen = 2`,
+  `blockLen = 2`), `w = 8`, `scale = 1`, full three-slot target, advice `[[0, 0, 0]]`. The call with
+  `da = db = [0, 0]` passes (`combined = [0, 0, 0]`, `listConv` length three); the call with
+  `da = db = [0]` (same blocks `[[0, 0]]` after `cut`, raw convolution length one) is REJECTED by the
+  raw-shape check (`checkPackedProduct_raw_length`), both `decide +kernel` in SO-TEST.
 - **Rotated client (Revision 5).** `soRotHamExpr_eval`, `soRotHamExpr_clock`, the two
   `lunarRotFreq*_eq` and `*_isDiophantine` are proved outright (no data). T2 is restated in the rotated
   frame as a second positive toy (`H = c(P₁ + P₀²/2 − P₀)`, `K = (θ, (ν̃, ν̃ − ν̃²/2))` with
@@ -1190,11 +1214,32 @@ def PackedAdvice.cut (adv : PackedAdvice) (d : List ℤ) : List (List ℤ) := so
 theorem PackedAdvice.cut_length {adv : PackedAdvice} {d : List ℤ} :
     ∀ x ∈ adv.cut d, x.length = adv.blockLen := sorry
 
+/-- **Canonical dense length** of a layout (Revision 7, audit 6 F14): `1 + Σ_j (dims_j - 1) ·
+stride_j` when every extent is positive, `0` on an empty box. Padding by `cut` forgets the raw
+factor length, so the whole check compares the RAW lists against this number. -/
+def PackLayout.denseLen (L : PackLayout) : ℕ := sorry
+
+theorem PackLayout.dense_length {L : PackLayout} {cs : List (CertKey × ℤ)} {d : List ℤ}
+    (h : L.dense cs = some d) : d.length = L.denseLen := sorry
+
+theorem listConv_length {a b : List ℤ} (ha : a ≠ []) (hb : b ≠ []) :
+    (listConv a b).length = a.length + b.length - 1 := sorry
+
+/-- Exact product length: `la.denseLen + lb.denseLen - 1` (both factors nonempty under the
+empty-factor policy of `checkPackedProduct`). -/
+def PackedAdvice.prodLen (adv : PackedAdvice) : ℕ := adv.la.denseLen + adv.lb.denseLen - 1
+
 /-- Per-slot log-bounds of shard `s`: `scale - 1` on target slots, `outLog` elsewhere. -/
 def PackedAdvice.shardLogs (adv : PackedAdvice) (s : ℕ) : ℕ → ℕ := sorry
 
-/-- Overlap-add of the shard windows: the combined rounded result, one entry per product slot. -/
+/-- Overlap-add of the shard windows: the combined rounded result, one entry per product slot.
+**Cropping (F14):** window `s` is added at offset `s · blockLen`; the sum is zero-extended and then
+cut by `take prodLen`, so it has EXACTLY `prodLen` entries (the cropped tail is zero advice by
+`shapeOK`: beyond the product window). -/
 def PackedAdvice.combined (adv : PackedAdvice) : List ℤ := sorry
+
+theorem PackedAdvice.combined_length (adv : PackedAdvice) :
+    adv.combined.length = adv.prodLen := sorry
 
 /-- Whether product slot `i` lies in the target box. -/
 def PackedAdvice.inBox (adv : PackedAdvice) (i : ℕ) : Bool := sorry
@@ -1220,14 +1265,18 @@ theorem checkShard_sound {adv : PackedAdvice} {A B : List (List ℤ)} {s : ℕ}
         |(shardConv adv.blockLen A B s).getD i 0 - 2 ^ adv.scale * (adv.rounded.getD s []).getD i 0|
           ≤ 2 ^ adv.shardLogs s i := sorry
 
-/-- The whole product: `shapeOK` (with `1 ≤ scale`), the dense factors cut by `cut`, and
-`checkShard` on every shard `s < (cut da).length + (cut db).length - 1`. -/
+/-- The whole product: `shapeOK` (with `1 ≤ scale`); **raw shapes (F14)** `da.length =
+la.denseLen`, `db.length = lb.denseLen`, both positive (empty-factor policy: an empty raw factor
+or an empty layout box is REJECTED; a zero factor is sent as zeros on a nonempty box, or by the
+direct route); the dense factors cut by `cut`; and `checkShard` on every shard
+`s < (cut da).length + (cut db).length - 1`. -/
 def checkPackedProduct (adv : PackedAdvice) (da db : List ℤ) : Bool := sorry
 
 /-- **Guards exported from success** (F12, F13): no premise but the check. -/
 theorem checkPackedProduct_guards {adv : PackedAdvice} {da db : List ℤ}
     (h : checkPackedProduct adv da db = true) :
     1 ≤ adv.scale ∧ adv.shapeOK = true ∧ 0 < adv.blockLen ∧
+      da.length = adv.la.denseLen ∧ db.length = adv.lb.denseLen ∧ 0 < da.length ∧ 0 < db.length ∧
       adv.rounded.length = (adv.cut da).length + (adv.cut db).length - 1 ∧
       ∀ s < (adv.cut da).length + (adv.cut db).length - 1,
         checkShard adv (adv.cut da) (adv.cut db) s = true := sorry
@@ -1236,11 +1285,19 @@ theorem checkPackedProduct_guards {adv : PackedAdvice} {da db : List ℤ}
 theorem checkPackedProduct_scale_zero {adv : PackedAdvice} (h0 : adv.scale = 0)
     (da db : List ℤ) : checkPackedProduct adv da db = false := sorry
 
+/-- F14 negative contract: a raw factor whose length is not its layout's dense length is rejected
+(this excludes the padding alias `[0]` versus `[0, 0]`, which `cut` maps to the same blocks). -/
+theorem checkPackedProduct_raw_length {adv : PackedAdvice} {da db : List ℤ}
+    (h : da.length ≠ adv.la.denseLen ∨ db.length ≠ adv.lb.denseLen) :
+    checkPackedProduct adv da db = false := sorry
+
 /-- **Rounding/remainder glue (slots).** A passing check (the ONLY premise) gives, slot by slot of
 the exact convolution, `|conv_i - 2^scale r_i| ≤ 2^scale` on the target box (at most two
 overlapping shard windows, each `≤ 2^(scale-1)`, and `1 ≤ scale` from the guards) and
-`|conv_i| ≤ 2^(outLog+1)` elsewhere (advice zero there). Route: `checkPackedProduct_guards`,
-`checkShard_sound` (via `shard_reconstruct`), `packSum_flatten_mul_shards`, overlap-add. -/
+`|conv_i| ≤ 2^(outLog+1)` elsewhere (advice zero there). The length conjunct follows from the
+exported raw shapes: `combined_length`, `prodLen` and `listConv_length` (F14). Route:
+`checkPackedProduct_guards`, `checkShard_sound` (via `shard_reconstruct`),
+`packSum_flatten_mul_shards`, overlap-add. -/
 theorem checkPackedProduct_sound {adv : PackedAdvice} {da db : List ℤ}
     (h : checkPackedProduct adv da db = true) :
     adv.combined.length = (listConv da db).length ∧ ∀ i < (listConv da db).length,
