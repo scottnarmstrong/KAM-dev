@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Iso.Charts.Apply
+public import KAM.Iso.Charts.Tori
 public import KAM.Iso.Confinement.RealHam
 public import KAM.Strip.RealRestriction
 
@@ -19,7 +20,11 @@ and `TorusOutput`, which carry the strip statements only.
 
 * `TorusOutput.realRestriction_analyticOnNhd`: T1, real-analytic clause.
 * `TorusOutput.realHamiltonian_realRestriction_eq`: T3 at real points.
-* `ToriSide.ig1_literal`: the conjunction T1, T2, T3, T5 with `ω_± ≠ 0`.
+* `ToriSide.ig1_literal`: the conjunction T1, T2, T3, T5 with `ω_± ≠ 0`; a conditional helper
+  (it takes the output bundle `ToriSide`), NOT the node export.
+* `Ig1Clauses`, `tori_ig1_node`: the node export `stepI:p3:tori-ig1`, stated from its source
+  hypotheses in source order (patch and ray, then the constants, then `f, ε, I₀, E`); the
+  `ToriSide` is constructed inside the proof by `apply` and `toriSide_of_applyOut`.
 -/
 
 public section
@@ -27,6 +32,7 @@ public section
 namespace KAM.Iso.Charts
 
 open KAM KAM.Torus KAM.Iso.Confinement
+open KAM.Head (Fconst)
 
 /-- `stepI:p3:tori-ig1`, T1: the real restriction `k = Re ∘ K ∘ ι` of the torus is real-analytic
 on all of `ℝ²`. -/
@@ -82,6 +88,93 @@ theorem ToriSide.ig1_literal {B : Set (Fin 2 → ℝ)} {s₀ r₀ : ℝ} {h : (F
     γ, ωs, st, sc, hγ, hD, hωt, hfr, hsc1, hsc2, hclose, hωs, ?_⟩
   rw [hωt]
   exact smul_ne_zero (by linarith) hωs
+
+/-- `stepI:p3:tori-ig1`, the literal conclusion for one sign on the FIXED ray `ω* = ωs`:
+T1 (holomorphic, primary, real on reals, real-analytic restriction); T2 (`E = 0`, `ω*` Diophantine,
+`ω = s ω*` with `1 < s < σ_ω`, `ω ≠ 0`); T3 (`H ∘ K = E` on the strip, `Ham_{h,f}(k(x)) = E` for
+real `x`); T5 (`h(I) = E`, `∇h(I) = s° ω*` with `2 < s° < 4 M_g/m_h`, `‖ω - ∇h(I)‖ ≤ C_K ε`, and
+`= |s - s°| ‖ω*‖`). -/
+@[expose] def Ig1Clauses (B : Set (Fin 2 → ℝ)) (s₀ : ℝ) (h : (Fin 2 → ℂ) → ℂ)
+    (B' : Set (Fin 2 → ℝ)) (f : (Fin 2 → ℂ) × (Fin 2 → ℂ) → ℂ) (ε C_K E γ : ℝ)
+    (ωs I : Fin 2 → ℝ) (K : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (st : ℝ) : Prop :=
+  (DifferentiableOn ℂ K (complexStrip 2 (rhoInf s₀)) ∧ IsPrimaryOnStrip K (rhoInf s₀) ∧
+    IsRealOnReals K ∧ AnalyticOnNhd ℝ (realRestriction K) Set.univ) ∧
+  ((∀ θ ∈ complexStrip 2 (rhoInf s₀), invarianceError (totalH h f) K (st • ωs) θ = 0) ∧
+    IsDiophantine γ 2 ωs ∧ 1 < st ∧ st < sigmaOmegaConst h B B' ∧ st • ωs ≠ 0) ∧
+  ((∀ θ ∈ complexStrip 2 (rhoInf s₀), totalH h f (K θ) = (E : ℂ)) ∧
+    ∀ x : Fin 2 → ℝ, realHamiltonian h f (realRestriction K x) = E) ∧
+  (realPart h I = E ∧ ∃ sc : ℝ, frequencyMap h I = sc • ωs ∧ 2 < sc ∧
+    sc < 4 * MgConst h B B' / mhConst h B B' ∧
+    ‖st • ωs - frequencyMap h I‖ ≤ C_K * ε ∧
+    ‖st • ωs - frequencyMap h I‖ = |st - sc| * ‖ωs‖)
+
+/-- `stepI:p3:tori-ig1` from its source hypotheses, in source order: the Part 3 setting (`hd`,
+`hne`, the premise `IG1Statement`), a patch and a ray of it, then the constants `C₁ C₂ C₃` of
+`apply` and the uniform `ε₁, C_K`, and only then `f, ε, I₀, E`. The tori are produced by `apply`
+(not assumed). -/
+theorem tori_ig1_node {B : Set (Fin 2 → ℝ)} {s₀ r₀ : ℝ} {h : (Fin 2 → ℂ) → ℂ}
+    {B' : Set (Fin 2 → ℝ)} {η : ℝ} (hd : HeadData B s₀ r₀ h B' η) (hne : B'.Nonempty)
+    (hG1 : IG1Statement) {δE δm ρc : ℝ} {c : Fin 2 → ℝ} {W : Set (Fin 2 → ℝ)}
+    {Ψ : ℝ × ℝ → Fin 2 → ℝ} (hp : IsPatch h B r₀ B' (eta1 η B B') c W Ψ δE δm ρc) {γ m : ℝ}
+    {ωs : Fin 2 → ℝ} (hray : IsRay h B B' c γ ωs m) (hm : |m| < δm) :
+    ∃ C₁ C₂ C₃ : ℝ, 0 < C₁ ∧ 0 < C₂ ∧ 0 < C₃ ∧
+      ∀ C_K ε₁ : ℝ, 0 < C_K → Fconst 2 s₀ r₀ 1 * max C₂ C₃ / (γ ^ 2 * rhoIso s₀ ^ 4) ≤ C_K →
+        ε₁ ≤ 1 → ε₁ ≤ epsT h B B' s₀ r₀ → ε₁ ≤ δE / 2 →
+        ε₁ ≤ γ ^ 4 * rhoIso s₀ ^ 8 / (C₁ * Fconst 2 s₀ r₀ 1) →
+        ε₁ ≤ eta1 η B B' / (2 * C_K) →
+        ∀ (f : (Fin 2 → ℂ) × (Fin 2 → ℂ) → ℂ) (ε : ℝ), PerturbData B s₀ r₀ f ε → ε < ε₁ →
+          ∀ I₀ ∈ closure B', ‖I₀ - c‖ < ρc → ∀ E : ℝ, |E - realPart h I₀| ≤ ε →
+            ∃ (K : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (st : ℝ),
+              Ig1Clauses B s₀ h B' f ε C_K E γ ωs (Ψ (E, m)) K st := by
+  have hs := hd.hs
+  obtain ⟨C₁, C₂, C₃, h1, h2, h3, hA⟩ := applyLocal_exists hd hne hG1 hp hray hm
+  refine ⟨C₁, C₂, C₃, h1, h2, h3, fun C_K ε₁ hCKpos hCK hε1 hεT hεδ hεC hεη f ε hf hε I₀ hI₀ hI₀c
+    E hE => ?_⟩
+  have hE' : |E - realPart h c| ≤ δE := by
+    have := (hp.ball_h I₀ (mem_ball_iff_norm.2 hI₀c))
+    have h2' : ε < δE / 2 := hε.trans_le hεδ
+    calc |E - realPart h c| ≤ |E - realPart h I₀| + |realPart h I₀ - realPart h c| :=
+          abs_sub_le _ _ _
+      _ ≤ δE := by linarith
+  have hεK : C_K * ε < eta1 η B B' / 2 := by
+    have := hε.trans_le hεη
+    rw [lt_div_iff₀ (by positivity)] at this
+    linarith
+  obtain ⟨Kinf, sinf, hout⟩ := hA f ε hf (hε.le.trans hε1) (hε.le.trans hεT)
+    (hε.trans_le hεC) E hE'
+  have hT := toriSide_of_applyOut hd hne hp hray hm hCK hf.nonneg hI₀ hI₀c hE' hεK
+    (C₂ := C₂) (C₃ := C₃) hout
+  obtain ⟨-, -, hIE, -, hpar, hsc2, hsc4, -⟩ := points hd hne hp hray hm hE'
+  obtain ⟨hs1, hs2, -, -, -, -, -, -, hsc⟩ := hout
+  have hωs : ωs ≠ 0 := by
+    intro h0
+    have := hray.2.2.2.2.1
+    rw [h0, norm_zero] at this
+    obtain ⟨-, -, -, -, hmh, -⟩ := compact hd hne
+    linarith
+  have hclose : ‖sinf • ωs - frequencyMap h (Ψ (E, m))‖ ≤ C_K * ε := by
+    rw [hpar]
+    refine hsc.trans ?_
+    calc C₃ * (Fconst 2 s₀ r₀ 1 * ε) / (γ ^ 2 * rhoIso s₀ ^ 4)
+        ≤ max C₂ C₃ * (Fconst 2 s₀ r₀ 1 * ε) / (γ ^ 2 * rhoIso s₀ ^ 4) := by
+          have hε0 : 0 ≤ ε := hf.nonneg
+          have hF := ApplyAux.one_le_Fconst hs hd.hr
+          have hγ := hray.1
+          have hF0 : 0 ≤ Fconst 2 s₀ r₀ 1 * ε := by positivity
+          have hD : 0 < γ ^ 2 * rhoIso s₀ ^ 4 := by
+            have := ApplyAux.rhoIso_pos hs
+            positivity
+          exact div_le_div_of_nonneg_right
+            (mul_le_mul_of_nonneg_right (le_max_right _ _) hF0) hD.le
+      _ = (Fconst 2 s₀ r₀ 1 * max C₂ C₃ / (γ ^ 2 * rhoIso s₀ ^ 4)) * ε := by ring
+      _ ≤ C_K * ε := mul_le_mul_of_nonneg_right hCK hf.nonneg
+  refine ⟨Kinf, sinf, ⟨hT.holo, hT.primary, hT.real,
+      hT.toTorusOutput.realRestriction_analyticOnNhd hs⟩,
+    ⟨hT.invariant, hray.2.1, hs1, hs2, smul_ne_zero (by linarith) hωs⟩,
+    ⟨hT.energy, hT.toTorusOutput.realHamiltonian_realRestriction_eq hs⟩, hIE,
+    ‖frequencyMap h (Ψ (E, m))‖ / ‖ωs‖, hpar, hsc2, hsc4, hclose, ?_⟩
+  conv_lhs => rw [hpar]
+  rw [← sub_smul, norm_smul, Real.norm_eq_abs]
 
 end KAM.Iso.Charts
 
