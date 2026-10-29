@@ -16,8 +16,7 @@ public import KAM.Strip.Bridges
 Blueprint Part 2, Lemma `bp:p2:frozen-agreement`. The frozen definitions `KAM.gramMatrix`,
 `KAM.normalFrame`, `KAM.invarianceError`, `KAM.torsion` and `KAM.torsionAverage` are written with
 pairs `ℂⁿ × ℂⁿ`, `dotℂ`, `omegaZero` and entrywise integrals. This file proves that they are the
-matrix objects of `KAM/Torus/Objects.lean` (design `docs/campaign/design/PART23-LEAN-DESIGN.md`,
-§1.5):
+matrix objects of `KAM/Torus/Objects.lean`:
 
 * `KAM.Torus.gramMatrix_eq_tangentMat_transpose_mul`: `G = Lᵀ L`;
 * `KAM.Torus.sumVec_normalFrame`: column `j` of `N` is `normalFrame K θ j`;
@@ -198,7 +197,7 @@ theorem frozen_agreement (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
       gramMatrix K θ * (gramMatrix K θ)⁻¹ = 1 ∧ (gramMatrix K θ)⁻¹ * gramMatrix K θ = 1) ∧
     (Continuous (fun x : Fin n → ℝ => torsion h K ω (fun i => (x i : ℂ))) →
       torsionAverage h K ω = avg (torsion h K ω)) := by
-  -- `0 < r` is the strip-width convention (design L5); no item needs it.
+  -- `0 < r` is the strip-width convention; no item needs it.
   have _hr : 0 < r := hr
   exact ⟨gramMatrix_eq_tangentMat_transpose_mul K, sumVec_normalFrame K,
     sumVec_invarianceError h K ω,

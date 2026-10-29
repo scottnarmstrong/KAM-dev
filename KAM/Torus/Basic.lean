@@ -22,8 +22,7 @@ import Mathlib.Tactic.Positivity
 # Carriers for Parts 2 and 3: the isometry `ℂⁿ × ℂⁿ ≃ ℂ^{n ⊕ n}`, predicates, averages
 
 The frozen definitions use pairs `(Fin n → ℂ) × (Fin n → ℂ)` as phase points, while the matrix
-layer of Part 1 indexes `2n × 2n` matrices by `Fin n ⊕ Fin n`. This file fixes the dictionary
-(design `docs/campaign/design/PART23-LEAN-DESIGN.md`, §1.2 and §1.5).
+layer of Part 1 indexes `2n × 2n` matrices by `Fin n ⊕ Fin n`. This file fixes the dictionary.
 
 * `KAM.Torus.sumVec`: the linear equivalence `(a, b) ↦ Sum.elim a b`, isometric for the max
   norms (`KAM.Torus.norm_sumVec`).
@@ -33,7 +32,7 @@ layer of Part 1 indexes `2n × 2n` matrices by `Fin n ⊕ Fin n`. This file fixe
 * `KAM.Torus.fderiv_sumVec_apply`, `KAM.Torus.dotℂ_eq_dotProduct_sumVec`: `sumVec` commutes with
   `fderiv`, and the frozen bilinear dot product is the dot product of the `sumVec`-images.
 * `KAM.Torus.IsPeriodicOn`, `IsRealVec`, `IsRealMat`, `avg`: the shared hypothesis forms of
-  periodicity, realness and averaging (design §1.4).
+  periodicity, realness and averaging.
 * `KAM.Torus.cauchy_transpose_fintype`: the Cauchy estimate for the transposed Jacobian of a
   map into `ι → ℂ`, for any finite index type `ι`.
 * `KAM.Torus.primary_coordinatewise` and `KAM.Torus.isRealVec_sumVec_iff`: conversions from the
