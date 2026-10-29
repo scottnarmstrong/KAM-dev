@@ -49,6 +49,7 @@ public import KAM.Canonical.VectorField
 public import KAM.Certificate.Arith.ComplexExp
 public import KAM.Certificate.Arith.Fixed
 public import KAM.Certificate.Arith.Interface
+public import KAM.Certificate.Arith.Mantissa
 public import KAM.Certificate.Arith.PiEnclosure
 public import KAM.Certificate.Arith.PiHigh
 public import KAM.Certificate.Arith.Rat
@@ -63,6 +64,7 @@ public import KAM.Certificate.Expr.Basic
 public import KAM.Certificate.Expr.Diff
 public import KAM.Certificate.Expr.DiffBuild
 public import KAM.Certificate.Expr.DiffCalculus
+public import KAM.Certificate.Expr.DiffCalculus3
 public import KAM.Certificate.Expr.DiffNode
 public import KAM.Certificate.Expr.Slp
 public import KAM.Certificate.Freq
@@ -71,6 +73,7 @@ public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.NormBridge
 public import KAM.Certificate.PhaseBasis
 public import KAM.Certificate.Poly.Basic
+public import KAM.Certificate.Poly.Packed
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Tests.Ball
 public import KAM.Certificate.Tests.ComplexExp
@@ -1290,6 +1293,7 @@ public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
+public import KAM.SpinOrbit.RotFreq
 public import KAM.SpinOrbit.Rotated
 public import KAM.SpinOrbit.ScalarEmbedding
 public import KAM.Strip.Analytic

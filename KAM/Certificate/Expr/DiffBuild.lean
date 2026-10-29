@@ -311,6 +311,33 @@ theorem slpTab2_spec {S : Set Ph} {s0 : List SlpOp} (f : ℕ → ℕ → SlpComp
   rw [e]
   exact hQ j hj
 
+/-- A table of `2n × 2n × 2n` slots. -/
+def slpTab3 (n : ℕ) (f : ℕ → ℕ → ℕ → SlpComp) (s : List SlpOp) :
+    List SlpOp × List (List (List (Option ℕ))) :=
+  slpMapSt (fun i s => slpTab2 n (f i) s) (List.range (2 * n)) s
+
+theorem slpTab3_spec {S : Set Ph} {s0 : List SlpOp} (f : ℕ → ℕ → ℕ → SlpComp)
+    (G : ℕ → ℕ → ℕ → Ph → ℂ)
+    (hf : ∀ i < 2 * n, ∀ j < 2 * n, ∀ k < 2 * n, SlpEnt n S s0 (f i j k) (G i j k))
+    {s : List SlpOp} (hs : s0 <+: s) :
+    s <+: (slpTab3 n f s).1 ∧ ∀ i < 2 * n, ∀ j < 2 * n, ∀ k < 2 * n,
+      Realizes n S (slpTab3 n f s).1
+        ((((slpTab3 n f s).2.getD i []).getD j []).getD k none) (G i j k) := by
+  obtain ⟨p, -, h⟩ := slpMapSt_spec (fun i s => slpTab2 n (f i) s) (List.range (2 * n))
+    (fun i s' tab => ∀ j < 2 * n, ∀ k < 2 * n,
+      Realizes n S s' ((tab.getD j []).getD k none) (G i j k))
+    (fun i _ s' tab hss h j hj k hk => (h j hj k hk).mono hss) s0
+    (fun i hi s' hs' => slpTab2_spec (f i) (G i) (hf i (List.mem_range.1 hi)) hs') s hs
+  refine ⟨p, fun i hi j hj k hk => ?_⟩
+  obtain ⟨a, ha, hQ⟩ := h i (by simpa using hi)
+  simp only [List.getElem_range] at hQ
+  have e : (slpTab3 n f s).2.getD i [] = a := by
+    simp only [slpTab3]
+    rw [List.getD_eq_getElem?_getD, ha]
+    rfl
+  rw [e]
+  exact hQ j hj k hk
+
 end KAM.Certificate
 
 end
