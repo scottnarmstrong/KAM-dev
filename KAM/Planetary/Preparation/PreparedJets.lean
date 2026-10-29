@@ -439,6 +439,84 @@ theorem p11_prin_C_diff (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps
   field_simp
   ring
 
+/-- Step pr-in (i), sharp form: `|∂_J^β C| ≤ M_F β! (4/s₂)^{|β|}` on `|J - J₀| < s₂/4`
+(Cauchy radius `s₂/4`; the constant term `C` of `Ĝ₀`). -/
+theorem p11_prin_C_jet (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
+    {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
+    (hsmall : 2 * Real.pi * eps < Real.pi * C.rz ^ 2 / 16)
+    (hA : P11SlowSpecOf C Fast nu eps c A) (β : Fin n → ℕ) (J : P11CVec n)
+    (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4) :
+    ‖p11PartialVec β (fun (J : P11CVec n) (_ : Fin 1) => C.C J) J‖ ≤
+      (∏ i, ((β i).factorial : ℝ)) * C.MF / (p11s2 C nu eps / 4) ^ (∑ i, β i) := by
+  obtain ⟨hK, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  have hspec := p11s2_spec hC hK
+  have hs1r := p11s1_le C eps
+  have hdiff := p11_prin_C_diff hC hnu heps hεM hsmall hA
+  have hg : DifferentiableOn ℂ (fun (J : P11CVec n) (_ : Fin 1) => C.C J)
+      (ball (KAM.realInclusion n C.J0) (p11s2 C nu eps)) := differentiableOn_pi.2 fun _ => hdiff
+  have hcl : closedBall J (p11s2 C nu eps / 4) ⊆
+      ball (KAM.realInclusion n C.J0) (p11s2 C nu eps) := by
+    intro y hy
+    rw [mem_closedBall_iff_norm] at hy
+    rw [mem_ball_iff_norm]
+    have := norm_sub_le_norm_sub_add_norm_sub y J (KAM.realInclusion n C.J0)
+    linarith
+  have hM : ∀ w ∈ ball (KAM.realInclusion n C.J0) (p11s2 C nu eps),
+      ‖(fun _ : Fin 1 => C.C w)‖ ≤ C.MF := fun w hw => by
+    rw [pi_norm_const]
+    refine p11_prin_C_bound hC w ?_
+    rw [mem_ball_iff_norm] at hw
+    obtain ⟨-, -, -, hrC0, -⟩ := fast_consts hC
+    linarith [hspec.1]
+  exact p11PartialVec_norm_le isOpen_ball hg (by positivity) hcl hM β
+
+/-- Step pr-in (i), logarithmic form: `|∂_J^β C| ≤ c β! ℓ^{(τ₀+1)|β|}`. -/
+theorem p11_prin_C_jet_log (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ c0 : ℝ, 0 < c0 ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) →
+      2 * Real.pi * eps < Real.pi * C.rz ^ 2 / 16 → P11SlowSpecOf C Fast nu eps c A →
+      ∀ (β : Fin n → ℕ) (J : P11CVec n),
+        ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4 →
+        ‖p11PartialVec β (fun (J : P11CVec n) (_ : Fin 1) => C.C J) J‖ ≤
+          (∏ i, ((β i).factorial : ℝ)) * C.MF * (4 / c0) ^ (∑ i, β i) *
+            Real.log (1 / eps) ^ ((C.tau + 1) * ((∑ i, β i : ℕ) : ℝ)) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, -, -, hMF⟩ := fast_consts hC
+  have hL0 : 0 < C.L := by linarith
+  have hπ := Real.pi_pos
+  have hν0 : 0 < nu := by linarith
+  refine ⟨min (min C.rC (C.gamma / (4 * C.L)) / (4 * (6 / (Real.pi * C.sigma)) ^ (C.tau + 1)))
+      (C.gamma / (8 * C.L * (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1))),
+    lt_min (div_pos (lt_min hrC0 (by positivity)) (by positivity)) (by positivity), ?_⟩
+  intro Fast eps c A heps hεM hsmall hA β J hJ
+  set c0 := min (min C.rC (C.gamma / (4 * C.L)) / (4 * (6 / (Real.pi * C.sigma)) ^ (C.tau + 1)))
+      (C.gamma / (8 * C.L * (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1))) with hc0def
+  have hc00 : 0 < c0 :=
+    lt_min (div_pos (lt_min hrC0 (by positivity)) (by positivity)) (by positivity)
+  obtain ⟨-, -, hs2⟩ := slow_pos hC hnu heps hεM
+  have hl1 := slow_log_ge_one hC heps hεM
+  have hl0 : 0 < Real.log (1/eps) := by linarith
+  have hlow := p11s2_log_lower hC (nu := nu) hν0 heps hεM
+  have h := p11_prin_C_jet hC hnu heps hεM hsmall hA β J hJ
+  set l := Real.log (1/eps) with hl
+  set t := l ^ (C.tau + 1) with ht
+  have ht0 : 0 < t := Real.rpow_pos_of_pos hl0 _
+  set a := ∑ i, β i
+  have hS : (p11s2 C nu eps / 4)⁻¹ ≤ 4 / c0 * t := by
+    have : c0 / (4 * t) ≤ p11s2 C nu eps / 4 := by
+      calc c0 / (4 * t) = c0 / t / 4 := by field_simp
+        _ ≤ p11s2 C nu eps / 4 := div_le_div_of_nonneg_right hlow (by norm_num)
+    have h2 := inv_anti₀ (by positivity) this
+    calc _ ≤ (c0 / (4 * t))⁻¹ := h2
+      _ = 4 / c0 * t := by field_simp
+  have hq : l ^ ((C.tau + 1) * (a : ℝ)) = t ^ a := by
+    rw [Real.rpow_mul hl0.le, Real.rpow_natCast]
+  rw [hq]
+  refine h.trans ?_
+  rw [div_eq_mul_inv, ← inv_pow]
+  have hP : 0 ≤ (∏ i, ((β i).factorial : ℝ)) * C.MF := by positivity
+  calc _ ≤ (∏ i, ((β i).factorial : ℝ)) * C.MF * (4 / c0 * t) ^ a := by gcongr
+    _ = _ := by rw [mul_pow]; ring
+
 end PrIn
 
 end KAM.Planetary
