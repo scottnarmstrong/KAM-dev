@@ -303,7 +303,7 @@ LAYERS = [
     (r"forbidden opaque", "lint:opaque"), (r"resource-limit", "lint:resource-limit"),
     (r"EuclideanSpace", "lint:EuclideanSpace"), (r"over 100 characters", "lint:line-length"),
     (r"over 1500 lines", "lint:file-size"), (r"KAM\.lean is out of date", "gen_root_imports"),
-    (r"ERRATA-AND-DEVIATIONS\.md is out of date", "render_errata"), (r"check_lean_modules: FAIL", "check_lean_modules"),
+    (r"working-record\.md is out of date", "render_errata"), (r"check_lean_modules: FAIL", "check_lean_modules"),
     (r"FROZEN-ANCHOR GUARD FAILED", "check_frozen_anchors"),
     (r"Lean files under KAM/Frozen without any manifest anchor", "lint:empty-manifest"),
     (r"ABI DRIFT", "abi_hashes"),
