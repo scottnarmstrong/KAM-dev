@@ -508,6 +508,8 @@ public import KAM.Planetary.Exponential.Perturbation
 public import KAM.Planetary.Exponential.RealDomain
 public import KAM.Planetary.Exponential.Setting
 public import KAM.Planetary.Exponential.UniformData
+public import KAM.Planetary.FixedAssembly.Data
+public import KAM.Planetary.FixedAssembly.TwoPlanet
 public import KAM.Planetary.Hamiltonian.Algebra
 public import KAM.Planetary.Hamiltonian.Chart
 public import KAM.Planetary.Hamiltonian.Diophantine
@@ -852,6 +854,20 @@ public import KAM.Planetary.Preparation.RectangularAverageDomain
 public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
+public import KAM.Planetary.Preparation.Slow
+public import KAM.Planetary.Preparation.SlowAverage
+public import KAM.Planetary.Preparation.SlowAverageDom
+public import KAM.Planetary.Preparation.SlowAverageF2
+public import KAM.Planetary.Preparation.SlowAverageJet
+public import KAM.Planetary.Preparation.SlowAverageKey
+public import KAM.Planetary.Preparation.SlowAverageOsc
+public import KAM.Planetary.Preparation.SlowAverageReal
+public import KAM.Planetary.Preparation.SlowAverageW
+public import KAM.Planetary.Preparation.SlowAverageZ
+public import KAM.Planetary.Preparation.SlowCauchy
+public import KAM.Planetary.Preparation.SlowData
+public import KAM.Planetary.Preparation.SlowJets
+public import KAM.Planetary.Preparation.SlowMean
 public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.Quantitative.Budget
 public import KAM.Planetary.Quantitative.BudgetAdmissible
@@ -1078,6 +1094,7 @@ public import KAM.Planetary.WeakKAM.Limit
 public import KAM.Planetary.WeakKAM.LimitProps
 public import KAM.Planetary.WeakKAM.LimitSeries
 public import KAM.Planetary.WeakKAM.ParameterLipschitz
+public import KAM.Planetary.WeakKAM.PolynomialBudget
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakKAM.Selection
 public import KAM.Planetary.WeakKAM.SelectionRecord
