@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 16:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **260,375 lines of Lean** of an estimated ≈ 271,000
+> **Last updated: 2026-10-29 16:16 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **260,375 lines of Lean** of an estimated ≈ 272,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -195,16 +195,16 @@ Overall, both together: 89.1 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **260,375** (203,735 excluding blank lines and comments) · **+113,847** since 2026-10-28 15:41 UTC |
-| Written on agent branches, not yet landed | 0 |
-| **Estimated total at completion** | **≈ 271,000** |
+| On `main` now | **260,375** (203,735 excluding blank lines and comments) · **+112,911** since 2026-10-28 16:01 UTC |
+| Written on agent branches, not yet landed | 1,523 |
+| **Estimated total at completion** | **≈ 272,000** |
 | Estimated still to write | ≈ 10,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:00 UTC from `main` at `86cf4006` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:16 UTC from `main` at `2e00eef7` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -238,7 +238,7 @@ Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md
 | **K** | Positive-measure KAM for nearly-integrable analytic Hamiltonians, complement ≤ C·ε^{1/4} | 5 / 5 | 453 / 453 nodes resolved | **complete**: blueprint, graph and all five frozen theorems sealed (2026-10-28) |
 | **I** | All-time confinement in two degrees of freedom (isoenergetic KAM); restricted circular planar three-body problem | 4 / 4 | 450 / 450 nodes resolved | **complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form |
 | **N** | Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n) | 6 / 6 | 470 / 728 nodes resolved | **complete**: all six frozen theorems sealed; the last, partialConvex_nekhoroshev, was sealed by Zohar's team (commit a88de4b6, merged with their PR #7 on 2026-10-29); graph sync for their N11 work pending |
-| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 7 / 7 | 1335 / 1363 nodes resolved | **one frozen theorem left**: planetaryExponentialSafety, now unblocked by the N seal; its last packages E11 (stopped) and E12 (safety) are being proved; open graph nodes are its steps and owner-review items |
+| **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 7 / 7 | 1351 / 1363 nodes resolved | **one frozen theorem left**: planetaryExponentialSafety, now unblocked by the N seal; its last packages E11 (stopped) and E12 (safety) are being proved; open graph nodes are its steps and owner-review items |
 | **SO** | A general Lean certificate checker turning numerical KAM tori into theorems; the Moon's spin rate stays within 3.3% of its orbital rate for all time | 0 / 0 | not published yet | **started 2026-10-29 (D30)**: plan [`SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); model, Diophantine bounds, clock lemma, π enclosures, constants, generator data, arithmetic interface and barrier theorem landed or landing; design of the general black box in its third audit; replay-cost gate under study |
 <!-- /AUTO:tracks -->
 
@@ -383,8 +383,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: I-GUARDS: kernel_replay.sh and guard_mutation_suite (WIP) | `inp-iguards` | 1 (vs `inp`) |
-| **pclose** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: P graph closure: audit request for the 28 open graph P nodes | `inp-pclose` | 1 (vs `inp`) |
-| **sodatapy** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-PY: Python mirror of the Revision 7 packed-product checks, advice builder, unit te | `inp-sodatapy` | 1 (vs `inp`) |
+| **pcloselean** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: P-CLOSE-LEAN: export geometry_radial and sb_cov_full for graph P nodes | `inp-pcloselean` | 1 (vs `inp`) |
+| **sodatapy** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-PY: product recorder, advice emitter with verification and negative tests, option- | `inp-sodatapy` | 2 (vs `inp`) |
+| **sopolyb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-POLY-B: Poly/OverlapAdd (exact overlap-add of shards, checkPackedProduct_sound) | `inp-sopolyb` | 3 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -394,6 +395,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 16:16 | `2e00eef7` | D31: owner rulings on the graph P definition and convention nodes; OVERNIGHT 16:10 (all 22 frozen theorems sealed) |
+| 2026-10-29 16:10 | `e4dd2117` | Land inp into main |
 | 2026-10-29 16:00 | `86cf4006` | README: main theorem 1 states the boundary-regularity premise |
 | 2026-10-29 15:59 | `4eecace1` | README: Main theorems section (two per track, plain-language statements linked to the exact frozen Lean declarations) |
 | 2026-10-29 15:54 | `52633b9d` | Land inp into main |
@@ -404,8 +407,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 15:30 | `9c9824e1` | Land inp into main |
 | 2026-10-29 15:28 | `aecaca56` | HQ: track SO package names in the live list; gates text |
 | 2026-10-29 15:28 | `e05cbb60` | HQ: track SO in the completion estimate (original project / track SO / overall), its own work items (progress-SO.json, auto from landed packages), SO block at the top of At a glance, SO in the size estimate |
-| 2026-10-29 15:25 | `67d0c001` | Land inp into main |
-| 2026-10-29 15:22 | `5142afbd` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
