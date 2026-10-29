@@ -176,6 +176,134 @@ def torsionModels {α : Type} [CertArith α] (n : ℕ) (e : HamExpr n) (K : Cert
 
 end Defs
 
+/-! ### Model matrices: entries and enclosures -/
+
+section Generic
+
+variable {α : Type} [CertArith α]
+
+theorem buildMat_entry {r c : ℕ} (f : ℕ → ℕ → CertModel α) {i j : ℕ} (hi : i < r) (hj : j < c) :
+    modelMatrixEntry (buildMat r c f) i j = f i j := by
+  simp [modelMatrixEntry, buildMat, hi, hj]
+
+omit [CertArith α] in
+theorem buildMat_lookup {r c : ℕ} (f : ℕ → ℕ → CertModel α) {i j : ℕ} (hi : i < r)
+    (hj : j < c) : ((buildMat r c f)[i]?.bind fun row => row[j]?) = some (f i j) := by
+  simp [buildMat, hi, hj]
+
+omit [CertArith α] in
+theorem buildMat_hasShape (k : ℕ) (f : ℕ → ℕ → CertModel α) :
+    ModelMatrix.HasShape k (buildMat k k f) := by
+  refine ⟨by simp [buildMat], fun row hrow => ?_⟩
+  obtain ⟨i, -, rfl⟩ := List.mem_map.mp hrow
+  simp
+
+/-- Entrywise enclosure of a matrix-valued function through `modelMatrixEntry` (row and column
+index maps `ri`, `ci`). -/
+def ModelMatrix.EntryEncloses (n : ℕ) (ρ : ℝ) {ι κ : Type*} (ri : ι → ℕ) (ci : κ → ℕ)
+    (M : ModelMatrix α) (F : (Fin n → ℂ) → Matrix ι κ ℂ) : Prop :=
+  ∀ i j, (modelMatrixEntry M (ri i) (ci j)).Encloses n ρ (fun θ => F θ i j)
+
+theorem phaseNat_finSumFinEquiv_symm {n : ℕ} (k : Fin (n + n)) :
+    phaseNat (finSumFinEquiv.symm k) = k.val := by
+  obtain ⟨x, rfl⟩ := finSumFinEquiv.surjective k
+  rw [Equiv.symm_apply_apply]
+  rcases x with x | x <;> simp [phaseNat, add_comm]
+
+theorem phaseNat_lt_add {n : ℕ} (a : Fin n ⊕ Fin n) : phaseNat a < n + n := by
+  rcases a with a | a <;> simp only [phaseNat] <;> omega
+
+variable [LawfulCertArith α]
+
+omit [LawfulCertArith α] in
+theorem CertModel.Encloses.of_eqOn {n : ℕ} {ρ : ℝ} {m : CertModel α} {f g : (Fin n → ℂ) → ℂ}
+    (h : m.Encloses n ρ f) (hfg : ∀ θ ∈ complexStrip n ρ, f θ = g θ) : m.Encloses n ρ g :=
+  fun θ hθ => by rw [← hfg θ hθ]; exact h θ hθ
+
+theorem CertModel.Encloses.negM {n : ℕ} {ρ : ℝ} {a : CertModel α} {f : (Fin n → ℂ) → ℂ}
+    (h : a.Encloses n ρ f) : a.negM.Encloses n ρ (fun θ => -f θ) := by
+  intro θ hθ
+  have := h θ hθ
+  simp only [CertModel.negM, CertPoly.eval_negP]
+  rw [show -f θ - (2 * (Real.pi : ℂ)) ^ a.deg * -a.poly.eval n θ =
+    -(f θ - (2 * (Real.pi : ℂ)) ^ a.deg * a.poly.eval n θ) by ring, norm_neg]
+  exact this
+
+variable {n : ℕ} {W : CertWeight} {s N : ℕ} {pe : PiEnclosure α} {ι κ μ : Type*}
+  {ri : ι → ℕ} {ci : κ → ℕ}
+
+theorem ModelMatrix.EntryEncloses.mul [Fintype μ] (hW : checkWeight W s N = true)
+    (cfg : ModelConfig α) (hpe : checkPiEnclosure pe = true) (key : ProductKey) {r m c : ℕ}
+    (hri : ∀ i, ri i < r) (hci : ∀ j, ci j < c) {mi : μ → ℕ} (e : Fin m ≃ μ)
+    (he : ∀ k, mi (e k) = k.val) {A B : ModelMatrix α} {FA : (Fin n → ℂ) → Matrix ι μ ℂ}
+    {FB : (Fin n → ℂ) → Matrix μ κ ℂ} (hA : A.EntryEncloses n W.rho ri mi FA)
+    (hB : B.EntryEncloses n W.rho mi ci FB) :
+    (modelMatMul W cfg pe key r m c A B).EntryEncloses n W.rho ri ci
+      (fun θ => FA θ * FB θ) := by
+  intro i j
+  rw [modelMatMul, buildMat_entry _ (hri i) (hci j)]
+  let L : EnclosedList α n := List.ofFn fun k : Fin m =>
+    (CertModel.mul W cfg (key ++ [ri i, ci j, k.val]) (modelMatrixEntry A (ri i) k.val)
+      (modelMatrixEntry B k.val (ci j)), fun θ => FA θ i (e k) * FB θ (e k) j)
+  have hL : ∀ p ∈ L, p.1.Encloses n W.rho p.2 := by
+    intro p hp
+    obtain ⟨k, rfl⟩ := (List.mem_ofFn' _ _).mp hp
+    have h1 := hA i (e k)
+    have h2 := hB (e k) j
+    rw [he] at h1 h2
+    exact CertModel.Encloses.mul hW cfg _ h1 h2
+  have := (modelSum_encloses hW hpe L hL).toDeg hW hpe 0
+  have hfst : L.map Prod.fst = List.ofFn fun k : Fin m =>
+      CertModel.mul W cfg (key ++ [ri i, ci j, k.val]) (modelMatrixEntry A (ri i) k.val)
+        (modelMatrixEntry B k.val (ci j)) := by
+    simp only [L, List.map_ofFn]
+    rfl
+  rw [hfst] at this
+  refine this.of_eq_fun fun θ => ?_
+  simp only [L, List.map_ofFn, List.sum_ofFn, Function.comp_def, Matrix.mul_apply]
+  exact e.sum_comp (fun k => FA θ i k * FB θ k j)
+
+theorem ModelMatrix.EntryEncloses.add (hW : checkWeight W s N = true)
+    (hpe : checkPiEnclosure pe = true) {r c : ℕ} (hri : ∀ i, ri i < r) (hci : ∀ j, ci j < c)
+    {A B : ModelMatrix α} {FA FB : (Fin n → ℂ) → Matrix ι κ ℂ}
+    (hA : A.EntryEncloses n W.rho ri ci FA) (hB : B.EntryEncloses n W.rho ri ci FB) :
+    (modelMatAdd W pe r c A B).EntryEncloses n W.rho ri ci (fun θ => FA θ + FB θ) := by
+  intro i j
+  rw [modelMatAdd, buildMat_entry _ (hri i) (hci j)]
+  exact ((hA i j).addMixed hW hpe (hB i j)).of_eq_fun fun θ => by simp [Matrix.add_apply]
+
+theorem ModelMatrix.EntryEncloses.neg {ρ : ℝ} {r c : ℕ} (hri : ∀ i, ri i < r)
+    (hci : ∀ j, ci j < c) {A : ModelMatrix α} {F : (Fin n → ℂ) → Matrix ι κ ℂ}
+    (hA : A.EntryEncloses n ρ ri ci F) :
+    (modelMatNeg r c A).EntryEncloses n ρ ri ci (fun θ => -F θ) := by
+  intro i j
+  rw [modelMatNeg, buildMat_entry _ (hri i) (hci j)]
+  exact (hA i j).negM.of_eq_fun fun θ => by simp
+
+omit [LawfulCertArith α] in
+theorem ModelMatrix.EntryEncloses.transpose {ρ : ℝ} {r c : ℕ} (hri : ∀ i, ri i < r)
+    (hci : ∀ j, ci j < c) {A : ModelMatrix α} {F : (Fin n → ℂ) → Matrix ι κ ℂ}
+    (hA : A.EntryEncloses n ρ ri ci F) :
+    (modelMatTranspose r c A).EntryEncloses n ρ ci ri (fun θ => (F θ)ᵀ) := by
+  intro j i
+  rw [modelMatTranspose, buildMat_entry _ (hci j) (hri i)]
+  exact hA i j
+
+theorem ModelMatrix.EntryEncloses.omega {ρ : ℝ} [Fintype κ] {c : ℕ} (hci : ∀ j, ci j < c)
+    {A : ModelMatrix α} {F : (Fin n → ℂ) → Matrix (Fin n ⊕ Fin n) κ ℂ}
+    (hA : A.EntryEncloses n ρ phaseNat ci F) :
+    (modelMatOmega n c A).EntryEncloses n ρ phaseNat ci (fun θ => omegaZeroMatrix n * F θ) := by
+  rintro (i | i) j
+  · rw [modelMatOmega, buildMat_entry _ (phaseNat_lt_add _) (hci j)]
+    simp only [phaseNat, i.isLt, ↓reduceIte]
+    exact (hA (Sum.inr i) j).negM.of_eq_fun fun θ => by rw [omegaZeroMatrix_mul_apply_inl]
+  · rw [modelMatOmega, buildMat_entry _ (phaseNat_lt_add _) (hci j)]
+    have : ¬(n + i.val < n) := by omega
+    simp only [phaseNat, this, ↓reduceIte, Nat.add_sub_cancel_left]
+    exact (hA (Sum.inl i) j).of_eq_fun fun θ => by rw [omegaZeroMatrix_mul_apply_inr]
+
+end Generic
+
 end KAM.Certificate
 
 end
