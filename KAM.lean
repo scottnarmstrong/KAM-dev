@@ -614,6 +614,7 @@ public import KAM.Planetary.PGAssembly.Extension
 public import KAM.Planetary.PGAssembly.ExtensionConsts
 public import KAM.Planetary.PGAssembly.ExtensionDefs
 public import KAM.Planetary.PGAssembly.ExtensionExists
+public import KAM.Planetary.PGAssembly.ExtensionNodes
 public import KAM.Planetary.PGAssembly.ExtensionPack
 public import KAM.Planetary.PGAssembly.ExtensionPeriodic
 public import KAM.Planetary.PGAssembly.ExtensionProps
@@ -660,6 +661,7 @@ public import KAM.Planetary.PGAssembly.Main
 public import KAM.Planetary.PGAssembly.Parameters
 public import KAM.Planetary.PGAssembly.RealSlice
 public import KAM.Planetary.PGAssembly.Remainder
+public import KAM.Planetary.PGAssembly.ScaleNodes
 public import KAM.Planetary.PGAssembly.Scales
 public import KAM.Planetary.PGAssembly.Strictness
 public import KAM.Planetary.PGAssembly.Threshold

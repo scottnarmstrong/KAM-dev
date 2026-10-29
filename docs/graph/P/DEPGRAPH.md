@@ -8395,9 +8395,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:be-an@L59-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: be_an (KAM/Planetary/PGAssembly/ExtensionNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: SOURCE_GAP: L59 invokes holomorphic parameter integration, continuity in the parameter, and commutation of mixed derivatives. These classical inputs are not supplied by ext or consts and have no approved input node here.
 
 NODE: stepP:p5:be-jet
@@ -8424,9 +8424,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:be-jet@L60-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: be_jet (KAM/Planetary/PGAssembly/ExtensionNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: SOURCE_GAP: L60 invokes the several-variable identity theorem from a real open set, and connectedness of the complex tube about closure(V). Neither is proved here or supplied by an approved external/import. The on-V jet is supplied by be-coef.
 
 NODE: stepP:p5:be-det
@@ -9562,9 +9562,9 @@ EDGE: bpP:p5:kam-cond#scales | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kam-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kam_cond_node (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:kc-eval
@@ -9591,9 +9591,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kc-eval@L224
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kc_eval (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:kc-small
@@ -9621,9 +9621,9 @@ EDGE: bpP:p5:kam-cond#scales | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kc_small (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:rK
@@ -9653,9 +9653,9 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
-LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean)
-LEAN_NOTE: audit P5-TH PASS WITH NOTES
-NOTE: RE-AUDIT FLAG (ruling 01:20): LEAN_REF r_k misses the bounds; GAP-P5a adds rk_dir
+LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean); rk_dir (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit P5-TH PASS WITH NOTES + GAP-P5a round 2 (rk_dir supplies the bounds)
+NOTE: -
 
 NODE: stepP:p5:rk-dir
 KIND: step
@@ -9683,9 +9683,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:rk-dir@L233-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rk_dir (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:location
