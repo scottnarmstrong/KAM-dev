@@ -77,12 +77,6 @@ theorem CertPoly.eval_conjSorted (n : ℕ) (P : CertPoly α) (θ : Fin n → ℂ
     P.conjSorted.eval n θ = P.conjReflect.eval n θ := by
   simp [CertPoly.eval, CertPoly.conjSorted, List.map_reverse, List.sum_reverse]
 
-omit [LawfulCertArith α] in
-theorem CertModel.mul_deg (W : CertWeight) (cfg : ModelConfig α) (key : ProductKey)
-    (a b : CertModel α) : (CertModel.mul W cfg key a b).deg = a.deg + b.deg := by
-  unfold CertModel.mul
-  split <;> rfl
-
 theorem CertModel.Encloses.starModel {n : ℕ} {ρ : ℝ} {m : CertModel α} {ff : (Fin n → ℂ) → ℂ}
     (h : m.Encloses n ρ ff) :
     (CertModel.starModel m).Encloses n ρ

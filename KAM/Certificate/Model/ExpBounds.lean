@@ -177,12 +177,6 @@ theorem CertPoly.eval_negP (n : ℕ) (P : CertPoly α) (θ : Fin n → ℂ) :
   | nil => simp
   | cons t L ih => simp only [List.map_cons, List.sum_cons, ih]; ring
 
-omit [LawfulCertArith α] in
-theorem CertModel.mul_deg (W : CertWeight) (cfg : ModelConfig α) (key : ProductKey)
-    (a b : CertModel α) : (CertModel.mul W cfg key a b).deg = a.deg + b.deg := by
-  unfold CertModel.mul
-  split <;> rfl
-
 end BallSum
 
 /-! ### Upper bounds of `exp x - 1` -/

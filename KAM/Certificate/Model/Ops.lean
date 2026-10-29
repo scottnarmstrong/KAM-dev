@@ -127,6 +127,13 @@ def CertModel.trim {α : Type} [CertArith α] (W : CertWeight) (eps : α) (a : C
 
 end Defs
 
+/-- The product model has the sum of the factor degrees. -/
+theorem CertModel.mul_deg {α : Type} [CertArith α] (W : CertWeight) (cfg : ModelConfig α)
+    (key : ProductKey) (a b : CertModel α) :
+    (CertModel.mul W cfg key a b).deg = a.deg + b.deg := by
+  unfold CertModel.mul
+  split <;> rfl
+
 /-! ### Powers of `2π` from the Machin bounds -/
 
 /-- A positive lower bound of `π`: the better of the Machin bound and `piLoQ`. -/
