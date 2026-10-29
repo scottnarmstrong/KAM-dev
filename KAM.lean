@@ -284,6 +284,11 @@ public import KAM.Iso.Linear.Extended
 public import KAM.Iso.Linear.FreqMap
 public import KAM.Iso.Linear.FullRange
 public import KAM.Iso.Linear.FullRangeAnyOmega
+public import KAM.Iso.Linear.FullRangeSteps
+public import KAM.Iso.Linear.FullRangeStepsEnergy
+public import KAM.Iso.Linear.FullRangeStepsExt
+public import KAM.Iso.Linear.FullRangeStepsFrame
+public import KAM.Iso.Linear.FullRangeStepsPert
 public import KAM.Iso.Linear.LastRow
 public import KAM.Iso.Linear.NoTwist
 public import KAM.Iso.Linear.Reduced
