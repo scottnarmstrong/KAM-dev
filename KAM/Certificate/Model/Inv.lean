@@ -57,6 +57,8 @@ def recipOneSubUp (δ : α) : Option α := recipBoundAux 64 δ (ofInt 1)
 
 end Defs
 
+-- `n` is part of the signed interface (unused: the check is dimension-free).
+set_option linter.unusedVariables false in
 /-- The radius certified for `1/b` by the witness `Q` (or `none` if `δ < 1` fails). -/
 def invWitnessRadius {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (cfg : ModelConfig α)
     (b : CertModel α) (Q : CertPoly α) : Option α :=
@@ -119,19 +121,26 @@ theorem norm_one_sub_le_oneSubSupUp {n : ℕ} {W : CertWeight} {s N : ℕ}
     (hu : u.Encloses n W.rho f) (hdeg : u.deg = 0) {θ : Fin n → ℂ}
     (hθ : θ ∈ complexStrip n W.rho) : ‖1 - f θ‖ ≤ val (oneSubSupUp W u) := by
   have hf := hu θ hθ
-  rw [hdeg, zpow_zero, zpow_zero, one_mul, one_mul] at hf
-  set Z : CertPoly α := ⟨u.poly.terms.filter fun t => isZeroKey t.1⟩
-  set NZ : CertPoly α := ⟨u.poly.terms.filter fun t => !isZeroKey t.1⟩
+  rw [hdeg, zpow_zero, zpow_zero, one_mul, one_mul, norm_sub_rev] at hf
   have hsplit := CertPoly.eval_filter_add n u.poly (fun t => isZeroKey t.1) θ
-  have hZ : Z.eval n θ = Z.eval n 0 := CertPoly.eval_zeroKeys n u.poly.terms θ
-  set z := CertPoly.coeffSumBall Z
-  have hz := CertPoly.mem_coeffSumBall n Z
+  beta_reduce at hsplit
+  have hZ := CertPoly.eval_zeroKeys n u.poly.terms θ
+  have hz := CertPoly.mem_coeffSumBall n
+    (⟨u.poly.terms.filter fun t => isZeroKey t.1⟩ : CertPoly α)
+  have hN := (⟨u.poly.terms.filter fun t => !isZeroKey t.1⟩ : CertPoly α).norm_eval_le_supNormUp
+    hW hθ
+  simp only [oneSubSupUp]
+  generalize (⟨u.poly.terms.filter fun t => isZeroKey t.1⟩ : CertPoly α) = Z at hsplit hZ hz ⊢
+  generalize (⟨u.poly.terms.filter fun t => !isZeroKey t.1⟩ : CertPoly α) = NZ at hsplit hN ⊢
+  generalize CertPoly.coeffSumBall Z = z at hz ⊢
   have hnz : CertBall.Mem (-Z.eval n 0) (⟨CC.negC z.c, z.r⟩ : CertBall α) := by
     unfold CertBall.Mem at hz ⊢
-    rw [CC.toC_negC, show -Z.eval n 0 - -z.c.toC = -(Z.eval n 0 - z.c.toC) by ring, norm_neg]
+    have e : -Z.eval n 0 - (CC.negC z.c).toC = -(Z.eval n 0 - z.c.toC) := by
+      rw [CC.toC_negC]; ring
+    rw [e, norm_neg]
     exact hz
   have hd := CertBall.mem_plus CertBall.mem_one hnz
-  set d := CertBall.plus CertBall.oneBall ⟨CC.negC z.c, z.r⟩
+  generalize CertBall.plus CertBall.oneBall ⟨CC.negC z.c, z.r⟩ = d at hd ⊢
   unfold CertBall.Mem at hd
   have hdn : ‖1 - Z.eval n 0‖ ≤ val (upAdd d.c.normUp d.r) := by
     have h1 := CC.norm_le_normUp d.c
@@ -140,7 +149,6 @@ theorem norm_one_sub_le_oneSubSupUp {n : ℕ} {W : CertWeight} {s N : ℕ}
       rw [← sub_eq_add_neg]
       simpa using norm_sub_le_norm_sub_add_norm_sub (1 - Z.eval n 0) d.c.toC 0
     linarith
-  have hN := NZ.norm_eval_le_supNormUp hW hθ
   have u1 := LawfulCertArith.upAdd_ge (upAdd d.c.normUp d.r) (NZ.supNormUp W)
   have u2 := LawfulCertArith.upAdd_ge (upAdd (upAdd d.c.normUp d.r) (NZ.supNormUp W)) u.rad
   have e : 1 - f θ = (1 - Z.eval n 0) - NZ.eval n θ + (u.poly.eval n θ - f θ) := by
@@ -148,15 +156,14 @@ theorem norm_one_sub_le_oneSubSupUp {n : ℕ} {W : CertWeight} {s N : ℕ}
   rw [e]
   have n1 := norm_add_le ((1 - Z.eval n 0) - NZ.eval n θ) (u.poly.eval n θ - f θ)
   have n2 := norm_sub_le (1 - Z.eval n 0) (NZ.eval n θ)
-  rw [norm_sub_rev] at hf
-  simp only [oneSubSupUp]
   linarith
 
-theorem recipBoundAux_ge : ∀ (f : ℕ) (x acc : α) {t : α}, recipBoundAux f x acc = some t →
-    ∀ {y c : ℝ}, 0 ≤ y → y < 1 → y ≤ val x → 0 ≤ c → c ≤ val acc → c / (1 - y) ≤ val t
-  | 0, _, _, _, h => by simp [recipBoundAux] at h
-  | f + 1, x, acc, t, h => by
-    intro y c hy0 hy1 hyx hc0 hca
+theorem recipBoundAux_ge : ∀ (f : ℕ) (x acc : α) {t : α} (y c : ℝ),
+    recipBoundAux f x acc = some t → 0 ≤ y → y < 1 → y ≤ val x → 0 ≤ c → c ≤ val acc →
+      c / (1 - y) ≤ val t
+  | 0, _, _, _, _, _, h => by simp [recipBoundAux] at h
+  | f + 1, x, acc, t, y, c, h => by
+    intro hy0 hy1 hyx hc0 hca
     have hx0 : 0 ≤ val x := hy0.trans hyx
     have ha0 : 0 ≤ val acc := hc0.trans hca
     have h1y : 0 < 1 - y := by linarith
@@ -172,27 +179,29 @@ theorem recipBoundAux_ge : ∀ (f : ℕ) (x acc : α) {t : α}, recipBoundAux f 
       have hm := LawfulCertArith.upMul_ge acc (upAdd (ofInt 1) (upAdd x x)) ha0 (by linarith)
       have hy2 : y ≤ 1 / 2 := by linarith
       rw [div_le_iff₀ h1y]
-      have : c * (1 + 2 * y) ≤ val acc * val (upAdd (ofInt 1 : α) (upAdd x x)) :=
+      have h3 : c * (1 + 2 * y) ≤ val acc * val (upAdd (ofInt 1 : α) (upAdd x x)) :=
         mul_le_mul hca (by linarith) (by linarith) ha0
-      nlinarith
+      have h4 : c ≤ c * (1 + 2 * y) * (1 - y) := by
+        nlinarith [mul_nonneg hc0 (mul_nonneg hy0 (by linarith : (0 : ℝ) ≤ 1 - 2 * y))]
+      exact h4.trans (mul_le_mul_of_nonneg_right (h3.trans hm) h1y.le)
     · have hxx := LawfulCertArith.upMul_ge x x hx0 hx0
       have h1 := LawfulCertArith.upAdd_ge (ofInt 1 : α) x
       rw [LawfulCertArith.val_ofInt] at h1
       push_cast at h1
       have hm := LawfulCertArith.upMul_ge acc (upAdd (ofInt 1) x) ha0 (by linarith)
-      have ih := recipBoundAux_ge f (upMul x x) (upMul acc (upAdd (ofInt 1) x)) h
-        (y := y * y) (c := c * (1 + y)) (by positivity) (by nlinarith)
+      have ih := recipBoundAux_ge f (upMul x x) (upMul acc (upAdd (ofInt 1) x)) (y * y)
+        (c * (1 + y)) h (by positivity) (by nlinarith)
         ((mul_le_mul hyx hyx hy0 hx0).trans hxx) (by positivity)
         ((mul_le_mul hca (by linarith) (by linarith) ha0).trans hm)
       have e : c / (1 - y) = c * (1 + y) / (1 - y * y) := by
-        field_simp
+        rw [div_eq_div_iff (by linarith) (by nlinarith)]
         ring
       rw [e]
       exact ih
 
 theorem recipOneSubUp_ge {δ t : α} (h : recipOneSubUp δ = some t) (h0 : 0 ≤ val δ)
     (h1 : val δ < 1) : 1 / (1 - val δ) ≤ val t :=
-  recipBoundAux_ge 64 δ (ofInt 1) h h0 h1 le_rfl zero_le_one
+  recipBoundAux_ge 64 δ (ofInt 1) (val δ) 1 h h0 h1 le_rfl zero_le_one
     (by rw [LawfulCertArith.val_ofInt]; simp)
 
 theorem invWitness_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
@@ -262,10 +271,11 @@ theorem invWitness_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : �
     ((mul_nonneg hqn0 hδ0).trans hm1) ht0
   have hzp : (2 * (Real.pi : ℂ)) ^ (-b.deg) = c⁻¹ := zpow_neg _ _
   have hzpR : (2 * Real.pi) ^ (-b.deg) = ((2 * Real.pi) ^ b.deg)⁻¹ := zpow_neg _ _
+  have hbf' : bf θ ≠ 0 := right_ne_zero_of_mul hbf
+  have hQ0 : Q.eval n θ ≠ 0 := left_ne_zero_of_mul hw
   have e : (bf θ)⁻¹ - c⁻¹ * Q.eval n θ = c⁻¹ * (Q.eval n θ * (1 - w) / w) := by
     simp only [w]
     field_simp
-    ring
   rw [hzp, hzpR, e, norm_mul, norm_inv, hc]
   refine mul_le_mul_of_nonneg_left ?_ (inv_nonneg.mpr hcR.le)
   rw [norm_div, norm_mul]
