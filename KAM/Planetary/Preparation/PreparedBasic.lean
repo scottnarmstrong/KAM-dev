@@ -1,0 +1,649 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib
+public import KAM.Planetary.Preparation.PreparedData
+public import KAM.Planetary.Preparation.SlowAverageDom
+public import KAM.Planetary.Preparation.SlowSmall
+public import KAM.Planetary.Preparation.SlowDivisor
+public import KAM.Weighted.SupWeighted
+
+/-!
+# Prepared data: the basic construction (P11A-P8a, `stepP:p11:pr-basic`, `stepP:p11:pr-a`)
+
+The prepared data `Q = p11PreparedCore D nu eps W` is built from the signed `avg_slow`, `avg_fast`,
+`holo_chart` data: `N_eps = (h_0 + g_2) o A_eps / eps` and `P_eps = f_3 o A_eps / eps` on the
+rescaled domain, and the chain `Phi^1 o Theta-hat o Psi_2 o A_eps` read through the secular chart.
+The frequency data `checkW` is a free parameter `W` (supplied by P8b/P8c/P8e).
+
+Exported helper lemmas, one per clause of `P11PreparedSpec` that concerns only `N`, `P`, `chain`:
+domain chain (`p11Rescale_*`, `p11PreparedCoreOf_chain_dom`, `P11PreparedDomSpec`),
+holomorphy, periodicity, reality,
+the sup bound of `P_eps` (`pr-a`) and the fixed Hamiltonian identity (`H_2 o A_eps = eps H-hat`).
+-/
+
+@[expose] public noncomputable section
+open Set MeasureTheory Filter
+open scoped BigOperators Topology ContDiff
+namespace KAM.Planetary
+
+section Core
+
+variable {n : ℕ}
+
+/-- The prepared data of `stepP:p11:pr-basic`, parametrised by the frequency datum `W`. -/
+def p11PreparedCoreOf (C : P11SecularData n) (Fast : P11FastData n) (A : P11SlowData n)
+    (eps : ℝ) (W : P11Vec (n+n) → P11Vec (n+n)) : P11PreparedData n where
+  N := fun I => (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2)/eps
+  P := fun z => A.f3 (p11Rescale C.J0 eps z)/eps
+  chain := fun z =>
+    let w := Fast.map
+      (p11PolarC (A.Psi (p11Rescale C.J0 eps (KAM.realInclusion₂ (n+n) z))))
+    C.chart ((fun i => (w.1 i).re), fun i => (w.2 i).re)
+  checkW := W
+
+/-- The prepared data of `stepP:p11:pr-basic` for the signed data of a physical datum. -/
+def p11PreparedCore (D : P11Physical n) (nu eps : ℝ) (W : P11Vec (n+n) → P11Vec (n+n)) :
+    P11PreparedData n :=
+  p11PreparedCoreOf (p11SecularData D) (p11FastData D eps) (p11SlowData D nu eps) eps W
+
+/-- Real rescaling of a real phase point (`A_eps` on real points). -/
+def p11RescaleReal (J0 : P11Vec n) (eps : ℝ) (x : Phase (n+n)) : Phase (n+n) :=
+  (x.1, Fin.append (fun i : Fin n => J0 i+eps*x.2 (Fin.castAdd n i))
+    (fun i : Fin n => eps*(2*Real.pi+x.2 (Fin.natAdd n i))))
+
+theorem p11Rescale_real (J0 : P11Vec n) (eps : ℝ) (x : Phase (n+n)) :
+    p11Rescale J0 eps (KAM.realInclusion₂ (n+n) x) =
+      KAM.realInclusion₂ (n+n) (p11RescaleReal J0 eps x) := by
+  refine Prod.ext rfl (funext fun j => ?_)
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) j
+  · simp [p11Rescale, p11RescaleReal, Fin.append_left]
+  · simp [p11Rescale, p11RescaleReal]
+
+end Core
+
+section Geometry
+
+variable {n : ℕ} {C : P11SecularData n} {nu eps : ℝ}
+
+theorem p11Box_isOpen {a b : ℕ} (c : P11CVec (a+b)) (r1 r2 : ℝ) : IsOpen (p11Box c r1 r2) := by
+  unfold p11Box
+  rw [Set.ofPred_and]
+  simp only [Set.ofPred_forall]
+  refine IsOpen.inter (isOpen_iInter_of_finite fun i => isOpen_lt ?_ continuous_const)
+    (isOpen_iInter_of_finite fun i => isOpen_lt ?_ continuous_const) <;> fun_prop
+
+theorem p11Box_mono {a b : ℕ} (c : P11CVec (a+b)) {r1 r2 s1 s2 : ℝ} (h1 : r1 ≤ s1) (h2 : r2 ≤ s2) :
+    p11Box c r1 r2 ⊆ p11Box c s1 s2 :=
+  fun _ hI => ⟨fun i => (hI.1 i).trans_le h1, fun i => (hI.2 i).trans_le h2⟩
+
+/-- Complex actions within `1` of the unit prepared box have all coordinates below `3/2`. -/
+theorem p11_actionNbhd_norm_lt {z : P11CVec (n+n)}
+    (hz : z ∈ KAM.actionNbhd (p11PreparedBox n) 1) (i : Fin (n+n)) : ‖z i‖ < 3/2 := by
+  obtain ⟨J, hJ, hzJ⟩ := hz
+  have h1 : ‖z i - (J i : ℂ)‖ < 1 := (norm_le_pi_norm (z - fun i => (J i : ℂ)) i).trans_lt hzJ
+  have h2 : ‖(J i : ℂ)‖ ≤ 1/2 := by
+    have := hJ i (mem_univ _)
+    rw [Complex.norm_real, Real.norm_eq_abs, abs_le]
+    exact ⟨by linarith [this.1], this.2⟩
+  calc ‖z i‖ = ‖(z i - (J i : ℂ)) + (J i : ℂ)‖ := by ring_nf
+    _ ≤ ‖z i - (J i : ℂ)‖ + ‖(J i : ℂ)‖ := norm_add_le _ _
+    _ < 3/2 := by linarith
+
+/-- `A_eps` maps the unit complex neighbourhood of the prepared box into `V_2/2`. -/
+theorem p11Rescale_mem_box (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    {z : P11Phase (n+n)} (hz : z.2 ∈ KAM.actionNbhd (p11PreparedBox n) 1) :
+    (p11Rescale C.J0 eps z).2 ∈
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) := by
+  have hb := p11_actionNbhd_norm_lt hz
+  have h3 : 3 < Real.pi := Real.pi_gt_three
+  refine ⟨fun i => ?_, fun i => ?_⟩
+  · have : (p11Rescale C.J0 eps z).2 (Fin.castAdd n i) - p11SlowCenter C eps (Fin.castAdd n i) =
+        (eps : ℂ) * z.2 (Fin.castAdd n i) := by
+      simp [p11Rescale, p11SlowCenter, Fin.append_left]
+    rw [this, norm_mul, Complex.norm_real, Real.norm_eq_abs, abs_of_pos heps]
+    have := hb (Fin.castAdd n i)
+    nlinarith
+  · have : (p11Rescale C.J0 eps z).2 (Fin.natAdd n i) - p11SlowCenter C eps (Fin.natAdd n i) =
+        (eps : ℂ) * z.2 (Fin.natAdd n i) := by
+      simp [p11Rescale, p11SlowCenter]; ring
+    rw [this, norm_mul, Complex.norm_real, Real.norm_eq_abs, abs_of_pos heps]
+    have := hb (Fin.natAdd n i)
+    nlinarith
+
+end Geometry
+
+section Clauses
+
+variable {n : ℕ} {C : P11SecularData n} {Fast : P11FastData n} {A : P11SlowData n} {nu eps : ℝ}
+  {W : P11Vec (n+n) → P11Vec (n+n)}
+
+theorem p11Rescale_differentiable (J0 : P11Vec n) (eps : ℝ) :
+    Differentiable ℂ (p11Rescale J0 eps) := by
+  refine Differentiable.prodMk differentiable_fst (differentiable_pi.2 fun j => ?_)
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) j
+  · simp only [Fin.append_left]; fun_prop
+  · simp only [Fin.append_right]; fun_prop
+
+/-- The domain chain `A_eps(E_0) in T_{sigma_3/6} x V_2/2` (`stepP:p11:pr-basic`). -/
+theorem p11Rescale_mem_dom (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    {z : P11Phase (n+n)}
+    (hz : z ∈ KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1) :
+    p11Rescale C.J0 eps z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) := by
+  refine ⟨?_, p11Rescale_mem_box heps hpe hz.2⟩
+  have : C.sigma/12/6 = C.sigma/72 := by ring
+  rw [this]
+  exact hz.1
+
+theorem p11PreparedCoreOf_N_differentiableOn (heps : 0 < eps)
+    (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hh : DifferentiableOn ℂ A.h0 (p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps)))
+    (hg : DifferentiableOn ℂ A.g2
+      (p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2))) :
+    DifferentiableOn ℂ (p11PreparedCoreOf C Fast A eps W).N
+      (KAM.actionNbhd (p11PreparedBox n) 1) := by
+  have hsub := p11Box_mono (p11SlowCenter C eps) (r1 := p11s2 C nu eps/2) (r2 := Real.pi*eps/2)
+    (s1 := p11s2 C nu eps) (s2 := Real.pi*eps)
+    (by linarith [show 0 < p11s2 C nu eps from lt_of_lt_of_le (by positivity) hpe])
+    (by nlinarith [Real.pi_pos])
+  have hd : Differentiable ℂ (fun I : P11CVec (n+n) => (p11Rescale C.J0 eps (0, I)).2) :=
+    (differentiable_snd.comp ((p11Rescale_differentiable C.J0 eps).comp
+      (differentiable_const _ |>.prodMk differentiable_id)))
+  have hm : MapsTo (fun I : P11CVec (n+n) => (p11Rescale C.J0 eps (0, I)).2)
+      (KAM.actionNbhd (p11PreparedBox n) 1)
+      (p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)) :=
+    fun I hI => p11Rescale_mem_box heps hpe (z := (0, I)) hI
+  have key := ((hh.mono hsub).add hg).comp hd.differentiableOn hm
+  show DifferentiableOn ℂ (fun I => ((A.h0 + A.g2) ((fun I : P11CVec (n+n) =>
+    (p11Rescale C.J0 eps (0, I)).2) I)) / (eps : ℂ)) _
+  exact (key.mul (differentiableOn_const ((eps : ℂ)⁻¹))).congr (fun x _ => by simp [div_eq_mul_inv])
+
+theorem p11PreparedCoreOf_P_differentiableOn (heps : 0 < eps)
+    (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hf : DifferentiableOn ℂ A.f3 (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2))) :
+    DifferentiableOn ℂ (p11PreparedCoreOf C Fast A eps W).P
+      (KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1) :=
+  by
+  have key := hf.comp (p11Rescale_differentiable C.J0 eps).differentiableOn
+    fun _ hz => p11Rescale_mem_dom heps hpe hz
+  show DifferentiableOn ℂ (fun z => (A.f3 ∘ p11Rescale C.J0 eps) z / (eps : ℂ)) _
+  exact (key.mul (differentiableOn_const ((eps : ℂ)⁻¹))).congr (fun x _ => by simp [div_eq_mul_inv])
+
+theorem p11PreparedCoreOf_P_periodic (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hper : ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2),
+      ∀ i : Fin (n+n), A.f3 (z.1+Pi.single i 1, z.2) = A.f3 z)
+    {z : P11Phase (n+n)}
+    (hz : z ∈ KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1)
+    (i : Fin (n+n)) :
+    (p11PreparedCoreOf C Fast A eps W).P (z.1+Pi.single i 1, z.2) =
+      (p11PreparedCoreOf C Fast A eps W).P z := by
+  have := hper _ (p11Rescale_mem_dom heps hpe hz) i
+  simp only [p11PreparedCoreOf]
+  congr 1
+
+theorem p11_im_div_ofReal (z : ℂ) (r : ℝ) : (z/(r : ℂ)).im = z.im/r :=
+  Complex.div_ofReal_im z r
+
+/-- Real points of the prepared strip go to real points of `T_{sigma_3/6} x V_2/2`. -/
+theorem p11PreparedCoreOf_rescale_real_mem (heps : 0 < eps)
+    (hpe : Real.pi*eps ≤ p11s2 C nu eps) {x : Phase (n+n)}
+    (hx : KAM.realInclusion₂ (n+n) x ∈
+      KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1) :
+    KAM.realInclusion₂ (n+n) (p11RescaleReal C.J0 eps x) ∈
+      KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) := by
+  have := p11Rescale_mem_dom (C := C) (nu := nu) heps hpe hx
+  rwa [p11Rescale_real] at this
+
+theorem p11PreparedCoreOf_N_real (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hreal : ∀ I : P11Vec (n+n), KAM.realInclusion (n+n) I ∈
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) →
+      (A.g2 (KAM.realInclusion (n+n) I)).im = 0 ∧ (A.h0 (KAM.realInclusion (n+n) I)).im = 0)
+    {I : P11Vec (n+n)} (hI : KAM.realInclusion (n+n) I ∈ KAM.actionNbhd (p11PreparedBox n) 1) :
+    ((p11PreparedCoreOf C Fast A eps W).N (KAM.realInclusion (n+n) I)).im = 0 := by
+  have h0 : ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I) =
+      KAM.realInclusion₂ (n+n) (0, I) := by simp
+  have hm := p11Rescale_mem_box (C := C) (nu := nu) heps hpe
+    (z := ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)) hI
+  have hy : (p11Rescale C.J0 eps ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)).2 =
+      KAM.realInclusion (n+n) (p11RescaleReal C.J0 eps (0, I)).2 := by
+    rw [h0, p11Rescale_real]; rfl
+  rw [hy] at hm
+  obtain ⟨hg, hh⟩ := hreal _ hm
+  show ((A.h0 (p11Rescale C.J0 eps ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)).2 +
+    A.g2 (p11Rescale C.J0 eps ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)).2)/(eps : ℂ)).im = 0
+  rw [hy, p11_im_div_ofReal, Complex.add_im, hg, hh]
+  simp
+
+theorem p11PreparedCoreOf_P_real (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hreal : KAM.Canonical.RealOn (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)) A.f3) :
+    KAM.Canonical.RealOn
+      (KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1)
+      (p11PreparedCoreOf C Fast A eps W).P := by
+  intro x hx
+  have := hreal _ (p11PreparedCoreOf_rescale_real_mem heps hpe hx)
+  show (A.f3 (p11Rescale C.J0 eps (KAM.realInclusion₂ (n+n) x))/(eps : ℂ)).im = 0
+  rw [p11Rescale_real, p11_im_div_ofReal, this]
+  simp
+
+theorem p11PreparedCoreOf_NP_real (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hreal : ∀ I : P11Vec (n+n), KAM.realInclusion (n+n) I ∈
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) →
+      (A.g2 (KAM.realInclusion (n+n) I)).im = 0 ∧ (A.h0 (KAM.realInclusion (n+n) I)).im = 0)
+    (hrealf : KAM.Canonical.RealOn (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)) A.f3) :
+    KAM.Canonical.RealOn
+      (KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1)
+      (fun z => (p11PreparedCoreOf C Fast A eps W).N z.2 +
+        (p11PreparedCoreOf C Fast A eps W).P z) := by
+  intro x hx
+  have h1 := p11PreparedCoreOf_N_real (Fast := Fast) (W := W) heps hpe hreal (I := x.2) hx.2
+  have h2 := p11PreparedCoreOf_P_real (Fast := Fast) (W := W) heps hpe hrealf x hx
+  simp only [KAM.realInclusion₂_apply] at h2 ⊢
+  rw [Complex.add_im, h1, h2]
+  simp
+
+/-- A pointwise weighted bound over an open action set bounds the sup (`N:bpN:p4:sup-weighted`). -/
+theorem p11_norm_le_of_wbound_open {s M : ℝ} {f : P11Phase (n+n) → ℂ} {V : Set (P11CVec (n+n))}
+    (hV : IsOpen V) (hd : DifferentiableOn ℂ f (KAM.complexStrip (n+n) s ×ˢ V))
+    (hper : ∀ z ∈ KAM.complexStrip (n+n) s ×ˢ V, ∀ i, f (z.1+Pi.single i 1, z.2) = f z)
+    (hb : p11WBound V s f M) : ∀ z ∈ KAM.complexStrip (n+n) s ×ˢ V, ‖f z‖ ≤ M := by
+  intro z hz
+  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.1 hV z.2 hz.2
+  have hsub : KAM.Weighted.Dom (n+n) ({z.2} : Set (P11CVec (n+n))) δ s ⊆
+      KAM.complexStrip (n+n) s ×ˢ V := by
+    rintro w ⟨hw1, I', hI', hw2⟩
+    rw [Set.mem_singleton_iff] at hI'
+    subst hI'
+    exact ⟨hw1, hball (by simpa [Metric.mem_ball, dist_eq_norm] using hw2)⟩
+  have hu : KAM.Weighted.InClass ({z.2} : Set (P11CVec (n+n))) δ s f :=
+    ⟨hd.mono hsub, fun j w hw => hper w (hsub hw) j⟩
+  have hb' : KAM.Weighted.WBound ({z.2} : Set (P11CVec (n+n))) δ s f M := by
+    intro I hI
+    obtain ⟨I', hI', hI2⟩ := hI
+    rw [Set.mem_singleton_iff] at hI'
+    subst hI'
+    exact hb I (hball (by simpa [Metric.mem_ball, dist_eq_norm] using hI2))
+  exact KAM.Weighted.sup_le_wbound hu hb' z ⟨hz.1, z.2, rfl, by simpa using hδ⟩
+
+/-- `stepP:p11:pr-a`: `sup |P_eps| <= eps^{-1} sup |f_3| <= c eps^{nu+3/2} ell^{2 tau_0+1}`. -/
+theorem p11PreparedCoreOf_P_bound (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hd : DifferentiableOn ℂ A.f3 (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)))
+    (hper : ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2),
+      ∀ i : Fin (n+n), A.f3 (z.1+Pi.single i 1, z.2) = A.f3 z)
+    {c : ℝ}
+    (hb : p11WBound (p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2))
+      (C.sigma/12/6) A.f3 (eps^nu*(c*eps^(5/2 : ℝ)*Real.log (1/eps)^(2*C.tau+1)))) :
+    p11Bound (KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1)
+      (p11PreparedCoreOf C Fast A eps W).P
+      (c*eps^(nu+3/2)*Real.log (1/eps)^(2*C.tau+1)) := by
+  intro z hz
+  have hsup := p11_norm_le_of_wbound_open (p11Box_isOpen _ _ _) hd hper hb _
+    (p11Rescale_mem_dom heps hpe hz)
+  show ‖A.f3 (p11Rescale C.J0 eps z)/(eps : ℂ)‖ ≤ _
+  rw [norm_div, Complex.norm_real, Real.norm_eq_abs, abs_of_pos heps, div_le_iff₀ heps]
+  refine hsup.trans (le_of_eq ?_)
+  have h1 : eps^(nu+3/2)*eps = eps^nu*eps^(5/2 : ℝ) := by
+    rw [← Real.rpow_add_one heps.ne', ← Real.rpow_add heps]; ring_nf
+  calc eps^nu*(c*eps^(5/2 : ℝ)*Real.log (1/eps)^(2*C.tau+1))
+      = c*(eps^nu*eps^(5/2 : ℝ))*Real.log (1/eps)^(2*C.tau+1) := by ring
+    _ = _ := by rw [← h1]; ring
+
+end Clauses
+
+section Chain
+
+variable {n : ℕ} {C : P11SecularData n} {Fast : P11FastData n} {A : P11SlowData n} {nu eps : ℝ}
+  {W : P11Vec (n+n) → P11Vec (n+n)}
+
+/-- The oscillator actions of a point of `V_2` have real part above `pi eps`. -/
+theorem p11_slowBox_re_pos {I : P11CVec (n+n)}
+    (hI : I ∈ p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps)) (i : Fin n) :
+    Real.pi*eps < (I (Fin.natAdd n i)).re := by
+  have h := hI.2 i
+  have h2 : p11SlowCenter C eps (Fin.natAdd n i) = ((2*Real.pi*eps : ℝ) : ℂ) := by
+    simp [p11SlowCenter]
+  rw [h2] at h
+  have h3 := (abs_le.1 ((Complex.abs_re_le_norm _).trans h.le))
+  have h4 : (I (Fin.natAdd n i) - ((2*Real.pi*eps : ℝ) : ℂ)).re = (I (Fin.natAdd n i)).re -
+      2*Real.pi*eps := by simp
+  have h5 : |(I (Fin.natAdd n i) - ((2*Real.pi*eps : ℝ) : ℂ)).re| < Real.pi*eps :=
+    lt_of_le_of_lt (Complex.abs_re_le_norm _) h
+  rw [h4] at h5
+  have := (abs_lt.1 h5).1
+  linarith
+
+theorem p11PreparedCoreOf_chain_eq {D : P11Physical n} (hC : P11SecularSpec D C)
+    (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps) (hsm : 64*eps < C.rz^2)
+    (Hfix : Phase (n*2) → ℝ)
+    (hchart : ∀ w : Phase (n+n), KAM.realInclusion₂ (n+n) w ∈
+      p11WorkingDom n C.J0 (2*C.sigma) (2*C.rC) C.rz →
+      Hfix (C.chart w) = (p11WorkingH C eps (KAM.realInclusion₂ (n+n) w)).re)
+    (hFreal : ∀ z : Phase (n+n), KAM.realInclusion₂ (n+n) z ∈
+      p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2) → ∀ i,
+      ((Fast.map (KAM.realInclusion₂ (n+n) z)).1 i).im = 0 ∧
+      ((Fast.map (KAM.realInclusion₂ (n+n) z)).2 i).im = 0)
+    (hFmaps : MapsTo Fast.map (p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2))
+      (p11WorkingDom n C.J0 C.sigma (p11s1 C eps) C.rz))
+    (hPsireal : ∀ z : Phase (n+n), KAM.realInclusion₂ (n+n) z ∈
+      KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) → ∀ i,
+      ((A.Psi (KAM.realInclusion₂ (n+n) z)).1 i).im = 0 ∧
+      ((A.Psi (KAM.realInclusion₂ (n+n) z)).2 i).im = 0)
+    (hPsimaps : MapsTo A.Psi (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2))
+      (KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps)))
+    (hf2 : ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps),
+      A.h0 z.2 + A.f2 z = p11WorkingH C eps (Fast.map (p11PolarC z)))
+    (hid : ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2),
+      A.h0 (A.Psi z).2 + A.f2 (A.Psi z) = A.h0 z.2 + A.g2 z.2 + A.f3 z)
+    {z : Phase (n+n)}
+    (hz : KAM.realInclusion₂ (n+n) z ∈
+      KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1) :
+    Hfix ((p11PreparedCoreOf C Fast A eps W).chain z) =
+      eps*((p11PreparedCoreOf C Fast A eps W).N (KAM.realInclusion (n+n) z.2) +
+        (p11PreparedCoreOf C Fast A eps W).P (KAM.realInclusion₂ (n+n) z)).re := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩ := fast_consts hC
+  have hs2pos : 0 < p11s2 C nu eps := lt_of_lt_of_le (by positivity) hpe
+  have hs2le : p11s2 C nu eps ≤ p11s1 C eps/4 := min_le_left _ _
+  have hs1rC : p11s1 C eps ≤ C.rC := min_le_left _ _
+  set y := p11Rescale C.J0 eps (KAM.realInclusion₂ (n+n) z) with hy
+  have hydom := p11Rescale_mem_dom (C := C) (nu := nu) heps hpe hz
+  have hyreal : y = KAM.realInclusion₂ (n+n) (p11RescaleReal C.J0 eps z) :=
+    p11Rescale_real _ _ _
+  have hPsi := hPsimaps hydom
+  have hre := hPsireal (p11RescaleReal C.J0 eps z) (hyreal ▸ hydom)
+  rw [← hyreal] at hre
+  set Pr : Phase (n+n) := ((fun i => ((A.Psi y).1 i).re), fun i => ((A.Psi y).2 i).re) with hPr
+  have hPsiR : A.Psi y = KAM.realInclusion₂ (n+n) Pr := by
+    refine Prod.ext (funext fun i => Complex.ext (by simp [hPr]) (by simp [hPr, (hre i).1]))
+      (funext fun i => Complex.ext (by simp [hPr]) (by simp [hPr, (hre i).2]))
+  have hpos : ∀ i : Fin n, 0 < Pr.2 (Fin.natAdd n i) := fun i => by
+    have := p11_slowBox_re_pos (nu := nu) hPsi.2 i
+    simp only [hPr]
+    nlinarith [Real.pi_pos]
+  have hbox := p11SlowBox_mem (C := C) (nu := nu) hs2pos heps (I := (A.Psi y).2) hPsi.2
+  have hmem : p11PolarC (A.Psi y) ∈
+      p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2) := by
+    refine (p11_polarC_mem hC heps hsm (z := A.Psi y) ?_ ?_ ?_).2.2
+    · intro i
+      exact (hPsi.1 i).trans (by linarith)
+    · exact lt_of_lt_of_le hbox.1 (by linarith)
+    · have h1 := hbox.2
+      have h2 : ‖(fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ ≤ 2*Real.pi*eps :=
+        (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => by
+          simp [abs_of_pos heps, abs_of_pos Real.pi_pos]
+      have h3 := norm_le_norm_add_norm_sub' (p11SlowR (A.Psi y).2)
+        (fun _ : Fin n => (2*Real.pi*eps : ℂ))
+      calc ‖p11SlowR (A.Psi y).2‖ ≤ ‖(fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ +
+            ‖p11SlowR (A.Psi y).2 - fun _ : Fin n => (2*Real.pi*eps : ℂ)‖ := h3
+        _ < 3*Real.pi*eps := by
+          have := h1
+          change ‖(fun i : Fin n => (A.Psi y).2 (Fin.natAdd n i)) -
+            (fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ < _ at this
+          show _ + ‖(fun i : Fin n => (A.Psi y).2 (Fin.natAdd n i)) -
+            (fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ < _
+          linarith
+  have hpolar : p11PolarC (A.Psi y) = KAM.realInclusion₂ (n+n) (p11PolarR Pr) := by
+    rw [hPsiR]; exact p11_polarC_real hpos
+  have hWreal : ∀ i, ((Fast.map (p11PolarC (A.Psi y))).1 i).im = 0 ∧
+      ((Fast.map (p11PolarC (A.Psi y))).2 i).im = 0 := by
+    rw [hpolar]; exact hFreal (p11PolarR Pr) (hpolar ▸ hmem)
+  have hW0eq : KAM.realInclusion₂ (n+n) ((fun i => ((Fast.map (p11PolarC (A.Psi y))).1 i).re),
+      fun i => ((Fast.map (p11PolarC (A.Psi y))).2 i).re) = Fast.map (p11PolarC (A.Psi y)) :=
+    Prod.ext (funext fun i => Complex.ext (by simp) (by simp [(hWreal i).1]))
+      (funext fun i => Complex.ext (by simp) (by simp [(hWreal i).2]))
+  have hWdom : Fast.map (p11PolarC (A.Psi y)) ∈
+      p11WorkingDom n C.J0 (2*C.sigma) (2*C.rC) C.rz :=
+    p11WorkingDom_mono (by linarith) (by linarith) le_rfl (hFmaps hmem)
+  show Hfix (C.chart ((fun i => ((Fast.map (p11PolarC (A.Psi y))).1 i).re),
+      fun i => ((Fast.map (p11PolarC (A.Psi y))).2 i).re)) = _
+  rw [hchart _ (by rw [hW0eq]; exact hWdom), hW0eq, ← hf2 _ hPsi, hid y hydom]
+  show _ = eps * ((A.h0 y.2 + A.g2 y.2)/(eps : ℂ) + A.f3 y/(eps : ℂ)).re
+  rw [← add_div, Complex.div_ofReal_re]
+  field_simp
+
+end Chain
+
+section ChainDom
+
+variable {n : ℕ} {C : P11SecularData n} {Fast : P11FastData n} {A : P11SlowData n} {nu eps : ℝ}
+
+/-- The full complex domain chain of `stepP:p11:pr-basic`: for `z` in the complex prepared domain,
+`A_eps z in T_{sigma/72} x V_2/2`, `Psi_2 (A_eps z) in T_{sigma/12} x V_2`, its polar image
+lies in `T_{sigma/6} x D(J_0, s_2) x B_{r_z/4} subset D_1'`, and `Theta-hat` maps it into
+`D_1` (here `D_1' = WorkingDom (sigma/6) (s_1/2) (r_z/2)`). -/
+theorem p11PreparedCoreOf_chain_dom {D : P11Physical n} (hC : P11SecularSpec D C) (heps : 0 < eps)
+    (hpe : Real.pi*eps ≤ p11s2 C nu eps) (hsm : 256*eps < C.rz^2)
+    (hFmaps : MapsTo Fast.map (p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2))
+      (p11WorkingDom n C.J0 C.sigma (p11s1 C eps) C.rz))
+    (hPsimaps : MapsTo A.Psi (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2))
+      (KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps)))
+    {z : P11Phase (n+n)}
+    (hz : z ∈ KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1) :
+    p11Rescale C.J0 eps z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) ∧
+      A.Psi (p11Rescale C.J0 eps z) ∈ KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s2 C nu eps) (C.rz/4) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2) ∧
+      Fast.map (p11PolarC (A.Psi (p11Rescale C.J0 eps z))) ∈
+        p11WorkingDom n C.J0 C.sigma (p11s1 C eps) C.rz := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩ := fast_consts hC
+  have hs2pos : 0 < p11s2 C nu eps := lt_of_lt_of_le (by positivity) hpe
+  have hs2le : p11s2 C nu eps ≤ p11s1 C eps/4 := min_le_left _ _
+  have hs1rC : p11s1 C eps ≤ C.rC := min_le_left _ _
+  have hs1pos : 0 < p11s1 C eps := by linarith
+  have hydom := p11Rescale_mem_dom (C := C) (nu := nu) heps hpe hz
+  have hPsi := hPsimaps hydom
+  have hbox := p11SlowBox_mem (C := C) (nu := nu) hs2pos heps (I := (A.Psi _).2) hPsi.2
+  have hsm' : 64*eps < C.rz^2 := by nlinarith
+  have hmem := p11_polarC_mem hC heps hsm' (z := A.Psi (p11Rescale C.J0 eps z)) (by
+      intro i
+      exact (hPsi.1 i).trans (by linarith)) (lt_of_lt_of_le hbox.1 (by linarith)) (by
+      have h1 := hbox.2
+      have h2 : ‖(fun _ : Fin n => (2*Real.pi*eps : ℂ))‖ ≤ 2*Real.pi*eps :=
+        (pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => by
+          simp [abs_of_pos heps, abs_of_pos Real.pi_pos]
+      have h3 := norm_le_norm_add_norm_sub' (p11SlowR (A.Psi (p11Rescale C.J0 eps z)).2)
+        (fun _ : Fin n => (2*Real.pi*eps : ℂ))
+      have h4 : ‖p11SlowR (A.Psi (p11Rescale C.J0 eps z)).2 -
+          fun _ : Fin n => (2*Real.pi*eps : ℂ)‖ < Real.pi*eps := h1
+      linarith)
+  have hPr : ‖p11PolPt (A.Psi (p11Rescale C.J0 eps z))‖ < C.rz/4 := by
+    refine lt_of_le_of_lt hmem.1 ?_
+    have : (4 * Real.sqrt eps) ^ 2 < (C.rz / 4) ^ 2 := by
+      nlinarith [Real.sq_sqrt heps.le]
+    exact lt_of_pow_lt_pow_left₀ 2 (by positivity) this
+  refine ⟨hydom, hPsi, ⟨hmem.2.2.1, ?_, ?_, ?_⟩, hmem.2.2, hFmaps hmem.2.2⟩
+  · have h : (fun i : Fin n => (p11PolarC (A.Psi (p11Rescale C.J0 eps z))).2 (Fin.castAdd n i)) =
+        p11SlowJ (A.Psi (p11Rescale C.J0 eps z)).2 := by
+      funext i; simp [p11PolarC, p11SlowJ]
+    show ‖(fun i : Fin n =>
+      (p11PolarC (A.Psi (p11Rescale C.J0 eps z))).2 (Fin.castAdd n i)) - _‖ < _
+    rw [h]; exact hbox.1
+  · exact lt_of_le_of_lt (by
+      rw [Prod.norm_def]; exact le_max_left _ _ |>.trans' le_rfl) hPr
+  · exact lt_of_le_of_lt (by
+      rw [Prod.norm_def]; exact le_max_right _ _ |>.trans' le_rfl) hPr
+
+end ChainDom
+
+section Assembly
+
+variable {n : ℕ}
+
+/-- The clauses of `P11PreparedSpec` that concern only `N`, `P` and `chain`: the formulas on the
+rescaled domain, holomorphy, periodicity, reality, `sup |P_eps|` (`pr-a`) and the Hamiltonian
+identity `H_2 o A_eps = eps H-hat_eps` (`pr-basic`), verbatim from the signed specification. -/
+def P11PreparedBasicSpec (D : P11Physical n) (nu eps c : ℝ) (Q : P11PreparedData n) : Prop :=
+  let C := p11SecularData D
+  let U := KAM.actionNbhd (p11PreparedBox n) 1
+  let V := KAM.complexStrip (n+n) (C.sigma/72) ×ˢ U
+  let ell := Real.log (1/eps)
+  (let A := p11SlowData D nu eps
+   (∀ z ∈ V, let y := p11Rescale C.J0 eps z
+     Q.N z.2=(A.h0 y.2+A.g2 y.2)/eps ∧ Q.P z=A.f3 y/eps) ∧
+   ∀ z : Phase (n+n), KAM.realInclusion₂ (n+n) z ∈ V →
+     let w := (p11FastData D eps).map
+       (p11PolarC (A.Psi (p11Rescale C.J0 eps (KAM.realInclusion₂ (n+n) z))))
+     Q.chain z=C.chart ((fun i => (w.1 i).re),fun i => (w.2 i).re)) ∧
+  DifferentiableOn ℂ Q.N U ∧ DifferentiableOn ℂ Q.P V ∧
+  (∀ z ∈ V, ∀ i : Fin (n+n), Q.P (z.1+Pi.single i 1,z.2)=Q.P z) ∧
+  KAM.Canonical.RealOn V (fun z => Q.N z.2+Q.P z) ∧
+  KAM.Canonical.RealOn V Q.P ∧
+  (∀ I : P11Vec (n+n), KAM.realInclusion (n+n) I ∈ U → (Q.N (KAM.realInclusion (n+n) I)).im=0) ∧
+  p11Bound V Q.P (c*eps^(nu+3/2)*ell^(2*C.tau+1)) ∧
+  (∀ z : Phase (n+n), KAM.realInclusion₂ (n+n) z ∈ V →
+    fixedHamiltonian D.G D.m0 D.m eps (Q.chain z)=eps*(Q.N (KAM.realInclusion (n+n) z.2)+
+      Q.P (KAM.realInclusion₂ (n+n) z)).re)
+
+/-- The complex domain chain of `stepP:p11:pr-basic` for the signed data of a physical datum
+(`T_{sigma/6} x D(J_0, s_2) x B_{r_z/4} subset D_1'`, `Theta-hat` into `D_1`). -/
+def P11PreparedDomSpec (D : P11Physical n) (nu eps : ℝ) : Prop :=
+  let C := p11SecularData D
+  let A := p11SlowData D nu eps
+  ∀ z ∈ KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1,
+    p11Rescale C.J0 eps z ∈ KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) ∧
+      A.Psi (p11Rescale C.J0 eps z) ∈ KAM.complexStrip (n+n) (C.sigma/12) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps) (Real.pi*eps) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s2 C nu eps) (C.rz/4) ∧
+      p11PolarC (A.Psi (p11Rescale C.J0 eps z)) ∈
+        p11WorkingDom n C.J0 (C.sigma/6) (p11s1 C eps/2) (C.rz/2) ∧
+      (p11FastData D eps).map (p11PolarC (A.Psi (p11Rescale C.J0 eps z))) ∈
+        p11WorkingDom n C.J0 C.sigma (p11s1 C eps) C.rz
+
+end Assembly
+
+section Main
+
+variable {n : ℕ}
+
+/-- The chart identity `H_fix o chart = Re H_work` of the secular specification. -/
+theorem p11_secular_ham_chart {D : P11Physical n} {C : P11SecularData n}
+    (hC : P11SecularSpec D C) (eps : ℝ) (w : Phase (n+n))
+    (hw : KAM.realInclusion₂ (n+n) w ∈ p11WorkingDom n C.J0 (2*C.sigma) (2*C.rC) C.rz) :
+    fixedHamiltonian D.G D.m0 D.m eps (C.chart w) =
+      (p11WorkingH C eps (KAM.realInclusion₂ (n+n) w)).re := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -,
+    -, -, -, -, -, hH⟩ := hC
+  exact hH eps w hw
+
+/-- The basic spec for the core prepared data, from the three signed specifications and the
+smallness conditions on `eps` (`stepP:p11:pr-basic`, `stepP:p11:pr-a`). -/
+theorem p11_prepared_basic_of_spec {D : P11Physical n} {nu eps c : ℝ}
+    {W : P11Vec (n+n) → P11Vec (n+n)} (hC : P11SecularSpec D (p11SecularData D))
+    (hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps))
+    (hS : P11SlowSpec D nu eps (p11SlowConstant D nu) (p11SlowData D nu eps))
+    (heps : 0 < eps) (hεM : eps*(p11SecularData D).MF ≤ Real.exp (-1))
+    (hpe : Real.pi*eps ≤ p11s2 (p11SecularData D) nu eps)
+    (hsm : 64*eps < (p11SecularData D).rz^2) (hc : p11SlowConstant D nu ≤ c) :
+    P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩ := fast_consts hC
+  have hell : 0 ≤ Real.log (1/eps) :=
+    (zero_le_one.trans (slow_log_ge_one hC heps hεM))
+  obtain ⟨hf2, -, -, -, -, -, hh0, hg2, -, hf3d, hf3r, -, hreal, hPsireal, hper, -, -, -, -,
+    hmaps, -, -, hw3, -, hid, -⟩ := hS
+  obtain ⟨-, -, -, -, -, -, hFreal, -, -, hFmaps, -⟩ := hF
+  unfold P11PreparedBasicSpec p11PreparedCore
+  refine ⟨⟨fun z hz => ⟨rfl, rfl⟩, fun z hz => rfl⟩, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact p11PreparedCoreOf_N_differentiableOn heps hpe hh0 hg2
+  · exact p11PreparedCoreOf_P_differentiableOn heps hpe hf3d
+  · exact fun z hz i => p11PreparedCoreOf_P_periodic heps hpe hper hz i
+  · exact p11PreparedCoreOf_NP_real heps hpe (fun I hI => hreal I hI) hf3r
+  · exact p11PreparedCoreOf_P_real heps hpe hf3r
+  · exact fun I hI => p11PreparedCoreOf_N_real heps hpe (fun I hI => hreal I hI) hI
+  · intro z hz
+    have h := p11PreparedCoreOf_P_bound (Fast := p11FastData D eps) (W := W) heps hpe hf3d hper
+      hw3 z hz
+    refine h.trans (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hc ?_) ?_)
+    · exact (Real.rpow_pos_of_pos heps _).le
+    · exact Real.rpow_nonneg hell _
+  · intro z hz
+    exact p11PreparedCoreOf_chain_eq hC heps hpe hsm (fixedHamiltonian D.G D.m0 D.m eps)
+      (fun w hw => p11_secular_ham_chart hC eps w hw) hFreal hFmaps hPsireal hmaps hf2 hid hz
+
+/-- `stepP:p11:pr-basic` (with its complex domain chain) and `stepP:p11:pr-a` as one existence
+statement: for all small `eps` and every frequency datum `W`, the core prepared data satisfies the
+basic spec and the domain chain holds. -/
+theorem p11_prepared_basic_dom (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ eps3 : ℝ, 0 < eps3 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps3 → ∀ c : ℝ,
+      p11SlowConstant D nu ≤ c → ∀ W : P11Vec (n+n) → P11Vec (n+n),
+        P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) ∧
+          P11PreparedDomSpec D nu eps := by
+  have hC : P11SecularSpec D (p11SecularData D) := (holo_chart D).choose_spec.1
+  obtain ⟨-, -, -, -, -, -, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨eps1, h1pos, -, hfast⟩ := avg_fast D
+  obtain ⟨h2pos, -, -, hslow⟩ := (avg_slow D hnu).choose_spec.choose_spec
+  have hc2 : p11SlowConstant D nu = (avg_slow D hnu).choose_spec.choose := by
+    unfold p11SlowConstant; rw [dif_pos hnu]
+  obtain ⟨u, hu, hsub⟩ := (mem_nhdsGT_iff_exists_Ioo_subset).1 (slow_pe_eventually hC hnu)
+  have hM0 : 0 < (p11SecularData D).MF := by linarith
+  refine ⟨min (u/2) (min eps1 (min (avg_slow D hnu).choose
+    (min (Real.exp (-1)/(p11SecularData D).MF) ((p11SecularData D).rz^2/257)))),
+    lt_min (by simpa using hu) (lt_min h1pos (lt_min h2pos (lt_min (by positivity)
+      (by positivity)))), fun eps heps hle c hc W => ?_⟩
+  have hle1 := hle.trans (min_le_left _ _)
+  have hle2 := hle.trans ((min_le_right _ _).trans (min_le_left _ _))
+  have hle3 := hle.trans ((min_le_right _ _).trans ((min_le_right _ _).trans (min_le_left _ _)))
+  have hle4 := hle.trans ((min_le_right _ _).trans ((min_le_right _ _).trans
+    ((min_le_right _ _).trans (min_le_left _ _))))
+  have hle5 := hle.trans ((min_le_right _ _).trans ((min_le_right _ _).trans
+    ((min_le_right _ _).trans (min_le_right _ _))))
+  have hεM : eps*(p11SecularData D).MF ≤ Real.exp (-1) := by
+    have := (le_div_iff₀ hM0).1 hle4
+    exact this
+  have hsm' : 256*eps < (p11SecularData D).rz^2 := by
+    have : 0 < (p11SecularData D).rz^2 := by positivity
+    linarith
+  have hsm : 64*eps < (p11SecularData D).rz^2 := by linarith
+  have hpe := hsub ⟨heps, by linarith⟩ heps hεM
+  have hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps) := by
+    have h := (hfast eps heps hle2).2
+    unfold p11FastData
+    rw [dif_pos h]
+    exact h.choose_spec
+  have hS : P11SlowSpec D nu eps (p11SlowConstant D nu) (p11SlowData D nu eps) := by
+    have h : ∃ A, P11SlowSpec D nu eps (p11SlowConstant D nu) A := by
+      rw [hc2]; exact hslow eps heps hle3
+    unfold p11SlowData
+    rw [dif_pos h]
+    exact h.choose_spec
+  refine ⟨p11_prepared_basic_of_spec hC hF hS heps hεM hpe hsm hc, fun z hz => ?_⟩
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hmaps, -, -, -, -, -, -⟩ := hS
+  obtain ⟨-, -, -, -, -, -, -, -, -, hFmaps, -⟩ := hF
+  exact p11PreparedCoreOf_chain_dom hC heps hpe hsm' hFmaps hmaps hz
+
+/-- `stepP:p11:pr-basic` and `stepP:p11:pr-a` packaged as one existence statement: for all small
+`eps` and every frequency datum `W`, the core prepared data satisfies the basic spec. -/
+theorem p11_prepared_basic (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ eps3 : ℝ, 0 < eps3 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps3 → ∀ c : ℝ,
+      p11SlowConstant D nu ≤ c → ∀ W : P11Vec (n+n) → P11Vec (n+n),
+        P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) := by
+  obtain ⟨e, he, h⟩ := p11_prepared_basic_dom D hnu
+  exact ⟨e, he, fun eps heps hle c hc W => (h eps heps hle c hc W).1⟩
+
+end Main
+
+end KAM.Planetary
+
+end
