@@ -234,9 +234,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_basis (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: N89-G1-audit-1.md:35 (PASS WITH NOTES, package N89-G1) maps stepN:p8:lb-basis to lattice_basis: rank bound, rank-sized Z-basis, real independence; parent bpN:p8:lattice-basis PROVED.
 NOTE: -
 
 NODE: stepN:p8:lb-unimod
@@ -263,9 +263,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-u
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_basis_change (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: N89-G1-audit-1.md:39 maps stepN:p8:lb-unimod to lattice_basis_change (unimodular transition and converse both proved).
 NOTE: -
 
 NODE: stepN:p8:lb-sub
@@ -291,9 +291,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_basis_sub (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: N89-G1-audit-1.md:40 maps stepN:p8:lb-sub to lattice_basis_sub (equal-rank inclusion gives integer N with nonzero determinant).
 NOTE: -
 
 NODE: bpN:p8:volume-def
@@ -379,9 +379,9 @@ EDGE: bpN:p8:ext-gram | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projection, projection_matrix (KAM/Nekhoroshev/ResonanceGeometry/Projection.lean)
+LEAN_NOTE: N89-G2-audit-1.md:40 (PASS WITH NOTES) lists stepN:p8:pr-alg under `projection` (Projection.lean:81): all eight conjuncts retained, including algebraic conjuncts (symmetric, idempotent, fixes range, A^T Q=0, Pythagoras); also projection_matrix for the explicit matrix formula.
 NOTE: -
 
 NODE: stepN:p8:pr-dist
@@ -406,9 +406,9 @@ EDGE: stepN:p8:pr-alg | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projection, projection_distance_subspace (KAM/Nekhoroshev/ResonanceGeometry/Projection.lean)
+LEAN_NOTE: N89-G2-audit-1.md:40 (PASS WITH NOTES) lists stepN:p8:pr-dist under `projection` (Projection.lean:81): all eight conjuncts retained, including uniqueness and distance conjuncts; also projection_distance_subspace for arbitrary subspace distance.
 NOTE: -
 
 NODE: stepN:p8:pr-nest
@@ -433,9 +433,9 @@ EDGE: stepN:p8:pr-alg | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projection (KAM/Nekhoroshev/ResonanceGeometry/Projection.lean)
+LEAN_NOTE: N89-G2-audit-1.md:40 (PASS WITH NOTES) lists stepN:p8:pr-nest under `projection` (Projection.lean:81): all eight conjuncts retained, including both nested compositions.
 NOTE: -
 
 NODE: bpN:p8:lattice-volume
@@ -498,9 +498,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: gramZ_det_basis_change, volume_sq_eq, volume_sq_int, one_le_volume (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:41-48 (PASS WITH NOTES) rows for lv-ab: det Gram invariant under unimodular change, volume^2 = det Gram for every basis, positive integer witness, 1 <= volume.
 NOTE: -
 
 NODE: stepN:p8:lv-c
@@ -529,9 +529,9 @@ EDGE: bpN:p8:ext-gram | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_volume_index, volume_mono (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:54 (lattice_volume_index, exact |det N| factor, no extra premise) and :55 (volume_mono, |det N|>=1 via lattice_basis_sub). Squared form equivalent since volumes are nonnegative.
 NOTE: -
 
 NODE: stepN:p8:lv-d
@@ -557,9 +557,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_volume_cyclic, volume_top (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:68 (lattice_volume_cyclic: volume of Zg = Euclidean length of g) and :53 (volume_top: volume of Z^n = 1).
 NOTE: -
 
 NODE: stepN:p8:lv-e
@@ -589,9 +589,9 @@ EDGE: bpN:p8:ext-gram | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: addVector_facts, det_gram_snoc_orth, det_gram_snoc_shear, closureBasis (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:56-29 rows tagged lv-e (snocCol, shear, closureBasis, addVector_facts): dimension d+1, volume(Lambda+Zk)=volume(Lambda)*||Q k||, Q k != 0 for k outside the real span.
 NOTE: -
 
 NODE: stepN:p8:lv-f
@@ -619,9 +619,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_volume_hadamard (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:74 (lattice_volume_hadamard, literal design type, induction via add-vector identity and contractive complementary projection).
 NOTE: -
 
 NODE: bpN:p8:klattice
@@ -708,9 +708,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, mem_of_maximalK, maximalK_of_forall, maximalK_bot (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-char to `maximal` (Maximal.lean:249) (a): conjuncts 1-3 (iff characterisation, bottom maximal, saturated lattices maximal); helpers mem_of_maximalK, maximalK_of_forall, maximalK_bot. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-exist
@@ -737,9 +737,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, exists_maximalK_above (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-exist to `maximal` (Maximal.lean:249) (b): conjuncts 4-5 (same-rank maximal extension; short vector in a rank-one maximal K-lattice); helper exists_maximalK_above. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-c
@@ -766,9 +766,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, klattice_addVector (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-c to `maximal` (Maximal.lean:249) (c): conjunct 6. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-d
@@ -795,9 +795,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, klattice_top, units_top (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-d to `maximal` (Maximal.lean:249) (d): conjuncts 7-9 (full rank contains the ball; top maximal for K>=1; K<1 iff bottom). Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-e
@@ -826,9 +826,9 @@ EDGE: bpN:p8:volume-def | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:m
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, volume_le_of_klattice (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-e to `maximal` (Maximal.lean:249) (e): conjunct 10 (1 <= volume <= K^rank); helper volume_le_of_klattice. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: bpN:p8:blocks
@@ -1065,9 +1065,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:gl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_theta, rank_one_facts (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-theta: `geometric_theta` in Geometric.lean, rank-one branch. Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-theta2
@@ -1095,9 +1095,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:gl-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_theta, euclid_proj_line (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-theta2: `geometric_theta` in Geometric.lean, rank-one branch conclusion |k.w|>=||k||delta>=lambda_1. Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-setup
@@ -1127,9 +1127,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:gl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-setup: `geometric_lattice` in Geometric.lean, setting (lines 112-139). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-vol
@@ -1158,9 +1158,9 @@ EDGE: bpN:p8:volume-def | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-vol: `geometric_lattice` in Geometric.lean, volume bounds (lines 140-149). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-proj
@@ -1189,9 +1189,9 @@ EDGE: stepN:p8:gl-setup | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-proj: `geometric_lattice` in Geometric.lean, two projections (lines 150-181). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-div
@@ -1221,9 +1221,9 @@ EDGE: stepN:p8:gl-setup | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-div: `geometric_lattice` in Geometric.lean, divisor bound (lines 182-204). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: bpN:p8:covering
@@ -1285,9 +1285,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering, CoverParams.Valid.hE, CoverParams.Valid.hA1, CoverParams.Valid.alpha_eq (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; helper rows :36-:42 give E>0, A>1, lambda_d>0, alpha=EK delta.
 NOTE: -
 
 NODE: stepN:p8:cv-cover
@@ -1314,9 +1314,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; conjuncts: finiteness of maximal K-lattices and every I in P lies in some block.
 NOTE: -
 
 NODE: stepN:p8:cv-nonres
@@ -1343,9 +1343,9 @@ EDGE: bpN:p8:blocks | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-no
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; nonresonance and distance conjuncts, alpha_bot_le row :48.
 NOTE: -
 
 NODE: stepN:p8:cv-radii
@@ -1374,9 +1374,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; radius bounds, rows :43-:47.
 NOTE: -
 
 NODE: bpN:p8:cutoffs
@@ -1437,7 +1437,7 @@ EDGE: bpN:p7:resonance-data | blueprint-N/parts/p8-resonance-geometry.tex#stepN:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cutoffs (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:50 (PASS WITH NOTES): `cutoffs` (Covering.lean:197) exact signature bytes; both norm inclusions, nonresonance, distance and radius comparison retained.
 NOTE: -

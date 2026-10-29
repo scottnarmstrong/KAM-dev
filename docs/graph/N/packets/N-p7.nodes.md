@@ -196,9 +196,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:rs-smooth@L39
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system (KAM/Nekhoroshev/Stability/RealSystem.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES, rows real-system(a) realH_contDiffOn (RealSystem:41), realH_periodic (RealSystem:52) at S7-1-audit-1.md:78 and S7-1-audit-1.md:79; real_system row S7-1-audit-1.md:69.
 NOTE: -
 
 NODE: stepN:p7:rs-field
@@ -229,9 +229,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:rs-field@L40-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system (KAM/Nekhoroshev/Stability/RealSystem.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES, row real_system (RealSystem:69: real/complex field identity, C1 field, interval energy) at S7-1-audit-1.md:69; frozen sign/slot check at S7-1-audit-1.md:116.
 NOTE: -
 
 NODE: bpN:p7:theta-derivative
@@ -293,9 +293,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:td-loss@L49-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: theta_derivative (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, row theta_derivative (Gradient:60) at S7-2-audit-1.md:34 and proof paragraph (L73 sum at fixed action; L81 representation at positive width s') at S7-2-audit-1.md:46.
 NOTE: -
 
 NODE: stepN:p7:td-lim
@@ -325,9 +325,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:td-lim@L50-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-delta2-N-d
 REVIEWER: sol-delta3-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: theta_derivative (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, proof paragraph at S7-2-audit-1.md:46: L88-98 takes s' down to 0 on the numerical bound, Euclidean comparison euclid_le_sum_norm (L48) and complex-domain value estimate.
 NOTE: -
 
 NODE: bpN:p7:resonant-gradient
@@ -386,9 +386,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:rg-coef@L58-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_gradient (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, rows sum_dtheta_eq_zero (Gradient:124) and resonant_gradient (Gradient:166) at S7-2-audit-1.md:37; proof paragraph L130-164 (each Fourier term vanishes by orthogonality or off-support) at S7-2-audit-1.md:48.
 NOTE: -
 
 NODE: stepN:p7:rg-zero
@@ -417,9 +417,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:rg-zero@L59-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_gradient (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, proof paragraph at S7-2-audit-1.md:48 (L130-164 summable expansion at s/2 sums to zero; L173-196 annihilator argument gives span membership, equivalent to the source conclusion); row resonant_gradient S7-2-audit-1.md:38.
 NOTE: -
 
 NODE: bpN:p7:conjugation
@@ -480,9 +480,9 @@ EDGE: bpN:p1:ext-restrict | blueprint-N/parts/p7-stability.tex#stepN:p7:cj-real@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: conjugation (KAM/Nekhoroshev/Stability/Conjugation.lean)
+LEAN_NOTE: BYPASSED (D27): Lean conjugation (Conjugation.lean:89, audit S7-3 PASS WITH NOTES) does not form the real Jacobian Y with Y^T J Y = J and det Y=+-1; it works first with the complex field, proves Y J Y^T = J-type field identity via map_hamiltonianJ_comp from complex symplecticity, and restricts to reals via reMap_mem and reMap_hasFDerivAt (intertwining for every real direction) (S7-3-audit-1.md:142; note 3 at S7-3-audit-1.md:250). Route taken: conjugation.
 NOTE: -
 
 NODE: stepN:p7:cj-chain
@@ -510,9 +510,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:cj-chain@L70-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: conjugation (KAM/Nekhoroshev/Stability/Conjugation.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, row conjugation (Conjugation:89) at S7-3-audit-1.md:46 and proof paragraph at S7-3-audit-1.md:142: chain rule gives HasDerivAt of Psi o z~ with the H-field at every orbit time including endpoints, orbit in W_r.
 NOTE: -
 
 NODE: bpN:p7:preimage
@@ -571,9 +571,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-set@L79-L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, row preimage and proof paragraph (L54-94 domain geometry: complex radius-1/2 ball inside domain at radius-1/4 real centres; convex closed ball X) at S7-4-audit-1.md:118 and S7-4-audit-1.md:129; Lean lines L114-227.
 NOTE: -
 
 NODE: stepN:p7:pi-self
@@ -599,9 +599,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-self@L80-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, proof paragraph at S7-4-audit-1.md:129 ('T u = Wy - psi u preserves X'), reality of T from real Psi; Lean preimage L114-227.
 NOTE: -
 
 NODE: stepN:p7:pi-contr
@@ -632,9 +632,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-contr@L81-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, proof paragraph at S7-4-audit-1.md:126 (Cauchy ||DG||<=2 kappa at L158-161, real restriction and contractive real-part projection, mean value inequality on convex X, 2 kappa<=1/2) and domain inclusion L54-94 at S7-4-audit-1.md:118.
 NOTE: -
 
 NODE: stepN:p7:pi-fix
@@ -661,9 +661,9 @@ EDGE: stepN:p7:pi-contr | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-fix@L82
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, proof paragraph at S7-4-audit-1.md:129: Banach fixed point on complete nonempty X, reality recovers Psi(i x)=i y, displacement bounds from the original hypotheses.
 NOTE: -
 
 NODE: bpN:p7:preimage-nfl
@@ -721,9 +721,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p7-stability.tex#stepN:p7:pn-apply@L89-L89
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage_nfl (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, row preimage_nfl and proof paragraph L245-271 (q>0, d_I/rho' <= 1/64 via qK eps/alpha <= r/128, angle ratio 30/(128 . 2 pi K s) <= 30/768 < 1/4) at S7-4-audit-1.md:135.
 NOTE: -
 
 NODE: bpN:p7:transfer
@@ -784,9 +784,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-orbit@L104
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, row transfer (Transfer:156) at S7-3-audit-1.md:48 and proof paragraph (Transfer 179-259: T2 initial preimage, T1 and norm symmetry, maximal H~ orbit by real_system(c)) at S7-3-audit-1.md:156.
 NOTE: -
 
 NODE: stepN:p7:tr-long
@@ -814,9 +814,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-long@L105-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, proof paragraph at S7-3-audit-1.md:156: actions in compact K (closed Nrm ball), d+rho<r~, admissible time beyond a finite maximal endpoint contradicts periodic continuation.
 NOTE: -
 
 NODE: stepN:p7:tr-ident
@@ -845,9 +845,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-ident@L106
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, proof paragraph at S7-3-audit-1.md:156: uniqueness identifies the two H orbits on their interval intersection.
 NOTE: -
 
 NODE: stepN:p7:tr-est
@@ -874,9 +874,9 @@ EDGE: stepN:p7:tr-orbit | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-est@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, proof paragraph at S7-3-audit-1.md:156 (final triangle estimate uses T1 twice and T3 once, giving rho+2d); row transfer exact T1-T3 type and bound rho+2d (S7-3-audit-1.md:48).
 NOTE: -
 
 NODE: bpN:p7:stopped-extension
@@ -933,9 +933,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:se-stop@L114-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: stopped_extension (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: BYPASSED (D27): Lean stopped_extension (Transfer.lean:86, audit S7-3 PASS WITH NOTES) does not construct the relatively open set {t in J : z(t) in W_r} or its component J'; it argues on each closed initial segment inside the open strip with gen_exit and a closed cylinder C (stay_forward, Transfer:49) (S7-3-audit-1.md:150; note 3 at S7-3-audit-1.md:250). Route taken: stopped_extension.
 NOTE: -
 
 NODE: stepN:p7:se-noexit
@@ -962,9 +962,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:se-noexit@L11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: stopped_extension (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: BYPASSED (D27): the component-endpoint contradiction is replaced in Lean stopped_extension (Transfer.lean:86) by the first-exit argument: a first exit t*>0 lies in the closure of the preceding half-open segment, continuity and the closed cylinder C={Nrm(I-I0)<=rho} place its value in C inside W_r (stay_forward, Transfer:49) (S7-3-audit-1.md:150). Route taken: stopped_extension.
 NOTE: -
 
 NODE: bpN:p7:exit-ball
@@ -1016,9 +1016,9 @@ EDGE: bpN:p3:gen-exit | blueprint-N/parts/p7-stability.tex#stepN:p7:eb-exit@L122
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exit_ball (KAM/Nekhoroshev/Stability/Setting.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES, row exit_ball (Setting.lean:220, first boundary hit and closed-ball bound in both time directions, exact statement) at S7-1-audit-1.md:68 and helper first_hit (:186) at S7-1-audit-1.md:75; proved directly rather than through gen_exit, same conclusion.
 NOTE: -
 
 NODE: bpN:p7:nonresonant
@@ -1084,9 +1084,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-dataA@L141
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: audit S7-7 PASS WITH NOTES, proof items 2-3 (Nonresonant:115-166: normal_form with Lambda={0} on the actual hypotheses (i)-(iii), preimage_nfl giving real preimages and d=qK eps/alpha<=r/128, finite weighted bound for g) at S7-7-audit-1.md:139 and S7-7-audit-1.md:143.
 NOTE: -
 
 NODE: stepN:p7:nr-t3
@@ -1117,9 +1117,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-t3@L142-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean nonresonant (Nonresonant.lean:92, audit S7-7 PASS WITH NOTES) does not use exit_ball for (T3); it bounds the action drift of the orbit directly by the mean value inequality drift_bound (NonresonantAux:123) with the globally bounded remainder gradient, since gradient bounds are uniform on the full strip (S7-7-audit-1.md:55; route notes at S7-7-audit-1.md:164). Route taken: nonresonant with drift_bound.
 NOTE: -
 
 NODE: stepN:p7:nr-concA
@@ -1146,9 +1146,9 @@ EDGE: stepN:p7:nr-t3 | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-concA@L145
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: audit S7-7 PASS WITH NOTES, proof item 5 (Nonresonant:196-209: transfer with Nrm=||.||, rho=15r/32, d+rho<=61r/128<r/2, bound rho+2d<=31r/64<=r/2) at S7-7-audit-1.md:152.
 NOTE: -
 
 NODE: stepN:p7:nr-caseB
@@ -1183,9 +1183,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-caseB@L146-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: BYPASSED (D27): for kappa<6 Lean nonresonant (Nonresonant.lean:92, S7-7 PASS WITH NOTES) estimates the drift directly (thetaGradR_h_add, norm_thetaGradR_le, drift_bound, arith_small; Nonresonant:108-114) without manufacturing identity-map transfer data and without nonresonant_case or exit_ball (S7-7-audit-1.md:135; route notes at S7-7-audit-1.md:164). Route taken: nonresonant small-kappa branch.
 NOTE: -
 
 NODE: bpN:p7:resonance-data
@@ -1273,9 +1273,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ec-energy@L17
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_core (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES, row energy_core (Energy:237) naming steps ec-energy/ec-proj/ec-taylor at S7-5-audit-1.md:39.
 NOTE: -
 
 NODE: stepN:p7:ec-proj
@@ -1303,9 +1303,9 @@ EDGE: bpN:p7:ext-linalg | blueprint-N/parts/p7-stability.tex#stepN:p7:ec-proj@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_core (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES, row energy_core (Energy:237) naming steps ec-energy/ec-proj/ec-taylor at S7-5-audit-1.md:39; conclusion (b) with uniform bound B.
 NOTE: -
 
 NODE: stepN:p7:ec-taylor
@@ -1334,9 +1334,9 @@ EDGE: bpN:p1:ext-norms | blueprint-N/parts/p7-stability.tex#stepN:p7:ec-taylor@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_core (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES, row energy_core (Energy:237) naming steps ec-energy/ec-proj/ec-taylor at S7-5-audit-1.md:39; helper taylor_segment (Energy:77); conclusion (c),(d).
 NOTE: -
 
 NODE: bpN:p7:admissible
@@ -1394,9 +1394,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ad-ball@L185-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: admissible (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row admissible (Resonant:261: closed Euclidean ball inside the open max-norm tube) at S7-6-audit-1.md:42; proof paragraph L261-308 at S7-6-audit-1.md:75.
 NOTE: -
 
 NODE: stepN:p7:ad-close
@@ -1426,9 +1426,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ad-close@L186
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: admissible (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row admissible (projection bound varies by M||I-I0||_2, initial bound 5 delta/4) at S7-6-audit-1.md:42; proof paragraph L261-308 (closeness witness and M rho = delta/4) at S7-6-audit-1.md:75.
 NOTE: -
 
 NODE: bpN:p7:no-exit
@@ -1490,9 +1490,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ne-core@L201-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: no_exit (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row no_exit (Resonant:388) and proof paragraph L310-385 (rs_energy applies energy_core on realNbhd D r with real_system, resonant_gradient, theta_derivative) at S7-6-audit-1.md:43 and S7-6-audit-1.md:78.
 NOTE: -
 
 NODE: stepN:p7:ne-terms
@@ -1524,9 +1524,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ne-terms@L203
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: no_exit (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean no_exit (Resonant.lean:388, audit S7-6 PASS WITH NOTES) bounds the three terms by A<=mr^2/16, B<=5mr^2/16, C<=mr^2/24 (only exp 1>=2) instead of the blueprint's Young-inequality split of B; the audit states 'This replaces the blueprint's Young-inequality arithmetic without changing its result' (S7-6-audit-1.md:82). Route taken: no_exit.
 NOTE: -
 
 NODE: stepN:p7:ne-contra
@@ -1554,9 +1554,9 @@ EDGE: bpN:p7:s-energy#rs | blueprint-N/parts/p7-stability.tex#stepN:p7:ne-contra
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: no_exit (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean no_exit (Resonant.lean:388) derives the contradiction as 225 m r^2/512 <= 5 m r^2/12 from its own term bounds, not the blueprint's m/3 Delta^2 <= m r^2/4 versus 0.29 m r^2 (S7-6-audit-1.md:82). Route taken: no_exit.
 NOTE: -
 
 NODE: bpN:p7:resonant-lemma2
@@ -1617,9 +1617,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-exit@L228-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row resonant_lemma2 (Resonant:447) at S7-6-audit-1.md:45 and proof paragraphs L413-444 (exit_ball gives actual first boundary time) and L447-514 at S7-6-audit-1.md:86.
 NOTE: -
 
 NODE: stepN:p7:l2-iii
@@ -1646,9 +1646,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-iii@L229-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row resonant_lemma2 (arbitrary valid Omega bound) at S7-6-audit-1.md:45; proof paragraph L447-514 ('Omega bounds every chord frequency ... time bound give the error <= m r^2/24') at S7-6-audit-1.md:89.
 NOTE: -
 
 NODE: stepN:p7:l2-cone
@@ -1683,9 +1683,9 @@ EDGE: bpN:p1:ext-norms | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-cone@L23
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean resonant_lemma2 (Resonant.lean:447, audit S7-6 PASS WITH NOTES) proves the cone condition with its own numerics: projection term <=(7/8) l Delta, using mr<=2l and r<=(16/15)Delta, total (7/8+4/45) l Delta = 347/360 l Delta <= l Delta, not the blueprint's 0.941 l ||Delta I|| (S7-6-audit-1.md:89; 'weaker numerical estimates ... remain sufficient' S7-6-audit-1.md:95). Route taken: resonant_lemma2.
 NOTE: -
 
 NODE: stepN:p7:l2-conv
@@ -1716,9 +1716,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-conv@L232-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, proof paragraph L447-514 at S7-6-audit-1.md:89: the cone inequality contradicts the strict first quasi-convex alternative, leaving the Hessian lower bound required by no_exit; row resonant_lemma2 (S7-6-audit-1.md:45).
 NOTE: -
 
 NODE: bpN:p7:resonant-prop2
@@ -1785,9 +1785,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-red@L254-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows labelled p2-red (realInclusion_mem_polyNbhd'', euclid_ofReal', norm_apply_le_euclid, contDiffOn_realPart, fderiv_realPart, hessBound_of_complex, freqLipschitz_of_complex, Prop2Hyp.nums) at S7-8-audit-1.md:81 to S7-8-audit-1.md:56.
 NOTE: -
 
 NODE: stepN:p7:p2-cases
@@ -1822,9 +1822,9 @@ EDGE: bpN:p4:norm#monotone | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-case
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-cases A/B/C: prop2_idData, prop2_caseC (R:195), prop2_caseB (R:220), prop2_caseA (R:256) at S7-8-audit-1.md:98 to S7-8-audit-1.md:102; resonant_prop2 (R:369) S7-8-audit-1.md:103.
 NOTE: -
 
 NODE: stepN:p7:p2-t12
@@ -1854,9 +1854,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-t12@L259-L259
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-t12/t3/concl prop2_core (C:33) and p2-cases A / p2-t12 prop2_caseA (R:256), reMap_eq_of, euclid_re_le, mem_realStrip_of_mem at S7-8-audit-1.md:88 and S7-8-audit-1.md:102.
 NOTE: -
 
 NODE: stepN:p7:p2-t3
@@ -1891,9 +1891,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-t3@L260-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-delta2-N-d
 REVIEWER: sol-delta3-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-t12/t3/concl prop2_core (C:33, transfer helper discharged by cases) at S7-8-audit-1.md:88; case arithmetic at S7-8-audit-1.md:69.
 NOTE: -
 
 NODE: stepN:p7:p2-concl
@@ -1923,9 +1923,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-concl@L261
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-concl Prop2Concl (R:89), Prop2Concl.wrap (R:161: max-norm consequence), prop2_core at S7-8-audit-1.md:97; resonant_prop2 exact signature S7-8-audit-1.md:103.
 NOTE: -
 
 NODE: bpN:p7:s-energy#rs

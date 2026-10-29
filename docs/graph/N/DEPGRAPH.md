@@ -1873,9 +1873,9 @@ EDGE: bpN:p1:ext-norms | blueprint-N/parts/p1-interfaces.tex#stepN:p1:nc-vec@L41
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.norm_le_euclid, KAM.Nekhoroshev.modeSize_euclid_compare (KAM/Nekhoroshev/Interfaces/Norms.lean)
+LEAN_NOTE: Audit P1-1-audit-1.md L16-17 and P1-2-audit-1.md L26-27 (norm-compare (a),(b), PASS).
 NOTE: -
 
 NODE: stepN:p1:nc-mat
@@ -1900,9 +1900,9 @@ EDGE: stepN:p1:nc-vec | blueprint-N/parts/p1-interfaces.tex#stepN:p1:nc-mat@L43-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.bilinear_euclid_bound (KAM/Nekhoroshev/Interfaces/Norms.lean)
+LEAN_NOTE: Audit P1-1-audit-1.md L19 and P1-2-audit-1.md L29 (norm-compare (c): complex bilinear bound n M0, PASS).
 NOTE: -
 
 NODE: bpN:p1:realdomain
@@ -1963,9 +1963,9 @@ EDGE: bpN:p0:ball#actionBall | blueprint-N/parts/p1-interfaces.tex#stepN:p1:rd-r
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.realActionDomain_eq, KAM.Nekhoroshev.ball_subset_realActionDomain (KAM/Nekhoroshev/Interfaces/Domains.lean)
+LEAN_NOTE: Audit P1-1-audit-1.md L26,L28 and P1-2-audit-1.md L30,L32 (realdomain (a), radial witness R/(R+s) I, PASS).
 NOTE: -
 
 NODE: stepN:p1:rd-open
@@ -1994,9 +1994,9 @@ EDGE: stepN:p1:rd-real | blueprint-N/parts/p1-interfaces.tex#stepN:p1:rd-open@L6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.isOpen_realActionDomain, KAM.Nekhoroshev.isOpen_Wdom, KAM.Nekhoroshev.isOpen_actionNbhd_ball, KAM.Nekhoroshev.isOpen_complexDomain, KAM.Nekhoroshev.realInclusion_preimage_actionNbhd (KAM/Nekhoroshev/Interfaces/Domains.lean)
+LEAN_NOTE: Audit P1-1-audit-1.md L27,L29,L31-33 and P1-2-audit-1.md L31,L33,L35-37 (realdomain (a),(b), PASS; openness stronger, for arbitrary R,s).
 NOTE: -
 
 NODE: stepN:p1:rd-euclid
@@ -2023,9 +2023,9 @@ EDGE: bpN:p0:ball#actionBall | blueprint-N/parts/p1-interfaces.tex#stepN:p1:rd-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.tube_subset, KAM.Nekhoroshev.tube_real (KAM/Nekhoroshev/Interfaces/Domains.lean)
+LEAN_NOTE: Audit P1-1-audit-1.md L34-35 and P1-2-audit-1.md L38-39 (realdomain (c), max-norm tubes, bounds 5R/8, 3R/4). The Euclidean-tube containment is the stated consequence via norm_le_euclid (Norms.lean, audit P1-2 L26).
 NOTE: -
 
 NODE: bpN:p1:s-holo#data
@@ -2124,9 +2124,9 @@ EDGE: K:bp:p1:holomorphic-regularity | blueprint-N/parts/p1-interfaces.tex#stepN
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_real_a (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: Audit P1-2-audit-1.md L42 (holo-real (a), PASS).
 NOTE: -
 
 NODE: stepN:p1:hr-real
@@ -2156,9 +2156,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:hr-real@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_real_b (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: Audit P1-2-audit-1.md L43 (holo-real (b): reality and real-part identity, PASS).
 NOTE: -
 
 NODE: stepN:p1:hr-deriv
@@ -2187,9 +2187,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:hr-deriv
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_real_b (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: Audit P1-2-audit-1.md L43 (real smoothness and all-order derivative identities, PASS).
 NOTE: -
 
 NODE: stepN:p1:hr-field
@@ -2221,9 +2221,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:hr-field
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_real_c, KAM.Nekhoroshev.complexHessian (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: Audit P1-2-audit-1.md L44-45 (holo-real (c): field X_H = X_{h+f} o iota, frequency gradient, real Hessian identity, complex symmetry, PASS).
 NOTE: -
 
 NODE: stepN:p1:hr-per
@@ -2253,9 +2253,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:hr-per@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_real_d (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: Audit P1-2-audit-1.md L46 (holo-real (d): H, DH, X_H and all iterated derivatives under integer shifts, PASS).
 NOTE: -
 
 NODE: stepN:p1:hr-zero
@@ -2284,9 +2284,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:hr-zero@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_real_e (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: Audit P1-2-audit-1.md L47 (holo-real (e), PASS).
 NOTE: -
 
 NODE: bpN:p1:partials
@@ -2347,9 +2347,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:pa-first
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: partials (KAM/Nekhoroshev/Interfaces/Hessian.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L20 (partials: first partial, max-norm gradient and Euclidean sqrt(n) M bound, PASS).
 NOTE: -
 
 NODE: stepN:p1:pa-sym
@@ -2376,9 +2376,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:pa-sym@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: partials (KAM/Nekhoroshev/Interfaces/Hessian.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L20 (ordered-partial permutation invariance and second/third entry bounds, PASS).
 NOTE: -
 
 NODE: bpN:p1:hessian-convert
@@ -2439,9 +2439,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:hc-entri
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hessian_convert (KAM/Nekhoroshev/Interfaces/Hessian.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L21 (complex entry bound Mc on the full complex action neighbourhood, PASS).
 NOTE: -
 
 NODE: stepN:p1:hc-eucl
@@ -2468,9 +2468,9 @@ EDGE: bpN:p1:s-holo#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:hc-eucl@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hessian_convert (KAM/Nekhoroshev/Interfaces/Hessian.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L21 (bilinear and Euclidean matrix-operator bounds with n Mc, PASS); uses bilinear_euclid_bound (P1-1 L19).
 NOTE: -
 
 NODE: bpN:p1:conic-coercive
@@ -2524,9 +2524,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Nekhoroshev.conic_coercive (KAM/Nekhoroshev/Interfaces/ConicCoercive.lean)
+LEAN_NOTE: Unit normalisation is replaced: conic_coercive keeps N = euclid xi throughout, including xi = 0 (Interfaces/ConicCoercive.lean L91-175); audit P1-3a-audit-1.md L34 (PASS, alternate proof route).
 NOTE: -
 
 NODE: stepN:p1:cc-decomp
@@ -2674,9 +2674,9 @@ EDGE: bpN:p0:hess#HasComplexHessianBound | blueprint-N/parts/p1-interfaces.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qc_convert (KAM/Nekhoroshev/Interfaces/QuasiConvex.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L22 (qc-convert (a): outputs on B(0,R), Hessian bound B_c, PASS) with hessian_convert (L21).
 NOTE: SOURCE_GAP: The current hessian-convert contract includes the standing §s-holo data IsAnalyticPerturbation R s ε f (L68–70 and its SOURCE_HYPOTHESES). This application supplies hypotheses on h only and no such f,ε datum. The quoted Hessian estimate is h-only in its proof, but that premise-free projection has not been recorded as a distinct source result. Keep the present source premises unchanged and expose the conditional-application mismatch.
 
 NODE: stepN:p1:qc-trans
@@ -2703,9 +2703,9 @@ EDGE: stepN:p1:qc-reg | blueprint-N/parts/p1-interfaces.tex#stepN:p1:qc-trans@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qc_convert (KAM/Nekhoroshev/Interfaces/QuasiConvex.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L22 (qc-convert: constants q=m/n, B_c, frequency comparisons, PASS).
 NOTE: -
 
 NODE: stepN:p1:qc-freq
@@ -2730,9 +2730,9 @@ EDGE: bpN:p1:norm-compare | blueprint-N/parts/p1-interfaces.tex#stepN:p1:qc-freq
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qc_convert (KAM/Nekhoroshev/Interfaces/QuasiConvex.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L22 (frequency comparisons) and P1-1-audit-1.md L15-16 (norm comparison).
 NOTE: -
 
 NODE: stepN:p1:qc-conic
@@ -2760,9 +2760,9 @@ EDGE: stepN:p1:qc-freq | blueprint-N/parts/p1-interfaces.tex#stepN:p1:qc-conic@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qc_convert (KAM/Nekhoroshev/Interfaces/QuasiConvex.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L22 (conditional cone estimate) using conic_coercive (P1-3a-audit-1.md L27).
 NOTE: -
 
 NODE: stepN:p1:qc-scale
@@ -2790,9 +2790,9 @@ EDGE: stepN:p1:qc-trans | blueprint-N/parts/p1-interfaces.tex#stepN:p1:qc-scale@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qc_convert_tilde (KAM/Nekhoroshev/Interfaces/Period.lean)
+LEAN_NOTE: Audit P1-3b-audit-1.md L23 (qc_convert_tilde: 2pi scaling transports the cone implication with (2 pi ell, 2 pi mu), PASS).
 NOTE: -
 
 NODE: bpN:p1:period-convert
@@ -2854,9 +2854,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1
 REVIEWER: sol-review-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: isSolutionOn_tilde_iff, frequencyMap_tildeh (KAM/Nekhoroshev/Interfaces/Period.lean)
+LEAN_NOTE: Private differentiableAt_tildeH_iff (L138), fderiv_tildeH (L128), hamiltonianVectorField_tildeH (L160). Audit P1-4-audit-1.md proof review (chain-rule steps established, differentiability iff transported explicitly) and rows L24-25.
 NOTE: -
 
 NODE: stepN:p1:pc-field
@@ -2883,9 +2883,9 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p1-interfaces.tex#stepN:p1:pc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: isSolutionOn_tilde_iff (KAM/Nekhoroshev/Interfaces/Period.lean)
+LEAN_NOTE: Private hasDerivAt_periodLift_iff (L177) and isSolutionOn_tilde_iff (L205). Audit P1-4-audit-1.md L24 (part (a), both directions, PASS).
 NOTE: -
 
 NODE: stepN:p1:pc-scalar
@@ -2917,9 +2917,9 @@ EDGE: bpN:p0:cdomain#complexDomain | blueprint-N/parts/p1-interfaces.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: frequencyMap_tildeh, fderiv_fderiv_realPart_tildeh, tilde_hypotheses, tildef_domain, tildef_periodic (KAM/Nekhoroshev/Interfaces/Period.lean)
+LEAN_NOTE: Audit P1-4-audit-1.md L25-29 (parts (b)-(d), PASS / PASS WITH NOTES); (e) tildef_fourier L30. The audit L52 notes the blueprint typo (c)-(f) for (c)-(e).
 NOTE: Clause (e) assumes Fourier convergence explicitly at L186. The proof at L195 substitutes φ=2πθ into that given expansion; it does not apply the K summation theorem. The K citation at L186 is a pointer to a sufficient convergence result, not a prerequisite of this conditional substitution.
 
 NODE: bpN:p1:norm-convert
@@ -2976,9 +2976,9 @@ EDGE: bpN:p4:n-zero | blueprint-N/parts/p1-interfaces.tex#stepN:p1:nc-decay@L206
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-delta-N-a+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Nekhoroshev.norm_convert (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: Decay-route step: Lean norm_convert (Interfaces/ConstantsAnalytic.lean L173-182) is a direct application of K summableWeighted_torusCoeff (summation-route), which already contains decay and the coth sum; audit P1-6-audit-1.md L24 (PASS). Route taken: bpN:p1:norm-convert#summation-route.
 NOTE: Explicit cases n=0 (Remark bpN:p4:n-zero, no K result) and n≥1 (K decay under the standing convention); the earlier SOURCE_GAP about the missing n=0 branch is supplied. First forward route only: use coefficient decay, then take the scalar limit ρ′↑ρ. The text offers K summation as an alternative for the aggregate weighted bound; see the parent's route nodes.
 
 NODE: stepN:p1:nc-sum
@@ -3005,9 +3005,9 @@ EDGE: bpN:p4:n-zero | blueprint-N/parts/p1-interfaces.tex#stepN:p1:nc-sum@L208-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-global-N+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Nekhoroshev.norm_convert (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: Decay-route step: the coth(pi delta)^n factor is supplied inside the imported K theorem applied by norm_convert (ConstantsAnalytic.lean L173-182; audit P1-6-audit-1.md L24). Route taken: bpN:p1:norm-convert#summation-route.
 NOTE: Explicit cases: n≥1 uses K exp-sums(b); n=0 the sum is the single term k=0 (Remark bpN:p4:n-zero); the earlier SOURCE_GAP about the missing n=0 branch is supplied.
 
 NODE: bpN:p1:constants
@@ -3137,9 +3137,9 @@ EDGE: bpN:p1:constants#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:co-tu
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.const_tubes (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: Audit P1-6-audit-1.md L19 (PASS).
 NOTE: -
 
 NODE: stepN:p1:co-qc
@@ -3170,9 +3170,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p1-interfaces.tex#stepN:p1:co-qc@L243-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.const_hyp (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: const_hyp (quasi-convexity of h-tilde and Hessian bound 2 pi B), with HeadParams.A literal 11 B/mu and r0 <= ell/(2B) (HeadParams.r0_le_ell_div, const_size in Constants.lean): audit P1-6-audit-1.md L20 and P1-5-audit-1.md L41,L69,L73.
 NOTE: SOURCE_GAP: The current hessian-convert contract includes the standing §s-holo data IsAnalyticPerturbation R s ε f (L68–70 and its SOURCE_HYPOTHESES). This application supplies hypotheses on h only and no such f,ε datum. The quoted Hessian estimate is h-only in its proof, but that premise-free projection has not been recorded as a distinct source result. Keep the present source premises unchanged and expose the conditional-application mismatch.
 
 NODE: stepN:p1:co-pert
@@ -3204,9 +3204,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p1-interfaces.tex#stepN:p1:co-pert@L245
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Only numerical conjunct proved (const_perturbation_arith, Constants.lean); Poschel-norm bound of f-tilde not proved; audit P1-5
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.const_perturbation (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: const_perturbation: WBound with coth(pi s/4)^n eps, then 2 pi times it equals F eps <= eps_star (const_perturbation_arith). Audit P1-6-audit-1.md L21 and P1-5-audit-1.md L77 (PASS). Supersedes the earlier LEAN_NOTE (analytic part now proved).
 NOTE: -
 
 NODE: stepN:p1:co-exc
@@ -3233,9 +3233,9 @@ EDGE: bpN:p1:constants#data | blueprint-N/parts/p1-interfaces.tex#stepN:p1:co-ex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Only numerical threshold comparisons proved (const_exceptional_arith, Constants.lean); frequency lower bound not; audit P1-5
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.const_exceptional (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: const_exceptional proves the full chain m_P r0/8 <= pi wmin < 2 pi wmin <= |omega-tilde(I0)|_2. Audit P1-6-audit-1.md L22 and P1-5-audit-1.md L76 (PASS). Supersedes the earlier LEAN_NOTE.
 NOTE: SOURCE_GAP: the lemma explicitly assumes H1–H5 only in clause (d). This clause needs the corresponding hypotheses on h (H3 for the frequency lower bound; H5 also for the time upper bound). The cited conditional conversions do not supply those premises. No such premise is added to the source contract.
 
 NODE: stepN:p1:co-time
@@ -3266,9 +3266,9 @@ EDGE: stepN:p1:co-size | blueprint-N/parts/p1-interfaces.tex#stepN:p1:co-time@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Only numerical conjunct proved (const_time_arith, Constants.lean); Omega0 bounds not; audit P1-5
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.const_time (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: const_time: Euclidean frequency bound 2 pi sqrt(n) M on the R0-ball and 2T <= A^2 s0/Omega0 for Omega0 in (0, 2 pi n M]. Audit P1-6-audit-1.md L23 and P1-5-audit-1.md L75 (PASS). Supersedes the earlier LEAN_NOTE.
 NOTE: SOURCE_GAP: In addition to the already recorded missing h-bound scope, the current partials contract inherits IsAnalyticPerturbation R s ε f from §s-holo. This application does not bind or supply that datum. No source hypothesis is added here. SOURCE_GAP: the lemma explicitly assumes H1–H5 only in clause (d). This clause needs the corresponding hypotheses on h (H3 for the frequency lower bound; H5 also for the time upper bound). The cited conditional conversions do not supply those premises. No such premise is added to the source contract.
 
 NODE: stepN:p1:co-conc
@@ -3295,9 +3295,9 @@ EDGE: bpN:p9:setting | blueprint-N/parts/p1-interfaces.tex#stepN:p1:co-conc@L251
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p1+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.const_conclusion (KAM/Nekhoroshev/Interfaces/Constants.lean)
+LEAN_NOTE: const_conclusion gives both radius/time equalities R0 (F eps/eps_star)^a = C eps^a and c eps^(-a); T<=T0/2 is const_time. Audit P1-5-audit-1.md L74 (PASS) and P1-6-audit-1.md L23.
 NOTE: Expression comparison only. Do not depend on Theorem 1 as a proved result; the time inequality uses co-time, which exposes the missing h-premise scope.
 
 NODE: bpN:p1:norm-convert#decay-route
@@ -3323,9 +3323,9 @@ EDGE: stepN:p1:nc-sum | blueprint-N/parts/p1-interfaces.tex#stepN:p1:nc-sum@L208
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-N-a
 REVIEWER: sol-delta-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.Nekhoroshev.norm_convert (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: Route not taken: norm_convert (Interfaces/ConstantsAnalytic.lean L173-182) uses bpN:p1:norm-convert#summation-route, i.e. the imported K theorem KAM.summableWeighted_torusCoeff directly; audit P1-6-audit-1.md L24.
 NOTE: -
 
 NODE: bpN:p1:norm-convert#summation-route
@@ -3351,9 +3351,9 @@ EDGE: bpN:p4:n-zero | blueprint-N/parts/p1-interfaces.tex#stepN:p1:nc-decay@L206
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-global-N
 REVIEWER: sol-delta-N-global2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.norm_convert (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: norm_convert is literally KAM.summableWeighted_torusCoeff (ConstantsAnalytic.lean L173-182): summability and weightedNorm <= (cosh/sinh)^n A at radius 2 pi (rho-delta), all n. Audit P1-6-audit-1.md L24 (PASS).
 NOTE: For n=0 use the explicit singleton case at p1 L206 and bpN:p4:n-zero; for n≥1 use the imported K summation converse. The source supplies both cases, so the earlier missing-dimension SOURCE_GAP is resolved.
 
 NODE: bpN:p1:norm-convert#converse
@@ -3379,9 +3379,9 @@ EDGE: bpN:p4:n-zero | blueprint-N/parts/p1-interfaces.tex#stepN:p1:nc-decay@L206
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-global-N
 REVIEWER: sol-delta-N-global2
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.norm_convert_converse (KAM/Nekhoroshev/Interfaces/ConstantsAnalytic.lean)
+LEAN_NOTE: norm_convert_converse (ConstantsAnalytic.lean L184-198) via eq_fourierSum_torusCoeff and norm_fourierSum_le. Audit P1-6-audit-1.md L25 (PASS).
 NOTE: For n=0 the proof at p1 L206 explicitly reduces the converse to abs(u)<=abs(u), using the singleton Fourier coefficient. For n≥1 use K summation/Fourier reconstruction, with the infinite full weighted-sum case immediate. This is common to both forward routes; the earlier missing-dimension SOURCE_GAP is resolved.
 
 NODE: bpN:p1:constants#data
@@ -3701,9 +3701,9 @@ EDGE: bpN:p3:ext-lip-local | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a
 REVIEWER: sol-review-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Route taken by gen_lip (Lipschitz.lean L35-45: LocallyLipschitzOn from ContDiffAt.exists_lipschitzOnWith, then LocallyLipschitzOn.exists_lipschitzOnWith_of_compact). Audit N3-1-audit-1.md L42 (PASS) and refute-first item 4 at L105.
 NOTE: -
 
 NODE: stepN:p3:lip-explicit
@@ -3729,9 +3729,9 @@ EDGE: stepN:p3:lip-compact | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Explicit contradiction/subsequence route is not taken; gen_lip (KAM/ODE/Lipschitz.lean L35-45, audit N3-1-audit-1.md L42,L105) uses the Mathlib route stepN:p3:lip-mathlib.
 NOTE: new route node: the remaining steps lip-bdd..lip-compact of Lemma gen-lip ('The remaining steps are the explanatory proof of that fact', L122); lip-bdd is shared with the other route; STATEMENT/PROOF_SOURCE are L124-L133
 
 NODE: stepN:p3:lip-bdd
@@ -3756,9 +3756,9 @@ EDGE: bpN:p3:ext-compact | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:lip
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Bound |F|<=M on compact K proved verbatim by IsCompact.exists_bound_of_continuousOn with max C 0 (Lipschitz.lean L40-42); audit N3-1-audit-1.md L42 and refute-first item 4 (L105).
 NOTE: -
 
 NODE: stepN:p3:lip-contra
@@ -3783,9 +3783,9 @@ EDGE: stepN:p3:lip-bdd | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:lip-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-delta-N-c
 REVIEWER: sol-delta2-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Step belongs only to the explicit contradiction route; the route actually taken is stepN:p3:lip-mathlib inside KAM.ODE.gen_lip (Lipschitz.lean L35-45; audit N3-1-audit-1.md L105).
 NOTE: -
 
 NODE: stepN:p3:lip-compact
@@ -3812,9 +3812,9 @@ EDGE: stepN:p3:lip-contra | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:li
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_lip (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Step belongs only to the explicit contradiction route; the route actually taken is stepN:p3:lip-mathlib (compact local-to-global Lipschitz theorem of Mathlib) inside KAM.ODE.gen_lip (Lipschitz.lean L43-44).
 NOTE: -
 
 NODE: bpN:p3:gen-uniform
@@ -3894,9 +3894,9 @@ EDGE: bpN:p3:ext-compact | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a
 REVIEWER: sol-review-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_compact, KAM.ODE.closedThickening (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Lipschitz.lean L61-68: delta>0 from IsCompact.exists_cthickening_subset_open, closedThickening K delta = cthickening, hence inside W and compact (ProperSpace). Same conclusion by Mathlib instead of the explicit 2delta=min dist construction. Audit N3-1-audit-1.md L45 and refute-first item 5 (L106).
 NOTE: -
 
 NODE: stepN:p3:uc-data
@@ -3923,9 +3923,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_compact (KAM/ODE/Lipschitz.lean)
+LEAN_NOTE: Lipschitz.lean L69-73: gen_lip applied to the compact thickening, every centre ball included in it. Audit N3-1-audit-1.md L45 and item 5 (L106).
 NOTE: -
 
 NODE: bpN:p3:gen-uniform-periodic
@@ -3982,9 +3982,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:up-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_periodic (KAM/ODE/UniformPeriodic.lean)
+LEAN_NOTE: Compact cell [-1,2]^n x cthickening delta K with delta=min(delta0,1), constants M,L chosen before the centre. Audit N3-63-audit-1.md L42 (row, PASS WITH NOTES package) and proof review L121.
 NOTE: -
 
 NODE: stepN:p3:up-translate
@@ -4010,9 +4010,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:up-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_periodic (KAM/ODE/UniformPeriodic.lean)
+LEAN_NOTE: Integer shift floor(x.1) translates each ball into the cell; periodicity gives the bounds. Audit N3-63-audit-1.md L42 and proof review L121 (same shift for all ball points).
 NOTE: -
 
 NODE: bpN:p3:gen-short
@@ -4066,9 +4066,9 @@ EDGE: bpN:p3:gen-sol#consequences | blueprint-N/parts/p3-hamiltonian-ode.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-delta-N-c
 REVIEWER: sol-delta2-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_short_forward, KAM.ODE.gen_short (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L59-111 (bootstrap: closed set S cap Icc, t0 in S, Icc_subset_of_forall_exists_gt) and L120-143 (t<t0 via gen_symmetry_neg). Audit N3-45-audit-1.md L18-19 (Part 3 L173-183) and proof bullet L253.
 NOTE: -
 
 NODE: stepN:p3:short-ext
@@ -4095,9 +4095,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:short-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_short_forward (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L83-111: continuity gives epsilon-neighbourhood, mean value inequality (Convex.norm_image_sub_le_of_norm_hasDerivWithin_le) extends the bound past u. Audit N3-45-audit-1.md L18 and bullet L253.
 NOTE: -
 
 NODE: bpN:p3:gen-uniform-exist
@@ -4153,9 +4153,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ue-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_exist, KAM.ODE.picard_lindelof_ball (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L155-160: picard_lindelof_ball with a=delta, bound max M 1, T=delta/max M 1. Audit N3-45-audit-1.md L17,L20 and bullet L252,L254.
 NOTE: -
 
 NODE: stepN:p3:ue-stay
@@ -4183,9 +4183,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ue-stay
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniform_exist (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L161-176: gen_short gives strict ||alpha-x||<delta, closedBall_subset yields membership in W. Audit N3-45-audit-1.md L20 and bullet L254.
 NOTE: -
 
 NODE: bpN:p3:gen-local
@@ -4241,9 +4241,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:loc-red
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_local (KAM/ODE/Existence.lean)
+LEAN_NOTE: Existence.lean L184-199: uniform data on compact K (singleton for x0) via gen_uniform_compact, epsilon=delta/max M 1 chosen before x0,t0. Audit N3-45-audit-1.md L21 and bullet L254.
 NOTE: -
 
 NODE: bpN:p3:gen-uniqueness
@@ -4301,9 +4301,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uq-comp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniqueness (KAM/ODE/Uniqueness.lean)
+LEAN_NOTE: Private lipschitz_on_images (Uniqueness.lean L33-47): union of images of [t0,t1] under the two solutions is compact and inside W. Audit N3-45-audit-1.md L30 and bullet L255.
 NOTE: -
 
 NODE: stepN:p3:uq-lip
@@ -4330,9 +4330,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uq-lip@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniqueness (KAM/ODE/Uniqueness.lean)
+LEAN_NOTE: lipschitz_on_images obtains L from gen_lip on that compact set (Uniqueness.lean L46). Audit N3-45-audit-1.md L30 (PASS: constructs K and L from the compact images and gen_lip).
 NOTE: -
 
 NODE: stepN:p3:uq-apply
@@ -4360,9 +4360,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:uq-appl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_uniqueness (KAM/ODE/Uniqueness.lean)
+LEAN_NOTE: Uniqueness.lean L56-77: Mathlib ODE_solution_unique_of_mem_Icc_right/left on [t0,t] and [t,t0]. Audit N3-45-audit-1.md L22 and bullet L255.
 NOTE: -
 
 NODE: bpN:p3:gen-extend
@@ -4419,9 +4419,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ext-rig
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-delta-N-c
 REVIEWER: sol-delta2-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_extend (KAM/ODE/Maximal.lean)
+LEAN_NOTE: Private extend_right (Maximal.lean L89-153): local existence at the greatest endpoint, gluing with two one-sided derivatives (L122-133). Audit N3-63-audit-1.md L32,L34 and review L115.
 NOTE: -
 
 NODE: stepN:p3:ext-left
@@ -4448,9 +4448,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:ext-lef
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_extend (KAM/ODE/Maximal.lean)
+LEAN_NOTE: Private extend_open (Maximal.lean L155-192): reverses time, extends the other end, proves no endpoints remain. Audit N3-63-audit-1.md L33-34.
 NOTE: -
 
 NODE: bpN:p3:gen-maximal
@@ -4507,9 +4507,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:max-uni
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_maximal (KAM/ODE/Maximal.lean)
+LEAN_NOTE: exists_maximal (Maximal.lean L244-277): GoodInterval family nonempty by gen_local, I = eIoo Tm Tp open interval through 0 (hIlt, hIeq). Audit N3-63-audit-1.md L36-37 and review L117.
 NOTE: -
 
 NODE: stepN:p3:max-glue
@@ -4537,9 +4537,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:max-glu
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_maximal (KAM/ODE/Maximal.lean)
+LEAN_NOTE: exists_maximal (Maximal.lean L278-292): z defined by choice on good intervals, independence via gen_uniqueness_inter (hz_key), solution on I by isSolutionIn_congr_of_isOpen, z 0 = x0. Audit N3-63-audit-1.md L37 and review L117.
 NOTE: -
 
 NODE: stepN:p3:max-max
@@ -4568,9 +4568,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:max-max
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_maximal (KAM/ODE/Maximal.lean)
+LEAN_NOTE: Maximality via gen_extend (Maximal.lean L296-302) and uniqueness of interval/z via eIoo_subset_of_maximal, left/right_eq_of_eIoo_subset (L308-343). Audit N3-63-audit-1.md L34,L38-41 and review L119.
 NOTE: -
 
 NODE: bpN:p3:gen-continuation
@@ -4628,9 +4628,9 @@ EDGE: bpN:p3:gen-maximal | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_continuation (KAM/ODE/Continuation.lean)
+LEAN_NOTE: Private continuation_right (Continuation.lean L45-110): epsilon=delta/max(M,1), t1=max(t_star,T-epsilon/2). Audit N3-7-audit-1.md L29 and proof audit L35.
 NOTE: -
 
 NODE: stepN:p3:cont-alpha
@@ -4659,9 +4659,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:cont-al
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_continuation (KAM/ODE/Continuation.lean)
+LEAN_NOTE: continuation_right: local existence at z(t1) from uniform data, agreement with z on the overlap by uniqueness (Continuation.lean L58-100). Audit N3-7-audit-1.md L29 and proof audit L35-36.
 NOTE: -
 
 NODE: stepN:p3:cont-glue
@@ -4691,9 +4691,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_continuation (KAM/ODE/Continuation.lean)
+LEAN_NOTE: continuation_right gluing by IsSolutionIn.union_of_isOpen and contradiction with maximality at L104; left end via IsMaximalSolution.neg and UniformData.neg (L38-42). Audit N3-7-audit-1.md L29 and proof audit L36-37.
 NOTE: -
 
 NODE: bpN:p3:gen-continuation-compact
@@ -4812,9 +4812,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:conf-no
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_confinement (KAM/ODE/Continuation.lean)
+LEAN_NOTE: gen_confinement (Continuation.lean L145-182): gen_maximal supplies z; if Tp<=tau confinement plus continuation forces Tp=top; left end symmetric. Audit N3-7-audit-1.md L27 and proof audit L39-40.
 NOTE: -
 
 NODE: stepN:p3:conf-concl
@@ -4842,9 +4842,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:con
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3a+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_confinement (KAM/ODE/Continuation.lean)
+LEAN_NOTE: gen_confinement conclusion: closed-interval solution by restriction, confinement, agreement with every competing solution for 0<=r<=tau via uniqueness. Audit N3-7-audit-1.md L27 and proof audit L39-40.
 NOTE: -
 
 NODE: bpN:p3:gen-exit
@@ -4902,9 +4902,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-cl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: Lean gen_exit (Exit.lean L36-104) replaces closedness of A in J cap [0,inf) by closedness of exitSet cap Icc 0 a for an actual a in A and compactness (hclosed, hcpt, L56-68); audit N3-45-audit-1.md L25 and bullet L256 (minimization on a compact segment). Route taken: compact-segment minimisation in gen_exit.
 NOTE: -
 
 NODE: stepN:p3:exit-min
@@ -4930,9 +4930,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-mi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: IsLeast (exitSet J z V) t_star, 0<t_star, t_star in J (Exit.lean L68-78). Audit N3-45-audit-1.md L25 and bullet L256 (global leastness, positivity).
 NOTE: -
 
 NODE: stepN:p3:exit-bdry
@@ -4959,9 +4959,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-bd
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: hbelow: z t in V on [0,t_star); hfront: z t_star in frontier V by left closure limit (Exit.lean L79-89). Audit N3-45-audit-1.md L25 and bullet L256.
 NOTE: -
 
 NODE: stepN:p3:exit-sup
@@ -4988,9 +4988,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:exit-su
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.gen_exit (KAM/ODE/Exit.lean)
+LEAN_NOTE: t_star = sSup of {t in J, 0<=t, z[0,t] in V}, both inequalities (Exit.lean L90-104). Audit N3-45-audit-1.md L25 and bullet L256.
 NOTE: -
 
 NODE: bpN:p3:ham-smooth
@@ -5044,9 +5044,9 @@ EDGE: bpN:p3:ext-calc | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:hs-der
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b
 REVIEWER: sol-review-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_smooth (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: fderiv H is C^k on open W (hH.fderiv_of_isOpen, Hamiltonian.lean L47). Audit N3-2-audit-1.md L24 (Part 3 L377-385).
 NOTE: -
 
 NODE: stepN:p3:hs-comp
@@ -5072,9 +5072,9 @@ EDGE: bpN:p0:vf#hamiltonianVectorField | blueprint-N/parts/p3-hamiltonian-ode.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_smooth (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: Each coordinate is fderiv H applied to a fixed vector (clm_apply) and its negative; ContDiffOn.prodMk (Hamiltonian.lean L48-52). Audit N3-2-audit-1.md L24.
 NOTE: -
 
 NODE: bpN:p3:ham-energy
@@ -5244,9 +5244,9 @@ EDGE: bpN:p0:vf#hamiltonianVectorField | blueprint-N/parts/p3-hamiltonian-ode.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_periodic (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: hX (Hamiltonian.lean L127-135): eventual equality of H and H(.+shift) gives fderiv equality, hence X_H periodic on W. Audit N3-2-audit-1.md L30 (Part 3 L402-411).
 NOTE: -
 
 NODE: stepN:p3:per-sol
@@ -5273,9 +5273,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:per-sol
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_periodic (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: gen_symmetry_translate with v=angleShift k (Hamiltonian.lean L136-138). Audit N3-2-audit-1.md L30.
 NOTE: -
 
 NODE: bpN:p3:ham-reduction
@@ -5331,9 +5331,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.ODE.ham_reduction (KAM/ODE/Hamiltonian.lean)
+LEAN_NOTE: Membership iff in ham_reduction (Hamiltonian.lean L160-168: mem_univ times (h t ht).1 and back). Audit N3-2-audit-1.md L32 (Part 3 L416-431, preserves the frozen action membership).
 NOTE: -
 
 NODE: stepN:p3:red-diff
@@ -5393,9 +5393,9 @@ EDGE: bpN:p0:rdomain-eq | blueprint-N/parts/p3-hamiltonian-ode.tex#bpN:p3:s-N#da
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.Data, KAM.Nekhoroshev.Wdom (KAM/Nekhoroshev/Interfaces/Setting.lean)
+LEAN_NOTE: Definition node: W_s = Wdom (literal univ x ball 0 (R+s), audit P1-1-audit-1.md L21,L45 and P1-2-audit-1.md L20,L54, PASS); H = frozen realHamiltonian; B(0,R+s)=B_s(R) is rdomain-eq (PROVED); U open subset is the hypothesis of the consuming theorems (N3-10b-audit-1.md L26-35). Same refs as p1:s-holo#data.
 NOTE: section data for coverage item p3:prose-L472-L477; consumers: holo-input, local-exist, uniqueness-closed, confinement-glue
 
 NODE: bpN:p3:holo-input
@@ -5450,9 +5450,9 @@ EDGE: bpN:p3:s-N#data | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:hi-cit
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.holo_input (KAM/Nekhoroshev/Interfaces/HoloReal.lean)
+LEAN_NOTE: holo_input (HoloReal.lean L352-361) is exactly holo_real_b,c,d: C-infty on Wdom, X_H = X_{h+f} at real points, angle periodicity. Audit P1-2-audit-1.md L48 (PASS).
 NOTE: -
 
 NODE: bpN:p3:local-exist
@@ -5511,9 +5511,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:le-red@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.local_exist (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: Private reduction (Specialization.lean L64-77): ham_reduction with W=Wdom, C2 from holo_input. Audit N3-10b-audit-1.md L30 and counterchecks L142.
 NOTE: -
 
 NODE: stepN:p3:le-apply
@@ -5543,9 +5543,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:le-appl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.local_exist (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: local_exist L100-114: gen_local and gen_uniqueness through the reduction iff. Audit N3-10b-audit-1.md L30.
 NOTE: -
 
 NODE: bpN:p3:uniqueness-closed
@@ -5601,9 +5601,9 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.uniqueness_closed (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: uniqueness_closed L174-186 applies gen_uniqueness (the same uniqueness clause as local_exist) on Icc(-L,L) with t0=0; L<0 handled as empty. Audit N3-10b-audit-1.md L34,L148.
 NOTE: -
 
 NODE: bpN:p3:confinement-glue
@@ -5664,9 +5664,9 @@ EDGE: bpN:p3:gen-uniform | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p3:cg-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.confinement_glue (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: confinement_glue L202: gen_uniform_periodic with isCompact_closedBall I0 rho and hball gives delta<=1 and uniform data of univ x K. Audit N3-10b-audit-1.md L35 and counterchecks L146-148.
 NOTE: -
 
 NODE: stepN:p3:cg-glue
@@ -5697,9 +5697,9 @@ EDGE: bpN:p0:sol#IsSolutionOn | blueprint-N/parts/p3-hamiltonian-ode.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p3b+sol-review-N-c
 REVIEWER: sol-delta-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.ODE.confinement_glue (KAM/Nekhoroshev/ODE/Specialization.lean)
+LEAN_NOTE: confinement_glue L203-212: hconf translated through the reduction iff and mem set, then gen_confinement. Audit N3-10b-audit-1.md L35 and counterchecks L146-148.
 NOTE: -
 
 NODE: bpN:p4:ext-param
@@ -5943,9 +5943,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#bpN:p4:n-zero@L56
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: coeff_mul (KAM/Weighted/Algebra.lean); coefficients_series (KAM/Weighted/Coefficients.lean)
+LEAN_NOTE: BYPASSED (D27): the Lean weighted-norm API (Weighted/Norm, Coefficients, Algebra, Cauchy, Projections) is dimension-generic in n and never takes the n=0 singleton branch; audits confirm n=0 is covered directly with no NeZero or n>=1 premise (W4-5-audit-1.md:42; W4-3-audit-1.md:108). Route taken: the all-n declarations coeff_mul, coefficients_series, cauchy_theta.
 NOTE: Remark bpN:p4:n-zero (G1): consumed by stepN:p4:co-series, co-repr, b1-a, b1-b and by stepN:p1:nc-decay, nc-sum as the n=0 singleton branch; the K strip results are stated for n≥1 only (K Part 1 standing convention)
 
 NODE: bpN:p4:coefficients
@@ -6252,9 +6252,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b2-class
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coeff_mul (KAM/Weighted/Algebra.lean)
+LEAN_NOTE: audit W4-5 PASS WITH NOTES, row stepN:p4:b2-class `inClass_mul` (Algebra.lean:145) at W4-5-audit-1.md:21; public carrier coeff_mul (Algebra.lean:151) gives the class clause.
 NOTE: -
 
 NODE: stepN:p4:b2-coeff
@@ -6282,9 +6282,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b2-coeff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coeff_mul (KAM/Weighted/Algebra.lean)
+LEAN_NOTE: audit W4-5 PASS WITH NOTES, rows stepN:p4:b2-coeff (cauchyEquiv, fourierSum_mul, eq_fourierSum_coeff) at W4-5-audit-1.md:15 to W4-5-audit-1.md:20; coeff_mul Algebra.lean:151-190 states convolution coefficient, absolute summability, product coefficient identity.
 NOTE: -
 
 NODE: stepN:p4:b2-norm
@@ -6312,9 +6312,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b2-norm@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: coeff_mul, wbound_mul (KAM/Weighted/Algebra.lean)
+LEAN_NOTE: audit W4-5 PASS WITH NOTES, row coeff_mul 'class/coefficient/norm clauses' (W4-5-audit-1.md:22) and wbound_mul W4-5-audit-1.md:23: pointwise-in-I submultiplicative weighted bound (Algebra.lean:151-200), no new constant; powers by wbound_pow.
 NOTE: -
 
 NODE: bpN:p4:cauchy
@@ -6431,9 +6431,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p4-weighted-norms.tex#bpN:p4:s-b4#data@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Canonical.poissonBracket, KAM.Canonical.poissonBracket_eq_fderiv_field (KAM/Canonical/Setting.lean)
+LEAN_NOTE: definition node: audit C5-1 PASS WITH NOTES classifies poissonBracket as the literal angle-first coordinate sum with correct sign (C5-1-audit-1.md:37, definition-verdict row C5-1-audit-1.md:102) and poissonBracket_eq_fderiv_field proves {u,v}=Du.X_v for the frozen field (C5-1-audit-1.md:43); W4-8 audit row `Canonical.poissonBracket` (W4-8-audit-1.md:98).
 NOTE: section-data node created from coverage item p4:prose-L144-L144 (SPEC option); notation only, but Lemma bracket and its proof use the bracket by symbol
 
 NODE: bpN:p4:bracket
@@ -6496,9 +6496,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b4-four@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: wbound_bracket (KAM/Weighted/Bracket.lean)
+LEAN_NOTE: audit W4-8 PASS: Bracket.lean 134-190, rows poissonBracket_eq_sum, wsum_sum_le, and proof paragraph at W4-8-audit-1.md:102 (coeff_mul pointwise product bound plus finite-sum triangle inequality, angular sums kept pointwise in I).
 NOTE: -
 
 NODE: stepN:p4:b4-prod
@@ -6528,9 +6528,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:b4-prod@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: wbound_bracket (KAM/Weighted/Bracket.lean)
+LEAN_NOTE: audit W4-8 PASS: Bracket.lean 109-133 (four Cauchy estimates, cauchy_theta with coordinate sum inside, cauchy_action then WBound.mono) and 166-190 (final combination, no factor n), paragraphs at W4-8-audit-1.md:100 and W4-8-audit-1.md:104.
 NOTE: -
 
 NODE: bpN:p4:general-cauchy
@@ -6582,9 +6582,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: general_cauchy (KAM/Weighted/Parametric.lean)
+LEAN_NOTE: BYPASSED (D27): Lean general_cauchy (Parametric.lean:83-98, audit W4-2 PASS WITH NOTES row W4-2-audit-1.md:35) does not reduce to one variable itself; it applies K's closed-ball bound KAM.norm_fderiv_le_of_closedBall_bound (KAM/Strip/Cauchy.lean:53), which carries the line reduction f(zeta)=G(v+zeta u), and then lets delta increase to R. Route taken: general_cauchy.
 NOTE: -
 
 NODE: stepN:p4:c1-cauchy
@@ -6610,9 +6610,9 @@ EDGE: stepN:p4:c1-line | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:c1-cau
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: general_cauchy (KAM/Weighted/Parametric.lean)
+LEAN_NOTE: audit W4-2 PASS WITH NOTES, row general_cauchy (Parametric.lean:83-98) at W4-2-audit-1.md:35: exact open-ball bound ||DG(v)|| <= M/R; the Cauchy estimate for each closed radius and the limit delta -> R are Parametric.lean:88-98.
 NOTE: -
 
 NODE: bpN:p4:projections
@@ -6669,9 +6669,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:pr-class
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projections (KAM/Weighted/Projections.lean)
+LEAN_NOTE: audit W4-7 PASS, row projections (Projections.lean:62) at W4-7-audit-1.md:38 and proof paragraph at W4-7-audit-1.md:103: indicator coefficients are holomorphic with weighted majorant, then coefficients_series; class, coefficient formula and norm bound.
 NOTE: P_Su := Σ_{k∈S} û_kχ_k; T_K := P_{¦k¦₁≤K}. These are local definitions from L182–184; no edge to the parent projections lemma (which depends on this step).
 
 NODE: stepN:p4:pr-tail
@@ -6698,9 +6698,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p4-weighted-norms.tex#stepN:p4:pr-tail@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p4+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: truncation_tail (KAM/Weighted/Projections.lean)
+LEAN_NOTE: audit W4-7 PASS, row truncation_tail (Projections.lean:111) at W4-7-audit-1.md:39 and proof paragraph W4-7-audit-1.md:105: identity u - T_K u = P_{|k|>K} u via coefficients_repr and tail factor exp(-2 pi K sigma).
 NOTE: P_Su := Σ_{k∈S} û_kχ_k; T_K := P_{¦k¦₁≤K}. These are local definitions from L182–184; no edge to the parent projections lemma (which depends on this step).
 
 NODE: bpN:p5:setting
@@ -6789,9 +6789,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:vf-deriv
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: vf_bound (KAM/Canonical/VectorField.lean)
+LEAN_NOTE: audit C5-4 PASS, proof item 2 (vf_bound lines 62-72: cauchy_loss with six source premises, WBound.mono restriction, coefficients_deriv, sup_le_wbound), explicitly 'follows blueprint step vf-deriv' at C5-4-audit-1.md:95; item 3 gives Phi>=0.
 NOTE: -
 
 NODE: stepN:p5:vf-field
@@ -6818,9 +6818,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:vf-field@L3
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: vf_bound (KAM/Canonical/VectorField.lean)
+LEAN_NOTE: audit C5-4 PASS, proof item 4 (vf_bound lines 75-91: coordinate bounds to Pi max-norm, 1<=exp 1, bound Phi/(rho sigma), no dimension factor) at C5-4-audit-1.md:97; row vf_bound C5-4-audit-1.md:30.
 NOTE: -
 
 NODE: bpN:p5:flow
@@ -6976,9 +6976,9 @@ EDGE: bpN:p4:general-cauchy | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow_c (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, row flow (c) flow_c (FlowInverse:132) at C5-5-audit-1.md:50 and paragraph at C5-5-audit-1.md:31: both inverse identities, half-interior memberships and the 2 epsilon bound for all t in [-1,1].
 NOTE: -
 
 NODE: stepN:p5:fl-symmetry
@@ -7006,9 +7006,9 @@ EDGE: stepN:p5:fl-max | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:fl-symm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Partial: (d) flow_d (KAM/Canonical/Flow.lean, audit C5-2 PASS WITH NOTES) proved; (e) real restriction not yet audited
+LEAN_STATUS: PROVED
+LEAN_REF: flow_d (KAM/Canonical/Flow.lean); flow_e (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: (d) flow_d (Flow:273), audit C5-2 PASS WITH NOTES row C5-2-audit-1.md:40; (e) flow_e (FlowInverse:196), audit C5-5 PASS WITH NOTES row C5-5-audit-1.md:55 (exact two-block real-locus statement, proved by Picard iterates; the audit calls this a valid alternative to the real-ODE route).
 NOTE: -
 
 NODE: bpN:p5:symplectic
@@ -7065,9 +7065,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:sy-var@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES: variational equation via fderiv_flow_zero, hasDerivAt_flow_fderiv, continuousOn_flow_fderiv_time (Symplectic:61-76), rows at C5-5-audit-1.md:77 and C5-5-audit-1.md:78; carrier symplectic (Symplectic:157).
 NOTE: -
 
 NODE: stepN:p5:sy-field
@@ -7093,9 +7093,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:sy-field
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5
 REVIEWER: sol-review-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES: Hessian symmetry and skewness of the derivative of the field, rows symplFormC_fderiv_field, fderiv_fderiv_symm, symplFormC_fderiv_field_skew (SymplecticForm:196-235) at C5-5-audit-1.md:72; carrier symplectic.
 NOTE: -
 
 NODE: stepN:p5:sy-conserve
@@ -7122,9 +7122,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:sy-conse
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES: rows flow_symplFormC (Symplectic:127), det_eq_one_or_neg_one, map_hamiltonianJ_comp (SymplecticForm:122,151), symplectic (Symplectic:157) at C5-5-audit-1.md:80 and C5-5-audit-1.md:26: conservation of omega, det^2=1, YJ(eta o Y)=J eta.
 NOTE: -
 
 NODE: bpN:p5:canonical
@@ -7181,9 +7181,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ca-chain
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_bracket, canonical_field (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, row flow_fderiv_J (Symplectic:177, chain rule plus proved symplectic identity) at C5-5-audit-1.md:82; holomorphy of Phi from flow_b used inside canonical_bracket/canonical_field.
 NOTE: -
 
 NODE: stepN:p5:ca-a
@@ -7210,9 +7210,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ca-a@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_bracket (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, row canonical (a) canonical_bracket (Symplectic:206) at C5-5-audit-1.md:83.
 NOTE: -
 
 NODE: stepN:p5:ca-b
@@ -7239,9 +7239,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ca-b@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_field, canonical_orbit (KAM/Canonical/Symplectic.lean)
+LEAN_NOTE: audit C5-5 PASS WITH NOTES, rows canonical (b) canonical_field (Symplectic:225) and (c) canonical_orbit (Symplectic:238) at C5-5-audit-1.md:84 and C5-5-audit-1.md:85.
 NOTE: -
 
 NODE: bpN:p5:lie-derivative
@@ -7475,9 +7475,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ad-setup
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint_bound (KAM/Canonical/Adjoint.lean)
+LEAN_NOTE: audit C5-7 PASS WITH NOTES, row stepN:p5:ad-setup adjoint_induction (Adjoint:128) at C5-7-audit-1.md:28; carrier adjoint_bound (Adjoint:235).
 NOTE: -
 
 NODE: stepN:p5:ad-step
@@ -7506,9 +7506,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ad-step@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint_bound (KAM/Canonical/Adjoint.lean)
+LEAN_NOTE: audit C5-7 PASS WITH NOTES, rows stepN:p5:ad-step adjoint_succ sign/arithmetic (adPow_succ_eq_neg Adjoint:76, step_const_le Adjoint:83) at C5-7-audit-1.md:24.
 NOTE: -
 
 NODE: stepN:p5:ad-product
@@ -7536,9 +7536,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ad-produ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint_bound (KAM/Canonical/Adjoint.lean)
+LEAN_NOTE: audit C5-7 PASS WITH NOTES, rows stepN:p5:ad-product prod_stepConst (Adjoint:168), final_estimate (Adjoint:205), factorial_ge (Adjoint:194) at C5-7-audit-1.md:29.
 NOTE: -
 
 NODE: bpN:p5:composition
@@ -7601,9 +7601,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-field@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_domain (KAM/Canonical/CompositionDomain.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition (i) composition_domain at C5-8-audit-1.md:55; proof paragraph (CompositionDomain:67-153) at C5-8-audit-1.md:107.
 NOTE: -
 
 NODE: stepN:p5:co-series
@@ -7634,9 +7634,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-serie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_series (KAM/Canonical/Composition.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition (ii) composition_series at C5-8-audit-1.md:56; proof paragraph (CompositionSeries:62-230, adjoint bounds, uniform limits, coefficient integration) at C5-8-audit-1.md:107.
 NOTE: -
 
 NODE: stepN:p5:co-remainder
@@ -7668,9 +7668,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-remai
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_series (KAM/Canonical/Composition.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES: composition_series (ii) 'pointwise identity' (C5-8-audit-1.md:56); proof paragraph C5-8-audit-1.md:107 states the sum is identified by C5-6 Taylor remainders with hatted ratio 16 eta/9 <= 8/9 (lieSeries_tail CompositionSeries:134).
 NOTE: This step supplies the identification u∘X^1 = Σ ad^h/h! that Pos93 does not prove (\sourcegap L167)
 
 NODE: stepN:p5:co-t
@@ -7700,9 +7700,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:co-t@L18
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_t, composition_real (KAM/Canonical/Composition.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES: composition (iii) composition_t, (iv) composition_real (C5-8-audit-1.md:57, C5-8-audit-1.md:58); X^t = X^1_{t phi} via ComposeData.smul, flow_smul rows (C5-8-audit-1.md:43). Interface note 2 accepts that composition_t exports class and coarse bound, series statements from composition_series applied to t phi.
 NOTE: -
 
 NODE: bpN:p5:transform
@@ -7769,9 +7769,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-h@L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: BYPASSED (D27): Lean transform replaces the order-N Taylor route for h by order-one Taylor h(X^1)=h+int w(X^t) and termwise integration of the already-proved composition series for the bounded w (audit C5-9 PASS WITH NOTES, C5-9-audit-1.md:106), so h never needs a finite norm. Route taken: transform_identity (Transform.lean:148) with integral_flow_hasSum (Transform.lean:93).
 NOTE: -
 
 NODE: stepN:p5:tr-f
@@ -7799,9 +7799,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-f@L19
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_series (KAM/Canonical/Composition.lean); transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: audit C5-9 PASS WITH NOTES, row flow_series (Transform:83: series_eq for t phi and flow_smul) at C5-9-audit-1.md:51; f0 o X^1 = sum ad^j f0/j! is composition_series (ii) (audit C5-8 C5-8-audit-1.md:56).
 NOTE: -
 
 NODE: stepN:p5:tr-sum
@@ -7832,9 +7832,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-sum@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: audit C5-9 PASS WITH NOTES: rows remTerm_bound, remBound_summable, remBound_tsum_le, remSeries_class, remSeries_bound, remSeries_tail (TS:138-251) at C5-9-audit-1.md:39 to C5-9-audit-1.md:46; carrier transform (Transform:218), seven conjuncts.
 NOTE: -
 
 NODE: stepN:p5:tr-int
@@ -7863,9 +7863,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:tr-int@L200
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transform (KAM/Canonical/Transform.lean)
+LEAN_NOTE: audit C5-9 PASS WITH NOTES, row transform_identity (Transform:148: Taylor N=1 for h, integrated series) at C5-9-audit-1.md:53 and transform (all seven conjuncts incl. integral identity, no norm bound on h) at C5-9-audit-1.md:47.
 NOTE: -
 
 NODE: bpN:p5:composition-integral
@@ -7926,9 +7926,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ci-integ
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_integral (KAM/Canonical/CompositionIntegral.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition-integral (C5-8-audit-1.md:59) and proof paragraph CompositionIntegralClass:54-179 (joint continuity, chain-rule derivative of the clamped integrand, periodicity) at C5-8-audit-1.md:111.
 NOTE: -
 
 NODE: stepN:p5:ci-coeff
@@ -7959,9 +7959,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:ci-coeff
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-delta-N-b
 REVIEWER: sol-delta2-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition_integral (KAM/Canonical/CompositionIntegral.lean)
+LEAN_NOTE: audit C5-8 PASS WITH NOTES, row composition-integral (C5-8-audit-1.md:59) and proof paragraph CompositionIntegral:48-173 (Fubini on compact time x angle cube, coefficient integrals, holomorphy under the integral, bound (1-eta)^-1 V) at C5-8-audit-1.md:111.
 NOTE: -
 
 NODE: bpN:p5:canonical-map
@@ -8024,9 +8024,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:cm-field@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_map_a (KAM/Canonical/CanonicalMap.lean)
+LEAN_NOTE: audit C5-10 PASS WITH NOTES rows CanonData.field_bound, smallField, gaugeInterior_half, gaugeInterior_one (CanonData fields, Canonical map) at C5-10-audit-1.md:39 to C5-10-audit-1.md:43; field bound and Omega^c interior inclusions are proved inside CanonData, used by canonical_map_a.
 NOTE: -
 
 NODE: stepN:p5:cm-ab
@@ -8057,9 +8057,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:cm-ab@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_map_a, canonical_map_b (KAM/Canonical/CanonicalMap.lean)
+LEAN_NOTE: audit C5-10 PASS WITH NOTES, rows (a) canonical_map_a (:218) and (b) canonical_map_b (:261) at C5-10-audit-1.md:44 and C5-10-audit-1.md:45.
 NOTE: -
 
 NODE: stepN:p5:cm-cde
@@ -8090,9 +8090,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:cm-cde@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p5+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_map_c, canonical_map_d, canonical_map_e (KAM/Canonical/CanonicalMap.lean)
+LEAN_NOTE: audit C5-10 PASS WITH NOTES, rows (c) canonical_map_c (:302), (d) canonical_map_d (:313), (e) canonical_map_e (:323) at C5-10-audit-1.md:46 to C5-10-audit-1.md:48.
 NOTE: -
 
 NODE: stepN:p5:fl-symmetry#real-restriction
@@ -8118,9 +8118,9 @@ EDGE: bpN:p1:ext-restrict | blueprint-N/parts/p5-canonical-maps.tex#stepN:p5:fl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-N-b
 REVIEWER: sol-delta-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: flow_e (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: BYPASSED (D27): the Lean flow_e (FlowInverse.lean:196, audit C5-5 C5-5-audit-1.md:33) proves reality via real-linear imaginary-part maps (imCLM, imCLM2) commuting with the Picard integrals plus a factorial convergence estimate; it never restricts F to the real open set W = Omega cap R^N, so the C^1-real-restriction bridge is not used. Route taken: flow_e.
 NOTE: SOURCE_GAP: L73 cites K:bp:p1:real-restriction, whose statement is on an entire strip T_ρ, whereas Ω is arbitrary. The strip hypothesis is not supplied. This node exposes the general-domain, real-codomain restriction bridge; the available inputs are recorded, but the blueprint does not state this extension of the cited lemma. No additional hypothesis on Ω is introduced.
 
 NODE: bpN:p6:ext-numerics
@@ -8256,9 +8256,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-N/parts/p6-normal-form.tex#stepN:p6:lip-seg@L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipschitz (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS, row lipschitz (Setting.lean:93): 'segment mean-value proof matches blueprint L43-47' at N6-1-audit-1.md:49.
 NOTE: -
 
 NODE: bpN:p6:divisor
@@ -8314,9 +8314,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:div@L55-L55 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: divisor (KAM/Nekhoroshev/NormalForm/Setting.lean)
+LEAN_NOTE: audit N6-1 PASS, row divisor (Setting.lean:148: both alpha-KLr and alpha/q bounds on V_rD) at N6-1-audit-1.md:51; helper norm_dotC_le (N6-1-audit-1.md:47).
 NOTE: -
 
 NODE: bpN:p6:homological
@@ -8383,9 +8383,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-def@L72
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, rows homGenParam, genCoeff, genCoeff_differentiableOn, divisor_ne_zero (Homological) at N6-2-audit-1.md:146 to N6-2-audit-1.md:173; homological (Homological:491) at N6-2-audit-1.md:64.
 NOTE: -
 
 NODE: stepN:p6:hom-norm
@@ -8416,9 +8416,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-norm@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-delta-N-d
 REVIEWER: sol-delta2-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, row norm_genCoeff_le (Homological:172, correct modulus 2 pi|k.omega|) at N6-2-audit-1.md:174 with homResParam_eq_projMode and W4 projections for T_K f and xi; carrier homological.
 NOTE: -
 
 NODE: stepN:p6:hom-eq
@@ -8448,9 +8448,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-eq@L76-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, rows hasFDerivAt_genTerm, fderiv_homGenParam, dotC_eq_sum, directional_homGenParam (Homological:234-278) at N6-2-audit-1.md:180; proof paragraph 'directional identity plus the resonant finite sum partitions the cutoff, proving the equation pointwise'.
 NOTE: -
 
 NODE: stepN:p6:hom-real
@@ -8478,9 +8478,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:hom-real@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-2 PASS, rows im_tsum_indicator_eq_zero (:304), conj_dotC, dotC_neg, conj_coeff (:330) at N6-2-audit-1.md:186; conditional reality conclusion (Lambda=-Lambda, f real, real frequency) at N6-2-audit-1.md:120.
 NOTE: -
 
 NODE: bpN:p6:bracket-g
@@ -8539,9 +8539,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:bg-term@L87
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_g (KAM/Nekhoroshev/NormalForm/BracketDecomp.lean)
+LEAN_NOTE: audit N6-3 PASS WITH NOTES, row bracket_g (BracketDecomp.lean:92) exact constants 2/(e rho sigma), 2/(rho sigma) at N6-3-audit-1.md:40; proof paragraph 'For each summand the proof applies wbound_bracket' at N6-3-audit-1.md:86.
 NOTE: -
 
 NODE: stepN:p6:bg-sum
@@ -8570,9 +8570,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:bg-sum@L88-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_g (KAM/Nekhoroshev/NormalForm/BracketDecomp.lean)
+LEAN_NOTE: audit N6-3 PASS WITH NOTES, rows stepN:p6:bg-sum wsum_finset_sum_le (:48) and poissonBracket_sum (:77) at N6-3-audit-1.md:43.
 NOTE: -
 
 NODE: bpN:p6:iterative
@@ -8641,9 +8641,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-gen@L110-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: homological_direct (KAM/Nekhoroshev/NormalForm/Homological.lean); iterHyp_of_source (KAM/Nekhoroshev/NormalForm/IterativeMap.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES, row IterHyp.canon (it-gen / it-map bridge, uses the homological_direct conjuncts) at N6-5-audit-1.md:31, iterU_le (u<=1/4) and phi_div at N6-5-audit-1.md:30; homological_direct audited in N6-2 N6-2-audit-1.md:63.
 NOTE: -
 
 NODE: stepN:p6:it-map
@@ -8673,9 +8673,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-map@L112-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_a, iterative_direct_b (KAM/Nekhoroshev/NormalForm/IterativeMap.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES, rows labelled it-map: iterative_direct_a (:131) and iterative_direct_b (:159) at N6-5-audit-1.md:33 and N6-5-audit-1.md:34.
 NOTE: -
 
 NODE: stepN:p6:it-taylor
@@ -8708,9 +8708,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-taylor@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_c (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, rows labelled stepN:p6:it-taylor: IterHyp.compose (:140), IterHyp.bracket_eq (:161) at N6-6-audit-1.md:27 and N6-6-audit-1.md:29.
 NOTE: -
 
 NODE: stepN:p6:it-decomp
@@ -8740,9 +8740,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-decomp@L117
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_c (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, row labelled it-decomp/it-terms: IterHyp.iterF_class_bound (:315) at N6-6-audit-1.md:33 (transform, composition_integral, truncation_tail, composition_series).
 NOTE: -
 
 NODE: stepN:p6:it-integrand
@@ -8774,9 +8774,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-integrand@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_c (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, rows labelled stepN:p6:it-integrand: IterHyp.remIntegrand (:178), IterHyp.integrand (:185: class, weighted bound, joint continuity of v and Dv) at N6-6-audit-1.md:32.
 NOTE: -
 
 NODE: stepN:p6:it-terms
@@ -8810,9 +8810,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-terms@L124-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_d (KAM/Nekhoroshev/NormalForm/IterativeRemainder.lean)
+LEAN_NOTE: audit N6-6 PASS WITH NOTES, row labelled it-decomp/it-terms IterHyp.iterF_class_bound (:315) at N6-6-audit-1.md:33; (d) iterative_direct_d (:418) states the final remainder bound (N6-6-audit-1.md:35).
 NOTE: -
 
 NODE: stepN:p6:it-real
@@ -8841,9 +8841,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:it-real@L12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_e (KAM/Nekhoroshev/NormalForm/IterativeReal.lean)
+LEAN_NOTE: audit N6-7 PASS WITH NOTES, rows labelled stepN:p6:it-real: freq_im_real (IterativeReal:33) and iterative_direct_e (IterativeReal:89) at N6-7-audit-1.md:33 and N6-7-audit-1.md:36.
 NOTE: -
 
 NODE: bpN:p6:iterative-direct
@@ -8912,9 +8912,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:dir-use@L136-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative_direct_a, IterHyp (KAM/Nekhoroshev/NormalForm/IterativeMap.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES: IterHyp carries the divisor lower bound as the explicit direct-form premise, so homological_direct, IterHyp.canon and the iterative proofs use the hypotheses only through that bound (N6-5-audit-1.md:27; N6-2-audit-1.md:63).
 NOTE: -
 
 NODE: stepN:p6:dir-concl
@@ -8942,9 +8942,9 @@ EDGE: stepN:p6:hom-norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:dir-conc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterHyp_of_source (KAM/Nekhoroshev/NormalForm/IterativeMap.lean); homological_direct (KAM/Nekhoroshev/NormalForm/Homological.lean)
+LEAN_NOTE: audit N6-5 PASS WITH NOTES, row iterHyp_of_source (:191) derives the direct-form divisor field from the original hypotheses via (divisor ...).2 at N6-5-audit-1.md:35; audit N6-2 row homological_direct N6-2-audit-1.md:63; so the direct-form corollary generalises the theorem.
 NOTE: -
 
 NODE: bpN:p6:telescope
@@ -8998,9 +8998,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:tel@L152-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: telescope (KAM/Nekhoroshev/NormalForm/Telescope.lean)
+LEAN_NOTE: audit N6-4 PASS, rows chain, chain_mapsTo, chain_disp, chain_diff_sympl, telescope (Telescope.lean:30-105) at N6-4-audit-1.md:36; step id referenced in N6-4 audit and handoff.
 NOTE: -
 
 NODE: bpN:p6:normal-form
@@ -9067,9 +9067,9 @@ EDGE: bpN:p6:normal-form#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, row nf-first iterU_first (ArithBase:104: u0<=1/16 from (i),(ii)) at N6-8a-audit-1.md:65 and nfRho/nfSig rows; carrier normal_form (N6-8b audit N6-8b-audit-1.md:49).
 NOTE: -
 
 NODE: stepN:p6:nf-case
@@ -9101,9 +9101,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-case@L18
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-case: nfEps1, nfBound, nfBound_caseA, nfBound_caseB, eps1_le_div, eps1_le_quarter at N6-8a-audit-1.md:71 and N6-8a-audit-1.md:42; N6-8b rows nfConcl_caseB (N6-8b-audit-1.md:64).
 NOTE: -
 
 NODE: stepN:p6:nf-N
@@ -9134,9 +9134,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-N@L186-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-N: nfSteps/nfR/nfS, quarter_lt_exp, floor_facts, schedule rows nfR_succ_closed...nfS_sixth_le, eps_le_sixtwo, eps1_sixtwo at N6-8a-audit-1.md:44 to N6-8a-audit-1.md:101; nfSteps in N6-8b N6-8b-audit-1.md:36.
 NOTE: -
 
 NODE: stepN:p6:nf-induct
@@ -9171,9 +9171,9 @@ EDGE: bpN:p4:norm#monotone | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-in
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-induct: nfB, induct_step (49/254<1/4), star_sum_le, w0_le, star_small at N6-8a-audit-1.md:41 to N6-8a-audit-1.md:108.
 NOTE: -
 
 NODE: stepN:p6:nf-concl
@@ -9209,9 +9209,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf-concl@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a/8b PASS WITH NOTES, rows nf-concl: final_b, concl_a (N6-8a N6-8a-audit-1.md:75, N6-8a-audit-1.md:109); chain_translate, coeff_homRes, coeff_sum_eq_zero, nf_coeff_g, nfConcl_caseA (N6-8b N6-8b-audit-1.md:52 to N6-8b-audit-1.md:63).
 NOTE: -
 
 NODE: stepN:p6:nf-disp
@@ -9243,9 +9243,9 @@ EDGE: bpN:p6:normal-form#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, rows nf-disp (c): disp_I, disp_theta, disp_B (ArithDisp:32,96,150) at N6-8a-audit-1.md:76 to N6-8a-audit-1.md:78; N6-8b rows fstSeminorm, sndSeminorm, nfConcl_caseA.
 NOTE: -
 
 NODE: stepN:p6:nf-real
@@ -9272,9 +9272,9 @@ EDGE: bpN:p6:normal-form#data | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nf
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: normal_form (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8a PASS WITH NOTES, row nf-real (d) nf_real (StepsCaseB:41) at N6-8a-audit-1.md:35; N6-8b row chain_real (N6-8b-audit-1.md:53).
 NOTE: -
 
 NODE: bpN:p6:nonresonant-case
@@ -9329,9 +9329,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p6-normal-form.tex#stepN:p6:nr-triv@L229-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p6
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant_case (KAM/Nekhoroshev/NormalForm/NormalForm.lean)
+LEAN_NOTE: audit N6-8b PASS WITH NOTES, row nonresonant-case / nr-triv nonresonant_case (NormalForm:139) at N6-8b-audit-1.md:50.
 NOTE: -
 
 NODE: bpN:p6#data
@@ -9590,9 +9590,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:rs-smooth@L39
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system (KAM/Nekhoroshev/Stability/RealSystem.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES, rows real-system(a) realH_contDiffOn (RealSystem:41), realH_periodic (RealSystem:52) at S7-1-audit-1.md:78 and S7-1-audit-1.md:79; real_system row S7-1-audit-1.md:69.
 NOTE: -
 
 NODE: stepN:p7:rs-field
@@ -9623,9 +9623,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:rs-field@L40-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system (KAM/Nekhoroshev/Stability/RealSystem.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES, row real_system (RealSystem:69: real/complex field identity, C1 field, interval energy) at S7-1-audit-1.md:69; frozen sign/slot check at S7-1-audit-1.md:116.
 NOTE: -
 
 NODE: bpN:p7:theta-derivative
@@ -9687,9 +9687,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:td-loss@L49-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: theta_derivative (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, row theta_derivative (Gradient:60) at S7-2-audit-1.md:34 and proof paragraph (L73 sum at fixed action; L81 representation at positive width s') at S7-2-audit-1.md:46.
 NOTE: -
 
 NODE: stepN:p7:td-lim
@@ -9719,9 +9719,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:td-lim@L50-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-delta2-N-d
 REVIEWER: sol-delta3-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: theta_derivative (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, proof paragraph at S7-2-audit-1.md:46: L88-98 takes s' down to 0 on the numerical bound, Euclidean comparison euclid_le_sum_norm (L48) and complex-domain value estimate.
 NOTE: -
 
 NODE: bpN:p7:resonant-gradient
@@ -9780,9 +9780,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:rg-coef@L58-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_gradient (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, rows sum_dtheta_eq_zero (Gradient:124) and resonant_gradient (Gradient:166) at S7-2-audit-1.md:37; proof paragraph L130-164 (each Fourier term vanishes by orthogonality or off-support) at S7-2-audit-1.md:48.
 NOTE: -
 
 NODE: stepN:p7:rg-zero
@@ -9811,9 +9811,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:rg-zero@L59-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_gradient (KAM/Nekhoroshev/Stability/Gradient.lean)
+LEAN_NOTE: audit S7-2 PASS WITH NOTES, proof paragraph at S7-2-audit-1.md:48 (L130-164 summable expansion at s/2 sums to zero; L173-196 annihilator argument gives span membership, equivalent to the source conclusion); row resonant_gradient S7-2-audit-1.md:38.
 NOTE: -
 
 NODE: bpN:p7:conjugation
@@ -9874,9 +9874,9 @@ EDGE: bpN:p1:ext-restrict | blueprint-N/parts/p7-stability.tex#stepN:p7:cj-real@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: conjugation (KAM/Nekhoroshev/Stability/Conjugation.lean)
+LEAN_NOTE: BYPASSED (D27): Lean conjugation (Conjugation.lean:89, audit S7-3 PASS WITH NOTES) does not form the real Jacobian Y with Y^T J Y = J and det Y=+-1; it works first with the complex field, proves Y J Y^T = J-type field identity via map_hamiltonianJ_comp from complex symplecticity, and restricts to reals via reMap_mem and reMap_hasFDerivAt (intertwining for every real direction) (S7-3-audit-1.md:142; note 3 at S7-3-audit-1.md:250). Route taken: conjugation.
 NOTE: -
 
 NODE: stepN:p7:cj-chain
@@ -9904,9 +9904,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:cj-chain@L70-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: conjugation (KAM/Nekhoroshev/Stability/Conjugation.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, row conjugation (Conjugation:89) at S7-3-audit-1.md:46 and proof paragraph at S7-3-audit-1.md:142: chain rule gives HasDerivAt of Psi o z~ with the H-field at every orbit time including endpoints, orbit in W_r.
 NOTE: -
 
 NODE: bpN:p7:preimage
@@ -9965,9 +9965,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-set@L79-L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, row preimage and proof paragraph (L54-94 domain geometry: complex radius-1/2 ball inside domain at radius-1/4 real centres; convex closed ball X) at S7-4-audit-1.md:118 and S7-4-audit-1.md:129; Lean lines L114-227.
 NOTE: -
 
 NODE: stepN:p7:pi-self
@@ -9993,9 +9993,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-self@L80-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, proof paragraph at S7-4-audit-1.md:129 ('T u = Wy - psi u preserves X'), reality of T from real Psi; Lean preimage L114-227.
 NOTE: -
 
 NODE: stepN:p7:pi-contr
@@ -10026,9 +10026,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-contr@L81-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, proof paragraph at S7-4-audit-1.md:126 (Cauchy ||DG||<=2 kappa at L158-161, real restriction and contractive real-part projection, mean value inequality on convex X, 2 kappa<=1/2) and domain inclusion L54-94 at S7-4-audit-1.md:118.
 NOTE: -
 
 NODE: stepN:p7:pi-fix
@@ -10055,9 +10055,9 @@ EDGE: stepN:p7:pi-contr | blueprint-N/parts/p7-stability.tex#stepN:p7:pi-fix@L82
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, proof paragraph at S7-4-audit-1.md:129: Banach fixed point on complete nonempty X, reality recovers Psi(i x)=i y, displacement bounds from the original hypotheses.
 NOTE: -
 
 NODE: bpN:p7:preimage-nfl
@@ -10115,9 +10115,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p7-stability.tex#stepN:p7:pn-apply@L89-L89
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage_nfl (KAM/Nekhoroshev/Stability/Preimage.lean)
+LEAN_NOTE: audit S7-4 PASS, row preimage_nfl and proof paragraph L245-271 (q>0, d_I/rho' <= 1/64 via qK eps/alpha <= r/128, angle ratio 30/(128 . 2 pi K s) <= 30/768 < 1/4) at S7-4-audit-1.md:135.
 NOTE: -
 
 NODE: bpN:p7:transfer
@@ -10178,9 +10178,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-orbit@L104
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, row transfer (Transfer:156) at S7-3-audit-1.md:48 and proof paragraph (Transfer 179-259: T2 initial preimage, T1 and norm symmetry, maximal H~ orbit by real_system(c)) at S7-3-audit-1.md:156.
 NOTE: -
 
 NODE: stepN:p7:tr-long
@@ -10208,9 +10208,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-long@L105-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, proof paragraph at S7-3-audit-1.md:156: actions in compact K (closed Nrm ball), d+rho<r~, admissible time beyond a finite maximal endpoint contradicts periodic continuation.
 NOTE: -
 
 NODE: stepN:p7:tr-ident
@@ -10239,9 +10239,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-ident@L106
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, proof paragraph at S7-3-audit-1.md:156: uniqueness identifies the two H orbits on their interval intersection.
 NOTE: -
 
 NODE: stepN:p7:tr-est
@@ -10268,9 +10268,9 @@ EDGE: stepN:p7:tr-orbit | blueprint-N/parts/p7-stability.tex#stepN:p7:tr-est@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: audit S7-3 PASS WITH NOTES, proof paragraph at S7-3-audit-1.md:156 (final triangle estimate uses T1 twice and T3 once, giving rho+2d); row transfer exact T1-T3 type and bound rho+2d (S7-3-audit-1.md:48).
 NOTE: -
 
 NODE: bpN:p7:stopped-extension
@@ -10327,9 +10327,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:se-stop@L114-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: stopped_extension (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: BYPASSED (D27): Lean stopped_extension (Transfer.lean:86, audit S7-3 PASS WITH NOTES) does not construct the relatively open set {t in J : z(t) in W_r} or its component J'; it argues on each closed initial segment inside the open strip with gen_exit and a closed cylinder C (stay_forward, Transfer:49) (S7-3-audit-1.md:150; note 3 at S7-3-audit-1.md:250). Route taken: stopped_extension.
 NOTE: -
 
 NODE: stepN:p7:se-noexit
@@ -10356,9 +10356,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:se-noexit@L11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: stopped_extension (KAM/Nekhoroshev/Stability/Transfer.lean)
+LEAN_NOTE: BYPASSED (D27): the component-endpoint contradiction is replaced in Lean stopped_extension (Transfer.lean:86) by the first-exit argument: a first exit t*>0 lies in the closure of the preceding half-open segment, continuity and the closed cylinder C={Nrm(I-I0)<=rho} place its value in C inside W_r (stay_forward, Transfer:49) (S7-3-audit-1.md:150). Route taken: stopped_extension.
 NOTE: -
 
 NODE: bpN:p7:exit-ball
@@ -10410,9 +10410,9 @@ EDGE: bpN:p3:gen-exit | blueprint-N/parts/p7-stability.tex#stepN:p7:eb-exit@L122
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exit_ball (KAM/Nekhoroshev/Stability/Setting.lean)
+LEAN_NOTE: audit S7-1 PASS WITH NOTES, row exit_ball (Setting.lean:220, first boundary hit and closed-ball bound in both time directions, exact statement) at S7-1-audit-1.md:68 and helper first_hit (:186) at S7-1-audit-1.md:75; proved directly rather than through gen_exit, same conclusion.
 NOTE: -
 
 NODE: bpN:p7:nonresonant
@@ -10478,9 +10478,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-dataA@L141
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: audit S7-7 PASS WITH NOTES, proof items 2-3 (Nonresonant:115-166: normal_form with Lambda={0} on the actual hypotheses (i)-(iii), preimage_nfl giving real preimages and d=qK eps/alpha<=r/128, finite weighted bound for g) at S7-7-audit-1.md:139 and S7-7-audit-1.md:143.
 NOTE: -
 
 NODE: stepN:p7:nr-t3
@@ -10511,9 +10511,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-t3@L142-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean nonresonant (Nonresonant.lean:92, audit S7-7 PASS WITH NOTES) does not use exit_ball for (T3); it bounds the action drift of the orbit directly by the mean value inequality drift_bound (NonresonantAux:123) with the globally bounded remainder gradient, since gradient bounds are uniform on the full strip (S7-7-audit-1.md:55; route notes at S7-7-audit-1.md:164). Route taken: nonresonant with drift_bound.
 NOTE: -
 
 NODE: stepN:p7:nr-concA
@@ -10540,9 +10540,9 @@ EDGE: stepN:p7:nr-t3 | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-concA@L145
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: audit S7-7 PASS WITH NOTES, proof item 5 (Nonresonant:196-209: transfer with Nrm=||.||, rho=15r/32, d+rho<=61r/128<r/2, bound rho+2d<=31r/64<=r/2) at S7-7-audit-1.md:152.
 NOTE: -
 
 NODE: stepN:p7:nr-caseB
@@ -10577,9 +10577,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p7-stability.tex#stepN:p7:nr-caseB@L146-L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Stability/Nonresonant.lean)
+LEAN_NOTE: BYPASSED (D27): for kappa<6 Lean nonresonant (Nonresonant.lean:92, S7-7 PASS WITH NOTES) estimates the drift directly (thetaGradR_h_add, norm_thetaGradR_le, drift_bound, arith_small; Nonresonant:108-114) without manufacturing identity-map transfer data and without nonresonant_case or exit_ball (S7-7-audit-1.md:135; route notes at S7-7-audit-1.md:164). Route taken: nonresonant small-kappa branch.
 NOTE: -
 
 NODE: bpN:p7:resonance-data
@@ -10667,9 +10667,9 @@ EDGE: bpN:p5:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ec-energy@L17
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_core (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES, row energy_core (Energy:237) naming steps ec-energy/ec-proj/ec-taylor at S7-5-audit-1.md:39.
 NOTE: -
 
 NODE: stepN:p7:ec-proj
@@ -10697,9 +10697,9 @@ EDGE: bpN:p7:ext-linalg | blueprint-N/parts/p7-stability.tex#stepN:p7:ec-proj@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_core (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES, row energy_core (Energy:237) naming steps ec-energy/ec-proj/ec-taylor at S7-5-audit-1.md:39; conclusion (b) with uniform bound B.
 NOTE: -
 
 NODE: stepN:p7:ec-taylor
@@ -10728,9 +10728,9 @@ EDGE: bpN:p1:ext-norms | blueprint-N/parts/p7-stability.tex#stepN:p7:ec-taylor@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_core (KAM/Nekhoroshev/Stability/Energy.lean)
+LEAN_NOTE: audit S7-5 PASS WITH NOTES, row energy_core (Energy:237) naming steps ec-energy/ec-proj/ec-taylor at S7-5-audit-1.md:39; helper taylor_segment (Energy:77); conclusion (c),(d).
 NOTE: -
 
 NODE: bpN:p7:admissible
@@ -10788,9 +10788,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ad-ball@L185-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: admissible (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row admissible (Resonant:261: closed Euclidean ball inside the open max-norm tube) at S7-6-audit-1.md:42; proof paragraph L261-308 at S7-6-audit-1.md:75.
 NOTE: -
 
 NODE: stepN:p7:ad-close
@@ -10820,9 +10820,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ad-close@L186
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: admissible (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row admissible (projection bound varies by M||I-I0||_2, initial bound 5 delta/4) at S7-6-audit-1.md:42; proof paragraph L261-308 (closeness witness and M rho = delta/4) at S7-6-audit-1.md:75.
 NOTE: -
 
 NODE: bpN:p7:no-exit
@@ -10884,9 +10884,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ne-core@L201-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: no_exit (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row no_exit (Resonant:388) and proof paragraph L310-385 (rs_energy applies energy_core on realNbhd D r with real_system, resonant_gradient, theta_derivative) at S7-6-audit-1.md:43 and S7-6-audit-1.md:78.
 NOTE: -
 
 NODE: stepN:p7:ne-terms
@@ -10918,9 +10918,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:ne-terms@L203
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: no_exit (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean no_exit (Resonant.lean:388, audit S7-6 PASS WITH NOTES) bounds the three terms by A<=mr^2/16, B<=5mr^2/16, C<=mr^2/24 (only exp 1>=2) instead of the blueprint's Young-inequality split of B; the audit states 'This replaces the blueprint's Young-inequality arithmetic without changing its result' (S7-6-audit-1.md:82). Route taken: no_exit.
 NOTE: -
 
 NODE: stepN:p7:ne-contra
@@ -10948,9 +10948,9 @@ EDGE: bpN:p7:s-energy#rs | blueprint-N/parts/p7-stability.tex#stepN:p7:ne-contra
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: no_exit (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean no_exit (Resonant.lean:388) derives the contradiction as 225 m r^2/512 <= 5 m r^2/12 from its own term bounds, not the blueprint's m/3 Delta^2 <= m r^2/4 versus 0.29 m r^2 (S7-6-audit-1.md:82). Route taken: no_exit.
 NOTE: -
 
 NODE: bpN:p7:resonant-lemma2
@@ -11011,9 +11011,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-exit@L228-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row resonant_lemma2 (Resonant:447) at S7-6-audit-1.md:45 and proof paragraphs L413-444 (exit_ball gives actual first boundary time) and L447-514 at S7-6-audit-1.md:86.
 NOTE: -
 
 NODE: stepN:p7:l2-iii
@@ -11040,9 +11040,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-iii@L229-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, row resonant_lemma2 (arbitrary valid Omega bound) at S7-6-audit-1.md:45; proof paragraph L447-514 ('Omega bounds every chord frequency ... time bound give the error <= m r^2/24') at S7-6-audit-1.md:89.
 NOTE: -
 
 NODE: stepN:p7:l2-cone
@@ -11077,9 +11077,9 @@ EDGE: bpN:p1:ext-norms | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-cone@L23
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: BYPASSED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: BYPASSED (D27): Lean resonant_lemma2 (Resonant.lean:447, audit S7-6 PASS WITH NOTES) proves the cone condition with its own numerics: projection term <=(7/8) l Delta, using mr<=2l and r<=(16/15)Delta, total (7/8+4/45) l Delta = 347/360 l Delta <= l Delta, not the blueprint's 0.941 l ||Delta I|| (S7-6-audit-1.md:89; 'weaker numerical estimates ... remain sufficient' S7-6-audit-1.md:95). Route taken: resonant_lemma2.
 NOTE: -
 
 NODE: stepN:p7:l2-conv
@@ -11110,9 +11110,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:l2-conv@L232-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_lemma2 (KAM/Nekhoroshev/Stability/Resonant.lean)
+LEAN_NOTE: audit S7-6 PASS WITH NOTES, proof paragraph L447-514 at S7-6-audit-1.md:89: the cone inequality contradicts the strict first quasi-convex alternative, leaving the Hessian lower bound required by no_exit; row resonant_lemma2 (S7-6-audit-1.md:45).
 NOTE: -
 
 NODE: bpN:p7:resonant-prop2
@@ -11179,9 +11179,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-red@L254-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows labelled p2-red (realInclusion_mem_polyNbhd'', euclid_ofReal', norm_apply_le_euclid, contDiffOn_realPart, fderiv_realPart, hessBound_of_complex, freqLipschitz_of_complex, Prop2Hyp.nums) at S7-8-audit-1.md:81 to S7-8-audit-1.md:56.
 NOTE: -
 
 NODE: stepN:p7:p2-cases
@@ -11216,9 +11216,9 @@ EDGE: bpN:p4:norm#monotone | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-case
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-review-N-d
 REVIEWER: sol-delta-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-cases A/B/C: prop2_idData, prop2_caseC (R:195), prop2_caseB (R:220), prop2_caseA (R:256) at S7-8-audit-1.md:98 to S7-8-audit-1.md:102; resonant_prop2 (R:369) S7-8-audit-1.md:103.
 NOTE: -
 
 NODE: stepN:p7:p2-t12
@@ -11248,9 +11248,9 @@ EDGE: bpN:p6#data | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-t12@L259-L259
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-t12/t3/concl prop2_core (C:33) and p2-cases A / p2-t12 prop2_caseA (R:256), reMap_eq_of, euclid_re_le, mem_realStrip_of_mem at S7-8-audit-1.md:88 and S7-8-audit-1.md:102.
 NOTE: -
 
 NODE: stepN:p7:p2-t3
@@ -11285,9 +11285,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-t3@L260-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7+sol-delta2-N-d
 REVIEWER: sol-delta3-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-t12/t3/concl prop2_core (C:33, transfer helper discharged by cases) at S7-8-audit-1.md:88; case arithmetic at S7-8-audit-1.md:69.
 NOTE: -
 
 NODE: stepN:p7:p2-concl
@@ -11317,9 +11317,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p7-stability.tex#stepN:p7:p2-concl@L261
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p7
 REVIEWER: sol-review-N-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant_prop2 (KAM/Nekhoroshev/Stability/ResonantStability.lean)
+LEAN_NOTE: audit S7-8 PASS WITH NOTES, rows p2-concl Prop2Concl (R:89), Prop2Concl.wrap (R:161: max-norm consequence), prop2_core at S7-8-audit-1.md:97; resonant_prop2 exact signature S7-8-audit-1.md:103.
 NOTE: -
 
 NODE: bpN:p7:s-energy#rs
@@ -11589,9 +11589,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_basis (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: N89-G1-audit-1.md:35 (PASS WITH NOTES, package N89-G1) maps stepN:p8:lb-basis to lattice_basis: rank bound, rank-sized Z-basis, real independence; parent bpN:p8:lattice-basis PROVED.
 NOTE: -
 
 NODE: stepN:p8:lb-unimod
@@ -11618,9 +11618,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-u
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_basis_change (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: N89-G1-audit-1.md:39 maps stepN:p8:lb-unimod to lattice_basis_change (unimodular transition and converse both proved).
 NOTE: -
 
 NODE: stepN:p8:lb-sub
@@ -11646,9 +11646,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lb-s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_basis_sub (KAM/Nekhoroshev/ResonanceGeometry/Lattice.lean)
+LEAN_NOTE: N89-G1-audit-1.md:40 maps stepN:p8:lb-sub to lattice_basis_sub (equal-rank inclusion gives integer N with nonzero determinant).
 NOTE: -
 
 NODE: bpN:p8:volume-def
@@ -11734,9 +11734,9 @@ EDGE: bpN:p8:ext-gram | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projection, projection_matrix (KAM/Nekhoroshev/ResonanceGeometry/Projection.lean)
+LEAN_NOTE: N89-G2-audit-1.md:40 (PASS WITH NOTES) lists stepN:p8:pr-alg under `projection` (Projection.lean:81): all eight conjuncts retained, including algebraic conjuncts (symmetric, idempotent, fixes range, A^T Q=0, Pythagoras); also projection_matrix for the explicit matrix formula.
 NOTE: -
 
 NODE: stepN:p8:pr-dist
@@ -11761,9 +11761,9 @@ EDGE: stepN:p8:pr-alg | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projection, projection_distance_subspace (KAM/Nekhoroshev/ResonanceGeometry/Projection.lean)
+LEAN_NOTE: N89-G2-audit-1.md:40 (PASS WITH NOTES) lists stepN:p8:pr-dist under `projection` (Projection.lean:81): all eight conjuncts retained, including uniqueness and distance conjuncts; also projection_distance_subspace for arbitrary subspace distance.
 NOTE: -
 
 NODE: stepN:p8:pr-nest
@@ -11788,9 +11788,9 @@ EDGE: stepN:p8:pr-alg | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:pr-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: projection (KAM/Nekhoroshev/ResonanceGeometry/Projection.lean)
+LEAN_NOTE: N89-G2-audit-1.md:40 (PASS WITH NOTES) lists stepN:p8:pr-nest under `projection` (Projection.lean:81): all eight conjuncts retained, including both nested compositions.
 NOTE: -
 
 NODE: bpN:p8:lattice-volume
@@ -11853,9 +11853,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: gramZ_det_basis_change, volume_sq_eq, volume_sq_int, one_le_volume (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:41-48 (PASS WITH NOTES) rows for lv-ab: det Gram invariant under unimodular change, volume^2 = det Gram for every basis, positive integer witness, 1 <= volume.
 NOTE: -
 
 NODE: stepN:p8:lv-c
@@ -11884,9 +11884,9 @@ EDGE: bpN:p8:ext-gram | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_volume_index, volume_mono (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:54 (lattice_volume_index, exact |det N| factor, no extra premise) and :55 (volume_mono, |det N|>=1 via lattice_basis_sub). Squared form equivalent since volumes are nonnegative.
 NOTE: -
 
 NODE: stepN:p8:lv-d
@@ -11912,9 +11912,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_volume_cyclic, volume_top (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:68 (lattice_volume_cyclic: volume of Zg = Euclidean length of g) and :53 (volume_top: volume of Z^n = 1).
 NOTE: -
 
 NODE: stepN:p8:lv-e
@@ -11944,9 +11944,9 @@ EDGE: bpN:p8:ext-gram | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: addVector_facts, det_gram_snoc_orth, det_gram_snoc_shear, closureBasis (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:56-29 rows tagged lv-e (snocCol, shear, closureBasis, addVector_facts): dimension d+1, volume(Lambda+Zk)=volume(Lambda)*||Q k||, Q k != 0 for k outside the real span.
 NOTE: -
 
 NODE: stepN:p8:lv-f
@@ -11974,9 +11974,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:lv-f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lattice_volume_hadamard (KAM/Nekhoroshev/ResonanceGeometry/Volume.lean)
+LEAN_NOTE: N89-G3-audit-1.md:74 (lattice_volume_hadamard, literal design type, induction via add-vector identity and contractive complementary projection).
 NOTE: -
 
 NODE: bpN:p8:klattice
@@ -12063,9 +12063,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, mem_of_maximalK, maximalK_of_forall, maximalK_bot (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-char to `maximal` (Maximal.lean:249) (a): conjuncts 1-3 (iff characterisation, bottom maximal, saturated lattices maximal); helpers mem_of_maximalK, maximalK_of_forall, maximalK_bot. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-exist
@@ -12092,9 +12092,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, exists_maximalK_above (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-exist to `maximal` (Maximal.lean:249) (b): conjuncts 4-5 (same-rank maximal extension; short vector in a rank-one maximal K-lattice); helper exists_maximalK_above. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-c
@@ -12121,9 +12121,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, klattice_addVector (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-c to `maximal` (Maximal.lean:249) (c): conjunct 6. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-d
@@ -12150,9 +12150,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:mx-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, klattice_top, units_top (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-d to `maximal` (Maximal.lean:249) (d): conjuncts 7-9 (full rank contains the ball; top maximal for K>=1; K<1 iff bottom). Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: stepN:p8:mx-e
@@ -12181,9 +12181,9 @@ EDGE: bpN:p8:volume-def | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:m
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: maximal, volume_le_of_klattice (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: N89-G4-audit-1.md:46-57 (PASS WITH NOTES) per-conjunct table maps mx-e to `maximal` (Maximal.lean:249) (e): conjunct 10 (1 <= volume <= K^rank); helper volume_le_of_klattice. Parent bpN:p8:maximal PROVED.
 NOTE: -
 
 NODE: bpN:p8:blocks
@@ -12420,9 +12420,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:gl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_theta, rank_one_facts (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-theta: `geometric_theta` in Geometric.lean, rank-one branch. Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-theta2
@@ -12450,9 +12450,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:gl-t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_theta, euclid_proj_line (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-theta2: `geometric_theta` in Geometric.lean, rank-one branch conclusion |k.w|>=||k||delta>=lambda_1. Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-setup
@@ -12482,9 +12482,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:gl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-setup: `geometric_lattice` in Geometric.lean, setting (lines 112-139). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-vol
@@ -12513,9 +12513,9 @@ EDGE: bpN:p8:volume-def | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-vol: `geometric_lattice` in Geometric.lean, volume bounds (lines 140-149). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-proj
@@ -12544,9 +12544,9 @@ EDGE: stepN:p8:gl-setup | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-proj: `geometric_lattice` in Geometric.lean, two projections (lines 150-181). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: stepN:p8:gl-div
@@ -12576,9 +12576,9 @@ EDGE: stepN:p8:gl-setup | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: geometric_lattice (KAM/Nekhoroshev/ResonanceGeometry/Geometric.lean)
+LEAN_NOTE: N89-G6-audit-1.md:56-60 (PASS WITH NOTES) row for stepN:p8:gl-div: `geometric_lattice` in Geometric.lean, divisor bound (lines 182-204). Parent bpN:p8:geometric PROVED.
 NOTE: -
 
 NODE: bpN:p8:covering
@@ -12640,9 +12640,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering, CoverParams.Valid.hE, CoverParams.Valid.hA1, CoverParams.Valid.alpha_eq (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; helper rows :36-:42 give E>0, A>1, lambda_d>0, alpha=EK delta.
 NOTE: -
 
 NODE: stepN:p8:cv-cover
@@ -12669,9 +12669,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; conjuncts: finiteness of maximal K-lattices and every I in P lies in some block.
 NOTE: -
 
 NODE: stepN:p8:cv-nonres
@@ -12698,9 +12698,9 @@ EDGE: bpN:p8:blocks | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-no
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; nonresonance and distance conjuncts, alpha_bot_le row :48.
 NOTE: -
 
 NODE: stepN:p8:cv-radii
@@ -12729,9 +12729,9 @@ EDGE: bpN:p8:klattice | blueprint-N/parts/p8-resonance-geometry.tex#stepN:p8:cv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: covering (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:49 (PASS WITH NOTES): `covering` (Covering.lean:145, exact design signature, finite coverage and every bound retained) is listed for cv-params/cover/nonres/radii; radius bounds, rows :43-:47.
 NOTE: -
 
 NODE: bpN:p8:cutoffs
@@ -12792,9 +12792,9 @@ EDGE: bpN:p7:resonance-data | blueprint-N/parts/p8-resonance-geometry.tex#stepN:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p8+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: cutoffs (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean)
+LEAN_NOTE: N89-G7-audit-1.md:50 (PASS WITH NOTES): `cutoffs` (Covering.lean:197) exact signature bytes; both norm inclusions, nonresonance, distance and radius comparison retained.
 NOTE: -
 
 NODE: bpN:p10:ext-rpow
@@ -12906,9 +12906,9 @@ EDGE: bpN:p10:choice | blueprint-N/parts/p10-assembly.tex#stepN:p10:cp-ab@L48-L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: choice_props (KAM/Nekhoroshev/Assembly/Choice.lean)
+LEAN_NOTE: N10-1-audit-1.md:49 (PASS WITH NOTES) lists cp-ab under choice_props (positivity, margin, mu<=B, A>=22, all four radius bounds).
 NOTE: -
 
 NODE: stepN:p10:cp-dict
@@ -13042,7 +13042,7 @@ EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: audit N10-2 PASS WITH NOTES but hypotheses_check is only the analytic component; audit says the full proposition (Theorem-1 setting construction, Omega0 maximum) is distributed to later packages; hc_* helpers exist
+LEAN_NOTE: NEEDS-LEAN: the proposition (a)-(h) is only distributed: hc_tubes/hc_h/hc_qc/hc_f/hc_exc/hc_time/head_field_locality (N10-2-audit-1.md:17-24) plus hypotheses_check, which N10-2-audit-1.md:24 says does not claim the whole setting or the Omega0 specification; the Theorem-1 setting assembly exists only as private cf_setting (Confinement.lean:75). No exported declaration states the conjunction (a)-(h), in particular (d) r0 <= ell/(2B_c) together with the Theorem1Setting.
 NOTE: Candidate edge to bpN:p1:constants dropped: the \source says (c)-(g) of Lemma constants are re-proved, not used; the proofs use only the lemmas cited in the steps. Hypotheses (H1)-(H7) are those of the frozen Theorem p0:head (reference from Part 10 to the anchor dropped by pre-extraction), hence the edges to the definition anchors.
 
 NODE: stepN:p10:hc-tubes
@@ -13209,9 +13209,9 @@ EDGE: stepN:p10:hc-f | blueprint-N/parts/p10-assembly.tex#stepN:p10:hc-setting@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: confinement (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: N10-3-audit-2.md:24 (PASS WITH NOTES) and N10-3-audit-1.md:30: local obligation hc-setting is covered by private cf_setting (Confinement.lean:75-96, used at 119-120,127), an actual Theorem1Setting on the chosen closed real ball with constants A, eps1, a, R0 and weighted bound from hypotheses_check; owner ruling (b)/05:10 proof-block line range.
 NOTE: -
 
 NODE: stepN:p10:hc-exc
@@ -13369,9 +13369,9 @@ EDGE: bpN:p10:choice | blueprint-N/parts/p10-assembly.tex#stepN:p10:cf-setting@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: confinement (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: N10-3-audit-2.md:24 and N10-3-audit-1.md:30 (PASS WITH NOTES): private cf_setting, Confinement.lean:75-96 with call at 119-120,127, applies Definition setting; proof-block coverage under owner ruling (b)/05:10.
 NOTE: -
 
 NODE: stepN:p10:cf-orbit
@@ -13400,9 +13400,9 @@ EDGE: bpN:p0:realH#realHamiltonian | blueprint-N/parts/p10-assembly.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: cf_orbit (KAM/Nekhoroshev/Assembly/Confinement.lean)
-LEAN_NOTE: exported cf_orbit is derivative-only; initial-action-in-P and field equality are internal to cf_branch/confinement proofs, so full node conclusion not exported
+LEAN_STATUS: PROVED
+LEAN_REF: confinement, cf_orbit (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: N10-3-audit-1.md:31 (PASS under ruling): public cf_orbit (derivative on J) plus internal Confinement.lean:118-128 (initial action in P, field equality via realH rfl); together they cover the compound conclusion. No confinement of y assumed.
 NOTE: Theorem-1 applicability is checked here; the theorem is applied only in cf-branch. The explanatory stopped remark and the target theorem are not DEPS.
 
 NODE: stepN:p10:cf-branch
@@ -13432,9 +13432,9 @@ EDGE: bpN:p9:setting | blueprint-N/parts/p10-assembly.tex#stepN:p10:cf-branch@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta2-N-e
 REVIEWER: sol-delta3-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: cf_branch (KAM/Nekhoroshev/Assembly/Confinement.lean)
-LEAN_NOTE: signed cf_branch narrowed to |t| <= 2T exp(E); full-T0 thm1(a) conclusion not exported (audit N10-3 round 2 PASS WITH NOTES under signed-signature ruling)
+LEAN_STATUS: PROVED
+LEAN_REF: confinement, cf_branch (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: N10-3-audit-1.md:32 and N10-3-audit-2.md (PASS under ruling): the full-T0 implication of thm1(a) is obtained internally at Confinement.lean:127-128 with branch premise from hc_exc at 130,138; cf_branch exports the signed shorter horizon. Content verified at proof-block lines (owner ruling (b)/05:10).
 NOTE: -
 
 NODE: stepN:p10:cf-trans
@@ -13463,9 +13463,9 @@ EDGE: bpN:p10:choice | blueprint-N/parts/p10-assembly.tex#stepN:p10:cf-trans@L10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta2-N-e
 REVIEWER: sol-delta3-N-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: confinement (KAM/Nekhoroshev/Assembly/Confinement.lean)
+LEAN_NOTE: N10-3-audit-1.md:33 (PASS, internal): arithmetic inside `confinement` at Confinement.lean:153-166 with 129-139 (cp_rad conversion, tau <= 2T exp(E) <= T0 exp(E), rho/2 <= rho); parent bpN:p10:confinement PROVED.
 NOTE: -
 
 NODE: bpN:p10:existence
@@ -14070,9 +14070,9 @@ EDGE: bpN:p9#data | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:el-a@L50-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elementary (KAM/Nekhoroshev/Poschel/Elementary.lean)
+LEAN_NOTE: N89-P1-audit-1.md:27 (PASS WITH NOTES): elementary (Elementary.lean:105) lists el-a, el-b, el-c; all clauses (a)-(c) exact design statement, no extra premise.
 NOTE: -
 
 NODE: stepN:p9:el-b
@@ -14098,9 +14098,9 @@ EDGE: bpN:p9:setting | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:el-b@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elementary (KAM/Nekhoroshev/Poschel/Elementary.lean)
+LEAN_NOTE: N89-P1-audit-1.md:27: elementary clause (b).
 NOTE: -
 
 NODE: stepN:p9:el-c
@@ -14126,9 +14126,9 @@ EDGE: stepN:p9:el-b | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:el-c@L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: elementary (KAM/Nekhoroshev/Poschel/Elementary.lean)
+LEAN_NOTE: N89-P1-audit-1.md:27: elementary clause (c).
 NOTE: -
 
 NODE: bpN:p9:omega0
@@ -14187,9 +14187,9 @@ EDGE: bpN:p4:domains | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:om-inc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910
 REVIEWER: sol-review-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: frequency_maximum (KAM/Nekhoroshev/Poschel/Frequency.lean)
+LEAN_NOTE: N89-P2-audit-1.md:58 (PASS WITH NOTES): frequency_maximum (Frequency.lean:333) is listed for om-incl and om-max; inclusion, compactness, attained supremum, bounds all conclusions.
 NOTE: -
 
 NODE: stepN:p9:om-max
@@ -14219,9 +14219,9 @@ EDGE: stepN:p9:om-max#local-real-regularity | blueprint-N/parts/p9-poschel-theor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: frequency_maximum, local_real_regularity (KAM/Nekhoroshev/Poschel/Frequency.lean)
+LEAN_NOTE: N89-P2-audit-1.md:58 (frequency_maximum, max exists, ||omega(I0)|| <= Omega0 <= ||omega(I0)|| + M R0) and :54 (local_real_regularity).
 NOTE: -
 
 NODE: bpN:p9:block-hyp
@@ -14299,9 +14299,9 @@ EDGE: bpN:p8:lattice | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:bh-dom
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_hyp (KAM/Nekhoroshev/Poschel/BlockHypotheses.lean)
+LEAN_NOTE: N89-P3-audit-1.md:38 (PASS WITH NOTES): block_hyp (BlockHypotheses.lean:303) parts (a)-(f), steps bh-dom/eps/rad/nr/lip/small, exact design type, all conjuncts retained; helper rows :45, :49.
 NOTE: -
 
 NODE: stepN:p9:bh-eps
@@ -14330,9 +14330,9 @@ EDGE: bpN:p9:s-blocks#data | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_hyp (KAM/Nekhoroshev/Poschel/BlockHypotheses.lean)
+LEAN_NOTE: N89-P3-audit-1.md:38 (PASS WITH NOTES): block_hyp (BlockHypotheses.lean:303) parts (a)-(f), steps bh-dom/eps/rad/nr/lip/small, exact design type, all conjuncts retained; helper rows :45, :49.
 NOTE: -
 
 NODE: stepN:p9:bh-rad
@@ -14361,9 +14361,9 @@ EDGE: bpN:p9#data | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:bh-rad@L8
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_hyp (KAM/Nekhoroshev/Poschel/BlockHypotheses.lean)
+LEAN_NOTE: N89-P3-audit-1.md:38 (PASS WITH NOTES): block_hyp (BlockHypotheses.lean:303) parts (a)-(f), steps bh-dom/eps/rad/nr/lip/small, exact design type, all conjuncts retained; helper rows :45, :49.
 NOTE: -
 
 NODE: stepN:p9:bh-nr
@@ -14398,9 +14398,9 @@ EDGE: bpN:p9#data | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:bh-nr@L90
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_hyp (KAM/Nekhoroshev/Poschel/BlockHypotheses.lean)
+LEAN_NOTE: N89-P3-audit-1.md:38 (PASS WITH NOTES): block_hyp (BlockHypotheses.lean:303) parts (a)-(f), steps bh-dom/eps/rad/nr/lip/small, exact design type, all conjuncts retained; helper rows :45, :49.
 NOTE: -
 
 NODE: stepN:p9:bh-lip
@@ -14432,9 +14432,9 @@ EDGE: bpN:p9:s-blocks#data | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_hyp (KAM/Nekhoroshev/Poschel/BlockHypotheses.lean)
+LEAN_NOTE: N89-P3-audit-1.md:38 (PASS WITH NOTES): block_hyp (BlockHypotheses.lean:303) parts (a)-(f), steps bh-dom/eps/rad/nr/lip/small, exact design type, all conjuncts retained; helper rows :45, :49.
 NOTE: -
 
 NODE: stepN:p9:bh-small
@@ -14463,9 +14463,9 @@ EDGE: bpN:p9:s-blocks#data | blueprint-N/parts/p9-poschel-theorem1.tex#stepN:p9:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_hyp (KAM/Nekhoroshev/Poschel/BlockHypotheses.lean)
+LEAN_NOTE: N89-P3-audit-1.md:38 (PASS WITH NOTES): block_hyp (BlockHypotheses.lean:303) parts (a)-(f), steps bh-dom/eps/rad/nr/lip/small, exact design type, all conjuncts retained; helper rows :45, :49.
 NOTE: -
 
 NODE: bpN:p9:block-stab
@@ -14533,9 +14533,9 @@ EDGE: bpN:p9:block-stab#local-field | blueprint-N/parts/p9-poschel-theorem1.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_stab (KAM/Nekhoroshev/Poschel/BlockStability.lean)
+LEAN_NOTE: N89-P4-audit-1.md:22 (PASS WITH NOTES): local hTheta, BlockStability.lean L111-131 inside block_stab; parent bpN:p9:block-stab PROVED.
 NOTE: -
 
 NODE: stepN:p9:bs-res
@@ -14567,9 +14567,9 @@ EDGE: bpN:p9:block-stab#local-field | blueprint-N/parts/p9-poschel-theorem1.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_stab (KAM/Nekhoroshev/Poschel/BlockStability.lean)
+LEAN_NOTE: N89-P4-audit-1.md:23: local hEuc, BlockStability.lean L82-109 inside block_stab.
 NOTE: -
 
 NODE: stepN:p9:bs-stop
@@ -14601,9 +14601,9 @@ EDGE: bpN:p9:block-stab#local-field | blueprint-N/parts/p9-poschel-theorem1.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-delta-N-e
 REVIEWER: sol-delta2-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_stab (KAM/Nekhoroshev/Poschel/BlockStability.lean)
+LEAN_NOTE: N89-P4-audit-1.md:24: BlockStability.lean L66-81, L91-94, L121-124, L132-139 inside block_stab (stopped_extension applied for every contained orbit).
 NOTE: -
 
 NODE: bpN:p9:thm1
@@ -14879,7 +14879,7 @@ EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: DEFS-AUDIT NEEDED: definition node (Part 9 fixed parameters q=9, p=9/8, b=1/8 and the section conventions); not covered by the graph-N sync; needs a definitions-audit row classifying each object
 NOTE: Section data (SPEC table, p9:prose-L12-L14): the fixed parameters q = 9, p = 9/8, b = 1/8 are consumed by elementary(a), the block steps and the stability steps; the conventions are notation.
 
 NODE: bpN:p9:s-blocks#data
@@ -14909,9 +14909,9 @@ EDGE: bpN:p7:setting | blueprint-N/parts/p9-poschel-theorem1.tex#bpN:p9:s-blocks
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p910+sol-review-N-e
 REVIEWER: sol-delta-N-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: theoremCover (KAM/Nekhoroshev/Poschel/Elementary.lean); CoverParams.radius, CoverParams.alpha, CoverParams.delta, actionBlock (KAM/Nekhoroshev/ResonanceGeometry/Covering.lean); maximalK (KAM/Nekhoroshev/ResonanceGeometry/Maximal.lean)
+LEAN_NOTE: Definition node: objects (p=9/8, b=1/8, K=K_g, A=11M/m specialization; M_K; r_Lambda; alpha=pMK r; delta=bm r; D_Lambda) are each classified PASS: theoremCover in N89-P1-audit-1.md:26, maximalK N89-G4-audit-1.md:15, radius/alpha/delta/actionBlock N89-G7-audit-1.md:32-39 (literal design formulas); A admissibility from elementary(a) (P1:27).
 NOTE: Section data (SPEC table, p9:prose-L72-L72): consumed by block-hyp, block-stab and the steps of thm1.
 
 NODE: stepN:p9:t1-b#full-rank-zone
@@ -19029,9 +19029,9 @@ EDGE: bpN:p12:averaged | blueprint-N/parts/p0-conventions.tex#bpN:p0:avg-sec#dat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Nekhoroshev.AvgPhase, KAM.Nekhoroshev.AvgComplexPhase, KAM.Nekhoroshev.avgH (KAM/Nekhoroshev/Averaging/Setting.lean)
+LEAN_NOTE: Definition node: phase points = AvgPhase (Pi product, max norm), H_eps = avgH = realHamiltonian h (eps*f) (audit N12-18-audit-1.md L43,L76 and N12-10a-audit-1.md L45, N12-17-audit-1.md L42, N12-10b-audit-1.md L116: literal carriers); averaged orbit and error are the frozen averagingError and realHamiltonian (PROVED); volume is Mathlib unnormalised volume (N12-18 audit L81). bpN:p12:averaged is PROVED. Same refs as p12:s-setting#data.
 NOTE: section data for coverage item p0:prose-L343-L351; consumers: avg-mean, avg-most (the symbols vol, H_{h,εf}, x_2, max norm)
 
 NODE: bpN:p0:avg-rank#HasAveragingFrequencyRank
@@ -19113,8 +19113,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12
 REVIEWER: sol-review-N-g
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: KAM.Nekhoroshev.mean_family (KAM/Nekhoroshev/Averaging/Mean.lean)
+LEAN_NOTE: OWNER: mean_family (Mean.lean L44-86, audit N12-16-audit-1.md L33-35, PASS WITH NOTES) proves guards (b),(c) for the used family (0<=error<=3R/2 and pointwise displacement<=error for eps>0, K in inner ball), but no declaration states the remark as such (attained sup, nonempty compact interval, omega_h C^2 so fderiv is the true derivative). Question: may this remark claim be closed by the mean_family/N12-18 audit rows alone (guards discharged at use sites), or does the owner want an explicit Lean statement of (a)-(c) and of the C^2 clause for omega_h?
 NOTE: claim kept because stepN:p12:me-cont cites it (sSup is the true supremum, attained). Its justification is the inline list (a)-(c). Not a defect: statement only used at me-cont.
 
 NODE: bpN:p0:avg-mean
@@ -19601,9 +19601,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:fl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avgFlow_regOn, avgField_contDiffOn (KAM/Nekhoroshev/Averaging/FlowRegular.lean)
+LEAN_NOTE: N12-10b-audit-1.md:41,42 (PASS WITH NOTES): fl-short rows avgField_contDiffOn and avgFlow_regOn (open J,U and RegOn as conclusions); parent bpN:p12:flow PROVED.
 NOTE: -
 
 NODE: stepN:p12:fl-chain
@@ -19634,9 +19634,9 @@ EDGE: bpN:p3:ext-calc | blueprint-N/parts/p12-averaging.tex#stepN:p12:fl-chain@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-delta-N-h
 REVIEWER: sol-delta2-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avgFlow_regOn, flow_variational (KAM/Nekhoroshev/Averaging/FlowRegular.lean); isOpen_avgFlowDomain (KAM/Nekhoroshev/Averaging/Flow.lean)
+LEAN_NOTE: N12-10b-audit-1.md:42-44: fl-chain rows avgFlow_regOn, isOpen_avgFlowDomain (open flow domain) and flow(b) flow_variational.
 NOTE: -
 
 NODE: stepN:p12:fl-inverse
@@ -19664,9 +19664,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:fl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avgFlow_inverse, flow (KAM/Nekhoroshev/Averaging/Flow.lean)
+LEAN_NOTE: N12-10b-audit-1.md:49: avgFlow_inverse (domain mapping and left inverse); `flow` (F:228) supplies the other inverse, surjectivity and homeomorphism.
 NOTE: -
 
 NODE: stepN:p12:fl-symp
@@ -19695,9 +19695,9 @@ EDGE: bpN:p3:ext-calc | blueprint-N/parts/p12-averaging.tex#stepN:p12:fl-symp@L6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: det_fderiv_avgFlow, flow (KAM/Nekhoroshev/Averaging/Flow.lean)
+LEAN_NOTE: N12-10b-audit-1.md:50: det_fderiv_avgFlow (variational law, Hessian skewness, symplectic Y^T J Y = J, det = 1).
 NOTE: -
 
 NODE: stepN:p12:fl-transl
@@ -19726,9 +19726,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:fl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: avgFlow_translate, avgFlow_translate_fwd, flow (KAM/Nekhoroshev/Averaging/Flow.lean)
+LEAN_NOTE: N12-10b-audit-1.md:51-55: fl-transl rows angleShift_neg ... avgFlow_translate (domain and value identities for integer angle shifts).
 NOTE: -
 
 NODE: bpN:p12:exit
@@ -20365,9 +20365,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12
 REVIEWER: sol-review-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: slab_freq (KAM/Nekhoroshev/Averaging/Slab.lean); AvgSlab.volume_box_le, AvgSlab.section_dist_le (KAM/Nekhoroshev/Averaging/SlabBox.lean); AvgSlab.unif_M (KAM/Nekhoroshev/Averaging/Slab.lean)
+LEAN_NOTE: N12-08-audit-1.md:48-56 (PASS WITH NOTES): unif_M (uniform continuity, finitely many boxes via compactness) and slab_freq at Slab:117; parent bpN:p12:slab PROVED.
 NOTE: -
 
 NODE: stepN:p12:sl-box
@@ -20395,9 +20395,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: slab_freq (KAM/Nekhoroshev/Averaging/Slab.lean); AvgSlab.volume_box_le, AvgSlab.section_dist_le (KAM/Nekhoroshev/Averaging/SlabBox.lean)
+LEAN_NOTE: N12-08-audit-1.md:48-56 (PASS WITH NOTES): volume_box_le and section_dist_le; parent bpN:p12:slab PROVED.
 NOTE: -
 
 NODE: stepN:p12:sl-sum
@@ -20424,9 +20424,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12
 REVIEWER: sol-review-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: slab_freq (KAM/Nekhoroshev/Averaging/Slab.lean); AvgSlab.volume_box_le, AvgSlab.section_dist_le (KAM/Nekhoroshev/Averaging/SlabBox.lean)
+LEAN_NOTE: N12-08-audit-1.md:48-56 (PASS WITH NOTES): slab_freq constructs one C1 >= 1 for all unit directions and v>0; parent bpN:p12:slab PROVED.
 NOTE: -
 
 NODE: stepN:p12:sl-k
@@ -20453,9 +20453,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: slab (KAM/Nekhoroshev/Averaging/Slab.lean)
+LEAN_NOTE: N12-08-audit-1.md:57: `slab` (Slab:264), exact design statement, same C1 for direction and integer estimates, denominator Euclidean length.
 NOTE: -
 
 NODE: bpN:p12:shells
@@ -20516,9 +20516,9 @@ EDGE: bpN:p12:s-data#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sh-she
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12
 REVIEWER: sol-review-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: shells_from_slab, shells (KAM/Nekhoroshev/Averaging/Shells.lean)
+LEAN_NOTE: N12-09-audit-1.md:25-46 (PASS WITH NOTES): rows tagged `sh-shells, sh-i-iii` (shell_bound, geom_shell_bound, integral_psi, integral_psiD, integral_resid) and shells (Shells:377) exact design; parent bpN:p12:shells PROVED.
 NOTE: -
 
 NODE: stepN:p12:sh-i
@@ -20546,9 +20546,9 @@ EDGE: bpN:p12:s-data#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sh-i@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: shells_from_slab, shells (KAM/Nekhoroshev/Averaging/Shells.lean)
+LEAN_NOTE: N12-09-audit-1.md:25-46 (PASS WITH NOTES): rows tagged `sh-shells, sh-i-iii` (shell_bound, geom_shell_bound, integral_psi, integral_psiD, integral_resid) and shells (Shells:377) exact design; parent bpN:p12:shells PROVED.
 NOTE: -
 
 NODE: stepN:p12:sh-ii
@@ -20576,9 +20576,9 @@ EDGE: bpN:p12:s-data#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sh-ii@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: shells_from_slab, shells (KAM/Nekhoroshev/Averaging/Shells.lean)
+LEAN_NOTE: N12-09-audit-1.md:25-46 (PASS WITH NOTES): rows tagged `sh-shells, sh-i-iii` (shell_bound, geom_shell_bound, integral_psi, integral_psiD, integral_resid) and shells (Shells:377) exact design; parent bpN:p12:shells PROVED.
 NOTE: -
 
 NODE: stepN:p12:sh-iii
@@ -20606,9 +20606,9 @@ EDGE: bpN:p12:s-data#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:sh-iii
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: shells_from_slab, shells (KAM/Nekhoroshev/Averaging/Shells.lean)
+LEAN_NOTE: N12-09-audit-1.md:25-46 (PASS WITH NOTES): rows tagged `sh-shells, sh-i-iii` (shell_bound, geom_shell_bound, integral_psi, integral_psiD, integral_resid) and shells (Shells:377) exact design; parent bpN:p12:shells PROVED.
 NOTE: -
 
 NODE: bpN:p12:envelopes
@@ -20671,9 +20671,9 @@ EDGE: bpN:p12:s-data#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:en-ter
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: envelopes_from_slab, envelopes (KAM/Nekhoroshev/Averaging/EnvelopeIntegrals.lean)
+LEAN_NOTE: N12-09-audit-1.md:47-64 rows tagged `en-term, en-choice` (avgCW/CB/CR/CPhi, env_le, wt_summable) and envelopes; parent bpN:p12:envelopes PROVED.
 NOTE: -
 
 NODE: stepN:p12:en-choice
@@ -20700,9 +20700,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:en-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: envelopes_from_slab, envelopes (KAM/Nekhoroshev/Averaging/EnvelopeIntegrals.lean)
+LEAN_NOTE: N12-09-audit-1.md:47-64 rows tagged `en-term, en-choice` (avgCW/CB/CR/CPhi, env_le, wt_summable) and envelopes; parent bpN:p12:envelopes PROVED.
 NOTE: -
 
 NODE: bpN:p12:identity
@@ -20763,9 +20763,9 @@ EDGE: bpN:p12:s-setting#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:id-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: identity (KAM/Nekhoroshev/Averaging/Identity.lean)
+LEAN_NOTE: N12-12-audit-1.md:30 (PASS WITH NOTES): `identity` (Identity:128) lists id-eq/id-chain/id-div; real inclusion, minus eps^2 Q plus eps r, FTC.
 NOTE: -
 
 NODE: stepN:p12:id-chain
@@ -20795,9 +20795,9 @@ EDGE: bpN:p3:ext-calc | blueprint-N/parts/p12-averaging.tex#stepN:p12:id-chain@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: identity (KAM/Nekhoroshev/Averaging/Identity.lean)
+LEAN_NOTE: N12-12-audit-1.md:30 (PASS WITH NOTES): `identity` (Identity:128) lists id-eq/id-chain/id-div; real inclusion, minus eps^2 Q plus eps r, FTC.
 NOTE: -
 
 NODE: stepN:p12:id-div
@@ -20827,9 +20827,9 @@ EDGE: K:bp:p1:ext-integral | blueprint-N/parts/p12-averaging.tex#stepN:p12:id-di
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: identity (KAM/Nekhoroshev/Averaging/Identity.lean)
+LEAN_NOTE: N12-12-audit-1.md:30 (PASS WITH NOTES): `identity` (Identity:128) lists id-eq/id-chain/id-div; real inclusion, minus eps^2 Q plus eps r, FTC.
 NOTE: -
 
 NODE: bpN:p12:pointwise
@@ -20894,9 +20894,9 @@ EDGE: bpN:p12:ext-markov | blueprint-N/parts/p12-averaging.tex#stepN:p12:pw-lamb
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: mode_bound (KAM/Nekhoroshev/Averaging/PointwiseModes.lean); lambda_orbit_le (KAM/Nekhoroshev/Averaging/Pointwise.lean)
+LEAN_NOTE: N12-12-audit-1.md:38,42: mode_bound and lambda_orbit_le tagged pw-lambda.
 NOTE: -
 
 NODE: stepN:p12:pw-q
@@ -20926,9 +20926,9 @@ EDGE: bpN:p12:identity | blueprint-N/parts/p12-averaging.tex#stepN:p12:pw-q@L213
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pointwise (KAM/Nekhoroshev/Averaging/Pointwise.lean)
+LEAN_NOTE: N12-12-audit-1.md:43: `pointwise` (Pointwise:134) exact design signature; pw-q and pw-sum yield 2 eps W(I0) + eps int Phi with unchanged constants.
 NOTE: -
 
 NODE: stepN:p12:pw-sum
@@ -20958,9 +20958,9 @@ EDGE: bpN:p12:s-flow#data | blueprint-N/parts/p12-averaging.tex#stepN:p12:pw-sum
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p12+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pointwise (KAM/Nekhoroshev/Averaging/Pointwise.lean)
+LEAN_NOTE: N12-12-audit-1.md:43: `pointwise` (Pointwise:134) exact design signature; pw-q and pw-sum yield 2 eps W(I0) + eps int Phi with unchanged constants.
 NOTE: -
 
 NODE: bpN:p12:s-trans#data
@@ -21776,9 +21776,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: contractingWith_picardMap, picard_family (KAM/Nekhoroshev/Averaging/PicardFamilies.lean); contractingWith_voltMap, linear_family (KAM/Nekhoroshev/Averaging/PicardDerivatives.lean)
+LEAN_NOTE: Both carriers: nonlinear Picard tube contractingWith_picardMap (N12-03a-audit-1.md:45; hygiene findings F1/N1 were whitespace-only and fixed in commit c893f180) and bounded continuous matrix-family space contractingWith_voltMap (N12-03b-audit-1.md:28), with fixed family and uniform convergence in picard_family (03a:53) and linear_family (03b:29).
 NOTE: SOURCE_GAP: L37 invokes Banach contraction on bounded continuous families. N7 ext-banach is stated only for closed subsets of finite-dimensional R^N and cannot be applied here. The general complete-metric version is K bp:p1:ext-banach, not currently an N import. Obtain a SPEC/import ruling for it or provide a source proof; this node is not a newly assumed external.
 
 NODE: bpN:p12:ext-dep#derivative-limit
@@ -21832,9 +21832,9 @@ EDGE: bpN:p12:ext-dep#complete-contraction | blueprint-N/parts/p12-averaging.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-N-g
 REVIEWER: sol-delta-N-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_dep (KAM/Nekhoroshev/Averaging/LocalDependence.lean); picard_family (KAM/Nekhoroshev/Averaging/PicardFamilies.lean)
+LEAN_NOTE: N12-03c-audit-1.md:44 (PASS WITH NOTES): ext_dep constructs positive a,r and local solutions from C1 on open W only; trapping ball choice and picard_family call at LocalDependence.lean:381-460 (N12-03c audit :61 notes radius-delta trap instead of 2delta as a valid internal choice); picard_family N12-03a-audit-1.md:53.
 NOTE: Substantive construction and time/ball choice at L37; no averaging premise or normalized Part-5 flow is assumed.
 
 NODE: bpN:p12:ext-dep#linear
