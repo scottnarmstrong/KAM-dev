@@ -41,6 +41,72 @@ theorem p11_resc_prod2_le (α γ : Fin n → ℕ) :
 theorem p11_resc_rpow_le {l x y : ℝ} (hl : 1 ≤ l) (hxy : x ≤ y) : l ^ x ≤ l ^ y :=
   Real.rpow_le_rpow_of_exponent_le hl hxy
 
+/-- Pure-`J` deviation from the main term `∂^α C.h` (rescaled). -/
+theorem p11_resc_pure_dev (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
+    {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
+    (hFs : P11FastSpec C eps Fast) (hA : P11SlowSpecOf C Fast nu eps c A) (hc0 : 0 ≤ c)
+    (hzs : 3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16) (h5 : 5 * eps ≤ p11s2 C nu eps)
+    (α : Fin n → ℕ) (j : ℕ) (hα : ∑ i, α i = j + 1)
+    (J ρ : P11CVec n) (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4)
+    (hρ : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4) {F k1 : ℝ}
+    (hP : ((j + 1).factorial : ℝ) ≤ F) (hη : p11eta1 C eps ≤ 1)
+    (hs1' : 4 * eps / p11s1 C eps ≤ 4 * k1 * eps * Real.log (1 / eps) ^ (C.tau + 1))
+    (hs1small : 4 * eps / p11s1 C eps ≤ 1) (hl : 1 ≤ Real.log (1 / eps)) :
+    eps ^ j * ‖p11PartialVec (Fin.append α (0 : Fin n → ℕ)) (p11DevH A) (Fin.append J ρ) -
+        p11PartialVec α (fun (J' : P11CVec n) (_ : Fin 1) => C.h J') J‖ ≤
+      F * (C.MF + 1) * (4 * k1 * eps * Real.log (1 / eps) ^ (C.tau + 1)) +
+        F * (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) := by
+  obtain ⟨hK2, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  have hspec := p11s2_spec hC hK2
+  have hs1r := p11s1_le C eps
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  have hJball : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) := by
+    rw [mem_ball_iff_norm]; linarith
+  have hd := p11_dev_J_bound hC hnu heps hεM hFs hA hzs h5 α J ρ hJ hρ
+  have hP0 : 0 ≤ ∏ i, ((α i).factorial : ℝ) := Finset.prod_nonneg fun _ _ => by positivity
+  have hPα : (∏ i, ((α i).factorial : ℝ)) ≤ F := by
+    refine (p11_resc_prod_le α).trans ?_
+    rw [hα]; exact hP
+  have hη0 : 0 ≤ p11eta1 C eps := by
+    obtain ⟨-, -, -, -, hGd, -, -, -, -, -, -, -, -, hGη, -⟩ := hFs
+    have hr : 0 < C.rz / 2 := by positivity
+    have := hGη (KAM.realInclusion n C.J0) (by simp; positivity) 0 (by simpa using hr)
+    exact (norm_nonneg _).trans this
+  -- the three terms
+  have hF0 : 0 ≤ F := (Nat.cast_nonneg _).trans hP
+  have hRη : 0 ≤ C.MF + p11eta1 C eps := by linarith
+  have t1 : eps ^ j * (eps * p11DevA C eps α) ≤
+      (∏ i, ((α i).factorial : ℝ)) * (C.MF + p11eta1 C eps) * (4 * eps / p11s1 C eps) :=
+    p11_num_a heps hs1 hP0 hRη hs1small _ j hα
+  have t1' : (∏ i, ((α i).factorial : ℝ)) * (C.MF + p11eta1 C eps) * (4 * eps / p11s1 C eps) ≤
+      F * (C.MF + 1) * (4 * k1 * eps * Real.log (1 / eps) ^ (C.tau + 1)) := by
+    have h1 : C.MF + p11eta1 C eps ≤ C.MF + 1 := by linarith
+    have h0 : 0 ≤ 4 * eps / p11s1 C eps := by positivity
+    have hF1 : 0 ≤ F * (C.MF + 1) := by positivity
+    calc _ ≤ F * (C.MF + 1) * (4 * eps / p11s1 C eps) := by gcongr
+      _ ≤ _ := by gcongr
+  have t2 : eps ^ j * p11DevG C nu eps c α 0 ≤
+      (∏ i, ((α i).factorial : ℝ)) * (∏ i, (((0 : Fin n → ℕ) i).factorial : ℝ)) *
+        4 ^ (∑ i, (0 : Fin n → ℕ) i) *
+        (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) :=
+    p11_num_g heps h5 hP0 (Finset.prod_nonneg fun _ _ => by positivity) hc0
+      (Real.rpow_nonneg (by linarith) _) _ _ j (by simpa using hα)
+  have t2' : (∏ i, ((α i).factorial : ℝ)) * (∏ i, (((0 : Fin n → ℕ) i).factorial : ℝ)) *
+        4 ^ (∑ i, (0 : Fin n → ℕ) i) *
+        (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) ≤
+      F * (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) := by
+    simp only [Pi.zero_apply, Nat.factorial_zero, Nat.cast_one, Finset.prod_const_one, mul_one,
+      Finset.sum_const_zero, pow_zero]
+    have : 0 ≤ c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2) := by
+      have := Real.rpow_nonneg (show 0 ≤ Real.log (1 / eps) by linarith) (5 * C.tau + 2)
+      positivity
+    gcongr
+  calc eps ^ j * ‖p11PartialVec (Fin.append α (0 : Fin n → ℕ)) (p11DevH A) (Fin.append J ρ) -
+        p11PartialVec α (fun (J' : P11CVec n) (_ : Fin 1) => C.h J') J‖
+      ≤ eps ^ j * (eps * p11DevA C eps α + p11DevG C nu eps c α 0) := by gcongr
+    _ = eps ^ j * (eps * p11DevA C eps α) + eps ^ j * p11DevG C nu eps c α 0 := by ring
+    _ ≤ _ := by linarith
+
 /-- Pure-`J` case of the rescaled deviation bound. -/
 theorem p11_resc_pure (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
     {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
@@ -140,6 +206,99 @@ theorem p11_resc_Om (hC : P11SecularSpec D C) {nu eps : ℝ} (hnu : 1 ≤ nu) (h
     omega
   · rw [p11_dev_Om_zero hC hs2 (by linarith) i α γ hγ0' J ρ hP', norm_zero]
     linarith
+
+/-- `ρ̃`-index deviation from the main term `ε ∂^α Ω̃_i` (rescaled). -/
+theorem p11_resc_rho_dev (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
+    {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
+    (hA : P11SlowSpecOf C Fast nu eps c A) (hc0 : 0 ≤ c)
+    (hzs : 3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16) (h5 : 5 * eps ≤ p11s2 C nu eps)
+    (i : Fin n) (α γ : Fin n → ℕ) (j : ℕ) (hα : ∑ k, α k + ∑ k, γ k = j)
+    (hj : j ≤ (p11PatchData D).mu + 1)
+    (J ρ : P11CVec n) (hJ : ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4)
+    (hρ : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4) {F k2 : ℝ}
+    (hP : ((j + 1).factorial : ℝ) ≤ F) (he1 : eps ≤ 1)
+    (hη0 : 0 ≤ p11eta1 C eps)
+    (hη : p11eta1 C eps ≤ k2 * eps * Real.log (1 / eps) ^ (2 * C.tau + 1))
+    (hl : 1 ≤ Real.log (1 / eps)) :
+    eps ^ j * ‖p11PartialVec (Fin.append α γ + Pi.single (Fin.natAdd n i) 1) (p11DevH A)
+          (Fin.append J ρ) -
+        (eps : ℂ) • p11PartialVec (Fin.append α γ) (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+          (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun k : Fin n => I (Fin.castAdd n k)) i)
+          (Fin.append J ρ)‖ ≤
+      F * (c * (1 + k2) * eps ^ 2 * Real.log (1 / eps) ^ (2 * C.tau + 1)) +
+        F * 4 ^ ((p11PatchData D).mu + 2) *
+          (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) := by
+  obtain ⟨hK2, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  have hspec := p11s2_spec hC hK2
+  have hs1r := p11s1_le C eps
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  have hJball : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) := by
+    rw [mem_ball_iff_norm]; linarith
+  have hd := p11_dev_rho_bound hC hnu heps hεM hA hzs h5 i α γ J ρ hJ hρ
+  have hF0 : 0 ≤ F := (Nat.cast_nonneg _).trans hP
+  have hP0 : 0 ≤ ∏ k, ((α k).factorial : ℝ) := Finset.prod_nonneg fun _ _ => by positivity
+  have hQ0 : 0 ≤ ∏ k, ((γ k).factorial : ℝ) := Finset.prod_nonneg fun _ _ => by positivity
+  have hPQ : (∏ k, ((α k).factorial : ℝ)) * (∏ k, ((γ k).factorial : ℝ)) ≤ F :=
+    (p11_resc_prod2_le α γ).trans (by
+      rw [hα]
+      exact le_trans (by exact_mod_cast Nat.factorial_le (Nat.le_succ j)) hP)
+  have hM0 : 0 ≤ c * (eps + p11eta1 C eps) := by positivity
+  have hlx : 1 ≤ Real.log (1 / eps) ^ (2 * C.tau + 1) := Real.one_le_rpow hl (by linarith)
+  have hl5 : 0 ≤ Real.log (1 / eps) ^ (5 * C.tau + 2) :=
+    Real.rpow_nonneg (by linarith) _
+  have tz : eps ^ j * (eps * p11DevZ C nu eps c α γ) ≤
+      eps * ((∏ k, ((α k).factorial : ℝ)) * (∏ k, ((γ k).factorial : ℝ)) *
+        (c * (eps + p11eta1 C eps))) :=
+    p11_num_z heps h5 hP0 hQ0 hM0 _ _ j hα
+  have tz' : eps * ((∏ k, ((α k).factorial : ℝ)) * (∏ k, ((γ k).factorial : ℝ)) *
+        (c * (eps + p11eta1 C eps))) ≤
+      F * (c * (1 + k2) * eps ^ 2 * Real.log (1 / eps) ^ (2 * C.tau + 1)) :=
+    p11_num_z_final heps hc0 hη0 hlx (mul_nonneg hP0 hQ0) hPQ hη
+  have hsum2 : ∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k = ∑ k, γ k + 1 := by
+    simp [Finset.sum_add_distrib]
+  have tg : eps ^ j * p11DevG C nu eps c α (γ + Pi.single i 1 : Fin n → ℕ) ≤
+      (∏ k, ((α k).factorial : ℝ)) * (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) *
+        4 ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) *
+        (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) :=
+    p11_num_g heps h5 hP0 (Finset.prod_nonneg fun _ _ => by positivity) hc0 hl5 _ _ j
+      (by rw [hsum2]; omega)
+  have tg' : (∏ k, ((α k).factorial : ℝ)) * (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) *
+        4 ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) *
+        (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) ≤
+      F * 4 ^ ((p11PatchData D).mu + 2) *
+        (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) := by
+    have hPQ2 : (∏ k, ((α k).factorial : ℝ)) *
+        (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) ≤ F :=
+      (p11_resc_prod2_le α (γ + Pi.single i 1 : Fin n → ℕ)).trans (by
+        rw [hsum2]
+        refine le_trans ?_ hP
+        have : ∑ k, α k + (∑ k, γ k + 1) = j + 1 := by omega
+        rw [this])
+    have h4 : (4 : ℝ) ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) ≤ 4 ^ ((p11PatchData D).mu + 2) := by
+      rw [hsum2]
+      exact pow_le_pow_right₀ (by norm_num) (by omega)
+    have hnn : 0 ≤ c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2) := by positivity
+    have hP1 : 0 ≤ (∏ k, ((α k).factorial : ℝ)) *
+        (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) :=
+      mul_nonneg hP0 (Finset.prod_nonneg fun _ _ => by positivity)
+    calc _ ≤ F * 4 ^ ((p11PatchData D).mu + 2) *
+          (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) := by
+            refine mul_le_mul_of_nonneg_right ?_ hnn
+            exact mul_le_mul hPQ2 h4 (by positivity) hF0
+      _ ≤ _ := le_rfl
+  have hLe : eps ^ j * (eps * C.L) ≤ eps * C.L := by
+    have : 0 ≤ eps * C.L := by positivity
+    nlinarith [pow_le_one₀ heps.le he1 (n := j)]
+  calc eps ^ j * ‖p11PartialVec (Fin.append α γ + Pi.single (Fin.natAdd n i) 1) (p11DevH A)
+          (Fin.append J ρ) -
+        (eps : ℂ) • p11PartialVec (Fin.append α γ) (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+          (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun k : Fin n => I (Fin.castAdd n k)) i)
+          (Fin.append J ρ)‖
+      ≤ eps ^ j * (eps * p11DevZ C nu eps c α γ +
+        p11DevG C nu eps c α (γ + Pi.single i 1 : Fin n → ℕ)) := by gcongr
+    _ = eps ^ j * (eps * p11DevZ C nu eps c α γ) +
+        eps ^ j * p11DevG C nu eps c α (γ + Pi.single i 1 : Fin n → ℕ) := by ring
+    _ ≤ _ := by linarith
 
 /-- `ρ̃`-index case of the rescaled deviation bound. -/
 theorem p11_resc_rho (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
