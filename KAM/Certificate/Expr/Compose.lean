@@ -96,7 +96,7 @@ def ComposeState.slot (W : CertWeight) (st : ComposeState α) (i : ℕ) : CertMo
   else slotEntry W zeroModel
 
 /-- Append a slot. -/
-def ComposeState.push (W : CertWeight) (st : ComposeState α) (m : CertModel α) :
+def ComposeState.pushSlot (W : CertWeight) (st : ComposeState α) (m : CertModel α) :
     ComposeState α :=
   { st with rev := slotEntry W m :: st.rev, len := st.len + 1 }
 
@@ -140,30 +140,30 @@ def charSlot (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeig
 def composeStep (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
     (cfg : ModelConfig α) (pe : PiEnclosure α) (st : ComposeState α) :
     SlpOp → Option (ComposeState α)
-  | .const re im deg => some (st.push W (constModel n re im deg))
-  | .action j => some (st.push W
+  | .const re im deg => some (st.pushSlot W (constModel n re im deg))
+  | .action j => some (st.pushSlot W
       (if j < n then realCompModel n (K.actionDeg.getD j 0) K.action[j]? else zeroModel))
   | .char k =>
     match charSlot n K wit W cfg pe st.cache k with
-    | some (m, c) => some { st.push W m with cache := c }
+    | some (m, c) => some { st.pushSlot W m with cache := c }
     | none => none
-  | .add a b => some (st.push W (CertModel.add W (st.slot W a).1
+  | .add a b => some (st.pushSlot W (CertModel.add W (st.slot W a).1
       (CertModel.toDeg W pe (st.slot W a).1.deg (st.slot W b).1)))
-  | .mul a b => some (st.push W (CertModel.mulN W cfg [0, st.len]
+  | .mul a b => some (st.pushSlot W (CertModel.mulN W cfg [0, st.len]
       (st.slot W a).1 (st.slot W a).2 (st.slot W b).1 (st.slot W b).2))
   | .exp a =>
     match wit.expWit[st.nExp]? with
     | some E =>
       match expWitnessRadius n W (cfg.forWitness 1 st.nExp)
           (CertModel.toDeg W pe 0 (st.slot W a).1) E with
-      | some r => some { st.push W ⟨0, E.poly, r⟩ with nExp := st.nExp + 1 }
+      | some r => some { st.pushSlot W ⟨0, E.poly, r⟩ with nExp := st.nExp + 1 }
       | none => none
     | none => none
   | .inv a =>
     match wit.invWit[st.nInv]? with
     | some Q =>
       match invWitnessRadius n W (cfg.forWitness 2 st.nInv) (st.slot W a).1 Q with
-      | some r => some { st.push W ⟨-(st.slot W a).1.deg, Q, r⟩ with nInv := st.nInv + 1 }
+      | some r => some { st.pushSlot W ⟨-(st.slot W a).1.deg, Q, r⟩ with nInv := st.nInv + 1 }
       | none => none
     | none => none
 
@@ -200,7 +200,7 @@ def CacheValid (n : ℕ) (K : CertEmbedding α) (ρ : ℝ) (cache : List (CertKe
   ∀ e ∈ cache, (⟨0, e.2.1, e.2.2⟩ : CertModel α).Encloses n ρ (charExpFun n K e.1)
 
 /-- The invariant of the composition after the operations `ops`. -/
-def ComposeState.Valid (n : ℕ) (K : CertEmbedding α) (W : CertWeight) (ops : List SlpOp)
+def ComposeState.SlotsEnclose (n : ℕ) (K : CertEmbedding α) (W : CertWeight) (ops : List SlpOp)
     (st : ComposeState α) : Prop :=
   st.len = ops.length ∧
     (∀ i, (st.slot W i).1.Encloses n W.rho (fun θ => (Slp.vals n (K.eval n θ) ops).getD i 0) ∧
@@ -209,8 +209,8 @@ def ComposeState.Valid (n : ℕ) (K : CertEmbedding α) (W : CertWeight) (ops : 
 
 variable [LawfulCertArith α]
 
-theorem ComposeState.valid_nil (n : ℕ) (K : CertEmbedding α) (W : CertWeight) :
-    (⟨[], 0, 0, 0, []⟩ : ComposeState α).Valid n K W [] := by
+theorem ComposeState.slotsEnclose_nil (n : ℕ) (K : CertEmbedding α) (W : CertWeight) :
+    (⟨[], 0, 0, 0, []⟩ : ComposeState α).SlotsEnclose n K W [] := by
   have e1 : ∀ i, (⟨[], 0, 0, 0, []⟩ : ComposeState α).slot W i = slotEntry W zeroModel :=
     fun i => by simp only [ComposeState.slot, Nat.not_lt_zero, ↓reduceIte]
   refine ⟨rfl, fun i => ?_, fun e he => by simp at he⟩
@@ -223,12 +223,12 @@ theorem ComposeState.valid_nil (n : ℕ) (K : CertEmbedding α) (W : CertWeight)
   exact zeroModel_encloses (α := α) n W.rho θ hθ
 
 /-- Appending a slot whose model encloses the new slot's value. -/
-theorem ComposeState.Valid.push {n : ℕ} {K : CertEmbedding α} {W : CertWeight}
-    {ops : List SlpOp} {op : SlpOp} {st : ComposeState α} (hv : st.Valid n K W ops)
+theorem ComposeState.SlotsEnclose.pushSlot {n : ℕ} {K : CertEmbedding α} {W : CertWeight}
+    {ops : List SlpOp} {op : SlpOp} {st : ComposeState α} (hv : st.SlotsEnclose n K W ops)
     {m : CertModel α}
     (hm : m.Encloses n W.rho (fun θ => op.step n (K.eval n θ) (Slp.vals n (K.eval n θ) ops)))
     (st' : ComposeState α) (hs : st'.rev = slotEntry W m :: st.rev) (hl' : st'.len = st.len + 1)
-    (hc : CacheValid n K W.rho st'.cache) : st'.Valid n K W (ops ++ [op]) := by
+    (hc : CacheValid n K W.rho st'.cache) : st'.SlotsEnclose n K W (ops ++ [op]) := by
   obtain ⟨hl, hi, -⟩ := hv
   refine ⟨by simp [hl', hl], fun i => ?_, hc⟩
   rcases lt_trichotomy i st.len with h | h | h
@@ -368,19 +368,19 @@ theorem charSlot_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W 
 theorem composeStep_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W : CertWeight}
     {s N : ℕ} (hW : checkWeight W s N = true) {cfg : ModelConfig α} {pe : PiEnclosure α}
     (hpe : checkPiEnclosure pe = true) {ops : List SlpOp} {st st' : ComposeState α}
-    (hv : st.Valid n K W ops) {op : SlpOp} (h : composeStep n K wit W cfg pe st op = some st') :
-    st'.Valid n K W (ops ++ [op]) := by
+    (hv : st.SlotsEnclose n K W ops) {op : SlpOp} (h : composeStep n K wit W cfg pe st op = some st') :
+    st'.SlotsEnclose n K W (ops ++ [op]) := by
   have hop : ∀ a, (st.slot W a).1.Encloses n W.rho
       (fun θ => (Slp.vals n (K.eval n θ) ops).getD a 0) := fun a => (hv.2.1 a).1
   cases op with
   | const re im deg =>
     simp only [composeStep, Option.some.injEq] at h
     subst h
-    exact hv.push (constModel_encloses n W.rho re im deg) _ rfl rfl hv.2.2
+    exact hv.pushSlot (constModel_encloses n W.rho re im deg) _ rfl rfl hv.2.2
   | action j =>
     simp only [composeStep, Option.some.injEq] at h
     subst h
-    refine hv.push ?_ _ rfl rfl hv.2.2
+    refine hv.pushSlot ?_ _ rfl rfl hv.2.2
     by_cases hj : j < n
     · simp only [hj, ↓reduceIte, SlpOp.step, ↓reduceDIte]
       exact realCompModel_encloses n W.rho _ _
@@ -393,18 +393,18 @@ theorem composeStep_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} 
       simp only [Option.some.injEq] at h
       subst h
       obtain ⟨hm', hc'⟩ := charSlot_sound hW hpe hv.2.2 hm
-      exact hv.push hm' _ rfl rfl hc'
+      exact hv.pushSlot hm' _ rfl rfl hc'
     · simp at h
   | add a b =>
     simp only [composeStep, Option.some.injEq] at h
     subst h
-    exact hv.push (CertModel.Encloses.add hW (hop a) ((hop b).toDeg hW hpe _)
+    exact hv.pushSlot (CertModel.Encloses.add hW (hop a) ((hop b).toDeg hW hpe _)
       (toDeg_deg W pe _ _).symm) _ rfl rfl hv.2.2
   | mul a b =>
     simp only [composeStep, Option.some.injEq] at h
     subst h
     rw [(hv.2.1 a).2, (hv.2.1 b).2, CertModel.mulN_supNormUp]
-    exact hv.push (CertModel.Encloses.mul hW cfg _ (hop a) (hop b)) _ rfl rfl hv.2.2
+    exact hv.pushSlot (CertModel.Encloses.mul hW cfg _ (hop a) (hop b)) _ rfl rfl hv.2.2
   | exp a =>
     simp only [composeStep] at h
     split at h
@@ -413,7 +413,7 @@ theorem composeStep_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} 
       · rename_i r hr
         simp only [Option.some.injEq] at h
         subst h
-        exact hv.push (expWitness_sound hW _ ((hop a).toDeg hW hpe 0) (toDeg_deg W pe 0 _) hr)
+        exact hv.pushSlot (expWitness_sound hW _ ((hop a).toDeg hW hpe 0) (toDeg_deg W pe 0 _) hr)
           _ rfl rfl hv.2.2
       · simp at h
     · simp at h
@@ -425,19 +425,19 @@ theorem composeStep_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} 
       · rename_i r hr
         simp only [Option.some.injEq] at h
         subst h
-        exact hv.push (invWitness_sound hW _ (hop a) hr).2 _ rfl rfl hv.2.2
+        exact hv.pushSlot (invWitness_sound hW _ (hop a) hr).2 _ rfl rfl hv.2.2
       · simp at h
     · simp at h
 
 theorem composeOps_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W : CertWeight}
     {s N : ℕ} (hW : checkWeight W s N = true) {cfg : ModelConfig α} {pe : PiEnclosure α}
     (hpe : checkPiEnclosure pe = true) (ops : List SlpOp) {st : ComposeState α}
-    (h : composeOps n K wit W cfg pe ops = some st) : st.Valid n K W ops := by
+    (h : composeOps n K wit W cfg pe ops = some st) : st.SlotsEnclose n K W ops := by
   induction ops using List.reverseRecOn generalizing st with
   | nil =>
     simp only [composeOps, List.foldl_nil, Option.some.injEq] at h
     subst h
-    exact ComposeState.valid_nil n K W
+    exact ComposeState.slotsEnclose_nil n K W
   | append_singleton ops op ih =>
     unfold composeOps at h
     rw [List.foldl_append, List.foldl_cons, List.foldl_nil] at h
