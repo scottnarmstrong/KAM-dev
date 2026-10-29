@@ -5,7 +5,8 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Sound.Static
+public import KAM.Certificate.Sound.Ham
+public import KAM.Certificate.Sound.Embedding
 
 /-!
 # Soundness of the energy sub-check
@@ -99,5 +100,10 @@ theorem checkEnergy_sound_of {c : TorusCertificate n α} (hs : checkStatic c = t
           ‖d.poly.coeff n 0‖ := norm_le_norm_sub_add _ _
       _ ≤ _ := by linarith
   · exact absurd h (by simp)
+
+theorem checkEnergy_sound {c : TorusCertificate n α} (hs : checkStatic c = true)
+    (hh : checkHamBounds c = true) (he : checkEmbedding c = true) (h : checkEnergy c = true) :
+    ‖KAM.Iso.energyAverage c.H c.K - ((c.params.E0 : ℝ) : ℂ)‖ ≤ c.params.err :=
+  checkEnergy_sound_of hs (checkHamBounds_sound hs hh) (checkEmbedding_sound hs he) h
 
 end KAM.Certificate

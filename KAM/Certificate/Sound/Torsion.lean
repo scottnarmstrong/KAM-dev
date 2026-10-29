@@ -5,7 +5,8 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Sound.Static
+public import KAM.Certificate.Sound.Ham
+public import KAM.Certificate.Sound.Embedding
 
 /-!
 # Soundness of the torsion sub-check
@@ -60,5 +61,17 @@ theorem checkTorsion_sound_of {c : TorusCertificate n α} (hs : checkStatic c = 
       exact this
     · exact absurd h (by simp)
   · exact absurd h (by simp)
+
+/-- Assembled from `torsionModels_sound` and `torsionAvgCheck_sound` (through
+`checkTorsion_sound_of`); the Gram premise is part of the signed interface (the torsion check
+repeats the Gram certificate itself). -/
+theorem checkTorsion_sound {c : TorusCertificate n α} (hs : checkStatic c = true)
+    (hh : checkHamBounds c = true) (he : checkEmbedding c = true) (hg : checkGram c = true)
+    (h : checkTorsion c = true) {ωstar : Fin n → ℝ} (hω : FreqEncloses n c.freqBox ωstar) :
+    IsUnit (KAM.Iso.extendedTorsionAverage c.H c.K ((c.params.s : ℝ) • ωstar)).det ∧
+      ∀ i, ∑ j, ‖(KAM.Iso.extendedTorsionAverage c.H c.K ((c.params.s : ℝ) • ωstar))⁻¹ i j‖ ≤
+        (c.params.σT : ℝ) - c.params.μ :=
+  have _ := hg
+  checkTorsion_sound_of hs (checkHamBounds_sound hs hh) (checkEmbedding_sound hs he) h hω
 
 end KAM.Certificate

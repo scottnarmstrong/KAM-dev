@@ -5,7 +5,8 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Sound.Static
+public import KAM.Certificate.Sound.Ham
+public import KAM.Certificate.Sound.Embedding
 
 /-!
 # Soundness of the invariance sub-check
@@ -137,5 +138,12 @@ theorem checkInvariance_sound_of {c : TorusCertificate n α} (hs : checkStatic c
       (LawfulCertArith.ofRatDown_le _)
     exact (CertModel.norm_le_supBound S.hW (hcoord x) hθ).trans hb
   · exact absurd h (by simp)
+
+theorem checkInvariance_sound {c : TorusCertificate n α} (hs : checkStatic c = true)
+    (hh : checkHamBounds c = true) (he : checkEmbedding c = true)
+    (h : checkInvariance c = true) {ωstar : Fin n → ℝ} (hω : FreqEncloses n c.freqBox ωstar) :
+    ∀ θ ∈ complexStrip n c.params.rho,
+      ‖invarianceError c.H c.K ((c.params.s : ℝ) • ωstar) θ‖ ≤ c.params.err :=
+  checkInvariance_sound_of hs (checkHamBounds_sound hs hh) (checkEmbedding_sound hs he) h hω
 
 end KAM.Certificate
