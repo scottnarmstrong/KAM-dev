@@ -115,6 +115,51 @@ theorem slow_g_quad (heps : 0 < eps) (hl : 0 < l) (ha : 0 < a) (hγ : 0 < γ) (h
   field_simp
   ring
 
+/-- `stepP:p11:as-b2` (B2), for `K = a ℓ`: `c₀ ε^{5/2} ℓ^{2τ+1} ≤ α₂ π ε/(128 K)` for small `ε`. -/
+theorem slow_b2_eventually (c0 : ℝ) (ha : 0 < a) (hγ : 0 < γ) (hτ : 0 ≤ τ) :
+    ∀ᶠ eps : ℝ in nhdsWithin 0 (Ioi 0),
+      c0 * eps ^ (5 / 2 : ℝ) * Real.log (1 / eps) ^ (2 * τ + 1) ≤
+        (eps * (γ / 4 * (a * Real.log (1 / eps)) ^ (-τ))) * Real.pi * eps /
+          (128 * (a * Real.log (1 / eps))) := by
+  have he := e4 (a := (1 / 2 : ℝ)) (b := 3 * τ + 2) (by norm_num) (by linarith)
+  have hlim := he.const_mul (|c0| * a ^ (τ + 1))
+  rw [mul_zero] at hlim
+  have hπ := Real.pi_pos
+  have hev := hlim.eventually (gt_mem_nhds (show (0 : ℝ) < γ * Real.pi / 512 by positivity))
+  have h01 : ∀ᶠ eps : ℝ in nhdsWithin 0 (Ioi 0), eps ∈ Ioo (0 : ℝ) (Real.exp (-1)) :=
+    Ioo_mem_nhdsGT (Real.exp_pos _)
+  filter_upwards [hev, h01] with eps h1 h2
+  obtain ⟨he0, he1⟩ := h2
+  have hl : 0 < Real.log (1 / eps) := by
+    have := log_inv_ge_one he0 he1.le
+    linarith
+  set l := Real.log (1 / eps) with hldef
+  have hK : 0 < a * l := by positivity
+  have hKτ : 0 < (a * l) ^ τ := Real.rpow_pos_of_pos hK _
+  have hlhs : c0 * eps ^ (5 / 2 : ℝ) * l ^ (2 * τ + 1) =
+      eps ^ 2 * (c0 * eps ^ (1 / 2 : ℝ) * l ^ (2 * τ + 1)) := by
+    rw [eps_pow_five_half he0]; ring
+  have hrhs : (eps * (γ / 4 * (a * l) ^ (-τ))) * Real.pi * eps / (128 * (a * l)) =
+      eps ^ 2 * (γ * Real.pi / 512 / ((a * l) ^ τ * (a * l))) := by
+    rw [Real.rpow_neg hK.le]
+    field_simp
+    ring
+  rw [hlhs, hrhs]
+  refine mul_le_mul_of_nonneg_left ?_ (by positivity)
+  rw [le_div_iff₀ (by positivity)]
+  have hpow : l ^ (2 * τ + 1) * ((a * l) ^ τ * (a * l)) = a ^ (τ + 1) * l ^ (3 * τ + 2) := by
+    rw [← Real.rpow_add_one hK.ne', Real.mul_rpow ha.le hl.le]
+    have : l ^ (3 * τ + 2) = l ^ (2 * τ + 1) * l ^ (τ + 1) := by
+      rw [← Real.rpow_add hl]; ring_nf
+    rw [this]; ring
+  calc c0 * eps ^ (1 / 2 : ℝ) * l ^ (2 * τ + 1) * ((a * l) ^ τ * (a * l))
+      = c0 * (eps ^ (1 / 2 : ℝ) * (l ^ (2 * τ + 1) * ((a * l) ^ τ * (a * l)))) := by ring
+    _ = c0 * a ^ (τ + 1) * (eps ^ (1 / 2 : ℝ) * l ^ (3 * τ + 2)) := by rw [hpow]; ring
+    _ ≤ |c0| * a ^ (τ + 1) * (eps ^ (1 / 2 : ℝ) * l ^ (3 * τ + 2)) := by
+        refine mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right (le_abs_self c0) (by positivity))
+          (by positivity)
+    _ ≤ γ * Real.pi / 512 := h1.le
+
 end Rates
 
 end KAM.Planetary
