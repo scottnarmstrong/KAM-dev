@@ -18,7 +18,7 @@ An exact invariant torus of the lunar flow, after the clock lemma, is given by r
 `(x, y)` (the two angles `θ₀, θ₁`): `Q` (the angle `q`), `Pp` (the momentum `p`); the angle `φ` is
 the clock `y + c`. The torus is invariant at the frequency `(ν, 1)`, and `∂_x Q ≥ m > 0`.
 
-* `soGraphInv`: for each `(q, φ)` the unique `x` with `Q x (φ - c) = q`
+* `Torus.soGraphInv`: for each `(q, φ)` the unique `x` with `Q x (φ - c) = q`
   (`soGraphInv_spec`, `soGraphInv_unique`); it is continuous (`continuous_soGraphInv`) and
   satisfies `x ↦ q` shift laws (`soGraphInv_add_one`, `soGraphInv_periodic_φ`).
 * `soBarrier_of_torus`: the torus is the graph `p = P(q, φ) = Pp (G(q, φ), φ - c)` of a continuous
@@ -58,7 +58,7 @@ theorem graphAbs_sub_le (hm : 0 < m) (hdQ : ∀ x y, HasDerivAt (fun s => Q s y)
     · have := mul_sub_le hdQ hmono h y
       nlinarith [mul_nonneg hm.le (sub_nonneg.2 h)]
 
-theorem strictMono (hm : 0 < m) (hdQ : ∀ x y, HasDerivAt (fun s => Q s y) (dQ x y) x)
+theorem soStrictMono (hm : 0 < m) (hdQ : ∀ x y, HasDerivAt (fun s => Q s y) (dQ x y) x)
     (hmono : ∀ x y, m ≤ dQ x y) (y : ℝ) : StrictMono fun s => Q s y := by
   intro a b hab
   have := mul_sub_le hdQ hmono hab.le y
@@ -97,7 +97,7 @@ theorem Torus.Q_add_int (T : Torus Q Pp dQ ν c m) (k : ℤ) (x y : ℝ) :
 theorem Torus.contQ_left (T : Torus Q Pp dQ ν c m) (y : ℝ) : Continuous fun s => Q s y :=
   T.contQ.comp (continuous_id.prodMk continuous_const)
 
-theorem Torus.exists_inv (T : Torus Q Pp dQ ν c m) (q y : ℝ) : ∃ x, Q x y = q := by
+theorem Torus.soGraphInv_exists (T : Torus Q Pp dQ ν c m) (q y : ℝ) : ∃ x, Q x y = q := by
   set k : ℤ := ⌊q - Q 0 y⌋ with hk
   have h1 : Q (0 + k) y ≤ q := by
     rw [T.Q_add_int]; have := Int.floor_le (q - Q 0 y); rw [← hk] at this; linarith
@@ -108,7 +108,7 @@ theorem Torus.exists_inv (T : Torus Q Pp dQ ν c m) (q y : ℝ) : ∃ x, Q x y =
   obtain ⟨x, -, hx⟩ := intermediate_value_Icc hle (T.contQ_left y).continuousOn ⟨h1, h2⟩
   exact ⟨x, hx⟩
 
-theorem Torus.inv_unique (T : Torus Q Pp dQ ν c m) {x x' y : ℝ} (h : Q x y = Q x' y) :
+theorem Torus.soGraphInv_unique (T : Torus Q Pp dQ ν c m) {x x' y : ℝ} (h : Q x y = Q x' y) :
     x = x' := by
   have := graphAbs_sub_le T.pos T.derivQ T.mono x x' y
   rw [h, sub_self, abs_zero] at this
@@ -116,22 +116,24 @@ theorem Torus.inv_unique (T : Torus Q Pp dQ ν c m) {x x' y : ℝ} (h : Q x y = 
   linarith [abs_eq_zero.1 h0]
 
 /-- The inverse of `x ↦ Q x (φ - c)`: the torus angle `x` carrying the point `(q, φ)`. -/
-def Torus.inv (T : Torus Q Pp dQ ν c m) (q φ : ℝ) : ℝ :=
-  Classical.choose (T.exists_inv q (φ - c))
+def Torus.soGraphInv (T : Torus Q Pp dQ ν c m) (q φ : ℝ) : ℝ :=
+  Classical.choose (T.soGraphInv_exists q (φ - c))
 
-theorem Torus.inv_spec (T : Torus Q Pp dQ ν c m) (q φ : ℝ) : Q (T.inv q φ) (φ - c) = q :=
-  Classical.choose_spec (T.exists_inv q (φ - c))
+theorem Torus.soGraphInv_spec (T : Torus Q Pp dQ ν c m) (q φ : ℝ) :
+    Q (T.soGraphInv q φ) (φ - c) = q :=
+  Classical.choose_spec (T.soGraphInv_exists q (φ - c))
 
-theorem Torus.inv_apply (T : Torus Q Pp dQ ν c m) (x y : ℝ) : T.inv (Q x y) (y + c) = x := by
-  refine T.inv_unique (y := y) ?_
-  have := T.inv_spec (Q x y) (y + c)
+theorem Torus.soGraphInv_apply (T : Torus Q Pp dQ ν c m) (x y : ℝ) :
+    T.soGraphInv (Q x y) (y + c) = x := by
+  refine T.soGraphInv_unique (y := y) ?_
+  have := T.soGraphInv_spec (Q x y) (y + c)
   rwa [add_sub_cancel_right] at this
 
-theorem Torus.continuous_inv (T : Torus Q Pp dQ ν c m) :
-    Continuous fun z : ℝ × ℝ => T.inv z.1 z.2 := by
+theorem Torus.continuous_soGraphInv (T : Torus Q Pp dQ ν c m) :
+    Continuous fun z : ℝ × ℝ => T.soGraphInv z.1 z.2 := by
   rw [continuous_iff_continuousAt]
   rintro ⟨q₀, φ₀⟩
-  set x₀ := T.inv q₀ φ₀ with hx₀
+  set x₀ := T.soGraphInv q₀ φ₀ with hx₀
   rw [Metric.continuousAt_iff]
   intro ε hε
   have hc : ContinuousAt (fun φ => Q x₀ (φ - c)) φ₀ :=
@@ -147,47 +149,47 @@ theorem Torus.continuous_inv (T : Torus Q Pp dQ ν c m) :
   have hφ1 : dist φ φ₀ < δ :=
     lt_of_le_of_lt (le_max_right _ _) (hd'.trans_le (min_le_left _ _))
   have h1 := hδ' hφ1
-  have h2 := graphAbs_sub_le T.pos T.derivQ T.mono (T.inv q φ) x₀ (φ - c)
-  rw [T.inv_spec q φ] at h2
-  have h3 : Q x₀ (φ₀ - c) = q₀ := T.inv_spec q₀ φ₀
+  have h2 := graphAbs_sub_le T.pos T.derivQ T.mono (T.soGraphInv q φ) x₀ (φ - c)
+  rw [T.soGraphInv_spec q φ] at h2
+  have h3 : Q x₀ (φ₀ - c) = q₀ := T.soGraphInv_spec q₀ φ₀
   rw [Real.dist_eq, h3] at h1
   rw [Real.dist_eq] at hq2 ⊢
   have h4 : |Q x₀ (φ - c) - q| ≤ |Q x₀ (φ - c) - q₀| + |q₀ - q| := by
     have := abs_add_le (Q x₀ (φ - c) - q₀) (q₀ - q)
     simpa using this
   rw [abs_sub_comm q₀ q] at h4
-  have h5 : m * |x₀ - T.inv q φ| < m * ε := by linarith
+  have h5 : m * |x₀ - T.soGraphInv q φ| < m * ε := by linarith
   have := lt_of_mul_lt_mul_left h5 T.pos.le
   rwa [abs_sub_comm] at this
 
-theorem Torus.inv_add_one (T : Torus Q Pp dQ ν c m) (q φ : ℝ) :
-    T.inv (q + 1) φ = T.inv q φ + 1 := by
-  refine T.inv_unique (y := φ - c) ?_
-  rw [T.inv_spec, T.perQ₀, T.inv_spec]
+theorem Torus.soGraphInv_add_one (T : Torus Q Pp dQ ν c m) (q φ : ℝ) :
+    T.soGraphInv (q + 1) φ = T.soGraphInv q φ + 1 := by
+  refine T.soGraphInv_unique (y := φ - c) ?_
+  rw [T.soGraphInv_spec, T.perQ₀, T.soGraphInv_spec]
 
-theorem Torus.inv_φ_add_one (T : Torus Q Pp dQ ν c m) (q φ : ℝ) :
-    T.inv q (φ + 1) = T.inv q φ := by
-  refine T.inv_unique (y := φ - c) ?_
-  have h := T.inv_spec q (φ + 1)
+theorem Torus.soGraphInv_periodic_φ (T : Torus Q Pp dQ ν c m) (q φ : ℝ) :
+    T.soGraphInv q (φ + 1) = T.soGraphInv q φ := by
+  refine T.soGraphInv_unique (y := φ - c) ?_
+  have h := T.soGraphInv_spec q (φ + 1)
   rw [show φ + 1 - c = (φ - c) + 1 by ring, T.perQ₁] at h
-  rw [h, T.inv_spec]
+  rw [h, T.soGraphInv_spec]
 
 /-- The graph function `P(q, φ) = Pp (G(q, φ), φ - c)`. -/
-def Torus.graph (T : Torus Q Pp dQ ν c m) (q φ : ℝ) : ℝ := Pp (T.inv q φ) (φ - c)
+def Torus.graph (T : Torus Q Pp dQ ν c m) (q φ : ℝ) : ℝ := Pp (T.soGraphInv q φ) (φ - c)
 
 theorem Torus.continuous_graph (T : Torus Q Pp dQ ν c m) :
     Continuous fun z : ℝ × ℝ => T.graph z.1 z.2 := by
   unfold Torus.graph
-  exact T.contP.comp (T.continuous_inv.prodMk (continuous_snd.sub continuous_const))
+  exact T.contP.comp (T.continuous_soGraphInv.prodMk (continuous_snd.sub continuous_const))
 
 theorem Torus.graph_apply (T : Torus Q Pp dQ ν c m) (x y : ℝ) :
     T.graph (Q x y) (y + c) = Pp x y := by
   unfold Torus.graph
-  rw [T.inv_apply, add_sub_cancel_right]
+  rw [T.soGraphInv_apply, add_sub_cancel_right]
 
 /-- Derivative along the flow line, at every time (not only at `t = 0`). -/
-theorem graphHasDerivAt_line {f d : ℝ → ℝ → ℝ} (h : ∀ x y, HasDerivAt (fun t => f (x + t * ν) (y + t))
-    (d x y) 0) (x y s : ℝ) :
+theorem graphHasDerivAt_line {f d : ℝ → ℝ → ℝ}
+    (h : ∀ x y, HasDerivAt (fun t => f (x + t * ν) (y + t)) (d x y) 0) (x y s : ℝ) :
     HasDerivAt (fun t => f (x + t * ν) (y + t)) (d (x + s * ν) (y + s)) s := by
   have h0 := h (x + s * ν) (y + s)
   rw [← sub_self s] at h0
@@ -221,9 +223,9 @@ theorem Torus.invariant (T : Torus Q Pp dQ ν c m) :
     KAM.ODE.IsInvariantSet soField Set.univ {x | x.2.1 = T.graph x.1 x.2.2} := by
   intro J y hJ hy t₁ ht₁ hS t ht
   have hS' : (y t₁).2.1 = T.graph (y t₁).1 (y t₁).2.2 := hS
-  set X := T.inv (y t₁).1 (y t₁).2.2 with hX
+  set X := T.soGraphInv (y t₁).1 (y t₁).2.2 with hX
   set Y := (y t₁).2.2 - c with hY
-  have hQ : Q X Y = (y t₁).1 := T.inv_spec _ _
+  have hQ : Q X Y = (y t₁).1 := T.soGraphInv_spec _ _
   have hP : Pp X Y = (y t₁).2.1 := by rw [hS']; rfl
   have h0 : T.orbit X Y t₁ t₁ = y t₁ := by
     simp only [Torus.orbit, sub_self, zero_mul, add_zero]
@@ -259,9 +261,9 @@ theorem soBarrier_of_torus {Q Pp dQ : ℝ → ℝ → ℝ} {ν c m lo hi : ℝ} 
   refine ⟨⟨T.graph, T.continuous_graph, fun q φ => ?_, fun q φ => ?_, T.invariant,
     fun q φ => hlo _ _, fun q φ => hhi _ _⟩⟩
   · unfold SoGraph.Torus.graph
-    rw [T.inv_add_one, hP₀]
+    rw [T.soGraphInv_add_one, hP₀]
   · unfold SoGraph.Torus.graph
-    rw [T.inv_φ_add_one, show φ + 1 - c = (φ - c) + 1 by ring, hP₁]
+    rw [T.soGraphInv_periodic_φ, show φ + 1 - c = (φ - c) + 1 by ring, hP₁]
 
 /-! ### From the complex torus `K∞` to the real data -/
 
