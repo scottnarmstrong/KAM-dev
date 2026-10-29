@@ -17,7 +17,7 @@ import Mathlib.Tactic.FieldSimp
 Every inequality between the constants of `bpI:p2:constants` that the later modules of Part 2 use
 is proved here, as an abstract statement about reals (the constants stay folded), so that no later
 module unfolds a constant. They are grouped by the blueprint step that uses them; the steps are
-those of the blueprint `bpI:p2`. All are in the namespace
+those of `bpI:p2:constants`. All are in the namespace
 `KAM.Iso.Apost.Arith`, and each statement has the exact shape that the corresponding estimate of
 the blueprint produces.
 
