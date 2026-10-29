@@ -14,6 +14,8 @@ public import KAM.Planetary.SecularForm.Quadratic.Coeff
 public import KAM.Planetary.SecularForm.ModelTransfer
 public import KAM.Planetary.SecularForm.Coefficients
 public import KAM.Planetary.PGAssembly.JetsPolar
+public import KAM.Planetary.SecularForm.Laplace
+public import KAM.Planetary.SecularForm.LaplaceIdentities
 
 /-!
 # Secular form: literal exports of the evenness nodes of Part 8
@@ -347,6 +349,185 @@ theorem p8_evenness_full (D : Data n) (b : Bool) :
   · rintro I ⟨a, ha, rfl⟩
     have hA := coeffs_analytic D (axis D (action D a)) (by rw [axis_action D ha]; exact ha)
     exact hA.comp_of_eq (analyticAt_axis D _) rfl
+
+/-! ### Laplace coefficients: parity and analyticity at `α = 0` -/
+
+/-- Parity of the Laplace coefficients: `b_s^{(k)}(-α) = (-1)^k b_s^{(k)}(α)`. -/
+theorem laplace_def_neg_arg (s : ℝ) (k : ℕ) (α : ℝ) :
+    laplace_def s k (-α) = (-1) ^ k * laplace_def s k α := by
+  unfold laplace_def
+  set g : ℝ → ℝ := fun t => Real.cos (((k : ℤ) : ℝ) * t) *
+    (1 + α ^ 2 - 2 * α * Real.cos t) ^ (-s) with hg
+  have hper : Function.Periodic g (2 * π) := fun t => by
+    simp only [hg, Int.cast_natCast]
+    rw [show (k : ℝ) * (t + 2 * π) = k * t + k * (2 * π) by ring, Real.cos_add_nat_mul_two_pi,
+      Real.cos_add_two_pi]
+  have hk : ((-1 : ℝ) ^ k) * ((-1) ^ k) = 1 := by rw [← mul_pow]; simp
+  have h1 : ∀ t : ℝ, Real.cos (((k : ℤ) : ℝ) * t) *
+      (1 + (-α) ^ 2 - 2 * (-α) * Real.cos t) ^ (-s) = (-1) ^ k * g (t + π) := fun t => by
+    simp only [hg, Int.cast_natCast]
+    rw [show (k : ℝ) * (t + π) = k * t + k * π by ring, Real.cos_add, Real.cos_nat_mul_pi,
+      Real.sin_nat_mul_pi, Real.cos_add_pi]
+    have : 1 + α ^ 2 - 2 * α * -Real.cos t = 1 + (-α) ^ 2 - 2 * (-α) * Real.cos t := by ring
+    rw [this]
+    linear_combination (-(Real.cos (k * t) * (1 + (-α) ^ 2 - 2 * (-α) * Real.cos t) ^ (-s))) * hk
+  have h2 : (∫ t in (0 : ℝ)..2 * π, Real.cos (((k : ℤ) : ℝ) * t) *
+      (1 + (-α) ^ 2 - 2 * (-α) * Real.cos t) ^ (-s)) = (-1) ^ k * ∫ t in (0 : ℝ)..2 * π, g t := by
+    simp_rw [h1]
+    rw [intervalIntegral.integral_const_mul, intervalIntegral.integral_comp_add_right g π]
+    congr 1
+    have := hper.intervalIntegral_add_eq π 0
+    simpa [add_comm] using this
+  rw [h2]; ring
+
+theorem laplaceC_neg (s : ℝ) (k : ℕ) (z : ℂ) : laplaceC s k (-z) = (-1) ^ k * laplaceC s k z := by
+  unfold laplaceC
+  rw [← tsum_mul_left]
+  refine tsum_congr fun q => ?_
+  rw [neg_pow, show 2 * q + k = k + 2 * q by ring, pow_add, pow_mul]
+  simp only [neg_one_sq, one_pow, mul_one]
+  ring_nf
+
+theorem laplace_def_eq_re {s : ℝ} (hs : 0 < s) (k : ℕ) {α : ℝ} (hα : α ∈ Ioo (-1 : ℝ) 1) :
+    laplace_def s k α = (laplaceC s k (α : ℂ)).re := by
+  rcases le_or_gt 0 α with h0 | h0
+  · rw [laplaceC_ofReal hs k h0 hα.2, Complex.ofReal_re]
+  · have h1 := laplace_def_neg_arg s k (-α)
+    rw [neg_neg] at h1
+    have h2 := laplaceC_ofReal hs k (neg_nonneg.2 h0.le) (by linarith [hα.1])
+    have hc : laplaceC s k (α : ℂ) = (-1) ^ k * laplaceC s k ((-α : ℝ) : ℂ) := by
+      rw [Complex.ofReal_neg, laplaceC_neg, ← mul_assoc, ← mul_pow]; simp
+    rw [h1, hc, h2]
+    have : ((-1 : ℂ) ^ k * (laplace_def s k (-α) : ℂ)) =
+        (((-1 : ℝ) ^ k * laplace_def s k (-α) : ℝ) : ℂ) := by push_cast; ring
+    rw [this, Complex.ofReal_re]
+
+theorem analyticAt_laplace_def_zero {s : ℝ} (hs : 0 < s) (k : ℕ) :
+    AnalyticAt ℝ (laplace_def s k) 0 := by
+  have hC : AnalyticOnNhd ℂ (laplaceC s k) (Metric.ball 0 1) :=
+    (differentiableOn_laplaceC hs k).analyticOnNhd Metric.isOpen_ball
+  have a1 : AnalyticAt ℝ (laplaceC s k) ((0 : ℝ) : ℂ) :=
+    (hC _ (by simp)).restrictScalars
+  have a2 : AnalyticAt ℝ (fun x : ℝ => (x : ℂ)) 0 := Complex.ofRealCLM.analyticAt 0
+  have h1 : AnalyticAt ℝ (fun x : ℝ => Complex.re (laplaceC s k (x : ℂ))) 0 :=
+    Complex.reCLM.analyticAt _ |>.comp (a1.comp a2)
+  refine h1.congr ?_
+  filter_upwards [Ioo_mem_nhds (show (-1 : ℝ) < 0 by norm_num) (show (0 : ℝ) < 1 by norm_num)]
+    with x hx
+  exact (laplace_def_eq_re hs k hx).symm
+
+theorem analyticAt_iteratedDeriv_two {f : ℝ → ℝ} {x : ℝ} (hf : AnalyticAt ℝ f x) :
+    AnalyticAt ℝ (iteratedDeriv 2 f) x := by
+  have : iteratedDeriv 2 f = deriv (deriv f) := by
+    rw [iteratedDeriv_succ, iteratedDeriv_one]
+  rw [this]
+  exact hf.deriv.deriv
+
+/-- A function continuous at `0` and vanishing on `(0, 1)` vanishes at `0`. -/
+theorem eq_zero_of_continuousAt_of_zero_Ioo {F : ℝ → ℝ} (hF : ContinuousAt F 0)
+    (h : ∀ α ∈ Ioo (0 : ℝ) 1, F α = 0) : F 0 = 0 := by
+  have h1 : Tendsto F (𝓝[>] 0) (𝓝 (F 0)) := hF.tendsto.mono_left nhdsWithin_le_nhds
+  have h2 : Tendsto F (𝓝[>] 0) (𝓝 0) :=
+    tendsto_const_nhds.congr' (by
+      filter_upwards [Ioo_mem_nhdsGT (show (0 : ℝ) < 1 by norm_num)] with α hα
+      exact (h α hα).symm)
+  exact tendsto_nhds_unique h1 h2
+
+/-- `bpP:p8:identities`, (I1), literally on `[0, 1)`: `α β'' + 2 β' = b_{3/2}^{(1)}`
+with `β = b_{1/2}^{(0)}`. -/
+theorem p8_identity_one {α : ℝ} (hα : α ∈ Ico (0 : ℝ) 1) :
+    α * iteratedDeriv 2 (laplace_def (1/2) 0) α + 2 * deriv (laplace_def (1/2) 0) α =
+      laplace_def (3/2) 1 α := by
+  set F : ℝ → ℝ := fun α => α * iteratedDeriv 2 (laplace_def (1/2) 0) α +
+    2 * deriv (laplace_def (1/2) 0) α - laplace_def (3/2) 1 α with hF
+  have hpos : ∀ α ∈ Ioo (0 : ℝ) 1, F α = 0 := by
+    intro α hα
+    have h := (identities hα.1 hα.2).1
+    have hne : α ≠ 0 := hα.1.ne'
+    have : α * F α = 0 := by simp only [hF]; linear_combination h
+    exact (mul_eq_zero.1 this).resolve_left hne
+  have hcont : ContinuousAt F 0 := by
+    have hb := analyticAt_laplace_def_zero (s := 1/2) (by norm_num) 0
+    have hb3 := analyticAt_laplace_def_zero (s := 3/2) (by norm_num) 1
+    have : AnalyticAt ℝ F 0 := by
+      simp only [hF]
+      exact ((analyticAt_id.mul (analyticAt_iteratedDeriv_two hb)).add
+        (analyticAt_const.mul hb.deriv)).sub hb3
+    exact this.continuousAt
+  rcases hα.1.eq_or_lt with h0 | h0
+  · subst h0
+    have := eq_zero_of_continuousAt_of_zero_Ioo hcont hpos
+    simpa [hF, sub_eq_zero] using this
+  · exact sub_eq_zero.1 (hpos α ⟨h0, hα.2⟩)
+
+/-- `bpP:p8:identities`, (I2), literally on `[0, 1)`: `α² b'' + 2 α b' - 2 b = α b_{3/2}^{(2)}`
+with `b = b_{1/2}^{(1)}`. -/
+theorem p8_identity_two {α : ℝ} (hα : α ∈ Ico (0 : ℝ) 1) :
+    α ^ 2 * iteratedDeriv 2 (laplace_def (1/2) 1) α + 2 * α * deriv (laplace_def (1/2) 1) α -
+      2 * laplace_def (1/2) 1 α = α * laplace_def (3/2) 2 α := by
+  set F : ℝ → ℝ := fun α => α ^ 2 * iteratedDeriv 2 (laplace_def (1/2) 1) α +
+    2 * α * deriv (laplace_def (1/2) 1) α - 2 * laplace_def (1/2) 1 α -
+      α * laplace_def (3/2) 2 α with hF
+  have hpos : ∀ α ∈ Ioo (0 : ℝ) 1, F α = 0 := by
+    intro α hα
+    have h := (identities hα.1 hα.2).2
+    simp only [hF]; linear_combination 2 * h
+  have hcont : ContinuousAt F 0 := by
+    have hb := analyticAt_laplace_def_zero (s := 1/2) (by norm_num) 1
+    have hb3 := analyticAt_laplace_def_zero (s := 3/2) (by norm_num) 2
+    have : AnalyticAt ℝ F 0 := by
+      simp only [hF]
+      exact ((((analyticAt_id.pow 2).mul (analyticAt_iteratedDeriv_two hb)).add
+        ((analyticAt_const.mul analyticAt_id).mul hb.deriv)).sub
+        (analyticAt_const.mul hb)).sub (analyticAt_id.mul hb3)
+    exact this.continuousAt
+  have := eq_zero_of_continuousAt_of_zero_Ioo hcont hpos
+  rcases hα.1.eq_or_lt with h0 | h0
+  · subst h0
+    simpa [hF, sub_eq_zero] using this
+  · exact sub_eq_zero.1 (hpos α ⟨h0, hα.2⟩)
+
+/-- `bpP:p8:identities`: both identities for every `α ∈ [0, 1)`. -/
+theorem p8_identities_full {α : ℝ} (hα : α ∈ Ico (0 : ℝ) 1) :
+    α * iteratedDeriv 2 (laplace_def (1/2) 0) α + 2 * deriv (laplace_def (1/2) 0) α =
+      laplace_def (3/2) 1 α ∧
+    α ^ 2 * iteratedDeriv 2 (laplace_def (1/2) 1) α + 2 * α * deriv (laplace_def (1/2) 1) α -
+      2 * laplace_def (1/2) 1 α = α * laplace_def (3/2) 2 α :=
+  ⟨p8_identity_one hα, p8_identity_two hα⟩
+
+/-- `stepP:p8:id-1`: the coefficient of `α^(2q+1)` in `α β'' + 2 β'` is
+`(2q+2)(2q+3) ((1/2)_{q+1}/(q+1)!)²`, and it equals the coefficient of `α^(2q+1)` in
+`b_{3/2}^{(1)}`, `(3/2)_{q+1} (3/2)_q / ((q+1)! q!)`. -/
+theorem p8_id1 (q : ℕ) :
+    pcoef (1/2) (q + 1) ^ 2 * (((2 * (q + 1) : ℕ) : ℝ) * (((2 * (q + 1) : ℕ) : ℝ) + 1)) =
+      poch (3/2) (q + 1) * poch (3/2) q / (((q + 1).factorial : ℝ) * q.factorial) ∧
+    laplaceTerm (3/2) 1 q = fun α =>
+      (poch (3/2) (q + 1) * poch (3/2) q / (((q + 1).factorial : ℝ) * q.factorial)) *
+        α ^ (2 * q + 1) := by
+  refine ⟨?_, ?_⟩
+  · have h := coef1 q
+    have e : halfCoef 0 (q + 1) = pcoef (1/2) (q + 1) ^ 2 := by simp [halfCoef, sq]
+    rw [e] at h
+    rw [← h]; ring
+  · funext α; rw [laplaceTerm_eq_coef_mul]
+
+/-- `stepP:p8:id-2`: with `c_q = halfCoef 1 q` the coefficient of `α^(2q+1)` in `b_{1/2}^{(1)}`,
+the coefficient of `α^(2q+1)` in `α² b'' + 2 α b' - 2 b` is `0` for `q = 0` and
+`2q(2q+3) c_q` for `q ≥ 1`; it equals the coefficient of `α^(2q+1)` in `α b_{3/2}^{(2)}`, namely
+`(3/2)_{q+1} (3/2)_{q-1} / ((q+1)! (q-1)!)` (written with `q = r + 1`); for `q = 0` the right side
+has no `α^1` term. -/
+theorem p8_id2 (r : ℕ) :
+    halfCoef 1 0 * (((2 * 0 : ℕ) : ℝ) * ((2 * 0 + 3 : ℕ) : ℝ)) = 0 ∧
+    halfCoef 1 (r + 1) * (((2 * (r + 1) : ℕ) : ℝ) * ((2 * (r + 1) + 3 : ℕ) : ℝ)) =
+      poch (3/2) (r + 2) * poch (3/2) r / (((r + 2).factorial : ℝ) * r.factorial) ∧
+    laplaceTerm (3/2) 2 r = fun α =>
+      (poch (3/2) (r + 2) * poch (3/2) r / (((r + 2).factorial : ℝ) * r.factorial)) *
+        α ^ (2 * r + 2) := by
+  refine ⟨by simp, ?_, ?_⟩
+  · have h := coef2 r
+    push_cast at h ⊢
+    linear_combination 2 * h
+  · funext α; rw [laplaceTerm_eq_coef_mul]
 
 end SecularForm
 
