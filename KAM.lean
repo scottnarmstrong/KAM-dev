@@ -712,6 +712,7 @@ public import KAM.Planetary.PlanarTorsion.Birkhoff.Jets
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Map
 public import KAM.Planetary.PlanarTorsion.Birkhoff.Result
 public import KAM.Planetary.PlanarTorsion.Birkhoff
+public import KAM.Planetary.PlanarTorsion.BirkhoffClauses
 public import KAM.Planetary.PlanarTorsion.Characters.Average
 public import KAM.Planetary.PlanarTorsion.Characters.Basic
 public import KAM.Planetary.PlanarTorsion.Characters.Bracket
