@@ -202,7 +202,8 @@ theorem pl4_terms_node (d : SelectionData n) (ε : ℝ) (he : 0 < ε)
   have he' : 0 < (selectionAdapted d ε).ε₀ := by
     show 0 < 2 * ε
     positivity
-  exact pl4_terms_ctx (weakBudgetCtx_of d (selectionAdapted d ε) hadm rfl rfl rfl rfl rfl rfl hs he') j
+  exact pl4_terms_ctx
+    (weakBudgetCtx_of d (selectionAdapted d ε) hadm rfl rfl rfl rfl rfl rfl hs he') j
 
 /-- `stepP:p11a:pl4-sum`. -/
 theorem pl4_sum_node (d : SelectionData n) (ε : ℝ) (he : 0 < ε)

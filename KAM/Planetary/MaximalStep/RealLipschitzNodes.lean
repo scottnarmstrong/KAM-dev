@@ -158,7 +158,8 @@ theorem rtp_fderiv_norm_le (hT : 0 < T) (hφ : RealTrigPolyDeg T φ) (x : P11Vec
   obtain ⟨a, ha, hi⟩ := hφ i
   have hd : DifferentiableAt ℝ φ x := ((rtp_contDiff hφ).differentiable (by norm_num)) x
   have h1 := hasFDerivAt_pi'.1 hd.hasFDerivAt i
-  have hf := ((rtp_entire ha).differentiableAt (x := KAM.realInclusion n x)).hasFDerivAt.restrictScalars ℝ
+  have hf := ((rtp_entire ha).differentiableAt (x := KAM.realInclusion n x)).hasFDerivAt
+    |>.restrictScalars ℝ
   have h2 := Complex.reCLM.hasFDerivAt.comp x (hf.comp x (KAM.realInclusion n).hasFDerivAt)
   have h3 := h1.unique (by
     have e : (fun y => φ y i) = fun y => (KAM.fourierSum a (fun j => (y j : ℂ))).re := by
