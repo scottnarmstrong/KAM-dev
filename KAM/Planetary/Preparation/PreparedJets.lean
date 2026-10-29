@@ -355,6 +355,90 @@ theorem p11_prin_C_bound (hC : P11SecularSpec D C) (J : P11CVec n)
   have hp : 1 ≤ KAM.Weighted.coth (Real.pi * C.sigma) ^ n := one_le_pow₀ hc
   exact div_le_self (by linarith) hp
 
+private theorem prin_slice_differentiable (ρ0 : P11CVec n) :
+    Differentiable ℂ (fun J : P11CVec n => (Fin.append J ρ0 : P11CVec (n+n))) := by
+  refine differentiable_pi.2 fun j => ?_
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) j
+  · simpa [Fin.append_left] using differentiable_apply (𝕜 := ℂ) (F' := fun _ : Fin n => ℂ) i
+  · simpa [Fin.append_right] using differentiable_const (𝕜 := ℂ) (ρ0 i)
+
+/-- The constant term `C` is holomorphic on `D(J₀, s₂)`: it is read off `h₀ = C.h + ε(C + …)`
+on the slice `ρ̃ = 2πε` of the slow box. -/
+theorem p11_prin_C_diff (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c : ℝ}
+    {A : P11SlowData n} (hnu : 1 ≤ nu) (heps : 0 < eps) (hεM : eps * C.MF ≤ Real.exp (-1))
+    (hsmall : 2 * Real.pi * eps < Real.pi * C.rz ^ 2 / 16)
+    (hA : P11SlowSpecOf C Fast nu eps c A) :
+    DifferentiableOn ℂ C.C (ball (KAM.realInclusion n C.J0) (p11s2 C nu eps)) := by
+  obtain ⟨hK, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨-, -, hform, hZd, -, -, hh0d, -⟩ := hA
+  obtain ⟨-, -, ⟨-, hΩd⟩, -, hhd, -⟩ := id hC
+  have hspec := p11s2_spec hC hK
+  have hs1r := p11s1_le C eps
+  set ρ0 : P11CVec n := fun _ => (2 * Real.pi * eps : ℂ) with hρ0
+  have hsub : ball (KAM.realInclusion n C.J0) (p11s2 C nu eps) ⊆
+      ball (KAM.realInclusion n C.J0) (2 * C.rC) :=
+    ball_subset_ball (by linarith [hspec.1])
+  have hmemV : ∀ J ∈ ball (KAM.realInclusion n C.J0) (p11s2 C nu eps),
+      (Fin.append J ρ0 : P11CVec (n+n)) ∈ p11Box (Fin.append (KAM.realInclusion n C.J0)
+        (fun _ : Fin n => (2*Real.pi*eps : ℂ))) (p11s2 C nu eps) (Real.pi*eps) := by
+    intro J hJ
+    rw [mem_ball_iff_norm] at hJ
+    refine ⟨fun i => ?_, fun i => ?_⟩
+    · simp only [Fin.append_left]
+      exact lt_of_le_of_lt (norm_le_pi_norm (J - KAM.realInclusion n C.J0) i) hJ
+    · simp only [Fin.append_right, hρ0, sub_self, norm_zero]
+      positivity
+  have hZmem : ∀ J ∈ ball (KAM.realInclusion n C.J0) (p11s2 C nu eps),
+      (Fin.append J ρ0 : P11CVec (n+n)) ∈
+        {I : P11CVec (n+n) |
+          ‖(fun i : Fin n => I (Fin.castAdd n i)) - KAM.realInclusion n C.J0‖ < p11s1 C eps/2 ∧
+          ‖(fun i : Fin n => I (Fin.natAdd n i))‖ < Real.pi * C.rz ^ 2 / 16} := by
+    intro J hJ
+    rw [mem_ball_iff_norm] at hJ
+    refine ⟨?_, ?_⟩
+    · have hc : (fun i : Fin n => (Fin.append J ρ0 : P11CVec (n+n)) (Fin.castAdd n i)) = J := by
+        funext i; simp
+      rw [hc]; linarith [hspec.1]
+    · have hc : (fun i : Fin n => (Fin.append J ρ0 : P11CVec (n+n)) (Fin.natAdd n i)) = ρ0 := by
+        funext i; simp
+      rw [hc]
+      refine lt_of_le_of_lt ((pi_norm_le_iff_of_nonneg (by positivity)).2 fun i => ?_) hsmall
+      simp [hρ0, abs_of_pos heps, abs_of_pos Real.pi_pos]
+  have hsl := (prin_slice_differentiable ρ0).differentiableOn (s := ball (KAM.realInclusion n C.J0)
+    (p11s2 C nu eps))
+  have hZ' := hZd.comp hsl hZmem
+  have hh0' := hh0d.comp hsl hmemV
+  have hhd' := hhd.mono hsub
+  have hΩ' : DifferentiableOn ℂ (fun J => ∑ i, C.Omega J i)
+      (ball (KAM.realInclusion n C.J0) (p11s2 C nu eps)) :=
+    DifferentiableOn.fun_sum fun i _ => (differentiableOn_pi.1 hΩd i).mono hsub
+  have h1 : DifferentiableOn ℂ (fun J : P11CVec n => A.h0 (Fin.append J ρ0) - C.h J)
+      (ball (KAM.realInclusion n C.J0) (p11s2 C nu eps)) := hh0'.sub hhd'
+  have h2 := h1.mul_const (eps : ℂ)⁻¹
+  have h3 := hΩ'.const_mul (eps : ℂ)
+  have hex : DifferentiableOn ℂ (fun J : P11CVec n =>
+      (A.h0 (Fin.append J ρ0) - C.h J) * (eps : ℂ)⁻¹ - (eps : ℂ) * ∑ i, C.Omega J i -
+        A.Z (Fin.append J ρ0)) (ball (KAM.realInclusion n C.J0) (p11s2 C nu eps)) :=
+    (h2.sub h3).sub hZ'
+  refine hex.congr fun J hJ => ?_
+  have h := hform _ (hmemV J hJ)
+  have hc : (fun i : Fin n => (Fin.append J ρ0 : P11CVec (n+n)) (Fin.castAdd n i)) = J := by
+    funext i; simp
+  rw [hc] at h
+  have hsum : ∑ i : Fin n, C.Omega J i / (2 * Real.pi) *
+      (Fin.append J ρ0 : P11CVec (n+n)) (Fin.natAdd n i) = (eps : ℂ) * ∑ i, C.Omega J i := by
+    rw [Finset.mul_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    simp only [Fin.append_right, hρ0]
+    have : (Real.pi : ℂ) ≠ 0 := by exact_mod_cast Real.pi_pos.ne'
+    push_cast; field_simp
+  rw [hsum] at h
+  have he : (eps : ℂ) ≠ 0 := by exact_mod_cast heps.ne'
+  rw [h]
+  field_simp
+  ring
+
 end PrIn
 
 end KAM.Planetary
