@@ -517,6 +517,7 @@ public import KAM.Planetary.Hamiltonian.Diophantine
 public import KAM.Planetary.Hamiltonian.HolChart
 public import KAM.Planetary.Hamiltonian.Liouville
 public import KAM.Planetary.Hamiltonian.Part1Nodes
+public import KAM.Planetary.Hamiltonian.PeriodOneNodes
 public import KAM.Planetary.Hamiltonian.TorusUnion
 public import KAM.Planetary.Hamiltonian.Transport
 public import KAM.Planetary.MaximalStep.Affine
@@ -555,11 +556,13 @@ public import KAM.Planetary.Newtonian.AssemblyNewtonNodes
 public import KAM.Planetary.Newtonian.AssemblyNodes
 public import KAM.Planetary.Newtonian.Barycentric
 public import KAM.Planetary.Newtonian.HamiltonNodes
+public import KAM.Planetary.Newtonian.LeftoverNodes
 public import KAM.Planetary.Newtonian.Models
 public import KAM.Planetary.Newtonian.Reconstruction
 public import KAM.Planetary.Newtonian.Reduction
 public import KAM.Planetary.Newtonian.Tube
 public import KAM.Planetary.Nondegeneracy.AnalyticZeros
+public import KAM.Planetary.Nondegeneracy.ConvNodes
 public import KAM.Planetary.Nondegeneracy.DiagonalTensor
 public import KAM.Planetary.Nondegeneracy.FiniteType
 public import KAM.Planetary.Nondegeneracy.Frequency
