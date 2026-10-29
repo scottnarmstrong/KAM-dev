@@ -13,8 +13,7 @@ public import KAM.Iso.R3bp.Safe
 /-!
 # The data of I-HEAD for the restricted three-body problem
 
-Blueprint-I Part 8: `bpI:p8:head-data` (package P8-4 of
-`docs/tracks/I/design/PART58-LEAN-DESIGN.md`).
+Blueprint-I Part 8: `bpI:p8:head-data`.
 
 * `r3bpH`, `r3bpS₀`, `r3bpR₀`: the Hamiltonian `h̃` and the radii `s₀ = δ₂/(2π)`, `r₀ = 2π δ₂`.
 * `r3bp_headData`: all source premises of I-HEAD on `(B, s₀, r₀, h̃, B', η = 1)`.

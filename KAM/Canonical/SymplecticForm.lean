@@ -13,8 +13,8 @@ public import Mathlib.Analysis.Calculus.ContDiff.Basic
 /-!
 # The complexified symplectic form: algebra and the Hessian identity
 
-Helper module of `KAM.Canonical.Symplectic` (blueprint-N Part 5, node `bpN:p5:symplectic`, design
-package C5-5).
+Helper module of `KAM.Canonical.Symplectic` (blueprint-N Part 5, node
+`bpN:p5:symplectic`).
 
 * `KAM.Canonical.symplFormC_eq_of_left`: `symplFormC` is nondegenerate.
 * `KAM.Canonical.symplFormC_hamiltonianJ`: `symplFormC (J ℓ) w = -ℓ w`.

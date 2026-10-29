@@ -15,7 +15,7 @@ public import KAM.Frozen.Iso.Defs.IsHamiltonianSolutionOn
 /-!
 # Part 5: the real Hamiltonian
 
-Package P5-2 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (blueprint `bpI:p5:real-ham`): the
+Blueprint `bpI:p5:real-ham`: the
 frozen `KAM.realHamiltonian h f` on `ℝ² × B`, for `h` and `f` as in I-HEAD.
 
 * `isOpen_realAct`, `subset_realAct`, `toC_pair_mem_fractD`: the real points of the domains.
@@ -202,7 +202,7 @@ theorem realHam_solution_iff (hb : BaseData B s₀ r₀ h) (hf : PerturbData B s
 /-- (d) `|∂_t f(φ, I + t v)|_{t=0} ≤ F₁ ε ‖v‖`, as the operator norm of the real derivative of
 `I ↦ Re f(ι φ, ι I)`, for `I ∈ B`; `hD` is the derivative bound of `bpI:p3:hypothesis-d`; `hf`
 (holomorphy of `f`) is REQUIRED: without it the total `fderiv` is `0` for non-holomorphic `f` and
-the bound is false (audit F01). -/
+the bound is false. -/
 theorem realHam_fderiv_bound (hb : BaseData B s₀ r₀ h) (hf : PerturbData B s₀ r₀ f ε) {F₁ : ℝ}
     (hD : ∀ z ∈ fractD B s₀ r₀, ‖fderiv ℂ f z‖ ≤ F₁ * ε) (φ : Fin 2 → ℝ) {I : Fin 2 → ℝ}
     (hI : I ∈ B) :

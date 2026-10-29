@@ -21,8 +21,7 @@ from graph predecessors and approved external inputs only. While the frozen anch
 this module is quarantined: no module other than the anchor may import it.
 
 This file is the one place that may import the sealed frozen theorems `KAM.aposteriori_kam` (G1),
-`KAM.local_uniqueness_flow` (G2) and `KAM.volume_not_diophantine_le` (G3) (design
-`docs/campaign/design/PART4-LEAN-DESIGN.md`, sections 2.2 and 6).
+`KAM.local_uniqueness_flow` (G2) and `KAM.volume_not_diophantine_le` (G3).
 
 * `KAM.Provider.exists_gValid` discharges the premise `KAM.Head.GValid` of the Part 4 modules: it
   produces the constants of G1 at the two tuples of Definition `bp:p4:parameters`, of G2 at

@@ -14,8 +14,7 @@ import Mathlib.Tactic.Linarith
 
 Integer translations and reality along `chain Φ m` (`chain_translate`, `chain_real`), and the
 Fourier coefficients of `P_Λ T_K u` and of finite sums of such (`coeff_homRes`,
-`coeff_sum_eq_zero`), used by `normal_form` to show `ĝ_k = 0` for `k ∉ Λ ∩ Z_K`. Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 2).
+`coeff_sum_eq_zero`), used by `normal_form` to show `ĝ_k = 0` for `k ∉ Λ ∩ Z_K`.
 -/
 
 @[expose] public noncomputable section

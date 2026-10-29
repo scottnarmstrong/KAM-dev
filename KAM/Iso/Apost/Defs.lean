@@ -12,8 +12,7 @@ public import KAM.Apost.Schedule
 /-!
 # Part 2 (isoenergetic iteration): standing data, constants and constructions
 
-Definitions only (package I-D0 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, copied verbatim
-from the audited signatures; there is no theorem in this module).
+Definitions only (there is no theorem in this module).
 
 * `IsoStanding` (`bpI:p2:standing`), the ray margin `rayMargin` (`ν(s)`), `IsoAdmissible`
   (`bpI:p2:admissible`) and `IterHyp` (hypotheses (I5)-(I12) of `bpI:p2:iteration`).
@@ -23,8 +22,8 @@ from the audited signatures; there is no theorem in this module).
 * The explicit correction of `bpI:p2:correction`: `isoBordData`, `isoXi`, `isoXiOmega`,
   `isoCorrection`, `isoNewS`; the Newton map and its quadratic remainders of
   `bpI:p2:newton-error`: `isoNewtonMap`, `isoQuadX`, `isoQuadH`.
-* The schedule `isoEpsSeq`, `isoDSeq` and the iteration `isoSeq`. `δ_s`, `r_s` are track K's
-  `deltaSeq`, `rSeq`. The limits `isoLimit`, `isoSLimit` land with `limit` (package I2-9).
+* The schedule `isoEpsSeq`, `isoDSeq` and the iteration `isoSeq`. `δ_s`, `r_s` are
+  `KAM.Apost.deltaSeq`, `KAM.Apost.rSeq`. The limits `isoLimit`, `isoSLimit` are in `Apost/Limit`.
 
 Rule 6: the iteration and the correction are total definitions, so that `iteration` assumes exactly
 the hypotheses `IterHyp`. The frequency is always the term `s • ωstar`.
@@ -201,8 +200,8 @@ structure IterHyp (σK σB σT σω ν : ℝ) (D : Set ((Fin n → ℂ) × (Fin 
 
 -- `isoLimit` (`K_∞ = lim K_j` on `T_{ρ∞}`) and `isoSLimit` (`s_∞ = lim s_j`) are not defined here:
 -- they are `limUnder` selectors, admitted only together with the theorems that prove convergence
--- and characterize them. They land in package I2-9 (`Apost/Limit`) with `limit` and
--- `energy_limit`, as `kamLimit` landed with `limit` in track K (`KAM/Apost/Limit.lean`).
+-- and characterize them. They are defined in `Apost/Limit` with `limit` and
+-- `energy_limit`, as `kamLimit` is defined with `limit` in `KAM/Apost/Limit.lean`.
 
 /-- `C₁ = ρ^{4τ} max {γ̄⁴, ĉ_* δ₀^{-2a}}`. -/
 def isoC1 (n : ℕ) (τ ρ ρinf M σK σB σT μ ν γbar : ℝ) : ℝ :=

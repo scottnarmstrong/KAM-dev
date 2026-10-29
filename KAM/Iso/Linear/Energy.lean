@@ -25,7 +25,7 @@ Blueprint nodes `bpI:p1:energy-approx` (parts (a)-(e); part (f) is `energy_defec
   the uniqueness clause of Part 1's cohomological equation (`KAM.cohomological`) applied to
   `u = H ∘ K - Ē_H(K)` and `g = 0`.
 
-The auxiliary lemmas live in `KAM.Iso.Linear.Energy`. All of track K's conventions apply.
+The auxiliary lemmas live in `KAM.Iso.Linear.Energy`. All conventions of `KAM.Apost` apply.
 -/
 
 @[expose] public noncomputable section
@@ -225,7 +225,7 @@ theorem energy_conservation (hS : Setting n τ M σK σB σT D H ω γ) {r : ℝ
     (∀ θ ∈ complexStrip n r, H (K θ) = KAM.Iso.energyAverage H K) ∧
     (∀ E₀ : ℂ, KAM.Iso.energyAverage H K = E₀ → ∀ θ ∈ complexStrip n r, H (K θ) = E₀) ∧
     ∀ E₀ : ℂ, ∀ θ ∈ complexStrip n r, ‖H (K θ) - E₀‖ = ‖KAM.Iso.energyAverage H K - E₀‖ := by
-  -- `hKr` is part of the audited signature (the source setting); the proof does not need it.
+  -- `hKr` is part of the source setting; the proof does not need it.
   have _ := hKr
   have key : ∀ θ ∈ complexStrip n r, H (K θ) = KAM.Iso.energyAverage H K := by
     intro θ hθ

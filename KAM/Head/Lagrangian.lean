@@ -18,9 +18,8 @@ import KAM.Head.HamiltonianField
 /-!
 # Invariant tori with nonresonant frequency are Lagrangian
 
-Blueprint Part 4, Lemma `bp:p4:lagrangian` and its proof steps (design
-`docs/campaign/design/PART4-LEAN-DESIGN.md`, section 13 of Appendix A; package P4-8). Let `K` be
-holomorphic and primary on a strip `T_ρ` with `K(T_ρ) ⊆ 𝔇` and invariance error `E = 0` at a
+Blueprint Part 4, Lemma `bp:p4:lagrangian` and its proof steps. Let `K` be holomorphic
+and primary on a strip `T_ρ` with `K(T_ρ) ⊆ 𝔇` and invariance error `E = 0` at a
 Diophantine frequency `ω`. Then `Λ = DKᵀ Ω₀ DK` (`KAM.Torus.lagrangeMat`) vanishes on `T_ρ`.
 
 * `step:p4:lag-regular`: `KAM.Head.lagrangeMat_regular`. `Λ` is holomorphic and `1`-periodic on
@@ -39,9 +38,9 @@ Diophantine frequency `ω`. Then `Λ = DKᵀ Ω₀ DK` (`KAM.Torus.lagrangeMat`)
   `KAM.Head.coh_unique_zero` (`KAM/Head/CohUnique.lean`) to every entry of `Λ`.
 
 Two hypotheses of the blueprint statement are not used by this proof: `ε ≤ 1` and the boundedness
-of `DK` (design finding F1 and its analogue). The average step needs no bound, and
+of `DK`. The average step needs no bound, and
 `coh_unique_zero` applies on `T_ρ` itself, without a loss of strip width. They stay in the
-statement, which is the literal one of the design.
+statement, which is the literal one of the blueprint.
 -/
 
 @[expose] public noncomputable section

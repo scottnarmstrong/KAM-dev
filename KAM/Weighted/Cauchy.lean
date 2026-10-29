@@ -18,7 +18,7 @@ For `u` in the class `O(r₀, s₀)` with `|u|_{r₀,s₀} ≤ M`:
 * `cauchy_theta` (a): the angular derivatives lose width `s₀ - s` and a factor `1/(e (s₀ - s))`,
   *summed over `j` inside the supremum* pointwise in `I`, and individually in the global norm. The
   proof is coefficientwise: `û_k(∂_{θⱼ}u) = 2πi kⱼ û_k(u)`, `∑ⱼ 2π |kⱼ| = 2π |k|₁` and
-  `x e^{-ax} ≤ 1/(e a)` (K's `KAM.Fourier.mul_exp_radius_sub_le`).
+  `x e^{-ax} ≤ 1/(e a)` (`KAM.Fourier.mul_exp_radius_sub_le`).
 * `cauchy_action` (b): the action derivatives lose radius `r₀ - r` and a factor `1/(r₀ - r)`. For a
   finite set `Λ` of modes, norming functionals `λ_k` of the derivatives `∂_{Iᵢ}û_k(I)` give the
   scalar holomorphic function `J ↦ ∑_{k ∈ Λ} e^{2π s₀|k|₁} λ_k(û_k(J))`, bounded by `M` on the ball
@@ -34,8 +34,8 @@ open Set Metric MeasureTheory
 
 namespace KAM.Weighted
 
--- The signatures keep K's instance block `[NormedSpace ℝ W] [IsScalarTower ℝ ℂ W] [CompleteSpace W]
--- [FiniteDimensional ℂ W]` (audit F6: consumers supply it); several lemmas do not need all of it.
+-- The signatures keep the instance block `[NormedSpace ℝ W] [IsScalarTower ℝ ℂ W] [CompleteSpace W]
+-- [FiniteDimensional ℂ W]` (consumers supply it); several lemmas do not need all of it.
 set_option linter.unusedSectionVars false
 
 variable {n m : ℕ} {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W] [NormedSpace ℝ W]

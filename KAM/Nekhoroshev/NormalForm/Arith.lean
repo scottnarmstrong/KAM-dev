@@ -14,7 +14,6 @@ public import KAM.Nekhoroshev.NormalForm.ArithDisp
 
 Re-exports `ArithBase` (schedule, Step 0, Cases A/B, number of steps), `ArithInduct` ((6.1), (6.2),
 the induction constant, the decomposition norm, (a)) and `ArithDisp` (displacement, radii).
-Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8.
 -/
 
 public section

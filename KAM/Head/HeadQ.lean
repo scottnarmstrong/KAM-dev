@@ -14,7 +14,7 @@ public import KAM.Head.DyadicApprox
 
 Blueprint Part 4, the proof of `bp:p0:headq` (steps `step:p4:hq-trivial`, `step:p4:hq-approx`,
 `step:p4:hq-head`, `step:p4:hq-transfer`, `step:p4:hq-cover`), as the conditional helper
-`KAM.Head.headq_of_head` of the Part 4 design (package P4-Q). The hypothesis `hHEAD` is the whole
+`KAM.Head.headq_of_head`. The hypothesis `hHEAD` is the whole
 frozen HEAD at the data `(n, τ, s₀, r₀, h)` for every action domain `B'`; the HEAD-Q provider
 supplies it from the sealed `KAM.kam_positive_measure`. This module imports neither the frozen
 theorems nor a provider.

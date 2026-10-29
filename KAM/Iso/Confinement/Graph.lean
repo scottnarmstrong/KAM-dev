@@ -11,7 +11,7 @@ public import KAM.Strip.RealRestriction
 /-!
 # Part 5: the tori are graphs over all angles
 
-Package P5-3 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (blueprint `bpI:p5:graph`). For one
+Blueprint `bpI:p5:graph`. For one
 torus `K` with the output (T1)-(T4) of `bpI:p3:tori` (`TorusOutput`), the real restriction
 `k = Re ∘ K ∘ ι` (`KAM.realRestriction`) parametrises the real torus `𝒯 = k(ℝ²)`.
 

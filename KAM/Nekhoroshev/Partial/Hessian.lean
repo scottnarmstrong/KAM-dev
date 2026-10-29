@@ -13,7 +13,7 @@ import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.Linarith
 
 /-!
-# Part 11 (N11-E3): the real/complex Hessian bridge and the signed Hessian bounds
+# Part 11: the real/complex Hessian bridge and the signed Hessian bounds
 
 `realPart_hessian_apply` identifies the real Hessian of `realPart h` at a real point with the
 real part of the complex Hessian of a holomorphic `h`; `realPart_derivs_real` shows (for `h` real
@@ -22,7 +22,7 @@ symmetric and `∂h` is the real gradient (`bpN:p11:hessian#real-hessian`);
 `FastConvex.toRealFastConvex` restricts the complex upper Hessian bound to the real slice;
 `hessian_at_sign` and `hessian` give the signed convexity data of `signedH`-type Hamiltonians
 `σ h / (2π)` (stated for the scaled function `σ h/(2π)` (`signedH`) at the selected source sign).
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`, lemma `bpN:p11:hessian`.
+Blueprint lemma `bpN:p11:hessian`.
 -/
 
 @[expose] public noncomputable section

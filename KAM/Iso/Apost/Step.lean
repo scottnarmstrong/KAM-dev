@@ -13,13 +13,13 @@ import Mathlib.Tactic.Linarith
 /-!
 # Part 2 (isoenergetic iteration): the isoenergetic KAM step
 
-Package I2-6 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p2:step`
+Blueprint node `bpI:p2:step`
 (`KAM.Iso.Apost.step`). For an `IsoAdmissible` torus `K` (at the frequency `ω = s ω*`),
 `0 < δ ≤ 1`, `4δ < r` and the step smallness `ĉ_step ε/(γ⁴ δ^{2a}) ≤ min {1, β}`, the Newton map
 `K̄ = isoNewtonMap … (r - 2δ)` and the new frequency `ω̄ = s̄ ω*` (`s̄ = isoNewS …`) satisfy the
 conclusions (a)-(e) of `bpI:p2:step` with `d = dStep`.
 
-This is an assembly, mirroring track K's `KAM.Apost.step`:
+This is an assembly, mirroring `KAM.Apost.step`:
 
 * `st-small`: `KAM.Iso.Apost.Arith.iso_step_small` turns the smallness hypothesis into
   `C_sym ε/(γ δ^{κ+1}) ≤ 1/2`, `d ≤ β/2` and `2𝔪 C_{Δ𝖳} d/δ² ≤ 1`; the frequency bound `γ ≤ Θ`

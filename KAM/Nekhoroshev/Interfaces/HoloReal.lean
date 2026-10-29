@@ -347,8 +347,8 @@ theorem holo_real_e {R s : ℝ} {h : (Fin n → ℂ) → ℂ} {f : (Fin n → �
   unfold KAM.realHamiltonian realPart
   rw [h0, add_zero]
 
-/-- The statement Part 3 calls `bpN:p3:holo-input` (a corollary of `holo_real_b,c,d`; proved in the
-same package, so that package N3-10a of the Part 3 design is absorbed here). -/
+/-- The statement Part 3 calls `bpN:p3:holo-input` (a corollary of `holo_real_b,c,d`, proved
+here). -/
 theorem holo_input {R s ε : ℝ} {h : (Fin n → ℂ) → ℂ} {f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     (hd : Data n R s ε h f) :
     ContDiffOn ℝ ∞ (KAM.realHamiltonian h f) (Wdom n R s) ∧

@@ -11,7 +11,7 @@ public import KAM.ODE.Uniqueness
 /-!
 # Uniqueness of physical restricted solutions
 
-Blueprint-I Part 8 (`bpI:p8:pf-uniq`, package P8-6 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md`).
+Blueprint-I Part 8 (`bpI:p8:pf-uniq`).
 
 * `KAM.Iso.R3bp.restricted_unique`: a restricted three-body solution `z` on all of `ℝ` and a
   restricted solution `y` on an interval `(a, b) ∋ 0` that agree at time `0` agree on `(a, b)`.
@@ -27,7 +27,7 @@ open Set KAM.ODE
 namespace KAM.Iso.R3bp
 
 /-- `bpI:p8:pf-uniq`: uniqueness in the physical variables (`restricted_reduction` +
-`gen_uniqueness` on `Ioo a b`); no confinement of the competitor. Needs N3-8. -/
+`gen_uniqueness` on `Ioo a b`); no confinement of the competitor. -/
 theorem restricted_unique (μ : ℝ) {a b : ℝ} (ha : a < 0) (hb : 0 < b)
     {y z : ℝ → (Fin 2 → ℝ) × (Fin 2 → ℝ)} (h0 : y 0 = z 0)
     (hy : IsRestrictedSolutionOn μ (Set.Ioo a b) y) (hz : IsRestrictedSolutionOn μ Set.univ z) :

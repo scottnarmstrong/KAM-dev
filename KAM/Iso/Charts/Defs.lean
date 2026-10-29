@@ -14,11 +14,10 @@ public import KAM.Head.Defs
 /-!
 # Part 3 (local charts): constants, coordinates, patches, rays and torus outputs
 
-Definitions only (package I-D0 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, copied verbatim
-from the audited signatures; the only proofs are the two `rfl` bridges to track K's
+Definitions only (the only proofs are the two `rfl` bridges to
 `KAM.Head.domainD` and `KAM.Head.hbold`). `n = 2`, `τ = 2`. The Part 5 carriers `toC`, `realAct`,
 `realPart`, `totalH`, `rhoInf`, `fractD`, `HeadData`, `PerturbData`, `EnergyPatch`, `TorusOutput`,
-`ChartCover`, `ToriExistence` are those of `KAM.Iso.Confinement.Setting` (package P5-0).
+`ChartCover`, `ToriExistence` are those of `KAM.Iso.Confinement.Setting`.
 
 * Bridges `fractD_eq_domainD`, `totalH_eq_hbold` (`rfl`).
 * Constants of `bpI:p3:constants`: `rhoIso`, `dB`, `eta1`, `sSet`, `mhConst`, `MgConst`,

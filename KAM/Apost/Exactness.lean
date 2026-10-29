@@ -15,7 +15,7 @@ public import KAM.Apost.Identities
 
 Blueprint Part 2, Lemma `bp:p2:exactness` (`KAM.Apost.exactness`). Let `K` be holomorphic and
 primary on `T_r` with `K(T_r) ⊆ 𝔅`. Then `⟨Ω_K⟩ = 0` and `⟨Lᵀ Ω₀ E⟩ = ⟨η^ᴺ⟩ = 0`. The second
-average needs no inverse of the Gram matrix: `ηᴺ := Lᵀ Ω₀ E` is defined without one (design L9).
+average needs no inverse of the Gram matrix: `ηᴺ := Lᵀ Ω₀ E` is defined without one.
 
 The proof follows the blueprint (steps `step:p2:ex-curl`, `step:p2:ex-avg-omega`,
 `step:p2:ex-gradient`, `step:p2:ex-avg-eta`); all helper lemmas live in the namespace

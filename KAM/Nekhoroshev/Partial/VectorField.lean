@@ -15,7 +15,7 @@ import Mathlib.Tactic.Linarith
 
 `scaled ρ σ z = max (‖z.1‖/σ) (‖z.2‖/ρ)`, the norm `ν_{ρ,σ}` of the source on the extended
 coordinates, and `vf`: on `𝒟_{R-ρ,s-σ}` the field `X^c_φ = wfield c φ` has `ν_{ρ,σ}` size at most
-`|φ|_{R,s}/(ρσ)` and its slow part has size at most `c|φ|_{R,s}/ρ` (Part 11, package N11-C).
+`|φ|_{R,s}/(ρσ)` and its slow part has size at most `c|φ|_{R,s}/ρ` (Part 11).
 -/
 
 @[expose] public noncomputable section

@@ -20,8 +20,7 @@ public import KAM.Frozen.Iso.Defs.BorderedHessian
 /-!
 # Part 5 setting: standing data, patches, constants and torus outputs
 
-Definitions and structures only (package P5-0 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md`,
-copied verbatim from the audited signatures); there is no theorem in this module.
+Definitions and structures only; there is no theorem in this module.
 
 * Notation of `bpI:p3:setting` and `bpI:p3:constants`: `toC` (the inclusion `ι : ℝⁿ → ℂⁿ`),
   `realAct` (`U`), `realPart` (`Re h ∘ ι`), `totalH` (`H = h + f`), `rhoInf` (`ρ∞`), `fractD`

@@ -12,8 +12,8 @@ public import KAM.Kepler.Means
 /-!
 # Kepler scaling: literal exports of the graph nodes
 
-Graph-gap package GAP-P7 (append-only).  Each theorem states the literal conclusion of one node of
-the dependency graph, built from the landed declarations of `KAM.Kepler.Energy`, `KAM.Kepler.Orbit`,
+Each theorem states the literal conclusion of one node of the dependency graph, built from the
+declarations of `KAM.Kepler.Energy`, `KAM.Kepler.Orbit`,
 `KAM.Kepler.Means` and `KAM.Kepler.Mass`:
 
 * `ci_alg` (`stepI:p7:ci-alg`): the orbit formulas and the three means extend to `e = 0`;

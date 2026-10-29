@@ -14,8 +14,7 @@ public import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
 /-!
 # Derivatives along the flow and Taylor's formula
 
-Blueprint-N Part 5, nodes `bpN:p5:lie-derivative` and `bpN:p5:taylor` (design
-`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-6).
+Blueprint-N Part 5, nodes `bpN:p5:lie-derivative` and `bpN:p5:taylor`.
 
 * `KAM.Canonical.taylor_integral_aux`: the integral Taylor remainder for a family `G j` with
   `(G j)' = G (j+1)` on `[0, 1]` (Mathlib has only the mean-value forms of the remainder);

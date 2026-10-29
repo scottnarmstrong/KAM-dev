@@ -426,7 +426,7 @@ private theorem rs_exit (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ) {J : 
   have : euclid (0 : Fin n → ℝ) = 0 := by simp [KAM.Nekhoroshev.euclid]
   linarith
 
-/-- `bpN:p7:resonant-lemma1` (Lemma 1; off the published graph, consumed by track I only). -/
+/-- `bpN:p7:resonant-lemma1` (Lemma 1; off the published graph). -/
 theorem resonant_lemma1 (hRS : ResSetting D r s Λ h m M g fs Mg η ζ δ)
     (hconv : IsMConvex (realNbhd D r) h m) :
     ∀ J : Set ℝ, J.OrdConnected → (0 : ℝ) ∈ J → ∀ z, IsOrbit (fun w => h w.2 + g w + fs w) D r J z →

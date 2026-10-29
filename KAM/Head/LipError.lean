@@ -21,8 +21,7 @@ import Mathlib.Analysis.Calculus.ContDiff.Bounds
 /-!
 # The error of the shifted torus
 
-Blueprint Part 4, `bp:p4:lip-error` (package P4-7; signature copied verbatim from Appendix A,
-section 11, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). For `ω, ω' ∈ Ω_γ` with
+Blueprint Part 4, `bp:p4:lip-error`. For `ω, ω' ∈ Ω_γ` with
 `|ω' - ω| ≤ λ_* γ²`, put `ΔI = I_{ω'} - I_ω` and `K' = K_ω + (0, ι ΔI)`
 (`KAM.Head.shiftedTorus`). Then `K'` is holomorphic and primary on `T_{s/8}`, real on reals,
 `K' - K⁰_{ω'} = W_ω` (so `|K' - K⁰_{ω'}| ≤ η₀` on `T_{s/8}`), and the invariance error `E'` of

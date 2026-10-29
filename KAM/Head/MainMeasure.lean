@@ -17,8 +17,7 @@ import KAM.Measure.McShane
 /-!
 # The measure of the complement at a given `γ`
 
-Blueprint Part 4, `bp:p4:main-measure` (package P4-11; signature copied verbatim from Appendix A,
-section 17, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). Under `(SA)` and `B ≠ ∅`,
+Blueprint Part 4, `bp:p4:main-measure`. Under `(SA)` and `B ≠ ∅`,
 `meas (F_B ∖ 𝒦(η₀)) ≤ C_meas γ` with `C_meas = 2 C_B⁺ + (9/2)ⁿ (2 C_B⁺ + L₊ⁿ C₃⁺)`.
 
 * `KAM.Head.measure_diff_le_of_displacement`: the measure-theoretic half of the proof, for an
@@ -141,7 +140,7 @@ theorem main_measure {CB : ℝ} (hD : Data τ s₀ r₀ B h Lh) (hCB : Layer B C
     (hSA : SA τ s₀ r₀ B h Lh gc ε γ) (hne : B.Nonempty) :
     volume (fundamentalDomain B \ kamCover h f B r₀ τ (eta0 n τ s₀ r₀ gc ε γ)) ≤
       ENNReal.ofReal (Cmeas n Lh CB gc.C3 * γ) := by
-  -- `B ≠ ∅` is a blueprint premise that the proof does not use (design finding F1)
+  -- `B ≠ ∅` is a blueprint premise that the proof does not use
   have _ := hne
   have hγ := hSA.gamma_pos
   obtain ⟨hdisj, hbd, hlip⟩ := map_lipschitz hD hP hgc hSA

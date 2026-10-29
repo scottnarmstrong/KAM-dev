@@ -9,12 +9,11 @@ public import KAM.Nekhoroshev.Partial.Setting
 public import KAM.Nekhoroshev.NormalForm.Homological
 
 /-!
-# Homological equation on the extended space (`bpN:p11:hom`, Part 11, package N11-F3)
+# Homological equation on the extended space (`bpN:p11:hom`, Part 11)
 
 `homGenerator` is the Part 6 parametrized generator `homGenParam` for the frequency
 `J ↦ freq h (fast projection J)`, and `hom` is `homological_param` instantiated at
 `m = n + (k + k)`, base `b.base`, with the directional equation identified with `extBracket`.
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
 -/
 
 @[expose] public noncomputable section

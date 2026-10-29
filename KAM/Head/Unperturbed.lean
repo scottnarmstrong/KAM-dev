@@ -16,8 +16,7 @@ import KAM.Strip.Averages
 /-!
 # Geometry of the unperturbed torus
 
-Blueprint Part 4, `bp:p4:unperturbed` (package P4-2; signature copied verbatim from Appendix A,
-section 6, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). For `I_* ∈ B`, `ω ∈ ℝⁿ` and
+Blueprint Part 4, `bp:p4:unperturbed`. For `I_* ∈ B`, `ω ∈ ℝⁿ` and
 `K⁰ = K⁰_{I_*}`, `θ ↦ (θ, ι I_*)`, the theorem `KAM.Head.unperturbed` collects the items
 (a)–(g). The frame side, items (a), (b), (c) and (g), is computed from the frozen definitions in
 `KAM/Head/UnperturbedFrame.lean`. This file proves the torsion side, items (d), (e), (f).
@@ -27,7 +26,7 @@ section 6, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). For `I_* ∈ B`, `ω
   `KAM.Head.fderiv_normalFrame_unperturbedTorus`, and `DX_𝐡 = J ∘ D²𝐡` is
   `KAM.Head.fderiv_hamiltonianVectorField`). It splits as `∇²h(ι I_*) + ∂²_I f`
   (`KAM.Head.unperturbed_actionHessian_hbold`), is continuous on the real torus (through the
-  landed `torsion_regular` adapter), and its average is `∇²h + ∫ ∂²_I f`
+  `torsion_regular` adapter), and its average is `∇²h + ∫ ∂²_I f`
   (`KAM.Head.unperturbed_torsionAverage`).
 * `step:p4:unp-twist`: `‖∂²_I f‖ ≤ ‖D²f‖ ≤ F₂ ε` row by row
   (`KAM.Head.unperturbed_norm_actionHessian_le`), then the Neumann criterion with the bound

@@ -14,7 +14,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # I-G1 with explicit constants
 
-Package I2-10 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p2:g1`
+Blueprint node `bpI:p2:g1`
 (`KAM.Iso.Apost.g1_explicit`): the frozen statement of `KAM.Iso.isoenergetic_kam` with the explicit
 constants
 
@@ -27,7 +27,7 @@ The body of the frozen statement after `∃ C₁ C₂ C₃, 0 < C₁ ∧ 0 < C�
 in the frozen order. The provider `KAM.Provider.Iso.isoenergetic_kam` is the anonymous constructor
 `⟨_, _, _, g1_explicit …⟩`.
 
-The proof follows the blueprint and track K's `KAM/Apost/G1.lean`.
+The proof follows the blueprint and `KAM/Apost/G1.lean`.
 
 * `step:p2:g1-constants`: `0 < C₁` and `0 < C₂` (`isoC1_pos`, `isoC2_pos`) from `one_le_hatCDelta`
   and `KAM.Apost.delta0_pos`.

@@ -20,7 +20,7 @@ import Mathlib.Tactic.Linarith
 `f₊ ∈ O(r-2ρ,s-2σ)` and the estimate of `f₊`. The proof splits `H ∘ Φ` with `transform`
 (`h ↦ h ∘ snd`, `f₀ = g + T_K f`), the integrand `{g + (1-t)ξ + t T_K f, φ}` is bounded by
 `bracket_g` with the extra decomposition term, and `(f - T_K f) ∘ Φ` by `truncation_tail` and
-`composition_series`. Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-6.
+`composition_series`.
 -/
 
 @[expose] public noncomputable section

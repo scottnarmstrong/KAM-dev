@@ -69,7 +69,7 @@ def ExactHamData (K : Set (Fin 2 → ℝ)) (δ₂ : ℝ) : Prop :=
           -1 / (2 * w.2 0 ^ 2) - w.2 1 + μ * (exactF K (phaseToC w) μ).re) ∧
   (∀ w : Phase 2, w.2 ∈ K → phaseToC w ∈ UDelta K δ₂)
 
-/-- The full admissibility predicate of the exact radius (audit 2, R2-1): positivity, subordination
+/-- The full admissibility predicate of the exact radius: positivity, subordination
 to the selected complex-domain radius, the clauses (i)-(iv), AND the geometric control that the
 complex Delaunay positions lie in the shift neighbourhood. It is a result predicate (used in a
 choice and in theorem conclusions), never a premise. -/
@@ -438,7 +438,7 @@ theorem exact_ham {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K
   obtain ⟨h1, h2, h3, -⟩ := exact_radius_spec hK hρ
   exact ⟨h1, h2, h3⟩
 
-/-- F3: a projection of `exact_radius_spec`; justified because the property is part of the choice
+/-- A projection of `exact_radius_spec`; justified because the property is part of the choice
 predicate. -/
 theorem exact_positions_mem_shiftO {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K < 1) :
     ∀ w ∈ UDelta K (exactDelta K), (delaunayC K w).1 ∈ shiftO (kRmin K) (kRhoMax K) (exactEps K) :=

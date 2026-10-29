@@ -13,7 +13,7 @@ import Mathlib.MeasureTheory.Integral.DominatedConvergence
 import Mathlib.Topology.Algebra.InfiniteSum.Real
 
 /-!
-# Coefficient bookkeeping for the extended composition (Part 11, package N11-F1, helpers)
+# Coefficient bookkeeping for the extended composition (Part 11, helpers)
 
 Independent-dimension versions (angles `Fin n`, actions `Fin m`) of the Part 5 helpers of
 `KAM.Canonical.CompositionCoeff`/`TransformSeries`: the class, the coefficients and the weighted

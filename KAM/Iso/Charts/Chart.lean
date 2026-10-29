@@ -12,7 +12,7 @@ public import Mathlib.Analysis.Calculus.Deriv.Inv
 /-!
 # Part 3 (local charts): the chart `Φ_c = (h, m_c)` is a local `C¹` diffeomorphism, and the cover
 
-Package I3-2 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p3:chart` and
+Blueprint nodes `bpI:p3:chart` and
 `bpI:p3:cover`. `n = 2`.
 
 * `chart` (`bpI:p3:chart`): at a centre `c ∈ closure B'` the Jacobian of `Φ_c = (Re h, m_c)` is

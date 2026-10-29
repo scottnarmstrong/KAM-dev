@@ -17,14 +17,14 @@ import Mathlib.Tactic.Ring
 /-!
 # Part 2 (isoenergetic iteration): the induction of the iteration
 
-Package I2-8 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p2:iteration`
+Blueprint node `bpI:p2:iteration`
 (`KAM.Iso.Apost.iteration`). The sequence of pairs `(K_j, s_j)` is the explicit
 `KAM.Iso.Apost.isoSeq` of `KAM/Iso/Apost/Defs.lean`: `(K₀, s₀) = (K, s₀)` and
 `(K_{j+1}, s_{j+1}) = (K̄_j, s̄_j)`, the isoenergetic Newton map on `T_{r_j - 2δ_j}` and the new
-ray parameter. The schedule `δ_j, r_j` is track K's, `ε_j, d_j` are `isoEpsSeq`, `isoDSeq`
+ray parameter. The schedule `δ_j, r_j` is that of `KAM.Apost`, `ε_j, d_j` are `isoEpsSeq`, `isoDSeq`
 (`KAM/Iso/Apost/Schedule.lean`). The hypotheses are exactly `IterHyp` (rule 6).
 
-The proof mirrors track K's `KAM/Apost/Iteration.lean` (`Stage`, `stage_zero`, `stage_succ`).
+The proof mirrors `KAM/Apost/Iteration.lean` (`Stage`, `stage_zero`, `stage_succ`).
 
 * `step:p2:it-sums`: `iso_sums_le` bounds the partial sums `D_j`, `∑ n d_i/δ_i`,
   `∑ C_B d_i/δ_i`, `∑ 2𝔪² C_{Δ𝖳} d_i/δ_i²` by comparison with the sums of `iso_error_decay` and

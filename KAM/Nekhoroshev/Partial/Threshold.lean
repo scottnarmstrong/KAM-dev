@@ -14,7 +14,7 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.FieldSimp
 
 /-!
-# Part 11 (N11-O): the uniform threshold
+# Part 11: the uniform threshold
 
 All constants of `PartialConstants` are fixed before `μ`; the single statement `threshold`
 produces `μ₀ > 0` such that for every `0 < μ < μ₀` the six numerical comparisons used by the
@@ -181,7 +181,7 @@ theorem nthr_key (c : PartialConstants) (κ : ℝ) (hn : 2 ≤ c.n) (hρ : 0 < c
       field_simp
     rw [e]; exact hk6'
 
-/-- N11-O: all constants are fixed before `μ`; six comparisons hold for all small `μ`. -/
+/-- All constants are fixed before `μ`; six comparisons hold for all small `μ`. -/
 theorem threshold (a : PartialData n k) (hne : a.G.Nonempty) :
     ∃ μ0 : ℝ, 0 < μ0 ∧ ∀ μ : ℝ, 0 < μ → μ < μ0 →
       let c := constants a

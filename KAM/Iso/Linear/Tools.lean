@@ -12,9 +12,9 @@ public import KAM.Matrix.Inverse
 /-!
 # Part 1 (isoenergetic linear step): small tools
 
-Package I1-1 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p1:ray` and
-`bpI:p1:ext-neumann` and the finite-index versions of track K's matrix Neumann/realness lemmas
-(K states them for `Fin n` only; the bordered matrices of Part 1 live on `Fin n ⊕ Unit`).
+Blueprint nodes `bpI:p1:ray` and `bpI:p1:ext-neumann`, and the finite-index versions of the
+Kolmogorov matrix Neumann/realness lemmas
+(`KAM.Apost` states them for `Fin n` only; the bordered matrices of Part 1 live on `Fin n ⊕ Unit`).
 
 * `isDiophantine_smul` (`bpI:p1:ray`): `s ω*` is `(γ, τ)`-Diophantine for `s ≥ 1`.
 * `isUnit_det_one_sub` (`bpI:p1:ext-neumann`): `1 - X` has a unit determinant if `‖X‖ < 1`.

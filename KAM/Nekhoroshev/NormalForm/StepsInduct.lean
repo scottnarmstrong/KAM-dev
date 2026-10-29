@@ -15,8 +15,7 @@ import Mathlib.Tactic.Linarith
 
 For `i ≤ N`, the invariant `NFInv i` makes step `i` an `IterHyp` (`nf_hyp`: admissibility,
 `nf-first`, (6.2)) and gives `NFInv (i+1)` (`nf_inv_succ`: Case A of `nf-case` for `i = 0`, the
-induction claim `εᵢ₊₁ ≤ εᵢ/4` with the decomposition norm of `nf-induct` for `i ≥ 1`). Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 1).
+induction claim `εᵢ₊₁ ≤ εᵢ/4` with the decomposition norm of `nf-induct` for `i ≥ 1`).
 -/
 
 @[expose] public noncomputable section

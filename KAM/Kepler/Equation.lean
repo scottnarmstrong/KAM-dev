@@ -268,7 +268,8 @@ theorem fderiv_keplerLong_vec {v : Fin 2 → ℝ} (hv : planeLength v < 1) (lam 
   · rw [eq_div_iff hJ, h0]; simp
   · rw [eq_div_iff hJ, h1]; simp
 
-/-- Track I's `u_ℝ(ℓ, e)`: Kepler's equation `u - e sin u = ℓ`, the case `v = (e, 0)`. -/
+/-- The eccentric anomaly `u_ℝ(ℓ, e)`: Kepler's equation `u - e sin u = ℓ`, the case
+`v = (e, 0)`. -/
 def eccAnom (ℓ e : ℝ) : ℝ := keplerLong ℓ ![e, 0]
 
 theorem planeLength_eccVec {e : ℝ} (he : |e| < 1) : planeLength (![e, 0] : Fin 2 → ℝ) < 1 := by

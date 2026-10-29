@@ -11,7 +11,7 @@ public import KAM.Frozen.Planetary.Defs.Fast
 public import KAM.Frozen.Planetary.Defs.Slow
 
 /-!
-# Coordinates of the partial setting (`bpN:p11:orbit`, Part 11, package N11-A)
+# Coordinates of the partial setting (`bpN:p11:orbit`, Part 11)
 
 The linear change of variables `theta` from a planetary phase point `(q, p)` of `n + k`
 degrees of freedom to the extended coordinates (angles `fast q / 2π`, then fast actions, slow

@@ -14,7 +14,7 @@ import Mathlib.Tactic.Positivity
 /-!
 # Part 2 (isoenergetic iteration): the new averaged extended torsion
 
-Package I2-5 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p2:torsion`
+Blueprint node `bpI:p2:torsion`
 (`KAM.Iso.Apost.torsion_step`). For an `IsoAdmissible` torus `K` at `ω = s ω*`, the Newton map
 `K̄ = isoNewtonMap … (r - 2δ)` (`K̄ = K + ΔK` on `T_{r-2δ}`) and the new frequency `ω̄ = s̄ ω*`:
 `K̄` is holomorphic, primary and real on reals, its frame is controlled by the perturbation lemma

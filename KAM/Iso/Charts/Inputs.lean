@@ -19,8 +19,7 @@ public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 /-!
 # The frozen I-G1 and G3 as definitions (`bpI:p0:g1`, `K:bp:p0:g3`)
 
-Definitions only (package I-D0 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, copied verbatim
-from the audited signatures). This module imports frozen definitions and Mathlib only; it imports
+Definitions only. This module imports frozen definitions and Mathlib only; it imports
 no frozen theorem and no provider.
 
 * `KAM.Iso.Charts.IG1Body`: the body of the frozen `KAM.Iso.isoenergetic_kam` after
@@ -29,9 +28,9 @@ no frozen theorem and no provider.
   through `IG1Body`.
 * `KAM.Iso.Charts.G3Statement`: the type of the frozen `KAM.volume_not_diophantine_le` (G3).
 
-Part 3 consumes I-G1 and G3 as the premises `IG1Statement` and `G3Statement` (the track K `GValid`
-precedent, in `∀` form); `Apost/G1` states `g1_explicit` through `IG1Body`. That these are the
-frozen types is checked, outside the tree, by `rfl` against the anchors.
+Part 3 consumes I-G1 and G3 as the premises `IG1Statement` and `G3Statement` (in `∀`
+form, like the premise `GValid`); `Apost/G1` states `g1_explicit` through `IG1Body`. That these
+are the frozen types is checked, outside the tree, by `rfl` against the anchors.
 -/
 
 @[expose] public noncomputable section

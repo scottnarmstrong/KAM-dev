@@ -13,8 +13,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # Composition with the time-one map (`bpN:p5:composition`)
 
-Blueprint-N Part 5, node `bpN:p5:composition` (design `docs/tracks/N/design/PART145-LEAN-DESIGN.md`,
-package C5-8). Declarations in this facade:
+Blueprint-N Part 5, node `bpN:p5:composition`. Declarations in this facade:
 
 * `KAM.Canonical.ComposeData` and `composition_domain` (i) are in `Canonical/CompositionDomain`,
   the engine of (ii) in `Canonical/CompositionSeries` (`lieSeries_*`, `series_eq`);

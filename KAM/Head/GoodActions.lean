@@ -15,9 +15,8 @@ import KAM.Head.UnperturbedFrame
 /-!
 # Good actions and the displacement is `1/2`-Lipschitz
 
-Blueprint Part 4, `bp:p4:good-actions` (the claim after the definition) and `bp:p4:map-lipschitz`
-(package P4-11; signatures copied verbatim from Appendix A, section 16, of
-`docs/campaign/design/PART4-LEAN-DESIGN.md`). Under `(SA)`:
+Blueprint Part 4, `bp:p4:good-actions` (the claim after the definition) and `bp:p4:map-lipschitz`.
+Under `(SA)`:
 
 * `KAM.Head.good_actions`: for `I ∈ A_γ` the frequency `∇h(I)` lies in `Ω_γ`, `I_{∇h(I)} = I`, and
   `G₀(θ, I)` is the real restriction of `W_{∇h(I)}` at `θ` (`ι G₀(θ, I) = W_{∇h(I)}(ι θ)`).

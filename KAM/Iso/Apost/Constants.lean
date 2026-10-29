@@ -19,9 +19,9 @@ The definitions of the constants (`hatCS`, ..., `hatcStar`, `dStep`) are in
 (`iso_constants_spec`), together with the elementary orderings between the constants that the
 arithmetic of `KAM/Iso/Apost/ConstantsArith.lean` uses.
 
-The constants of track K (`kappa`, `aExp`, `cR`, `mSize`, `Theta`, `C_X`, `C_T`, `C_Omega`,
+The constants of `KAM.Apost` (`kappa`, `aExp`, `cR`, `mSize`, `Theta`, `C_X`, `C_T`, `C_Omega`,
 `C_sym`, `C_red`, `C_xi0`, `C_G`, `C_B`, `C_DN`, `C_DX`, `C_DT`, `delta0`) and their facts
-(`one_le_C_*`, `one_le_Theta`, `eight_le_aExp`, ...) are track K's, reused unchanged.
+(`one_le_C_*`, `one_le_Theta`, `eight_le_aExp`, ...) are reused unchanged.
 -/
 
 public section

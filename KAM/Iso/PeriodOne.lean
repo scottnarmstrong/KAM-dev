@@ -388,7 +388,7 @@ theorem transfer {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K 
     rw [e0, e1, div_pow] at key
     exact key
 
-/-- F4: the remaining outputs of `bpI:p7:transfer`: exact radius, recovery of the elements, and the
+/-- The remaining outputs of `bpI:p7:transfer`: exact radius, recovery of the elements, and the
 physical energy equal to `realHamiltonian` along the orbit. -/
 theorem transfer_identities {K : Set (Fin 2 → ℝ)} (hK : SafeAction K) (hρ : kRhoMax K < 1)
     {B : Set (Fin 2 → ℝ)} (hB : ∀ I ∈ B, (fun i => I i / (2 * π)) ∈ K) {μ : ℝ}

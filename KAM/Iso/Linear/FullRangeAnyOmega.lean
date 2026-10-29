@@ -10,11 +10,11 @@ public import KAM.Iso.Linear.Reduced
 public import KAM.Iso.Linear.NoTwist
 
 /-!
-# Part 1 (isoenergetic linear step): the literal any-`ω` readings (package GAP-I1c)
+# Part 1 (isoenergetic linear step): the literal any-`ω` readings
 
 The source states `bpI:p1:reduced` for `ω ∈ ℝⁿ` (any) and `bpI:p1:perturbation-noA5` for
 `ω ∈ ℝⁿ`, `‖ω‖ ≤ Θ`, with no Diophantine condition on `ω`; the landed `reduced` and
-`perturbation_noA5` take `ω` from a `Setting` (design departure D3). Here the standing data is a
+`perturbation_noA5` take `ω` from a `Setting`. Here the standing data is a
 `Setting` at a frequency `ω₀` (the setting's own frequency, used only for the `ω`-free
 Hamiltonian facts: holomorphy, symplecticity and the Taylor bound of `X_H`), and the frequency
 `ω` of the statement is arbitrary.
@@ -316,7 +316,7 @@ end Perturbation
 section Src
 
 /-- `bpI:p1:reduced` (a)–(d) at an arbitrary `ω`, under the literal source setting `τ ≥ 0`
-(`SettingSrc` at the source's own frequency `ω₀`, GAP-I1a ruling N1 option (i)). -/
+(`SettingSrc` at the source's own frequency `ω₀`). -/
 theorem reduced_anyOmega_src (hS : SettingSrc n τ M D H ω₀ γ) {r : ℝ} (hr : 0 < r)
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
     (hKD : ∀ θ ∈ complexStrip n r, K θ ∈ D)

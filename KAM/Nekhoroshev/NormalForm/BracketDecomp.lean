@@ -19,7 +19,6 @@ For `g = ∑ⱼ gⱼ` with `gⱼ ∈ O(rⱼ, sⱼ)`, `|gⱼ| ≤ Mⱼ`, and `φ 
 `{g, φ}` lies in `O(r-ρ, s-σ)` with `|{g, φ}| ≤ (2/(eρσ)) |g|_* Φ`. Per term `wbound_bracket`; the
 decomposition weights satisfy
 `1/e (1/((rⱼ-r+ρ)σ) + 1/((sⱼ-s+σ)ρ)) = 2/(eρσ) · ½(ρ/(rⱼ-r+ρ) + σ/(sⱼ-s+σ))`.
-Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-3.
 -/
 
 @[expose] public noncomputable section

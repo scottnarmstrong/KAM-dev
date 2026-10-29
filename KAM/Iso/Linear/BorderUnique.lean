@@ -12,7 +12,7 @@ public import KAM.Strip.CohomologicalNodes
 /-!
 # The bordered triangular system: algebra, kernel lemmas and uniqueness
 
-Package I1-5 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, node `bpI:p1:border-solve`
+Blueprint node `bpI:p1:border-solve`
 (HL19 Lemma 6.1), first module. The uniqueness part (d) of the lemma is split off here:
 
 * `bordMat_mulVec`, `bordAvg_mulVec_bordSol`, `eq_bordSol_of_mulVec`, `bordSol_rows`,

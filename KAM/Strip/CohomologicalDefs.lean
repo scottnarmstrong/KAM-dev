@@ -12,7 +12,7 @@ public import KAM.Diophantine.Cohomological
 # Definitions of the cohomological interface (Part 1 to Parts 2 and 3)
 
 This file holds only the two definitions through which Parts 2 and 3 use blueprint
-`bp:p1:cohomological`; the theorems about them belong to the package that proves that lemma.
+`bp:p1:cohomological`; the theorems about them are in `KAM.Strip.CohomologicalNodes`.
 
 * `KAM.cohConst n τ` is the constant `c(n, τ)` of `bp:p1:cohomological`, with the value fixed in its
   proof, `c(n, τ) = (2π)⁻¹ (τ / (eπ))^τ (8n / π)^n`.

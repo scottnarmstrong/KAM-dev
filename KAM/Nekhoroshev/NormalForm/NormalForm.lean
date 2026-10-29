@@ -14,8 +14,7 @@ import Mathlib.Tactic.Linarith
 
 `nfSteps` (the number of steps `N = ⌊κ/(12 ln 2)⌋`), the Case B assembly (a single step with the
 losses `(r/4, s/3)`), `normal_form` (Case A of `NormalFormCaseA` or Case B by the test
-`exp(-κ/6) ≤ iterU α p ε (r/8) (s/6)`) and `nonresonant_case`. Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8 (session 2).
+`exp(-κ/6) ≤ iterU α p ε (r/8) (s/6)`) and `nonresonant_case`.
 -/
 
 @[expose] public noncomputable section

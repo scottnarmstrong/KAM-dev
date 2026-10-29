@@ -18,7 +18,7 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.FieldSimp
 
 /-!
-# Part 11 (N11-G): the block data from the covering lemma (`bpN:p11:block-data`)
+# Part 11: the block data from the covering lemma (`bpN:p11:block-data`)
 
 `block_data` applies the Part 8 covering lemma `KAM.Nekhoroshev.covering` and the cutoff corollary
 `KAM.Nekhoroshev.cutoffs` to the singleton `{Ic}` and the frequency of the signed Hamiltonian
@@ -27,7 +27,7 @@ import Mathlib.Tactic.FieldSimp
 (`stepN:p11:bd-24`) supplies the divisor bound on the `ℓ¹` ball of radius `K/√n`, the strict
 resonance closeness and the Lipschitz bound, and the last step (`stepN:p11:bd-5`) is the
 arithmetic of `ε = m₁ r_Θ² / 2¹⁴`.
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`, lemma `bpN:p11:block-data`.
+Blueprint lemma `bpN:p11:block-data`.
 -/
 
 @[expose] public noncomputable section

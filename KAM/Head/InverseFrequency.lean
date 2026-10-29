@@ -12,8 +12,7 @@ import KAM.Matrix.Norms
 /-!
 # The Hessian inverse and the inverse frequency map
 
-Blueprint Part 4, `bp:p4:hessian-inverse` and `bp:p4:inverse-freq` (package P4-1; signatures copied
-verbatim from Appendix A, section 4, of `docs/campaign/design/PART4-LEAN-DESIGN.md`).
+Blueprint Part 4, `bp:p4:hessian-inverse` and `bp:p4:inverse-freq`.
 
 * `KAM.Head.hessian_inverse` (`bp:p4:hessian-inverse`): for `I ∈ B` and real `v`,
   `|v| ≤ L₊ |∇²h (ι I) v|`; the matrix `∇²h (ι I)` is invertible with real inverse and

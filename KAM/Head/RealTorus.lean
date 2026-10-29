@@ -20,8 +20,7 @@ import KAM.Strip.Bridges
 /-!
 # The real tori are KAM tori
 
-Blueprint Part 4, `bp:p4:real-torus` (package P4-9; signature copied verbatim from Appendix A,
-section 14, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). Under `(SA)` and for `ω ∈ Ω_γ`, the
+Blueprint Part 4, `bp:p4:real-torus`. Under `(SA)` and for `ω ∈ Ω_γ`, the
 real restriction `k_ω = KAM.realRestriction K_ω` of the normalized torus `K_ω` is an invariant
 Lagrangian torus of `H = realHamiltonian h f` with frequency `ω` (the frozen
 `KAM.IsInvariantLagrangianTorus`), it lies within `η₀` of `x ↦ (x, I_ω)`, with `I_ω ∈ B` and

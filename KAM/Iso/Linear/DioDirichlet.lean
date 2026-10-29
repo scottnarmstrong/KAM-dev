@@ -10,7 +10,7 @@ public import Mathlib.Data.Finset.Card
 public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
 
 /-!
-# Dirichlet emptiness of `Dio_{γ,τ}` for `τ < n - 1` (graph gap GAP-I1a, ruling N1)
+# Dirichlet emptiness of `Dio_{γ,τ}` for `τ < n - 1`
 
 For `n ≥ 2` and `γ > 0` there is no `(γ, τ)`-Diophantine vector in `ℝⁿ` when `τ < n - 1`
 (pigeonhole on the values `k · ω`, `k ∈ {0, …, N}ⁿ`). Hence the Part 1 specialization

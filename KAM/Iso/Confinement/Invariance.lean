@@ -11,7 +11,7 @@ public import KAM.Iso.Confinement.RealHam
 /-!
 # Part 5: invariance of the tori
 
-Package P5-4 of `docs/tracks/I/design/PART58-LEAN-DESIGN.md` (blueprint `bpI:p5:invariance`).
+Blueprint `bpI:p5:invariance`.
 For a torus `K` of the output of `bpI:p3:tori` (`TorusOutput`) whose real actions lie in `B`:
 
 * `torus_flow` (step `inv-sol`): `t ↦ k(θ₁ + t ωt)`, `k = Re K ι`, solves `ẋ = X_ℝ(x)` in

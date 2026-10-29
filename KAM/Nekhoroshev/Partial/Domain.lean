@@ -19,7 +19,7 @@ import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.Linarith
 
 /-!
-# Part 11 (N11-E3): the block setting, the complex domain and the field equality
+# Part 11: the block setting, the complex domain and the field equality
 
 The block geometry `block_setting`, the signed pair `signedH`, `signedF`, the slow rescaling
 `slowScale` and `blockPert`, the physical real set `physicalDomain`, the lemma `domain`
@@ -29,7 +29,6 @@ the frozen Hamiltonian field equals the signed weighted field on the physical se
 companions `domain_field_scaled` (slow-scaling transport of the field and of orbits, weight
 `2π` to `c = 2π/λ²`, physical/scaled domain identification) and `domain_physical_analytic`
 (holomorphic-real restriction and real analyticity of the frozen Hamiltonian on the physical set).
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
 -/
 
 @[expose] public noncomputable section

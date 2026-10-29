@@ -169,7 +169,7 @@ theorem energy_defect (hS : Setting n τ M σK σB σT D H ω γ) {r : ℝ} (hr 
       (∀ x ∈ Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
         ‖ξL (fun i => (x i : ℂ))‖ ≤ X) →
       ‖avg (fun θ => fderiv ℂ (fun y => H (K y)) θ (ξL θ))‖ ≤ A * X := by
-  -- `hKp`, `hKr` are part of the audited signature (the source setting); the proof does not
+  -- `hKp`, `hKr` are part of the source setting; the proof does not
   -- need them.
   have _ := hKp
   have _ := hKr

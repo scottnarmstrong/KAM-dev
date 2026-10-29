@@ -233,7 +233,7 @@ private theorem hasDerivAt_dot_snd (hU : IsOpen U) (hg : ContDiffOn ℝ 1 g (uni
 
 end Core
 
-/-- `bpN:p7:energy-core` (reusable core; track I, Part 11). -/
+/-- `bpN:p7:energy-core` (reusable core; used in Part 11). -/
 theorem energy_core {U : Set (Fin n → ℝ)} (hU : IsOpen U) {hR : (Fin n → ℝ) → ℝ}
     {g f HR : (Fin n → ℝ) × (Fin n → ℝ) → ℝ} (hhR : ContDiffOn ℝ 2 hR U)
     (hg : ContDiffOn ℝ 1 g (univ ×ˢ U)) (hf : ContDiffOn ℝ 1 f (univ ×ˢ U))

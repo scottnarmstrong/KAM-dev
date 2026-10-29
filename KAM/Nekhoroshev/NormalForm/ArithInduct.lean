@@ -15,7 +15,7 @@ import Mathlib.Tactic.Linarith
 # The Normal Form Lemma: numerics, (6.1), (6.2), the induction constant and (a)
 
 `nf-case` (6.1), `nf-N` (6.2), `nf-induct` (`128/127 · 0.1915 < 1/4`), the decomposition norm and
-`nf-concl` (a). Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8.
+`nf-concl` (a).
 -/
 
 @[expose] public noncomputable section

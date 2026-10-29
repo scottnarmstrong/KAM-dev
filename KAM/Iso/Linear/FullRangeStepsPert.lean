@@ -8,10 +8,10 @@ module
 public import KAM.Iso.Linear.FullRange
 
 /-!
-# Part 1 step exports: perturbation of the frame (graph gap GAP-I1b)
+# Part 1 step exports: perturbation of the frame
 
 Literal exports of the proof-step nodes of `bpI:p1:perturbation-noA5` (`pt-small`, `pt-domain`,
-`pt-frame`, `pt-torsion`) under the source setting `SettingSrc` (`τ ≥ 0`), built from track K's
+`pt-frame`, `pt-torsion`) under the source setting `SettingSrc` (`τ ≥ 0`), built from the Kolmogorov
 perturbation helper lemmas. The `σ`'s are free reals: the constants depend on them only through
 `𝔪`, unchanged by replacing each `σ` by `max σ 1` (`mSize_max_one`).
 -/

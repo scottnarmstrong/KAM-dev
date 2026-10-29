@@ -16,7 +16,7 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.FieldSimp
 
 /-!
-# The extended weighted bracket estimate (`bpN:p11:bracket`, Part 11, package N11-C)
+# The extended weighted bracket estimate (`bpN:p11:bracket`, Part 11)
 
 `ext_part4` (the sup bound for the extended class), `bracket` (Lemma B.4ᵉ: the weighted norm of
 `{u, v}_c` in terms of those of `u` and `v`, with the extra slow-pair term `2kc/((R₀-R+ρ)ρ)`),

@@ -13,11 +13,11 @@ import Mathlib.Analysis.Normed.Operator.Prod
 /-!
 # Part 3 (local charts): uniform constants and the invariant tori on both sides
 
-Package I3-5 of `docs/tracks/I/design/PART123-LEAN-DESIGN.md`, nodes `bpI:p3:uniform` and
+Blueprint nodes `bpI:p3:uniform` and
 `bpI:p3:tori`. `n = 2`, `τ = 2`.
 
 * `uniform` (`bpI:p3:uniform`, existence form over a finite family): a common `C_K` and `ε₁`.
-* `tori` (`bpI:p3:tori`, audit fix F2): the cover by the patches of `cover`; before the
+* `tori` (`bpI:p3:tori`): the cover by the patches of `cover`; before the
   perturbation quantifiers, for every patch, its centre in `closure B'`, `p.W ⊆ 𝒰_c`, the chart
   identity `p.m = m_c` and the two rays fixed per patch and sign; then, for `ε < ε₁`, the two tori
   (T1)-(T7) whose frequencies lie on exactly those rays. It assembles `cover`, `patch_rays`,
@@ -264,7 +264,7 @@ theorem exists_ray_consts (hd : HeadData B s₀ r₀ h B' η) (hne : B'.Nonempty
     ⟨hrp c hc, hmp c hc, hrm c hc, hmm c hc, h1p c hc, h2p c hc, h3p c hc, h1m c hc, h2m c hc,
       h3m c hc, hLp c hc, hLm c hc⟩⟩
 
-/-- `bpI:p3:tori` (with `uniform`; audit F2): the cover; OUTSIDE the `f, ε, I₀, E` quantifiers, for
+/-- `bpI:p3:tori` (with `uniform`): the cover; OUTSIDE the `f, ε, I₀, E` quantifiers, for
 each patch its centre in `closure B'`, the chart identity `p.m = m_c`, and its two fixed rays; then,
 for `ε < ε₁`, the two tori (T1)–(T7), whose frequencies lie on exactly those rays. -/
 theorem tori (hd : HeadData B s₀ r₀ h B' η) (hne : B'.Nonempty) (hG1 : IG1Statement)
@@ -372,7 +372,7 @@ theorem tori (hd : HeadData B s₀ r₀ h B' η) (hne : B'.Nonempty) (hG1 : IG1S
     · exact toriSide_of_applyOut hd hne (hP c hcP) hrp hmabsp hCKp' hε0 hI₀ hI₀c hE' hεK hoP
     · exact toriSide_of_applyOut hd hne (hP c hcP) hrm hmabsm hCKm' hε0 hI₀ hI₀c hE' hεK hoM
 
-/-- The generic Part 5 interface (`part3_tori` of the Part 5 design) under the two premises: a
+/-- The generic Part 5 interface `part3_tori` under the two premises: a
 separately named projection of `tori` that forgets the charts and rays. Proof written out. -/
 theorem part3_tori_of (hd : HeadData B s₀ r₀ h B' η) (hne : B'.Nonempty) (hG1 : IG1Statement)
     (hG3 : G3Statement) :

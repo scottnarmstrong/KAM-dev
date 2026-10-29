@@ -20,8 +20,7 @@ The step schedule (`nfRho`, `nfSig`, `nfR`, `nfS`), the carried bound sequence `
 displayed inequalities of the proof as standalone real lemmas: Step 0 (`iterU_first`, Case A (6.1),
 Case B), the
 number of steps `N` and (6.2), the induction constant `128/127 · 0.1915 < 1/4`, the conclusions (a),
-(b) and the displacement constants (1.17, `8 + 32/(36 ln 2) ≤ 10`). No `nlinarith`. Design
-`docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-8.
+(b) and the displacement constants (1.17, `8 + 32/(36 ln 2) ≤ 10`). No `nlinarith`.
 -/
 
 @[expose] public noncomputable section

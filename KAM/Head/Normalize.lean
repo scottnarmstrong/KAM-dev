@@ -13,8 +13,7 @@ import KAM.Strip.Averages
 /-!
 # Properties of the normalized torus `K_ω`
 
-Blueprint Part 4, `bp:p4:normalize` (package P4-5; signature copied verbatim from Appendix A,
-section 10, of `docs/campaign/design/PART4-LEAN-DESIGN.md`). Under `(SA)`, for `ω ∈ Ω_γ`, the
+Blueprint Part 4, `bp:p4:normalize`. Under `(SA)`, for `ω ∈ Ω_γ`, the
 torus `K_ω = (K^∞_ω)^{[-ph(K^∞_ω)]}` (Definition `bp:p4:normalized-torus`, `KAM.Head.normTorus`) is
 holomorphic, primary, real on reals, invariant, normalized, with `B_{μ/2}(K_ω(θ)) ⊆ 𝔇`,
 `‖DK_ω‖ ≤ σ_K - μ/2` and `‖W_ω‖ ≤ η₀` on `T_{s/8}`.

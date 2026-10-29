@@ -20,11 +20,10 @@ public import Mathlib.Analysis.Calculus.Deriv.Pi
 public import Mathlib.Analysis.Complex.ExponentialBounds
 
 /-!
-# Nonresonant block stability (Part 11, package N11-M1)
+# Nonresonant block stability (Part 11)
 
 `nonresonant` (`bpN:p11:nonresonant`): on a nonresonant block the fast actions of an orbit
 that starts at the block centre and keeps its slow pair in the block move by at most `r_B/2`.
-Design `docs/tracks/N/design/N11-LEAN-DESIGN.md`.
 
 The proof follows the four steps of the blueprint (`p11c-partial-stability.tex` L69–74):
 
@@ -32,7 +31,7 @@ The proof follows the four steps of the blueprint (`p11c-partial-stability.tex` 
 * `stepN:p11:nr-t12`: the displacement bounds (T1) of `reExtMap Ψ` (`nnr_fast_re_le`,
   `nnr_slow_re_le`) and the real preimages (T2), from `preimage` with `ϱ' = r_B/2`, `σ' = s/3`
   (`nnr_arith_nf` checks `κ_* ≤ 1/4`);
-* `stepN:p11:nr-t3`: (T3) is *proved* (design decision 5), with `ϱ = 15 r_B/32`: along a normal-form
+* `stepN:p11:nr-t3`: (T3) is *proved*, with `ϱ = 15 r_B/32`: along a normal-form
   orbit `İ = -∂_θ f_*` (`nnr_fast_field_bound`: `h` depends on `I` only and `∂_θ g = 0` at real
   points because `g` has only the zero mode, `real_system_resonant`), so `|İ| ≤ 6η/(e s)`
   (`real_system_bounds`) and the drift is at most `|t|·6η/(e s) ≤ 6r_B/(5e) < 15r_B/32`

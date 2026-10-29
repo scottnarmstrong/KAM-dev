@@ -17,7 +17,7 @@ import Mathlib.Tactic.Linarith
 The time-one map `iterMap` of the generating function `homGen`, the data `iterG`, `iterF`, `iterU`,
 the direct-form hypotheses `IterHyp`, the items (a), (b) of `bpN:p6:iterative-direct` (restatements
 of `canonical_map_a`..`e` for `CanonData` built from `homological_direct`) and
-`iterHyp_of_source`. Design `docs/tracks/N/design/PART67-LEAN-DESIGN.md`, package N6-5.
+`iterHyp_of_source`.
 -/
 
 @[expose] public noncomputable section

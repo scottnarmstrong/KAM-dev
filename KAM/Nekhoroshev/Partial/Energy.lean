@@ -10,7 +10,7 @@ public import KAM.Nekhoroshev.Partial.EnergyIdentity
 public import KAM.Nekhoroshev.Stability.Setting
 
 /-!
-# Energy confinement near a resonance, convex case, no bound on `ω` (Part 11, package N11-L2)
+# Energy confinement near a resonance, convex case, no bound on `ω` (Part 11)
 
 `energy_free` (`bpN:p11:energy-free`): an orbit of `h + g + fs` in the extended phase space that
 starts in the `δ/(4M)`-ball around `Ic` and keeps its slow part in the half-radius tube moves its
