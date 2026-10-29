@@ -98,15 +98,15 @@ theorem mem_constBall (re im : ℚ) (deg : ℤ) :
   refine CertBall.mem_times (w₁ := (re : ℂ) + (im : ℂ) * Complex.I) (b₁ := ⟨⟨re, im⟩, 0⟩)
     (w₂ := (2 * (Real.pi : ℂ)) ^ deg) ?_ ?_
   · have : (re : ℂ) + (im : ℂ) * Complex.I = CC.toC (⟨re, im⟩ : CC ℚ) := by
-      apply Complex.ext <;> simp [CC.toC, CertArith.val, instCertArithRat]
+      apply Complex.ext <;> simp [CC.toC, CertArith.val]
     show ‖_ - _‖ ≤ _
     rw [this]
-    simp [CertArith.val, instCertArithRat]
+    simp [CertArith.val]
   · obtain ⟨hlo, hhi⟩ := ball_two_pi_zpow_mem deg
     have e : (2 * (Real.pi : ℂ)) ^ deg = (((2 * Real.pi) ^ deg : ℝ) : ℂ) := by push_cast; rfl
     have e2 : CC.toC (⟨(ballPiLo deg + ballPiHi deg) / 2, 0⟩ : CC ℚ) =
         ((((ballPiLo deg + ballPiHi deg) / 2 : ℚ) : ℝ) : ℂ) := by
-      apply Complex.ext <;> simp [CC.toC, CertArith.val, instCertArithRat]
+      apply Complex.ext <;> simp [CC.toC, CertArith.val]
     show ‖_ - CC.toC _‖ ≤ _
     rw [e, e2, ← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs, abs_le]
     change -(((ballPiHi deg - ballPiLo deg) / 2 : ℚ) : ℝ) ≤ _ ∧ _ ≤
@@ -206,10 +206,10 @@ def BallRel (V : List ℂ) (acc : List (CC ℚ × ℚ)) : Prop :=
     ∀ i, ‖V.getD i 0 - (acc.getD i ballZero).1.toC‖ ≤ ((acc.getD i ballZero).2 : ℝ)
 
 theorem toC_zero_rat : CC.toC (⟨0, 0⟩ : CC ℚ) = 0 := by
-  apply Complex.ext <;> simp [CC.toC, CertArith.val, instCertArithRat]
+  apply Complex.ext <;> simp [CC.toC, CertArith.val]
 
 theorem toC_ratCast (q : ℚ) : CC.toC (⟨q, 0⟩ : CC ℚ) = ((q : ℝ) : ℂ) := by
-  apply Complex.ext <;> simp [CC.toC, CertArith.val, instCertArithRat]
+  apply Complex.ext <;> simp [CC.toC, CertArith.val]
 
 theorem ballZero_mem : ‖(0 : ℂ) - ballZero.1.toC‖ ≤ (ballZero.2 : ℝ) := by
   show ‖(0 : ℂ) - CC.toC (⟨0, 0⟩ : CC ℚ)‖ ≤ ((0 : ℚ) : ℝ)
@@ -308,7 +308,7 @@ theorem ballStep_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight
     have hc : x.1.toC⁻¹ = CC.toC (⟨x.1.re / (x.1.re ^ 2 + x.1.im ^ 2),
         -x.1.im / (x.1.re ^ 2 + x.1.im ^ 2)⟩ : CC ℚ) := by
       apply Complex.ext <;>
-        simp [CC.toC, CertArith.val, instCertArithRat, Complex.inv_re, Complex.inv_im,
+        simp [CC.toC, CertArith.val, Complex.inv_re, Complex.inv_im,
           Complex.normSq_apply, sq, neg_div]
     rw [← hc]
     convert hb using 1
