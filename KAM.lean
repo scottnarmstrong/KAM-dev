@@ -723,6 +723,7 @@ public import KAM.Planetary.PlanarTorsion.Characters.Trig
 public import KAM.Planetary.PlanarTorsion.Characters
 public import KAM.Planetary.PlanarTorsion.Frame
 public import KAM.Planetary.PlanarTorsion.FrozenBridge
+public import KAM.Planetary.PlanarTorsion.Generic
 public import KAM.Planetary.PlanarTorsion.Homological.Extract
 public import KAM.Planetary.PlanarTorsion.Homological.Reality
 public import KAM.Planetary.PlanarTorsion.Homological
