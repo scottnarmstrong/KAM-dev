@@ -274,6 +274,7 @@ public import KAM.Iso.DelaunayStepNodes
 public import KAM.Iso.ExactHamiltonian
 public import KAM.Iso.Kepler
 public import KAM.Iso.KeplerHamiltonian
+public import KAM.Iso.LeftoverNodes
 public import KAM.Iso.Linear.BorderSolve
 public import KAM.Iso.Linear.BorderUnique
 public import KAM.Iso.Linear.Defs

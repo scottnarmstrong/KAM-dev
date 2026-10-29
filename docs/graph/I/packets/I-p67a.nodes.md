@@ -159,9 +159,9 @@ EDGE: stepI:p6:k-value | blueprint-I/parts/p6-kepler.tex#stepI:p6:k-pos@L46-L46 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.k_pos_node (KAM/Iso/LeftoverNodes.lean)
+LEAN_NOTE: GAP-ISM-audit-1.md:41 PASS; Omega != 0 (no 0<Omega restriction)
 NOTE: -
 
 NODE: bpI:p6:kep-ham
@@ -1828,7 +1828,7 @@ EDGE: bpI:p0:restricted#restrictedVectorField | blueprint-I/parts/p7-delaunay.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: data definition not named in any audited table
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.sec_ham_data (KAM/Iso/LeftoverNodes.lean)
+LEAN_NOTE: GAP-ISM-audit-1.md:43 PASS; definitions-audit row for W_mu, a_1, a_2, rad, H^R3_mu, V_mu in same report (definition-node policy)
 NOTE: section data node (SPEC): openness of W_mu is consumed by the ODE layer
