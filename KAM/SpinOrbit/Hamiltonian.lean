@@ -42,7 +42,7 @@ namespace KAM.SpinOrbit
 
 /-- For a function differentiable at `z`, the derivative along the line `t ↦ z + t v` at `t = 0` is
 the differential applied to `v`. -/
-theorem hasDerivAt_line {𝕜 E G : Type*} [NontriviallyNormedField 𝕜]
+theorem soHasDerivAt_line {𝕜 E G : Type*} [NontriviallyNormedField 𝕜]
     [NormedAddCommGroup E] [NormedSpace 𝕜 E] [NormedAddCommGroup G] [NormedSpace 𝕜 G]
     {f : E → G} {z : E} (hf : DifferentiableAt 𝕜 f z) (v : E) :
     HasDerivAt (fun t : 𝕜 => f (z + t • v)) (fderiv 𝕜 f z v) 0 := by
@@ -54,7 +54,7 @@ theorem fderiv_apply_eq_deriv_line {𝕜 E G : Type*} [NontriviallyNormedField �
     [NormedAddCommGroup E] [NormedSpace 𝕜 E] [NormedAddCommGroup G] [NormedSpace 𝕜 G]
     {f : E → G} {z : E} (hf : DifferentiableAt 𝕜 f z) (v : E) :
     fderiv 𝕜 f z v = deriv (fun t : 𝕜 => f (z + t • v)) 0 :=
-  (hasDerivAt_line hf v).deriv.symm
+  (soHasDerivAt_line hf v).deriv.symm
 
 /-! ### The Hamiltonians -/
 

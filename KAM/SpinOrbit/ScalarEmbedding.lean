@@ -115,19 +115,19 @@ theorem soDnu_q {ν : ℝ} {u : (Fin 2 → ℂ) → ℂ} {θ : Fin 2 → ℂ} (h
   have h0 : DifferentiableAt ℂ u θ := hu.differentiableAt (by norm_num)
   have : HasDerivAt (fun t : ℂ => (θ + t • soDir ν) 0 + u (θ + t • soDir ν))
       (soDnu ν (fun θ => θ 0 + u θ) θ) 0 :=
-    hasDerivAt_line (𝕜 := ℂ) (f := fun θ : Fin 2 → ℂ => θ 0 + u θ) (z := θ)
+    soHasDerivAt_line (𝕜 := ℂ) (f := fun θ : Fin 2 → ℂ => θ 0 + u θ) (z := θ)
       (by change DifferentiableAt ℂ (fun θ : Fin 2 → ℂ => θ 0 + u θ) θ; fun_prop) (soDir ν)
   have h1 : HasDerivAt (fun t : ℂ => (θ + t • soDir ν) 0 + u (θ + t • soDir ν))
       (ν + soDnu ν u θ) 0 := by
     have ha : HasDerivAt (fun t : ℂ => (θ + t • soDir ν) 0) (ν : ℂ) 0 := by
       simpa [soDir] using ((hasDerivAt_id (0 : ℂ)).mul_const (ν : ℂ)).const_add (θ 0)
-    exact ha.add (hasDerivAt_line h0 (soDir ν))
+    exact ha.add (soHasDerivAt_line h0 (soDir ν))
   exact this.unique h1
 
 /-- `D_ν φ = 1` for `φ = θ₂`. -/
 theorem soDnu_φ (ν : ℝ) (θ : Fin 2 → ℂ) : soDnu ν (fun θ => θ 1) θ = 1 := by
   have : HasDerivAt (fun t : ℂ => (θ + t • soDir ν) 1) (soDnu ν (fun θ => θ 1) θ) 0 :=
-    hasDerivAt_line (𝕜 := ℂ) (f := fun θ : Fin 2 → ℂ => θ 1) (z := θ)
+    soHasDerivAt_line (𝕜 := ℂ) (f := fun θ : Fin 2 → ℂ => θ 1) (z := θ)
       (by change DifferentiableAt ℂ (fun θ : Fin 2 → ℂ => θ 1) θ; fun_prop) (soDir ν)
   have h1 : HasDerivAt (fun t : ℂ => (θ + t • soDir ν) 1) (1 : ℂ) 0 := by
     simpa [soDir] using ((hasDerivAt_id (0 : ℂ)).mul_const (1 : ℂ)).const_add (θ 1)
@@ -143,12 +143,12 @@ theorem fderiv_soK_dir {ν : ℝ} {u : (Fin 2 → ℂ) → ℂ} {θ : Fin 2 → 
             (soVqC (θ 0 + u θ) (θ 1) * soP ν u θ + soVφC (θ 0 + u θ) (θ 1))]) := by
   have h0 : DifferentiableAt ℂ u θ := hu.differentiableAt (by norm_num)
   have hD := differentiableAt_soDnu (ν := ν) hu
-  have hK := hasDerivAt_line (differentiableAt_soK (ν := ν) hu) (soDir ν)
+  have hK := soHasDerivAt_line (differentiableAt_soK (ν := ν) hu) (soDir ν)
   have ha : ∀ j : Fin 2, HasDerivAt (fun t : ℂ => (θ + t • soDir ν) j) (soDir ν j) 0 := fun j => by
     simpa using ((hasDerivAt_id (0 : ℂ)).mul_const (soDir ν j)).const_add (θ j)
-  have hu' := hasDerivAt_line h0 (soDir ν)
+  have hu' := soHasDerivAt_line h0 (soDir ν)
   have hDu : HasDerivAt (fun t : ℂ => soDnu ν u (θ + t • soDir ν)) (soDnu ν (soDnu ν u) θ) 0 :=
-    hasDerivAt_line hD (soDir ν)
+    soHasDerivAt_line hD (soDir ν)
   have hq : HasDerivAt (fun t : ℂ => (θ + t • soDir ν) 0 + u (θ + t • soDir ν))
       (soP ν u θ) 0 := by
     exact ((ha 0).add hu').congr_deriv (by simp [soP, soDir, soDnu])
