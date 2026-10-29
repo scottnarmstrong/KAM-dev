@@ -516,6 +516,113 @@ theorem d1Models_encloses {e : HamExpr n} {D : Set ((Fin n → ℂ) × (Fin n �
 
 end Base
 
+/-! ### The producer contract -/
+
+section Sound
+
+variable {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
+
+/-- The torsion block of the frozen bordered torsion in the matrix form computed by the models:
+`T = Nᵀ (Ω₀ X_N)`, `N = Ω₀ (L G⁻¹)`, `X_N = A N + -(Ω₀ (D L G⁻¹ + L D(G⁻¹)))`. -/
+theorem torsion_eq_models {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ρ : ℝ} (hK : Differentiable ℂ K)
+    (hG : ∀ θ ∈ complexStrip n ρ, IsUnit (gramMatrix K θ).det) (ω : Fin n → ℝ) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n ρ) :
+    torsion H K ω θ = (omegaZeroMatrix n * (tangentMat K θ * (gramMatrix K θ)⁻¹))ᵀ *
+      (omegaZeroMatrix n * (linMat H K θ * (omegaZeroMatrix n * (tangentMat K θ *
+        (gramMatrix K θ)⁻¹)) + -(omegaZeroMatrix n *
+          (fderiv ℂ (tangentMat K) θ (fun l => (ω l : ℂ)) * (gramMatrix K θ)⁻¹ +
+            tangentMat K θ * -((gramMatrix K θ)⁻¹ *
+              ((fderiv ℂ (tangentMat K) θ (fun l => (ω l : ℂ)))ᵀ * tangentMat K θ +
+                (tangentMat K θ)ᵀ * fderiv ℂ (tangentMat K) θ (fun l => (ω l : ℂ))) *
+              (gramMatrix K θ)⁻¹))))) := by
+  have hN := differentiableOn_normalMat (r := ρ) hK.differentiableOn hG
+  rw [torsion_eq_mat H K ω (hN.differentiableAt ((isOpen_complexStrip n ρ).mem_nhds hθ)),
+    normalFieldMat, fderiv_normalMat_apply hK hG hθ, Matrix.mul_assoc, sub_eq_add_neg]
+  simp only [normalMat, Matrix.mul_assoc]
+
+/-- **Torsion producer contract (finding F3).** Validated weight and `π`, a successful Gram
+certificate (its `(δ, β)` passed on), successful construction, a frequency in the box, and `K`
+mapping the strip into an open set where `e` has no vanishing denominator give the enclosure
+of the LITERAL frozen `extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω)`, and its continuity. -/
+theorem torsionModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ} (hn : 1 ≤ n)
+    {e : HamExpr n} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))} (hD : IsOpen D)
+    (hnv : e.NonvanishingOn D) {K : CertEmbedding α} {W : CertWeight} {sw Nw : ℕ}
+    (hW : checkWeight W sw Nw = true) (hKD : ∀ θ ∈ complexStrip n W.rho, K.eval n θ ∈ D)
+    (wit : Witnesses α) (Binv : List (List (CertPoly α))) (cfg : ModelConfig α)
+    {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true) {σBμ : ℚ} {δβ : α × α}
+    (hG : gramCheck n K Binv W cfg pe σBμ = some δβ) (box : FreqBox) (s : ℚ)
+    {T : ModelMatrix α} (hT : torsionModels n e K wit Binv δβ box s W cfg pe = some T)
+    {ω : Fin n → ℝ} (hω : FreqEncloses n box ω) :
+    ModelMatrix.HasShape (n + 1) T ∧ T.Encloses n (torsionIdx n) W.rho
+        (KAM.Iso.extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω)) ∧
+      ∀ a b, ContinuousOn (fun θ => KAM.Iso.extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω) θ a b)
+        (complexStrip n W.rho) := by
+  obtain ⟨-, hGs⟩ := gramCheck_sound hn K Binv hW cfg hpe σBμ hG
+  have hGu : ∀ θ ∈ complexStrip n W.rho, IsUnit (gramMatrix (K.eval n) θ).det :=
+    fun θ hθ => (hGs θ hθ).1
+  have hK := K.differentiable_eval n
+  have hH : DifferentiableOn ℂ e.eval D := (e.contDiffOn_eval hD hnv).differentiableOn (by simp)
+  unfold torsionModels at hT
+  split at hT
+  · rename_i eps ms heps hcomp
+    dsimp only at hT
+    obtain rfl := (Option.some.inj hT).symm
+    have hms : SlotsEnclose n e K W.rho ms := by
+      have := Slp.compose_sound e.jet.prog K wit hW cfg hpe _ hcomp
+      exact ⟨this.1, this.2⟩
+    -- the base models
+    have hfin : ∀ j : Fin n, j.val < n := fun j => j.isLt
+    have hL := dkModels_encloses (n := n) hW hpe K
+    have hGi : (gramInvModels n Binv eps).EntryEncloses n W.rho Fin.val Fin.val
+        (fun θ => (gramMatrix (K.eval n) θ)⁻¹) :=
+      gramInvModels_encloses Binv fun θ hθ => (hGs θ hθ).2.2.trans (gramInvRadius_spec heps)
+    have hDL := dkwModels_encloses hW cfg hpe K hω s
+    have hA := dxhModels_encloses hD hnv hKD hms
+    have hD1 := d1Models_encloses hD hnv hKD hms
+    -- the products
+    have he1 : ∀ k : Fin n, (Equiv.refl (Fin n) k).val = k.val := fun _ => rfl
+    have hN := (hL.mul hW cfg hpe [4, 0] phaseNat_lt_add hfin (Equiv.refl _) he1 hGi).omega hfin
+    have hDG := ((hDL.transpose phaseNat_lt_add hfin).mul hW cfg hpe [4, 1] hfin hfin
+      finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm hL).add hW hpe hfin hfin
+      ((hL.transpose phaseNat_lt_add hfin).mul hW cfg hpe [4, 2] hfin hfin
+        finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm hDL)
+    have hDGi := ((hGi.mul hW cfg hpe [4, 3] hfin hfin (Equiv.refl _) he1 hDG).mul hW cfg hpe
+      [4, 4] hfin hfin (Equiv.refl _) he1 hGi).neg hfin hfin
+    have hDN := ((hDL.mul hW cfg hpe [4, 5] phaseNat_lt_add hfin (Equiv.refl _) he1 hGi).add
+      hW hpe phaseNat_lt_add hfin
+      (hL.mul hW cfg hpe [4, 6] phaseNat_lt_add hfin (Equiv.refl _) he1 hDGi)).omega hfin
+    have hXN := (hA.mul hW cfg hpe [4, 7] phaseNat_lt_add hfin finSumFinEquiv.symm
+      phaseNat_finSumFinEquiv_symm hN).add hW hpe phaseNat_lt_add hfin
+      (hDN.neg phaseNat_lt_add hfin)
+    have hTb := (hN.transpose phaseNat_lt_add hfin).mul hW cfg hpe [4, 8] hfin hfin
+      finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm (hXN.omega hfin)
+    have hY := hD1.mul hW cfg hpe [4, 9] (r := 1) (fun _ => Nat.one_pos) hfin
+      finSumFinEquiv.symm phaseNat_finSumFinEquiv_symm hN
+    refine ⟨buildMat_hasShape _ _, ?_,
+      fun a b => continuousOn_extendedTorsion hD hH hK hKD hGu _ a b⟩
+    intro a b
+    refine ⟨_, buildMat_lookup _ (torsionIdx_lt n a) (torsionIdx_lt n b), ?_⟩
+    rcases a with i | _ <;> rcases b with j | _
+    · simp only [torsionIdx, Sum.elim_inl, i.isLt, j.isLt, ↓reduceIte]
+      refine (hTb i j).of_eqOn fun θ hθ => ?_
+      show _ = torsion e.eval (K.eval n) ((s : ℝ) • ω) θ i j
+      rw [torsion_eq_models hK hGu _ hθ]
+    · simp only [torsionIdx, Sum.elim_inl, Sum.elim_inr, i.isLt, lt_irrefl, ↓reduceIte]
+      exact freqModel_encloses hω s i
+    · simp only [torsionIdx, Sum.elim_inl, Sum.elim_inr, j.isLt, lt_irrefl, ↓reduceIte]
+      refine (hY () j).of_eqOn fun θ hθ => ?_
+      show _ = fderiv ℂ e.eval (K.eval n θ) (normalFrame (K.eval n) θ j)
+      rw [fderiv_apply_normalFrame]
+      beta_reduce
+      rw [Matrix.mul_apply]
+      simp only [normalMat, Matrix.mul_assoc, Matrix.of_apply]
+    · simp only [torsionIdx, Sum.elim_inr, lt_irrefl, ↓reduceIte]
+      exact zeroModel_encloses n _
+  · simp at hT
+
+end Sound
+
 end KAM.Certificate
 
 end

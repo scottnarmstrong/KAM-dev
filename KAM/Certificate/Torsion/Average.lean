@@ -152,11 +152,6 @@ theorem sum_torsionIdx {M : Type*} [AddCommMonoid M] (n : ℕ) (g : ℕ → M) :
   rw [Fintype.sum_sum_type, Fin.sum_univ_castSucc]
   simp [torsionIdx]
 
-theorem torsionIdx_lt (n : ℕ) (a : Fin n ⊕ Unit) : torsionIdx n a < n + 1 := by
-  rcases a with a | _
-  · exact Nat.lt_succ_of_lt a.isLt
-  · exact Nat.lt_succ_self n
-
 variable [LawfulCertArith α]
 
 theorem CertBall.mem_exact (c : CC α) : CertBall.Mem c.toC (⟨c, ofInt 0⟩ : CertBall α) := by

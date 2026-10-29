@@ -40,6 +40,11 @@ open KAM KAM.Torus CertArith
 /-- Row/column index of the bordered torsion: `inl i ↦ i`, `inr () ↦ n`. -/
 def torsionIdx (n : ℕ) : Fin n ⊕ Unit → ℕ := Sum.elim (fun i => i.val) (fun _ => n)
 
+theorem torsionIdx_lt (n : ℕ) (a : Fin n ⊕ Unit) : torsionIdx n a < n + 1 := by
+  rcases a with a | _
+  · exact Nat.lt_succ_of_lt a.isLt
+  · exact Nat.lt_succ_self n
+
 /-! ### Generic frame calculus -/
 
 section Generic
