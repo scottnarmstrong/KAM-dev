@@ -255,6 +255,7 @@ public import KAM.Iso.Charts.Inputs
 public import KAM.Iso.Charts.Points
 public import KAM.Iso.Charts.Rays
 public import KAM.Iso.Charts.Tori
+public import KAM.Iso.Charts.ToriIG1
 public import KAM.Iso.Charts.Torus
 public import KAM.Iso.Collision
 public import KAM.Iso.ComplexDomain
