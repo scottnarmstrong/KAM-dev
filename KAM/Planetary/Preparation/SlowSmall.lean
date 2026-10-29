@@ -9,6 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.Fast
 public import KAM.Planetary.Preparation.SlowData
 public import KAM.Planetary.Preparation.LogBounds
+public import KAM.Planetary.Preparation.SlowRates
 
 /-!
 # Slow averaging: polynomial-in-`log` bounds of the radii (P11A-P7c, `stepP:p11:as-nr`, `as-b2`)
@@ -133,6 +134,80 @@ theorem small_arith_cz {t l a u γ eps c ce η : ℝ} (ht : 1 ≤ t) (hl : 1 ≤
         refine mul_le_mul_of_nonneg_right ?_ (by positivity)
         nlinarith [mul_nonneg (mul_nonneg (by positivity : (0:ℝ) ≤ 8 * u * a)
           (by positivity : 0 ≤ eps * (t ^ 3 * l ^ 2))) (by norm_num : (0:ℝ) ≤ 1)]
+
+/-- Atoms of the Cauchy smallness `ε K M ≤ (γ K^{-τ}/2) R`. -/
+theorem small_arith_R {t l a u γ eps MW cR R : ℝ} (ht : 1 ≤ t) (hl : 1 ≤ l) (ha : 0 < a)
+    (hu : 0 < u) (hγ : 0 < γ) (heps : 0 < eps) (hMW : 0 ≤ MW) (hcR : 0 < cR)
+    (hR : cR * (t * l)⁻¹ ≤ R)
+    (hsm : 2 * u * a * (MW + 1) * (eps * (t ^ 2 * l ^ 2)) ≤ γ * cR) :
+    eps * (a * l) * MW ≤ γ * (u * t)⁻¹ / 2 * R := by
+  have ht0 : 0 < t := by linarith
+  have hl0 : 0 < l := by linarith
+  have hγ' : 0 ≤ γ * (u * t)⁻¹ / 2 := by positivity
+  refine le_trans ?_ (mul_le_mul_of_nonneg_left hR hγ')
+  have e : γ * (u * t)⁻¹ / 2 * (cR * (t * l)⁻¹) = γ * cR / (2 * u * t ^ 2 * l) := by
+    field_simp
+  rw [e, le_div_iff₀ (by positivity)]
+  have : eps * (a * l) * MW * (2 * u * t ^ 2 * l) =
+      2 * u * a * MW * (eps * (t ^ 2 * l ^ 2)) := by ring
+  rw [this]
+  have hp : 0 ≤ 2 * u * a * (eps * (t ^ 2 * l ^ 2)) := by positivity
+  nlinarith
+
+/-- `ℓ = log (1/ε) ≥ 1` for `ε M ≤ e⁻¹`. -/
+theorem slow_log_ge_one (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) : 1 ≤ Real.log (1 / eps) := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, hMF⟩ := fast_consts hC
+  exact log_inv_ge_one heps (le_trans (by nlinarith) hεM)
+
+/-- `K₂ = a ℓ`, the radii `s₁, s₂` are positive. -/
+theorem slow_pos (hC : P11SecularSpec D C) {nu eps : ℝ} (hnu : 1 ≤ nu) (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) :
+    0 < p11K2 C nu eps ∧ 0 < p11s1 C eps ∧ 0 < p11s2 C nu eps := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, hσ1, hrz0, -, hMF⟩ := fast_consts hC
+  have hl := slow_log_ge_one hC heps hεM
+  have hπ := Real.pi_pos
+  have hs1 := p11s1_log_lower hC heps hεM
+  have hs2 := p11s2_log_lower hC (nu := nu) (by linarith) heps hεM
+  have hl0 : 0 < Real.log (1 / eps) := by linarith
+  have hL0 : 0 < C.L := by linarith
+  have hq : 0 < Real.log (1 / eps) ^ (C.tau + 1) := Real.rpow_pos_of_pos hl0 _
+  refine ⟨by unfold p11K2; positivity, lt_of_lt_of_le ?_ hs1, lt_of_lt_of_le ?_ hs2⟩
+  · have : 0 < (6 / (Real.pi * C.sigma)) ^ (C.tau + 1) :=
+      Real.rpow_pos_of_pos (by positivity) _
+    exact div_pos (lt_min hrC0 (by positivity)) (by positivity)
+  · have h1 : 0 < (6 / (Real.pi * C.sigma)) ^ (C.tau + 1) :=
+      Real.rpow_pos_of_pos (by positivity) _
+    have h2 : 0 < (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1) :=
+      Real.rpow_pos_of_pos (by positivity) _
+    exact div_pos (lt_min (div_pos (lt_min hrC0 (by positivity)) (by positivity))
+      (by positivity)) hq
+
+/-- `π ε ≤ s₂` for small `ε`. -/
+theorem slow_pe_eventually (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∀ᶠ eps : ℝ in nhdsWithin 0 (Ioi 0), 0 < eps → eps * C.MF ≤ Real.exp (-1) →
+      Real.pi * eps ≤ p11s2 C nu eps := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, hσ1, hrz0, -, hMF⟩ := fast_consts hC
+  have hπ := Real.pi_pos
+  have hL0 : 0 < C.L := by linarith
+  have hs1c0 : 0 < min C.rC (C.gamma / (4 * C.L)) := lt_min hrC0 (by positivity)
+  have hc3p : 0 < (6 / (Real.pi * C.sigma)) ^ (C.tau + 1) :=
+    Real.rpow_pos_of_pos (by positivity) _
+  have hap : 0 < (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1) :=
+    Real.rpow_pos_of_pos (by have : 0 < nu := by linarith
+                             positivity) _
+  have hcs20 : 0 < min (min C.rC (C.gamma / (4 * C.L)) / (4 * (6 / (Real.pi * C.sigma)) ^
+      (C.tau + 1))) (C.gamma / (8 * C.L * (3 * nu / (Real.pi * (C.sigma / 12))) ^
+      (C.tau + 1))) := lt_min (by positivity) (by positivity)
+  filter_upwards [eventually_eps_log_le (m := C.tau + 1) (by linarith) (div_pos hcs20 hπ)]
+    with eps h1 heps hεM
+  have hs2 := p11s2_log_lower hC (nu := nu) (by linarith) heps hεM
+  have hq : 0 < Real.log (1 / eps) ^ (C.tau + 1) :=
+    Real.rpow_pos_of_pos (by have := slow_log_ge_one hC heps hεM; linarith) _
+  refine le_trans ?_ hs2
+  rw [le_div_iff₀ hq]
+  rw [le_div_iff₀ hπ] at h1
+  linarith
 
 end Small
 
