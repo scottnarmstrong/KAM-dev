@@ -12,7 +12,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # The remainder series of the transform (`bpN:p5:transform`, the engine)
 
-Package C5-9. For `ComposeData`, `h`, `f₀ ∈ O(r, s)` with `w = {h, φ}` and `f₀` of finite norms
+For `ComposeData`, `h`, `f₀ ∈ O(r, s)` with `w = {h, φ}` and `f₀` of finite norms
 `Mw`, `F₀`, write `a_i = ad_φ^{i+1} w / (i+2)! + ad_φ^{i+1} f₀ / (i+1)!` and `q = e η / 4`
 (`η = 2Φ/(ρσ) ≤ 1/2`).
 

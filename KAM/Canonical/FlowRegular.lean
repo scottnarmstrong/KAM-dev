@@ -11,8 +11,7 @@ public import KAM.Weighted.Parametric
 /-!
 # The canonical flow: regularity and the variational equation
 
-Blueprint-N Part 5, node `bpN:p5:flow`, part (b) (design
-`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-3).
+Blueprint-N Part 5, node `bpN:p5:flow`, part (b).
 
 * `KAM.Canonical.flow_b`: the flow is jointly continuous on `[-1, 1] × Ω^{1/2}`, holomorphic in the
   initial point, stays in `Ω`, has jointly continuous derivative, and satisfies the variational

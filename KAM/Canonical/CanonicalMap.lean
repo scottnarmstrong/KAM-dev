@@ -14,8 +14,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # The canonical map `Φ = X¹_φ` on weighted domains (`bpN:p5:canonical-map`)
 
-Blueprint-N Part 5, node `bpN:p5:canonical-map` (design
-`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-10).
+Blueprint-N Part 5, node `bpN:p5:canonical-map`.
 
 * `KAM.Canonical.CanonData`: the source premises `0 < ρ < r/2`, `0 < σ < s/2`, `φ ∈ O(r,s)` of
   finite norm `Φ`, `Φ/(ρσ) ≤ 1/2`; `.omega` is `Ω = 𝒟_{r-ρ,s-σ}` and `.gauge` the gauge `ν_{ρ,σ}`;

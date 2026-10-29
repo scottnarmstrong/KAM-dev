@@ -13,8 +13,7 @@ import Mathlib.MeasureTheory.Constructions.Pi
 /-!
 # Composition of a time-dependent family (`bpN:p5:composition-integral`)
 
-Blueprint-N Part 5, node `bpN:p5:composition-integral` (design
-`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-8). For `ComposeData` and a family
+Blueprint-N Part 5, node `bpN:p5:composition-integral`. For `ComposeData` and a family
 `v_t ∈ O(r, s)`, `|v_t|_{r,s} ≤ V` on `t ∈ [0, 1]`, continuous together with its derivative,
 `z ↦ ∫₀¹ v_t(X^t z) dt` lies in `O(r-ρ, s-σ)` with norm `≤ (1 - η)⁻¹ V`.
 

@@ -14,8 +14,8 @@ import Mathlib.Tactic.Linarith
 /-!
 # The Lie transform of `h + f₀` (`bpN:p5:transform`)
 
-Blueprint-N Part 5, node `bpN:p5:transform` (design `docs/tracks/N/design/PART145-LEAN-DESIGN.md`,
-package C5-9). For `ComposeData`, `h ∈ O(r, s)` of any norm, `w = {h, φ}` and `f₀ ∈ O(r, s)` of
+Blueprint-N Part 5, node `bpN:p5:transform`. For `ComposeData`, `h ∈ O(r, s)` of any norm,
+`w = {h, φ}` and `f₀ ∈ O(r, s)` of
 finite norms `Mw`, `F₀`:
 
 `(h + f₀) ∘ X¹_φ = h + {h, φ} + f₀ + 𝓡` on `𝒟_{r-ρ, s-σ}`,

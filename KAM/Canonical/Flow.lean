@@ -13,8 +13,7 @@ public import Mathlib.Analysis.Complex.Basic
 /-!
 # The canonical flow: gauge interiors, the flow, existence and translations
 
-Blueprint-N Part 5, node `bpN:p5:flow`, parts (a) and (d) (design
-`docs/tracks/N/design/PART145-LEAN-DESIGN.md`, package C5-2). The flow is stated for a
+Blueprint-N Part 5, node `bpN:p5:flow`, parts (a) and (d). The flow is stated for a
 finite-dimensional complex normed space `E` and a *gauge* `W : E ≃L[ℂ] E`, so the norm of the
 blueprint is `ν x = ‖W x‖` and no second norm instance is needed.
 

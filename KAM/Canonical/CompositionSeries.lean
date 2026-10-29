@@ -16,7 +16,7 @@ import Mathlib.Analysis.SpecificLimits.Basic
 /-!
 # The Lie series of the composition (`bpN:p5:composition` (ii), the engine)
 
-Package C5-8. For `ComposeData` and `u ∈ O(r, s)` of norm `≤ U` write `a_j = ad_φ^j u / j!` and
+For `ComposeData` and `u ∈ O(r, s)` of norm `≤ U` write `a_j = ad_φ^j u / j!` and
 `q = e η / 4` with `η = 2Φ/(ρσ) ≤ 1/2`.
 
 * `KAM.Canonical.lieTerm_bound`: `a_j ∈ O(r-ρ, s-σ)` with `|a_j| ≤ q^j U` (`adjoint_bound`);

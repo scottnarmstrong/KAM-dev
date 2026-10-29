@@ -13,7 +13,7 @@ import Mathlib.Topology.Algebra.InfiniteSum.Real
 /-!
 # Coefficient bookkeeping for the composition estimates (`bpN:p5:composition`, helpers)
 
-Package C5-8 (design `docs/tracks/N/design/PART145-LEAN-DESIGN.md`). Scalar functions on
+Scalar functions on
 `ℂⁿ × ℂⁿ` (angles and actions of equal dimension `n`).
 
 * `KAM.Canonical.coeff_congr`, `wbound_congr`, `inClass_congr`: the class, the coefficients and the

@@ -14,7 +14,7 @@ import Mathlib.Tactic.Linarith
 /-!
 # Holomorphy and periodicity of `∫₀¹ v_t ∘ X^t dt` (`bpN:p5:composition-integral`, class part)
 
-Package C5-8. For `ComposeData` and a family `v_t ∈ O(r, s)`, `t ∈ [0, 1]`, continuous together with
+For `ComposeData` and a family `v_t ∈ O(r, s)`, `t ∈ [0, 1]`, continuous together with
 its derivative, the function `z ↦ ∫₀¹ v_t(X^t z) dt` lies in `O(r-ρ, s-σ)`:
 
 * `KAM.Canonical.paramHyp_integrand`: the integrand (with the time clamped to `[0, 1]`, so that it
