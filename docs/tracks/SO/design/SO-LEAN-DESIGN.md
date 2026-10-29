@@ -1,17 +1,19 @@
 # Lean design: the general torus-certificate black box and its lunar client (track SO)
 
-Design SO-DESIGN, **Revision 4**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
+Design SO-DESIGN, **Revision 5**, 2026-10-29, branch `inp-design-so` (Revision 1: `628569c9`; Revision 2:
 `d2352a2d`, audited FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-2.md`; Revision 3: `b442a912`, audited
-FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-3.md`). This is
-planning evidence only. It claims no proof, touches no frozen file and freezes nothing. Appendix A (the
-exact draft signatures) elaborates against the shared `inp` build with `sorry` bodies only (§9).
+FAIL in `docs/tracks/SO/audits/SO-DESIGN-audit-3.md`; Revision 4: `5767956a`, audited PASS WITH NOTES in
+`docs/tracks/SO/audits/SO-DESIGN-audit-4.md`). This is planning evidence only. It claims no proof,
+touches no frozen file and freezes nothing. Appendix A (the exact draft signatures, two files since
+Revision 5: engine "A-E" and lunar client "A-L") elaborates against the shared `inp` build with `sorry`
+bodies only (§9).
 
 Scope (owner, 2026-10-29, D30 and the scope decision in `SPIN-ORBIT-PLAN.md`): a fully general checker
 `checkTorusCertificate` with its soundness theorem, derived through the sealed isoenergetic theorem
 `KAM.Iso.Apost.g1_explicit`. It covers any `n ≥ 2` and any rationally independent reference vector (the
 Diophantine membership is the external input). Hamiltonians are finite expressions with division by
 certified nonvanishing expressions; embeddings are Fourier data in all coordinates. The lunar spin–orbit
-system (band `|p − 1| ≤ 33/1000`) is the first client. A genuine `n = 3` nonresonant toy is part of the
+system (band `|p − 1| ≤ 33/1000`) is the first client, in the rotated frame of owner ruling O5 (Revision 5). A genuine `n = 3` nonresonant toy is part of the
 validation.
 
 ### Input pins
@@ -36,7 +38,56 @@ includes the landed SO-MODEL, SO-DIO and SO-CLOCK. Running siblings were read at
 | `inp:KAM/SpinOrbit/Model.lean` | `d9b99918c48809dd7713fcd0560a58b0c347a99bb603bea05d316aef22f8d46f` |
 | `inp:KAM/SpinOrbit/Hamiltonian.lean` | `586af68ee2cc4d5bdefbabc9d40aa7950d24c2970ea026d3d9d69e63e6bb295e` |
 
+Revision 5 inputs (base `inp-design-so` `79ec938c`; `inp` read at `f8405551`, KAM `main` at
+`00841c89`; SO-GRAPHM read on `inp-sographm` `a5d3d058`, identical to the landed file):
+
+| Input | SHA-256 |
+|---|---|
+| `KAM:docs/campaign/design/SPIN-ORBIT-PLAN.md` (with owner ruling O5) | `373fb66cbd48fb3c4fb144d43b27eaa6356d735a65909c2984dd6ae91b09393f` |
+| `KAM:docs/tracks/SO/studies/CONSTANTS-STUDY.md` | `85958425fe164cbb813503bd61fdc883c4f07dcbdcc9a701c2c75ac335ce7102` |
+| `KAM:docs/tracks/SO/studies/SO-REPLAY2-advice-sharded-products.md` | `02139866821786478ff5370658b06eab77f6c0289fc9044ff8929c7046d857dc` |
+| `docs/tracks/SO/audits/SO-DESIGN-audit-4.md` | `c6159920ddd9aaed6e97cc0fc52b11c4d1b9db782d34e60bba156720201e4668` |
+| brief `SO-DESIGN-R5.md` (with addenda 1 and 2, items 6 and 7) | `7cfbe26b57ac614891ca01c96b96da57ad6fbca572db95073930d411ac7d1abb` |
+| brief `SO-ROTDIO.md` (fixed rotated-frame Diophantine signatures) | `c486f6e4cb2cb4a487a0a2b1046a7892da168100f0e6765ad6acbd3d8cc70806` |
+| `inp:KAM/SpinOrbit/HamExpr.lean` | `99536c0913f7d6f3b357231e908c14c60ef656ba26eb311ce19e2570b99b56bd` |
+| `inp:KAM/SpinOrbit/Barrier.lean` | `00f503637bedfa82a842a37367485868b1a5ce9ccd9014735dde2ed6c1d2d04e` |
+| `inp:KAM/SpinOrbit/Freq.lean` | `d1a484c49408f7cb5ab8dfd8f26e836ea9a7dbccb113459b0f9c2b9c74f5c888` |
+| `inp:KAM/SpinOrbit/Graph/Inverse.lean` | `95424081dce4d7956bf865bfffce9816d658b9506809cdccf27e60749a7d83fa` |
+| `inp:KAM/Certificate/QuadraticDiophantine.lean` | `511dafebbd09f98e74dcdf9f7cb95401186269e1c04efe2d5f55ab5aa14af632` |
+| `inp:KAM/Certificate/Clock.lean` | `a3c36e266fa80bb5bcf863db553398e443b21e159719faf6eb11458f0fcf9bf1` |
+| `inp:KAM/Certificate/Arith/Interface.lean` | `ad54915c379aa1cea665672e250298fbcc6ca496e846a92d28d7e8b2e44287e0` |
+| `inp:KAM/Certificate/MatrixInv.lean` | `d5e94c5d279b356aed5aa6a02095772895051224416141c90b7e5e3652cec3cc` |
+| `inp:KAM/Certificate/Arith/Fixed.lean` | `c2896ac698f4f087981ff826da068ed3846ead29466dfaf3ce7c9fe2b9815a47` |
+
+## Revision 5
+
+Revision 5 is a targeted revision for owner ruling **O5** (2026-10-29, 14:20: the lunar client in the
+rotated frame, parameter package R1, replay gate GO), the orchestrator's item 6 (the advice-checked
+product architecture of SO-REPLAY2), the split of the signature file, and audit 4's documentation
+finding F11 (base `79ec938c`, audit 4 PASS WITH NOTES). The general black box, its theorem and every
+Revision 2–4 contract are unchanged except where this table says so. Several packages landed on `inp`
+during the revision (NormBridge, CubicDiophantine, Expr/Slp/Diff, SpinOrbit/HamExpr, Graph/Inverse,
+Arith/Fixed); the signature files now import them (`inp` read at `f8405551`).
+
+| Item | Change | Where |
+|---|---|---|
+| **O5** frame | The lunar client works in the data's own angles: `Q₀ = q − φ`, `Q₁ = φ`, `P₀ = p`, `P₁ = p + J`. `soRotMap` (rotated → original), `soRotMapInv`, the two inverse identities and `soRotMap_symplectic` (`AᵀB = I`). `soRotHC := soHC ∘ soRotMap` and `hamiltonianVectorFieldℂ_soRotHC` (`X_{H∘L} = L⁻¹ X_H ∘ L`). | §6; A-L §I.2 |
+| **O5** `H'` | `soRotHamExpr : HamExpr 2 = P₁ + (P₀²/2 − P₀) + Σ_m (−ε A_m) cos 2π(2Q₀ + (2 − m)Q₁)` (modes `(2, 2 − m)`, division-free); `soRotHamExpr_eval : eval = soRotHC` (against the landed `soHC`); `soRotHamExpr_clock : ∂_{inr 1} = 1`. Time scale (R1, `c = 7/4`): `soRotHamExprScaled c = c · H'` with `_eval`, `_clock` (`= c`) and the general `invarianceError_const_mul`. The landed original-frame `soHamExpr` (SO-HAMX) is untouched and stays valid. | §6; A-L §I.2 |
+| **O5** frequencies | `lunarRotFreq ν κ = κ (ν − 1, 1)`, `κ = c/s`; exact `ℚ(√5)` instances `lunarRotFreq{Minus,Plus}_eq` (`ν₋ − 1 = (−79 + √5)/3118`, `ν₊ − 1 = (79 − √5)/3118`). Diophantine: **SO-ROTDIO's orchestrator-fixed signatures adopted verbatim** (addendum 2; `KAM/Certificate/DiophantineTransfer.lean`, proving; A-L §I.0b): the generic `isDiophantine_of_index_map` (any `n, m`; constant `γ / C^τ`) and `lunarNu{Minus,Plus}_rot_isDiophantine : IsDiophantine (1/42) 1 ![ν± − 1, 1]`, `lunarNu{Minus,Plus}_rot_half_isDiophantine` (`1/84`), from the landed SO-DIO with `T k = (k₀, k₁ − k₀)`, `C = 2`. The client scales by `κ` (`isDiophantine_smul`): **`IsDiophantine (κ/42) 1 (lunarRotFreq ν± κ)`**. The withdrawn draft `isDiophantine_rot` is replaced by SO-ROTDIO. At R1, `κ/42 = 125000/3000003 = 1/(24 s)`. | §6; A-L §I.3 |
+| **O5** barrier wrapper | `SoGraph.torus_of_rot`: the shear `(x, y) ↦ (x − y, y)` turns rotated real data (flow `(ν − 1, 1)`, `Q̃ = Q₀`, `P̃ = P₀`) into the LANDED generic core `SoGraph.Torus … ν c m` with `Q = Q₀ + Q₁ = q`. `soBarrier_of_exact_rotTorus` (exact torus of `c·H'` ⇒ `SoBarrier`) via `invarianceError_const_mul`, `isDiophantine_smul`, the landed `clock_frequency`, `hamiltonianVectorFieldℂ_soRotHC`, `torus_of_rot`, `soBarrier_of_torus`. `soRotBarrier_of_cert` (certificate ⇒ barrier). `checkSoGraph`/`SoGraphCert` are frame-free (they read components `.1 0` and `.2 0`; `P₀ = p`). | §6; A-L §I.5 |
+| **O5** final statements | `lunar_barriers` and `lunar_spin_confinement` are **unchanged** (`|p(t) − 1| ≤ 33/1000`, window O1); the certificates are rotated: `lunar{Lower,Upper}Cert_ham = soRotHamExprScaled lunarR1TimeScale`, `_params = lunarR1 err disp`, `_freq` at `lunarRotFreq ν± lunarR1Kappa`. `SoBackend := CertFixed soPrecision` (landed SO-ABK; `soPrecision` a named placeholder). | §6; A-L §I.6 |
+| **O5** R1 | `lunarR1 err disp : CertParams`: `τ = 1`, `ρ = 1/70`, `ρ∞ = 1/70000`, `μ = 1/160`, `M = σK = σB = σT = 39/20`, `σω = 2`, `ν = 10⁻⁶`, `s = 1 + 10⁻⁶`, `γ = γ̄ = κ/42`, `E₀ = 0`; `lunarR1TimeScale = 7/4`, `lunarR1Scalar`, `lunarR1Kappa`. `err`/`disp` per torus are named placeholders (`lunar{Lower,Upper}{Err,Disp}`) filled by SO-DATA. | §6; A-L §I.4 |
+| **O5** G-J | Restated in the rotated, time-scaled frame with named budgets (`B₀, B₁, B₂, B_r, B_q, B_c`, `e±`, `β₂`) that SO-GEN2 fills; under the pilot identities the `P₁` row is `c (p − 1) r` (a factor ≈ 0.03 below the original `p r`). | §6 |
+| **Item 6** products | New §B′ `Poly/Packed` (SO-POLY): Kronecker packing `packSum`/`packShift` with `packShift_eq` (packing correctness), `packSum_injective` (slot bound), `packSum_listConv` (Kronecker substitution), `packSum_flatten_mul_shards` (shard decomposition), `intSlotsBound_sound` (slot decoding), `PackLayout` (dense box layout, `compat` no-wrap) with `PackLayout.intEval_mul`, design-B `PackedAdvice`, `checkShard`, `checkPackedProduct_sound` (rounding/remainder glue in slots), `CertPoly.toMants(_sound)`, `CertPoly.mulPacked(_sound)` (strip enclosure of the EXACT product). `ProductAdvice` (`packed` or `direct`), `ProductKey`, `AdviceBook`. | §1.16, §5; A-E §B′ |
+| **Item 6** models | `ModelConfig α` now carries the advice book and an UNTRUSTED mantissa decoder `toMant` (production `CertFixed.toMant`); every decoded mantissa is re-verified by `mantCheck` (law-free; sound from `LawfulCertArith` alone). `CertModel.mul W cfg key a b`: packed/direct by `cfg.advice` at `key`, crude-but-sound fallback; **`CertModel.Encloses.mul` is unchanged in meaning** (gains the `key` argument). Every other contract only changes `ModelConfig` to `ModelConfig α`. **No change to the landed §A interface**; SO-ABK's landed instance already makes `mantCheck` complete (`CertFixed.mantCheck_m`). | §1.16; A-E §A, §C |
+| **Split** | `SOSignatures.lean` (engine, 1049 lines, imports every landed SO module instead of restating it) and `SOSignaturesLunar.lean` (lunar client, 539 lines). The lunar file imports the landed client modules and keeps two verbatim stand-in blocks: the 20 unlanded engine declarations (checked byte for byte by `docs/tracks/SO/design/check_so_standins.py`) and SO-ROTDIO's 5 fixed declarations. Both elaborate on their own. | §9; App. A |
+| **Data packaging** | Counts at R1 scale and three packaging options (chunked lint-clean modules; a line-width exemption for generated data; out-of-tree data through an elaborator). **Owner decision**, not decided here. | §7.2, §11 |
+| **F11** | The Revision 4 handoff's warning that the draft `CertArith` lacks `abs`/`upMul` is obsolete (both the draft and the landed interface have them, with laws). Historical statuses are now labelled with their snapshot (§3, §9, Revision 4 table); the current statuses are in §3 at `inp` `f8405551`. | §3, §9 |
+| Packages | New pre-gate: SO-ROT 300, SO-ROTDIO 150 (orchestrator, proving), SO-RFREQ 100, SO-GRAPHR 300. Changed post-gate: SO-POLY 650 → 1150 (A 550 + B 600), SO-MALG 650 → 750, SO-EMB/SO-MAT/SO-TORS +100 in all (product keys), SO-GRAPH 400 → 500, SO-DATA hand-written glue 150. Totals: pre 8,700, post 9,600, **18,300**. | §7 |
+
 ## Revision 4
+
+*(Historical snapshot, F11: statuses in this table — e.g. SO-CEXP "proves exactly them", running at the time — refer to `inp` at Revision 4; SO-CEXP has since landed. Current statuses: §3.)*
 
 Revision 4 is a targeted repair of the single blocking finding of the independent design audit 3 (verdict
 FAIL, base `b442a912`): **F10**, the unrestricted scalar complex exponential. Nothing else changes; the
@@ -198,6 +249,20 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
     the two real tori plus the displacement bound.
 15. **Certificates are pure data.** `TorusCertificate` contains no proof and no real number. Every real
     object (the exact `ω*`, the exact torus) enters only through the soundness theorem's binders.
+16. **Products are advice-checked (Revision 5, item 6; SO-REPLAY2).** Every product the checker
+    needs is one `CertModel.mul W cfg key a b`. Its polynomial part is never multiplied out pairwise in
+    the kernel: the certificate carries, under the product's `key`, design-B advice (the rounded in-box
+    result per output shard and a log-bound for the other slots). The checker decodes the factors'
+    integer mantissas (untrusted decoder `cfg.toMant`, each value re-verified by `mantCheck`), packs
+    them by shifts into one integer per block of 32 rows (`w = 2·bits + 16`), and checks every shard
+    with one kernel multiplication per block pair: `Σ_{i+j=s} pack(A_i) pack(B_j) − 2^scale pack(r_s)`
+    must decode to bounded slots. Soundness chain: `packShift_eq` → `packSum_listConv` (Kronecker) and
+    `packSum_flatten_mul_shards` (shards) → `intSlotsBound_sound` + `packSum_injective` (decoding) →
+    `checkPackedProduct_sound` (slot remainders) → `PackLayout.intEval_mul` + `toMants_sound` +
+    `ofDyadic_sound` → `CertPoly.mulPacked_sound` (strip enclosure of the exact product) →
+    `CertModel.Encloses.mul` (unchanged meaning). A missing or failing advice falls back to the crude
+    enclosure `sup|a|·sup|b|` (sound; later margins fail), so no contract gains a premise. The
+    `direct` advice keeps the Revision 4 product for the `ℚ` toys and tests.
 
 ## 2. Carriers and conventions
 
@@ -232,7 +297,14 @@ modules: `soHC`, `soField`, `soEpsQ`, `soAQ`, `KAM.Certificate.lunarNu*`. There 
 | ODE | `KAM.ODE.IsSolutionIn`, `IsInvariantSet`, `gen_barrier`, `gen_uniqueness`, `gen_local`, `IsMaximalSolution`, `gen_continuation` |
 | transcendental bounds | Mathlib `Real.exp_bound`, `Complex.exp_bound`; SO-PI `piLowRat_lt_pi`, `pi_lt_piUpRat`, `eLowRat_lt_exp_one` |
 
-**Upstream interfaces (status at `inp` `ae496996`).**
+**Upstream interfaces (current, `inp` `f8405551`, Revision 5).** Landed and imported by the
+signature files: SO-MODEL, SO-DIO, SO-CLOCK, SO-PI, SO-AIF, SO-RAT, SO-CEXP, SO-PBASE (`Poly/Basic`,
+`Model/Basic`), SO-FREQ (`Freq`, `SpinOrbit/Freq`), SO-EXPR-A/B1 (`Expr/{Basic,Slp,Diff}`), SO-NORM,
+SO-MINV, SO-CONST, SO-DIO3, SO-HAMX (`SpinOrbit/HamExpr`), SO-CONF (`SpinOrbit/Barrier`), SO-GRAPHM
+(`SpinOrbit/Graph/Inverse`), SO-ABK (`Arith/Fixed`). In audit or running at this snapshot: SO-BALL,
+SO-EXPR-B2 (`jet_d3`), SO-GEN2 (rotated-frame candidates and norm enclosures).
+
+The table below is **historical** (status at `inp` `ae496996`, Revision 2), kept for provenance.
 
 | Owner | Name | Status / shape consumed |
 |---|---|---|
@@ -329,156 +401,246 @@ Addition for Revision 4 (F10):
 If nothing fits, the levers are those of the plan (sharper `n = 2`, `τ = 1` constants), never
 overrides.
 
+**Revision 5: the gate's verdict and the product architecture.** The replay gate is **GO** (owner,
+14:20). SO-REPLAY measured naive sparse products at about 2.3 ms and 190 KB per coefficient pair in
+the kernel, hopeless at the lunar scale; SO-REPLAY2 measured Kronecker-packed shards checked against
+supplied advice at 2.0–8.6 s kernel and ≤ 2.4–3.8 GB per 32-row shard (1e-130 data). The design adopts
+it as the ONLY product route (decision 16, A-E §B′):
+- production backend **fixed point** `CertFixed P` (landed SO-ABK); `P` from SO-GEN2's precision
+  (about 300 bits at R1, plus guard bits); slot width `w = 2P + 16`;
+- factors laid out densely on a key box (`PackLayout`, no-wrap strides), cut into blocks of
+  `blockRows = 32` rows (8192 slots at 256 columns); packing by shifts (`packShift`);
+- design B advice per real product: the rounded in-box result per shard window and a log-bound for
+  out-of-box slots; four real products per complex model product;
+- every shard is one declaration `checkShard … = true` by `decide +kernel` (the elaborator's list
+  limits — ≥ 64 outer rows or ≥ 4096 flat elements fail — fix the 32-row grouping; data defs are
+  `noncomputable def`, one per group);
+- the `direct` route remains for the `ℚ` toys.
+
+Remaining measurements (SO-POLY, before SO-DATA): the end-to-end design-B shard with the rounding glue,
+complex (re/im) products, and the 128-row middle size; none of them changes a signature.
+
 ## 6. The lunar client
 
-- **Hamiltonian.** `soHamExpr : HamExpr 2 = J + ½p² + Σ_{m=1}^{7}(−ε A_m) cos(2π(2q − mφ))`, angles
-  `(q, φ)`, actions `(p, J)`. `soHamExpr_eval` bridges to the landed `soHC`, and `soHamExpr_clock` gives
-  `∂_J 𝓗 ≡ 1`. The expression is division-free, so `NonvanishingOn` holds trivially.
-- **Certificates.** Two certificates `lunar{Lower,Upper}Cert : SoGraphCert SoBackend`.
-  - Parameters as the pilot: `n = 2`, `τ = 1`, `ρ = 1/200`, `ρ∞ = 1/400`, `μ = 1/1000`,
-    `M = σK = σB = σT = 4`, `σω = 3`, `s = 2`, `γ = γbar = 1/42`, `E₀ = 0`, `e ≈ 1e−103`.
-  - The box of `(ν±/2, 1/2)` has radius `≤ 10⁻¹¹⁰`. `lunar{Lower,Upper}Cert_freq` are proved from
-    `lunarFreq{Minus,Plus}_eq` (the exact `ℚ(√5)` instance), `algFreq_encloses` and
-    `sqrt_mem_of_checkRootEnclosure`.
-  - `U = (v/2π, 0)` with `angleDeg = −1`; `A = (p, J̃)`.
-- **Four-component candidate and budgets (F5).** `J̃ = J₀ + ΔJ` is finite Fourier data.
-  - The checker re-evaluates every sub-check on `K̃ = (q, φ, p, J̃)`, so soundness uses no pilot identity.
-  - Exactly, `H(K̃) − E₀ = ΔJ`. Since `𝓗` is affine in `J` with `∂_J 𝓗 ≡ 1` and its other partials do
-    not depend on `J`, `X_H(K̃) = X_H(K₀)`, hence (Revision 3, F9, correcting Revision 2)
-    `E(K̃) = E(K₀) − (0, 0, 0, D_{sω*}ΔJ)`, i.e. **`E(K̃)_J = E(K₀)_J − D_{sω*}ΔJ`**, and the
-    `q, φ, p` rows of `E(K̃)` equal those of `E(K₀)`. Under the scalar pilot identities `E(K₀)_J = p r`,
-    so `E(K̃)_J = p r − D_{sω*}ΔJ`; if the Fourier `q, φ, p` data no longer satisfy those identities,
-    only the general difference formula and the actual full residual apply.
-  - Feasibility gate **G-J** (SO-GEN, before SO-DATA), on `T_{1/200}`: report `B₀ = sup|ΔJ|`,
-    `B₁ = sup|D_{sω*}ΔJ|`, `B₂ = max(sup|∂ΔJ|, sup|∂²ΔJ|)`, `B_r = sup|E(K₀)_J|` (`= sup|p r|` under the
-    pilot identities), and `B_c`, a bound for every other candidate-replacement error (finite Fourier
-    `q, φ, p` data versus the pilot's scalar embedding, coefficient rounding and truncation). Targets:
-    `B_r + B₁ + B_c ≤ e/2`, the `q, φ, p` rows of `E(K₀)` plus `B_c` `≤ e/2`, `B₀ ≤ e/4` (energy),
-    `B₂ ≤ 10⁻⁹⁰`. The Revision 2 target `B₁ ≤ e/4` alone did not account for `B_r` and is withdrawn.
-    These are feasibility targets only: the checker recomputes the actual full residual of `K̃`.
-  - Pins (Revision 4, F10): SO-GEN chooses `pinHalvings`/`pinOrder` for every character witness (the
-    pin is `exp(i k_q v(0))`, of any size) and reports each reduced-pin `ε₀` within its residual budget.
-    Smallness of a pin is never inferred from a small residual. `soHamExpr` has no `exp` slot, so the
-    `D` balls are unaffected.
-  - SO-GEN must also report every sub-check margin on `K̃`, recomputed by its exact evaluator:
-    invariance, energy, `DK`, ball, Gram `δ`, torsion `δ_T`, smallness `C₁e/(γ⁴ρ⁴) ≤ 1/2`, graph `mono`,
-    and `p` range.
+**Revision 5 (owner ruling O5): the rotated frame.** The client works in the data's own angles. Its
+Lean surface is A-L (`SOSignaturesLunar.lean`); the original-frame declarations remain valid (the
+landed `soHamExpr`, `soHamExpr_eval`, `soHamExpr_clock`; the design `soBarrier_of_cert`) but are not
+on the headline route.
 
-  These margins are recorded independently of the scalar pilot.
-- **Clock** (`KAM.Certificate.clock_frequency`, landed): gives `s∞ = 2` and a constant `K∞,1 − θ₁` on
-  reals.
-- **Graph** (`soBarrier_of_cert`).
-  - `∂_{θ₀}q ≥ mono₀ − r` on the candidate (paid SOS), transferred to the exact torus by Cauchy on
-    `T_{ρ∞}` (error `≤ disp/ρ∞`). This requires `mono > disp/ρ∞`.
-  - With the clock, the result is a continuous, doubly 1-periodic graph `P(q, φ)` with
-    `pLo − disp ≤ P ≤ pHi + disp`.
-  - Invariance follows from `gen_uniqueness`.
-- **Barrier** (`so_confinement`). Two ordered invariant graphs bound an invariant open slab. Global
-  existence comes from the global Lipschitz bound of `soField` (periodic bounded force, linear in `p`),
-  not from a lunar range. Uniqueness comes from `gen_uniqueness`. Both time directions are covered.
-- **Final theorems.** `lunar_barriers` and `lunar_spin_confinement`, as in Revision 1. `lunarPLo` and
-  `lunarPHi` are replaced by literal rationals before the freeze (O1 approved).
+- **Change of variables.** `L : (Q₀, Q₁, P₀, P₁) ↦ (q, φ, p, J) = (Q₀ + Q₁, Q₁, P₀, P₁ − P₀)`
+  (`soRotMap`; inverse `soRotMapInv`). Angle block `A = [[1, 1], [0, 1]]`, action block
+  `B = [[1, 0], [−1, 1]]`, `AᵀB = I`: linear, symplectic (`soRotMap_symplectic`) and unimodular, so
+  `ℤ²`-periodicity, primarity and reality are preserved and `X_{H∘L} = L⁻¹ X_H ∘ L`
+  (`hamiltonianVectorFieldℂ_soRotHC`).
+- **Hamiltonian.** `H' = soHC ∘ L = P₀²/2 − P₀ + P₁ + V(Q₀ + Q₁, Q₁)`, i.e.
+  `soRotHamExpr = P₁ + (P₀²/2 − P₀) + Σ_{m=1}^{7} (−ε A_m) cos 2π(2Q₀ + (2 − m)Q₁)` (modes
+  `(2, 2 − m)`; the `m = 2` mode does not depend on `Q₁`), division-free, `soRotHamExpr_eval`
+  against the landed `soHC`, clock `∂_{P₁} H' ≡ 1` (`soRotHamExpr_clock`, direction `inr 1`). R1's
+  time scale `c = 7/4` (CONSTANTS-STUDY P4) enters as `soRotHamExprScaled c = c · H'` (clock
+  derivative `c`); `invarianceError_const_mul` moves an exact torus of `c·H'` at `s∞ ω*` to one of
+  `H'` at `(s∞/c) ω*`.
+- **Frequencies.** `ω*± = κ (ν± − 1, 1)` with `κ = c/s` (`lunarRotFreq`), so the candidate's torus
+  frequency is `s ω* = c (ν± − 1, 1)` and the clock gives `s∞ = s`. Exact `ℚ(√5)` instances
+  `lunarRotFreq{Minus,Plus}_eq` with coefficients `[[∓79κ/3118, ±κ/3118], [κ]]` feed the landed
+  `algFreq_encloses` (box radius `≤ 10⁻¹¹⁰` as before). Diophantine (SO-ROTDIO, signatures fixed by
+  the orchestrator and adopted verbatim): `isDiophantine_of_index_map` with `T k = (k₀, k₁ − k₀)`,
+  `C = 2` (`|k₀| + |k₁ − k₀| ≤ 2|k|₁`) applied to the landed SO-DIO gives
+  `lunarNu±_rot_isDiophantine : IsDiophantine (1/42) 1 ![ν± − 1, 1]` (and `1/84` for the half
+  vectors, unused by R1), and scaling by `κ` gives
+  **`IsDiophantine (κ/42) 1 ω*±`** (`isDiophantine_smul`, `lunarRotFreq{Minus,Plus}_isDiophantine`).
+  The constant is `κ/42 = 125000/3000003 = 1/(24 s)` at R1 (CONSTANTS-STUDY: numerical infimum
+  `α = 0.02462` at `k = (1, 0)`, proved `1/42`, −1.20 orders against `1/21`).
+- **Parameter package R1** (`lunarR1 err disp`, rationals): `n = 2`, `τ = 1`, `ρ = 1/70`,
+  `ρ∞ = 1/70000`, `μ = 1/160`, `M = σK = σB = σT = 39/20` (= 𝔪, sharp certified majorants ×1.05),
+  `σω = 2`, `ν = 10⁻⁶`, `s = 1 + 10⁻⁶`, `γ = γ̄ = κ/42`, `E₀ = 0`, time scale `7/4`. Ray margins:
+  `ν ≤ (s − 1)‖ω*‖` and `ν ≤ (σω − s)‖ω*‖` hold with `‖ω*‖ = κ ≈ 1.75`. Projected threshold
+  `10^{−74.51}` (R2, with pilot-loose majorants: `10^{−80.29}`). `err` and `disp` per torus are named
+  placeholders (`lunar{Lower,Upper}{Err,Disp}`); SO-GEN2 regenerates the candidates in this frame and
+  encloses the norms before anything is frozen (O5).
+- **Candidate.** `K' = (ψ + u, φ, p, P̃₁)` with `U = (u/2π, 0)`, `angleDeg = −1`, primary. `D`:
+  `T_{ρ_H}` times discs around the action centres (`P₀ ≈ 1`, `P₁ = p + J ≈ 1/2`), radii and `ρ_H`
+  from SO-GEN2. The Gram inverse is certified with an enclosure that tracks its sup (≈ 1.83, Fourier
+  approximate inverse with a Neumann check), as R1 assumes.
+- **Gate G-J restated (rotated, time-scaled; SO-GEN2 fills every named number).** Let
+  `P₁⁰ = −(P₀²/2 − P₀) − V(Q₀ + Q₁, Q₁)` (the exact energy lift at `E₀ = 0`) and `ΔP₁ = P̃₁ − P₁⁰`
+  (finite Fourier data). Exactly, `c·H'(K̃) − E₀ = c ΔP₁`. `H'` is affine in `P₁` with `∂_{P₁} H' ≡ 1`
+  and its other partials independent of `P₁`, so `X_{cH'}(K̃) = X_{cH'}(K₀)` and
+  `E(K̃) = E(K₀) − (0, 0, 0, D_{sω*} ΔP₁)`, `sω* = c(ν − 1, 1)`. Under the scalar pilot identities
+  `E(K₀) = c·(0, 0, −r, (p − 1) r)` (CONSTANTS-STUDY §2.2); in general only the difference formula and
+  the actual full residual apply. Budgets on `T_{1/70}`:
+
+  | Name | Definition | Target |
+  |---|---|---|
+  | `e±` | residual budget of the lower/upper torus (`lunar{Lower,Upper}Err`) | `isoC1Q e < γ⁴ρ⁴` (projected `e < 10^{−74.5}`; size the truncation with 2 orders headroom) |
+  | `B_r` | `sup |E(K₀)_{P₁}|` (`= c sup|(p − 1) r|` under the pilot identities) | `B_r + B₁ + B_c ≤ e/2` |
+  | `B₁` | `sup |D_{sω*} ΔP₁|` | (with `B_r`) |
+  | `B_q` | `sup` of the `Q₀, Q₁, P₀` rows of `E(K₀)` (`= c sup|r|` in the `P₀` row under the identities) | `B_q + B_c ≤ e/2` |
+  | `B_c` | every other candidate-replacement error (Fourier `Q, P₀` data versus the scalar embedding, rounding, truncation) | as above |
+  | `B₀` | `c · sup |ΔP₁|` | `B₀ ≤ e/4` (energy) |
+  | `B₂` | `max(sup|∂ΔP₁|, sup|∂²ΔP₁|)` | `B₂ ≤ β₂`, `β₂` from the `σK`, `σB`, `σT` headroom at `𝔪 = 39/20` |
+
+  SO-GEN2 also reports every sub-check margin on `K̃` by its exact evaluator (invariance, energy, `DK`,
+  ball, Gram `δ`, torsion `δ_T`, smallness, graph `mono`, `p` range), every character pin's
+  `pinHalvings`, `pinOrder` and `ε₀` (Revision 4), and the R1 majorants it certifies. These are
+  feasibility targets only: the checker recomputes the actual full residual.
+- **Clock** (landed `clock_frequency`): applied to `H'` at `(s∞/c) ω*` (`soRotHamExpr_clock`), it gives
+  `(s∞/c) ω*₁ = 1`, hence `s∞ = s`, and `Q₁ = θ₁ + c₀` on reals.
+- **Graph** (`soBarrier_of_exact_rotTorus`, on the landed SO-GRAPHM core). On the real torus,
+  `Q₀(x, y) = x + u` and `P₀ = p`; the Hamilton equations of `H'` (from `X_{H∘L} = L⁻¹X_H∘L`) give
+  `d/dt Q₀ = P₀ − 1`, `d/dt P₀ = −∂_qV(Q₀ + Q₁, Q₁)` along `(x + t(ν − 1), y + t)`. The shear
+  `(x, y) ↦ (x − y, y)` (`SoGraph.torus_of_rot`) yields the core's data with `Q = Q₀ + Q₁ = q`,
+  frequency `(ν, 1)` and the same monotonicity `∂_x Q = ∂_{θ₀} Q₀ ≥ m`; `soBarrier_of_torus` then gives
+  the continuous doubly periodic barrier `p = P(q, φ)`. The certificate side is frame-free:
+  `checkSoGraph` bounds `∂_{θ₀}` of component `.1 0` (`Q₀` here) from below with a paid SOS residual
+  and transfers it by Cauchy on `T_{ρ∞}` (needs `mono > disp/ρ∞`; with `ρ∞ = 1/70000` the margin is
+  `disp · 70000`, which SO-GEN2 must report), and bounds component `.2 0` (`P₀ = p`).
+- **Barrier and final theorems** (unchanged). `so_confinement` (landed SO-CONF) and the final
+  `lunar_barriers`, `lunar_spin_confinement` (`|p(t) − 1| ≤ 33/1000`, window O1): the map back to
+  `(q, p, φ)` is built into `soBarrier_of_exact_rotTorus` (`q = Q₀ + Q₁`, `p = P₀`, `φ = Q₁`), so the
+  final statements do not mention the frame. `lunarPLo`, `lunarPHi` become literal rationals before the
+  freeze (O1).
+
+*Historical (Revisions 1–4, original frame, superseded on the headline route):* `soHamExpr` with
+`ω* = (ν±/2, 1/2)`, `s = 2`, `ρ = 1/200`, `ρ∞ = 1/400`, `μ = 1/1000`, `M = σK = σB = σT = 4`, `σω = 3`,
+`γ = γ̄ = 1/42`, `e ≈ 10⁻¹⁰³`; the G-J of Revision 3 (`E(K̃)_J = E(K₀)_J − D_{sω*}ΔJ`). The four-component
+argument is the same in both frames.
 
 ## 7. Modules, import DAG and packages
 
-All paths are new unless marked landed. Every file is < 1500 lines (target ≤ 800). `→` means "imports".
+All paths are new unless marked landed (status at `inp` `f8405551`). Every file is < 1500 lines
+(target ≤ 800). `→` means "imports".
 
 ```
-Certificate/PhaseBasis                         (landed, SO-CLOCK)  → Torus/Basic
-Certificate/Clock                              (landed, SO-CLOCK)  → PhaseBasis, Frozen defs, Strip/*
-Certificate/Arith/PiHigh                       (SO-PI, running)    → Mathlib only
-Certificate/Arith/{Interface,PiEnclosure,Roots,Transcendental}     → Arith/PiHigh
-Certificate/Arith/Rat                          (pre-gate, SO-AIF)  → Arith/Interface
-Certificate/Arith/ComplexExp                   (pre-gate, SO-CEXP) → Arith/Roots
-Certificate/Arith/Fixed                        (post-gate)         → Arith/Interface
-Certificate/Freq                               → Arith/Roots, Frozen/Defs/IsDiophantine
-Certificate/CubicDiophantine                   → Freq
-Certificate/Poly/Basic                         → Arith/Interface, Strip/FourierSeries
-Certificate/Poly/Ops                           (post-gate)         → Poly/Basic
-Certificate/Model/Basic                        → Poly/Basic, Arith/Transcendental, Strip/Averages
-Certificate/Model/Ops                          (post-gate)         → Model/Basic, Poly/Ops, Arith/PiEnclosure
-Certificate/Model/{Exp,Inv}                    (post-gate)         → Model/Ops, Arith/ComplexExp
-Certificate/Expr/Basic                         → PhaseBasis, Poly/Basic (CertKey)
-Certificate/Expr/{Slp,Diff}                    → Expr/Basic, PhaseBasis
-Certificate/Expr/Ball                          → Expr/Slp, Model/Basic (weights), Arith/{Rat,Transcendental,ComplexExp}
-Certificate/NormBridge                         → PhaseBasis, Frozen/Defs/HamiltonianVectorFieldC
-Certificate/MatrixInv                          → Matrix/Neumann, Matrix/Inverse   (approx-inverse lemmas)
-Certificate/Embedding                          (post-gate)         → Poly/*, Model/Ops
-Certificate/Expr/Compose                       (post-gate)         → Expr/Slp, Model/{Exp,Inv}, Embedding
-Certificate/Gram                               (post-gate)         → Model/Ops, MatrixInv, Embedding
-Certificate/Torsion/{Frame,Models}             (post-gate)         → Gram, Expr/Compose, Freq, Frozen/Iso/Defs/*
-Certificate/Constants                          (SO-CONST, running) → Iso/Apost/Defs, Arith/PiHigh
-Certificate/Positivity                         (post-gate)         → Model/Ops
-Certificate/Defs                               (post-gate)         → all of the above
+Certificate/PhaseBasis, Clock                  (landed, SO-CLOCK)
+Certificate/Arith/{PiHigh,Interface,PiEnclosure,Roots,Transcendental,Rat,ComplexExp}   (landed)
+Certificate/Arith/Fixed                        (landed, SO-ABK)    → Arith/Interface
+Certificate/Arith/Mantissa                     (post, SO-POLY-A)   → Arith/Interface (mantCheck, ofDyadic)
+Certificate/Freq, QuadraticDiophantine, CubicDiophantine           (landed)
+Certificate/Poly/Basic, Model/Basic            (landed, SO-PBASE)
+Certificate/Poly/Packed                        (post, SO-POLY-A/B) → Arith/Mantissa, Poly/Basic, Model/Basic
+Certificate/Poly/Ops                           (post, SO-POLY-B)   → Poly/Packed
+Certificate/Model/Ops                          (post, SO-MALG)     → Model/Basic, Poly/Ops, Arith/PiEnclosure
+Certificate/Model/{Exp,Inv}                    (post, SO-EXPW)     → Model/Ops, Arith/ComplexExp
+Certificate/Expr/{Basic,Slp,Diff*}             (landed, SO-EXPR-A/B1; B2 `jet_d3` pending)
+Certificate/Expr/Ball                          (pre, SO-BALL)      → Expr/Slp, Model/Basic, Arith/{Rat,ComplexExp}
+Certificate/NormBridge, MatrixInv, Constants   (landed)
+Certificate/Embedding, Expr/Compose            (post, SO-EMB)      → Poly/*, Model/{Ops,Exp,Inv}
+Certificate/Gram                               (post, SO-MAT)      → Model/Ops, MatrixInv, Embedding
+Certificate/Torsion/{Frame,Models}             (post, SO-TORS)     → Gram, Expr/Compose, Freq
+Certificate/Positivity                         (post, SO-POS)      → Model/Ops
+Certificate/Defs                               (post, SO-DEFS)     → all of the above
 Certificate/Sound/{Static,Ham,Embedding,Invariance,Energy,Gram,Torsion,Smallness} → Defs, NormBridge
 Certificate/Soundness                          → Sound/*, Iso/Apost/G1
-Certificate/Tests/{Toy2,Toy3,Rat,Negative}     → Soundness, CubicDiophantine, QuadraticDiophantine
-Certificate/Tests/ComplexExp                   (pre-gate, SO-CEXP) → Arith/{ComplexExp,Rat}
-SpinOrbit/{Model,PeriodOne,Hamiltonian,ScalarEmbedding}   (landed, SO-MODEL)
-Certificate/QuadraticDiophantine                          (landed, SO-DIO)
-SpinOrbit/HamExpr                              → Expr/Basic, SpinOrbit/Hamiltonian
-SpinOrbit/Freq                                 → Freq, QuadraticDiophantine
-SpinOrbit/Barrier                              → SpinOrbit/Model, ODE/*            (so_confinement, SoBarrier)
-SpinOrbit/Graph/Inverse                        → Clock, Strip/*, SpinOrbit/Barrier (exact torus ⇒ graph)
-SpinOrbit/Graph/Cert                           (post-gate)         → Soundness, Positivity, Graph/Inverse, HamExpr
-SpinOrbit/Data/{Lower,Upper}/Part*             (post-gate, generated) → Defs
-SpinOrbit/Lunar{Lower,Upper}Passes             → Data, Defs      (decide +kernel per sub-check)
+Certificate/Tests/{Toy2,Toy3,Rat,Negative,Packed}  → Soundness, CubicDiophantine, QuadraticDiophantine
+SpinOrbit/{Model,PeriodOne,Hamiltonian,ScalarEmbedding,HamExpr,Freq,Barrier,Graph/Inverse} (landed)
+SpinOrbit/Rotated                              (pre, SO-ROT)       → SpinOrbit/HamExpr, Clock
+Certificate/DiophantineTransfer                (pre, SO-ROTDIO, proving) → QuadraticDiophantine
+SpinOrbit/RotFreq                              (pre, SO-RFREQ)     → Freq, DiophantineTransfer
+SpinOrbit/Graph/Rot                            (pre, SO-GRAPHR)    → Graph/Inverse, Rotated
+SpinOrbit/Graph/Cert                           (post, SO-GRAPH)    → Soundness, Positivity, Graph/{Inverse,Rot}
+SpinOrbit/Data/{Lower,Upper}/{Emb,Wit,Adv/*}   (post + G-J, generated, §7.2) → Defs
+SpinOrbit/Lunar{Lower,Upper}Passes             → Data, Defs      (decide +kernel per sub-check / shard)
 SpinOrbit/LunarConfinement                     → all SpinOrbit
 ```
 
-No module imports a provider or a frozen theorem anchor. `g1_explicit` lives in the implementation module
-`KAM/Iso/Apost/G1`.
+`lunarR1` (a `CertParams`) needs `Defs`; SO-RFREQ therefore splits into `RotFreq` (pre-gate: frequency,
+`ℚ(√5)` instances, `κ`-scaled Diophantine from SO-ROTDIO) and `LunarParams` (post-gate, 60 lines, with SO-LUNAR). No module
+imports a provider or a frozen theorem anchor.
 
-**Gate.** *Pre-gate* packages are backend-neutral or ℚ-only mathematics with no performance-sensitive
-kernel algorithm. They may start as soon as they are briefed. *Post-gate* packages (backend instances,
-polynomial/model algorithms, witnesses, composition, Gram/torsion construction, `Defs`, soundness of the
-concrete checks, data) wait for the SO-REPLAY verdict (§5). Their algorithm choices (convolution strategy,
-precision split, shard sizes) depend on it. SO-DATA additionally waits for gate **G-J** (§6).
+**Gate.** The replay gate is **GO** (Revision 5); post-gate packages may be briefed in DAG order with
+the §5 product architecture. SO-DATA additionally waits for gate **G-J** (§6) and for the owner's
+packaging decision (§7.2).
 
 | Package | Gate | Modules | Lines (est.) | Inputs |
 |---|---|---|---|---|
 | SO-CLOCK | landed | PhaseBasis, Clock | (400, done) | — |
-| SO-PI | pre (running) | Arith/PiHigh | 500 | — |
-| SO-CONST | pre (running) | Constants | 700 | SO-PI (`eLowRat`; or Mathlib bounds) |
-| SO-AIF | pre (landed) | Arith/{Interface,PiEnclosure,Roots,Transcendental,Rat} | 700 | SO-PI |
-| SO-CEXP | pre (running) | Arith/ComplexExp, Tests/ComplexExp | 150 | SO-AIF |
-| SO-FREQ | pre | Freq, SpinOrbit/Freq | 350 | SO-AIF |
-| SO-DIO3 | pre | CubicDiophantine | 350 | SO-FREQ |
-| SO-PBASE | pre | Poly/Basic, Model/Basic | 800 (A: Poly 400, B: Model 400) | SO-AIF |
-| SO-EXPR | pre | Expr/{Basic,Slp,Diff} | 1700 (A: Basic+structural+`NonvanishingOn` 600; B1: Slp+`d1`/`d2` 550; B2: `d3` 550) | SO-PBASE (A) |
-| SO-BALL | pre | Expr/Ball | 500 | SO-EXPR, SO-AIF (`Arith/Rat`), SO-CEXP |
-| SO-NORM | pre | NormBridge | 400 | — |
-| SO-MINV | pre | MatrixInv | 300 | — |
-| SO-HAMX | pre | SpinOrbit/HamExpr | 200 | SO-EXPR |
-| SO-CONF | pre | SpinOrbit/Barrier | 600 | — |
-| SO-GRAPHM | pre | SpinOrbit/Graph/Inverse | 600 | SO-CONF |
-| SO-ABK | post | Arith/Fixed (and the production-backend choice) | 500 | SO-AIF, SO-REPLAY |
-| SO-POLY | post | Poly/Ops | 650 | SO-PBASE, SO-ABK |
-| SO-MALG | post | Model/Ops | 650 | SO-POLY |
+| SO-PI | landed | Arith/PiHigh | 500 | — |
+| SO-CONST | landed | Constants | 700 | SO-PI |
+| SO-AIF | landed | Arith/{Interface,PiEnclosure,Roots,Transcendental,Rat} | 700 | SO-PI |
+| SO-CEXP | landed | Arith/ComplexExp, Tests/ComplexExp | 150 | SO-AIF |
+| SO-FREQ | landed | Freq, SpinOrbit/Freq | 350 | SO-AIF |
+| SO-DIO3 | landed | CubicDiophantine | 350 | SO-FREQ |
+| SO-PBASE | landed | Poly/Basic, Model/Basic | 800 | SO-AIF |
+| SO-EXPR | A, B1 landed; B2 pending | Expr/{Basic,Slp,Diff*} | 1700 | SO-PBASE |
+| SO-BALL | pre (in audit) | Expr/Ball | 500 | SO-EXPR, SO-AIF, SO-CEXP |
+| SO-NORM | landed | NormBridge | 400 | — |
+| SO-MINV | landed | MatrixInv | 300 | — |
+| SO-HAMX | landed | SpinOrbit/HamExpr | 200 | SO-EXPR |
+| SO-CONF | landed | SpinOrbit/Barrier | 600 | — |
+| SO-GRAPHM | landed | SpinOrbit/Graph/Inverse | 600 | SO-CONF |
+| **SO-ROT** | pre (new, R5) | SpinOrbit/Rotated | 300 | SO-HAMX, SO-CLOCK |
+| **SO-ROTDIO** | pre (orchestrator, proving) | Certificate/DiophantineTransfer | 150 | SO-DIO |
+| **SO-RFREQ** | pre (new, R5) | SpinOrbit/RotFreq | 100 | SO-FREQ, SO-ROTDIO |
+| **SO-GRAPHR** | pre (new, R5) | SpinOrbit/Graph/Rot | 300 | SO-GRAPHM, SO-ROT |
+| SO-ABK | landed | Arith/Fixed | 500 | SO-AIF |
+| **SO-POLY-A** | post (R5) | Arith/Mantissa, Poly/Packed (packing, injectivity, Kronecker, shards, slot decoding) | 550 | SO-PBASE, SO-ABK |
+| **SO-POLY-B** | post (R5) | Poly/Packed (layout, advice, `checkPackedProduct`, `toMants`, `mulPacked` glue), Poly/Ops | 600 | SO-POLY-A |
+| SO-MALG | post | Model/Ops (`ModelConfig α`, advice lookup, fallback) | 750 | SO-POLY-B |
 | SO-EXPW | post | Model/{Exp,Inv} | 850 | SO-MALG, SO-CEXP |
-| SO-EMB | post | Embedding, Expr/Compose | 800 | SO-EXPW, SO-EXPR |
-| SO-MAT | post | Gram | 600 | SO-MALG, SO-EMB, SO-MINV |
-| SO-TORS | post | Torsion/{Frame,Models} | 1000 (two packages) | SO-MAT, SO-EMB, SO-FREQ |
+| SO-EMB | post | Embedding, Expr/Compose | 830 | SO-EXPW, SO-EXPR |
+| SO-MAT | post | Gram | 630 | SO-MALG, SO-EMB, SO-MINV |
+| SO-TORS | post | Torsion/{Frame,Models} | 1040 (two packages) | SO-MAT, SO-EMB, SO-FREQ |
 | SO-POS | post | Positivity | 350 | SO-MALG |
 | SO-DEFS | post | Defs | 600 | all of the above |
-| SO-SOUND | post | Sound/*, Soundness | 1400 (A: static/ham/emb/energy/small 700; B: inv/gram/torsion/G1 700) | SO-DEFS, SO-TORS, SO-NORM, SO-BALL |
-| SO-TEST | post | Tests/{Toy2,Toy3,Rat,Negative} | 450 | SO-SOUND, SO-DIO3 |
-| SO-GRAPH | post | SpinOrbit/Graph/Cert | 400 | SO-SOUND, SO-POS, SO-GRAPHM, SO-HAMX |
-| SO-DATA | post + G-J | generator emitter + Data shards | generated | SO-GEN, SO-DEFS |
-| SO-LUNAR | post | Lunar*Passes, LunarConfinement | 400 | all |
+| SO-SOUND | post | Sound/*, Soundness | 1400 (A 700; B 700) | SO-DEFS, SO-TORS, SO-NORM, SO-BALL |
+| SO-TEST | post | Tests/{Toy2,Toy3,Rat,Negative,Packed} | 450 | SO-SOUND, SO-DIO3 |
+| SO-GRAPH | post | SpinOrbit/Graph/Cert (both frames) | 500 | SO-SOUND, SO-POS, SO-GRAPHR |
+| SO-DATA | post + G-J + §7.2 | generator and advice emitter (Python), Data shards (generated), hand-written assembly 150 | 150 + generated | SO-GEN2, SO-DEFS, SO-POLY-B |
+| SO-LUNAR | post | LunarParams, Lunar*Passes, LunarConfinement | 400 | all |
 
-**Totals (recomputed, F6/feasibility note).**
-- Pre-gate: 500 + 700 + 150 + 700 + 350 + 350 + 800 + 1700 + 500 + 400 + 300 + 200 + 600 + 600 = **7,850**
-  (plus SO-CLOCK's landed 400; SO-AIF 700 has since landed and is still counted here for comparability).
-- Post-gate: 500 + 650 + 650 + 850 + 800 + 600 + 1000 + 350 + 600 + 1400 + 450 + 400 + 400 = **8,650**. (Revision 3 moved 100 lines of `Arith/Rat` from SO-ABK to SO-AIF; Revision 4 adds SO-CEXP 150, SO-BALL +50, SO-EXPW +50.)
-- Hand-written total: **16,500**. Adding SO-CLOCK (landed, 400) and the rest of wave 0
-  (landed, about 1,500) gives about 18,400 in all.
-- With a 30–40% overrun on the 16,500: 21.5k–23.1k new lines, about 23.4–25.0k overall, inside the
-  plan's 21–37k. (This replaces Revision 1's "16–17k plus wave 0", which audit 1 found inconsistent with
-  its own table.)
+**Totals (Revision 5; landed packages still counted at their estimates for comparability).**
+- Pre-gate: Revision 4's 7,850 + SO-ROT 300 + SO-ROTDIO 150 + SO-RFREQ 100 + SO-GRAPHR 300 = **8,700**.
+- Post-gate: Revision 4's 8,650 + SO-POLY 500 + SO-MALG 100 + SO-EMB/MAT/TORS 100 + SO-GRAPH 100 +
+  SO-DATA glue 150 = **9,600**.
+- Hand-written total **18,300**; with wave 0 and SO-CLOCK, about 20,200. With a 30–40% overrun on the
+  18,300: 23.8k–25.6k new lines, about 25.7–27.5k overall, inside the plan's 21–37k.
 
-The estimate risks the audit names (third-order jets, fixed-point error accounting, the complex path
-argument, torsion derivative models, graph inversion) are unchanged and carry the overrun.
+The estimate risks (third-order jets, fixed-point error accounting, the complex path argument, torsion
+derivative models, graph inversion) now include the packed-product glue (layout bijection, overlap-add
+of shard windows, complex splitting).
+
+### 7.2 Certificate data packaging (SO-REPLAY2 design signal; OWNER decision)
+
+The owner's hard rule caps every Lean file at 1500 lines. The repository lint additionally caps lines at
+100 characters (generated `KAM.lean` and `.drafts` excepted). The data that must enter Lean is, per
+torus: the embedding and witnesses (`K̃` in four components, exp/character/reciprocal witnesses, the
+Gram witness), and the product advice of every checker product (design B).
+
+**Counts at the R1 scale** (CONSTANTS-STUDY §2.3 and SO-REPLAY2's model; ±30%):
+
+| Quantity | 1e-130 data (SO-REPLAY2) | R1 (`L ≈ 87`, about 299 bits) |
+|---|---:|---:|
+| `E` terms per factor | 18.7k | 8.1k |
+| slot width `w` | 896 | 614 |
+| in-box advice slots per real product | 65k | ≈ 28k |
+| decimal digits per slot / hex digits | 133 / 110 | 90 / 75 |
+| advice source per real product | 8–9 MB | ≈ 2.6 MB (decimal) / 2.2 MB (hex) |
+| per torus, 30 real products | ≈ 260 MB | ≈ 66–78 MB |
+| per torus, 120 real products (complex ×4) | ≈ 1 GB | ≈ 260–310 MB |
+| embedding and witnesses per torus | — | ≈ 5–10 MB |
+| elaboration at ≈ 18 s/MB, per torus | 1.3 h (30) | 20–25 min (30) / 1.3–1.6 h (120) |
+| kernel, per torus | 0.75–1.5 CPU-h (30) | ≈ 0.3–0.5 CPU-h (30; 0.35× pairs) |
+
+Both tori double the volumes. The number of real products per torus (30 to 120) is SO-GEN2's to report;
+it is the dominant uncertainty.
+
+**Lean shape, common to all options.** Data are `noncomputable def`s of at most 32 rows (≤ 4096 flat
+elements) each, the elaborator limit SO-REPLAY2 measured; big literals are chunked (2^14 bits) because
+hex parsing is quadratic; each shard's check is its own theorem `checkShard adv A B s = true` by
+`decide +kernel`, and the passes modules combine them. No recursion-depth or heartbeat override.
+
+**Options (not decided here):**
+
+| Option | What | Files at R1 (both tori) | Rule/lint status | Costs and risks |
+|---|---|---|---|---|
+| **A. Lint-clean chunked modules** | One coefficient per line (90 decimal or 75 hex digits fit in 100 columns), ≤ ~1,450 data lines per file, generated directories `KAM/SpinOrbit/Data/{Lower,Upper}/Adv/P<k>/S<j>.lean` | ≈ 1,000–4,800 | Fully compliant, no exemption | Very many modules (import graph, Lake overhead per module of a few seconds); precision above ≈ 95 digits would need limb splitting (`a·10^k + b`, one more kernel step per slot) |
+| **B. Line-width exemption for generated data** | Same files ≤ 1500 lines, but long lines (e.g. 4 KB, ≈ 45 coefficients) in an exempted directory; the lint keeps the 1500-line check everywhere | ≈ 25–105 | Needs an owner exemption of the 100-column lint for `KAM/SpinOrbit/Data/**` only (the 1500-line hard rule is untouched) | ≈ 6 MB and ≈ 2 min elaboration per file, memory per file higher; reviewers cannot read the data anyway |
+| **C. Out-of-tree data** | Data in non-Lean files (hex text), read at elaboration time by a small meta-program that builds the same `noncomputable def` terms (`include_str` plus a parser, ≈ 200 lines) | ≈ 30 Lean modules + data files | No Lean file is large; the lint and the 1500-line rule do not apply to data files | The kernel still checks every term, so soundness is unaffected, but a meta-program enters the build path and Lake must track the data files as dependencies; provenance of non-Lean data must be audited |
+
+Volume levers independent of the choice: hex instead of decimal (−17%); design B rather than A (≈ 8×
+less than shipping `T_s`); SO-GEN2 sizing the truncation to the threshold (R1) rather than 1e-130
+(about 3.5× less volume per product). If the volume is still unacceptable, the owner's recorded
+fallback is the sharper theorem (HL19 torsion route plus Parseval, about 1e-52, 3–4k lines).
 
 ## 8. Validation plan
 
@@ -519,6 +681,20 @@ argument, torsion derivative models, graph inversion) are unchanged and carry th
 - **Ball test 11 (F10, SO-BALL):** `Slp.balls` on `.exp (.const 2)`, on `exp` of a cosine mode with ball
   radius `> 1`, and on `cos` of a large action ball returns `some` (count `cexpHalvings`) and its
   `exp`-slot ball contains the exact value.
+- **Packed products (Revision 5, SO-POLY, `Tests/Packed`).** Positive: a small 2-D product (both
+  `n = 2` and `n = 3` layouts) with correct design-B advice passes `checkPackedProduct`, and
+  `CertPoly.mulPacked` returns `some`; a multi-shard product (three blocks per factor) exercises the
+  overlap-add. Negative (each `= false` by `decide +kernel`): an advice slot off by `+2` (SO-REPLAY2's
+  control); an advice that is correct modulo `2^w` but violates the slot bound (injectivity is
+  essential); a layout whose stride wraps (`compat = false`); a mantissa decoder returning a wrong
+  integer (`mantCheck` rejects, and `CertModel.mul` falls back: a certificate relying on that product
+  then fails its margin); a missing key. Model level: `CertModel.Encloses.mul` on the packed route and
+  on the fallback.
+- **Rotated client (Revision 5).** `soRotHamExpr_eval`, `soRotHamExpr_clock`, the two
+  `lunarRotFreq*_eq` and `*_isDiophantine` are proved outright (no data). T2 is restated in the rotated
+  frame as a second positive toy (`H = c(P₁ + P₀²/2 − P₀)`, `K = (θ, (ν̃, ν̃ − ν̃²/2))` with
+  rational `ν̃ ≈ ν₋`, reference `lunarRotFreq ν₋ κ`), so `soRotBarrier_of_cert`'s hypotheses are
+  exercised before SO-DATA.
 - **Axiom audit.** `#print axioms` of `checkTorusCertificate_sound`, every `*Passes` and `*_torus` theorem
   and the two lunar theorems shows only `propext`, `Classical.choice` and `Quot.sound`.
 - **Cross-check.** SO-GEN's exact evaluator recomputes every sub-check margin from the same data (gate
@@ -526,21 +702,30 @@ argument, torsion derivative models, graph inversion) are unchanged and carry th
 
 ## 9. Elaboration of Appendix A
 
-Command (gated, `LEAN_NUM_THREADS=1`, one process):
+Commands (gated, `LEAN_NUM_THREADS=1`, one process at a time):
 
 ```
 LEAN_NUM_THREADS=1 /mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh \
   /root/code/KAM-inp-design-so .drafts/design/SOSignatures.lean
+LEAN_NUM_THREADS=1 /mnt/HC_Volume_106379410/orchestrator-tools/inp_sig_check.sh \
+  /root/code/KAM-inp-design-so .drafts/design/SOSignaturesLunar.lean
+python3 -I docs/tracks/SO/design/check_so_standins.py \
+  .drafts/design/SOSignatures.lean .drafts/design/SOSignaturesLunar.lean
 ```
 
-Result on Revision 4: **exit 0, 174 warnings, all `declaration uses 'sorry'`, no error** (Revision 3:
-156 warnings, 1360 lines; Revision 2: 156, 1337 lines). The 18 new warnings are the restated landed
-ball/small-exp declarations, the SO-CEXP pair and completeness lemma, the pin declarations and the five
-range-reduction tests, minus the withdrawn `certCExp_sound`. This establishes elaboration only. The file
-has 1494 lines (under the 1500 cap, so no split was needed), imports the real `KAM.SpinOrbit.{Model,
-Hamiltonian}` and `KAM.Certificate.QuadraticDiophantine`, and keeps verbatim stand-ins only for SO-PI
-(running) and for SO-CLOCK's `phaseBasis` and `clock_frequency`. SO-CLOCK has landed on `inp` but is not
-yet in the shared build. The landed `clock_frequency` statement was compared and is identical.
+Result on Revision 5 (shared build of `inp` `f8405551`): engine **exit 0, 110 warnings, all
+`declaration uses 'sorry'`, no error** (1049 lines); lunar client **exit 0, 54 warnings, all
+`declaration uses 'sorry'`, no error** (539 lines); stand-in check **PASS** (20 engine stand-ins
+verbatim, no line over 100 characters). This establishes elaboration only.
+
+The engine imports every landed SO module and no longer restates any of them (Revision 4 restated
+about 540 lines of landed declarations; the warning count fell accordingly). The lunar file imports
+the landed client modules (`SpinOrbit/{Model,Hamiltonian,HamExpr,Freq,Barrier,Graph/Inverse}`,
+`Certificate/{Clock,Freq,QuadraticDiophantine,Arith/Fixed}`) and restates only the 20 unlanded engine
+declarations it names and SO-ROTDIO's 5 fixed declarations (verbatim from the orchestrator's brief).
+
+*Historical:* Revision 4: exit 0, 174 warnings, 1494 lines, single file, with stand-ins for SO-PI and
+SO-CLOCK (both landed since); Revision 3: 156 warnings, 1360 lines; Revision 2: 156, 1337 lines.
 
 ## 10. Risks
 
@@ -555,16 +740,26 @@ yet in the shared build. The landed `clock_frequency` statement was compared and
 | Toy T3 constants (`n = 3`, `τ = 2`) huge | `isoC1Q` | larger `N` (rational size only), larger `ρ` (the toy is entire) |
 | Coarse balls for a division client | inv fails on `D` | smaller `D`, or split the denominator's constant part |
 | Jet size for large `n` | elaboration/replay | order-3 slots only on `D`, never composed; pruning |
+| Data volume (§7.2) unacceptable even with the chosen packaging | SO-GEN2 product count × 2.2–2.6 MB | hex, truncation sized to the threshold; else the sharper theorem (owner fallback) |
+| Packed glue (layout bijection, overlap-add, complex split) longer than estimated | SO-POLY-B overrun | split `Poly/Packed` into layout and glue modules (each < 1500 lines) |
+| `mono > disp/ρ∞` at `ρ∞ = ρ'/1000` | graph margin | `disp ≈ C₂e/(γ²ρ²)` is tiny at `e < 10^{−74}`; SO-GEN2 reports the margin; raise `ρ∞` if needed (costs ≈ 4.8 orders per ×1000) |
+| R1 majorants (`𝔪 = 39/20`) not certified with ×1.05 headroom | SO-GEN2 enclosures | fall back to R2 (`𝔪 = 2.84`, `10^{−80.3}`), the theorem unchanged |
 
-## 11. Owner rulings (2026-10-29, 11:10) and open points
+## 11. Owner rulings and open points
 
 - **O1** (constant momentum window): adopted (§6). Graph-error transport is deferred.
-- **O2** (division in v1): adopted (§1.1, §1.4, §1.7, A §C/§D).
-- **O3** (SO-PI now): adopted. The package is running; the interface is in A §A.
+- **O2** (division in v1): adopted (§1.1, §1.4, §1.7, A-E §C/§D).
+- **O3** (SO-PI now): adopted; SO-PI has landed.
 - **O4** (analytic graphs and conjugacy later): adopted. They are outside the first freeze.
+- **O5** (2026-10-29, 14:20: rotated frame, R1, replay gate GO): adopted in Revision 5 (§5, §6, §7).
 
-There are no new open questions. One item remains for the freeze: the literal rational window endpoints
-(from SO-GEN/SO-DATA).
+Open for the owner:
+1. **Data packaging (§7.2):** option A (lint-clean, about 1,000–4,800 files), B (a 100-column lint
+   exemption for generated data only, about 25–105 files) or C (out-of-tree data read by an elaborator).
+   The design does not choose.
+
+Remaining items for the freeze: the literal rational window endpoints, `err`/`disp` per torus,
+`soPrecision` (from SO-GEN2/SO-DATA).
 
 ## 12. Hard rules for every Lean brief (verbatim)
 
@@ -580,7 +775,12 @@ time, through the compile gate.
 
 ## Appendix A. Exact signatures
 
-The file `.drafts/design/SOSignatures.lean` (copy at `/root/code/KAM-inp/.drafts/design/`), verbatim:
+Since Revision 5 two files, each elaborating on its own (§9): **A-E**, the engine,
+`.drafts/design/SOSignatures.lean`; **A-L**, the lunar client, `.drafts/design/SOSignaturesLunar.lean`
+(copies at `/root/code/KAM-inp/.drafts/design/`). "A §X" in Revisions 2–4 refers to the single
+Revision 4 file; its sections §A–§H, §J are in A-E, its §I is A-L.
+
+### A-E. `SOSignatures.lean` (engine), verbatim
 
 ```lean
 /-
@@ -597,42 +797,50 @@ public import KAM.Diophantine.SolverAlgebra
 public import KAM.Matrix.Neumann
 public import KAM.Matrix.Inverse
 public import KAM.Torus.Basic
-public import KAM.ODE.Exit
-public import KAM.ODE.Maximal
-public import KAM.SpinOrbit.Model
-public import KAM.SpinOrbit.Hamiltonian
+public import KAM.Certificate.Arith.Rat
+public import KAM.Certificate.Arith.Fixed
+public import KAM.Certificate.Arith.ComplexExp
+public import KAM.Certificate.Arith.PiEnclosure
+public import KAM.Certificate.Model.Basic
+public import KAM.Certificate.Expr.Diff
+public import KAM.Certificate.NormBridge
+public import KAM.Certificate.MatrixInv
+public import KAM.Certificate.Constants
+public import KAM.Certificate.Freq
+public import KAM.Certificate.Clock
+public import KAM.Certificate.CubicDiophantine
 public import KAM.Certificate.QuadraticDiophantine
 
 /-!
-# SO-DESIGN Revision 4: exact draft signatures (track SO, lunar spin-orbit certificate project)
+# SO-DESIGN Revision 5: exact draft signatures, engine part (track SO)
 
-Design document: `docs/tracks/SO/design/SO-LEAN-DESIGN.md` (Appendix A is this file). Every proof
-and every non-trivial definition body is `sorry`: this file only fixes the Lean surface. It is a
-transient elaboration check against the shared `inp` build; it is never imported.
+Design document: `docs/tracks/SO/design/SO-LEAN-DESIGN.md` (Appendix A is this file together with
+`SOSignaturesLunar.lean`). Every proof and every non-trivial definition body is `sorry`: this
+file only fixes the Lean surface. It is a transient elaboration check against the shared `inp`
+build; it is never imported.
+
+Revision 5 split the Revision 4 file (1494 lines) into this ENGINE file (the general checker and
+its black box) and the LUNAR-CLIENT file `SOSignaturesLunar.lean`. Both elaborate on their own.
+This file now IMPORTS every landed SO module instead of restating it (the Revision 4 file restated
+them with `sorry` bodies); each section names the landed declarations it consumes.
 
 Sections mirror the planned modules (§7 of the design):
 
-* §A `KAM/Certificate/Arith/{Interface,Transcendental,PiHigh,Roots,ComplexExp}`: the late-bound
-  arithmetic interface (laws separate from data; correctness theorems carry `[LawfulCertArith α]`),
-  the backend-independent rational transcendental bounds, SO-PI (stand-in block), root enclosures,
-  complex balls and the small-ball exponential (LANDED SO-AIF, `Roots.lean`), and the range-reduced
-  complex exponential `certCExpReduced` (SO-CEXP, Revision 4, design audit 3 F10).
-* §B `KAM/Certificate/Poly/*`: exact finite Fourier data, law-free denotations.
-* §C `KAM/Certificate/Model/*`: Fourier models; `exp` and reciprocal a-posteriori witnesses.
-* §D `KAM/Certificate/{PhaseBasis,Expr/*}`: the expression language (with division, ruling O2),
-  its straight-line program, jets, ball arithmetic on the domain, composition with `K`.
-* §E `KAM/Certificate/NormBridge`: operator/multilinear norms on `ℂⁿ × ℂⁿ` from partials.
-* §F `KAM/Certificate/{Embedding,MatrixCert,Gram,Torsion,Constants,Positivity}`.
-* §G `KAM/Certificate/{Freq,Defs,Sound/*,Soundness}`: frequencies (exact real vector + proved
-  rational box, finding F1), the certificate, the sub-check contracts, the black box.
-* §H `KAM/Certificate/Clock`: the general clock lemma.
-* §J `KAM/Certificate/{CubicDiophantine,Tests/*}`: the `n = 3` nonresonant example and toys.
-* §I `KAM/SpinOrbit/*`: the lunar client, against the real SO-MODEL / SO-DIO modules.
-
-Stand-ins (only so that this file elaborates against the shared `inp` build): `phaseBasis` and
-`clock_frequency` (LANDED on `inp` at 092a9d11 as `KAM/Certificate/{PhaseBasis,Clock}.lean`, not
-yet in the shared build) and the SO-PI block (running on `inp-sopi` as
-`KAM/Certificate/Arith/PiHigh.lean`), copied with their exact statements.
+* §A `Arith/*` (LANDED: interface, `ℚ` and fixed-point instances, transcendental bounds, SO-PI,
+  `π` enclosure, roots, complex balls, small-ball and range-reduced complex exponential); new
+  here: the mantissa check `mantCheck` (Revision 5, no change to the landed interface).
+* §B `Poly/*`: exact finite Fourier data (LANDED `Poly/Basic`); exact shifts and reflections;
+  §B′ `Poly/Packed` (Revision 5, item 6): Kronecker-packed, advice-checked products (SO-REPLAY2).
+* §C `Model/*`: Fourier models (LANDED `Model/Basic`); model operations whose products are
+  advice-checked (`ModelConfig α` carries the advice book); `exp` and reciprocal witnesses.
+* §D `Expr/*`: the expression language, straight-line program and jets (LANDED `Expr/{Basic,Slp,
+  Diff}`); ball arithmetic on the domain; the embedding; composition with `K`.
+* §E `NormBridge` (LANDED).
+* §F `{Gram,Torsion,Constants,Positivity}` (LANDED `MatrixInv`, `Constants`).
+* §G `{Freq,Defs,Sound/*,Soundness}`: the certificate, the sub-check contracts, the black box
+  (LANDED `Freq`).
+* §H `Clock` (LANDED, imported). §J toys and tests (LANDED `CubicDiophantine`).
+* The lunar client (former §I) is in `SOSignaturesLunar.lean`.
 -/
 
 @[expose] public noncomputable section
@@ -643,251 +851,58 @@ namespace KAM.Certificate
 
 open KAM KAM.Torus
 
-/-! ## §A. Certified arithmetic interface (`KAM/Certificate/Arith/Interface.lean`) -/
+/-! ## §A. Certified arithmetic (`KAM/Certificate/Arith/*`)
 
-/-- A certified arithmetic backend (data only). `val a` is the exact real denoted by `a`.
-`add`/`mul` may round (fixed point) or be exact (`ℚ`); `addErr`/`mulErr` bound the rounding error.
-`upAdd`/`upMul` round upward and are used on nonnegative radii only. Comparisons are one-sided
-tests. Definitions over `CertArith` are computational and law-free; every correctness theorem that
-uses a value of `ofInt`, `neg`, `add`, `mul` or a comparison assumes `[LawfulCertArith α]`
-(finding F2). -/
-class CertArith (α : Type) where
-  val : α → ℝ
-  ofInt : ℤ → α
-  /-- outward conversions of an exact rational parameter -/
-  ofRatUp : ℚ → α
-  ofRatDown : ℚ → α
-  add : α → α → α
-  neg : α → α
-  mul : α → α → α
-  abs : α → α
-  addErr : α → α → α
-  mulErr : α → α → α
-  upAdd : α → α → α
-  upMul : α → α → α
-  ble : α → α → Bool
-  blt : α → α → Bool
-  beq : α → α → Bool
+LANDED and imported (SO-AIF, SO-PI, SO-RAT, SO-CEXP, SO-ABK): `CertArith`, `LawfulCertArith`,
+`CC`, `CC.toC`, `CC.conj`, `CC.toC_conj`, `CC.toC_zero`; `instCertArithRat`,
+`instLawfulCertArithRat`; `CertFixed`, `instCertArithFixed`, `instLawfulCertArithFixed`;
+`ratExpUp`, `exp_le_ratExpUp`; `piLoQ`, `piUpQ`, `piLowRat`, `piUpRat`, `eLowRat`, `eUpRat` and
+their bounds; `PiEnclosure`, `checkPiEnclosure`, `checkPiEnclosure_sound`; `checkRootEnclosure`,
+`rpow_mem_of_checkRootEnclosure`, `sqrt_mem_of_checkRootEnclosure`; `CertBall`, `CertBall.Mem`,
+`CC.normUp`, `CertBall.ofRat`, `CertBall.times`, `CertBall.mem_ofRat`, `CertBall.mem_times`;
+`certCExp`, `certCExpSmall`, `certCExpSmall_sound`, `certCExp_sound_of_small` (the unrestricted
+`certCExp_sound` stays WITHDRAWN, Revision 4); `certCExpReduced`, `certCExpReduced_sound`.
 
-/-- Soundness of a backend (one `Prop`-valued class, proved once per backend). -/
-class LawfulCertArith (α : Type) [CertArith α] : Prop where
-  val_ofInt : ∀ z : ℤ, CertArith.val (CertArith.ofInt (α := α) z) = z
-  ofRatUp_ge : ∀ q : ℚ, (q : ℝ) ≤ CertArith.val (CertArith.ofRatUp (α := α) q)
-  ofRatDown_le : ∀ q : ℚ, CertArith.val (CertArith.ofRatDown (α := α) q) ≤ q
-  add_err : ∀ a b : α, |CertArith.val (CertArith.add a b) - (CertArith.val a + CertArith.val b)| ≤
-    CertArith.val (CertArith.addErr a b)
-  val_neg : ∀ a : α, CertArith.val (CertArith.neg a) = -CertArith.val a
-  mul_err : ∀ a b : α, |CertArith.val (CertArith.mul a b) - CertArith.val a * CertArith.val b| ≤
-    CertArith.val (CertArith.mulErr a b)
-  val_abs : ∀ a : α, CertArith.val (CertArith.abs a) = |CertArith.val a|
-  upAdd_ge : ∀ a b : α, CertArith.val a + CertArith.val b ≤ CertArith.val (CertArith.upAdd a b)
-  upMul_ge : ∀ a b : α, 0 ≤ CertArith.val a → 0 ≤ CertArith.val b →
-    CertArith.val a * CertArith.val b ≤ CertArith.val (CertArith.upMul a b)
-  ble_sound : ∀ a b : α, CertArith.ble a b = true → CertArith.val a ≤ CertArith.val b
-  blt_sound : ∀ a b : α, CertArith.blt a b = true → CertArith.val a < CertArith.val b
-  beq_sound : ∀ a b : α, CertArith.beq a b = true → CertArith.val a = CertArith.val b
+Revision 5 needs NO change to the landed interface: the packed products of §B′ read integer
+mantissas through a certificate-supplied decoder (`ModelConfig.toMant`), and every decoded
+mantissa is re-verified by `mantCheck` with the interface's own `beq`, `ofRatUp`, `ofRatDown`. -/
 
 open CertArith
 
-/-- A complex backend number `re + i im` (exact data or a computed centre). -/
-structure CC (α : Type) where
-  re : α
-  im : α
+-- Backend 2, the production backend (SO-REPLAY): `CertFixed P`, `instCertArithFixed`,
+-- `instLawfulCertArithFixed` are LANDED (`Arith/Fixed.lean`, SO-ABK, `inp` 57b274bd).
 
-/-- The complex number denoted by a `CC` (law-free). -/
-def CC.toC {α : Type} [CertArith α] (c : CC α) : ℂ := ⟨val c.re, val c.im⟩
+/-- A mantissa claim `val a = z / 2^P`, tested with the backend's own outward conversions and
+equality test. Law-free; its soundness needs only `LawfulCertArith` (`beq_sound`, `ofRatUp_ge`,
+`ofRatDown_le`). -/
+def mantCheck {α : Type} [CertArith α] (P : ℕ) (a : α) (z : ℤ) : Bool :=
+  beq a (ofRatUp ((z : ℚ) / 2 ^ P)) && beq a (ofRatDown ((z : ℚ) / 2 ^ P))
 
-/-- Exact conjugation of a backend complex number. -/
-def CC.conj {α : Type} [CertArith α] (c : CC α) : CC α := ⟨c.re, neg c.im⟩
+theorem mantCheck_sound {α : Type} [CertArith α] [LawfulCertArith α] {P : ℕ} {a : α} {z : ℤ}
+    (h : mantCheck P a z = true) : val a = (z : ℝ) / 2 ^ P := sorry
 
-theorem CC.toC_conj {α : Type} [CertArith α] [LawfulCertArith α] (c : CC α) :
-    c.conj.toC = (starRingEnd ℂ) c.toC := sorry
+/-- The exact backend value `z / 2^P`, or `none` if the backend cannot represent it exactly
+(checked by `mantCheck`; fail closed). -/
+def ofDyadic {α : Type} [CertArith α] (P : ℕ) (z : ℤ) : Option α :=
+  let a : α := ofRatDown ((z : ℚ) / 2 ^ P)
+  if mantCheck P a z then some a else none
 
-/-- The zero of a backend complex number (needs `val_ofInt`). -/
-theorem CC.toC_zero {α : Type} [CertArith α] [LawfulCertArith α] :
-    (⟨ofInt 0, ofInt 0⟩ : CC α).toC = 0 := sorry
+theorem ofDyadic_sound {α : Type} [CertArith α] [LawfulCertArith α] {P : ℕ} {z : ℤ} {a : α}
+    (h : ofDyadic P z = some a) : val a = (z : ℝ) / 2 ^ P := sorry
 
-/-! ### Backends (`KAM/Certificate/Arith/{Rat,Fixed}.lean`)
+/-- The mantissa decoder the production certificate supplies (untrusted data: `mantCheck`
+re-verifies each value). -/
+def CertFixed.toMant (P : ℕ) : ℕ → CertFixed P → Option ℤ :=
+  fun P' a => if P' = P then some a.m else none
 
-The exact rational instance is trivial (`val = cast`, zero errors) and is PRE-gate, in SO-AIF
-(`Arith/Rat.lean`): the pre-gate ball arithmetic `Slp.balls` (SO-BALL) denotes `CC ℚ` through it
-(audit 2, F6). Only the fixed-point backend and the choice of the production backend wait for
-the SO-REPLAY verdict (SO-ABK). -/
+/-- Completeness (not soundness): the landed fixed-point `ofRatUp`/`ofRatDown` are exact on the
+grid `ℤ/2^P` and `beq` compares mantissas, so `mantCheck` accepts the true mantissa and the
+packed route never falls back (part of SO-POLY-A, against the landed instance). -/
+theorem CertFixed.mantCheck_m (P : ℕ) (a : CertFixed P) : mantCheck P a a.m = true := sorry
 
-/-- Backend 1: exact rationals (`addErr = mulErr = 0`; pre-gate, SO-AIF). -/
-instance instCertArithRat : CertArith ℚ := sorry
+/-! ### Range-reduced complex exponential: the halving count (SO-BALL)
 
-instance instLawfulCertArithRat : LawfulCertArith ℚ := sorry
-
-/-- Backend 2: fixed point, `m ↦ m / 2^P` with floor rounding and tracked ulp errors. -/
-structure CertFixed (P : ℕ) where
-  m : ℤ
-
-instance instCertArithFixed (P : ℕ) : CertArith (CertFixed P) := sorry
-
-instance instLawfulCertArithFixed (P : ℕ) : LawfulCertArith (CertFixed P) := sorry
-
-/-! ### Transcendental constants (`KAM/Certificate/Arith/Transcendental.lean`, in `ℚ`) -/
-
-/-- A kernel-computable upper bound for `exp q` (`q ≥ 0`): argument halving `s` times, Taylor
-order `N`, Lagrange remainder, then `s` squarings, all in `ℚ`. -/
-def ratExpUp (q : ℚ) (s N : ℕ) : ℚ := sorry
-
-theorem exp_le_ratExpUp {q : ℚ} (hq : 0 ≤ q) (s N : ℕ) : Real.exp q ≤ ratExpUp q s N := sorry
-
-/-! ### SO-PI (STAND-IN of `KAM/Certificate/Arith/PiHigh.lean`, `inp-sopi` 779c9632; ruling O3)
-
-Backend-independent rational enclosures: coarse `piLoQ < π < piUpQ`; Machin
-`piLowRat k j < π < piUpRat k j` (width `≤ 10^{-140}` at `(50, 15)`, kernel-checked); `e` by
-Taylor. The backend wraps them into a `PiEnclosure` (`checkPiEnclosure`). -/
-
-def piLoQ : ℚ := 3141592 / 1000000
-
-def piUpQ : ℚ := 3141593 / 1000000
-
-theorem piLoQ_lt_pi : (piLoQ : ℝ) < Real.pi := sorry
-
-theorem pi_lt_piUpQ : Real.pi < piUpQ := sorry
-
-/-- Partial sum `∑_{i<m} (-1)^i x^(2i+1)/(2i+1)` of the arctangent series. -/
-def atanS (x : ℚ) (m : ℕ) : ℚ :=
-  ∑ i ∈ Finset.range m, (-1) ^ i * (x ^ (2 * i + 1) / (2 * i + 1))
-
-def piLowRat (k j : ℕ) : ℚ := 16 * atanS (1 / 5) (2 * k) - 4 * atanS (1 / 239) (2 * j + 1)
-
-def piUpRat (k j : ℕ) : ℚ := 16 * atanS (1 / 5) (2 * k + 1) - 4 * atanS (1 / 239) (2 * j)
-
-theorem piLowRat_lt_pi (k j : ℕ) : (piLowRat k j : ℝ) < Real.pi := sorry
-
-theorem pi_lt_piUpRat (k j : ℕ) : Real.pi < (piUpRat k j : ℝ) := sorry
-
-/-- The hook for the arithmetic interface: rationals `lo < π < hi`. -/
-structure PiHighCert where
-  lo : ℚ
-  hi : ℚ
-  lo_lt : (lo : ℝ) < Real.pi
-  lt_hi : Real.pi < (hi : ℝ)
-
-def eSum (n : ℕ) : ℚ := ∑ m ∈ Finset.range n, 1 / (m.factorial : ℚ)
-
-def eRem (n : ℕ) : ℚ := ((n : ℚ) + 1) / ((n.factorial : ℚ) * n)
-
-def eLowRat (n : ℕ) : ℚ := eSum n - 2 * eRem n
-
-def eUpRat (n : ℕ) : ℚ := eSum n + 2 * eRem n
-
-theorem eLowRat_lt_exp_one {n : ℕ} (hn : 0 < n) : (eLowRat n : ℝ) < Real.exp 1 := sorry
-
-theorem exp_one_lt_eUpRat {n : ℕ} (hn : 0 < n) : Real.exp 1 < (eUpRat n : ℝ) := sorry
-
-/-! ### `π` at backend precision (`KAM/Certificate/Arith/PiEnclosure.lean`) -/
-
-/-- An enclosure `|π - centre| ≤ rad` at backend precision, with the Machin parameters
-`(machinK, machinJ)` that validate it. Used when models of different `2π`-degrees are added
-(`CertModel.toDeg`) and for lower bounds of `(2π)^deg`, `deg < 0`. Data only. -/
-structure PiEnclosure (α : Type) where
-  centre : α
-  rad : α
-  machinK : ℕ
-  machinJ : ℕ
-
-/-- Validation: `centre - rad ≤ piLowRat k j` and `piUpRat k j ≤ centre + rad` (outward
-conversions `ofRatDown`/`ofRatUp`, backend comparisons). -/
-def checkPiEnclosure {α : Type} [CertArith α] (pe : PiEnclosure α) : Bool := sorry
-
-theorem checkPiEnclosure_sound {α : Type} [CertArith α] [LawfulCertArith α] {pe : PiEnclosure α}
-    (h : checkPiEnclosure pe = true) : |Real.pi - val pe.centre| ≤ val pe.rad := sorry
-
-/-! ### Root enclosures (`KAM/Certificate/Arith/Roots.lean`) -/
-
-/-- `0 ≤ lo`, `lo^m ≤ d ≤ hi^m`, `0 ≤ hi`: encloses the real `m`-th root of `d`. -/
-def checkRootEnclosure (m d : ℕ) (lo hi : ℚ) : Bool :=
-  decide (0 ≤ lo) && decide (lo ^ m ≤ (d : ℚ)) && decide ((d : ℚ) ≤ hi ^ m) && decide (0 ≤ hi)
-
-theorem rpow_mem_of_checkRootEnclosure {m d : ℕ} {lo hi : ℚ} (hm : 0 < m)
-    (h : checkRootEnclosure m d lo hi = true) :
-    (lo : ℝ) ≤ (d : ℝ) ^ ((1 : ℝ) / m) ∧ (d : ℝ) ^ ((1 : ℝ) / m) ≤ hi := sorry
-
-theorem sqrt_mem_of_checkRootEnclosure {d : ℕ} {lo hi : ℚ}
-    (h : checkRootEnclosure 2 d lo hi = true) :
-    (lo : ℝ) ≤ Real.sqrt d ∧ Real.sqrt d ≤ hi := sorry
-
-/-! ### Complex balls (LANDED in `Roots.lean`, SO-AIF; restated with `sorry` bodies) -/
-
-/-- A complex ball with backend centre and radius. -/
-structure CertBall (α : Type) where
-  c : CC α
-  r : α
-
-/-- The ball contains `w`. -/
-def CertBall.Mem {α : Type} [CertArith α] (w : ℂ) (b : CertBall α) : Prop :=
-  ‖w - b.c.toC‖ ≤ val b.r
-
-/-- An upper bound of `‖c.toC‖` (`upAdd |re| |im|`). -/
-def CC.normUp {α : Type} [CertArith α] (c : CC α) : α := sorry
-
-/-- The rational constant `q` as a ball (outward conversions, rounding paid in the radius). -/
-def CertBall.ofRat {α : Type} [CertArith α] (q : ℚ) : CertBall α := sorry
-
-/-- Product of balls (rounding errors of both parts paid in the radius). -/
-def CertBall.times {α : Type} [CertArith α] (b₁ b₂ : CertBall α) : CertBall α := sorry
-
-theorem CertBall.mem_ofRat {α : Type} [CertArith α] [LawfulCertArith α] (q : ℚ) :
-    CertBall.Mem (q : ℂ) (CertBall.ofRat (α := α) q) := sorry
-
-theorem CertBall.mem_times {α : Type} [CertArith α] [LawfulCertArith α] {w₁ w₂ : ℂ}
-    {b₁ b₂ : CertBall α} (h₁ : CertBall.Mem w₁ b₁) (h₂ : CertBall.Mem w₂ b₂) :
-    CertBall.Mem (w₁ * w₂) (CertBall.times b₁ b₂) := sorry
-
-/-! ### The small-ball scalar exponential (LANDED in `Roots.lean`, SO-AIF; signatures verbatim)
-
-Revision 4 (design audit 3, F10): the unrestricted `certCExp_sound` of Revisions 1–3 is
-WITHDRAWN. It is false for the Taylor implementation (`z = 2`, `zRad = 0`, `N = 0` over `ℚ`
-would give `|exp 2 - 1| ≤ 2`). The landed contract needs the size hypothesis
-`‖z‖ + zRad ≤ 1`, discharged by the backend test `certCExpSmall`. No consumer calls
-`certCExp` directly; every consumer goes through `certCExpReduced` below. -/
-
-/-- A certified scalar complex exponential ball (Taylor order `N`, `Complex.exp_bound`):
-returns a centre and a radius. The Taylor sum has `N + 1` terms, evaluated in ball arithmetic
-over the input ball `(z, zRad)`; the remainder is `eRem (N + 1)`. -/
-def certCExp {α : Type} [CertArith α] (z : CC α) (zRad : α) (N : ℕ) : CC α × α := sorry
-
-/-- The backend test that the input ball lies in the unit disc (`‖z‖ + zRad ≤ 1`). -/
-def certCExpSmall {α : Type} [CertArith α] (z : CC α) (zRad : α) : Bool := sorry
-
-theorem certCExpSmall_sound {α : Type} [CertArith α] [LawfulCertArith α] {z : CC α} {zRad : α}
-    (h : certCExpSmall z zRad = true) : ‖z.toC‖ + val zRad ≤ 1 := sorry
-
-/-- Soundness of `certCExp` for balls inside the unit disc. The signed statement without the size
-hypothesis `hsmall` is false (see the module docstring); `certCExpSmall_sound` discharges it
-from a backend test. -/
-theorem certCExp_sound_of_small {α : Type} [CertArith α] [LawfulCertArith α] (z : CC α)
-    (zRad : α) (N : ℕ) (hsmall : ‖z.toC‖ + val zRad ≤ 1) {w : ℂ}
-    (hw : ‖w - z.toC‖ ≤ val zRad) :
-    ‖Complex.exp w - (certCExp z zRad N).1.toC‖ ≤ val (certCExp z zRad N).2 := sorry
-
-/-! ### Range-reduced complex exponential (`KAM/Certificate/Arith/ComplexExp.lean`, SO-CEXP)
-
-Signatures FIXED by the orchestrator (2026-10-29, 12:25). `exp w = (exp (w / 2^s))^(2^s)`: the
-input ball is scaled by `2^(-s)` with a proved ball product, the *rounded* reduced ball must
-pass `certCExpSmall` (else `none`: fail closed), `certCExp_sound_of_small` applies to it, and
-the output ball is squared `s` times with `CertBall.times` (`exp (2u) = (exp u)^2`). Every
-contribution (scaling rounding, Taylor remainder, Taylor-sum rounding, each squaring's
-`r(2|c| + r)` growth and rounding) is inside the returned radius, so the contract has no
-side condition. Structural recursion on `s`; no resource override. `s = 0` is exactly the
-guarded small call. -/
-
-/-- Range-reduced certified complex exponential ball. Scales the input ball by `2^(-s)` (ball
-product with `CertBall.ofRat (1 / 2 ^ s)`), returns `none` unless the reduced ball passes
-`certCExpSmall`, evaluates `certCExp` of order `N` there, and squares the result ball `s` times
-with `CertBall.times`. -/
-def certCExpReduced {α : Type} [CertArith α] (z : CC α) (zRad : α) (s N : ℕ) :
-    Option (CC α × α) := sorry
-
-theorem certCExpReduced_sound {α : Type} [CertArith α] [LawfulCertArith α] {z : CC α}
-    {zRad : α} {s N : ℕ} {out : CC α × α} (h : certCExpReduced z zRad s N = some out) {w : ℂ}
-    (hw : ‖w - z.toC‖ ≤ val zRad) :
-    ‖Complex.exp w - out.1.toC‖ ≤ val out.2 := sorry
+`certCExpReduced` and `certCExpReduced_sound` are LANDED (`Arith/ComplexExp.lean`, SO-CEXP). -/
 
 /-- The halving count computed from a rational ball (used by `Slp.balls`, never a caller-side
 hypothesis): `2^s > 2 (|re| + |im| + r)`, so the exact reduced ball has `normUp + radius ≤ 1/2`. -/
@@ -899,76 +914,13 @@ fails, so `Slp.balls` returns `none` at an `exp` slot only on a malformed progra
 theorem certCExpReduced_cexpHalvings_isSome (z : CC ℚ) {r : ℚ} (hr : 0 ≤ r) (N : ℕ) :
     (certCExpReduced z r (cexpHalvings z r) N).isSome = true := sorry
 
-/-! ## §B. Exact finite Fourier data (`KAM/Certificate/Poly/Basic.lean`, `Poly/Ops.lean`) -/
+/-! ## §B. Exact finite Fourier data (`KAM/Certificate/Poly/{Basic,Ops}.lean`)
 
-/-- A Fourier index, stored as a list of length `n` (kernel-friendly lexicographic order). -/
-abbrev CertKey : Type := List ℤ
-
-/-- The index `Fin n → ℤ` denoted by a key (missing entries are `0`). -/
-def certKeyFun (n : ℕ) (k : CertKey) : Fin n → ℤ := fun i => k.getD i.val 0
-
-/-- A finite complex Fourier polynomial (duplicates allowed; optimized algorithms validate and
-canonicalize key lengths and order before relying on them). -/
-structure CertPoly (α : Type) where
-  terms : List (CertKey × CC α)
-
-/-- The denoted trigonometric polynomial `Σ c_k e^{2πi k·θ}` (law-free). -/
-def CertPoly.eval {α : Type} [CertArith α] (n : ℕ) (P : CertPoly α) (θ : Fin n → ℂ) : ℂ :=
-  (P.terms.map fun t => t.2.toC * character (certKeyFun n t.1) θ).sum
-
-/-- Its coefficient family (sum over repeated keys; zero off the support). -/
-def CertPoly.coeff {α : Type} [CertArith α] (n : ℕ) (P : CertPoly α) (k : Fin n → ℤ) : ℂ :=
-  ((P.terms.filter fun t => decide (certKeyFun n t.1 = k)).map fun t => t.2.toC).sum
-
-/-- Bridge to the project's Fourier series (`KAM.fourierSum`). -/
-theorem CertPoly.eval_eq_fourierSum {α : Type} [CertArith α] (n : ℕ) (P : CertPoly α)
-    (θ : Fin n → ℂ) : P.eval n θ = fourierSum (P.coeff n) θ := sorry
-
-theorem CertPoly.differentiable_eval {α : Type} [CertArith α] (n : ℕ) (P : CertPoly α) :
-    Differentiable ℂ (P.eval n) := sorry
-
-theorem CertPoly.eval_add_int {α : Type} [CertArith α] (n : ℕ) (P : CertPoly α)
-    (θ : Fin n → ℂ) (k : Fin n → ℤ) : P.eval n (θ + fun i => (k i : ℂ)) = P.eval n θ := sorry
-
-/-- Real Fourier data on the half lattice: `a₀ + Σ_{(k, c) ∈ half} (c χ_k + c̄ χ_{-k})`. -/
-structure CertRealPoly (α : Type) where
-  zero : α
-  half : List (CertKey × CC α)
-
-/-- The denotation of real data, defined directly (law-free; no backend zero or conjugation). -/
-def CertRealPoly.eval {α : Type} [CertArith α] (n : ℕ) (P : CertRealPoly α) (θ : Fin n → ℂ) :
-    ℂ :=
-  (val P.zero : ℂ) + (P.half.map fun t => t.2.toC * character (certKeyFun n t.1) θ +
-    (starRingEnd ℂ) t.2.toC * character (-certKeyFun n t.1) θ).sum
-
-/-- Reality is structural and law-free: each pair is `2 Re (c χ_k)` on reals. -/
-theorem CertRealPoly.eval_real {α : Type} [CertArith α] (n : ℕ) (P : CertRealPoly α)
-    (x : Fin n → ℝ) : (P.eval n fun i => (x i : ℂ)).im = 0 := sorry
-
-theorem CertRealPoly.differentiable_eval {α : Type} [CertArith α] (n : ℕ) (P : CertRealPoly α) :
-    Differentiable ℂ (P.eval n) := sorry
-
-theorem CertRealPoly.eval_add_int {α : Type} [CertArith α] (n : ℕ) (P : CertRealPoly α)
-    (θ : Fin n → ℂ) (k : Fin n → ℤ) : P.eval n (θ + fun i => (k i : ℂ)) = P.eval n θ := sorry
-
-/-- The full polynomial: the zero term (imaginary part `ofInt 0`), each half term and its
-conjugate at `-k` (`CC.conj`, `List.map Neg.neg` on keys). -/
-def CertRealPoly.toPoly {α : Type} [CertArith α] (P : CertRealPoly α) : CertPoly α := sorry
-
-/-- The explicit `toPoly` denotation (constant plus conjugate-pair sum); needs the laws. -/
-theorem CertRealPoly.eval_toPoly {α : Type} [CertArith α] [LawfulCertArith α] (n : ℕ)
-    (P : CertRealPoly α) (θ : Fin n → ℂ) : P.toPoly.eval n θ = P.eval n θ := sorry
-
-theorem CertRealPoly.conjugateSymmetric {α : Type} [CertArith α] [LawfulCertArith α] (n : ℕ)
-    (P : CertRealPoly α) : Fourier.ConjugateSymmetric (P.toPoly.coeff n) := sorry
-
-/-- Exact addition by list concatenation (no rounding, law-free). Coefficient merging with
-rounding is a model operation (`CertModel.add`), whose error is paid in the strip-weighted
-radius; a global bound for all complex `θ` would be false for nonzero modes (audit 2). -/
-def CertPoly.add {α : Type} (P Q : CertPoly α) : CertPoly α := ⟨P.terms ++ Q.terms⟩
-
-theorem CertPoly.eval_add {α : Type} [CertArith α] (n : ℕ) (P Q : CertPoly α)
-    (θ : Fin n → ℂ) : (P.add Q).eval n θ = P.eval n θ + Q.eval n θ := sorry
+LANDED (`Poly/Basic`, SO-PBASE): `CertKey`, `certKeyFun`, `CertPoly`, `CertPoly.eval`,
+`CertPoly.coeff`, `CertPoly.eval_eq_fourierSum`, `CertPoly.differentiable_eval`,
+`CertPoly.eval_add_int`, `CertRealPoly` and its law-free denotation, reality, differentiability
+and periodicity, `CertRealPoly.toPoly`, `eval_toPoly`, `conjugateSymmetric`, and the exact
+concatenation `CertPoly.add` / `eval_add`. -/
 
 /-- Multiplication by the character `χ_m` (index shift; exact, law-free). -/
 def CertPoly.shift {α : Type} [CertArith α] (m : CertKey) (P : CertPoly α) : CertPoly α := sorry
@@ -984,58 +936,217 @@ theorem CertPoly.eval_conjReflect {α : Type} [CertArith α] [LawfulCertArith α
     (P : CertPoly α) (θ : Fin n → ℂ) :
     P.conjReflect.eval n θ = (starRingEnd ℂ) (P.eval n fun i => (starRingEnd ℂ) (θ i)) := sorry
 
-/-! ## §C. Fourier models (`KAM/Certificate/Model/Basic.lean`, `Ops.lean`, `Exp.lean`) -/
+/-! ## §B′. Advice-checked packed products (`KAM/Certificate/Poly/Packed.lean`, SO-POLY)
 
-/-- A strip weight `w ≥ e^{2πρ}` (checked by `checkWeight`); `|χ_k| ≤ w^{|k|₁}` on `T_ρ`. -/
-structure CertWeight where
-  rho : ℚ
-  w : ℚ
+Revision 5, orchestrator item 6. SO-REPLAY2 measured the only feasible kernel route for the
+products of the checker: signed integer coefficients are Kronecker-packed into one big integer
+(slot width `w = 2·bits + 16`), the factors are cut into blocks of `blockRows` (= 32) rows of a
+dense box layout, and every output shard `s` is checked against SUPPLIED ADVICE by one kernel
+multiplication per block pair `i + j = s`. Packing uses shifts, never a big multiplication per
+slot. The advice is SO-REPLAY2's design B: the rounded in-box result `r` (multiples of
+`2^scale` in units `2^(-2P)`), with every remaining slot certified small by a slot-bound
+decoding (`intSlotsBound`). The kernel never multiplies coefficient pairs.
 
-/-- `0 < ρ` (positive width: no vacuous strip feeds a real-point bound) and `e^{2πρ} ≤ w` via
-`ratExpUp` and `piUpQ`. -/
-def checkWeight (W : CertWeight) (s N : ℕ) : Bool :=
-  decide (0 < W.rho) && decide (ratExpUp (2 * piUpQ * W.rho) s N ≤ W.w)
+Soundness lemmas the replay report lists as not done, stated here: `packShift_eq` (the kernel
+packing is the mathematical packing), `packSum_injective` (injectivity under the slot bound),
+`packSum_listConv` (Kronecker substitution), `packSum_flatten_mul_shards` (the shard
+decomposition), `intSlotsBound_sound` (slot decoding), `checkPackedProduct_sound` and
+`CertPoly.mulPacked_sound` (the rounding/remainder glue up to the strip enclosure). -/
 
-theorem norm_character_le_weight {n : ℕ} {W : CertWeight} {s N : ℕ}
-    (hW : checkWeight W s N = true) (k : Fin n → ℤ) {θ : Fin n → ℂ}
-    (hθ : θ ∈ complexStrip n W.rho) :
-    ‖character k θ‖ ≤ (W.w : ℝ) ^ (∑ i, (k i).natAbs) := sorry
+/-- The mathematical Kronecker packing `Σ_i c_i 2^{w i}` of signed slots. -/
+def packSum (w : ℕ) (cs : List ℤ) : ℤ :=
+  ((List.range cs.length).map fun i => cs.getD i 0 * 2 ^ (w * i)).sum
 
-/-- A Fourier model: the function `(2π)^deg (P + T)` with `sup_{T_ρ} |T| ≤ rad`. -/
-structure CertModel (α : Type) where
-  deg : ℤ
-  poly : CertPoly α
-  rad : α
+/-- The kernel packing (SO-REPLAY2 `soShLoop`): positive and negative parts accumulated
+separately as `Nat`s with `Nat.shiftLeft`, one subtraction at the end. -/
+def packShift (w : ℕ) (cs : List ℤ) : ℤ := sorry
 
-/-- `m` encloses `f` on the open strip `T_ρ` (sup norm, `2π`-degree factored out). -/
-def CertModel.Encloses {α : Type} [CertArith α] (n : ℕ) (ρ : ℝ) (m : CertModel α)
-    (f : (Fin n → ℂ) → ℂ) : Prop :=
-  ∀ θ ∈ complexStrip n ρ,
-    ‖f θ - (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ‖ ≤ (2 * Real.pi) ^ m.deg * val m.rad
+/-- **Packing correctness.** -/
+theorem packShift_eq (w : ℕ) (cs : List ℤ) : packShift w cs = packSum w cs := sorry
 
-/-- A certified upper bound for `sup_{T_ρ} |f|` of an enclosed `f`: `Σ |c_k| w^{|k|₁} + rad`
-times an upper bound of `(2π)^deg` (`piUpQ` if `deg ≥ 0`, `piLoQ` if `deg < 0`). -/
-def CertModel.supBound {α : Type} [CertArith α] (W : CertWeight) (m : CertModel α) : α := sorry
+/-- Every slot fits a signed `w`-bit slot. -/
+def SlotsBounded (w : ℕ) (cs : List ℤ) : Prop := ∀ c ∈ cs, 2 * |c| < 2 ^ w
 
-theorem CertModel.norm_le_supBound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
-    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) {m : CertModel α}
-    {f : (Fin n → ℂ) → ℂ} (hm : m.Encloses n W.rho f) {θ : Fin n → ℂ}
-    (hθ : θ ∈ complexStrip n W.rho) : ‖f θ‖ ≤ val (m.supBound W) := sorry
+/-- **Injectivity under the slot bound** (borrows between signed slots are harmless). -/
+theorem packSum_injective {w : ℕ} {cs ds : List ℤ} (hc : SlotsBounded w cs)
+    (hd : SlotsBounded w ds) (hl : cs.length = ds.length) (h : packSum w cs = packSum w ds) :
+    cs = ds := sorry
 
-/-- Truncation/precision controls for products. -/
-structure ModelConfig where
+/-- One-dimensional convolution, length `|a| + |b| - 1` (empty if a factor is empty). -/
+def listConv (a b : List ℤ) : List ℤ := sorry
+
+/-- **Kronecker substitution**: packing turns convolution into ONE integer product (it is
+polynomial evaluation at `2^w`; no bound is needed). -/
+theorem packSum_listConv (w : ℕ) (a b : List ℤ) :
+    packSum w (listConv a b) = packSum w a * packSum w b := sorry
+
+/-- Cheap sufficient test that the exact convolution fits the slots:
+`2 · min(|a|, |b|) · max|a_i| · max|b_j| < 2^w`. -/
+def convFits (w : ℕ) (a b : List ℤ) : Bool := sorry
+
+theorem slotsBounded_listConv {w : ℕ} {a b : List ℤ} (h : convFits w a b = true) :
+    SlotsBounded w (listConv a b) := sorry
+
+/-- **Shard decomposition**: with both factors cut into blocks of `L` slots, the packed product
+is the shifted sum of the shard sums `Σ_{i+j=s} pack(A_i)·pack(B_j)`. -/
+theorem packSum_flatten_mul_shards (w L : ℕ) (A B : List (List ℤ))
+    (hA : ∀ x ∈ A, x.length = L) (hB : ∀ x ∈ B, x.length = L) :
+    packSum w A.flatten * packSum w B.flatten =
+      ∑ s ∈ Finset.range (A.length + B.length - 1), 2 ^ (w * L * s) *
+        ∑ i ∈ Finset.range (s + 1), packSum w (A.getD i []) * packSum w (B.getD (s - i) []) :=
+  sorry
+
+/-- Slot decoding by bounds (SO-REPLAY2 `soIntSlotsBound`): decode `len` signed slots of `X`
+(width `w`) and test `|e_i| ≤ 2^(logs i)` and that nothing is left over. -/
+def intSlotsBound (w len : ℕ) (logs : ℕ → ℕ) (X : ℤ) : Bool := sorry
+
+theorem intSlotsBound_sound {w len : ℕ} {logs : ℕ → ℕ} {X : ℤ}
+    (h : intSlotsBound w len logs X = true) :
+    ∃ e : List ℤ, e.length = len ∧ (∀ i < len, |e.getD i 0| ≤ 2 ^ logs i) ∧ X = packSum w e :=
+  sorry
+
+/-- A dense box layout of Fourier keys `lo ≤ k < lo + dims` (mixed radix, row-major with the
+row strides `stride`), slot width `width` and shard block size `blockRows` (rows). -/
+structure PackLayout where
+  lo : CertKey
+  dims : List ℕ
+  stride : List ℕ
+  width : ℕ
+  blockRows : ℕ
+
+/-- The slot of a key (`none` outside the box). -/
+def PackLayout.slot (L : PackLayout) (k : CertKey) : Option ℕ := sorry
+
+/-- Dense slot list of integer Fourier data (`none` on an out-of-box key; repeated keys add). -/
+def PackLayout.dense (L : PackLayout) (cs : List (CertKey × ℤ)) : Option (List ℤ) := sorry
+
+/-- The key carried by slot `i` of the product window of two layouts. -/
+def PackLayout.prodKey (La Lb : PackLayout) (i : ℕ) : CertKey := sorry
+
+/-- Compatibility at dimension `n` (decidable): `n` axes, equal widths and strides, and NO WRAP
+(each stride at least the sum of the two factor extents minus one). -/
+def PackLayout.compat (n : ℕ) (La Lb : PackLayout) : Bool := sorry
+
+/-- `Σ c χ_k(θ)` for integer Fourier data. -/
+def intEval (n : ℕ) (cs : List (CertKey × ℤ)) (θ : Fin n → ℂ) : ℂ :=
+  (cs.map fun t => (t.2 : ℂ) * character (certKeyFun n t.1) θ).sum
+
+/-- **Kronecker for Fourier data**: under `compat`, the product polynomial is the laid-out
+convolution of the dense slot lists. -/
+theorem PackLayout.intEval_mul {n : ℕ} {La Lb : PackLayout} (hc : PackLayout.compat n La Lb = true)
+    {a b : List (CertKey × ℤ)} {da db : List ℤ} (ha : La.dense a = some da)
+    (hb : Lb.dense b = some db) (θ : Fin n → ℂ) :
+    intEval n a θ * intEval n b θ =
+      ((List.range (listConv da db).length).map fun i =>
+        ((listConv da db).getD i 0 : ℂ) * character (certKeyFun n (La.prodKey Lb i)) θ).sum :=
+  sorry
+
+/-- Design-B advice for ONE real product (integers only): the two factor layouts, the result
+box (`target`, a sub-box of the product window), the rounding scale, the rounded in-box result
+of each output shard window (in units `2^scale`), and the log-bound of out-of-box slots. -/
+structure PackedAdvice where
+  la : PackLayout
+  lb : PackLayout
+  target : PackLayout
+  scale : ℕ
+  rounded : List (List ℤ)
+  outLog : ℕ
+
+/-- Overlap-add of the shard windows: the combined rounded result, one entry per product slot. -/
+def PackedAdvice.combined (adv : PackedAdvice) : List ℤ := sorry
+
+/-- Whether product slot `i` lies in the target box. -/
+def PackedAdvice.inBox (adv : PackedAdvice) (i : ℕ) : Bool := sorry
+
+/-- One shard `s`: `Σ_{i+j=s} packShift(A_i)·packShift(B_j) - 2^scale · packShift(r_s)` passes
+`intSlotsBound` with log-bounds `scale - 1` on target slots and `outLog` elsewhere. -/
+def checkShard (adv : PackedAdvice) (A B : List (List ℤ)) (s : ℕ) : Bool := sorry
+
+/-- The whole product: `compat`, `convFits`, the factor blocks of `blockRows` rows, every
+shard. -/
+def checkPackedProduct (adv : PackedAdvice) (da db : List ℤ) : Bool := sorry
+
+/-- **Rounding/remainder glue (slots).** A passing check gives, slot by slot of the exact
+convolution, `|conv_i - 2^scale r_i| ≤ 2^scale` on the target box (two overlapping shard
+windows, each `≤ 2^(scale-1)`) and `|conv_i| ≤ 2^(outLog+1)` elsewhere. -/
+theorem checkPackedProduct_sound {adv : PackedAdvice} {da db : List ℤ}
+    (h : checkPackedProduct adv da db = true) :
+    adv.combined.length = (listConv da db).length ∧ ∀ i < (listConv da db).length,
+      (adv.inBox i = true →
+        |(listConv da db).getD i 0 - 2 ^ adv.scale * adv.combined.getD i 0| ≤ 2 ^ adv.scale) ∧
+      (adv.inBox i = false → |(listConv da db).getD i 0| ≤ 2 ^ (adv.outLog + 1)) := sorry
+
+/-- Integer mantissas `(re, im)` of a backend polynomial at scale `P`, read with the decoder
+`dec` and each verified by `mantCheck` (`none` on any failure: fail closed). -/
+def CertPoly.toMants {α : Type} [CertArith α] (dec : ℕ → α → Option ℤ) (P : ℕ)
+    (p : CertPoly α) : Option (List (CertKey × ℤ) × List (CertKey × ℤ)) := sorry
+
+theorem CertPoly.toMants_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
+    {dec : ℕ → α → Option ℤ} {P : ℕ} {p : CertPoly α}
+    {m : List (CertKey × ℤ) × List (CertKey × ℤ)} (h : p.toMants dec P = some m)
+    (θ : Fin n → ℂ) :
+    p.eval n θ = (intEval n m.1 θ + Complex.I * intEval n m.2 θ) / 2 ^ P := sorry
+
+/-- The polynomial part of one advice-checked complex product: four real packed products
+(`re·re`, `im·im`, `re·im`, `im·re`) at mantissa scale `P`; the result coefficients are the
+combined rounded target slots, made exact in the backend by `ofDyadic`; the radius bounds the
+remainder `Σ_k e_k χ_k` on `T_ρ` (target slots `2^(scale-2P)`, other slots `2^(outLog+1-2P)`,
+times `w^{|k|₁}`, upward). `none` on any failed decode, layout, shard or exactness check. -/
+def CertPoly.mulPacked {α : Type} [CertArith α] (dec : ℕ → α → Option ℤ) (W : CertWeight)
+    (P : ℕ) (rr ii ri ir : PackedAdvice) (a b : CertPoly α) : Option (CertPoly α × α) := sorry
+
+/-- **Packed product contract**: the enclosure of the EXACT product on the strip. -/
+theorem CertPoly.mulPacked_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
+    {dec : ℕ → α → Option ℤ} {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true)
+    {P : ℕ} {rr ii ri ir : PackedAdvice} {a b : CertPoly α} {out : CertPoly α × α}
+    (h : CertPoly.mulPacked dec W P rr ii ri ir a b = some out) :
+    ∀ θ ∈ complexStrip n W.rho, ‖a.eval n θ * b.eval n θ - out.1.eval n θ‖ ≤ val out.2 :=
+  sorry
+
+/-- Advice for one model product: `packed` (four real packed products at mantissa scale `P`) or
+`direct` (the direct product of Revision 4; tests and the `ℚ` toys). -/
+inductive ProductAdvice : Type
+  | direct
+  | packed (P : ℕ) (rr ii ri ir : PackedAdvice)
+
+/-- The checker's name of a product: `[site, i, j, …]`, assigned deterministically by the call
+site (§7: compose 0, exp witnesses 1, reciprocal witnesses 2, Gram 3, torsion 4, invariance 5,
+energy 6, SOS 7, graph 8). The generator emits the advice under the same keys. -/
+abbrev ProductKey : Type := List ℕ
+
+abbrev AdviceBook : Type := List (ProductKey × ProductAdvice)
+
+/-! ## §C. Fourier models (`KAM/Certificate/Model/{Basic,Ops,Exp,Inv}.lean`)
+
+LANDED (`Model/Basic`, SO-PBASE): `CertWeight`, `checkWeight`, `norm_character_le_weight`,
+`CertModel`, `CertModel.Encloses`, `CertModel.supBound`, `CertModel.norm_le_supBound`. -/
+
+/-- Truncation/precision controls and the product advice (Revision 5: indexed by the backend
+for the mantissa decoder). -/
+structure ModelConfig (α : Type) where
   /-- keep only product terms with `|k|₁ ≤ cutoff` -/
   cutoff : ℕ
   /-- Taylor order and halvings of the REAL upper bounds `ratExpUp` (`exp(2B)`, `exp(B)`,
   `exp(η) - 1`); complex pins carry their own counts (`ExpWitness`, Revision 4) -/
   taylorN : ℕ
   halvings : ℕ
+  /-- untrusted mantissa decoder (`CertFixed.toMant P` in production); every value it returns is
+  re-verified by `mantCheck` -/
+  toMant : ℕ → α → Option ℤ
+  /-- the advice of every product of the stage this configuration drives (§B′) -/
+  advice : AdviceBook
 
 def CertModel.add {α : Type} [CertArith α] (W : CertWeight) (a b : CertModel α) :
     CertModel α := sorry
 
-def CertModel.mul {α : Type} [CertArith α] (W : CertWeight) (cfg : ModelConfig)
-    (a b : CertModel α) : CertModel α := sorry
+/-- Model product (Revision 5). The polynomial part comes from `cfg.advice` at `key`:
+`packed` ⇒ `CertPoly.mulPacked` (kernel: one multiplication per shard block pair); `direct` ⇒
+the direct product. The radius adds the packed remainder and the cross terms
+`sup|a| rad_b + sup|b| rad_a + rad_a rad_b`. A missing key or a failed packed check yields the
+crude enclosure `⟨deg_a + deg_b, 0, sup|a| · sup|b|⟩` (sound; later margins then fail), so the
+contract `CertModel.Encloses.mul` is unconditional and unchanged in meaning. -/
+def CertModel.mul {α : Type} [CertArith α] (W : CertWeight) (cfg : ModelConfig α)
+    (key : ProductKey) (a b : CertModel α) : CertModel α := sorry
 
 /-- Drop terms of weighted size `≤ eps` into the radius (precision reduction). -/
 def CertModel.trim {α : Type} [CertArith α] (W : CertWeight) (eps : α) (a : CertModel α) :
@@ -1061,9 +1172,10 @@ theorem CertModel.Encloses.add {α : Type} [CertArith α] [LawfulCertArith α] {
     (hdeg : a.deg = b.deg) : (CertModel.add W a b).Encloses n W.rho (f + g) := sorry
 
 theorem CertModel.Encloses.mul {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
-    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig)
-    {a b : CertModel α} {f g : (Fin n → ℂ) → ℂ} (ha : a.Encloses n W.rho f)
-    (hb : b.Encloses n W.rho g) : (CertModel.mul W cfg a b).Encloses n W.rho (f * g) := sorry
+    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig α)
+    (key : ProductKey) {a b : CertModel α} {f g : (Fin n → ℂ) → ℂ} (ha : a.Encloses n W.rho f)
+    (hb : b.Encloses n W.rho g) : (CertModel.mul W cfg key a b).Encloses n W.rho (f * g) :=
+  sorry
 
 theorem CertModel.Encloses.trim {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
     {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (eps : α) {a : CertModel α}
@@ -1118,151 +1230,42 @@ theorem expPinBall_sound {α : Type} [CertArith α] [LawfulCertArith α] (n : �
 
 /-- The radius certified for `exp g` by the witness `E` (or `none` if a check fails, including
 a failed range reduction of the pin). -/
-def expWitnessRadius {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (cfg : ModelConfig)
+def expWitnessRadius {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (cfg : ModelConfig α)
     (g : CertModel α) (E : ExpWitness α) : Option α := sorry
 
 /-- The pin contract on a successful call: the reduced exponential succeeded on `expPinBall g`
 and encloses `exp g₀(0)` (all reduction, rounding and squaring errors inside `out.2`). -/
 theorem expWitnessRadius_pin {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
-    {W : CertWeight} {cfg : ModelConfig} {g : CertModel α} {E : ExpWitness α} {r : α}
+    {W : CertWeight} {cfg : ModelConfig α} {g : CertModel α} {E : ExpWitness α} {r : α}
     (hE : expWitnessRadius n W cfg g E = some r) :
     ∃ out, certCExpReduced (expPinBall g).1 (expPinBall g).2 E.pinHalvings E.pinOrder = some out ∧
       ‖Complex.exp (g.poly.eval n 0) - out.1.toC‖ ≤ val out.2 := sorry
 
 theorem expWitness_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
-    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig)
+    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig α)
     {g : CertModel α} {gf : (Fin n → ℂ) → ℂ} (hg : g.Encloses n W.rho gf) (hdeg : g.deg = 0)
     {E : ExpWitness α} {r : α}
     (hE : expWitnessRadius n W cfg g E = some r) :
     (⟨0, E.poly, r⟩ : CertModel α).Encloses n W.rho (fun θ => Complex.exp (gf θ)) := sorry
 
 /-- The radius certified for `1/b` by the witness `Q` (or `none` if `δ < 1` fails). -/
-def invWitnessRadius {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (cfg : ModelConfig)
+def invWitnessRadius {α : Type} [CertArith α] (n : ℕ) (W : CertWeight) (cfg : ModelConfig α)
     (b : CertModel α) (Q : CertPoly α) : Option α := sorry
 
 theorem invWitness_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
-    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig)
+    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig α)
     {b : CertModel α} {bf : (Fin n → ℂ) → ℂ} (hb : b.Encloses n W.rho bf)
     {Q : CertPoly α} {r : α} (hQ : invWitnessRadius n W cfg b Q = some r) :
     (∀ θ ∈ complexStrip n W.rho, bf θ ≠ 0) ∧
       (⟨-b.deg, Q, r⟩ : CertModel α).Encloses n W.rho (fun θ => (bf θ)⁻¹) := sorry
 
-/-! ## §D. The Hamiltonian language (`KAM/Certificate/{PhaseBasis,Expr/*}`) -/
+/-! ## §D. The Hamiltonian language (`KAM/Certificate/{PhaseBasis,Expr/*}`)
 
-/-- STAND-IN of `KAM/Certificate/PhaseBasis.lean` (SO-CLOCK, landed on `inp` 092a9d11): the phase
-index `Fin n ⊕ Fin n` (angles `inl`, actions `inr`) and its basis vector. Imported by
-`Expr/Diff`, `NormBridge` and `Clock` (finding F6). -/
-def phaseBasis {n : ℕ} (a : Fin n ⊕ Fin n) : (Fin n → ℂ) × (Fin n → ℂ) :=
-  (sumVec n).symm (Pi.single a 1)
-
-/-- Hamiltonians as finite expressions. Angles enter only through the period-one modes
-`cos (2π k·θ)`, `sin (2π k·θ)`; every constructor maps reals to reals, so reality, periodicity
-and translation invariance are structural and unconditional. Division (ruling O2) is by an
-expression certified nonvanishing on the domain (`NonvanishingOn`, established by the ball
-arithmetic of `checkHamBounds`); holomorphy is structural under that condition. -/
-inductive HamExpr (n : ℕ) : Type
-  | const (q : ℚ)
-  | pi
-  | action (j : Fin n)
-  | cosMode (k : CertKey)
-  | sinMode (k : CertKey)
-  | add (a b : HamExpr n)
-  | mul (a b : HamExpr n)
-  | div (a b : HamExpr n)
-  | pow (a : HamExpr n) (m : ℕ)
-  | exp (a : HamExpr n)
-  | sin (a : HamExpr n)
-  | cos (a : HamExpr n)
-
-/-- `2π k·θ`. -/
-def modePhase (n : ℕ) (k : CertKey) (θ : Fin n → ℂ) : ℂ :=
-  2 * Real.pi * ∑ i, (certKeyFun n k i : ℂ) * θ i
-
-/-- The function denoted by an expression (division is Lean's `/`; it is only ever used where
-the denominator is certified nonvanishing). -/
-def HamExpr.eval {n : ℕ} : HamExpr n → (Fin n → ℂ) × (Fin n → ℂ) → ℂ
-  | .const q, _ => (q : ℂ)
-  | .pi, _ => (Real.pi : ℂ)
-  | .action j, z => z.2 j
-  | .cosMode k, z => Complex.cos (modePhase n k z.1)
-  | .sinMode k, z => Complex.sin (modePhase n k z.1)
-  | .add a b, z => a.eval z + b.eval z
-  | .mul a b, z => a.eval z * b.eval z
-  | .div a b, z => a.eval z / b.eval z
-  | .pow a m, z => a.eval z ^ m
-  | .exp a, z => Complex.exp (a.eval z)
-  | .sin a, z => Complex.sin (a.eval z)
-  | .cos a, z => Complex.cos (a.eval z)
-
-/-- Every denominator of `e` is nonzero at every point of `S`. -/
-def HamExpr.NonvanishingOn {n : ℕ} : HamExpr n → Set ((Fin n → ℂ) × (Fin n → ℂ)) → Prop
-  | .add a b, S => a.NonvanishingOn S ∧ b.NonvanishingOn S
-  | .mul a b, S => a.NonvanishingOn S ∧ b.NonvanishingOn S
-  | .div a b, S => a.NonvanishingOn S ∧ b.NonvanishingOn S ∧ ∀ z ∈ S, b.eval z ≠ 0
-  | .pow a _, S => a.NonvanishingOn S
-  | .exp a, S => a.NonvanishingOn S
-  | .sin a, S => a.NonvanishingOn S
-  | .cos a, S => a.NonvanishingOn S
-  | _, _ => True
-
-theorem HamExpr.contDiffOn_eval {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (Fin n → ℂ))}
-    (hS : IsOpen S) (h : e.NonvanishingOn S) : ContDiffOn ℂ ⊤ e.eval S := sorry
-
-theorem HamExpr.eval_add_int {n : ℕ} (e : HamExpr n) (z : (Fin n → ℂ) × (Fin n → ℂ))
-    (k : Fin n → ℤ) : e.eval (z.1 + (fun i => (k i : ℂ)), z.2) = e.eval z := sorry
-
-theorem HamExpr.eval_real {n : ℕ} (e : HamExpr n) (θ I : Fin n → ℝ) :
-    (e.eval ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0 := sorry
-
-/-- Straight-line program over `ℂ` (internal). Operands are earlier slot numbers; a constant
-carries its `2π`-degree; `char k` is `e^{2πi k·θ}`. Nonlinearities: `exp` and `inv` (`x⁻¹`). -/
-inductive SlpOp : Type
-  | const (re im : ℚ) (deg : ℤ)
-  | action (j : ℕ)
-  | char (k : CertKey)
-  | add (a b : ℕ)
-  | mul (a b : ℕ)
-  | exp (a : ℕ)
-  | inv (a : ℕ)
-
-structure Slp where
-  ops : List SlpOp
-
-/-- Value of slot `i` at the phase point `z` (out-of-range operands read `0`; `inv` is `x⁻¹`). -/
-def Slp.val (n : ℕ) (p : Slp) (z : (Fin n → ℂ) × (Fin n → ℂ)) (i : ℕ) : ℂ := sorry
-
-/-- The program and slot tables of the jet of order three of an expression: slot of `H`,
-of `∂_a H`, `∂_a ∂_b H`, `∂_a ∂_b ∂_c H` (`a, b, c` phase indices in `sumVec` order).
-Forward-mode differentiation with sharing, zero/constant folding and dependency pruning;
-`(x⁻¹)' = -x⁻¹ · x⁻¹ · x'`. -/
-structure HamJet where
-  prog : Slp
-  v0 : ℕ
-  d1 : List ℕ
-  d2 : List (List ℕ)
-  d3 : List (List (List ℕ))
-
-/-- Phase index as a natural number: `inl j ↦ j`, `inr j ↦ n + j`. -/
-def phaseNat {n : ℕ} : Fin n ⊕ Fin n → ℕ
-  | .inl j => j.val
-  | .inr j => n + j.val
-
-def HamExpr.jet {n : ℕ} (e : HamExpr n) : HamJet := sorry
-
-theorem HamExpr.jet_v0 {n : ℕ} (e : HamExpr n) (z : (Fin n → ℂ) × (Fin n → ℂ)) :
-    e.jet.prog.val n z e.jet.v0 = e.eval z := sorry
-
-theorem HamExpr.jet_d1 {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (Fin n → ℂ))}
-    (hS : IsOpen S) (hnv : e.NonvanishingOn S) {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ S)
-    (a : Fin n ⊕ Fin n) :
-    e.jet.prog.val n z (e.jet.d1.getD (phaseNat a) 0) = fderiv ℂ e.eval z (phaseBasis a) :=
-  sorry
-
-theorem HamExpr.jet_d2 {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (Fin n → ℂ))}
-    (hS : IsOpen S) (hnv : e.NonvanishingOn S) {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ S)
-    (a b : Fin n ⊕ Fin n) :
-    e.jet.prog.val n z ((e.jet.d2.getD (phaseNat a) []).getD (phaseNat b) 0) =
-      iteratedFDeriv ℂ 2 e.eval z ![phaseBasis a, phaseBasis b] := sorry
+LANDED (SO-CLOCK, SO-EXPR-A/B1): `phaseBasis`; `HamExpr`, `modePhase`, `HamExpr.eval`,
+`HamExpr.NonvanishingOn`, `contDiffOn_eval`, `eval_add_int`, `eval_real`, `certDomain`,
+`isOpen_certDomain`, `certDomain_add_int`; `SlpOp`, `Slp`, `Slp.val`, `HamJet`, `phaseNat`,
+`HamExpr.jet`, `jet_v0`, `jet_d1`, `jet_d2`. Pending: `jet_d3` (SO-EXPR-B2), `Slp.balls`
+(SO-BALL), the embedding and composition (SO-EMB). -/
 
 theorem HamExpr.jet_d3 {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (Fin n → ℂ))}
     (hS : IsOpen S) (hnv : e.NonvanishingOn S) {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ S)
@@ -1270,20 +1273,6 @@ theorem HamExpr.jet_d3 {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (F
     e.jet.prog.val n z
         (((e.jet.d3.getD (phaseNat a) []).getD (phaseNat b) []).getD (phaseNat c) 0) =
       iteratedFDeriv ℂ 3 e.eval z ![phaseBasis a, phaseBasis b, phaseBasis c] := sorry
-
-/-- The Hamiltonian domain `D = T_{ρ_H} × Π_i {|I_i - c_i| < r_i}`. -/
-def certDomain (n : ℕ) (rhoH : ℚ) (centre radius : List ℚ) :
-    Set ((Fin n → ℂ) × (Fin n → ℂ)) :=
-  {z | z.1 ∈ complexStrip n rhoH ∧
-    ∀ i : Fin n, ‖z.2 i - ((centre.getD i.val 0 : ℚ) : ℂ)‖ < (radius.getD i.val 0 : ℚ)}
-
-theorem isOpen_certDomain (n : ℕ) (rhoH : ℚ) (centre radius : List ℚ) :
-    IsOpen (certDomain n rhoH centre radius) := sorry
-
-theorem certDomain_add_int {n : ℕ} {rhoH : ℚ} {centre radius : List ℚ}
-    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ certDomain n rhoH centre radius)
-    (k : Fin n → ℤ) : (z.1 + (fun i => (k i : ℂ)), z.2) ∈ certDomain n rhoH centre radius :=
-  sorry
 
 /-- Ball arithmetic of every slot on `D` (no embedding), in `ℚ`: `(centre, radius)` with
 `|slot - centre| ≤ radius` on `D`. Constants exact; actions `(c_j, r_j)`; characters
@@ -1346,61 +1335,26 @@ structure Witnesses (α : Type) where
 /-- Composition of the jet slots with `K`: one model per requested slot, or `none` if a witness
 check fails (including a failed range reduction of an exp or character pin: fail closed). -/
 def Slp.compose {α : Type} [CertArith α] (n : ℕ) (p : Slp) (K : CertEmbedding α)
-    (wit : Witnesses α) (W : CertWeight) (cfg : ModelConfig) (pe : PiEnclosure α)
+    (wit : Witnesses α) (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α)
     (wanted : List ℕ) : Option (List (CertModel α)) := sorry
 
 /-- Unconditional in the domain: reciprocal witnesses certify their own nonvanishing. -/
 theorem Slp.compose_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ} (p : Slp)
     (K : CertEmbedding α) (wit : Witnesses α) {W : CertWeight} {s N : ℕ}
-    (hW : checkWeight W s N = true) (cfg : ModelConfig) {pe : PiEnclosure α}
+    (hW : checkWeight W s N = true) (cfg : ModelConfig α) {pe : PiEnclosure α}
     (hpe : checkPiEnclosure pe = true) (wanted : List ℕ) {ms : List (CertModel α)}
     (h : Slp.compose n p K wit W cfg pe wanted = some ms) :
     ms.length = wanted.length ∧ ∀ idx (hidx : idx < ms.length), ms[idx].Encloses n W.rho
       (fun θ => p.val n (K.eval n θ) (wanted.getD idx 0)) := sorry
 
-/-! ## §E. Norms on `ℂⁿ × ℂⁿ` from partial derivatives (`KAM/Certificate/NormBridge.lean`) -/
+/-! ## §E. Norms on `ℂⁿ × ℂⁿ` from partial derivatives: LANDED (`KAM/Certificate/NormBridge.lean`,
+SO-NORM: `norm_fderiv_le_sum_partials`, `norm_iteratedFDeriv_two_le_sum_partials`,
+`hamiltonianVectorFieldℂ_sumVec`, and the two `X_H` bounds with `1 ≤ n`, F8). -/
 
-theorem norm_fderiv_le_sum_partials {n : ℕ} {f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
-    (z : (Fin n → ℂ) × (Fin n → ℂ)) :
-    ‖fderiv ℂ f z‖ ≤ ∑ a : Fin n ⊕ Fin n, ‖fderiv ℂ f z (phaseBasis a)‖ := sorry
+/-! ## §F. Matrix certificates, Gram, torsion, constants, positivity
 
-theorem norm_iteratedFDeriv_two_le_sum_partials {n : ℕ}
-    {f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (z : (Fin n → ℂ) × (Fin n → ℂ)) :
-    ‖iteratedFDeriv ℂ 2 f z‖ ≤
-      ∑ a : Fin n ⊕ Fin n, ∑ b : Fin n ⊕ Fin n,
-        ‖iteratedFDeriv ℂ 2 f z ![phaseBasis a, phaseBasis b]‖ := sorry
-
-/-- `X_H` in partials: `(X_H)_{inl i} = ∂_{inr i} H`, `(X_H)_{inr i} = -∂_{inl i} H`. -/
-theorem hamiltonianVectorFieldℂ_sumVec {n : ℕ} (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
-    (z : (Fin n → ℂ) × (Fin n → ℂ)) (a : Fin n ⊕ Fin n) :
-    sumVec n (hamiltonianVectorFieldℂ H z) a =
-      Sum.elim (fun i => fderiv ℂ H z (phaseBasis (.inr i)))
-        (fun i => -fderiv ℂ H z (phaseBasis (.inl i))) a := sorry
-
-/-- Row-sum bound for `DX_H` from second partials; local `C²` (division, O2). `1 ≤ n` makes the
-row-sum premise nonvacuous, hence `0 ≤ B` (at `n = 0` the statement fails for `B < 0`, audit 2
-F8); the checker derives it from `StaticFacts.hn : 2 ≤ n`. -/
-theorem norm_fderiv_hamiltonianVectorFieldℂ_le {n : ℕ} (hn : 1 ≤ n)
-    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
-    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 2 H z) {B : ℝ}
-    (hB : ∀ a : Fin n ⊕ Fin n, ∑ b : Fin n ⊕ Fin n,
-      ‖iteratedFDeriv ℂ 2 H z ![phaseBasis (Sum.swap a), phaseBasis b]‖ ≤ B) :
-    ‖fderiv ℂ (hamiltonianVectorFieldℂ H) z‖ ≤ B := sorry
-
-/-- Bound for `D²X_H` from third partials; local `C³`; `1 ≤ n` as above (F8). -/
-theorem norm_iteratedFDeriv_two_hamiltonianVectorFieldℂ_le {n : ℕ} (hn : 1 ≤ n)
-    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 3 H z)
-    {B : ℝ} (hB : ∀ a : Fin n ⊕ Fin n, ∑ b : Fin n ⊕ Fin n, ∑ c : Fin n ⊕ Fin n,
-      ‖iteratedFDeriv ℂ 3 H z ![phaseBasis (Sum.swap a), phaseBasis b, phaseBasis c]‖ ≤ B) :
-    ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ H) z‖ ≤ B := sorry
-
-/-! ## §F. Matrix certificates, Gram, torsion, constants, positivity -/
-
-/-- Pointwise approximate-inverse certificate: `‖I - B A‖ ≤ δ < 1` gives `A` invertible and
-`‖A⁻¹‖ ≤ ‖B‖/(1-δ)`, `‖A⁻¹ - B‖ ≤ δ‖B‖/(1-δ)` (row-sum norm; no symmetry used). -/
-theorem matrix_inv_of_approx_inverse {ι : Type*} [Fintype ι] [DecidableEq ι] [Nonempty ι]
-    {A B : Matrix ι ι ℂ} {δ β : ℝ} (hδ : ‖1 - B * A‖ ≤ δ) (hδ1 : δ < 1) (hB : ‖B‖ ≤ β) :
-    IsUnit A.det ∧ ‖A⁻¹‖ ≤ β / (1 - δ) ∧ ‖A⁻¹ - B‖ ≤ δ * β / (1 - δ) := sorry
+LANDED: `matrix_inv_of_approx_inverse` (`MatrixInv`, SO-MINV); `cRUpQ`, `cR_le_cRUpQ`, `isoC1Q`,
+`isoC2Q`, `isoC1_le_isoC1Q`, `isoC2_le_isoC2Q` (`Constants`, SO-CONST). -/
 
 /-- A matrix of models (row-major), e.g. the Gram matrix or its approximate inverse. -/
 abbrev ModelMatrix (α : Type) : Type := List (List (CertModel α))
@@ -1412,11 +1366,7 @@ def ModelMatrix.Encloses {α : Type} [CertArith α] (n : ℕ) {ι : Type*} (idx 
   ∀ i j, ∃ m : CertModel α, (M[idx i]?.bind fun r => r[idx j]?) = some m ∧
     m.Encloses n ρ (fun θ => F θ i j)
 
-/-- Exact shape of a list matrix: `k` rows, each of length `k` (audit 2 F7). With
-`ModelMatrix.Encloses n (torsionIdx n)` and `k = n + 1`, the checked list matrix is then the
-whole denoted bordered matrix, not a larger matrix containing it as a leading block. -/
-def ModelMatrix.HasShape {β : Type} (k : ℕ) (M : List (List β)) : Prop :=
-  M.length = k ∧ ∀ r ∈ M, r.length = k
+-- `ModelMatrix.HasShape` (exact `k × k` list shape, audit 2 F7) is LANDED in `MatrixInv`.
 
 /-- The matrix of a polynomial-matrix witness (missing entries `0`). -/
 def polyMatrix {α : Type} [CertArith α] (n : ℕ) (B : List (List (CertPoly α))) (θ : Fin n → ℂ) :
@@ -1425,23 +1375,23 @@ def polyMatrix {α : Type} [CertArith α] (n : ℕ) (B : List (List (CertPoly α
 
 /-- The Gram models `DKᵀ DK` (bilinear, `dotℂ`), computed at reduced precision. -/
 def gramModels {α : Type} [CertArith α] (n : ℕ) (K : CertEmbedding α) (W : CertWeight)
-    (cfg : ModelConfig) (pe : PiEnclosure α) : ModelMatrix α := sorry
+    (cfg : ModelConfig α) (pe : PiEnclosure α) : ModelMatrix α := sorry
 
 theorem gramModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
     (K : CertEmbedding α) {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true)
-    (cfg : ModelConfig) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true) :
+    (cfg : ModelConfig α) {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true) :
     (gramModels n K W cfg pe).Encloses n (fun i : Fin n => i.val) W.rho
       (gramMatrix (K.eval n)) := sorry
 
 /-- Gram check: with the witness `B ≈ G⁻¹`, `sup_{T_ρ}` row sums of `I - B G` give `δ < 1`,
 `β ≥ sup ‖B‖`, and `β/(1 - δ) ≤ σB - μ`. Returns the certified `(δ, β)`. -/
 def gramCheck {α : Type} [CertArith α] (n : ℕ) (K : CertEmbedding α) (Binv : List (List
-    (CertPoly α))) (W : CertWeight) (cfg : ModelConfig) (pe : PiEnclosure α) (σBμ : ℚ) :
+    (CertPoly α))) (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α) (σBμ : ℚ) :
     Option (α × α) := sorry
 
 theorem gramCheck_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ} (hn : 1 ≤ n)
     (K : CertEmbedding α) (Binv : List (List (CertPoly α))) {W : CertWeight} {s N : ℕ}
-    (hW : checkWeight W s N = true) (cfg : ModelConfig) {pe : PiEnclosure α}
+    (hW : checkWeight W s N = true) (cfg : ModelConfig α) {pe : PiEnclosure α}
     (hpe : checkPiEnclosure pe = true) (σBμ : ℚ) {δβ : α × α}
     (h : gramCheck n K Binv W cfg pe σBμ = some δβ) :
     val δβ.1 < 1 ∧ ∀ θ ∈ complexStrip n W.rho, IsUnit (gramMatrix (K.eval n) θ).det ∧
@@ -1452,13 +1402,6 @@ theorem gramCheck_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ
 /-- Row/column index of the bordered torsion: `inl i ↦ i`, `inr () ↦ n`. -/
 def torsionIdx (n : ℕ) : Fin n ⊕ Unit → ℕ := Sum.elim (fun i => i.val) (fun _ => n)
 
-/-- A rational frequency box: per coordinate `(centre, radius)`; it encloses `ω` when
-`|ω_i - centre_i| ≤ radius_i` for every `i` (`FreqEncloses`). -/
-abbrev FreqBox : Type := List (ℚ × ℚ)
-
-def FreqEncloses (n : ℕ) (box : FreqBox) (ω : Fin n → ℝ) : Prop :=
-  ∀ i : Fin n, |ω i - ((box.getD i.val (0, 0)).1 : ℝ)| ≤ ((box.getD i.val (0, 0)).2 : ℝ)
-
 /-- Entrywise models of `extendedTorsion H K (s ω)` on `T_ρ` for EVERY `ω` in the box: the block
 `torsion` from `DX_H ∘ K` (jet `d2` composed with `K`), the normal frame `N = Ω₀ DK B` with the
 Gram witness `B` and the certified radius `δβ/(1 - δ)`, `DN[sω] = Ω₀ (D²K[sω] G⁻¹ + DK D(G⁻¹)[sω])`
@@ -1466,7 +1409,7 @@ with `D(G⁻¹)[sω] = -G⁻¹ (DG[sω]) G⁻¹`; the border column `s ω` from 
 `DH(K) N` (jet `d1` composed with `K`). -/
 def torsionModels {α : Type} [CertArith α] (n : ℕ) (e : HamExpr n) (K : CertEmbedding α)
     (wit : Witnesses α) (Binv : List (List (CertPoly α))) (δβ : α × α) (box : FreqBox) (s : ℚ)
-    (W : CertWeight) (cfg : ModelConfig) (pe : PiEnclosure α) : Option (ModelMatrix α) :=
+    (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α) : Option (ModelMatrix α) :=
   sorry
 
 /-- **Torsion producer contract (finding F3).** Validated weight and `π`, a successful Gram
@@ -1477,7 +1420,7 @@ theorem torsionModels_sound {α : Type} [CertArith α] [LawfulCertArith α] {n :
     {e : HamExpr n} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))} (hD : IsOpen D)
     (hnv : e.NonvanishingOn D) {K : CertEmbedding α} {W : CertWeight} {sw Nw : ℕ}
     (hW : checkWeight W sw Nw = true) (hKD : ∀ θ ∈ complexStrip n W.rho, K.eval n θ ∈ D)
-    (wit : Witnesses α) (Binv : List (List (CertPoly α))) (cfg : ModelConfig)
+    (wit : Witnesses α) (Binv : List (List (CertPoly α))) (cfg : ModelConfig α)
     {pe : PiEnclosure α} (hpe : checkPiEnclosure pe = true) {σBμ : ℚ} {δβ : α × α}
     (hG : gramCheck n K Binv W cfg pe σBμ = some δβ) (box : FreqBox) (s : ℚ)
     {T : ModelMatrix α} (hT : torsionModels n e K wit Binv δβ box s W cfg pe = some T)
@@ -1509,36 +1452,14 @@ theorem torsionAvgCheck_sound {α : Type} [CertArith α] [LawfulCertArith α] {n
     IsUnit (KAM.Iso.extendedTorsionAverage H K ω).det ∧
       ∀ i, ∑ j, ‖(KAM.Iso.extendedTorsionAverage H K ω)⁻¹ i j‖ ≤ σTμ := sorry
 
-/-- A kernel-computable upper bound for `c_R = max 1 (cohConst n τ)` (`piLoQ`, `eLowRat`). -/
-def cRUpQ (n τ : ℕ) : ℚ := sorry
-
-theorem cR_le_cRUpQ (n τ : ℕ) : KAM.Apost.cR n τ ≤ cRUpQ n τ := sorry
-
-/-- Rational mirrors of `isoC1`, `isoC2` (`τ ∈ ℕ`, `c_R` replaced by `cRUpQ`); the real
-constants are monotone in `c_R` and the rational ones dominate them. -/
-def isoC1Q (n τ : ℕ) (ρ ρinf M σK σB σT μ ν γbar : ℚ) : ℚ := sorry
-
-def isoC2Q (n τ : ℕ) (ρ ρinf M σK σB σT : ℚ) : ℚ := sorry
-
-theorem isoC1_le_isoC1Q {n τ : ℕ} {ρ ρinf M σK σB σT μ ν γbar : ℚ} (hn : 2 ≤ n)
-    (hτ : n - 1 ≤ τ) (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hM : 0 < M) (hσK : 0 < σK)
-    (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ) (hν : 0 < ν) (hγbar : 0 < γbar) :
-    Iso.Apost.isoC1 n τ ρ ρinf M σK σB σT μ ν γbar ≤ isoC1Q n τ ρ ρinf M σK σB σT μ ν γbar :=
-  sorry
-
-theorem isoC2_le_isoC2Q {n τ : ℕ} {ρ ρinf M σK σB σT : ℚ} (hn : 2 ≤ n) (hτ : n - 1 ≤ τ)
-    (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB)
-    (hσT : 0 < σT) :
-    Iso.Apost.isoC2 n τ ρ ρinf M σK σB σT ≤ isoC2Q n τ ρ ρinf M σK σB σT := sorry
-
 /-- Sum-of-squares lower bound on the real torus. The check forms the model of
 `Re-part f - m₀ - g g*` (`g* = conjReflect g`), bounds its sup by `r`, and requires
 `m ≤ m₀ - r` (the residual is PAID; a small `r` without that slack is rejected). -/
-def checkRealLowerBound {α : Type} [CertArith α] (W : CertWeight) (cfg : ModelConfig)
+def checkRealLowerBound {α : Type} [CertArith α] (W : CertWeight) (cfg : ModelConfig α)
     (f : CertModel α) (m₀ m : ℚ) (g : CertPoly α) : Bool := sorry
 
 theorem checkRealLowerBound_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
-    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig)
+    {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N = true) (cfg : ModelConfig α)
     {f : CertModel α} {ff : (Fin n → ℂ) → ℂ} (hf : f.Encloses n W.rho ff) {m₀ m : ℚ}
     {g : CertPoly α} (h : checkRealLowerBound W cfg f m₀ m g = true) (x : Fin n → ℝ) :
     (m : ℝ) ≤ (ff fun i => (x i : ℂ)).re := sorry
@@ -1550,21 +1471,9 @@ theorem checkRealLowerBound_sound {α : Type} [CertArith α] [LawfulCertArith α
 The black box takes the EXACT reference vector `ω* : Fin n → ℝ` as a real vector, with two proved
 facts about it: `FreqEncloses n c.freqBox ω*` (the certificate's rational box, which is all the
 checker reads) and `IsDiophantine γ τ ω*` (the external input). Every sub-check is uniform over
-the box. Any rationally independent `n`-tuple is admissible. Providers of the box fact: the
-algebraic one below (coordinates in `ℚ(x)` for a certified real `x`, e.g. `√5`, `∛2`). -/
-
-/-- `ω_i = Σ_j a_{ij} x^j` for a real number `x`. -/
-def algFreq (n : ℕ) (coeffs : List (List ℚ)) (x : ℝ) : Fin n → ℝ :=
-  fun i => ∑ j ∈ Finset.range (coeffs.getD i.val []).length,
-    (((coeffs.getD i.val []).getD j 0 : ℚ) : ℝ) * x ^ j
-
-/-- Interval evaluation in `ℚ` of each `Σ_j a_{ij} x^j` for `x ∈ [lo, hi]` (`lo ≥ 0`), checked
-inside the box; also `box.length = n`. -/
-def checkAlgBox (n : ℕ) (coeffs : List (List ℚ)) (lo hi : ℚ) (box : FreqBox) : Bool := sorry
-
-theorem algFreq_encloses {n : ℕ} {coeffs : List (List ℚ)} {lo hi : ℚ} {box : FreqBox} {x : ℝ}
-    (hx : (lo : ℝ) ≤ x ∧ x ≤ hi) (h : checkAlgBox n coeffs lo hi box = true) :
-    FreqEncloses n box (algFreq n coeffs x) := sorry
+the box. Any rationally independent `n`-tuple is admissible. LANDED (`Freq`, SO-FREQ): `FreqBox`,
+`FreqEncloses`, `algFreq`, `checkAlgBox`, `algFreq_encloses` (coordinates in `ℚ(x)` for a
+certified real `x`, e.g. `√5`, `∛2`). -/
 
 /-! ### The certificate (`KAM/Certificate/Defs.lean`) -/
 
@@ -1605,8 +1514,8 @@ structure TorusCertificate (n : ℕ) (α : Type) where
   wit : Witnesses α
   gramInv : List (List (CertPoly α))
   torsInv : List (List (CC α))
-  cfgFull : ModelConfig
-  cfgLow : ModelConfig
+  cfgFull : ModelConfig α
+  cfgLow : ModelConfig α
   piEnc : PiEnclosure α
   expHalvings : ℕ
   expOrder : ℕ
@@ -1855,39 +1764,12 @@ theorem checkTorusCertificate_sound {c : TorusCertificate n α}
 
 end Black
 
-/-! ## §H. The clock lemma (`KAM/Certificate/Clock.lean`; LANDED on `inp` 092a9d11, statement
-identical; STAND-IN here) -/
+/-! ## §H. The clock lemma: `clock_frequency` is LANDED (`KAM/Certificate/Clock.lean`, imported). -/
 
-/-- If `∂_{I_j} H ≡ 1` on `D` and the exact torus is invariant at `s_∞ ω*`, the clock
-coordinate is exact: `s_∞ ω*_j = 1`, and `K_∞,j(θ) = θ_j + c` on reals (nonresonance). -/
-theorem clock_frequency {n : ℕ} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
-    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
-    {ρ sinf γ τ : ℝ} {ωstar : Fin n → ℝ} (j : Fin n) (hρ : 0 < ρ)
-    (hH1 : ∀ z ∈ D, fderiv ℂ H z (phaseBasis (.inr j)) = 1)
-    (hKD : ∀ θ ∈ complexStrip n ρ, Kinf θ ∈ D)
-    (hholo : DifferentiableOn ℂ Kinf (complexStrip n ρ)) (hprim : IsPrimaryOnStrip Kinf ρ)
-    (hreal : IsRealOnReals Kinf)
-    (hinv : ∀ θ ∈ complexStrip n ρ, invarianceError H Kinf (sinf • ωstar) θ = 0)
-    (hγ : 0 < γ) (hdio : IsDiophantine γ τ (sinf • ωstar)) :
-    sinf * ωstar j = 1 ∧
-      ∃ c : ℝ, ∀ x : Fin n → ℝ, (Kinf fun i => (x i : ℂ)).1 j = ((x j + c : ℝ) : ℂ) := sorry
-
-/-! ## §J. A nonresonant `n = 3` frequency and the toys (`KAM/Certificate/CubicDiophantine.lean`,
-`KAM/Certificate/Tests/*`; finding F1 example, finding F4) -/
-
-/-- `∛2`. -/
-def cbrtTwo : ℝ := (2 : ℝ) ^ ((1 : ℝ) / 3)
-
-/-- The reference vector `(∛2/2, ∛4/2, 1/2)`: rationally independent (`x³ - 2` irreducible). -/
-def cubicFreq : Fin 3 → ℝ := ![cbrtTwo / 2, cbrtTwo ^ 2 / 2, 1 / 2]
-
-theorem cubicFreq_eq_algFreq : cubicFreq = algFreq 3 [[0, 1 / 2], [0, 0, 1 / 2], [1 / 2]] cbrtTwo :=
-  sorry
-
-/-- Norm-form argument: `β = k₀ + k₁x + k₂x²` (`x = ∛2`) times its real adjugate
-`Q = (k₀² - 2k₁k₂) + (2k₂² - k₀k₁)x + (k₁² - k₀k₂)x²` is the integer
-`N = k₀³ + 2k₁³ + 4k₂³ - 6k₀k₁k₂ ≠ 0` (descent mod 2); `|Q| ≤ (1 + x)²|k|₁² < 6|k|₁²`. -/
-theorem cubicFreq_isDiophantine : IsDiophantine (1 / 12) 2 cubicFreq := sorry
+/-! ## §J. A nonresonant `n = 3` frequency and the toys (`KAM/Certificate/Tests/*`; finding F1
+example, finding F4). `cbrtTwo`, `cubicFreq`, `cubicFreq_eq_algFreq` and
+`cubicFreq_isDiophantine` are LANDED (`KAM/Certificate/CubicDiophantine.lean`, SO-DIO3). The toys
+use the `direct` product advice (§B′). -/
 
 /-- Toy Hamiltonian `I₂ + I₀²/2 + I₁²/2` (isoenergetically nondegenerate; no perturbation). -/
 def toyHam3 : HamExpr 3 :=
@@ -1948,51 +1830,408 @@ theorem cexpTest_large_pin : (certCExpReduced (⟨0, 19⟩ : CC ℚ) (1 / 1000) 
 
 end KAM.Certificate
 
-/-! ## §I. The lunar client (`KAM/SpinOrbit/*`), against the real SO-MODEL and SO-DIO modules -/
+
+end
+```
+
+### A-L. `SOSignaturesLunar.lean` (lunar client), verbatim
+
+```lean
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.Certificate.Arith.Rat
+public import KAM.Certificate.Arith.Fixed
+public import KAM.Certificate.Arith.PiEnclosure
+public import KAM.Certificate.Model.Basic
+public import KAM.Certificate.Expr.Basic
+public import KAM.Certificate.Freq
+public import KAM.Certificate.Clock
+public import KAM.Certificate.QuadraticDiophantine
+public import KAM.SpinOrbit.HamExpr
+public import KAM.SpinOrbit.Freq
+public import KAM.SpinOrbit.Barrier
+public import KAM.SpinOrbit.Graph.Inverse
+
+/-!
+# SO-DESIGN Revision 5: exact draft signatures, lunar-client part (track SO)
+
+Design document: `docs/tracks/SO/design/SO-LEAN-DESIGN.md` (Appendix A is this file together with
+the engine file `SOSignatures.lean`). Every proof and every non-trivial definition body is
+`sorry`; the file only fixes the Lean surface and is never imported.
+
+It imports the LANDED SO modules it consumes (`SpinOrbit/{Model,Hamiltonian,HamExpr,Freq,
+Barrier,Graph/Inverse}`, `Certificate/{Clock,Freq,QuadraticDiophantine,Expr/Basic,Model/Basic,
+Arith/Rat,Arith/Fixed}`). Two blocks are STAND-INS, so that the file elaborates on its own against
+the shared `inp` build. §I.0b restates SO-ROTDIO's five orchestrator-fixed declarations
+(`KAM/Certificate/DiophantineTransfer.lean`, proving) verbatim. §I.0 holds the engine
+declarations the client names (`CertParams`, `TorusCertificate` and the types of its fields, the
+sub-checks and `checkTorusCertificate`), copied VERBATIM from `SOSignatures.lean`
+(`docs/tracks/SO/design/check_so_standins.py` compares them byte for byte). SO-GRAPHM's generic
+core (`SoGraph.Torus`, `SoGraph.realPt`, `soBarrier_of_torus`, `soBarrier_of_exact_torus`) is
+LANDED and imported.
+
+Owner ruling O5 (2026-10-29, 14:20): the lunar client works in the ROTATED frame
+`Q₀ = q - φ`, `Q₁ = φ`, `P₀ = p`, `P₁ = p + J` (linear, symplectic, unimodular), with
+`H' = P₀²/2 - P₀ + P₁ + V(Q₀ + Q₁, Q₁)`, reference frequency `(ν - 1, 1)` and the parameter
+package R1. The original-frame declarations (`soHamExpr`, landed; `soBarrier_of_cert`) stay
+valid; the headline route goes through the rotated ones. The final statements are unchanged.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Certificate
+
+open KAM KAM.Torus CertArith
+
+/-! ## §I.0 STAND-IN: engine declarations used by the client (verbatim from `SOSignatures.lean`) -/
+
+/-- An exp witness: the polynomial `E ≈ exp g₀` and the pin's halving count and Taylor order
+(certificate data, chosen by the generator from the size of `g₀(0)`). -/
+structure ExpWitness (α : Type) where
+  poly : CertPoly α
+  pinHalvings : ℕ
+  pinOrder : ℕ
+
+/-- The embedding `K(θ) = (θ + (2π)^{dU_i} U_i(θ), (2π)^{dA_i} A_i(θ))` from real Fourier data;
+a missing component denotes `0` (no backend default value is used, finding F2). -/
+structure CertEmbedding (α : Type) where
+  angleDeg : List ℤ
+  angle : List (CertRealPoly α)
+  actionDeg : List ℤ
+  action : List (CertRealPoly α)
+
+/-- Witnesses: one per `exp` slot and one per `inv` slot of the jet program (slot order), and
+the character table keyed by the normalized index (coordinates with syntactically zero `U_j`
+zeroed; `-k` uses `conjReflect`). Exp and character witnesses are `ExpWitness`es: each carries
+its own pin halving count and order, and its pin `exp(2πi k·U(0))` (characters) or
+`exp g₀(0)` goes through `certCExpReduced` (Revision 4, F10). -/
+structure Witnesses (α : Type) where
+  expWit : List (ExpWitness α)
+  invWit : List (CertPoly α)
+  charWit : List (CertKey × ExpWitness α)
+
+/-- A dense box layout of Fourier keys `lo ≤ k < lo + dims` (mixed radix, row-major with the
+row strides `stride`), slot width `width` and shard block size `blockRows` (rows). -/
+structure PackLayout where
+  lo : CertKey
+  dims : List ℕ
+  stride : List ℕ
+  width : ℕ
+  blockRows : ℕ
+
+/-- Design-B advice for ONE real product (integers only): the two factor layouts, the result
+box (`target`, a sub-box of the product window), the rounding scale, the rounded in-box result
+of each output shard window (in units `2^scale`), and the log-bound of out-of-box slots. -/
+structure PackedAdvice where
+  la : PackLayout
+  lb : PackLayout
+  target : PackLayout
+  scale : ℕ
+  rounded : List (List ℤ)
+  outLog : ℕ
+
+/-- Advice for one model product: `packed` (four real packed products at mantissa scale `P`) or
+`direct` (the direct product of Revision 4; tests and the `ℚ` toys). -/
+inductive ProductAdvice : Type
+  | direct
+  | packed (P : ℕ) (rr ii ri ir : PackedAdvice)
+
+/-- The checker's name of a product: `[site, i, j, …]`, assigned deterministically by the call
+site (§7: compose 0, exp witnesses 1, reciprocal witnesses 2, Gram 3, torsion 4, invariance 5,
+energy 6, SOS 7, graph 8). The generator emits the advice under the same keys. -/
+abbrev ProductKey : Type := List ℕ
+
+abbrev AdviceBook : Type := List (ProductKey × ProductAdvice)
+
+/-- Truncation/precision controls and the product advice (Revision 5: indexed by the backend
+for the mantissa decoder). -/
+structure ModelConfig (α : Type) where
+  /-- keep only product terms with `|k|₁ ≤ cutoff` -/
+  cutoff : ℕ
+  /-- Taylor order and halvings of the REAL upper bounds `ratExpUp` (`exp(2B)`, `exp(B)`,
+  `exp(η) - 1`); complex pins carry their own counts (`ExpWitness`, Revision 4) -/
+  taylorN : ℕ
+  halvings : ℕ
+  /-- untrusted mantissa decoder (`CertFixed.toMant P` in production); every value it returns is
+  re-verified by `mantCheck` -/
+  toMant : ℕ → α → Option ℤ
+  /-- the advice of every product of the stage this configuration drives (§B′) -/
+  advice : AdviceBook
+
+/-- Parameters of `g1_explicit` (exact rationals; `τ ∈ ℕ`). `nuRay` is the theorem's `ν`. -/
+structure CertParams where
+  tau : ℕ
+  rho : ℚ
+  rhoInf : ℚ
+  M : ℚ
+  σK : ℚ
+  σB : ℚ
+  σT : ℚ
+  μ : ℚ
+  γbar : ℚ
+  σω : ℚ
+  nuRay : ℚ
+  γ : ℚ
+  s : ℚ
+  err : ℚ
+  E0 : ℚ
+  /-- claimed explicit displacement bound, checked `≥ isoC2Q e / (γ² ρ^{2τ})` -/
+  disp : ℚ
+
+/-- The certificate: problem data, numerical witnesses and controls (data only; no proofs, no
+real numbers). -/
+structure TorusCertificate (n : ℕ) (α : Type) where
+  params : CertParams
+  ham : HamExpr n
+  /-- `D = T_{ρ_H} × polydisc(centre, radius)` -/
+  weightH : CertWeight
+  centre : List ℚ
+  radius : List ℚ
+  /-- rational box of the reference vector `ω*` -/
+  freqBox : FreqBox
+  emb : CertEmbedding α
+  /-- weight of the strip `T_ρ` (its `rho` must equal `params.rho`) -/
+  weight : CertWeight
+  wit : Witnesses α
+  gramInv : List (List (CertPoly α))
+  torsInv : List (List (CC α))
+  cfgFull : ModelConfig α
+  cfgLow : ModelConfig α
+  piEnc : PiEnclosure α
+  expHalvings : ℕ
+  expOrder : ℕ
+
+/-- Shapes (`box.length = n`, list lengths), positivity, `2 ≤ n`, `n - 1 ≤ τ`, `ρ∞ < ρ`,
+`1 < s < σω`, `γ ≤ γbar`, `0 ≤ e`, `weight.rho = rho`, both weights, the `π` enclosure, the box
+excludes `0` in some coordinate, and the ray margins against the box's lower bound of `‖ω*‖`. -/
+def checkStatic {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
+
+/-- Ball arithmetic of the jet on `D` (every denominator certified) and the five bounds
+`‖DH‖, ‖X_H‖, ‖DX_H‖, ‖D²X_H‖, ‖D²H‖ ≤ M` on `D`. -/
+def checkHamBounds {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
+
+/-- `ball (K θ) μ ⊆ D` on `T_ρ` and `‖DK‖ ≤ σK - μ` (row sums of `DK` models). -/
+def checkEmbedding {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
+
+/-- `sup_{T_ρ} ‖X_H(K) - DK (s ω)‖ ≤ e` at full precision, uniformly for `ω` in the box. -/
+def checkInvariance {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
+
+/-- `‖⟨H ∘ K⟩ - E₀‖ ≤ e` (zero mode of the composed model ± radius). -/
+def checkEnergy {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
+
+/-- The Gram certificate (`gramCheck`) with bound `σB - μ`. -/
+def checkGram {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
+
+/-- `torsionModels` at `s` and the box, then `torsionAvgCheck n` (exact `(n+1)×(n+1)` shapes of
+`T` and the witness `c.torsInv`) with bound `σT - μ`. -/
+def checkTorsion {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool := sorry
+
+/-- `isoC1Q e < γ⁴ ρ^{4τ}` and `isoC2Q e ≤ disp γ² ρ^{2τ}`. -/
+def checkSmallness {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool :=
+  sorry
+
+/-- **The black-box checker.** -/
+def checkTorusCertificate {n : ℕ} {α : Type} [CertArith α] (c : TorusCertificate n α) : Bool :=
+  checkStatic c && checkHamBounds c && checkEmbedding c && checkInvariance c && checkEnergy c &&
+    checkGram c && checkTorsion c && checkSmallness c
+
+end KAM.Certificate
+
+/-! ## §I.0b STAND-IN: SO-ROTDIO (`KAM/Certificate/DiophantineTransfer.lean`, proving; signatures
+FIXED by the orchestrator, adopted VERBATIM, `sorry` bodies) -/
+
+namespace KAM.Certificate
+
+/-- Diophantine transfer along an integer change of the index: if every nonzero `k` has a nonzero
+image `T k` with the same small divisor against `ω` and `|T k|₁ ≤ C |k|₁`, then `ω'` is
+`(γ / C ^ τ, τ)`-Diophantine. -/
+theorem isDiophantine_of_index_map {n m : ℕ} {γ τ C : ℝ} {ω : Fin n → ℝ} {ω' : Fin m → ℝ}
+    (hω : IsDiophantine γ τ ω) (hγ : 0 ≤ γ) (hτ : 0 ≤ τ) (hC : 0 < C)
+    (T : (Fin m → ℤ) → (Fin n → ℤ)) (hT : ∀ k, k ≠ 0 → T k ≠ 0)
+    (hdot : ∀ k, ∑ i, (T k i : ℝ) * ω i = ∑ j, (k j : ℝ) * ω' j)
+    (hnorm : ∀ k, ∑ i, |(T k i : ℝ)| ≤ C * ∑ j, |(k j : ℝ)|) :
+    IsDiophantine (γ / C ^ τ) τ ω' := sorry
+
+/-- The rotated lunar frequency `(ν₋ - 1, 1)` (owner ruling O5). -/
+theorem lunarNuMinus_rot_isDiophantine : IsDiophantine (1 / 42) 1 ![lunarNuMinus - 1, 1] := sorry
+
+/-- The rotated lunar frequency `(ν₊ - 1, 1)` (owner ruling O5). -/
+theorem lunarNuPlus_rot_isDiophantine : IsDiophantine (1 / 42) 1 ![lunarNuPlus - 1, 1] := sorry
+
+/-- The rotated isoenergetic reference vector `((ν₋ - 1)/2, 1/2)`. -/
+theorem lunarNuMinus_rot_half_isDiophantine :
+    IsDiophantine (1 / 84) 1 ![(lunarNuMinus - 1) / 2, 1 / 2] := sorry
+
+/-- The rotated isoenergetic reference vector `((ν₊ - 1)/2, 1/2)`. -/
+theorem lunarNuPlus_rot_half_isDiophantine :
+    IsDiophantine (1 / 84) 1 ![(lunarNuPlus - 1) / 2, 1 / 2] := sorry
+
+end KAM.Certificate
 
 namespace KAM.SpinOrbit
 
 open KAM KAM.Certificate
 
-/-! ### `KAM/SpinOrbit/HamExpr.lean` -/
+/-! ## §I.1 SO-GRAPHM (LANDED, `KAM/SpinOrbit/Graph/Inverse.lean`, `inp` 95c9bd7f): the generic
+core `SoGraph.Torus` (frequency parameter `ν`, clock offset `c`), `SoGraph.realPt`,
+`soBarrier_of_torus` and the original-frame wrapper `soBarrier_of_exact_torus` are imported. -/
 
-/-- `𝓗` in the expression language: `J + p²/2 + Σ_m (-ε A_m) cos(2π(2q - mφ))`. -/
-def soHamExpr : HamExpr 2 :=
-  .add (.action 1) (.add (.mul (.const (1 / 2)) (.pow (.action 0) 2))
+/-! ## §I.2 The rotated frame (`KAM/SpinOrbit/Rotated.lean`, package SO-ROT; owner ruling O5)
+
+LANDED, unchanged (original frame): `soHC`, `soHamExpr`, `soHamExpr_eval`, `soHamExpr_clock`
+(`SpinOrbit/{Hamiltonian,HamExpr}`). The rotated frame is a client-side choice of `H` and `K`;
+the black box and its theorem are unchanged. -/
+
+/-- The linear symplectic unimodular change of variables from the rotated coordinates
+`((Q₀, Q₁), (P₀, P₁))` to the original `((q, φ), (p, J)) = ((Q₀ + Q₁, Q₁), (P₀, P₁ - P₀))`. -/
+def soRotMap (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : (Fin 2 → ℂ) × (Fin 2 → ℂ) :=
+  (![z.1 0 + z.1 1, z.1 1], ![z.2 0, z.2 1 - z.2 0])
+
+/-- Its inverse `((q, φ), (p, J)) ↦ ((q - φ, φ), (p, p + J))`. -/
+def soRotMapInv (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : (Fin 2 → ℂ) × (Fin 2 → ℂ) :=
+  (![z.1 0 - z.1 1, z.1 1], ![z.2 0, z.2 0 + z.2 1])
+
+theorem soRotMapInv_soRotMap (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : soRotMapInv (soRotMap z) = z :=
+  sorry
+
+theorem soRotMap_soRotMapInv (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : soRotMap (soRotMapInv z) = z :=
+  sorry
+
+/-- Symplectic: the angle block `A = [[1, 1], [0, 1]]` and the action block
+`B = [[1, 0], [-1, 1]]` satisfy `Aᵀ B = I`, so `Σ_i (u_Q v_P - u_P v_Q)_i` is preserved. -/
+theorem soRotMap_symplectic (u v : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
+    ∑ i, ((soRotMap u).1 i * (soRotMap v).2 i - (soRotMap u).2 i * (soRotMap v).1 i) =
+      ∑ i, (u.1 i * v.2 i - u.2 i * v.1 i) := sorry
+
+/-- `H' = soHC ∘ soRotMap = P₀²/2 - P₀ + P₁ + V(Q₀ + Q₁, Q₁)`. -/
+def soRotHC (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : ℂ := soHC (soRotMap z)
+
+/-- `X_{H ∘ L} = L⁻¹ X_H ∘ L` for the symplectic `L` (rows `(q - φ, φ, p, p + J)` of `X_H`). -/
+theorem hamiltonianVectorFieldℂ_soRotHC (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
+    hamiltonianVectorFieldℂ soRotHC z = soRotMapInv (hamiltonianVectorFieldℂ soHC (soRotMap z)) :=
+  sorry
+
+/-- `H'` in the expression language: `P₁ + (P₀²/2 - P₀) + Σ_m (-ε A_m) cos(2π(2Q₀ + (2 - m)Q₁))`
+(mode `(2, 2 - m)`, `m = 1, …, 7`; the `m = 2` mode is independent of `Q₁`). Division-free. -/
+def soRotHamExpr : HamExpr 2 :=
+  .add (.action 1) (.add (.add (.mul (.const (1 / 2)) (.pow (.action 0) 2))
+      (.mul (.const (-1)) (.action 0)))
     ((List.range 7).foldr (fun m acc =>
-      .add (.mul (.const (-soEpsQ * soAQ (m + 1))) (.cosMode [2, -((m : ℤ) + 1)])) acc)
+      .add (.mul (.const (-soEpsQ * soAQ (m + 1))) (.cosMode [2, 1 - (m : ℤ)])) acc)
       (.const 0)))
 
-theorem soHamExpr_eval (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : soHamExpr.eval z = soHC z := sorry
-
-theorem soHamExpr_clock (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
-    fderiv ℂ soHamExpr.eval z (phaseBasis (.inr 1)) = 1 := sorry
-
-/-! ### Lunar frequencies (`KAM/SpinOrbit/Freq.lean`): exact `ℚ(√5)` instance of `algFreq` -/
-
-theorem lunarFreqMinus_eq :
-    ![lunarNuMinus / 2, 1 / 2] = algFreq 2 [[3039 / 6236, 1 / 6236], [1 / 2]] (Real.sqrt 5) :=
+/-- **Evaluation identity**: `soRotHamExpr` denotes the landed `soHC` composed with `soRotMap`. -/
+theorem soRotHamExpr_eval (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : soRotHamExpr.eval z = soRotHC z :=
   sorry
 
-theorem lunarFreqPlus_eq :
-    ![lunarNuPlus / 2, 1 / 2] = algFreq 2 [[3197 / 6236, -1 / 6236], [1 / 2]] (Real.sqrt 5) :=
+/-- The clock direction `P₁` (`inr 1`): `∂_{P₁} H' ≡ 1`. -/
+theorem soRotHamExpr_clock (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
+    fderiv ℂ soRotHamExpr.eval z (phaseBasis (.inr 1)) = 1 := sorry
+
+/-- The time-scaled client Hamiltonian `c · H'` (package R1: `c = 7/4`, CONSTANTS-STUDY P4). -/
+def soRotHamExprScaled (c : ℚ) : HamExpr 2 := .mul (.const c) soRotHamExpr
+
+theorem soRotHamExprScaled_eval (c : ℚ) (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
+    (soRotHamExprScaled c).eval z = (c : ℂ) * soRotHC z := sorry
+
+theorem soRotHamExprScaled_clock (c : ℚ) (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
+    fderiv ℂ (soRotHamExprScaled c).eval z (phaseBasis (.inr 1)) = c := sorry
+
+/-- Time scaling: `invarianceError (c H) K ω = c · invarianceError H K (c⁻¹ ω)` (`c ≠ 0`; both
+sides use `fderiv`, so no differentiability premise is needed). -/
+theorem invarianceError_const_mul {n : ℕ} {c : ℝ} (hc : c ≠ 0)
+    (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ))
+    (ω : Fin n → ℝ) (θ : Fin n → ℂ) :
+    invarianceError (fun z => (c : ℂ) * H z) K ω θ = (c : ℂ) • invarianceError H K (c⁻¹ • ω) θ :=
   sorry
 
-/-! ### `KAM/SpinOrbit/Graph.lean`: graph inversion of an exact torus -/
+/-! ## §I.3 Rotated frequencies (`KAM/SpinOrbit/RotFreq.lean`, package SO-RFREQ)
 
-/-- An invariant barrier graph `p = P(q, φ)` of the physical flow with values in `[lo, hi]`. -/
-structure SoBarrier (lo hi : ℝ) where
-  P : ℝ → ℝ → ℝ
-  continuous : Continuous fun x : ℝ × ℝ => P x.1 x.2
-  periodic_q : ∀ q φ, P (q + 1) φ = P q φ
-  periodic_φ : ∀ q φ, P q (φ + 1) = P q φ
-  invariant : KAM.ODE.IsInvariantSet soField Set.univ {x | x.2.1 = P x.1 x.2.2}
-  lower : ∀ q φ, lo ≤ P q φ
-  upper : ∀ q φ, P q φ ≤ hi
+`ω* = κ (ν± - 1, 1)` with `κ = c/s` (time scale over ray scalar), so that the torus frequency of
+the scaled client is `s ω* = c (ν± - 1, 1)` and the clock gives `s∞ = s`. Exact `ℚ(√5)` boxes via
+the landed `algFreq_encloses`; Diophantine constants from SO-ROTDIO (§I.0b, orchestrator-fixed:
+`isDiophantine_of_index_map` with `T k = (k₀, k₁ - k₀)`, `C = 2`, applied to the landed SO-DIO):
+`γ(ν - 1, 1) = 1/42` at `τ = 1`, hence `γ(ω*) = κ/42`. -/
 
-/-- Graph data checked on top of a passing torus certificate for `soHamExpr`: a monotonicity
-margin `mono` for `∂_{θ₀} q` (checked with the strict remaining margin `mono > disp/ρ∞`), the
-range `[pLo, pHi]` of `p` on the real torus, and the SOS witnesses with their certified centres. -/
+/-- The rotated reference vector `κ (ν - 1, 1)`. -/
+def lunarRotFreq (ν : ℝ) (κ : ℚ) : Fin 2 → ℝ := ![(κ : ℝ) * (ν - 1), κ]
+
+theorem lunarRotFreqMinus_eq (κ : ℚ) :
+    lunarRotFreq lunarNuMinus κ = algFreq 2 [[-79 * κ / 3118, κ / 3118], [κ]] (Real.sqrt 5) :=
+  sorry
+
+theorem lunarRotFreqPlus_eq (κ : ℚ) :
+    lunarRotFreq lunarNuPlus κ = algFreq 2 [[79 * κ / 3118, -κ / 3118], [κ]] (Real.sqrt 5) :=
+  sorry
+
+/-- Positive scaling of a Diophantine vector. -/
+theorem isDiophantine_smul {n : ℕ} {γ τ t : ℝ} {ω : Fin n → ℝ} (ht : 0 < t)
+    (h : IsDiophantine γ τ ω) : IsDiophantine (t * γ) τ (t • ω) := sorry
+
+/-- From SO-ROTDIO's `lunarNuMinus_rot_isDiophantine` (`1/42`) and `isDiophantine_smul`. -/
+theorem lunarRotFreqMinus_isDiophantine {κ : ℚ} (hκ : 0 < κ) :
+    IsDiophantine ((κ : ℝ) / 42) 1 (lunarRotFreq lunarNuMinus κ) := sorry
+
+theorem lunarRotFreqPlus_isDiophantine {κ : ℚ} (hκ : 0 < κ) :
+    IsDiophantine ((κ : ℝ) / 42) 1 (lunarRotFreq lunarNuPlus κ) := sorry
+
+/-! ## §I.4 The lunar parameter package R1 (`KAM/SpinOrbit/LunarParams.lean`, package SO-R1)
+
+CONSTANTS-STUDY §2.2 and §4, owner ruling O5: `ρ' = 1/70`, `ρ∞ = ρ'/1000`, `μ = 1/160`, ray
+scalar `s = 1 + 10⁻⁶`, `ν = 10⁻⁶`, `σω = 2`, time scale `c = 7/4`, one majorant
+`𝔪 = M = σK = σB = σT = 39/20` (sharp certified majorants, ×1.05 headroom), `γ = γ̄ = c/(42 s)`,
+`τ = 1`, `E₀ = 0`. Projected threshold `10^{-74.51}`. The residual budget `err` and the
+displacement `disp` of each torus are named placeholders filled by SO-DATA (from SO-GEN2). -/
+
+def lunarR1TimeScale : ℚ := 7 / 4
+
+def lunarR1Scalar : ℚ := 1 + 1 / 10 ^ 6
+
+/-- `κ = c/s`: the reference vectors are `lunarRotFreq ν± κ`. -/
+def lunarR1Kappa : ℚ := lunarR1TimeScale / lunarR1Scalar
+
+/-- The R1 parameters for a residual budget `err` and a displacement bound `disp`. -/
+def lunarR1 (err disp : ℚ) : CertParams where
+  tau := 1
+  rho := 1 / 70
+  rhoInf := 1 / 70000
+  M := 39 / 20
+  σK := 39 / 20
+  σB := 39 / 20
+  σT := 39 / 20
+  μ := 1 / 160
+  γbar := lunarR1Kappa / 42
+  σω := 2
+  nuRay := 1 / 10 ^ 6
+  γ := lunarR1Kappa / 42
+  s := lunarR1Scalar
+  err := err
+  E0 := 0
+  disp := disp
+
+theorem lunarR1Kappa_div : lunarR1Kappa / 42 = 125000 / 3000003 := sorry
+
+/-- Placeholders (SO-DATA; literal rationals before the freeze). -/
+def lunarLowerErr : ℚ := sorry
+
+def lunarUpperErr : ℚ := sorry
+
+def lunarLowerDisp : ℚ := sorry
+
+def lunarUpperDisp : ℚ := sorry
+
+/-! ## §I.5 Graph certificates and barriers (`KAM/SpinOrbit/Graph/{Inverse,Rot,Cert}.lean`) -/
+
+/-- Graph data checked on top of a passing torus certificate: a monotonicity margin `mono` for
+`∂_{θ₀}` of the angle component `(.1 0)` (checked with the strict margin `mono > disp/ρ∞`), the
+range `[pLo, pHi]` of the action component `(.2 0)` on the real torus, and the SOS witnesses
+with their certified centres. Frame-free: in the original frame `(.1 0) = q`, in the rotated
+frame `(.1 0) = Q₀ = q - φ` (same monotonicity in `θ₀`); in both `(.2 0) = p`. -/
 structure SoGraphCert (α : Type) where
   base : TorusCertificate 2 α
   mono : ℚ
@@ -2007,7 +2246,47 @@ structure SoGraphCert (α : Type) where
 
 def checkSoGraph {α : Type} [CertArith α] (g : SoGraphCert α) : Bool := sorry
 
-/-- The barrier produced by a passing graph certificate; the band is widened by `disp`. -/
+namespace SoGraph
+
+/-- **Shear** `(x, y) ↦ (x - y, y)`: rotated real data (`Q₁` the angle `Q₀`, `Pp` the momentum
+`P₀ = p`, clock `φ = y + c`, flow at `(ν - 1, 1)`) give the generic core's data at `(ν, 1)`:
+`q = Q₀ + Q₁`, i.e. `Q x y = Q₁ (x - y) y + y + c`, `Pp x y = Pp (x - y) y`. -/
+theorem torus_of_rot {Q₁ Pp dQ : ℝ → ℝ → ℝ} {ν c m : ℝ} (hm : 0 < m)
+    (hQc : Continuous fun z : ℝ × ℝ => Q₁ z.1 z.2) (hPc : Continuous fun z : ℝ × ℝ => Pp z.1 z.2)
+    (hQ₀ : ∀ x y, Q₁ (x + 1) y = Q₁ x y + 1) (hQ₁ : ∀ x y, Q₁ x (y + 1) = Q₁ x y)
+    (hP₀ : ∀ x y, Pp (x + 1) y = Pp x y) (hP₁ : ∀ x y, Pp x (y + 1) = Pp x y)
+    (hdQ : ∀ x y, HasDerivAt (fun s => Q₁ s y) (dQ x y) x) (hmono : ∀ x y, m ≤ dQ x y)
+    (hflowQ : ∀ x y, HasDerivAt (fun t => Q₁ (x + t * (ν - 1)) (y + t)) (Pp x y - 1) 0)
+    (hflowP : ∀ x y, HasDerivAt (fun t => Pp (x + t * (ν - 1)) (y + t))
+      (-soVq (Q₁ x y + y + c) (y + c)) 0) :
+    Torus (fun x y => Q₁ (x - y) y + y + c) (fun x y => Pp (x - y) y)
+      (fun x y => dQ (x - y) y) ν c m := sorry
+
+end SoGraph
+
+open SoGraph in
+/-- **Rotated-frame exact torus ⇒ barrier** (SO-GRAPHR). `K∞` is the black box's exact torus for
+the scaled client `c · H'`, invariant at `s∞ ω*` with `s∞ ω*` Diophantine. With
+`∂_{θ₀} Q₀ ≥ m > 0` and `P₀ ∈ [lo, hi]` on the real torus: `invarianceError_const_mul` and
+`isDiophantine_smul` move to `H'` at `(s∞/c) ω*`; the landed `clock_frequency` (with
+`soRotHamExpr_clock`) gives `Q₁ = θ₁ + c₀` and `(s∞/c) ω*₁ = 1`; `hamiltonianVectorFieldℂ_soRotHC`
+gives the real flow `d/dt Q₀ = P₀ - 1`, `d/dt P₀ = -∂_q V(Q₀ + Q₁, Q₁)` at `(ν - 1, 1)`,
+`ν = (s∞/c) ω*₀ + 1`; `torus_of_rot` and `soBarrier_of_torus` give the barrier in
+`(q, p, φ) = (Q₀ + Q₁, P₀, Q₁)`. -/
+theorem soBarrier_of_exact_rotTorus {Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)}
+    {ρ sinf γ τ m lo hi : ℝ} {c : ℚ} (hc : 0 < c) {ωstar : Fin 2 → ℝ} (hρ : 0 < ρ)
+    (hholo : DifferentiableOn ℂ Kinf (complexStrip 2 ρ)) (hprim : IsPrimaryOnStrip Kinf ρ)
+    (hreal : IsRealOnReals Kinf)
+    (hinv : ∀ θ ∈ complexStrip 2 ρ,
+      invarianceError (soRotHamExprScaled c).eval Kinf (sinf • ωstar) θ = 0)
+    (hγ : 0 < γ) (hdio : IsDiophantine γ τ (sinf • ωstar)) (hm : 0 < m)
+    (hmono : ∀ x y : ℝ, m ≤ ((fderiv ℂ Kinf (realPt x y) (realPt 1 0)).1 0).re)
+    (hlo : ∀ x y : ℝ, lo ≤ ((Kinf (realPt x y)).2 0).re)
+    (hhi : ∀ x y : ℝ, ((Kinf (realPt x y)).2 0).re ≤ hi) :
+    Nonempty (SoBarrier lo hi) := sorry
+
+/-- The barrier from a passing ORIGINAL-frame certificate (Revision 2; retained, valid, not on
+the headline route). The band is widened by `disp`. -/
 theorem soBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : SoGraphCert α)
     (hham : g.base.ham = soHamExpr) (hc : checkTorusCertificate g.base = true)
     (hg : checkSoGraph g = true) {ωstar : Fin 2 → ℝ} (hω : FreqEncloses 2 g.base.freqBox ωstar)
@@ -2015,28 +2294,47 @@ theorem soBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : S
     Nonempty (SoBarrier ((g.pLo : ℝ) - g.base.params.disp) ((g.pHi : ℝ) + g.base.params.disp)) :=
   sorry
 
-/-! ### `KAM/SpinOrbit/Barrier.lean`: two barriers confine, globally and uniquely
-(global existence from the global Lipschitz bound of `soField`, not from a lunar-only range). -/
+/-- **The barrier from a passing ROTATED-frame certificate** (Revision 5): black box
+(`checkTorusCertificate_sound`), graph transfer (`checkSoGraph`, Cauchy on `T_{ρ∞}`, frame-free),
+then `soBarrier_of_exact_rotTorus`. The band is widened by `disp`. -/
+theorem soRotBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : SoGraphCert α)
+    {c : ℚ} (hc0 : 0 < c) (hham : g.base.ham = soRotHamExprScaled c)
+    (hc : checkTorusCertificate g.base = true) (hg : checkSoGraph g = true)
+    {ωstar : Fin 2 → ℝ} (hω : FreqEncloses 2 g.base.freqBox ωstar)
+    (hdio : IsDiophantine (g.base.params.γ : ℝ) (g.base.params.tau : ℝ) ωstar) :
+    Nonempty (SoBarrier ((g.pLo : ℝ) - g.base.params.disp) ((g.pHi : ℝ) + g.base.params.disp)) :=
+  sorry
 
-theorem so_confinement {lo₁ hi₁ lo₂ hi₂ : ℝ} (B₁ : SoBarrier lo₁ hi₁) (B₂ : SoBarrier lo₂ hi₂)
-    (x₀ : ℝ × ℝ × ℝ) (h₁ : B₁.P x₀.1 x₀.2.2 < x₀.2.1) (h₂ : x₀.2.1 < B₂.P x₀.1 x₀.2.2) :
-    ∃ z : ℝ → ℝ × ℝ × ℝ, (z 0 = x₀ ∧ ∀ t, HasDerivAt z (soField (z t)) t) ∧
-      (∀ t, B₁.P (z t).1 (z t).2.2 < (z t).2.1 ∧ (z t).2.1 < B₂.P (z t).1 (z t).2.2) ∧
-      ∀ y : ℝ → ℝ × ℝ × ℝ, (y 0 = x₀ ∧ ∀ t, HasDerivAt y (soField (y t)) t) → y = z := sorry
+/-! ## §I.6 The lunar certificates and the final theorems (`KAM/SpinOrbit/Lunar*.lean`)
 
-/-! ### `KAM/SpinOrbit/LunarCertificate.lean`, `LunarConfinement.lean` -/
+Barrier and confinement: `SoBarrier`, `so_global_exists_unique`, `so_confinement` are LANDED
+(`SpinOrbit/Barrier`, SO-CONF). Data enters through generated modules
+`KAM/SpinOrbit/Data/{Lower,Upper}/*` (design §7.2: chunked data modules, each below the 1500-line
+cap; the line-width policy for generated data is an OWNER decision). -/
 
-/-- The backend is fixed after SO-REPLAY (§5); `ℚ` is the placeholder. -/
-abbrev SoBackend : Type := ℚ
+/-- The mantissa precision of the production backend: a named placeholder (SO-GEN2 reports about
+300 bits at R1; the literal, with guard bits, is set by SO-DATA before the freeze). -/
+def soPrecision : ℕ := 320
 
-/-- Generated data (`KAM/SpinOrbit/Data/{Lower,Upper}/*`); bodies are the generated terms. -/
+/-- The production backend: fixed point (SO-REPLAY recommendation; LANDED `CertFixed`, SO-ABK). -/
+abbrev SoBackend : Type := CertFixed soPrecision
+
+/-- Generated data; bodies are the generated terms. -/
 def lunarLowerCert : SoGraphCert SoBackend := sorry
 
 def lunarUpperCert : SoGraphCert SoBackend := sorry
 
-theorem lunarLowerCert_ham : lunarLowerCert.base.ham = soHamExpr := sorry
+theorem lunarLowerCert_ham :
+    lunarLowerCert.base.ham = soRotHamExprScaled lunarR1TimeScale := sorry
 
-theorem lunarUpperCert_ham : lunarUpperCert.base.ham = soHamExpr := sorry
+theorem lunarUpperCert_ham :
+    lunarUpperCert.base.ham = soRotHamExprScaled lunarR1TimeScale := sorry
+
+theorem lunarLowerCert_params :
+    lunarLowerCert.base.params = lunarR1 lunarLowerErr lunarLowerDisp := sorry
+
+theorem lunarUpperCert_params :
+    lunarUpperCert.base.params = lunarR1 lunarUpperErr lunarUpperDisp := sorry
 
 theorem lunarLowerCert_passes : checkTorusCertificate lunarLowerCert.base = true := sorry
 
@@ -2046,12 +2344,12 @@ theorem lunarLowerGraph_passes : checkSoGraph lunarLowerCert = true := sorry
 
 theorem lunarUpperGraph_passes : checkSoGraph lunarUpperCert = true := sorry
 
-/-- From `lunarFreqMinus_eq`, `algFreq_encloses` and `sqrt_mem_of_checkRootEnclosure`. -/
+/-- From `lunarRotFreqMinus_eq`, `algFreq_encloses` and `sqrt_mem_of_checkRootEnclosure`. -/
 theorem lunarLowerCert_freq :
-    FreqEncloses 2 lunarLowerCert.base.freqBox ![lunarNuMinus / 2, 1 / 2] := sorry
+    FreqEncloses 2 lunarLowerCert.base.freqBox (lunarRotFreq lunarNuMinus lunarR1Kappa) := sorry
 
 theorem lunarUpperCert_freq :
-    FreqEncloses 2 lunarUpperCert.base.freqBox ![lunarNuPlus / 2, 1 / 2] := sorry
+    FreqEncloses 2 lunarUpperCert.base.freqBox (lunarRotFreq lunarNuPlus lunarR1Kappa) := sorry
 
 /-- The certified initial momentum window (ruling O1; literal rationals before the freeze). -/
 def lunarPLo : ℚ := sorry
@@ -2060,14 +2358,15 @@ def lunarPHi : ℚ := sorry
 
 theorem lunarPLo_lt_lunarPHi : lunarPLo < lunarPHi := sorry
 
-/-- **Theorem A (continuous form).** Two invariant barrier graphs inside the 3.3% band. -/
+/-- **Theorem A (continuous form).** Two invariant barrier graphs inside the 3.3% band
+(unchanged by O5: `P₀ = p`). -/
 theorem lunar_barriers :
     ∃ (Bm : SoBarrier (967 / 1000) (1033 / 1000)) (Bp : SoBarrier (967 / 1000) (1033 / 1000)),
       (∀ q φ, Bm.P q φ < Bp.P q φ) ∧
       (∀ q φ, Bm.P q φ < lunarPLo) ∧ (∀ q φ, (lunarPHi : ℝ) < Bp.P q φ) := sorry
 
 /-- **Theorem B.** Every initial state with `lunarPLo < p₀ < lunarPHi` has a unique global
-solution, and `|p(t) - 1| ≤ 33/1000` for all real `t`. -/
+solution, and `|p(t) - 1| ≤ 33/1000` for all real `t` (unchanged by O5). -/
 theorem lunar_spin_confinement (q₀ p₀ φ₀ : ℝ) (hp : (lunarPLo : ℝ) < p₀ ∧ p₀ < lunarPHi) :
     ∃ z : ℝ → ℝ × ℝ × ℝ, (z 0 = (q₀, p₀, φ₀) ∧ ∀ t, HasDerivAt z (soField (z t)) t) ∧
       (∀ t, |(z t).2.1 - 1| ≤ 33 / 1000) ∧
