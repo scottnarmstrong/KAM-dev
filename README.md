@@ -149,7 +149,7 @@ Overall, both together: 87.9 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 15:50 UTC from `main` at `9dadb354` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 15:50 UTC from `main` at `4d2ccfac` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -339,6 +339,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 15:50 | `4d2ccfac` | OVERNIGHT 15:45-15:50 (P14 assembled, SO design accepted, data packaging A); HQ: SO plan item done, gates |
 | 2026-10-29 15:49 | `9dadb354` | Land inp into main |
 | 2026-10-29 15:47 | `200a95ed` | Land inp into main |
 | 2026-10-29 15:33 | `17989d76` | OVERNIGHT 15:35: track N complete (Zohar's seal), E11/E12Q started, N seal-key audit (Q1 ruling, A1 F2 retro audit), design audit 6, I-GUARDS; SO-GRAPHR landed |
@@ -350,7 +351,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 15:19 | `df128568` | HQ: track N complete (partialConvex_nekhoroshev sealed by Zohar's team, PR #7); I.HQ done; I.GUARDS note; current phase |
 | 2026-10-29 15:16 | `58a800e9` | Land inp into main |
 | 2026-10-29 15:11 | `5ea96d05` | OVERNIGHT: track SO 14:52-15:15 (Revision 5/6, SO-GEN2 R1 numbers, packaging question, B2/Ball conflict); README landed list |
-| 2026-10-29 15:07 | `5543dc08` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
