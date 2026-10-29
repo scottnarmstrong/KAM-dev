@@ -92,9 +92,14 @@ public import KAM.Certificate.Poly.Packed
 public import KAM.Certificate.Positivity
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Sound.Embedding
+public import KAM.Certificate.Sound.Energy
 public import KAM.Certificate.Sound.Gram
 public import KAM.Certificate.Sound.Ham
+public import KAM.Certificate.Sound.Invariance
+public import KAM.Certificate.Sound.Smallness
 public import KAM.Certificate.Sound.Static
+public import KAM.Certificate.Sound.Torsion
+public import KAM.Certificate.Soundness
 public import KAM.Certificate.Tests.Ball
 public import KAM.Certificate.Tests.ComplexExp
 public import KAM.Certificate.Tests.Compose
