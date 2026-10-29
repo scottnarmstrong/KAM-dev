@@ -649,9 +649,9 @@ EDGE: stepP:p9:lift-bij | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lif
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:63)
 NOTE: -
 
 NODE: stepP:p9:lift-form
@@ -677,9 +677,9 @@ EDGE: stepP:p9:lift-anti | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:li
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:78)
 NOTE: -
 
 NODE: stepP:p9:lift-mc
@@ -706,9 +706,9 @@ EDGE: stepP:p9:lift-bij | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lif
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:78)
 NOTE: -
 
 NODE: stepP:p9:lift-concl
@@ -736,9 +736,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lift
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:42)
 NOTE: -
 
 NODE: bpP:p9:diagonalize
@@ -1002,9 +1002,9 @@ EDGE: bpP:p8:quadratic-form | blueprint-P/parts/p9-secular-spectrum.tex#bpP:p9:g
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S9-G PASS WITH NOTES covers (a), (b) iff and (c) dichotomy only; local-analytic eigenframes/diagonalisation and compact uniform non-resonance bound are separate interfaces, not in GoodPolynomial.lean
+LEAN_STATUS: PROVED
+LEAN_REF: good_set_bundle, two_sigma_ne_zero (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean)
+LEAN_NOTE: audit GAP-P9b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p9:gs-a
@@ -1092,9 +1092,9 @@ EDGE: stepP:p9:gs-c#analytic-route | blueprint-P/parts/p9-secular-spectrum.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S9-G PASS WITH NOTES; good_set_dichotomy gives open/dense/null but the compact-uniformity half of the step is not in GoodPolynomial.lean
+LEAN_STATUS: PROVED
+LEAN_REF: good_zero_set_small, good_uniform_nonresonance, good_set_bundle (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean)
+LEAN_NOTE: audit GAP-P9b round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p9:n2

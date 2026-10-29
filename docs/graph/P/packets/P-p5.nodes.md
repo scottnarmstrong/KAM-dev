@@ -50,9 +50,9 @@ EDGE: stepP:p5:ext-H0 | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:ext@L36-L36 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-EX PASS WITH NOTES, but Lean PGExtension.agrees is restricted to closure of cylinder (design rev 4) while node text says P~=P at real points of all X_delta (audit: literal blueprint claim false); left for orchestrator ruling
+LEAN_STATUS: PROVED
+LEAN_REF: ext, pgExtension (KAM/Planetary/PGAssembly/Extension.lean); PGExtension (KAM/Planetary/PGAssembly/ExtensionDefs.lean)
+LEAN_NOTE: audit P5-EX PASS WITH NOTES; conclusion amended (AMEND P-A001, erratum ruling 01:20): agreement on cl C(V, r0)
 NOTE: [pre-extract: dropped reference to bpP:p0:pg, which part p5 proves or sets up]
 
 NODE: stepP:p5:ext-loc
@@ -77,9 +77,9 @@ EDGE: bpP:p0:cylinder#cylinder | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-CL confirms (docs/tracks/P/audits/P5-CL-audit-1.md:23)
 NOTE: SOURCE_GAP: L33 uses finite-dimensional compactness, complexification of a real convergent power series, and a Lebesgue number with a uniform bound; no approved node supplies these classical inputs. L336 lists compactness and the Lebesgue number lemma but is not an external declaration under SPEC. The local-extension argument is present; the gap here is its unregistered classical inputs.
 
 NODE: stepP:p5:ext-glue
@@ -104,9 +104,9 @@ EDGE: stepP:p5:ext-loc | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:ext-glue@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-CG confirms (docs/tracks/P/audits/P5-CG-audit-1.md:41)
 NOTE: SOURCE_GAP: L34 invokes the identity theorem for a holomorphic function of several variables vanishing on a real open subset of a connected overlap. No approved input node supplies this version. The one-variable identity theorem is not silently strengthened.
 
 NODE: stepP:p5:ext-per
@@ -132,9 +132,9 @@ EDGE: bpP:p0:fastshift#fastShift | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-EX confirms (docs/tracks/P/audits/P5-EX-audit-1.md:68)
 NOTE: -
 
 NODE: stepP:p5:ext-H0
@@ -162,9 +162,9 @@ EDGE: K:bp:p1:cauchy-open | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:ext-H0
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-EX confirms (docs/tracks/P/audits/P5-EX-audit-1.md:52)
 NOTE: -
 
 NODE: bpP:p5:consts
@@ -285,9 +285,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:be-an@L59-L5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: be_an (KAM/Planetary/PGAssembly/ExtensionNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: SOURCE_GAP: L59 invokes holomorphic parameter integration, continuity in the parameter, and commutation of mixed derivatives. These classical inputs are not supplied by ext or consts and have no approved input node here.
 
 NODE: stepP:p5:be-jet
@@ -314,9 +314,9 @@ EDGE: bpP:p5:consts | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:be-jet@L60-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: be_jet (KAM/Planetary/PGAssembly/ExtensionNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: SOURCE_GAP: L60 invokes the several-variable identity theorem from a real open set, and connectedness of the complex tube about closure(V). Neither is proved here or supplied by an approved external/import. The on-V jet is supplied by be-coef.
 
 NODE: stepP:p5:be-det
@@ -790,9 +790,9 @@ EDGE: bpP:p3:ext-neumann | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-blk@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent freq_inj avoids this step
 NOTE: SOURCE_GAP: L128 uses Schur-complement algebra without a supplying approved node; L336 names it but is not an external declaration. Neumann inversion is supplied separately by bpP:p3:ext-neumann.
 
 NODE: stepP:p5:fi-inv
@@ -819,9 +819,9 @@ EDGE: bpP:p5:freq-data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-inv@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: PROVED
-LEAN_REF: schur_inverse_blocks (KAM/Planetary/PGAssembly/FrequencySchur.lean)
-LEAN_NOTE: audit P5-FI PASS WITH NOTES; named fi-inv
+LEAN_STATUS: BYPASSED
+LEAN_REF: -
+LEAN_NOTE: route substitution (D27, gap survey 2 item 4): freq_inj takes its bounds from inv_apriori inside jacobian_bounds and never forms a Schur block (as fi-blk); its row-sum clause is literal in freq_inj
 NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.
 
 NODE: bpP:p5:params
@@ -1452,9 +1452,9 @@ EDGE: bpP:p5:kam-cond#scales | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kam-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kam_cond_node (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:kc-eval
@@ -1481,9 +1481,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kc-eval@L224
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kc_eval (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:kc-small
@@ -1511,9 +1511,9 @@ EDGE: bpP:p5:kam-cond#scales | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:kc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kc_small (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:rK
@@ -1543,8 +1543,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
-LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean)
-LEAN_NOTE: audit P5-TH PASS WITH NOTES
+LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean); rk_dir (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit P5-TH PASS WITH NOTES + GAP-P5a round 2 (rk_dir supplies the bounds)
 NOTE: -
 
 NODE: stepP:p5:rk-dir
@@ -1573,9 +1573,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:rk-dir@L233-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rk_dir (KAM/Planetary/PGAssembly/ScaleNodes.lean)
+LEAN_NOTE: audit GAP-P5a round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:location
@@ -1637,9 +1637,9 @@ EDGE: bpP:p5:phi | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-range@L245-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: location (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: local to PROVED parent location (ruling 01:20 (b)); audit P5-CH confirms (docs/tracks/P/audits/P5-CH-audit-2.md:64)
 NOTE: -
 
 NODE: stepP:p5:lo-act
@@ -1669,9 +1669,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-act@L246-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: location (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: local to PROVED parent location (ruling 01:20 (b)); audit P5-CH confirms (docs/tracks/P/audits/P5-CH-audit-2.md:65)
 NOTE: -
 
 NODE: stepP:p5:lo-disc
@@ -1700,9 +1700,9 @@ EDGE: bpP:p5:phi | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-disc@L247-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: location (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: local to PROVED parent location (ruling 01:20 (b)); audit P5-CH confirms (docs/tracks/P/audits/P5-CH-audit-2.md:66)
 NOTE: -
 
 NODE: bpP:p5:kset
@@ -1733,9 +1733,9 @@ EDGE: bpP:p1:order | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kset@L253-L253 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-PAR covers only early D0 (pgD0); torus family and Kolmogorov set not defined
+LEAN_STATUS: PROVED
+LEAN_REF: pgD0_relClosed (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:torus-conv
@@ -1771,9 +1771,9 @@ EDGE: bpP:p5:freq-data | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:torus-conv@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-FAM PASS WITH NOTES but PGFamilySpec/torus_conv omit the Diophantine clause (derived later by consumers) and frequency bounds live in separate frequency_bounds; full conclusion not stated in one declaration
+LEAN_STATUS: PROVED
+LEAN_REF: torus_conv_node (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES (constant A_N from freq-data)
 NOTE: -
 
 NODE: stepP:p5:tc-chart
@@ -1909,9 +1909,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:tc-freq@L263
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frequency_bounds states only the norm bounds; Diophantine part of the conclusion not in the declaration
+LEAN_STATUS: PROVED
+LEAN_REF: tc_freq_node (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:cell-transfer
@@ -2312,9 +2312,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-setup@L29
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; step done as local haves inside lower, complement identity not exported; left
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent lower avoids this step
 NOTE: -
 
 NODE: stepP:p5:lo-bad
@@ -2344,9 +2344,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-bad@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; only action side exported privately (lo_core_bad); left
+LEAN_STATUS: PROVED
+LEAN_REF: lo_bad_ratio (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:lo-lost
@@ -2375,9 +2375,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-lost@L297
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; local haves inside lower, no declaration states step; left
+LEAN_STATUS: PROVED
+LEAN_REF: lo_lost_complement, lo_lost_budget (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:strictness

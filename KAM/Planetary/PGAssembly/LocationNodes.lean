@@ -1,0 +1,238 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import Mathlib
+public import KAM.Planetary.PGAssembly.Main
+
+/-!
+# P Part 5: literal exports of the torus nodes (GAP-P5b)
+
+Append-only exports stating the literal conclusions of `bpP:p5:kset` (relative closedness and
+`σ`-compactness of `D₀`: `pgD0_relClosed`), `stepP:p5:tc-freq` (`tc_freq_node`) and
+`bpP:p5:torus-conv` (`torus_conv_node`). The index `J ∈ pgD0` stands for `ω = ω₀(J) ∈ Ω_*`.
+-/
+
+@[expose] public noncomputable section
+
+open Set MeasureTheory
+
+namespace KAM.Planetary
+
+variable {a b : ℕ}
+
+/-- `bpP:p5:kset`: `D₀` is relatively closed in `D` (the trace of a closed set) and
+`σ`-compact. -/
+theorem pgD0_relClosed (d : PGData a b) {r mu : ℝ} (h : admissible d (pgRstar d) r mu) :
+    (∃ C : Set (Fin (a+b) → ℝ), IsClosed C ∧ pgD0 d r mu = pgActionDomain d r mu ∩ C) ∧
+      IsSigmaCompact (pgD0 d r mu) := by
+  refine ⟨?_, fam_isSigmaCompact_D0 h⟩
+  obtain ⟨-, -, -, hD⟩ := pg_kam_dictionary d r mu h
+  obtain ⟨u, hu, hue⟩ := continuousOn_iff_isClosed.1 (fam_continuousOn_realFreq h)
+    (twoScaleDiophantine a b (pgKamScale d r mu).γ₁ (pgKamScale d r mu).γ₂
+      (pgKamScale d r mu).τ) (fam_isClosed_twoScale _ _ _ _ _)
+  obtain ⟨-, -, -, hl1, -⟩ := kh_dyn h
+  have hρ : 0 < (params d r mu).rho := by
+    show 0 < (params d r mu).l1 / 2; linarith
+  refine ⟨u, hu, ?_⟩
+  rw [← hD]
+  ext J
+  have hDsub : J ∈ pgActionDomain d r mu → J ∈ realNbhd (pgActionDomain d r mu)
+      (params d r mu).rho := fun hJ => ⟨J, hJ, by simpa using hρ⟩
+  constructor
+  · rintro ⟨hJ, hg⟩
+    have : J ∈ (realFreq (kamH d mu)) ⁻¹' _ ∩ realNbhd (pgActionDomain d r mu)
+        (params d r mu).rho := ⟨hg, hDsub hJ⟩
+    rw [hue] at this
+    exact ⟨hJ, this.1⟩
+  · rintro ⟨hJ, he⟩
+    refine ⟨hJ, ?_⟩
+    have : J ∈ u ∩ realNbhd (pgActionDomain d r mu) (params d r mu).rho := ⟨he, hDsub hJ⟩
+    rw [← hue] at this
+    exact this.1
+
+/-- `stepP:p5:tc-freq`: for `J ∈ D₀`, the frequency `w = ω₀(J)/2π` has fast part bounded by
+`C_w`, slow part by `C_w μ` (`C_w` independent of `(r, μ)`), and is `(min γ₁ γ₂, τ)`-
+Diophantine with `τ = n + 1 > a + b`. -/
+theorem tc_freq_node (d : PGData a b) : ∃ Cw : ℝ, 0 < Cw ∧ ∀ r mu : ℝ,
+    admissible d (pgRstar d) r mu → ∀ J ∈ pgD0 d r mu,
+      ‖(blockFast ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ ≤ Cw ∧
+      ‖(blockSlow ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ ≤ Cw*mu ∧
+      KAM.IsDiophantine (min (params d r mu).gamma1 (params d r mu).gamma2) (pgTau a b)
+        ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) ∧
+      pgTau a b = ((a+b:ℕ):ℝ) + 1 ∧ ((a+b:ℕ):ℝ) < pgTau a b := by
+  obtain ⟨Cw, hCw, hfreq⟩ := frequency_bounds d
+  refine ⟨Cw, hCw, fun r mu h J hJ => ⟨(hfreq r mu h J hJ).1, (hfreq r mu h J hJ).2, ?_,
+    rfl, by unfold pgTau; linarith⟩⟩
+  obtain ⟨hr0, -, hmu0, -⟩ := h
+  have hk0 := pgScales_k0_pos d
+  have hrp : 0 < r ^ (5 / 2 : ℝ) := Real.rpow_pos_of_pos hr0 _
+  have h1 : 0 < (params d r mu).gamma1 := by
+    show 0 < (pgScales d).k0 * r ^ (5 / 2 : ℝ); positivity
+  have h2 : 0 < (params d r mu).gamma2 := by
+    show 0 < mu * (pgScales d).k0 * r ^ (5 / 2 : ℝ); positivity
+  have htau : ((a + b : ℕ) : ℝ) < pgTau a b := by unfold pgTau; linarith
+  exact (cp10_isDiophantine h1 h2 htau hJ.2).1
+
+/-- `bpP:p5:torus-conv`: for the data-only constants `p` of `bpP:p5:freq-data` (the witness of
+`freq_data`, chosen before `r, μ`; `A_N = p.AN ≥ 1`) and every `J ∈ D₀` (that is,
+`ω = ω₀(J) ∈ Ω_*`), the torus `K_ω = physicalTorus J` is a frozen cylinder torus of `H_μ` in
+`C(V, r)` with frequency `w = ω`, `w` is `(min γ₁ γ₂, τ)`-Diophantine with `τ = n + 1 > a + b`,
+and `|w^f|_∞ ≤ C_w`, `|w^s|_∞ ≤ C_w μ` with the source constant
+`C_w = (M_ω + A_N)/2π + 1`, `M_ω = sup_{closure V} |ω̄₀|`; `K_ω(ℝⁿ) ⊆ C(V, r)`. -/
+theorem torus_conv_node (d : PGData a b) : ∃ p : PGAnalytic, PGAnalyticSpec d p ∧ 1 ≤ p.AN ∧
+    ∀ Cw : ℝ, Cw = (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + p.AN) /
+        (2*Real.pi) + 1 → ∀ r mu : ℝ,
+    ∀ h : admissible d (pgRstar d) r mu, ∀ J ∈ pgD0 d r mu,
+      IsCylinderTorus (degenerateHamiltonian d.H0 d.P mu) (cylinder d.V r)
+        ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J)
+        (physicalTorus d r mu h (pgFamily d r mu h) J) ∧
+      KAM.IsDiophantine (min (params d r mu).gamma1 (params d r mu).gamma2) (pgTau a b)
+        ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) ∧
+      pgTau a b = ((a+b:ℕ):ℝ) + 1 ∧ ((a+b:ℕ):ℝ) < pgTau a b ∧
+      ‖(blockFast ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ ≤ Cw ∧
+      ‖(blockSlow ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ ≤ Cw*mu ∧
+      range (physicalTorus d r mu h (pgFamily d r mu h) J) ⊆ cylinder d.V r := by
+  have hpi := Real.pi_pos
+  have hM0 := (pgExtension d).M0_pos
+  have hδ := (pgExtension d).delta_pos
+  have hspec := pgAnalytic_spec d
+  obtain ⟨hrho, -, -, -, hAN, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hpoly,
+    -, -⟩ := hspec
+  refine ⟨pgAnalytic d, pgAnalytic_spec d, hAN, fun Cw hCw r mu h J hJ => ?_⟩
+  set AN := (pgAnalytic d).AN with hANdef
+  obtain ⟨-, -, hdio', htau, htau'⟩ := (tc_freq_node d).choose_spec.2 r mu h J hJ
+  have hmu : mu ∈ Icc 0 d.mu0 := mu_mem_Icc h
+  have hmu0 : 0 < mu := h.2.2.1
+  have hmu1 : mu < 1 := mu_lt_one_of_admissible h
+  obtain ⟨hJ', hJd⟩ := id hJ
+  have hJV : blockFast J ∈ d.V := hJ'.1.1.1
+  have hxi : ‖KAM.realInclusion b (blockSlow J)‖ ≤ 1 := by
+    obtain ⟨hr1, -, -, hl1, -⟩ := kh_dyn h
+    rw [KAM.norm_realInclusion]
+    refine (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => ?_
+    obtain ⟨hj1, hj2⟩ := hJ'.2 j (mem_univ j)
+    have := params_l2top d r mu
+    have hr2 : r^2 < 1 := by nlinarith [h.1]
+    rw [Real.norm_eq_abs, abs_le]
+    constructor <;> linarith
+  have hI2 : blockFast (KAM.realInclusion (a+b) J) ∈
+      KAM.actionNbhd (closure d.V) ((pgExtension d).delta/2) :=
+    realInclusion_mem_actionNbhd (by linarith) (subset_closure hJV)
+  have hJA : KAM.realInclusion (a+b) J ∈ analyticBoundDomain d (pgAnalytic d) :=
+    ⟨realInclusion_mem_actionNbhd hrho (subset_closure hJV), by
+      have : ‖blockSlow (KAM.realInclusion (a+b) J)‖ ≤ 1 := by
+        have e : ‖blockSlow (KAM.realInclusion (a+b) J)‖ = ‖KAM.realInclusion b (blockSlow J)‖ :=
+          rfl
+        rw [e]; exact hxi
+      linarith⟩
+  set L := fderiv ℂ (jetPolynomial d mu) (KAM.realInclusion (a+b) J) with hL
+  have hLAN : ‖L‖ ≤ AN := (hpoly mu hmu _ hJA).2.1
+  have heq := complexFrequency_eq d hmu hI2
+  rw [complexFrequency_realSlice d hmu hJV] at heq
+  have hfast := congrArg blockFast heq
+  have hslow := congrArg blockSlow heq
+  have hsingF : ∀ k : Fin a, ‖embFast a b (Pi.single k (1:ℂ))‖ ≤ 1 := fun k => by
+    rw [← single_castAdd]
+    exact (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => by
+      by_cases hj : j = Fin.castAdd b k <;> simp [hj]
+  have hsingS : ∀ k : Fin b, ‖embSlow a b (Pi.single k (1:ℂ))‖ ≤ 1 := fun k => by
+    rw [← single_natAdd]
+    exact (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => by
+      by_cases hj : j = Fin.natAdd a k <;> simp [hj]
+  have hbd : ∀ {m : ℕ} (v : Fin m → ℂ), ‖(mu : ℂ) • v‖ = mu * ‖v‖ := fun v => by
+    rw [norm_smul, Complex.norm_real, Real.norm_eq_abs, abs_of_pos hmu0]
+  have hLf : ‖(fun k : Fin a => L (embFast a b (Pi.single k 1)))‖ ≤ AN := by
+    refine (pi_norm_le_iff_of_nonneg (by linarith)).2 fun k => ?_
+    exact (L.le_opNorm _).trans ((mul_le_of_le_one_right (norm_nonneg _) (hsingF k)).trans hLAN)
+  have hLs : ‖(fun k : Fin b => L (embSlow a b (Pi.single k 1)))‖ ≤ AN := by
+    refine (pi_norm_le_iff_of_nonneg (by linarith)).2 fun k => ?_
+    exact (L.le_opNorm _).trans ((mul_le_of_le_one_right (norm_nonneg _) (hsingS k)).trans hLAN)
+  have hFc : ∀ I ∈ closure d.V, ‖fastFrequency d.H0 I‖ ≤ (pgExtension d).M0 := by
+    intro I hI
+    have hnb := realInclusion_mem_actionNbhd (δ := (pgExtension d).delta) hδ hI
+    have hF : DifferentiableAt ℂ (pgExtension d).H0 (KAM.realInclusion a I) :=
+      (pgExtension d).h0holo.differentiableAt ((isOpen_actionNbhd _ _).mem_nhds hnb)
+    have hev : (fun y => (pgExtension d).H0 (KAM.realInclusion a y)) =ᶠ[nhds I]
+        fun y => (d.H0 y : ℂ) := by
+      filter_upwards [((isOpen_actionNbhd _ _).preimage (KAM.realInclusion a).continuous).mem_nhds
+        hnb] with y hy
+      exact (pgExtension d).h0real y hy
+    have hb := ((pgExtension d).h0bounds _ hnb).2.1
+    refine (pi_norm_le_iff_of_nonneg hM0.le).2 fun i => ?_
+    have e := fderiv_complex_realSlice hF hev i
+    have hs1 : ‖(Pi.single i (1:ℂ) : Fin a → ℂ)‖ ≤ 1 :=
+      (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => by
+        by_cases hj : j = i <;> simp [hj]
+    have hop := (fderiv ℂ (pgExtension d).H0 (KAM.realInclusion a I)).le_opNorm (Pi.single i (1:ℂ))
+    rw [e, Complex.norm_real] at hop
+    simp only [fastFrequency]
+    calc _ ≤ _ := hop
+      _ ≤ ‖fderiv ℂ (pgExtension d).H0 (KAM.realInclusion a I)‖ * 1 := by gcongr
+      _ ≤ _ := by linarith
+  have hMbdd : BddAbove ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) :=
+    ⟨(pgExtension d).M0, by rintro _ ⟨I, hI, rfl⟩; exact hFc I hI⟩
+  have hMle : ‖fastFrequency d.H0 (blockFast J)‖ ≤
+      sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) :=
+    le_csSup hMbdd ⟨_, subset_closure hJV, rfl⟩
+  have hM : 0 ≤ sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) :=
+    Real.sSup_nonneg (by rintro _ ⟨I, -, rfl⟩; exact norm_nonneg _)
+  have hc : 0 ≤ (2*Real.pi)⁻¹ := by positivity
+  have hbf : ‖(blockFast (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ ≤
+      sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + AN := by
+    have e1 : ‖blockFast (KAM.realInclusion (a+b) (freq d.H0 d.P0 d.Omega d.beta mu J))‖ =
+        ‖(blockFast (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ :=
+      KAM.norm_realInclusion _
+    have h4 : blockFast (embFast a b (complexFast d (blockFast (KAM.realInclusion (a+b) J))) +
+        (mu : ℂ) • partialsCLM (a + b) L) = complexFast d (blockFast (KAM.realInclusion (a+b) J)) +
+        (mu : ℂ) • blockFast (partialsCLM (a + b) L) := by
+      show blockFast (embFast a b _) + (mu : ℂ) • blockFast (partialsCLM (a + b) L) = _
+      rw [blockFast_embFast]
+    rw [← e1, hfast, h4, blockFast_partialsCLM]
+    have hcf : ‖complexFast d (blockFast (KAM.realInclusion (a+b) J))‖ =
+        ‖fastFrequency d.H0 (blockFast J)‖ := by
+      have := complexFast_realSlice d hJV
+      have e : blockFast (KAM.realInclusion (a+b) J) = KAM.realInclusion a (blockFast J) := rfl
+      rw [e, this, KAM.norm_realInclusion]
+    refine (norm_add_le _ _).trans (add_le_add (hcf.le.trans hMle) ?_)
+    rw [hbd]
+    calc mu * _ ≤ 1 * AN := mul_le_mul hmu1.le hLf (norm_nonneg _) zero_le_one
+      _ = AN := one_mul _
+  have hbs : ‖(blockSlow (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ ≤ mu * AN := by
+    have e1 : ‖blockSlow (KAM.realInclusion (a+b) (freq d.H0 d.P0 d.Omega d.beta mu J))‖ =
+        ‖(blockSlow (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ :=
+      KAM.norm_realInclusion _
+    have h4 : blockSlow (embFast a b (complexFast d (blockFast (KAM.realInclusion (a+b) J))) +
+        (mu : ℂ) • partialsCLM (a + b) L) = (mu : ℂ) • blockSlow (partialsCLM (a + b) L) := by
+      have : blockSlow (embFast a b (complexFast d (blockFast (KAM.realInclusion (a+b) J)))) = 0 :=
+        blockSlow_embFast _
+      show blockSlow (embFast a b _) + (mu : ℂ) • blockSlow (partialsCLM (a + b) L) = _
+      rw [this, zero_add]
+    rw [← e1, hslow, h4, blockSlow_partialsCLM, hbd]
+    exact mul_le_mul_of_nonneg_left hLs hmu0.le
+  have bf : blockFast ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) =
+      (2*Real.pi)⁻¹ • blockFast (freq d.H0 d.P0 d.Omega d.beta mu J) := rfl
+  have bs : blockSlow ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) =
+      (2*Real.pi)⁻¹ • blockSlow (freq d.H0 d.P0 d.Omega d.beta mu J) := rfl
+  have hT := ((torus_conv d r mu h).choose_spec).2.2.2.2.2.2 J hJ
+  refine ⟨hT, hdio', htau, htau', ?_, ?_, ?_⟩
+  · rw [bf, norm_smul, Real.norm_of_nonneg hc, hCw]
+    calc _ ≤ (2*Real.pi)⁻¹ * (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + AN) :=
+          mul_le_mul_of_nonneg_left hbf hc
+      _ ≤ _ := by rw [div_eq_inv_mul]; linarith
+  · rw [bs, norm_smul, Real.norm_of_nonneg hc, hCw]
+    have hAN0 : 0 ≤ AN := by linarith
+    calc _ ≤ (2*Real.pi)⁻¹ * (mu * AN) := mul_le_mul_of_nonneg_left hbs hc
+      _ ≤ _ := by
+          rw [div_eq_inv_mul]
+          nlinarith [mul_nonneg hc hmu0.le, mul_nonneg (mul_nonneg hc hmu0.le) hM,
+            mul_nonneg (mul_nonneg hc hmu0.le) hAN0]
+  · rintro _ ⟨θ, rfl⟩
+    exact (hT.2.1 θ).1
+
+end KAM.Planetary
+
+end
