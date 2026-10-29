@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 10:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,719 lines of Lean** of an estimated ≈ 268,000
+> **Last updated: 2026-10-29 10:37 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **244,719 lines of Lean** of an estimated ≈ 268,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 10:20 UTC from `main` at `1d502b88` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 10:37 UTC from `main` at `c9eb4103` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -304,6 +304,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 10:37 | `c9eb4103` | D30: start the lunar spin-orbit certificate project (3.3% band); plan SPIN-ORBIT-PLAN.md |
 | 2026-10-29 10:16 | `8beff117` | HQ: offloaded-branch states from live prover/audit sessions; refresh stale INP worker entries |
 | 2026-10-29 10:15 | `6e6971ff` | HQ: count unlanded Lean lines per unlanded commit, not by main...branch diff |
 | 2026-10-29 07:41 | `36f849de` | Land inp into main |
@@ -315,7 +316,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 06:18 | `74052569` | OVERNIGHT: track I gap programme complete (05:10-06:20) |
 | 2026-10-29 05:51 | `989507b0` | Land inp into main |
 | 2026-10-29 05:42 | `dcb5b63b` | Land inp into main |
-| 2026-10-29 05:38 | `bb950ca8` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
