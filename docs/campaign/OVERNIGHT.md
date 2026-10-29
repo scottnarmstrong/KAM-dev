@@ -756,3 +756,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   sharper explicit-constants theorem: a read-only Opus study (factor decomposition of the 1.3e-100 threshold, best
   in-theorem parameters, ranked sharpening options) runs in parallel. Incident: SO-REPLAY ran `pkill -x lean` at about
   11:04, which signals every lean process on the machine; all briefs now forbid killing by name.
+- **12:25. Track SO: design audit 3 FAIL on F10 only; range-reduced complex exponential.** Audit 3 closed F7, F8, F9
+  and the F3/F6 residuals; its one new blocking finding F10 is that the design's consumers (general HamExpr.exp,
+  the scalar witness pin, character witnesses) pass large balls to the small-ball exponential. Decision: a
+  range-reduced wrapper `certCExpReduced z zRad s N : Option (CC α × α)` (scale by 2^-s, check `certCExpSmall`,
+  square s times) with soundness on every successful call and no caller-side size hypothesis. The orchestrator fixed
+  its signature; package SO-CEXP proves it while design Revision 4 reconciles every consumer to fail closed. Also
+  landed: SO-AIF and SO-CONF (inp 1c8cbfd1); README now lists track SO.
+- **12:35. Disk and lane N worktrees.** The root disk reached 97% (4.6 GB free) with track SO running eleven
+  worktrees. The three lane N worktrees (KAM-inp-lanen, -n11f1, -n11f2) were clean, fully pushed (origin/lane-n-handoff,
+  origin/inp-n11f1, origin/inp-n11f2) and idle, so they were removed; branches kept locally and on GitHub, their
+  ignored .drafts notes archived to /mnt/HC_Volume_106379410/root-archive/kam-lane-n-worktree-drafts-2026-10-29.
+  Lane N work for Zohar's team is unaffected (it lives on GitHub). Also: SO-MINV audit 1 failed only on the
+  namespace (root instead of KAM.Certificate); the orchestrator moved it and requested a delta re-audit; launched
+  SO-EXPR-A (expression language basics) and SO-RAT (the exact rational backend that Revision 3 moved pre-gate).
