@@ -25,3 +25,19 @@ Rulings and integration notes for lane N after its handoff on 2026-10-28
     against their signed statements; the staging stubs are gone.
   - Audits: [N11-H](../tracks/N/audits/N11-H-audit-1.md) and [N11-M](../tracks/N/audits/N11-M-audit-1.md)
     PASS WITH NOTES (notes applied); K1/K2 audit pending.
+- **2026-10-29 01:20. K1/K2 audit; merge of `main`; seal of N-PARTIAL-CONVEX.**
+  - [N11-K audit 1](../tracks/N/audits/N11-K-audit-1.md): PASS WITH NOTES. K-1 fixed by the unsigned export
+    `nnf_disp_radius` (the radius tails of `bpN:p11:nf` (c)); K-2 constants recorded in the graph notes.
+  - Upstream `main` (a14c4247) merged into `zohar/n11`; the only conflict was this lane's amended copy of
+    `N11-SIGNATURES.md` (kept).
+  - Seal: the anchor body applies `KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev` to all 23 explicit
+    binders; manifest `nekhoroshev.d25.partialConvex_nekhoroshev.v1` DRAFT_SORRY → SEALED; `KAM.lean`
+    regenerated. Checks on the merged tree: full root build OK (10186 jobs); guard OK; ABI: the single-process
+    144-declaration `abi_hashes.py --check` did not finish in the 16 GB Codespace (page-cache thrash, killed);
+    the same hashing code run per id prefix gives ABI OK for `nekhoroshev.d25.*` (8, incl. this anchor) and
+    `kam.*` (25), the other groups being the upstream-checked `main` anchors; axioms propext, Classical.choice,
+    Quot.sound; leanchecker exit 0 (frozen module and provider).
+    [Seal-key audit](../tracks/N/audits/N11-P-seal-audit-1.md): PASS WITH NOTES.
+  - Graph N: 59 Part-11 nodes and `bpN:p0:partial` PROVED (E2's adjoint/ext-taylor nodes were already
+    synced on `main`); `FROZEN_MANIFEST` hashes of graphs N and P refreshed. All 26 track-N frozen anchors
+    are SEALED; lane N's goal is met.
