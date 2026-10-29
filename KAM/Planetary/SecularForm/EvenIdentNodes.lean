@@ -350,6 +350,97 @@ theorem p8_evenness_full (D : Data n) (b : Bool) :
     have hA := coeffs_analytic D (axis D (action D a)) (by rw [axis_action D ha]; exact ha)
     exact hA.comp_of_eq (analyticAt_axis D _) rfl
 
+/-! ### The source action neighbourhood -/
+
+/-- Near the action of positive ordered axes, every action vector is the action of positive ordered
+axes. -/
+theorem eventually_mem_actionDomain (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    ∀ᶠ I in 𝓝 (action D a), I ∈ actionDomain D := by
+  have hpos : ∀ i, 0 < action D a i := fun i => by
+    have := ha.1 i
+    have := D.hm i; have := D.hG; have := D.hm0
+    unfold action; positivity
+  have h1 : ∀ᶠ I in 𝓝 (action D a), ∀ i, 0 < I i :=
+    Filter.eventually_all.2 fun i =>
+      (isOpen_lt continuous_const (continuous_apply i)).mem_nhds (hpos i)
+  have hcont : ∀ i, Continuous fun I : Vec n => axis D I i := fun i => by
+    unfold axis
+    exact ((continuous_apply i).pow 2).div_const _
+  have h2 : ∀ᶠ I in 𝓝 (action D a), ∀ i j : Fin n, i < j → axis D I i < axis D I j :=
+    Filter.eventually_all.2 fun i => Filter.eventually_all.2 fun j => by
+      by_cases hij : i < j
+      · have hm : (action D a) ∈ {I : Vec n | axis D I i < axis D I j} := by
+          change axis D (action D a) i < axis D (action D a) j
+          rw [axis_action D ha]; exact ha.2 hij
+        have hn : ∀ᶠ I in 𝓝 (action D a), axis D I i < axis D I j :=
+          (isOpen_lt (hcont i) (hcont j)).mem_nhds hm
+        exact hn.mono fun I hI _ => hI
+      · exact Filter.Eventually.of_forall fun I h => absurd h hij
+  filter_upwards [h1, h2] with I hI1 hI2
+  refine ⟨axis D I, ⟨fun i => ?_, fun i j hij => hI2 i j hij⟩, action_axis D hI1⟩
+  have := D.hG; have := D.hm0; have := D.hm i; have := hI1 i
+  unfold axis; positivity
+
+/-- `bpP:p8:evenness` on the source neighbourhood.  For physical data `D` and base axes `a`
+(`a ∈ axes n`) there is a radius `r`, below the source radius `rho D a` and carrying the analytic
+package of `perturbation_analytic` (separation bound, holomorphic and real-analytic secular
+function on the polydisc `N_R(r)` and its real trace), such that for both models and every point
+`x = (ξ, Λ, η)` of `N_R(r)` (`realDisc D a r`): the four invariances (all `θ`); at the action
+`Λ = x.2.1` the Taylor expansion at `(ξ, η) = 0` has only even total degree, the origin is
+critical, all jets are `O(2)`-invariant, the degree-two part is `ξᵀ A(Λ) ξ + ηᵀ A(Λ) η` with
+`A = Aᵀ`; and on the whole action slice of `N_R(r)` the jets and `A` are real analytic in `Λ`.
+(The radius is the source one shrunk, if necessary, to keep ordered axes in the slice; the
+analytic package is restated for it.) -/
+theorem p8_evenness_nbhd (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
+    ∃ r : ℝ, 0 < r ∧ r < rho D a ∧
+    (∀ t x, x ∈ polydisc D a r → ∀ i j, i < j →
+      ((a j - a i) ^ 2 / 2) ≤ (separationC D t x i j).re) ∧
+    (∀ b : Bool, DifferentiableOn ℂ (secularC D b) (polydisc D a r) ∧
+      AnalyticOnNhd ℝ (secular D b) (realDisc D a r)) ∧
+    ∀ b : Bool,
+      (∀ x ∈ realDisc D a r, ∀ θ : ℝ,
+        secular D b (-x.1, x.2.1, -x.2.2) = secular D b x ∧
+        secular D b (x.1, x.2.1, -x.2.2) = secular D b x ∧
+        secular D b (-x.1, x.2.1, x.2.2) = secular D b x ∧
+        secular D b (rotateSlow θ x) = secular D b x) ∧
+      (∀ x ∈ realDisc D a r,
+        (∀ k : ℕ, iteratedFDeriv ℝ (2 * k + 1) (slowSecular D b x.2.1) 0 = 0) ∧
+        fderiv ℝ (slowSecular D b x.2.1) 0 = 0 ∧
+        (∀ (k : ℕ) (θ : ℝ) (u : Vec n × Vec n),
+          iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => slowRotCLE θ u) =
+            iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => u)) ∧
+        (∀ (k : ℕ) (u : Vec n × Vec n),
+          iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => (u.1, -u.2)) =
+            iteratedFDeriv ℝ k (slowSecular D b x.2.1) 0 (fun _ => u)) ∧
+        (∀ u : Vec n × Vec n, iteratedFDeriv ℝ 2 (slowSecular D b x.2.1) 0 (fun _ => u) / 2 =
+          quad (coeffs D (axis D x.2.1)) u.1 + quad (coeffs D (axis D x.2.1)) u.2) ∧
+        (coeffs D (axis D x.2.1)).transpose = coeffs D (axis D x.2.1)) ∧
+      (∀ k : ℕ, AnalyticOnNhd ℝ (fun I => iteratedFDeriv ℝ k (slowSecular D b I) 0)
+        ((fun x : Slow n => x.2.1) '' realDisc D a r)) ∧
+      AnalyticOnNhd ℝ (fun I => coeffs D (axis D I))
+        ((fun x : Slow n => x.2.1) '' realDisc D a r) := by
+  obtain ⟨r0, hr0, hrho0, hsep, hall⟩ := perturbation_analytic D ha
+  obtain ⟨ε, hε, hball⟩ := Metric.eventually_nhds_iff.1 (eventually_mem_actionDomain D ha)
+  have hrε : min r0 ε ≤ r0 := min_le_left _ _
+  have hsub : polydisc D a (min r0 ε) ⊆ polydisc D a r0 := fun x hx i =>
+    ⟨(hx i).1.trans_le hrε, (hx i).2.1.trans_le hrε, (hx i).2.2.trans_le hrε⟩
+  have hslice : (fun x : Slow n => x.2.1) '' realDisc D a (min r0 ε) ⊆ actionDomain D := by
+    rintro _ ⟨x, hx, rfl⟩
+    refine hball ?_
+    rw [dist_pi_lt_iff hε]
+    intro i
+    have h2 : ‖((x.2.1 i : ℝ) : ℂ) - (action D a i : ℂ)‖ < min r0 ε := (hx i).2.1
+    rw [← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs] at h2
+    rw [Real.dist_eq]
+    exact h2.trans_le (min_le_right _ _)
+  have hrho : min r0 ε < rho D a := lt_of_le_of_lt hrε hrho0
+  have hfull := p8_evenness_full D
+  refine ⟨min r0 ε, lt_min hr0 hε, hrho, fun t x hx i j hij => hsep t x (hsub hx) i j hij,
+    fun b => ⟨(hall b).2.2.1.mono hsub, (hall b).2.2.2.2.1.mono (Set.preimage_mono hsub)⟩,
+    fun b => ⟨fun x hx θ => evenness D (realDisc_subset_slowDom D ha hrho hx) b θ,
+      fun x hx => (hfull b).2.1 x.2.1 (hslice ⟨x, hx, rfl⟩),
+      fun k => ((hfull b).2.2.1 k).mono hslice, ((hfull b).2.2.2).mono hslice⟩⟩
+
 /-! ### Laplace coefficients: parity and analyticity at `α = 0` -/
 
 /-- Parity of the Laplace coefficients: `b_s^{(k)}(-α) = (-1)^k b_s^{(k)}(α)`. -/
@@ -499,7 +590,7 @@ theorem p8_identities_full {α : ℝ} (hα : α ∈ Ico (0 : ℝ) 1) :
 theorem deriv_monomial_succ (c : ℝ) (p : ℕ) :
     deriv (fun x : ℝ => c * x ^ (p + 1)) = fun x => c * (((p + 1 : ℕ) : ℝ) * x ^ p) := by
   funext x
-  simpa using ((hasDerivAt_pow (p + 1) x).const_mul c).deriv
+  simp
 
 /-- `iteratedDeriv 2` as a double derivative. -/
 theorem iteratedDeriv_two_eq_deriv (f : ℝ → ℝ) : iteratedDeriv 2 f = deriv (deriv f) := by
@@ -540,8 +631,9 @@ theorem p8_id1 (q : ℕ) :
     have e : halfCoef 0 (q + 1) = pcoef (1/2) (q + 1) ^ 2 := by simp [halfCoef, sq]
     rw [hf, iteratedDeriv_two_eq_deriv, deriv_monomial_succ, ← e]
     have h2 := deriv_monomial_succ (halfCoef 0 (q + 1) * (((2 * q + 1 + 1 : ℕ) : ℝ))) (2 * q)
-    have h2' : deriv (fun x : ℝ => halfCoef 0 (q + 1) * (((2 * q + 1 + 1 : ℕ) : ℝ) * x ^ (2 * q + 1)))
-        α = halfCoef 0 (q + 1) * (((2 * q + 1 + 1 : ℕ) : ℝ) *
+    have h2' : deriv (fun x : ℝ => halfCoef 0 (q + 1) *
+        (((2 * q + 1 + 1 : ℕ) : ℝ) * x ^ (2 * q + 1))) α =
+        halfCoef 0 (q + 1) * (((2 * q + 1 + 1 : ℕ) : ℝ) *
           (((2 * q + 1 : ℕ) : ℝ) * α ^ (2 * q))) := by
       have := congrFun h2 α
       simp only [mul_assoc] at this ⊢
