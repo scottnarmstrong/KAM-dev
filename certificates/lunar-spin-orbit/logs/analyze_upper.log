@@ -1,0 +1,4 @@
+upper 1e-30 {'v_terms_half': 427, 'E_terms': 849, 'rho_terms_half': 748, 'sum_abs_R': '1.1243587e-27', 'weighted_abs_R': '5.1746223e-27', 'weighted_abs_r_2piR': '3.2513111e-26', 'max_abs_R': '9.1762841e-29', 'seconds': 0.1}
+upper 1e-60 {'v_terms_half': 1871, 'E_terms': 3691, 'rho_terms_half': 2591, 'sum_abs_R': '6.8908879e-57', 'weighted_abs_R': '4.569124e-55', 'weighted_abs_r_2piR': '2.8708653e-54', 'max_abs_R': '2.8654348e-58', 'seconds': 0.4}
+upper 1e-110 {'v_terms_half': 6760, 'E_terms': 13277, 'rho_terms_half': 8152, 'sum_abs_R': '5.4972843e-106', 'weighted_abs_R': '5.3347687e-102', 'weighted_abs_r_2piR': '3.351934e-101', 'max_abs_R': '1.3030554e-107', 'seconds': 1.2}
+upper 1e-130 {'v_terms_half': 9512, 'E_terms': 18766, 'rho_terms_half': 11262, 'sum_abs_R': '4.1789662e-120', 'weighted_abs_R': '4.0923292e-113', 'weighted_abs_r_2piR': '2.5712863e-112', 'max_abs_R': '1.2732449e-120', 'seconds': 1.6}

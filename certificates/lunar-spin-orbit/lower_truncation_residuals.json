@@ -27,7 +27,7 @@
   "weighted_abs_R": "3.392853e-102",
   "weighted_abs_r_2piR": "2.1317924e-101",
   "max_abs_R": "1.3598955e-107",
-  "seconds": 1.2
+  "seconds": 1.1
  },
  "1e-130": {
   "v_terms_half": 9471,
@@ -37,6 +37,6 @@
   "weighted_abs_R": "3.7566108e-118",
   "weighted_abs_r_2piR": "2.3603482e-117",
   "max_abs_R": "3.1802091e-122",
-  "seconds": 1.8
+  "seconds": 1.6
  }
 }
