@@ -32,10 +32,10 @@ Rulings and integration notes for lane N after its handoff on 2026-10-28
     `N11-SIGNATURES.md` (kept).
   - Seal: the anchor body applies `KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev` to all 23 explicit
     binders; manifest `nekhoroshev.d25.partialConvex_nekhoroshev.v1` DRAFT_SORRY → SEALED; `KAM.lean`
-    regenerated. Checks on the merged tree: full root build OK (10186 jobs); guard OK; ABI: the single-process
-    144-declaration `abi_hashes.py --check` did not finish in the 16 GB Codespace (page-cache thrash, killed);
-    the same hashing code run per id prefix gives ABI OK for `nekhoroshev.d25.*` (8, incl. this anchor) and
-    `kam.*` (25), the other groups being the upstream-checked `main` anchors; axioms propext, Classical.choice,
+    regenerated. Checks on the merged tree: full root build OK (10186 jobs); guard OK; ABI HASHES OK for all 144
+    frozen declarations, checked per id prefix with the hashing code of `abi_hashes.py` (`kam.*` 25, `iso.*` 19,
+    `nekhoroshev.*` 26, `planetary.*` 74; the single-process run thrashes the 16 GB Codespace page cache);
+    axioms propext, Classical.choice,
     Quot.sound; leanchecker exit 0 (frozen module and provider).
     [Seal-key audit](../tracks/N/audits/N11-P-seal-audit-1.md): PASS WITH NOTES.
   - Graph N: 59 Part-11 nodes and `bpN:p0:partial` PROVED (E2's adjoint/ext-taylor nodes were already
