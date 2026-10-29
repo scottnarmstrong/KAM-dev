@@ -120,7 +120,149 @@ theorem linMat_apply_eq {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {θ : F
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_fin_one]
   rw [hsym]
 
+/-- Every entry of the frozen bordered torsion is continuous on the strip, for `K` holomorphic
+with invertible Gram matrix on `T_ρ` and `H` holomorphic on an open `D ⊇ K(T_ρ)`. -/
+theorem continuousOn_extendedTorsion {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {D : Set ((Fin n → ℂ) × (Fin n → ℂ))} (hD : IsOpen D) (hH : DifferentiableOn ℂ H D)
+    (hK : Differentiable ℂ K) (hKD : ∀ θ ∈ complexStrip n ρ, K θ ∈ D)
+    (hG : ∀ θ ∈ complexStrip n ρ, IsUnit (gramMatrix K θ).det) (ω : Fin n → ℝ)
+    (a b : Fin n ⊕ Unit) :
+    ContinuousOn (fun θ => KAM.Iso.extendedTorsion H K ω θ a b) (complexStrip n ρ) := by
+  have hS := isOpen_complexStrip n ρ
+  have hKd : DifferentiableOn ℂ K (complexStrip n ρ) := hK.differentiableOn
+  have hN := differentiableOn_normalMat hKd hG
+  have hdH : DifferentiableOn ℂ (fderiv ℂ H) D := (holomorphic_regularity_of_finiteDimensional hD hH).1
+  have hX : DifferentiableOn ℂ (hamiltonianVectorFieldℂ H) D := by
+    unfold hamiltonianVectorFieldℂ
+    exact DifferentiableOn.prodMk
+      (differentiableOn_pi.2 fun i => hdH.clm_apply (differentiableOn_const _))
+      (differentiableOn_pi.2 fun i => (hdH.clm_apply (differentiableOn_const _)).neg)
+  have hdX := (holomorphic_regularity_of_finiteDimensional hD hX).1
+  have hA : DifferentiableOn ℂ (linMat H K) (complexStrip n ρ) := by
+    rw [differentiableOn_matrix_iff_entries]
+    intro s t
+    have h1 : DifferentiableOn ℂ (fun θ => fderiv ℂ (hamiltonianVectorFieldℂ H) (K θ))
+        (complexStrip n ρ) := hdX.comp hKd hKD
+    have h2 : DifferentiableOn ℂ (fun θ => sumVec n (fderiv ℂ (hamiltonianVectorFieldℂ H) (K θ)
+        (phaseBasis t))) (complexStrip n ρ) :=
+      (sumVecIso n).differentiable.comp_differentiableOn (h1.clm_apply (differentiableOn_const _))
+    have h3 := differentiableOn_pi.1 h2 s
+    simpa only [linMat, sqMat_apply_eq_phaseBasis] using h3
+  have hDN : DifferentiableOn ℂ (fun θ => fderiv ℂ (normalMat K) θ (fun l => (ω l : ℂ)))
+      (complexStrip n ρ) :=
+    (holomorphic_regularity hS hN).1.clm_apply (differentiableOn_const _)
+  have hT := differentiableOn_torsion_of (H := H) (ω := ω) hN ((hA.matrix_mul hN).sub hDN)
+  rcases a with a | ⟨⟩ <;> rcases b with b | ⟨⟩
+  · exact (differentiableOn_matrix_iff_entries.1 hT a b).continuousOn
+  · exact continuousOn_const
+  · have h1 : ContinuousOn (fun θ => fderiv ℂ H (K θ)) (complexStrip n ρ) :=
+      hdH.continuousOn.comp hK.continuous.continuousOn hKD
+    show ContinuousOn (fun θ => fderiv ℂ H (K θ) (normalFrame K θ b)) (complexStrip n ρ)
+    simp only [fderiv_apply_normalFrame]
+    exact continuousOn_finsetSum _ fun a _ => (h1.clm_apply continuousOn_const).mul
+      (differentiableOn_matrix_iff_entries.1 hN a b).continuousOn
+  · exact continuousOn_const
+
 end Generic
+
+/-! ### Second derivatives of a certified embedding -/
+
+section Embedding
+
+variable {α : Type} [CertArith α] {n : ℕ}
+
+omit [CertArith α] in
+/-- The directional derivative of a character sum with arbitrary coefficients. -/
+theorem hasFDerivAt_charSum (f : CertKey × CC α → ℂ) (l : Fin n) (θ : Fin n → ℂ) :
+    ∀ L : List (CertKey × CC α), ∃ D : (Fin n → ℂ) →L[ℂ] ℂ,
+      HasFDerivAt (fun y => (L.map fun t => f t * character (certKeyFun n t.1) y).sum) D θ ∧
+      D (Pi.single l 1) = (2 * Real.pi) * (L.map fun t => f t * (Complex.I *
+        ((certKeyFun n t.1 l : ℤ) : ℂ)) * character (certKeyFun n t.1) θ).sum
+  | [] => ⟨0, by simpa using hasFDerivAt_const (0 : ℂ) θ, by simp⟩
+  | t :: L => by
+    obtain ⟨D, hD, hv⟩ := hasFDerivAt_charSum f l θ L
+    refine ⟨f t • fderiv ℂ (character (certKeyFun n t.1)) θ + D, ?_, ?_⟩
+    · simp only [List.map_cons, List.sum_cons]
+      exact (((differentiable_character _) θ).hasFDerivAt.const_mul (f t)).add hD
+    · rw [_root_.add_apply, _root_.smul_apply, hv,
+        fderiv_character_single, List.map_cons, List.sum_cons, smul_eq_mul]
+      ring
+
+/-- The second partial `∂_l ∂_j P` of a polynomial: `(2π)² Σ -k_j k_l c_k χ_k`. -/
+theorem CertPoly.fderiv_fderiv_eval_single (P : CertPoly α) (j l : Fin n) (θ : Fin n → ℂ) :
+    fderiv ℂ (fun y => fderiv ℂ (P.eval n) y (Pi.single j 1)) θ (Pi.single l 1) =
+      (2 * Real.pi) ^ 2 * (P.terms.map fun t =>
+        ((-(certKeyFun n t.1 j * certKeyFun n t.1 l) : ℤ) : ℂ) * t.2.toC *
+          character (certKeyFun n t.1) θ).sum := by
+  set f : CertKey × CC α → ℂ := fun t => Complex.I * ((certKeyFun n t.1 j : ℤ) : ℂ) * t.2.toC
+  have hfun : (fun y => fderiv ℂ (P.eval n) y (Pi.single j 1)) =
+      fun y => (2 * (Real.pi : ℂ)) *
+        (P.terms.map fun t => f t * character (certKeyFun n t.1) y).sum :=
+    funext fun y => CertPoly.fderiv_eval_single P j y
+  obtain ⟨D, hD, hv⟩ := hasFDerivAt_charSum f l θ P.terms
+  rw [hfun, (hD.const_mul (2 * (Real.pi : ℂ))).fderiv, _root_.smul_apply, hv,
+    smul_eq_mul]
+  have : ∀ t : CertKey × CC α, f t * (Complex.I * ((certKeyFun n t.1 l : ℤ) : ℂ)) *
+      character (certKeyFun n t.1) θ = ((-(certKeyFun n t.1 j * certKeyFun n t.1 l) : ℤ) : ℂ) *
+        t.2.toC * character (certKeyFun n t.1) θ := fun t => by
+    simp only [f]
+    push_cast
+    ring_nf
+    rw [Complex.I_sq]
+    ring
+  simp only [this]
+  ring
+
+/-- `y ↦ ∂_j P(y)` is holomorphic. -/
+theorem CertPoly.differentiable_fderiv_eval_single (P : CertPoly α) (j : Fin n) :
+    Differentiable ℂ (fun y => fderiv ℂ (P.eval n) y (Pi.single j 1)) := by
+  have hfun : (fun y => fderiv ℂ (P.eval n) y (Pi.single j 1)) =
+      fun y => (2 * (Real.pi : ℂ)) * (P.terms.map fun t =>
+        (Complex.I * ((certKeyFun n t.1 j : ℤ) : ℂ) * t.2.toC) *
+          character (certKeyFun n t.1) y).sum :=
+    funext fun y => CertPoly.fderiv_eval_single P j y
+  rw [hfun]
+  exact (differentiable_list_sum P.terms _
+    fun t => (differentiable_character _).const_mul _).const_mul _
+
+variable [LawfulCertArith α]
+
+/-- Angle rows of `L = DK`: `L_{(inl i) j} = δ_ij + ∂_j((2π)^{dU_i} U_i)`. -/
+theorem tangentMat_eval_inl (K : CertEmbedding α) (θ : Fin n → ℂ) (i j : Fin n) :
+    tangentMat (K.eval n) θ (Sum.inl i) j = (Pi.single j 1 : Fin n → ℂ) i +
+      (2 * (Real.pi : ℂ)) ^ (K.angleDeg.getD i.val 0) *
+        fderiv ℂ ((realCompPoly n K.angle[i.val]?).eval n) θ (Pi.single j 1) := by
+  rw [tangentMat_apply, sumVec_apply, Sum.elim_inl, CertEmbedding.fderiv_eval_fst]
+  exact congrArg _ (fderiv_realComp_apply n _ _ θ _)
+
+/-- Action rows of `L = DK`: `L_{(inr i) j} = ∂_j((2π)^{dA_i} A_i)`. -/
+theorem tangentMat_eval_inr (K : CertEmbedding α) (θ : Fin n → ℂ) (i j : Fin n) :
+    tangentMat (K.eval n) θ (Sum.inr i) j = (2 * (Real.pi : ℂ)) ^ (K.actionDeg.getD i.val 0) *
+      fderiv ℂ ((realCompPoly n K.action[i.val]?).eval n) θ (Pi.single j 1) := by
+  rw [tangentMat_apply, sumVec_apply, Sum.elim_inr, CertEmbedding.fderiv_eval_snd]
+  exact fderiv_realComp_apply n _ _ θ _
+
+/-- `∂_l L_{(inl i) j} = (2π)^{dU_i} ∂_l ∂_j U_i`. -/
+theorem fderiv_tangentMat_eval_inl (K : CertEmbedding α) (θ : Fin n → ℂ) (i j l : Fin n) :
+    fderiv ℂ (fun y => tangentMat (K.eval n) y (Sum.inl i) j) θ (Pi.single l 1) =
+      (2 * (Real.pi : ℂ)) ^ (K.angleDeg.getD i.val 0) *
+        fderiv ℂ (fun y => fderiv ℂ ((realCompPoly n K.angle[i.val]?).eval n) y
+          (Pi.single j 1)) θ (Pi.single l 1) := by
+  have hd := (realCompPoly n K.angle[i.val]?).differentiable_fderiv_eval_single j θ
+  simp only [tangentMat_eval_inl]
+  rw [fderiv_const_add, fderiv_const_mul hd, _root_.smul_apply, smul_eq_mul]
+
+/-- `∂_l L_{(inr i) j} = (2π)^{dA_i} ∂_l ∂_j A_i`. -/
+theorem fderiv_tangentMat_eval_inr (K : CertEmbedding α) (θ : Fin n → ℂ) (i j l : Fin n) :
+    fderiv ℂ (fun y => tangentMat (K.eval n) y (Sum.inr i) j) θ (Pi.single l 1) =
+      (2 * (Real.pi : ℂ)) ^ (K.actionDeg.getD i.val 0) *
+        fderiv ℂ (fun y => fderiv ℂ ((realCompPoly n K.action[i.val]?).eval n) y
+          (Pi.single j 1)) θ (Pi.single l 1) := by
+  have hd := (realCompPoly n K.action[i.val]?).differentiable_fderiv_eval_single j θ
+  simp only [tangentMat_eval_inr]
+  rw [fderiv_const_mul hd, _root_.smul_apply, smul_eq_mul]
+
+end Embedding
 
 end KAM.Certificate
 
