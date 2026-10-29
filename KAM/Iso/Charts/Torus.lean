@@ -26,8 +26,9 @@ Blueprint nodes `bpI:p3:hypothesis-d` and
   `R = flatRemainder`, a bounded perturbation, an invertible average for small `ε`, and an energy
   average within `ε` of `h(I)`.
 
-`KAM.Head.unperturbed` carries `KAM.Head.Data`, which includes the Kolmogorov nondegeneracy condition;
-the flat-torus facts are restated here for `HeadData` and `PerturbData`, with the same proofs (`TorusAux`).
+`KAM.Head.unperturbed` carries `KAM.Head.Data`, which includes the Kolmogorov nondegeneracy
+condition; the flat-torus facts are restated here for `HeadData` and `PerturbData`, with the same
+proofs (`TorusAux`).
 -/
 
 public section
