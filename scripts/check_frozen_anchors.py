@@ -239,6 +239,10 @@ class Guard:
                 or limits["max_body_lines"] < 1 or limits["max_body_bytes"] < 1):
             self.fail("manifest: seal_limits must have positive max_body_lines and max_body_bytes")
             limits = {"max_body_lines": 1, "max_body_bytes": 1}
+        # The limits are the campaign's (D26), not the manifest's to relax: editing the manifest must not allow longer
+        # seal bodies (guard mutation j7, 2026-10-29).
+        elif limits["max_body_lines"] > 3 or limits["max_body_bytes"] > 240:
+            self.fail("manifest: seal_limits may not exceed 3 lines and 240 bytes (D26)")
         anchors = data.get("anchors")
         if not isinstance(anchors, list) or not anchors:
             self.fail("manifest: anchors must be a nonempty array")

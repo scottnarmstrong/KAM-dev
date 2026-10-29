@@ -179,3 +179,16 @@ without rebuilding a mutated frozen module; only its manifest-edit side (j2, `--
   `lake exe` build of the checker; `leanchecker` is not an independent kernel. A nanoda run on the frozen anchors only
   would still need Mathlib's closure.
 * The kernel replay and the mutation suite are not yet gates of `scripts/land-branch.sh`.
+
+## Re-run after the guard fixes (2026-10-29, main orchestrator)
+
+The first run (I-GUARDS) found 18 accepted mutations. `scripts/lint_sources.sh` now forbids, in masked code, the proof
+escapes and meta code (native_decide, decide +native, ofReduceBool/Nat, skipKernelTC, #eval, run_cmd/run_elab/run_meta,
+by_elab, addDecl, elaborators including mid-line `open ... in elab`, global macro/syntax definitions (file-local tactic
+macros stay allowed), elaborator attributes, sorryAx, implemented_by, extern), provider imports outside the frozen
+anchors and the generated root, and any use of a DRAFT_SORRY export outside its frozen file and provider;
+`scripts/check_frozen_anchors.py` caps the manifest's seal limits at the D26 values (3 lines, 240 bytes).
+
+Full re-run: 66 rejected, 5 not rejected; the 3 real ones (j7, k1, k10) were then fixed and re-run: 3 / 3 rejected.
+The remaining two are moot while every anchor is sealed: a7 (no DRAFT_SORRY body left to mutate) and e3 (it uses
+`planetaryExponentialSafety`, now SEALED, which may be used; the new DRAFT_SORRY rule covers future drafts).

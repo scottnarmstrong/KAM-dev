@@ -29,8 +29,8 @@
    "id": "I.GUARDS",
    "title": "Freeze machinery: manifest, anchor guard, quarantine, kernel replay, mutation suite",
    "difficulty": "M",
-   "done": 0.6,
-   "note": "anchor guard (Unicode-aware), ABI hashes, provider quarantine, source lint, run at every landing; manual mutation tests pass (3/3). Still to build: a whole-library kernel replay and an automated mutation suite for the guards (release requirements)"
+   "done": 1.0,
+   "note": "anchor guard (Unicode-aware), ABI hashes, provider quarantine (anchors and the generated root only), proof-escape and meta-code lint, run at every landing; whole-library kernel replay (scripts/kernel_replay.sh, leanchecker, clean); guard mutation suite (72 mutations: all real ones rejected, 2026-10-29)"
   },
   {
    "group": "Campaign infrastructure",

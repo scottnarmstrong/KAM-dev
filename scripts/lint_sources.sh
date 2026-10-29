@@ -59,6 +59,9 @@ import sys, re, importlib.util
 spec = importlib.util.spec_from_file_location("m", sys.argv[1]); m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 root = sys.argv[2]
+import json
+drafts = [(a["export"], a["export"].split(".")[-1])
+          for a in json.load(open(root + "/manifest/frozen-anchors.json"))["anchors"] if a.get("state") == "DRAFT_SORRY"]
 bad = [
     (r"\bnative_decide\b", "native_decide"),
     (r"\bdecide\s*\+\s*native\b|\bnative\s*:=\s*true\b", "decide +native"),
@@ -66,12 +69,12 @@ bad = [
     (r"\bskipKernelTC\b", "debug.skipKernelTC"),
     (r"#eval\b|\brun_cmd\b|\brun_elab\b|\brun_meta\b|\bby_elab\b", "code execution (#eval, run_cmd, run_elab, run_meta, by_elab)"),
     (r"\baddDecl\b|\baddDeclCore\b", "addDecl"),
-    (r"^\s*(@\[[^\]]*\]\s*)*((private|protected|local|scoped)\s+)*(elab|elab_rules|declare_syntax_cat)\b",
+    (r"(^|\bin\s+|;\s*)(@\[[^\]]*\]\s*)*((private|protected|local|scoped)\s+)*(elab|elab_rules|declare_syntax_cat)\b",
      "elaborator definition (runs arbitrary meta code)"),
     # File-local tactic macros only expand syntax to ordinary tactics, so they are allowed; global ones are not.
-    (r"^\s*(@\[[^\]]*\]\s*)*((private|protected|scoped)\s+)*(macro|macro_rules|syntax)\b",
+    (r"(^|\bin\s+|;\s*)(@\[[^\]]*\]\s*)*((private|protected|scoped)\s+)*(macro|macro_rules|syntax)\b",
      "non-local macro or syntax definition (use `local macro`)"),
-    (r"\b(command_elab|term_elab|tactic_elab|tactic)\s*\]|@\[\s*(command_elab|term_elab|tactic)\b", "elaborator attribute"),
+    (r"\[\s*(command_elab|term_elab|tactic_elab|tactic)\b", "elaborator attribute"),
     (r"\bsorryAx\b", "sorryAx"),
     (r"\bimplemented_by\b|@\[\s*extern\b", "implemented_by / extern"),
 ]
@@ -82,6 +85,10 @@ for f in sys.stdin.read().split():
         for pat, label in bad:
             if re.search(pat, line):
                 print(f"{rel}:{i}: {label}")
+        if drafts and not (rel.startswith("KAM/Frozen/") or rel.startswith("KAM/Provider/") or rel == "KAM.lean"):
+            for full, short in drafts:
+                if re.search(r"(?<![\w.])(" + re.escape(full) + "|" + re.escape(short) + r")(?![\w])", line):
+                    print(f"{rel}:{i}: DRAFT_SORRY anchor {full} used outside its frozen file and provider")
         if re.match(r"\s*(public\s+)?(meta\s+)?import\s+KAM\.Provider\.", line) and not (
                 rel.startswith("KAM/Frozen/") or rel == "KAM.lean"):
             print(f"{rel}:{i}: provider imported outside its frozen anchor and the generated root")

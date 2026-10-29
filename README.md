@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 19:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · SO checker 68 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **267,081 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 19:53 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 68 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **267,081 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -109,19 +109,19 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **98.8 %** · SO checker **68 %** · SO Moon **58 %**
+### Estimated completion: original project **99.3 %** · SO checker **68 %** · SO Moon **58 %**
 
-Original project (tracks K, I, N, P): `█████████████████████████` 98.8 %
+Original project (tracks K, I, N, P): `█████████████████████████` 99.3 %
 
 Track SO, part 1, the general Lean certificate checker: `█████████████████░░░░░░░░` 68.2 %
 
 Track SO, part 2, the Moon's spin rate (its first client): `███████████████░░░░░░░░░░` 58.3 %
 
-Overall, everything together: 91.0 %
+Overall, everything together: 91.4 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
-| Campaign infrastructure | 4 | 5 | 4.2 | `████████░░` 84 % |
+| Campaign infrastructure | 4 | 5 | 5.0 | `██████████` 100 % |
 | Statement and planning | 8 | 26 | 24.8 | `██████████` 95 % |
 | Analytic infrastructure | 8 | 24 | 24.0 | `██████████` 100 % |
 | A-posteriori KAM at fixed frequency | 4 | 24 | 24.0 | `██████████` 100 % |
@@ -132,7 +132,7 @@ Overall, everything together: 91.0 %
 | Sealing of the frozen statements | 22 | 22 | 22.0 | `██████████` 100 % |
 | Track SO, part 1: general Lean certificate checker | 6 | 32 | 21.8 | `███████░░░` 68 % |
 | Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 11.7 | `██████░░░░` 58 % |
-| **Total** | 74 | 229 | 208.4 | **91.0 %** |
+| **Total** | 74 | 229 | 209.2 | **91.4 %** |
 
 **How this is estimated.** The project is divided into 52 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
 
@@ -142,7 +142,7 @@ Overall, everything together: 91.0 %
 |---|---|---|---|---|
 | I.REPO | Repository: toolchain v4.35.0, Mathlib v4.35.0, module-system checks, source lint | L | ✅ 100 % |  |
 | I.HQ | Campaign HQ: this README, generator, 20-minute cron and post-commit hook | L | ✅ 100 % | generated README (scripts/hq-status.py), 20-minute cron and post-commit hook, running since 2026-10-27 |
-| I.GUARDS | Freeze machinery: manifest, anchor guard, quarantine, kernel replay, mutation suite | M | 🟨 60 % | anchor guard (Unicode-aware), ABI hashes, provider quarantine, source lint, run at every landing; manual mutation tests pass (3/3). Still to build: a whole-library kernel replay and an automated mutation suite for the guards (release requirements) |
+| I.GUARDS | Freeze machinery: manifest, anchor guard, quarantine, kernel replay, mutation suite | M | ✅ 100 % | anchor guard (Unicode-aware), ABI hashes, provider quarantine (anchors and the generated root only), proof-escape and meta-code lint, run at every landing; whole-library kernel replay (scripts/kernel_replay.sh, leanchecker, clean); guard mutation suite (72 mutations: all real ones rejected, 2026-10-29) |
 | I.BUILD | Shared build snapshot for worktrees and machine-wide compile gate | L | ✅ 100 % | machine-wide compile gate (inp_lake_build.sh) and copy-on-write worktree builds on the main snapshot, in use since 2026-10-27 |
 | S.SURVEY | Literature survey: candidate sources, prior formal work, Mathlib inventory | M | ✅ 100 % | three research reports (2026-10-27): sources, warm-ups and norms, prior formalizations |
 | S.SOURCES | Pinned source library: PDFs with SHA-256, bibliographic data checked against arXiv and Crossref | L | 🟨 85 % | 50 PDFs pinned in sources/SHA256SUMS; 20 in the registry; per-paper summaries still to write |
@@ -202,7 +202,7 @@ Overall, everything together: 91.0 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **267,081** (208,760 excluding blank lines and comments) · **+98,886** since 2026-10-28 19:40 UTC |
-| Written on agent branches, not yet landed | 996 |
+| Written on agent branches, not yet landed | 1,344 |
 | **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 7,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 91.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 19:40 UTC from `main` at `7a8e0f2e` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 19:53 UTC from `main` at `e8f9640d` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -371,7 +371,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **soemb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMB: Expr/Compose (Witnesses, Slp.compose with cached norms and per-witness advice, com | `inp-soemb` | 3 (vs `inp`) |
+| **soemb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMB: rename ComposeState.push/Valid (Mathlib short names) to pushSlot/SlotsEnclose | `inp-soemb` | 7 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
