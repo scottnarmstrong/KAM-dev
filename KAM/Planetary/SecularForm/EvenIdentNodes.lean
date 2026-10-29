@@ -529,7 +529,9 @@ theorem p8_id1 (q : ℕ) :
     rw [← h]; ring_nf
   have hf : laplaceTerm (1/2) 0 (q + 1) =
       fun x : ℝ => halfCoef 0 (q + 1) * x ^ ((2 * q + 1) + 1) := by
-    funext x; rw [laplaceTerm_half]
+    funext x
+    have e : 2 * (q + 1) + 0 = 2 * q + 1 + 1 := by omega
+    rw [laplaceTerm_half, e]
   have hop : ∀ α : ℝ, α * iteratedDeriv 2 (laplaceTerm (1/2) 0 (q + 1)) α +
       2 * deriv (laplaceTerm (1/2) 0 (q + 1)) α =
       (pcoef (1/2) (q + 1) ^ 2 * (((2 * (q + 1) : ℕ) : ℝ) * (((2 * (q + 1) : ℕ) : ℝ) + 1))) *
@@ -549,7 +551,7 @@ theorem p8_id1 (q : ℕ) :
     ring
   refine ⟨hop, hc, ?_, fun α => ?_⟩
   · funext α; rw [laplaceTerm_eq_coef_mul]
-  · rw [hop, hc, laplaceTerm_eq_coef_mul]; rfl
+  · rw [hop, hc, laplaceTerm_eq_coef_mul]
 
 /-- `stepP:p8:id-2`: with `c_q = halfCoef 1 q` the coefficient of `α^(2q+1)` in `b_{1/2}^{(1)}`, the
 operator `α² ∂² + 2 α ∂ - 2` sends the monomial `c_q α^(2q+1)` to `0` for `q = 0` and to
@@ -590,7 +592,9 @@ theorem p8_id2 (r : ℕ) :
     intro α
     have hf : laplaceTerm (1/2) 1 (r + 1) =
         fun x : ℝ => halfCoef 1 (r + 1) * x ^ ((2 * r + 2) + 1) := by
-      funext x; rw [laplaceTerm_half]
+      funext x
+      have e : 2 * (r + 1) + 1 = 2 * r + 2 + 1 := by omega
+      rw [laplaceTerm_half, e]
     rw [hf, iteratedDeriv_two_eq_deriv, deriv_monomial_succ]
     have h2 := deriv_monomial_succ (halfCoef 1 (r + 1) * (((2 * r + 2 + 1 : ℕ) : ℝ))) (2 * r + 1)
     have h2' : deriv (fun x : ℝ => halfCoef 1 (r + 1) *
@@ -608,6 +612,7 @@ theorem p8_id2 (r : ℕ) :
       funext x; rw [laplaceTerm_half]
     rw [hf, iteratedDeriv_two_eq_deriv, deriv_monomial_succ]
     simp
+    ring
   · rw [hop, hc, hR]
 
 end SecularForm
