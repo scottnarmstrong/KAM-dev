@@ -1012,7 +1012,7 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   [4, 10, ...] are never looked up; a mirror run of T2d takes ~400 s, so the lunar mirror needs the packed route.
   Landing as Python/data (the Lean checker is authoritative and fails closed). SO-TEST-A (toys through the whole
   checker in the kernel, the first whole-certificate kernel measurement) started on the aligned data.
-- **22:27. Heartbeat; SO-DATA-1 started.** Running: SO-TEST-A (prover), SO-TEST-B audit (codex-3), SO-DATA-1 (new, all
+- **22:24. Heartbeat; SO-DATA-1 started.** Running: SO-TEST-A (prover), SO-TEST-B audit (codex-3), SO-DATA-1 (new, all
   claude-12, Opus; claude-12 98 %, codex-3 99 %, codex-4 87 %). SO-TEST-B done: the ten negative tests of design §8
   each fail in their intended sub-check, and a hand-built n = 2 base certificate passes the whole checker in the
   kernel in about 7 s. It disagrees with SO-PYALIGN on whether the invariance advice keys [5, a, l] are looked up;
