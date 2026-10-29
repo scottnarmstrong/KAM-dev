@@ -26500,8 +26500,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: situation (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES, but Lean situation is only an alias of SelectionEvaluationOutput; the source (S) standing situation (iteration, schedule) is inherited upstream, not defined here
 NOTE: Section data (conventions L28 and the situation (S), L30-L32); the conventions paragraph L28 is mapped to limit-torus and the lemmas that use X_phi, Omega_0, canonical maps.
 
 NODE: bpP:p11a:z-chain
@@ -27778,9 +27778,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput, selectionHalfCell, selectionClosedCell, selectionQuotient (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; output record carries (a)-(d); signed statement
 NOTE: Statement sentence 'In the notation of Definition bpP:p11:kam-input: (K4) holds for H=H_infty' (L221) and the \source Kref citations (L222, provenance) are not edges here (steps carry the K edges); kam-input -> evaluation-bilipschitz lies in P-p11.
 
 NODE: stepP:p11a:eb-bounds
@@ -27807,9 +27807,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields bilipschitz, inverse_bound
 NOTE: -
 
 NODE: stepP:p11a:eb-ext
@@ -27840,9 +27840,9 @@ EDGE: bpP:p11a:lipschitz-family | blueprint-P/parts/p11a4-limit-family.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields extension*, extension_defect_lip
 NOTE: -
 
 NODE: stepP:p11a:eb-meas
@@ -27872,9 +27872,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields image_*, measure_*
 NOTE: -
 
 NODE: stepP:p11a:eb-cpt
@@ -27903,9 +27903,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields closed_image_compact, lattice_union, quotient_compact
 NOTE: -
 
 NODE: bpP:p11a:thresholds
