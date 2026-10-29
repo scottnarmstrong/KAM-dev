@@ -79,29 +79,92 @@ def exp_up(x):
 TWOPI_UP = up(2 * math.pi * (1 + 1e-15))
 
 
-def build(which, Lv, LE, LJ, S, log=print):
-    """Candidate data (dyadic, scale S) and the exact residual bounds.  Returns dict."""
+IMP_CV = 4e-4           # importance of a v mode: |b| (lambda^2 + IMP_CV) w^|kappa|   (E recomputed from v)
+IMP_CV_OLDE = 1.5e-2    # ... with the SO-GEN witness kept: + IMP_CV_OLDE |kappa|_1 (witness-defect path)
+IMP_CE = (1.2e-2, 2e-4) # importance of an E mode: |E| (a |kappa|_1 + b) w^|kappa|
+IMP_CJ = 5e-2           # importance of a J mode: |J| (|lambda| + IMP_CJ) w^|kappa|
+
+
+def _w(k, l):
+    return math.exp(2 * math.pi * float(RHO) * (abs(k) + abs(l)))
+
+
+def recompute_E(which, bS, S, log=print):
+    """E = exp(2 i v) of the (rounded) data v on the SO-GEN 512 x 128 grid (520-bit fixed point), rounded to 2^-S.
+    Aliasing error ~ the E coefficients beyond the grid (< 1e-120); the exact witness defect is bounded anyway."""
+    from hpfft import P as PH, fft2, zeros
+    from hpsolve import HP
+    nx, nt = 512, 128
+    t0 = time.time()
+    H = HP(nx, nt, which)
+    sh = PH - S
+    re = zeros((nx, nt)); im = zeros((nx, nt))
+    for (k, l), n in bS.items():
+        assert abs(k) < nx // 2 and abs(l) < nt // 2
+        im[k % nx, l % nt] = -n << (sh - 1); im[(-k) % nx, (-l) % nt] = n << (sh - 1)
+    gr, gi = H.vgrid(re, im)
+    er, ei = H.expj2(gr)
+    Fr, Fi = fft2(er, ei, -1)
+    Fr = Fr >> H.logN
+    E = {}
+    for a in range(nx):
+        for c in range(nt):
+            if a == nx // 2 or c == nt // 2:
+                continue
+            k = a if a < nx // 2 else a - nx; l = c if c < nt // 2 else c - nt
+            n = (int(Fr[a, c]) + (1 << (sh - 1))) >> sh
+            if n:
+                E[(k, l)] = n
+    log("  E recomputed from v on %dx%d (%.1fs)" % (nx, nt, time.time() - t0))
+    return E
+
+
+def build(which, Lv, LE, LJ, S, log=print, weighted=False, newE=False):
+    """Candidate data (dyadic, scale S) and the exact residual bounds.  Returns dict.
+    weighted=False: drop coefficients with |c| < 10^-L (L = Lv, LE, LJ).  weighted=True: drop modes whose
+    IMPORTANCE (residual contribution model above) is < 10^-L.  newE: recompute E = exp(2 i v) from the data v."""
     t0 = time.time()
     Wt = Weights(RHO)
     b0, E0, P = load_candidate(which)
     mpmath.mp.prec = 1400
-    # --- v: truncate at 10^-Lv (on the 440-bit data), round to S bits
-    tv = int(mpmath.ceil(mpmath.mpf(10) ** (-Lv) * 2**P))
+    s1f = float(nu_minus_one_mp(which))
     sh = P - S
+    def rnd(n):
+        return (n + (1 << (sh - 1))) >> sh
+    # --- v: truncate (on the 440-bit data), round to S bits
     bS = {}
-    for kk, n in b0.items():
-        if abs(n) >= tv:
-            r = (n + (1 << (sh - 1))) >> sh
-            if r:
-                bS[kk] = r
-    # --- E~: SO-GEN witness, truncate at 10^-LE, round
-    tE = int(mpmath.ceil(mpmath.mpf(10) ** (-LE) * 2**P))
+    if not weighted:
+        tv = int(mpmath.ceil(mpmath.mpf(10) ** (-Lv) * 2**P))
+        sel = [kk for kk, n in b0.items() if abs(n) >= tv]
+    else:
+        cv = IMP_CV if newE else 0.0
+        sel = []
+        for (k, l), n in b0.items():
+            lam = s1f * k + l
+            imp = abs(n) / 2.0**P * (lam * lam + cv + (0 if newE else IMP_CV_OLDE * (abs(k) + abs(l)))) * _w(k, l)
+            if imp >= 10.0 ** (-Lv):
+                sel.append((k, l))
+    for kk in sel:
+        r = rnd(b0[kk])
+        if r:
+            bS[kk] = r
+    # --- E~: SO-GEN witness (or recomputed from v), truncated, rounded
+    if newE:
+        Efull = recompute_E(which, bS, S, log)          # already at scale S
+        PE = S
+    else:
+        Efull = E0; PE = P
     ES = {}
-    for kk, n in E0.items():
-        if abs(n) >= tE:
-            r = (n + (1 << (sh - 1))) >> sh
+    tE = int(mpmath.ceil(mpmath.mpf(10) ** (-LE) * 2**PE))
+    for (k, l), n in Efull.items():
+        if not weighted:
+            keep = abs(n) >= tE
+        else:
+            keep = abs(n) / 2.0**PE * (IMP_CE[0] * (abs(k) + abs(l)) + IMP_CE[1]) * _w(k, l) >= 10.0 ** (-LE)
+        if keep:
+            r = rnd(n) if PE == P else n
             if r:
-                ES[kk] = r
+                ES[(k, l)] = r
     # --- p~ = round(nu + sum b lambda cos), coefficients at scale S
     nu = 1 + nu_minus_one_mp(which)
     s1 = nu_minus_one_mp(which)
@@ -133,8 +196,13 @@ def build(which, Lv, LE, LJ, S, log=print):
     tJ = F(1, 10**LJ)
     Jt = {}
     for kk, x in Jd.items():
-        if kk != (0, 0) and abs(F(x, DenJ)) < tJ:
-            continue
+        if kk != (0, 0):
+            if not weighted and abs(F(x, DenJ)) < tJ:
+                continue
+            if weighted:
+                lam = abs(s1f * kk[0] + kk[1])
+                if abs(x / DenJ) * (lam + IMP_CJ) * _w(*kk) < 10.0 ** (-LJ):
+                    continue
         q = F(x * (1 << (S + 1)), DenJ)
         r = math.floor(q + F(1, 2))
         if r:
@@ -149,7 +217,7 @@ def build(which, Lv, LE, LJ, S, log=print):
         if x:
             dJ[kk] = x
 
-    res = dict(which=which, Lv=Lv, LE=LE, LJ=LJ, S=S, v=v, p=p, E=E, J=J, bS=bS, pS=pS, p0=p0, ES=ES,
+    res = dict(which=which, Lv=Lv, LE=LE, LJ=LJ, S=S, weighted=weighted, newE=newE, v=v, p=p, E=E, J=J, bS=bS, pS=pS, p0=p0, ES=ES,
                nv_half=len(bS), nE=len(ES), np_half=len(pS), nJ_full=len(Jt))
     res["bounds"] = bounds(which, v, p, E, J, dJ, DenJ, S, Wt, log)
     log("  total %.1fs" % (time.time() - t0))

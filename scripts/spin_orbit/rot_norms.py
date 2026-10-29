@@ -69,6 +69,28 @@ def madd(*fs):
     return out
 
 
+def grid_rowsum_sup(Bm, Wt, N1=4096, N2=1024):
+    """ALTERNATIVE (not in the designed checker) rigorous bound of sup_{T_rho} max_i sum_j |B_ij|: the row sums are
+    plurisubharmonic and continuous on the closed polystrip, so the sup is attained on the distinguished boundary
+    |Im psi| = |Im phi| = rho (two tori up to conjugation, B real on reals).  On each torus: max over an N1 x N2 grid
+    (double FFT, + 1e-9 evaluation guard) + (h1/2) sum_j sup|d_psi B_ij| + (h2/2) sum_j sup|d_phi B_ij|, the
+    derivative sups bounded by weighted l1 norms (theta units, 2 pi rounded up)."""
+    rho = float(RHO)
+    tp = up(2 * math.pi * (1 + 1e-15))
+    best = 0.0
+    lips = []
+    for i in range(2):
+        a = addu(*[mulu(tp, Bm[i][j].dpsi().norm(Wt)) for j in range(2)])
+        b = addu(*[mulu(tp, Bm[i][j].dphi().norm(Wt)) for j in range(2)])
+        lips.append(addu(mulu(a, 0.5 / N1), mulu(b, 0.5 / N2)))
+    for (yp, yf) in [(rho, rho), (rho, -rho)]:
+        vals = [[Bm[i][j].eval_grid(N1, N2, yp, yf) for j in range(2)] for i in range(2)]
+        for i in range(2):
+            m = float((np.abs(vals[i][0]) + np.abs(vals[i][1])).max())
+            best = max(best, addu(m, 1e-9, lips[i]))
+    return best
+
+
 def norms(cand, Delta, log=print):
     """cand: dict from rot_build.build (exact v, p, E, J SPolys).  Delta: witness error bound sup|exp(2iv) - E~|."""
     t0 = time.time()
@@ -186,7 +208,12 @@ def norms(cand, Delta, log=print):
         dt = gg[0][0] * gg[1][1] - gg[0][1] * gg[1][0]
         samp = max(samp, float((np.abs(gg[1][1] / dt) + np.abs(gg[0][1] / dt)).max()),
                    float((np.abs(gg[1][0] / dt) + np.abs(gg[0][0] / dt)).max()))
+    beta_grid = grid_rowsum_sup(Bm, Wt)
+    ginv_grid = up(beta_grid / (1 - delta) * (1 + 1e-15))
+    log("  Gram inverse ALTERNATIVE (grid + Lipschitz on the distinguished boundary): sup||B|| <= %.6f -> %.6f" % (
+        beta_grid, ginv_grid))
     out["gram"] = dict(beta=beta, delta=delta, Ginv_rowsum_bound=ginv, Ginv_minus_B=epsB, sampled_sup=samp,
+                       beta_grid_alternative=beta_grid, Ginv_rowsum_bound_grid_alternative=ginv_grid,
                        B_terms=[len(Bm[0][0]), len(Bm[0][1]), len(Bm[1][1])])
     out["B"] = {"B11": Bm[0][0].to_dict(), "B12": Bm[0][1].to_dict(), "B22": Bm[1][1].to_dict(), "scale_bits": 48}
     log("  Gram inverse: beta %.6f delta %.3e -> ||G^-1|| <= %.6f  (sampled sup %.6f; B terms %s) (%.1fs)" % (
