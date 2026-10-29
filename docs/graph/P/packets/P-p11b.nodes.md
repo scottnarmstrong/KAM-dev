@@ -1609,9 +1609,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: asymptotics, asymptotics_uniform_ratio, asymptotics_general_axes (KAM/Planetary/PlanarTorsion/Asymptotics.lean); p11c_relativeError (KAM/Planetary/PlanarTorsion/Asymptotics/Relative.lean)
+LEAN_NOTE: audit T19 PASS WITH NOTES; relative O(alpha^2) entries and -117/16 determinant, uniform in mass ratio, general axes
 NOTE: -
 
 NODE: stepP:p11b:as-in
@@ -1755,9 +1755,9 @@ EDGE: bpP:p11b:quartic-explicit | blueprint-P/parts/p11b-planar-torsion.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cAs_det (KAM/Planetary/PlanarTorsion/Asymptotics/Limits.lean); p11cAs_beta_smul (KAM/Planetary/PlanarTorsion/Asymptotics/Homogeneity.lean); asymptotics, asymptotics_general_axes (KAM/Planetary/PlanarTorsion/Asymptotics.lean)
+LEAN_NOTE: audit T19 PASS WITH NOTES; determinant -117/16 via p11cAs_det, homogeneity and general axes in signed exports
 NOTE: -
 
 NODE: bpP:p11b:torsion
