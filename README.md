@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 06:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.7 %** · frozen statements proved: 20 / 22 · **244,412 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 06:19 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.7 %** · frozen statements proved: 20 / 22 · **244,412 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 06:00 UTC from `main` at `989507b0` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 06:19 UTC from `main` at `74052569` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete (all 9 of their frozen theorems sealed). Tracks N and P: proof campaigns running; next Lean designs (P Part 1, N Parts 6–7) in audit. Overnight mode D29.
 
@@ -292,7 +292,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I, N published; P in final review), ODE layer (done), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | 🔄 running | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **gism** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: GAP-ISM: LeftoverNodes draft | `inp-gism` | 1 (vs `inp`) |
 | **lanen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Lane N handoff memo and tracked N11 signatures (lane N paused for Zohar's team) | `inp-lanen` | 17 (vs `inp`) |
 | **n11f1** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F1: prover handoff (lane N paused; not yet audited) | `inp-n11f1` | 16 (vs `inp`) |
 | **n11f2** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N11-F2: handoff and independent audit (FAIL: iterative cannot supply hc : 0 < b.c; open fo | `inp-n11f2` | 4 (vs `inp`) |
@@ -306,6 +305,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 06:18 | `74052569` | OVERNIGHT: track I gap programme complete (05:10-06:20) |
 | 2026-10-29 05:51 | `989507b0` | Land inp into main |
 | 2026-10-29 05:42 | `dcb5b63b` | Land inp into main |
 | 2026-10-29 05:38 | `bb950ca8` | Land inp into main |
@@ -317,7 +317,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 04:43 | `04c12fcf` | OVERNIGHT: fixedSunPlanetaryKAM sealed (anchors 20/22); 04:25-04:50 entries |
 | 2026-10-29 04:18 | `08048af7` | OVERNIGHT: 04:00-04:20 (graph schema owner item; P13-C passed, anchor batch pending) |
 | 2026-10-29 04:01 | `a216402e` | Land inp into main |
-| 2026-10-29 03:52 | `1a05a3e2` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
