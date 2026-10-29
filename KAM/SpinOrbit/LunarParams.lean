@@ -12,9 +12,10 @@ public import KAM.Certificate.Defs
 
 CONSTANTS-STUDY §2.2 and §4, owner ruling O5: `ρ' = 1/70`, `ρ∞ = ρ'/1000`, `μ = 1/160`, ray
 scalar `s = 1 + 10⁻⁶`, `ν = 10⁻⁶`, `σω = 2`, time scale `c = 237/125`, one majorant
-`𝔪 = M = σK = σB = σT = 1987/1000` (SO-GEN2's measured package; binding `σB`, the weighted-ℓ¹
-Gram inverse bound 1.97994), `γ = γ̄ = c/(42 s)`, `τ = 1`, `E₀ = 0`. The residual budget `err`
-and the displacement `disp` of each torus are parameters (filled by SO-DATA).
+`σK = σB = σT = 1987/1000` (SO-GEN2's measured package; binding `σB`, the weighted-ℓ¹
+Gram inverse bound 1.97994), `M = 203/100` (ruling D29: the `checkHamBounds` D²H sum is 2.0205),
+`γ = γ̄ = c/(42 s)`, `τ = 1`, `E₀ = 0`. The residual budget `err` and the displacement `disp` of
+each torus are parameters (filled by SO-DATA).
 -/
 
 @[expose] public section
@@ -35,7 +36,8 @@ def lunarR1 (err disp : ℚ) : CertParams where
   tau := 1
   rho := 1 / 70
   rhoInf := 1 / 70000
-  M := 1987 / 1000
+  -- `M` must exceed the D²H sum of `checkHamBounds`, 2.0205 on both R1 tori.
+  M := 203 / 100
   σK := 1987 / 1000
   σB := 1987 / 1000
   σT := 1987 / 1000
@@ -82,25 +84,25 @@ theorem lunarR1_staticCore_gen2 :
       decide (0 ≤ (lunarR1 (79 / 10 ^ 79) 0).err)) = true := by
   decide +kernel
 
-/-- The `C₁` smallness inequality of `checkSmallness` for R1 at `err = 10⁻⁷⁵` (the R1 threshold
-is about `10^{-74.669}`). -/
+/-- The `C₁` smallness inequality of `checkSmallness` for R1 at `err = 9 · 10⁻⁷⁶` (the R1
+threshold is about `9.772 · 10⁻⁷⁶ = 10^{-75.010}`). -/
 theorem lunarR1_smallness_C1 :
-    let p := lunarR1 (1 / 10 ^ 75) 0
+    let p := lunarR1 (9 / 10 ^ 76) 0
     decide (isoC1Q 2 p.tau p.rho p.rhoInf p.M p.σK p.σB p.σT p.μ p.nuRay p.γbar * p.err <
       p.γ ^ 4 * p.rho ^ (4 * p.tau)) = true := by
   decide +kernel
 
-/-- The threshold is sharp to a factor `10^{0.34}`: the inequality fails at `err = 10⁻⁷⁴`. -/
+/-- The threshold is sharp to a factor `1.03`: the inequality fails at `err = 10⁻⁷⁵`. -/
 theorem lunarR1_smallness_C1_fails :
-    let p := lunarR1 (1 / 10 ^ 74) 0
+    let p := lunarR1 (1 / 10 ^ 75) 0
     decide (isoC1Q 2 p.tau p.rho p.rhoInf p.M p.σK p.σB p.σT p.μ p.nuRay p.γbar * p.err <
       p.γ ^ 4 * p.rho ^ (4 * p.tau)) = false := by
   decide +kernel
 
-/-- The `C₂` displacement inequality at `err = 10⁻⁷⁵` with `disp = 10⁻³⁹`
-(`isoC2Q / (γ² ρ²) ≈ 10^{35.07}`). -/
+/-- The `C₂` displacement inequality at `err = 9 · 10⁻⁷⁶` with `disp = 10⁻³⁹`
+(`isoC2Q / (γ² ρ²) ≈ 1.709 · 10³⁵ = 10^{35.233}`). -/
 theorem lunarR1_smallness_C2 :
-    let p := lunarR1 (1 / 10 ^ 75) (1 / 10 ^ 39)
+    let p := lunarR1 (9 / 10 ^ 76) (1 / 10 ^ 39)
     decide (isoC2Q 2 p.tau p.rho p.rhoInf p.M p.σK p.σB p.σT * p.err ≤
       p.disp * (p.γ ^ 2 * p.rho ^ (2 * p.tau))) = true := by
   decide +kernel
