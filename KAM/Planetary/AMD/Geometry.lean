@@ -170,6 +170,34 @@ theorem geometry (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
   exact ⟨fun i => hd.trans_le (hr1 i).1,
     fun i j hij => hd.trans_le (hpair i j hij)⟩
 
+/-- `bpP:p14:geometry` and `stepP:p14:geo-b`: the literal radial inequalities
+`a_i (1 - e_i) ≤ |q_i| ≤ a_i (1 + e_i)` and the box bounds `d ≤ |q_i| ≤ R`, together with the
+conclusion of `geometry`. -/
+theorem geometry_radial (B : AMDBox n) (hB : B.Admissible) {z : Phase (n * 2)}
+    (hz : z ∈ amdOuter B) :
+    (∀ i, keplerAxis B.mass z i * (1 - planeLength (keplerEccVector B.mass z i)) ≤
+        planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤
+        keplerAxis B.mass z i * (1 + planeLength (keplerEccVector B.mass z i)) ∧
+      B.distance ≤ planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤ B.radius) ∧
+    ((∀ i, (B.lower i / B.mass i)^2 < keplerAxis B.mass z i ∧
+      keplerAxis B.mass z i < (B.upper i / B.mass i)^2 ∧
+      planeLength (bodyVector z.2 i) < B.mass i * Real.sqrt (2 / B.distance)) ∧
+    (∀ i j, i < j → B.distance ≤
+      planeLength (bodyVector z.1 j) - planeLength (bodyVector z.1 i)) ∧
+    z ∈ amdCompact B ∧ NoCollision z.1 ∧
+    (∀ i, planeLength (keplerEccVector B.mass z i) < B.ecc ∧
+      B.distance ≤ planeLength (bodyVector z.1 i) ∧
+      planeLength (bodyVector z.1 i) ≤ B.radius) ∧
+    ∀ mu : ℝ, PairBounds B.distance (2 * B.radius)
+      (barycentricPositions 1 B.mass mu z.1)) := by
+  have hg := geometry B hB hz
+  refine ⟨fun i => ?_, hg⟩
+  obtain ⟨-, -, -, -, -, -, -, -, hlow, hup, -⟩ :=
+    elements (m := B.mass) (z := z) i (hz.1 i)
+  exact ⟨hlow, hup, (hg.2.2.2.2.1 i).2⟩
+
 /-- `bpP:p14:geometry` (`geo-k`): the geometric compact set is compact and collision free. -/
 theorem amd_compact (B : AMDBox n) (hB : B.Admissible) :
     IsCompact (amdCompact B) ∧ amdCompact B ⊆ collisionFreeDomain n := by

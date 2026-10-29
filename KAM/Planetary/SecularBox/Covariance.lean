@@ -119,6 +119,30 @@ theorem sb_cov (m : Fin 2 → ℝ) (w : Phase (2+2)) (theta : ℝ) :
     rw [sbCov_orbitalUnit theta F, planeDot_rot, sbCov_rot_smul, sbCov_rot_sub, sbCov_rot_smul,
       rot_quarterTurn, rot_quarterTurn]
 
+/-- `bpP:p14:sb-cov`, `stepP:p14:sb-cv-1`, `stepP:p14:sb-cv-2`: the full source conjunction.
+`Γ`, `k`, `ρ = Γ/Λ` and `a` are unchanged, `v` rotates, and the scalar `x = v · c(F)` and the
+Jacobian `J` shift by `θ`, as do the position and momentum (which rotate). -/
+theorem sb_cov_full (m : Fin 2 → ℝ) (w : Phase (2+2)) (theta : ℝ) :
+    (∀ i, secularGamma (secularRotation theta w) i = secularGamma w i ∧
+      secularRoot (secularRotation theta w) i = secularRoot w i ∧
+      secularGamma (secularRotation theta w) i / fast (secularRotation theta w).2 i =
+        secularGamma w i / fast w.2 i ∧
+      secularAxis m (secularRotation theta w) i = secularAxis m w i ∧
+      secularEccVector (secularRotation theta w) i = rot theta (secularEccVector w i)) ∧
+    ∀ i F, planeDot (secularEccVector (secularRotation theta w) i) (orbitalUnit F) =
+        planeDot (secularEccVector w i) (orbitalUnit (F - theta)) ∧
+      longitudeJacobian (secularRotation theta w) i F = longitudeJacobian w i (F - theta) ∧
+      ellipsePosition m (secularRotation theta w) i F =
+        rot theta (ellipsePosition m w i (F - theta)) ∧
+      ellipseMomentum m (secularRotation theta w) i F =
+        rot theta (ellipseMomentum m w i (F - theta)) := by
+  have hc := sb_cov m w theta
+  refine ⟨fun i => ⟨sbCov_gamma theta w i, sbCov_root theta w i, ?_, ?_, sbCov_ecc theta w i⟩,
+    fun i F => ⟨?_, (hc.2 i F).1, (hc.2 i F).2.1, (hc.2 i F).2.2⟩⟩
+  · rw [sbCov_gamma, sbCov_fast_snd]
+  · unfold secularAxis; rw [sbCov_fast_snd]
+  · rw [sbCov_ecc, sbCov_orbitalUnit theta F, planeDot_rot]
+
 end KAM.Planetary
 
 end
