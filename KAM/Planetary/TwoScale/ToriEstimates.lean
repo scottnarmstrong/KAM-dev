@@ -14,7 +14,7 @@ public import KAM.Planetary.TwoScale.ToriSetup
 `|Im θ| < s̄/2π` with angle displacement `≤ 3 Ê s / 4π` (the three coordinatewise `StripLimit`s of
 `limit_phi_strip_of_steps`, reassembled). `tori_estimates_of_limit` is the private conditional
 helper for the local obligation `estimates` (steps `es-sup`, `es-loc`): angle bound, the two block
-sup bounds, and the location `v ∈ Re(D_r)`, `r = 32 Ê ρ̂`. Design package P23-20.
+sup bounds, and the location `v ∈ Re(D_r)`, `r = 32 Ê ρ̂`.
 -/
 
 @[expose] public noncomputable section
@@ -157,7 +157,7 @@ theorem tori_complex_ext {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b)}
         simp_rw [e]
         simpa [A] using (hGl k).fderiv_tendsto hz u
 
-/-- The local obligation `estimates` of `two_scale_kam` (private conditional helper, P23-20), on
+/-- The local obligation `estimates` of `two_scale_kam` (private conditional helper), on
 the shared limit data: for `I₀ ∈ D₀`, with `I_* = ǐ(I₀)` and the torus `θ ↦ Φ(θ, I_*) = (θ + u, v)`:
 the holomorphic extension with `|u| ≤ 3 Ê s/4π` on the strip (`tori_complex_ext`), the sup bounds
 `|v₁ - I₀,₁| ≤ 20 (M̄₁/M̄ + M̂/M) Ê ρ̂`, `|v₂ - I₀,₂| ≤ 20 (M̄₂/M̄ + 1) Ê ρ̂`, and the location

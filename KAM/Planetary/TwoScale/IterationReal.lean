@@ -15,7 +15,7 @@ The statement of `step` does not record that `ĩ₊` maps real points of `D` to 
 follows from the other outputs: `ĩ₊(I)` lies within `10 Ê R < R/16` of the real point `I`, hence
 in the ball of radius `R/16` around the real point `q = Re ĩ₊(I) ∈ D₊`, on which the new frequency
 map is holomorphic, real at real points and injective; Schwarz reflection then shows that
-`conj ĩ₊(I)` is a second preimage of the real frequency `ω₀(I)`. Design package P23-16.
+`conj ĩ₊(I)` is a second preimage of the real frequency `ω₀(I)`.
 -/
 
 @[expose] public noncomputable section

@@ -14,7 +14,6 @@ Facade over `MeasureActions` (`ActionsMeas`, `meas_actions_of_limit`), `MeasureS
 (`scaled_cover`, `lip_image_scaled`), `MeasureTorus` (`TorusMeas`, `TorusMeas.meas_torus_of_limit`)
 and `MeasureJoint` (constructors `actionsMeas_of_limit`, `torusMeas_of_limit`, `ko_eq`,
 `meas_torus_final` and the joint check `meas_of_iterative`). These are private conditional
-interfaces (design finding N2): the only hypotheses are bundles of proved outputs of
+interfaces: the only hypotheses are bundles of proved outputs of
 `limit_actions_of_steps` and `limit_phi_real_of_steps` on the shared witnesses of `iterative`.
-Design package P23-21.
 -/

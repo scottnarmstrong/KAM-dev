@@ -13,7 +13,7 @@ public import KAM.Planetary.TwoScale.ToriInvLimit
 For `G` holomorphic and real on reals on an open `W ⊆ ℂⁿ × ℂⁿ`, the real Hamiltonian field of
 `H = Re (G ∘ ι₂)` is continuous on the real points of `W` (`hvf_continuousOn`); it is read through
 the complex field `hamiltonianVectorFieldℂ G`, which is continuous because `G` is `C^∞`. Used for
-the passage of the field to the limit in `stepP:p3:inv-lim`. Design package P23-20.
+the passage of the field to the limit in `stepP:p3:inv-lim`.
 -/
 
 @[expose] public noncomputable section

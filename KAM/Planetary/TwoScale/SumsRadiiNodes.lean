@@ -8,7 +8,7 @@ module
 public import KAM.Planetary.TwoScale.TheoremTorus
 
 /-!
-# Two-scale KAM: literal export of the radii node (GAP-PX)
+# Two-scale KAM: literal export of the radii node
 
 Unsigned export stating the literal conclusion of `stepP:p3:sum-radii` from the original KAM
 hypotheses `KamHyp`.

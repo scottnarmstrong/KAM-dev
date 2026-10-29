@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.StepNext
 
 `D₊` is the image of `D` under the real part of `ĩ₊`. Generic facts: `ĩ₊` real on `D` makes
 `D₊ ⊆ ℝⁿ` sit in the tube of `D`, the neighbourhood inclusion `(D₊)_{R/16} ⊆ D_{R/8}`, the
-frequency image `ω₊(D₊) = ω₀(D)`, and the block constants. Design package P23-14.
+frequency image `ω₊(D₊) = ω₀(D)`, and the block constants.
 -/
 
 @[expose] public noncomputable section

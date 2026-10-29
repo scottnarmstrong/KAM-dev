@@ -10,8 +10,8 @@ public import KAM.Planetary.TwoScale.Iteration
 /-!
 # Two-scale KAM: the composed action maps (`bpP:p3:limit-actions`, well-posedness and steps)
 
-The private conditional interface of the local obligation `limit_actions` (design package P23-17).
-`ActionSteps` collects exactly the outputs of `iterative` (P23-16) that concern the action maps
+The private conditional interface of the local obligation `limit_actions`.
+`ActionSteps` collects exactly the outputs of `iterative` that concern the action maps
 `ĩ_j`; the real iterate chain `actionChain` is `ǐ_j = ĩ_j ∘ ⋯ ∘ ĩ_1` on real points. Here: the
 chain stays in the stage domains (`stepP:p3:la-wp`), consecutive differences are controlled
 blockwise by the step bounds (first part of `stepP:p3:la-tele`), the frequency identity

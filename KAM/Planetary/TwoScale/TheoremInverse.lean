@@ -15,7 +15,6 @@ On the real points of `D` the frequency map is real and injective (from the sour
 `KamHyp`), so every `ω ∈ Ω` has a unique `I ∈ dioBase` with `realFreq h I = ω`
 (`exists_inverse_locus`). The local estimate `‖I - J‖ ≤ M̄ ‖ω - ω'‖` for `‖ω - ω'‖ < ρ/M̄` comes
 from the ball continuation `ball` of `Inverse`; the global one needs `Bornology.IsBounded D`.
-Design package P23-22.
 -/
 
 @[expose] public noncomputable section

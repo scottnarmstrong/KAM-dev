@@ -8,7 +8,7 @@ module
 public import KAM.Planetary.TwoScale.LimitMapDisp
 
 /-!
-# Two-scale KAM: literal exports of the constant and sum nodes (GAP-P13)
+# Two-scale KAM: literal exports of the constant and sum nodes
 
 Unsigned exports stating the literal conclusions of `bpP:p3b#kam-bounds`, `stepP:p3:sum-doubling`
 and `stepP:p3:sum-weighted`, over the abstract sequence of `sums` and for `seq p`.

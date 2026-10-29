@@ -15,7 +15,7 @@ displacement `u` of the torus `φ = Φ(·, I_*)` has derivative bounded by `3 Ê
 (3/4) n Ê` (`stepP:p3:lg-cauchy`, Cauchy on the polydisc of radius `s̄/4π` of the strip), so the
 lower block `1 + Du` is injective; `φ` is real-analytic (restriction of the complex extension); and
 `φ^*(Σ dIᵢ ∧ dθᵢ) = 0` because the finite-stage tori `Φ_j(·, I_*)` are Lagrangian
-(`stage_lagr`) and their first derivatives converge (`stepP:p3:lg-lim`). Design package P23-20.
+(`stage_lagr`) and their first derivatives converge (`stepP:p3:lg-lim`).
 -/
 
 @[expose] public noncomputable section
@@ -49,7 +49,7 @@ theorem symplFormC_realInclusion₂ {n : ℕ} (v w : Phase n) :
       ((KAM.symplecticForm v w : ℝ) : ℂ) := by
   simp [symplFormC, KAM.symplecticForm]
 
-/-- The local obligation `lagr` of `two_scale_kam` (private conditional helper, P23-20), for the
+/-- The local obligation `lagr` of `two_scale_kam` (private conditional helper), for the
 torus `φ(θ) = Φ(θ, ǐ(I₀))`, `I₀ ∈ D₀`: it is real-analytic; the angle displacement has
 `‖D_θ u‖ ≤ (3/4) n Ê`; `Dφ` is injective; and `φ^*(Σ dIᵢ ∧ dθᵢ) = 0`. -/
 theorem tori_lagr_of_limit {D : Set (Fin (a + b) → ℝ)} {f : CHam (a + b)}

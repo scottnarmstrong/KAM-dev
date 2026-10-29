@@ -18,7 +18,7 @@ stage curves `γ_j(t) = ψ_j(θ + tω, I_*)` satisfy `γ_j' − X_H(γ_j) = Dψ_
 (`conj_field`), with `‖Dψ_j‖ ≤ κ` uniformly (`psiR_fderiv_bound`) and `‖(ω, 0) − X_{H_j}‖ ≤ C Ê_j`
 (`field_err`, with `ω = ω_j(ǐ_j(I₀))` the proved frequency identity and the three error terms of
 P3b L137–141), so `‖γ_j' − X_H(γ_j)‖ ≤ κ C Ê_j → 0` uniformly (`stage_err_le`); the passage to the
-limit is `curve_limit_field`. Design package P23-20.
+limit is `curve_limit_field`.
 -/
 
 @[expose] public noncomputable section
@@ -118,7 +118,7 @@ theorem PsiSteps.eHat_tendsto (P : PsiSteps sbar p Ds hs fs Ψ Φ) :
       (by norm_num)).const_mul (eHat p)
   exact squeeze_zero (fun j => (P.hyp j).eHat_nonneg) hb hz
 
-/-- The local obligation `invariance` of `two_scale_kam` (private conditional helper, P23-20): for
+/-- The local obligation `invariance` of `two_scale_kam` (private conditional helper): for
 `I₀ ∈ D₀`, `ω = ω(I₀)` and `φ(θ) = Φ(θ, ǐ(I₀))`, `d/dt φ(θ + tω) = X_H(φ(θ + tω))`, on the shared
 witnesses (`P`, `Q`, `T`). -/
 theorem tori_invariance_of_limit (H : KamHyp D sbar p h f)

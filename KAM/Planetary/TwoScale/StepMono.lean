@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.StepAvg
 
 The new domain `D₊` is not contained in `D` as a set of real points, only its complex neighbourhood
 is contained in a neighbourhood of `D`. These helpers move the class `InClass`, the bound `WBound`
-and reality between such neighbourhoods. Design package P23-14.
+and reality between such neighbourhoods.
 -/
 
 @[expose] public noncomputable section

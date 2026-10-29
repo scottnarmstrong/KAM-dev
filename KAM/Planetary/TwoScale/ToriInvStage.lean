@@ -16,7 +16,6 @@ M‖I − c‖ + E/δ` for a frequency `ω = ω(c)`, `c ∈ D`, and a real point
 `I ∈ Re(D)_{ρ/2}`, `δ = min(ρ/2, s̄/4π)`: the frequency increment is the mean value bound of
 `freq_lip`, and the two partial derivatives of `f` (the terms (2), (3) of P3b L137–141) are bounded
 together by the Cauchy estimate `‖Df‖ ≤ E/δ` on a polydisc of radius `δ` about `(θ, I)`.
-Design package P23-20.
 -/
 
 @[expose] public noncomputable section

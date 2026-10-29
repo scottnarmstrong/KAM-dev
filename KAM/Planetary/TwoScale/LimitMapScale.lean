@@ -16,8 +16,7 @@ public import KAM.Strip.RealRestriction
 
 The norm `limitmap_data R s (θ, I) = max (2π‖θ‖/s, ‖I‖/R)` of the source's rescaled coordinates
 `S(I, θ) = (I/ρ̂₀, 2πθ/s₀)`, and the linear isomorphism `Fin (n + n) → 𝕜 ≃ 𝕜ⁿ × 𝕜ⁿ` realising it
-as a max norm, so that `lip_sup` (`N = 2n`) applies in the scaled coordinates. Design package
-P23-18.
+as a max norm, so that `lip_sup` (`N = 2n`) applies in the scaled coordinates.
 -/
 
 @[expose] public noncomputable section

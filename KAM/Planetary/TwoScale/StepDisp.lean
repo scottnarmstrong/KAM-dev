@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.StepAvg
 
 Conversion of the averaging displacement bounds `α₁ s |ΔI₁| ≤ 3E`, `α₂ s |ΔI₂| ≤ 3E`,
 `2π α₂ R |Δθ| ≤ 9E` into the step bounds `3/4 (M̂/M) Ê R`, `3/4 Ê R`, `3/4 Ê s`, using `(3.2)`,
-`K s ≥ 6` and `E ≤ Ê R² M̂` (source `P3a`, step `st-disp`). Design package P23-14.
+`K s ≥ 6` and `E ≤ Ê R² M̂` (source `P3a`, step `st-disp`).
 -/
 
 @[expose] public noncomputable section

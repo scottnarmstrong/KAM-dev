@@ -14,10 +14,10 @@ public import KAM.Planetary.TwoScale.Lipschitz
 
 The one-step lemma of Proposition 3 of the source (P3a): averaging at scale `R = ρ̂`, the new
 Hamiltonian `h₊ = h + g`, the injectivity of its frequency map on `D_{R/8}`, the map
-`ĩ₊ = ω₊⁻¹ ∘ ω₀`, the new base set `D₊ = ĩ₊(D)` and the next `KamHyp`. The statement is that of
-`P23Signatures.lean`; the proof assembles the sub-steps `StepFreq`, `StepNonres`, `StepAvg`,
-`StepConst`, `StepHess`, `StepHess2`, `StepInj`, `StepIhat`, `StepReal`, `StepDisp`, `StepNext`,
-`StepDp` (nodes `st-nonres` .. `st-quad`). Design package P23-14.
+`ĩ₊ = ω₊⁻¹ ∘ ω₀`, the new base set `D₊ = ĩ₊(D)` and the next `KamHyp`. The proof
+assembles the sub-steps `StepFreq`, `StepNonres`, `StepAvg`, `StepConst`, `StepHess`,
+`StepHess2`, `StepInj`, `StepIhat`, `StepReal`, `StepDisp`, `StepNext`,
+`StepDp` (nodes `st-nonres` .. `st-quad`).
 -/
 
 @[expose] public noncomputable section

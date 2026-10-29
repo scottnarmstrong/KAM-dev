@@ -13,7 +13,7 @@ public import KAM.Strip.RealRestriction
 A holomorphic map on a polydisc centred at a real point which is real at the real points of the
 polydisc commutes with complex conjugation (`schwarz_vec`). Proof: the one-variable identity
 theorem applied coordinate by coordinate (the pattern of `KAM.strip_identity`). Used for the
-reality of `ĩ₊` in the step (`stepP:p3:st-ihat`), design package P23-14.
+reality of `ĩ₊` in the step (`stepP:p3:st-ihat`).
 -/
 
 @[expose] public noncomputable section

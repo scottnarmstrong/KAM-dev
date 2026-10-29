@@ -14,7 +14,7 @@ public import KAM.Nekhoroshev.NormalForm.Setting
 Openness of `actionNbhd`, differentiability of `freq h` on it, reality of the frequency at real
 points, the coordinatewise mean value inequality, block versions of `dotC`, and the elementary
 consequences of the constants (`rhoHat ≤ ρ`, `rhoHat ≤ γᵢ/(3·M·K^(τ+1))`, `L > 0`).
-Design `docs/tracks/P/design/P23-LEAN-DESIGN.md`, package P23-14 (`bpP:p3:step`).
+Blueprint `bpP:p3:step`.
 -/
 
 @[expose] public noncomputable section

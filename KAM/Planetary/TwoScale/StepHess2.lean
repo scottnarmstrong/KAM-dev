@@ -12,7 +12,7 @@ public import KAM.Planetary.TwoScale.StepPerturb
 # Two-scale KAM step: Hessian bounds of the new Hamiltonian (`stepP:p3:st-U`)
 
 `‖D²(h+g)‖ ≤ 2M`, last rows `≤ 2M̂`, and the inverse with `‖·⁻¹‖ ≤ 2M̄`, first rows `≤ 2M̄₁`,
-last rows `≤ 2M̄₂`, on the quarter-radius neighbourhood. Design package P23-14.
+last rows `≤ 2M̄₂`, on the quarter-radius neighbourhood.
 -/
 
 @[expose] public noncomputable section

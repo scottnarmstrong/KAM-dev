@@ -16,7 +16,6 @@ is the invariant carried along the induction (the hypothesis bundle for the scal
 Diophantine frequency set, and the maps-to / reality / lattice / symplectic properties of `Φⱼ` on
 its own domain), and `StepRel` records how one application of `step` produces stage `j + 1` with
 `Φ_{j+1} = Φⱼ ∘ Ψ_{j+1}`. `stage_step` is the inductive step; the base case is `stage_zero`.
-Design package P23-16.
 -/
 
 @[expose] public noncomputable section
