@@ -53,7 +53,8 @@ theorem fixedSunPlanetaryKAM {n : ℕ} (hn : 2 ≤ n)
         ∃ S : Set (Phase (n * 2)), 0 < volume S ∧ volume S < ⊤ ∧
           FixedKolmogorovSet G m0 m a eps eta d D S :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Planetary.fixedSunPlanetaryKAM
+      hn G m0 m a hG hm0 hm ha hsep eta heta
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
