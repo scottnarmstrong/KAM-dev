@@ -210,7 +210,8 @@ theorem packedTest_alias_rejected :
 /-- A wrapping row stride (`4 < 3 + 3 - 1`). -/
 def packedTestLayWrap : PackLayout := ⟨[0, -1], [2, 3], [4, 1], 24, 1⟩
 
-theorem packedTest_wrap_compat : PackLayout.compat 2 packedTestLayWrap packedTestLayWrap = false := by
+theorem packedTest_wrap_compat :
+    PackLayout.compat 2 packedTestLayWrap packedTestLayWrap = false := by
   decide +kernel
 
 theorem packedTest_wrap_rejected :
@@ -267,7 +268,8 @@ def packedTestAdvP3 : PackedAdvice :=
   ⟨packedTestLayP3, packedTestLayP3, ⟨[0], [7], [1], 8, 2⟩, 1,
     [[0, 1, 0], [0, 0, 0], [0, 0, 0]], 0⟩
 
-theorem packedTest_P3_passes : checkPackedProduct packedTestAdvP3 [1, 1, 0, 0] [1, 1, 1, 0] = true := by
+theorem packedTest_P3_passes :
+    checkPackedProduct packedTestAdvP3 [1, 1, 0, 0] [1, 1, 1, 0] = true := by
   decide +kernel
 
 /-- The combined error at slot two is exactly `2 = 2^scale`: the bound is attained. -/
@@ -293,7 +295,8 @@ theorem packedTest_P4_shards :
     ∀ s < 3, checkShard packedTestAdvP4 [[1, 1], [0, 0]] [[1, 1], [1, 0]] s = true := by
   decide +kernel
 
-theorem packedTest_P4_rejected : checkPackedProduct packedTestAdvP4 [1, 1, 0, 0] [1, 1, 1, 0] = false :=
+theorem packedTest_P4_rejected :
+    checkPackedProduct packedTestAdvP4 [1, 1, 0, 0] [1, 1, 1, 0] = false :=
   checkPackedProduct_scale_zero rfl _ _
 
 /-- The combined error at slot two is `2 > 2^0`: accepting scale zero would be unsound. -/

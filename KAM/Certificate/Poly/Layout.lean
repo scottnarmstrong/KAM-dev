@@ -531,7 +531,8 @@ theorem PackLayout.intEval_mul_of_compat {m n : ℕ} {La Lb : PackLayout}
     rw [this, hc.1.1.1.1.2]
   -- the left side as a double sum over terms, with the product key of the slot sum
   have hL : intEval n a θ * intEval n b θ = (a.map fun t => (b.map fun u =>
-      (t.2 : ℂ) * (u.2 : ℂ) * character (certKeyFun n (La.prodKey Lb (σA t + σB u))) θ).sum).sum := by
+      (t.2 : ℂ) * (u.2 : ℂ) *
+        character (certKeyFun n (La.prodKey Lb (σA t + σB u))) θ).sum).sum := by
     rw [intEval, intEval, ← List.sum_map_mul_right]
     refine congrArg List.sum (List.map_congr_left fun t ht => ?_)
     rw [← List.sum_map_mul_left]

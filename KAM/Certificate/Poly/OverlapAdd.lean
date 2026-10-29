@@ -184,7 +184,8 @@ theorem listConv_getD_eq_overlapAdd {L : ℕ} {da db : List ℤ} {A B : List (Li
   set conv := listConv da db
   set ov := packOverlapAdd L ((List.range (A.length + B.length - 1)).map (shardConv L A B))
   set M := max conv.length ov.length
-  have heq : conv ++ List.replicate (M - conv.length) 0 = ov ++ List.replicate (M - ov.length) 0 := by
+  have heq : conv ++ List.replicate (M - conv.length) 0 =
+      ov ++ List.replicate (M - ov.length) 0 := by
     refine eq_of_packSum_forall (by simp; omega) fun w => ?_
     rw [packSum_append_replicate_zero, packSum_append_replicate_zero, packSum_listConv]
     obtain ⟨ka, hka⟩ := hfA

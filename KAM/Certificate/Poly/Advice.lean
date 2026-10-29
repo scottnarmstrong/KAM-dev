@@ -163,8 +163,10 @@ theorem packSum_shardConv (w L : ℕ) (A B : List (List ℤ))
   simp only [Finset.sum_mul]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun i _ => ?_
-  rw [packSum_eq_sum_of_length_le w (hlen A hA i), packSum_eq_sum_of_length_le w (hlen B hB (s - i)),
-    sum_mul_sum_range_cauchy _ _ L L (fun a ha => hz A hA i a ha) (fun b hb => hz B hB (s - i) b hb),
+  rw [packSum_eq_sum_of_length_le w (hlen A hA i),
+    packSum_eq_sum_of_length_le w (hlen B hB (s - i)),
+    sum_mul_sum_range_cauchy _ _ L L (fun a ha => hz A hA i a ha)
+      (fun b hb => hz B hB (s - i) b hb),
     show L + L - 1 = 2 * L - 1 by omega]
   refine Finset.sum_congr rfl fun m _ => ?_
   rw [Finset.sum_mul]
@@ -411,7 +413,8 @@ def PackedAdvice.shapeOK (adv : PackedAdvice) : Bool :=
 
 /-- The packed shard sum `Σ_{i+j=s} packShift(A_i) · packShift(B_j)` (kernel form). -/
 def shardPacked (w : ℕ) (A B : List (List ℤ)) (s : ℕ) : ℤ :=
-  ((List.range (s + 1)).map fun i => packShift w (A.getD i []) * packShift w (B.getD (s - i) [])).sum
+  ((List.range (s + 1)).map fun i =>
+    packShift w (A.getD i []) * packShift w (B.getD (s - i) [])).sum
 
 /-- One shard `s`, all guards inside: the blocks of `A`, `B` have length `blockLen`, the advice
 window has length `2·blockLen - 1`, `shardFits`, `reconFits` with `shardLogs s`, and

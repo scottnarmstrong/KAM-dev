@@ -127,7 +127,8 @@ def packRangeSum (f : ℕ → ℕ) : ℕ → ℕ → ℕ → ℕ
   | 0, base, size => ((List.range size).map fun q => f (base + q)).sum
   | fuel + 1, base, size =>
     if size ≤ 1 then ((List.range size).map fun q => f (base + q)).sum
-    else packRangeSum f fuel base (size / 2) + packRangeSum f fuel (base + size / 2) (size - size / 2)
+    else packRangeSum f fuel base (size / 2) +
+      packRangeSum f fuel (base + size / 2) (size - size / 2)
 
 theorem packRangeSum_eq (f : ℕ → ℕ) (fuel : ℕ) : ∀ base size : ℕ,
     packRangeSum f fuel base size = ∑ q ∈ Finset.range size, f (base + q) := by
@@ -297,7 +298,8 @@ theorem packedRealProduct_sound {adv : PackedAdvice} {W : CertWeight} {P2 : ℕ}
     simp only [Nat.zero_add]
     refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i hi => ?_)
     have hi' := Finset.mem_range.mp hi
-    have hdiff : ((listConv da db).getD i 0 : ℂ) * character (certKeyFun n (adv.la.prodKey adv.lb i)) θ -
+    have hdiff : ((listConv da db).getD i 0 : ℂ) *
+        character (certKeyFun n (adv.la.prodKey adv.lb i)) θ -
         2 ^ adv.scale * ((adv.combined.getD i 0 : ℂ) *
           character (certKeyFun n (adv.la.prodKey adv.lb i)) θ) =
         (((listConv da db).getD i 0 - 2 ^ adv.scale * adv.combined.getD i 0 : ℤ) : ℂ) *
