@@ -107,7 +107,7 @@ theorem stopped_fast_erosion (B : AMDBox n) {kappa ε : ℝ} (hε : 0 ≤ ε) (h
 /-- `stepP:p14:st-core` (slow): a slow point of quadratic AMD `< A₁` lies in the max-norm erosion
 of `slowBall n A` of radius `ε` whenever `√(2A₁) + √(2n) ε < √(2A)`; the max-norm ball of
 radius `ε` has Euclidean radius at most `√(2n) ε`. -/
-theorem stopped_slow_erosion {A₁ A ε : ℝ} (hε : 0 ≤ ε) (hA₁ : 0 ≤ A₁)
+theorem stopped_slow_erosion {A₁ A ε : ℝ} (hε : 0 ≤ ε)
     (hlt : Real.sqrt (2 * A₁) + Real.sqrt (2 * n) * ε < Real.sqrt (2 * A))
     {x : Phase n} (hx : ∑ i, (x.1 i ^ 2 + x.2 i ^ 2) / 2 < A₁) :
     x ∈ KAM.Nekhoroshev.innerCore (slowBall n A) ε := by
@@ -327,7 +327,7 @@ theorem stopped (hn : 2 ≤ n) (B : AMDBox n) (hB : B.Admissible) :
   have hslow : ∀ s ∈ Icc l r, (slow (a := n) (y s).1, slow (a := n) (y s).2) ∈
       KAM.Nekhoroshev.innerCore (slowBall n A) (nu ^ b) := by
     intro s hs
-    refine stopped_slow_erosion hνb0 hAout.le ?_ ?_
+    refine stopped_slow_erosion (A₁ := B.outerAMD) hνb0 ?_ ?_
     · have : Real.sqrt (2 * n) * nu ^ b < Real.sqrt (2 * A) - Real.sqrt (2 * B.outerAMD) := by
         rw [hepsD, lt_div_iff₀ hsn] at hνε
         linarith
