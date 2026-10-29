@@ -24,6 +24,8 @@ public section
 
 open scoped Matrix.Norms.Operator
 
+namespace KAM.Certificate
+
 /-- Exact shape of a list matrix: `k` rows, each of length `k` (audit 2 F7). With
 `ModelMatrix.Encloses n (torsionIdx n)` and `k = n + 1`, the checked list matrix is then the
 whole denoted bordered matrix, not a larger matrix containing it as a leading block. -/
@@ -76,3 +78,5 @@ theorem matrix_inv_of_approx_inverse {ι : Type*} [Fintype ι] [DecidableEq ι] 
           (norm_nonneg _) (by positivity)
       _ ≤ (1 / (1 - δ) * δ) * β := by gcongr
       _ = δ * β / (1 - δ) := by ring
+
+end KAM.Certificate
