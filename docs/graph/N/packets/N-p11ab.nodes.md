@@ -97,9 +97,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: PROVED
 LEAN_REF: wfield, realWfield, extBracket (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: audit N11-A PASS WITH NOTES; X^c and bracket defined but Omega_c matrix and X=Omega_c grad u not defined; partial
+LEAN_NOTE: audit N11-A-audit-1 PASS WITH NOTES
 NOTE: package bpN:p11:wfield (SPEC); c=1 with k=0 is Definition bpN:p5:setting, a comparison only (no edge)
 
 NODE: bpN:p11:orbit
@@ -155,9 +155,9 @@ EDGE: bpN:p11:ext-chain | blueprint-N/parts/p11a-partial-route.tex#stepN:p11:or-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: orbit, theta, thetaInv, converted (KAM/Nekhoroshev/Partial/Coordinates.lean)
+LEAN_NOTE: audit N11-A-audit-1 PASS WITH NOTES; internal to bpN:p11:orbit
 NOTE: -
 
 NODE: stepN:p11:or-eq
@@ -242,9 +242,9 @@ EDGE: bpN:p0:partial-exponents#partialDriftExponent | blueprint-N/parts/p11a-par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exponents (KAM/Nekhoroshev/Partial/Constants.lean)
+LEAN_NOTE: audit N11-B-audit-1 PASS (ruling N11-B-audit-1-ruling); internal to bpN:p11:exponents
 NOTE: -
 
 NODE: stepN:p11:ex-cmp
@@ -271,9 +271,9 @@ EDGE: bpN:p0:partial-exponents#partialTimeExponent | blueprint-N/parts/p11a-part
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: exponents (KAM/Nekhoroshev/Partial/Constants.lean)
+LEAN_NOTE: audit N11-B-audit-1 PASS (ruling N11-B-audit-1-ruling); internal to bpN:p11:exponents
 NOTE: -
 
 NODE: bpN:p11:constants
@@ -299,9 +299,9 @@ EDGE: bpN:p0:partial-exponents#partialDriftExponent | blueprint-N/parts/p11a-par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N11-B PartialConstants/PartialData/constants/DefiniteSign define only s,m1,M1,g1,r0,A,eps0,R0,kappaC,cK,eps,K,d,kappa,rTheta,blockTime; node also defines w=d/4, K_a=K/sqrt n, mu_0, and p,q,b_c (not defined there), so full SOURCE_CONCLUSION not covered
+LEAN_STATUS: PROVED
+LEAN_REF: PartialConstants, constants (KAM/Nekhoroshev/Partial/Constants.lean)
+LEAN_NOTE: audit N11-B-audit-1 PASS (ruling N11-B-audit-1-ruling)
 NOTE: package bpN:p11:constants (SPEC). Dropped candidate edges: stepN:p11:final-mu (forward pointer: it defines mu_0 and itself uses these constants; an edge would close a cycle), bpN:p11:b-change (explanatory remark: the values p,q,b_c are fixed in this definition), bpN:p11:hessian (the side claim A>=pM_1/(b_c m_1)+sqrt 2 is re-derived in Lemma block-data; hessian itself uses these constants), bpN:p9:setting (provenance)
 
 NODE: bpN:p11:ext-class
@@ -329,9 +329,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit N11-A PASS WITH NOTES: carriers, projections, extBracket, ext_class defined; the claim (SL) implies (SL)_{rho,sigma} has no Lean statement; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: ext_class, slowLoss, PartialBlock.base, PartialBlock.SL (KAM/Nekhoroshev/Partial/Setting.lean)
+LEAN_NOTE: audit N11-A-audit-1 PASS WITH NOTES
 NOTE: package bpN:p11:ext-class (SPEC); (SL) and (SL)_{rho,sigma} are items of this definition
 
 NODE: bpN:p11:ext-part4
@@ -364,9 +364,9 @@ EDGE: bpN:p4:projections | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:ext-par
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_part4 (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: inline proof (proof source = statement): Part 4 holds for an arbitrary base set; only the bracket uses m=n (so bpN:p4:bracket is not used here)
 
 NODE: bpN:p11:bracket
@@ -400,9 +400,9 @@ EDGE: bpN:p11:ext-part4 | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:bracket@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket, bracket_dominated (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:br-fast
@@ -433,9 +433,9 @@ EDGE: bpN:p11:ext-part4 | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:br-fas
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: the conclusion of p4:bracket is for m=n, so it is consumed through its proof (algebra, cauchy) applied to the extended class by ext-part4
 
 NODE: stepN:p11:br-slow
@@ -467,9 +467,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:br-dom
@@ -495,9 +495,9 @@ EDGE: bpN:p11:ext-num | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:br-dom@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_dominated (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:bracket-g
@@ -527,9 +527,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:bracket-g@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: bracket_g (KAM/Nekhoroshev/Partial/Bracket.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: dropped candidate edge: bpN:p6:bracket-g (only "the situation" is cited, i.e. its hypotheses; the estimate is re-derived from Lemma bracket in the proof)
 
 NODE: bpN:p11:scaled
@@ -557,9 +557,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: scaled (KAM/Nekhoroshev/Partial/VectorField.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: package bpN:p11:scaled (SPEC)
 
 NODE: bpN:p11:vf
@@ -593,9 +593,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:v
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: vf (KAM/Nekhoroshev/Partial/VectorField.lean)
+LEAN_NOTE: audit N11-C PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:flow
@@ -623,9 +623,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:flow@L52
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_flow, flow_real (KAM/Nekhoroshev/Partial/Flow.lean); flow_a, flow_d (KAM/Canonical/Flow.lean); flow_b (KAM/Canonical/FlowRegular.lean); flow_c (KAM/Canonical/FlowInverse.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES; (a)-(d) via generic Part-5 flow_a..d on EC n k, (e) flow_real
 NOTE: -
 
 NODE: bpN:p11:symplectic
@@ -655,9 +655,9 @@ EDGE: bpN:p11:ext-chain | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:symplect
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: ExtCanonical (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: data predicate only; symplectic flow lemma not proved
+LEAN_STATUS: PROVED
+LEAN_REF: symplectic, symplectic_form, symplectic_det, symplectic_bracket, symplectic_field (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES; (c) complex-orbit consequence follows from symplectic_field + chain rule
 NOTE: -
 
 NODE: bpN:p11:adjoint
@@ -688,9 +688,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: extAd (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: definition of iterated bracket only; norm estimate not proved
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; full iterative estimate
 NOTE: -
 
 NODE: stepN:p11:ad-setup
@@ -718,9 +718,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-set
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: -
 
 NODE: stepN:p11:ad-step
@@ -750,9 +750,9 @@ EDGE: stepN:p11:ad-setup | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: -
 
 NODE: stepN:p11:ad-prod
@@ -780,9 +780,9 @@ EDGE: stepN:p11:ad-step | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-pro
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: The factorial bound N!>=(N/e)^N is now proved inside this step (e^N=sum N^j/j!>=N^N/N!, exponential series); the earlier SOURCE_GAP is supplied.
 
 NODE: bpN:p11:composition
@@ -816,9 +816,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition, composition_domain, composition_real (KAM/Nekhoroshev/Partial/Composition.lean)
+LEAN_NOTE: audit N11-F1-audit-1 (short-name FAIL fixed by renames; no soundness defect)
 NOTE: -
 
 NODE: stepN:p11:co-field
@@ -849,9 +849,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:co-fie
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition, composition_domain, composition_real (KAM/Nekhoroshev/Partial/Composition.lean)
+LEAN_NOTE: audit N11-F1-audit-1 (short-name FAIL fixed by renames; no soundness defect)
 NOTE: -
 
 NODE: stepN:p11:co-series
@@ -884,9 +884,9 @@ EDGE: bpN:p11:ext-e-upper | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:co-s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition, composition_domain, composition_real (KAM/Nekhoroshev/Partial/Composition.lean)
+LEAN_NOTE: audit N11-F1-audit-1 (short-name FAIL fixed by renames; no soundness defect)
 NOTE: The numerical input e^2/8<0.93 is now supplied from e<2.72 (Mathlib Real.exp_one_lt_d9), recorded as the external bpN:p11:ext-e-upper; the earlier SOURCE_GAP is dropped.
 
 NODE: stepN:p11:co-remainder
@@ -921,9 +921,9 @@ EDGE: bpN:p11:ext-num | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:co-remai
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-global-N+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: composition, composition_domain, composition_real (KAM/Nekhoroshev/Partial/Composition.lean)
+LEAN_NOTE: audit N11-F1-audit-1 (short-name FAIL fixed by renames; no soundness defect)
 NOTE: Taylor now cites the extended lemma bpN:p11:ext-taylor, not bpN:p5:taylor, and e<2.72 is supplied by bpN:p11:ext-e-upper; both earlier SOURCE_GAPs are dropped.
 
 NODE: bpN:p11:ext-taylor
@@ -951,9 +951,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:ext-taylor@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular, ext_taylor, ext_taylor_bound, ext_taylor_second (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; first display via ext_taylor*, second display via ext_taylor_second (F1 closed)
 NOTE: G4: new lemma; not an instance of Part 5 setting, so bpN:p5:taylor is not used (the \source line cites it as provenance only). Consumers: co-remainder, tr-taylor.
 
 NODE: stepN:p11:et-one
@@ -980,9 +980,9 @@ EDGE: K:bp:p1:holomorphic-regularity | blueprint-N/parts/p11b-partial-nf.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; chain rule (handoff/audit name et-one)
 NOTE: -
 
 NODE: stepN:p11:et-ind
@@ -1009,9 +1009,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:et-ind@L8
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; holomorphic/smooth induction
 NOTE: -
 
 NODE: stepN:p11:et-taylor
@@ -1038,9 +1038,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:et-taylor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor, ext_taylor_bound, ext_taylor_second (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; both displays proved
 NOTE: -
 
 NODE: bpN:p11:ext-e-upper
@@ -1098,9 +1098,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transform, transform_integral (KAM/Nekhoroshev/Partial/Transform.lean)
+LEAN_NOTE: audit N11-F1-audit-1 (short-name FAIL fixed by renames; no soundness defect)
 NOTE: -
 
 NODE: stepN:p11:tr-taylor
@@ -1133,9 +1133,9 @@ EDGE: bpN:p11:ext-taylor | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:tr-ta
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-global-N+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transform, transform_integral (KAM/Nekhoroshev/Partial/Transform.lean)
+LEAN_NOTE: audit N11-F1-audit-1 (short-name FAIL fixed by renames; no soundness defect)
 NOTE: Taylor now cites the extended lemma bpN:p11:ext-taylor, not bpN:p5:taylor; the earlier SOURCE_GAP is dropped.
 
 NODE: stepN:p11:tr-int
@@ -1167,9 +1167,9 @@ EDGE: bpN:p11:flow | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:tr-int@L105
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transform, transform_integral (KAM/Nekhoroshev/Partial/Transform.lean)
+LEAN_NOTE: audit N11-F1-audit-1 (short-name FAIL fixed by renames; no soundness defect)
 NOTE: -
 
 NODE: bpN:p11:canonical-map
@@ -1204,9 +1204,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: canonical_map (KAM/Nekhoroshev/Partial/CanonicalMap.lean)
+LEAN_NOTE: N11-F2 audit-1 FAIL (consumer completeness only) resolved by lane-N ruling F2-C1
 NOTE: the edge to bpN:p5:canonical-map is the "as ..., step by step" template whose conclusions (a)-(e) are reproved here from the extended flow, vf and symplectic lemmas
 
 NODE: bpN:p11:hom
@@ -1242,9 +1242,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:h
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hom, homGenerator (KAM/Nekhoroshev/Partial/Homological.lean)
+LEAN_NOTE: audit N11-F3 PASS WITH NOTES (all graph conclusions exported)
 NOTE: dropped template: bpN:p6:setting (N1),(N2) are replaced by (N-dir) here
 
 NODE: bpN:p11:iterative
@@ -1280,9 +1280,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:i
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative (KAM/Nekhoroshev/Partial/Iterative.lean); helpers in IterativeMap.lean, IterativeRemainder.lean
+LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c)
 NOTE: -
 
 NODE: stepN:p11:it-gen
@@ -1309,9 +1309,9 @@ EDGE: bpN:p11:hom | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:it-gen@L135-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative (KAM/Nekhoroshev/Partial/Iterative.lean); helpers in IterativeMap.lean, IterativeRemainder.lean
+LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c)
 NOTE: -
 
 NODE: stepN:p11:it-map
@@ -1338,9 +1338,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:it-map@L136-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative (KAM/Nekhoroshev/Partial/Iterative.lean); helpers in IterativeMap.lean, IterativeRemainder.lean
+LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c)
 NOTE: -
 
 NODE: stepN:p11:it-taylor
@@ -1375,9 +1375,9 @@ EDGE: bpN:p6:setting | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:it-taylor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative (KAM/Nekhoroshev/Partial/Iterative.lean); helpers in IterativeMap.lean, IterativeRemainder.lean
+LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c)
 NOTE: -
 
 NODE: stepN:p11:it-est
@@ -1414,9 +1414,9 @@ EDGE: stepN:p11:it-gen | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:it-est@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: iterative (KAM/Nekhoroshev/Partial/Iterative.lean); helpers in IterativeMap.lean, IterativeRemainder.lean
+LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c)
 NOTE: the reality clause (e) is delegated to the Part 6 step it-real by "as"; modelled as an edge to that step
 
 NODE: bpN:p11:nf
@@ -1460,9 +1460,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:nf@L142-L142 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; (c) radius tails qKε/α ≤ R/2^7, (1/8)qKε/α ≤ R/2^10, w/2^10: nnf_disp_radius
 NOTE: source: Pos93 pp.192-196 and Theorem p6:normal-form; the slow displacement (c) is new. The edge to bpN:p6:normal-form is the structural "indexing as in" template (the proof re-derives every estimate; only the theta-displacement is taken from Part 6, see nf-disp)
 
 NODE: stepN:p11:nf-sl
@@ -1487,9 +1487,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:nf-sl@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; induction in NormalFormInduction.lean
 NOTE: -
 
 NODE: stepN:p11:nf-first
@@ -1514,9 +1514,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; induction in NormalFormInduction.lean
 NOTE: -
 
 NODE: stepN:p11:nf-case
@@ -1550,9 +1550,9 @@ EDGE: bpN:p11:ext-num | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:nf-case@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; Case B proves |f_1| ≤ (32/31)(3/4)e^(-κ/6)ε (≈0.774, not 0.64), enough for (b)
 NOTE: forward pointer to Step nf-disp dropped. This step is where the extended bracket constant 1 (instead of 2/e) is checked (Remark deviations)
 
 NODE: stepN:p11:nf-N
@@ -1580,9 +1580,9 @@ EDGE: bpN:p6:ext-numerics | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:nf-N
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; N = ⌊κ/(12 ln 2)⌋ with 8N ≤ κ (non-strict), R/2 ≤ R_(N+1)
 NOTE: -
 
 NODE: stepN:p11:nf-induct
@@ -1616,9 +1616,9 @@ EDGE: bpN:p6:ext-numerics | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:nf-i
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; induction on i in nnf_inv_all; weights ≤ 1 (not 1/2) for j ≥ 1, enough for u ≤ 2^-4
 NOTE: -
 
 NODE: stepN:p11:nf-concl
@@ -1653,9 +1653,9 @@ EDGE: bpN:p6:ext-numerics | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:nf-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; induction in NormalFormInduction.lean
 NOTE: SOURCE_GAP: Part 11b L144-L145 asserts the extended telescoping application. Part 6 telescope is stated on C^{2n} with (DPhi)^T J DPhi=J, not for the arbitrary constant form Omega_c in the extended space. Its proof is a template; the required extension (and, at L144, translation equivariance under composition) is not stated there. No additional symplectic premise is imposed on nf.
 
 NODE: stepN:p11:nf-disp
@@ -1688,9 +1688,9 @@ EDGE: bpN:p6:ext-numerics | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:nf-d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; Case B proves the Case A bounds (not half); R/2^10 tail: nnf_disp_radius
 NOTE: SOURCE_GAP: Part 11b L144-L145 asserts the extended telescoping application. Part 6 telescope is stated on C^{2n} with (DPhi)^T J DPhi=J, not for the arbitrary constant form Omega_c in the extended space. Its proof is a template; the required extension (and, at L144, translation equivariance under composition) is not stated there. No additional symplectic premise is imposed on nf.
 
 NODE: stepN:p11:nf-real
@@ -1715,9 +1715,9 @@ EDGE: bpN:p11:iterative | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:nf-rea
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nf (KAM/Nekhoroshev/Partial/NormalForm.lean)
+LEAN_NOTE: audit N11-K-audit-1 PASS WITH NOTES; induction in NormalFormInduction.lean
 NOTE: -
 
 NODE: bpN:p11:s-ext-class#data
@@ -1772,7 +1772,7 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:s-nf#dat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: PROVED
 LEAN_REF: ExtNFHyp, liftFast (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: audit N11-A; dictionary constants (abar, kappa, q) not defined as such; partial
+LEAN_NOTE: audit N11-A-audit-1 PASS WITH NOTES
 NOTE: section-data node for coverage item p11b:prose-L104-L104; consumed by hom, iterative and nf

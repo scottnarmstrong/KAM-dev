@@ -1110,9 +1110,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:sum-doubli
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sum_doubling (KAM/Planetary/TwoScale/SumsNodes.lean)
+LEAN_NOTE: audit GAP-P13 round 2 PASS WITH NOTES (12/12 nodes PASS); initial KamHyp only (audit-1 F1 repaired)
 NOTE: -
 
 NODE: stepP:p3:sum-weighted
@@ -1140,9 +1140,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:sum-weight
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sum_weighted (KAM/Planetary/TwoScale/SumsNodes.lean)
+LEAN_NOTE: audit GAP-P13 round 2 PASS WITH NOTES (12/12 nodes PASS); initial KamHyp only (audit-1 F2 repaired)
 NOTE: -
 
 NODE: stepP:p3:sum-radii
@@ -1168,9 +1168,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:sum-radii@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sum_radii (KAM/Planetary/TwoScale/SumsRadiiNodes.lean)
+LEAN_NOTE: audit GAP-PX PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p3:limit-actions
@@ -2774,7 +2774,7 @@ EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): wsum/wnorm carry junk values off the summable locus; WBound is a guarded predicate (same whole-carrier issue as p11 sec-conv#data); owner review
 NOTE: section data of Part 3a (prose L11-L34). The Hamilton equations here are in the order (action,angle) of CP10; the frozen order is bpP:p1:order
 
 NODE: bpP:p3b#kam-bounds
@@ -2800,9 +2800,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3b#kam-bounds@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-review-P-e
 REVIEWER: sol-delta-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kam_bounds (KAM/Planetary/TwoScale/SumsNodes.lean)
+LEAN_NOTE: audit GAP-P13 round 2 PASS WITH NOTES (12/12 nodes PASS)
 NOTE: prose L3-L4 of Part 3b, consumed by Lemma sums and the Lipschitz steps
 
 NODE: bpP:p3:limitmap#data
@@ -2830,9 +2830,9 @@ EDGE: bpP:p3:conv#data | blueprint-P/parts/p3b-two-scale-limit.tex#bpP:p3:limitm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sc, unsc (KAM/Planetary/TwoScale/LimitMapScale.lean); limitmap_data (KAM/Planetary/TwoScale/LimitMapScale.lean); limitmapCheck, limitmapCheck_apply, limitmapCheck_comp, limitmapCheck_id, limitmapCheck_sc, limitmapCheck_sub_id, LipStar, lipStar_iff_check, PsiSteps.psi_lipStar (KAM/Planetary/TwoScale/LimitMapDefs.lean); realTube (KAM/Planetary/Averaging/Setting.lean); phaseTube (KAM/Planetary/TwoScale/LimitMapPsi.lean)
+LEAN_NOTE: GAP-DEF-audit-1 CLOSABLE (with DEFS-P2-audit-1): Gcheck = S G S^-1 via limitmapCheck, L_* via LipStar/lipStar_iff_check, source use PsiSteps.psi_lipStar, calD_j via realTube/phaseTube
 NOTE: section data of Part 3b (prose L43)
 
 NODE: bpP:p3:tori#data

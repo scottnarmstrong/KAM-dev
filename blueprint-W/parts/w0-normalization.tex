@@ -1,0 +1,429 @@
+\section{Milestone W0: cubic attachment and quartic normalization}\label{bpW:w0n}
+
+Throughout, Standing assumption~\ref{bpW:w0:mass} ($m>0$) and the conventions of \S\ref{bpW:w0} are in force. The
+results of this part are:
+(a) the coefficient system \eqref{bpW:w0:coeffsys} is equivalent to the PDE (Proposition~\ref{bpW:w0n:pde-equiv});
+(b) $\Gq:\ell^{1,1}\to\ell^{1,2}$ is a bounded cubic polynomial with an explicit constant
+(Theorem~\ref{bpW:w0n:cubic-bound});
+(c) closed form of the quartic coefficients (Lemma~\ref{bpW:w0n:quartic-coeff});
+(d) the action coefficients $A,B$ of the partial quartic Birkhoff normal form for $J=\{1,2\}$
+(Theorem~\ref{bpW:w0n:AB});
+(e) the nondegeneracy conditions of the source for every $m>0$ (Theorem~\ref{bpW:w0n:nondeg});
+(f) the Duffing consistency check (Proposition~\ref{bpW:w0n:duffing}).
+All proofs are complete except where a step is explicitly cited to a pinned source and labelled as such; those
+citations belong to later milestones (W1, W3) and are listed at the end (\S\ref{bpW:w0n:ledger}).
+
+\subsection{Reconstruction}\label{bpW:w0n:recon}
+
+\begin{lemma}[Reconstruction is bounded into $C^k$]\label{bpW:w0n:recon-bounded}
+Let $a>0$, $p\in\R$, $k\in\N$. For $c\in\ell^{a,p}_\C$,
+\[\sum_{j\ge1}\abs{c_j}\,j^k\le M_{a,p,k}\norm{c}_{a,p},\qquad M_{a,p,k}^2=\sum_{j\ge1}j^{2k-2p}e^{-2aj}<\infty.\]
+Consequently the series $\sum_jc_j\phi_j$ and all its termwise $x$-derivatives of order $\le k$ converge absolutely and
+uniformly on $[0,\pi]$; $c\mapsto\sum_jc_j\phi_j$ is a bounded linear map $\ell^{a,p}\to C^k([0,\pi])$ of norm
+$\le\sqrt{2/\pi}\,M_{a,p,k}$, its value vanishes at $x=0,\pi$, and $\int_0^\pi(\sum_jc_j\phi_j)\phi_l\,dx=c_l$. In
+particular $U_m$, $V_m$ and $q\mapsto U_m(\lambda q)$ are bounded linear maps $\ell^{a,p}\to C^k([0,\pi])$ for every
+$p\in\R$, because $\lambda_j^{\pm1/2}\le(1+m)^{1/4}j^{1/2}$ and multiplication by $(\lambda_j^r)$ maps $\ell^{a,p}$
+into $\ell^{a,p-\abs r}$ for $\abs r\le 2$, $r\ge0$, with norm $\le(1+m)^{r/2}$.
+\end{lemma}
+
+\begin{proof}
+Cauchy--Schwarz: $\sum\abs{c_j}j^k=\sum(\abs{c_j}j^pe^{aj})(j^{k-p}e^{-aj})\le\norm c_{a,p}M_{a,p,k}$, and
+$M_{a,p,k}<\infty$ because $a>0$. Since $\abs{\partial_x^r\phi_j}\le\sqrt{2/\pi}\,j^r$, the Weierstrass M-test gives
+uniform convergence of the derivative series of order $r\le k$, hence termwise differentiation. Boundary values and
+the coefficient formula follow termwise from $\phi_j(0)=\phi_j(\pi)=0$ and orthonormality. The bound on
+$\lambda_j^r$ is $j^2+m\le(1+m)j^2$.
+\end{proof}
+\source{P96-W Lemma~1, p.~278, first two sentences (asserted there without the estimate).}
+
+\subsection{The quartic coefficients}\label{bpW:w0n:coeff}
+
+\begin{lemma}[Closed form, (c)]\label{bpW:w0n:quartic-coeff}
+For $i,j,k,l\ge1$ let $g_{ijkl}=\int_0^\pi\phi_i\phi_j\phi_k\phi_l\,dx$. Then
+\begin{multline*}g_{ijkl}=\frac{1}{2\pi}\Bigl([i+l=j+k]+[i+k=j+l]+[i+j=k+l]\\-[i=j+k+l]-[j=i+k+l]-[k=i+j+l]-[l=i+j+k]\Bigr),\end{multline*}
+where $[\cdot]$ is the Iverson bracket. In particular $g$ is symmetric, $g_{ijkl}=0$ unless
+$\pm i\pm j\pm k\pm l=0$ for some choice of signs, $g_{iiii}=\frac{3}{2\pi}$, and $g_{iijj}=\frac1\pi$ for $i\ne j$.
+Equivalently, for $l\ge1$ and $i,j,k\ge1$,
+\begin{equation}\label{bpW:w0n:g-signed}
+g_{ijkl}=\frac1{2\pi}\sum_{\varepsilon\in\{\pm1\}^3}s(\varepsilon)\,[\,l=\varepsilon_1i+\varepsilon_2j+\varepsilon_3k\,],
+\qquad s(\varepsilon)=(-1)^{1+\#\{t:\varepsilon_t=-1\}},
+\end{equation}
+so that $\abs{g_{ijkl}}\le\frac1{2\pi}\sum_\varepsilon[\,l=\varepsilon_1i+\varepsilon_2j+\varepsilon_3k\,]$.
+\end{lemma}
+
+\begin{proof}
+\proofstep{Product to sum}\label{stepW:w0n:prod}
+$\sin\alpha\sin\beta=\frac12(\cos(\alpha-\beta)-\cos(\alpha+\beta))$ gives
+\[\phi_i\phi_j\phi_k\phi_l=\frac{1}{\pi^2}\bigl(\cos(i-j)x-\cos(i+j)x\bigr)\bigl(\cos(k-l)x-\cos(k+l)x\bigr).\]
+\proofstep{Cosine integrals}\label{stepW:w0n:cos}
+For integers $A,B$: $\int_0^\pi\cos Ax\cos Bx\,dx=\frac\pi2\bigl([A=B]+[A=-B]\bigr)$ (this includes $A=B=0$, value
+$\pi$). Hence
+\begin{multline*}g_{ijkl}=\frac1{2\pi}\Bigl([i-j=k-l]+[i-j=l-k]-[i-j=k+l]-[i-j=-k-l]\\-[i+j=k-l]-[i+j=l-k]+[i+j=k+l]+[i+j=-k-l]\Bigr).\end{multline*}
+The last bracket vanishes for positive indices; rewriting the others gives the stated form. The special values are
+read off: for $(i,i,i,i)$ the three positive brackets hold and no negative one; for $(i,i,j,j)$, $i\neq j$, exactly
+$[i+l=j+k]$ and $[i+k=j+l]$ hold (a negative bracket would force one index to be the sum of the other three, e.g.\
+$i=i+2j$, impossible).
+\proofstep{Signed form}\label{stepW:w0n:signed}
+The seven relations, solved for $l$, are $l=-i+j+k$, $l=i-j+k$, $l=i+j-k$ (sign $+$, one minus),
+$l=i-j-k$, $l=-i+j-k$, $l=-i-j+k$ (sign $-$, two minuses), $l=i+j+k$ (sign $-$, no minus); the eighth pattern
+$l=-i-j-k$ is impossible for $l\ge1$ and may be added with either sign. This is \eqref{bpW:w0n:g-signed}.
+\end{proof}
+\source{P96-W (10)--(11), p.~281 (only the selection rule and $G_{iijj}$ are stated, ``by an elementary calculation
+-- see [6]''); KP96 p.~13 (computation of $G_{ijij}$). The weighted coefficient of P96-W is
+$G_{ijkl}=g_{ijkl}/\sqrt{\lambda_i\lambda_j\lambda_k\lambda_l}$; its (11) agrees with the lemma.}
+
+\subsection{The cubic gradient}\label{bpW:w0n:gradient-sec}
+
+\begin{lemma}[$G$ and its gradient as absolutely convergent sums]\label{bpW:w0n:gradient}
+Let $a>0$, $p\ge0$, $q\in\ell^{a,p}$ and write $\hat q_j=q_j/\sqrt{\lambda_j}$. Then
+\[G(q)=\frac14\sum_{i,j,k,l\ge1}g_{ijkl}\hat q_i\hat q_j\hat q_k\hat q_l,\qquad
+\Gq(q)_l=\frac{1}{\sqrt{\lambda_l}}\sum_{i,j,k\ge1}g_{ijkl}\hat q_i\hat q_j\hat q_k,\]
+both sums converging absolutely; $G$ is G\^ateaux differentiable along every coordinate with
+$\partial G/\partial q_l=\Gq(q)_l$; and $\int_0^\pi U_m(q)^3\phi_l\,dx=\sqrt{\lambda_l}\,\Gq(q)_l$.
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{bpW:w0n:recon-bounded} with $k=0$, $S=\sum_j\abs{\hat q_j}<\infty$ and $U_m(q)=\sum\hat q_j\phi_j$
+uniformly. Since $\abs{\phi_j}\le\sqrt{2/\pi}$, the quadruple series $\sum\hat q_i\hat q_j\hat q_k\hat q_l\phi_i\phi_j\phi_k\phi_l$
+is dominated by $(2/\pi)^2S^4$ uniformly in $x$; integrate termwise (dominated convergence for series) to obtain both
+formulas and their absolute convergence. Differentiating $\frac14\int U_m(q+te_l)^4$ at $t=0$ under the integral
+(the integrand is a polynomial in $t$ with coefficients continuous in $x$) gives
+$\int U_m(q)^3\phi_l/\sqrt{\lambda_l}$, which is $\Gq(q)_l$ by Definition~\ref{bpW:w0:Gq} and the triple-series
+formula.
+\end{proof}
+
+\begin{lemma}[Weighted convolution algebra]\label{bpW:w0n:algebra}
+Let $a\ge0$ and $s\ge1$. For $c,d\in\ell^{a,s}_b$,
+\[\norm{c*d}_{a,s}\le K_s\norm c_{a,s}\norm d_{a,s},\qquad K_s=2^{s}\Bigl(1+2\zeta(2s)\Bigr)^{1/2}.\]
+In particular $K_{3/2}^2=8(1+2\zeta(3))$. The convolution sum converges absolutely for each $l$.
+\end{lemma}
+
+\begin{proof}
+Let $w_l=\jap l^se^{a\abs l}$, $C_l=w_l\abs{c_l}$, $D_l=w_l\abs{d_l}$.
+\proofstep{Weight inequality}\label{stepW:w0n:weight}
+For $i,l\in\Z$: $e^{a\abs l}\le e^{a\abs i}e^{a\abs{l-i}}$ and $\jap l\le\jap i+\jap{l-i}$ (if $\abs l\le1$ the left
+side is $1$; otherwise $\abs l\le\abs i+\abs{l-i}$). By convexity of $t\mapsto t^s$, $(\alpha+\beta)^s\le
+2^{s-1}(\alpha^s+\beta^s)$, so $w_l\le2^{s-1}(w_ie^{a\abs{l-i}}+e^{a\abs i}w_{l-i})\le 2^{s-1}(w_iw_{l-i}/\jap{l-i}^s
++w_iw_{l-i}/\jap i^s)$.
+\proofstep{Young and Cauchy--Schwarz}\label{stepW:w0n:young}
+Hence $w_l\abs{(c*d)_l}\le2^{s-1}\sum_i\bigl(C_i\,\abs{d_{l-i}}e^{a\abs{l-i}}+\abs{c_i}e^{a\abs i}D_{l-i}\bigr)
+=2^{s-1}\bigl((C*D')_l+(C'*D)_l\bigr)$ with $C'_i=C_i/\jap i^s$, $D'_i=D_i/\jap i^s$. Young's inequality
+$\norm{X*Y}_{\ell^2}\le\norm X_{\ell^2}\norm Y_{\ell^1}$ and $\norm{D'}_{\ell^1}\le\norm D_{\ell^2}
+(\sum_i\jap i^{-2s})^{1/2}=\norm D_{\ell^2}(1+2\zeta(2s))^{1/2}$ give the claim; the same bounds give absolute
+convergence of each convolution sum.
+\end{proof}
+\source{P96-W Lemma~2, p.~279 and Appendix~A, pp.~294--295; KP96 Lemma~2 p.~12 and Appendix~A, pp.~31--32 (constant
+``depending only on $s$'', not made explicit there). This lemma is the W1 node \texttt{bpW:w1:algebra}; it is proved
+here because (b) needs it.}
+
+\begin{theorem}[Cubic gradient, (b)]\label{bpW:w0n:cubic-bound}
+Let $a\ge0$, $p\ge\frac12$, and define the symmetric trilinear map $T$ on $(\ell^{a,p}_\C)^3$ by
+\[T(q,q',q'')_l=\frac{1}{\sqrt{\lambda_l}}\sum_{i,j,k\ge1}g_{ijkl}\,\hat q_i\hat q'_j\hat q''_k\qquad
+(\hat q_j=q_j/\sqrt{\lambda_j}).\]
+The sums converge absolutely, $T$ is a bounded trilinear map into $\ell^{a,p+1}_\C$, real on real arguments, and
+\[\norm{T(q,q',q'')}_{a,p+1}\le C_*\norm q_{a,p}\norm{q'}_{a,p}\norm{q''}_{a,p},\qquad
+C_*=\frac{K_{p+1/2}^2}{\pi}.\]
+For $a>0$, $\Gq(q)=T(q,q,q)$ (Lemma~\ref{bpW:w0n:gradient}). Consequently, for $a=p=1$,
+$\Gq:\ell^{1,1}\to\ell^{1,2}$ is real analytic (indeed a continuous cubic polynomial), and
+\[\norm{\Gq(q)}_{1,2}\le C_m\norm q_{1,1}^3,\qquad C_m=\frac{8(1+2\zeta(3))}{\pi}\approx8.67.\]
+The constant is independent of $m>0$ (we only use $\lambda_j\ge j$).
+\end{theorem}
+
+\begin{proof}
+\proofstep{Even majorants}\label{stepW:w0n:majorant}
+Given $q\in\ell^{a,p}_\C$ define the even two-sided sequence $x_i=\abs{q_{\abs i}}/\sqrt{\lambda_{\abs i}}$ for
+$i\neq0$, $x_0=0$; similarly $x',x''$. Using $\lambda_i\ge i$,
+\[\norm x_{a,p+1/2}^2=2\sum_{i\ge1}\frac{i}{\lambda_i}\,i^{2p}e^{2ai}\abs{q_i}^2\le2\norm q_{a,p}^2.\]
+\proofstep{Selection rule bound}\label{stepW:w0n:selection}
+By \eqref{bpW:w0n:g-signed}, for $l\ge1$,
+\[\sum_{i,j,k\ge1}\abs{g_{ijkl}}\,\abs{\hat q_i\hat q'_j\hat q''_k}\le\frac1{2\pi}\sum_{i,j,k\ge1}\sum_{\varepsilon}
+[\,l=\varepsilon_1i+\varepsilon_2j+\varepsilon_3k\,]\,x_ix'_jx''_k\le\frac{1}{2\pi}(x*x'*x'')_l,\]
+since $(i,j,k,\varepsilon)\mapsto(\varepsilon_1i,\varepsilon_2j,\varepsilon_3k)$ is injective into $(\Z\setminus0)^3$
+and $x$ is even. Thus the sum defining $T$ converges absolutely.
+\proofstep{Smoothing}\label{stepW:w0n:smoothing}
+With $X=x*x'*x''$ (even, by evenness of the factors) and $l/\lambda_l\le1$,
+\[\norm{T}_{a,p+1}^2\le\sum_{l\ge1}\frac{l^{2p+2}e^{2al}}{\lambda_l}\frac{X_l^2}{4\pi^2}
+\le\frac1{4\pi^2}\sum_{l\ge1}l^{2p+1}e^{2al}X_l^2\le\frac{1}{8\pi^2}\norm X_{a,p+1/2}^2.\]
+By Lemma~\ref{bpW:w0n:algebra} with $s=p+\frac12\ge1$, $\norm X_{a,p+1/2}\le K_s^2\norm x\norm{x'}\norm{x''}\le
+K_s^22^{3/2}\norm q\norm{q'}\norm{q''}$. Hence $\norm T_{a,p+1}\le(2\sqrt2\pi)^{-1}2^{3/2}K_s^2\prod\norm\cdot=
+(K_s^2/\pi)\prod\norm\cdot$.
+\proofstep{Analyticity}\label{stepW:w0n:analytic}
+Trilinearity and symmetry are clear from the formula and the symmetry of $g$. A bounded symmetric trilinear map
+$T$ between complex Banach spaces defines the continuous homogeneous cubic polynomial $q\mapsto T(q,q,q)$, which
+is analytic on the whole space, with the finite power series $T(q_0+h)^{3}$ expanded by multilinearity (in Lean:
+a \Lean{ContinuousMultilinearMap} is analytic). It maps real sequences to real sequences. For $a>0$ the identification
+with $\Gq$ is Lemma~\ref{bpW:w0n:gradient}.
+\end{proof}
+\source{P96-W Lemma~3, pp.~279--280 (with $O(\cdot)$ instead of a constant) and (13)--(14), p.~284; KP96 p.~16.
+The source deduces analyticity from coordinatewise analyticity and local boundedness [P96-W ref.~9, Appendix~A];
+the polynomial structure makes that principle unnecessary here.}
+\sourcegap{P96-W p.~280 asserts $\norm{\mathcal Sq}_{a,s+1/2}\le\norm q_{a,s}$ in the two-sided norm. The correct
+bound is $\le\sqrt2\norm q_{a,s}$ (Step~\ref{stepW:w0n:majorant}); the operator norm is exactly $\sqrt2$ for every fixed $m>0$
+(take $q=e_j$, $j\to\infty$), so the printed bound fails for every $m>0$ (e.g.\ $q=e_1$, $a=s=0$, $m=1$). Constants only; recorded as new item N-1 in the errata check.}
+
+\subsection{PDE \texorpdfstring{$\leftrightarrow$}{<->} coefficient system}\label{bpW:w0n:pde}
+
+\begin{proposition}[Equivalence, (a)]\label{bpW:w0n:pde-equiv}
+Let $I\subset\R$ be an open interval and $q,p:I\to\ell^{1,1}$.
+\begin{enumerate}[label=(\roman*)]
+\item (Coefficients $\Rightarrow$ PDE.) Suppose $q,p$ are continuous into $\ell^{1,1}$, continuously differentiable
+  into $\ell^{1,0}$, and satisfy \eqref{bpW:w0:coeffsys} as an identity in $\ell^{1,0}$. Then
+  $u(t,x)=U_m(q(t))(x)$ is a classical solution of \eqref{bpW:w0:eq} on $I$ (Definition~\ref{bpW:w0:nlw}) with
+  $u_t(t,\cdot)=V_m(p(t))$.
+\item (PDE $\Rightarrow$ coefficients.) Suppose $u(t,x)=U_m(q(t))(x)$ is a classical solution of
+  \eqref{bpW:w0:eq} on $I$ and $u_t(t,\cdot)=V_m(p(t))$ for every $t$. Then every $q_j,p_j$ is $C^1$ on $I$ and
+  \eqref{bpW:w0:coeffsys} holds coordinatewise.
+\end{enumerate}
+In both directions the cubic term is realized exactly: for $q\in\ell^{1,1}$,
+\begin{equation}\label{bpW:w0n:force}
+U_m(q)^3=\sum_{l\ge1}\sqrt{\lambda_l}\,\Gq(q)_l\,\phi_l\quad\text{uniformly on }[0,\pi],\qquad
+-\partial_x^2U_m(q)+mU_m(q)=U_m(\lambda^2q),
+\end{equation}
+where $(\lambda^2q)_j=\lambda_j^2q_j$ and the right sides converge in $C^0$ (first) and $C^0$ (second, as
+$\lambda^2q\in\ell^{1,-1}$).
+\end{proposition}
+
+\begin{proof}
+\proofstep{Force identity}\label{stepW:w0n:force}
+Let $f=U_m(q)^3\in C([0,\pi])$. By Lemma~\ref{bpW:w0n:gradient}, $\int f\phi_l=\sqrt{\lambda_l}\Gq(q)_l$; by
+Theorem~\ref{bpW:w0n:cubic-bound} and Lemma~\ref{bpW:w0n:recon-bounded} (the sequence
+$(\sqrt{\lambda_l}\Gq(q)_l)$ lies in $\ell^{1,1}$), $S=\sum_l\sqrt{\lambda_l}\Gq(q)_l\phi_l$ converges uniformly to a
+continuous $S$ with the same sine coefficients as $f$. Since $(\phi_l)_{l\ge1}$ is a complete orthonormal system of
+$L^2(0,\pi)$, $f=S$ almost everywhere, hence everywhere by continuity. The second identity is termwise
+differentiation (Lemma~\ref{bpW:w0n:recon-bounded} with $k=2$) and $-\phi_j''+m\phi_j=\lambda_j^2\phi_j$.
+\proofstep{Time regularity}\label{stepW:w0n:time}
+In (i), $\dot q=\lambda p$ is continuous into $\ell^{1,0}$, and since $p$ is $C^1$ into $\ell^{1,0}$ and
+multiplication by $\lambda$ is bounded $\ell^{1,0}\to\ell^{1,-1}$, $\dot q$ is $C^1$ into $\ell^{1,-1}$ with
+$\ddot q=\lambda\dot p=-\lambda^2q-\lambda\Gq(q)$. As $U_m:\ell^{1,-1}\to C^2([0,\pi])$ is bounded linear,
+$t\mapsto u(t,\cdot)$ is $C^2$ into $C^2([0,\pi])$; therefore $u,u_t,u_{tt},u_x,u_{xx}$ exist and are jointly
+continuous, $u_t=U_m(\lambda p)=V_m(p)$ and $u_{tt}=U_m(\ddot q)$.
+\proofstep{Identification}\label{stepW:w0n:ident}
+By \eqref{bpW:w0n:force}, $U_m(\lambda^2q)=-u_{xx}+mu$ and $U_m(\lambda\Gq(q))=\sum_l\sqrt{\lambda_l}\Gq(q)_l\phi_l=u^3$;
+hence $u_{tt}=u_{xx}-mu-u^3$. The boundary conditions hold by Lemma~\ref{bpW:w0n:recon-bounded}.
+\proofstep{Converse}\label{stepW:w0n:converse}
+In (ii), $\int_0^\pi u(t,x)\phi_l(x)\,dx=q_l(t)/\sqrt{\lambda_l}$ and $\int_0^\pi u_t\phi_l=\sqrt{\lambda_l}p_l$.
+Differentiation under the integral sign ($u_t,u_{tt}$ continuous on compact sets) gives
+$\dot q_l=\sqrt{\lambda_l}\int u_t\phi_l=\lambda_lp_l$ and $\sqrt{\lambda_l}\dot p_l=\int u_{tt}\phi_l$. Two
+integrations by parts, using $u(t,0)=u(t,\pi)=0=\phi_l(0)=\phi_l(\pi)$, give $\int u_{xx}\phi_l=-l^2\int u\phi_l$, so
+$\int u_{tt}\phi_l=-\lambda_l^2q_l/\sqrt{\lambda_l}-\sqrt{\lambda_l}\Gq(q)_l$ by Lemma~\ref{bpW:w0n:gradient}. Divide by
+$\sqrt{\lambda_l}$.
+\end{proof}
+\source{P96-W Lemma~1, p.~278, and (7), p.~278.}
+\par\noindent{\small\textsf{Expansion/strengthening of the source proof:} P96-W Lemma~1 (p.~278) argues via
+convergence in complex neighbourhoods, termwise time differentiation and completeness, for real-analytic curves. The
+proof above expands these steps and proves a stronger $C^1$-curve version (i); this is not a source gap. (Separately,
+the second line of the source's $u_{tt}$ display drops a minus sign on $\lambda_j^2q_j$: errata item N-4; the proof
+above uses the correct sign.)}\par\noindent{\small completeness of $(\phi_l)$ in $L^2(0,\pi)$ is a standard external fact (Fourier basis of
+$L^2$ on the circle applied to odd extensions). The all-time real-analytic version used by the headline is W2.}\par
+
+\subsection{Quartic nonresonance}\label{bpW:w0n:nonres-sec}
+
+\begin{lemma}[Qualitative nonresonance of all quartic terms]\label{bpW:w0n:nonres}
+Let $m>0$, let $a,b,c,d\ge1$ with $g_{abcd}\neq0$, and let $\sigma\in\{\pm1\}^4$. If
+$\sigma_1\lambda_a+\sigma_2\lambda_b+\sigma_3\lambda_c+\sigma_4\lambda_d=0$, then the indices with $\sigma=+1$ and
+those with $\sigma=-1$ form equal multisets (in particular there are two of each).
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{bpW:w0n:quartic-coeff}, $g_{abcd}\ne0$ implies a signed relation $\pm a\pm b\pm c\pm d=0$; in
+particular each index is at most the sum of the other three.
+\proofstep{Four or three equal signs}\label{stepW:w0n:31}
+All signs equal is impossible ($\lambda>0$). If three signs agree, say $\lambda_a+\lambda_b+\lambda_c=\lambda_d$,
+then $d\le a+b+c$, so $\lambda_d\le\lambda_{a+b+c}$, while $\lambda_x+\lambda_y>\lambda_{x+y}$ for $x,y\ge1$
+(square both sides: $2\sqrt{(x^2+m)(y^2+m)}>2xy-m$); hence $\lambda_a+\lambda_b+\lambda_c>\lambda_{a+b+c}\ge\lambda_d$.
+\proofstep{Two against two}\label{stepW:w0n:22}
+Let $\lambda_a+\lambda_b=\lambda_c+\lambda_d$ with $\{a,b\}\ne\{c,d\}$ as multisets, and let $f(s)=\sqrt{s^2+m}$.
+Up to renaming within and between the two sides, the signed relation is one of:
+(1) $a+b=c+d$: for fixed sum, $f(x)+f(y)$ is strictly increasing in $\abs{x-y}$ by strict convexity of $f$, so
+equality forces $\abs{a-b}=\abs{c-d}$ and $\{a,b\}=\{c,d\}$;
+(2) $a-b=d-c=:t$ (that is, $a+c=b+d$): then $f(b+t)+f(b)=f(c)+f(c+t)$ and $y\mapsto f(y)+f(y+t)$ is strictly
+increasing on $\{y\ge1,\ y+t\ge1\}$, so $b=c$, $a=d$;
+(3) one index is the sum of the other three, and after renaming it is $a=b+c+d$ (the side containing the largest
+index is called the left side). Then $\lambda_a-\lambda_c=\int_c^{b+c+d}f'$ and $\lambda_d-\lambda_b=\int_b^df'$
+(nonpositive if $d\le b$). Since $f'>0$ is increasing, $\int_c^{c+b+d}f'>\int_{c+2b}^{c+b+d}f'\ge\int_b^df'$ when
+$d>b$ (an interval of the same length $d-b$ shifted right by $c+b>0$). So
+$\lambda_a+\lambda_b>\lambda_c+\lambda_d$.
+Every signed relation among four positive integers with two signs on each side is of type (1) or (2) after renaming,
+and every relation with one sign different is of type (3); this exhausts the cases.
+\end{proof}
+\begin{remark}\label{bpW:w0n:nonres-remark}
+The lemma is qualitative and covers \emph{all} indices. It does not give a uniform lower bound: divisors such as
+$\lambda_{j+1}-\lambda_j-\lambda_{k+1}+\lambda_k$ tend to $0$, which is why P96-W (p.~276) says no complete quartic
+normal form is available. The quantitative bound for quartic terms with at least one index in $\{1,\dots,n\}$,
+$\abs{\lambda'_i+\lambda'_j+\lambda'_k+\lambda'_l}\ge cm/\sqrt{n^2+m}^{\,3}$, is P96-W Lemma~4, p.~283 (proof
+pp.~285--286); it belongs to W3 and is cited, not reproved, here.
+\end{remark}
+
+\subsection{Partial quartic Birkhoff normal form: the action coefficients}\label{bpW:w0n:birkhoff}
+
+Write $\hat\lambda=(\lambda_j)$ and, in the complex coordinates of Definition~\ref{bpW:w0:z},
+$q_j=(z_j+\bar z_j)/\sqrt2$. Then
+\begin{equation}\label{bpW:w0n:Gz}
+G=\frac14\sum_{i,j,k,l}\frac{g_{ijkl}}{\sqrt{\lambda_i\lambda_j\lambda_k\lambda_l}}q_iq_jq_kq_l
+=\frac1{16}\sum_{i,j,k,l}\frac{g_{ijkl}}{\sqrt{\lambda_i\lambda_j\lambda_k\lambda_l}}
+(z_i+\bar z_i)(z_j+\bar z_j)(z_k+\bar z_k)(z_l+\bar z_l).
+\end{equation}
+Expanding gives a sum of monomials $z^\alpha\bar z^\beta$ with $\abs\alpha+\abs\beta=4$. Along the linear flow
+($\dot z_j=-i\lambda_jz_j$) such a monomial evolves by $e^{-i\avg{\alpha-\beta,\hat\lambda}t}$; it is
+\emph{resonant} if $\avg{\alpha-\beta,\hat\lambda}=0$. Let $J=\{1,2\}$, $N=\{j\ge3\}$, and split
+$G=G^{\rm tan}+G^{\rm nor}$, where $G^{\rm nor}$ collects the monomials all of whose indices lie in $N$.
+
+\begin{definition}[Partial quartic normal form]\label{bpW:w0n:Qdef}
+$\bar G$ is the sum of the resonant monomials of $G^{\rm tan}$ (with their coefficients), and the partial quartic
+normal form is $\Lambda+\bar G+G^{\rm nor}$.
+\end{definition}
+
+\begin{theorem}[Action coefficients, (d)]\label{bpW:w0n:AB}
+For $J=\{1,2\}$ and every $m>0$, with $I=(I_1,I_2)$, $Z=(I_j)_{j\ge3}$ and $I_j=\abs{z_j}^2$,
+\[\bar G=\frac12\avg{AI,I}+\avg{BI,Z},\qquad
+A_{ii}=\frac{9}{8\pi\lambda_i^2},\quad A_{12}=A_{21}=\frac{3}{2\pi\lambda_1\lambda_2},\quad
+B_{ji}=\frac{3}{2\pi\lambda_j\lambda_i}\ (j\ge3,\ i\in J).\]
+Equivalently $A=\frac{3}{8\pi}D(4\mathbf 1\mathbf 1^{\mathsf T}-\mathrm{Id})D$ with $D=\operatorname{diag}(\lambda_1^{-1},\lambda_2^{-1})$,
+and $(BI)_j=\frac{3}{2\pi\lambda_j}\bigl(\frac{I_1}{\lambda_1}+\frac{I_2}{\lambda_2}\bigr)$. More generally, the full
+angle average of $G$ is
+\begin{equation}\label{bpW:w0n:avgG}
+\avg G=\frac{3}{16\pi}\Bigl(4\Bigl(\sum_{j\ge1}\frac{I_j}{\lambda_j}\Bigr)^2-\sum_{j\ge1}\frac{I_j^2}{\lambda_j^2}\Bigr).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Resonant equals averaged}\label{stepW:w0n:resavg}
+By Lemma~\ref{bpW:w0n:nonres}, a monomial $z^\alpha\bar z^\beta$ of \eqref{bpW:w0n:Gz} with nonzero coefficient is
+resonant iff $\alpha=\beta$, i.e.\ it is $\abs{z_a}^2\abs{z_b}^2=I_aI_b$. With $z_j=\sqrt{I_j}e^{-i\varphi_j}$ the
+average over independent angles of $z^\alpha\bar z^\beta$ is $\delta_{\alpha\beta}I^\alpha$. Hence $\bar G$ is the
+part of $\avg G$ (average over all angles, computed on finitely supported $q$ and extended by the absolutely
+convergent formula) consisting of the terms that contain at least one tangential action.
+\proofstep{Averages of monomials}\label{stepW:w0n:moments}
+With $q_j=\sqrt{2I_j}\cos\varphi_j$: $\avg{q_iq_jq_kq_l}=0$ unless the indices pair up; $\avg{q_i^4}=4I_i^2\cdot\frac38
+=\frac32I_i^2$ and $\avg{q_i^2q_j^2}=I_iI_j$ for $i\neq j$. Among ordered quadruples, $(i,i,i,i)$ occurs once and the
+multiset $\{i,i,j,j\}$ ($i<j$) six times.
+\proofstep{Summation}\label{stepW:w0n:sum}
+Therefore, with $y_j=I_j/\lambda_j$ and Lemma~\ref{bpW:w0n:quartic-coeff},
+\[\avg G=\frac14\Bigl(\sum_i\frac{3}{2\pi}\cdot\frac32y_i^2+\sum_{i<j}6\cdot\frac1\pi\,y_iy_j\Bigr)
+=\frac{9}{16\pi}\sum_iy_i^2+\frac{3}{2\pi}\sum_{i<j}y_iy_j,\]
+which is \eqref{bpW:w0n:avgG}. Matching with $\frac12\sum_{i,j}A_{ij}I_iI_j=\frac12\sum_iA_{ii}I_i^2+\sum_{i<j}A_{ij}I_iI_j$
+on $J$ and with $\sum_{j\ge3,i\in J}B_{ji}I_iZ_j$ on the mixed terms gives the coefficients.
+\end{proof}
+
+\begin{proposition}[Formal partial Birkhoff transformation]\label{bpW:w0n:formal-birkhoff}
+Let $F$ be the quartic polynomial whose coefficient on each nonresonant monomial $z^\alpha\bar z^\beta$ of
+$G^{\rm tan}$ with coefficient $c_{\alpha\beta}$ is $c_{\alpha\beta}/(-i\avg{\alpha-\beta,\hat\lambda})$, and zero
+otherwise. Then $F$ is real ($\overline{F}=F$ under $z\leftrightarrow\bar z$), $X_\Lambda F=G^{\rm tan}-\bar G$ where
+$X_\Lambda F=\frac{d}{dt}F$ along the linear flow, and formally
+\[H\circ\Phi^1_F=\Lambda+\bar G+G^{\rm nor}+(\text{terms of degree}\ \ge6),\]
+where $\Phi^1_F$ is the time-one map of $X_F$. The quartic part of the normal form is independent of the choice of
+$F$ among solutions of $X_\Lambda F=G^{\rm tan}-\bar G$.
+\end{proposition}
+
+\begin{proof}
+The divisors are nonzero by Lemma~\ref{bpW:w0n:nonres}; $X_\Lambda(z^\alpha\bar z^\beta)=-i\avg{\alpha-\beta,\hat\lambda}
+z^\alpha\bar z^\beta$ gives the homological identity. Reality: the coefficient of $\bar z^\alpha z^\beta$ is
+$\bar c_{\alpha\beta}$ (since $G$ is real) and the divisor changes sign and is conjugated. The Lie series
+$H\circ\Phi^1_F=H+\{H,F\}+\frac12\{\{H,F\},F\}+\dots$ with $\{H,F\}=X_FH=-X_HF$ has quartic part
+$G-X_\Lambda F=G^{\rm nor}+\bar G$. Any two solutions $F$ differ by a resonant quartic $F_0$, and $X_\Lambda F_0=0$.
+\end{proof}
+\source{P96-W Main Proposition, pp.~281--282; proof pp.~282--284, (12) and the Taylor formula on p.~283. The
+analytic realization of $\Phi^1_F$ on a neighbourhood of $0$ in $E_{a,p}$, the smoothing of $X_F$, and the bound
+$O(\norm z^6)$ on the remainder are W3 (they use P96-W Lemma~4 and (13)--(14)). The \emph{coefficients} printed
+there, $\bar G_{ij}=\frac6\pi\frac{4-\delta_{ij}}{\lambda_i\lambda_j}$, are $16$ times those of
+Theorem~\ref{bpW:w0n:AB}; see Remark~\ref{bpW:w0n:compare}.}
+
+\begin{remark}[Comparison with the printed coefficients]\label{bpW:w0n:compare}
+P96-W p.~282 expands $G$ as $\frac14\sum G_{ijkl}(z_i+\bar z_i)\cdots(z_l+\bar z_l)$; by \eqref{bpW:w0n:Gz} the
+prefactor is $\frac1{16}$. The next line rewrites this as $\sum' G_{ijkl}w_iw_jw_kw_l$ \emph{without} any prefactor,
+and the multiplicity count of p.~284 ($\bar G_{ij}=24G_{iijj}$, $\bar G_{ii}=12G_{iiii}$) is correct for that line.
+Two factors of $4$ are therefore lost; with the prefactor $\frac1{16}$ the same count gives exactly $A$ and $B$ above.
+The factor is common to $A$ and $B$, so the nondegeneracy arguments of P96-W Lemmas~5--6 are unaffected
+(Remark~\ref{bpW:w0:harmless}).
+\end{remark}
+
+\subsection{Nondegeneracy for every \texorpdfstring{$m>0$}{m>0}}\label{bpW:w0n:nondeg-sec}
+
+The Cantor Manifold Theorem used by P96-W (p.~288, assumption~A) requires, with $\omega(I)=\lambda_J+AI$ and
+$\Omega(I)=\lambda_N+BI$,
+(A$_1$) $\det A\ne0$; (A$_2$) $\avg{l,\lambda_N}\ne0$; (A$_3$) $\avg{k,\omega(I)}+\avg{l,\Omega(I)}\not\equiv0$ as
+an affine function of $I$, for all $(k,l)\in\Z^2\times\Z^{N}$ with $1\le\abs l\le2$ ($\abs l=\sum\abs{l_j}$).
+
+\begin{theorem}[Nondegeneracy, (e)]\label{bpW:w0n:nondeg}
+For $J=\{1,2\}$ and every $m>0$:
+\begin{enumerate}[label=(\roman*)]
+\item $\det A=-\dfrac{63}{64\pi^2\lambda_1^2\lambda_2^2}=-\dfrac{63}{64\pi^2(1+m)(4+m)}\neq0$;
+\item $\avg{l,\lambda_N}\neq0$ for $1\le\abs l\le2$;
+\item (A$_3$) holds.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Determinant}\label{stepW:w0n:det}
+$\det A=(\tfrac3{8\pi})^2\lambda_1^{-2}\lambda_2^{-2}\det\begin{psmallmatrix}3&4\\4&3\end{psmallmatrix}=
+-\tfrac{63}{64\pi^2}\lambda_1^{-2}\lambda_2^{-2}$. (For general $n$: $\det(4\mathbf1\mathbf1^{\mathsf T}-\mathrm{Id})=
+(-1)^{n-1}(4n-1)$.)
+\proofstep{Pure normal}\label{stepW:w0n:A2}
+$\avg{l,\lambda_N}$ is $\pm\lambda_a$, $\pm2\lambda_a$, $\pm(\lambda_a+\lambda_b)$ or $\pm(\lambda_a-\lambda_b)$ with
+$a\neq b$ in $N$; all are nonzero since $\lambda>0$ is strictly increasing.
+\proofstep{Reduction of (A$_3$)}\label{stepW:w0n:A3red}
+Let $b=(\lambda_1^{-1},\lambda_2^{-1})$ and $s=\sum_{j\ge3}l_j/\lambda_j$. Then
+$A=\frac3{8\pi}(4bb^{\mathsf T}-D^2)$ and $B^{\mathsf T}l=\frac{3}{2\pi}s\,b$, so the linear part of the affine map
+is $\frac{3}{8\pi}\bigl(4(\avg{b,k}+s)b-D^2k\bigr)$. It vanishes iff $k_i/\lambda_i=c$ for $i=1,2$ with
+$c=4(\avg{b,k}+s)$; then $\avg{b,k}=2c$ and $s=-\frac74c$. The constant part is
+$c(\lambda_1^2+\lambda_2^2)+\avg{l,\lambda_N}$.
+\proofstep{The case $\abs l=1$}\label{stepW:w0n:l1}
+$l=\sigma e_\nu$, $\nu\ge3$: $s=\sigma/\lambda_\nu$, $c=-4\sigma/(7\lambda_\nu)$, and the constant part vanishes iff
+$7\lambda_\nu^2=4(\lambda_1^2+\lambda_2^2)$. Then $k_i^2=c^2\lambda_i^2=\frac{4\lambda_i^2}{7(\lambda_1^2+\lambda_2^2)}
+\in(0,\frac47)$, not the square of an integer. So (A$_3$) holds.
+\proofstep{The case $\abs l=2$}\label{stepW:w0n:l2}
+$\abs s\le2/\lambda_3<\frac23$, so $\abs c<\frac{8}{21}$, and $k_2-k_1=c(\lambda_2-\lambda_1)$ with
+$0<\lambda_2-\lambda_1<1$; integrality forces $k_1=k_2$, hence $c=0$, hence $s=0$. But $s\ne0$ for $\abs l=2$: $s=0$
+would need $l=e_a-e_b$ with $\lambda_a=\lambda_b$, $a\neq b$. So the linear part does not vanish.
+\end{proof}
+\source{P96-W assumption~A p.~288; Lemma~5 pp.~291--292 ((A$_1$), with the printed matrix; the printed
+$(1-4n)\prod\lambda_j^{-2}$ agrees after scaling); Lemma~6 pp.~292--293 ((A$_3$) for admissible $J$). Our proof of
+(iii) is the specialization of Lemma~6 to $J=\{1,2\}$; the second branch of the source's $\abs l=2$ argument
+($\abs{\avg{w,l}}\ge(4n-1)/(4n-4)$) cannot occur for $J=\{1,2\}$ since $\abs{\avg{w,l}}\le2/\lambda_3<1$.}
+
+\begin{remark}[Spectral asymptotics with the corrected $B$]\label{bpW:w0n:kappa}
+$\Omega_j(I)=\lambda_j+\frac{3}{2\pi\lambda_j}\avg{b,I}=j+\frac{m_I}{j}+O(j^{-3})$ with
+$m_I=\frac m2+\frac{3}{2\pi}\avg{b,I}$, so $(\Omega_i-\Omega_j)/(i-j)=1+O(j^{-2})$ uniformly for bounded $I$: the
+exponent $\kappa=2$ of P96-W p.~291 is unchanged by the correction (only $v=\frac{24}\pi b$ becomes $\frac{3}{2\pi}b$).
+\end{remark}
+
+\subsection{Duffing consistency check}\label{bpW:w0n:duffing-sec}
+
+\begin{proposition}[One-mode frequency shift, (f)]\label{bpW:w0n:duffing}
+Restrict \eqref{bpW:w0:eq} to $u=x(t)\phi_j(x)$ with only mode $j$ excited and drop the forcing of other modes
+(which is $O(x^3)$ and does not enter the first-order frequency shift). The coefficient equation is the Duffing
+equation $\ddot x+\lambda_j^2x+\varepsilon x^3=0$ with $\varepsilon=g_{jjjj}=\frac{3}{2\pi}$, whose
+Lindstedt--Poincar\'e frequency at amplitude $a$ is $\lambda_j+\frac{3\varepsilon a^2}{8\lambda_j}+O(a^4)$. With
+$q_j=\sqrt{\lambda_j}x$ and $I_j=\frac12\lambda_ja^2$ this is
+\[\lambda_j+\frac{9}{16\pi\lambda_j}a^2=\lambda_j+\frac{9}{8\pi\lambda_j^2}I_j=\lambda_j+A_{jj}I_j,\]
+the frequency $\partial_{I_j}(\lambda_jI_j+\frac12A_{jj}I_j^2)$ of the normal form. The printed P96-W value
+$\bar G_{jj}=\frac{18}{\pi\lambda_j^2}$ would predict a shift $16$ times larger.
+\end{proposition}
+
+\begin{proof}
+$\int(x\phi_j)^3\phi_j=x^3g_{jjjj}$ gives the Duffing coefficient. The Lindstedt shift $3\varepsilon a^2/(8\omega_0)$ is
+classical (e.g.\ by averaging $\varepsilon x^3$ against $\cos$ over a period: $\frac{2}{T}\int\varepsilon
+a^3\cos^4=\frac34\varepsilon a^3$). Along a solution $x=a\cos\varphi$, $q_j=\sqrt{\lambda_j}a\cos\varphi$ and
+$p_j=\dot q_j/\lambda_j$, so to leading order $I_j=\frac12(q_j^2+p_j^2)=\frac12\lambda_ja^2$. Substitute.
+\end{proof}
+\begin{remark}
+The relation between $I_j$ and the amplitude holds to leading order only; the agreement checked is of the
+coefficient of the first-order shift, which is what the normal form determines. \texttt{scripts/wave/w0\_checks.py}
+also integrates the Duffing equation numerically for $m\in\{0.1,1,10\}$ and confirms
+$\abs{\omega_{\rm num}-(\lambda_1+A_{11}I_1)}=O(I_1^2)$.
+\end{remark}
+
+\subsection{Ledger: proved, cited, source gaps}\label{bpW:w0n:ledger}
+
+\begin{itemize}
+\item \emph{Proved here}: Lemmas~\ref{bpW:w0n:recon-bounded}, \ref{bpW:w0n:quartic-coeff},
+  \ref{bpW:w0n:gradient}, \ref{bpW:w0n:algebra}, \ref{bpW:w0n:nonres}; Theorems~\ref{bpW:w0n:cubic-bound},
+  \ref{bpW:w0n:AB}, \ref{bpW:w0n:nondeg}; Propositions~\ref{bpW:w0n:pde-equiv}, \ref{bpW:w0n:formal-birkhoff}
+  (formal level), \ref{bpW:w0n:duffing}.
+\item \emph{External standard facts}: completeness of $(\phi_l)$ in $L^2(0,\pi)$; analyticity of continuous
+  multilinear maps; Young's inequality; $\zeta(3)<\infty$; the classical Lindstedt shift.
+\item \emph{Cited, for later milestones}: quantitative divisor bound (P96-W Lemma~4, W3); analytic realization of
+  the Birkhoff map and its remainder (P96-W Main Proposition, W3).
+\item \emph{Expansions of source proofs}: P96-W Lemma~1 (expanded and strengthened to $C^1$ curves).
+\item \emph{Source gaps / normalization defects}: P96-W p.~280 constant (N-1); P96-W p.~278 sign typo (N-4); KP96 p.~13 factor $2$ (N-5); P96-W
+  p.~282/284 factor $16$ (E-PDE-W-1); P96-W pp.~287, 290 action/recovery/sign conventions (E-PDE-W-2).
+\end{itemize}

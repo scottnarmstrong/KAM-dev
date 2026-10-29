@@ -2374,7 +2374,7 @@
     "module": "KAM.Provider.Nekhoroshev.QuasiConvexNekhoroshevComplexBound",
     "export": "KAM.Provider.Nekhoroshev.quasiConvex_nekhoroshev_complexBound"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "c1ff5891ac98e56c72636b9d552cd7e28faa75db411c9fcb3715197606f9dc70",
    "suffix_sha256": "1efcbce496c3a865046e94018aa1cc8bdafb0b9454c6939e2353d83cc98b6da8",
    "draft_allowlist": {
@@ -3762,7 +3762,7 @@
     "module": "KAM.Provider.Planetary.ProperlyDegenerateKAM",
     "export": "KAM.Provider.Planetary.properlyDegenerateKAM"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "72d988c639e071fbc7f90f51d99ba4e47a88e6493a9d16389723c3474ec54c43",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
@@ -3865,7 +3865,7 @@
     "module": "KAM.Provider.Planetary.PlanarTwoPlanetKAM",
     "export": "KAM.Provider.Planetary.planarTwoPlanetKAM"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "572b671056fc6c1460193aa6de0ac1af7a053075dbef683e043ce881c2fa55b0",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
@@ -3952,7 +3952,7 @@
     "module": "KAM.Provider.Planetary.FixedSunPlanetaryKAM",
     "export": "KAM.Provider.Planetary.fixedSunPlanetaryKAM"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "433008517470c4a05ac8c1df920d35fb6c3f9e7d0be2ceab3c3a30582e79bb82",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
@@ -8177,7 +8177,7 @@
     "module": "KAM.Provider.Planetary.SecularBoxSafety",
     "export": "KAM.Provider.Planetary.secularBoxSafety"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "6445b11570819fd687a2e8db3af83c9acebfbd671e0bdacd16a6d5e732ce781a",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
@@ -8348,7 +8348,7 @@
     "module": "KAM.Provider.Planetary.SecularBoxAtCitedMasses",
     "export": "KAM.Provider.Planetary.secularBoxAtCitedMasses"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "1f88b36b848e2c759d316a452eb34e3eb0c78e42ab7dc900a46860cc9ff0a2f0",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
@@ -9017,7 +9017,7 @@
     "module": "KAM.Provider.Nekhoroshev.PartialConvexNekhoroshev",
     "export": "KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "40b1b8eb885fc0f1eefec48483400f801d970ff00f80a0863876940da7dee5d4",
    "suffix_sha256": "1efcbce496c3a865046e94018aa1cc8bdafb0b9454c6939e2353d83cc98b6da8",
    "draft_allowlist": {

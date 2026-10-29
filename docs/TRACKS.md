@@ -17,6 +17,7 @@ The tracks share infrastructure. The background research is in
 | **I**: isoenergetic KAM and confinement | All-time confinement in two degrees of freedom; restricted circular planar three-body problem | Phase 0 (sources and statements) | `KAM.Iso` |
 | **N**: Nekhoroshev | Exponential stability for quasi-convex nearly-integrable Hamiltonians, classical exponents 1/(2n) | Phase 0 | `KAM.Nekhoroshev` |
 | **P**: planetary | Properly degenerate KAM; planar two-planet problem; Zohar's fixed-Sun n-planet variant; spatial n-body later | Phase 0 | `KAM.Planetary` |
+| **W**: PDE KAM (nonlinear wave) | Two-frequency quasiperiodic solutions of `u_tt = u_xx − m u − u³` on `[0,π]` (Dirichlet), every `m > 0` | source and design (D30) | `KAM.Wave` (provisional) |
 
 ## Track I: isoenergetic KAM and all-time confinement
 
@@ -87,3 +88,15 @@ Rounds 1–3 are in `explorations/almost-every-*.md`; round 3 is an independent 
   to time 1/ε, outside a set of measure κ.
 - **Not a theorem yet.** A certificate for the full model at realistic masses is a feasibility study.
 
+## Track W: PDE KAM (D30)
+
+Adopted 2026-10-28 from [`explorations/pde-kam-and-leapfrogging.md`](explorations/pde-kam-and-leapfrogging.md).
+- **Headline (proposed, not frozen).** `W-NLW2` (report §2.3): for every `m > 0`, a density-one Borel set of small
+  actions carries analytic invariant two-tori of the cubic Dirichlet wave equation, with two rationally independent
+  frequencies, exact all-time classical PDE solutions and smallness bounds.
+- **Sources.** Pöschel 1996 (CMH 71, wave) and Pöschel 1996 (ASNSP 23, abstract PDE KAM); Kuksin–Pöschel 1996
+  for comparison.
+- **Milestones.** W0 normalization and cubic attachment; W1 weighted sequence calculus; W2 PDE reconstruction;
+  W3 partial Birkhoff normal form; W4 homological equation; W5 KAM step; W6 iteration; W7 wave measure estimate;
+  W8 headline. Rough size 34k–70k Lean lines (low confidence).
+- **Leapfrogging.** Hassainia–Hmidi–Masmoudi is GO-LATER, a separate campaign after W.

@@ -21,8 +21,8 @@
    "id": "I.HQ",
    "title": "Campaign HQ: this README, generator, 20-minute cron and post-commit hook",
    "difficulty": "L",
-   "done": 0.8,
-   "note": ""
+   "done": 1.0,
+   "note": "generated README (scripts/hq-status.py), 20-minute cron and post-commit hook, running since 2026-10-27"
   },
   {
    "group": "Campaign infrastructure",
@@ -30,7 +30,7 @@
    "title": "Freeze machinery: manifest, anchor guard, quarantine, kernel replay, mutation suite",
    "difficulty": "M",
    "done": 0.6,
-   "note": "anchor guard (Unicode-aware), ABI hashes, lint; manual mutation tests pass (3/3); kernel replay and mutation suite to do"
+   "note": "anchor guard (Unicode-aware), ABI hashes, provider quarantine, source lint, run at every landing; manual mutation tests pass (3/3). Still to build: a whole-library kernel replay and an automated mutation suite for the guards (release requirements)"
   },
   {
    "group": "Campaign infrastructure",
@@ -110,7 +110,12 @@
    "title": "Weighted ℓ¹ Fourier algebra on ℤⁿ: Banach algebra, exp, derivatives, averages",
    "difficulty": "H",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); per D12 the weighted ℓ¹ norms are used only in the cohomological equation (KAM/Fourier, Zohar)"
   },
   {
@@ -119,7 +124,12 @@
    "title": "Fourier–Taylor algebra in (angles, actions); Cauchy estimates in the actions",
    "difficulty": "H",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); per D12 realized with sup norms on complex strips and one-variable Cauchy estimates, no separate Fourier–Taylor algebra"
   },
   {
@@ -128,7 +138,12 @@
    "title": "Composition f∘(id+u) and Taylor remainders in the weighted norms",
    "difficulty": "H",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); compositions and Taylor remainders in sup norms on complex domains"
   },
   {
@@ -137,7 +152,12 @@
    "title": "Matrix-valued functions: products, Neumann-series inverses, averages",
    "difficulty": "M",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); Neumann inverses, operator and matrix norms, averages"
   },
   {
@@ -146,7 +166,12 @@
    "title": "Bridge between real-analytic functions on complex strips and coefficient spaces",
    "difficulty": "H",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); strip↔coefficient bridges incl. W-valued summation (I-STRIP-2b)"
   },
   {
@@ -155,7 +180,12 @@
    "title": "Diophantine vectors; cohomological equation with Rüssmann's exponent",
    "difficulty": "M",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); cohomological solver with Rüssmann exponent (Zohar)"
   },
   {
@@ -164,7 +194,12 @@
    "title": "Abstract Newton/KAM convergence on a scale of analytic spaces",
    "difficulty": "M",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); convergence proved concretely in KAM/Apost/Iteration and Limit"
   },
   {
@@ -173,7 +208,12 @@
    "title": "Hamiltonian vector fields in coordinates; invariant tori; quasi-periodic orbits as ODE solutions",
    "difficulty": "M",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p1-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p1-"
+    ]
+   },
    "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); Hamiltonian vector fields, flows (KAM/ODE), invariant tori"
   },
   {
@@ -182,7 +222,12 @@
    "title": "Approximate Lagrangian property, adapted symplectic frame, torsion matrix",
    "difficulty": "H",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p2-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p2-"
+    ]
+   },
    "note": "graph K Part 2: 113 PROVED, 1 BYPASSED, 0 open; G1 SEALED (f4cdc0d)"
   },
   {
@@ -191,7 +236,12 @@
    "title": "Newton step: reduction of the linearized equation, cohomological equations, estimates",
    "difficulty": "VH",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p2-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p2-"
+    ]
+   },
    "note": "graph K Part 2: 113 PROVED, 1 BYPASSED, 0 open; G1 SEALED (f4cdc0d)"
   },
   {
@@ -200,7 +250,12 @@
    "title": "Iteration and convergence: the a-posteriori existence theorem",
    "difficulty": "H",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p2-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p2-"
+    ]
+   },
    "note": "graph K Part 2: 113 PROVED, 1 BYPASSED, 0 open; G1 KAM.aposteriori_kam SEALED (f4cdc0d)"
   },
   {
@@ -209,7 +264,12 @@
    "title": "Local uniqueness modulo phase for flows (no published version: adapt GJLV05 Thm 2, §6, §8)",
    "difficulty": "VH",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p3-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p3-"
+    ]
+   },
    "note": "graph K Part 3: 41 PROVED, 3 BYPASSED, 0 open; G2 KAM.local_uniqueness_flow SEALED (c9dec45)"
   },
   {
@@ -218,7 +278,12 @@
    "title": "Invariant torus for every Diophantine frequency of a nearly-integrable Hamiltonian",
    "difficulty": "M",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p4-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p4-"
+    ]
+   },
    "note": "graph K Part 4: 127 PROVED, 1 BYPASSED, 0 open; HEAD SEALED (e4ca720)"
   },
   {
@@ -227,7 +292,12 @@
    "title": "Lipschitz dependence of the tori on the frequency (re-application; defect O(ε/γ⁴))",
    "difficulty": "H",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p4-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p4-"
+    ]
+   },
    "note": "graph K Part 4: 127 PROVED, 1 BYPASSED, 0 open; HEAD SEALED (e4ca720)"
   },
   {
@@ -244,7 +314,12 @@
    "title": "McShane extension of F̂ − id and the lipeomorphism: the complement is the image of the complement",
    "difficulty": "M",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p4-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p4-"
+    ]
+   },
    "note": "graph K Part 4: 127 PROVED, 1 BYPASSED, 0 open; HEAD SEALED (e4ca720)"
   },
   {
@@ -253,7 +328,12 @@
    "title": "Assembly of the headline theorem",
    "difficulty": "M",
    "done": 1.0,
-   "auto": {"graph": "K", "parts": ["blueprint/parts/p4-"]},
+   "auto": {
+    "graph": "K",
+    "parts": [
+     "blueprint/parts/p4-"
+    ]
+   },
    "note": "HEAD KAM.kam_positive_measure (e4ca720) and HEAD-Q (5f6b154) SEALED"
   }
  ]

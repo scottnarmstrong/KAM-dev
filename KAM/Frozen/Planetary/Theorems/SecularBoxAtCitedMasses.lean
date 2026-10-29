@@ -77,7 +77,7 @@ theorem secularBoxAtCitedMasses (w0 : Phase (2 + 2))
             (barycentricPositions 1 (jupiterSaturnWeights (476 / 1591 : ℝ)) (4773 / 5000000 : ℝ)
               (ellipsePhase (jupiterSaturnWeights (476 / 1591 : ℝ)) (w t) F).1) :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Planetary.secularBoxAtCitedMasses w0 hw0
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

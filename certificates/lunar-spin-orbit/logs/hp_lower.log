@@ -1,0 +1,16 @@
+lower: double continuation done 0s; p range np.float64(0.9680066018385024) np.float64(0.9818058151662721)
+lower[256x64] it=0 log10 max|Rhat_proj|=-14.26 max|Rhat_full|=-14.26 grid sup|R|=-13.01 t=1s
+lower[256x64] it=1 log10 max|Rhat_proj|=-26.45 max|Rhat_full|=-26.45 grid sup|R|=-24.77 t=6s
+lower[256x64] it=2 log10 max|Rhat_proj|=-39.10 max|Rhat_full|=-39.10 grid sup|R|=-37.19 t=7s
+lower[256x64] it=3 log10 max|Rhat_proj|=-51.10 max|Rhat_full|=-51.10 grid sup|R|=-49.51 t=8s
+lower[512x128] it=0 log10 max|Rhat_proj|=-51.10 max|Rhat_full|=-51.10 grid sup|R|=-49.38 t=6s
+lower[512x128] it=1 log10 max|Rhat_proj|=-60.83 max|Rhat_full|=-60.83 grid sup|R|=-58.78 t=22s
+lower[512x128] it=2 log10 max|Rhat_proj|=-73.08 max|Rhat_full|=-73.08 grid sup|R|=-70.80 t=25s
+lower[512x128] it=3 log10 max|Rhat_proj|=-84.29 max|Rhat_full|=-84.29 grid sup|R|=-82.94 t=28s
+lower[512x128] it=4 log10 max|Rhat_proj|=-96.57 max|Rhat_full|=-96.57 grid sup|R|=-94.39 t=31s
+lower[512x128] it=5 log10 max|Rhat_proj|=-108.48 max|Rhat_full|=-108.48 grid sup|R|=-106.15 t=35s
+lower[512x128] it=6 log10 max|Rhat_proj|=-120.64 max|Rhat_full|=-120.64 grid sup|R|=-118.07 t=38s
+lower[512x128] it=7 log10 max|Rhat_proj|=-132.72 max|Rhat_full|=-121.50 grid sup|R|=-120.78 t=41s
+lower[512x128] it=8 log10 max|Rhat_proj|=-144.79 max|Rhat_full|=-121.50 grid sup|R|=-120.78 t=44s
+lower[512x128] it=9 log10 max|Rhat_proj|=-152.85 max|Rhat_full|=-121.50 grid sup|R|=-120.78 t=46s
+lower: total 55s

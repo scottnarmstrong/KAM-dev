@@ -158,9 +158,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rg-sc
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: rg_scale (KAM/Kepler/ScalingNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p7:rg-lagrange
@@ -187,9 +187,9 @@ EDGE: bpP:p7:kepler-data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rg-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent range avoids this step
 NOTE: -
 
 NODE: bpP:p7:kepler
@@ -1049,9 +1049,9 @@ EDGE: bpP:p0:fixham#fixedHamiltonian | blueprint-P/parts/p7-kepler-poincare.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P7-5 PASS WITH NOTES N1/N2: part (b) dh/dLambda_i=nu_i, analyticity of h and nonvanishing d2h not exported (only hasDerivAt_nu); quotient diffeo and field/orbit transport (c),(d) only as ingredients; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: product_chart_full, exists_quotient_bijection, fastLatticeSetoid (KAM/Planetary/Poincare/ChartNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES; quotient diffeo given as bijection + local analytic inverses
 NOTE: -
 
 NODE: stepP:p7:pc-prod
@@ -1181,9 +1181,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:pc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pc_eq, ChartHamiltonEq (KAM/Planetary/Poincare/ChartNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p7:tube
@@ -1431,9 +1431,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:la-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision+sol-delta-P-ah
 REVIEWER: sol-delta-P-bc
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: la_ham (KAM/Planetary/Poincare/ChartNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES
 NOTE: restored by the P-FIXED revision (was EXCLUDED as P-FIXED-only, writer ruling 2026-10-28); consumer stepP:p11:tc-polar (Part 11 L90); source fields filled by sonnet-extract-pfixed
 
 NODE: bpP:p7:d25
@@ -1481,9 +1481,9 @@ EDGE: bpP:p0:d25-kepler#keplerEccVector | blueprint-P/parts/p7-kepler-poincare.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P7-7 audit-2 PASS for the 10-signature dictionary API, but the audit states the API does not individually restate the whole proposition; part (e) (F_i=g_i+u_i, lambda_i=ell_i+g_i with polar (xi,eta)) has no single declaration; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: d25 (KAM/Planetary/Poincare/ChartNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES
 NOTE: the Lean function keplerMeanLongitude is not an anchor (SPEC): its statement is carried by regular-kepler and the d25-ab step
 
 NODE: stepP:p7:d25-ab
@@ -1620,9 +1620,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:d25-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P7-7: (e) only inherited (poincare_facts_polar, keplerLong_eq_add_eccAnom); no declaration states the full clause
+LEAN_STATUS: PROVED
+LEAN_REF: d25_e, D25Polar (KAM/Planetary/Poincare/ChartNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p7:conv#data
@@ -1655,7 +1655,7 @@ EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-q
 REVIEWER: sol-delta-P-ah
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: not closable (DEFS-P2-audit-1): delaunay public carrier is Phase 2 with an explicit Kepler-solver fallback; faithful on deDom only; owner review
 NOTE: created from p7:prose-L27-L33 (SPEC section data); consumers: nearly every statement of Part 7
 
 NODE: bpP:p7:sec-product#data
@@ -1682,9 +1682,9 @@ EDGE: bpP:p0:body#bodyVector | blueprint-P/parts/p7-kepler-poincare.tex#bpP:p7:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7
 REVIEWER: sol-review-P-i
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: Phase (KAM/Frozen/Planetary/Defs/Phase.lean); assemble (KAM/Frozen/Planetary/Defs/Assemble.lean); fast (KAM/Frozen/Planetary/Defs/Fast.lean); slow (KAM/Frozen/Planetary/Defs/Slow.lean); bodyVector (KAM/Frozen/Planetary/Defs/BodyVector.lean); planetBlock (KAM/Planetary/Poincare/Product.lean)
+LEAN_NOTE: definitions audit DEFS-P2-audit-1 CLOSABLE
 NOTE: created from p7:prose-L188-L188 (SPEC section data); consumers: product-def, product-chart and its steps
 
 NODE: stepP:p7:po-el#circular
@@ -1713,9 +1713,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-el
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: po_el_circular (KAM/Planetary/Poincare/ChartNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES
 NOTE: covers only the scalar circular identities; the parent separately treats the LRL identity at L158-L159
 
 NODE: stepP:p7:po-el#circular-scaled
@@ -1744,9 +1744,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-el
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 ruling 06:30: parent stepP:p7:po-el#circular is PROVED via the direct route (po_el_circular)
 NOTE: covers only the scalar circular identities; the parent separately treats the LRL identity at L158-L159
 
 NODE: stepP:p7:po-el#circular-direct
@@ -1774,7 +1774,7 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: po_el_circular (KAM/Planetary/Poincare/ChartNodes.lean); poincare_elements (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: route taken (ruling 06:30, D27): parent po-el#circular proves the scalars by direct computation via poincare_elements/poincare_facts on the Poincare formula, not via the scaled track-I endpoint
 NOTE: covers only the scalar circular identities; the parent separately treats the LRL identity at L158-L159

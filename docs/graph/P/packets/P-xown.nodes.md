@@ -231,9 +231,9 @@ EDGE: stepI:p7:mv-int | blueprint-I/parts/p7-delaunay.tex#stepI:p7:ci-alg@L308-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-p
 REVIEWER: sol-delta-P-p
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ci_alg (KAM/Kepler/ScalingNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES; audit-1 F1 closed
 NOTE: The dependencies on proof computations record the source-explicit reuse of algebra, not application of a strictly noncircular statement at e=0.
 
 NODE: stepI:p7:sc-alg
@@ -257,9 +257,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-p
 REVIEWER: sol-delta-P-p
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sc_alg (KAM/Kepler/ScalingNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES
 NOTE: The conversion(a) citation is an as-in pointer to the same block multiplication for a different matrix, not an application of that specialized result.
 
 NODE: stepI:p7:sc-flow
@@ -286,7 +286,7 @@ EDGE: I:bpI:p7:orbit-identities | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sc-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-p
 REVIEWER: sol-delta-P-ah
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sc_flow (KAM/Kepler/ScalingNodes.lean)
+LEAN_NOTE: audit GAP-P7 round 2 PASS WITH NOTES; pointwise flow / parametrized-orbit averages
 NOTE: The sy-field citation is an as-in pointer: the source repeats naturality and the curve chain rule for the linear S_k. It does not apply the Q-specific Delaunay-field theorem.

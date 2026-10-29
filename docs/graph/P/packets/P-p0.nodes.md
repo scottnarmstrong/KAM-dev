@@ -1045,7 +1045,7 @@ EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: convention/remark with purely definitional content (gap survey GAP-PLAN-P.md section 2 item 6; ruling OVERNIGHT 03:55, owner review); re-kind pending: the graph schema has no SET_KIND amendment and no remark kind
 NOTE: remark kept as a node: Part 5 (stepP:p5:mn-meas) and Part 6 (bpP:p6:domain) cite it for guarded facts they consume (meas F(V,r) < infinity, domain guards). No edge to bpP:p0:pg: the remark explains the guards of that statement, and an edge would close a cycle through bpP:p5:main.
 
 NODE: bpP:p0:pg
@@ -1078,9 +1078,9 @@ EDGE: bpP:p5:main | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:main@L317-L317 |
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.properlyDegenerateKAM (KAM/Frozen/Planetary/Theorems/ProperlyDegenerateKAM.lean)
+LEAN_NOTE: P-G anchor SEALED (manifest planetary.properlyDegenerateKAM.v1); seal-key audit P5-MAIN-audit-1 PASS WITH NOTES
 NOTE: root anchor. Proof: Theorem bpP:p5:main (Part 5), which carries the \frozen tag. Source fields follow Part 0 L333-L365 and the frozen file (quantifier order: all data, then r_*,C,c, then r,mu, then S). The reference in HasBirkhoff to this theorem (L159) is a forward pointer, deleted. The sourcegap at L362 is covered by bpP:p5:strictness and bpP:p5:uniform-remainder.
 
 NODE: bpP:p0:planar
@@ -1107,9 +1107,9 @@ EDGE: bpP:p12:planar | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:planar@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planarTwoPlanetKAM (KAM/Frozen/Planetary/Theorems/PlanarTwoPlanetKAM.lean)
+LEAN_NOTE: P-PLANAR anchor SEALED (manifest planetary.planarTwoPlanetKAM.v1); seal-key audit P12-E-audit-1 PASS WITH NOTES
 NOTE: root anchor. Proof: Theorem bpP:p12:planar (Part 12), which carries the \frozen tag; Part 12 applies the frozen P-G (edges owned by P-p12). The stale sourcegap sentence of L376 was fixed in Part 0 (it now names Part 12 as the proof).
 
 NODE: bpP:p0:fixed
@@ -1136,9 +1136,9 @@ EDGE: bpP:p13:fixed | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:fixed@L15
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision
 REVIEWER: sol-review-P-w
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.fixedSunPlanetaryKAM (KAM/Frozen/Planetary/Theorems/FixedSunPlanetaryKAM.lean)
+LEAN_NOTE: P-FIXED anchor SEALED (manifest planetary.fixedSunPlanetaryKAM.v1); seal-key audit P11A-P10-audit-1 PASS WITH NOTES
 NOTE: root anchor (P-FIXED revision 2026-10-28; block restored from draft/deferred-p0-fixed.md, identity fields re-checked against the manifest). Proof: Theorem bpP:p13:fixed (Part 13), which carries the \frozen tag and splits n = 2 (bpP:p13:n2, route (c) through the frozen P-G) from n >= 3 (bpP:p13:n-general, Part 11's wrapper); bpP:p13:n2 and bpP:p13:n-general also carry the tag (edges owned by P-p13). The \sourcegap (L386-L387) is mapped in the coverage.
 
 NODE: bpP:p0:d25-cross#planeCross

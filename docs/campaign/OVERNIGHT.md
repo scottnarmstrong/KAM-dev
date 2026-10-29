@@ -139,6 +139,61 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **Also landed tonight:** I-STRIP-2b (W-valued Fourier summation and uniform convergence). It closes the retro-audit
   gaps in the co-author's scalar Fourier layer.
 
+### 03:45: offloaded INP work, README refresh, owner directives (orchestrator, Opus)
+- **I-G1 provider ready.** I2-10 (`KAM.Provider.Iso.isoenergetic_kam`) passed its audit as seal-ready, with an
+  exact-type probe in both directions. The sub-orchestrator runs the D26 seal. With it, I-G1 Parts 1–3 are complete
+  (I1-1 … I2-10, I3-1 … I3-5).
+- **Delivered this hour:**
+  - I2-4 … I2-10, I3-4, I3-5;
+  - I-4, I-7, I-8, KEP-10 (Kepler/Delaunay layer);
+  - C5-3, W4-6 (track N);
+  - P8-2 (R3BP region), P6-4 (Newtonian tube).
+
+  Every package passed its Sol audit, most with notes and none with a FAIL.
+- **README (owner request "don't let this get stale").** These figures are now computed from live data:
+  - track K's progress items, from graph K;
+  - the size estimate, now including tracks I, N, P and the agent branches;
+  - a new track table of sealed anchors and resolved graph nodes per track;
+  - the areas, from the real folders;
+  - the agents, with the offloaded provers read from their worktrees.
+
+  The static text was refreshed as well. The sub-orchestrator synced the LEAN_STATUS of graphs I and N and switched
+  its progress items to the graph.
+- **Source added:** AS26 (Alazard–Shao, *KAM via standard fixed point theorems*, Forum Math. Sigma 2026), context
+  tier, at the owner's request. Assessment: formalizable as a separate campaign. The missing pieces are a
+  paradifferential library (Littlewood–Paley, paraproducts, Bony paralinearization) and Schauder. Schauder is
+  avoidable through the contraction variant of its Remark 4.2. Candidate erratum, not yet recorded: on p. 32 the radius
+  ρ = ‖e₀‖_{H^{s+σ+ε}} γ⁻² c₂ should read c₂ γ² ‖e₀‖_{H^{s+2σ+ε}}, as in (4.34).
+- **Owner directives (03:25–03:30):**
+  - five audit slots;
+  - Codex auditors on codex-1 and codex-4;
+  - fast tier for new auditors until about 05:56 UTC;
+  - Claude provers on claude-12 as much as possible: new provers run in tmux (`main_inp_prover.sh`).
+- **Housekeeping:**
+  - Removed 25 merged worktrees of mine, which freed about 10 GB. The sub-orchestrator removed 16 of its own.
+  - The signature files now live in `KAM-inp/.drafts/design/`.
+  - Closed five finished Phase-0 Codex sessions.
+  - Resumed the I3-4 auditor, which had stalled on "model at capacity".
+
+### 04:55: track I complete; offload continues on claude-12; two designs (orchestrator, Opus)
+- **Track I complete.** All four frozen theorems are SEALED: I-G1, I-KEPLER, I-HEAD and I-R3BP. The main orchestrator built
+  and audited the I-HEAD and I-R3BP providers (PASS, seal-ready); the sub-orchestrator ran the D26 seals.
+- **Delivered since 03:45:**
+  - track I: P8-2 … P8-5;
+  - track N: W4-4, W4-5, W4-6, W4-7, W4-8, C5-3 … C5-8, P1-3b, P1-6;
+  - track P: P6-4, P6-6, P7-2, P7-3, P7-4, P7-5.
+
+  P7-7 is waiting on a lint recheck; C5-9 is proving. Total delivered tonight: 90 packages, every one audited.
+- **Decision (design gap, normally the design owner's):** the audit of P7-4 failed on coverage. Blueprint-P p7:169 also
+  asserts the real-point symplectic identity DΨᵀM₀DΨ = M₀, which the KEPLER design omitted. Resolved as the auditor
+  proposed: a new glue module `Poincare/HolomorphicSymplectic.lean` (`poincare_holomorphic_symplectic`), passed by a
+  delta audit. The audit also refuted the prover's suggested "π/4" erratum: the blueprint's π/6 is right.
+- **Next Lean designs:** none existed for the remaining N and P parts. Opus design writers on claude-12 wrote P Part 1
+  (unblocks P6-5 and P7-6) and N Parts 6–7 (on the way to N-HEAD-C). Both are now in Sol design audit.
+- **README:** a track counts as complete once every frozen theorem in it is sealed (track I at 100 %; open graph nodes
+  there are alternative routes or steps proved in a specialized form). Track N now follows its graph (38 %); track P
+  keeps the hand estimate until graph P is published.
+
 ## Tracks I, N, P (sub-orchestrator, D23)
 
 - **21:15. No new freezes; packets only.** Nothing is pending owner approval from tracks I/N/P tonight (D25 and D28
@@ -211,3 +266,572 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **04:40. I-G1 (`KAM.Iso.isoenergetic_kam`) sealed and landed** (seal e81fb67, landed 6c4e81e): I Parts 1–3 Lean
   design by the main orchestrator's designer (Sol-audited), ~22 audited packages run by the main orchestrator, the seal
   per D26 by the sub-orchestrator (axioms standard, per-module kernel replay exit 0). Next: the I-HEAD provider.
+- **07:25. Main-orchestrator offload status, incidents and fixes.**
+  - Delivered and audited since 06:20: PP1-5..7 (P Part 1 complete), C5-10 (N Part 5 complete), N6-2..N6-7 (N6
+    iterative lemma complete), S7-2..S7-6, P6-5, P7-6 (Kepler design complete), N2-KERNEL/ZFIELD/DERIV, P23-03/04/09.
+    In audit: N89-G1, N2-ZORBIT, N89-P1, N2-QC. Proving: N6-8a, P23-05/06/08, N89-G2/P2.
+  - **Incident:** an audit passed on an uncommitted working-tree edit (PP1-7 `Liouville.lean:35` wrap), so `inp` carried
+    a 108-character line. Fixed by committing the whitespace-only wrap (40c9e53, re-merged). The audit launcher now
+    refuses a worktree with uncommitted tracked Lean edits, and every prover brief says to commit all edits.
+  - **Incident:** disk reached 97%; 17 merged, idle offload worktrees removed (21 GB free).
+  - Codex weekly quotas reset at 06:35 (codex-1..4 at 98–100%); the one-audit-per-package economy is lifted.
+  - Track W (D30, owner-approved): package W-BP0 (blueprint Part 0, milestone W0 normalization, errata re-check) is
+    written on branch `w`; its independent Sol audit is running. Nothing frozen.
+- **07:35. Track W headline ruling (for owner review; nothing frozen).** W-BP0 audit 1 FAILED on two medium findings
+  (the core W0 mathematics passed). Ruling on W-A2: the proposed first headline adds family-level injectivity (distinct
+  action parameters give disjoint embedded tori, as P96-W's family construction provides) and explicitly declares the
+  Lipschitz regularity of the family in Cartesian coordinates DEFERRED together with Whitney regularity and linear
+  stability (D30 Q3). It is described as a declared weakening of P96-W's Main Theorem, not the full specialization.
+  Reversal: require the full Lipschitz Cantor-manifold conclusion in the first headline (adds W6/W8 work).
+- **09:00. Main-orchestrator offload status and rulings.**
+  - N Parts 6–7 complete: N6-1..N6-8 (normal form) and S7-1..S7-8 (Propositions 1 and 2) are proved and audited. Also
+    delivered since 07:25: N Part 2 (all five), N89-G1..G5, N89-P1/P2, N12-01..05, 07, 08, 10a, P23-03..12 and 19,
+    P45-S, P4-S/TO/AF/LT/LI/CO/ONE (some in audit), P5-CL, P11A-W0. Proving: N6-free waves of N12/N89/P23/P45/P11A.
+  - Ruling (design gap, P45): the resonance-section results of P4-R0/P4-RA/P4-RB have no signatures in the P45 design;
+    provers write them as internal helpers (distinct names, blueprint-node citations, shaped for P4-M's
+    `two_scale_diophantine_measure`, no premise added to any signed declaration). P4-RA and P4-M will be done by one
+    prover after P4-R0 and P4-RB. Reversal: a signed P45 addendum for those sections.
+  - Hygiene-only audit failures (N12-03a, N12-03b inherited, P4-CO) were fixed by the orchestrator with whitespace-only
+    commits verified by rebuild, kernel replay and `git diff --check`, recorded as audit addenda; coverage failures
+    (N12-02, P11A-W0) went back to provers and passed round-2 audits.
+  - Track W: exact Lean statements of the first headline W-NLW2 passed statement audit 2; awaiting owner approval
+    (review page claude.ai/artifact/AbFkbYPkBA5SVvtCdaYmn7). Nothing frozen.
+  - Landing on main remains paused pending the owner's go-ahead (main at f7e7672).
+- **10:25. Design revisions made from prover findings (for owner review; no frozen statement touched).**
+  - **P45 revision 4.** Prover P5-EX showed that `PGExtension.agrees` (a design-level signature, not frozen) made the
+    existence theorem `ext` false: the data control `P` only on the closed cylinder, but `agrees` demanded equality on a
+    whole real neighbourhood. `agrees` now also assumes `w ∈ closure (cylinder d.V d.r0)`; delta design audit 4 PASS;
+    P5-EX then proved the package. Reversal: none needed (minimal, all consumers checked).
+  - **P23 revision 3.** P23-13 (`osc_iter`) proved every clause but the remainder bound and reality clause; those need
+    an oscillator-specific Lie-series transfer (N's composition machinery fixes parameter dimension = angle dimension).
+    Nine new packages P23-13b..j (~3.3k lines); the signed `osc_iter` is unchanged; design audit PASS WITH NOTES.
+    P23-15 waits for it.
+  - **P45 resonance sections** (P4-R0/RA/RB) implemented as internal helpers (09:00 ruling); the signed endpoint
+    `two_scale_diophantine_measure` is now proved (P4-RA + P4-M by one prover), in audit.
+  - **Blocked:** P11A-W2 waits for P810 S10-C (proving) and S10-R (wave 9).
+  - Account note: claude-12 (all provers) at 37%, ~3%/h; new provers move to claude-10/claude-8 below ~10%.
+- **12:25. Throughput and the disk ceiling.**
+  - Since 10:25, 39 more offloaded packages passed independent audit and were handed to kam-inp, which merges them
+    into inp as they arrive (KAM.lean regenerated; ABI hashes OK, 144). They are: P23-13b/c/d/e/g/i and P23-14/16 (oscillator
+    Lie-series transfer, six of nine revision-3 packages); P5-EX/BL/JET/REM; P4-RAM; N12-09..15 and 17; N89-G7/P3;
+    P11A-W5..W7 and C1..C3; S7-R; S8-L/A/I/Y/M/C; S9-L; S10-J/W/C/S. No seals; landing on main still paused.
+  - Proving now (15): P23-13f, P23-17, P5-FD, N12-16, N89-P5 (`thm1`), P11A-W8/C6/P0/P3/P9, S8-W, P4-POL, S9-S,
+    S9-D, S10-P. N89-P4 in audit.
+  - **Disk is the binding constraint** (root at 95–97%; each package worktree is ~1.5 GB, mostly a private copy of
+    the inp build). Dependency-ready but held for disk: P5-CUT, S8-D, S8-X, S8-J, P11A-C4 (after W8), P11A-P6 (after
+    P0), P23-18 (after P23-17). Hardlinking build trees is not safe while provers rebuild in place. Owner option: a
+    larger root disk, or worktree builds on the archive volume.
+  - Account rotation: new provers now launch on claude-10 (49%); claude-12 is at 32% (reset 2026-10-29 21:00 UTC).
+- **13:08. Ruling (design gap, P810 S8-D/S8-X):** the P810 design lists S8-D (qf-scale/qf-c0/qf-diag) and S8-X
+  (qf-cross, orbit variations, Fourier selection) as proof cuts of the signed `quadratic_form` with no signatures of
+  their own; prover S8-D stopped correctly for lack of signatures. Same rule as the 09:00 P45 ruling: internal
+  helper lemmas with distinct names, blueprint-node citations, identities about the literal pair average with only
+  blueprint-stated hypotheses, shaped for S8-Q; no premise added to any signed declaration, no assumed coefficient
+  structure or quadratic matrix. Audits check each helper against its blueprint node. Reversal: a signed P810
+  addendum for these proof cuts. No statement frozen.
+- **14:05. Landing resumed and done.** Landing had been paused since 05:43 after an out-of-memory kill; the main
+  orchestrator wrongly treated the resume as an owner decision (it is routine; the owner asked for it at 12:30).
+  First attempt (12:37) failed in the full root build on a declaration-name clash (oscillator `fastShift` vs the
+  frozen definition), invisible to targeted builds and audits; kam-inp's fixes (a923eb0, 0d04590) renamed six
+  clashing declarations mechanically, no statement change. `main` is now d7c23ef: +285 Lean files (+57,456 lines),
+  695 modules; seals `averaging_mean` and `averaging_most` (D26, 02ae13f); graph sync N 270/728, P 334/1363 PROVED.
+  From now on: land after every merged batch; every audit runs a whole-library name-clash check
+  (orchestrator-tools/main_name_clash_check.sh); worktrees are swept after every event.
+- **15:50. Progress since 14:05.** Landings now follow every merged batch (main at 17754da9 by 15:48). The three
+  untouched designs (P11B, P11C, P14) are offloaded and proving package by package. Ruling (P11A-P9): `forward_tube_core`
+  is an internal helper; the signed `forward_tube`/`p11PhysicalDelta` need `P11Physical` (Preparation/Working) and are
+  one-line wrappers deferred to P11A-P1. Root-build name clashes (p11Affine, p11Rad, `norm_append_le`) were renamed
+  mechanically; the whole-library clash check now runs before every audit. Disk: the generated C under each
+  worktree's `.lake/build/ir` (1.9 GB, never read by Lean checking) is hardlinked to inp's copy, freeing ~45 GiB;
+  root disk 80–87%, so disk no longer caps the number of provers.
+- **16:05. Ruling (P14 A3, signed name):** the audit proved that the signed theorem `KAM.Planetary.closure` shadows
+  Mathlib's topological `closure` inside `KAM.Planetary` (a module there writing `closure S` fails). Renamed to
+  `amd_closure`, no alias, statement unchanged (signature file, A3 branch, design note on inp 94907f2c); consumers
+  (A6, the `amdConfinement` provider) use the new name. Every audit now also runs a root-name shadow check
+  (orchestrator-tools/main_shadow_check.sh) and refuses packages that shadow a root constant.
+- **16:35. Ruling (P11A `cutoff_coefficients`, design-level signature; no frozen anchor involved):** the P11A-C8
+  prover showed the signed last clause `∀ z, p11Cutoff T R z = p11R0 … + ∑ i, p11R1 … * z.1.2 i` false: for
+  `z.2 ∉ B`, `p11Admissible` leaves `R` unconstrained and `KAM.Weighted.truncate` integrates over the torus, so a
+  non-integrable `f` with `g = 1 - f` gives cutoff 1 at `eta_1 = 1` while `R0 = R1 = 0`. Checked against the
+  definitions. The clause now reads `∀ z, z.2 ∈ B → …` (name kept; its only consumer, cs-cutoff, works on `B`);
+  design note on inp 177d8b6b. C8b proves the amended statement and the omitted companion
+  `canonical_step_simple_inverse`. Reversal: restore the old clause and add a hypothesis making `R` regular off `B`.
+
+- **17:00. Ruling (P45 signed name `avg` → `pg_avg`).** The P5-AV signed theorem `avg` collides with the P2/P3
+  `KAM.Planetary.avg` (Averaging/Finite, on inp) and would break the root build; the pre-audit clash check caught it.
+  Renamed `pg_avg`, no alias, statement unchanged; `pgAvg := (pg_avg d r mu h).choose` (inp-p5av a324b554, signature
+  file; design note requested from kam-inp). Also 16:50: S9-Q failed round 1 on graph-cut coverage (`d-c` needs the
+  source's `sqrt n * delta_0 <= rho_*` domain adapter; the signed `diagonalize` passes); S9-Qb adds the adapter.
+- **17:08. Landing killed for low memory, finished by the main orchestrator.** The P11C-T2 landing (f6384126) was
+  killed at 17:02 after its full build had passed (9867 jobs) but before lint and push. Cause: memory stacking
+  (an orphaned 7 GB leanchecker from a closed S8-4 audit, parallel audit-launch replays, four new provers). kam-inp
+  paused landings and asked the owner; per the owner's standing ruling (landing is routine, never an owner gate),
+  the main orchestrator ran the remaining steps of land-branch.sh under the HQ lock (lint PASS, 821 files, 144 ABI
+  hashes OK) and pushed. Fixes: orphan killed; audit-launch replays now serialized under one lock.
+- **17:45. Heartbeat.** kam-inp had been parked since ~17:05 on a question to the owner about the killed T2 landing
+  (already finished and pushed by the main orchestrator at 17:08); answered from the standing ruling, merges and
+  landings resumed (backlog T4, W2b, B04, B05, A6, S8-Q, E3, P5-AV, P11A-C8 merged; `amdConfinement` seal staged
+  after A6's seal-key audit). Track K is complete (00:15); the remaining unstarted design work is track N: N10-3..5
+  (provider of `quasiConvex_nekhoroshev_complexBound`) and the whole N11 chain (provider of
+  `partialConvex_nekhoroshev`), now started (N10-3, N11-A, N11-B), plus P11C R1 and Q5. Mechanical fixes made by the
+  orchestrator, each followed by a delta audit: P11A-C8 helper `step_small` -> `p11_step_small` (reused short name);
+  P23-22 three statement lines wrapped (whitespace only; lint). New pre-audit refusals: reused public short names
+  (main_shortname_check.py) and root-name shadows (main_shadow_check.sh).
+- **18:17. Ruling (P11B B07 coverage).** B07's signed `adm_choice`/`free_radius` match the signature but are narrower
+  than their blueprint conclusions: (i) A7 (`eps0 = eps + N C1 s0^2/2`, `|R0| <= eps0`, p11a3:215, obtained from
+  `initial` at :222) is not attached; the design assigns the B06 input to B07, so B07b adds an A7 companion consuming
+  `initial`. (ii) `fr-other` (p11a4:39,46: A1-A7 and inductive-lemma / parameter-selection / exported-sums hold
+  verbatim with the adapted radius) refers to results that do not exist before B10/B12/B13; it is discharged where
+  those packages apply them at the adapted radius, and its graph node stays NOT_STARTED until then. No signed
+  statement changes.
+- **18:47. Ruling (audit scope: signed declarations vs literal graph nodes).** The main orchestrator's audit focus
+  had said "an exported lemma named after a graph node must state that node's literal conclusion". For SIGNED
+  declarations that conflicts with the approved signatures: N10-3's `cf_orbit`/`cf_branch` match their signatures
+  exactly and are proved soundly, but the design (N10 lines 135, 425-435) deliberately narrows them (shorter time
+  interval 2T <= T0; orbit applicability supplied inside `cf_branch`), so audit 1 failed them. Ruling: signed
+  declarations follow the signature file; the literal-node rule applies to unsigned exports only, and for a
+  deliberately narrowed signed export the audit checks that every consumer's needs are met. N10-3 gets a re-scope
+  audit with no code change.
+- **18:50. Ruling (short-name policy for signed names).** N11-B passed every mathematical check but audit 1
+  failed it on "no reused public short name" for the SIGNED definitions `constants` and `kappa` (fully qualified
+  names differ; no shadowing). Ruling: the short-name rule governs unsigned helpers only; signed names follow
+  the signature file. N11-B accepted without re-audit (N11-B-audit-1-ruling.md on inp-n11b).
+- **18:55. Progress.** `amdConfinement` sealed and landed (e4f373bd; 14 of 22 frozen statements now proved) with
+  `two_scale_kam` (P23-22), S9-Q/S9-T, S0/S4/E4/E8; graph P 608/1363. Track N chains under way: N10-3/N10-4 in audit,
+  N10-5 (`head` + provider of `quasiConvex_nekhoroshev_complexBound`) proving; N11-A/N11-B passed, N11-C/D/E3
+  proving. P5-FAM (toward `properlyDegenerateKAM`) proving. Tooling: compile gate raised to 3 slots (builds had
+  queued 13 min with 12 GB free); pre-audit checks refuse reused helper short names and root-name shadows that KAM
+  actually uses.
+- **19:00. Ruling (P11B signature defect, `exported_sums`).** The B13 prover found that the last conjunct
+  `∀ ν, (∑' j, selectionA a (j + ν) + selectionAlpha a (j + ν)) / selectiont a (ν + 1) ≤ …` parses with the second
+  summand outside the tsum, leaving `j` unbound (it elaborates only with autoImplicit, which the project disables).
+  Ruling: the intended source statement (E3) is the parenthesised sum `∑' j, (A (j+ν) + α (j+ν))`; signature file
+  amended (old copy in orchestrator-tools/handoffs), design note requested (P11B design line ~992). Not a frozen
+  statement.
+- **19:08. Rulings applied under the 18:47/18:50 principles.** E7 (signed `perturbation` reuses a short name;
+  math PASS) and R1 (infrastructure package with no signed declarations; audit focus item "every declaration =
+  signature file" misapplied to unsigned helpers; math PASS) accepted without re-audit; ruling notes on their
+  branches. The orchestrator's audit focus now reads "every SIGNED declaration = signature file".
+- **19:27. Critical path note.** E11 (`stopped`) correctly stopped without writing Lean: per P14 design gate N2 its
+  proof applies the N root `partialConvex_nekhoroshev`, a DRAFT_SORRY frozen anchor whose provider is the N11 chain.
+  So `planetaryExponentialSafety` (E11, E12) waits for N11 to finish and `partialConvex_nekhoroshev` to be sealed;
+  N11 is the critical path for two frozen theorems. E11 is parked with its inputs merged.
+- **19:55. Second seal tonight: `quasiConvex_nekhoroshev_complexBound` (N-HEAD-C).** N10-3/N10-4/N10-5 passed
+  (N10-5 seal-key audit: exact frozen type, prospective seal, axioms, kernel); kam-inp sealed it (7c254d1a, checks
+  00afab9d: full build 9964 jobs, axioms standard, leanchecker 0, lint OK). Frozen statements proved: 15/22.
+  Graph N 308/728, P 651/1363. Remaining DRAFT anchors: properlyDegenerateKAM, planarTwoPlanetKAM,
+  fixedSunPlanetaryKAM, planetaryExponentialSafety (gated on N11 via E11), secularBoxSafety,
+  secularBoxAtCitedMasses, partialConvex_nekhoroshev (N11 chain, critical path).
+- **20:00. P11A-P1 accepted:** its audit failed only on an inherited lint line in the frozen AmdConfinement file (already rewrapped on inp); ruling note on inp-p11ap1.
+- **20:40. Ruling (P11A-P2 split; design-size signal).** P11A-P2 delivered the polar chart, `total_chart` and the
+  hc-rot building blocks (~565 lines) but not `holo_chart`/`total_chart_transport`: the prover's map of the
+  remaining work (data choice and lift, the complex-angle extension of fFix with a uniform separation strip, the
+  chart/lattice, the fast mean, assembly) is several thousand lines, far above the design's 750. Ruling: P11A-P2
+  is accepted for what it delivered (audit scoped to total-chart, tc-polar, tc-lat and the hc-rot blocks), and
+  the rest is split into P2b (data choice + hc-lift), P2c (hc-strip/hc-F, parametric in a rotation family with
+  the hc-rot bounds), P2d (hc-id/hc-lat), P2e (hc-mean) and P2f (holo_chart assembly + total_chart_transport).
+  No signed statement changes.
+- **20:50. Ruling (signed-name clash, N11 `flow`).** The N11 signature file declares `KAM.Nekhoroshev.flow`
+  (node bpN:p11:flow), but Part 5's `KAM/Nekhoroshev/Averaging/Flow.lean` already owns that constant, so the two
+  modules cannot be imported together (the root build would fail). As with `closure` -> `amd_closure` and
+  `avg` -> `pg_avg`, the signed name is renamed to `ext_flow` (statement unchanged); `flow_real` does not clash
+  and keeps its name. N11Signatures.lean line 213 amended (backup in orchestrator-tools/handoffs); N11-E1 commit
+  c198ff11; the N11 design node table (line 191) needs the same rename.
+- **20:55. Landed with node gaps (kam-inp report).** N11-O, T8 and Q3 landed in 8400d0f1 but some graph nodes stay
+  NOT_STARTED: N11-O final-mu and final-time (only an existential mu0, not the explicit mu_a..mu_f formulas or
+  the closed form of T_P); T8 homological, ho-def, ho-eq (chi defined as a real part; the reversed {N0,chi} form
+  not exported); Q3 adm_budget's ab-* nodes. Ruling: one follow-up package GAP-A fills the N11-O and T8 gaps as appended
+  exports (no signed statement changes). Q3 has no gap of its own: the ab-* nodes belong to `adm_budget`
+  (P11a-3, not yet designed) and wait for that design.
+- **21:01. Ruling (N11-L1 accepted).** Audit 1 failed L1 because `transverse_pairing` keeps the four bounds of
+  stepN:p11:ef-C as premises. The design maps ef-C to the inside of L2's `energy_free`, and the N11-L2 audit passed
+  ef-C there (all four bounds supplied, exact contradiction). N11-L1 accepted with a ruling note on its branch;
+  merge order L1 then L2.
+- **21:15. Ruling (owner to review: premise added to a signed N11 declaration).** The signed
+  `canonical_map` (N11Signatures.lean line 301) had no hypothesis giving `0 < b.c`, but `ExtCanonical b.c U Φ`
+  needs it (E1's `symplectic`). In Lean `b.c = 2π/(w/r_B)²` is 0 when `w` or `r_B` is 0, which neither `slowLoss`
+  nor `PartialBlock` excludes; in the source the radii are positive. Ruling: add `(hc : 0 < b.c)` after `φ`
+  (a source positivity premise; consumers have it from `ExtNFHyp.radius_pos`/`slow_width_pos`). Signature backup
+  orchestrator-tools/handoffs/N11Signatures.lean.bak-2115; N11-F2 commit 1d5683c5. N11-F2 also puts the signed
+  `extFlow` in a shared `Partial/ExtFlow.lean` so N11-F1 imports rather than redefines it.
+- **21:38. Ruling (R2 accepted after round 2).** Round 2 proves the compact common-neighbourhood analytic flow; the
+  auditor kept a residual finding because no statement exposes uniform Picard convergence on that neighbourhood.
+  The graph node R2 serves (bpP:p11b:e-ode, EXTERNAL) concludes real-analytic dependence of the flow, which is
+  established; "Picard convergence" in the P11C design is the proof route, and no consumer needs it (R3 passed
+  without it). Ruling note on the R2 branch; merge order R2 then R3.
+- **21:45. Owner directive: lane N paused.** The owner paused lane N to hand it to Zohar's agents. N11-F1 (mid-proof)
+  commits its work and writes a handoff; the two running N audits (N11-E2 round 2, N11-F2) finish their reports;
+  passed N branches (N11-E3, N11-G, N11-J1, N11-J2, GAP-A) still merge so main is a clean baseline; no new N work
+  starts. A lane-N handoff memo goes to docs/campaign/LANE-N-HANDOFF.md. Lane P continues at full speed (owner).
+  Consequence: the P anchor planetaryExponentialSafety (E11, E12) stays blocked until lane N delivers the provider
+  of partialConvex_nekhoroshev.
+- **21:50. Ruling (P11A-P5 parametric core).** P11A-P5 starts before holo_chart is proved: it implements its signed
+  definitions (all parametric in the secular data C) and proves avg_fast's content for an arbitrary C satisfying
+  the spec; the signed avg_fast and p11FastData become one-line wrappers once P11A-P2f proves holo_chart.
+- **22:15. Lane-N handoff published (owner request).** All compiling lane-N work is on GitHub: branches inp-n11e2,
+  inp-n11e3, inp-n11g, inp-n11j1, inp-n11j2, inp-gapa (audited), inp-n11f2 (audit FAIL F2-C1, compiles), inp-n11f1
+  (unaudited, compiles), and the combined `lane-n-handoff` (inp plus inp-n11f1; all 28 N11 modules compile together)
+  carrying docs/campaign/LANE-N-HANDOFF.md and docs/tracks/N/design/N11-SIGNATURES.md. Unaudited or failed code went
+  to branches only, not to main.
+- **22:20. Secular-box anchors seal-ready.** S11 (sb_safety) and S12 (sb_cited) passed; S12's seal-key audit
+  checked exact types and prospective seals for secularBoxSafety and secularBoxAtCitedMasses (standard axioms
+  only). Sealing handed to the sub-orchestrator via the P14 package-Q provider wrappers.
+- **22:35. Two more anchors sealed (17 of 22).** secularBoxSafety and secularBoxAtCitedMasses are sealed by the
+  sub-orchestrator (seal commit b8f993d2, inp 980388b4) through the P14 package-Q provider wrappers around S11's
+  sb_safety and S12's sb_cited: full KAM build OK (10095 jobs), axioms propext/Classical.choice/Quot.sound only,
+  leanchecker 0 on both frozen and both provider modules, lint OK. Remaining DRAFT anchors: properlyDegenerateKAM
+  (P5-MAIN done, seal-key audit running), planarTwoPlanetKAM, fixedSunPlanetaryKAM, planetaryExponentialSafety
+  (blocked on lane N), partialConvex_nekhoroshev (lane N, handed to Zohar's team).
+- **22:42. properlyDegenerateKAM seal-ready.** P5-MAIN (PGAssembly/Main, the signed `main`) passed its seal-key audit:
+  exact frozen type and prospective seal with propext/Classical.choice/Quot.sound only. Go given to the sub-orchestrator
+  to install the P5-PROV wrapper and seal (18 of 22 once landed).
+- **22:46. Ruling (owner to review: P11SecularSpec amended, h real on real points).** The signed P11A definition
+  P11SecularSpec recorded only the real part of the secular Hamiltonian C.h at real points. P11A-P5's application of
+  osc_averaging needs h real on real points (source premise OscHyp.real_h; the blueprint's h-tilde is real analytic),
+  and without it a clause of P11FastSpec is false in general. Ruling: the second conjunct of P11SecularSpec also states
+  (C.h (realInclusion J)).im = 0 (P11ASignatures.lean lines 688-690; backup orchestrator-tools/handoffs/
+  P11ASignatures.lean.bak-2250). P11A-P2f proves it inside holo_chart (P2b's explicit p11HoloH is real on reals); P5's
+  avg_fast then needs no extra hypothesis. Related: P11A-P2e audit F1 (Omega realness not exported by P2b's
+  Nonempty-only producer) is closed inside P2f by a strengthened producer.
+- **22:50. Ruling (T10 accepted; li-ord BYPASSED under D27).** T10's audit confirmed the signed lie and real_lie_taylor
+  but failed the slice because step stepP:p11b:li-ord (the bracket orders) is never stated; lie's proof bounds the
+  remainder directly instead. li-ord's only consumer is lie, so the step is recorded BYPASSED (route substitution, D27).
+- **22:55. properlyDegenerateKAM sealed (18 of 22 once checks land).** The sub-orchestrator committed the seal
+  (9fc6965a): P5-PROV wrapper with the frozen telescope verbatim, `by exact KAM.Planetary.main` with the 27 binders;
+  frozen body `by exact KAM.Provider.Planetary.properlyDegenerateKAM`; manifest SEALED (4 DRAFT_SORRY left:
+  planarTwoPlanetKAM, fixedSunPlanetaryKAM, planetaryExponentialSafety, partialConvex_nekhoroshev).
+- **23:00. Ruling (P11A-P7 parametric core).** As for P5: P7 proves avg_slow's content against an unsigned parametric
+  copy of the signed P11SlowSpec (C and the fast data as parameters); the signed P11SlowSpec, avg_slow and data become
+  wrappers once holo_chart (P2f) and P5's avg_fast wrappers land.
+- **23:10. Gap fill GAP-B.** B10 landed but bpP:p11a:exported-sums stays open on step es-3 (the real tail sums; B13
+  covered only the E1-E3 scalar slice). An append-only package GAP-B proves es-3 literally.
+- **23:20. Ruling (owner to review: signed p11d1 parenthesization).** The signed P11A definition p11d1 read
+  min (p11s1 C eps*C.sigma) C.rz^2, which Lean parses as (min (s1 sigma) rz)^2; the source has d_1 = min{s_1 sigma_F,
+  r_z^2}. The P11A-P5 audit showed the misreading makes eta1 grow like log(1/eps)^(3 tau+2) instead of the source's
+  log(1/eps)^(2 tau+1), which breaks P7's as-osc and the signed P11SlowSpec. Amended to min (p11s1 C eps*C.sigma) (C.rz^2)
+  (same kind as the 19:00 exported_sums parenthesization); backup orchestrator-tools/handoffs/P11ASignatures.lean.bak-2320.
+  P11A-P5 fix round (P5c) adopts it and exports the source eta1 rate.
+- **23:20. Tooling fix.** tmux targets matched session names by prefix (inp-mprov-p11ap5 resolved to inp-mprov-p11ap5w),
+  which blocked a launch and could have killed the wrong session; the orchestrator scripts now use exact targets.
+- **23:30. Gap fill GAP-C (sub-orchestrator request).** bpP:p11a:free-radius stays open on step fr-list: A7 at the
+  adapted radius is used inside B10's iterPre_base but never stated; adm_choice_initial covers only the fixed radius.
+  An append-only package GAP-C states it for selectionAdapted.
+- **23:35. Ruling (P11A-P7 split; design-size signal).** P7 round 1 delivered the signed slow data definitions, the
+  parametric spec copy and three analytic tools, but not the core avg_slow (prover estimate 2000+ more lines against
+  the design's 650). The remainder is split: P7b (polar averages, Z, h0, f2 and its bounds) and P7c (divisor clauses,
+  displacement, aniso_avg application, parametric in P7b's outputs) run in parallel; P7d assembles avg_slow_of_spec
+  and the signed wrappers; P7 is audited once, whole.
+- **00:10. Ruling (T16 graph gaps: GAP-D and a D27 bypass).** After T16 landed, the sub-orchestrator kept
+  bpP:p11b:birkhoff-form and bpP:p11b:lift-map open (clause (a) H^Psi o T = h(Lambda) + mu P, and the explicit
+  T = (lambda + g + H, Lambda, rho Y), are not stated). GAP-D exports both from T16's objects and the Poincare/Product
+  splits. stepP:p11b:bt-rot and bt-rot#lift (the analytic angle psi) are BYPASSED under D27: T14's global_planar_frame
+  replaces the simply-connected angle lift, and every consumer of bt-rot is proved through that route.
+- **00:20. P11A-P7 audit plan revised.** The 23:35 split audits P7b, P7c and P7d as each finishes (as for the
+  P11A-P2 split) rather than once at the end, so the assembly P7d is not delayed by a whole-package audit.
+- **00:46. planarTwoPlanetKAM seal-ready.** P12-E (PlanarAssembly/Main: planar, plus the provider
+  KAM.Provider.Planetary.planarTwoPlanetKAM) passed its seal-key audit: exact frozen type, prospective seal with no
+  extra premise and no sorryAx. Its inputs P12-C (pg_hypotheses; delivery gates pass), the P11C T-chain through T21,
+  GAP-D and the sealed properlyDegenerateKAM are all audited. Go given to the sub-orchestrator to seal (19 of 22).
+- **00:50. planarTwoPlanetKAM sealed (19 of 22).** The sub-orchestrator sealed it (seal commit 38b4d910) through the
+  P12-E provider over PlanarAssembly.planar, which applies the sealed properlyDegenerateKAM to P12-C's pg_hypotheses:
+  full build OK (10210 jobs), axioms propext/Classical.choice/Quot.sound only, leanchecker 0 on the frozen and provider
+  modules, lint OK. Remaining DRAFT anchors: fixedSunPlanetaryKAM (P13-A/B in audit; P13-C waits for P11A-P10 via
+  P8 -> P8D), planetaryExponentialSafety (blocked on lane N), partialConvex_nekhoroshev (lane N, Zohar's team).
+- **01:05. Ruling (P11A-P8 split; design-size signal).** P8 delivered only the signed Prepared/Amount definitions;
+  the prover estimates several thousand lines for prepared and amount against the design's 750. Split by graph step:
+  P8a (pr-basic, pr-a: construction of N_eps, P_eps and the composition/domain/sup clauses), P8b (pr-in, pr-b, pr-c,
+  pr-d: Cauchy jet estimates and the frequency/Hessian/jet bounds, against the signed p11PreparedFreq) and P8c (amount:
+  am-norm, am-scale, am-dir, parametric in prepared's conclusions) run in parallel; P8e assembles the signed prepared
+  and amount. Each piece is audited as it finishes.
+- **01:10. Gap fill GAP-E (sub-orchestrator report).** Three nodes stay open after landing: weak-kam-quantitative
+  (K6 is only the composition displacement_power_flat o family.displacement, plus qt-k6), as-b2 (the kappa >= 6
+  clause) and bpP:p11a:situation (B19's signed situation only aliases the output record). GAP-E exports the literal
+  conclusions, append-only.
+- **01:20. Graph-gap programme for landed parts p0-p10 (survey: .drafts/briefs/offload-main/GAP-PLAN-P.md).** 144
+  NOT_STARTED nodes classified: 112 gap-fill (mathematics proved, no declaration states the literal conclusion; about
+  4,400 lines in 14 packages, two waves), 7 bypass candidates, 2 blocked roots (p0 fixed, expsafe), 23 other.
+  Rulings: (a) the 7 bypass candidates (p1 tu-ext, p5 fi-blk, p5 lo-setup, p7 rg-lagrange, p10 gen-prod, weyl-mm,
+  rnd-b) are BYPASSED under D27; (b) a step whose design node table maps it as local to a parent that is PROVED and
+  whose parent audit confirms the step's content inside the proof is PROVED by naming the parent (existing precedent:
+  p3 st-*/it-*, p2 nfb-*, T16 bt-*); (c) **owner to review:** bpP:p5:ext's printed clause "P-tilde = P at all real
+  points of X_delta" is false (design revision 4, P5-EX counterexample); the node gets the amended conclusion
+  "on cl C(V, r0)", which the Lean proves (ext, PGExtension, pgExtension), recorded as an erratum. Wave 1 launches
+  GAP-P7, GAP-P8b, GAP-P13, GAP-P6b now, GAP-P8a/P8c after GAP-P8b.
+- **01:25. P11A-P8 pieces.** P8b proved step pr-in only (PreparedCauchy, PreparedJets); pr-b, pr-c and pr-d continue
+  in P11A-P8b2 on top of it. The first P8 module, PreparedData.lean (signed prepared/amount definitions), had never
+  been audited; its audit now runs, and P8a and P8c merge only after it. stepP:p11:aa-same ruled BYPASSED (D27: the
+  parent audit records a different construction route). The sub-orchestrator applied the 01:20 rulings: graph P
+  979 PROVED and 10 BYPASSED of 1363.
+- **01:30. Round-2 fixes.** GAP-E audit: as-b2 and situation PASS; weak-kam-quantitative/qt-k6 FAIL (the export
+  omits the K3 bound Delta <= cD eps^(1/2) b^(-G0) for the same cD). P11A-P8a audit: pr-a PASS; pr-basic FAIL (the
+  complex domain chain into T x D(J0,s2) x B_(rz/4) is proved only locally). Both are back with their provers.
+  GAP-P6b and GAP-P8b finished (no flags) and are in audit; GAP-P8a and GAP-P8c started. Ruling: GAP-P8c proves
+  the Laplace identities (I1)/(I2) on the source's literal interval, alpha = 0 included, not the interior form.
+- **01:42. Passes and round-2 fixes.** GAP-E (K1-K6 with the K3 Delta bound; as-b2; situation) and P11A-P8a
+  (pr-basic with the rz/4 domain chain; pr-a) passed round 2 and went to the sub-orchestrator. GAP-P6b failed on
+  mp-b only (missing 0 < meas Psi(A) iff 0 < meas A); GAP-P8b failed on pa-avg only (derivative identity proved at
+  real points; the node quantifies over the complex neighbourhood N(rho_*)). Both fixes are additive, so GAP-P8a,
+  which builds on GAP-P8b, keeps compiling.
+- **01:45. Source reading for owner review: order-dependent constants in pr-in.** The blueprint's preparation
+  estimates (p11-cp09-preparation.tex:208; graph stepP:p11:pr-in, CONSTANT_SCOPE none) write one suppressed c for
+  arbitrary multi-indices alpha, beta, gamma, while Cauchy estimates necessarily carry order factors (the source's
+  own display (ii) shows alpha!). Ruling: c may depend on n, tau, the fixed data and the derivative orders, fixed
+  before eps; the consumers use finitely many orders. P8b's audit F2 is closed by this ruling. Its F1 (prefactor
+  MF + eta1(eps) instead of c MF) is being fixed. GAP-P13 failed only on sum-doubling/sum-weighted (exports took
+  derived step outputs as premises); fixed by exporting from KamHyp.
+- **02:05. Gap audits, and the pr-in constant scope recorded in the graph.** GAP-P13, GAP-P6b and GAP-P7 passed (round
+  2) and went to the sub-orchestrator; with them 31 more p1, p3, p6 and p7 nodes become PROVED, including
+  p7:product-chart (28 proved consumers) and p3b:kam-bounds. P11A-P8b audit 2 closed F1 (the uniform prefactor;
+  MF >= 1 makes it hold without a smaller threshold) and left only F2 (constant scope); the 01:45 ruling is to be
+  recorded as an append-only amendment SET_CONSTANT_SCOPE on stepP:p11:pr-in before pr-in is marked PROVED.
+  **Owner to review** with the 01:45 entry. GAP-P5a (kam-cond: x not identified with the Part 3 expression) and
+  GAP-P8c (evenness on the source neighbourhood; id-1/id-2 coefficient identification) are being fixed.
+- **02:25. Source reading for owner review: the shared radius rho_* in Part 8.** Several p8 nodes are stated "on N(rho_*)
+  with rho_* of perturbation-analytic". rho_* is an existential witness, and every conclusion of perturbation-analytic
+  persists on a smaller radius. Ruling (an audit's option (b)): a p8 node export may choose its own radius r provided
+  it states, at that same r, the full perturbation-analytic conclusion together with the node's own conclusions.
+  GAP-P8c's evenness export is being rebuilt in this joint form. GAP-P9b failed on an unsourced n >= 2 guard (the
+  source allows n >= 1) and is being fixed; GAP-P5b, GAP-P8a and GAP-P8b fixes are in progress or in audit.
+- **02:30. Second graph-gap survey (Part 11/11a/11b/12 and p0-p10 leftovers; .drafts/briefs/offload-main/GAP-PLAN-P2.md).**
+  64 nodes: 31 gap-fills in six packages (about 1,700 lines), 5 bypass candidates, 3 blocked/in progress, 25 graph-only.
+  Rulings: (a) D27 BYPASSED: p11 pa-taylor, pa-mono, pa-series (polar_avg's even-descent route), p2 oi-transfer, and
+  p5 fi-inv re-statused PROVED -> BYPASSED (freq_inj never forms the Schur blocks, as for fi-blk); (b) ruling 01:20 (b)
+  re-applied to sp-1..5, pl4-*, qt-*, dd-* where audit rows confirm them; (c) **owner to review: definition-node
+  policy:** a pure definition node closes by naming its Lean definitions plus a definitions-audit row; a definition
+  node that also asserts a property gets a gap lemma; (d) **owner to review, source errata candidates:** the Part 11a
+  cutoff addendum (p11a2:124) omits the premises d <= 1 and T >= 1; tc-b's series identity uses coefficients that
+  exist only inside a proof (the inequality chain is exported); p11b:remain re-kinded as a remark or cut to clause (1).
+  GAP-P11a2-cut and GAP-PX started; GAP-P11a3-sel and GAP-P11a5-qt wait for (b).
+- **02:40. Split pr-d; remaining Part 11a gaps; definitions audit.** To shorten the fixed-Sun chain, step pr-d moved
+  from P11A-P8b2 to a parallel package P11A-P8b3 (branched after pr-b). The sub-orchestrator applied the second survey:
+  graph P 1073 PROVED and 16 BYPASSED; p11b:remain cut to its clause (1) by AMEND P-A003 (**owner to review**). The
+  remaining Part 11a gap nodes went to GAP-P11a-SQ (sel-data, fe-supp, qt-order, qt-reduce, kam-input) and
+  GAP-P11a-HOM (homological equation, real-Lipschitz, pl4-terms, pl4-sum). A definitions audit (DEFS-P11) classifies
+  the objects of p11:sec-conv#data, p11:sec-D#data and p11b:sec-set#data.
+- **02:50. Definitions audit DEFS-P11: owner to review.** p11b:sec-set#data closes as definitions only (Phi_4 is
+  SecularSpectrum.good). Two Part 11 definition nodes are NOT closable and stay open: (1) p11:sec-conv#data: the
+  source's weighted norm is [0, inf]-valued, while KAM.Weighted.wsum/wnorm are real-valued totalizations (0 off
+  summability) and p11WBound is only a finite-bound predicate; (2) p11:sec-D#data: there is no exact polar-shell
+  definition, and the h0/f2 helpers carry a free correction Z. The report also notes that the signed p11SlowData
+  (P11A design, audited with P7d) is `if h : exists A, ... then h.choose else default`, a non-unique choice with a
+  default fallback. Nothing is changed overnight; these need an owner ruling on definition fidelity.
+- **03:10. P8e started ahead of its inputs' audits.** P11A-P8b2 (pr-b, pr-c) and P11A-P8b3 (pr-d) finished and are in
+  audit; PreparedM was rebuilt against P8b2's final modules. To keep the fixed-Sun chain moving, P11A-P8e (assembly
+  of the signed prepared and amount) starts now on a branch carrying both, with inp merged. If either audit fails,
+  P8e merges the fix. Graph P 1102 of 1363 PROVED.
+- **03:15. Candidate source erratum (owner to review): Part 11a real-Lipschitz coefficient chain.** The audit of
+  GAP-P11a-HOM shows that rl-const / real-lipschitz (p11a2:229-242) need the premise 0 <= M1: without it the second
+  inequality can fail when no nonzero mode is at most T. Ruling: the export keeps 0 <= M1 as a ruled premise (like
+  the cutoff's d <= 1, T >= 1 at 02:30); the degree-zero case T = 0 that the source covers is being added. LREF-P
+  closes dom-open and he-fix by LEAN_REF; seven split steps get one-line bundles in GAP-LREF.
+- **03:20. Definitions audit DEFS-P2 (owner to review with 02:50).** p7:sec-product#data and p12:sec-set#data close;
+  p10:conv#data closes once a positive-dilation (cone) lemma for axes n lands (GAP-LREF). Three definition nodes are
+  NOT closable under the whole-carrier rule and stay open: p3:conv#data (KAM.Weighted wsum/wnorm junk values off the
+  summable locus, as for p11:sec-conv#data), p7:conv#data (delaunay's public carrier is Phase 2 with an explicit
+  Kepler-solver fallback; faithful on deDom), p3:limitmap#data (no general conjugation G -> S o G o S^-1 or L_*).
+  One owner ruling on totalized definitions (accept them with guarded characterizations, or require new carriers)
+  would settle p3/p7/p11 conv nodes together.
+- **03:25. P8D and P10 started in parametric form.** To keep the fixed-Sun chain moving while P11A-P8e proves the
+  signed prepared/amount, P11A-P8D proves data_star_of_amount (hypothesis: exactly the signed amount's conclusion)
+  and P11A-P10 proves wrapper_of_data_star (hypothesis: exactly the signed data_star's conclusion). The signed
+  data_star and wrapper are then one-line applications once their upstream lands; no signed statement changes.
+- **03:40. Signed prepared, amount and data_star proved (in audit).** P11A-P8e assembled the signed prepared and amount
+  from the P8 pieces (axioms: propext, Classical.choice, Quot.sound); the orchestrator added the signed data_star as
+  data_star_of_amount applied to amount. All three are in one audit. P11A-P10 (wrapper_of_data_star) is proving.
+- **03:50. P11A-P8e passed; P13-C started in parametric form.** The signed prepared, amount and data_star are proved
+  and audited (PASS WITH NOTES) and went to the sub-orchestrator. P13-C (general route, dimension split, provider for
+  fixedSunPlanetaryKAM) proves n_general_of_wrapper, fixed_of_wrapper and fixedSunPlanetaryKAM_of_wrapper, whose one
+  extra hypothesis is exactly the signed wrapper's statement; when P11A-P10 lands wrapper, three one-line
+  applications finish the chain and the anchor goes to seal-key audit.
+- **03:55. Remark nodes (owner to review).** bpP:p0:totality and bpP:p1:order are conventions whose content is purely
+  definitional (first gap survey, section 2 item 6); they are re-kinded as remarks by append-only amendment. bpP:p9:dict
+  has real content (Omega_j = 2 sigma_j via the eigenvalues of 2 Q_h) and goes to package GAP-P9dict.
+- **04:00. Correction to 03:55; owner item (tooling).** The graph schema (scripts/proof_depgraph.py) has no SET_KIND
+  amendment and no remark kind, so bpP:p0:totality and bpP:p1:order stay KIND claim / NOT_STARTED with a LEAN_NOTE
+  citing the survey. **Owner to decide:** extend the schema with SET_KIND and a remark kind (then re-kind both), or
+  leave them as open claims. Also: P8b2's appended Hessian conjunct changed a `.2` projection in Prepared.lean; the
+  sub-orchestrator fixed it at landing (6944c2d1, no statement changed). Future statement fixes add a separate lemma.
+- **04:20. Status.** P13-C passed (parametric n_general / fixed / provider for fixedSunPlanetaryKAM, axioms clean,
+  provider type equal to the frozen anchor); held to land together with P11A-P10 (wrapper_of_data_star, finishing)
+  and the four one-line applications, then the seal-key audit. GAP-P9dict passed (p9:dict). Graph P 1131+ of 1363.
+- **04:25. fixedSunPlanetaryKAM provider complete; seal-key audit running.** P11A-P10 finished wrapper_of_data_star
+  (14 modules, about 2,260 lines). On its branch the orchestrator merged P13-C and added the four one-line signed
+  applications (wrapper, n_general, fixed, provider fixedSunPlanetaryKAM), verbatim from the signature files. The
+  provider builds; the exact-type probe against the frozen anchor elaborates; axioms are propext, Classical.choice,
+  Quot.sound. One combined audit covers P10, the one-liners and the seal key (with a prospective seal in a scratch
+  copy). On PASS the sub-orchestrator seals the anchor.
+- **04:40. fixedSunPlanetaryKAM seal-ready; sent to seal.** The combined audit (P11A-P10 + one-liners + seal key)
+  passed the anchor (PASS WITH NOTES): exact-type probe, scratch seal with the explicit-binder body
+  `by exact KAM.Provider.Planetary.fixedSunPlanetaryKAM hn G m0 m a hG hm0 hm ha hsep eta heta` (D26; the bare
+  recipe in the frozen file's prose does not elaborate, reported, not edited), axioms propext, Classical.choice,
+  Quot.sound, clean quarantine. The signed wrapper, n_general and fixed pass. Two unsigned step exports are not
+  literal: wr-chain (smaller carrier than |r|<2, |rho'|<pi/2) and wr-tube (coarser Gamma_i bound than 2 n eps);
+  both stay open, and GAP-WR exports the literal forms (append-only). Anchors 20/22 after the seal.
+- **04:50. ANCHOR SEALED: fixedSunPlanetaryKAM (20 of 22).** Seal 6d363d84 + indentation fix f77a81f3 (the seal
+  body's continuation line must be indented past `exact`), verified by the sub-orchestrator: full build OK (10308
+  jobs), axioms propext, Classical.choice, Quot.sound, leanchecker exit 0 on the frozen module and provider, lint OK.
+  Remaining DRAFT_SORRY anchors: planetaryExponentialSafety and partialConvex_nekhoroshev (both lane N, with Zohar's
+  team). Graph P about 1150 of 1363; wr-chain and wr-tube literal exports in GAP-WR.
+- **04:55. Next work: track I graph gaps.** With lane P's anchors done and lane N paused, the next open graph is track I
+  (about 105 NOT_STARTED nodes, all its anchors SEALED; the root bpI:p0:r3bp is stale: KAM.Iso.restricted_near_circular
+  is SEALED). The sub-orchestrator resyncs graph I; a read-only survey plans the gap packages (same programme as P).
+  Track K's graph has no open node.
+- **05:10. Track I gap programme (plan: .drafts/briefs/offload-main/GAP-PLAN-I.md).** 85 open nodes: 8 stale, 44
+  gap-fill (five packages, about 1,150 lines), 4 bypass, 22 closable under ruling (b), 7 definition/remark/route.
+  **Owner to review:** (N1) Part 1's Lean Setting forces tau >= n-1 where the source says tau >= 0; ruled option (i),
+  the literal route: prove the n-dimensional emptiness lemma (for n >= 2 the Diophantine set is empty when
+  tau < n-1) and a literal SettingSrc, no erratum; ruling (b) extended to audit rows that confirm a step's content by
+  line range; matrix-form symplecticity follows the cv-sympl precedent (I-2-audit-1.md:24); the free-omega reading of
+  reduced / perturbation-noA5 is kept literal (GAP-I1c funded, not ruled away); bpI:p3:tori and orbit-maps-e get
+  over-claim notes and are repaired by GAP-I3T / GAP-I7b. Wave 1 started: GAP-I1a, GAP-I3T, GAP-I7b, GAP-I7a.
+- **06:20. Track I gap programme complete.** GAP-I1a (literal tau >= 0 via the n-dimensional Dirichlet lemma), GAP-I1b
+  (29 Part 1 steps), GAP-I1c (free-omega reduced, perturbation-noA5), GAP-I3T (tori-ig1, both signs), GAP-I7a, GAP-I7b
+  and GAP-ISM (k-pos for Omega != 0, tori-patch, sec-ham#data) all passed; graph I 369 of 450 PROVED before GAP-ISM,
+  Part 1 with no open node. Remaining open work across the campaign: lane N (paused for Zohar's team) and the owner
+  rulings logged above (definition fidelity for totalized definitions, errata candidates, interpretation rulings,
+  graph-schema remark kind).
+- **06:30. Graph I complete; graph P's last movable nodes.** Graph I final: 372 PROVED, 72 EXTERNAL, 6 BYPASSED, 0
+  NOT_STARTED. Graph P: 1148 PROVED, 52 NOT_STARTED. Ruling (D27): of the six P route nodes (p7 po-el circular, p9 gs-c,
+  p12 pl-phys), the route the PROVED parent's Lean takes closes with the parent; the other is BYPASSED. A definitions
+  audit (DEFS-P3) classifies p11:sec-E#data (now that the preparation chain has landed) and p5:rstar#Cgamma. All
+  other open P nodes need lane N (p14, p0:expsafe) or an owner ruling (definition fidelity, remarks, errata).
+- **06:35. DEFS-P3 (owner to review with 02:50 and 03:20).** p5:rstar#Cgamma closes (pgCgamma, exact signed formula).
+  p11:sec-E#data is NOT closable: (F1) the literal domain E (strip x action polydisc of radius (2, pi/2)) is not defined;
+  the wrapper's domain is strictly smaller; (F2) the exact chart-domain mapping iff is not stated; (F3) the signed
+  p11PreparedData is a choose-or-default selector. F1/F2 are small Lean additions; F3 is the same definition-fidelity
+  question as p11SlowData, wsum/wnorm and delaunay. Route nodes applied: graph P 1151 PROVED, 19 BYPASSED, 46 open.
+- **06:40. END-OF-NIGHT SUMMARY (main orchestrator).**
+  - **Anchors:** 20 of 22 sealed. fixedSunPlanetaryKAM was sealed tonight (04:50). The two DRAFT_SORRY anchors,
+    planetaryExponentialSafety and partialConvex_nekhoroshev, are lane N (paused for Zohar's team).
+  - **Graphs:**
+    - K: complete.
+    - I: complete (372 PROVED, 72 EXTERNAL, 6 BYPASSED, 0 open).
+    - P: 1152 PROVED, 147 EXTERNAL, 19 BYPASSED, 45 open (started the night at 922 PROVED).
+  - **The 45 open P nodes:**
+    - 38 are lane N: 37 p14 nodes and p0:expsafe.
+    - 1 is cross-graph: bpN:p6:iterative-special.
+    - 6 wait on owner rulings: 5 definition nodes, plus p11:sec-E#data.
+    - 2 are the remark nodes.
+  - **Owner decisions (details in the entries above):**
+    1. Definition fidelity for totalized or choice-based definitions: KAM.Weighted wsum/wnorm (p3 conv#data,
+       p11 sec-conv#data), delaunay's Kepler-solver fallback (p7 conv#data), the signed p11SlowData /
+       p11PreparedData choose-or-default selectors (p11 sec-D#data, sec-E#data). Also p3 limitmap#data, which lacks
+       the conjugation and L_* objects.
+    2. Amendments P-A001 (p5:ext on cl C(V, r0)), P-A002 (pr-in constants depend on derivative orders) and P-A003
+       (p11b:remain cut to clause (1)).
+    3. Candidate errata:
+       - the cutoff-loss addendum needs d <= 1 and T >= 1 (p11a2:124);
+       - real-Lipschitz needs 0 <= M1 (p11a2:229-242);
+       - the frozen fixedSunPlanetaryKAM prose shows a bare seal recipe that does not elaborate.
+    4. Interpretation rulings made overnight:
+       - the shared rho_* in Part 8 is handled by joint exports;
+       - Part 1 uses the literal tau >= 0 via the n-dimensional Dirichlet lemma, with arbitrary omega;
+       - the cv-sympl matrix-form precedent;
+       - the definition-node closure policy;
+       - ruling (b) is extended to audit rows that cite line ranges.
+    5. Tooling: a SET_KIND amendment plus a remark kind in scripts/proof_depgraph.py, for p0:totality and
+       p1:order.
+  - **Workers:** no provers or auditors are running; the sub-orchestrator is idle. Nothing more can start until
+    lane N resumes or the owner rules.
+- **06:55. GAP-DEF (missing source definitions, independent of the pending owner ruling).** p3:limitmap#data lacks a
+  general Gcheck = S G S^-1 and an L_* Lipschitz predicate; p11:sec-E#data lacks the literal domain E (strip
+  sigma_F/72 x action polydisc of radius (2, pi/2)) and the mapping iff (2 eps <= s_2/2). Both gaps are missing objects,
+  not totalization questions, so GAP-DEF adds them (unsigned, with characterizations). sec-E#data still needs the
+  owner's ruling on p11PreparedData (F3) to close.
+- **07:40. GAP-DEF passed.** p3:limitmap#data closes (general Gcheck = S G S^-1 as limitmapCheck; L_* as the predicate
+  LipStar, instance psi_lipStar). p11:sec-E#data: F1/F2 resolved (literal E and the mapping iff 2 eps <= s2/2); the node
+  still needs the owner's F3 ruling (p11PreparedData selector) and coverage of its H2 identity, domain table and
+  normalized frequency formulas. Graph P: 1153 PROVED, 44 open (lane N or owner rulings).
+- **11:40. Track SO progress; SO-GEN lands without an independent audit (ruling).** SO-GEN (Python generator and
+  exact candidate data) reproduces the pilot: p ranges to all displayed digits, Ĉ_Δ, ĉ_*, the 1.3366e-100 threshold;
+  at truncation 1e-130 the exact finite-data residual is 2.4e-117 (lower) and 2.6e-112 (upper), with about 19k
+  coefficients and 1.6 MB per torus. The residual cancels massively in Q(sqrt 5) (1e-3 terms down to 1e-121), so the
+  Lean checker must use exact Q(sqrt 5) arithmetic. Ruling: the generator is untrusted tooling whose outputs the Lean
+  checker verifies, so it lands after an orchestrator review without a Codex audit (Codex quota is low: codex-1 2%,
+  codex-3 3%). Landed so far: SO-DIO, SO-MODEL, SO-CLOCK, SO-PI. Design Revision 2 and SO-CONST are in round-2 audits.
+- **11:55. Replay gate verdict and the constants lever (owner decision: study first).** SO-REPLAY: NO-GO for naive
+  sparse products at the lunar scale (kernel interpretation ~2.3 ms and ~190 KB per coefficient pair; precision is
+  nearly free; numeral cap 2^24 bits); conditional GO for sharded Kronecker-packed products checked against supplied
+  advice (projected tens of CPU-hours), measured next by SO-REPLAY2. Owner chose "study first, decide later" on a
+  sharper explicit-constants theorem: a read-only Opus study (factor decomposition of the 1.3e-100 threshold, best
+  in-theorem parameters, ranked sharpening options) runs in parallel. Incident: SO-REPLAY ran `pkill -x lean` at about
+  11:04, which signals every lean process on the machine; all briefs now forbid killing by name.
+- **12:25. Track SO: design audit 3 FAIL on F10 only; range-reduced complex exponential.** Audit 3 closed F7, F8, F9
+  and the F3/F6 residuals; its one new blocking finding F10 is that the design's consumers (general HamExpr.exp,
+  the scalar witness pin, character witnesses) pass large balls to the small-ball exponential. Decision: a
+  range-reduced wrapper `certCExpReduced z zRad s N : Option (CC α × α)` (scale by 2^-s, check `certCExpSmall`,
+  square s times) with soundness on every successful call and no caller-side size hypothesis. The orchestrator fixed
+  its signature; package SO-CEXP proves it while design Revision 4 reconciles every consumer to fail closed. Also
+  landed: SO-AIF and SO-CONF (inp 1c8cbfd1); README now lists track SO.
+- **12:35. Disk and lane N worktrees.** The root disk reached 97% (4.6 GB free) with track SO running eleven
+  worktrees. The three lane N worktrees (KAM-inp-lanen, -n11f1, -n11f2) were clean, fully pushed (origin/lane-n-handoff,
+  origin/inp-n11f1, origin/inp-n11f2) and idle, so they were removed; branches kept locally and on GitHub, their
+  ignored .drafts notes archived to /mnt/HC_Volume_106379410/root-archive/kam-lane-n-worktree-drafts-2026-10-29.
+  Lane N work for Zohar's team is unaffected (it lives on GitHub). Also: SO-MINV audit 1 failed only on the
+  namespace (root instead of KAM.Certificate); the orchestrator moved it and requested a delta re-audit; launched
+  SO-EXPR-A (expression language basics) and SO-RAT (the exact rational backend that Revision 3 moved pre-gate).
+- **14:35. Orchestrator pause for a session restart (owner request). State for resumption.**
+  - Landed on main via kam-inp (track SO): SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF,
+    SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-EXPR-A (Expr/Basic).
+  - Owner decisions today: constants "study first" (done; studies in docs/tracks/SO/studies/); O5 rotated lunar frame
+    adopted; sharper KAM theorem not funded; replay gate GO.
+  - Running provers (tmux inp-mprov-*): SO-EXPR-B2 (soexprc, claude-8, off inp-soexprb), SO-BALL (soball, claude-12,
+    off inp-soexprb), SO-GEN2 (sogen2, claude-7 Opus, Python only), SO-DESIGN-R5 (design-so, claude-10 Opus).
+  - Running audits (tmux inp-maud-*): SO-GRAPHM round 2 (after orchestrator hygiene renames), SO-NORM, SO-EXPR-B1,
+    SO-HAMX, SO-DIO3 (round 1).
+  - Waiter to re-arm: main_wait.sh "inp-maud-sographm:maud-sographm-2 inp-maud-sonorm:maud-sonorm-1
+    inp-maud-soexprb:maud-soexprb-1 inp-maud-sohamx:maud-sohamx-1 inp-maud-sodio3:maud-sodio3-1"
+    "soexprc:SO-EXPR-B2 soball:SO-BALL sogen2:SO-GEN2 design-so:SO-DESIGN-R5".
+  - Held, not for merge: inp-design-so (until Revision 5 passes), inp-soreplay (prototype; worktree removed, drafts
+    archived). Next after audits pass: send SO-GRAPHM, SO-NORM, SO-EXPR-B1, SO-HAMX, SO-DIO3 to kam-inp; then
+    SO-HAMX-ROT and the rotated lunar packages per Revision 5; data packaging (lint exemption?) is an owner question.
+  - Disk: root at 96% (6.5 GB free); sweep worktrees after each landing.
+- **14:30. Heartbeat (track SO).** Passed and sent to kam-inp: SO-DIO3 (cubic Diophantine frequency), SO-NORM (norm
+  bridges to IG1Body), SO-HAMX (lunar Hamiltonian as an expression, original frame). SO-GRAPHM failed round 2 again on
+  three Mathlib short names (Torus.graph, Torus.orbit, Torus.invariant); renamed, round 3 running. Root cause: the
+  orchestrator's short-name checker skipped dotted helpers and never scanned Mathlib; it now checks the last component
+  of every unsigned public declaration against Mathlib (cached per revision) and KAM, and a regression test on the
+  pre-rename file reproduces exactly the audit's three findings.
+  Decisions (orchestrator, per the design's rule that the backend is chosen after the replay gate): the production
+  backend is fixed point (SO-REPLAY's recommendation); SO-ABK started. All other post-gate packages chain through
+  SO-POLY, whose design must adopt SO-REPLAY2's advice-checked packed products: added as item 6 to the running design
+  Revision 5 (author confirmed). Quotas: claude-7 36%, -8 31%, -10 26%, -12 19% (resets 21:00), codex-2 60%, -4 32%.
+- **14:52. Heartbeat (track SO).** Landed since 14:30: SO-DIO3, SO-NORM, SO-HAMX, SO-EXPR-B1, SO-GRAPHM, SO-ABK
+  (18 / 33 packages). SO-BALL audit 1: all signed soundness results PASS; FAIL F1 only on missing test pairings
+  (containment corollaries for three exponential and two ball tests); sent back for a short repair round. New:
+  SO-ROTDIO (orchestrator-fixed signatures, the parametric pattern used for SO-CEXP): a generic Diophantine transfer
+  along an integer index map, and the rotated lunar frequencies (nu -+ - 1, 1) at gamma = 1/42 (half vectors 1/84),
+  derived from the landed SO-DIO bounds; design Revision 5 told to adopt them verbatim. The heartbeat template still
+  names track K waves and I-STRIP-3, all complete since 2026-10-28; the provers work on track SO.
+- **15:00. Track SO: design Revision 5 delivered; OWNER QUESTION on data packaging.** Revision 5 implements O5 (rotated
+  lunar client, package R1), the advice-checked packed products (SO-POLY split into SO-POLY-A/B), the SO-ROTDIO
+  signatures, and splits the signatures into SOSignatures.lean (engine, 1049 lines) and SOSignaturesLunar.lean (539).
+  Round-5 design audit running. **Owner decision needed later (not urgent; SO-DATA is last in the DAG), design §7.2:**
+  how certificate data enters Lean at the R1 scale (about 66–310 MB of product advice per torus): (A) lint-clean
+  chunked modules, about 1,000–4,800 files, fully compliant; (B) an exemption from the 100-column lint for generated
+  data files, about 25–105 files, still <= 1500 lines each; (C) out-of-tree data files read at elaboration time by a
+  small parser (the kernel still checks every term). Started (parametric, design in audit): SO-ROT (rotated frame),
+  SO-RFREQ (rotated frequencies, on SO-ROTDIO), SO-POLY-A (mantissas, packing, injectivity, Kronecker shards).
+  SO-EXPR-B2 audited with scope limited to its own diff (four flagged dot-API names landed earlier with B1's PASS).
+- **15:06. SO-GEN2 confirms package R1 (rotated frame) with enclosed numbers.** Exact threshold 2.14e-75
+  (10^-74.67) at c = 237/125, 𝔪 = 1987/1000; enclosed c·η = 2.0e-78 (lower) / 3.9e-78 (upper), about 1e-3 of the
+  threshold; truncation L = 88, 318 bits; about 8.5k v and 8.3k E terms per torus. Report:
+  docs/tracks/SO/studies/SO-GEN2-rotated-frame-candidates.md. The study's projection held except the Gram inverse
+  (weighted-l1 bound 1.98 instead of the projected 1.925); a grid-sup sub-check would give 1.835 and one more order of
+  threshold (about 3 % fewer terms). Orchestrator decision: not now (a new sub-check for a 3 % gain); recorded as an
+  optional later improvement. The design takes SO-GEN2's concrete numbers (c, 𝔪, domain, G-J split, one character
+  witness with pinHalvings = 0, bordered torsion) in the fix round after its round-5 audit. SO-BALL passed round 2;
+  SO-ROTDIO passed; both and SO-GEN2 (Python and data, no Lean audit, as SO-GEN) sent to kam-inp.
+- **15:10. Track SO: design audit 5 FAIL (F12, F13 on packed products); Revision 6 started.** F12 (HIGH): advice that
+  is correct modulo the slot radix can carry and cancel between slots (auditor's example: advice [16, -1, 0] packs to
+  the right zero but slot 0 is off by 32); the checker must bound reconstructed digits on both sides so that
+  injectivity applies. F13 (MEDIUM): scale = 0 lets overlapping shard errors reach 2 where 1 is promised; guard
+  scale >= 1 inside the checker. Revision 6 (Opus) fixes both and folds in SO-GEN2's measured R1 numbers; SO-POLY-A
+  (proving) was told. SO-EXPR-B2 passed (SO-EXPR complete) and went to kam-inp. SO-ROT (rotated frame) in audit;
+  SO-GRAPHR (rotated graph inversion) and SO-ADVCOUNT (real product count and advice volume for the owner's §7.2
+  decision) started.
+- **15:15. Integration conflict caught at landing.** SO-BALL and SO-EXPR-B2 were both built on SO-EXPR-B1; B2 changed
+  `slpInvTail_sound` (a new fourth-power witness) that SO-BALL's inverse case calls, so each built alone but not
+  together. kam-inp's full build caught it and reset inp (nothing pushed). Fix: inp merged into inp-soexprc, a prover
+  adapts Ball.lean's helper proofs (signed declarations unchanged), then a delta audit. Process note: siblings stacked
+  on one base get a trial merge with current inp and a build of the shared modules before they are sent to kam-inp.

@@ -68,8 +68,9 @@ theorem uniform {ι : Type*} (P : Finset ι) (CK0 ε0 : ι → ℝ) (hCK : ∀ i
 
 /-- (O1)–(O6) of the application of I-G1 at the flat torus `K⁰(I)` of `h + f`, `ω = s ω*`,
 `e = F₁ε`, `E₀ = E`: the last conjunct of `apply` for a given pair `(K_∞, s_∞)`. -/
-def ApplyOut (B : Set (Fin 2 → ℝ)) (s₀ r₀ : ℝ) (h : (Fin 2 → ℂ) → ℂ) (B' : Set (Fin 2 → ℝ))
-    (f : (Fin 2 → ℂ) × (Fin 2 → ℂ) → ℂ) (ε E : ℝ) (ωs I : Fin 2 → ℝ) (s γ C₂ C₃ : ℝ)
+@[expose] def ApplyOut (B : Set (Fin 2 → ℝ)) (s₀ r₀ : ℝ) (h : (Fin 2 → ℂ) → ℂ)
+    (B' : Set (Fin 2 → ℝ)) (f : (Fin 2 → ℂ) × (Fin 2 → ℂ) → ℂ) (ε E : ℝ)
+    (ωs I : Fin 2 → ℝ) (s γ C₂ C₃ : ℝ)
     (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ) : Prop :=
   1 < sinf ∧ sinf < sigmaOmegaConst h B B' ∧
     DifferentiableOn ℂ Kinf (complexStrip 2 (rhoInf s₀)) ∧
@@ -86,9 +87,9 @@ def ApplyOut (B : Set (Fin 2 → ℝ)) (s₀ r₀ : ℝ) (h : (Fin 2 → ℂ) �
 /-- The local application of `apply` at the constants `C₁ C₂ C₃` of a patch with centre `c` and a
 ray `(γ, ω*, m)`: for every admissible `f, ε` and every energy `E` in the window, a pair
 `(K_∞, s_∞)` with the output `ApplyOut` at `I = Ψ(E, m)`, `s = ‖∇h(I)‖/‖ω*‖`. -/
-def ApplyLocal (B : Set (Fin 2 → ℝ)) (s₀ r₀ : ℝ) (h : (Fin 2 → ℂ) → ℂ) (B' : Set (Fin 2 → ℝ))
-    (c : Fin 2 → ℝ) (δE : ℝ) (Ψ : ℝ × ℝ → Fin 2 → ℝ) (γ m : ℝ) (ωs : Fin 2 → ℝ)
-    (C₁ C₂ C₃ : ℝ) : Prop :=
+@[expose] def ApplyLocal (B : Set (Fin 2 → ℝ)) (s₀ r₀ : ℝ) (h : (Fin 2 → ℂ) → ℂ)
+    (B' : Set (Fin 2 → ℝ)) (c : Fin 2 → ℝ) (δE : ℝ) (Ψ : ℝ × ℝ → Fin 2 → ℝ) (γ m : ℝ)
+    (ωs : Fin 2 → ℝ) (C₁ C₂ C₃ : ℝ) : Prop :=
   ∀ (f : (Fin 2 → ℂ) × (Fin 2 → ℂ) → ℂ) (ε : ℝ), PerturbData B s₀ r₀ f ε → ε ≤ 1 →
     ε ≤ epsT h B B' s₀ r₀ → ε < γ ^ 4 * rhoIso s₀ ^ 8 / (C₁ * Fconst 2 s₀ r₀ 1) →
     ∀ E : ℝ, |E - realPart h c| ≤ δE →

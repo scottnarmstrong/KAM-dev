@@ -49,9 +49,9 @@ EDGE: bpI:p0:keplerborder#keplerBorder | blueprint-I/parts/p6-kepler.tex#stepI:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.keplerBorder_det (KAM/Iso/Kepler.lean)
+LEAN_NOTE: Rule 05:10: proof body Kepler.lean:21-29 (Matrix.det_fin_three Sarrus; only -k11 k23 k32 survives); W1-seal-audit-1.md:148 confirms content; parent bpI:p6:kepler PROVED.
 NOTE: -
 
 NODE: stepI:p6:eval
@@ -76,9 +76,9 @@ EDGE: stepI:p6:expand | blueprint-I/parts/p6-kepler.tex#stepI:p6:eval@L30-L30 | 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.keplerBorder_det (KAM/Iso/Kepler.lean)
+LEAN_NOTE: Rule 05:10: proof body Kepler.lean:21-29 (Matrix.det_fin_three Sarrus; only -k11 k23 k32 survives); W1-seal-audit-1.md:148 confirms content; parent bpI:p6:kepler PROVED.
 NOTE: -
 
 NODE: bpI:p6:kepler
@@ -132,9 +132,9 @@ EDGE: bpI:p6:det-formula | blueprint-I/parts/p6-kepler.tex#stepI:p6:k-value@L44-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.keplerBorder_det (KAM/Iso/Kepler.lean)
+LEAN_NOTE: Lean statement holds for all real kappa, Omega (stronger than kappa,Omega>0); W1-seal-audit-1.md:47 PASS.
 NOTE: -
 
 NODE: stepI:p6:k-pos
@@ -159,9 +159,9 @@ EDGE: stepI:p6:k-value | blueprint-I/parts/p6-kepler.tex#stepI:p6:k-pos@L46-L46 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.k_pos_node (KAM/Iso/LeftoverNodes.lean)
+LEAN_NOTE: GAP-ISM-audit-1.md:41 PASS; Omega != 0 (no 0<Omega restriction)
 NOTE: -
 
 NODE: bpI:p6:kep-ham
@@ -823,9 +823,9 @@ EDGE: bpI:p0:restricted#restrictedHamiltonian | blueprint-I/parts/p7-delaunay.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.he_smooth (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: GAP-I7b (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:he-deriv
@@ -855,9 +855,9 @@ EDGE: bpI:p7:sec-ham#data | blueprint-I/parts/p7-delaunay.tex#stepI:p7:he-deriv@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.restrictedVectorField_eq_hamiltonian (KAM/Iso/RestrictedHam.lean)
+LEAN_NOTE: Frozen V_mu = (d_pH, -d_qH) of restrictedHamTotal at every collision-free z; I-3-audit-1.md:34 PASS (row labelled p7:ham-eq).
 NOTE: -
 
 NODE: stepI:p7:he-sol
@@ -887,9 +887,9 @@ EDGE: bpI:p7:sec-ham#data | blueprint-I/parts/p7-delaunay.tex#stepI:p7:he-sol@L6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.isRestrictedSolutionOn_iff (KAM/Iso/RestrictedHam.lean); KAM.ODE.restricted_reduction (KAM/ODE/NewtonReduction.lean)
+LEAN_NOTE: Composite: RSol clauses (z(t) in W_mu, z'=X_H) by isRestrictedSolutionOn_iff (I-3-audit-1.md:35); reduction to IsSolutionIn by restricted_reduction (N3-8-audit-1.md:41, cross-track).
 NOTE: -
 
 NODE: bpI:p7:kepler-eq
@@ -1207,8 +1207,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
 LEAN_STATUS: PROVED
-LEAN_REF: orbitMapC_differentiableOn, orbitMapC_periodic, orbitMapC_real, orbitMapC_ofReal, orbitDomC_mem_ofReal (KAM/Kepler/OrbitComplex.lean)
-LEAN_NOTE: audit KEP-9 PASS WITH NOTES; steps om-hol/om-per not named, left
+LEAN_REF: orbitMapC_differentiableOn, orbitMapC_periodic, orbitMapC_real, orbitMapC_ofReal, orbitDomC_mem_ofReal (KAM/Kepler/OrbitComplex.lean); KAM.Iso.orbitMapC_k_holomorphic (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: holomorphy/periodicity/reality clauses KEP-9 PASS WITH NOTES; k = sqrt(1-e^2) clause GAP-I7b-audit-1.md:42 PASS (orbitMapC_k_holomorphic); re-closed after survey 2.5 over-claim revert
 NOTE: -
 
 NODE: stepI:p7:om-hol
@@ -1235,9 +1235,9 @@ EDGE: bpI:p7:x-hol | blueprint-I/parts/p7-delaunay.tex#stepI:p7:om-hol@L176-L176
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.orbitStep_om_hol (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:om-per
@@ -1263,9 +1263,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:om-per@L178
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.orbitMapC_periodic, KAM.Kepler.orbitMapC_real (KAM/Kepler/OrbitComplex.lean)
+LEAN_NOTE: Both 2pi shifts in ell and g on orbitDomC; reality at real points with |e|<=e1; KEP-9-audit-1.md:39,43 PASS (rows labelled orbit-maps-e).
 NOTE: -
 
 NODE: bpI:p7:orbit-identities
@@ -1467,9 +1467,9 @@ EDGE: bpI:p7:orbit-identities | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-g@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): the Lean proves symplecticity column-wise and never forms pi dxi
 NOTE: -
 
 NODE: stepI:p7:sy-coord
@@ -1495,9 +1495,9 @@ EDGE: bpI:p7:kepler-eq | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-coord@L22
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): the Lean proves symplecticity column-wise and never forms pi dxi
 NOTE: -
 
 NODE: stepI:p7:sy-compare
@@ -1525,9 +1525,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-compare@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): the Lean proves symplecticity column-wise and never forms pi dxi
 NOTE: -
 
 NODE: stepI:p7:sy-ext
@@ -1554,9 +1554,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-ext@L236
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunayStep_sy_ext (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a; form statement under cv-sympl precedent, ruling 05:10
 NOTE: -
 
 NODE: stepI:p7:sy-field
@@ -1582,9 +1582,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-field@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunayStep_sy_field (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: bpI:p7:chart
@@ -1828,7 +1828,7 @@ EDGE: bpI:p0:restricted#restrictedVectorField | blueprint-I/parts/p7-delaunay.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.sec_ham_data (KAM/Iso/LeftoverNodes.lean)
+LEAN_NOTE: GAP-ISM-audit-1.md:43 PASS; definitions-audit row for W_mu, a_1, a_2, rad, H^R3_mu, V_mu in same report (definition-node policy)
 NOTE: section data node (SPEC): openness of W_mu is consumed by the ODE layer

@@ -29,9 +29,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:real
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system, real_system_bounds, real_system_resonant (KAM/Nekhoroshev/Partial/RealSystem.lean)
+LEAN_NOTE: audit N11-D PASS WITH NOTES; clauses (a)-(d) via the three exports
 NOTE: -
 
 NODE: stepN:p11:rs-a
@@ -61,9 +61,9 @@ EDGE: K:bp:p1:hamiltonian-real | blueprint-N/parts/p11c-partial-stability.tex#st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system (KAM/Nekhoroshev/Partial/RealSystem.lean)
+LEAN_NOTE: audit N11-D PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:rs-b
@@ -93,9 +93,9 @@ EDGE: bpN:p11:ext-chain | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system (KAM/Nekhoroshev/Partial/RealSystem.lean)
+LEAN_NOTE: audit N11-D PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:rs-cd
@@ -127,9 +127,9 @@ EDGE: bpN:p11:ext-part4 | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: real_system_bounds, real_system_resonant (KAM/Nekhoroshev/Partial/RealSystem.lean)
+LEAN_NOTE: audit N11-D PASS WITH NOTES; (c) bounds, (d) resonant spans
 NOTE: -
 
 NODE: bpN:p11:conj
@@ -160,9 +160,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:conj
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: reExtMap, ExtConjHyp (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: data only; conjugation lemma not proved
+LEAN_STATUS: PROVED
+LEAN_REF: conj (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:cj
@@ -192,9 +192,9 @@ EDGE: bpN:p11:real-system | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: conj (KAM/Nekhoroshev/Partial/Symplectic.lean)
+LEAN_NOTE: audit N11-E1 PASS WITH NOTES; audit table maps step to conj proof
 NOTE: -
 
 NODE: bpN:p11:preimage
@@ -228,9 +228,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11c-partial-stability.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: preimage (KAM/Nekhoroshev/Partial/Preimage.lean)
+LEAN_NOTE: audit N11-J1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:continuation
@@ -258,9 +258,9 @@ EDGE: bpN:p3:gen-sol | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:cont
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: continuation (KAM/Nekhoroshev/Partial/Continuation.lean)
+LEAN_NOTE: audit N11-D PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:ct-data
@@ -288,9 +288,9 @@ EDGE: bpN:p3:ext-compact | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: uniform_data_periodic (KAM/Nekhoroshev/Partial/Continuation.lean)
+LEAN_NOTE: audit N11-D PASS WITH NOTES; private helper
 NOTE: -
 
 NODE: stepN:p11:ct-concl
@@ -317,9 +317,9 @@ EDGE: stepN:p11:ct-data | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: continuation (KAM/Nekhoroshev/Partial/Continuation.lean)
+LEAN_NOTE: audit N11-D PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:transfer
@@ -356,9 +356,9 @@ EDGE: bpN:p3:gen-symmetry | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer_conditional, slowTube (KAM/Nekhoroshev/Partial/Transfer.lean)
+LEAN_NOTE: audit N11-J2 PASS WITH NOTES; (T3) is a node hypothesis (conditional helper), no extra premise
 NOTE: dropped candidate edges bpN:p7:transfer and bpN:p7:stopped-extension (\source: provenance; the extended argument is proved by its own steps). (T3) is a conditional helper hypothesis, discharged at the consumers by stepN:p11:nr-t3 and stepN:p11:rs-t3
 
 NODE: stepN:p11:tr-orbit
@@ -387,9 +387,9 @@ EDGE: bpN:p3:gen-maximal | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer_conditional, slowTube (KAM/Nekhoroshev/Partial/Transfer.lean)
+LEAN_NOTE: audit N11-J2 PASS WITH NOTES; internal step of private transfer_core named in the handoff
 NOTE: -
 
 NODE: stepN:p11:tr-E
@@ -416,9 +416,9 @@ EDGE: stepN:p11:tr-orbit | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer_conditional, slowTube (KAM/Nekhoroshev/Partial/Transfer.lean)
+LEAN_NOTE: audit N11-J2 PASS WITH NOTES; internal step of private transfer_core named in the handoff
 NOTE: -
 
 NODE: stepN:p11:tr-bounds
@@ -447,9 +447,9 @@ EDGE: stepN:p11:tr-orbit | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer_conditional, slowTube (KAM/Nekhoroshev/Partial/Transfer.lean)
+LEAN_NOTE: audit N11-J2 PASS WITH NOTES; internal step of private transfer_core named in the handoff
 NOTE: -
 
 NODE: stepN:p11:tr-open
@@ -482,9 +482,9 @@ EDGE: stepN:p11:tr-orbit | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer_conditional, slowTube (KAM/Nekhoroshev/Partial/Transfer.lean)
+LEAN_NOTE: audit N11-J2 PASS WITH NOTES; internal step of private transfer_core named in the handoff
 NOTE: -
 
 NODE: stepN:p11:tr-closed
@@ -518,9 +518,9 @@ EDGE: bpN:p3:ext-compact | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer_conditional, slowTube (KAM/Nekhoroshev/Partial/Transfer.lean)
+LEAN_NOTE: audit N11-J2 PASS WITH NOTES; internal step of private transfer_core named in the handoff
 NOTE: -
 
 NODE: stepN:p11:tr-concl
@@ -549,9 +549,9 @@ EDGE: stepN:p11:tr-bounds | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: transfer_conditional, slowTube (KAM/Nekhoroshev/Partial/Transfer.lean)
+LEAN_NOTE: audit N11-J2 PASS WITH NOTES; internal step of private transfer_core named in the handoff
 NOTE: -
 
 NODE: bpN:p11:nonresonant
@@ -589,9 +589,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11c-partial-stability.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Partial/Nonresonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: dropped candidate edge bpN:p7:nonresonant (\source: provenance; the extended proposition is proved by its own steps)
 
 NODE: stepN:p11:nr-nf
@@ -620,9 +620,9 @@ EDGE: bpN:p11:nf | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:nr-nf@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Partial/Nonresonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:nr-t12
@@ -649,9 +649,9 @@ EDGE: stepN:p11:nr-nf | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:n
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Partial/Nonresonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:nr-t3
@@ -685,9 +685,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:nr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Partial/Nonresonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:nr-concl
@@ -714,9 +714,9 @@ EDGE: stepN:p11:nr-t3 | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:n
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nonresonant (KAM/Nekhoroshev/Partial/Nonresonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:energy-free
@@ -756,9 +756,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11c-partial-stability.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2 PASS WITH NOTES; energy_free = exact signed statement (T_* with zeta as eta-bar); uses L1 energy_identity_re/transverse_pairing
 NOTE: proved by contradiction from a violating time t_1 (preamble L86); new, unaudited mathematics per the blueprint. Dropped candidate edge bpN:p7:no-exit (\source: provenance; the lemma replaces it). Dependence of the time bound on omega is removed by the identity of step ef-id
 
 NODE: stepN:p11:ef-tube
@@ -788,9 +788,9 @@ EDGE: bpN:p1:norm-compare | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2-audit-1 PASS WITH NOTES (step rows PASS)
 NOTE: -
 
 NODE: stepN:p11:ef-adm
@@ -817,9 +817,9 @@ EDGE: bpN:p7:resonance-data | blueprint-N/parts/p11c-partial-stability.tex#stepN
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2-audit-1 PASS WITH NOTES (step rows PASS)
 NOTE: -
 
 NODE: stepN:p11:ef-en
@@ -853,9 +853,9 @@ EDGE: K:bp:p1:holomorphic-regularity | blueprint-N/parts/p11c-partial-stability.
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2-audit-1 PASS WITH NOTES (step rows PASS)
 NOTE: Parent of ef-en-energy, ef-en-taylor, ef-en-split (G3). The inequality is proved directly in the extended phase space; Lemma bpN:p7:energy-core is NOT applied (it concerns canonical orbits of h_R(I)+g+f in R^n x R^n with g,f independent of the slow pair), so there is no edge to it, and only its argument is repeated along the fast action segment. The direct proof also uses projection algebra (self-adjointness, Pi+Pi^perp=1: bpN:p7:ext-linalg) and Euclidean Cauchy-Schwarz (bpN:p1:ext-norms); these uses are recorded at the substep ef-en-split, resolving the GLOBAL-delta FAIL.
 
 NODE: stepN:p11:ef-en-energy
@@ -884,9 +884,9 @@ EDGE: bpN:p4:norm | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:ef-en
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2-audit-1 PASS WITH NOTES (step rows PASS)
 NOTE: Substep of ef-en (G3): extended energy conservation, real-system (b),(c).
 
 NODE: stepN:p11:ef-en-taylor
@@ -916,9 +916,9 @@ EDGE: K:bp:p1:holomorphic-regularity | blueprint-N/parts/p11c-partial-stability.
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2-audit-1 PASS WITH NOTES (step rows PASS)
 NOTE: Substep of ef-en (G3): one-variable Lagrange Taylor along the fast action segment.
 
 NODE: stepN:p11:ef-en-split
@@ -947,9 +947,9 @@ EDGE: bpN:p7:resonance-data | blueprint-N/parts/p11c-partial-stability.tex#stepN
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2-audit-1 PASS WITH NOTES (step rows PASS)
 NOTE: Substep of ef-en (G3): projection algebra (ext-linalg) and Euclidean Cauchy-Schwarz (ext-norms); resolves the GLOBAL-delta FAIL on ef-en.
 
 NODE: stepN:p11:ef-id
@@ -979,9 +979,9 @@ EDGE: bpN:p11:real-system | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_identity, energy_identity_re (KAM/Nekhoroshev/Partial/EnergyIdentity.lean)
+LEAN_NOTE: audit N11-L1-audit-1 ef-id PASS (ruling: L1 accepted)
 NOTE: -
 
 NODE: stepN:p11:ef-C
@@ -1021,9 +1021,9 @@ EDGE: bpN:p1:ext-norms | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean); transverse_pairing (KAM/Nekhoroshev/Partial/EnergyIdentity.lean)
+LEAN_NOTE: audit N11-L2 PASS WITH NOTES (row ef-C PASS) via ruling N11-L1-audit-1-ruling: ef-C is internal to energy_free (ef_theta_bound, ef_bracket_bound feeding L1 transverse_pairing); no standalone export
 NOTE: -
 
 NODE: stepN:p11:ef-contra
@@ -1050,9 +1050,9 @@ EDGE: bpN:p11:ext-num | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: energy_free (KAM/Nekhoroshev/Partial/Energy.lean)
+LEAN_NOTE: audit N11-L2 PASS WITH NOTES; internal to energy_free (private ef_arith, ef_contra); exact rational contradiction with e>=2
 NOTE: -
 
 NODE: bpN:p11:resonant
@@ -1092,9 +1092,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11c-partial-stability.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant (KAM/Nekhoroshev/Partial/Resonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: dropped nothing material; the source (Pos93 Proposition 2) is provenance
 
 NODE: stepN:p11:rs-red
@@ -1119,9 +1119,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta2-N-g
 REVIEWER: sol-delta3-N-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant (KAM/Nekhoroshev/Partial/Resonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:rs-nf
@@ -1154,9 +1154,9 @@ EDGE: bpN:p4:norm#monotone | blueprint-N/parts/p11c-partial-stability.tex#stepN:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant (KAM/Nekhoroshev/Partial/Resonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:rs-t12
@@ -1186,9 +1186,9 @@ EDGE: bpN:p1:norm-compare | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant (KAM/Nekhoroshev/Partial/Resonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:rs-t3
@@ -1220,9 +1220,9 @@ EDGE: stepN:p11:rs-t12 | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant (KAM/Nekhoroshev/Partial/Resonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:rs-concl
@@ -1249,9 +1249,9 @@ EDGE: stepN:p11:rs-t3 | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:r
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: resonant (KAM/Nekhoroshev/Partial/Resonant.lean)
+LEAN_NOTE: audit N11-M-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:hessian
@@ -1280,9 +1280,9 @@ EDGE: bpN:p11:constants | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:h
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hessian, hessian_at_sign, FastConvex.toRealFastConvex, realPart_derivs_real, realPart_hessian_apply (KAM/Nekhoroshev/Partial/Hessian.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES
 NOTE: The real-Hessian identification is exposed by hessian#real-hessian; the Part 1 centred-ball lemma is a proof template, not a literal application on G-prime_rho. The Euclidean operator bound here is M_C, as stated, not n M_C.
 
 NODE: stepN:p11:hs-op
@@ -1310,9 +1310,9 @@ EDGE: bpN:p1:norm-compare | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hessian_at_sign (KAM/Nekhoroshev/Partial/Hessian.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: bpN:p11:block-setting
@@ -1342,9 +1342,9 @@ EDGE: bpN:p11:s-real#data | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_setting, signedH, signedF, slowScale, blockPert, physicalDomain (KAM/Nekhoroshev/Partial/Domain.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES
 NOTE: package bpN:p11:block-setting (SPEC)
 
 NODE: bpN:p11:domain
@@ -1380,9 +1380,9 @@ EDGE: bpN:p11:orbit | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:domai
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: domain, domain_field, domain_field_scaled, domain_physical_analytic (KAM/Nekhoroshev/Partial/Domain.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES; whole node (dm-pts, dm-norm, dm-field) PASS in the audit ledger
 NOTE: -
 
 NODE: stepN:p11:dm-pts
@@ -1415,9 +1415,9 @@ EDGE: bpN:p11:block-setting | blueprint-N/parts/p11c-partial-stability.tex#stepN
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: domain (KAM/Nekhoroshev/Partial/Domain.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:dm-norm
@@ -1448,9 +1448,9 @@ EDGE: bpN:p11:constants | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: domain (KAM/Nekhoroshev/Partial/Domain.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:dm-field
@@ -1485,9 +1485,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:dm
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: domain_field, domain_field_scaled, domain_physical_analytic (KAM/Nekhoroshev/Partial/Domain.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES; round-1 F1 closed by domain_field_scaled and domain_physical_analytic
 NOTE: -
 
 NODE: bpN:p11:block-data
@@ -1523,9 +1523,9 @@ EDGE: bpN:p11:constants | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11:b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_data (KAM/Nekhoroshev/Partial/BlockData.lean)
+LEAN_NOTE: audit N11-G PASS WITH NOTES
 NOTE: dropped candidate edge bpN:p11:hom (appears only as the check that omega is real, "as required by Proposition hom"; hom is not used here)
 
 NODE: stepN:p11:bd-cover
@@ -1557,9 +1557,9 @@ EDGE: bpN:p1:norm-compare | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_data (KAM/Nekhoroshev/Partial/BlockData.lean)
+LEAN_NOTE: audit N11-G PASS WITH NOTES; internal step of block_data named in the handoff
 NOTE: -
 
 NODE: stepN:p11:bd-24
@@ -1592,9 +1592,9 @@ EDGE: bpN:p1:norm-compare | blueprint-N/parts/p11c-partial-stability.tex#stepN:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_data (KAM/Nekhoroshev/Partial/BlockData.lean)
+LEAN_NOTE: audit N11-G PASS WITH NOTES; internal step of block_data named in the handoff
 NOTE: -
 
 NODE: stepN:p11:bd-5
@@ -1621,9 +1621,9 @@ EDGE: stepN:p11:bd-cover | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block_data (KAM/Nekhoroshev/Partial/BlockData.lean)
+LEAN_NOTE: audit N11-G PASS WITH NOTES; internal step of block_data named in the handoff
 NOTE: -
 
 NODE: bpN:p11:block
@@ -1662,9 +1662,9 @@ EDGE: bpN:p1:norm-compare | blueprint-N/parts/p11c-partial-stability.tex#bpN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block (KAM/Nekhoroshev/Partial/Block.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES
 NOTE: dropped candidate edge bpN:p11:b-change (explanatory remark: the covering parameter b_c=1/32 is fixed in Definition constants and used in Lemma block-data)
 
 NODE: stepN:p11:bl-block
@@ -1694,9 +1694,9 @@ EDGE: bpN:p8:blocks | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:bl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block (KAM/Nekhoroshev/Partial/Block.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:bl-sl
@@ -1723,9 +1723,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block (KAM/Nekhoroshev/Partial/Block.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:bl-ext
@@ -1760,9 +1760,9 @@ EDGE: bpN:p0:partial-core#innerCore | blueprint-N/parts/p11c-partial-stability.t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block (KAM/Nekhoroshev/Partial/Block.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:bl-theta
@@ -1795,9 +1795,9 @@ EDGE: bpN:p11:hessian | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block (KAM/Nekhoroshev/Partial/Block.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:bl-res
@@ -1830,9 +1830,9 @@ EDGE: bpN:p11:domain | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:bl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: block (KAM/Nekhoroshev/Partial/Block.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:final-empty
@@ -1858,9 +1858,9 @@ EDGE: bpN:p11:hessian | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev (KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean); threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES (provider assembly)
 NOTE: -
 
 NODE: stepN:p11:final-data
@@ -1886,9 +1886,9 @@ EDGE: bpN:p11:hessian | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev (KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean); threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES (provider assembly)
 NOTE: A>=11 is true but weaker than the A>=40 that m<=M_C gives; the later use (Lemma block-data) needs A>=36 M_1/m_1+sqrt 2, which is derived there
 
 NODE: stepN:p11:final-mu
@@ -1917,9 +1917,9 @@ EDGE: bpN:p11:ext-rpow | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nthr_final_mu (KAM/Nekhoroshev/Partial/ThresholdExplicit.lean)
+LEAN_NOTE: audit GAP-A PASS WITH NOTES; kappa generalizes source integer k>=1 (instantiate kappa=k); mu_0 as nested min, mu_f existential from final-time
 NOTE: -
 
 NODE: stepN:p11:final-time
@@ -1948,9 +1948,9 @@ EDGE: bpN:p11:ext-rpow | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: nthr_final_time, nthr_blockTime_closed (KAM/Nekhoroshev/Partial/ThresholdExplicit.lean)
+LEAN_NOTE: audit GAP-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepN:p11:final-given
@@ -1979,9 +1979,9 @@ EDGE: stepN:p11:final-mu | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev (KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean); threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES (provider assembly)
 NOTE: -
 
 NODE: stepN:p11:final-orbit
@@ -2018,9 +2018,9 @@ EDGE: stepN:p11:final-mu | blueprint-N/parts/p11c-partial-stability.tex#stepN:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev (KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean); threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES (provider assembly)
 NOTE: -
 
 NODE: stepN:p11:final-sign
@@ -2051,9 +2051,9 @@ EDGE: bpN:p11:ext-chain | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-delta-N-g
 REVIEWER: sol-delta2-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev (KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean); threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES (provider assembly)
 NOTE: -
 
 NODE: stepN:p11:final-drift
@@ -2083,9 +2083,9 @@ EDGE: bpN:p11:orbit | blueprint-N/parts/p11c-partial-stability.tex#stepN:p11:fin
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev (KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean); threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES (provider assembly)
 NOTE: -
 
 NODE: stepN:p11:final-order
@@ -2112,9 +2112,9 @@ EDGE: stepN:p11:final-time | blueprint-N/parts/p11c-partial-stability.tex#stepN:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11c+sol-review-N-f
 REVIEWER: sol-delta-N-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev (KAM/Provider/Nekhoroshev/PartialConvexNekhoroshev.lean); threshold (KAM/Nekhoroshev/Partial/Threshold.lean)
+LEAN_NOTE: audit N11-NP-audit-1 PASS WITH NOTES (provider assembly)
 NOTE: the step claims dependence on (n,k,rho,g,m,M_C) only, a sub-list of the frozen statement (n,k,G,G',D,rho,g,m,M_C,h); recorded as stated (SPEC). Within p11c, constants of Definition constants do not involve G, G', D, h beyond sigma, which is irrelevant for the thresholds
 
 NODE: bpN:p11:s-real#data
@@ -2173,7 +2173,7 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-N-f
 REVIEWER: sol-delta4-N-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: realPart_derivs_real, realPart_hessian_apply (KAM/Nekhoroshev/Partial/Hessian.lean)
+LEAN_NOTE: audit N11-E3 round 2 PASS WITH NOTES; round-1 F2 closed by realPart_derivs_real
 NOTE: SOURCE_GAP: L115 cites bpN:p1:holo-real, stated for centred action balls with the Part 1 analytic-integrable/perturbation data. Those premises are not supplied here. This step exposes the arbitrary-open-tube real-Hessian identification actually used; it is not a proof or an extra assumption of the frozen theorem.

@@ -942,7 +942,7 @@ EDGE: bpI:p8:constants | blueprint-I/parts/p8-r3bp.tex#bpI:p0:r3bp@L215-L215 | c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p0+sol-review-I-p0
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frozen theorem anchor not yet sealed (manifest DRAFT_SORRY)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.restricted_near_circular (KAM/Frozen/Iso/Theorems/RestrictedNearCircular.lean)
+LEAN_NOTE: I-R3BP anchor SEALED (manifest iso.restricted_near_circular.v1, seal 931c7f6); provider audit I-R3BP-audit-1 PASS
 NOTE: -

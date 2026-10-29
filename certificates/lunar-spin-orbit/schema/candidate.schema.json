@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SO-GEN exact candidate data (lunar spin-orbit, pi-free normalisation v = 2 pi u)",
+  "type": "object",
+  "required": ["schema_version", "metadata", "which", "scale_bits", "nu_minus_one_Q_sqrt5", "params", "v_sin", "E_re", "stats"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "which": {"enum": ["lower", "upper"], "description": "nu = 1 -/+ alpha, alpha = 1/(40+g) = (79 - sqrt5)/3118"},
+    "scale_bits": {"type": "integer", "description": "P: every numerator N below stands for N / 2^P"},
+    "nu_minus_one_Q_sqrt5": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 2,
+      "description": "nu - 1 = x + y sqrt5 as decimal Fractions [x, y]"},
+    "params": {"type": "object", "description": "e and eps as decimal Fractions"},
+    "coordinates": {"type": "string"},
+    "v_sin": {"type": "array", "description": "[k, l, B]: v = sum b sin(2 pi (k psi + l phi)) over the half-lattice H = {k>0} u {k=0,l>0}, b = B/2^P; Nyquist modes removed; v is odd (theta1-shift gauge)",
+      "items": {"type": "array", "prefixItems": [{"type": "integer"}, {"type": "integer"}, {"type": "string", "description": "signed decimal integer"}]}},
+    "E_re": {"type": "array", "description": "[k, l, N]: E = exp(2 i v) = sum Ehat_{k,l} exp(2 pi i (k psi + l phi)) over the FULL lattice, Ehat = N/2^P real (v odd)",
+      "items": {"type": "array", "prefixItems": [{"type": "integer"}, {"type": "integer"}, {"type": "string"}]}},
+    "stats": {"type": "object", "description": "support sizes per truncation threshold (absolute, on the coefficients)"},
+    "metadata": {"type": "object", "description": "generator, version, precision, grid, git hash, date, solver history, refined p range"}
+  }
+}

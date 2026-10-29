@@ -121,7 +121,7 @@ theorem liftFastShift_neg (k : Fin n → ℤ) :
   · refine Fin.addCases (fun i => ?_) (fun i => ?_) j <;> simp [fastShift, Fin.append_left]
   · simp [fastShift]
 
-theorem chartSafe_shift_iff {m : Fin n → ℝ} (hm : ∀ i, 0 < m i) (k : Fin n → ℤ)
+theorem lift_chartSafe_shift_iff {m : Fin n → ℝ} (hm : ∀ i, 0 < m i) (k : Fin n → ℤ)
     (w : Phase (n + n)) : w ∈ chartSafe m ↔ w + fastShift (a := n) (b := n) k ∈ chartSafe m := by
   have key : ∀ (k : Fin n → ℤ) (w : Phase (n + n)), w ∈ chartSafe m →
       w + fastShift (a := n) (b := n) k ∈ chartSafe m := by
@@ -288,7 +288,7 @@ theorem lift (B : AMDBox n) (hB : B.Admissible) (mu l r : ℝ)
     fun t ht htI => heq ⟨ht, htI⟩
   -- `stepP:p14:li-cont`
   obtain ⟨delta, M, L, hU, -⟩ := uniform_data (Q := liftQ B) hW hF
-    (chartSafe_shift_iff hm) (fun k w hw => liftField_periodic hm mu k w hw)
+    (lift_chartSafe_shift_iff hm) (fun k w hw => liftField_periodic hm mu k w hw)
     (liftQ_isCompact B) (fun w hw => hw.1) (fun w hw => liftQ_mem_chartSafe B hB hd hw)
   have hmemΦ : ∀ t ∈ eIoo Tm Tp, t ∈ Icc l r →
       y t ∈ {w : Phase (n + n) | assemble (fast w.2) 0 (slow w.2) (slow w.1) ∈ liftQ B} :=

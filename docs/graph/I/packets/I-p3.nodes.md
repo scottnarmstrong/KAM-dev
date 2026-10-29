@@ -1318,9 +1318,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p3-iso-local-charts.tex#stepI:p3:to-tor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): the flat route is the one implemented
 NOTE: SOURCE_GAP: literal use of the full statements bpI:p1:last-row and extended-basic at L312-L313 lacks a Diophantine premise in the generic torus lemma. This is an attempted premise-discharge obligation, not an assumption that the entire Part 1 setting already holds, and not a gap in the separate direct flat-formula route. The actual ray application later supplies Diophantinity; that does not prove this generic premise.
 
 NODE: stepI:p3:to-neumann
@@ -1711,8 +1711,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: PROVED
-LEAN_REF: tori, exists_ray_consts, part3_tori_of (KAM/Iso/Charts/Tori.lean)
-LEAN_NOTE: audit I3-5 PASS WITH NOTES; T1-T7 encoded
+LEAN_REF: tori, exists_ray_consts, part3_tori_of (KAM/Iso/Charts/Tori.lean); KAM.Iso.Confinement.TorusOutput.realRestriction_analyticOnNhd, KAM.Iso.Confinement.TorusOutput.realHamiltonian_realRestriction_eq, KAM.Iso.Charts.tori_ig1_full (KAM/Iso/Charts/ToriIG1.lean)
+LEAN_NOTE: re-closed after survey 2.5 over-claim revert: T1 real-analyticity and real-theta T3 for the tori witnesses now stated (GAP-I3T-audit-3.md:14-17,55-56,61 PASS as consequences); remaining clauses as previously audited
 NOTE: Preextract candidate edge to bpI:p0:g1 at the statement dropped: I-G1 is consumed in stepI:p3:tori-ig1 and tori-position (the statement quotes it as provenance).
 
 NODE: stepI:p3:tori-patch
@@ -1740,9 +1740,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p3-iso-local-charts.tex#stepI:p3:tori-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Charts.tori_patch_node (KAM/Iso/LeftoverNodes.lean)
+LEAN_NOTE: GAP-ISM-audit-1.md:42 PASS
 NOTE: -
 
 NODE: stepI:p3:tori-base
@@ -1806,9 +1806,9 @@ EDGE: bpI:p3:constants | blueprint-I/parts/p3-iso-local-charts.tex#stepI:p3:tori
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Charts.tori_ig1_full (KAM/Iso/Charts/ToriIG1.lean)
+LEAN_NOTE: GAP-I3T-audit-3.md:60 PASS (round 3, PASS WITH NOTES): both signs, common constants, fixed rays, literal T1/T2/T3/T5; tori constructed from source data
 NOTE: -
 
 NODE: stepI:p3:tori-close
@@ -1979,7 +1979,7 @@ EDGE: bpI:p0:stripdata#torsion | blueprint-I/parts/p3-iso-local-charts.tex#stepI
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-I-b
 REVIEWER: sol-delta-I-c
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, track-I gap survey GAP-PLAN-I item 3): alternative route not used; the flat route is implemented
 NOTE: This route retains the actual Part 1 citations and their exposed SOURCE_GAP premise check. It is an alternative to the direct flat-formula route, not a mandatory extra premise for that route.

@@ -1,0 +1,29 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- DRAFT (W-STMT rev1), not frozen. Proposed final path: KAM/Frozen/Wave/Defs/SineMode.lean; namespace KAM.Wave.
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Data.PNat.Basic
+
+/-!
+# Dirichlet sine basis `KAM.Wave.sineMode`
+
+Blueprint-W Definition `bpW:w0:basis`; P96-W p. 277.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Wave
+
+/-- The normalized Dirichlet eigenfunction `φ_j(x) = √(2/π) sin(j x)`, `j ≥ 1`, defined for all
+real `x` (P96-W p. 277). -/
+def sineMode (j : ℕ+) (x : ℝ) : ℝ :=
+  Real.sqrt (2 / Real.pi) * Real.sin ((j : ℝ) * x)
+
+end KAM.Wave
+
+end

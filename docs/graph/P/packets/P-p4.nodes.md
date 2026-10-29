@@ -773,9 +773,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dc-prod@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: dc_prod_node (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: step of Lemma bpP:p4:domain-collar, whose statement and the other step are excluded (outside every root closure: bpP:p5:use5-fix says Part 5 does not use the lemma as a black box); this step alone is cited by bpP:p5:bu-collar.
 
 NODE: bpP:p4:disc-measure
