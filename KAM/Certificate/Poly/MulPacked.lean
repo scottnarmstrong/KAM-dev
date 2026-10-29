@@ -32,24 +32,32 @@ open KAM CertArith
 
 /-! ### Mantissas -/
 
-/-- The mantissa loop of `CertPoly.toMants`. -/
-def certMantsAux {α : Type} [CertArith α] (dec : ℕ → α → Option ℤ) (P : ℕ) :
-    List (CertKey × CC α) → Option (List (CertKey × ℤ) × List (CertKey × ℤ))
-  | [] => some ([], [])
-  | t :: ts =>
-    match dec P t.2.re, dec P t.2.im, certMantsAux dec P ts with
-    | some zr, some zi, some m =>
-      if mantCheck P t.2.re zr && mantCheck P t.2.im zi then
-        some (if zr = 0 then m.1 else (t.1, zr) :: m.1, if zi = 0 then m.2 else (t.1, zi) :: m.2)
-      else none
-    | _, _, _ => none
+/-- The verified mantissas `(re, im)` of one backend coefficient, or `none`. -/
+def certMantPair {α : Type} [CertArith α] (dec : ℕ → α → Option ℤ) (P : ℕ) (c : CC α) :
+    Option (ℤ × ℤ) :=
+  match dec P c.re, dec P c.im with
+  | some zr, some zi => if mantCheck P c.re zr && mantCheck P c.im zi then some (zr, zi) else none
+  | _, _ => none
+
+/-- The real (`re = true`) or imaginary part of a mantissa pair. -/
+def mantSel (re : Bool) (z : ℤ × ℤ) : ℤ := if re then z.1 else z.2
+
+/-- The nonzero real (`re = true`) or imaginary mantissa of a verified term, keyed. -/
+def certMantPart {α : Type} [CertArith α] (dec : ℕ → α → Option ℤ) (P : ℕ) (re : Bool)
+    (t : CertKey × CC α) : Option (CertKey × ℤ) :=
+  match certMantPair dec P t.2 with
+  | some z => if mantSel re z = 0 then none else some (t.1, mantSel re z)
+  | none => none
 
 /-- Integer mantissas `(re, im)` of a backend polynomial at scale `P`, read with the decoder
 `dec` and each verified by `mantCheck` (`none` on any failure: fail closed). Zero mantissas are
 dropped, so an all-zero part is the empty list. -/
 def CertPoly.toMants {α : Type} [CertArith α] (dec : ℕ → α → Option ℤ) (P : ℕ)
     (p : CertPoly α) : Option (List (CertKey × ℤ) × List (CertKey × ℤ)) :=
-  certMantsAux dec P p.terms
+  if p.terms.all fun t => (certMantPair dec P t.2).isSome then
+    some (p.terms.filterMap (certMantPart dec P true),
+      p.terms.filterMap (certMantPart dec P false))
+  else none
 
 theorem intEval_nil (n : ℕ) (θ : Fin n → ℂ) : intEval n [] θ = 0 := rfl
 
@@ -70,54 +78,57 @@ theorem intEval_map_neg (n : ℕ) (ts : List (CertKey × ℤ)) (θ : Fin n → �
     push_cast
     ring
 
-theorem certMantsAux_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
-    {dec : ℕ → α → Option ℤ} {P : ℕ} (θ : Fin n → ℂ) : ∀ (ts : List (CertKey × CC α))
-    {m : List (CertKey × ℤ) × List (CertKey × ℤ)}, certMantsAux dec P ts = some m →
-    (ts.map fun t => t.2.toC * character (certKeyFun n t.1) θ).sum =
-      (intEval n m.1 θ + Complex.I * intEval n m.2 θ) / 2 ^ P
-  | [], m, h => by
-    simp only [certMantsAux, Option.some.injEq] at h
+theorem certMantPair_sound {α : Type} [CertArith α] [LawfulCertArith α]
+    {dec : ℕ → α → Option ℤ} {P : ℕ} {c : CC α} {z : ℤ × ℤ} (h : certMantPair dec P c = some z) :
+    c.toC = ((z.1 : ℂ) + Complex.I * (z.2 : ℂ)) / 2 ^ P := by
+  unfold certMantPair at h
+  split at h
+  · rename_i zr zi _ _
+    split_ifs at h with hc
+    simp only [Option.some.injEq] at h
     subst h
-    simp [intEval_nil]
-  | t :: ts, m, h => by
-    simp only [certMantsAux] at h
-    split at h
-    · rename_i zr zi m' hr hi hm
-      by_cases hc : (mantCheck P t.2.re zr && mantCheck P t.2.im zi) = true
-      · simp only [hc, ite_true, Option.some.injEq] at h
-        subst h
-        simp only [Bool.and_eq_true] at hc
-        have er := mantCheck_sound hc.1
-        have ei := mantCheck_sound hc.2
-        have ih := certMantsAux_sound θ ts hm
-        have hz : t.2.toC = ((zr : ℂ) + Complex.I * (zi : ℂ)) / 2 ^ P := by
-          rw [CC.toC, Complex.mk_eq_add_mul_I, er, ei]
-          push_cast
-          ring
-        rw [List.map_cons, List.sum_cons, ih, hz]
-        have e1 : intEval n (if zr = 0 then m'.1 else (t.1, zr) :: m'.1) θ =
-            (zr : ℂ) * character (certKeyFun n t.1) θ + intEval n m'.1 θ := by
-          split_ifs with h0
-          · simp [h0]
-          · rw [intEval_cons]
-        have e2 : intEval n (if zi = 0 then m'.2 else (t.1, zi) :: m'.2) θ =
-            (zi : ℂ) * character (certKeyFun n t.1) θ + intEval n m'.2 θ := by
-          split_ifs with h0
-          · simp [h0]
-          · rw [intEval_cons]
-        simp only
-        rw [e1, e2]
-        ring
-      · simp only [hc] at h
-        simp at h
-    · simp at h
+    simp only [Bool.and_eq_true] at hc
+    rw [CC.toC, Complex.mk_eq_add_mul_I, mantCheck_sound hc.1, mantCheck_sound hc.2]
+    push_cast
+    ring
+  · simp at h
+
+theorem intEval_filterMap_certMantPart {α : Type} [CertArith α] {n : ℕ}
+    {dec : ℕ → α → Option ℤ} {P : ℕ} (re : Bool) (θ : Fin n → ℂ) :
+    ∀ (ts : List (CertKey × CC α)), (∀ t ∈ ts, (certMantPair dec P t.2).isSome = true) →
+    intEval n (ts.filterMap (certMantPart dec P re)) θ = (ts.map fun t =>
+      ((mantSel re ((certMantPair dec P t.2).getD (0, 0)) : ℤ) : ℂ) *
+        character (certKeyFun n t.1) θ).sum
+  | [], _ => by simp [intEval_nil]
+  | t :: ts, h => by
+    have ih := intEval_filterMap_certMantPart re θ ts fun u hu => h u (by simp [hu])
+    obtain ⟨z, hz⟩ := Option.isSome_iff_exists.mp (h t (by simp))
+    rw [List.map_cons, List.sum_cons, ← ih, hz, Option.getD_some]
+    by_cases h0 : mantSel re z = 0
+    · rw [List.filterMap_cons_none (by simp [certMantPart, hz, h0]), h0]
+      simp
+    · rw [List.filterMap_cons_some (b := (t.1, mantSel re z)) (by simp [certMantPart, hz, h0]),
+        intEval_cons]
 
 theorem CertPoly.toMants_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : ℕ}
     {dec : ℕ → α → Option ℤ} {P : ℕ} {p : CertPoly α}
     {m : List (CertKey × ℤ) × List (CertKey × ℤ)} (h : p.toMants dec P = some m)
     (θ : Fin n → ℂ) :
-    p.eval n θ = (intEval n m.1 θ + Complex.I * intEval n m.2 θ) / 2 ^ P :=
-  certMantsAux_sound θ p.terms h
+    p.eval n θ = (intEval n m.1 θ + Complex.I * intEval n m.2 θ) / 2 ^ P := by
+  unfold CertPoly.toMants at h
+  split_ifs at h with hall
+  simp only [Option.some.injEq] at h
+  subst h
+  have hall' : ∀ t ∈ p.terms, (certMantPair dec P t.2).isSome = true := fun t ht =>
+    List.all_eq_true.mp hall t ht
+  rw [intEval_filterMap_certMantPart true θ p.terms hall',
+    intEval_filterMap_certMantPart false θ p.terms hall', CertPoly.eval,
+    ← List.sum_map_mul_left, ← List.sum_map_add, div_eq_mul_inv, ← List.sum_map_mul_right]
+  refine congrArg List.sum (List.map_congr_left fun t ht => ?_)
+  obtain ⟨z, hz⟩ := Option.isSome_iff_exists.mp (hall' t ht)
+  simp only [hz, Option.getD_some, mantSel, ite_true, Bool.false_eq_true, ite_false]
+  rw [certMantPair_sound hz]
+  ring
 
 /-! ### Balanced sums over the product window -/
 
@@ -200,15 +211,15 @@ def PackedAdvice.remainderBound (adv : PackedAdvice) (W : CertWeight) (P2 : ℕ)
       W.w.den ^ (adv.maxSlotDeg - adv.slotDeg i)) adv.prodLen 0 adv.prodLen : ℕ) : ℚ) /
     ((W.w.den ^ adv.maxSlotDeg * 2 ^ P2 : ℕ) : ℚ)
 
-/-- The nonzero combined advice entries, with their product keys, from slot `i`. -/
-def packTargetAux (adv : PackedAdvice) : ℕ → List ℤ → List (CertKey × ℤ)
-  | _, [] => []
-  | i, c :: cs => if c = 0 then packTargetAux adv (i + 1) cs
-      else (adv.la.prodKey adv.lb i, c) :: packTargetAux adv (i + 1) cs
+/-- The keyed nonzero entry of an indexed combined slot. -/
+def PackedAdvice.targetEntry (adv : PackedAdvice) (ic : ℕ × ℤ) : Option (CertKey × ℤ) :=
+  if ic.2 = 0 then none else some (adv.la.prodKey adv.lb ic.1, ic.2)
 
-/-- The rounded product's integer Fourier data (units `2^scale` of the product mantissa). -/
+/-- The rounded product's integer Fourier data (units `2^scale` of the product mantissa): the
+nonzero combined slots with their product keys (indices from `List.range`, literals in the
+kernel). -/
 def PackedAdvice.targetTerms (adv : PackedAdvice) : List (CertKey × ℤ) :=
-  packTargetAux adv 0 adv.combined
+  ((List.range adv.prodLen).zip adv.combined).filterMap adv.targetEntry
 
 /-- One real product of integer Fourier data (mantissa scale `P2` of the product): an empty
 factor gives the exact zero product (no advice, no kernel work); otherwise the dense factors must
@@ -222,21 +233,28 @@ def packedRealProduct (adv : PackedAdvice) (W : CertWeight) (P2 : ℕ)
       else none
     | _, _ => none
 
-theorem intEval_packTargetAux (adv : PackedAdvice) (n : ℕ) (θ : Fin n → ℂ) :
-    ∀ (cs : List ℤ) (i : ℕ), intEval n (packTargetAux adv i cs) θ =
-      ∑ j ∈ Finset.range cs.length,
-        (cs.getD j 0 : ℂ) * character (certKeyFun n (adv.la.prodKey adv.lb (i + j))) θ
-  | [], i => by simp [packTargetAux, intEval_nil]
-  | c :: cs, i => by
-    rw [List.length_cons, Finset.sum_range_succ']
+theorem intEval_targetEntry (adv : PackedAdvice) (n : ℕ) (θ : Fin n → ℂ) :
+    ∀ (cs : List ℤ) (k : ℕ), intEval n (((List.range' k cs.length).zip cs).filterMap
+      adv.targetEntry) θ = ∑ j ∈ Finset.range cs.length,
+        (cs.getD j 0 : ℂ) * character (certKeyFun n (adv.la.prodKey adv.lb (k + j))) θ
+  | [], k => by simp [intEval_nil]
+  | c :: cs, k => by
+    rw [List.length_cons, List.range'_succ, List.zip_cons_cons, Finset.sum_range_succ']
     simp only [List.getD_cons_succ, List.getD_cons_zero, Nat.add_zero]
-    have ih := intEval_packTargetAux adv n θ cs (i + 1)
-    simp only [show ∀ j, i + 1 + j = i + (j + 1) from fun j => by omega] at ih
-    rw [packTargetAux]
-    split_ifs with hc
-    · rw [ih, hc]
+    have ih := intEval_targetEntry adv n θ cs (k + 1)
+    simp only [show ∀ j, k + 1 + j = k + (j + 1) from fun j => by omega] at ih
+    by_cases hc : c = 0
+    · rw [List.filterMap_cons_none (by simp [PackedAdvice.targetEntry, hc]), ih, hc]
       simp
-    · rw [intEval_cons, ih, add_comm]
+    · rw [List.filterMap_cons_some (b := (adv.la.prodKey adv.lb k, c))
+        (by simp [PackedAdvice.targetEntry, hc]), intEval_cons, ih, add_comm]
+
+theorem intEval_targetTerms (adv : PackedAdvice) (n : ℕ) (θ : Fin n → ℂ) :
+    intEval n adv.targetTerms θ = ∑ j ∈ Finset.range adv.combined.length,
+      (adv.combined.getD j 0 : ℂ) * character (certKeyFun n (adv.la.prodKey adv.lb j)) θ := by
+  rw [PackedAdvice.targetTerms, List.range_eq_range', ← PackedAdvice.combined_length,
+    intEval_targetEntry]
+  simp
 
 theorem PackedAdvice.shapeOK_compat {adv : PackedAdvice} (h : adv.shapeOK = true) :
     PackLayout.compat adv.la.dims.length adv.la adv.lb = true := by
@@ -292,10 +310,9 @@ theorem packedRealProduct_sound {adv : PackedAdvice} {W : CertWeight} {P2 : ℕ}
     have hcompat := PackedAdvice.shapeOK_compat (checkPackedProduct_guards hc).2.1
     have hconvlen : (listConv da db).length = adv.prodLen := by
       rw [← hlen, PackedAdvice.combined_length]
-    rw [PackLayout.intEval_mul_of_compat hcompat ha hb θ, PackedAdvice.targetTerms,
-      intEval_packTargetAux, list_sum_map_range_eq, hlen, Finset.mul_sum,
-      ← Finset.sum_sub_distrib, remainderBound_mul hw0, ← hconvlen]
-    simp only [Nat.zero_add]
+    rw [PackLayout.intEval_mul_of_compat hcompat ha hb θ, intEval_targetTerms,
+      list_sum_map_range_eq, hlen, Finset.mul_sum, ← Finset.sum_sub_distrib,
+      remainderBound_mul hw0, ← hconvlen]
     refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i hi => ?_)
     have hi' := Finset.mem_range.mp hi
     have hdiff : ((listConv da db).getD i 0 : ℂ) *
@@ -346,35 +363,28 @@ theorem ofDyadicScaled_sound {α : Type} [CertArith α] [LawfulCertArith α] {P2
     field_simp
 
 /-- Backend terms `(k, place v)` with `v = c · 2^sc / 2^P2` made exact, or `none`. -/
-def dyadicTermsAux {α : Type} [CertArith α] (P2 sc : ℕ) (place : α → CC α) :
-    List (CertKey × ℤ) → Option (List (CertKey × CC α))
-  | [] => some []
-  | t :: ts =>
-    match ofDyadicScaled P2 sc t.2, dyadicTermsAux P2 sc place ts with
-    | some v, some r => some ((t.1, place v) :: r)
-    | _, _ => none
+def dyadicTerms {α : Type} [CertArith α] (P2 sc : ℕ) (place : α → CC α)
+    (ts : List (CertKey × ℤ)) : Option (List (CertKey × CC α)) :=
+  if ts.all fun t => (ofDyadicScaled P2 sc t.2 : Option α).isSome then
+    some (ts.map fun t => (t.1, place ((ofDyadicScaled P2 sc t.2).getD (ofInt 0))))
+  else none
 
-theorem dyadicTermsAux_sound {α : Type} [CertArith α] [LawfulCertArith α] {P2 sc : ℕ}
+theorem dyadicTerms_sound {α : Type} [CertArith α] [LawfulCertArith α] {P2 sc : ℕ}
     {place : α → CC α} {u : ℂ} (hp : ∀ v, (place v).toC = u * val v) {n : ℕ}
-    (θ : Fin n → ℂ) : ∀ (ts : List (CertKey × ℤ)) {r : List (CertKey × CC α)},
-    dyadicTermsAux P2 sc place ts = some r →
+    (θ : Fin n → ℂ) {ts : List (CertKey × ℤ)} {r : List (CertKey × CC α)}
+    (h : dyadicTerms P2 sc place ts = some r) :
     (r.map fun t => t.2.toC * character (certKeyFun n t.1) θ).sum =
-      u * (2 ^ sc / 2 ^ P2) * intEval n ts θ
-  | [], r, h => by
-    simp only [dyadicTermsAux, Option.some.injEq] at h
-    subst h
-    simp [intEval_nil]
-  | t :: ts, r, h => by
-    simp only [dyadicTermsAux] at h
-    split at h
-    · rename_i v r' hv hr
-      simp only [Option.some.injEq] at h
-      subst h
-      rw [List.map_cons, List.sum_cons, dyadicTermsAux_sound hp θ ts hr, intEval_cons, hp,
-        ofDyadicScaled_sound hv]
-      push_cast
-      ring
-    · simp at h
+      u * (2 ^ sc / 2 ^ P2) * intEval n ts θ := by
+  unfold dyadicTerms at h
+  split_ifs at h with hall
+  simp only [Option.some.injEq] at h
+  subst h
+  rw [intEval, List.map_map, ← List.sum_map_mul_left]
+  refine congrArg List.sum (List.map_congr_left fun t ht => ?_)
+  obtain ⟨v, hv⟩ := Option.isSome_iff_exists.mp (List.all_eq_true.mp hall t ht)
+  simp only [Function.comp_apply, hv, Option.getD_some, hp, ofDyadicScaled_sound hv]
+  push_cast
+  ring
 
 /-! ### The complex product -/
 
@@ -391,11 +401,11 @@ def CertPoly.mulPacked {α : Type} [CertArith α] (dec : ℕ → α → Option �
   (packedRealProduct ii W (2 * P) ma.2 mb.2).bind fun pII =>
   (packedRealProduct ri W (2 * P) ma.1 mb.2).bind fun pRI =>
   (packedRealProduct ir W (2 * P) ma.2 mb.1).bind fun pIR =>
-  (dyadicTermsAux (2 * P) rr.scale (fun v => ⟨v, ofInt 0⟩) pRR.1).bind fun tRR =>
-  (dyadicTermsAux (2 * P) ii.scale (fun v => ⟨v, ofInt 0⟩)
+  (dyadicTerms (2 * P) rr.scale (fun v => ⟨v, ofInt 0⟩) pRR.1).bind fun tRR =>
+  (dyadicTerms (2 * P) ii.scale (fun v => ⟨v, ofInt 0⟩)
     (pII.1.map fun t => (t.1, -t.2))).bind fun tII =>
-  (dyadicTermsAux (2 * P) ri.scale (fun v => ⟨ofInt 0, v⟩) pRI.1).bind fun tRI =>
-  (dyadicTermsAux (2 * P) ir.scale (fun v => ⟨ofInt 0, v⟩) pIR.1).bind fun tIR =>
+  (dyadicTerms (2 * P) ri.scale (fun v => ⟨ofInt 0, v⟩) pRI.1).bind fun tRI =>
+  (dyadicTerms (2 * P) ir.scale (fun v => ⟨ofInt 0, v⟩) pIR.1).bind fun tIR =>
   some (⟨tRR ++ tII ++ tRI ++ tIR⟩, ofRatUp (pRR.2 + pII.2 + pRI.2 + pIR.2))
 
 /-- **Packed product contract**: the enclosure of the EXACT product on the strip. -/
@@ -414,10 +424,10 @@ theorem CertPoly.mulPacked_sound {α : Type} [CertArith α] [LawfulCertArith α]
     apply Complex.ext <;> simp [CC.toC, LawfulCertArith.val_ofInt]
   have him : ∀ v : α, (⟨ofInt 0, v⟩ : CC α).toC = Complex.I * val v := fun v => by
     apply Complex.ext <;> simp [CC.toC, LawfulCertArith.val_ofInt]
-  have eRR := dyadicTermsAux_sound hre θ _ htRR
-  have eII := dyadicTermsAux_sound hre θ _ htII
-  have eRI := dyadicTermsAux_sound him θ _ htRI
-  have eIR := dyadicTermsAux_sound him θ _ htIR
+  have eRR := dyadicTerms_sound hre θ htRR
+  have eII := dyadicTerms_sound hre θ htII
+  have eRI := dyadicTerms_sound him θ htRI
+  have eIR := dyadicTerms_sound him θ htIR
   rw [intEval_map_neg] at eII
   have bRR := packedRealProduct_sound hRR hW hθ
   have bII := packedRealProduct_sound hII hW hθ

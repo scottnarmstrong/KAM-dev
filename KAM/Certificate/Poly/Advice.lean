@@ -171,14 +171,69 @@ theorem packSum_shardConv (w L : ℕ) (A B : List (List ℤ))
   refine Finset.sum_congr rfl fun m _ => ?_
   rw [Finset.sum_mul]
 
+/-! ### Kernel-safe list walks
+
+The kernel reduces non-tail recursion over a list (`List.length`, `foldr`) and lazily built
+accumulators with one native stack frame per element; at the production block sizes (`8192`
+slots and more) that trips the kernel's deep-recursion guard. The walks below count down a
+literal or force their accumulator at every step instead; each is proved equal to the plain
+reading. -/
+
+/-- `l.length = n`, by walking the list and counting `n` down. -/
+def packLenEq {β : Type} : List β → ℕ → Bool
+  | [], n => n == 0
+  | _ :: _, 0 => false
+  | _ :: xs, n + 1 => packLenEq xs n
+
+theorem packLenEq_iff {β : Type} : ∀ (l : List β) (n : ℕ), packLenEq l n = true ↔ l.length = n
+  | [], n => by cases n <;> simp [packLenEq]
+  | _ :: _, 0 => by simp [packLenEq]
+  | _ :: xs, n + 1 => by simp [packLenEq, packLenEq_iff xs n]
+
+/-- `l.length ≤ n`, by walking the list and counting `n` down. -/
+def packLenLe {β : Type} : List β → ℕ → Bool
+  | [], _ => true
+  | _ :: _, 0 => false
+  | _ :: xs, n + 1 => packLenLe xs n
+
+theorem packLenLe_iff {β : Type} : ∀ (l : List β) (n : ℕ), packLenLe l n = true ↔ l.length ≤ n
+  | [], n => by simp [packLenLe]
+  | _ :: _, 0 => by simp [packLenLe]
+  | _ :: xs, n + 1 => by simp [packLenLe, packLenLe_iff xs n]
+
+/-- The length plus `n`, the accumulator forced at every step (the test `n + 1 = 0` is false). -/
+def packLengthAux {β : Type} : ℕ → List β → ℕ
+  | n, [] => n
+  | n, _ :: xs => if n + 1 = 0 then 0 else packLengthAux (n + 1) xs
+
+theorem packLengthAux_eq {β : Type} : ∀ (n : ℕ) (l : List β), packLengthAux n l = n + l.length
+  | n, [] => by simp [packLengthAux]
+  | n, _ :: xs => by
+    rw [packLengthAux, ite_eq_right (Nat.succ_ne_zero n), packLengthAux_eq (n + 1) xs]
+    simp only [List.length_cons]
+    omega
+
+/-- `max m (maxAbs l)` with the running maximum forced at every step. -/
+def packMaxAbsAux : ℕ → List ℤ → ℕ
+  | m, [] => m
+  | m, c :: cs => if m < c.natAbs then packMaxAbsAux c.natAbs cs else packMaxAbsAux m cs
+
+theorem packMaxAbsAux_eq : ∀ (m : ℕ) (l : List ℤ), packMaxAbsAux m l = max m (maxAbs l)
+  | m, [] => by simp [packMaxAbsAux, maxAbs]
+  | m, c :: cs => by
+    rw [packMaxAbsAux, maxAbs, List.foldr_cons, ← maxAbs]
+    split_ifs with h
+    · rw [packMaxAbsAux_eq]; omega
+    · rw [packMaxAbsAux_eq]; omega
+
 /-- Cheap sufficient test that the exact shard convolution fits the slots:
 `2 · (s + 1) · L · max|A| · max|B| < 2^w` (maxima over the blocks `0, …, s`, which are checked to
 have at most `L` slots). -/
 def shardFits (w L : ℕ) (A B : List (List ℤ)) (s : ℕ) : Bool :=
-  ((A.take (s + 1)).all fun x => decide (x.length ≤ L)) &&
-    ((B.take (s + 1)).all fun x => decide (x.length ≤ L)) &&
-    decide (2 * (s + 1) * L * maxAbs (A.take (s + 1)).flatten *
-      maxAbs (B.take (s + 1)).flatten < 2 ^ w)
+  ((A.take (s + 1)).all fun x => packLenLe x L) &&
+    ((B.take (s + 1)).all fun x => packLenLe x L) &&
+    decide (2 * (s + 1) * L * packMaxAbsAux 0 (A.take (s + 1)).flatten *
+      packMaxAbsAux 0 (B.take (s + 1)).flatten < 2 ^ w)
 
 theorem maxAbs_le_of_forall {cs : List ℤ} {M : ℕ} (h : ∀ c ∈ cs, c.natAbs ≤ M) :
     maxAbs cs ≤ M := by
@@ -201,19 +256,20 @@ theorem maxAbs_getD_le_take {C : List (List ℤ)} {i s : ℕ} (hi : i ≤ s) :
     simp [maxAbs]
 
 theorem length_getD_le_take {C : List (List ℤ)} {i s L : ℕ} (hi : i ≤ s)
-    (h : ((C.take (s + 1)).all fun x => decide (x.length ≤ L)) = true) :
+    (h : ((C.take (s + 1)).all fun x => packLenLe x L) = true) :
     (C.getD i []).length ≤ L := by
   by_cases hc : i < C.length
   · have hmem : C.getD i [] ∈ C.take (s + 1) := by
       rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hc, Option.getD_some]
       exact List.mem_iff_getElem.mpr ⟨i, by simp; omega, by simp⟩
-    simpa using List.all_eq_true.mp h _ hmem
+    exact (packLenLe_iff _ _).mp (List.all_eq_true.mp h _ hmem)
   · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (not_lt.mp hc)]
     simp
 
 theorem slotsBounded_shardConv {w L : ℕ} {A B : List (List ℤ)} {s : ℕ}
     (h : shardFits w L A B s = true) : SlotsBounded w (shardConv L A B s) := by
-  simp only [shardFits, Bool.and_eq_true, decide_eq_true_eq] at h
+  simp only [shardFits, Bool.and_eq_true, decide_eq_true_eq, packMaxAbsAux_eq,
+    Nat.zero_max] at h
   obtain ⟨⟨hlA, hlB⟩, hfit⟩ := h
   set mA := maxAbs (A.take (s + 1)).flatten
   set mB := maxAbs (B.take (s + 1)).flatten
@@ -280,15 +336,30 @@ theorem shard_reconstruct {w scale L : ℕ} {logs : ℕ → ℕ} {A B : List (Li
 stride, one slot in dimension zero). -/
 def PackedAdvice.blockLen (adv : PackedAdvice) : ℕ := adv.la.blockRows * adv.la.stride.headD 1
 
+/-- The first `n` entries of a list, zero-padded to exactly `n` (lazy in the kernel). -/
+def packTakePad : ℕ → List ℤ → List ℤ
+  | 0, _ => []
+  | n + 1, [] => 0 :: packTakePad n []
+  | n + 1, x :: xs => x :: packTakePad n xs
+
+theorem packTakePad_eq : ∀ (n : ℕ) (d : List ℤ),
+    packTakePad n d = d.take n ++ List.replicate (n - (d.take n).length) 0
+  | 0, _ => by simp [packTakePad]
+  | n + 1, [] => by
+    rw [packTakePad, packTakePad_eq n []]
+    simp [List.replicate_succ]
+  | n + 1, x :: xs => by
+    rw [packTakePad, packTakePad_eq n xs]
+    simp
+
 /-- Cut a list into blocks of `L` slots, the last one zero-padded (`fuel` blocks at most). -/
 def packCutAux (L : ℕ) : ℕ → List ℤ → List (List ℤ)
   | 0, _ => []
-  | f + 1, d => if d.isEmpty then [] else
-      (d.take L ++ List.replicate (L - (d.take L).length) 0) :: packCutAux L f (d.drop L)
+  | f + 1, d => if d.isEmpty then [] else packTakePad L d :: packCutAux L f (d.drop L)
 
 /-- A dense factor cut into blocks of `blockLen` slots, the last one zero-padded. -/
 def PackedAdvice.cut (adv : PackedAdvice) (d : List ℤ) : List (List ℤ) :=
-  packCutAux adv.blockLen d.length d
+  packCutAux adv.blockLen (packLengthAux 0 d) d
 
 theorem packCutAux_length (L : ℕ) : ∀ (f : ℕ) (d : List ℤ), ∀ x ∈ packCutAux L f d, x.length = L
   | 0, _ => by simp [packCutAux]
@@ -298,7 +369,7 @@ theorem packCutAux_length (L : ℕ) : ∀ (f : ℕ) (d : List ℤ), ∀ x ∈ pa
     split_ifs at hx
     · simp at hx
     · rcases List.mem_cons.mp hx with rfl | hx
-      · simp only [List.length_append, List.length_replicate, List.length_take]
+      · simp only [packTakePad_eq, List.length_append, List.length_replicate, List.length_take]
         omega
       · exact packCutAux_length L f _ x hx
 
@@ -321,7 +392,7 @@ theorem packCutAux_flatten {L : ℕ} (hL : 0 < L) : ∀ (f : ℕ) (d : List ℤ)
     · exact ⟨0, by simp [List.isEmpty_iff.mp he]⟩
     · obtain ⟨k, hk⟩ := packCutAux_flatten hL f (d.drop L) (by
         rw [List.length_drop]; rw [Nat.succ_mul] at hd; omega)
-      rw [List.flatten_cons, hk]
+      rw [List.flatten_cons, hk, packTakePad_eq]
       by_cases hdl : L ≤ d.length
       · refine ⟨k, ?_⟩
         rw [List.length_take, Nat.min_eq_left hdl, Nat.sub_self, List.replicate_zero,
@@ -333,7 +404,8 @@ theorem packCutAux_flatten {L : ℕ} (hL : 0 < L) : ∀ (f : ℕ) (d : List ℤ)
 
 theorem PackedAdvice.cut_flatten {adv : PackedAdvice} (hL : 0 < adv.blockLen) (d : List ℤ) :
     ∃ k, (adv.cut d).flatten = d ++ List.replicate k 0 :=
-  packCutAux_flatten hL _ _ (Nat.le_mul_of_pos_right _ hL)
+  packCutAux_flatten hL _ _ (by
+    rw [packLengthAux_eq, Nat.zero_add]; exact Nat.le_mul_of_pos_right _ hL)
 
 theorem listConv_length {a b : List ℤ} (ha : a ≠ []) (hb : b ≠ []) :
     (listConv a b).length = a.length + b.length - 1 := by
@@ -469,7 +541,7 @@ theorem PackedAdvice.inBox_eq (adv : PackedAdvice) (hs : adv.la.stride.length = 
 /-- Zero advice off the target box and beyond the product window, slot by slot from `i`. -/
 def PackedAdvice.windowZeroOK (adv : PackedAdvice) : ℕ → List ℤ → Bool
   | _, [] => true
-  | i, c :: cs => (c == 0 || (adv.inBox i && decide (i < adv.prodLen))) &&
+  | i, c :: cs => (if i < adv.prodLen then c == 0 || adv.inBox i else c == 0) &&
       adv.windowZeroOK (i + 1) cs
 
 /-- `windowZeroOK` on every advice window `s ≥ s₀`, window `s` at offset `s · blockLen`. -/
@@ -497,7 +569,7 @@ def PackedAdvice.shapeOK (adv : PackedAdvice) : Bool :=
   decide (1 ≤ adv.scale) && decide (0 < adv.la.width) && decide (0 < adv.la.blockRows) &&
     decide (0 < adv.blockLen) && PackLayout.compat adv.la.dims.length adv.la adv.lb &&
     adv.lb.width == adv.la.width && adv.target.width == adv.la.width && adv.targetSubBox &&
-    (adv.rounded.all fun r => r.length == 2 * adv.blockLen - 1) &&
+    (adv.rounded.all fun r => packLenEq r (2 * adv.blockLen - 1)) &&
     adv.adviceZeroOK 0 adv.rounded
 
 /-- The packed shard sum `Σ_{i+j=s} packShift(A_i) · packShift(B_j)` (kernel form). -/
@@ -511,8 +583,8 @@ window has length `2·blockLen - 1`, `shardFits`, `reconFits` with `shardLogs s`
 with `shardLogs s`. (`reconFits` runs in its one-pass natural-number form `reconFitsAux`, and
 `2^scale` is a natural-number power, both kernel-accelerated.) -/
 def checkShard (adv : PackedAdvice) (A B : List (List ℤ)) (s : ℕ) : Bool :=
-  (A.all fun x => x.length == adv.blockLen) && (B.all fun x => x.length == adv.blockLen) &&
-    (adv.rounded.getD s []).length == 2 * adv.blockLen - 1 &&
+  (A.all fun x => packLenEq x adv.blockLen) && (B.all fun x => packLenEq x adv.blockLen) &&
+    packLenEq (adv.rounded.getD s []) (2 * adv.blockLen - 1) &&
     shardFits adv.la.width adv.blockLen A B s &&
     reconFitsAux adv.la.width adv.scale (adv.shardLogs s) 0 (adv.rounded.getD s []) &&
     intSlotsBound adv.la.width (2 * adv.blockLen - 1) (adv.shardLogs s)
@@ -532,7 +604,7 @@ theorem checkShard_sound {adv : PackedAdvice} {A B : List (List ℤ)} {s : ℕ}
       ∀ i < 2 * adv.blockLen - 1,
         |(shardConv adv.blockLen A B s).getD i 0 - 2 ^ adv.scale * (adv.rounded.getD s []).getD i 0|
           ≤ 2 ^ adv.shardLogs s i := by
-  simp only [checkShard, Bool.and_eq_true, beq_iff_eq, List.all_eq_true] at h
+  simp only [checkShard, Bool.and_eq_true, List.all_eq_true, packLenEq_iff] at h
   obtain ⟨⟨⟨⟨⟨hA, hB⟩, hlen⟩, hfit⟩, hrec⟩, hdec⟩ := h
   rw [reconFitsAux_eq] at hrec
   rw [shardPacked_eq, packShift_eq, Nat.cast_pow, Nat.cast_ofNat] at hdec
@@ -544,8 +616,8 @@ or an empty layout box is REJECTED; a zero factor is sent as zeros on a nonempty
 direct route); the dense factors cut by `cut`; and `checkShard` on every shard
 `s < (cut da).length + (cut db).length - 1`. -/
 def checkPackedProduct (adv : PackedAdvice) (da db : List ℤ) : Bool :=
-  adv.shapeOK && da.length == adv.la.denseLen && db.length == adv.lb.denseLen &&
-    decide (0 < da.length) && decide (0 < db.length) &&
+  adv.shapeOK && packLenEq da adv.la.denseLen && packLenEq db adv.lb.denseLen &&
+    !da.isEmpty && !db.isEmpty &&
     adv.rounded.length == (adv.cut da).length + (adv.cut db).length - 1 &&
     (List.range ((adv.cut da).length + (adv.cut db).length - 1)).all fun s =>
       checkShard adv (adv.cut da) (adv.cut db) s
@@ -559,7 +631,8 @@ theorem checkPackedProduct_eq_true_iff {adv : PackedAdvice} {da db : List ℤ} :
         adv.rounded.length = (adv.cut da).length + (adv.cut db).length - 1 ∧
         ∀ s < (adv.cut da).length + (adv.cut db).length - 1,
           checkShard adv (adv.cut da) (adv.cut db) s = true := by
-  simp only [checkPackedProduct, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq,
+  simp only [checkPackedProduct, Bool.and_eq_true, beq_iff_eq, packLenEq_iff,
+    Bool.not_eq_true', List.isEmpty_eq_false_iff, List.ne_nil_iff_length_pos,
     List.all_eq_true, List.mem_range]
   tauto
 

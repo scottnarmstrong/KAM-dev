@@ -207,13 +207,15 @@ theorem PackedAdvice.windowZeroOK_spec {adv : PackedAdvice} : ∀ (cs : List ℤ
       adv.inBox (i + m) = true ∧ i + m < adv.prodLen
   | [], i, _, m, hm => by simp at hm
   | c :: cs, i, h, m, hm => by
-    simp only [PackedAdvice.windowZeroOK, Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq,
-      decide_eq_true_eq] at h
+    simp only [PackedAdvice.windowZeroOK, Bool.and_eq_true] at h
     obtain ⟨hc, hrest⟩ := h
     cases m with
     | zero =>
       simp only [List.getD_cons_zero, ne_eq] at hm
-      simpa [hm] using hc
+      simp only [Nat.add_zero]
+      split_ifs at hc with hi
+      · simpa [hm] using And.intro hc hi
+      · simp [hm] at hc
     | succ m =>
       simp only [List.getD_cons_succ] at hm
       have := PackedAdvice.windowZeroOK_spec cs (i + 1) hrest m hm
