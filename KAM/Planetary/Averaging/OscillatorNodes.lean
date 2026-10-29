@@ -48,8 +48,9 @@ theorem OscComposeData.ofDeltaBound (hn : 1 ≤ n) (hm : 1 ≤ m)
   calc δ ≤ ᾱ * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))) := hδ
     _ = min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))) * ᾱ := by ring
 
-/-- Conditional helper (not a node export; the generator bound is a premise): Lie series: with `θ_φ = 2 e b |φ| / δ_ν = e b η`, `η = 2|φ|/δ_ν`,
-`e² b η / 4 ≤ e b η`, the iterates satisfy `|ad_φ^h u| / h! ≤ θ_φ^h |u|` and
+/-- Conditional helper (the generator bound is a premise, so not a node export): Lie series with
+`θ_φ = 2 e b |φ| / δ_ν = e b η`, `η = 2|φ|/δ_ν`, `e² b η / 4 ≤ e b η`, the iterates satisfy
+`|ad_φ^h u| / h! ≤ θ_φ^h |u|` and
 `|u ∘ X¹_φ| ≤ (1 - θ_φ)⁻¹ |u|` (in the class, at two losses). -/
 theorem osc_ratio_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
     (hw : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧ 0 < ρq ∧ 2 * ρq < rq ∧
@@ -92,8 +93,9 @@ theorem osc_ratio_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
   · have := osc_composition_t H hu hbu hA (t := 1) ⟨by norm_num, le_rfl⟩
     simpa [θ, oscTheta] using this
 
-/-- Conditional helper (generator bound a premise): integral remainders: the same bound `(1 - θ_φ)⁻¹` holds for the
-integral remainders along the flow. -/
+/-- Conditional helper (generator bound a premise): integral remainders; the bound `(1 - θ_φ)⁻¹`
+holds for the integral
+remainders along the flow. -/
 theorem osc_ratio_integral_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
     (hw : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧ 0 < ρq ∧ 2 * ρq < rq ∧
       0 < σ ∧ 2 * σ < S)
@@ -116,7 +118,8 @@ theorem osc_ratio_integral_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
   osc_composition_integral (OscComposeData.ofDeltaBound hn hm hw hc hb hΦ hᾱ hΦδ hδ) hB hv hcv
     hDc
 
-/-- Conditional helper (generator bound a premise): numerics and series: `θ_φ ≤ 2 e b δ / (ᾱ δ_ν) ≤ e/8 < 0.34`,
+/-- Conditional helper (generator bound a premise): numerics and series,
+`θ_φ ≤ 2 e b δ / (ᾱ δ_ν) ≤ e/8 < 0.34`,
 `(16/9) θ_φ < 0.61 < 1`, and the Lie series equals the composition on the two-loss domain. -/
 theorem osc_range_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
     (hw : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧ 0 < ρq ∧ 2 * ρq < rq ∧
@@ -166,9 +169,9 @@ theorem osc_range_of_gen_bound (hn : 1 ≤ n) (hm : 1 ≤ m)
   · linarith
   · exact osc_series_eq H hu hbu hA
 
-/-- `stepP:p2:oi-range`, items (a) and (b) as in `N iterative` (with `ᾱ = 2 π α`): the
+/-- Items (a) and (b) as in `N iterative` (with `ᾱ = 2 π α`): the
 displacement bounds and the bound of the new remainder with the factor `1 - θ_φ`. -/
-theorem p2_oi_range_ab {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)}
+theorem osc_iter_range_ab {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)}
     {gj : Fin J → CHam (n + m)} {rj rpj rqj Sj Mj : Fin J → ℝ}
     (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
     (hwidths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
@@ -202,6 +205,137 @@ theorem p2_oi_range_ab {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f :
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, b, a, -⟩ :=
     osc_iter hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg
   exact ⟨a, b⟩
+
+/-- `stepP:p2:oi-ratio`, Lie series, from the source data: the generator is `φ = oscGen K h f`
+(its class and bound `|φ| ≤ δ/ᾱ`, `ᾱ = 2 π α`, are derived inside); with `θ_φ = 2 e b |φ| / δ_ν
+= e b η`, `η = 2|φ|/δ_ν`, we have `e² b η / 4 ≤ e b η`, `|ad_φ^h u| / h! ≤ θ_φ^h |u|` and
+`|u ∘ X¹_φ| ≤ (1 - θ_φ)⁻¹ |u|`. -/
+theorem p2_oi_ratio {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)}
+    (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
+    (hwidths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
+      0 < ρq ∧ 2 * ρq < rq ∧ 0 < σ ∧ 2 * σ < S)
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hf : oscClass D r rp rq S f) (hδ : oscBound D r rp rq S f δ)
+    (hδpos : 0 ≤ δ) (hsmall : δ ≤ (2 * π * α) * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))))
+    (hu : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u)
+    (hbu : oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u A) (hA : 0 ≤ A) :
+    let φ := oscGen K h f
+    let Φ := δ / (2 * π * α)
+    let η := 2 * Φ / min (ρ * σ) (ρp * ρq)
+    let θ := 2 * exp 1 * (1 + (m : ℝ)) * Φ / min (ρ * σ) (ρp * ρq)
+    θ = exp 1 * (1 + (m : ℝ)) * η ∧
+    exp 1 ^ 2 * (1 + (m : ℝ)) * η / 4 ≤ exp 1 * (1 + (m : ℝ)) * η ∧
+    (∀ j : ℕ,
+      oscClass D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+        (fun z => ((j.factorial : ℂ)⁻¹) * adPow φ j u z) ∧
+      oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+        (fun z => ((j.factorial : ℂ)⁻¹) * adPow φ j u z) (θ ^ j * A)) ∧
+    oscClass D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+      (fun z => u (flow (KAM.hamiltonianVectorFieldℂ φ)
+        (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) 1 z)) ∧
+    oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ)
+      (fun z => u (flow (KAM.hamiltonianVectorFieldℂ φ)
+        (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) 1 z)) ((1 - θ)⁻¹ * A) := by
+  have hπ := Real.pi_pos
+  have hS : 0 < S := by
+    obtain ⟨-, -, -, -, -, -, -, h8⟩ := hwidths
+    have := hwidths.2.2.2.2.2.2.1
+    linarith
+  obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
+  exact osc_ratio_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
+    (by positivity) le_rfl hsmall hu hbu hA
+
+/-- `stepP:p2:oi-ratio`, integral remainders, from the source data: for the generator
+`φ = oscGen K h f` the remainders `∫₀¹ v_t ∘ X^t_φ dt` have the factor `(1 - θ_φ)⁻¹`. -/
+theorem p2_oi_ratio_integral {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)}
+    (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
+    (hwidths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
+      0 < ρq ∧ 2 * ρq < rq ∧ 0 < σ ∧ 2 * σ < S)
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hf : oscClass D r rp rq S f) (hδ : oscBound D r rp rq S f δ)
+    (hδpos : 0 ≤ δ) (hsmall : δ ≤ (2 * π * α) * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))))
+    {v : ℝ → CHam (n + m)} {B : ℝ} (hB : 0 ≤ B)
+    (hv : ∀ t ∈ Icc (0 : ℝ) 1,
+      oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (v t) ∧
+      oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) (v t) B)
+    (hcv : ContinuousOn (fun p : ℝ × CPhase (n + m) => v p.1 p.2)
+      (Icc 0 1 ×ˢ oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)))
+    (hDc : ContinuousOn (fun p : ℝ × CPhase (n + m) => fderiv ℂ (v p.1) p.2)
+      (Icc 0 1 ×ˢ oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ))) :
+    let φ := oscGen K h f
+    let Φ := δ / (2 * π * α)
+    let R := fun z => ∫ t in (0 : ℝ)..1, v t (flow (KAM.hamiltonianVectorFieldℂ φ)
+      (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) t z)
+    oscClass D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) R ∧
+    oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) R
+      ((1 - 2 * exp 1 * (1 + (m : ℝ)) * Φ / min (ρ * σ) (ρp * ρq))⁻¹ * B) := by
+  have hπ := Real.pi_pos
+  have hS : 0 < S := by
+    obtain ⟨-, -, -, -, -, -, -, h8⟩ := hwidths
+    have := hwidths.2.2.2.2.2.2.1
+    linarith
+  obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
+  exact osc_ratio_integral_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
+    (by positivity) le_rfl hsmall hB hv hcv hDc
+
+/-- `stepP:p2:oi-range`, from the source data and for the generator `φ = oscGen K h f`:
+numerics `θ_φ ≤ 2 e b δ / (ᾱ δ_ν) ≤ e/8 < 0.34`, `(16/9) θ_φ < 0.61 < 1`, the Lie series equals
+the composition on the two-loss domain, and (a), (b) of `N iterative` (`ᾱ = 2 π α`) for the step
+map `X¹_φ`. -/
+theorem p2_oi_range {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f : CHam (n + m)}
+    {gj : Fin J → CHam (n + m)} {rj rpj rqj Sj Mj : Fin J → ℝ}
+    (hn : 1 ≤ n) (hm : 1 ≤ m) (hα : 0 < α) (hK : 0 ≤ K)
+    (hwidths : 0 < ρ ∧ 2 * ρ < r ∧ 0 < ρp ∧ 2 * ρp < rp ∧
+      0 < ρq ∧ 2 * ρq < rq ∧ 0 < σ ∧ 2 * σ < S)
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hf : oscClass D r rp rq S f) (hδ : oscBound D r rp rq S f δ)
+    (hδpos : 0 ≤ δ) (hsmall : δ ≤ (2 * π * α) * min (ρ * σ) (ρp * ρq) / (16 * (1 + (m : ℝ))))
+    (hu : oscClass D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u)
+    (hbu : oscBound D (r - ρ) (rp - ρp) (rq - ρq) (S - σ) u A) (hA : 0 ≤ A)
+    (hg : ∀ j, oscClass D (rj j) (rpj j) (rqj j) (Sj j) (gj j) ∧
+      oscBound D (rj j) (rpj j) (rqj j) (Sj j) (gj j) (Mj j) ∧
+      r ≤ rj j ∧ rp ≤ rpj j ∧ rq ≤ rqj j ∧ S ≤ Sj j) :
+    let φ := oscGen K h f
+    let Φ := δ / (2 * π * α)
+    let θ := 2 * exp 1 * (1 + (m : ℝ)) * Φ / min (ρ * σ) (ρp * ρq)
+    (θ ≤ 2 * exp 1 * (1 + (m : ℝ)) * δ / ((2 * π * α) * min (ρ * σ) (ρp * ρq)) ∧
+      2 * exp 1 * (1 + (m : ℝ)) * δ / ((2 * π * α) * min (ρ * σ) (ρp * ρq)) ≤ exp 1 / 8 ∧
+      exp 1 / 8 < 0.34 ∧ 16 / 9 * θ < 0.61 ∧ (0.61 : ℝ) < 1 ∧
+      ∀ z ∈ oscDom D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ),
+        u (flow (KAM.hamiltonianVectorFieldℂ φ)
+            (oscDom D (r - ρ) (rp - ρp) (rq - ρq) (S - σ)) 1 z) =
+          ∑' j : ℕ, ((j.factorial : ℂ)⁻¹) * adPow φ j u z) ∧
+    (let Ψ := oscStepMap D r rp rq S ρ ρp ρq σ K h f
+      let g := fun z => ∑ j, gj j z
+      let gp := fun z => g z + coeff (oscFunction f) (oscPack z).2 0
+      let fp := fun z => h (firstBlock (b := m) (Ψ z).2) + g (Ψ z) + f (Ψ z) -
+        h (firstBlock (b := m) z.2) - gp z
+      let d := min (ρ * σ) (ρp * ρq)
+      let Rsum := ∑ j, max (max (ρ / (rj j - r + ρ)) (σ / (Sj j - S + σ)))
+        (max (ρp / (rpj j - rp + ρp)) (ρq / (rqj j - rq + ρq))) * Mj j
+      let U := oscDom D (r - 3 * ρ / 2) (rp - 3 * ρp / 2)
+        (rq - 3 * ρq / 2) (S - 3 * σ / 2)
+      (∀ z ∈ U,
+        ‖firstBlock (b := m) ((Ψ z).1 - z.1)‖ ≤ δ / (2 * π * α * ρ) ∧
+        ‖firstBlock (b := m) ((Ψ z).2 - z.2)‖ ≤ δ / (exp 1 * (2 * π * α) * σ) ∧
+        ‖lastBlock (a := n) ((Ψ z).1 - z.1)‖ ≤ δ / (2 * π * α * ρp) ∧
+        ‖lastBlock (a := n) ((Ψ z).2 - z.2)‖ ≤ δ / (2 * π * α * ρq)) ∧
+      oscBound D (r - 2 * ρ) (rp - 2 * ρp) (rq - 2 * ρq) (S - 2 * σ) fp
+        ((1 - 2 * exp 1 * (1 + (m : ℝ)) * δ / (2 * π * α * d))⁻¹ *
+          (2 * (1 + (m : ℝ)) / (2 * π * α * d) * (Rsum + δ) +
+            exp (-(2 * π * K * σ))) * δ)) := by
+  have hπ := Real.pi_pos
+  refine ⟨?_, osc_iter_range_ab hn hm hα hK hwidths hh hdiv hf hδ hδpos hsmall hg⟩
+  have hS : 0 < S := by
+    obtain ⟨-, -, -, -, -, -, -, h8⟩ := hwidths
+    have := hwidths.2.2.2.2.2.2.1
+    linarith
+  obtain ⟨c1, c2⟩ := oscGen_class_bound hS hK hα hh hdiv hf hδ
+  exact osc_range_of_gen_bound hn hm hwidths c1 c2 (div_nonneg hδpos (by positivity))
+    (by positivity) le_rfl hsmall hu hbu hA
 
 end OiNodes
 
@@ -294,11 +428,12 @@ theorem p2_ar_apply (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < ε�
   obtain ⟨c1, c2, c3, c4, c5, -, c7, c8, c9, c10, -, -, -, -, -⟩ := hV
   exact ⟨Ψ, g, fs, c1, c2, c3, c4, c5, c7, c8, c9, c10, coeff_smul_osc μ P⟩
 
-/-- `stepP:p2:ar-collect`: for `P̃ = (g - μ ⟨P⟩) + f_*` (the remainder of `ar-apply`), `|P̃|` is at
-most the sum `400 b μ² / (ᾱ d) + e^{-κ/6} μ` of the two bounds of the proposition, and
-`e^{-κ/6} μ = μ ε⁵`. -/
-theorem p2_ar_collect (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < ε₀) (hs₀ : 0 < s₀)
-    (hε : 0 < ε ∧ ε < exp (-1 / 5)) (hμ : 0 < μ) (hα : 0 < α)
+/-- `stepP:p2:ar-apply` and `stepP:p2:ar-collect` jointly, with shared witnesses: the averaging
+map `Ψ`, the functions `g`, `f_*` of the Hamiltonian identity `H ∘ Ψ = H₀ + g + f_*` (`f = μ P`),
+the zero-mode identity, and the collected remainder `P̃ = (g - μ ⟨P⟩) + f_*`, whose bound is
+`400 b μ² / (ᾱ d) + e^{-κ/6} μ` with `e^{-κ/6} μ = μ ε⁵`. -/
+theorem p2_ar_apply_collect (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < ε₀)
+    (hs₀ : 0 < s₀) (hε : 0 < ε ∧ ε < exp (-1 / 5)) (hμ : 0 < μ) (hα : 0 < α)
     (hK : K = 15 / (π * s₀) * log (1 / ε))
     (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
     (hreal : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ KAM.actionNbhd D r →
@@ -307,9 +442,23 @@ theorem p2_ar_collect (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < �
     (hPr : RealOn (oscDom D r ε₀ ε₀ s₀) P)
     (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
     (hR2 : 2 ^ 12 * (1 + (m : ℝ)) * K * s₀ * μ ≤ α * min (r * s₀) (ε₀ ^ 2)) :
-    ∃ (g fs Pt : CHam (n + m)),
-      (∀ z ∈ oscDom D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6),
-        Pt z = g z - (μ : ℂ) * coeff (oscFunction P) (oscPack z).2 0 + fs z) ∧
+    ∃ (Ψ : CPhase (n + m) → CPhase (n + m)) (g fs Pt : CHam (n + m)),
+      let V := oscDom D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6)
+      DifferentiableOn ℂ Ψ V ∧ Set.InjOn Ψ V ∧ MapsTo Ψ V (oscDom D r ε₀ ε₀ s₀) ∧
+      (∀ z ∈ V, ∀ u v, symplFormC (fderiv ℂ Ψ z u) (fderiv ℂ Ψ z v) = symplFormC u v) ∧
+      (∀ z ∈ V, ∀ k : Fin n → ℤ,
+        Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) =
+          Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) ∧
+      oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) g ∧ RealOn V g ∧
+      (∀ x ∈ oscParams (m := m) D (r / 2) (ε₀ / 2) (ε₀ / 2), ∀ θ θ',
+        oscUnpack (θ, x) ∈ V → oscUnpack (θ', x) ∈ V →
+          g (oscUnpack (θ, x)) = g (oscUnpack (θ', x))) ∧
+      (∀ z ∈ V, h (firstBlock (b := m) (Ψ z).2) + (μ • P) (Ψ z) =
+        h (firstBlock (b := m) z.2) + g z + fs z) ∧
+      (∀ z : CPhase (n + m), coeff (oscFunction (μ • P)) (oscPack z).2 0 =
+        (μ : ℂ) * coeff (oscFunction P) (oscPack z).2 0) ∧
+      oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) fs ∧ RealOn V fs ∧
+      (∀ z ∈ V, Pt z = g z - (μ : ℂ) * coeff (oscFunction P) (oscPack z).2 0 + fs z) ∧
       oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) Pt ∧
       oscBound D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) Pt
         (400 * (1 + (m : ℝ)) * μ ^ 2 / (2 * π * α * min (r * s₀) (ε₀ ^ 2)) +
@@ -318,11 +467,16 @@ theorem p2_ar_collect (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < �
   have H := ar_hyp hn hm hr hε₀ hs₀ hε hμ hα hK hh hreal hPc hPb hPr hdiv hR2
   have hexp := ar_exp_kappa hs₀ hε.1 hK
   obtain ⟨Ψ, g, fs, R, hV⟩ := averaged_remainder hε hμ (by rw [← hK]; exact H) hPb
-  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, hR, hRc, hRb, -, -⟩ := hV
+  obtain ⟨c1, c2, c3, c4, c5, -, c7, c8, c9, c10, c11, -, c13, c14, c15, c16, -, -⟩ := hV
+  have hsm : ∀ w, (μ • P) w = (μ : ℂ) * P w := fun w => by simp [Complex.real_smul]
   have hex : exp (-(2 * π * K * s₀) / 6) * μ = μ * ε ^ 5 := by rw [hexp, mul_comm]
-  refine ⟨g, fs, R, hR, hRc, ?_, hex⟩
-  rw [hex]
-  exact hRb
+  refine ⟨Ψ, g, fs, R, c1, c2, c3, c4, c5, c7, c8, c9, ?_, coeff_smul_osc μ P, c10, c11, c14,
+    c15, ?_, hex⟩
+  · intro z hz
+    rw [hsm, c13 z hz, c14 z hz]
+    ring
+  · rw [hex]
+    exact c16
 
 end ArNodes
 
