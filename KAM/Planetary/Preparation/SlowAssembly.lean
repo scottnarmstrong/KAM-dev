@@ -164,6 +164,29 @@ theorem p11_slow_at (hC : P11SecularSpec D C) {nu eps c0 : ℝ} (hnu : 1 ≤ nu)
   exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right
     (mul_le_mul_of_nonneg_right hcc0 hX) hY) hZ
 
+/-- **P11A-P7d core**: the conclusion of `avg_slow` for an arbitrary `C` with
+`P11SecularSpec D C` and fast data satisfying `P11FastSpec` for all `ε ≤ ε₁`. -/
+theorem avg_slow_of_spec (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) {eps1 : ℝ}
+    (heps1 : 0 < eps1) (Fast : ℝ → P11FastData n)
+    (hF : ∀ eps, 0 < eps → eps ≤ eps1 → P11FastSpec C eps (Fast eps)) :
+    ∃ eps2 c2 : ℝ, 0 < eps2 ∧ eps2 < 1 ∧ 1 ≤ c2 ∧ ∀ eps, 0 < eps → eps ≤ eps2 →
+      ∃ A, P11SlowSpecOf C (Fast eps) nu eps c2 A := by
+  obtain ⟨c0, epsO, hc0, hepsO, hO⟩ := p11_slow_osc hC
+  have hc : 1 ≤ p11SlowAsmC C nu c0 := hc0.trans (le_max_left _ _)
+  obtain ⟨u, hu0, hu⟩ := mem_nhdsGT_iff_exists_Ioo_subset.1
+    (p11_slow_eventually hC (c := p11SlowAsmC C nu c0) hnu (by linarith))
+  refine ⟨min (min (u / 2) (min epsO eps1)) (1 / 2), p11SlowAsmC C nu c0, ?_, ?_, hc, ?_⟩
+  · exact lt_min (lt_min (half_pos hu0) (lt_min hepsO heps1)) (by norm_num)
+  · exact (min_le_right _ _).trans_lt (by norm_num)
+  · intro eps heps hle
+    have h1 : eps ≤ u / 2 := hle.trans ((min_le_left _ _).trans (min_le_left _ _))
+    have h2 : eps ≤ epsO := hle.trans ((min_le_left _ _).trans ((min_le_right _ _).trans
+      (min_le_left _ _)))
+    have h3 : eps ≤ eps1 := hle.trans ((min_le_left _ _).trans ((min_le_right _ _).trans
+      (min_le_right _ _)))
+    exact p11_slow_at hC hnu hc0 (hF eps heps h3) (hO eps heps h2 _ (hF eps heps h3))
+      (hu ⟨heps, by linarith⟩)
+
 end Assembly
 
 end KAM.Planetary
