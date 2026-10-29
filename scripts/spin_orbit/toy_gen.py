@@ -228,7 +228,7 @@ def recip_witness(K_, P, aconst=3):
     return Mo.p_reduce(Mo.p_from_terms(terms))
 
 
-def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), cut_low=None):
+def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), cut_low=None, aconst=3):
     lo, hi = root_encl(5, 2, digits)
     box = alg_box(NU_COEFFS, lo, hi)
     nu_t = 2 * box[0][0]
@@ -236,12 +236,12 @@ def toy_T2d(jets, digits, rhoH, mu, rr, Kq, Pq, err=None, rhoinf_frac=F(1, 10), 
     rhoinf = rho * rhoinf_frac
     p = params_common(2, 1, rho, rhoinf, mu, F(49, 100), GAMMA2)
     s_pin, N_pin = 0, 400
-    Q = recip_witness(Kq, Pq)
+    Q = recip_witness(Kq, Pq, aconst)
     wit = dict(expWit=[], invWit=[Q], charWit=[((0, 0), (Mo.p_const((1, 0), 2), s_pin, N_pin))])
     c = base_cert("T2d", 2, jets, rho, rhoH, [nu_t, -nu_t ** 2 / 2], [rr, rr], box, [nu_t, -nu_t ** 2 / 2], p,
                   cfg(2 * Kq + 2), cfg(cut_low if cut_low is not None else 2 * Kq + 2), wit=wit)
     c["root"] = dict(m=2, d=5, lo=lo, hi=hi, coeffs=NU_COEFFS)
-    c["recip"] = dict(K=Kq, P=Pq, a=3)
+    c["recip"] = dict(K=Kq, P=Pq, a=aconst)
     return finish_params(c, err if err is not None else 4 * box[0][1], GAMMA2)
 
 
@@ -444,7 +444,7 @@ def main():
             extra["resonance"] = resonance_TR(c)
         ok, rep, summ, sha, size = emit(c, outdir, extra)
         dt = time.time() - t0
-        summary[name] = dict(passes=ok, subchecks=summ["subchecks"], sha256=sha, bytes=size, seconds=round(dt, 1),
+        summary[name] = dict(passes=ok, subchecks=summ["subchecks"], sha256=sha, bytes=size,
                              log10_threshold=summ["margins"]["checkSmallness"]["log10_threshold"],
                              log10_err=summ["margins"]["checkSmallness"]["log10_err"],
                              ratio_C1=summ["margins"]["checkSmallness"]["ratio_C1"])
