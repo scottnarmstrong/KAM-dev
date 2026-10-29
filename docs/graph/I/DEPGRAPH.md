@@ -993,9 +993,9 @@ EDGE: K:bp:p2:constants | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:setting@L45
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.Setting landed (audit I-D0-2 PASS)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.SettingSrc (KAM/Iso/Linear/SettingSrc.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: bpI:p1:setting#k-bridge
@@ -1027,9 +1027,9 @@ EDGE: bpI:p0:stripdata#invarianceError | blueprint-I/parts/p1-iso-linear.tex#bpI
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Part 1 Lean statements specialise to tau>=n-1 (N1, accepted in audits I1-x PWN) vs source tau>=0; no audit row confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.SettingSrc.k_bridge (KAM/Iso/Linear/SettingSrc.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: K:bp:p2:standing prose at blueprint/parts/p2-aposteriori.tex L67-L69 explicitly states that only tau >= 0 and n >= 1 are used below. The positive sigma parameters are free constants, not admissibility bounds in the standing package; each bound used by a consumer is supplied locally. No SOURCE_GAP is established by the different parameter lists. This bridge identifies common data, not the stronger tau >= n-1 proposition literally.
 
 NODE: bpI:p1:ray
@@ -1167,9 +1167,9 @@ EDGE: stepI:p1:eb-bounds | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:extended-b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.extended_basic (Linear/Extended) (audit I1-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.extended_basic_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:eb-holo
@@ -1703,9 +1703,9 @@ EDGE: stepI:p1:lr-average | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:last-row@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.last_row (Linear/LastRow) (audit I1-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.last_row_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:lr-gradient
@@ -1835,9 +1835,9 @@ EDGE: stepI:p1:ea-defect | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:energy-app
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.energy_approx/energy_defect (Linear/Energy*) (audit I1-3-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.energy_approx_src, KAM.Iso.Linear.energy_defect_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:ea-chain
@@ -2053,9 +2053,9 @@ EDGE: stepI:p1:ec-pointwise | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:energy-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.energy_conservation (Linear/Energy) (audit I1-3-2 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.energy_conservation_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:ec-derivative
@@ -2544,9 +2544,9 @@ EDGE: stepI:p1:geo-sym | blueprint-I/parts/p1-iso-linear.tex#bpI:p1:geometry-noA
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: N1: only for Setting (tau>=n-1; source tau>=0). Linear.geometry_noA5 (Linear/NoTwist) (audit I1-7 PWN)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Linear.geometry_noA5_src (KAM/Iso/Linear/FullRange.lean)
+LEAN_NOTE: GAP-I1a (audit 1 PASS; N1 ruling (i), tau>=n-1 via KAM.IsDiophantine.n_sub_one_le_tau)
 NOTE: -
 
 NODE: stepI:p1:geo-de
@@ -8819,9 +8819,9 @@ EDGE: bpI:p0:restricted#restrictedHamiltonian | blueprint-I/parts/p7-delaunay.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.he_smooth (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: GAP-I7b (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:he-deriv
@@ -9202,9 +9202,9 @@ EDGE: stepI:p7:om-per | blueprint-I/parts/p7-delaunay.tex#bpI:p7:orbit-maps-e@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: orbitMapC_differentiableOn, orbitMapC_periodic, orbitMapC_real, orbitMapC_ofReal, orbitDomC_mem_ofReal (KAM/Kepler/OrbitComplex.lean)
-LEAN_NOTE: REVERTED to NOT_STARTED (over-claim, survey 2.5) (survey 2.5): 'k = sqrt(1-e^2) holomorphic' is stated by no Lean declaration; GAP-I7b adds it
+LEAN_STATUS: PROVED
+LEAN_REF: orbitMapC_differentiableOn, orbitMapC_periodic, orbitMapC_real, orbitMapC_ofReal, orbitDomC_mem_ofReal (KAM/Kepler/OrbitComplex.lean); KAM.Iso.orbitMapC_k_holomorphic (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: holomorphy/periodicity/reality clauses KEP-9 PASS WITH NOTES; k = sqrt(1-e^2) clause GAP-I7b-audit-1.md:42 PASS (orbitMapC_k_holomorphic); re-closed after survey 2.5 over-claim revert
 NOTE: -
 
 NODE: stepI:p7:om-hol
@@ -9231,9 +9231,9 @@ EDGE: bpI:p7:x-hol | blueprint-I/parts/p7-delaunay.tex#stepI:p7:om-hol@L176-L176
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a
 REVIEWER: sol-review-I-p67
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.orbitStep_om_hol (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:om-per
@@ -9550,9 +9550,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-ext@L236
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunayStep_sy_ext (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a; form statement under cv-sympl precedent, ruling 05:10
 NOTE: -
 
 NODE: stepI:p7:sy-field
@@ -9578,9 +9578,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:sy-field@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p67a+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunayStep_sy_field (KAM/Iso/DelaunayStepNodes.lean)
+LEAN_NOTE: GAP-I7a (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: bpI:p7:chart
@@ -10677,9 +10677,9 @@ EDGE: bpI:p0:hamsol#IsHamiltonianSolutionOn | blueprint-I/parts/p7-delaunay.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.tr_cf (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: GAP-I7b (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: stepI:p7:tr-open
@@ -10749,9 +10749,9 @@ EDGE: bpI:p7:orbit-maps | blueprint-I/parts/p7-delaunay.tex#stepI:p7:tr-chain@L4
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audit row names or confirms this step
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.tr_chain (KAM/Iso/TransferStepNodes.lean)
+LEAN_NOTE: GAP-I7b (audit PASS WITH NOTES)
 NOTE: -
 
 NODE: bpI:p7:nondeg
