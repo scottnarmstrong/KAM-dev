@@ -90,9 +90,7 @@ theorem p2_oi_ratio (hn : 1 ≤ n) (hm : 1 ≤ m)
     exact ⟨c1, c2.mono_gen le_rfl le_rfl le_rfl le_rfl
       (mul_le_mul_of_nonneg_right (pow_le_pow_left₀ hq0 hqθ j) hA)⟩
   · have := osc_composition_t H hu hbu hA (t := 1) ⟨by norm_num, le_rfl⟩
-    simpa [θ] using this.1
-  · have := (osc_composition_t H hu hbu hA (t := 1) ⟨by norm_num, le_rfl⟩).2
-    simpa [θ] using this
+    simpa [θ, oscTheta] using this
 
 /-- `stepP:p2:oi-ratio`, integral remainders: the same bound `(1 - θ_φ)⁻¹` holds for the
 integral remainders along the flow. -/
