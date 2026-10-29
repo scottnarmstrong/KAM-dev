@@ -136,7 +136,8 @@ theorem continuousOn_extendedTorsion {H : (Fin n → ℂ) × (Fin n → ℂ) →
   have hS := isOpen_complexStrip n ρ
   have hKd : DifferentiableOn ℂ K (complexStrip n ρ) := hK.differentiableOn
   have hN := differentiableOn_normalMat hKd hG
-  have hdH : DifferentiableOn ℂ (fderiv ℂ H) D := (holomorphic_regularity_of_finiteDimensional hD hH).1
+  have hdH : DifferentiableOn ℂ (fderiv ℂ H) D :=
+    (holomorphic_regularity_of_finiteDimensional hD hH).1
   have hX : DifferentiableOn ℂ (hamiltonianVectorFieldℂ H) D := by
     unfold hamiltonianVectorFieldℂ
     exact DifferentiableOn.prodMk
