@@ -508,7 +508,7 @@ theorem p8_id1 (q : ℕ) :
   · have h := coef1 q
     have e : halfCoef 0 (q + 1) = pcoef (1/2) (q + 1) ^ 2 := by simp [halfCoef, sq]
     rw [e] at h
-    rw [← h]; ring
+    rw [← h]; ring_nf
   · funext α; rw [laplaceTerm_eq_coef_mul]
 
 /-- `stepP:p8:id-2`: with `c_q = halfCoef 1 q` the coefficient of `α^(2q+1)` in `b_{1/2}^{(1)}`,
