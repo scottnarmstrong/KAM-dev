@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 14:47 UTC from `main` at `00841c89` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 14:47 UTC from `main` at `d736ccea` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -325,6 +325,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 14:47 | `d736ccea` | HQ: track SO package landed (SO-ABK) |
 | 2026-10-29 14:46 | `00841c89` | Land inp into main |
 | 2026-10-29 14:41 | `996f309e` | HQ: track SO packages landed (SO-DIO3, SO-NORM, SO-HAMX, SO-GRAPHM) |
 | 2026-10-29 14:40 | `815ffd80` | Land inp into main |
@@ -336,7 +337,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 14:21 | `cbf24c9b` | Land inp into main |
 | 2026-10-29 14:21 | `e429c950` | Track SO: replay gate GO (SO-REPLAY, SO-REPLAY2 reports), constants study, owner ruling O5 (rotated lunar frame) |
 | 2026-10-29 12:40 | `01476ebc` | Land inp into main |
-| 2026-10-29 12:38 | `fd3981b0` | HQ: track SO block in the README glance (live size, packages landed/planned, packages in flight, gates); SO and SpinOrbit areas; OVERNIGHT 11:55-12:35 |
 <!-- /AUTO:landed -->
 
 ## Decisions
