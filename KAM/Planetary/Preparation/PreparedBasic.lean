@@ -187,6 +187,69 @@ theorem p11PreparedCoreOf_P_periodic (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11
   simp only [p11PreparedCoreOf]
   congr 1
 
+theorem p11_im_div_ofReal (z : ℂ) (r : ℝ) : (z/(r : ℂ)).im = z.im/r :=
+  Complex.div_ofReal_im z r
+
+/-- Real points of the prepared strip go to real points of `T_{sigma_3/6} x V_2/2`. -/
+theorem p11PreparedCoreOf_rescale_real_mem (heps : 0 < eps)
+    (hpe : Real.pi*eps ≤ p11s2 C nu eps) {x : Phase (n+n)}
+    (hx : KAM.realInclusion₂ (n+n) x ∈
+      KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1) :
+    KAM.realInclusion₂ (n+n) (p11RescaleReal C.J0 eps x) ∈
+      KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+        p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) := by
+  have := p11Rescale_mem_dom (C := C) (nu := nu) heps hpe hx
+  rwa [p11Rescale_real] at this
+
+theorem p11PreparedCoreOf_N_real (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hreal : ∀ I : P11Vec (n+n), KAM.realInclusion (n+n) I ∈
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) →
+      (A.g2 (KAM.realInclusion (n+n) I)).im = 0 ∧ (A.h0 (KAM.realInclusion (n+n) I)).im = 0)
+    {I : P11Vec (n+n)} (hI : KAM.realInclusion (n+n) I ∈ KAM.actionNbhd (p11PreparedBox n) 1) :
+    ((p11PreparedCoreOf C Fast A eps W).N (KAM.realInclusion (n+n) I)).im = 0 := by
+  have h0 : ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I) =
+      KAM.realInclusion₂ (n+n) (0, I) := by simp
+  have hm := p11Rescale_mem_box (C := C) (nu := nu) heps hpe
+    (z := ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)) hI
+  have hy : (p11Rescale C.J0 eps ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)).2 =
+      KAM.realInclusion (n+n) (p11RescaleReal C.J0 eps (0, I)).2 := by
+    rw [h0, p11Rescale_real]; rfl
+  rw [hy] at hm
+  obtain ⟨hg, hh⟩ := hreal _ hm
+  show ((A.h0 (p11Rescale C.J0 eps ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)).2 +
+    A.g2 (p11Rescale C.J0 eps ((0 : P11CVec (n+n)), KAM.realInclusion (n+n) I)).2)/(eps : ℂ)).im = 0
+  rw [hy, p11_im_div_ofReal, Complex.add_im, hg, hh]
+  simp
+
+theorem p11PreparedCoreOf_P_real (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hreal : KAM.Canonical.RealOn (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)) A.f3) :
+    KAM.Canonical.RealOn
+      (KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1)
+      (p11PreparedCoreOf C Fast A eps W).P := by
+  intro x hx
+  have := hreal _ (p11PreparedCoreOf_rescale_real_mem heps hpe hx)
+  show (A.f3 (p11Rescale C.J0 eps (KAM.realInclusion₂ (n+n) x))/(eps : ℂ)).im = 0
+  rw [p11Rescale_real, p11_im_div_ofReal, this]
+  simp
+
+theorem p11PreparedCoreOf_NP_real (heps : 0 < eps) (hpe : Real.pi*eps ≤ p11s2 C nu eps)
+    (hreal : ∀ I : P11Vec (n+n), KAM.realInclusion (n+n) I ∈
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2) →
+      (A.g2 (KAM.realInclusion (n+n) I)).im = 0 ∧ (A.h0 (KAM.realInclusion (n+n) I)).im = 0)
+    (hrealf : KAM.Canonical.RealOn (KAM.complexStrip (n+n) (C.sigma/12/6) ×ˢ
+      p11Box (p11SlowCenter C eps) (p11s2 C nu eps/2) (Real.pi*eps/2)) A.f3) :
+    KAM.Canonical.RealOn
+      (KAM.complexStrip (n+n) (C.sigma/72) ×ˢ KAM.actionNbhd (p11PreparedBox n) 1)
+      (fun z => (p11PreparedCoreOf C Fast A eps W).N z.2 +
+        (p11PreparedCoreOf C Fast A eps W).P z) := by
+  intro x hx
+  have h1 := p11PreparedCoreOf_N_real (Fast := Fast) (W := W) heps hpe hreal (I := x.2) hx.2
+  have h2 := p11PreparedCoreOf_P_real (Fast := Fast) (W := W) heps hpe hrealf x hx
+  simp only [KAM.realInclusion₂_apply] at h2 ⊢
+  rw [Complex.add_im, h1, h2]
+  simp
+
 end Clauses
 
 end KAM.Planetary
