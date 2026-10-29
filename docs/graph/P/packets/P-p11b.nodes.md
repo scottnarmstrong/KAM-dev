@@ -1098,9 +1098,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit T11 PASS WITH NOTES explicitly does not certify the composed T (rotation composition, inverse-rotation adapter); only chi-flow lift_map and full_lift_hamiltonian are proved
+LEAN_STATUS: PROVED
+LEAN_REF: birkhoff_form_full, lift_map_explicit, lift_map_properties (KAM/Planetary/PlanarTorsion/BirkhoffClauses.lean)
+LEAN_NOTE: audit GAP-D round 2 PASS WITH NOTES: explicit T = (lambda + g + H, Lambda, rho Y) plus chart/injection, action preservation, angle covariance for the same witnesses
 NOTE: -
 
 NODE: stepP:p11b:lm-ham
@@ -1158,9 +1158,9 @@ EDGE: stepP:p11b:lm-ham | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit T11 PASS WITH NOTES covers only the chi-flow lift (lift_map: analytic, symplectic, injective, action-preserving, translation covariant); node conclusion also requires the composition T = Phi_rho^(-1) o Phi_chi, left to T14/T16 (BirkhoffResult)
+LEAN_STATUS: PROVED
+LEAN_REF: lift_map (KAM/Planetary/PlanarTorsion/Lift.lean); p11cB_liftFlow_act, p11cB_T_props (KAM/Planetary/PlanarTorsion/Birkhoff/Compose.lean); birkhoff_form (KAM/Planetary/PlanarTorsion/Birkhoff.lean)
+LEAN_NOTE: composite of audit T11 PASS WITH NOTES (chi-flow lift) + T16 PASS WITH NOTES (T = rotationLift o liftFlow chart/injective/action-preserving/translation-covariant on the tube); retained SOURCE_GAP on N:bpN:p5 applicability is a source issue, Lean proves the conclusion directly
 NOTE: SOURCE_GAP: L175 invokes N:bpN:p5:symplectic and N:bpN:p5:canonical for the full (lambda,Lambda,z) Hamiltonian flow. These imports inherit N:bpN:p5:flow: a holomorphic field on a complex open domain, a chosen complex norm with field bound epsilon<=1/2, and initial points in Omega^{1/2}. The real compact-parameter flow of flow/fl-bd does not state these complex hypotheses; the full field also contains partial_Lambda chi in the angle components. No complexification/domain/smallness bridge or separately approved general real symplectic-flow theorem is supplied here. The asserted symplectic conclusion is retained, with this applicability gap explicit.
 
 NODE: bpP:p11b:sec-beta#data
@@ -1351,9 +1351,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: T15 hasSecularBirkhoffForm_of_sixth_order is only a conditional conversion helper (hi, he premises); physical Birkhoff theorem is T16
+LEAN_STATUS: PROVED
+LEAN_REF: birkhoff_form_full, birkhoff_form_hamiltonian (KAM/Planetary/PlanarTorsion/BirkhoffClauses.lean)
+LEAN_NOTE: audit GAP-D round 2 PASS WITH NOTES: birkhoff_form_full keeps all PlanarBirkhoffResult clauses (T16) and attaches clause (a) H^Psi o T = h + mu P to the same witnesses
 NOTE: -
 
 NODE: stepP:p11b:bt-rot
@@ -1382,9 +1382,9 @@ EDGE: stepP:p11b:bt-rot#lift | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit T14 round 2 PASS WITH NOTES, but Lean proves global SO(2) frame (global_planar_frame) by design replacement; analytic angle psi lifting e_1 is not stated, so source conclusion not literally covered
+LEAN_NOTE: route substitution (D27, ruling 00:10): global_planar_frame (T14) replaces the angle lift; no proved consumer uses psi
 NOTE: the lifting step (analytic angle on a simply connected domain) is recorded as stepP:p11b:bt-rot#lift (SOURCE_GAP)
 
 NODE: stepP:p11b:bt-rot#lift
@@ -1410,9 +1410,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit T14 PASS WITH NOTES; global frame replaces the analytic angle lift; angle psi with e_1=(cos psi, sin psi) not proved
+LEAN_NOTE: route substitution (D27, ruling 00:10): global_planar_frame (T14) replaces the angle lift; no proved consumer uses psi
 NOTE: SOURCE_GAP: the covering-space lifting of an analytic unit vector field (defined only up to sign locally) to an analytic angle on a simply connected domain is asserted in one parenthesis; it is neither proved in the corpus nor a listed external (e-ode, e-id, e-jet, e-ca). Corollary bpP:p9:n2 states a global analytic rotation on all of A_2, which would supply rho on O_a, but this proof does not cite it. For the cube used by Part 12 (Corollary patch) the domain is convex
 
 NODE: stepP:p11b:bt-K
@@ -1444,9 +1444,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_K, p11cB_C, p11cB_R, p11cB_secular_analyticAt, p11cB_R_analyticAt, p11cB_R_jetEq (KAM/Planetary/PlanarTorsion/Birkhoff/Jets.lean); p11cB_domain (KAM/Planetary/PlanarTorsion/Birkhoff/Domain.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-K PASS
 NOTE: -
 
 NODE: stepP:p11b:bt-nf
@@ -1480,9 +1480,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:bt-nf@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-delta-P-m
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_family_of_coeffs (KAM/Planetary/PlanarTorsion/Birkhoff/Family.lean); p11cB_family (KAM/Planetary/PlanarTorsion/Birkhoff/Chi.lean); p11cB_NR4 (KAM/Planetary/PlanarTorsion/Birkhoff/Choice.lean); p11cB_average_beta (KAM/Planetary/PlanarTorsion/Birkhoff/BetaAvg.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-nf PASS; homological and lie (T10) consumed in Constants
 NOTE: -
 
 NODE: stepP:p11b:bt-avg
@@ -1516,9 +1516,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_secular_T, p11cB_secular_mov (KAM/Planetary/PlanarTorsion/Birkhoff/Average.lean); p11cB_estimate (KAM/Planetary/PlanarTorsion/Birkhoff/Estimate.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-avg PASS
 NOTE: -
 
 NODE: stepP:p11b:bt-frozen
@@ -1547,9 +1547,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:bt
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: T15 audit PASS WITH NOTES covers only the arithmetic disc conversion; audit says do not mark the physical step complete (continuity, average identification, beta symmetry left to T16)
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_fhat_clause (KAM/Planetary/PlanarTorsion/Birkhoff/FhatClause.lean); birkhoff_form (KAM/Planetary/PlanarTorsion/Birkhoff.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-frozen PASS; HasSecularBirkhoffForm for both actual pullbacks
 NOTE: -
 
 NODE: bpP:p11b:remain
@@ -1609,9 +1609,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: asymptotics, asymptotics_uniform_ratio, asymptotics_general_axes (KAM/Planetary/PlanarTorsion/Asymptotics.lean); p11c_relativeError (KAM/Planetary/PlanarTorsion/Asymptotics/Relative.lean)
+LEAN_NOTE: audit T19 PASS WITH NOTES; relative O(alpha^2) entries and -117/16 determinant, uniform in mass ratio, general axes
 NOTE: -
 
 NODE: stepP:p11b:as-in
@@ -1755,9 +1755,9 @@ EDGE: bpP:p11b:quartic-explicit | blueprint-P/parts/p11b-planar-torsion.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cAs_det (KAM/Planetary/PlanarTorsion/Asymptotics/Limits.lean); p11cAs_beta_smul (KAM/Planetary/PlanarTorsion/Asymptotics/Homogeneity.lean); asymptotics, asymptotics_general_axes (KAM/Planetary/PlanarTorsion/Asymptotics.lean)
+LEAN_NOTE: audit T19 PASS WITH NOTES; determinant -117/16 via p11cAs_det, homogeneity and general axes in signed exports
 NOTE: -
 
 NODE: bpP:p11b:torsion
@@ -1787,9 +1787,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torsion, p11cGe_phi4_ne_zero_iff_good, p11cGe_phi4_ne_zero_iff_nr4 (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS WITH NOTES (nonzero-locus bridge to SecularSpectrum.good closes F1)
 NOTE: -
 
 NODE: stepP:p11b:to-an
@@ -1814,9 +1814,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGe_det_analytic (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; named to-an
 NOTE: -
 
 NODE: stepP:p11b:to-pt
@@ -1841,9 +1841,9 @@ EDGE: bpP:p11b:asymptotics | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGe_det_neg (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; named to-pt
 NOTE: -
 
 NODE: stepP:p11b:to-id
@@ -1873,9 +1873,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torsion, p11cGe_phi4_ne_zero_iff_good (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; step inside torsion + bridge
 NOTE: -
 
 NODE: bpP:p11b:patch
@@ -1905,7 +1905,7 @@ EDGE: bpP:p10:interface | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:pat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-l
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: patch, PlanarFrequencyPatch, p11c_combinedFrequency, torsion_patch_geometry (KAM/Planetary/PlanarTorsion/Patch.lean)
+LEAN_NOTE: audit T21 PASS WITH NOTES; signed patch (full geometry, determinant, Birkhoff, frequency data on one patch)
 NOTE: The last sentence is part of the retained source conclusion and explicitly invokes interface. Part 12 uses only the good-patch clauses, but that does not erase a direct dependency of this full corollary. Keep the full source statement and the direct edge; no P-FIXED theorem is thereby added as a root.

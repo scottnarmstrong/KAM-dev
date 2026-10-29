@@ -1107,9 +1107,9 @@ EDGE: bpP:p12:planar | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:planar@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planarTwoPlanetKAM (KAM/Frozen/Planetary/Theorems/PlanarTwoPlanetKAM.lean)
+LEAN_NOTE: P-PLANAR anchor SEALED (manifest planetary.planarTwoPlanetKAM.v1); seal-key audit P12-E-audit-1 PASS WITH NOTES
 NOTE: root anchor. Proof: Theorem bpP:p12:planar (Part 12), which carries the \frozen tag; Part 12 applies the frozen P-G (edges owned by P-p12). The stale sourcegap sentence of L376 was fixed in Part 0 (it now names Part 12 as the proof).
 
 NODE: bpP:p0:fixed

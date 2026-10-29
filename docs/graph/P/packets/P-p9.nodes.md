@@ -649,9 +649,9 @@ EDGE: stepP:p9:lift-bij | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lif
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:63)
 NOTE: -
 
 NODE: stepP:p9:lift-form
@@ -677,9 +677,9 @@ EDGE: stepP:p9:lift-anti | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:li
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:78)
 NOTE: -
 
 NODE: stepP:p9:lift-mc
@@ -706,9 +706,9 @@ EDGE: stepP:p9:lift-bij | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lif
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:78)
 NOTE: -
 
 NODE: stepP:p9:lift-concl
@@ -736,9 +736,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lift
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:42)
 NOTE: -
 
 NODE: bpP:p9:diagonalize

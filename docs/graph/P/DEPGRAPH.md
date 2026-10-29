@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/P/SPEC.md "Conventions to watch": R^d = Fin d -> R with 
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-P external inputs are the labelled items of the parts' external-fact lists (bpP:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:e-*, p8:e-*, p9:e-*, p10:f-*, p11b:e-*, p12:f-*, p14:x-*, p14:sb-x-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref, \Iref, \Nref) is an IMPORTED node K:<node>, I:<node> or N:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, source fields copied from the owning graph docs/graph/<X>/DEPGRAPH.md, NOTE IMPORTED ...; I and N ownership pending their publication); a cited I/N result that the owning graph excludes and a track-P proof uses is a P-owned node with a blueprint-I/N locator (slice P-xown); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpP:p0:diophantine#IsDiophantine, bpP:p0:hamsymp#hamiltonianVectorField, bpP:p0:hamsymp#symplecticForm, bpP:p0:phase#Phase, bpP:p0:plane#planeSq, bpP:p0:plane#planeLength, bpP:p0:plane#planeDot, bpP:p0:body#bodyVector, bpP:p0:blocks#fast, bpP:p0:blocks#slow, bpP:p0:blocks#assemble, bpP:p0:oscaction#oscillatorAction, bpP:p0:fastshift#fastShift, bpP:p0:fastfreq#fastFrequency, bpP:p0:cylinder#cylinder, bpP:p0:cylinder#cylinderCell, bpP:p0:degham#degenerateHamiltonian, bpP:p0:secavg#secularAverage, bpP:p0:fastdiffeo#HasFastDiffeomorphism, bpP:p0:birkhoff#HasSecularBirkhoffForm, bpP:p0:cyltorus#IsCylinderTorus, bpP:p0:cylkol#IsCylinderKolmogorovSet, bpP:p0:circular#circularPoint, bpP:p0:circular#circularTube, bpP:p0:nocoll#NoCollision, bpP:p0:nocoll#PairBounds, bpP:p0:barycentric#actualMasses, bpP:p0:barycentric#barycentricPositions, bpP:p0:barycentric#barycentricVelocities, bpP:p0:newton#IsNewtonSolution, bpP:p0:fixedsol#IsFixedSolution, bpP:p0:movham#movingHamiltonian, bpP:p0:fixham#fixedHamiltonian, bpP:p0:phystorus#IsPhysicalTorus, bpP:p0:movkol#MovingKolmogorovSet, bpP:p0:fixkol#FixedKolmogorovSet, bpP:p0:pg, bpP:p0:planar, bpP:p0:fixed, bpP:p0:d25-cross#planeCross, bpP:p0:d25-kepler#keplerEnergy, bpP:p0:d25-kepler#keplerAxis, bpP:p0:d25-kepler#keplerAction, bpP:p0:d25-kepler#keplerEccVector, bpP:p0:d25-amd#totalMomentum, bpP:p0:d25-amd#physicalAMD, bpP:p0:d25-prograde#ProgradeElliptic, bpP:p0:d25-lowamd#LowAMDRegion, bpP:p0:d25-box#AMDBox, bpP:p0:d25-box#Admissible, bpP:p0:d25-movsol#IsMovingSolutionOn, bpP:p0:d25-movsol#IsHamiltonianSolutionOn, bpP:p0:d25-newton#IsNewtonSolutionOn, bpP:p0:d25-unique#MovingUniqueOn, bpP:p0:d25-stopped#StoppedActionBound, bpP:p0:d25-exponents#planetaryTimeExponent, bpP:p0:d25-exponents#planetaryDriftExponent, bpP:p0:amd, bpP:p0:expsafe, bpP:p14:sb-conv#secularGamma, bpP:p14:sb-conv#secularAMD, bpP:p14:sb-conv#secularRoot, bpP:p14:sb-conv#secularEccVector, bpP:p14:sb-conv#secularAxis, bpP:p14:sb-conv#orbitalUnit, bpP:p14:sb-conv#quarterTurn, bpP:p14:sb-defs#secularIntegrand, bpP:p14:sb-defs#exactSecularHamiltonian, bpP:p14:sb-defs#ellipsePhase, bpP:p14:sb-defs#ellipsePosition, bpP:p14:sb-defs#ellipseMomentum, bpP:p14:sb-defs#longitudeJacobian, bpP:p14:sb-box#SecularInputBox, bpP:p14:sb-box#jupiterSaturnWeights, bpP:p14:sb-regular#SecularRegular, bpP:p14:sb-safety, bpP:p14:sb-cited
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:a65b76f16bc7825fb3ad9e39b424c67c71ad5f5cda20d1c806d3958536cfb1bc
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:78d4159650d7354315e0e09516d810fe2d63017126cd4a43fca6d75ce303e168
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-P
 GLOBAL_REVIEW_REF: docs/graph/P/reviews/GLOBAL-review.md (FAIL G1/G2 repaired; delta docs/graph/P/reviews/P-p8-delta-global.md PASS by sol-delta-P-bf)
@@ -1125,9 +1125,9 @@ EDGE: bpP:p12:planar | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:planar@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planarTwoPlanetKAM (KAM/Frozen/Planetary/Theorems/PlanarTwoPlanetKAM.lean)
+LEAN_NOTE: P-PLANAR anchor SEALED (manifest planetary.planarTwoPlanetKAM.v1); seal-key audit P12-E-audit-1 PASS WITH NOTES
 NOTE: root anchor. Proof: Theorem bpP:p12:planar (Part 12), which carries the \frozen tag; Part 12 applies the frozen P-G (edges owned by P-p12). The stale sourcegap sentence of L376 was fixed in Part 0 (it now names Part 12 as the proof).
 
 NODE: bpP:p0:fixed
@@ -2972,9 +2972,9 @@ EDGE: K:bp:p1:mcshane | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:tu-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent torus_union avoids this step
 NOTE: -
 
 NODE: stepP:p1:tu-meas
@@ -3640,9 +3640,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:ob-prod@L17
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: osc_bracket (KAM/Planetary/Averaging/OscillatorBracket.lean)
+LEAN_NOTE: local to PROVED parent osc_bracket (ruling 01:20 (b)); audit P23-11 confirms (docs/tracks/P/audits/P23-11-audit-1.md:74)
 NOTE: -
 
 NODE: stepP:p2:ob-field
@@ -3839,9 +3839,9 @@ EDGE: bpP:p2:s-osc#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:oi-disp@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: osc_iter (KAM/Planetary/Averaging/OscillatorStepComplete.lean)
+LEAN_NOTE: local to PROVED parent osc_iter (ruling 01:20 (b)); audit P23-13 confirms (docs/tracks/P/audits/P23-13-audit-1.md:97)
 NOTE: -
 
 NODE: bpP:p2:osc-averaging
@@ -3899,9 +3899,9 @@ EDGE: bpP:p2:conv#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:oa-first@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: osc_averaging (KAM/Planetary/Averaging/OscillatorFinite.lean)
+LEAN_NOTE: local to PROVED parent osc_averaging (ruling 01:20 (b)); audit P23-15b confirms (docs/tracks/P/audits/P23-15b-audit-1.md:164)
 NOTE: -
 
 NODE: stepP:p2:oa-iter
@@ -3930,9 +3930,9 @@ EDGE: bpP:p2:s-osc#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:oa-iter@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: osc_averaging (KAM/Planetary/Averaging/OscillatorFinite.lean)
+LEAN_NOTE: local to PROVED parent osc_averaging (ruling 01:20 (b)); audit P23-15b confirms (docs/tracks/P/audits/P23-15b-audit-1.md:109)
 NOTE: -
 
 NODE: stepP:p2:oa-concl
@@ -3963,9 +3963,9 @@ EDGE: bpP:p2:s-osc#data | blueprint-P/parts/p2-averaging.tex#stepP:p2:oa-concl@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: osc_averaging (KAM/Planetary/Averaging/OscillatorFinite.lean)
+LEAN_NOTE: local to PROVED parent osc_averaging (ruling 01:20 (b)); audit P23-15b confirms (docs/tracks/P/audits/P23-15b-audit-1.md:109)
 NOTE: -
 
 NODE: bpP:p2:averaged-remainder
@@ -8160,9 +8160,9 @@ EDGE: stepP:p5:ext-H0 | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:ext@L36-L36 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-EX PASS WITH NOTES, but Lean PGExtension.agrees is restricted to closure of cylinder (design rev 4) while node text says P~=P at real points of all X_delta (audit: literal blueprint claim false); left for orchestrator ruling
+LEAN_STATUS: PROVED
+LEAN_REF: ext, pgExtension (KAM/Planetary/PGAssembly/Extension.lean); PGExtension (KAM/Planetary/PGAssembly/ExtensionDefs.lean)
+LEAN_NOTE: audit P5-EX PASS WITH NOTES; conclusion amended (AMEND P-A001, erratum ruling 01:20): agreement on cl C(V, r0)
 NOTE: [pre-extract: dropped reference to bpP:p0:pg, which part p5 proves or sets up]
 
 NODE: stepP:p5:ext-loc
@@ -8187,9 +8187,9 @@ EDGE: bpP:p0:cylinder#cylinder | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-CL confirms (docs/tracks/P/audits/P5-CL-audit-1.md:23)
 NOTE: SOURCE_GAP: L33 uses finite-dimensional compactness, complexification of a real convergent power series, and a Lebesgue number with a uniform bound; no approved node supplies these classical inputs. L336 lists compactness and the Lebesgue number lemma but is not an external declaration under SPEC. The local-extension argument is present; the gap here is its unregistered classical inputs.
 
 NODE: stepP:p5:ext-glue
@@ -8214,9 +8214,9 @@ EDGE: stepP:p5:ext-loc | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:ext-glue@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-CG confirms (docs/tracks/P/audits/P5-CG-audit-1.md:41)
 NOTE: SOURCE_GAP: L34 invokes the identity theorem for a holomorphic function of several variables vanishing on a real open subset of a connected overlap. No approved input node supplies this version. The one-variable identity theorem is not silently strengthened.
 
 NODE: stepP:p5:ext-per
@@ -8242,9 +8242,9 @@ EDGE: bpP:p0:fastshift#fastShift | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-EX confirms (docs/tracks/P/audits/P5-EX-audit-1.md:68)
 NOTE: -
 
 NODE: stepP:p5:ext-H0
@@ -8272,9 +8272,9 @@ EDGE: K:bp:p1:cauchy-open | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:ext-H0
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext (KAM/Planetary/PGAssembly/Extension.lean)
+LEAN_NOTE: local to PROVED parent ext (ruling 01:20 (b)); audit P5-EX confirms (docs/tracks/P/audits/P5-EX-audit-1.md:52)
 NOTE: -
 
 NODE: bpP:p5:consts
@@ -8900,9 +8900,9 @@ EDGE: bpP:p3:ext-neumann | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-blk@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent freq_inj avoids this step
 NOTE: SOURCE_GAP: L128 uses Schur-complement algebra without a supplying approved node; L336 names it but is not an external declaration. Neumann inversion is supplied separately by bpP:p3:ext-neumann.
 
 NODE: stepP:p5:fi-inv
@@ -8932,7 +8932,7 @@ REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
 LEAN_REF: schur_inverse_blocks (KAM/Planetary/PGAssembly/FrequencySchur.lean)
 LEAN_NOTE: audit P5-FI PASS WITH NOTES; named fi-inv
-NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.
+NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.; RE-AUDIT FLAG (ruling 01:20): LEAN_REF schur_inverse_blocks does not state the norm bounds
 
 NODE: bpP:p5:params
 KIND: definition
@@ -9655,7 +9655,7 @@ REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
 LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean)
 LEAN_NOTE: audit P5-TH PASS WITH NOTES
-NOTE: -
+NOTE: RE-AUDIT FLAG (ruling 01:20): LEAN_REF r_k misses the bounds; GAP-P5a adds rk_dir
 
 NODE: stepP:p5:rk-dir
 KIND: step
@@ -9747,9 +9747,9 @@ EDGE: bpP:p5:phi | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-range@L245-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: location (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: local to PROVED parent location (ruling 01:20 (b)); audit P5-CH confirms (docs/tracks/P/audits/P5-CH-audit-2.md:64)
 NOTE: -
 
 NODE: stepP:p5:lo-act
@@ -9779,9 +9779,9 @@ EDGE: bpP:p5:rstar | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-act@L246-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: location (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: local to PROVED parent location (ruling 01:20 (b)); audit P5-CH confirms (docs/tracks/P/audits/P5-CH-audit-2.md:65)
 NOTE: -
 
 NODE: stepP:p5:lo-disc
@@ -9810,9 +9810,9 @@ EDGE: bpP:p5:phi | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-disc@L247-L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: location (KAM/Planetary/PGAssembly/Chart.lean)
+LEAN_NOTE: local to PROVED parent location (ruling 01:20 (b)); audit P5-CH confirms (docs/tracks/P/audits/P5-CH-audit-2.md:66)
 NOTE: -
 
 NODE: bpP:p5:kset
@@ -10422,9 +10422,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-setup@L29
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; step done as local haves inside lower, complement identity not exported; left
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent lower avoids this step
 NOTE: -
 
 NODE: stepP:p5:lo-bad
@@ -13024,9 +13024,9 @@ EDGE: bpP:p7:kepler-data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rg-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent range avoids this step
 NOTE: -
 
 NODE: bpP:p7:kepler
@@ -16922,9 +16922,9 @@ EDGE: stepP:p9:lift-bij | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lif
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:63)
 NOTE: -
 
 NODE: stepP:p9:lift-form
@@ -16950,9 +16950,9 @@ EDGE: stepP:p9:lift-anti | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:li
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:78)
 NOTE: -
 
 NODE: stepP:p9:lift-mc
@@ -16979,9 +16979,9 @@ EDGE: stepP:p9:lift-bij | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lif
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-delta-P-k
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:78)
 NOTE: -
 
 NODE: stepP:p9:lift-concl
@@ -17009,9 +17009,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:lift
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p9+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lift (KAM/Planetary/SecularSpectrum/Lift.lean)
+LEAN_NOTE: local to PROVED parent lift (ruling 01:20 (b)); audit S9-L confirms (docs/tracks/P/audits/S9-L-audit-1.md:42)
 NOTE: -
 
 NODE: bpP:p9:diagonalize
@@ -17604,9 +17604,9 @@ EDGE: bpP:p9:e-id | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:gen-prod@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10
 REVIEWER: sol-review-P-l
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent generic avoids this step
 NOTE: -
 
 NODE: stepP:p10:gen-zero
@@ -17688,9 +17688,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:weyl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent weyl avoids this step
 NOTE: -
 
 NODE: stepP:p10:weyl-pert
@@ -17716,9 +17716,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:weyl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weyl (KAM/Planetary/Nondegeneracy/Weyl.lean)
+LEAN_NOTE: local to PROVED parent weyl (ruling 01:20 (b)); audit S10-W confirms (docs/tracks/P/audits/S10-W-audit-1.md:25)
 NOTE: -
 
 NODE: bpP:p10:laplace-bounds
@@ -18160,9 +18160,9 @@ EDGE: bpP:p10:conv#data | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:gp-c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_point (KAM/Planetary/Nondegeneracy/GoodAxes/Induction.lean)
+LEAN_NOTE: local to PROVED parent good_point (ruling 01:20 (b)); audit S10-H confirms (docs/tracks/P/audits/S10-H-audit-1.md:42)
 NOTE: -
 
 NODE: stepP:p10:gp-loc
@@ -18192,9 +18192,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:gp-lo
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_point (KAM/Planetary/Nondegeneracy/GoodAxes/Induction.lean)
+LEAN_NOTE: local to PROVED parent good_point (ruling 01:20 (b)); audit S10-H confirms (docs/tracks/P/audits/S10-H-audit-1.md:32)
 NOTE: -
 
 NODE: stepP:p10:gp-nr
@@ -18223,9 +18223,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:gp-nr
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_point (KAM/Planetary/Nondegeneracy/GoodAxes/Induction.lean)
+LEAN_NOTE: local to PROVED parent good_point (ruling 01:20 (b)); audit S10-H confirms (docs/tracks/P/audits/S10-H-audit-1.md:44)
 NOTE: -
 
 NODE: bpP:p10:f-id
@@ -18593,9 +18593,9 @@ EDGE: bpP:p10:weyl | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:F-A@L162-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: f_nonzero (KAM/Planetary/Nondegeneracy/SymmetricRelation.lean)
+LEAN_NOTE: local to PROVED parent f_nonzero (ruling 01:20 (b)); audit S10-F confirms (docs/tracks/P/audits/S10-F-audit-1.md:38)
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:F-B
@@ -18625,9 +18625,9 @@ EDGE: bpP:p10:weyl | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:F-B@L163-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-aa
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: f_nonzero (KAM/Planetary/Nondegeneracy/SymmetricRelation.lean)
+LEAN_NOTE: local to PROVED parent f_nonzero (ruling 01:20 (b)); audit S10-F confirms (docs/tracks/P/audits/S10-F-audit-1.md:26)
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:F-C
@@ -18658,9 +18658,9 @@ EDGE: bpP:p9:definite | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:F-C@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: f_nonzero (KAM/Planetary/Nondegeneracy/SymmetricRelation.lean)
+LEAN_NOTE: local to PROVED parent f_nonzero (ruling 01:20 (b)); audit S10-F confirms (docs/tracks/P/audits/S10-F-audit-1.md:27)
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: bpP:p10:rnd
@@ -18752,9 +18752,9 @@ EDGE: bpP:p10:rnd-def | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:rnd-b@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent rnd avoids this step
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:rnd-c
@@ -18868,9 +18868,9 @@ EDGE: bpP:p10:f-id | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:ft-pt@L20
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: finite_type (KAM/Planetary/Nondegeneracy/FiniteType.lean)
+LEAN_NOTE: local to PROVED parent finite_type (ruling 01:20 (b)); audit S10-C confirms (docs/tracks/P/audits/S10-C-audit-1.md:46)
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:ft-cover
@@ -18896,9 +18896,9 @@ EDGE: stepP:p10:ft-pt | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:ft-cov
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: finite_type (KAM/Planetary/Nondegeneracy/FiniteType.lean)
+LEAN_NOTE: local to PROVED parent finite_type (ruling 01:20 (b)); audit S10-C confirms (docs/tracks/P/audits/S10-C-audit-1.md:26)
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:ft-min
@@ -18924,9 +18924,9 @@ EDGE: stepP:p10:ft-cover | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:ft-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: finite_type (KAM/Planetary/Nondegeneracy/FiniteType.lean)
+LEAN_NOTE: local to PROVED parent finite_type (ruling 01:20 (b)); audit S10-C confirms (docs/tracks/P/audits/S10-C-audit-1.md:37)
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: bpP:p10:index-def
@@ -19039,9 +19039,9 @@ EDGE: bpP:p10:sec-index#data | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: stability (KAM/Planetary/Nondegeneracy/Stability.lean)
+LEAN_NOTE: local to PROVED parent stability (ruling 01:20 (b)); audit S10-S confirms (docs/tracks/P/audits/S10-S-audit-1.md:31)
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:st-diff
@@ -20200,9 +20200,9 @@ EDGE: bpP:p11:sec-conv#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling after 01:20): the audited aniso_avg proof (P11A-P4) uses an arbitrary complex base instead of the scheduled blockwise flow adapters
 NOTE: The anisotropic result is proved here by replaying the cited proofs with R1-R3, not by instantiating their isotropic statements verbatim. Only flow is literally stated for an arbitrary complex norm; the other geometry is transferred using aniso-bracket and the named oi-transfer argument. The replaced isotropic bracket and field estimates have no dependency edges.
 
 NODE: stepP:p11:aa-quad
@@ -20381,9 +20381,9 @@ EDGE: bpP:p11:sec-C#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11:av
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: P11SlowSpec, avg_slow, p11SlowConstant, p11SlowData (KAM/Planetary/Preparation/SlowSigned.lean); avg_slow_of_spec, p11_slow_eventually, p11SlowAsmC, p11_slow_at (KAM/Planetary/Preparation/SlowAssembly.lean); p11_slow_MW, p11SlowMW (KAM/Planetary/Preparation/SlowMW.lean); p11_slow_coeff_zero, p11_torusAverage_natAdd (KAM/Planetary/Preparation/SlowCoeff.lean)
+LEAN_NOTE: audit P11A-P7d round 2 PASS WITH NOTES (signed P11SlowSpec/avg_slow exact); signed spec states (a) f2 weighted bound, h0/Z decomposition and Z jets, (b) B1 and B2 (E<=...), (c) Psi2 conjugation with g2, f3 bounds, (d) displacements; kappa>=6 clause belongs to step as-b2 (GAP-E), not to this node's conclusion
 NOTE: -
 
 NODE: stepP:p11:as-osc
@@ -20417,9 +20417,9 @@ EDGE: K:bp:p1:holomorphic-analytic | blueprint-P/parts/p11-cp09-preparation.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: P11SlowOscSpec, p11_slow_osc (KAM/Planetary/Preparation/SlowAverage.lean); p11_slow_polar (KAM/Planetary/Preparation/SlowAverageZ.lean); p11_slow_key (KAM/Planetary/Preparation/SlowAverageKey.lean); p11_slow_osc_pointwise (KAM/Planetary/Preparation/SlowAverageOsc.lean); p11SlowZ, p11SlowH0, p11SlowF2, p11_slow_f2_sup (KAM/Planetary/Preparation/SlowAverageF2.lean); p11_slow_Z_jets (KAM/Planetary/Preparation/SlowAverageJet.lean); p11_slow_f2_wbound (KAM/Planetary/Preparation/SlowAverageW.lean)
+LEAN_NOTE: audit P11A-P7b PASS WITH NOTES (as-osc row PASS); with P11A-P7 PASS WITH NOTES infrastructure (SlowCauchy/SlowJets/SlowMean)
 NOTE: -
 
 NODE: stepP:p11:as-nr
@@ -20450,9 +20450,9 @@ EDGE: bpP:p11:sec-C#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_slow_divisor, p11_slow_alpha1_le_half (KAM/Planetary/Preparation/SlowDivisor.lean); slow_R4_eventually, slow_base_eventually (KAM/Planetary/Preparation/SlowSmall.lean)
+LEAN_NOTE: audit P11A-P7c round 2 PASS WITH NOTES; literal pure-slow 3/4 eps delta0 and mixed delta0/2 (F1 resolved); alpha1<=delta0/2 via p11_slow_alpha1_le_half; alpha2<=alpha1 eventual via slow_base_eventually+slow_pos; smallness/MW/dZ are source-data premises, MW bound still a P7d input
 NOTE: Uses the writer-authorized logarithmic asymptotic external bpP:p11:e4; no elementary input is left unrepresented.
 
 NODE: stepP:p11:as-b2
@@ -20481,7 +20481,7 @@ EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: P7c, not merged
 NOTE: Uses the writer-authorized logarithmic asymptotic external bpP:p11:e4; no elementary input is left unrepresented.
 
 NODE: stepP:p11:as-concl
@@ -20511,9 +20511,9 @@ EDGE: bpP:p11:sec-D#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_slow_conclude (KAM/Planetary/Preparation/SlowConclude.lean); p11_slow_coeff_zero, p11_torusAverage_natAdd (KAM/Planetary/Preparation/SlowCoeff.lean); avg_slow_of_spec (KAM/Planetary/Preparation/SlowAssembly.lean)
+LEAN_NOTE: audit P11A-P7d round 2 PASS WITH NOTES; g2 and f3 bounds, zero-mode size eps^3 and displacement bounds in signed P11SlowSpec; unconditional via avg_slow_of_spec (per orchestrator)
 NOTE: -
 
 NODE: bpP:p11:prepared
@@ -20793,9 +20793,9 @@ EDGE: bpP:p11:sec-E#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amount_norm (KAM/Planetary/Preparation/AmountCore.lean)
+LEAN_NOTE: audit P11A-P8c PASS WITH NOTES; named am-norm
 NOTE: -
 
 NODE: stepP:p11:am-dir
@@ -20825,9 +20825,9 @@ EDGE: bpP:p11:sec-E#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amount_dir (KAM/Planetary/Preparation/AmountCore.lean)
+LEAN_NOTE: audit P11A-P8c PASS WITH NOTES; named am-dir
 NOTE: -
 
 NODE: stepP:p11:am-scale
@@ -20855,9 +20855,9 @@ EDGE: bpP:p11:sec-E#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: amount_scale (KAM/Planetary/Preparation/AmountCore.lean)
+LEAN_NOTE: audit P11A-P8c PASS WITH NOTES; named am-scale
 NOTE: -
 
 NODE: bpP:p11:forward-tube
@@ -21278,7 +21278,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: P11A-P7/P7b define only K2, s2, Z, h0, f2; alpha_(i), r_*, sigma_3, Pi/G-hat bundle not all stated here; partial
 NOTE: the statement that nu_2 is fixed in Theorem wrapper (L153) is a forward pointer, no edge (it would create a cycle)
 
 NODE: bpP:p11:sec-E#data
@@ -21311,7 +21311,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: P11A-P7 gives only p11Rescale/p11PreparedBox; A_eps, N_eps, P_eps, KAM datum, domain table not covered; partial
 NOTE: -
 
 NODE: bpP:p11:e4
@@ -21603,9 +21603,9 @@ EDGE: bpP:p11a:index-def | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: stability (KAM/Planetary/WeakMeasure/Stability.lean)
+LEAN_NOTE: local to PROVED parent stability (ruling 01:20 (b)); audit P11A-W1 confirms (docs/tracks/P/audits/P11A-W1-audit-1.md:104)
 NOTE: -
 
 NODE: stepP:p11a:st-2
@@ -21632,9 +21632,9 @@ EDGE: bpP:p11a:index-def | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: stability (KAM/Planetary/WeakMeasure/Stability.lean)
+LEAN_NOTE: local to PROVED parent stability (ruling 01:20 (b)); audit P11A-W1 confirms (docs/tracks/P/audits/P11A-W1-audit-1.md:104)
 NOTE: -
 
 NODE: stepP:p11a:st-amount
@@ -21662,9 +21662,9 @@ EDGE: bpP:p11a:conv#data | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: stability (KAM/Planetary/WeakMeasure/Stability.lean)
+LEAN_NOTE: local to PROVED parent stability (ruling 01:20 (b)); audit P11A-W1 confirms (docs/tracks/P/audits/P11A-W1-audit-1.md:107)
 NOTE: -
 
 NODE: bpP:p11a:M-bound
@@ -21860,9 +21860,9 @@ EDGE: bpP:p11a:f-meas | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:ss-n
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: scalar_sublevel (KAM/Planetary/WeakMeasure/ScalarSublevel.lean)
+LEAN_NOTE: local to PROVED parent scalar_sublevel (ruling 01:20 (b)); audit P11A-W4 confirms (docs/tracks/P/audits/P11A-W4-audit-1.md:33)
 NOTE: -
 
 NODE: stepP:p11a:ss-gaps
@@ -21916,9 +21916,9 @@ EDGE: stepP:p11a:ss-gaps | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: scalar_sublevel (KAM/Planetary/WeakMeasure/ScalarSublevel.lean)
+LEAN_NOTE: local to PROVED parent scalar_sublevel (ruling 01:20 (b)); audit P11A-W4 confirms (docs/tracks/P/audits/P11A-W4-audit-1.md:36)
 NOTE: -
 
 NODE: bpP:p11a:ball-sublevel
@@ -21975,9 +21975,9 @@ EDGE: bpP:p11a:conv#data | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ball_sublevel (KAM/Planetary/WeakMeasure/BallSublevel.lean)
+LEAN_NOTE: local to PROVED parent ball_sublevel (ruling 01:20 (b)); audit P11A-W5 confirms (docs/tracks/P/audits/P11A-W5-audit-1.md:33)
 NOTE: -
 
 NODE: stepP:p11a:bs-sections
@@ -22005,9 +22005,9 @@ EDGE: bpP:p11a:conv#data | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ball_sublevel (KAM/Planetary/WeakMeasure/BallSublevel.lean)
+LEAN_NOTE: local to PROVED parent ball_sublevel (ruling 01:20 (b)); audit P11A-W5 confirms (docs/tracks/P/audits/P11A-W5-audit-1.md:36)
 NOTE: -
 
 NODE: stepP:p11a:bs-tonelli
@@ -22035,9 +22035,9 @@ EDGE: bpP:p11a:conv#data | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ball_sublevel (KAM/Planetary/WeakMeasure/BallSublevel.lean)
+LEAN_NOTE: local to PROVED parent ball_sublevel (ruling 01:20 (b)); audit P11A-W5 confirms (docs/tracks/P/audits/P11A-W5-audit-1.md:34)
 NOTE: -
 
 NODE: bpP:p11a:sublevel
@@ -22300,9 +22300,9 @@ EDGE: bpP:p11a:conv#data | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: diophantine_measure (KAM/Planetary/WeakMeasure/Diophantine.lean)
+LEAN_NOTE: local to PROVED parent diophantine_measure (ruling 01:20 (b)); audit P11A-W7 confirms (docs/tracks/P/audits/P11A-W7-audit-1.md:34)
 NOTE: -
 
 NODE: stepP:p11a:dm-onek
@@ -22359,9 +22359,9 @@ EDGE: stepP:p11a:dm-onek | blueprint-P/parts/p11a1-weak-measure.tex#stepP:p11a:d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: diophantine_measure (KAM/Planetary/WeakMeasure/Diophantine.lean)
+LEAN_NOTE: local to PROVED parent diophantine_measure (ruling 01:20 (b)); audit P11A-W7 confirms (docs/tracks/P/audits/P11A-W7-audit-1.md:36)
 NOTE: -
 
 NODE: bpP:p11a:power-law
@@ -22756,9 +22756,9 @@ EDGE: bpP:p11a:c2-conv#data | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fourier_cutoff (KAM/Planetary/MaximalStep/FourierCutoff.lean)
+LEAN_NOTE: local to PROVED parent fourier_cutoff (ruling 01:20 (b)); audit P11A-C1 confirms (docs/tracks/P/audits/P11A-C1-audit-1.md:53)
 NOTE: -
 
 NODE: stepP:p11a:fc-tail
@@ -22815,9 +22815,9 @@ EDGE: bpP:p11a:c2-conv#data | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fourier_cutoff (KAM/Planetary/MaximalStep/FourierCutoff.lean)
+LEAN_NOTE: local to PROVED parent fourier_cutoff (ruling 01:20 (b)); audit P11A-C1 confirms (docs/tracks/P/audits/P11A-C1-audit-1.md:42)
 NOTE: -
 
 NODE: stepP:p11a:fc-poly
@@ -22843,9 +22843,9 @@ EDGE: stepP:p11a:fc-count | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a:f
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fourier_cutoff (KAM/Planetary/MaximalStep/FourierCutoff.lean)
+LEAN_NOTE: local to PROVED parent fourier_cutoff (ruling 01:20 (b)); audit P11A-C1 confirms (docs/tracks/P/audits/P11A-C1-audit-1.md:40)
 NOTE: -
 
 NODE: stepP:p11a:fc-assemble
@@ -23074,9 +23074,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a:t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: taylor_cutoff (KAM/Planetary/MaximalStep/Taylor.lean)
+LEAN_NOTE: local to PROVED parent taylor_cutoff (ruling 01:20 (b)); audit P11A-C3 confirms (docs/tracks/P/audits/P11A-C3-audit-1.md:35)
 NOTE: -
 
 NODE: stepP:p11a:tc-a
@@ -23343,9 +23343,9 @@ EDGE: bpP:p11a:c2-conv#data | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: param_cauchy (KAM/Planetary/MaximalStep/Parameter.lean)
+LEAN_NOTE: local to PROVED parent param_cauchy (ruling 01:20 (b)); audit P11A-C3 confirms (docs/tracks/P/audits/P11A-C3-audit-1.md:32)
 NOTE: -
 
 NODE: stepP:p11a:pc-iter
@@ -23372,9 +23372,9 @@ EDGE: bpP:p11a:c2-conv#data | blueprint-P/parts/p11a2-cutoff-step.tex#stepP:p11a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a12+sol-review-P-x
 REVIEWER: sol-delta-P-ab
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: param_cauchy (KAM/Planetary/MaximalStep/Parameter.lean)
+LEAN_NOTE: local to PROVED parent param_cauchy (ruling 01:20 (b)); audit P11A-C3 confirms (docs/tracks/P/audits/P11A-C3-audit-1.md:33)
 NOTE: -
 
 NODE: bpP:p11a:divisor-perturb
@@ -24931,9 +24931,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: smooth_cutoff (KAM/Planetary/WeakKAM/Cutoff.lean)
+LEAN_NOTE: local to PROVED parent smooth_cutoff (ruling 01:20 (b)); audit B04 confirms (docs/tracks/P/audits/B04-audit-2.md:38)
 NOTE: -
 
 NODE: stepP:p11a:sc-deriv
@@ -24959,9 +24959,9 @@ EDGE: stepP:p11a:sc-constr | blueprint-P/parts/p11a3-iteration-selection.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: smooth_cutoff (KAM/Planetary/WeakKAM/Cutoff.lean)
+LEAN_NOTE: local to PROVED parent smooth_cutoff (ruling 01:20 (b)); audit B04 confirms (docs/tracks/P/audits/B04-audit-2.md:48)
 NOTE: -
 
 NODE: bpP:p11a:finite-extension
@@ -25050,9 +25050,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: finite_extension (KAM/Planetary/WeakKAM/Extension.lean)
+LEAN_NOTE: local to PROVED parent finite_extension (ruling 01:20 (b)); audit B05 confirms (docs/tracks/P/audits/B05-audit-1.md:80)
 NOTE: -
 
 NODE: stepP:p11a:fe-cauchy
@@ -25107,9 +25107,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: finite_extension (KAM/Planetary/WeakKAM/Extension.lean)
+LEAN_NOTE: local to PROVED parent finite_extension (ruling 01:20 (b)); audit B05 confirms (docs/tracks/P/audits/B05-audit-1.md:82)
 NOTE: -
 
 NODE: bpP:p11a:initial
@@ -26261,9 +26261,9 @@ EDGE: bpP:p11a:adm-params | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adm_budget, SelectionRates, selectionBudgetExponent, polyBudget_threshold_le (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; via qb_poly + M0+1 device, coefficient depends only on strip rate
 NOTE: -
 
 NODE: stepP:p11a:ab-gamma
@@ -26290,9 +26290,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Q3 proves flat-threshold analogue (qbPoly_gamma_lower), not the adm-budget node itself (B20 adm_budget absent)
+LEAN_STATUS: PROVED
+LEAN_REF: qbPoly_cDio_bound, qbPoly_gamma_lower (KAM/Planetary/Quantitative/BudgetPower/Gamma.lean); adm_budget (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; step audited as consumed Q3 lemmas inside adm_budget
 NOTE: -
 
 NODE: stepP:p11a:ab-T0
@@ -26319,9 +26319,9 @@ EDGE: stepP:p11a:ab-gamma | blueprint-P/parts/p11a3-iteration-selection.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Q3 proves flat analogue qbPoly_tbar_bound only
+LEAN_STATUS: PROVED
+LEAN_REF: qbPoly_tbar_bound (KAM/Planetary/Quantitative/BudgetPower/Collar.lean); adm_budget (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; step audited as consumed Q3 lemma inside adm_budget
 NOTE: -
 
 NODE: stepP:p11a:ab-t0
@@ -26348,9 +26348,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Q3 proves flat analogues only
+LEAN_STATUS: PROVED
+LEAN_REF: qbPoly_collar, qbPoly_xibar_upper (KAM/Planetary/Quantitative/BudgetPower.lean); adm_budget (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; step audited as consumed Q3 lemmas inside adm_budget
 NOTE: -
 
 NODE: stepP:p11a:ab-lam
@@ -26381,9 +26381,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-delta-P-ac
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Q3 proves flat analogues only
+LEAN_STATUS: PROVED
+LEAN_REF: qbPoly_lambda_lower (KAM/Planetary/Quantitative/BudgetPower.lean); polyBudget_threshold_le, polyBudget_thetaMax_le (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; all three lambdaMax branches
 NOTE: -
 
 NODE: stepP:p11a:ab-concl
@@ -26409,9 +26409,9 @@ EDGE: stepP:p11a:ab-lam | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qb_poly (KAM/Planetary/Quantitative/BudgetPower.lean); adm_budget, polyBudget_exponent_eq (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; exponent 2H+a_C
 NOTE: -
 
 NODE: bpP:p11a:adm-budget-beta
@@ -26438,9 +26438,9 @@ EDGE: bpP:p11a:adm-params | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adm_budget_beta, selectionBetaExponent (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; uniform over h/beta at fixed key
 NOTE: The \source citation of Part 11's (K5) (bpP:p11:kam-input, L406) is provenance; the edge is kam-input -> adm-budget-beta (in P-p11), never back.
 
 NODE: stepP:p11a:abb-spec
@@ -26466,9 +26466,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adm_budget_beta, polyBudget_exponent_beta (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11a:situation
@@ -26500,8 +26500,8 @@ TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
 LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_REF: situation (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES, but Lean situation is only an alias of SelectionEvaluationOutput; the source (S) standing situation (iteration, schedule) is inherited upstream, not defined here
 NOTE: Section data (conventions L28 and the situation (S), L30-L32); the conventions paragraph L28 is mapped to limit-torus and the lemmas that use X_phi, Omega_0, canonical maps.
 
 NODE: bpP:p11a:z-chain
@@ -27186,9 +27186,9 @@ EDGE: bpP:p0:hamsymp#symplecticForm | blueprint-P/parts/p11a4-limit-family.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionHamiltonian, SelectionTori, limit_torus (KAM/Planetary/WeakKAM/Tori.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; signed limit_torus; (a),(e) via inherited periodic/diophantine fields of SelectionLimit/SelectionOutput
 NOTE: -
 
 NODE: stepP:p11a:lt-field
@@ -27218,9 +27218,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_stage_cov, tori_jet_bound (KAM/Planetary/WeakKAM/ToriStage.lean); tori_jet_small (KAM/Planetary/WeakKAM/ToriLimit.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-cov
@@ -27250,9 +27250,9 @@ EDGE: bpP:p11a:z-chain | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:lt-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_field_cov (KAM/Planetary/WeakKAM/ToriBridge.lean); tori_stage_cov (KAM/Planetary/WeakKAM/ToriStage.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-lim
@@ -27287,9 +27287,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_invariance_C (KAM/Planetary/WeakKAM/ToriLimit.lean); tori_H0_field, tori_invariance_real (KAM/Planetary/WeakKAM/ToriField.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-lag
@@ -27319,9 +27319,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_lagrangian_C, tori_lagrangian (KAM/Planetary/WeakKAM/ToriReal.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-emb
@@ -27348,9 +27348,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: tori_immersion, tori_embedding (KAM/Planetary/WeakKAM/ToriReal.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; named in audit node table
 NOTE: -
 
 NODE: stepP:p11a:lt-dio
@@ -27376,9 +27376,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: SelectionOutput (KAM/Planetary/WeakKAM/SelectionRecord.lean); SelectionTori (KAM/Planetary/WeakKAM/Tori.lean)
+LEAN_NOTE: audit B16 PASS WITH NOTES; inherited SelectionOutput.diophantine field (IsDiophantine on Hinf)
 NOTE: -
 
 NODE: bpP:p11a:displacement
@@ -27408,9 +27408,9 @@ EDGE: bpP:p11a:schedule-consts | blueprint-P/parts/p11a4-limit-family.tex#bpP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionDelta, selectionCDelta, SelectionDisplacement, displacement (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: audit B17 PASS WITH NOTES; SelectionDisplacement fields give sup, angle/action, Q0/128, 2^-18 and cDelta sqrt(eps)/gamma bounds
 NOTE: The exported-sums and composition edges at L163 (\source) are provenance at statement level; the proof consumes (E2) in dp-tel (edge there).
 
 NODE: stepP:p11a:dp-tel
@@ -27438,9 +27438,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: displacement (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: local to PROVED parent displacement (ruling 01:20 (b)); audit B17 confirms (docs/tracks/P/audits/B17-audit-1.md:32)
 NOTE: -
 
 NODE: stepP:p11a:dp-size
@@ -27471,9 +27471,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: displacement (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: local to PROVED parent displacement (ruling 01:20 (b)); audit B17 confirms (docs/tracks/P/audits/B17-audit-1.md:34)
 NOTE: -
 
 NODE: bpP:p11a:gamma-inverse
@@ -27500,9 +27500,9 @@ EDGE: bpP:p11a:power-law | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11a:gam
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionCGamma, gamma_inverse (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: audit B17 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:gi-branches
@@ -27529,9 +27529,9 @@ EDGE: bpP:p11a:sel-data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:gi
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: gamma_inverse (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: local to PROVED parent gamma_inverse (ruling 01:20 (b)); audit B17 confirms (docs/tracks/P/audits/B17-audit-1.md:27)
 NOTE: -
 
 NODE: bpP:p11a:displacement-power
@@ -27562,9 +27562,9 @@ EDGE: bpP:p11a:adm-budget-beta | blueprint-P/parts/p11a4-limit-family.tex#bpP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit Q4 PASS WITH NOTES for displacement_power_flat (numerical K6 bound with supplied cDelta only); actual sup|u_b| displacement and joint statement belong to Q6
+LEAN_STATUS: PROVED
+LEAN_REF: displacement_power, polyBudget_CDelta, polyBudget_CGamma (KAM/Planetary/WeakKAM/PolynomialBudget.lean)
+LEAN_NOTE: audit B20 PASS WITH NOTES; cD=cDelta*cGamma, simultaneous budget
 NOTE: The kam-input title is a consumer-interface pointer, not an edge back to Part 11. The lower-budget assertion at L183 is retained in SOURCE_CONCLUSION with its direct supplier.
 
 NODE: stepP:p11a:dpc-comb
@@ -27591,9 +27591,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:d
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: selectionDelta_le_power (KAM/Planetary/WeakKAM/Displacement.lean)
+LEAN_NOTE: audit B17 PASS WITH NOTES; unsigned export states literal pointwise Delta<=cDelta cGamma sqrt(eps) beta^{-(mu+1)/rho}
 NOTE: -
 
 NODE: bpP:p11a:lipschitz-family
@@ -27623,9 +27623,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipschitz_family, SelectionLipschitz (KAM/Planetary/WeakKAM/ParameterLipschitz.lean)
+LEAN_NOTE: audit B18 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:lf-split
@@ -27652,9 +27652,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipschitz_family (KAM/Planetary/WeakKAM/ParameterLipschitz.lean)
+LEAN_NOTE: audit B18 PASS WITH NOTES; split inside lipschitz_family (lines 233-248)
 NOTE: -
 
 NODE: stepP:p11a:lf-tel
@@ -27683,9 +27683,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipFam_limit (KAM/Planetary/WeakKAM/ParameterLipschitz.lean)
+LEAN_NOTE: audit B18 PASS WITH NOTES; telescoping in lipFam_limit
 NOTE: -
 
 NODE: stepP:p11a:lf-stage
@@ -27714,9 +27714,9 @@ EDGE: K:bp:p1:ext-mvt | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:lf-s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipFam_stage, collar_increment_lipschitz (KAM/Planetary/WeakKAM/ParameterLipschitz.lean)
+LEAN_NOTE: audit B18 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11a:lf-sum
@@ -27746,9 +27746,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lipFam_limit (KAM/Planetary/WeakKAM/ParameterLipschitz.lean)
+LEAN_NOTE: audit B18 PASS WITH NOTES; summation inside lipFam_limit
 NOTE: -
 
 NODE: bpP:p11a:evaluation-bilipschitz
@@ -27778,9 +27778,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45
 REVIEWER: sol-review-P-z
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput, selectionHalfCell, selectionClosedCell, selectionQuotient (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; output record carries (a)-(d); signed statement
 NOTE: Statement sentence 'In the notation of Definition bpP:p11:kam-input: (K4) holds for H=H_infty' (L221) and the \source Kref citations (L222, provenance) are not edges here (steps carry the K edges); kam-input -> evaluation-bilipschitz lies in P-p11.
 
 NODE: stepP:p11a:eb-bounds
@@ -27807,9 +27807,9 @@ EDGE: bpP:p11a:situation | blueprint-P/parts/p11a4-limit-family.tex#stepP:p11a:e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields bilipschitz, inverse_bound
 NOTE: -
 
 NODE: stepP:p11a:eb-ext
@@ -27840,9 +27840,9 @@ EDGE: bpP:p11a:lipschitz-family | blueprint-P/parts/p11a4-limit-family.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields extension*, extension_defect_lip
 NOTE: -
 
 NODE: stepP:p11a:eb-meas
@@ -27872,9 +27872,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields image_*, measure_*
 NOTE: -
 
 NODE: stepP:p11a:eb-cpt
@@ -27903,9 +27903,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a4-limit-family.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: evaluation_bilipschitz, SelectionEvaluationOutput (KAM/Planetary/WeakKAM/Evaluation.lean)
+LEAN_NOTE: audit B19 PASS WITH NOTES; audit table maps step to fields closed_image_compact, lattice_union, quotient_compact
 NOTE: -
 
 NODE: bpP:p11a:thresholds
@@ -28224,7 +28224,7 @@ EXTRACTOR: sonnet-extract-P-p11a45+sol-delta-P-ad
 REVIEWER: sol-delta-P-bb
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Q6 weak_kam_quantitative (audit PASS WITH NOTES) states only K1-K4; K5 is the separate Budget.p11c_budget (Q4) and K6 is only a composition of displacement_power_flat with family.displacement, not a declaration; full conclusion K1-K6 not in one declaration
 NOTE: The input-only package sec-q-thm#data breaks the zero-case statement-reference cycle. No edge back to kam-input is added. The explicit K5 budget assertions and their direct budget supplier are retained.
 
 NODE: stepP:p11a:qt-order
@@ -28373,9 +28373,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative, p11c_asm_lattice (KAM/Planetary/Quantitative/Assembly.lean)
+LEAN_NOTE: audit Q6 PASS WITH NOTES; K2 clauses (lattice torus, Lagrangian, injective derivative, orbit, Diophantine) are QuantitativeFamily fields of weak_kam_quantitative
 NOTE: -
 
 NODE: stepP:p11a:qt-k3
@@ -28405,9 +28405,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative (KAM/Planetary/Quantitative/Assembly.lean)
+LEAN_NOTE: audit Q6 PASS WITH NOTES; QuantitativeFamily.displacement with p11c_displacement = min{2^-18, cDelta sqrt eps/gamma}
 NOTE: -
 
 NODE: stepP:p11a:qt-k4
@@ -28436,9 +28436,9 @@ EDGE: bpP:p11a:sec-limit#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: weak_kam_quantitative (KAM/Planetary/Quantitative/Assembly.lean)
+LEAN_NOTE: audit Q6 PASS WITH NOTES; lower/upper Lipschitz, Borel image, measure, compact closed-cell image fields
 NOTE: -
 
 NODE: stepP:p11a:qt-k5
@@ -28599,9 +28599,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:fixed
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixed_hamiltonian_form, perturbation_difference, pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES; parts (a),(b),(c) via product identity and fixed Birkhoff branch of pg_hypotheses
 NOTE: the reference to bpP:p12:pg-hypotheses (L57) only compares the Omega, beta with the moving-Sun ones (deleted); the source note (L60) is provenance
 
 NODE: stepP:p13:fh-chart
@@ -28632,9 +28632,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:fh
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixed_hamiltonian_form (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:fh-id
@@ -28666,9 +28666,9 @@ EDGE: bpP:p8:coeffs | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:fh-id@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation_difference (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES; jet equalities from upstream SecularForm.same_jets
 NOTE: -
 
 NODE: stepP:p13:fh-bnf
@@ -28700,9 +28700,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:fh-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES; fixed branch of PlanarBirkhoffResult
 NOTE: the Corollary same-jets (c) transfer is only a check (L65, deleted)
 
 NODE: bpP:p13:data
@@ -28736,9 +28736,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:data@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: perturbation, pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES; definition node realized by joint construction in pg_hypotheses
 NOTE: -
 
 NODE: bpP:p13:chart
@@ -28769,9 +28769,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:char
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses, chart_of_preserves_fast (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:ch-same
@@ -28801,9 +28801,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:ch-same@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:ch-ham
@@ -28829,9 +28829,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:ch-ham@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_of_preserves_fast (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p13:pg-hypotheses
@@ -28866,9 +28866,9 @@ EDGE: bpP:p0:fastshift#fastShift | blueprint-P/parts/p13-fixed-assembly.tex#bpP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: the reference to bpP:p0:pg only names the hypotheses (H1)-(H6) (deleted); the use of P-G is stepP:p13:n2-pg
 
 NODE: stepP:p13:pg-sets
@@ -28894,9 +28894,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:pg-sets@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:pg-h1
@@ -28925,9 +28925,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:pg-h1@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:pg-h2
@@ -28955,9 +28955,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:pg-h2@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:pg-h3
@@ -28983,9 +28983,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:pg-h3@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:pg-h4
@@ -29013,9 +29013,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:pg-h4@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:pg-h56
@@ -29043,9 +29043,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:pg-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/FixedAssembly/Data.lean)
+LEAN_NOTE: audit P13-A PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p13:transport
@@ -29080,9 +29080,9 @@ EDGE: bpP:p0:cylinder#cylinderCell | blueprint-P/parts/p13-fixed-assembly.tex#bp
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PlanarAssembly.transport (KAM/Planetary/PlanarAssembly/Transport.lean); PlanarAssembly.measure, PlanarAssembly.measure_in_tube (KAM/Planetary/PlanarAssembly/Measure.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES; generic delivered exports instantiated at fixed Hamiltonian in n2
 NOTE: Proposition bpP:p12:transport and bpP:p12:measure are stated for H_mov and are replayed step by step (their steps are the edges of the two proof steps), not applied
 
 NODE: stepP:p13:tr-torus
@@ -29121,9 +29121,9 @@ EDGE: bpP:p12:chart#cylinder-domain | blueprint-P/parts/p13-fixed-assembly.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PlanarAssembly.transport (KAM/Planetary/PlanarAssembly/Transport.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:tr-meas
@@ -29160,9 +29160,9 @@ EDGE: bpP:p6:measure-positive | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: PlanarAssembly.measure, PlanarAssembly.measure_in_tube (KAM/Planetary/PlanarAssembly/Measure.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p13:n2
@@ -29194,9 +29194,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:n2@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: route (c) for n = 2. Not an alternative route of bpP:p13:fixed: bpP:p13:n-general is stated to hold also for n = 2 as a second proof, but the proof of bpP:p13:fixed splits n = 2 and n >= 3 (conjunctive); the reference to bpP:p12:planar is provenance (the source note: same proof as Theorem planar) and deleted
 
 NODE: stepP:p13:n2-const
@@ -29225,9 +29225,9 @@ EDGE: bpP:p13:data#choices | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:n2-pg
@@ -29254,9 +29254,9 @@ EDGE: bpP:p13:data | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:n2-pg@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:n2-mu
@@ -29285,9 +29285,9 @@ EDGE: bpP:p13:data#choices | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:n2-S
@@ -29316,9 +29316,9 @@ EDGE: bpP:p13:data#choices | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:n2-tori
@@ -29350,9 +29350,9 @@ EDGE: bpP:p13:data#choices | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p13:n2-phys
@@ -29387,9 +29387,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p13:n-general
@@ -29651,9 +29651,9 @@ EDGE: bpP:p13:data#choices | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:qu
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-delta-P-af
 REVIEWER: sol-delta-P-bc
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES; constants chosen before epsilon in n2 proof
 NOTE: remark: its justification is inline (confirm, or exclude if not a mathematical claim)
 
 NODE: bpP:p13:data#choices
@@ -29680,9 +29680,9 @@ EDGE: bpP:p12:f-mono | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:data#cho
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: FixedAssembly.n2 (KAM/Planetary/FixedAssembly/TwoPlanet.lean); PlanarAssembly.radius_choices (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P13-B PASS WITH NOTES
 NOTE: R2: split D7-D8 from the input-only data node so that hypothesis verification does not assume the conclusion of its P-G application.
 
 NODE: bpP:p11b:e-ode
@@ -30785,9 +30785,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit T11 PASS WITH NOTES explicitly does not certify the composed T (rotation composition, inverse-rotation adapter); only chi-flow lift_map and full_lift_hamiltonian are proved
+LEAN_STATUS: PROVED
+LEAN_REF: birkhoff_form_full, lift_map_explicit, lift_map_properties (KAM/Planetary/PlanarTorsion/BirkhoffClauses.lean)
+LEAN_NOTE: audit GAP-D round 2 PASS WITH NOTES: explicit T = (lambda + g + H, Lambda, rho Y) plus chart/injection, action preservation, angle covariance for the same witnesses
 NOTE: -
 
 NODE: stepP:p11b:lm-ham
@@ -30845,9 +30845,9 @@ EDGE: stepP:p11b:lm-ham | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:l
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit T11 PASS WITH NOTES covers only the chi-flow lift (lift_map: analytic, symplectic, injective, action-preserving, translation covariant); node conclusion also requires the composition T = Phi_rho^(-1) o Phi_chi, left to T14/T16 (BirkhoffResult)
+LEAN_STATUS: PROVED
+LEAN_REF: lift_map (KAM/Planetary/PlanarTorsion/Lift.lean); p11cB_liftFlow_act, p11cB_T_props (KAM/Planetary/PlanarTorsion/Birkhoff/Compose.lean); birkhoff_form (KAM/Planetary/PlanarTorsion/Birkhoff.lean)
+LEAN_NOTE: composite of audit T11 PASS WITH NOTES (chi-flow lift) + T16 PASS WITH NOTES (T = rotationLift o liftFlow chart/injective/action-preserving/translation-covariant on the tube); retained SOURCE_GAP on N:bpN:p5 applicability is a source issue, Lean proves the conclusion directly
 NOTE: SOURCE_GAP: L175 invokes N:bpN:p5:symplectic and N:bpN:p5:canonical for the full (lambda,Lambda,z) Hamiltonian flow. These imports inherit N:bpN:p5:flow: a holomorphic field on a complex open domain, a chosen complex norm with field bound epsilon<=1/2, and initial points in Omega^{1/2}. The real compact-parameter flow of flow/fl-bd does not state these complex hypotheses; the full field also contains partial_Lambda chi in the angle components. No complexification/domain/smallness bridge or separately approved general real symplectic-flow theorem is supplied here. The asserted symplectic conclusion is retained, with this applicability gap explicit.
 
 NODE: bpP:p11b:sec-beta#data
@@ -31038,9 +31038,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: T15 hasSecularBirkhoffForm_of_sixth_order is only a conditional conversion helper (hi, he premises); physical Birkhoff theorem is T16
+LEAN_STATUS: PROVED
+LEAN_REF: birkhoff_form_full, birkhoff_form_hamiltonian (KAM/Planetary/PlanarTorsion/BirkhoffClauses.lean)
+LEAN_NOTE: audit GAP-D round 2 PASS WITH NOTES: birkhoff_form_full keeps all PlanarBirkhoffResult clauses (T16) and attaches clause (a) H^Psi o T = h + mu P to the same witnesses
 NOTE: -
 
 NODE: stepP:p11b:bt-rot
@@ -31069,9 +31069,9 @@ EDGE: stepP:p11b:bt-rot#lift | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit T14 round 2 PASS WITH NOTES, but Lean proves global SO(2) frame (global_planar_frame) by design replacement; analytic angle psi lifting e_1 is not stated, so source conclusion not literally covered
+LEAN_NOTE: route substitution (D27, ruling 00:10): global_planar_frame (T14) replaces the angle lift; no proved consumer uses psi
 NOTE: the lifting step (analytic angle on a simply connected domain) is recorded as stepP:p11b:bt-rot#lift (SOURCE_GAP)
 
 NODE: stepP:p11b:bt-rot#lift
@@ -31097,9 +31097,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit T14 PASS WITH NOTES; global frame replaces the analytic angle lift; angle psi with e_1=(cos psi, sin psi) not proved
+LEAN_NOTE: route substitution (D27, ruling 00:10): global_planar_frame (T14) replaces the angle lift; no proved consumer uses psi
 NOTE: SOURCE_GAP: the covering-space lifting of an analytic unit vector field (defined only up to sign locally) to an analytic angle on a simply connected domain is asserted in one parenthesis; it is neither proved in the corpus nor a listed external (e-ode, e-id, e-jet, e-ca). Corollary bpP:p9:n2 states a global analytic rotation on all of A_2, which would supply rho on O_a, but this proof does not cite it. For the cube used by Part 12 (Corollary patch) the domain is convex
 
 NODE: stepP:p11b:bt-K
@@ -31131,9 +31131,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_K, p11cB_C, p11cB_R, p11cB_secular_analyticAt, p11cB_R_analyticAt, p11cB_R_jetEq (KAM/Planetary/PlanarTorsion/Birkhoff/Jets.lean); p11cB_domain (KAM/Planetary/PlanarTorsion/Birkhoff/Domain.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-K PASS
 NOTE: -
 
 NODE: stepP:p11b:bt-nf
@@ -31167,9 +31167,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:bt-nf@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-delta-P-m
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_family_of_coeffs (KAM/Planetary/PlanarTorsion/Birkhoff/Family.lean); p11cB_family (KAM/Planetary/PlanarTorsion/Birkhoff/Chi.lean); p11cB_NR4 (KAM/Planetary/PlanarTorsion/Birkhoff/Choice.lean); p11cB_average_beta (KAM/Planetary/PlanarTorsion/Birkhoff/BetaAvg.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-nf PASS; homological and lie (T10) consumed in Constants
 NOTE: -
 
 NODE: stepP:p11b:bt-avg
@@ -31203,9 +31203,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_secular_T, p11cB_secular_mov (KAM/Planetary/PlanarTorsion/Birkhoff/Average.lean); p11cB_estimate (KAM/Planetary/PlanarTorsion/Birkhoff/Estimate.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-avg PASS
 NOTE: -
 
 NODE: stepP:p11b:bt-frozen
@@ -31234,9 +31234,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:bt
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: T15 audit PASS WITH NOTES covers only the arithmetic disc conversion; audit says do not mark the physical step complete (continuity, average identification, beta symmetry left to T16)
+LEAN_STATUS: PROVED
+LEAN_REF: p11cB_fhat_clause (KAM/Planetary/PlanarTorsion/Birkhoff/FhatClause.lean); birkhoff_form (KAM/Planetary/PlanarTorsion/Birkhoff.lean)
+LEAN_NOTE: audit T16 PASS WITH NOTES; audit table bt-frozen PASS; HasSecularBirkhoffForm for both actual pullbacks
 NOTE: -
 
 NODE: bpP:p11b:remain
@@ -31296,9 +31296,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: asymptotics, asymptotics_uniform_ratio, asymptotics_general_axes (KAM/Planetary/PlanarTorsion/Asymptotics.lean); p11c_relativeError (KAM/Planetary/PlanarTorsion/Asymptotics/Relative.lean)
+LEAN_NOTE: audit T19 PASS WITH NOTES; relative O(alpha^2) entries and -117/16 determinant, uniform in mass ratio, general axes
 NOTE: -
 
 NODE: stepP:p11b:as-in
@@ -31442,9 +31442,9 @@ EDGE: bpP:p11b:quartic-explicit | blueprint-P/parts/p11b-planar-torsion.tex#step
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cAs_det (KAM/Planetary/PlanarTorsion/Asymptotics/Limits.lean); p11cAs_beta_smul (KAM/Planetary/PlanarTorsion/Asymptotics/Homogeneity.lean); asymptotics, asymptotics_general_axes (KAM/Planetary/PlanarTorsion/Asymptotics.lean)
+LEAN_NOTE: audit T19 PASS WITH NOTES; determinant -117/16 via p11cAs_det, homogeneity and general axes in signed exports
 NOTE: -
 
 NODE: bpP:p11b:torsion
@@ -31474,9 +31474,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torsion, p11cGe_phi4_ne_zero_iff_good, p11cGe_phi4_ne_zero_iff_nr4 (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS WITH NOTES (nonzero-locus bridge to SecularSpectrum.good closes F1)
 NOTE: -
 
 NODE: stepP:p11b:to-an
@@ -31501,9 +31501,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:t
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGe_det_analytic (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; named to-an
 NOTE: -
 
 NODE: stepP:p11b:to-pt
@@ -31528,9 +31528,9 @@ EDGE: bpP:p11b:asymptotics | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGe_det_neg (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; named to-pt
 NOTE: -
 
 NODE: stepP:p11b:to-id
@@ -31560,9 +31560,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: torsion, p11cGe_phi4_ne_zero_iff_good (KAM/Planetary/PlanarTorsion/Generic.lean)
+LEAN_NOTE: audit P11C-T20 round 2 PASS; step inside torsion + bridge
 NOTE: -
 
 NODE: bpP:p11b:patch
@@ -31592,9 +31592,9 @@ EDGE: bpP:p10:interface | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:pat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-l
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: patch, PlanarFrequencyPatch, p11c_combinedFrequency, torsion_patch_geometry (KAM/Planetary/PlanarTorsion/Patch.lean)
+LEAN_NOTE: audit T21 PASS WITH NOTES; signed patch (full geometry, determinant, Birkhoff, frequency data on one patch)
 NOTE: The last sentence is part of the retained source conclusion and explicitly invokes interface. Part 12 uses only the good-patch clauses, but that does not erase a direct dependency of this full corollary. Keep the full source statement and the direct edge; no P-FIXED theorem is thereby added as a root.
 
 NODE: bpP:p12:f-unif
@@ -31678,7 +31678,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P12-C ledger does not list this node; dictionary/Gamma/cylnorm not stated as separate export
 NOTE: section data of 12.1 (SPEC section-data table); coverage prose-L15-L20. The dictionary section label bpP:p8:conv has no node of its own in the P-p8 draft, so no edge to it
 
 NODE: bpP:p12:forward-tube
@@ -32039,9 +32039,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:dat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS: single joint construction (patch/T16 data) in PlanarAssembly.pg_hypotheses
 NOTE: D1-D5 are retained here. D6 is the input-only package data#pg-data; D7-D9 and the closing dependence claim are data#choices, supplied after pl-pg applies the frozen P-G with pg-hypotheses. This preserves the valid data/perturbation split without using delivered P-G constants to verify their own premises.
 
 NODE: bpP:p12:data#pg-data
@@ -32068,9 +32068,9 @@ EDGE: bpP:p12:collar | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:data#pg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS: all P-G data and H1-H6 jointly, mu0=1
 NOTE: D6 input data only. The application of P-G is pl-pg after pg-hypotheses; D7-D9 are represented separately by data#choices. No delivered constant is assumed.
 
 NODE: bpP:p12:perturbation
@@ -32101,9 +32101,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:per
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: total_chart, perturbation (KAM/Planetary/PlanarAssembly/ChartData.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; signed literal compositions
 NOTE: -
 
 NODE: bpP:p12:chart
@@ -32143,9 +32143,9 @@ EDGE: bpP:p12:sec-set#data | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean); chart_of_birkhoff, chart_hamiltonian_of_preserves_fast (KAM/Planetary/PlanarAssembly/ChartData.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; all chart clauses (a)-(e) in pg_hypotheses
 NOTE: -
 
 NODE: stepP:p12:ch-dom
@@ -32175,9 +32175,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-chart
@@ -32213,9 +32213,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:ch-char
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_of_birkhoff (KAM/Planetary/PlanarAssembly/ChartData.lean); pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-lat
@@ -32247,9 +32247,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-ham
@@ -32282,9 +32282,9 @@ EDGE: bpP:p0:degham#degenerateHamiltonian | blueprint-P/parts/p12-planar-assembl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_hamiltonian_of_preserves_fast (KAM/Planetary/PlanarAssembly/ChartData.lean); pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-tube
@@ -32319,9 +32319,9 @@ EDGE: bpP:p12:chart#cylinder-domain | blueprint-P/parts/p12-planar-assembly.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p12c_slow_small (KAM/Planetary/PlanarAssembly/SlowSmall.lean); pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: bpP:p12:pg-hypotheses
@@ -32358,9 +32358,9 @@ EDGE: bpP:p0:fastshift#fastShift | blueprint-P/parts/p12-planar-assembly.tex#bpP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; exact signed output (signed projection; finer characterizations upstream)
 NOTE: the references to Theorem bpP:p0:pg only name the hypotheses (H1)-(H6) and the data (SPEC: delete); the use of P-G is stepP:p12:pl-pg
 
 NODE: stepP:p12:pg-sets
@@ -32388,9 +32388,9 @@ EDGE: bpP:p11b:patch | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:pg-se
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h1
@@ -32422,9 +32422,9 @@ EDGE: bpP:p0:cylinder#cylinder | blueprint-P/parts/p12-planar-assembly.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h2
@@ -32457,9 +32457,9 @@ EDGE: bpP:p12:data#pg-data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h3
@@ -32486,9 +32486,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h4
@@ -32521,9 +32521,9 @@ EDGE: bpP:p12:chart#cylinder-domain | blueprint-P/parts/p12-planar-assembly.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P12-B: only birkhoff_mono_radius (radius restriction of an existing HasBirkhoff), not the Birkhoff form itself
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS; T16 same-model BNF restricted to V and reduced radius (Data:318-321); supersedes P12-B note
 NOTE: -
 
 NODE: stepP:p12:pg-h56
@@ -32551,9 +32551,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: bpP:p12:transport
@@ -32990,9 +32990,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:pla
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); planar has exact frozen telescope; provider matches frozen type
 NOTE: carries \frozen{KAM.Planetary.planarTwoPlanetKAM}: it is the proof of the root bpP:p0:planar (edge p0:planar -> this node is owned by P-p0)
 
 NODE: stepP:p12:pl-const
@@ -33023,9 +33023,9 @@ EDGE: bpP:p12:data#choices | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean); radius_choices, secular_radius, coupling_threshold (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); one joint elimination, radius_choices, threshold before mu
 NOTE: -
 
 NODE: stepP:p12:pl-pg
@@ -33053,9 +33053,9 @@ EDGE: bpP:p12:data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:pl-pg@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); sealed properlyDegenerateKAM applied to pg_hypotheses
 NOTE: -
 
 NODE: stepP:p12:pl-mu
@@ -33087,9 +33087,9 @@ EDGE: bpP:p0:degham#degenerateHamiltonian | blueprint-P/parts/p12-planar-assembl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); r<rG<r0, mu<threshold
 NOTE: -
 
 NODE: stepP:p12:pl-S
@@ -33122,9 +33122,9 @@ EDGE: bpP:p12:data#choices | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); S = total_chart '' Sc via measure, measure_in_tube
 NOTE: -
 
 NODE: stepP:p12:pl-tori
@@ -33155,9 +33155,9 @@ EDGE: bpP:p12:data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:pl-tori
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); transport supplies tori in S
 NOTE: -
 
 NODE: stepP:p12:pl-phys
@@ -33194,9 +33194,9 @@ EDGE: stepP:p12:pl-phys#route-tube | blueprint-P/parts/p12-planar-assembly.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean); movingKolmogorovSet_of_tube (KAM/Planetary/Newtonian/Assembly.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); movingKolmogorovSet_of_tube inside planar
 NOTE: the two derivations of the Newton-solution clause are alternatives: routes stepP:p12:pl-phys#route-orbit and stepP:p12:pl-phys#route-tube. The consequences common to both stay as DEPS
 
 NODE: stepP:p12:pl-phys#route-orbit
@@ -33229,7 +33229,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: alternative route node; audit marks it alternative, not a separately stated declaration
 NOTE: route node; alternative of stepP:p12:pl-phys#route-tube
 
 NODE: stepP:p12:pl-phys#route-tube
@@ -33260,7 +33260,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: alternative route node; audit marks it alternative, not a separately stated declaration
 NOTE: route node; alternative of stepP:p12:pl-phys#route-orbit
 
 NODE: bpP:p12:quantifiers
@@ -33290,9 +33290,9 @@ EDGE: bpP:p12:data#choices | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:q
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean); radius_choices (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); constants mu0,d,D chosen before mu in planar; ledger row quantifiers PASS
 NOTE: kept as a node: cited by stepP:p12:pl-const as the place where the order of choice and the dependence lists are recorded; the pointer to Step pl-mu (L194) is not an edge
 
 NODE: bpP:p12:data#choices
@@ -33320,9 +33320,9 @@ EDGE: bpP:p12:f-mono | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:data@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: secular_radius, coupling_threshold, radius_choices (KAM/Planetary/PlanarAssembly/Boxes.lean); planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); literal r=min{rG,sqrt(delta/2)}/2 and mu0=min{1,r^6/log^c}; radius_choices gives 2r^2<=delta/2; P-G outputs obtained in planar
 NOTE: Further split of the original D6-D9 package. pl-pg supplies the P-G witnesses using pg-hypotheses and the input-only D6 node; this node then defines the radii/thresholds without feeding the premise verification back into itself.
 
 NODE: bpP:p12:chart#cylinder-domain
@@ -33350,9 +33350,9 @@ EDGE: bpP:p0:cylinder#cylinder | blueprint-P/parts/p12-planar-assembly.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS: closure of cylinder inside O
 NOTE: Unmarked reused intermediate proved by the first two sentences of L106. Unlike the full chart(e) tube conclusion, this domain inclusion requires no delta-smallness condition; transport L138 and pg-h2 use precisely this inclusion.
 
 NODE: bpP:p14:x-planar
@@ -41526,6 +41526,28 @@ LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: IMPORTED: external input of the track-K graph, node bp:p1:ext-integral (Mathlib-level; not re-proved there either); shared Lean provider. There: KIND external, contract bp:p1:ext-integral v1.
+
+## Append-only structural amendments
+
+AMEND: P-A001-ext-closure-agreement
+TARGET: bpP:p5:ext
+AUTHOR: claude-inp-sub-orchestrator
+REVIEWER: root-bb-ruling-OVERNIGHT-0120
+ADD_DEPS: -
+DROP_DEPS: -
+ADD_ROUTES: -
+DROP_ROUTES: -
+SET_TITLE: -
+SET_STATEMENT_SOURCE: -
+SET_PROOF_SOURCE: -
+SET_CONTRACT_ID: -
+SET_CONTRACT_VERSION: -
+SET_SOURCE_HYPOTHESES: -
+SET_SOURCE_QUANTIFIERS: -
+SET_SOURCE_CONCLUSION: there are delta_c in (0,1), M_P < infinity and P~: [0,mu_0] x X_{delta_c} -> C with P~(mu,.) holomorphic, P~ = P at real points of the closed cylinder cl C(V, r0), P~ periodic under 2 pi k e_f (fast angles), ¦P~¦ <= M_P, P~ jointly continuous in mu; and H~_0 holomorphic on {I: dist(I, closure V) < delta_c} with ¦H~_0¦, ¦dH~_0¦, ¦d^2 H~_0¦ <= M_0
+SET_CONSTANT_SCOPE: -
+SET_ROUTE_FOR: -
+NOTE: ERRATUM (logged for owner review, ruling OVERNIGHT 01:20): the printed clause "P~ = P at real points" (all of X_{delta_c}) is false; P45 design revision 4 and the P5-EX audit give a counterexample. Agreement holds on cl C(V, r0), which is all any consumer uses.
 
 <!-- BEGIN PROOF DEPGRAPH GENERATED -->
 Regenerated by `proof_depgraph.py`; do not hand-edit.
