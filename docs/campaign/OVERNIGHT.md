@@ -945,7 +945,7 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   recipOneSubUp versus the mirror's exact 1/(1-delta), the exp radius shape, toDeg 0 on exp arguments, toMant as a
   placeholder, and Gram/torsion keys with no Lean consumer yet. Harmless for the toys; they must be fixed in the mirror
   before SO-DATA emits the lunar advice (the Lean modules are authoritative).
-- **21:35. Track SO: SO-TORS landed; SO-DEFS in audit; soundness started.** SO-TORS (torsion check) passed its
+- **21:25. Track SO: SO-TORS landed; SO-DEFS in audit; soundness started.** SO-TORS (torsion check) passed its
   independent audit (PASS WITH NOTES: lunar-scale kernel cost unmeasured, for SO-SOUND/SO-DATA) and landed (inp
   c353bbf5); worktree removed. SO-DEFS (certificate, eight sub-checks, checkTorusCertificate, G1Hyps, CertifiedTorus;
   498 lines) screened and in audit (codex-4), with a sufficiency focus: every G1Hyps hypothesis must map to a
@@ -956,7 +956,7 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   instead of the Fourier/Taylor truncation; two quotation labels; two internal-history remnants). Disk: six more
   duplicate Codex rollouts replaced by archive links (2.0 -> 4.6 GB free with the SO-TORS sweep); 4.5 GB is held by
   deleted files of long-running Codex sessions of other projects (owner's call).
-- **21:45. SO-DEFS passed; soundness in two halves.** SO-DEFS audit 1: PASS WITH NOTES (signed surface verbatim; every
+- **21:33. SO-DEFS passed; soundness in two halves.** SO-DEFS audit 1: PASS WITH NOTES (signed surface verbatim; every
   G1Hyps field has a sufficient checker conjunct, so the checker is strong enough for its soundness theorem; the only
   note, a test docstring that overstated coverage, corrected before landing). Sent to kam-inp to land. SO-SOUND-A
   committed Sound/Static in three minutes; SO-SOUND-B (invariance, energy, torsion, smallness, the black-box assembly
