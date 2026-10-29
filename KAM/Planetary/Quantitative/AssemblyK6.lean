@@ -14,7 +14,8 @@ public import KAM.Planetary.Quantitative.Budget
 
 `weak_kam_quantitative_full` (`bpP:p11a:weak-kam-quantitative`, `stepP:p11a:qt-k6`): for one
 family `Q` (clauses K1-K4), the literal composed displacement bound (K6)
-`sup |u_b| <= Delta <= cD * eps ^ (1/2) * beta ^ (-G0)`, with `cD` fixed after every entry but
+`sup |u_b| <= Delta <= cD * eps ^ (1/2) * beta ^ (-G0)` (both inequalities exported, `Delta` being
+`p11c_displacement`, plus their composition), with `cD` fixed after every entry but
 `beta`, together with the polynomial threshold lower bound (K5).
 -/
 
@@ -38,6 +39,10 @@ theorem weak_kam_quantitative_full (N mu : ℕ) (tau s C1 : ℝ) :
           eps ≤ thresholds { d with beta := b } →
           (∀ z ∈ complexStrip N d.s ×ˢ actionNbhd d.K (2 * d.vartheta), ‖f z‖ ≤ eps) →
           ∃ Q : QuantitativeFamily { d with beta := b } (realHamiltonian h f) cDelta eps,
+            (∀ b' ∈ Q.good, ∀ θ, ‖Q.torus b' θ - (θ, b')‖ ≤
+              p11c_displacement { d with beta := b } cDelta eps) ∧
+            p11c_displacement { d with beta := b } cDelta eps ≤
+              cD * eps ^ (1 / 2 : ℝ) * b ^ (-p11c_G0 d) ∧
             ∀ b' ∈ Q.good, ∀ θ,
               ‖Q.torus b' θ - (θ, b')‖ ≤ cD * eps ^ (1 / 2 : ℝ) * b ^ (-p11c_G0 d) := by
   obtain ⟨cDelta, hc, hQ⟩ := weak_kam_quantitative N mu tau s C1
@@ -48,7 +53,8 @@ theorem weak_kam_quantitative_full (N mu : ℕ) (tau s C1 : ℝ) :
   have hvalid : ({ d with beta := b } : QuantitativeData N).Valid :=
     ⟨qbBeta_valid hd.1 hb.1 hbM, hd.2.1, hb.2.trans (min_le_left _ _)⟩
   obtain ⟨Q⟩ := hQ { d with beta := b } hvalid hmu htau hs hC1 h f hh eps he0 heps hf
-  exact ⟨Q, fun b' hb' θ => (Q.displacement b' hb' θ).trans (hflat b hb eps he0)⟩
+  exact ⟨Q, Q.displacement, hflat b hb eps he0,
+    fun b' hb' θ => (Q.displacement b' hb' θ).trans (hflat b hb eps he0)⟩
 
 end KAM.Planetary
 
