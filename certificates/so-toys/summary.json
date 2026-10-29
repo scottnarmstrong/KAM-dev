@@ -1,11 +1,11 @@
 {
  "T2": {
-  "bytes": 22731,
+  "bytes": 22881,
   "log10_err": -42.493876110852824,
   "log10_threshold": -38.22944280240576,
   "passes": true,
   "ratio_C1": 5.439596573706115e-05,
-  "sha256": "c7fb4618cdb10dbc9ef2d71955139b8b6fd63f0b6c40c01771fe98d0aa70f697",
+  "sha256": "c21c6ed21e50a6990ec4473f89b817d19e1d79c5630bfc0db7303e90bdbc6521",
   "subchecks": {
    "checkEmbedding": true,
    "checkEnergy": true,
@@ -18,12 +18,12 @@
   }
  },
  "T2d": {
-  "bytes": 246858,
+  "bytes": 246990,
   "log10_err": -192.0,
   "log10_threshold": -188.78500263855048,
   "passes": true,
   "ratio_C1": 0.0006095406004849275,
-  "sha256": "9e831bfcdfb1b0f319162a23e369cffb987a2bd60bb34ce1525bd743b7b8ff66",
+  "sha256": "5e7c178a1bbc33af0205a962d03155cd8930aac948a8118a84ee85965fd1d6ce",
   "subchecks": {
    "checkEmbedding": true,
    "checkEnergy": true,
@@ -36,12 +36,12 @@
   }
  },
  "T3": {
-  "bytes": 62515,
+  "bytes": 62665,
   "log10_err": -63.59862667244802,
   "log10_threshold": -59.30081780068849,
   "passes": true,
   "ratio_C1": 5.037222426518714e-05,
-  "sha256": "f0def590fb403078f917c5d298d38c9658db976bc544b51af6d6593102273969",
+  "sha256": "b2585b84ddda60fc1ff2f2514de933643a759f7b36057fbff87acf042d9eed0c",
   "subchecks": {
    "checkEmbedding": true,
    "checkEnergy": true,
@@ -54,12 +54,12 @@
   }
  },
  "TR": {
-  "bytes": 21303,
+  "bytes": 21453,
   "log10_err": null,
   "log10_threshold": -30.055122070743444,
   "passes": true,
   "ratio_C1": 0.0,
-  "sha256": "222de91dd11d04242f54f730cc2e36426ca9597d7d82bdea7ea5f8b0a6afbe44",
+  "sha256": "0abbd9e2a15df4d2dd851e58eb1e621b9c20cce30b4d4b4fa89cc9ef269fb526",
   "subchecks": {
    "checkEmbedding": true,
    "checkEnergy": true,

@@ -174,6 +174,9 @@ def params_common(n, tau, rho, rhoinf, mu, nu, gamma, s=F(2), sw=F(3)):
                 disp=F(0))
 
 
+SAFE_CUTOFF = 10 ** 6          # literal cutoff of a configuration that must not truncate (checked in `emit`)
+
+
 def cfg(cutoff, taylorN=24, halvings=8):
     return dict(cutoff=cutoff, taylorN=taylorN, halvings=halvings)
 
@@ -186,7 +189,7 @@ def toy_T2(jets, digits):
     rho, rhoinf = F(9), F(1)
     p = params_common(2, 1, rho, rhoinf, mu, F(49, 100), GAMMA2)
     c = base_cert("T2", 2, jets, rho, rho + 2 * mu, [nu_t, -nu_t ** 2 / 2], [r, r], box, [nu_t, -nu_t ** 2 / 2], p,
-                  cfg(0), cfg(0))
+                  cfg(SAFE_CUTOFF), cfg(SAFE_CUTOFF))
     c["root"] = dict(m=2, d=5, lo=lo, hi=hi, coeffs=NU_COEFFS)
     return finish_params(c, 4 * box[0][1], GAMMA2)
 
@@ -197,7 +200,7 @@ def toy_TR(jets):
     rho, rhoinf = F(9), F(1)
     p = params_common(2, 1, rho, rhoinf, mu, F(49, 100), GAMMA2)
     c = base_cert("TR", 2, jets, rho, rho + 2 * mu, [F(1, 2), F(-1, 8)], [r, r], box, [F(1, 2), F(-1, 8)], p,
-                  cfg(0), cfg(0))
+                  cfg(SAFE_CUTOFF), cfg(SAFE_CUTOFF))
     return finish_params(c, F(0), GAMMA2)
 
 
@@ -211,7 +214,7 @@ def toy_T3(jets, digits):
     nu = F(math.floor(float(L) * 100) - 1, 100)
     p = params_common(3, 2, rho, rhoinf, mu, nu, GAMMA3)
     c = base_cert("T3", 3, jets, rho, rho + 2 * mu, [a, b, -(a * a + b * b) / 2], [r, r, r], box,
-                  [a, b, -(a * a + b * b) / 2], p, cfg(0), cfg(0))
+                  [a, b, -(a * a + b * b) / 2], p, cfg(SAFE_CUTOFF), cfg(SAFE_CUTOFF))
     c["root"] = dict(m=3, d=2, lo=lo, hi=hi, coeffs=CUBIC_COEFFS)
     return finish_params(c, 4 * max(box[0][1], box[1][1]), GAMMA3)
 
@@ -356,7 +359,8 @@ def products_of(c):
             if key not in seen:
                 seen.add(key)
                 keys.append((key, la, lb, pairs))
-        out[cf.name] = dict(distinct=len(keys), calls=len(cf.products),
+        out[cf.name] = dict(distinct=len(keys), calls=len(cf.products), cutoff=cf.cutoff, maxProductK=cf.maxK,
+                            truncates=cf.maxK > cf.cutoff,
                             pairs_distinct=sum(k[3] for k in keys), pairs_calls=sum(k[3] for k in cf.products),
                             largest=sorted(keys, key=lambda t: -t[3])[:6])
         c["_adv" + cf.name[3:]] = [[list(k[0]), "direct"] for k in keys]
@@ -366,6 +370,8 @@ def products_of(c):
 def emit(c, outdir, extra=None):
     ok, rep = run_checks(c)
     prods = products_of(c)
+    for name, v in prods.items():                                 # only T2d's cfgLow truncates, by design
+        assert v["truncates"] == (c["toy"] == "T2d" and name == "cfgLow"), (c["toy"], name, v["maxProductK"])
     summ = summarize(c, ok, rep)
     cj = cert_json(c)
     doc = dict(certificate=cj, verification=dict(summ, products={k: dict(v, largest=[[list(t[0]), t[1], t[2], t[3]]

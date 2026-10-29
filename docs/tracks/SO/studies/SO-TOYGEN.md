@@ -109,7 +109,8 @@ Common choices:
 | box | `(ν₋/2 ± 10^−43.1, 1/2 ± 0)` | `(ν₋/2 ± 10^−198.1, 1/2 ± 0)` | `(∛2/2 ± 10^−64.6, ∛4/2 ± 10^−64.2, 1/2 ± 0)` | `(1/4 ± 0, 1/2 ± 0)` |
 | `A` (actions) | `(ν̃, −ν̃²/2)`, `ν̃ = 2·c₀` | same, 193-digit `ν̃` | `(a, b, −(a² + b²)/2)`, `a = 2c₀`, `b = 2c₁` | `(1/2, −1/8)` |
 | witnesses | none | `invWit = [Q]`, `charWit = [((0, 0), E = 1, s = 0, N = 400)]` | none | none |
-| cutoffs (full / low) | 0 / 0 | 532 / 30 | 0 / 0 | 0 / 0 |
+| cutoffs (full / low) | 10^6 / 10^6 | 532 / 30 | 10^6 / 10^6 | 10^6 / 10^6 |
+| max product `\|k\|₁` (full / low) | 0 / 0 | 532 / 798 | 0 / 0 | 0 / 0 |
 | JSON size | 23 KB | 247 KB | 63 KB | 21 KB |
 
 Notes on these choices:
@@ -340,3 +341,50 @@ The output hashes are in `certificates/so-toys/summary.json`.
 4. **Deviations:** none from the design's toy specifications. TR is checker-only, as the design states. "The
    negative toy" of the brief is read as TR's missing Diophantine premise, together with the §8 negative mutations
    of §6.
+
+## 10. SO-TOYFIX: literal cutoffs (2026-10-29)
+
+`ModelConfig.cutoff : ℕ` is literal in the landed `CertModel.mul` (`truncPoly cfg.cutoff`): product terms with
+`|k|₁ > cutoff` move into the radius, and there is no "no truncation" value. The data now follow that:
+
+- `toy_model.p_truncate` accepts only a natural number (the `None` branch is gone); `Cfg.maxK` records the largest
+  `|k|₁` of any exact product before truncation.
+- `toy_gen.SAFE_CUTOFF = 10^6` is the cutoff of every configuration that must not truncate (T2, T3, TR, both
+  stages). T2d keeps `532` (`cfgFull`, equal to its maximal product `|k|₁`) and `30` (`cfgLow`, a deliberate
+  truncation of products up to `|k|₁ = 798`). `emit` asserts that only T2d's `cfgLow` truncates, and the
+  verification block of each JSON records `cutoff`, `maxProductK` and `truncates` per stage.
+- For T2, T3 and TR every product is a constant (maximal `|k|₁ = 0`), so the old literal `0` lost nothing; the
+  change makes the data correct by construction rather than by accident. In T2d a literal `0` would fail
+  `checkInvariance`, `checkEnergy` and `checkTorsion` (and `532 / 0` fails `checkTorsion`; `0 / 30` fails the first two).
+- Regenerated: all four toys pass all eight sub-checks; a second run reproduces the files byte for byte; the 16
+  negative mutations fail exactly as before (`negative.json` unchanged; its Lean controls do not read the cutoff).
+  New hashes are in `summary.json` (T2 `c21c6ed2…`, T2d `5e7c178a…`, T3 `b2585b84…`, TR `0abbd9e2…`).
+
+**Other convention checks against the landed Lean** (`Model/{Ops,Exp,Inv,Basic}`, `Expr/{Compose,ComposeModels}`,
+`Embedding`, `Poly/Basic`):
+
+1. **Character-witness advice keys differ.** Lean keys the residual products of character witness `c` as
+   `[1, expWit.length + c, j]` (`cfg.forWitness 1 …`, then key `[1, j]`), once per normalized character (cache).
+   The mirror emits `[1, 1, slot, j]`, once per slot. Harmless today: `expResidualProduct` falls back to the direct
+   product on a missing key, and T2d's `g₀` is constant (the `isConst` shortcut). It would matter only for packed
+   advice.
+2. **Exp-witness advice keys differ.** Lean: `[1, nExp, j]`; mirror: `[1, 0, i, j]`. No toy has an `exp` slot.
+   Same fallback as 1.
+3. **Matching keys.** Compose products `[0, slot]` (Lean `[0, st.len]` over the whole program) and the reciprocal
+   check `[2, i]` (Lean `forWitness 2 i`, key `[2]`) agree. A missing compose key would give Lean's crude
+   enclosure, not the direct product, so these must stay exact.
+4. **`charWit` keys are not padded in Lean** (`findKeyIdx` on the length-`n` normalized key); the mirror pads short
+   keys. The emitted key `[0, 0]` has length `n`, so no effect. Lean also tries `-k` with the reflected witness;
+   the mirror does not (it fails closed, so stricter).
+5. **`invWitnessRadius` bound.** Lean multiplies by `recipOneSubUp δ` (a product-series upper bound of
+   `1/(1 − δ)`, at most `(1 + 2δ)`-type), the mirror by the exact `1/(1 − δ)`. The mirror can be slightly
+   optimistic; for the tiny `δ` of T2d this is far inside the 10^4.4 invariance slack.
+6. **Exp radius shape.** Lean uses `eB² (pinErr + (1/2 + ρ) res) + eB·mη` with `eB = 1 + expm1Up B` and a
+   `2π`-scaled residual including rounding cross terms; the mirror uses `ratExpUp(2B)` and the degree-1
+   `supBound`. Equal over exact ℚ data up to the upper-bound slack; no toy depends on it except T2d's character
+   witness `E = 1`, whose residual is exactly 0.
+7. **Exp slot degree.** Lean applies `toDeg 0` to the argument; the mirror fails closed on a nonzero degree. No toy
+   is affected.
+8. The `cfg.toMant` field is emitted as the string `"none (direct route)"`; Lean needs a function (production
+   `CertFixed.toMant`). Not a data value, but a consumer must not parse it.
+9. Gram and torsion product keys `[3, …]`, `[4, …]` have no landed Lean consumer yet; they are mirror conventions.

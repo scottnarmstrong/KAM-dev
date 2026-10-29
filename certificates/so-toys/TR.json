@@ -56,7 +56,7 @@
      "direct"
     ]
    ],
-   "cutoff": 0,
+   "cutoff": 1000000,
    "halvings": 8,
    "taylorN": 24,
    "toMant": "none (direct route)"
@@ -1880,7 +1880,7 @@
      "direct"
     ]
    ],
-   "cutoff": 0,
+   "cutoff": 1000000,
    "halvings": 8,
    "taylorN": 24,
    "toMant": "none (direct route)"
@@ -2120,6 +2120,7 @@
   "products": {
    "cfgFull": {
     "calls": 8,
+    "cutoff": 1000000,
     "distinct": 7,
     "largest": [
      [
@@ -2177,11 +2178,14 @@
       1
      ]
     ],
+    "maxProductK": 0,
     "pairs_calls": 8,
-    "pairs_distinct": 7
+    "pairs_distinct": 7,
+    "truncates": false
    },
    "cfgLow": {
     "calls": 208,
+    "cutoff": 1000000,
     "distinct": 184,
     "largest": [
      [
@@ -2257,8 +2261,10 @@
       1
      ]
     ],
+    "maxProductK": 0,
     "pairs_calls": 22,
-    "pairs_distinct": 18
+    "pairs_distinct": 18,
+    "truncates": false
    }
   },
   "resonance": {
