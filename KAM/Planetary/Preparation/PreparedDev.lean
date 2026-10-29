@@ -675,6 +675,166 @@ theorem p11_dev_rho_bound (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu e
           exact mul_le_mul_of_nonneg_left hz heps.le
         · exact hg
 
+section Main
+
+/-- The vector `(ω, Ω/(2π))` of step `holo-chart` (a). -/
+abbrev p11DevOmv (C : P11SecularData n) : P11CVec n → P11CVec (n + n) :=
+  fun J => Fin.append (C.omega J) ((2 * Real.pi : ℂ)⁻¹ • C.Omega J)
+
+theorem p11_dev_Omv_diff (hC : P11SecularSpec D C) :
+    DifferentiableOn ℂ (p11DevOmv C) (ball (KAM.realInclusion n C.J0) (2 * C.rC)) := by
+  obtain ⟨-, -, ⟨hωd, hΩd⟩, -⟩ := id hC
+  refine differentiableOn_pi.2 fun j => ?_
+  refine Fin.addCases (fun i => ?_) (fun i => ?_) j
+  · simpa only [p11DevOmv, Fin.append_left] using differentiableOn_pi.1 hωd i
+  · simp only [p11DevOmv, Fin.append_right, Pi.smul_apply]
+    exact (differentiableOn_pi.1 hΩd i).const_smul (2 * Real.pi : ℂ)⁻¹
+
+theorem p11_dev_Omv_jet (hC : P11SecularSpec D C) {J : P11CVec n}
+    (hJ : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC)) (α : Fin n → ℕ)
+    (hα : ∑ i, α i ≤ (p11PatchData D).mu + 1) :
+    ‖p11PartialVec α (p11DevOmv C) J‖ ≤ C.L := by
+  obtain ⟨-, -, -, -, -, -, hjet, -⟩ := id hC
+  exact (p11_norm_partial_le_iterated isOpen_ball (p11_dev_Omv_diff hC) α hJ).trans
+    (hjet J hJ _ hα)
+
+/-- The `i`-th component of `ω` has partials bounded by `L` (up to order `μ̄+1`). -/
+theorem p11_dev_main_omega (hC : P11SecularSpec D C) {J : P11CVec n}
+    (hJ : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC)) (i : Fin n) (α : Fin n → ℕ)
+    (hα : ∑ j, α j ≤ (p11PatchData D).mu + 1) :
+    ‖p11PartialVec α (fun (J' : P11CVec n) (_ : Fin 1) => C.omega J' i) J‖ ≤ C.L := by
+  let T : P11CVec (n + n) →L[ℂ] P11CVec 1 :=
+    ContinuousLinearMap.pi fun _ => ContinuousLinearMap.proj (Fin.castAdd n i)
+  have hT : (fun (J' : P11CVec n) (_ : Fin 1) => C.omega J' i) = fun J' => T (p11DevOmv C J') := by
+    funext J' x; simp [T, p11DevOmv]
+  rw [hT, p11_partial_clm isOpen_ball (p11_dev_Omv_diff hC) T α hJ]
+  calc ‖T (p11PartialVec α (p11DevOmv C) J)‖ ≤ ‖p11PartialVec α (p11DevOmv C) J‖ := by
+        refine (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun x => ?_
+        simpa [T] using norm_le_pi_norm (p11PartialVec α (p11DevOmv C) J) (Fin.castAdd n i)
+    _ ≤ C.L := p11_dev_Omv_jet hC hJ α hα
+
+/-- The `k`-th component of `Ω/(2π)` has partials bounded by `L` (up to order `μ̄+1`). -/
+theorem p11_dev_main_Omega (hC : P11SecularSpec D C) {J : P11CVec n}
+    (hJ : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC)) (k : Fin n) (α : Fin n → ℕ)
+    (hα : ∑ j, α j ≤ (p11PatchData D).mu + 1) :
+    ‖p11PartialVec α (fun (J' : P11CVec n) (_ : Fin 1) =>
+      (2 * Real.pi : ℂ)⁻¹ * C.Omega J' k) J‖ ≤ C.L := by
+  let T : P11CVec (n + n) →L[ℂ] P11CVec 1 :=
+    ContinuousLinearMap.pi fun _ => ContinuousLinearMap.proj (Fin.natAdd n k)
+  have hT : (fun (J' : P11CVec n) (_ : Fin 1) => (2 * Real.pi : ℂ)⁻¹ * C.Omega J' k) =
+      fun J' => T (p11DevOmv C J') := by
+    funext J' x; simp [T, p11DevOmv]
+  rw [hT, p11_partial_clm isOpen_ball (p11_dev_Omv_diff hC) T α hJ]
+  calc ‖T (p11PartialVec α (p11DevOmv C) J)‖ ≤ ‖p11PartialVec α (p11DevOmv C) J‖ := by
+        refine (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun x => ?_
+        simpa [T] using norm_le_pi_norm (p11PartialVec α (p11DevOmv C) J) (Fin.natAdd n k)
+    _ ≤ C.L := p11_dev_Omv_jet hC hJ α hα
+
+theorem p11_dev_split {N : ℕ} (α : Fin N → ℕ) (i : Fin N) (h : α i ≠ 0) :
+    ∃ α' : Fin N → ℕ, α = α' + Pi.single i 1 ∧ ∑ j, α' j + 1 = ∑ j, α j := by
+  refine ⟨Function.update α i (α i - 1), ?_, ?_⟩
+  · funext j
+    by_cases hj : j = i
+    · subst hj; simp; omega
+    · simp [hj]
+  · have : α = Function.update α i (α i - 1) + Pi.single i 1 := by
+      funext j
+      by_cases hj : j = i
+      · subst hj; simp; omega
+      · simp [hj]
+    conv_rhs => rw [this]
+    simp [Finset.sum_add_distrib]
+
+theorem p11_dev_nonzero {N : ℕ} (α : Fin N → ℕ) (h : 1 ≤ ∑ j, α j) : ∃ i, α i ≠ 0 := by
+  by_contra hcon
+  have hcon' : ∀ i, α i = 0 := fun i => by
+    by_contra hi; exact hcon ⟨i, hi⟩
+  simp [hcon'] at h
+
+/-- Partials of `C.h` of order `1 ≤ |α| ≤ μ̄+2` are bounded by `L`. -/
+theorem p11_dev_main_h (hC : P11SecularSpec D C) {J : P11CVec n}
+    (hJ : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC)) (α : Fin n → ℕ)
+    (hα1 : 1 ≤ ∑ i, α i) (hα : ∑ i, α i ≤ (p11PatchData D).mu + 2) :
+    ‖p11PartialVec α (fun (J' : P11CVec n) (_ : Fin 1) => C.h J') J‖ ≤ C.L := by
+  obtain ⟨-, -, -, -, hhd, hωh, -⟩ := id hC
+  obtain ⟨i, hi⟩ := p11_dev_nonzero α hα1
+  obtain ⟨α', hαeq, hsum⟩ := p11_dev_split α i hi
+  have hCh : DifferentiableOn ℂ (fun (J' : P11CVec n) (_ : Fin 1) => C.h J')
+      (ball (KAM.realInclusion n C.J0) (2 * C.rC)) := differentiableOn_pi.2 fun _ => hhd
+  have hEq : EqOn (p11Step i (fun (J' : P11CVec n) (_ : Fin 1) => C.h J'))
+      (fun (J' : P11CVec n) (_ : Fin 1) => C.omega J' i)
+      (ball (KAM.realInclusion n C.J0) (2 * C.rC)) := by
+    intro J' hJ'
+    rw [p11_dev_step_const _ (hhd.differentiableAt (isOpen_ball.mem_nhds hJ'))]
+    funext x
+    simp [hωh J' hJ']
+  rw [hαeq, ← p11_partial_step isOpen_ball hCh α' i hJ,
+    p11_partial_congr isOpen_ball hEq α' hJ]
+  exact p11_dev_main_omega hC hJ i α' (by omega)
+
+theorem p11_dev_V_sub_ball {r1 r2 eps : ℝ} (hr1 : 0 < r1) (hr1' : r1 ≤ C.rC) :
+    p11Box (p11DevCenter C eps) r1 r2 ⊆
+      {I : P11CVec (n + n) | (fun i : Fin n => I (Fin.castAdd n i)) ∈
+        ball (KAM.realInclusion n C.J0) (2 * C.rC)} := by
+  intro I hI
+  show _ ∈ ball _ _
+  rw [mem_ball_iff_norm]
+  refine lt_of_lt_of_le ((pi_norm_lt_iff hr1).2 fun i => ?_) (by linarith [hr1, hr1'])
+  have := hI.1 i
+  simpa using this
+
+theorem p11_dev_Om_diff (hC : P11SecularSpec D C) {r1 r2 eps : ℝ} (hr1 : 0 < r1)
+    (hr1' : r1 ≤ C.rC) (k : Fin n) :
+    DifferentiableOn ℂ (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+      (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun i : Fin n => I (Fin.castAdd n i)) k)
+      (p11Box (p11DevCenter C eps) r1 r2) := by
+  obtain ⟨-, -, ⟨-, hΩd⟩, -⟩ := id hC
+  refine differentiableOn_pi.2 fun _ => (differentiableOn_const _).mul ?_
+  have h1 : DifferentiableOn ℂ (fun I : P11CVec (n + n) => C.Omega (fun i : Fin n =>
+      I (Fin.castAdd n i)) k) {I | (fun i : Fin n => I (Fin.castAdd n i)) ∈
+        ball (KAM.realInclusion n C.J0) (2 * C.rC)} :=
+    (differentiableOn_pi.1 hΩd k).comp (by fun_prop) fun I hI => hI
+  exact h1.mono (p11_dev_V_sub_ball hr1 hr1')
+
+/-- The pure-`J` partials of `Ω̃_k(I_J)` are those of `Ω̃_k`. -/
+theorem p11_dev_Om_slice (hC : P11SecularSpec D C) {r1 r2 eps : ℝ} (hr1 : 0 < r1)
+    (hr1' : r1 ≤ C.rC) (k : Fin n) (α : Fin n → ℕ) (J ρ : P11CVec n)
+    (hP : (Fin.append J ρ : P11CVec (n + n)) ∈ p11Box (p11DevCenter C eps) r1 r2) :
+    p11PartialVec (Fin.append α (0 : Fin n → ℕ)) (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+        (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun i : Fin n => I (Fin.castAdd n i)) k)
+        (Fin.append J ρ) =
+      p11PartialVec α (fun (J' : P11CVec n) (_ : Fin 1) =>
+        (2 * Real.pi : ℂ)⁻¹ * C.Omega J' k) J := by
+  have key := p11_partial_slice (p11_dev_box_isOpen _ r1 r2) (p11_dev_Om_diff hC hr1 hr1' k
+    (eps := eps) (r2 := r2)) ρ α hP
+  rw [← key]
+  congr 1
+  funext J' x
+  simp
+
+/-- A function of `J` only has no partial with a `ρ̃`-index. -/
+theorem p11_dev_Om_zero (hC : P11SecularSpec D C) {r1 r2 eps : ℝ} (hr1 : 0 < r1)
+    (hr1' : r1 ≤ C.rC) (k : Fin n) (α γ : Fin n → ℕ) (hγ : γ ≠ 0) (J ρ : P11CVec n)
+    (hP : (Fin.append J ρ : P11CVec (n + n)) ∈ p11Box (p11DevCenter C eps) r1 r2) :
+    p11PartialVec (Fin.append α γ) (fun (I : P11CVec (n + n)) (_ : Fin 1) =>
+        (2 * Real.pi : ℂ)⁻¹ * C.Omega (fun i : Fin n => I (Fin.castAdd n i)) k)
+        (Fin.append J ρ) = 0 := by
+  obtain ⟨-, -, ⟨-, hΩd⟩, -⟩ := id hC
+  obtain ⟨i, hi⟩ : ∃ i, γ i ≠ 0 := by
+    by_contra hcon
+    exact hγ (funext fun i => by by_contra hi; exact hcon ⟨i, hi⟩)
+  obtain ⟨γ', hγeq, -⟩ := p11_dev_split γ i hi
+  have hf : DifferentiableOn ℂ (fun (J' : P11CVec n) (_ : Fin 1) =>
+      (2 * Real.pi : ℂ)⁻¹ * C.Omega J' k) (ball (KAM.realInclusion n C.J0) (2 * C.rC)) :=
+    differentiableOn_pi.2 fun _ => (differentiableOn_const _).mul (differentiableOn_pi.1 hΩd k)
+  have hmem : p11DevProj n (Fin.append J ρ) ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) :=
+    p11_dev_V_sub_ball hr1 hr1' hP
+  have := p11_partial_proj_rho hf (Fin.append α γ') i hmem isOpen_ball
+  rw [hγeq, ← p11_dev_append_add]
+  exact this
+
+end Main
+
 end Dev
 
 end KAM.Planetary

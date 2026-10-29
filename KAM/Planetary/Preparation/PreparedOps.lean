@@ -353,6 +353,31 @@ theorem p11_partial_clm {U : Set (P11CVec n)} (hU : IsOpen U) {F : P11CVec n →
     EqOn (p11PartialVec α (fun x => T (F x))) (fun x => T (p11PartialVec α F x)) U :=
   ops_foldl_clm hU T _ F hF
 
+/-- A coordinate partial is bounded by the operator norm of the iterated derivative. -/
+theorem p11_norm_partial_le_iterated {U : Set (P11CVec n)} (hU : IsOpen U)
+    {F : P11CVec n → P11CVec m} (hF : DifferentiableOn ℂ F U) (α : Fin n → ℕ) {x : P11CVec n}
+    (hx : x ∈ U) : ‖p11PartialVec α F x‖ ≤ ‖iteratedFDeriv ℂ (∑ i, α i) F x‖ := by
+  set L0 := (List.ofFn fun i : Fin n => List.replicate (α i) i).flatten with hL0
+  have hlen : L0.length = ∑ i, α i := by
+    rw [hL0, List.length_flatten, List.map_ofFn, List.sum_ofFn]
+    simp
+  have h1 := ops_foldl_ofFn hU hF L0.length L0.get x hx
+  rw [List.ofFn_get] at h1
+  have h2 : p11PartialVec α F x = iteratedFDeriv ℂ L0.length F x
+      (fun i => Pi.single (L0.get (Fin.rev i)) 1) := h1
+  rw [h2]
+  have h3 := (iteratedFDeriv ℂ L0.length F x).le_opNorm
+    (fun i => (Pi.single (L0.get (Fin.rev i)) 1 : P11CVec n))
+  have h4 : ∏ i, ‖(Pi.single (L0.get (Fin.rev i)) 1 : P11CVec n)‖ ≤ 1 :=
+    Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) fun i _ => by
+      rw [Pi.norm_single]; simp
+  have h5 : ‖iteratedFDeriv ℂ L0.length F x (fun i => Pi.single (L0.get (Fin.rev i)) 1)‖ ≤
+      ‖iteratedFDeriv ℂ L0.length F x‖ :=
+    h3.trans (by nlinarith [norm_nonneg (iteratedFDeriv ℂ L0.length F x),
+      Finset.prod_nonneg (fun i (_ : i ∈ Finset.univ) =>
+        norm_nonneg (Pi.single (L0.get (Fin.rev i)) 1 : P11CVec n))])
+  exact h5.trans (le_of_eq (by rw [hlen]))
+
 end PartialCalc
 
 section Slice
