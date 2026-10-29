@@ -81,9 +81,9 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: T1-audit-1.md classifies PlanarData, axes/actions, hat functions, secular average only; Laplace coefficients, sigma_i, rho, Phi_4, NR_4, beta_0/beta_1, complex notation, slow variables lack classified Lean definitions.
+LEAN_STATUS: PROVED
+LEAN_REF: PlanarData, p11c_axes, p11c_hatFix, p11c_hatMov, p11c_secular (KAM/Planetary/PlanarTorsion/Setting.lean); poincareProd (KAM/Planetary/Poincare/Product.lean); constantTerm, pairA, pairB, coeffs (KAM/Planetary/SecularForm/Coefficients.lean); p11c_sigma (KAM/Planetary/PlanarTorsion/SpectralAdapter.lean); p11c_frame (KAM/Planetary/PlanarTorsion/Frame.lean); good, nr4 (KAM/Planetary/SecularSpectrum/GoodPolynomial.lean); p11c_laplace (KAM/Planetary/PlanarTorsion/LaplaceReduction.lean); p11c_pairCoeffs (KAM/Planetary/PlanarTorsion/PairCoefficients.lean); p11c_coeffs (KAM/Planetary/PlanarTorsion/Quartic/Defs.lean); p11c_orbitJet (KAM/Planetary/PlanarTorsion/OrbitJet/Analytic.lean); p11c_bracket (KAM/Planetary/PlanarTorsion/Characters/Defs.lean)
+LEAN_NOTE: definitions audit DEFS-P11-audit-1 CLOSABLE (definitions only; Phi_4 via SecularSpectrum.good, not p11c_phi4); also PlanarData.Valid/kappa/actions/axes, SecularForm.laplace_def, frozen Phase/assemble/oscillatorAction/symplecticForm/hamiltonianVectorField; the asserted cylinder-norm property is GAP-PX
 NOTE: created from p11b:prose-L14-L16 (SPEC section data); consumers: nearly every node of Part 11b
 
 NODE: bpP:p11b:orbit
