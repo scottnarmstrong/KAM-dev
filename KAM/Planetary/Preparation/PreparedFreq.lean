@@ -16,7 +16,8 @@ For the prepared datum `Q` with `Q.N = (h₀ + g₂) ∘ (rescaling) / ε` on `a
 
 * `p11_freq_partial_eq`: `∂^α ω̂_c = ε^{|α|} ∂^{α + e_c} (h₀ + g₂)` at the rescaled point;
 * `p11_freq_partial`: the partials of `ω̂ = ∇ N` of order `j ≤ μ̄ + 1` on `actionNbhd box (3/4)`;
-* `p11_pr_b`: `|ω̂| ≤ 2L + 1` and `‖D ω̂‖ ≤ 2L + 1` there (conjuncts 9, 10 of `P11PreparedSpec`).
+* `p11_pr_b`: `|ω̂| ≤ 2L + 1` and `‖D ω̂‖ ≤ 2L + 1` there (conjuncts 9, 10 of `P11PreparedSpec`),
+  plus the Hessian bound `‖D ω̂‖ ≤ 1` required by `stepP:p11:pr-b`.
 -/
 
 @[expose] public noncomputable section
@@ -295,8 +296,10 @@ theorem p11_pr_b (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
         (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) /
           (eps : ℂ)) →
       p11Bound (KAM.actionNbhd (p11PreparedBox n) (3 / 4)) (p11PreparedFreq Q) (2 * C.L + 1) ∧
+      (∀ I ∈ KAM.actionNbhd (p11PreparedBox n) (3 / 4),
+        ‖fderiv ℂ (p11PreparedFreq Q) I‖ ≤ 2 * C.L + 1) ∧
       ∀ I ∈ KAM.actionNbhd (p11PreparedBox n) (3 / 4),
-        ‖fderiv ℂ (p11PreparedFreq Q) I‖ ≤ 2 * C.L + 1 := by
+        ‖fderiv ℂ (p11PreparedFreq Q) I‖ ≤ 1 := by
   obtain ⟨K0, hK0, hpart⟩ := p11_freq_partial hC hnu
   obtain ⟨-, hτ0, hL1, -, -, -, -, -, -, -⟩ := fast_consts hC
   have hnn : (0 : ℝ) ≤ ((n + n : ℕ) : ℝ) := Nat.cast_nonneg _
@@ -320,13 +323,10 @@ theorem p11_pr_b (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
   have hpart' := hpart (Fast := Fast) (A := A) (Q := Q) heps hεM hc0
   rw [hQe, hE] at hpart'
   have hpart'' := hpart' hθ0 hzs h5 hFs hA hN
-  refine ⟨fun I hI => ?_, fun I hI => ?_⟩
-  · have h0 := hpart'' I hI 0 (by omega) 0 (by simp)
-    rw [p11PartialVec_zero] at h0
-    simp only [ite_true] at h0
-    show ‖p11PreparedFreq Q I‖ ≤ 2 * C.L + 1
-    linarith
-  · have hb : ∀ c' : Fin (n + n), ‖fderiv ℂ (p11PreparedFreq Q) I (Pi.single c' 1)‖ ≤
+  have hess : ∀ I ∈ KAM.actionNbhd (p11PreparedBox n) (3 / 4),
+      ‖fderiv ℂ (p11PreparedFreq Q) I‖ ≤ 1 := by
+    intro I hI
+    have hb : ∀ c' : Fin (n + n), ‖fderiv ℂ (p11PreparedFreq Q) I (Pi.single c' 1)‖ ≤
         eps * C.L + K0 * (1 + c) * eps * lQ := by
       intro c'
       have h1 := hpart'' I hI 1 (by omega) (Pi.single c' 1) (by simp)
@@ -347,6 +347,12 @@ theorem p11_pr_b (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
         _ ≤ _ := by
             have : 0 ≤ (K0 + C.L) * (1 + c) * eps * lQ := by positivity
             nlinarith
+    linarith
+  refine ⟨fun I hI => ?_, fun I hI => (hess I hI).trans (by linarith), hess⟩
+  · have h0 := hpart'' I hI 0 (by omega) 0 (by simp)
+    rw [p11PartialVec_zero] at h0
+    simp only [ite_true] at h0
+    show ‖p11PreparedFreq Q I‖ ≤ 2 * C.L + 1
     linarith
 
 end Freq
