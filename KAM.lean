@@ -46,13 +46,16 @@ public import KAM.Canonical.SymplecticForm
 public import KAM.Canonical.Transform
 public import KAM.Canonical.TransformSeries
 public import KAM.Canonical.VectorField
+public import KAM.Certificate.Arith.ComplexExp
 public import KAM.Certificate.Arith.Interface
 public import KAM.Certificate.Arith.PiEnclosure
 public import KAM.Certificate.Arith.PiHigh
+public import KAM.Certificate.Arith.Rat
 public import KAM.Certificate.Arith.Roots
 public import KAM.Certificate.Arith.Transcendental
 public import KAM.Certificate.Clock
 public import KAM.Certificate.Constants
+public import KAM.Certificate.Expr.Basic
 public import KAM.Certificate.Freq
 public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.Model.Basic
