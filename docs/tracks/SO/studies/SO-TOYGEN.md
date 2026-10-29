@@ -305,8 +305,9 @@ replayable on the `direct` route.** T2, T3 and TR are trivial.
 
 ## 8. Determinism and input pins
 
-Determinism: two runs of `toy_gen.py` produce byte-identical `<toy>.json`. The pipeline uses no floating point in
-any emitted value, no NumPy and no randomness. The environment was Python 3.12.3.
+Determinism: two runs of `toy_gen.py` produce byte-identical `<toy>.json`. Every certificate value is an exact
+rational, computed without floating point, NumPy or randomness. Only the `verification` margins also carry floats,
+for reading. The environment was Python 3.12.3.
 
 | Input | SHA-256 |
 |---|---|
