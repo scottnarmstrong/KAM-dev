@@ -9,6 +9,7 @@ public import Mathlib
 public import KAM.Planetary.Preparation.WrapperEps
 public import KAM.Planetary.Preparation.WrapperAsym
 public import KAM.Planetary.Preparation.WrapperSmall
+public import KAM.Planetary.Preparation.Datum
 
 /-!
 # The local wrapper for P-FIXED, parametric in `data_star` (P11A-P10, `bpP:p11:wrapper`)
@@ -151,6 +152,17 @@ theorem wrapper_of_data_star {n : ℕ} (D : P11Physical n)
     ((hdispQ b hb θ).trans hthr2)
   exact p11_wr_set hC hF hS heps hεM hpe hsm256 hP1 hP2 hR1 hR2 hFS hgood Q'.subset
     Q'.lattice hγ hdβ.2.1 Q'.dio hdisp Q'.borel Q'.cell_lower
+
+/-- **Signed `wrapper`** (bpP:p11:wrapper): the parametric `wrapper_of_data_star`
+applied to the signed `data_star` (ruling OVERNIGHT 03:25). -/
+theorem wrapper {n : ℕ} (D : P11Physical n) :
+    ∃ eps0 : ℝ, 0 < eps0 ∧ ∀ eps, 0 < eps → eps < eps0 →
+      ∃ S : Set (Phase (n*2)), MeasurableSet S ∧ 0 < volume S ∧ volume S < ⊤ ∧
+        S ⊆ circularTube D.G D.m0 D.m D.a (p11Zeta D) ∧
+        ∀ z ∈ S, ∃ w : P11Vec (n*2), ∃ K : P11Vec (n*2) → Phase (n*2),
+          ∃ theta0, z=K theta0 ∧ Set.range K ⊆ S ∧
+            IsPhysicalTorus (fixedHamiltonian D.G D.m0 D.m eps) w K :=
+  wrapper_of_data_star D (data_star D)
 
 end Wrapper
 

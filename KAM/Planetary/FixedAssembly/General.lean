@@ -8,6 +8,7 @@ module
 public import Mathlib
 public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.Newtonian.Assembly
+public import KAM.Planetary.Preparation.Wrapper
 
 /-!
 # Fixed assembly: the general-dimension route (Part 13)
@@ -68,6 +69,22 @@ theorem n_general_of_wrapper {n : ℕ}
     fun z hz => ?_⟩
   obtain ⟨w, K, θ, hz, hK, hT⟩ := hS2 z hz
   exact ⟨w, K, θ, hz.symm, hK, hT⟩
+
+/-- **Signed `n_general`** (bpP:p13:n-general): `n_general_of_wrapper` applied to the
+signed `wrapper`
+(ruling OVERNIGHT 03:50). -/
+theorem n_general {n : ℕ} (hn : 2 ≤ n)
+    (G m0 : ℝ) (m a : Fin n → ℝ)
+    (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)
+    (ha : ∀ i, 0 < a i) (hsep : ∀ i j, i < j → a i < a j)
+    (eta : ℝ) (heta : 0 < eta) :
+    let d := tubeD (axisGap a)
+    let D := tubeBigD (axisGap a) (axisMax a)
+    ∃ eps0 : ℝ, 0 < eps0 ∧ 0 < d ∧ d < D ∧
+      ∀ eps : ℝ, 0 < eps → eps < eps0 →
+        ∃ S : Set (Phase (n * 2)), 0 < volume S ∧ volume S < ⊤ ∧
+          FixedKolmogorovSet G m0 m a eps eta d D S :=
+  n_general_of_wrapper (fun D => KAM.Planetary.wrapper D) hn G m0 m a hG hm0 hm ha hsep eta heta
 
 end FixedAssembly
 

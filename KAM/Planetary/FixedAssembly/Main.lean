@@ -52,6 +52,19 @@ theorem fixed_of_wrapper {n : ℕ}
       n_general_of_wrapper hw hn G m0 m a hG hm0 hm ha hsep eta heta
     exact ⟨eps0, _, _, he0, hd, hdD, h⟩
 
+/-- **Signed `fixed`** (bpP:p13:fixed): `fixed_of_wrapper` applied to the signed `wrapper`
+(ruling OVERNIGHT 03:50). -/
+theorem fixed {n : ℕ} (hn : 2 ≤ n)
+    (G m0 : ℝ) (m a : Fin n → ℝ)
+    (hG : 0 < G) (hm0 : 0 < m0) (hm : ∀ i, 0 < m i)
+    (ha : ∀ i, 0 < a i) (hsep : ∀ i j, i < j → a i < a j)
+    (eta : ℝ) (heta : 0 < eta) :
+    ∃ eps0 d D : ℝ, 0 < eps0 ∧ 0 < d ∧ d < D ∧
+      ∀ eps : ℝ, 0 < eps → eps < eps0 →
+        ∃ S : Set (Phase (n * 2)), 0 < volume S ∧ volume S < ⊤ ∧
+          FixedKolmogorovSet G m0 m a eps eta d D S :=
+  fixed_of_wrapper (fun D => KAM.Planetary.wrapper D) hn G m0 m a hG hm0 hm ha hsep eta heta
+
 end FixedAssembly
 
 end KAM.Planetary
