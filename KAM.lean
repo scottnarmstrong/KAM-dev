@@ -677,8 +677,12 @@ public import KAM.Planetary.PGMeasure.Setting
 public import KAM.Planetary.PGMeasure.Tonelli
 public import KAM.Planetary.PGMeasure.TwoScale
 public import KAM.Planetary.PlanarAssembly.Boxes
+public import KAM.Planetary.PlanarAssembly.ChartData
+public import KAM.Planetary.PlanarAssembly.Data
+public import KAM.Planetary.PlanarAssembly.DataBox
 public import KAM.Planetary.PlanarAssembly.Geometry
 public import KAM.Planetary.PlanarAssembly.Measure
+public import KAM.Planetary.PlanarAssembly.SlowSmall
 public import KAM.Planetary.PlanarAssembly.Transport
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.Calculus
 public import KAM.Planetary.PlanarTorsion.AsymptoticEntries.CoeffEq
