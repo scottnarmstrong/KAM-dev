@@ -34,7 +34,9 @@ theorem sum_map_range_eq (f : ℕ → ℤ) (n : ℕ) :
     ((List.range n).map f).sum = ∑ i ∈ Finset.range n, f i := by
   induction n with
   | zero => simp
-  | succ n ih => rw [List.range_succ, List.map_append, List.sum_append, ih, Finset.sum_range_succ]; simp
+  | succ n ih =>
+    rw [List.range_succ, List.map_append, List.sum_append, ih, Finset.sum_range_succ]
+    simp
 
 theorem packSum_cons (w : ℕ) (c : ℤ) (cs : List ℤ) :
     packSum w (c :: cs) = c + 2 ^ w * packSum w cs := by
@@ -226,5 +228,193 @@ theorem packSum_listConv (w : ℕ) (a b : List ℤ) :
       rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by simpa using hs)]
       simp
     rw [this, sum_map_range_eq]
+
+/-- The largest absolute value of a slot. -/
+def maxAbs (cs : List ℤ) : ℕ := cs.foldr (fun c m => max c.natAbs m) 0
+
+theorem natAbs_le_maxAbs {cs : List ℤ} {c : ℤ} (h : c ∈ cs) : c.natAbs ≤ maxAbs cs := by
+  induction cs with
+  | nil => simp at h
+  | cons d cs ih =>
+    rw [maxAbs, List.foldr_cons]
+    rcases List.mem_cons.mp h with rfl | h
+    · exact le_max_left _ _
+    · exact le_trans (ih h) (le_max_right _ _)
+
+theorem abs_getD_le (cs : List ℤ) (i : ℕ) : |cs.getD i 0| ≤ (maxAbs cs : ℤ) := by
+  by_cases hi : i < cs.length
+  · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi, Option.getD_some,
+      Int.abs_eq_natAbs]
+    exact_mod_cast natAbs_le_maxAbs (List.getElem_mem hi)
+  · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (not_lt.mp hi)]
+    simp
+
+/-- Cheap sufficient test that the exact convolution fits the slots:
+`2 · min(|a|, |b|) · max|a_i| · max|b_j| < 2^w`. -/
+def convFits (w : ℕ) (a b : List ℤ) : Bool :=
+  decide (2 * min a.length b.length * maxAbs a * maxAbs b < 2 ^ w)
+
+/-- One convolution entry is at most `min(|a|,|b|) · max|a| · max|b|` in absolute value. -/
+theorem abs_conv_entry_le (a b : List ℤ) (k : ℕ) :
+    |∑ i ∈ Finset.range (k + 1), a.getD i 0 * b.getD (k - i) 0| ≤
+      (min a.length b.length : ℕ) * (maxAbs a : ℤ) * (maxAbs b : ℤ) := by
+  set S := (Finset.range (k + 1)).filter fun i => i < a.length ∧ k - i < b.length with hS
+  have hz : ∀ i ∈ Finset.range (k + 1), i ∉ S → a.getD i 0 * b.getD (k - i) 0 = 0 := by
+    intro i hik hi
+    rw [hS, Finset.mem_filter] at hi
+    by_cases h1 : i < a.length
+    · have h2 : ¬ k - i < b.length := fun h2 => hi ⟨hik, h1, h2⟩
+      rw [List.getD_eq_getElem?_getD (l := b), List.getElem?_eq_none (not_lt.mp h2)]
+      simp
+    · rw [List.getD_eq_getElem?_getD (l := a), List.getElem?_eq_none (not_lt.mp h1)]
+      simp
+  have hcard : S.card ≤ min a.length b.length := by
+    refine le_min ?_ ?_
+    · calc S.card ≤ (Finset.range a.length).card :=
+            Finset.card_le_card fun i hi => by
+              rw [hS, Finset.mem_filter] at hi
+              exact Finset.mem_range.mpr hi.2.1
+        _ = a.length := Finset.card_range _
+    · calc S.card ≤ (Finset.range b.length).card :=
+            Finset.card_le_card_of_injOn (fun i => k - i)
+              (fun i hi => by
+                rw [Finset.mem_coe, hS, Finset.mem_filter] at hi
+                exact Finset.mem_range.mpr hi.2.2)
+              (fun i hi j hj hij => by
+                rw [Finset.mem_coe, hS, Finset.mem_filter, Finset.mem_range] at hi hj
+                simp only at hij
+                omega)
+        _ = b.length := Finset.card_range _
+  calc |∑ i ∈ Finset.range (k + 1), a.getD i 0 * b.getD (k - i) 0|
+      ≤ ∑ i ∈ Finset.range (k + 1), |a.getD i 0 * b.getD (k - i) 0| :=
+        Finset.abs_sum_le_sum_abs _ _
+    _ = ∑ i ∈ S, |a.getD i 0 * b.getD (k - i) 0| := by
+        symm
+        refine Finset.sum_subset (Finset.filter_subset _ _) fun i hi hn => ?_
+        rw [hz i hi hn]; simp
+    _ ≤ ∑ _i ∈ S, ((maxAbs a : ℤ) * (maxAbs b : ℤ)) := by
+        refine Finset.sum_le_sum fun i _ => ?_
+        rw [abs_mul]
+        exact mul_le_mul (abs_getD_le a i) (abs_getD_le b _) (abs_nonneg _) (by positivity)
+    _ = S.card * ((maxAbs a : ℤ) * (maxAbs b : ℤ)) := by simp
+    _ ≤ (min a.length b.length : ℕ) * (maxAbs a : ℤ) * (maxAbs b : ℤ) := by
+        have hc' : (S.card : ℤ) ≤ ((min a.length b.length : ℕ) : ℤ) := by exact_mod_cast hcard
+        rw [← mul_assoc]
+        exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hc' (by positivity))
+          (by positivity)
+
+theorem slotsBounded_listConv {w : ℕ} {a b : List ℤ} (h : convFits w a b = true) :
+    SlotsBounded w (listConv a b) := by
+  intro c hc
+  have hf : 2 * min a.length b.length * maxAbs a * maxAbs b < 2 ^ w := by
+    simpa [convFits] using h
+  unfold listConv at hc
+  split_ifs at hc with he
+  · simp at hc
+  obtain ⟨k, -, rfl⟩ := List.mem_map.mp hc
+  rw [sum_map_range_eq]
+  have h1 := abs_conv_entry_le a b k
+  have h2 : (2 * min a.length b.length * maxAbs a * maxAbs b : ℕ) < 2 ^ w := hf
+  have h3 : 2 * ((min a.length b.length : ℕ) : ℤ) * (maxAbs a : ℤ) * (maxAbs b : ℤ) < 2 ^ w := by
+    exact_mod_cast h2
+  linarith
+
+/-- The packing of a block-flattened list as a sum over blocks. -/
+theorem packSum_flatten (w L : ℕ) (A : List (List ℤ)) (hA : ∀ x ∈ A, x.length = L) :
+    packSum w A.flatten =
+      ∑ i ∈ Finset.range A.length, packSum w (A.getD i []) * (2 ^ (w * L)) ^ i := by
+  induction A with
+  | nil => simp [packSum_nil]
+  | cons x A ih =>
+    have hx : x.length = L := hA x (by simp)
+    rw [List.flatten_cons, packSum_append, hx, ih (fun y hy => hA y (by simp [hy])),
+      List.length_cons, Finset.sum_range_succ', Finset.mul_sum]
+    simp only [List.getD_cons_zero, List.getD_cons_succ, pow_zero, mul_one, pow_succ]
+    rw [add_comm]
+    congr 1
+    refine Finset.sum_congr rfl fun i _ => by ring
+
+/-- **Shard decomposition**: with both factors cut into blocks of `L` slots, the packed product
+is the shifted sum of the shard sums `Σ_{i+j=s} pack(A_i)·pack(B_j)`. -/
+theorem packSum_flatten_mul_shards (w L : ℕ) (A B : List (List ℤ))
+    (hA : ∀ x ∈ A, x.length = L) (hB : ∀ x ∈ B, x.length = L) :
+    packSum w A.flatten * packSum w B.flatten =
+      ∑ s ∈ Finset.range (A.length + B.length - 1), 2 ^ (w * L * s) *
+        ∑ i ∈ Finset.range (s + 1), packSum w (A.getD i []) * packSum w (B.getD (s - i) []) := by
+  rw [packSum_flatten w L A hA, packSum_flatten w L B hB,
+    sum_mul_sum_range_cauchy (fun i => packSum w (A.getD i [])) (fun j => packSum w (B.getD j []))
+      A.length B.length
+      (fun i hi => by simp [List.getD_eq_getElem?_getD, List.getElem?_eq_none hi, packSum_nil])
+      (fun j hj => by simp [List.getD_eq_getElem?_getD, List.getElem?_eq_none hj, packSum_nil])]
+  refine Finset.sum_congr rfl fun s _ => ?_
+  rw [pow_mul 2 (w * L) s, mul_comm]
+
+/-- The signed slot read off the residue `r` of a width-`w` slot (`m = 2^w`). -/
+def slotRep (m r : ℤ) : ℤ := if 2 * r < m then r else r - m
+
+/-- Slot decoding loop: peel `len` slots from `X`, testing slot `i + j` against `logs (i + j)`. -/
+def intSlotsBoundAux (w : ℕ) (logs : ℕ → ℕ) : ℕ → ℕ → ℤ → Bool
+  | 0, _, X => decide (X = 0)
+  | len + 1, i, X =>
+    let m : ℤ := ((2 ^ w : ℕ) : ℤ)
+    let e := slotRep m (X % m)
+    decide (e.natAbs ≤ 2 ^ logs i) && intSlotsBoundAux w logs len (i + 1) ((X - e) / m)
+
+/-- Slot decoding by bounds (SO-REPLAY2 `soIntSlotsBound`): decode `len` signed slots of `X`
+(width `w`) and test `|e_i| ≤ 2^(logs i)` and that nothing is left over. -/
+def intSlotsBound (w len : ℕ) (logs : ℕ → ℕ) (X : ℤ) : Bool := intSlotsBoundAux w logs len 0 X
+
+theorem intSlotsBoundAux_sound {w : ℕ} {logs : ℕ → ℕ} (len : ℕ) :
+    ∀ (i : ℕ) (X : ℤ), intSlotsBoundAux w logs len i X = true →
+      ∃ e : List ℤ, e.length = len ∧ (∀ j < len, |e.getD j 0| ≤ 2 ^ logs (i + j)) ∧
+        X = packSum w e := by
+  induction len with
+  | zero =>
+    intro i X h
+    refine ⟨[], rfl, fun j hj => absurd hj (Nat.not_lt_zero _), ?_⟩
+    simpa [intSlotsBoundAux, packSum_nil] using h
+  | succ len ih =>
+    intro i X h
+    simp only [intSlotsBoundAux, Bool.and_eq_true, decide_eq_true_eq] at h
+    obtain ⟨hb, hrest⟩ := h
+    obtain ⟨e', hl, hbd, hX'⟩ := ih _ _ hrest
+    set m : ℤ := ((2 ^ w : ℕ) : ℤ) with hm
+    have hmpos : 0 < m := by rw [hm]; positivity
+    set e0 := slotRep m (X % m) with he0
+    have hdvd : m ∣ X - e0 := by
+      have h1 : m ∣ X - X % m := ⟨X / m, by
+        have := Int.mul_ediv_add_emod X m; linarith⟩
+      unfold slotRep at he0
+      split_ifs at he0
+      · rw [he0]; exact h1
+      · rw [he0]
+        have : X - (X % m - m) = (X - X % m) + m := by ring
+        rw [this]; exact dvd_add h1 dvd_rfl
+    have hXe : X = e0 + m * ((X - e0) / m) := by
+      rw [Int.mul_ediv_cancel' hdvd]; ring
+    refine ⟨e0 :: e', by simp [hl], ?_, ?_⟩
+    · intro j hj
+      cases j with
+      | zero =>
+        simp only [List.getD_cons_zero, add_zero]
+        rw [Int.abs_eq_natAbs]
+        exact_mod_cast hb
+      | succ j =>
+        simp only [List.getD_cons_succ]
+        have := hbd j (by omega)
+        rwa [show i + (j + 1) = i + 1 + j by ring]
+    · rw [packSum_cons, ← hX']
+      simpa [hm] using hXe
+
+theorem intSlotsBound_sound {w len : ℕ} {logs : ℕ → ℕ} {X : ℤ}
+    (h : intSlotsBound w len logs X = true) :
+    ∃ e : List ℤ, e.length = len ∧ (∀ i < len, |e.getD i 0| ≤ 2 ^ logs i) ∧ X = packSum w e := by
+  simpa using intSlotsBoundAux_sound len 0 X h
+
+-- Kernel sanity checks: packing and slot decoding reduce by `decide +kernel`.
+example : packShift 8 [3, -1, 2] = 3 - 256 + 2 * 65536 := by decide +kernel
+example : intSlotsBound 8 3 (fun _ => 0) (packShift 8 [3, -1, 2]) = false := by decide +kernel
+example : intSlotsBound 8 3 (fun i => if i = 2 then 1 else 2) (packShift 8 [3, -1, 2]) = true := by
+  decide +kernel
 
 end KAM.Certificate
