@@ -1733,9 +1733,9 @@ EDGE: bpP:p1:order | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kset@L253-L253 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-PAR covers only early D0 (pgD0); torus family and Kolmogorov set not defined
+LEAN_STATUS: PROVED
+LEAN_REF: pgD0_relClosed (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:torus-conv
@@ -1771,9 +1771,9 @@ EDGE: bpP:p5:freq-data | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:torus-conv@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-FAM PASS WITH NOTES but PGFamilySpec/torus_conv omit the Diophantine clause (derived later by consumers) and frequency bounds live in separate frequency_bounds; full conclusion not stated in one declaration
+LEAN_STATUS: PROVED
+LEAN_REF: torus_conv_node (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES (constant A_N from freq-data)
 NOTE: -
 
 NODE: stepP:p5:tc-chart
@@ -1909,9 +1909,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:tc-freq@L263
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frequency_bounds states only the norm bounds; Diophantine part of the conclusion not in the declaration
+LEAN_STATUS: PROVED
+LEAN_REF: tc_freq_node (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:cell-transfer
@@ -2344,9 +2344,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-bad@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; only action side exported privately (lo_core_bad); left
+LEAN_STATUS: PROVED
+LEAN_REF: lo_bad_ratio (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:lo-lost
@@ -2375,9 +2375,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-lost@L297
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; local haves inside lower, no declaration states step; left
+LEAN_STATUS: PROVED
+LEAN_REF: lo_lost_complement, lo_lost_budget (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:strictness

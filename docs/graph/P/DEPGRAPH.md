@@ -5370,9 +5370,9 @@ EDGE: bpP:p3:seq | blueprint-P/parts/p3b-two-scale-limit.tex#stepP:p3:sum-radii@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3+sol-delta-P-e
 REVIEWER: sol-delta2-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sum_radii (KAM/Planetary/TwoScale/SumsRadiiNodes.lean)
+LEAN_NOTE: audit GAP-PX PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p3:limit-actions
@@ -7899,9 +7899,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p4-pg-measure.tex#stepP:p4:dc-prod@L1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p4+sol-review-P-f
 REVIEWER: sol-delta-P-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: dc_prod_node (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: step of Lemma bpP:p4:domain-collar, whose statement and the other step are excluded (outside every root closure: bpP:p5:use5-fix says Part 5 does not use the lemma as a black box); this step alone is cited by bpP:p5:bu-collar.
 
 NODE: bpP:p4:disc-measure
@@ -9843,9 +9843,9 @@ EDGE: bpP:p1:order | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:kset@L253-L253 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-PAR covers only early D0 (pgD0); torus family and Kolmogorov set not defined
+LEAN_STATUS: PROVED
+LEAN_REF: pgD0_relClosed (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:torus-conv
@@ -9881,9 +9881,9 @@ EDGE: bpP:p5:freq-data | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:torus-conv@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-FAM PASS WITH NOTES but PGFamilySpec/torus_conv omit the Diophantine clause (derived later by consumers) and frequency bounds live in separate frequency_bounds; full conclusion not stated in one declaration
+LEAN_STATUS: PROVED
+LEAN_REF: torus_conv_node (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES (constant A_N from freq-data)
 NOTE: -
 
 NODE: stepP:p5:tc-chart
@@ -10019,9 +10019,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:tc-freq@L263
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: frequency_bounds states only the norm bounds; Diophantine part of the conclusion not in the declaration
+LEAN_STATUS: PROVED
+LEAN_REF: tc_freq_node (KAM/Planetary/PGAssembly/LocationNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:cell-transfer
@@ -10454,9 +10454,9 @@ EDGE: bpP:p4:conv#data | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-bad@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; only action side exported privately (lo_core_bad); left
+LEAN_STATUS: PROVED
+LEAN_REF: lo_bad_ratio (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p5:lo-lost
@@ -10485,9 +10485,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-lost@L297
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; local haves inside lower, no declaration states step; left
+LEAN_STATUS: PROVED
+LEAN_REF: lo_lost_complement, lo_lost_budget (KAM/Planetary/PGAssembly/LowerNodes.lean)
+LEAN_NOTE: audit GAP-P5b round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p5:strictness
@@ -12679,9 +12679,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not in GAP-P6b
+LEAN_STATUS: PROVED
+LEAN_REF: ma_newton (KAM/Planetary/Newtonian/AssemblyNewtonNodes.lean)
+LEAN_NOTE: audit GAP-PX PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p6:ma-pair
@@ -19353,9 +19353,9 @@ EDGE: bpP:p11:sec-conv#data | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: kam_input (KAM/Planetary/Quantitative/KamInputNodes.lean)
+LEAN_NOTE: audit GAP-P11a-SQ PASS (B0 = mu(mu+1)+2 for rho = 2)
 NOTE: a citation with exact interface; the pre-extracted edge to bpP:p11:wrapper is reversed (the wrapper consumes this definition) and deleted here; K6 is stated as a dependency on 11a-4/11a-5 (labels exist; their proofs belong to the 11a slices)
 
 NODE: bpP:p11:norm-dict
@@ -24327,9 +24327,9 @@ EDGE: bpP:p11a:domain-def | blueprint-P/parts/p11a3-iteration-selection.tex#bpP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3
 REVIEWER: sol-review-P-y
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: sel_data_gamma (KAM/Planetary/Quantitative/TheoremNodes.lean)
+LEAN_NOTE: audit GAP-P11a-SQ PASS
 NOTE: package of Part 11a-3 (local hypothesis package; the P-p11a45 node bpP:p11a:situation and every theorem of the part consume it). Edges to the 11a-1 results are uses of their hypotheses/definitions, not of their conclusions: diophantine-measure supplies the form of D1, D2; the conclusion is used later (finite-measure).
 
 NODE: bpP:p11a:y-log
@@ -25021,9 +25021,9 @@ EDGE: bpP:p11a:schedule | blueprint-P/parts/p11a3-iteration-selection.tex#stepP:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a3+sol-review-P-y
 REVIEWER: sol-delta-P-ac
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit B05 covers support bound with global cutoffs; source K_vartheta subset V localisation not delivered as a statement
+LEAN_STATUS: PROVED
+LEAN_REF: fe_supp (KAM/Planetary/WeakKAM/ScheduleNodes.lean)
+LEAN_NOTE: audit GAP-P11a-SQ PASS
 NOTE: -
 
 NODE: stepP:p11a:fe-reg
@@ -28250,9 +28250,9 @@ EDGE: bpP:p11a:sec-q-thm#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Q6-audit-1.md:99 row mentions uniform cDelta choice, positivity and premises retained, but does not confirm the node's conclusion that K_vartheta subset V (Euclidean vs max distance) nor that no hypothesis mentions a conclusion as a stated claim; left open.
+LEAN_STATUS: PROVED
+LEAN_REF: qt_order (KAM/Planetary/Quantitative/TheoremNodes.lean)
+LEAN_NOTE: audit GAP-P11a-SQ PASS
 NOTE: -
 
 NODE: stepP:p11a:qt-reduce
@@ -28280,9 +28280,9 @@ EDGE: bpP:p11a:sec-q-thm#data | blueprint-P/parts/p11a5-quantitative-theorem.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11a45+sol-review-P-z
 REVIEWER: sol-delta-P-ad
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: Q6-audit-1.md:100 confirms data reconstruction and thresholds<=polyBudget via polyBudget_threshold_le, but no audit row explicitly confirms gamma(frakd')=gamma(frakd); left open.
+LEAN_STATUS: PROVED
+LEAN_REF: qt_reduce (KAM/Planetary/Quantitative/TheoremNodes.lean)
+LEAN_NOTE: audit GAP-P11a-SQ PASS
 NOTE: -
 
 NODE: stepP:p11a:qt-zero
@@ -31678,7 +31678,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: audit P12-C ledger does not list this node; dictionary/Gamma/cylnorm not stated as separate export
+LEAN_NOTE: asserted cylinder-norm property now exported by cylnorm (GAP-PX, FastInverseNodes.lean); definitions not yet classified by an audit (DEFS-P2 pending); left open
 NOTE: section data of 12.1 (SPEC section-data table); coverage prose-L15-L20. The dictionary section label bpP:p8:conv has no node of its own in the P-p8 draft, so no edge to it
 
 NODE: bpP:p12:forward-tube
@@ -32005,9 +32005,9 @@ EDGE: bpP:p12:sec-set#data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P12-B N2: inverse proved only C^1 (ContDiffAt.rpow_const_of_ne), not analytic as the node states
+LEAN_STATUS: PROVED
+LEAN_REF: fd_inv (KAM/Planetary/PlanarAssembly/FastInverseNodes.lean)
+LEAN_NOTE: audit GAP-PX PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p12:data
