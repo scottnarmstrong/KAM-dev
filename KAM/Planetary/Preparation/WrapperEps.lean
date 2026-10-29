@@ -141,7 +141,7 @@ theorem p11_wr_set {D : P11Physical n} {nu eps c : ℝ} {Q : P11PreparedData n}
     (hdio : ∀ b ∈ good, KAM.IsDiophantine γ τ (freq b))
     (hdisp : ∀ b ∈ good, ∀ θ, ‖torus b θ - (θ, b)‖ ≤ 1/2)
     (hbor : MeasurableSet ((fun z : Phase (n+n) => torus z.2 z.1) '' (unitCube (n+n) ×ˢ good)))
-    (hcell : ENNReal.ofReal ((2 : ℝ)^(-(2*(n+n) : ℤ))) * volume good ≤
+    (hcell : ENNReal.ofReal ((2 : ℝ)^(-(2*((n+n : ℕ) : ℤ)))) * volume good ≤
       volume ((fun z : Phase (n+n) => torus z.2 z.1) '' (unitCube (n+n) ×ˢ good))) :
     ∃ S : Set (Phase (n*2)), MeasurableSet S ∧ 0 < volume S ∧ volume S < ⊤ ∧
       S ⊆ circularTube D.G D.m0 D.m D.a (p11Zeta D) ∧
