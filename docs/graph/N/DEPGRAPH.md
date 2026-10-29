@@ -924,7 +924,7 @@ EXTRACTOR: sonnet-extract-N-p02+sol-delta-N-a
 REVIEWER: sol-delta2-N-a
 LEAN_STATUS: PROVED
 LEAN_REF: KAM.Nekhoroshev.partialConvex_nekhoroshev (KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean)
-LEAN_NOTE: N-PARTIAL-CONVEX anchor SEALED (manifest nekhoroshev.d25.partialConvex_nekhoroshev.v1); seal-key audit N11-P-seal-audit-1 PASS WITH NOTES
+LEAN_NOTE: N-PARTIAL-CONVEX anchor SEALED (manifest nekhoroshev.d25.partialConvex_nekhoroshev.v1); seal-key audit N11-P-seal-audit-1 PASS WITH NOTES; independent seal-key audit NSEAL-PARTIAL-audit-1 PASS (Q1 per OVERNIGHT 15:35 ruling)
 NOTE: frozen root; proof is Part 11c L159-169 (steps stepN:p11:final-*). SOURCE_GAP of the source paper (sourcegap L335) is filled by Part 11 (route of bpN:p11). The step edges are listed with locators in the proof environment of Part 11c
 
 NODE: bpN:p0:partial-sec#degenerateHamiltonian
@@ -16330,7 +16330,7 @@ EXTRACTOR: sonnet-extract-N-p11ab+sol-delta-N-f
 REVIEWER: sol-delta2-N-f
 LEAN_STATUS: PROVED
 LEAN_REF: iterative (KAM/Nekhoroshev/Partial/Iterative.lean); helpers in IterativeMap.lean, IterativeRemainder.lean
-LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c)
+LEAN_NOTE: audit N11-H-audit-1 PASS WITH NOTES; signature amended by ruling F2-C1 (hc : 0 < b.c); retro delta audit N11-F2-audit-2 PASS WITH NOTES (F2-C1 resolved by hc premise)
 NOTE: -
 
 NODE: stepN:p11:it-gen

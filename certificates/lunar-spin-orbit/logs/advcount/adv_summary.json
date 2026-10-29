@@ -1,0 +1,1694 @@
+{
+ "jet": {
+  "program_length": 887,
+  "ops": {
+   "const": 204,
+   "action": 3,
+   "char": 14,
+   "add": 180,
+   "mul": 486
+  },
+  "mul_classes_whole": {
+   "CC": 7,
+   "CM": 478,
+   "MM": 1
+  },
+  "per_call": {
+   "invariance (d1)": {
+    "slots": 170,
+    "CC": 3,
+    "CM": 72,
+    "MM": 0,
+    "MM_products": []
+   },
+   "energy (v0)": {
+    "slots": 86,
+    "CC": 0,
+    "CM": 25,
+    "MM": 1,
+    "MM_products": [
+     "(A0*A0)"
+    ]
+   },
+   "torsion (d1, d2)": {
+    "slots": 401,
+    "CC": 7,
+    "CM": 201,
+    "MM": 0,
+    "MM_products": []
+   },
+   "whole program (naive left fold, incl. d3)": {
+    "slots": 887,
+    "CC": 7,
+    "CM": 478,
+    "MM": 1,
+    "MM_products": [
+     "(A0*A0)"
+    ]
+   }
+  },
+  "zero_slots_in_tables": {
+   "d1": 0,
+   "d2": 11
+  }
+ },
+ "per_torus": {
+  "lower": {
+   "families": {
+    "energy: p~ * p~ (H o K value slot, (1*A0)*A0)": {
+     "products": 1,
+     "nominal_real": 4,
+     "nonzero_real": 1,
+     "advice_slots": 90950,
+     "dec": 844837,
+     "hexb": 783662,
+     "fixed": 7457900,
+     "shards": 23,
+     "pairs": 144,
+     "kernel": [
+      80.34399389067153,
+      117.82130956449964
+     ],
+     "elab": 14.105916,
+     "lines_one": 90950,
+     "filesA_one": 63,
+     "filesA_greedy": 6,
+     "filesB_perprod": 1,
+     "precision": "full",
+     "terms": [
+      8475,
+      8475
+     ],
+     "bits": [
+      319,
+      319
+     ],
+     "w": [
+      654,
+      654
+     ],
+     "pout": [
+      311,
+      311
+     ],
+     "block_slots": [
+      5664,
+      5664
+     ],
+     "shards_each": [
+      23,
+      23
+     ]
+    },
+    "exp witness residual: (d_j g0) * E": {
+     "products": 2,
+     "nominal_real": 8,
+     "nonzero_real": 2,
+     "advice_slots": 185288,
+     "dec": 1713370,
+     "hexb": 1585188,
+     "fixed": 15193616,
+     "shards": 46,
+     "pairs": 288,
+     "kernel": [
+      158.47263196614585,
+      232.06968600260416
+     ],
+     "elab": 28.533383999999998,
+     "lines_one": 185288,
+     "filesA_one": 129,
+     "filesA_greedy": 12,
+     "filesB_perprod": 2,
+     "precision": "full",
+     "terms": [
+      8306,
+      8307
+     ],
+     "bits": [
+      317,
+      318
+     ],
+     "w": [
+      638,
+      651
+     ],
+     "pout": [
+      311,
+      312
+     ],
+     "block_slots": [
+      5632,
+      5632
+     ],
+     "shards_each": [
+      23,
+      23
+     ]
+    },
+    "Gram models DK^T DK": {
+     "products": 9,
+     "nominal_real": 36,
+     "nonzero_real": 9,
+     "advice_slots": 22512,
+     "dec": 88594,
+     "hexb": 93862,
+     "fixed": 427728,
+     "shards": 27,
+     "pairs": 36,
+     "kernel": [
+      8.421846329636349,
+      10.457973648972285
+     ],
+     "elab": 1.5946919999999998,
+     "lines_one": 22512,
+     "filesA_one": 19,
+     "filesA_greedy": 9,
+     "filesB_perprod": 9,
+     "precision": "low",
+     "terms": [
+      212,
+      260
+     ],
+     "bits": [
+      73,
+      73
+     ],
+     "w": [
+      130,
+      162
+     ],
+     "pout": [
+      57,
+      59
+     ],
+     "block_slots": [
+      1056,
+      1184
+     ],
+     "shards_each": [
+      3,
+      3
+     ]
+    },
+    "Gram check B G": {
+     "products": 8,
+     "nominal_real": 32,
+     "nonzero_real": 8,
+     "advice_slots": 21978,
+     "dec": 87694,
+     "hexb": 92127,
+     "fixed": 417582,
+     "shards": 26,
+     "pairs": 36,
+     "kernel": [
+      8.803106900344124,
+      10.917093382510233
+     ],
+     "elab": 1.578492,
+     "lines_one": 21978,
+     "filesA_one": 19,
+     "filesA_greedy": 8,
+     "filesB_perprod": 8,
+     "precision": "low",
+     "terms": [
+      235,
+      375
+     ],
+     "bits": [
+      49,
+      73
+     ],
+     "w": [
+      108,
+      138
+     ],
+     "pout": [
+      57,
+      60
+     ],
+     "block_slots": [
+      1248,
+      1312
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion frame N = Omega0 DK G^-1": {
+     "products": 12,
+     "nominal_real": 48,
+     "nonzero_real": 12,
+     "advice_slots": 31064,
+     "dec": 122976,
+     "hexb": 129575,
+     "fixed": 590216,
+     "shards": 36,
+     "pairs": 48,
+     "kernel": [
+      11.935565458403092,
+      14.834848644089472
+     ],
+     "elab": 2.213568,
+     "lines_one": 31064,
+     "filesA_one": 27,
+     "filesA_greedy": 12,
+     "filesB_perprod": 12,
+     "precision": "low",
+     "terms": [
+      212,
+      289
+     ],
+     "bits": [
+      68,
+      73
+     ],
+     "w": [
+      131,
+      162
+     ],
+     "pout": [
+      57,
+      60
+     ],
+     "block_slots": [
+      1120,
+      1248
+     ],
+     "shards_each": [
+      3,
+      3
+     ]
+    },
+    "torsion DG = DKw^T DK + DK^T DKw": {
+     "products": 24,
+     "nominal_real": 96,
+     "nonzero_real": 24,
+     "advice_slots": 66600,
+     "dec": 273222,
+     "hexb": 287570,
+     "fixed": 1265400,
+     "shards": 72,
+     "pairs": 96,
+     "kernel": [
+      23.672943704892116,
+      29.37048660388765
+     ],
+     "elab": 4.917996,
+     "lines_one": 66600,
+     "filesA_one": 58,
+     "filesA_greedy": 24,
+     "filesB_perprod": 24,
+     "precision": "low",
+     "terms": [
+      212,
+      282
+     ],
+     "bits": [
+      68,
+      73
+     ],
+     "w": [
+      133,
+      157
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1120,
+      1248
+     ],
+     "shards_each": [
+      3,
+      3
+     ]
+    },
+    "torsion D(G^-1) = -G^-1 DG G^-1": {
+     "products": 16,
+     "nominal_real": 64,
+     "nonzero_real": 16,
+     "advice_slots": 49950,
+     "dec": 203050,
+     "hexb": 214288,
+     "fixed": 949050,
+     "shards": 52,
+     "pairs": 72,
+     "kernel": [
+      19.306616836867562,
+      23.995086859886538
+     ],
+     "elab": 3.6549,
+     "lines_one": 49950,
+     "filesA_one": 42,
+     "filesA_greedy": 16,
+     "filesB_perprod": 16,
+     "precision": "low",
+     "terms": [
+      235,
+      422
+     ],
+     "bits": [
+      73,
+      69
+     ],
+     "w": [
+      126,
+      158
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1312,
+      1376
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion DN = Omega0 (DKw G^-1 + DK D(G^-1))": {
+     "products": 24,
+     "nominal_real": 96,
+     "nonzero_real": 24,
+     "advice_slots": 75328,
+     "dec": 302517,
+     "hexb": 319312,
+     "fixed": 1431232,
+     "shards": 75,
+     "pairs": 102,
+     "kernel": [
+      26.45121303036645,
+      32.80706856887091
+     ],
+     "elab": 5.445306,
+     "lines_one": 75328,
+     "filesA_one": 63,
+     "filesA_greedy": 24,
+     "filesB_perprod": 24,
+     "precision": "low",
+     "terms": [
+      212,
+      466
+     ],
+     "bits": [
+      68,
+      73
+     ],
+     "w": [
+      125,
+      158
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1184,
+      1312
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion DX_H(K) N (V_QQ * N)": {
+     "products": 8,
+     "nominal_real": 32,
+     "nonzero_real": 8,
+     "advice_slots": 24144,
+     "dec": 97387,
+     "hexb": 102684,
+     "fixed": 458736,
+     "shards": 26,
+     "pairs": 36,
+     "kernel": [
+      9.275628506789436,
+      11.527949630185084
+     ],
+     "elab": 1.7529660000000002,
+     "lines_one": 24144,
+     "filesA_one": 19,
+     "filesA_greedy": 8,
+     "filesB_perprod": 8,
+     "precision": "low",
+     "terms": [
+      263,
+      366
+     ],
+     "bits": [
+      66,
+      68
+     ],
+     "w": [
+      137,
+      150
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1248,
+      1376
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion block N^T Omega W": {
+     "products": 16,
+     "nominal_real": 64,
+     "nonzero_real": 16,
+     "advice_slots": 55884,
+     "dec": 221837,
+     "hexb": 234247,
+     "fixed": 1066494,
+     "shards": 56,
+     "pairs": 82,
+     "kernel": [
+      21.75775824428014,
+      27.07318756847564
+     ],
+     "elab": 3.9930660000000002,
+     "lines_one": 55884,
+     "filesA_one": 47,
+     "filesA_greedy": 16,
+     "filesB_perprod": 16,
+     "precision": "low",
+     "terms": [
+      235,
+      462
+     ],
+     "bits": [
+      68,
+      68
+     ],
+     "w": [
+      126,
+      162
+     ],
+     "pout": [
+      58,
+      61
+     ],
+     "block_slots": [
+      1376,
+      1440
+     ],
+     "shards_each": [
+      3,
+      5
+     ]
+    },
+    "torsion last row DH(K) N": {
+     "products": 6,
+     "nominal_real": 24,
+     "nonzero_real": 6,
+     "advice_slots": 16548,
+     "dec": 64847,
+     "hexb": 68546,
+     "fixed": 314412,
+     "shards": 20,
+     "pairs": 28,
+     "kernel": [
+      6.747932235630581,
+      8.39784122058687
+     ],
+     "elab": 1.167246,
+     "lines_one": 16548,
+     "filesA_one": 15,
+     "filesA_greedy": 6,
+     "filesB_perprod": 6,
+     "precision": "low",
+     "terms": [
+      239,
+      371
+     ],
+     "bits": [
+      63,
+      68
+     ],
+     "w": [
+      134,
+      156
+     ],
+     "pout": [
+      58,
+      59
+     ],
+     "block_slots": [
+      1120,
+      1312
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "graph SOS g * g*": {
+     "products": 2,
+     "nominal_real": 8,
+     "nonzero_real": 2,
+     "advice_slots": 611,
+     "dec": 3624,
+     "hexb": 3650,
+     "fixed": 10957,
+     "shards": 4,
+     "pairs": 5,
+     "kernel": [
+      0.1347897939918155,
+      0.1636877897135417
+     ],
+     "elab": 0.065196,
+     "lines_one": 611,
+     "filesA_one": 2,
+     "filesA_greedy": 2,
+     "filesB_perprod": 2,
+     "precision": "low",
+     "terms": [
+      11,
+      37
+     ],
+     "bits": [
+      37,
+      37
+     ],
+     "w": [
+      90,
+      90
+     ],
+     "pout": [
+      52,
+      56
+     ],
+     "block_slots": [
+      32,
+      160
+     ],
+     "shards_each": [
+      1,
+      3
+     ]
+    }
+   },
+   "non_model": {
+    "empty": 16,
+    "scalar": 4
+   },
+   "total": {
+    "products": 128,
+    "nominal_real": 512,
+    "nonzero_real": 128,
+    "advice_slots": 640857,
+    "dec": 4023955,
+    "hexb": 3914711,
+    "fixed": 29583323,
+    "shards": 463,
+    "pairs": 973,
+    "kernel": [
+     375.3240268980189,
+     519.4362194842821
+    ],
+    "elab": 69.02272799999997,
+    "lines_one": 640857,
+    "filesA_one": 503,
+    "filesA_greedy": 143,
+    "filesB_perprod": 128
+   },
+   "embedding": {
+    "bytes": 1063517,
+    "lines": 22108,
+    "coefficients": 22114
+   },
+   "scenarios": {
+    "S1 as designed (scalars specialised, zero re/im parts free)": {
+     "products": 128,
+     "nominal_real": 512,
+     "nonzero_real": 128,
+     "advice_slots": 640857,
+     "dec": 4023955,
+     "hexb": 3914711,
+     "fixed": 29583323,
+     "shards": 463,
+     "pairs": 973,
+     "kernel": [
+      375.3240268980189,
+      519.4362194842821
+     ],
+     "elab": 69.02272799999997,
+     "lines_one": 640857,
+     "filesA_one": 503,
+     "filesA_greedy": 143,
+     "filesB_perprod": 128
+    },
+    "S2 = S1 + against-data checks (energy, witness residuals, SOS, B G)": {
+     "products": 115,
+     "nominal_real": 460,
+     "nonzero_real": 115,
+     "advice_slots": 342030,
+     "dec": 1374430,
+     "hexb": 1450084,
+     "fixed": 6503268,
+     "shards": 364,
+     "pairs": 500,
+     "kernel": [
+      127.56950434686577,
+      158.4644427449544
+     ],
+     "elab": 24.739739999999976,
+     "lines_one": 342030,
+     "filesA_one": 290,
+     "filesA_greedy": 115,
+     "filesB_perprod": 115
+    },
+    "S3 = S2 + zero-mode-only torsion block and last row": {
+     "products": 93,
+     "nominal_real": 372,
+     "nonzero_real": 93,
+     "advice_slots": 269598,
+     "dec": 1087746,
+     "hexb": 1147291,
+     "fixed": 5122362,
+     "shards": 288,
+     "pairs": 390,
+     "kernel": [
+      99.06381386695503,
+      122.99341395589192
+     ],
+     "elab": 19.579427999999986,
+     "lines_one": 269598,
+     "filesA_one": 228,
+     "filesA_greedy": 93,
+     "filesB_perprod": 93
+    },
+    "S4 = S3 + DG symmetry (A2 = A1^T)": {
+     "products": 81,
+     "nominal_real": 324,
+     "nonzero_real": 81,
+     "advice_slots": 236298,
+     "dec": 951135,
+     "hexb": 1003506,
+     "fixed": 4489662,
+     "shards": 252,
+     "pairs": 342,
+     "kernel": [
+      87.22734201450898,
+      108.30817065394811
+     ],
+     "elab": 17.12042999999999,
+     "lines_one": 236298,
+     "filesA_one": 199,
+     "filesA_greedy": 81,
+     "filesB_perprod": 81
+    }
+   },
+   "scalar_product": {
+    "label": "scalar x p~",
+    "empty": false,
+    "terms_a": 8475,
+    "terms_b": 1,
+    "bits_a": 319,
+    "bits_b": 301,
+    "SA": 319,
+    "SB": 318,
+    "box_a": [
+     -178,
+     178,
+     -44,
+     44
+    ],
+    "box_b": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "rows_a": 357,
+    "rows_b": 1,
+    "stride": 89,
+    "block_slots": 2848,
+    "blocks_a": 12,
+    "blocks_b": 1,
+    "shards": 12,
+    "pairs": 12,
+    "window_slots": 5696,
+    "w_fit": 622,
+    "w_design": 636,
+    "w": 636,
+    "product_terms": 8475,
+    "product_rows": 357,
+    "target_box": [
+     -178,
+     178,
+     -44,
+     44
+    ],
+    "target_slots": 31773,
+    "pout": 305,
+    "scale_U": 332,
+    "outLog": 0,
+    "rad_in": 3.684681515725154e-81,
+    "rad_out": 0.0,
+    "budget": 1e-80,
+    "advice_slots": 60698,
+    "advice_zero_slots": 52281,
+    "advice_dec_bytes": 412603,
+    "advice_hex_bytes": 389108,
+    "advice_fixedwidth_hex_bytes": 4916538,
+    "kernel_s": [
+     20.224257451171876,
+     25.178529737723217
+    ],
+    "elab_s": 7.003944
+   },
+   "sos": [
+    {
+     "name": "pHi (window side)",
+     "pmin": 0.9680066018385508,
+     "pmax": 0.9818058151662364,
+     "m0": 0.9819558151662364,
+     "slack": 0.0003,
+     "tau": 3.1622776601683795e-05,
+     "g_terms": 37,
+     "resid_w_estimate": 0.0001397938925289201
+    },
+    {
+     "name": "pLo (band side)",
+     "pmin": 0.9680066018385508,
+     "pmax": 0.9818058151662364,
+     "m0": 0.967553631011203,
+     "slack": 0.0009059416546957522,
+     "tau": 0.00031622776601683794,
+     "g_terms": 11,
+     "resid_w_estimate": 0.0003775194293409764
+    }
+   ],
+   "norms_check": {
+    "delta": 2.4825049512186685e-12,
+    "delta_T": 5.666881156400162e-11
+   }
+  },
+  "upper": {
+   "families": {
+    "energy: p~ * p~ (H o K value slot, (1*A0)*A0)": {
+     "products": 1,
+     "nominal_real": 4,
+     "nonzero_real": 1,
+     "advice_slots": 95230,
+     "dec": 868559,
+     "hexb": 806405,
+     "fixed": 7808860,
+     "shards": 23,
+     "pairs": 144,
+     "kernel": [
+      82.44954179129466,
+      120.87492265066966
+     ],
+     "elab": 14.51529,
+     "lines_one": 95230,
+     "filesA_one": 66,
+     "filesA_greedy": 6,
+     "filesB_perprod": 1,
+     "precision": "full",
+     "terms": [
+      8467,
+      8467
+     ],
+     "bits": [
+      320,
+      320
+     ],
+     "w": [
+      656,
+      656
+     ],
+     "pout": [
+      312,
+      312
+     ],
+     "block_slots": [
+      5792,
+      5792
+     ],
+     "shards_each": [
+      23,
+      23
+     ]
+    },
+    "exp witness residual: (d_j g0) * E": {
+     "products": 2,
+     "nominal_real": 8,
+     "nonzero_real": 2,
+     "advice_slots": 192920,
+     "dec": 1767345,
+     "hexb": 1635691,
+     "fixed": 15916748,
+     "shards": 46,
+     "pairs": 288,
+     "kernel": [
+      160.69302049060641,
+      235.1761267731585
+     ],
+     "elab": 29.442438000000003,
+     "lines_one": 192920,
+     "filesA_one": 134,
+     "filesA_greedy": 12,
+     "filesB_perprod": 2,
+     "precision": "full",
+     "terms": [
+      8300,
+      8322
+     ],
+     "bits": [
+      317,
+      318
+     ],
+     "w": [
+      639,
+      651
+     ],
+     "pout": [
+      312,
+      313
+     ],
+     "block_slots": [
+      5696,
+      5696
+     ],
+     "shards_each": [
+      23,
+      23
+     ]
+    },
+    "Gram models DK^T DK": {
+     "products": 9,
+     "nominal_real": 36,
+     "nonzero_real": 9,
+     "advice_slots": 23961,
+     "dec": 94041,
+     "hexb": 99276,
+     "fixed": 455259,
+     "shards": 27,
+     "pairs": 36,
+     "kernel": [
+      8.474126174432664,
+      10.512040341564362
+     ],
+     "elab": 1.692738,
+     "lines_one": 23961,
+     "filesA_one": 19,
+     "filesA_greedy": 9,
+     "filesB_perprod": 9,
+     "precision": "low",
+     "terms": [
+      200,
+      254
+     ],
+     "bits": [
+      73,
+      73
+     ],
+     "w": [
+      132,
+      162
+     ],
+     "pout": [
+      58,
+      59
+     ],
+     "block_slots": [
+      1056,
+      1184
+     ],
+     "shards_each": [
+      3,
+      3
+     ]
+    },
+    "Gram check B G": {
+     "products": 8,
+     "nominal_real": 32,
+     "nonzero_real": 8,
+     "advice_slots": 22033,
+     "dec": 87997,
+     "hexb": 92556,
+     "fixed": 418627,
+     "shards": 26,
+     "pairs": 36,
+     "kernel": [
+      8.804289936058408,
+      10.918276418224517
+     ],
+     "elab": 1.583946,
+     "lines_one": 22033,
+     "filesA_one": 19,
+     "filesA_greedy": 8,
+     "filesB_perprod": 8,
+     "precision": "low",
+     "terms": [
+      237,
+      367
+     ],
+     "bits": [
+      49,
+      73
+     ],
+     "w": [
+      108,
+      138
+     ],
+     "pout": [
+      57,
+      60
+     ],
+     "block_slots": [
+      1248,
+      1312
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion frame N = Omega0 DK G^-1": {
+     "products": 12,
+     "nominal_real": 48,
+     "nonzero_real": 12,
+     "advice_slots": 32440,
+     "dec": 128667,
+     "hexb": 135505,
+     "fixed": 616360,
+     "shards": 36,
+     "pairs": 48,
+     "kernel": [
+      11.984184851771763,
+      14.88480366106306
+     ],
+     "elab": 2.316006,
+     "lines_one": 32440,
+     "filesA_one": 27,
+     "filesA_greedy": 12,
+     "filesB_perprod": 12,
+     "precision": "low",
+     "terms": [
+      200,
+      285
+     ],
+     "bits": [
+      68,
+      73
+     ],
+     "w": [
+      132,
+      162
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1120,
+      1248
+     ],
+     "shards_each": [
+      3,
+      3
+     ]
+    },
+    "torsion DG = DKw^T DK + DK^T DKw": {
+     "products": 24,
+     "nominal_real": 96,
+     "nonzero_real": 24,
+     "advice_slots": 71152,
+     "dec": 288630,
+     "hexb": 303160,
+     "fixed": 1351888,
+     "shards": 72,
+     "pairs": 96,
+     "kernel": [
+      23.833652280505955,
+      29.53372203497024
+     ],
+     "elab": 5.19534,
+     "lines_one": 71152,
+     "filesA_one": 62,
+     "filesA_greedy": 24,
+     "filesB_perprod": 24,
+     "precision": "low",
+     "terms": [
+      200,
+      276
+     ],
+     "bits": [
+      68,
+      73
+     ],
+     "w": [
+      134,
+      157
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1120,
+      1248
+     ],
+     "shards_each": [
+      3,
+      3
+     ]
+    },
+    "torsion D(G^-1) = -G^-1 DG G^-1": {
+     "products": 16,
+     "nominal_real": 64,
+     "nonzero_real": 16,
+     "advice_slots": 51300,
+     "dec": 207523,
+     "hexb": 219128,
+     "fixed": 974700,
+     "shards": 52,
+     "pairs": 72,
+     "kernel": [
+      19.3511245749628,
+      24.03959459798178
+     ],
+     "elab": 3.7354139999999996,
+     "lines_one": 51300,
+     "filesA_one": 42,
+     "filesA_greedy": 16,
+     "filesB_perprod": 16,
+     "precision": "low",
+     "terms": [
+      237,
+      418
+     ],
+     "bits": [
+      73,
+      69
+     ],
+     "w": [
+      126,
+      158
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1312,
+      1376
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion DN = Omega0 (DKw G^-1 + DK D(G^-1))": {
+     "products": 24,
+     "nominal_real": 96,
+     "nonzero_real": 24,
+     "advice_slots": 78245,
+     "dec": 312864,
+     "hexb": 330023,
+     "fixed": 1486655,
+     "shards": 75,
+     "pairs": 102,
+     "kernel": [
+      26.55452705310641,
+      32.91179041108631
+     ],
+     "elab": 5.631552000000001,
+     "lines_one": 78245,
+     "filesA_one": 66,
+     "filesA_greedy": 24,
+     "filesB_perprod": 24,
+     "precision": "low",
+     "terms": [
+      200,
+      470
+     ],
+     "bits": [
+      68,
+      73
+     ],
+     "w": [
+      126,
+      158
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1184,
+      1312
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion DX_H(K) N (V_QQ * N)": {
+     "products": 8,
+     "nominal_real": 32,
+     "nonzero_real": 8,
+     "advice_slots": 24024,
+     "dec": 97241,
+     "hexb": 102479,
+     "fixed": 456456,
+     "shards": 26,
+     "pairs": 36,
+     "kernel": [
+      9.27001803059896,
+      11.522339153994608
+     ],
+     "elab": 1.7503380000000002,
+     "lines_one": 24024,
+     "filesA_one": 21,
+     "filesA_greedy": 8,
+     "filesB_perprod": 8,
+     "precision": "low",
+     "terms": [
+      259,
+      366
+     ],
+     "bits": [
+      66,
+      68
+     ],
+     "w": [
+      137,
+      150
+     ],
+     "pout": [
+      58,
+      60
+     ],
+     "block_slots": [
+      1248,
+      1376
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "torsion block N^T Omega W": {
+     "products": 16,
+     "nominal_real": 64,
+     "nonzero_real": 16,
+     "advice_slots": 56812,
+     "dec": 225209,
+     "hexb": 237261,
+     "fixed": 1084126,
+     "shards": 58,
+     "pairs": 86,
+     "kernel": [
+      22.496274591006333,
+      28.0099391272554
+     ],
+     "elab": 4.053762,
+     "lines_one": 56812,
+     "filesA_one": 49,
+     "filesA_greedy": 16,
+     "filesB_perprod": 16,
+     "precision": "low",
+     "terms": [
+      237,
+      457
+     ],
+     "bits": [
+      68,
+      68
+     ],
+     "w": [
+      126,
+      162
+     ],
+     "pout": [
+      58,
+      61
+     ],
+     "block_slots": [
+      1376,
+      1440
+     ],
+     "shards_each": [
+      3,
+      5
+     ]
+    },
+    "torsion last row DH(K) N": {
+     "products": 6,
+     "nominal_real": 24,
+     "nonzero_real": 6,
+     "advice_slots": 16366,
+     "dec": 64231,
+     "hexb": 67918,
+     "fixed": 310954,
+     "shards": 20,
+     "pairs": 28,
+     "kernel": [
+      6.739864378487724,
+      8.38977336344401
+     ],
+     "elab": 1.156158,
+     "lines_one": 16366,
+     "filesA_one": 14,
+     "filesA_greedy": 6,
+     "filesB_perprod": 6,
+     "precision": "low",
+     "terms": [
+      227,
+      369
+     ],
+     "bits": [
+      63,
+      68
+     ],
+     "w": [
+      134,
+      156
+     ],
+     "pout": [
+      58,
+      59
+     ],
+     "block_slots": [
+      1120,
+      1312
+     ],
+     "shards_each": [
+      3,
+      4
+     ]
+    },
+    "graph SOS g * g*": {
+     "products": 2,
+     "nominal_real": 8,
+     "nonzero_real": 2,
+     "advice_slots": 611,
+     "dec": 3706,
+     "hexb": 3726,
+     "fixed": 10957,
+     "shards": 4,
+     "pairs": 5,
+     "kernel": [
+      0.13491788922991074,
+      0.16381588495163693
+     ],
+     "elab": 0.06667200000000001,
+     "lines_one": 611,
+     "filesA_one": 2,
+     "filesA_greedy": 2,
+     "filesB_perprod": 2,
+     "precision": "low",
+     "terms": [
+      11,
+      39
+     ],
+     "bits": [
+      37,
+      37
+     ],
+     "w": [
+      90,
+      90
+     ],
+     "pout": [
+      52,
+      56
+     ],
+     "block_slots": [
+      32,
+      160
+     ],
+     "shards_each": [
+      1,
+      3
+     ]
+    }
+   },
+   "non_model": {
+    "empty": 16,
+    "scalar": 4
+   },
+   "total": {
+    "products": 128,
+    "nominal_real": 512,
+    "nonzero_real": 128,
+    "advice_slots": 665094,
+    "dec": 4146013,
+    "hexb": 4033128,
+    "fixed": 30891590,
+    "shards": 465,
+    "pairs": 977,
+    "kernel": [
+     380.78554204206165,
+     526.9371444183641
+    ],
+    "elab": 71.13965400000005,
+    "lines_one": 665094,
+    "filesA_one": 521,
+    "filesA_greedy": 143,
+    "filesB_perprod": 128
+   },
+   "embedding": {
+    "bytes": 1062368,
+    "lines": 22099,
+    "coefficients": 22105
+   },
+   "scenarios": {
+    "S1 as designed (scalars specialised, zero re/im parts free)": {
+     "products": 128,
+     "nominal_real": 512,
+     "nonzero_real": 128,
+     "advice_slots": 665094,
+     "dec": 4146013,
+     "hexb": 4033128,
+     "fixed": 30891590,
+     "shards": 465,
+     "pairs": 977,
+     "kernel": [
+      380.78554204206165,
+      526.9371444183641
+     ],
+     "elab": 71.13965400000005,
+     "lines_one": 665094,
+     "filesA_one": 521,
+     "filesA_greedy": 143,
+     "filesB_perprod": 128
+    },
+    "S2 = S1 + against-data checks (energy, witness residuals, SOS, B G)": {
+     "products": 115,
+     "nominal_real": 460,
+     "nonzero_real": 115,
+     "advice_slots": 354300,
+     "dec": 1418406,
+     "hexb": 1494750,
+     "fixed": 6736398,
+     "shards": 366,
+     "pairs": 504,
+     "kernel": [
+      128.70377193487258,
+      159.80400269135978
+     ],
+     "elab": 25.531307999999996,
+     "lines_one": 354300,
+     "filesA_one": 300,
+     "filesA_greedy": 115,
+     "filesB_perprod": 115
+    },
+    "S3 = S2 + zero-mode-only torsion block and last row": {
+     "products": 93,
+     "nominal_real": 372,
+     "nonzero_real": 93,
+     "advice_slots": 281122,
+     "dec": 1128966,
+     "hexb": 1189571,
+     "fixed": 5341318,
+     "shards": 288,
+     "pairs": 390,
+     "kernel": [
+      99.46763296537853,
+      123.40429020066036
+     ],
+     "elab": 20.32138799999999,
+     "lines_one": 281122,
+     "filesA_one": 237,
+     "filesA_greedy": 93,
+     "filesB_perprod": 93
+    },
+    "S4 = S3 + DG symmetry (A2 = A1^T)": {
+     "products": 81,
+     "nominal_real": 324,
+     "nonzero_real": 81,
+     "advice_slots": 245546,
+     "dec": 984651,
+     "hexb": 1037991,
+     "fixed": 4665374,
+     "shards": 252,
+     "pairs": 342,
+     "kernel": [
+      87.55080682512559,
+      108.63742918317526
+     ],
+     "elab": 17.723718,
+     "lines_one": 245546,
+     "filesA_one": 206,
+     "filesA_greedy": 81,
+     "filesB_perprod": 81
+    }
+   },
+   "scalar_product": {
+    "label": "scalar x p~",
+    "empty": false,
+    "terms_a": 8467,
+    "terms_b": 1,
+    "bits_a": 320,
+    "bits_b": 301,
+    "SA": 319,
+    "SB": 318,
+    "box_a": [
+     -184,
+     184,
+     -45,
+     45
+    ],
+    "box_b": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "rows_a": 369,
+    "rows_b": 1,
+    "stride": 91,
+    "block_slots": 2912,
+    "blocks_a": 12,
+    "blocks_b": 1,
+    "shards": 12,
+    "pairs": 12,
+    "window_slots": 5824,
+    "w_fit": 622,
+    "w_design": 637,
+    "w": 637,
+    "product_terms": 8467,
+    "product_rows": 369,
+    "target_box": [
+     -184,
+     184,
+     -44,
+     44
+    ],
+    "target_slots": 32841,
+    "pout": 306,
+    "scale_U": 331,
+    "outLog": 332,
+    "rad_in": 3.156916312373051e-81,
+    "rad_out": 1.2081596664562562e-81,
+    "budget": 1e-80,
+    "advice_slots": 62834,
+    "advice_zero_slots": 54391,
+    "advice_dec_bytes": 420103,
+    "advice_hex_bytes": 397098,
+    "advice_fixedwidth_hex_bytes": 5089554,
+    "kernel_s": [
+     20.735565059407556,
+     25.80696551106771
+    ],
+    "elab_s": 7.147764
+   },
+   "sos": [
+    {
+     "name": "pLo (window side)",
+     "pmin": 1.0181988891452003,
+     "pmax": 1.031991815268545,
+     "m0": 1.0180488891452002,
+     "slack": 0.0003,
+     "tau": 3.1622776601683795e-05,
+     "g_terms": 39,
+     "resid_w_estimate": 0.00013865486631253754
+    },
+    {
+     "name": "pHi (band side)",
+     "pmin": 1.0181988891452003,
+     "pmax": 1.031991815268545,
+     "m0": 1.0324454983976996,
+     "slack": 0.0009073662583094277,
+     "tau": 0.00031622776601683794,
+     "g_terms": 11,
+     "resid_w_estimate": 0.0003888664201240125
+    }
+   ],
+   "norms_check": {
+    "delta": 2.4384375694534754e-12,
+    "delta_T": 7.95679650807614e-11
+   }
+  }
+ },
+ "both": {
+  "S1 as designed (scalars specialised, zero re/im parts free)": {
+   "products": 256,
+   "nominal_real": 1024,
+   "nonzero_real": 256,
+   "advice_slots": 1305951,
+   "dec": 8169968,
+   "hexb": 7947839,
+   "fixed": 60474913,
+   "shards": 928,
+   "pairs": 1950,
+   "kernel": [
+    756.1095689400805,
+    1046.3733639026464
+   ],
+   "elab": 140.16238200000004,
+   "lines_one": 1305951,
+   "filesA_one": 1024,
+   "filesA_greedy": 286,
+   "filesB_perprod": 256
+  },
+  "S2 = S1 + against-data checks (energy, witness residuals, SOS, B G)": {
+   "products": 230,
+   "nominal_real": 920,
+   "nonzero_real": 230,
+   "advice_slots": 696330,
+   "dec": 2792836,
+   "hexb": 2944834,
+   "fixed": 13239666,
+   "shards": 730,
+   "pairs": 1004,
+   "kernel": [
+    256.27327628173833,
+    318.2684454363142
+   ],
+   "elab": 50.27104799999997,
+   "lines_one": 696330,
+   "filesA_one": 590,
+   "filesA_greedy": 230,
+   "filesB_perprod": 230
+  },
+  "S3 = S2 + zero-mode-only torsion block and last row": {
+   "products": 186,
+   "nominal_real": 744,
+   "nonzero_real": 186,
+   "advice_slots": 550720,
+   "dec": 2216712,
+   "hexb": 2336862,
+   "fixed": 10463680,
+   "shards": 576,
+   "pairs": 780,
+   "kernel": [
+    198.53144683233356,
+    246.39770415655227
+   ],
+   "elab": 39.90081599999998,
+   "lines_one": 550720,
+   "filesA_one": 465,
+   "filesA_greedy": 186,
+   "filesB_perprod": 186
+  },
+  "S4 = S3 + DG symmetry (A2 = A1^T)": {
+   "products": 162,
+   "nominal_real": 648,
+   "nonzero_real": 162,
+   "advice_slots": 481844,
+   "dec": 1935786,
+   "hexb": 2041497,
+   "fixed": 9155036,
+   "shards": 504,
+   "pairs": 684,
+   "kernel": [
+    174.77814883963458,
+    216.94559983712338
+   ],
+   "elab": 34.84414799999999,
+   "lines_one": 481844,
+   "filesA_one": 405,
+   "filesA_greedy": 162,
+   "filesB_perprod": 162
+  }
+ },
+ "packaging": {
+  "S1 as designed (scalars specialised, zero re/im parts free)": {
+   "advice_MB": 7.947839,
+   "data_MB": 10.073724,
+   "A_files_one_per_line": 1055,
+   "A_files_greedy": 302,
+   "B_files_per_product": 258,
+   "B_files_packed": 2,
+   "C_data_files": 258,
+   "C_lean_modules_est": 30,
+   "shard_theorems": 928,
+   "kernel_cpu_h": [
+    0.21003043581668904,
+    0.2906592677507351
+   ],
+   "elab_cpu_h": 0.04956342000000001
+  },
+  "S2 = S1 + against-data checks (energy, witness residuals, SOS, B G)": {
+   "advice_MB": 2.792836,
+   "data_MB": 4.918721,
+   "A_files_one_per_line": 621,
+   "A_files_greedy": 246,
+   "B_files_per_product": 232,
+   "B_files_packed": 1,
+   "C_data_files": 232,
+   "C_lean_modules_est": 30,
+   "shard_theorems": 730,
+   "kernel_cpu_h": [
+    0.07118702118937176,
+    0.08840790151008728
+   ],
+   "elab_cpu_h": 0.024593604999999994
+  },
+  "S3 = S2 + zero-mode-only torsion block and last row": {
+   "advice_MB": 2.216712,
+   "data_MB": 4.342597,
+   "A_files_one_per_line": 496,
+   "A_files_greedy": 202,
+   "B_files_per_product": 188,
+   "B_files_packed": 1,
+   "C_data_files": 188,
+   "C_lean_modules_est": 30,
+   "shard_theorems": 576,
+   "kernel_cpu_h": [
+    0.05514762412009266,
+    0.0684438067101534
+   ],
+   "elab_cpu_h": 0.021712984999999994
+  },
+  "S4 = S3 + DG symmetry (A2 = A1^T)": {
+   "advice_MB": 1.935786,
+   "data_MB": 4.061671,
+   "A_files_one_per_line": 436,
+   "A_files_greedy": 178,
+   "B_files_per_product": 164,
+   "B_files_packed": 1,
+   "C_data_files": 164,
+   "C_lean_modules_est": 30,
+   "shard_theorems": 504,
+   "kernel_cpu_h": [
+    0.048549485788787386,
+    0.06026266662142316
+   ],
+   "elab_cpu_h": 0.020308354999999997
+  }
+ },
+ "naive_scalar_route": {
+  "products_per_torus": 308,
+  "advice_MB_each": 0.389108,
+  "kernel_s_each": [
+   20.224257451171876,
+   25.178529737723217
+  ],
+  "advice_MB_per_torus": 119.845264
+ }
+}
