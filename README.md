@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 19:53 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 68 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **267,081 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 20:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 68 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **267,081 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -202,7 +202,7 @@ Overall, everything together: 91.4 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **267,081** (208,760 excluding blank lines and comments) · **+98,886** since 2026-10-28 19:40 UTC |
-| Written on agent branches, not yet landed | 1,344 |
+| Written on agent branches, not yet landed | 1,352 |
 | **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 7,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 91.4 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 19:53 UTC from `main` at `52d6b07e` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 20:00 UTC from `main` at `1fc43308` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -219,7 +219,7 @@ Overall, everything together: 91.4 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 46 modules · 12,707 lines. **Packages landed: 19 / 25**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 11 modules · 2,225 lines. **Packages landed: 14 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-POS, SO-DIO3, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GEN, SO-GEN2, SO-DATA-PY.
-- **Now:** proving SO-EMB · in audit —
+- **Now:** proving SO-MAT · in audit SO-EMB
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -371,7 +371,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **soemb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMB: rename ComposeState.push/Valid (Mathlib short names) to pushSlot/SlotsEnclose | `inp-soemb` | 7 (vs `inp`) |
+| **soemb** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-EMB: audit request | `inp-soemb` | 9 (vs `inp`) |
+| **somat** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMB: audit request | `inp-somat` | 9 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
