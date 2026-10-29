@@ -654,3 +654,21 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **04:20. Status.** P13-C passed (parametric n_general / fixed / provider for fixedSunPlanetaryKAM, axioms clean,
   provider type equal to the frozen anchor); held to land together with P11A-P10 (wrapper_of_data_star, finishing)
   and the four one-line applications, then the seal-key audit. GAP-P9dict passed (p9:dict). Graph P 1131+ of 1363.
+- **04:25. fixedSunPlanetaryKAM provider complete; seal-key audit running.** P11A-P10 finished wrapper_of_data_star
+  (14 modules, about 2,260 lines). On its branch the orchestrator merged P13-C and added the four one-line signed
+  applications (wrapper, n_general, fixed, provider fixedSunPlanetaryKAM), verbatim from the signature files. The
+  provider builds; the exact-type probe against the frozen anchor elaborates; axioms are propext, Classical.choice,
+  Quot.sound. One combined audit covers P10, the one-liners and the seal key (with a prospective seal in a scratch
+  copy). On PASS the sub-orchestrator seals the anchor.
+- **04:40. fixedSunPlanetaryKAM seal-ready; sent to seal.** The combined audit (P11A-P10 + one-liners + seal key)
+  passed the anchor (PASS WITH NOTES): exact-type probe, scratch seal with the explicit-binder body
+  `by exact KAM.Provider.Planetary.fixedSunPlanetaryKAM hn G m0 m a hG hm0 hm ha hsep eta heta` (D26; the bare
+  recipe in the frozen file's prose does not elaborate, reported, not edited), axioms propext, Classical.choice,
+  Quot.sound, clean quarantine. The signed wrapper, n_general and fixed pass. Two unsigned step exports are not
+  literal: wr-chain (smaller carrier than |r|<2, |rho'|<pi/2) and wr-tube (coarser Gamma_i bound than 2 n eps);
+  both stay open, and GAP-WR exports the literal forms (append-only). Anchors 20/22 after the seal.
+- **04:50. ANCHOR SEALED: fixedSunPlanetaryKAM (20 of 22).** Seal 6d363d84 + indentation fix f77a81f3 (the seal
+  body's continuation line must be indented past `exact`), verified by the sub-orchestrator: full build OK (10308
+  jobs), axioms propext, Classical.choice, Quot.sound, leanchecker exit 0 on the frozen module and provider, lint OK.
+  Remaining DRAFT_SORRY anchors: planetaryExponentialSafety and partialConvex_nekhoroshev (both lane N, with Zohar's
+  team). Graph P about 1150 of 1363; wr-chain and wr-tube literal exports in GAP-WR.
