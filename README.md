@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 21:35 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 83 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **271,067 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 21:41 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 83 % · SO Moon 58 %** · frozen statements proved: 22 / 22 · **271,067 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -201,16 +201,16 @@ Overall, everything together: 93.5 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **271,067** (211,594 excluding blank lines and comments) · **+90,402** since 2026-10-28 21:28 UTC |
-| Written on agent branches, not yet landed | 521 |
-| **Estimated total at completion** | **≈ 275,000** |
+| On `main` now | **271,067** (211,594 excluding blank lines and comments) · **+90,402** since 2026-10-28 21:40 UTC |
+| Written on agent branches, not yet landed | 1,006 |
+| **Estimated total at completion** | **≈ 276,000** |
 | Estimated still to write | ≈ 4,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 21:35 UTC from `main` at `593c06b2` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 21:41 UTC from `main` at `741200ba` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -219,7 +219,7 @@ Overall, everything together: 93.5 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 58 modules · 16,693 lines. **Packages landed: 23 / 26**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 11 modules · 2,225 lines. **Packages landed: 14 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-DIO3, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GEN, SO-GEN2, SO-DATA-PY.
-- **Now:** proving SO-PYALIGN, SO-SOUND-A, SO-SOUND-B · in audit —
+- **Now:** proving SO-PYALIGN · in audit SO-SOUND-A
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -369,12 +369,11 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **errata** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: Audit errata round 3 quotations and proof-route corrections | `inp-errata` | 9 (vs `inp`) |
 | **sopyalign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp-sodefs' into inp-sopyalign | `inp-sopyalign` | 0 (vs `inp`) |
-| **sosounda** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-SOUND-A: Sound/Gram (checkGram_sound) | `inp-sosounda` | 4 (vs `inp`) |
-| **sosoundb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-SOUND-A: Sound/Static (StaticFacts, checkStatic_sound, checkStatic_freq, emb_structural | `inp-sosoundb` | 1 (vs `inp`) |
+| **sosounda** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-SOUND-A: audit request | `inp-sosounda` | 6 (vs `inp`) |
+| **sosoundb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-SOUND-B: signed Invariance/Energy/Torsion one-liners, Soundness (hyps, black box), hand | `inp-sosoundb` | 7 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -384,6 +383,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 21:39 | `741200ba` | Land inp into main |
 | 2026-10-29 21:35 | `593c06b2` | Overnight log: correct two time labels |
 | 2026-10-29 21:33 | `7103aa35` | land-branch: run the HQ refresh with bash (hq-update.sh uses pipefail; sh failed silently) |
 | 2026-10-29 21:33 | `a364773e` | Land inp into main |
@@ -395,7 +395,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 20:39 | `16d9063b` | D33: release clean-up decisions; OVERNIGHT 20:45 |
 | 2026-10-29 20:23 | `31f7f4e7` | Land inp into main |
 | 2026-10-29 20:19 | `7c44119b` | OVERNIGHT: 18:45-20:18 (SO-MALG..SO-EMB, guards complete, claude-12 jobs) |
-| 2026-10-29 20:03 | `39bc846d` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -460,148 +459,148 @@ against the pinned PDF.
 |---|---|---|
 | AKN06 | 0 | 1 planned |
 | Arn63b | 1 candidate | 0 |
-| BM11 | 4 candidate, 1 dropped | 7 adopted |
+| BM11 | 4 confirmed, 1 dropped | 7 adopted |
 | CC03 | 1 candidate | 1 adopted |
-| CCdlL13 | 1 candidate | 1 planned |
-| CP09 | 11 candidate | 1 adopted, 2 planned |
-| CP10pin | 16 candidate, 5 dropped | 5 adopted, 5 planned |
-| CP11 | 2 candidate | 1 planned |
-| Chi05 | 1 candidate, 1 dropped | 2 adopted, 1 planned |
-| FdlLS09 | 2 candidate | 0 |
-| Fej04r | 15 candidate, 3 dropped | 2 adopted, 6 planned |
-| Fej07e | 1 candidate | 0 |
-| GCB16 | 3 candidate | 0 |
-| GJLV05 | 5 candidate | 1 planned |
-| HL19 | 16 candidate, 1 dropped | 2 adopted, 6 planned |
-| LP17 | 1 candidate | 1 adopted, 1 planned |
-| Nei76 | 1 candidate | 3 adopted |
-| Nek77 | 3 candidate | 5 adopted, 1 planned |
-| Pos01 | 5 candidate | 2 planned |
-| Pos93scan | 5 candidate, 3 dropped | 3 adopted, 3 planned |
-| Rus01 | 2 candidate | 0 |
-| Rus05 | 3 candidate | 1 planned |
+| CCdlL13 | 1 confirmed | 1 planned |
+| CP09 | 3 candidate, 8 confirmed | 1 adopted, 2 planned |
+| CP10pin | 3 candidate, 13 confirmed, 5 dropped | 5 adopted, 5 planned |
+| CP11 | 2 confirmed | 1 planned |
+| Chi05 | 1 confirmed, 1 dropped | 2 adopted, 1 planned |
+| FdlLS09 | 1 candidate, 1 dropped | 0 |
+| Fej04r | 15 confirmed, 3 dropped | 2 adopted, 6 planned |
+| Fej07e | 1 confirmed | 0 |
+| GCB16 | 1 candidate, 2 confirmed | 0 |
+| GJLV05 | 5 confirmed | 1 planned |
+| HL19 | 1 candidate, 14 confirmed, 2 dropped | 2 adopted, 6 planned |
+| LP17 | 1 confirmed | 1 adopted, 1 planned |
+| Nei76 | 1 confirmed | 3 adopted |
+| Nek77 | 3 confirmed | 5 adopted, 1 planned |
+| Pos01 | 5 confirmed | 2 planned |
+| Pos93scan | 2 candidate, 3 confirmed, 3 dropped | 3 adopted, 3 planned |
+| Rus01 | 2 confirmed | 0 |
+| Rus05 | 3 confirmed | 1 planned |
 
 <details><summary>All ledger entries</summary>
 
 | ID | Type | Source | Location | Claim | Status |
 |---|---|---|---|---|---|
-| E-Pos01-1 | erratum | Pos01 | p. 29 (arXiv v1.3), footnote to Lemma A.2 | missing hypothesis: the condition Kσ ≥ 1 is missing in the printed version; the author's own footnote in arXiv v1.3 says so and the pinned arXiv version contains it | CANDIDATE |
-| E-Pos01-2 | erratum | Pos01 | p. 23 (arXiv v1.3), choice of h₀ and K₀ in the proof of Theorem A | the choices of h₀ and K₀ violate h₀ ≤ α(2K₀^ν)⁻¹ (Bou20, footnote 1); Kou19 Rem. 2.1.5(4), p. 28: 'Theorem A and B are not valid for ν = τ+1' with that proof; Bou20 restores Theorem A as stated by Rüssmann approximation and a linear scheme | CANDIDATE |
-| E-Pos01-3 | erratum | Pos01 | p. 13 (arXiv v1.3), measure statement after Theorem A | should be the measure of (Ω ∖ Ωα) × Tⁿ | CANDIDATE |
-| E-GJLV05-1 | erratum | GJLV05 | p. 862, Theorem 3 (closeness bound) | presumably cγ^{−2}δ^{−2σ}, as in Theorems 1 and 5 | CANDIDATE |
-| E-GJLV05-2 | erratum | GJLV05 | p. 865, Theorem 5 | ρ₀ is not defined in the statement (presumably ρ) | CANDIDATE |
-| E-FdlLS09-1 | erratum | FdlLS09 | p. 13, Theorem 3.14 | δ is introduced but unused; the bound presumably involves δ | CANDIDATE |
+| E-Pos01-1 | erratum | Pos01 | p. 29 (arXiv v1.3), footnote to Lemma A.2 | missing hypothesis: the condition Kσ ≥ 1 is missing in the printed version; the author's own footnote in arXiv v1.3 says so and the pinned arXiv version contains it | CONFIRMED |
+| E-Pos01-2 | erratum | Pos01 | p. 23 (arXiv v1.3), choice of h₀ and K₀ in the proof of Theorem A | the choices of h₀ and K₀ violate h₀ ≤ α(2K₀^ν)⁻¹ (Bou20, footnote 1); Kou19 Rem. 2.1.5(4), p. 28: 'Theorem A and B are not valid for ν = τ+1' with that proof; Bou20 restores Theorem A as stated by Rüssmann approximation and a linear scheme | CONFIRMED |
+| E-Pos01-3 | erratum | Pos01 | p. 13 (arXiv v1.3), measure statement after Theorem A | should be the measure of (Ω ∖ Ωα) × Tⁿ | CONFIRMED |
+| E-GJLV05-1 | erratum | GJLV05 | p. 862, Theorem 3 (closeness bound) | presumably cγ^{−2}δ^{−2σ}, as in Theorems 1 and 5 | CONFIRMED |
+| E-GJLV05-2 | erratum | GJLV05 | p. 865, Theorem 5 | ρ₀ is not defined in the statement (presumably ρ) | CONFIRMED |
+| E-FdlLS09-1 | erratum | FdlLS09 | p. 13, Theorem 3.14 | δ is introduced but unused; the bound presumably involves δ | DROPPED |
 | E-FdlLS09-2 | erratum | FdlLS09 | §7.1, pp. 42–43 | a bi-Lipschitz map ω ↦ K_ω into a function space does not by itself give a Lipschitz inverse of (θ, ω) ↦ K_ω(θ); the measure conclusion needs the argument we supply (D-LIP-1, D-MEAS-1) | CANDIDATE |
-| E-CCdlL13-1 | erratum | CCdlL13 | pp. 31–32 (preprint mp_arc 11-188) | the two pages describe ℓ = 2 inconsistently | CANDIDATE |
+| E-CCdlL13-1 | erratum | CCdlL13 | pp. 31–32 (preprint mp_arc 11-188) | the two pages describe ℓ = 2 inconsistently | CONFIRMED |
 | D-ROUTE-1 | deviation | Pos01 | whole proof | Proof route: the tori are obtained from an a-posteriori fixed-frequency KAM theorem (parameterization method, no canonical changes of variables) applied at each Diophantine frequency, not by Pöschel's iteration of symplectic transformations | PLANNED |
 | D-MEAS-1 | deviation | Pos01 | Theorem (p. 6), Prop. 1–2 (p. 11) | Rate: our route proves meas(complement) ≤ C·ε^{1/4} (γ ~ ε^{1/4}), not Pöschel's O(√ε); the measure step applies the McShane extension of App. B to F̂ − id in frequency coordinates; in the proof the tori are parameterized by actions (not frequencies), so ∇h(B) needs no regular boundary (blueprint Part 4, V1–V2) | PLANNED |
 | D-NORM-1 | deviation | HL19 | §3.1 (analytic functions and norms) | Estimates are carried out in weighted ℓ¹ Fourier(–Taylor) coefficient norms instead of sup norms on complex strips; hypotheses are stated for real-analytic functions and converted once at the interface | PLANNED |
 | D-COORD-1 | deviation | HL19 | §2 (Hamiltonian systems and invariant tori) | Phase space Tⁿ × B is represented in coordinates: angles in ℝⁿ with ℤⁿ-periodicity, actions in an open set of ℝⁿ (no manifold structure, no general symplectic form) | PLANNED |
 | D-UNIQ-1 | deviation | GJLV05 | Theorem 2 (maps), §6, §8 | Proof supplement: local uniqueness modulo phase for flows. No published statement exists in this framework (GJLV05 Rem. 7: 'We do not formulate such a theorem'; HL19 Rem. 3.5 asserts it without proof). We prove it by adapting the map proof of GJLV05 §6 with the flow reducibility of §8 and Prop. 18, directly for flows (not through the time-one map, which needs map-Diophantine frequencies).. Proof written in blueprint Part 3: linearization at K₁ (not K₂), the phase fixed once by ⟨BLᵀ(K₂(·+ψ) − K₁)⟩ = 0, a uniqueness constant independent of γ (∣ω∣ ≤ Γ from invariance, so γ ≤ Γ), the small-divisor exponent τ + n, and the conclusion on T_{ρ/2} | PLANNED |
 | D-LIP-1 | deviation | CCdlL13 | Cor. 29–30 | Lipschitz dependence on the frequency by re-applying the a-posteriori theorem at a nearby frequency (CCdlL13 template), with the error estimate ‖E′‖ ≲ (ε + ‖K_ω − K⁰_ω‖_{C¹})·∣ω − ω′∣ and Lipschitz defect O(ε/γ⁴); refinements: stability always relative to the unperturbed torus, phase controlled by the average normalization, far pairs above λ_*γ² (blueprint Part 4, V3) | PLANNED |
-| E-HL19-1 | erratum | HL19 | p. 18, (3.11) | the strict inequality is false when E = 0, where it would require ‖K∞ − K‖ < 0; it should read ≤ | CANDIDATE |
-| E-HL19-2 | erratum | HL19 | p. 42, (5.66) | in the estimate for the twist term the denominator should be σ_T − ∣⟨T⟩⁻¹∣ | CANDIDATE |
+| E-HL19-1 | erratum | HL19 | p. 18, (3.11) | the strict inequality is false when E = 0, where it would require ‖K∞ − K‖ < 0; it should read ≤ | CONFIRMED |
+| E-HL19-2 | erratum | HL19 | p. 42, (5.66) | in the estimate for the twist term the denominator should be σ_T − ∣⟨T⟩⁻¹∣ | CONFIRMED |
 | D-G1-1 | deviation | HL19 | Theorem 3.1, pp. 16–18; App. B (5.74)–(5.77) | Uniform constants: C₁, C₂ depend only on n, τ, ρ, ρ∞, a bound M for the Hamiltonian's derivatives, σK, σB, σT, a margin μ (gaps σ − ‖·‖ and distance to the boundary) and an upper bound γbar ≥ γ (App. B's constants increase with γ; without γbar the statement is false: machine-checked counterexample). Dropped hypotheses implied up to 2n factors: σ_{Kᵀ}, c_{X_hᵀ,1}; first integrals and the estimate on ⟨c∘K∞⟩ not transcribed. Pointwise operator norms on the open strip instead of sums of sups on the closed strip. Conclusion strengthened to explicit margins (μ/2) and ≤ in the closeness bound (cf. E-HL19-1). Same uniformization in our G2, where no γbar is needed: invariance with H2–H3 bounds ∣ω∣, hence γ; note: the hypotheses bound the frequency, γ ≤ ∣ω∣ ≤ 2nσ_Kσ_B(M + e), so γ̄ is needed only because the smallness condition alone does not bound e (Part 2 uses γ̄ once, to force e ≤ 1) | PLANNED |
-| E-GJLV05-3 | erratum | GJLV05 | pp. 884–885, Lemma 14 (choice of the phase) | the proof never shows that Ψ maps Θ into itself, and Θ is open; Ψ(0) can be as large as ‖T‖_ρ‖K₁ − K₂‖_ρ. Correction: use the closed ball of radius 2‖T‖_ρ‖K₁ − K₂‖_ρ | CANDIDATE |
-| E-GJLV05-4 | erratum | GJLV05 | p. 885, proof of Theorem 2 | should read 0 < δ < ρ/2 | CANDIDATE |
-| E-GJLV05-5 | erratum | GJLV05 | p. 889, Prop. 18 | the derivative index should be θ_j, and the right-hand side norm should be ‖h‖_ρ | CANDIDATE |
-| E-HL19-3 | erratum | HL19 | p. 55, Lemma A.1 | false for M̄ = M (it would give 0 < 0); should be ≤. Also (A.3)'s '< ½' only follows with ≤ | CANDIDATE |
-| E-HL19-4 | erratum | HL19 | p. 33, (5.15)–(5.18); p. 43, (5.68) | false when E = 0; should be ≤ (the origin of E-HL19-1) | CANDIDATE |
-| E-HL19-5 | erratum | HL19 | p. 42, after (5.67) | should refer to (5.13) and (5.17) | CANDIDATE |
-| E-HL19-6 | erratum | HL19 | p. 44 | should read s → ∞ | CANDIDATE |
-| E-HL19-7 | erratum | HL19 | p. 44 vs Theorem 3.1 (p. 17) | the proof's concluding sentence states the margin on the real torus only, but (5.73) does control dist(K_s(T_{ρ_s}), ∂B) on the complex strips, so the theorem's strip margin is proved; the sentence on p. 44 misstates what (5.73) gives | CANDIDATE |
-| E-Pos01-4 | erratum | Pos01 | p. 6, after the definition of Ω_α | Hausdorff dimension n − 1 of the boundary does not give O(α) boundary layers. Counterexample: n = 1, Ω = (0,1) ∖ {1/k : k ≥ 1}: the boundary has dimension 0 but the inner α-layer has measure ≳ √α. The right condition is finite upper Minkowski content, or a layer bound as in our HEAD | CANDIDATE |
-| E-Pos01-5 | erratum | Pos01 | p. 11, proof of Prop. 2 | the Lipschitz constant must be raised to the power n (Lipschitz maps scale n-dimensional measure by L^n; compare BC17 footnote 32) | CANDIDATE |
+| E-GJLV05-3 | erratum | GJLV05 | pp. 884–885, Lemma 14 (choice of the phase) | the proof never shows that Ψ maps Θ into itself, and Θ is open; Ψ(0) can be as large as ‖T‖_ρ‖K₁ − K₂‖_ρ. Correction: use the closed ball of radius 2‖T‖_ρ‖K₁ − K₂‖_ρ | CONFIRMED |
+| E-GJLV05-4 | erratum | GJLV05 | p. 885, proof of Theorem 2 | should read 0 < δ < ρ/2 | CONFIRMED |
+| E-GJLV05-5 | erratum | GJLV05 | p. 889, Prop. 18 | the derivative index should be θ_j, and the right-hand side norm should be ‖h‖_ρ | CONFIRMED |
+| E-HL19-3 | erratum | HL19 | p. 55, Lemma A.1 | false for M̄ = M (it would give 0 < 0); should be ≤. Also (A.3)'s '< ½' only follows with ≤ | CONFIRMED |
+| E-HL19-4 | erratum | HL19 | p. 33, (5.15)–(5.18); p. 43, (5.68) | false when E = 0; should be ≤ (the origin of E-HL19-1) | CONFIRMED |
+| E-HL19-5 | erratum | HL19 | p. 42, after (5.67) | should refer to (5.13) and (5.17) | CONFIRMED |
+| E-HL19-6 | erratum | HL19 | p. 44 | should read s → ∞ | CONFIRMED |
+| E-HL19-7 | erratum | HL19 | p. 44 vs Theorem 3.1 (p. 17) | the proof's concluding sentence states the margin on the real torus only, but (5.73) does control dist(K_s(T_{ρ_s}), ∂B) on the complex strips, so the theorem's strip margin is proved; the sentence on p. 44 misstates what (5.73) gives | DROPPED |
+| E-Pos01-4 | erratum | Pos01 | p. 6, after the definition of Ω_α | Hausdorff dimension n − 1 of the boundary does not give O(α) boundary layers. Counterexample: n = 1, Ω = (0,1) ∖ {1/k : k ≥ 1}: the boundary has dimension 0 but the inner α-layer has measure ≳ √α. The right condition is finite upper Minkowski content, or a layer bound as in our HEAD | CONFIRMED |
+| E-Pos01-5 | erratum | Pos01 | p. 11, proof of Prop. 2 | the Lipschitz constant must be raised to the power n (Lipschitz maps scale n-dimensional measure by L^n; compare BC17 footnote 32) | CONFIRMED |
 | D-LAG-1 | deviation | HL19 | §2.2, p. 7, eq. (2.3) | Proof supplement: the isotropy (Lagrangian property) of invariant tori with nonresonant frequency, asserted as well known, is proved in blueprint Part 4 (lemma lagrangian), citing GJLV05 Lemma 19 | PLANNED |
-| E-P-A-N77-1 | erratum | Nek77 | pp. 56 and 58 (§12) | the same compactness lemma is printed with one label and cited with another; numbering only | CANDIDATE |
-| E-P-A-N77-2 | erratum | Nek77 | p. 56, (12.6) | duplicate factor 1/2 in the kinetic energy; the momentum formula (12.8) Pᵢ = mᵢẋᵢ + mᵢΣmⱼẋⱼ on the same page follows from T = (1/2) Σ mᵢ ẋᵢ² | CANDIDATE |
-| E-N-ADD-1 | erratum | Nek77 | p. 15, §1.18 | when two bodies approach one another the reciprocal-distance interaction grows; the sentence should read 'ceases to be small' | CANDIDATE |
-| E-P-A-LP17-1 | erratum | LP17 | p. 17, between (B.9) and (B.10) | F is not introduced in that argument; the surrounding brackets use the integral K, so it should read {K, H₀} = 0 | CANDIDATE |
+| E-P-A-N77-1 | erratum | Nek77 | pp. 56 and 58 (§12) | the same compactness lemma is printed with one label and cited with another; numbering only | CONFIRMED |
+| E-P-A-N77-2 | erratum | Nek77 | p. 56, (12.6) | duplicate factor 1/2 in the kinetic energy; the momentum formula (12.8) Pᵢ = mᵢẋᵢ + mᵢΣmⱼẋⱼ on the same page follows from T = (1/2) Σ mᵢ ẋᵢ² | CONFIRMED |
+| E-N-ADD-1 | erratum | Nek77 | p. 15, §1.18 | when two bodies approach one another the reciprocal-distance interaction grows; the sentence should read 'ceases to be small' | CONFIRMED |
+| E-P-A-LP17-1 | erratum | LP17 | p. 17, between (B.9) and (B.10) | F is not introduced in that argument; the surrounding brackets use the integral K, so it should read {K, H₀} = 0 | CONFIRMED |
 | D-P-A-1 | deviation | Nek77 | §12, Theorem 12.3, pp. 55–56 | P-EXP-SAFE specializes Theorem 12.3 to the planar problem with G = m₀ = 1, fixed positive planetary weights, planar prograde data in an explicit separated-annulus low-AMD region (AMDBox), with a symmetric exponential window and explicit uniqueness, Newton-equation and relative-distance conclusions; canonical element transfer is proof work | ADOPTED |
 | D-P-A-2 | deviation | LP17 | (B.5), (B.8), App. B | P-SECULAR-BOX uses the raw untruncated full average over both mean longitudes in the fixed zero-coupling chart, implemented through the eccentric-longitude integral with its Jacobian, and a new elementary rational box at cited decimal masses; it is a statement about the averaged model, not the full Newtonian problem | ADOPTED |
 | D-N-ADD-1 | deviation | Nek77 | Theorem 4.4 p. 30, Remarks 4.5.A–B | N-PARTIAL-CONVEX states the stopped theorem for Hamiltonians convex in the fast actions, with hypotheses on an enlarged fast domain G′ ⊇ G + (real ρ-ball) and conclusions for initial fast actions in G; the steepness of the source is obtained by an explicit convex specialization of its proof, not by a verbatim import (the naive import fails at ∂G: audit F-NADD-1) | ADOPTED |
-| E-HL19-8 | erratum | HL19 | p. 19, Theorem 3.6 (3.16) | Both strict estimates fail for exact input E_c=0; replace < by ≤. Extension of existing E-HL19-1 to the isoenergetic theorem. | CANDIDATE |
-| E-HL19-9 | erratum | HL19 | p. 18, (3.12), compared with p. 20 (4.1) | The sign conflicts with L_ω=−Σω_i∂_i and with (3.14). Read X_h(K)=−L_ωK. | CANDIDATE |
-| E-HL19-10 | erratum | HL19 | p. 19, Remark 3.7 | Insert a minus before X_hᵀΩN in the first equality; the subsequent sign and final ωᵀ row have the intended value. | CANDIDATE |
-| E-HL19-11 | erratum | HL19 | p. 59, Table 5 caption | The table collects (6.45)–(6.51), hence Section 6.3. | CANDIDATE |
-| E-HL19-12 | erratum | HL19 | p. 53, (6.51), compared with p. 19 (3.16) | The same C₃ is attached to different powers of γρ^τ in (6.51) and (3.16); a uniform rescaling is necessary. This does not refute an existentially rescaled theorem. | CANDIDATE |
-| E-HL19-13 | erratum | HL19 | pp. 49–51, (6.33), (6.36), (6.44) | Use the combined error ‖E_c‖ρ, including the prescribed-energy error; E alone cannot bound these corrections. | CANDIDATE |
-| E-HL19-14 | erratum | HL19 | p. 52, iteration convergence | The iteration number s tends to infinity. Separate occurrence from existing E-HL19-6 on p. 44. | CANDIDATE |
-| E-HL19-15 | erratum | HL19 | p. 52, frequency-margin paragraph | The eighth term is in the maximum (6.16), not the pair of inequalities (6.15). | CANDIDATE |
+| E-HL19-8 | erratum | HL19 | p. 19, Theorem 3.6 (3.16) | Both strict estimates fail for exact input E_c=0; replace < by ≤. Extension of existing E-HL19-1 to the isoenergetic theorem. | CONFIRMED |
+| E-HL19-9 | erratum | HL19 | p. 18, (3.12), compared with p. 20 (4.1) | The sign conflicts with L_ω=−Σω_i∂_i and with (3.14). Read X_h(K)=−L_ωK. | CONFIRMED |
+| E-HL19-10 | erratum | HL19 | p. 19, Remark 3.7 | Insert a minus before X_hᵀΩN in the first equality; the subsequent sign and final ωᵀ row have the intended value. | CONFIRMED |
+| E-HL19-11 | erratum | HL19 | p. 59, Table 5 caption | The table collects (6.45)–(6.51), hence Section 6.3. | CONFIRMED |
+| E-HL19-12 | erratum | HL19 | p. 53, (6.51), compared with p. 19 (3.16) | The same C₃ is attached to different powers of γρ^τ in (6.51) and (3.16); a uniform rescaling is necessary. This does not refute an existentially rescaled theorem. | CONFIRMED |
+| E-HL19-13 | erratum | HL19 | pp. 49–51, (6.33), (6.36), (6.44) | Use the combined error ‖E_c‖ρ, including the prescribed-energy error; E alone cannot bound these corrections. | CONFIRMED |
+| E-HL19-14 | erratum | HL19 | p. 52, iteration convergence | The iteration number s tends to infinity. Separate occurrence from existing E-HL19-6 on p. 44. | CONFIRMED |
+| E-HL19-15 | erratum | HL19 | p. 52, frequency-margin paragraph | The eighth term is in the maximum (6.16), not the pair of inequalities (6.15). | CONFIRMED |
 | E-HL19-16 | erratum | HL19 | p. 46, (6.9), constant term under the cohomological inverse | DROPPED as an erratum: omitting the constant ω̂ξ^ω inside R_ω is harmless because R_ω annihilates constants. The full zero-average compatibility condition is still required. | DROPPED |
 | E-HL19-17 | erratum | HL19 | p. 19, H5′ | For ambient boundary in R^d, d≥2, a ray has empty interior and every point lies on its boundary. Specify relative boundary in its line, equivalently endpoint distances. | CANDIDATE |
-| E-Chi05-1 | erratum | Chi05 | pp. 13–14, (3.38)–(3.39); compare p. 17 phase-space description | The printed domain also includes the secondary collision x^(2)=x_circ^(1)(t), where the displayed potential is singular if m₁>0. Exclude it. | CANDIDATE |
+| E-Chi05-1 | erratum | Chi05 | pp. 13–14, (3.38)–(3.39); compare p. 17 phase-space description | The printed domain also includes the secondary collision x^(2)=x_circ^(1)(t), where the displayed potential is singular if m₁>0. Exclude it. | CONFIRMED |
 | E-Chi05-2 | erratum | Chi05 | pp. 13–16, (3.38)–(3.43) | DROPPED: the allegation that these formulas are only a first-order truncated Hamiltonian is false. The coordinate changes are exact; CC03 separately labels its approximation. | DROPPED |
 | E-CC03-1 | erratum | CC03 | p. 7, Theorem 1.1 closing sentence | Scope ambiguity: nonreal ε generally does not define a real Hamiltonian flow. Clarify whether the similar statement complexifies phase space and invariance, or restrict a physical-flow version to real ε. | CANDIDATE |
 | E-N-BM-1 | erratum | BM11 | p. 5, Theorem 2.1 | DROPPED as a false-theorem allegation: at ε=0 the strict size premise is empty. An explicit integrable supplement is a useful reformulation, not a counterexample to this implication. | DROPPED |
-| E-N-BM-2 | erratum | BM11 | p. 9, Lemma 3.3 | A uniform image-ball radius cannot be independent of an unrestricted λ₀>0 in Ψ_h(I,λ)=(h(I),λω(I)); the centre also suppresses λ₀. Retain the pointwise inverse theorem or restrict λ₀ quantitatively. | CANDIDATE |
-| E-N-BM-3 | erratum | BM11 | p. 13, restart argument | A displacement bound independent of the distance of I₀ to the boundary does not imply restart in the same inner ball for all I₀∈B(0,R/2). | CANDIDATE |
-| E-N-BM-4 | erratum | BM11 | p. 8, Pos93 import; compare p. 4 B(M) | Real-slice derivative bounds B(M) do not supply the uniform complex Hessian bound required by that literal Pos93 import. Additional analytic control or a different proof is needed. | CANDIDATE |
-| E-N-BM-5 | erratum | BM11 | p. 12, resonant integer vector | Require k′≠0 before deducing primitivity: i=j and p=q=1 give zero despite coprimality. The ambient integer set is Z^n. | CANDIDATE |
+| E-N-BM-2 | erratum | BM11 | p. 9, Lemma 3.3 | A uniform image-ball radius cannot be independent of an unrestricted λ₀>0 in Ψ_h(I,λ)=(h(I),λω(I)); the centre also suppresses λ₀. Retain the pointwise inverse theorem or restrict λ₀ quantitatively. | CONFIRMED |
+| E-N-BM-3 | erratum | BM11 | p. 13, restart argument | A displacement bound independent of the distance of I₀ to the boundary does not imply restart in the same inner ball for all I₀∈B(0,R/2). | CONFIRMED |
+| E-N-BM-4 | erratum | BM11 | p. 8, Pos93 import; compare p. 4 B(M) | Real-slice derivative bounds B(M) do not supply the uniform complex Hessian bound required by that literal Pos93 import. Additional analytic control or a different proof is needed. | CONFIRMED |
+| E-N-BM-5 | erratum | BM11 | p. 12, resonant integer vector | Require k′≠0 before deducing primitivity: i=j and p=q=1 give zero despite coprimality. The ambient integer set is Z^n. | CONFIRMED |
 | E-N-GCB-1 | erratum | GCB16 | p. 4, main stability theorem | The ε=0 time expression needs an explicit integrable all-time convention or separate zero branch. This is an undefined endpoint in the literal real formula, not a refutation for positive ε. | CANDIDATE |
-| E-N-GCB-2 | erratum | GCB16 | p. 3, quasi-convex steepness sentence | The steepness indices run through n−1; the last subscript should be n−1. | CANDIDATE |
-| E-N-GCB-3 | erratum | GCB16 | p. 3, footnote 5 | The summand of the intended ℓ¹ norm must be ∣u_i∣. | CANDIDATE |
-| E-N-POS-1 | erratum | Pos93scan | printed p. 190 (PDF p. 5), explanatory norm sentence | Restrict this equality to real symmetric Q. It is false for arbitrary complex symmetric Hessians on V_(r₀)P; retain the operator norm in the preceding hypothesis. | CANDIDATE |
-| E-Pos93-1 | erratum | Pos93scan | printed p. 194 (PDF p. 9), end of Case B | The concluding target has lost its minus sign; the preceding calculation gives e^(−Ks/6)ε. The printed plus-sign upper bound is weaker and true, but does not express the intended remainder estimate. | CANDIDATE |
+| E-N-GCB-2 | erratum | GCB16 | p. 3, quasi-convex steepness sentence | The steepness indices run through n−1; the last subscript should be n−1. | CONFIRMED |
+| E-N-GCB-3 | erratum | GCB16 | p. 3, footnote 5 | The summand of the intended ℓ¹ norm must be ∣u_i∣. | CONFIRMED |
+| E-N-POS-1 | erratum | Pos93scan | printed p. 190 (PDF p. 5), explanatory norm sentence | Restrict this equality to real symmetric Q. It is false for arbitrary complex symmetric Hessians on V_(r₀)P; retain the operator norm in the preceding hypothesis. | CONFIRMED |
+| E-Pos93-1 | erratum | Pos93scan | printed p. 194 (PDF p. 9), end of Case B | The concluding target has lost its minus sign; the preceding calculation gives e^(−Ks/6)ε. The printed plus-sign upper bound is weaker and true, but does not express the intended remainder estimate. | CONFIRMED |
 | E-Pos93-2 | erratum | Pos93scan | printed p. 195 (PDF p. 10), final telescoping display | The stated derivative bound is questioned: later iteration scales introduce ρσ/(ρ₀σ₀)=3/(2N²). The blueprint supplies componentwise bounds instead. No violating map has been established, so the mathematical defect remains unverified. | CANDIDATE |
 | E-Pos93-3 | erratum | Pos93scan | printed p. 197 (PDF p. 12), Proposition 1 small-Ks branch | DROPPED: the source does not assert the Normal Form Lemma exponential remainder bound for the identity map in this branch. It proves Proposition 1 directly by the original vector field. | DROPPED |
 | E-Pos93-4 | erratum | Pos93scan | printed p. 199 (PDF p. 14), Lemma 2 proof | The cited projected-frequency closeness was established only on U_ρD, while this segment may run to r−ρ. The printed inference is unsupported without further control; a sufficient repair is Mr≤ℓ/4 in the energy lemma and Mr≤ℓ/2 in Proposition 2. | CANDIDATE |
 | E-Pos93-5 | erratum | Pos93scan | printed p. 200 (PDF p. 15), Proposition 2 small-Ks branch | DROPPED as a demonstrated false source statement: the half-radius issue is a proof-margin/transfer obligation, not a refutation of the proposition. Record the explicit smaller-radius argument as a supplement. | DROPPED |
 | E-Pos93-6 | erratum | Pos93scan | printed p. 204 (PDF p. 19), choice A=11M/m | DROPPED: the alleged failed numerical domination ignores m≤M at a nonempty real point in dimension at least two. With that comparison the inequality used in the proof holds. | DROPPED |
-| E-NAVG-NEI-17 | erratum | Nei76 | p. 1298, (17), with z(t) on p. 1297 and h in (4) p. 1295 | The equality interchanges supremum and initial-data integration. Only sup_t∫error≤∫sup_t error is automatic; the fixed-time Gronwall bound does not establish the required mean maximum. | CANDIDATE |
+| E-NAVG-NEI-17 | erratum | Nei76 | p. 1298, (17), with z(t) on p. 1297 and h in (4) p. 1295 | The equality interchanges supremum and initial-data integration. Only sup_t∫error≤∫sup_t error is automatic; the fixed-time Gronwall bound does not establish the required mean maximum. | CONFIRMED |
 | E-P-CP10-DOMAIN | erratum | CP10pin | pp. 547, 551, 561, ball conventions | DROPPED as a mathematical erratum: conventions need a precise product-domain dictionary, but the word ball alone does not establish a false theorem. Frozen product discs are a disclosed choice. | DROPPED |
-| E-P-CP10-INV | erratum | CP10pin | p. 556, Step 1, extension of the frequency diffeomorphism | Invertibility on an open V need not extend uniformly to V_ρ₀ at its boundary. A neighborhood of cl V with a quantitative inverse bound is an extra assumption or localization. | CANDIDATE |
-| E-P-CP10-BOUNDARY | erratum | CP10pin | p. 561, after (56) | An arbitrary bounded open set need not have a linear boundary-collar volume estimate. Add a boundary regularity/collar hypothesis or localize to interior boxes. | CANDIDATE |
-| E-P-CP10-ANNULUS | erratum | CP10pin | p. 561, (56); compare p. 559 (47) | For the positive rectangular action shell the excluded fraction is 1−(1−c√ε)^n₂, asymptotic to n₂c√ε, rather than O(ε^(n₂/2)) when n₂≥2. | CANDIDATE |
+| E-P-CP10-INV | erratum | CP10pin | p. 556, Step 1, extension of the frequency diffeomorphism | Invertibility on an open V need not extend uniformly to V_ρ₀ at its boundary. A neighborhood of cl V with a quantitative inverse bound is an extra assumption or localization. | CONFIRMED |
+| E-P-CP10-BOUNDARY | erratum | CP10pin | p. 561, after (56) | An arbitrary bounded open set need not have a linear boundary-collar volume estimate. Add a boundary regularity/collar hypothesis or localize to interior boxes. | CONFIRMED |
+| E-P-CP10-ANNULUS | erratum | CP10pin | p. 561, (56); compare p. 559 (47) | For the positive rectangular action shell the excluded fraction is 1−(1−c√ε)^n₂, asymptotic to n₂c√ε, rather than O(ε^(n₂/2)) when n₂≥2. | CONFIRMED |
 | E-P-CP10-WHOLE | erratum | CP10pin | p. 564, conclusion for Theorem 1.5 | The operation of intersecting a torus family with a cylinder alone does not prove saturation by whole invariant tori. The stronger containment/subfamily selection used by P needs a proof supplement. No actual violating CP10 family has been established. | CANDIDATE |
-| E-CP10-1 | erratum | CP10pin | p. 554, Proposition 3 definition of Û | The index ranges define the last n₂ rows, an n₂×n matrix, not n×n₁. | CANDIDATE |
-| E-CP10-2 | erratum | CP10pin | p. 565, Lemma B.1 initialization | Initialize the slow Hessian bound by M̂, not M, consistently with Proposition 3. | CANDIDATE |
-| E-CP10-3 | erratum | CP10pin | p. 566, B.1(i), frequency-map composition | This is the identity and has the wrong target domain. Read ω_j⁻¹ ◦ ω_(j−1), as the one-step construction on p. 568 does. | CANDIDATE |
+| E-CP10-1 | erratum | CP10pin | p. 554, Proposition 3 definition of Û | The index ranges define the last n₂ rows, an n₂×n matrix, not n×n₁. | CONFIRMED |
+| E-CP10-2 | erratum | CP10pin | p. 565, Lemma B.1 initialization | Initialize the slow Hessian bound by M̂, not M, consistently with Proposition 3. | CONFIRMED |
+| E-CP10-3 | erratum | CP10pin | p. 566, B.1(i), frequency-map composition | This is the identity and has the wrong target domain. Read ω_j⁻¹ ◦ ω_(j−1), as the one-step construction on p. 568 does. | CONFIRMED |
 | E-CP10-4 | erratum | CP10pin | p. 555 (35), slow displacement; p. 572 (107) | The printed slow M̂/M refinement is not obtained by the displayed one-step estimate (107). Replacing that ratio by 1 gives the bound actually reconstructed. This is an unverified sharper-estimate allegation, not a supplied counterexample. | CANDIDATE |
 | E-CP10-5 | erratum | CP10pin | p. 551, norm conventions and Appendix B estimates | Mixed norms are explicit, but the blanket allegation that the printed constants cannot all hold has no supplied failing inequality in those norms. The same-constant Kirszbraun step also needs its Euclidean conversion checked, not merely a change of norms asserted. | CANDIDATE |
-| E-CP10-6 | erratum | CP10pin | p. 555, Proposition 3 | Without phase normalization the embedding is not unique: φ_ω(θ+a) has the same torus, frequency, analyticity and equations. | CANDIDATE |
-| E-CP10-7 | erratum | CP10pin | p. 555, Proposition 3 global parameter Lipschitz claim; Appendix B | An arbitrary unbounded disconnected D does not give a global inverse-Lipschitz frequency map from a bounded inverse differential. At f=0 this can obstruct the claimed global parameter Lipschitz map. | CANDIDATE |
-| E-CP10-8 | erratum | CP10pin | p. 565, (70) and its two following sums | The sums must run over k∉Λ, including (0,k₂)∉Λ in the slow part. Retained resonant modes are not divided by their divisors. | CANDIDATE |
-| E-CP10-9 | erratum | CP10pin | p. 564, Lemma A.1 (66) | The target angular width should be s, not σ. | CANDIDATE |
-| E-CP10-10 | erratum | CP10pin | p. 563, Theorem 1.5 proof Step 1; compare p. 564 A.1 | This substitution violates A.1 requirement ρ<r/2. To obtain the stated output action radius ρ̄/2, the natural inferred loss is ρ=ρ̄/4. | CANDIDATE |
+| E-CP10-6 | erratum | CP10pin | p. 555, Proposition 3 | Without phase normalization the embedding is not unique: φ_ω(θ+a) has the same torus, frequency, analyticity and equations. | CONFIRMED |
+| E-CP10-7 | erratum | CP10pin | p. 555, Proposition 3 global parameter Lipschitz claim; Appendix B | An arbitrary unbounded disconnected D does not give a global inverse-Lipschitz frequency map from a bounded inverse differential. At f=0 this can obstruct the claimed global parameter Lipschitz map. | CONFIRMED |
+| E-CP10-8 | erratum | CP10pin | p. 565, (70) and its two following sums | The sums must run over k∉Λ, including (0,k₂)∉Λ in the slow part. Retained resonant modes are not divided by their divisors. | CONFIRMED |
+| E-CP10-9 | erratum | CP10pin | p. 564, Lemma A.1 (66) | The target angular width should be s, not σ. | CONFIRMED |
+| E-CP10-10 | erratum | CP10pin | p. 563, Theorem 1.5 proof Step 1; compare p. 564 A.1 | This substitution violates A.1 requirement ρ<r/2. To obtain the stated output action radius ρ̄/2, the natural inferred loss is ρ=ρ̄/4. | CONFIRMED |
 | E-CP10-11 | erratum | CP10pin | p. 563, same Step 1 | DROPPED: the alleged printed r_p=r_q=0 is a misreading. The page prints ε₀, consistently with p. 556. | DROPPED |
-| E-CP10-12 | erratum | CP10pin | pp. 562–563, Lemma 3.1 and (59) | The asserted restricted dependence is too strong for the abstract lemma when the slow radius r̂ shrinks. The covering number, hence its constants, can grow as 1/r̂. | CANDIDATE |
-| E-CP10-13 | erratum | CP10pin | p. 562, use of Lemma 3.1 (59) | Rescaling only the slow block changes mixed resonances. A measure bound for ω_resc does not directly bound the originally defined ω_μ=(fast, μ slow) mixed-resonant set. | CANDIDATE |
+| E-CP10-12 | erratum | CP10pin | pp. 562–563, Lemma 3.1 and (59) | The asserted restricted dependence is too strong for the abstract lemma when the slow radius r̂ shrinks. The covering number, hence its constants, can grow as 1/r̂. | CONFIRMED |
+| E-CP10-13 | erratum | CP10pin | p. 562, use of Lemma 3.1 (59) | Rescaling only the slow block changes mixed resonances. A measure bound for ω_resc does not directly bound the originally defined ω_μ=(fast, μ slow) mixed-resonant set. | CONFIRMED |
 | E-CP10-14 | erratum | CP10pin | p. 569, (91) | DROPPED: the calculation gives the sharper exponent 2(τ+1), but since 4s<1 the printed weaker upper bound remains true. | DROPPED |
 | E-CP10-15 | erratum | CP10pin | p. 573, Step 3 | DROPPED: the claim that Appendix B never uses (108) overlooks this explicit sentence. Limit analyticity/domain details may still need supplementation. | DROPPED |
 | E-CP10-16 | erratum | CP10pin | p. 567, Remark 3, and pp. 567–570 proof | DROPPED: the historical Arnold comparison is not an additional unproved Arnold dependency of B.1; Appendix B supplies an inductive proof. The genuine [4] finite-averaging dependency is separate. | DROPPED |
-| E-P-Fej04r-1 | erratum | Fej04r | p. 55, proof of Proposition 73, q_jk display | Replace these mass products by m_jm_k. The second diagonal sum also lacks the denominator factor 2 present in the first and required by (36). | CANDIDATE |
-| E-P-Fej04r-2 | erratum | Fej04r | p. 56, Lemma 76 | The universal single-valued meromorphic/pole assertion is false. b_(1/2)^(0)(α) has logarithmic divergence at α=1 and is regular at zero. | CANDIDATE |
-| E-P-Fej04r-3 | erratum | Fej04r | pp. 50–51, (35)–(37), compared with corrected (31) p. 47 | Under the pinned corrected sqrt(2Λ) chart normalization, the coefficients of the quadratic matrix in (35)–(37) are twice the canonical ones. Halve both C₁ and C₂ in the displayed matrix convention. | CANDIDATE |
+| E-P-Fej04r-1 | erratum | Fej04r | p. 55, proof of Proposition 73, q_jk display | Replace these mass products by m_jm_k. The second diagonal sum also lacks the denominator factor 2 present in the first and required by (36). | CONFIRMED |
+| E-P-Fej04r-2 | erratum | Fej04r | p. 56, Lemma 76 | The universal single-valued meromorphic/pole assertion is false. b_(1/2)^(0)(α) has logarithmic divergence at α=1 and is regular at zero. | CONFIRMED |
+| E-P-Fej04r-3 | erratum | Fej04r | pp. 50–51, (35)–(37), compared with corrected (31) p. 47 | Under the pinned corrected sqrt(2Λ) chart normalization, the coefficients of the quadratic matrix in (35)–(37) are twice the canonical ones. Halve both C₁ and C₂ in the displayed matrix convention. | CONFIRMED |
 | E-P-Fej04r-4 | erratum | Fej04r | p. 53, Lemma 71 statement and proof | DROPPED: for sufficiently small ε, 2(1+O(ε)) is bounded by 3. These constants are compatible; an explicit threshold is an enhancement. | DROPPED |
 | E-P-Fej04r-5 | erratum | Fej04r | pp. 54–55, Lemma 74 proof | DROPPED: the proof continues on p. 55, where both recurrences and a positive difference formula complete the induction. | DROPPED |
-| E-P-Fej04r-6 | erratum | Fej04r | pp. 53–54, Corollary 72 | A uniform boundedness assumption on the family A_ε is missing. | CANDIDATE |
-| E-P-Fej04r-7 | erratum | Fej04r | p. 58, induction block matrix | The old diagonal block generically has a nonzero O(a_n²) correction, so the stronger printed O(a_n^(5/2)) assertion is false. The off-diagonal O(a_n^(5/2)) is a valid weaker bound than O(a_n^(11/4)). | CANDIDATE |
+| E-P-Fej04r-6 | erratum | Fej04r | pp. 53–54, Corollary 72 | A uniform boundedness assumption on the family A_ε is missing. | CONFIRMED |
+| E-P-Fej04r-7 | erratum | Fej04r | p. 58, induction block matrix | The old diagonal block generically has a nonzero O(a_n²) correction, so the stronger printed O(a_n^(5/2)) assertion is false. The off-diagonal O(a_n^(5/2)) is a valid weaker bound than O(a_n^(11/4)). | CONFIRMED |
 | E-P-Fej04r-8 | erratum | Fej04r | p. 58, end of Proposition 77 induction | DROPPED as a demonstrated false source assertion: omitted quantitative detail in a true induction is a proof supplement, not an erratum. | DROPPED |
-| E-P-Fej04r-9 | erratum | Fej04r | p. 56, domain A^C after Lemma 76 | A^C as defined is not simply connected: simultaneously rotate all nonzero axes through one full turn. Ratios stay fixed while each axis winds around zero. | CANDIDATE |
-| E-P-Fej04r-10 | erratum | Fej04r | p. 53, Lemma 71 proof | Uniqueness needs a diagonal/skew normalization. If U solves [D,U]=−A, so does U+C for every diagonal C. A unique zero-diagonal skew solution is the intended choice. | CANDIDATE |
-| E-P7-Fej48 | erratum | Fej04r | p. 48, small-eccentricity/inclination expansion before Theorem 62 | The leading factors should be √Λ_j after the corrected sqrt(2) in (31). These are stale asymptotics in the revised text. | CANDIDATE |
-| E-P8-Fej50 | erratum | Fej04r | p. 50, Lemma 64 | The derivative expression for momentum misses an extra μ_j: mean motion is μ_j³M_j²/Λ_j³, whereas Y_j=μ_j Ẋ_j. | CANDIDATE |
-| E-P-Fej07e | erratum | Fej07e | pp. 1–4, author corrections to original 2004 article | Historical author-reported corrections: Corollary 22 inverse parameter argument; inverse-operator constants A_j→A_j A′_(j+p+τ+1)/(2π); pair masses (28); sqrt(2) in (31). Pp. 3–4 also distinguish smooth construction and analytic planar addendum. The pinned revision already includes the (28)/(31) corrections. | CANDIDATE |
+| E-P-Fej04r-9 | erratum | Fej04r | p. 56, domain A^C after Lemma 76 | A^C as defined is not simply connected: simultaneously rotate all nonzero axes through one full turn. Ratios stay fixed while each axis winds around zero. | CONFIRMED |
+| E-P-Fej04r-10 | erratum | Fej04r | p. 53, Lemma 71 proof | Uniqueness needs a diagonal/skew normalization. If U solves [D,U]=−A, so does U+C for every diagonal C. A unique zero-diagonal skew solution is the intended choice. | CONFIRMED |
+| E-P7-Fej48 | erratum | Fej04r | p. 48, small-eccentricity/inclination expansion before Theorem 62 | The leading factors should be √Λ_j after the corrected sqrt(2) in (31). These are stale asymptotics in the revised text. | CONFIRMED |
+| E-P8-Fej50 | erratum | Fej04r | p. 50, Lemma 64 | The derivative expression for momentum misses an extra μ_j: mean motion is μ_j³M_j²/Λ_j³, whereas Y_j=μ_j Ẋ_j. | CONFIRMED |
+| E-P-Fej07e | erratum | Fej07e | pp. 1–4, author corrections to original 2004 article | Historical author-reported corrections: Corollary 22 inverse parameter argument; inverse-operator constants A_j→A_j A′_(j+p+τ+1)/(2π); pair masses (28); sqrt(2) in (31). Pp. 3–4 also distinguish smooth construction and analytic planar addendum. The pinned revision already includes the (28)/(31) corrections. | CONFIRMED |
 | E-P-Arn63b | erratum | Arn63b | reported in CP11 p. 34, footnote 53, concerning Arnold p. 138 (3.4.31) | CP11 reports this original exponent typo and a factor-two invariant normalization. Original English (3.4.31) has not been independently verified. | CANDIDATE |
-| E-P-CP11-1 | erratum | CP11 | p. 62, Appendix B (B.2) | Insert 1/2 for this off-diagonal matrix coefficient under the frozen sqrt(2Λ) normalization. | CANDIDATE |
-| E-P-CP11-2 | erratum | CP11 | p. 63, Appendix B (B.6), r₁ | The r₁ expression is only asymptotically correct as printed; its final 37α⁴ must be 37α³ to match the exact quartic coefficient. At axes (1,2) the printed and exact coefficients have opposite signs. | CANDIDATE |
+| E-P-CP11-1 | erratum | CP11 | p. 62, Appendix B (B.2) | Insert 1/2 for this off-diagonal matrix coefficient under the frozen sqrt(2Λ) normalization. | CONFIRMED |
+| E-P-CP11-2 | erratum | CP11 | p. 63, Appendix B (B.6), r₁ | The r₁ expression is only asymptotically correct as printed; its final 37α⁴ must be 37α³ to match the exact quartic coefficient. At axes (1,2) the printed and exact coefficients have opposite signs. | CONFIRMED |
 | E-CP09-1 | erratum | CP09 | p. 21, perturbation threshold calculation | An upper bound on an admissible threshold does not show a prepared remainder is below that threshold. The application needs an explicit admissible lower bound of polynomial size, or a threshold chosen by equality after all estimates. | CANDIDATE |
-| E-CP09-2 | erratum | CP09 | p. 15, polar action domain | A Euclidean radius controlled by ∣ρ₀∣ does not protect every oscillator component from zero. Use a radius smaller than a fixed fraction of min_j ρ₀j. | CANDIDATE |
-| E-CP09-3 | erratum | CP09 | p. 14, action-dependent Birkhoff change | An action-dependent slow canonical change generally requires a fast-angle lift; it cannot leave both fast blocks unchanged while remaining symplectic. | CANDIDATE |
-| E-CP09-4 | erratum | CP09 | pp. 14–15, Birkhoff normal form Q_* | The quadratic oscillator term is already written separately; including it again in Q_* double counts it. Q_* must start at degree two in the slow actions in that decomposition. | CANDIDATE |
-| E-CP09-5 | erratum | CP09 | p. 15, torsion matrix dimension | There are p slow actions, so their torsion Hessian is p×p, not 2p×2p. | CANDIDATE |
-| E-CP09-6 | erratum | CP09 | p. 15, polar coordinate display | The second term should be the variable ρ_j. | CANDIDATE |
-| E-CP09-7 | erratum | CP09 | p. 11, frequency-selected action set | D_(γ,τ) is a frequency set; the action set is K∩ω⁻¹(D_(γ,τ)). | CANDIDATE |
-| E-CP09-8 | erratum | CP09 | p. 11, internal reference; p. 6, footnote 8 | The local result is Lemma 2, and the statement of Rüssmann Theorem 1.7 starts on printed p. 126 in the pinned Rus01, with continuation/proof remarks on p. 127. | CANDIDATE |
+| E-CP09-2 | erratum | CP09 | p. 15, polar action domain | A Euclidean radius controlled by ∣ρ₀∣ does not protect every oscillator component from zero. Use a radius smaller than a fixed fraction of min_j ρ₀j. | CONFIRMED |
+| E-CP09-3 | erratum | CP09 | p. 14, action-dependent Birkhoff change | An action-dependent slow canonical change generally requires a fast-angle lift; it cannot leave both fast blocks unchanged while remaining symplectic. | CONFIRMED |
+| E-CP09-4 | erratum | CP09 | pp. 14–15, Birkhoff normal form Q_* | The quadratic oscillator term is already written separately; including it again in Q_* double counts it. Q_* must start at degree two in the slow actions in that decomposition. | CONFIRMED |
+| E-CP09-5 | erratum | CP09 | p. 15, torsion matrix dimension | There are p slow actions, so their torsion Hessian is p×p, not 2p×2p. | CONFIRMED |
+| E-CP09-6 | erratum | CP09 | p. 15, polar coordinate display | The second term should be the variable ρ_j. | CONFIRMED |
+| E-CP09-7 | erratum | CP09 | p. 11, frequency-selected action set | D_(γ,τ) is a frequency set; the action set is K∩ω⁻¹(D_(γ,τ)). | CONFIRMED |
+| E-CP09-8 | erratum | CP09 | p. 11, internal reference; p. 6, footnote 8 | The local result is Lemma 2, and the statement of Rüssmann Theorem 1.7 starts on printed p. 126 in the pinned Rus01, with continuation/proof remarks on p. 127. | CONFIRMED |
 | E-CP09-9 | erratum | CP09 | p. 6, Theorem 3 threshold dependencies versus p. 17 Lemma 8 | The analytic neighborhood A also enters quantitative thresholds through its margin ϑ. Omitting it is not a uniform statement over arbitrarily thin domains. | CANDIDATE |
-| E-CP09-10 | erratum | CP09 | p. 17, transformed perturbation display | The repeated constant in the two shifted oscillator blocks should use the two distinct shifts c̄₁,c̄₂ defined in preparation. | CANDIDATE |
+| E-CP09-10 | erratum | CP09 | p. 17, transformed perturbation display | The repeated constant in the two shifted oscillator blocks should use the two distinct shifts c̄₁,c̄₂ defined in preparation. | CONFIRMED |
 | E-CP09-11 | erratum | CP09 | p. 22, planetary application of Theorem 4 | The Kepler splitting used in the application depends on ε, whereas the preceding abstract theorem is stated with ε-independent input. A uniform parameter-family wrapper or exact zero-coupling splitting is required for this import. | CANDIDATE |
-| E-Rus01-1 | erratum | Rus01 | p. 123, (1.2) | The elliptic z-block has 2p coordinates, so its symmetric quadratic matrix A must be 2p×2p. | CANDIDATE |
-| E-Rus01-2 | erratum | Rus01 | p. 171, item 5, compared with (14.7) p. 165 | The defining bound (14.7) uses ∣A∣, not just its elliptic frequencies ∣Ω∣. General symmetric quadratic matrices with nonuniform conditioning are not controlled by their Hamiltonian eigenfrequencies alone. | CANDIDATE |
-| E-Rus05-1 | erratum | Rus05 | p. 26, Lemma 8, strip integral representation | A boundedness or suitable growth hypothesis is needed to discard vertical contour sides and ensure the improper integral converges. | CANDIDATE |
-| E-Rus05-2 | erratum | Rus05 | pp. 30–31, §11 (46) and final estimate | For the multipliers constructed there, dimension rescaling changes E(Tρ) to E(Tρ/n). The printed estimate fails for that construction; this is not a counterexample to existence of different approximation multipliers. | CANDIDATE |
-| E-Rus05-3 | erratum | Rus05 | p. 21, abstract footnote referencing Rus01 | The pinned Rus01 footnote explaining the approximation source is on p. 135. | CANDIDATE |
+| E-Rus01-1 | erratum | Rus01 | p. 123, (1.2) | The elliptic z-block has 2p coordinates, so its symmetric quadratic matrix A must be 2p×2p. | CONFIRMED |
+| E-Rus01-2 | erratum | Rus01 | p. 171, item 5, compared with (14.7) p. 165 | The defining bound (14.7) uses ∣A∣, not just its elliptic frequencies ∣Ω∣. General symmetric quadratic matrices with nonuniform conditioning are not controlled by their Hamiltonian eigenfrequencies alone. | CONFIRMED |
+| E-Rus05-1 | erratum | Rus05 | p. 26, Lemma 8, strip integral representation | A boundedness or suitable growth hypothesis is needed to discard vertical contour sides and ensure the improper integral converges. | CONFIRMED |
+| E-Rus05-2 | erratum | Rus05 | pp. 30–31, §11 (46) and final estimate | For the multipliers constructed there, dimension rescaling changes E(Tρ) to E(Tρ/n). The printed estimate fails for that construction; this is not a counterexample to existence of different approximation multipliers. | CONFIRMED |
+| E-Rus05-3 | erratum | Rus05 | p. 21, abstract footnote referencing Rus01 | The pinned Rus01 footnote explaining the approximation source is on p. 135. | CONFIRMED |
 | D-I-G1-UNIFORM | deviation | HL19 | Theorem 3.6; frozen I-G1 | Uniformize constants over fixed strip/ray/margin bounds, including γ̄, ν and ω*, rather than silently reusing source pointwise constants. | ADOPTED |
 | D-I-ENERGY | deviation | HL19 | Theorem 3.6; frozen I energy class | Use the physical energy h, pointwise strip bounds and a bordered extended torsion in the frozen convention. | ADOPTED |
 | D-I-CONFINEMENT | deviation | CC03 | Theorem 1.1 versus frozen I-HEAD | Prove a general all-initial-point two-degree-of-freedom confinement theorem through energy charts, Diophantine barriers and continuation, rather than reuse one computer-assisted fixed-energy region. | ADOPTED |
@@ -653,15 +652,15 @@ against the pinned PDF.
 | D-P-WEAK-KAM | deviation | CP09 | pp. 17–21 Remark 5 / Lemma 8; Rus01 §§13–20 | Reconstruct the maximal case with strict power-law divisors, polynomial admissible thresholds and parameter inverse-Lipschitz/displacement control. | PLANNED |
 | D-P-APPROX | deviation | Rus05 | §§8–11; Rus01 §7.3–7.5 | Either repair dimension/growth estimates and redo the schedules or prove elementary Fourier/Taylor approximation with changed constants. | PLANNED |
 | D-P-LOCAL-WRAPPER | deviation | CP09 | Theorems 3–4 and Proposition 2; P Part 11a | Prove a local compact-action maximal-KAM wrapper with exact analytic domains, derivative nondegeneracy stability, parameter-family control and ambient whole-torus measure. | PLANNED |
-| E-Pos93-7 | erratum | Pos93scan | printed p. 214 (PDF p. 29), Lemma B.3 proof, action Cauchy formula | The derivative formula needs ζ² in the denominator; the printed integral with ζ returns u itself. The next integral estimate needs the corresponding derivative kernel. | CANDIDATE |
+| E-Pos93-7 | erratum | Pos93scan | printed p. 214 (PDF p. 29), Lemma B.3 proof, action Cauchy formula | The derivative formula needs ζ² in the denominator; the printed integral with ζ returns u itself. The next integral estimate needs the corresponding derivative kernel. | CONFIRMED |
 | D-N-LIE-SERIES | deviation | Pos93scan | pp. 211–215 Appendices B–C; shared N Parts 4/5 | Prove weighted Fourier/domain/norm conversions, the flow and composition identity explicitly with η≤1/2, and propagate the stronger smallness into normal-form iterations. | PLANNED |
 | D-I-LINEAR-SOLVE | deviation | HL19 | p. 46 Lemma 6.1 and source Lemma 5.1; I Part 1 | Supply the full bordered zero-mode and cohomological solve, including the energy identity and signs, rather than invoke analogy and an external Lemma 5.1 proof. | PLANNED |
-| E-P-Fej04r-11 | erratum | Fej04r | p. 45, proof of Theorem 60, flat remainder | Smooth flatness alone does not imply an exponential-in-inverse-radius estimate. It implies every fixed polynomial order; this weaker consequence can suffice after a finite threshold is chosen. | CANDIDATE |
-| E-P-Fej04r-12 | erratum | Fej04r | p. 42, Theorem 60(1°–3°), versus Definition 32 p. 17 and proof p. 45 | A fixed γ is incompatible with normal frequencies β=O(ε) and positive volume for every arbitrarily small ε when q>0. The proof instead chooses a shrinking γ̂. | CANDIDATE |
-| E-P-Fej04r-13 | erratum | Fej04r | p. 34, Example 47, with (23)–(24) p. 33 | These constants fail for the printed Euclidean operator norm. Choose appropriate dimension-dependent constants. | CANDIDATE |
-| E-P-Fej04r-14 | erratum | Fej04r | pp. 38–39, proof of Theorem 58 slicing displays | The linewise estimate concerns the bad set, but the p. 39 displays switch to the good set. They need ∉. The p. 38 reciprocal ratio also differs from the b/a factor in the theorem and preceding one-dimensional bound. | CANDIDATE |
-| E-P-Fej04r-15 | erratum | Fej04r | p. 44, Step 5 polar localization, compare CP09 p. 15 | For an arbitrary positive vector ρᵒ this radius need not stay inside the positive action orthant. Choose comparable components or a radius controlled by min_j ρᵒ_j. | CANDIDATE |
-| E-P-Fej04r-16 | erratum | Fej04r | p. 58, after the induction block matrix | The (n−1)-planet old block has n−1 eigenvalues; end the hatted list at n−1. | CANDIDATE |
+| E-P-Fej04r-11 | erratum | Fej04r | p. 45, proof of Theorem 60, flat remainder | Smooth flatness alone does not imply an exponential-in-inverse-radius estimate. It implies every fixed polynomial order; this weaker consequence can suffice after a finite threshold is chosen. | CONFIRMED |
+| E-P-Fej04r-12 | erratum | Fej04r | p. 42, Theorem 60(1°–3°), versus Definition 32 p. 17 and proof p. 45 | A fixed γ is incompatible with normal frequencies β=O(ε) and positive volume for every arbitrarily small ε when q>0. The proof instead chooses a shrinking γ̂. | CONFIRMED |
+| E-P-Fej04r-13 | erratum | Fej04r | p. 34, Example 47, with (23)–(24) p. 33 | These constants fail for the printed Euclidean operator norm. Choose appropriate dimension-dependent constants. | CONFIRMED |
+| E-P-Fej04r-14 | erratum | Fej04r | pp. 38–39, proof of Theorem 58 slicing displays | The linewise estimate concerns the bad set, but the p. 39 displays switch to the good set. They need ∉. The p. 38 reciprocal ratio also differs from the b/a factor in the theorem and preceding one-dimensional bound. | CONFIRMED |
+| E-P-Fej04r-15 | erratum | Fej04r | p. 44, Step 5 polar localization, compare CP09 p. 15 | For an arbitrary positive vector ρᵒ this radius need not stay inside the positive action orthant. Choose comparable components or a radius controlled by min_j ρᵒ_j. | CONFIRMED |
+| E-P-Fej04r-16 | erratum | Fej04r | p. 58, after the induction block matrix | The (n−1)-planet old block has n−1 eigenvalues; end the hatted list at n−1. | CONFIRMED |
 
 </details>
 <!-- /AUTO:errata -->
