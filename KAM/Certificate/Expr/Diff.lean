@@ -8,10 +8,10 @@ module
 public import KAM.Certificate.Expr.DiffNode
 
 /-!
-# The symbolic jet of a Hamiltonian expression, to second order
+# The symbolic jet of a Hamiltonian expression, to third order
 
 `HamExpr.jet` compiles an expression to a straight-line program with forward-mode derivative
-slots (`slpCompile`): every sub-expression is compiled once and its value, first and second
+slots (`slpCompile`): every sub-expression is compiled once and its value, first, second and third
 derivative slots are shared by its parents. Sine and cosine of an expression and of a mode are
 compiled through `exp` and the characters `e^{±2πi k·θ}`; a quotient is a product with an
 `inv` node; a power is repeated multiplication. No operation is ever dropped from the program
@@ -19,8 +19,8 @@ compiled through `exp` and the characters `e^{±2πi k·θ}`; a quotient is a pr
 stays in the program, as the ball arithmetic of SO-BALL requires.
 
 The values are those of `HamExpr.eval` everywhere (`jet_v0`), and on an open set where the
-denominators are nonvanishing the tables are the first and second derivatives (`jet_d1`,
-`jet_d2`). The tables of order three (`d3`, SO-EXPR part B2) are left empty here.
+denominators are nonvanishing the tables are the first, second and third derivatives (`jet_d1`,
+`jet_d2`, `jet_d3`).
 -/
 
 @[expose] public noncomputable section
@@ -327,15 +327,15 @@ theorem slpCompile_sound {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × 
     exact ⟨p1.trans p2, h2⟩
 
 /-- The jet of an expression: the program of `slpCompile` (after the zero slot) and the tables
-of `H`, `∂_a H`, `∂_a ∂_b H`; the folded slots `none` are read from the zero slot `0`. The
-table of third derivatives is left empty (SO-EXPR part B2). -/
+of `H`, `∂_a H`, `∂_a ∂_b H`, `∂_a ∂_b ∂_c H`; the folded slots `none` are read from the zero
+slot `0`. -/
 def HamExpr.jet {n : ℕ} (e : HamExpr n) : HamJet :=
   let r := slpCompile e [.const 0 0 0]
   { prog := ⟨r.1⟩
     v0 := r.2.v
     d1 := r.2.d1.map (fun o => o.getD 0)
     d2 := r.2.d2.map (fun row => row.map (fun o => o.getD 0))
-    d3 := [] }
+    d3 := r.2.d3.map (fun tab => tab.map (fun row => row.map (fun o => o.getD 0))) }
 
 theorem slpCompile_prefix {n : ℕ} (e : HamExpr n) :
     [SlpOp.const 0 0 0] <+: (slpCompile e [.const 0 0 0]).1 :=
@@ -406,6 +406,39 @@ theorem HamExpr.jet_d2 {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (F
         ((e.jet.d2.getD (phaseNat a) []).getD (phaseNat b) 0) 0 := rfl
   rw [key, this, hr, iteratedFDeriv_two_eq_jetDeriv hc, phaseBasis_eq_dirVec,
     phaseBasis_eq_dirVec]
+
+theorem HamExpr.jet_d3 {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+    (hS : IsOpen S) (hnv : e.NonvanishingOn S) {z : (Fin n → ℂ) × (Fin n → ℂ)} (hz : z ∈ S)
+    (a b c : Fin n ⊕ Fin n) :
+    e.jet.prog.val n z
+        (((e.jet.d3.getD (phaseNat a) []).getD (phaseNat b) []).getD (phaseNat c) 0) =
+      iteratedFDeriv ℂ 3 e.eval z ![phaseBasis a, phaseBasis b, phaseBasis c] := by
+  obtain ⟨hp, h⟩ := slpCompile_sound e hS hnv [.const 0 0 0]
+  have hr := (h.d3 (phaseNat a) (phaseNat_lt a) (phaseNat b) (phaseNat_lt b) (phaseNat c)
+    (phaseNat_lt c)).2 z hz
+  rw [slpOv_eq_val n z _ hp] at hr
+  have : ((e.jet.d3.getD (phaseNat a) []).getD (phaseNat b) []).getD (phaseNat c) 0 =
+      ((slpCompile e [.const 0 0 0]).2.get3 (phaseNat a) (phaseNat b) (phaseNat c)).getD 0 := by
+    simp only [HamExpr.jet, SlpNode.get3]
+    have h1 : (List.map (fun tab => List.map (fun row => List.map (fun o : Option ℕ => o.getD 0)
+        row) tab) (slpCompile e [.const 0 0 0]).2.d3).getD (phaseNat a) [] =
+        ((slpCompile e [.const 0 0 0]).2.d3.getD (phaseNat a) []).map
+          (fun row => row.map (fun o : Option ℕ => o.getD 0)) :=
+      list_getD_map (fun tab => List.map (fun row => List.map (fun o : Option ℕ => o.getD 0)
+        row) tab) _ _ []
+    have h2 : (((slpCompile e [.const 0 0 0]).2.d3.getD (phaseNat a) []).map
+        (fun row => row.map (fun o : Option ℕ => o.getD 0))).getD (phaseNat b) [] =
+        (((slpCompile e [.const 0 0 0]).2.d3.getD (phaseNat a) []).getD (phaseNat b) []).map
+          (fun o : Option ℕ => o.getD 0) :=
+      list_getD_map (fun row => row.map (fun o : Option ℕ => o.getD 0)) _ _ []
+    rw [h1, h2]
+    exact list_getD_map (fun o : Option ℕ => o.getD 0) _ _ none
+  have key : e.jet.prog.val n z
+      (((e.jet.d3.getD (phaseNat a) []).getD (phaseNat b) []).getD (phaseNat c) 0) =
+      (Slp.vals n z (slpCompile e [.const 0 0 0]).1).getD
+        (((e.jet.d3.getD (phaseNat a) []).getD (phaseNat b) []).getD (phaseNat c) 0) 0 := rfl
+  rw [key, this, hr, iteratedFDeriv_three_eq_jetDeriv hS (e.jetSmoothOn hS hnv) hz,
+    phaseBasis_eq_dirVec, phaseBasis_eq_dirVec, phaseBasis_eq_dirVec]
 
 end KAM.Certificate
 
