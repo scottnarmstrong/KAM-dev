@@ -106,6 +106,7 @@ public import KAM.Certificate.Tests.Compose
 public import KAM.Certificate.Tests.Defs
 public import KAM.Certificate.Tests.Gram
 public import KAM.Certificate.Tests.Model
+public import KAM.Certificate.Tests.Negative
 public import KAM.Certificate.Tests.Packed
 public import KAM.Certificate.Tests.Positivity
 public import KAM.Certificate.Tests.Torsion
@@ -1332,15 +1333,18 @@ public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
+public import KAM.SpinOrbit.Graph.Cert
 public import KAM.SpinOrbit.Graph.Inverse
 public import KAM.SpinOrbit.Graph.Rot
 public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
+public import KAM.SpinOrbit.LunarParams
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
 public import KAM.SpinOrbit.RotFreq
 public import KAM.SpinOrbit.Rotated
 public import KAM.SpinOrbit.ScalarEmbedding
+public import KAM.SpinOrbit.Tests.GraphCert
 public import KAM.Strip.Analytic
 public import KAM.Strip.AnalyticCauchy
 public import KAM.Strip.AnalyticSeries
