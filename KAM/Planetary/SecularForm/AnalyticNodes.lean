@@ -572,6 +572,22 @@ theorem perturbation_analytic_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) 
       (perturbation_avg D ha hr0 hr hsep b).2.2.1, (perturbation_avg D ha hr0 hr hsep b).2.2.2,
       perturbation_avg_complex D ha hr0 hr hsep b⟩⟩⟩
 
+/-- `stepP:p8:pa-avg`, literal conclusion: the real-point clause of `perturbation_avg` together
+with the complex-point derivative identity of `perturbation_avg_complex`. -/
+theorem perturbation_avg_node (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
+    (hr0 : 0 < r) (hr : r < rho D a)
+    (hsep : ∀ t x, x ∈ polydisc D a r → ∀ i j, i < j →
+      ((a j - a i) ^ 2 / 2) ≤ (separationC D t x i j).re) (b : Bool) :
+    (DifferentiableOn ℂ (secularC D b) (polydisc D a r) ∧
+      (∀ x ∈ realDisc D a r, secularC D b (inclusion x) = (secular D b x : ℂ)) ∧
+      AnalyticOnNhd ℝ (secular D b) (realDisc D a r) ∧
+      ∀ k : ℕ, ∀ x ∈ realDisc D a r, iteratedFDeriv ℝ k (secular D b) x =
+        avg (fun t => iteratedFDeriv ℝ k
+          (fun y : Slow n => perturbation D b (assemble y.2.1 t y.2.2 y.1)) x)) ∧
+    ∀ k : ℕ, ∀ x ∈ polydisc D a r, iteratedFDeriv ℂ k (secularC D b) x =
+      avg (fun t => iteratedFDeriv ℂ k (perturbationC D b t) x) :=
+  ⟨perturbation_avg D ha hr0 hr hsep b, perturbation_avg_complex D ha hr0 hr hsep b⟩
+
 end SecularForm
 end KAM.Planetary
 end
