@@ -33,4 +33,4 @@ git push -q origin main || fail "push"
 echo "LANDED: $branch at $(git rev-parse --short HEAD)"
 # The merges above run with HQ_UPDATING=1, which the git hooks skip, so refresh the campaign HQ README here
 # (2026-10-29: landings left the README up to 20 minutes stale). Runs in the background.
-mkdir -p .hq; nohup sh scripts/hq-update.sh >> .hq/hq-update.log 2>&1 &
+mkdir -p .hq; nohup bash scripts/hq-update.sh >> .hq/hq-update.log 2>&1 &
