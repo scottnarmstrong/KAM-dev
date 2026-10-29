@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 16:00 UTC from `main` at `90cb0f76` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 16:00 UTC from `main` at `86cf4006` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.
 
@@ -394,6 +394,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 16:00 | `86cf4006` | README: main theorem 1 states the boundary-regularity premise |
 | 2026-10-29 15:59 | `4eecace1` | README: Main theorems section (two per track, plain-language statements linked to the exact frozen Lean declarations) |
 | 2026-10-29 15:54 | `52633b9d` | Land inp into main |
 | 2026-10-29 15:50 | `4d2ccfac` | OVERNIGHT 15:45-15:50 (P14 assembled, SO design accepted, data packaging A); HQ: SO plan item done, gates |
@@ -405,7 +406,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 15:28 | `e05cbb60` | HQ: track SO in the completion estimate (original project / track SO / overall), its own work items (progress-SO.json, auto from landed packages), SO block at the top of At a glance, SO in the size estimate |
 | 2026-10-29 15:25 | `67d0c001` | Land inp into main |
 | 2026-10-29 15:22 | `5142afbd` | Land inp into main |
-| 2026-10-29 15:19 | `df128568` | HQ: track N complete (partialConvex_nekhoroshev sealed by Zohar's team, PR #7); I.HQ done; I.GUARDS note; current phase |
 <!-- /AUTO:landed -->
 
 ## Decisions
