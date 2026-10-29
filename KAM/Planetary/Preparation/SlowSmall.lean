@@ -74,6 +74,38 @@ theorem p11s1_log_lower (hC : P11SecularSpec D C) {eps : ℝ} (heps : 0 < eps)
   exact div_le_div_of_nonneg_left hA.le (by positivity)
     (Real.rpow_le_rpow (by linarith) hKΛ (by linarith))
 
+/-- Lower bound of `s₂`: `s₂ ≥ c / ℓ^{τ+1}`. -/
+theorem p11s2_log_lower (hC : P11SecularSpec D C) {nu eps : ℝ} (hnu : 0 < nu) (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) :
+    min (min C.rC (C.gamma / (4 * C.L)) / (4 * (6 / (Real.pi * C.sigma)) ^ (C.tau + 1)))
+      (C.gamma / (8 * C.L * (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1))) /
+      Real.log (1 / eps) ^ (C.tau + 1) ≤ p11s2 C nu eps := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, hσ1, hrz0, -, hMF⟩ := fast_consts hC
+  have hM0 : 0 < C.MF := by linarith
+  have hl0 : 0 < Real.log (1 / eps) := by
+    have := log_inv_ge_one heps (le_trans (by nlinarith) hεM)
+    linarith
+  have hL0 : 0 < C.L := by linarith
+  have hc30 : 0 < 6 / (Real.pi * C.sigma) := by positivity
+  have ha : 0 < 3 * nu / (Real.pi * (C.sigma / 12)) := by positivity
+  have hq : 0 < Real.log (1 / eps) ^ (C.tau + 1) := Real.rpow_pos_of_pos hl0 _
+  have hs1 := p11s1_log_lower hC heps hεM
+  unfold p11s2
+  have hK : p11K2 C nu eps = 3 * nu / (Real.pi * (C.sigma / 12)) * Real.log (1 / eps) := rfl
+  have hX : 0 < (6 / (Real.pi * C.sigma)) ^ (C.tau + 1) := Real.rpow_pos_of_pos hc30 _
+  have hY : 0 < (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1) := Real.rpow_pos_of_pos ha _
+  refine le_min ?_ ?_
+  · refine le_trans ?_ (div_le_div_of_nonneg_right hs1 (by norm_num : (0 : ℝ) ≤ 4))
+    calc _ ≤ min C.rC (C.gamma / (4 * C.L)) / (4 * (6 / (Real.pi * C.sigma)) ^ (C.tau + 1)) /
+          Real.log (1 / eps) ^ (C.tau + 1) :=
+          div_le_div_of_nonneg_right (min_le_left _ _) hq.le
+      _ = _ := by field_simp
+  · rw [hK, Real.mul_rpow ha.le hl0.le]
+    calc _ ≤ C.gamma / (8 * C.L * (3 * nu / (Real.pi * (C.sigma / 12))) ^ (C.tau + 1)) /
+          Real.log (1 / eps) ^ (C.tau + 1) :=
+          div_le_div_of_nonneg_right (min_le_right _ _) hq.le
+      _ = _ := by field_simp
+
 end Small
 
 end KAM.Planetary
