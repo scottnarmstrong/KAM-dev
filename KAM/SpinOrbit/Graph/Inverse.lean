@@ -5,7 +5,9 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Certificate.Clock
 public import KAM.SpinOrbit.Barrier
+public import KAM.SpinOrbit.Hamiltonian
 
 /-!
 # Graph inversion of an exact torus (track SO, package SO-GRAPHM)
@@ -190,7 +192,7 @@ theorem hasDerivAt_line {f d : ℝ → ℝ → ℝ} (h : ∀ x y, HasDerivAt (fu
   have h0 := h (x + s * ν) (y + s)
   rw [← sub_self s] at h0
   have := h0.comp_sub_const s s
-  convert this using 2 <;> ring_nf
+  convert this using 2; ring_nf
 
 /-- The solution of the physical flow running along the torus through `(x, y)` at time `t₁`. -/
 def Torus.orbit (_T : Torus Q Pp dQ ν c m) (x y t₁ t : ℝ) : ℝ × ℝ × ℝ :=
@@ -260,6 +262,184 @@ theorem soBarrier_of_torus {Q Pp dQ : ℝ → ℝ → ℝ} {ν c m lo hi : ℝ} 
     rw [T.inv_add_one, hP₀]
   · unfold SoGraph.Torus.graph
     rw [T.inv_φ_add_one, show φ + 1 - c = (φ - c) + 1 by ring, hP₁]
+
+/-! ### From the complex torus `K∞` to the real data -/
+
+namespace SoGraph
+
+open KAM KAM.Certificate
+
+variable {Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)}
+
+/-- The real torus angle `(x, y)` as a point of `ℂ²`. -/
+def realPt (x y : ℝ) : Fin 2 → ℂ := fun i => ((![x, y] i : ℝ) : ℂ)
+
+/-- The angle `q` of the real torus at `(x, y)`. -/
+def realQ (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (x y : ℝ) : ℝ :=
+  ((Kinf (realPt x y)).1 0).re
+
+/-- The momentum `p` of the real torus at `(x, y)`. -/
+def realP (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (x y : ℝ) : ℝ :=
+  ((Kinf (realPt x y)).2 0).re
+
+theorem realPt_mem {ρ : ℝ} (hρ : 0 < ρ) (x y : ℝ) : realPt x y ∈ complexStrip 2 ρ :=
+  ofReal_mem_complexStrip hρ ![x, y]
+
+theorem real_comp (hreal : IsRealOnReals Kinf) (θ : Fin 2 → ℝ) :
+    ∃ z : (Fin 2 → ℝ) × (Fin 2 → ℝ), Kinf (fun i => (θ i : ℂ)) =
+      (fun i => (z.1 i : ℂ), fun i => (z.2 i : ℂ)) := hreal θ
+
+theorem realQ_eq (hreal : IsRealOnReals Kinf) (x y : ℝ) :
+    (Kinf (realPt x y)).1 0 = ((realQ Kinf x y : ℝ) : ℂ) := by
+  obtain ⟨z, hz⟩ := hreal ![x, y]
+  have : Kinf (realPt x y) = _ := hz
+  simp [realQ, this]
+
+theorem realP_eq (hreal : IsRealOnReals Kinf) (x y : ℝ) :
+    (Kinf (realPt x y)).2 0 = ((realP Kinf x y : ℝ) : ℂ) := by
+  obtain ⟨z, hz⟩ := hreal ![x, y]
+  have : Kinf (realPt x y) = _ := hz
+  simp [realP, this]
+
+/-- Derivative of `K∞` along a real line, at every time. -/
+theorem hasDerivAt_line_K {ρ : ℝ} (hholo : DifferentiableOn ℂ Kinf (complexStrip 2 ρ))
+    (hρ : 0 < ρ) (θ v : Fin 2 → ℝ) (t : ℝ) :
+    HasDerivAt (fun s : ℝ => Kinf (fun i => ((θ i + s * v i : ℝ) : ℂ)))
+      (fderiv ℂ Kinf (fun i => ((θ i + t * v i : ℝ) : ℂ)) (fun i => (v i : ℂ))) t := by
+  have hℓ : HasDerivAt (fun s : ℝ => fun i => ((θ i + s * v i : ℝ) : ℂ))
+      (fun i => (v i : ℂ)) t := by
+    refine hasDerivAt_pi.2 fun i => ?_
+    have := (((hasDerivAt_id t).mul_const (v i)).const_add (θ i)).ofReal_comp
+    simpa using this
+  have hmem : (fun i => ((θ i + t * v i : ℝ) : ℂ)) ∈ complexStrip 2 ρ := by
+    intro i; simpa using hρ
+  have hK : DifferentiableAt ℂ Kinf (fun i => ((θ i + t * v i : ℝ) : ℂ)) :=
+    hholo.differentiableAt ((isOpen_complexStrip 2 ρ).mem_nhds hmem)
+  exact (hK.hasFDerivAt.restrictScalars ℝ).comp_hasDerivAt t hℓ
+
+theorem realPt_line (x y ν s : ℝ) :
+    (fun i => ((![x, y] i + s * ![ν, 1] i : ℝ) : ℂ)) = realPt (x + s * ν) (y + s) := by
+  funext i; fin_cases i <;> simp [realPt]
+
+theorem realPt_zero_line (y s : ℝ) :
+    (fun i => ((![0, y] i + s * ![1, 0] i : ℝ) : ℂ)) = realPt s y := by
+  funext i; fin_cases i <;> simp [realPt]
+
+/-- The real part of a component of a `ℂ²`-valued derivative. -/
+theorem hasDerivAt_re_comp {f : ℝ → (Fin 2 → ℂ) × (Fin 2 → ℂ)} {D : (Fin 2 → ℂ) × (Fin 2 → ℂ)}
+    {t : ℝ} (h : HasDerivAt f D t) :
+    HasDerivAt (fun s => ((f s).1 0).re) (D.1 0).re t := by
+  have h1 : HasDerivAt (fun s => (f s).1 0) (D.1 0) t := hasDerivAt_pi.1 h.fst 0
+  exact Complex.reCLM.hasFDerivAt.comp_hasDerivAt t h1
+
+theorem hasDerivAt_re_comp₂ {f : ℝ → (Fin 2 → ℂ) × (Fin 2 → ℂ)} {D : (Fin 2 → ℂ) × (Fin 2 → ℂ)}
+    {t : ℝ} (h : HasDerivAt f D t) :
+    HasDerivAt (fun s => ((f s).2 0).re) (D.2 0).re t := by
+  have h1 : HasDerivAt (fun s => (f s).2 0) (D.2 0) t := hasDerivAt_pi.1 h.snd 0
+  exact Complex.reCLM.hasFDerivAt.comp_hasDerivAt t h1
+
+end SoGraph
+
+open KAM KAM.Certificate SoGraph in
+/-- **The exact torus is an invariant barrier graph.** Let `K∞` be the exact torus of the
+isoenergetic theorem for `soHC` (holomorphic on the strip `T_ρ`, primary, real on the reals,
+invariant at `s∞ ω*`, with `s∞ ω*` Diophantine). If `∂_{θ₀} q ≥ m > 0` on the real torus
+(`fderiv` of `K∞` applied to the first real direction `realPt 1 0`) and the momentum on the real
+torus lies in `[lo, hi]`, then the clock lemma gives `φ = θ₁ + c` and `s∞ ω*₁ = 1`, and the real
+torus is the graph `p = P(q, φ)` of a continuous periodic function: an invariant barrier. -/
+theorem soBarrier_of_exact_torus {Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)}
+    {ρ sinf γ τ m lo hi : ℝ} {ωstar : Fin 2 → ℝ} (hρ : 0 < ρ)
+    (hholo : DifferentiableOn ℂ Kinf (complexStrip 2 ρ)) (hprim : IsPrimaryOnStrip Kinf ρ)
+    (hreal : IsRealOnReals Kinf)
+    (hinv : ∀ θ ∈ complexStrip 2 ρ, invarianceError soHC Kinf (sinf • ωstar) θ = 0)
+    (hγ : 0 < γ) (hdio : IsDiophantine γ τ (sinf • ωstar)) (hm : 0 < m)
+    (hmono : ∀ x y : ℝ, m ≤ ((fderiv ℂ Kinf (realPt x y) (realPt 1 0)).1 0).re)
+    (hlo : ∀ x y : ℝ, lo ≤ ((Kinf (realPt x y)).2 0).re)
+    (hhi : ∀ x y : ℝ, ((Kinf (realPt x y)).2 0).re ≤ hi) :
+    Nonempty (SoBarrier lo hi) := by
+  have hH1 : ∀ z ∈ (Set.univ : Set ((Fin 2 → ℂ) × (Fin 2 → ℂ))),
+      fderiv ℂ soHC z (phaseBasis (.inr (1 : Fin 2))) = 1 := by
+    intro z _
+    rw [phaseBasis_inr, fderiv_soHC_apply]
+    simp
+  obtain ⟨hone, c, hc⟩ := clock_frequency (D := Set.univ) (H := soHC) (j := 1) hρ hH1
+    (fun _ _ => Set.mem_univ _) hholo hprim hreal hinv hγ hdio
+  set ν : ℝ := sinf * ωstar 0 with hν
+  have hω : sinf • ωstar = ![ν, 1] := by
+    funext i; fin_cases i <;> simp [hν, hone]
+  have hcl : ∀ x y : ℝ, (Kinf (realPt x y)).1 1 = ((y + c : ℝ) : ℂ) := fun x y => by
+    have h : (Kinf (realPt x y)).1 1 = ((![x, y] 1 + c : ℝ) : ℂ) := hc ![x, y]
+    simpa using h
+  -- the flow equation at every real point
+  have hflow : ∀ x y : ℝ, HasDerivAt (fun s : ℝ => Kinf (realPt (x + s * ν) (y + s)))
+      (soExtFieldC (Kinf (realPt x y))) 0 := by
+    intro x y
+    have h := hasDerivAt_line_K hholo hρ ![x, y] ![ν, 1] 0
+    have e := hinv (realPt x y) (realPt_mem hρ x y)
+    rw [invarianceError, hω, hamiltonianVectorFieldℂ_soHC, sub_eq_zero] at e
+    have e2 : (fun i => ((![x, y] i + (0 : ℝ) * ![ν, 1] i : ℝ) : ℂ)) = realPt x y := by
+      funext i; fin_cases i <;> simp [realPt]
+    rw [e2, ← e] at h
+    simpa only [realPt_line] using h
+  have hper : ∀ (x y : ℝ) (k : Fin 2 → ℤ),
+      Kinf (realPt x y + fun i => ((k i : ℤ) : ℂ)) =
+        Kinf (realPt x y) + (fun i => ((k i : ℤ) : ℂ), 0) :=
+    fun x y k => hprim _ (realPt_mem hρ x y) k
+  have hPeq : ∀ x y, (Kinf (realPt x y)).2 0 = ((realP Kinf x y : ℝ) : ℂ) := realP_eq hreal
+  refine soBarrier_of_torus (Q := realQ Kinf) (Pp := realP Kinf)
+    (dQ := fun x y => ((fderiv ℂ Kinf (realPt x y) (realPt 1 0)).1 0).re) (ν := ν) (c := c)
+    (m := m) hm ?_ ?_ ?_ ?_ ?_ ?_ ?_ hmono ?_ ?_ hlo hhi
+  · have hcp : Continuous fun z : ℝ × ℝ => realPt z.1 z.2 :=
+      continuous_pi fun i => by fin_cases i <;> simp [realPt] <;> fun_prop
+    have hcK : Continuous fun z : ℝ × ℝ => Kinf (realPt z.1 z.2) :=
+      hholo.continuousOn.comp_continuous hcp fun z => realPt_mem hρ _ _
+    exact Complex.continuous_re.comp ((continuous_apply 0).comp (continuous_fst.comp hcK))
+  · have hcp : Continuous fun z : ℝ × ℝ => realPt z.1 z.2 :=
+      continuous_pi fun i => by fin_cases i <;> simp [realPt] <;> fun_prop
+    have hcK : Continuous fun z : ℝ × ℝ => Kinf (realPt z.1 z.2) :=
+      hholo.continuousOn.comp_continuous hcp fun z => realPt_mem hρ _ _
+    exact Complex.continuous_re.comp ((continuous_apply 0).comp (continuous_snd.comp hcK))
+  · intro x y
+    have h := hper x y ![1, 0]
+    have e : realPt x y + (fun i => ((![1, 0] i : ℤ) : ℂ)) = realPt (x + 1) y := by
+      funext i; fin_cases i <;> simp [realPt]
+    rw [e] at h
+    simpa [realQ] using congrArg (fun u => (u.1 0).re) h
+  · intro x y
+    have h := hper x y ![0, 1]
+    have e : realPt x y + (fun i => ((![0, 1] i : ℤ) : ℂ)) = realPt x (y + 1) := by
+      funext i; fin_cases i <;> simp [realPt]
+    rw [e] at h
+    simpa [realQ] using congrArg (fun u => (u.1 0).re) h
+  · intro x y
+    have h := hper x y ![1, 0]
+    have e : realPt x y + (fun i => ((![1, 0] i : ℤ) : ℂ)) = realPt (x + 1) y := by
+      funext i; fin_cases i <;> simp [realPt]
+    rw [e] at h
+    simpa [realP] using congrArg (fun u => (u.2 0).re) h
+  · intro x y
+    have h := hper x y ![0, 1]
+    have e : realPt x y + (fun i => ((![0, 1] i : ℤ) : ℂ)) = realPt x (y + 1) := by
+      funext i; fin_cases i <;> simp [realPt]
+    rw [e] at h
+    simpa [realP] using congrArg (fun u => (u.2 0).re) h
+  · intro x y
+    have h := hasDerivAt_line_K hholo hρ ![0, y] ![1, 0] x
+    simp only [realPt_zero_line] at h
+    exact hasDerivAt_re_comp h
+  · intro x y
+    have h := hasDerivAt_re_comp (hflow x y)
+    have hv : ((soExtFieldC (Kinf (realPt x y))).1 0).re = realP Kinf x y := by
+      simp [soExtFieldC, hPeq]
+    rw [hv] at h
+    exact h
+  · intro x y
+    have h := hasDerivAt_re_comp₂ (hflow x y)
+    have hv : ((soExtFieldC (Kinf (realPt x y))).2 0).re = -soVq (realQ Kinf x y) (y + c) := by
+      simp only [soExtFieldC, Matrix.cons_val_zero, realQ_eq hreal, hcl, soVqC_ofReal]
+      simp
+    rw [hv] at h
+    exact h
 
 end KAM.SpinOrbit
 
