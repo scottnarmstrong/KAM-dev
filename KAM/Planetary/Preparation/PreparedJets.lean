@@ -319,6 +319,42 @@ theorem p11_prin_Z_jet (hC : P11SecularSpec D C) :
           (4 * max k1 ke * l ^ (C.tau + 1)) ^ a := by gcongr
     _ = _ := by rw [mul_pow]; ring
 
+private theorem prin_coth_ge_one {x : ℝ} (hx : 0 < x) : 1 ≤ KAM.Weighted.coth x := by
+  unfold KAM.Weighted.coth
+  exact (one_le_div (Real.sinh_pos_iff.2 hx)).2 (Real.sinh_lt_cosh x).le
+
+/-- The constant term `C` of the secular normal form is bounded by `M_F` on `D(J₀, 2 r_C)`: it is
+the fast mean of `F` at `z = 0`. -/
+theorem p11_prin_C_bound (hC : P11SecularSpec D C) (J : P11CVec n)
+    (hJ : ‖J - KAM.realInclusion n C.J0‖ < 2 * C.rC) : ‖C.C J‖ ≤ C.MF := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, -, hσ0, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hFd, hFb, -, -,
+    hmean, -⟩ := hC
+  have h0 := hmean J (mem_ball_iff_norm.2 hJ) 0 (by simpa using hrz0)
+  have hz : (‖(0 : P11Phase n)‖ / C.rz) ^ 4 = 0 := by simp
+  have hzero : ∑ i, C.Omega J i * (((0 : P11Phase n).1 i) ^ 2 + ((0 : P11Phase n).2 i) ^ 2) / 2 =
+      0 := by simp
+  rw [hz, hzero, mul_zero, sub_zero] at h0
+  have h1 : ‖p11FastMean C.F J 0 - C.C J‖ ≤ 0 := h0
+  have h2 : p11FastMean C.F J 0 = C.C J := sub_eq_zero.1 (norm_le_zero_iff.1 h1)
+  rw [← h2]
+  unfold p11FastMean
+  refine KAM.norm_torusAverage_le fun θ _ => ?_
+  have hmem : (Fin.append (KAM.realInclusion n θ) (0 : P11Phase n).1,
+      Fin.append J (0 : P11Phase n).2) ∈ p11WorkingDom n C.J0 (2*C.sigma) (2*C.rC) C.rz := by
+    refine ⟨?_, ?_, ?_, ?_⟩
+    · simpa [Fin.append_left] using KAM.ofReal_mem_complexStrip (n := n)
+        (by positivity : (0 : ℝ) < 2*C.sigma) θ
+    · simpa [Fin.append_left] using hJ
+    · simp only [Prod.fst_zero, Prod.snd_zero, Fin.append_right, Pi.zero_apply]
+      rw [show (fun _ : Fin n => (0 : ℂ)) = (0 : P11CVec n) from rfl, norm_zero]; exact hrz0
+    · simp only [Prod.fst_zero, Prod.snd_zero, Fin.append_right, Pi.zero_apply]
+      rw [show (fun _ : Fin n => (0 : ℂ)) = (0 : P11CVec n) from rfl, norm_zero]; exact hrz0
+  refine (hFb _ hmem).trans ?_
+  have hc := prin_coth_ge_one (show 0 < Real.pi * C.sigma by positivity)
+  have hp : 1 ≤ KAM.Weighted.coth (Real.pi * C.sigma) ^ n := one_le_pow₀ hc
+  exact div_le_self (by linarith) hp
+
 end PrIn
 
 end KAM.Planetary
