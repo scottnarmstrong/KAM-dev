@@ -209,9 +209,9 @@ EDGE: bpP:p0:plane#planeDot | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planeLength_algebra (KAM/Planetary/Newtonian/LeftoverNodes.lean)
+LEAN_NOTE: audit GAP-LREF PASS WITH NOTES (bundle export)
 NOTE: -
 
 NODE: stepP:p6:pl-b
@@ -236,9 +236,9 @@ EDGE: bpP:p0:plane#planeLength | blueprint-P/parts/p6-newtonian-models.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6
 REVIEWER: sol-review-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planeLength_norm_bounds (KAM/Planetary/Newtonian/LeftoverNodes.lean)
+LEAN_NOTE: audit GAP-LREF PASS WITH NOTES (bundle export)
 NOTE: -
 
 NODE: stepP:p6:pl-c
@@ -267,9 +267,9 @@ EDGE: bpP:p0:plane#planeDot | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planeLength_smooth_deriv (KAM/Planetary/Newtonian/LeftoverNodes.lean)
+LEAN_NOTE: audit GAP-LREF PASS WITH NOTES (bundle export)
 NOTE: -
 
 NODE: bpP:p6:domain
@@ -359,9 +359,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:dom-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: hamiltonians_contDiffOn (KAM/Planetary/Newtonian/LeftoverNodes.lean)
+LEAN_NOTE: audit GAP-LREF PASS WITH NOTES (bundle export) (C^infinity form)
 NOTE: -
 
 NODE: bpP:p6:split
@@ -1024,9 +1024,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:rc-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not in GAP-P6b
+LEAN_STATUS: PROVED
+LEAN_REF: reconstruction_pack (KAM/Planetary/Newtonian/LeftoverNodes.lean)
+LEAN_NOTE: audit GAP-LREF PASS WITH NOTES (bundle export)
 NOTE: -
 
 NODE: bpP:p6:units
@@ -1218,9 +1218,9 @@ EDGE: bpP:p6:conv#data | blueprint-P/parts/p6-newtonian-models.tex#stepP:p6:ot-a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p6+sol-review-P-h
 REVIEWER: sol-delta-P-h
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not in GAP-P6b
+LEAN_STATUS: PROVED
+LEAN_REF: orbit_transfer_pack (KAM/Planetary/Newtonian/LeftoverNodes.lean)
+LEAN_NOTE: audit GAP-LREF PASS WITH NOTES (bundle export)
 NOTE: -
 
 NODE: bpP:p6:tube-constants
