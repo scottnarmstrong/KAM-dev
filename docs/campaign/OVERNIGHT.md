@@ -1022,3 +1022,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   aligned mirror extended to the fixed-point backend and the packed route; Lean emission and kernel passes are
   SO-DATA-2. B2 is merged into inp; its full rebuild is at 40 % (575 of 1377 modules), and CLEANUP-B34 waits for it.
   Four finished prover sessions closed.
+- **22:34. Memory incident: T2d's whole invariance check in the kernel reached 17.8 GB.** SO-TEST-A's scratch run of
+  `checkInvariance` on toy T2d (`decide +kernel`) grew to 17.8 GB RSS while the machine had 2 GB left; Claude Code
+  reaped my background event waiter under the memory pressure and kam-inp held the B2 landing build. I stopped that
+  one lean process by PID (no kill by name); memory recovered to 20 GB available. Design signal, to be measured
+  and reported by SO-TEST-A under a memory cap (systemd-run MemoryMax / prlimit): the whole-certificate kernel route
+  of design §5/§7.2 is heavier than SO-REPLAY projected for T2d's small data, which matters for the lunar
+  certificates (SO-DATA-2). Per the reaper's instruction the background waiter was not restarted; events are checked
+  at each heartbeat instead.
