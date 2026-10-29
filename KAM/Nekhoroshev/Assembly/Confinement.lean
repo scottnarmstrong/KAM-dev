@@ -95,6 +95,14 @@ private theorem cf_setting (hn : 3 ≤ n) (p : HeadParams n) (hp : p.Pos)
     · exact Or.inr (hqc I (hnb I hI) ξ hle)
     · exact Or.inl (lt_of_not_ge hle)
 
+/-- The Part 9 setting for the concrete data (public name of `cf_setting`). -/
+theorem head_theorem1_setting (hn : 3 ≤ n) (p : HeadParams n) (hp : p.Pos)
+    {h : (Fin n → ℂ) → ℂ} {f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ε : ℝ}
+    (hh : HeadHyp p h) (hf : IsAnalyticPerturbation p.R p.s ε f)
+    (hε : 0 < ε) (hε0 : ε ≤ p.eps0) :
+    Theorem1Setting {J : Fin n → ℝ | ‖J‖ ≤ p.R / 2} p.r0 p.s1 p.mu p.B p.ell h f :=
+  cf_setting hn p hp hh hf hε hε0
+
 /-- cf-orbit: extract a total-field solution; no confinement in the smaller tube is assumed. -/
 theorem cf_orbit {H : (Fin n → ℝ) × (Fin n → ℝ) → ℝ}
     {U : Set (Fin n → ℝ)} {J : Set ℝ} {y : ℝ → (Fin n → ℝ) × (Fin n → ℝ)}
