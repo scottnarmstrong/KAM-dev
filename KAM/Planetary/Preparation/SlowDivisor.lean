@@ -482,6 +482,14 @@ theorem p11_drho_of_clause6 {C : P11SecularData n} {Z : P11CVec (n+n) → ℂ} {
     Finset.sum_const_zero, pow_zero] at h
   exact (norm_le_pi_norm _ i).trans h
 
+/-- The spec box `V₂` lies in P7b's averaging box `D(J₀, s₁/4) × D(2πε, πε)`. -/
+theorem p11SlowBox_subset_avg {D : P11Physical n} {C : P11SecularData n}
+    (hC : P11SecularSpec D C) {nu eps : ℝ} (hK : 0 < p11K2 C nu eps) :
+    p11SlowBox C nu eps ⊆ p11Box (Fin.append (KAM.realInclusion n C.J0)
+      (fun _ : Fin n => (2 * Real.pi * eps : ℂ))) (p11s1 C eps / 4) (Real.pi * eps) := by
+  obtain ⟨h1, -⟩ := p11s2_spec hC hK
+  exact fun I hI => ⟨fun i => (hI.1 i).trans_le h1, hI.2⟩
+
 end SlowDivisor
 
 end KAM.Planetary
