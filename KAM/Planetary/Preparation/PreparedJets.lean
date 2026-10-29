@@ -270,6 +270,55 @@ theorem p11_prin_eta1_le (hC : P11SecularSpec D C) :
         gcongr
     _ = _ := by ring
 
+/-- Step pr-in (ii): `|∂_J^α ∂_ρ̃ Ẑ| ≤ c α! ε ℓ^{2τ₀+1+(τ₀+1)|α|}` (the `ρ̃`-derivative of `Z`
+in the coordinates of `P11SlowSpecOf`), with `c` depending on `α` only through `(∑ α)`. -/
+theorem p11_prin_Z_jet (hC : P11SecularSpec D C) :
+    ∃ k : ℝ, 0 < k ∧ ∀ {Fast : P11FastData n} {nu eps c : ℝ} {A : P11SlowData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c → P11SlowSpecOf C Fast nu eps c A →
+      ∀ (α : Fin n → ℕ) (J : P11CVec n),
+        ‖J - KAM.realInclusion n C.J0‖ < p11s1 C eps / 4 →
+        ∀ ρ : P11CVec n, ‖ρ - (fun _ => (2*Real.pi*eps : ℂ))‖ < Real.pi*eps →
+        ‖p11PartialVec α
+            (fun J => fun i : Fin n =>
+              fderiv ℂ (fun rho : P11CVec n => A.Z (Fin.append J rho)) ρ (Pi.single i 1)) J‖ ≤
+          (∏ i, ((α i).factorial : ℝ)) * (c * (1 + k) * (4 * k) ^ (∑ i, α i)) * eps *
+            Real.log (1 / eps) ^ (2 * C.tau + 1 + (C.tau + 1) * ((∑ i, α i : ℕ) : ℝ)) := by
+  obtain ⟨hγ0, hτ0, -, -, -, -, -, -, -, hMF⟩ := fast_consts hC
+  obtain ⟨k1, hk1, hs1⟩ := p11_prin_s1_inv hC
+  obtain ⟨ke, hke, he⟩ := p11_prin_eta1_le hC
+  refine ⟨max k1 ke, lt_max_of_lt_left hk1, ?_⟩
+  intro Fast nu eps c A heps hεM hc hA α J hJ ρ hρ
+  obtain ⟨-, -, -, -, hZ, -⟩ := hA
+  have h := hZ α J hJ ρ hρ
+  have hl1 := slow_log_ge_one hC heps hεM
+  have hl0 : 0 < Real.log (1 / eps) := by linarith
+  set l := Real.log (1 / eps) with hl
+  set a := ∑ i, α i
+  have hs := (slow_pos hC (nu := 1) le_rfl heps hεM).2.1
+  have hq1 : 1 ≤ l ^ (2 * C.tau + 1) := Real.one_le_rpow hl1 (by linarith)
+  have hη : p11eta1 C eps ≤ ke * eps * l ^ (2 * C.tau + 1) := he heps hεM
+  have hε : eps + p11eta1 C eps ≤ (1 + max k1 ke) * eps * l ^ (2 * C.tau + 1) := by
+    have h1 : eps ≤ eps * l ^ (2 * C.tau + 1) := le_mul_of_one_le_right heps.le hq1
+    have h2 : ke * eps * l ^ (2 * C.tau + 1) ≤ max k1 ke * eps * l ^ (2 * C.tau + 1) := by
+      gcongr; exact le_max_right _ _
+    nlinarith
+  have h4 : 4 / p11s1 C eps ≤ 4 * max k1 ke * l ^ (C.tau + 1) := by
+    have := hs1 heps hεM
+    calc 4 / p11s1 C eps = 4 * (p11s1 C eps)⁻¹ := by rw [div_eq_mul_inv]
+      _ ≤ 4 * (k1 * l ^ (C.tau + 1)) := by gcongr
+      _ ≤ 4 * max k1 ke * l ^ (C.tau + 1) := by
+        rw [← mul_assoc]; gcongr; exact le_max_left _ _
+  have hq : l ^ (2 * C.tau + 1 + (C.tau + 1) * (a : ℝ)) =
+      l ^ (2 * C.tau + 1) * (l ^ (C.tau + 1)) ^ a := by
+    rw [Real.rpow_add hl0, Real.rpow_mul hl0.le, Real.rpow_natCast]
+  rw [hq]
+  have hP : 0 ≤ ∏ i, ((α i).factorial : ℝ) := by positivity
+  refine h.trans ?_
+  calc c * (eps + p11eta1 C eps) * (∏ i, ((α i).factorial : ℝ)) * (4 / p11s1 C eps) ^ a
+      ≤ c * ((1 + max k1 ke) * eps * l ^ (2 * C.tau + 1)) * (∏ i, ((α i).factorial : ℝ)) *
+          (4 * max k1 ke * l ^ (C.tau + 1)) ^ a := by gcongr
+    _ = _ := by rw [mul_pow]; ring
+
 end PrIn
 
 end KAM.Planetary
