@@ -50,3 +50,10 @@ All eleven theorems (incl. `lunarR1Kappa_div`): [propext, Classical.choice, Quot
   `2 ≤ n`, `n ≤ τ + 1` conjuncts are encoded as `2 ≤ p.tau + 1` in the core.
 
 AUDIT FOCUS: (1) the five signed declarations (lunarR1TimeScale, lunarR1Scalar, lunarR1Kappa, lunarR1, lunarR1Kappa_div) byte-identical and with the fully qualified names of /root/code/KAM-inp/.drafts/design/SOSignaturesLunar.lean §I.4 (lines 344-389); the parameter values match owner ruling O5 (/root/code/KAM/docs/campaign/design/SPIN-ORBIT-PLAN.md, 'Owner ruling O5') and CONSTANTS-STUDY §2.2/§4 exactly (ρ' = 1/70, ρ∞ = ρ'/1000, μ = 1/160, s = 1 + 10⁻⁶, ν = 10⁻⁶, σω = 2, c = 237/125, M = σK = σB = σT = 1987/1000, γ = γ̄ = c/(42 s), τ = 1, E₀ = 0); (2) the kernel pre-checks: lunarR1_smallness_C1 really instantiates the checker's own smallness inequality (the landed isoC1Q/isoC2Q with the same argument order checkSmallness uses), so the claimed threshold 10^-74.669 is the checker's; lunarR1_smallness_C1_fails shows the bound is not vacuous; (3) lunarR1StaticCore is a faithful sub-conjunction of checkStatic's parameter conjuncts (no conjunct weakened), and the ray-margin boxes contain lunarRotFreq ν± κ (√5 enclosure); (4) no placeholders, no sorry; axioms; kernel replay. Report suspected design or source defects as errata candidates.
+
+## Corrections after audit 1 (orchestrator)
+- Margins: the R1 threshold is 10^-74.669; the SO-GEN2 budgets 4.03e-78 and 7.84e-78 sit about 532x and 273x below
+  it (log10 headroom 2.73 and 2.44), not 5300x and 2700x as stated above. The Lean theorems are unaffected.
+- "Any box whose second entry is (κ, 0) gives L = κ" should read L ≥ κ; equality needs every other coordinate's lower
+  contribution ≤ κ (the Lean theorem `lunarR1Box_normLo` carries that hypothesis).
+- There are ten theorems, not eleven; all ten have standard axioms.
