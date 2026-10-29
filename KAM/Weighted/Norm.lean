@@ -43,7 +43,7 @@ structure InClass (D : Set (Fin m → ℂ)) (r s : ℝ) (u : (Fin n → ℂ) × 
   differentiableOn : DifferentiableOn ℂ u (Dom n D r s)
   periodic : ∀ j : Fin n, ∀ z ∈ Dom n D r s, u (z.1 + Pi.single j 1, z.2) = u z
 
-/-- `û_k(I) = ∫_{[0,1]ⁿ} u(x, I) e^{-2πi k·x} dx` (entrywise for vector/matrix `W`; K's
+/-- `û_k(I) = ∫_{[0,1]ⁿ} u(x, I) e^{-2πi k·x} dx` (entrywise for vector/matrix `W`;
 `torusCoeffW`). -/
 def coeff (u : (Fin n → ℂ) × (Fin m → ℂ) → W) (I : Fin m → ℂ) (k : Fin n → ℤ) : W :=
   KAM.torusCoeffW (fun x : Fin n → ℝ => u (fun j => (x j : ℂ), I)) k

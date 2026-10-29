@@ -31,7 +31,7 @@ open MeasureTheory
 variable {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W] [NormedSpace ℝ W]
   [IsScalarTower ℝ ℂ W] [CompleteSpace W] [FiniteDimensional ℂ W]
 
--- The signature keeps K's instance block `[CompleteSpace W] [FiniteDimensional ℂ W]` (audit F6:
+-- The signature keeps the instance block `[CompleteSpace W] [FiniteDimensional ℂ W]` (the
 -- consumers supply it); the proof does not need it, so the unused-variable lint is silenced.
 set_option linter.unusedSectionVars false in
 /-- `bpN:p4:ext-param`: holomorphic dependence on a parameter (compact `Q`, e.g. a box). -/
@@ -78,7 +78,7 @@ theorem holomorphic_parametric_integral {p q : ℕ} {Q : Set (Fin p → ℝ)} (h
   exact ⟨fun I hI => (key I hI).differentiableAt.differentiableWithinAt,
     fun I hI => (key I hI).fderiv⟩
 
-/-- `bpN:p4:general-cauchy` (C.1), the open-ball form: from K's `KAM.norm_fderiv_le_of_closedBall`
+/-- `bpN:p4:general-cauchy` (C.1), the open-ball form: from `KAM.norm_fderiv_le_of_closedBall`
 by `δ ↑ R`. -/
 theorem general_cauchy {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     [NormedAddCommGroup F] [NormedSpace ℂ F] [CompleteSpace F] {G : E → F} {v : E} {R M : ℝ}
@@ -98,7 +98,7 @@ theorem general_cauchy {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
   filter_upwards [Ioo_mem_nhdsLT hR] with δ hδ using h δ hδ.1 hδ.2
 
 /-- `bpN:p4:ext-weier`: uniform limits of holomorphic maps; derivatives converge uniformly on
-`{z | closedBall z η ⊆ U}` (by `general_cauchy` applied to `K j - K l`, then K's
+`{z | closedBall z η ⊆ U}` (by `general_cauchy` applied to `K j - K l`, then
 `KAM.uniform_limits`). -/
 theorem uniform_limit_holomorphic {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     [NormedAddCommGroup F] [NormedSpace ℂ F] [CompleteSpace F] {U : Set E} (hU : IsOpen U)
@@ -154,7 +154,7 @@ theorem uniform_limit_holomorphic {E F : Type*} [NormedAddCommGroup E] [NormedSp
       Filter.atTop {z | closedBall z η ⊆ U} := fun η hη =>
     (hcauchy η hη).tendstoUniformlyOn_of_tendsto fun z hz =>
       hΛ z (hz (mem_closedBall_self hη.le))
-  -- local application of K's `uniform_limits` on small balls
+  -- local application of `KAM.uniform_limits` on small balls
   have hloc : ∀ z ∈ U, DifferentiableAt ℂ K₀ z ∧ fderiv ℂ K₀ z = Λ z := by
     intro z₀ hz₀
     obtain ⟨ε, hε, h⟩ := hball z₀ hz₀

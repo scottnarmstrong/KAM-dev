@@ -33,8 +33,8 @@ open scoped Topology ContDiff
 
 namespace KAM.Weighted
 
--- The signatures keep K's instance block `[NormedSpace ℝ W] [IsScalarTower ℝ ℂ W] [CompleteSpace W]
--- [FiniteDimensional ℂ W]` (audit F6: consumers supply it); several lemmas do not need all of it.
+-- The signatures keep the instance block `[NormedSpace ℝ W] [IsScalarTower ℝ ℂ W] [CompleteSpace W]
+-- [FiniteDimensional ℂ W]` (consumers supply it); several lemmas do not need all of it.
 set_option linter.unusedSectionVars false
 
 variable {n m : ℕ} {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W] [NormedSpace ℝ W]
