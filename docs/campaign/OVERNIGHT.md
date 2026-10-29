@@ -883,3 +883,21 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   (1191 PROVED, 147 EXTERNAL, 23 BYPASSED, 2 ASSUMED by D31). Graph I fully resolved. Graph N (258 nodes not yet synced
   since the lane N handoff) is being synced by kam-inp against the landed N11 code and audits. All capacity now goes to
   track SO. README: frozen statements moved to docs/STATEMENTS.md; papers to docs/PAPERS.md; collaborator row removed.
+- **16:22. Heartbeat.** Running: P-SEC (sec-D shell and sec-E identifications, D31), SO-POLY-B (packed products),
+  SO-DATA-PY (advice emitter), I-GUARDS (kernel replay and mutation suite); audit: P-CLOSE-LEAN. No other package is
+  dependency-ready (the SO engine chain waits on SO-POLY-B; SO-R1 needs SO-DEFS' CertParams). README: papers moved to
+  docs/PAPERS.md; no per-author credit (owner request; the landed table filters names from commit subjects).
+- **16:50. Heartbeat.** Track P complete (graph P 1363 / 1363 resolved). kam-inp is syncing graph N (owner: "yes sync
+  N"). Running: SO-POLY-B (the next link of the SO engine chain), I-GUARDS, and new SO-TOYGEN (Python: passing data for
+  the toy certificates T2, T2d, T3 and the negative toy TR, design audit 1 F4, verified with the Python checker mirror).
+  The rest of the SO engine chain waits on SO-POLY-B. Not started without the owner: release preparation of the original
+  project (Phase 3: clean-up, elaboration test, errata and deviations record, public release), now unblocked.
+- **17:40. Heartbeat.** Graph N: D32 applied (amendments N-A001..A003), N-SYNC corrections in, p9#data PROVED under D31;
+  one node left (hypotheses-check, N-CLOSE-LEAN round 2 in audit). Track SO split into two parts in the README (owner),
+  with SO packages detected as landed from files on main (a hand-kept list had missed SO-ROT; owner noticed). Started
+  SO-MALG (model algebra) stacked on SO-POLY-B (in audit). Codex quota: codex-4 16 %, codex-2 41 % (both reset
+  2026-11-04); audits go to codex-2 first, Opus auditors as the fallback.
+- **17:45. Original project complete down to the last graph node.** N-CLOSE-LEAN (hypotheses_check_full) closed
+  bpN:p10:hypotheses-check; graphs I, N and P have no open node (N: 658 PROVED, 48 EXTERNAL, 21 BYPASSED, 1 ASSUMED;
+  P: 1191 / 147 / 23 / 2; I: 372 / 72 / 6), manifest 144 / 144 SEALED. SO-POLY-B (advice-checked packed products, F12-F14
+  closed in implementation) landed; SO-MALG proving on top of it.

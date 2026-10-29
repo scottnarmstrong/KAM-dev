@@ -1,5 +1,5 @@
 {
- "current_phase": "Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.",
+ "current_phase": "Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.",
  "workers": [
   {
    "id": "orchestrator",
@@ -156,7 +156,7 @@
  "tracks": {
   "K": "**complete**: blueprint, graph and all five frozen theorems sealed (2026-10-28)",
   "I": "**complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form",
-  "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29)",
+  "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29); every graph node resolved (one convention accepted under D31, three blueprint steps repaired under D32)",
   "P": "**complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31)",
   "SO-1": "design accepted (seven audited revisions); arithmetic, Fourier data, expressions and balls landed; packed products in audit; model algebra, witnesses, embedding, Gram, torsion and soundness next",
   "SO-2": "model, Diophantine frequencies, clock, rotated frame, barriers and graph inversion landed; parameter package R1 and the advice data confirmed numerically; the certificates wait on the checker"
