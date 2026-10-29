@@ -211,6 +211,14 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Each such decision is logged in `docs/campaign/OVERNIGHT.md` for morning review.
   - No new statement is frozen: approvals of exact Lean text are deferred to the morning. Source requests wait too.
   - Proof work runs at full throughput.
+- **D30 (2026-10-29, 10:40) Lunar spin–orbit certificate project (track SO).** *(Scott: "Let's start now! Let's aim
+  for 3.3%! Let's go!")*
+  - Start the project of `docs/explorations/lunar-spin-orbit-certificate-proposal.md`, as modified by its feasibility
+    report: the target band is |p(t) − 1| ≤ 33/1000 with the proposal's frequencies ν± = 1 ± 1/(40 + g).
+  - Deliverables: a reusable certificate checker with a soundness theorem (the "black box" turning numerical KAM
+    candidates into Lean theorems through `g1_explicit`), and the lunar barrier and confinement theorems.
+  - Plan, refinements and waves: `docs/campaign/design/SPIN-ORBIT-PLAN.md`. Final statements are frozen only after the
+    owner approves their exact Lean text.
 - **D30 (2026-10-28) Track W (PDE KAM) adopted.** *(Scott: "go with recommendation", answering the owner questions
   in §9 of [`explorations/pde-kam-and-leapfrogging.md`](explorations/pde-kam-and-leapfrogging.md))*
   - New track **W**: two-frequency quasiperiodic solutions of the cubic Dirichlet wave equation
