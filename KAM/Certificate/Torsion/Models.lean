@@ -457,9 +457,9 @@ theorem swapNat_phaseNat (a : Fin n ⊕ Fin n) : swapNat n (phaseNat a) = phaseN
   · have : ¬(n + a.val < n) := by omega
     simp [swapNat, phaseNat, this]
 
+omit [LawfulCertArith α] in
 /-- The composed jet slots enclose the derivatives of `H` along `K` (the contract of
 `Slp.compose`, read through `torsionSlots`). -/
-omit [LawfulCertArith α] in
 def SlotsEnclose (n : ℕ) (e : HamExpr n) (K : CertEmbedding α) (ρ : ℝ)
     (ms : List (CertModel α)) : Prop :=
   ms.length = (torsionSlots n e.jet).length ∧ ∀ idx (h : idx < ms.length), ms[idx].Encloses n ρ
