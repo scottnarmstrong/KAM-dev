@@ -21056,9 +21056,9 @@ EDGE: bpP:p0:fixham#fixedHamiltonian | blueprint-P/parts/p11-cp09-preparation.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P11A-P10 F2: export p11_wr_chain proved on smaller carrier (p11WrO D) than source |r|<2, |rho'|<pi/2; sound and sufficient for consumers; follow-up gap package exports literal form
+LEAN_STATUS: PROVED
+LEAN_REF: p11_wr_chain_node, p11_wr_xi_node, p11_wr_ham_node, p11_four_eps_le_s2_ev (KAM/Planetary/Preparation/WrapperNodeChain.lean)
+LEAN_NOTE: audit GAP-WR PASS WITH NOTES: source carrier |r|<2, |rho'|<pi/2; eps-smallness 4 eps <= s2 holds eventually (closes P11A-P10 F2)
 NOTE: -
 
 NODE: stepP:p11:wr-tor
@@ -21158,9 +21158,9 @@ EDGE: bpP:p11:sec-C#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P11A-P10 F3: p11_wr_tube proves coarser Gamma_i <= 3 n eps + ... instead of literal <= 2 n eps and sum <= 4 n eps; sound and sufficient for consumers; follow-up gap package exports literal forms
+LEAN_STATUS: PROVED
+LEAN_REF: p11_wr_tube_node (KAM/Planetary/Preparation/WrapperNodeTube.lean)
+LEAN_NOTE: audit GAP-WR PASS WITH NOTES: sum <= 4 n eps, Gamma_i <= 2 n eps, tube inclusion (closes P11A-P10 F3)
 NOTE: Uses the writer-authorized logarithmic asymptotic external bpP:p11:e4; no elementary input is left unrepresented.
 
 NODE: bpP:p11:sec-conv#data

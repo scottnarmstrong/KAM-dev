@@ -1320,7 +1320,7 @@ EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: SOURCE_GAP: literal use of the full statements bpI:p1:last-row and extended-basic at L312-L313 lacks a Diophantine premise in the generic torus lemma. This is an attempted premise-discharge obligation, not an assumption that the entire Part 1 setting already holds, and not a gap in the separate direct flat-formula route. The actual ray application later supplies Diophantinity; that does not prove this generic premise.
 
 NODE: stepI:p3:to-neumann
@@ -1742,7 +1742,7 @@ EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: -
 
 NODE: stepI:p3:tori-base
@@ -1808,7 +1808,7 @@ EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: -
 
 NODE: stepI:p3:tori-close
@@ -1981,5 +1981,5 @@ EXTRACTOR: new+sol-delta-I-b
 REVIEWER: sol-delta-I-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
 NOTE: This route retains the actual Part 1 citations and their exposed SOURCE_GAP premise check. It is an alternative to the direct flat-formula route, not a mandatory extra premise for that route.

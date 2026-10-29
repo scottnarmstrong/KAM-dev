@@ -62,7 +62,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: Part 1 Lean statements specialise to tau>=n-1 (N1, accepted in audits I1-x PWN) vs source tau>=0; no audit row confirms this step
 NOTE: K:bp:p2:standing prose at blueprint/parts/p2-aposteriori.tex L67-L69 explicitly states that only tau >= 0 and n >= 1 are used below. The positive sigma parameters are free constants, not admissibility bounds in the standing package; each bound used by a consumer is supplied locally. No SOURCE_GAP is established by the different parameter lists. This bridge identifies common data, not the stronger tau >= n-1 proposition literally.
 
 NODE: bpI:p1:ray
@@ -234,7 +234,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-global-I+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: K:step:p2:fb-holo is only compared with (stated under K (A2)-(A4)), not used; the former SOURCE_GAP is closed by the direct substeps.
 
 NODE: stepI:p1:eb-holo-frame
@@ -263,7 +263,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-inverse
@@ -293,7 +293,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-field
@@ -324,7 +324,7 @@ EXTRACTOR: sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-torsion
@@ -356,7 +356,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-holo-conclude
@@ -387,7 +387,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-period
@@ -417,7 +417,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-average
@@ -448,7 +448,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:eb-bounds
@@ -478,7 +478,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:trivial
@@ -768,7 +768,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:lr-insert
@@ -800,7 +800,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:lr-average
@@ -833,7 +833,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:energy-approx
@@ -900,7 +900,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-omega
@@ -931,7 +931,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-gradient
@@ -962,7 +962,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-avg
@@ -991,7 +991,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-size
@@ -1023,7 +1023,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-defect
@@ -1056,7 +1056,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:energy-conservation
@@ -1117,7 +1117,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ec-unique
@@ -1146,7 +1146,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ec-pointwise
@@ -1175,7 +1175,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:border-solve
@@ -1478,9 +1478,9 @@ EDGE: bpI:p1:setting | blueprint-I/parts/p1-iso-linear.tex#stepI:p1:rd-ql@L507-L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: reducer_mul_tangentMat, omegaZeroMatrix_mul_fromRows (KAM/Iso/Linear/Reduced.lean)
+LEAN_NOTE: audit I1-6 PASS WITH NOTES; pointwise statement needing only IsUnit det Gram (no Setting, so no N1 restriction)
 NOTE: -
 
 NODE: stepI:p1:rd-expand
@@ -1512,7 +1512,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:rd-consequence
@@ -1545,7 +1545,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-global-I+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:geometry-noA5
@@ -1610,7 +1610,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1+sonnet-amend-I-p1
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:geo-red
@@ -1640,7 +1640,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: K:step:p2:geo-domegak and K:step:p2:geo-ered are only compared with (stated under A5); the former SOURCE_GAP is closed by the direct substeps.
 
 NODE: stepI:p1:geo-red-domega
@@ -1673,7 +1673,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:geo-red-ered
@@ -1706,7 +1706,7 @@ EXTRACTOR: sonnet-amend-I-p1+sol-delta-I-amend
 REVIEWER: sol-delta2-I-amend
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:geo-sym
@@ -1739,7 +1739,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-delta-I-a
 REVIEWER: sol-delta-I-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: bpI:p1:perturbation-noA5
@@ -1801,7 +1801,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:pt-domain
@@ -1830,7 +1830,7 @@ EXTRACTOR: sonnet-extract-I-p1
 REVIEWER: sol-review-I-p1
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:pt-frame
@@ -1862,7 +1862,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:pt-torsion
@@ -1897,7 +1897,7 @@ EXTRACTOR: sonnet-extract-I-p1+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: -
 
 NODE: stepI:p1:ea-avg#exactness-route
@@ -1928,7 +1928,7 @@ EXTRACTOR: new+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: Alternative source route; requires independent delta review. Exactness supplies both avg Omega_K = 0 and avg eta^N = 0.
 
 NODE: stepI:p1:ea-avg#gradient-route
@@ -1960,5 +1960,5 @@ EXTRACTOR: new+sol-review-I-p1
 REVIEWER: sol-delta-I-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row states this step; parent restricted by N1 (tau>=n-1)
 NOTE: Alternative source route; requires independent delta review. Exactness supplies avg Omega_K = 0; (c) supplies avg eta^N = 0.

@@ -848,7 +848,7 @@ EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: stepI:p7:tr-open
@@ -920,7 +920,7 @@ EXTRACTOR: sonnet-extract-I-p7b+sol-delta-I-c
 REVIEWER: sol-delta-I-g
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: no audit row names or confirms this step
 NOTE: -
 
 NODE: bpI:p7:nondeg
@@ -1040,5 +1040,5 @@ EXTRACTOR: sonnet-extract-I-p7b+sol-review-I-p67
 REVIEWER: sol-delta-I-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: data definition not named in any audited table
 NOTE: section data node (SPEC, Part 7 L325-335)
