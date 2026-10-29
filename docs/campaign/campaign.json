@@ -220,7 +220,11 @@
    "SO-FREQ",
    "SO-PBASE",
    "SO-CEXP",
-   "SO-RAT"
+   "SO-RAT",
+   "SO-DIO3",
+   "SO-NORM",
+   "SO-HAMX",
+   "SO-GRAPHM"
   ],
   "gates": "design of the general checker: passed its fourth audit (Revision 4); Revision 5 (lunar client in the rotated frame, owner ruling O5) in progress. Kernel replay gate: GO (sharded products checked against supplied advice, about 1.5–3 kernel CPU-minutes per product); the remaining cost is data volume. SO-GEN2 is regenerating the candidates in the rotated frame to confirm the projected threshold of about 1e-75."
  }
