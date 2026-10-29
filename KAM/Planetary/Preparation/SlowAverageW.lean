@@ -178,6 +178,34 @@ theorem p11_slow_f2_periodic (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11Fa
     unfold p11SlowF2
     rw [hPt, h]
 
+/-- The weighted bound for `f₂` at width `σ/12` (graph step `as-osc`, via
+`KAM.summableWeighted_torusCoeffW`, `1`-periodicity of `f₁` in `θ`, and the sup bound on the
+strip of width `σ/6`). -/
+theorem p11_slow_f2_wbound (hC : P11SecularSpec D C) {eps : ℝ} (Fast : P11FastData n)
+    (hF : P11FastSpec C eps Fast) {AR AB : P11CVec n × P11CVec n → ℂ}
+    (hP : P11SlowPolarOut C Fast eps AR AB) (heps : 0 < eps)
+    (hεM : eps * C.MF ≤ Real.exp (-1)) (hsm : 64 * eps < C.rz ^ 2) {c1 : ℝ}
+    (hrate : p11eta1 C eps ≤ c1 * eps * Real.log (1 / eps) ^ (2 * C.tau + 1)) :
+    p11WBound (p11SlowBox C eps) (C.sigma / 12) (p11SlowF2 C Fast eps (p11SlowZ AR AB))
+      ((Real.cosh (Real.pi * (C.sigma / 12)) / Real.sinh (Real.pi * (C.sigma / 12))) ^ (n + n) *
+        (p11SlowC0 C c1 * eps ^ (5 / 2 : ℝ) * Real.log (1 / eps) ^ (2 * C.tau + 1))) := by
+  obtain ⟨-, -, -, -, -, hσ0, -⟩ := fast_consts hC
+  intro I hI
+  have hS := p11_slow_f2_differentiableOn hC Fast hF hP heps hεM hsm
+  have hper := p11_slow_f2_periodic hC Fast hF (p11SlowZ AR AB) heps hεM hsm
+  have hsup := p11_slow_f2_sup hC Fast hF hP heps hεM hsm hrate
+  have hmem : ∀ θ ∈ KAM.complexStrip (n + n) (C.sigma / 6), (θ, I) ∈
+      KAM.complexStrip (n + n) (C.sigma / 6) ×ˢ p11SlowBox C eps := fun θ hθ => ⟨hθ, hI⟩
+  have hu : DifferentiableOn ℂ (fun θ : P11CVec (n + n) =>
+      p11SlowF2 C Fast eps (p11SlowZ AR AB) (θ, I)) (KAM.complexStrip (n + n) (C.sigma / 6)) :=
+    hS.comp (by fun_prop : DifferentiableOn ℂ (fun θ : P11CVec (n + n) => (θ, I)) _) hmem
+  have h := KAM.summableWeighted_torusCoeffW (n := n + n) (ρ := C.sigma / 6) (δ := C.sigma / 12)
+    (by linarith) (by linarith) hu (fun i θ hθ => hper (θ, I) (hmem θ hθ) i)
+    (fun θ hθ => hsup (θ, I) (hmem θ hθ))
+  have e : C.sigma / 6 - C.sigma / 12 = C.sigma / 12 := by ring
+  rw [e] at h
+  exact h
+
 end W
 
 end KAM.Planetary
