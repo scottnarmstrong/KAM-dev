@@ -31678,7 +31678,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P12-C ledger does not list this node; dictionary/Gamma/cylnorm not stated as separate export
 NOTE: section data of 12.1 (SPEC section-data table); coverage prose-L15-L20. The dictionary section label bpP:p8:conv has no node of its own in the P-p8 draft, so no edge to it
 
 NODE: bpP:p12:forward-tube
@@ -32039,9 +32039,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:dat
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS: single joint construction (patch/T16 data) in PlanarAssembly.pg_hypotheses
 NOTE: D1-D5 are retained here. D6 is the input-only package data#pg-data; D7-D9 and the closing dependence claim are data#choices, supplied after pl-pg applies the frozen P-G with pg-hypotheses. This preserves the valid data/perturbation split without using delivered P-G constants to verify their own premises.
 
 NODE: bpP:p12:data#pg-data
@@ -32068,9 +32068,9 @@ EDGE: bpP:p12:collar | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:data#pg
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS: all P-G data and H1-H6 jointly, mu0=1
 NOTE: D6 input data only. The application of P-G is pl-pg after pg-hypotheses; D7-D9 are represented separately by data#choices. No delivered constant is assumed.
 
 NODE: bpP:p12:perturbation
@@ -32101,9 +32101,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:per
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: total_chart, perturbation (KAM/Planetary/PlanarAssembly/ChartData.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; signed literal compositions
 NOTE: -
 
 NODE: bpP:p12:chart
@@ -32143,9 +32143,9 @@ EDGE: bpP:p12:sec-set#data | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean); chart_of_birkhoff, chart_hamiltonian_of_preserves_fast (KAM/Planetary/PlanarAssembly/ChartData.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; all chart clauses (a)-(e) in pg_hypotheses
 NOTE: -
 
 NODE: stepP:p12:ch-dom
@@ -32175,9 +32175,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-chart
@@ -32213,9 +32213,9 @@ EDGE: bpP:p1:chart | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:ch-char
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_of_birkhoff (KAM/Planetary/PlanarAssembly/ChartData.lean); pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-lat
@@ -32247,9 +32247,9 @@ EDGE: bpP:p7:product-def | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:c
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-ham
@@ -32282,9 +32282,9 @@ EDGE: bpP:p0:degham#degenerateHamiltonian | blueprint-P/parts/p12-planar-assembl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: chart_hamiltonian_of_preserves_fast (KAM/Planetary/PlanarAssembly/ChartData.lean); pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:ch-tube
@@ -32319,9 +32319,9 @@ EDGE: bpP:p12:chart#cylinder-domain | blueprint-P/parts/p12-planar-assembly.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p12c_slow_small (KAM/Planetary/PlanarAssembly/SlowSmall.lean); pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: bpP:p12:pg-hypotheses
@@ -32358,9 +32358,9 @@ EDGE: bpP:p0:fastshift#fastShift | blueprint-P/parts/p12-planar-assembly.tex#bpP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; exact signed output (signed projection; finer characterizations upstream)
 NOTE: the references to Theorem bpP:p0:pg only name the hypotheses (H1)-(H6) and the data (SPEC: delete); the use of P-G is stepP:p12:pl-pg
 
 NODE: stepP:p12:pg-sets
@@ -32388,9 +32388,9 @@ EDGE: bpP:p11b:patch | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:pg-se
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h1
@@ -32422,9 +32422,9 @@ EDGE: bpP:p0:cylinder#cylinder | blueprint-P/parts/p12-planar-assembly.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h2
@@ -32457,9 +32457,9 @@ EDGE: bpP:p12:data#pg-data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h3
@@ -32486,9 +32486,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: stepP:p12:pg-h4
@@ -32521,9 +32521,9 @@ EDGE: bpP:p12:chart#cylinder-domain | blueprint-P/parts/p12-planar-assembly.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P12-B: only birkhoff_mono_radius (radius restriction of an existing HasBirkhoff), not the Birkhoff form itself
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS; T16 same-model BNF restricted to V and reduced radius (Data:318-321); supersedes P12-B note
 NOTE: -
 
 NODE: stepP:p12:pg-h56
@@ -32551,9 +32551,9 @@ EDGE: bpP:p12:perturbation | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS
 NOTE: -
 
 NODE: bpP:p12:transport
@@ -33322,7 +33322,7 @@ EXTRACTOR: new+sol-review-P-a
 REVIEWER: sol-delta-P-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D7-D9 P-G outputs/choices not delivered by P12-C
 NOTE: Further split of the original D6-D9 package. pl-pg supplies the P-G witnesses using pg-hypotheses and the input-only D6 node; this node then defines the radii/thresholds without feeding the premise verification back into itself.
 
 NODE: bpP:p12:chart#cylinder-domain
@@ -33350,9 +33350,9 @@ EDGE: bpP:p0:cylinder#cylinder | blueprint-P/parts/p12-planar-assembly.tex#stepP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: pg_hypotheses (KAM/Planetary/PlanarAssembly/Data.lean)
+LEAN_NOTE: audit P12-C PASS WITH NOTES; ledger PASS: closure of cylinder inside O
 NOTE: Unmarked reused intermediate proved by the first two sentences of L106. Unlike the full chart(e) tube conclusion, this domain inclusion requires no delta-smallness condition; transport L138 and pg-h2 use precisely this inclusion.
 
 NODE: bpP:p14:x-planar
