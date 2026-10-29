@@ -12,9 +12,9 @@ public import KAM.Planetary.Hamiltonian.Liouville
 /-!
 # Graph-node exports: reconstruction, orbit curve, tube assembly, positive measure
 
-Append-only exports (package GAP-P6b) stating the literal conclusions of the Part 6 graph nodes
+Exports stating the literal conclusions of the Part 6 graph nodes
 `stepP:p6:rc-a`, `rc-sun`, `rc-planets`, `rc-vplanet`, `rc-vsun`, `ot-curve`, `ma-tube`,
-`ma-coll`, `ma-pair`, `mp-a`, `mp-b` and `bpP:p6:measure-positive`, built from the landed
+`ma-coll`, `ma-pair`, `mp-a`, `mp-b` and `bpP:p6:measure-positive`, built from the
 `reconstruction`, `circularTube_*`, `liouville_lattice` and the Mathlib volume of a sup-norm ball.
 -/
 
