@@ -1012,3 +1012,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   [4, 10, ...] are never looked up; a mirror run of T2d takes ~400 s, so the lunar mirror needs the packed route.
   Landing as Python/data (the Lean checker is authoritative and fails closed). SO-TEST-A (toys through the whole
   checker in the kernel, the first whole-certificate kernel measurement) started on the aligned data.
+- **22:27. Heartbeat; SO-DATA-1 started.** Running: SO-TEST-A (prover), SO-TEST-B audit (codex-3), SO-DATA-1 (new, all
+  claude-12, Opus; claude-12 98 %, codex-3 99 %, codex-4 87 %). SO-TEST-B done: the ten negative tests of design §8
+  each fail in their intended sub-check, and a hand-built n = 2 base certificate passes the whole checker in the
+  kernel in about 7 s. It disagrees with SO-PYALIGN on whether the invariance advice keys [5, a, l] are looked up;
+  SO-TEST-A's T2d run and the B audit will settle it before SO-DATA emits advice. SO-DATA-1 (Python and data):
+  the complete lunar certificates for both tori per the landed checker (embedding, witnesses, Gram/torsion witnesses,
+  a pi enclosure precise below err, the err/disp literals, graph data inside the 33/1000 window), checked by the
+  aligned mirror extended to the fixed-point backend and the packed route; Lean emission and kernel passes are
+  SO-DATA-2. B2 is merged into inp; its full rebuild is at 40 % (575 of 1377 modules), and CLEANUP-B34 waits for it.
+  Four finished prover sessions closed.
