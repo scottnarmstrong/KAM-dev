@@ -216,9 +216,9 @@ theorem ballZero_mem : ‖(0 : ℂ) - ballZero.1.toC‖ ≤ (ballZero.2 : ℝ) :
   rw [toC_zero_rat]
   simp
 
-theorem BallRel.nil : BallRel [] [] := ⟨rfl, fun i => by simpa using ballZero_mem⟩
+theorem BallRel.ballRel_nil : BallRel [] [] := ⟨rfl, fun i => by simpa using ballZero_mem⟩
 
-theorem BallRel.snoc {V : List ℂ} {acc : List (CC ℚ × ℚ)} (h : BallRel V acc) {v : ℂ}
+theorem BallRel.ballRel_snoc {V : List ℂ} {acc : List (CC ℚ × ℚ)} (h : BallRel V acc) {v : ℂ}
     {b : CC ℚ × ℚ} (hb : ‖v - b.1.toC‖ ≤ (b.2 : ℝ)) : BallRel (V ++ [v]) (acc ++ [b]) := by
   refine ⟨by simp [h.1], fun i => ?_⟩
   simp only [List.getD_eq_getElem?_getD]
@@ -331,7 +331,7 @@ theorem ballsAux_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight
     intro V acc bs hR h
     simp only [ballsAux, Option.bind_eq_some_iff] at h
     obtain ⟨b, hb, h⟩ := h
-    exact ih _ _ _ (hR.snoc (ballStep_sound hW hz hR hb)) h
+    exact ih _ _ _ (hR.ballRel_snoc (ballStep_sound hW hz hR hb)) h
 
 theorem Slp.val_mem_ball {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
     (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
@@ -340,7 +340,7 @@ theorem Slp.val_mem_ball {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
     (hi : i < bs.length) :
     ‖p.val n z i - (bs.getD i (⟨0, 0⟩, 0)).1.toC‖ ≤ (bs.getD i (⟨0, 0⟩, 0)).2 :=
   have _ := hi
-  (ballsAux_sound hW hz p.ops [] [] bs BallRel.nil h).2 i
+  (ballsAux_sound hW hz p.ops [] [] bs BallRel.ballRel_nil h).2 i
 
 /-! ### Certified denominators -/
 
