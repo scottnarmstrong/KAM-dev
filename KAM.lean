@@ -767,6 +767,7 @@ public import KAM.Planetary.PlanarTorsion.PairJet.Reduction
 public import KAM.Planetary.PlanarTorsion.PairJet.Rot
 public import KAM.Planetary.PlanarTorsion.PairJet.Terms
 public import KAM.Planetary.PlanarTorsion.PairJet
+public import KAM.Planetary.PlanarTorsion.Patch
 public import KAM.Planetary.PlanarTorsion.Quartic.Algebra
 public import KAM.Planetary.PlanarTorsion.Quartic.Bounds
 public import KAM.Planetary.PlanarTorsion.Quartic.Compose
@@ -1068,6 +1069,7 @@ public import KAM.Planetary.WeakKAM.IterationStep
 public import KAM.Planetary.WeakKAM.Limit
 public import KAM.Planetary.WeakKAM.LimitProps
 public import KAM.Planetary.WeakKAM.LimitSeries
+public import KAM.Planetary.WeakKAM.ParameterLipschitz
 public import KAM.Planetary.WeakKAM.Schedule
 public import KAM.Planetary.WeakKAM.Selection
 public import KAM.Planetary.WeakKAM.SelectionRecord
