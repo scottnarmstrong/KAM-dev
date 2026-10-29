@@ -281,6 +281,226 @@ theorem p11dg_re_le (hn : 1 ≤ n) {U : Set (P11CVec n)} (hU : IsOpen U)
 
 end RealSlice
 
+section PartialCalc
+
+variable {n m : ℕ}
+
+/-- Raising the multi-index by `e_c` is one more outer derivative `p11Step c`. -/
+theorem p11_partial_step {U : Set (P11CVec n)} (hU : IsOpen U) {F : P11CVec n → P11CVec m}
+    (hF : DifferentiableOn ℂ F U) (α : Fin n → ℕ) (c : Fin n) :
+    EqOn (p11PartialVec α (p11Step c F)) (p11PartialVec (α + Pi.single c 1) F) U := by
+  have hperm : (c :: (List.ofFn fun i : Fin n => List.replicate (α i) i).flatten).Perm
+      (List.ofFn fun i : Fin n =>
+        List.replicate ((α + Pi.single c 1 : Fin n → ℕ) i) i).flatten := by
+    rw [List.perm_iff_count]
+    intro d
+    rw [List.count_cons, ops_count_flatten, ops_count_flatten]
+    rcases eq_or_ne c d with rfl | h
+    · simp
+    · simp [h, Ne.symm h]
+  exact ops_foldl_perm hU hperm hF
+
+theorem p11_partial_congr {U : Set (P11CVec n)} (hU : IsOpen U) {F F' : P11CVec n → P11CVec m}
+    (h : EqOn F F' U) (α : Fin n → ℕ) : EqOn (p11PartialVec α F) (p11PartialVec α F') U :=
+  ops_foldl_congr hU _ h
+
+/-- The partial derivatives of the sum of two holomorphic functions. -/
+theorem p11_partial_add {U : Set (P11CVec n)} (hU : IsOpen U) {F G : P11CVec n → P11CVec m}
+    (hF : DifferentiableOn ℂ F U) (hG : DifferentiableOn ℂ G U) (α : Fin n → ℕ) :
+    EqOn (p11PartialVec α (F + G)) (p11PartialVec α F + p11PartialVec α G) U := by
+  have key : ∀ (L : List (Fin n)) (F G : P11CVec n → P11CVec m), DifferentiableOn ℂ F U →
+      DifferentiableOn ℂ G U → EqOn (L.foldl (fun g i => p11Step i g) (F + G))
+        (L.foldl (fun g i => p11Step i g) F + L.foldl (fun g i => p11Step i g) G) U := by
+    intro L
+    induction L with
+    | nil => intro F G _ _ x _; rfl
+    | cons a L ih =>
+      intro F G hF hG
+      have h1 : EqOn (p11Step a (F + G)) (p11Step a F + p11Step a G) U := by
+        intro x hx
+        have hFa := (hF.differentiableAt (hU.mem_nhds hx))
+        have hGa := (hG.differentiableAt (hU.mem_nhds hx))
+        simp only [p11Step, Pi.add_apply]
+        rw [fderiv_add hFa hGa]; rfl
+      intro x hx
+      exact (ops_foldl_congr hU L h1 hx).trans
+        (ih _ _ (p11Step_differentiableOn hU hF a) (p11Step_differentiableOn hU hG a) hx)
+  exact key _ F G hF hG
+
+private theorem ops_foldl_clm {U : Set (P11CVec n)} (hU : IsOpen U) {m' : ℕ}
+    (T : P11CVec m →L[ℂ] P11CVec m') :
+    ∀ (L : List (Fin n)) (F : P11CVec n → P11CVec m), DifferentiableOn ℂ F U →
+      EqOn (L.foldl (fun g i => p11Step i g) (fun x => T (F x)))
+        (fun x => T (L.foldl (fun g i => p11Step i g) F x)) U := by
+  intro L
+  induction L with
+  | nil => intro F _ x _; rfl
+  | cons a L ih =>
+    intro F hF
+    have h1 : EqOn (p11Step a (fun x => T (F x))) (fun x => T (p11Step a F x)) U := by
+      intro x hx
+      have hFa := (hF.differentiableAt (hU.mem_nhds hx))
+      simp only [p11Step]
+      have := (T.hasFDerivAt.comp x hFa.hasFDerivAt).fderiv
+      rw [show (fun x => T (F x)) = T ∘ F from rfl, this]
+      rfl
+    intro x hx
+    exact (ops_foldl_congr hU L h1 hx).trans (ih _ (p11Step_differentiableOn hU hF a) hx)
+
+/-- Linear maps commute with the partial derivatives. -/
+theorem p11_partial_clm {U : Set (P11CVec n)} (hU : IsOpen U) {F : P11CVec n → P11CVec m}
+    (hF : DifferentiableOn ℂ F U) {m' : ℕ} (T : P11CVec m →L[ℂ] P11CVec m') (α : Fin n → ℕ) :
+    EqOn (p11PartialVec α (fun x => T (F x))) (fun x => T (p11PartialVec α F x)) U :=
+  ops_foldl_clm hU T _ F hF
+
+end PartialCalc
+
+section Slice
+
+variable {n m : ℕ}
+
+/-- The linear part of the slice `J ↦ (J, ρ)`: extension by zero. -/
+private def opsExt (n : ℕ) : P11CVec n →L[ℂ] P11CVec (n + n) :=
+  LinearMap.toContinuousLinearMap
+    { toFun := fun v => Fin.append v (0 : P11CVec n)
+      map_add' := fun v w => by
+        funext i; refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp
+      map_smul' := fun a v => by
+        funext i; refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp }
+
+private theorem opsExt_apply (v : P11CVec n) : opsExt n v = Fin.append v (0 : P11CVec n) := rfl
+
+private theorem opsExt_single (a : Fin n) :
+    opsExt n (Pi.single a 1) = Pi.single (Fin.castAdd n a) 1 := by
+  rw [opsExt_apply]
+  funext i
+  refine Fin.addCases (fun j => ?_) (fun j => ?_) i
+  · simp [Pi.single_apply]
+  · have := a.isLt
+    simp [Pi.single_apply, Fin.ext_iff]
+    omega
+
+private theorem ops_slice_hasFDerivAt (ρ : P11CVec n) (J : P11CVec n) :
+    HasFDerivAt (fun J : P11CVec n => (Fin.append J ρ : P11CVec (n + n))) (opsExt n) J := by
+  have h : (fun J : P11CVec n => (Fin.append J ρ : P11CVec (n + n))) =
+      fun J => opsExt n J + Fin.append (0 : P11CVec n) ρ := by
+    funext J i
+    refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp [opsExt_apply]
+  rw [h]
+  exact (opsExt n).hasFDerivAt.add_const _
+
+private theorem ops_slice_foldl {U : Set (P11CVec (n + n))} (hU : IsOpen U) (ρ : P11CVec n) :
+    ∀ (L : List (Fin n)) (F : P11CVec (n + n) → P11CVec m), DifferentiableOn ℂ F U →
+      ∀ J : P11CVec n, (Fin.append J ρ : P11CVec (n + n)) ∈ U →
+        L.foldl (fun g i => p11Step i g) (fun J => F (Fin.append J ρ)) J =
+          (L.map (Fin.castAdd n)).foldl (fun g i => p11Step i g) F (Fin.append J ρ) := by
+  intro L
+  induction L with
+  | nil => intro F _ J _; rfl
+  | cons a L ih =>
+    intro F hF J hJ
+    have hcont : Continuous fun J : P11CVec n => (Fin.append J ρ : P11CVec (n + n)) := by
+      refine continuous_pi fun i => ?_
+      refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp <;> fun_prop
+    have hU' : IsOpen {J : P11CVec n | (Fin.append J ρ : P11CVec (n + n)) ∈ U} :=
+      hU.preimage hcont
+    have h1 : EqOn (p11Step a (fun J => F (Fin.append J ρ)))
+        (fun J => p11Step (Fin.castAdd n a) F (Fin.append J ρ))
+        {J : P11CVec n | (Fin.append J ρ : P11CVec (n + n)) ∈ U} := by
+      intro J' hJ'
+      have hFa := hF.differentiableAt (hU.mem_nhds hJ')
+      simp only [p11Step]
+      have := (hFa.hasFDerivAt.comp J' (ops_slice_hasFDerivAt ρ J')).fderiv
+      rw [show (fun J => F (Fin.append J ρ)) =
+        F ∘ (fun J : P11CVec n => (Fin.append J ρ : P11CVec (n + n))) from rfl, this]
+      simp [opsExt_single]
+    have h2 := ops_foldl_congr hU' L h1 hJ
+    simp only [List.foldl_cons, List.map_cons]
+    refine h2.trans ?_
+    exact ih _ (p11Step_differentiableOn hU hF _) J hJ
+
+/-- Partial derivatives in `J` of a slice of a holomorphic function of `(J, ρ)`. -/
+theorem p11_partial_slice {U : Set (P11CVec (n + n))} (hU : IsOpen U)
+    {F : P11CVec (n + n) → P11CVec m} (hF : DifferentiableOn ℂ F U) (ρ : P11CVec n)
+    (α : Fin n → ℕ) {J : P11CVec n} (hJ : (Fin.append J ρ : P11CVec (n + n)) ∈ U) :
+    p11PartialVec α (fun J => F (Fin.append J ρ)) J =
+      p11PartialVec (Fin.append α (0 : Fin n → ℕ)) F (Fin.append J ρ) := by
+  have hperm : ((List.ofFn fun i : Fin n => List.replicate (α i) i).flatten.map
+      (Fin.castAdd n)).Perm
+      (List.ofFn fun i : Fin (n + n) =>
+        List.replicate ((Fin.append α (0 : Fin n → ℕ) : Fin (n + n) → ℕ) i) i).flatten := by
+    rw [List.perm_iff_count]
+    intro d
+    rw [ops_count_flatten]
+    refine Fin.addCases (fun e => ?_) (fun e => ?_) d
+    · rw [List.count_map_of_injective _ _ (Fin.castAdd_injective n n), ops_count_flatten]
+      simp
+    · rw [List.count_eq_zero.2]
+      · simp
+      · simp only [List.mem_map, not_exists, not_and]
+        intro a _ h
+        have h' := congrArg Fin.val h
+        simp at h'
+        have := e.isLt
+        omega
+  exact (ops_slice_foldl hU ρ _ F hF J hJ).trans (ops_foldl_perm hU hperm hF hJ)
+
+end Slice
+
+section Affine
+
+variable {n m : ℕ}
+
+private theorem ops_affine_foldl {U : Set (P11CVec n)} (hU : IsOpen U) (b : P11CVec n) (t : ℂ) :
+    ∀ (L : List (Fin n)) (F : P11CVec n → P11CVec m), DifferentiableOn ℂ F U →
+      ∀ x : P11CVec n, b + t • x ∈ U →
+        L.foldl (fun g i => p11Step i g) (fun r => F (b + t • r)) x =
+          t ^ L.length • L.foldl (fun g i => p11Step i g) F (b + t • x) := by
+  intro L
+  induction L with
+  | nil => intro F _ x _; simp
+  | cons a L ih =>
+    intro F hF x hx
+    have hcont : Continuous fun r : P11CVec n => b + t • r := by fun_prop
+    have hU' : IsOpen {r : P11CVec n | b + t • r ∈ U} := hU.preimage hcont
+    have hdiffG : DifferentiableOn ℂ (fun r => p11Step a F (b + t • r))
+        {r : P11CVec n | b + t • r ∈ U} :=
+      (p11Step_differentiableOn hU hF a).comp (by fun_prop) fun r hr => hr
+    have h1 : EqOn (p11Step a (fun r => F (b + t • r)))
+        (fun r => t • p11Step a F (b + t • r)) {r : P11CVec n | b + t • r ∈ U} := by
+      intro r hr
+      have hFa := hF.differentiableAt (hU.mem_nhds hr)
+      have hd : HasFDerivAt (fun r : P11CVec n => b + t • r) (t • ContinuousLinearMap.id ℂ _) r :=
+        ((hasFDerivAt_id r).const_smul t).const_add b
+      have := (hFa.hasFDerivAt.comp r hd).fderiv
+      simp only [p11Step]
+      rw [show (fun r => F (b + t • r)) = F ∘ (fun r : P11CVec n => b + t • r) from rfl, this]
+      simp
+    have h2 := ops_foldl_congr hU' L h1 hx
+    simp only [List.foldl_cons, List.length_cons]
+    refine h2.trans ?_
+    have h3 := ops_foldl_clm hU' (t • ContinuousLinearMap.id ℂ (P11CVec m)) L _ hdiffG hx
+    refine h3.trans ?_
+    have h4 := ih (p11Step a F) (p11Step_differentiableOn hU hF a) x hx
+    simp only [smul_apply, ContinuousLinearMap.id_apply]
+    rw [h4, smul_smul, pow_succ, mul_comm]
+
+/-- Partial derivatives of an affine pullback `r ↦ F (b + t r)` scale by `t ^ |α|`. -/
+theorem p11_partial_affine {U : Set (P11CVec n)} (hU : IsOpen U) {F : P11CVec n → P11CVec m}
+    (hF : DifferentiableOn ℂ F U) (b : P11CVec n) (t : ℂ) (α : Fin n → ℕ) {x : P11CVec n}
+    (hx : b + t • x ∈ U) :
+    p11PartialVec α (fun r => F (b + t • r)) x =
+      t ^ (∑ i, α i) • p11PartialVec α F (b + t • x) := by
+  have hlen : (List.ofFn fun i : Fin n => List.replicate (α i) i).flatten.length = ∑ i, α i := by
+    rw [List.length_flatten, List.map_ofFn, List.sum_ofFn]
+    simp
+  have := ops_affine_foldl hU b t (List.ofFn fun i : Fin n => List.replicate (α i) i).flatten
+    F hF x hx
+  rw [hlen] at this
+  exact this
+
+end Affine
+
 end KAM.Planetary
 
 end
