@@ -81,7 +81,8 @@ def imulItems (m : ℤ) (P : CertPoly α) : List (ErrTerm α) :=
 def phaseTermModel (n : ℕ) (W : CertWeight) (d m : ℤ) : Option (CertRealPoly α) → CertModel α
   | none => zeroModel
   | some P =>
-    ⟨d + 1, itemsPoly (imulItems m (P.toSortedPoly n)), errRadius W (imulItems m (P.toSortedPoly n))⟩
+    ⟨d + 1, itemsPoly (imulItems m (P.toSortedPoly n)),
+      errRadius W (imulItems m (P.toSortedPoly n))⟩
 
 /-- The degree-zero model of the character phase `i · 2π k·(2π)^{dU} U` of the key `k`: the
 coordinates `j < n` with `k_j ≠ 0`, each re-expressed at degree `0`. -/

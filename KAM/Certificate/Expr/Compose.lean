@@ -268,7 +268,8 @@ theorem charResolve_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} 
     {s N : ℕ} (hW : checkWeight W s N = true) {cfg : ModelConfig α} {pe : PiEnclosure α}
     (hpe : checkPiEnclosure pe = true) {cache : List (CertKey × CertPoly α × α)}
     (hc : CacheValid n K W.rho cache) {k' : CertKey} {e : CertPoly α × α}
-    {c : List (CertKey × CertPoly α × α)} (h : charResolve n K wit W cfg pe cache k' = some (e, c)) :
+    {c : List (CertKey × CertPoly α × α)}
+    (h : charResolve n K wit W cfg pe cache k' = some (e, c)) :
     (⟨0, e.1, e.2⟩ : CertModel α).Encloses n W.rho (charExpFun n K k') ∧
       CacheValid n K W.rho c := by
   unfold charResolve at h
@@ -368,7 +369,8 @@ theorem charSlot_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W 
 theorem composeStep_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {W : CertWeight}
     {s N : ℕ} (hW : checkWeight W s N = true) {cfg : ModelConfig α} {pe : PiEnclosure α}
     (hpe : checkPiEnclosure pe = true) {ops : List SlpOp} {st st' : ComposeState α}
-    (hv : st.SlotsEnclose n K W ops) {op : SlpOp} (h : composeStep n K wit W cfg pe st op = some st') :
+    (hv : st.SlotsEnclose n K W ops) {op : SlpOp}
+    (h : composeStep n K wit W cfg pe st op = some st') :
     st'.SlotsEnclose n K W (ops ++ [op]) := by
   have hop : ∀ a, (st.slot W a).1.Encloses n W.rho
       (fun θ => (Slp.vals n (K.eval n θ) ops).getD a 0) := fun a => (hv.2.1 a).1
@@ -462,7 +464,8 @@ theorem Slp.compose_sound {α : Type} [CertArith α] [LawfulCertArith α] {n : �
     have hv := composeOps_sound hW hpe p.ops hst
     refine ⟨List.length_map _, fun idx hidx => ?_⟩
     rw [List.length_map] at hidx
-    rw [List.getElem_map, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hidx, Option.getD_some]
+    rw [List.getElem_map, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hidx,
+      Option.getD_some]
     exact (hv.2.1 _).1
   · simp at h
 
