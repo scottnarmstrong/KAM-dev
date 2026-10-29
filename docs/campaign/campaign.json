@@ -1,5 +1,5 @@
 {
- "current_phase": "Tracks K, I and N complete (N's last theorem sealed by Zohar's team on 2026-10-29). Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.",
+ "current_phase": "Tracks K, I and N complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, whose last packages E11 and E12 are now running. Track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, lunar spin–orbit problem as first client.",
  "workers": [
   {
    "id": "orchestrator",
@@ -16,7 +16,7 @@
    "model": "—",
    "account": "GitHub zkomargo",
    "session": null,
-   "assignment": "Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md",
+   "assignment": "Co-author",
    "state": "active"
   }
  ],
@@ -165,7 +165,7 @@
  "tracks": {
   "K": "**complete**: blueprint, graph and all five frozen theorems sealed (2026-10-28)",
   "I": "**complete**: all four frozen theorems sealed — I-G1 isoenergetic KAM, I-KEPLER, I-HEAD all-time confinement, I-R3BP restricted three-body (2026-10-28); open graph nodes are alternative routes or steps proved in a specialized form",
-  "N": "**complete**: all six frozen theorems sealed; the last, partialConvex_nekhoroshev, was sealed by Zohar's team (commit a88de4b6, merged with their PR #7 on 2026-10-29); graph sync for their N11 work pending",
+  "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29)",
   "P": "**one frozen theorem left**: planetaryExponentialSafety, now unblocked by the N seal; its last packages E11 (stopped) and E12 (safety) are being proved; open graph nodes are its steps and owner-review items",
   "SO": "**started 2026-10-29 (D30)**: plan [`SPIN-ORBIT-PLAN.md`](docs/campaign/design/SPIN-ORBIT-PLAN.md); model, Diophantine bounds, clock lemma, π enclosures, constants, generator data, arithmetic interface and barrier theorem landed or landing; design of the general black box in its third audit; replay-cost gate under study"
  },

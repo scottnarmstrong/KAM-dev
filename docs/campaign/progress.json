@@ -116,7 +116,7 @@
      "blueprint/parts/p1-"
     ]
    },
-   "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); per D12 the weighted ℓ¹ norms are used only in the cohomological equation (KAM/Fourier, Zohar)"
+   "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); per D12 the weighted ℓ¹ norms are used only in the cohomological equation"
   },
   {
    "group": "Analytic infrastructure",
@@ -186,7 +186,7 @@
      "blueprint/parts/p1-"
     ]
    },
-   "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); cohomological solver with Rüssmann exponent (Zohar)"
+   "note": "graph K Part 1 (analysis): 124 PROVED, 7 BYPASSED, 11 EXTERNAL, 0 open (2026-10-28); cohomological solver with Rüssmann exponent"
   },
   {
    "group": "Analytic infrastructure",
