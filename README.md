@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 13:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **248,689 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 13:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **248,689 lines of Lean** of an estimated ≈ 274,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -126,7 +126,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **248,689** (194,453 excluding blank lines and comments) · **+174,811** since 2026-10-28 12:20 UTC |
+| On `main` now | **248,689** (194,453 excluding blank lines and comments) · **+174,811** since 2026-10-28 13:40 UTC |
 | Written on agent branches, not yet landed | 3,666 |
 | **Estimated total at completion** | **≈ 274,000** |
 | Estimated still to write | ≈ 22,000 |
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 13:20 UTC from `main` at `dc082a98` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 13:40 UTC from `main` at `89ef9273` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
