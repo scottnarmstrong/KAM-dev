@@ -16,9 +16,9 @@ public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
 
 `HamExpr n` is the finite expression language for Hamiltonians (SO design §D): angles enter only
 through the period-one modes `cos (2π k·θ)`, `sin (2π k·θ)`. We prove the structural facts:
-holomorphy on an open set where all denominators are certified nonvanishing, invariance under integer
-translations of the angles, reality on real points, and the openness and translation invariance of
-the Hamiltonian domain `certDomain`.
+holomorphy on an open set where all denominators are certified nonvanishing, invariance under
+integer translations of the angles, reality on real points, and the openness and translation
+invariance of the Hamiltonian domain `certDomain`.
 -/
 
 @[expose] public noncomputable section
