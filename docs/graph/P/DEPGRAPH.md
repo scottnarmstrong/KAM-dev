@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/P/SPEC.md "Conventions to watch": R^d = Fin d -> R with 
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-P external inputs are the labelled items of the parts' external-fact lists (bpP:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:e-*, p8:e-*, p9:e-*, p10:f-*, p11b:e-*, p12:f-*, p14:x-*, p14:sb-x-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref, \Iref, \Nref) is an IMPORTED node K:<node>, I:<node> or N:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, source fields copied from the owning graph docs/graph/<X>/DEPGRAPH.md, NOTE IMPORTED ...; I and N ownership pending their publication); a cited I/N result that the owning graph excludes and a track-P proof uses is a P-owned node with a blueprint-I/N locator (slice P-xown); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpP:p0:diophantine#IsDiophantine, bpP:p0:hamsymp#hamiltonianVectorField, bpP:p0:hamsymp#symplecticForm, bpP:p0:phase#Phase, bpP:p0:plane#planeSq, bpP:p0:plane#planeLength, bpP:p0:plane#planeDot, bpP:p0:body#bodyVector, bpP:p0:blocks#fast, bpP:p0:blocks#slow, bpP:p0:blocks#assemble, bpP:p0:oscaction#oscillatorAction, bpP:p0:fastshift#fastShift, bpP:p0:fastfreq#fastFrequency, bpP:p0:cylinder#cylinder, bpP:p0:cylinder#cylinderCell, bpP:p0:degham#degenerateHamiltonian, bpP:p0:secavg#secularAverage, bpP:p0:fastdiffeo#HasFastDiffeomorphism, bpP:p0:birkhoff#HasSecularBirkhoffForm, bpP:p0:cyltorus#IsCylinderTorus, bpP:p0:cylkol#IsCylinderKolmogorovSet, bpP:p0:circular#circularPoint, bpP:p0:circular#circularTube, bpP:p0:nocoll#NoCollision, bpP:p0:nocoll#PairBounds, bpP:p0:barycentric#actualMasses, bpP:p0:barycentric#barycentricPositions, bpP:p0:barycentric#barycentricVelocities, bpP:p0:newton#IsNewtonSolution, bpP:p0:fixedsol#IsFixedSolution, bpP:p0:movham#movingHamiltonian, bpP:p0:fixham#fixedHamiltonian, bpP:p0:phystorus#IsPhysicalTorus, bpP:p0:movkol#MovingKolmogorovSet, bpP:p0:fixkol#FixedKolmogorovSet, bpP:p0:pg, bpP:p0:planar, bpP:p0:fixed, bpP:p0:d25-cross#planeCross, bpP:p0:d25-kepler#keplerEnergy, bpP:p0:d25-kepler#keplerAxis, bpP:p0:d25-kepler#keplerAction, bpP:p0:d25-kepler#keplerEccVector, bpP:p0:d25-amd#totalMomentum, bpP:p0:d25-amd#physicalAMD, bpP:p0:d25-prograde#ProgradeElliptic, bpP:p0:d25-lowamd#LowAMDRegion, bpP:p0:d25-box#AMDBox, bpP:p0:d25-box#Admissible, bpP:p0:d25-movsol#IsMovingSolutionOn, bpP:p0:d25-movsol#IsHamiltonianSolutionOn, bpP:p0:d25-newton#IsNewtonSolutionOn, bpP:p0:d25-unique#MovingUniqueOn, bpP:p0:d25-stopped#StoppedActionBound, bpP:p0:d25-exponents#planetaryTimeExponent, bpP:p0:d25-exponents#planetaryDriftExponent, bpP:p0:amd, bpP:p0:expsafe, bpP:p14:sb-conv#secularGamma, bpP:p14:sb-conv#secularAMD, bpP:p14:sb-conv#secularRoot, bpP:p14:sb-conv#secularEccVector, bpP:p14:sb-conv#secularAxis, bpP:p14:sb-conv#orbitalUnit, bpP:p14:sb-conv#quarterTurn, bpP:p14:sb-defs#secularIntegrand, bpP:p14:sb-defs#exactSecularHamiltonian, bpP:p14:sb-defs#ellipsePhase, bpP:p14:sb-defs#ellipsePosition, bpP:p14:sb-defs#ellipseMomentum, bpP:p14:sb-defs#longitudeJacobian, bpP:p14:sb-box#SecularInputBox, bpP:p14:sb-box#jupiterSaturnWeights, bpP:p14:sb-regular#SecularRegular, bpP:p14:sb-safety, bpP:p14:sb-cited
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:34343d02225028a56ecb197d6094ebf7a8635d7f165ab17f3e14c2ff3191b9ca
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:4fc016112607997d4db27f26b4e0a1ebf4e76f8cd89e2cf8c380e13676e1fea1
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-P
 GLOBAL_REVIEW_REF: docs/graph/P/reviews/GLOBAL-review.md (FAIL G1/G2 repaired; delta docs/graph/P/reviews/P-p8-delta-global.md PASS by sol-delta-P-bf)
@@ -1125,9 +1125,9 @@ EDGE: bpP:p12:planar | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:planar@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.planarTwoPlanetKAM (KAM/Frozen/Planetary/Theorems/PlanarTwoPlanetKAM.lean)
+LEAN_NOTE: P-PLANAR anchor SEALED (manifest planetary.planarTwoPlanetKAM.v1); seal-key audit P12-E-audit-1 PASS WITH NOTES
 NOTE: root anchor. Proof: Theorem bpP:p12:planar (Part 12), which carries the \frozen tag; Part 12 applies the frozen P-G (edges owned by P-p12). The stale sourcegap sentence of L376 was fixed in Part 0 (it now names Part 12 as the proof).
 
 NODE: bpP:p0:fixed
@@ -32990,9 +32990,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:pla
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); planar has exact frozen telescope; provider matches frozen type
 NOTE: carries \frozen{KAM.Planetary.planarTwoPlanetKAM}: it is the proof of the root bpP:p0:planar (edge p0:planar -> this node is owned by P-p0)
 
 NODE: stepP:p12:pl-const
@@ -33023,9 +33023,9 @@ EDGE: bpP:p12:data#choices | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean); radius_choices, secular_radius, coupling_threshold (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); one joint elimination, radius_choices, threshold before mu
 NOTE: -
 
 NODE: stepP:p12:pl-pg
@@ -33053,9 +33053,9 @@ EDGE: bpP:p12:data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:pl-pg@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); sealed properlyDegenerateKAM applied to pg_hypotheses
 NOTE: -
 
 NODE: stepP:p12:pl-mu
@@ -33087,9 +33087,9 @@ EDGE: bpP:p0:degham#degenerateHamiltonian | blueprint-P/parts/p12-planar-assembl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); r<rG<r0, mu<threshold
 NOTE: -
 
 NODE: stepP:p12:pl-S
@@ -33122,9 +33122,9 @@ EDGE: bpP:p12:data#choices | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); S = total_chart '' Sc via measure, measure_in_tube
 NOTE: -
 
 NODE: stepP:p12:pl-tori
@@ -33155,9 +33155,9 @@ EDGE: bpP:p12:data | blueprint-P/parts/p12-planar-assembly.tex#stepP:p12:pl-tori
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); transport supplies tori in S
 NOTE: -
 
 NODE: stepP:p12:pl-phys
@@ -33194,9 +33194,9 @@ EDGE: stepP:p12:pl-phys#route-tube | blueprint-P/parts/p12-planar-assembly.tex#s
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean); movingKolmogorovSet_of_tube (KAM/Planetary/Newtonian/Assembly.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); movingKolmogorovSet_of_tube inside planar
 NOTE: the two derivations of the Newton-solution clause are alternatives: routes stepP:p12:pl-phys#route-orbit and stepP:p12:pl-phys#route-tube. The consequences common to both stay as DEPS
 
 NODE: stepP:p12:pl-phys#route-orbit
@@ -33229,7 +33229,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: alternative route node; audit marks it alternative, not a separately stated declaration
 NOTE: route node; alternative of stepP:p12:pl-phys#route-tube
 
 NODE: stepP:p12:pl-phys#route-tube
@@ -33260,7 +33260,7 @@ EXTRACTOR: sonnet-extract-P-p12+sol-review-P-a
 REVIEWER: sol-delta-P-c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: alternative route node; audit marks it alternative, not a separately stated declaration
 NOTE: route node; alternative of stepP:p12:pl-phys#route-orbit
 
 NODE: bpP:p12:quantifiers
@@ -33290,9 +33290,9 @@ EDGE: bpP:p12:data#choices | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:q
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p12+sol-delta-P-c
 REVIEWER: sol-delta3-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: planar (KAM/Planetary/PlanarAssembly/Main.lean); radius_choices (KAM/Planetary/PlanarAssembly/Boxes.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); constants mu0,d,D chosen before mu in planar; ledger row quantifiers PASS
 NOTE: kept as a node: cited by stepP:p12:pl-const as the place where the order of choice and the dependence lists are recorded; the pointer to Step pl-mu (L194) is not an edge
 
 NODE: bpP:p12:data#choices
@@ -33320,9 +33320,9 @@ EDGE: bpP:p12:f-mono | blueprint-P/parts/p12-planar-assembly.tex#bpP:p12:data@L7
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-a
 REVIEWER: sol-delta-P-c
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: D7-D9 P-G outputs/choices not delivered by P12-C
+LEAN_STATUS: PROVED
+LEAN_REF: secular_radius, coupling_threshold, radius_choices (KAM/Planetary/PlanarAssembly/Boxes.lean); planar (KAM/Planetary/PlanarAssembly/Main.lean)
+LEAN_NOTE: audit P12-E PASS WITH NOTES (seal-key audit); literal r=min{rG,sqrt(delta/2)}/2 and mu0=min{1,r^6/log^c}; radius_choices gives 2r^2<=delta/2; P-G outputs obtained in planar
 NOTE: Further split of the original D6-D9 package. pl-pg supplies the P-G witnesses using pg-hypotheses and the input-only D6 node; this node then defines the radii/thresholds without feeding the premise verification back into itself.
 
 NODE: bpP:p12:chart#cylinder-domain

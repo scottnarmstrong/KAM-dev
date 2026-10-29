@@ -3865,7 +3865,7 @@
     "module": "KAM.Provider.Planetary.PlanarTwoPlanetKAM",
     "export": "KAM.Provider.Planetary.planarTwoPlanetKAM"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "572b671056fc6c1460193aa6de0ac1af7a053075dbef683e043ce881c2fa55b0",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
