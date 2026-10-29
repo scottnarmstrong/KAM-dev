@@ -77,14 +77,14 @@ theorem tc_freq_node (d : PGData a b) : ∃ Cw : ℝ, 0 < Cw ∧ ∀ r mu : ℝ,
   have htau : ((a + b : ℕ) : ℝ) < pgTau a b := by unfold pgTau; linarith
   exact (cp10_isDiophantine h1 h2 htau hJ.2).1
 
-/-- `bpP:p5:torus-conv`: for every `J ∈ D₀` (that is, `ω = ω₀(J) ∈ Ω_*`) the torus
-`K_ω = physicalTorus J` is a frozen cylinder torus of `H_μ` in `C(V, r)` with frequency
-`w = ω`, `w` is `(min γ₁ γ₂, τ)`-Diophantine with `τ = n + 1 > a + b`, and
-`|w^f|_∞ ≤ C_w`, `|w^s|_∞ ≤ C_w μ` with the source constant
-`C_w = (M_ω + A_N)/2π + 1`, `M_ω = sup_{closure V} |ω̄₀|`, where `A_N ≥ 1` is the data-only
-constant of `bpP:p5:freq-data` (chosen before `r, μ`); `K_ω(ℝⁿ) ⊆ C(V, r)`. -/
-theorem torus_conv_node (d : PGData a b) : ∃ AN : ℝ, 1 ≤ AN ∧
-    ∀ Cw : ℝ, Cw = (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + AN) /
+/-- `bpP:p5:torus-conv`: for the data-only constants `p` of `bpP:p5:freq-data` (the witness of
+`freq_data`, chosen before `r, μ`; `A_N = p.AN ≥ 1`) and every `J ∈ D₀` (that is,
+`ω = ω₀(J) ∈ Ω_*`), the torus `K_ω = physicalTorus J` is a frozen cylinder torus of `H_μ` in
+`C(V, r)` with frequency `w = ω`, `w` is `(min γ₁ γ₂, τ)`-Diophantine with `τ = n + 1 > a + b`,
+and `|w^f|_∞ ≤ C_w`, `|w^s|_∞ ≤ C_w μ` with the source constant
+`C_w = (M_ω + A_N)/2π + 1`, `M_ω = sup_{closure V} |ω̄₀|`; `K_ω(ℝⁿ) ⊆ C(V, r)`. -/
+theorem torus_conv_node (d : PGData a b) : ∃ p : PGAnalytic, PGAnalyticSpec d p ∧ 1 ≤ p.AN ∧
+    ∀ Cw : ℝ, Cw = (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + p.AN) /
         (2*Real.pi) + 1 → ∀ r mu : ℝ,
     ∀ h : admissible d (pgRstar d) r mu, ∀ J ∈ pgD0 d r mu,
       IsCylinderTorus (degenerateHamiltonian d.H0 d.P mu) (cylinder d.V r)
@@ -96,28 +96,142 @@ theorem torus_conv_node (d : PGData a b) : ∃ AN : ℝ, 1 ≤ AN ∧
       ‖(blockFast ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ ≤ Cw ∧
       ‖(blockSlow ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ ≤ Cw*mu ∧
       range (physicalTorus d r mu h (pgFamily d r mu h) J) ⊆ cylinder d.V r := by
-  obtain ⟨Cw0, hCw0, hfr⟩ := tc_freq_node d
   have hpi := Real.pi_pos
-  refine ⟨max 1 (2*Real.pi*Cw0), le_max_left _ _, fun Cw hCw r mu h J hJ => ?_⟩
-  obtain ⟨hf, hs, hdio, htau, htau'⟩ := hfr r mu h J hJ
+  have hM0 := (pgExtension d).M0_pos
+  have hδ := (pgExtension d).delta_pos
+  have hspec := pgAnalytic_spec d
+  obtain ⟨hrho, -, -, -, hAN, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hpoly,
+    -, -⟩ := hspec
+  refine ⟨pgAnalytic d, pgAnalytic_spec d, hAN, fun Cw hCw r mu h J hJ => ?_⟩
+  set AN := (pgAnalytic d).AN with hANdef
+  obtain ⟨-, -, hdio', htau, htau'⟩ := (tc_freq_node d).choose_spec.2 r mu h J hJ
+  have hmu : mu ∈ Icc 0 d.mu0 := mu_mem_Icc h
+  have hmu0 : 0 < mu := h.2.2.1
+  have hmu1 : mu < 1 := mu_lt_one_of_admissible h
+  obtain ⟨hJ', hJd⟩ := id hJ
+  have hJV : blockFast J ∈ d.V := hJ'.1.1.1
+  have hxi : ‖KAM.realInclusion b (blockSlow J)‖ ≤ 1 := by
+    obtain ⟨hr1, -, -, hl1, -⟩ := kh_dyn h
+    rw [KAM.norm_realInclusion]
+    refine (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => ?_
+    obtain ⟨hj1, hj2⟩ := hJ'.2 j (mem_univ j)
+    have := params_l2top d r mu
+    have hr2 : r^2 < 1 := by nlinarith [h.1]
+    rw [Real.norm_eq_abs, abs_le]
+    constructor <;> linarith
+  have hI2 : blockFast (KAM.realInclusion (a+b) J) ∈
+      KAM.actionNbhd (closure d.V) ((pgExtension d).delta/2) :=
+    realInclusion_mem_actionNbhd (by linarith) (subset_closure hJV)
+  have hJA : KAM.realInclusion (a+b) J ∈ analyticBoundDomain d (pgAnalytic d) :=
+    ⟨realInclusion_mem_actionNbhd hrho (subset_closure hJV), by
+      have : ‖blockSlow (KAM.realInclusion (a+b) J)‖ ≤ 1 := by
+        have e : ‖blockSlow (KAM.realInclusion (a+b) J)‖ = ‖KAM.realInclusion b (blockSlow J)‖ :=
+          rfl
+        rw [e]; exact hxi
+      linarith⟩
+  set L := fderiv ℂ (jetPolynomial d mu) (KAM.realInclusion (a+b) J) with hL
+  have hLAN : ‖L‖ ≤ AN := (hpoly mu hmu _ hJA).2.1
+  have heq := complexFrequency_eq d hmu hI2
+  rw [complexFrequency_realSlice d hmu hJV] at heq
+  have hfast := congrArg blockFast heq
+  have hslow := congrArg blockSlow heq
+  have hsingF : ∀ k : Fin a, ‖embFast a b (Pi.single k (1:ℂ))‖ ≤ 1 := fun k => by
+    rw [← single_castAdd]
+    exact (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => by
+      by_cases hj : j = Fin.castAdd b k <;> simp [hj]
+  have hsingS : ∀ k : Fin b, ‖embSlow a b (Pi.single k (1:ℂ))‖ ≤ 1 := fun k => by
+    rw [← single_natAdd]
+    exact (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => by
+      by_cases hj : j = Fin.natAdd a k <;> simp [hj]
+  have hbd : ∀ {m : ℕ} (v : Fin m → ℂ), ‖(mu : ℂ) • v‖ = mu * ‖v‖ := fun v => by
+    rw [norm_smul, Complex.norm_real, Real.norm_eq_abs, abs_of_pos hmu0]
+  have hLf : ‖(fun k : Fin a => L (embFast a b (Pi.single k 1)))‖ ≤ AN := by
+    refine (pi_norm_le_iff_of_nonneg (by linarith)).2 fun k => ?_
+    exact (L.le_opNorm _).trans ((mul_le_of_le_one_right (norm_nonneg _) (hsingF k)).trans hLAN)
+  have hLs : ‖(fun k : Fin b => L (embSlow a b (Pi.single k 1)))‖ ≤ AN := by
+    refine (pi_norm_le_iff_of_nonneg (by linarith)).2 fun k => ?_
+    exact (L.le_opNorm _).trans ((mul_le_of_le_one_right (norm_nonneg _) (hsingS k)).trans hLAN)
+  have hFc : ∀ I ∈ closure d.V, ‖fastFrequency d.H0 I‖ ≤ (pgExtension d).M0 := by
+    intro I hI
+    have hnb := realInclusion_mem_actionNbhd (δ := (pgExtension d).delta) hδ hI
+    have hF : DifferentiableAt ℂ (pgExtension d).H0 (KAM.realInclusion a I) :=
+      (pgExtension d).h0holo.differentiableAt ((isOpen_actionNbhd _ _).mem_nhds hnb)
+    have hev : (fun y => (pgExtension d).H0 (KAM.realInclusion a y)) =ᶠ[nhds I]
+        fun y => (d.H0 y : ℂ) := by
+      filter_upwards [((isOpen_actionNbhd _ _).preimage (KAM.realInclusion a).continuous).mem_nhds
+        hnb] with y hy
+      exact (pgExtension d).h0real y hy
+    have hb := ((pgExtension d).h0bounds _ hnb).2.1
+    refine (pi_norm_le_iff_of_nonneg hM0.le).2 fun i => ?_
+    have e := fderiv_complex_realSlice hF hev i
+    have hs1 : ‖(Pi.single i (1:ℂ) : Fin a → ℂ)‖ ≤ 1 :=
+      (pi_norm_le_iff_of_nonneg zero_le_one).2 fun j => by
+        by_cases hj : j = i <;> simp [hj]
+    have hop := (fderiv ℂ (pgExtension d).H0 (KAM.realInclusion a I)).le_opNorm (Pi.single i (1:ℂ))
+    rw [e, Complex.norm_real] at hop
+    simp only [fastFrequency]
+    calc _ ≤ _ := hop
+      _ ≤ ‖fderiv ℂ (pgExtension d).H0 (KAM.realInclusion a I)‖ * 1 := by gcongr
+      _ ≤ _ := by linarith
+  have hMbdd : BddAbove ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) :=
+    ⟨(pgExtension d).M0, by rintro _ ⟨I, hI, rfl⟩; exact hFc I hI⟩
+  have hMle : ‖fastFrequency d.H0 (blockFast J)‖ ≤
+      sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) :=
+    le_csSup hMbdd ⟨_, subset_closure hJV, rfl⟩
   have hM : 0 ≤ sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) :=
     Real.sSup_nonneg (by rintro _ ⟨I, -, rfl⟩; exact norm_nonneg _)
-  have hCw0le : Cw0 ≤ Cw := by
-    have h1 : Cw0 ≤ (max 1 (2*Real.pi*Cw0)) / (2*Real.pi) := by
-      rw [le_div_iff₀ (by positivity)]
-      nlinarith [le_max_right 1 (2*Real.pi*Cw0)]
-    have h2 : (max 1 (2*Real.pi*Cw0)) / (2*Real.pi) ≤
-        (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) +
-          max 1 (2*Real.pi*Cw0)) / (2*Real.pi) :=
-      div_le_div_of_nonneg_right (by linarith) (by positivity)
-    rw [hCw]; linarith
-  have hmu0 : 0 < mu := h.2.2.1
-  have hspec := (torus_conv d r mu h).choose_spec
-  have hT := hspec.2.2.2.2.2.2 J hJ
-  refine ⟨hT, hdio, htau, htau', hf.trans hCw0le,
-    hs.trans (mul_le_mul_of_nonneg_right hCw0le hmu0.le), ?_⟩
-  rintro _ ⟨θ, rfl⟩
-  exact (hT.2.1 θ).1
+  have hc : 0 ≤ (2*Real.pi)⁻¹ := by positivity
+  have hbf : ‖(blockFast (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ ≤
+      sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + AN := by
+    have e1 : ‖blockFast (KAM.realInclusion (a+b) (freq d.H0 d.P0 d.Omega d.beta mu J))‖ =
+        ‖(blockFast (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin a → ℝ)‖ :=
+      KAM.norm_realInclusion _
+    have h4 : blockFast (embFast a b (complexFast d (blockFast (KAM.realInclusion (a+b) J))) +
+        (mu : ℂ) • partialsCLM (a + b) L) = complexFast d (blockFast (KAM.realInclusion (a+b) J)) +
+        (mu : ℂ) • blockFast (partialsCLM (a + b) L) := by
+      show blockFast (embFast a b _) + (mu : ℂ) • blockFast (partialsCLM (a + b) L) = _
+      rw [blockFast_embFast]
+    rw [← e1, hfast, h4, blockFast_partialsCLM]
+    have hcf : ‖complexFast d (blockFast (KAM.realInclusion (a+b) J))‖ =
+        ‖fastFrequency d.H0 (blockFast J)‖ := by
+      have := complexFast_realSlice d hJV
+      have e : blockFast (KAM.realInclusion (a+b) J) = KAM.realInclusion a (blockFast J) := rfl
+      rw [e, this, KAM.norm_realInclusion]
+    refine (norm_add_le _ _).trans (add_le_add (hcf.le.trans hMle) ?_)
+    rw [hbd]
+    calc mu * _ ≤ 1 * AN := mul_le_mul hmu1.le hLf (norm_nonneg _) zero_le_one
+      _ = AN := one_mul _
+  have hbs : ‖(blockSlow (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ ≤ mu * AN := by
+    have e1 : ‖blockSlow (KAM.realInclusion (a+b) (freq d.H0 d.P0 d.Omega d.beta mu J))‖ =
+        ‖(blockSlow (freq d.H0 d.P0 d.Omega d.beta mu J) : Fin b → ℝ)‖ :=
+      KAM.norm_realInclusion _
+    have h4 : blockSlow (embFast a b (complexFast d (blockFast (KAM.realInclusion (a+b) J))) +
+        (mu : ℂ) • partialsCLM (a + b) L) = (mu : ℂ) • blockSlow (partialsCLM (a + b) L) := by
+      have : blockSlow (embFast a b (complexFast d (blockFast (KAM.realInclusion (a+b) J)))) = 0 :=
+        blockSlow_embFast _
+      show blockSlow (embFast a b _) + (mu : ℂ) • blockSlow (partialsCLM (a + b) L) = _
+      rw [this, zero_add]
+    rw [← e1, hslow, h4, blockSlow_partialsCLM, hbd]
+    exact mul_le_mul_of_nonneg_left hLs hmu0.le
+  have bf : blockFast ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) =
+      (2*Real.pi)⁻¹ • blockFast (freq d.H0 d.P0 d.Omega d.beta mu J) := rfl
+  have bs : blockSlow ((2*Real.pi)⁻¹ • freq d.H0 d.P0 d.Omega d.beta mu J) =
+      (2*Real.pi)⁻¹ • blockSlow (freq d.H0 d.P0 d.Omega d.beta mu J) := rfl
+  have hT := ((torus_conv d r mu h).choose_spec).2.2.2.2.2.2 J hJ
+  refine ⟨hT, hdio', htau, htau', ?_, ?_, ?_⟩
+  · rw [bf, norm_smul, Real.norm_of_nonneg hc, hCw]
+    calc _ ≤ (2*Real.pi)⁻¹ * (sSup ((fun I => ‖fastFrequency d.H0 I‖) '' closure d.V) + AN) :=
+          mul_le_mul_of_nonneg_left hbf hc
+      _ ≤ _ := by rw [div_eq_inv_mul]; linarith
+  · rw [bs, norm_smul, Real.norm_of_nonneg hc, hCw]
+    have hAN0 : 0 ≤ AN := by linarith
+    calc _ ≤ (2*Real.pi)⁻¹ * (mu * AN) := mul_le_mul_of_nonneg_left hbs hc
+      _ ≤ _ := by
+          rw [div_eq_inv_mul]
+          nlinarith [mul_nonneg hc hmu0.le, mul_nonneg (mul_nonneg hc hmu0.le) hM,
+            mul_nonneg (mul_nonneg hc hmu0.le) hAN0]
+  · rintro _ ⟨θ, rfl⟩
+    exact (hT.2.1 θ).1
 
 end KAM.Planetary
 
