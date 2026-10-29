@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/P/SPEC.md "Conventions to watch": R^d = Fin d -> R with 
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-P external inputs are the labelled items of the parts' external-fact lists (bpP:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:e-*, p8:e-*, p9:e-*, p10:f-*, p11b:e-*, p12:f-*, p14:x-*, p14:sb-x-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref, \Iref, \Nref) is an IMPORTED node K:<node>, I:<node> or N:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, source fields copied from the owning graph docs/graph/<X>/DEPGRAPH.md, NOTE IMPORTED ...; I and N ownership pending their publication); a cited I/N result that the owning graph excludes and a track-P proof uses is a P-owned node with a blueprint-I/N locator (slice P-xown); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpP:p0:diophantine#IsDiophantine, bpP:p0:hamsymp#hamiltonianVectorField, bpP:p0:hamsymp#symplecticForm, bpP:p0:phase#Phase, bpP:p0:plane#planeSq, bpP:p0:plane#planeLength, bpP:p0:plane#planeDot, bpP:p0:body#bodyVector, bpP:p0:blocks#fast, bpP:p0:blocks#slow, bpP:p0:blocks#assemble, bpP:p0:oscaction#oscillatorAction, bpP:p0:fastshift#fastShift, bpP:p0:fastfreq#fastFrequency, bpP:p0:cylinder#cylinder, bpP:p0:cylinder#cylinderCell, bpP:p0:degham#degenerateHamiltonian, bpP:p0:secavg#secularAverage, bpP:p0:fastdiffeo#HasFastDiffeomorphism, bpP:p0:birkhoff#HasSecularBirkhoffForm, bpP:p0:cyltorus#IsCylinderTorus, bpP:p0:cylkol#IsCylinderKolmogorovSet, bpP:p0:circular#circularPoint, bpP:p0:circular#circularTube, bpP:p0:nocoll#NoCollision, bpP:p0:nocoll#PairBounds, bpP:p0:barycentric#actualMasses, bpP:p0:barycentric#barycentricPositions, bpP:p0:barycentric#barycentricVelocities, bpP:p0:newton#IsNewtonSolution, bpP:p0:fixedsol#IsFixedSolution, bpP:p0:movham#movingHamiltonian, bpP:p0:fixham#fixedHamiltonian, bpP:p0:phystorus#IsPhysicalTorus, bpP:p0:movkol#MovingKolmogorovSet, bpP:p0:fixkol#FixedKolmogorovSet, bpP:p0:pg, bpP:p0:planar, bpP:p0:fixed, bpP:p0:d25-cross#planeCross, bpP:p0:d25-kepler#keplerEnergy, bpP:p0:d25-kepler#keplerAxis, bpP:p0:d25-kepler#keplerAction, bpP:p0:d25-kepler#keplerEccVector, bpP:p0:d25-amd#totalMomentum, bpP:p0:d25-amd#physicalAMD, bpP:p0:d25-prograde#ProgradeElliptic, bpP:p0:d25-lowamd#LowAMDRegion, bpP:p0:d25-box#AMDBox, bpP:p0:d25-box#Admissible, bpP:p0:d25-movsol#IsMovingSolutionOn, bpP:p0:d25-movsol#IsHamiltonianSolutionOn, bpP:p0:d25-newton#IsNewtonSolutionOn, bpP:p0:d25-unique#MovingUniqueOn, bpP:p0:d25-stopped#StoppedActionBound, bpP:p0:d25-exponents#planetaryTimeExponent, bpP:p0:d25-exponents#planetaryDriftExponent, bpP:p0:amd, bpP:p0:expsafe, bpP:p14:sb-conv#secularGamma, bpP:p14:sb-conv#secularAMD, bpP:p14:sb-conv#secularRoot, bpP:p14:sb-conv#secularEccVector, bpP:p14:sb-conv#secularAxis, bpP:p14:sb-conv#orbitalUnit, bpP:p14:sb-conv#quarterTurn, bpP:p14:sb-defs#secularIntegrand, bpP:p14:sb-defs#exactSecularHamiltonian, bpP:p14:sb-defs#ellipsePhase, bpP:p14:sb-defs#ellipsePosition, bpP:p14:sb-defs#ellipseMomentum, bpP:p14:sb-defs#longitudeJacobian, bpP:p14:sb-box#SecularInputBox, bpP:p14:sb-box#jupiterSaturnWeights, bpP:p14:sb-regular#SecularRegular, bpP:p14:sb-safety, bpP:p14:sb-cited
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:4fc016112607997d4db27f26b4e0a1ebf4e76f8cd89e2cf8c380e13676e1fea1
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:72c4edf1cb8c091083d8e0f3064d32831a311c5cb26a43ad200b3b6dac4131a8
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-P
 GLOBAL_REVIEW_REF: docs/graph/P/reviews/GLOBAL-review.md (FAIL G1/G2 repaired; delta docs/graph/P/reviews/P-p8-delta-global.md PASS by sol-delta-P-bf)
@@ -1154,9 +1154,9 @@ EDGE: bpP:p13:fixed | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:fixed@L15
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision
 REVIEWER: sol-review-P-w
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.fixedSunPlanetaryKAM (KAM/Frozen/Planetary/Theorems/FixedSunPlanetaryKAM.lean)
+LEAN_NOTE: P-FIXED anchor SEALED (manifest planetary.fixedSunPlanetaryKAM.v1); seal-key audit P11A-P10-audit-1 PASS WITH NOTES
 NOTE: root anchor (P-FIXED revision 2026-10-28; block restored from draft/deferred-p0-fixed.md, identity fields re-checked against the manifest). Proof: Theorem bpP:p13:fixed (Part 13), which carries the \frozen tag and splits n = 2 (bpP:p13:n2, route (c) through the frozen P-G) from n >= 3 (bpP:p13:n-general, Part 11's wrapper); bpP:p13:n2 and bpP:p13:n-general also carry the tag (edges owned by P-p13). The \sourcegap (L386-L387) is mapped in the coverage.
 
 NODE: bpP:p0:d25-cross#planeCross
@@ -20929,9 +20929,9 @@ EDGE: bpP:p0:circular#circularTube | blueprint-P/parts/p11-cp09-preparation.tex#
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: wrapper_of_data_star, wrapper (KAM/Planetary/Preparation/Wrapper.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS (overall verdict FAIL only for literal F2/F3 intermediate clauses); signed wrapper one-liner over data_star
 NOTE: the references to bpP:p6:fixkol-assembly and bpP:p0:fixkol (L240: Part 13 applies...; as in Definition fixkol) are forward pointers or comparisons and deleted
 
 NODE: bpP:p11:data-star
@@ -20989,9 +20989,9 @@ EDGE: bpP:p11:e4 | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:wr-nu@L2
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_wr_small (KAM/Planetary/Preparation/WrapperSmall.lean); p11_ev_thr (KAM/Planetary/Preparation/WrapperAsym.lean); wrapper_of_data_star (KAM/Planetary/Preparation/Wrapper.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS
 NOTE: The forward reference to the tube inequalities lists threshold requirements, not a use of the later tube conclusion. wr-tube consumes the threshold and KAM displacement supplied here. Logarithmic asymptotics are bpP:p11:e4.
 
 NODE: stepP:p11:wr-kam
@@ -21020,9 +21020,9 @@ EDGE: bpP:p11:sec-E#data | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_wr_qi (KAM/Planetary/Preparation/WrapperQI.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS
 NOTE: -
 
 NODE: stepP:p11:wr-chain
@@ -21058,7 +21058,7 @@ EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P11A-P10 F2: export p11_wr_chain proved on smaller carrier (p11WrO D) than source |r|<2, |rho'|<pi/2; sound and sufficient for consumers; follow-up gap package exports literal form
 NOTE: -
 
 NODE: stepP:p11:wr-tor
@@ -21088,9 +21088,9 @@ EDGE: bpP:p0:diophantine#IsDiophantine | blueprint-P/parts/p11-cp09-preparation.
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11_wr_torus, p11_wr_set (KAM/Planetary/Preparation/WrapperEps.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS
 NOTE: -
 
 NODE: stepP:p11:wr-meas
@@ -21120,9 +21120,9 @@ EDGE: stepP:p11:wr-tube | blueprint-P/parts/p11-cp09-preparation.tex#stepP:p11:w
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11TorusUnion_props (KAM/Planetary/Preparation/WrapperMeasure.lean); p11_wr_set (KAM/Planetary/Preparation/WrapperEps.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS
 NOTE: -
 
 NODE: stepP:p11:wr-tube
@@ -21160,7 +21160,7 @@ EXTRACTOR: sonnet-extract-P-p11+sol-review-P-v
 REVIEWER: sol-delta-P-ae
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P11A-P10 F3: p11_wr_tube proves coarser Gamma_i <= 3 n eps + ... instead of literal <= 2 n eps and sum <= 4 n eps; sound and sufficient for consumers; follow-up gap package exports literal forms
 NOTE: Uses the writer-authorized logarithmic asymptotic external bpP:p11:e4; no elementary input is left unrepresented.
 
 NODE: bpP:p11:sec-conv#data
@@ -29419,9 +29419,9 @@ EDGE: bpP:p0:phase#Phase | blueprint-P/parts/p13-fixed-assembly.tex#bpP:p13:n-ge
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: n_general_of_wrapper, n_general (KAM/Planetary/FixedAssembly/General.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS; P13-C audit-1 PASS WITH NOTES (conditional helper), discharged by wrapper
 NOTE: route (a) for general n; the reference to bpP:p11:kam-input and the Part 11a labels in the sourcegap (L139) is a statement that the dependency goes through the wrapper (bpP:p11:wrapper, via stepP:p13:ng-wrap); no direct edge, per the text "the part cites the wrapper only"
 
 NODE: stepP:p13:ng-const
@@ -29447,9 +29447,9 @@ EDGE: bpP:p11:wrapper | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:ng-co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: n_general_of_wrapper, n_general (KAM/Planetary/FixedAssembly/General.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS; canonical d,D
 NOTE: -
 
 NODE: stepP:p13:ng-wrap
@@ -29476,9 +29476,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: n_general_of_wrapper, n_general (KAM/Planetary/FixedAssembly/General.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS; wrapper supplies set
 NOTE: -
 
 NODE: stepP:p13:ng-phys
@@ -29509,9 +29509,9 @@ EDGE: bpP:p6:tube-constants | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: n_general_of_wrapper, n_general (KAM/Planetary/FixedAssembly/General.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS; P6-5 physical assembly
 NOTE: the pointer "clauses as in Step n2-phys" is not an edge (the lemmas are cited directly)
 
 NODE: bpP:p13:fixed
@@ -29539,9 +29539,9 @@ EDGE: bpP:p0:fixkol#FixedKolmogorovSet | blueprint-P/parts/p13-fixed-assembly.te
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixed_of_wrapper, fixed (KAM/Planetary/FixedAssembly/Main.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS; P13-C audit-1 PASS WITH NOTES
 NOTE: the two case theorems feed it through steps fx-2, fx-n (conjunctive case split, not alternatives)
 
 NODE: stepP:p13:fx-split
@@ -29565,9 +29565,9 @@ ROUTE_FOR: -
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13
 REVIEWER: sol-review-P-u
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixed_of_wrapper, fixed (KAM/Planetary/FixedAssembly/Main.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS
 NOTE: -
 
 NODE: stepP:p13:fx-2
@@ -29593,9 +29593,9 @@ EDGE: stepP:p13:fx-split | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:fx
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixed_of_wrapper, fixed (KAM/Planetary/FixedAssembly/Main.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS
 NOTE: the subst of n = 2 (L13, L159) has no mathematical content (SPEC: Lean dependent-type transport), no node
 
 NODE: stepP:p13:fx-n
@@ -29621,9 +29621,9 @@ EDGE: stepP:p13:fx-split | blueprint-P/parts/p13-fixed-assembly.tex#stepP:p13:fx
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p13+sol-review-P-u
 REVIEWER: sol-delta-P-af
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: fixed_of_wrapper, fixed (KAM/Planetary/FixedAssembly/Main.lean)
+LEAN_NOTE: audit P11A-P10 node row PASS
 NOTE: -
 
 NODE: bpP:p13:quantifiers
