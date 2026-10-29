@@ -6,12 +6,12 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.Defs
-public import KAM.Certificate.Tests.Torsion
+public import KAM.Certificate.Arith.Rat
 
 /-!
 # Checker tests (`Defs`)
 
-The toy of `Tests/Torsion` (`n = 1`, `H = I²/2`, `K(θ) = (θ + U/2π, A)`) as a whole
+The toy of `Tests/Torsion` (data copied) (`n = 1`, `H = I²/2`, `K(θ) = (θ + U/2π, A)`) as a whole
 `TorusCertificate 1 ℚ` on `D = T_{1/20} × {|I - 1| < 1/10}`: the sub-checks `checkHamBounds`,
 `checkEmbedding`, `checkInvariance`, `checkEnergy`, `checkGram` and `checkTorsion` pass by
 `decide +kernel`; each fails closed when its bound is tightened. `checkStatic` (hence
@@ -22,10 +22,49 @@ public section
 
 namespace KAM.Certificate
 
+open CertArith
+
+/-! ### The toy data (copied from `Tests/Torsion`, whose bodies are not exposed) -/
+
+def defsToyW : CertWeight := ⟨1 / 100, 11 / 10⟩
+
+def defsToyPi : PiEnclosure ℚ := ⟨314159 / 100000, 1 / 10000, 5, 2⟩
+
+/-- Every torsion, Gram and composition product key, advised `direct`. -/
+def defsToyCfg : ModelConfig ℚ :=
+  ⟨100, 10, 4, fun _ _ => none,
+    (((List.range 11).flatMap fun t => (List.range 4).flatMap fun i => (List.range 4).flatMap
+      fun j => (List.range 4).map fun k => [4, t, i, j, k]) ++
+     ((List.range 2).flatMap fun t => (List.range 4).flatMap fun i => (List.range 4).flatMap
+      fun j => (List.range 4).map fun k => [3, t, i, j, k]) ++
+     ((List.range 32).map fun k => [0, k])).map fun key => (key, .direct)⟩
+
+/-- `c + a cos 2πθ` as real data. -/
+def defsToyCos (c a : ℚ) : CertRealPoly ℚ := ⟨c, [([1], ⟨a / 2, 0⟩)]⟩
+
+/-- `K(θ) = (θ + U/2π, A)`, `U = 0.1 cos 2πθ`, `A = 1 + 0.01 cos 2πθ`. -/
+def defsToyK : CertEmbedding ℚ := ⟨[-1], [defsToyCos 0 (1 / 10)], [0], [defsToyCos 1 (1 / 100)]⟩
+
+/-- `H = I²/2`. -/
+def defsToyH : HamExpr 1 := .mul (.const (1 / 2)) (.mul (.action 0) (.action 0))
+
+/-- The Gram witness `1 + 0.2 sin 2πθ`. -/
+def defsToyB : List (List (CertPoly ℚ)) :=
+  [[⟨[([-1], ⟨0, 1 / 10⟩), ([0], ⟨1, 0⟩), ([1], ⟨0, -1 / 10⟩)]⟩]]
+
+def defsToyWit : Witnesses ℚ := ⟨[], [], []⟩
+
+def defsToyBox : FreqBox := [(1, 1 / 1000)]
+
+def defsToyCC (A : List (List ℚ)) : List (List (CC ℚ)) := A.map fun row => row.map fun c => ⟨c, 0⟩
+
+/-- The averaging witness `≈ [[0, 1/0.99], [1, -0.985/0.99]]`. -/
+def defsToyS : List (List (CC ℚ)) := defsToyCC [[0, 101 / 100], [1, -1]]
+
 /-- The configuration of `Tests/Torsion` plus the invariance keys `[5, a, l]`. -/
 def defsTestCfg : ModelConfig ℚ :=
-  { torsTestCfg with
-    advice := torsTestCfg.advice ++ ((List.range 2).flatMap fun a => (List.range 1).map fun l =>
+  { defsToyCfg with
+    advice := defsToyCfg.advice ++ ((List.range 2).flatMap fun a => (List.range 1).map fun l =>
       ([5, a, l], .direct)) }
 
 def defsTestParams (M σK err E0 : ℚ) : CertParams :=
@@ -35,19 +74,19 @@ def defsTestParams (M σK err E0 : ℚ) : CertParams :=
 
 def defsTestCert (M σK err E0 : ℚ) (rH : ℚ := 1 / 10) : TorusCertificate 1 ℚ where
   params := defsTestParams M σK err E0
-  ham := torsTestH
+  ham := defsToyH
   weightH := ⟨1 / 20, 3 / 2⟩
   centre := [1]
   radius := [rH]
-  freqBox := torsTestBox
-  emb := torsTestK
-  weight := torsTestW
-  wit := torsTestWit
-  gramInv := torsTestB
-  torsInv := torsTestS
+  freqBox := defsToyBox
+  emb := defsToyK
+  weight := defsToyW
+  wit := defsToyWit
+  gramInv := defsToyB
+  torsInv := defsToyS
   cfgFull := defsTestCfg
-  cfgLow := torsTestCfg
-  piEnc := torsTestPi
+  cfgLow := defsToyCfg
+  piEnc := defsToyPi
   expHalvings := 0
   expOrder := 6
 
