@@ -22,7 +22,8 @@ section Num
 theorem p11_num_pow_le {x : ℝ} (hx0 : 0 ≤ x) (hx1 : x ≤ 1) (a : ℕ) : x ^ a ≤ 1 :=
   pow_le_one₀ hx0 hx1
 
-/-- Rescaled `g₂` term: `ε^j · P Q c ε³ L / ((s/4)^a (ε/4)^b) ≤ P Q 4^b c ε² L` for `a + b = j + 1`. -/
+/-- Rescaled `g₂` term: `ε^j · P Q c ε³ L / ((s/4)^a (ε/4)^b) ≤ P Q 4^b c ε² L`
+for `a + b = j + 1`. -/
 theorem p11_num_g {e s P Q cc L5 : ℝ} (he : 0 < e) (hs : 5 * e ≤ s) (hP : 0 ≤ P) (hQ : 0 ≤ Q)
     (hc : 0 ≤ cc) (hL : 0 ≤ L5) (a b j : ℕ) (hj : a + b = j + 1) :
     e ^ j * (P * Q * (cc * e ^ 3 * L5) / ((s / 4) ^ a * (e / 4) ^ b)) ≤

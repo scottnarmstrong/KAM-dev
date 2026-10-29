@@ -35,7 +35,8 @@ def p11CloseFun (C : P11SecularData n) (A : P11SlowData n) (eps : ℝ) (ρt : P1
     (fun k => fderiv ℂ (fun I => A.h0 I + A.g2 I) (Fin.append J ρt)
       (Pi.single (Fin.natAdd n k) 1) / (eps : ℂ) - (2 * Real.pi : ℂ)⁻¹ * C.Omega J k)
 
-theorem p11_partial_sub {N m : ℕ} {U : Set (P11CVec N)} (hU : IsOpen U) {F G : P11CVec N → P11CVec m}
+theorem p11_partial_sub {N m : ℕ} {U : Set (P11CVec N)} (hU : IsOpen U)
+    {F G : P11CVec N → P11CVec m}
     (hF : DifferentiableOn ℂ F U) (hG : DifferentiableOn ℂ G U) (α : Fin N → ℕ) {x : P11CVec N}
     (hx : x ∈ U) :
     p11PartialVec α (fun y => F y - G y) x = p11PartialVec α F x - p11PartialVec α G x := by
@@ -272,11 +273,13 @@ theorem p11_close_block2 (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu ep
   have hslice := p11_partial_slice hVho (p11Step_differentiableOn hVho hHd (Fin.natAdd n k)) ρ α hP
   have hstep := p11_partial_step hVho hHd (Fin.append α (0 : Fin n → ℕ)) (Fin.natAdd n k) hP
   rw [p11_dev_append_add] at hstep
-  have hOm := p11_dev_Om_slice hC (r2 := Real.pi * eps / 2) (eps := eps) (by linarith) (by linarith) k α J ρ hP
+  have hOm := p11_dev_Om_slice hC (r2 := Real.pi * eps / 2) (eps := eps) (by linarith)
+    (by linarith) k α J ρ hP
   have hbd := p11_dev_rho_bound hC hnu heps hεM hA hzs h5 k α 0 J ρ hJ hρ
   have hX : p11PartialVec α (fun J' : P11CVec n =>
         p11Step (Fin.natAdd n k) (p11DevH A) (Fin.append J' ρ)) J =
-      p11PartialVec (Fin.append α (0 + Pi.single k 1 : Fin n → ℕ)) (p11DevH A) (Fin.append J ρ) := by
+      p11PartialVec (Fin.append α (0 + Pi.single k 1 : Fin n → ℕ)) (p11DevH A)
+        (Fin.append J ρ) := by
     rw [← hstep]
     exact hslice
   have hval : p11PartialVec α (fun J' (_ : Fin 1) => p11CloseFun C A eps ρ J' (Fin.natAdd n k)) J =
@@ -367,7 +370,8 @@ theorem p11_close_fin2 {nu eps c k2 Rc Λ F l : ℝ} {mu : ℕ} {C : P11SecularD
     (τ := C.tau) (P := ∏ i, ((α i).factorial : ℝ)) (η := p11eta1 C eps) (s2 := p11s2 C nu eps)
     (j := ∑ i, α i) (M := mu + 1) heps he1 hl hc hΛ hτ hP0 hP hη0 hηb hs2 h42 hs
   have e1 : p11DevZ C nu eps c α 0 + p11DevG C nu eps c α (0 + Pi.single k 1) / eps =
-      (∏ i, ((α i).factorial : ℝ)) * (c * (eps + p11eta1 C eps)) / (p11s2 C nu eps / 2) ^ (∑ i, α i) +
+      (∏ i, ((α i).factorial : ℝ)) * (c * (eps + p11eta1 C eps)) /
+        (p11s2 C nu eps / 2) ^ (∑ i, α i) +
       (∏ i, ((α i).factorial : ℝ)) * (c * eps ^ 3 * l ^ (5 * C.tau + 2)) /
         ((p11s2 C nu eps / 4) ^ (∑ i, α i) * (eps / 4) ^ 1) / eps := by
     have hq : (∏ x : Fin n, (((if x = k then 1 else 0 : ℕ)).factorial : ℝ)) = 1 :=
@@ -581,7 +585,8 @@ theorem p11_pr_c (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) (hn : 1 �
   simp only [if_true]
   rw [hdgeq]
   refine hdg.trans ?_
-  have hLQ : 0 ≤ eps * Real.log (1 / eps) ^ (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu + 1 : ℕ) : ℝ)) :=
+  have hLQ : 0 ≤ eps * Real.log (1 / eps) ^
+      (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu + 1 : ℕ) : ℝ)) :=
     mul_nonneg heps.le (Real.rpow_nonneg (by linarith) _)
   have hm : (1 : ℝ) ≤ ((n + n : ℕ) : ℝ) := by exact_mod_cast (by omega : 1 ≤ n + n)
   have hsq : Real.sqrt ((n + n : ℕ) : ℝ) ≤ ((n + n : ℕ) : ℝ) := by
@@ -589,7 +594,8 @@ theorem p11_pr_c (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) (hn : 1 �
     nlinarith
   have hnj : (n : ℝ) ^ j ≤ (n : ℝ) ^ (p11PatchData D).mu :=
     pow_le_pow_right₀ (by exact_mod_cast hn') hj
-  have hexp : (((p11PatchData D).mu + 1 : ℕ) : ℝ) = ((p11PatchData D).mu : ℝ) + 1 := by push_cast; ring
+  have hexp : (((p11PatchData D).mu + 1 : ℕ) : ℝ) = ((p11PatchData D).mu : ℝ) + 1 := by
+    push_cast; ring
   rw [hexp] at hLQ ⊢
   have hB0 : 0 ≤ Kb * (1 + c) * (eps * Real.log (1 / eps) ^
       (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))) := by positivity

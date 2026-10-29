@@ -13,7 +13,8 @@ public import KAM.Planetary.Preparation.PreparedNum
 # Rescaled bounds of the partials of `h = h₀ + g₂` (P11A-P8b2, pr-b and pr-d)
 
 `p11_dev_resc`: at a point of the Cauchy region, for every multi-index `β` of order `j + 1`
-(`j ≤ μ̄ + 1`), `ε^j |∂^β h| ≤ (L if j = 0 else εL) + K (1 + c) ε ℓ^Q`, with `Q` the exponent of step
+(`j ≤ μ̄ + 1`), `ε^j |∂^β h| ≤ (L if j = 0 else εL) + K (1 + c) ε ℓ^Q`, with `Q` the exponent of
+step
 `prepared`. This is the content of steps pr-in and pr-b/pr-d of `bpP:p11:prepared`: the
 Cauchy radii `s₂/4`, `ε/4` cancel against the rescaling of `N_ε`.
 -/
@@ -262,7 +263,8 @@ theorem p11_resc_rho_dev (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu ep
         (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) :=
     p11_num_g heps h5 hP0 (Finset.prod_nonneg fun _ _ => by positivity) hc0 hl5 _ _ j
       (by rw [hsum2]; omega)
-  have tg' : (∏ k, ((α k).factorial : ℝ)) * (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) *
+  have tg' : (∏ k, ((α k).factorial : ℝ)) *
+        (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) *
         4 ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) *
         (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) ≤
       F * 4 ^ ((p11PatchData D).mu + 2) *
@@ -274,7 +276,8 @@ theorem p11_resc_rho_dev (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu ep
         refine le_trans ?_ hP
         have : ∑ k, α k + (∑ k, γ k + 1) = j + 1 := by omega
         rw [this])
-    have h4 : (4 : ℝ) ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) ≤ 4 ^ ((p11PatchData D).mu + 2) := by
+    have h4 : (4 : ℝ) ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) ≤
+        4 ^ ((p11PatchData D).mu + 2) := by
       rw [hsum2]
       exact pow_le_pow_right₀ (by norm_num) (by omega)
     have hnn : 0 ≤ c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2) := by positivity
@@ -370,7 +373,8 @@ theorem p11_resc_rho (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c 
         (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) :=
     p11_num_g heps h5 hP0 (Finset.prod_nonneg fun _ _ => by positivity) hc0 hl5 _ _ j
       (by rw [hsum2]; omega)
-  have tg' : (∏ k, ((α k).factorial : ℝ)) * (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) *
+  have tg' : (∏ k, ((α k).factorial : ℝ)) *
+        (∏ k, (((γ + Pi.single i 1 : Fin n → ℕ) k).factorial : ℝ)) *
         4 ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) *
         (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) ≤
       F * 4 ^ ((p11PatchData D).mu + 2) *
@@ -382,7 +386,8 @@ theorem p11_resc_rho (hC : P11SecularSpec D C) {Fast : P11FastData n} {nu eps c 
         refine le_trans ?_ hP
         have : ∑ k, α k + (∑ k, γ k + 1) = j + 1 := by omega
         rw [this])
-    have h4 : (4 : ℝ) ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) ≤ 4 ^ ((p11PatchData D).mu + 2) := by
+    have h4 : (4 : ℝ) ^ (∑ k, (γ + Pi.single i 1 : Fin n → ℕ) k) ≤
+        4 ^ ((p11PatchData D).mu + 2) := by
       rw [hsum2]
       exact pow_le_pow_right₀ (by norm_num) (by omega)
     have hnn : 0 ≤ c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2) := by positivity
