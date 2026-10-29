@@ -38,6 +38,32 @@ theorem cylnorm {V : Set (Fin 2 → ℝ)} {r : ℝ} {w : Phase (2 + 2)}
 
 namespace PlanarAssembly
 
+private theorem cuberoot_inv {c x : ℝ} (hc : 0 < c) (hx : 0 < x) :
+    (c / (c / x ^ 3)) ^ ((3 : ℕ) : ℝ)⁻¹ = x := by
+  rw [div_div_cancel₀ hc.ne']
+  exact Real.pow_rpow_inv_natCast hx.le (by norm_num)
+
+private theorem cube_cuberoot {c y : ℝ} (hc : 0 < c) (hy : 0 < y) :
+    c / ((c / y) ^ ((3 : ℕ) : ℝ)⁻¹) ^ 3 = y := by
+  rw [Real.rpow_inv_natCast_pow (div_pos hc hy).le (by norm_num)]
+  exact div_div_cancel₀ hc.ne'
+
+private theorem cuberoot_mem {c l u w : ℝ} (hc : 0 < c) (hl : 0 < l) (hlu : l < u)
+    (h1 : c / u ^ 3 < w) (h2 : w < c / l ^ 3) :
+    l < (c / w) ^ ((3 : ℕ) : ℝ)⁻¹ ∧ (c / w) ^ ((3 : ℕ) : ℝ)⁻¹ < u := by
+  have hu : 0 < u := hl.trans hlu
+  have hw : 0 < w := (div_pos hc (pow_pos hu 3)).trans h1
+  have e1 : l ^ 3 < c / w := by
+    rw [lt_div_iff₀ hw]; rw [lt_div_iff₀ (pow_pos hl 3)] at h2; linarith
+  have e2 : c / w < u ^ 3 := by
+    rw [div_lt_iff₀ hw]; rw [div_lt_iff₀ (pow_pos hu 3)] at h1; linarith
+  have hp : (0 : ℝ) < ((3 : ℕ) : ℝ)⁻¹ := by norm_num
+  constructor
+  · calc l = (l ^ 3) ^ ((3 : ℕ) : ℝ)⁻¹ := (Real.pow_rpow_inv_natCast hl.le (by norm_num)).symm
+      _ < _ := Real.rpow_lt_rpow (pow_nonneg hl.le 3) e1 hp
+  · calc _ < (u ^ 3) ^ ((3 : ℕ) : ℝ)⁻¹ := Real.rpow_lt_rpow (div_pos hc hw).le e2 hp
+      _ = u := Real.pow_rpow_inv_natCast hu.le (by norm_num)
+
 private theorem analyticAt_cuberoot {c x : ℝ} (hc : 0 < c) (hx : 0 < x) :
     AnalyticAt ℝ (fun y : ℝ => (c / y) ^ ((3 : ℕ) : ℝ)⁻¹) x := by
   have hq : 0 < c / x := div_pos hc hx
@@ -102,7 +128,7 @@ theorem fd_inv (κ : ℝ) (m l u : Fin 2 → ℝ) (hκ : 0 < κ) (hm : ∀ i, 0 
     have hwi : 0 < w i := (div_pos (hc i) (pow_pos ((hl i).trans (hlu i)) 3)).trans
       (hw i (mem_univ i)).1
     exact (analyticAt_cuberoot (hc i) hwi).comp (f := fun v : Fin 2 → ℝ => v i)
-      (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) i).analyticAt
+      ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin 2 => ℝ) i).analyticAt w)
   · intro Λ hΛ
     rw [hfreq Λ hΛ, hg]
     funext i
