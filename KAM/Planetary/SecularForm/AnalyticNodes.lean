@@ -178,9 +178,9 @@ private theorem hasFDerivAt_cell_integral_gen {S E : Type*} [NormedAddCommGroup 
     exact ((hGd t ht).differentiableAt (hU.mem_nhds (hsub hy))).hasFDerivAt
 
 /-- Finite-order differentiation under the cell integral. -/
-private theorem cell_iteratedFDeriv_integral {S : Type*} [NormedAddCommGroup S]
-    [NormedSpace ℝ S] [ProperSpace S] {U : Set S} (hU : IsOpen U)
-    {f : Vec n → S → ℝ} (k : ℕ)
+private theorem cell_iteratedFDeriv_integral {S E : Type*} [NormedAddCommGroup S]
+    [NormedSpace ℝ S] [ProperSpace S] [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
+    {U : Set S} (hU : IsOpen U) {f : Vec n → S → E} (k : ℕ)
     (hCont : ∀ j : ℕ, j ≤ k → ContinuousOn
       (fun z : Vec n × S => iteratedFDeriv ℝ j (f z.1) z.2)
       (cell n ×ˢ U))
@@ -195,12 +195,12 @@ private theorem cell_iteratedFDeriv_integral {S : Type*} [NormedAddCommGroup S]
     induction j with
     | zero =>
       intro _ y _
-      exact ((continuousMultilinearCurryFin0 ℝ S ℝ).symm.toContinuousLinearEquiv
+      exact ((continuousMultilinearCurryFin0 ℝ S E).symm.toContinuousLinearEquiv
         |>.integral_comp_comm (fun t => f t y)).symm
     | succ j ih =>
       intro hj y hy
       have hjk : j ≤ k := (Nat.le_succ j).trans hj
-      let e := continuousMultilinearCurryLeftEquiv ℝ (fun _ : Fin (j + 1) => S) ℝ
+      let e := continuousMultilinearCurryLeftEquiv ℝ (fun _ : Fin (j + 1) => S) E
       have hdiff : ∀ t ∈ cell n, DifferentiableOn ℝ (iteratedFDeriv ℝ j (f t)) U := by
         intro t ht
         have h := (hSmooth t ht).differentiableOn_iteratedFDerivWithin
@@ -221,14 +221,15 @@ private theorem cell_iteratedFDeriv_integral {S : Type*} [NormedAddCommGroup S]
         rw [heq.fderiv_eq]; exact hD.fderiv
       show e.symm (fderiv ℝ (iteratedFDeriv ℝ j (fun y => ∫ t in cell n, f t y)) y) = _
       rw [h1]
-      have : CompleteSpace (S →L[ℝ] S [×j]→L[ℝ] ℝ) := inferInstance
+      have : CompleteSpace (S →L[ℝ] S [×j]→L[ℝ] E) := inferInstance
       exact (LinearIsometry.integral_comp_comm (𝕜 := ℝ) e.symm.toLinearIsometry
         (fun t => fderiv ℝ (iteratedFDeriv ℝ j (f t)) y)).symm
   exact key k le_rfl x hx
 
 /-- Partial derivatives of a jointly smooth function on an open set. -/
-private theorem iteratedFDeriv_slice {S : Type*} [NormedAddCommGroup S] [NormedSpace ℝ S]
-    {W : Set (Vec n × S)} (hW : IsOpen W) {k : ℕ} {F : Vec n × S → ℝ}
+private theorem iteratedFDeriv_slice {S E : Type*} [NormedAddCommGroup S] [NormedSpace ℝ S]
+    [NormedAddCommGroup E] [NormedSpace ℝ E]
+    {W : Set (Vec n × S)} (hW : IsOpen W) {k : ℕ} {F : Vec n × S → E}
     (hF : ContDiffOn ℝ k F W) {t : Vec n} {y : S} (hty : (t, y) ∈ W) (j : ℕ) (hj : j ≤ k) :
     iteratedFDeriv ℝ j (fun y' => F (t, y')) y =
       (iteratedFDeriv ℝ j F (t, y)).compContinuousLinearMap
@@ -392,6 +393,143 @@ theorem perturbation_avg (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
   rw [hI]
   rfl
 
+/-! ### The averaged derivatives at complex slow points -/
+
+open scoped ContDiff
+
+/-- The complexified perturbation is real smooth in the angles and the (complex) slow variables
+on the polydisc. -/
+private theorem contDiffOn_perturbationC (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
+    (hr : r < rho D a)
+    (hsep : ∀ t x, x ∈ polydisc D a r → ∀ i j, i < j →
+      ((a j - a i) ^ 2 / 2) ≤ (separationC D t x i j).re) (b : Bool) :
+    ContDiffOn ℝ ∞ (fun z : Vec n × CSlow n => perturbationC D b z.1 z.2)
+      (univ ×ˢ polydisc D a r) := by
+  have hblock : ∀ i, ContDiff ℝ ∞ (fun z : Vec n × CSlow n => blockC z.1 z.2 i) := by
+    intro i
+    refine ContDiff.prodMk (contDiff_pi.2 fun k => ?_) (contDiff_pi.2 fun k => ?_) <;>
+      fin_cases k <;> simp <;>
+      first | fun_prop | exact Complex.ofRealCLM.contDiff.comp (by fun_prop)
+  have hplanet : ∀ i, ContDiffOn ℝ ∞ (fun z : Vec n × CSlow n => planetC D z.1 z.2 i)
+      (univ ×ˢ polydisc D a r) := by
+    intro i
+    have hΛ := action_pos D ha i
+    obtain ⟨hopen, -, hd, -⟩ := poincare_holomorphic (m := D.m i) (κ := D.G * D.m0)
+      (Λo := action D a i) (D.hm i) (mul_pos D.hG D.hm0) hΛ
+    have hC : ContDiffOn ℝ ∞ (poincareC (D.m i) (D.G * D.m0)) (poincareNbhd (action D a i)) :=
+      ((analyticOnNhd_of_differentiableOn hopen hd).contDiffOn (n := ∞)
+        hopen.uniqueDiffOn).restrict_scalars ℝ
+    exact hC.comp (hblock i).contDiffOn fun z hz => blockC_mem_nbhd D ha hr hz.2 i
+  have hfst : ∀ i c, ContDiffOn ℝ ∞ (fun z : Vec n × CSlow n => (planetC D z.1 z.2 i).1 c)
+      (univ ×ˢ polydisc D a r) := fun i c =>
+    (show ContDiff ℝ ∞ (fun v : (Fin 2 → ℂ) × (Fin 2 → ℂ) => v.1 c) by fun_prop).comp_contDiffOn
+      (hplanet i)
+  have hsnd : ∀ i c, ContDiffOn ℝ ∞ (fun z : Vec n × CSlow n => (planetC D z.1 z.2 i).2 c)
+      (univ ×ˢ polydisc D a r) := fun i c =>
+    (show ContDiff ℝ ∞ (fun v : (Fin 2 → ℂ) × (Fin 2 → ℂ) => v.2 c) by fun_prop).comp_contDiffOn
+      (hplanet i)
+  have hsepC : ∀ i j, ContDiffOn ℝ ∞ (fun z : Vec n × CSlow n => separationC D z.1 z.2 i j)
+      (univ ×ˢ polydisc D a r) := fun i j => by
+    unfold separationC
+    exact ContDiffOn.sum fun c _ => ((hfst i c).sub (hfst j c)).pow 2
+  have hpow : ContDiffOn ℂ ∞ (fun s : ℂ => s ^ (-1 / 2 : ℂ)) Complex.slitPlane :=
+    (differentiableOn_id.cpow_const (c := (-1 / 2 : ℂ)) (fun x hx => hx)).contDiffOn
+      Complex.isOpen_slitPlane
+  unfold perturbationC
+  refine ContDiffOn.add (ContDiffOn.mul contDiffOn_const ?_) ?_
+  · refine ContDiffOn.sum fun i _ => ContDiffOn.sum fun j hj => ?_
+    have hij : i < j := (Finset.mem_filter.1 hj).2
+    refine ContDiffOn.mul contDiffOn_const ?_
+    exact (hpow.restrict_scalars ℝ).comp (hsepC i j) fun z hz =>
+      separationC_slit D ha hsep hz.2 hij
+  · cases b
+    · simpa using contDiffOn_const (c := (0 : ℂ))
+    · simp only [ite_true]
+      refine ContDiffOn.div_const (ContDiffOn.sum fun c _ => ?_) _
+      exact (ContDiffOn.sum fun i _ => hsnd i c).pow 2
+
+/-- Differentiation of the angle integral at complex slow points, with real derivatives. -/
+private theorem iteratedFDeriv_cell_integral_complex (D : Data n) {a : Vec n} (ha : a ∈ axes n)
+    {r : ℝ} (hr0 : 0 < r) (hr : r < rho D a)
+    (hsep : ∀ t x, x ∈ polydisc D a r → ∀ i j, i < j →
+      ((a j - a i) ^ 2 / 2) ≤ (separationC D t x i j).re)
+    (b : Bool) (k : ℕ) {x : CSlow n} (hx : x ∈ polydisc D a r) :
+    iteratedFDeriv ℝ k (fun y : CSlow n => ∫ t in cell n, perturbationC D b t y) x =
+      ∫ t in cell n, iteratedFDeriv ℝ k (perturbationC D b t) x := by
+  have hU : IsOpen (polydisc D a r) := by
+    rw [polydisc_eq_ball D a hr0]; exact Metric.isOpen_ball
+  set W : Set (Vec n × CSlow n) := univ ×ˢ polydisc D a r with hW
+  have hWo : IsOpen W := isOpen_univ.prod hU
+  set F : Vec n × CSlow n → ℂ := fun z => perturbationC D b z.1 z.2 with hF
+  have hFk : ContDiffOn ℝ k F W :=
+    (contDiffOn_perturbationC D ha hr hsep b).of_le (by exact_mod_cast le_top)
+  have hmem : ∀ t : Vec n, ∀ y ∈ polydisc D a r, (t, y) ∈ W := fun t y hy => ⟨mem_univ _, hy⟩
+  have hcontW : ∀ j : ℕ, j ≤ k → ContinuousOn (fun z => iteratedFDeriv ℝ j F z) W := by
+    intro j hj
+    have := hFk.continuousOn_iteratedFDerivWithin (m := j) (by exact_mod_cast hj)
+      hWo.uniqueDiffOn
+    exact this.congr fun z hz => (iteratedFDerivWithin_of_isOpen j hWo hz).symm
+  have hcontj : ∀ j : ℕ, j ≤ k → ContinuousOn
+      (fun z : Vec n × CSlow n => iteratedFDeriv ℝ j (fun y => F (z.1, y)) z.2)
+      (cell n ×ˢ polydisc D a r) := by
+    intro j hj
+    have hLm := (ContinuousMultilinearMap.compContinuousLinearMapL (𝕜 := ℝ) (F := ℂ)
+      (fun _ : Fin j => ContinuousLinearMap.inr ℝ (Vec n) (CSlow n))).continuous
+    refine (hLm.comp_continuousOn (hcontW j hj)).mono ?_ |>.congr ?_
+    · rintro ⟨t, y⟩ ⟨_, hy⟩
+      exact hmem t y hy
+    · rintro ⟨t, y⟩ ⟨_, hy⟩
+      exact iteratedFDeriv_slice hWo hFk (hmem t y hy) j hj
+  exact cell_iteratedFDeriv_integral hU (f := fun t y => F (t, y)) k
+    hcontj (fun t _ => hFk.comp (contDiff_const.prodMk contDiff_id).contDiffOn
+      (fun y hy => hmem t y hy)) hx
+
+/-- `stepP:p8:pa-avg`, complex slow points: `∂^α S = ⟨∂^α f̂⟩` for every order and every point of
+the complex polydisc, with complex derivatives of the holomorphic `secularC` and `perturbationC`. -/
+theorem perturbation_avg_complex (D : Data n) {a : Vec n} (ha : a ∈ axes n) {r : ℝ}
+    (hr0 : 0 < r) (hr : r < rho D a)
+    (hsep : ∀ t x, x ∈ polydisc D a r → ∀ i j, i < j →
+      ((a j - a i) ^ 2 / 2) ≤ (separationC D t x i j).re) (b : Bool) :
+    ∀ k : ℕ, ∀ x ∈ polydisc D a r, iteratedFDeriv ℂ k (secularC D b) x =
+      avg (fun t => iteratedFDeriv ℂ k (perturbationC D b t) x) := by
+  intro k x hx
+  have hU : IsOpen (polydisc D a r) := by
+    rw [polydisc_eq_ball D a hr0]; exact Metric.isOpen_ball
+  obtain ⟨hS, -⟩ := secular_regular D ha hr0 hr hsep b
+  have hSC : ContDiffAt ℂ k (secularC D b) x :=
+    (analyticOnNhd_of_differentiableOn hU hS x hx).contDiffAt
+  have hPC : ∀ t, ContDiffAt ℂ k (perturbationC D b t) x := fun t =>
+    (analyticOnNhd_of_differentiableOn hU
+      (differentiableOn_perturbationC D ha hr hsep hr0 b t) x hx).contDiffAt
+  have hsec : secularC D b = fun y : CSlow n => ((2 * π) ^ (-(n : ℤ)) : ℝ) •
+      ∫ t in cell n, perturbationC D b t y := rfl
+  have hcd : ContDiffAt ℝ k (fun y : CSlow n => ∫ t in cell n, perturbationC D b t y) x := by
+    have h : ContDiffAt ℝ k (fun y : CSlow n =>
+        ((2 * π) ^ (-(n : ℤ)) : ℝ)⁻¹ • secularC D b y) x :=
+      (hSC.restrict_scalars ℝ).const_smul (((2 * π) ^ (-(n : ℤ)) : ℝ)⁻¹)
+    refine h.congr_of_eventuallyEq (Eventually.of_forall fun y => ?_)
+    rw [hsec]; simp
+  have hreal : iteratedFDeriv ℝ k (secularC D b) x =
+      ((2 * π) ^ (-(n : ℤ)) : ℝ) • ∫ t in cell n, iteratedFDeriv ℝ k (perturbationC D b t) x := by
+    rw [hsec]
+    refine (iteratedFDeriv_const_smul_apply
+      (a := ((2 * π) ^ (-(n : ℤ)) : ℝ)) hcd).trans ?_
+    rw [iteratedFDeriv_cell_integral_complex D ha hr0 hr hsep b k hx]
+  let R := ContinuousMultilinearMap.restrictScalarsₗᵢ (𝕜 := ℂ) (𝕜' := ℝ) (ι := Fin k)
+    (E := fun _ => CSlow n) (G := ℂ)
+  have hL : R (iteratedFDeriv ℂ k (secularC D b) x) = iteratedFDeriv ℝ k (secularC D b) x :=
+    hSC.restrictScalars_iteratedFDeriv
+  have hI : ∫ t in cell n, iteratedFDeriv ℝ k (perturbationC D b t) x =
+      R (∫ t in cell n, iteratedFDeriv ℂ k (perturbationC D b t) x) := by
+    have : CompleteSpace (ContinuousMultilinearMap ℝ (fun _ : Fin k => CSlow n) ℂ) :=
+      ContinuousMultilinearMap.completeSpace
+        (.of_seq fun _u x hux => (hux.isVonNBounded_range ℝ).insert x)
+    rw [← LinearIsometry.integral_comp_comm R]
+    exact integral_congr_ae
+      (Eventually.of_forall fun t => (hPC t).restrictScalars_iteratedFDeriv.symm)
+  apply R.injective
+  rw [hL, hreal, hI, avg, map_smul]
+
 /-- `bpP:p8:perturbation-analytic`: the bundle. -/
 theorem perturbation_analytic_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
     ∃ r : ℝ, 0 < r ∧ r < rho D a / 2 ∧
@@ -421,14 +559,18 @@ theorem perturbation_analytic_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) 
       DifferentiableOn ℂ (secularC D b) (polydisc D a r) ∧
       (∀ x ∈ realDisc D a r, secularC D b (inclusion x) = (secular D b x : ℂ)) ∧
       AnalyticOnNhd ℝ (secular D b) (realDisc D a r) ∧
-      ∀ k : ℕ, ∀ x ∈ realDisc D a r, iteratedFDeriv ℝ k (secular D b) x =
+      (∀ k : ℕ, ∀ x ∈ realDisc D a r, iteratedFDeriv ℝ k (secular D b) x =
         avg (fun t => iteratedFDeriv ℝ k
-          (fun y : Slow n => perturbation D b (assemble y.2.1 t y.2.2 y.1)) x) := by
+          (fun y : Slow n => perturbation D b (assemble y.2.1 t y.2.2 y.1)) x)) ∧
+      ∀ k : ℕ, ∀ x ∈ polydisc D a r, iteratedFDeriv ℂ k (secularC D b) x =
+        avg (fun t => iteratedFDeriv ℂ k (perturbationC D b t) x) := by
   obtain ⟨r, hr0, hrh, hsep, hreal⟩ := perturbation_unif D ha
   have hρ := rho_pos D ha
   have hr : r < rho D a := by linarith
   exact ⟨r, hr0, hrh, hsep, hreal, fun b => ⟨perturbation_hol D ha hr0 hr hsep b,
-    perturbation_avg D ha hr0 hr hsep b⟩⟩
+    ⟨(perturbation_avg D ha hr0 hr hsep b).1, (perturbation_avg D ha hr0 hr hsep b).2.1,
+      (perturbation_avg D ha hr0 hr hsep b).2.2.1, (perturbation_avg D ha hr0 hr hsep b).2.2.2,
+      perturbation_avg_complex D ha hr0 hr hsep b⟩⟩⟩
 
 end SecularForm
 end KAM.Planetary
