@@ -362,6 +362,205 @@ theorem slpCharNode_sound (S : Set Ph) (s : List SlpOp) (k : CertKey) :
   obtain ⟨p, h⟩ := slpFinish_sound hv hval _ _ h1 h2
   exact ⟨(List.prefix_append _ _).trans p, h⟩
 
+/-! ### Sums, products, `exp`, `inv` -/
+
+/-- The node of a sum. -/
+def slpAddNode (n : ℕ) (s : List SlpOp) (A B : SlpNode) : List SlpOp × SlpNode :=
+  slpFinish n s.length (fun i => slpCAdd (slpPure (A.get1 i)) (slpPure (B.get1 i)))
+    (fun i j => slpCAdd (slpPure (A.get2 i j)) (slpPure (B.get2 i j)))
+    (s ++ [.add A.v B.v])
+
+theorem slpAddNode_sound {S : Set Ph} (hS : IsOpen S) {f g : Ph → ℂ} (hf : JetSmoothOn S f)
+    (hg : JetSmoothOn S g) {s : List SlpOp} {A B : SlpNode} (hA : A.Sound n S f s)
+    (hB : B.Sound n S g s) :
+    s <+: (slpAddNode n s A B).1 ∧ (slpAddNode n s A B).2.Sound n S (fun z => f z + g z)
+      (slpAddNode n s A B).1 := by
+  have hp : s <+: s ++ [SlpOp.add A.v B.v] := List.prefix_append _ _
+  have hA' := hA.mono hp
+  have hB' := hB.mono hp
+  have hv : s.length < (s ++ [SlpOp.add A.v B.v]).length := by simp
+  have hval : ∀ z : Ph, (Slp.vals n z (s ++ [.add A.v B.v])).getD s.length 0 = f z + g z :=
+    fun z => by rw [Slp.val_snoc_self]; simp only [SlpOp.step]; rw [hA.val z, hB.val z]
+  have h1 : ∀ i < 2 * n, SlpEnt n S (s ++ [.add A.v B.v])
+      (slpCAdd (slpPure (A.get1 i)) (slpPure (B.get1 i)))
+      (jetDeriv (dirVec n i) (fun z => f z + g z)) := fun i hi =>
+    ((SlpEnt.pure (hA'.d1 i hi)).add (SlpEnt.pure (hB'.d1 i hi))).congr
+      (jetDeriv_add hS _ hf hg).symm
+  have h2 : ∀ i < 2 * n, ∀ j < 2 * n, SlpEnt n S (s ++ [.add A.v B.v])
+      (slpCAdd (slpPure (A.get2 i j)) (slpPure (B.get2 i j)))
+      (jetDeriv (dirVec n i) (jetDeriv (dirVec n j) (fun z => f z + g z))) := fun i hi j hj =>
+    ((SlpEnt.pure (hA'.d2 i hi j hj)).add (SlpEnt.pure (hB'.d2 i hi j hj))).congr
+      (jetDeriv2_add hS _ _ hf hg).symm
+  obtain ⟨p, h⟩ := slpFinish_sound hv hval _ _ h1 h2
+  exact ⟨hp.trans p, h⟩
+
+/-- The node of a product. -/
+def slpMulNode (n : ℕ) (s : List SlpOp) (A B : SlpNode) : List SlpOp × SlpNode :=
+  slpFinish n s.length
+    (fun i => slpCAdd (slpCMul (slpPure (A.get1 i)) (slpPure (some B.v)))
+      (slpCMul (slpPure (some A.v)) (slpPure (B.get1 i))))
+    (fun i j => slpCAdd
+      (slpCAdd (slpCMul (slpPure (A.get2 i j)) (slpPure (some B.v)))
+        (slpCMul (slpPure (A.get1 j)) (slpPure (B.get1 i))))
+      (slpCAdd (slpCMul (slpPure (A.get1 i)) (slpPure (B.get1 j)))
+        (slpCMul (slpPure (some A.v)) (slpPure (B.get2 i j)))))
+    (s ++ [.mul A.v B.v])
+
+theorem slpMulNode_sound {S : Set Ph} (hS : IsOpen S) {f g : Ph → ℂ} (hf : JetSmoothOn S f)
+    (hg : JetSmoothOn S g) {s : List SlpOp} {A B : SlpNode} (hA : A.Sound n S f s)
+    (hB : B.Sound n S g s) :
+    s <+: (slpMulNode n s A B).1 ∧ (slpMulNode n s A B).2.Sound n S (fun z => f z * g z)
+      (slpMulNode n s A B).1 := by
+  have hp : s <+: s ++ [SlpOp.mul A.v B.v] := List.prefix_append _ _
+  have hA' := hA.mono hp
+  have hB' := hB.mono hp
+  have hv : s.length < (s ++ [SlpOp.mul A.v B.v]).length := by simp
+  have hval : ∀ z : Ph, (Slp.vals n z (s ++ [.mul A.v B.v])).getD s.length 0 = f z * g z :=
+    fun z => by rw [Slp.val_snoc_self]; simp only [SlpOp.step]; rw [hA.val z, hB.val z]
+  have h1 : ∀ i < 2 * n, SlpEnt n S (s ++ [.mul A.v B.v])
+      (slpCAdd (slpCMul (slpPure (A.get1 i)) (slpPure (some B.v)))
+        (slpCMul (slpPure (some A.v)) (slpPure (B.get1 i))))
+      (jetDeriv (dirVec n i) (fun z => f z * g z)) := fun i hi =>
+    (((SlpEnt.pure (hA'.d1 i hi)).mul (SlpEnt.pure hB'.realizes_v)).add
+      ((SlpEnt.pure hA'.realizes_v).mul (SlpEnt.pure (hB'.d1 i hi)))).congr
+      (jetDeriv_mul hS _ hf hg).symm
+  have h2 : ∀ i < 2 * n, ∀ j < 2 * n, SlpEnt n S (s ++ [.mul A.v B.v])
+      (slpCAdd
+        (slpCAdd (slpCMul (slpPure (A.get2 i j)) (slpPure (some B.v)))
+          (slpCMul (slpPure (A.get1 j)) (slpPure (B.get1 i))))
+        (slpCAdd (slpCMul (slpPure (A.get1 i)) (slpPure (B.get1 j)))
+          (slpCMul (slpPure (some A.v)) (slpPure (B.get2 i j)))))
+      (jetDeriv (dirVec n i) (jetDeriv (dirVec n j) (fun z => f z * g z))) := fun i hi j hj =>
+    ((((SlpEnt.pure (hA'.d2 i hi j hj)).mul (SlpEnt.pure hB'.realizes_v)).add
+      ((SlpEnt.pure (hA'.d1 j hj)).mul (SlpEnt.pure (hB'.d1 i hi)))).add
+      (((SlpEnt.pure (hA'.d1 i hi)).mul (SlpEnt.pure (hB'.d1 j hj))).add
+      ((SlpEnt.pure hA'.realizes_v).mul (SlpEnt.pure (hB'.d2 i hi j hj))))).congr
+      (jetDeriv2_mul hS _ _ hf hg).symm
+  obtain ⟨p, h⟩ := slpFinish_sound hv hval _ _ h1 h2
+  exact ⟨hp.trans p, h⟩
+
+/-- The node of `exp`. -/
+def slpExpNode (n : ℕ) (s : List SlpOp) (A : SlpNode) : List SlpOp × SlpNode :=
+  slpFinish n s.length
+    (fun i => slpCMul (slpPure (some s.length)) (slpPure (A.get1 i)))
+    (fun i j => slpCAdd
+      (slpCMul (slpPure (some s.length)) (slpCMul (slpPure (A.get1 i)) (slpPure (A.get1 j))))
+      (slpCMul (slpPure (some s.length)) (slpPure (A.get2 i j))))
+    (s ++ [.exp A.v])
+
+theorem slpExpNode_sound {S : Set Ph} (hS : IsOpen S) {f : Ph → ℂ} (hf : JetSmoothOn S f)
+    {s : List SlpOp} {A : SlpNode} (hA : A.Sound n S f s) :
+    s <+: (slpExpNode n s A).1 ∧
+      (slpExpNode n s A).2.Sound n S (fun z => Complex.exp (f z)) (slpExpNode n s A).1 := by
+  have hp : s <+: s ++ [SlpOp.exp A.v] := List.prefix_append _ _
+  have hA' := hA.mono hp
+  have hv : s.length < (s ++ [SlpOp.exp A.v]).length := by simp
+  have hval : ∀ z : Ph, (Slp.vals n z (s ++ [.exp A.v])).getD s.length 0 =
+      Complex.exp (f z) := fun z => by rw [Slp.val_snoc_self]; simp only [SlpOp.step]; rw [hA.val z]
+  have hE : Realizes n S (s ++ [.exp A.v]) (some s.length) (fun z => Complex.exp (f z)) :=
+    ⟨by simp [SlotOk], fun z _ => by simpa [slpOv] using hval z⟩
+  have h1 : ∀ i < 2 * n, SlpEnt n S (s ++ [.exp A.v])
+      (slpCMul (slpPure (some s.length)) (slpPure (A.get1 i)))
+      (jetDeriv (dirVec n i) (fun z => Complex.exp (f z))) := fun i hi =>
+    ((SlpEnt.pure hE).mul (SlpEnt.pure (hA'.d1 i hi))).congr (jetDeriv_cexp hS _ hf).symm
+  have h2 : ∀ i < 2 * n, ∀ j < 2 * n, SlpEnt n S (s ++ [.exp A.v])
+      (slpCAdd
+        (slpCMul (slpPure (some s.length)) (slpCMul (slpPure (A.get1 i)) (slpPure (A.get1 j))))
+        (slpCMul (slpPure (some s.length)) (slpPure (A.get2 i j))))
+      (jetDeriv (dirVec n i) (jetDeriv (dirVec n j) (fun z => Complex.exp (f z)))) :=
+    fun i hi j hj =>
+    (((SlpEnt.pure hE).mul ((SlpEnt.pure (hA'.d1 i hi)).mul (SlpEnt.pure (hA'.d1 j hj)))).add
+      ((SlpEnt.pure hE).mul (SlpEnt.pure (hA'.d2 i hi j hj)))).congr
+      (jetDeriv2_cexp hS _ _ hf).symm
+  obtain ⟨p, h⟩ := slpFinish_sound hv hval _ _ h1 h2
+  exact ⟨hp.trans p, h⟩
+
+/-- The derivative tables of `x⁻¹` from the slots `w²` and `w³` (`w = x⁻¹`). -/
+def slpInvTail (n : ℕ) (v : ℕ) (A : SlpNode) (w2 w3 : Option ℕ) (s : List SlpOp) :
+    List SlpOp × SlpNode :=
+  slpFinish n v
+    (fun i => slpCScale (-1) 0 0 (slpCMul (slpPure w2) (slpPure (A.get1 i))))
+    (fun i j => slpCAdd
+      (slpCScale 2 0 0 (slpCMul (slpPure w3) (slpCMul (slpPure (A.get1 i))
+        (slpPure (A.get1 j)))))
+      (slpCScale (-1) 0 0 (slpCMul (slpPure w2) (slpPure (A.get2 i j))))) s
+
+theorem slpConstVal_rat (q : ℚ) : slpConstVal q 0 0 = (q : ℂ) := by
+  simp [slpConstVal]
+
+theorem slpInvTail_sound {S : Set Ph} (hS : IsOpen S) {f : Ph → ℂ} (hf : JetSmoothOn S f)
+    (h0 : ∀ z ∈ S, f z ≠ 0) {s : List SlpOp} {A : SlpNode} (hA : A.Sound n S f s)
+    {v : ℕ} (hv : v < s.length) (hval : ∀ z, (Slp.vals n z s).getD v 0 = (f z)⁻¹)
+    {w2 w3 : Option ℕ} (hw2 : Realizes n S s w2 (fun z => (f z)⁻¹ * (f z)⁻¹))
+    (hw3 : Realizes n S s w3 (fun z => (f z)⁻¹ * ((f z)⁻¹ * (f z)⁻¹))) :
+    s <+: (slpInvTail n v A w2 w3 s).1 ∧
+      (slpInvTail n v A w2 w3 s).2.Sound n S (fun z => (f z)⁻¹) (slpInvTail n v A w2 w3 s).1 := by
+  have h1 : ∀ i < 2 * n, SlpEnt n S s
+      (slpCScale (-1) 0 0 (slpCMul (slpPure w2) (slpPure (A.get1 i))))
+      (jetDeriv (dirVec n i) (fun z => (f z)⁻¹)) := by
+    intro i hi
+    refine (((SlpEnt.pure hw2).mul (SlpEnt.pure (hA.d1 i hi))).scale (-1) 0 0).congr ?_
+    intro z hz
+    rw [jetDeriv_inv hS _ hf h0 hz]
+    beta_reduce
+    rw [slpConstVal_rat]
+    push_cast
+    ring
+  have h2 : ∀ i < 2 * n, ∀ j < 2 * n, SlpEnt n S s
+      (slpCAdd
+        (slpCScale 2 0 0 (slpCMul (slpPure w3) (slpCMul (slpPure (A.get1 i))
+          (slpPure (A.get1 j)))))
+        (slpCScale (-1) 0 0 (slpCMul (slpPure w2) (slpPure (A.get2 i j)))))
+      (jetDeriv (dirVec n i) (jetDeriv (dirVec n j) (fun z => (f z)⁻¹))) := by
+    intro i hi j hj
+    refine ((((SlpEnt.pure hw3).mul ((SlpEnt.pure (hA.d1 i hi)).mul
+      (SlpEnt.pure (hA.d1 j hj)))).scale 2 0 0).add
+      (((SlpEnt.pure hw2).mul (SlpEnt.pure (hA.d2 i hi j hj))).scale (-1) 0 0)).congr ?_
+    intro z hz
+    rw [jetDeriv2_inv hS _ _ hf h0 hz]
+    beta_reduce
+    rw [slpConstVal_rat, slpConstVal_rat]
+    push_cast
+    ring
+  exact slpFinish_sound hv hval _ _ h1 h2
+
+/-- The node of `x ↦ x⁻¹`: the slots `w = x⁻¹`, `w²`, `w³` follow the operand. -/
+def slpInvNode (n : ℕ) (s : List SlpOp) (A : SlpNode) : List SlpOp × SlpNode :=
+  let r1 := slpEmit s (.inv A.v)
+  let r2 := slpMulO r1.1 r1.2 r1.2
+  let r3 := slpMulO r2.1 r1.2 r2.2
+  slpInvTail n s.length A r2.2 r3.2 r3.1
+
+theorem slpInvNode_sound {S : Set Ph} (hS : IsOpen S) {f : Ph → ℂ} (hf : JetSmoothOn S f)
+    (h0 : ∀ z ∈ S, f z ≠ 0) {s : List SlpOp} {A : SlpNode} (hA : A.Sound n S f s) :
+    s <+: (slpInvNode n s A).1 ∧
+      (slpInvNode n s A).2.Sound n S (fun z => (f z)⁻¹) (slpInvNode n s A).1 := by
+  have hp1 : s <+: (slpEmit s (.inv A.v)).1 := slpEmit_prefix _ _
+  have hw : Realizes n S (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+      (fun z => (f z)⁻¹) :=
+    slpEmit_realizes _ _ _ fun z _ => by simp only [SlpOp.step]; rw [hA.val z]
+  obtain ⟨p2, hw2⟩ := slpMulO_spec hw hw
+  obtain ⟨p3, hw3⟩ := slpMulO_spec (hw.mono p2) hw2
+  have hvlt : s.length < (slpEmit s (.inv A.v)).1.length := by simp [slpEmit]
+  have hval : ∀ z : Ph, (Slp.vals n z (slpMulO (slpMulO (slpEmit s (.inv A.v)).1
+      (slpEmit s (.inv A.v)).2 (slpEmit s (.inv A.v)).2).1 (slpEmit s (.inv A.v)).2
+      (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+        (slpEmit s (.inv A.v)).2).2).1).getD s.length 0 = (f z)⁻¹ := by
+    intro z
+    obtain ⟨t, ht⟩ := p2.trans p3
+    rw [← ht, Slp.val_append n z _ t hvlt]
+    show (Slp.vals n z (s ++ [SlpOp.inv A.v])).getD s.length 0 = _
+    rw [Slp.val_snoc_self]
+    simp only [SlpOp.step]
+    rw [hA.val z]
+  have hp : s <+: (slpMulO (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+      (slpEmit s (.inv A.v)).2).1 (slpEmit s (.inv A.v)).2
+      (slpMulO (slpEmit s (.inv A.v)).1 (slpEmit s (.inv A.v)).2
+        (slpEmit s (.inv A.v)).2).2).1 := hp1.trans (p2.trans p3)
+  obtain ⟨p, h⟩ := slpInvTail_sound hS hf h0 (hA.mono hp)
+    (hvlt.trans_le (p2.trans p3).length_le) hval (hw2.mono p3) hw3
+  exact ⟨hp.trans p, h⟩
+
 end KAM.Certificate
 
 end
