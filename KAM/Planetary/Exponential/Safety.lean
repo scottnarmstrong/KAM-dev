@@ -43,15 +43,15 @@ namespace KAM.Planetary
 variable {n : ℕ}
 
 /-- The exponent `a = αₙ` of P-EXP-SAFE is positive. -/
-theorem planetaryTimeExponent_pos (n : ℕ) : 0 < planetaryTimeExponent n := by
+theorem safety_timeExponent_pos (n : ℕ) : 0 < planetaryTimeExponent n := by
   have hn : (0 : ℝ) ≤ n := Nat.cast_nonneg n
   have hden : 0 < 6 * (n : ℝ) ^ 2 - 3 * (n : ℝ) + 14 := by
     nlinarith [sq_nonneg ((n : ℝ) - 1)]
   exact div_pos two_pos hden
 
 /-- The exponent `b = βₙ = 3αₙ/2` of P-EXP-SAFE is positive. -/
-theorem planetaryDriftExponent_pos (n : ℕ) : 0 < planetaryDriftExponent n := by
-  have := planetaryTimeExponent_pos n
+theorem safety_driftExponent_pos (n : ℕ) : 0 < planetaryDriftExponent n := by
+  have := safety_timeExponent_pos n
   unfold planetaryDriftExponent
   positivity
 
@@ -151,8 +151,8 @@ theorem expsafe_of_stopped {n : ℕ} (hn : 2 ≤ n)
   -- `stepP:p14:es-const`: the constants, chosen before `mu` and `z0`.
   obtain ⟨B0, nu0, hB0, hnu0, hnu01, hst⟩ := hstop B hB
   obtain ⟨θ, hθ, hθi, hθA⟩ := amdBox_exists_margin hn B hB
-  have ha := planetaryTimeExponent_pos n
-  have hb := planetaryDriftExponent_pos n
+  have ha := safety_timeExponent_pos n
+  have hb := safety_driftExponent_pos n
   have hB0pos : 0 < B0 := lt_of_lt_of_le one_pos hB0
   have hnpos : (0 : ℝ) < n := by exact_mod_cast (by omega : 0 < n)
   have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
