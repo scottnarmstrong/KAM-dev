@@ -19,7 +19,7 @@ The two instances of the complex Kepler contraction `KeplerData` / `keplerSol`
   (`a = v₀, b = v₁, c = λ`, `bpP:p7:regular-kepler` (b)): the holomorphic solution `keplerLongC`,
   its real points (`keplerLong`), the `2π`-shift, the three derivative formulas and the sharp
   Jacobian bound `1 - cosh 1 / 4 ≤ |J|`;
-* track I's thin tube `keplerTube e₁` around the real eccentricities `[-e₁, e₁]` with
+* the thin tube `keplerTube e₁` around the real eccentricities `[-e₁, e₁]` with
   `a = e, b = 0, c = ℓ` and strip `|Im u| ≤ y₀` (`bpI:p7:kepler-eq`): the holomorphic eccentric
   anomaly `eccAnomC`, its real points (`eccAnom`), the `2π`-shift, `eccAnomC (ℓ, 0) = ℓ` and the
   derivatives `∂_ℓ u`, `∂_e u`.
@@ -306,7 +306,7 @@ theorem regularKepler_jac_bound {x : ℂ × (Fin 2 → ℂ)} (hx : x ∈ regular
   norm_num at this
   linarith
 
-/-! ### Track I's tube (`bpI:p7:kepler-eq`) -/
+/-! ### The thin tube around the real eccentricities (`bpI:p7:kepler-eq`) -/
 
 /-- The constants of `bpI:p7:kepler-eq` for `0 < e₁ < 1`. -/
 def keplerE2 (e₁ : ℝ) : ℝ := (1 + e₁) / 2
@@ -319,7 +319,7 @@ def keplerDeltaE (e₁ : ℝ) : ℝ :=
 def keplerTube (e₁ : ℝ) : Set (ℂ × ℂ) :=
   {x | |x.1.im| < keplerDeltaK e₁ ∧
     Metric.infDist x.2 (Complex.ofReal '' Icc (-e₁) e₁) < keplerDeltaE e₁}
-/-- Track I's holomorphic `u(ℓ, e)`. -/
+/-- The holomorphic eccentric anomaly `u(ℓ, e)`. -/
 def eccAnomC (e₁ : ℝ) (x : ℂ × ℂ) : ℂ := keplerSol (keplerY0 e₁) x.2 0 x.1
 
 namespace Tube
@@ -422,7 +422,7 @@ theorem tube_bounds {x : ℂ × ℂ} (h0 : 0 < e₁) (hx : x ∈ keplerTube e₁
   rw [← this]
   exact (Complex.abs_im_le_norm _).trans hd.le
 
-/-- The contraction data of track I's tube: strip `|Im u| ≤ y₀`, constant `θ`. -/
+/-- The contraction data of the thin tube: strip `|Im u| ≤ y₀`, constant `θ`. -/
 theorem keplerData_tube (h0 : 0 < e₁) (h1 : e₁ < 1) :
     KeplerData (keplerTube e₁) (fun x : ℂ × ℂ => x.2) (fun _ => (0 : ℂ)) (fun x => x.1)
       (keplerY0 e₁) (keplerTheta e₁) where

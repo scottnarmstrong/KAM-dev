@@ -17,7 +17,7 @@ public import KAM.Kepler.DelaunaySymplectic
 /-!
 # The Delaunay chart
 
-`bpI:p7:chart` (KEP-7): the Delaunay map `delaunay` is `2π`-periodic in the angles, injective
+`bpI:p7:chart`: the Delaunay map `delaunay` is `2π`-periodic in the angles, injective
 modulo the lattice `(2πℤ)² × {0}` on `deDom`, onto the Kepler region `keplerRegion`, and a local
 analytic diffeomorphism at every point of `deDom` (the quotient diffeomorphism of the blueprint,
 stated without a quotient type).
