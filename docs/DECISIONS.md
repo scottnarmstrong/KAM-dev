@@ -247,3 +247,6 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - `bpP:p11:sec-D#data`, `bpP:p11:sec-E#data`: choose-or-default records accepted under their proved local specification
     guards; the missing source objects (the exact shell of sec-D, the complex pullback identifications of sec-E) are
     formalized before these two nodes close (package P-SEC).
+  - *(Addendum 2026-10-29, 16:58; Scott, recommended option.)* `bpN:p0:avg-totality` (the averaging remark: attained
+    sup, nonempty compact interval, ω_h of class C²) is treated like `bpP:p0:totality`: a reviewed convention recorded as
+    ASSUMED, enforced by guard proofs at each consumer (mean_family, Averaging/Mean.lean).
