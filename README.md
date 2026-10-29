@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 14:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **248,689 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 14:21 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion 92.8 %** · frozen statements proved: 20 / 22 · **248,689 lines of Lean** of an estimated ≈ 274,000
 <!-- /AUTO:updated -->
 
 ## Overview
@@ -135,7 +135,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 14:20 UTC from `main` at `bfdb53ca` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 14:21 UTC from `main` at `e429c950` by `scripts/hq-status.py`.*
 
 **Current phase:** Tracks K and I complete. Track P: every frozen theorem sealed except planetaryExponentialSafety, which needs lane N. Lane N (track N and its P dependencies) is paused and handed to Zohar's team. New track SO (D30, 2026-10-29): a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -154,6 +154,7 @@ SEALED: 20 / 22 (kam.aposteriori_kam.v1, kam.kam_positive_measure.v1, kam.kam_po
 
 - **Lean on `main`:** 19 modules · 3,970 lines · 223 theorems in `KAM/Certificate` and `KAM/SpinOrbit` (design estimate ≈ 18,500 lines, 21,500–23,000 with overrun)
 - **Packages landed: 10 / 33** (SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF, SO-MINV, SO-FREQ)
+- **Now:** proving — · in audit SO-GRAPHM
 - **Gates:** design of the general checker: Revision 4 in its fourth audit (rounds 1–3 closed F1–F9; F10, the range-reduced complex exponential, repaired in Revision 4). Kernel replay gate: naive sparse products are infeasible at the lunar scale (~2.3 ms per coefficient pair in the kernel); sharded products checked against supplied advice are being measured (SO-REPLAY2); a study of sharper KAM constants is running. Post-gate packages wait for both.
 <!-- /AUTO:glance -->
 
@@ -310,16 +311,13 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **zohar** | collaborator | — | GitHub zkomargo | 🔄 active | Co-author. Fourier and Diophantine infrastructure (KAM/Fourier, KAM/Diophantine); packages on docs/campaign/PACKAGES.md | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **socexp** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-CEXP: range-reduced certified complex exponential | `inp-socexp` | 1 (vs `inp`) |
 | **sodio3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DIO3: cubic Diophantine frequency (cbrt 2) | `inp-sodio3` | 1 (vs `inp`) |
-| **soexpr** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-EXPR-A: wrap docstring line | `inp-soexpr` | 2 (vs `inp`) |
-| **soexprb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EXPR-B1: Expr/Diff (slpCompile, HamExpr.jet, jet_v0/d1/d2) | `inp-soexprb` | 9 (vs `inp`) |
-| **sographm** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: SO-GRAPHM: round-2 audit request | `inp-sographm` | 7 (vs `inp`) |
-| **sohamx** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-HAMX: SpinOrbit/HamExpr (soHamExpr, eval = soHC, clock derivative) | `inp-sohamx` | 3 (vs `inp`) |
+| **soexprb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EXPR-B1: Expr/Diff (slpCompile, HamExpr.jet, jet_v0/d1/d2) | `inp-soexprb` | 7 (vs `inp`) |
+| **sographm** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-GRAPHM: round-2 audit request | `inp-sographm` | 7 (vs `inp`) |
+| **sohamx** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-HAMX: SpinOrbit/HamExpr (soHamExpr, eval = soHC, clock derivative) | `inp-sohamx` | 1 (vs `inp`) |
 | **sonorm** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-NORM: norms on C^n x C^n from partial derivatives | `inp-sonorm` | 3 (vs `inp`) |
-| **sorat** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-RAT: exact rational CertArith backend with kernel examples | `inp-sorat` | 1 (vs `inp`) |
 | **soreplay** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-REPLAY2: shift-based packing, slot bounds, tiny replay instances | `inp-soreplay` | 6 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
@@ -330,6 +328,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 14:21 | `e429c950` | Track SO: replay gate GO (SO-REPLAY, SO-REPLAY2 reports), constants study, owner ruling O5 (rotated lunar frame) |
 | 2026-10-29 12:40 | `01476ebc` | Land inp into main |
 | 2026-10-29 12:38 | `fd3981b0` | HQ: track SO block in the README glance (live size, packages landed/planned, packages in flight, gates); SO and SpinOrbit areas; OVERNIGHT 11:55-12:35 |
 | 2026-10-29 12:34 | `768b97be` | Land inp into main |
@@ -341,7 +340,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 11:39 | `c5f43114` | Land inp into main |
 | 2026-10-29 11:33 | `754884da` | Land inp into main |
 | 2026-10-29 11:30 | `ae785b2c` | Land inp into main |
-| 2026-10-29 11:20 | `d21178dd` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
