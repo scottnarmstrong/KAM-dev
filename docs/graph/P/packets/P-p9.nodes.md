@@ -1210,9 +1210,9 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-c@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 ruling 06:30: parent stepP:p9:gs-c is PROVED via the analytic route (good_uniform_nonresonance)
 NOTE: SOURCE_GAP: L183 asserts continuity of roots as one alternative. No admitted external or imported source contract in this packet supplies that general theorem. This branch records the asserted bridge; the analytic-route is the explicitly supplied alternative.
 
 NODE: stepP:p9:gs-c#analytic-route
@@ -1239,7 +1239,7 @@ EDGE: bpP:p9:good | blueprint-P/parts/p9-secular-spectrum.tex#stepP:p9:gs-c@L183
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-k
 REVIEWER: sol-delta-P-k
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: good_uniform_nonresonance (KAM/Planetary/SecularSpectrum/GoodSetNodes.lean); min_mode_continuous_positive (KAM/Planetary/Nondegeneracy/Interface.lean)
+LEAN_NOTE: route taken (ruling 06:30, D27): continuity of the minimal mode comes from sorted_analytic (local analytic eigenvalue branches)
 NOTE: The analytic eigenvalue branches are local on the simple-spectrum good set. Finiteness of K_4 and compactness give a positive minimum; no global eigenvector frame is assumed.

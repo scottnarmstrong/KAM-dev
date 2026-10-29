@@ -1744,9 +1744,9 @@ EDGE: bpP:p7:conv#data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po-el
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-i
 REVIEWER: sol-delta-P-i
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: D27 ruling 06:30: parent stepP:p7:po-el#circular is PROVED via the direct route (po_el_circular)
 NOTE: covers only the scalar circular identities; the parent separately treats the LRL identity at L158-L159
 
 NODE: stepP:p7:po-el#circular-direct
@@ -1774,7 +1774,7 @@ EDGE: bpP:p7:poincare-def | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:po
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: po_el_circular (KAM/Planetary/Poincare/ChartNodes.lean); poincare_elements (KAM/Planetary/Poincare/Symplectic.lean)
+LEAN_NOTE: route taken (ruling 06:30, D27): parent po-el#circular proves the scalars by direct computation via poincare_elements/poincare_facts on the Poincare formula, not via the scaled track-I endpoint
 NOTE: covers only the scalar circular identities; the parent separately treats the LRL identity at L158-L159
