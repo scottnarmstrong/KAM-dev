@@ -14,7 +14,8 @@ public import KAM.Planetary.Preparation.RectangularAverage
 # Slow averaging: application of the rectangular averaging lemma (P11A-P7c, `as-concl`)
 
 `p11_slow_conclude` applies `aniso_avg` with `a = b = n`, center the secular center, `r₁ = s₂`,
-`r₂ = π ε`, `T = K₂`, `α₁ = (γ/4) K₂^{-τ}`, `α₂ = ε α₁` and `E₀ = c₀ ε^{5/2} ℓ^{2τ+1}` (`ℓ = log (1/ε)`)
+`r₂ = π ε`, `T = K₂`, `α₁ = (γ/4) K₂^{-τ}`, `α₂ = ε α₁` and
+`E₀ = c₀ ε^{5/2} ℓ^{2τ+1}` (`ℓ = log (1/ε)`)
 and repackages the conclusion into clauses 9-28 of `P11SlowSpecOf`, with the constants
 `c ≥ c₀, …` of the spec as explicit lower bounds (so that the constants of `g₂` and of the
 displacements do not depend on `c`). The inputs `h₀, f₂` are parametric in the P7b outputs.

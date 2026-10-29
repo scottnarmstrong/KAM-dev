@@ -156,8 +156,8 @@ theorem slow_b2_eventually (c0 : ℝ) (ha : 0 < a) (hγ : 0 < γ) (hτ : 0 ≤ �
       = c0 * (eps ^ (1 / 2 : ℝ) * (l ^ (2 * τ + 1) * ((a * l) ^ τ * (a * l)))) := by ring
     _ = c0 * a ^ (τ + 1) * (eps ^ (1 / 2 : ℝ) * l ^ (3 * τ + 2)) := by rw [hpow]; ring
     _ ≤ |c0| * a ^ (τ + 1) * (eps ^ (1 / 2 : ℝ) * l ^ (3 * τ + 2)) := by
-        refine mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right (le_abs_self c0) (by positivity))
-          (by positivity)
+        refine mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_right (le_abs_self c0) (by positivity)) (by positivity)
     _ ≤ γ * Real.pi / 512 := h1.le
 
 end Rates

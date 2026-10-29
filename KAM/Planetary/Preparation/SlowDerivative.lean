@@ -143,7 +143,8 @@ theorem p11_slow_dotC_split {C : P11SecularData n} {Z h0 : P11CVec (n+n) → ℂ
       fun i => fderiv ℂ C.h (fun i : Fin n => I (Fin.castAdd n i)) (Pi.single i 1))
     (k : Fin (n+n) → ℤ) :
     p11dotC k (fun i => fderiv ℂ h0 I (Pi.single i 1)) =
-      p11dotC (fun i : Fin n => k (Fin.castAdd n i)) (C.omega (fun i : Fin n => I (Fin.castAdd n i)))+
+      p11dotC (fun i : Fin n => k (Fin.castAdd n i))
+        (C.omega (fun i : Fin n => I (Fin.castAdd n i)))+
         eps*p11dotC k (fun i => fderiv ℂ (p11SlowW C Z) I (Pi.single i 1)) := by
   have hd : ∀ e, fderiv ℂ h0 I e = fderiv ℂ C.h (fun i : Fin n => I (Fin.castAdd n i))
       (p11Jproj n e)+eps*fderiv ℂ (p11SlowW C Z) I e := by
@@ -188,7 +189,8 @@ theorem p11_scalar_step_bound {U : Set (P11CVec N)} (hU : IsOpen U) {W : P11CVec
       have := hM y hy'
       refine (pi_norm_le_iff_of_nonneg ((norm_nonneg _).trans this)).2 fun _ => this)
     1 I (by simp) (fun j _ => by simp [hR.le])
-  have hdi : DifferentiableAt ℂ W I := hW.differentiableAt (hU.mem_nhds (hcl (mem_closedBall_self hR.le)))
+  have hdi : DifferentiableAt ℂ W I :=
+    hW.differentiableAt (hU.mem_nhds (hcl (mem_closedBall_self hR.le)))
   have hf : fderiv ℂ (fun x : P11CVec N => (fun _ : Fin 1 => W x)) I (Pi.single i 1) =
       fun _ => fderiv ℂ W I (Pi.single i 1) := by
     rw [fderiv_pi (fun _ => hdi)]

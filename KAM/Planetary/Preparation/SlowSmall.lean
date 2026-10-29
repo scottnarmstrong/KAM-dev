@@ -115,7 +115,8 @@ theorem small_arith_cz {t l a u γ eps c ce η : ℝ} (ht : 1 ≤ t) (hl : 1 ≤
     a * l * (c * (eps + η)) ≤ γ * (u * t)⁻¹ / 8 := by
   have ht0 : 0 < t := by linarith
   have hl0 : 0 < l := by linarith
-  have h1 : 1 ≤ t ^ 2 * l := by nlinarith [pow_le_pow_left₀ zero_le_one ht 2, one_le_pow₀ ht (n := 2)]
+  have h1 : 1 ≤ t ^ 2 * l := by
+    nlinarith [pow_le_pow_left₀ zero_le_one ht 2, one_le_pow₀ ht (n := 2)]
   have h2 : eps ≤ eps * (t ^ 2 * l) := by nlinarith
   have h3 : eps + η ≤ (1 + ce) * (eps * (t ^ 2 * l)) := by nlinarith
   have h4 : a * l * (c * (eps + η)) ≤ a * l * (c * ((1 + ce) * (eps * (t ^ 2 * l)))) :=
@@ -311,6 +312,20 @@ theorem slow_R_eventually (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) 
         _ ≤ _ := min_le_right _ _
   · refine le_trans (le_of_eq ?_) h3
     ring
+
+/-- Positivity and the elementary smallness: `ε M ≤ e⁻¹`, `ε ≤ e⁻¹`, `3 ε ≤ r_z²/32`. -/
+theorem slow_base_eventually (hC : P11SecularSpec D C) :
+    ∀ᶠ eps : ℝ in nhdsWithin 0 (Ioi 0), 0 < eps ∧ eps * C.MF ≤ Real.exp (-1) ∧
+      eps ≤ Real.exp (-1) ∧ 3 * eps ≤ C.rz ^ 2 / 32 := by
+  obtain ⟨-, -, -, -, -, -, -, hrz0, -, hMF⟩ := fast_consts hC
+  have hM0 : 0 < C.MF := by linarith
+  filter_upwards [Ioo_mem_nhdsGT (lt_min (div_pos (Real.exp_pos (-1)) hM0)
+    (by positivity : 0 < C.rz ^ 2 / 96))] with eps h
+  obtain ⟨heps, hlt⟩ := h
+  have h1 : eps < Real.exp (-1) / C.MF := lt_of_lt_of_le hlt (min_le_left _ _)
+  have h2 : eps < C.rz ^ 2 / 96 := lt_of_lt_of_le hlt (min_le_right _ _)
+  rw [lt_div_iff₀ hM0] at h1
+  exact ⟨heps, h1.le, le_trans (by nlinarith) h1.le, by linarith⟩
 
 end Small
 

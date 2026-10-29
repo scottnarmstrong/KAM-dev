@@ -336,7 +336,8 @@ theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
   have hWd := slowW_differentiableOn hC hZd
   have hWat : DifferentiableAt ℂ (p11SlowW C Z) I :=
     hWd.differentiableAt ((p11SlowZDom_isOpen C eps).mem_nhds hIZ)
-  have hZat : DifferentiableAt ℂ Z I := hZd.differentiableAt ((p11SlowZDom_isOpen C eps).mem_nhds hIZ)
+  have hZat : DifferentiableAt ℂ Z I :=
+    hZd.differentiableAt ((p11SlowZDom_isOpen C eps).mem_nhds hIZ)
   have hhat : DifferentiableAt ℂ C.h J := hhd.differentiableAt (isOpen_ball.mem_nhds hJball)
   have hCat : DifferentiableAt ℂ C.C J :=
     (p11C_differentiableOn hC).differentiableAt (isOpen_ball.mem_nhds hJball)
@@ -457,6 +458,29 @@ theorem p11_slow_divisor {D : P11Physical n} {C : P11SecularData n} (hC : P11Sec
       have : 3 / 4 * C.gamma * K ^ (-C.tau) = 3 / 4 * δ0 := by rw [hδ0, mul_assoc]
       rw [← this]; exact hfd
     linarith
+
+theorem p11PartialVec_zero {m : ℕ} (f : P11CVec n → P11CVec m) :
+    p11PartialVec (0 : Fin n → ℕ) f = f := by
+  simp [p11PartialVec]
+
+/-- Clause 6 of `P11SlowSpecOf` for `α = 0` is the hypothesis `hdZ` of `p11_slow_divisor`. -/
+theorem p11_drho_of_clause6 {C : P11SecularData n} {Z : P11CVec (n+n) → ℂ} {c eps : ℝ}
+    (h6 : ∀ alpha : Fin n → ℕ, ∀ J, ‖J-KAM.realInclusion n C.J0‖ < p11s1 C eps/4 →
+      ∀ rho : P11CVec n, ‖rho-(fun _ => (2*Real.pi*eps : ℂ))‖ < Real.pi*eps →
+        ‖p11PartialVec alpha
+          (fun J => fun i : Fin n =>
+            fderiv ℂ (fun rho : P11CVec n => Z (Fin.append J rho)) rho (Pi.single i 1)) J‖ ≤
+          c*(eps+p11eta1 C eps)*(∏ i, ((alpha i).factorial : ℝ))*(4/p11s1 C eps)^(∑ i, alpha i)) :
+    ∀ J : P11CVec n, ‖J-KAM.realInclusion n C.J0‖ < p11s1 C eps/4 →
+      ∀ rho : P11CVec n, ‖rho-(fun _ => (2*Real.pi*eps : ℂ))‖ < Real.pi*eps → ∀ i : Fin n,
+        ‖fderiv ℂ (fun rho : P11CVec n => Z (Fin.append J rho)) rho (Pi.single i 1)‖ ≤
+          c*(eps+p11eta1 C eps) := by
+  intro J hJ rho hρ i
+  have h := h6 0 J hJ rho hρ
+  rw [p11PartialVec_zero] at h
+  simp only [Pi.zero_apply, Nat.factorial_zero, Nat.cast_one, Finset.prod_const_one, mul_one,
+    Finset.sum_const_zero, pow_zero] at h
+  exact (norm_le_pi_norm _ i).trans h
 
 end SlowDivisor
 
