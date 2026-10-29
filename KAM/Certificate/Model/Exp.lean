@@ -24,8 +24,11 @@ bounds `r_j ≥ sup_{T_ρ} |∂_j E - (∂_j g₀) E|`, the radius
   count and order (`none` ⇒ the witness fails); `ε₀` bounds `|E(0) - out.1| + out.2` with the
   rounding of `E(0)` and of the subtraction (`expWitnessRadius_pin`). No smallness of `g₀(0)`
   is assumed.
-* The residual of direction `j` is the model `∂_j E + (∂_j g₀)(-E)` (one advice-checked product,
-  key `[1, j]`), bounded by `(2π)^deg (|P|_w + rad)`.
+* The residual of direction `j` (`expResidualUp`): the terms of `∂_j E / 2π` merged with the
+  product terms of `(∂_j g₀ / 2π)(-E)` (one advice-checked product, key `[1, j]`; the direct
+  product if the advice is missing or fails), bounded in one weighted pass
+  `Σ (|c_k| + e_k) w^{|k|₁}`, plus the product error and the rounding of `∂_j g₀` times
+  `|E|_w` (computed once for all directions), times an upper bound of `2π`.
 
 The proof: `F = E exp(-g₀)` is periodic, `|∂_j F| ≤ exp(B) r_j` on the strip, every point of the
 strip is an integer translate of a point `θ'` with `|θ'_j| ≤ 1/2 + ρ`, so the mean value

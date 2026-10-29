@@ -13,8 +13,7 @@ public import KAM.Certificate.Model.Ops
 * `CertBall.listSum`: a balanced sum of complex balls (64 rounds of pairwise `CertBall.plus`,
   then a fold of what remains), so the kernel never walks a long accumulator chain;
   `CertPoly.coeffSumBall P` encloses `P(0) = Σ_k c_k` (`CertPoly.mem_coeffSumBall`).
-* `CertPoly.negP` (exact negation) and `CertModel.supUp`, the sup bound
-  `(2π)^deg (|P|_w + rad)` with the balanced weighted norm `supNormUp`.
+* `CC.negC`, `CertPoly.negP`: exact negation; `CertModel.mul_deg`.
 * `expm1Up s N x`: a backend upper bound of `exp x - 1` for `x ≥ 0`, by `s` halvings, the Taylor
   bound of order `N` (`Real.exp_bound'`) and `s` steps `z ↦ z (2 + z)` (that is
   `(1 + z)² - 1`), all rounded upward; `none` if the halved argument exceeds `1` or `N = 0`.
@@ -62,10 +61,6 @@ def CC.negC (c : CC α) : CC α := ⟨neg c.re, neg c.im⟩
 /-- Exact negation of a polynomial. -/
 def CertPoly.negP (P : CertPoly α) : CertPoly α :=
   ⟨P.terms.map fun t => (t.1, CC.negC t.2)⟩
-
-/-- The sup bound `(2π)^deg (|P|_w + rad)` of a model (`supNormUp`, upper `(2π)^deg`). -/
-def CertModel.supUp (W : CertWeight) (m : CertModel α) : α :=
-  upMul (ofRatUp (degFactorUp m.deg)) (upAdd (m.poly.supNormUp W) m.rad)
 
 /-- The sum of the centres of a list of balls. -/
 def ballCentreSum (L : List (CertBall α)) : ℂ := (L.map fun b => b.c.toC).sum
@@ -187,39 +182,6 @@ theorem CertModel.mul_deg (W : CertWeight) (cfg : ModelConfig α) (key : Product
     (a b : CertModel α) : (CertModel.mul W cfg key a b).deg = a.deg + b.deg := by
   unfold CertModel.mul
   split <;> rfl
-
-/-- The sup bound of an enclosed function (balanced weighted norm). -/
-theorem CertModel.norm_le_supUp {n : ℕ} {W : CertWeight} {s N : ℕ}
-    (hW : checkWeight W s N = true) {m : CertModel α} {f : (Fin n → ℂ) → ℂ}
-    (hm : m.Encloses n W.rho f) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho) :
-    ‖f θ‖ ≤ val (m.supUp W) := by
-  have hρ := CertWeight.rho_pos hW
-  have h2pi : (0 : ℝ) < (2 * Real.pi) ^ m.deg := by positivity
-  have hrad := hm.rad_nonneg hρ
-  have hS := m.poly.norm_eval_le_supNormUp hW hθ
-  have hS0 := m.poly.supNormUp_nonneg hW
-  have hadd := LawfulCertArith.upAdd_ge (m.poly.supNormUp W) m.rad
-  have hF : (0 : ℝ) ≤ (degFactorUp m.deg : ℝ) := h2pi.le.trans (two_pi_zpow_le _)
-  have hF' := LawfulCertArith.ofRatUp_ge (α := α) (degFactorUp m.deg)
-  have hmul := LawfulCertArith.upMul_ge (ofRatUp (degFactorUp m.deg))
-    (upAdd (m.poly.supNormUp W) m.rad) (hF.trans hF') (by linarith)
-  have hX : ‖(2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ‖ ≤
-      (2 * Real.pi) ^ m.deg * val (m.poly.supNormUp W) := by
-    rw [norm_mul, norm_two_pi_zpow]
-    exact mul_le_mul_of_nonneg_left hS h2pi.le
-  have hsub := hm θ hθ
-  have hle : ‖f θ‖ ≤ ‖f θ - (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ‖ +
-      ‖(2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ‖ := by
-    simpa using norm_add_le (f θ - (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ)
-      ((2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ)
-  have hpos : 0 ≤ val (upAdd (m.poly.supNormUp W) m.rad) := by linarith
-  calc ‖f θ‖ ≤ (2 * Real.pi) ^ m.deg * (val (m.poly.supNormUp W) + val m.rad) := by
-        nlinarith
-    _ ≤ (degFactorUp m.deg : ℝ) * val (upAdd (m.poly.supNormUp W) m.rad) :=
-        mul_le_mul (two_pi_zpow_le _) hadd (by linarith) hF
-    _ ≤ val (ofRatUp (degFactorUp m.deg) : α) * val (upAdd (m.poly.supNormUp W) m.rad) :=
-        mul_le_mul_of_nonneg_right hF' hpos
-    _ ≤ val (m.supUp W) := hmul
 
 end BallSum
 
