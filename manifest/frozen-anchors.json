@@ -3762,7 +3762,7 @@
     "module": "KAM.Provider.Planetary.ProperlyDegenerateKAM",
     "export": "KAM.Provider.Planetary.properlyDegenerateKAM"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "72d988c639e071fbc7f90f51d99ba4e47a88e6493a9d16389723c3474ec54c43",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
@@ -8177,7 +8177,7 @@
     "module": "KAM.Provider.Planetary.SecularBoxSafety",
     "export": "KAM.Provider.Planetary.secularBoxSafety"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "6445b11570819fd687a2e8db3af83c9acebfbd671e0bdacd16a6d5e732ce781a",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {
@@ -8348,7 +8348,7 @@
     "module": "KAM.Provider.Planetary.SecularBoxAtCitedMasses",
     "export": "KAM.Provider.Planetary.secularBoxAtCitedMasses"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "1f88b36b848e2c759d316a452eb34e3eb0c78e42ab7dc900a46860cc9ff0a2f0",
    "suffix_sha256": "07466f17ee232d164cac7cefa7bd845d2b646f9df4393c885c76678df8ec4475",
    "draft_allowlist": {

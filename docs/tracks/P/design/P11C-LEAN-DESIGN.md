@@ -155,12 +155,17 @@ Proof-step rows name a local proof fragment in the listed theorem/package, not a
 - No `sSup` of an unbounded family is used in a theorem without its validity conditions. The only scalar suprema in numerical definitions are finite derivative-index maxima or compactly controlled sets. The cutoff uses the source's normalized polynomial bump, including `0^0=1`.
 - The finite-type input uses an attained diagonal direction on a Euclidean unit sphere: equivalent to beta ≤ the maximum on that sphere, because N≥1, compactness and continuity hold. At order zero the derivative is independent of the direction. The top M bound quantifies **independent** unit directions; M0 quantifies the diagonal norm. These cannot be interchanged.
 - Source real sup bounds are written pointwise; real measure subtractions are written `volume K ≤ volume H + ofReal epsLoss` (compact sets have finite measure). Bounds on images use ENNReal throughout; no `toReal` of infinite volume occurs.
-- K1–K4 are bundled as an output structure. K5 is `budget` together with `qb_poly`, K6 is `displacement_power_flat`; these data-only results precede the assembly. They are not hypotheses of the KAM theorem. Borel cell image, compact closed-cell representatives, equivariance and injectivity give the source compact quotient and disjoint embedded torus statements without building a second torus predicate or an explicit quotient manifold.
+- K1–K4 are bundled as an output structure. K5 is `p11c_budget` (renamed from `budget`, see note) together with `qb_poly`, K6 is `displacement_power_flat`; these data-only results precede the assembly. They are not hypotheses of the KAM theorem. Borel cell image, compact closed-cell representatives, equivariance and injectivity give the source compact quotient and disjoint embedded torus statements without building a second torus predicate or an explicit quotient manifold.
 - The generic real-flow bridges strengthen the usable infrastructure, without changing any p11b premise. The source's simply-connected O_a is dropped only after proving the explicit **global** eigenframe on A2. `birkhoff_form` accepts any given good open axis neighbourhood Oa of the cube and produces O' with compact closure inside its action image. The slow radius and remainder constant are chosen before Oa, so they depend only on the physical data and the compact cube. Only simply-connectedness is dropped: the explicit global frame makes the stronger statement true. Its concrete quartic F, chi and T are still exhibited.
 - `PlanarBirkhoffResult` exhibits **the same T** for both actual perturbations, with `T = rotationLift ∘ liftFlow chi`, action preservation, angle translation covariance, injectivity, symplecticity and image in the actual analytic physical domain. Total physical formulas supply a legitimate extension outside the tube. No conclusion about global analyticity outside that tube is claimed. Source radii rhoK,r1,r2 are proof-local choices; take their positive minimum and shrink as specified below.
 - In `lie`, the slow-independent C is arbitrary rather than assumed analytic. It cancels from the displayed estimate and its slow Poisson bracket is zero; this strictly stronger helper statement is true without that unused regularity premise. The Hamiltonian's slow-dependent terms retain the exact analytic and jet hypotheses.
 - The full `patch` conclusion includes `PlanarFrequencyPatch`, not only a nonzero determinant. Its index is positive, its amount is independent of coupling, and all mu≥mu0 are covered. R-nondegeneracy of the separate frequency blocks follows by padding a nonzero coefficient vector with zeros in the combined-frequency clause. The source's stability invocation consumes the already delivered U10 stability theorem with this positive amount; it is not assumed as a new property of the physical system.
 - The statement `hasSecularBirkhoffForm_of_sixth_order` is deliberately conditional and separately named. Its hypotheses are proved within `birkhoff_form` from actual transformed averages. For p_j²+q_j²<r0², `|z|₂²<2r0²≤r*²`. Choose delta≤r0 and delta²≤eps/(64C); `|z|₂≤2‖(p,q)‖∞` gives `C|z|₂⁶≤64C‖(p,q)‖∞⁶≤eps‖(p,q)‖∞⁴`. Symmetry is a separate output for P-G, never a clause silently inserted into the frozen predicate.
+
+**Rename note (2026-10-28, sub-orchestrator decision under D29, found at merge).** The P11C signed theorem K5 is
+`KAM.Planetary.p11c_budget`, not `budget`: P45's P5-BU signed `KAM.Planetary.budget` (PGAssembly/ActionBudget) is
+already on inp, and the root import cannot contain both. Same pattern as `amd_closure`, `pg_avg`, `ext_flow`; statement
+unchanged; no alias. `.drafts/design/P11CSignatures.lean` should carry the same rename.
 
 ## 6. Source gaps, blueprint issues and errata
 
@@ -262,7 +267,7 @@ T18/T19: small-alpha negative Delta_Q permits the projector bounds. Do not repla
 
 No frozen theorem is closed here, so **no provider file is proposed**. In particular this document must not be counted as P-G, P-PLANAR or P-FIXED proof closure.
 
-Part 12 takes `patch`, then `birkhoff_form` on its chosen cube; specializes `r0=r*/2`, uses `HasSecularBirkhoffForm` verbatim for the actual pullback perturbation, `beta_properties` for symmetry and `remain` for a positive uniform determinant lower bound. Its own remaining tasks are joint holomorphic extension near the closed cylinder, hperiod, fast diffeomorphism, boundary collar and exact P-G provider assembly. Part 13 takes `weak_kam_quantitative`, `budget`, `displacement_power_flat`, `physical_interface` and its own physical chart transport. No Part-13 Hamiltonian hypothesis is replaced by the KAM output.
+Part 12 takes `patch`, then `birkhoff_form` on its chosen cube; specializes `r0=r*/2`, uses `HasSecularBirkhoffForm` verbatim for the actual pullback perturbation, `beta_properties` for symmetry and `remain` for a positive uniform determinant lower bound. Its own remaining tasks are joint holomorphic extension near the closed cylinder, hperiod, fast diffeomorphism, boundary collar and exact P-G provider assembly. Part 13 takes `weak_kam_quantitative`, `p11c_budget`, `displacement_power_flat`, `physical_interface` and its own physical chart transport. No Part-13 Hamiltonian hypothesis is replaced by the KAM output.
 
 ## 9. Risks and validation
 
@@ -493,7 +498,8 @@ theorem qb_beta {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
     ∃ c : ℝ, 0 < c ∧ ∀ b ∈ Ioc (0 : ℝ) (min 1 d.M),
       c * b ^ p11c_B0 d ≤ thresholds { d with beta := b } := sorry
 
-theorem budget {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
+-- Renamed from `budget` (2026-10-28): KAM.Planetary.budget is the P45 (P5-BU) signed theorem. No alias.
+theorem p11c_budget {N : ℕ} (d : QuantitativeData N) (hd : d.NumericalValid) :
     (∀ M0' : ℝ, 0 < M0' → M0' ≤ d.M0 →
       0 < thresholds d ∧ thresholds d ≤ p11c_oldThreshold { d with M0 := M0' }) ∧
     (∀ d' : QuantitativeData N, d'.NumericalValid → BudgetOrder d d' →

@@ -559,9 +559,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quartic_explicit, quartic_diagonal (KAM/Planetary/PlanarTorsion/Quartic.lean); p11c_coeffs (KAM/Planetary/PlanarTorsion/Quartic/Defs.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES; quartic_diagonal closes qe-c12
 NOTE: -
 
 NODE: stepP:p11b:qe-conv
@@ -589,9 +589,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qe_alg (KAM/Planetary/PlanarTorsion/Quartic/Algebra.lean); qeScale, qeV (KAM/Planetary/PlanarTorsion/Quartic/Reduce.lean); qe_pairJet_qeV, qe_quartic_coeffs (KAM/Planetary/PlanarTorsion/Quartic/Compose.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES (retained from round 1)
 NOTE: -
 
 NODE: stepP:p11b:qe-an
@@ -620,9 +620,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: qe_remainder_bound (KAM/Planetary/PlanarTorsion/Quartic/Bounds.lean); qe_fix_jet, qe_mov_jet, qe_coeffs_analyticAt (KAM/Planetary/PlanarTorsion/Quartic.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES (retained from round 1)
 NOTE: -
 
 NODE: stepP:p11b:qe-c12
@@ -650,9 +650,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: quartic_diagonal (KAM/Planetary/PlanarTorsion/Quartic.lean); qeDiag_fix_first, qeDiag_fix_second (KAM/Planetary/PlanarTorsion/Quartic/Diagonal.lean)
+LEAN_NOTE: audit T6 round 2 PASS WITH NOTES; round-1 F1 closed by quartic_diagonal (both eccentric cases)
 NOTE: -
 
 NODE: bpP:p11b:sec-bnf#data
@@ -882,9 +882,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow (KAM/Planetary/PlanarTorsion/QuarticFlow.lean); p11c_flow (KAM/Planetary/PlanarTorsion/QuarticFlow/Spec.lean)
+LEAN_NOTE: audit T9 PASS WITH NOTES; signed KAM.Planetary.flow
 NOTE: -
 
 NODE: stepP:p11b:fl-bd
@@ -911,9 +911,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow (KAM/Planetary/PlanarTorsion/QuarticFlow.lean)
+LEAN_NOTE: audit T9 PASS WITH NOTES; proved inside flow (Field/Energy helpers p11cQ_*), audit table PASS
 NOTE: SOURCE_GAP: L148 invokes N:bpN:p3:gen-continuation, which assumes an existing maximal solution of a C^1 field and a set with uniform data (delta,M,L). The polynomial field is C^1 and the displayed bound confines any existing trajectory, but no edge supplies the initial local/maximal solution or the uniform-data reduction on the confining ball. The differential inequality and its printed radius are retained; existence is not added as a source premise.
 
 NODE: stepP:p11b:fl-an
@@ -940,9 +940,9 @@ EDGE: stepP:p11b:fl-bd | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:fl
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: flow (KAM/Planetary/PlanarTorsion/QuarticFlow.lean)
+LEAN_NOTE: audit T9 PASS WITH NOTES; proved inside flow (Analytic/Compact helpers), audit table PASS
 NOTE: -
 
 NODE: bpP:p11b:lie
@@ -974,9 +974,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lie (KAM/Planetary/PlanarTorsion/NormalForm.lean)
+LEAN_NOTE: audit P11C-T10 PASS WITH NOTES (exact signed compact-uniform sixth-order estimate)
 NOTE: -
 
 NODE: stepP:p11b:li-tay
@@ -1004,9 +1004,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cN_hasDerivAt, real_lie_taylor (KAM/Planetary/PlanarTorsion/NormalForm/Taylor.lean)
+LEAN_NOTE: audit P11C-T10 PASS; named li-tay
 NOTE: SOURCE_GAP: L161 cites N:bpN:p5:lie-derivative and N:bpN:p5:taylor. Those statements inherit a holomorphic Hamiltonian on a complex open domain, a complex norm with field bound epsilon<=1/2 and an initial point in Omega^{1/2}, with the trajectory in the domain of the holomorphic observable. Here K and the Lambda-dependent coefficients are stated real analytic and flow supplies a real time-one map. No complexification, compatible complex domain/norm or small-field verification is supplied. The real chain-rule/integral-Taylor formula is asserted in L161, but its direct real version has no supplying approved input either. The printed real statement is retained without adding those proof obligations as hypotheses.
 
 NODE: stepP:p11b:li-ord
@@ -1035,9 +1035,9 @@ EDGE: bpP:p11b:sec-bnf#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27): lie bounds R directly via p11cN_remainder_bound; orders never formalized; T10 audit 1 F1 + ruling
 NOTE: -
 
 NODE: stepP:p11b:li-sum
@@ -1066,9 +1066,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-delta-P-m
 REVIEWER: sol-delta2-P-t
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: lie (KAM/Planetary/PlanarTorsion/NormalForm.lean)
+LEAN_NOTE: audit P11C-T10 PASS; step inside lie
 NOTE: -
 
 NODE: bpP:p11b:lift-map
@@ -1100,7 +1100,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T11 PASS WITH NOTES explicitly does not certify the composed T (rotation composition, inverse-rotation adapter); only chi-flow lift_map and full_lift_hamiltonian are proved
 NOTE: -
 
 NODE: stepP:p11b:lm-ham
@@ -1126,9 +1126,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: full_lift_hamiltonian (KAM/Planetary/PlanarTorsion/Lift.lean); p11c_liftFlow, p11c_tube (KAM/Planetary/PlanarTorsion/Lift/Defs.lean)
+LEAN_NOTE: audit T11 PASS WITH NOTES (node lm-ham PASS); signed full_lift_hamiltonian
 NOTE: -
 
 NODE: stepP:p11b:lm-prop
@@ -1160,7 +1160,7 @@ EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T11 PASS WITH NOTES covers only the chi-flow lift (lift_map: analytic, symplectic, injective, action-preserving, translation covariant); node conclusion also requires the composition T = Phi_rho^(-1) o Phi_chi, left to T14/T16 (BirkhoffResult)
 NOTE: SOURCE_GAP: L175 invokes N:bpN:p5:symplectic and N:bpN:p5:canonical for the full (lambda,Lambda,z) Hamiltonian flow. These imports inherit N:bpN:p5:flow: a holomorphic field on a complex open domain, a chosen complex norm with field bound epsilon<=1/2, and initial points in Omega^{1/2}. The real compact-parameter flow of flow/fl-bd does not state these complex hypotheses; the full field also contains partial_Lambda chi in the angle components. No complexification/domain/smallness bridge or separately approved general real symplectic-flow theorem is supplied here. The asserted symplectic conclusion is retained, with this applicability gap explicit.
 
 NODE: bpP:p11b:sec-beta#data
@@ -1216,9 +1216,9 @@ EDGE: bpP:p8:same-jets | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11b:beta
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: beta_def, p11c_beta, beta_properties, beta_def_isSymm (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11b:beta-formula
@@ -1248,9 +1248,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: beta_formula (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES; hypothesis g^2+s^2=1 kept as signed (unused)
 NOTE: -
 
 NODE: stepP:p11b:bf-gram
@@ -1278,9 +1278,9 @@ EDGE: bpP:p11b:beta-def | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cBetaGram, p11c_quartic_rotateSlow_gram, p11cBetaGram_quad (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:bf-avg
@@ -1309,9 +1309,9 @@ EDGE: bpP:p11b:e-ca | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p11b:bf-av
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p11cGramRot_integral, p11cGramRot_sq_integral, beta_formula (KAM/Planetary/PlanarTorsion/Beta.lean)
+LEAN_NOTE: audit T13 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p11b:birkhoff-form
@@ -1384,7 +1384,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T14 round 2 PASS WITH NOTES, but Lean proves global SO(2) frame (global_planar_frame) by design replacement; analytic angle psi lifting e_1 is not stated, so source conclusion not literally covered
 NOTE: the lifting step (analytic angle on a simply connected domain) is recorded as stepP:p11b:bt-rot#lift (SOURCE_GAP)
 
 NODE: stepP:p11b:bt-rot#lift
@@ -1412,7 +1412,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit T14 PASS WITH NOTES; global frame replaces the analytic angle lift; angle psi with e_1=(cos psi, sin psi) not proved
 NOTE: SOURCE_GAP: the covering-space lifting of an analytic unit vector field (defined only up to sign locally) to an analytic angle on a simply connected domain is asserted in one parenthesis; it is neither proved in the corpus nor a listed external (e-ode, e-id, e-jet, e-ca). Corollary bpP:p9:n2 states a global analytic rotation on all of A_2, which would supply rho on O_a, but this proof does not cite it. For the cube used by Part 12 (Corollary patch) the domain is convex
 
 NODE: stepP:p11b:bt-K
@@ -1578,7 +1578,7 @@ EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: audit P11C-T17 PASS WITH NOTES: remain proves clause (1) (compact positivity of det beta-hat, htorsion); clause (2) (Part 12 tasks; n=2/P-FIXED reuse of P_0, Omega, beta-hat) not stated; not marked proved
 NOTE: consumed by Part 12 (stepP:p12:pg-h56 cites Remark remain(1)); clause (2) is a list of Part-12 tasks (pointer), its P-FIXED sentence is not used by P-PLANAR
 
 NODE: bpP:p11b:asymptotics
@@ -1638,9 +1638,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_in (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Inputs.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES (full node conclusion)
 NOTE: -
 
 NODE: stepP:p11b:as-pi
@@ -1666,9 +1666,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_pi (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Projector.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES (full node conclusion)
 NOTE: -
 
 NODE: stepP:p11b:as-c
@@ -1696,9 +1696,9 @@ EDGE: bpP:p11b:sec-set#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p1
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b
 REVIEWER: sol-review-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_c (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Coeffs.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES (six estimates and all six raw combinations)
 NOTE: -
 
 NODE: stepP:p11b:as-ent
@@ -1726,9 +1726,9 @@ EDGE: bpP:p11b:sec-beta#data | blueprint-P/parts/p11b-planar-torsion.tex#stepP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11b+sol-review-P-m
 REVIEWER: sol-delta-P-m
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: as_ent (KAM/Planetary/PlanarTorsion/AsymptoticEntries/Entries.lean)
+LEAN_NOTE: audit P11C-T18 round 2 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p11b:as-det

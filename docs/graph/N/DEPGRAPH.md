@@ -7,7 +7,7 @@ CONVENTIONS: docs/graph/N/SPEC.md "Conventions to watch": frozen period 1 (chara
 STANDING_ASSUMPTIONS: -
 EXTERNAL_POLICY: track-N external inputs are the labelled items of the parts' external-fact lists (bpN:p1:ext-*, p3:ext-*, p4:ext-*, p6:ext-*, p7:ext-*, p8:ext-*, p9:ext-*, p10:ext-*, p11:ext-*; an item that only restates another external or a proved result is excluded as an alias); every result of another track's blueprint used by a proof (\Kref; frozen definitions of other tracks named by \frozen) is an IMPORTED node K:<node>, I:<node> or P:<node> (KIND external, LEAN_STATUS EXTERNAL, STATEMENT_SOURCE in the owning blueprint, NOTE IMPORTED ...; source fields copied from docs/graph/K/DEPGRAPH.md for K, written by the writer from the owning blueprint for I and P), K's Mathlib-level externals included (K:bp:p1:ext-*); any other unproved fact is a step node with NOTE SOURCE_GAP
 FROZEN_ANCHORS: bpN:p0:actionnbhd#actionNbhd, bpN:p0:freq#frequencyMap, bpN:p0:vf#hamiltonianVectorField, bpN:p0:realH#realHamiltonian, bpN:p0:strip#complexStrip, bpN:p0:ball#actionBall, bpN:p0:cdomain#complexDomain, bpN:p0:rdomain#realActionDomain, bpN:p0:realpart#realPart, bpN:p0:integrable#IsAnalyticIntegrable, bpN:p0:pert#IsAnalyticPerturbation, bpN:p0:bm#HasDerivativeBounds, bpN:p0:qc#IsStrictlyQuasiConvex, bpN:p0:hess#HasComplexHessianBound, bpN:p0:sol#IsSolutionOn, bpN:p0:orbit#integrableOrbit, bpN:p0:partial-sec#Phase, bpN:p0:partial-sec#fast, bpN:p0:partial-sec#slow, bpN:p0:partial-sec#fastShift, bpN:p0:partial-complexify#complexifyPhase, bpN:p0:partial-core#innerCore, bpN:p0:partial-domain#partialComplexDomain, bpN:p0:partial-definite#HasDefiniteFastPart, bpN:p0:partial-pert#IsPartialPerturbation, bpN:p0:partial-exponents#partialTimeExponent, bpN:p0:partial-exponents#partialDriftExponent, bpN:p0:partial-sec#degenerateHamiltonian, bpN:p0:head, bpN:p0:zero, bpN:p0:qcthm, bpN:p0:partial, bpN:p0:avg-rank#HasAveragingFrequencyRank, bpN:p0:avg-error#averagingError, bpN:p0:avg-mean, bpN:p0:avg-most
-FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:5fd317bac6d6bc9d5c729ccf002b8703c9fe98e93383c67772658d24d5423f87
+FROZEN_MANIFEST: manifest/frozen-anchors.json | sha256:8af3faf4af2e7b6cd0de63831128bf0ab40f847d8998a12d87b7d5c09482a053
 WRITER: claude-suborch-INP
 GLOBAL_REVIEWER: sol-global-N
 GLOBAL_REVIEW_REF: docs/graph/N/reviews/GLOBAL-review-3.md
@@ -15736,9 +15736,9 @@ EDGE: bpN:p11:s-ext-class#data | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:a
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab
 REVIEWER: sol-review-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: extAd (KAM/Nekhoroshev/Partial/Setting.lean)
-LEAN_NOTE: definition of iterated bracket only; norm estimate not proved
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; full iterative estimate
 NOTE: -
 
 NODE: stepN:p11:ad-setup
@@ -15766,9 +15766,9 @@ EDGE: bpN:p11:ext-class | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-set
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: -
 
 NODE: stepN:p11:ad-step
@@ -15798,9 +15798,9 @@ EDGE: stepN:p11:ad-setup | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-st
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f
 REVIEWER: sol-delta-N-f
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: -
 
 NODE: stepN:p11:ad-prod
@@ -15828,9 +15828,9 @@ EDGE: stepN:p11:ad-step | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:ad-pro
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-N-p11ab+sol-review-N-f+sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: adjoint (KAM/Nekhoroshev/Partial/Adjoint.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; named in handoff/audit ledger
 NOTE: The factorial bound N!>=(N/e)^N is now proved inside this step (e^N=sum N^j/j!>=N^N/N!, exponential series); the earlier SOURCE_GAP is supplied.
 
 NODE: bpN:p11:composition
@@ -15999,9 +15999,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#bpN:p11:ext-taylor@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular, ext_taylor, ext_taylor_bound, ext_taylor_second (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; first display via ext_taylor*, second display via ext_taylor_second (F1 closed)
 NOTE: G4: new lemma; not an instance of Part 5 setting, so bpN:p5:taylor is not used (the \source line cites it as provenance only). Consumers: co-remainder, tr-taylor.
 
 NODE: stepN:p11:et-one
@@ -16028,9 +16028,9 @@ EDGE: K:bp:p1:holomorphic-regularity | blueprint-N/parts/p11b-partial-nf.tex#ste
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; chain rule (handoff/audit name et-one)
 NOTE: -
 
 NODE: stepN:p11:et-ind
@@ -16057,9 +16057,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:et-ind@L8
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N
 REVIEWER: sol-delta-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor_regular (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; holomorphic/smooth induction
 NOTE: -
 
 NODE: stepN:p11:et-taylor
@@ -16086,9 +16086,9 @@ EDGE: bpN:p11:wfield | blueprint-N/parts/p11b-partial-nf.tex#stepN:p11:et-taylor
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-amend-N+sol-delta-N-amend
 REVIEWER: sol-delta2-N-amend
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: ext_taylor, ext_taylor_bound, ext_taylor_second (KAM/Nekhoroshev/Partial/Lie.lean)
+LEAN_NOTE: audit N11-E2 round 2 PASS WITH NOTES; both displays proved
 NOTE: -
 
 NODE: bpN:p11:ext-e-upper

@@ -53,10 +53,22 @@ def graph_resolved(graph, parts):
     return c[0] / c[1] if c and c[1] else None
 
 
+# Manifest id prefix of each track's frozen anchors.
+ANCHOR_PREFIX = {'K': 'kam', 'I': 'iso', 'N': 'nekhoroshev', 'P': 'planetary'}
+
+
+def track_sealed(graph):
+    """True when every frozen theorem of the track is sealed: the track's proof is then complete, and graph nodes
+    still open (alternative routes, steps proved only in a specialized form) are not needed."""
+    thm = [a for a in manifest['anchors']
+           if a['kind'] == 'theorem' and a['id'].split('.')[0] == ANCHOR_PREFIX.get(graph)]
+    return bool(thm) and all(a['state'] == 'SEALED' for a in thm)
+
+
 # Items with an "auto" field take their done fraction from the proof graph, so they never go stale.
 for it in progress['items']:
     if 'auto' in it:
-        f = graph_resolved(it['auto']['graph'], it['auto']['parts'])
+        f = 1.0 if track_sealed(it['auto']['graph']) else graph_resolved(it['auto']['graph'], it['auto']['parts'])
         if f is not None:
             it['done'] = f
 NOW =datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
@@ -438,7 +450,8 @@ def section_progress(rows):
             'tracks I, N and P. Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and '
             'counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* '
             'take that fraction from their proof graph (nodes `PROVED`, `BYPASSED` or `EXTERNAL` in '
-            '[`docs/graph/`](docs/graph)), so they update themselves at every refresh; the other items are the '
+            '[`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once '
+            'every frozen theorem of their track is sealed; the other items are the '
             f'orchestrators\' assessment, last reviewed **{progress["reviewed"]}**. Files: '
             '[`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and '
             '[`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).',

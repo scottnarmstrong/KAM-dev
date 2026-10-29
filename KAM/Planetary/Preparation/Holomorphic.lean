@@ -78,7 +78,9 @@ def P11SecularSpec {n : ℕ} (D : P11Physical n) (C : P11SecularData n) : Prop :
     (∀ i : Fin n, (C.Omega (KAM.realInclusion n J) i).re=
       2*Real.pi*(p11PatchData D).varpi J (Fin.natAdd n i))) ∧
   (∀ J : P11Vec n, ‖J-C.J0‖ < 2*C.rC →
-    (C.h (KAM.realInclusion n J)).re= -∑ i, (D.G*D.m0)^2*D.m i^3/(2*(J i/(2*Real.pi))^2)) ∧
+    ((C.h (KAM.realInclusion n J)).re=
+      -∑ i, (D.G*D.m0)^2*D.m i^3/(2*(J i/(2*Real.pi))^2)) ∧
+    (C.h (KAM.realInclusion n J)).im = 0) ∧
   (DifferentiableOn ℂ C.omega (Metric.ball (KAM.realInclusion n C.J0) (2*C.rC)) ∧
    DifferentiableOn ℂ C.Omega (Metric.ball (KAM.realInclusion n C.J0) (2*C.rC))) ∧
   C.tau=max ((n : ℝ)*(p11PatchData D).mu) (2*n) ∧

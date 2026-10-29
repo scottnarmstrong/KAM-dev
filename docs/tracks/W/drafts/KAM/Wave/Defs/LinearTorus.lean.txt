@@ -1,0 +1,36 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- DRAFT (W-STMT rev1), not frozen. Proposed final path: KAM/Frozen/Wave/Defs/LinearTorus.lean; namespace KAM.Wave.
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import KAM.Wave.Defs.EllWeight
+public import KAM.Wave.Defs.WaveSpace
+
+/-!
+# Linear torus `KAM.Wave.linearTorus`
+
+Blueprint-W Definition `bpW:wh:lintorus` = Convention `bpW:w0:periodone`. Tangential mode
+`i : Fin 2` is the Dirichlet mode `j = i + 1`. In weighted coordinates (`KAM.Wave.WaveSpace`) the
+coefficient `Q⁰_j` is stored as `ellWeight 1 1 j * Q⁰_j`.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Wave
+
+/-- The linear torus of action `I ∈ (0, ∞)²` (positivity is part of the carrier, W-ST1), period-one angle `θ`:
+`Q⁰_j = √(2 I_j) cos(2π θ_j)`, `P⁰_j = -√(2 I_j) sin(2π θ_j)` for `j = 1, 2`, and
+`Q⁰_j = P⁰_j = 0` for `j ≥ 3` (blueprint-W `bpW:w0:periodone`). -/
+def linearTorus (I : Fin 2 → ℝ) (_hI : ∀ i, 0 < I i) (θ : Fin 2 → ℝ) : WaveSpace :=
+  (∑ i : Fin 2, lp.single 2 (i : ℕ).succPNat
+      (ellWeight 1 1 (i : ℕ).succPNat * (Real.sqrt (2 * I i) * Real.cos (2 * Real.pi * θ i))),
+    ∑ i : Fin 2, lp.single 2 (i : ℕ).succPNat
+      (ellWeight 1 1 (i : ℕ).succPNat * (-(Real.sqrt (2 * I i) * Real.sin (2 * Real.pi * θ i)))))
+
+end KAM.Wave
+
+end

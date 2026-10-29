@@ -139,6 +139,61 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **Also landed tonight:** I-STRIP-2b (W-valued Fourier summation and uniform convergence). It closes the retro-audit
   gaps in the co-author's scalar Fourier layer.
 
+### 03:45: offloaded INP work, README refresh, owner directives (orchestrator, Opus)
+- **I-G1 provider ready.** I2-10 (`KAM.Provider.Iso.isoenergetic_kam`) passed its audit as seal-ready, with an
+  exact-type probe in both directions. The sub-orchestrator runs the D26 seal. With it, I-G1 Parts 1–3 are complete
+  (I1-1 … I2-10, I3-1 … I3-5).
+- **Delivered this hour:**
+  - I2-4 … I2-10, I3-4, I3-5;
+  - I-4, I-7, I-8, KEP-10 (Kepler/Delaunay layer);
+  - C5-3, W4-6 (track N);
+  - P8-2 (R3BP region), P6-4 (Newtonian tube).
+
+  Every package passed its Sol audit, most with notes and none with a FAIL.
+- **README (owner request "don't let this get stale").** These figures are now computed from live data:
+  - track K's progress items, from graph K;
+  - the size estimate, now including tracks I, N, P and the agent branches;
+  - a new track table of sealed anchors and resolved graph nodes per track;
+  - the areas, from the real folders;
+  - the agents, with the offloaded provers read from their worktrees.
+
+  The static text was refreshed as well. The sub-orchestrator synced the LEAN_STATUS of graphs I and N and switched
+  its progress items to the graph.
+- **Source added:** AS26 (Alazard–Shao, *KAM via standard fixed point theorems*, Forum Math. Sigma 2026), context
+  tier, at the owner's request. Assessment: formalizable as a separate campaign. The missing pieces are a
+  paradifferential library (Littlewood–Paley, paraproducts, Bony paralinearization) and Schauder. Schauder is
+  avoidable through the contraction variant of its Remark 4.2. Candidate erratum, not yet recorded: on p. 32 the radius
+  ρ = ‖e₀‖_{H^{s+σ+ε}} γ⁻² c₂ should read c₂ γ² ‖e₀‖_{H^{s+2σ+ε}}, as in (4.34).
+- **Owner directives (03:25–03:30):**
+  - five audit slots;
+  - Codex auditors on codex-1 and codex-4;
+  - fast tier for new auditors until about 05:56 UTC;
+  - Claude provers on claude-12 as much as possible: new provers run in tmux (`main_inp_prover.sh`).
+- **Housekeeping:**
+  - Removed 25 merged worktrees of mine, which freed about 10 GB. The sub-orchestrator removed 16 of its own.
+  - The signature files now live in `KAM-inp/.drafts/design/`.
+  - Closed five finished Phase-0 Codex sessions.
+  - Resumed the I3-4 auditor, which had stalled on "model at capacity".
+
+### 04:55: track I complete; offload continues on claude-12; two designs (orchestrator, Opus)
+- **Track I complete.** All four frozen theorems are SEALED: I-G1, I-KEPLER, I-HEAD and I-R3BP. The main orchestrator built
+  and audited the I-HEAD and I-R3BP providers (PASS, seal-ready); the sub-orchestrator ran the D26 seals.
+- **Delivered since 03:45:**
+  - track I: P8-2 … P8-5;
+  - track N: W4-4, W4-5, W4-6, W4-7, W4-8, C5-3 … C5-8, P1-3b, P1-6;
+  - track P: P6-4, P6-6, P7-2, P7-3, P7-4, P7-5.
+
+  P7-7 is waiting on a lint recheck; C5-9 is proving. Total delivered tonight: 90 packages, every one audited.
+- **Decision (design gap, normally the design owner's):** the audit of P7-4 failed on coverage. Blueprint-P p7:169 also
+  asserts the real-point symplectic identity DΨᵀM₀DΨ = M₀, which the KEPLER design omitted. Resolved as the auditor
+  proposed: a new glue module `Poincare/HolomorphicSymplectic.lean` (`poincare_holomorphic_symplectic`), passed by a
+  delta audit. The audit also refuted the prover's suggested "π/4" erratum: the blueprint's π/6 is right.
+- **Next Lean designs:** none existed for the remaining N and P parts. Opus design writers on claude-12 wrote P Part 1
+  (unblocks P6-5 and P7-6) and N Parts 6–7 (on the way to N-HEAD-C). Both are now in Sol design audit.
+- **README:** a track counts as complete once every frozen theorem in it is sealed (track I at 100 %; open graph nodes
+  there are alternative routes or steps proved in a specialized form). Track N now follows its graph (38 %); track P
+  keeps the hand estimate until graph P is published.
+
 ## Tracks I, N, P (sub-orchestrator, D23)
 
 - **21:15. No new freezes; packets only.** Nothing is pending owner approval from tracks I/N/P tonight (D25 and D28
@@ -211,3 +266,258 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **04:40. I-G1 (`KAM.Iso.isoenergetic_kam`) sealed and landed** (seal e81fb67, landed 6c4e81e): I Parts 1–3 Lean
   design by the main orchestrator's designer (Sol-audited), ~22 audited packages run by the main orchestrator, the seal
   per D26 by the sub-orchestrator (axioms standard, per-module kernel replay exit 0). Next: the I-HEAD provider.
+- **07:25. Main-orchestrator offload status, incidents and fixes.**
+  - Delivered and audited since 06:20: PP1-5..7 (P Part 1 complete), C5-10 (N Part 5 complete), N6-2..N6-7 (N6
+    iterative lemma complete), S7-2..S7-6, P6-5, P7-6 (Kepler design complete), N2-KERNEL/ZFIELD/DERIV, P23-03/04/09.
+    In audit: N89-G1, N2-ZORBIT, N89-P1, N2-QC. Proving: N6-8a, P23-05/06/08, N89-G2/P2.
+  - **Incident:** an audit passed on an uncommitted working-tree edit (PP1-7 `Liouville.lean:35` wrap), so `inp` carried
+    a 108-character line. Fixed by committing the whitespace-only wrap (40c9e53, re-merged). The audit launcher now
+    refuses a worktree with uncommitted tracked Lean edits, and every prover brief says to commit all edits.
+  - **Incident:** disk reached 97%; 17 merged, idle offload worktrees removed (21 GB free).
+  - Codex weekly quotas reset at 06:35 (codex-1..4 at 98–100%); the one-audit-per-package economy is lifted.
+  - Track W (D30, owner-approved): package W-BP0 (blueprint Part 0, milestone W0 normalization, errata re-check) is
+    written on branch `w`; its independent Sol audit is running. Nothing frozen.
+- **07:35. Track W headline ruling (for owner review; nothing frozen).** W-BP0 audit 1 FAILED on two medium findings
+  (the core W0 mathematics passed). Ruling on W-A2: the proposed first headline adds family-level injectivity (distinct
+  action parameters give disjoint embedded tori, as P96-W's family construction provides) and explicitly declares the
+  Lipschitz regularity of the family in Cartesian coordinates DEFERRED together with Whitney regularity and linear
+  stability (D30 Q3). It is described as a declared weakening of P96-W's Main Theorem, not the full specialization.
+  Reversal: require the full Lipschitz Cantor-manifold conclusion in the first headline (adds W6/W8 work).
+- **09:00. Main-orchestrator offload status and rulings.**
+  - N Parts 6–7 complete: N6-1..N6-8 (normal form) and S7-1..S7-8 (Propositions 1 and 2) are proved and audited. Also
+    delivered since 07:25: N Part 2 (all five), N89-G1..G5, N89-P1/P2, N12-01..05, 07, 08, 10a, P23-03..12 and 19,
+    P45-S, P4-S/TO/AF/LT/LI/CO/ONE (some in audit), P5-CL, P11A-W0. Proving: N6-free waves of N12/N89/P23/P45/P11A.
+  - Ruling (design gap, P45): the resonance-section results of P4-R0/P4-RA/P4-RB have no signatures in the P45 design;
+    provers write them as internal helpers (distinct names, blueprint-node citations, shaped for P4-M's
+    `two_scale_diophantine_measure`, no premise added to any signed declaration). P4-RA and P4-M will be done by one
+    prover after P4-R0 and P4-RB. Reversal: a signed P45 addendum for those sections.
+  - Hygiene-only audit failures (N12-03a, N12-03b inherited, P4-CO) were fixed by the orchestrator with whitespace-only
+    commits verified by rebuild, kernel replay and `git diff --check`, recorded as audit addenda; coverage failures
+    (N12-02, P11A-W0) went back to provers and passed round-2 audits.
+  - Track W: exact Lean statements of the first headline W-NLW2 passed statement audit 2; awaiting owner approval
+    (review page claude.ai/artifact/AbFkbYPkBA5SVvtCdaYmn7). Nothing frozen.
+  - Landing on main remains paused pending the owner's go-ahead (main at f7e7672).
+- **10:25. Design revisions made from prover findings (for owner review; no frozen statement touched).**
+  - **P45 revision 4.** Prover P5-EX showed that `PGExtension.agrees` (a design-level signature, not frozen) made the
+    existence theorem `ext` false: the data control `P` only on the closed cylinder, but `agrees` demanded equality on a
+    whole real neighbourhood. `agrees` now also assumes `w ∈ closure (cylinder d.V d.r0)`; delta design audit 4 PASS;
+    P5-EX then proved the package. Reversal: none needed (minimal, all consumers checked).
+  - **P23 revision 3.** P23-13 (`osc_iter`) proved every clause but the remainder bound and reality clause; those need
+    an oscillator-specific Lie-series transfer (N's composition machinery fixes parameter dimension = angle dimension).
+    Nine new packages P23-13b..j (~3.3k lines); the signed `osc_iter` is unchanged; design audit PASS WITH NOTES.
+    P23-15 waits for it.
+  - **P45 resonance sections** (P4-R0/RA/RB) implemented as internal helpers (09:00 ruling); the signed endpoint
+    `two_scale_diophantine_measure` is now proved (P4-RA + P4-M by one prover), in audit.
+  - **Blocked:** P11A-W2 waits for P810 S10-C (proving) and S10-R (wave 9).
+  - Account note: claude-12 (all provers) at 37%, ~3%/h; new provers move to claude-10/claude-8 below ~10%.
+- **12:25. Throughput and the disk ceiling.**
+  - Since 10:25, 39 more offloaded packages passed independent audit and were handed to kam-inp, which merges them
+    into inp as they arrive (KAM.lean regenerated; ABI hashes OK, 144). They are: P23-13b/c/d/e/g/i and P23-14/16 (oscillator
+    Lie-series transfer, six of nine revision-3 packages); P5-EX/BL/JET/REM; P4-RAM; N12-09..15 and 17; N89-G7/P3;
+    P11A-W5..W7 and C1..C3; S7-R; S8-L/A/I/Y/M/C; S9-L; S10-J/W/C/S. No seals; landing on main still paused.
+  - Proving now (15): P23-13f, P23-17, P5-FD, N12-16, N89-P5 (`thm1`), P11A-W8/C6/P0/P3/P9, S8-W, P4-POL, S9-S,
+    S9-D, S10-P. N89-P4 in audit.
+  - **Disk is the binding constraint** (root at 95–97%; each package worktree is ~1.5 GB, mostly a private copy of
+    the inp build). Dependency-ready but held for disk: P5-CUT, S8-D, S8-X, S8-J, P11A-C4 (after W8), P11A-P6 (after
+    P0), P23-18 (after P23-17). Hardlinking build trees is not safe while provers rebuild in place. Owner option: a
+    larger root disk, or worktree builds on the archive volume.
+  - Account rotation: new provers now launch on claude-10 (49%); claude-12 is at 32% (reset 2026-10-29 21:00 UTC).
+- **13:08. Ruling (design gap, P810 S8-D/S8-X):** the P810 design lists S8-D (qf-scale/qf-c0/qf-diag) and S8-X
+  (qf-cross, orbit variations, Fourier selection) as proof cuts of the signed `quadratic_form` with no signatures of
+  their own; prover S8-D stopped correctly for lack of signatures. Same rule as the 09:00 P45 ruling: internal
+  helper lemmas with distinct names, blueprint-node citations, identities about the literal pair average with only
+  blueprint-stated hypotheses, shaped for S8-Q; no premise added to any signed declaration, no assumed coefficient
+  structure or quadratic matrix. Audits check each helper against its blueprint node. Reversal: a signed P810
+  addendum for these proof cuts. No statement frozen.
+- **14:05. Landing resumed and done.** Landing had been paused since 05:43 after an out-of-memory kill; the main
+  orchestrator wrongly treated the resume as an owner decision (it is routine; the owner asked for it at 12:30).
+  First attempt (12:37) failed in the full root build on a declaration-name clash (oscillator `fastShift` vs the
+  frozen definition), invisible to targeted builds and audits; kam-inp's fixes (a923eb0, 0d04590) renamed six
+  clashing declarations mechanically, no statement change. `main` is now d7c23ef: +285 Lean files (+57,456 lines),
+  695 modules; seals `averaging_mean` and `averaging_most` (D26, 02ae13f); graph sync N 270/728, P 334/1363 PROVED.
+  From now on: land after every merged batch; every audit runs a whole-library name-clash check
+  (orchestrator-tools/main_name_clash_check.sh); worktrees are swept after every event.
+- **15:50. Progress since 14:05.** Landings now follow every merged batch (main at 17754da9 by 15:48). The three
+  untouched designs (P11B, P11C, P14) are offloaded and proving package by package. Ruling (P11A-P9): `forward_tube_core`
+  is an internal helper; the signed `forward_tube`/`p11PhysicalDelta` need `P11Physical` (Preparation/Working) and are
+  one-line wrappers deferred to P11A-P1. Root-build name clashes (p11Affine, p11Rad, `norm_append_le`) were renamed
+  mechanically; the whole-library clash check now runs before every audit. Disk: the generated C under each
+  worktree's `.lake/build/ir` (1.9 GB, never read by Lean checking) is hardlinked to inp's copy, freeing ~45 GiB;
+  root disk 80–87%, so disk no longer caps the number of provers.
+- **16:05. Ruling (P14 A3, signed name):** the audit proved that the signed theorem `KAM.Planetary.closure` shadows
+  Mathlib's topological `closure` inside `KAM.Planetary` (a module there writing `closure S` fails). Renamed to
+  `amd_closure`, no alias, statement unchanged (signature file, A3 branch, design note on inp 94907f2c); consumers
+  (A6, the `amdConfinement` provider) use the new name. Every audit now also runs a root-name shadow check
+  (orchestrator-tools/main_shadow_check.sh) and refuses packages that shadow a root constant.
+- **16:35. Ruling (P11A `cutoff_coefficients`, design-level signature; no frozen anchor involved):** the P11A-C8
+  prover showed the signed last clause `∀ z, p11Cutoff T R z = p11R0 … + ∑ i, p11R1 … * z.1.2 i` false: for
+  `z.2 ∉ B`, `p11Admissible` leaves `R` unconstrained and `KAM.Weighted.truncate` integrates over the torus, so a
+  non-integrable `f` with `g = 1 - f` gives cutoff 1 at `eta_1 = 1` while `R0 = R1 = 0`. Checked against the
+  definitions. The clause now reads `∀ z, z.2 ∈ B → …` (name kept; its only consumer, cs-cutoff, works on `B`);
+  design note on inp 177d8b6b. C8b proves the amended statement and the omitted companion
+  `canonical_step_simple_inverse`. Reversal: restore the old clause and add a hypothesis making `R` regular off `B`.
+
+- **17:00. Ruling (P45 signed name `avg` → `pg_avg`).** The P5-AV signed theorem `avg` collides with the P2/P3
+  `KAM.Planetary.avg` (Averaging/Finite, on inp) and would break the root build; the pre-audit clash check caught it.
+  Renamed `pg_avg`, no alias, statement unchanged; `pgAvg := (pg_avg d r mu h).choose` (inp-p5av a324b554, signature
+  file; design note requested from kam-inp). Also 16:50: S9-Q failed round 1 on graph-cut coverage (`d-c` needs the
+  source's `sqrt n * delta_0 <= rho_*` domain adapter; the signed `diagonalize` passes); S9-Qb adds the adapter.
+- **17:08. Landing killed for low memory, finished by the main orchestrator.** The P11C-T2 landing (f6384126) was
+  killed at 17:02 after its full build had passed (9867 jobs) but before lint and push. Cause: memory stacking
+  (an orphaned 7 GB leanchecker from a closed S8-4 audit, parallel audit-launch replays, four new provers). kam-inp
+  paused landings and asked the owner; per the owner's standing ruling (landing is routine, never an owner gate),
+  the main orchestrator ran the remaining steps of land-branch.sh under the HQ lock (lint PASS, 821 files, 144 ABI
+  hashes OK) and pushed. Fixes: orphan killed; audit-launch replays now serialized under one lock.
+- **17:45. Heartbeat.** kam-inp had been parked since ~17:05 on a question to the owner about the killed T2 landing
+  (already finished and pushed by the main orchestrator at 17:08); answered from the standing ruling, merges and
+  landings resumed (backlog T4, W2b, B04, B05, A6, S8-Q, E3, P5-AV, P11A-C8 merged; `amdConfinement` seal staged
+  after A6's seal-key audit). Track K is complete (00:15); the remaining unstarted design work is track N: N10-3..5
+  (provider of `quasiConvex_nekhoroshev_complexBound`) and the whole N11 chain (provider of
+  `partialConvex_nekhoroshev`), now started (N10-3, N11-A, N11-B), plus P11C R1 and Q5. Mechanical fixes made by the
+  orchestrator, each followed by a delta audit: P11A-C8 helper `step_small` -> `p11_step_small` (reused short name);
+  P23-22 three statement lines wrapped (whitespace only; lint). New pre-audit refusals: reused public short names
+  (main_shortname_check.py) and root-name shadows (main_shadow_check.sh).
+- **18:17. Ruling (P11B B07 coverage).** B07's signed `adm_choice`/`free_radius` match the signature but are narrower
+  than their blueprint conclusions: (i) A7 (`eps0 = eps + N C1 s0^2/2`, `|R0| <= eps0`, p11a3:215, obtained from
+  `initial` at :222) is not attached; the design assigns the B06 input to B07, so B07b adds an A7 companion consuming
+  `initial`. (ii) `fr-other` (p11a4:39,46: A1-A7 and inductive-lemma / parameter-selection / exported-sums hold
+  verbatim with the adapted radius) refers to results that do not exist before B10/B12/B13; it is discharged where
+  those packages apply them at the adapted radius, and its graph node stays NOT_STARTED until then. No signed
+  statement changes.
+- **18:47. Ruling (audit scope: signed declarations vs literal graph nodes).** The main orchestrator's audit focus
+  had said "an exported lemma named after a graph node must state that node's literal conclusion". For SIGNED
+  declarations that conflicts with the approved signatures: N10-3's `cf_orbit`/`cf_branch` match their signatures
+  exactly and are proved soundly, but the design (N10 lines 135, 425-435) deliberately narrows them (shorter time
+  interval 2T <= T0; orbit applicability supplied inside `cf_branch`), so audit 1 failed them. Ruling: signed
+  declarations follow the signature file; the literal-node rule applies to unsigned exports only, and for a
+  deliberately narrowed signed export the audit checks that every consumer's needs are met. N10-3 gets a re-scope
+  audit with no code change.
+- **18:50. Ruling (short-name policy for signed names).** N11-B passed every mathematical check but audit 1
+  failed it on "no reused public short name" for the SIGNED definitions `constants` and `kappa` (fully qualified
+  names differ; no shadowing). Ruling: the short-name rule governs unsigned helpers only; signed names follow
+  the signature file. N11-B accepted without re-audit (N11-B-audit-1-ruling.md on inp-n11b).
+- **18:55. Progress.** `amdConfinement` sealed and landed (e4f373bd; 14 of 22 frozen statements now proved) with
+  `two_scale_kam` (P23-22), S9-Q/S9-T, S0/S4/E4/E8; graph P 608/1363. Track N chains under way: N10-3/N10-4 in audit,
+  N10-5 (`head` + provider of `quasiConvex_nekhoroshev_complexBound`) proving; N11-A/N11-B passed, N11-C/D/E3
+  proving. P5-FAM (toward `properlyDegenerateKAM`) proving. Tooling: compile gate raised to 3 slots (builds had
+  queued 13 min with 12 GB free); pre-audit checks refuse reused helper short names and root-name shadows that KAM
+  actually uses.
+- **19:00. Ruling (P11B signature defect, `exported_sums`).** The B13 prover found that the last conjunct
+  `∀ ν, (∑' j, selectionA a (j + ν) + selectionAlpha a (j + ν)) / selectiont a (ν + 1) ≤ …` parses with the second
+  summand outside the tsum, leaving `j` unbound (it elaborates only with autoImplicit, which the project disables).
+  Ruling: the intended source statement (E3) is the parenthesised sum `∑' j, (A (j+ν) + α (j+ν))`; signature file
+  amended (old copy in orchestrator-tools/handoffs), design note requested (P11B design line ~992). Not a frozen
+  statement.
+- **19:08. Rulings applied under the 18:47/18:50 principles.** E7 (signed `perturbation` reuses a short name;
+  math PASS) and R1 (infrastructure package with no signed declarations; audit focus item "every declaration =
+  signature file" misapplied to unsigned helpers; math PASS) accepted without re-audit; ruling notes on their
+  branches. The orchestrator's audit focus now reads "every SIGNED declaration = signature file".
+- **19:27. Critical path note.** E11 (`stopped`) correctly stopped without writing Lean: per P14 design gate N2 its
+  proof applies the N root `partialConvex_nekhoroshev`, a DRAFT_SORRY frozen anchor whose provider is the N11 chain.
+  So `planetaryExponentialSafety` (E11, E12) waits for N11 to finish and `partialConvex_nekhoroshev` to be sealed;
+  N11 is the critical path for two frozen theorems. E11 is parked with its inputs merged.
+- **19:55. Second seal tonight: `quasiConvex_nekhoroshev_complexBound` (N-HEAD-C).** N10-3/N10-4/N10-5 passed
+  (N10-5 seal-key audit: exact frozen type, prospective seal, axioms, kernel); kam-inp sealed it (7c254d1a, checks
+  00afab9d: full build 9964 jobs, axioms standard, leanchecker 0, lint OK). Frozen statements proved: 15/22.
+  Graph N 308/728, P 651/1363. Remaining DRAFT anchors: properlyDegenerateKAM, planarTwoPlanetKAM,
+  fixedSunPlanetaryKAM, planetaryExponentialSafety (gated on N11 via E11), secularBoxSafety,
+  secularBoxAtCitedMasses, partialConvex_nekhoroshev (N11 chain, critical path).
+- **20:00. P11A-P1 accepted:** its audit failed only on an inherited lint line in the frozen AmdConfinement file (already rewrapped on inp); ruling note on inp-p11ap1.
+- **20:40. Ruling (P11A-P2 split; design-size signal).** P11A-P2 delivered the polar chart, `total_chart` and the
+  hc-rot building blocks (~565 lines) but not `holo_chart`/`total_chart_transport`: the prover's map of the
+  remaining work (data choice and lift, the complex-angle extension of fFix with a uniform separation strip, the
+  chart/lattice, the fast mean, assembly) is several thousand lines, far above the design's 750. Ruling: P11A-P2
+  is accepted for what it delivered (audit scoped to total-chart, tc-polar, tc-lat and the hc-rot blocks), and
+  the rest is split into P2b (data choice + hc-lift), P2c (hc-strip/hc-F, parametric in a rotation family with
+  the hc-rot bounds), P2d (hc-id/hc-lat), P2e (hc-mean) and P2f (holo_chart assembly + total_chart_transport).
+  No signed statement changes.
+- **20:50. Ruling (signed-name clash, N11 `flow`).** The N11 signature file declares `KAM.Nekhoroshev.flow`
+  (node bpN:p11:flow), but Part 5's `KAM/Nekhoroshev/Averaging/Flow.lean` already owns that constant, so the two
+  modules cannot be imported together (the root build would fail). As with `closure` -> `amd_closure` and
+  `avg` -> `pg_avg`, the signed name is renamed to `ext_flow` (statement unchanged); `flow_real` does not clash
+  and keeps its name. N11Signatures.lean line 213 amended (backup in orchestrator-tools/handoffs); N11-E1 commit
+  c198ff11; the N11 design node table (line 191) needs the same rename.
+- **20:55. Landed with node gaps (kam-inp report).** N11-O, T8 and Q3 landed in 8400d0f1 but some graph nodes stay
+  NOT_STARTED: N11-O final-mu and final-time (only an existential mu0, not the explicit mu_a..mu_f formulas or
+  the closed form of T_P); T8 homological, ho-def, ho-eq (chi defined as a real part; the reversed {N0,chi} form
+  not exported); Q3 adm_budget's ab-* nodes. Ruling: one follow-up package GAP-A fills the N11-O and T8 gaps as appended
+  exports (no signed statement changes). Q3 has no gap of its own: the ab-* nodes belong to `adm_budget`
+  (P11a-3, not yet designed) and wait for that design.
+- **21:01. Ruling (N11-L1 accepted).** Audit 1 failed L1 because `transverse_pairing` keeps the four bounds of
+  stepN:p11:ef-C as premises. The design maps ef-C to the inside of L2's `energy_free`, and the N11-L2 audit passed
+  ef-C there (all four bounds supplied, exact contradiction). N11-L1 accepted with a ruling note on its branch;
+  merge order L1 then L2.
+- **21:15. Ruling (owner to review: premise added to a signed N11 declaration).** The signed
+  `canonical_map` (N11Signatures.lean line 301) had no hypothesis giving `0 < b.c`, but `ExtCanonical b.c U Φ`
+  needs it (E1's `symplectic`). In Lean `b.c = 2π/(w/r_B)²` is 0 when `w` or `r_B` is 0, which neither `slowLoss`
+  nor `PartialBlock` excludes; in the source the radii are positive. Ruling: add `(hc : 0 < b.c)` after `φ`
+  (a source positivity premise; consumers have it from `ExtNFHyp.radius_pos`/`slow_width_pos`). Signature backup
+  orchestrator-tools/handoffs/N11Signatures.lean.bak-2115; N11-F2 commit 1d5683c5. N11-F2 also puts the signed
+  `extFlow` in a shared `Partial/ExtFlow.lean` so N11-F1 imports rather than redefines it.
+- **21:38. Ruling (R2 accepted after round 2).** Round 2 proves the compact common-neighbourhood analytic flow; the
+  auditor kept a residual finding because no statement exposes uniform Picard convergence on that neighbourhood.
+  The graph node R2 serves (bpP:p11b:e-ode, EXTERNAL) concludes real-analytic dependence of the flow, which is
+  established; "Picard convergence" in the P11C design is the proof route, and no consumer needs it (R3 passed
+  without it). Ruling note on the R2 branch; merge order R2 then R3.
+- **21:45. Owner directive: lane N paused.** The owner paused lane N to hand it to Zohar's agents. N11-F1 (mid-proof)
+  commits its work and writes a handoff; the two running N audits (N11-E2 round 2, N11-F2) finish their reports;
+  passed N branches (N11-E3, N11-G, N11-J1, N11-J2, GAP-A) still merge so main is a clean baseline; no new N work
+  starts. A lane-N handoff memo goes to docs/campaign/LANE-N-HANDOFF.md. Lane P continues at full speed (owner).
+  Consequence: the P anchor planetaryExponentialSafety (E11, E12) stays blocked until lane N delivers the provider
+  of partialConvex_nekhoroshev.
+- **21:50. Ruling (P11A-P5 parametric core).** P11A-P5 starts before holo_chart is proved: it implements its signed
+  definitions (all parametric in the secular data C) and proves avg_fast's content for an arbitrary C satisfying
+  the spec; the signed avg_fast and p11FastData become one-line wrappers once P11A-P2f proves holo_chart.
+- **22:15. Lane-N handoff published (owner request).** All compiling lane-N work is on GitHub: branches inp-n11e2,
+  inp-n11e3, inp-n11g, inp-n11j1, inp-n11j2, inp-gapa (audited), inp-n11f2 (audit FAIL F2-C1, compiles), inp-n11f1
+  (unaudited, compiles), and the combined `lane-n-handoff` (inp plus inp-n11f1; all 28 N11 modules compile together)
+  carrying docs/campaign/LANE-N-HANDOFF.md and docs/tracks/N/design/N11-SIGNATURES.md. Unaudited or failed code went
+  to branches only, not to main.
+- **22:20. Secular-box anchors seal-ready.** S11 (sb_safety) and S12 (sb_cited) passed; S12's seal-key audit
+  checked exact types and prospective seals for secularBoxSafety and secularBoxAtCitedMasses (standard axioms
+  only). Sealing handed to the sub-orchestrator via the P14 package-Q provider wrappers.
+- **22:35. Two more anchors sealed (17 of 22).** secularBoxSafety and secularBoxAtCitedMasses are sealed by the
+  sub-orchestrator (seal commit b8f993d2, inp 980388b4) through the P14 package-Q provider wrappers around S11's
+  sb_safety and S12's sb_cited: full KAM build OK (10095 jobs), axioms propext/Classical.choice/Quot.sound only,
+  leanchecker 0 on both frozen and both provider modules, lint OK. Remaining DRAFT anchors: properlyDegenerateKAM
+  (P5-MAIN done, seal-key audit running), planarTwoPlanetKAM, fixedSunPlanetaryKAM, planetaryExponentialSafety
+  (blocked on lane N), partialConvex_nekhoroshev (lane N, handed to Zohar's team).
+- **22:42. properlyDegenerateKAM seal-ready.** P5-MAIN (PGAssembly/Main, the signed `main`) passed its seal-key audit:
+  exact frozen type and prospective seal with propext/Classical.choice/Quot.sound only. Go given to the sub-orchestrator
+  to install the P5-PROV wrapper and seal (18 of 22 once landed).
+- **22:46. Ruling (owner to review: P11SecularSpec amended, h real on real points).** The signed P11A definition
+  P11SecularSpec recorded only the real part of the secular Hamiltonian C.h at real points. P11A-P5's application of
+  osc_averaging needs h real on real points (source premise OscHyp.real_h; the blueprint's h-tilde is real analytic),
+  and without it a clause of P11FastSpec is false in general. Ruling: the second conjunct of P11SecularSpec also states
+  (C.h (realInclusion J)).im = 0 (P11ASignatures.lean lines 688-690; backup orchestrator-tools/handoffs/
+  P11ASignatures.lean.bak-2250). P11A-P2f proves it inside holo_chart (P2b's explicit p11HoloH is real on reals); P5's
+  avg_fast then needs no extra hypothesis. Related: P11A-P2e audit F1 (Omega realness not exported by P2b's
+  Nonempty-only producer) is closed inside P2f by a strengthened producer.
+- **22:50. Ruling (T10 accepted; li-ord BYPASSED under D27).** T10's audit confirmed the signed lie and real_lie_taylor
+  but failed the slice because step stepP:p11b:li-ord (the bracket orders) is never stated; lie's proof bounds the
+  remainder directly instead. li-ord's only consumer is lie, so the step is recorded BYPASSED (route substitution, D27).
+- **22:55. properlyDegenerateKAM sealed (18 of 22 once checks land).** The sub-orchestrator committed the seal
+  (9fc6965a): P5-PROV wrapper with the frozen telescope verbatim, `by exact KAM.Planetary.main` with the 27 binders;
+  frozen body `by exact KAM.Provider.Planetary.properlyDegenerateKAM`; manifest SEALED (4 DRAFT_SORRY left:
+  planarTwoPlanetKAM, fixedSunPlanetaryKAM, planetaryExponentialSafety, partialConvex_nekhoroshev).
+- **23:00. Ruling (P11A-P7 parametric core).** As for P5: P7 proves avg_slow's content against an unsigned parametric
+  copy of the signed P11SlowSpec (C and the fast data as parameters); the signed P11SlowSpec, avg_slow and data become
+  wrappers once holo_chart (P2f) and P5's avg_fast wrappers land.
+- **23:10. Gap fill GAP-B.** B10 landed but bpP:p11a:exported-sums stays open on step es-3 (the real tail sums; B13
+  covered only the E1-E3 scalar slice). An append-only package GAP-B proves es-3 literally.
+- **23:20. Ruling (owner to review: signed p11d1 parenthesization).** The signed P11A definition p11d1 read
+  min (p11s1 C eps*C.sigma) C.rz^2, which Lean parses as (min (s1 sigma) rz)^2; the source has d_1 = min{s_1 sigma_F,
+  r_z^2}. The P11A-P5 audit showed the misreading makes eta1 grow like log(1/eps)^(3 tau+2) instead of the source's
+  log(1/eps)^(2 tau+1), which breaks P7's as-osc and the signed P11SlowSpec. Amended to min (p11s1 C eps*C.sigma) (C.rz^2)
+  (same kind as the 19:00 exported_sums parenthesization); backup orchestrator-tools/handoffs/P11ASignatures.lean.bak-2320.
+  P11A-P5 fix round (P5c) adopts it and exports the source eta1 rate.
+- **23:20. Tooling fix.** tmux targets matched session names by prefix (inp-mprov-p11ap5 resolved to inp-mprov-p11ap5w),
+  which blocked a launch and could have killed the wrong session; the orchestrator scripts now use exact targets.
+- **23:30. Gap fill GAP-C (sub-orchestrator request).** bpP:p11a:free-radius stays open on step fr-list: A7 at the
+  adapted radius is used inside B10's iterPre_base but never stated; adm_choice_initial covers only the fixed radius.
+  An append-only package GAP-C states it for selectionAdapted.
+- **23:35. Ruling (P11A-P7 split; design-size signal).** P7 round 1 delivered the signed slow data definitions, the
+  parametric spec copy and three analytic tools, but not the core avg_slow (prover estimate 2000+ more lines against
+  the design's 650). The remainder is split: P7b (polar averages, Z, h0, f2 and its bounds) and P7c (divisor clauses,
+  displacement, aniso_avg application, parametric in P7b's outputs) run in parallel; P7d assembles avg_slow_of_spec
+  and the signed wrappers; P7 is audited once, whole.

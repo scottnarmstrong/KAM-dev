@@ -1,0 +1,43 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+-- DRAFT (W-STMT rev1), not frozen. Proposed final path: KAM/Frozen/Wave/Defs/IsClassicalSolution.lean; namespace KAM.Wave.
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+
+/-!
+# Classical solutions `KAM.Wave.IsClassicalSolution`
+
+Blueprint-W Definition `bpW:w0:nlw` (on the whole time line `I = ℝ`); P96-W (1), p. 272 with
+`f(u) = u³`. The partial derivatives are named as witnesses: `u_t`, `u_tt` are two-sided time
+derivatives, `u_x`, `u_xx` are derivatives within `[0, π]` (one-sided at the endpoints), and all
+five functions are continuous on `ℝ × [0, π]`. Values of `u` off `ℝ × [0, π]` play no role.
+-/
+
+@[expose] public noncomputable section
+
+namespace KAM.Wave
+
+/-- `u` is a classical solution on `ℝ` of `u_tt = u_xx - m u - u³` on `[0, π]` with
+`u(t, 0) = u(t, π) = 0` (blueprint-W `bpW:w0:nlw`). -/
+-- The standing convention `0 < m` is part of the carrier (W-ST2, uniform mass discipline).
+def IsClassicalSolution (m : ℝ) (_hm : 0 < m) (u : ℝ → ℝ → ℝ) : Prop :=
+  ∃ ut ux utt uxx : ℝ → ℝ → ℝ,
+    (∀ v ∈ ({Function.uncurry u, Function.uncurry ut, Function.uncurry ux,
+        Function.uncurry utt, Function.uncurry uxx} : Set (ℝ × ℝ → ℝ)),
+      ContinuousOn v (Set.univ ×ˢ Set.Icc 0 Real.pi)) ∧
+    (∀ t : ℝ, ∀ x ∈ Set.Icc 0 Real.pi,
+      HasDerivAt (fun s => u s x) (ut t x) t ∧
+      HasDerivAt (fun s => ut s x) (utt t x) t ∧
+      HasDerivWithinAt (u t) (ux t x) (Set.Icc 0 Real.pi) x ∧
+      HasDerivWithinAt (ux t) (uxx t x) (Set.Icc 0 Real.pi) x ∧
+      utt t x = uxx t x - m * u t x - u t x ^ 3) ∧
+    ∀ t : ℝ, u t 0 = 0 ∧ u t Real.pi = 0
+
+end KAM.Wave
+
+end

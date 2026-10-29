@@ -1,0 +1,180 @@
+\section{Conventions and normalizations}\label{bpW:w0}
+
+This part fixes every normalization of track~W \emph{once}. Later parts, the proposed headline
+(\S\ref{bpW:wh}) and all future Lean statements use exactly these conventions; any departure must be declared as a
+deviation. Section~\ref{bpW:w0:table} compares them with the printed conventions of the wave source, which are not
+internally consistent (\S\ref{bpW:w0:table}, and \texttt{docs/tracks/W/errata-check-W0.md}).
+
+\subsection{Sources and locators}\label{bpW:w0:sources}
+
+\begin{itemize}
+\item \textbf{P96-W}: J.~P\"oschel, \emph{Quasi-periodic solutions for a nonlinear wave equation}, Comment.\ Math.\
+  Helv.\ \textbf{71} (1996), 269--296 (ETH E-Periodica scan). Printed page $=$ PDF page $+267$.
+\item \textbf{P96-K}: J.~P\"oschel, \emph{A KAM-theorem for some nonlinear partial differential equations}, Ann.\
+  Scuola Norm.\ Sup.\ Pisa (4) \textbf{23} (1996), 119--148 (Numdam scan). Printed page $=$ PDF page $+117$.
+\item \textbf{KP96}: S.~Kuksin, J.~P\"oschel, \emph{Invariant Cantor manifolds of quasi-periodic oscillations for a
+  nonlinear Schr\"odinger equation}, Ann.\ of Math.\ \textbf{143} (1996), 149--179; \emph{author version 2.1}, cited
+  by its own page numbers (not the journal's).
+\end{itemize}
+Versions and hashes are those of \texttt{docs/explorations/pde-kam-and-leapfrogging.md}, \S1. Every formula of a
+scanned source relied on below was read on a page image, not only on the OCR layer.
+
+\subsection{The equation}\label{bpW:w0:pde}
+
+\begin{assumption}[Mass]\label{bpW:w0:mass}
+$m>0$ is fixed. All constants may depend on $m$ unless stated otherwise; no uniformity as $m\to0$ or $m\to\infty$ is
+claimed anywhere.
+\end{assumption}
+
+\begin{definition}[Cubic Dirichlet wave equation]\label{bpW:w0:nlw}
+A \emph{classical solution} on an open interval $I\subset\R$ is a function $u:I\times[0,\pi]\to\R$ such that
+$u,u_t,u_x,u_{tt},u_{xx}$ exist and are continuous on $I\times[0,\pi]$ (one-sided in $x$ at the endpoints) and
+\begin{equation}\label{bpW:w0:eq}
+u_{tt}=u_{xx}-mu-u^3\quad\text{on }I\times[0,\pi],\qquad u(t,0)=u(t,\pi)=0\quad(t\in I).
+\end{equation}
+\end{definition}
+\source{P96-W (1) and p.~272 with $f(u)=u^3$; the source writes $u_{tt}=u_{xx}-mu-f(u)$ with $f$ odd, analytic,
+$f(u)=au^3+O(u^5)$, $a\neq0$; we take $a=1$ and no higher terms (declared specialization).}
+
+\begin{definition}[Dirichlet basis and linear frequencies]\label{bpW:w0:basis}
+For $j\ge1$ let $\phi_j(x)=\sqrt{2/\pi}\,\sin(jx)$ and $\lambda_j=\sqrt{j^2+m}>0$. Then
+$\int_0^\pi\phi_i\phi_j\,dx=\delta_{ij}$, $-\phi_j''+m\phi_j=\lambda_j^2\phi_j$ and $\phi_j(0)=\phi_j(\pi)=0$.
+\end{definition}
+\source{P96-W p.~277, identical.}
+
+We record the elementary facts about $\lambda$ used repeatedly: $j<\lambda_j<j+\sqrt m$, $j/\lambda_j<1$, the map
+$j\mapsto\lambda_j$ is strictly increasing, the function $f(s)=\sqrt{s^2+m}$ is strictly convex on $\R$ with
+$0<f'(s)=s/f(s)<1$ for $s>0$, $f'$ is strictly increasing, and $\lambda_{j+1}-\lambda_j=(2j+1)/(\lambda_{j+1}+\lambda_j)<1$.
+
+\subsection{Sequence spaces}\label{bpW:w0:spaces}
+
+\begin{definition}[Weighted sequence spaces]\label{bpW:w0:ellap}
+For $a\ge0$ and $p\in\R$, $\ell^{a,p}$ is the space of real sequences $w=(w_j)_{j\ge1}$ with
+\[\norm{w}_{a,p}^2=\sum_{j\ge1}\abs{w_j}^2\,j^{2p}e^{2aj}<\infty,\]
+and $\ell^{a,p}_\C$ its complex analogue. The phase space is $E_{a,p}=\ell^{a,p}\times\ell^{a,p}$ with
+$\norm{(q,p)}_{E}=\max(\norm{q}_{a,p},\norm{p}_{a,p})$. The symbol $p$ in $\ell^{a,p}$ is the regularity exponent;
+the second component of $E_{a,p}$ is the momentum, also written $p$; context separates them.
+\end{definition}
+\source{P96-W p.~277 (the source's $s$ is our $p$).}
+
+\begin{convention}[Headline weights]\label{bpW:w0:weights}
+The headline and milestone W0 use $a=1$ and $p=1$: phase space $E_{1,1}$, nonlinear field in $\ell^{1,2}$. The source
+allows any $a>0$, $s>0$; this specialization removes two headline parameters. Lower exponents $\ell^{1,p}$, $p\le1$,
+appear only as target spaces of the unbounded linear part.
+\end{convention}
+
+\begin{definition}[Two-sided spaces]\label{bpW:w0:twosided}
+For $a\ge0$, $s\in\R$, $\ell^{a,s}_b$ is the space of complex sequences $(c_l)_{l\in\Z}$ with
+\[\norm{c}_{a,s}^2=\sum_{l\in\Z}\jap{l}^{2s}e^{2a\abs l}\abs{c_l}^2<\infty,\qquad \jap l=\max(1,\abs l).\]
+At $l=0$ the weight is $1$, so this is exactly the norm $\abs{c_0}^2+\sum_{l\ne0}\abs{c_l}^2\abs l^{2s}e^{2\abs la}$ of
+P96-W p.~279. The convolution is $(c*d)_l=\sum_{i\in\Z}c_id_{l-i}$.
+\end{definition}
+
+\subsection{Coordinates, Hamiltonian and equations of motion}\label{bpW:w0:hamiltonian}
+
+\begin{definition}[Reconstruction]\label{bpW:w0:reconstruction}
+For $(q,p)\in E_{a,p}$ with $a>0$ put
+\[U_m(q)(x)=\sum_{j\ge1}\frac{q_j}{\sqrt{\lambda_j}}\phi_j(x),\qquad V_m(p)(x)=\sum_{j\ge1}\sqrt{\lambda_j}\,p_j\phi_j(x).\]
+The intended dictionary is $u=U_m(q)$, $u_t=V_m(p)$. Equivalently, if $u=\sum x_j\phi_j$ and $u_t=\sum y_j\phi_j$, then
+$q_j=\sqrt{\lambda_j}\,x_j$ and $p_j=y_j/\sqrt{\lambda_j}$; this is a symplectic rescaling,
+$dq_j\wedge dp_j=dx_j\wedge dy_j$.
+\end{definition}
+\source{P96-W p.~277 ($u=\mathcal Sq$, $v=\mathcal S'p$), identical.}
+
+Lemma~\ref{bpW:w0n:recon-bounded} shows that for $a>0$ these series converge absolutely and uniformly on $[0,\pi]$
+together with all their $x$-derivatives, for every $p\in\R$.
+
+\begin{definition}[Hamiltonian]\label{bpW:w0:H}
+For $(q,p)\in E_{1,1}$,
+\[H_m(q,p)=\Lambda(q,p)+G(q),\qquad \Lambda(q,p)=\frac12\sum_{j\ge1}\lambda_j\bigl(q_j^2+p_j^2\bigr),\qquad
+G(q)=\frac14\int_0^\pi U_m(q)(x)^4\,dx.\]
+$\Lambda$ is finite on $E_{a,p}$ for $p\ge\frac12$; in particular on $E_{1,1}$.
+\end{definition}
+\source{P96-W (8) p.~280 and (9) p.~280 with $g(u)=u^4/4$; the energy $\frac12\avg{v,v}+\frac12\avg{Au,u}+\int g(u)$
+of p.~277 in the coordinates of Definition~\ref{bpW:w0:reconstruction}.}
+
+\begin{definition}[Cubic gradient]\label{bpW:w0:Gq}
+For $q\in\ell^{1,1}$ let $\Gq(q)$ be the sequence
+\[\Gq(q)_l=\frac{1}{\sqrt{\lambda_l}}\int_0^\pi U_m(q)(x)^3\phi_l(x)\,dx\qquad(l\ge1).\]
+By Lemma~\ref{bpW:w0n:gradient}, $\Gq(q)_l=\partial G/\partial q_l$; by Theorem~\ref{bpW:w0n:cubic-bound}
+it lies in $\ell^{1,2}$.
+\end{definition}
+
+\begin{definition}[Symplectic form and equations of motion]\label{bpW:w0:eqmotion}
+The symplectic form is $\sum_j dq_j\wedge dp_j$ and the Hamiltonian equations are $\dot q_j=\partial H/\partial p_j$,
+$\dot p_j=-\partial H/\partial q_j$, i.e.
+\begin{equation}\label{bpW:w0:coeffsys}
+\dot q_j=\lambda_jp_j,\qquad \dot p_j=-\lambda_jq_j-\Gq(q)_j\qquad(j\ge1).
+\end{equation}
+The linear part $q\mapsto(\lambda_jq_j)$ maps $\ell^{a,p+1}$ boundedly to $\ell^{a,p}$ (norm $\le\sqrt{1+m}$) but not
+$\ell^{a,p}$ to itself; the system is read in $\ell^{1,0}$ for $(q,p)\in E_{1,1}$, or coordinatewise. The nonlinear
+part $\Gq$ is smoothing of order one (Theorem~\ref{bpW:w0n:cubic-bound}).
+\end{definition}
+\source{P96-W (6) p.~277 and p.~280 ($X_G=\sum(\partial_{p_j}G\,\partial_{q_j}-\partial_{q_j}G\,\partial_{p_j})$),
+identical.}
+
+\subsection{Complex coordinates, actions, angles}\label{bpW:w0:complex}
+
+\begin{definition}[Complex coordinates]\label{bpW:w0:z}
+$z_j=(q_j+ip_j)/\sqrt2$, $\bar z_j=(q_j-ip_j)/\sqrt2$, so $q_j=\sqrt2\operatorname{Re}z_j$,
+$p_j=\sqrt2\operatorname{Im}z_j$, $\abs{z_j}^2=(q_j^2+p_j^2)/2$, and
+\[\sum_jdq_j\wedge dp_j=i\sum_jdz_j\wedge d\bar z_j,\qquad \Lambda=\sum_j\lambda_j\abs{z_j}^2.\]
+Under the linear flow $\dot q_j=\lambda_jp_j$, $\dot p_j=-\lambda_jq_j$ one has $\dot z_j=-i\lambda_jz_j$.
+\end{definition}
+\source{P96-W p.~281 (definition of $z$, form $i\sum dz\wedge d\bar z$, $\Lambda=\sum\lambda_j\abs{z_j}^2$),
+identical; the recovery formula and the rotation sign printed later in P96-W differ, see \S\ref{bpW:w0:table}.}
+
+\begin{definition}[Actions and radian angles]\label{bpW:w0:actions}
+The (oscillator) action of mode $j$ is $I_j=(q_j^2+p_j^2)/2=\abs{z_j}^2$. On $\{I_j>0\}$ the radian angle $\varphi_j$ is
+defined by
+\[q_j=\sqrt{2I_j}\cos\varphi_j,\qquad p_j=-\sqrt{2I_j}\sin\varphi_j,\qquad z_j=\sqrt{I_j}\,e^{-i\varphi_j}.\]
+Then $dq_j\wedge dp_j=d\varphi_j\wedge dI_j$ (Jacobian determinant $1$), $\Lambda=\sum\lambda_jI_j$, and the linear
+flow is $\dot\varphi_j=\lambda_j$, $\dot I_j=0$. For tangential modes $j\in J=\{1,2\}$ we write $I=(I_1,I_2)$; for
+normal modes $j\ge3$ we write $Z_j=I_j$.
+\end{definition}
+
+\begin{convention}[Period-one torus angles and frequencies]\label{bpW:w0:periodone}
+Torus parameters $\theta\in\R^2$ have period one: $\varphi_j=2\pi\theta_j$. A torus with radian frequency
+vector $\omega$ (period $2\pi$) has campaign frequency $\nu=\omega/(2\pi)$. The pair $(\theta,Y)$ with $Y=2\pi I$ is
+canonical, $d\varphi\wedge dI=d\theta\wedge dY$. Small divisors in campaign units are $2\pi\,k\cdot\nu+l\cdot\Omega$.
+The linear torus of action $I\in(0,\infty)^2$ is
+\[K^0_I(\theta)=(Q^0,P^0),\qquad Q^0_j=\sqrt{2I_j}\cos(2\pi\theta_j),\quad P^0_j=-\sqrt{2I_j}\sin(2\pi\theta_j)\quad (j=1,2),\]
+and $Q^0_j=P^0_j=0$ for $j\ge3$,
+which is invariant under the linear flow with $\nu=(\lambda_1,\lambda_2)/(2\pi)$.
+\end{convention}
+
+\subsection{Comparison with the printed conventions of the sources}\label{bpW:w0:table}
+
+The following table maps each normalization to P96-W (and, where relevant, KP96). ``Same'' means checked identical on
+the page image. Details and derivations are in \texttt{docs/tracks/W/errata-check-W0.md}.
+
+\medskip
+{\small
+\noindent\begin{tabular}{@{}p{0.2\textwidth}p{0.34\textwidth}p{0.4\textwidth}@{}}
+\toprule
+Object & This blueprint & P96-W (printed) \\
+\midrule
+basis, $\lambda_j$ & $\phi_j=\sqrt{2/\pi}\sin jx$, $\lambda_j=\sqrt{j^2+m}$ & same (p.~277)\\
+$\ell^{a,p}$ & $\sum\abs{w_j}^2j^{2p}e^{2aj}$ & same, exponent called $s$ (p.~277)\\
+two-sided $\ell^{a,s}_b$ & weight $\jap l^{2s}e^{2a\abs l}$ & same (p.~279)\\
+$u$, $u_t$ & $U_m(q)$, $V_m(p)$ & same, $\mathcal Sq$, $\mathcal S'p$ (p.~277)\\
+$H$ & $\frac12\sum\lambda_j(q_j^2+p_j^2)+\frac14\int U^4$ & same, (8)--(9) p.~280\\
+quartic coefficient & $g_{ijkl}=\int_0^\pi\phi_i\phi_j\phi_k\phi_l$ (unweighted) & $G_{ijkl}=g_{ijkl}/\sqrt{\lambda_i\lambda_j\lambda_k\lambda_l}$, (10) p.~281; (11) correct\\
+symplectic form & $\sum dq\wedge dp=i\sum dz\wedge d\bar z$ & same (pp.~278, 281)\\
+$z$ & $(q+ip)/\sqrt2$ & same (p.~281)\\
+recovery of $q,p$ & $q=\sqrt2\operatorname{Re}z$, $p=\sqrt2\operatorname{Im}z$ & $q=\operatorname{Re}z$, $p=\operatorname{Im}z$ (p.~290): \textbf{disagrees}\\
+action & $I_j=\abs{z_j}^2=(q_j^2+p_j^2)/2$ & $I_j=q_j^2+p_j^2$ (p.~276, informal); $I=\frac12\abs z^2$ (p.~287); $\Lambda=\avg{\alpha,I}$ with $\alpha=\lambda$ (p.~290) requires $I=\abs z^2$: \textbf{inconsistent}\\
+quartic in $z$ & $\frac1{16}\sum g_{ijkl}\prod(z+\bar z)/\sqrt{\lambda\lambda\lambda\lambda}$ & $\frac14\sum G_{ijkl}\prod(z+\bar z)$, then $\sum' G_{ijkl}w^4$ (p.~282): \textbf{two factor-4 slips}\\
+normal form & $\frac12\avg{AI,I}+\avg{BI,Z}$, $A_{ii}=\frac{9}{8\pi\lambda_i^2}$, $A_{ij}=B_{ji}=\frac{3}{2\pi\lambda_i\lambda_j}$ & $\bar G_{ij}=\frac6\pi\frac{4-\delta_{ij}}{\lambda_i\lambda_j}$ (pp.~282, 284), $A=B=\bar G$ (p.~290): $16\times$ ours\\
+rotation sign & $\dot z_j=-i\lambda_jz_j$, $\varphi$ increases & $\dot z=i\omega z$, flow $e^{i\omega t}$ (pp.~287, 289--290): time-reversed\\
+torus angles & period one, $\nu=\omega/2\pi$ & period $2\pi$\\
+\bottomrule
+\end{tabular}}
+
+\medskip
+\begin{remark}[Why the disagreements are harmless for existence but fatal for constants]\label{bpW:w0:harmless}
+Every nondegeneracy condition used by the source (P96-W (A$_1$)--(A$_3$), p.~288) is invariant under multiplying
+$(A,B)$ by a common positive constant and under rescaling $I$, and $H$ is even in $p$, so the time reversal
+$(q,p)(t)\mapsto(q,-p)(-t)$ maps solutions to solutions. Hence the qualitative theorem is unaffected. The printed
+constants, frequency shifts, and the amplitude--action dictionary are not, and must not be copied.
+\end{remark}
