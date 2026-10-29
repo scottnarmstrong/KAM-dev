@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 17:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-29 17:32 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -204,7 +204,7 @@ Overall, both together: 89.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 17:20 UTC from `main` at `37961b30` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 17:32 UTC from `main` at `f1941156` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -364,7 +364,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: kernel_replay: C-locale comm | `inp-iguards` | 3 (vs `inp`) |
 | **ncloselean** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N-CLOSE-LEAN R2: item (a) states the two intermediate inclusions (F1) | `inp-ncloselean` | 4 (vs `inp`) |
-| **nsync** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N-SYNC: spot-check audit request for the graph N sync, plus the p9#data definitions row | `inp-nsync` | 1 (vs `inp`) |
+| **nsync** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: N-SYNC: independent audit 1 of the graph N sync (97 of 101 checked rows confirmed; 4 corre | `inp-nsync` | 2 (vs `inp`) |
 | **sopolyb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-POLY-B: Tests/Packed docstring wording | `inp-sopolyb` | 12 (vs `inp`) |
 | **sotoygen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYGEN: report wording (exact certificate values; float margins for reading only) | `inp-sotoygen` | 5 (vs `inp`) |
 
@@ -376,6 +376,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-29 17:32 | `f1941156` | D32: graph N blueprint scope repair of three Part 1 steps (H1-H5 added by reviewed amendment) |
 | 2026-10-29 16:59 | `4e216f66` | Land inp into main |
 | 2026-10-29 16:58 | `f4c2091d` | D31 addendum: graph N averaging totality remark treated as a reviewed convention |
 | 2026-10-29 16:53 | `257bf902` | Land inp into main |
@@ -387,7 +388,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 16:34 | `9b258fbb` | README: frozen statements moved to docs/STATEMENTS.md (per track: Lean link, source with paper, docstring, status, provider; frozen definitions per track), README keeps a linked index; collaborator row removed from the agent list |
 | 2026-10-29 16:32 | `b2ce3060` | Land inp into main |
 | 2026-10-29 16:22 | `d6946670` | README: papers moved to docs/PAPERS.md (grouped, annotated: links, use, citing frozen theorems, errata), README keeps a linked index; landed table drops author names from commit subjects; HL19 is Haro-Luque |
-| 2026-10-29 16:18 | `be2cfcd8` | README: no per-author credit for parts of the project (collaborative project); track N and phase text, collaborator row, progress notes |
 <!-- /AUTO:landed -->
 
 ## Decisions
