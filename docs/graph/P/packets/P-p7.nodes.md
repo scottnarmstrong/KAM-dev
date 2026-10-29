@@ -1653,9 +1653,9 @@ EDGE: bpP:p14:sb-conv#quarterTurn | blueprint-P/parts/p7-kepler-poincare.tex#bpP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-q
 REVIEWER: sol-delta-P-ah
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P2-audit-1): delaunay public carrier is Phase 2 with an explicit Kepler-solver fallback; faithful on deDom only; owner review
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunay, KAM/Kepler/Orbit.lean:45; keplerLong, KAM/Kepler/Equation.lean:117–124, eccAnom:272; delaunay_symplectic, KAM/Kepler/DelaunaySymplectic.lean:447–483
+LEAN_NOTE: definition-node policy, D31: faithful on deDom; the off-domain (totalized Kepler-solver) value is not claimed as the source map; P-GRAPH-CLOSE-audit-1.md:18 definition-confirmed
 NOTE: created from p7:prose-L27-L33 (SPEC section data); consumers: nearly every statement of Part 7
 
 NODE: bpP:p7:sec-product#data

@@ -1061,9 +1061,9 @@ EDGE: bpP:p0:hamsymp#symplecticForm | blueprint-P/parts/p0-conventions.tex#bpP:p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p0+sol-review-P-c
 REVIEWER: sol-delta-P-b
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: ASSUMED
 LEAN_REF: -
-LEAN_NOTE: convention/remark with purely definitional content (gap survey GAP-PLAN-P.md section 2 item 6; ruling OVERNIGHT 03:55, owner review); re-kind pending: the graph schema has no SET_KIND amendment and no remark kind
+LEAN_NOTE: reviewed convention (D31), not a proved Lean claim: enforced by guard proofs at each consumer; P-GRAPH-CLOSE-audit-1.md:15
 NOTE: remark kept as a node: Part 5 (stepP:p5:mn-meas) and Part 6 (bpP:p6:domain) cite it for guarded facts they consume (meas F(V,r) < infinity, domain guards). No edge to bpP:p0:pg: the remark explains the guards of that statement, and an edge would close a cycle through bpP:p5:main.
 
 NODE: bpP:p0:pg
@@ -2003,9 +2003,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:order
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: ASSUMED
 LEAN_REF: -
-LEAN_NOTE: convention/remark with purely definitional content (gap survey GAP-PLAN-P.md section 2 item 6; ruling OVERNIGHT 03:55, owner review); re-kind pending: the graph schema has no SET_KIND amendment and no remark kind
+LEAN_NOTE: reviewed convention (D31), not a proved Lean claim: coordinate-order dictionary enforced by guard proofs at each consumer; P-GRAPH-CLOSE-audit-1.md:16
 NOTE: remark: its justification is inline (confirm, or exclude if not a mathematical claim)
 
 NODE: bpP:p1:chart
@@ -6974,9 +6974,9 @@ EDGE: bpP:p1:two-scale | blueprint-P/parts/p3a-two-scale-iteration.tex#bpP:p3:co
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p3
 REVIEWER: sol-review-P-e
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P2-audit-1): wsum/wnorm carry junk values off the summable locus; WBound is a guarded predicate (same whole-carrier issue as p11 sec-conv#data); owner review
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Weighted.coeff, modeWeight, wsum, WSummable, WBound, wnorm, KAM/Weighted/Norm.lean:48–83
+LEAN_NOTE: definition-node policy, D31 (weighted-norm interface WSummable/HasFiniteWNorm/WBound with real norm totalized off the finite locus accepted as faithful); P-GRAPH-CLOSE-audit-1.md:17 definition-confirmed
 NOTE: section data of Part 3a (prose L11-L34). The Hamilton equations here are in the order (action,angle) of CP10; the frozen order is bpP:p1:order
 
 NODE: bpP:p3b#kam-bounds
@@ -14490,9 +14490,9 @@ EDGE: bpP:p14:sb-conv#quarterTurn | blueprint-P/parts/p7-kepler-poincare.tex#bpP
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-q
 REVIEWER: sol-delta-P-ah
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P2-audit-1): delaunay public carrier is Phase 2 with an explicit Kepler-solver fallback; faithful on deDom only; owner review
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Kepler.delaunay, KAM/Kepler/Orbit.lean:45; keplerLong, KAM/Kepler/Equation.lean:117–124, eccAnom:272; delaunay_symplectic, KAM/Kepler/DelaunaySymplectic.lean:447–483
+LEAN_NOTE: definition-node policy, D31: faithful on deDom; the off-domain (totalized Kepler-solver) value is not claimed as the source map; P-GRAPH-CLOSE-audit-1.md:18 definition-confirmed
 NOTE: created from p7:prose-L27-L33 (SPEC section data); consumers: nearly every statement of Part 7
 
 NODE: bpP:p7:sec-product#data
@@ -21187,9 +21187,9 @@ EDGE: bpP:p1:period-convert | blueprint-P/parts/p11-cp09-preparation.tex#bpP:p11
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p11
 REVIEWER: sol-review-P-v
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: not closable (DEFS-P11-audit-1): the source weighted norm is [0,inf]-valued while Weighted.wsum/wnorm are real-valued totalizations and p11WBound is a predicate; logged for owner review
+LEAN_STATUS: PROVED
+LEAN_REF: KAM/Weighted/Norm.lean:48–83; Preparation/Basic.lean; docs/tracks/P/audits/DEFS-P11-audit-1.md:23–36
+LEAN_NOTE: definition-node policy, D31 (weighted-norm interface accepted as faithful, as p3 conv#data); P-GRAPH-CLOSE-audit-1.md:19 definition-confirmed
 NOTE: the reference to Remark bpP:p2:use5(3) (an excluded administrative remark) is covered by bpP:p1:period-convert
 
 NODE: bpP:p11:sec-A#data

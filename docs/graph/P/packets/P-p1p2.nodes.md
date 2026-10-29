@@ -239,9 +239,9 @@ EDGE: bpP:p1:conv#data | blueprint-P/parts/p1-hamiltonian-tools.tex#bpP:p1:order
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2+sol-review-P-d
 REVIEWER: sol-delta-P-d
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: ASSUMED
 LEAN_REF: -
-LEAN_NOTE: convention/remark with purely definitional content (gap survey GAP-PLAN-P.md section 2 item 6; ruling OVERNIGHT 03:55, owner review); re-kind pending: the graph schema has no SET_KIND amendment and no remark kind
+LEAN_NOTE: reviewed convention (D31), not a proved Lean claim: coordinate-order dictionary enforced by guard proofs at each consumer; P-GRAPH-CLOSE-audit-1.md:16
 NOTE: remark: its justification is inline (confirm, or exclude if not a mathematical claim)
 
 NODE: bpP:p1:chart
