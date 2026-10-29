@@ -20,7 +20,7 @@ space (the hypotheses of `KAM.contDiffOn_infty_of_differentiableOn`).
 The proof combines three ingredients.
 
 * **Regularity.** `f` is smooth on `U` and every `D^j f` is holomorphic
-  (`KAM.contDiffOn_infty_of_differentiableOn`, Zohar's `KAM/Strip/Regularity.lean`).
+  (`KAM.contDiffOn_infty_of_differentiableOn`, `KAM/Strip/Regularity.lean`).
 * **Iterated Cauchy estimate.** `n` applications of the first-order Cauchy estimate on nested
   polydiscs of radius `ρ / n` give `‖D^n f (z)‖ ≤ (n / ρ)^n A`, hence the Taylor series
   `∑ (n!)⁻¹ D^n f(z) h^n` has radius of convergence at least `ρ / e`
