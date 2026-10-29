@@ -54,7 +54,7 @@ theorem p11Rescale_snd (J0 : P11Vec n) (eps : ℝ) (z : P11Phase (n + n)) :
   funext j
   refine Fin.addCases (fun i => ?_) (fun i => ?_) j
   · simp [p11Rescale, Fin.append_left]
-  · simp [p11Rescale, p11RhoTilde0, Fin.append_right]; ring
+  · simp [p11Rescale, p11RhoTilde0]; ring
 
 /-- `A_ε` commutes with all angle shifts. -/
 theorem p11Rescale_shift (J0 : P11Vec n) (eps : ℝ) (z : P11Phase (n + n))
@@ -76,7 +76,7 @@ theorem p11Rescale_hasFDerivAt (J0 : P11Vec n) (eps : ℝ) (z : P11Phase (n + n)
     · simp [p11Rescale]
     · rw [p11Rescale_snd]; simp [add_comm]
   rw [hf]
-  exact ContinuousLinearMap.hasFDerivAt.const_add _ |>.congr_fderiv rfl
+  exact (ContinuousLinearMap.hasFDerivAt _).const_add _
 
 /-- `A_ε` is an `ε`-chart: `A_ε^*(dJ∧dθ + dρ̃∧dζ) = ε (dr∧dθ + dρ'∧dζ)`. -/
 theorem p11Rescale_symplFormC (J0 : P11Vec n) (eps : ℝ) (z : P11Phase (n + n))
@@ -85,7 +85,7 @@ theorem p11Rescale_symplFormC (J0 : P11Vec n) (eps : ℝ) (z : P11Phase (n + n))
         (fderiv ℂ (p11Rescale J0 eps) z v) = eps * KAM.Canonical.symplFormC u v := by
   rw [(p11Rescale_hasFDerivAt J0 eps z).fderiv]
   simp only [KAM.Canonical.symplFormC, ContinuousLinearMap.prod_apply,
-    ContinuousLinearMap.coe_fst', ContinuousLinearMap.smul_apply, ContinuousLinearMap.coe_snd',
+    ContinuousLinearMap.coe_fst', smul_apply, ContinuousLinearMap.coe_snd',
     Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   ring
