@@ -34,6 +34,8 @@ theorem hypotheses_check_full (hn : 3 ≤ n) (p : HeadParams n) (hp : p.Pos)
     (hε : 0 < ε) (hε0 : ε ≤ p.eps0) :
     -- (a) tubes
     (polyNbhd (centralSet n p.R) p.r0 ⊆ KAM.actionNbhd (actionBall n p.R) p.s ∧
+      actionBall n (5 * p.R / 8) ⊆ actionBall n p.R ∧
+      actionBall n p.R ⊆ realActionDomain n p.R p.s ∧
       (∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ polyNbhd (centralSet n p.R) p.r0 →
         I ∈ actionBall n (5 * p.R / 8) ∧ I ∈ actionBall n p.R ∧
           I ∈ realActionDomain n p.R p.s) ∧
@@ -112,9 +114,11 @@ theorem hypotheses_check_full (hn : 3 ≤ n) (p : HeadParams n) (hp : p.Pos)
       f2 z ((realInclusion₂_mem_Dom_iff {J : Fin n → ℝ | ‖J‖ ≤ p.R / 2} hs1 z).2 hz')
     rw [Complex.add_im, h2 z.2 hzV]
     simpa using hfz
-  refine ⟨⟨htube, hreal, ?_, ?_, ?_⟩, ⟨h1, h2, h3⟩, ⟨hc_qc hn p hp hh, hmu, hmuB⟩, hrad,
+  refine ⟨⟨htube, ?_, ball_subset_realActionDomain hp.hR hp.hs, hreal, ?_, ?_, ?_⟩,
+    ⟨h1, h2, h3⟩, ⟨hc_qc hn p hp hh, hmu, hmuB⟩, hrad,
     ⟨f1, f2, f3, d1, d2, S, rfl, rfl, rfl, rfl, ?_⟩, hc_exc hn p hp hh,
     ⟨fun z hz => ⟨hwreal z hz, rfl⟩, ?_⟩⟩
+  · exact ball_subset_ball (by linarith [hp.hR])
   · intro z hz
     have := (hreal z.2 hz.2).2.2
     rw [realActionDomain_eq hp.hR hp.hs] at this
