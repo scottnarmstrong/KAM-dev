@@ -835,3 +835,21 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   together. kam-inp's full build caught it and reset inp (nothing pushed). Fix: inp merged into inp-soexprc, a prover
   adapts Ball.lean's helper proofs (signed declarations unchanged), then a delta audit. Process note: siblings stacked
   on one base get a trial merge with current inp and a build of the shared modules before they are sent to kam-inp.
+- **15:35. Owner request: seal planetaryExponentialSafety, finish track P, then continue track SO.** Track N is
+  complete: Zohar's team sealed partialConvex_nekhoroshev (a88de4b6, 01:21 UTC; PR #7 merged into main 14:31 UTC);
+  kam-inp merged main into inp (677cbecf). Started: E11 (stopped, Opus, critical path) and E12Q (expsafe and the provider
+  wrapper, parametric in stopped's signed statement, Opus). Independent seal-key audit of partialConvex_nekhoroshev
+  (NSEAL-PARTIAL audit 1): exact type, binder-applied seal, standard axioms and kernel replay PASS; two process findings:
+  - **Q1, orchestrator ruling:** the generated root KAM.lean imports SEALED providers (scripts/gen_root_imports.py skips
+    only DRAFT_SORRY anchors and their providers), so that `lake build` covers every theorem; this has been the practice
+    for all 21 sealed anchors. AGENTS.md rule 9 ("no module except the frozen anchor may import a provider") is read with
+    that generated-root exception, which its parenthesis already describes for drafts. Owner may want the rule text
+    amended to say so explicitly.
+  - **A1:** the final N11-F2 had no audit report on main (its audit 1, FAIL on F2-C1, lived on the unmerged branch
+    inp-n11f2; Zohar's team resolved F2-C1 with option (a), a `0 < b.c` premise on `iterative`). The report is restored
+    and a round-2 retro audit traces that premise to its discharge from the frozen hypotheses.
+  Also: design audit 6 closed F12/F13, found F14 (raw factor lengths, MEDIUM) and F15 (B₀ documentation); Revision 7 is
+  fixing them. I-GUARDS (whole-library kernel replay with the toolchain's leanchecker/lean4lean/nanoda, and an automated
+  guard mutation suite) started on claude-4, whose weekly quota resets at 16:00. README: track SO now appears in the
+  completion estimate (original project / track SO / overall) and at the top of At a glance; the size estimate includes
+  SO; track N marked complete; the I.HQ item marked done.
