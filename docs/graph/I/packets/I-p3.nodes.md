@@ -1740,9 +1740,9 @@ EDGE: bpI:p3:setting | blueprint-I/parts/p3-iso-local-charts.tex#stepI:p3:tori-p
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-I-p3+sol-review-I-p3
 REVIEWER: sol-delta-I-b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: no audited declaration states this step (to-torsion pieces partial, I-G1 assembly open)
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Iso.Charts.tori_patch_node (KAM/Iso/LeftoverNodes.lean)
+LEAN_NOTE: GAP-ISM-audit-1.md:42 PASS
 NOTE: -
 
 NODE: stepI:p3:tori-base
