@@ -367,6 +367,100 @@ theorem same_jets_full (D : Data n) {a : Vec n} (ha : a ∈ axes n) :
       ∀ y ∈ U, secular D true (χ y) - secular D false (χ y) = modelDelta D y.2.1 :=
   ⟨same_jets_jets D ha, same_jets_transfer_full D ha⟩
 
+/-! ### The quartic jet -/
+
+/-- `stepP:p8:q4-c`: the diagonal quartic coefficients are `G mᵢ mⱼ r₁ᵉˣ / (2 Λ²)` (the source
+statement is the case `G = m₀ = 1`), with `r₁ᵉˣ = radialR1`. -/
+theorem quartic_c_node (D : Data n) {I : Vec n} (hI : I ∈ actionDomain D) {i j : Fin n}
+    (hij : i < j) :
+    quarticCoeff D i j (I i, I j) 0 =
+      D.G * D.m i * D.m j * radialR1 (axis D I i) (axis D I j) / (2 * I i ^ 2) ∧
+    quarticCoeff D i j (I i, I j) 1 =
+      D.G * D.m i * D.m j * radialR1 (axis D I j) (axis D I i) / (2 * I j ^ 2) := by
+  obtain ⟨a, ha, rfl⟩ := hI
+  have h0 := quarticCoeff_zero D i j (action_pos D ha i) (action_pos D ha j)
+    (action_axes_lt D ha hij)
+  have h1 := quarticCoeff_one D i j (action_pos D ha i) (action_pos D ha j)
+    (action_axes_lt D ha hij)
+  refine ⟨?_, ?_⟩
+  · rw [h0]; unfold radialR1 axis; ring
+  · rw [h1]; unfold radialR1 axis; ring
+
+/-- The separated domain contains the product of the small balls `|v| < min(1/4, (1-α)/(1+α))`. -/
+private theorem mem_separatedDomain_of_small {α : ℝ} (hα0 : 0 < α) (hα1 : α < 1)
+    {vi vj : Fin 2 → ℝ} (hi : planeLength vi < min (1 / 4) ((1 - α) / (1 + α)))
+    (hj : planeLength vj < min (1 / 4) ((1 - α) / (1 + α))) :
+    (α, vi, vj) ∈ separatedDomain := by
+  have hi1 := hi.trans_le (min_le_left _ _)
+  have hj1 := hj.trans_le (min_le_left _ _)
+  have hi2 := hi.trans_le (min_le_right _ _)
+  have hj2 := hj.trans_le (min_le_right _ _)
+  have hs : (1 + α) * ((1 - α) / (1 + α)) = 1 - α := by field_simp
+  have hli : 0 ≤ planeLength vi := Real.sqrt_nonneg _
+  refine ⟨hα0, hα1, hi1, hj1, ?_⟩
+  nlinarith
+
+/-- `bpP:p8:quartic`: the six invariant coefficients (analytic in the two actions) give the
+degree-four jet of `S_fix` and of `S_mov`; the diagonal coefficients are the explicit
+`radialR1` values; the pair average is `-G mᵢ mⱼ a_j⁻¹ 𝒲(α; vᵢ, vⱼ)` with `𝒲 = dimensionlessPair`
+real analytic on the separated domain, which contains the sufficient subdomain; and the exact
+passage to `u` is the stated expansion. -/
+theorem quartic_full (D : Data n) (hn : 2 ≤ n) :
+    (∃ c : Fin n → Fin n → (ℝ × ℝ) → Fin 6 → ℝ,
+      (∀ i j, i < j → AnalyticOnNhd ℝ (c i j)
+        {IJ | 0 < IJ.1 ∧ 0 < IJ.2 ∧ IJ.1 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) <
+          IJ.2 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))}) ∧
+      (∀ I ∈ actionDomain D, ∀ u : Vec n × Vec n,
+        iteratedFDeriv ℝ 4 (slowSecular D false I) 0 (fun _ => u) / 24 =
+          ∑ i, ∑ j ∈ Finset.univ.filter (i < ·),
+            ∑ k, c i j (I i, I j) k * quarticMonomials ![u.1 i, u.2 i] ![u.1 j, u.2 j] k ∧
+        iteratedFDeriv ℝ 4 (slowSecular D true I) 0 (fun _ => u) / 24 =
+          ∑ i, ∑ j ∈ Finset.univ.filter (i < ·),
+            ∑ k, c i j (I i, I j) k * quarticMonomials ![u.1 i, u.2 i] ![u.1 j, u.2 j] k) ∧
+      ∀ I ∈ actionDomain D, ∀ i j, i < j →
+        c i j (I i, I j) 0 =
+          D.G * D.m i * D.m j * radialR1 (axis D I i) (axis D I j) / (2 * I i ^ 2) ∧
+        c i j (I i, I j) 1 =
+          D.G * D.m i * D.m j * radialR1 (axis D I j) (axis D I i) / (2 * I j ^ 2)) ∧
+    AnalyticOnNhd ℝ dimensionlessPair separatedDomain ∧
+    (∀ {i j : Fin n}, i < j → ∀ {L1 L2 : ℝ}, 0 < L1 → 0 < L2 → ∀ u v : Fin 2 → ℝ,
+      (![0, u 0], ![L1, u 1]) ∈ poincareDom → (![0, v 0], ![L2, v 1]) ∈ poincareDom →
+      (L1 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) / (L2 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))),
+        poincareV (![0, u 0], ![L1, u 1]), poincareV (![0, v 0], ![L2, v 1])) ∈
+        separatedDomain →
+      pairSlowSecular D i j L1 L2 (u, v) =
+        -D.G * D.m i * D.m j / (L2 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))) *
+          dimensionlessPair (L1 ^ 2 / (D.m i ^ 2 * (D.G * D.m0)) /
+            (L2 ^ 2 / (D.m j ^ 2 * (D.G * D.m0))),
+            poincareV (![0, u 0], ![L1, u 1]), poincareV (![0, v 0], ![L2, v 1]))) ∧
+    (∀ {α : ℝ} {vi vj : Fin 2 → ℝ}, 0 < α → α < 1 →
+      planeLength vi < min (1 / 4) ((1 - α) / (1 + α)) →
+      planeLength vj < min (1 / 4) ((1 - α) / (1 + α)) → (α, vi, vj) ∈ separatedDomain) ∧
+    (∀ {Λ₁ Λ₂ : ℝ}, 0 < Λ₁ → 0 < Λ₂ → ∀ (A A' B : ℝ) (c : Fin 6 → ℝ)
+      (W : (Fin 2 → ℝ) × (Fin 2 → ℝ) → ℝ),
+      (fun v => W v - (A * planeSq v.1 + A' * planeSq v.2 + B * planeDot v.1 v.2) -
+        ∑ m, c m * quarticMonomials v.1 v.2 m) =O[𝓝 0] (fun v => ‖v‖ ^ 5) →
+      (fun u : (Fin 2 → ℝ) × (Fin 2 → ℝ) =>
+        W ((√(1 - planeSq u.1 / (4 * Λ₁)) / √Λ₁) • u.1,
+            (√(1 - planeSq u.2 / (4 * Λ₂)) / √Λ₂) • u.2) -
+          (A * (planeSq u.1 / Λ₁) + A' * (planeSq u.2 / Λ₂) +
+            B * (planeDot u.1 u.2 / (√Λ₁ * √Λ₂))) -
+          (∑ m, c m * quarticMonomials ((√Λ₁)⁻¹ • u.1) ((√Λ₂)⁻¹ • u.2) m -
+            (A / 4 * planeSq u.1 ^ 2 / Λ₁ ^ 2 + A' / 4 * planeSq u.2 ^ 2 / Λ₂ ^ 2 +
+              B / 8 * (planeDot u.1 u.2 / (√Λ₁ * √Λ₂)) *
+                (planeSq u.1 / Λ₁ + planeSq u.2 / Λ₂)))) =O[𝓝 0] fun u => ‖u‖ ^ 5) := by
+  obtain ⟨c, hc, hjet, hval⟩ := quartic D hn
+  refine ⟨⟨c, hc, fun I hI u => ⟨hjet I hI u, ?_⟩, ?_⟩, quartic_scaling,
+    fun {i j} hij {L1 L2} hI hJ u v hu hv hSep =>
+      quartic_pair_scaling D hij hI hJ u v hu hv hSep,
+    fun {α vi vj} h0 h1 hi hj => mem_separatedDomain_of_small h0 h1 hi hj,
+    fun {Λ₁ Λ₂} h₁ h₂ A A' B c W hW => quartic_sqrt_chart_conversion h₁ h₂ A A' B c W hW⟩
+  · rw [same_jets D hI 4 (by norm_num)]
+    exact hjet I hI u
+  · intro I hI i j hij
+    obtain ⟨h0, h1⟩ := hval I hI i j hij
+    exact ⟨by rw [h0]; unfold radialR1; ring, by rw [h1]; unfold radialR1; ring⟩
+
 end SecularForm
 end KAM.Planetary
 end
