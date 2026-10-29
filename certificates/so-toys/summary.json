@@ -1,0 +1,78 @@
+{
+ "T2": {
+  "bytes": 22722,
+  "log10_err": -42.493876110852824,
+  "log10_threshold": -38.066660633662714,
+  "passes": true,
+  "ratio_C1": 3.7392501763522784e-05,
+  "seconds": 0.2,
+  "sha256": "870899d4fd255eda464080dd929340f896c690a6f19535a95c5bc46de156e49b",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ },
+ "T2d": {
+  "bytes": 246837,
+  "log10_err": -192.0,
+  "log10_threshold": -188.01704678893236,
+  "passes": true,
+  "ratio_C1": 0.00010400322081815215,
+  "seconds": 3.6,
+  "sha256": "2e02ae93324f4dae04cb9ef92d5bace4dc2b2e1ae89bc18a217df8aebde53561",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ },
+ "T3": {
+  "bytes": 62512,
+  "log10_err": -63.59862667244802,
+  "log10_threshold": -59.16047857573599,
+  "passes": true,
+  "ratio_C1": 3.6462958510850813e-05,
+  "seconds": 0.4,
+  "sha256": "ff7bb5b6607fe202328af2a2f171a9545117f22d8f0ae35ef9a5b104be2f185c",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ },
+ "TR": {
+  "bytes": 21306,
+  "log10_err": null,
+  "log10_threshold": -29.96587408179468,
+  "passes": true,
+  "ratio_C1": 0.0,
+  "seconds": 0.2,
+  "sha256": "e5147667336881635abcfcb9f9d2dc5152857dba7098a8c2e6d875adb1d16110",
+  "subchecks": {
+   "checkEmbedding": true,
+   "checkEnergy": true,
+   "checkGram": true,
+   "checkHamBounds": true,
+   "checkInvariance": true,
+   "checkSmallness": true,
+   "checkStatic": true,
+   "checkTorsion": true
+  }
+ }
+}

@@ -108,3 +108,29 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+BOOL_HEADER = r'''import KAM.Certificate.Constants
+import KAM.Certificate.Freq
+import KAM.Certificate.Model.Basic
+import KAM.Certificate.Arith.PiEnclosure
+import KAM.Certificate.Arith.Rat
+import KAM.Certificate.Arith.Roots
+open KAM.Certificate
+'''
+
+
+def run_bools(build_dir, exprs):
+    """Evaluate closed `Bool` expressions over the landed definitions; exprs: list of (label, lean text)."""
+    src = [BOOL_HEADER]
+    for label, e in exprs:
+        src.append('#eval IO.println ("{\\"label\\": \\"%s\\", \\"value\\": " ++ toString (%s) ++ "}")' % (label, e))
+    with tempfile.TemporaryDirectory() as td:
+        path = os.path.join(td, "ToyBools.lean")
+        with open(path, "w") as f:
+            f.write("\n".join(src) + "\n")
+        out = subprocess.run(["nice", "-n", "5", "lake", "env", "lean", path], cwd=build_dir,
+                             capture_output=True, text=True)
+    if out.returncode != 0:
+        raise SystemExit("lean failed:\n" + out.stdout[-3000:] + out.stderr[-3000:])
+    return [json.loads(l) for l in out.stdout.splitlines() if l.startswith("{")]
