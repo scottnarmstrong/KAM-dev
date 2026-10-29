@@ -101,7 +101,7 @@ theorem rtp_value_le (hφ : RealTrigPolyDeg T φ) (x : P11Vec n) :
 
 /-- The derivative of a Fourier sum with finitely many modes at a real point, in a real
 direction: `|Dφ(x) v| ≤ 2πT ‖v‖ ∑_{0<|k|₁≤T} |a_k|`. -/
-theorem rtp_fderiv_le (hT : 0 < T) {a : (Fin n → ℤ) → ℂ}
+theorem rtp_fderiv_le (hT : 0 ≤ T) {a : (Fin n → ℤ) → ℂ}
     (ha : ∀ k, T < KAM.Fourier.modeSize k → a k = 0) (x v : P11Vec n) :
     ‖fderiv ℂ (KAM.fourierSum a) (KAM.realInclusion n x) (KAM.realInclusion n v)‖ ≤
       2 * Real.pi * T * ‖v‖ *
@@ -121,7 +121,7 @@ theorem rtp_fderiv_le (hT : 0 < T) {a : (Fin n → ℤ) → ℂ}
     by_cases hkT : KAM.Fourier.modeSize k ≤ T
     · simp only [ne_eq, hk0, not_false_eq_true, hkT, and_self, ite_true]
       have hdot : ‖p11dotC k (KAM.realInclusion n v)‖ ≤ T * ‖v‖ :=
-        (p11_norm_dotC_le k _).trans (mul_le_mul hkT hv (norm_nonneg _) hT.le)
+        (p11_norm_dotC_le k _).trans (mul_le_mul hkT hv (norm_nonneg _) hT)
       have hch : ‖KAM.character k (KAM.realInclusion n x)‖ = 1 := KAM.norm_character_real k x
       rw [norm_mul, norm_mul, norm_mul, hch, h2π, mul_one]
       calc ‖a k‖ * (2 * Real.pi * ‖p11dotC k (KAM.realInclusion n v)‖)
@@ -149,7 +149,7 @@ theorem rtp_row_le_iSup (i : Fin n) : rtpRowSum T φ i ≤ ⨆ j, rtpRowSum T φ
 theorem iSup_rtpRowSum_nonneg : 0 ≤ ⨆ j, rtpRowSum T φ j :=
   Real.iSup_nonneg fun j => rtpRowSum_nonneg j
 
-theorem rtp_fderiv_norm_le (hT : 0 < T) (hφ : RealTrigPolyDeg T φ) (x : P11Vec n) :
+theorem rtp_fderiv_norm_le (hT : 0 ≤ T) (hφ : RealTrigPolyDeg T φ) (x : P11Vec n) :
     ‖fderiv ℝ φ x‖ ≤ 2 * Real.pi * T * ⨆ j, rtpRowSum T φ j := by
   have hC : 0 ≤ 2 * Real.pi * T * ⨆ j, rtpRowSum T φ j := by
     have := iSup_rtpRowSum_nonneg (T := T) (φ := φ); positivity
@@ -188,12 +188,12 @@ theorem rtp_fderiv_norm_le (hT : 0 < T) (hφ : RealTrigPolyDeg T φ) (x : P11Vec
         mul_le_mul_of_nonneg_left this h0
     _ = _ := by ring
 
-theorem iSup_fderiv_le (hT : 0 < T) (hφ : RealTrigPolyDeg T φ) :
+theorem iSup_fderiv_le (hT : 0 ≤ T) (hφ : RealTrigPolyDeg T φ) :
     (⨆ x, ‖fderiv ℝ φ x‖) ≤ 2 * Real.pi * T * ⨆ j, rtpRowSum T φ j := by
   have := iSup_rtpRowSum_nonneg (T := T) (φ := φ)
   exact Real.iSup_le (fun x => rtp_fderiv_norm_le hT hφ x) (by positivity)
 
-theorem fderiv_bddAbove (hT : 0 < T) (hφ : RealTrigPolyDeg T φ) :
+theorem fderiv_bddAbove (hT : 0 ≤ T) (hφ : RealTrigPolyDeg T φ) :
     BddAbove (Set.range fun x => ‖fderiv ℝ φ x‖) :=
   ⟨_, by rintro _ ⟨x, rfl⟩; exact rtp_fderiv_norm_le hT hφ x⟩
 
@@ -201,8 +201,11 @@ theorem value_bddAbove (hφ : RealTrigPolyDeg T φ) : BddAbove (Set.range fun x 
   ⟨_, by rintro _ ⟨x, rfl⟩; exact rtp_value_le hφ x⟩
 
 /-- `stepP:p11a:rl-const`: `Λ ≤ 2πT max_i ∑_{0<|k|₁≤T} |φ̂_{1,i,k}|`, and under the decay bound
-`|φ̂_{1,i,k}| ≤ M₁ e^{-2π|k|₁ r_*}/(πD)` this is `≤ 2 T M₁ Λ_{r_*}/D`. -/
-theorem rl_const_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 < T) (hrs : 0 < rs) (hD : 0 < D)
+`|φ̂_{1,i,k}| ≤ M₁ e^{-2π|k|₁ r_*}/(πD)` this is `≤ 2 T M₁ Λ_{r_*}/D`.
+The degree-zero (constant) case `T = 0` is included. The premise `0 ≤ M₁` is a candidate source
+erratum (orchestrator ruling OVERNIGHT 03:15, owner to review; audit 1, F1): the standalone
+source statement needs it, as `M₁ < 0` with a vacuous decay hypothesis is a counterexample. -/
+theorem rl_const_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 ≤ T) (hrs : 0 < rs) (hD : 0 < D)
     (hM1 : 0 ≤ M1) {φ : P11Vec n → P11Vec n} (hφ : RealTrigPolyDeg T φ) :
     (⨆ x, ‖fderiv ℝ φ x‖) ≤ 2 * Real.pi * T * ⨆ i : Fin n,
         ∑ k ∈ (hmModes n T).filter (fun k => k ≠ 0 ∧ KAM.Fourier.modeSize k ≤ T),
@@ -244,9 +247,10 @@ theorem rl_const_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 < T) (hrs : 0 < rs) (h
     _ = 2 * T * M1 * p11Lambda n rs / D := by field_simp
 
 /-- `bpP:p11a:real-lipschitz`: for a real `1`-periodic trigonometric polynomial `φ₁` of degree
-`≤ T`, with `Λ = sup ‖Dφ₁‖` and `Θᵗ` the flow, for `|t| ≤ 1`: `‖DΘᵗ - 1‖ ≤ e^Λ - 1`,
+`≤ T` (`0 ≤ T`, including constants; `0 ≤ M₁` as in `rl_const_node`, ruling OVERNIGHT 03:15),
+with `Λ = sup ‖Dφ₁‖` and `Θᵗ` the flow, for `|t| ≤ 1`: `‖DΘᵗ - 1‖ ≤ e^Λ - 1`,
 `Θᵗ(θ + k) = Θᵗ(θ) + k`, `‖Θᵗ(θ) - θ‖ ≤ sup‖φ₁‖`; and the two clauses of `rl_const_node`. -/
-theorem real_lipschitz_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 < T) (hrs : 0 < rs) (hD : 0 < D)
+theorem real_lipschitz_node {n : ℕ} {T rs D M1 : ℝ} (hT : 0 ≤ T) (hrs : 0 < rs) (hD : 0 < D)
     (hM1 : 0 ≤ M1) {φ : P11Vec n → P11Vec n} (hφ : RealTrigPolyDeg T φ) :
     (∀ t ∈ Icc (-1 : ℝ) 1, ∀ θ : P11Vec n,
       ‖fderiv ℝ (p11RealFlow φ t) θ - ContinuousLinearMap.id ℝ _‖ ≤
