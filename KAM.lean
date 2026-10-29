@@ -865,9 +865,14 @@ public import KAM.Planetary.Preparation.SlowAverageReal
 public import KAM.Planetary.Preparation.SlowAverageW
 public import KAM.Planetary.Preparation.SlowAverageZ
 public import KAM.Planetary.Preparation.SlowCauchy
+public import KAM.Planetary.Preparation.SlowConclude
 public import KAM.Planetary.Preparation.SlowData
+public import KAM.Planetary.Preparation.SlowDerivative
+public import KAM.Planetary.Preparation.SlowDivisor
 public import KAM.Planetary.Preparation.SlowJets
 public import KAM.Planetary.Preparation.SlowMean
+public import KAM.Planetary.Preparation.SlowRates
+public import KAM.Planetary.Preparation.SlowSmall
 public import KAM.Planetary.Preparation.Working
 public import KAM.Planetary.Quantitative.Budget
 public import KAM.Planetary.Quantitative.BudgetAdmissible
