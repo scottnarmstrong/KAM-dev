@@ -1030,3 +1030,19 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   of design §5/§7.2 is heavier than SO-REPLAY projected for T2d's small data, which matters for the lunar
   certificates (SO-DATA-2). Per the reaper's instruction the background waiter was not restarted; events are checked
   at each heartbeat instead.
+- **22:54. OVERNIGHT RULING (D29, for owner review): R1's M raised from 1987/1000 to 203/100.** SO-DATA-1's
+  fixed-point mirror of the landed checker found that `checkHamBounds` fails for package R1 on both tori: its D²H
+  sum Σ_{a,b} |∂_a∂_b H| for `soRotHamExprScaled (237/125)` is 2.02053 > M = 1.987 (closed form agrees; no choice of
+  ρ_H helps, the bound stays above 1.99). SO-GEN2's majorant for H had been too optimistic against the landed bound
+  form. Options were (a) raise M, (b) sharpen `hamBoundsOk`'s D²H form. The sum over a, b is essentially the
+  right bound for a bilinear form on sup norms, and (b) would reopen the audited checker, so I took (a): M = 203/100
+  only (σK, σB, σT stay 1987/1000). Smallness still passes with wide margin (C₁ ratio 0.0042 / 0.0081 at the SO-GEN2
+  budgets, must be ≤ 1/2; C₂ 7.0e-4). The signed body (.drafts/design/SOSignaturesLunar.lean §I.4) is updated;
+  SO-R1B changes LunarParams.lean and recomputes the kernel pre-checks (the threshold moves to about 10^-75.0);
+  SO-DATA-1 continues with the new M. No frozen statement is involved.
+- **22:54. SO-TEST-A: the first end-to-end certified tori.** T2 (n = 2) and T3 (n = 3) pass the whole checker in the
+  kernel (2.9 s and 8.9 s) and give `toyCert2_torus` and `toyCert3_torus`: `checkTorusCertificate_sound` with the
+  frequency enclosure and the Diophantine premise discharged (γ = 1/42, τ = 1; γ = 1/12, τ = 2). TR passes (checker
+  only). T2d does not finish (exact-ℚ 531-term reciprocal witness with 200-digit denominators: checkEnergy 12.3 GB,
+  checkInvariance over 19 GB): a data problem, fixed by SO-TOYFIX2 (witness sized to the budget, short dyadic
+  coefficients, cutoffs sized; kernel checks under a 6 GB cgroup cap). SO-TEST-A in audit (codex-4).
