@@ -306,6 +306,220 @@ theorem p11_pd_dev0 (hC : P11SecularSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
           1 * 4 * (c * eps ^ 2 * Real.log (1 / eps) ^ (5 * C.tau + 2)) := by ring
       linarith
 
+/-- The rescaled point of `I ∈ actionNbhd box (3/4)` lies in the Cauchy region. -/
+theorem p11_pd_point {nu eps : ℝ} (heps : 0 < eps) (h5 : 5 * eps ≤ p11s2 C nu eps)
+    {I : P11CVec (n + n)} (hI : I ∈ KAM.actionNbhd (p11PreparedBox n) (3 / 4)) :
+    ∃ J ρ : P11CVec n, (p11Rescale C.J0 eps (0, I)).2 = Fin.append J ρ ∧
+      ‖J - KAM.realInclusion n C.J0‖ < p11s2 C nu eps / 4 ∧
+      ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4 := by
+  have hIn := p11_freq_smallV_norm hI
+  obtain ⟨J, ρ, hJρ⟩ : ∃ (J ρ : P11CVec n), (p11Rescale C.J0 eps (0, I)).2 = Fin.append J ρ :=
+    ⟨_, _, (Fin.append_castAdd_natAdd (f := (p11Rescale C.J0 eps (0, I)).2)).symm⟩
+  have hdiff : (p11Rescale C.J0 eps (0, I)).2 - (Fin.append (KAM.realInclusion n C.J0)
+      (fun _ => (2 * Real.pi * eps : ℂ)) : P11CVec (n + n)) = (eps : ℂ) • I := by
+    rw [p11_freq_res_eq C.J0 eps I]; abel
+  have hnorm : ‖(Fin.append J ρ : P11CVec (n + n)) - Fin.append (KAM.realInclusion n C.J0)
+      (fun _ => (2 * Real.pi * eps : ℂ))‖ < 5 * eps / 4 := by
+    rw [← hJρ, hdiff, norm_smul, Complex.norm_real, Real.norm_of_nonneg heps.le]
+    nlinarith
+  refine ⟨J, ρ, hJρ, ?_, ?_⟩
+  · have h1 : ‖J - KAM.realInclusion n C.J0‖ ≤ ‖(Fin.append J ρ : P11CVec (n + n)) -
+        Fin.append (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))‖ := by
+      refine (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => ?_
+      have := norm_le_pi_norm ((Fin.append J ρ : P11CVec (n + n)) - Fin.append
+        (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))) (Fin.castAdd n i)
+      simpa using this
+    linarith
+  · have h1 : ‖ρ - (fun _ => (2 * Real.pi * eps : ℂ))‖ ≤ ‖(Fin.append J ρ : P11CVec (n + n)) -
+        Fin.append (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))‖ := by
+      refine (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => ?_
+      have := norm_le_pi_norm ((Fin.append J ρ : P11CVec (n + n)) - Fin.append
+        (KAM.realInclusion n C.J0) (fun _ => (2 * Real.pi * eps : ℂ))) (Fin.natAdd n i)
+      simpa using this
+    linarith
+
+/-- The prepared frequency is holomorphic on `actionNbhd box 1`. -/
+theorem p11_pd_freq_diff {Fast : P11FastData n} {nu eps c : ℝ} {A : P11SlowData n}
+    {Q : P11PreparedData n} (heps : 0 < eps) (h5 : 5 * eps ≤ p11s2 C nu eps)
+    (hs2 : 0 ≤ p11s2 C nu eps) (hA : P11SlowSpecOf C Fast nu eps c A)
+    (hN : ∀ I ∈ KAM.actionNbhd (p11PreparedBox n) 1, Q.N I =
+      (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) / (eps : ℂ)) :
+    DifferentiableOn ℂ (p11PreparedFreq Q) (KAM.actionNbhd (p11PreparedBox n) 1) := by
+  set U1 := KAM.actionNbhd (p11PreparedBox n) 1 with hU1
+  have hU1o : IsOpen U1 := p11_freq_isOpen_actionNbhd _ _
+  set Vh := p11Box (p11DevCenter C eps) (p11s2 C nu eps / 2) (Real.pi * eps / 2) with hVh
+  set b : P11CVec (n + n) := Fin.append (KAM.realInclusion n C.J0)
+    (fun _ => (2 * Real.pi * eps : ℂ)) with hb
+  have hres : ∀ I, (p11Rescale C.J0 eps (0, I)).2 = b + (eps : ℂ) • I := p11_freq_res_eq C.J0 eps
+  have hsub := p11_freq_U1_sub (C := C) (nu := nu) heps h5
+  have hHd := p11_freq_H_diff (C := C) hs2 heps.le hA
+  have hmap : ∀ I ∈ U1, b + (eps : ℂ) • I ∈ Vh := fun I hI => by
+    have := hsub hI
+    simpa [hres] using this
+  have hHaff : DifferentiableOn ℂ (fun I : P11CVec (n + n) => p11DevH A (b + (eps : ℂ) • I)) U1 :=
+    hHd.comp (by fun_prop) hmap
+  have hNd : DifferentiableOn ℂ Q.N U1 := by
+    have h1 : DifferentiableOn ℂ (fun I : P11CVec (n + n) =>
+        (eps : ℂ)⁻¹ * p11DevH A (b + (eps : ℂ) • I) 0) U1 :=
+      (differentiableOn_const _).mul (differentiableOn_pi.1 hHaff 0)
+    refine h1.congr fun I hI => ?_
+    rw [hN I hI, hres I]
+    have : (eps : ℂ) ≠ 0 := by exact_mod_cast heps.ne'
+    simp only [p11DevH]
+    field_simp
+  have hfd := (KAM.analyticOnNhd_of_differentiableOn hU1o hNd).fderiv
+  exact differentiableOn_pi.2 fun i => hfd.differentiableOn.clm_apply (differentiableOn_const _)
+
+/-- A point of the Euclidean `1/4`-thickening of the box has its real image in every
+`r`-neighbourhood, `1/4 < r`. -/
+theorem p11_pd_thick_mem {y : P11Vec (n + n)} {r : ℝ} (hr : 1 / 4 < r)
+    (hy : y ∈ p11thick (p11PreparedBox n) (1 / 4)) :
+    KAM.realInclusion (n + n) y ∈ KAM.actionNbhd (p11PreparedBox n) r := by
+  obtain ⟨x, hx, hyx⟩ := hy
+  refine ⟨x, hx, lt_of_le_of_lt ?_ hr⟩
+  refine le_trans ((pi_norm_le_iff_of_nonneg (by norm_num)).2 fun i => ?_) (le_refl _)
+  have h1 : ‖y i - x i‖ ≤ ‖y - x‖ := norm_le_pi_norm (y - x) i
+  have h2 : ‖y - x‖ ≤ p11euclid (y - x) := (KAM.Nekhoroshev.norm_le_euclid (y - x)).1
+  simp only [Pi.sub_apply, KAM.realInclusion_apply]
+  rw [← Complex.ofReal_sub, Complex.norm_real]
+  exact le_trans h1 (h2.trans hyx)
+
+/-- Euclidean length is monotone in the coordinatewise norms. -/
+theorem p11_pd_euclid_mono {N : ℕ} {u v : Fin N → ℂ} (h : ∀ c, ‖u c‖ ≤ ‖v c‖) :
+    KAM.Nekhoroshev.euclid u ≤ KAM.Nekhoroshev.euclid v := by
+  unfold KAM.Nekhoroshev.euclid
+  exact Real.sqrt_le_sqrt (Finset.sum_le_sum fun c _ => pow_le_pow_left₀ (norm_nonneg _) (h c) 2)
+
+theorem p11_pd_single_cast (i : Fin n) :
+    (0 + Pi.single (Fin.castAdd n i) 1 : Fin (n + n) → ℕ) =
+      Fin.append (Pi.single i 1 : Fin n → ℕ) (0 : Fin n → ℕ) := by
+  funext j
+  refine Fin.addCases (fun a => ?_) (fun a => ?_) j
+  · by_cases h : a = i
+    · subst h; simp
+    · have : (Fin.castAdd n a : Fin (n + n)) ≠ Fin.castAdd n i := fun h' => h (Fin.castAdd_injective _ _ h')
+      simp [h, this]
+  · have : (Fin.natAdd n a : Fin (n + n)) ≠ Fin.castAdd n i := by
+      intro h'
+      have := congrArg Fin.val h'
+      simp at this
+      have := i.isLt
+      omega
+    have h2 : ¬ a.addNat n = Fin.castAdd n i := by
+      intro h'
+      have := congrArg Fin.val h'
+      simp at this
+      have := i.isLt
+      omega
+    simp [h2]
+
+theorem p11_pd_single_nat (k : Fin n) :
+    (0 + Pi.single (Fin.natAdd n k) 1 : Fin (n + n) → ℕ) =
+      Fin.append (0 : Fin n → ℕ) (0 : Fin n → ℕ) + Pi.single (Fin.natAdd n k) 1 := by
+  have hz : (Fin.append (0 : Fin n → ℕ) (0 : Fin n → ℕ) : Fin (n + n) → ℕ) = 0 := by
+    funext i
+    refine Fin.addCases (fun j => ?_) (fun j => ?_) i <;> simp
+  rw [hz]
+
+/-- Order-zero Euclidean bound `|ω̂|₂ ≤ 2L + 1` on the real slice of the thickened box. -/
+theorem p11_pd_zero (hCF : P11SecularFullSpec D C) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ K : ℝ, 0 < K ∧ ∀ {Fast : P11FastData n} {eps c : ℝ} {A : P11SlowData n}
+      {Q : P11PreparedData n},
+      0 < eps → eps * C.MF ≤ Real.exp (-1) → 0 ≤ c →
+      K * (1 + c) * eps * Real.log (1 / eps) ^
+        (5 * C.tau + 2 + (C.tau + 1) * ((p11PatchData D).mu + 1)) ≤ 1 →
+      3 * Real.pi * eps ≤ Real.pi * C.rz ^ 2 / 16 → 5 * eps ≤ p11s2 C nu eps →
+      P11FastSpec C eps Fast → P11SlowSpecOf C Fast nu eps c A →
+      (∀ I ∈ KAM.actionNbhd (p11PreparedBox n) 1, Q.N I =
+        (A.h0 (p11Rescale C.J0 eps (0, I)).2 + A.g2 (p11Rescale C.J0 eps (0, I)).2) /
+          (eps : ℂ)) →
+      ∀ y ∈ p11thick (p11PreparedBox n) (1 / 4),
+        p11euclid (p11PreparedFreqR Q y) ≤ 2 * C.L + 1 := by
+  have hC := hCF.1
+  obtain ⟨K1, hK1, hdev⟩ := p11_pd_dev0 hC hnu
+  obtain ⟨-, -, hL1, hrC0, -, -, -, -, -, hMF⟩ := fast_consts hC
+  have hN0 : (0 : ℝ) ≤ ((n + n : ℕ) : ℝ) := Nat.cast_nonneg _
+  refine ⟨((n + n : ℕ) + 1 : ℝ) * K1, by positivity, ?_⟩
+  intro Fast eps c A Q heps hεM hc0 hθ hzs h5 hFs hA hN y hy
+  obtain ⟨hK2, hs1, hs2⟩ := slow_pos hC hnu heps hεM
+  have hspec := p11s2_spec hC hK2
+  have hs1r := p11s1_le C eps
+  have hl : 1 ≤ Real.log (1 / eps) := slow_log_ge_one hC heps hεM
+  generalize hX : (1 + c) * eps * Real.log (1 / eps) ^
+    (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1)) = X
+  have hX0 : 0 ≤ X := by
+    rw [← hX]
+    have := Real.rpow_nonneg (show (0 : ℝ) ≤ Real.log (1 / eps) by linarith)
+      (5 * C.tau + 2 + (C.tau + 1) * (((p11PatchData D).mu : ℝ) + 1))
+    positivity
+  have hθ1 : ((n + n : ℕ) + 1 : ℝ) * (K1 * X) ≤ 1 := by
+    rw [← hX]; linarith
+  have hKX : K1 * X ≤ 1 := by
+    have h1 : K1 * X ≤ ((n + n : ℕ) + 1 : ℝ) * (K1 * X) := by
+      have : 0 ≤ K1 * X := by positivity
+      nlinarith
+    linarith
+  have hyI := p11_pd_thick_mem (r := 3 / 4) (by norm_num) hy
+  have hU1 : KAM.realInclusion (n + n) y ∈ KAM.actionNbhd (p11PreparedBox n) 1 :=
+    p11_pd_thick_mem (r := 1) (by norm_num) hy
+  obtain ⟨J, ρ, hres, hJ, hρ⟩ := p11_pd_point heps h5 hyI
+  have hJball : J ∈ ball (KAM.realInclusion n C.J0) (2 * C.rC) := by
+    rw [mem_ball_iff_norm]; linarith
+  have hW : ∀ c' : Fin (n + n), p11PreparedFreq Q (KAM.realInclusion (n + n) y) c' =
+      p11PartialVec (0 + Pi.single c' 1) (p11DevH A) (Fin.append J ρ) 0 := by
+    intro c'
+    have := p11_freq_partial_eq heps h5 hs2.le hA hN hU1 (0 : Fin (n + n) → ℕ) c'
+    rw [p11PartialVec_zero] at this
+    rw [this]
+    simp [hres]
+  obtain ⟨hJdev, hρdev⟩ := hdev (c := c) heps hεM hc0
+    (by rw [← hX] at hKX; linarith) hzs h5 hFs hA J ρ hJ hρ
+  set mainv : P11CVec (n + n) := Fin.append (fun i => C.omega J i)
+    (fun k => (eps : ℂ) * ((2 * Real.pi : ℂ)⁻¹ * C.Omega J k)) with hmain
+  have he1 : eps ≤ 1 := by
+    have h1 : Real.exp (-1) ≤ 1 := Real.exp_le_one_iff.2 (by norm_num)
+    nlinarith
+  have hmainE : KAM.Nekhoroshev.euclid mainv ≤ C.L := by
+    refine le_trans (p11_pd_euclid_mono (v := Fin.append (C.omega J)
+      ((2 * Real.pi : ℂ)⁻¹ • C.Omega J)) fun c' => ?_) (hCF.2 J hJball)
+    refine Fin.addCases (fun i => ?_) (fun k => ?_) c'
+    · simp [hmain]
+    · simp only [hmain, Fin.append_right, Pi.smul_apply, smul_eq_mul, norm_mul,
+        Complex.norm_real, Real.norm_of_nonneg heps.le]
+      exact mul_le_of_le_one_left (by positivity) he1
+  have hcomp : ∀ c' : Fin (n + n),
+      |p11PreparedFreqR Q y c'| ≤ ‖mainv c'‖ + K1 * X := by
+    intro c'
+    have hre : |p11PreparedFreqR Q y c'| ≤ ‖p11PreparedFreq Q (KAM.realInclusion (n + n) y) c'‖ :=
+      Complex.abs_re_le_norm _
+    refine hre.trans ?_
+    rw [hW c']
+    refine Fin.addCases (fun i => ?_) (fun k => ?_) c'
+    · rw [p11_pd_single_cast]
+      have h1 : ‖p11PartialVec (Fin.append (Pi.single i 1 : Fin n → ℕ) (0 : Fin n → ℕ))
+          (p11DevH A) (Fin.append J ρ) 0 - C.omega J i‖ ≤ K1 * X := by
+        rw [← hX]; linarith [hJdev i]
+      simp only [hmain, Fin.append_left]
+      linarith [norm_le_norm_add_norm_sub' (p11PartialVec (Fin.append (Pi.single i 1 : Fin n → ℕ)
+        (0 : Fin n → ℕ)) (p11DevH A) (Fin.append J ρ) 0) (C.omega J i)]
+    · rw [p11_pd_single_nat]
+      have h1 : ‖p11PartialVec (Fin.append (0 : Fin n → ℕ) (0 : Fin n → ℕ) +
+          Pi.single (Fin.natAdd n k) 1) (p11DevH A) (Fin.append J ρ) 0 -
+          (eps : ℂ) * ((2 * Real.pi : ℂ)⁻¹ * C.Omega J k)‖ ≤ K1 * X := by
+        rw [← hX]; linarith [hρdev k]
+      simp only [hmain, Fin.append_right]
+      linarith [norm_le_norm_add_norm_sub' (p11PartialVec (Fin.append (0 : Fin n → ℕ)
+        (0 : Fin n → ℕ) + Pi.single (Fin.natAdd n k) 1) (p11DevH A) (Fin.append J ρ) 0)
+        ((eps : ℂ) * ((2 * Real.pi : ℂ)⁻¹ * C.Omega J k))]
+  have hadd := p11_pd_euclid_add (x := p11PreparedFreqR Q y) (u := mainv)
+    (d := K1 * X) (by positivity) hcomp
+  have hsq : Real.sqrt ((n + n : ℕ) : ℝ) ≤ ((n + n : ℕ) : ℝ) + 1 := by
+    refine Real.sqrt_le_iff.2 ⟨by positivity, by nlinarith⟩
+  have h2 : Real.sqrt ((n + n : ℕ) : ℝ) * (K1 * X) ≤ 1 :=
+    le_trans (mul_le_mul_of_nonneg_right hsq (by positivity)) hθ1
+  show KAM.Nekhoroshev.euclid (p11PreparedFreqR Q y) ≤ 2 * C.L + 1
+  linarith
+
 end Pd
 
 end KAM.Planetary
