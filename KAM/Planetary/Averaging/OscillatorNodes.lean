@@ -205,6 +205,127 @@ theorem p2_oi_range_ab {J : ℕ} {K α : ℝ} {h : (Fin n → ℂ) → ℂ} {f :
 
 end OiNodes
 
+section ArNodes
+
+variable {n m : ℕ} {D : Set (Fin n → ℝ)} {r ε₀ s₀ ε μ α K : ℝ} {h : (Fin n → ℂ) → ℂ}
+  {P : CHam (n + m)}
+
+/-- `e^{-κ/6} = ε⁵` for the source choice `K = (15 / (π s₀)) log (1/ε)`, `κ = 2 π K s₀`. -/
+private theorem ar_exp_kappa (hs₀ : 0 < s₀) (hε : 0 < ε) (hK : K = 15 / (π * s₀) * log (1 / ε)) :
+    exp (-(2 * π * K * s₀) / 6) = ε ^ 5 := by
+  subst hK
+  have : -(2 * π * (15 / (π * s₀) * Real.log (1 / ε)) * s₀) / 6 = ((5 : ℕ) : ℝ) * Real.log ε := by
+    rw [one_div, Real.log_inv]
+    have := Real.pi_pos
+    push_cast
+    field_simp
+    ring
+  rw [this, Real.exp_nat_mul, Real.exp_log hε]
+
+/-- The joint hypotheses of oscillator averaging from the source premises of `ar-apply`. -/
+private theorem ar_hyp (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < ε₀) (hs₀ : 0 < s₀)
+    (hε : 0 < ε ∧ ε < exp (-1 / 5)) (hμ : 0 < μ) (hα : 0 < α)
+    (hK : K = 15 / (π * s₀) * log (1 / ε))
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hreal : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ KAM.actionNbhd D r →
+      (h (KAM.realInclusion n I)).im = 0)
+    (hPc : oscClass D r ε₀ ε₀ s₀ P) (hPb : oscBound D r ε₀ ε₀ s₀ P 1)
+    (hPr : RealOn (oscDom D r ε₀ ε₀ s₀) P)
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hR2 : 2 ^ 12 * (1 + (m : ℝ)) * K * s₀ * μ ≤ α * min (r * s₀) (ε₀ ^ 2)) :
+    OscHyp D r ε₀ ε₀ 0 s₀ K α μ h (μ • P) := by
+  have hlog : 1 / 5 < Real.log (1 / ε) := by
+    rw [one_div ε, Real.log_inv]
+    have := (Real.log_lt_iff_lt_exp hε.1).2 hε.2
+    linarith
+  have hπ := Real.pi_pos
+  have hK2 : 2 * π * K * s₀ = 30 * Real.log (1 / ε) := by
+    subst hK; field_simp; ring
+  have hKpos : 0 < K := by
+    subst hK; exact mul_pos (by positivity) (by linarith)
+  have hsm : ∀ w, (μ • P) w = (μ : ℂ) * P w := fun w => by simp [Complex.real_smul]
+  have hfun : (μ • P : CHam (n + m)) = fun w => (μ : ℂ) * P w := funext hsm
+  refine ⟨hn, hm, ⟨hr, hε₀, hε₀, hs₀, hKpos, hα⟩, le_rfl, hμ.le, by rw [hK2]; linarith, hh,
+    hreal, ?_, ?_, ?_, hdiv, ?_⟩
+  · rw [hfun, zero_add]; exact hPc.const_mul _
+  · rw [hfun, zero_add]
+    have := osc_bound_const_mul (μ : ℂ) hPb
+    simpa [abs_of_pos hμ] using this
+  · intro x hx
+    simp only [zero_add] at hx
+    have := hPr x hx
+    simp only [hsm, Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, zero_mul, add_zero,
+      this, mul_zero]
+  · rw [sq ε₀] at hR2
+    nlinarith [hR2]
+
+/-- `stepP:p2:ar-apply`: Proposition `osc-averaging` for `f = μ P`, `s̄ = 0`, `s = s₀`, `r_p = r_q
+= ε₀`, with `K` chosen by `e^{-κ/6} = ε⁵`: there is a symplectic periodic `φ̄` on the half domain
+with `H ∘ φ̄ = H₀ + g + f_*`, `g` independent of `θ`, and `f̂₀ = μ ⟨P⟩`. -/
+theorem p2_ar_apply (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < ε₀) (hs₀ : 0 < s₀)
+    (hε : 0 < ε ∧ ε < exp (-1 / 5)) (hμ : 0 < μ) (hα : 0 < α)
+    (hK : K = 15 / (π * s₀) * log (1 / ε))
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hreal : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ KAM.actionNbhd D r →
+      (h (KAM.realInclusion n I)).im = 0)
+    (hPc : oscClass D r ε₀ ε₀ s₀ P) (hPb : oscBound D r ε₀ ε₀ s₀ P 1)
+    (hPr : RealOn (oscDom D r ε₀ ε₀ s₀) P)
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hR2 : 2 ^ 12 * (1 + (m : ℝ)) * K * s₀ * μ ≤ α * min (r * s₀) (ε₀ ^ 2)) :
+    ∃ (Ψ : CPhase (n + m) → CPhase (n + m)) (g fs : CHam (n + m)),
+      let V := oscDom D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6)
+      DifferentiableOn ℂ Ψ V ∧ Set.InjOn Ψ V ∧ MapsTo Ψ V (oscDom D r ε₀ ε₀ s₀) ∧
+      (∀ z ∈ V, ∀ u v, symplFormC (fderiv ℂ Ψ z u) (fderiv ℂ Ψ z v) = symplFormC u v) ∧
+      (∀ z ∈ V, ∀ k : Fin n → ℤ,
+        Ψ (z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) =
+          Ψ z + (Fin.append (fun i => (k i : ℂ)) 0, 0)) ∧
+      oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) g ∧ RealOn V g ∧
+      (∀ x ∈ oscParams (m := m) D (r / 2) (ε₀ / 2) (ε₀ / 2), ∀ θ θ',
+        oscUnpack (θ, x) ∈ V → oscUnpack (θ', x) ∈ V →
+          g (oscUnpack (θ, x)) = g (oscUnpack (θ', x))) ∧
+      (∀ z ∈ V, h (firstBlock (b := m) (Ψ z).2) + (μ • P) (Ψ z) =
+        h (firstBlock (b := m) z.2) + g z + fs z) ∧
+      (∀ z : CPhase (n + m), coeff (oscFunction (μ • P)) (oscPack z).2 0 =
+        (μ : ℂ) * coeff (oscFunction P) (oscPack z).2 0) := by
+  have H := ar_hyp hn hm hr hε₀ hs₀ hε hμ hα hK hh hreal hPc hPb hPr hdiv hR2
+  obtain ⟨Ψ, g, fs, hV⟩ := osc_averaging H
+  dsimp only at hV
+  simp only [zero_add] at hV
+  obtain ⟨c1, c2, c3, c4, c5, -, c7, c8, c9, c10, -, -, -, -, -⟩ := hV
+  exact ⟨Ψ, g, fs, c1, c2, c3, c4, c5, c7, c8, c9, c10, coeff_smul_osc μ P⟩
+
+/-- `stepP:p2:ar-collect`: for `P̃ = (g - μ ⟨P⟩) + f_*` (the remainder of `ar-apply`), `|P̃|` is at
+most the sum `400 b μ² / (ᾱ d) + e^{-κ/6} μ` of the two bounds of the proposition, and
+`e^{-κ/6} μ = μ ε⁵`. -/
+theorem p2_ar_collect (hn : 1 ≤ n) (hm : 1 ≤ m) (hr : 0 < r) (hε₀ : 0 < ε₀) (hs₀ : 0 < s₀)
+    (hε : 0 < ε ∧ ε < exp (-1 / 5)) (hμ : 0 < μ) (hα : 0 < α)
+    (hK : K = 15 / (π * s₀) * log (1 / ε))
+    (hh : DifferentiableOn ℂ h (KAM.actionNbhd D r))
+    (hreal : ∀ I : Fin n → ℝ, KAM.realInclusion n I ∈ KAM.actionNbhd D r →
+      (h (KAM.realInclusion n I)).im = 0)
+    (hPc : oscClass D r ε₀ ε₀ s₀ P) (hPb : oscBound D r ε₀ ε₀ s₀ P 1)
+    (hPr : RealOn (oscDom D r ε₀ ε₀ s₀) P)
+    (hdiv : DivisorBound (KAM.actionNbhd D r) K {0} h α)
+    (hR2 : 2 ^ 12 * (1 + (m : ℝ)) * K * s₀ * μ ≤ α * min (r * s₀) (ε₀ ^ 2)) :
+    ∃ (g fs Pt : CHam (n + m)),
+      (∀ z ∈ oscDom D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6),
+        Pt z = g z - (μ : ℂ) * coeff (oscFunction P) (oscPack z).2 0 + fs z) ∧
+      oscClass D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) Pt ∧
+      oscBound D (r / 2) (ε₀ / 2) (ε₀ / 2) (s₀ / 6) Pt
+        (400 * (1 + (m : ℝ)) * μ ^ 2 / (2 * π * α * min (r * s₀) (ε₀ ^ 2)) +
+          exp (-(2 * π * K * s₀) / 6) * μ) ∧
+      exp (-(2 * π * K * s₀) / 6) * μ = μ * ε ^ 5 := by
+  have H := ar_hyp hn hm hr hε₀ hs₀ hε hμ hα hK hh hreal hPc hPb hPr hdiv hR2
+  have hexp := ar_exp_kappa hs₀ hε.1 hK
+  obtain ⟨Ψ, g, fs, R, hV⟩ := averaged_remainder hε hμ (by rw [← hK]; exact H) hPb
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, hR, hRc, hRb, -, -⟩ := hV
+  have hex : exp (-(2 * π * K * s₀) / 6) * μ = μ * ε ^ 5 := by rw [hexp, mul_comm]
+  refine ⟨g, fs, R, hR, hRc, ?_, hex⟩
+  rw [hex]
+  exact hRb
+
+end ArNodes
+
 end KAM.Planetary
 
 end
