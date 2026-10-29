@@ -32,7 +32,9 @@ theorem sum_radii (_H : KamHyp D sbar p h f) {k : ℕ} (_hk : 1 ≤ k) :
       have hstep : rhoHat (seq p (m + 1)) ≤ rhoHat (seq p m) / 16 :=
         rhoHat_le_rho (seq p (m + 1))
       rcases Nat.eq_zero_or_pos m with rfl | hm
-      · simpa using hstep.trans_eq (by ring)
+      · have h0 : seq p 0 = p := rfl
+        rw [h0] at hstep
+        simpa [div_eq_mul_inv, mul_comm] using hstep
       · have := ih hm
         calc rhoHat (seq p (m + 1)) ≤ rhoHat (seq p m) / 16 := hstep
           _ ≤ rhoHat p * (16 : ℝ)⁻¹ ^ m / 16 := by gcongr
