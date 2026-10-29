@@ -2972,9 +2972,9 @@ EDGE: K:bp:p1:mcshane | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:tu-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent torus_union avoids this step
 NOTE: -
 
 NODE: stepP:p1:tu-meas
@@ -8160,9 +8160,9 @@ EDGE: stepP:p5:ext-H0 | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:ext@L36-L36 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-EX PASS WITH NOTES, but Lean PGExtension.agrees is restricted to closure of cylinder (design rev 4) while node text says P~=P at real points of all X_delta (audit: literal blueprint claim false); left for orchestrator ruling
+LEAN_STATUS: PROVED
+LEAN_REF: ext, pgExtension (KAM/Planetary/PGAssembly/Extension.lean); PGExtension (KAM/Planetary/PGAssembly/ExtensionDefs.lean)
+LEAN_NOTE: audit P5-EX PASS WITH NOTES; conclusion amended (AMEND P-A001, erratum ruling 01:20): agreement on cl C(V, r0)
 NOTE: [pre-extract: dropped reference to bpP:p0:pg, which part p5 proves or sets up]
 
 NODE: stepP:p5:ext-loc
@@ -8900,9 +8900,9 @@ EDGE: bpP:p3:ext-neumann | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-blk@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent freq_inj avoids this step
 NOTE: SOURCE_GAP: L128 uses Schur-complement algebra without a supplying approved node; L336 names it but is not an external declaration. Neumann inversion is supplied separately by bpP:p3:ext-neumann.
 
 NODE: stepP:p5:fi-inv
@@ -8932,7 +8932,7 @@ REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
 LEAN_REF: schur_inverse_blocks (KAM/Planetary/PGAssembly/FrequencySchur.lean)
 LEAN_NOTE: audit P5-FI PASS WITH NOTES; named fi-inv
-NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.
+NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.; RE-AUDIT FLAG (ruling 01:20): LEAN_REF schur_inverse_blocks does not state the norm bounds
 
 NODE: bpP:p5:params
 KIND: definition
@@ -9655,7 +9655,7 @@ REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
 LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean)
 LEAN_NOTE: audit P5-TH PASS WITH NOTES
-NOTE: -
+NOTE: RE-AUDIT FLAG (ruling 01:20): LEAN_REF r_k misses the bounds; GAP-P5a adds rk_dir
 
 NODE: stepP:p5:rk-dir
 KIND: step
@@ -10422,9 +10422,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-setup@L29
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; step done as local haves inside lower, complement identity not exported; left
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent lower avoids this step
 NOTE: -
 
 NODE: stepP:p5:lo-bad
@@ -13024,9 +13024,9 @@ EDGE: bpP:p7:kepler-data | blueprint-P/parts/p7-kepler-poincare.tex#stepP:p7:rg-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p7+sol-delta-P-i
 REVIEWER: sol-delta-P-q
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent range avoids this step
 NOTE: -
 
 NODE: bpP:p7:kepler
@@ -17604,9 +17604,9 @@ EDGE: bpP:p9:e-id | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:gen-prod@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10
 REVIEWER: sol-review-P-l
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent generic avoids this step
 NOTE: -
 
 NODE: stepP:p10:gen-zero
@@ -17688,9 +17688,9 @@ EDGE: bpP:p9:conv#data | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:weyl-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p10+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent weyl avoids this step
 NOTE: -
 
 NODE: stepP:p10:weyl-pert
@@ -18752,9 +18752,9 @@ EDGE: bpP:p10:rnd-def | blueprint-P/parts/p10-nondegeneracy.tex#stepP:p10:rnd-b@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-P-l
 REVIEWER: sol-delta-P-aa
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent rnd avoids this step
 NOTE: Restored because the full retained p11b:patch contract invokes interface; P-FIXED remains deferred.
 
 NODE: stepP:p10:rnd-c
@@ -41526,6 +41526,28 @@ LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: IMPORTED: external input of the track-K graph, node bp:p1:ext-integral (Mathlib-level; not re-proved there either); shared Lean provider. There: KIND external, contract bp:p1:ext-integral v1.
+
+## Append-only structural amendments
+
+AMEND: P-A001-ext-closure-agreement
+TARGET: bpP:p5:ext
+AUTHOR: claude-inp-sub-orchestrator
+REVIEWER: root-bb-ruling-OVERNIGHT-0120
+ADD_DEPS: -
+DROP_DEPS: -
+ADD_ROUTES: -
+DROP_ROUTES: -
+SET_TITLE: -
+SET_STATEMENT_SOURCE: -
+SET_PROOF_SOURCE: -
+SET_CONTRACT_ID: -
+SET_CONTRACT_VERSION: -
+SET_SOURCE_HYPOTHESES: -
+SET_SOURCE_QUANTIFIERS: -
+SET_SOURCE_CONCLUSION: there are delta_c in (0,1), M_P < infinity and P~: [0,mu_0] x X_{delta_c} -> C with P~(mu,.) holomorphic, P~ = P at real points of the closed cylinder cl C(V, r0), P~ periodic under 2 pi k e_f (fast angles), ¦P~¦ <= M_P, P~ jointly continuous in mu; and H~_0 holomorphic on {I: dist(I, closure V) < delta_c} with ¦H~_0¦, ¦dH~_0¦, ¦d^2 H~_0¦ <= M_0
+SET_CONSTANT_SCOPE: -
+SET_ROUTE_FOR: -
+NOTE: ERRATUM (logged for owner review, ruling OVERNIGHT 01:20): the printed clause "P~ = P at real points" (all of X_{delta_c}) is false; P45 design revision 4 and the P5-EX audit give a counterexample. Agreement holds on cl C(V, r0), which is all any consumer uses.
 
 <!-- BEGIN PROOF DEPGRAPH GENERATED -->
 Regenerated by `proof_depgraph.py`; do not hand-edit.

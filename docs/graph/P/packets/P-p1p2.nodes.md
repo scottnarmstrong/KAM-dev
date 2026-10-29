@@ -1208,9 +1208,9 @@ EDGE: K:bp:p1:mcshane | blueprint-P/parts/p1-hamiltonian-tools.tex#stepP:p1:tu-e
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p1p2
 REVIEWER: sol-review-P-d
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent torus_union avoids this step
 NOTE: -
 
 NODE: stepP:p1:tu-meas

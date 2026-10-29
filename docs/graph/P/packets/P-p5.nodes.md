@@ -50,9 +50,9 @@ EDGE: stepP:p5:ext-H0 | blueprint-P/parts/p5-pg-assembly.tex#bpP:p5:ext@L36-L36 
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5
 REVIEWER: sol-review-P-g
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P5-EX PASS WITH NOTES, but Lean PGExtension.agrees is restricted to closure of cylinder (design rev 4) while node text says P~=P at real points of all X_delta (audit: literal blueprint claim false); left for orchestrator ruling
+LEAN_STATUS: PROVED
+LEAN_REF: ext, pgExtension (KAM/Planetary/PGAssembly/Extension.lean); PGExtension (KAM/Planetary/PGAssembly/ExtensionDefs.lean)
+LEAN_NOTE: audit P5-EX PASS WITH NOTES; conclusion amended (AMEND P-A001, erratum ruling 01:20): agreement on cl C(V, r0)
 NOTE: [pre-extract: dropped reference to bpP:p0:pg, which part p5 proves or sets up]
 
 NODE: stepP:p5:ext-loc
@@ -790,9 +790,9 @@ EDGE: bpP:p3:ext-neumann | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:fi-blk@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: -
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent freq_inj avoids this step
 NOTE: SOURCE_GAP: L128 uses Schur-complement algebra without a supplying approved node; L336 names it but is not an external declaration. Neumann inversion is supplied separately by bpP:p3:ext-neumann.
 
 NODE: stepP:p5:fi-inv
@@ -822,7 +822,7 @@ REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
 LEAN_REF: schur_inverse_blocks (KAM/Planetary/PGAssembly/FrequencySchur.lean)
 LEAN_NOTE: audit P5-FI PASS WITH NOTES; named fi-inv
-NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.
+NOTE: SOURCE_GAP: L129 invokes the block inverse identity, listed at L336 but without an approved external or proof of that identity. The displayed blocks and their bounds are preserved verbatim; fi-blk supplies the invertible diagonal blocks.; RE-AUDIT FLAG (ruling 01:20): LEAN_REF schur_inverse_blocks does not state the norm bounds
 
 NODE: bpP:p5:params
 KIND: definition
@@ -1545,7 +1545,7 @@ REVIEWER: sol-delta-P-g
 LEAN_STATUS: PROVED
 LEAN_REF: r_k (KAM/Planetary/PGAssembly/Threshold.lean)
 LEAN_NOTE: audit P5-TH PASS WITH NOTES
-NOTE: -
+NOTE: RE-AUDIT FLAG (ruling 01:20): LEAN_REF r_k misses the bounds; GAP-P5a adds rk_dir
 
 NODE: stepP:p5:rk-dir
 KIND: step
@@ -2312,9 +2312,9 @@ EDGE: bpP:p5:params | blueprint-P/parts/p5-pg-assembly.tex#stepP:p5:lo-setup@L29
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p5+sol-review-P-g
 REVIEWER: sol-delta-P-g
-LEAN_STATUS: NOT_STARTED
+LEAN_STATUS: BYPASSED
 LEAN_REF: -
-LEAN_NOTE: audit P5-LO PASS; step done as local haves inside lower, complement identity not exported; left
+LEAN_NOTE: route substitution (D27, ruling OVERNIGHT 01:20): the Lean proof of the PROVED parent lower avoids this step
 NOTE: -
 
 NODE: stepP:p5:lo-bad
