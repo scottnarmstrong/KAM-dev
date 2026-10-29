@@ -1,0 +1,203 @@
+{
+ "all_as_intended": true,
+ "lean_controls": [
+  {
+   "label": "checkWeight w = 1",
+   "value": false
+  },
+  {
+   "label": "checkPiEnclosure narrowed",
+   "value": false
+  },
+  {
+   "label": "smallness C1 at 10^6 threshold",
+   "value": false
+  }
+ ],
+ "lean_controls_all_false": true,
+ "tests": [
+  {
+   "as_intended": true,
+   "design": "\u00a78.1",
+   "failed": [
+    "checkInvariance"
+   ],
+   "intended": "checkInvariance",
+   "passes_checker": false,
+   "test": "false residual bound (err = bound/2)",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.2",
+   "failed": [
+    "checkGram",
+    "checkTorsion"
+   ],
+   "intended": "checkGram",
+   "passes_checker": false,
+   "test": "Gram witness B = 0",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.2",
+   "failed": [
+    "checkTorsion"
+   ],
+   "intended": "checkTorsion",
+   "passes_checker": false,
+   "test": "torsion witness S = 0",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.3",
+   "failed": [
+    "checkStatic"
+   ],
+   "intended": "checkStatic",
+   "passes_checker": false,
+   "test": "mu = 0",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.4",
+   "failed": [
+    "checkInvariance",
+    "checkEnergy",
+    "checkTorsion"
+   ],
+   "intended": "checkInvariance",
+   "passes_checker": false,
+   "test": "character witness with wrong mean (E = 2)",
+   "toy": "T2d"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.5",
+   "failed": [
+    "checkStatic"
+   ],
+   "intended": "checkStatic",
+   "passes_checker": false,
+   "test": "strip weight w < e^{2 pi rho} (w = 1)",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.6",
+   "failed": [
+    "checkHamBounds"
+   ],
+   "intended": "checkHamBounds",
+   "passes_checker": false,
+   "test": "denominator ball contains 0 on D (rhoH = 1/5, w_H >= 3)",
+   "toy": "T2d"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.6",
+   "failed": [
+    "checkInvariance",
+    "checkEnergy",
+    "checkTorsion"
+   ],
+   "intended": "checkInvariance",
+   "passes_checker": false,
+   "test": "reciprocal witness with delta >= 1 (Q = 0)",
+   "toy": "T2d"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.7",
+   "failed": [
+    "checkStatic",
+    "checkInvariance",
+    "checkTorsion"
+   ],
+   "intended": "checkStatic",
+   "passes_checker": false,
+   "test": "box does not exclude 0",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.7",
+   "failed": [
+    "checkStatic"
+   ],
+   "intended": "checkStatic",
+   "passes_checker": false,
+   "test": "ray margin violated (nu = 6/10 > (s-1) |omega|_lo = 1/2)",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.8",
+   "failed": [
+    "checkStatic"
+   ],
+   "intended": "checkStatic",
+   "passes_checker": false,
+   "test": "pi enclosure narrower than the Machin bounds",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "\u00a78.9",
+   "failed": [
+    "checkTorsion"
+   ],
+   "intended": "checkTorsion",
+   "passes_checker": false,
+   "test": "torsion witness of shape 4 x 4 at n = 2 (F7 analogue)",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "control",
+   "failed": [
+    "checkSmallness"
+   ],
+   "intended": "checkSmallness",
+   "passes_checker": false,
+   "test": "smallness: err = 10^6 threshold",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "control",
+   "failed": [
+    "checkHamBounds"
+   ],
+   "intended": "checkHamBounds",
+   "passes_checker": false,
+   "test": "M below the ball bounds (M = 1)",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "control",
+   "failed": [
+    "checkEmbedding"
+   ],
+   "intended": "checkEmbedding",
+   "passes_checker": false,
+   "test": "sigma_K - mu < |DK| (sK = 1 + mu/2)",
+   "toy": "T2"
+  },
+  {
+   "as_intended": true,
+   "design": "control",
+   "failed": [
+    "checkEmbedding"
+   ],
+   "intended": "checkEmbedding",
+   "passes_checker": false,
+   "test": "embedding leaves D (action centre shifted by the radius)",
+   "toy": "T2"
+  }
+ ]
+}

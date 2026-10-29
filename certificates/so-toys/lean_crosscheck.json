@@ -1,0 +1,133 @@
+{
+ "T2": {
+  "identical": true,
+  "lean_slots": 20,
+  "slots": 20
+ },
+ "T2d": {
+  "identical": true,
+  "lean_slots": 156,
+  "slots": 156
+ },
+ "T3": {
+  "identical": true,
+  "lean_slots": 37,
+  "slots": 37
+ },
+ "TR": {
+  "identical": true,
+  "lean_slots": 20,
+  "slots": 20
+ },
+ "jets_identical": {
+  "T2": true,
+  "T2d": true,
+  "T3": true
+ },
+ "landed_predicates": [
+  {
+   "label": "T2 weight",
+   "value": true
+  },
+  {
+   "label": "T2 weightH",
+   "value": true
+  },
+  {
+   "label": "T2 checkPiEnclosure",
+   "value": true
+  },
+  {
+   "label": "T2 checkRootEnclosure",
+   "value": true
+  },
+  {
+   "label": "T2 checkAlgBox",
+   "value": true
+  },
+  {
+   "label": "T2 smallness C1",
+   "value": true
+  },
+  {
+   "label": "T2 smallness C2",
+   "value": true
+  },
+  {
+   "label": "T2d weight",
+   "value": true
+  },
+  {
+   "label": "T2d weightH",
+   "value": true
+  },
+  {
+   "label": "T2d checkPiEnclosure",
+   "value": true
+  },
+  {
+   "label": "T2d checkRootEnclosure",
+   "value": true
+  },
+  {
+   "label": "T2d checkAlgBox",
+   "value": true
+  },
+  {
+   "label": "T2d smallness C1",
+   "value": true
+  },
+  {
+   "label": "T2d smallness C2",
+   "value": true
+  },
+  {
+   "label": "T3 weight",
+   "value": true
+  },
+  {
+   "label": "T3 weightH",
+   "value": true
+  },
+  {
+   "label": "T3 checkPiEnclosure",
+   "value": true
+  },
+  {
+   "label": "T3 checkRootEnclosure",
+   "value": true
+  },
+  {
+   "label": "T3 checkAlgBox",
+   "value": true
+  },
+  {
+   "label": "T3 smallness C1",
+   "value": true
+  },
+  {
+   "label": "T3 smallness C2",
+   "value": true
+  },
+  {
+   "label": "TR weight",
+   "value": true
+  },
+  {
+   "label": "TR weightH",
+   "value": true
+  },
+  {
+   "label": "TR checkPiEnclosure",
+   "value": true
+  },
+  {
+   "label": "TR smallness C1",
+   "value": true
+  },
+  {
+   "label": "TR smallness C2",
+   "value": true
+  }
+ ]
+}
