@@ -25,7 +25,7 @@ variable {n : ℕ}
 
 local notation "Ph" => (Fin n → ℂ) × (Fin n → ℂ)
 
-theorem JetSmoothOn.neg {S : Set Ph} {f : Ph → ℂ} (hf : JetSmoothOn S f) :
+theorem JetSmoothOn.jetNeg {S : Set Ph} {f : Ph → ℂ} (hf : JetSmoothOn S f) :
     JetSmoothOn S (fun z => -f z) := ContDiffOn.neg hf
 
 theorem jetDeriv_neg {S : Set Ph} (hS : IsOpen S) (u : Ph) {f : Ph → ℂ}
