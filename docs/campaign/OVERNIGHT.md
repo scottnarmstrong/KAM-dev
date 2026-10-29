@@ -853,3 +853,22 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   guard mutation suite) started on claude-4, whose weekly quota resets at 16:00. README: track SO now appears in the
   completion estimate (original project / track SO / overall) and at the top of At a glance; the size estimate includes
   SO; track N marked complete; the I.HQ item marked done.
+- **15:45. Track SO data packaging: SO-ADVCOUNT replaces the guess with a count.** 128 genuine complex products per
+  torus (3 at full precision: the energy square and two witness products), about 4 MB of design-B advice per torus,
+  8 MB for both tori plus 2 MB of embedding data, about 464 shard theorems and 0.1–0.15 kernel CPU-hours per torus
+  (report docs/tracks/SO/studies/SO-ADVCOUNT-product-volume.md). At this size option A of design §7.2 (lint-clean
+  chunked data modules, about 72 files) needs no rule exemption, so the orchestrator adopts A as the default; the owner
+  can still choose B or C. Two implementation requirements go to the design and to SO-EMB: a `mul` with a constant
+  operand must be a scalar multiplication (else about 120 MB and 2 CPU-hours more per torus), and all-zero real or
+  imaginary parts must cost nothing.
+- **15:45. Track P: planetaryExponentialSafety assembled.** E11 proved `stopped` in 377 lines (design estimate 700),
+  applying the sealed N root to h and -h; E12Q proved expsafe and the provider parametrically; the seal branch
+  inp-p14-seal adds the two one-liners and the provider builds. Audits running: E11, E12Q, and the seal-key audit
+  (exact-type probe, prospective seal, axioms, leanchecker replay). N11-F2 retro audit 2 PASS (F2-C1 resolved by the
+  `0 < b.c` premise on `iterative`, discharged up to the provider), which closes A1 of the N seal-key audit.
+- **15:50. Heartbeat.** E11 and E12Q passed their audits; the P14 seal-key audit runs. The track SO design passed its
+  seventh audit (F14, F15 closed): the general checker's design is accepted after seven revisions and goes to main as
+  docs. Started: SO-POLY-B (advice-checked packed products, Opus) and SO-DATA-PY (the Python advice emitter, verifying
+  every Lean check in Python and fixing the option-A data format before SO-DEFS). The engine chain after SO-POLY-B is
+  sequential (each package needs the previous one's definitions). The heartbeat template still names track K waves and
+  I-STRIP-3, complete since 2026-10-28.

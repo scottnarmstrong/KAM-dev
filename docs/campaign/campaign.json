@@ -244,6 +244,6 @@
    "SO-RFREQ",
    "SO-GRAPHR"
   ],
-  "gates": "design of the general checker: Revision 6 in its sixth audit (the rotated lunar frame and the advice-checked packed products of Revision 5, plus the repair of the carry-cancellation and scale-0 findings of audit 5). Replay gate GO. SO-GEN2 confirmed the rotated-frame package R1: threshold 10^-74.7, about 8.5k terms per torus at 318 bits, invariance error about 1e-3 of the threshold. Open owner question: how certificate data enters Lean (design §7.2)."
+  "gates": "design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default."
  }
 }

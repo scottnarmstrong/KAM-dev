@@ -6,8 +6,8 @@
    "id": "SO.PLAN",
    "title": "Plan, owner rulings O1–O5, replay gate, constants study, Lean design of the general checker (six revisions, independent design audits)",
    "difficulty": "H",
-   "done": 0.9,
-   "note": "design Revision 6 in its sixth audit; replay gate GO; rotated frame and package R1 adopted"
+   "done": 1.0,
+   "note": "design accepted (Revision 7, seventh audit PASS WITH NOTES); replay gate GO; rotated frame, package R1 and data packaging option A adopted"
   },
   {
    "group": "Track SO (lunar spin–orbit certificate)",
