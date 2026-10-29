@@ -264,6 +264,113 @@ theorem fderiv_tangentMat_eval_inr (K : CertEmbedding α) (θ : Fin n → ℂ) (
 
 end Embedding
 
+/-! ### The second-derivative model -/
+
+section Deriv2
+
+variable {α : Type} [CertArith α]
+
+/-- The integer factor `-k_j k_l` of `∂_l ∂_j χ_k = (2π)² (-k_j k_l) χ_k`. -/
+def deriv2Mult (j l : ℕ) (k : CertKey) : ℤ := -(k.getD j 0 * k.getD l 0)
+
+/-- The coefficient `m c` (backend products). -/
+def deriv2Coeff (m : ℤ) (c : CC α) : CC α := ⟨mul c.re (ofInt m), mul c.im (ofInt m)⟩
+
+/-- The rounding error of `deriv2Coeff`. -/
+def deriv2Err (m : ℤ) (c : CC α) : α := upAdd (mulErr c.re (ofInt m)) (mulErr c.im (ofInt m))
+
+/-- The term `-k_j k_l c_k` (`none` if the factor vanishes), with its rounding error. -/
+def deriv2Item (j l : ℕ) (t : CertKey × CC α) : Option (ErrTerm α) :=
+  if deriv2Mult j l t.1 = 0 then none else
+    some (t.1, deriv2Coeff (deriv2Mult j l t.1) t.2, deriv2Err (deriv2Mult j l t.1) t.2)
+
+/-- The model of `∂_l ∂_j P` for exact data `P` at degree `d`: coefficients `-k_j k_l c_k`
+(backend products, their errors in the radius) at degree `d + 2`. -/
+def CertModel.ofDeriv2 (W : CertWeight) (j l : ℕ) (d : ℤ) (P : CertPoly α) : CertModel α :=
+  ⟨d + 2, itemsPoly (P.terms.filterMap (deriv2Item j l)),
+    errRadius W (P.terms.filterMap (deriv2Item j l))⟩
+
+variable [LawfulCertArith α]
+
+theorem norm_deriv2Coeff_sub (m : ℤ) (c : CC α) :
+    ‖(m : ℂ) * c.toC - (deriv2Coeff m c).toC‖ ≤ val (deriv2Err m c) := by
+  have e1 := LawfulCertArith.mul_err c.re (ofInt (α := α) m)
+  have e2 := LawfulCertArith.mul_err c.im (ofInt (α := α) m)
+  rw [LawfulCertArith.val_ofInt] at e1 e2
+  refine (norm_le_of_re_im (A := val (mulErr c.re (ofInt (α := α) m)))
+    (B := val (mulErr c.im (ofInt (α := α) m))) ?_ ?_).trans
+      (LawfulCertArith.upAdd_ge _ _)
+  · have : ((m : ℂ) * c.toC - (deriv2Coeff m c).toC).re =
+        -(val (mul c.re (ofInt (α := α) m)) - val c.re * m) := by
+      simp [deriv2Coeff, CC.toC]; ring
+    rw [this, abs_neg]; exact e1
+  · have : ((m : ℂ) * c.toC - (deriv2Coeff m c).toC).im =
+        -(val (mul c.im (ofInt (α := α) m)) - val c.im * m) := by
+      simp [deriv2Coeff, CC.toC]; ring
+    rw [this, abs_neg]; exact e2
+
+theorem deriv2Items_spec {n : ℕ} (j l : Fin n) (θ : Fin n → ℂ) :
+    ∀ L : List (CertKey × CC α),
+    ‖(L.map fun t => ((-(certKeyFun n t.1 j * certKeyFun n t.1 l) : ℤ) : ℂ) * t.2.toC *
+        character (certKeyFun n t.1) θ).sum -
+      errTermsEval n (L.filterMap (deriv2Item j.val l.val)) θ‖ ≤
+      errTermsErr n (L.filterMap (deriv2Item j.val l.val)) θ
+  | [] => by simp
+  | t :: L => by
+    have ih := deriv2Items_spec j l θ L
+    have hk : -(certKeyFun n t.1 j * certKeyFun n t.1 l) = deriv2Mult j.val l.val t.1 := rfl
+    by_cases h0 : deriv2Mult j.val l.val t.1 = 0
+    · have hnone : deriv2Item j.val l.val t = none := by simp only [deriv2Item, h0, ↓reduceIte]
+      rw [List.filterMap_cons_none hnone, List.map_cons, List.sum_cons, hk, h0]
+      simpa using ih
+    · have hsome : deriv2Item j.val l.val t = some (t.1,
+          deriv2Coeff (deriv2Mult j.val l.val t.1) t.2,
+          deriv2Err (deriv2Mult j.val l.val t.1) t.2) := by
+        simp only [deriv2Item, h0, ↓reduceIte]
+      rw [List.filterMap_cons_some hsome, List.map_cons, List.sum_cons, errTermsEval_cons,
+        errTermsErr_cons, hk]
+      simp only
+      have e := norm_deriv2Coeff_sub (deriv2Mult j.val l.val t.1) t.2
+      set χ := character (certKeyFun n t.1) θ
+      set m := deriv2Mult j.val l.val t.1
+      set S := (L.map fun t => ((-(certKeyFun n t.1 j * certKeyFun n t.1 l) : ℤ) : ℂ) *
+        t.2.toC * character (certKeyFun n t.1) θ).sum
+      have : (m : ℂ) * t.2.toC * χ + S -
+          ((deriv2Coeff m t.2).toC * χ + errTermsEval n (L.filterMap (deriv2Item j.val l.val)) θ) =
+          ((m : ℂ) * t.2.toC - (deriv2Coeff m t.2).toC) * χ +
+            (S - errTermsEval n (L.filterMap (deriv2Item j.val l.val)) θ) := by ring
+      rw [this]
+      refine (norm_add_le _ _).trans ?_
+      rw [norm_mul]
+      have := mul_le_mul_of_nonneg_right e (norm_nonneg χ)
+      linarith
+
+/-- **Second-derivative model contract.** -/
+theorem CertModel.Encloses.ofDeriv2 {n : ℕ} {W : CertWeight} {s N : ℕ}
+    (hW : checkWeight W s N = true) (j l : Fin n) (d : ℤ) (P : CertPoly α) :
+    (CertModel.ofDeriv2 W j.val l.val d P).Encloses n W.rho (fun θ => (2 * (Real.pi : ℂ)) ^ d *
+      fderiv ℂ (fun y => fderiv ℂ (P.eval n) y (Pi.single j 1)) θ (Pi.single l 1)) := by
+  intro θ hθ
+  have hS := deriv2Items_spec j l θ P.terms
+  have hR := errTermsErr_le_errRadius hW (P.terms.filterMap (deriv2Item j.val l.val)) hθ
+  have h2pi : (2 * (Real.pi : ℂ)) ≠ 0 := by
+    have := Real.pi_pos; exact_mod_cast (by positivity : (2 * Real.pi) ≠ 0)
+  beta_reduce
+  rw [CertPoly.fderiv_fderiv_eval_single]
+  simp only [CertModel.ofDeriv2, itemsPoly_eval]
+  rw [zpow_add₀ h2pi, zpow_add₀ (by positivity : (2 * Real.pi) ≠ 0)]
+  set S := (P.terms.map fun t => ((-(certKeyFun n t.1 j * certKeyFun n t.1 l) : ℤ) : ℂ) *
+    t.2.toC * character (certKeyFun n t.1) θ).sum
+  set E := errTermsEval n (P.terms.filterMap (deriv2Item j.val l.val)) θ
+  have : (2 * (Real.pi : ℂ)) ^ d * ((2 * ((Real.pi : ℝ) : ℂ)) ^ 2 * S) -
+      (2 * (Real.pi : ℂ)) ^ d * (2 * (Real.pi : ℂ)) ^ (2 : ℤ) * E =
+      ((2 * (Real.pi : ℂ)) ^ d * (2 * (Real.pi : ℂ)) ^ (2 : ℤ)) * (S - E) := by
+    rw [zpow_two, sq]; ring
+  rw [this, norm_mul, norm_mul, norm_two_pi_zpow, norm_two_pi_zpow]
+  exact mul_le_mul_of_nonneg_left (hS.trans hR) (by positivity)
+
+end Deriv2
+
 end KAM.Certificate
 
 end
