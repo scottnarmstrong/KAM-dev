@@ -894,9 +894,9 @@ EDGE: bpP:p14:sb-defs#ellipseMomentum | blueprint-P/parts/p14b-secular-box.tex#b
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit P14-S2 PASS WITH NOTES: sb_cov states Gamma, ecc vector, J, q, p covariance; the k/a/x invariance clauses (and sb-cv-1/2) hold only by unfolding, not stated; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.sb_cov_full (KAM/Planetary/SecularBox/Covariance.lean)
+LEAN_NOTE: P-CLOSE-LEAN-audit-2.md:17 PROVED; P-CLOSE-LEAN-audit-1 PROVED
 NOTE: -
 
 NODE: stepP:p14:sb-cv-1
@@ -925,9 +925,9 @@ EDGE: bpP:p14:sb-x-alg | blueprint-P/parts/p14b-secular-box.tex#stepP:p14:sb-cv-
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: sb_cov states only Gamma/ecc vector (cv-1) resp. J,q,p (cv-2); k,rho,a,x equalities not literal conjuncts; left
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.sb_cov_slow_data (KAM/Planetary/SecularBox/Covariance.lean)
+LEAN_NOTE: P-CLOSE-LEAN-audit-2.md:18 PROVED (round 2 repair: source rho invariance)
 NOTE: -
 
 NODE: stepP:p14:sb-cv-2
@@ -955,9 +955,9 @@ EDGE: bpP:p14:sb-defs#longitudeJacobian | blueprint-P/parts/p14b-secular-box.tex
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p14b+sol-review-P-b
 REVIEWER: sol-delta-P-a
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: sb_cov states only Gamma/ecc vector (cv-1) resp. J,q,p (cv-2); k,rho,a,x equalities not literal conjuncts; left
+LEAN_STATUS: PROVED
+LEAN_REF: KAM.Planetary.sb_cov_full (KAM/Planetary/SecularBox/Covariance.lean)
+LEAN_NOTE: P-CLOSE-LEAN-audit-2.md:19 PROVED (sb_cov_full second conjunct); P-CLOSE-LEAN-audit-1 PROVED
 NOTE: -
 
 NODE: stepP:p14:sb-cv-3
