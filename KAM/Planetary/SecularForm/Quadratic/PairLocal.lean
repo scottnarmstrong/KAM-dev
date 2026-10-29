@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularForm.Analytic
 /-!
 # Quadratic part: the pair average near the circular point
 
-Blueprint P, Part 8, `stepP:p8:qf-pair` (package S8-Q). Near `(u, v) = 0` the literal pair average
+Blueprint P, Part 8, `stepP:p8:qf-pair`. Near `(u, v) = 0` the literal pair average
 `pairSlowSecular D i j I J` is the two-planet secular function; hence it is real analytic there and
 inherits the symmetries of `secular`.
 -/

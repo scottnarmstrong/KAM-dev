@@ -11,7 +11,7 @@ public import KAM.Planetary.SecularForm.Quadratic.Uniform
 /-!
 # Quadratic part: the uniform constants
 
-Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q). On a compact neighbourhood of
+Blueprint P, Part 8, `stepP:p8:qf-assembly`. On a compact neighbourhood of
 `action D a` the constant term, the coefficient entries and the complex secular function are
 bounded; the radius `r` is chosen so that `axis D Λ ∈ axes n` there.
 -/

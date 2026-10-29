@@ -11,7 +11,7 @@ public import KAM.Planetary.SecularForm.Momentum
 /-!
 # Quadratic part: two-angle marginals of the cell average
 
-Blueprint P, Part 8, `stepP:p8:qf-pair` (package S8-Q), measure-theoretic half. The average over
+Blueprint P, Part 8, `stepP:p8:qf-pair`, measure-theoretic half. The average over
 the angle cell `[0, 2π]ⁿ` of a function of two coordinates `(tᵢ, tⱼ)`, `i ≠ j`, is the average of
 that function over `[0, 2π]²` (the coordinates are independent for the normalised product
 measure). No integrability is assumed.

@@ -12,7 +12,7 @@ public import KAM.Planetary.SecularForm.AnalyticGeometry
 /-!
 # Quadratic part: analytic dependence of the coefficients on the action
 
-Blueprint P, Part 8, `stepP:p8:qf-assembly` (package S8-Q). The map `Λ ↦ axis D Λ` is analytic and
+Blueprint P, Part 8, `stepP:p8:qf-assembly`. The map `Λ ↦ axis D Λ` is analytic and
 sends a neighbourhood of `action D a` into `axes n`; the constant term and the quadratic form are
 analytic in `(ξ, Λ, η)` through `axis`.
 -/

@@ -14,9 +14,9 @@ public import KAM.Planetary.SecularForm.Coefficients
 /-!
 # Quadratic part: the diagonal second derivatives of the pair average
 
-Blueprint P, Part 8, `stepP:p8:qf-diag` and `stepP:p8:qf-assembly` (package S8-Q). The second
+Blueprint P, Part 8, `stepP:p8:qf-diag` and `stepP:p8:qf-assembly`. The second
 derivative of the pair average along the rays `s ↦ (s u, 0)` and `s ↦ (0, s v)` is `-2 pairA/Λ`
-times the squared length, from the diagonal jet `pairSlowSecular_diag_jet` of S8-D and the exchange
+times the squared length, from the diagonal jet `pairSlowSecular_diag_jet` and the exchange
 of the two planets.
 -/
 

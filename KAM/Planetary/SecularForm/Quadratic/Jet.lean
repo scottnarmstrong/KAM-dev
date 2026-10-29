@@ -13,7 +13,7 @@ public import KAM.Planetary.SecularForm.Quadratic.Coeff
 /-!
 # Quadratic part: the jet of the secular function along rays
 
-Blueprint P, Part 8, `stepP:p8:qf-pair` and `stepP:p8:qf-assembly` (package S8-Q). Along the ray
+Blueprint P, Part 8, `stepP:p8:qf-pair` and `stepP:p8:qf-assembly`. Along the ray
 `s ↦ (s ξ, Λ, s η)` at `Λ = action D a`, the function
 `ψ(s) = S(sξ, Λ, sη) - C₀(a) - s² (ξᵀ Q ξ + ηᵀ Q η)` is analytic and its derivatives of order `≤ 3`
 at `s = 0` vanish: the value and the second derivative come from the pair decomposition
