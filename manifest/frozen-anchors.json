@@ -9017,7 +9017,7 @@
     "module": "KAM.Provider.Nekhoroshev.PartialConvexNekhoroshev",
     "export": "KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "40b1b8eb885fc0f1eefec48483400f801d970ff00f80a0863876940da7dee5d4",
    "suffix_sha256": "1efcbce496c3a865046e94018aa1cc8bdafb0b9454c6939e2353d83cc98b6da8",
    "draft_allowlist": {

@@ -76,7 +76,8 @@ theorem partialConvex_nekhoroshev
       ‖KAM.Planetary.fast (b := k) (z t).2 - KAM.Planetary.fast (b := k) (z 0).2‖
         ≤ μ ^ partialDriftExponent n / 2 :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Nekhoroshev.partialConvex_nekhoroshev hn hk G G' D hG hGc hG' hGc' hD ρ g m
+      Mcomplex hρ hMc hcollar h hhol hC2 hreal hHess hdef
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
