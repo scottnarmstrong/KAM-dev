@@ -206,7 +206,8 @@ theorem fderiv_frequencyMap_soH0 (I v : Fin 2 → ℝ) :
 /-- The frozen bordered Hessian of `h₀(p, J) = p²/2 + J` is the matrix `soBordered p`
 (indices `Fin 2 ⊕ Unit` versus `Fin 3`), `p = I 0`. -/
 theorem borderedHessian_soH0 (I : Fin 2 → ℝ) :
-    KAM.Iso.borderedHessian soH0 I = Matrix.reindex soBorderEquiv soBorderEquiv (soBordered (I 0)) := by
+    KAM.Iso.borderedHessian soH0 I =
+      Matrix.reindex soBorderEquiv soBorderEquiv (soBordered (I 0)) := by
   ext i j
   rcases i with a | u <;> rcases j with b | w <;>
     simp only [KAM.Iso.borderedHessian, fderiv_frequencyMap_soH0, frequencyMap_soH0,

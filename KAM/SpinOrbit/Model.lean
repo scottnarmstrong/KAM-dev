@@ -19,8 +19,8 @@ Proposal `docs/explorations/lunar-spin-orbit-certificate-proposal.md` §2.3. Unf
   over any field; `soA m = A_m(soEcc)`; `soAQ m` is the exact rational value
   (`soA_eq_ratCast`).
 * `soV q φ = -ε Σ_{m=1}^7 A_m cos (2π (2q - mφ))` and its entire complex extension `soVC`
-  (`soVC_differentiable`, `soVC_differentiable_pi`, `soVC_analyticOnNhd_q`); `soVC_ofReal` (real on reals), 1-periodicity in
-  `q` and in `φ` (`soV_periodic_q`, `soV_periodic_φ`, integer shifts `soVC_add_int`).
+  (`soVC_differentiable`, `soVC_differentiable_pi`, `soVC_analyticOnNhd_q`); `soVC_ofReal`
+  (real on reals), 1-periodicity in `q` and in `φ` (`soV_periodic_q`, `soV_periodic_φ`, integer shifts `soVC_add_int`).
 * the explicit partial derivatives `soVq = ∂_q V = 4π ε Σ A_m sin(·)`,
   `soVφ = ∂_φ V = -2π ε Σ m A_m sin(·)` with `HasDerivAt` statements (real and complex, also in
   composed form `hasDerivAt_soVC_comp`);
