@@ -38,9 +38,9 @@ def CertBall.sumPairs : List (CertBall α) → List (CertBall α)
   | l => l
 
 /-- `r` rounds of `CertBall.sumPairs`. -/
-def CertBall.pairRounds : ℕ → List (CertBall α) → List (CertBall α)
+def CertBall.sumRounds : ℕ → List (CertBall α) → List (CertBall α)
   | 0, l => l
-  | r + 1, l => CertBall.pairRounds r (CertBall.sumPairs l)
+  | r + 1, l => CertBall.sumRounds r (CertBall.sumPairs l)
 
 /-- A right fold of ball sums (the ball `{0}` for the empty list). -/
 def CertBall.foldSum : List (CertBall α) → CertBall α
@@ -50,7 +50,7 @@ def CertBall.foldSum : List (CertBall α) → CertBall α
 
 /-- The balanced sum of a list of balls (64 pairwise rounds, then a fold). -/
 def CertBall.listSum (L : List (CertBall α)) : CertBall α :=
-  CertBall.foldSum (CertBall.pairRounds 64 L)
+  CertBall.foldSum (CertBall.sumRounds 64 L)
 
 /-- A ball enclosing `P(0) = Σ_k c_k` (exact coefficient balls, balanced sum). -/
 def CertPoly.coeffSumBall (P : CertPoly α) : CertBall α :=
@@ -117,17 +117,17 @@ theorem CertBall.sumPairs_spec : ∀ L : List (CertBall α),
     have := norm_add_le (a.c.toC + b.c.toC - (CertBall.plus a b).c.toC) (X - Y)
     linarith
 
-theorem CertBall.pairRounds_spec : ∀ (r : ℕ) (L : List (CertBall α)),
-    ‖ballCentreSum L - ballCentreSum (CertBall.pairRounds r L)‖ + ballRadSum L ≤
-      ballRadSum (CertBall.pairRounds r L)
-  | 0, L => by simp [CertBall.pairRounds]
+theorem CertBall.sumRounds_spec : ∀ (r : ℕ) (L : List (CertBall α)),
+    ‖ballCentreSum L - ballCentreSum (CertBall.sumRounds r L)‖ + ballRadSum L ≤
+      ballRadSum (CertBall.sumRounds r L)
+  | 0, L => by simp [CertBall.sumRounds]
   | r + 1, L => by
     have h1 := CertBall.sumPairs_spec L
-    have h2 := CertBall.pairRounds_spec r (CertBall.sumPairs L)
-    simp only [CertBall.pairRounds]
+    have h2 := CertBall.sumRounds_spec r (CertBall.sumPairs L)
+    simp only [CertBall.sumRounds]
     have := norm_sub_le_norm_sub_add_norm_sub (ballCentreSum L)
       (ballCentreSum (CertBall.sumPairs L))
-      (ballCentreSum (CertBall.pairRounds r (CertBall.sumPairs L)))
+      (ballCentreSum (CertBall.sumRounds r (CertBall.sumPairs L)))
     linarith
 
 theorem CertBall.foldSum_spec : ∀ L : List (CertBall α),
@@ -152,13 +152,13 @@ theorem CertBall.foldSum_spec : ∀ L : List (CertBall α),
 /-- The balanced sum encloses every value within the summed radii of the summed centres. -/
 theorem CertBall.mem_listSum {S : ℂ} {L : List (CertBall α)}
     (h : ‖S - ballCentreSum L‖ ≤ ballRadSum L) : CertBall.Mem S (CertBall.listSum L) := by
-  have h1 := CertBall.pairRounds_spec 64 L
-  have h2 := CertBall.foldSum_spec (CertBall.pairRounds 64 L)
+  have h1 := CertBall.sumRounds_spec 64 L
+  have h2 := CertBall.foldSum_spec (CertBall.sumRounds 64 L)
   unfold CertBall.Mem CertBall.listSum
   have := norm_sub_le_norm_sub_add_norm_sub S (ballCentreSum L)
-    (ballCentreSum (CertBall.pairRounds 64 L))
-  have := norm_sub_le_norm_sub_add_norm_sub S (ballCentreSum (CertBall.pairRounds 64 L))
-    (CertBall.foldSum (CertBall.pairRounds 64 L)).c.toC
+    (ballCentreSum (CertBall.sumRounds 64 L))
+  have := norm_sub_le_norm_sub_add_norm_sub S (ballCentreSum (CertBall.sumRounds 64 L))
+    (CertBall.foldSum (CertBall.sumRounds 64 L)).c.toC
   linarith
 
 theorem character_zero_point {n : ℕ} (k : Fin n → ℤ) : character k 0 = 1 := by

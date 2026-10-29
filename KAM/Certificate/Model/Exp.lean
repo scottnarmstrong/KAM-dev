@@ -168,11 +168,6 @@ theorem norm_clm_le_sum_single {n : ℕ} (L : (Fin n → ℂ) →L[ℂ] ℂ) :
   rw [norm_mul, mul_comm]
   exact mul_le_mul_of_nonneg_left (norm_le_pi_norm v j) (norm_nonneg _)
 
-/-- `‖exp z‖ ≤ exp ‖z‖`. -/
-theorem norm_exp_le_exp_norm (z : ℂ) : ‖Complex.exp z‖ ≤ Real.exp ‖z‖ := by
-  rw [Complex.norm_exp]
-  exact Real.exp_le_exp.mpr ((le_abs_self _).trans (Complex.abs_re_le_norm z))
-
 /-- `‖exp z - 1‖ ≤ exp ‖z‖ - 1`. -/
 theorem norm_exp_sub_one_le_exp_norm (z : ℂ) : ‖Complex.exp z - 1‖ ≤ Real.exp ‖z‖ - 1 := by
   simpa using Complex.norm_exp_sub_sum_le_exp_norm_sub_sum z 1
@@ -208,7 +203,8 @@ theorem norm_exp_sub_witness_le {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) (g₀ E : Ce
   set F : (Fin n → ℂ) → ℂ := fun x => Ef x * Complex.exp (-G x) with hFdef
   have h0 : (0 : Fin n → ℂ) ∈ complexStrip n ρ := fun i => by simpa using hρ
   have hexpB : ∀ x ∈ complexStrip n ρ, ‖Complex.exp (-G x)‖ ≤ Real.exp B := fun x hx =>
-    (norm_exp_le_exp_norm _).trans (Real.exp_le_exp.mpr (by rw [norm_neg]; exact hB x hx))
+    (Complex.norm_exp_le_exp_norm _).trans
+      (Real.exp_le_exp.mpr (by rw [norm_neg]; exact hB x hx))
   have hD : ∀ x, HasFDerivAt F (Ef x • (Complex.exp (-G x) • -fderiv ℂ G x) +
       Complex.exp (-G x) • fderiv ℂ Ef x) x := fun x =>
     ((E.differentiable_eval n x).hasFDerivAt).mul
@@ -248,7 +244,7 @@ theorem norm_exp_sub_witness_le {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) (g₀ E : Ce
       mul_sub, mul_one, mul_left_comm, ← Complex.exp_add, add_neg_cancel, Complex.exp_zero,
       mul_one]
   have hGθ : ‖Complex.exp (G θ)‖ ≤ Real.exp B :=
-    (norm_exp_le_exp_norm _).trans (Real.exp_le_exp.mpr (hB θ hθ))
+    (Complex.norm_exp_le_exp_norm _).trans (Real.exp_le_exp.mpr (hB θ hθ))
   have hS0 : 0 ≤ ∑ j, c j := Finset.sum_nonneg fun j _ => hc0 j
   have hn1 : ‖F θ - F 0‖ ≤ Real.exp B * ∑ j, c j * (1 / 2 + ρ) := by
     rw [← Finset.sum_mul]
@@ -343,7 +339,8 @@ theorem expWitnessRadiusOf_sound {n : ℕ} {W : CertWeight} {s N : ℕ}
         Complex.exp (g.poly.eval n θ) * (Complex.exp (gf θ - g.poly.eval n θ) - 1) := by
       rw [mul_sub, ← Complex.exp_add, add_sub_cancel, mul_one]
     rw [this, norm_mul]
-    refine mul_le_mul ((norm_exp_le_exp_norm _).trans (Real.exp_le_exp.mpr (hBθ θ hθ)))
+    refine mul_le_mul
+      ((Complex.norm_exp_le_exp_norm _).trans (Real.exp_le_exp.mpr (hBθ θ hθ)))
       ((norm_exp_sub_one_le_exp_norm _).trans ?_) (norm_nonneg _) (Real.exp_pos _).le
     linarith [Real.exp_le_exp.mpr hgθ]
   have hsq : Real.exp (val B) ^ 2 ≤ val (upMul eB eB) := by
