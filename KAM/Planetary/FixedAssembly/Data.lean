@@ -81,7 +81,7 @@ private theorem shift_mem_tube {O' : Set (Fin 2 → ℝ)} {rS : ℝ} {z : Phase 
     funext i; simp [p11cL_act, fastShift]
   have e2 : p11cL_slow (z + fastShift (a := 2) (b := 2) k) = p11cL_slow z := by
     refine Prod.ext (funext fun i => ?_) (funext fun i => ?_) <;>
-      simp [p11cL_slow, fastShift, Fin.append_right]
+      simp [p11cL_slow, fastShift]
   refine ⟨?_, ?_⟩
   · show p11cL_act (z + fastShift (a := 2) (b := 2) k) ∈ O'
     rw [e1]; exact hz.1
@@ -123,8 +123,10 @@ theorem pg_hypotheses (G m0 : ℝ) (m a : Fin 2 → ℝ)
       IsSymplecticOn 1 (PlanarAssembly.total_chart G m0 m T) O ∧
       (∀ z ∈ O, Bijective (fderiv ℝ (PlanarAssembly.total_chart G m0 m T) z)) ∧
       (∀ z ∈ O, ∀ k : Fin 2 → ℤ,
-        PlanarAssembly.total_chart G m0 m T (z + fastShift (a := 2) (b := 2) k) = PlanarAssembly.total_chart G m0 m T z) ∧
-      (∀ z ∈ O, ∀ z' ∈ O, PlanarAssembly.total_chart G m0 m T z' = PlanarAssembly.total_chart G m0 m T z →
+        PlanarAssembly.total_chart G m0 m T (z + fastShift (a := 2) (b := 2) k) =
+          PlanarAssembly.total_chart G m0 m T z) ∧
+      (∀ z ∈ O, ∀ z' ∈ O,
+        PlanarAssembly.total_chart G m0 m T z' = PlanarAssembly.total_chart G m0 m T z →
         ∃ k : Fin 2 → ℤ, z' = z + fastShift (a := 2) (b := 2) k) ∧
       (∀ μ : ℝ, ∀ z ∈ O, fixedHamiltonian G m0 m μ (PlanarAssembly.total_chart G m0 m T z) =
         degenerateHamiltonian (a := 2) (b := 2) (PlanarAssembly.kepler_h (G * m0) m)
@@ -174,7 +176,7 @@ theorem pg_hypotheses (G m0 : ℝ) (m a : Fin 2 → ℝ)
       refine (hgood ?_).2.1
       rw [mem_closedBall, dist_pi_le_iff (by positivity)]
       intro i
-      simp [Real.dist_eq, abs_of_nonneg hr.le]
+      simp [abs_of_nonneg hr.le]
     have h1 := hb.1
     have h2 := h1.trans hb.2
     simp only at h1 h2
@@ -232,13 +234,14 @@ theorem pg_hypotheses (G m0 : ℝ) (m a : Fin 2 → ℝ)
       T (z + fastShift (a := 2) (b := 2) k) = T z + fastShift (a := 2) (b := 2) k :=
     fun z hz k => htr z hz (fun i => 2 * π * (k i : ℝ))
   have hper : ∀ z ∈ O, ∀ k : Fin 2 → ℤ,
-      PlanarAssembly.total_chart G m0 m T (z + fastShift (a := 2) (b := 2) k) = PlanarAssembly.total_chart G m0 m T z := by
+      PlanarAssembly.total_chart G m0 m T (z + fastShift (a := 2) (b := 2) k) =
+        PlanarAssembly.total_chart G m0 m T z := by
     intro z hz k
     show poincareProd m (G * m0) (T (z + fastShift (a := 2) (b := 2) k)) =
       poincareProd m (G * m0) (T z)
     rw [hshift z hz k]
     exact (poincareProd_lattice hm hκ (hdom z hz).1 k).2
-  have hBNF := hf (p11c_hatFix p) (Set.mem_insert_of_mem _ (Set.mem_singleton _))
+  have hBNF := hf (p11c_hatFix p) (Set.mem_insert _ _)
   obtain ⟨hAn, P0, -, -, hBNF⟩ := hBNF
   have hr0le : r0 ≤ rS / √2 := by
     refine hr0S.trans ?_
@@ -303,7 +306,8 @@ theorem pg_hypotheses (G m0 : ℝ) (m a : Fin 2 → ℝ)
     have hfastT : fast (a := 2) (b := 2) (T z).2 = fast (a := 2) (b := 2) z.2 := hact z hzO
     obtain ⟨b, hb, hbI⟩ := hVsub hz.1
     have hba := hball b (hgoodr b hb).1
-    have h1 : ∀ i, |fast (a := 2) (b := 2) (T z).2 i - action_center G m0 m a i| ≤ δft := by
+    have h1 : ∀ i, |fast (a := 2) (b := 2) (T z).2 i -
+        PlanarAssembly.action_center G m0 m a i| ≤ δft := by
       intro i
       rw [hfastT, ← hbI]
       exact hba i
