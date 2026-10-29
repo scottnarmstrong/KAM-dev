@@ -993,3 +993,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   premise, i.e. a conditional helper, not a deviation from a source statement); no public-record entry needed.
   Light worktrees picked up a 196 MB lake package fetch when one worker ran the lint script; the workers were told
   not to run lake there, and the worktrees go with the sweep.
+- **22:15. Track SO: graph certificates and R1 parameters audited.** SO-GRAPH (`checkSoGraph` and the barrier
+  theorems `soBarrier_of_cert`, `soRotBarrier_of_cert`, through the black box and a Cauchy transfer on the open strip
+  T_ρ∞) passed audit 2, after audit 1 found two signed declarations in the wrong namespace (`KAM.Certificate` instead
+  of `KAM.SpinOrbit`; the mathematics passed). New pre-audit gate: orchestrator-tools/signed_names_check.py resolves
+  every signed name from the signatures file and checks it exists (the header-text comparison had not caught the move).
+  SO-R1 (LunarParams) passed audit 1: the kernel confirms the R1 smallness threshold 10^-74.669 (and that 10^-74
+  fails). Correction to the prover's handoff, found by the auditor: the SO-GEN2 residual budgets are 532x and 273x
+  below the threshold (log10 headroom 2.73 and 2.44), not 5300x and 2700x. The C2 condition needs disp >= 1.164e35
+  err. Both sent to land after the B2 scrub. Running: SO-PYALIGN, SO-TEST-B; CLEANUP-B34 (unused helpers, duplicate
+  statements) briefed for after B2.
