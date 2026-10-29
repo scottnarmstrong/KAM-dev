@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-29 17:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 274,000
+> **Last updated: 2026-10-29 17:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 98.8 % · track SO 48 %** · frozen statements proved: 22 / 22 · **261,251 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -195,16 +195,16 @@ Overall, both together: 89.1 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **261,251** (204,394 excluding blank lines and comments) · **+111,547** since 2026-10-28 16:40 UTC |
-| Written on agent branches, not yet landed | 2,632 |
-| **Estimated total at completion** | **≈ 274,000** |
+| On `main` now | **261,251** (204,394 excluding blank lines and comments) · **+108,455** since 2026-10-28 17:20 UTC |
+| Written on agent branches, not yet landed | 3,020 |
+| **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 10,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-29 17:00 UTC from `main` at `4e216f66` by `scripts/hq-status.py`.*
+*Generated 2026-10-29 17:20 UTC from `main` at `37961b30` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed; graphs K, I and P fully resolved, graph N being synced. Now: track SO (D30), a general Lean certificate checker for numerical KAM tori, with the lunar spin–orbit problem as first client.
 
@@ -212,7 +212,6 @@ Overall, both together: 89.1 %
 
 - **Lean on `main`:** 42 modules · 9,255 lines · 486 theorems in `KAM/Certificate` and `KAM/SpinOrbit` (design estimate ≈ 18,500 lines, 21,500–23,000 with overrun)
 - **Packages landed: 27 / 41** (SO-DIO, SO-MODEL, SO-GEN, SO-CLOCK, SO-PI, SO-CONST, SO-AIF, SO-CONF, SO-MINV, SO-FREQ, SO-PBASE, SO-CEXP, SO-RAT, SO-DIO3, SO-NORM, SO-HAMX, SO-GRAPHM, SO-ABK, SO-BALL, SO-ROTDIO, SO-EXPR-A, SO-EXPR-B1, SO-GEN2, SO-EXPR-B2, SO-POLY-A, SO-RFREQ, SO-GRAPHR)
-- **Now:** proving SO-POLY-B, SO-TOYGEN · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -361,12 +360,13 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: guard suite: crash is fail-closed rejection; real errata mutation | `inp-iguards` | 2 (vs `inp`) |
+| **iguards** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: kernel_replay: C-locale comm | `inp-iguards` | 3 (vs `inp`) |
+| **ncloselean** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: N-CLOSE-LEAN R2: item (a) states the two intermediate inclusions (F1) | `inp-ncloselean` | 4 (vs `inp`) |
 | **nsync** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: N-SYNC: spot-check audit request for the graph N sync, plus the p9#data definitions row | `inp-nsync` | 1 (vs `inp`) |
-| **sopolyb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-POLY-B: kernel-cost refactors: Nat-only inBox (inBox_eq), slot walk and linear fill in  | `inp-sopolyb` | 9 (vs `inp`) |
-| **sotoygen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYGEN: exact isoC1Q/isoC2Q mirror (general n, tau) and landed-jet extractor for the to | `inp-sotoygen` | 1 (vs `inp`) |
+| **sopolyb** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-POLY-B: Tests/Packed docstring wording | `inp-sopolyb` | 12 (vs `inp`) |
+| **sotoygen** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYGEN: report wording (exact certificate values; float margins for reading only) | `inp-sotoygen` | 5 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
