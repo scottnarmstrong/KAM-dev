@@ -15135,9 +15135,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#bpP:p8:evenness@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8
 REVIEWER: sol-review-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S8-Y PASS WITH NOTES: evenness proves the four invariances and evenness_taylor the vanishing of odd derivatives; criticality, O(2)-invariance of the degree-2d part and the A=A^T quadratic form are not exported; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: p8_evenness_joint, p8_evenness_full (KAM/Planetary/SecularForm/EvenIdentNodes.lean)
+LEAN_NOTE: audit GAP-P8c round 3 PASS WITH NOTES (ruling OVERNIGHT 02:25, owner review: one radius carrying the full perturbation-analytic conclusion plus evenness)
 NOTE: suspected defect: S(R_theta(xi,eta),Lambda) needs R_theta(xi,eta) in N_R(rho_*), but N_R(rho) is the box ¦xi_i¦,¦eta_i¦<rho, which is not invariant under rotations by theta not in (pi/2)Z; the identity holds for small (xi,eta) (local invariance suffices for steps ev-tay, ev-quad)
 
 NODE: stepP:p8:ev-inv
@@ -15194,9 +15194,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:ev-tay@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p8_ev_tay (KAM/Planetary/SecularForm/EvenIdentNodes.lean)
+LEAN_NOTE: audit GAP-P8c round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:ev-quad
@@ -15223,9 +15223,9 @@ EDGE: bpP:p8:conv#data | blueprint-P/parts/p8-secular-form.tex#stepP:p8:ev-quad@
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p8_ev_quad (KAM/Planetary/SecularForm/EvenIdentNodes.lean)
+LEAN_NOTE: audit GAP-P8c round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p8:lemma64
@@ -15548,9 +15548,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p8-secular-form.tex#bpP:p8:identiti
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S8-I PASS WITH NOTES: identities proved only for 0<alpha<1; the blueprint includes alpha=0 (design interior-domain specialization); not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: p8_identities_full (KAM/Planetary/SecularForm/EvenIdentNodes.lean)
+LEAN_NOTE: audit GAP-P8c round 3 PASS WITH NOTES (I1, I2 on [0,1), alpha = 0 included)
 NOTE: -
 
 NODE: stepP:p8:id-1
@@ -15577,9 +15577,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:id-1@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p8_id1 (KAM/Planetary/SecularForm/EvenIdentNodes.lean)
+LEAN_NOTE: audit GAP-P8c round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: stepP:p8:id-2
@@ -15606,9 +15606,9 @@ EDGE: bpP:p8:laplace-def | blueprint-P/parts/p8-secular-form.tex#stepP:p8:id-2@L
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: sonnet-extract-P-p8+sol-review-P-j
 REVIEWER: sol-delta-P-j
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
+LEAN_STATUS: PROVED
+LEAN_REF: p8_id2 (KAM/Planetary/SecularForm/EvenIdentNodes.lean)
+LEAN_NOTE: audit GAP-P8c round 3 PASS WITH NOTES
 NOTE: -
 
 NODE: bpP:p8:coeffs
@@ -18810,9 +18810,9 @@ EDGE: bpP:p10:sec-rnd#data | blueprint-P/parts/p10-nondegeneracy.tex#bpP:p10:sca
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: writer-pfixed-revision+sol-delta-P-aa
 REVIEWER: sol-delta-P-ba
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: audit S10-S PASS WITH NOTES: scaling_amount gives only the amount comparison between squares of the extreme diagonal entries; R-nondegeneracy and index invariance are not exported; not marked proved
+LEAN_STATUS: PROVED
+LEAN_REF: scaling_index_amount, rnd_def_scale_iff (KAM/Planetary/Nondegeneracy/RelationNodes.lean)
+LEAN_NOTE: audit GAP-P10b PASS WITH NOTES
 NOTE: restored by the P-FIXED revision (was EXCLUDED as P-FIXED-only); consumer stepP:p11:nd (Part 11 L50: R-nondegeneracy invariant under positive diagonal rescaling and affine change of variable); source fields filled by sonnet-extract-pfixed
 
 NODE: bpP:p10:finite-type
