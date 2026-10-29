@@ -230,6 +230,138 @@ theorem slpFinish_sound {S : Set Ph} {f : Ph → ℂ} {s : List SlpOp} {v : ℕ}
   · exact (t1 i hi).mono p2
   · exact t2 i hi j hj
 
+/-! ### Constants, actions, characters -/
+
+/-- The node of a constant. -/
+def slpConstNode (n : ℕ) (s : List SlpOp) (re im : ℚ) (deg : ℤ) : List SlpOp × SlpNode :=
+  slpFinish n s.length (fun _ => slpPure none) (fun _ _ => slpPure none)
+    (s ++ [.const re im deg])
+
+theorem slpConstNode_sound (S : Set Ph) (s : List SlpOp) (re im : ℚ) (deg : ℤ) :
+    s <+: (slpConstNode n s re im deg).1 ∧ (slpConstNode n s re im deg).2.Sound n S
+      (fun _ => slpConstVal re im deg) (slpConstNode n s re im deg).1 := by
+  have hv : s.length < (s ++ [SlpOp.const re im deg]).length := by simp
+  have hval : ∀ z : Ph, (Slp.vals n z (s ++ [.const re im deg])).getD s.length 0 =
+      slpConstVal re im deg := fun z => by rw [Slp.val_snoc_self]; rfl
+  have h1 : ∀ i < 2 * n, SlpEnt n S (s ++ [.const re im deg]) (slpPure none)
+      (jetDeriv (dirVec n i) (fun _ => slpConstVal re im deg)) := fun i _ => by
+    rw [jetDeriv_const]; exact SlpEnt.pure (Realizes.none S _)
+  have h2 : ∀ i < 2 * n, ∀ j < 2 * n, SlpEnt n S (s ++ [.const re im deg]) (slpPure none)
+      (jetDeriv (dirVec n i) (jetDeriv (dirVec n j) (fun _ => slpConstVal re im deg))) :=
+    fun i _ j _ => by
+    rw [jetDeriv_const, jetDeriv_const]; exact SlpEnt.pure (Realizes.none S _)
+  obtain ⟨p, h⟩ := slpFinish_sound hv hval _ _ h1 h2
+  exact ⟨(List.prefix_append _ _).trans p, h⟩
+
+theorem jetDeriv_action (j : Fin n) (u : Ph) :
+    jetDeriv u (fun z : Ph => z.2 j) = fun _ => u.2 j := by
+  have e : (fun z : Ph => z.2 j) = ⇑((ContinuousLinearMap.proj (R := ℂ)
+      (φ := fun _ : Fin n => ℂ) j).comp (ContinuousLinearMap.snd ℂ (Fin n → ℂ) (Fin n → ℂ))) :=
+    rfl
+  funext z
+  rw [e]
+  simp [jetDeriv, ContinuousLinearMap.fderiv]
+
+theorem dirVec_snd (i : ℕ) (j : Fin n) :
+    (dirVec n i).2 j = if i = n + j.val then 1 else 0 := by
+  by_cases h1 : i < n
+  · have : i ≠ n + j.val := by omega
+    simp [dirVec, h1, this]
+  · by_cases h2 : i - n < n
+    · simp only [dirVec, h1, h2, dite_true, dite_false, Pi.single_apply]
+      by_cases hj : j = ⟨i - n, h2⟩
+      · have hv : j.val = i - n := congrArg Fin.val hj
+        have : i = n + j.val := by omega
+        simp only [eq_true hj, eq_true this, ite_true]
+      · have : i ≠ n + j.val := fun e => hj (Fin.ext (by show j.val = i - n; omega))
+        simp only [eq_false hj, eq_false this, ite_false]
+    · have : i ≠ n + j.val := by have := j.isLt; omega
+      simp [dirVec, h1, h2, this]
+
+/-- The node of the action coordinate `j`. -/
+def slpActionNode (n : ℕ) (s : List SlpOp) (j : ℕ) : List SlpOp × SlpNode :=
+  slpFinish n s.length (fun i s' => if i = n + j then slpEmit s' (.const 1 0 0) else (s', none))
+    (fun _ _ => slpPure none) (s ++ [.action j])
+
+theorem slpActionNode_sound (S : Set Ph) (s : List SlpOp) (j : Fin n) :
+    s <+: (slpActionNode n s j.val).1 ∧ (slpActionNode n s j.val).2.Sound n S
+      (fun z : Ph => z.2 j) (slpActionNode n s j.val).1 := by
+  have hv : s.length < (s ++ [SlpOp.action j.val]).length := by simp
+  have hval : ∀ z : Ph, (Slp.vals n z (s ++ [.action j.val])).getD s.length 0 = z.2 j :=
+    fun z => by rw [Slp.val_snoc_self]; simp [SlpOp.step]
+  have h1 : ∀ i < 2 * n, SlpEnt n S (s ++ [.action j.val])
+      (fun s' => if i = n + j.val then slpEmit s' (.const 1 0 0) else (s', none))
+      (jetDeriv (dirVec n i) (fun z : Ph => z.2 j)) := by
+    intro i _ s' hs'
+    rw [jetDeriv_action]
+    by_cases h : i = n + j.val
+    · simp only [h, ite_true]
+      refine ⟨slpEmit_prefix _ _, slpEmit_realizes _ _ _ fun z _ => ?_⟩
+      simp [SlpOp.step, slpConstVal, dirVec_snd]
+    · simp only [h, ite_false]
+      refine ⟨List.prefix_refl _, trivial, fun z _ => ?_⟩
+      simp [slpOv, dirVec_snd, h]
+  have h2 : ∀ i < 2 * n, ∀ j' < 2 * n, SlpEnt n S (s ++ [.action j.val]) (slpPure none)
+      (jetDeriv (dirVec n i) (jetDeriv (dirVec n j') (fun z : Ph => z.2 j))) :=
+    fun i _ j' _ => by
+    rw [jetDeriv_action, jetDeriv_const]; exact SlpEnt.pure (Realizes.none S _)
+  obtain ⟨p, h⟩ := slpFinish_sound hv hval _ _ h1 h2
+  exact ⟨(List.prefix_append _ _).trans p, h⟩
+
+/-- The node of the character `e^{2πi k·θ}`. -/
+def slpCharNode (n : ℕ) (s : List SlpOp) (k : CertKey) : List SlpOp × SlpNode :=
+  slpFinish n s.length
+    (fun i => if i < n then slpCScale 0 ((k.getD i 0 : ℤ) : ℚ) 1 (slpPure (some s.length))
+      else slpPure none)
+    (fun i j => if i < n ∧ j < n then
+      slpCScale (-(((k.getD i 0 : ℤ) : ℚ) * ((k.getD j 0 : ℤ) : ℚ))) 0 2
+        (slpPure (some s.length)) else slpPure none)
+    (s ++ [.char k])
+
+theorem slpCharNode_sound (S : Set Ph) (s : List SlpOp) (k : CertKey) :
+    s <+: (slpCharNode n s k).1 ∧ (slpCharNode n s k).2.Sound n S
+      (fun z : Ph => Complex.exp (Complex.I * modePhase n k z.1)) (slpCharNode n s k).1 := by
+  have hv : s.length < (s ++ [SlpOp.char k]).length := by simp
+  have hval : ∀ z : Ph, (Slp.vals n z (s ++ [.char k])).getD s.length 0 =
+      Complex.exp (Complex.I * modePhase n k z.1) :=
+    fun z => by rw [Slp.val_snoc_self]; rfl
+  have hvr : Realizes n S (s ++ [.char k]) (some s.length)
+      (fun z : Ph => Complex.exp (Complex.I * modePhase n k z.1)) :=
+    ⟨by simp [SlotOk], fun z _ => by simpa [slpOv] using hval z⟩
+  have h1 : ∀ i < 2 * n, SlpEnt n S (s ++ [.char k])
+      (if i < n then slpCScale 0 ((k.getD i 0 : ℤ) : ℚ) 1 (slpPure (some s.length))
+        else slpPure none)
+      (jetDeriv (dirVec n i) (fun z : Ph => Complex.exp (Complex.I * modePhase n k z.1))) := by
+    intro i _
+    rw [jetDeriv_char, modePhase_dirVec]
+    by_cases h : i < n
+    · simp only [h, ite_true]
+      exact (SlpEnt.pure hvr).scale _ _ _
+    · simp only [h, ite_false, zero_mul]
+      exact SlpEnt.pure (Realizes.none S _)
+  have h2 : ∀ i < 2 * n, ∀ j < 2 * n, SlpEnt n S (s ++ [.char k])
+      (if i < n ∧ j < n then
+        slpCScale (-(((k.getD i 0 : ℤ) : ℚ) * ((k.getD j 0 : ℤ) : ℚ))) 0 2
+          (slpPure (some s.length)) else slpPure none)
+      (jetDeriv (dirVec n i) (jetDeriv (dirVec n j)
+        (fun z : Ph => Complex.exp (Complex.I * modePhase n k z.1)))) := by
+    intro i _ j _
+    rw [jetDeriv2_char, modePhase_dirVec, modePhase_dirVec]
+    by_cases h : i < n ∧ j < n
+    · simp only [h, and_self, ite_true]
+      refine ((SlpEnt.pure hvr).scale _ _ _).congr fun z _ => ?_
+      simp only [slpConstVal]
+      push_cast
+      simp [zpow_ofNat]
+      ring_nf
+      simp [Complex.I_sq]
+    · simp only [h, ite_false]
+      have : ¬ i < n ∨ ¬ j < n := by tauto
+      refine (SlpEnt.pure (Realizes.none S _)).congr fun z _ => ?_
+      rcases this with h' | h' <;> simp [h']
+  obtain ⟨p, h⟩ := slpFinish_sound hv hval _ _ h1 h2
+  exact ⟨(List.prefix_append _ _).trans p, h⟩
+
 end KAM.Certificate
 
 end
