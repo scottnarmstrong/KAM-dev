@@ -447,6 +447,101 @@ def P11PreparedBasicSpec (D : P11Physical n) (nu eps c : ℝ) (Q : P11PreparedDa
 
 end Assembly
 
+section Main
+
+variable {n : ℕ}
+
+/-- The chart identity `H_fix o chart = Re H_work` of the secular specification. -/
+theorem p11_secular_ham_chart {D : P11Physical n} {C : P11SecularData n}
+    (hC : P11SecularSpec D C) (eps : ℝ) (w : Phase (n+n))
+    (hw : KAM.realInclusion₂ (n+n) w ∈ p11WorkingDom n C.J0 (2*C.sigma) (2*C.rC) C.rz) :
+    fixedHamiltonian D.G D.m0 D.m eps (C.chart w) =
+      (p11WorkingH C eps (KAM.realInclusion₂ (n+n) w)).re := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -,
+    -, -, -, -, -, hH⟩ := hC
+  exact hH eps w hw
+
+/-- The basic spec for the core prepared data, from the three signed specifications and the
+smallness conditions on `eps` (`stepP:p11:pr-basic`, `stepP:p11:pr-a`). -/
+theorem p11_prepared_basic_of_spec {D : P11Physical n} {nu eps c : ℝ}
+    {W : P11Vec (n+n) → P11Vec (n+n)} (hC : P11SecularSpec D (p11SecularData D))
+    (hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps))
+    (hS : P11SlowSpec D nu eps (p11SlowConstant D nu) (p11SlowData D nu eps))
+    (heps : 0 < eps) (hεM : eps*(p11SecularData D).MF ≤ Real.exp (-1))
+    (hpe : Real.pi*eps ≤ p11s2 (p11SecularData D) nu eps)
+    (hsm : 64*eps < (p11SecularData D).rz^2) (hc : p11SlowConstant D nu ≤ c) :
+    P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) := by
+  obtain ⟨hγ0, hτ0, hL1, hrC0, hrC1, hσ0, hσ1, hrz0, hrz1, hMF⟩ := fast_consts hC
+  have hell : 0 ≤ Real.log (1/eps) :=
+    (zero_le_one.trans (slow_log_ge_one hC heps hεM))
+  obtain ⟨hf2, -, -, -, -, -, hh0, hg2, -, hf3d, hf3r, -, hreal, hPsireal, hper, -, -, -, -,
+    hmaps, -, -, hw3, -, hid, -⟩ := hS
+  obtain ⟨-, -, -, -, -, -, hFreal, -, -, hFmaps, -⟩ := hF
+  unfold P11PreparedBasicSpec p11PreparedCore
+  refine ⟨⟨fun z hz => ⟨rfl, rfl⟩, fun z hz => rfl⟩, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact p11PreparedCoreOf_N_differentiableOn heps hpe hh0 hg2
+  · exact p11PreparedCoreOf_P_differentiableOn heps hpe hf3d
+  · exact fun z hz i => p11PreparedCoreOf_P_periodic heps hpe hper hz i
+  · exact p11PreparedCoreOf_NP_real heps hpe (fun I hI => hreal I hI) hf3r
+  · exact p11PreparedCoreOf_P_real heps hpe hf3r
+  · exact fun I hI => p11PreparedCoreOf_N_real heps hpe (fun I hI => hreal I hI) hI
+  · intro z hz
+    have h := p11PreparedCoreOf_P_bound (Fast := p11FastData D eps) (W := W) heps hpe hf3d hper
+      hw3 z hz
+    refine h.trans (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hc ?_) ?_)
+    · exact (Real.rpow_pos_of_pos heps _).le
+    · exact Real.rpow_nonneg hell _
+  · intro z hz
+    exact p11PreparedCoreOf_chain_eq hC heps hpe hsm (fixedHamiltonian D.G D.m0 D.m eps)
+      (fun w hw => p11_secular_ham_chart hC eps w hw) hFreal hFmaps hPsireal hmaps hf2 hid hz
+
+/-- `stepP:p11:pr-basic` and `stepP:p11:pr-a` packaged as one existence statement: for all small
+`eps` and every frequency datum `W`, the core prepared data satisfies the basic spec. -/
+theorem p11_prepared_basic (D : P11Physical n) {nu : ℝ} (hnu : 1 ≤ nu) :
+    ∃ eps3 : ℝ, 0 < eps3 ∧ ∀ eps : ℝ, 0 < eps → eps ≤ eps3 → ∀ c : ℝ,
+      p11SlowConstant D nu ≤ c → ∀ W : P11Vec (n+n) → P11Vec (n+n),
+        P11PreparedBasicSpec D nu eps c (p11PreparedCore D nu eps W) := by
+  have hC : P11SecularSpec D (p11SecularData D) := (holo_chart D).choose_spec.1
+  obtain ⟨-, -, -, -, -, -, -, hrz0, -, hMF⟩ := fast_consts hC
+  obtain ⟨eps1, h1pos, -, hfast⟩ := avg_fast D
+  obtain ⟨h2pos, -, -, hslow⟩ := (avg_slow D hnu).choose_spec.choose_spec
+  have hc2 : p11SlowConstant D nu = (avg_slow D hnu).choose_spec.choose := by
+    unfold p11SlowConstant; rw [dif_pos hnu]
+  obtain ⟨u, hu, hsub⟩ := (mem_nhdsGT_iff_exists_Ioo_subset).1 (slow_pe_eventually hC hnu)
+  have hM0 : 0 < (p11SecularData D).MF := by linarith
+  refine ⟨min (u/2) (min eps1 (min (avg_slow D hnu).choose
+    (min (Real.exp (-1)/(p11SecularData D).MF) ((p11SecularData D).rz^2/65)))),
+    lt_min (by simpa using hu) (lt_min h1pos (lt_min h2pos (lt_min (by positivity)
+      (by positivity)))), fun eps heps hle c hc W => ?_⟩
+  have hle1 := hle.trans (min_le_left _ _)
+  have hle2 := hle.trans ((min_le_right _ _).trans (min_le_left _ _))
+  have hle3 := hle.trans ((min_le_right _ _).trans ((min_le_right _ _).trans (min_le_left _ _)))
+  have hle4 := hle.trans ((min_le_right _ _).trans ((min_le_right _ _).trans
+    ((min_le_right _ _).trans (min_le_left _ _))))
+  have hle5 := hle.trans ((min_le_right _ _).trans ((min_le_right _ _).trans
+    ((min_le_right _ _).trans (min_le_right _ _))))
+  have hεM : eps*(p11SecularData D).MF ≤ Real.exp (-1) := by
+    have := (le_div_iff₀ hM0).1 hle4
+    exact this
+  have hsm : 64*eps < (p11SecularData D).rz^2 := by
+    have : 0 < (p11SecularData D).rz^2 := by positivity
+    linarith
+  have hpe := hsub ⟨heps, by linarith⟩ heps hεM
+  have hF : P11FastSpec (p11SecularData D) eps (p11FastData D eps) := by
+    have h := (hfast eps heps hle2).2
+    unfold p11FastData
+    rw [dif_pos h]
+    exact h.choose_spec
+  have hS : P11SlowSpec D nu eps (p11SlowConstant D nu) (p11SlowData D nu eps) := by
+    have h : ∃ A, P11SlowSpec D nu eps (p11SlowConstant D nu) A := by
+      rw [hc2]; exact hslow eps heps hle3
+    unfold p11SlowData
+    rw [dif_pos h]
+    exact h.choose_spec
+  exact p11_prepared_basic_of_spec hC hF hS heps hεM hpe hsm hc
+
+end Main
+
 end KAM.Planetary
 
 end
