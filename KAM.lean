@@ -909,6 +909,7 @@ public import KAM.Planetary.Preparation.RectangularAverageDomain
 public import KAM.Planetary.Preparation.RectangularAverageEps
 public import KAM.Planetary.Preparation.RectangularBracket
 public import KAM.Planetary.Preparation.Schwarz
+public import KAM.Planetary.Preparation.SecEDefs
 public import KAM.Planetary.Preparation.Slow
 public import KAM.Planetary.Preparation.SlowAssembly
 public import KAM.Planetary.Preparation.SlowAverage
@@ -1098,6 +1099,7 @@ public import KAM.Planetary.TwoScale.IterationStage
 public import KAM.Planetary.TwoScale.LimitActions
 public import KAM.Planetary.TwoScale.LimitActionsChain
 public import KAM.Planetary.TwoScale.LimitMap
+public import KAM.Planetary.TwoScale.LimitMapDefs
 public import KAM.Planetary.TwoScale.LimitMapDisp
 public import KAM.Planetary.TwoScale.LimitMapLimit
 public import KAM.Planetary.TwoScale.LimitMapLip
