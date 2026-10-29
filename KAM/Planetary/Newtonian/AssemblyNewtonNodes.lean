@@ -41,6 +41,6 @@ theorem ma_newton {G m0 μ : ℝ} {m a : Fin n → ℝ} {γ A η : ℝ} (h : Axi
   intro z hz
   obtain ⟨w, K, θ, hKz, hKS, hK⟩ := hS2 z hz
   exact ⟨w, K, θ, hKz, hKS, hK, fun φ =>
-    Reconstruction.orbit_transfer_moving hG hm0 hm hμ hK (ma_coll h hη hSt hKS) φ⟩
+    orbit_transfer_moving hG hm0 hm hμ hK (ma_coll h hη hSt hKS) φ⟩
 
 end KAM.Planetary
