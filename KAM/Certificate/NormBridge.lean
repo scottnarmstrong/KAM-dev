@@ -137,6 +137,122 @@ theorem sumVec_fderiv_hamiltonianVectorFieldℂ {H : (Fin n → ℂ) × (Fin n �
   rw [hfun, hX.fderiv]
   exact congrFun ((sumVecIso n).apply_symm_apply _) a
 
+/-- Row-sum bound for `DX_H` from second partials; local `C²` (division, O2). `1 ≤ n` makes the
+row-sum premise nonvacuous, hence `0 ≤ B` (at `n = 0` the statement fails for `B < 0`, audit 2
+F8); the checker derives it from `StaticFacts.hn : 2 ≤ n`. -/
+theorem norm_fderiv_hamiltonianVectorFieldℂ_le (hn : 1 ≤ n)
+    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 2 H z) {B : ℝ}
+    (hB : ∀ a : Fin n ⊕ Fin n, ∑ b : Fin n ⊕ Fin n,
+      ‖iteratedFDeriv ℂ 2 H z ![phaseBasis (Sum.swap a), phaseBasis b]‖ ≤ B) :
+    ‖fderiv ℂ (hamiltonianVectorFieldℂ H) z‖ ≤ B := by
+  have hB0 : 0 ≤ B :=
+    (Finset.sum_nonneg fun _ _ => norm_nonneg _).trans (hB (.inl ⟨0, hn⟩))
+  refine ContinuousLinearMap.opNorm_le_bound _ hB0 fun v => ?_
+  rw [← norm_sumVec]
+  refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun a => ?_
+  rw [sumVec_fderiv_hamiltonianVectorFieldℂ hH, norm_mul, norm_hamSign, one_mul]
+  set e := phaseBasis a.swap
+  rw [(hH.isSymmSndFDerivAt (by simp)).eq v e]
+  set L := fderiv ℂ (fderiv ℂ H) z e
+  have h1 : ‖L‖ ≤ B := by
+    refine (norm_clm_le_sum_phaseBasis L).trans (le_trans (le_of_eq ?_) (hB a))
+    refine Finset.sum_congr rfl fun b _ => ?_
+    rw [iteratedFDeriv_two_apply]
+    rfl
+  exact (L.le_opNorm v).trans (mul_le_mul_of_nonneg_right h1 (norm_nonneg _))
+
+theorem iteratedFDeriv_three_apply (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (z u v e : (Fin n → ℂ) × (Fin n → ℂ)) :
+    iteratedFDeriv ℂ 3 H z ![u, v, e] = fderiv ℂ (fderiv ℂ (fderiv ℂ H)) z u v e := by
+  rw [iteratedFDeriv_succ_apply_right, iteratedFDeriv_two_apply]
+  rfl
+
+theorem iteratedFDeriv_three_swap_first {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 3 H z) (u v e : (Fin n → ℂ) × (Fin n → ℂ)) :
+    iteratedFDeriv ℂ 3 H z ![u, v, e] = iteratedFDeriv ℂ 3 H z ![v, u, e] := by
+  have h2 : ContDiffAt ℂ 2 (fderiv ℂ H) z := hH.fderiv_right (m := 2) (by norm_num)
+  rw [iteratedFDeriv_three_apply, iteratedFDeriv_three_apply,
+    (h2.isSymmSndFDerivAt (by simp)).eq u v]
+
+theorem iteratedFDeriv_three_swap_last {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 3 H z) (u v e : (Fin n → ℂ) × (Fin n → ℂ)) :
+    iteratedFDeriv ℂ 3 H z ![u, v, e] = iteratedFDeriv ℂ 3 H z ![u, e, v] := by
+  have hd : DifferentiableAt ℂ (iteratedFDeriv ℂ 2 H) z :=
+    hH.differentiableAt_iteratedFDeriv (by norm_num)
+  have key : ∀ v e : (Fin n → ℂ) × (Fin n → ℂ), iteratedFDeriv ℂ 3 H z ![u, v, e] =
+      fderiv ℂ (fun y => iteratedFDeriv ℂ 2 H y ![v, e]) z u := fun v e =>
+    hd.iteratedFDeriv_succ_apply_left' (m := ![u, v, e])
+  rw [key, key]
+  have hev : (fun y => iteratedFDeriv ℂ 2 H y ![v, e]) =ᶠ[nhds z]
+      fun y => iteratedFDeriv ℂ 2 H y ![e, v] := by
+    filter_upwards [hH.eventually (by simp)] with y hy
+    have hy2 : ContDiffAt ℂ 2 H y := hy.of_le (by norm_num)
+    rw [iteratedFDeriv_two_apply, iteratedFDeriv_two_apply,
+      (hy2.isSymmSndFDerivAt (by simp)).eq]
+    rfl
+  rw [hev.fderiv_eq]
+
+theorem iteratedFDeriv_three_rotate {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+    {z : (Fin n → ℂ) × (Fin n → ℂ)} (hH : ContDiffAt ℂ 3 H z) (u v e : (Fin n → ℂ) × (Fin n → ℂ)) :
+    iteratedFDeriv ℂ 3 H z ![u, v, e] = iteratedFDeriv ℂ 3 H z ![e, u, v] := by
+  rw [iteratedFDeriv_three_swap_last hH u v e, iteratedFDeriv_three_swap_first hH u e v]
+
+/-- Bound for `D²X_H` from third partials; local `C³`; `1 ≤ n` as above (F8). -/
+theorem norm_iteratedFDeriv_two_hamiltonianVectorFieldℂ_le (hn : 1 ≤ n)
+    {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {z : (Fin n → ℂ) × (Fin n → ℂ)}
+    (hH : ContDiffAt ℂ 3 H z)
+    {B : ℝ} (hB : ∀ a : Fin n ⊕ Fin n, ∑ b : Fin n ⊕ Fin n, ∑ c : Fin n ⊕ Fin n,
+      ‖iteratedFDeriv ℂ 3 H z ![phaseBasis (Sum.swap a), phaseBasis b, phaseBasis c]‖ ≤ B) :
+    ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ H) z‖ ≤ B := by
+  have hB0 : 0 ≤ B :=
+    (Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => norm_nonneg _).trans
+      (hB (.inl ⟨0, hn⟩))
+  set Y : (Fin n → ℂ) × (Fin n → ℂ) → (Fin n ⊕ Fin n → ℂ) :=
+    fun w a => hamSign a * fderiv ℂ H w (phaseBasis a.swap) with hY
+  have hXY : (sumVecIso n) ∘ hamiltonianVectorFieldℂ H = Y := by
+    funext w
+    rw [Function.comp_apply, hamiltonianVectorFieldℂ_eq_symm, LinearIsometryEquiv.apply_symm_apply]
+  rw [← (sumVecIso n).norm_iteratedFDeriv_comp_left, hXY]
+  have h2 : ContDiffAt ℂ 2 (fderiv ℂ H) z := hH.fderiv_right (m := 2) (by norm_num)
+  have hYc : ContDiffAt ℂ 2 Y z := by
+    refine contDiffAt_pi.2 fun a => ?_
+    exact contDiffAt_const.mul
+      ((ContinuousLinearMap.apply ℂ ℂ (phaseBasis a.swap)).contDiff.contDiffAt.comp z h2)
+  refine ContinuousMultilinearMap.opNorm_le_bound hB0 fun m => ?_
+  refine (pi_norm_le_iff_of_nonneg (by positivity)).2 fun a => ?_
+  set e := phaseBasis a.swap
+  have hcoord : iteratedFDeriv ℂ 2 Y z m a = hamSign a * iteratedFDeriv ℂ 3 H z ![m 0, m 1, e] := by
+    have h1 := (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n ⊕ Fin n => ℂ) a
+      ).iteratedFDeriv_comp_left hYc (le_refl 2)
+    have h3 : (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : Fin n ⊕ Fin n => ℂ) a) ∘ Y =
+        (hamSign a • ContinuousLinearMap.apply ℂ ℂ e) ∘ fderiv ℂ H := by
+      funext w; simp [hY, e]
+    rw [h3] at h1
+    have h4 := (hamSign a • ContinuousLinearMap.apply ℂ ℂ e).iteratedFDeriv_comp_left h2
+      (le_refl 2)
+    have h5 := congrArg (fun T => T m) (h1.symm.trans h4)
+    simp only [ContinuousLinearMap.compContinuousMultilinearMap_coe, Function.comp_apply,
+      ContinuousLinearMap.proj_apply] at h5
+    rw [h5, iteratedFDeriv_two_apply, iteratedFDeriv_three_apply]
+    simp [e]
+  rw [hcoord, norm_mul, norm_hamSign, one_mul,
+    iteratedFDeriv_three_rotate hH, Fin.prod_univ_two]
+  set Q : ((Fin n → ℂ) × (Fin n → ℂ)) [×2]→L[ℂ] ℂ := fderiv ℂ (iteratedFDeriv ℂ 2 H) z e
+  have hQ : iteratedFDeriv ℂ 3 H z ![e, m 0, m 1] = Q ![m 0, m 1] := rfl
+  have hQb : ∀ b c : Fin n ⊕ Fin n,
+      ‖Q ![phaseBasis b, phaseBasis c]‖ =
+        ‖iteratedFDeriv ℂ 3 H z ![e, phaseBasis b, phaseBasis c]‖ :=
+    fun b c => by rw [← show iteratedFDeriv ℂ 3 H z ![e, phaseBasis b, phaseBasis c] =
+      Q ![phaseBasis b, phaseBasis c] from rfl]
+  have hQn : ‖Q‖ ≤ B := by
+    refine (norm_cmm_two_le_sum_phaseBasis Q).trans (le_trans (le_of_eq ?_) (hB a))
+    exact Finset.sum_congr rfl fun b _ => Finset.sum_congr rfl fun c _ => hQb b c
+  rw [hQ]
+  refine (Q.le_opNorm _).trans ?_
+  rw [Fin.prod_univ_two]
+  exact mul_le_mul_of_nonneg_right hQn (by positivity)
+
 end KAM.Certificate
 
 end
