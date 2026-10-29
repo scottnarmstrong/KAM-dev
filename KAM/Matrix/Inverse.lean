@@ -28,7 +28,8 @@ Blueprint Part 1, "Matrices" and "Holomorphic maps on open sets".
   with `det A ≠ 0` there, then `A⁻¹` is holomorphic and `D(A⁻¹) = -A⁻¹ (DA) A⁻¹`. Holomorphy of a
   matrix-valued function is `DifferentiableOn ℂ` for the matrix operator norm of
   `open scoped Matrix.Norms.Operator`, the one used by `KAM/Matrix/Neumann.lean`;
-  `KAM.differentiableOn_matrix_iff_entries` says this is holomorphy of every entry.
+  `KAM.differentiableOn_matrix_iff_entries` says this is holomorphy of every entry. The inverse
+  lemmas work for any finite matrix index type, including the sum indices of symplectic frames.
 -/
 
 @[expose] public noncomputable section
@@ -117,7 +118,7 @@ theorem differentiableOn_matrix_iff_entries {ι κ : Type*} [Fintype ι] [Fintyp
     exact DifferentiableOn.fun_sum fun i _ =>
       DifferentiableOn.fun_sum fun j _ => (hf i j).smul_const _
 
-variable {p : ℕ} {A : E → Matrix (Fin p) (Fin p) ℂ}
+variable {ι : Type*} [Fintype ι] [DecidableEq ι] {A : E → Matrix ι ι ℂ}
 
 /-- Blueprint `step:p1:hi-holomorphic`. If `A` is holomorphic and `det A ≠ 0` on `V`, then
 `A⁻¹ = (det A)⁻¹ adj A` is holomorphic on `V`. (Openness of `V` is not needed here.) -/
@@ -138,10 +139,10 @@ theorem fderiv_matrix_inv_apply (hV : IsOpen V) (hA : DifferentiableOn ℂ A V)
   have hunit : IsUnit (A z) := (Matrix.isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 (hdet z hz))
   obtain ⟨u, hu⟩ := hunit
   have hAz : HasFDerivAt A (fderiv ℂ A z) z := (hA.differentiableAt (hV.mem_nhds hz)).hasFDerivAt
-  have hinv : (A z)⁻¹ = ((u⁻¹ : (Matrix (Fin p) (Fin p) ℂ)ˣ) : Matrix (Fin p) (Fin p) ℂ) := by
+  have hinv : (A z)⁻¹ = ((u⁻¹ : (Matrix ι ι ℂ)ˣ) : Matrix ι ι ℂ) := by
     rw [Matrix.nonsing_inv_eq_ringInverse, ← hu, Ring.inverse_unit]
   have hg : HasFDerivAt Ring.inverse
-      (-ContinuousLinearMap.mulLeftRight ℂ (Matrix (Fin p) (Fin p) ℂ) ↑u⁻¹ ↑u⁻¹) (A z) := by
+      (-ContinuousLinearMap.mulLeftRight ℂ (Matrix ι ι ℂ) ↑u⁻¹ ↑u⁻¹) (A z) := by
     rw [← hu]
     exact hasFDerivAt_ringInverse (𝕜 := ℂ) u
   have hcomp := hg.comp z hAz

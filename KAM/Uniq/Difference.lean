@@ -46,9 +46,9 @@ the helper lemmas that do not use the particular form of `Δ` are stated for an 
   the segment from `K₁(θ)` to `K₂(θ + ψ)` lies in the ball of radius `μ` around `K₁(θ)`, which lies
   in `𝔅` by (S3). The matrix bounds are `bp:p3:matrix-norms` (`|P|`, `|P⁻¹| ≤ C_P`).
 
-`KAM.holomorphic_inverse` is stated for `Fin p`; unifying `Fin ?p` with `Fin n ⊕ Fin n` exhausts
-the default heartbeats, so `differentiableOn_inv_of_isUnit_det` proves the holomorphy of `P⁻¹` for
-any finite index type.
+`KAM.holomorphic_inverse_differentiableOn` applies directly to the `Fin n ⊕ Fin n` frame indices.
+The helper `differentiableOn_inv_of_isUnit_det` retains the unit-determinant interface and
+delegates to that general finite-index theorem.
 
 The definitions `diffMap`, `remainder`, `diffXi` and `diffQ` are total functions, as required by
 the totality convention (`diffMap` lives in `KAM/Uniq/Phase.lean`, copied verbatim from Appendix A
@@ -142,16 +142,13 @@ theorem differentiableOn_remainder (hX : DifferentiableOn ℂ (hamiltonianVector
     (fun θ hθ => by rw [add_diffMap]; exact h4.mem _ (add_real_mem hθ ψ))
 
 /-- The inverse of a holomorphic matrix map with unit determinant is holomorphic, for any finite
-index type (`KAM.holomorphic_inverse` is stated for `Fin p` only; unifying `Fin ?p` with
-`Fin n ⊕ Fin n` does not terminate at default heartbeats, so the frame `P` needs this form). -/
+index type. This compatibility wrapper uses the general matrix-inverse theorem. -/
 theorem differentiableOn_inv_of_isUnit_det {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     {m : Type*} [Fintype m] [DecidableEq m] {A : E → Matrix m m ℂ} {S : Set E}
     (hA : DifferentiableOn ℂ A S) (hunit : ∀ z ∈ S, IsUnit (A z).det) :
     DifferentiableOn ℂ (fun z => (A z)⁻¹) S := by
-  intro z hz
-  have hu : IsUnit (A z) := (Matrix.isUnit_iff_isUnit_det _).2 (hunit z hz)
-  simp only [Matrix.nonsing_inv_eq_ringInverse]
-  exact (hA z hz).inverse hu
+  exact (KAM.holomorphic_inverse_differentiableOn hA
+    (fun z hz => (hunit z hz).ne_zero)).2
 
 /-- `ξ = P⁻¹ Δ` is holomorphic where `P⁻¹` and `Δ` are. -/
 theorem differentiableOn_diffXi {S : Set (Fin n → ℂ)} {Δ : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
