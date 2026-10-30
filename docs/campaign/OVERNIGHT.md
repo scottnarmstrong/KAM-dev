@@ -1513,3 +1513,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - The audit launcher's short-name check flags pre-existing sharp-v2 names (`TRel.snoc` etc.) whenever BallsTrig is
     listed, so it was launched with Ball only.
   - W: W7 accepted (kam-d4 checked the minor fixes). The W4 delta review is finishing on codex-3.
+- **Lock (kam-inp-24): design audit 2 (codex-1) FAIL; rev 3 in progress. For owner review:**
+  - *Question:* `HamExpr.sqrt` with a domain arm in `NonvanishingOn` makes the landed, unfrozen intermediate helper
+    `HamExpr.nonvanishingOn_of_inv_good` false (inverse safety cannot certify Re > 0). Options: (a) replace or extend
+    that single helper with an added sqrt-safety hypothesis (`SlpSqrtGood`), keeping every consumer's statement
+    (`nonvanishingOn_of_balls`, `…ballsTrig`, `checkHamBounds_sound`, `ham_structural`); (b) contort the compiler so
+    the old text stays literally true; (c) abandon sqrt for route (b) (new G1). *Choice:* (a), the smallest,
+    reversible, documented exception to "no landed statement changes"; frozen statements untouched.
+  - Also fixed: `lockHamExpr_clock` gains `0 < Ω` (false for negative Ω).
