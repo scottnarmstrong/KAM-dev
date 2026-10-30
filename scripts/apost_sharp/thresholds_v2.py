@@ -485,7 +485,7 @@ def c_stages(D, which, k=6):
     lam = 3
     delta0 = (D["rho"] - D["rhoinf"]) / (2 * lam)
     ccl = lambda d: Fr(sd.c_classical(n, tau, float(d)))           # Proposition bp:p2s2sd:classical at the bite d
-    ctail = ccl(1)                                                # uniform constant for every bite <= 1 (tail)
+    ctail = ccl(delta0 / 2 ** k)                                  # every bite <= delta_k (monotone; Proposition bp:p2s2:engine)
     if which == "classical":
         def stc(s):
             ds = delta0 / 2 ** s

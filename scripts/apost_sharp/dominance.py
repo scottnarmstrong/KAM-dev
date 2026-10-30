@@ -49,11 +49,14 @@ def v2_same_data(D):
         ds = delta0 / 2 ** s
         r = D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
         return c_cl(ds), c_cl(ds / 2), c_cl(min(r, F(1)))
-    ct = c_cl(1)
+    ct = c_cl(1)                                    # route A tail: absorbed constants, every bite <= 1
+    ctB = c_cl(delta0 / 2 ** 5)                     # route B tail: constants valid for every bite <= delta_k (monotone)
     oA = dict(omega_eta=True, avg_full_bite=True, keep_delta=True, caps_tilde=True)
     lA, _, wA = T2.thresholdA(D, oA, False, k=5, c_stage=st, c_tail=ct)
-    oB = dict(L1=False, keep_delta=True, avg_full_bite=True, aniso=True)
-    lB, _, wB = T2.thresholdB(D, oB, False, 5, st, ct)
+    lB = -1e9
+    for th in (F(1, 16), F(1, 8)):                  # the Neumann ratio is a free parameter of the design
+        oB = dict(L1=False, keep_delta=True, avg_full_bite=True, aniso=True, theta=th)
+        lB = max(lB, T2.thresholdB(D, oB, False, 5, st, ctB)[0])
     return max(lA, lB), ("A" if lA >= lB else "B"), lA, lB
 
 
