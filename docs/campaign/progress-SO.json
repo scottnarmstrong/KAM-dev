@@ -92,6 +92,12 @@
       "KAM/Certificate/Model/Exp.lean",
       "KAM/Certificate/Model/Inv.lean"
      ]
+    ],
+    "SO-PACKFIX": [
+     600,
+     [
+      "KAM/Certificate/Poly/Sparse.lean"
+     ]
     ]
    }
   },
@@ -282,6 +288,13 @@
      [
       "KAM/SpinOrbit/RotFreq.lean"
      ]
+    ],
+    "SO-DION": [
+     580,
+     [
+      "KAM/Certificate/QuadraticDiophantineN.lean",
+      "KAM/SpinOrbit/RotFreqN.lean"
+     ]
     ]
    }
   },
@@ -314,13 +327,20 @@
      [
       "KAM/SpinOrbit/Graph/Cert.lean"
      ]
+    ],
+    "SO-SHARPLINK": [
+     350,
+     [
+      "KAM/SpinOrbit/Graph/CertSharp.lean",
+      "KAM/SpinOrbit/LunarAssemblySharp.lean"
+     ]
     ]
    }
   },
   {
    "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
    "id": "SO2.DATA",
-   "title": "Numerical candidates and certificate data: generator, rotated-frame package R1, advice emitter, Lean data modules and their kernel replay",
+   "title": "Numerical candidates and certificate data: generator, the N = 65 tori and parameter package for the sharp certifier (SO-GEN3), kernel-reducible emitter, Lean data modules and their kernel replay",
    "difficulty": "H",
    "so_packages": {
     "SO-GEN": [
@@ -346,13 +366,25 @@
      [
       "KAM/SpinOrbit/Data"
      ]
+    ],
+    "SO-GEN3": [
+     600,
+     [
+      "docs/tracks/SO/studies/SO-GEN3.md"
+     ]
+    ],
+    "SO-EMITFIX": [
+     300,
+     [
+      "KAM/SpinOrbit/Data/Format.lean"
+     ]
     ]
    }
   },
   {
    "group": "Track SO, part 2: the Moon's spin rate (lunar spin–orbit)",
    "id": "SO2.LUNAR",
-   "title": "The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within 2.8–2.9 % of its orbital rate for all time (target, D37)",
+   "title": "The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38)",
    "difficulty": "H",
    "so_packages": {
     "SO-R1": [
@@ -365,6 +397,18 @@
      400,
      [
       "KAM/SpinOrbit/LunarConfinement.lean"
+     ]
+    ],
+    "SO-LUNAR-A": [
+     130,
+     [
+      "KAM/SpinOrbit/LunarAssembly.lean"
+     ]
+    ],
+    "SO-R2": [
+     150,
+     [
+      "KAM/SpinOrbit/LunarParamsR2.lean"
      ]
     ]
    }

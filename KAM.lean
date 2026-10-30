@@ -288,6 +288,17 @@ public import KAM.Frozen.Theorems.KamPositiveMeasure
 public import KAM.Frozen.Theorems.KamPositiveMeasureQualitative
 public import KAM.Frozen.Theorems.LocalUniquenessFlow
 public import KAM.Frozen.Theorems.VolumeNotDiophantineLe
+public import KAM.Frozen.Wave.Defs.Coeff
+public import KAM.Frozen.Wave.Defs.CubicGrad
+public import KAM.Frozen.Wave.Defs.EllWeight
+public import KAM.Frozen.Wave.Defs.IsAnalyticTorusEmbedding
+public import KAM.Frozen.Wave.Defs.IsClassicalSolution
+public import KAM.Frozen.Wave.Defs.Lam
+public import KAM.Frozen.Wave.Defs.LinearTorus
+public import KAM.Frozen.Wave.Defs.ReconU
+public import KAM.Frozen.Wave.Defs.ReconV
+public import KAM.Frozen.Wave.Defs.SineMode
+public import KAM.Frozen.Wave.Defs.WaveSpace
 public import KAM.Head.Adapters
 public import KAM.Head.Apply
 public import KAM.Head.Assembly

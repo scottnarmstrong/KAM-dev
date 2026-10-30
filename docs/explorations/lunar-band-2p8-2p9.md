@@ -51,7 +51,8 @@ second and third rows give about 2.9–3.0 % and 2.8–2.85 %.
 ## Cost of moving closer to the separatrix
 
 1. **Diophantine constant.**
-   - With τ = 1 the binding mode is k = (1, −1), so γ ≈ 2/(N+g).
+   - With τ = 1 the binding mode is k = (1, −1) in the θ-frame, so γ ≈ 2/(N+g). *Correction (2026-10-30, v2 design
+     §8):* in the rotated (ψ, φ) frame of the certificates the binding mode is (1, 0) and γ′ ≈ 1/(N+g).
    - From N = 40 to N = 50 the threshold factor γ⁴ costs 0.4 orders of magnitude; to N = 60 it costs 0.7. This is
      small against the ≈ 50 orders the sharp theorem gains.
 2. **Analyticity and Fourier support.**
@@ -59,8 +60,11 @@ second and third rows give about 2.9–3.0 % and 2.8–2.85 %.
      admissible strip is narrower. This is the real cost driver, because the kernel replay cost scales with the
      product support (decision D34).
    - It must be measured, not guessed.
-3. **Torsion and Gram constants.** They change little between N = 40 and N = 60; the design's sensitivity table
-   (§6.5) shows the threshold is not sensitive to them at this scale.
+3. **Torsion and Gram constants.** *Corrected (2026-10-30, v2 design §8, H50 study):* they do not stay put. At N = 50
+   the Gram inverse |B| grows by 41 %, which costs about 1.75 orders under v1; the v2 design's package H50 gives
+   10⁻²⁷·⁴ (v1) and 10⁻¹²·⁴ to 10⁻¹³·² (v2) at N = 50. The applications study
+   (`docs/explorations/striking-applications.md` §4.2) has measured bands for N = 40 … 120: 2.65 % is reachable at
+   N = 80, with the floor at 2.617 %.
 
 ## Proposed experiment, cheap and numerical
 
