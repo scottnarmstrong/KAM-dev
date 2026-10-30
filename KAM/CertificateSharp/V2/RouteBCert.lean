@@ -7,7 +7,7 @@ module
 
 public import KAM.CertificateSharp.V2.RouteBQWf
 public import KAM.CertificateSharp.V2.SmallDivQ
-public import KAM.Sharp2.SmallDiv.Scale
+public import KAM.Sharp2.RouteB.Classical
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 
@@ -90,14 +90,8 @@ theorem sched_facts (hN : (Q.toNum n).Wf) (s : ℕ) :
 
 /-- The full bites decrease along the schedule. -/
 theorem bfull_anti (hN : (Q.toNum n).Wf) {j k : ℕ} (h : k ≤ j) :
-    (Q.toNum n).bfull j ≤ (Q.toNum n).bfull k := by
-  refine min_le_min_right 1 ?_
-  rw [hN.r_eq j, hN.r_eq k]
-  have ha := hN.a_gt
-  have hc : 0 ≤ 3 * (Q.toNum n).a / ((Q.toNum n).a - 1) := by
-    apply div_nonneg <;> linarith
-  have := hN.δ_anti h
-  nlinarith
+    (Q.toNum n).bfull j ≤ (Q.toNum n).bfull k :=
+  min_le_min_right 1 (hN.r_anti h)
 
 theorem one_le_n (hN : (Q.toNum n).Wf) : 1 ≤ n := by have := hN.two_le; omega
 
@@ -155,26 +149,20 @@ theorem cert_ray (hN : (Q.toNum n).Wf) {J : ℕ} {box : FreqBox} {κ γ : ℚ} {
     exact sdConst_of_siteOk hn hτ hγ hf.2.2.2.2.1 hf.2.2.2.2.2 (hs s hsk).2 hω hdio
 
 /-- **The classical certificates on the Diophantine set**, at every scale: every site
-classical. -/
+classical (`NumB.cert_of_le`). -/
 theorem cert_classical (hN : (Q.toNum n).Wf) {J : ℕ} {box : FreqBox} {κ γ : ℚ}
     (hs : Q.sitesOk n J box κ γ [] = true) (ht : Q.tailOk n J = true) {γ' : ℝ} (hγ : 0 < γ') :
     (Q.toNum n).Cert γ' {ω | IsDiophantine γ' (Q.toNum n).τ ω} := by
   simp only [sitesOk, Bool.and_eq_true, List.all_eq_true, List.mem_range, List.getD_nil] at hs
-  have hn := one_le_n hN
-  obtain ⟨htail, htbar⟩ := cert_tail hN ht hγ (subset_refl _)
-  refine ⟨fun s hsk => ?_, fun s hsk => ?_, fun s hsk => ?_, htail, htbar⟩
-  · have hf := sched_facts hN s
-    rw [cast_δ]
-    exact sdConst_mono hγ (sdConst_classical hn hN.τ_ge hγ (by exact_mod_cast hf.1)
-      (by exact_mod_cast hf.2.1)) (cohConstC_le_of_ok hf.1.le (hs s hsk).1.1)
-  · have hf := sched_facts hN s
-    rw [cast_split, cast_δ, ← Rat.cast_mul]
-    exact sdConst_mono hγ (sdConst_classical hn hN.τ_ge hγ (by exact_mod_cast hf.2.2.1)
-      (by exact_mod_cast hf.2.2.2.1)) (cohConstC_le_of_ok hf.2.2.1.le (hs s hsk).1.2)
-  · have hf := sched_facts hN s
-    rw [cast_bfull]
-    exact sdConst_mono hγ (sdConst_classical hn hN.τ_ge hγ (by exact_mod_cast hf.2.2.2.2.1)
-      (by exact_mod_cast hf.2.2.2.2.2)) (cohConstC_le_of_ok hf.2.2.2.2.1.le (hs s hsk).2)
+  simp only [tailOk, Bool.and_eq_true] at ht
+  have hk := sched_facts hN Q.kp
+  refine NumB.cert_of_le hN hγ (fun s hsk => ?_) (fun s hsk => ?_) (fun s hsk => ?_) ?_ ?_
+  · rw [cast_δ]; exact cohConstC_le_of_ok (sched_facts hN s).1.le (hs s hsk).1.1
+  · rw [cast_split, cast_δ, ← Rat.cast_mul]
+    exact cohConstC_le_of_ok (sched_facts hN s).2.2.1.le (hs s hsk).1.2
+  · rw [cast_bfull]; exact cohConstC_le_of_ok (sched_facts hN s).2.2.2.2.1.le (hs s hsk).2
+  · rw [cast_δ]; exact cohConstC_le_of_ok hk.1.le ht.1
+  · rw [cast_bfull]; exact cohConstC_le_of_ok hk.2.2.2.2.1.le ht.2
 
 end NumBQ
 
