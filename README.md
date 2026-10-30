@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 18:42 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 19 %** · frozen statements proved: 23 / 24 · **330,895 lines of Lean** of an estimated ≈ 341,000
+> **Last updated: 2026-10-30 18:44 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **330,895 lines of Lean** of an estimated ≈ 341,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -159,7 +159,7 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **99.3 %** · SO checker **100 %** · SO Moon **74 %** · Moon locked **50 %** · track W **19 %**
+### Estimated completion: original project **99.3 %** · SO checker **100 %** · SO Moon **74 %** · Moon locked **50 %** · track W **26 %**
 
 Original project (tracks K, I, N, P): `█████████████████████████` 99.3 %
 
@@ -169,9 +169,9 @@ Track SO, part 2, the Moon's spin rate (its first client): `██████�
 
 Track SO, part 3, the Moon locked in synchronous rotation forever (D42): `████████████░░░░░░░░░░░░░` 50 % (stages: scoping study, design, statements frozen, Lean proof modules, certificate data, sealed; read from the repository)
 
-Track W, PDE KAM for the cubic wave equation: `█████░░░░░░░░░░░░░░░░░░░░` 19.4 % (statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; all read from the repository)
+Track W, PDE KAM for the cubic wave equation: `██████░░░░░░░░░░░░░░░░░░░` 25.8 % (statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; all read from the repository)
 
-Overall, everything together: 78.7 %
+Overall, everything together: 80.0 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
@@ -187,8 +187,8 @@ Overall, everything together: 78.7 %
 | Track SO, part 1: general Lean certificate checker | 6 | 32 | 32.0 | `██████████` 100 % |
 | Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 14.8 | `███████░░░` 74 % |
 | Track SO, part 3: the Moon locked in synchronous rotation (D42) | 6 | 16 | 8.0 | `█████░░░░░` 50 % |
-| Track W: PDE KAM for the cubic wave equation (D30, D41) | 5 | 64 | 12.4 | `██░░░░░░░░` 19 % |
-| **Total** | 86 | 310 | 244.0 | **78.7 %** |
+| Track W: PDE KAM for the cubic wave equation (D30, D41) | 5 | 64 | 16.5 | `███░░░░░░░` 26 % |
+| **Total** | 86 | 310 | 248.1 | **80.0 %** |
 
 **How this is estimated.** The project is divided into 52 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
 
@@ -267,7 +267,7 @@ Overall, everything together: 78.7 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 18:42 UTC from `main` at `55fa0d65` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 18:44 UTC from `main` at `b8304963` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -279,8 +279,8 @@ Overall, everything together: 78.7 %
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
-**Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **19 %**
-- Statements: frozen (12 anchors; `nlw2` draft until proved) · blueprint milestones written: 6 / 9 (W0, W1, W2, W3, W4, W7) · proof graph: not published yet · `KAM/Wave`: 35 modules, 6,329 lines
+**Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **26 %**
+- Statements: frozen (12 anchors; `nlw2` draft until proved) · blueprint milestones written: 9 / 9 (W0, W1, W2, W3, W4, W5, W6, W7, W8) · proof graph: not published yet · `KAM/Wave`: 35 modules, 6,329 lines
 
 **Frozen statements proved: 23 / 24** · frozen definitions: 134
 
@@ -446,7 +446,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-LOCK-COST rev 2: compact to under 250 lines | `inp-lockdesign` | 4 (vs `inp`) |
 | **lockgen2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-GEN-2: v2 numerics and emitter for the N = 65 lock certificate | `inp-lockgen2` | 1 (vs `inp`) |
 | **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3 step 5 draft (unbuilt; waits for the passes) | `inp-sodata3` | 11 (vs `inp`) |
-| **wbp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-wbp | `inp-wbp` | 11 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 3 applied (5 for delta 4), in-text line refs remapped, wave-2  | `inp-wgraph` | 12 (vs `inp`) |
 | **wpe** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W0-ANALYSIS handoff | `inp-wpe` | 13 (vs `inp`) |
 | **wpf** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W1-ALGEBRA: rename WaveTwoMem.mono -> WaveTwoMem.of_weight_le (short name clash with Mathl | `inp-wpf` | 3 (vs `inp`) |
@@ -460,6 +459,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 18:43 | `b8304963` | Land inp into main |
 | 2026-10-30 18:33 | `55fa0d65` | Land inp into main |
 | 2026-10-30 18:20 | `84659f7e` | Log: heartbeat (DATA3 lower-torus kernel passes; Gram timeout) |
 | 2026-10-30 18:18 | `c539090a` | Log: SO-KDEPTH landed; lock Ham-pass cost levers |
@@ -471,7 +471,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 17:44 | `402a7240` | Land inp into main |
 | 2026-10-30 17:42 | `c16b0175` | OVERNIGHT: LOCK-SQRT test-statement migration for owner review |
 | 2026-10-30 17:34 | `6b85d2b1` | Land inp into main |
-| 2026-10-30 17:29 | `995bedec` | Log: SO-KDEPTH done; landing branch in full build |
 <!-- /AUTO:landed -->
 
 ## Decisions
