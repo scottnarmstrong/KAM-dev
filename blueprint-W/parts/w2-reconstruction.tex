@@ -1,0 +1,403 @@
+\section{Milestone W2: PDE reconstruction}\label{bpW:w2}
+
+This part delivers conclusion (5) of the frozen headline \Lean{KAM.Wave.nlw2} from its conclusions (3) and (4).
+Given an analytic map $K:\R^2\to$ \Lean{WaveSpace} whose coefficients obey the coefficient system
+\eqref{bpW:w0:coeffsys} along the linear flow $\theta\mapsto\theta+t\nu$ (frozen conclusion (4)), and a bound
+$\norm{K(\theta)}\le B$, we show that for every $\theta_0$ the function
+\[u(t,x)=\Lean{reconU m hm (K ($\theta_0$ + t $\bullet$ $\nu$)).1 x}\]
+is real analytic at every point of $\R\times[0,\pi]$, is a classical solution of \eqref{bpW:w0:eq} on all of $\R$ in
+the exact sense of the frozen \Lean{KAM.Wave.IsClassicalSolution}, has $u_t=V_m(P)$, and obeys
+$\abs u+\abs{u_x}+\abs{u_t}\le M_mB$ with an explicit $M_m$ depending only on $m$
+(Theorem~\ref{bpW:w2:main}). Corollary~\ref{bpW:w2:clause5} records how milestone W8 chooses the single constant $C$
+that the frozen statement uses in both (3) and (5).
+
+\paragraph{Route.} The source (P96-W Lemma~1, p.~278) argues with absolutely convergent series on complex
+neighbourhoods in $t$ and $x$ and differentiates termwise. We avoid termwise differentiation in $t$ altogether. For
+fixed $x$, the maps $y\mapsto U_m(y)(x)$, $y\mapsto\partial_xU_m(y)(x)$, $y\mapsto\partial_x^2U_m(y)(x)$ and
+$y\mapsto V_m(y)(x)$ are continuous linear functionals $\langle\Psi(x),\cdot\rangle$ on $\ell^2_\R$, with
+$x\mapsto\Psi(x)$ real analytic (Lemma~\ref{bpW:w1:sine-feature}). Hence $u(t,x)=\langle\Psi^0(x),Y_1(t)\rangle$ with
+$Y(t)=K(\theta_0+t\nu)$; joint analyticity is the analyticity of a continuous bilinear map evaluated on two analytic
+maps, and the time derivative is $\langle\Psi^0(x),Y_1'(t)\rangle$, where $Y_1'(t)\in\ell^2_\R$ is the Fr\'echet
+derivative of the analytic curve. The coefficients of $Y'(t)$ are identified by the frozen conclusion (4)
+(Lemma~\ref{bpW:w2:curve-deriv}); this gives $u_t=V_m(Y_2)$ and $u_{tt}=V_m(Y_2')$, and the force identity
+\eqref{bpW:w0n:force} in frozen form (Lemma~\ref{bpW:w2:force}) turns $V_m(Y_2')$ into $u_{xx}-mu-u^3$.
+
+\paragraph{Standing data.} Standing assumption~\ref{bpW:w0:mass} ($m>0$, Lean \Lean{hm : 0 < m}) and the conventions
+of \S\ref{bpW:w0} are in force; $a=p=1$ (Convention~\ref{bpW:w0:weights}). We write $\ell^2_\R$ for
+\Lean{lp (fun \_ : PNat => Real) 2}, $\omega(j)=\omega_{1,1}(j)=je^j$ (frozen \Lean{ellWeight 1 1 j}),
+$\kappa=\kappa_{1,1}$, so that \Lean{coeff y j} $=y_j/\omega(j)$ (Lemma~\ref{bpW:w1:space}(iv)),
+$\lambda_j=$ \Lean{lam m hm j}, $\phi_j=$ \Lean{sineMode j}, $U_m(y)=$ \Lean{reconU m hm y},
+$V_m(y)=$ \Lean{reconV m hm y} and $\mathcal G(y)_j=$ \Lean{cubicGrad m hm y j} for $y\in\ell^2_\R$. A point of
+\Lean{WaveSpace} is $w=(w.1,w.2)$ with the max norm, so $\norm{w.1},\norm{w.2}\le\norm w$. Time derivatives are
+two-sided; $x$-derivatives in the frozen definition are within $[0,\pi]$, but all $x$-derivatives proved below are
+two-sided at every $x\in\R$ and are restricted to $[0,\pi]$ only at the end.
+
+\subsection{External facts}\label{bpW:w2:ext}
+
+Besides the facts \ref{bpW:w1:ext-lp}--\ref{bpW:w1:ext-analytic} of W1, the proofs use the following.
+{\raggedright
+\begin{enumerate}[label=(W2-E\arabic*),ref=(W2-E\arabic*)]
+\item\label{bpW:w2:ext-deriv} \emph{One-variable calculus.} A continuous linear map composed with a curve
+  differentiable at $t$ is differentiable at $t$ with the image derivative
+  (\Lean{ContinuousLinearMap.hasFDerivAt}, \Lean{HasFDerivAt.comp\_hasDerivAt}); the derivative of
+  $s\mapsto\langle\Psi(s),y\rangle$ is $\langle\Psi'(s),y\rangle$ (\Lean{HasDerivAt.inner}); derivatives are unique
+  (\Lean{HasDerivAt.unique}); translation: if $F$ has derivative $d$ at $0$ then $s\mapsto F(s-t)$ has derivative $d$
+  at $t$ (\Lean{HasDerivAt.comp\_sub\_const}); a two-sided derivative is a derivative within any set
+  (\Lean{HasDerivAt.hasDerivWithinAt}); on $[0,\pi]$, $\pi>0$, derivatives within are unique, so
+  \Lean{derivWithin f (Set.Icc 0 Real.pi) x} equals any $f'$ with \Lean{HasDerivWithinAt f f' (Set.Icc 0 Real.pi) x},
+  $x\in[0,\pi]$ (\Lean{uniqueDiffOn\_Icc}, \Lean{HasDerivWithinAt.derivWithin}).
+\item\label{bpW:w2:ext-an} \emph{Analytic maps on $\R\times\R$.} The projections $z\mapsto z.1$, $z\mapsto z.2$ and
+  affine maps $t\mapsto\theta_0+t\nu$ are analytic (\Lean{analyticAt\_fst}, \Lean{analyticAt\_snd},
+  \Lean{analyticAt\_const}, \Lean{AnalyticAt.add}, \Lean{AnalyticAt.smul}); sums, products and powers of real
+  analytic functions are analytic; an analytic map is differentiable (\Lean{AnalyticAt.differentiableAt},
+  \Lean{DifferentiableAt.hasDerivAt}) and continuous (\Lean{AnalyticAt.continuousAt}); continuity at every point of a
+  set gives \Lean{ContinuousOn} (\Lean{ContinuousAt.continuousWithinAt}).
+\item\label{bpW:w2:ext-sums} \emph{Series and norms.} \Lean{tsum\_congr} (termwise equal series have equal
+  \Lean{tsum}, no summability needed); \Lean{Summable.tsum\_sub}, \Lean{Summable.tsum\_add} and \Lean{tsum\_mul\_left}
+  for summable series; \Lean{tsum\_zero}; comparison (\Lean{Summable.of\_norm\_bounded}); summability of
+  $j^k e^{-j}$ over $j\ge1$ for $k\in\N$ and $\sum_{j\ge1}e^{-2j}=(e^2-1)^{-1}$ (geometric series,
+  \Lean{tsum\_geometric\_of\_lt\_one}); Cauchy--Schwarz $\abs{\langle\Psi,y\rangle}\le\norm\Psi\norm y$
+  (\Lean{abs\_real\_inner\_le\_norm}); on a product, \Lean{norm\_fst\_le}, \Lean{norm\_snd\_le}.
+\item\label{bpW:w2:ext-trig} \emph{Trigonometry.} $\sin0=0$, $\sin(n\pi)=0$ for $n\in\N$ (\Lean{Real.sin\_nat\_mul\_pi}),
+  $\abs{\sin},\abs{\cos}\le1$, $\frac{d}{dx}\sin(jx)=j\cos(jx)$, $\frac{d}{dx}\cos(jx)=-j\sin(jx)$;
+  $\sqrt\lambda\cdot\sqrt\lambda=\lambda$ and $\lambda/\sqrt\lambda=\sqrt\lambda$ for $\lambda>0$
+  (\Lean{Real.mul\_self\_sqrt}, \Lean{Real.div\_sqrt}), $\lambda_j^2=j^2+m$ (\Lean{Real.sq\_sqrt}).
+\end{enumerate}
+\par}
+
+\subsection{Reconstruction functionals}\label{bpW:w2:functionals-sec}
+
+\begin{definition}[Derived reconstructions]\label{bpW:w2:derived}
+For $y\in\ell^2_\R$ and $x\in\R$ put $D^0y(x)=U_m(y)(x)$ (frozen \Lean{reconU m hm y x}) and
+\[D^1y(x)=\sum_{j\ge1}\frac{\kappa(y)_j}{\sqrt{\lambda_j}}\sqrt{\tfrac2\pi}\,j\cos(jx),\qquad
+D^2y(x)=-\sum_{j\ge1}\frac{\kappa(y)_j}{\sqrt{\lambda_j}}\sqrt{\tfrac2\pi}\,j^2\sin(jx),\]
+as \Lean{tsum} over $j\in\N_+$. (Lean: non-frozen helpers, e.g.\ \Lean{KAM.Wave.reconUx m hm y x} and
+\Lean{KAM.Wave.reconUxx m hm y x}; distinct names, not substitutes for frozen declarations.)
+\end{definition}
+\source{ours; $D^k$ is the termwise $k$-th $x$-derivative of the series of Definition~\ref{bpW:w0:reconstruction}
+(P96-W p.~277), i.e.\ the function $\partial_x^kU_m$ of Corollary~\ref{bpW:w1:recon-analytic} written out for
+$k\le2$. Lean guard: $\sqrt{\lambda_j}>0$.}
+
+\begin{lemma}[Reconstruction functionals]\label{bpW:w2:functionals}
+Put $c_0=\sqrt{2/\pi}\,(e^2-1)^{-1/2}$. There are real analytic maps $\Psi^0,\Psi^1,\Psi^2,\Psi^V:\R\to\ell^2_\R$
+(Lean \Lean{AnalyticOnNhd Real $\Psi$ Set.univ}) such that for all $y\in\ell^2_\R$ and $x\in\R$:
+\begin{enumerate}[label=(\roman*)]
+\item $D^ky(x)=\langle\Psi^k(x),y\rangle$ for $k=0,1,2$ and $V_m(y)(x)=\langle\Psi^V(x),y\rangle$; each of the four
+  series is absolutely convergent;
+\item $\norm{\Psi^0(x)}\le c_0$, $\norm{\Psi^1(x)}\le c_0$, $\norm{\Psi^V(x)}\le(1+m)^{1/4}c_0$; hence
+  $\abs{D^0y(x)},\abs{D^1y(x)}\le c_0\norm y$ and $\abs{V_m(y)(x)}\le(1+m)^{1/4}c_0\norm y$;
+\item $D^ky$ has derivative $D^{k+1}y(x)$ at $x$ for $k=0,1$ (Lean \Lean{HasDerivAt});
+\item $D^0y(0)=D^0y(\pi)=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Choice of the features}\label{stepW:w2:features}
+Apply Lemma~\ref{bpW:w1:sine-feature} with $a=p=1$: for $\Psi^k$ ($k=0,1,2$) take $\beta_j=\lambda_j^{-1/2}$, which
+satisfies $\abs{\beta_j}\le1=Bj^\nu$ with $B=1$, $\nu=0$, since $\lambda_j>j\ge1$; for $\Psi^V$ take $k=0$ and
+$\beta_j=\lambda_j^{1/2}\le(1+m)^{1/4}j^{1/2}$ (as $\lambda_j^2=j^2+m\le(1+m)j^2$), so $B=(1+m)^{1/4}$, $\nu=\frac12$.
+Let $\Psi^k=\Psi_\R$, $\Psi^V=\Psi_\R$ be the resulting real restrictions; they are real analytic on $\R$ by
+Lemma~\ref{bpW:w1:sine-feature}(ii). Their coordinates are
+$\Psi^k(x)_j=\lambda_j^{-1/2}\phi^{(k)}_j(x)/\omega(j)$ and $\Psi^V(x)_j=\lambda_j^{1/2}\phi_j(x)/\omega(j)$ with
+$\phi^{(0)}_j=\phi_j$, $\phi^{(1)}_j(x)=\sqrt{2/\pi}\,j\cos(jx)$, $\phi^{(2)}_j(x)=-\sqrt{2/\pi}\,j^2\sin(jx)$.
+\proofstep{Pairings}\label{stepW:w2:pairing}
+By Lemma~\ref{bpW:w1:sine-feature}(iii), $\langle\Psi^k(x),y\rangle=\sum_j\lambda_j^{-1/2}\kappa(y)_j\phi^{(k)}_j(x)$
+and $\langle\Psi^V(x),y\rangle=\sum_j\lambda_j^{1/2}\kappa(y)_j\phi_j(x)$, absolutely convergent. Termwise these are
+the summands of the frozen \Lean{reconU}, of Definition~\ref{bpW:w2:derived}, and of the frozen \Lean{reconV}
+(\Lean{coeff y j} $=\kappa(y)_j$), so the \Lean{tsum}s agree by \Lean{tsum\_congr}~\ref{bpW:w2:ext-sums}. This is (i).
+\proofstep{Norms}\label{stepW:w2:norms}
+$\norm{\Psi^k(x)}^2=\sum_j\lambda_j^{-1}\phi^{(k)}_j(x)^2/(j^2e^{2j})\le\frac2\pi\sum_j\lambda_j^{-1}j^{2k-2}e^{-2j}$.
+For $k=0,1$ the factor $\lambda_j^{-1}j^{2k-2}$ is at most $\lambda_j^{-1}<1$, so $\norm{\Psi^k(x)}^2\le\frac2\pi
+\sum_{j\ge1}e^{-2j}=c_0^2$. For $\Psi^V$ the factor is $\lambda_jj^{-2}\le(1+m)^{1/2}j^{-1}\le(1+m)^{1/2}$, giving
+$(1+m)^{1/2}c_0^2$. The bounds on the norm in $\ell^2$ follow from these bounds on all finite partial sums
+(\ref{bpW:w1:ext-lp}); the pointwise bounds are Cauchy--Schwarz \ref{bpW:w2:ext-sums} applied to (i).
+\proofstep{$x$-derivatives}\label{stepW:w2:xder}
+By Step~\ref{stepW:w1:recder} of Corollary~\ref{bpW:w1:recon-analytic}, the derivative of the analytic map
+$\Psi^k$ at $x$ has the coordinates $\frac{d}{dx}\Psi^k(x)_j$, which by \ref{bpW:w2:ext-trig} are
+$\lambda_j^{-1/2}\phi^{(k+1)}_j(x)/\omega(j)=\Psi^{k+1}(x)_j$ for $k=0,1$; two vectors of $\ell^2_\R$ with the same
+coordinates are equal, so $(\Psi^k)'(x)=\Psi^{k+1}(x)$. Then $x\mapsto\langle\Psi^k(x),y\rangle$ has derivative
+$\langle\Psi^{k+1}(x),y\rangle$ by \ref{bpW:w2:ext-deriv}, and (i) gives (iii).
+\proofstep{Boundary values}\label{stepW:w2:bdry}
+$\phi_j(0)=\sqrt{2/\pi}\sin0=0$ and $\phi_j(\pi)=\sqrt{2/\pi}\sin(j\pi)=0$ for $j\in\N_+$ (\ref{bpW:w2:ext-trig}, after
+casting $j$ to $\N$), so every summand of \Lean{reconU m hm y 0} and of \Lean{reconU m hm y Real.pi} vanishes and the
+\Lean{tsum} is $0$ (\Lean{tsum\_zero}).
+\end{proof}
+\source{ours; the functional form of P96-W Lemma~1, p.~278 (``absolutely convergent in some complex neighbourhood of
+the $x$-interval $[0,\pi]$''). Boundary values: Lemma~\ref{bpW:w0n:recon-bounded}.}
+
+\begin{lemma}[Force identity in frozen form]\label{bpW:w2:force}
+Let $y\in\ell^2_\R$. For every $x\in\R$ the series
+\[\Sigma_{\rm lin}(x)=\sum_{j\ge1}\sqrt{\lambda_j}\,\lambda_j\,\kappa(y)_j\,\phi_j(x),\qquad
+\Sigma_{\rm cub}(x)=\sum_{j\ge1}\sqrt{\lambda_j}\,\mathcal G(y)_j\,\phi_j(x)\]
+converge absolutely, and
+\begin{enumerate}[label=(\roman*)]
+\item $\Sigma_{\rm lin}(x)=-D^2y(x)+m\,D^0y(x)$ for every $x\in\R$;
+\item $\Sigma_{\rm cub}(x)=U_m(y)(x)^3$ for every $x\in[0,\pi]$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Summability}\label{stepW:w2:fsum}
+By \ref{bpW:w1:ext-lp}, $\abs{\kappa(y)_j}\le\norm y/(je^j)$; with $\sqrt{\lambda_j}\lambda_j\le(1+m)^{3/4}j^{3/2}$ and
+$\abs{\phi_j}\le\sqrt{2/\pi}$ the summands of $\Sigma_{\rm lin}$ are at most $\sqrt{2/\pi}(1+m)^{3/4}\norm y\,
+je^{-j}$. By Corollary~\ref{bpW:w1:cubic-analytic}(iv), $\mathcal G(y)_j=\mathcal G^w(y)_j/\omega_{1,2}(j)$ with
+$\mathcal G^w(y)\in\ell^2_\R$, so $\abs{\mathcal G(y)_j}\le\norm{\mathcal G^w(y)}/(j^2e^j)$ and the summands of
+$\Sigma_{\rm cub}$ are at most $\sqrt{2/\pi}(1+m)^{1/4}\norm{\mathcal G^w(y)}e^{-j}$. Both majorants are summable
+(\ref{bpW:w2:ext-sums}). The series $D^0y(x)$ and $D^2y(x)$ converge absolutely by
+Lemma~\ref{bpW:w2:functionals}(i).
+\proofstep{Linear part}\label{stepW:w2:flin}
+Termwise, $\sqrt{\lambda_j}\lambda_j=\lambda_j^2/\sqrt{\lambda_j}=(j^2+m)/\sqrt{\lambda_j}$ (\ref{bpW:w2:ext-trig}), so
+the $j$-th summand of $\Sigma_{\rm lin}(x)$ is $\frac{\kappa(y)_j}{\sqrt{\lambda_j}}\bigl(j^2\phi_j(x)+m\phi_j(x)\bigr)$,
+which is minus the $j$-th summand of $D^2y(x)$ plus $m$ times that of $D^0y(x)$. Sum, using absolute convergence of
+both series (\Lean{Summable.tsum\_add}, \Lean{tsum\_mul\_left}). This is the second identity of
+\eqref{bpW:w0n:force} in frozen coordinates.
+\proofstep{Cubic part}\label{stepW:w2:fcub}
+By Step~\ref{stepW:w1:trifrozen} of Theorem~\ref{bpW:w1:trilinear}, $U_m(y)=U_m(q)$ and $\mathcal G(y)=\Gq(q)$ for
+$q=\kappa(y)\in\ell^{1,1}$ (here $U_m(q)$, $\Gq$ are the objects of Definitions~\ref{bpW:w0:reconstruction},
+\ref{bpW:w0:Gq}). The first identity of \eqref{bpW:w0n:force} (Proposition~\ref{bpW:w0n:pde-equiv}, Step~\ref{stepW:w0n:force};
+it uses the completeness Lemma~\ref{bpW:w1:sine-completeness}(ii)) states $U_m(q)^3=\sum_l\sqrt{\lambda_l}\Gq(q)_l\phi_l$
+on $[0,\pi]$, which is (ii).
+\end{proof}
+\source{P96-W Lemma~1, p.~278 (the computation of $u_{tt}$ and the completeness argument); Proposition~\ref{bpW:w0n:pde-equiv}
+for the proof. Only $x\in[0,\pi]$ is claimed in (ii), which is all the frozen definition needs.}
+
+\subsection{The coefficient system along an orbit}\label{bpW:w2:orbit-sec}
+
+\begin{definition}[Analytic coefficient solution]\label{bpW:w2:coeffsol}
+A curve $Y:\R\to$ \Lean{WaveSpace} is an \emph{analytic coefficient solution} if
+\begin{enumerate}[label=(C\arabic*)]
+\item\label{bpW:w2:C1} $Y$ is real analytic at every $t\in\R$ (Lean \Lean{$\forall$ t, AnalyticAt Real Y t});
+\item\label{bpW:w2:C2} for all $t\in\R$ and $j\in\N_+$, the function $s\mapsto$ \Lean{coeff (Y s).1 j} has derivative
+  $\lambda_j\,$\Lean{coeff (Y t).2 j} at $t$, and $s\mapsto$ \Lean{coeff (Y s).2 j} has derivative
+  $-\lambda_j\,$\Lean{coeff (Y t).1 j} $-$ \Lean{cubicGrad m hm (Y t).1 j} at $t$ (Lean \Lean{HasDerivAt}).
+\end{enumerate}
+\end{definition}
+\source{P96-W Lemma~1, p.~278 (``a real analytic solution of (6)'', curve $I\to\ell^{a,s}\times\ell^{a,s}$), with
+$I=\R$, $a=s=1$, and (6) read coordinatewise in frozen coordinates (system \eqref{bpW:w0:coeffsys}).}
+
+\begin{lemma}[Torus orbits are analytic coefficient solutions]\label{bpW:w2:orbit}
+Let $K:(\mathrm{Fin}\,2\to\R)\to$ \Lean{WaveSpace} satisfy \Lean{AnalyticOnNhd Real K Set.univ}, and let
+$\nu\in\mathrm{Fin}\,2\to\R$ be such that for all $\theta$ and $j\in\N_+$
+\begin{equation}\label{bpW:w2:inv}
+\begin{aligned}
+\frac{d}{dt}\Big|_{t=0}\kappa\bigl(K(\theta+t\nu).1\bigr)_j&=\lambda_j\,\kappa\bigl(K(\theta).2\bigr)_j,\\
+\frac{d}{dt}\Big|_{t=0}\kappa\bigl(K(\theta+t\nu).2\bigr)_j&=-\lambda_j\,\kappa\bigl(K(\theta).1\bigr)_j-\mathcal G\bigl(K(\theta).1\bigr)_j,
+\end{aligned}
+\end{equation}
+each as a \Lean{HasDerivAt} statement at $0$ about \Lean{fun t => coeff (K ($\theta$ + t $\bullet$ $\nu$)).i j}
+(the frozen conclusion (4) of \Lean{nlw2} for one $I$, with $\nu=\nu(I)$, $K=K_I$). Then for every $\theta_0$ the
+curve $Y(t)=K(\theta_0+t\nu)$ is an analytic coefficient solution.
+\end{lemma}
+
+\begin{proof}
+\proofstep{Analyticity}\label{stepW:w2:oan}
+$t\mapsto\theta_0+t\nu$ is analytic and $K$ is analytic at its value, so $Y$ is analytic at $t$
+(\ref{bpW:w2:ext-an}, \Lean{AnalyticAt.comp}).
+\proofstep{Shift}\label{stepW:w2:oshift}
+Fix $t$ and apply \eqref{bpW:w2:inv} at $\theta=\theta_0+t\nu$: $F(h)=$ \Lean{coeff (K ($\theta$ + h $\bullet$ $\nu$)).1 j}
+has the stated derivative at $h=0$. By the translation rule \ref{bpW:w2:ext-deriv}, $s\mapsto F(s-t)$ has the same
+derivative at $s=t$, and $F(s-t)=$ \Lean{coeff (Y s).1 j} because $\theta_0+t\nu+(s-t)\nu=\theta_0+s\nu$
+(\Lean{add\_smul}, \Lean{add\_assoc}, \Lean{add\_sub\_cancel}). The value of the derivative is
+$\lambda_j\,$\Lean{coeff (K $\theta$).2 j} $=\lambda_j\,$\Lean{coeff (Y t).2 j}. The second component is identical.
+\end{proof}
+\source{ours (the frozen (4) is stated at $t=0$ for every $\theta$; the shift is the group property of the linear
+flow on the torus).}
+
+\begin{lemma}[Coefficients of the curve derivative]\label{bpW:w2:curve-deriv}
+Let $Y$ be an analytic coefficient solution and $t\in\R$. Then $Y_1=(Y\cdot).1$ and $Y_2=(Y\cdot).2$ are
+differentiable at $t$ as maps $\R\to\ell^2_\R$; with $Y_i'(t)$ their derivatives, for every $j\in\N_+$,
+\[\kappa(Y_1'(t))_j=\lambda_j\,\kappa(Y_2(t))_j,\qquad\kappa(Y_2'(t))_j=-\lambda_j\,\kappa(Y_1(t))_j-\mathcal G(Y_1(t))_j.\]
+\end{lemma}
+
+\begin{proof}
+\proofstep{Differentiability}\label{stepW:w2:cdiff}
+$Y_i$ is the composite of $Y$ with the continuous linear projection, so it is analytic at $t$, hence differentiable
+(\ref{bpW:w2:ext-an}).
+\proofstep{Coordinates}\label{stepW:w2:ccoord}
+By Lemma~\ref{bpW:w1:coordinatewise} with $(a,p)=(a',p')=(1,1)$ (so $\hat\iota=\mathrm{id}$) and $v=Y_i'(t)$, the
+function $s\mapsto\kappa(Y_i(s))_j$ has derivative $\kappa(Y_i'(t))_j$ at $t$. By \ref{bpW:w2:C2} it also has the
+derivative stated there; uniqueness of derivatives (\ref{bpW:w2:ext-deriv}) gives the identities.
+\end{proof}
+\source{ours.}
+
+\begin{remark}[Regularity hidden in the hypotheses]\label{bpW:w2:hidden}
+Lemma~\ref{bpW:w2:curve-deriv} shows $\lambda\,\kappa(Y_2(t))=\kappa(Y_1'(t))\in\ell^{1,1}$, i.e.\ the momentum
+coefficients of a point of an invariant torus satisfying (3)--(4) lie in $\ell^{1,2}$. This is not an extra
+hypothesis but a consequence of differentiability into $E_{1,1}$; it is the frozen counterpart of the statement of
+Lemma~\ref{bpW:w1:coordinatewise} that (4) means $\hat\iota(DK(\theta)\nu)=X^w(K(\theta))$ with $X^w$ the field of
+Proposition~\ref{bpW:w1:hamfield}(v), the left side lying in $E_{1,1}$. The proof below uses only the coordinate form.
+\end{remark}
+
+\subsection{Classical solutions from analytic coefficient solutions}\label{bpW:w2:curve-sec}
+
+\begin{theorem}[P96-W Lemma~1 in frozen form]\label{bpW:w2:curve}
+Let $Y$ be an analytic coefficient solution, and define $u,u_t,u_x,u_{xx},u_{tt}:\R\to\R\to\R$ by
+\[u(t,x)=U_m(Y_1(t))(x),\qquad u_t(t,x)=V_m(Y_2(t))(x),\]
+\[u_x(t,x)=D^1Y_1(t)(x),\qquad u_{xx}(t,x)=D^2Y_1(t)(x),\qquad u_{tt}(t,x)=u_{xx}(t,x)-m\,u(t,x)-u(t,x)^3,\]
+where $Y_i(t)=(Y\,t).i$; in Lean $u$ is \Lean{fun t x => reconU m hm (Y t).1 x}. Put
+$M_m=c_0\bigl(2+(1+m)^{1/4}\bigr)$ with $c_0$ as in Lemma~\ref{bpW:w2:functionals}. Then:
+\begin{enumerate}[label=(\roman*)]
+\item each of the five functions, uncurried, is real analytic at every point of $\R\times\R$ (Lean
+  \Lean{AnalyticAt Real (fun z : Real $\times$ Real => reconU m hm (Y z.1).1 z.2) z} for all $z$, and likewise);
+\item for all $t\in\R$ and $x\in\R$, $s\mapsto u(s,x)$ has derivative $u_t(t,x)$ at $t$;
+\item for all $t\in\R$ and $x\in[0,\pi]$, $s\mapsto u_t(s,x)$ has derivative $u_{tt}(t,x)$ at $t$;
+\item for all $t,x\in\R$, $u(t,\cdot)$ has derivative $u_x(t,x)$ and $u_x(t,\cdot)$ has derivative $u_{xx}(t,x)$ at $x$;
+\item \Lean{IsClassicalSolution m hm u}, with witnesses $(u_t,u_x,u_{tt},u_{xx})$;
+\item for all $t\in\R$ and $x\in[0,\pi]$, \Lean{derivWithin (u t) (Set.Icc 0 Real.pi) x} $=u_x(t,x)$ and
+  \[\abs{u(t,x)}+\abs{\Lean{derivWithin (u t) (Set.Icc 0 Real.pi) x}}+\abs{V_m(Y_2(t))(x)}\le M_m\norm{Y(t)}.\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Joint analyticity}\label{stepW:w2:joint}
+$Y_1,Y_2$ are analytic at every $t$ (Step~\ref{stepW:w2:cdiff}). By Corollary~\ref{bpW:w1:recon-analytic}, applied with
+the parameter domain $\R$ and $Y=Y_1$ ($k=0,1,2$) or $Y=Y_2$ ($V_m$, $k=0$), the maps
+$(s,x)\mapsto\langle\Psi(x),Y_i(s)\rangle$ are real analytic at every $(s_0,x_0)\in\R^2$. Concretely, in Mathlib terms:
+$z\mapsto(\Psi(z.2),Y_i(z.1))$ is analytic into $\ell^2_\R\times\ell^2_\R$ at $z$ (\Lean{AnalyticAt.prod} of
+$\Psi\circ\mathrm{snd}$ and $Y_i\circ\mathrm{fst}$, \ref{bpW:w2:ext-an}), and the real inner product is a continuous
+bilinear map, analytic on the product (\Lean{ContinuousLinearMap.analyticAt\_bilinear} with \Lean{innerSL Real},
+\ref{bpW:w1:ext-analytic}); compose (\Lean{AnalyticAt.comp}). By Lemma~\ref{bpW:w2:functionals}(i) these functions are
+exactly $u$, $u_x$, $u_{xx}$ (with $\Psi^0,\Psi^1,\Psi^2$ and $Y_1$) and $u_t$ (with $\Psi^V$ and $Y_2$), equal as
+functions on $\R^2$, so analyticity transfers by rewriting. Finally $u_{tt}$ is a polynomial in $u,u_{xx}$, analytic by
+\ref{bpW:w2:ext-an}. This is (i).
+\proofstep{First time derivative}\label{stepW:w2:t1}
+Fix $x$. The map $y\mapsto D^0y(x)=\langle\Psi^0(x),y\rangle$ is a continuous linear functional on $\ell^2_\R$
+(Lemma~\ref{bpW:w2:functionals}(i)), so $s\mapsto u(s,x)$ has derivative $\langle\Psi^0(x),Y_1'(t)\rangle=
+U_m(Y_1'(t))(x)$ at $t$ (\ref{bpW:w2:ext-deriv}). The $j$-th summand of this \Lean{tsum} is, by
+Lemma~\ref{bpW:w2:curve-deriv} and $\lambda_j/\sqrt{\lambda_j}=\sqrt{\lambda_j}$ (\ref{bpW:w2:ext-trig}),
+\[\frac{\kappa(Y_1'(t))_j}{\sqrt{\lambda_j}}\phi_j(x)=\frac{\lambda_j\kappa(Y_2(t))_j}{\sqrt{\lambda_j}}\phi_j(x)
+=\sqrt{\lambda_j}\,\kappa(Y_2(t))_j\,\phi_j(x),\]
+the $j$-th summand of $V_m(Y_2(t))(x)$; \Lean{tsum\_congr} gives $U_m(Y_1'(t))(x)=u_t(t,x)$. This is (ii).
+\proofstep{Second time derivative}\label{stepW:w2:t2}
+Likewise $y\mapsto V_m(y)(x)=\langle\Psi^V(x),y\rangle$ is continuous linear, so $s\mapsto u_t(s,x)$ has derivative
+$V_m(Y_2'(t))(x)$ at $t$. By Lemma~\ref{bpW:w2:curve-deriv} its $j$-th summand is
+$\sqrt{\lambda_j}\bigl(-\lambda_j\kappa(Y_1(t))_j-\mathcal G(Y_1(t))_j\bigr)\phi_j(x)$. Both resulting series are
+absolutely convergent (Lemma~\ref{bpW:w2:force}, Step~\ref{stepW:w2:fsum}, with $y=Y_1(t)$), so
+\Lean{Summable.tsum\_sub} gives
+$V_m(Y_2'(t))(x)=-\Sigma_{\rm lin}(x)-\Sigma_{\rm cub}(x)$. For $x\in[0,\pi]$, Lemma~\ref{bpW:w2:force} turns this into
+$-(-u_{xx}(t,x)+m\,u(t,x))-u(t,x)^3=u_{tt}(t,x)$. This is (iii).
+\proofstep{Space derivatives}\label{stepW:w2:x}
+(iv) is Lemma~\ref{bpW:w2:functionals}(iii) with $y=Y_1(t)$.
+\proofstep{The frozen definition}\label{stepW:w2:frozen}
+Unfold \Lean{IsClassicalSolution m hm u} and supply $(u_t,u_x,u_{tt},u_{xx})$. Continuity: each of the five uncurried
+functions is analytic, hence continuous, at every point (Step~\ref{stepW:w2:joint}, \ref{bpW:w2:ext-an}), so it is
+\Lean{ContinuousOn} on \Lean{Set.univ $\times^s$ Set.Icc 0 Real.pi}; the quantifier over the five-element set is
+discharged by case analysis on set membership (\Lean{Set.mem\_insert\_iff}, \Lean{Set.mem\_singleton\_iff}).
+Derivatives, for $t\in\R$, $x\in[0,\pi]$: the two time derivatives are (ii) and (iii); the two derivatives within
+$[0,\pi]$ follow from (iv) by \Lean{HasDerivAt.hasDerivWithinAt}. The equation
+$u_{tt}=u_{xx}-mu-u^3$ holds by the definition of $u_{tt}$. The boundary values $u(t,0)=u(t,\pi)=0$ are
+Lemma~\ref{bpW:w2:functionals}(iv). This is (v).
+\proofstep{Bound}\label{stepW:w2:bound}
+For $x\in[0,\pi]$, $u(t,\cdot)$ has derivative within $[0,\pi]$ equal to $u_x(t,x)$ (Step~\ref{stepW:w2:frozen}), so
+\Lean{derivWithin} equals $u_x(t,x)$ by uniqueness on $[0,\pi]$ (\ref{bpW:w2:ext-deriv}, $\pi>0$); this includes the
+endpoints. By Lemma~\ref{bpW:w2:functionals}(ii), $\abs{u(t,x)}\le c_0\norm{Y_1(t)}$,
+$\abs{u_x(t,x)}\le c_0\norm{Y_1(t)}$, $\abs{V_m(Y_2(t))(x)}\le(1+m)^{1/4}c_0\norm{Y_2(t)}$, and
+$\norm{Y_i(t)}\le\norm{Y(t)}$ (\ref{bpW:w2:ext-sums}). Adding gives (vi).
+\end{proof}
+\source{P96-W Lemma~1, p.~278, with $I=\R$, $a=s=1$, $f(u)=u^3$. Strengthened: the source asserts real analyticity
+and the classical equation; it does not state $u_t=V_m(p)$ or the bound (vi). The proof is reorganized (continuous linear
+functionals instead of termwise $t$-differentiation on complex discs).}
+
+\subsection{The W8 form: conclusion (5) from conclusions (3)--(4)}\label{bpW:w2:main-sec}
+
+\begin{theorem}[PDE solutions on invariant tori]\label{bpW:w2:main}
+Let $m>0$, let $M_m$ be as in Theorem~\ref{bpW:w2:curve}, and let $K:(\mathrm{Fin}\,2\to\R)\to$ \Lean{WaveSpace},
+$\nu:\mathrm{Fin}\,2\to\R$ and $B\in\R$ satisfy
+\begin{enumerate}[label=(H\arabic*)]
+\item\label{bpW:w2:H1} \Lean{IsAnalyticTorusEmbedding K};
+\item\label{bpW:w2:H2} the invariance \eqref{bpW:w2:inv} for every $\theta$ and every $j\in\N_+$;
+\item\label{bpW:w2:H3} $\norm{K(\theta)}\le B$ for every $\theta$.
+\end{enumerate}
+Then for every $\theta_0:\mathrm{Fin}\,2\to\R$, with $u(t,x)=$ \Lean{reconU m hm (K ($\theta_0$ + t $\bullet$ $\nu$)).1 x},
+\begin{enumerate}[label=(\alph*)]
+\item for every $z\in$ \Lean{Set.univ $\times^s$ Set.Icc 0 Real.pi},
+  \Lean{AnalyticAt Real (fun z : Real $\times$ Real => reconU m hm (K ($\theta_0$ + z.1 $\bullet$ $\nu$)).1 z.2) z};
+\item \Lean{IsClassicalSolution m hm (fun t x => reconU m hm (K ($\theta_0$ + t $\bullet$ $\nu$)).1 x)};
+\item for all $t\in\R$, $x\in[0,\pi]$: \Lean{HasDerivAt (fun s => reconU m hm (K ($\theta_0$ + s $\bullet$ $\nu$)).1 x)
+  (reconV m hm (K ($\theta_0$ + t $\bullet$ $\nu$)).2 x) t};
+\item for all $t\in\R$, $x\in[0,\pi]$:
+  $\abs{u(t,x)}+\abs{\Lean{derivWithin (u t) (Set.Icc 0 Real.pi) x}}+\abs{V_m(K(\theta_0+t\nu).2)(x)}\le M_m\,B$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Reduction to a curve}\label{stepW:w2:mred}
+The second conjunct of \ref{bpW:w2:H1} is \Lean{AnalyticOnNhd Real K Set.univ}; with \ref{bpW:w2:H2},
+Lemma~\ref{bpW:w2:orbit} shows that $Y(t)=K(\theta_0+t\nu)$ is an analytic coefficient solution. The functions $u$ of
+Theorems~\ref{bpW:w2:curve} and~\ref{bpW:w2:main} coincide.
+\proofstep{Conclusions}\label{stepW:w2:mconc}
+(a) is Theorem~\ref{bpW:w2:curve}(i) restricted to $z\in\R\times[0,\pi]$; (b) is (v); (c) is (ii) restricted to
+$x\in[0,\pi]$, since $u_t(t,x)=V_m(Y_2(t))(x)$ is the stated derivative; (d) is (vi) with $\norm{Y(t)}\le B$ by
+\ref{bpW:w2:H3} and $M_m>0$.
+\end{proof}
+\source{P96-W Lemma~1, p.~278, applied to the quasi-periodic solutions $t\mapsto K(\theta_0+t\nu)$ of the Main
+Theorem (P96-W pp.~272--273 and the assembly pp.~290--291, where Lemma~1 is invoked); the bound (d) is ours.}
+
+\begin{remark}[Hypotheses]\label{bpW:w2:hyp}
+\ref{bpW:w2:H1}--\ref{bpW:w2:H3} are, for one $I\in\Gamma$ with $K=K_I$, $\nu=\nu(I)$ and $B=C\sqrt{I_0+I_1}$, the frozen
+conclusions (3) (first and third conjuncts) and (4) of \Lean{nlw2}, which W8 obtains from the KAM construction
+independently of (5); none of them mentions $u$, so no hypothesis is conclusion-shaped. Of \ref{bpW:w2:H1} only
+analyticity is used; periodicity, injectivity and the injective derivative play no role in W2. A proof that holds
+only \Lean{AnalyticOnNhd Real K Set.univ} (e.g.\ from Corollary~\ref{bpW:w1:torus-analytic}) may call
+Lemma~\ref{bpW:w2:orbit} and Theorem~\ref{bpW:w2:curve} directly. The Lean statement of Theorem~\ref{bpW:w2:main} may
+therefore take \Lean{AnalyticOnNhd Real K Set.univ} in place of \ref{bpW:w2:H1}; W8 then passes the projection
+\Lean{h.2.1} of its embedding proof.
+\end{remark}
+
+\begin{corollary}[Clause (5) with the common constant]\label{bpW:w2:clause5}
+Let $m>0$, $C_3>0$, $\Gamma\subset\mathrm{Fin}\,2\to\R$, $\nu:(\mathrm{Fin}\,2\to\R)\to\mathrm{Fin}\,2\to\R$ and
+$K:(\mathrm{Fin}\,2\to\R)\to(\mathrm{Fin}\,2\to\R)\to$ \Lean{WaveSpace}, and suppose that for every $I\in\Gamma$:
+$K_I$ satisfies \Lean{IsAnalyticTorusEmbedding}, $\norm{K_I(\theta)}\le C_3\sqrt{I_0+I_1}$ for all $\theta$, and
+the invariance (4) of \Lean{nlw2} holds. Put $C=\max(1,M_m)\,C_3$. Then $C>0$, $C\ge C_3$, the bound
+$\norm{K_I(\theta)}\le C\sqrt{I_0+I_1}$ holds, and conclusion (5) of \Lean{nlw2} holds verbatim with this $C$.
+\end{corollary}
+
+\begin{proof}
+$C\ge C_3>0$ since $\max(1,M_m)\ge1$. As $\sqrt{I_0+I_1}\ge0$ (\Lean{Real.sqrt\_nonneg}),
+$C_3\sqrt{I_0+I_1}\le C\sqrt{I_0+I_1}$, which gives the bound in (3) with $C$. For $I\in\Gamma$ and $\theta_0$, apply
+Theorem~\ref{bpW:w2:main} with $K=K_I$, $\nu=\nu(I)$ and $B=C_3\sqrt{I_0+I_1}$: (a)--(c) are the first three conjuncts
+of (5), and (d) gives the fourth with $M_mC_3\sqrt{I_0+I_1}\le C\sqrt{I_0+I_1}$.
+\end{proof}
+\source{ours (constant management for the frozen statement).}
+
+\begin{remark}[Order of constants]\label{bpW:w2:constants}
+In \Lean{nlw2} the single existential $C$ serves (3) and (5). The construction (W6, W8) produces $C_3$ depending only
+on $m$, before any $I$ or $\theta_0$; then $C=\max(1,M_m)C_3$ with
+\[M_m=\sqrt{\tfrac2\pi}\,\frac{2+(1+m)^{1/4}}{\sqrt{e^2-1}}\approx0.316\,\bigl(2+(1+m)^{1/4}\bigr)\]
+also depends only on $m$. Since $M_m<1$ exactly when $(1+m)^{1/4}<\sqrt{\pi(e^2-1)/2}-2\approx1.17$, i.e.\ for small
+$m$, the maximum with $1$ cannot be dropped in general. The constant $M_m$ is not optimal (the factor
+$\lambda_j^{-1}$ in Step~\ref{stepW:w2:norms} is discarded); only its independence of $I$, $\theta_0$, $t$, $x$
+matters.
+\end{remark}
+
+\subsection{Lean totality, sources and summary}\label{bpW:w2:summary}
+
+\paragraph{Lean totality.} The divisions by $\sqrt{\lambda_j}$ (in \Lean{reconU}, \Lean{cubicGrad} and
+Definition~\ref{bpW:w2:derived}) are by a positive number. Every \Lean{tsum} used is absolutely convergent
+(Lemmas~\ref{bpW:w2:functionals}(i), \ref{bpW:w2:force}); the identities obtained by \Lean{tsum\_congr} need no
+summability. The curve derivatives $Y_i'(t)$ are taken only at points where $Y_i$ is differentiable
+(Step~\ref{stepW:w2:cdiff}). \Lean{derivWithin} in (5) is identified, not bounded through its junk value, by uniqueness
+of derivatives within $[0,\pi]$, endpoints included. \Lean{Real.sqrt (I 0 + I 1)} appears only as the nonnegative
+factor in $B$.
+
+\paragraph{Comparison with the source.} P96-W Lemma~1 (p.~278; read on the page image) assumes a real analytic
+solution $I\to\ell^{a,s}\times\ell^{a,s}$ of (6) and concludes that $u=\sum_jq_j\lambda_j^{-1/2}\phi_j$ is a classical
+solution of (1), real analytic on $I\times[0,\pi]$. Theorem~\ref{bpW:w2:curve} is this lemma for $I=\R$, $a=s=1$,
+$f(u)=u^3$, in frozen coordinates, strengthened by $u_t=V_m(p)$ and the bound (vi). Deviations: (6) is read
+coordinatewise (Definition~\ref{bpW:w2:coeffsol}) and supplied by the torus invariance (4) through
+Lemma~\ref{bpW:w2:orbit}; the source's termwise differentiation in $t$ on complex discs is replaced by continuous linear
+functionals; the source's completeness of $(\phi_j)$ among odd $L^2$ functions on $[-\pi,\pi]$ enters through
+Lemma~\ref{bpW:w1:sine-completeness} inside Proposition~\ref{bpW:w0n:pde-equiv}. The sign slip in the second line of
+the source's $u_{tt}$ display (printed $+\lambda_j^2q_j$; errata item N-4) is already recorded in Part~0; the proof
+above uses the correct sign. No new source defect was found on pp.~277--280.
+
+\paragraph{Results.}
+Definitions~\ref{bpW:w2:derived}, \ref{bpW:w2:coeffsol}; Lemmas~\ref{bpW:w2:functionals}, \ref{bpW:w2:force},
+\ref{bpW:w2:orbit}, \ref{bpW:w2:curve-deriv}; Theorems~\ref{bpW:w2:curve}, \ref{bpW:w2:main};
+Corollary~\ref{bpW:w2:clause5}; Remarks~\ref{bpW:w2:hidden}, \ref{bpW:w2:hyp}, \ref{bpW:w2:constants}. Inputs from
+Part~0: Lemma~\ref{bpW:w0n:recon-bounded}, Proposition~\ref{bpW:w0n:pde-equiv} with \eqref{bpW:w0n:force}. Inputs from
+W1: Lemmas~\ref{bpW:w1:space}, \ref{bpW:w1:coordinatewise}, \ref{bpW:w1:sine-feature},
+\ref{bpW:w1:sine-completeness}; Theorem~\ref{bpW:w1:trilinear}(iv); Corollaries~\ref{bpW:w1:cubic-analytic}(iv),
+\ref{bpW:w1:recon-analytic}; Proposition~\ref{bpW:w1:hamfield}(v) (Remark~\ref{bpW:w2:hidden} only). External:
+\ref{bpW:w2:ext-deriv}--\ref{bpW:w2:ext-trig} and \ref{bpW:w1:ext-lp}--\ref{bpW:w1:ext-analytic}. Used by W8
+(Corollary~\ref{bpW:w2:clause5}).
