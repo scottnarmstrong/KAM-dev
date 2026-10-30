@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 13:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 68 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 291,000
+> **Last updated: 2026-10-30 13:48 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 68 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 291,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -248,7 +248,7 @@ Overall, everything together: 96.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 13:40 UTC from `main` at `1e751759` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 13:48 UTC from `main` at `49a5760b` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -257,7 +257,7 @@ Overall, everything together: 96.6 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 18 modules · 3,257 lines. **Packages landed: 19 / 24**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1, SO-LUNAR-A.
-- **Now:** proving SO-BALLDY, SO-GEN3, SO-KDEPTH · in audit —
+- **Now:** proving SO-GEN3, SO-KDEPTH · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Frozen statements proved: 23 / 23** · frozen definitions: 123
@@ -427,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 13:47 | `49a5760b` | Errata ledger: independent verification of the side campaign's 20 candidates (ERRATA-VERIFY-SIDE-1) |
 | 2026-10-30 13:40 | `1e751759` | Log: 13:40 (finish N = 65; N = 80 optional stretch) |
 | 2026-10-30 13:33 | `c1e43611` | Land inp into main |
 | 2026-10-30 13:31 | `f3fba607` | D40: track SO freeze plan (freeze proposal 2 approved) |
@@ -438,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 13:09 | `418a4f2c` | HQ: track SO current route (sharp certifier, N = 65, D38); today's SO packages counted |
 | 2026-10-30 12:57 | `7f540203` | Errata ledger: 25 candidate errata from the side campaign; 10 newly cited sources; band note corrected |
 | 2026-10-30 12:48 | `a1948e59` | Log: 12:48 |
-| 2026-10-30 12:44 | `5fc446e1` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -505,26 +505,27 @@ against the pinned PDF.
 | Arn63b | 1 candidate | 0 |
 | BM11 | 4 confirmed, 1 dropped | 7 adopted |
 | CC03 | 1 candidate | 1 adopted |
-| CC07 | 1 candidate | 0 |
-| CC87 | 1 candidate | 0 |
-| CC88 | 1 candidate | 0 |
-| CC95 | 2 candidate | 0 |
-| CC97 | 1 candidate | 0 |
-| CCGdlL22 | 2 candidate | 0 |
-| CCdlL13 | 3 candidate, 1 confirmed | 1 planned |
+| CC07 | 1 confirmed | 0 |
+| CC87 | 1 confirmed | 0 |
+| CC88 | 1 dropped | 0 |
+| CC95 | 1 confirmed, 1 dropped | 0 |
+| CC97 | 1 confirmed | 0 |
+| CCGdlL22 | 2 confirmed | 0 |
+| CCdlL13 | 1 confirmed, 3 dropped | 1 planned |
+| CCdlL20d | 3 confirmed | 0 |
 | CCdlL20s | 1 candidate | 0 |
 | CP09 | 3 candidate, 8 confirmed | 1 adopted, 2 planned |
 | CP10pin | 3 candidate, 13 confirmed, 5 dropped | 5 adopted, 5 planned |
 | CP11 | 2 confirmed | 1 planned |
 | Chi05 | 1 confirmed, 1 dropped | 2 adopted, 1 planned |
-| FH24 | 2 candidate, 3 confirmed | 0 |
+| FH24 | 3 confirmed, 2 dropped | 0 |
 | FH25 | 1 candidate | 0 |
-| FHL17 | 3 candidate | 0 |
+| FHL17 | 3 confirmed | 0 |
 | FdlLS09 | 1 candidate, 1 dropped | 0 |
 | Fej04r | 15 confirmed, 3 dropped | 2 adopted, 6 planned |
 | Fej07e | 1 confirmed | 0 |
 | GCB16 | 1 candidate, 2 confirmed | 0 |
-| GJLV05 | 1 candidate, 5 confirmed | 1 planned |
+| GJLV05 | 6 confirmed | 1 planned |
 | HL19 | 1 candidate, 15 confirmed, 2 dropped | 2 adopted, 6 planned |
 | LP17 | 1 confirmed | 1 adopted, 1 planned |
 | Nei76 | 1 confirmed | 3 adopted |
@@ -533,7 +534,7 @@ against the pinned PDF.
 | Pos93scan | 2 candidate, 3 confirmed, 3 dropped | 3 adopted, 3 planned |
 | Rus01 | 2 confirmed | 0 |
 | Rus05 | 3 confirmed | 1 planned |
-| VL22 | 1 candidate | 0 |
+| VL22 | 1 confirmed | 0 |
 
 <details><summary>All ledger entries</summary>
 
@@ -719,27 +720,30 @@ against the pinned PDF.
 | E-FH24-1 | erratum | FH24 | Lemma 2.14, p. 14 (arXiv v1) | derivation defect: the displayed c_R(δ) omits the factor (2π)^{-1} of the solution operator (2.21); the printed ĉ_R is twice the δ→0 leading coefficient that the corrected route gives. The printed ĉ_R remains a valid (conservative) uniform bound; halving it uniformly needs a separate proof | CONFIRMED |
 | E-FH24-2 | erratum | FH24 | Table 3, (3.72), p. 38 (arXiv v1) | false as stated: since Nᵀ = BLᵀJᵀ the bound needs σ_Lᵀ and C_ΔL̄̄ᵀ where σ_L and C_ΔL̄̄ are printed; with σ_Lᵀ = 2nσ_K the printed bound underestimates by a factor up to 2n (in the canonical case it coincides with (3.71)) | CONFIRMED |
 | E-FH24-3 | erratum | FH24 | (3.10) and p. 19 (arXiv v1) | typos: "C_E" stands for C_{Eᵀ}, and the cross-reference "Corollary 2.14" should be Corollary 2.16 | CONFIRMED |
-| E-FH24-4 | erratum | FH24 | (2.24) with (3.99) and Table 1 | the "constant" C is not γ-free: (3.99) contains γδ^τ·max{1,C_sym}/ν and Table 1 contains terms like C_E = C_E^L + γδ^τ C_E^N | CANDIDATE |
-| E-FH24-5 | erratum | FH24 | hypothesis H3 | typesetting: the second κ is presumably κ̂ ((3.91) needs a^{τ+1}Qε₀/(γδ₀^{τ+1}) < κ < 1 and (3.95) needs ε₀/(γδ₀^{τ+1}) < κ̂) | CANDIDATE |
+| E-FH24-4 | erratum | FH24 | (2.24) with (3.99) and Table 1 | the "constant" C is not γ-free: (3.99) contains γδ^τ·max{1,C_sym}/ν and Table 1 contains terms like C_E = C_E^L + γδ^τ C_E^N | DROPPED |
+| E-FH24-5 | erratum | FH24 | hypothesis H3 | typesetting: the second κ is presumably κ̂ ((3.91) needs a^{τ+1}Qε₀/(γδ₀^{τ+1}) < κ < 1 and (3.95) needs ε₀/(γδ₀^{τ+1}) < κ̂) | DROPPED |
 | E-HL19-19 | erratum | HL19 | §5.3, p. 43, with Lemma 4.1 | conditional uniformity gap: freezing c_R at δ₀ is justified for a uniform c_R, but Lemma 4.1 also permits a δ-dependent c_R(δ), which need not be bounded by its value at δ₀; a uniform-in-later-bites bound or stage-specific constants are needed | CONFIRMED |
-| E-FHL17-1 | erratum | FHL17 | proof of Theorem 2.5, p. 16 | conditional uniformity gap, as in HL19 §5.3: correct for a uniform c_R, but (90) allows c_R(δ), which need not be bounded by its value at δ₀ | CANDIDATE |
-| E-FHL17-2 | erratum | FHL17 | p. 37 | inconsistent: the stated gain is consistent with τ = 1.26, not τ = 1 | CANDIDATE |
-| E-FHL17-3 | erratum | FHL17 | introduction | misattribution: CC88 gives ∣ε∣ ≤ 0.65 (and Celletti–Chierchia JSP 1991 gives 0.838) | CANDIDATE |
-| E-GJLV05-6 | erratum | GJLV05 | p. 866, Theorem 6 | wrong exponent: γ appears to the power +2; compare Theorem 1 (cγ^{−2}δ₀^{−2σ}) and Theorem 6’s own K-estimate with γ^{−2}; almost certainly γ^{−2} (the same issue as Theorem 3, E-GJLV05-1) | CANDIDATE |
-| E-CCdlL13-2 | erratum | CCdlL13 | arXiv v1, Def. 4, p. 10 | incompatible hypotheses: at k = 1 one needs ν ≤ 1/2, and the paper later uses ν ≈ 0.382 | CANDIDATE |
-| E-CCdlL13-3 | erratum | CCdlL13 | arXiv v1, Lemma 3, p. 9 | inconsistent with C_c = 1 stated just above (it gives 1/(2π) at ℓ = 1); a disc-automorphism example gives a ratio near 1/2 as δ → 0; apparently unused in App. B | CANDIDATE |
-| E-CCdlL13-4 | erratum | CCdlL13 | (3.14) | gap: the proof schedule gives closeness on ρ∞ = ρ₀/2 = ρ₀ − 2δ₀; H5 allows any 0 < δ₀ < ρ₀ while the schedule fixes δ₀ = ρ₀/4 | CANDIDATE |
-| E-CCGdlL22-1 | erratum | CCGdlL22 | arXiv v1, p. 15 | impossible value (≈ 2.618 violates the Diophantine bound at k = 1); presumably ν = (3−√5)/2; unknown whether the code used the wrong value | CANDIDATE |
-| E-CCGdlL22-2 | erratum | CCGdlL22 | (37) | gap: as CCdlL13 (3.14), the schedule gives ρ₀/2 | CANDIDATE |
-| E-CCdlL20s-1 | erratum | CCdlL20s | p. 20 | unsupported claim as far as the preprint goes: it has formal calculations only for flows (the published JDE text was not checked) | CANDIDATE |
-| E-CC07-1 | erratum | CC07 | preprint (Dec 2003) p. 109 with (2.130) p. 49 and p. 96 | inconsistent closing inequality: with β₁ = Ω*/γ± the closing inequality (2.132) evaluates to about 849 (+) and 7.3 (−) instead of the printed 0.648 and 1.24·10⁻⁵, so it would fail; the published 2007 version was not checked | CANDIDATE |
-| E-CC87-1 | erratum | CC87 | p. 2079 | inconsistent with the paper’s own ratios (ε_c ≈ 0.31) | CANDIDATE |
-| E-CC97-1 | erratum | CC97 | p. 447 | numerical error: the expression evaluates to about 2.36; the underlying (4.31) gives about 3.8·10⁻³ < 1, so the conclusion stands | CANDIDATE |
-| E-CC88-1 | erratum | CC88 | Lemma 11 | imprecise statement: presumably the bound holds at ξ₀ = 1/10 | CANDIDATE |
-| E-CC95-1 | erratum | CC95 | p. 103 versus Planet. Space Sci. 46 (1998) | inconsistency between sources: Dyn. Rep. p. 103 says k ≤ 35 (verified on the page image); PSS 1998 says k ≤ 40 | CANDIDATE |
-| E-CC95-2 | erratum | CC95 | p. 99 | misattribution: Celletti–Falcolini–Porzio 1987 treats (1+√5)/2 | CANDIDATE |
-| E-VL22-1 | erratum | VL22 | eqs. (46), (47), (50)–(52), (65) | eq. (46) defines the strip with ∣Im∣ ≤ ρ (should be σ); eq. (47) drops k = 0 from the norm sum; τ is never stated; λ* = 10⁻⁸⁵·⁷ could not be reproduced from eqs. 50–52 (≈ 10⁻⁵¹·⁶ for τ = 1) | CANDIDATE |
-| E-FH25-1 | erratum | FH25 | §5 | unreproducible claim (not a confirmed erratum): FH24’s own closed-form constants on the published data fall about 10^5.5 short in the twist-margin entry; unreported constants (c_Th, c_DTh) or larger margins must be involved; the pair is presented as convergence values, not sharp thresholds | CANDIDATE |
+| E-FHL17-1 | erratum | FHL17 | proof of Theorem 2.5, p. 16 | conditional uniformity gap, as in HL19 §5.3: correct for a uniform c_R, but (90) allows c_R(δ), which need not be bounded by its value at δ₀ | CONFIRMED |
+| E-FHL17-2 | erratum | FHL17 | p. 37 | At the printed τ = 1 and Table 5 inputs, the stated six-order gain cannot come solely from replacing (90) by (96). A calculation at τ = 1.26 has the six-order scale, but the exact cause of the reported number remains unverified. | CONFIRMED |
+| E-FHL17-3 | erratum | FHL17 | introduction | misattribution: CC88 gives ∣ε∣ ≤ 0.65 (and Celletti–Chierchia JSP 1991 gives 0.838) | CONFIRMED |
+| E-GJLV05-6 | erratum | GJLV05 | p. 866, Theorem 6 | wrong exponent: γ appears to the power +2; compare Theorem 1 (cγ^{−2}δ₀^{−2σ}) and Theorem 6’s own K-estimate with γ^{−2}; almost certainly γ^{−2} (the same issue as Theorem 3, E-GJLV05-1) | CONFIRMED |
+| E-CCdlL13-2 | erratum | CCdlL13 | arXiv v1, Def. 4, p. 10 | incompatible hypotheses: at k = 1 one needs ν ≤ 1/2, and the paper later uses ν ≈ 0.382 | DROPPED |
+| E-CCdlL20d-1 | erratum | CCdlL20d | p. 10, Definition 4 | In arXiv:2002.10647v1, p. 10, Definition 4, replace ν ≥ 1 by ν > 0 (or a suitable positive small-constant range): at k = 1 the hypothesis forces ν ≤ 1/2, and the paper later uses ν ≈ 0.382. | CONFIRMED |
+| E-CCdlL13-3 | erratum | CCdlL13 | arXiv v1, Lemma 3, p. 9 | inconsistent with C_c = 1 stated just above (it gives 1/(2π) at ℓ = 1); a disc-automorphism example gives a ratio near 1/2 as δ → 0; apparently unused in App. B | DROPPED |
+| E-CCdlL20d-2 | erratum | CCdlL20d | p. 9, Lemma 3 | The general derivative constant C_{c,ℓ} = ℓ!(2π)^{−1} in Lemma 3 is invalid for the stated sup norm and geometric strip; the ordinary Cauchy choice C_{c,ℓ} = ℓ! is valid. Whether the faulty constant is used computationally was not established. | CONFIRMED |
+| E-CCdlL13-4 | erratum | CCdlL13 | (3.14) | gap: the proof schedule gives closeness on ρ∞ = ρ₀/2 = ρ₀ − 2δ₀; H5 allows any 0 < δ₀ < ρ₀ while the schedule fixes δ₀ = ρ₀/4 | DROPPED |
+| E-CCdlL20d-3 | erratum | CCdlL20d | (3.14) | (3.14) is not justified on ρ₀ − δ₀ by the §5.5 schedule; that schedule reaches ρ₀/2 and fixes δ₀ = ρ₀/4. Use that final strip or reprove a schedule matching the stated free δ₀. | CONFIRMED |
+| E-CCGdlL22-1 | erratum | CCGdlL22 | arXiv v1, p. 15 | impossible value (≈ 2.618 violates the Diophantine bound at k = 1); presumably ν = (3−√5)/2; unknown whether the code used the wrong value | CONFIRMED |
+| E-CCGdlL22-2 | erratum | CCGdlL22 | (37) | The exhibited schedule reaches ρ₀/2 and does not prove the (37) closeness estimate on ρ₀ − δ₀. This is an analytic-strip proof mismatch, not an established counterexample to the underlying existence result. | CONFIRMED |
+| E-CCdlL20s-1 | erratum | CCdlL20s | p. 20 | The pinned mp_arc 11-188 version of CCdlL13 does not contain the direct flow convergence proof described in CCdlL20s p. 20: its Appendix A explicitly limits itself to formal calculations. Whether the published JDE 2013 version supplies it remains unverified. | CANDIDATE |
+| E-CC07-1 | erratum | CC07 | preprint (Dec 2003) p. 109 with (2.130) p. 49 and p. 96 | In the pinned December 2003 preprint, the tabulated β₁ uses Ω*/ρ instead of (2.130)'s Ω*/γ. Applying that fourth-power correction to the reported first closing evaluations gives approximately 849 and 7.26, so the displayed numerical justification fails on that reading. The published 2007 text and a full interval replay remain unchecked. | CONFIRMED |
+| E-CC87-1 | erratum | CC87 | p. 2079 | inconsistent with the paper’s own ratios (ε_c ≈ 0.31) | CONFIRMED |
+| E-CC97-1 | erratum | CC97 | p. 447 | numerical error: the expression evaluates to about 2.36; the underlying (4.31) gives about 3.8·10⁻³ < 1, so the conclusion stands | CONFIRMED |
+| E-CC88-1 | erratum | CC88 | Lemma 11 | imprecise statement: presumably the bound holds at ξ₀ = 1/10 | DROPPED |
+| E-CC95-1 | erratum | CC95 | p. 103 versus Planet. Space Sci. 46 (1998) | inconsistency between sources: Dyn. Rep. p. 103 says k ≤ 35 (verified on the page image); PSS 1998 says k ≤ 40 | DROPPED |
+| E-CC95-2 | erratum | CC95 | p. 99 | CC95 p. 99 discusses the (√5−1)/2 forced-pendulum torus, while its cited CFP87 computation explicitly treats (1+√5)/2. The historical summary needs a torus-specific qualification; it must not attribute CFP87's calculation to the same flow torus merely because the frequencies differ by one. The precise provenance of 6.75·10⁻⁴ remains to be mapped among the grouped references. | CONFIRMED |
+| E-VL22-1 | erratum | VL22 | eqs. (46), (47), (50)–(52), (65) | In VL22 (46), use σ for the angular strip widths. In (47), include the zero Fourier mode when defining the stated functional norm. The numerical λ* report is reproducible at τ = 1 using the printed base 20 and is conservative; the alleged 34-order discrepancy is withdrawn. | CONFIRMED |
+| E-FH25-1 | erratum | FH25 | §5 | FH25 §5 does not report enough intermediate validation data to independently replay its numerical closure from the trial pair (10⁻³⁸, 10⁻⁴⁴). A direct coarse global FH24-majorant calculation with derived torsion bounds fails by several orders, but this neither reproduces nor refutes the paper's stated finite-prefix-then-theorem computation. Retained as a reproducibility request, not a confirmed erratum. | CANDIDATE |
 
 </details>
 <!-- /AUTO:errata -->
@@ -747,7 +751,7 @@ against the pinned PDF.
 ## Papers
 
 <!-- AUTO:papers -->
-**59 pinned sources.** The annotated list, with links, what each source is used for, the frozen theorems citing it and its recorded errata, is on its own page: **[docs/PAPERS.md](docs/PAPERS.md)**.
+**60 pinned sources.** The annotated list, with links, what each source is used for, the frozen theorems citing it and its recorded errata, is on its own page: **[docs/PAPERS.md](docs/PAPERS.md)**.
 
 - Core sources of the KAM proof (track K): [HL19](docs/PAPERS.md#hl19), [GJLV05](docs/PAPERS.md#gjlv05), [CCdlL13](docs/PAPERS.md#ccdll13), [Pos01](docs/PAPERS.md#pos01), [FHL17](docs/PAPERS.md#fhl17)
 - Original papers: [Arn63](docs/PAPERS.md#arn63), [Kol54](docs/PAPERS.md#kol54)
@@ -760,7 +764,7 @@ against the pinned PDF.
 - Cross-checks: [BC17](docs/PAPERS.md#bc17), [FdlLS09](docs/PAPERS.md#fdlls09), [Vil17](docs/PAPERS.md#vil17), [CK21](docs/PAPERS.md#ck21), [Sal04](docs/PAPERS.md#sal04), [Chi03](docs/PAPERS.md#chi03)
 - Errata sources: [Bou20](docs/PAPERS.md#bou20), [Kou19](docs/PAPERS.md#kou19)
 - Context and further reading: [LG09](docs/PAPERS.md#lg09), [CFG24](docs/PAPERS.md#cfg24), [AS26](docs/PAPERS.md#as26), [Pos96K](docs/PAPERS.md#pos96k), [Pos96W](docs/PAPERS.md#pos96w), [KP96](docs/PAPERS.md#kp96), [HHM25](docs/PAPERS.md#hhm25)
-- Other sources: [FH24](docs/PAPERS.md#fh24), [FH25](docs/PAPERS.md#fh25), [CC07](docs/PAPERS.md#cc07), [CC87](docs/PAPERS.md#cc87), [CC88](docs/PAPERS.md#cc88), [CC95](docs/PAPERS.md#cc95), [CC97](docs/PAPERS.md#cc97), [VL22](docs/PAPERS.md#vl22), [CCGdlL22](docs/PAPERS.md#ccgdll22), [CCdlL20s](docs/PAPERS.md#ccdll20s)
+- Other sources: [FH24](docs/PAPERS.md#fh24), [FH25](docs/PAPERS.md#fh25), [CC07](docs/PAPERS.md#cc07), [CC87](docs/PAPERS.md#cc87), [CC88](docs/PAPERS.md#cc88), [CC95](docs/PAPERS.md#cc95), [CC97](docs/PAPERS.md#cc97), [VL22](docs/PAPERS.md#vl22), [CCGdlL22](docs/PAPERS.md#ccgdll22), [CCdlL20s](docs/PAPERS.md#ccdll20s), [CCdlL20d](docs/PAPERS.md#ccdll20d)
 <!-- /AUTO:papers -->
 
 ## Prior and related formal work
