@@ -463,42 +463,43 @@ class PackedEngine:
                     av = abs(v)
                     if q < plen and av > wmax[q]:
                         wmax[q] = av
-        # box sweep: include the slots whose log2(|T| W) is within e of the top
-        mag = [(math.log2(wmax[q]) + deg[q] * lw, q) for q in range(plen) if wmax[q]]
-        mag.sort(reverse=True)
+        # box sweep (numpy, float estimates; the exact remainder is confirmed below): grow the box over the slots
+        # by decreasing log2(|T| W), until the out-of-box remainder 2^(outLog+1) Σ_out W fits half the budget
+        import numpy as np
         logb = math.log2(float(budget / 2)) + 2 * P
-        Wq = [deg[q] * lw for q in range(plen)]
-        totW = _logsumexp2(Wq)
-        best = None
+        qa = np.arange(plen)
+        rowa, cola = qa // sst, qa % sst
+        Wq = np.array(deg, dtype=np.float64) * lw
+        lgm = np.array([_lg(v) if v else -1 for v in wmax], dtype=np.int64)
+        nzm = lgm >= 0
+        mag = np.where(nzm, np.array([math.log2(v) if v else 0.0 for v in wmax]) + Wq, -np.inf)
+        order = np.argsort(-mag[nzm], kind="stable")
+        nzq = qa[nzm][order]
+        magn = mag[nzm][order]
         bx = None
-        # grow the box by thresholds (coarse sweep by 1 bit of magnitude)
-        idx = 0
-        rows_lo = rows_hi = cols_lo = cols_hi = None
-        thresholds = sorted(set(int(m) for m, _ in mag), reverse=True)
+        thresholds = np.unique(np.floor(magn))[::-1]
         mi = 0
+        rlo = rhi = clo = chi = None
+        Wmax = Wq.max()
         for th in thresholds:
-            while mi < len(mag) and mag[mi][0] >= th:
-                q = mag[mi][1]
-                rr, cc = q // sst, q % sst
-                if rows_lo is None:
-                    rows_lo = rows_hi = rr; cols_lo = cols_hi = cc
+            j = np.searchsorted(-magn, -th, side="right")
+            if j > mi:
+                rr, cc = rowa[nzq[mi:j]], cola[nzq[mi:j]]
+                if rlo is None:
+                    rlo, rhi, clo, chi = rr.min(), rr.max(), cc.min(), cc.max()
                 else:
-                    rows_lo, rows_hi = min(rows_lo, rr), max(rows_hi, rr)
-                    cols_lo, cols_hi = min(cols_lo, cc), max(cols_hi, cc)
-                mi += 1
-            # out-of-box max |T| and weight mass (float estimate)
-            outlog, wout = 0, []
-            for q in range(plen):
-                rr, cc = q // sst, q % sst
-                if not (rows_lo <= rr <= rows_hi and cols_lo <= cc <= cols_hi):
-                    wout.append(Wq[q])
-                    if wmax[q]:
-                        g = _lg(wmax[q])
-                        if g > outlog:
-                            outlog = g
-            lw_out = _logsumexp2(wout) if wout else -1e300
+                    rlo, rhi = min(rlo, rr.min()), max(rhi, rr.max())
+                    clo, chi = min(clo, cc.min()), max(chi, cc.max())
+                mi = j
+            out = ~((rowa >= rlo) & (rowa <= rhi) & (cola >= clo) & (cola <= chi))
+            if not out.any():
+                bx = (int(rlo), int(rhi), int(clo), int(chi), 0)
+                break
+            outlog = int(lgm[out].max()) if (out & nzm).any() else 0
+            outlog = max(outlog, 0)
+            lw_out = Wmax + math.log2(float(np.exp2(Wq[out] - Wmax).sum()))
             if outlog + 1 + lw_out <= logb - 0.01:
-                bx = (rows_lo, rows_hi, cols_lo, cols_hi, outlog)
+                bx = (int(rlo), int(rhi), int(clo), int(chi), outlog)
                 break
         assert bx is not None, "no target box"
         rows_lo, rows_hi, cols_lo, cols_hi, outlog = bx
@@ -507,7 +508,8 @@ class PackedEngine:
         box = InBox(adv)
         degs = deg
         # largest scale with the exact remainder <= budget
-        win_log = _logsumexp2([Wq[q] for q in range(plen) if box(q)])
+        inb = np.array([box(q) for q in range(plen)])
+        win_log = Wmax + math.log2(float(np.exp2(Wq[inb] - Wmax).sum()))
         scale = max(1, int(math.floor(logb - win_log)) + 2)
         while True:
             adv.scale = scale

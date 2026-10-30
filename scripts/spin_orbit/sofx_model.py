@@ -409,6 +409,9 @@ class Cfg:
             r.misses.append(("unmappable", key))
             return None
         if r.book is None:
+            for k2, adv in r.generated:
+                if k2 == fk:
+                    return adv          # a key recomputed by a later sub-check: the same advice
             return ("generate",)
         r.misses.append(fk)
         return None

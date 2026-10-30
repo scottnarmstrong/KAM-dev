@@ -34,7 +34,7 @@ KAPPA = TIME_SCALE / SCALAR         # lunarR1Kappa
 
 
 def lunarR1(err, disp):
-    return dict(tau=1, rho=F(1, 70), rhoInf=F(1, 70000), M=F(1987, 1000), sK=F(1987, 1000), sB=F(1987, 1000),
+    return dict(tau=1, rho=F(1, 70), rhoInf=F(1, 70000), M=F(203, 100), sK=F(1987, 1000), sB=F(1987, 1000),
                 sT=F(1987, 1000), mu=F(1, 160), gbar=KAPPA / 42, som=F(2), nu=F(1, 10 ** 6), gamma=KAPPA / 42,
                 s=SCALAR, err=F(err), E0=F(0), disp=F(disp))
 
@@ -43,6 +43,27 @@ def lunarR1Box(a, b):
     """lunarR1Box a b (LunarParams.lean): √5 ∈ 2236068e-6 ± 1e-6."""
     a, b = F(a), F(b)
     return [(KAPPA * ((a + b * F(2236068, 10 ** 6)) / 3118 - 1), KAPPA * abs(b) / 3118 / 10 ** 6), (KAPPA, F(0))]
+
+
+SQRT5_DIGITS = 110
+PIN_ORDER = 70
+
+
+def sqrt5_enclosure(d=SQRT5_DIGITS):
+    """lo <= √5 <= hi, both with denominator 10^d (checkRootEnclosure 2 5 lo hi)."""
+    import math
+    D = 10 ** d
+    a = math.isqrt(5 * D * D)
+    return F(a, D), F(a + 1, D)
+
+
+def lunarBox(a, b, d=SQRT5_DIGITS):
+    """The production frequency box around lunarRotFreq ν κ, ν = (a + b √5)/3118, from a √5 enclosure at 10^-d:
+    coordinate 0 is κ(ν - 1) (centre at the midpoint of √5, radius κ|b| (hi - lo)/2/3118), coordinate 1 is κ."""
+    a, b = F(a), F(b)
+    lo, hi = sqrt5_enclosure(d)
+    mid = (lo + hi) / 2
+    return [(KAPPA * ((a + b * mid) / 3118 - 1), KAPPA * abs(b) * (hi - lo) / 2 / 3118), (KAPPA, F(0))]
 
 
 def jet():
@@ -157,11 +178,13 @@ def build(which, err, disp, cfgFull, cfgLow, expHalvings=12, expOrder=30, S=None
     c.weight = M.Weight(F(1, 70), weight_for(F(1, 70), expHalvings, expOrder))
     c.centre = [F(dom["c1"]), F(dom["c2"])]
     c.radius = [F(dom["r1"]), F(dom["r2"])]
-    c.freqBox = lunarR1Box(3039, 1) if which == "lower" else lunarR1Box(3197, -1)
+    c.freqBox = lunarBox(3039, 1) if which == "lower" else lunarBox(3197, -1)
     c.emb = build_embedding(B, d)
     E = build_E(d)
     cw = d["character_witness"]
-    c.wit = M.Witnesses([], [], [((2, 0), (E, int(cw["pinHalvings"]), int(cw["pinOrder"])))])
+    # pinOrder: SO-GEN2 recorded 1, but certCExp always adds eRem(N + 1) (3/4 at N = 1); at N = PIN_ORDER the
+    # Taylor remainder eRem(71) ~ 1e-102 (the pin ball itself is exactly 0: v is odd)
+    c.wit = M.Witnesses([], [], [((2, 0), (E, int(cw["pinHalvings"]), PIN_ORDER))])
     c.gramInv, c.gramParity = build_gram_inv(d)
     c.piEnc = pi_enclosure(B)
     c.cfgFull, c.cfgLow = cfgFull, cfgLow
