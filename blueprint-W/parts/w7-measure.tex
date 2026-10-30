@@ -54,8 +54,10 @@ mode $i+1$); the normal modes are labelled by their Dirichlet index $j\ge3$.
   $c\in\R^2$, $\Leb(T(S)+c)=\abs{\det T}\Leb(S)$. (\Lean{MeasureTheory.Measure.addHaar\_image\_linearMap},
   \Lean{MeasureTheory.measure\_preimage\_add}, \Lean{LinearMap.det}.)
 \item\label{bpW:w7:ext-borel} \emph{Borel sets.} If $D\subset\R^2$ is Borel and $f:D\to\R$ is continuous on $D$,
-  then $\{\xi\in D:\abs{f(\xi)}<\eta\}$ is Borel (it is $D\cap U$ for an open $U$;
-  \Lean{ContinuousOn.isOpen\_inter\_preimage}). Countable unions, intersections and differences of Borel sets are
+  then $\{\xi\in D:\abs{f(\xi)}<\eta\}$ is Borel: by \Lean{continuousOn\_iff'} applied to the open target
+  interval $(-\eta,\eta)$ there is an open $U\subset\R^2$ with $f^{-1}(-\eta,\eta)\cap D=U\cap D$, which is Borel by
+  \Lean{IsOpen.measurableSet} and \Lean{MeasurableSet.inter} (for $f$ defined on the subtype $D$, pass first to
+  \Lean{ContinuousOn} via \Lean{continuousOn\_iff\_continuous\_domRestrict}). No openness of $D$ is needed. Countable unions, intersections and differences of Borel sets are
   Borel (\Lean{MeasurableSet.iUnion}, \Lean{MeasurableSet.diff}); $\Z^2$ and the finitely supported $l$ with
   $\abs l\le2$ form countable index sets (\Lean{Encodable}). Measure is countably subadditive and monotone
   (\Lean{MeasureTheory.measure\_iUnion\_le}, \Lean{MeasureTheory.measure\_mono}).
@@ -278,7 +280,8 @@ prove, on each parameter domain $\Pi$ used and for the master parameter $\alpha$
   preparatory step are defined on Borel $D_\nu$ and satisfy (H1)--(H2) with $\varepsilon_\omega,\varepsilon_1,
   \varepsilon_2\le\alpha$ and Lipschitz constant $\theta\le\theta_0$ (P96-K Theorem~A gives
   $\abs{\omega_\nu-\omega}+\frac\alpha M\abs{\omega_\nu-\omega}^{\mathcal L}\le c\epsilon\le c\gamma\alpha$; so this is a
-  smallness condition on $\gamma$, as in P96-K Corollary~C, p.~123).
+  smallness condition on $\gamma$; this is our explicit alternative to P96-K Corollary~C, pp.~123 and~140, which instead
+  chooses $K_0$ large so that the exceptional zones use the unperturbed frequencies).
 \item \texttt{bpW:w6:exclusion} (forward): the final parameter set $\Pi_*$ of the iteration satisfies
   $\Pi\setminus\Pi_*\subset\mathcal E$, with thresholds $K_\nu\ge2^\nu$ and iteration levels $\alpha_\nu\le\check\alpha$
   (so its zones lie in $R^\nu_{kl}(\check\alpha)$).
@@ -721,15 +724,17 @@ pp.~22--31 on the author PDF. Findings in \S\S5--6 of P96-K:
   Lemma~\ref{bpW:w7:zone} has the factor $8\rho_\zeta/D_A$ with coordinate lines.
 \item \emph{Symbol $\kappa$ in \S6, p.~140.} The display ``$\lessdot\frac1{(\hat\alpha\sigma^t)^{\kappa-1}}
   (\abs{X_P}^\lambda_{\check p,r})^\kappa$'' uses the $\kappa=\frac43$ of \S4 (p.~132, ``where $\kappa=\frac43$''), not the
-  spectral $\kappa$ of Theorem~D (p.~123, (15)); only with $\frac43$ does $\hat\alpha=\alpha^{1-3w}$ yield
+  spectral $\kappa$ of Theorem~D (p.~123, the unnumbered spectral-asymptotic display preceding Theorem~B); only with $\frac43$ does $\hat\alpha=\alpha^{1-3w}$ yield
   $\check\alpha=\alpha^{1+w}$. Notational clash, not a mathematical error; it concerns W5--W6, not W7.
 \item \emph{Lemma~10, p.~142: ``the functions $\avg{k,\omega'}+\avg{l,\Omega'}$ are Lipschitz close of order $\alpha$
   to nontrivial affine functions''.} Theorem~A gives sup-closeness $O(\alpha)$ but Lipschitz closeness only
   $\abs{\omega_\nu-\omega}^{\mathcal L}\le c\epsilon M/\alpha\le c\gamma M$, a small constant, not $O(\alpha)$. What the
   argument needs is Lipschitz closeness small compared with the gradients of the finitely many affine functions of
-  $\mathcal X$, which holds after shrinking $\gamma$ depending on $\mathcal X$ (as P96-K does in Corollary~C, p.~123).
-  We make this explicit as $\theta\le\theta_0$ (Lemma~\ref{bpW:w7:Xzones}, (C4)); it is an imprecision, not a false
-  claim.
+  $\mathcal X$, which holds after shrinking $\gamma$ depending on $\mathcal X$ (an explicit alternative to P96-K's
+  Corollary~C, pp.~123 and~140, which chooses $K_0$ large so that the exceptional zones use the unperturbed frequencies).
+  The printed order-$\alpha$ assertion for the unweighted Lipschitz seminorm is not justified by these estimates. The
+  proof needs only sufficiently small Lipschitz seminorm, made explicit here by $\theta\le\theta_0$
+  (Lemma~\ref{bpW:w7:Xzones}, (C4)); the measure conclusion is retained.
 \item No other defect found in Lemmas~3--10, Theorem~B, Corollary~C, Theorem~D. Checked in particular: (22) for
   $d=1$ reads $\tau\ge(n+3)\frac{\delta-1}\delta$, which for $\delta<0$ equals $(n+3)/\delta^*$ as the proof needs; the
   ``whichever gives the better estimate'' choice of $j_0$ in Lemma~8 does give $\alpha^{\kappa^*}A_k^{-\delta^*}$ when the

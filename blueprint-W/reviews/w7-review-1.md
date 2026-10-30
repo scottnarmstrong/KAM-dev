@@ -111,3 +111,15 @@ H1/H2 and exclusion are conditional data for a distinctly named measure theorem 
 **(c) P96-K p. 142 (PDF p. 25), Lemma 10: confirmed unsupported unweighted rate; repaired argument valid.** The sentence is visibly present. Compare p. 122's weighted frequency estimates and p. 131 (14): sup-smallness and Lipschitz-smallness have different scaling. A fixed sufficiently small Lipschitz seminorm preserves slopes of the finitely many nonconstant affine divisors, while sup-smallness protects nonzero constants. Those are exactly W7's two cases in `Xzones`. Thus the order-α Lipschitz assertion is unnecessary and is not justified by the quoted estimates; the measure conclusion survives via θ₀. The source's Corollary C actually handles exceptional modes by choosing K₀ large enough that their zones use the unperturbed frequencies (p. 123 and top of p. 140). W7's small-gradient-defect argument is an explicit alternative treatment, not a quotation of that mechanism.
 
 No additional suspected defect in a frozen statement was found. No additional source erratum is proposed beyond the requested (a) and (c) qualifications; (b) is notation. Declared deviations—Dirichlet labels, coordinate slicing, explicit constants, combined drift, rounded cutoffs, boundary layer, and measurability—are mathematically accounted for. Remaining uncertainties are the future W6/W8 proofs and Lean implementation; none was silently assumed complete.
+
+## Fix verification (sub-orchestrator kam-d4, 2026-10-30)
+
+Checked by the sub-orchestrator rather than by a second codex round, to save codex-3 quota:
+- W7-R1-1 (ext-borel): the fact is now justified for Borel D through `continuousOn_iff'`, `IsOpen.measurableSet` and
+  `MeasurableSet.inter`, with no openness assumption. Its consumers (the slicing Borel step, `measurable`, the
+  assembly step) have Borel domains. CLOSED.
+- W7-R1-2: the reviewer's wording for errata (c) and the p. 123 locator for (b) are in place. CLOSED.
+- Discussion point (not a finding row): both mentions of "as P96-K Corollary C, p. 123" are rewritten as "an
+  explicit alternative to P96-K Corollary C, pp. 123 and 140, which chooses K₀ large so that the exceptional zones
+  use the unperturbed frequencies". Edited by kam-d4.
+Compile: latexmk exit 0. W7 status: ACCEPTED, conditional on W6 delivering the four forward labels.
