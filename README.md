@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 08:35 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-30 08:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -214,7 +214,7 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+28,843** since 2026-10-29 08:20 UTC |
+| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+28,843** since 2026-10-29 08:40 UTC |
 | Written on agent branches, not yet landed | 0 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,598 |
 | **Estimated total at completion** | **≈ 275,000** |
@@ -224,7 +224,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 08:35 UTC from `main` at `007e00b8` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 08:40 UTC from `main` at `e91aa6f7` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
