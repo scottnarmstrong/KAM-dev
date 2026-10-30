@@ -44,7 +44,7 @@ EINV = Fr(1 / math.e)    # 1/e (rounded up): the row-sum l^1 Cauchy factor sup_k
 # =============================================================================================================
 
 def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_sums=False, diag=False,
-             keep=False, b5=False):
+             keep=False, b5=False, sums=False):
     """Additive route.  stage(s) -> dict(CE, cond=[(coef, bound)], rates={name: (rho, j)});  tail likewise (uniform).
     Errors: x_s = eps_s/(gamma^4 delta_s^{2a}), x_{s+1} = 2^{2a} C_E(s) x_s^2 (Lemma bp:p2s:decay, stage form).
     Returns True iff every condition holds at X0.
@@ -95,6 +95,8 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
         if nm in used and "Tab" in used:
             used[nm] += 2 * maxB
     fails += ["sum " + nm for nm in budgets if used[nm] > budgets[nm]]
+    if sums:                                                   # closeness: the ball sum bounds |K_inf - K| (SHARP2-DOMPLUS)
+        return fails, used
     return fails if diag else not fails
 
 
@@ -130,13 +132,17 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False, l1=None):
     th = o.get("theta", F(1, 8)); thh = 1 / (1 - th)
     qS = o.get("qS", F(1, 2)); tX = F(1, 2)
     sK, sB, sT = D["sK"], D["sB"], D["sT"]
+    if o.get("dk_cap", True):                                  # the |DK| cap of the theorem is sigma_K - mu/2 (the frozen
+        sK = sK - D["mu"] / 2                                  # conclusion; NumB.sK, B9's NumA.sK); sigma_K was conservative
+    if o.get("tight_caps", False) and not o.get("free_budgets", False):
+        sB, sT = sB - D["mu"] / 2, sT - D["mu"] / 2            # internal caps sigma - mu/2 over the frozen initial sigma - mu
     if o.get("L1", False):
         M1, M2, Lt, Nn, Nt = D["M1"], D["M2"], D["sLt"], D["sN"], D["sNt"]
         Mh1, Mh2 = D["Mh1"], D["Mh2"]
     else:
         M1 = M2 = Mh1 = Mh2 = D["M"]
         Lt, Nn, Nt = 2 * n * sK, sK * sB, 2 * n * sK * sB
-    Theta = D["Theta_omega"] if (iso and o.get("L1", False)) else 2 * n * sK * sB * (D["M"] + 1)
+    Theta = D["Theta_omega"] if (iso and (o.get("L1", False) or o.get("theta_given"))) else 2 * n * sK * sB * (D["M"] + 1)
     # geometry (Lemma bp:p2s:geometry; L2/FH24 Lemma 3.1: d_omega Omega_K = antisym(D eta^N))
     C_Om = 2 * (n - 1) * c * Lt if o.get("omega_eta", False) else c * (2 * n * sK + n * Lt)
     # l^1 entry: Omega_K = -(Du - (Du)^T), u = R eta^N; row-sum l^1 Cauchy (n/(e delta)) on |u|_{l1, r-delta}
@@ -259,7 +265,7 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False, l1=None):
     return dict(CE=C_E, cond=cond, rates=rates, C_DK=C_DK, C_Dw=C_Dw, C_E=C_E, H=H, B_loc=B_loc)
 
 
-def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
+def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None, at_e=None):
     """Threshold (log10 e*) of route A with k prefix stages.
     c_stage(s) -> (c(delta_s), c(delta_s/2), c(r_s)); c_tail -> uniform constant for the tail (valid for every bite)."""
     a = 2 * D["kappa"]
@@ -270,6 +276,7 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
 
     if k >= 1:
         o = dict(o, tref=True)                             # torsion against the initial torus (audit F8)
+    check_options(o, k, "A")
     check_data(D)
 
     def stage(s):
@@ -292,12 +299,17 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
     budgets = budgets_for(D, o, iso)
     if o.get("tref"):
         budgets.pop("Tinv")
-        budgets["Tab"] = torsion_budget(D, o.get("free_budgets", False))
+        budgets["Tab"] = torsion_budget(D, o.get("free_budgets", False), o.get("tight_caps", False))
     keep = o.get("keep_delta", False)
     b5 = o.get("b5", False)
+    if at_e is not None:                                       # closeness at the error e (SHARP2-DOMPLUS)
+        X0 = at_e / (gamma ** 4 * delta0 ** (2 * a))
+        fails, used = engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_sums=(k == 0),
+                               keep=keep, b5=b5, sums=True)
+        return dict(ok=not fails, ball=used.get("ball"), nu=used.get("nu"), fails=fails)
     pred = lambda X: engine_A(stage, tail, k, X, a, gamma, gbar, delta0, budgets, lam, absorb_sums=(k == 0),
                               keep=keep, b5=b5)
-    lx = bisect(pred, 1e-60, 1e30)
+    lx = bisect(pred, o.get("xlo", 1e-60), 1e30)
     why = engine_A(stage, tail, k, Fr(10 ** (lx + 0.01)), a, gamma, gbar, delta0, budgets, lam,
                    absorb_sums=(k == 0), diag=True, keep=keep, b5=b5)
     return lx + math.log10(float(gamma ** 4 * delta0 ** (2 * a))), delta0, why
@@ -316,28 +328,79 @@ def with_caps(D, f):
     return E
 
 
-def torsion_budget(D, free):
+def torsion_budget(D, free, tight=False):
     """Neumann budget of the torsion average against the initial torus (Lemma bp:p2s2:torsion-ref): with the initial
     |<T_0>^{-1}| <= m and the cap s (= m + budget), |<T_s> - <T_0>| <= (s - m)/(s m) gives |<T_s>^{-1}| <= s."""
-    cap = D["sT"]
-    bud = D["bud_Tinv"] if free else D["mu"]                  # frozen: |<T_0>^{-1}| <= sigma_T - mu, cap sigma_T
+    tight = (not free) and tight
+    cap = D["sT"] - (D["mu"] / 2 if tight else 0)              # frozen: |<T_0>^{-1}| <= sigma_T - mu; cap sigma_T, or sigma_T - mu/2
+    bud = D["bud_Tinv"] if free else (D["mu"] / 2 if tight else D["mu"])   # (tight caps: a free choice, SHARP2-DOMPLUS)
     init = cap - bud
     assert init > 0 and bud > 0
     return bud / (cap * init)
 
 
+class IllegalData(ValueError):
+    """Rejected input: the numbers violate the contract of the theorem (NumB.Wf / StepInB.Ok, audits F1 and
+    AUDIT-SHARP2-FIX-iso-1 F2)."""
+
+
+def _req(cond, what):
+    if not cond:
+        raise IllegalData(what)
+
+
+def _isint(x):
+    return isinstance(x, int) or (isinstance(x, F) and x.denominator == 1) or (isinstance(x, float) and x.is_integer())
+
+
 def check_data(D):
-    """Audit F1: a well-formed numerical package (positive caps and weights, nonnegative Hamiltonian bounds, initial
-    values strictly below the caps)."""
-    for k_ in ("sK", "sB", "sT", "sLt", "sN", "sNt", "gamma", "gbar", "mu", "rho"):
-        assert D[k_] > 0, k_
-    for k_ in ("M", "M1", "M2", "Mh1", "Mh2", "cTh"):
-        assert D.get(k_, 0) >= 0, k_
-    assert D["gamma"] <= D["gbar"] and 0 < D["rhoinf"] < D["rho"]
-    for k_ in ("B", "Tinv", "Lt", "N", "Nt"):
+    """Audit F1 / re-audit iso F2: a well-formed numerical package -- integer n >= 1, kappa = tau >= 1, positive caps,
+    scale and strips, gamma <= gbar, nonnegative Hamiltonian and commutator bounds, positive budgets, initial values
+    strictly below the caps.  Raises IllegalData."""
+    _req(_isint(D["n"]) and D["n"] >= 1, "n must be an integer >= 1")
+    _req(D["kappa"] >= 1 and D["tau"] >= 1, "kappa, tau >= 1")
+    for k_ in ("sK", "sB", "sT", "sLt", "sN", "sNt", "gamma", "gbar", "mu", "rho", "rhoinf"):
+        _req(D[k_] > 0, "%s > 0" % k_)
+    for k_ in ("M", "M1", "M2", "Mh1", "Mh2", "cTh", "M0"):
+        _req(D.get(k_, 0) is None or D.get(k_, 0) >= 0, "%s >= 0" % k_)
+    _req(D["gamma"] <= D["gbar"] and D["rhoinf"] < D["rho"], "gamma <= gbar, rho_inf < rho")
+    for k_ in ("B", "Tinv", "Lt", "N", "Nt", "Tsup"):
         if "bud_" + k_ in D:
-            assert D["bud_" + k_] > 0, k_
-    assert D["sK"] > D["mu"] / 2 and D["sT"] > D["mu"]
+            _req(D["bud_" + k_] > 0, "budget %s > 0" % k_)
+    _req(D["sK"] > D["mu"] / 2 and D["sT"] > D["mu"], "sigma_K > mu/2, sigma_T > mu")
+    if D.get("nu") is not None:
+        _req(D["nu"] > 0, "nu > 0")
+    if D.get("Theta_omega") is not None:
+        _req(D["Theta_omega"] >= 0, "Theta_omega >= 0")
+
+
+def check_options(o, k, route):
+    """The free parameters of the theorem: ratios in (0,1), schedule ratio a > 1, decay bound ybar in (0,1), positive
+    torsion slack, nonnegative certified c_Th, c_DTh, split in (0,1), integer kpre >= 0 (>= 1 with anisotropic
+    weights), positive torsion cap if given.  Raises IllegalData."""
+    _req(_isint(k) and k >= 0, "kpre must be an integer >= 0")
+    for k_ in ("theta", "theta_xi", "theta_om", "q", "theta_N", "theta_w", "qS"):
+        if k_ in o:
+            _req(0 < o[k_] < 1, "%s in (0,1)" % k_)
+    if "ratio" in o:
+        _req(o["ratio"] > 1, "schedule ratio a > 1")
+    if "ymax" in o:
+        _req(0 < o["ymax"] < 1, "decay bound ybar in (0,1)")
+    if "split" in o:
+        _req(0 < o["split"] < 1, "split in (0,1)")
+    if "tslack" in o:
+        _req(o["tslack"] > 0, "tslack > 0")
+    for k_ in ("cTh", "cDTh"):
+        if k_ in o:
+            _req(o[k_] >= 0, "%s >= 0" % k_)
+    if o.get("torsion_cap") is not None:
+        _req(o["torsion_cap"] > 0, "torsion cap > 0")
+    if "eta" in o:
+        _req(o["eta"] > 0, "eta > 0")
+    if o.get("aniso"):
+        _req(k >= 1, "anisotropic stage-0 weights need kpre >= 1 (the tail has weights 1; audit iso F2)")
+    if route == "A" and o.get("b5"):
+        _req(k >= 1, "b5 needs kpre >= 1")
 
 
 def budgets_for(D, o, iso):
@@ -382,12 +445,16 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     th = o.get("theta", F(1, 8)); thx = o.get("theta_xi", F(1, 8)); thO = o.get("theta_om", F(1, 8))
     q = o.get("q", F(1, 8))
     sK, sB, sT = D["sK"], D["sB"], D["sT"]
+    if o.get("dk_cap", True):                                  # the |DK| cap of the theorem is sigma_K - mu/2 (the frozen
+        sK = sK - D["mu"] / 2                                  # conclusion; NumB.sK, B9's NumA.sK); sigma_K was conservative
+    if o.get("tight_caps", False) and not o.get("free_budgets", False):
+        sB, sT = sB - D["mu"] / 2, sT - D["mu"] / 2            # internal caps sigma - mu/2 over the frozen initial sigma - mu
     if o.get("L1", True):
         M1, M2, Lt, Nn, Nt, Mh1, Mh2 = D["M1"], D["M2"], D["sLt"], D["sN"], D["sNt"], D["Mh1"], D["Mh2"]
     else:
         M1 = M2 = Mh1 = Mh2 = D["M"]
         Lt, Nn, Nt = 2 * n * sK, sK * sB, 2 * n * sK * sB
-    Theta = D["Theta_omega"] if (iso and o.get("L1", True)) else 2 * n * sK * sB * (D["M"] + 1)
+    Theta = D["Theta_omega"] if (iso and (o.get("L1", True) or o.get("theta_given"))) else 2 * n * sK * sB * (D["M"] + 1)
     tslack = o.get("tslack", F(1, 10))
     cTh = o.get("cTh", 2 * M1)                               # |T_h| = |Om0 A - A Om0| <= 2 M1, or a certified c_Th (L1)
     t = o.get("torsion_cap") or (cTh * Nt * Nn + tslack)     # T = T_ab + T_F + T_c, |T_ab| = |N^T T_h N| <= c_Th s_Nt s_N
@@ -437,7 +504,7 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     C_xiLs = C_xiL                                             # sup route (kept for the cubic iso term below)
     if l1 is not None:                                         # |xi^L| <= Gamma_inf(delta) |g^L|_{l1, r-delta}
         C_xiL = min(C_xiL, l1["ci"] * (l1["rL"] + l1["t1"] * C_xiN1 + (Theta * C_0 if iso else 0)))
-    C_DK = sKt * C_xiL + gd * C_Kt                             # |K_bar - K| <= C_DK mu/(gamma delta^kappa)
+    C_DK = sK * C_xiL + gd * C_Kt                              # |K_bar - K| <= |K o phi - K| + |(N xi^N) o phi| (SHARP2-DOMPLUS)
     # iso (audit iso F5): d_{omega_bar} xi^L = (1 - xi^omega) d_omega xi^L, |xi^omega| <= C_0 mu <= C_0 g1 X <= theta_om2
     # (step condition below), so |1 - xi^omega| <= a := 1 + theta_om2; a = 1 at fixed frequency
     a_w = 1 + o.get("theta_w", F(1, 8)) if iso else F(1)
@@ -516,9 +583,10 @@ def _pw(x, p):
         return float("inf")
 
 
-def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False, ratio=2, ymax=F(1, 2)):
+def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False, ratio=2, ymax=F(1, 2), sums=False):
     """Weighted recursion X_{s+1} = 2^{kappa+1} Q_s X_s^2 (X_s = mu_s/(gamma delta_s^{kappa+1})); k prefix stages, then a
     uniform tail with the critical sums bounded by X_k/(1 - y_k), y_k = 2^{kappa+1} Q_tail X_k (Proposition bp:p2s2:engine)."""
+    _req(ratio > 1 and 0 < ymax < 1, "engine_B: ratio > 1 and 0 < ymax < 1")
     x = X0
     used = {nm: F(0) for nm in budgets}
     fails = []
@@ -562,12 +630,16 @@ def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False, 
             used[nm] += 2 * maxB
     fails += ["sum " + nm for nm in budgets
               if (used[nm] >= budgets[nm] if nm == "ball" else used[nm] > budgets[nm])]
+    if sums:                                                   # closeness: ball sum >= |K_inf - K|, nu sum >= |omega_inf - omega|
+        return fails, used
     return fails if diag else not fails
 
 
-def thresholdB(D, o, iso, k, c_stage, c_tail, e_from_mu=True):
+def thresholdB(D, o, iso, k, c_stage, c_tail, e_from_mu=True, at_e=None):
     """log10 of the largest e (frozen hypothesis |E| <= e on T_rho) admitted by route B with k prefix stages;
     mu_0 = max{sigma_N^T e, sigma_L^T e/(gamma delta_0^kappa), e (iso)} (or measured eta's, L6)."""
+    check_options(o, k, "B")                                   # reject illegal data first (re-audit iso F2)
+    check_data(D)
     kap = D["kappa"]
     lam = 3
     a_r = o.get("ratio", 2)                                    # L4: prefix schedule delta_s = delta0 a^{-s}
@@ -617,18 +689,19 @@ def thresholdB(D, o, iso, k, c_stage, c_tail, e_from_mu=True):
         ct = cbt = c_tail
         ot = dict(o, avg_full_bite=False)
     tail = stageB(D, ot, delta0 / a_r ** k, r(k), ct, ct * (kap + 1) ** (kap + 1) / kap ** kap, cbt, iso)
-    if o.get("aniso"):
-        assert k >= 1, "anisotropic stage-0 weights need kpre >= 1 (the tail has weights 1; audit iso F2)"
-    check_data(D)
     budgets = budgets_for(D, dict(o, caps_tilde=True, free_budgets=o.get("free_budgets", False)), iso)
     budgets["ball"] = D["mu"] / 2                              # d < beta with D_s <= mu/2 (route B ball budget)
     if o.get("torsion_cap") is None:
         budgets.pop("Tsup", None)
     budgets.pop("Tinv")
-    budgets["Tab"] = torsion_budget(D, o.get("free_budgets", False))
+    budgets["Tab"] = torsion_budget(D, o.get("free_budgets", False), o.get("tight_caps", False))
     ym = o.get("ymax", F(1, 2))
+    if at_e is not None:                                       # closeness at the error e (SHARP2-DOMPLUS)
+        X0 = at_e * per_e / (gamma * delta0 ** (kap + 1))
+        fails, used = engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, ratio=a_r, ymax=ym, sums=True)
+        return dict(ok=not fails, ball=used.get("ball"), nu=used.get("nu"), fails=fails)
     pred = lambda X: engine_B(stage, tail, k, X, kap, delta0, gamma, gbar, budgets, ratio=a_r, ymax=ym)
-    lx = bisect(pred, 1e-60, 1e10)
+    lx = bisect(pred, o.get("xlo", 1e-60), 1e10)
     why = engine_B(stage, tail, k, Fr(10 ** (lx + 0.01)), kap, delta0, gamma, gbar, budgets, diag=True, ratio=a_r,
                    ymax=ym)
     # mu_0 from e: X0 = mu_0/(gamma delta0^{kappa+1}), mu_0 = e * max{s_Nt, s_Lt/(gamma delta0^kappa), 1 (iso)}
