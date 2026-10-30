@@ -1897,3 +1897,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - W: 7 Lean packages on main; W1-CUBIC and W2-RECON proving (the latter proves nlw2 clause 5 from clauses 3–4).
     The graph reviews found 10 presentation-level gaps in blueprint W4–W6, all repaired and under a codex-1
     review. Graph delta 6 (133 nodes) is running.
+- **21:06. SO-CSEG-L2 audit PASS WITH NOTES (codex-1), landing; SO-CSEG-GEN started.**
+  - L2: 12 statements match the design, 34 theorems on standard axioms, replay passes, no semantic blocker.
+  - Design signal: `apply torsionModels_eq_of_stages <;> assumption` times out at whnf under default heartbeats.
+    Explicit instantiation works (design R5), so generators must emit explicit applications; no budget override.
+  - **SO-CSEG-GEN** (the DATA3 worker): the ledger emitter `csplit_ledger.py`, the optimizer, and the Lean
+    emission templates. Scratch only; no kernel runs before CAL-1/2.
+  - SO-CSEG-A/B is in codex-1 audit. Once A/B, L2 and KDEPTH2 are on main, run the calibration gates CAL-1/2
+    (G0–G7).
