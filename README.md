@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 16:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 17 % · track W 15 %** · frozen statements proved: 23 / 24 · **318,323 lines of Lean** of an estimated ≈ 322,000
+> **Last updated: 2026-10-30 16:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 17 % · track W 15 %** · frozen statements proved: 23 / 24 · **321,037 lines of Lean** of an estimated ≈ 337,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -41,8 +41,9 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
    modified step with a cubic tangential error) is being proved; its step `KAM.Sharp2.modified_stepB` is landed. On a
    fair grid of 1176 parameter sets, the v2 design's threshold and closeness constants beat Haro–Luque 2019 and
    (corrected) Figueras–Haro 2024 everywhere ([design §12](docs/campaign/design/APOST-SHARP-V2.md)). As an example,
-   `KAM.Sharp2.Examples.plasmaLean_torus` certifies an error tolerance of 1.93·10⁻¹⁷ at PlasmaLean's frequency and
-   strip (34 times its proved tolerance, at assumed canonical data).
+   `KAM.Sharp2.Examples.plasmaLean_torus'` certifies an error tolerance of 3.72·10⁻¹⁷ at PlasmaLean's frequency
+   and strip (65 times its proved tolerance, at assumed canonical data; lever L8′, torsion against the initial
+   torus, `KAM.Sharp2.RouteA.g1_v2A'`).
 
 **Weak non-degeneracy (track R).**
 
@@ -256,17 +257,16 @@ Overall, everything together: 76.1 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **318,323** (247,980 excluding blank lines and comments) · **+57,948** since 2026-10-29 16:00 UTC |
-| Written on agent branches, not yet landed | 1,892 |
-| Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
-| **Estimated total at completion** | **≈ 322,000** |
+| On `main` now | **321,037** (250,246 excluding blank lines and comments) · **+60,662** since 2026-10-29 16:18 UTC |
+| Written on agent branches, not yet landed | 14,326 |
+| **Estimated total at completion** | **≈ 337,000** |
 | Estimated still to write | ≈ 2,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 16:00 UTC from `main` at `8230b16d` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 16:18 UTC from `main` at `55566c4e` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -276,7 +276,6 @@ Overall, everything together: 76.1 %
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 20 modules · 3,584 lines. **Packages landed: 21 / 24**.
 - **Part 3, the Moon locked in synchronous rotation forever** (D42): librational invariant tori around the synchronous orbit (Celletti 1994), a stronger result than the spin-rate band · **17 %** · stages reached: scoping study
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
-- **Now:** proving SO-BALLFIX, SO-DATA3, SO-KDEPTH, SO-V2PKG · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **15 %**
@@ -284,7 +283,7 @@ Overall, everything together: 76.1 %
 
 **Frozen statements proved: 23 / 24** · frozen definitions: 134
 
-**Lean on `main`:** 1625 modules · 318,323 lines · 13,155 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1635 modules · 321,037 lines · 13,213 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 1 (KAM/Frozen/Wave/Theorems/Nlw2.lean)
@@ -412,7 +411,7 @@ flowchart BT
 | [`KAM/Measure/`](KAM/Measure) | Track K Part 4: lattice counting, Lipschitz dependence, measure of the tori | 5 | 965 | 44 |
 | [`KAM/Head/`](KAM/Head) | Track K Part 4: assembly of the headline theorem | 36 | 8,634 | 406 |
 | [`KAM/ODE/`](KAM/ODE) | Flows of ODEs: solutions, symmetries, continuation (tracks N and P) | 13 | 2,372 | 98 |
-| [`KAM/Iso/`](KAM/Iso) | Track I: isoenergetic KAM, confinement, restricted three-body problem | 90 | 23,868 | 861 |
+| [`KAM/Iso/`](KAM/Iso) | Track I: isoenergetic KAM, confinement, restricted three-body problem | 93 | 24,933 | 872 |
 | [`KAM/Kepler/`](KAM/Kepler) | Kepler problem and Delaunay coordinates (tracks I and P) | 14 | 5,116 | 365 |
 | [`KAM/Weighted/`](KAM/Weighted) | Track N: weighted domains and norms | 9 | 1,843 | 70 |
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 21 | 4,673 | 195 |
@@ -421,8 +420,8 @@ flowchart BT
 | [`KAM/Russmann/`](KAM/Russmann) | Track R: Rüssmann's KAM theorem (finite-order non-degeneracy, Lipschitz extension, assembly) | 12 | 1,631 | 48 |
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
 | [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 52 | 8,863 | 344 |
-| [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 66 | 16,239 | 722 |
-| [`KAM/Root/`](KAM/Root) | Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py) | 25 | 1,998 | 0 |
+| [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 73 | 17,878 | 769 |
+| [`KAM/Root/`](KAM/Root) | Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py) | 25 | 2,008 | 0 |
 | [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 79 | 20,168 | 925 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 20 | 3,584 | 227 |
 <!-- /AUTO:areas -->
@@ -439,15 +438,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **soballfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-BALLDY: independent audit (PASS WITH NOTES); comment fixes and design amendment from it | `inp-soballfix` | 3 (vs `inp`) |
-| **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
-| **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge main into inp: generated root split into KAM/Root/* (D43); regenerated with SO-BALLD | `inp-sodata3` | 4 (vs `inp`) |
-| **sokdepth** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-sokdepth` | 9 (vs `inp`) |
-| **sov2pkg** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Land inp into main | `inp-sov2pkg` | 4 (vs `inp`) |
 
-*5 finished agent sessions not shown.*
+*6 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -455,6 +448,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 16:17 | `55566c4e` | Land sharp-v2: lever L8' of route A (torsion against the initial torus; g1_v2A', iso_g1_v2A'; audit AUDIT-L8P-1 PASS) and plasmaLean_torus' (certified e* = 3.72e-17, 65x PlasmaLean's tolerance) |
 | 2026-10-30 15:57 | `8230b16d` | D45: Moon-lock route (owner answers to SO-LOCK-SCOPE); log: BALLDY not landed (clash with sharp-v2 BallsTrig), correction |
 | 2026-10-30 15:49 | `e507bc23` | Land inp into main |
 | 2026-10-30 15:49 | `0a9efe75` | Merge remote-tracking branch 'origin/main' |
@@ -466,7 +460,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 15:22 | `73534ef0` | Log: owner ruling, audits stay on codex-3 |
 | 2026-10-30 15:20 | `41e560ff` | Log: 15:18 (SO-BALLDY in audit; Codex nearly exhausted) |
 | 2026-10-30 15:18 | `7654beef` | HQ: refresh stage texts of SO-1, SO-2 and W (W freeze landed, R2 package landed, D39 fixes in audit) |
-| 2026-10-30 15:08 | `762a7e3d` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
