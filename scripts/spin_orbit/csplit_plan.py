@@ -81,8 +81,14 @@ def plan(recs, wanted, budget, shard):
         imp = sorted({a for r in s_ if r["slot"] in live for a in r["reads"] if a < lo})
         exp = sorted(i for i in ledger if lo <= i < hi)
         spec.append("  ⟨%d, %d, %s, %s, %s⟩,\n" % (lo, hi, lv, imp, exp))
-    plan_bytes = sum(len(x) for x in spec) + 400 + (len(segs) + 1) * len("  ⟨000, 0, 0, [cacheRef]⟩,\n")
-    memo_bytes = sum(p[3] for s_ in segs for r in s_ for p in r["packed"] if len(p) > 3)
+    # UTF-8 bytes; the metas formatted at their real boundary lengths (counters 0 for the lunar program; the
+    # cache, empty before slot 28 and one reference after it, printed as a name)
+    bounds_all = [s_[0]["slot"] for s_ in segs] + [segs[-1][-1]["slot"] + 1]
+    metas = ["  ⟨%d, 0, 0, %s⟩,\n" % (b, "[]" if b <= 28 else "charCache") for b in bounds_all]
+    plan_bytes = sum(len(x.encode()) for x in spec) + sum(len(x.encode()) for x in metas) + 400
+    # product memos of evaluated (live or fallible) ops only; a dead op's product is never evaluated
+    memo_bytes = sum(p[3] for s_ in segs for r in s_ if r["slot"] in live or r["op"] in FALLIBLE
+                     for p in r["packed"] if len(p) > 3)
     cuts = [s_[0]["slot"] for s_ in segs if len(s_) == 1 and s_[0]["packed"]]
     byts = {r["slot"]: r.get("bytes", r["out"] * BYTES_TERM + BYTES_MODEL) for r in recs}
     hashes = [r["hash"] for r in recs if r["slot"] in ledger and r.get("hash")]
