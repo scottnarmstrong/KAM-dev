@@ -46,7 +46,8 @@ def sitesOk (J : ℕ) (box : FreqBox) (κ γ : ℚ) (sites : BSites) : Bool :=
     siteOk n Q.τ J box κ γ (Q.δ s) (Q.c.getD s Q.ctail) (sites.getD s (none, none, none)).1 &&
     siteOk n Q.τ J box κ γ (Q.split * Q.δ s) (Q.c'.getD s Q.ctail)
       (sites.getD s (none, none, none)).2.1 &&
-    siteOk n Q.τ J box κ γ (Q.bfull s) (Q.cbar.getD s Q.cbtail) (sites.getD s (none, none, none)).2.2
+    siteOk n Q.τ J box κ γ (Q.bfull s) (Q.cbar.getD s Q.cbtail)
+      (sites.getD s (none, none, none)).2.2
 
 /-- The tail: classical constants at `δ_kp` and at `min r_kp 1`. -/
 def tailOk (J : ℕ) : Bool :=

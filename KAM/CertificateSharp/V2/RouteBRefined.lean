@@ -111,12 +111,14 @@ theorem finalB_sound [LawfulCertArith α] {c : TorusCertificate n α} {Q : NumBQ
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   have _hXs := hXs
   have hρ0 : (0 : ℝ) < c.params.rho := S.hρinf.trans S.hρinfρ
-  have e4 : (Q.toNum n).ρ ^ (4 * (Q.toNum n).τ) = ((c.params.rho ^ (4 * c.params.tau) : ℚ) : ℝ) := by
+  have e4 : (Q.toNum n).ρ ^ (4 * (Q.toNum n).τ) =
+      ((c.params.rho ^ (4 * c.params.tau) : ℚ) : ℝ) := by
     have e : (4 * ((Q.τ : ℕ) : ℝ)) = ((4 * Q.τ : ℕ) : ℝ) := by push_cast; ring
     rw [NumBQ.cast_τ, e, Real.rpow_natCast]
     show ((Q.ρ : ℚ) : ℝ) ^ (4 * Q.τ) = _
     rw [hρ, hτ]; push_cast; rfl
-  have e2 : (Q.toNum n).ρ ^ (2 * (Q.toNum n).τ) = ((c.params.rho ^ (2 * c.params.tau) : ℚ) : ℝ) := by
+  have e2 : (Q.toNum n).ρ ^ (2 * (Q.toNum n).τ) =
+      ((c.params.rho ^ (2 * c.params.tau) : ℚ) : ℝ) := by
     have e : (2 * ((Q.τ : ℕ) : ℝ)) = ((2 * Q.τ : ℕ) : ℝ) := by push_cast; ring
     rw [NumBQ.cast_τ, e, Real.rpow_natCast]
     show ((Q.ρ : ℚ) : ℝ) ^ (2 * Q.τ) = _

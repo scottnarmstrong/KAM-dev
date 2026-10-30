@@ -17,6 +17,13 @@ public import KAM.CertificateSharp.V2.RouteARefinedEngine
   forms of route B. The witness names the route; `checkTorusCertificateV2 routeABV2 c (Sum.inl ())`
   is the landed certifier (`checkTorusCertificateV2_routeABV2_sharp`, `rfl`). The engine
   `routeAV2` of SHARP2-C6 is unchanged.
+
+**Scope of the route-B numbers** (AUDIT-ROUTEB-fixed-1 F1, AUDIT-ROUTEB-iso-1 F1, F2). The design's
+R1 figures (about `10^-12.2` fixed, `10^-12.3` iso) belong to the refined theorems with
+frequency-specific ray certificates and measured data. There is no refined isoenergetic body, so
+`routeBRefined` goes through the branch `iso_g1_branch_B`, as route A's refined engine does.
+`routeBFrozen` is the literal wrapper `iso_g1_v2B_frozen`, whose R1 figure is about `10^-18.75`:
+a certificate does not reach the design figure through it.
 -/
 
 @[expose] public section
