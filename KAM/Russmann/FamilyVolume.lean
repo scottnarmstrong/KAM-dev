@@ -15,10 +15,10 @@ public import KAM.Russmann.FundamentalDomain
 * `volume_le_of_lower_bound`: a map with `c ‖x - y‖ ≤ ‖T x - T y‖` on `A ⊆ ℝⁿ × ℝⁿ` (max norm)
   satisfies `meas A ≤ c^{-2n} meas T(A)`; the inverse `T(A) → A` is `c⁻¹`-Lipschitz
   (`KAM.lip_image_prod`).
-* `QuantitativeFamily.volume_image_lower`: for track P's family, the union of tori over
+* `familyImage_volume_lower`: for track P's family, the union of tori over
   `[0,1)ⁿ × good` has volume at least `(1 - 2⁻¹⁰)^{2n} · meas good`; this sharpens the exported
   clause `cell_lower` (`2^{-2n}`).
-* `QuantitativeFamily.image_eq_add_angleTranslate`: the union over `[0,1)ⁿ × good` meets each
+* `familyImage_eq_add_angleTranslate`: the union over `[0,1)ⁿ × good` meets each
   orbit of the integer angle translations at most once.
 -/
 
@@ -60,7 +60,7 @@ theorem volume_le_of_lower_bound {A : Set ((Fin n → ℝ) × (Fin n → ℝ))}
 
 /-- The union of the tori of track P's family over `[0,1)ⁿ × good` has volume at least
 `(1 - 2⁻¹⁰)^{2N} · meas good` (from the lower bi-Lipschitz clause). -/
-theorem QuantitativeFamily.volume_image_lower {N : ℕ} {d : QuantitativeData N}
+theorem familyImage_volume_lower {N : ℕ} {d : QuantitativeData N}
     {H : (Fin N → ℝ) × (Fin N → ℝ) → ℝ} {cΔ ε : ℝ} (Q : QuantitativeFamily d H cΔ ε) :
     ENNReal.ofReal ((1 - (2 : ℝ) ^ (-10 : ℤ)) ^ (2 * N)) * volume Q.good ≤
       volume ((fun z : (Fin N → ℝ) × (Fin N → ℝ) => Q.torus z.2 z.1) ''
@@ -84,7 +84,7 @@ theorem QuantitativeFamily.volume_image_lower {N : ℕ} {d : QuantitativeData N}
 
 /-- The union of the tori of track P's family over `[0,1)ⁿ × good` meets each orbit of the integer
 angle translations at most once. -/
-theorem QuantitativeFamily.image_eq_add_angleTranslate {N : ℕ} {d : QuantitativeData N}
+theorem familyImage_eq_add_angleTranslate {N : ℕ} {d : QuantitativeData N}
     {H : (Fin N → ℝ) × (Fin N → ℝ) → ℝ} {cΔ ε : ℝ} (Q : QuantitativeFamily d H cΔ ε) :
     ∀ z ∈ (fun z : (Fin N → ℝ) × (Fin N → ℝ) => Q.torus z.2 z.1) '' (unitCube N ×ˢ Q.good),
     ∀ z' ∈ (fun z : (Fin N → ℝ) × (Fin N → ℝ) => Q.torus z.2 z.1) '' (unitCube N ×ˢ Q.good),
