@@ -123,3 +123,19 @@ SelectionCore → SelectionTwoMaj → SelectionTwoSided → SelectionTwoFinal; S
 - `lp.single` terms need an explicit `(E := fun _ : ℕ+ => ℝ)` when no expected type is available (`GradLp`).
 - `ext`/`convert` on `ContinuousLinearMap`s out of a product or `lp` type loses the intended shape; use
   `apply ContinuousLinearMap.ext; intro h` and `HasFDerivAt.congr_fderiv` (see `CubicMap`, `HamHamiltonian`).
+
+## AUDIT FOCUS (sub-orchestrator kam-d4)
+
+This package is infrastructure for W2, W3 and W8 (blueprint w1-sequences.tex `bpW:w1:cubic`, plus the complex clauses
+of `bpW:w0n:recon-bounded` and `bpW:w0n:cubic-bound` by the scope ruling in W0-ANALYSIS-handoff.md). It has no
+provider and no seal, so skip audit item 1.
+1. Exact constants and carriers: selection (a)/(b) with 2M K_s² and 64M K_s²; the trilinear bound C_* = K_{p+1/2}²/π
+   over RCLike K, with real structure and compatibility; the frozen identification `cubicGrad_eq_triML_div`, which
+   must be exactly the frozen cubicGrad.
+2. `frozen_invariance_iff_waveXw`: it closes the PARTIAL X^w specialization of `bpW:w1:coordinatewise`. Is it the
+   blueprint's statement, under exactly the differentiability hypothesis, and with nothing conclusion-shaped?
+3. `hamfield` (v): the coordinates of X^w; and (iv), the Hamiltonian structure.
+4. The complex recon-bounded clause: does it close the W0-ANALYSIS audit F1 gap for that node?
+5. Definitions on their whole carrier (waveSelSum, waveTriSeq, waveTriML, waveCubicNL, waveGw, waveXw).
+6. Hygiene. This is a SLIM worktree, so lint only via w_lint.sh. Run the kernel replay of the 17 modules. Regenerated
+   roots are authorized. One lean process at a time.
