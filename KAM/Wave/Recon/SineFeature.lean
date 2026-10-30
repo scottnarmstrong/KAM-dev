@@ -72,7 +72,7 @@ lemma sineFeatCoordC_ofReal (a p : ℝ) (β : ℕ+ → ℝ) (k : ℕ) (x : ℝ) 
     sineFeatCoordC a p β k (x : ℂ) j = (sineFeatCoord a p β k x j : ℝ) := by
   simp [sineFeatCoordC, sineFeatCoord, sineModeIterC_ofReal]
 
-lemma ellWeight_pos (a p : ℝ) (j : ℕ+) : 0 < ellWeight a p j := by
+private lemma ellWeight_pos (a p : ℝ) (j : ℕ+) : 0 < ellWeight a p j := by
   unfold ellWeight
   exact mul_pos (Real.rpow_pos_of_pos (by positivity) _) (Real.exp_pos _)
 
