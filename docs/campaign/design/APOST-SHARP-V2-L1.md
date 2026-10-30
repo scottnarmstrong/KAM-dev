@@ -4,8 +4,12 @@
 Every number comes from `scripts/apost_sharp/` (untrusted design tooling). Numbers measured on a candidate are labelled
 heuristic until enclosed.
 
+**Revised after AUDIT-B10D-1** (REQUEST CHANGES), in package SHARP2-B10AB (branch `sharp-b10ab`). B10a and B10b are proved
+(`KAM/Sharp2/L1/`). The B10c signatures are repaired and rebased on B9's route A. Every finding F1–F7 is dispositioned
+in §9. Where §§0–8 disagree with §9, §9 governs.
+
 **Contents.** §0 summary; §1 the decision; §2 the mathematics; §3 numbers; §4 Lean signature deltas; §5 package split;
-§6 coordination with B3, B4, B5, B9; §7 risks; §8 reproduction.
+§6 coordination with B3, B4, B5, B9; §7 risks; §8 reproduction; §9 AUDIT-B10D-1 dispositions and the repaired signatures.
 
 ## 0. Summary
 
@@ -16,21 +20,27 @@ heuristic until enclosed.
 - **Why only the entry.** At later stages the errors are abstract. Their ℓ¹ bounds would need the Hamiltonian composed
   with the new torus. With the frozen sup data of h (D12) that costs a sup → ℓ¹ conversion coth(πσ)ⁿ ≥ 10³, against a
   small-divisor gain of at most 6–18. So no conversion is used anywhere (§1).
-- **PlasmaLean's example** (its proved tolerance 10⁻¹⁸·²⁴, at its declared, pessimistic bounds):
+- **PlasmaLean's example.** These rows are conditional comparisons of scalar error tolerances at assumed data
+  (AUDIT-B10D-1 F7, §9). Its proved tolerance is 10⁻¹⁸·²⁴. The assumed data are:
+  - γ = 0.0687, ρ ≈ 0.02 and the clock frequency;
+  - guessed canonical frame and torsion norms;
+  - its declared bounds read as both sup and ℓ¹ bounds, with ν_K = σ_K and ν_N = σ_N.
 
-  | Reading | Best v2 (route A + entry + ℓ¹ frame increment) | Margin | Sup-norm v2 |
+  | Reading (at assumed data) | Best v2 (route A + entry + ℓ¹ frame increment) | Margin | Sup-norm v2 |
   |---|---:|---:|---:|
-  | (a) ℓ¹ error vs its ℓ¹ error (like for like) | 10⁻¹⁵·⁴⁰ | **+2.84** | +0.97 |
-  | (b) sup error, ℓ¹/sup = 3.6 | 10⁻¹⁵·⁹³ | **+2.31** | +0.97 |
+  | (a) ℓ¹ error vs the ℓ¹ error-norm category | 10⁻¹⁵·⁴⁰ | +2.84 | +0.97 |
+  | (b) sup error, assumed ℓ¹/sup = 3.6 | 10⁻¹⁵·⁹³ | +2.31 | +0.97 |
 
-  The owner's requirement (match PlasmaLean, ≥ +1 order at its pessimistic norms) holds in both readings. The entry
-  alone, without the frame increment, gives +2.33 and +1.80.
+  The entry alone, without the frame increment, gives +2.33 and +1.80. The rows do **not** establish the owner's
+  dominance requirement for PlasmaLean's torus. That needs a canonical chart, a transfer of its residual and norms, and
+  enclosures. None is supplied: its field is non-canonical, and the ratio 3.6 is R1's, not a measurement of its torus.
 - **R1** (measured ℓ¹ data, heuristic until enclosed). Route A goes 10⁻¹¹·¹⁸ → 10⁻¹⁰·¹³ (fixed) and 10⁻¹¹·³⁷ → 10⁻¹⁰·³²
   (iso), +1.05 orders. Route B gains 0.08–0.09. The gain stays ≥ +0.89 for an ℓ¹/sup ratio up to 8.
 - **Lean.**
-  - The probe `.drafts/sharp2/L1Signatures.lean` (copy: `APOST-SHARP-V2-L1-SIGNATURES.lean.txt`) elaborates: 1116
-    lines, of which 304 are verbatim copies of `sharp-v2` declarations; 22 `sorry` declarations; no error.
-  - The two body splits (`g1Body_iff_split`, `ig1Body_iff_split`) are proved.
+  - B10a and B10b are proved in `KAM/Sharp2/L1/` (SHARP2-B10AB): 14 theorems and 7 definitions, verbatim.
+  - The repaired B10c signatures (`APOST-SHARP-V2-L1-SIGNATURES.lean.txt`, §9) elaborate against those modules and B9:
+    438 lines, 29 declarations, 6 `sorry` targets, no copied declarations.
+  - The B10D probe below (§4) is superseded. It had 1116 lines, 304 of them copies, and 22 `sorry` declarations.
   - About 2.6k Lean lines in five packages (§5). The largest dependency is the solve-bounds form of the B4 step and of
     B9's route-A step.
 
@@ -146,9 +156,14 @@ conservative defaults. Route B gets the torsion cap 19.84 × 1.05, as route A do
 | cA-like | B6 + entry | −17.12 | +1.12 | −17.65 | +0.59 |
 | R1-like | best (A + entry + frame) | −12.06 | +6.18 | −12.51 | +5.73 |
 
-- **Reading (a)** compares our threshold on ‖E‖_{1,ρ} with PlasmaLean's tolerance on its own ℓ¹ error norm: every
-  candidate it accepts, we accept.
-- **Reading (b)** is the threshold on sup|E| for an error with ℓ¹/sup = 3.6.
+- **Status (AUDIT-B10D-1 F7).** Every row is a conditional comparison of scalar error tolerances at the assumed data
+  above. Those data include its declared bounds read as both sup and ℓ¹ bounds (ν_K = σ_K, ν_N = σ_N), which a sup
+  bound alone does not give. No row is a certificate for PlasmaLean's torus.
+- **Reading (a)** compares our threshold on ‖E‖_{1,ρ} with PlasmaLean's tolerance on the ℓ¹ error-norm *category*. It
+  is not a comparison on an identified canonical residual.
+- **Reading (b)** is the threshold on sup|E| at an *assumed* ratio ℓ¹/sup = 3.6. That ratio is imported from
+  R1/CERTIFIER-SHARPNESS, and the new R1 producer measures 4.28 for R1. The mirror is rerun with a_N = a_L = 3.6, so
+  (b) differs from (a) by 0.53 orders, not by log₁₀ 3.6 ≈ 0.556.
 - **The emulation of design §10.1** (c_∞ at every stage, ×3.6) gave −16.24. The entry alone gives −16.44, with no
   conversion. The frame increment, absent from the emulation, gives −15.93.
 - **Not like for like:** PlasmaLean's field is non-canonical, with 1½ degrees of freedom.
@@ -189,7 +204,11 @@ cheap (§5).
 
 ## 4. Lean signature deltas
 
-The probe is `.drafts/sharp2/L1Signatures.lean`, copied to `docs/campaign/design/APOST-SHARP-V2-L1-SIGNATURES.lean.txt`.
+**Superseded by §9.** This section records the B10D probe as audited (commit 95d4528c, audited at ca70c687). Its Part 1 (B10a, B10b) is now
+proved verbatim. Its route-A, iso and route-B parts are replaced by the repaired file of §9, which reuses B9's
+interfaces instead of the parallel `stageInA`/`AdmA`/`routeA_isNewton` listed below.
+
+The probe was `.drafts/sharp2/L1Signatures.lean`, copied to `docs/campaign/design/APOST-SHARP-V2-L1-SIGNATURES.lean.txt`.
 - **Command:** `nice -n 5 lake env lean .drafts/sharp2/L1Signatures.lean`.
 - **Result:** exit 0, 22 warnings "declaration uses `sorry`", no other diagnostic.
 - **Part 0** (lines 1–304) is a verbatim copy of the `sharp-v2` declarations it uses, at 17ea3c67: B1 `SDConst`, `ray`;
@@ -279,5 +298,56 @@ python3 -I scripts/apost_sharp/l1_entry_r1.py            # R1 weighted-l1 data (
 python3 -I scripts/apost_sharp/thresholds_v2.py --l1     # R1 tables and sensitivity (12 s)
 python3 -I scripts/apost_sharp/dominance.py --plasmalean # PlasmaLean, incl. the B10 table (12 s)
 python3 -I scripts/apost_sharp/thresholds_v2.py          # the v2 tables, unchanged (byte-identical)
-nice -n 5 lake env lean .drafts/sharp2/L1Signatures.lean # the signature probe
+nice -n 5 lake env lean .drafts/sharp2/L1Signatures.lean # the B10D signature probe (superseded, §9)
+cp docs/campaign/design/APOST-SHARP-V2-L1-SIGNATURES.lean.txt .drafts/b10ab/L1Signatures.lean
+nice -n 5 lake env lean .drafts/b10ab/L1Signatures.lean  # the repaired signatures (§9)
 ```
+
+## 9. AUDIT-B10D-1 dispositions and the repaired signatures
+
+The audit (`kam-tools/audits/AUDIT-B10D-1.md`, verdict REQUEST CHANGES) found the mathematics sound: the two solves, the
+full-bite average, the defect identity and the frame derivative estimates survived. It found the signatures unusable.
+B10a and B10b went ahead as briefed and are proved (SHARP2-B10AB). The B10c signatures are repaired below.
+
+**The repaired file.** `docs/campaign/design/APOST-SHARP-V2-L1-SIGNATURES.lean.txt` (438 lines) replaces the B10D file
+(commit 95d4528c, audited at ca70c687).
+- **Imports, nothing copied.** It imports the proved `KAM.Sharp2.L1.{SolveDefect, NormsProduct, Data}` and B9's
+  `KAM.Sharp2.RouteA.G1` and `KAM.Iso.Sharp2.RouteA.G1`.
+- **Elaborates.** `nice -n 5 lake env lean` on a `.drafts` copy exits 0, with six warnings
+  "declaration uses `sorry`" and no other diagnostic.
+- **Declarations** (29):
+  - data: `FrameL1`, `EntryA`, `EntryA.Wf`, `EntryHypA`;
+  - constants and conditions: `EntryConstsA`, `entryConsts`, `EntryCond`;
+  - stages: `entryStageA`, `stageL1`, `condL1`, `xSL1`;
+  - scheme and run: `schemeAL1`, `routeAOkL1`;
+  - closeness and body: `c2AL1`, `G1BodyAL1`;
+  - iso: `entryStageIA`, `stageIL1`, `xIL1`, `routeAOkIL1`, `c2IL1`, `c3IL1`, `schemeIAL1`, `IG1BodyAL1`;
+  - the six B10c targets (`sorry`): `schemeAL1_isNewton`, `routeAOkL1.runData`, `g1_v2A_l1`, `routeAOkIL1.runData`,
+    `schemeIAL1_isNewton`, `iso_g1_v2A_l1`.
+- **Planned modules.** `KAM/Sharp2/L1/EntryA.lean`, `KAM/Sharp2/L1/G1A.lean`, `KAM/Iso/Sharp2/L1/G1A.lean`.
+- **Route B is withdrawn** from the file until its interfaces are repaired (SHARP2-FIX, B4/B6). It gains only 0.1 orders
+  on R1, and the same repairs apply to it.
+
+| Finding | Disposition | Where |
+|---|---|---|
+| **F1** (HIGH) frame bypass with zero caps | **Fixed.** The frame option is `frame : Option FrameL1`, not a Boolean plus a positivity-triggered implication. `EntryA.Wf.frame`: `E.frame = some F → 0 < F.nuK ∧ 0 < F.nuN`. `EntryHypA.frame`: `E.frame = some F →` both `L1Mat` bounds. `none` keeps B9's sup rates. The increments are products with no division by `C_ΔK`: `dL = min (n·CDK) (e⁻¹(νK·CξL¹ + νN·g·CξN¹))` and `dLt = min (2n·CDK) (2n·e⁻¹(…))`. The python guard needs both caps positive: with νK = νN = 0 the frame row now equals the entry-only row (R1 fixed −10.42), not a bypass. | `entryConsts`, `EntryA.Wf`, `EntryHypA`; blueprint `bp:p2s2l1:constA`; `thresholds_v2.py` `stageA` |
+| **F2** (HIGH) zero budgets for Lt, N, Nt, torsion | **Fixed.** Initial values and caps are B9's separate arrays. Initial values are `initV I σK σB σT μ = ![0, σK−μ, σB−μ, σT−μ, I.iLt, I.iN, I.iNt, I.iH]`, where `RefHypA N I` bounds the initial objects by the `InitA` values. Caps are `N.capV (μ/2)`, with the larger caps `N.sLt, N.sN, N.sNt, N.t`. `routeAOkL1.J3` checks `m₀ i + Σ ≤ σ i` for all eight. **Positive witness** (python mirror, heuristic data): `free_budgets` sets initial = measured, cap = 1.05 × measured, budget = 0.05 × measured > 0 for B, ⟨T⟩⁻¹, Lt, N, Nt and |T|. The R1 ℓ¹ rows pass at log₁₀ e = −10.42 (entry) and −10.13 (with frame), fixed; −10.60 and −10.32, iso. They bind on the ⟨T⟩⁻¹ sum, so every other cap sum, including Lt, N, Nt and torsion, has slack there. The rows stay heuristic until the data are enclosed (F7). | `routeAOkL1`, `g1_v2A_l1` (`hOk`, `initV`, `capV`); `thresholds_v2.py` `with_caps`, `engine_A` |
+| **F3** (HIGH) iso signature used fixed-frequency stages and an arbitrary C₃ | **Fixed.** The iso stages are B9's `stageI` (9 rates, `Cp = C_Δω`) from stage 1. The entry is `entryStageIA`, built on `N.inp 0`, whose `iso`, `Θ`, `HY`, `Mh2` are those of `N`. `iso_g1_v2A_l1` assumes `hiso : N.iso = true`, `hΘ : N.Θ = σω‖ω*‖`, and `hHY : N.HY = Mh1·N.sN`, where `Y = DH(K)N` is bounded from ‖DH‖ ≤ Mh1 and the N cap. The body certifies `RefHypIA` (‖DH‖ ≤ Mh1, ‖D²H‖ ≤ Mh2). `schemeIAL1_isNewton` takes `hdH`, `hd2H`. C₃ is no longer free: it is `max sharpIsoC3 (max (c3I N XsA) (c3IL1 N E Xs))`, and `c3IL1` is the normalised complete frequency sum `Σ_s Cp_s …` of the run with the entry. The frequency cap is B9's `capI N (μ/2) (ν/2)`. No γ̄² enters C₂ or C₃. | `entryStageIA`, `stageIL1`, `routeAOkIL1`, `c3IL1`, `schemeIAL1(_isNewton)`, `IG1BodyAL1`, `iso_g1_v2A_l1` |
+| **F4** (HIGH) incomplete WF; engine applied at non-schedule bites | **Fixed.** The numerical package is `N.Wf ∧ E.Wf`: B9's full `NumA.Wf` (every range and sign, `0 < θ < 1`, `ρ∞ < ρ`, `τ ≥ 1`, …) plus the entry package. The small-divisor premises are B9's `NumA.Cert γ Ω` (`SDConst` at each schedule bite `N.δ s` and strip `N.r s`, and the tail) together with `EntryHypA.gam0`/`gamρ`, which are `Γ_∞` at the actual ω and the actual bites `N.δ 0` and `N.ρ`. The geometric and Hamiltonian premises are B9's: `Standing`, `hd1`/`hd2` against `N.M1`/`N.M2`, and `RefHypA`. The engine is B9's stage-indexed `SchemeA` with `IsNewton`/`RunData`. The stage index fixes the bite `N.δ s`, so no `schedIdx` and no arbitrary bite remain. `schemeAL1` is B9's `schemeA` whose stage-0 `Adm` also carries `EntryHypA`. `routeAOkL1.runData` is a stated target, not an assumption: it derives `RunData`'s `CE_nonneg`, `rate_nonneg`, `tail` (`1 ≤ kp`) and `down` (downward closure of `EntryCond`) from `N.Wf ∧ E.Wf`. | `EntryA.Wf`, `schemeAL1`, `schemeAL1_isNewton` (B9's `schemeA_isNewton` hypotheses plus `hE : E.Wf`), `routeAOkL1.runData` |
+| **F5** (MEDIUM) restart bite assumes the cap is inactive | **Fixed by keeping the original schedule.** The entry is stage 0 of B9's schedule `deltaSeq 3 ρ ρ∞`, and stage s ≥ 1 is B9's stage with bite `δ₀/2^s` (`NumA.δ_succ`). There is no restart from `ρ − 3δ₀` and no recomputed capped bite, so no condition on `ρ − ρ∞` is needed. | `stageL1`, `schemeAL1` (same `step`, same schedule); blueprint `bp:p2s2l1:engine`(a), (b) |
+| **F6** (MEDIUM) never-worse needs a scope; `t_R` vs `t` | **Fixed.** The final theorem has three branches, each with its own certificate: v1 (`sharpC1`), B9's sup route A at `X⋆_A` (`hOkA : routeAOk`), and the ℓ¹ entry at `X⋆` (`hOk : routeAOkL1`). `C₁ = min sharpC1 (min (c1A N XsA) (c1A N Xs))` and `C₂ = max …`, proved by cases on the branch whose smallness holds. The body `G1BodyAL1` is B9's `G1BodyA` plus `EntryHypA`, so the statement is never-worse for tori with certified entry data. Tori without entry data are covered by B9's `g1_v2A`; no implication from v1 data to the entry data is claimed. The average uses `min t tR`. With `E.frame = none` and the sup branch of every minimum, `entryConsts` equals B9's `rateV` and `Cond` constants (checked term by term; equal by `ring`). | `entryConsts` (`tavg`), `g1_v2A_l1`, `iso_g1_v2A_l1`; blueprint `bp:p2s2l1:never-worse`, `bp:p2s2l1:frozen` |
+| **F7** (MEDIUM) PlasmaLean margins are conditional | **Reworded.** §0 and §3, blueprint §intro and register (i), and the output of `dominance.py --plasmalean` now call them conditional comparisons of scalar error tolerances at assumed data. Reading (a) is against the ℓ¹ error-norm category. Reading (b) assumes the ratio 3.6 (from R1, not a measurement of PlasmaLean's torus) and reruns with a_N = a_L = 3.6, giving 0.53, not log₁₀ 3.6. The owner's dominance requirement is **not** established without a canonical chart, a transfer of the residual and norms, and enclosures. R1 rows stay heuristic despite the 1.05 padding. | this note, blueprint, `dominance.py` |
+
+**Conventions of the repaired data.** `EntryA` uses absolute ℓ¹ bounds: ‖ηᴺ‖_{1,ρ} ≤ aN·e and ‖ηᴸ‖_{1,ρ} ≤ aL·e. B10D's
+were relative to the caps (aN·σ_Lt·e), so `aN = a_N^{B10D}·σ_Lt` and `aL = a_L^{B10D}·σ_Nt`. The ℓ¹ solve constants enter
+as `G0·aN·g` with `g = γ̄δ₀^κ`; this is B10D's `c^∞_0 a_N σ_Lt`. The proved B10b `L1Data`/`L1Hyp` (B10D, verbatim) are
+not used by B10c; `EntryA`/`EntryHypA` supersede them. Their `G0h` (`Γ_∞` at δ₀/2) was used only by route B.
+
+**Left for B10c.**
+1. Prove the six targets.
+   - Stage 0 of `schemeAL1_isNewton` is B9's step run with the ℓ¹ ingredient bounds: the B10b solves, the full-bite
+     average, the defect bound, and the frame increment from `L1Mat.mulVec` and `L1Vec.norm_jac_le`. This is easiest
+     if B9's step is factored through its solve bounds (§6, item 2).
+2. Realign the python mirror's ℓ¹ path to `entryConsts` exactly: absolute aN and aL, products for the frame increment.
+   Then rerun the hand check of the audit.
+3. Supply enclosed entry data for any row that is to be more than heuristic.
