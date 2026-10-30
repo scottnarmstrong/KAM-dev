@@ -15,17 +15,14 @@ import Mathlib.Tactic.Linarith
 Blueprint `bp:p2s2l1:toolkit`(c) of `blueprint/parts/p2s2-l1hybrid.tex`.
 
 * The bridge `hasSum_fderiv_fourierSum_single`: on `T_ρ` the derivative of a Fourier series with
-    coefficients
-  summable at radius `2πρ` is the series of the termwise derivatives,
+  coefficients summable at radius `2πρ` is the series of the termwise derivatives,
   `∂_j ∑ₖ aₖ χₖ = ∑ₖ aₖ χₖ 2πi kⱼ` (the termwise differentiation of
-      `KAM.differentiableOn_fourierSum`, made explicit).
+  `KAM.differentiableOn_fourierSum`, made explicit).
 * `sum_norm_fderiv_fourierSum_le`: on `T_{r-δ}`, `∑ⱼ |∂ⱼ ∑ₖ aₖ χₖ| ≤ ‖a‖_{2πr}/(e δ)`, since
   `∑ⱼ 2π|kⱼ| e^{-2πδ|k|₁} = 2π|k|₁ e^{-2πδ|k|₁} ≤ 1/(e δ)` (`KAM.Fourier.mul_exp_radius_sub_le`).
 * `L1Vec.norm_jac_le` (factor `1/(e δ)`, against `n/δ` in sup norms), `L1Vec.norm_jac_transpose_le`
-    (factor
-  `p/(e δ)`), `L1Vec.norm_jac_antisymm_le` (factor `n/(e δ)`: the diagonal of `Df - (Df)ᵀ`
-      vanishes, which leaves
-  `1 + (n - 1)` row terms).
+  (factor `p/(e δ)`), `L1Vec.norm_jac_antisymm_le` (factor `n/(e δ)`: the diagonal of `Df - (Df)ᵀ`
+  vanishes, which leaves `1 + (n - 1)` row terms).
 -/
 
 @[expose] public noncomputable section
@@ -43,8 +40,8 @@ variable {n : ℕ}
 
 /-- The derivative of a Fourier series on the strip is the series of the termwise derivatives. -/
 theorem hasFDerivAt_fourierSum {ρ : ℝ} {a : (Fin n → ℤ) → ℂ}
-    (ha : Fourier.SummableWeighted (2 * Real.pi * ρ) a) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n ρ)
-        :
+    (ha : Fourier.SummableWeighted (2 * Real.pi * ρ) a) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n ρ) :
     HasFDerivAt (fourierSum a)
         (∑' k, a k • (character k θ • ((2 * Real.pi * Complex.I : ℂ) • modeForm k))) θ ∧
       Summable fun k => a k • (character k θ • ((2 * Real.pi * Complex.I : ℂ) • modeForm k)) := by
@@ -127,8 +124,8 @@ theorem two_pi_modeSize_mul_exp_le {r δ : ℝ} (hδ : 0 < δ) (k : Fin n → �
   rw [hexp] at hM
   have hpi : 0 < 2 * Real.pi := by positivity
   calc 2 * Real.pi * Fourier.modeSize k * Real.exp (2 * Real.pi * (r - δ) * Fourier.modeSize k)
-      = 2 * Real.pi * (Fourier.modeSize k * Real.exp (2 * Real.pi * (r - δ) * Fourier.modeSize k))
-          := by
+      = 2 * Real.pi *
+          (Fourier.modeSize k * Real.exp (2 * Real.pi * (r - δ) * Fourier.modeSize k)) := by
         ring
     _ ≤ 2 * Real.pi * (Real.exp (-1) / (2 * Real.pi * δ) *
           Real.exp (2 * Real.pi * r * Fourier.modeSize k)) :=
@@ -146,8 +143,8 @@ theorem sum_norm_fderiv_fourierSum_le {r δ : ℝ} (hδ : 0 < δ) {a : (Fin n �
       Fourier.weightedNorm (2 * Real.pi * r) a / (Real.exp 1 * δ) := by
   have hθr : θ ∈ complexStrip n r := fun i => (hθ i).trans_le (by linarith)
   set t : (Fin n → ℤ) → Fin n → ℝ := fun k j =>
-    ‖a k‖ * Real.exp (2 * Real.pi * (r - δ) * Fourier.modeSize k) * (2 * Real.pi * |(k j : ℝ)|)
-        with ht
+    ‖a k‖ * Real.exp (2 * Real.pi * (r - δ) * Fourier.modeSize k) *
+      (2 * Real.pi * |(k j : ℝ)|) with ht
   have hw : ∀ k, ∑ j, t k j ≤
       ‖a k‖ * Real.exp (2 * Real.pi * r * Fourier.modeSize k) / (Real.exp 1 * δ) := fun k => by
     have hsum : ∑ j, t k j = ‖a k‖ * (2 * Real.pi * Fourier.modeSize k *
@@ -189,10 +186,10 @@ theorem sum_norm_fderiv_fourierSum_le {r δ : ℝ} (hδ : 0 < δ) {a : (Fin n �
 /-! ### Jacobians of ℓ¹ data -/
 
 /-- The entries of the Jacobian of ℓ¹ data are the derivatives of the Fourier series of the
-    components. -/
+components. -/
 theorem jac_apply_eq_fderiv_fourierSum {ι : Type*} [Fintype ι] {r : ℝ} (hr : 0 < r)
-    {f : (Fin n → ℂ) → ι → ℂ} (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f
-        r)
+    {f : (Fin n → ℂ) → ι → ℂ} (hf : DifferentiableOn ℂ f (complexStrip n r))
+    (hfp : IsPeriodicOn f r)
     (hs : ∀ i, Fourier.SummableWeighted (2 * Real.pi * r) (coeffR f i)) {θ : Fin n → ℂ}
     (hθ : θ ∈ complexStrip n r) (i : ι) (j : Fin n) :
     jac f θ i j = fderiv ℂ (fourierSum (coeffR f i)) θ (Pi.single j 1) := by
@@ -209,10 +206,10 @@ theorem jac_apply_eq_fderiv_fourierSum {ι : Type*} [Fintype ι] {r : ℝ} (hr :
   simp [jac]
 
 /-- The row sums of the Jacobian of ℓ¹ data on `T_{r-δ}`. -/
-theorem L1Vec.sum_norm_jac_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f : (Fin n → ℂ) → ι → ℂ} (hδ : 0
-    < δ)
-    (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f r)
-    (h : L1Vec r f A) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n (r - δ)) (i : ι) :
+theorem L1Vec.sum_norm_jac_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f : (Fin n → ℂ) → ι → ℂ}
+    (hδ : 0 < δ) (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r))
+    (hfp : IsPeriodicOn f r) (h : L1Vec r f A) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n (r - δ)) (i : ι) :
     ∑ j, ‖jac f θ i j‖ ≤ A / (Real.exp 1 * δ) := by
   have hr : 0 < r := hδ.trans hδr
   have hθr : θ ∈ complexStrip n r := fun l => (hθ l).trans_le (by linarith)
@@ -223,31 +220,30 @@ theorem L1Vec.sum_norm_jac_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f : (Fin
     (div_le_div_of_nonneg_right (h.2 i).2 (by positivity))
 
 /-- Blueprint `bp:p2s2l1:toolkit`(c): the row-sum ℓ¹ Cauchy estimate `|Df| ≤ ‖f‖_{1,r}/(e δ)` on
-    `T_{r-δ}`. -/
+`T_{r-δ}`. -/
 theorem L1Vec.norm_jac_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f : (Fin n → ℂ) → ι → ℂ} (hδ : 0 < δ)
-    (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f r) (h :
-        L1Vec r f A) :
+    (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f r)
+    (h : L1Vec r f A) :
     ∀ θ ∈ complexStrip n (r - δ), ‖jac f θ‖ ≤ A / (Real.exp 1 * δ) := fun θ hθ =>
   (norm_le_iff_forall_rowSum (div_nonneg h.1 (by positivity))).2 fun i =>
     L1Vec.sum_norm_jac_le hδ hδr hf hfp h hθ i
 
 /-- Every entry of the Jacobian of ℓ¹ data is at most `A/(e δ)` on `T_{r-δ}`. -/
-theorem L1Vec.norm_jac_entry_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f : (Fin n → ℂ) → ι → ℂ} (hδ :
-    0 < δ)
-    (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f r)
-    (h : L1Vec r f A) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n (r - δ)) (i : ι) (j : Fin n) :
+theorem L1Vec.norm_jac_entry_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f : (Fin n → ℂ) → ι → ℂ}
+    (hδ : 0 < δ) (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r))
+    (hfp : IsPeriodicOn f r) (h : L1Vec r f A) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n (r - δ)) (i : ι) (j : Fin n) :
     ‖jac f θ i j‖ ≤ A / (Real.exp 1 * δ) :=
   (Finset.single_le_sum (f := fun j => ‖jac f θ i j‖) (fun _ _ => norm_nonneg _)
     (Finset.mem_univ j)).trans (L1Vec.sum_norm_jac_le hδ hδr hf hfp h hθ i)
 
-/-- Blueprint `bp:p2s2l1:toolkit`(c): the transpose, `|(Df)ᵀ| ≤ p ‖f‖_{1,r}/(e δ)` (`p`
-    components). -/
+/-- Blueprint `bp:p2s2l1:toolkit`(c): the transpose, `|(Df)ᵀ| ≤ p ‖f‖_{1,r}/(e δ)`
+(`p` components). -/
 theorem L1Vec.norm_jac_transpose_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f : (Fin n → ℂ) → ι → ℂ}
-    (hδ : 0 < δ)
-    (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f r) (h :
-        L1Vec r f A) :
-    ∀ θ ∈ complexStrip n (r - δ), ‖(jac f θ)ᵀ‖ ≤ Fintype.card ι * A / (Real.exp 1 * δ) := fun θ hθ
-        => by
+    (hδ : 0 < δ) (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r))
+    (hfp : IsPeriodicOn f r) (h : L1Vec r f A) :
+    ∀ θ ∈ complexStrip n (r - δ), ‖(jac f θ)ᵀ‖ ≤ Fintype.card ι * A / (Real.exp 1 * δ) := by
+  intro θ hθ
   have hA : 0 ≤ A / (Real.exp 1 * δ) := div_nonneg h.1 (by positivity)
   refine (norm_le_iff_forall_rowSum (by rw [mul_div_assoc]; positivity)).2 fun j => ?_
   calc ∑ i, ‖(jac f θ)ᵀ j i‖ = ∑ i, ‖jac f θ i j‖ := by simp [Matrix.transpose_apply]
@@ -257,11 +253,11 @@ theorem L1Vec.norm_jac_transpose_le {ι : Type*} [Fintype ι] {r δ A : ℝ} {f 
         rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_div_assoc]
 
 /-- Blueprint `bp:p2s2l1:toolkit`(c): the antisymmetric part, `|Df - (Df)ᵀ| ≤ n ‖f‖_{1,r}/(e δ)`. -/
-theorem L1Vec.norm_jac_antisymm_le {r δ A : ℝ} {f : (Fin n → ℂ) → Fin n → ℂ} (hδ : 0 < δ) (hδr : δ
-    < r)
-    (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f r) (h : L1Vec r f A) :
-    ∀ θ ∈ complexStrip n (r - δ), ‖jac f θ - (jac f θ)ᵀ‖ ≤ n * A / (Real.exp 1 * δ) := fun θ hθ =>
-        by
+theorem L1Vec.norm_jac_antisymm_le {r δ A : ℝ} {f : (Fin n → ℂ) → Fin n → ℂ} (hδ : 0 < δ)
+    (hδr : δ < r) (hf : DifferentiableOn ℂ f (complexStrip n r)) (hfp : IsPeriodicOn f r)
+    (h : L1Vec r f A) :
+    ∀ θ ∈ complexStrip n (r - δ), ‖jac f θ - (jac f θ)ᵀ‖ ≤ n * A / (Real.exp 1 * δ) := by
+  intro θ hθ
   set c := A / (Real.exp 1 * δ) with hc
   have hc0 : 0 ≤ c := div_nonneg h.1 (by positivity)
   have hnA : n * A / (Real.exp 1 * δ) = n * c := by rw [hc, mul_div_assoc]

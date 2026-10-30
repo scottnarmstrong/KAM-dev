@@ -17,22 +17,17 @@ Blueprint `bp:p2s2l1:solve` of `blueprint/parts/p2s2-l1hybrid.tex`, for the vect
 `KAM.Apost.cohR` (componentwise `KAM.cohSolution`).
 
 * `l1_cohR` (a): `‖𝓡g‖_{1,r-δ} ≤ Γ_∞(ω, δ) ‖g‖_{1,r}` and the sup bound on `T_{r-δ}`: the vector
-    clauses of the
-  SHARP-L9 estimate (`KAM.summableWeighted_cohSolutionPi_l1`, `KAM.norm_cohSolutionPi_l1_le`).
-      These are
-  coefficient estimates; the holomorphy, periodicity and zero average of `g` in the signature are
-      not used.
+  clauses of the SHARP-L9 estimate (`KAM.summableWeighted_cohSolutionPi_l1`,
+  `KAM.norm_cohSolutionPi_l1_le`). These are coefficient estimates; the holomorphy, periodicity and
+  zero average of `g` in the signature are not used.
 * `l1_cohR_real` (b): the full bite at real points, `|𝓡g(x)| ≤ Γ_∞(ω, r) ‖g‖_{1,r}` for `x ∈ ℝⁿ`.
-    The coefficient
-  estimate at the target radius `0` (`KAM.summableWeighted_solve_sup`, which needs no `δ < r`) and
-      the bound of an
-  absolutely convergent Fourier series at real points (`norm_fourierSum_real_le`).
-* `smallDivisorSup_smul_le` (c): `Γ_∞(sω, δ) ≤ Γ_∞(ω, δ)` for `s ≥ 1` (each term scales by `1/s`;
-    no Diophantine
-  premise: if the terms are unbounded both suprema are `0`).
+  The coefficient estimate at the target radius `0` (`KAM.summableWeighted_solve_sup`, which needs
+  no `δ < r`) and the bound of an absolutely convergent Fourier series at real points
+  (`norm_fourierSum_real_le`).
+* `smallDivisorSup_smul_le` (c): `Γ_∞(sω, δ) ≤ Γ_∞(ω, δ)` for `s ≥ 1` (each term scales by `1/s`; no
+  Diophantine premise: if the terms are unbounded both suprema are `0`).
 * `differentiableOn_cohR_l1`, `isPeriodicOn_cohR`: the solution of ℓ¹ data is holomorphic on
-    `T_{r-δ}` (it is the
-  Fourier series of its summable coefficients) and `1`-periodic.
+  `T_{r-δ}` (it is the Fourier series of its summable coefficients) and `1`-periodic.
 -/
 
 @[expose] public noncomputable section
@@ -59,7 +54,7 @@ theorem l1_cohR {τ γ δ r A : ℝ} {ω : Fin n → ℝ} (hω : IsDiophantine �
     fun _ hθ => norm_cohSolutionPi_l1_le hω hγ hτ hδ hδr hA.1 hA.2 hθ⟩
 
 /-- An absolutely convergent Fourier series is bounded at real points by the sum of its
-    coefficients. -/
+coefficients. -/
 theorem norm_fourierSum_real_le {b : (Fin n → ℤ) → ℂ} (hb : Fourier.SummableWeighted 0 b)
     (x : Fin n → ℝ) : ‖fourierSum b (fun j => (x j : ℂ))‖ ≤ Fourier.weightedNorm 0 b := by
   unfold fourierSum
@@ -68,11 +63,10 @@ theorem norm_fourierSum_real_le {b : (Fin n → ℤ) → ℂ} (hb : Fourier.Summ
   simp
 
 /-- Blueprint `bp:p2s2l1:solve`(b): the full bite, at real points. -/
-theorem l1_cohR_real {τ γ r A : ℝ} {ω : Fin n → ℝ} (hω : IsDiophantine γ τ ω) (hγ : 0 < γ) (hτ : 0
-    ≤ τ)
-    (hr : 0 < r) {p : ℕ} {g : (Fin n → ℂ) → Fin p → ℂ} (_hg : DifferentiableOn ℂ g (complexStrip n
-        r))
-    (_hgp : IsPeriodicOn g r) (_hg0 : avg g = 0) (hA : L1Vec r g A) :
+theorem l1_cohR_real {τ γ r A : ℝ} {ω : Fin n → ℝ} (hω : IsDiophantine γ τ ω) (hγ : 0 < γ)
+    (hτ : 0 ≤ τ) (hr : 0 < r) {p : ℕ} {g : (Fin n → ℂ) → Fin p → ℂ}
+    (_hg : DifferentiableOn ℂ g (complexStrip n r)) (_hgp : IsPeriodicOn g r) (_hg0 : avg g = 0)
+    (hA : L1Vec r g A) :
     ∀ x : Fin n → ℝ, ‖cohR ω g (fun i => (x i : ℂ))‖ ≤ smallDivisorSup ω r * A := by
   intro x
   refine (pi_norm_le_iff_of_nonneg (mul_nonneg (smallDivisorSup_nonneg ω r) hA.1)).mpr fun l => ?_

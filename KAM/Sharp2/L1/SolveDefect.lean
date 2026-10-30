@@ -21,17 +21,15 @@ import Mathlib.Tactic.Linarith
 Blueprint `bp:p2s2l1:defect` of `blueprint/parts/p2s2-l1hybrid.tex`.
 
 * `lagrangeMat_eq_neg_antisymm`: `Ω_K = -(Du - (Du)ᵀ)` on `T_{r-δ}` with `u = 𝓡ηᴺ`. Both sides are
-    holomorphic,
-  periodic and of zero average (exactness, `KAM.Apost.exactness`; derivatives of periodic maps), and
-  `∂_ω Ω_K = -(Dηᴺ - (Dηᴺ)ᵀ)` (the sign of `KAM.Sharp2.fderiv_lagrangeMat_eq_etaN`) while
-  `∂_ω Du = D ∂_ω u = Dηᴺ` (symmetry of the second derivative,
-      `KAM.fderiv_apply_comm_of_differentiableOn`).
-  The difference is killed by the a-priori clause of `KAM.Apost.cohomological` with `H = 0`. The
-      data `ηᴺ` is
-  bounded on every narrower strip (`KAM.periodic_bounded`), so the sup solve applies on `T_{r-δ/4}`.
+  holomorphic, periodic and of zero average (exactness, `KAM.Apost.exactness`; derivatives of
+  periodic maps), and `∂_ω Ω_K = -(Dηᴺ - (Dηᴺ)ᵀ)` (the sign of
+  `KAM.Sharp2.fderiv_lagrangeMat_eq_etaN`) while `∂_ω Du = D ∂_ω u = Dηᴺ` (symmetry of the second
+  derivative, `KAM.fderiv_apply_comm_of_differentiableOn`). The difference is killed by the a-priori
+  clause of `KAM.Apost.cohomological` with `H = 0`. The data `ηᴺ` is bounded on every narrower strip
+  (`KAM.periodic_bounded`), so the sup solve applies on `T_{r-δ/4}`.
 * `norm_lagrangeMat_le_l1`: `|Ω_K| ≤ n Γ_∞(ω, δ) ε¹_N/(e δ')` on `T_{r-δ-δ'}`, from the identity,
-    the ℓ¹ solve
-  (`l1_cohR`) and the antisymmetric row-sum Cauchy estimate (`L1Vec.norm_jac_antisymm_le`).
+  the ℓ¹ solve (`l1_cohR`) and the antisymmetric row-sum Cauchy estimate
+  (`L1Vec.norm_jac_antisymm_le`).
 -/
 
 @[expose] public noncomputable section
@@ -81,8 +79,8 @@ theorem fderiv_component {ι : Type*} [Fintype ι] {g : (Fin n → ℂ) → ι �
 theorem fderiv_jac_apply {ι : Type*} [Fintype ι] {U : Set (Fin n → ℂ)} (hU : IsOpen U)
     {f : (Fin n → ℂ) → ι → ℂ} (hf : DifferentiableOn ℂ f U) {θ : Fin n → ℂ} (hθ : θ ∈ U)
     (v : Fin n → ℂ) :
-    fderiv ℂ (jac f) θ v = Matrix.of fun i j => fderiv ℂ (fun x => fderiv ℂ f x v) θ (Pi.single j
-        1) i := by
+    fderiv ℂ (jac f) θ v =
+      Matrix.of fun i j => fderiv ℂ (fun x => fderiv ℂ f x v) θ (Pi.single j 1) i := by
   have hg : DifferentiableAt ℂ (fderiv ℂ f) θ :=
     (differentiableOn_fderiv_of_isOpen hU hf).differentiableAt (hU.mem_nhds hθ)
   have h1 : fderiv ℂ (jac f) θ = jacCLM.comp (fderiv ℂ (fderiv ℂ f) θ) := by
@@ -103,8 +101,8 @@ theorem fderiv_jac_apply {ι : Type*} [Fintype ι] {U : Set (Fin n → ℂ)} (hU
 /-- Blueprint `bp:p2s2l1:defect`, identity: `Ω_K = -(Du - (Du)ᵀ)` with `u = 𝓡ηᴺ` (sign of
 `KAM.Sharp2.fderiv_lagrangeMat_eq_etaN`). -/
 theorem lagrangeMat_eq_neg_antisymm {τ M σK σB σT γ r δ : ℝ} {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
-    {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n →
-        ℂ)}
+    {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ}
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hS : Standing n τ M σK σB σT 𝔅 h ω γ) (hδ : 0 < δ) (hδr : δ < r)
     (hK : DifferentiableOn ℂ K (complexStrip n r)) (hKp : IsPrimaryOnStrip K r)
     (hK𝔅 : ∀ θ ∈ complexStrip n r, K θ ∈ 𝔅)
@@ -182,8 +180,8 @@ theorem lagrangeMat_eq_neg_antisymm {τ M σK σB σT γ r δ : ℝ} {𝔅 : Set
     have hsplit : ∫ x in Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
         (lagrangeMat K (fun l => (x l : ℂ)) i j +
           (jac u (fun l => (x l : ℂ)) i j - jac u (fun l => (x l : ℂ)) j i)) =
-        (∫ x in Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1), lagrangeMat K (fun l => (x l
-            : ℂ)) i j) +
+        (∫ x in Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1),
+            lagrangeMat K (fun l => (x l : ℂ)) i j) +
           ((∫ x in Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1), jac u (fun l => (x l : ℂ))
               i j) -
             ∫ x in Set.pi Set.univ (fun _ : Fin n => Set.Icc (0 : ℝ) 1), jac u (fun l => (x l : ℂ))
@@ -232,15 +230,15 @@ theorem lagrangeMat_eq_neg_antisymm {τ M σK σB σT γ r δ : ℝ} {𝔅 : Set
 
 /-- Blueprint `bp:p2s2l1:defect`, bound: `|Ω_K| ≤ n Γ_∞(ω, δ) ε¹_N/(e δ')` on `T_{r-δ-δ'}`. -/
 theorem norm_lagrangeMat_le_l1 {τ M σK σB σT γ r δ δ' εN : ℝ} {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
-    {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n →
-        ℂ)}
+    {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {ω : Fin n → ℝ}
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hS : Standing n τ M σK σB σT 𝔅 h ω γ) (hδ : 0 < δ) (hδ' : 0 < δ') (hδr : δ + δ' < r)
     (hK : DifferentiableOn ℂ K (complexStrip n r)) (hKp : IsPrimaryOnStrip K r)
-    (hK𝔅 : ∀ θ ∈ complexStrip n r, K θ ∈ 𝔅) (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K
-        θ).det)
+    (hK𝔅 : ∀ θ ∈ complexStrip n r, K θ ∈ 𝔅)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det)
     (hηN : L1Vec r (etaN h K ω) εN) :
-    ∀ θ ∈ complexStrip n (r - δ - δ'), ‖lagrangeMat K θ‖ ≤ n / (Real.exp 1 * δ') * smallDivisorSup
-        ω δ * εN := by
+    ∀ θ ∈ complexStrip n (r - δ - δ'),
+      ‖lagrangeMat K θ‖ ≤ n / (Real.exp 1 * δ') * smallDivisorSup ω δ * εN := by
   intro θ hθ
   have hr : 0 < r := by linarith
   have hδr' : δ < r := by linarith

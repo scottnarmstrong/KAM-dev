@@ -100,9 +100,8 @@ theorem convolution_eq_tsum (a b : (Fin n → ℤ) → ℂ) :
 /-! ### The product bridge -/
 
 /-- **Coefficients of a product.** For `u, v` holomorphic and `1`-periodic on `T_r` with
-    coefficients
-summable at radius `2πr`, the coefficients of `u v` on `ℝⁿ` are the convolution of those of `u` and
-    `v`. -/
+coefficients summable at radius `2πr`, the coefficients of `u v` on `ℝⁿ` are the convolution of
+those of `u` and `v`. -/
 theorem torusCoeff_mul_eq_convolution {r : ℝ} (hr : 0 < r) {u v : (Fin n → ℂ) → ℂ}
     (hu : DifferentiableOn ℂ u (complexStrip n r)) (hup : IsPeriodicOn u r)
     (hv : DifferentiableOn ℂ v (complexStrip n r)) (hvp : IsPeriodicOn v r)
@@ -147,10 +146,9 @@ theorem summableWeighted_finset_sum {ι : Type*} (t : Finset ι) {s : ℝ} {c : 
 /-! ### Matrix times vector (`bp:p2s2l1:toolkit`(b)) -/
 
 /-- Blueprint `bp:p2s2l1:toolkit`(b): the Wiener product, matrix times vector. -/
-theorem L1Mat.mulVec {ι κ : Type*} [Fintype ι] [Fintype κ] {r A B : ℝ} {M : (Fin n → ℂ) → Matrix ι
-    κ ℂ}
-    {v : (Fin n → ℂ) → κ → ℂ} (hr : 0 < r) (hM : DifferentiableOn ℂ M (complexStrip n r)) (hMp :
-        IsPeriodicOn M r)
+theorem L1Mat.mulVec {ι κ : Type*} [Fintype ι] [Fintype κ] {r A B : ℝ}
+    {M : (Fin n → ℂ) → Matrix ι κ ℂ} {v : (Fin n → ℂ) → κ → ℂ} (hr : 0 < r)
+    (hM : DifferentiableOn ℂ M (complexStrip n r)) (hMp : IsPeriodicOn M r)
     (hv : DifferentiableOn ℂ v (complexStrip n r)) (hvp : IsPeriodicOn v r) (hMA : L1Mat r M A)
     (hvB : L1Vec r v B) : L1Vec r (fun θ => M θ *ᵥ v θ) (A * B) := by
   have hs : 0 ≤ 2 * Real.pi * r := by positivity
