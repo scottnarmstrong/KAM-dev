@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 12:11 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **286,347 lines of Lean** of an estimated ≈ 289,000
+> **Last updated: 2026-10-30 12:12 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **286,347 lines of Lean** of an estimated ≈ 289,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -248,7 +248,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 12:11 UTC from `main` at `16179907` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 12:12 UTC from `main` at `54d944cb` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -426,6 +426,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 12:12 | `54d944cb` | D38: lunar barriers at N = 65 (band about 2.71 %) |
 | 2026-10-30 12:03 | `16179907` | Land inp into main |
 | 2026-10-30 11:53 | `55c0c980` | Log: 11:53 |
 | 2026-10-30 11:52 | `04d675cc` | Log: 11:52 (sub-orchestrator rotated) |
@@ -437,7 +438,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 11:40 | `dfae4a77` | Land apost-sharp into main: the sharp a-posteriori theorems and the sharp KAM certifier |
 | 2026-10-30 11:29 | `b7e9d833` | Log: 11:29 (SO-PACKFIX in audit, SO-DATA-2 round 2) |
 | 2026-10-30 11:19 | `71a84a89` | Overnight log: 11:19 (packed fix measured) |
-| 2026-10-30 10:51 | `005adf75` | Docs: Rüssmann's theorem as a main result (README main theorem 3, track R, D35) |
 <!-- /AUTO:landed -->
 
 ## Decisions
