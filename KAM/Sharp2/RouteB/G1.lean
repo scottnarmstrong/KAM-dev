@@ -301,7 +301,7 @@ theorem g1_branch_B (hN : N.Wf) (hfix : N.iso = false) (hτ : (n : ℝ) - 1 ≤ 
 
 /-- Blueprint `bp:p2s2:g1` / `bp:p2s2:frozen-form`, route B, refined: `C₁ = min {C₁♯, c1B}`,
 `C₂ = max {C₂♯, c2B}`, by cases on the branch of the minimum (audit F6). Never worse than v1. -/
-theorem g1_v2B (hN : N.Wf) (hfix : N.iso = false) (hτ : (n : ℝ) - 1 ≤ N.τ)
+theorem g1_v2B {n : ℕ} {N : NumB n} (hN : N.Wf) (hfix : N.iso = false) (hτ : (n : ℝ) - 1 ≤ N.τ)
     {M σK σB σT μ γbar Xs : ℝ} (I : InitB) (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB)
     (hσT : 0 < σT) (hμ : 0 < μ) (hγbar : γbar = N.γb) (hsK : N.sK = σK - μ / 2)
     (hsB : σB - μ < N.sB) (hI : I.Wf N σT μ) (hfit : N.Fits I)
@@ -352,11 +352,10 @@ theorem g1_v2B (hN : N.Wf) (hfix : N.iso = false) (hτ : (n : ℝ) - 1 ≤ N.τ)
 
 
 /-- Never worse than v1. -/
-theorem c1B_min_le_sharpC1 (N : NumB n) (I : InitB) {M σK σB σT μ γbar Xs : ℝ} :
+theorem c1B_min_le_sharpC1 {n : ℕ} (N : NumB n) (I : InitB) {M σK σB σT μ γbar Xs : ℝ} :
     min (sharpC1 n N.τ (cohConstR n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf) (c1B N I Xs) ≤
       sharpC1 n N.τ (cohConstR n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf :=
   min_le_left _ _
-
 
 end KAM.Sharp2.RouteB
 

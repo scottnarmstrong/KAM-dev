@@ -19,9 +19,9 @@ SHARP2-B4B, with the torsion data of `RunHyp.tors`) gives a flagged state of sta
 the engine's updates of the strip, the ball, the weighted error `Q_s μ²/(γ δ_s^{τ+1})` and the cap
 values, and the displacement `|K̄ - K| ≤ C_ΔK μ/(γ δ_s^τ)`.
 
-The new weighted error with the weights of stage `s + 1` (`λ = 1`, `γ δ_{s+1}^τ`): `|η̄ᴸ| ≤ Q_L μ²/(γ
-δ^{τ+1})` and `|η̄ᴺ| ≤ Q̄_N μ²/δ = a^τ Q̄_N γ δ_{s+1}^τ μ²/(γ δ^{τ+1})`, both `≤ Q · …` with
-`Q = max {Q_L, a^τ Q̄_N}`.
+The new weighted error with the weights of stage `s + 1` (`λ = 1`, `γ δ_{s+1}^τ`):
+`|η̄ᴸ| ≤ Q_L μ²/(γ δ^{τ+1})` and `|η̄ᴺ| ≤ Q̄_N μ²/δ = a^τ Q̄_N γ δ_{s+1}^τ μ²/(γ δ^{τ+1})`, both
+`≤ Q · …` with `Q = max {Q_L, a^τ Q̄_N}`.
 -/
 
 @[expose] public noncomputable section

@@ -226,7 +226,8 @@ variable (R : RunHyp N 𝔅 h ω Ω γ σT μm K0)
 include R
 
 /-- `bp:p2s2:torsion-local` and `bp:p2s2:torsion-ref` at a flagged stage torus: the torsion bound
-on `T_{r_s-δ_s}` and the twist bound `|⟨T⟩⁻¹| ≤ σ̂_T`, with the local part `|⟨T⟩ - ⟨𝒯_ab⟩| ≤ b_F`. -/
+on `T_{r_s-δ_s}` and the twist bound `|⟨T⟩⁻¹| ≤ σ̂_T`, with the local part
+`|⟨T⟩ - ⟨𝒯_ab⟩| ≤ b_F`. -/
 theorem tors {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hG : Good N 𝔅 h ω γ Xi K0 s (N.r s) β w m K)
     (hcond : stepCondB (N.inp s) (w / (γ * N.δ s ^ (N.τ + 1))))
