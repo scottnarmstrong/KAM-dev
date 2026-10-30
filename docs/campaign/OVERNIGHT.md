@@ -1636,3 +1636,16 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - The `directItems` equality argument for strictly ordered rows holds, with a padding qualification, but is not
     proved in Lean. SO-DATA3's mirror follows the tree order exactly, so it is bit-safe.
   - With BALLDY/BALLFIX already on main, both D39 checker fixes are then landed. SO-DATA3 needs no rework.
+- **Lock (kam-inp-24): LOCK-SQRT passed (audit 2 PASS WITH NOTES; sqrt-free checker values bit-exact). LOCK-GEN-2
+  done: a cost signal for owner review.**
+  - The N = 65 librational certificate under the v2 refined route has threshold 10^−18.0 (not the projected 10^−12),
+    because the disc pass `Slp.balls` overestimates the Hamiltonian claims 70–300× on the polar Hamiltonian.
+  - Achieved: diamond support 90 × 18, residual 5e-20, err/threshold 10^−1.0.
+  - Projected kernel cost is 12–100 CPU-h for one torus (R2: 1.4–3.6 for its pair), and the 10 GB per-probe cap is at
+    risk.
+  - **For owner review:**
+    - *Question:* proceed at this cost, or first build a sharper Ham pass (angle cells / BallsTrig through exp; a
+      checker change worth about 2.5 decades and about half the cost)?
+    - *Choice for now (reversible):* both in parallel. LOCK-DATA proceeds with pruned composition, and the
+      lean `lockHamExpr` variant is evaluated. A design note prices the sharper Ham pass before any checker change.
+  - Deviation reported by the worker: one `pkill -f` on its own job (forbidden pattern; no other process affected).
