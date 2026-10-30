@@ -1400,11 +1400,13 @@ public import KAM.Sharp.TorsionPoly
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
+public import KAM.SpinOrbit.Graph.CertSharp
 public import KAM.SpinOrbit.Graph.Inverse
 public import KAM.SpinOrbit.Graph.Rot
 public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.LunarAssembly
+public import KAM.SpinOrbit.LunarAssemblySharp
 public import KAM.SpinOrbit.LunarParams
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
