@@ -128,7 +128,8 @@ def package(O, norms, regime, A, lam, c, rho, mu, s1=1e-6, rhoinf_frac=1e-3, sup
     pkg = dict(A=[list(a) for a in A], lam=lam, c=c, rho=rho, rhoinf=rho * rhoinf_frac, mu=mu, s=s,
                nu=s1 * nrm * (1 - 1e-9), sigma_omega=2.0, gamma=gamma,
                M=M * fac, sK=r["sK"] * fac + mu, sB=r["sB"] * fac + mu, sT=norms["tinv"] / c * (1.0005 if regime != "l1" else 1.0) + mu,
-               e=c * r["eta"] * fac, regime=regime, Hparts={k: float(v) for k, v in parts.items()})
+               e=c * r["eta"] * fac, regime=regime, Hparts={k: float(v) * fac for k, v in parts.items()},
+               omega_star=[float(x) for x in c * om / s])
     if theorem == "v1L2":
         d0 = (rho - pkg["rhoinf"]) / 6
         pkg["cR_eff"] = gamma_spec(c * om / s, d0) * gamma * d0
@@ -229,9 +230,84 @@ def reproduce(O):
     return out
 
 
+def ladder(O, theorems=("v0", "v1", "v1L2")):
+    """Cumulative checker-side levers at the fixed R1 package (rotated frame, rho = 1/70, mu = 1/160,
+    c = 237/125, s = 1 + 10^-6): T/e in orders after each step."""
+    A = ROT; lam = 1.0; rho = 1 / 70; mu = 1 / 160; c = 237 / 125; s1 = 1e-6
+    nm = O.norms(np.array(A, float), lam, rho)
+    steps = []
+
+    def mk(regime, trig, gam_cert, eta_regime=None, sK_regime=None, sB_regime=None):
+        r = nm[regime]
+        M, _ = O.H_majorant(A, lam, c, rho, mu, r, trig=trig)
+        s = 1 + s1
+        gam0 = dioph_gamma(A, O.om) if gam_cert else 1 / 42
+        pkg = dict(A=[list(a) for a in A], lam=lam, c=c, rho=rho, rhoinf=rho / 1000, mu=mu, s=s,
+                   nu=s1 * c / s * (1 - 1e-9), sigma_omega=2.0, gamma=c * gam0 / s, M=M,
+                   sK=nm[sK_regime or regime]["sK"] + mu, sB=nm[sB_regime or regime]["sB"] + mu,
+                   sT=nm["tinv"] / c + mu, e=c * nm[eta_regime or regime]["eta"])
+        d0 = (rho - pkg["rhoinf"]) / 6
+        pkg["cR_eff"] = gamma_spec(c * np.array(O.om) / s, d0) * pkg["gamma"] * d0
+        return pkg
+
+    steps.append(("checker as landed (l1, disc trig, gamma 1/42)", mk("l1", "disc", False)))
+    steps.append(("+ corner bound on e only", mk("l1", "disc", False, eta_regime="corner")))
+    steps.append(("+ corner bound on sK, sB, iota (all models)", mk("corner", "disc", False)))
+    steps.append(("+ cosh trig primitive in the ball pass (M)", mk("corner", "cosh", False)))
+    steps.append(("+ certified gamma* (exact infimum)", mk("corner", "cosh", True)))
+    steps.append(("+ sampled sup (grid + interpolation, P2)", mk("sup", "cosh", True)))
+    out = []
+    for name, pkg in steps:
+        row = [name]
+        for t in theorems:
+            T, le, ratio, br = evaluate(pkg, t)
+            row.append((round(T, 2), round(le, 2), round(ratio, 2), br))
+        out.append(row)
+    return out
+
+
+def v2opt(O, A=ROT, lam=1.0, start=None, regime="corner", log=print):
+    """Coordinate search of (c, rho, mu, s - 1) under SHARP-PLUS's v2 mirror (v2_adapter.py), frame fixed."""
+    import v2_adapter as V2
+    cur = dict(start or dict(c=7 / 4, rho=1 / 70, mu=1 / 160, s1=1e-6))
+    cacheX = {}
+
+    def ev(p):
+        nm = O.norms(np.array(A, float), lam, p["rho"], regimes=(regime,))
+        pkg = package(O, nm, regime, A, lam, p["c"], p["rho"], p["mu"], s1=p["s1"])
+        key = (round(p["c"], 10), round(p["rho"], 12))
+        if key not in cacheX:
+            cacheX[key] = V2.extras(O, A, lam, p["c"], p["rho"])
+        pkg["extras"] = cacheX[key]
+        T = V2.log10_threshold(pkg)
+        return T, math.log10(pkg["e"]), pkg
+    T, le, pkg = ev(cur)
+    first = dict(cur, T=T, log10e=le, ratio=T - le)
+    log("  v2 start %s: log10 T %.2f log10 e %.2f T/e %+.2f" % (cur, T, le, T - le))
+    val = T - le; best = first
+    for it in range(8):
+        improved = False
+        for name in ("c", "rho", "mu", "s1"):
+            for f in ((0.7, 0.85, 1.18, 1.4) if name != "s1" else (0.1, 10.0)):
+                trial = dict(cur); trial[name] = cur[name] * f
+                try:
+                    T, le, pkg = ev(trial)
+                except (ValueError, ZeroDivisionError, OverflowError, AssertionError):
+                    continue
+                if T - le > val + 1e-2:
+                    val, cur, improved = T - le, trial, True
+                    best = dict(trial, T=T, log10e=le, ratio=T - le, M=pkg["M"], sK=pkg["sK"], sB=pkg["sB"],
+                                sT=pkg["sT"], gamma=pkg["gamma"])
+                    log("  v2 step %s: log10 T %.2f log10 e %.2f T/e %+.2f" % (
+                        {k: float("%.4g" % v) for k, v in trial.items()}, T, le, T - le))
+        if not improved:
+            break
+    return first, best
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["reproduce", "search"])
+    ap.add_argument("mode", choices=["reproduce", "search", "ladder", "v2opt"])
     ap.add_argument("--cache", default=None)
     ap.add_argument("--which", default="lower")
     ap.add_argument("--quick", action="store_true")
@@ -248,6 +324,23 @@ def main():
         v2mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(v2mod)
         theorems.append("v2")
     O = LunarOracle(a.which, a.cache)
+    if a.mode == "v2opt":
+        first, best = v2opt(O)
+        print("v2 (SHARP-PLUS mirror, A7) %s: R1-like start T/e %+.2f (log10 T %.2f); optimized T/e %+.2f "
+              "(log10 T %.2f) at %s" % (a.which, first["ratio"], first["T"], best["ratio"], best["T"],
+                                       {k: float("%.4g" % best[k]) for k in ("c", "rho", "mu", "s1")}))
+        if a.json:
+            json.dump(dict(first=first, best=best), open(a.json, "w"), indent=1, default=float)
+        return
+    if a.mode == "ladder":
+        rows = ladder(O)
+        print("| step (%s, R1 package) | v0: log10 T / log10 e / T-e | v1 | v1+L2 (emulated) |" % a.which)
+        print("|---|---|---|---|")
+        for r in rows:
+            print("| %s | %s |" % (r[0], " | ".join("%.2f / %.2f / **%+.2f** (%s)" % x for x in r[1:])))
+        if a.json:
+            json.dump(rows, open(a.json, "w"), indent=1)
+        return
     if a.mode == "reproduce":
         res = reproduce(O)
         for k, v in res.items():
