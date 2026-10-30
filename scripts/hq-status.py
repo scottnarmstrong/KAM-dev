@@ -518,21 +518,34 @@ def worktree_branches():
                   - {'main'})
 
 
-def unlanded_lines():
-    """Lean lines added by the agents' unlanded commits (every branch checked out in a worktree).
-    Each non-merge commit not reachable from main counts once, so stacked branches are not double counted.
+GENERATED_DATA = 'KAM/SpinOrbit/Data/'   # machine-generated certificate literals (track SO), not hand-written Lean
+
+
+def unlanded_split():
+    """(hand-written, generated) Lean lines added by the agents' unlanded commits (every branch checked out in a
+    worktree). Each non-merge commit not reachable from main counts once, so stacked branches are not double counted.
     2026-10-29: the former `git diff main...b` used one of several merge bases of long-lived branches and
-    counted already-landed files as unlanded (8,080 shown for about 2,300 real lines)."""
+    counted already-landed files as unlanded (8,080 shown for about 2,300 real lines).
+    2026-10-30: generated certificate data (KAM/SpinOrbit/Data/) is counted apart; 59.5k lines of lunar literals had
+    been shown as unlanded Lean work."""
     commits = set()
     for b in worktree_branches():
         commits.update(git('rev-list', '--no-merges', f'main..{b}').split())
-    added = 0
+    hand = gen = 0
     for c in commits:
         for l in git('show', '--numstat', '--format=', c, '--', '*.lean').splitlines():
             a, _, path = l.split('\t', 2)
             if a.isdigit() and path != 'KAM.lean':
-                added += int(a)
-    return added
+                if path.startswith(GENERATED_DATA):
+                    gen += int(a)
+                else:
+                    hand += int(a)
+    return hand, gen
+
+
+def unlanded_lines():
+    """Hand-written Lean lines on agent branches, not yet landed (generated data excluded)."""
+    return unlanded_split()[0]
 
 
 def size_estimate(rows):
@@ -581,6 +594,7 @@ def lean_item(it):
 
 def section_size(rows):
     total, code, unl, wt, done = size_estimate(rows)
+    gen = unlanded_split()[1]
     prev = lines_24h_ago()
     growth = f' · **{total - prev[0]:+,}** since {prev[1]}' if prev else ''
     w = progress['weights']
@@ -606,6 +620,8 @@ def section_size(rows):
            '| | Lines of Lean |', '|---|---|',
            f'| On `main` now | **{total:,}** ({code:,} excluding blank lines and comments){growth} |',
            f'| Written on agent branches, not yet landed | {unl:,} |',
+           *([f'| Generated certificate data on agent branches (numeric literals, not counted above or below) | '
+              f'{gen:,} |'] if gen else []),
            f'| **Estimated total at completion** | **≈ {round(est, -3):,.0f}** |',
            f'| Estimated still to write | ≈ {round(max(est - total - unl, 0), -3):,.0f} |', '',
            f'**How the size is estimated.** The estimate {how}. History of all counts: '
