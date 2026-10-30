@@ -1773,3 +1773,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
       N = 65).
     - *Choice for now (reversible):* keep N = 65 and SO-CSPLIT route E as the baseline. SO-LOCK-COST is revised on
       SO-CSPLIT's numbers and its gate; no kernel run starts before the gate and an owner look at the ledger size.
+- **19:57. SO-CSPLIT design audit 1: FAIL (codex-1); revision under way.**
+  - Strategy and shadow-fold invariant judged sound.
+  - F1 (blocking): no elaborating signatures file. F2: wrong output carrier in the product assembly. F3: the
+    sparse-product contract is insufficient. F4: `segOk_one_of` cannot discharge S1/S2. N1–N4 are notes.
+  - The worktree got a .lake/build copy of inp so the designer can elaborate
+    .drafts/design/SOCsplitSignatures.lean. A delta audit follows.
+  - Lock: LOCK-GRAPH is in codex-1 audit. The lock's ledger flag (100–200 MB) is logged for owner review; no lock
+    kernel run before the gate.
