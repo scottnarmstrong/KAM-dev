@@ -164,8 +164,8 @@ theorem iso_g1_core (hC : CohData n τ κ cR) (hS : IsoStanding n τ M σK σB �
 
 end Core
 
-/-- Blueprint `bpI:p2s:g1` for general small-divisor data (a conditional helper; the source results are
-the instances below). The body is the frozen `IG1Body`. -/
+/-- Blueprint `bpI:p2s:g1` for general small-divisor data (a conditional helper; the source results
+are the instances below). The body is the frozen `IG1Body`. -/
 theorem g1_gen {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ) {κ cR : ℝ}
     (hC : CohData n τ κ cR) {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
     {M σK σB σT μ γbar σω ν : ℝ}
@@ -176,7 +176,8 @@ theorem g1_gen {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ) 
       0 < sharpIsoC2 n κ cR M σK σB σT γbar τ ρ ρinf ∧
       0 < sharpIsoC3 n κ cR M σK σB σT γbar τ ρ ρinf ∧
       KAM.Iso.Charts.IG1Body n τ ρ ρinf M σK σB σT μ γbar σω ν ωstar
-        (sharpIsoC1 n κ cR M σK σB σT γbar μ ν τ ρ ρinf) (sharpIsoC2 n κ cR M σK σB σT γbar τ ρ ρinf)
+        (sharpIsoC1 n κ cR M σK σB σT γbar μ ν τ ρ ρinf)
+        (sharpIsoC2 n κ cR M σK σB σT γbar τ ρ ρinf)
         (sharpIsoC3 n κ cR M σK σB σT γbar τ ρ ρinf) := by
   have hP : Params n τ M σK σB σT := ⟨hn, hτ, hM, hσK, hσB, hσT⟩
   have hρ0 : 0 < ρ := hρinf.trans hρinfρ
@@ -236,8 +237,8 @@ theorem g1_gen {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ) 
     h11.trans_eq (g1_closeness_eq (τ' := τ) hρ0 hγ hD0)⟩
 
 /-- Blueprint `bpI:p2s:g1-instances`, the headline: Rüssmann's data `(τ, cohConstR n τ)`. Binders
-and body: those of `KAM.Iso.Apost.g1_explicit`, verbatim; the SO certificate checker can use it in place
-of `g1_explicit` by replacing the two rational mirrors of `checkSmallness`. -/
+and body: those of `KAM.Iso.Apost.g1_explicit`, verbatim; the SO certificate checker can use it in
+place of `g1_explicit` by replacing the two rational mirrors of `checkSmallness`. -/
 theorem g1_sharp {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
     {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
     {M σK σB σT μ γbar σω ν : ℝ}
