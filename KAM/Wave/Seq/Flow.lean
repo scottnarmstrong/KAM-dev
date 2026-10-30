@@ -52,7 +52,7 @@ theorem continuous_rotMu (j : ℕ+) : Continuous (rotMu m hm j) := by
 /-- **Rotation** `R_t` (blueprint `bpW:w1:diag` (iii)). -/
 def rotCLM (m : ℝ) (hm : 0 < m) (t : ℝ) :
     lp (fun _ : ℕ+ => ℂ) 2 →L[ℂ] lp (fun _ : ℕ+ => ℂ) 2 :=
-  diagCLM (fun j => rotMu m hm j t) (M := 1) (fun j => (norm_rotMu hm j t).le)
+  weightedDiagCLM (fun j => rotMu m hm j t) (M := 1) (fun j => (norm_rotMu hm j t).le)
 
 @[simp] theorem rotCLM_apply (t : ℝ) (y : lp (fun _ : ℕ+ => ℂ) 2) (j : ℕ+) :
     rotCLM m hm t y j = rotMu m hm j t * y j := rfl
@@ -112,13 +112,13 @@ theorem continuous_rotCLM_apply (y : lp (fun _ : ℕ+ => ℂ) 2) :
 /-- The cosine multiplier `cos(λ_j t)`. -/
 def cosCLM (m : ℝ) (hm : 0 < m) (t : ℝ) :
     lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] lp (fun _ : ℕ+ => ℝ) 2 :=
-  diagCLM (fun j => Real.cos (lam m hm j * t)) (M := 1) (fun j => by
+  weightedDiagCLM (fun j => Real.cos (lam m hm j * t)) (M := 1) (fun j => by
     rw [Real.norm_eq_abs]; exact Real.abs_cos_le_one _)
 
 /-- The sine multiplier `sin(λ_j t)`. -/
 def sinCLM (m : ℝ) (hm : 0 < m) (t : ℝ) :
     lp (fun _ : ℕ+ => ℝ) 2 →L[ℝ] lp (fun _ : ℕ+ => ℝ) 2 :=
-  diagCLM (fun j => Real.sin (lam m hm j * t)) (M := 1) (fun j => by
+  weightedDiagCLM (fun j => Real.sin (lam m hm j * t)) (M := 1) (fun j => by
     rw [Real.norm_eq_abs]; exact Real.abs_sin_le_one _)
 
 /-- **Real linear flow** `L_t(q, p) = (cos(λt) q + sin(λt) p, -sin(λt) q + cos(λt) p)`

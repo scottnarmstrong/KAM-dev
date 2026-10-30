@@ -34,7 +34,7 @@ theorem norm_embedRatio_cast_le_one {a a' p p' : ℝ} (ha : a' ≤ a) (hp : p' �
 `ℓ^{a,p} ⊂ ℓ^{a',p'}`, `a' ≤ a`, `p' ≤ p`. -/
 def embedCLM (a p a' p' : ℝ) (ha : a' ≤ a) (hp : p' ≤ p) :
     lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2 :=
-  diagCLM (fun j => ((embedRatio a p a' p' j : ℝ) : K)) (norm_embedRatio_cast_le_one ha hp)
+  weightedDiagCLM (fun j => ((embedRatio a p a' p' j : ℝ) : K)) (norm_embedRatio_cast_le_one ha hp)
 
 @[simp] theorem embedCLM_apply (a p a' p' : ℝ) (ha : a' ≤ a) (hp : p' ≤ p)
     (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) :

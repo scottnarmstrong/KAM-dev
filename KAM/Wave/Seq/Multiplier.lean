@@ -12,7 +12,7 @@ public import KAM.Wave.Seq.Transport
 
 Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
 
-* `diagCLM μ hM`: the operator `D_μ y = (μ_j y_j)` on `lp (fun _ : ℕ+ => 𝕜) 2` for `‖μ_j‖ ≤ M`, with
+* `weightedDiagCLM μ hM`: the operator `D_μ y = (μ_j y_j)` on `lp (fun _ : ℕ+ => 𝕜) 2` for `‖μ_j‖ ≤ M`, with
   `‖D_μ‖ ≤ M` (`norm_diagCLM_le`) and `‖μ_j‖ ≤ ‖D_μ‖` (`norm_le_norm_of_apply_eq`).
 * `not_exists_diag_of_unbounded`: a diagonal map with unbounded `μ` is not a bounded operator.
 * `diag_representative`: the representative of `w ↦ (m_j w_j)` between weights is `D_μ`,
@@ -41,7 +41,7 @@ theorem memℓp_diag {μ : ℕ+ → K} {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) 
 
 /-- **Diagonal multiplier** `D_μ` (blueprint `bpW:w1:multiplier`): the bounded operator
 `y ↦ (μ_j y_j)` on `ℓ²` for `‖μ_j‖ ≤ M`. -/
-def diagCLM (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) :
+def weightedDiagCLM (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) :
     lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2 :=
   LinearMap.mkContinuous
     { toFun := fun y => ⟨fun j => μ j * y j, memℓp_diag hM y⟩
@@ -63,27 +63,27 @@ def diagCLM (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) :
       exact (pow_le_pow_iff_left₀ (norm_nonneg _) (mul_nonneg h0 (norm_nonneg _))
         two_ne_zero).1 hsq)
 
-@[simp] theorem diagCLM_apply (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M)
-    (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) : diagCLM μ hM y j = μ j * y j := rfl
+@[simp] theorem weightedDiagCLM_apply (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M)
+    (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) : weightedDiagCLM μ hM y j = μ j * y j := rfl
 
 /-- `bpW:w1:multiplier`: `‖D_μ‖ ≤ M`. -/
-theorem norm_diagCLM_le (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) : ‖diagCLM μ hM‖ ≤ M := by
+theorem norm_diagCLM_le (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) : ‖weightedDiagCLM μ hM‖ ≤ M := by
   have h0 : 0 ≤ M := (norm_nonneg _).trans (hM 1)
   exact LinearMap.mkContinuous_norm_le _ h0 _
 
-/-- `diagCLM` does not depend on the proof of the bound. -/
-theorem diagCLM_eq (μ : ℕ+ → K) {M M' : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) (hM' : ∀ j, ‖μ j‖ ≤ M') :
-    diagCLM μ hM = diagCLM μ hM' := rfl
+/-- `weightedDiagCLM` does not depend on the proof of the bound. -/
+theorem weightedDiagCLM_eq (μ : ℕ+ → K) {M M' : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) (hM' : ∀ j, ‖μ j‖ ≤ M') :
+    weightedDiagCLM μ hM = weightedDiagCLM μ hM' := rfl
 
 /-- `bpW:w1:multiplier`: `‖D_μ‖ ≤ M'` for any bound `M'` of `‖μ_j‖`. -/
 theorem norm_diagCLM_le' (μ : ℕ+ → K) {M M' : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) (hM' : ∀ j, ‖μ j‖ ≤ M') :
-    ‖diagCLM μ hM‖ ≤ M' := by
-  rw [diagCLM_eq μ hM hM']; exact norm_diagCLM_le μ hM'
+    ‖weightedDiagCLM μ hM‖ ≤ M' := by
+  rw [weightedDiagCLM_eq μ hM hM']; exact norm_diagCLM_le μ hM'
 
 /-- A diagonal operator with `‖μ_j‖ = 1` is an isometry. -/
 theorem norm_diagCLM_apply_of_norm_eq_one (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M)
-    (h1 : ∀ j, ‖μ j‖ = 1) (y : lp (fun _ : ℕ+ => K) 2) : ‖diagCLM μ hM y‖ = ‖y‖ := by
-  have := (lp_two_hasSum_sq (diagCLM μ hM y)).unique
+    (h1 : ∀ j, ‖μ j‖ = 1) (y : lp (fun _ : ℕ+ => K) 2) : ‖weightedDiagCLM μ hM y‖ = ‖y‖ := by
+  have := (lp_two_hasSum_sq (weightedDiagCLM μ hM y)).unique
     (by simpa [norm_mul, h1] using lp_two_hasSum_sq y)
   exact (sq_eq_sq₀ (norm_nonneg _) (norm_nonneg _)).1 this
 
@@ -104,7 +104,7 @@ theorem norm_le_norm_of_apply_eq {μ : ℕ+ → K}
 
 /-- `bpW:w1:multiplier`: `‖μ_j‖ ≤ ‖D_μ‖`. -/
 theorem norm_le_norm_diagCLM (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) (j : ℕ+) :
-    ‖μ j‖ ≤ ‖diagCLM μ hM‖ :=
+    ‖μ j‖ ≤ ‖weightedDiagCLM μ hM‖ :=
   norm_le_norm_of_apply_eq _ (fun _ _ => rfl) j
 
 /-- `bpW:w1:multiplier`: a diagonal map with unbounded multiplier is not a bounded operator. -/
@@ -199,9 +199,9 @@ theorem isEll_coeffW_of_ratio_le {a p a' p' M : ℝ} (hM : ∀ j, embedRatio a p
   have h0 : 0 ≤ M := (embedRatio_pos a p a' p' 1).le.trans (hM 1)
   have hnorm : ellNorm a' p' (coeffW a p y) = ‖tauLp a' p' _ hIs‖ := by
     rw [ellNorm, ← norm_tauLp_sq a' p' _ hIs, Real.sqrt_sq (norm_nonneg _)]
-  have : tauLp a' p' _ hIs = diagCLM _ hM' y := by ext j; rw [tauLp_apply, heq]; rfl
+  have : tauLp a' p' _ hIs = weightedDiagCLM _ hM' y := by ext j; rw [tauLp_apply, heq]; rfl
   rw [hnorm, this, ellNorm_coeffW]
-  exact (diagCLM _ hM').le_opNorm y |>.trans (by gcongr; exact norm_diagCLM_le _ hM')
+  exact (weightedDiagCLM _ hM').le_opNorm y |>.trans (by gcongr; exact norm_diagCLM_le _ hM')
 
 end KAM.Wave
 

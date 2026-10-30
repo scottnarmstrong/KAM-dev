@@ -11,7 +11,7 @@ KAM.lean / KAM/Root/Wave.lean regenerated with scripts/gen_root_imports.py (comm
   `norm_tauLp_sq`, `ellNorm_coeffW` (norm preserved), `inner_tauLp` (transported inner product). (ii) `norm_coeffW_le`,
   `coeffWCLM` (= omega^-1 ev_j). (iii) `truncLp`, `tendsto_norm_sub_truncLp`. (iv) `coeffW_one_one`,
   `norm_prod_eq_max_ellNorm` (frozen WaveSpace norm = max of the (1,1) norms of coeff y, coeff y').
-- bpW:w1:multiplier: `diagCLM`, `norm_diagCLM_le(')`, `norm_le_norm_diagCLM`, `norm_le_norm_of_apply_eq`,
+- bpW:w1:multiplier: `weightedDiagCLM`, `norm_diagCLM_le(')`, `norm_le_norm_diagCLM`, `norm_le_norm_of_apply_eq`,
   `not_exists_diag_of_unbounded`, `diag_representative`.
 - bpW:w1:embed: `embedRatio`, `embedRatio_le_one`, `embedRatio_le_of_lt` ((sigma/(e(a-a')))^sigma), `embedCLM`,
   `norm_embedCLM_le`, `ellNorm_coeffW_le_of_le` (i), `ellNorm_coeffW_le_of_lt` (ii), `coeffW_embedCLM`,
@@ -79,7 +79,7 @@ seal, so skip audit item 1 and the seal-body probe.
    legitimate representative, or is it conclusion-shaped? Does the statement faithfully give the equivalence of frozen
    nlw2 clause (4) with `DK(θ)ν = X^w(Kθ)`, as `bpW:w1:coordinatewise` claims, under exactly its differentiability
    hypothesis?
-3. Definitions on their whole carrier: `coeffW`, `IsEll`, `ellNorm`, `tauLp`, `diagCLM` (any junk branch),
+3. Definitions on their whole carrier: `coeffW`, `IsEll`, `ellNorm`, `tauLp`, `weightedDiagCLM` (any junk branch),
    `lamMul`, `flowCLM`, `tildeOmegaSeq` (zero padding at j = 1, 2).
 4. The not-done items: are they really unconsumed, or needed by W2/W3?
 5. Hygiene. This is a SLIM worktree, so run lint only as `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpa`.

@@ -78,7 +78,7 @@ theorem norm_lamRatio_cast_le (r : ℝ) (j : ℕ+) :
 /-- **Frequency multiplier** (blueprint `bpW:w1:diag` (i)): the representative `D_μ`,
 `μ_j = (λ_j/j)^r`, of `λ^r : ℓ^{a,p+r} → ℓ^{a,p}`. -/
 def lamMul (m : ℝ) (hm : 0 < m) (r : ℝ) : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2 :=
-  diagCLM (fun j => ((lamRatio m hm r j : ℝ) : K)) (norm_lamRatio_cast_le hm r)
+  weightedDiagCLM (fun j => ((lamRatio m hm r j : ℝ) : K)) (norm_lamRatio_cast_le hm r)
 
 @[simp] theorem lamMul_apply (r : ℝ) (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) :
     lamMul m hm r y j = ((lamRatio m hm r j : ℝ) : K) * y j := rfl
