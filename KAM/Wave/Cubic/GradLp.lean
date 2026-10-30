@@ -182,6 +182,47 @@ theorem waveG_coeffW_hasFDerivAt (y : lp (fun _ : ℕ+ => ℝ) 2) :
   rw [e, map_smul, map_smul, key]
   simp [innerSL_apply_apply]
 
+include ha hp in
+/-- `bpW:w1:gradient-identity` (ii): `DG^w(y) h = Σ_l 𝒢(q)_l (κ_{a,p} h)_l = ⟨𝒢(q), κ_{a,p} h⟩₀`,
+`q = κ_{a,p} y`. -/
+theorem waveG_coeffW_fderiv_apply (y h : lp (fun _ : ℕ+ => ℝ) 2) :
+    fderiv ℝ (fun y : lp (fun _ : ℕ+ => ℝ) 2 => waveG m hm (coeffW a p y)) y h =
+      ∑' l : ℕ+, waveCubic m hm (coeffW a p y) l * coeffW a p h l := by
+  rw [(waveG_coeffW_hasFDerivAt m hm ha hp y).fderiv, innerSL_apply_apply, lp.inner_eq_tsum]
+  refine tsum_congr fun l => ?_
+  have hN := waveCubic_coeffW_eq_coeffW_triML m hm (a := a) (p := p) hp ha y
+  have hw1 := ellWeight_pos a p l
+  have hw2 := ellWeight_pos a (p + 1) l
+  have hl : waveCubic m hm (coeffW a p y) l = waveCubicNL (K := ℝ) m hm ha.le hp y l /
+      ellWeight a (p + 1) l := by
+    rw [hN, waveCubicNL_eq]; simp [coeffW]
+  simp only [waveGradW, waveRhoCLM_apply, waveRho, hl, coeffW_apply, RCLike.inner_apply,
+    RCLike.conj_to_real, RCLike.ofReal_real_eq_id, id]
+  field_simp
+
+/-- The `ℓ²` gradient in the frozen coordinates: `(𝒢^w(y)_j / (ω_{1,1}(j) ω_{1,2}(j)))_j`. -/
+theorem waveGradW_one_one_apply (y : lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) :
+    waveGradW m hm (a := 1) (p := 1) one_pos (by norm_num) y j =
+      waveGw m hm y j / (ellWeight 1 1 j * ellWeight 1 2 j) := by
+  have e : (1 : ℝ) + 1 = 2 := by norm_num
+  have h1 := ellWeight_pos 1 1 j
+  have h2 := ellWeight_pos 1 2 j
+  simp only [waveGradW, waveRhoCLM_apply, waveRho, e]
+  rw [show waveCubicNL (K := ℝ) m hm (zero_le_one) (by norm_num : (1 / 2 : ℝ) ≤ 1) y j =
+    waveGw m hm y j from rfl]
+  field_simp
+
+/-- `bpW:w1:gradient-identity` (iii), frozen form: `DG^w(y) h = Σ_j cubicGrad y j · coeff h j`. -/
+theorem waveG_frozen_fderiv_apply (y h : lp (fun _ : ℕ+ => ℝ) 2) :
+    fderiv ℝ (fun y : lp (fun _ : ℕ+ => ℝ) 2 => waveG m hm (coeff y)) y h =
+      ∑' j : ℕ+, cubicGrad m hm y j * coeff h j := by
+  have e : (fun y : lp (fun _ : ℕ+ => ℝ) 2 => waveG m hm (coeff y)) =
+      fun y => waveG m hm (coeffW 1 1 y) := by
+    funext y; rw [coeffW_one_one]
+  rw [e, waveG_coeffW_fderiv_apply m hm (a := 1) (p := 1) one_pos (by norm_num)]
+  refine tsum_congr fun j => ?_
+  rw [coeffW_one_one, coeffW_one_one, cubicGrad_eq_waveCubic]
+
 end KAM.Wave
 
 end
