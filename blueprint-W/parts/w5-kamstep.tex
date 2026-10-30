@@ -328,7 +328,8 @@ The hypotheses hold, and for $\abs t\le1$, $\xi,\zeta\in\Pi$:
 \item on $D(s-3\sigma,\frac r4)$: $\abs{D\phi^t-I}_{p\to p_+,r}\le8M_F/\sigma$ and
   $\abs{D\phi^t-I}^\lambda_{p\to p_+,r}\le16M_F/\sigma\le\eta^2$;
 \item $\phi^t\bigl(D(s-5\sigma,\eta r)\bigr)\subset D(s-4\sigma,2\eta r)\subset D(s-3\sigma,\frac r4)$;
-\item $\phi^t$ is real on real points.
+\item $\phi^t$ is real on real points and commutes with integer angle translations: with $\tau_k=(k,0,0,0)$,
+  $k\in\Z^2$, $\phi^t(w+\tau_k)=\phi^t(w)+\tau_k$ for $w\in U$ (note $U+\tau_k=U$).
 \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -351,8 +352,10 @@ $\abs\cdot_{p,r}$-ball of radius $\sigma/8$ in $U$. Lemma~\ref{bpW:w1:cauchy} fo
 $2N_1$ for the difference in $\xi$) gives (ii); $16M_F/\sigma\le\eta^2$ by \eqref{bpW:w5:small}.
 \proofstep{Image}\label{stepW:w5:f-image} For $w\in D(s-5\sigma,\eta r)$ the increment $W=\phi^tw-w$ has
 $\abs\Theta\le M_F<\sigma$, $\abs Y\le r^2M_F<3\eta^2r^2$, $\norm U+\norm V\le rM_F<\eta r$; and $2\eta\le\frac14$.
-\proofstep{Reality}\label{stepW:w5:f-real} Lemma~\ref{bpW:w1:flow}(iii), with $\Pc=(\Pc_\R)^\C$ and $X_F$ real on reals
-(Theorem~\ref{bpW:w4:lemma1}(i)).
+\proofstep{Reality and equivariance}\label{stepW:w5:f-real} Lemma~\ref{bpW:w1:flow}(iii), with $\Pc=(\Pc_\R)^\C$ and $X_F$ real on
+reals (Theorem~\ref{bpW:w4:lemma1}(i)). $X_F(w+\tau_k)=X_F(w)$ since the components of $F$ are $1$-periodic, and $V+\tau_k=V$; so
+$t\mapsto\phi^t(w)+\tau_k$ is a $C^1$ solution in $V$ starting at $w+\tau_k$, and it equals $\phi^t(w+\tau_k)$ by the uniqueness of
+Lemma~\ref{bpW:w1:flow}(i).
 \end{proof}
 \source{P96-K (9)--(11), pp.~129--130 (``Hence the flow $X^t_F$ exists on $D(s-3\sigma,r/4)$ \dots\ takes this domain into
 $D(s-2\sigma,r/2)$'', ``any point in $D(s-4\sigma,r/8)$ has $\abs\cdot_r$-distance greater than $\sigma/32$''), and Lemma~A.4,
@@ -498,7 +501,8 @@ assume also $2\beta\le p+1-p_+$ for the Lipschitz parts. Let $C_2=896+168c_F$. T
 family $\Phi(\cdot,\xi):D_+=D(s-5\sigma,\eta r)\to D(s-4\sigma,2\eta r)$ and $N_+$, $P_+$ such that, for all $\xi\in\Pi$:
 \begin{enumerate}[label=(\roman*)]
 \item $H\circ\Phi=N_++P_++\hat a_0(\xi)$ on $D_+$, with the weak conjugacy of Lemma~\ref{bpW:w5:new-ham}(iii);
-  $\Phi$ is symplectic ($\symp(D\Phi W,D\Phi W')=\symp(W,W')$) and $D\Phi(w)$ maps $\Pc^{p_+}$ onto itself;
+  $\Phi$ is symplectic ($\symp(D\Phi W,D\Phi W')=\symp(W,W')$), $D\Phi(w)$ maps $\Pc^{p_+}$ onto itself, $\Phi$ is real on real
+  points, and $\Phi(w+\tau_k)=\Phi(w)+\tau_k$ for $k\in\Z^2$ (Lemma~\ref{bpW:w5:flow}(iv));
 \item $P_+\in\Sm_{p_+}(D_+)$ is real and periodic with
   \begin{equation}\label{bpW:w5:newerror}
   \abs{X_{P_+}}^\lambda_{\eta r,D_+}\le C_2\Bigl(\frac{\epsilon^2}{\alpha\sigma^t\eta^2}+\eta\epsilon\Bigr);
