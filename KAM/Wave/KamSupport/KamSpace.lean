@@ -19,8 +19,8 @@ Off-frontier, source-faithful infrastructure; the dependency graph is still bein
 The complex phase space `𝒫^{a,p}_ℂ = ℂ² × ℂ² × ℓ^{a,p}_ℂ × ℓ^{a,p}_ℂ` is represented in weighted
 coordinates (`KamPhase`): the last two factors are `ℓ²_ℂ`, and the norm `‖u‖_{a,p}` of a point of
 `ℓ^{a,p}` is the `ℓ²` norm of its representative. The weights therefore only enter through the
-representatives: the inclusion `𝒫^{a,p} ⊂ 𝒫^{a,p̄}` (`p̄ ≤ p`) is `kamEmbed`, the diagonal operator of
-`bpW:w1:embed`.
+representatives: the inclusion `𝒫^{a,p} ⊂ 𝒫^{a,p̄}` (`p̄ ≤ p`) is `kamEmbed`, the diagonal
+operator of `bpW:w1:embed`.
 
 * `kamNorm r W = |W|_{p̄,r}` and `kamDomain s r = D(s,r)` (`bpW:w1:kam-space`);
 * `kamOpNorm r s L = |L|_{r,s}`, the least admissible constant, with `kamOpNorm_apply_le`;
@@ -114,7 +114,7 @@ theorem kamOpNorm_nonneg (r s : ℝ) (L : KamPhase →ₗ[ℂ] KamPhase) : 0 ≤
 
 theorem kamDomain_isOpen (s r : ℝ) : IsOpen (kamDomain s r) := by
   have h1 : IsOpen {z : KamPhase | ∀ i, |(z.1 i).im| < s} := by
-    simp only [Set.setOf_forall]
+    simp only [Set.ofPred_forall]
     refine isOpen_iInter_of_finite fun i => ?_
     exact isOpen_lt (by fun_prop) continuous_const
   have h2 : IsOpen {z : KamPhase | ‖z.2.1‖ < r ^ 2} := isOpen_lt (by fun_prop) continuous_const
@@ -135,7 +135,8 @@ theorem kam_convex_lt {x y a b r : ℝ} (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a +
 
 theorem kam_norm_comb {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] (x y : E) {a b : ℝ}
     (ha : 0 ≤ a) (hb : 0 ≤ b) : ‖a • x + b • y‖ ≤ a * ‖x‖ + b * ‖y‖ :=
-  (norm_add_le _ _).trans (by rw [norm_smul, norm_smul, Real.norm_of_nonneg ha, Real.norm_of_nonneg hb])
+  (norm_add_le _ _).trans
+    (by rw [norm_smul, norm_smul, Real.norm_of_nonneg ha, Real.norm_of_nonneg hb])
 
 theorem kamDomain_convex (s r : ℝ) : Convex ℝ (kamDomain s r) := by
   intro z hz w hw a b ha hb hab
@@ -145,7 +146,8 @@ theorem kamDomain_convex (s r : ℝ) : Convex ℝ (kamDomain s r) := by
   · have him : ((a • z + b • w).1 i).im = a * (z.1 i).im + b * (w.1 i).im := by simp
     rw [him]
     calc |a * (z.1 i).im + b * (w.1 i).im| ≤ |a * (z.1 i).im| + |b * (w.1 i).im| := abs_add_le _ _
-      _ = a * |(z.1 i).im| + b * |(w.1 i).im| := by rw [abs_mul, abs_mul, abs_of_nonneg ha, abs_of_nonneg hb]
+      _ = a * |(z.1 i).im| + b * |(w.1 i).im| := by
+        rw [abs_mul, abs_mul, abs_of_nonneg ha, abs_of_nonneg hb]
       _ < s := kam_convex_lt ha hb hab (hz1 i) (hw1 i)
   · exact (kam_norm_comb z.2.1 w.2.1 ha hb).trans_lt (kam_convex_lt ha hb hab hz2 hw2)
   · have h1 := kam_norm_comb z.2.2.1 w.2.2.1 ha hb
@@ -196,7 +198,8 @@ theorem kamDomain_add_mem {s σ r : ℝ} (hσ : 0 < σ) (hσ1 : σ ≤ 1) (_hσs
     show ‖W₀.2.2.1 + W.2.2.1‖ + ‖W₀.2.2.2 + W.2.2.2‖ < r
     nlinarith
 
-/-- `|W|_{p̄,r} ≤ |W|_{p,r}` for `p̄ ≤ p` (blueprint `bpW:w1:kam-domain`, via `bpW:w1:embed` (i)). -/
+/-- `|W|_{p̄,r} ≤ |W|_{p,r}` for `p̄ ≤ p` (blueprint `bpW:w1:kam-domain`, via `bpW:w1:embed` (i)).
+-/
 theorem kamNorm_embed_le (a p p' : ℝ) (hp : p' ≤ p) {r : ℝ} (hr : 0 < r) (W : KamPhase) :
     kamNorm r (kamEmbed a p p' hp W) ≤ kamNorm r W := by
   unfold kamNorm kamEmbed
@@ -248,7 +251,7 @@ theorem kam_strip_period_conversion (θ : ℂ) (sK : ℝ) :
     |(2 * Real.pi * θ).im| < sK ↔ |θ.im| < sK / (2 * Real.pi) := by
   have : (2 * (Real.pi : ℂ) * θ).im = 2 * Real.pi * θ.im := by
     simp [Complex.mul_im]
-  rw [this, abs_mul, abs_of_pos (by positivity : (0 : ℝ) < 2 * Real.pi), lt_div_iff₀ (by positivity),
-    mul_comm]
+  rw [this, abs_mul, abs_of_pos (by positivity : (0 : ℝ) < 2 * Real.pi),
+    lt_div_iff₀ (by positivity), mul_comm]
 
 end KAM.Wave

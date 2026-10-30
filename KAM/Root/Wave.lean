@@ -5,6 +5,15 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Wave.KamSupport.FourierBanach
+public import KAM.Wave.KamSupport.FourierBessel
+public import KAM.Wave.KamSupport.FourierL2
+public import KAM.Wave.KamSupport.FourierShift
+public import KAM.Wave.KamSupport.HilbertMatrix
+public import KAM.Wave.KamSupport.KamSpace
+public import KAM.Wave.KamSupport.Lattice
+public import KAM.Wave.KamSupport.LatticeCount
+public import KAM.Wave.KamSupport.SchurTest
 public import KAM.Wave.Recon.ReconAnalytic
 public import KAM.Wave.Recon.SineCompleteness
 public import KAM.Wave.Recon.SineFeature

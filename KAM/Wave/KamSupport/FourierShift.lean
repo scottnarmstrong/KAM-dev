@@ -19,8 +19,8 @@ For `u : T_s → F` holomorphic and `1`-periodic with values in a complex Banach
 `∫_{[0,1]ⁿ} u(x + iη) e^{-2πik·x} dx = e^{-2πk·η} û_k`.
 
 Route: track K's `KAM.torusAverage_imag_shift` (the average of a bounded holomorphic periodic
-scalar function is unchanged by an imaginary shift; its proof differentiates the average in the shift
-size, instead of the coordinatewise rectangle argument of the blueprint), applied to `φ ∘ u`
+scalar function is unchanged by an imaginary shift; its proof differentiates the average in the
+shift size, instead of the coordinatewise rectangle argument of the blueprint), applied to `φ ∘ u`
 for `φ ∈ F*`; boundedness on `T_ρ`, `max|η_i| < ρ < s`, is `KAM.periodic_bounded`.
 -/
 
@@ -98,7 +98,8 @@ theorem kamFourier_shift {s : ℝ} (hs : 0 < s) {u : (Fin n → ℂ) → F}
   -- the scalar function
   set g : (Fin n → ℂ) → ℂ := fun θ => character (-k) θ * φ (u θ) with hg_def
   have hg : DifferentiableOn ℂ g (complexStrip n ρ) :=
-    (differentiable_character (-k)).differentiableOn.mul (φ.differentiable.comp_differentiableOn hu')
+    (differentiable_character (-k)).differentiableOn.mul
+      (φ.differentiable.comp_differentiableOn hu')
   have hgp : ∀ (i : Fin n) z, z ∈ complexStrip n ρ → g (z + Pi.single i 1) = g z := by
     intro i z hz
     simp only [hg_def, character_add_single, hp' i z hz]

@@ -18,8 +18,8 @@ Off-frontier, source-faithful infrastructure; the dependency graph is still bein
 
 For `g : ℝⁿ → H` continuous, `H` a complex Hilbert space, and `d_k = ∫ e^{-2πik·x} g(x) dx` its
 Fourier coefficients (`KAM.torusCoeffW`): for every finite set `K ⊂ ℤⁿ`,
-`∑_{k∈K} ‖d_k‖² ≤ ∫ ‖g‖²` (`kamBessel`). The blueprint's Parseval equality in the step is replaced by
-this inequality, which is all that is used (the bound `≤ M²`). The proof expands
+`∑_{k∈K} ‖d_k‖² ≤ ∫ ‖g‖²` (`kamBessel`). The blueprint's Parseval equality in the step is
+replaced by this inequality, which is all that is used (the bound `≤ M²`). The proof expands
 `0 ≤ ∫ ‖g - ∑_{k∈K} d_k χ_k‖²`.
 -/
 
@@ -75,7 +75,8 @@ private theorem integrable_cube {E : Type*} [NormedAddCommGroup E] [NormedSpace 
 
 theorem kamBessel_cross {g : (Fin n → ℝ) → H} (hg : Continuous g) (K : Finset (Fin n → ℤ))
     (d : (Fin n → ℤ) → H) (hd : ∀ k, d k = torusCoeffW g k) :
-    torusAverage (fun x => (inner ℂ (kamTrigPoly K d x) (g x))) = ∑ k ∈ K, ((‖d k‖ ^ 2 : ℝ) : ℂ) := by
+    torusAverage (fun x => (inner ℂ (kamTrigPoly K d x) (g x))) =
+      ∑ k ∈ K, ((‖d k‖ ^ 2 : ℝ) : ℂ) := by
   have hpt : ∀ x, (inner ℂ (kamTrigPoly K d x) (g x)) =
       ∑ k ∈ K, (inner ℂ (d k) (kamChi (-k) x • g x)) := by
     intro x
@@ -98,6 +99,7 @@ theorem kamBessel_cross {g : (Fin n → ℝ) → H} (hg : Continuous g) (K : Fin
     simp
   · exact integrable_cube ((continuous_const.inner ((continuous_kamChi _).smul hg)))
 
+omit [CompleteSpace H] in
 theorem kamBessel_quad (K : Finset (Fin n → ℤ)) (d : (Fin n → ℤ) → H) :
     torusAverage (fun x => inner ℂ (kamTrigPoly K d x) (kamTrigPoly K d x)) =
       ∑ k ∈ K, ((‖d k‖ ^ 2 : ℝ) : ℂ) := by
@@ -130,7 +132,8 @@ theorem kamBessel_quad (K : Finset (Fin n → ℤ)) (d : (Fin n → ℤ) → H) 
     · subst hlk; simp
     · have : -k + l ≠ 0 := fun h => hlk (by simpa [add_comm, add_eq_zero_iff_eq_neg] using h)
       simp [this, hlk]
-  rw [Finset.sum_congr rfl hl, Finset.sum_ite_eq', if_pos hk, inner_self_eq_norm_sq_to_K]
+  simp only [Finset.sum_congr rfl hl, Finset.sum_ite_eq', hk, ite_true]
+  rw [inner_self_eq_norm_sq_to_K]
   norm_cast
 
 /-- **Bessel's inequality** for continuous Hilbert-valued functions on the torus: for every finite
@@ -150,14 +153,14 @@ theorem kamBessel {g : (Fin n → ℝ) → H} (hg : Continuous g) (K : Finset (F
     unfold torusAverage at hB ⊢
     simp only [RCLike.re_to_complex] at this
     rw [this, hB, hS]
-    simp [Complex.re_sum, ← Complex.ofReal_pow, -Complex.ofReal_pow]
+    simp [Complex.re_sum, -Complex.ofReal_pow]
   have hCre : torusAverage (fun x => (inner ℂ (h x) (h x)).re) = S := by
     have := integral_re (μ := volume.restrict (Set.pi Set.univ fun _ : Fin n => Set.Icc (0 : ℝ) 1))
       (𝕜 := ℂ) (f := fun x => inner ℂ (h x) (h x)) (integrable_cube (hhc.inner hhc))
     unfold torusAverage at hC ⊢
     simp only [RCLike.re_to_complex] at this
     rw [this, hC, hS]
-    simp [Complex.re_sum, ← Complex.ofReal_pow, -Complex.ofReal_pow]
+    simp [Complex.re_sum, -Complex.ofReal_pow]
   have hpt : ∀ x, ‖g x - h x‖ ^ 2 =
       ‖g x‖ ^ 2 - 2 * (inner ℂ (h x) (g x)).re + (inner ℂ (h x) (h x)).re := by
     intro x
@@ -169,16 +172,19 @@ theorem kamBessel {g : (Fin n → ℝ) → H} (hg : Continuous g) (K : Finset (F
     integral_nonneg fun x => sq_nonneg _
   simp_rw [hpt] at h0
   have i1 : Continuous fun x => ‖g x‖ ^ 2 := hg.norm.pow 2
-  have i2 : Continuous fun x => (inner ℂ (h x) (g x)).re := Complex.continuous_re.comp (hhc.inner hg)
-  have i3 : Continuous fun x => (inner ℂ (h x) (h x)).re := Complex.continuous_re.comp (hhc.inner hhc)
+  have i2 : Continuous fun x => (inner ℂ (h x) (g x)).re :=
+    Complex.continuous_re.comp (hhc.inner hg)
+  have i3 : Continuous fun x => (inner ℂ (h x) (h x)).re :=
+    Complex.continuous_re.comp (hhc.inner hhc)
   unfold torusAverage at h0 hBre hCre ⊢
   have i4 : Continuous fun x => ‖g x‖ ^ 2 - 2 * (inner ℂ (h x) (g x)).re :=
     i1.sub (continuous_const.mul i2)
   have e1 := integral_add (integrable_cube i4) (integrable_cube i3)
   have i5 : Continuous fun x => 2 * (inner ℂ (h x) (g x)).re := continuous_const.mul i2
   have e2 := integral_sub (integrable_cube i1) (integrable_cube i5)
-  have e3 := integral_const_mul (μ := volume.restrict (Set.pi Set.univ fun _ : Fin n => Set.Icc (0 : ℝ) 1))
-    (2 : ℝ) (fun x => (inner ℂ (h x) (g x)).re)
+  have e3 := integral_const_mul
+    (μ := volume.restrict (Set.pi Set.univ fun _ : Fin n => Set.Icc (0 : ℝ) 1)) (2 : ℝ)
+    (fun x => (inner ℂ (h x) (g x)).re)
   rw [e1, e2, e3, hBre, hCre] at h0
   linarith
 

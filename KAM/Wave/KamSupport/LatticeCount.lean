@@ -68,7 +68,8 @@ theorem kamLatticeCode_injective : Function.Injective (kamLatticeCode (n := n)) 
 theorem kamLattice_card_filter_le (s : Finset (Fin n → ℤ)) (m : ℕ) :
     (s.filter fun k => kamL1 k = m).card ≤ 2 ^ n * Nat.choose (n + m - 1) m := by
   classical
-  let T : Finset (Multiset (Fin n)) := (Finset.univ : Finset (Sym (Fin n) m)).image (fun t : Sym (Fin n) m => t.1)
+  let T : Finset (Multiset (Fin n)) :=
+    (Finset.univ : Finset (Sym (Fin n) m)).image (fun t : Sym (Fin n) m => t.1)
   have hT : T.card ≤ Nat.choose (n + m - 1) m := by
     calc T.card ≤ (Finset.univ : Finset (Sym (Fin n) m)).card := Finset.card_image_le
       _ = Fintype.card (Sym (Fin n) m) := Finset.card_univ
@@ -122,7 +123,8 @@ theorem kamChoose_add_le_pow (m j : ℕ) : Nat.choose (m + j) j ≤ (m + 1) ^ j 
   | zero => simp
   | succ j ih =>
     have h := Nat.add_one_mul_choose_eq (m + j) j
-    have h2 : Nat.choose (m + j + 1) (j + 1) * (j + 1) ≤ (m + 1) * Nat.choose (m + j) j * (j + 1) := by
+    have h2 : Nat.choose (m + j + 1) (j + 1) * (j + 1) ≤
+        (m + 1) * Nat.choose (m + j) j * (j + 1) := by
       rw [← h]
       nlinarith [Nat.zero_le (Nat.choose (m + j) j), Nat.zero_le (m * j * Nat.choose (m + j) j)]
     have h3 := Nat.le_of_mul_le_mul_right h2 (Nat.succ_pos j)

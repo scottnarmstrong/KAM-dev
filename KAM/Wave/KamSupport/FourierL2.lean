@@ -17,12 +17,12 @@ Off-frontier, source-faithful infrastructure; the dependency graph is still bein
 For `H` a complex Hilbert space and `u : T_s → H` holomorphic, `1`-periodic, `‖u‖ ≤ M`:
 
 * (i) `kamFourierL2_sum_le`: `∑_k ‖û_k‖² e^{4π|k|₁ s} ≤ 2ⁿ M²`. The Parseval step is replaced by
-  Bessel's inequality (`kamBessel`), which suffices for the upper bound; the shifted coefficients are
-  `kamFourier_shift`; the orthant step sums over the `2ⁿ` sign vectors.
+  Bessel's inequality (`kamBessel`), which suffices for the upper bound; the shifted coefficients
+  are `kamFourier_shift`; the orthant step sums over the `2ⁿ` sign vectors.
 * (ii) `kamFourierL2_summation`: the summation lemma, an instance of
   `kamFourierBanach_summation`.
-* (iii) `kamFourierL2_eq_fourierSum`: `u` is the sum of its Fourier series on `T_s` (in particular on
-  `T_{s'}`, `s' < s`).
+* (iii) `kamFourierL2_eq_fourierSum`: `u` is the sum of its Fourier series on `T_s` (in particular
+  on `T_{s'}`, `s' < s`).
 -/
 
 @[expose] public noncomputable section

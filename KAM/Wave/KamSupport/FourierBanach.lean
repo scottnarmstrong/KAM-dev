@@ -14,8 +14,8 @@ public import KAM.Strip.FourierSeriesVector
 Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
 (Replaces the false operator-valued square-sum bound of P96-K p. 127, erratum E-W-Pos96K-1.)
 
-Let `F` be a complex Banach space, `u : T_s → F` holomorphic, `1`-periodic, `‖u‖ ≤ M`. The `F`-valued
-coefficient is track K's `KAM.torusCoeffW` (the Bochner average of `e^{-2πik·x} u(x)`).
+Let `F` be a complex Banach space, `u : T_s → F` holomorphic, `1`-periodic, `‖u‖ ≤ M`. The
+`F`-valued coefficient is track K's `KAM.torusCoeffW` (the Bochner average of `e^{-2πik·x} u(x)`).
 
 * (i) `kamFourierBanach_coeff_le`: `‖û_k‖ ≤ M e^{-2π|k|₁ s}`;
 * (ii) `kamFourierBanach_sum_le`, `kamFourierBanach_weighted_sum_le`: the sums against
@@ -102,8 +102,8 @@ theorem kamFourierBanach_weighted_sum_le (hn : 1 ≤ n) {s σ M c : ℝ} (hc : 0
   exact mul_le_mul_of_nonneg_left hle hM0
 
 /-- **Summation** (blueprint `bpW:w1:fourier-banach` (iii)): if `∑ ‖c_k‖ e^{2π|k|₁ρ} < ∞` for some
-`ρ > 0`, then `v(θ) = ∑ c_k e^{2πik·θ}` converges absolutely and uniformly on `T_ρ`, is holomorphic and
-`1`-periodic there, has coefficients `c_k`, and `‖v(θ)‖ ≤ ∑ ‖c_k‖ e^{2π|k|₁ρ}`. -/
+`ρ > 0`, then `v(θ) = ∑ c_k e^{2πik·θ}` converges absolutely and uniformly on `T_ρ`, is
+holomorphic and `1`-periodic there, has coefficients `c_k`, and `‖v(θ)‖ ≤ ∑ ‖c_k‖ e^{2π|k|₁ρ}`. -/
 theorem kamFourierBanach_summation {ρ : ℝ} (hρ : 0 < ρ) {a : (Fin n → ℤ) → F}
     (ha : Summable fun k => ‖a k‖ * Real.exp (2 * Real.pi * ρ * Fourier.modeSize k)) :
     (∀ θ ∈ complexStrip n ρ, Summable fun k => ‖character k θ • a k‖) ∧
@@ -133,14 +133,15 @@ theorem kamFourierBanach_coeff_sub {v w : (Fin n → ℝ) → F} (hv : Continuou
     (integrableOn_unitCube_of_continuous (hchar.smul hw))
 
 /-- **Parameter differences** (blueprint `bpW:w1:fourier-banach` (iv)): if `u₁, u₂` are holomorphic
-and `1`-periodic on `T_s` and `‖u₁ - u₂‖ ≤ M` there, then the coefficients of `u₁` and `u₂` differ by at most
-`M e^{-2π|k|₁s}` in norm. -/
+and `1`-periodic on `T_s` and `‖u₁ - u₂‖ ≤ M` there, then the coefficients of `u₁` and `u₂`
+differ by at most `M e^{-2π|k|₁s}` in norm. -/
 theorem kamFourierBanach_coeff_sub_le {s M : ℝ} (hs : 0 < s) {u₁ u₂ : (Fin n → ℂ) → F}
     (h₁ : DifferentiableOn ℂ u₁ (complexStrip n s)) (h₂ : DifferentiableOn ℂ u₂ (complexStrip n s))
     (hp₁ : ∀ (i : Fin n) z, z ∈ complexStrip n s → u₁ (z + Pi.single i 1) = u₁ z)
     (hp₂ : ∀ (i : Fin n) z, z ∈ complexStrip n s → u₂ (z + Pi.single i 1) = u₂ z)
     (hM : ∀ z ∈ complexStrip n s, ‖u₁ z - u₂ z‖ ≤ M) (k : Fin n → ℤ) :
-    ‖torusCoeffW (fun x => u₁ fun j => (x j : ℂ)) k - torusCoeffW (fun x => u₂ fun j => (x j : ℂ)) k‖ ≤
+    ‖torusCoeffW (fun x => u₁ fun j => (x j : ℂ)) k -
+        torusCoeffW (fun x => u₂ fun j => (x j : ℂ)) k‖ ≤
       M * Real.exp (-(2 * Real.pi * Fourier.modeSize k * s)) := by
   have hc : ∀ u : (Fin n → ℂ) → F, DifferentiableOn ℂ u (complexStrip n s) →
       Continuous fun x : Fin n → ℝ => u fun j => (x j : ℂ) := fun u hu =>

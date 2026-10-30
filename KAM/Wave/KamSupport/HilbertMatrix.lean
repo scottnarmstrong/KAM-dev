@@ -183,7 +183,8 @@ theorem kamHilbertKernel_sum_sq_le (i : ℕ+) (J : Finset ℕ+) :
       · exact Or.inl ⟨hj.1, h⟩
       · exact absurd h hj.2
       · exact Or.inr ⟨hj.1, h⟩
-    have h1 : ∑ j ∈ J, kamHilbertKernel i j ^ 2 = ∑ j ∈ J.filter (fun j => j ≠ i), kamHilbertKernel i j ^ 2 := by
+    have h1 : ∑ j ∈ J, kamHilbertKernel i j ^ 2 =
+        ∑ j ∈ J.filter (fun j => j ≠ i), kamHilbertKernel i j ^ 2 := by
       rw [Finset.sum_filter_of_ne]
       intro j _ hne hji
       apply hne
