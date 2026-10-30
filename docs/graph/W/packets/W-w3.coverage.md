@@ -721,10 +721,10 @@ REVIEWER: sol-delta4-W-w3
 ITEM: bpW:w3:class-remark
 KIND: claim
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L771-L778
-DISPOSITION: EXCLUDED
-REASON: administrative remark (summary of the regularity class; the facts are proved in Theorems bpW:w3:flow, bpW:w3:main and Lemma bpW:w3:Yseries). Re-checked in wave 2: W6 Step stepW:w6:t-an (L374) cites it for 'Gamma is analytic'; that edge points to Theorem bpW:w3:flow, which proves the fact
+DISPOSITION: NODE bpW:w3:class-remark
+REASON: the regularity claim is directly cited inside stepW:w6:t-an; retained with dependencies on its W3 suppliers
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2+sol-delta5-W-w3
 REVIEWER: -
 
 ITEM: bpW:w3:gamma-real
@@ -750,9 +750,9 @@ KIND: claim
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:interface@L872-L920
 DISPOSITION: EXCLUDED
 REASON: administrative remark (what W3 supplies to W4-W8). Re-checked in wave 2: the 15 citations in W4, W5, W7, W8 are in inputs prose, excluded remarks and source notes (W8 L353, L381, L409: provenance of the return trip and the closeness bound). Each supplied fact is a labelled result that the consumers cite directly: bpW:w3:main (normal form), bpW:w3:gamma-real (Gamma^R, closeness 6 sqrt2 C_F ¦¦x¦¦^3), bpW:w3:transport-tori-weak (return trip)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 
 ITEM: heading:bpW:w3
 KIND: heading
@@ -1218,51 +1218,51 @@ KIND: corollary
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L831-L842
 DISPOSITION: NODE bpW:w3:transport-tori-weak
 REASON: labelled unit of the revised W3 (wave 2)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 
 ITEM: stepW:w3:wk-lin
 KIND: proof-region
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L845-L849
 DISPOSITION: NODE stepW:w3:wk-lin
 REASON: labelled unit of the revised W3 (wave 2)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 
 ITEM: stepW:w3:wk-reg
 KIND: proof-region
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L850-L858
 DISPOSITION: NODE stepW:w3:wk-reg
 REASON: labelled unit of the revised W3 (wave 2)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 
 ITEM: stepW:w3:wk-transport
 KIND: proof-region
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L859-L865
 DISPOSITION: NODE stepW:w3:wk-transport
 REASON: labelled unit of the revised W3 (wave 2)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 
 ITEM: w3-birkhoff:prose-L826-L829
 KIND: proof-region
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#prose@L826-L829
 DISPOSITION: EXCLUDED
 REASON: motivation for Corollary bpW:w3:transport-tori-weak (pointer to Theorem bpW:w6:tori)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 
 ITEM: w3-birkhoff:source-L867
 KIND: citation
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#source@L867-L868
 DISPOSITION: EXCLUDED
 REASON: provenance note (ours; pointer to the return-trip item of the excluded Remark bpW:w3:interface)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3

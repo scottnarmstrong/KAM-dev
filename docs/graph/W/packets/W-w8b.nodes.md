@@ -20,9 +20,9 @@ EDGE: bpW:w8:shell-iter | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch@L414-L4
 EDGE: bpW:w7:shell-geom | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch@L415-L415 | (i) unique n(I)
 EDGE: bpW:w8:Kshell | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch@L417-L417 | K^(n)_I
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch@L418-L418 | r_0, C, tau, eta
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -49,9 +49,9 @@ ROUTE_FOR: -
 EDGE: bpW:w8:patch | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch-local@L425-L425 | the patched family
 EDGE: stepW:w8:pl-dis | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch-local@L430-L430 | proof step
 EDGE: stepW:w8:pl-id | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch-local@L432-L432 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -78,9 +78,9 @@ ROUTE_FOR: -
 EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:pl-dis@L430-L430 | (ii) O_n subset R_n
 EDGE: bpW:w7:shell-geom | blueprint-W/parts/w8-assembly.tex#stepW:w8:pl-dis@L431-L431 | (i) disjoint shells
 EDGE: bpW:w8:shell-iter | blueprint-W/parts/w8-assembly.tex#stepW:w8:pl-dis@L431-L431 | Pi_* subset Pi_{-1} = Pi_n minus Xi
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -106,9 +106,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w8:pl-dis | blueprint-W/parts/w8-assembly.tex#stepW:w8:pl-id@L432-L432 | disjointness
 EDGE: bpW:w8:patch | blueprint-W/parts/w8-assembly.tex#stepW:w8:pl-id@L433-L433 | n(I), nu, K
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -138,9 +138,9 @@ EDGE: stepW:w8:pc-borel | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch-cont@L4
 EDGE: stepW:w8:pc-incl | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch-cont@L453-L453 | proof step
 EDGE: stepW:w8:pc-nu | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch-cont@L455-L455 | proof step
 EDGE: stepW:w8:pc-K | blueprint-W/parts/w8-assembly.tex#bpW:w8:patch-cont@L457-L457 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -166,9 +166,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-borel@L452-L452 | (iv) Gamma_n Borel
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-borel@L452-L452 | countable unions
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -196,9 +196,9 @@ EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-incl@L45
 EDGE: bpW:w8:shells | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-incl@L453-L453 | t_n <= t_0
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-incl@L453-L453 | r_0^2 = 2 t_0
 EDGE: stepW:w8:pl-dis | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-incl@L453-L453 | Gamma_n subset Pi_n
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -225,9 +225,9 @@ ROUTE_FOR: -
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-nu@L455-L455 | nu = nu^(n)_* on Gamma cap O_n
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-nu@L456-L456 | (iv)
 EDGE: bpW:w8:ext-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-nu@L456-L456 | local continuity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -254,9 +254,9 @@ ROUTE_FOR: -
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-K@L458-L458 | K = K^(.) on (Gamma cap O_n) x R^2
 EDGE: bpW:w8:shell-inv | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-K@L459-L459 | (ii)
 EDGE: bpW:w8:ext-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:pc-K@L459-L459 | local continuity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -289,9 +289,9 @@ EDGE: stepW:w8:u-gron | blueprint-W/parts/w8-assembly.tex#bpW:w8:unique@L484-L48
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#bpW:w8:unique@L473-L473 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w8-assembly.tex#bpW:w8:unique@L469-L469 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w8-assembly.tex#bpW:w8:unique@L466-L466 | the frozen WaveSpace occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -320,9 +320,9 @@ EDGE: bpW:w2:curve-deriv | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-raw@L472
 EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-raw@L469-L469 | omega_{1,1}(j) = ellWeight 1 1 j
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-raw@L473-L473 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-raw@L470-L470 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -348,9 +348,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w8:u-raw | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-reg@L474-L474 | the raw equations
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-reg@L474-L474 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -378,9 +378,9 @@ EDGE: bpW:w8:ext-inner | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-energy@L47
 EDGE: stepW:w8:u-raw | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-energy@L476-L476 | derivatives
 EDGE: stepW:w8:u-reg | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-energy@L479-L479 | absolute convergence
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-energy@L477-L477 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -408,9 +408,9 @@ EDGE: bpW:w8:ext-compact | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-ineq@L48
 EDGE: stepW:w8:u-energy | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-ineq@L483-L483 | f'
 EDGE: stepW:w8:u-raw | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-ineq@L482-L482 | Lipschitz bound of g
 EDGE: bpW:w8:ext-inner | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-ineq@L482-L482 | Cauchy-Schwarz
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -436,9 +436,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:ext-mono | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-gron@L485-L485 | monotonicity from the sign of the derivative
 EDGE: stepW:w8:u-ineq | blueprint-W/parts/w8-assembly.tex#stepW:w8:u-gron@L484-L484 | the inequality
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -465,9 +465,9 @@ ROUTE_FOR: -
 EDGE: stepW:w8:w-mod | blueprint-W/parts/w8-assembly.tex#bpW:w8:winding@L496-L496 | proof step
 EDGE: stepW:w8:w-const | blueprint-W/parts/w8-assembly.tex#bpW:w8:winding@L498-L498 | proof step
 EDGE: stepW:w8:w-rate | blueprint-W/parts/w8-assembly.tex#bpW:w8:winding@L499-L499 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -492,9 +492,9 @@ DEPS: bpW:w8:ext-exp
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:ext-exp | blueprint-W/parts/w8-assembly.tex#stepW:w8:w-mod@L497-L497 | e^z = 1 iff z in 2 pi i Z
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -520,9 +520,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:ext-exp | blueprint-W/parts/w8-assembly.tex#stepW:w8:w-const@L498-L498 | continuous integer-valued functions
 EDGE: stepW:w8:w-mod | blueprint-W/parts/w8-assembly.tex#stepW:w8:w-const@L498-L498 | integer valued
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -548,9 +548,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:ext-exp | blueprint-W/parts/w8-assembly.tex#stepW:w8:w-rate@L499-L499 | bounded t c forces c = 0
 EDGE: stepW:w8:w-const | blueprint-W/parts/w8-assembly.tex#stepW:w8:w-rate@L499-L499 | the constant c
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -578,9 +578,9 @@ EDGE: bpW:w8:patch | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L504-
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L507-L507 | 2 pi nu = omega^(n)_* on Gamma_n
 EDGE: stepW:w8:ni-same | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L508-L508 | proof step
 EDGE: stepW:w8:ni-diff | blueprint-W/parts/w8-assembly.tex#bpW:w8:nu-injective@L509-L509 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -593,7 +593,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-same@L508-L508
 PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-same@L508-L508
 CONTRACT_ID: stepW:w8:ni-same
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w8:nu-injective: the patched family
+SOURCE_HYPOTHESES: context of the proof of bpW:w8:nu-injective: the patched family; the enclosing implication premise nu(I) = nu(I'); local choices I in Gamma_n, I' in Gamma_{n'}
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:nu-injective (I, I' in Gamma); within the step: n = n'; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: I = I'
 CONSTANT_SCOPE: none
@@ -606,7 +606,7 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-same@L508-L508 | (ii)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -620,7 +620,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L509-L513
 PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L509-L513
 CONTRACT_ID: stepW:w8:ni-diff
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w8:nu-injective: the patched family
+SOURCE_HYPOTHESES: context of the proof of bpW:w8:nu-injective: the patched family; the enclosing implication premise nu(I) = nu(I'); local choices I in Gamma_n, I' in Gamma_{n'}
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:nu-injective (I, I' in Gamma); within the step: n != n'; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: omega^(n)_*(I) != omega^(n')_*(I')
 CONSTANT_SCOPE: none
@@ -635,7 +635,7 @@ EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L51
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L510-L510 | (iv)
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:ni-diff@L511-L511 | (iii)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -668,9 +668,9 @@ EDGE: stepW:w8:in-freq | blueprint-W/parts/w8-assembly.tex#bpW:w8:injective@L531
 EDGE: stepW:w8:in-act | blueprint-W/parts/w8-assembly.tex#bpW:w8:injective@L535-L535 | proof step
 EDGE: stepW:w8:in-ang | blueprint-W/parts/w8-assembly.tex#bpW:w8:injective@L536-L536 | proof step
 EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w8-assembly.tex#bpW:w8:injective@L536-L536 | the frozen IsAnalyticTorusEmbedding occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -683,7 +683,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-orbit@L524-L527
 PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-orbit@L524-L527
 CONTRACT_ID: stepW:w8:in-orbit
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family
+SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family; the enclosing implication premise K_I(theta) = K_{I'}(theta'); local choices I in Gamma_n, I' in Gamma_{n'}, nu = nu(I), nu' = nu(I'), Psi = tilde Psi^(n)_I, Psi' = tilde Psi^(n')_{I'}
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:injective (I, I' in Gamma, theta, theta' in R^2); within the step: t; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: Y(t) = K_I(theta + t nu) and Y'(t) = K_{I'}(theta' + t nu') coincide
 CONSTANT_SCOPE: none
@@ -700,7 +700,7 @@ EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-orbit@L
 EDGE: bpW:w2:orbit | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-orbit@L525-L525 | orbits are coefficient solutions
 EDGE: bpW:w8:unique | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-orbit@L527-L527 | uniqueness
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -714,7 +714,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-birk@L528-L530
 PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-birk@L528-L530
 CONTRACT_ID: stepW:w8:in-birk
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family
+SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family; the enclosing implication premise K_I(theta) = K_{I'}(theta'); local choices I in Gamma_n, I' in Gamma_{n'}, nu = nu(I), nu' = nu(I'), Psi = tilde Psi^(n)_I, Psi' = tilde Psi^(n')_{I'}
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:injective (I, I' in Gamma, theta, theta' in R^2); within the step: t; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: Psi(theta + t nu) = Psi'(theta' + t nu') for all t
 CONSTANT_SCOPE: none
@@ -732,7 +732,7 @@ EDGE: bpW:w3:gamma-real | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-birk@L52
 EDGE: bpW:w3:coords | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-birk@L530-L530 | Z bijective
 EDGE: bpW:w8:Kshell | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-birk@L528-L528 | K^(n)_I
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -746,7 +746,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-freq@L531-L534
 PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-freq@L531-L534
 CONTRACT_ID: stepW:w8:in-freq
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family
+SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family; the enclosing implication premise K_I(theta) = K_{I'}(theta'); local choices I in Gamma_n, I' in Gamma_{n'}, nu = nu(I), nu' = nu(I'), Psi = tilde Psi^(n)_I, Psi' = tilde Psi^(n')_{I'}
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:injective (I, I' in Gamma, theta, theta' in R^2); within the step: i; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: nu(I) = nu(I')
 CONSTANT_SCOPE: none
@@ -761,7 +761,7 @@ EDGE: bpW:w8:torus-shape | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-freq@L5
 EDGE: bpW:w8:winding | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-freq@L533-L533 | winding
 EDGE: stepW:w8:in-birk | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-freq@L531-L531 | equal tori
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -775,7 +775,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-act@L535-L535
 PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-act@L535-L535
 CONTRACT_ID: stepW:w8:in-act
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family
+SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family; the enclosing implication premise K_I(theta) = K_{I'}(theta'); local choices I in Gamma_n, I' in Gamma_{n'}, nu = nu(I), nu' = nu(I'), Psi = tilde Psi^(n)_I, Psi' = tilde Psi^(n')_{I'}
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:injective (I, I' in Gamma, theta, theta' in R^2); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: I = I'
 CONSTANT_SCOPE: none
@@ -789,7 +789,7 @@ ROUTE_FOR: -
 EDGE: bpW:w8:nu-injective | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-act@L535-L535 | injectivity of nu
 EDGE: stepW:w8:in-freq | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-act@L535-L535 | nu(I) = nu(I')
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -803,7 +803,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-ang@L536-L537
 PROOF_SOURCE: blueprint-W/parts/w8-assembly.tex#stepW:w8:in-ang@L536-L537
 CONTRACT_ID: stepW:w8:in-ang
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family
+SOURCE_HYPOTHESES: context of the proof of bpW:w8:injective: the patched family; the enclosing implication premise K_I(theta) = K_{I'}(theta'); local choices I in Gamma_n, I' in Gamma_{n'}, nu = nu(I), nu' = nu(I'), Psi = tilde Psi^(n)_I, Psi' = tilde Psi^(n')_{I'}
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:injective (I, I' in Gamma, theta, theta' in R^2); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: theta - theta' in Z^2
 CONSTANT_SCOPE: none
@@ -819,7 +819,7 @@ EDGE: stepW:w8:in-act | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-ang@L536-L
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-ang@L536-L536 | K_I = K^(n)_I
 EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w8-assembly.tex#stepW:w8:in-ang@L536-L536 | the frozen IsAnalyticTorusEmbedding occurs directly here
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -841,7 +841,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w8:const, bpW:w8:patch, bpW:w8:shells, bpW:w8:shell-iter, stepW:w8:p-pos, stepW:w8:p-etapos, stepW:w8:p-etalim, stepW:w8:p-meas, stepW:w8:p-incl, stepW:w8:p-nucont, stepW:w8:p-Kcont, stepW:w8:p-dens, stepW:w8:p-dioph, stepW:w8:p-lim, stepW:w8:p-emb, stepW:w8:p-close, stepW:w8:p-size, stepW:w8:p-inv, stepW:w8:p-pde, stepW:w8:p-inj, stepW:w8:p-assembly, bpW:w0:periodone#linearTorus, bpW:wh:embedding#IsAnalyticTorusEmbedding
+DEPS: bpW:w8:const, bpW:w8:patch, bpW:w8:shells, bpW:w8:shell-iter, stepW:w8:p-pos, stepW:w8:p-etapos, stepW:w8:p-etalim, stepW:w8:p-meas, stepW:w8:p-incl, stepW:w8:p-nucont, stepW:w8:p-Kcont, stepW:w8:p-dens, stepW:w8:p-dioph, stepW:w8:p-lim, stepW:w8:p-emb, stepW:w8:p-close, stepW:w8:p-size, stepW:w8:p-inv, stepW:w8:p-pde, stepW:w8:p-inj, stepW:w8:p-assembly, bpW:w0:periodone#linearTorus, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:w0:basis#lam, bpW:wh:dioph#IsDiophantine
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L549-L549 | r_0, C, tau, eta
@@ -867,8 +867,10 @@ EDGE: stepW:w8:p-inj | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L596-
 EDGE: stepW:w8:p-assembly | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L597-L597 | proof step
 EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L585-L585 | the linear torus K^0_I occurs directly here (frozen linearTorus)
 EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L584-L584 | the frozen IsAnalyticTorusEmbedding occurs directly here
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L582-L582 | the frozen frequency-limit vector uses lam
+EDGE: bpW:wh:dioph#IsDiophantine | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L577-L577 | the frozen IsDiophantine conclusion in clause (2)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -895,9 +897,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-pos@L556-L556 | t_0, r_0, C_3, C
 EDGE: bpW:w2:clause5 | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-pos@L557-L557 | M_m
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -923,9 +925,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:ext-rpow | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-etapos@L558-L558 | real powers
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-etapos@L558-L558 | eta, E_7
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -951,9 +953,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:ext-rpow | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-etalim@L559-L559 | continuity at 0
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-etalim@L559-L559 | eta
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -974,12 +976,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w8:patch-cont
+DEPS: bpW:w8:patch-cont, stepW:w8:pc-borel
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:patch-cont | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-meas@L560-L560 | via Step stepW:w8:pc-borel
+EDGE: stepW:w8:pc-borel | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-meas@L560-L560 | the explicitly cited Borel proof step
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1001,12 +1004,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w8:patch-cont
+DEPS: bpW:w8:patch-cont, stepW:w8:pc-incl
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:patch-cont | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-incl@L561-L561 | via Step stepW:w8:pc-incl
+EDGE: stepW:w8:pc-incl | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-incl@L562-L562 | the explicitly cited inclusion proof step
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1028,12 +1032,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w8:patch-cont
+DEPS: bpW:w8:patch-cont, stepW:w8:pc-nu
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:patch-cont | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-nucont@L563-L563 | via Step stepW:w8:pc-nu
+EDGE: stepW:w8:pc-nu | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-nucont@L563-L563 | the explicitly cited frequency continuity proof step
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1055,12 +1060,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w8:patch-cont
+DEPS: bpW:w8:patch-cont, stepW:w8:pc-K
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:patch-cont | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-Kcont@L564-L564 | via Step stepW:w8:pc-K
+EDGE: stepW:w8:pc-K | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-Kcont@L565-L565 | the explicitly cited family continuity proof step
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1095,9 +1101,9 @@ EDGE: bpW:w7:exponents | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dens@L573-
 EDGE: bpW:w7:density | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dens@L573-L573 | density theorem
 EDGE: bpW:w8:patch-cont | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dens@L573-L573 | Gamma subset P Borel
 EDGE: bpW:w8:patch | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dens@L570-L570 | Gamma_n subset Gamma
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1113,20 +1119,21 @@ CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w8:nlw2-proof: m > 0 (the standing assumption bpW:w0:mass)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w8:nlw2-proof (for every m > 0); within the step: I in Gamma; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: clause (2): KAM.IsDiophantine gamma_I 24 (nu I) with gamma_I = check alpha_n/(8 pi) > 0
-CONSTANT_SCOPE: none
+CONSTANT_SCOPE: gamma_I = check alpha_n/(8 pi) is chosen after I in its unique shell; tau = 24 was fixed after m
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w8:freq-shell, bpW:w7:dioph, bpW:w8:patch-local, bpW:w7:dioph-use
+DEPS: bpW:w8:freq-shell, bpW:w7:dioph, bpW:w8:patch-local, bpW:w7:dioph-use, bpW:wh:dioph#IsDiophantine
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dioph@L575-L575 | (iii)
 EDGE: bpW:w7:dioph | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dioph@L576-L576 | Diophantine conversion
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dioph@L577-L577 | nu(I) = omega^(n)_*(I)/(2 pi)
 EDGE: bpW:w7:dioph-use | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dioph@L578-L578 | gamma chosen after I
+EDGE: bpW:wh:dioph#IsDiophantine | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-dioph@L577-L577 | IsDiophantine gamma_I 24 (nu I) occurs directly
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1148,15 +1155,17 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:limit, bpW:w8:patch-local, bpW:w8:freq-shell, bpW:w8:etor
+DEPS: bpW:w7:limit, bpW:w8:patch-local, bpW:w8:freq-shell, bpW:w8:etor, bpW:w0:basis#lam, bpW:w8:shells
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:limit | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L579-L579 | frequency limit
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L580-L580 | omega_* = omega^(n)_* on Gamma_n
 EDGE: bpW:w8:freq-shell | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L581-L581 | (iii) e_n <= alpha_n
 EDGE: bpW:w8:etor | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L581-L581 | eps^(n)_omega <= alpha_n
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L582-L582 | lam m hm (i : Nat).succPNat occurs directly
+EDGE: bpW:w8:shells | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-lim@L581-L581 | alpha_n = (2^{-n} t_0)^{95/64} tends to zero
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1184,9 +1193,9 @@ ROUTE_FOR: -
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-emb@L583-L583 | K_I = K^(n)_I
 EDGE: bpW:w8:shell-embedding | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-emb@L584-L584 | single shell
 EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-emb@L584-L584 | the frozen IsAnalyticTorusEmbedding occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1217,9 +1226,9 @@ EDGE: bpW:w8:ext-rpow | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-close@L588-
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-close@L588-L588 | eta
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-close@L586-L586 | K_I = K^(n)_I
 EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-close@L585-L585 | the linear torus K^0_I occurs directly here (frozen linearTorus)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1240,7 +1249,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w8:shell-close, bpW:w8:shells, bpW:w8:shell-data, bpW:w7:shell-geom, bpW:w8:const
+DEPS: bpW:w8:shell-close, bpW:w8:shells, bpW:w8:shell-data, bpW:w7:shell-geom, bpW:w8:const, bpW:w8:patch-local
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:shell-close | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-size@L589-L589 | ¦¦K¦¦ <= 2 rho_n
@@ -1248,8 +1257,9 @@ EDGE: bpW:w8:shells | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-size@L589-L58
 EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-size@L589-L589 | (i) rho_n^2 <= 2 c_A t_n
 EDGE: bpW:w7:shell-geom | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-size@L590-L590 | (iii)
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-size@L590-L590 | C_3, C
+EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-size@L589-L589 | K_I = K^(n)_I on its shell
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w8b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1276,9 +1286,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:shell-inv | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-inv@L591-L591 | (i)
 EDGE: bpW:w8:patch-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-inv@L592-L592 | K_I = K^(n)_I, nu = nu^(n)_*
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1306,9 +1316,9 @@ EDGE: bpW:w2:clause5 | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-pde@L593-L59
 EDGE: stepW:w8:p-emb | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-pde@L594-L594 | hypothesis
 EDGE: stepW:w8:p-size | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-pde@L594-L594 | hypothesis
 EDGE: stepW:w8:p-inv | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-pde@L594-L594 | hypothesis
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1333,9 +1343,9 @@ DEPS: bpW:w8:injective
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w8:injective | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-inj@L596-L596 | family injectivity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1375,9 +1385,9 @@ EDGE: stepW:w8:p-close | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-assembly@L
 EDGE: stepW:w8:p-size | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-assembly@L597-L597 | conjunct
 EDGE: stepW:w8:p-inv | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-assembly@L597-L597 | conjunct
 EDGE: stepW:w8:p-pde | blueprint-W/parts/w8-assembly.tex#stepW:w8:p-assembly@L597-L597 | conjunct
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w8b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

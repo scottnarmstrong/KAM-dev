@@ -3,81 +3,81 @@ KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-taylor@L46-L53
 DISPOSITION: NODE bpW:w5:ext-taylor
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:ext-ftc
 KIND: external
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-ftc@L54-L56
 DISPOSITION: NODE bpW:w5:ext-ftc
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:setting
 KIND: definition
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:setting@L62-L71
 DISPOSITION: NODE bpW:w5:setting
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:omega
 KIND: lemma
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L75-L79
 DISPOSITION: NODE bpW:w5:omega
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:ombd
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:ombd@L81-L82
 DISPOSITION: NODE stepW:w5:ombd
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:omnd
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnd@L83-L85
 DISPOSITION: NODE stepW:w5:omnd
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:omnorm
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnorm@L86-L87
 DISPOSITION: NODE stepW:w5:omnorm
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:class
 KIND: definition
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L91-L105
 DISPOSITION: NODE bpW:w5:class
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:lambda-product
 KIND: claim
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:lambda-product@L109-L114
 DISPOSITION: NODE bpW:w5:lambda-product
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:w4-general
 KIND: lemma
@@ -93,45 +93,45 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-pair@L136-L138
 DISPOSITION: NODE stepW:w5:g-pair
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:g-tail
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-tail@L139-L140
 DISPOSITION: NODE stepW:w5:g-tail
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:g-div
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-div@L141-L143
 DISPOSITION: NODE stepW:w5:g-div
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:g-diag
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L144-L146
 DISPOSITION: NODE stepW:w5:g-diag
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:g-rest
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L147-L150
 DISPOSITION: NODE stepW:w5:g-rest
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:w4-modified
 KIND: lemma
@@ -147,9 +147,9 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-sup@L180-L184
 DISPOSITION: NODE stepW:w5:m-sup
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:m-other
 KIND: proof-region
@@ -165,9 +165,9 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L187-L190
 DISPOSITION: NODE stepW:w5:m-lip
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:m-act
 KIND: proof-region
@@ -192,54 +192,54 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-const@L218-L221
 DISPOSITION: NODE stepW:w5:m-const
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:prep-gap
 KIND: claim
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:prep-gap@L240-L247
 DISPOSITION: EXCLUDED
 REASON: administrative remark (exponents adopted by W6-W7 after the sourcegap; their values are fixed in Definition bpW:w7:constdef and Lemma bpW:w6:prep-step)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:taylor
 KIND: lemma
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L251-L271
 DISPOSITION: NODE bpW:w5:taylor
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:t-scale
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-scale@L273-L276
 DISPOSITION: NODE stepW:w5:t-scale
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:t-disc
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-disc@L277-L279
 DISPOSITION: NODE stepW:w5:t-disc
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:t-poly
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-poly@L280-L284
 DISPOSITION: NODE stepW:w5:t-poly
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:t-comp
 KIND: proof-region
@@ -264,45 +264,45 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L299-L305
 DISPOSITION: NODE stepW:w5:t-est
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:data
 KIND: definition
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L313-L333
 DISPOSITION: NODE bpW:w5:data
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: bpW:w5:solve
 KIND: lemma
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:solve@L337-L348
 DISPOSITION: NODE bpW:w5:solve
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:s-in
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-in@L350-L351
 DISPOSITION: NODE stepW:w5:s-in
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:s-out
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L352-L356
 DISPOSITION: NODE stepW:w5:s-out
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:s-class
 KIND: proof-region
@@ -327,9 +327,9 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-margin@L381-L383
 DISPOSITION: NODE stepW:w5:f-margin
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: stepW:w5:f-flow
 KIND: proof-region
@@ -444,222 +444,222 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-time@L445-L447
 DISPOSITION: NODE stepW:w5:c-time
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: heading:bpW:w5
 KIND: heading
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5@L1-L1
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: heading:bpW:w5:ext
 KIND: heading
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext@L41-L41
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: heading:bpW:w5:setting-sec
 KIND: heading
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:setting-sec@L60-L60
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: heading:bpW:w5:w4-sec
 KIND: heading
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-sec@L116-L116
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: heading:bpW:w5:taylor-sec
 KIND: heading
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor-sec@L249-L249
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: heading:bpW:w5:flow-sec
 KIND: heading
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow-sec@L311-L311
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:sourcegap-L226
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#sourcegap@L226-L238
 DISPOSITION: NODE bpW:w5:w4-modified, stepW:w5:m-lip, stepW:w5:m-act
 REASON: P96-K p. 140's lambda-norm for the modified divisors needs 2 beta <= bar p - check p; the blueprint states (ii) under that hypothesis (Step stepW:w5:m-lip) and handles the action component separately (Step stepW:w5:m-act); W7 adopts beta = 1/4. Not an open gap of the blueprint
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L72
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L72-L72
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L89
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L89-L89
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L106
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L106-L106
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L152
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L152-L152
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L223
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L223-L223
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L307
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L307-L307
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L334
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L334-L334
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L362
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L362-L362
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L405
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L405-L405
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:source-L449
 KIND: citation
 SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L449-L449
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:prose-L7-L11
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L7-L11
 DISPOSITION: EXCLUDED
 REASON: introduction
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:prose-L13-L25
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L13-L25
 DISPOSITION: EXCLUDED
 REASON: route paragraph (outline)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:prose-L27-L33
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L27-L33
 DISPOSITION: EXCLUDED
 REASON: inputs paragraph (pointers; each use is an edge at its consumer)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:prose-L35-L39
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L35-L39
 DISPOSITION: NODE bpW:w5#data
 REASON: fixes a = p = 1 for W5
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:prose-L43-L45
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L43-L45
 DISPOSITION: EXCLUDED
 REASON: introduction of the external list and layout
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:prose-L57-L58
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L57-L58
 DISPOSITION: EXCLUDED
 REASON: layout
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a
 
 ITEM: w5-kamstep:prose-L118-L121
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L118-L121
 DISPOSITION: EXCLUDED
 REASON: motivation of Lemmas bpW:w5:w4-general and bpW:w5:w4-modified
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5a

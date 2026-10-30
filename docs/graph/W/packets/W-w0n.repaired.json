@@ -3,8 +3,5 @@
  "added": [],
  "items": [],
  "unresolved": {},
- "passes": [
-  "bpW:w0n:gradient",
-  "bpW:w0n:cubic-bound"
- ]
+ "passes": []
 }

@@ -1886,3 +1886,32 @@ LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
+
+NODE: bpW:w1:kam-conventions
+KIND: claim
+TITLE: Coordinate exchange and sum/max norms used in W4
+STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L943-L949
+PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L943-L949
+CONTRACT_ID: bpW:w1:kam-conventions
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: the W0 complex-coordinate convention and the W1 KAM domain
+SOURCE_QUANTIFIERS: for normal phase coordinates and their norms as stated
+SOURCE_CONCLUSION: P96-K's z=(u-iv)/sqrt2 and zbar=(u+iv)/sqrt2 exchange the W0 z and zbar; the normal form <omega,y>+<Omega,z zbar> and smallness norms are invariant under this exchange; W4-W6 retain the W0 convention; D(s,r) uses ¦¦u¦¦+¦¦v¦¦, between the product max norm and twice that norm
+CONSTANT_SCOPE: the sum/max comparison factor is at most 2
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: bpW:w0:z, bpW:w1:kam-space, bpW:w0:ellap#WaveSpace
+ROUTES: -
+ROUTE_FOR: -
+EDGE: bpW:w0:z | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L945-L945 | the W0 convention used in the exchange
+EDGE: bpW:w1:kam-space | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L947-L948 | the domain uses the sum of the normal component norms
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L948-L948 | the frozen WaveSpace product max norm occurs directly
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: new+sol-delta5-W-w1b
+REVIEWER: -
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: Restored because bpW:w4:index cites the coordinate-exchange claim at w4-homological.tex L87 inside its convention statement. The P96-K convention is source comparison, not a new external theorem.

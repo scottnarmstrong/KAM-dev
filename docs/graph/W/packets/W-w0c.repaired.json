@@ -4,8 +4,6 @@
  "items": [],
  "unresolved": {},
  "passes": [
-  "bpW:w0:twosided",
-  "bpW:w0:H",
-  "bpW:w0:Gq#cubicGrad"
+  "bpW:w0:reconstruction#reconU"
  ]
 }

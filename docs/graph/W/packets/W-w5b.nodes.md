@@ -13,7 +13,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:flow, bpW:w5:newham-sec#bracket, bpW:w5:solve, bpW:w4:lie, bpW:w4:index, bpW:w5:class, stepW:w5:n-exp, stepW:w5:n-br, stepW:w5:n-field, stepW:w5:n-conj, bpW:w0:basis#sineMode
+DEPS: bpW:w5:flow, bpW:w5:newham-sec#bracket, bpW:w5:solve, bpW:w4:lie, bpW:w4:index, bpW:w5:class, stepW:w5:n-exp, stepW:w5:n-br, stepW:w5:n-field, stepW:w5:n-conj
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#bpW:w5:new-ham@L458-L458 | the flow and its setting
@@ -26,9 +26,8 @@ EDGE: stepW:w5:n-exp | blueprint-W/parts/w5-kamstep.tex#bpW:w5:new-ham@L474-L474
 EDGE: stepW:w5:n-br | blueprint-W/parts/w5-kamstep.tex#bpW:w5:new-ham@L481-L481 | proof step
 EDGE: stepW:w5:n-field | blueprint-W/parts/w5-kamstep.tex#bpW:w5:new-ham@L485-L485 | proof step
 EDGE: stepW:w5:n-conj | blueprint-W/parts/w5-kamstep.tex#bpW:w5:new-ham@L488-L488 | proof step
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w5-kamstep.tex#bpW:w5:new-ham@L458-L458 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -50,20 +49,19 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:flow, bpW:w5:flow-calc, bpW:w5:ext-ftc, bpW:w0:basis#sineMode
+DEPS: bpW:w5:flow, bpW:w5:flow-calc, bpW:w5:ext-ftc
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L475-L475 | (iii)
 EDGE: bpW:w5:flow-calc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L475-L475 | (v)
 EDGE: bpW:w5:ext-ftc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L475-L475 | calculus along curves
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-exp@L474-L474 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: L478 exchanges the order of integration on a time triangle without a proof or a permitted external covering this domain; ext-rect gives Fubini for continuous integrands on a box, not this triangular integration statement.
 
 NODE: stepW:w5:n-br
 KIND: step
@@ -84,9 +82,9 @@ DEPS: stepW:w5:c-skew
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w5:c-skew | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-br@L483-L483 | skewness of DX
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -113,9 +111,9 @@ ROUTE_FOR: -
 EDGE: bpW:w5:flow-calc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-field@L485-L485 | (iv) transport, (i) continuity
 EDGE: stepW:w5:n-br | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-field@L486-L486 | the bracket field
 EDGE: bpW:w3:ext-integral | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-field@L486-L486 | differentiation under the t-integral
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -142,9 +140,9 @@ ROUTE_FOR: -
 EDGE: bpW:w4:lie | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-conj@L491-L491 | (i) convergence of the pairings
 EDGE: stepW:w5:n-field | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-conj@L492-L492 | (ii)
 EDGE: stepW:w5:n-exp | blueprint-W/parts/w5-kamstep.tex#stepW:w5:n-conj@L488-L488 | (i) H o Phi = N_+ + P_+ + hat a_0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -165,16 +163,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:flow, stepW:w5:p-inv, stepW:w5:p-dy, stepW:w5:p-ass, bpW:w0:basis#sineMode
+DEPS: bpW:w5:flow, stepW:w5:p-inv, stepW:w5:p-dy, stepW:w5:p-ass
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#bpW:w5:pullback@L503-L503 | the setting
 EDGE: stepW:w5:p-inv | blueprint-W/parts/w5-kamstep.tex#bpW:w5:pullback@L508-L508 | proof step
 EDGE: stepW:w5:p-dy | blueprint-W/parts/w5-kamstep.tex#bpW:w5:pullback@L514-L514 | proof step
 EDGE: stepW:w5:p-ass | blueprint-W/parts/w5-kamstep.tex#bpW:w5:pullback@L517-L517 | proof step
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w5-kamstep.tex#bpW:w5:pullback@L505-L505 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -196,20 +193,20 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:omega, bpW:w5:flow, stepW:w5:f-der, bpW:w0:basis#sineMode
+DEPS: bpW:w5:omega, bpW:w5:flow, stepW:w5:f-der, bpW:w3:ext-neumann
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L509-L509 | norm comparisons
 EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L509-L509 | (ii)
 EDGE: stepW:w5:f-der | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L512-L512 | the parameter bound
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L510-L510 | the sine modes phi_j occur directly here (frozen sineMode)
+EDGE: bpW:w3:ext-neumann | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-inv@L511-L511 | inverse norm bound from the one-half operator perturbation
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: the parameter-difference displays at L512-L513 omit the factor |xi-zeta| (or the corresponding quotient). The lambda-norm conclusion requires a Lipschitz-quotient estimate, not an unnormalised difference bound independent of the parameter distance; the graph does not silently repair those displays.
 
 NODE: stepW:w5:p-dy
 KIND: step
@@ -231,9 +228,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:kam-domain | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-dy@L514-L514 | margins
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-dy@L516-L516 | Cauchy estimate
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -254,15 +251,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w5:p-inv, stepW:w5:p-dy, bpW:w5:lambda-product, bpW:w0:basis#sineMode
+DEPS: stepW:w5:p-inv, stepW:w5:p-dy, bpW:w5:lambda-product, stepW:w5:f-par
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w5:p-inv | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L517-L517 | inverse bounds
 EDGE: stepW:w5:p-dy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L519-L519 | derivative of Y
 EDGE: bpW:w5:lambda-product | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L518-L518 | lambda-norm of products
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L517-L517 | the sine modes phi_j occur directly here (frozen sineMode)
+EDGE: stepW:w5:f-par | blueprint-W/parts/w5-kamstep.tex#stepW:w5:p-ass@L520-L520 | the bound on the parameter difference of the flow is used directly
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -291,9 +288,9 @@ EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#bpW:w5:commutator@L527-L527
 EDGE: bpW:w5:newham-sec#bracket | blueprint-W/parts/w5-kamstep.tex#bpW:w5:commutator@L528-L528 | the commutator
 EDGE: stepW:w5:k-cauchy | blueprint-W/parts/w5-kamstep.tex#bpW:w5:commutator@L531-L531 | proof step
 EDGE: stepW:w5:k-bd | blueprint-W/parts/w5-kamstep.tex#bpW:w5:commutator@L534-L534 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -319,9 +316,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:kam-domain | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-cauchy@L532-L532 | margins
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-cauchy@L533-L533 | Cauchy
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -350,9 +347,9 @@ EDGE: bpW:w5:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-bd@L535-L535 | 
 EDGE: bpW:w5:lambda-product | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-bd@L535-L535 | submultiplicativity
 EDGE: stepW:w5:k-cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-bd@L536-L536 | derivative bounds
 EDGE: bpW:w5:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:k-bd@L537-L537 | ¦.¦_{eta r} <= eta^{-2}¦.¦_r
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -367,13 +364,13 @@ CONTRACT_ID: bpW:w5:step
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: step data (Definition bpW:w5:data) and the smallness condition (bpW:w5:small); in the modified case also 2 beta <= p+1-p_+ for the Lipschitz parts; C_2 = 896 + 168 c_F
 SOURCE_QUANTIFIERS: there exist a real holomorphic family Phi(.,xi) : D_+ = D(s-5sigma,eta r) -> D(s-4sigma,2 eta r), N_+, P_+; then for all xi in Pi
-SOURCE_CONCLUSION: (i) H o Phi = N_+ + P_+ + hat a_0(xi) on D_+ with the weak conjugacy; Phi symplectic, D Phi(w) maps P^{p_+} onto itself, real, Phi(w + tau_k) = Phi(w) + tau_k; (ii) P_+ in S_{p_+}(D_+) real periodic with (bpW:w5:newerror) ¦X_{P_+}¦^lambda_{eta r,D_+} <= C_2(eps^2/(alpha sigma^t eta^2) + eta eps); (iii) ¦omega_+ - omega¦ + lambda¦.¦^L <= 6 pi eps, sup (j+2)^{p_+-p}(¦Omega_{+,j} - Omega_j¦ + lambda¦.¦^L) <= 3 eps, so (omega_+,Omega_+) satisfies (bpW:w5:freq) with M_0 + 3 eps and M_+ <= M + (6pi+3) eps/lambda (lambda > 0); (iv) for K >= 1, 0 < alpha_+ <= alpha with 6 pi (1+K)(1+K^tau) eps <= alpha - alpha_+, the divisor bounds with alpha_+ for ¦k¦_1 <= K (also with <l>^w); (v) ¦Phi - id¦^lambda_{p_+,r,D_+} <= 2 M_F and ¦D Phi - I¦^lambda_{p->p_+,r,D_+} <= 16 M_F/sigma
+SOURCE_CONCLUSION: (i) H o Phi = N_+ + P_+ + hat a_0(xi) on D_+ with the weak conjugacy; Phi symplectic, D Phi(w) maps P^{p_+} onto itself, real, Phi(w + tau_k) = Phi(w) + tau_k; (ii) P_+ in S_{p_+}(D_+) real periodic with (bpW:w5:newerror) ¦X_{P_+}¦^lambda_{eta r,D_+} <= C_2(eps^2/(alpha sigma^t eta^2) + eta eps); (iii) ¦omega_+ - omega¦ + lambda¦.¦^L <= 6 pi eps, sup (j+2)^{p_+-p}(¦Omega_{+,j} - Omega_j¦ + lambda¦.¦^L) <= 3 eps, so (omega_+,Omega_+) satisfies (bpW:w5:freq) with M_0 + 3 eps and M_+ <= M + (6pi+3) eps/lambda (lambda > 0); (iv) for K >= 1, 0 < alpha_+ <= alpha with 6 pi (1+K)(1+K^tau) eps <= alpha - alpha_+, the divisor bounds with alpha_+ for ¦k¦_1 <= K, conditional on the same unmodified divisor bounds with alpha for the old frequencies on these modes (also with <l>^w); (v) ¦Phi - id¦^lambda_{p_+,r,D_+} <= 2 M_F and ¦D Phi - I¦^lambda_{p->p_+,r,D_+} <= 16 M_F/sigma
 CONSTANT_SCOPE: C_2 = 896 + 168 c_F depends only on tau
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:data, bpW:w5:new-ham, bpW:w5:flow, bpW:w4:wave, bpW:w4:melnikov, stepW:w5:st-con, stepW:w5:st-1, stepW:w5:st-2, stepW:w5:st-freq, stepW:w5:st-div, bpW:w0:basis#sineMode
+DEPS: bpW:w5:data, bpW:w5:new-ham, bpW:w5:flow, bpW:w4:wave, bpW:w4:melnikov, stepW:w5:st-con, stepW:w5:st-1, stepW:w5:st-2, stepW:w5:st-freq, stepW:w5:st-div
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:data | blueprint-W/parts/w5-kamstep.tex#bpW:w5:step@L544-L544 | step data and (bpW:w5:small)
@@ -386,9 +383,8 @@ EDGE: stepW:w5:st-1 | blueprint-W/parts/w5-kamstep.tex#bpW:w5:step@L571-L571 | p
 EDGE: stepW:w5:st-2 | blueprint-W/parts/w5-kamstep.tex#bpW:w5:step@L573-L573 | proof step
 EDGE: stepW:w5:st-freq | blueprint-W/parts/w5-kamstep.tex#bpW:w5:step@L575-L575 | proof step
 EDGE: stepW:w5:st-div | blueprint-W/parts/w5-kamstep.tex#bpW:w5:step@L577-L577 | proof step
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w5-kamstep.tex#bpW:w5:step@L569-L569 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -410,7 +406,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:taylor, bpW:w5:solve, bpW:w5:flow, bpW:w5:flow-calc, bpW:w5:new-ham, bpW:w0:basis#sineMode
+DEPS: bpW:w5:taylor, bpW:w5:solve, bpW:w5:flow, bpW:w5:flow-calc, bpW:w5:new-ham
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:taylor | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-con@L568-L568 | R
@@ -418,9 +414,8 @@ EDGE: bpW:w5:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-con@L568-L568 
 EDGE: bpW:w5:flow | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-con@L568-L568 | the flow; (i)-(ii)
 EDGE: bpW:w5:flow-calc | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-con@L569-L569 | calculus
 EDGE: bpW:w5:new-ham | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-con@L569-L569 | the new Hamiltonian
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-con@L569-L569 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -447,9 +442,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:taylor | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-1@L572-L572 | (iv)
 EDGE: bpW:w5:pullback | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-1@L572-L572 | pull-back bound
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -475,9 +470,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:commutator | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-2@L573-L573 | commutator bound
 EDGE: bpW:w5:pullback | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-2@L573-L573 | pull-back bound
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -502,9 +497,9 @@ DEPS: bpW:w5:solve
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:solve | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-freq@L575-L575 | the frequency corrections
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -517,7 +512,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-div@L577-L579
 PROOF_SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-div@L577-L579
 CONTRACT_ID: stepW:w5:st-div
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w5:step: step data (Definition bpW:w5:data) and the smallness condition (bpW:w5:small); in the modified case also 2 beta <= p+1-p_+ for the Lipschitz parts; C_2 = 896 + 168 c_F
+SOURCE_HYPOTHESES: context of the proof of bpW:w5:step: step data (Definition bpW:w5:data) and the smallness condition (bpW:w5:small); in the modified case also 2 beta <= p+1-p_+ for the Lipschitz parts; C_2 = 896 + 168 c_F; for the modes |k|_1 <= K under consideration, the old frequencies satisfy the same unmodified divisor lower bound with alpha (L561-L562)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w5:step (there exist a real holomorphic family Phi(.,xi) : D_+ = D(s-5sigma,eta r) -> D(s-4sigma,2 eta r), N_+, P_+; then for all xi in Pi); within the step: ¦k¦_1 <= K; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (iv): the corrections shift the divisors by at most (alpha - alpha_+)<l>/A_k
 CONSTANT_SCOPE: none
@@ -530,7 +525,7 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w5:st-freq | blueprint-W/parts/w5-kamstep.tex#stepW:w5:st-div@L577-L577 | the frequency corrections
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -572,9 +567,9 @@ EDGE: stepW:w5:a-field | blueprint-W/parts/w5-kamstep.tex#bpW:w5:action-angle@L6
 EDGE: stepW:w5:a-conj | blueprint-W/parts/w5-kamstep.tex#bpW:w5:action-angle@L661-L661 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w5-kamstep.tex#bpW:w5:action-angle@L621-L621 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w5-kamstep.tex#bpW:w5:action-angle@L636-L636 | the frozen WaveSpace occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -595,16 +590,18 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: -
+DEPS: bpW:w0:periodone#linearTorus, bpW:w3:coords
 ROUTES: -
 ROUTE_FOR: -
+EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L642-L642 | the displayed recovered q_i,p_i are the frozen linear torus
+EDGE: bpW:w3:coords | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-hol@L642-L642 | the inverse Z coordinate map is used to recover q_i,p_i
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: L640 invokes holomorphy of the principal complex square root on Re > 0 without proof or a permitted external stating it. Preserve the principal-branch obligation in this step.
 
 NODE: stepW:w5:a-dom
 KIND: step
@@ -624,9 +621,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -651,9 +648,9 @@ DEPS: bpW:w4:index
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-der@L650-L650 | (bpW:w4:pairing)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -681,9 +678,9 @@ EDGE: bpW:w3:main | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-nf@L653-L653 | (
 EDGE: bpW:w0n:AB | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-nf@L653-L653 | A, B
 EDGE: bpW:w3:Lambda | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-nf@L652-L652 | Lambda
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-nf@L652-L652 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -704,14 +701,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w3:main, stepW:w5:a-der, bpW:w0:basis#lam
+DEPS: bpW:w3:main, stepW:w5:a-der, bpW:w0:basis#lam, bpW:w0:basis#lambda-facts
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:main | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-field@L655-L655 | (ii)-(iii) fields into W+
 EDGE: stepW:w5:a-der | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-field@L656-L656 | (iii)
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-field@L658-L658 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-field@L659-L659 | J/lambda_J <= 1 gives the one-weight smoothing multiplier bound
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -741,9 +739,9 @@ EDGE: stepW:w5:a-nf | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-conj@L663-L663
 EDGE: bpW:w5:new-ham | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-conj@L663-L663 | (iii)'s computation for N_xi
 EDGE: stepW:w5:a-der | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-conj@L665-L665 | (iii)
 EDGE: bpW:w3:omega | blueprint-W/parts/w5-kamstep.tex#stepW:w5:a-conj@L666-L666 | nondegeneracy
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -764,7 +762,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w3:main, bpW:w3:majorant, bpW:w5:action-angle, bpW:w4:wave, stepW:w5:i-q, stepW:w5:i-g, stepW:w5:i-k, stepW:w5:i-par, stepW:w5:i-freq
+DEPS: bpW:w3:main, bpW:w3:majorant, bpW:w5:action-angle, bpW:w4:wave, stepW:w5:i-q, stepW:w5:i-g, stepW:w5:i-k, stepW:w5:i-par, stepW:w5:i-freq, bpW:w7:freqcoords
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:main | blueprint-W/parts/w5-kamstep.tex#bpW:w5:initial@L674-L674 | rho_1, C'_K
@@ -776,8 +774,9 @@ EDGE: stepW:w5:i-g | blueprint-W/parts/w5-kamstep.tex#bpW:w5:initial@L689-L689 |
 EDGE: stepW:w5:i-k | blueprint-W/parts/w5-kamstep.tex#bpW:w5:initial@L692-L692 | proof step
 EDGE: stepW:w5:i-par | blueprint-W/parts/w5-kamstep.tex#bpW:w5:initial@L697-L697 | proof step
 EDGE: stepW:w5:i-freq | blueprint-W/parts/w5-kamstep.tex#bpW:w5:initial@L702-L702 | proof step
+EDGE: bpW:w7:freqcoords | blueprint-W/parts/w5-kamstep.tex#bpW:w5:initial@L681-L681 | N_A in the stated Lipschitz conclusion is the norm of A defined by freqcoords(ii)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w5b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -804,9 +803,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-q@L685-L685 | (ii) N_A <= 3/5
 EDGE: bpW:w4:index | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-q@L686-L686 | (bpW:w4:zu)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -832,9 +831,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:main | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-g@L690-L690 | (iii)
 EDGE: bpW:w5:action-angle | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-g@L691-L691 | (iii) inverse formula
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -860,9 +859,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:main | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-k@L692-L692 | (ii) ¦¦X_K¦¦ <= C'_K ¦¦w¦¦^5
 EDGE: bpW:w5:action-angle | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-k@L692-L692 | (ii), (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -887,9 +886,9 @@ DEPS: bpW:w1:cauchy
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-par@L700-L700 | Cauchy estimate in xi
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -915,9 +914,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:wave | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-freq@L702-L702 | (i)
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w5-kamstep.tex#stepW:w5:i-freq@L702-L702 | (ii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -942,9 +941,9 @@ DEPS: bpW:w4:taylor
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:taylor | blueprint-W/parts/w5-kamstep.tex#bpW:w5:newham-sec@L455-L455 | the class T
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w5b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

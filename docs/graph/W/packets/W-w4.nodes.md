@@ -16,9 +16,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -42,9 +42,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -68,9 +68,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -94,9 +94,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -117,15 +117,17 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:transport, bpW:w1:tails, bpW:w0:z, bpW:w1:kam-space
+DEPS: bpW:w1:transport, bpW:w1:tails, bpW:w0:z, bpW:w1:kam-space, bpW:w0:ellap#ellWeight, bpW:w1:kam-conventions
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:transport | blueprint-W/parts/w4-homological.tex#bpW:w4:index@L69-L69 | weighted coordinates at weight (a,q)
 EDGE: bpW:w1:tails | blueprint-W/parts/w4-homological.tex#bpW:w4:index@L70-L70 | the convention for normal-mode sequences (entries J = 1,2 zero)
 EDGE: bpW:w0:z | blueprint-W/parts/w4-homological.tex#bpW:w4:index@L86-L86 | the W0 convention z = (q + ip)/sqrt2
 EDGE: bpW:w1:kam-space | blueprint-W/parts/w4-homological.tex#bpW:w4:index@L93-L93 | the domain D(s,r) of Definition bpW:w1:kam-space
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#bpW:w4:index@L67-L67 | the wave weight omega_{a,q}(J) is the frozen ellWeight at these parameters
+EDGE: bpW:w1:kam-conventions | blueprint-W/parts/w4-homological.tex#bpW:w4:index@L87-L87 | the W0/P96-K conjugate-coordinate exchange cited inside the convention
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4+sol-delta5-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -147,12 +149,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:index
+DEPS: bpW:w4:index, bpW:w0:ellap#ellWeight
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#bpW:w4:ops@L118-L118 | the spaces l^N_{a,q}, the pairing and (bpW:w4:pairing)
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#bpW:w4:ops@L125-L125 | the wave weight omega_{a,q}(J) is the frozen ellWeight at these parameters
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -174,13 +177,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:index, bpW:w4:ops
+DEPS: bpW:w4:index, bpW:w4:ops, bpW:w1:kam-space
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#bpW:w4:taylor@L139-L139 | the spaces and the coordinates z, zbar, u, v
 EDGE: bpW:w4:ops | blueprint-W/parts/w4-homological.tex#bpW:w4:taylor@L138-L138 | the operator space L
+EDGE: bpW:w1:kam-space | blueprint-W/parts/w4-homological.tex#bpW:w4:taylor@L146-L146 | the field norm is identified with this domain/norm definition
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -206,9 +210,9 @@ DEPS: bpW:w4:index
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#bpW:w4:melnikov@L158-L158 | the P96-K normal index j
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -223,7 +227,7 @@ CONTRACT_ID: bpW:w4:wave
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: lambda_J = sqrt(J^2+m); b = (1/lambda_1, 1/lambda_2); omega(xi) = (lambda_1,lambda_2) + A xi, Omega_j(xi) = lambda_{j+2} + (3/(2 pi lambda_{j+2}))<b,xi> (j >= 1), A of Theorem bpW:w0n:AB
 SOURCE_QUANTIFIERS: for every Pi subset R^2
-SOURCE_CONCLUSION: (i) (bpW:w4:freq) holds with M_omega = 9/(8 pi lambda_1^2) + 3/(2 pi lambda_1 lambda_2), M_Omega = (3/(2pi))(1/lambda_1 + 1/lambda_2), M_0 = m/2 + (3/(2pi)) sup_Pi ¦<b,xi>¦; P96-K Assumption B holds with d = 1, delta = -1, bar Omega_j = j + 2; (ii) <l> <= <l>^w <= 3<l> for 1 <= ¦l¦ <= 2 unless sum l_j = 0 (then equal), so (H_alpha) with <l>^w implies (H_alpha), and (H_alpha) implies the <l>^w-conditions with alpha/3
+SOURCE_CONCLUSION: (i) (bpW:w4:freq) holds with M_omega = 9/(8 pi lambda_1^2) + 3/(2 pi lambda_1 lambda_2), M_Omega = (3/(2pi))(1/lambda_1 + 1/lambda_2), M_0 = m/2 + (3/(2pi)) sup_Pi ¦<b,xi>¦ when that supremum is finite; P96-K Assumption B holds with d = 1, delta = -1, bar Omega_j = j + 2; (ii) <l> <= <l>^w <= 3<l> for 1 <= ¦l¦ <= 2 unless sum l_j = 0 (then equal), so (H_alpha) with <l>^w implies (H_alpha), and (H_alpha) implies the <l>^w-conditions with alpha/3
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
@@ -239,7 +243,7 @@ EDGE: stepW:w4:waveTail | blueprint-W/parts/w4-homological.tex#bpW:w4:wave@L206-
 EDGE: stepW:w4:waveIdx | blueprint-W/parts/w4-homological.tex#bpW:w4:wave@L210-L210 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w4-homological.tex#bpW:w4:wave@L185-L185 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -267,9 +271,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0n:AB | blueprint-W/parts/w4-homological.tex#stepW:w4:waveLip@L203-L203 | A_ii' > 0 and lambda_1 < lambda_2
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w4-homological.tex#stepW:w4:waveLip@L205-L205 | lambda_{j+2} > j; lambda increasing
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w4-homological.tex#stepW:w4:waveLip@L203-L203 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -296,9 +300,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w4-homological.tex#stepW:w4:waveTail@L208-L208 | 0 < lambda_J - J = m/(lambda_J + J) <= m/(2J)
 EDGE: bpW:w1:tails | blueprint-W/parts/w4-homological.tex#stepW:w4:waveTail@L209-L209 | the same bound in the wave index
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w4-homological.tex#stepW:w4:waveTail@L207-L207 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -322,9 +326,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -350,9 +354,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:fourier-banach | blueprint-W/parts/w4-homological.tex#bpW:w4:w1-requests@L288-L288 | (F1) is (i), (F2) is (iii)
 EDGE: bpW:w1:fourier-l2 | blueprint-W/parts/w4-homological.tex#bpW:w4:w1-requests@L289-L289 | (F3) is (iii) with H = C
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -380,9 +384,9 @@ EDGE: bpW:w4:w1-requests | blueprint-W/parts/w4-homological.tex#bpW:w4:fourier-o
 EDGE: stepW:w4:linimg | blueprint-W/parts/w4-homological.tex#bpW:w4:fourier-ops@L307-L307 | proof step
 EDGE: stepW:w4:deriv | blueprint-W/parts/w4-homological.tex#bpW:w4:fourier-ops@L309-L309 | proof step
 EDGE: stepW:w4:fpar | blueprint-W/parts/w4-homological.tex#bpW:w4:fourier-ops@L315-L315 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -396,7 +400,7 @@ PROOF_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:linimg@L307-L308
 CONTRACT_ID: stepW:w4:linimg
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w4:fourier-ops: f : T_s -> E as in Remark bpW:w4:w1-requests; (iii) f depending on xi in Pi with ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:fourier-ops (for all such f; Lambda; i in {1,2}; xi, zeta); m > 0 fixed (standing assumption)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:fourier-ops (for all such f; Lambda; i in {1,2}; xi, zeta)
 SOURCE_CONCLUSION: (i): Lambda commutes with the integral defining hat f_k
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -408,7 +412,7 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:ext-intparts | blueprint-W/parts/w4-homological.tex#stepW:w4:linimg@L308-L308 | continuous linear maps commute with Bochner integrals
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -423,7 +427,7 @@ PROOF_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:deriv@L309-L314
 CONTRACT_ID: stepW:w4:deriv
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w4:fourier-ops: f : T_s -> E as in Remark bpW:w4:w1-requests; (iii) f depending on xi in Pi with ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:fourier-ops (for all such f; Lambda; i in {1,2}; xi, zeta); within the step: i, k; m > 0 fixed (standing assumption)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:fourier-ops (for all such f; Lambda; i in {1,2}; xi, zeta); within the step: i, k
 SOURCE_CONCLUSION: (ii): d_{theta_i} f complex differentiable and periodic; (d_{theta_i} f)^_k = 2 pi i k_i hat f_k by periodic integration by parts and Fubini
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -437,7 +441,7 @@ EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w4-homological.tex#stepW:w4:deriv@L3
 EDGE: bpW:w4:ext-intparts | blueprint-W/parts/w4-homological.tex#stepW:w4:deriv@L313-L313 | periodic integration by parts
 EDGE: bpW:w1:ext-rect | blueprint-W/parts/w4-homological.tex#stepW:w4:deriv@L314-L314 | Fubini for continuous functions on [0,1]^2
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -452,7 +456,7 @@ PROOF_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:fpar@L315-L316
 CONTRACT_ID: stepW:w4:fpar
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w4:fourier-ops: f : T_s -> E as in Remark bpW:w4:w1-requests; (iii) f depending on xi in Pi with ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:fourier-ops (for all such f; Lambda; i in {1,2}; xi, zeta); within the step: xi, zeta; m > 0 fixed (standing assumption)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:fourier-ops (for all such f; Lambda; i in {1,2}; xi, zeta); within the step: xi, zeta
 SOURCE_CONCLUSION: (iii): (F1) applied to f(.,xi) - f(.,zeta)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -464,7 +468,7 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:w1-requests | blueprint-W/parts/w4-homological.tex#stepW:w4:fpar@L316-L316 | (F1)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -494,9 +498,9 @@ EDGE: stepW:w4:count | blueprint-W/parts/w4-homological.tex#bpW:w4:lattice@L338-
 EDGE: stepW:w4:coth | blueprint-W/parts/w4-homological.tex#bpW:w4:lattice@L341-L341 | proof step
 EDGE: stepW:w4:wsum | blueprint-W/parts/w4-homological.tex#bpW:w4:lattice@L344-L344 | proof step
 EDGE: stepW:w4:bw | blueprint-W/parts/w4-homological.tex#bpW:w4:lattice@L347-L347 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -520,9 +524,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -547,9 +551,9 @@ DEPS: bpW:w4:ext-exp
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:ext-exp | blueprint-W/parts/w4-homological.tex#stepW:w4:coth@L343-L343 | geometric sum
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -575,9 +579,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:count | blueprint-W/parts/w4-homological.tex#stepW:w4:wsum@L345-L345 | (i)
 EDGE: bpW:w4:ext-exp | blueprint-W/parts/w4-homological.tex#stepW:w4:wsum@L346-L346 | x^q e^{-x} <= (q/e)^q and the geometric sum
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -603,9 +607,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:coth | blueprint-W/parts/w4-homological.tex#stepW:w4:bw@L352-L352 | (ii)
 EDGE: stepW:w4:wsum | blueprint-W/parts/w4-homological.tex#stepW:w4:bw@L352-L352 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -632,9 +636,9 @@ ROUTE_FOR: -
 EDGE: bpW:w4:melnikov | blueprint-W/parts/w4-homological.tex#bpW:w4:divisors@L362-L362 | (bpW:w4:freq), (H_alpha), divisors and weights
 EDGE: stepW:w4:member | blueprint-W/parts/w4-homological.tex#bpW:w4:divisors@L370-L370 | proof step
 EDGE: stepW:w4:divlip | blueprint-W/parts/w4-homological.tex#bpW:w4:divisors@L375-L375 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -655,11 +659,12 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: -
+DEPS: bpW:w4:melnikov
 ROUTES: -
 ROUTE_FOR: -
+EDGE: bpW:w4:melnikov | blueprint-W/parts/w4-homological.tex#stepW:w4:member@L372-L372 | the exclusions defining the divisors and Z are used to prove membership
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -681,12 +686,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w4:member
+DEPS: stepW:w4:member, bpW:w4:melnikov
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:member | blueprint-W/parts/w4-homological.tex#stepW:w4:divlip@L378-L378 | the lower bound alpha w/A_k
+EDGE: bpW:w4:melnikov | blueprint-W/parts/w4-homological.tex#stepW:w4:divlip@L377-L377 | direct use of the frequency Lipschitz hypothesis (freq)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -708,15 +714,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:ops, stepW:w4:schurtr, stepW:w4:schurrep, stepW:w4:schurdiag
+DEPS: bpW:w4:ops, stepW:w4:schurtr, stepW:w4:schurrep, stepW:w4:schurdiag, bpW:w0:ellap#ellWeight
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:ops | blueprint-W/parts/w4-homological.tex#bpW:w4:schur@L394-L394 | L, B, Lambda
 EDGE: stepW:w4:schurtr | blueprint-W/parts/w4-homological.tex#bpW:w4:schur@L405-L405 | proof step
 EDGE: stepW:w4:schurrep | blueprint-W/parts/w4-homological.tex#bpW:w4:schur@L408-L408 | proof step
 EDGE: stepW:w4:schurdiag | blueprint-W/parts/w4-homological.tex#bpW:w4:schur@L414-L414 | proof step
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#bpW:w4:schur@L393-L393 | the wave weight omega_{a,q}(J) is the frozen ellWeight at these parameters
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -742,9 +749,9 @@ DEPS: bpW:w1:schur
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:schurtr@L406-L406 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -765,17 +772,18 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:transport
+DEPS: bpW:w1:transport, bpW:w0:ellap#ellWeight
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:transport | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L410-L410 | the representative tau o M o kappa
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#stepW:w4:schurrep@L410-L410 | the wave weight omega_{a,q}(J) is the frozen ellWeight at these parameters
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: L412-L413 invokes the isometric operator representation of a complex bilinear form by Riesz on l2. No proof or permitted external in the pinned corpus supplies that representation; ext-lp states Hilbert completeness and coordinates, not Riesz representation. Keep this obligation in the step rather than assuming it.
 
 NODE: stepW:w4:schurdiag
 KIND: step
@@ -797,9 +805,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:schurdiag@L415-L415 | (ii)
 EDGE: bpW:w1:multiplier | blueprint-W/parts/w4-homological.tex#stepW:w4:schurdiag@L415-L415 | diagonal multipliers
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -828,9 +836,9 @@ EDGE: stepW:w4:solvecoef | blueprint-W/parts/w4-homological.tex#bpW:w4:solve@L44
 EDGE: stepW:w4:solvediff | blueprint-W/parts/w4-homological.tex#bpW:w4:solve@L446-L446 | proof step
 EDGE: stepW:w4:solvecomm | blueprint-W/parts/w4-homological.tex#bpW:w4:solve@L452-L452 | proof step
 EDGE: stepW:w4:solvelin | blueprint-W/parts/w4-homological.tex#bpW:w4:solve@L458-L458 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -844,7 +852,7 @@ PROOF_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:solvecoef@L442-L445
 CONTRACT_ID: stepW:w4:solvecoef
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w4:solve: E, E' complex Banach; 0 < sigma < s; alpha > 0, kappa >= 1, M >= 0; T_k(xi) in L(E,E') with ¦¦T_k(xi)¦¦ <= kappa A_k/alpha and ¦¦T_k(xi) - T_k(zeta)¦¦ <= 2 kappa (1+¦k¦_1) A_k^2 M ¦xi - zeta¦/alpha^2; f(.,xi) : T_s -> E complex differentiable, 1-periodic, ¦¦f¦¦ <= m, ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦; S f = sum T_k hat f_k e^{2 pi i <k,theta>}
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data); within the step: k; m > 0 fixed (standing assumption)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data); within the step: k
 SOURCE_CONCLUSION: (i): sum ¦¦T_k hat f_k¦¦ e^{2 pi ¦k¦_1 (s-sigma)} <= kappa m B^W_sigma/alpha and (F2) with s' = s - sigma
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -857,7 +865,7 @@ ROUTE_FOR: -
 EDGE: bpW:w4:w1-requests | blueprint-W/parts/w4-homological.tex#stepW:w4:solvecoef@L443-L443 | (F1), (F2)
 EDGE: bpW:w4:lattice | blueprint-W/parts/w4-homological.tex#stepW:w4:solvecoef@L445-L445 | (iv)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -872,7 +880,7 @@ PROOF_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:solvediff@L446-L451
 CONTRACT_ID: stepW:w4:solvediff
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w4:solve: E, E' complex Banach; 0 < sigma < s; alpha > 0, kappa >= 1, M >= 0; T_k(xi) in L(E,E') with ¦¦T_k(xi)¦¦ <= kappa A_k/alpha and ¦¦T_k(xi) - T_k(zeta)¦¦ <= 2 kappa (1+¦k¦_1) A_k^2 M ¦xi - zeta¦/alpha^2; f(.,xi) : T_s -> E complex differentiable, 1-periodic, ¦¦f¦¦ <= m, ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦; S f = sum T_k hat f_k e^{2 pi i <k,theta>}
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data); within the step: xi, zeta; m > 0 fixed (standing assumption)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data); within the step: xi, zeta
 SOURCE_CONCLUSION: (ii): the coefficient differences are bounded and summed
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -886,7 +894,7 @@ EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w4-homological.tex#stepW:w4:solvedi
 EDGE: bpW:w4:w1-requests | blueprint-W/parts/w4-homological.tex#stepW:w4:solvediff@L448-L448 | (F1), (F2)
 EDGE: bpW:w4:lattice | blueprint-W/parts/w4-homological.tex#stepW:w4:solvediff@L450-L450 | B^W_sigma
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -900,8 +908,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:solvecomm@L452-L
 PROOF_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:solvecomm@L452-L457
 CONTRACT_ID: stepW:w4:solvecomm
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w4:solve: E, E' complex Banach; 0 < sigma < s; alpha > 0, kappa >= 1, M >= 0; T_k(xi) in L(E,E') with ¦¦T_k(xi)¦¦ <= kappa A_k/alpha and ¦¦T_k(xi) - T_k(zeta)¦¦ <= 2 kappa (1+¦k¦_1) A_k^2 M ¦xi - zeta¦/alpha^2; f(.,xi) : T_s -> E complex differentiable, 1-periodic, ¦¦f¦¦ <= m, ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦; S f = sum T_k hat f_k e^{2 pi i <k,theta>}
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data); within the step: i; m > 0 fixed (standing assumption)
+SOURCE_HYPOTHESES: context of the proof of bpW:w4:solve: E, E' complex Banach; 0 < sigma < s; alpha > 0, kappa >= 1, M >= 0; T_k(xi) in L(E,E') with ¦¦T_k(xi)¦¦ <= kappa A_k/alpha and ¦¦T_k(xi) - T_k(zeta)¦¦ <= 2 kappa (1+¦k¦_1) A_k^2 M ¦xi - zeta¦/alpha^2; f(.,xi) : T_s -> E complex differentiable, 1-periodic, ¦¦f¦¦ <= m, ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦; S f = sum T_k hat f_k e^{2 pi i <k,theta>}; for part (iii), partial_{theta_i} f is bounded on T_s (L433)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data); within the step: i
 SOURCE_CONCLUSION: (iii): termwise differentiation gives d_{theta_i} S f = S(d_{theta_i} f)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -915,7 +923,7 @@ EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w4-homological.tex#stepW:w4:solveco
 EDGE: stepW:w4:solvecoef | blueprint-W/parts/w4-homological.tex#stepW:w4:solvecomm@L454-L454 | summability
 EDGE: bpW:w1:ext-unifderiv | blueprint-W/parts/w4-homological.tex#stepW:w4:solvecomm@L456-L456 | termwise differentiation
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -930,19 +938,20 @@ PROOF_SOURCE: blueprint-W/parts/w4-homological.tex#stepW:w4:solvelin@L458-L460
 CONTRACT_ID: stepW:w4:solvelin
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w4:solve: E, E' complex Banach; 0 < sigma < s; alpha > 0, kappa >= 1, M >= 0; T_k(xi) in L(E,E') with ¦¦T_k(xi)¦¦ <= kappa A_k/alpha and ¦¦T_k(xi) - T_k(zeta)¦¦ <= 2 kappa (1+¦k¦_1) A_k^2 M ¦xi - zeta¦/alpha^2; f(.,xi) : T_s -> E complex differentiable, 1-periodic, ¦¦f¦¦ <= m, ¦¦f(theta,xi) - f(theta,zeta)¦¦ <= m^L ¦xi - zeta¦; S f = sum T_k hat f_k e^{2 pi i <k,theta>}
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data); m > 0 fixed (standing assumption)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w4:solve (for all such data)
 SOURCE_CONCLUSION: (iv): Lambda commutes with absolutely convergent sums
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:fourier-ops
+DEPS: bpW:w4:fourier-ops, bpW:w3:ext-tsum
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w4-homological.tex#stepW:w4:solvelin@L460-L460 | (i)
+EDGE: bpW:w3:ext-tsum | blueprint-W/parts/w4-homological.tex#stepW:w4:solvelin@L459-L459 | continuous linear maps commute with norm-absolutely convergent sums
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -974,9 +983,9 @@ EDGE: stepW:w4:liebd | blueprint-W/parts/w4-homological.tex#bpW:w4:lie@L511-L511
 EDGE: stepW:w4:liebr | blueprint-W/parts/w4-homological.tex#bpW:w4:lie@L516-L516 | proof step
 EDGE: stepW:w4:liecoef | blueprint-W/parts/w4-homological.tex#bpW:w4:lie@L520-L520 | proof step
 EDGE: stepW:w4:lieder | blueprint-W/parts/w4-homological.tex#bpW:w4:lie@L528-L528 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1001,9 +1010,9 @@ DEPS: bpW:w4:index
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:liebd@L513-L513 | (bpW:w4:pairing)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1027,9 +1036,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1055,9 +1064,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:taylor | blueprint-W/parts/w4-homological.tex#stepW:w4:liecoef@L522-L522 | F_z, F_zbar
 EDGE: bpW:w4:fourier-ops | blueprint-W/parts/w4-homological.tex#stepW:w4:liecoef@L526-L526 | (i), (ii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1078,15 +1087,17 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:lie-sec#guard, bpW:w1:embed, bpW:w4:index, stepW:w4:liebr
+DEPS: bpW:w4:lie-sec#guard, bpW:w1:embed, bpW:w4:index, stepW:w4:liebr, bpW:w3:ext-multilinear, bpW:w0:ellap#ellWeight
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:lie-sec#guard | blueprint-W/parts/w4-homological.tex#stepW:w4:lieder@L529-L529 | (G)
 EDGE: bpW:w1:embed | blueprint-W/parts/w4-homological.tex#stepW:w4:lieder@L533-L533 | l^N_{a,bar p} subset l^N_{a,p}
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:lieder@L532-L532 | (bpW:w4:hameq): the components of X_F
 EDGE: stepW:w4:liebr | blueprint-W/parts/w4-homological.tex#stepW:w4:lieder@L536-L536 | (ii)
+EDGE: bpW:w3:ext-multilinear | blueprint-W/parts/w4-homological.tex#stepW:w4:lieder@L531-L531 | differentiate the bounded bilinear polynomial and its linear part
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#stepW:w4:lieder@L529-L529 | the wave weight omega_{a,q}(J) is the frozen ellWeight at these parameters
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1112,9 +1123,9 @@ DEPS: bpW:w4:ext-roots
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:ext-roots | blueprint-W/parts/w4-homological.tex#bpW:w4:extract@L557-L557 | averages over fourth roots of unity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1144,9 +1155,9 @@ EDGE: stepW:w4:testpts | blueprint-W/parts/w4-homological.tex#bpW:w4:components@
 EDGE: stepW:w4:first | blueprint-W/parts/w4-homological.tex#bpW:w4:components@L582-L582 | proof step
 EDGE: stepW:w4:angle | blueprint-W/parts/w4-homological.tex#bpW:w4:components@L587-L587 | proof step
 EDGE: stepW:w4:polar | blueprint-W/parts/w4-homological.tex#bpW:w4:components@L596-L596 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1171,9 +1182,9 @@ DEPS: bpW:w4:index
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:testpts@L577-L577 | (bpW:w4:zu)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1199,9 +1210,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:testpts | blueprint-W/parts/w4-homological.tex#stepW:w4:first@L584-L584 | bounds at the test points
 EDGE: bpW:w4:extract | blueprint-W/parts/w4-homological.tex#stepW:w4:first@L585-L585 | coefficient extraction
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1227,9 +1238,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:testpts | blueprint-W/parts/w4-homological.tex#stepW:w4:angle@L589-L589 | bounds at the test points
 EDGE: bpW:w4:extract | blueprint-W/parts/w4-homological.tex#stepW:w4:angle@L589-L589 | coefficient extraction
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1255,9 +1266,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w4:angle | blueprint-W/parts/w4-homological.tex#stepW:w4:polar@L599-L599 | the diagonal bound
 EDGE: bpW:w4:ext-parallelogram | blueprint-W/parts/w4-homological.tex#stepW:w4:polar@L600-L600 | parallelogram law
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1278,7 +1289,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:taylor, bpW:w4:melnikov, bpW:w4:lie, bpW:w4:lie-sec#guard, bpW:w4:lattice, bpW:w4:schur, stepW:w4:divops, stepW:w4:class, stepW:w4:equation, stepW:w4:Fcomp, stepW:w4:assembly, stepW:w4:lip, stepW:w4:Nhat, stepW:w4:real
+DEPS: bpW:w4:taylor, bpW:w4:melnikov, bpW:w4:lie, bpW:w4:lie-sec#guard, bpW:w4:lattice, bpW:w4:schur, stepW:w4:divops, stepW:w4:class, stepW:w4:equation, stepW:w4:Fcomp, stepW:w4:assembly, stepW:w4:lip, stepW:w4:Nhat, stepW:w4:real, bpW:w4:index
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:taylor | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma1@L611-L611 | the class T_s
@@ -1295,8 +1306,9 @@ EDGE: stepW:w4:assembly | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma1@L67
 EDGE: stepW:w4:lip | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma1@L687-L687 | proof step
 EDGE: stepW:w4:Nhat | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma1@L693-L693 | proof step
 EDGE: stepW:w4:real | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma1@L700-L700 | proof step
+EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma1@L609-L609 | the theorem explicitly assumes this convention
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1318,15 +1330,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:divisors, bpW:w4:schur, bpW:w1:multiplier, bpW:w4:solve
+DEPS: bpW:w4:divisors, bpW:w4:schur, bpW:w1:multiplier
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:divisors | blueprint-W/parts/w4-homological.tex#stepW:w4:divops@L640-L640 | divisor bounds
 EDGE: bpW:w4:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:divops@L642-L642 | Hadamard maps
 EDGE: bpW:w1:multiplier | blueprint-W/parts/w4-homological.tex#stepW:w4:divops@L643-L643 | diagonal multipliers
-EDGE: bpW:w4:solve | blueprint-W/parts/w4-homological.tex#stepW:w4:divops@L643-L643 | its hypotheses
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1354,9 +1365,9 @@ ROUTE_FOR: -
 EDGE: bpW:w4:solve | blueprint-W/parts/w4-homological.tex#stepW:w4:class@L646-L646 | (i)
 EDGE: bpW:w4:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:class@L647-L647 | (i) transpose identity
 EDGE: stepW:w4:divops | blueprint-W/parts/w4-homological.tex#stepW:w4:class@L646-L646 | the division operators
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1387,9 +1398,9 @@ EDGE: bpW:w4:w1-requests | blueprint-W/parts/w4-homological.tex#stepW:w4:equatio
 EDGE: bpW:w1:space | blueprint-W/parts/w4-homological.tex#stepW:w4:equation@L658-L658 | (iii) density of finitely supported sequences
 EDGE: stepW:w4:class | blueprint-W/parts/w4-homological.tex#stepW:w4:equation@L654-L654 | the components of F
 EDGE: stepW:w4:Nhat | blueprint-W/parts/w4-homological.tex#stepW:w4:equation@L657-L657 | hat N continuous
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1418,9 +1429,9 @@ EDGE: stepW:w4:divops | blueprint-W/parts/w4-homological.tex#stepW:w4:Fcomp@L661
 EDGE: bpW:w4:solve | blueprint-W/parts/w4-homological.tex#stepW:w4:Fcomp@L661-L661 | (i), (iii), (iv)
 EDGE: bpW:w4:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:Fcomp@L669-L669 | (ii) Hadamard maps on B
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:Fcomp@L672-L672 | (bpW:w4:pairing): ¦¦c¦¦_* <= ¦¦c¦¦_{bar p}
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1446,9 +1457,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#stepW:w4:assembly@L675-L675 | (bpW:w4:zu)
 EDGE: stepW:w4:Fcomp | blueprint-W/parts/w4-homological.tex#stepW:w4:assembly@L676-L676 | the component bounds
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1476,9 +1487,9 @@ EDGE: bpW:w4:components | blueprint-W/parts/w4-homological.tex#stepW:w4:lip@L689
 EDGE: bpW:w4:solve | blueprint-W/parts/w4-homological.tex#stepW:w4:lip@L690-L690 | (ii)
 EDGE: stepW:w4:assembly | blueprint-W/parts/w4-homological.tex#stepW:w4:lip@L691-L691 | linear assembly
 EDGE: stepW:w4:Fcomp | blueprint-W/parts/w4-homological.tex#stepW:w4:lip@L689-L689 | the inputs
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1504,9 +1515,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:components | blueprint-W/parts/w4-homological.tex#stepW:w4:Nhat@L694-L694 | ¦b¦ <= 2 pi eps, ¦¦Q¦¦ <= eps
 EDGE: bpW:w4:schur | blueprint-W/parts/w4-homological.tex#stepW:w4:Nhat@L695-L695 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1532,9 +1543,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:taylor | blueprint-W/parts/w4-homological.tex#stepW:w4:real@L701-L701 | reality of R
 EDGE: stepW:w4:class | blueprint-W/parts/w4-homological.tex#stepW:w4:real@L705-L705 | the coefficients of F
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1560,9 +1571,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma2@L733-L733 | (iii), (iv)
 EDGE: bpW:w4:lattice | blueprint-W/parts/w4-homological.tex#bpW:w4:lemma2@L734-L734 | (iv)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w4
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1583,7 +1594,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w3:main, bpW:w3:space, bpW:w3:coords, bpW:w4:index, bpW:w3:omega, bpW:w3:hamfield-def
+DEPS: bpW:w3:main, bpW:w3:space, bpW:w3:coords, bpW:w4:index, bpW:w3:omega, bpW:w3:hamfield-def, bpW:w4:taylor
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:main | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L775-L775 | the Birkhoff map
@@ -1592,8 +1603,9 @@ EDGE: bpW:w3:coords | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L777-L
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L779-L779 | the wave weights
 EDGE: bpW:w3:omega | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L782-L782 | the symplectic form
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L783-L783 | X_P
+EDGE: bpW:w4:taylor | blueprint-W/parts/w4-homological.tex#bpW:w4:from-w3@L782-L782 | the smoothing gradients required by the Taylor class
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1615,13 +1627,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w4:index, bpW:w4:melnikov
+DEPS: bpW:w4:index, bpW:w4:melnikov, bpW:w0:ellap#ellWeight
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w4:index | blueprint-W/parts/w4-homological.tex#bpW:w4:lie-sec@L474-L474 | the wave weights omega_{a,p}(j+2)
 EDGE: bpW:w4:melnikov | blueprint-W/parts/w4-homological.tex#bpW:w4:lie-sec@L469-L469 | omega, Omega
+EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w4-homological.tex#bpW:w4:lie-sec@L475-L475 | the wave weight omega_{a,q}(J) is the frozen ellWeight at these parameters
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w4
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -

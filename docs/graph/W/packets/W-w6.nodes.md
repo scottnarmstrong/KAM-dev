@@ -17,9 +17,9 @@ DEPS: bpW:w6#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6#data | blueprint-W/parts/w6-iteration.tex#bpW:w6:sequences@L36-L36 | C_2, c_0, t, tau
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -53,9 +53,9 @@ EDGE: stepW:w6:il-err | blueprint-W/parts/w6-iteration.tex#bpW:w6:iter-lemma@L72
 EDGE: stepW:w6:il-lip | blueprint-W/parts/w6-iteration.tex#bpW:w6:iter-lemma@L76-L76 | proof step
 EDGE: stepW:w6:il-div | blueprint-W/parts/w6-iteration.tex#bpW:w6:iter-lemma@L79-L79 | proof step
 EDGE: stepW:w6:il-tr | blueprint-W/parts/w6-iteration.tex#bpW:w6:iter-lemma@L83-L83 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -76,13 +76,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:data, bpW:w5:step
+DEPS: bpW:w5:data, bpW:w4:wave
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:data | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-small@L70-L70 | (bpW:w5:small)
-EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-small@L71-L71 | applicability
+EDGE: bpW:w4:wave | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-small@L71-L71 | Dirichlet Melnikov conditions imply P96-K indexed conditions by wave(ii), as fixed at L26-L27
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -109,9 +109,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-err@L72-L72 | (ii) (bpW:w5:newerror)
 EDGE: stepW:w6:il-small | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-err@L74-L74 | q_nu <= gamma_0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -136,9 +136,9 @@ DEPS: bpW:w5:step
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-lip@L76-L76 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -163,9 +163,9 @@ DEPS: bpW:w5:step
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-div@L81-L81 | (iv) divisors
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -190,9 +190,9 @@ DEPS: bpW:w5:step
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:il-tr@L83-L83 | (v)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -218,9 +218,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:iter-lemma | blueprint-W/parts/w6-iteration.tex#bpW:w6:k0@L90-L90 | the setting and the increments
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w6-iteration.tex#bpW:w6:k0@L90-L90 | Lambda and <l>
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -255,9 +255,9 @@ EDGE: stepW:w6:c-op | blueprint-W/parts/w6-iteration.tex#bpW:w6:convergence@L147
 EDGE: stepW:w6:c-cauchy | blueprint-W/parts/w6-iteration.tex#bpW:w6:convergence@L151-L151 | proof step
 EDGE: stepW:w6:c-lim | blueprint-W/parts/w6-iteration.tex#bpW:w6:convergence@L155-L155 | proof step
 EDGE: stepW:w6:c-cont | blueprint-W/parts/w6-iteration.tex#bpW:w6:convergence@L158-L158 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -283,9 +283,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:k0 | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-ind@L136-L136 | k = 0
 EDGE: bpW:w6:iter-lemma | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-ind@L136-L136 | induction
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -310,9 +310,9 @@ DEPS: bpW:w7:ext-borel
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-par@L138-L138 | relatively open zones in a Borel set
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -337,9 +337,9 @@ DEPS: bpW:w6:iter-lemma
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:iter-lemma | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-freq@L139-L139 | the increments
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -364,9 +364,9 @@ DEPS: bpW:w5:step
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-dom@L143-L143 | (i), the image domain
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -393,9 +393,9 @@ ROUTE_FOR: -
 EDGE: bpW:w6:iter-lemma | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-op@L148-L148 | derivative bounds
 EDGE: bpW:w5:omega | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-op@L148-L148 | norm comparison
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-op@L150-L150 | (i)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -416,13 +416,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w6:c-op, bpW:w6:iter-lemma
+DEPS: stepW:w6:c-op, bpW:w6:iter-lemma, bpW:w3:ext-integral, stepW:w6:il-err
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w6:c-op | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cauchy@L152-L152 | (iv)
 EDGE: bpW:w6:iter-lemma | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cauchy@L152-L152 | transformation bounds
+EDGE: bpW:w3:ext-integral | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cauchy@L151-L151 | the fundamental theorem along the segment w_tau
+EDGE: stepW:w6:il-err | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cauchy@L153-L153 | q_nu <= 4^{-nu} q_0 gives the 8^{-nu} summation with sigma_nu
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -449,9 +451,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:uniform-limit | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-lim@L155-L155 | holomorphy of the uniform limit
 EDGE: stepW:w6:c-cauchy | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-lim@L154-L154 | Cauchy sequence
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -472,12 +474,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:flow
+DEPS: bpW:w5:flow, stepW:w6:c-cauchy
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cont@L158-L158 | (i) Lipschitz in xi
+EDGE: stepW:w6:c-cauchy | blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cont@L159-L159 | the uniform convergence used to pass joint continuity to the limit
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -504,9 +507,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:setting | blueprint-W/parts/w6-iteration.tex#bpW:w6:strong@L171-L171 | P, varpi
 EDGE: stepW:w5:omnd | blueprint-W/parts/w6-iteration.tex#bpW:w6:strong@L178-L178 | test with unit vectors
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -534,9 +537,9 @@ EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#bpW:w6:invariance@
 EDGE: stepW:w6:i-weak | blueprint-W/parts/w6-iteration.tex#bpW:w6:invariance@L189-L189 | proof step
 EDGE: stepW:w6:i-torus | blueprint-W/parts/w6-iteration.tex#bpW:w6:invariance@L197-L197 | proof step
 EDGE: stepW:w6:i-lim | blueprint-W/parts/w6-iteration.tex#bpW:w6:invariance@L200-L200 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -563,9 +566,9 @@ ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-weak@L190-L190 | (i)
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-weak@L193-L193 | (iv)
 EDGE: stepW:w5:n-conj | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-weak@L193-L193 | derivative formulas
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -592,9 +595,9 @@ ROUTE_FOR: -
 EDGE: bpW:w6:strong | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-torus@L198-L198 | strong conjugacy
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-torus@L198-L198 | (iv)
 EDGE: stepW:w6:i-weak | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-torus@L198-L198 | weak chain
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -621,9 +624,9 @@ ROUTE_FOR: -
 EDGE: bpW:w4:lie | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-lim@L202-L202 | (i) X_{N_0} bounded
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-lim@L200-L200 | (ii), (iii)
 EDGE: stepW:w6:i-torus | blueprint-W/parts/w6-iteration.tex#stepW:w6:i-lim@L200-L200 | identity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -651,9 +654,9 @@ EDGE: bpW:w7:constdef | blueprint-W/parts/w6-iteration.tex#bpW:w6:constants@L212
 EDGE: bpW:w4:wave | blueprint-W/parts/w6-iteration.tex#bpW:w6:constants@L213-L213 | (i) M
 EDGE: bpW:w6:sequences | blueprint-W/parts/w6-iteration.tex#bpW:w6:constants@L214-L214 | gamma_0
 EDGE: bpW:w6#data | blueprint-W/parts/w6-iteration.tex#bpW:w6:constants@L216-L216 | c^natural_0, C^natural_2, t^natural
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -692,12 +695,12 @@ EDGE: stepW:w6:p-lipp | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L258
 EDGE: stepW:w6:p-size | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L260-L260 | proof step
 EDGE: stepW:w6:p-gap | blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L264-L264 | proof step
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: the parenthetical use of W7 melnikov(i) at L233 invokes a corollary stated under the setting of W7 measure, including an admissible family. No such family is supplied at this stage. Step p-div independently argues by negating the preparatory zones; that local argument must not be mistaken for discharge of the additional premise of the cited corollary.
 
 NODE: stepW:w6:p-data
 KIND: step
@@ -719,9 +722,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:data | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-data@L248-L248 | (bpW:w5:small)
 EDGE: bpW:w4:wave | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-data@L249-L249 | the frequencies
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -742,13 +745,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:indexdef, bpW:w5:w4-modified
+DEPS: bpW:w7:indexdef, bpW:w5:w4-modified, bpW:w7:zones
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L251-L251 | W7's weights hat w
 EDGE: bpW:w5:w4-modified | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L251-L251 | (bpW:w5:modified)
+EDGE: bpW:w7:zones | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L250-L250 | negating the removed S_kl zone inequalities supplies the divisor premise
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -777,9 +781,9 @@ EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-step@L253-L253
 EDGE: bpW:w5:w4-modified | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-step@L254-L254 | both parts
 EDGE: bpW:w5:taylor | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-step@L256-L256 | the Taylor polynomial
 EDGE: bpW:w4:lemma1 | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-step@L256-L256 | (iv)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -794,7 +798,7 @@ CONTRACT_ID: stepW:w6:p-lipp
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: context of the proof of bpW:w6:prep-step: W6 notation (L22-L27): m > 0, a = p = 1, tau = 24, t = 52, W5's constants c_F, c_0, C_2 (modified step: t^natural = 53, c^natural_F, c^natural_0, C^natural_2), Melnikov conditions with W7's Dirichlet weight <l>; constants of Definition bpW:w6:constants; Pi subset {¦xi¦_infty <= 1/2} Borel; 0 < alpha <= alpha_0 (W7 (C4)); hat alpha = alpha^{44/47}, check alpha = alpha^{48/47}; Xi W7's preparatory set; r > 0; a real periodic family P in S_{p+1}(D(s,r)) on Pi minus Xi with the unperturbed frequencies (omega^0,Omega^0) and eps with 0 < eps <= gamma alpha, ¦X_P¦^lambda_{r,D(s,r)} <= eps, lambda = alpha/M; eta_P = (eps/(hat alpha sigma_P^{t^natural}))^{1/3}, r_0 = eta_P r
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w6:prep-step (for all such data); m > 0 fixed (standing assumption)
-SOURCE_CONCLUSION: (iii)
+SOURCE_CONCLUSION: (iii): |Phi_P-id|_{p_+,r,D_0} <= M_{F,P} = c^natural_F eps/(hat alpha sigma_P^{t^natural-1}); Phi_P is Lipschitz in xi in |.|_{p,r}
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
@@ -805,12 +809,12 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L258-L258 | (v)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: L258 cites W5 step(v), whose displayed sup bound is 2 M_F, to assert the sharper M_{F,P} bound in L239. The cited conclusion alone does not pay the factor two. W5 f-flow has a sharper sup estimate, but this proof does not identify or apply it; keep the exact missing bound rather than weakening prep-step(iii).
 
 NODE: stepW:w6:p-size
 KIND: step
@@ -831,9 +835,9 @@ DEPS: bpW:w5:step
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-size@L260-L260 | (bpW:w5:newerror), modified
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -854,13 +858,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:w4-modified, stepW:w6:p-size
+DEPS: bpW:w5:w4-modified, stepW:w6:p-size, bpW:w5:step
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:w4-modified | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-gap@L264-L264 | (ii)
 EDGE: stepW:w6:p-size | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-gap@L265-L265 | the size computation
+EDGE: bpW:w5:step | blueprint-W/parts/w6-iteration.tex#stepW:w6:p-gap@L265-L265 | the full lambda-norm newerror estimate in the modified case
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -889,9 +894,9 @@ EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#bpW:w6:wave-iteratio
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#bpW:w6:wave-iteration@L276-L276 | the iteration
 EDGE: bpW:w6:constants | blueprint-W/parts/w6-iteration.tex#bpW:w6:wave-iteration@L277-L277 | s_0, sigma_0, gamma_1
 EDGE: bpW:w7:constdef | blueprint-W/parts/w6-iteration.tex#bpW:w6:wave-iteration@L280-L280 | beta_*
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -912,18 +917,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:wave-iteration, bpW:w6:convergence, bpW:w6:prep-step, bpW:w7:unpert-bounds, bpW:w7:constdef, bpW:w6:constants, bpW:w6:k0
+DEPS: bpW:w6:wave-iteration, bpW:w6:prep-step, bpW:w7:unpert-bounds, bpW:w7:constdef, bpW:w6:constants
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:wave-iteration | blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L285-L285 | the data
-EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L285-L285 | its hypotheses
 EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L288-L288 | (iv)-(v)
 EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L289-L289 | (ii) k = 0
 EDGE: bpW:w7:constdef | blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L290-L290 | (C4)
 EDGE: bpW:w6:constants | blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L292-L292 | gamma_1
-EDGE: bpW:w6:k0 | blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L289-L289 | its hypothesis
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -955,12 +958,12 @@ EDGE: stepW:w6:fl-size | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L306
 EDGE: stepW:w6:fl-lip | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L309-L309 | proof step
 EDGE: stepW:w6:fl-borel | blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L313-L313 | proof step
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: L301-L303 says all <= alpha after also displaying theta. The proof at L306-L312 bounds the three epsilons by alpha and theta by theta_0 only; no theta <= alpha follows as alpha tends to zero. The literal wording is retained pending clarification that all refers only to the epsilons.
 
 NODE: stepW:w6:fl-size
 KIND: step
@@ -982,9 +985,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-size@L306-L306 | (ii)
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-size@L307-L307 | (ii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1011,9 +1014,9 @@ ROUTE_FOR: -
 EDGE: bpW:w6:constants | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-lip@L312-L312 | gamma, gamma_1
 EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-lip@L309-L309 | (ii)
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-lip@L309-L309 | (ii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1040,12 +1043,12 @@ ROUTE_FOR: -
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L313-L313 | (i)
 EDGE: bpW:w7:measurable | blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L313-L313 | Pi minus Xi Borel
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: SOURCE_GAP: the citation of W7 measurable for Pi minus Xi uses only the preparatory-set fragment, whereas the W7 lemma is stated in the ambient admissible-family setting. Here admissibility is being established. The independent preparatory measurability reduction to affine frequencies and countable Borel zone unions is not separated by the source; do not assume the desired admissibility to apply the whole lemma.
 
 NODE: bpW:w6:exclusion
 KIND: lemma
@@ -1062,14 +1065,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:freq-lip, bpW:w7:zones, bpW:w6:convergence
+DEPS: bpW:w6:freq-lip, bpW:w7:zones, bpW:w6:convergence, bpW:w7:family
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:freq-lip | blueprint-W/parts/w6-iteration.tex#bpW:w6:exclusion@L319-L319 | the admissible family
-EDGE: bpW:w7:zones | blueprint-W/parts/w6-iteration.tex#bpW:w6:exclusion@L319-L319 | the excluded set E and zones
+EDGE: bpW:w7:zones | blueprint-W/parts/w6-iteration.tex#bpW:w6:exclusion@L325-L325 | R_kl(check alpha) is the zone containing each iteration zone
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#bpW:w6:exclusion@L323-L323 | (i)
+EDGE: bpW:w7:family | blueprint-W/parts/w6-iteration.tex#bpW:w6:exclusion@L319-L319 | E is defined in admissible family, not in the zones definition
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1097,9 +1101,9 @@ ROUTE_FOR: -
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#bpW:w6:final-freq@L335-L335 | (ii)
 EDGE: bpW:w6:freq-lip | blueprint-W/parts/w6-iteration.tex#bpW:w6:final-freq@L336-L336 | size and Lipschitz bounds
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w6-iteration.tex#bpW:w6:final-freq@L336-L336 | (ii) N_A
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1134,9 +1138,9 @@ EDGE: stepW:w6:t-prep | blueprint-W/parts/w6-iteration.tex#bpW:w6:tori@L368-L368
 EDGE: stepW:w6:t-bk | blueprint-W/parts/w6-iteration.tex#bpW:w6:tori@L371-L371 | proof step
 EDGE: stepW:w6:t-close | blueprint-W/parts/w6-iteration.tex#bpW:w6:tori@L372-L372 | proof step
 EDGE: stepW:w6:t-an | blueprint-W/parts/w6-iteration.tex#bpW:w6:tori@L374-L374 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1157,13 +1161,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:convergence, bpW:w5:action-angle
+DEPS: bpW:w6:convergence, bpW:w5:action-angle, bpW:w6:prep-step
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-hol@L363-L363 | (iii)
 EDGE: bpW:w5:action-angle | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-hol@L364-L364 | holomorphic A_xi
+EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-hol@L364-L364 | holomorphy and the smoothing increment of Phi_P
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1185,14 +1190,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:convergence, bpW:w6:prep-step, bpW:w6:final-freq
+DEPS: bpW:w6:convergence, bpW:w6:prep-step, bpW:w6:final-freq, bpW:w5:action-angle
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-cont@L366-L366 | (iii)
 EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-cont@L366-L366 | (iii)
 EDGE: bpW:w6:final-freq | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-cont@L367-L367 | Lipschitz
+EDGE: bpW:w5:action-angle | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-cont@L367-L367 | joint continuity of the action-angle map in (xi,w)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1220,9 +1226,9 @@ ROUTE_FOR: -
 EDGE: bpW:w6:invariance | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-prep@L368-L368 | invariance in KAM coordinates
 EDGE: bpW:w5:new-ham | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-prep@L369-L369 | (iii)
 EDGE: bpW:w6:strong | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-prep@L369-L369 | strong conjugacy
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1248,9 +1254,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:action-angle | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-bk@L371-L371 | (v)
 EDGE: stepW:w6:t-prep | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-bk@L371-L371 | the KAM-coordinate identity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1276,9 +1282,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-close@L372-L372 | (iii)
 EDGE: bpW:w6:convergence | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-close@L372-L372 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-W-w6
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1299,19 +1305,20 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w3:flow, bpW:w3:coords, bpW:w1:torus-analytic
+DEPS: bpW:w3:flow, bpW:w3:coords, bpW:w1:torus-analytic, bpW:w3:class-remark
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:flow | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-an@L374-L374 | (i) Gamma analytic, (iv) real
 EDGE: bpW:w3:coords | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-an@L375-L375 | Z
 EDGE: bpW:w1:torus-analytic | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-an@L376-L376 | real-analytic tori from complex strips
+EDGE: bpW:w3:class-remark | blueprint-W/parts/w6-iteration.tex#stepW:w6:t-an@L374-L374 | the regularity claim explicitly cited for Gamma analytic, hence holomorphic
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-delta5-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: The text cites the excluded Remark bpW:w3:class-remark for 'Gamma is analytic'; that fact is Theorem bpW:w3:flow(i), used here.
+NOTE: The cited regularity remark is retained as bpW:w3:class-remark (delta 5). The flow edge remains a direct use for analyticity and reality.
 
 NODE: bpW:w6:to-w8
 KIND: claim
@@ -1328,7 +1335,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:tori, bpW:w6:exclusion, bpW:w6:final-freq, bpW:w6:prep-step, bpW:w3:transport-tori-weak, bpW:w0:periodone#linearTorus
+DEPS: bpW:w6:tori, bpW:w6:exclusion, bpW:w6:final-freq, bpW:w6:prep-step, bpW:w3:transport-tori-weak, bpW:w0:periodone#linearTorus, bpW:w6:wave-iteration, bpW:w6:freq-lip, bpW:w7:measure, bpW:w7:shell-est, bpW:w7:dioph, bpW:w7:limit, bpW:w1:coordinatewise
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:tori | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L391-L391 | (i)-(v)
@@ -1337,8 +1344,15 @@ EDGE: bpW:w6:final-freq | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L390-L
 EDGE: bpW:w6:prep-step | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L398-L398 | (v)
 EDGE: bpW:w3:transport-tori-weak | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L405-L405 | the return to Cartesian coordinates
 EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L393-L393 | the linear torus K^0_I occurs directly here (frozen linearTorus)
+EDGE: bpW:w6:wave-iteration | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L396-L396 | the starting size epsilon_0 remains a free parameter of the wave iteration
+EDGE: bpW:w6:freq-lip | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L388-L388 | the admissible family required for applying W7 measure and shell estimates
+EDGE: bpW:w7:measure | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L387-L387 | the measure result applied to the admissible family
+EDGE: bpW:w7:shell-est | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L388-L388 | the shell estimate applied to the same admissible family
+EDGE: bpW:w7:dioph | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L390-L390 | conversion of the final frequency bound to the stated Diophantine property
+EDGE: bpW:w7:limit | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L390-L390 | the limiting-frequency properties cited in the retained interface claim
+EDGE: bpW:w1:coordinatewise | blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L407-L407 | conversion of the Cartesian coefficient equations to clause (4)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1360,14 +1374,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w5:data, bpW:w7:indexdef, bpW:w4:wave
+DEPS: bpW:w5:data, bpW:w7:indexdef, bpW:w4:wave, bpW:w0:mass
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w5:data | blueprint-W/parts/w6-iteration.tex#bpW:w6@L24-L24 | W5's constants and t
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w6-iteration.tex#bpW:w6@L26-L26 | W7's Dirichlet weight <l>
 EDGE: bpW:w4:wave | blueprint-W/parts/w6-iteration.tex#bpW:w6@L26-L26 | (ii) reindexing
+EDGE: bpW:w0:mass | blueprint-W/parts/w6-iteration.tex#bpW:w6@L23-L23 | the notation paragraph fixes m > 0 itself
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-W-w6
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -

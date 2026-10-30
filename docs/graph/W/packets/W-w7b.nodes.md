@@ -27,9 +27,9 @@ EDGE: stepW:w7:prep-j0 | blueprint-W/parts/w7-measure.tex#bpW:w7:prep@L482-L482 
 EDGE: stepW:w7:prep-n | blueprint-W/parts/w7-measure.tex#bpW:w7:prep@L494-L494 | proof step
 EDGE: stepW:w7:prep-X | blueprint-W/parts/w7-measure.tex#bpW:w7:prep@L497-L497 | proof step
 EDGE: stepW:w7:prep-sum | blueprint-W/parts/w7-measure.tex#bpW:w7:prep@L500-L500 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -54,9 +54,9 @@ DEPS: bpW:w7:zone
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-0@L468-L468 | psi = 0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -83,9 +83,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-plus@L471-L471 | dichotomy
 EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-plus@L470-L470 | zone estimate
 EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-plus@L472-L472 | (i)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -106,13 +106,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:zone, bpW:w7:unpert-bounds
+DEPS: bpW:w7:zone, bpW:w7:unpert-bounds, bpW:w7:largek, bpW:w7:dichotomy
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L477-L477 | zone estimate
 EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L479-L479 | (iii)
+EDGE: bpW:w7:largek | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L476-L477 | nonempty S forces n <= ¦k¦/vartheta
+EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L477-L478 | outside X supplies the zone lemma's lower bound on ¦k¦
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -140,9 +142,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-j0@L484-L484 | psi = n
 EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-j0@L493-L493 | ceil(x) <= 2x and real powers
 EDGE: stepW:w7:prep-minus-group | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-j0@L486-L486 | the grouping
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -167,9 +169,9 @@ DEPS: stepW:w7:prep-j0
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w7:prep-j0 | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-n@L496-L496 | per n
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -194,9 +196,9 @@ DEPS: bpW:w7:Xzones
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:Xzones | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-X@L498-L498 | a = hat alpha
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -217,7 +219,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:count, bpW:w7:measurable, stepW:w7:prep-0, stepW:w7:prep-plus, stepW:w7:prep-n, stepW:w7:prep-X
+DEPS: bpW:w7:count, bpW:w7:measurable, stepW:w7:prep-0, stepW:w7:prep-plus, stepW:w7:prep-n, stepW:w7:prep-X, bpW:w7:indexdef, bpW:w7:constdef
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L502-L502 | (iii)
@@ -226,8 +228,10 @@ EDGE: stepW:w7:prep-0 | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L501-
 EDGE: stepW:w7:prep-plus | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L501-L501 | Lambda^+
 EDGE: stepW:w7:prep-n | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L501-L501 | Lambda^-
 EDGE: stepW:w7:prep-X | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L502-L502 | X
+EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L501-L501 | A_k >= ¦k¦^24
+EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L502-L502 | the coefficient C_P of (C5)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -260,9 +264,9 @@ EDGE: stepW:w7:it-j0 | blueprint-W/parts/w7-measure.tex#bpW:w7:iter@L527-L527 | 
 EDGE: stepW:w7:it-n | blueprint-W/parts/w7-measure.tex#bpW:w7:iter@L533-L533 | proof step
 EDGE: stepW:w7:it-sum | blueprint-W/parts/w7-measure.tex#bpW:w7:iter@L537-L537 | proof step
 EDGE: stepW:w7:it-X | blueprint-W/parts/w7-measure.tex#bpW:w7:iter@L541-L541 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -288,9 +292,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w7:prep-0 | blueprint-W/parts/w7-measure.tex#stepW:w7:it-plus@L519-L519 | as there
 EDGE: stepW:w7:prep-plus | blueprint-W/parts/w7-measure.tex#stepW:w7:it-plus@L519-L519 | as there
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -311,13 +315,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:family, bpW:w7:unpert-bounds
+DEPS: bpW:w7:family, bpW:w7:unpert-bounds, bpW:w7:largek
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | (H2)
 EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | (iii)
+EDGE: bpW:w7:largek | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | n <= ¦k¦/vartheta, otherwise the zone is empty
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -339,13 +344,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:zone, stepW:w7:it-group
+DEPS: bpW:w7:zone, stepW:w7:it-group, bpW:w7:dichotomy, bpW:w7:ext-ennreal
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L528 | zone estimate
 EDGE: stepW:w7:it-group | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L529-L529 | the grouping
+EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L530 | outside X discharges the nonconstant-psi premise of zone
+EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L532 | ceil rounding and real-power comparisons for j_0
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -371,9 +378,9 @@ DEPS: stepW:w7:it-j0
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w7:it-j0 | blueprint-W/parts/w7-measure.tex#stepW:w7:it-n@L534-L534 | per n
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -394,14 +401,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:count, stepW:w7:it-n, stepW:w7:it-plus
+DEPS: bpW:w7:count, stepW:w7:it-n, stepW:w7:it-plus, bpW:w7:indexdef
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L538-L538 | (ii), (iii)
 EDGE: stepW:w7:it-n | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | per k
 EDGE: stepW:w7:it-plus | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | per k
+EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | tau = 24 and A_k >= ¦k¦^24
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -423,13 +431,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:Xzones, bpW:w7:measurable
+DEPS: bpW:w7:Xzones, bpW:w7:measurable, bpW:w7:count, bpW:w7:Xdef
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:Xzones | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 | a = check alpha
 EDGE: bpW:w7:measurable | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L543-L543 | Borel
+EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 | each k occurs for at most ¦k¦ levels
+EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 | ¦k¦ < K_* on X
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -458,9 +468,9 @@ EDGE: bpW:w7:zones | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L551-L55
 EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L551-L551 | E
 EDGE: stepW:w7:meas-cont | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L555-L555 | proof step
 EDGE: stepW:w7:meas-union | blueprint-W/parts/w7-measure.tex#bpW:w7:measurable@L558-L558 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -481,13 +491,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:omega0, bpW:w7:family
+DEPS: bpW:w7:omega0, bpW:w7:family, bpW:w7:basic#data
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:omega0 | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-cont@L556-L556 | affine
 EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-cont@L556-L556 | (H1)-(H2)
+EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-cont@L557-L557 | the phase phi_kl and its frequency-pair domain
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -514,9 +525,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-union@L559-L559 | Borel sets
 EDGE: stepW:w7:meas-cont | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-union@L559-L559 | continuity
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -545,9 +556,9 @@ EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#bpW:w7:measure@L566-L566 
 EDGE: bpW:w7:measurable | blueprint-W/parts/w7-measure.tex#bpW:w7:measure@L566-L566 | E Borel
 EDGE: stepW:w7:assemble | blueprint-W/parts/w7-measure.tex#bpW:w7:measure@L572-L572 | proof step
 EDGE: stepW:w7:return | blueprint-W/parts/w7-measure.tex#bpW:w7:measure@L577-L577 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -574,9 +585,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:assemble@L573-L573 | subadditivity
 EDGE: bpW:w7:prep | blueprint-W/parts/w7-measure.tex#stepW:w7:assemble@L574-L574 | preparatory zones
 EDGE: bpW:w7:iter | blueprint-W/parts/w7-measure.tex#stepW:w7:assemble@L574-L574 | iteration zones
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -601,9 +612,9 @@ DEPS: bpW:w7:freqcoords
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:return@L578-L578 | (ii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -630,9 +641,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:measure | blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L586-L586 | the setting
 EDGE: bpW:w7:zones | blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L598-L598 | negation of the zone definitions
 EDGE: bpW:w7:sep | blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L598-L598 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -656,9 +667,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -686,9 +697,9 @@ EDGE: bpW:w7:shells | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L617-L6
 EDGE: stepW:w7:partition | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L622-L622 | proof step
 EDGE: stepW:w7:layer | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L625-L625 | proof step
 EDGE: stepW:w7:shell-size | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-geom@L630-L630 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -713,9 +724,9 @@ DEPS: bpW:w7:ext-ball
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:partition@L624-L624 | Leb of boxes
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -736,11 +747,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: -
+DEPS: bpW:w7:ext-ball, bpW:w7:ext-borel
 ROUTES: -
 ROUTE_FOR: -
+EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:layer@L628-L629 | areas of the rectangular strips and squares
+EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:layer@L628-L629 | finite subadditivity and monotonicity for the covering
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -765,9 +778,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -797,9 +810,9 @@ EDGE: stepW:w7:den | blueprint-W/parts/w7-measure.tex#bpW:w7:density@L644-L644 |
 EDGE: stepW:w7:upper | blueprint-W/parts/w7-measure.tex#bpW:w7:density@L646-L646 | proof step
 EDGE: stepW:w7:lower | blueprint-W/parts/w7-measure.tex#bpW:w7:density@L648-L648 | proof step
 EDGE: stepW:w7:limit | blueprint-W/parts/w7-measure.tex#bpW:w7:density@L654-L654 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -824,9 +837,9 @@ DEPS: bpW:w7:ext-ball
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:den@L645-L645 | balls
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -847,11 +860,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: -
+DEPS: bpW:w7:ext-borel, stepW:w7:den, bpW:w7:ext-ennreal
 ROUTES: -
 ROUTE_FOR: -
+EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:upper@L647-L647 | measure monotonicity for Gamma cap B_h subset (0,h)^2
+EDGE: stepW:w7:den | blueprint-W/parts/w7-measure.tex#stepW:w7:upper@L647-L647 | the denominator is h^2 in (0,infinity)
+EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:upper@L647-L647 | division preserves the ratio bound
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -873,12 +889,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:shell-geom
+DEPS: bpW:w7:shell-geom, bpW:w7:ext-borel, stepW:w7:den, bpW:w7:ext-ennreal
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:shell-geom | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L650-L650 | (i)
+EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L651-L653 | measure of the countable shell cover and complement
+EDGE: stepW:w7:den | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L653-L653 | the denominator and box measure are h^2
+EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L653-L653 | the finite-measure complement and quotient identities
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -906,9 +925,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:limit@L655-L655 | squeeze
 EDGE: stepW:w7:lower | blueprint-W/parts/w7-measure.tex#stepW:w7:limit@L655-L655 | lower bound
 EDGE: stepW:w7:upper | blueprint-W/parts/w7-measure.tex#stepW:w7:limit@L655-L655 | upper bound
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -936,9 +955,9 @@ EDGE: bpW:w7:shell-geom | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-est@L670
 EDGE: bpW:w7:measure | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-est@L670-L670 | the measure bound
 EDGE: bpW:w7:density | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-est@L666-L666 | conclusion
 EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#bpW:w7:shell-est@L663-L663 | admissible families
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -951,7 +970,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:exponents@L676-L691
 PROOF_SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:exponents@L676-L691
 CONTRACT_ID: bpW:w7:exponents
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: the shells and Theorem bpW:w7:measure; KP96's smallness alpha >= c_1 t^{3/2}
+SOURCE_HYPOTHESES: an action box of side t > 0 with tangential amplitude of order sqrt(t); KP96 scaling t = r^{2 lambda}, lambda = 2/3, and KAM smallness alpha >= c_1 t^{3/2}
 SOURCE_QUANTIFIERS: t -> 0
 SOURCE_CONCLUSION: the excluded fraction is <= C alpha^{32/47}/t; density needs alpha = o(t^{47/32}); the admissible window is t^{3/2} <~ alpha = o(t^{47/32}); the explicit choice alpha(t) = t^{95/64} gives alpha^{32/47}/t = t^{1/94} -> 0, t^{3/2}/alpha = t^{1/64} -> 0 and alpha(t) <= t for t <= 1
 CONSTANT_SCOPE: none
@@ -965,7 +984,7 @@ ROUTE_FOR: -
 EDGE: bpW:w7:measure | blueprint-W/parts/w7-measure.tex#bpW:w7:exponents@L679-L679 | the exponent 32/47
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#bpW:w7:exponents@L678-L678 | N_A, D_A
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -994,9 +1013,9 @@ EDGE: bpW:wh:dioph#IsDiophantine | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph@L698-L698 | A_k with tau = 24
 EDGE: stepW:w7:dioph-base | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph@L703-L703 | proof step
 EDGE: stepW:w7:dioph-scale | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph@L706-L706 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1020,9 +1039,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1047,9 +1066,9 @@ DEPS: stepW:w7:dioph-base
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w7:dioph-base | blueprint-W/parts/w7-measure.tex#stepW:w7:dioph-scale@L707-L707 | A_k <= 2 S^24
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1062,25 +1081,26 @@ STATEMENT_SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:dioph-use@L713-L718
 PROOF_SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:dioph-use@L713-L718
 CONTRACT_ID: bpW:w7:dioph-use
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: the final parameter set of a shell with ¦<k,omega_*>¦ >= check alpha/(2 A_k)
+SOURCE_HYPOTHESES: the final parameter set of a shell in W6's wave iteration; per-shell levels alpha_k as in the preceding shell setting
 SOURCE_QUANTIFIERS: I in that shell's part of Gamma
-SOURCE_CONCLUSION: gamma_I = check alpha_k/(8 pi) > 0 (check alpha_k = alpha_k^{48/47}) with the exponent tau = 24 > 1; gamma_I depends on the shell and tends to 0 as I -> 0
+SOURCE_CONCLUSION: W6 final-freq supplies ¦<k,omega_*>¦ >= check alpha/(2 A_k); with c = check alpha/2, gamma_I = check alpha_k/(8 pi) > 0 gives IsDiophantine gamma_I 24 nu(I) on the shell; gamma_I is chosen per shell and tends to zero with its level
 CONSTANT_SCOPE: gamma_I per shell
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:dioph
+DEPS: bpW:w7:dioph, bpW:w6:final-freq
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:dioph | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph-use@L715-L715 | with c = check alpha/2
+EDGE: bpW:w6:final-freq | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph-use@L714-L715 | the final l=0 divisor bound supplying c = check alpha/2
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w7b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Remark kept as a node: W8 cites it for gamma_I in clause (2). Its pointer to bpW:w6:final-freq is a forward pointer (the premise is supplied by W8).
+NOTE: Retained because W8 consumes the explicit per-shell gamma_I. The W6 final-frequency lemma is a direct supplier of the displayed bound; this node is not used to prove that W6 result.
 
 NODE: bpW:w7:limit
 KIND: lemma
@@ -1105,9 +1125,9 @@ EDGE: bpW:w7:omega0 | blueprint-W/parts/w7-measure.tex#bpW:w7:limit@L722-L722 | 
 EDGE: stepW:w7:lim-index | blueprint-W/parts/w7-measure.tex#bpW:w7:limit@L727-L727 | proof step
 EDGE: stepW:w7:lim-est | blueprint-W/parts/w7-measure.tex#bpW:w7:limit@L730-L730 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#bpW:w7:limit@L723-L723 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1132,9 +1152,9 @@ DEPS: bpW:w7:shell-geom
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:shell-geom | blueprint-W/parts/w7-measure.tex#stepW:w7:lim-index@L729-L729 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1161,9 +1181,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#stepW:w7:lim-est@L731-L731 | N_A
 EDGE: stepW:w7:lim-index | blueprint-W/parts/w7-measure.tex#stepW:w7:lim-est@L732-L732 | shell index
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w7-measure.tex#stepW:w7:lim-est@L731-L731 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1187,9 +1207,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

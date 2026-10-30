@@ -262,24 +262,26 @@ Refine one into its own node only if consumers use it independently and that mat
 Line-addressable, aligned to statement/proof units, and recorded in `docs/graph/W/packets/slices.json`. Each part is
 one slice. W1 (128 draft nodes) is split at its §"The sine system" (L591). New parts W4–W8 become new slices.
 
-| Slice | Source range | Nodes | Edges | Coverage items | Status (2026-10-30, wave 2) |
-|---|---|---|---|---|---|
-| `W-w0c` | w0-conventions.tex, all (10 of the 13 anchors) | 18 | 43 | 41 | REVIEWED; 1 coverage item re-opened (rescaling excluded) |
-| `W-w0n` | w0-normalization.tex, all | 31 | 117 | 62 | REVIEWED; 8 coverage items re-opened (reachability exclusions, kappa) |
-| `W-w1a` | w1-sequences.tex L1–590 | 66 | 188 | 96 | REVIEWED |
-| `W-w1b` | w1-sequences.tex L591–end | 66 | 173 | 96 | REVIEWED; 1 coverage item re-opened (kam-conventions) |
-| `W-w2` | w2-reconstruction.tex, all | 33 | 189 | 60 | REVIEWED |
-| `W-w3` | w3-birkhoff.tex, all | 89 | 332 | 141 | REVIEWED; 4 nodes and 8 items re-opened (transport-tori-weak; remarks) |
-| `W-w4` | w4-homological.tex, all | 57 | 148 | 102 | awaiting review 1 |
-| `W-w5a` | w5-kamstep.tex L1–449 | 50 | 175 | 74 | awaiting review 1 |
-| `W-w5b` | w5-kamstep.tex L450–end | 32 | 120 | 48 | awaiting review 1 |
-| `W-w6` | w6-iteration.tex, all | 47 | 154 | 70 | awaiting review 1 |
-| `W-w7a` | w7-measure.tex L1–459 | 50 | 129 | 79 | awaiting review 1 |
-| `W-w7b` | w7-measure.tex L460–end | 42 | 105 | 63 | awaiting review 1 |
-| `W-w8a` | w8-assembly.tex L1–410 | 56 | 186 | 79 | awaiting review 1 |
-| `W-w8b` | w8-assembly.tex L411–end | 46 | 189 | 61 | awaiting review 1 |
-| `W-wh` | w-headline.tex, all (3 anchors: embedding, IsDiophantine, the root nlw2) | 3 | 12 | 14 | REVIEWED; root node and 1 item re-opened |
-| `W-imports` | imported track-K nodes (writer-owned) | 4 | 0 | 4 | REVIEWED |
+Status after wave-2 review 1 and delta 5 (2026-10-30):
+
+| Slice | Source range | Nodes (REVIEWED/total) | Edges | Coverage (REVIEWED/total) |
+|---|---|---|---|---|
+| `W-w0c` | w0-conventions.tex, all (10 of the 13 anchors) | 18/18 | 43 | 41/41 |
+| `W-w0n` | w0-normalization.tex, all | 31/31 | 117 | 62/62 |
+| `W-w1a` | w1-sequences.tex L1–590 | 66/66 | 188 | 96/96 |
+| `W-w1b` | w1-sequences.tex L591–end | 66/67 | 176 | 95/96 |
+| `W-w2` | w2-reconstruction.tex, all | 33/33 | 189 | 60/60 |
+| `W-w3` | w3-birkhoff.tex, all | 88/90 | 338 | 140/141 |
+| `W-w4` | w4-homological.tex, all | 37/57 | 161 | 83/102 |
+| `W-w5a` | w5-kamstep.tex L1–449 | 28/50 | 178 | 53/74 |
+| `W-w5b` | w5-kamstep.tex L450–end | 21/32 | 119 | 37/48 |
+| `W-w6` | w6-iteration.tex, all | 31/47 | 169 | 56/70 |
+| `W-w7a` | w7-measure.tex L1–459 | 32/51 | 153 | 78/79 |
+| `W-w7b` | w7-measure.tex L460–end | 30/42 | 125 | 63/63 |
+| `W-w8a` | w8-assembly.tex L1–410 | 41/56 | 207 | 79/79 |
+| `W-w8b` | w8-assembly.tex L411–end | 31/46 | 199 | 61/61 |
+| `W-wh` | w-headline.tex, all (3 anchors: embedding, IsDiophantine, the root nlw2) | 3/3 | 12 | 14/14 |
+| `W-imports` | imported track-K nodes (writer-owned) | 4/4 | 0 | 4/4 |
 
 A node belongs to the slice containing the first line of its STATEMENT_SOURCE, and coverage items follow their
 SOURCE line.
@@ -394,6 +396,20 @@ SOURCE line.
     `operator-fourier`, `w2:hyp`, `w2:constants`, `w2:hidden` and `wh:reading` have no W4–W8 citations.
   - The linter passes with `--require-complete-coverage --require-initial-lean-status --require-all-reachable`:
     690 nodes, 2260 edges, all in the root closure.
+
+- **2026-10-30, wave-2 review 1 and delta 5** (codex-1; tags `sol-review-W-W-<slice>` for W-w4–W-w6, as written in
+  those files, and `sol-review-W-<slice>` for W-w7a–W-w8b; `sol-delta5-W-<slice>`). Applied with
+  `inp_depgraph_apply_review.py`, marked with `inp_depgraph_mark_reviewed.py` and `tools/w_depgraph_mark_coverage_rest.py`.
+  - W-wh, W-w0n and W-w0c delta 5 passed: the root edge and all reachability exclusions are confirmed.
+  - Rule 11 restored two remarks as claim nodes: `bpW:w3:class-remark` (cited in W6 step `t-an`, L374) and
+    `bpW:w1:kam-conventions` (cited in the statement of Convention `bpW:w4:index`, L87). The delta reviewers'
+    cross-slice blocks for `stepW:w6:t-an` and `bpW:w4:index` were merged into the owning packets (W-w6, W-w4) as one
+    added edge each; the tool had appended them to W-w3 and W-w1b. Both restored claims get PROOF_SOURCE = their
+    statement locator, as for the other kept remarks.
+  - Reviewers exposed 10 SOURCE_GAP nodes: `stepW:w4:schurrep`, `stepW:w5:t-comp`, `c-skew`, `n-exp`, `p-inv`,
+    `a-hol`, `bpW:w6:prep-step`, `stepW:w6:p-lipp`, `bpW:w6:freq-lip`, `stepW:w6:fl-borel`. The writer reset
+    `stepW:w5:n-exp`'s LEAN_NOTE to `-` (initial-Lean gate); the gap stays in its NOTE.
+  - The linter passes with `--require-all-reachable`.
 
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**

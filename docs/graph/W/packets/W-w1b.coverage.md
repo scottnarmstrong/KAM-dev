@@ -370,10 +370,10 @@ REVIEWER: sol-review-W-w1b
 ITEM: bpW:w1:kam-conventions
 KIND: claim
 SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L943-L949
-DISPOSITION: EXCLUDED
-REASON: administrative remark (conventions to carry into W4-W6: P96-K's z is the conjugate of W0's; sum versus max norm). Re-checked in wave 2: W4 (L25, L87, L105) and W5 (L29) cite it only in inputs prose, a convention aside and source notes; the conventions themselves are fixed in Convention bpW:w4:index and Definition bpW:w1:kam-space, which consumers cite
+DISPOSITION: NODE bpW:w1:kam-conventions
+REASON: the coordinate-exchange claim is directly cited inside the statement of bpW:w4:index at L87; prose and source-note mentions remain provenance
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
+EXTRACTOR: claude-suborch-W+claude-suborch-W-w2+sol-delta5-W-w1b
 REVIEWER: -
 
 ITEM: bpW:w1:kam-domain

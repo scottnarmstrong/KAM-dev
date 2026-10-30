@@ -2544,9 +2544,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori
 EDGE: stepW:w3:wk-lin | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L845-L845 | proof step
 EDGE: stepW:w3:wk-reg | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L850-L850 | proof step
 EDGE: stepW:w3:wk-transport | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L859-L859 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2567,15 +2567,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:diag, bpW:w3:Lambda, bpW:w3:main, bpW:w1:embed
+DEPS: bpW:w1:diag, bpW:w3:Lambda, bpW:w3:main, bpW:w1:embed, bpW:w0:mass
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:diag | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L846-L846 | (i) with p-1 in place of p and r = 1
 EDGE: bpW:w3:Lambda | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L848-L848 | agreement on W+
 EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L849-L849 | (ii), (iii): the fields of bar G, G^nor, K take values in W+
 EDGE: bpW:w1:embed | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L849-L849 | norm-one inclusions
+EDGE: bpW:w0:mass | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L847-L847 | m > 0 in the sqrt(1+m) multiplier bound
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W-w2
+EXTRACTOR: claude-suborch-W-w2+sol-delta5-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -2606,9 +2607,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-
 EDGE: bpW:w1:diag | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L857-L857 | (i) with r = -1
 EDGE: stepW:w3:wk-lin | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L852-L852 | X_Lambda(w) is defined in W_{a,p-1}
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L856-L856 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2636,10 +2637,41 @@ EDGE: stepW:w3:wk-reg | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@
 EDGE: bpW:w3:transport-tori | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L861-L861 | X_{H'} and the coefficient-system argument
 EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L862-L862 | Gamma is differentiable on W ((i))
 EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L863-L863 | (iv) conjugacy at w
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
+
+NODE: bpW:w3:class-remark
+KIND: claim
+TITLE: Regularity class used by the W6 torus proof
+STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L771-L778
+PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L771-L778
+CONTRACT_ID: bpW:w3:class-remark
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: W3 standing data: m > 0, a >= 0, p >= 1/2, J = {1,2}; the normal-form objects Gamma,K,X_K
+SOURCE_QUANTIFIERS: on the complex ball B_{rho_1}, and on its real form as stated
+SOURCE_CONCLUSION: Gamma,K,X_K are complex analytic on B_{rho_1}; Gamma and K arise from compositions of power series, X_{K_1} from composition and operator inversion, X_{K_2} from Yseries; their real restrictions are real analytic; analyticity implies holomorphy in the sense of W1, so W1 Cauchy estimates apply
+CONSTANT_SCOPE: rho_1 and the preceding constants retain their W3 dependence on m,a,p; no new constant
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: bpW:w3:flow, bpW:w3:main, bpW:w3:Yseries, bpW:w3:real-restrict, bpW:w1:holomorphic
+ROUTES: -
+ROUTE_FOR: -
+EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L772-L773 | Gamma has its analytic power series
+EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L772-L774 | K and X_K are analytic
+EDGE: bpW:w3:Yseries | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L774-L774 | the explicit series for X_{K_2}
+EDGE: bpW:w3:real-restrict | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L774-L774 | real restrictions are analytic
+EDGE: bpW:w1:holomorphic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L776-L777 | the definition of holomorphy to which analyticity is applied
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: new+sol-delta5-W-w3
+REVIEWER: -
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: Restored because stepW:w6:t-an cites this fact at w6-iteration.tex L374 inside a proof. Source topology only; no Lean proof status inferred.

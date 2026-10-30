@@ -80,9 +80,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w-headline.tex#bpW:wh:nlw
 EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L64-L64 | (5) classical solution of (bpW:w0:eq) on R
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L65-L65 | (5) u_t = V_m(P_I(theta_0 + t nu(I)))
 EDGE: bpW:w8:nlw2-proof | blueprint-W/parts/w8-assembly.tex#bpW:w8:nlw2-proof@L548-L550 | Theorem bpW:w8:nlw2-proof states that Theorem bpW:wh:nlw2 holds exactly as frozen; its proof (L552-L599) is the proof of the root
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-wh
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

@@ -1,0 +1,41 @@
+{
+ "replaced": [
+  "bpW:w5:new-ham",
+  "stepW:w5:n-exp",
+  "bpW:w5:pullback",
+  "stepW:w5:p-inv",
+  "stepW:w5:p-ass",
+  "bpW:w5:step",
+  "stepW:w5:st-con",
+  "stepW:w5:st-div",
+  "stepW:w5:a-hol",
+  "stepW:w5:a-field",
+  "bpW:w5:initial"
+ ],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "stepW:w5:n-br",
+  "stepW:w5:n-field",
+  "stepW:w5:n-conj",
+  "stepW:w5:p-dy",
+  "bpW:w5:commutator",
+  "stepW:w5:k-cauchy",
+  "stepW:w5:k-bd",
+  "stepW:w5:st-1",
+  "stepW:w5:st-2",
+  "stepW:w5:st-freq",
+  "bpW:w5:action-angle",
+  "stepW:w5:a-dom",
+  "stepW:w5:a-der",
+  "stepW:w5:a-nf",
+  "stepW:w5:a-conj",
+  "stepW:w5:i-q",
+  "stepW:w5:i-g",
+  "stepW:w5:i-k",
+  "stepW:w5:i-par",
+  "stepW:w5:i-freq",
+  "bpW:w5:newham-sec#bracket"
+ ]
+}

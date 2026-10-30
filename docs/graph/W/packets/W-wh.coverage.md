@@ -41,7 +41,7 @@ DISPOSITION: NODE bpW:wh:nlw2
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-wh
+REVIEWER: sol-delta5-W-wh
 
 ITEM: bpW:wh:reading
 KIND: claim
@@ -57,9 +57,9 @@ KIND: claim
 SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:weakenings@L97-L107
 DISPOSITION: EXCLUDED
 REASON: administrative remark (declared weakenings W-A2, D30 Q3); no proof consumes it. Re-checked in wave 2: W6 L165 and W8 L601 cite it in source notes and W8 L34 in the excluded outline; the weakened clauses are the frozen statement itself
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2
-REVIEWER: -
+REVIEWER: sol-delta5-W-wh
 
 ITEM: heading:bpW:wh
 KIND: heading
