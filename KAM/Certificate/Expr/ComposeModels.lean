@@ -13,12 +13,12 @@ public import KAM.Certificate.Model.Inv
 /-!
 # Slot models of the composition with an embedding
 
-The building blocks of `Slp.compose` (SO design §1.7), each with its enclosure contract on the
+The building blocks of `Slp.compose`, each with its enclosure contract on the
 open strip:
 
 * `constModel`: a constant `(re + i im) (2π)^deg` with outward conversion (`ofRatUp`), the
   conversion error in the radius; its key is zero, so a `mul` with a constant operand takes
-  `CertModel.mul`'s scalar route (SO-ADVCOUNT lever 1);
+  `CertModel.mul`'s scalar route;
 * `realCompModel`: an action component `(2π)^{dA_j} A_j`, exact, in the canonical (ascending)
   key order of `CertRealPoly.toSortedPoly` (the zero key has length `n`);
 * `charPhaseModel`: the degree-zero model of the character phase `2πi k·(2π)^{dU} U`, the sum
@@ -31,8 +31,8 @@ open strip:
 * `shiftModel`: multiplication by a character `χ_k` (exact index shift, radius times
   `w^{|k|₁}`);
 * `ModelConfig.forWitness`: the advice of witness number `i` at site `s` (keys `s :: i :: rest`
-  re-keyed to `s :: rest`), so that the witnesses' internal product keys do not collide (SO-EXPW
-  handoff, product keys). The advice is untrusted, so the contracts hold for every book.
+  re-keyed to `s :: rest`), so that the witnesses' internal product keys do not collide.
+  The advice is untrusted, so the contracts hold for every book.
 -/
 
 @[expose] public noncomputable section

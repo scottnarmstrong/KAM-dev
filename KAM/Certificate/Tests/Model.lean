@@ -18,7 +18,7 @@ Every check below is decided by `decide +kernel` (kernel reduction only).
   route returns exactly the polynomial of `CertPoly.mulPacked`; a missing key and a failing
   advice (one slot off by `+2`) both give the crude enclosure (empty polynomial); a constant
   factor is a scalar multiplication whether or not advice is registered, even bogus advice under
-  its key (SO-ADVCOUNT lever 1); the zero model times anything is the zero model with radius `0`.
+  its key; the zero model times anything is the zero model with radius `0`.
 * **Direct route** (`ℚ`): equal product keys are merged in lexicographic order.
 * **`add`, `trim`, `ofDeriv`, `toDeg`** (`ℚ`): merged coefficients; the dropped weighted size in
   the radius; the multiplier `i k_j` and the dropped zero-multiplier term; the degree change with

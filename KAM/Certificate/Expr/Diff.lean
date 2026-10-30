@@ -16,7 +16,7 @@ derivative slots are shared by its parents. Sine and cosine of an expression and
 compiled through `exp` and the characters `e^{±2πi k·θ}`; a quotient is a product with an
 `inv` node; a power is repeated multiplication. No operation is ever dropped from the program
 (only derivative slots that vanish identically are folded), so every `inv` operand of the source
-stays in the program, as the ball arithmetic of SO-BALL requires.
+stays in the program, as the ball arithmetic of `Expr/Ball` requires.
 
 The values are those of `HamExpr.eval` everywhere (`jet_v0`), and on an open set where the
 denominators are nonvanishing the tables are the first, second and third derivatives (`jet_d1`,

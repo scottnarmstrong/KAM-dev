@@ -11,7 +11,7 @@ public import KAM.Certificate.Tests.ToyLit
 # Data of the toy certificate T3
 
 Emitted by `scripts/spin_orbit/toy_lean_cert.py` from
-`certificates/so-toys/T3.json` (SO-PYALIGN); `toyT3Cert` is the whole certificate.
+`certificates/so-toys/T3.json` ; `toyT3Cert` is the whole certificate.
 -/
 
 @[expose] public section

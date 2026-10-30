@@ -78,7 +78,7 @@ def packShiftAux (w : ℕ) : ℕ → List ℤ → ℕ → ℕ → ℤ
     if 0 ≤ c then packShiftAux w (s + w) cs (p + (c.toNat <<< s)) n
     else packShiftAux w (s + w) cs p (n + ((-c).toNat <<< s))
 
-/-- The kernel packing (SO-REPLAY2 `soShLoop`): positive and negative parts accumulated
+/-- The kernel packing: positive and negative parts accumulated
 separately as `Nat`s with `Nat.shiftLeft`, one subtraction at the end. -/
 def packShift (w : ℕ) (cs : List ℤ) : ℤ := packShiftAux w 0 cs 0 0
 
@@ -360,7 +360,7 @@ def intSlotsBoundAux (w : ℕ) (logs : ℕ → ℕ) : ℕ → ℕ → ℤ → Bo
     let e := slotRep m (X % m)
     decide (e.natAbs ≤ 2 ^ logs i) && intSlotsBoundAux w logs len (i + 1) ((X - e) / m)
 
-/-- Slot decoding by bounds (SO-REPLAY2 `soIntSlotsBound`): decode `len` signed slots of `X`
+/-- Slot decoding by bounds: decode `len` signed slots of `X`
 (width `w`) and test `|e_i| ≤ 2^(logs i)` and that nothing is left over. -/
 def intSlotsBound (w len : ℕ) (logs : ℕ → ℕ) (X : ℤ) : Bool := intSlotsBoundAux w logs len 0 X
 

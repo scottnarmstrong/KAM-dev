@@ -12,14 +12,14 @@ public import KAM.Certificate.Poly.Layout
 
 A `PackedAdvice` carries, for one real product, the two factor layouts, the target box, the
 rounding scale, the rounded in-box result of every output shard window (in units `2^scale`) and
-a log-bound for the slots off the target. The advice is UNTRUSTED (audit 5, F12): a shard passes
+a log-bound for the slots off the target. The advice is UNTRUSTED: a shard passes
 `checkShard` only if its blocks have the block length, the exact side fits the signed slots
 (`shardFits`), the advice side fits (`reconFits`, the anti-carry guard on `2^scale · r + e`), and
 the packed residual `Σ_{i+j=s} pack(A_i) pack(B_j) - 2^scale pack(r_s)` decodes slot by slot within
 the per-slot logs (`intSlotsBound`). Then `shard_reconstruct` recovers the slotwise error bound by
 injectivity, since both compared lists are in the signed-slot range. `shapeOK` checks the
-structural guards (`1 ≤ scale`, F13; layouts; advice lengths; zero advice off the target box and
-beyond the product window), and `checkPackedProduct` the raw factor shapes (F14) and every shard.
+structural guards (`1 ≤ scale`; layouts; advice lengths; zero advice off the target box and
+beyond the product window), and `checkPackedProduct` the raw factor shapes and every shard.
 -/
 
 @[expose] public section
@@ -37,7 +37,7 @@ structure PackedAdvice where
   rounded : List (List ℤ)
   outLog : ℕ
 
-/-! ### Untrusted-advice validation (Revision 6, audit 5 F12 and F13) -/
+/-! ### Untrusted-advice validation -/
 
 /-- Slotwise reconstruction `2^scale · r_i + e_i` of a shard from advice and residual digits. -/
 def reconSlots (scale : ℕ) (r e : List ℤ) : List ℤ :=
@@ -58,7 +58,7 @@ theorem packSum_reconSlots (w scale : ℕ) {r e : List ℤ} (hl : r.length = e.l
       rw [packSum_cons, packSum_cons, packSum_cons, ih (by simpa using hl)]
       ring
 
-/-- **Anti-carry guard on untrusted advice (F12).** Every advice slot plus its residual budget
+/-- **Anti-carry guard on untrusted advice.** Every advice slot plus its residual budget
 stays in the signed slot range: `2 · (2^scale |r_i| + 2^(logs i)) < 2^w`. -/
 def reconFits (w scale : ℕ) (logs : ℕ → ℕ) (r : List ℤ) : Bool :=
   (List.range r.length).all fun i => decide (2 * (2 ^ scale * |r.getD i 0| + 2 ^ logs i) < 2 ^ w)
@@ -301,7 +301,7 @@ theorem slotsBounded_shardConv {w L : ℕ} {A B : List (List ℤ)} {s : ℕ}
   push_cast at hsum
   nlinarith
 
-/-- **Shard reconstruction (F12).** Premises are checkable guards only: block lengths, the exact
+/-- **Shard reconstruction.** Premises are checkable guards only: block lengths, the exact
 side fits (`shardFits`), the advice side fits (`reconFits`), the advice length and a passing slot
 decode of the packed residual. Then the exact shard convolution is slotwise within `2^(logs i)`
 of `2^scale · r` (both lists in the injective range, so `packSum_injective` applies). -/
@@ -459,7 +459,7 @@ def packOverlapAdd (L : ℕ) : List (List ℤ) → List ℤ
   | x :: xs => packAddZ x (List.replicate L 0 ++ packOverlapAdd L xs)
 
 /-- Overlap-add of the shard windows: the combined rounded result, one entry per product slot.
-**Cropping (F14):** window `s` is added at offset `s · blockLen`; the sum is zero-extended and then
+**Cropping:** window `s` is added at offset `s · blockLen`; the sum is zero-extended and then
 cut by `take prodLen`, so it has EXACTLY `prodLen` entries (the cropped tail is zero advice by
 `shapeOK`: beyond the product window). -/
 def PackedAdvice.combined (adv : PackedAdvice) : List ℤ :=
@@ -559,7 +559,7 @@ def PackedAdvice.targetSubBox (adv : PackedAdvice) : Bool :=
         adv.la.lo.getD j 0 + adv.lb.lo.getD j 0 +
           ((adv.la.dims.getD j 0 + adv.lb.dims.getD j 0 - 1 : ℕ) : ℤ))
 
-/-- **Structural guards (F12, F13)**, decidable: `1 ≤ scale`; positive `width` and `blockRows`;
+/-- **Structural guards**, decidable: `1 ≤ scale`; positive `width` and `blockRows`;
 `compat` at `la.dims.length` with equal widths for `la`, `lb`, `target`; `target` a sub-box of
 the product window; `blockLen` divides the row layout; every advice window `rounded[s]` has
 length `2·blockLen - 1`; advice is ZERO on every slot outside the target box and beyond the
@@ -610,7 +610,7 @@ theorem checkShard_sound {adv : PackedAdvice} {A B : List (List ℤ)} {s : ℕ}
   rw [shardPacked_eq, packShift_eq, Nat.cast_pow, Nat.cast_ofNat] at hdec
   exact ⟨hlen, shard_reconstruct hA hB hfit hrec hlen hdec⟩
 
-/-- The whole product: `shapeOK` (with `1 ≤ scale`); **raw shapes (F14)** `da.length =
+/-- The whole product: `shapeOK` (with `1 ≤ scale`); **raw shapes** `da.length =
 la.denseLen`, `db.length = lb.denseLen`, both positive (empty-factor policy: an empty raw factor
 or an empty layout box is REJECTED; a zero factor is sent as zeros on a nonempty box, or by the
 direct route); the dense factors cut by `cut`; and `checkShard` on every shard
@@ -641,7 +641,7 @@ theorem PackedAdvice.shapeOK_scale {adv : PackedAdvice} (h : adv.shapeOK = true)
   simp only [PackedAdvice.shapeOK, Bool.and_eq_true, decide_eq_true_eq] at h
   exact ⟨h.1.1.1.1.1.1.1.1.1, h.1.1.1.1.1.1.2⟩
 
-/-- **Guards exported from success** (F12, F13): no premise but the check. -/
+/-- **Guards exported from success**: no premise but the check. -/
 theorem checkPackedProduct_guards {adv : PackedAdvice} {da db : List ℤ}
     (h : checkPackedProduct adv da db = true) :
     1 ≤ adv.scale ∧ adv.shapeOK = true ∧ 0 < adv.blockLen ∧
@@ -653,14 +653,14 @@ theorem checkPackedProduct_guards {adv : PackedAdvice} {da db : List ℤ}
   obtain ⟨hsc, hbl⟩ := PackedAdvice.shapeOK_scale hs
   exact ⟨hsc, hs, hbl, h1, h2, h3, h4, h5, h6⟩
 
-/-- F13 negative contract: scale zero is rejected (whatever the data). -/
+/-- Negative contract: scale zero is rejected (whatever the data). -/
 theorem checkPackedProduct_scale_zero {adv : PackedAdvice} (h0 : adv.scale = 0)
     (da db : List ℤ) : checkPackedProduct adv da db = false := by
   by_contra h
   have := (checkPackedProduct_guards (Bool.not_eq_false _ ▸ h)).1
   omega
 
-/-- F14 negative contract: a raw factor whose length is not its layout's dense length is rejected
+/-- Negative contract: a raw factor whose length is not its layout's dense length is rejected
 (this excludes the padding alias `[0]` versus `[0, 0]`, which `cut` maps to the same blocks). -/
 theorem checkPackedProduct_raw_length {adv : PackedAdvice} {da db : List ℤ}
     (h : da.length ≠ adv.la.denseLen ∨ db.length ≠ adv.lb.denseLen) :
@@ -671,7 +671,7 @@ theorem checkPackedProduct_raw_length {adv : PackedAdvice} {da db : List ℤ}
   · exact h g.2.2.2.1
   · exact h g.2.2.2.2.1
 
-/-- §8 negative test (audit 5, F12): the carry-cancelling advice `[16, -1, 0]` packs to `0` at
+/-- Negative test: the carry-cancelling advice `[16, -1, 0]` packs to `0` at
 `w = 4` but fails the anti-carry guard (decided now; the guard body is concrete). -/
 theorem packSum_audit5_cancel : packSum 4 [16, -1, 0] = 0 := by decide
 

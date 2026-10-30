@@ -19,7 +19,7 @@ bounds `r_j ≥ sup_{T_ρ} |∂_j E - (∂_j g₀) E|`, the radius
 * `B` is the weighted norm `|g₀|_w`; `exp(B)` and `exp(η) - 1` are the backend upper bounds
   `expm1Up` (halvings and Taylor order `cfg.halvings`, `cfg.taylorN`; fail closed when the
   halved argument exceeds `1`), and `exp(2B) = exp(B)²`.
-* The pin (Revision 4, F10): `expPinBall g` encloses `g₀(0) = Σ_k ĝ₀(k)` (balanced ball sum,
+* The pin: `expPinBall g` encloses `g₀(0) = Σ_k ĝ₀(k)` (balanced ball sum,
   rounding in the radius); `out := certCExpReduced` of that ball with the witness's own halving
   count and order (`none` ⇒ the witness fails); `ε₀` bounds `|E(0) - out.1| + out.2` with the
   rounding of `E(0)` and of the subtraction (`expWitnessRadius_pin`). No smallness of `g₀(0)`

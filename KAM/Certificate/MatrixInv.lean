@@ -16,8 +16,8 @@ import Mathlib.Tactic.Linarith
 * `matrix_inv_of_approx_inverse`: if `B` is an approximate left inverse of `A` with row-sum
   defect `‖1 - B A‖ ≤ δ < 1` and `‖B‖ ≤ β`, then `A` is invertible, `‖A⁻¹‖ ≤ β / (1 - δ)` and
   `‖A⁻¹ - B‖ ≤ δ β / (1 - δ)`. No symmetry is used; the norm is the maximum row sum.
-* `ModelMatrix.HasShape k M`: `M` is a list matrix with exactly `k` rows, each of length `k`
-  (audit 2 F7); it is stated for lists of any type, so the matrix of models is a special case.
+* `ModelMatrix.HasShape k M`: `M` is a list matrix with exactly `k` rows, each of length `k`;
+  it is stated for lists of any type, so the matrix of models is a special case.
 -/
 
 public section
@@ -26,7 +26,7 @@ open scoped Matrix.Norms.Operator
 
 namespace KAM.Certificate
 
-/-- Exact shape of a list matrix: `k` rows, each of length `k` (audit 2 F7). With
+/-- Exact shape of a list matrix: `k` rows, each of length `k`. With
 `ModelMatrix.Encloses n (torsionIdx n)` and `k = n + 1`, the checked list matrix is then the
 whole denoted bordered matrix, not a larger matrix containing it as a leading block. -/
 @[expose] def ModelMatrix.HasShape {β : Type} (k : ℕ) (M : List (List β)) : Prop :=

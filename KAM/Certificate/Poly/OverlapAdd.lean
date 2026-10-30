@@ -325,7 +325,7 @@ theorem checkPackedProduct_slots {adv : PackedAdvice} {da db : List ℤ}
 the exact convolution, `|conv_i - 2^scale r_i| ≤ 2^scale` on the target box (at most two
 overlapping shard windows, each `≤ 2^(scale-1)`, and `1 ≤ scale` from the guards) and
 `|conv_i| ≤ 2^(outLog+1)` elsewhere (advice zero there). The length conjunct follows from the
-exported raw shapes: `combined_length`, `prodLen` and `listConv_length` (F14). Route:
+exported raw shapes: `combined_length`, `prodLen` and `listConv_length`. Route:
 `checkPackedProduct_guards`, `checkShard_sound` (via `shard_reconstruct`),
 `packSum_flatten_mul_shards`, overlap-add. -/
 theorem checkPackedProduct_sound {adv : PackedAdvice} {da db : List ℤ}

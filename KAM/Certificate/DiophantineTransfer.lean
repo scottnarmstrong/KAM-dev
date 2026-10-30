@@ -13,7 +13,7 @@ public import KAM.Certificate.QuadraticDiophantine
 If `T` maps nonzero integer vectors to nonzero integer vectors, preserves the small divisor and
 satisfies `|T k|₁ ≤ C |k|₁`, then Diophantine constants transfer with `γ ↦ γ / C ^ τ`. With
 `T k = ![k 0, k 1 - k 0]` and `C = 2` this moves the lunar bounds to the rotated frame
-`(ν - 1, 1)` (owner ruling O5).
+`(ν - 1, 1)` of `q - φ`.
 -/
 
 @[expose] public section
@@ -102,13 +102,13 @@ private lemma rot_half {x γ : ℝ} (hγ : 0 ≤ γ) (h : IsDiophantine γ 1 ![x
       linarith)
   simpa using this
 
-/-- The rotated lunar frequency `(ν₋ - 1, 1)` (owner ruling O5). -/
+/-- The rotated lunar frequency `(ν₋ - 1, 1)`. -/
 theorem lunarNuMinus_rot_isDiophantine : IsDiophantine (1 / 42) 1 ![lunarNuMinus - 1, 1] := by
   have := rot_transfer (by norm_num) lunarNuMinus_isDiophantine
   norm_num at this ⊢
   exact this
 
-/-- The rotated lunar frequency `(ν₊ - 1, 1)` (owner ruling O5). -/
+/-- The rotated lunar frequency `(ν₊ - 1, 1)`. -/
 theorem lunarNuPlus_rot_isDiophantine : IsDiophantine (1 / 42) 1 ![lunarNuPlus - 1, 1] := by
   have := rot_transfer (by norm_num) lunarNuPlus_isDiophantine
   norm_num at this ⊢

@@ -19,8 +19,8 @@ contract:
   merged coefficient paid at its weight;
 * `CertModel.mul`: the polynomial product by one of three routes, chosen in this order:
   a constant factor (every key zero, including the zero polynomial) is a SCALAR multiplication of
-  the other factor (never a packed product, SO-ADVCOUNT lever 1); otherwise the advice under the
-  product's key in `cfg.advice` (`packed`: SO-POLY-B's advice-checked `CertPoly.mulPacked`, whose
+  the other factor (never a packed product); otherwise the advice under the
+  product's key in `cfg.advice` (`packed`: the advice-checked `CertPoly.mulPacked`, whose
   zero real or imaginary parts cost nothing; `direct`: the direct product). Product terms with
   `|k|₁ > cfg.cutoff` move into the radius at their weighted size, and the radius adds the cross
   terms `|P_a|_w r_b + |P_b|_w r_a + r_a r_b`. A missing key or a failed packed check gives the
@@ -41,13 +41,13 @@ namespace KAM.Certificate
 
 open KAM CertArith
 
-/-- Truncation/precision controls and the product advice (Revision 5: indexed by the backend
-for the mantissa decoder). -/
+/-- Truncation/precision controls and the product advice (indexed by the backend for the
+mantissa decoder). -/
 structure ModelConfig (α : Type) where
   /-- keep only product terms with `|k|₁ ≤ cutoff` -/
   cutoff : ℕ
   /-- Taylor order and halvings of the REAL upper bounds `ratExpUp` (`exp(2B)`, `exp(B)`,
-  `exp(η) - 1`); complex pins carry their own counts (`ExpWitness`, Revision 4) -/
+  `exp(η) - 1`); complex pins carry their own counts (`ExpWitness`) -/
   taylorN : ℕ
   halvings : ℕ
   /-- untrusted mantissa decoder (`CertFixed.toMant P` in production); every value it returns is
@@ -97,7 +97,7 @@ def CertModel.polyProduct (W : CertWeight) (cfg : ModelConfig α) (key : Product
 (an exact factor does not pay for the other factor's weighted norm). -/
 def crossUp (n r : α) : α := if beq r (ofInt 0) then ofInt 0 else upMul n r
 
-/-- Model product (Revision 5). The polynomial part comes from `cfg.advice` at `key`:
+/-- Model product. The polynomial part comes from `cfg.advice` at `key`:
 `packed` ⇒ `CertPoly.mulPacked` (kernel: one multiplication per shard block pair); `direct` ⇒
 the direct product. The radius adds the packed remainder and the cross terms
 `sup|a| rad_b + sup|b| rad_a + rad_a rad_b`. A missing key or a failed packed check yields the

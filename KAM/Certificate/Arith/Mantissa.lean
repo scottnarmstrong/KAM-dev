@@ -59,9 +59,9 @@ re-verifies each value). -/
 def CertFixed.toMant (P : ℕ) : ℕ → CertFixed P → Option ℤ :=
   fun P' a => if P' = P then some a.m else none
 
-/-- Completeness (not soundness): the landed fixed-point `ofRatUp`/`ofRatDown` are exact on the
+/-- Completeness (not soundness): the fixed-point `ofRatUp`/`ofRatDown` are exact on the
 grid `ℤ/2^P` and `beq` compares mantissas, so `mantCheck` accepts the true mantissa and the
-packed route never falls back (part of SO-POLY-A, against the landed instance). -/
+packed route never falls back. -/
 theorem CertFixed.mantCheck_m (P : ℕ) (a : CertFixed P) : mantCheck P a a.m = true := by
   set q : ℚ := (a.m : ℚ) / 2 ^ P with hq
   have hden : (0 : ℤ) < q.den := by exact_mod_cast q.den_pos

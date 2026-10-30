@@ -9,7 +9,7 @@ public import KAM.Certificate.Defs
 public import KAM.Certificate.Arith.Rat
 
 /-!
-# Negative tests of the checker (design §8 'Negative tests')
+# Negative tests of the checker
 
 Every check below is decided by `decide +kernel` (kernel reduction only), in `ℚ`.
 
@@ -31,15 +31,15 @@ The ten items, each `checkTorusCertificate _ = false` and the intended sub-check
 3. `μ = 0`: `checkStatic`;
 4. an exp witness with a wrong mean (`E = 2`): the pin radius fails `checkInvariance`;
 5. `w = 1 < e^{2πρ}`: `checkWeight`, hence `checkStatic`;
-6. (O2) the denominator ball `p ∈ 1/2 ± 1` contains `0` on `D`: `checkHamBounds`; the reciprocal
+6. (div) the denominator ball `p ∈ 1/2 ± 1` contains `0` on `D`: `checkHamBounds`; the reciprocal
    witness `Q = 0` (`δ = 1`) fails the composition, hence `checkInvariance`;
-7. (F1) a box `(0 ± 1, 0 ± 1)` that does not exclude `0`, or `ν = 6/10 > (s - 1) L = 1/2`:
+7. (box) a box `(0 ± 1, 0 ± 1)` that does not exclude `0`, or `ν = 6/10 > (s - 1) L = 1/2`:
    `checkStatic`;
-8. (O3) a `π` enclosure narrower than the Machin bounds: `checkPiEnclosure`, hence `checkStatic`;
-9. (F7) at `n = 1` (the toy of `Tests/Defs`), the audit's self-inverse `3 × 3` permutation as the
+8. (`π`) a `π` enclosure narrower than the Machin bounds: `checkPiEnclosure`, hence `checkStatic`;
+9. (shape) at `n = 1` (the toy of `Tests/Defs`), the self-inverse `3 × 3` permutation as the
    torsion witness fails `torsionAvgCheck 1`, hence `checkTorsion`, although it is a valid inverse
    pair with zero defect;
-10. (F10) the character pin `exp(2πi · 1/4)` (`|2π/4| > 1`) at `pinHalvings = 0` fails
+10. (pin) the character pin `exp(2πi · 1/4)` (`|2π/4| > 1`) at `pinHalvings = 0` fails
    `Slp.compose`, hence `checkInvariance`; with `pinHalvings = 2` the composition succeeds.
 -/
 
@@ -173,7 +173,7 @@ theorem negWeight_fails :
       checkTorusCertificate { negBase with weight := ⟨1 / 100, 1⟩ } = false := by
   decide +kernel
 
-/-! ### 6. (O2) Division -/
+/-! ### 6. Division -/
 
 /-- `H = J + (p²/2)(p/p)`. -/
 def negDivH : HamExpr 2 :=
@@ -204,7 +204,7 @@ theorem negDivWit_fails :
       checkTorusCertificate (negDiv ⟨[]⟩ (1 / 50)) = false := by
   decide +kernel
 
-/-! ### 7. (F1) The box and the ray margins -/
+/-! ### 7. The box and the ray margins -/
 
 theorem negBoxZero_fails :
     checkStatic { negBase with freqBox := [(0, 1), (0, 1)] } = false ∧
@@ -217,7 +217,7 @@ theorem negRay_fails :
         { negBase with params := { negParams with nuRay := 6 / 10 } } = false := by
   decide +kernel
 
-/-! ### 8. (O3) A narrow `π` enclosure -/
+/-! ### 8. A narrow `π` enclosure -/
 
 /-- `π ∈ 3.14159 ± 10⁻⁷`, narrower than the Machin bounds at `(5, 2)`. -/
 def negPiNarrow : PiEnclosure ℚ := ⟨314159 / 100000, 1 / 10 ^ 7, 5, 2⟩
@@ -228,7 +228,7 @@ theorem negPi_fails :
       checkTorusCertificate { negBase with piEnc := negPiNarrow } = false := by
   decide +kernel
 
-/-! ### 9. (F7) A `3 × 3` torsion witness at `n = 1` -/
+/-! ### 9. A `3 × 3` torsion witness at `n = 1` -/
 
 /-- The `n = 1` toy of `Tests/Defs` (data copied: its bodies are not exposed). -/
 def negOneW : CertWeight := ⟨1 / 100, 11 / 10⟩
@@ -298,7 +298,7 @@ def negOneTestCert (M σK err E0 : ℚ) (rH : ℚ := 1 / 10) : TorusCertificate 
 theorem negOne_torsion : checkTorsion (negOneTestCert 2 2 (1 / 2) (1 / 2)) = true := by
   decide +kernel
 
-/-- The audit's self-inverse `A = [1 0 0; 0 0 1; 0 1 0]`. -/
+/-- The self-inverse `A = [1 0 0; 0 0 1; 0 1 0]`. -/
 def negPerm3 : List (List (CC ℚ)) := negCC [[1, 0, 0], [0, 0, 1], [0, 1, 0]]
 
 /-- `A` is a valid inverse pair with itself (zero defect). -/
@@ -316,7 +316,7 @@ theorem negPerm3_fails :
         { negOneTestCert 2 2 (1 / 2) (1 / 2) with torsInv := negPerm3 } = false := by
   decide +kernel
 
-/-! ### 10. (F10) A large character pin -/
+/-! ### 10. A large character pin -/
 
 /-- `H = J + p²/2 + cos 2πq / 1000`. -/
 def negCharH : HamExpr 2 :=

@@ -9,7 +9,7 @@ public import KAM.Certificate.Poly.Ops
 public import KAM.Certificate.Model.Ops
 
 /-!
-# Packed-product tests (design §8, `Tests/Packed`)
+# Packed-product tests
 
 Every check below is decided by `decide +kernel` (kernel reduction only).
 
@@ -22,21 +22,21 @@ Every check below is decided by `decide +kernel` (kernel reduction only).
   `CertFixed 4` with the production decoder `CertFixed.toMant`. The imaginary-part products of
   real data are skipped: bogus advice (scale zero) for them changes nothing. A real-times-imaginary
   product exercises the `re·im` route. One success is paired with `CertPoly.mulPacked_sound`.
-* **Negative.** An advice slot off by `+2` (SO-REPLAY2's control); advice equal modulo the packing
+* **Negative.** An advice slot off by `+2` (a control); advice equal modulo the packing
   (`packSum` unchanged) but violating the slot range; a wrapping stride (`compat = false`); a
   mantissa decoder returning a wrong integer (`mantCheck` rejects); a key outside the layout box.
 * **Model level.** `CertModel.mul` with packed advice under its key: the correct decoder takes the
   packed route (a polynomial part, radius `≤ 4`); the wrong decoder falls back to the crude
   enclosure (no polynomial part, radius `> 4`), so a margin of `4` relying on that product fails.
   `CertModel.Encloses.mul` is instantiated on both routes.
-* **P2 (F12, audit 5).** Factors `[0, 0]`, advice `[16, -1, 0]` at `w = 4`, `scale = 1`: the packed
+* **P2 (carry).** Factors `[0, 0]`, advice `[16, -1, 0]` at `w = 4`, `scale = 1`: the packed
   residual decodes (the carry cancels), but `reconFits` rejects, hence `checkShard` and
   `checkPackedProduct`.
-* **P3 (F13, positive).** Audit 6's overlap control: slot two receives two windows with error one
+* **P3 (scale, positive).** Overlap control: slot two receives two windows with error one
   each and the combined error `2 = 2^scale` is attained.
-* **P4 (F13, negative).** Audit 5's blocks at `scale = 0`: every shard passes, the whole product is
+* **P4 (scale, negative).** The P2 blocks at `scale = 0`: every shard passes, the whole product is
   rejected (`checkPackedProduct_scale_zero`), and the combined error two exceeds `2^0`.
-* **P5 (F14, audit 6).** The padding alias `[0]` versus `[0, 0]`: the same cut blocks, the long call
+* **P5 (raw shapes).** The padding alias `[0]` versus `[0, 0]`: the same cut blocks, the long call
   passes and the short call is rejected by the raw-shape check.
 -/
 
@@ -196,7 +196,7 @@ theorem packedTest_mulPackedM :
 
 /-! ### Negative -/
 
-/-- One advice slot off by `+2` (SO-REPLAY2's control). -/
+/-- One advice slot off by `+2` (a control). -/
 def packedTestAdv2Off : PackedAdvice :=
   { packedTestAdv2 with
     rounded := [[1, -2, 1, 5, -4, 0, 0, 0, 0], [0, 7, -5, -4, 4, 0, 0, 0, 0],
@@ -298,7 +298,7 @@ theorem packedTest_model_fallback_encloses {f g : (Fin 2 → ℂ) → ℂ}
       packedTestModelB).Encloses 2 packedTestW.rho (f * g) :=
   CertModel.Encloses.mul packedTest_weight _ _ hf hg
 
-/-! ### P2 (F12): carry cancellation -/
+/-! ### P2: carry cancellation -/
 
 /-- A two-slot layout at width `4`, two slots per block. -/
 def packedTestLayP2 : PackLayout := ⟨[0], [2], [1], 4, 2⟩
@@ -324,7 +324,7 @@ theorem packedTest_P2_rejected :
       checkPackedProduct packedTestAdvP2 [0, 0] [0, 0] = false := by
   decide +kernel
 
-/-! ### P3 (F13, positive): two overlapping windows attain `2^scale` -/
+/-! ### P3 (positive): two overlapping windows attain `2^scale` -/
 
 /-- Audit 6's control: `L = 2`, `w = 8`, factors `[1, 1, 0, 0]` and `[1, 1, 1, 0]`. -/
 def packedTestLayP3 : PackLayout := ⟨[0], [4], [1], 8, 2⟩
@@ -347,7 +347,7 @@ theorem packedTest_P3_bound :
       ≤ 2 ^ 1 :=
   ((checkPackedProduct_sound packedTest_P3_passes).2 2 (by decide +kernel)).1 (by decide +kernel)
 
-/-! ### P4 (F13, negative): scale zero -/
+/-! ### P4 (negative): scale zero -/
 
 /-- Audit 5's blocks `A = [[1,1],[0,0]]`, `B = [[1,1],[1,0]]` at `scale = 0`, `w = 8`, advice
 `[1,2,0], [0,1,0], [0,0,0]`. -/
@@ -369,7 +369,7 @@ theorem packedTest_P4_error :
     (listConv [1, 1, 0, 0] [1, 1, 1, 0]).getD 2 0 - 2 ^ 0 * packedTestAdvP4.combined.getD 2 0 = 2 :=
   by decide +kernel
 
-/-! ### P5 (F14): the padding alias -/
+/-! ### P5: the padding alias -/
 
 /-- A two-slot layout (`denseLen = blockLen = 2`), `w = 8`, `scale = 1`, full three-slot target,
 advice `[[0, 0, 0]]`. -/

@@ -16,7 +16,8 @@ The toy of `Tests/Torsion` (data copied) (`n = 1`, `H = I²/2`, `K(θ) = (θ + U
 `checkEmbedding`, `checkInvariance`, `checkEnergy`, `checkGram` and `checkTorsion` pass by
 `decide +kernel`; the first four fail closed when their bound is tightened (negative Gram and
 torsion tests are in `Tests/Torsion`). `checkStatic` (hence `checkTorusCertificate`) rejects the
-toy (`n = 1`, `s = 1`); positive whole-checker and `checkSmallness` tests are SO-TEST's toys.
+toy (`n = 1`, `s = 1`); positive whole-checker and `checkSmallness` tests are the
+toys `Tests/Toy2`, `Tests/Toy3`.
 -/
 
 public section

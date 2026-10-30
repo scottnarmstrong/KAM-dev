@@ -14,7 +14,7 @@ public import KAM.Matrix.Norms
 # The Gram check
 
 The Gram matrix `G = DKᵀ DK` (bilinear, `dotℂ`) of a certified embedding, its entrywise models,
-and the certificate of its inverse from an approximate inverse witness `B` (SO design §1.8):
+and the certificate of its inverse from an approximate inverse witness `B`:
 
 * `dkAngleModel`, `dkActionModel`: the entries `∂_j K_{1,i} = δ_ij + ∂_j((2π)^{dU_i} U_i)` and
   `∂_j K_{2,i} = ∂_j((2π)^{dA_i} A_i)` of `DK` as degree-`0` models (exact derivatives, then
@@ -42,7 +42,7 @@ open KAM CertArith
 abbrev ModelMatrix (α : Type) : Type := List (List (CertModel α))
 
 /-- Entrywise enclosure of a matrix-valued function on `T_ρ`; every entry must be present (no
-backend default model, finding F2). -/
+backend default model). -/
 def ModelMatrix.Encloses {α : Type} [CertArith α] (n : ℕ) {ι : Type*} (idx : ι → ℕ) (ρ : ℝ)
     (M : ModelMatrix α) (F : (Fin n → ℂ) → Matrix ι ι ℂ) : Prop :=
   ∀ i j, ∃ m : CertModel α, (M[idx i]?.bind fun r => r[idx j]?) = some m ∧
