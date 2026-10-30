@@ -407,7 +407,7 @@ theorem exists_clm_of_dominated_nonneg (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp 
   unfold kamHilbertConst at h2 ⊢
   nlinarith [mul_nonneg (sub_nonneg.2 h2.le) (mul_nonneg hc hAn)]
 
-theorem KamDominated.mono_const {F M : ℕ+ → ℕ+ → K} {c c' : ℝ} (h : KamDominated F M c)
+theorem KamDominated.of_le_const {F M : ℕ+ → ℕ+ → K} {c c' : ℝ} (h : KamDominated F M c)
     (hc : c ≤ c') : KamDominated F M c' := by
   refine ⟨fun i j hij => (h.off i j hij).trans ?_, fun i => (h.diag i).trans ?_⟩
   · have : 0 ≤ ‖M i j‖ / |(i : ℝ) - (j : ℝ)| := by positivity
@@ -424,7 +424,7 @@ domination forces `F = 0`, and the literal inequality `‖T‖ ≤ c(1+π/√3)�
 theorem kamSchurBound_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
     {F : ℕ+ → ℕ+ → K} {c : ℝ} (h : KamDominated F (kamEntry A) c) :
     KamSchurBound F (max c 0 * (1 + kamHilbertConst) * ‖A‖) :=
-  kamSchurBound_of_dominated_nonneg A (le_max_right c 0) (h.mono_const (le_max_left c 0))
+  kamSchurBound_of_dominated_nonneg A (le_max_right c 0) (h.of_le_const (le_max_left c 0))
 
 /-- **Dominated matrices define bounded operators** (blueprint `bpW:w1:schur` (iii)), without a sign
 premise on `c`: `‖T‖ ≤ max c 0 (1 + π/√3) ‖A‖ ≤ 3 max c 0 ‖A‖`. For `c ≥ 0` use
@@ -434,6 +434,6 @@ theorem exists_clm_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ 
     ∃ T : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2,
       (∀ (v : lp (fun _ : ℕ+ => K) 2) (i : ℕ+), HasSum (fun j => F i j * v j) (T v i)) ∧
         ‖T‖ ≤ max c 0 * (1 + Real.pi / Real.sqrt 3) * ‖A‖ ∧ ‖T‖ ≤ 3 * max c 0 * ‖A‖ :=
-  exists_clm_of_dominated_nonneg A (le_max_right c 0) (h.mono_const (le_max_left c 0))
+  exists_clm_of_dominated_nonneg A (le_max_right c 0) (h.of_le_const (le_max_left c 0))
 
 end KAM.Wave
