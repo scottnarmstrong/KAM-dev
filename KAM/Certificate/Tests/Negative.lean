@@ -99,7 +99,7 @@ def negBase : TorusCertificate 2 ℚ where
   freqBox := [(1 / 4, 0), (1 / 2, 0)]
   emb := negK 0
   weight := ⟨1 / 100, 11 / 10⟩
-  wit := ⟨[], [], []⟩
+  wit := ⟨[], [], [], []⟩
   gramInv := negB 1
   torsInv := negS
   cfgFull := negCfg
@@ -154,7 +154,7 @@ def negExpH : HamExpr 2 :=
 def negExp (E err : ℚ) : TorusCertificate 2 ℚ :=
   { negBase with
     ham := negExpH
-    wit := ⟨[⟨negConst ⟨E, 0⟩, 0, 6⟩], [], []⟩
+    wit := ⟨[⟨negConst ⟨E, 0⟩, 0, 6⟩], [], [], []⟩
     params := { negParams with err := err } }
 
 /-- Control: the correct witness `E = 1` certifies the residual at `err = 1/1000`. -/
@@ -185,7 +185,7 @@ ball bound of `‖D²X_H‖` is about `113`). -/
 def negDiv (Q : CertPoly ℚ) (r₀ : ℚ) : TorusCertificate 2 ℚ :=
   { negBase with
     ham := negDivH
-    wit := ⟨[], [Q], []⟩
+    wit := ⟨[], [Q], [], []⟩
     radius := [r₀, 1 / 50]
     params := { negParams with M := 150 } }
 
@@ -257,7 +257,7 @@ def negOneH : HamExpr 1 := .mul (.const (1 / 2)) (.mul (.action 0) (.action 0))
 def negOneB : List (List (CertPoly ℚ)) :=
   [[⟨[([-1], ⟨0, 1 / 10⟩), ([0], ⟨1, 0⟩), ([1], ⟨0, -1 / 10⟩)]⟩]]
 
-def negOneWit : Witnesses ℚ := ⟨[], [], []⟩
+def negOneWit : Witnesses ℚ := ⟨[], [], [], []⟩
 
 def negOneBox : FreqBox := [(1, 1 / 1000)]
 
@@ -329,7 +329,7 @@ def negChar (h : ℕ) : TorusCertificate 2 ℚ :=
   { negBase with
     ham := negCharH
     emb := negK (1 / 4)
-    wit := ⟨[], [], [([1, 0], ⟨negConst ⟨0, 1⟩, h, 20⟩)]⟩
+    wit := ⟨[], [], [([1, 0], ⟨negConst ⟨0, 1⟩, h, 20⟩)], []⟩
     params := { negParams with err := 1 / 100 } }
 
 /-- The composition of the invariance slots. -/
