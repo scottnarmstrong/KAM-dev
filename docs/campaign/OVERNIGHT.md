@@ -1603,3 +1603,29 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     authorize as a test-only migration; (b) a 3-argument compatibility constructor so the old text elaborates;
     (c) delete or rewrite the tests. *Choice:* (a), the smallest and reversible. The tests' mathematics and truth
     value are unchanged, and no production or frozen statement is affected.
+- **17:47. SO-KDEPTH in audit (codex-1); SO-DATA3 steps 2–3b done, kernel passes started.**
+  - **SO-KDEPTH:** the landing branch inp-sokdepth-oninp (fe8aecff) passes a full `KAM` build (10687 jobs).
+    Auditor: inp-maud-sokdepthl.
+    - Launcher note: its short-name check flags every public name of a listed module, so pre-existing names
+      (`ComposeState.SlotsEnclose` in Compose.lean, `CertModel.Encloses` in Model/Basic.lean) refuse the launch.
+    - The package's new names (`composeOpsAux`, `composeOpsAux_eq`, `composeOps_eq`, `weightedNormUp_ge`) were
+      checked by hand as unique, and the audit was launched with BalancedSum, FixedEq and Terms; its focus covers
+      Compose and Basic.
+  - **SO-DATA3 steps 2–3b:** the N = 65 data for v2 (`checkTorusCertificateV2 routeAV2`, refined witness d01b),
+    L = 20, CertFixed 96.
+    - In the mirror, both tori pass all seven sub-checks, the graph check and refinedCore.
+    - The rerun is byte-identical, and the negative controls are rejected.
+    - err 1.6e-16/1.83e-16, at 10^−1.50/10^−1.44 below the threshold. disp 5.78e-11/6.62e-11, the exact minimum
+      rounded up.
+    - **Band by rule B: δ = 2.755 % ([0.97245, 1.02755]); window by rule W: 0.9934/1.0066.**
+    - The l = 12 bite passes in the kernel alone: 2 min 03 s, 8.36 GB peak.
+    - The witness claims come from exact mirrors of `checkFrameMajorants`, `hamClaimOk` and `balBound`.
+      SO-V2PKG's sampled bL and bNt were too small, which the exact mirror caught.
+    - The glue (CertV2.lean, LunarAssemblyV2.lean) builds. The data are 62 files, about 14.2k lines.
+  - **For owner review (deferred; recommended option taken):** the SOS slack of the graph check is per side, 3e-4 on
+    the band edges and 3e-5 on the inner edges. Tightening the band edge worsens its residual. Higher-degree SOS
+    gains at most 1.5e-4, which gives a band of about 2.740 % at 1.6× the terms. **Kept at 2.755 %.**
+  - SO-DATA3 is told to merge the KDEPTH landing branch, which is value-preserving and already mirrored, and to run
+    step 4 (kernel passes per family, split per shard and per bound, each alone under the lock and the 10 GB cap)
+    and step 5 (the final theorems, nothing frozen). If KDEPTH's audit requests changes, the affected passes are
+    redone.
