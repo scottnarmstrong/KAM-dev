@@ -1740,3 +1740,24 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     44 external leaves, 0 SOURCE_GAP). Wave 1 (314 nodes) is reviewed; wave 2 (385 nodes) is in two batched codex-1
     reviews. Lean: W1-SINES, W1-WEIGHTED, W1-ANALYTIC, W0-NORMAL and W1-ALGEBRA on main; W1-KAMSUP in audit;
     W0-ANALYSIS being refactored.
+- **19:50. SO-CSPLIT Phase 1 design done (a6c13677); design audit on codex-1.**
+  - **Mechanisms:**
+    - M0, a jet bridge;
+    - M1, the route-E shadow-fold chain over a ledger of slot values, with explicit invariants;
+    - M2, stage memoization, proving Gram, torsion, frames and invariance one matrix entry at a time;
+    - M3, every packed product split into a shard check (≤ 3.3 GB) and its consumer.
+  - **Calibration** from SO-DATA3's probes:
+    - peak ≈ base + 0.04–0.13 GB per second of kernel work;
+    - a budget of 75k backend operations per theorem, predicted at 3.4–5.1 GB;
+    - the heaviest product forced whole costs 9.89 GB, hence M3.
+  - **Plan:** 38 cfgFull and 70 cfgLow segments per torus; about 460–480 theorems per torus, each module built
+    alone under the cap; **3.0–4.3 CPU-h per torus (6–8.6 for both)**; ledger about 10–11 MB per torus (21 MB in
+    total, under the 50 MB flag); about 1,650 Lean lines in four packages, a 900-line Python emitter and an
+    eight-probe calibration gate.
+  - **For owner review (SO-CSPLIT §10):**
+    - O1: prove the existing landed sub-check Bools (no new BaseChecker). Taken.
+    - O2: the lock's projected ledger is 100–200 MB, above the 50 MB flag. The lock projection is 25–60 CPU-h.
+    - O3: land-branch.sh needs a one-at-a-time capped prebuild of the heavy modules before any parallel build.
+    - O4 (optional): re-prove HamBounds and HamClaim through the jet bridge, since HamClaim sits 2 % under the cap.
+  - **Lock:** LOCK-GRAPH finished at 19:02 (three theorems, standard axioms). kam-inp-24 had been idle without a
+    waiter since the memory event, so it was nudged to process it and re-arm.
