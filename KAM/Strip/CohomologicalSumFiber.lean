@@ -10,6 +10,7 @@ public import KAM.Diophantine.FrequencyDependence
 import Mathlib.NumberTheory.ZetaValues
 import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.FinCases
 
 /-!
 # A fibered certified bound for the small-divisor series
@@ -316,8 +317,8 @@ theorem fiber_dist_ge {ω' : Fin m → ℝ} {γ τ : ℝ}
 `N` with `2τ < 2πδ(N + 1)`, and data on the box `0 < |k'|₁ ≤ N` of `ℤ^{n-1}`: integers `p_{k'}` with
 `|k'·ω' + p_{k'}| ≤ 1/2`, lower bounds `0 < L_{k'} ≤ |k'·ω' + p_{k'}|` and, where `p_{k'} ≠ 0`,
 `0 < L₀_{k'} ≤ |k'·ω'|`, and upper bounds `E_j ≥ e^{-2πδj}`:
-`S(ω, δ) ≤ E₁ π²/3 + ∑_{0<|k'|₁≤N} (E_{|k'|₁+|p_{k'}|} L_{k'}⁻² + E_{|k'|₁} ([p_{k'} ≠ 0] L₀_{k'}⁻² +
-E₁ C₀)) + T_N`. -/
+`S(ω, δ) ≤ E₁ π²/3 + ∑_{0<|k'|₁≤N} (E_{|k'|₁+|p_{k'}|} L_{k'}⁻² +
+E_{|k'|₁} ([p_{k'} ≠ 0] L₀_{k'}⁻² + E₁ C₀)) + T_N`. -/
 theorem smallDivisorSum_snoc_le_fiber {ω' : Fin m → ℝ} {γ τ δ : ℝ}
     (hω : IsDiophantine γ τ (Fin.snoc ω' 1 : Fin (m + 1) → ℝ)) (hγ : 0 < γ) (hτ : 0 ≤ τ)
     (hδ : 0 < δ) {N : ℕ} (hN : 2 * τ < 2 * Real.pi * δ * (N + 1))
@@ -433,6 +434,33 @@ theorem smallDivisorSum_snoc_le_fiber {ω' : Fin m → ℝ} {γ τ δ : ℝ}
             ((Real.exp_pos _).le.trans (hE _))
 
 end Snoc
+
+/-! ### Scaling and the normalized form -/
+
+/-- `S(c ω, δ) = c⁻² S(ω, δ)`: a frequency with last component `c ≠ 0` is reduced to the form
+`(ω', 1)` of `KAM.smallDivisorSum_snoc_le_fiber` by scaling. -/
+theorem smallDivisorSum_smul {n : ℕ} (c : ℝ) (ω : Fin n → ℝ) (δ : ℝ) :
+    smallDivisorSum (c • ω) δ = (c ^ 2)⁻¹ * smallDivisorSum ω δ := by
+  unfold smallDivisorSum
+  rw [← tsum_mul_left]
+  refine tsum_congr fun k => ?_
+  by_cases hk : k = 0
+  · simp [smallDivisorTerm, hk]
+  · rw [smallDivisorTerm_of_ne hk, smallDivisorTerm_of_ne hk]
+    have : Diophantine.frequencyDot (c • ω) k = c * Diophantine.frequencyDot ω k := by
+      simp only [Diophantine.frequencyDot, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
+      exact Finset.sum_congr rfl fun j _ => by ring
+    rw [this, mul_pow, mul_inv]
+    ring
+
+theorem snoc_one_two (a : ℝ) : (Fin.snoc ![a] 1 : Fin 2 → ℝ) = ![a, 1] := by
+  ext i
+  fin_cases i <;> rfl
+
+theorem snoc_one_three (a b : ℝ) : (Fin.snoc ![a, b] 1 : Fin 3 → ℝ) = ![a, b, 1] := by
+  ext i
+  fin_cases i <;> rfl
+
 
 end KAM
 
