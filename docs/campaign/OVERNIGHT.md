@@ -1295,3 +1295,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   SO-R2 (claude-6): LunarParamsR2.lean with kernel pre-checks of the sharp test, and a backend-generic sharp
   assembly (the landed one is pinned to CertFixed 320). SO-KDEPTH and SO-BALLDY told to classify every change as
   value-preserving or value-changing (the mirror must follow any new rounding order).
+- **14:13. SO-R2 done; in audit.** KAM/SpinOrbit/LunarParamsR2.lean: package R2 exactly as SO-GEN3's; kernel
+  pre-checks: the sharp test passes at the budgets and its threshold is 1.488e-32 (10^-31.83; passes at 1.48e-32,
+  fails at 1.49e-32), static core, the N = 65 frequency boxes enclose lunarRotFreq ν±(65) κ, ray margins, γ ≤ κ/67.
+  KAM/SpinOrbit/LunarAssemblySharpGen.lean: the sharp assembly for any lawful backend, and `lunar_barriers_of_R2`
+  at CertFixed 160 with the Diophantine facts discharged, so only data conclusions and five rational band
+  inequalities remain. Note for the data: the upper torus's disp margin is 1.6e-4 relative, so disp must never be
+  rounded down. Audit on codex-3. Stalled leftover SO-GEN3 job stopped by PID after archiving its N = 65 torus data to
+  /mnt/HC_Volume_106379410/kam-data/so-gen3/g3 (79 MB, SHA-256 list); sogen3 swept (disk 13 GB free).
