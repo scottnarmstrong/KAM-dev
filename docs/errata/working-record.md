@@ -47,6 +47,7 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | CC95 (pinned PDF) | 1 | 0 |
 | VL22 (arXiv:2101.07785) | 1 | 0 |
 | FH25 (arXiv:2403.10152) | 2 (2 candidate) | 0 |
+| P96-W | 0 | 2 |
 
 ## Pos01 (arXiv:0908.2234v1)
 
@@ -575,3 +576,15 @@ None.
 ### Deviations
 
 None.
+
+
+## P96-W
+
+### Errata
+
+None.
+
+### Deviations
+
+1. **frozen docstrings of KAM.Wave.linearTorus, reconU, reconV (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93).** *whitespace-only rewrap of approved text; ADOPTED* (D-W-FREEZE-1). One space replaced by a newline in each of three approved declaration docstrings, to meet the 100-column lint (D-WF1, main orchestrator ruling 2026-10-30; AmdConfinement precedent). Evidence: docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md. Effect: none: docstring whitespace only, ABI unchanged.
+2. **frozen docstrings of KAM.Wave.reconV and KAM.Wave.nlw2 (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93).** *docstring-only correction of approved text; ADOPTED* (D-W-FREEZE-2). Docstring corrections (D-WF2, main orchestrator ruling 2026-10-30): reconV 'where `q = coeff y`' -> 'where `p = coeff y`' (the formula is in the momentum coordinate p); nlw2 '**W-NLW2 (proposed).**' -> '**W-NLW2.**' (now owner-approved and frozen). Evidence: docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md. Effect: none: docstring only, ABI unchanged.
