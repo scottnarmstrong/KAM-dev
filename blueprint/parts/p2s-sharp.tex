@@ -1,0 +1,900 @@
+\section{The sharp a-posteriori theorem at fixed frequency (G1$^\sharp$)}\label{bp:p2s}
+
+This part proves a sharper explicit form of Theorem~\ref{bp:p2:g1}. The hypotheses are those of
+Theorem~\ref{bp:p2:g1}, in the same form; only the constants $C_1,C_2$ change. Every existing result is
+left untouched, and is cited by its label wherever its statement or proof applies verbatim. Four changes
+produce the gain (the numbers are those of \texttt{scripts/apost\_sharp/thresholds.py} for the lunar
+package R1, where the threshold $\gamma^4\rho^{4\tau}/C_1$ improves from $10^{-76.6}$ to $10^{-24.7}$ with R\"ussmann's
+exponent, and to $10^{-36.7}$ with the Parseval exponent).
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Small-divisor data as input.} The scheme takes the cohomological estimate as data: an
+  exponent $\varkappa\ge1$ and a constant $c_R>0$ with $\abs{\mathcal Rg}\le c_R\gamma^{-1}\delta^{-\varkappa}H$
+  (Definition~\ref{bp:p2s:cohdata}). The proved instances are $\varkappa=\tau+n$ (Part~\ref{bp:p1}), the Parseval
+  estimate $\varkappa=\tau+n/2$ and R\"ussmann's estimate $\varkappa=\tau$ (the headline instance: then $a=2\tau$ and the
+  step error is $O(\varepsilon^2/(\gamma^4\delta^{4\tau}))$, exactly HL19's).
+\item \emph{The torsion route of HL19 Lemma~4.8.} The torsion is an explicit polynomial in $(A,L,B,DE)$
+  (Lemma~\ref{bp:p2s:torsion-identity}), obtained from $\partial_\omega L=AL-DE$. It is bounded without a factor
+  $1/\delta$ (Lemma~\ref{bp:p2s:torsion-bound}), so the exponent of the step is $a=2\varkappa$ instead of
+  $2\varkappa+2$. The change of the averaged torsion is estimated through the same polynomial and the errors of
+  both tori, with one Cauchy loss (Lemma~\ref{bp:p2s:perturbation}), so the loss per step is $3\delta$ (HL19)
+  instead of $4\delta$.
+\item \emph{Separate sizes.} The constants are polynomials in $M,\sigma_K,\sigma_B,\sigma_T$ separately,
+  with the exact transposition factor $2n$ and the canonical identity $\abs{A^\top}=\abs A$; powers of $\gamma$
+  are absorbed through $\gamma\le\bar\gamma$ instead of $\gamma\le\Theta$; $c_R$ enters as itself, not as
+  $\max\{1,c_R\}$.
+\item \emph{One Newton engine.} The schedule, the decay of the errors, the summed bounds, the induction and the
+  limit are proved once for an abstract scheme (Subsection~\ref{bp:p2s:sec-engine}). The fixed-frequency
+  theorem here and the isoenergetic theorem of the track-I blueprint (part \texttt{p2s-iso-sharp}) are two
+  instances.
+\end{enumerate}
+Lemmas~\ref{bp:p2:matrix}, \ref{bp:p2:averages}, \ref{bp:p2:hamiltonian}, \ref{bp:p2:periodicity},
+\ref{bp:p2:frequency}, \ref{bp:p2:frame-identities}, \ref{bp:p2:exactness} and the qualitative parts of
+\ref{bp:p2:cohomological}, \ref{bp:p2:triangular}, \ref{bp:p2:correction}, \ref{bp:p2:newton-error} are used as
+stated. Part~\ref{bp:p1} is used for the Cauchy estimates, the Neumann series, Taylor's formula and uniform
+limits.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Small-divisor data}\label{bp:p2s:sec-cohdata}
+
+\begin{definition}[Small-divisor data]\label{bp:p2s:cohdata}
+Let $n\ge1$, $\tau\ge0$, $\varkappa\ge1$ and $c_R>0$. The pair $(\varkappa,c_R)$ is \emph{small-divisor data for
+$(n,\tau)$} if, for every $\gamma>0$, every $\omega\in\Dio_{\gamma,\tau}$ and all $r,\delta$ with $0<\delta\le1$,
+$\delta<r$, writing $\Gamma_\delta:=c_R\gamma^{-1}\delta^{-\varkappa}$:
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(solution)} if $g:T_r\to\C^p$ is holomorphic, $1$-periodic, $\abs g\le H$ on $T_r$ and $\avg g=0$,
+  then $\abs{\mathcal Rg}\le\Gamma_\delta H$ on $T_{r-\delta}$, where $\mathcal R$ is the solution operator of
+  Corollary~\ref{bp:p2:cohomological}(a) (the componentwise Fourier solution of Lemma~\ref{bp:p1:cohomological});
+\item \emph{(a-priori bound)} if $u:T_r\to\C^{p\times q}$ is holomorphic, $1$-periodic, $\avg u=0$ and
+  $\abs{\partial_\omega u}\le H$ on $T_r$, then $\abs u\le\Gamma_\delta H$ on $T_{r-\delta}$.
+\end{enumerate}
+\end{definition}
+
+The definition constrains only the size of $\mathcal Rg$: existence, uniqueness, holomorphy, periodicity, zero
+average and realness of $\mathcal Rg$ are those of Lemma~\ref{bp:p1:cohomological}, which needs only $\tau\ge0$.
+The data are a theorem about $\mathcal R$, never a hypothesis of the main theorem: Theorem~\ref{bp:p2s:g1} is
+proved for any small-divisor data, and Corollary~\ref{bp:p2s:g1-instances} states it for the three proved
+instances, with no extra hypothesis.
+
+\begin{lemma}[The crude instance]\label{bp:p2s:cohdata-crude}
+For $n\ge1$ and $\tau\ge0$, $(\tau+n,\,c(n,\tau))$ is small-divisor data for $(n,\tau)$, where $c(n,\tau)$ is
+the constant of Lemma~\ref{bp:p1:cohomological}.
+\source{Lemmas~\ref{bp:p1:cohomological} and~\ref{bp:p1:cohomological-operator}.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Solution}\label{step:p2s:cc-sol}
+Apply Lemma~\ref{bp:p1:cohomological} to each component of $g$, as in Step~\ref{step:p2:coh-components}; each
+component of $\mathcal Rg$ is bounded by $c(n,\tau)\gamma^{-1}\delta^{-(\tau+n)}H$ on $T_{r-\delta}$, and the max
+norm gives (a). The bound $\delta\le1$ is not used.
+
+\proofstep{A-priori bound}\label{step:p2s:cc-apriori}
+This is the a-priori clause of Lemma~\ref{bp:p1:cohomological-operator}, exactly as in
+Step~\ref{step:p2:coh-apriori}.
+\end{proof}
+
+\begin{lemma}[The Parseval instance]\label{bp:p2s:cohdata-parseval}
+For $n\ge1$ and $\tau\ge0$ with $\tau+n/2\ge1$, $(\tau+n/2,\,c_P(n,\tau))$ is small-divisor data for $(n,\tau)$, where
+\[
+c_P(n,\tau):=\frac1{2\pi}\Bigl(2^n\Bigl(\frac{2\tau}{e\pi}\Bigr)^{2\tau}\Bigl(\frac{8n}\pi\Bigr)^n\Bigr)^{1/2}
+\qquad(\Lean{KAM.cohConstP}\ n\ \tau;\ c_P(2,1)=0.3797).
+\]
+The bounds hold for every $0<\delta<r$.
+\par\noindent{\small\textsf{Lean:} \Lean{KAM.cohomological\_parseval}, \Lean{KAM.cohomological\_operator\_parseval} (package SHARP-PARSEVAL).}\par
+\source{Brief SHARP-PARSEVAL (steps 1--5); FHL17 \S4 for the Bessel route; CONSTANTS-STUDY \S3, option~2.}
+\end{lemma}
+
+\begin{proof}
+Fix $\gamma,\omega,r,\delta$ as in Definition~\ref{bp:p2s:cohdata} and $g$ as in (a). The norm on $\C^p$ is the max norm
+and Bessel's inequality is scalar, so the whole argument is run on one scalar component: fix $j\in\{1,\dots,p\}$, put $g_j$
+for the $j$-th component of $g$ (a scalar holomorphic periodic function with zero average and $\abs{g_j}\le H$ on $T_r$)
+and write $\hat g_k$ for its Fourier coefficients on $\R^n$ (period $1$, characters $e^{2\pi ik\cdot x}$). The bound
+obtained for $(\mathcal Rg)_j=\mathcal R g_j$ is uniform in $j$, so taking $\max_j$ gives (a); no inequality is applied
+to the vector $g$ itself (the vector inequality $\sum_k\abs{\hat g_k}^2e^{-4\pi k\cdot y}\le\int\abs{g}^2$ is false in the
+max norm, e.g.\ for $g=(e^{2\pi i\theta_1},e^{-2\pi i\theta_1})$).
+
+\proofstep{Shifted coefficients}\label{step:p2s:cp-shift}
+For $y\in\R^n$ with $\abs{y_i}<r$, the function $x\mapsto g_j(x+iy)$ is continuous and $1$-periodic with $k$-th
+coefficient $\hat g_ke^{-2\pi k\cdot y}$: the contour of each coordinate integral is shifted inside $T_r$, the
+vertical sides cancelling by periodicity (the computation in the proof of Lemma~\ref{bp:p1:cohomological}).
+
+\proofstep{Bessel and corners}\label{step:p2s:cp-bessel}
+For every finite $F\subset\Z^n$, orthonormality of the characters on $[0,1]^n$ gives
+$\sum_{k\in F}\abs{\hat g_k}^2e^{-4\pi k\cdot y}\le\int_{[0,1]^n}\abs{g_j(x+iy)}^2dx\le H^2$. Put $r':=r-\delta/2$ and sum
+these inequalities over the $2^n$ corners $y=-r's$, $s\in\{\pm1\}^n$: since $\sum_se^{4\pi r'k\cdot s}\ge
+e^{4\pi r'\abs k_1}$, $\sum_{k\in F}\abs{\hat g_k}^2e^{4\pi r'\abs k_1}\le2^nH^2$, hence the same for the full sum.
+
+\proofstep{Cauchy--Schwarz}\label{step:p2s:cp-cs}
+$\mathcal Rg_j=\sum_{k\ne0}\hat g_k(2\pi ik\cdot\omega)^{-1}e^{2\pi ik\cdot\theta}$ with $\abs{k\cdot\omega}\ge\gamma\abs
+k_1^{-\tau}$. For $\theta\in T_{r-\delta}$, $\abs{e^{2\pi ik\cdot\theta}}\le e^{2\pi r'\abs k_1}e^{-\pi\delta\abs k_1}$, so
+\[
+\abs{(\mathcal Rg)_j(\theta)}\le\frac{2^{n/2}H}{2\pi\gamma}\Bigl(\sum_{k\ne0}\abs k_1^{2\tau}e^{-2\pi\delta\abs k_1}\Bigr)^{1/2}.
+\]
+
+\proofstep{The lattice sum}\label{step:p2s:cp-lattice}
+Split $e^{-2\pi\delta\abs k_1}=e^{-\pi\delta\abs k_1}e^{-\pi\delta\abs k_1}$ and use $t^{2\tau}e^{-\pi\delta t}\le(2\tau/(e\pi\delta))^{2\tau}$ ($t\ge0$):
+$\sum_{k\ne0}\abs k_1^{2\tau}e^{-2\pi\delta\abs k_1}\le(2\tau/(e\pi\delta))^{2\tau}\sum_{k\ne0}e^{-\pi\delta\abs k_1}\le(2\tau/(e\pi\delta))^{2\tau}(8n/(\pi\delta))^n$, the last
+sum by the exponential lattice sum of Part~\ref{bp:p1} (the bound used for $c(n,\tau)$ in Lemma~\ref{bp:p1:cohomological}; Lean
+\Lean{KAM.Fourier.tsum\_exp\_neg\_modeSize\_ne\_zero\_le}). Inserted in the previous step this is $c_P(n,\tau)\gamma^{-1}\delta^{-\tau-n/2}H$, for every
+$\delta>0$; this holds for each $j$, hence for $\abs{\mathcal Rg}=\max_j\abs{(\mathcal Rg)_j}$.
+
+\proofstep{A-priori bound}\label{step:p2s:cp-apriori}
+Let $u$ be as in (b). For $v\in\C^q$ with $\abs v\le1$, $uv$ is holomorphic, periodic, with zero average and
+$\abs{\partial_\omega(uv)}\le H$ on $T_r$; by the uniqueness in Lemma~\ref{bp:p1:cohomological},
+$uv=\mathcal R(\partial_\omega(uv))$ on $T_{r-\delta}$, so the vector result (a), proved componentwise with $uv$ as the function $g$, gives $\abs{uv}\le\Gamma_\delta H$ there, and
+$\abs u=\sup_{\abs v\le1}\abs{uv}$ (Corollary~\ref{bp:p2:matrix}(a)), the induced operator supremum.
+\end{proof}
+
+\begin{remark}[Sharper Parseval constants]\label{bp:p2s:parseval-optimal}
+The route of Lemma~\ref{bp:p2s:cohdata-parseval} gives the smallest constant
+$(2\pi)^{-1}2^{n/2}\sup_{0<\delta\le1}(\delta^{2\tau+n}\sum_{k\ne0}\abs k_1^{2\tau}e^{-2\pi\delta\abs k_1})^{1/2}$ when the lattice sum is kept; for
+$n=2$, $\tau=1$ ($\#\{\abs k_1=m\}=4m$, $\sum_mm^3x^m=x(1+4x+x^2)/(1-x)^4$) this is $\le0.03967$, ten times smaller than
+$c_P(2,1)$. With R\"ussmann's instance available this is not needed.
+\end{remark}
+
+\begin{lemma}[The R\"ussmann instance]\label{bp:p2s:cohdata-russmann}
+For $n\ge1$ and $\tau\ge1$, $(\tau,\,c_R^{\mathrm{R}}(n,\tau))$ is small-divisor data for $(n,\tau)$, where
+\[
+c_R^{\mathrm R}(n,\tau):=\frac1{2\pi}\Bigl(2^n\cdot6(1+2^\tau)\Bigl(\frac{2\tau}{e\pi}\Bigr)^{2\tau}\Bigr)^{1/2}
+\qquad(\Lean{KAM.cohConstR}\ n\ \tau;\ c_R^{\mathrm R}(2,1)=0.3163).
+\]
+The bounds hold for every $0<\delta<r$.
+\par\noindent{\small\textsf{Lean:} \Lean{KAM.cohomological\_russmann}, \Lean{KAM.cohomological\_operator\_russmann} (package SHARP-RUSSMANN-COH).}\par
+\source{R\"ussmann's estimate as used in HL19 Lemma~4.1, p.~20 (exponent $\tau$); the proof below is that of package SHARP-RUSSMANN-COH.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Bessel at the corners}\label{step:p2s:cr-bessel}
+Steps~\ref{step:p2s:cp-shift}--\ref{step:p2s:cp-bessel}, for a scalar component $g_j$ of $g$: $\sum_k\abs{\hat g_k}^2e^{4\pi r'\abs k_1}\le2^nH^2$, $r'=r-\delta/2$.
+
+\proofstep{Shells}\label{step:p2s:cr-shell}
+For $N\ge1$ the numbers $k\cdot\omega$, $0<\abs k_1\le N$, satisfy $\abs{k\cdot\omega}\ge\gamma N^{-\tau}$ and are pairwise separated by
+$\abs{(k-k')\cdot\omega}\ge\gamma(2N)^{-\tau}$. A finite set of reals, pairwise $s$-separated with $\abs x\ge t_0$, has
+$\sum x^{-2}\le2(t_0^{-2}+1/(st_0))$ (remove the smallest $\abs x$ and induct). Hence $S_N:=\sum_{0<\abs k_1\le N}\abs{k\cdot\omega}^{-2}\le
+2(1+2^\tau)\gamma^{-2}N^{2\tau}$.
+
+\proofstep{Abel summation}\label{step:p2s:cr-abel}
+With $b=2\pi\delta$, summation by parts of $\sum_N(S_N-S_{N-1})e^{-bN}$, the bound $1-e^{-b}\le b$, $N^{2\tau}e^{-bN/2}\le
+(2\tau/(e\pi\delta))^{2\tau}$ and $\sum_{N\ge1}e^{-bN/2}\le2/b$ give
+$\sum_{k\ne0}\abs{k\cdot\omega}^{-2}e^{-2\pi\delta\abs k_1}\le6(1+2^\tau)\gamma^{-2}(2\tau/(e\pi\delta))^{2\tau}$ (the finite form keeps one boundary
+term, whence $6$).
+
+\proofstep{Cauchy--Schwarz}\label{step:p2s:cr-cs}
+As in Step~\ref{step:p2s:cp-cs}, for each $j$, $\abs{(\mathcal Rg)_j(\theta)}\le(2\pi)^{-1}(2^nH^2)^{1/2}\bigl(\sum_{k\ne0}\abs{k\cdot\omega}^{-2}e^{-2\pi\delta\abs k_1}\bigr)^{1/2}
+\le c_R^{\mathrm R}(n,\tau)\gamma^{-1}\delta^{-\tau}H$ on $T_{r-\delta}$. Taking $\max_j$ gives (a). The a-priori bound follows as in Step~\ref{step:p2s:cp-apriori}; $\tau\ge1$ gives
+$\varkappa\ge1$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Standing data and constants}\label{bp:p2s:sec-setting}
+
+\begin{assumption}[Standing data of Part~\ref{bp:p2s}]\label{bp:p2s:standing}
+Assumption~\ref{bp:p2:standing} holds ($n\ge2$, $\tau\ge n-1$, $M,\sigma_K,\sigma_B,\sigma_T>0$, $\mathfrak B$, $h$,
+$\gamma>0$, $\omega\in\Dio_{\gamma,\tau}$), $(\varkappa,c_R)$ is small-divisor data for $(n,\tau)$, and
+$\bar\gamma\ge\gamma$ is fixed. We put $a:=2\varkappa$, so $a\ge2$.
+\end{assumption}
+
+All objects $L,G,B,N,P,A,E,X_N,T,\Omega_K,E_{\mathrm{sym}},E_{\mathrm{red}},Q,\eta$ are those of
+Definition~\ref{bp:p2:objects}; $(r,\beta,\varepsilon)$-admissibility is Definition~\ref{bp:p2:admissible}. For a
+torus $\tilde K$ and a frequency $\tilde\omega\in\R^n$ we write $\tilde E_{\tilde\omega}:=X_h\circ\tilde K-D\tilde
+K\,\tilde\omega$ and $\tilde T_{\tilde\omega}$ for the torsion of $\tilde K$ at $\tilde\omega$ (the frozen
+\Lean{torsion}~$h\,\tilde K\,\tilde\omega$).
+
+\begin{definition}[Constants]\label{bp:p2s:constants}
+Fix the ratio $\vartheta:=\frac18$ and put $\hat\vartheta:=(1-\vartheta)^{-1}=\frac87$. With the data of
+Assumption~\ref{bp:p2s:standing} define, in this order,
+\begin{align*}
+C_\Omega&:=2n(n+1)c_R\sigma_K, & C_{\mathrm{sym}}&:=\max\{1,\sigma_B^2\}C_\Omega, &
+C_{\mathrm{red}}&:=2n\sigma_K\max\{n\sigma_B,\,n+\sigma_B\},\\
+C_{T0}&:=4nM\sigma_K^2\sigma_B^2, & C_{T1}&:=2n^2\sigma_K\sigma_B^2, &
+w&:=4nM\sigma_K^2+2n(n+1)\sigma_K,\\
+C_{T2}&:=2^{\varkappa+1}\sigma_B^3\,w\,C_\Omega, & H_T&:=C_{T0}+1, &
+C_{\xi_0}&:=2n\sigma_K\sigma_T(\sigma_B\bar\gamma+c_RH_T),\\
+C_{\xi N}&:=C_{\xi_0}+2nc_R\sigma_K, & C_g&:=H_TC_{\xi N}+2n\sigma_K\sigma_B\bar\gamma, &
+C_{\partial\xi}&:=\max\{C_g,\,2n\sigma_K\bar\gamma\},\\
+C_\xi&:=\max\{c_RC_g,\,\bar\gamma C_{\xi N}\}, & C_{\Delta K}&:=\sigma_K(c_RC_g+\sigma_B\bar\gamma C_{\xi N}), &
+C_{\mathrm{lin}}&:=C_{\mathrm{red}}C_\xi+C_{\mathrm{sym}}C_{\partial\xi},
+\end{align*}
+\begin{align*}
+C_E&:=2\sigma_K(1+\sigma_B)\bar\gamma^2C_{\mathrm{lin}}+\tfrac M2C_{\Delta K}^2,\\
+C_G&:=2n\sigma_K\bigl(n(1+\vartheta)+1\bigr),\qquad C_B:=\hat\vartheta\sigma_B^2C_G,\\
+C_{\Delta ab}&:=4\hat\vartheta^4nM\sigma_K^2\sigma_B^2\Bigl(\frac{2C_B}{\sigma_B}+\frac{n+1}{\sigma_K}+1\Bigr),\qquad
+C_{\Delta c}:=2n\hat\vartheta^5\sigma_K\sigma_B^3\,w\,(n+\hat\vartheta),\\
+C_{\Delta T}&:=(C_{\Delta ab}+C_{\Delta c})C_{\Delta K}+(1+\hat\vartheta^3)C_{T1}\bar\gamma^2
+  +(1+\hat\vartheta^5)\sigma_B^3wC_\Omega\bar\gamma,\\
+\varrho_D&:=nC_{\Delta K},\qquad\varrho_B:=C_BC_{\Delta K},\qquad\varrho_T:=\hat\vartheta\sigma_T^2C_{\Delta T},\\
+\mathfrak c_{\mathrm{step}}&:=\max\Bigl\{\bar\gamma^4(1+C_{T1})+\bar\gamma^3C_{T2},\ 2\bar\gamma^3C_{\mathrm{sym}},\
+  \frac{\bar\gamma^2\varrho_D}{\vartheta\sigma_K},\ \frac{\bar\gamma^2\sigma_BC_G
+  C_{\Delta K}}\vartheta,\ \frac{\bar\gamma^2\sigma_TC_{\Delta T}}\vartheta,\ C_E\Bigr\},\\
+\mathfrak c_{\mathrm{sum}}&:=4\bar\gamma^2\max\{2C_{\Delta K},\varrho_D,\varrho_B,\varrho_T\}.
+\end{align*}
+For $\mu>0$ and $0<\rho_\infty<\rho$ put
+\[
+\mathfrak c_*:=\max\Bigl\{2^{2a}C_E,\ \mathfrak c_{\mathrm{step}},\ \frac{\mathfrak c_{\mathrm{sum}}}\mu\Bigr\},
+\qquad\delta_0:=\min\Bigl\{1,\frac{\rho-\rho_\infty}6\Bigr\}.
+\]
+All constants are positive and depend only on $(n,\varkappa,c_R,M,\sigma_K,\sigma_B,\sigma_T,\bar\gamma)$;
+$\mathfrak c_*$ depends in addition on $\mu$. None of the constants preceding $\delta_0$ depends on $\rho$, $\rho_\infty$ or
+$\gamma$; $\delta_0$ depends only on $(\rho,\rho_\infty)$.
+\end{definition}
+
+Positivity is immediate: $n,c_R,M,\sigma_K,\sigma_B,\sigma_T,\bar\gamma>0$, every constant is a sum, product or maximum
+of positive terms, and $H_T\ge1$. The numbers $\vartheta,\hat\vartheta$ are fixed; $\hat\vartheta\ge1+\vartheta$.
+
+\begin{lemma}[Absorption]\label{bp:p2s:absorb}
+Let $0<\gamma\le\bar\gamma$, $0<\delta\le1$, $\varkappa\ge1$, $a=2\varkappa$, $\varepsilon\ge0$, and put
+$u:=\varepsilon/(\gamma\delta^\varkappa)$, $U:=\varepsilon/(\gamma^2\delta^{a+1})$, $X:=\varepsilon/(\gamma^4\delta^{2a})$.
+Then
+\begin{enumerate}[label=(\alph*)]
+\item $\varepsilon\le\bar\gamma u$ and $u\le\bar\gamma\varepsilon/(\gamma^2\delta^a)$;
+\item $\varepsilon\le\bar\gamma^2U$, $\varepsilon/\delta\le\bar\gamma^2U$, $\varepsilon/(\gamma\delta^{\varkappa+1})\le\bar\gamma U$ and
+  $\varepsilon/(\gamma^2\delta^a)\le U$;
+\item $\varepsilon/\delta\le\bar\gamma^4X$, $\varepsilon/(\gamma\delta^{\varkappa+1})\le\bar\gamma^3X$, $U\le\bar\gamma^2X$ and
+  $\varepsilon/(\gamma^2\delta^a)\le\bar\gamma^2X$;
+\item $\varepsilon^2/(\gamma^2\delta^{a+1})\le\bar\gamma^2\varepsilon^2/(\gamma^4\delta^{2a})$, and
+  $\varepsilon^2/(\gamma^3\delta^{a+\varkappa})$, $\varepsilon^2/(\gamma^3\delta^{3\varkappa+1})$ are
+  $\le\bar\gamma\varepsilon^2/(\gamma^4\delta^{2a})$.
+\end{enumerate}
+\source{Ours (replaces the absorption step~\ref{step:p2:cor-absorb}, which uses $\gamma\le\Theta$).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{One inequality}\label{step:p2s:ab-one}
+For $i,j\ge0$: $\gamma^i\delta^j\le\bar\gamma^i$, since $0<\gamma\le\bar\gamma$ and $0<\delta\le1$.
+
+\proofstep{The exponents}\label{step:p2s:ab-exp}
+Each inequality multiplies the left side by $\gamma^i\delta^j$ with $i,j\ge0$ to obtain the quantity on the right
+(without the power of $\bar\gamma$): (a) $\varepsilon=u\cdot\gamma\delta^\varkappa$ and $u=(\varepsilon/(\gamma^2\delta^a))\cdot\gamma\delta^\varkappa$;
+(b) $\varepsilon=U\gamma^2\delta^{a+1}$, $\varepsilon/\delta=U\gamma^2\delta^a$, $\varepsilon/(\gamma\delta^{\varkappa+1})=U\gamma\delta^{a-\varkappa}$ with
+$a-\varkappa=\varkappa\ge0$, $\varepsilon/(\gamma^2\delta^a)=U\delta$; (c) the exponents of $\delta$ are $2a-1$, $2a-\varkappa-1=3\varkappa-1$,
+$a-1$ and $a$, all $\ge0$ since $\varkappa\ge1$; (d) the factors are $\gamma^2\delta^{a-1}$, $\gamma\delta^{a-\varkappa}$ and
+$\gamma\delta^{4\varkappa-3\varkappa-1}=\gamma\delta^{\varkappa-1}$. Step~\ref{step:p2s:ab-one} concludes.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Matrix tools and frame bounds}\label{bp:p2s:sec-tools}
+
+\begin{lemma}[Neumann series with ratio $q$]\label{bp:p2s:neumann}
+Let $A,\Delta\in\C^{m\times m}$, $A$ invertible, $0\le q<1$ and $\abs{A^{-1}}\abs\Delta\le q$ (operator norm of
+the max norm). Then $A+\Delta$ is invertible,
+\[
+\abs{(A+\Delta)^{-1}}\le\frac{\abs{A^{-1}}}{1-q},\qquad\abs{(A+\Delta)^{-1}-A^{-1}}\le\frac{\abs{A^{-1}}^2\abs\Delta}{1-q}.
+\]
+\source{HL19 Lemma~A.1, p.~55; Lemma~\ref{bp:p1:neumann} is the case $q=\frac12$.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Inverse of $I+X$}\label{step:p2s:nm-inv}
+Put $X:=A^{-1}\Delta$, so $\abs X\le q<1$. The series $\sum_k(-X)^k$ converges absolutely in the Banach algebra
+$\C^{m\times m}$ (Lemma~\ref{bp:p1:neumann}, step on the geometric series) to an inverse of $I+X$ of norm
+$\le\sum_kq^k=(1-q)^{-1}$.
+
+\proofstep{The two bounds}\label{step:p2s:nm-bounds}
+$A+\Delta=A(I+X)$, so $(A+\Delta)^{-1}=(I+X)^{-1}A^{-1}$ has norm $\le\abs{A^{-1}}/(1-q)$, and
+$(A+\Delta)^{-1}-A^{-1}=-(A+\Delta)^{-1}\Delta A^{-1}$ has norm $\le\abs{A^{-1}}\abs\Delta\abs{A^{-1}}/(1-q)$.
+\end{proof}
+
+\begin{lemma}[Perturbation of a product]\label{bp:p2s:telescope}
+Let $X_1,\dots,X_k$ and $\tilde X_1,\dots,\tilde X_k$ be matrices of compatible sizes with $\abs{X_i}\le x_i$,
+$\abs{\tilde X_i}\le\hat\vartheta x_i$ and $\abs{\tilde X_i-X_i}\le\Delta_i$, $x_i>0$. Then
+\[
+\abs{\tilde X_1\cdots\tilde X_k-X_1\cdots X_k}\le\hat\vartheta^{k-1}\Bigl(\prod_ix_i\Bigr)\sum_i\frac{\Delta_i}{x_i}.
+\]
+Constant factors of norm $\le1$ (such as $\Omega_0$) may be inserted anywhere without changing the bound.
+\source{Ours.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Telescoping}\label{step:p2s:tel-sum}
+$\tilde X_1\cdots\tilde X_k-X_1\cdots X_k=\sum_{i=1}^k\tilde X_1\cdots\tilde X_{i-1}(\tilde X_i-X_i)X_{i+1}\cdots X_k$.
+By Corollary~\ref{bp:p2:matrix}(b), the $i$-th term has norm $\le\hat\vartheta^{i-1}(\prod_{j\ne i}x_j)\Delta_i
+\le\hat\vartheta^{k-1}(\prod_jx_j)\Delta_i/x_i$, since $\hat\vartheta\ge1$. A factor of norm $\le1$ multiplies each
+bound by at most $1$.
+\end{proof}
+
+\begin{lemma}[Frame bounds with separate sizes]\label{bp:p2s:frame-bounds}
+Let $K$ be holomorphic on $T_r$ with $K(T_r)\subset\mathfrak B$, $\abs{DK}\le\sigma_K$, $\det G\ne0$ and $\abs B\le\sigma_B$ on
+$T_r$, and let $\omega\in\R^n$. Then on $T_r$:
+\begin{enumerate}[label=(\alph*)]
+\item $\abs L\le\sigma_K$, $\abs{L^\top}\le2n\sigma_K$, $\abs N\le\sigma_K\sigma_B$, $N^\top\Omega_0=BL^\top$, $\abs{N^\top}\le
+  2n\sigma_K\sigma_B$, $\abs{\Omega_K}\le2n\sigma_K^2$, and $\abs{P\xi}\le\sigma_K\abs{\xi^L}+\sigma_K\sigma_B\abs{\xi^N}$ for
+  $\xi=(\xi^L,\xi^N)\in\C^n\times\C^n$; in particular $\abs P\le\sigma_K(1+\sigma_B)$;
+\item $\abs A\le M$, $A^\top=\Omega_0A\Omega_0$ and $\abs{A^\top}\le M$;
+\item if $\abs{E_\omega}\le\varepsilon$ on $T_r$, then $\eta^L=-BL^\top E_\omega$, $\abs{\eta^L}\le2n\sigma_K\sigma_B\varepsilon$ and
+  $\abs{\eta^N}\le2n\sigma_K\varepsilon$.
+\end{enumerate}
+\source{HL19 Lemma~4.5, (4.23)--(4.24), p.~24 (with $\sigma_{K^\top}$ replaced by $2n\sigma_K$,
+Remark~\ref{bp:p2:transposes}); Lemma~\ref{bp:p2:frame-basic}(b), (c) with separate sizes.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Tangent and normal frame}\label{step:p2s:fb-frame}
+$\abs L=\abs{DK}\le\sigma_K$; $\abs{L^\top}\le2n\abs L$ (Corollary~\ref{bp:p2:matrix}(a), $L$ has $2n$ rows);
+$\abs N\le\abs{\Omega_0}\abs L\abs B$. Since $B^\top=B$ and $\Omega_0^\top\Omega_0=I_{2n}$ (Corollary~\ref{bp:p2:matrix}(d)),
+$N^\top\Omega_0=BL^\top\Omega_0^\top\Omega_0=BL^\top$ and $N^\top=-BL^\top\Omega_0$, so $\abs{N^\top}\le\abs B\abs{L^\top}$. Further
+$\abs{\Omega_K}\le\abs{L^\top}\abs{\Omega_0}\abs L$ and $P\xi=L\xi^L+N\xi^N$.
+
+\proofstep{Linearized field}\label{step:p2s:fb-a}
+$\abs A\le M$ by Assumption~\ref{bp:p2:standing}. By Lemma~\ref{bp:p2:hamiltonian}(d), $A^\top\Omega_0=-\Omega_0A$;
+multiplying on the right by $\Omega_0^{-1}=-\Omega_0$ gives $A^\top=\Omega_0A\Omega_0$, and $\abs{\Omega_0}=1$.
+
+\proofstep{The data $\eta$}\label{step:p2s:fb-eta}
+$\eta^L=-N^\top\Omega_0E=-BL^\top E$ by (a), and $\eta^N=L^\top\Omega_0E$ (Definition~\ref{bp:p2:objects}); take norms.
+\end{proof}
+
+\begin{lemma}[Geometry with separate sizes and general small-divisor data]\label{bp:p2s:geometry}
+Let $K$ be holomorphic, primary and real on reals on $T_r$, with $\mathbb B_\beta(K(\theta))\subset\mathfrak B$,
+$\abs{DK}\le\sigma_K$, $\det G\ne0$, $\abs B\le\sigma_B$ and $\abs E\le\varepsilon$ on $T_r$, with $\varepsilon\le1$ (no condition on $\avg T$;
+$\varepsilon\le1$ is a field of the Lean bundle \Lean{KAM.Iso.Linear.AdmissibleNoTwist} and holds at every application, where
+$\varepsilon\le\delta\le1$), and let $0<\delta\le1$, $2\delta<r$. Then
+\begin{align*}
+&\abs{DE}\le n\varepsilon/\delta,\ \abs{(DE)^\top}\le2n\varepsilon/\delta,\ \abs{\partial_\omega\Omega_K}\le2n(n+1)\sigma_K\varepsilon/\delta,\
+\abs{E_{\mathrm{red}}}\le C_{\mathrm{red}}\varepsilon/\delta&&\text{on }T_{r-\delta},\\
+&\abs{\Omega_K}\le\frac{C_\Omega\varepsilon}{\gamma\delta^{\varkappa+1}},\qquad\abs{E_{\mathrm{sym}}}\le\frac{C_{\mathrm{sym}}\varepsilon}{\gamma\delta^{\varkappa+1}}&&\text{on }T_{r-2\delta}.
+\end{align*}
+\source{HL19 Lemma~4.3, Lemma~4.6, Lemma~4.10 as in Lemma~\ref{bp:p2:geometry}; ours (constants).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Derivatives of the error}\label{step:p2s:geo-de}
+This is Step~\ref{step:p2:geo-de}; it uses only the holomorphy of $E$ and $\abs E\le\varepsilon$ on $T_r$.
+
+\proofstep{The two derived bounds}\label{step:p2s:geo-dom}
+By Lemma~\ref{bp:p2:frame-identities}(d), (e) and Lemma~\ref{bp:p2s:frame-bounds}, on $T_{r-\delta}$:
+$\abs{\partial_\omega\Omega_K}\le\abs{(DE)^\top}\abs L+\abs{L^\top}\abs{DE}\le(2n\sigma_K+2n^2\sigma_K)\varepsilon/\delta$. The first block
+row of $E_{\mathrm{red}}$ is $N^\top\Omega_0DE=BL^\top DE$, of norm $\le\sigma_B\cdot2n\sigma_K\cdot n\varepsilon/\delta$; the second is
+$(-L^\top\Omega_0DE\ \ (DE)^\top\Omega_0N)$, of norm $\le2n\sigma_K\cdot n\varepsilon/\delta+2n(\varepsilon/\delta)\sigma_K\sigma_B$. By
+Corollary~\ref{bp:p2:matrix}(c), $\abs{E_{\mathrm{red}}}$ is at most the larger, $C_{\mathrm{red}}\varepsilon/\delta$.
+
+\proofstep{Lagrangian and symplecticity defects}\label{step:p2s:geo-om}
+$\Omega_K$ is holomorphic and periodic on $T_{r-\delta}$ with $\avg{\Omega_K}=0$ (Lemmas~\ref{bp:p2:periodicity},
+\ref{bp:p2:exactness}). Definition~\ref{bp:p2s:cohdata}(b) on $T_{r-\delta}$ with loss $\delta$ ($0<\delta\le1$,
+$\delta<r-\delta$) gives $\abs{\Omega_K}\le c_R\gamma^{-1}\delta^{-\varkappa}\cdot2n(n+1)\sigma_K\varepsilon/\delta$ on $T_{r-2\delta}$. By
+Lemma~\ref{bp:p2:frame-identities}(b) and Corollary~\ref{bp:p2:matrix}(c),
+$\abs{E_{\mathrm{sym}}}=\max\{\abs{\Omega_K},\abs{B\Omega_KB}\}\le\max\{1,\sigma_B^2\}\abs{\Omega_K}$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The torsion route}\label{bp:p2s:sec-torsion}
+
+For matrices $A\in\C^{2n\times2n}$, $L,F\in\C^{2n\times n}$ and $B\in\C^{n\times n}$ define the \emph{torsion
+polynomial}
+\[
+\mathcal T(A,L,B,F):=\underbrace{BL^\top(A\Omega_0LB-\Omega_0ALB)}_{\mathcal T_{ab}}+\underbrace{BL^\top\Omega_0FB}_{\mathcal T_F}
++\underbrace{B\,(L^\top\Omega_0L)\,B\,\bigl(L^\top(A^\top+A)L-F^\top L-L^\top F\bigr)\,B}_{\mathcal T_c}.
+\]
+
+\begin{lemma}[The torsion as a polynomial in $(A,L,B,DE)$]\label{bp:p2s:torsion-identity}
+Let $K$ be holomorphic on $T_r$ with $K(T_r)\subset\mathfrak B$ and $\det G\ne0$ on $T_r$, let $\omega\in\R^n$, and
+put $F:=DE_\omega$. Then on $T_r$:
+\begin{enumerate}[label=(\alph*)]
+\item $\partial_\omega G=(AL-F)^\top L+L^\top(AL-F)$ and $\partial_\omega B=-B(\partial_\omega G)B$;
+\item $\partial_\omega N=\Omega_0(AL-F)B-N\bigl((AL-F)^\top L+L^\top(AL-F)\bigr)B$;
+\item $T_\omega=\mathcal T(A,L,B,F)$.
+\end{enumerate}
+\source{HL19 Lemma~4.8, (4.59)--(4.60), pp.~27--29: the route through $\mathfrak L_\omega K=E-X_h\circ K$ that
+Remark~\ref{bp:p2:torsion-route} set aside.}
+\sourcegap{HL19 state the bound of Lemma~4.8 and do not print the expansion; the identity is supplied here.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{The derivative of the tangent frame}\label{step:p2s:ti-dl}
+Lemma~\ref{bp:p2:frame-identities}(c) in its frequency-generic form (the existing Lean \Lean{KAM.Apost.Identities.fi\_dL} is stated at the standing Diophantine $\omega$; the generic-$\omega'$ version is the new helper \Lean{KAM.Sharp.TorsionPoly.fderiv\_tangentMat\_eq}, which repeats its chain-rule computation using no Diophantine property; its proof holds for every $\omega\in\R^n$, with $E=E_\omega$) gives
+$\partial_\omega L=AL-F$ on $T_r$.
+
+\proofstep{Gram matrix and its inverse}\label{step:p2s:ti-db}
+$G=L^\top L$, so the product rule and the previous step give $\partial_\omega G$. $B$ is holomorphic on $T_r$
+(Lemma~\ref{bp:p1:holomorphic-inverse}); differentiating $BG=I_n$ along $\omega$ gives $(\partial_\omega B)G+B\partial_\omega G=0$,
+and multiplying by $B$ on the right gives (a).
+
+\proofstep{The normal frame}\label{step:p2s:ti-dn}
+$N=\Omega_0LB$, so $\partial_\omega N=\Omega_0(\partial_\omega L)B+\Omega_0L\partial_\omega B$; insert the previous steps and
+$\Omega_0LB=N$. This is (b).
+
+\proofstep{Expansion of the torsion}\label{step:p2s:ti-t}
+$T=N^\top\Omega_0(AN-\partial_\omega N)$ and $N^\top\Omega_0=BL^\top$ (Lemma~\ref{bp:p2s:frame-bounds}(a)). With (b),
+$BL^\top AN=BL^\top A\Omega_0LB$, $BL^\top\Omega_0(AL-F)B=BL^\top\Omega_0ALB-BL^\top\Omega_0FB$ and $BL^\top N=BL^\top\Omega_0LB$, so
+\[
+T=BL^\top A\Omega_0LB-BL^\top\Omega_0ALB+BL^\top\Omega_0FB+BL^\top\Omega_0LB\bigl(L^\top A^\top L-F^\top L+L^\top AL-L^\top F\bigr)B,
+\]
+using $(AL-F)^\top=L^\top A^\top-F^\top$. This is $\mathcal T(A,L,B,F)$. No property of $A$ is used.
+\end{proof}
+
+\begin{lemma}[Torsion bound without $1/\delta$]\label{bp:p2s:torsion-bound}
+Let $K$ satisfy the hypotheses of Lemma~\ref{bp:p2s:geometry}, let $0<\delta\le1$, $\delta<r$, and $\varepsilon\le\delta$. Then
+on $T_{r-\delta}$
+\[
+\abs T\le C_{T0}+C_{T1}\frac\varepsilon\delta+C_{T2}\frac\varepsilon{\gamma\delta^{\varkappa+1}};
+\]
+in particular, if $C_{T1}\varepsilon/\delta+C_{T2}\varepsilon/(\gamma\delta^{\varkappa+1})\le1$, then $\abs T\le H_T$ on $T_{r-\delta}$.
+\source{HL19 Lemma~4.8, (4.60), p.~28 (the bound $\norm T\le C_T$ without $1/\delta$, under their (4.40)).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{The Lagrangian defect on $T_{r-\delta}$}\label{step:p2s:tb-om}
+Lemma~\ref{bp:p2s:geometry} with loss $\delta/2$ ($0<\delta/2\le1$, $2\cdot\delta/2<r$) gives
+$\abs{\Omega_K}\le C_\Omega\varepsilon/(\gamma(\delta/2)^{\varkappa+1})=2^{\varkappa+1}C_\Omega\varepsilon/(\gamma\delta^{\varkappa+1})$ on $T_{r-\delta}$, and
+the loss $\delta$ gives $\abs{DE}\le n\varepsilon/\delta$, $\abs{(DE)^\top}\le2n\varepsilon/\delta$ there.
+
+\proofstep{The three parts}\label{step:p2s:tb-parts}
+By Lemma~\ref{bp:p2s:torsion-identity}(c), $T=\mathcal T_{ab}+\mathcal T_F+\mathcal T_c$ with $F=DE$. By
+Lemma~\ref{bp:p2s:frame-bounds} and Corollary~\ref{bp:p2:matrix}(b), on $T_{r-\delta}$: each of the two terms of
+$\mathcal T_{ab}$ is $\le\sigma_B\cdot2n\sigma_K\cdot M\cdot\sigma_K\cdot\sigma_B$, so $\abs{\mathcal T_{ab}}\le C_{T0}$;
+$\abs{\mathcal T_F}\le\sigma_B\cdot2n\sigma_K\cdot n\varepsilon/\delta\cdot\sigma_B=C_{T1}\varepsilon/\delta$; and with
+$W:=L^\top(A^\top+A)L-F^\top L-L^\top F$,
+$\abs W\le2n\sigma_K\cdot2M\cdot\sigma_K+2n(\varepsilon/\delta)\sigma_K+2n\sigma_K\cdot n\varepsilon/\delta\le w$ (as $\varepsilon\le\delta$),
+so $\abs{\mathcal T_c}\le\sigma_B^3\abs{\Omega_K}w\le C_{T2}\varepsilon/(\gamma\delta^{\varkappa+1})$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The correction and the new error}\label{bp:p2s:sec-correction}
+
+\begin{corollary}[The triangular system with general small-divisor data]\label{bp:p2s:triangular}
+In Lemma~\ref{bp:p2:triangular} assume in addition $\delta\le1$ and write $\Gamma_\delta:=c_R\gamma^{-1}\delta^{-\varkappa}$. Then
+(a), (b), (d) of Lemma~\ref{bp:p2:triangular} hold as stated, and (c) holds with this $\Gamma_\delta$.
+\source{HL19 Lemma~5.1, pp.~31--32, as Lemma~\ref{bp:p2:triangular}.}
+\end{corollary}
+
+\begin{proof}
+\proofstep{Where the exponent enters}\label{step:p2s:tri-where}
+The objects $u^N,\xi^N_0,\xi^N,g^L,\xi^L$ of Lemma~\ref{bp:p2:triangular} are built from $\mathcal R$, which does not depend
+on $(\varkappa,c_R)$. In its proof, the bounds $\abs{\mathcal R\eta^N}\le\Gamma_\delta H_N$ (Step~\ref{step:p2:tri-first}, strip
+$T_r$, loss $\delta$) and $\abs{\mathcal Rg^L}\le\Gamma_\delta\sup\abs{g^L}$ (Step~\ref{step:p2:tri-second}, strip $T_{r-\delta}$, loss
+$\delta<r-\delta$) are the only uses of the exponent; all other statements come from Lemma~\ref{bp:p1:cohomological}.
+
+\proofstep{The two bounds}\label{step:p2s:tri-bounds}
+Both follow from Definition~\ref{bp:p2s:cohdata}(a), since $0<\delta\le1$, $\delta<r$ and $\delta<r-\delta$. Steps
+\ref{step:p2:tri-xi0}--\ref{step:p2:tri-real} are unchanged.
+\end{proof}
+
+\begin{lemma}[Size of the correction]\label{bp:p2s:correction}
+Let $K$ be $(r,\beta,\varepsilon)$-admissible, $0<\delta\le1$, $2\delta<r$, and assume
+\[
+\varepsilon\le\delta,\qquad C_{T1}\frac\varepsilon\delta+C_{T2}\frac\varepsilon{\gamma\delta^{\varkappa+1}}\le1.
+\]
+Let $\xi=(\xi^L,\xi^N)$, $g^L$, $\xi^N_0$ and $\Delta K=P\xi$ be the objects of Lemma~\ref{bp:p2:correction} (the triangular
+system with the data $\eta^L,\eta^N,T$ of $K$). Then the qualitative conclusions of Lemma~\ref{bp:p2:correction} hold
+(holomorphy, periodicity, realness), and with $u:=\varepsilon/(\gamma\delta^\varkappa)$:
+\begin{align*}
+&\abs{\xi^N_0}\le C_{\xi_0}u,\qquad\abs{\xi^N}\le C_{\xi N}u,\qquad\abs{g^L}\le C_gu&&\text{on }T_{r-\delta},\\
+&\abs{\xi^L}\le\frac{c_RC_g\varepsilon}{\gamma^2\delta^a},\quad\abs\xi\le\frac{C_\xi\varepsilon}{\gamma^2\delta^a},\quad
+\abs{\Delta K}\le\frac{C_{\Delta K}\varepsilon}{\gamma^2\delta^a},\quad\abs{\partial_\omega\xi}\le C_{\partial\xi}u&&\text{on }T_{r-2\delta}.
+\end{align*}
+\source{HL19 (5.6), p.~32; (5.20)--(5.28), pp.~33--35.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{The data}\label{step:p2s:cor-data}
+By Lemmas~\ref{bp:p2:periodicity}, \ref{bp:p2:frame-basic}(a), \ref{bp:p2:exactness} and~\ref{bp:p2s:frame-bounds}:
+$\eta^L,\eta^N,T$ are holomorphic, periodic and real on reals, $H_L=2n\sigma_K\sigma_B\varepsilon$, $H_N=2n\sigma_K\varepsilon$ on $T_r$,
+$\avg{\eta^N}=0$, $\abs{\avg T^{-1}}\le\sigma_T$ by \ref{bp:p2:A5}; and $\abs T\le H_T$ on $T_{r-\delta}$ by
+Lemma~\ref{bp:p2s:torsion-bound}. Corollary~\ref{bp:p2s:triangular} applies.
+
+\proofstep{The normal part}\label{step:p2s:cor-n}
+$\Gamma_\delta H_N=2nc_R\sigma_Ku$ and $H_L\le2n\sigma_K\sigma_B\bar\gamma u$ (Lemma~\ref{bp:p2s:absorb}(a)). Hence
+$\abs{\xi^N_0}\le\sigma_T(H_L+H_T\Gamma_\delta H_N)\le C_{\xi_0}u$, $\abs{\xi^N}\le\abs{\xi^N_0}+\Gamma_\delta H_N\le C_{\xi N}u$, and
+$\abs{g^L}\le H_T\sup\abs{\xi^N}+H_L\le C_gu$ on $T_{r-\delta}$.
+
+\proofstep{The tangential part and the correction}\label{step:p2s:cor-l}
+$\abs{\xi^L}\le\Gamma_\delta C_gu=c_RC_g\varepsilon/(\gamma^2\delta^{2\varkappa})$ on $T_{r-2\delta}$, and
+$\abs{\xi^N}\le C_{\xi N}u\le\bar\gamma C_{\xi N}\varepsilon/(\gamma^2\delta^a)$ (Lemma~\ref{bp:p2s:absorb}(a)); the max norm gives the
+bound on $\xi$. By Lemma~\ref{bp:p2s:frame-bounds}(a), $\abs{\Delta K}\le\sigma_K\abs{\xi^L}+\sigma_K\sigma_B\abs{\xi^N}\le
+C_{\Delta K}\varepsilon/(\gamma^2\delta^a)$.
+
+\proofstep{The derivative along $\omega$}\label{step:p2s:cor-dxi}
+$\partial_\omega\xi=(g^L,-\eta^N)$ (Lemma~\ref{bp:p2:triangular}(b)) and $\abs{\eta^N}\le2n\sigma_K\varepsilon\le2n\sigma_K\bar\gamma u$, so
+$\abs{\partial_\omega\xi}\le C_{\partial\xi}u$. The qualitative conclusions are those of Lemma~\ref{bp:p2:correction}, whose proof of them
+uses only Lemma~\ref{bp:p2:triangular}(a), (d) and Lemma~\ref{bp:p2:periodicity}.
+\end{proof}
+
+\begin{lemma}[The new invariance error]\label{bp:p2s:newton-error}
+In the setting of Lemma~\ref{bp:p2s:correction} assume moreover
+\[
+d:=\frac{C_{\Delta K}\varepsilon}{\gamma^2\delta^a}<\beta,\qquad\frac{C_{\mathrm{sym}}\varepsilon}{\gamma\delta^{\varkappa+1}}\le\frac12,
+\]
+and define $\bar K:=K+\Delta K$ on $T_{r-2\delta}$, $\bar K:=K$ elsewhere. Then $\bar K(T_{r-2\delta})\subset\mathfrak B$, the
+identity $\bar E=PS^{-1}E_{\mathrm{lin}}+\Delta^2X$ of Lemma~\ref{bp:p2:newton-error} holds on $T_{r-2\delta}$, and
+\[
+\abs{\bar E}\le\frac{C_E\varepsilon^2}{\gamma^4\delta^{2a}}\qquad\text{on }T_{r-2\delta}.
+\]
+\source{HL19 (5.1)--(5.4), p.~31; (5.29)--(5.32), pp.~34--35.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{The identity}\label{step:p2s:ne-id}
+Steps~\ref{step:p2:ne-invert}--\ref{step:p2:ne-reduce} use only $\abs{\Delta K}<\beta$ and $\abs{\Omega_0E_{\mathrm{sym}}}\le\frac12$ on
+$T_{r-2\delta}$ and the equations of Lemma~\ref{bp:p2:triangular}(b). The first holds by Lemma~\ref{bp:p2s:correction}, the second by
+Lemma~\ref{bp:p2s:geometry} and $\abs{\Omega_0}=1$. They also give $\abs{S^{-1}}\le2$.
+
+\proofstep{The linear part}\label{step:p2s:ne-lin}
+On $T_{r-2\delta}$: $\abs{E_{\mathrm{red}}\xi}\le C_{\mathrm{red}}(\varepsilon/\delta)C_\xi\varepsilon/(\gamma^2\delta^a)$ and
+$\abs{\Omega_0E_{\mathrm{sym}}\partial_\omega\xi}\le C_{\mathrm{sym}}\varepsilon/(\gamma\delta^{\varkappa+1})\cdot C_{\partial\xi}\varepsilon/(\gamma\delta^\varkappa)$
+(Lemmas~\ref{bp:p2s:geometry}, \ref{bp:p2s:correction}); both are $\varepsilon^2/(\gamma^2\delta^{a+1})$ times a constant, so
+$\abs{E_{\mathrm{lin}}}\le C_{\mathrm{lin}}\varepsilon^2/(\gamma^2\delta^{a+1})$.
+
+\proofstep{The quadratic part}\label{step:p2s:ne-quad}
+$X_h$ is holomorphic on the open set $\mathfrak B$ with $\abs{D(DX_h)}\le M$ (Lemma~\ref{bp:p2:hamiltonian}(a)), and the segment from
+$K(\theta)$ to $\bar K(\theta)$ lies in $\mathbb B_\beta(K(\theta))\subset\mathfrak B$. Lemma~\ref{bp:p1:taylor} gives
+$\abs{\Delta^2X}\le\frac M2\abs{\Delta K}^2\le\frac M2C_{\Delta K}^2\varepsilon^2/(\gamma^4\delta^{2a})$.
+
+\proofstep{The total}\label{step:p2s:ne-total}
+$\abs{\bar E}\le\abs P\abs{S^{-1}}\abs{E_{\mathrm{lin}}}+\abs{\Delta^2X}\le2\sigma_K(1+\sigma_B)C_{\mathrm{lin}}\varepsilon^2/(\gamma^2\delta^{a+1})
++\frac M2C_{\Delta K}^2\varepsilon^2/(\gamma^4\delta^{2a})$, and Lemma~\ref{bp:p2s:absorb}(d) turns the first term into
+$2\sigma_K(1+\sigma_B)\bar\gamma^2C_{\mathrm{lin}}\varepsilon^2/(\gamma^4\delta^{2a})$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Perturbation of the frame and of the averaged torsion}\label{bp:p2s:sec-perturbation}
+
+\begin{lemma}[Perturbation through the torsion polynomial]\label{bp:p2s:perturbation}
+Let $K$ satisfy the hypotheses of Lemma~\ref{bp:p2s:geometry} on $T_r$ with $\abs{E_\omega}\le\varepsilon$, and let $0<\delta\le1$,
+$3\delta<r$, $\varepsilon\le\delta$. Let $\tilde K$ be holomorphic on $T_{r-2\delta}$ and $\tilde\omega\in\R^n$, and let
+$d,\tilde\varepsilon\ge0$ with
+\[
+\abs{\tilde K-K}\le d,\quad\abs{\tilde E_{\tilde\omega}}\le\tilde\varepsilon\ \text{ on }T_{r-2\delta},\qquad d<\beta,\quad
+\tilde\varepsilon\le\varepsilon,\quad\frac{nd}\delta\le\vartheta\sigma_K,\quad\frac{\sigma_BC_Gd}\delta\le\vartheta.
+\]
+Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\mathbb B_{\beta-d}(\tilde K(\theta))\subset\mathfrak B$ and $\abs{\tilde A-A}\le Md$ for $\theta\in T_{r-2\delta}$;
+\item on $T_{r-3\delta}$: $\abs{\tilde L-L}\le nd/\delta$, $\abs{(\tilde L-L)^\top}\le2nd/\delta$, $\abs{\tilde L}\le\hat\vartheta\sigma_K$,
+  $\abs{\tilde L^\top}\le2n\hat\vartheta\sigma_K$;
+\item on $T_{r-3\delta}$: $\det\tilde G\ne0$, $\abs{\tilde B}\le\hat\vartheta\sigma_B$ and $\abs{\tilde B-B}\le C_Bd/\delta$;
+\item $\tilde T_{\tilde\omega}$ is continuous on $\R^n$, and for every $\theta\in\R^n$
+  \[
+  \abs{\tilde T_{\tilde\omega}(\theta)-T_\omega(\theta)}\le D:=(C_{\Delta ab}+C_{\Delta c})\frac d\delta+(1+\hat\vartheta^3)C_{T1}\frac\varepsilon\delta
+  +(1+\hat\vartheta^5)\sigma_B^3wC_\Omega\frac\varepsilon{\gamma\delta^{\varkappa+1}};
+  \]
+\item if moreover $\avg{T_\omega}$ is invertible with $\abs{\avg{T_\omega}^{-1}}\le\sigma_T$ and $\sigma_TD\le\vartheta$, then
+  $\avg{\tilde T_{\tilde\omega}}$ is invertible, $\abs{\avg{\tilde T_{\tilde\omega}}^{-1}}\le\hat\vartheta\sigma_T$ and
+  $\abs{\avg{\tilde T_{\tilde\omega}}^{-1}-\avg{T_\omega}^{-1}}\le\hat\vartheta\sigma_T^2D$.
+\end{enumerate}
+\source{HL19 Lemma~5.2, Steps~3--7, (5.34)--(5.67), pp.~36--42; Lemma~A.1, p.~55.}
+\sourcegap{HL19 Step~7 (p.~41) skips the computation of the new torsion; it is supplied here through
+Lemma~\ref{bp:p2s:torsion-identity}, which needs one Cauchy loss for each torus and no Cauchy estimate of $\partial_\omega N$.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Domain}\label{step:p2s:pt-domain}
+As Step~\ref{step:p2:pt-domain}: $\abs{z-\tilde K(\theta)}<\beta-d$ gives $\abs{z-K(\theta)}<\beta$; the segment $[K(\theta),\tilde K(\theta)]$ lies in
+$\mathbb B_\beta(K(\theta))$ and Lemma~\ref{bp:p2:hamiltonian}(e) bounds $\tilde A-A$. Also $\abs{\tilde A},\abs{\tilde A^\top}\le M$
+(Lemma~\ref{bp:p2s:frame-bounds}(b) at $\tilde K(\theta)\in\mathfrak B$).
+
+\proofstep{Tangent frame}\label{step:p2s:pt-l}
+Lemmas~\ref{bp:p1:cauchy-strip} and~\ref{bp:p1:cauchy-corollaries} ($p=2n$) applied to $\tilde K-K$ on $T_{r-2\delta}$ with loss $\delta$ give
+the bounds on $\tilde L-L$ and its transpose. Then $\abs{\tilde L}\le\sigma_K+nd/\delta\le(1+\vartheta)\sigma_K$ and
+$\abs{\tilde L^\top}\le2n\sigma_K+2nd/\delta\le2n\sigma_K+2\vartheta\sigma_K\le2n(1+\vartheta)\sigma_K$; and $1+\vartheta\le\hat\vartheta$.
+
+\proofstep{Gram matrix and inverse}\label{step:p2s:pt-b}
+$\tilde G-G=\tilde L^\top(\tilde L-L)+(\tilde L-L)^\top L$ has norm $\le2n(1+\vartheta)\sigma_K\cdot nd/\delta+2nd/\delta\cdot\sigma_K=C_Gd/\delta$, and
+$\abs B\abs{\tilde G-G}\le\sigma_BC_Gd/\delta\le\vartheta$. Lemma~\ref{bp:p2s:neumann} with $q=\vartheta$ gives (c), since
+$\sigma_B^2C_G/(1-\vartheta)=C_B$.
+
+\proofstep{The torsion of $\tilde K$}\label{step:p2s:pt-tt}
+By (a) and (c), Lemma~\ref{bp:p2s:torsion-identity} applies to $\tilde K$ on $T_{r-3\delta}$ at the frequency $\tilde\omega$:
+$\tilde T_{\tilde\omega}=\mathcal T(\tilde A,\tilde L,\tilde B,\tilde F)$ with $\tilde F=D\tilde E_{\tilde\omega}$, which is holomorphic there; so
+$\tilde T_{\tilde\omega}$ is continuous on $\R^n\subset T_{r-3\delta}$. The Cauchy estimates on $T_{r-2\delta}$ with loss $\delta$ give
+$\abs{\tilde F}\le n\tilde\varepsilon/\delta$, $\abs{\tilde F^\top}\le2n\tilde\varepsilon/\delta$ on $T_{r-3\delta}$. Likewise
+$T_\omega=\mathcal T(A,L,B,F)$ with $\abs F\le n\varepsilon/\delta$, $\abs{F^\top}\le2n\varepsilon/\delta$ on $T_{r-\delta}$.
+
+\proofstep{The part $\mathcal T_{ab}$}\label{step:p2s:pt-ab}
+Each of the two terms of $\mathcal T_{ab}$ is a product of $(B,L^\top,A,L,B)$ with $\Omega_0$ inserted. Apply
+Lemma~\ref{bp:p2s:telescope} with $x=(\sigma_B,2n\sigma_K,M,\sigma_K,\sigma_B)$, the bounds of (a)--(c) for the tilde factors, and
+$\Delta=(C_Bd/\delta,2nd/\delta,Md,nd/\delta,C_Bd/\delta)$, with $Md\le Md/\delta$: each term changes by at most
+$\hat\vartheta^4\cdot2nM\sigma_K^2\sigma_B^2\bigl(2C_B/\sigma_B+(n+1)/\sigma_K+1\bigr)d/\delta$, and the two together by $C_{\Delta ab}d/\delta$.
+
+\proofstep{The part $\mathcal T_F$}\label{step:p2s:pt-f}
+$\abs{\mathcal T_F(A,L,B,F)}\le C_{T1}\varepsilon/\delta$ (Step~\ref{step:p2s:tb-parts}) and
+$\abs{\mathcal T_F(\tilde A,\tilde L,\tilde B,\tilde F)}\le\hat\vartheta\sigma_B\cdot2n\hat\vartheta\sigma_K\cdot n\tilde\varepsilon/\delta\cdot\hat\vartheta\sigma_B
+\le\hat\vartheta^3C_{T1}\varepsilon/\delta$, at every real $\theta$.
+
+\proofstep{The part $\mathcal T_c$}\label{step:p2s:pt-c}
+At real $\theta$: $\abs{\Omega_K}\le C_\Omega\varepsilon/(\gamma\delta^{\varkappa+1})$ (Lemma~\ref{bp:p2s:geometry}, $\R^n\subset T_{r-2\delta}$);
+$\tilde\Omega_K-\Omega_K=(\tilde L-L)^\top\Omega_0\tilde L+L^\top\Omega_0(\tilde L-L)$ has norm $\le2n\sigma_K(\hat\vartheta+n)d/\delta$; with
+$W$ as in Step~\ref{step:p2s:tb-parts}, $\abs W\le w$ and $\abs{\tilde W}\le\hat\vartheta^2w$ (as $\tilde\varepsilon\le\varepsilon\le\delta$). Hence
+\[
+\abs{\tilde{\mathcal T}_c-\mathcal T_c}\le\abs{\tilde{\mathcal T}_c}+\abs{\mathcal T_c}\le(\hat\vartheta\sigma_B)^3\bigl(\abs{\Omega_K}+2n\sigma_K(\hat\vartheta+n)d/\delta\bigr)
+\hat\vartheta^2w+\sigma_B^3\abs{\Omega_K}w\le C_{\Delta c}\frac d\delta+(1+\hat\vartheta^5)\sigma_B^3wC_\Omega\frac\varepsilon{\gamma\delta^{\varkappa+1}}.
+\]
+Adding the three parts gives (d).
+
+\proofstep{The averaged torsion}\label{step:p2s:pt-avg}
+Both torsions are continuous on $\R^n$, so $\avg{\tilde T_{\tilde\omega}}-\avg{T_\omega}=\avg{\tilde T_{\tilde\omega}-T_\omega}$ has norm $\le D$
+(Corollary~\ref{bp:p2:averages}(a); \ref{bp:p1:ext-integral}, no periodicity needed). Lemma~\ref{bp:p2s:neumann} with $q=\vartheta$ gives (e).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The KAM step}\label{bp:p2s:sec-step}
+
+\begin{proposition}[The sharp KAM step]\label{bp:p2s:step}
+Let $r>0$, $0<\delta\le1$ with $3\delta<r$, $\beta>0$, $0\le\varepsilon\le1$, and let $K$ be $(r,\beta,\varepsilon)$-admissible.
+Put $X:=\varepsilon/(\gamma^4\delta^{2a})$, $d:=C_{\Delta K}\varepsilon/(\gamma^2\delta^a)$, $U:=\varepsilon/(\gamma^2\delta^{a+1})$,
+$\bar\varepsilon:=C_E\varepsilon^2/(\gamma^4\delta^{2a})$, and assume
+\[
+\mathfrak c_{\mathrm{step}}X\le1,\qquad2d\le\beta.
+\]
+Let $\bar K$ be the map of Lemma~\ref{bp:p2s:newton-error}. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\bar K$ is holomorphic and primary on $T_{r-2\delta}$, and real on reals;
+\item $\abs{\bar K-K}\le d\le\beta/2$ on $T_{r-2\delta}$, and $\mathbb B_{\beta-d}(\bar K(\theta))\subset\mathfrak B$ for $\theta\in T_{r-2\delta}$;
+\item $\abs{\bar E}\le\bar\varepsilon\le\varepsilon$ on $T_{r-2\delta}$;
+\item $\abs{D\bar K-DK}\le\varrho_DU$ on $T_{r-3\delta}$;
+\item $\det\bar G\ne0$ and $\abs{\bar B-B}\le\varrho_BU$ on $T_{r-3\delta}$;
+\item $\avg{\bar T}$ is invertible and $\abs{\avg{\bar T}^{-1}-\avg T^{-1}}\le\varrho_TU$.
+\end{enumerate}
+\source{HL19 Lemma~5.2, (5.8)--(5.18), pp.~32--33.}
+\end{proposition}
+
+\begin{proof}
+\proofstep{The smallness conditions}\label{step:p2s:st-small}
+By Lemma~\ref{bp:p2s:absorb}(c) and the definition of $\mathfrak c_{\mathrm{step}}$ (each entry of the maximum times $X$ is $\le1$):
+(S1) $\varepsilon/\delta\le\bar\gamma^4X\le1$; (S2) $C_{T1}\varepsilon/\delta+C_{T2}\varepsilon/(\gamma\delta^{\varkappa+1})\le(\bar\gamma^4C_{T1}+\bar\gamma^3C_{T2})X\le1$;
+(S3) $C_{\mathrm{sym}}\varepsilon/(\gamma\delta^{\varkappa+1})\le\bar\gamma^3C_{\mathrm{sym}}X\le\frac12$; (S4) $d\le\beta/2<\beta$ by hypothesis;
+(S5) $d/\delta=C_{\Delta K}U\le\bar\gamma^2C_{\Delta K}X$, so $nd/\delta\le\vartheta\sigma_K$ and $\sigma_BC_Gd/\delta\le\vartheta$;
+(S6) $\sigma_TC_{\Delta T}U\le\vartheta$; (S7) $C_EX\le1$, i.e.\ $\bar\varepsilon\le\varepsilon$.
+
+\proofstep{Correction and error}\label{step:p2s:st-err}
+By (S1), (S2), Lemma~\ref{bp:p2s:correction} applies; by (S3), (S4), Lemma~\ref{bp:p2s:newton-error} applies. They give (b) except the
+ball, and (c) with (S7). (a): $\Delta K$ is holomorphic, periodic and real on reals on $T_{r-2\delta}$ (Lemma~\ref{bp:p2s:correction}), so
+$\bar K(\theta+k)=K(\theta)+(k,0)+\Delta K(\theta)$ there.
+
+\proofstep{Frame and twist}\label{step:p2s:st-pert}
+Apply Lemma~\ref{bp:p2s:perturbation} with $\tilde K=\bar K$, $\tilde\omega=\omega$, $\tilde\varepsilon=\bar\varepsilon$ and $d$: its hypotheses are
+(S1), (S4), (S5), (S7). It gives the ball, (d) ($nd/\delta=\varrho_DU$) and (e) ($C_Bd/\delta=\varrho_BU$). By Lemma~\ref{bp:p2s:absorb}(b),
+$D\le(C_{\Delta ab}+C_{\Delta c})C_{\Delta K}U+(1+\hat\vartheta^3)C_{T1}\bar\gamma^2U+(1+\hat\vartheta^5)\sigma_B^3wC_\Omega\bar\gamma U=C_{\Delta T}U$, so
+(S6) gives $\sigma_TD\le\vartheta$ and Lemma~\ref{bp:p2s:perturbation}(e) gives (f).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The Newton engine}\label{bp:p2s:sec-engine}
+
+The iteration and the limit are proved once, for an abstract scheme; the fixed-frequency theorem
+(Theorem~\ref{bp:p2s:g1}) and the isoenergetic theorem (track-I part \texttt{p2s-iso-sharp}) are instances.
+
+\begin{definition}[Schedule with loss factor $\lambda$]\label{bp:p2s:schedule}
+Let $\lambda>0$ and $0<\rho_\infty<\rho$. Put $\delta_0^{(\lambda)}:=\min\{1,(\rho-\rho_\infty)/(2\lambda)\}$ and, for $s\ge0$,
+$\delta_s:=2^{-s}\delta_0^{(\lambda)}$, $r_s:=\rho-2\lambda\delta_0^{(\lambda)}(1-2^{-s})$. Then $r_0=\rho$, $r_{s+1}=r_s-\lambda\delta_s$, $\rho_\infty<r_s$,
+$0<\delta_s\le1$ and $\lambda\delta_s<r_s$ for every $s$. For $\lambda=3$, $\delta_0^{(3)}$ is the $\delta_0$ of
+Definition~\ref{bp:p2s:constants}.
+\source{HL19 \S5.3, p.~42 ($a_1=2$, $\rho_s=\rho_{s-1}-3\delta_{s-1}$).}
+\end{definition}
+
+\begin{proof}
+\proofstep{The recursion}\label{step:p2s:sch-rec}
+$r_s-r_{s+1}=2\lambda\delta_0^{(\lambda)}(2^{-s}-2^{-s-1})=\lambda\delta_s$.
+
+\proofstep{The bounds}\label{step:p2s:sch-bd}
+$r_s>\rho-2\lambda\delta_0^{(\lambda)}\ge\rho_\infty$, since $2^{-s}>0$ and $\delta_0^{(\lambda)}\le(\rho-\rho_\infty)/(2\lambda)$. $\delta_0^{(\lambda)}>0$ and $\le1$,
+so $0<\delta_s\le1$; and $\lambda\delta_s=r_s-r_{s+1}<r_s$ since $r_{s+1}>\rho_\infty>0$.
+\end{proof}
+
+\begin{definition}[Abstract Newton scheme]\label{bp:p2s:scheme}
+An \emph{abstract Newton scheme} in dimension $n$ consists of a set $\mathcal X$ of states; maps $\pi$ from $\mathcal X$ to maps
+$\C^n\to\C^n\times\C^n$ (the torus) and $p:\mathcal X\to\R$ (a scalar parameter); a predicate $\mathrm{Adm}(r,\beta,\varepsilon,m;x)$ for
+$r,\beta,\varepsilon\in\R$, $m\in\R^k$, $x\in\mathcal X$; a step map $\Phi(r,\delta;x)\in\mathcal X$; and constants $\lambda>0$, $a\ge2$,
+$C_E,C_\Delta,C_p,\mathfrak c_{\mathrm{step}}\ge0$, $\gamma>0$, caps $\sigma\in\R^k$, rates $\varrho\in[0,\infty)^k$ and exponents
+$j\in\{0,1\}^k$, such that:
+\begin{enumerate}[label=(N\arabic*)]
+\item\label{bp:p2s:N1} if $\mathrm{Adm}(r,\beta,\varepsilon,m;x)$, then $\varepsilon\ge0$, and $\pi x$ is holomorphic and primary on $T_r$ and real on reals;
+\item\label{bp:p2s:N2} \emph{(step)} if $\mathrm{Adm}(r,\beta,\varepsilon,m;x)$, $0<\delta\le1$, $\lambda\delta<r$,
+  $\mathfrak c_{\mathrm{step}}\varepsilon/(\gamma^4\delta^{2a})\le1$, $2d\le\beta$ with $d:=C_\Delta\varepsilon/(\gamma^2\delta^a)$, and $m_i+\varrho_iU_i\le\sigma_i$
+  for every $i$, where $U_i:=\varepsilon/(\gamma^2\delta^{a+j_i})$, then $\bar x:=\Phi(r,\delta;x)$ satisfies
+  \[
+  \mathrm{Adm}\Bigl(r-\lambda\delta,\ \beta-d,\ \frac{C_E\varepsilon^2}{\gamma^4\delta^{2a}},\ (m_i+\varrho_iU_i)_i;\ \bar x\Bigr),
+  \]
+  $\abs{\pi\bar x-\pi x}\le d$ and $\abs{D\pi\bar x-D\pi x}\le nd/\delta$ on $T_{r-\lambda\delta}$, and $\abs{p\bar x-px}\le
+  C_p\varepsilon/(\gamma^2\delta^a)$.
+\end{enumerate}
+\end{definition}
+
+For the fixed-frequency instance, $\mathcal X$ is the set of maps $K$, $\pi K=K$, $p=0$, $k=3$,
+$\mathrm{Adm}(r,\beta,\varepsilon,m;K)$ is ``$K$ is $(r,\beta,\varepsilon)$-admissible with the bounds $(m_1,m_2,m_3)$ in place of
+$(\sigma_K,\sigma_B,\sigma_T)$'', and $\Phi(r,\delta;K)$ is the map $\bar K$ of Lemma~\ref{bp:p2s:newton-error} on $T_{r-2\delta}$
+(Lemma~\ref{bp:p2s:fixed-scheme}).
+
+\begin{lemma}[Decay of the errors]\label{bp:p2s:decay}
+In Definition~\ref{bp:p2s:scheme} let $e\ge0$, $0<\rho_\infty<\rho$, take the schedule of Definition~\ref{bp:p2s:schedule}, and put $\varepsilon_0:=e$,
+$\varepsilon_{s+1}:=C_E\varepsilon_s^2/(\gamma^4\delta_s^{2a})$, $d_s:=C_\Delta\varepsilon_s/(\gamma^2\delta_s^a)$. If
+$q:=2^{2a}C_Ee/(\gamma^4(\delta_0^{(\lambda)})^{2a})\le1$, then for all $s\ge0$: $0\le\varepsilon_s\le q^{2^s-1}2^{-2as}e\le2^{-2as}e$;
+$\varepsilon_s/\delta_s^i\le e/(\delta_0^{(\lambda)})^i$ for $0\le i\le2a$; and $\sum_s\varepsilon_s/\delta_s^i\le2e/(\delta_0^{(\lambda)})^i$ for
+$0\le i\le2a-1$.
+\source{HL19 (5.68)--(5.69), p.~43.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{As in Lemma~\ref{bp:p2:error-decay}}\label{step:p2s:dec}
+The proof of Lemma~\ref{bp:p2:error-decay} uses only $\delta_s=2^{-s}\delta_0$ and $\varepsilon_{s+1}=Q'2^{2as}\varepsilon_s^2$ with
+$Q'=C_E/(\gamma^4\delta_0^{2a})$; it applies verbatim with $\delta_0^{(\lambda)}$, $C_E\ge0$ and $a\ge2$ (Lemma~\ref{bp:p1:iteration} with
+$p=2a$).
+\end{proof}
+
+\begin{proposition}[The engine: induction]\label{bp:p2s:engine-iteration}
+In Definition~\ref{bp:p2s:scheme}, let $0<\rho_\infty<\rho$, $\beta_0>0$, $e\ge0$, $m^{(0)}\in\R^k$ and $x_0\in\mathcal X$ with
+$\mathrm{Adm}(\rho,\beta_0,e,m^{(0)};x_0)$, and with $\delta_0:=\delta_0^{(\lambda)}$ assume
+\begin{enumerate}[label=(I\arabic*)]
+\item\label{bp:p2s:I1} $2^{2a}C_Ee/(\gamma^4\delta_0^{2a})\le1$;
+\item\label{bp:p2s:I2} $\mathfrak c_{\mathrm{step}}e/(\gamma^4\delta_0^{2a})\le1$;
+\item\label{bp:p2s:I3} $2C_\Delta e/(\gamma^2\delta_0^a)\le\beta_0/4$;
+\item\label{bp:p2s:I4} $m^{(0)}_i+2\varrho_ie/(\gamma^2\delta_0^{a+j_i})\le\sigma_i$ for every $i$.
+\end{enumerate}
+Define $x_{s+1}:=\Phi(r_s,\delta_s;x_s)$, $D_s:=\sum_{t<s}d_t$, $m^{(s)}_i:=m^{(0)}_i+\sum_{t<s}\varrho_i\varepsilon_t/(\gamma^2\delta_t^{a+j_i})$ and
+$P_s:=\sum_{t<s}C_p\varepsilon_t/(\gamma^2\delta_t^a)$. Then for every $s\ge0$:
+\begin{enumerate}[label=(\roman*)]
+\item $\mathrm{Adm}(r_s,\beta_0-D_s,\varepsilon_s,m^{(s)};x_s)$;
+\item $D_s\le2C_\Delta e/(\gamma^2\delta_0^a)\le\beta_0/4$, $m^{(s)}_i\le m^{(0)}_i+2\varrho_ie/(\gamma^2\delta_0^{a+j_i})\le\sigma_i$ and
+  $P_s\le2C_pe/(\gamma^2\delta_0^a)$;
+\item $\abs{\pi x_{s+1}-\pi x_s}\le d_s$ and $\abs{D\pi x_{s+1}-D\pi x_s}\le nd_s/\delta_s$ on $T_{r_{s+1}}$, and
+  $\abs{px_{s+1}-px_s}\le C_p\varepsilon_s/(\gamma^2\delta_s^a)$;
+\item $\varepsilon_s\le2^{-2as}e$.
+\end{enumerate}
+\source{HL19 \S5.3, (5.68)--(5.73), pp.~42--44 (abstracted).}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Sums}\label{step:p2s:ei-sums}
+By \ref{bp:p2s:I1} Lemma~\ref{bp:p2s:decay} applies. With $i=a$, $a+1\le2a-1$ (as $a\ge2$): $\sum_td_t\le2C_\Delta e/(\gamma^2\delta_0^a)$,
+$\sum_t\varepsilon_t/(\gamma^2\delta_t^{a+j_i})\le2e/(\gamma^2\delta_0^{a+j_i})$ and $\sum_tC_p\varepsilon_t/(\gamma^2\delta_t^a)\le2C_pe/(\gamma^2\delta_0^a)$. With
+\ref{bp:p2s:I3}, \ref{bp:p2s:I4} this is (ii); the summands are $\ge0$ by \ref{bp:p2s:N1}.
+
+\proofstep{Step smallness at every stage}\label{step:p2s:ei-small}
+$\varepsilon_s/\delta_s^{2a}\le e/\delta_0^{2a}$ (Lemma~\ref{bp:p2s:decay}), so by \ref{bp:p2s:I2}
+$\mathfrak c_{\mathrm{step}}\varepsilon_s/(\gamma^4\delta_s^{2a})\le1$. By (ii), $d_s\le D_{s+1}\le\beta_0/4$ and $\beta_0-D_s\ge3\beta_0/4$, so
+$2d_s\le\beta_0-D_s$. The cap condition of \ref{bp:p2s:N2} at stage $s$ is $m^{(s+1)}_i\le\sigma_i$, which is (ii) at $s+1$.
+
+\proofstep{Induction}\label{step:p2s:ei-ind}
+(i) holds at $s=0$ ($D_0=0$, $m^{(0)}$). If (i) holds at $s$, then \ref{bp:p2s:N2} applies with $(r,\delta,\beta,\varepsilon,m)=(r_s,\delta_s,\beta_0-D_s,
+\varepsilon_s,m^{(s)})$ ($0<\delta_s\le1$, $\lambda\delta_s<r_s$ by Definition~\ref{bp:p2s:schedule}) and gives (i) at $s+1$ (as $r_s-\lambda\delta_s=r_{s+1}$,
+$\beta_0-D_s-d_s=\beta_0-D_{s+1}$, $C_E\varepsilon_s^2/(\gamma^4\delta_s^{2a})=\varepsilon_{s+1}$) and (iii). (iv) is Lemma~\ref{bp:p2s:decay}.
+\end{proof}
+
+\begin{proposition}[The engine: limit]\label{bp:p2s:engine-limit}
+In the setting of Proposition~\ref{bp:p2s:engine-iteration} put $K_s:=\pi x_s$ and define $K_\infty(\theta):=\lim_sK_s(\theta)$ for
+$\theta\in T_{\rho_\infty}$, $K_\infty(\theta):=K_0(\theta)$ otherwise, and $p_\infty:=\lim_spx_s$. Then the limits exist, and:
+\begin{enumerate}[label=(\alph*)]
+\item $K_s\to K_\infty$ and $DK_s\to DK_\infty$ uniformly on $T_{\rho_\infty}$; $K_\infty$ is holomorphic and primary on $T_{\rho_\infty}$ and real on
+  reals;
+\item $\abs{K_\infty-K_0}\le2C_\Delta e/(\gamma^2\delta_0^a)$ on $T_{\rho_\infty}$ and $\abs{p_\infty-px_0}\le2C_pe/(\gamma^2\delta_0^a)$;
+\item $\varepsilon_s\to0$.
+\end{enumerate}
+\source{HL19 p.~44 and (5.78); as Proposition~\ref{bp:p2:limit}(a)--(c).}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Uniform convergence}\label{step:p2s:el-conv}
+$T_{\rho_\infty}\subset T_{r_{s+1}}$ for every $s$. By Proposition~\ref{bp:p2s:engine-iteration}(iii), the increments of $K_s$ and of $DK_s$ on
+$T_{\rho_\infty}$ are bounded by $d_s$ and $nd_s/\delta_s$, whose sums converge (Step~\ref{step:p2s:ei-sums}). Steps~\ref{step:p2:lim-k},
+\ref{step:p2:lim-dk}, \ref{step:p2:lim-holo} and~\ref{step:p2:lim-primary} of Proposition~\ref{bp:p2:limit} use only these bounds, the holomorphy,
+primarity and realness of each $K_s$ on $T_{\rho_\infty}$ (\ref{bp:p2s:N1}) and Lemma~\ref{bp:p1:uniform-limits}; they give (a).
+
+\proofstep{Closeness and the parameter}\label{step:p2s:el-close}
+$\abs{K_\infty-K_0}\le\sum_sd_s$ as in Step~\ref{step:p2:lim-close}. The increments of $px_s$ are summable, so $(px_s)$ is Cauchy, and
+$\abs{p_\infty-px_0}\le\sum_sC_p\varepsilon_s/(\gamma^2\delta_s^a)$. (c) is Proposition~\ref{bp:p2s:engine-iteration}(iv).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Proof of G1$^\sharp$}\label{bp:p2s:sec-proof}
+
+\begin{lemma}[The fixed-frequency scheme]\label{bp:p2s:fixed-scheme}
+Under Assumption~\ref{bp:p2s:standing}, the data $\mathcal X=\{K:\C^n\to\C^n\times\C^n\}$, $\pi K=K$, $p=0$, $k=3$,
+$\mathrm{Adm}(r,\beta,\varepsilon,m;K)$ := ``$K$ is $(r,\beta,\varepsilon)$-admissible for the bounds $m=(m_1,m_2,m_3)$'',
+$\Phi(r,\delta;K):=K+\Delta K$ on $T_{r-2\delta}$ and $K$ elsewhere ($\Delta K$ of Lemma~\ref{bp:p2s:correction}), $\lambda=3$, $a=2\varkappa$,
+$C_E$, $C_\Delta=C_{\Delta K}$, $C_p=0$, $\mathfrak c_{\mathrm{step}}$ of Definition~\ref{bp:p2s:constants}, caps $(\sigma_K,\sigma_B,\sigma_T)-\mu/2$
+(any $\mu\ge0$), rates $(\varrho_D,\varrho_B,\varrho_T)$ and exponents $j=(1,1,1)$ form an abstract Newton scheme.
+\source{Ours.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{(N1)}\label{step:p2s:fs-n1}
+\ref{bp:p2:A1} and $\varepsilon\ge0$ are part of admissibility.
+
+\proofstep{(N2)}\label{step:p2s:fs-n2}
+Let $K$ be admissible for the bounds $m$ with $m_i+\varrho_iU\le\sigma_i-\mu/2$. Since $\varrho_i,U\ge0$, $m\le(\sigma_K,\sigma_B,\sigma_T)$, so
+$K$ is $(r,\beta,\varepsilon)$-admissible for $(\sigma_K,\sigma_B,\sigma_T)$, and Proposition~\ref{bp:p2s:step} applies. On
+$T_{r-3\delta}$: $\abs{D\bar K}\le\abs{DK}+\varrho_DU\le m_1+\varrho_DU$, $\abs{\bar B}\le m_2+\varrho_BU$, and
+$\abs{\avg{\bar T}^{-1}}\le m_3+\varrho_TU$; with (a)--(c) of Proposition~\ref{bp:p2s:step} ($\bar\varepsilon\le\varepsilon\le1$,
+$\beta-d\ge\beta/2>0$ as $2d\le\beta$, $r-3\delta>0$), $\bar K$ is $(r-3\delta,\beta-d,\bar\varepsilon)$-admissible for the bounds $m+\varrho U$. The closeness
+bounds are (b), (d) of Proposition~\ref{bp:p2s:step}, with $nd/\delta=\varrho_DU$; $p=0$.
+\end{proof}
+
+\begin{theorem}[G1 with sharp explicit constants]\label{bp:p2s:g1}
+Let $n\ge2$, $\tau\ge n-1$, $0<\rho_\infty<\rho$, let $M,\sigma_K,\sigma_B,\sigma_T,\mu,\bar\gamma$ be positive, and let $(\varkappa,c_R)$ be
+small-divisor data for $(n,\tau)$. With Definition~\ref{bp:p2s:constants} ($a=2\varkappa$, $\delta_0=\min\{1,(\rho-\rho_\infty)/6\}$) put
+\[
+C_1^\sharp:=\rho^{4\tau}\max\bigl\{\bar\gamma^4,\ \mathfrak c_*\delta_0^{-2a}\bigr\},\qquad C_2^\sharp:=2C_{\Delta K}\,\rho^{2\tau}\delta_0^{-a}.
+\]
+Then $C_1^\sharp,C_2^\sharp>0$, and the conclusion of Theorem~\ref{bp:p0:g1} holds with these constants for all $\mathfrak B,h,K,\omega,\gamma,e$
+satisfying its hypotheses (the hypotheses of Theorem~\ref{bp:p2:g1}, verbatim, with $C_1^\sharp$ in the smallness condition).
+\source{HL19 Theorem~3.1, pp.~16--18; (5.74)--(5.78), p.~44.}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Positivity and the size of the error}\label{step:p2s:g1-e}
+As Steps~\ref{step:p2:g1-constants}--\ref{step:p2:g1-e}: $C_1^\sharp\ge\rho^{4\tau}\bar\gamma^4>0$, $C_2^\sharp>0$; the smallness gives
+$e<\gamma^4/\bar\gamma^4\le1$ and $X_0:=e/(\gamma^4\delta_0^{2a})$ satisfies $\mathfrak c_*X_0<1$.
+
+\proofstep{The engine hypotheses}\label{step:p2s:g1-hyp}
+Take the scheme of Lemma~\ref{bp:p2s:fixed-scheme} with $x_0=K$, $\beta_0=\mu$, $m^{(0)}=(\sigma_K-\mu,\sigma_B-\mu,\sigma_T-\mu)$; the
+hypotheses H2--H4 of Theorem~\ref{bp:p0:g1} (with Remark~\ref{bp:p2:frozen-agreement} and the row-sum form of the norms) say that
+$K$ is $(\rho,\mu,e)$-admissible for $m^{(0)}$. \ref{bp:p2s:I1}: $2^{2a}C_EX_0\le\mathfrak c_*X_0\le1$. \ref{bp:p2s:I2}:
+$\mathfrak c_{\mathrm{step}}X_0\le\mathfrak c_*X_0\le1$. By Lemma~\ref{bp:p2s:absorb}(c) at $\delta=\delta_0$,
+$e/(\gamma^2\delta_0^{a+j})\le\bar\gamma^2X_0$ for $j\in\{0,1\}$, so \ref{bp:p2s:I3} ($2C_{\Delta K}\bar\gamma^2X_0\le\mu/4$) and \ref{bp:p2s:I4}
+($2\varrho_i\bar\gamma^2X_0\le\mu/2$, caps $\sigma_i-\mu/2$) follow from
+$4\bar\gamma^2\max\{2C_{\Delta K},\varrho_D,\varrho_B,\varrho_T\}X_0=\mathfrak c_{\mathrm{sum}}X_0\le\mu\,\mathfrak c_*X_0\le\mu$.
+
+\proofstep{Iteration and limit}\label{step:p2s:g1-it}
+Propositions~\ref{bp:p2s:engine-iteration} and~\ref{bp:p2s:engine-limit} apply. Every $K_s$ is admissible with
+$\abs{DK_s}\le\sigma_K-\mu/2$, $\mathbb B_{\mu/2}(K_s(\theta))\subset\mathfrak B$ on $T_{r_s}\supset T_{\rho_\infty}$, and
+$\abs{E_s}\le\varepsilon_s\to0$.
+
+\proofstep{Invariance and the conclusion}\label{step:p2s:g1-check}
+Step~\ref{step:p2:lim-invariance} applies verbatim: $E_s(\theta)\to X_h(K_\infty(\theta))-DK_\infty(\theta)\omega$, so the error of $K_\infty$
+vanishes on $T_{\rho_\infty}$. Step~\ref{step:p2:lim-margins} gives the ball $\mathbb B_{\mu/2}(K_\infty(\theta))\subset\mathfrak B$ (here
+$\abs{K_\infty-K}\le2C_{\Delta K}\bar\gamma^2X_0\le\mu/4$) and $\abs{DK_\infty}\le\sigma_K-\mu/2$. Finally
+$\abs{K_\infty-K}\le2C_{\Delta K}e/(\gamma^2\delta_0^a)=C_2^\sharp e/(\gamma^2\rho^{2\tau})$, as in Step~\ref{step:p2:g1-check}.
+\end{proof}
+
+\begin{corollary}[The two instances]\label{bp:p2s:g1-instances}
+Theorem~\ref{bp:p2s:g1} holds, with no hypothesis on $(\varkappa,c_R)$, for
+\begin{enumerate}[label=(\alph*)]
+\item (headline, \Lean{KAM.Sharp.g1\_sharp}) $(\varkappa,c_R)=(\tau,\,c_R^{\mathrm R}(n,\tau))$ (Lemma~\ref{bp:p2s:cohdata-russmann}): $a=2\tau$;
+\item (\Lean{KAM.Sharp.g1\_sharp\_parseval}) $(\varkappa,c_R)=(\tau+n/2,\,c_P(n,\tau))$ (Lemma~\ref{bp:p2s:cohdata-parseval}): $a=2\tau+n$;
+\item (\Lean{KAM.Sharp.g1\_sharp\_crude}) $(\varkappa,c_R)=(\tau+n,\,c(n,\tau))$ (Lemma~\ref{bp:p2s:cohdata-crude}): $a=2\tau+2n$, already better
+  than $a=2\tau+2n+2$ of Theorem~\ref{bp:p2:g1}.
+\end{enumerate}
+\source{Ours.}
+\end{corollary}
+
+\begin{proof}
+\proofstep{Instances}\label{step:p2s:inst}
+$\tau\ge n-1\ge1$, so $\tau$, $\tau+n/2$ and $\tau+n$ are $\ge1$; Lemmas~\ref{bp:p2s:cohdata-russmann}, \ref{bp:p2s:cohdata-parseval}
+and~\ref{bp:p2s:cohdata-crude} provide the data.
+\end{proof}
+
+\begin{remark}[The threshold uniform in $\rho$]\label{bp:p2s:uniform}
+The factor $\rho^{4\tau}$ cancels: with $\mathfrak c_*$ independent of $\rho,\rho_\infty$, the smallness
+$C_1^\sharp e/(\gamma^4\rho^{4\tau})<1$ reads $e<\gamma^4/\bar\gamma^4$ and $\mathfrak c_*e/(\gamma^4\delta_0^{2a})<1$. Since $\delta_0\le1$,
+it holds whenever $\max\{\bar\gamma^4,\mathfrak c_*\}\,e/(\gamma^4\delta_0^{2a})<1$, a condition $Ce/(\gamma^4\delta_0^{2a})<1$ with $C$ independent of
+$\rho$ (the Lean corollary \Lean{KAM.Sharp.g1\_sharp\_uniform}).
+\end{remark}
+
+\begin{remark}[Register of constants]\label{bp:p2s:register}
+\begin{center}\small
+\begin{tabular}{lll}
+constant & bounds & introduced in\\\hline
+$C_\Omega,C_{\mathrm{sym}},C_{\mathrm{red}}$ & $\Omega_K,E_{\mathrm{sym}},E_{\mathrm{red}}$ & Lemma~\ref{bp:p2s:geometry}\\
+$C_{T0},C_{T1},C_{T2},w,H_T$ & $T$ & Lemma~\ref{bp:p2s:torsion-bound}\\
+$C_{\xi_0},C_{\xi N},C_g,C_{\partial\xi},C_\xi,C_{\Delta K}$ & $\xi^N_0,\xi^N,g^L,\partial_\omega\xi,\xi,\Delta K$ & Lemma~\ref{bp:p2s:correction}\\
+$C_{\mathrm{lin}},C_E$ & $E_{\mathrm{lin}},\bar E$ & Lemma~\ref{bp:p2s:newton-error}\\
+$C_G,C_B,C_{\Delta ab},C_{\Delta c}$ & $\tilde G-G,\tilde B-B,\tilde T-T$ & Lemma~\ref{bp:p2s:perturbation}\\
+$C_{\Delta T},\varrho_D,\varrho_B,\varrho_T,\mathfrak c_{\mathrm{step}}$ & step & Proposition~\ref{bp:p2s:step}\\
+$\mathfrak c_{\mathrm{sum}},\mathfrak c_*$ & summed changes & Theorem~\ref{bp:p2s:g1} via Proposition~\ref{bp:p2s:engine-iteration}\\
+$C_1^\sharp,C_2^\sharp$ & G1$^\sharp$ & Theorem~\ref{bp:p2s:g1}
+\end{tabular}
+\end{center}
+For the lunar package R1 with R\"ussmann's instance ($n=2$, $\tau=\varkappa=1$, $a=2$, $c_R=0.3163$, $M=1.924$, $\sigma_K=1.374$,
+$\sigma_B=1.931$, $\sigma_T=0.619$, $\mu=1/160$, $\bar\gamma=\gamma\approx1/24$) the three entries of $\mathfrak c_*$ are $10^{8.70}$
+($2^{2a}C_E$), $10^{7.50}$ (step) and $10^{7.86}$ (sum), and the threshold is $10^{-24.72}$ (the current theorem: $10^{-76.55}$; the
+Parseval instance: $10^{-36.73}$; the crude instance: $10^{-48.85}$).
+\end{remark}
+
+\begin{remark}[Deviations from HL19 and from Part~\ref{bp:p2}]\label{bp:p2s:deviations}
+\begin{enumerate}[label=(S\arabic*)]
+\item\label{bp:p2s:S1} \emph{Small-divisor data} $(\varkappa,c_R)$ instead of the fixed $\varkappa=\tau+n$ (V2 of Remark~\ref{bp:p2:deviations});
+  $a=2\varkappa$, and $a=2\tau$ as in HL19 for R\"ussmann's estimate. The definition asks the bounds only for $\delta\le1$ (all three
+  instances hold for every $\delta>0$).
+\item\label{bp:p2s:S2} \emph{Torsion route of HL19 Lemma~4.8} (removes V4): the torsion is bounded without $1/\delta$; the part of $T$ that HL19
+  bound with the norms of $K$ is split so that its Lagrangian part $\mathcal T_c$ carries the small factor $\Omega_K$, estimated by the
+  cohomological equation with loss $\delta/2$ (a choice of ours; HL19 bound it by norms).
+\item\label{bp:p2s:S3} \emph{Twist perturbation through $\mathcal T$} with the errors of both tori, at real points only (the average is all that is
+  used); loss $3\delta$ per step as in HL19; $\delta_0=\min\{1,(\rho-\rho_\infty)/6\}$.
+\item\label{bp:p2s:S4} \emph{Separate sizes} and the exact transposition factor $2n$, $\abs{A^\top}=\abs A$ (canonical case), instead of $\mathfrak m$ (V6).
+\item\label{bp:p2s:S5} \emph{Absorption through $\gamma\le\bar\gamma$} instead of $\gamma\le\abs\omega\le\Theta$: the step constants now depend on $\bar\gamma$
+  (unlike V5), which is a parameter of $C_1$ in the frozen statement already; the frequency bound is not used.
+\item\label{bp:p2s:S6} \emph{Ratios:} Neumann ratio $\vartheta=1/8$ in the perturbation (Lemma~\ref{bp:p2s:neumann}), Taylor factor $M/2$; the
+  symplecticity bound keeps $\abs{S^{-1}}\le2$. The step smallness is split into $\mathfrak c_{\mathrm{step}}X\le1$ and $2d\le\beta$, so the
+  margin $\mu$ enters $\mathfrak c_*$ only through $\mathfrak c_{\mathrm{sum}}/\mu$ (in Part~\ref{bp:p2}, $\mathfrak c_{\mathrm{step}}\max\{1,2/\mu\}$).
+\item\label{bp:p2s:S7} \emph{The engine:} the induction and the limit are stated for an abstract scheme; the conditions on the margins are the
+  same as in Proposition~\ref{bp:p2:iteration}, with budgets $\mu/2$ for the three bounds and $\mu/4$ for the ball.
+\end{enumerate}
+No new erratum of HL19 was found (the PDF is not on this machine; the citations above are those already checked in Part~\ref{bp:p2}). No
+defect was found in Part~\ref{bp:p2}: its Remark~\ref{bp:p2:torsion-route} is the deliberate choice that this part revisits.
+\end{remark}

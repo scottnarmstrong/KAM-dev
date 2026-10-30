@@ -1,0 +1,1050 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+import KAM.Iso.Apost.G1
+
+/-!
+# SHARP-DESIGN: exact signatures of the sharp a-posteriori theorems (probe, `sorry` bodies)
+
+Design document: `docs/campaign/design/APOST-SHARP-LEAN-DESIGN.md`. Blueprint: `blueprint/parts/p2s-sharp.tex`
+(labels `bp:p2s:*`) and `blueprint-I/parts/p2s-iso-sharp.tex` (labels `bpI:p2s:*`).
+
+Every `-- MODULE <path>` comment starts the declarations of one planned module. Bodies are `sorry`: this file only
+checks that the statements elaborate. It is a probe, not a module; the planned modules follow the repository's
+module shape (copyright, `module`, `public import`, docstring, `@[expose] public section`).
+
+The two constants `KAM.cohConstR`, `KAM.cohConstP` are verbatim copies of
+`KAM/Strip/CohomologicalRussmannLattice.lean:195` and `KAM/Strip/CohomologicalParsevalLattice.lean:33`
+(branch `apost-sharp`): those modules are not in this worktree's build snapshot, and the brief allows no build. In
+the planned modules they are imported, not redefined.
+-/
+
+noncomputable section
+
+open scoped Matrix.Norms.Operator
+open Matrix Filter Topology
+
+-- STUB (verbatim copies; see the module docstring)
+namespace KAM
+def cohConstR (n : ℕ) (τ : ℝ) : ℝ :=
+  (2 * Real.pi)⁻¹ *
+    Real.sqrt (2 ^ n * (6 * (1 + 2 ^ τ) * (2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ)))
+def cohConstP (n : ℕ) (τ : ℝ) : ℝ :=
+  (2 * Real.pi)⁻¹ *
+    Real.sqrt (2 ^ n * ((2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ) * (8 * (n : ℝ) / Real.pi) ^ n))
+end KAM
+
+/-! ============================================================================================
+## The Newton engine (`bp:p2s:sec-engine`)
+============================================================================================ -/
+
+-- MODULE KAM/Sharp/Engine/Schedule.lean
+namespace KAM.Sharp.Engine
+
+/-- `δ₀ = min {1, (ρ - ρ∞)/(2λ)}` (`bp:p2s:schedule`). -/
+def delta0 (lam ρ ρinf : ℝ) : ℝ := min 1 ((ρ - ρinf) / (2 * lam))
+/-- `δ_s = 2^{-s} δ₀`. -/
+def deltaSeq (lam ρ ρinf : ℝ) (s : ℕ) : ℝ := (2 : ℝ)⁻¹ ^ s * delta0 lam ρ ρinf
+/-- `r_s = ρ - 2λδ₀(1 - 2^{-s})`. -/
+def rSeq (lam ρ ρinf : ℝ) (s : ℕ) : ℝ := ρ - 2 * lam * delta0 lam ρ ρinf * (1 - (2 : ℝ)⁻¹ ^ s)
+
+/-- Blueprint `bp:p2s:schedule`. -/
+theorem schedule {lam ρ ρinf : ℝ} (hlam : 0 < lam) (hρinf : 0 < ρinf) (hρ : ρinf < ρ) :
+    0 < delta0 lam ρ ρinf ∧ delta0 lam ρ ρinf ≤ 1 ∧ rSeq lam ρ ρinf 0 = ρ ∧
+    (∀ s, rSeq lam ρ ρinf (s + 1) = rSeq lam ρ ρinf s - lam * deltaSeq lam ρ ρinf s) ∧
+    (∀ s, ρinf < rSeq lam ρ ρinf s) ∧
+    (∀ s, 0 < deltaSeq lam ρ ρinf s ∧ deltaSeq lam ρ ρinf s ≤ 1) ∧
+    ∀ s, lam * deltaSeq lam ρ ρinf s < rSeq lam ρ ρinf s := sorry
+
+-- MODULE KAM/Sharp/Engine/Decay.lean
+
+/-- `ε₀ = e`, `ε_{s+1} = C_E ε_s² / (γ⁴ δ_s^{2a})`. -/
+def epsSeq (CE a lam ρ ρinf γ e : ℝ) : ℕ → ℝ
+  | 0 => e
+  | s + 1 => CE * epsSeq CE a lam ρ ρinf γ e s ^ 2 / (γ ^ 4 * deltaSeq lam ρ ρinf s ^ (2 * a))
+
+/-- Blueprint `bp:p2s:decay`. -/
+theorem error_decay {CE a lam ρ ρinf γ e : ℝ} (hCE : 0 ≤ CE) (ha : 2 ≤ a) (hlam : 0 < lam)
+    (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hγ : 0 < γ) (he : 0 ≤ e)
+    (hq : (2 : ℝ) ^ (2 * a) * CE * e / (γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a)) ≤ 1) :
+    (∀ s, 0 ≤ epsSeq CE a lam ρ ρinf γ e s ∧
+      epsSeq CE a lam ρ ρinf γ e s ≤ (2 : ℝ) ^ (-(2 * a * s)) * e) ∧
+    (∀ (i : ℝ) (s : ℕ), 0 ≤ i → i ≤ 2 * a →
+      epsSeq CE a lam ρ ρinf γ e s / deltaSeq lam ρ ρinf s ^ i ≤ e / delta0 lam ρ ρinf ^ i) ∧
+    ∀ i : ℝ, 0 ≤ i → i ≤ 2 * a - 1 →
+      Summable (fun s => epsSeq CE a lam ρ ρinf γ e s / deltaSeq lam ρ ρinf s ^ i) ∧
+      ∑' s, epsSeq CE a lam ρ ρinf γ e s / deltaSeq lam ρ ρinf s ^ i ≤
+        2 * e / delta0 lam ρ ρinf ^ i := sorry
+
+-- MODULE KAM/Sharp/Engine/Scheme.lean
+
+/-- An abstract Newton scheme (`bp:p2s:scheme`): states `α`, the torus `tor x`, a scalar parameter
+`par x`, the admissibility predicate `Adm r β ε m x` (strip `T_r`, ball margin `β`, error `ε`, current
+bounds `m`) and the step `step r δ x` (strip `T_r`, loss `δ`). -/
+structure Scheme (n k : ℕ) (α : Type*) where
+  tor : α → (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)
+  par : α → ℝ
+  Adm : ℝ → ℝ → ℝ → (Fin k → ℝ) → α → Prop
+  step : ℝ → ℝ → α → α
+
+/-- The constants of a scheme: loss factor `λ`, exponent `a`, `C_E`, `C_Δ`, `C_p`, `𝔠_step`,
+caps `σ`, rates `ϱ` and exponents `j` of the bounds. -/
+structure Consts (k : ℕ) where
+  lam : ℝ
+  a : ℝ
+  CE : ℝ
+  CD : ℝ
+  Cp : ℝ
+  cstep : ℝ
+  cap : Fin k → ℝ
+  rate : Fin k → ℝ
+  j : Fin k → ℕ
+
+variable {n k : ℕ} {α : Type*}
+
+/-- Hypotheses (N1), (N2) of `bp:p2s:scheme` at the Diophantine constant `γ`. Not a hypothesis of a
+source theorem: each instance proves it (`KAM.Sharp.fixedScheme_isNewton`,
+`KAM.Iso.Sharp.isoScheme_isNewton`). -/
+structure Scheme.IsNewton (S : Scheme n k α) (c : Consts k) (γ : ℝ) : Prop where
+  lam_pos : 0 < c.lam
+  two_le_a : 2 ≤ c.a
+  CE_nonneg : 0 ≤ c.CE
+  CD_nonneg : 0 ≤ c.CD
+  Cp_nonneg : 0 ≤ c.Cp
+  rate_nonneg : ∀ i, 0 ≤ c.rate i
+  j_le_one : ∀ i, c.j i ≤ 1
+  adm : ∀ {r β ε : ℝ} {m : Fin k → ℝ} {x : α}, S.Adm r β ε m x →
+    0 ≤ ε ∧ DifferentiableOn ℂ (S.tor x) (complexStrip n r) ∧ IsPrimaryOnStrip (S.tor x) r ∧
+      IsRealOnReals (S.tor x)
+  step : ∀ {r β ε δ : ℝ} {m : Fin k → ℝ} {x : α}, S.Adm r β ε m x → 0 < δ → δ ≤ 1 →
+    c.lam * δ < r → c.cstep * ε / (γ ^ 4 * δ ^ (2 * c.a)) ≤ 1 →
+    2 * (c.CD * ε / (γ ^ 2 * δ ^ c.a)) ≤ β →
+    (∀ i, m i + c.rate i * ε / (γ ^ 2 * δ ^ (c.a + c.j i)) ≤ c.cap i) →
+    S.Adm (r - c.lam * δ) (β - c.CD * ε / (γ ^ 2 * δ ^ c.a))
+        (c.CE * ε ^ 2 / (γ ^ 4 * δ ^ (2 * c.a)))
+        (fun i => m i + c.rate i * ε / (γ ^ 2 * δ ^ (c.a + c.j i))) (S.step r δ x) ∧
+      (∀ θ ∈ complexStrip n (r - c.lam * δ),
+        ‖S.tor (S.step r δ x) θ - S.tor x θ‖ ≤ c.CD * ε / (γ ^ 2 * δ ^ c.a) ∧
+        ‖fderiv ℂ (S.tor (S.step r δ x)) θ - fderiv ℂ (S.tor x) θ‖ ≤
+          n * (c.CD * ε / (γ ^ 2 * δ ^ c.a)) / δ) ∧
+      |S.par (S.step r δ x) - S.par x| ≤ c.Cp * ε / (γ ^ 2 * δ ^ c.a)
+
+/-- The iterates `x_{s+1} = Φ(r_s, δ_s; x_s)`. -/
+def Scheme.iter (S : Scheme n k α) (lam ρ ρinf : ℝ) (x₀ : α) : ℕ → α
+  | 0 => x₀
+  | s + 1 => S.step (rSeq lam ρ ρinf s) (deltaSeq lam ρ ρinf s) (S.iter lam ρ ρinf x₀ s)
+
+/-- `ε_s` of the scheme. -/
+def Consts.eps (c : Consts k) (ρ ρinf γ e : ℝ) (s : ℕ) : ℝ := epsSeq c.CE c.a c.lam ρ ρinf γ e s
+
+/-- `d_s = C_Δ ε_s/(γ² δ_s^a)`. -/
+def Consts.d (c : Consts k) (ρ ρinf γ e : ℝ) (s : ℕ) : ℝ :=
+  c.CD * c.eps ρ ρinf γ e s / (γ ^ 2 * deltaSeq c.lam ρ ρinf s ^ c.a)
+
+/-- `D_s = ∑_{t<s} d_t`. -/
+def Consts.sumD (c : Consts k) (ρ ρinf γ e : ℝ) (s : ℕ) : ℝ :=
+  ∑ t ∈ Finset.range s, c.d ρ ρinf γ e t
+
+/-- `m^{(s)}_i = m^{(0)}_i + ∑_{t<s} ϱ_i ε_t/(γ² δ_t^{a+j_i})`. -/
+def Consts.mSeq (c : Consts k) (m₀ : Fin k → ℝ) (ρ ρinf γ e : ℝ) (s : ℕ) : Fin k → ℝ :=
+  fun i => m₀ i + ∑ t ∈ Finset.range s,
+    c.rate i * c.eps ρ ρinf γ e t / (γ ^ 2 * deltaSeq c.lam ρ ρinf t ^ (c.a + c.j i))
+
+/-- Blueprint `bp:p2s:engine-iteration`. -/
+theorem Scheme.iterate {S : Scheme n k α} {c : Consts k} {γ : ℝ} (hS : S.IsNewton c γ)
+    {ρ ρinf β₀ e : ℝ} {m₀ : Fin k → ℝ} {x₀ : α} (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hγ : 0 < γ)
+    (h0 : S.Adm ρ β₀ e m₀ x₀)
+    (hE : (2 : ℝ) ^ (2 * c.a) * c.CE * e / (γ ^ 4 * delta0 c.lam ρ ρinf ^ (2 * c.a)) ≤ 1)
+    (hst : c.cstep * e / (γ ^ 4 * delta0 c.lam ρ ρinf ^ (2 * c.a)) ≤ 1)
+    (hball : 2 * c.CD * e / (γ ^ 2 * delta0 c.lam ρ ρinf ^ c.a) ≤ β₀ / 4)
+    (hcap : ∀ i, m₀ i + 2 * c.rate i * e / (γ ^ 2 * delta0 c.lam ρ ρinf ^ (c.a + c.j i)) ≤
+      c.cap i) :
+    ∀ s : ℕ,
+      S.Adm (rSeq c.lam ρ ρinf s) (β₀ - c.sumD ρ ρinf γ e s) (c.eps ρ ρinf γ e s)
+          (c.mSeq m₀ ρ ρinf γ e s) (S.iter c.lam ρ ρinf x₀ s) ∧
+        c.sumD ρ ρinf γ e s ≤ 2 * c.CD * e / (γ ^ 2 * delta0 c.lam ρ ρinf ^ c.a) ∧
+        (∀ i, c.mSeq m₀ ρ ρinf γ e s i ≤ c.cap i) ∧
+        (∀ θ ∈ complexStrip n (rSeq c.lam ρ ρinf (s + 1)),
+          ‖S.tor (S.iter c.lam ρ ρinf x₀ (s + 1)) θ - S.tor (S.iter c.lam ρ ρinf x₀ s) θ‖ ≤
+            c.d ρ ρinf γ e s ∧
+          ‖fderiv ℂ (S.tor (S.iter c.lam ρ ρinf x₀ (s + 1))) θ -
+              fderiv ℂ (S.tor (S.iter c.lam ρ ρinf x₀ s)) θ‖ ≤
+            n * c.d ρ ρinf γ e s / deltaSeq c.lam ρ ρinf s) ∧
+        |S.par (S.iter c.lam ρ ρinf x₀ (s + 1)) - S.par (S.iter c.lam ρ ρinf x₀ s)| ≤
+          c.Cp * c.eps ρ ρinf γ e s / (γ ^ 2 * deltaSeq c.lam ρ ρinf s ^ c.a) ∧
+        c.eps ρ ρinf γ e s ≤ (2 : ℝ) ^ (-(2 * c.a * s)) * e := sorry
+
+-- MODULE KAM/Sharp/Engine/Limit.lean
+
+open Classical in
+/-- `K_∞ = lim_s tor x_s` on `T_{ρ∞}`, `tor x₀` elsewhere. -/
+def Scheme.limTor (S : Scheme n k α) (lam ρ ρinf : ℝ) (x₀ : α) :
+    (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ) :=
+  fun θ => if θ ∈ complexStrip n ρinf then
+    limUnder atTop (fun s => S.tor (S.iter lam ρ ρinf x₀ s) θ) else S.tor x₀ θ
+
+/-- `p_∞ = lim_s par x_s`. -/
+def Scheme.limPar (S : Scheme n k α) (lam ρ ρinf : ℝ) (x₀ : α) : ℝ :=
+  limUnder atTop (fun s => S.par (S.iter lam ρ ρinf x₀ s))
+
+/-- Blueprint `bp:p2s:engine-limit`. -/
+theorem Scheme.limit {S : Scheme n k α} {c : Consts k} {γ : ℝ} (hS : S.IsNewton c γ)
+    {ρ ρinf β₀ e : ℝ} {m₀ : Fin k → ℝ} {x₀ : α} (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hγ : 0 < γ)
+    (h0 : S.Adm ρ β₀ e m₀ x₀)
+    (hE : (2 : ℝ) ^ (2 * c.a) * c.CE * e / (γ ^ 4 * delta0 c.lam ρ ρinf ^ (2 * c.a)) ≤ 1)
+    (hst : c.cstep * e / (γ ^ 4 * delta0 c.lam ρ ρinf ^ (2 * c.a)) ≤ 1)
+    (hball : 2 * c.CD * e / (γ ^ 2 * delta0 c.lam ρ ρinf ^ c.a) ≤ β₀ / 4)
+    (hcap : ∀ i, m₀ i + 2 * c.rate i * e / (γ ^ 2 * delta0 c.lam ρ ρinf ^ (c.a + c.j i)) ≤
+      c.cap i) :
+    TendstoUniformlyOn (fun s => S.tor (S.iter c.lam ρ ρinf x₀ s)) (S.limTor c.lam ρ ρinf x₀)
+        atTop (complexStrip n ρinf) ∧
+      TendstoUniformlyOn (fun s θ => fderiv ℂ (S.tor (S.iter c.lam ρ ρinf x₀ s)) θ)
+        (fderiv ℂ (S.limTor c.lam ρ ρinf x₀)) atTop (complexStrip n ρinf) ∧
+      DifferentiableOn ℂ (S.limTor c.lam ρ ρinf x₀) (complexStrip n ρinf) ∧
+      IsPrimaryOnStrip (S.limTor c.lam ρ ρinf x₀) ρinf ∧ IsRealOnReals (S.limTor c.lam ρ ρinf x₀) ∧
+      (∀ θ ∈ complexStrip n ρinf, ‖S.limTor c.lam ρ ρinf x₀ θ - S.tor x₀ θ‖ ≤
+        2 * c.CD * e / (γ ^ 2 * delta0 c.lam ρ ρinf ^ c.a)) ∧
+      Tendsto (fun s => S.par (S.iter c.lam ρ ρinf x₀ s)) atTop
+        (𝓝 (S.limPar c.lam ρ ρinf x₀)) ∧
+      |S.limPar c.lam ρ ρinf x₀ - S.par x₀| ≤ 2 * c.Cp * e / (γ ^ 2 * delta0 c.lam ρ ρinf ^ c.a) ∧
+      Tendsto (fun s => c.eps ρ ρinf γ e s) atTop (𝓝 0) := sorry
+
+end KAM.Sharp.Engine
+
+/-! ============================================================================================
+## Fixed frequency (`bp:p2s`)
+============================================================================================ -/
+
+-- MODULE KAM/Sharp/CohData.lean
+namespace KAM.Sharp
+
+open KAM.Torus KAM.Apost
+
+/-- Blueprint `bp:p2s:cohdata`: `(κ, c_R)` is small-divisor data for `(n, τ)`. The fields are the size
+clauses of `KAM.cohomological` (vector solution) and `KAM.cohomological_operator` (a-priori bound) with
+`Γ_δ = c_R γ⁻¹ δ^{-κ}`, for `0 < δ ≤ 1`; the qualitative clauses come from `KAM.cohomological` itself
+(`0 ≤ τ`). Instances: `cohData_russmann`, `cohData_parseval`, `cohData_crude`. -/
+structure CohData (n : ℕ) (τ κ cR : ℝ) : Prop where
+  tau_nonneg : 0 ≤ τ
+  one_le_kappa : 1 ≤ κ
+  cR_pos : 0 < cR
+  sol : ∀ {γ : ℝ} {ω : Fin n → ℝ}, 0 < γ → IsDiophantine γ τ ω → ∀ {r δ : ℝ}, 0 < δ → δ ≤ 1 →
+    δ < r → ∀ {p : ℕ} (g : (Fin n → ℂ) → Fin p → ℂ) (H : ℝ),
+      DifferentiableOn ℂ g (complexStrip n r) → IsPeriodicOn g r →
+      (∀ θ ∈ complexStrip n r, ‖g θ‖ ≤ H) → avg g = 0 →
+      ∀ θ ∈ complexStrip n (r - δ), ‖cohR ω g θ‖ ≤ cR * γ⁻¹ * δ ^ (-κ) * H
+  apriori : ∀ {γ : ℝ} {ω : Fin n → ℝ}, 0 < γ → IsDiophantine γ τ ω → ∀ {r δ : ℝ}, 0 < δ →
+    δ ≤ 1 → δ < r → ∀ {p q : ℕ} (u : (Fin n → ℂ) → Matrix (Fin p) (Fin q) ℂ) (H : ℝ),
+      DifferentiableOn ℂ u (complexStrip n r) → IsPeriodicOn u r → avg u = 0 →
+      (∀ θ ∈ complexStrip n r, ‖fderiv ℂ u θ (fun l => (ω l : ℂ))‖ ≤ H) →
+      ∀ θ ∈ complexStrip n (r - δ), ‖u θ‖ ≤ cR * γ⁻¹ * δ ^ (-κ) * H
+
+/-- Blueprint `bp:p2s:cohdata-russmann` (from `KAM.cohomological_russmann`,
+`KAM.cohomological_operator_russmann`). -/
+theorem cohData_russmann {n : ℕ} {τ : ℝ} (hτ : 1 ≤ τ) : CohData n τ τ (cohConstR n τ) := sorry
+
+/-- Blueprint `bp:p2s:cohdata-parseval` (from `KAM.cohomological_parseval`,
+`KAM.cohomological_operator_parseval`). -/
+theorem cohData_parseval {n : ℕ} (hn : 1 ≤ n) {τ : ℝ} (hτ : 0 ≤ τ) (hκ : 1 ≤ τ + (n : ℝ) / 2) :
+    CohData n τ (τ + (n : ℝ) / 2) (cohConstP n τ) := sorry
+
+/-- Blueprint `bp:p2s:cohdata-crude` (from `KAM.cohomological`, `KAM.cohomological_operator`). -/
+theorem cohData_crude {n : ℕ} (hn : 1 ≤ n) {τ : ℝ} (hτ : 0 ≤ τ) :
+    CohData n τ (τ + n) (cohConst n τ) := sorry
+
+-- MODULE KAM/Sharp/Constants.lean
+
+/-- `ϑ = 1/8`. -/
+def vth : ℝ := 1 / 8
+/-- `ϑ̂ = (1 - ϑ)⁻¹ = 8/7`. -/
+def vthh : ℝ := 8 / 7
+
+variable (n : ℕ) (κ cR M σK σB σT γb μ : ℝ)
+
+def cOm : ℝ := 2 * n * (n + 1) * cR * σK
+def cSym : ℝ := max 1 (σB ^ 2) * cOm n cR σK
+def cRed : ℝ := 2 * n * σK * max (n * σB) (n + σB)
+def cT0 : ℝ := 4 * n * M * σK ^ 2 * σB ^ 2
+def cT1 : ℝ := 2 * (n : ℝ) ^ 2 * σK * σB ^ 2
+def wT : ℝ := 4 * n * M * σK ^ 2 + 2 * n * (n + 1) * σK
+def cT2 : ℝ := (2 : ℝ) ^ (κ + 1) * σB ^ 3 * wT n M σK * cOm n cR σK
+def hT : ℝ := cT0 n M σK σB + 1
+def cXi0 : ℝ := 2 * n * σK * σT * (σB * γb + cR * hT n M σK σB)
+def cXiN : ℝ := cXi0 n cR M σK σB σT γb + 2 * n * cR * σK
+def cG : ℝ := hT n M σK σB * cXiN n cR M σK σB σT γb + 2 * n * σK * σB * γb
+def cDXi : ℝ := max (cG n cR M σK σB σT γb) (2 * n * σK * γb)
+def cXi : ℝ := max (cR * cG n cR M σK σB σT γb) (γb * cXiN n cR M σK σB σT γb)
+def cDK : ℝ := σK * (cR * cG n cR M σK σB σT γb + σB * γb * cXiN n cR M σK σB σT γb)
+def cLin : ℝ := cRed n σK σB * cXi n cR M σK σB σT γb + cSym n cR σK σB * cDXi n cR M σK σB σT γb
+def cE : ℝ := 2 * σK * (1 + σB) * γb ^ 2 * cLin n cR M σK σB σT γb +
+  M / 2 * cDK n cR M σK σB σT γb ^ 2
+def cGram : ℝ := 2 * n * σK * (n * (1 + vth) + 1)
+def cB : ℝ := vthh * σB ^ 2 * cGram n σK
+def cDab : ℝ := 4 * vthh ^ 4 * n * M * σK ^ 2 * σB ^ 2 *
+  (2 * cB n σK σB / σB + (n + 1) / σK + 1)
+def cDc : ℝ := 2 * n * vthh ^ 5 * σK * σB ^ 3 * wT n M σK * (n + vthh)
+def cDT : ℝ := (cDab n M σK σB + cDc n M σK σB) * cDK n cR M σK σB σT γb +
+  (1 + vthh ^ 3) * cT1 n σK σB * γb ^ 2 + (1 + vthh ^ 5) * σB ^ 3 * wT n M σK * cOm n cR σK * γb
+def rateD : ℝ := n * cDK n cR M σK σB σT γb
+def rateB : ℝ := cB n σK σB * cDK n cR M σK σB σT γb
+def rateT : ℝ := vthh * σT ^ 2 * cDT n cR M σK σB σT γb
+def cStep : ℝ := max (γb ^ 4 * (1 + cT1 n σK σB) + γb ^ 3 * cT2 n κ cR M σK σB)
+  (max (2 * γb ^ 3 * cSym n cR σK σB)
+    (max (γb ^ 2 * rateD n cR M σK σB σT γb / (vth * σK))
+      (max (γb ^ 2 * σB * cGram n σK * cDK n cR M σK σB σT γb / vth)
+        (max (γb ^ 2 * σT * cDT n cR M σK σB σT γb / vth) (cE n cR M σK σB σT γb)))))
+def cSum : ℝ := 4 * γb ^ 2 * max (2 * cDK n cR M σK σB σT γb)
+  (max (rateD n cR M σK σB σT γb) (max (rateB n cR M σK σB σT γb) (rateT n cR M σK σB σT γb)))
+def cStar : ℝ := max ((2 : ℝ) ^ (2 * (2 * κ)) * cE n cR M σK σB σT γb)
+  (max (cStep n κ cR M σK σB σT γb) (cSum n cR M σK σB σT γb / μ))
+/-- `δ₀ = min {1, (ρ - ρ∞)/6}` (loss `3δ` per step). -/
+def delta0s (ρ ρinf : ℝ) : ℝ := Engine.delta0 3 ρ ρinf
+/-- The bound of the torsion change in `bp:p2s:perturbation`(d). -/
+def twistD (γ ε δ d : ℝ) : ℝ := (cDab n M σK σB + cDc n M σK σB) * d / δ +
+  (1 + vthh ^ 3) * cT1 n σK σB * ε / δ +
+  (1 + vthh ^ 5) * σB ^ 3 * wT n M σK * cOm n cR σK * ε / (γ * δ ^ (κ + 1))
+
+/-- `C₁^♯ = ρ^{4τ} max {γ̄⁴, 𝔠_* δ₀^{-2a}}`, `a = 2κ`. -/
+def sharpC1 (τ ρ ρinf : ℝ) : ℝ :=
+  ρ ^ (4 * τ) * max (γb ^ 4) (cStar n κ cR M σK σB σT γb μ * delta0s ρ ρinf ^ (-(2 * (2 * κ))))
+/-- `C₂^♯ = 2 C_ΔK ρ^{2τ} δ₀^{-a}`. -/
+def sharpC2 (τ ρ ρinf : ℝ) : ℝ :=
+  2 * cDK n cR M σK σB σT γb * ρ ^ (2 * τ) * delta0s ρ ρinf ^ (-(2 * κ))
+
+variable {n κ cR M σK σB σT γb μ}
+
+-- MODULE KAM/Sharp/ConstantsArith.lean
+
+/-- Positivity of the constants (`bp:p2s:constants`). -/
+theorem consts_pos (hn : 1 ≤ n) (hcR : 0 < cR) (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB)
+    (hσT : 0 < σT) (hγb : 0 < γb) (hμ : 0 < μ) :
+    0 < cDK n cR M σK σB σT γb ∧ 0 < cE n cR M σK σB σT γb ∧ 0 < cB n σK σB ∧
+      0 < cDT n cR M σK σB σT γb ∧ 0 < cStep n κ cR M σK σB σT γb ∧
+      0 < cSum n cR M σK σB σT γb ∧ 0 < cStar n κ cR M σK σB σT γb μ := sorry
+
+/-- Blueprint `bp:p2s:absorb` (`a = 2κ`). -/
+theorem absorb {γ δ ε : ℝ} (hκ : 1 ≤ κ) (hγ : 0 < γ) (hγb : γ ≤ γb) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (hε : 0 ≤ ε) :
+    (ε ≤ γb * (ε / (γ * δ ^ κ)) ∧ ε / (γ * δ ^ κ) ≤ γb * (ε / (γ ^ 2 * δ ^ (2 * κ)))) ∧
+    (ε ≤ γb ^ 2 * (ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ∧
+      ε / δ ≤ γb ^ 2 * (ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ∧
+      ε / (γ * δ ^ (κ + 1)) ≤ γb * (ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ∧
+      ε / (γ ^ 2 * δ ^ (2 * κ)) ≤ ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ∧
+    (ε / δ ≤ γb ^ 4 * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+      ε / (γ * δ ^ (κ + 1)) ≤ γb ^ 3 * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+      ε / (γ ^ 2 * δ ^ (2 * κ + 1)) ≤ γb ^ 2 * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+      ε / (γ ^ 2 * δ ^ (2 * κ)) ≤ γb ^ 2 * (ε / (γ ^ 4 * δ ^ (2 * (2 * κ))))) ∧
+    (ε ^ 2 / (γ ^ 2 * δ ^ (2 * κ + 1)) ≤ γb ^ 2 * (ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+      ε ^ 2 / (γ ^ 3 * δ ^ (3 * κ)) ≤ γb * (ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+      ε ^ 2 / (γ ^ 3 * δ ^ (3 * κ + 1)) ≤ γb * (ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))))) := sorry
+
+/-- Step `step:p2s:st-small`: the smallness conditions (S1)–(S7) from `𝔠_step X ≤ 1`. -/
+theorem step_small {γ δ ε : ℝ} (hκ : 1 ≤ κ) (hcR : 0 < cR) (hM : 0 < M) (hσK : 0 < σK)
+    (hσB : 0 < σB) (hσT : 0 < σT) (hγ : 0 < γ) (hγb : γ ≤ γb) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (hε : 0 ≤ ε) (hX : cStep n κ cR M σK σB σT γb * ε / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ 1) :
+    ε ≤ δ ∧ cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1 ∧
+    cSym n cR σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1 / 2 ∧
+    n * (cDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) / δ ≤ vth * σK ∧
+    σB * cGram n σK * (cDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) / δ ≤ vth ∧
+    σT * (cDT n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ≤ vth ∧
+    cE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ ε := sorry
+
+-- MODULE KAM/Sharp/Tools.lean
+
+/-- Blueprint `bp:p2s:neumann` (ratio `q`). -/
+theorem neumann_ratio {ι : Type*} [Fintype ι] [DecidableEq ι] {A Δ : Matrix ι ι ℂ} (hA : IsUnit A)
+    {q : ℝ} (hq : q < 1) (hsmall : ‖A⁻¹‖ * ‖Δ‖ ≤ q) :
+    IsUnit (A + Δ) ∧ ‖(A + Δ)⁻¹‖ ≤ ‖A⁻¹‖ / (1 - q) ∧
+      ‖(A + Δ)⁻¹ - A⁻¹‖ ≤ ‖A⁻¹‖ ^ 2 * ‖Δ‖ / (1 - q) := sorry
+
+/-- The two-factor step of `bp:p2s:telescope`. -/
+theorem norm_mul_sub_mul_le {ι κ' μ' : Type*} [Fintype ι] [Fintype κ'] [Fintype μ']
+    (X X' : Matrix ι κ' ℂ) (Y Y' : Matrix κ' μ' ℂ) :
+    ‖X' * Y' - X * Y‖ ≤ ‖X'‖ * ‖Y' - Y‖ + ‖X' - X‖ * ‖Y‖ := sorry
+
+-- MODULE KAM/Sharp/Frame.lean
+
+variable {τ : ℝ} {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))} {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
+  {ω : Fin n → ℝ} {γ : ℝ}
+
+/-- Blueprint `bp:p2s:frame-bounds`. -/
+theorem frame_bounds (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {θ : Fin n → ℂ} (hK𝔅 : K θ ∈ 𝔅)
+    {sK sB : ℝ} (hL : ‖fderiv ℂ K θ‖ ≤ sK) (hG : IsUnit (gramMatrix K θ).det)
+    (hB : ‖(gramMatrix K θ)⁻¹‖ ≤ sB) (ω' : Fin n → ℝ) :
+    ‖tangentMat K θ‖ ≤ sK ∧ ‖(tangentMat K θ)ᵀ‖ ≤ 2 * n * sK ∧ ‖normalMat K θ‖ ≤ sK * sB ∧
+    (normalMat K θ)ᵀ * omegaZeroMatrix n = (gramMatrix K θ)⁻¹ * (tangentMat K θ)ᵀ ∧
+    ‖(normalMat K θ)ᵀ‖ ≤ 2 * n * sK * sB ∧ ‖lagrangeMat K θ‖ ≤ 2 * n * sK ^ 2 ∧
+    ‖frameMat K θ‖ ≤ sK * (1 + sB) ∧ ‖linMat h K θ‖ ≤ M ∧
+    (linMat h K θ)ᵀ = omegaZeroMatrix n * linMat h K θ * omegaZeroMatrix n ∧
+    ‖(linMat h K θ)ᵀ‖ ≤ M ∧
+    (∀ ε, ‖invarianceError h K ω' θ‖ ≤ ε →
+      etaL h K ω' θ = -(((gramMatrix K θ)⁻¹ * (tangentMat K θ)ᵀ) *ᵥ
+        sumVec n (invarianceError h K ω' θ)) ∧
+      ‖etaL h K ω' θ‖ ≤ 2 * n * sK * sB * ε ∧ ‖etaN h K ω' θ‖ ≤ 2 * n * sK * ε) ∧
+    ∀ ξL ξN : Fin n → ℂ, ‖frameMat K θ *ᵥ Sum.elim ξL ξN‖ ≤ sK * ‖ξL‖ + sK * sB * ‖ξN‖ := sorry
+
+/-- Blueprint `bp:p2s:geometry` (no torsion hypothesis). -/
+theorem geometry_sep (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ) {r β ε δ : ℝ}
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : KAM.Iso.Linear.AdmissibleNoTwist σK σB 𝔅 h ω r β ε K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h2δ : 2 * δ < r) :
+    (∀ θ ∈ complexStrip n (r - δ),
+      ‖errDerivMat h K ω θ‖ ≤ n * ε / δ ∧ ‖(errDerivMat h K ω θ)ᵀ‖ ≤ 2 * n * ε / δ ∧
+      ‖fderiv ℂ (lagrangeMat K) θ (fun l => (ω l : ℂ))‖ ≤ 2 * n * (n + 1) * σK * ε / δ ∧
+      ‖redDefect h K ω θ‖ ≤ cRed n σK σB * ε / δ) ∧
+    ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖lagrangeMat K θ‖ ≤ cOm n cR σK * ε / (γ * δ ^ (κ + 1)) ∧
+      ‖symDefect K θ‖ ≤ cSym n cR σK σB * ε / (γ * δ ^ (κ + 1)) := sorry
+
+-- MODULE KAM/Sharp/TorsionPoly.lean
+
+/-- The torsion polynomial `𝒯(A, L, B, F)` of `bp:p2s:sec-torsion`. -/
+def torsionPoly (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) ℂ)
+    (L F : Matrix (Fin n ⊕ Fin n) (Fin n) ℂ) (B : Matrix (Fin n) (Fin n) ℂ) :
+    Matrix (Fin n) (Fin n) ℂ :=
+  B * Lᵀ * (A * omegaZeroMatrix n * L * B - omegaZeroMatrix n * A * L * B +
+      omegaZeroMatrix n * F * B) +
+    B * (Lᵀ * omegaZeroMatrix n * L) * B * (Lᵀ * (Aᵀ + A) * L - Fᵀ * L - Lᵀ * F) * B
+
+/-- Blueprint `bp:p2s:torsion-identity`, at any frequency `ω'` (no Diophantine property used). -/
+theorem torsion_identity (hS : Standing n τ M σK σB σT 𝔅 h ω γ) {r : ℝ} (hr : 0 < r)
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
+    (hK𝔅 : ∀ θ ∈ complexStrip n r, K θ ∈ 𝔅)
+    (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det) (ω' : Fin n → ℝ) :
+    ∀ θ ∈ complexStrip n r,
+      fderiv ℂ (fun y => (gramMatrix K y)⁻¹) θ (fun l => (ω' l : ℂ)) =
+        -((gramMatrix K θ)⁻¹ *
+          ((linMat h K θ * tangentMat K θ - errDerivMat h K ω' θ)ᵀ * tangentMat K θ +
+            (tangentMat K θ)ᵀ * (linMat h K θ * tangentMat K θ - errDerivMat h K ω' θ)) *
+          (gramMatrix K θ)⁻¹) ∧
+      fderiv ℂ (normalMat K) θ (fun l => (ω' l : ℂ)) =
+        omegaZeroMatrix n * (linMat h K θ * tangentMat K θ - errDerivMat h K ω' θ) *
+            (gramMatrix K θ)⁻¹ -
+          normalMat K θ *
+            ((linMat h K θ * tangentMat K θ - errDerivMat h K ω' θ)ᵀ * tangentMat K θ +
+              (tangentMat K θ)ᵀ * (linMat h K θ * tangentMat K θ - errDerivMat h K ω' θ)) *
+            (gramMatrix K θ)⁻¹ ∧
+      torsion h K ω' θ = torsionPoly (linMat h K θ) (tangentMat K θ) (errDerivMat h K ω' θ)
+        (gramMatrix K θ)⁻¹ := sorry
+
+-- MODULE KAM/Sharp/TorsionBound.lean
+
+/-- Blueprint `bp:p2s:torsion-bound`. -/
+theorem torsion_bound (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
+    {r β ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : KAM.Iso.Linear.AdmissibleNoTwist σK σB 𝔅 h ω r β ε K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (hδr : δ < r) (hεδ : ε ≤ δ) :
+    ∀ θ ∈ complexStrip n (r - δ), ‖torsion h K ω θ‖ ≤
+      cT0 n M σK σB + cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) := sorry
+
+-- MODULE KAM/Sharp/Correction.lean
+
+/-- Blueprint `bp:p2s:triangular`: the size clause (c) of `KAM.Apost.triangular` with
+`Γ_δ = c_R γ⁻¹ δ^{-κ}` (clauses (a), (b), (d) are `KAM.Apost.triangular` itself). -/
+theorem triangular_bounds (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
+    {r δ : ℝ} (hr : 0 < r) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (h2δ : 2 * δ < r)
+    {ηL ηN : (Fin n → ℂ) → Fin n → ℂ} {T : (Fin n → ℂ) → Matrix (Fin n) (Fin n) ℂ}
+    {HL HN HT σ : ℝ}
+    (hηL : DifferentiableOn ℂ ηL (complexStrip n r)) (hηLp : IsPeriodicOn ηL r)
+    (hηN : DifferentiableOn ℂ ηN (complexStrip n r)) (hηNp : IsPeriodicOn ηN r)
+    (hHL : ∀ θ ∈ complexStrip n r, ‖ηL θ‖ ≤ HL) (hHN : ∀ θ ∈ complexStrip n r, ‖ηN θ‖ ≤ HN)
+    (hηN0 : avg ηN = 0) (hT : DifferentiableOn ℂ T (complexStrip n r)) (hTp : IsPeriodicOn T r)
+    (hHT : ∀ θ ∈ complexStrip n (r - δ), ‖T θ‖ ≤ HT) (hTinv : IsUnit (avg T).det)
+    (hσ : ‖(avg T)⁻¹‖ ≤ σ) :
+    ‖triXi0 ω ηL ηN T‖ ≤ σ * (HL + HT * (cR * γ⁻¹ * δ ^ (-κ)) * HN) ∧
+    (∀ θ ∈ complexStrip n (r - δ),
+      ‖triXiN ω ηL ηN T θ‖ ≤ ‖triXi0 ω ηL ηN T‖ + cR * γ⁻¹ * δ ^ (-κ) * HN) ∧
+    (∀ X, (∀ θ ∈ complexStrip n (r - δ), ‖triXiN ω ηL ηN T θ‖ ≤ X) →
+      ∀ θ ∈ complexStrip n (r - δ), ‖triGL ω ηL ηN T θ‖ ≤ HT * X + HL) ∧
+    ∀ Y, (∀ θ ∈ complexStrip n (r - δ), ‖triGL ω ηL ηN T θ‖ ≤ Y) →
+      ∀ θ ∈ complexStrip n (r - 2 * δ), ‖triXiL ω ηL ηN T θ‖ ≤ cR * γ⁻¹ * δ ^ (-κ) * Y := sorry
+
+/-- Blueprint `bp:p2s:correction` (the qualitative clauses are the first conjunct of
+`KAM.Apost.correction_spec`). -/
+theorem correction_bounds (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ) (hγb : γ ≤ γb)
+    {r β ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : Admissible σK σB σT 𝔅 h ω r β ε K) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (h2δ : 2 * δ < r)
+    (hεδ : ε ≤ δ)
+    (hTS : cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1) :
+    (∀ θ ∈ complexStrip n (r - δ), ‖torsion h K ω θ‖ ≤ hT n M σK σB) ∧
+    ‖triXi0 ω (etaL h K ω) (etaN h K ω) (torsion h K ω)‖ ≤
+      cXi0 n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+    (∀ θ ∈ complexStrip n (r - δ),
+      ‖triXiN ω (etaL h K ω) (etaN h K ω) (torsion h K ω) θ‖ ≤
+        cXiN n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+      ‖triGL ω (etaL h K ω) (etaN h K ω) (torsion h K ω) θ‖ ≤
+        cG n cR M σK σB σT γb * ε / (γ * δ ^ κ)) ∧
+    ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖triXiL ω (etaL h K ω) (etaN h K ω) (torsion h K ω) θ‖ ≤
+        cR * cG n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+      ‖xi h K ω θ‖ ≤ cXi n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+      ‖correction h K ω θ‖ ≤ cDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+      ‖fderiv ℂ (xi h K ω) θ (fun l => (ω l : ℂ))‖ ≤
+        cDXi n cR M σK σB σT γb * ε / (γ * δ ^ κ) := sorry
+
+-- MODULE KAM/Sharp/NewtonError.lean
+
+/-- Blueprint `bp:p2s:newton-error` (the identity is re-assembled from the constant-free helpers
+`KAM.Apost.NewtonError.sMat_spec`, `newtonMap_mem`, `sumVec_invarianceError_newtonMap` and
+`KAM.Apost.xi_equation`). -/
+theorem newton_error_bounds (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
+    (hγb : γ ≤ γb) {r β ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : Admissible σK σB σT 𝔅 h ω r β ε K) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (h2δ : 2 * δ < r)
+    (hεδ : ε ≤ δ)
+    (hTS : cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1)
+    (hβ : cDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) < β)
+    (hsym : cSym n cR σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1 / 2) :
+    (∀ θ ∈ complexStrip n (r - 2 * δ), newtonMap h K ω (r - 2 * δ) θ ∈ 𝔅) ∧
+    (∀ θ ∈ complexStrip n (r - 2 * δ), IsUnit (sMat K θ).det ∧ ‖(sMat K θ)⁻¹‖ ≤ 2) ∧
+    (∀ θ ∈ complexStrip n (r - 2 * δ),
+      sumVec n (invarianceError h (newtonMap h K ω (r - 2 * δ)) ω θ) =
+        frameMat K θ *ᵥ ((sMat K θ)⁻¹ *ᵥ linError h K ω θ) + sumVec n (quadRemainder h K ω θ)) ∧
+    ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖invarianceError h (newtonMap h K ω (r - 2 * δ)) ω θ‖ ≤
+        cE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))) := sorry
+
+-- MODULE KAM/Sharp/Perturbation.lean
+
+/-- Blueprint `bp:p2s:perturbation`: `K'` is any holomorphic map on `T_{r-2δ}` close to `K`, with
+invariance error `≤ ε'` at any frequency `ω'`. -/
+theorem perturbation_poly (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
+    {r β ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : KAM.Iso.Linear.AdmissibleNoTwist σK σB 𝔅 h ω r β ε K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h3δ : 3 * δ < r) (hεδ : ε ≤ δ) {K' : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    {ω' : Fin n → ℝ} {d ε' : ℝ} (hK' : DifferentiableOn ℂ K' (complexStrip n (r - 2 * δ)))
+    (hd : ∀ θ ∈ complexStrip n (r - 2 * δ), ‖K' θ - K θ‖ ≤ d) (hdβ : d < β)
+    (hE' : ∀ θ ∈ complexStrip n (r - 2 * δ), ‖invarianceError h K' ω' θ‖ ≤ ε') (hε' : ε' ≤ ε)
+    (hs1 : n * d / δ ≤ vth * σK) (hs2 : σB * cGram n σK * d / δ ≤ vth) :
+    (∀ θ ∈ complexStrip n (r - 2 * δ), Metric.ball (K' θ) (β - d) ⊆ 𝔅) ∧
+    (∀ θ ∈ complexStrip n (r - 3 * δ),
+      ‖fderiv ℂ K' θ - fderiv ℂ K θ‖ ≤ n * d / δ ∧ ‖fderiv ℂ K' θ‖ ≤ vthh * σK ∧
+      IsUnit (gramMatrix K' θ).det ∧ ‖(gramMatrix K' θ)⁻¹‖ ≤ vthh * σB ∧
+      ‖(gramMatrix K' θ)⁻¹ - (gramMatrix K θ)⁻¹‖ ≤ cB n σK σB * d / δ) ∧
+    Continuous (fun x : Fin n → ℝ => torsion h K' ω' (fun i => (x i : ℂ))) ∧
+    (∀ x : Fin n → ℝ, ‖torsion h K' ω' (fun i => (x i : ℂ)) - torsion h K ω (fun i => (x i : ℂ))‖ ≤
+      twistD n κ cR M σK σB γ ε δ d) ∧
+    (IsUnit (torsionAverage h K ω).det → ‖(torsionAverage h K ω)⁻¹‖ ≤ σT →
+      σT * twistD n κ cR M σK σB γ ε δ d ≤ vth →
+      IsUnit (torsionAverage h K' ω').det ∧ ‖(torsionAverage h K' ω')⁻¹‖ ≤ vthh * σT ∧
+      ‖(torsionAverage h K' ω')⁻¹ - (torsionAverage h K ω)⁻¹‖ ≤
+        vthh * σT ^ 2 * twistD n κ cR M σK σB γ ε δ d) := sorry
+
+-- MODULE KAM/Sharp/Step.lean
+
+/-- Blueprint `bp:p2s:step`. -/
+theorem step_spec (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ) (hγb : γ ≤ γb)
+    {r β ε δ : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : Admissible σK σB σT 𝔅 h ω r β ε K) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (h3δ : 3 * δ < r)
+    (hsmall : cStep n κ cR M σK σB σT γb * ε / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ 1)
+    (hβ : 2 * (cDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ≤ β) :
+    (DifferentiableOn ℂ (newtonMap h K ω (r - 2 * δ)) (complexStrip n (r - 2 * δ)) ∧
+      IsPrimaryOnStrip (newtonMap h K ω (r - 2 * δ)) (r - 2 * δ) ∧
+      IsRealOnReals (newtonMap h K ω (r - 2 * δ))) ∧
+    ((∀ θ ∈ complexStrip n (r - 2 * δ), ‖newtonMap h K ω (r - 2 * δ) θ - K θ‖ ≤
+        cDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
+      ∀ θ ∈ complexStrip n (r - 2 * δ), Metric.ball (newtonMap h K ω (r - 2 * δ) θ)
+        (β - cDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ⊆ 𝔅) ∧
+    (∀ θ ∈ complexStrip n (r - 2 * δ), ‖invarianceError h (newtonMap h K ω (r - 2 * δ)) ω θ‖ ≤
+      cE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+    cE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ ε ∧
+    (∀ θ ∈ complexStrip n (r - 3 * δ),
+      ‖fderiv ℂ (newtonMap h K ω (r - 2 * δ)) θ - fderiv ℂ K θ‖ ≤
+        rateD n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1)) ∧
+      IsUnit (gramMatrix (newtonMap h K ω (r - 2 * δ)) θ).det ∧
+      ‖(gramMatrix (newtonMap h K ω (r - 2 * δ)) θ)⁻¹ - (gramMatrix K θ)⁻¹‖ ≤
+        rateB n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ∧
+    IsUnit (torsionAverage h (newtonMap h K ω (r - 2 * δ)) ω).det ∧
+    ‖(torsionAverage h (newtonMap h K ω (r - 2 * δ)) ω)⁻¹ - (torsionAverage h K ω)⁻¹‖ ≤
+      rateT n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1)) := sorry
+
+-- MODULE KAM/Sharp/Scheme.lean
+
+/-- The fixed-frequency scheme (`bp:p2s:fixed-scheme`). -/
+def fixedScheme (n : ℕ) (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
+    (ω : Fin n → ℝ) : Engine.Scheme n 3 ((Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) where
+  tor := fun K => K
+  par := fun _ => 0
+  Adm := fun r β ε m K => Admissible (m 0) (m 1) (m 2) 𝔅 h ω r β ε K
+  step := fun r δ K => newtonMap h K ω (r - 2 * δ)
+
+/-- The constants of the fixed-frequency scheme (caps `σ - μ/2`). -/
+def fixedConsts (n : ℕ) (κ cR M σK σB σT γb μ : ℝ) : Engine.Consts 3 where
+  lam := 3
+  a := 2 * κ
+  CE := cE n cR M σK σB σT γb
+  CD := cDK n cR M σK σB σT γb
+  Cp := 0
+  cstep := cStep n κ cR M σK σB σT γb
+  cap := ![σK - μ / 2, σB - μ / 2, σT - μ / 2]
+  rate := ![rateD n cR M σK σB σT γb, rateB n cR M σK σB σT γb, rateT n cR M σK σB σT γb]
+  j := ![1, 1, 1]
+
+/-- Blueprint `bp:p2s:fixed-scheme`. -/
+theorem fixedScheme_isNewton (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
+    (hγb : γ ≤ γb) (hμ : 0 ≤ μ) :
+    (fixedScheme n h 𝔅 ω).IsNewton (fixedConsts n κ cR M σK σB σT γb μ) γ := sorry
+
+/-- Step `step:p2s:g1-hyp`: the engine hypotheses from `𝔠_* e/(γ⁴ δ₀^{2a}) ≤ 1`. -/
+theorem engine_hyps (hC : CohData n τ κ cR) (hP : Params n τ M σK σB σT) {ρ ρinf γ e : ℝ}
+    (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hγ : 0 < γ) (hγb : γ ≤ γb) (hμ : 0 < μ) (he : 0 ≤ e)
+    (hsm : cStar n κ cR M σK σB σT γb μ * e / (γ ^ 4 * delta0s ρ ρinf ^ (2 * (2 * κ))) ≤ 1) :
+    (2 : ℝ) ^ (2 * (fixedConsts n κ cR M σK σB σT γb μ).a) *
+        (fixedConsts n κ cR M σK σB σT γb μ).CE * e /
+        (γ ^ 4 * Engine.delta0 (fixedConsts n κ cR M σK σB σT γb μ).lam ρ ρinf ^
+          (2 * (fixedConsts n κ cR M σK σB σT γb μ).a)) ≤ 1 ∧
+    (fixedConsts n κ cR M σK σB σT γb μ).cstep * e /
+        (γ ^ 4 * Engine.delta0 (fixedConsts n κ cR M σK σB σT γb μ).lam ρ ρinf ^
+          (2 * (fixedConsts n κ cR M σK σB σT γb μ).a)) ≤ 1 ∧
+    2 * (fixedConsts n κ cR M σK σB σT γb μ).CD * e /
+        (γ ^ 2 * Engine.delta0 (fixedConsts n κ cR M σK σB σT γb μ).lam ρ ρinf ^
+          (fixedConsts n κ cR M σK σB σT γb μ).a) ≤ μ / 4 ∧
+    ∀ i, ![σK - μ, σB - μ, σT - μ] i + 2 * (fixedConsts n κ cR M σK σB σT γb μ).rate i * e /
+        (γ ^ 2 * Engine.delta0 (fixedConsts n κ cR M σK σB σT γb μ).lam ρ ρinf ^
+          ((fixedConsts n κ cR M σK σB σT γb μ).a + (fixedConsts n κ cR M σK σB σT γb μ).j i)) ≤
+      (fixedConsts n κ cR M σK σB σT γb μ).cap i := sorry
+
+end KAM.Sharp
+
+-- MODULE KAM/Sharp/G1.lean
+namespace KAM.Sharp
+
+open KAM.Torus KAM.Apost
+
+/-- The body of the frozen G1 (`KAM.aposteriori_kam`, verbatim from `KAM.Apost.g1_explicit`) for given
+constants `C₁`, `C₂`: every hypothesis H1–H5 and the smallness `C₁ e/(γ⁴ ρ^{4τ}) < 1` imply the seven
+conclusions with `C₂`. -/
+def G1Body (n : ℕ) (τ ρ ρinf M σK σB σT μ γbar C₁ C₂ : ℝ) : Prop :=
+  ∀ (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))) (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (γ e : ℝ),
+    IsOpen 𝔅 →
+    (∀ z ∈ 𝔅, ∀ k : Fin n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ 𝔅) →
+    DifferentiableOn ℂ h 𝔅 →
+    (∀ z ∈ 𝔅, ∀ k : Fin n → ℤ, h (z.1 + (fun i => (k i : ℂ)), z.2) = h z) →
+    (∀ θ I : Fin n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅 →
+      (h ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0) →
+    (∀ z ∈ 𝔅, ‖fderiv ℂ h z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ h z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M) →
+    DifferentiableOn ℂ K (complexStrip n ρ) → IsPrimaryOnStrip K ρ → IsRealOnReals K →
+    (∀ θ ∈ complexStrip n ρ, Metric.ball (K θ) μ ⊆ 𝔅) →
+    (∀ θ ∈ complexStrip n ρ, ‖fderiv ℂ K θ‖ ≤ σK - μ) →
+    (∀ θ ∈ complexStrip n ρ, IsUnit (gramMatrix K θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K θ)⁻¹ i j‖ ≤ σB - μ) →
+    IsUnit (torsionAverage h K ω).det →
+    (∀ i, ∑ j, ‖(torsionAverage h K ω)⁻¹ i j‖ ≤ σT - μ) →
+    0 < γ → γ ≤ γbar → IsDiophantine γ τ ω →
+    (∀ θ ∈ complexStrip n ρ, ‖invarianceError h K ω θ‖ ≤ e) →
+    C₁ * e / (γ ^ 4 * ρ ^ (4 * τ)) < 1 →
+    ∃ Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ),
+      DifferentiableOn ℂ Kinf (complexStrip n ρinf) ∧ IsPrimaryOnStrip Kinf ρinf ∧
+      IsRealOnReals Kinf ∧
+      (∀ θ ∈ complexStrip n ρinf, invarianceError h Kinf ω θ = 0) ∧
+      (∀ θ ∈ complexStrip n ρinf, Metric.ball (Kinf θ) (μ / 2) ⊆ 𝔅) ∧
+      (∀ θ ∈ complexStrip n ρinf, ‖fderiv ℂ Kinf θ‖ ≤ σK - μ / 2) ∧
+      ∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K θ‖ ≤ C₂ * e / (γ ^ 2 * ρ ^ (2 * τ))
+
+/-- Blueprint `bp:p2s:g1` for general small-divisor data `(κ, c_R)`. A conditional helper: the source
+results are the instances `g1_sharp`, `g1_sharp_parseval`, `g1_sharp_crude`, which have no hypothesis on
+`(κ, c_R)`. -/
+theorem g1_gen {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ) {κ cR : ℝ}
+    (hC : CohData n τ κ cR) {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ)
+    {γbar : ℝ} (hγbar : 0 < γbar) :
+    0 < sharpC1 n κ cR M σK σB σT γbar μ τ ρ ρinf ∧ 0 < sharpC2 n κ cR M σK σB σT γbar τ ρ ρinf ∧
+      G1Body n τ ρ ρinf M σK σB σT μ γbar (sharpC1 n κ cR M σK σB σT γbar μ τ ρ ρinf)
+        (sharpC2 n κ cR M σK σB σT γbar τ ρ ρinf) := sorry
+
+/-- Blueprint `bp:p2s:g1-instances`(a), the headline: Rüssmann's data `(τ, cohConstR n τ)`,
+`a = 2τ`. Hypotheses: those of `KAM.Apost.g1_explicit`, verbatim. -/
+theorem g1_sharp {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
+    {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ)
+    {γbar : ℝ} (hγbar : 0 < γbar) :
+    0 < sharpC1 n τ (cohConstR n τ) M σK σB σT γbar μ τ ρ ρinf ∧
+      0 < sharpC2 n τ (cohConstR n τ) M σK σB σT γbar τ ρ ρinf ∧
+      G1Body n τ ρ ρinf M σK σB σT μ γbar (sharpC1 n τ (cohConstR n τ) M σK σB σT γbar μ τ ρ ρinf)
+        (sharpC2 n τ (cohConstR n τ) M σK σB σT γbar τ ρ ρinf) := sorry
+
+/-- Blueprint `bp:p2s:g1-instances`(b): Parseval's data `(τ + n/2, cohConstP n τ)`. -/
+theorem g1_sharp_parseval {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
+    {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ)
+    {γbar : ℝ} (hγbar : 0 < γbar) :
+    0 < sharpC1 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar μ τ ρ ρinf ∧
+      0 < sharpC2 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar τ ρ ρinf ∧
+      G1Body n τ ρ ρinf M σK σB σT μ γbar
+        (sharpC1 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar μ τ ρ ρinf)
+        (sharpC2 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar τ ρ ρinf) := sorry
+
+/-- Blueprint `bp:p2s:g1-instances`(c): the crude data `(τ + n, cohConst n τ)`. -/
+theorem g1_sharp_crude {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
+    {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ)
+    {γbar : ℝ} (hγbar : 0 < γbar) :
+    0 < sharpC1 n (τ + n) (cohConst n τ) M σK σB σT γbar μ τ ρ ρinf ∧
+      0 < sharpC2 n (τ + n) (cohConst n τ) M σK σB σT γbar τ ρ ρinf ∧
+      G1Body n τ ρ ρinf M σK σB σT μ γbar (sharpC1 n (τ + n) (cohConst n τ) M σK σB σT γbar μ τ ρ ρinf)
+        (sharpC2 n (τ + n) (cohConst n τ) M σK σB σT γbar τ ρ ρinf) := sorry
+
+/-- Remark `bp:p2s:uniform`: the threshold `C e/(γ⁴ δ₀^{2a}) < 1` with `C = max {γ̄⁴, 𝔠_*}`
+independent of `ρ` (Rüssmann's data); a corollary of `g1_sharp`. -/
+theorem g1_sharp_uniform {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
+    {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ)
+    {γbar : ℝ} (hγbar : 0 < γbar)
+    (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))) (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
+    (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (γ e : ℝ)
+    (hopen : IsOpen 𝔅) (htransl : ∀ z ∈ 𝔅, ∀ k : Fin n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ 𝔅)
+    (hholo : DifferentiableOn ℂ h 𝔅)
+    (hper : ∀ z ∈ 𝔅, ∀ k : Fin n → ℤ, h (z.1 + (fun i => (k i : ℂ)), z.2) = h z)
+    (hreal : ∀ θ I : Fin n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅 →
+      (h ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ 𝔅, ‖fderiv ℂ h z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ h z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M)
+    (hK : DifferentiableOn ℂ K (complexStrip n ρ)) (hKp : IsPrimaryOnStrip K ρ)
+    (hKr : IsRealOnReals K) (hball : ∀ θ ∈ complexStrip n ρ, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hDK : ∀ θ ∈ complexStrip n ρ, ‖fderiv ℂ K θ‖ ≤ σK - μ)
+    (hG : ∀ θ ∈ complexStrip n ρ, IsUnit (gramMatrix K θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K θ)⁻¹ i j‖ ≤ σB - μ)
+    (hTu : IsUnit (torsionAverage h K ω).det)
+    (hTb : ∀ i, ∑ j, ‖(torsionAverage h K ω)⁻¹ i j‖ ≤ σT - μ)
+    (hγ : 0 < γ) (hγγbar : γ ≤ γbar) (hdio : IsDiophantine γ τ ω)
+    (hE : ∀ θ ∈ complexStrip n ρ, ‖invarianceError h K ω θ‖ ≤ e)
+    (hsmall : max (γbar ^ 4) (cStar n τ (cohConstR n τ) M σK σB σT γbar μ) * e /
+      (γ ^ 4 * delta0s ρ ρinf ^ (2 * (2 * τ))) < 1) :
+    ∃ Kinf : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ),
+      DifferentiableOn ℂ Kinf (complexStrip n ρinf) ∧ IsPrimaryOnStrip Kinf ρinf ∧
+      IsRealOnReals Kinf ∧
+      (∀ θ ∈ complexStrip n ρinf, invarianceError h Kinf ω θ = 0) ∧
+      (∀ θ ∈ complexStrip n ρinf, Metric.ball (Kinf θ) (μ / 2) ⊆ 𝔅) ∧
+      (∀ θ ∈ complexStrip n ρinf, ‖fderiv ℂ Kinf θ‖ ≤ σK - μ / 2) ∧
+      ∀ θ ∈ complexStrip n ρinf, ‖Kinf θ - K θ‖ ≤
+        2 * cDK n (cohConstR n τ) M σK σB σT γbar * e / (γ ^ 2 * delta0s ρ ρinf ^ (2 * τ)) := sorry
+
+end KAM.Sharp
+
+/-! ============================================================================================
+## Isoenergetic (`bpI:p2s`)
+============================================================================================ -/
+
+-- MODULE KAM/Iso/Sharp/Constants.lean
+namespace KAM.Iso.Sharp
+
+open KAM KAM.Torus KAM.Apost KAM.Iso.Linear KAM.Iso.Apost KAM.Sharp
+
+variable (n : ℕ) (κ cR M σK σB σT γb μ ν : ℝ)
+
+/-- `Θ = 2nσ_Kσ_B(M + 1)` (`bp:p2:frequency` with `ε ≤ 1`). -/
+def thetaS : ℝ := 2 * n * σK * σB * (M + 1)
+def iCS : ℝ := σT * max (2 * n * σK * σB * γb + 2 * n * cR * σK * hT n M σK σB)
+  (γb + 2 * n * cR * M * σK ^ 2 * σB)
+def iCXiN : ℝ := iCS n cR M σK σB σT γb + 2 * n * cR * σK
+def iCG : ℝ := hT n M σK σB * iCXiN n cR M σK σB σT γb + thetaS n M σK σB * iCS n cR M σK σB σT γb +
+  2 * n * σK * σB * γb
+def iCDXi : ℝ := max (iCG n cR M σK σB σT γb) (2 * n * σK * γb)
+def iCXi : ℝ := max (cR * iCG n cR M σK σB σT γb) (γb * iCXiN n cR M σK σB σT γb)
+def iCDK : ℝ := σK * (cR * iCG n cR M σK σB σT γb + σB * γb * iCXiN n cR M σK σB σT γb)
+def iCDw : ℝ := thetaS n M σK σB * γb * iCS n cR M σK σB σT γb
+def iCP : ℝ := (M * σK + n) * (1 + σB) + 2 * n * σK ^ 2 * σB ^ 2 * (2 * M * σK + n + 1)
+def iCdK : ℝ := iCP n M σK σB * iCXi n cR M σK σB σT γb +
+  σK * (1 + σB) * γb * iCDXi n cR M σK σB σT γb
+def iCLin : ℝ := cRed n σK σB * iCXi n cR M σK σB σT γb + cSym n cR σK σB * iCDXi n cR M σK σB σT γb +
+  thetaS n M σK σB * cOm n cR σK * iCS n cR M σK σB σT γb
+def iCE1 : ℝ := 2 * σK * (1 + σB) * γb ^ 2 * iCLin n cR M σK σB σT γb +
+  M / 2 * iCDK n cR M σK σB σT γb ^ 2 + γb * iCS n cR M σK σB σT γb * iCdK n cR M σK σB σT γb
+def iCE2 : ℝ := γb * n * (2 * n * σK * γb + thetaS n M σK σB * cOm n cR σK) * cR *
+  iCG n cR M σK σB σT γb + M / 2 * iCDK n cR M σK σB σT γb ^ 2
+def iCE : ℝ := max (iCE1 n cR M σK σB σT γb) (iCE2 n cR M σK σB σT γb)
+def iCDT : ℝ := (cDab n M σK σB + cDc n M σK σB) * iCDK n cR M σK σB σT γb +
+  (1 + vthh ^ 3) * cT1 n σK σB * γb ^ 2 + (1 + vthh ^ 5) * σB ^ 3 * wT n M σK * cOm n cR σK * γb
+def iCDTb : ℝ := max (iCDT n cR M σK σB σT γb + iCDw n cR M σK σB σT γb)
+  (n * iCDw n cR M σK σB σT γb + 2 * (n : ℝ) ^ 2 * (1 + vthh ^ 2) * σK * σB * γb ^ 2)
+def iRateD : ℝ := n * iCDK n cR M σK σB σT γb
+def iRateB : ℝ := cB n σK σB * iCDK n cR M σK σB σT γb
+def iRateT : ℝ := vthh * σT ^ 2 * iCDTb n cR M σK σB σT γb
+def iCStep : ℝ := max (γb ^ 4 * (1 + cT1 n σK σB) + γb ^ 3 * cT2 n κ cR M σK σB)
+  (max (2 * γb ^ 3 * cSym n cR σK σB)
+    (max (γb ^ 2 * iRateD n cR M σK σB σT γb / (vth * σK))
+      (max (γb ^ 2 * σB * cGram n σK * iCDK n cR M σK σB σT γb / vth)
+        (max (γb ^ 2 * σT * iCDTb n cR M σK σB σT γb / vth) (iCE n cR M σK σB σT γb)))))
+def iCSum : ℝ := 4 * γb ^ 2 * max (2 * iCDK n cR M σK σB σT γb)
+  (max (iRateD n cR M σK σB σT γb) (max (iRateB n cR M σK σB σT γb) (iRateT n cR M σK σB σT γb)))
+def iCStar : ℝ := max ((2 : ℝ) ^ (2 * (2 * κ)) * iCE n cR M σK σB σT γb)
+  (max (iCStep n κ cR M σK σB σT γb)
+    (max (iCSum n cR M σK σB σT γb / μ) (4 * γb ^ 2 * iCDw n cR M σK σB σT γb / ν)))
+/-- `C₁^♯`. -/
+def sharpIsoC1 (τ ρ ρinf : ℝ) : ℝ := ρ ^ (4 * τ) *
+  max (γb ^ 4) (iCStar n κ cR M σK σB σT γb μ ν * delta0s ρ ρinf ^ (-(2 * (2 * κ))))
+/-- `C₂^♯`. -/
+def sharpIsoC2 (τ ρ ρinf : ℝ) : ℝ :=
+  2 * iCDK n cR M σK σB σT γb * ρ ^ (2 * τ) * delta0s ρ ρinf ^ (-(2 * κ))
+/-- `C₃^♯`. -/
+def sharpIsoC3 (τ ρ ρinf : ℝ) : ℝ :=
+  2 * iCDw n cR M σK σB σT γb * ρ ^ (2 * τ) * delta0s ρ ρinf ^ (-(2 * κ))
+
+variable {n κ cR M σK σB σT γb μ ν}
+
+-- MODULE KAM/Iso/Sharp/ConstantsArith.lean
+
+/-- Step `stepI:p2s:st-small`: the smallness conditions of the isoenergetic step. -/
+theorem iso_step_small {γ δ ε : ℝ} (hκ : 1 ≤ κ) (hcR : 0 < cR) (hM : 0 < M) (hσK : 0 < σK)
+    (hσB : 0 < σB) (hσT : 0 < σT) (hγ : 0 < γ) (hγb : γ ≤ γb) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (hε : 0 ≤ ε) (hX : iCStep n κ cR M σK σB σT γb * ε / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ 1) :
+    ε ≤ δ ∧ cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1 ∧
+    cSym n cR σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1 / 2 ∧
+    n * (iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) / δ ≤ vth * σK ∧
+    σB * cGram n σK * (iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) / δ ≤ vth ∧
+    σT * (iCDTb n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ≤ vth ∧
+    iCE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ ε := sorry
+
+-- MODULE KAM/Iso/Sharp/BorderBounds.lean
+
+/-- Blueprint `bpI:p2s:border`: clause (c) of `KAM.Iso.Linear.border_solve` with
+`Γ_δ = c_R γ⁻¹ δ^{-κ}` (clauses (a), (b), (d), (e) are `border_solve` itself). -/
+theorem border_bounds {τ γ : ℝ} {ω : Fin n → ℝ} (hC : CohData n τ κ cR) (hγ : 0 < γ)
+    (hdio : IsDiophantine γ τ ω) {r δ : ℝ} (hr : 0 < r) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h2δ : 2 * δ < r) (d : BordData n) {HL HN HT HY σ : ℝ}
+    (hηL : DifferentiableOn ℂ d.ηL (complexStrip n r)) (hηLp : IsPeriodicOn d.ηL r)
+    (hηN : DifferentiableOn ℂ d.ηN (complexStrip n r)) (hηNp : IsPeriodicOn d.ηN r)
+    (hHL : ∀ θ ∈ complexStrip n r, ‖d.ηL θ‖ ≤ HL) (hHN : ∀ θ ∈ complexStrip n r, ‖d.ηN θ‖ ≤ HN)
+    (hηN0 : avg d.ηN = 0) (hT : DifferentiableOn ℂ d.T (complexStrip n r))
+    (hTp : IsPeriodicOn d.T r)
+    (hY : DifferentiableOn ℂ d.Y (complexStrip n r)) (hYp : IsPeriodicOn d.Y r)
+    (hHT : ∀ θ ∈ complexStrip n (r - δ), ‖d.T θ‖ ≤ HT)
+    (hHY : ∀ θ ∈ complexStrip n (r - δ), ∑ b, ‖d.Y θ b‖ ≤ HY)
+    (hinv : IsUnit (bordAvg ω d).det) (hσ : ‖(bordAvg ω d)⁻¹‖ ≤ σ) (ξL0 : Fin n → ℂ) :
+    ‖bordSol ω d‖ ≤ σ * max (HL + HT * (cR * γ⁻¹ * δ ^ (-κ)) * HN)
+        (‖d.ηω‖ + HY * (cR * γ⁻¹ * δ ^ (-κ)) * HN) ∧
+    ∀ S, ‖bordSol ω d‖ ≤ S →
+      (∀ θ ∈ complexStrip n (r - δ),
+        ‖bordXiN ω d θ‖ ≤ S + cR * γ⁻¹ * δ ^ (-κ) * HN ∧
+        ‖bordGL ω d θ‖ ≤ HT * (S + cR * γ⁻¹ * δ ^ (-κ) * HN) + ‖ω‖ * S + HL) ∧
+      ∀ G, (∀ θ ∈ complexStrip n (r - δ), ‖bordGL ω d θ‖ ≤ G) →
+        ∀ θ ∈ complexStrip n (r - 2 * δ),
+          ‖bordXiL ω d ξL0 θ - ξL0‖ ≤ cR * γ⁻¹ * δ ^ (-κ) * G := sorry
+
+-- MODULE KAM/Iso/Sharp/Correction.lean
+
+variable {τ σω : ℝ} {ωstar : Fin n → ℝ} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
+  {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {γ : ℝ}
+
+/-- Blueprint `bpI:p2s:correction` (qualitative clauses: the first conjunct of
+`KAM.Iso.Apost.correction`). -/
+theorem iso_correction_bounds (hC : CohData n τ κ cR)
+    (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ) (hγb : γ ≤ γb) {E₀ r β ε δ s : ℝ}
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : IsoAdmissible σK σB σT D H ωstar E₀ r β ε s K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h2δ : 2 * δ < r) (hεδ : ε ≤ δ)
+    (hTS : cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1) :
+    (‖bordXi0 (s • ωstar) (isoBordData H K (s • ωstar) E₀)‖ ≤
+        iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+      ‖isoXiOmega H K (s • ωstar) E₀‖ ≤ iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+      ∀ θ ∈ complexStrip n (r - δ),
+        ‖bordXiN (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
+          iCXiN n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+        ‖bordGL (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
+          iCG n cR M σK σB σT γb * ε / (γ * δ ^ κ)) ∧
+    (∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖isoXi H K (s • ωstar) E₀ θ‖ ≤ iCXi n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+      ‖isoCorrection H K (s • ωstar) E₀ θ‖ ≤ iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+      ‖fderiv ℂ (isoXi H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
+        iCDXi n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+      ‖fderiv ℂ (isoCorrection H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
+        iCdK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
+    ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ = |isoNewS H K ωstar E₀ s - s| * ‖ωstar‖ ∧
+    ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ ≤
+      iCDw n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) := sorry
+
+-- MODULE KAM/Iso/Sharp/NewtonError.lean
+
+/-- Blueprint `bpI:p2s:newton-error` (identities as in `KAM.Iso.Apost.newton_error`, from its
+constant-free helpers). -/
+theorem iso_newton_error_bounds (hC : CohData n τ κ cR)
+    (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ) (hγb : γ ≤ γb) {E₀ r β ε δ s : ℝ}
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : IsoAdmissible σK σB σT D H ωstar E₀ r β ε s K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h2δ : 2 * δ < r) (hεδ : ε ≤ δ)
+    (hTS : cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1)
+    (hβ : iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) < β)
+    (hsym : cSym n cR σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1 / 2) :
+    (∀ θ ∈ complexStrip n (r - 2 * δ), isoNewtonMap H K ωstar E₀ s (r - 2 * δ) θ ∈ D) ∧
+    (∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖invarianceError H (isoNewtonMap H K ωstar E₀ s (r - 2 * δ))
+          (isoNewS H K ωstar E₀ s • ωstar) θ‖ ≤
+        iCE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+    ‖KAM.Iso.energyAverage H (isoNewtonMap H K ωstar E₀ s (r - 2 * δ)) - (E₀ : ℂ)‖ ≤
+      iCE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))) := sorry
+
+-- MODULE KAM/Iso/Sharp/Twist.lean
+
+/-- Blueprint `bpI:p2s:twist`. -/
+theorem iso_twist (hC : CohData n τ κ cR) (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ)
+    (hγb : γ ≤ γb) {E₀ r β ε δ s : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : IsoAdmissible σK σB σT D H ωstar E₀ r β ε s K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h3δ : 3 * δ < r) (hεδ : ε ≤ δ) {K' : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {s' ε' : ℝ}
+    (hK' : DifferentiableOn ℂ K' (complexStrip n (r - 2 * δ)))
+    (hd : ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖K' θ - K θ‖ ≤ iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)))
+    (hdβ : iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) < β)
+    (hE' : ∀ θ ∈ complexStrip n (r - 2 * δ), ‖invarianceError H K' (s' • ωstar) θ‖ ≤ ε')
+    (hε' : ε' ≤ ε)
+    (hω : ‖s' • ωstar - s • ωstar‖ ≤ iCDw n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)))
+    (hs1 : n * (iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) / δ ≤ vth * σK)
+    (hs2 : σB * cGram n σK * (iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) / δ ≤ vth)
+    (hs3 : σT * (iCDTb n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ≤ vth) :
+    IsUnit (KAM.Iso.extendedTorsionAverage H K' (s' • ωstar)).det ∧
+    ‖KAM.Iso.extendedTorsionAverage H K' (s' • ωstar) -
+        KAM.Iso.extendedTorsionAverage H K (s • ωstar)‖ ≤
+      iCDTb n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1)) ∧
+    ‖(KAM.Iso.extendedTorsionAverage H K' (s' • ωstar))⁻¹ -
+        (KAM.Iso.extendedTorsionAverage H K (s • ωstar))⁻¹‖ ≤
+      iRateT n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1)) := sorry
+
+-- MODULE KAM/Iso/Sharp/Step.lean
+
+/-- Blueprint `bpI:p2s:step`. -/
+theorem iso_step_spec (hC : CohData n τ κ cR) (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ)
+    (hγb : γ ≤ γb) {E₀ r β ε δ s : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : IsoAdmissible σK σB σT D H ωstar E₀ r β ε s K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h3δ : 3 * δ < r)
+    (hsmall : iCStep n κ cR M σK σB σT γb * ε / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ 1)
+    (hβ : 2 * (iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ≤ β) :
+    (DifferentiableOn ℂ (isoNewtonMap H K ωstar E₀ s (r - 2 * δ)) (complexStrip n (r - 2 * δ)) ∧
+      IsPrimaryOnStrip (isoNewtonMap H K ωstar E₀ s (r - 2 * δ)) (r - 2 * δ) ∧
+      IsRealOnReals (isoNewtonMap H K ωstar E₀ s (r - 2 * δ))) ∧
+    ((∀ θ ∈ complexStrip n (r - 2 * δ), ‖isoNewtonMap H K ωstar E₀ s (r - 2 * δ) θ - K θ‖ ≤
+        iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
+      (∀ θ ∈ complexStrip n (r - 2 * δ), Metric.ball (isoNewtonMap H K ωstar E₀ s (r - 2 * δ) θ)
+        (β - iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ⊆ D) ∧
+      |isoNewS H K ωstar E₀ s - s| * ‖ωstar‖ ≤
+        iCDw n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
+    ((∀ θ ∈ complexStrip n (r - 2 * δ),
+        ‖invarianceError H (isoNewtonMap H K ωstar E₀ s (r - 2 * δ))
+          (isoNewS H K ωstar E₀ s • ωstar) θ‖ ≤
+          iCE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ)))) ∧
+      ‖KAM.Iso.energyAverage H (isoNewtonMap H K ωstar E₀ s (r - 2 * δ)) - (E₀ : ℂ)‖ ≤
+        iCE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))) ∧
+      iCE n cR M σK σB σT γb * ε ^ 2 / (γ ^ 4 * δ ^ (2 * (2 * κ))) ≤ ε) ∧
+    (∀ θ ∈ complexStrip n (r - 3 * δ),
+      ‖fderiv ℂ (isoNewtonMap H K ωstar E₀ s (r - 2 * δ)) θ - fderiv ℂ K θ‖ ≤
+        iRateD n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1)) ∧
+      IsUnit (gramMatrix (isoNewtonMap H K ωstar E₀ s (r - 2 * δ)) θ).det ∧
+      ‖(gramMatrix (isoNewtonMap H K ωstar E₀ s (r - 2 * δ)) θ)⁻¹ - (gramMatrix K θ)⁻¹‖ ≤
+        iRateB n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1))) ∧
+    IsUnit (KAM.Iso.extendedTorsionAverage H (isoNewtonMap H K ωstar E₀ s (r - 2 * δ))
+        (isoNewS H K ωstar E₀ s • ωstar)).det ∧
+    ‖(KAM.Iso.extendedTorsionAverage H (isoNewtonMap H K ωstar E₀ s (r - 2 * δ))
+        (isoNewS H K ωstar E₀ s • ωstar))⁻¹ -
+      (KAM.Iso.extendedTorsionAverage H K (s • ωstar))⁻¹‖ ≤
+      iRateT n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ + 1)) := sorry
+
+-- MODULE KAM/Iso/Sharp/Scheme.lean
+
+/-- The state of the isoenergetic scheme: a torus and the ray scalar `s`. -/
+abbrev IsoState (n : ℕ) : Type := ((Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) × ℝ
+
+/-- The isoenergetic scheme (`bpI:p2s:scheme`). -/
+def isoScheme (n : ℕ) (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (D : Set ((Fin n → ℂ) × (Fin n → ℂ)))
+    (ωstar : Fin n → ℝ) (E₀ σω ν : ℝ) : Engine.Scheme n 4 (IsoState n) where
+  tor := fun x => x.1
+  par := fun x => x.2 * ‖ωstar‖
+  Adm := fun r β ε m x => IsoAdmissible (m 0) (m 1) (m 2) D H ωstar E₀ r β ε x.2 x.1 ∧
+    ν - m 3 ≤ rayMargin σω ωstar x.2
+  step := fun r δ x => (isoNewtonMap H x.1 ωstar E₀ x.2 (r - 2 * δ), isoNewS H x.1 ωstar E₀ x.2)
+
+/-- The constants of the isoenergetic scheme (caps `σ - μ/2` and `ν/2`). -/
+def isoConsts (n : ℕ) (κ cR M σK σB σT γb μ ν : ℝ) : Engine.Consts 4 where
+  lam := 3
+  a := 2 * κ
+  CE := iCE n cR M σK σB σT γb
+  CD := iCDK n cR M σK σB σT γb
+  Cp := iCDw n cR M σK σB σT γb
+  cstep := iCStep n κ cR M σK σB σT γb
+  cap := ![σK - μ / 2, σB - μ / 2, σT - μ / 2, ν / 2]
+  rate := ![iRateD n cR M σK σB σT γb, iRateB n cR M σK σB σT γb, iRateT n cR M σK σB σT γb,
+    iCDw n cR M σK σB σT γb]
+  j := ![1, 1, 1, 0]
+
+/-- Blueprint `bpI:p2s:scheme`. -/
+theorem isoScheme_isNewton (hC : CohData n τ κ cR)
+    (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ) (hγb : γ ≤ γb) (hμ : 0 ≤ μ) (E₀ : ℝ) :
+    (isoScheme n H D ωstar E₀ σω ν).IsNewton (isoConsts n κ cR M σK σB σT γb μ ν) γ := sorry
+
+/-- Lemma `bpI:p2:energy-limit` for the engine iterates. -/
+theorem iso_energy_limit (hC : CohData n τ κ cR)
+    (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ) (hγb : γ ≤ γb) {E₀ ρ ρinf e : ℝ}
+    {x₀ : IsoState n} {m₀ : Fin 4 → ℝ} (hρinf : 0 < ρinf) (hρ : ρinf < ρ) (hμ : 0 < μ)
+    (h0 : (isoScheme n H D ωstar E₀ σω ν).Adm ρ μ e m₀ x₀)
+    (hM0 : ∀ i, m₀ i ≤ ![σK - μ, σB - μ, σT - μ, 0] i)
+    (hsm : iCStar n κ cR M σK σB σT γb μ ν * e / (γ ^ 4 * delta0s ρ ρinf ^ (2 * (2 * κ))) ≤ 1) :
+    KAM.Iso.energyAverage H ((isoScheme n H D ωstar E₀ σω ν).limTor 3 ρ ρinf x₀) = (E₀ : ℂ) := sorry
+
+-- MODULE KAM/Iso/Sharp/G1.lean
+
+/-- Blueprint `bpI:p2s:g1` for general small-divisor data (a conditional helper; the source results are
+the instances below). The body is the frozen `IG1Body`. -/
+theorem g1_gen {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ) {κ cR : ℝ}
+    (hC : CohData n τ κ cR) {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ γbar σω ν : ℝ}
+    (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT)
+    (hμ : 0 < μ) (hγbar : 0 < γbar) (hσω : 1 < σω) (hν : 0 < ν)
+    (ωstar : Fin n → ℝ) (hωstar : ωstar ≠ 0) :
+    0 < sharpIsoC1 n κ cR M σK σB σT γbar μ ν τ ρ ρinf ∧
+      0 < sharpIsoC2 n κ cR M σK σB σT γbar τ ρ ρinf ∧
+      0 < sharpIsoC3 n κ cR M σK σB σT γbar τ ρ ρinf ∧
+      KAM.Iso.Charts.IG1Body n τ ρ ρinf M σK σB σT μ γbar σω ν ωstar
+        (sharpIsoC1 n κ cR M σK σB σT γbar μ ν τ ρ ρinf) (sharpIsoC2 n κ cR M σK σB σT γbar τ ρ ρinf)
+        (sharpIsoC3 n κ cR M σK σB σT γbar τ ρ ρinf) := sorry
+
+/-- Blueprint `bpI:p2s:g1-instances`, the headline: Rüssmann's data `(τ, cohConstR n τ)`. Binders
+and body: those of `KAM.Iso.Apost.g1_explicit`, verbatim; the SO certificate checker can use it in place
+of `g1_explicit` by replacing the two rational mirrors of `checkSmallness`. -/
+theorem g1_sharp {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
+    {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ γbar σω ν : ℝ}
+    (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT)
+    (hμ : 0 < μ) (hγbar : 0 < γbar) (hσω : 1 < σω) (hν : 0 < ν)
+    (ωstar : Fin n → ℝ) (hωstar : ωstar ≠ 0) :
+    0 < sharpIsoC1 n τ (cohConstR n τ) M σK σB σT γbar μ ν τ ρ ρinf ∧
+      0 < sharpIsoC2 n τ (cohConstR n τ) M σK σB σT γbar τ ρ ρinf ∧
+      0 < sharpIsoC3 n τ (cohConstR n τ) M σK σB σT γbar τ ρ ρinf ∧
+      KAM.Iso.Charts.IG1Body n τ ρ ρinf M σK σB σT μ γbar σω ν ωstar
+        (sharpIsoC1 n τ (cohConstR n τ) M σK σB σT γbar μ ν τ ρ ρinf)
+        (sharpIsoC2 n τ (cohConstR n τ) M σK σB σT γbar τ ρ ρinf)
+        (sharpIsoC3 n τ (cohConstR n τ) M σK σB σT γbar τ ρ ρinf) := sorry
+
+/-- `bpI:p2s:g1-instances`: Parseval's data `(τ + n/2, cohConstP n τ)`. -/
+theorem g1_sharp_parseval {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
+    {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ γbar σω ν : ℝ}
+    (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT)
+    (hμ : 0 < μ) (hγbar : 0 < γbar) (hσω : 1 < σω) (hν : 0 < ν)
+    (ωstar : Fin n → ℝ) (hωstar : ωstar ≠ 0) :
+    0 < sharpIsoC1 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar μ ν τ ρ ρinf ∧
+      0 < sharpIsoC2 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar τ ρ ρinf ∧
+      0 < sharpIsoC3 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar τ ρ ρinf ∧
+      KAM.Iso.Charts.IG1Body n τ ρ ρinf M σK σB σT μ γbar σω ν ωstar
+        (sharpIsoC1 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar μ ν τ ρ ρinf)
+        (sharpIsoC2 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar τ ρ ρinf)
+        (sharpIsoC3 n (τ + (n : ℝ) / 2) (cohConstP n τ) M σK σB σT γbar τ ρ ρinf) := sorry
+
+/-- `bpI:p2s:g1-instances`: the crude data `(τ + n, cohConst n τ)`. -/
+theorem g1_sharp_crude {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
+    {ρ ρinf : ℝ} (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ)
+    {M σK σB σT μ γbar σω ν : ℝ}
+    (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT)
+    (hμ : 0 < μ) (hγbar : 0 < γbar) (hσω : 1 < σω) (hν : 0 < ν)
+    (ωstar : Fin n → ℝ) (hωstar : ωstar ≠ 0) :
+    0 < sharpIsoC1 n (τ + n) (cohConst n τ) M σK σB σT γbar μ ν τ ρ ρinf ∧
+      0 < sharpIsoC2 n (τ + n) (cohConst n τ) M σK σB σT γbar τ ρ ρinf ∧
+      0 < sharpIsoC3 n (τ + n) (cohConst n τ) M σK σB σT γbar τ ρ ρinf ∧
+      KAM.Iso.Charts.IG1Body n τ ρ ρinf M σK σB σT μ γbar σω ν ωstar
+        (sharpIsoC1 n (τ + n) (cohConst n τ) M σK σB σT γbar μ ν τ ρ ρinf)
+        (sharpIsoC2 n (τ + n) (cohConst n τ) M σK σB σT γbar τ ρ ρinf)
+        (sharpIsoC3 n (τ + n) (cohConst n τ) M σK σB σT γbar τ ρ ρinf) := sorry
+
+end KAM.Iso.Sharp
