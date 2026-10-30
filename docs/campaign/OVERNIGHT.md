@@ -1275,3 +1275,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   acceptance: checkEmbedding and checkSoGraph reduce on the R1 lower torus) and SO-BALLDY (claude-4; Expr/Ball.lean;
   acceptance: checkHamBounds under 10 GB). Both measure on the R1 data (not landing) and land by cherry-pick.
   Worktree soemitfix removed (disk 13 GB free).
+- **13:21. Heartbeat.** Four provers busy (SO-GEN3, SO-FREEZE-PREP2, SO-KDEPTH, SO-BALLDY); no limits. Codex is the scarce resource: codex-3 25 % weekly, codex-4 needs a new sign-in (owner), codex-2 low. If Codex runs out, audits fall back to fresh independent Claude Opus auditor sessions (logged as a deviation from the GPT-6.1-Sol auditor convention). No new certifier version on origin yet.
