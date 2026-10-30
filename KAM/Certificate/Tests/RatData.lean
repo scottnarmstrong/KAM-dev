@@ -45,7 +45,7 @@ def toyTREmb : CertEmbedding ℚ :=
   ⟨[0, 0], [⟨0, []⟩, ⟨0, []⟩], [0, 0], [⟨(1 / 2), []⟩, ⟨(-1 / 8), []⟩]⟩
 
 def toyTRWit : Witnesses ℚ :=
-  ⟨[], [], []⟩
+  ⟨[], [], [], []⟩
 
 def toyTRGramInv : List (List (CertPoly ℚ)) :=
   [[⟨[([0, 0], ⟨1, 0⟩)]⟩, ⟨[]⟩], [⟨[]⟩, ⟨[([0, 0], ⟨1, 0⟩)]⟩]]

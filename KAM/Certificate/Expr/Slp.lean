@@ -13,7 +13,8 @@ public import KAM.Certificate.PhaseBasis
 
 `Slp` is the internal straight-line program language of the spin-orbit certificate: a list
 of operations whose operands are earlier slot numbers. A constant carries its `2π`-degree, `char k`
-is `e^{2πi k·θ}`, and the nonlinearities are `exp` and `inv`. The value of a slot is computed by
+is `e^{2πi k·θ}`, and the nonlinearities are `exp`, `inv` and the total square root `sqrt`
+(`sqrtE`). The value of a slot is computed by
 a left fold, so an operand that is not an earlier slot reads `0` and appending operations never
 changes the value of an existing slot (`Slp.val_append`). `HamJet` and `phaseNat` are the table
 types of the jet compiler of `KAM.Certificate.Expr.Diff`.
@@ -24,7 +25,8 @@ types of the jet compiler of `KAM.Certificate.Expr.Diff`.
 namespace KAM.Certificate
 
 /-- Straight-line program over `ℂ` (internal). Operands are earlier slot numbers; a constant
-carries its `2π`-degree; `char k` is `e^{2πi k·θ}`. Nonlinearities: `exp` and `inv` (`x⁻¹`). -/
+carries its `2π`-degree; `char k` is `e^{2πi k·θ}`. Nonlinearities: `exp`, `inv` (`x⁻¹`) and
+`sqrt` (`sqrtE`). -/
 inductive SlpOp : Type
   | const (re im : ℚ) (deg : ℤ)
   | action (j : ℕ)
@@ -33,6 +35,7 @@ inductive SlpOp : Type
   | mul (a b : ℕ)
   | exp (a : ℕ)
   | inv (a : ℕ)
+  | sqrt (a : ℕ)
 
 structure Slp where
   ops : List SlpOp
@@ -50,6 +53,7 @@ def SlpOp.step (n : ℕ) (z : (Fin n → ℂ) × (Fin n → ℂ)) (acc : List �
   | .mul a b => acc.getD a 0 * acc.getD b 0
   | .exp a => Complex.exp (acc.getD a 0)
   | .inv a => (acc.getD a 0)⁻¹
+  | .sqrt a => sqrtE (acc.getD a 0)
 
 /-- The values of all slots of a program, in order. -/
 def Slp.vals (n : ℕ) (z : (Fin n → ℂ) × (Fin n → ℂ)) (ops : List SlpOp) : List ℂ :=

@@ -14,9 +14,11 @@ actions, the excluded measure is at most $C\,t\,\alpha^{\mu}$ (P96-K's form $c\r
 \emph{fraction} excluded is $C\alpha^\mu/t$. The perturbation size forces $\alpha\gtrsim t^{3/2}$ (KP96 p.~27, (8), in
 the variable $t$ of Remark~\ref{bpW:w7:exponents}). P96-K Theorem~B gives $\mu=\kappa/(\kappa+1)=\frac23$, so
 $\alpha^\mu/t\gtrsim1$: no density. Theorem~D precedes the iteration by one step with weaker divisors on the normal
-differences $\Omega_i-\Omega_j$, paid for by a loss of $\varpi$ in the smoothing exponent; this raises the exponent to
-$\tilde\mu=\kappa/(\kappa+1-\varpi/4)$. We fix $\varpi=\frac12$, so $\tilde\mu=\frac{16}{23}>\frac23$, and the fraction
-tends to zero along suitable $\alpha(t)$.
+differences $\Omega_i-\Omega_j$ (weight $\abs{i-j}\min(i,j)^{-\beta}$), paid for by a loss of $\varpi$ in the smoothing
+exponent; this raises the exponent to $\tilde\mu=\kappa/(\kappa+1-\beta/4)$. P96-K takes $\beta=\varpi$. We take the
+loss $\varpi=\frac12$ but the weight exponent $\beta=\frac14$, because the parameter-Lipschitz bound of the preparatory
+step needs $2\beta\le\varpi$ (W5, Lemma~\ref{bpW:w5:w4-modified}(ii) and Remark~\ref{bpW:w5:prep-gap}). Then
+$\tilde\mu=\frac{32}{47}>\frac23$, and the fraction tends to zero along suitable $\alpha(t)$.
 
 \paragraph{Route.} All estimates are made in the \emph{frequency coordinates} $\zeta=\omega^0(\xi)=\lambda_J+A\xi$,
 where the tangential part of a divisor is the linear function $\avg{k,\zeta}$; the affine change $\xi\mapsto\zeta$
@@ -87,15 +89,16 @@ mode $i+1$); the normal modes are labelled by their Dirichlet index $j\ge3$.
   $\jap l=\sum_jj\abs{l_j}\ge3$; for $l=\pm(e_i-e_j)$, $i>j$, $\jap l=i-j$.
 \item $\abs l_\delta=\sum_j\abs{l_j}j^\delta$ for $\delta\in\R$; for $l\in\Lambda$, $\abs l_{-1}\le\abs l_{-1/2}\le2$.
 \item $Z=\{(k,l)\in\Z^2\times(\Lambda\cup\{0\}):(k,l)\neq(0,0)\}$.
-\item The exponents are fixed: $\tau=24$ and $\varpi=\frac12$; $A_k=1+\abs k^\tau$ (so $1\le A_k\le2\abs k^\tau$ for
+\item The exponents are fixed: $\tau=24$, the smoothing loss $\varpi=\frac12$ of the preparatory step, and the weight
+  exponent $\beta=\frac14$ (W5's $\beta$; not to be confused with the constant $\beta_*$); $A_k=1+\abs k^\tau$ (so $1\le A_k\le2\abs k^\tau$ for
   $k\ne0$).
-\item The \emph{modified weight} is $\hat w(l)=(i-j)\,j^{-1/2}$ for $l=\pm(e_i-e_j)$, $i>j$, and $\hat w(l)=\jap l$
+\item The \emph{modified weight} is $\hat w(l)=(i-j)\,j^{-\beta}=(i-j)\,j^{-1/4}$ for $l=\pm(e_i-e_j)$, $i>j$, and $\hat w(l)=\jap l$
   otherwise; $\hat w(l)\le\jap l$.
 \end{enumerate}
 \end{definition}
 \source{P96-K pp.~121 ($\jap l_d$, $A_k$, $Z$), 135 ($\Lambda$), 136 ($\abs l_\delta$), 138 ($\Lambda^\pm$), 140
-((23), modified estimate with $\min(i^\varpi,j^\varpi)$). Specialized to $n=2$, $d=1$; the choices $\tau=24$, $\varpi=\frac12$ are
-ours (Remark~\ref{bpW:w7:choices}).}
+((23), modified estimate with $\min(i^\varpi,j^\varpi)$). Specialized to $n=2$, $d=1$; the choices $\tau=24$, $\varpi=\frac12$, and the weight exponent $\beta=\frac14\ne\varpi$
+are ours (Remark~\ref{bpW:w7:choices}).}
 
 \begin{remark}[Reindexing $j\mapsto j+2$ and comparison with P96-K's weights]\label{bpW:w7:reindex}
 P96-K numbers the normal frequencies $\Omega^{\rm K}_{j'}$, $j'\ge1$, and its Assumption~B asks $\Omega^{\rm K}_{j'}
@@ -106,9 +109,12 @@ Assumption~B holds in the form $\Omega^{\rm K}_{j'}=j'+2+\frac{m}{2(j'+2)}+\dots
 ``fixed lower order terms'' (p.~120). We keep the Dirichlet label $j$ throughout. P96-K's weight is
 $\jap l^{\rm K}=\max(1,\abs{\sum_j(j-2)l_j})$; for $\abs l\le2$ one has $\jap l^{\rm K}=\jap l$ on $\Lambda^-$ and
 $\jap l^{\rm K}\le\jap l\le\jap l^{\rm K}+4\le5\jap l^{\rm K}$ on $\Lambda^+$. P96-K's modified weight is
-$(i-j)/(j-2)^{1/2}$, and $j^{-1/2}\le(j-2)^{-1/2}\le\sqrt3\,j^{-1/2}$ for $j\ge3$. Consequently the Melnikov
+$(i-j)/(j-2)^{\varpi}$; with our exponent $\beta$ its analogue is $(i-j)/(j-2)^{1/4}$, and
+$j^{-1/4}\le(j-2)^{-1/4}\le3^{1/4}j^{-1/4}$ for $j\ge3$. Consequently the Melnikov
 conditions of this part (with $\jap l$) imply P96-K's (with $\jap l^{\rm K}$) at the same $\alpha$, and our modified
-conditions imply P96-K's (23) with $\hat\alpha$ replaced by $\hat\alpha/\sqrt3$. W5--W6 must use the weights of
+conditions imply the condition (23) with exponent $\beta$ in place of $\varpi$ and $\hat\alpha$ replaced by
+$\hat\alpha/3^{1/4}$. W5 states the modified condition directly in Dirichlet labels, as
+$\abs{i-j}/(\min(i,j)+2)^\beta=\abs{I-J}/\min(I,J)^\beta$ (Lemma~\ref{bpW:w5:w4-modified}), which is exactly $\hat w$. W5--W6 must use the weights of
 Definition~\ref{bpW:w7:indexdef}, or absorb these factors.
 \end{remark}
 \source{P96-K pp.~120 (Assumption~B), 121, 140; P96-W p.~291; W3 Remark~\ref{bpW:w3:interface}.}
@@ -205,7 +211,7 @@ $\frac{3}{2\pi}b$, Remark~\ref{bpW:w0n:kappa}). Constants ours.}
 \begin{definition}[W7 constants]\label{bpW:w7:constdef}
 In this order:
 \begin{enumerate}[label=(C\arabic*)]
-\item $m>0$ (given); $\tau=24$, $\varpi=\frac12$, $w=\varpi/(4\kappa+4-\varpi)=\frac1{23}$ (numbers).
+\item $m>0$ (given); $\tau=24$, $\varpi=\frac12$, $\beta=\frac14$, $w=\beta/(4\kappa+4-\beta)=\frac1{47}$ (numbers).
 \item Explicit in $m$: $\lambda_1,\lambda_2$, $D_A$, $N_A$, $L_A$ (Lemma~\ref{bpW:w7:freqcoords});
   $\beta_*=\frac1{2\sqrt{9+m}}$, $a_\kappa=\frac m2+1$; $W=\lambda_2+1$; $\vartheta=\beta_*/W$;
   $c_\Lambda=\frac47(\lambda_1+\lambda_2)+1$; $K_*=16c_\Lambda$; $j_*=(16c_\Lambda)^2$.
@@ -213,12 +219,12 @@ In this order:
   $\sigma_X$, $c_X$ of Lemma~\ref{bpW:w7:Xzones}; they depend on $m$ only.
 \item The Lipschitz smallness required of W6 and the smallness threshold of $\alpha$:
   \[\theta_0=\frac1{L_A}\min\Bigl(\frac18,\frac{\sigma_X}{2(K_*+2)}\Bigr),\qquad
-  \alpha_0=\Bigl(\min\Bigl\{\frac1{27},\frac{\beta_*}4,\frac{\vartheta c_X}{4K_*(K_*+4)}\Bigr\}\Bigr)^{23/20}.\]
+  \alpha_0=\Bigl(\min\Bigl\{\frac1{27},\frac{\beta_*}4,\frac{\vartheta c_X}{4K_*(K_*+4)}\Bigr\}\Bigr)^{47/44}.\]
 \item $C_P=Z_3\bigl(8+32\vartheta^{-3}+16(3+a_\kappa)\vartheta^{-2}\bigr)+4N_XK_*\vartheta^{-1}\sigma_X^{-1}$,
   $C_I=Z_3\bigl(8+32\vartheta^{-3}+16(2+a_\kappa)\vartheta^{-2}+64\vartheta^{-1}\bigr)+4N_XK_*^2\vartheta^{-1}\sigma_X^{-1}$,
   $C_7=L_A(C_P+C_I)$, with $Z_3=2\pi^2/3$ \ref{bpW:w7:ext-zeta}.
 \item For each application: a Borel parameter set $\Pi$, then $\alpha\in(0,\alpha_0]$, then
-  $\hat\alpha=\alpha^{20/23}$ and $\check\alpha=\alpha^{24/23}$ (so $\check\alpha\le\alpha\le\hat\alpha$).
+  $\hat\alpha=\alpha^{1-3w}=\alpha^{44/47}$ and $\check\alpha=\alpha^{1+w}=\alpha^{48/47}$ (so $\check\alpha\le\alpha\le\hat\alpha$).
 \end{enumerate}
 Every constant in (C1)--(C5) depends on $m$ only; none depends on $\Pi$, on $\alpha$, or on the frequency families of
 Definition~\ref{bpW:w7:family}.
@@ -227,9 +233,17 @@ Definition~\ref{bpW:w7:family}.
 ($\check\alpha$, $w$). P96-K's constants are monotone in $\Pi$ (p.~123); ours are independent of $\Pi$.}
 
 \begin{remark}[Why these choices]\label{bpW:w7:choices}
-Any $\varpi\in(0,1)$ works (P96-K: $\varpi<\min(\bar p-p,1)=1$); $\varpi=\frac12$ gives the rational exponent
-$\tilde\mu=\frac{\kappa}{\kappa+1-\varpi/4}=\frac{16}{23}$, with $\hat\alpha^{4/5}=\check\alpha^{2/3}=\alpha^{16/23}$
-(Step~\ref{stepW:w7:assemble}). The value $\tau=24$ makes every lattice sum below converge with the single bound
+P96-K uses one exponent $\varpi<\min(\bar p-p,1)=1$ both for the smoothing loss of the preparatory step and for the
+weight of its modified divisors. The two roles separate. The loss $\varpi=\frac12$ fixes the decay $j^{-1/2}$ of the
+frequency drift after the preparatory step ((H2)) and the iteration exponent $\check p-p=\frac12$. The weight exponent
+$\beta$ alone enters the measure of the preparatory zones (Proposition~\ref{bpW:w7:prep}: exponent
+$\kappa/(\kappa+1-\beta)$). The parameter-Lipschitz bound of the preparatory step requires $2\beta\le\varpi$, since the
+Lipschitz constant of $1/\delta$ carries $\min(I,J)^{2\beta}$ (W5, Lemma~\ref{bpW:w5:w4-modified}(ii) and its
+\textsf{SOURCE\_GAP}). We take $\beta=\frac14$. The optimizing $w$ of P96-K p.~142 solves
+$(1-3w)\frac8{11}=(1+w)\frac23$, i.e.\ $w=\beta/(4\kappa+4-\beta)=\frac1{47}$; then
+$\hat\alpha^{8/11}=\check\alpha^{2/3}=\alpha^{32/47}$ and $\tilde\mu=\kappa/(\kappa+1-\beta/4)=\frac{32}{47}$
+(Step~\ref{stepW:w7:assemble}). The relation $\check\alpha=\alpha^{4/3}\hat\alpha^{-1/3}$ of the preparatory step
+(W6, Lemma~\ref{bpW:w6:prep-step}(iv)) holds: $\frac43-\frac13\cdot\frac{44}{47}=\frac{48}{47}$. The value $\tau=24$ makes every lattice sum below converge with the single bound
 $\abs k^{-3}$ (the slowest term is $\abs k\,A_k^{-1/6}\le\abs k^{-3}$ in Proposition~\ref{bpW:w7:iter}); P96-K's
 (22) would ask $\tau\ge(n+3)/\delta^*=15$ for the post-preparation exponent $\delta=-\frac12$. The frozen
 headline only needs some $\tau>1$. \textbf{W4--W6 must use $\tau=24$} (a larger $\tau$ is also fine for W7: all bounds
@@ -266,7 +280,8 @@ Its \emph{iteration zones} are $R^\nu_{kl}=R_{kl}(\check\alpha)$ built from $(D_
 \end{definition}
 \source{P96-K Theorem~A, p.~122 (frequency maps $\omega_\nu,\Omega_\nu$, zones $\mathcal R^\nu_{kl}(\alpha)$,
 $\abs k>K_02^{\nu-1}$), (19) p.~135, p.~132 ($K_\nu=K_02^\nu$, $K_0\ge1$), \S6 pp.~140--142 (preparatory step,
-$\hat\alpha$, $\check\alpha$, weights $j^{\bar p-p}=j$ for the preparatory shift and $j^{\check p-p}=j^{1/2}$ after it).}
+$\hat\alpha$, $\check\alpha$, weights $j^{\bar p-p}=j$ for the preparatory shift and $j^{\check p-p}=j^{1/2}$ after it, $\check p=\bar p-\varpi$).
+W6, Lemma~\ref{bpW:w6:freq-lip}, supplies (H1)--(H2) in exactly this form.}
 
 \begin{remark}[What W6 must supply; forward references]\label{bpW:w7:w6-needs}
 W7 is a statement about arbitrary admissible families; it uses nothing about the KAM step. To apply it, W6 must
@@ -274,8 +289,11 @@ prove, on each parameter domain $\Pi$ used and for the master parameter $\alpha$
 \begin{itemize}
 \item \texttt{bpW:w6:prep-step} (forward): the preparatory step of P96-K \S6 runs on $\Pi\setminus\Xi$, where the
   unperturbed frequencies satisfy the conditions of Corollary~\ref{bpW:w7:melnikov}(i) (weights
-  Remark~\ref{bpW:w7:reindex}), and its frequency shift obeys (H1)--(H2) with the $\varepsilon_1j^{-1}$ part
-  ($\bar p-p=1$).
+  Remark~\ref{bpW:w7:reindex}; modified weight $\abs{I-J}\min(I,J)^{-1/4}$, i.e.\ W5's $\beta=\frac14$, with loss
+  $\frac12$, so that $2\beta\le\frac12$ and the parameter-Lipschitz part of the step holds), and its frequency shift
+  obeys (H1)--(H2) with the $\varepsilon_1j^{-1}$ part ($\bar p-p=1$). Its new perturbation has size
+  $\lesssim\epsilon^{4/3}\hat\alpha^{-1/3}\le\gamma_1\check\alpha$ with $\check\alpha=\alpha^{48/47}$
+  ($\frac43-\frac13\cdot\frac{44}{47}=\frac{48}{47}$).
 \item \texttt{bpW:w6:freq-lip} (forward): the frequencies $\omega_\nu,\Omega_\nu$ of the iteration started after the
   preparatory step are defined on Borel $D_\nu$ and satisfy (H1)--(H2) with $\varepsilon_\omega,\varepsilon_1,
   \varepsilon_2\le\alpha$ and Lipschitz constant $\theta\le\theta_0$ (P96-K Theorem~A gives
@@ -442,7 +460,7 @@ $e=\nu-1\le\abs k-2$, at most $\abs k-1$ values. (iii) \ref{bpW:w7:ext-zeta}.
 \subsection{The preparatory zones}\label{bpW:w7:prep-sec}
 
 \begin{proposition}[Preparatory zones]\label{bpW:w7:prep}
-$\Xi$ is Borel and $\Leb(\Xi)\le C_P\,\rho_\zeta\,D_A^{-1}\,\hat\alpha^{4/5}$.
+$\Xi$ is Borel and $\Leb(\Xi)\le C_P\,\rho_\zeta\,D_A^{-1}\,\hat\alpha^{8/11}$.
 \end{proposition}
 \begin{proof}
 Work with the unperturbed pair on $\Pi$. $S_{0l}=\emptyset$ (Lemma~\ref{bpW:w7:sep}); fix $k\ne0$ and sum over $l$.
@@ -457,33 +475,35 @@ $32\rho_\zeta\hat\alpha\abs k^2/(\vartheta^3A_kD_A)$.
 The zone of $(k,-(e_i-e_j))$ is that of $(-k,e_i-e_j)$; so it suffices to bound, for each $k$, the zones
 $S_{k,ij}$ of $l=e_i-e_j$, $i>j$, and to double. Put $n=i-j\ge1$ (the source's $m$). $S_{k,ij}\neq\emptyset$ forces
 $n\le\abs k/\vartheta$. For $(k,e_i-e_j)\notin X$, Lemma~\ref{bpW:w7:zone} gives
-$\Leb(S_{k,ij})\le8\rho_\zeta\hat\alpha n/(j^{1/2}A_k\abs kD_A)$. For all $j$, by
+$\Leb(S_{k,ij})\le8\rho_\zeta\hat\alpha n/(j^{1/4}A_k\abs kD_A)$. For all $j$, by
 Lemma~\ref{bpW:w7:unpert-bounds}(iii),
-\[S_{k,ij}\subset Q_{knj}:=\Bigl\{\xi\in\Pi:\abs{\avg{k,\omega^0}+n}<\frac{\hat\alpha n}{A_kj^{1/2}}+\frac{a_\kappa n}{j^2}\Bigr\},\]
+\[S_{k,ij}\subset Q_{knj}:=\Bigl\{\xi\in\Pi:\abs{\avg{k,\omega^0}+n}<\frac{\hat\alpha n}{A_kj^{1/4}}+\frac{a_\kappa n}{j^2}\Bigr\},\]
 and $Q_{knj}\subset Q_{knj_0}$ for $j\ge j_0$ (the threshold decreases in $j$).
 \proofstep{$\Lambda^-$, choice of $j_0$}\label{stepW:w7:prep-j0}
-Let $j_0=\lceil(A_k/\hat\alpha)^{2/5}\rceil$; $j_0\ge3$ since $\hat\alpha\le\frac1{27}<3^{-5/2}$. By
+Let $j_0=\lceil(A_k/\hat\alpha)^{4/11}\rceil$; $j_0\ge3$ since $\hat\alpha\le\frac1{27}<3^{-11/4}$. By
 Lemma~\ref{bpW:w7:zone} (with $\psi\equiv n$ for $Q_{knj_0}$),
 the union of the $S_{k,ij}$ with $i-j=n$ and $(k,e_i-e_j)\notin X$ is contained in
 $\bigcup_{3\le j<j_0,\,(k,e_i-e_j)\notin X}S_{k,ij}\cup Q_{knj_0}$, whose measure is
-\[\le\sum_{3\le j<j_0}\frac{8\rho_\zeta\hat\alpha n}{j^{1/2}A_k\abs kD_A}+\Leb(Q_{knj_0})
-\le\frac{8\rho_\zeta n}{\abs kD_A}\Bigl(\frac{\hat\alpha}{A_k}\sum_{j=1}^{j_0}j^{-1/2}+\frac{a_\kappa}{j_0^2}\Bigr)
-\le\frac{8\rho_\zeta n}{\abs kD_A}(2\sqrt2+a_\kappa)\Bigl(\frac{\hat\alpha}{A_k}\Bigr)^{4/5},\]
-using $\sum_{j\le j_0}j^{-1/2}\le2\sqrt{j_0}$, $j_0\le2(A_k/\hat\alpha)^{2/5}$ and $j_0^{-2}\le(\hat\alpha/A_k)^{4/5}$
+\[\le\sum_{3\le j<j_0}\frac{8\rho_\zeta\hat\alpha n}{j^{1/4}A_k\abs kD_A}+\Leb(Q_{knj_0})
+\le\frac{8\rho_\zeta n}{\abs kD_A}\Bigl(\frac{\hat\alpha}{A_k}\sum_{j=1}^{j_0}j^{-1/4}+\frac{a_\kappa}{j_0^2}\Bigr)
+\le\frac{8\rho_\zeta n}{\abs kD_A}(3+a_\kappa)\Bigl(\frac{\hat\alpha}{A_k}\Bigr)^{8/11},\]
+using $\sum_{j\le j_0}j^{-1/4}\le\frac43j_0^{3/4}$, $j_0\le2(A_k/\hat\alpha)^{4/11}$ (so
+$\frac43\hat\alpha j_0^{3/4}/A_k\le\frac43 2^{3/4}(\hat\alpha/A_k)^{8/11}\le3(\hat\alpha/A_k)^{8/11}$) and
+$j_0^{-2}\le(\hat\alpha/A_k)^{8/11}$
 \ref{bpW:w7:ext-ennreal}.
 \proofstep{$\Lambda^-$, sum over $n$}\label{stepW:w7:prep-n}
 $\sum_{n\le\abs k/\vartheta}n\le\abs k^2/\vartheta^2$; doubling for the sign, the $\Lambda^-$ zones of $\pm k$ not in
-$X$ contribute at most $16\rho_\zeta(3+a_\kappa)\abs k\vartheta^{-2}(\hat\alpha/A_k)^{4/5}D_A^{-1}$ per $k$.
+$X$ contribute at most $16\rho_\zeta(3+a_\kappa)\abs k\vartheta^{-2}(\hat\alpha/A_k)^{8/11}D_A^{-1}$ per $k$.
 \proofstep{Exceptional zones}\label{stepW:w7:prep-X}
 By Lemma~\ref{bpW:w7:Xzones} with $a=\hat\alpha$ (note $\hat w\le\jap l$), the zones with $(k,l)\in X$ have total
 measure at most $4N_X\rho_\zeta\hat\alpha K_*/(\vartheta\sigma_XD_A)$.
 \proofstep{Sum over $k$}\label{stepW:w7:prep-sum}
-With $A_k\ge\abs k^{24}$: $\abs k^{-1}A_k^{-1}$, $\abs k^2A_k^{-1}$ and $\abs kA_k^{-4/5}$ are all $\le\abs k^{-3}$.
-Summing with Lemma~\ref{bpW:w7:count}(iii) and $\hat\alpha\le\hat\alpha^{4/5}$ gives the bound with $C_P$ of (C5).
+With $A_k\ge\abs k^{24}$: $\abs k^{-1}A_k^{-1}$, $\abs k^2A_k^{-1}$ and $\abs kA_k^{-8/11}$ are all $\le\abs k^{-3}$.
+Summing with Lemma~\ref{bpW:w7:count}(iii) and $\hat\alpha\le\hat\alpha^{8/11}$ gives the bound with $C_P$ of (C5).
 Borel: Lemma~\ref{bpW:w7:measurable}.
 \end{proof}
-\source{P96-K Lemma~9, p.~141, with $\kappa=2$, $\varpi=\frac12$: $\lambda=\kappa/(\kappa+1-\varpi)=\frac45$; our $j_0$ is the
-source's choice $j_0^{\kappa+1-\varpi}=A_k/\hat\alpha$, rounded up. P96-K Lemma~8, p.~138, for the grouping.}
+\source{P96-K Lemma~9, p.~141, with $\kappa=2$ and the weight exponent $\beta=\frac14$ in place of $\varpi$:
+$\lambda=\kappa/(\kappa+1-\beta)=\frac8{11}$; our $j_0$ is the source's choice $j_0^{\kappa+1-\beta}=A_k/\hat\alpha$, rounded up. P96-K Lemma~8, p.~138, for the grouping.}
 
 \subsection{The iteration zones}\label{bpW:w7:iter-sec}
 
@@ -544,22 +564,23 @@ $\omega^0,\Omega^0_j$ are affine; $\omega_\nu-\omega^0$ and $\Omega_{\nu,j}-\Ome
 Let $m>0$ and the constants of Definition~\ref{bpW:w7:constdef} be given. Let $\Pi\subset\{\xi\in\R^2:
 \abs\xi_\infty\le\frac12\}$ be Borel with $\rho=\operatorname{diam}_\infty\Pi$, let $0<\alpha\le\alpha_0$, and let an
 admissible family (Definition~\ref{bpW:w7:family}) be given. Then $\mathcal E$ is Borel and
-\[\Leb(\mathcal E)\le C_7\,\rho\,\alpha^{16/23}.\]
-Equivalently, in the frequency coordinates, $\Leb(\omega^0(\mathcal E))\le(C_P+C_I)N_A\rho\,\alpha^{16/23}$. The
+\[\Leb(\mathcal E)\le C_7\,\rho\,\alpha^{32/47}.\]
+Equivalently, in the frequency coordinates, $\Leb(\omega^0(\mathcal E))\le(C_P+C_I)N_A\rho\,\alpha^{32/47}$. The
 constant $C_7$ depends on $m$ only.
 \end{theorem}
 \begin{proof}
 \proofstep{Assemble}\label{stepW:w7:assemble}
 $\Leb(\mathcal E)\le\Leb(\Xi)+\Leb(\mathcal E_{\rm it})$ by \ref{bpW:w7:ext-borel}. In
-Propositions~\ref{bpW:w7:prep}--\ref{bpW:w7:iter} substitute $\hat\alpha^{4/5}=\alpha^{\frac{20}{23}\cdot\frac45}
-=\alpha^{16/23}$, $\check\alpha^{2/3}=\alpha^{\frac{24}{23}\cdot\frac23}=\alpha^{16/23}$, $\check\alpha\le\alpha
-\le\alpha^{16/23}$ and $\varepsilon_1+\varepsilon_2\le2\alpha$ (all exponents of $\alpha\le1$ compared).
+Propositions~\ref{bpW:w7:prep}--\ref{bpW:w7:iter} substitute $\hat\alpha^{8/11}=\alpha^{\frac{44}{47}\cdot\frac8{11}}
+=\alpha^{32/47}$, $\check\alpha^{2/3}=\alpha^{\frac{48}{47}\cdot\frac23}=\alpha^{32/47}$, $\check\alpha\le\alpha
+\le\alpha^{32/47}$ and $\varepsilon_1+\varepsilon_2\le2\alpha$ (all exponents of $\alpha\le1$ compared).
 \proofstep{Return to $\xi$}\label{stepW:w7:return}
 $\rho_\zeta/D_A\le N_A\rho/D_A=L_A\rho$ (Lemma~\ref{bpW:w7:freqcoords}(ii)).
 \end{proof}
 \source{P96-K Theorem~D, p.~124, and its proof, pp.~140--142, for $n=2$, $d=1$, $\kappa=2$, $\bar p-p=1$,
-$\varpi=\frac12$: $\tilde\mu=\kappa/(\kappa+1-\varpi/4)=\frac{16}{23}$, $c\rho^{n-1}=c\rho$. The source's choice
-$w=\varpi/(4\kappa+4-\varpi)=\frac1{23}$ is used.}
+loss $\varpi=\frac12$ and weight exponent $\beta=\frac14$ (the source has $\beta=\varpi$):
+$\tilde\mu=\kappa/(\kappa+1-\beta/4)=\frac{32}{47}$, $c\rho^{n-1}=c\rho$. The source's optimization of $w$ gives
+$w=\beta/(4\kappa+4-\beta)=\frac1{47}$.}
 
 \begin{corollary}[Melnikov conditions on the complement]\label{bpW:w7:melnikov}
 In the setting of Theorem~\ref{bpW:w7:measure}:
@@ -641,8 +662,8 @@ max-norm-ball form of the frozen clause (1); ours for the ratio with $P\cap B_h$
 Suppose that for every $k$ there are $\alpha_k\in(0,\alpha_0]$ with $\alpha_k\le t_k$ and a Borel set $\Pi_k$ with
 $U_{-\alpha_k}\mathcal R_k\subset\Pi_k\subset(0,t_k)^2$, and an admissible family for $(\Pi_k,\alpha_k)$ with excluded
 set $\mathcal E_k$ such that $\Gamma\supset\mathcal R_k\cap(\Pi_k\setminus\mathcal E_k)$. Then
-\[\epsilon_k\le\frac{7\alpha_k+C_7\alpha_k^{16/23}}{(1-q^2)\,t_k}\le\frac{(7+C_7)\,\alpha_k^{16/23}}{(1-q^2)\,t_k}.\]
-Hence $\epsilon_k\to0$ whenever $\alpha_k^{16/23}/t_k\to0$, and then Theorem~\ref{bpW:w7:density} applies.
+\[\epsilon_k\le\frac{7\alpha_k+C_7\alpha_k^{32/47}}{(1-q^2)\,t_k}\le\frac{(7+C_7)\,\alpha_k^{32/47}}{(1-q^2)\,t_k}.\]
+Hence $\epsilon_k\to0$ whenever $\alpha_k^{32/47}/t_k\to0$, and then Theorem~\ref{bpW:w7:density} applies.
 \end{corollary}
 \begin{proof}
 $\mathcal R_k\setminus\Gamma\subset(\mathcal R_k\setminus U_{-\alpha_k}\mathcal R_k)\cup\mathcal E_k$; apply
@@ -655,14 +676,17 @@ $\Leb(\mathcal R_k)=(1-q^2)t_k^2$.
 \begin{remark}[Scaling with the action radius; admissible choices of $\alpha$]\label{bpW:w7:exponents}
 On a box of side $t$ in the actions (tangential amplitude $\sim\sqrt t$, i.e.\ $r(I)^2\sim t$ in the headline's
 $r(I)=\sqrt{I_1+I_2}$), the frequency box has side $\le N_At$ and area $D_At^2$, and the excluded fraction is
-$\le C\alpha^{16/23}/t$: the excluded set scales like $t\,\alpha^{16/23}$, not like the area $t^2$. In KP96's
+$\le C\alpha^{32/47}/t$: the excluded set scales like $t\,\alpha^{32/47}$, not like the area $t^2$. In KP96's
 variables (p.~26, Step~3) $t=r^{2\lambda}$ with $\lambda=4/g=\frac23$ and $r$ the normal-domain radius, and the KAM
-smallness needs $\alpha\ge c_1r^2=c_1t^{3/2}$ (p.~27, (8)). Density needs $\alpha^{16/23}=o(t)$, i.e.\
-$\alpha=o(t^{23/16})$. Since $\frac32>\frac{23}{16}$ these are compatible; equivalently $\frac{16}{23}\cdot2>2\lambda=\frac43$,
+smallness needs $\alpha\ge c_1r^2=c_1t^{3/2}$ (p.~27, (8)). Density needs $\alpha^{32/47}=o(t)$, i.e.\
+$\alpha=o(t^{47/32})$. Since $\frac32=\frac{48}{32}>\frac{47}{32}$ these are compatible, so the admissible window is
+$t^{3/2}\lesssim\alpha=o(t^{47/32})$; equivalently $\frac{32}{47}\cdot2=\frac{64}{47}>2\lambda=\frac43$,
 which is KP96's $\lambda<\bar\mu$ (p.~30, Step~8) and P96-W's $g=6>4+(4-\Delta)/\kappa=\frac{11}2$ (p.~291). An explicit
-choice is $\alpha(t)=t^{47/32}$ (KP96's $\alpha=r^{47/24}$): then $\alpha^{16/23}/t=t^{1/46}\to0$ and
-$t^{3/2}/\alpha=t^{1/32}\to0$. The choice belongs to W8 (it also controls the closeness $\Psi-\Psi_0$); W7 needs only
-$\alpha_k\le\min(\alpha_0,t_k)$ and $\alpha_k^{16/23}/t_k\to0$. With P96-K Theorem~B's $\mu=\frac23$ one would need
+choice is $\alpha(t)=t^{95/64}$, the midpoint exponent of the window (KP96's $\alpha=r^{95/48}$): then
+$\alpha^{32/47}/t=t^{95/94-1}=t^{1/94}\to0$, $t^{3/2}/\alpha=t^{1/64}\to0$, and $\alpha(t)\le t$ for $t\le1$. The window
+is narrow (exponents $\frac{47}{32}$ to $\frac{48}{32}$); the earlier choice $t^{47/32}$, made for the weight exponent
+$\frac12$, now sits on its upper edge and gives only $\alpha^{32/47}/t=1$, so it is no longer admissible. The choice belongs to W8 (it also controls the closeness $\Psi-\Psi_0$); W7 needs only
+$\alpha_k\le\min(\alpha_0,t_k)$ and $\alpha_k^{32/47}/t_k\to0$. With P96-K Theorem~B's $\mu=\frac23$ one would need
 $\alpha=o(t^{3/2})$, which contradicts the KAM smallness: this is why Theorem~D is used.
 \end{remark}
 \source{KP96 pp.~26--30, Steps~3--8; P96-W p.~289 (Cantor Manifold Theorem) and p.~291; P96-K p.~123 (the
@@ -689,7 +713,7 @@ $\abs{\sum_ik_i\nu_i}=\abs{\avg{k,\omega}}/(2\pi)\ge c/(2\pi A_k)\ge c/(4\pi S^{
 \begin{remark}[Use in clause (2)]\label{bpW:w7:dioph-use}
 On the final parameter set of a shell, \texttt{bpW:w6:final-freq} gives $\abs{\avg{k,\omega_*}}\ge\check\alpha/(2A_k)$,
 so Lemma~\ref{bpW:w7:dioph} with $c=\check\alpha/2$ gives $\gamma_I=\check\alpha_k/(8\pi)>0$, $\check\alpha_k=
-\alpha_k^{24/23}$, for every $I$ in that shell's part of $\Gamma$, with the single exponent $\tau=24>1$ of the headline.
+\alpha_k^{48/47}$, for every $I$ in that shell's part of $\Gamma$, with the single exponent $\tau=24>1$ of the headline.
 $\gamma_I$ depends on the shell and tends to $0$ as $I\to0$, as the headline allows.
 \end{remark}
 
@@ -744,7 +768,10 @@ pp.~22--31 on the author PDF. Findings in \S\S5--6 of P96-K:
 \end{enumerate}
 \emph{Deviations introduced here:} Dirichlet labels and $\jap l$ instead of P96-K's reindexed weights
 (Remark~\ref{bpW:w7:reindex}); coordinate-line slicing on the domain of the frequency maps instead of oblique lines
-after a Lipschitz extension; explicit constants and the fixed choices $\varpi=\frac12$, $\tau=24$; a single drift
+after a Lipschitz extension; explicit constants and the fixed choices $\varpi=\frac12$, $\tau=24$; the weight exponent $\beta=\frac14$ of the
+modified divisors, distinct from the loss $\varpi=\frac12$ (P96-K takes them equal; with $\beta=\varpi$ the
+parameter-Lipschitz bound of the preparatory step fails, W5 \textsf{SOURCE\_GAP} after
+Lemma~\ref{bpW:w5:w4-modified}), hence $w=\frac1{47}$ and $\tilde\mu=\frac{32}{47}$; a single drift
 hypothesis (H2) combining the preparatory shift ($j^{-1}$) and the iteration drift ($j^{-1/2}$); our own choices of
 $j_0$; the boundary layer of Lemma~\ref{bpW:w7:shell-geom}(ii); measurability (not discussed in the sources).
 \end{remark}
@@ -755,7 +782,8 @@ $j_0$; the boundary layer of Lemma~\ref{bpW:w7:shell-geom}(ii); measurability (n
 \emph{Consumed:} Theorem~\ref{bpW:w0n:AB} ($A$, $B$), Theorem~\ref{bpW:w0n:nondeg} ((i) $\det A$, (iii) (A$_3$)),
 Remark~\ref{bpW:w0n:kappa} ($\kappa=2$, re-proved quantitatively in Lemma~\ref{bpW:w7:unpert-bounds}); forward from W6:
 \texttt{bpW:w6:prep-step}, \texttt{bpW:w6:freq-lip}, \texttt{bpW:w6:exclusion}, \texttt{bpW:w6:final-freq}
-(Remark~\ref{bpW:w7:w6-needs}). \emph{Supplied:} to W5--W6, the constants $\tau=24$, $\varpi=\frac12$, $\theta_0$,
+(Remark~\ref{bpW:w7:w6-needs}). \emph{Supplied:} to W5--W6, the constants $\tau=24$, $\varpi=\frac12$, $\beta=\frac14$, $w=\frac1{47}$,
+$\hat\alpha=\alpha^{44/47}$, $\check\alpha=\alpha^{48/47}$, $\theta_0$,
 $\alpha_0$, the zone definitions and Corollary~\ref{bpW:w7:melnikov} (in particular the $k=0$ conditions); to W8,
 Theorem~\ref{bpW:w7:measure}, Theorem~\ref{bpW:w7:density} with Corollary~\ref{bpW:w7:shell-est} (clause (1)),
 Lemma~\ref{bpW:w7:dioph} and Lemma~\ref{bpW:w7:limit} (clause (2)), Lemma~\ref{bpW:w7:measurable} (Borel $\Gamma$),

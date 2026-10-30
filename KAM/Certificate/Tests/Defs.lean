@@ -54,7 +54,7 @@ def defsToyH : HamExpr 1 := .mul (.const (1 / 2)) (.mul (.action 0) (.action 0))
 def defsToyB : List (List (CertPoly ℚ)) :=
   [[⟨[([-1], ⟨0, 1 / 10⟩), ([0], ⟨1, 0⟩), ([1], ⟨0, -1 / 10⟩)]⟩]]
 
-def defsToyWit : Witnesses ℚ := ⟨[], [], []⟩
+def defsToyWit : Witnesses ℚ := ⟨[], [], [], []⟩
 
 def defsToyBox : FreqBox := [(1, 1 / 1000)]
 

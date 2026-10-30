@@ -50,7 +50,7 @@ def graphToyBase (disp : ℚ) : TorusCertificate 2 ℚ where
   freqBox := [(1, 0), (1, 0)]
   emb := graphToyK
   weight := graphToyW
-  wit := ⟨[], [], []⟩
+  wit := ⟨[], [], [], []⟩
   gramInv := []
   torsInv := []
   cfgFull := graphToyCfg

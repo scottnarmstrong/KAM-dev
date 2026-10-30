@@ -15,8 +15,9 @@ public import KAM.Certificate.Gram
 `2n` slots `∂_a H` and energy only `H`. `pruneProg p wanted` replaces every operation outside the
 backward closure of `wanted` by the constant `0` (slot numbers are unchanged, so every product key
 `[0, slot]` and every operand reference is as before) and `pruneWit` drops the exp and reciprocal
-witnesses that only the discarded operations consumed. A dead `exp`, `inv` or `mul` then costs
-nothing.
+witnesses that only the discarded operations consumed. A dead `exp`, `inv`, `sqrt` or `mul` then
+costs nothing. Square-root witnesses are keyed by slot number, which pruning keeps, so they are
+passed through unchanged (a dead `sqrt` slot's witness is never read).
 
 The backward closure is computed by an untrusted pass and *verified* by `liveClosed`; when the
 verification fails `prune` returns the program and the witnesses unchanged. The soundness lemma
@@ -36,6 +37,7 @@ def opDeps : SlpOp → List ℕ
   | .mul a b => [a, b]
   | .exp a => [a]
   | .inv a => [a]
+  | .sqrt a => [a]
   | _ => []
 
 /-- The operation that replaces a discarded one. -/
@@ -90,7 +92,7 @@ def prune {α : Type} (p : Slp) (wit : Witnesses α) (wanted : List ℕ) : Slp �
   let S := liveSet p.ops wanted
   if pruneOk p.ops wanted S then
     (⟨pruneOps p.ops S⟩, ⟨keepFlagged wit.expWit (expFlags p.ops S),
-      keepFlagged wit.invWit (invFlags p.ops S), wit.charWit⟩)
+      keepFlagged wit.invWit (invFlags p.ops S), wit.charWit, wit.sqrtWit⟩)
   else (p, wit)
 
 /-- `Slp.compose` of the pruned program with the pruned witnesses. -/

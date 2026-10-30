@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.PhaseBasis
+public import KAM.Certificate.Expr.Sqrt
 public import KAM.Certificate.Poly.Basic
 public import KAM.Frozen.Defs.ComplexStrip
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
@@ -16,7 +17,8 @@ public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
 
 `HamExpr n` is the finite expression language for Hamiltonians: angles enter only
 through the period-one modes `cos (2π k·θ)`, `sin (2π k·θ)`. We prove the structural facts:
-holomorphy on an open set where all denominators are certified nonvanishing, invariance under
+holomorphy on an open set where all denominators are certified nonvanishing and all square-root
+operands have positive real part, invariance under
 integer translations of the angles, reality on real points, and the openness and translation
 invariance of the Hamiltonian domain `certDomain`.
 -/
@@ -31,7 +33,9 @@ open KAM
 `cos (2π k·θ)`, `sin (2π k·θ)`; every constructor maps reals to reals, so reality, periodicity
 and translation invariance are structural and unconditional. Division is by an
 expression certified nonvanishing on the domain (`NonvanishingOn`, established by the ball
-arithmetic of `checkHamBounds`); holomorphy is structural under that condition. -/
+arithmetic of `checkHamBounds`); the square root `sqrt` is the total `sqrtE` (`0` on the
+nonpositive real axis, so it maps reals to reals) of an operand certified to have positive real
+part on the domain; holomorphy is structural under these conditions. -/
 inductive HamExpr (n : ℕ) : Type
   | const (q : ℚ)
   | pi
@@ -45,6 +49,7 @@ inductive HamExpr (n : ℕ) : Type
   | exp (a : HamExpr n)
   | sin (a : HamExpr n)
   | cos (a : HamExpr n)
+  | sqrt (a : HamExpr n)
 
 /-- `2π k·θ`. -/
 def modePhase (n : ℕ) (k : CertKey) (θ : Fin n → ℂ) : ℂ :=
@@ -65,8 +70,10 @@ def HamExpr.eval {n : ℕ} : HamExpr n → (Fin n → ℂ) × (Fin n → ℂ) �
   | .exp a, z => Complex.exp (a.eval z)
   | .sin a, z => Complex.sin (a.eval z)
   | .cos a, z => Complex.cos (a.eval z)
+  | .sqrt a, z => sqrtE (a.eval z)
 
-/-- Every denominator of `e` is nonzero at every point of `S`. -/
+/-- Every denominator of `e` is nonzero and every square-root operand has positive real part at
+every point of `S`. -/
 def HamExpr.NonvanishingOn {n : ℕ} : HamExpr n → Set ((Fin n → ℂ) × (Fin n → ℂ)) → Prop
   | .add a b, S => a.NonvanishingOn S ∧ b.NonvanishingOn S
   | .mul a b, S => a.NonvanishingOn S ∧ b.NonvanishingOn S
@@ -75,6 +82,7 @@ def HamExpr.NonvanishingOn {n : ℕ} : HamExpr n → Set ((Fin n → ℂ) × (Fi
   | .exp a, S => a.NonvanishingOn S
   | .sin a, S => a.NonvanishingOn S
   | .cos a, S => a.NonvanishingOn S
+  | .sqrt a, S => a.NonvanishingOn S ∧ ∀ z ∈ S, 0 < (a.eval z).re
   | _, _ => True
 
 theorem contDiff_modePhase (n : ℕ) (k : CertKey) : ContDiff ℂ ⊤ (modePhase n k) := by
@@ -100,6 +108,9 @@ theorem HamExpr.contDiffOn_eval {n : ℕ} (e : HamExpr n) {S : Set ((Fin n → �
   | exp a iha => exact (iha h).cexp
   | sin a iha => exact Complex.contDiff_sin.comp_contDiffOn (iha h)
   | cos a iha => exact Complex.contDiff_cos.comp_contDiffOn (iha h)
+  | sqrt a iha =>
+    exact fun z hz => (contDiffAt_sqrtE (mem_slitPlane_of_re_pos (h.2 z hz))).comp_contDiffWithinAt
+      z (iha h.1 z hz)
 
 theorem modePhase_add_int {n : ℕ} (k : CertKey) (θ : Fin n → ℂ) (m : Fin n → ℤ) :
     modePhase n k (θ + fun i => (m i : ℂ)) =
@@ -126,6 +137,7 @@ theorem HamExpr.eval_add_int {n : ℕ} (e : HamExpr n) (z : (Fin n → ℂ) × (
   | exp a iha => simp only [HamExpr.eval, iha]
   | sin a iha => simp only [HamExpr.eval, iha]
   | cos a iha => simp only [HamExpr.eval, iha]
+  | sqrt a iha => simp only [HamExpr.eval, iha]
 
 /-- At real points an expression takes real values. -/
 theorem HamExpr.exists_real_eval {n : ℕ} (e : HamExpr n) (θ I : Fin n → ℝ) :
@@ -164,6 +176,10 @@ theorem HamExpr.exists_real_eval {n : ℕ} (e : HamExpr n) (θ I : Fin n → ℝ
   | cos a iha =>
     obtain ⟨r, hr⟩ := iha
     exact ⟨Real.cos r, by simp [HamExpr.eval, hr, Complex.ofReal_cos]⟩
+  | sqrt a iha =>
+    obtain ⟨r, hr⟩ := iha
+    obtain ⟨t, ht⟩ := sqrtE_ofReal r
+    exact ⟨t, by simp only [HamExpr.eval, hr, ht]⟩
 
 theorem HamExpr.eval_real {n : ℕ} (e : HamExpr n) (θ I : Fin n → ℝ) :
     (e.eval ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0 := by

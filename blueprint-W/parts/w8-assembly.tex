@@ -1,0 +1,650 @@
+\section{Milestone W8: shells, patching, family injectivity, and the proof of W-NLW2}\label{bpW:w8}
+
+\providecommand{\Pc}{\mathcal P}
+
+This part assembles the frozen headline \Lean{KAM.Wave.nlw2} (Theorem~\ref{bpW:wh:nlw2}) from milestones W0--W7.
+The KAM theorem of W5--W6 runs on one parameter domain at a time and yields, on a Borel set of actions $\xi$ of
+almost full measure in that domain, invariant tori close to the linear tori. A single domain cannot give density one
+at the origin (W7, Remark~\ref{bpW:w7:exponents}), so, following KP96 \S7, Step~5, the theorem is applied on a
+sequence of dyadic action shells, each trimmed by a margin equal to its own divisor level $\alpha_n$, and the outputs
+are pieced together. Because the trimmed shells are open, pairwise disjoint and at positive distance from one another,
+the patched objects are continuous wherever each piece is: no compatibility across shell boundaries is needed.
+
+\paragraph{What W8 adds to W6--W7.} Remark~\ref{bpW:w6:to-w8} lists three items.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Embedding.} Cauchy estimates on the strip turn the angle error $X$ into a $\frac12$-Lipschitz periodic
+  function; with the injectivity of W3's map $\Gamma^\R$ this gives injectivity modulo $\Z^2$ and injective derivatives
+  (Lemma~\ref{bpW:w8:shell-embedding}).
+\item \emph{$o(r)$ closeness.} W6 states the closeness through $e_{\rm tor}=M_{F,P}+e_\Phi$, with
+  $e_\Phi=5c_F\epsilon_0/(\check\alpha\sigma_0^{51})$ for a starting size $\epsilon_0\in[\epsilon^\flat_0,\gamma_1\check\alpha]$ that is a
+  parameter of Definition~\ref{bpW:w6:wave-iteration} (Remark~\ref{bpW:w6:to-w8}, ``Starting size''), $\epsilon^\flat_0$ being the sharp
+  post-preparatory size of Lemma~\ref{bpW:w6:prep-step}(v). With the upper value $\epsilon_0=\gamma_1\check\alpha$ the term $e_\Phi$ does
+  not depend on the shell, while closeness of order $o(r)$ needs $e_{\rm tor}\to0$ along the shells. We give the parameter a
+  shell-dependent value $\epsilon_{0,n}$ in that interval, small relative to $\check\alpha_n$ (Lemma~\ref{bpW:w8:sharp-prep},
+  Lemma~\ref{bpW:w8:w6-general}); then $e_{\rm tor}\lesssim t_n^{1/64}$ (Lemma~\ref{bpW:w8:etor}).
+\item \emph{Patching and family injectivity.} Two tori that meet carry the same orbit, by uniqueness for the
+  coefficient system (Lemma~\ref{bpW:w8:unique}). In Birkhoff coordinates the phase of each tangential mode along that
+  orbit winds at the rate $\nu_i$, so the two frequencies coincide (Lemma~\ref{bpW:w8:winding}). The frequency map is
+  injective on the patched parameter set (Lemma~\ref{bpW:w8:nu-injective}): within a shell because the drift
+  $\omega_*-\omega^0$ is $\theta_0$-Lipschitz with $\theta_0L_A\le\frac18$, and across shells because of the
+  margins.
+\end{enumerate}
+The source obtains injectivity differently, from the Lipschitz estimates of the family in $\xi$ (KP96 \S7,
+Step~6, (11)); W6 proves only continuity in $\xi$ (the Lipschitz family is a declared weakening,
+Remark~\ref{bpW:wh:weakenings}), so W8 uses the frequency route above.
+
+\paragraph{Standing data and notation.} Standing assumption~\ref{bpW:w0:mass} ($m>0$) and the conventions of
+\S\ref{bpW:w0} hold; $a=p=1$. Vectors in $\R^2$ and $\C^2$ carry the max norm $\abs\cdot$; $\Leb$ is \Lean{volume}
+on \Lean{Fin 2 -> Real}; the Lean index $i\in$ \Lean{Fin 2} is the Dirichlet mode $i+1$. Shells are indexed by
+$n\ge0$ (W7's $k$); W6's iteration index is written $\mu$; $\nu$ always denotes a frequency vector. The KAM exponent
+$2\tau+4=52$ of W5--W6 is written as a number. From earlier parts we use: W3's $\rho_1,C_*,C'_K,C_F$
+(\S\ref{bpW:w3:constants}), the maps $\mathcal Z$ (Lemma~\ref{bpW:w3:coords}), $\Gamma$ and
+$\Gamma^\R=\mathcal Z^{-1}\Gamma\mathcal Z$ (Theorem~\ref{bpW:w3:main}, Corollary~\ref{bpW:w3:gamma-real}) and
+$r_1=\rho_1/\sqrt2$; W5's $c_A=2200$ and $\mathcal A_\xi$ (Lemma~\ref{bpW:w5:action-angle}); W6's $s=\frac18$,
+$\sigma_P=s/40$, $s_0=\frac78s=\frac7{64}$, $\sigma_0=s_0/40$, $M$, $\gamma_0$, $\gamma_1$, $\gamma$
+(Definition~\ref{bpW:w6:constants}), $c_F$ (iteration steps) and $c^\natural_F$, $C^\natural_2$, $t^\natural=53$ (preparatory step)
+(\S\ref{bpW:w5:ledger}); W7's $\tau=24$, $\theta_0$, $\alpha_0$,
+$C_7$, $L_A$, $N_A$, $\omega^0$, $\Omega^0$ (Definitions~\ref{bpW:w7:constdef}, \ref{bpW:w7:omega0},
+Lemma~\ref{bpW:w7:freqcoords}); W2's $M_m$ (Theorem~\ref{bpW:w2:curve}); the transport
+$\tau_E=\tau_{1,1}\times\tau_{1,1}:E_{1,1}\to$ \Lean{WaveSpace}, a linear isometric bijection
+(Lemma~\ref{bpW:w1:space}(iv)) whose inverse $\kappa_{1,1}\times\kappa_{1,1}$ is \Lean{coeff} in each factor. For
+$I\in P=(0,\infty)^2$, $r(I)=\sqrt{I_1+I_2}$ (Lean \Lean{Real.sqrt (I 0 + I 1)}). The frozen
+$\Lean{linearTorus I hI}=\tau_E\circ K^0_I$ (Definition~\ref{bpW:wh:lintorus}, Convention~\ref{bpW:w0:periodone}) does
+not depend on the proof \Lean{hI}.
+
+\subsection{External facts}\label{bpW:w8:ext}
+
+{\raggedright
+\begin{enumerate}[label=(W8-E\arabic*),ref=(W8-E\arabic*)]
+\item\label{bpW:w8:ext-inner} \emph{Inner products along curves.} If $c_1,c_2:\R\to\ell^2_\R$ are differentiable at
+  $t$, then $s\mapsto\langle c_1(s),c_2(s)\rangle$ has derivative $\langle c_1'(t),c_2(t)\rangle+\langle
+  c_1(t),c_2'(t)\rangle$ (\Lean{HasDerivAt.inner}); $\langle f,g\rangle=\sum_jf_jg_j$ for $f,g\in\ell^2_\R$ with
+  absolutely summable terms (\Lean{lp.inner\_eq\_tsum}, \Lean{lp.summable\_inner}); termwise sums and differences of
+  summable series (\Lean{Summable.tsum\_add}, \Lean{Summable.tsum\_sub}); Cauchy--Schwarz
+  (\Lean{real\_inner\_le\_norm}).
+\item\label{bpW:w8:ext-mono} \emph{Sign of the derivative.} A real function differentiable on an interval with
+  nonpositive (nonnegative) derivative is antitone (monotone) there (\Lean{antitoneOn\_of\_deriv\_nonpos},
+  \Lean{monotoneOn\_of\_deriv\_nonneg}); derivatives of products and of $t\mapsto e^{ct}$ (\Lean{HasDerivAt.mul},
+  \Lean{Real.hasDerivAt\_exp}).
+\item\label{bpW:w8:ext-compact} \emph{Compactness.} A continuous map on $[-T,T]$ is bounded there
+  (\Lean{IsCompact.exists\_bound\_of\_continuousOn}, \Lean{isCompact\_Icc}); analytic maps are continuous
+  (\Lean{AnalyticAt.continuousAt}).
+\item\label{bpW:w8:ext-exp} \emph{Complex exponential and integers.} $e^{z}=1$ iff $z\in2\pi i\Z$
+  (\Lean{Complex.exp\_eq\_one\_iff}); $\abs{e^{ix}}=1$ and $\abs{e^{ix}-1}\le\abs x$ for real $x$
+  (\Lean{Complex.norm\_exp\_ofReal\_mul\_I}, \Lean{Real.norm\_exp\_I\_mul\_ofReal\_sub\_one\_le}); a continuous
+  function from a connected space ($\R$ or $\R^2$) with values in $\Z\subset\R$ is constant
+  (\Lean{IsPreconnected.constant}, with \Lean{isPreconnected\_univ}); if $t\mapsto tc$ is bounded on $\R$ then $c=0$.
+\item\label{bpW:w8:ext-sqrt} \emph{Square roots.} For $a>0$ and $a+b\ge0$: $\abs{\sqrt{a+b}-\sqrt a}\le\abs b/\sqrt a$
+  (from $(\sqrt{a+b}-\sqrt a)(\sqrt{a+b}+\sqrt a)=b$; \Lean{Real.sq\_sqrt}, \Lean{Real.sqrt\_pos}).
+\item\label{bpW:w8:ext-dist} \emph{Distance to a set.} $x\mapsto\operatorname{dist}(x,S)$ is $1$-Lipschitz
+  (\Lean{Metric.continuous\_infDist\_pt}), so $\{x:\operatorname{dist}(x,S)>a\}$ is open; it is $0$ on $S$
+  (\Lean{Metric.infDist\_zero\_of\_mem}) and $\le\abs{x-y}$ for $y\in S$ (\Lean{Metric.infDist\_le\_dist\_of\_mem}).
+\item\label{bpW:w8:ext-rpow} \emph{Real powers.} For $x>0$: $x^ax^b=x^{a+b}$ (\Lean{Real.rpow\_add}); $x\mapsto x^a$ is
+  monotone on $[0,\infty)$ for $a\ge0$ and $x^a\le x^b$ for $0<x\le1$, $a\ge b$ (\Lean{Real.rpow\_le\_rpow},
+  \Lean{Real.rpow\_le\_rpow\_of\_exponent\_ge}); $x^a\ge0$ for $x\ge0$ (\Lean{Real.rpow\_nonneg}); $x\mapsto x^a$ is continuous
+  at $0$ with value $0$ for $a>0$ (\Lean{Real.continuousAt\_rpow\_const}, \Lean{Real.zero\_rpow}), hence tends to $0$
+  along \Lean{nhdsWithin 0 (Set.Ioi 0)} (\Lean{nhdsWithin\_le\_nhds}).
+\item\label{bpW:w8:ext-local} \emph{Local definitions.} A map is continuous on $S$ if each point of $S$ has an open
+  neighbourhood $O$ such that it is continuous on $S\cap O$ (\Lean{continuousOn\_of\_locally\_continuousOn}), and
+  continuity on a set transfers to any map agreeing with it there (\Lean{ContinuousOn.congr}); continuous linear maps
+  preserve \Lean{AnalyticOnNhd} (\Lean{ContinuousLinearMap.comp\_analyticOnNhd}) and compose with
+  \Lean{fderiv} by the chain rule (\Lean{fderiv\_comp}, \Lean{ContinuousLinearMap.fderiv}); an inequality between
+  limits of convergent sequences passes to the limit (\Lean{le\_of\_tendsto\_of\_tendsto'}).
+\end{enumerate}
+\par}
+
+\subsection{Shell data}\label{bpW:w8:shell-sec}
+
+All numbers below are fixed after $m$, in the order written, and depend on $m$ only.
+
+\begin{definition}[W8 constants]\label{bpW:w8:const}
+With the constants listed in the standing data, put
+\begin{gather*}
+E_1=1+2C_*+6(2c_A)^{5/2}C'_K,\qquad E_3=\Bigl(1+\frac8M\Bigr)E_1,\qquad
+E_4=c^\natural_F\gamma\,\sigma_P^{-52}+5c_F\gamma_1\sigma_0^{-51},\\
+E_5=\frac{E_3E_4}{\gamma},\qquad E_6=6\sqrt2\,C_F(2c_A)^{3/2},\qquad E_7=162E_5+E_6,\\
+t_0=\min\Bigl\{4^{-64},\ \alpha_0^{64/95},\ \frac{\rho_1^2}{8c_A},\ \Bigl(\frac{\gamma}{E_3}\Bigr)^{64},\
+\Bigl(\frac{7}{256E_5}\Bigr)^{64}\Bigr\},
+\end{gather*}
+and the headline data
+\[\tau=24,\qquad r_0=\sqrt{2t_0},\qquad C_3=4\sqrt{c_A},\qquad C=\max(1,M_m)\,C_3,\qquad
+\eta(r)=2^{33/64}E_7\,r^{1/32}\]
+(Lean: \Lean{Real.rpow}; only $r>0$ matters).
+\end{definition}
+\source{ours. The shell exponents follow KP96 \S7: $t=r^{2\lambda}$ with $\lambda=\frac23$ (p.~26, Step~3), i.e.\ the
+normal radius $r^2=t^{3/2}$, and $\alpha=t^{95/64}$ (W7 Remark~\ref{bpW:w7:exponents}; KP96 p.~30, Step~8).}
+
+\begin{definition}[Shells]\label{bpW:w8:shells}
+For $n\ge0$ let $q=\frac12$, $t_n=2^{-n}t_0$, and $\mathcal R_n=(0,t_n)^2\setminus(0,t_{n+1})^2$ (W7
+Definition~\ref{bpW:w7:shells} with $q=\frac12$). Put
+\begin{gather*}
+\alpha_n=t_n^{95/64},\quad r_n=t_n^{3/4}\ (\text{so }r_n^2=t_n^{3/2}),\quad \rho_{\xi,n}=\frac{\alpha_n}2,\quad
+\rho_n=\bigl(c_A(t_n+r_n^2)\bigr)^{1/2},\\
+\epsilon^\sharp_n=E_3t_n^{3/2},\quad\kappa_n=\frac{\epsilon^\sharp_n}{\gamma\alpha_n}=\frac{E_3}{\gamma}t_n^{1/64},\quad
+\epsilon_{0,n}=\kappa_n^{4/3}\gamma_1\check\alpha_n\ (\check\alpha_n=\alpha_n^{48/47}),\quad
+\hat\alpha_n=\alpha_n^{44/47},
+\end{gather*}
+and the trimmed shell $\Pi_n=U_{-\alpha_n}\mathcal R_n=\{\xi\in\mathcal R_n:\operatorname{dist}(\xi,\R^2\setminus\mathcal R_n)>\alpha_n\}$.
+\end{definition}
+\source{KP96 p.~28, Step~5 ($R_r=\Xi_r\setminus\Xi_{\eta r}$, $R^-_r=U_{-\alpha}R_r$, $r_k=\eta^kr_0$; ``the $C_{r_k}$ are disjoint and
+even have a pairwise positive distance to each other''); W7 Definition~\ref{bpW:w7:shells}.}
+
+\begin{lemma}[Shell data are admissible]\label{bpW:w8:shell-data}
+For every $n\ge0$:
+\begin{enumerate}[label=(\roman*)]
+\item $0<t_n\le t_0\le4^{-64}$; $\alpha_n\le\min(\alpha_0,t_n)$; $r_n\le1$; $r_n^2\le\alpha_n/4$; $\kappa_n\le1$, so
+  $\epsilon^\sharp_n\le\gamma\alpha_n$; and $\rho_n^2\le2c_At_n<\rho_1^2/2=r_1^2$.
+\item $\Pi_n$ is open (hence Borel), $\Pi_n\subset\mathcal R_n\subset(0,t_n)^2\subset\{\abs\xi\le\frac12\}$, and every
+  $\xi\in\Pi_n$ has $\alpha_n<\xi_i<t_n-\alpha_n$ ($i=1,2$). If $\xi\in\Pi_n$ and $\xi'\notin\mathcal R_n$ (in
+  particular $\xi'\in\mathcal R_{n'}$, $n'\ne n$), then $\abs{\xi-\xi'}>\alpha_n$.
+\item The hypotheses of Proposition~\ref{bpW:w5:initial} hold with $s=\frac18$, $r=r_n$, $t=t_n$,
+  $\rho_\xi=\rho_{\xi,n}$, $\Pi=\Pi_n$, and its $\epsilon_{\rm in}$ satisfies $\epsilon_{\rm in}(1+8/M)\le\epsilon^\sharp_n$; so
+  the initial perturbation $P$ satisfies $\abs{X_P}^{\lambda}_{r_n,D(s,r_n)}\le\epsilon^\sharp_n$ for
+  $\lambda=\alpha_n/M$.
+\item The hypotheses of Lemma~\ref{bpW:w6:prep-step} hold with $\Pi=\Pi_n$, $\alpha=\alpha_n$, $r=r_n$,
+  $\epsilon=\epsilon^\sharp_n$ (in particular $0<\epsilon^\sharp_n\le\gamma\alpha_n$), and those of Remark~\ref{bpW:w6:to-w8}
+  ($c_A(t+r^2)<\rho_1^2$).
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Sizes}\label{stepW:w8:sd-size} $t_n\le t_0\le4^{-64}\le1$. $\alpha_n=t_n^{95/64}\le t_0^{95/64}\le\alpha_0$ and
+$\alpha_n\le t_n$ since $t_n\le1$ \ref{bpW:w8:ext-rpow}. $r_n^2=t_n^{96/64}=t_n^{1/64}\alpha_n\le4^{-1}\alpha_n$ since
+$t_n^{1/64}\le t_0^{1/64}\le\frac14$. $\kappa_n\le(E_3/\gamma)t_0^{1/64}\le1$ by the fourth entry of $t_0$.
+$\rho_n^2=c_A(t_n+r_n^2)\le2c_At_n\le2c_At_0\le\rho_1^2/4<\rho_1^2/2$ by the third entry. This is (i).
+\proofstep{Trimmed shell}\label{stepW:w8:sd-trim} $\Pi_n$ is open by \ref{bpW:w8:ext-dist}, and contained in $\mathcal R_n$
+because the distance vanishes on $\R^2\setminus\mathcal R_n$. For $\xi\in\Pi_n$ the points
+$\xi-\xi_ie_i$ and $\xi+(t_n-\xi_i)e_i$ lie outside $\mathcal R_n\subset(0,t_n)^2$, at distances $\xi_i$ and $t_n-\xi_i$
+(if positive), so both exceed $\alpha_n$ \ref{bpW:w8:ext-dist}. For $\xi'\notin\mathcal R_n$,
+$\abs{\xi-\xi'}\ge\operatorname{dist}(\xi,\R^2\setminus\mathcal R_n)>\alpha_n$. Shells are disjoint by
+Lemma~\ref{bpW:w7:shell-geom}(i). $(0,t_n)^2\subset\{\abs\xi\le\frac12\}$ as $t_n\le\frac12$. This is (ii).
+\proofstep{Proposition~\ref{bpW:w5:initial}}\label{stepW:w8:sd-init} Let $\xi\in\Pi_n$ and $\zeta\in\C^2$ with
+$\abs{\zeta-\xi}<\alpha_n/2$. Then $\operatorname{Re}\zeta_i>\xi_i-\alpha_n/2>\alpha_n/2\ge2r_n^2$ and
+$\abs{\zeta_i}<t_n-\alpha_n+\alpha_n/2<t_n$ by (ii); $c_A(t_n+r_n^2)<\rho_1^2$ by (i); $0<r_n\le1$. With
+$t_n+r_n^2\le2t_n$, $r_n=t_n^{3/4}$ and $t_n^{-3/4}\le t_n^{-1}$,
+\[\epsilon_{\rm in}\le(1+2C_*)t_n^{3/2}+C'_K(2c_At_n)^{5/2}\bigl(3t_n^{-3/4}+2\sqrt2\,t_n^{-1}\bigr)
+\le\bigl(1+2C_*+6(2c_A)^{5/2}C'_K\bigr)t_n^{3/2}=E_1t_n^{3/2}.\]
+With $\lambda=\alpha_n/M$, $4\lambda/\rho_{\xi,n}=8/M$, so Proposition~\ref{bpW:w5:initial} gives
+$\abs{X_P}^\lambda\le(1+8/M)E_1t_n^{3/2}=\epsilon^\sharp_n$. This is (iii).
+\proofstep{Lemma~\ref{bpW:w6:prep-step}}\label{stepW:w8:sd-prep} $\Pi_n$ is Borel in $\{\abs\xi\le\frac12\}$,
+$0<\alpha_n\le\alpha_0$; the majorant $\epsilon=\epsilon^\sharp_n=E_3t_n^{3/2}$ is positive, since $t_n>0$ and $E_3\ge E_1\ge1$, which is the
+positivity hypothesis $0<\epsilon$ of Lemma~\ref{bpW:w6:prep-step}; $P$ is real periodic in $\Sm_{p+1}(D(s,r_n))$ (Proposition~\ref{bpW:w5:initial}) with
+$\abs{X_P}^{\alpha_n/M}\le\epsilon^\sharp_n\le\gamma\alpha_n$ by (i), (iii). This is (iv).
+\end{proof}
+\source{ours; checks the conditions listed in Remark~\ref{bpW:w6:to-w8} and Proposition~\ref{bpW:w5:initial} (KP96 p.~26,
+Step~3: parameter domain $U_{-4r^2}\Xi_r$, here the margin $\alpha_n\ge4r_n^2$).}
+
+\subsection{The KAM iteration on one shell}\label{bpW:w8:iter-sec}
+
+\begin{lemma}[Sharp size after the preparatory step]\label{bpW:w8:sharp-prep}
+Fix $n$ and run Lemma~\ref{bpW:w6:prep-step} with the data of Lemma~\ref{bpW:w8:shell-data}(iv), in particular with the positive
+majorant $\epsilon=\epsilon^\sharp_n$. Then $\eta_P=(\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{53}))^{1/3}$ and the new perturbation satisfies,
+with $\lambda_0=\check\alpha_n/(2M)$,
+\[\abs{X_{P_0}}^{\lambda_0}_{r_0,D_0}\le\epsilon^\flat_{0,n}:=2C^\natural_2(\epsilon^\sharp_n)^{4/3}(\hat\alpha_n\sigma_P^{53})^{-1/3}
+\le\epsilon_{0,n}\le\gamma_1\check\alpha_n,\]
+and $\epsilon^\flat_{0,n}>0$.
+\end{lemma}
+\begin{proof}
+\proofstep{The sharp bound}\label{stepW:w8:sp-step} Lemma~\ref{bpW:w6:prep-step}(v) (the sharp size, Lipschitz part included) with
+$\epsilon=\epsilon^\sharp_n$ and $\alpha=\alpha_n$; its $\epsilon^\flat_0$ is $\epsilon^\flat_{0,n}$, positive because $\epsilon^\sharp_n>0$.
+\proofstep{Comparison}\label{stepW:w8:sp-cmp} With $\epsilon^\sharp_n=\kappa_n\gamma\alpha_n$ and $\frac43-\frac13\cdot\frac{44}{47}=\frac{48}{47}$,
+$\epsilon^\flat_{0,n}=\kappa_n^{4/3}\cdot2C^\natural_2\gamma^{4/3}\sigma_P^{-53/3}\check\alpha_n$, and
+$2C^\natural_2\gamma^{4/3}\sigma_P^{-53/3}\le\gamma_1$ because $\gamma\le(\gamma_1\sigma_P^{53/3}/(2C^\natural_2))^{3/4}$
+(Definition~\ref{bpW:w6:constants}). Hence $\epsilon^\flat_{0,n}\le\kappa_n^{4/3}\gamma_1\check\alpha_n=\epsilon_{0,n}$, and
+$\epsilon_{0,n}\le\gamma_1\check\alpha_n$ as $\kappa_n\le1$ (Lemma~\ref{bpW:w8:shell-data}(i)).
+\end{proof}
+\source{P96-K \S6, p.~141 (``$\abs{X_{P_0}}^\lambda_{\check p,\eta r}\lessdot\frac1{(\hat\alpha\sigma^t)^{\varkappa-1}}(\abs{X_P}^\lambda_{\bar p,r})^\varkappa$''),
+in the form of Lemma~\ref{bpW:w6:prep-step}(v).}
+
+\begin{definition}[The shell iteration]\label{bpW:w8:shell-iter}
+For $n\ge0$, the \emph{shell iteration} is Definition~\ref{bpW:w6:wave-iteration} run with the shell data of
+Lemma~\ref{bpW:w8:shell-data}(iv) and with the starting-size parameter $\epsilon_0=\epsilon_{0,n}$, which lies in the
+admissible interval $[\epsilon^\flat_{0,n},\gamma_1\check\alpha_n]$ by Lemma~\ref{bpW:w8:sharp-prep} (the other entries are W6's: $r_0=\eta_Pr_n$, $\alpha_0^{\rm it}=\check\alpha_n$, $M_0=2M$, $\Pi_{-1}=\Pi_n\setminus\Xi$, $\beta_0=\beta_*$).
+Its outputs are written with a superscript $(n)$: $\Pi^{(n)}_*$, $\omega^{(n)}_*$, $\nu^{(n)}_*=\omega^{(n)}_*/(2\pi)$, $\Phi^{(n)}_*$,
+$\Phi^{(n)}_P$, $\tilde\Psi^{(n)}_\xi$ (Theorem~\ref{bpW:w6:tori}), the admissible family
+$(D^{(n)}_\mu,\omega^{(n)}_\mu,\Omega^{(n)}_\mu,K_\mu)_\mu$ and its excluded set $\mathcal E^{(n)}$ (Definition~\ref{bpW:w7:family}),
+and
+\[e^{(n)}_{\rm tor}=\frac{c^\natural_F\epsilon^\sharp_n}{\hat\alpha_n\sigma_P^{52}}+\frac{5c_F\epsilon_{0,n}}{\check\alpha_n\sigma_0^{51}},\qquad
+\varepsilon^{(n)}_\omega=6\pi\gamma\alpha_n+8\pi\epsilon_{0,n}.\]
+Put $\Gamma_n=\Pi^{(n)}_*$.
+\end{definition}
+\source{ours (W6 Definition~\ref{bpW:w6:wave-iteration} with a shell-dependent value of its parameter $\epsilon_0$).}
+
+\begin{lemma}[W6 with the sharp starting size]\label{bpW:w8:w6-general}
+For every $n$, the conclusions of Lemma~\ref{bpW:w6:applicable}, Lemma~\ref{bpW:w6:freq-lip} (with
+$\varepsilon_\omega=\varepsilon^{(n)}_\omega$, $\varepsilon_1=3\gamma\alpha_n$, $\varepsilon_2=4\epsilon_{0,n}$, the same
+$\theta=425(1+M)\max(\gamma,\gamma_1)\le\theta_0$), Lemma~\ref{bpW:w6:exclusion}, Lemma~\ref{bpW:w6:final-freq} and
+Theorem~\ref{bpW:w6:tori} hold for the shell iteration, with $e_{\rm tor}=e^{(n)}_{\rm tor}$ in Theorem~\ref{bpW:w6:tori}(iv).
+\end{lemma}
+\begin{proof}
+\proofstep{Applicability}\label{stepW:w8:g-app} Lemma~\ref{bpW:w6:applicable} holds for every value of the parameter
+$\epsilon_0\in[\epsilon^\flat_0,\gamma_1\check\alpha]$ of Definition~\ref{bpW:w6:wave-iteration}; $\epsilon_{0,n}$ is such a value
+(Lemma~\ref{bpW:w8:sharp-prep}).
+\proofstep{Frequencies}\label{stepW:w8:g-freq} Lemma~\ref{bpW:w6:freq-lip} for this value of the parameter, with
+$\varepsilon_\omega=6\pi\gamma\alpha_n+8\pi\epsilon_{0,n}$, $\varepsilon_2=4\epsilon_{0,n}$, and $\theta$ independent of $\epsilon_0$.
+\proofstep{Exclusion and final frequencies}\label{stepW:w8:g-excl} Lemmas~\ref{bpW:w6:exclusion} and~\ref{bpW:w6:final-freq} for this value.
+\proofstep{Tori}\label{stepW:w8:g-tori} Theorem~\ref{bpW:w6:tori} for this value; in (iv)
+$e_{\rm tor}=c^\natural_F\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{52})+5c_F\epsilon_{0,n}/(\check\alpha_n\sigma_0^{51})=e^{(n)}_{\rm tor}$.
+\end{proof}
+\source{W6 Definition~\ref{bpW:w6:wave-iteration} and Remark~\ref{bpW:w6:to-w8} (``Starting size'': the results hold for every value of the
+parameter $\epsilon_0\in[\epsilon^\flat_0,\gamma_1\check\alpha]$).}
+
+\begin{lemma}[Shell errors tend to zero]\label{bpW:w8:etor}
+For every $n$: $e^{(n)}_{\rm tor}\le E_4\kappa_n=E_5t_n^{1/64}\le\frac7{256}$, and
+$\varepsilon^{(n)}_\omega\le\alpha_n/(70L_A)\le\alpha_n$.
+\end{lemma}
+\begin{proof}
+\proofstep{$e_{\rm tor}$}\label{stepW:w8:e-tor} $c^\natural_F\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{52})=c^\natural_F\sigma_P^{-52}\gamma\kappa_n\alpha_n^{3/47}\le
+c^\natural_F\sigma_P^{-52}\gamma\kappa_n$ and $5c_F\epsilon_{0,n}/(\check\alpha_n\sigma_0^{51})=5c_F\sigma_0^{-51}\gamma_1\kappa_n^{4/3}\le
+5c_F\sigma_0^{-51}\gamma_1\kappa_n$ ($\alpha_n,\kappa_n\le1$). Sum: $E_4\kappa_n=E_4(E_3/\gamma)t_n^{1/64}=E_5t_n^{1/64}\le E_5t_0^{1/64}\le\frac7{256}$ by the last
+entry of $t_0$.
+\proofstep{$\varepsilon_\omega$}\label{stepW:w8:e-om} $\epsilon_{0,n}\le\gamma_1\check\alpha_n\le\gamma_1\alpha_n$, so
+$\varepsilon^{(n)}_\omega\le(6\pi\gamma+8\pi\gamma_1)\alpha_n\le\frac{14\pi\theta_0}{425}\alpha_n$, since $\gamma,\gamma_1\le\theta_0/(425(1+M))$
+(Definition~\ref{bpW:w6:constants}); and $\theta_0\le1/(8L_A)$ (W7 (C4)) gives $\frac{14\pi}{3400L_A}<\frac1{70L_A}$. Finally
+$1/(70L_A)\le1$ because $L_A=N_A/D_A\ge\frac{8\pi}{21}\lambda_2(4\lambda_1+3\lambda_2)>1$ (Lemma~\ref{bpW:w7:freqcoords}(ii)).
+\end{proof}
+\source{ours. Compare KP96 p.~27, (9): $\abs{\Phi_r-\Phi_0}_r\le cr^2/\alpha$, which tends to $0$ along the shells; our
+$\kappa_n\approx\epsilon^\sharp_n/\alpha_n$ plays the role of $r^2/\alpha$.}
+
+\begin{lemma}[Frequencies on one shell]\label{bpW:w8:freq-shell}
+For every $n$ and $\xi,\xi'\in\Gamma_n$:
+\begin{enumerate}[label=(\roman*)]
+\item $\abs{(\omega^{(n)}_*-\omega^0)(\xi)-(\omega^{(n)}_*-\omega^0)(\xi')}\le\theta_0\abs{\xi-\xi'}$;
+\item $\abs{\omega^{(n)}_*(\xi)-\omega^{(n)}_*(\xi')}\ge\frac7{8L_A}\abs{\xi-\xi'}$;
+\item $\abs{\omega^{(n)}_*(\xi)-\omega^0(\xi)}\le\varepsilon^{(n)}_\omega\le\alpha_n/(70L_A)$, and
+  $\abs{\avg{k,\omega^{(n)}_*(\xi)}}\ge\check\alpha_n/(2A_k)$ for $k\in\Z^2\setminus0$;
+\item $\nu^{(n)}_*$ is Lipschitz (in particular continuous) on $\Gamma_n$, and $\Gamma_n$ is Borel.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Limit of (H1)}\label{stepW:w8:fs-lim} $\Gamma_n=\bigcap_\mu\Pi_\mu\subset D^{(n)}_\mu=\Pi_{\mu-1}$ for all $\mu$, so (H1) of
+Lemma~\ref{bpW:w8:w6-general} applies to $\xi,\xi'$ at every stage with $\theta\le\theta_0$; $\omega^{(n)}_\mu\to\omega^{(n)}_*$ on $\Gamma_n$
+(Proposition~\ref{bpW:w6:convergence}(ii)); pass to the limit \ref{bpW:w8:ext-local}. This is (i).
+\proofstep{Lower bound}\label{stepW:w8:fs-low} By Lemma~\ref{bpW:w7:freqcoords}(iv), $\abs{\omega^0(\xi)-\omega^0(\xi')}\ge\abs{\xi-\xi'}/L_A$
+(here Theorem~\ref{bpW:w0n:nondeg}(i), $\det A\neq0$, enters); subtract (i) and use $\theta_0\le1/(8L_A)$. This is (ii).
+\proofstep{Size and divisors}\label{stepW:w8:fs-size} Lemma~\ref{bpW:w6:final-freq} via Lemma~\ref{bpW:w8:w6-general}, and
+Lemma~\ref{bpW:w8:etor}. This is (iii).
+\proofstep{Regularity}\label{stepW:w8:fs-reg} Theorem~\ref{bpW:w6:tori}(ii) via Lemma~\ref{bpW:w8:w6-general}; Borel by
+Proposition~\ref{bpW:w6:convergence}(i), with $\Pi_n\setminus\Xi$ Borel (Lemma~\ref{bpW:w8:shell-data}(ii), Lemma~\ref{bpW:w7:measurable})
+and the frequencies continuous (Step~\ref{stepW:w6:fl-borel}). This is (iv).
+\end{proof}
+\source{P96-K Theorem~A, p.~122 (Lipschitz closeness of the frequencies), W7 (H1); KP96 p.~27, (9). The injectivity (ii)
+is ours.}
+
+\subsection{The tori of one shell}\label{bpW:w8:tori-sec}
+
+\begin{lemma}[Shape of a shell torus]\label{bpW:w8:torus-shape}
+Let $n\ge0$, $\xi\in\Gamma_n$, $\Psi=\tilde\Psi^{(n)}_\xi$, and write $\Phi^{(n)}_P\Phi^{(n)}_*(\theta)=(\theta+X(\theta),y(\theta),u(\theta),v(\theta))$ on
+$T_{s_0/2}$ (Theorem~\ref{bpW:w6:tori}(iv)), $e=e^{(n)}_{\rm tor}$. Then:
+\begin{enumerate}[label=(\roman*)]
+\item $X,y$ are holomorphic on $T_{s_0/2}$ with $\abs X\le e$, $\abs y\le r_n^2e$, and the normal part of $\Psi$ has
+  $\norm{\hat\Psi(\theta)}\le r_ne$ there;
+\item for real $\theta$, $y(\theta)$ and $X(\theta)$ are real, $\xi_i+y_i(\theta)\ge\frac34\alpha_n>0$, and
+  \[\Psi_{\pm i}(\theta)=\sqrt{\xi_i+y_i(\theta)}\,e^{\mp2\pi i(\theta_i+X_i(\theta))}\qquad(i=1,2)\]
+  with the positive square root;
+\item $X(\theta+k)=X(\theta)$ for real $\theta$ and $k\in\Z^2$;
+\item for real $\theta$ the real derivative satisfies $\norm{DX(\theta)}\le\frac{128e}7\le\frac12$ (operator norm for the max
+  norm), and $\abs{X(\theta)-X(\theta')}\le\frac12\abs{\theta-\theta'}$ for real $\theta,\theta'$;
+\item $\norm{\Psi(\theta)}<\rho_n\le r_1$ for real $\theta$; hence $x(\theta):=\mathcal Z^{-1}\Psi(\theta)\in B^E_{r_1}$ is real.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Bounds}\label{stepW:w8:ts-bd} (i) is Theorem~\ref{bpW:w6:tori}(iv) (Lemma~\ref{bpW:w8:w6-general}); $X$ and $y$ are components of the
+holomorphic map $\Phi^{(n)}_P\Phi^{(n)}_*-\iota$, and the normal part of $\mathcal A_\xi$ is linear in $(u,v)$ with
+$\norm{\hat w}\le\norm u+\norm v$ (Lemma~\ref{bpW:w5:action-angle}(vi)), the $(a,p+\frac12)$-norms dominating the $(a,p)$-norms.
+\proofstep{Reality}\label{stepW:w8:ts-real} Let $\theta$ be real. By Theorem~\ref{bpW:w6:tori}(i), $\varrho\Psi=\Psi$, i.e.\
+$\Psi_{-i}=\overline{\Psi_{+i}}$ (Lemma~\ref{bpW:w3:coords}). By the formula of Theorem~\ref{bpW:w6:tori}(iv),
+$\Psi_{+i}\Psi_{-i}=\xi_i+y_i$, so $\xi_i+y_i=\abs{\Psi_{+i}}^2$ is real and $y_i$ is real. Then
+$\xi_i+y_i\ge\alpha_n-r_n^2e\ge\frac34\alpha_n$ (Lemma~\ref{bpW:w8:shell-data}(i),(ii), $e\le1$), the principal root is the positive
+root, and $\overline{\Psi_{+i}}=\Psi_{-i}$ gives $e^{2\pi i(\theta_i+\overline{X_i})}=e^{2\pi i(\theta_i+X_i)}$, i.e.\
+$e^{-4\pi\operatorname{Im}X_i}=1$ in modulus, so $\operatorname{Im}X_i=0$ \ref{bpW:w8:ext-exp}. This is (ii).
+\proofstep{Periodicity}\label{stepW:w8:ts-per} $\Psi$ is $1$-periodic (Theorem~\ref{bpW:w6:tori}(i)). By (ii) at $\theta$ and $\theta+k$, the phases
+agree: $e^{-2\pi i(k_i+X_i(\theta+k)-X_i(\theta))}=1$, so $X_i(\theta+k)-X_i(\theta)\in\Z$ \ref{bpW:w8:ext-exp}. As a function of real $\theta$
+this is continuous and integer valued, hence constant \ref{bpW:w8:ext-exp}, and of modulus $\le2e<1$; so it is $0$. This is (iii).
+\proofstep{Cauchy}\label{stepW:w8:ts-cauchy} For real $\theta$, the ball $B(\theta,s_0/2)\subset\C^2$ lies in $T_{s_0/2}$, $X$ is holomorphic there and
+bounded by $e$; Lemma~\ref{bpW:w1:cauchy} gives $\norm{DX(\theta)}\le e/(s_0/2)=128e/7\le\frac12$ (Lemma~\ref{bpW:w8:etor}), and the
+Lipschitz bound on the convex set $\R^2$, with $\R^2+B(0,s_0/2)=T_{s_0/2}$. The real derivative of $X|_{\R^2}$ is the restriction of
+the complex one. This is (iv).
+\proofstep{Ball}\label{stepW:w8:ts-ball} $\Phi^{(n)}_P\Phi^{(n)}_*(\theta)\in D(s,r_n)$ and $\mathcal A_\xi(D(s,r_n))\subset B_{\rho_n}$
+(Lemma~\ref{bpW:w5:action-angle}(ii), $\abs\xi\le t_n$, $\xi_i\ge2r_n^2$). $\rho_n\le r_1$ by Lemma~\ref{bpW:w8:shell-data}(i);
+$\norm{\mathcal Z^{-1}w}_E\le\norm w$ and $\mathcal Z^{-1}$ maps real points to $E$ (Lemma~\ref{bpW:w3:coords}). This is (v).
+\end{proof}
+\source{ours; W6 Remark~\ref{bpW:w6:to-w8}, item~(1) (``Cauchy estimates on the strip turn $e_{\rm tor}$ into $C^1$ bounds on $X$'');
+KP96 \S7, Step~7 (``$X$ is close to the identity on $\abs{\operatorname{Im}x}<\frac12$'').}
+
+\begin{definition}[Shell embeddings]\label{bpW:w8:Kshell}
+For $n\ge0$, $\xi\in\Gamma_n$ and $\theta\in\R^2$ put
+\[K^{(n)}_\xi(\theta)=\tau_E\Bigl(\Gamma^\R\bigl(\mathcal Z^{-1}\tilde\Psi^{(n)}_\xi(\theta)\bigr)\Bigr)
+=\tau_E\bigl(\mathcal Z^{-1}\Gamma(\tilde\Psi^{(n)}_\xi(\theta))\bigr)\in\Lean{WaveSpace},\]
+well defined by Lemma~\ref{bpW:w8:torus-shape}(v) and Corollary~\ref{bpW:w3:gamma-real}.
+\end{definition}
+\source{P96-W p.~290 (``These tori carry the quasi-periodic motions $\gamma=\Gamma\circ\Psi$''); W6 Remark~\ref{bpW:w6:to-w8}, return to Cartesian
+coordinates.}
+
+\begin{lemma}[Each shell torus is an analytic torus embedding]\label{bpW:w8:shell-embedding}
+For $n\ge0$ and $\xi\in\Gamma_n$, \Lean{IsAnalyticTorusEmbedding} $K^{(n)}_\xi$ holds.
+\end{lemma}
+\begin{proof}
+Write $\Psi=\tilde\Psi^{(n)}_\xi$, $x=\mathcal Z^{-1}\Psi$, $K=K^{(n)}_\xi$.
+\proofstep{Periodicity}\label{stepW:w8:se-per} $\Psi(\theta+k)=\Psi(\theta)$ (Theorem~\ref{bpW:w6:tori}(i)), so $K(\theta+k)=K(\theta)$.
+\proofstep{Analyticity}\label{stepW:w8:se-an} By Theorem~\ref{bpW:w6:tori}(v), $\theta\mapsto\mathcal Z^{-1}\Gamma(\Psi(\theta))$ is
+\Lean{AnalyticOnNhd Real} on $\R^2$ into $E_{1,1}$; compose with the continuous linear $\tau_E$ \ref{bpW:w8:ext-local}.
+\proofstep{Injectivity modulo $\Z^2$}\label{stepW:w8:se-inj} If $K(\theta)=K(\theta')$, then $\Gamma^\R(x(\theta))=\Gamma^\R(x(\theta'))$
+($\tau_E$ injective), so $x(\theta)=x(\theta')$ by Corollary~\ref{bpW:w3:gamma-real}(iii) and
+Lemma~\ref{bpW:w8:torus-shape}(v), and $\Psi(\theta)=\Psi(\theta')$ ($\mathcal Z$ bijective). Comparing the $+i$ components with
+Lemma~\ref{bpW:w8:torus-shape}(ii): the moduli agree and $e^{-2\pi i(\theta_i+X_i(\theta)-\theta'_i-X_i(\theta'))}=1$, so
+$k:=\theta+X(\theta)-\theta'-X(\theta')\in\Z^2$ \ref{bpW:w8:ext-exp}. Put $\theta''=\theta'+k$. By Lemma~\ref{bpW:w8:torus-shape}(iii),
+$X(\theta'')=X(\theta')$, hence $\theta-\theta''=X(\theta'')-X(\theta)$ and, by (iv) there,
+$\abs{\theta-\theta''}\le\frac12\abs{\theta-\theta''}$. So $\theta''=\theta$ and $\theta-\theta'=k$.
+\proofstep{Derivative}\label{stepW:w8:se-der} Let $\theta,h\in\R^2$ with \Lean{fderiv Real K $\theta$ h} $=0$. By
+Corollary~\ref{bpW:w1:torus-analytic} applied to $\tilde K=\mathcal Z^{-1}\Gamma\circ\Psi$ on $T_{s_0/2}$ (holomorphic: Step~\ref{stepW:w6:t-an})
+and the chain rule \ref{bpW:w8:ext-local}, $\tau_E^{-1}$\Lean{fderiv Real K $\theta$ h} $=\operatorname{re}\bigl(\mathcal Z^{-1}D\Gamma(\Psi(\theta))\,D\Psi(\theta)h\bigr)$.
+For real $\theta$ and $h$, $D\Psi(\theta)h=\lim_{s\to0}(\Psi(\theta+sh)-\Psi(\theta))/s$ is a limit of real points, hence $\varrho$-fixed;
+$D\Gamma(w)$ commutes with $\varrho$ at real $w$ (differentiate $\Gamma\circ\varrho=\varrho\circ\Gamma$, Theorem~\ref{bpW:w3:flow}(iv));
+so the vector inside $\operatorname{re}$ is real and equals $0$. $D\Gamma(\Psi(\theta))$ is invertible on $\mathfrak W$
+(Theorem~\ref{bpW:w3:flow}(iii), $\norm{\Psi(\theta)}<\rho_1\le\rho_0$) and $\mathcal Z^{-1}$ is injective, so $D\Psi(\theta)h=0$. Its
+$+i$ component is, by Lemma~\ref{bpW:w8:torus-shape}(ii) (differentiating along the real line $s\mapsto\theta+sh$),
+\[e^{-2\pi i\phi_i}\Bigl(\frac{Dy_i(\theta)h}{2\sqrt{\xi_i+y_i(\theta)}}-2\pi i\sqrt{\xi_i+y_i(\theta)}\,\bigl(h_i+DX_i(\theta)h\bigr)\Bigr),
+\qquad\phi_i=\theta_i+X_i(\theta),\]
+with $Dy_i(\theta)h$, $DX_i(\theta)h$ real. Its vanishing forces the imaginary part of the bracket to vanish, so $h_i=-DX_i(\theta)h$ for
+$i=1,2$; then $\abs h\le\norm{DX(\theta)}\abs h\le\frac12\abs h$ (Lemma~\ref{bpW:w8:torus-shape}(iv)), so $h=0$.
+\end{proof}
+\source{P96-K Theorem~A, p.~122 (``each embedding is real analytic''); KP96 \S7, Steps~4 and~7 (``real analytic embedding'';
+inverse $X^{-1}$ of the angular component). The injectivity argument through the $\frac12$-Lipschitz angle error and the injectivity of
+$\Gamma^\R$ is ours (W3 Remark~\ref{bpW:w3:interface}, return trip).}
+
+\begin{lemma}[Closeness and size on one shell]\label{bpW:w8:shell-close}
+For $n\ge0$, $\xi\in\Gamma_n$ and $\theta\in\R^2$, with $K^0_\xi$ the linear torus,
+\[\norm{K^{(n)}_\xi(\theta)-\tau_EK^0_\xi(\theta)}\le E_7\,t_n^{33/64},\qquad\norm{K^{(n)}_\xi(\theta)}\le2\rho_n.\]
+\end{lemma}
+\begin{proof}
+Write $\Psi=\tilde\Psi^{(n)}_\xi$, $w=\Psi(\theta)$, $w^0=\mathcal A_\xi(\iota\theta)$, $x=\mathcal Z^{-1}w$, $x^0=\mathcal Z^{-1}w^0=K^0_\xi(\theta)$
+(Lemma~\ref{bpW:w5:action-angle}(i)), $e=e^{(n)}_{\rm tor}$.
+\proofstep{Tangential modes}\label{stepW:w8:sc-tan} By Lemma~\ref{bpW:w8:torus-shape}(ii) and $w^0_{\pm i}=\sqrt{\xi_i}e^{\mp2\pi i\theta_i}$,
+\begin{multline*}\abs{w_{\pm i}-w^0_{\pm i}}\le\abs{\sqrt{\xi_i+y_i}-\sqrt{\xi_i}}+\sqrt{\xi_i}\,\abs{e^{\mp2\pi iX_i}-1}\le\frac{\abs{y_i}}{\sqrt{\xi_i}}+2\pi\sqrt{\xi_i}\abs{X_i}\\
+\le\frac{r_n^2e}{\sqrt{\alpha_n}}+2\pi\sqrt{t_n}\,e\le(1+2\pi)\sqrt{t_n}\,e\end{multline*}
+by \ref{bpW:w8:ext-sqrt}, \ref{bpW:w8:ext-exp}, Lemma~\ref{bpW:w8:shell-data}(ii), and $r_n^2/\sqrt{\alpha_n}=t_n^{97/128}\le t_n^{1/2}$.
+\proofstep{Phase-space distance}\label{stepW:w8:sc-dist} The tangential weights of $\mathfrak W_{1,1}$ are $\abs l^2e^{2\abs l}$, so the tangential part
+of $w-w^0$ has norm $\le(2(e^2+4e^4))^{1/2}(1+2\pi)\sqrt{t_n}\,e\le22(1+2\pi)\sqrt{t_n}\,e$; the normal part of $w^0$ is $0$ and that of $w$
+has norm $\le r_ne\le\sqrt{t_n}\,e$ (Lemma~\ref{bpW:w8:torus-shape}(i)). Hence $\norm{x-x^0}_E\le\norm{w-w^0}\le162\sqrt{t_n}\,e$
+(Lemma~\ref{bpW:w3:coords}).
+\proofstep{Birkhoff map}\label{stepW:w8:sc-gamma} By Corollary~\ref{bpW:w3:gamma-real}(ii) and Lemma~\ref{bpW:w1:embed},
+$\norm{\Gamma^\R(x)-x}_E\le\norm{\Gamma^\R(x)-x}_{E_{1,2}}\le6\sqrt2C_F\norm x_E^3\le6\sqrt2C_F\rho_n^3\le E_6t_n^{3/2}$
+(Lemma~\ref{bpW:w8:torus-shape}(v), $\rho_n^2\le2c_At_n$).
+\proofstep{Closeness}\label{stepW:w8:sc-close} $\tau_E$ is isometric, so
+$\norm{K^{(n)}_\xi(\theta)-\tau_EK^0_\xi(\theta)}\le162\sqrt{t_n}\,e+E_6t_n^{3/2}\le(162E_5+E_6)t_n^{1/2+1/64}$ by
+Lemma~\ref{bpW:w8:etor} and $t_n^{3/2}\le t_n^{33/64}$.
+\proofstep{Size}\label{stepW:w8:sc-size} $6\sqrt2C_F\norm x_E^2\le6\sqrt2C_F\rho_1^2/2=6\sqrt2/320<1$ ($\rho_1^2=1/(160C_F)$), so
+$\norm{K^{(n)}_\xi(\theta)}=\norm{\Gamma^\R(x)}_E\le2\norm x_E<2\rho_n$.
+\end{proof}
+\source{KP96 \S7, Step~7, p.~30 (``$\frac1{\sqrt2}\abs{\tilde q'-\tilde q}=\abs{\sqrt{I+y}-\sqrt I}\le\abs y\min\sqrt{I_j}^{-1}$'',
+``$\norm{\hat q}\le\norm u+\norm v$''), measured here at the same angle (no radial reparametrization); W3
+Remark~\ref{bpW:w3:interface} (``the closeness $\norm{\Gamma^\R(x)-x}\le6\sqrt2C_F\norm x^3$ is $o(r)$'').}
+
+\begin{lemma}[Invariance and continuity on one shell]\label{bpW:w8:shell-inv}
+Let $n\ge0$.
+\begin{enumerate}[label=(\roman*)]
+\item For $\xi\in\Gamma_n$, $\theta\in\R^2$, $j\in\N_+$, with $K=K^{(n)}_\xi$ and $\nu=\nu^{(n)}_*(\xi)$, the two \Lean{HasDerivAt}
+  statements of clause~(4) of \Lean{nlw2} hold: $t\mapsto$ \Lean{coeff (K ($\theta$ + t $\bullet$ $\nu$)).1 j} has derivative
+  $\lambda_j\,$\Lean{coeff (K $\theta$).2 j} at $0$, and $t\mapsto$ \Lean{coeff (K ($\theta$ + t $\bullet$ $\nu$)).2 j} has derivative
+  $-\lambda_j\,$\Lean{coeff (K $\theta$).1 j} $-$ \Lean{cubicGrad m hm (K $\theta$).1 j} at $0$.
+\item $(\xi,\theta)\mapsto K^{(n)}_\xi(\theta)$ is continuous on $\Gamma_n\times\R^2$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Weak invariance}\label{stepW:w8:si-weak} By Theorem~\ref{bpW:w6:tori}(i),(iii) (Lemma~\ref{bpW:w8:w6-general}), restricted to $\theta\in\R^2$,
+$\Psi=\tilde\Psi^{(n)}_\xi$ maps into $B_{\rho_1}$, is differentiable into $\mathfrak W$ (holomorphic), real, and satisfies
+$D\Psi(\theta)\nu=X_{H'}(\Psi(\theta))$ in $\mathfrak W_{a,p-1}$ with $X_{H'}=X_\Lambda+X_{\bar G}+X_{G^{\rm nor}}+X_K$
+(Theorem~\ref{bpW:w3:main}).
+\proofstep{Transport}\label{stepW:w8:si-tr} Corollary~\ref{bpW:w3:transport-tori-weak} gives the coefficient system \eqref{bpW:w0:coeffsys} along $\nu$ for
+$(Q,P)=\mathcal Z^{-1}\Gamma\circ\Psi$: $D_\nu Q_j=\lambda_jP_j$, $D_\nu P_j=-\lambda_jQ_j-\Gq(Q)_j$.
+\proofstep{Frozen form}\label{stepW:w8:si-frozen} $\kappa_{1,1}$ of the components of $K(\theta+t\nu)$ is $(Q,P)(\theta+t\nu)$; the derivative at $t=0$
+of a coordinate of the differentiable curve $t\mapsto(Q,P)(\theta+t\nu)$ is the coordinate of $D_\nu(Q,P)(\theta)$
+(Lemma~\ref{bpW:w1:coordinatewise}); and \Lean{cubicGrad m hm (K $\theta$).1 j} $=\Gq(Q(\theta))_j$ (Corollary~\ref{bpW:w1:cubic-analytic}(iv)),
+$\lambda_j=$ \Lean{lam m hm j}. This is (i).
+\proofstep{Continuity}\label{stepW:w8:si-cont} Theorem~\ref{bpW:w6:tori}(ii) (Lemma~\ref{bpW:w8:w6-general}): $(\xi,\theta)\mapsto\tilde\Psi^{(n)}_\xi(\theta)$ is
+continuous on $\Gamma_n\times\R^2$ into $\mathfrak W$, with values in $\mathcal Z(B^E_{r_1})$ (Lemma~\ref{bpW:w8:torus-shape}(v)); $\mathcal Z^{-1}$ and
+$\tau_E$ are continuous linear and $\Gamma^\R$ is analytic, hence continuous, on $B^E_{r_1}$ (Corollary~\ref{bpW:w3:gamma-real}(i)). This is (ii).
+\end{proof}
+\source{P96-W p.~290; W6 Remark~\ref{bpW:w6:to-w8} (return to Cartesian coordinates: ``which is clause~(4)''); W3
+Remark~\ref{bpW:w3:interface}, return trip.}
+
+\subsection{Patching}\label{bpW:w8:patch-sec}
+
+\begin{definition}[The patched family]\label{bpW:w8:patch}
+Let $\Gamma=\bigcup_{n\ge0}\Gamma_n$ (Definition~\ref{bpW:w8:shell-iter}). For $I\in\R^2$ let $n(I)$ be the unique $n$ with
+$I\in\mathcal R_n$ when $I\in(0,t_0)^2$ (Lemma~\ref{bpW:w7:shell-geom}(i)). Define
+\[\nu(I)=\begin{cases}\nu^{(n(I))}_*(I),&I\in\Gamma,\\0,&\text{otherwise},\end{cases}\qquad
+K(I)(\theta)=K_I(\theta)=\begin{cases}K^{(n(I))}_I(\theta),&I\in\Gamma,\\0,&\text{otherwise}.\end{cases}\]
+Together with $r_0,C,\tau,\eta$ of Definition~\ref{bpW:w8:const}, these are the witnesses of \Lean{nlw2}. (Lean: $n(I)$ by
+\Lean{Nat.find} on $t_{n+1}\le\max_iI_i$; the case split by \Lean{if h : I $\in$ $\Gamma$}, decidable classically.)
+\end{definition}
+\source{KP96 p.~28, Step~5 (``Define the embedding \dots\ by piecing together the corresponding definitions on each component. \dots\ Similarly for
+$\tilde\omega$'').}
+
+\begin{lemma}[Locality of the patching]\label{bpW:w8:patch-local}
+Let $O_n=\Pi_n$ (open). Then the $O_n$ are pairwise disjoint, $\Gamma_n\subset O_n$, and $\Gamma\cap O_n=\Gamma_n$. For $I\in\Gamma_n$:
+$n(I)=n$, $\nu(I)=\nu^{(n)}_*(I)$ and $K_I=K^{(n)}_I$. Consequently $\nu=\nu^{(n)}_*$ on $\Gamma\cap O_n$ and $K=K^{(\cdot)}$ on
+$(\Gamma\cap O_n)\times\R^2$.
+\end{lemma}
+\begin{proof}
+\proofstep{Disjointness}\label{stepW:w8:pl-dis} $O_n\subset\mathcal R_n$ (Lemma~\ref{bpW:w8:shell-data}(ii)) and the $\mathcal R_n$ are disjoint
+(Lemma~\ref{bpW:w7:shell-geom}(i)); $\Gamma_n\subset\Pi_n$ by construction ($\Pi_*\subset\Pi_{-1}=\Pi_n\setminus\Xi$).
+\proofstep{Identification}\label{stepW:w8:pl-id} If $I\in\Gamma\cap O_n$, then $I\in\Gamma_{n'}$ for some $n'$, and $\Gamma_{n'}\subset\mathcal R_{n'}$ meets
+$O_n\subset\mathcal R_n$ only if $n'=n$. For $I\in\Gamma_n\subset\mathcal R_n$, $n(I)=n$, and the definitions unfold.
+\end{proof}
+\source{KP96 p.~28 (``These definitions are correct, since the $C_{r_k}$ are disjoint and even have a pairwise positive distance to each other.
+So $\Phi$ is certainly continuous in $I$'').}
+
+\begin{remark}[Shell boundaries]\label{bpW:w8:boundaries}
+No consistency of the shell constructions across shell boundaries is needed or claimed: the parameter sets $\Gamma_n$ lie in the
+open trimmed shells $O_n=U_{-\alpha_n}\mathcal R_n$, which are pairwise disjoint and at distance $>\alpha_n$ from $\R^2\setminus\mathcal R_n$
+(Lemma~\ref{bpW:w8:shell-data}(ii)). Each point of $\Gamma$ therefore has an open neighbourhood $O_n$ on which $\Gamma$, $\nu$ and $K$
+coincide with the single-shell objects, and continuity on $\Gamma$ is local (Lemma~\ref{bpW:w8:patch-cont}). The price is the boundary
+layer $\mathcal R_n\setminus O_n$, of measure $\le7\alpha_nt_n=o(\Leb\mathcal R_n)$ (Lemma~\ref{bpW:w7:shell-geom}(ii)), already
+accounted for in Corollary~\ref{bpW:w7:shell-est}.
+\end{remark}
+
+\begin{lemma}[Regularity of the patched family]\label{bpW:w8:patch-cont}
+$\Gamma$ is Borel, $\Gamma\subset\{I:(\forall i,\ 0<I_i)\wedge r(I)<r_0\}$, $\nu$ is continuous on $\Gamma$, and
+$(I,\theta)\mapsto K_I(\theta)$ is continuous on $\Gamma\times\R^2$.
+\end{lemma}
+\begin{proof}
+\proofstep{Borel}\label{stepW:w8:pc-borel} Countable union of the Borel $\Gamma_n$ (Lemma~\ref{bpW:w8:freq-shell}(iv); \ref{bpW:w7:ext-borel}).
+\proofstep{Inclusion}\label{stepW:w8:pc-incl} $\Gamma_n\subset(0,t_n)^2\subset(0,t_0)^2$, and $I_1+I_2<2t_0=r_0^2$ there, so
+$r(I)<r_0$ (\Lean{Real.sqrt\_lt\_sqrt}).
+\proofstep{Continuity of $\nu$}\label{stepW:w8:pc-nu} For $I\in\Gamma_n$, $O_n$ is an open neighbourhood with $\nu=\nu^{(n)}_*$ on $\Gamma\cap O_n=\Gamma_n$,
+continuous by Lemma~\ref{bpW:w8:freq-shell}(iv); apply \ref{bpW:w8:ext-local}.
+\proofstep{Continuity of $K$}\label{stepW:w8:pc-K} For $(I,\theta)\in\Gamma_n\times\R^2$, $O_n\times\R^2$ is an open neighbourhood on which
+$(I',\theta')\mapsto K_{I'}(\theta')$ agrees on $(\Gamma\times\R^2)\cap(O_n\times\R^2)=\Gamma_n\times\R^2$ with the map of
+Lemma~\ref{bpW:w8:shell-inv}(ii); apply \ref{bpW:w8:ext-local}.
+\end{proof}
+\source{KP96 p.~28, Step~5; W7 Lemma~\ref{bpW:w7:measurable}.}
+
+\subsection{Family injectivity}\label{bpW:w8:inj-sec}
+
+\begin{lemma}[Uniqueness for the coefficient system]\label{bpW:w8:unique}
+Let $Y,Y':\R\to$ \Lean{WaveSpace} be analytic coefficient solutions (Definition~\ref{bpW:w2:coeffsol}) with $Y(0)=Y'(0)$. Then $Y=Y'$.
+\end{lemma}
+\begin{proof}
+Write $Y_i(t)=(Y\,t).i$, $\omega_j=\omega_{1,1}(j)$, and $g(y)_j=\omega_j\,$\Lean{cubicGrad m hm y j} for $y\in\ell^2_\R$.
+\proofstep{Raw equations}\label{stepW:w8:u-raw} By Corollary~\ref{bpW:w1:cubic-analytic}(iv), $g(y)_j=j^{-1}\mathcal G^w(y)_j$, so
+$g:\ell^2_\R\to\ell^2_\R$ with $\norm{g(y)-g(y')}\le3C_m\norm{y-y'}\max(\norm y,\norm{y'})^2$ (part (iii) there). By
+Lemma~\ref{bpW:w2:curve-deriv}, $Y_1,Y_2$ are differentiable into $\ell^2_\R$ with, after multiplying the coefficient identities by
+$\omega_j$, $(Y_1')_j=\lambda_j(Y_2)_j$ and $(Y_2')_j=-\lambda_j(Y_1)_j-g(Y_1)_j$; likewise for $Y'$.
+\proofstep{Regularity}\label{stepW:w8:u-reg} The sequences $(\lambda_j(Y_2)_j)=Y_1'$ and $(\lambda_j(Y_1)_j)=-Y_2'-g(Y_1)$ lie in $\ell^2_\R$, and the same for $Y'$.
+\proofstep{Energy identity}\label{stepW:w8:u-energy} Put $D_i=Y_i-Y'_i$ and $f(t)=\norm{D_1(t)}^2+\norm{D_2(t)}^2$. By \ref{bpW:w8:ext-inner}, $f$ is
+differentiable with $f'=2\langle D_1,D_1'\rangle+2\langle D_2,D_2'\rangle$, and
+\[\langle D_1,D_1'\rangle=\sum_j(D_1)_j\lambda_j(D_2)_j,\qquad
+\langle D_2,D_2'\rangle=-\sum_j(D_2)_j\lambda_j(D_1)_j-\langle D_2,g(Y_1)-g(Y'_1)\rangle,\]
+all series absolutely convergent by Step~\ref{stepW:w8:u-reg} (products of two $\ell^2$ sequences). Hence
+$f'=-2\langle D_2,g(Y_1)-g(Y_1')\rangle$.
+\proofstep{Differential inequality}\label{stepW:w8:u-ineq} Fix $T>0$ and $R\ge\norm{Y(t)},\norm{Y'(t)}$ on $[-T,T]$
+(\ref{bpW:w8:ext-compact}; $Y,Y'$ are analytic, hence continuous). With $L=3C_mR^2$, Cauchy--Schwarz and $\norm{Y_1}\le\norm Y$ give
+$\abs{f'}\le2L\norm{D_2}\norm{D_1}\le Lf$ on $[-T,T]$.
+\proofstep{Gronwall}\label{stepW:w8:u-gron} $h_+(t)=e^{-Lt}f(t)$ has $h_+'=e^{-Lt}(f'-Lf)\le0$ on $[0,T]$ and $h_-(t)=e^{Lt}f(t)$ has
+$h_-'\ge0$ on $[-T,0]$ \ref{bpW:w8:ext-mono}; with $h_\pm(0)=f(0)=0$ and $h_\pm\ge0$, both vanish. Hence $f=0$ on $[-T,T]$ for every $T$,
+so $D_1=D_2=0$ and $Y=Y'$.
+\end{proof}
+\source{ours. P96-W uses no uniqueness statement; the energy argument is the standard one for the semilinear wave equation, in
+coefficient form.}
+
+\begin{lemma}[Winding]\label{bpW:w8:winding}
+Let $a,a':\R\to(0,\infty)$ and $\phi,\phi':\R\to\R$ be continuous, $\nu_0,\nu_0'\in\R$, with $\phi(t)-t\nu_0$ and
+$\phi'(t)-t\nu_0'$ bounded, and $a(t)e^{-2\pi i\phi(t)}=a'(t)e^{-2\pi i\phi'(t)}$ for all $t$. Then $\nu_0=\nu_0'$.
+\end{lemma}
+\begin{proof}
+\proofstep{Moduli and phases}\label{stepW:w8:w-mod} Taking moduli, $a=a'$; dividing, $e^{-2\pi i(\phi-\phi')}=1$, so $\phi(t)-\phi'(t)\in\Z$ for all $t$
+\ref{bpW:w8:ext-exp}.
+\proofstep{Constant}\label{stepW:w8:w-const} $\phi-\phi'$ is continuous and integer valued on $\R$, hence a constant $c$ \ref{bpW:w8:ext-exp}.
+\proofstep{Rates}\label{stepW:w8:w-rate} $t(\nu_0-\nu_0')=c-(\phi(t)-t\nu_0)+(\phi'(t)-t\nu_0')$ is bounded in $t$, so $\nu_0=\nu_0'$ \ref{bpW:w8:ext-exp}.
+\end{proof}
+\source{ours.}
+
+\begin{lemma}[The frequency map is injective on $\Gamma$]\label{bpW:w8:nu-injective}
+If $I,I'\in\Gamma$ and $\nu(I)=\nu(I')$, then $I=I'$.
+\end{lemma}
+\begin{proof}
+Let $I\in\Gamma_n$, $I'\in\Gamma_{n'}$; by Lemma~\ref{bpW:w8:patch-local}, $2\pi\nu(I)=\omega^{(n)}_*(I)$ and $2\pi\nu(I')=\omega^{(n')}_*(I')$.
+\proofstep{Same shell}\label{stepW:w8:ni-same} If $n=n'$, Lemma~\ref{bpW:w8:freq-shell}(ii) gives $0\ge\frac7{8L_A}\abs{I-I'}$.
+\proofstep{Different shells}\label{stepW:w8:ni-diff} If $n\ne n'$, then $I'\notin\mathcal R_n$ and $I\notin\mathcal R_{n'}$, so
+$\abs{I-I'}>\max(\alpha_n,\alpha_{n'})$ (Lemma~\ref{bpW:w8:shell-data}(ii)). By Lemma~\ref{bpW:w7:freqcoords}(iv) and
+Lemma~\ref{bpW:w8:freq-shell}(iii),
+\[\abs{\omega^{(n)}_*(I)-\omega^{(n')}_*(I')}\ge\frac{\abs{I-I'}}{L_A}-\frac{\alpha_n+\alpha_{n'}}{70L_A}>\frac{\max(\alpha_n,\alpha_{n'})}{L_A}\Bigl(1-\frac2{70}\Bigr)>0,\]
+contradicting $\nu(I)=\nu(I')$.
+\end{proof}
+\source{ours; KP96 p.~28, Step~6 (``Otherwise, $J\in C_{r_l}$ with $l>k$. Then $\abs{I-J}\ge\alpha(r_k)$'') for the separation of patches.}
+
+\begin{proposition}[Family injectivity]\label{bpW:w8:injective}
+For all $I,I'\in\Gamma$ and $\theta,\theta'\in\R^2$: if $K_I(\theta)=K_{I'}(\theta')$, then $I=I'$ and $\theta-\theta'\in\Z^2$. This is
+clause~(6) of \Lean{nlw2}.
+\end{proposition}
+\begin{proof}
+Let $I\in\Gamma_n$, $I'\in\Gamma_{n'}$, $\nu=\nu(I)$, $\nu'=\nu(I')$, $\Psi=\tilde\Psi^{(n)}_I$, $\Psi'=\tilde\Psi^{(n')}_{I'}$, with the functions
+$X,y$ of Lemma~\ref{bpW:w8:torus-shape} for $\Psi$ and $X',y'$ for $\Psi'$.
+\proofstep{Orbits}\label{stepW:w8:in-orbit} $K_I$ and $K_{I'}$ are \Lean{AnalyticOnNhd Real} on $\R^2$ (Lemma~\ref{bpW:w8:shell-embedding}) and satisfy the
+invariance \eqref{bpW:w2:inv} with $\nu$, $\nu'$ (Lemma~\ref{bpW:w8:shell-inv}(i), Lemma~\ref{bpW:w8:patch-local}). By Lemma~\ref{bpW:w2:orbit},
+$Y(t)=K_I(\theta+t\nu)$ and $Y'(t)=K_{I'}(\theta'+t\nu')$ are analytic coefficient solutions, and $Y(0)=Y'(0)$. By
+Lemma~\ref{bpW:w8:unique}, $Y=Y'$.
+\proofstep{Birkhoff coordinates}\label{stepW:w8:in-birk} For every $t$, $\Gamma^\R(\mathcal Z^{-1}\Psi(\theta+t\nu))=\Gamma^\R(\mathcal Z^{-1}\Psi'(\theta'+t\nu'))$
+($\tau_E$ injective), both arguments in $B^E_{r_1}$ (Lemma~\ref{bpW:w8:torus-shape}(v)). By Corollary~\ref{bpW:w3:gamma-real}(iii) and bijectivity of
+$\mathcal Z$, $\Psi(\theta+t\nu)=\Psi'(\theta'+t\nu')$ for all $t\in\R$.
+\proofstep{Frequencies}\label{stepW:w8:in-freq} Fix $i\in\{1,2\}$ and compare the $+i$ components by Lemma~\ref{bpW:w8:torus-shape}(ii): with
+$a(t)=\sqrt{I_i+y_i(\theta+t\nu)}$, $\phi(t)=\theta_i+t\nu_i+X_i(\theta+t\nu)$ and the primed analogues, $a,a'>0$ and $\phi,\phi'$ are continuous,
+$\abs{\phi(t)-t\nu_i}\le\abs{\theta_i}+e^{(n)}_{\rm tor}$ and likewise for $\phi'$ (Lemma~\ref{bpW:w8:torus-shape}(i)). Lemma~\ref{bpW:w8:winding} gives
+$\nu_i=\nu'_i$. So $\nu(I)=\nu(I')$.
+\proofstep{Actions}\label{stepW:w8:in-act} $I=I'$ by Lemma~\ref{bpW:w8:nu-injective}.
+\proofstep{Angles}\label{stepW:w8:in-ang} Now $K_I(\theta)=K_I(\theta')$, and the third conjunct of \Lean{IsAnalyticTorusEmbedding} $K_I$
+(Lemma~\ref{bpW:w8:shell-embedding}) gives $k\in\Z^2$ with $\theta-\theta'=k$.
+\end{proof}
+\source{P96-W Main Theorem, pp.~272--273 (``a Lipschitz continuous embedding $\Phi$'' of the family, whose restriction to each torus is an
+embedding), Cantor Manifold Theorem and Remark~1, pp.~288--289 (``Lipschitz continuous embedding $\Psi:\mathcal T[\mathcal C]\to\mathcal E$'';
+``a parametrization of each torus in which the flow is linear''); KP96 \S7, Steps~5--6. Deviation: the source obtains injectivity from the
+Lipschitz estimates (11) of KP96 p.~28; here it comes from uniqueness of orbits, the winding of the tangential phases, and the
+injectivity of the frequency map, since W6 provides only continuity in $\xi$.}
+
+\subsection{The proof of W-NLW2}\label{bpW:w8:proof-sec}
+
+\begin{theorem}[Proof of W-NLW2]\label{bpW:w8:nlw2-proof}
+Theorem~\ref{bpW:wh:nlw2} (\Lean{KAM.Wave.nlw2}) holds exactly as frozen: for every $m>0$ the witnesses $r_0,C,\tau,\eta$ of
+Definition~\ref{bpW:w8:const} and $\Gamma,\nu,K$ of Definition~\ref{bpW:w8:patch}, chosen in this order and depending on $m$ only,
+satisfy every conjunct of the frozen statement.
+\end{theorem}
+\begin{proof}
+Fix $m>0$ (\Lean{hm : 0 < m}). The existential witnesses are introduced in the frozen order $r_0,C,\tau,\eta,\Gamma,\nu,K$; each is
+defined from $m$ and the constants of W3--W7 alone (Definitions~\ref{bpW:w8:const}, \ref{bpW:w8:shells}, \ref{bpW:w8:shell-iter},
+\ref{bpW:w8:patch}), before any $I$, $\theta$ or $\theta_0$.
+\proofstep{Positivity of $r_0$, $C$; $\tau>1$}\label{stepW:w8:p-pos} $t_0>0$ as a minimum of five positive numbers, so $r_0=\sqrt{2t_0}>0$;
+$C_3=4\sqrt{c_A}>0$ and $C=\max(1,M_m)C_3\ge C_3>0$ (Corollary~\ref{bpW:w2:clause5}); $\tau=24>1$.
+\proofstep{$\eta\ge0$ on $(0,r_0)$}\label{stepW:w8:p-etapos} For $r>0$, $r^{1/32}\ge0$ and $E_7\ge0$ \ref{bpW:w8:ext-rpow}.
+\proofstep{$\eta\to0$}\label{stepW:w8:p-etalim} $r\mapsto2^{33/64}E_7r^{1/32}$ tends to $0$ along \Lean{nhdsWithin 0 (Set.Ioi 0)} \ref{bpW:w8:ext-rpow}.
+\proofstep{\Lean{MeasurableSet $\Gamma$}}\label{stepW:w8:p-meas} Lemma~\ref{bpW:w8:patch-cont}, Step~\ref{stepW:w8:pc-borel}.
+\proofstep{$\Gamma\subseteq\{I\mid(\forall i,0<I_i)\wedge r(I)<r_0\}$}\label{stepW:w8:p-incl} Lemma~\ref{bpW:w8:patch-cont},
+Step~\ref{stepW:w8:pc-incl}.
+\proofstep{\Lean{ContinuousOn $\nu$ $\Gamma$}}\label{stepW:w8:p-nucont} Lemma~\ref{bpW:w8:patch-cont}, Step~\ref{stepW:w8:pc-nu}.
+\proofstep{\Lean{ContinuousOn (Function.uncurry K) ($\Gamma$ $\times^s$ Set.univ)}}\label{stepW:w8:p-Kcont} Lemma~\ref{bpW:w8:patch-cont},
+Step~\ref{stepW:w8:pc-K}.
+\proofstep{Clause (1): density one}\label{stepW:w8:p-dens} Apply Corollary~\ref{bpW:w7:shell-est} with $q=\frac12$, the $t_n\le\frac12$ of
+Definition~\ref{bpW:w8:shells}, $\alpha_n\in(0,\alpha_0]$, $\alpha_n\le t_n$ (Lemma~\ref{bpW:w8:shell-data}(i)), $\Pi_n=U_{-\alpha_n}\mathcal R_n$
+(Borel, $\subset(0,t_n)^2$, Lemma~\ref{bpW:w8:shell-data}(ii)), the admissible family of the shell iteration with excluded set
+$\mathcal E^{(n)}$ (Lemma~\ref{bpW:w8:w6-general}, from Lemma~\ref{bpW:w6:freq-lip}), and
+$\mathcal R_n\cap(\Pi_n\setminus\mathcal E^{(n)})\subset\Pi_n\setminus\mathcal E^{(n)}\subset\Gamma_n\subset\Gamma$ (Lemma~\ref{bpW:w6:exclusion} via
+Lemma~\ref{bpW:w8:w6-general}). It bounds the relative defect of shell $n$ by
+$\frac{(7+C_7)\alpha_n^{32/47}}{(3/4)t_n}=\frac43(7+C_7)t_n^{1/94}\to0$ ($\frac{95}{64}\cdot\frac{32}{47}=\frac{95}{94}$; W7
+Remark~\ref{bpW:w7:exponents}). Theorem~\ref{bpW:w7:density} (with $\Gamma\subset P$ Borel, Lemma~\ref{bpW:w8:patch-cont}) gives the
+\Lean{Tendsto} statement of clause~(1) in $[0,\infty]$, along \Lean{nhdsWithin 0 (Set.Ioi 0)}.
+\proofstep{Clause (2), Diophantine}\label{stepW:w8:p-dioph} Let $I\in\Gamma$, $n=n(I)$. By Lemma~\ref{bpW:w8:freq-shell}(iii),
+$\abs{\avg{k,\omega^{(n)}_*(I)}}\ge(\check\alpha_n/2)/A_k$ for $k\ne0$; Lemma~\ref{bpW:w7:dioph} with $c=\check\alpha_n/2$ and
+$\nu(I)=\omega^{(n)}_*(I)/(2\pi)$ (Lemma~\ref{bpW:w8:patch-local}) gives \Lean{KAM.IsDiophantine $\gamma_I$ 24 ($\nu$ I)} with
+$\gamma_I=\check\alpha_n/(8\pi)>0$, chosen after $I$ as the frozen order allows (W7 Remark~\ref{bpW:w7:dioph-use}).
+\proofstep{Clause (2), frequency limit}\label{stepW:w8:p-lim} Apply Lemma~\ref{bpW:w7:limit} to $\Gamma\subset\bigcup_n\mathcal R_n$ and
+$\omega_*=2\pi\nu$ on $\Gamma$, which equals $\omega^{(n)}_*$ on $\Gamma\cap\mathcal R_n=\Gamma_n$, with
+$e_n=\varepsilon^{(n)}_\omega\le\alpha_n\to0$ (Lemma~\ref{bpW:w8:freq-shell}(iii)): \Lean{Tendsto $\nu$ (nhdsWithin 0 $\Gamma$) (nhds fun i =>
+lam m hm (i : Nat).succPNat / (2 * pi))}.
+\proofstep{Clause (3), embedding}\label{stepW:w8:p-emb} Let $I$, \Lean{hI}, $I\in\Gamma$, $n=n(I)$. $K_I=K^{(n)}_I$ (Lemma~\ref{bpW:w8:patch-local})
+and Lemma~\ref{bpW:w8:shell-embedding} give \Lean{IsAnalyticTorusEmbedding (K I)}.
+\proofstep{Clause (3), closeness}\label{stepW:w8:p-close} For every $\theta$, Lemma~\ref{bpW:w8:shell-close} with $\tau_EK^0_I(\theta)=$
+\Lean{linearTorus I hI $\theta$} gives $\norm{K_I(\theta)-\Lean{linearTorus I hI $\theta$}}\le E_7t_n^{33/64}$. Since $I\in\mathcal R_n$,
+$t_n=2t_{n+1}\le2\max_iI_i\le2(I_1+I_2)=2r(I)^2$ (Lemma~\ref{bpW:w7:shell-geom}(iii)), so
+$E_7t_n^{33/64}\le E_72^{33/64}r(I)^{33/32}=\eta(r(I))\,r(I)$ \ref{bpW:w8:ext-rpow}.
+\proofstep{Clause (3), size}\label{stepW:w8:p-size} By Lemma~\ref{bpW:w8:shell-close}, $\norm{K_I(\theta)}\le2\rho_n\le2\sqrt{2c_At_n}\le
+2\sqrt{2c_A}\sqrt2\,r(I)=C_3r(I)\le C\,r(I)$.
+\proofstep{Clause (4), invariance}\label{stepW:w8:p-inv} For $I\in\Gamma$, $\theta$, $j$: Lemma~\ref{bpW:w8:shell-inv}(i) with $K_I=K^{(n)}_I$,
+$\nu(I)=\nu^{(n)}_*(I)$ (Lemma~\ref{bpW:w8:patch-local}).
+\proofstep{Clause (5), PDE solutions}\label{stepW:w8:p-pde} Corollary~\ref{bpW:w2:clause5} with $C_3=4\sqrt{c_A}$, the set $\Gamma$, and the maps
+$\nu$, $K$: its hypotheses are Steps~\ref{stepW:w8:p-emb}, \ref{stepW:w8:p-size} (with $C_3$) and~\ref{stepW:w8:p-inv}. It yields clause~(5)
+verbatim with $C=\max(1,M_m)C_3$, the same $C$ as in Step~\ref{stepW:w8:p-size}.
+\proofstep{Clause (6), family injectivity}\label{stepW:w8:p-inj} Proposition~\ref{bpW:w8:injective}.
+\proofstep{Assembly}\label{stepW:w8:p-assembly} The conjunction of Steps~\ref{stepW:w8:p-pos}--\ref{stepW:w8:p-inj}, in the frozen order of
+conjuncts, is the body of \Lean{nlw2} for the chosen witnesses.
+\end{proof}
+\source{P96-W Main Theorem pp.~272--273 and its proof pp.~289--291 (``We can now prove the Main Theorem''), for $J=\{1,2\}$, in the declared
+weakened form of Remark~\ref{bpW:wh:weakenings}; KP96 \S7, Steps~4--8, pp.~27--31.}
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.27\textwidth}p{0.17\textwidth}p{0.48\textwidth}@{}}
+\toprule
+Frozen conjunct & W8 step & Consumed results\\
+\midrule
+$0<r_0$, $0<C$, $1<\tau$ & \ref{stepW:w8:p-pos} & Def.~\ref{bpW:w8:const}; Cor.~\ref{bpW:w2:clause5}\\
+$\eta\ge0$ on $(0,r_0)$; $\eta\to0^+$ & \ref{stepW:w8:p-etapos}, \ref{stepW:w8:p-etalim} & \ref{bpW:w8:ext-rpow}\\
+\Lean{MeasurableSet $\Gamma$}; $\Gamma\subseteq\dots$ & \ref{stepW:w8:p-meas}, \ref{stepW:w8:p-incl} & Lem.~\ref{bpW:w8:patch-cont}, \ref{bpW:w8:freq-shell}(iv); Prop.~\ref{bpW:w6:convergence}(i); Lem.~\ref{bpW:w7:measurable}\\
+\Lean{ContinuousOn $\nu$ $\Gamma$} & \ref{stepW:w8:p-nucont} & Lem.~\ref{bpW:w8:patch-local}, \ref{bpW:w8:freq-shell}(iv); Thm.~\ref{bpW:w6:tori}(ii)\\
+\Lean{ContinuousOn (uncurry K)} & \ref{stepW:w8:p-Kcont} & Lem.~\ref{bpW:w8:patch-local}, \ref{bpW:w8:shell-inv}(ii); Thm.~\ref{bpW:w6:tori}(ii); Cor.~\ref{bpW:w3:gamma-real}(i)\\
+(1) density one & \ref{stepW:w8:p-dens} & Thm.~\ref{bpW:w7:density}, Cor.~\ref{bpW:w7:shell-est}, Thm.~\ref{bpW:w7:measure}, Rem.~\ref{bpW:w7:exponents}; Lem.~\ref{bpW:w6:freq-lip}, \ref{bpW:w6:exclusion} via Lem.~\ref{bpW:w8:w6-general}; Lem.~\ref{bpW:w8:shell-data}\\
+(2) Diophantine, $\gamma_I$ per $I$ & \ref{stepW:w8:p-dioph} & Lem.~\ref{bpW:w6:final-freq} via \ref{bpW:w8:w6-general}; Lem.~\ref{bpW:w8:freq-shell}(iii), \ref{bpW:w7:dioph}\\
+(2) $\nu(I)\to\lambda_J/2\pi$ as $I\to0$ in $\Gamma$ & \ref{stepW:w8:p-lim} & Lem.~\ref{bpW:w7:limit}, \ref{bpW:w8:freq-shell}(iii), \ref{bpW:w8:etor}\\
+(3) analytic torus embedding & \ref{stepW:w8:p-emb} & Lem.~\ref{bpW:w8:shell-embedding}, \ref{bpW:w8:torus-shape}; Thm.~\ref{bpW:w6:tori}(i),(iv),(v); Cor.~\ref{bpW:w3:gamma-real}(iii), Thm.~\ref{bpW:w3:flow}(iii); Lem.~\ref{bpW:w1:cauchy}, Cor.~\ref{bpW:w1:torus-analytic}\\
+(3) $o(r)$ closeness to \Lean{linearTorus} & \ref{stepW:w8:p-close} & Lem.~\ref{bpW:w8:shell-close}, \ref{bpW:w8:etor}, \ref{bpW:w8:sharp-prep}; Lem.~\ref{bpW:w5:action-angle}(i),(vi); Cor.~\ref{bpW:w3:gamma-real}(ii); Lem.~\ref{bpW:w3:coords}, \ref{bpW:w7:shell-geom}(iii)\\
+(3) $\norm{K_I}\le C\,r(I)$ & \ref{stepW:w8:p-size} & Lem.~\ref{bpW:w8:shell-close}, \ref{bpW:w8:shell-data}(i); Cor.~\ref{bpW:w2:clause5}\\
+(4) coordinatewise invariance & \ref{stepW:w8:p-inv} & Lem.~\ref{bpW:w8:shell-inv}(i); Thm.~\ref{bpW:w6:tori}(iii); Cor.~\ref{bpW:w3:transport-tori-weak}; Lem.~\ref{bpW:w1:coordinatewise}, Cor.~\ref{bpW:w1:cubic-analytic}(iv)\\
+(5) PDE solutions, same $C$ & \ref{stepW:w8:p-pde} & Cor.~\ref{bpW:w2:clause5}, Thm.~\ref{bpW:w2:main}\\
+(6) family injectivity & \ref{stepW:w8:p-inj} & Prop.~\ref{bpW:w8:injective}; Lem.~\ref{bpW:w8:unique}, \ref{bpW:w8:winding}, \ref{bpW:w8:nu-injective}; Lem.~\ref{bpW:w2:orbit}, \ref{bpW:w2:curve-deriv}; Cor.~\ref{bpW:w3:gamma-real}(iii); Lem.~\ref{bpW:w7:freqcoords}(iv)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Source check, deviations and ledger}\label{bpW:w8:check}
+
+\begin{remark}[Pages read and deviations]\label{bpW:w8:deviations}
+P96-W pp.~271--273 (PDF 4--6) and pp.~288--291 (PDF 21--24) and KP96 pp.~27--30 (author version) were read for this part. No defect was found
+on these pages beyond those already recorded (E-PDE-W-1/2). Deviations introduced here:
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Starting size.} Each shell gives W6's parameter $\epsilon_0$ (Definition~\ref{bpW:w6:wave-iteration},
+  Remark~\ref{bpW:w6:to-w8}) the value $\epsilon_{0,n}=\kappa_n^{4/3}\gamma_1\check\alpha_n\in[\epsilon^\flat_{0,n},\gamma_1\check\alpha_n]$, with
+  $\epsilon^\flat_{0,n}$ the sharp size of Lemma~\ref{bpW:w6:prep-step}(v) (Definition~\ref{bpW:w8:shell-iter}, Lemma~\ref{bpW:w8:sharp-prep}); with
+  the upper value $\gamma_1\check\alpha$ the term $e_\Phi$ would be a constant and clause~(3) would not be $o(r)$.
+\item \emph{Injectivity.} Obtained from orbit uniqueness, winding and injectivity of $\nu$ rather than from Lipschitz estimates in $\xi$
+  (KP96 p.~28, (11)), which W6 does not provide.
+\item \emph{Closeness at the same angle.} KP96 \S7, Step~7 compares after the radial reparametrization $X^{-1}$; the frozen clause~(3)
+  compares $K_I(\theta)$ with $K^0_I(\theta)$ at the same $\theta$, and the bound $O(r^{33/32})$ is obtained directly.
+\item \emph{Explicit shells.} $q=\frac12$, $r_n^2=t_n^{3/2}$, $\alpha_n=t_n^{95/64}$, margins $\alpha_n$ (KP96: $\eta$, $r^{2\lambda}=t$, the geometric
+  mean choice of Step~8).
+\end{enumerate}
+\emph{Results.} Definitions~\ref{bpW:w8:const}, \ref{bpW:w8:shells}, \ref{bpW:w8:shell-iter}, \ref{bpW:w8:Kshell},
+\ref{bpW:w8:patch}; Lemmas~\ref{bpW:w8:shell-data}, \ref{bpW:w8:sharp-prep}, \ref{bpW:w8:w6-general}, \ref{bpW:w8:etor},
+\ref{bpW:w8:freq-shell}, \ref{bpW:w8:torus-shape}, \ref{bpW:w8:shell-embedding}, \ref{bpW:w8:shell-close}, \ref{bpW:w8:shell-inv},
+\ref{bpW:w8:patch-local}, \ref{bpW:w8:patch-cont}, \ref{bpW:w8:unique}, \ref{bpW:w8:winding}, \ref{bpW:w8:nu-injective};
+Proposition~\ref{bpW:w8:injective}; Theorem~\ref{bpW:w8:nlw2-proof} (the root); Remark~\ref{bpW:w8:boundaries}. External:
+\ref{bpW:w8:ext-inner}--\ref{bpW:w8:ext-local}.
+\emph{Labels.} No forward references to unwritten parts; the headline label \texttt{bpW:wh:nlw2} is defined in the next section.
+\end{remark}

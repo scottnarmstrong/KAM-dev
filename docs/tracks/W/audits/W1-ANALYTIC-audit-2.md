@@ -1,0 +1,211 @@
+# W1-ANALYTIC independent audit 2
+
+**PASS WITH NOTES for the package, within the requested tight delta. F1 CLOSED (PASS); F2 RESOLVED by explicit orchestrator authorization. No new mathematical or Lean hygiene defect found in the changed lines.** This package has no provider or frozen theorem seal; seal readiness is N/A. The unchanged analytic core retains round 1's PASS WITH NOTES qualifications, without a fresh audit of those modules.
+
+## Scope, authority and frozen inputs
+
+Audited 2026-10-30 in `/root/code/KAM-inp-wpd`. The user's exact report path and round-2 restriction override the generic brief's main-worktree output path and all-module re-audit request. Authorized writes are this report and temporary audit probes; no production repair, root regeneration, frozen/manifest change, commit or git mutation was performed. Lean checks were serialized with `LEAN_NUM_THREADS=1`, using `nice -n 5`; the build used the prescribed compile gate. No new agent was launched.
+
+Read AGENTS.md, docs/PLAN.md, docs/DECISIONS.md, the package audit brief, round-1 report, handoff including AUDIT FOCUS and Round 2, and the track-W prover brief's Root file ruling. Applied a focused tier-2 source-correspondence and refutation check. Workspace instructions and fresh evidence control the result; memory was used only for the serialized report-only audit workflow.
+
+Frozen snapshot:
+
+| Input | Revision / SHA256 |
+|---|---|
+| Package HEAD | `6af35391b611ad8f3be95a955067b7e2685e3f25` |
+| `inp` and merge base at start | `4a46fd6476e6cef375650b0ff949c4f74c735aaa` |
+| Round-1 package HEAD | `c87c7a34db8e1e56aacb97a01d60c8a659271955` |
+| Merge before round-2 fix | `9e07d834` |
+| `KAM/Wave/Analytic/ComplexificationCommute.lean` | `45811d344abf0b22cc28fbef3ca09db2e83baecd22c60a6ae2bb86ca0517f588` |
+| `blueprint-W/parts/w1-sequences.tex`, identical to pinned `inp` | `b27ab7134c188941198e547c4577e3263e0e5f618a41ebd6983ac48b8b07e796` |
+| Round-1 report | `06aa41f20d21b7e41d771debfe6c27aafdd25a9290bdd37d130b9bcc31b52014` |
+| Handoff | `0ce9dd530aa102b17f6466ce07483306bad0907616e7c48a7f27299ef0427f8b` |
+| Existing Seq/Transport.lean, semantic dependency | `74ffff5ef2616bb018058a27994fea5982dcf973de0b5568fe05d47bb59fc28a` |
+| Existing Seq/Multiplier.lean, semantic dependency | `5f116cdc38e974a4e29df46fe522e68b4f844c8d2667b006c967cb160c8dba74` |
+
+Compared `git diff inp...HEAD`: 18 files, 2451 additions. Of these, the original 14 analytic modules are byte-identical to round-1 HEAD (14/14 blob comparisons passed). The immediate fix `git diff 9e07d834 HEAD` adds only the 112-line commutation module, its generated root import, the round-1 report and ten handoff lines. Changes inherited from the inp merge are outside this package's repair and were not re-audited. The new module's actual imported Seq definitions were read solely to identify τ, κ, Dμ and their domain guards.
+
+## Findings and adversarial recheck
+
+**F1: CLOSED.** At this snapshot, blueprint-W/parts/w1-sequences.tex:721–723 says: “All three commute with \(\tau_{a,p}\), \(\kappa_{a,p}\) and every real multiplier \(D_\mu\).” The new file supplies all nine identities, plus the three weighted-membership producers and two auxiliary multiplier results. The three κ identities are pointwise equalities quantified over every positive index; a compiled scratch probe recovered each full function equality by `funext`. The τ identities are already full ℓ² equalities and construct the transformed sequence's membership proof from the input membership. No transformed membership or commutation conclusion is assumed.
+
+Refutation attempts: checked whether κ/τ were merely renamed substitutes, whether real-part/conjugation used complex rather than real weights, whether transformed membership was hidden in a premise, and whether “every real multiplier” was narrowed improperly. All were refuted: `coeffW a p y j = y j / ellWeight a p j`, `tauLp a p w h j = ellWeight a p j * w j`, and `weightedDiagCLM μ hM y j = μ j * y j` are the actual imported source maps. The weights are real and strictly positive for all real a,p. The blueprint's multiplier node at lines 193–196 states “Let μ:ℕ₊→𝕂 and M≥0 with |μ_j|≤M for all j”; the bound is the existing bounded-operator domain, not an extra analytic premise. `M≥0` follows from the bound at j=1. An unbounded sequence does not define an everywhere bounded ℓ² operator. Conjugation correctly leaves a real multiplier fixed. All proofs are coordinatewise algebra, with no analytic estimate assumed. The new theorems permit all real a, stronger than the weighted-space convention a≥0.
+
+**F2: RESOLVED BY AUTHORIZATION.** The user explicitly accepts script-regenerated roots; `/root/code/KAM-inp/.drafts/briefs/w-prover.md:38–40` says “You may run `python3 scripts/gen_root_imports.py` in your worktree and commit its output, but never hand-edit `KAM.lean`.” The added import in KAM/Root/Wave.lean is consistent with this ruling. No root was regenerated by this audit. The protected comparison excluding authorized roots is empty; at this baseline `git diff inp...HEAD -- KAM/Frozen manifest KAM.lean README.md` is also empty. This report does not reinstate round-1 F2.
+
+**Documentation note only:** the new handoff's “all ten new theorems” understates the actual count of 14. The new module is 112 physical lines, rather than approximately 130. All 14 declarations were checked here; the count does not hide an unchecked theorem. The historical caveat above Round 2 remains superseded by Round 2.
+
+## Declaration ledger
+
+All names have prefix `KAM.Wave`; line numbers refer to ComplexificationCommute.lean at frozen HEAD. Each row has the same clean axiom closure independently printed below.
+
+| Source node / role | Declaration / line | Verdict | Reason |
+|---|---|---|---|
+| complexification-lemma (i) / commutation | `coeffW_complexifyLp` :31 | PASS | κ commutes with real inclusion, at every coordinate. |
+| complexification-lemma (i) / commutation | `coeffW_reLp` :35 | PASS | κ commutes with real part, at every coordinate. |
+| complexification-lemma (i) / commutation | `coeffW_conjLp` :39 | PASS | κ commutes with conjugation, at every coordinate. |
+| complexification-lemma (i) / commutation | `isEll_complexify_of_isEll` :45 | PASS | Proves weighted membership after real inclusion; no membership conclusion is assumed. |
+| complexification-lemma (i) / commutation | `isEll_re_of_isEll` :53 | PASS | Proves weighted membership after real part. |
+| complexification-lemma (i) / commutation | `isEll_conj_of_isEll` :61 | PASS | Proves weighted membership after conjugation. |
+| complexification-lemma (i) / commutation | `complexifyLp_tauLp` :69 | PASS | τ commutes with inclusion as an equality in complex ℓ². |
+| complexification-lemma (i) / commutation | `reLp_tauLp` :74 | PASS | τ commutes with real part as an equality in real ℓ². |
+| complexification-lemma (i) / commutation | `conjLp_tauLp` :78 | PASS | τ commutes with conjugation as an equality in complex ℓ². |
+| complexification-lemma (i) / commutation | `norm_ofReal_le_of_norm_le` :85 | PASS | Converts the real multiplier bound to the same complex bound. |
+| complexification-lemma (i) / commutation | `weightedDiagCLM_complexifyLp` :88 | PASS | Real diagonal multiplier commutes with inclusion. |
+| complexification-lemma (i) / commutation | `weightedDiagCLM_reLp` :94 | PASS | Real diagonal multiplier commutes with real part. |
+| complexification-lemma (i) / commutation | `weightedDiagCLM_conjLp` :100 | PASS | Real diagonal multiplier commutes with conjugation. |
+| complexification-lemma (i) / commutation | `coeffW_weightedDiagCLM` :107 | PASS | Additional κ/multiplier identity, generalized to every RCLike scalar. |
+
+## Binder audit
+
+One row per declared binder occurrence, including implicit and instance binders. There are 61 binders: SOURCE=11, TYPING=50, STANDING=0, RULED=0, EXCESS=0. `IsEll` expands exactly to `Memℓp (fun j => ellWeight a p j * w j) 2`; it packages domain membership, with no hidden result. `hM` is the coordinate bound `∀ j, ‖μ j‖ ≤ M`, with no other bundled input. The source locations below use the pinned blueprint file. No result introduces existential constants or enlarged constant dependence.
+
+| Declaration | Binder | Bin | Source / reason |
+|---|---|---|---|
+| `coeffW_complexifyLp` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_complexifyLp` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_complexifyLp` | `y` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_complexifyLp` | `j` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_reLp` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_reLp` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_reLp` | `z` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_reLp` | `j` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_conjLp` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_conjLp` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_conjLp` | `z` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_conjLp` | `j` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_complexify_of_isEll` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_complexify_of_isEll` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_complexify_of_isEll` | `w` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_complexify_of_isEll` | `h` | SOURCE | Weighted domain membership: transport definition, blueprint lines 30–35. |
+| `isEll_re_of_isEll` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_re_of_isEll` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_re_of_isEll` | `w` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_re_of_isEll` | `h` | SOURCE | Weighted domain membership: transport definition, blueprint lines 30–35. |
+| `isEll_conj_of_isEll` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_conj_of_isEll` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_conj_of_isEll` | `w` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `isEll_conj_of_isEll` | `h` | SOURCE | Weighted domain membership: transport definition, blueprint lines 30–35. |
+| `complexifyLp_tauLp` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `complexifyLp_tauLp` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `complexifyLp_tauLp` | `w` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `complexifyLp_tauLp` | `h` | SOURCE | Weighted domain membership: transport definition, blueprint lines 30–35. |
+| `reLp_tauLp` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `reLp_tauLp` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `reLp_tauLp` | `w` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `reLp_tauLp` | `h` | SOURCE | Weighted domain membership: transport definition, blueprint lines 30–35. |
+| `conjLp_tauLp` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `conjLp_tauLp` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `conjLp_tauLp` | `w` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `conjLp_tauLp` | `h` | SOURCE | Weighted domain membership: transport definition, blueprint lines 30–35. |
+| `norm_ofReal_le_of_norm_le` | `μ` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `norm_ofReal_le_of_norm_le` | `M` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `norm_ofReal_le_of_norm_le` | `hM` | SOURCE | Bound on the multiplier: blueprint lines 193–196. |
+| `norm_ofReal_le_of_norm_le` | `j` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_complexifyLp` | `μ` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_complexifyLp` | `M` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_complexifyLp` | `hM` | SOURCE | Bound on the multiplier: blueprint lines 193–196. |
+| `weightedDiagCLM_complexifyLp` | `y` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_reLp` | `μ` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_reLp` | `M` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_reLp` | `hM` | SOURCE | Bound on the multiplier: blueprint lines 193–196. |
+| `weightedDiagCLM_reLp` | `z` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_conjLp` | `μ` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_conjLp` | `M` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `weightedDiagCLM_conjLp` | `hM` | SOURCE | Bound on the multiplier: blueprint lines 193–196. |
+| `weightedDiagCLM_conjLp` | `z` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `K` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `[RCLike K]` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `a` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `p` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `μ` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `M` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `hM` | SOURCE | Bound on the multiplier: blueprint lines 193–196. |
+| `coeffW_weightedDiagCLM` | `y` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+| `coeffW_weightedDiagCLM` | `j` | TYPING | Scalar, weight, sequence, coordinate or bound parameter in the source convention. |
+
+## Definitions and imports
+
+There are **zero new def/abbrev/structure declarations**. New-definition classification: BODY_MATCH, PUBLIC_CARRIER, WELL_DEFINEDNESS, CHARACTERIZATION, CHOICE_INDEPENDENCE are N/A; no new definitional body to approve. The imported `complexifyLp`, `reLp`, `conjLp` retain their round-1 coordinate-map identities. The existing `coeffW`, `IsEll`, `tauLp`, `weightedDiagCLM` are literal division, weighted membership, weighted multiplication, and coordinate multiplier maps respectively; their use here has no default branch or arbitrary choice. This identifies the semantic dependency, without reopening the independently landed Seq package audit.
+
+Direct imports are `KAM.Wave.Analytic.ComplexificationLp` and `KAM.Wave.Seq.Multiplier`. No new provider or DRAFT_SORRY import. No provider-type, seal-body or frozen-consumer probe applies to this infrastructure repair.
+
+## Independent verification
+
+All invocations completed sequentially. No heartbeat, recursion-depth or synthesis override; no clean, cache fetch, package update, Mathlib rebuild or root regeneration. Build dependencies reused the existing worktree snapshot.
+
+1. Targeted build:
+
+```sh
+LEAN_NUM_THREADS=1 /mnt/HC_Volume_106379410/orchestrator-tools/inp_lake_build.sh /root/code/KAM-inp-wpd KAM.Wave.Analytic.ComplexificationCommute
+```
+
+Exit 0. Exact output:
+
+```text
+[inp-gate] slot 1 acquired 17:56:52 for KAM.Wave.Analytic.ComplexificationCommute
+Build completed successfully (2552 jobs).
+```
+
+2. Axioms and source type probes:
+
+```sh
+LEAN_NUM_THREADS=1 nice -n 5 lake env lean .lake/abi-scratch/W1Audit2.lean
+```
+
+Exit 0. The probe imported only the new module, generated `#print axioms` from its complete theorem census, and compiled function-level κ/inclusion, κ/real-part and κ/conjugation identities using the corresponding new theorems. The source, axiom output and proof scripts were inspected; the scratch probe was deleted after recording the evidence. Exact axiom output:
+
+```text
+'KAM.Wave.coeffW_complexifyLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.coeffW_reLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.coeffW_conjLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.isEll_complexify_of_isEll' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.isEll_re_of_isEll' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.isEll_conj_of_isEll' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.complexifyLp_tauLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.reLp_tauLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.conjLp_tauLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.norm_ofReal_le_of_norm_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.weightedDiagCLM_complexifyLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.weightedDiagCLM_reLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.weightedDiagCLM_conjLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'KAM.Wave.coeffW_weightedDiagCLM' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+3. Kernel replay, restricted to the changed module as requested:
+
+```sh
+LEAN_NUM_THREADS=1 nice -n 5 lake env leanchecker --verbose KAM.Wave.Analytic.ComplexificationCommute
+```
+
+Exit 0. Exact output:
+
+```text
+replaying KAM.Wave.Analytic.ComplexificationCommute
+```
+
+4. SLIM lint, executing the repository's scripts/lint_sources.sh through the required overlay wrapper:
+
+```sh
+LEAN_NUM_THREADS=1 /root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpd
+```
+
+Exit 0. Exact output:
+
+```text
+check_lean_modules: PASS (1663 Lean files, 0 comparator configurations)
+FROZEN-ANCHOR GUARD OK
+ABI HASHES OK (158 frozen declarations)
+```
+
+No stale-root exception was needed.
+
+5. `git diff --check inp...HEAD`: exit 0, no output. `git diff inp...HEAD -- KAM/Frozen manifest KAM.lean README.md`: exit 0, empty. New module: 112 physical lines, all module headers/public imports/public section present; zero forbidden proof tokens, resource overrides or EuclideanSpace. No definitions require new expose attributes.
+
+## Limits, errata and closeout
+
+F1 is discharged on the actual source operators. No suspected new blueprint/source defect, implementation deviation, open mathematical uncertainty or unresolved finding in this delta. The theorem-count discrepancy is a handoff note, not an erratum in a pinned mathematical source. Round-1 notes about the unchanged core remain recorded there; no unchanged theorem, original PDF, global graph closure, W-NLW2 proof, downstream consumer or seal is newly certified here.
+
+Final check: `inp` advanced concurrently to `72cd9d25f9e995b13475054d22d51d2872bb42aa`; HEAD stayed fixed. Re-read the current `inp` blueprint: SHA256 remains the pinned value above. The Seq/Transport and Seq/Multiplier files are unchanged between the initial and final inp revisions. The current `git diff inp...HEAD` inventory is still 18 files / 2451 additions; the protected-path comparison remains empty and `git diff --check inp...HEAD` exits 0. Thus the baseline movement does not alter the audited delta or source correspondence.
+
+The audit-only scratch probe and temporary diff capture were removed. Final `git status --short` contains only `?? docs/tracks/W/audits/W1-ANALYTIC-audit-2.md`; no tracked file was changed by this auditor. Report whitespace and placeholder checks passed. The audit is complete; no repair or additional audit is requested by this report.

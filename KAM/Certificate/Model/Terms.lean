@@ -119,22 +119,6 @@ section Sums
 
 variable {α : Type} [CertArith α]
 
-/-- One round of pairwise upward sums: `[a, b, c, d, e] ↦ [a + b, c + d, e]`. -/
-def sumPairsUp : List α → List α
-  | a :: b :: rest => upAdd a b :: sumPairsUp rest
-  | l => l
-
-/-- `r` rounds of `sumPairsUp` (a list of length `≤ 2^r` collapses to at most one entry). -/
-def pairRounds : ℕ → List α → List α
-  | 0, l => l
-  | r + 1, l => pairRounds r (sumPairsUp l)
-
-/-- `Σ g x` rounded upward, summed as a balanced tree (64 rounds of pairwise sums, then a
-`foldr` of what remains): the kernel evaluates nested sums of depth about `log₂` of the length,
-never a long accumulator chain. -/
-def sumUp {β : Type} (g : β → α) (L : List β) : α :=
-  (pairRounds 64 (L.map g)).foldr upAdd (ofInt 0)
-
 /-- The weighted size `|e| · w^{|k|₁}` of an error at key `k`, rounded upward. -/
 def weightTermUp (W : CertWeight) (k : CertKey) (e : α) : α :=
   upMul (abs e) (ofRatUp (W.w ^ keyDeg k))
@@ -148,34 +132,6 @@ def CertPoly.supNormUp (W : CertWeight) (P : CertPoly α) : α :=
   sumUp (fun t => weightTermUp W t.1 t.2.normUp) P.terms
 
 variable [LawfulCertArith α]
-
-theorem sumPairsUp_ge : ∀ l : List α, (l.map val).sum ≤ ((sumPairsUp l).map val).sum
-  | [] => le_rfl
-  | [a] => le_rfl
-  | a :: b :: rest => by
-    have ih := sumPairsUp_ge rest
-    have hu := LawfulCertArith.upAdd_ge a b
-    simp only [sumPairsUp, List.map_cons, List.sum_cons]
-    linarith
-
-theorem pairRounds_ge : ∀ (r : ℕ) (l : List α),
-    (l.map val).sum ≤ ((pairRounds r l).map val).sum
-  | 0, _ => le_rfl
-  | r + 1, l => (sumPairsUp_ge l).trans (pairRounds_ge r (sumPairsUp l))
-
-theorem foldr_upAdd_ge : ∀ l : List α, (l.map val).sum ≤ val (l.foldr upAdd (ofInt 0))
-  | [] => by simp [LawfulCertArith.val_ofInt]
-  | a :: l => by
-    have ih := foldr_upAdd_ge l
-    have hu := LawfulCertArith.upAdd_ge a (l.foldr upAdd (ofInt 0))
-    simp only [List.foldr_cons, List.map_cons, List.sum_cons]
-    linarith
-
-theorem sumUp_ge {β : Type} (g : β → α) (L : List β) :
-    (L.map fun x => val (g x)).sum ≤ val (sumUp g L) := by
-  have h := (pairRounds_ge 64 (L.map g)).trans (foldr_upAdd_ge _)
-  rw [List.map_map] at h
-  exact h
 
 theorem norm_character_le_keyDeg {n : ℕ} {W : CertWeight} {s N : ℕ}
     (hW : checkWeight W s N = true) (k : CertKey) {θ : Fin n → ℂ}
@@ -406,9 +362,29 @@ variable {α : Type} [CertArith α]
 def rowItems (s : CertKey × CC α) (bs : List (CertKey × CC α)) : List (ErrTerm α) :=
   bs.map fun t => (packAddZ s.1 t.1, s.2.mulC t.2, s.2.mulErrC t.2)
 
-/-- The direct product of two term lists: the rows merged one after another (equal keys are
-added, so a product with a constant factor is a scalar multiplication of the other factor). -/
+/-- One level of pairwise row merges: `[r₀, r₁, r₂, r₃, r₄] ↦ [r₀ ∪ r₁, r₂ ∪ r₃, r₄]`. -/
+def mergeRowsLevel : List (List (ErrTerm α)) → List (List (ErrTerm α))
+  | a :: b :: r => mergeErrTerms a b :: mergeRowsLevel r
+  | r => r
+
+/-- Balanced merging of rows: `fuel` levels of `mergeRowsLevel`, then (only if the fuel runs out)
+the linear merge of what remains, so the result is a sound merge for every input. -/
+def mergeRowsTree : ℕ → List (List (ErrTerm α)) → List (ErrTerm α)
+  | _, [] => []
+  | _, [a] => a
+  | 0, a :: b :: r => (a :: b :: r).foldl mergeErrTerms []
+  | f + 1, a :: b :: r => mergeRowsTree f (mergeRowsLevel (a :: b :: r))
+
+/-- The direct product of two term lists: the rows merged as a balanced tree (equal keys are
+added, so a product with a constant factor is a scalar multiplication of the other factor). The
+tree keeps the kernel's reduction depth at about `log₂` of the row count (a linear chain of
+merges nests one lazy merge per row). -/
 def directItems (as bs : List (CertKey × CC α)) : List (ErrTerm α) :=
+  mergeRowsTree 64 (as.map fun s => rowItems s bs)
+
+/-- The pre-balancing direct product (rows merged one after another); kept as a compatibility
+export. -/
+def directItemsLinear (as bs : List (CertKey × CC α)) : List (ErrTerm α) :=
   as.foldl (fun acc s => mergeErrTerms acc (rowItems s bs)) []
 
 /-- Product terms kept at the cutoff: `|k|₁ ≤ cutoff`. -/
@@ -453,47 +429,79 @@ theorem rowItems_spec (n : ℕ) (s : CertKey × CC α) (bs : List (CertKey × CC
     have := mul_le_mul_of_nonneg_right e (norm_nonneg (χs * χt))
     linarith
 
+/-- A term list represents the value `S` within its error budget. -/
+def ErrRep (n : ℕ) (θ : Fin n → ℂ) (S : ℂ) (L : List (ErrTerm α)) : Prop :=
+  ‖S - errTermsEval n L θ‖ ≤ errTermsErr n L θ
+
+/-- Rows representing the summands of a total. -/
+inductive RowsRep (n : ℕ) (θ : Fin n → ℂ) : ℂ → List (List (ErrTerm α)) → Prop
+  | empty : RowsRep n θ 0 []
+  | push {S T : ℂ} {L : List (ErrTerm α)} {Ls : List (List (ErrTerm α))} :
+      ErrRep n θ S L → RowsRep n θ T Ls → RowsRep n θ (S + T) (L :: Ls)
+
+theorem errRep_merge {n : ℕ} {θ : Fin n → ℂ} {S T : ℂ} {L M : List (ErrTerm α)}
+    (hL : ErrRep n θ S L) (hM : ErrRep n θ T M) : ErrRep n θ (S + T) (mergeErrTerms L M) := by
+  have hm := mergeErrTerms_spec n θ L M
+  unfold ErrRep at *
+  have : S + T - errTermsEval n (mergeErrTerms L M) θ = (S - errTermsEval n L θ) +
+      (T - errTermsEval n M θ) +
+      (errTermsEval n L θ + errTermsEval n M θ - errTermsEval n (mergeErrTerms L M) θ) := by
+    ring
+  rw [this]
+  have n1 := norm_add_le ((S - errTermsEval n L θ) + (T - errTermsEval n M θ))
+    (errTermsEval n L θ + errTermsEval n M θ - errTermsEval n (mergeErrTerms L M) θ)
+  have n2 := norm_add_le (S - errTermsEval n L θ) (T - errTermsEval n M θ)
+  linarith
+
+omit [LawfulCertArith α] in
+theorem errRep_nil (n : ℕ) (θ : Fin n → ℂ) : ErrRep n θ 0 ([] : List (ErrTerm α)) := by
+  simp [ErrRep]
+
+theorem rowsRep_level {n : ℕ} {θ : Fin n → ℂ} : ∀ {T : ℂ} {Ls : List (List (ErrTerm α))},
+    RowsRep n θ T Ls → RowsRep n θ T (mergeRowsLevel Ls)
+  | _, [], h => by simpa [mergeRowsLevel] using h
+  | _, [_], h => by simpa [mergeRowsLevel] using h
+  | _, _ :: _ :: _, .push ha (.push hb hr) => by
+    rw [mergeRowsLevel, ← add_assoc]
+    exact .push (errRep_merge ha hb) (rowsRep_level hr)
+
+theorem rowsRep_foldl {n : ℕ} {θ : Fin n → ℂ} : ∀ {T A : ℂ} {Ls : List (List (ErrTerm α))}
+    {acc : List (ErrTerm α)}, ErrRep n θ A acc → RowsRep n θ T Ls →
+      ErrRep n θ (A + T) (Ls.foldl mergeErrTerms acc)
+  | _, _, [], _, ha, .empty => by simpa using ha
+  | _, _, _ :: _, _, ha, .push hl hr => by
+    rw [List.foldl_cons, ← add_assoc]
+    exact rowsRep_foldl (errRep_merge ha hl) hr
+
+theorem rowsRep_tree {n : ℕ} {θ : Fin n → ℂ} : ∀ (f : ℕ) {T : ℂ}
+    {Ls : List (List (ErrTerm α))}, RowsRep n θ T Ls → ErrRep n θ T (mergeRowsTree f Ls)
+  | _, _, [], .empty => by simpa [mergeRowsTree] using errRep_nil n θ
+  | f, _, [_], .push hl .empty => by cases f <;> simpa [mergeRowsTree] using hl
+  | 0, _, _ :: _ :: _, h => by
+    rw [mergeRowsTree]
+    simpa using rowsRep_foldl (errRep_nil n θ) h
+  | f + 1, _, _ :: _ :: _, h => by
+    rw [mergeRowsTree]
+    exact rowsRep_tree f (rowsRep_level h)
+
 /-- **Direct product contract.** -/
 theorem directItems_spec (n : ℕ) (as bs : List (CertKey × CC α)) (θ : Fin n → ℂ) :
     ‖CertPoly.eval n ⟨as⟩ θ * CertPoly.eval n ⟨bs⟩ θ - errTermsEval n (directItems as bs) θ‖ ≤
       errTermsErr n (directItems as bs) θ := by
-  have key : ∀ (as : List (CertKey × CC α)) (acc : List (ErrTerm α)) (S : ℂ),
-      ‖S - errTermsEval n acc θ‖ ≤ errTermsErr n acc θ →
-      ‖S + CertPoly.eval n ⟨as⟩ θ * CertPoly.eval n ⟨bs⟩ θ -
-          errTermsEval n (as.foldl (fun acc s => mergeErrTerms acc (rowItems s bs)) acc) θ‖ ≤
-        errTermsErr n (as.foldl (fun acc s => mergeErrTerms acc (rowItems s bs)) acc) θ := by
+  have key : ∀ as : List (CertKey × CC α), RowsRep n θ
+      (CertPoly.eval n ⟨as⟩ θ * CertPoly.eval n ⟨bs⟩ θ) (as.map fun s => rowItems s bs) := by
     intro as
     induction as with
-    | nil => intro acc S h; simpa [CertPoly.eval] using h
+    | nil => simpa [CertPoly.eval] using RowsRep.empty
     | cons s as ih =>
-      intro acc S h
-      rw [List.foldl_cons]
-      have hS : S + CertPoly.eval n ⟨s :: as⟩ θ * CertPoly.eval n ⟨bs⟩ θ =
-          (S + s.2.toC * character (certKeyFun n s.1) θ * CertPoly.eval n ⟨bs⟩ θ) +
+      have hS : CertPoly.eval n ⟨s :: as⟩ θ * CertPoly.eval n ⟨bs⟩ θ =
+          s.2.toC * character (certKeyFun n s.1) θ * CertPoly.eval n ⟨bs⟩ θ +
             CertPoly.eval n ⟨as⟩ θ * CertPoly.eval n ⟨bs⟩ θ := by
         simp only [CertPoly.eval, List.map_cons, List.sum_cons]
         ring
-      rw [hS]
-      refine ih _ _ ?_
-      have hm := mergeErrTerms_spec n θ acc (rowItems s bs)
-      have hr := rowItems_spec n s bs θ
-      have : S + s.2.toC * character (certKeyFun n s.1) θ * CertPoly.eval n ⟨bs⟩ θ -
-          errTermsEval n (mergeErrTerms acc (rowItems s bs)) θ =
-          (S - errTermsEval n acc θ) + (s.2.toC * character (certKeyFun n s.1) θ *
-            CertPoly.eval n ⟨bs⟩ θ - errTermsEval n (rowItems s bs) θ) +
-          (errTermsEval n acc θ + errTermsEval n (rowItems s bs) θ -
-            errTermsEval n (mergeErrTerms acc (rowItems s bs)) θ) := by ring
-      rw [this]
-      have n1 := norm_add_le ((S - errTermsEval n acc θ) + (s.2.toC *
-        character (certKeyFun n s.1) θ * CertPoly.eval n ⟨bs⟩ θ -
-          errTermsEval n (rowItems s bs) θ))
-        (errTermsEval n acc θ + errTermsEval n (rowItems s bs) θ -
-          errTermsEval n (mergeErrTerms acc (rowItems s bs)) θ)
-      have n2 := norm_add_le (S - errTermsEval n acc θ) (s.2.toC *
-        character (certKeyFun n s.1) θ * CertPoly.eval n ⟨bs⟩ θ -
-          errTermsEval n (rowItems s bs) θ)
-      linarith
-  simpa [directItems] using key as [] 0 (by simp)
+      rw [hS, List.map_cons]
+      exact .push (rowItems_spec n s bs θ) ih
+  exact rowsRep_tree 64 (key as)
 
 /-- **Truncation contract**: dropping the terms beyond the cutoff costs their weighted size. -/
 theorem truncPoly_spec (n : ℕ) (cutoff : ℕ) (θ : Fin n → ℂ) : ∀ L : List (ErrTerm α),

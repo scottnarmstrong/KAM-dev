@@ -84,7 +84,7 @@ def composeTestInv : CertPoly ℚ :=
 
 def composeTestWit (h : ℕ) : Witnesses ℚ :=
   ⟨[⟨⟨[([0], ⟨16487212707 / 10 ^ 10, 0⟩)]⟩, 0, 20⟩], [composeTestInv],
-    [([1], composeTestCharE (1 / 10) [] h)]⟩
+    [([1], composeTestCharE (1 / 10) [] h)], []⟩
 
 def composeTestCfg : ModelConfig ℚ :=
   ⟨100, 10, 4, fun _ _ => none,
@@ -114,15 +114,18 @@ theorem composeTest_conj :
   decide +kernel
 
 theorem composeTest_noChar :
-    composeTestRun 0 ⟨(composeTestWit 0).expWit, (composeTestWit 0).invWit, []⟩ [0] = none := by
+    composeTestRun 0 ⟨(composeTestWit 0).expWit, (composeTestWit 0).invWit, [], []⟩
+      [0] = none := by
   decide +kernel
 
 theorem composeTest_noExp :
-    composeTestRun 0 ⟨[], (composeTestWit 0).invWit, (composeTestWit 0).charWit⟩ [0] = none := by
+    composeTestRun 0 ⟨[], (composeTestWit 0).invWit, (composeTestWit 0).charWit,
+      []⟩ [0] = none := by
   decide +kernel
 
 theorem composeTest_noInv :
-    composeTestRun 0 ⟨(composeTestWit 0).expWit, [], (composeTestWit 0).charWit⟩ [0] = none := by
+    composeTestRun 0 ⟨(composeTestWit 0).expWit, [], (composeTestWit 0).charWit,
+      []⟩ [0] = none := by
   decide +kernel
 
 /-- The pin `exp(i U(0))`, `U(0) = 3.1`, fails at `pinHalvings = 0`: fail closed. -/
@@ -149,7 +152,7 @@ theorem composeTest_normKey :
 
 theorem composeTest_n2 :
     (Slp.compose 2 composeTestProg2 composeTestK2 ⟨[], [], [([1, 0], composeTestCharE (1 / 10)
-        [0] 0)]⟩ composeTestW composeTestCfg composeTestPi [0, 1, 2, 4]).any (fun ms =>
+        [0] 0)], []⟩ composeTestW composeTestCfg composeTestPi [0, 1, 2, 4]).any (fun ms =>
       ms.length == 4 && ms.all fun m => decide (0 < m.rad ∧ m.rad ≤ 1 / 10 ^ 6)) = true := by
   decide +kernel
 

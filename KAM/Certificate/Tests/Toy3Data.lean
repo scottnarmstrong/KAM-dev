@@ -83,7 +83,7 @@ def toyT3Emb : CertEmbedding ℚ :=
   []⟩]⟩
 
 def toyT3Wit : Witnesses ℚ :=
-  ⟨[], [], []⟩
+  ⟨[], [], [], []⟩
 
 def toyT3GramInv : List (List (CertPoly ℚ)) :=
   [[⟨[([0, 0, 0], ⟨1, 0⟩)]⟩, ⟨[]⟩, ⟨[]⟩], [⟨[]⟩, ⟨[([0, 0, 0], ⟨1, 0⟩)]⟩, ⟨[]⟩], [⟨[]⟩, ⟨[]⟩,

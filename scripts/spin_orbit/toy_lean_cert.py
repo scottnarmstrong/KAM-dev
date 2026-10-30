@@ -188,7 +188,7 @@ def emit(path, P):
     EXTRA.clear()
     wl = decl(P + "Wit", "Witnesses ℚ", term(
         "⟨", lst([expwit(x) for x in wt["expWit"]]), ", ", lst([poly_terms(x) for x in wt["invWit"]]),
-        ", ", lst([term("(" + key(k) + ", ", expwit(x), ")") for k, x in wt["charWit"]]), "⟩"))
+        ", ", lst([term("(" + key(k) + ", ", expwit(x), ")") for k, x in wt["charWit"]]), ", []⟩"))
     for x in EXTRA:
         out += x
     out += wl

@@ -109,7 +109,7 @@ def torsTestH : HamExpr 1 := .mul (.const (1 / 2)) (.mul (.action 0) (.action 0)
 def torsTestB : List (List (CertPoly ℚ)) :=
   [[⟨[([-1], ⟨0, 1 / 10⟩), ([0], ⟨1, 0⟩), ([1], ⟨0, -1 / 10⟩)]⟩]]
 
-def torsTestWit : Witnesses ℚ := ⟨[], [], []⟩
+def torsTestWit : Witnesses ℚ := ⟨[], [], [], []⟩
 
 def torsTestBox : FreqBox := [(1, 1 / 1000)]
 
