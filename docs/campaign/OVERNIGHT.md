@@ -1242,3 +1242,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   60, 55 instances), SO-SHARPLINK (claude-6; barrier and lunar assembly through checkTorusCertificateSharp, with the
   band, frequencies and parameters as hypotheses), SO-EMITFIX (claude-12; why checkEmbedding / checkSoGraph get stuck
   in the kernel on the emitted rationals, the emitter fix, and checkHamBounds's memory). Disk 15 GB free.
+- **12:18. Heartbeat.** Four provers busy (SO-GEN3, SO-DION, SO-SHARPLINK, SO-EMITFIX); no limits hit. Quotas: claude-3 90 %, claude-12 88 %, claude-6 85 %, claude-4 64 %; Codex is getting low (codex-3 33 %, codex-4 29 %), so audits will be kept to the essential ones and split between the two.
