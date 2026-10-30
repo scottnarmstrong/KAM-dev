@@ -30,7 +30,8 @@ solution `û_k = ĝ_k/(2πi k·ω)` satisfies `|û_k| e^{2π(r-δ)|k|₁} ≤ Γ
   `S = KAM.smallDivisorSum` (SHARP-L2).
 * `KAM.summableWeighted_solve_sup`: the coefficient estimate
   `‖solve ω a‖_{s - 2πδ} ≤ Γ_∞(ω, δ) ‖a‖_s`.
-* The bridge `KAM.eq_fourierSum_of_summableWeighted`, `KAM.norm_le_weightedNorm_of_summableWeighted`:
+* The bridge `KAM.eq_fourierSum_of_summableWeighted` and
+  `KAM.norm_le_weightedNorm_of_summableWeighted`:
   a holomorphic `1`-periodic map on `T_ρ` whose coefficients are summable at radius `2πρ` is its
   Fourier series there, and is bounded by its weighted ℓ¹ norm.
 -/
