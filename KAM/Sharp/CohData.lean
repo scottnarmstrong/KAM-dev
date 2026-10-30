@@ -30,10 +30,11 @@ open KAM.Torus KAM.Apost
 
 namespace KAM.Sharp
 
-/-- Blueprint `bp:p2s:cohdata`: `(κ, c_R)` is small-divisor data for `(n, τ)`. The fields are the size
-clauses of `KAM.cohomological` (vector solution) and `KAM.cohomological_operator` (a-priori bound) with
-`Γ_δ = c_R γ⁻¹ δ^{-κ}`, for `0 < δ ≤ 1`; the qualitative clauses come from `KAM.cohomological` itself
-(`0 ≤ τ`). Instances: `cohData_russmann`, `cohData_parseval`, `cohData_crude`. -/
+/-- Blueprint `bp:p2s:cohdata`: `(κ, c_R)` is small-divisor data for `(n, τ)`. The fields are the
+size clauses of `KAM.cohomological` (vector solution) and `KAM.cohomological_operator` (a-priori
+bound) with `Γ_δ = c_R γ⁻¹ δ^{-κ}`, for `0 < δ ≤ 1`; the qualitative clauses come from
+`KAM.cohomological` itself (`0 ≤ τ`). Instances: `cohData_russmann`, `cohData_parseval`,
+`cohData_crude`. -/
 structure CohData (n : ℕ) (τ κ cR : ℝ) : Prop where
   tau_nonneg : 0 ≤ τ
   one_le_kappa : 1 ≤ κ
@@ -55,7 +56,8 @@ private theorem div_eq_cR_form {c γ δ κ H : ℝ} (hδ : 0 < δ) :
   rw [Real.rpow_neg hδ.le, div_eq_mul_inv, mul_inv]
   ring
 
-/-- `(a τ / (e π))^(b τ) > 0` for `τ ≥ 0` (the base vanishes only for `τ = 0`, where the power is `1`). -/
+/-- `(a τ / (e π))^(b τ) > 0` for `τ ≥ 0` (the base vanishes only for `τ = 0`, where the power
+is `1`). -/
 private theorem rpow_tau_pos {a b τ : ℝ} (ha : 0 < a) (hτ : 0 ≤ τ) :
     0 < (a * τ / (Real.exp 1 * Real.pi)) ^ (b * τ) := by
   rcases hτ.eq_or_lt with h | h
