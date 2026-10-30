@@ -347,6 +347,8 @@ AREAS = [
     ('Russmann', "Track R: Rüssmann's KAM theorem (finite-order non-degeneracy, Lipschitz extension, assembly)"),
     ('Sharp', 'Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes'),
     ('CertificateSharp', 'The sharp KAM certifier: engine-agnostic checker, rational constants, soundness'),
+    ('Sharp2', 'v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example'),
+    ('Root', 'Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py)'),
     ('Certificate', 'Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies)'),
     ('SpinOrbit', 'Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs)'),
 ]

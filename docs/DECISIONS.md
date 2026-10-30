@@ -354,3 +354,11 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   its next name component), so no generated file reaches the 1500-line cap (the root was 1489 lines). The parts
   count as the root for the provider and DRAFT_SORRY rules; no module other than `KAM.lean` may import a part
   (lint). `hq-update.sh` and `land-branch.sh` regenerate and stage `KAM.lean` and `KAM/Root/` together.
+- **D44 (2026-10-30, 16:40) v2 of the sharp a-posteriori theorem and the v2 certifier land (side campaign).**
+  Route A of v2 (`KAM.Sharp2.RouteA`, audited AUDIT-ROUTEA-1), the route-B modified step (`modified_stepB`, with the
+  cubic tangential error L10; design re-audited AUDIT-SHARP2-FIX-{fixed,iso}-1), the l1 entry foundations, and the v2
+  certifier `checkTorusCertificateV2` (route A; soundness audited AUDIT-C6-1 PASS) land at 86089b36, additively. The
+  landed sharp certifier is the `Sum.inl ()` route of the v2 engine, so switching cannot lose a passing certificate.
+  The dominance claim over Haro–Luque 2019 and corrected Figueras–Haro 2024 is a fair finite parameter study of the
+  design (APOST-SHARP-V2.md §12), not yet a property of a proved route-B theorem. Note for the SO orchestrator:
+  `docs/campaign/design/SHARP-CERTIFIER-FOR-SO.md` (update section).
