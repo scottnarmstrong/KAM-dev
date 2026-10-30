@@ -11,6 +11,7 @@ public import KAM.Certificate.Expr.Diff
 public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.Arith.PiHigh
 public import KAM.Certificate.Expr.BallRound
+public import KAM.Certificate.Expr.BallSqrt
 
 /-!
 # Certified ball evaluation of expression programs
@@ -22,12 +23,13 @@ from the coarse enclosure of `π`; actions are the domain balls; characters `e^{
 bounded by the strip weight; `exp` (hence compiled `sin`, `cos`) goes through the
 range-reduced `ballExp` (the rounded form of `certCExpReduced`) with the halving count
 `cexpHalvings` computed from the operand ball, failing closed on `none`; `inv` fails unless the
-operand ball excludes `0`.
+operand ball excludes `0`; `sqrt` goes through `ballSqrt`, which fails unless the operand ball lies
+in the right half-plane (`r < re c` and `R < s²` for a positive anchor `s`).
 
-The balls of products, reciprocals and exponentials are rounded outward to `slpBallPrec`
-significant bits (`ballRound`), so the rational sizes stay bounded over long programs, and every
-slot ball is forced as it is computed (`ballForce`). The evaluated pass `ballsRev` keeps the
-slots in reverse order (one cons per operation, one final reverse) and reads every operand ball
+The balls of products, reciprocals, exponentials and square roots are rounded outward to
+`slpBallPrec` significant bits (`ballRound`), so the rational sizes stay bounded over long programs,
+and every slot ball is forced as it is computed (`ballForce`). The evaluated pass `ballsRev` keeps
+the slots in reverse order (one cons per operation, one final reverse) and reads every operand ball
 once; `ballsAux_eq_spec` identifies it with the in-order reference form `ballsSpec`, on which the
 soundness proofs run.
 -/
@@ -193,6 +195,9 @@ def ballStepG (P n : ℕ) (WH : CertWeight) (centre radius : List ℚ) (taylorN 
         let d := c.re ^ 2 + c.im ^ 2
         some (ballRound P (⟨c.re / d, -c.im / d⟩, r / ((m - r) * m)))
       else none
+  | .sqrt a =>
+    match get a with
+    | (c, r) => ballSqrt P c r
 
 /-- Force a computed ball. The test on the denominators always holds; it makes the kernel
 evaluate the three rationals of the ball at this step, so no deferred chain of rational
@@ -444,6 +449,12 @@ theorem ballStepG_sound {P n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWei
     convert hb using 1
     push_cast
     rfl
+  | sqrt a =>
+    have ha := hget a
+    simp only [ballStepG] at h
+    rcases hg : get a with ⟨c, r⟩
+    simp only [hg] at h ha
+    exact ballSqrt_sound P h ha
 
 theorem ballStep_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight WH s N = true)
     {centre radius : List ℚ} {taylorN : ℕ} {z : (Fin n → ℂ) × (Fin n → ℂ)}
@@ -544,6 +555,57 @@ theorem ballsAux_prefix_inv {n : ℕ} {WH : CertWeight} {centre radius : List �
   rw [ballsAux_eq_spec] at h
   exact ballsSpec_prefix_inv ops acc bs h
 
+/-- A successful `sqrt` step certifies its operand ball in the right half-plane. -/
+theorem ballStep_sqrt_lt {n : ℕ} {WH : CertWeight} {centre radius : List ℚ} {taylorN : ℕ}
+    {acc : List (CC ℚ × ℚ)} {a : ℕ} {b : CC ℚ × ℚ}
+    (h : ballStep n WH centre radius taylorN acc (.sqrt a) = some b) :
+    (acc.getD a ballZero).2 < (acc.getD a ballZero).1.re := by
+  have h₀ := ballForce_eq_some h
+  simp only [ballStepG] at h₀
+  rcases hx : acc.getD a ballZero with ⟨c, r⟩
+  simp only [hx] at h₀
+  exact ballSqrt_lt_re h₀
+
+theorem ballsSpec_prefix_sqrt {n : ℕ} {WH : CertWeight} {centre radius : List ℚ} {taylorN : ℕ}
+    (ops : List SlpOp) :
+    ∀ (acc bs : List (CC ℚ × ℚ)), ballsSpec n WH centre radius taylorN acc ops = some bs →
+      acc <+: bs ∧ ∀ j a : ℕ, ops[j]? = some (SlpOp.sqrt a) →
+        (bs.getD a ballZero).2 < (bs.getD a ballZero).1.re := by
+  induction ops with
+  | nil =>
+    intro acc bs h
+    simp only [ballsSpec, Option.some.injEq] at h
+    subst h
+    exact ⟨List.prefix_refl _, fun j a hj => by simp at hj⟩
+  | cons op ops ih =>
+    intro acc bs h
+    simp only [ballsSpec, Option.bind_eq_some_iff] at h
+    obtain ⟨b, hb, h⟩ := h
+    obtain ⟨hp, hsq⟩ := ih _ _ h
+    refine ⟨(List.prefix_append acc [b]).trans hp, fun j a hj => ?_⟩
+    cases j with
+    | succ j => exact hsq j a hj
+    | zero =>
+      simp only [List.getElem?_cons_zero, Option.some.injEq] at hj
+      subst hj
+      have hlt := ballStep_sqrt_lt hb
+      by_cases ha : a < acc.length
+      · obtain ⟨t, ht⟩ := (List.prefix_append acc [b]).trans hp
+        rw [← ht, List.getD_eq_getElem?_getD, List.getElem?_append_left ha,
+          ← List.getD_eq_getElem?_getD]
+        exact hlt
+      · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega)] at hlt
+        simp [ballZero] at hlt
+
+theorem ballsAux_prefix_sqrt {n : ℕ} {WH : CertWeight} {centre radius : List ℚ} {taylorN : ℕ}
+    (ops : List SlpOp) :
+    ∀ (acc bs : List (CC ℚ × ℚ)), ballsAux n WH centre radius taylorN acc ops = some bs →
+      acc <+: bs ∧ ∀ j a : ℕ, ops[j]? = some (SlpOp.sqrt a) →
+        (bs.getD a ballZero).2 < (bs.getD a ballZero).1.re := by
+  intro acc bs h
+  rw [ballsAux_eq_spec] at h
+  exact ballsSpec_prefix_sqrt ops acc bs h
+
 /-- Every `inv` operation of `ops` has an operand that is nonzero at every point of `S`. -/
 def SlpInvGood (n : ℕ) (S : Set ((Fin n → ℂ) × (Fin n → ℂ))) (ops : List SlpOp) : Prop :=
   ∀ j a : ℕ, ops[j]? = some (SlpOp.inv a) → ∀ z ∈ S, (Slp.vals n z ops).getD a 0 ≠ 0
@@ -568,6 +630,25 @@ theorem Slp.invGood_of_balls {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
     max_le (Complex.abs_re_le_norm x.1.toC) (Complex.abs_im_le_norm x.1.toC)
   exact (inv_ball_bound hlt' hmc hmem').1
 
+/-- Every `sqrt` operation of `ops` has an operand with positive real part at every point of `S`. -/
+def SlpSqrtGood (n : ℕ) (S : Set ((Fin n → ℂ) × (Fin n → ℂ))) (ops : List SlpOp) : Prop :=
+  ∀ j a : ℕ, ops[j]? = some (SlpOp.sqrt a) → ∀ z ∈ S, 0 < ((Slp.vals n z ops).getD a 0).re
+
+/-- Successful ball arithmetic certifies every `sqrt` operand on `D`. -/
+theorem Slp.sqrtGood_of_balls {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
+    (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
+    {bs : List (CC ℚ × ℚ)} (h : p.balls n WH centre radius taylorN = some bs) :
+    SlpSqrtGood n (certDomain n WH.rho centre radius) p.ops := by
+  intro j a hj z hz
+  obtain ⟨-, hsq⟩ := ballsAux_prefix_sqrt p.ops [] bs h
+  have hlt := hsq j a hj
+  have ha : a < bs.length := by
+    by_contra hna
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega)] at hlt
+    simp [ballZero] at hlt
+  have hmem := Slp.val_mem_ball p hW h hz a ha
+  exact re_pos_of_ball hlt hmem
+
 variable {n : ℕ}
 
 local notation "Ph" => (Fin n → ℂ) × (Fin n → ℂ)
@@ -589,9 +670,11 @@ theorem slpInvNode_emit_prefix {S : Set Ph} (hS : IsOpen S) {f : Ph → ℂ}
   obtain ⟨p, -⟩ := slpInvTail_sound hS hf h0 (hA.mono hp) hvlt hval hw2 hw3 hw4
   exact (slpInvPre_emit_prefix s A).trans p
 
-theorem HamExpr.nonvanishingOn_of_inv_good {D : Set Ph} (hD : IsOpen D) (e : HamExpr n) :
+/-- Inverse and square-root safety of a program containing the compiled expression certify the
+domain conditions of the expression. -/
+theorem HamExpr.nonvanishingOn_of_program_good {D : Set Ph} (hD : IsOpen D) (e : HamExpr n) :
     ∀ (s ops : List SlpOp), (slpCompile e s).1 <+: ops → SlpInvGood n D ops →
-      e.NonvanishingOn D := by
+      SlpSqrtGood n D ops → e.NonvanishingOn D := by
   induction e with
   | const q => intros; trivial
   | pi => intros; trivial
@@ -599,21 +682,21 @@ theorem HamExpr.nonvanishingOn_of_inv_good {D : Set Ph} (hD : IsOpen D) (e : Ham
   | cosMode k => intros; trivial
   | sinMode k => intros; trivial
   | add a b iha ihb =>
-    intro s ops hp hg
+    intro s ops hp hg hq
     obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
     obtain ⟨p2, h2⟩ := slpCompile_sound b isOpen_empty b.nonvanishingOn_empty (slpCompile a s).1
     obtain ⟨p3, -⟩ := slpAddNode_sound isOpen_empty (jetSmoothOn_empty _) (jetSmoothOn_empty _)
       (h1.mono p2) h2
-    exact ⟨iha s ops ((p2.trans p3).trans hp) hg, ihb _ ops (p3.trans hp) hg⟩
+    exact ⟨iha s ops ((p2.trans p3).trans hp) hg hq, ihb _ ops (p3.trans hp) hg hq⟩
   | mul a b iha ihb =>
-    intro s ops hp hg
+    intro s ops hp hg hq
     obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
     obtain ⟨p2, h2⟩ := slpCompile_sound b isOpen_empty b.nonvanishingOn_empty (slpCompile a s).1
     obtain ⟨p3, -⟩ := slpMulNode_sound isOpen_empty (jetSmoothOn_empty _) (jetSmoothOn_empty _)
       (h1.mono p2) h2
-    exact ⟨iha s ops ((p2.trans p3).trans hp) hg, ihb _ ops (p3.trans hp) hg⟩
+    exact ⟨iha s ops ((p2.trans p3).trans hp) hg hq, ihb _ ops (p3.trans hp) hg hq⟩
   | div a b iha ihb =>
-    intro s ops hp hg
+    intro s ops hp hg hq
     obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
     obtain ⟨p2, h2⟩ := slpCompile_sound b isOpen_empty b.nonvanishingOn_empty (slpCompile a s).1
     have h2' := slpInvNode_sound isOpen_empty (jetSmoothOn_empty _) (fun z hz => absurd hz
@@ -625,8 +708,8 @@ theorem HamExpr.nonvanishingOn_of_inv_good {D : Set Ph} (hD : IsOpen D) (e : Ham
     have hp' : (slpInvNode n (slpCompile b (slpCompile a s).1).1
         (slpCompile b (slpCompile a s).1).2).1 <+: ops :=
       p3.trans hp
-    have hA := iha s ops (p2.trans (h2'.1.trans p3) |>.trans hp) hg
-    have hB := ihb _ ops ((h2'.1).trans hp') hg
+    have hA := iha s ops (p2.trans (h2'.1.trans p3) |>.trans hp) hg hq
+    have hB := ihb _ ops ((h2'.1).trans hp') hg hq
     refine ⟨hA, hB, fun z hz => ?_⟩
     obtain ⟨hpb, hb⟩ := slpCompile_sound b hD hB (slpCompile a s).1
     have hget : ops[(slpCompile b (slpCompile a s).1).1.length]? =
@@ -641,33 +724,54 @@ theorem HamExpr.nonvanishingOn_of_inv_good {D : Set Ph} (hD : IsOpen D) (e : Ham
     rw [e, Slp.val_append n z _ _ hb.v_lt, hb.val z] at hne
     exact hne
   | pow a m iha =>
-    intro s ops hp hg
+    intro s ops hp hg hq
     obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
     obtain ⟨p2, -⟩ := slpPowNode_sound isOpen_empty (jetSmoothOn_empty _) h1 m
-    exact iha s ops (p2.trans hp) hg
+    exact iha s ops (p2.trans hp) hg hq
   | exp a iha =>
-    intro s ops hp hg
+    intro s ops hp hg hq
     obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
     obtain ⟨p2, -⟩ := slpExpNode_sound isOpen_empty (jetSmoothOn_empty _) h1
-    exact iha s ops (p2.trans hp) hg
+    exact iha s ops (p2.trans hp) hg hq
   | sin a iha =>
-    intro s ops hp hg
+    intro s ops hp hg hq
     obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
     obtain ⟨p2, -⟩ := slpTrigNode_sound isOpen_empty (jetSmoothOn_empty _) h1 0 (-1 / 2) 0 (1 / 2)
-    exact iha s ops (p2.trans hp) hg
+    exact iha s ops (p2.trans hp) hg hq
   | cos a iha =>
-    intro s ops hp hg
+    intro s ops hp hg hq
     obtain ⟨p1, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
     obtain ⟨p2, -⟩ := slpTrigNode_sound isOpen_empty (jetSmoothOn_empty _) h1 (1 / 2) 0 (1 / 2) 0
-    exact iha s ops (p2.trans hp) hg
+    exact iha s ops (p2.trans hp) hg hq
+  | sqrt a iha =>
+    intro s ops hp hg hq
+    obtain ⟨-, h1⟩ := slpCompile_sound a isOpen_empty a.nonvanishingOn_empty s
+    have hemit := slpSqrtNode_emit_prefix isOpen_empty (jetSmoothOn_empty _)
+      (fun z hz => absurd hz (Set.notMem_empty z)) h1
+    have hp' : (slpSqrtNode n (slpCompile a s).1 (slpCompile a s).2).1 <+: ops := hp
+    have hA := iha s ops ((List.prefix_append _ _).trans (hemit.trans hp')) hg hq
+    refine ⟨hA, fun z hz => ?_⟩
+    obtain ⟨-, ha⟩ := slpCompile_sound a hD hA s
+    have hget : ops[(slpCompile a s).1.length]? = some (SlpOp.sqrt (slpCompile a s).2.v) := by
+      obtain ⟨t, ht⟩ := hemit.trans hp'
+      rw [← ht, List.getElem?_append_left (by simp)]
+      simp
+    have hpos := hq _ _ hget z hz
+    obtain ⟨t, ht⟩ := hemit.trans hp'
+    have e : ops = (slpCompile a s).1 ++ ([SlpOp.sqrt (slpCompile a s).2.v] ++ t) := by
+      rw [← ht]; simp
+    rw [e, Slp.val_append n z _ _ ha.v_lt, ha.val z] at hpos
+    exact hpos
 
-/-- Successful ball arithmetic on the jet program certifies every denominator on `D`. -/
+/-- Successful ball arithmetic on the jet program certifies every denominator and every
+square-root operand on `D`. -/
 theorem HamExpr.nonvanishingOn_of_balls {n : ℕ} (e : HamExpr n) {WH : CertWeight} {s N : ℕ}
     (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
     {bs : List (CC ℚ × ℚ)} (h : e.jet.prog.balls n WH centre radius taylorN = some bs) :
     e.NonvanishingOn (certDomain n WH.rho centre radius) :=
-  HamExpr.nonvanishingOn_of_inv_good (isOpen_certDomain n WH.rho centre radius) e [.const 0 0 0]
-    e.jet.prog.ops (List.prefix_refl _) (Slp.invGood_of_balls e.jet.prog hW h)
+  HamExpr.nonvanishingOn_of_program_good (isOpen_certDomain n WH.rho centre radius) e
+    [.const 0 0 0] e.jet.prog.ops (List.prefix_refl _) (Slp.invGood_of_balls e.jet.prog hW h)
+    (Slp.sqrtGood_of_balls e.jet.prog hW h)
 
 end KAM.Certificate
 

@@ -581,6 +581,7 @@ def opDeps : SlpOp → List ℕ
   | .mul a b => [a, b]
   | .exp a => [a]
   | .inv a => [a]
+  | .sqrt a => [a]
   | _ => []
 def nopOp : SlpOp := .const 0 0 0
 def liveStep (ops : List SlpOp) (S : List ℕ) (k : ℕ) : List ℕ :=
@@ -610,7 +611,7 @@ def prune {α : Type} (p : Slp) (wit : Witnesses α) (wanted : List ℕ) : Slp �
   let S := liveSet p.ops wanted
   if pruneOk p.ops wanted S then
     (⟨pruneOps p.ops S⟩, ⟨keepFlagged wit.expWit (expFlags p.ops S),
-      keepFlagged wit.invWit (invFlags p.ops S), wit.charWit⟩)
+      keepFlagged wit.invWit (invFlags p.ops S), wit.charWit, wit.sqrtWit⟩)
   else (p, wit)
 def composePruned {α : Type} [CertArith α] (n : ℕ) (p : Slp) (K : CertEmbedding α)
     (wit : Witnesses α) (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α)
@@ -678,7 +679,7 @@ def compose(a):
     emit_list(out, "h1", "List (List Int × CC Fx)", [term(k) for k in half], TCHUNK)
     out.append("noncomputable def K : CertEmbedding Fx := ⟨[0, 0], [], [0, 0], [⟨⟨%s⟩, h0⟩, ⟨⟨%s⟩, h1⟩]⟩"
                % (lit(coef()), lit(coef())))
-    out.append("noncomputable def wit : Witnesses Fx := ⟨[], [], []⟩")
+    out.append("noncomputable def wit : Witnesses Fx := ⟨[], [], [], []⟩")
     ops, e, i, d = synth_program(a.Ls, a.Le, a.Li, a.Ld)
     out.append("noncomputable def prog : Slp := ⟨[%s]⟩" % ",\n  ".join(op_lean(o) for o in ops))
     out.append("noncomputable def force (r : Option (List (CertModel Fx))) : Bool :=\n"
