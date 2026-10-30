@@ -92,6 +92,7 @@ public import KAM.Certificate.Poly.Packed
 public import KAM.Certificate.Poly.Sparse
 public import KAM.Certificate.Positivity
 public import KAM.Certificate.QuadraticDiophantine
+public import KAM.Certificate.QuadraticDiophantineN
 public import KAM.Certificate.Sound.Embedding
 public import KAM.Certificate.Sound.Energy
 public import KAM.Certificate.Sound.Gram
@@ -1408,6 +1409,7 @@ public import KAM.SpinOrbit.LunarParams
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne
 public import KAM.SpinOrbit.RotFreq
+public import KAM.SpinOrbit.RotFreqN
 public import KAM.SpinOrbit.Rotated
 public import KAM.SpinOrbit.ScalarEmbedding
 public import KAM.SpinOrbit.Tests.GraphCert
