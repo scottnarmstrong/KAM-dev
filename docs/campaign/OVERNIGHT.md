@@ -1673,3 +1673,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     is unaffected); segmenting the Ham SLP with checkpoint witnesses (route E of SO-COMPOSE-SPLIT); a sharper Ham
     pass; pruned composition and the one-sqrt lockHamExpr. Target: every theorem ≤ 10 GB and about 20 CPU-h in
     total; the choice is logged for owner review.
+- **18:19. Heartbeat: SO-DATA3 kernel passes on the lower N = 65 torus.**
+  - All families pass so far. The Hamiltonian family is the closest call: 9.76 GiB peak, under the 10 GiB cap.
+  - The Gram pass ended with SIGTERM (rc 143). The journal shows no earlyoom kill, so it was probably the run's own
+    timeout; R1's checkGram ran more than 72 min. It is told to rerun alone with a longer limit or split it.
+  - System swap is full (7 MiB of 8 GiB free), and landing builds run in parallel with the probes, so headroom is
+    thin. Passes near the cap should be split.
+  - No owner decisions this round. Quotas OK. Disk 13 GB.
