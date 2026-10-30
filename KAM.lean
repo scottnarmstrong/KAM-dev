@@ -62,6 +62,7 @@ public import KAM.Certificate.Defs
 public import KAM.Certificate.DiophantineTransfer
 public import KAM.Certificate.Embedding
 public import KAM.Certificate.Expr.Ball
+public import KAM.Certificate.Expr.BallRound
 public import KAM.Certificate.Expr.Basic
 public import KAM.Certificate.Expr.Compose
 public import KAM.Certificate.Expr.ComposeModels
