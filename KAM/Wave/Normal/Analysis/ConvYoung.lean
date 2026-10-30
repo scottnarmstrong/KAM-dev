@@ -18,7 +18,7 @@ Infrastructure used by several nodes; the dependency graph is still being built.
 For `X Y : ℤ → ℝ` the convolution is `(X * Y)_l = Σ_i X_{l-i} Y_i` (`KAM.Wave.waveConv`) and
 `‖X‖₂ = (Σ X_i²)^{1/2}` (`KAM.Wave.waveL2`). `KAM.Wave.waveYoung`: for nonnegative `X ∈ ℓ²`,
 `Y ∈ ℓ¹`, every convolution sum converges, `X * Y ∈ ℓ²` and `‖X * Y‖₂ ≤ ‖X‖₂ ‖Y‖₁`.
-Also Minkowski's inequality (`KAM.Wave.waveL2_add_le`) and commutativity of `waveConv`.
+Also Minkowski's inequality (`KAM.Wave.waveL2_add_le`) and commutativity of `w0aConv`.
 -/
 
 @[expose] public noncomputable section
@@ -26,30 +26,30 @@ Also Minkowski's inequality (`KAM.Wave.waveL2_add_le`) and commutativity of `wav
 namespace KAM.Wave
 
 /-- The two-sided convolution `(X * Y)_l = Σ_{i ∈ ℤ} X_{l-i} Y_i`. -/
-def waveConv (X Y : ℤ → ℝ) (l : ℤ) : ℝ := ∑' i : ℤ, X (l - i) * Y i
+def w0aConv (X Y : ℤ → ℝ) (l : ℤ) : ℝ := ∑' i : ℤ, X (l - i) * Y i
 
 /-- The `ℓ²(ℤ)` norm `(Σ_i X_i²)^{1/2}` (junk off `ℓ²`). -/
-def waveL2 (X : ℤ → ℝ) : ℝ := Real.sqrt (∑' i : ℤ, X i ^ 2)
+def w0aL2 (X : ℤ → ℝ) : ℝ := Real.sqrt (∑' i : ℤ, X i ^ 2)
 
-lemma waveConv_comm (X Y : ℤ → ℝ) (l : ℤ) : waveConv X Y l = waveConv Y X l := by
-  unfold waveConv
+lemma w0aConv_comm (X Y : ℤ → ℝ) (l : ℤ) : w0aConv X Y l = w0aConv Y X l := by
+  unfold w0aConv
   rw [← (Equiv.subLeft l).tsum_eq]
   exact tsum_congr fun i => by simp [mul_comm]
 
-lemma summable_shift_sq {X : ℤ → ℝ} (hX : Summable fun i => X i ^ 2) (k : ℤ) :
+lemma w0a_summable_shift_sq {X : ℤ → ℝ} (hX : Summable fun i => X i ^ 2) (k : ℤ) :
     Summable fun i => X (k - i) ^ 2 := by
   have := (Equiv.subLeft k).summable_iff.2 hX
   exact this
 
-lemma tsum_shift_sq (X : ℤ → ℝ) (k : ℤ) : ∑' i, X (k - i) ^ 2 = ∑' i, X i ^ 2 :=
+lemma w0a_tsum_shift_sq (X : ℤ → ℝ) (k : ℤ) : ∑' i, X (k - i) ^ 2 = ∑' i, X i ^ 2 :=
   (Equiv.subLeft k).tsum_eq (fun i => X i ^ 2)
 
 /-- Young's inequality for nonnegative two-sided sequences. -/
-theorem waveYoung {X Y : ℤ → ℝ} (hX0 : ∀ i, 0 ≤ X i) (hY0 : ∀ i, 0 ≤ Y i)
+theorem w0aYoung {X Y : ℤ → ℝ} (hX0 : ∀ i, 0 ≤ X i) (hY0 : ∀ i, 0 ≤ Y i)
     (hX : Summable fun i => X i ^ 2) (hY : Summable Y) :
     (∀ l, Summable fun i => X (l - i) * Y i) ∧
-      Summable (fun l => waveConv X Y l ^ 2) ∧
-      waveL2 (waveConv X Y) ≤ waveL2 X * ∑' i, Y i := by
+      Summable (fun l => w0aConv X Y l ^ 2) ∧
+      w0aL2 (w0aConv X Y) ≤ w0aL2 X * ∑' i, Y i := by
   set SX := ∑' i, X i ^ 2 with hSX
   set SY := ∑' i, Y i with hSY
   have hSY0 : 0 ≤ SY := tsum_nonneg hY0
@@ -88,7 +88,7 @@ theorem waveYoung {X Y : ℤ → ℝ} (hX0 : ∀ i, 0 ≤ X i) (hY0 : ∀ i, 0 �
     rw [tsum_mul_right]
   -- Cauchy–Schwarz for each `l`
   have hcs : ∀ l, (Summable fun i => X (l - i) * Y i) ∧
-      waveConv X Y l ^ 2 ≤ SY * ∑' i, Y i * X (l - i) ^ 2 := by
+      w0aConv X Y l ^ 2 ≤ SY * ∑' i, Y i * X (l - i) ^ 2 := by
     intro l
     have h := waveCauchySchwarz_tsum (f := fun i => Real.sqrt (Y i))
       (g := fun i => Real.sqrt (Y i) * X (l - i)) (fun i => Real.sqrt_nonneg _)
@@ -102,38 +102,38 @@ theorem waveYoung {X Y : ℤ → ℝ} (hX0 : ∀ i, 0 ≤ X i) (hY0 : ∀ i, 0 �
       rw [mul_pow, e2]
     simp only [e1, e2, e3] at h
     refine ⟨h.1, ?_⟩
-    have hc0 : 0 ≤ waveConv X Y l := tsum_nonneg fun i => mul_nonneg (hX0 _) (hY0 _)
+    have hc0 : 0 ≤ w0aConv X Y l := tsum_nonneg fun i => mul_nonneg (hX0 _) (hY0 _)
     have := h.2
-    unfold waveConv
+    unfold w0aConv
     calc (∑' i, X (l - i) * Y i) ^ 2 ≤ (Real.sqrt SY * Real.sqrt (∑' i, Y i * X (l - i) ^ 2)) ^ 2 :=
           pow_le_pow_left₀ hc0 this 2
       _ = SY * ∑' i, Y i * X (l - i) ^ 2 := by
           rw [mul_pow, Real.sq_sqrt hSY0,
             Real.sq_sqrt (tsum_nonneg fun i => mul_nonneg (hY0 i) (sq_nonneg _))]
-  have hsq : Summable fun l => waveConv X Y l ^ 2 :=
+  have hsq : Summable fun l => w0aConv X Y l ^ 2 :=
     Summable.of_nonneg_of_le (fun l => sq_nonneg _) (fun l => (hcs l).2) (hG.mul_left SY)
   refine ⟨fun l => (hcs l).1, hsq, ?_⟩
-  have hle : ∑' l, waveConv X Y l ^ 2 ≤ SY * (SY * SX) := by
-    calc ∑' l, waveConv X Y l ^ 2 ≤ ∑' l, SY * ∑' i, Y i * X (l - i) ^ 2 :=
+  have hle : ∑' l, w0aConv X Y l ^ 2 ≤ SY * (SY * SX) := by
+    calc ∑' l, w0aConv X Y l ^ 2 ≤ ∑' l, SY * ∑' i, Y i * X (l - i) ^ 2 :=
           Summable.tsum_le_tsum (fun l => (hcs l).2) hsq (hG.mul_left SY)
       _ = SY * (SY * SX) := by rw [tsum_mul_left, hGsum]
-  unfold waveL2
-  calc Real.sqrt (∑' l, waveConv X Y l ^ 2) ≤ Real.sqrt (SY ^ 2 * SX) :=
+  unfold w0aL2
+  calc Real.sqrt (∑' l, w0aConv X Y l ^ 2) ≤ Real.sqrt (SY ^ 2 * SX) :=
         Real.sqrt_le_sqrt (by nlinarith [hle])
     _ = Real.sqrt SX * SY := by
         rw [Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq hSY0, mul_comm]
 
 /-- Minkowski's inequality for nonnegative square-summable sequences. -/
-theorem waveL2_add_le {X Y : ℤ → ℝ} (hX0 : ∀ i, 0 ≤ X i) (hY0 : ∀ i, 0 ≤ Y i)
+theorem w0aL2_add_le {X Y : ℤ → ℝ} (hX0 : ∀ i, 0 ≤ X i) (hY0 : ∀ i, 0 ≤ Y i)
     (hX : Summable fun i => X i ^ 2) (hY : Summable fun i => Y i ^ 2) :
-    Summable (fun i => (X i + Y i) ^ 2) ∧ waveL2 (fun i => X i + Y i) ≤ waveL2 X + waveL2 Y := by
+    Summable (fun i => (X i + Y i) ^ 2) ∧ w0aL2 (fun i => X i + Y i) ≤ w0aL2 X + w0aL2 Y := by
   have hcs := waveCauchySchwarz_tsum hX0 hY0 hX hY
   have hs : Summable fun i => (X i + Y i) ^ 2 := by
     have := (hX.add hY).add (hcs.1.mul_left 2)
     refine this.congr fun i => ?_
     ring
   refine ⟨hs, ?_⟩
-  unfold waveL2
+  unfold w0aL2
   have h2 : Summable fun i => 2 * (X i * Y i) := hcs.1.mul_left 2
   have e : ∑' i, (X i + Y i) ^ 2 = ∑' i, X i ^ 2 + 2 * ∑' i, X i * Y i + ∑' i, Y i ^ 2 := by
     rw [← tsum_mul_left, ← hX.tsum_add h2, ← (hX.add h2).tsum_add hY]

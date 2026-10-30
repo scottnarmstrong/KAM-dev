@@ -38,7 +38,7 @@ with `ζ(3) = Σ_{n ≥ 1} n⁻³`. -/
 def waveCubicHeadlineConst : ℝ := 8 * (1 + 2 * ∑' n : ℕ+, ((n : ℝ) ^ 3)⁻¹) / π
 
 lemma waveAlgConst_three_halves_sq :
-    waveAlgConst (3 / 2) ^ 2 = 8 * (1 + 2 * ∑' n : ℕ+, ((n : ℝ) ^ 3)⁻¹) := by
+    w0aAlgConst (3 / 2) ^ 2 = 8 * (1 + 2 * ∑' n : ℕ+, ((n : ℝ) ^ 3)⁻¹) := by
   have hnn : 0 ≤ 1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * (3 / 2 : ℝ))) :=
     by have : 0 ≤ ∑' n : ℕ+, (n : ℝ) ^ (-(2 * (3 / 2 : ℝ))) :=
          tsum_nonneg fun n => Real.rpow_nonneg (by positivity) _
@@ -49,7 +49,7 @@ lemma waveAlgConst_three_halves_sq :
   have h2 : ((2 : ℝ) ^ (3 / 2 : ℝ)) ^ 2 = 8 := by
     rw [← Real.rpow_natCast, ← Real.rpow_mul (by norm_num)]
     norm_num
-  unfold waveAlgConst
+  unfold w0aAlgConst
   rw [mul_pow, h2, Real.sq_sqrt hnn]
   simp only [h1]
 
