@@ -35,11 +35,6 @@ variable {n : ℕ}
 
 /-! ### Decompositions and linear combinations -/
 
-private theorem inClass_mono' {D : Set (Fin n → ℂ)} {r₀ s₀ r s : ℝ}
-    {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hu : InClass D r₀ s₀ u) (hr : r ≤ r₀) (hs : s ≤ s₀) :
-    InClass D r s u :=
-  ⟨hu.differentiableOn.mono (Dom_mono hr hs), fun j z hz => hu.periodic j z (Dom_mono hr hs hz)⟩
-
 private theorem wbound_zero {D : Set (Fin n → ℂ)} {r s : ℝ} :
     WBound D r s (fun _ : (Fin n → ℂ) × (Fin n → ℂ) => (0 : ℂ)) 0 := by
   intro I _
@@ -54,7 +49,7 @@ private theorem decomp_wbound {D : Set (Fin n → ℂ)} {r s r₀ s₀ : ℝ}
     (hs₀ : 0 < s₀) :
     InClass D r₀ s₀ g ∧ WBound D r₀ s₀ g (∑ j, Mj j) := by
   have hcl : ∀ j, InClass D r₀ s₀ (gj j) := fun j =>
-    inClass_mono' (hg.inClass j) (hr.trans (hg.r_le j)) (hs.trans (hg.s_le j))
+    inClass_mono (hg.inClass j) (hr.trans (hg.r_le j)) (hs.trans (hg.s_le j))
   have hb : ∀ j, WBound D r₀ s₀ (gj j) (Mj j) := fun j =>
     (hg.bound j).mono (hr.trans (hg.r_le j)) (hs.trans (hg.s_le j)) le_rfl
   have key : ∀ S : Finset (Fin N), InClass D r₀ s₀ (fun z => ∑ j ∈ S, gj j z) ∧
@@ -329,11 +324,11 @@ theorem iterF_class_bound (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj M
     (projections H.hs H.f_class H.f_bound {k | KAM.Fourier.modeSize k ≤ K}).1
   obtain ⟨hgc, hgb⟩ := decomp_wbound H.decomp le_rfl le_rfl H.hs
   -- inputs of `transform`
-  have hgc' : InClass D (r - ρ) (s - σ) g := inClass_mono' hgc (by linarith) (by linarith)
+  have hgc' : InClass D (r - ρ) (s - σ) g := inClass_mono hgc (by linarith) (by linarith)
   have hTc' : InClass D (r - ρ) (s - σ) (truncate K f) :=
-    inClass_mono' hTc (by linarith) (by linarith)
+    inClass_mono hTc (by linarith) (by linarith)
   have hξc' : InClass D (r - ρ) (s - σ) (homRes K Λ f) :=
-    inClass_mono' c2 (by linarith) (by linarith)
+    inClass_mono c2 (by linarith) (by linarith)
   have hf₀c : InClass D (r - ρ) (s - σ) (fun z => g z + truncate K f z) :=
     ⟨hgc'.differentiableOn.add hTc'.differentiableOn, fun j z hz => by
       simp only [hgc'.periodic j z hz, hTc'.periodic j z hz]⟩
@@ -362,9 +357,9 @@ theorem iterF_class_bound (H : IterHyp D r s ρ σ K α p δ Λ h g f gj rj sj M
   -- the truncation tail
   obtain ⟨-, htail⟩ := truncation_tail H.f_class H.f_bound hσ (by linarith [H.hσs]) H.hK
   have htc : InClass D (r - ρ) (s - σ) (fun z => f z - truncate K f z) :=
-    ⟨(inClass_mono' H.f_class (by linarith) (by linarith)).differentiableOn.sub
+    ⟨(inClass_mono H.f_class (by linarith) (by linarith)).differentiableOn.sub
         hTc'.differentiableOn, fun j z hz => by
-      simp only [(inClass_mono' H.f_class (by linarith) (by linarith)).periodic j z hz,
+      simp only [(inClass_mono H.f_class (by linarith) (by linarith)).periodic j z hz,
         hTc'.periodic j z hz]⟩
   obtain ⟨-, -, -, -, t5, t6⟩ := composition_series hd htc
     (htail.mono (by linarith [hρ]) le_rfl le_rfl)

@@ -10,6 +10,7 @@ public import KAM.Apost.Exactness
 public import KAM.Strip.CohomologicalNodes
 public import KAM.Strip.CohomologicalOperator
 public import KAM.Strip.Bridges
+public import KAM.Head.Lagrangian
 
 /-!
 # Part 1 (isoenergetic linear step): approximate energy identities and energy conservation
@@ -41,18 +42,6 @@ namespace Energy
 
 variable {n : ℕ}
 
-/-- A `ℂ`-linear form on `ℂⁿ × ℂⁿ` is the sum of its values on the two blocks of basis vectors. -/
-theorem apply_prod_decomp (ℓ : ((Fin n → ℂ) × (Fin n → ℂ)) →L[ℂ] ℂ)
-    (u : (Fin n → ℂ) × (Fin n → ℂ)) :
-    ℓ u = ∑ i, u.1 i * ℓ (Pi.single i 1, 0) + ∑ i, u.2 i * ℓ (0, Pi.single i 1) := by
-  have hu : u = ∑ i, u.1 i • ((Pi.single i 1 : Fin n → ℂ), (0 : Fin n → ℂ)) +
-      ∑ i, u.2 i • ((0 : Fin n → ℂ), (Pi.single i 1 : Fin n → ℂ)) := by
-    ext j
-    · simp [Prod.fst_sum, Finset.sum_apply, Pi.single_apply]
-    · simp [Prod.snd_sum, Finset.sum_apply, Pi.single_apply]
-  conv_lhs => rw [hu]
-  simp only [map_add, map_sum, map_smul, smul_eq_mul]
-
 /-- A `ℂ`-linear form on `ℂⁿ` is the sum of its values on the basis vectors. -/
 theorem apply_pi_decomp (ℓ : (Fin n → ℂ) →L[ℂ] ℂ) (v : Fin n → ℂ) :
     ℓ v = ∑ j, v j * ℓ (Pi.single j 1) := by
@@ -62,7 +51,7 @@ theorem apply_pi_decomp (ℓ : (Fin n → ℂ) →L[ℂ] ℂ) (v : Fin n → ℂ
 /-- `DH(z) X_H(z) = 0` (HL19 Lemma 4.2 proof: `Ω₀` is antisymmetric). -/
 theorem fderiv_apply_ham_self (H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
     (z : (Fin n → ℂ) × (Fin n → ℂ)) : fderiv ℂ H z (hamiltonianVectorFieldℂ H z) = 0 := by
-  rw [apply_prod_decomp]
+  rw [KAM.Head.clm_prod_apply_eq_sum]
   simp only [hamiltonianVectorFieldℂ, neg_mul, Finset.sum_neg_distrib]
   rw [add_neg_eq_zero]
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _

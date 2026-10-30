@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Strip.RealRestriction
+public import KAM.Strip.Periodic
 
 /-!
 # Two-scale KAM step: Schwarz reflection on a real-centred polydisc
@@ -23,15 +24,6 @@ open Set Metric Filter Topology
 namespace KAM.Planetary
 
 variable {n : ℕ}
-
-private theorem differentiable_update' (θ : Fin n → ℂ) (j : Fin n) :
-    Differentiable ℂ (fun ζ : ℂ => Function.update θ j ζ) := by
-  rw [differentiable_pi]
-  intro i
-  by_cases h : i = j
-  · subst h
-    simp
-  · simp [Function.update_of_ne h]
 
 theorem hasDerivAt_conj_conj {u : ℂ → ℂ} {z d : ℂ} (hu : HasDerivAt u d (starRingEnd ℂ z)) :
     HasDerivAt (fun ζ => starRingEnd ℂ (u (starRingEnd ℂ ζ))) (starRingEnd ℂ d) z := by
@@ -148,7 +140,7 @@ theorem schwarz_scalar {c : Fin n → ℝ} {r : ℝ} (hr : 0 < r) {u : (Fin n �
     have hθ' := hsym θ hθ
     set B : ℂ → ℂ := fun ζ' => u (Function.update (fun i => starRingEnd ℂ (θ i)) j ζ') with hB
     have hBd : DifferentiableOn ℂ B (ball ((c j : ℝ) : ℂ) r) :=
-      hu.comp (differentiable_update' _ j).differentiableOn fun ζ hζ => update_mem_ball hr hθ' j hζ
+      hu.comp (differentiable_update _ j).differentiableOn fun ζ hζ => update_mem_ball hr hθ' j hζ
     have hA : DifferentiableOn ℂ (fun ζ : ℂ => starRingEnd ℂ (B (starRingEnd ℂ ζ)))
         (ball ((c j : ℝ) : ℂ) r) := by
       intro ζ hζ
@@ -160,7 +152,7 @@ theorem schwarz_scalar {c : Fin n → ℝ} {r : ℝ} (hr : 0 < r) {u : (Fin n �
         ((hBd _ hζ').differentiableAt (isOpen_ball.mem_nhds hζ'))).differentiableWithinAt
     have hC : DifferentiableOn ℂ (fun ζ : ℂ => u (Function.update θ j ζ))
         (ball ((c j : ℝ) : ℂ) r) :=
-      hu.comp (differentiable_update' _ j).differentiableOn fun ζ hζ => update_mem_ball hr hθ j hζ
+      hu.comp (differentiable_update _ j).differentiableOn fun ζ hζ => update_mem_ball hr hθ j hζ
     refine (hA.congr fun ζ _ => ?_).sub hC
     simp only [hB]
     congr 3

@@ -81,10 +81,6 @@ theorem planeDot_sum_right {ι : Type*} (s : Finset ι) (f : ι → Fin 2 → �
   rw [planeDot_comm, planeDot_sum_left]
   exact Finset.sum_congr rfl fun i _ => planeDot_comm _ _
 
-theorem planeSq_smul (c : ℝ) (v : Fin 2 → ℝ) : planeSq (c • v) = c ^ 2 * planeSq v := by
-  simp only [planeSq, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
-  exact Finset.sum_congr rfl fun k _ => by ring
-
 theorem planeSq_neg (v : Fin 2 → ℝ) : planeSq (-v) = planeSq v := by
   simp [planeSq]
 
@@ -279,7 +275,7 @@ theorem nbodyHamiltonian_helio_zero_momentum {n : ℕ} (G m0 : ℝ) (m : Fin n �
   have _ := hm0
   rw [nbodyHamiltonian_helio, helioMap_helioInv, movingHamiltonian_split]
   simp only [bodyVector_ofBodies, Fin.cons_zero, Fin.cons_succ, zero_sub, planeSq_neg,
-    ← Finset.smul_sum, planeSq_smul]
+    ← Finset.smul_sum, KAM.Kepler.planeSq_smul]
   unfold keplerPart fMov pairPotential
   simp only [mul_add, Finset.mul_sum]
   have e1 : ∑ x, μ ^ 2 * planeSq (bodyVector p x) / (2 * (μ * m x)) =

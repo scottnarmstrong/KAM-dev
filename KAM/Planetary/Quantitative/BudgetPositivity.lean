@@ -160,15 +160,6 @@ theorem qbc_tflat_pos {N : ℕ} {d : QuantitativeData N} (hd : d.NumericalValid)
   unfold QuantitativeData.tflat
   refine lt_min (by positivity) (by positivity)
 
-theorem qbc_tflat_le_one {N : ℕ} {d : QuantitativeData N} (hd : d.NumericalValid) :
-    d.tflat ≤ 1 := by
-  obtain ⟨hN, hmu, hrho, htau1, htau0, hϑ0, hϑ1, hs0, hs1, hC1, hM0, hβ, hβM, hK, hε, hvol⟩ := hd
-  have hN' : (1 : ℝ) ≤ N := by exact_mod_cast hN
-  unfold QuantitativeData.tflat
-  refine (min_le_left _ _).trans ?_
-  rw [div_le_one (Real.sqrt_pos.mpr (by linarith))]
-  exact hϑ1.trans (by simpa using Real.one_le_sqrt.mpr hN')
-
 theorem qbc_xibar_pos {N : ℕ} {d : QuantitativeData N} (hd : d.NumericalValid) :
     0 < d.xibar := by
   have hf := qbc_tflat_pos hd

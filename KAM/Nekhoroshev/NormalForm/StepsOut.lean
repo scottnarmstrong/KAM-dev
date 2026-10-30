@@ -151,11 +151,6 @@ private theorem wbound_zero' {D : Set (Fin n → ℂ)} {r s : ℝ} :
     fun k => by simp [coeff, KAM.torusCoeffW, KAM.torusAverage]
   simp [WSummable, wsum, h0]
 
-private theorem inClass_mono'' {D : Set (Fin n → ℂ)} {r₀ s₀ r s : ℝ}
-    {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hu : InClass D r₀ s₀ u) (hr : r ≤ r₀) (hs : s ≤ s₀) :
-    InClass D r s u :=
-  ⟨hu.differentiableOn.mono (Dom_mono hr hs), fun j z hz => hu.periodic j z (Dom_mono hr hs hz)⟩
-
 /-- A finite sum of members of the class with bounds `Mⱼ` is in the class with bound `∑ Mⱼ`. -/
 theorem sum_inClass_wbound {D : Set (Fin n → ℂ)} {r' s' : ℝ} (hs' : 0 < s')
     (u : ℕ → (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (M : ℕ → ℝ) (m : ℕ)
@@ -187,7 +182,7 @@ theorem nf_final_g (H : NFHyp D r s K α L p ε Λ h f)
       have hjr : nfR r N (N + 1) ≤ nfR r N j := nfR_anti H.hr.le N (by omega)
       have hjs : nfS s N (N + 1) ≤ nfS s N j := nfS_anti H.hs.le N (by omega)
       obtain ⟨c1, c2⟩ := hinv.2.2 j hj
-      exact ⟨inClass_mono'' c1 (by linarith) (by linarith),
+      exact ⟨inClass_mono c1 (by linarith) (by linarith),
         c2.mono (by linarith) (by linarith) le_rfl⟩)
   rw [nfG_eq_sum]
   exact key.1
@@ -218,7 +213,7 @@ theorem nf_final_g_diff (H : NFHyp D r s K α L p ε Λ h f)
       have hjr : nfR r N (N + 1) ≤ nfR r N (j + 1) := nfR_anti H.hr.le N (by omega)
       have hjs : nfS s N (N + 1) ≤ nfS s N (j + 1) := nfS_anti H.hs.le N (by omega)
       obtain ⟨c1, c2⟩ := hinv.2.2 (j + 1) (by omega)
-      exact ⟨inClass_mono'' c1 (by linarith) (by linarith),
+      exact ⟨inClass_mono c1 (by linarith) (by linarith),
         c2.mono (by linarith) (by linarith) le_rfl⟩)
   rw [e]
   refine key.2.mono le_rfl le_rfl ?_
