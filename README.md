@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 13:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 68 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 291,000
+> **Last updated: 2026-10-30 13:21 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 68 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 291,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -248,7 +248,7 @@ Overall, everything together: 96.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 13:20 UTC from `main` at `d8b8b32a` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 13:21 UTC from `main` at `f7bc54e0` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -427,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 13:21 | `f7bc54e0` | Log: 13:21 |
 | 2026-10-30 13:20 | `d8b8b32a` | Log: 13:20 (D39, SO-KDEPTH, SO-BALLDY) |
 | 2026-10-30 13:18 | `670842bb` | D39: kernel depth and ball arithmetic, fix the checker (owner ruling) |
 | 2026-10-30 13:16 | `9ae39721` | Log: 13:16 |
@@ -438,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 12:37 | `632eb21c` | Log: 12:37 |
 | 2026-10-30 12:35 | `d879ee54` | Land inp into main |
 | 2026-10-30 12:29 | `cc1d3a42` | Log: 12:29 (SO-DION; codex-4 login expired) |
-| 2026-10-30 12:18 | `85188cd6` | Log: 12:18 |
 <!-- /AUTO:landed -->
 
 ## Decisions
