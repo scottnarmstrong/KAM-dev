@@ -1922,3 +1922,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - W: provers wph working and wpi idle; graph delta 6 and the gap-fix reviews done, being processed by kam-1b.
   - The landed KDEPTH2 worktree is removed; / at 9.8 GB. Quotas: claude-3 74 %, claude-12 70 %, claude-6 55 %,
     claude-4 41 %, codex-1 87 %.
+- **21:29. The SO-CSPLIT Lean core is on main.**
+  - Landed: SO-KDEPTH2 (main 6de3991f; full build 10766 jobs), and SO-CSEG-L2 with SO-CSEG-A/B (main 32e311a2;
+    8 new modules of 78–393 lines, no sorry, axioms or overrides). Each landing passed a full build, lint, ABI 158
+    and the frozen guard.
+  - **Lock gate on the wrapped 3,158-op program ALL PASSES** (SO-LOCK-COST §12, landed 109f72dd):
+    - every G1 piece is 3.1–3.5 GB and 30–60 s, the bridge being one theorem;
+    - G2claim is a single theorem at 8.0 GB (P = 320) or 7.0 GB (P = 128).
+    The Ham side of the lock certificate is a few CPU-minutes; LOCK-DATA's cost is now the SO-CSPLIT part.
+  - Remaining LOCK-DATA dispatch gates: CAL-1/2 (running) and the measured ledger size, re-logged for owner review.
+  - The landed L2/L3 worktree is removed.
