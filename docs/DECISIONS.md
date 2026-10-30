@@ -375,3 +375,10 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - No Birkhoff normalization.
   - The novelty wording stays conditional on reading Celletti (1994) in full.
   - As always, the exact Lean statements are shown to the owner before any freeze.
+- **D45 (2026-10-30, 18:30) Route B lands; heavy kernel tests are opt-in.** Route B of the v2 theorem and the combined
+  `KAM.Sharp2.g1_v2` / `KAM.Iso.Sharp2.iso_g1_v2` (best of v1, route A, route B; audits AUDIT-ROUTEB-{fixed,iso}-1 PASS),
+  the l1 entry step on route A and L8′ in the v2 certifier land at b9e58666. *(Scott, after lemma.farm's memory guard
+  killed a 15 GB, 3-hour test build: "Do NOT rebuild RefinedRefR1 (or other heavy V2 Tests files)"; a guard now kills
+  any single lean process above 10 GB.)* Lunar-size `decide +kernel` tests live in `kernel-tests/`, outside the library:
+  a plain `lake build` never compiles them; they run only with the owner's approval. Certificate data runs belong in
+  opt-in targets or a separate repository for the same reason.
