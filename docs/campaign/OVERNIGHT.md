@@ -1629,3 +1629,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     step 4 (kernel passes per family, split per shard and per bound, each alone under the lock and the 10 GB cap)
     and step 5 (the final theorems, nothing frozen). If KDEPTH's audit requests changes, the affected passes are
     redone.
+- **17:58. SO-KDEPTH audit PASS WITH NOTES (codex-1); sent to kam-inp to land.**
+  - Report: docs/tracks/SO/audits/SO-KDEPTH-audit-1.md.
+  - The three soundness exports keep their statements, use standard axioms only and pass replay. 43 builds, 33
+    tests and 25 axiom probes pass.
+  - The `directItems` equality argument for strictly ordered rows holds, with a padding qualification, but is not
+    proved in Lean. SO-DATA3's mirror follows the tree order exactly, so it is bit-safe.
+  - With BALLDY/BALLFIX already on main, both D39 checker fixes are then landed. SO-DATA3 needs no rework.
