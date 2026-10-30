@@ -202,8 +202,8 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
     r = lambda s: D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
 
     def stage(s):
-        ds = delta0 / 2 ** s
-        c, ch, cr = c_stage(s)
+        ds = delta0 / a_r ** s
+        c, ch, cr = c_stage(s) if a_r == 2 else c_stage(ds, r(s))
         return stageA(D, o, ds, r(s), c, ch, cr, iso)
     if k == 0:                                             # the v1 engine from stage 0, uniform constants
         assert not o.get("keep_delta", False) and not o.get("avg_full_bite", False)
@@ -277,7 +277,9 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
         M1 = M2 = Mh1 = Mh2 = D["M"]
         Lt, Nn, Nt = 2 * n * sK, sK * sB, 2 * n * sK * sB
     Theta = D["Theta_omega"] if (iso and o.get("L1", True)) else 2 * n * sK * sB * (D["M"] + 1)
-    t = o.get("torsion_cap") or (2 * M1 * Nt * Nn + o.get("tslack", F(1, 10)))
+    tslack = o.get("tslack", F(1, 10))
+    cTh = o.get("cTh", 2 * M1)                               # |T_h| = |Om0 A - A Om0| <= 2 M1, or a certified c_Th (L1)
+    t = o.get("torsion_cap") or (cTh * Nt * Nn + tslack)     # T = T_ab + T_F + T_c, |T_ab| = |N^T T_h N| <= c_Th s_Nt s_N
     t0 = o.get("torsion_real", t)
     sKt = (1 + th) * sK; sLtt = (1 + th) * Lt                 # intermediate frame of K~ (conditions below)
     # (1) Lagrangian defect and recovery of E (FH24 Lemmas 3.1, 3.3)
@@ -292,7 +294,7 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
         C_DE = min(C_DE, n * stage0["e_over_mu"])
     C_NN = n * (lamL + Nt * C_E)                               # |E_red^NN| = |(N^T Om0 DE)^T| <= C_NN mu/delta
     # (3) normal correction (full-bite average, Lemma bp:p2s2sd:avg)
-    avgf = cr * (delta / r) ** int(kap) if o.get("avg_full_bite", True) else c
+    avgf = cr * (delta / r) ** kap if o.get("avg_full_bite", True) else c
     if not iso:
         C_0 = sT * (lamL + t0 * avgf)
     else:
@@ -323,7 +325,8 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
     w = 2 * M1 * Lt * sK + (2 * n * sK + n * Lt)
     # T = T_ab + T_F + T_c (bp:p2s:torsion-identity): T_ab telescoped; T_F, T_c bounded for each torus separately,
     # with the Lagrangian defect of K_bar from its own (quadratic) normal error (Lemma bp:p2s2:omega), <= that of K.
-    C_DT = (2 * M1 * (C_Nbt * Nn + Nt * C_Nb) + 2 * M2 * Nt * Nn * C_DK * (delta if keep else 1)
+    cDTh = o.get("cDTh", 2 * M2)                             # |D T_h| <= 2 |D^2 X_h|, or a certified c_DTh (L1)
+    C_DT = (cTh * (C_Nbt * Nn + Nt * C_Nb) + cDTh * Nt * Nn * C_DK * (delta if keep else 1)
             + gd * (2 * Nt * sB * C_DE + 2 * sB ** 3 * w * C_Om))
     # (6), (7) new errors
     Qb_N = (1 + n * thx) * (1 + thO) * Qt_N
@@ -339,7 +342,7 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
         C_DT = max(C_DT + Theta * C_0 * gd1, n * Theta * C_0 * gd1 + 2 * n * gd1)
         rates["Tinv"] = (sT ** 2 * C_DT / (1 - th), 1); rates["Tsup"] = (C_DT, 1)
         rates["nu"] = (Theta * C_0, "gd1")
-    Q = max(QL, 2 ** int(kap) * Qb_N)
+    Q = max(QL, 2 ** kap * Qb_N)
     cond = [(max(F(1), sB ** 2) * C_Om * gd, q),               # |Omega_K|, |Omega_N| <= q
             (C_DE * gd, F(n)),                                 # |DE| <= n
             (C_xiL, thx),                                      # |xi^L| <= theta_xi delta (composition)
@@ -348,10 +351,12 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
             (C_DLt * gd / sK, th), (C_DLtt * gd / Lt, th),     # intermediate frame of K~
             (sB * C_G * C_DK, th),                             # Neumann for B_bar
             (sT * C_DT, th)]                                   # Neumann for <T_bar>
+    if o.get("torsion_cap") is None:                           # derived torsion: |T_F| + |T_c| <= tslack
+        cond.append(((Nt * sB * C_DE + sB ** 3 * w * C_Om) * gd, tslack))
     return dict(Q=Q, cond=cond, rates=rates, C_DK=C_DK, C_0=C_0, C_xiL=C_xiL, Qt_N=Qt_N, QL=QL, gd=gd, gd1=gd1)
 
 
-def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False):
+def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False, ratio=2):
     """Weighted recursion X_{s+1} = 2^{kappa+1} Q_s X_s^2 (X_s = mu_s/(gamma delta_s^{kappa+1})); k prefix stages, then a
     uniform tail with the critical sums bounded by X_k/(1 - y_k), y_k = 2^{kappa+1} Q_tail X_k (Proposition bp:p2s2:engine)."""
     x = X0
@@ -359,7 +364,7 @@ def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False):
     fails = []
     for s in range(k):
         st = stage(s)
-        ds = delta0 / 2 ** s
+        ds = delta0 / ratio ** s
         for i, (coef, bound) in enumerate(st["cond"]):
             if coef * x > bound:
                 fails.append("stage%d cond%d" % (s, i))
@@ -367,16 +372,21 @@ def engine_B(stage, tail, k, X0, kap, delta0, gamma, gbar, budgets, diag=False):
             wv = ds if wk == "delta" else (st["gd1"] if wk == "gd1" else 1)
             if nm in used:
                 used[nm] += rho * wv * x
-        x = 2 ** int(kap + 1) * st["Q"] * x ** 2
+        try:
+            x = ratio ** (kap + 1) * st["Q"] * x ** 2
+        except OverflowError:                                  # float data (FH25): far above any threshold
+            fails.append("overflow"); x = 1e300
+        if not isinstance(x, F) and x > 1e300:
+            x = 1e300
     tl = tail
-    y = 2 ** int(kap + 1) * tl["Q"] * x
+    y = 2 ** (kap + 1) * tl["Q"] * x
     ymax = F(1, 2)
     if y > ymax:
         fails.append("tail decay")
     for i, (coef, bound) in enumerate(tl["cond"]):
         if coef * x > bound:
             fails.append("tail cond%d" % i)
-    dk = delta0 / 2 ** k
+    dk = delta0 / ratio ** k
     for nm, (rho, wk) in tl["rates"].items():
         wv = dk if wk == "delta" else (tl["gd1"] if wk == "gd1" else 1)
         if nm in used:
@@ -390,43 +400,45 @@ def thresholdB(D, o, iso, k, c_stage, c_tail, e_from_mu=True):
     mu_0 = max{sigma_N^T e, sigma_L^T e/(gamma delta_0^kappa), e (iso)} (or measured eta's, L6)."""
     kap = D["kappa"]
     lam = 3
-    delta0 = min(F(1), (D["rho"] - D["rhoinf"]) / (2 * lam))
+    a_r = o.get("ratio", 2)                                    # L4: prefix schedule delta_s = delta0 a^{-s}
+    delta0 = min(F(1), (D["rho"] - D["rhoinf"]) * (a_r - 1) / (lam * a_r))
     gamma, gbar = D["gamma"], D["gbar"]
-    r = lambda s: D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
+    r = lambda s: D["rho"] - lam * delta0 * (1 - (1 / a_r) ** s) / (1 - 1 / a_r)
 
     Lt = D["sLt"] if o.get("L1", True) else 2 * D["n"] * D["sK"]
     Nt = D["sNt"] if o.get("L1", True) else 2 * D["n"] * D["sK"] * D["sB"]
     if o.get("eta_measured"):
         etaL, etaN = o["eta_measured"]
-        per_e = max(etaL, etaN / (gamma * delta0 ** int(kap)), F(1) if iso else F(0))
+        per_e = max(etaL, etaN / (gamma * delta0 ** kap), F(1) if iso else F(0))
     else:
-        per_e = max(Nt, Lt / (gamma * delta0 ** int(kap)), F(1) if iso else F(0))
+        per_e = max(Nt, Lt / (gamma * delta0 ** kap), F(1) if iso else F(0))
 
     def stage(s):
-        ds = delta0 / 2 ** s
-        c, ch, cr = c_stage(s)
-        c1 = 2 ** int(kap + 1) * ch                            # s = 1/2 split, constant of the next bite
+        ds = delta0 / a_r ** s
+        c, ch, cr = c_stage(s) if a_r == 2 else c_stage(ds, r(s))
+        c1 = 2 ** (kap + 1) * ch                            # s = 1/2 split, constant of the next bite
         if s == 0 and o.get("aniso", False):                   # stage-0 weights from the measured/derived eta's
-            gd0 = gamma * delta0 ** int(kap)
+            gd0 = gamma * delta0 ** kap
             lamL = min(F(1), (o["eta_measured"][0] if o.get("eta_measured") else Nt) / per_e)
             lamW = min(F(1), F(1) / per_e) if iso else F(1)
         else:
             lamL = lamW = F(1)
-        return stageB(D, o, ds, r(s), c, c1, cr, iso, stage0=(dict(e_over_mu=1 / per_e) if s == 0 else None),
+        return stageB(D, o, ds, r(s), c, c1, cr, iso,
+                      stage0=(dict(e_over_mu=1 / per_e) if (s == 0 and not o.get("no_e")) else None),
                       lamL=lamL, lamW=lamW)
     # tail: constants at the bite delta_k, valid for every bite <= delta_k (monotone in delta), uniform c
     ot = dict(o, avg_full_bite=False)
     ct = c_tail
-    tail = stageB(D, ot, delta0 / 2 ** k, r(k), ct, ct * F((int(kap) + 1) ** (int(kap) + 1), int(kap) ** int(kap)), ct, iso)
+    tail = stageB(D, ot, delta0 / a_r ** k, r(k), ct, ct * (kap + 1) ** (kap + 1) / kap ** kap, ct, iso)
     budgets = budgets_for(D, dict(o, caps_tilde=True, free_budgets=o.get("free_budgets", False)), iso)
     budgets["ball"] = D["mu"] / 2                              # d < beta with D_s <= mu/2 (route B ball budget)
     if o.get("torsion_cap") is None:
         budgets.pop("Tsup", None)
-    pred = lambda X: engine_B(stage, tail, k, X, kap, delta0, gamma, gbar, budgets)
+    pred = lambda X: engine_B(stage, tail, k, X, kap, delta0, gamma, gbar, budgets, ratio=a_r)
     lx = bisect(pred, 1e-60, 1e10)
-    why = engine_B(stage, tail, k, Fr(10 ** (lx + 0.01)), kap, delta0, gamma, gbar, budgets, diag=True)
+    why = engine_B(stage, tail, k, Fr(10 ** (lx + 0.01)), kap, delta0, gamma, gbar, budgets, diag=True, ratio=a_r)
     # mu_0 from e: X0 = mu_0/(gamma delta0^{kappa+1}), mu_0 = e * max{s_Nt, s_Lt/(gamma delta0^kappa), 1 (iso)}
-    le = lx + math.log10(float(gamma * delta0 ** int(kap + 1))) - math.log10(float(per_e))
+    le = lx + math.log10(float(gamma * delta0 ** (kap + 1))) - math.log10(float(per_e))
     return le, delta0, why
 
 # =============================================================================================================
@@ -447,7 +459,7 @@ def package_H50():
              Mh1=F(105, 100) * F(18175, 10000), Mh2=F(105, 100) * F(18317, 10000),
              sLt=F(105, 100) * F(15003, 10000) + mu, sN=F(105, 100) * F(16097, 10000) + mu,
              sNt=F(105, 100) * F(16399, 10000) + mu, Tsup=F(105, 100) * F(46781, 10000),
-             Theta_omega=2 * c / s, omega_star=(-float(c / s) / (50 + g), float(c / s)))
+             cTh=F(105, 100) * F(18202, 10000), Theta_omega=2 * c / s, omega_star=(-float(c / s) / (50 + g), float(c / s)))
     for k_, base in (("B", D["sB"]), ("Tinv", D["sT"]), ("Lt", D["sLt"]), ("N", D["sN"]), ("Nt", D["sNt"]),
                      ("Tsup", D["Tsup"])):
         D["bud_" + k_] = base / 10
@@ -466,6 +478,7 @@ def package(name="R1"):
              Mh1=F(105, 100) * F(18228, 10000), Mh2=F(105, 100) * F(18323, 10000),
              sLt=F(105, 100) * F(13268, 10000) + mu, sN=F(105, 100) * F(13540, 10000) + mu,
              sNt=F(105, 100) * F(13787, 10000) + mu, Tsup=F(105, 100) * F(33130, 10000),
+             cTh=F(105, 100) * F(18202, 10000),               # |T_h| on the domain (benchmark_fh24.py: T_h = diag(A - C, C - A))
              Theta_omega=2 * c / s * s,                      # |omega| <= sigma_omega |omega*| = 2 c/s, times s <= sigma_omega
              omega_star=(-(79 - math.sqrt(5)) / 3118 * float(c / s), float(c / s)))
     D["Theta_omega"] = 2 * c / s                           # sigma_omega |omega*|, sigma_omega = 2
@@ -562,8 +575,8 @@ def hybrid(D, label, A_meas):
                 le1, _, why = thresholdA(Dv, o, iso, k=k, c_stage=st, c_tail=ct)
             else:
                 Dv = with_caps(D1, F(1, 20))
-                o = dict(L1=True, keep_delta=True, avg_full_bite=True, torsion_cap=Dv["Tsup_cap"],
-                         torsion_real=Dv["Tsup_cap"], free_budgets=True)
+                o = dict(L1=True, keep_delta=True, avg_full_bite=True, cTh=Dv["cTh"], theta=F(1, 16),
+                         free_budgets=True, aniso=True)
                 st, ct = c_stages(Dv, "freq")
                 le1, _, why = thresholdB(Dv, o, iso, 5, st, ct)
             le = (le1 - math.log10(A_meas)) / 2
@@ -596,18 +609,16 @@ def run_routeB(D, label=""):
     """Cumulative table of route B on the package D."""
     out = []
     Tc = D["Tsup"]
+    cT = D["cTh"]
+    th = F(1, 16)
+    common = dict(keep_delta=True, avg_full_bite=True, theta=th)
     variants = [
-        ("B0 modified step (L5), v1 data, cohConstR (FH24 structure)", dict(L1=False, keep_delta=True, avg_full_bite=True), "v1", 1),
-        ("B1 + L1 finer data", dict(L1=True, keep_delta=True, avg_full_bite=True), "v1", 1),
-        ("B2 + L1 torsion cap", dict(L1=True, keep_delta=True, avg_full_bite=True, torsion_cap=Tc, torsion_real=Tc), "v1", 1),
-        ("B3 + L2a classical constant", dict(L1=True, keep_delta=True, avg_full_bite=True,
-                                                                 torsion_cap=Tc, torsion_real=Tc), "classical", 5),
-        ("B4 + L2c frequency-specific stage data (k = 5)", dict(L1=True, keep_delta=True, avg_full_bite=True,
-                                                                 torsion_cap=Tc, torsion_real=Tc), "freq", 5),
-        ("B5 + L8 free budgets (internal caps +5%)", dict(L1=True, keep_delta=True, avg_full_bite=True,
-                                                          torsion_cap=Tc, torsion_real=Tc, free_budgets=True), "freq", 5),
-        ("B6 + L3b anisotropic stage-0 weight", dict(L1=True, keep_delta=True, avg_full_bite=True, torsion_cap=Tc,
-                                                     torsion_real=Tc, free_budgets=True, aniso=True), "freq", 5),
+        ("B0 modified step (L5), v1 data, cohConstR (FH24 structure)", dict(common, L1=False), "v1", 1),
+        ("B1 + L1 finer data (incl. c_Th >= |T_h|)", dict(common, L1=True, cTh=cT), "v1", 1),
+        ("B3 + L2a classical constant", dict(common, L1=True, cTh=cT), "classical", 5),
+        ("B4 + L2c frequency-specific stage data (k = 5)", dict(common, L1=True, cTh=cT), "freq", 5),
+        ("B5 + L8 free budgets (internal caps +5%)", dict(common, L1=True, cTh=cT, free_budgets=True), "freq", 5),
+        ("B6 + L3b anisotropic stage-0 weight", dict(common, L1=True, cTh=cT, free_budgets=True, aniso=True), "freq", 5),
     ]
     for name, o, cw, k in variants:
         Dv = with_caps(D, F(1, 20)) if o.get("free_budgets") else D

@@ -131,5 +131,159 @@ def main():
         json.dump(dict(points=pts, wins=wins), open(sys.argv[sys.argv.index("--json") + 1], "w"), indent=1)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--plasmalean" not in sys.argv and "--fh25" not in sys.argv:
     main()
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# PlasmaLean's example (owner directive 3).  PlasmaLean (github.com/siddhartha-gadgil/PlasmaLean, KamTorusAExact.lean,
+# notes/theory/after-kam.md, as summarised in docs/explorations/striking-applications.md section 8 on branch apps-scout):
+# field-line flow of a divergence-free field on T^2 (1 1/2 degrees of freedom), Newton in weighted l^1 coefficient norms,
+# 2 unknown functions; proved tolerance delta0^4/(32 kappa) = 5.7e-19 at gamma = 0.0687, strip 0.1257 rad (rho = 0.02
+# turns), delta0 = r/7.  Not like for like: our theorem is for canonical Hamiltonian flows (n = 2 with the clock
+# frequency omega = (iota, 1)), sup norms on a 2n-dimensional phase space; the exact field of PlasmaLean has a
+# non-canonical area form and no closed-form canonical chart.  What is compared: our threshold on e (sup norm of the
+# invariance error) at PlasmaLean's gamma, strip and frame/torsion bounds (two norm guesses of run_mag.py), against its
+# proved tolerance on its own error norm.
+# ---------------------------------------------------------------------------------------------------------------
+
+PLASMALEAN = dict(log10_tolerance=math.log10(5.7e-19), gamma=0.0687, rho_rad=0.1257, iota=(75 + math.sqrt(5)) / 562)
+
+
+def plasmalean_data(tag):
+    sK, sB, M, T = {"cA-like": (3.1, 2.0, 3.0, 19.84), "R1-like": (1.37, 1.93, 1.9, 3.3)}[tag]
+    mu = F(1, 160)
+    sK, sB, M = F(str(sK)), F(str(sB)), F(str(M))
+    D = grid_data(2, 1, F(687, 10000), v1.up(0.1257 / (2 * math.pi)), 1)
+    D.update(M=M, M0=M, M1=M, M2=M, Mh1=M, Mh2=M, sK=sK, sB=sB, sT=1 / F(22, 100) + mu, mu=mu,
+             sLt=2 * 2 * sK, sN=sK * sB, sNt=2 * 2 * sK * sB, Tsup=F(str(T)), cTh=2 * M,
+             omega_star=(PLASMALEAN["iota"], 1.0))
+    for k_, base in (("B", D["sB"]), ("Tinv", D["sT"]), ("Lt", D["sLt"]), ("N", D["sN"]), ("Nt", D["sNt"]),
+                     ("Tsup", D["Tsup"])):
+        D["bud_" + k_] = base / 10
+    return D
+
+
+def plasmalean():
+    print("PlasmaLean's example: its proved tolerance 10^%.2f (l^1 norms, its own theorem)." % PLASMALEAN["log10_tolerance"])
+    print("| norms | small divisors | v2 route A | v2 route B | best | vs PlasmaLean |")
+    print("|---|---|---:|---:|---:|---:|")
+    rows = []
+    for tag in ("cA-like", "R1-like"):
+        D = plasmalean_data(tag)
+        lam = 3
+        delta0 = (D["rho"] - D["rhoinf"]) / (2 * lam)
+        om = D["omega_star"]; gam = float(D["gamma"])
+        for which in ("classical", "freq", "l1-freq (L9)"):
+            if which == "classical":
+                st, ct = T2.c_stages(D, "classical")
+                pen = 0.0
+            elif which == "freq":
+                st, ct = T2.c_stages(D, "freq")
+                pen = 0.0
+            else:                                       # L9: l^1 constants c_inf(delta) = Gamma_inf gamma delta^tau
+                cinf = lambda d: v1.up(sd.gamma_inf(om, float(d), gam)[1])
+                def st(s, cinf=cinf):
+                    ds = delta0 / 2 ** s
+                    r = D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
+                    return cinf(ds), cinf(ds / 2), cinf(r)
+                ct = v1.up(sd.c_inf_classical(1))
+                pen = math.log10(3.6)                  # l^1/sup of E (CERTIFIER-SHARPNESS 1.2, worst R1 value)
+            oA = dict(L1=True, torsion_cap=D["Tsup"], torsion_real=D["Tsup"], omega_eta=True, avg_full_bite=True,
+                      keep_delta=True, caps_tilde=True, free_budgets=True)
+            Dv = T2.with_caps(D, F(1, 20))
+            oA["torsion_cap"] = Dv["Tsup_cap"]; oA["torsion_real"] = Dv["Tsup_cap"]
+            lA = T2.thresholdA(Dv, oA, False, k=5, c_stage=st, c_tail=ct)[0] - pen
+            lB = -1e9
+            for th in (F(1, 16), F(1, 8)):
+                oB = dict(L1=True, keep_delta=True, avg_full_bite=True, aniso=True, theta=th, cTh=Dv["cTh"],
+                          free_budgets=True)
+                lB = max(lB, T2.thresholdB(Dv, oB, False, 5, st, ct)[0] - pen)
+            best = max(lA, lB)
+            rows.append(dict(norms=tag, small_divisors=which, A=lA, B=lB, best=best,
+                             margin=best - PLASMALEAN["log10_tolerance"]))
+            print("| %s | %s | %.2f | %.2f | %.2f | %+.2f |" % (tag, which, lA, lB, best,
+                                                               best - PLASMALEAN["log10_tolerance"]))
+            sys.stdout.flush()
+    return rows
+
+
+if __name__ == "__main__" and "--plasmalean" in sys.argv:
+    plasmalean()
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Figueras-Haro 2025 (J. Nonlinear Sci. 35 (2025) 13, arXiv:2403.10152, section 5): planar Sun-Jupiter-Saturn, a 3-torus,
+# FH24 with one first integral (d = 3), tau = 2.4, gamma = 1.69e-6, rho = 0.1, delta = rho/6; c_Xh = 0.09, c_DXh = c_(DXh)^T
+# = 129, c_D2Xh = 5e10; ||DK|| = 4.7812, ||DK^T|| = 6.8756, ||B|| = 7.3581, ||N|| = 3.5704, ||N^T|| = 2.8621,
+# |<T>^-1| = 354.08; sigma = norm (1 + 1e-10).  Their check: the Iterative Lemma iterated numerically for 10 steps, then
+# the KAM theorem, closes for ||eta^DK|| = 1e-38, ||eta^N|| = 1e-44 (numerically checked, not interval arithmetic).
+# Mapping: v2 is a d = n canonical theorem; we use their norms as the caps of a d = n = 3 problem (the first integral and
+# the moment flow are dropped: c_Xp = 0), the same uniform small-divisor constant structure (classical, our c^natural),
+# c_Th = 2 c_DXh, c_DTh = 2 c_D2Xh, margins 1e-10 x norm for the internal caps and the frame, and a prefix of 10 exact
+# stages (their 10 numerical steps).  Compared: whether (1e-38, 1e-44) is admissible, and the margin in orders.
+# ---------------------------------------------------------------------------------------------------------------
+
+FH25 = dict(etaL=1e-38, etaN=1e-44)
+
+
+def fh25_data(mu_rel=1e-10):
+    n = 3
+    norms = dict(sK=4.7811815833, sLt=6.8755882886, sB=7.35806411265, sN=3.5704498717, sNt=2.8621242724, sT=354.07743243)
+    D = dict(n=n, tau=2.4, kappa=2.4, rho=0.1, rhoinf=0.1 / 1000, gamma=1.69e-6, gbar=1.69e-6,
+             M=5e10, M0=0.09, M1=129.0, M2=5e10, Mh1=129.0, Mh2=5e10, cTh=2 * 129.0, Tsup=None,
+             Theta_omega=None, omega_star=None, nu=1e-6)
+    for k_, v in norms.items():
+        D[k_] = v * (1 + mu_rel)
+    D["mu"] = 2 * mu_rel * norms["sK"]                     # so that the |DK| budget mu/2 equals their margin
+    for k_, nm in (("B", "sB"), ("Tinv", "sT"), ("Lt", "sLt"), ("N", "sN"), ("Nt", "sNt")):
+        D["bud_" + k_] = norms[nm] * mu_rel
+    return D
+
+
+def fh25(kpre=10):
+    D = fh25_data()
+    n, tau = D["n"], D["tau"]
+    lam = 3
+    delta0 = (D["rho"] - D["rhoinf"]) / (2 * lam)
+    ccl = lambda d: sd.c_classical(n, tau, float(d))
+
+    def st(s):
+        ds = delta0 / 2 ** s
+        r = D["rho"] - 2 * lam * delta0 * (1 - 0.5 ** s)
+        return ccl(ds), ccl(ds / 2), ccl(min(r, 1.0))
+    ct = ccl(delta0 / 2 ** kpre)
+    gd0 = D["gamma"] * delta0 ** tau
+    mu0 = max(FH25["etaL"], FH25["etaN"] / gd0)             # their errors, isotropic weight
+    X0 = mu0 / (D["gamma"] * delta0 ** (tau + 1))
+    out = {}
+    stg = lambda ds, r: (ccl(ds), ccl(ds / 2), ccl(min(r, 1.0)))
+    for aniso, ratio, cDTh in ((False, 2, None), (True, 2, None), (True, 3, None), (True, 4, None), (True, 3, 2 * 129.0)):
+        o = dict(L1=True, keep_delta=True, avg_full_bite=True, theta=F(1, 16), cTh=D["cTh"], free_budgets=True,
+                 aniso=aniso, eta_measured=(FH25["etaL"], FH25["etaN"]), no_e=True, ratio=ratio)
+        if cDTh:
+            o["cDTh"] = cDTh
+        st_use = st if ratio == 2 else stg
+        le, _, why = T2.thresholdB(D, o, False, kpre, st_use, ct)
+        tag = "%s, ratio %s%s" % ("anisotropic" if aniso else "FH24 weight", ratio,
+                                   ", c_DTh = 2 c_DXh (hypothetical)" if cDTh else ", c_DTh = 2 c_D2Xh")
+        out[tag] = dict(log10_scale=le, binding=why)
+        print("FH25 data, v2 route B (k = %d, classical c, %s): admissible scale of (1e-38, 1e-44) = 10^%.2f; binding %s"
+              % (kpre, tag, le, ", ".join(why)))
+    return out
+    for aniso in ():
+        o = dict(L1=True, keep_delta=True, avg_full_bite=True, theta=F(1, 16), cTh=D["cTh"], free_budgets=True,
+                 aniso=aniso, eta_measured=(FH25["etaL"], FH25["etaN"]), no_e=True)
+        # admissible X at stage 0 (bisection inside thresholdB returns log10 e for mu_0 = per_e e; recover log10 X*)
+        le, _, why = T2.thresholdB(D, o, False, kpre, st, ct)
+        per_e = max(FH25["etaL"], FH25["etaN"] / gd0) / 1.0
+        # thresholdB uses per_e = max{etaL, etaN/(gamma delta0^kappa)} with the measured eta's per unit e; e* is the
+        # scale factor on (etaL, etaN): admissible iff e* >= 1
+        out["aniso" if aniso else "iso-weight"] = dict(log10_scale=le, binding=why)
+        print("FH25 data, v2 route B (k = %d, classical c, %s): admissible scale of (1e-38, 1e-44) = 10^%.2f; binding %s"
+              % (kpre, "anisotropic stage-0 weight" if aniso else "FH24 weight", le, ", ".join(why)))
+    return out
+
+
+if __name__ == "__main__" and "--fh25" in sys.argv:
+    fh25()

@@ -89,3 +89,28 @@ if __name__ == "__main__":
     for d in (rho, d0, d0 / 2, d0 / 4, d0 / 8):
         v, N = c_freq(om, gam, 1, d)
         print("delta = %.6g  c_freq = %.5f  (N = %d)" % (d, v, N))
+
+
+def gamma_inf(omega, delta, gamma, tau=1, N=None):
+    """L9: the l^1 (Wiener-algebra) small-divisor constant Gamma_inf(omega, delta) = sup_{k != 0} e^{-2 pi delta |k|_1}/(2 pi |k.omega|)
+    (n = 2): exact on |k|_1 <= N, and for |k|_1 > N the Diophantine tail e^{-2 pi delta m} m^tau/(2 pi gamma), decreasing for
+    m > tau/(2 pi delta).  Returns (Gamma_inf, c_inf = Gamma_inf gamma delta^tau)."""
+    N = N or max(50, int(30.0 / (2 * math.pi * delta)))
+    best = 0.0
+    for a in range(-N, N + 1):
+        m = N - abs(a)
+        k2 = np.arange(-m, m + 1)
+        K = abs(a) + np.abs(k2)
+        dot = np.abs(a * omega[0] + k2 * omega[1])
+        msk = K > 0
+        v = np.exp(-2 * math.pi * delta * K[msk]) / (2 * math.pi * dot[msk])
+        best = max(best, float(v.max()))
+    M0 = max(N + 1, int(math.ceil(tau / (2 * math.pi * delta))))
+    tail = math.exp(-2 * math.pi * delta * M0) * M0 ** tau / (2 * math.pi * gamma)
+    G = max(best, tail)
+    return G, G * gamma * delta ** tau
+
+
+def c_inf_classical(tau):
+    """The l^1 classical constant: sup_m m^tau e^{-2 pi delta m}/(2 pi gamma) <= (tau/(2 pi e delta))^tau/(2 pi gamma)."""
+    return (tau / (2 * math.pi * math.e)) ** tau / (2 * math.pi)
