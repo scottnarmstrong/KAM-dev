@@ -17,9 +17,9 @@ memory) and is needed for any client with n ≥ 3.
 | SHARP-PARSEVAL | `KAM.cohomological_parseval`, `KAM.cohomological_operator_parseval`: exponent τ + n/2, constant `cohConstP` (`KAM/Strip/CohomologicalParseval*.lean`) | integrated |
 | SHARP-BOX | `KAM.Sharp.g1_box`, `KAM.Iso.Sharp.g1_box`: one certificate covers a parameter box (corollaries of the sealed explicit theorems) | integrated |
 | SHARP-RUSSMANN-COH | `KAM.cohomological_russmann`, `KAM.cohomological_operator_russmann`: Rüssmann's exponent τ, constant `cohConstR` (`KAM/Strip/CohomologicalRussmann*.lean`) | integrated |
-| SHARP-DESIGN | blueprint `p2s-sharp` (fixed frequency) and `p2s-iso-sharp`: HL19 torsion route (no 1/δ), torsion perturbation O(d/δ), 3δ schedule, separate norms, generic small-divisor data, one Newton engine for both theorems; exact signatures; threshold mirror script | in progress |
-| SHARP-ENGINE, SHARP-K, SHARP-ISO | Lean proofs of `KAM.Sharp.g1_sharp` and `KAM.Iso.Sharp.g1_sharp` | after design audit |
-| SHARP-CERT | a second certificate checker beside the existing one, sound through `KAM.Iso.Sharp.g1_sharp` (new files only) | last |
+| SHARP-DESIGN (+ DOCFIX) | blueprint `p2s-sharp` (fixed frequency) and `p2s-iso-sharp`: HL19 torsion route (no 1/δ), torsion perturbation O(d/δ), 3δ schedule, separate norms, generic small-divisor data, one Newton engine for both theorems; exact signatures; threshold mirror script. Two independent audits (fixed: request changes to the written proof only; iso: pass with minor corrections), all corrections applied | integrated |
+| SHARP-A1 … A7 | the engine (`KAM/Sharp/Engine`), constants, torsion identity and bound, step, `KAM.Sharp.g1_sharp` (fixed frequency) and `KAM.Iso.Sharp.g1_sharp` (isoenergetic), with Parseval and crude instances. Each final theorem has the binders of the sealed explicit theorem and implies the frozen G1 / I-G1 | integrated |
+| SHARP-A8 | `KAM/CertificateSharp/`: an engine-agnostic certifier (`checkTorusCertificateWith`), the old engine as a regression (`rfl`), rational mirrors of the sharp constants, `checkTorusCertificateSharp` and its unconditional soundness `checkTorusCertificateSharp_sound`. Toy margins (threshold/error): T2 10^4.3 → 10^19.4, T3 10^4.3 → 10^27.9 | integrated |
 
 ## Rules that protect the SO track
 - Additive only: new modules under `KAM/Sharp/**`, `KAM/Iso/Sharp/**`, `KAM/Strip/*Parseval*`, `KAM/Strip/*Russmann*`.
@@ -28,3 +28,10 @@ memory) and is needed for any client with n ≥ 3.
   `docs/tracks/SO/**`, the HQ files or `README.md` is edited. The new checker lives in new files beside the old one.
 - Deferred until the lunar certificates are done: re-deriving the sealed `g1_explicit` theorems from the new engine and
   deleting the duplicated iteration code (this would rebuild modules upstream of the certificate checker).
+
+## Result (v1)
+
+Design threshold for the lunar package R1 (isoenergetic, Rüssmann data): about 10⁻²⁵, against 10⁻⁷⁵ for the sealed
+`g1_explicit` (`scripts/apost_sharp/thresholds.py`, design §6). The owner decided (2026-10-30) that the lunar
+certificate will switch to the sharp certifier. Work continuing on later branches: v2 (uniform dominance over the
+published explicit theorems), the checker-side sharpness study, the applications study.

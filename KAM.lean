@@ -129,6 +129,7 @@ public import KAM.CertificateSharp.ConstantsQ
 public import KAM.CertificateSharp.Engine
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
+public import KAM.CertificateSharp.Sound
 public import KAM.CertificateSharp.Tests.Margin
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
