@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**22 frozen theorems, 22 sealed; 122 frozen definitions.**
+**23 frozen theorems, 23 sealed; 123 frozen definitions.**
 
 ## Index
 
@@ -387,3 +387,7 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 - [`KAM.Planetary.SecularInputBox`](../KAM/Frozen/Planetary/Defs/SecularInputBox.lean#L40)
 
 </details>
+
+## Other frozen definitions
+
+- [`KAM.Russmann.russmannCover`](../KAM/Frozen/Russmann/Defs/RussmannCover.lean)

@@ -326,6 +326,8 @@ Links: [doi:10.1070/RD2001v006n02ABEH000169](https://doi.org/10.1070/RD2001v006n
 
 **Used for.** P-FIXED: the analytic weak-nondegeneracy KAM theorem, Theorem 1.7 (p. 127), cited by CP09 Thm 4. Its proof relies on the 2005 addendum, pinned as Rus05. Supplied by the owner 2026-10-27.
 
+**Cited by the frozen theorems** `KAM.Russmann.russmann_kam`.
+
 **Errata recorded:** 2 entries.
 
 ### Rus05
