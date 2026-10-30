@@ -1853,3 +1853,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     changes granularity, not statements. It reuses the L3 worktree on branch inp-csegl2, so no extra build copy
     at 9.7 GB free.
   - Running: SO-CSEG-A/B (+SegOne; claude-4) and SO-KDEPTH2 (claude-6).
+- **20:49. Heartbeat.**
+  - SO-CSEG-L3 and the SO-CSPLIT design landed (main 24f301e0).
+  - Running: SO-CSEG-A/B with SegOne (claude-4), SO-CSEG-L2 (claude-12), SO-KDEPTH2 (claude-6). The lock waits for
+    KDEPTH2.
+  - **W:** kam-1b had been idle since 19:56 while its wave-2 graph reviews (done 19:18 and 19:22) and two provers
+    (idle since 19:00 and 19:14) waited. It was nudged to process the reviews, push the graph to the global review
+    and publication, keep 3–4 provers on the ready frontier (W0-ANALYSIS, W1-KAMSUP first), and re-arm one waiter.
+  - Disk 9.5 GB (just under the floor while the CSPLIT worktrees are live). Swap full; available memory 18 GB.
