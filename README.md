@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 21:26 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **355,728 lines of Lean** of an estimated ≈ 361,000
+> **Last updated: 2026-10-30 21:28 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **355,728 lines of Lean** of an estimated ≈ 361,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -271,7 +271,7 @@ Overall, everything together: 80.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 21:26 UTC from `main` at `32e311a2` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 21:28 UTC from `main` at `109f72dd` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -447,7 +447,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-LOCK-COST §12: rerun after KDEPTH2 on the wrapped 3158-op program (bridge one theorem a | `inp-lockdesign` | 4 (vs `inp`) |
 | **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3: remove the Gram defect-row split probe (Data/GramSplit.lean; superseded by SO-CS | `inp-sodata3` | 13 (vs `inp`) |
 | **wbp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Blueprint-W W5/W6: repair the 9 gaps found by the graph reviews (externals symm/sqrt/trian | `inp-wbp` | 2 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: wave-2 review 1 and delta 5 applied; 693 nodes all reachable; 10 SOURCE_GAP | `inp-wgraph` | 21 (vs `inp`) |
@@ -462,6 +461,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 21:27 | `109f72dd` | Land inp into main |
 | 2026-10-30 21:23 | `32e311a2` | Land inp into main |
 | 2026-10-30 21:21 | `acef11ec` | Log: heartbeat (KDEPTH2 landed; lock reruns passing; CAL gates and GEN running) |
 | 2026-10-30 21:19 | `4b3b5124` | Log: SO-CSEG-A/B passed; SO-CSPLIT Lean core complete; calibration gates next |
@@ -473,7 +473,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 20:54 | `a16b82b8` | Land inp into main |
 | 2026-10-30 20:52 | `776f0b7b` | Log: SO-CSEG-A/B done (short-name renames before audit); W caught up |
 | 2026-10-30 20:49 | `7465e66d` | Log: heartbeat (L3 landed; W nudged) |
-| 2026-10-30 20:46 | `24f301e0` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
