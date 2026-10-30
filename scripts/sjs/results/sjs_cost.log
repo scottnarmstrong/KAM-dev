@@ -1,0 +1,26 @@
+Per torus.  CPU-h = single-thread kernel time (the kernel is sequential per declaration; declarations run in
+parallel).  Ranges: operation counts lo .. hi (and memory factor 4 .. 8 for GMP).  This machine: 16 cores, 124 GB.
+
+| scenario | rho | L | bits | S (true) | S_low | per-slot CPU-h, box layout | same, ideal layout | declarations (box) | advice TB (box) | data elaboration CPU-h (box) | GMP CPU-h | GMP min/product, peak GB | apps tier P CPU-h |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| apps baseline (L 85, S 1e8, box/support 6) | 0.10 | 85 | 307 | 1.0e+08 | 1.4e+06 | 1.7e+05–4.4e+05 | 1.7e+05–4.4e+05 | 1.9e+06–5.2e+06 | 23.21–60.24 | 2.9e+04–2.5e+05 | 1.7e+04–8.6e+04 | 751, 662–1325 (23–46 blocks) | 5.9e+06–1.1e+07 |
+| v1, tau 2.4 interpolated (-130) | 0.01 | 142 | 496 | 5.2e+07 | 8.9e+04 | 1.3e+05–3.4e+05 | 2.3e+04–7.2e+04 | 1.4e+06–3.8e+06 | 28.91–74.57 | 2.2e+04–1.9e+05 | 3.3e+04–1.6e+05 | 1022, 902–1804 (32–63 blocks) | 6.8e+06–1.3e+07 |
+| v2 route B, tau 2, numerical gamma (-46.5) | 0.02 | 57 | 212 | 3.6e+06 | 9.6e+04 | 9918–2.5e+04 | 1751–5261 | 1.1e+05–2.8e+05 | 1.00–2.51 | 1727–1.5e+04 | 34–167 | 32, 28–56 (1–2 blocks) | 2.9e+05–5.7e+05 |
+| v2 route B, tau 3, FH gamma (-52.1) | 0.02 | 62 | 231 | 4.7e+06 | 9.6e+04 | 1.3e+04–3.3e+04 | 2270–6864 | 1.4e+05–3.7e+05 | 1.39–3.52 | 2227–1.9e+04 | 93–351 | 45, 40–80 (2–3 blocks) | 4.0e+05–7.8e+05 |
+| v2 hybrid L6 estimate (-23.3) | 0.03 | 32 | 132 | 7.2e+05 | 1.0e+05 | 3013–7139 | 500–1385 | 3.2e+04–7.8e+04 | 0.20–0.47 | 526–4128 | 6.2–15 | 4, 4–7 (1–1 blocks) | 5.5e+04–1.1e+05 |
+| v2 hybrid L6 estimate (-26.1) | 0.03 | 35 | 141 | 9.2e+05 | 1.0e+05 | 3515–8449 | 590–1665 | 3.7e+04–9.3e+04 | 0.25–0.58 | 613–4882 | 7.8–19 | 6, 5–10 (1–1 blocks) | 7.0e+04–1.4e+05 |
+
+Calibration: the lunar unit by these per-term constants (only demanded ops, trimmed cfgLow factors) is 0.65 CPU-h,
+against 7.5-14.5 CPU-h for tier P (projected for the landed certificate, which evaluates every jet slot
+and untrimmed cfgLow factors, SHARP-CERTSIDE): ratio 11-22, not resolved here.  The per-slot and GMP columns assume
+the demanded-work design and may be optimistic by that ratio; the apps column is the landed one.
+
+Shard limits in a 32 GB slice (29 GB to the kernel):
+  landed packed product (fit 6.8e-4 S^1.28 GB): S <= 4141 terms (2-D), one declaration
+  per-slot route: <= 3.5e+05 advice slots per declaration (factors pre-packed as data), 354 s kernel; model ops <= 1.3e+05 term-ops per declaration (166 s)
+  GMP-resident: one whole product per declaration up to S = 1.8e+06 .. 3.6e+06 (L 59, beta 10), 986 .. 1972 s
+  GMP-resident: one whole product per declaration up to S = 3.0e+06 .. 6.0e+06 (L 59, beta 6), 986 .. 1972 s
+  GMP-resident: one whole product per declaration up to S = 2.7e+06 .. 5.5e+06 (L 34, beta 10), 986 .. 1972 s
+
+Wall time = CPU-h / concurrent declarations.  Here: 124 GB allow 3 concurrent 32 GB declarations (about 12 at 8 GB);
+a 1000-core cluster with 32 GB per core runs 1000.
