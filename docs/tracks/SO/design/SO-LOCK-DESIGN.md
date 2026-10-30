@@ -1,9 +1,12 @@
 # SO-LOCK: Lean design of "the Moon stays locked in synchronous rotation forever"
 
-**Status:** design, revision 2, 30 October 2026 (package DESIGN-LOCK, branch `inp-lockdesign`). No proofs, nothing
+**Status:** design, revision 3, 30 October 2026 (package DESIGN-LOCK, branch `inp-lockdesign`). No proofs, nothing
 frozen.
 
-- **Revision 2** answers design audit 1 ([`SO-LOCK-design-audit-1.md`](SO-LOCK-design-audit-1.md), FAIL: F1–F3,
+- **Revision 3** answers design audit 2 ([`SO-LOCK-design-audit-2.md`](SO-LOCK-design-audit-2.md), FAIL: two HIGH,
+  two LOW, one NOTE) with the sub-orchestrator's overnight ruling on finding 1 (logged for owner review). The response
+  table is §10.
+- **Revision 2** answered design audit 1 ([`SO-LOCK-design-audit-1.md`](SO-LOCK-design-audit-1.md), FAIL: F1–F3,
   N1–N5). It adopts the main orchestrator's change to F1 (total real-preserving `sqrtE`) and the LOCK-GEN-1
   numerics. The response table is in §9.
 - **Governing decisions:**
@@ -44,9 +47,11 @@ by D40 but **not yet frozen**: there is no `KAM/Frozen/SpinOrbit`.
   - elliptic polar coordinates with Ω = 8/65;
   - `checkTorusCertificateV2 routeAV2`, unchanged;
   - one new `HamExpr` constructor `.sqrt`, with **total real-preserving semantics `sqrtE`** (F1 as changed by the
-    orchestrator). **No landed declaration's statement changes**; the landed files get only new match cases (§4.6).
-- **Estimate:** 3.6–4.8k new Lean lines, every new file under 900 lines, plus about 0.3–0.6k lines of new match
-  cases in 13 landed checker files (§4.6).
+    orchestrator). **No landed declaration's statement changes except the unfrozen intermediate helper
+    `HamExpr.nonvanishingOn_of_inv_good`**, which is replaced by `HamExpr.nonvanishingOn_of_program_good`
+    (§4.2). The landed files get new constructors, match arms, helper lemmas and safety extraction (§4.6).
+- **Estimate:** 3.6–4.8k new Lean lines, every new file under 900 lines, plus about 0.3–0.6k lines of additions
+  (arms, helpers, safety extraction) in 13 landed checker files (§4.6).
 
 ## 1. Statements
 
@@ -106,7 +111,7 @@ Three options were considered:
 - **A ball-pinned predicate:** puts Fourier data into the frozen text.
 - **The global odd characterisation (chosen):** canonical through the contraction, and it carries no data.
 
-### 1.4 Literal rules and the numbers (N1: from proved rational bounds)
+### 1.4 Literal rules and the numbers (N1: from rational majorants; proofs pending)
 
 **Orbit constants**, by exact rational arithmetic with π ≤ 31416/10000 and the exact rationals
 Aₘ = `soAQ m`, e = 549/10000, ε = 69/200000:
@@ -120,7 +125,9 @@ Aₘ = `soAQ m`, e = 549/10000, ε = 69/200000:
 - r₀ := sup|ψ*| ≤ η/(32 − L) = 1.6749·10⁻⁵ ≤ **17/10⁶**;
 - r₁ := sup|ψ*′| ≤ (η + L·r₀)/4 = 1.3399·10⁻⁴ ≤ **27/200000** (= 1.35·10⁻⁴).
 
-These are `lunarSyncOrbit_bound`, proved by `norm_num` from the majorants. The literals of revision 1,
+These are the targets of `lunarSyncOrbit_bound`. **Intended route, not yet proved:** the contraction theorem of §2
+(pending, LOCK-PO) plus `norm_num` on the four exact rational inequalities. Audit 2 checked those four inequalities in
+exact `Fraction` arithmetic; the analytic part is unproved. The literals of revision 1,
 13/10⁶ and 1/10⁴, were not reachable by this argument (audit N1) and are replaced.
 
 **Transfer to the certified centre c:**
@@ -139,7 +146,9 @@ Hence:
 
 - **I_in:** the largest 3-significant-digit rational with (√I_in + δ)² < lo.
 - **Rψ:** the smallest 2-digit rational with √(hi/(πΩ)) + r ≤ Rψ.
-- **Rp:** the smallest 3-digit rational with √(Ωhi/π) + r′ ≤ Rp.
+- **Rp:** the smallest rational with **3 decimal places** (a multiple of 1/1000) with √(Ωhi/π) + r′ ≤ Rp. Likewise
+  Rψ is the smallest multiple of 1/100 and I_in the largest multiple of 1/10000. (Revision 2 said "3-digit"; with
+  significant digits Rp would be 0.0255, so the rule is now stated in decimal places; audit 2, finding 3.)
 - **Corollary:** Rψ + r₀ < 1/4.
 
 The outputs are bounded around c and then transferred by the pointwise triangle inequality. This is not
@@ -280,7 +289,16 @@ To check: P₀²/2 − P₀ = (c′ + Y)²/2 − 1/2, and adding P₁ gives the 
   - `lockToRotC_ofReal` (I > 0) ties it to `lockToRotR (lockCentre cs)`.
   - `lockHamExpr_eval` holds **for all z**, because `sqrtE` is total: (lockHamExpr Ω cs).eval z = soRotHC
     (lockToRotC Ω cs z).
-  - `lockHamExpr_clock` holds on 0 < Re I.
+  - `lockHamExpr_eval` is purely algebraic. It holds for every Ω (including Ω ≤ 0) and every z. It does not use
+    `sqrtE² = z` and makes no analyticity claim.
+  - `lockHamExpr_clock` needs **0 < Ω** and 0 < Re I (audit 2, finding 2). For Ω < 0 both sqrt operands are
+    negative reals at real I > 0. `sqrtE` is then on its cut, eval is discontinuous, and Lean's total `fderiv` is
+    0, not 1.
+  - **Where the sign of Ω matters:**
+    - `libAction_lockToPhysicalR`, `lockToPhysicalR_surj`, `lock_conjugacy`, `lockToRotC_ofReal` and
+      `lockHamExpr_clock` all take `0 < Ω`;
+    - `LockGraphCert` consumers take `hΩ : 0 < g.Ω`;
+    - the definitions are total.
 
 **Expression.** `lockHamExpr` is written with:
 
@@ -289,7 +307,10 @@ To check: P₀²/2 − P₀ = (c′ + Y)²/2 − 1/2, and adding P₁ gives the 
 - V expanded through the landed `.cos`/`.sin` nodes of the composite argument 2π(2(c + X) + (2 − m)φ).
 
 **Invariant-set transport.** Only the invariant set is transported, never the flow. LOCK-GRAPH builds, for each
-point of the graph, the physical orbit `Φ(K∞(θ + tω))`:
+point of the graph, the physical orbit `Φ(K∞(θ + tω))`. Here ω is the **unscaled** physical frequency (audit 2,
+finding 4): the certificate is for κ·K, with frequency `sinf • ωstar`, so the physical torus frequency is
+`(sinf/κ) • ωstar`. Undoing the time scale is part of `lockBarrier_of_certV2`'s proof, as in
+`soRotBarrier_of_certified`. The clock component of the unscaled frequency is exactly 1.
 
 - it is a `soField` solution by `lock_conjugacy`;
 - it is unique by `so_global_exists_unique`.
@@ -317,29 +338,77 @@ def sqrtE (z : ℂ) : ℂ := if z.im = 0 ∧ z.re ≤ 0 then 0 else z ^ (1 / 2 :
 - **Further lemmas:** `sqrtE_sq` (on the slit plane), `sqrtE_re_nonneg` (everywhere), and `hasDerivAt_sqrtE`
   (Re > 0, derivative 1/(2√z)).
 
-### 4.2 Domain safety (like `inv`)
+### 4.2 Domain safety (like `inv`), revised for audit 2, finding 1
 
-- Revision 1's `NonvanishingOn` change is withdrawn: `HamExpr.NonvanishingOn` is not modified.
-- Instead, the new `SlpOp.sqrt a` gets a certified condition `SlpSqrtGood n S ops`: every sqrt operand has
-  re > 0 on S. This is the analogue of `SlpInvGood` (`Expr/Ball.lean:380`), and it comes with
-  `Slp.sqrtGood_of_balls`.
-- Analyticity of the compiled program is proved under `SlpInvGood ∧ SlpSqrtGood`, exactly as the inv case is.
-  At the `HamExpr` level, `contDiffOn_eval`'s premise `NonvanishingOn` does not mention sqrt.
-- The statement of `HamExpr.contDiffOn_eval` therefore cannot get a sqrt case without a premise. **It keeps its
-  text.** Its `.sqrt` case is proved only for expressions whose sqrt arguments are certified; otherwise it needs a
-  premise.
-
-**Resolution.** Extend `NonvanishingOn` with a `.sqrt` match arm, i.e. *add a new equation for the new
-constructor*:
+**`NonvanishingOn` arm.** `HamExpr.NonvanishingOn` gets a new equation for the new constructor:
 
 ```lean
 | .sqrt a, S => a.NonvanishingOn S ∧ ∀ z ∈ S, 0 < (a.eval z).re
 ```
 
-- This changes no existing equation, so no landed statement's text changes, and no instance becomes false.
-- `contDiffOn_eval` then gets its new case from `differentiableAt_sqrtE`.
-- `checkHamBounds_sound` must produce `NonvanishingOn` for sqrt nodes from `SlpSqrtGood` (new lemma
-  `nonvanishingOn_of_sqrtGood`), as it does today for `div` from `SlpInvGood`.
+No existing equation changes. `contDiffOn_eval` keeps its statement, and its `.sqrt` case comes from
+`differentiableAt_sqrtE`.
+
+**The program-level predicate** (new, in `Expr/Ball.lean`, next to `SlpInvGood`):
+
+```lean
+/-- Every `sqrt` operation of `ops` has an operand with positive real part at every point of `S`. -/
+def SlpSqrtGood (n : ℕ) (S : Set ((Fin n → ℂ) × (Fin n → ℂ))) (ops : List SlpOp) : Prop :=
+  ∀ j a : ℕ, ops[j]? = some (SlpOp.sqrt a) → ∀ z ∈ S, 0 < ((Slp.vals n z ops).getD a 0).re
+
+theorem Slp.sqrtGood_of_balls {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
+    (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
+    {bs : List (CC ℚ × ℚ)} (h : p.balls n WH centre radius taylorN = some bs) :
+    SlpSqrtGood n (certDomain n WH.rho centre radius) p.ops
+
+theorem sqrtGood_of_ballsTrig {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
+    (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
+    {bs : List (CC ℚ × ℚ)} (h : ballsTrig n p WH centre radius taylorN = some bs) :
+    SlpSqrtGood n (certDomain n WH.rho centre radius) p.ops
+```
+
+Both proofs use the ball rule: `ballStep`'s sqrt arm succeeds only if r < s², and `sqrtE_ball` then gives
+Re > 0 on the ball. The proof shape is that of `Slp.invGood_of_balls` / `ballsAux_prefix_inv`.
+
+**The one landed statement that changes (explicit exception).** The ruling is the sub-orchestrator's, overnight,
+logged for owner review. The unfrozen intermediate helper
+
+```lean
+theorem HamExpr.nonvanishingOn_of_inv_good {D : Set Ph} (hD : IsOpen D) (e : HamExpr n) :
+    ∀ (s ops : List SlpOp), (slpCompile e s).1 <+: ops → SlpInvGood n D ops →
+      e.NonvanishingOn D
+```
+
+(`Expr/Ball.lean:424`) is false once `NonvanishingOn` has the sqrt arm. Audit 2's counterexample is
+`.sqrt (.action 0)` on a disc around I = i: every `inv` operand is nonzero there, but Re I = 0 at the centre.
+
+**Choice: delete it and replace it by a new name.** Keeping the old name with an extra hypothesis was not
+chosen, because a renamed theorem makes the contract change visible at every call site.
+
+```lean
+theorem HamExpr.nonvanishingOn_of_program_good {D : Set Ph} (hD : IsOpen D) (e : HamExpr n) :
+    ∀ (s ops : List SlpOp), (slpCompile e s).1 <+: ops → SlpInvGood n D ops →
+      SlpSqrtGood n D ops → e.NonvanishingOn D
+```
+
+The proof is the old induction with the extra hypothesis threaded through, plus the new `.sqrt` case. That case
+reads the sqrt operand's slot from `SlpSqrtGood` at the compiled index, using the same slot/prefix lemmas as the
+`div` case.
+
+**Direct consumers keep their statements** (proof-only edits; a successful balls pass supplies both predicates):
+
+| consumer | location | new proof |
+|---|---|---|
+| `HamExpr.nonvanishingOn_of_balls` | `Expr/Ball.lean:497` | `nonvanishingOn_of_program_good … (Slp.invGood_of_balls …) (Slp.sqrtGood_of_balls …)` |
+| `nonvanishingOn_of_ballsTrig` | `CertificateSharp/Ham/BallsTrig.lean:400` | `… (invGood_of_ballsTrig …) (sqrtGood_of_ballsTrig …)` |
+| `checkHamBounds_sound` | `Sound/Ham.lean` | unchanged; it calls `nonvanishingOn_of_balls` |
+| `TorusCertificate.ham_structural` | `Sound/Ham.lean:68` | unchanged; it takes `hnv` |
+
+Further transitive callers (`SplitBounds.lean:194,209,228`, `V2/HamClaim.lean:61`) call the two balls lemmas,
+whose statements are unchanged, so they need no edit. A grep at implementation time must confirm that
+`nonvanishingOn_of_inv_good` has no other caller. Today the only callers are the two above.
+
+`SlpInvGood` keeps its meaning. It is not silently strengthened.
 
 ### 4.3 Ball rule (outward rounded)
 
@@ -383,22 +452,28 @@ Revision 1's witness accepted the opposite root (the audit's counterexample: f =
 - **Use.** The torus Hamiltonian composes √ with the action model I(θ) ∈ [0.0132, 0.0163]. With s² ≈ mean I and
   d ≈ the spread of √I (≈ 0.006 against s ≈ 0.12), the margin is ample.
 
-### 4.6 Landed files that get a new match case (N5 inventory)
+### 4.6 Landed files that change (N5 inventory, revised per audit 2, finding 5)
 
-**No landed declaration's statement changes.** Every new obligation is a new name or a new case of an existing
-induction. Line counts are as of this revision; the cap rechecks happen in LOCK-SQRT.
+**No landed declaration's statement changes except `HamExpr.nonvanishingOn_of_inv_good`**, which is replaced by
+`HamExpr.nonvanishingOn_of_program_good` (§4.2). The landed files gain new constructors, match arms, structures and
+fields, helper lemmas and safety extraction, not one match case each. Existing sqrt-free semantics and the old
+`NonvanishingOn` equations stay unchanged. Exact reduction of old certificates is an implementation check.
 
-| landed file (lines) | new case / lemma |
+| landed file (lines) | required delta |
 |---|---|
-| `Certificate/Expr/Basic.lean` (208) | constructor `sqrt`; `eval` arm `sqrtE`; `NonvanishingOn` arm; cases of `contDiffOn_eval`, `eval_add_int`, `exists_real_eval` |
-| `Certificate/Expr/Slp.lean` (125) | `SlpOp.sqrt`, its value, the `slpCompile` arm |
-| `Certificate/Expr/Ball.lean` (506) | `ballStep` arm, `SlpSqrtGood`, `Slp.sqrtGood_of_balls`, prefix lemma, compile/eval agreement case |
-| `Certificate/Expr/Diff.lean` (445), `DiffNode.lean` (669), `DiffBuild.lean` (343), `DiffCalculus.lean` (163), `DiffCalculus3.lean` (236) | emission arm and its soundness case |
-| `Certificate/Expr/Compose.lean` (472), `ComposeModels.lean` (432) | witness list `sqrtWit`, composition arm, soundness case |
-| `Certificate/Sound/Ham.lean` (158) | `nonvanishingOn_of_sqrtGood` use in `checkHamBounds_sound` (proof only) |
-| `CertificateSharp/Ham/BallsTrig.lean` (409) | trig-ball arm (coordinate with BALLFIX) |
-| `CertificateSharp/Kernel/Prune.lean` (222) | pass-through arm for `SlpOp.sqrt` |
-| `Certificate/Tests/Ball.lean` (84) | test arm if exhaustive |
+| `Certificate/Expr/Basic.lean` (208) | constructor `sqrt`; `eval` arm `sqrtE`; `NonvanishingOn` arm; induction cases of `contDiffOn_eval`, `eval_add_int`, `exists_real_eval`. `eval_real` is not an induction, so its proof is unchanged. |
+| `Certificate/Expr/Slp.lean` (125) | `SlpOp.sqrt` and its semantic step arm |
+| `Certificate/Expr/Ball.lean` (506) | `ballStep` arm and soundness case; `SlpSqrtGood`; `Slp.sqrtGood_of_balls` and its prefix lemma; **the helper exception** (`nonvanishingOn_of_program_good`), plus the proof edit of `nonvanishingOn_of_balls` |
+| `Certificate/Expr/Diff.lean` (445) | `slpCompile` arm (the compiler lives here), new-node soundness, empty-domain case |
+| `Certificate/Expr/DiffNode.lean` (669) | sqrt-node constructor and proofs |
+| `Certificate/Expr/DiffBuild.lean` (343) | builder helpers if needed (no exhaustive match today) |
+| `Certificate/Expr/DiffCalculus.lean` (163), `DiffCalculus3.lean` (236) | new calculus lemmas for d√f (no expression match) |
+| `Certificate/Expr/Compose.lean` (472) | witness field `sqrtWit`, counter and routing, composition soundness case |
+| `Certificate/Expr/ComposeModels.lean` (432) | optional helpers |
+| `Certificate/Sound/Ham.lean` (158) | none expected (statements and proofs go through the balls lemmas); recheck |
+| `CertificateSharp/Ham/BallsTrig.lean` (409) | sqrt trig-ball case, `sqrtGood_of_ballsTrig`, proof edit of `nonvanishingOn_of_ballsTrig` (coordinate with BALLFIX) |
+| `CertificateSharp/Kernel/Prune.lean` (222) | operand dependency `[a]` for `.sqrt a`, step-congruence case, aligned sqrt-witness pruning |
+| `Certificate/Tests/Ball.lean` (84, optional) | concrete examples only; new examples optional |
 
 **New files:**
 
@@ -428,7 +503,7 @@ lands, because BALLFIX is not landed and clashes with `BallsTrig`.
 ## 6. Packages
 
 The new Lean files are `KAM/SpinOrbit/Lock/**` and the three new checker files of §4.6. The exceptions are the
-landed checker files of §4.6, which get match cases only. Data live in `KAM/SpinOrbit/Data/LockN65/**`. Every new
+landed checker files of §4.6, which get the additions listed there, including the one helper replacement. Data live in `KAM/SpinOrbit/Data/LockN65/**`. Every new
 file is planned under 900 lines (cap 1500).
 
 | package | files | lines | depends on | can start |
@@ -530,11 +605,11 @@ file is planned under 900 lines (cap 1500).
 - Uniqueness among odd orbits instead of "within δ of c".
 - Three placeholder definitions with `sorry` bodies in the signatures file (§1.6).
 
-## 9. Response to design audit 1
+## 9. Response to design audit 1 (revision 2)
 
 | finding | fix | location |
 |---|---|---|
-| F1 HIGH: principal sqrt breaks `exists_real_eval`/`eval_real` | Orchestrator's change adopted: total real-preserving `sqrtE` (0 on nonpositive reals). The landed statements are unchanged and get one new case each. Domain safety comes from the ball check r < s² and `SlpSqrtGood` (the analogue of `SlpInvGood`), plus a new `NonvanishingOn` arm. Consumer `ham_structural` is untouched. Full case inventory in §4.6. | §4.1–4.2, §4.6; sig `sqrtE`, `sqrtE_ofReal`, `differentiableAt_sqrtE`, `sqrtE_sq`, `sqrtE_re_nonneg`, `hasDerivAt_sqrtE` |
+| F1 HIGH: principal sqrt breaks `exists_real_eval`/`eval_real` | Orchestrator's change adopted: total real-preserving `sqrtE` (0 on nonpositive reals). `exists_real_eval` keeps its statement and gets one new induction case; `eval_real` keeps its statement and proof. (Rev 3: the helper `nonvanishingOn_of_inv_good` is the one exception, §4.2.) Domain safety comes from the ball check r < s² and `SlpSqrtGood` (the analogue of `SlpInvGood`), plus a new `NonvanishingOn` arm. Consumer `ham_structural` is untouched. Full case inventory in §4.6. | §4.1–4.2, §4.6; sig `sqrtE`, `sqrtE_ofReal`, `differentiableAt_sqrtE`, `sqrtE_sq`, `sqrtE_re_nonneg`, `hasDerivAt_sqrtE` |
 | F2 HIGH: the witness accepts the opposite root | Positive real anchor s, margin 0 ≤ d < s, error ε/(s − d). Typed witness, checker and soundness. | §4.5; sig `sqrtE_model_error`, `SqrtWitness`, `sqrtWitnessRadius`, `sqrtWitness_sound` |
 | F2 (scalar) | `sqrtE_ball` now also concludes 0 < Re z | §4.3; sig `sqrtE_ball` |
 | F3 HIGH: map direction, P₀ translation, 2-form sign | Exact real and complex maps with P₀ = 1 + c′ + Y; `soRotMap` is rotated → physical; dY∧dX = dI∧dα; `lock_conjugacy` with `ContDiff ℝ 3 c`; complex eval identity through `lockToRotC` | §3; sig `lockX`, `lockY`, `lockToRotR`, `lockToPhysicalR`, `lockHamiltonianR`, `lockToPhysicalR_eq`, `libAction_lockToPhysicalR`, `lockToPhysicalR_surj`, `lock_conjugacy`, `lockCentre*`, `lockToRotC`, `lockToRotC_ofReal` |
@@ -544,3 +619,17 @@ file is planned under 900 lines (cap 1500).
 | N4: uniqueness without oddness | Claim deleted; the ψ + 1/2 counterexample is noted | §1.1 |
 | N5: ownership, `#eval` | Checker-file inventory with line counts, an ownership note, and no `#eval` in production (`decide`-style proof declarations) | §4.6, §6 |
 | "frozen soField" (consumer note) | Corrected to "landed, approved for freezing (D40)" | Notation, §1.1 |
+
+## 10. Response to design audit 2 (revision 3)
+
+| finding | fix | location |
+|---|---|---|
+| 1 HIGH: `HamExpr.nonvanishingOn_of_inv_good` false after the sqrt arm | Sub-orchestrator ruling (overnight, for owner review): this unfrozen helper is the one documented exception. It is replaced by `HamExpr.nonvanishingOn_of_program_good`, which adds the hypothesis `SlpSqrtGood n D ops`. `SlpSqrtGood` is defined exactly, with `Slp.sqrtGood_of_balls` and `sqrtGood_of_ballsTrig`. The direct consumers `nonvanishingOn_of_balls`, `nonvanishingOn_of_ballsTrig`, `checkHamBounds_sound` and `ham_structural` keep their statements, because the balls passes supply both predicates. `SlpInvGood` is not reinterpreted. Every "no landed statement changes" claim now names the exception. | §0, §4.2, §4.6, §9 row F1 |
+| 2 HIGH: `lockHamExpr_clock` false for Ω < 0 | Added `hΩ : 0 < Ω`. `lockHamExpr_eval` was re-audited: it is algebraic and valid for all Ω and z, with no analyticity claim (docstring). The places where Ω's sign matters are listed. | sig `lockHamExpr_clock`, `lockHamExpr_eval`; §3 |
+| 3 LOW: proof-status wording, Rp rule | "Proved" is replaced by "intended route, not yet proved" (design and freeze proposal). Rounding rules are now in decimal places: Iin a multiple of 1/10000 (largest), Rψ of 1/100, Rp of 1/1000 (smallest). | §1.4; sig `lunarSyncOrbit_bound` docstring; freeze proposal §0.3 |
+| 4 NOTE: unscaled frequency | The physical orbit Φ(K∞(θ + tω)) uses the unscaled ω = (sinf/κ)·ωstar, whose clock component is 1. Undoing the time scale is part of `lockBarrier_of_certV2`. | §3 (invariant-set transport) |
+| 5 LOW: "match cases only" | Inventory rewritten as "required delta" per file: arms, structures/fields, helpers, safety extraction, and the helper exception. The compiler arm is attributed to `Diff.lean`. Prune needs operand dependency, congruence and witness pruning. The test file is optional. | §4.6, §6 |
+| stale "frozen physical model" docstring | The signatures header now reads "landed … approved for freezing in D40, not yet frozen". | sig header |
+
+**Re-elaboration** (`inp_sig_check.sh`, slot 1, 16:32 UTC): exit 0, 29 warnings `declaration uses 'sorry'`, no
+other diagnostics. The signatures file is 344 lines.

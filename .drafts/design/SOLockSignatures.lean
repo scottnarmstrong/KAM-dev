@@ -15,7 +15,7 @@ public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
 # SO-LOCK: candidate signatures (design draft, NOT a KAM module, nothing frozen)
 
 Statements of "the Moon stays locked in synchronous rotation forever" (D42, D45, route (a′), L1),
-in the frozen physical model `soField` on `(q, p, φ)` (period-one units). The libration angle is
+in the landed physical model `soField` (approved for freezing in D40, not yet frozen) on `(q, p, φ)` (period-one units). The libration angle is
 `ψ = q − φ`. All proofs are `sorry`. Literals: from LOCK-GEN-1 numbers by the rules of design §1.4
 (provisional until the N = 65 certificate passes the kernel).
 -/
@@ -47,7 +47,7 @@ theorem lunarSyncOrbit_spec : IsSyncOrbit lunarSyncOrbit := sorry
 /-- Global uniqueness: every odd one-periodic synchronous orbit is ψ*. -/
 theorem lunarSyncOrbit_unique (ψ : ℝ → ℝ) (h : IsSyncOrbit ψ) : ψ = lunarSyncOrbit := sorry
 
-/-- Location of ψ* (forced libration ≈ 15.5″). Proved from rational majorants: the contraction
+/-- Location of ψ* (forced libration ≈ 15.5″). Intended proof route (not yet proved) from rational majorants: the contraction
 around 0 gives `|ψ*| ≤ η/(32 − L)`, `|ψ*′| ≤ (η + L|ψ*|)/4` with `η ≤ 4πεΣ_{m≠2}|A_m|`,
 `L ≤ 16π²εΣ|A_m|` (design §2.1, §1.4). -/
 theorem lunarSyncOrbit_bound (φ : ℝ) :
@@ -274,13 +274,15 @@ theorem lockToRotC_ofReal {Ω : ℚ} (hΩ : 0 < Ω) (cs : List ℚ) (z : (Fin 2 
 writes it after LOCK-SQRT). -/
 def lockHamExpr (Ω : ℚ) (cs : List ℚ) : KAM.Certificate.HamExpr 2 := sorry
 
-/-- Eval identity, everywhere (total `sqrtE`). -/
+/-- Eval identity, for all `Ω` and all `z`: purely algebraic (total `sqrtE`, no `sqrtE² = z` used).
+It carries no analyticity claim; analyticity needs `0 < Ω` and the certified region. -/
 theorem lockHamExpr_eval (Ω : ℚ) (cs : List ℚ) (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
     (lockHamExpr Ω cs).eval z = soRotHC (lockToRotC Ω cs z) := sorry
 
-/-- Clock: `∂_{J̃} K ≡ 1` on the certified region. -/
-theorem lockHamExpr_clock (Ω : ℚ) (cs : List ℚ) (z : (Fin 2 → ℂ) × (Fin 2 → ℂ))
-    (hz : 0 < (z.2 0).re) :
+/-- Clock: `∂_{J̃} K ≡ 1` on the certified region. Needs `0 < Ω`: for `Ω < 0` both sqrt operands lie
+on the cut at real `I > 0` and `eval` is discontinuous there (audit 2, finding 2). -/
+theorem lockHamExpr_clock (Ω : ℚ) (hΩ : 0 < Ω) (cs : List ℚ)
+    (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) (hz : 0 < (z.2 0).re) :
     fderiv ℂ (lockHamExpr Ω cs).eval z (KAM.Certificate.phaseBasis (.inr 1)) = 1 := sorry
 
 /-! ## 7. Certificate → barrier → headline (LOCK-GRAPH, LOCK-ASSEMBLY) -/

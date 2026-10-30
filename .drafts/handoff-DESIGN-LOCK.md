@@ -1,4 +1,14 @@
-# Handoff DESIGN-LOCK, revision 2 (after design audit 1 FAIL), 2026-10-30
+# Handoff DESIGN-LOCK, revision 3 (after design audit 2 FAIL), 2026-10-30
+
+**Rev 3 (audit 2):** (1) the landed unfrozen helper `HamExpr.nonvanishingOn_of_inv_good` is the one documented
+statement change (sub-orchestrator ruling, owner review Q8): replaced by `HamExpr.nonvanishingOn_of_program_good`
+(+ `SlpSqrtGood n D ops`, defined exactly; `Slp.sqrtGood_of_balls`, `sqrtGood_of_ballsTrig`); consumers
+`nonvanishingOn_of_balls`, `nonvanishingOn_of_ballsTrig`, `checkHamBounds_sound`, `ham_structural` keep statements.
+(2) `lockHamExpr_clock` gains `hΩ : 0 < Ω`; `lockHamExpr_eval` re-audited (algebraic, all Ω, z). (3) proof-status
+wording = intended route; rounding rules in decimal places; §4.6 rewritten as required deltas; unscaled
+frequency noted in §3. Response table design §10. Sig-check 16:32 UTC: exit 0, 29 `sorry` warnings, nothing else.
+
+## Revision 2 (kept for the record)
 
 **Files (committed on inp-lockdesign):** `docs/tracks/SO/design/SO-LOCK-DESIGN.md` (rev 2; response table §9),
 `docs/tracks/SO/design/FREEZE-PROPOSAL-LOCK.md` (rev 2, Q1–Q7), `.drafts/design/SOLockSignatures.lean` (342 lines,
@@ -6,7 +16,7 @@ tracked draft). Audit report `SO-LOCK-design-audit-1.md` committed unedited. Not
 
 **Fixes:**
 - F1 (orchestrator's change adopted): `sqrtE` total real-preserving (0 on nonpositive reals, principal root
-  elsewhere). No landed statement changes; `exists_real_eval`/`eval_real` get one case each (`sqrtE_ofReal`);
+  elsewhere). No landed statement changes except the rev-3 helper exception; `exists_real_eval` gets one case (`sqrtE_ofReal`);
   domain safety via ball check r < s² + `SlpSqrtGood` (analogue of `SlpInvGood`) + new `NonvanishingOn` arm.
   13 landed files get match cases (inventory with line counts, design §4.6).
 - F2: `SqrtWitness` with positive anchor s, margin 0 ≤ d < s, error ε/(s−d); typed `sqrtWitnessRadius`,

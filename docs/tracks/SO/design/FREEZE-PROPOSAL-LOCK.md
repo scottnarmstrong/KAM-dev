@@ -1,7 +1,7 @@
 # Track SO: freeze proposal LOCK, the Moon stays locked forever (for owner review)
 
 **Status: PROPOSAL ONLY. Nothing is frozen.** No file under `KAM/Frozen/`, `manifest/` or `KAM/Provider/` is created
-or changed. Revision 2 (after design audit 1, see design §9). Prepared 2026-10-30 by DESIGN-LOCK on `inp-lockdesign`. Design: [`SO-LOCK-DESIGN.md`](SO-LOCK-DESIGN.md).
+or changed. Revision 3 (after design audits 1 and 2, see design §§9–10). Prepared 2026-10-30 by DESIGN-LOCK on `inp-lockdesign`. Design: [`SO-LOCK-DESIGN.md`](SO-LOCK-DESIGN.md).
 Elaborated text: `.drafts/design/SOLockSignatures.lean` (only `sorry` warnings). Header, directory
 (`KAM/Frozen/SpinOrbit/{Defs,Theorems}/`), namespace and manifest shape as in [`FREEZE-PROPOSAL-2.md`](../FREEZE-PROPOSAL-2.md).
 
@@ -10,7 +10,8 @@ Elaborated text: `.drafts/design/SOLockSignatures.lean` (only `sorry` warnings).
    of the already-approved SO definitions (`soField`, `soV`, …; D40).
 2. Freeze **four theorems**: `lunarSyncOrbit_spec`, `lunarSyncOrbit_unique` (these make the name ψ* canonical),
    `lunarSyncOrbit_bound` (location of ψ*), and the headline `lunar_sync_lock`.
-3. Literals: `17/10⁶`, `27/200000` are proved from rational majorants (design §1.4, no data). `8/65`, `129/10000`,
+3. Literals: `17/10⁶`, `27/200000` are the targets of the intended (not yet proved) contraction route with exact rational
+   majorants (design §1.4, no data; the rational inequalities were checked by audit 2). `8/65`, `129/10000`,
    `21/100`, `26/1000` come from LOCK-GEN-1 (P ∈ [0.013238, 0.016258]) by the rules of design §1.4 and are
    **provisional** until the N = 65 certificate passes the kernel (as D40 did for the band).
 4. Nothing about the certifier, polar coordinates, Ω-annulus, Fourier data or `HamExpr.sqrt` appears in any frozen text.
@@ -71,3 +72,6 @@ is on ψ*; the tube is an ellipse in (ψ, p)) moves for all time within 0.21 tur
 - **Q6** Literal rules of design §1.4, fixed from the final kernel-passed data? **Approve rules now.**
 - **Q7** Keep the rational LOCK-GEN centre c for the coordinates (not in any frozen text) while the headline is
   stated around ψ*? **Yes** (transfer costs 0.6 % of √I).
+- **Q8** (sub-orchestrator ruling, overnight) Accept replacing the unfrozen landed helper
+  `HamExpr.nonvanishingOn_of_inv_good` by `HamExpr.nonvanishingOn_of_program_good` (extra `SlpSqrtGood` premise),
+  the one landed statement change of LOCK-SQRT (design §4.2)? **Yes.**
