@@ -152,7 +152,8 @@ STATEMENT_TRACKS = [('kam', 'Track K: positive-measure KAM'),
                     ('iso', 'Track I: isoenergetic KAM, confinement, restricted three-body problem'),
                     ('nekhoroshev', 'Track N: Nekhoroshev stability'),
                     ('planetary', 'Track P: planetary systems'),
-                    ('russmann', "Track R: Rüssmann's KAM theorem (weak non-degeneracy)")]
+                    ('russmann', "Track R: Rüssmann's KAM theorem (weak non-degeneracy)"),
+                    ('wave', 'Track W: PDE KAM (cubic wave equation)')]
 
 
 def frozen_doc(path, short):
@@ -265,7 +266,7 @@ def section_glance(rows):
     ndefs = sum(1 for a in manifest['anchors'] if a['kind'] == 'definition')
     drafts = [r[5] for r in rows if r[4] != 'sealed']
     out = [f'*Generated {NOW} from `main` at `{head}` by `scripts/hq-status.py`.*', '',
-           f'**Current phase:** {campaign["current_phase"]}', ''] + so_glance() + ['',
+           f'**Current phase:** {campaign["current_phase"]}', ''] + so_glance() + w_glance() + ['',
            f'**Frozen statements proved: {sealed} / {len(rows)}** · frozen definitions: {ndefs}', '',
            f'**Lean on `main`:** {n} modules · {lines:,} lines · {thms:,} theorems · '
            f'`sorry` outside frozen anchors: {len(bad_sorry)} files · `axiom` declarations: {len(bad_axiom)}', '',
@@ -435,6 +436,8 @@ TRACKS = [
     ('N', 'nekhoroshev', 'Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n)'),
     ('P', 'planetary', 'Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun'),
     ('R', 'russmann', "Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space"),
+    ('W', 'wave', 'PDE KAM: two-frequency quasi-periodic solutions of the cubic wave equation '
+                  'u_tt = u_xx − m u − u³ on [0, π], every m > 0 (Pöschel 1996)'),
     ('SO-1', 'so', 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
     ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38)'),
 ]
@@ -492,6 +495,36 @@ def completion(rows):
     total = sum(g[0] for g in groups.values())
     done = sum(g[1] for g in groups.values())
     return 100 * done / total, groups, total, done
+
+
+W_MILESTONES = ['W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8']
+
+
+def w_progress():
+    """Track W, derived from repository state only: (percent, parts) with parts = (statements frozen, blueprint
+    milestones written, graph published, (resolved, total) graph nodes, nlw2 sealed). Weights: statements 1,
+    blueprint 3, graph 1, proofs 10, seal 0.5."""
+    frozen = (root / 'KAM/Frozen/Wave/Theorems/Nlw2.lean').exists()
+    parts = root / 'blueprint-W' / 'parts'
+    written = [m for m in W_MILESTONES if parts.exists() and list(parts.glob(m.lower() + '-*.tex'))]
+    g = graph_counts('W')
+    nlw2 = next((a for a in manifest['anchors'] if a['id'] == 'wave.nlw2.v1'), None)
+    sealed = bool(nlw2 and nlw2['state'] == 'SEALED')
+    proof = g[0] / g[1] if g and g[1] else 0.0
+    score = 1 * frozen + 3 * len(written) / len(W_MILESTONES) + 1 * bool(g) + 10 * proof + 0.5 * sealed
+    return 100 * score / 15.5, (frozen, written, g, sealed)
+
+
+def w_glance():
+    pct, (frozen, written, g, sealed) = w_progress()
+    n, lines, thms = lean_stats([root / 'KAM' / 'Wave'])
+    stmt = ('frozen (12 anchors; `nlw2` sealed)' if sealed else 'frozen (12 anchors; `nlw2` draft until proved)'
+            if frozen else 'approved (D41), freeze in progress')
+    gtxt = f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else 'not published yet'
+    return ['', f'**Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation '
+            f'u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **{pct:.0f} %**',
+            f'- Statements: {stmt} · blueprint milestones written: {len(written)} / {len(W_MILESTONES)} '
+            f'({", ".join(written) or "none"}) · proof graph: {gtxt} · `KAM/Wave`: {n} modules, {lines:,} lines']
 
 
 def completion_split(rows):
@@ -644,7 +677,8 @@ def section_updated(rows, est):
     sealed = sum(1 for r in rows if r[4] == 'sealed')
     total = loc(LIB)[0]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
-            f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} %** · '
+            f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} % · '
+            f'track W {w_progress()[0]:.0f} %** · '
             f'frozen statements proved: {sealed} / {len(rows)} · '
             f'**{total:,} lines of Lean** of an estimated ≈ {round(est, -3):,.0f}')
 
@@ -653,10 +687,13 @@ def section_progress(rows):
     pct, groups, total, done = completion(rows)
     orig, so1, so2, _ = completion_split(rows)
     out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
-           f'SO Moon **{so2:.0f} %**', '',
+           f'SO Moon **{so2:.0f} %** · track W **{w_progress()[0]:.0f} %**', '',
            f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
            f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
            f"Track SO, part 2, the Moon's spin rate (its first client): `{bar(so2)}` {so2:.1f} %", '',
+           f'Track W, PDE KAM for the cubic wave equation: `{bar(w_progress()[0])}` {w_progress()[0]:.1f} % '
+           '(statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; '
+           'all read from the repository)', '',
            f'Overall, everything together: {pct:.1f} %', '',
            '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
     for name, (wt, dn, n) in groups.items():

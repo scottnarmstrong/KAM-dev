@@ -159,7 +159,8 @@
   "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29); every graph node resolved (one convention accepted under D31, three blueprint steps repaired under D32)",
   "P": "**complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31)",
   "SO-1": "every engine module and the certificate checker landed; the soundness theorem (a passing certificate yields an invariant torus, through the sealed isoenergetic theorem) proved 2026-10-29 21:40, in independent audit; toy certificates next",
-  "SO-2": "sharp certifier (D36) with barriers at N = 65, band about 2.71 % (D38): general-N Diophantine lemmas, sharp barrier and band-parametric assembly landed; N = 65 parameter package and data sizing (SO-GEN3) and a kernel-reducible data emitter (SO-EMITFIX) in progress; final data and kernel passes next"
+  "SO-2": "sharp certifier (D36) with barriers at N = 65, band about 2.71 % (D38): general-N Diophantine lemmas, sharp barrier and band-parametric assembly landed; N = 65 parameter package and data sizing (SO-GEN3) and a kernel-reducible data emitter (SO-EMITFIX) in progress; final data and kernel passes next",
+  "W": "statements owner-approved (D41), freeze in identity audit; blueprint milestones W1–W8 being written by the track W sub-orchestrator; then the dependency graph and the proof campaign"
  },
  "so": {
   "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within about 2.7 % of its orbital rate (N = 65, D38; the earlier milestone was 3.3 %) for all time.",
