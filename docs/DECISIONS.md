@@ -302,3 +302,55 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     stretch); floor 2.62 % (separatrix), per docs/explorations/lunar-band-2p8-2p9.md. SO-GEN3 computes the tori, a new
     parameter package for the sharp constants, the data sizes and the certified band; the R1 lunar data
     (87 digits, 3.3 %) are superseded. The frozen statements (freeze proposal) will use the new band.
+- **D38 (2026-10-30, 12:12) Lunar barriers at N = 65 (band about 2.71 %).** *(Scott: "Why don't we aim for N=65 and see
+  how good we can get (we just adjust if we cannot hit this, I suppose)?"; the next certifier version keeps the
+  certificate format and is expected within 1–2 hours.)*
+  - Barriers at ν± = 1 ± 1/(65+g), g = (√5−1)/2: SO-GEN3's interim study gives a band of 2.713 % (floor 2.62 %),
+    about 40 digits and 1–2k terms per torus under the sharp certifier. Fallbacks N = 60 (2.76 %), 55 (2.82 %).
+  - Proceed now with the work independent of the certifier's strength (Diophantine lemmas, sharp barrier and
+    assembly variants with the band as a parameter, data-emitter reducibility fixes, the full SO-GEN3 study at N = 65);
+    the final data generation and kernel passes wait for the next certifier version (same format).
+- **D39 (2026-10-30, 13:18) Kernel depth and ball arithmetic: fix the checker.** *(Scott: "(a) Fix the checker",
+  answering SO-EMITFIX's two findings.)*
+  - Finding 1: the kernel's reduction depth is bounded (default maxRecDepth 512), and the checker's non-tail-recursive
+    traversals of CertPoly term lists (foldr/map/sums; the lazy kernel also turns foldl accumulators into deep thunks)
+    fail beyond about 2,000-3,000 terms; the lunar polynomials are longer. Finding 2: `Slp.balls` evaluates the
+    Hamiltonian's balls in exact ℚ, whose sizes roughly double per multiplication over the 887-op program
+    (checkHamBounds above 10 GB at every expOrder tried).
+  - Ruling: change the checker's implementation, as in D34: balanced (log-depth) traversals of term lists in the
+    model, polynomial and sub-check code, and outward dyadic rounding of the slot balls in `Slp.balls` (with the
+    shared operand bound once and the accumulator built without quadratic copying); every signed statement and the
+    certificate format unchanged; the soundness lemmas re-proved and independently audited. Rejected: raising
+    maxRecDepth for data checks (AGENTS.md rule 4 stays).
+- **D40 (2026-10-30, 13:31) Track SO freeze plan: freeze proposal 2 approved.** *(Scott: "Approve all recommendations",
+  on docs/tracks/SO/FREEZE-PROPOSAL-2.md, questions Q1-Q11.)*
+  - Freeze three theorems (`lunar_spin_confinement`, `lunar_barriers`, `lunarPLo_lt_lunarPHi`) and the ten
+    definitions of the proposal (`soEcc`, `soEps`, `soCoeffPoly`, `soA`, `soModes`, `soV`, `soField`,
+    `SoBarrier` with the invariance written out, `lunarPLo`, `lunarPHi`); the statements mention only the ODE and
+    literals.
+  - Literals by the proposal's rules: the band δ by rule B from the final certified data (interim 2.714 %), the window
+    by rule W (interim 9933/10000 … 10067/10000), written as fractions (precedent 33/1000).
+  - Timing: freeze only after the final N = 65 certificates pass the kernel; the literals computed by the rules are
+    recorded with the freeze. A fallback to N = 60 or 55 changes only the literals, which the owner re-approves.
+  - Not frozen now: either certifier's soundness theorem (Q4). Before the freeze the landed `SoBarrier` switches to
+    the frozen structure (Q11). Narrower window accepted (Q10, D-SOF-4).
+- **D41 (2026-10-30, 14:35) Track W statements approved: freeze W-NLW2 and its eleven definitions.** *(Scott: "I approve
+  the KAM for a PDE statements".)*
+  - Approved text: the twelve declarations of docs/tracks/W/W-STATEMENTS.md, revision 1 (commit ffcbdb93; statement
+    audit 2 PASS WITH NOTES): `lam`, `sineMode`, `ellWeight`, `WaveSpace`, `coeff`, `reconU`, `reconV`,
+    `cubicGrad`, `linearTorus`, `IsAnalyticTorusEmbedding`, `IsClassicalSolution` and the theorem `nlw2`, with
+    the orchestrator rulings Q1–Q5 recorded there (weighted coordinates; positive carriers; total η; AnalyticOnNhd;
+    paths KAM/Frozen/Wave/{Defs,Theorems}, namespace KAM.Wave). `nlw2` is frozen with the manifest-bound body
+    `by sorry` (DRAFT_SORRY); definitions are frozen whole.
+  - Track W is run by its own sub-orchestrator (freeze, identity audit, blueprint W1–W8, dependency graph, proof
+    campaign), reporting to the main orchestrator; landings go through kam-inp.
+- **D42 (2026-10-30, 14:35) Next: the Moon locked in synchronous rotation (scoping).** *(Scott chose C with A: "Moon
+  locked forever".)* Scoping study for librational invariant tori around the synchronous periodic orbit (Celletti
+  1994), the route for the Lean statement (certified normal form or a G1 for non-graph tori), and a numerical
+  feasibility check; no statement is frozen without owner approval of its exact Lean text.
+- **D43 (2026-10-30, 16:00) The generated root is split into parts.** *(Scott: option (b) of "exempt the root from
+  the 1500-line rule / split it / leave it".)* `scripts/gen_root_imports.py` writes `KAM.lean`, which imports one
+  generated part `KAM.Root.<Area>` per top-level area (an area with more than 1000 modules is split further by
+  its next name component), so no generated file reaches the 1500-line cap (the root was 1489 lines). The parts
+  count as the root for the provider and DRAFT_SORRY rules; no module other than `KAM.lean` may import a part
+  (lint). `hq-update.sh` and `land-branch.sh` regenerate and stage `KAM.lean` and `KAM/Root/` together.

@@ -1224,3 +1224,155 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   R1 upper-torus data; a self-matching `pgrep -f` wait loop of it was killed by PID. Running: SO-PACKFIX round-2
   audit (codex-3), SO-GEN3 (interim answer on sub-2.9 % requested first). Quotas: claude-3 93 %, claude-6 89 %,
   claude-12 89 %, claude-4 66 %; claude-7 and five others at 0 %.
+- **11:53. SO-PACKFIX passed audit 2 (sent to land after the main sync); SO-DATA-2 round 2 stopped with two lessons.**
+  SO-PACKFIX round 2: F1 resolved, package PASS WITH NOTES; branch inp-sopackfixl at 409ae7bb queued with kam-inp
+  behind its main-into-inp merge. SO-DATA-2 round 2 (stopped for D36; branch inp-sodata2b, committed: the Cert
+  emitter, LunarConsts, the lower Cert module, probes; the upper torus emitted but not built or committed). On the
+  old R1 data with the fixed packing: checkStatic, checkSmallness pass in seconds; checkHamBounds alone OOMs at 10 GB
+  (the ball pass of the 887-op jet at expOrder 30 and 320 bits); checkEmbedding and checkSoGraph get STUCK in the
+  kernel on an Int decidability match over the emitted rational data (e.g. `match 0 - (disp.num + 1)`), a data-format
+  issue the toys do not show. Both are carried into the brief of the next data package (sharp certifier, smaller
+  data): measure checkHamBounds early, and emit rationals in a kernel-reducible form (test every sub-check's
+  reduction on a small prefix first).
+- **12:15. D38 (N = 65) recorded; three certifier-independent packages started.** inp has the sharp certifier and
+  SO-PACKFIX (inp 680e9f21, main 16179907; kam-inp now reachable as kam-inp-63 after its rotation to claude-3;
+  Toy2d's kernel tests dropped from 342 s to 76 s with the new packing). SO-GEN3 refocused on N = 65 (re-enclosed
+  majorants, R2, measured truncation; no final data until the next certifier version, same format, expected
+  within 1-2 h). Started: SO-DION (claude-12; ν±(N) = 1 ± 1/(N+g) and their Diophantine lemmas for general N, N = 65,
+  60, 55 instances), SO-SHARPLINK (claude-6; barrier and lunar assembly through checkTorusCertificateSharp, with the
+  band, frequencies and parameters as hypotheses), SO-EMITFIX (claude-12; why checkEmbedding / checkSoGraph get stuck
+  in the kernel on the emitted rationals, the emitter fix, and checkHamBounds's memory). Disk 15 GB free.
+- **12:18. Heartbeat.** Four provers busy (SO-GEN3, SO-DION, SO-SHARPLINK, SO-EMITFIX); no limits hit. Quotas: claude-3 90 %, claude-12 88 %, claude-6 85 %, claude-4 64 %; Codex is getting low (codex-3 33 %, codex-4 29 %), so audits will be kept to the essential ones and split between the two.
+- **12:29. SO-DION done; in audit.** General-N lunar frequencies ν±(N) = 1 ± 1/(N+g) with closed forms, minimal
+  polynomials and the Diophantine bound γ(N) = 2/(N+2) for N ≥ 8 (rotated frame 1/(N+2); lunarRotFreq κ/(N+2): κ/67
+  at N = 65), instances at 65/60/55, N = 40 sanity re-derivations; new modules QuadraticDiophantineN (456 lines),
+  RotFreqN (124); standard axioms. SO-GEN3 told to use γ = κ/67 (it had assumed κ/66). Audit on codex-3: codex-4's
+  Codex login has EXPIRED (device sign-in prompt), so codex-4 is unusable until the owner signs in again
+  (`codex-4` then the device code); codex-3 (33 %) carries the audits.
+- **12:37. SO-DION passed audit (sent to land); SO-SHARPLINK done, in audit.** SO-DION audit 1: PASS WITH NOTES (stale
+  root only). SO-SHARPLINK: `soRotBarrier_of_certified` (CertifiedTorus + checkStatic + checkSoGraph + Diophantine →
+  barrier) with the old and sharp barrier theorems as one-liners over it; `lunar_barriers_of_sharp` and
+  `lunar_spin_confinement_of_band` take the band, frequencies, parameter package and Diophantine constants as
+  hypotheses (data conclusions, SO-DION-shaped facts, kernel-decidable inequalities), so the N = 65 final theorems
+  will be one-liners; the landed 3.3 % theorems re-derived as a sanity check; no landed statement changed. Audit on
+  codex-3.
+- **12:48. Heartbeat.** Landed: SO-DION (d879ee54), SO-SHARPLINK (5fc446e1). Every Lean piece for the N = 65 result except the certificate data is now on main. Running: SO-GEN3 (N = 65 package and sizing), SO-EMITFIX (kernel-reducible data). The next certifier version is not on origin yet; the final data and kernel passes wait for it. Disk 17 GB free.
+- **13:16. Owner: implement every remaining SO step while the next certifier version is built.** Since the format is
+  unchanged and the new version only sharpens the threshold, data generated now for the current sharp certifier stay
+  valid; final data generation starts as soon as SO-GEN3's parameter package and SO-EMITFIX's emitter fix are in
+  (re-sized if the new version cuts digits materially). Started: SO-FREEZE-PREP2 (claude-6; the freeze proposal
+  revised for the sharp route at N = 65, for owner approval; nothing frozen). Running: SO-GEN3 (N = 65 full study +
+  the N = 80/100 sweep), SO-EMITFIX. Queued: SO-R2 (the parameter package in Lean), SO-DATA3 (data, kernel passes,
+  final theorems), then freeze, seal, README main theorem and the SO scrub of the new modules. HQ inputs updated to the
+  N = 65 route (SO Moon 68 %: the new route's remaining packages now listed).
+- **13:20. SO-EMITFIX: the checker must change (D39); SO-KDEPTH and SO-BALLDY started.** Root cause of the "stuck"
+  kernel checks: `(kernel) deep recursion detected`. The checker's term-list traversals are O(length) deep in the
+  lazy kernel and fail past about 2,000-3,000 terms (reproduced on a synthetic list). The "stuck at match 0 - ..."
+  text was the elaborator's misleading fallback diagnosis: the rationals reduce fine. checkHamBounds: exact-ℚ ball
+  sizes double per multiplication over the 887-op program (OOM at expOrder 30, 12 and 6 alike). Owner ruling D39:
+  fix the checker (log-depth traversals; dyadic outward rounding of the slot balls), signed statements and format
+  unchanged; no maxRecDepth. Started: SO-KDEPTH (claude-12; inventory and balanced replacements with `_eq` lemmas;
+  acceptance: checkEmbedding and checkSoGraph reduce on the R1 lower torus) and SO-BALLDY (claude-4; Expr/Ball.lean;
+  acceptance: checkHamBounds under 10 GB). Both measure on the R1 data (not landing) and land by cherry-pick.
+  Worktree soemitfix removed (disk 13 GB free).
+- **13:21. Heartbeat.** Four provers busy (SO-GEN3, SO-FREEZE-PREP2, SO-KDEPTH, SO-BALLDY); no limits. Codex is the scarce resource: codex-3 25 % weekly, codex-4 needs a new sign-in (owner), codex-2 low. If Codex runs out, audits fall back to fresh independent Claude Opus auditor sessions (logged as a deviation from the GPT-6.1-Sol auditor convention). No new certifier version on origin yet.
+- **13:40. Beyond N = 65: studied, deferred (owner: "let's finish N=65").** SO-GEN3 interim 2: N = 80 and 100 converge
+  (bands 2.652 % and 2.630 %, floor 2.62 %), but the Gram inverse grows fast near the separatrix (‖G⁻¹‖ 5.4 → 12.1 →
+  40.5 for N = 65, 80, 100) and the sharp constants carry high powers of σB, so the threshold falls 4 orders from
+  N = 65 to 80 and 10 to 100 (digits 40 → ~44 → ~50), while the covered initial window shrinks (±0.68 % → ±0.37 %
+  → ±0.16 %); N ≥ 80 also needs a finer grid stage. Decision: finish N = 65 (D38); N = 80 is an optional stretch
+  after it, to be re-priced against the next certifier version (its dependence on σB decides the cost).
+- **13:49. Heartbeat.** SO-GEN3 finishing N = 65; SO-KDEPTH working; SO-BALLDY running its kernel probes (under the shared lock) and the tests (through the gate). main fast-forwarded to 49a5760b (an errata verification of the side campaign; no new certifier yet). Quotas fine (claude-12 87 %, claude-4 63 %).
+- **14:05. SO-GEN3 done: N = 65 passes the mirror; package R2; SO-R2 started.** Both N = 65 tori pass the fixed-point
+  mirror of the landed checker at CertFixed 160 (all seven unchanged sub-checks of the sharp certifier, sharpTest,
+  checkSoGraph). Certified band 2.755 % (graph bands [0.97245, 0.99353] and [1.00648, 1.02754]; the numerical tori
+  reach 2.713 %; tightening the SOS slack from 3e-4 to 3e-5 should certify about 2.72 %). R2: c = 2, ρ = 1/140,
+  M = 54/25, σK = 1873/1000, σB = 2689/500, σT = 13/25, μ = 1/160, γ = κ/67; threshold 10^-31.83; err 6.8e-35 /
+  8.17e-35; 40 digits, 160 bits; about 1,170 v half-terms and 2,330 E terms, 129 packed products and about 1,230
+  shards per torus; projected 3-5 CPU-h of kernel per torus (the measured majorants moved the threshold about 6 orders
+  from the interim). Four things the landed checker would have rejected are fixed in the tooling (torsion cutoff 160,
+  packed budget 1e-36, Gram-witness parity, and only the sharp test accepts R2). Sent to land (Python/data). Started
+  SO-R2 (claude-6): LunarParamsR2.lean with kernel pre-checks of the sharp test, and a backend-generic sharp
+  assembly (the landed one is pinned to CertFixed 320). SO-KDEPTH and SO-BALLDY told to classify every change as
+  value-preserving or value-changing (the mirror must follow any new rounding order).
+- **14:13. SO-R2 done; in audit.** KAM/SpinOrbit/LunarParamsR2.lean: package R2 exactly as SO-GEN3's; kernel
+  pre-checks: the sharp test passes at the budgets and its threshold is 1.488e-32 (10^-31.83; passes at 1.48e-32,
+  fails at 1.49e-32), static core, the N = 65 frequency boxes enclose lunarRotFreq ν±(65) κ, ray margins, γ ≤ κ/67.
+  KAM/SpinOrbit/LunarAssemblySharpGen.lean: the sharp assembly for any lawful backend, and `lunar_barriers_of_R2`
+  at CertFixed 160 with the Diophantine facts discharged, so only data conclusions and five rational band
+  inequalities remain. Note for the data: the upper torus's disp margin is 1.6e-4 relative, so disp must never be
+  rounded down. Audit on codex-3. Stalled leftover SO-GEN3 job stopped by PID after archiving its N = 65 torus data to
+  /mnt/HC_Volume_106379410/kam-data/so-gen3/g3 (79 MB, SHA-256 list); sogen3 swept (disk 13 GB free).
+- **14:18. Heartbeat.** SO-R2 passed audit 1 (PASS WITH NOTES) and is landing. SO-KDEPTH working; SO-BALLDY running five memory-breakdown probes. SO-DATA3's brief is written (mirror alignment, generation at R2 with tightened SOS slack, emission, capped kernel passes, final theorems; nothing frozen) and starts when the two checker fixes land. Codex-3 at 19 % weekly (the remaining audits: SO-KDEPTH, SO-BALLDY, SO-DATA3).
+- **14:36. Owner: track W statements approved (D41); next spin–orbit result scoped (D42).** Track W gets its own
+  sub-orchestrator (tmux kam-suborch-w, claude-6, Opus; brief .drafts/briefs/suborch-W.md): Phase 1 freezes the twelve
+  approved declarations of W-STATEMENTS.md rev 1 (eleven definitions and `nlw2` as DRAFT_SORRY) with an independent
+  identity audit, then blueprint parts W1-W8, the dependency graph and the proof campaign; landings through kam-inp.
+  SO-LOCK-SCOPE started (claude-12; Python and docs): the Moon locked in synchronous rotation (librational tori,
+  Celletti 1994), statement candidates, Lean route (certified normal form vs a G1 for non-graph tori), numerical
+  feasibility under the sharp certifier, literature check. SO remains: SO-KDEPTH, SO-BALLDY, then SO-DATA3.
+- **14:44. Track W freeze built (kam-d4), identity audit running.** Branch inp-wfreeze (d7aae35d): twelve
+  one-declaration modules under KAM/Frozen/Wave/ (eleven definitions, Theorems/Nlw2 with DRAFT_SORRY and provider stub
+  KAM/Provider/Wave/Nlw2.lean), manifest +12 (158 anchors), KAM.lean regenerated; build, frozen guard, ABI (158),
+  lint pass. Deviations, for the owner: D-WF1 (confirmed) one space replaced by a newline inside three approved
+  docstrings for the 100-column lint (whitespace only, ABI unchanged; precedent AmdConfinement); D-WF2 (requested
+  before landing) two docstring fixes: reconV's docstring names p not q, and nlw2's docstring drops "(proposed)"
+  (docstring only, ABI unchanged); the identity audit is extended to confirm these are the only differences. Tool
+  bug noted: kam_manifest_add_track.py's closure regex skips KAM.Frozen.Defs.* imports (fixed copy in
+  docs/tracks/W/freeze/add_track.py).
+- **14:48. Heartbeat.** Running: SO-KDEPTH, SO-BALLDY (rebuild and probes), SO-LOCK-SCOPE; the track W sub-orchestrator has the freeze in identity audit and blueprint writers (e.g. part W3) as subagents; kam-inp idle. Quotas: claude-3 87 %, claude-12 86 %, claude-6 78 %, claude-4 61 %, codex-3 19 %. Disk 13 GB free.
+- **15:04. Track W freeze: identity audit PASS WITH NOTES; with kam-inp to land.** docs/tracks/W/audits/W-FREEZE-identity-audit.md:
+  the twelve frozen declarations equal the D41-approved blocks (ffcbdb93) character by character except D-WF1 (three
+  whitespace rewraps) and D-WF2 (reconV docstring p, nlw2 docstring without "(proposed)"), all docstring-only; probes
+  match; manifest hashes recomputed independently; the 146 existing anchors unchanged. OWNER ACKNOWLEDGEMENT REQUESTED
+  for D-WF2 (frozen bytes differ from the approved bytes in two docstrings; ledger D-W-FREEZE-2). F5: ABI equality
+  depends on the frozen import sets (a larger import set can pick another NormedSpace ℝ instance path in
+  IsAnalyticTorusEmbedding); the import sets match the drafts. Phase 2: blueprint parts W1 and W3 being written. HQ:
+  track W and track SO part 3 now rows of the 'Part of the project' table (weights 64 and 16; derived).
+- **15:18. SO-BALLDY in audit; track W freeze on main; Codex nearly exhausted.** SO-BALLDY's checker commit was
+  cherry-picked onto inp as landing branch inp-soballdy-oninp (diff vs inp: Expr/Ball.lean and the new
+  Expr/BallRound.lean); the gate build of BallRound, Ball, Sound.Ham, Tests.Toy2d and CertificateSharp.Sound is clean;
+  audit request bd736e97, auditor inp-maud-soballdyl on codex-3. kam-inp landed the track W freeze at 762a7e3d (158
+  anchors; `nlw2` the one draft); acknowledged to kam-d4, HQ stage texts of SO-1, SO-2 and W refreshed. Disk 11 GB free
+  after the sweep (the three large worktrees are live SO work; soballdy goes when BALLDY lands). Codex: codex-3 at 11 %
+  weekly is the only working login (codex-1 0 %, codex-2 3 %, codex-4 signed out, codex-5 check failing). **Owner
+  ruling (15:20): audits stay on codex-3**; no fallback to Claude auditor sessions.
+- **15:36. Heartbeat: SO-BALLDY audit PASS WITH NOTES, landing; SO-DATA3 staged.** Audit 1
+  (docs/tracks/SO/audits/SO-BALLDY-audit-1.md, codex-3): sound; the only literal-header difference is that
+  `ballStep`/`ballsAux` now name their binders (same types, checked against the old headers; accepted). Its two
+  documentation notes are fixed in c353a4e6 (comment-only; SO-LEAN-DESIGN amendment for `ballExp`); sent to kam-inp
+  to land. Track W: kam-d4 moved the W1/W3 blueprint audits to codex-3 (inp-maud-w1/-w3) per the owner's ruling; the
+  W2 writer is running. SO-LOCK-SCOPE: three self-matching `pgrep -f` waiters killed by PID (the amplitude scan had
+  timed out at a = 1.30); worker told to wait on PIDs. SO-KDEPTH: depth fix confirmed on a 20k-term control; chasing
+  a remaining real-data memory cost. SO-DATA3 brief staged: steps 1–3 (mirror alignment to BALLDY, generation,
+  emission) start once BALLDY lands, and the kernel passes wait for KDEPTH. Codex-3 at 10 % weekly with five audits
+  queued (W1, W3, KDEPTH, DATA3, seal): **owner, a codex-4 sign-in would add 29 %.**
+- **15:58. SO-BALLDY landed (a40b1224). v2 certifier on main: SO-DATA3 re-staged. SO-LOCK-SCOPE delivered.**
+  - The owner's sharp-v2 landing (86089b36) brings `checkTorusCertificateV2` (KAM/CertificateSharp/V2/Engine.lean).
+    It has the same certificate format and base sub-checks, an engine smallness test with a witness, and the same
+    `CertifiedTorus` conclusion. On R1, route A as proved reaches 10^−11.18, against v1 sharp's 10^−24.72.
+  - New study **SO-V2PKG** (Opus, claude-3; worktree KAM-inp-sov2pkg off main) prices the N = 65 data under v2:
+    thresholds at R2 branch by branch, the cheapest truncation and precision, cost, the Lean glue (a v2 analogue of
+    `lunar_barriers_of_R2`), and a sketch for N = 80/100.
+  - **SO-DATA3** started (Opus, claude-12; worktree KAM-inp-sodata3 off inp 70ec715b). Step 1, mirror alignment to
+    BALLDY, holds for either certifier. Generation waits for SO-V2PKG's recommendation; kernel passes wait for
+    SO-KDEPTH.
+  - kam-inp asked to merge main into inp (sharp-v2 is not yet in inp) and to land the SO-LOCK-SCOPE study.
+  - **SO-LOCK-SCOPE** (docs/tracks/SO/studies/SO-LOCK-SCOPE.md) recommends route (a′):
+    - an exact symplectic change to polar coordinates around a rational centre c(φ), where the librational tori
+      are primary;
+    - the landed generic certifier, unchanged, with one new trusted primitive `HamExpr.sqrt`;
+    - **one** librational torus confines (solid-torus confinement through `gen_barrier`; no Jordan theorem);
+    - pilot N = 40 (28.5°, |p − 1| ≤ 1.26 %, about R2 cost), headline N = 65 (about 74°, |p − 1| ≤ 2.5 %);
+    - 2.1–3.5k lines of Lean;
+    - novelty: Celletti 1994 covered only ε ≤ ε_obs/5.26.
+  - **Owner questions** (recommended answers in brackets):
+    1. statement L1, single-torus confinement, or L2, a shell between two tori [L1];
+    2. centre an explicit rational c(φ), or a certified periodic orbit [rational c(φ)];
+    3. `HamExpr.sqrt`, or a new frozen G1 for non-primary tori [sqrt];
+    4. pilot N = 40 first, then N = 65 [yes];
+    5. skip Birkhoff normalization [skip];
+    6. novelty wording conditional on reading the 1994 papers in full [yes].
+  - Nothing of LOCK is started until the owner answers. Under v2, the lock thresholds (projected from v1 sharp) will
+    also improve.
+  - Disk 13 GB free (soballdy and soballdyl removed; branches kept).

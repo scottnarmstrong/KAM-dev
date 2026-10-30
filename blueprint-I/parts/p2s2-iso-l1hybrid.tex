@@ -1,0 +1,90 @@
+\sloppy
+\section{The $\ell^1$ entry step for the isoenergetic v2 theorem (I-G1$^{\sharp\sharp}$ with the entry)}\label{bpI:p2s2l1}
+
+This part is the isoenergetic delta of track K's part \texttt{p2s2-l1hybrid} (labels \Kref{bp:p2s2l1:*}): the first step of the isoenergetic
+scheme (route A: the bordered additive step of Part~\ref{bpI:p2s}; route B: the bordered modified step of Proposition~\ref{bpI:p2s2:step}) solves
+its two cohomological equations and takes its bordered averages from weighted-$\ell^1$ data of the initial torus, with
+$\Gamma_\infty(\omega,\delta)=\sup_{k\ne0}e^{-2\pi\delta\abs k_1}/(2\pi\abs{k\cdot\omega})$; everything else, and every later step, is the sup-norm scheme. The
+conclusion is the frozen body \Lean{IG1Body} ((O1)--(O6) of Theorem~\ref{bpI:p0:g1}). For R1 (\texttt{thresholds\_v2.py --l1}, measured $\ell^1$ data,
+heuristic until enclosed): route A from $10^{-11.37}$ to $10^{-10.60}$ (entry) and $10^{-10.32}$ (with the $\ell^1$ frame increment); route B from
+$10^{-12.39}$ to $10^{-12.31}$.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Data and the bordered entry}\label{bpI:p2s2l1:sec-step}
+
+\begin{assumption}[Isoenergetic entry data]\label{bpI:p2s2l1:data}
+The data \Kref{bp:p2s2l1:data} (L1)--(L5) for the initial torus $K$ at the initial frequency $\omega=s\omega^*$ (the $\Gamma_\infty$ certificates for $\omega^*$ serve
+the ray, \Kref{bp:p2s2l1:solve}(c), since $s\ge1$ on the ray of (I1)--(I13) after normalisation; otherwise certify at $\omega$), and the refined bound
+$y_0\ge\abs Y$ on $\R^n$, $Y=DH(K)N$ (\Kref{bp:p2s2:standing}, iso refined data). The energy error $E^\omega=\avg{H\circ K}-E_0$ is a number: its $\ell^1$ and sup
+bounds coincide.
+\end{assumption}
+
+\begin{lemma}[The bordered averages and the tangential datum in $\ell^1$]\label{bpI:p2s2l1:border}
+With $u=\mathcal R\eta^N$ and the bordered system of Lemma~\ref{bpI:p1:border-solve} (route A) or Proposition~\ref{bpI:p2s2:step} (route B):
+\begin{enumerate}[label=(\alph*)]
+\item the right side $(\avg{\eta^L}\pm\avg{Tu},\ \mp E^\omega+\avg{Yu})$ is bounded, in the bordered row-sum norm, by the larger of
+  $\abs{\avg{\eta^L}}+\min\{t,t_{\R}\}U_{\R}$ and $\abs{E^\omega}+y_0U_{\R}$, with $U_{\R}:=\min\{\bar c\,\varepsilon_N/(\gamma\rho^\varkappa),\ G_\rho\norm{\eta^N}_{1,\rho}\}$ the bound of $u$ on $\R^n$
+  (\Kref{bp:p2s2sd:avg}, \Kref{bp:p2s2l1:solve}(b));
+\item the tangential datum $g^L=\pm(\eta^L-T\xi^N-\omega\xi^\omega)$ has $\avg{g^L}=0$ and
+  $\norm{g^L}_{1,\rho-\delta_0}\le\norm{\eta^L}_{1,\rho}+t_1\norm{\xi^N}_{1,\rho-\delta_0}+\Theta\abs{\xi^\omega}$, with $\Theta=\sigma_\omega\abs{\omega^*}\ge\abs\omega$.
+\end{enumerate}
+\source{HL19 Lemma~6.1 (the bordered system); \Kref{bp:p2s2l1:toolkit}(b); ours.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Averages}\label{stepI:p2s2l1:av}
+Each average of a product with $u$ is bounded at real points by the sup of the other factor on $\R^n$ times the bound of $u$ there; take the smaller of
+the two bounds of $u$.
+
+\proofstep{The datum}\label{stepI:p2s2l1:gl}
+The first row of the bordered system gives the zero average; the constant $\omega\xi^\omega$ has $\ell^1$ norm $\abs\omega\abs{\xi^\omega}$
+(\Kref{bp:p2s2l1:toolkit}(b)).
+\end{proof}
+
+\begin{definition}[Isoenergetic entry constants]\label{bpI:p2s2l1:constants}
+Route A: the constants of \Kref{bp:p2s2l1:constA} with the isoenergetic constants of Definition~\ref{bpI:p2s:constants} (levers of \Kref{bp:p2s2:constantsA}):
+$C_S$ is the maximum of the two bordered rows, each with $c_{\mathrm{avg}}$ of \Kref{bp:p2s2l1:constA}; $C^1_{\xi L}:=c^\infty_0(t_1C^1_{\xi N}+a_L\sigma_{N^\top}g_0+\Theta C_S)$;
+$C^K_\Omega$ replaces $C_\Omega$ in the frequency terms $\Theta C_\Omega C_S$ (of $C_{\mathrm{lin}}$) and $\Theta C_\Omega$ (of $C_{E2}$), which bound the defect of $K$; and $C_{\xi L}$ replaces
+$c\,C_g$ in $C_{E2}$. Route B: \Kref{bp:p2s2l1:constB} with Definition~\ref{bpI:p2s2:constants}: $\Theta C_0$ inside the $\ell^1$ branch of $C_{\xi L}$, the
+cubic term of $\bar Q_N$ with the sup denominator $cC_{gL}$, the added condition $cC_{gL}X\le\vartheta_\xi$, and $C_\Omega$ (defect of $\tilde K$) in the
+terms $\Theta C_\Omega$ of $\bar Q_N$ and $Q_\omega$. Mirrors: \texttt{stageA(\dots, iso=True, l1=\dots)}, \texttt{stageB(\dots, iso=True, l1=\dots)}.
+\end{definition}
+
+\begin{proposition}[The isoenergetic entry step]\label{bpI:p2s2l1:step}
+Under the hypotheses of the isoenergetic step of the route (Proposition~\ref{bpI:p2s:step}, resp.\ Proposition~\ref{bpI:p2s2:step}) at stage $0$ and the data of
+Assumption~\ref{bpI:p2s2l1:data}, its conclusions hold with the constants of Definition~\ref{bpI:p2s2l1:constants}, provided its step conditions hold
+with them; the frequency change obeys $\abs{\bar s-s}\abs{\omega^*}\le\Theta C_S u_0$ (route A), resp.\ $\Theta C_0\mu_0$ (route B), with the entry $C_S$, $C_0$.
+\source{HL19 Lemmas~6.1--6.2; \Kref{bp:p2s2l1:entryA}, \Kref{bp:p2s2l1:entryB}; ours.}
+\end{proposition}
+
+\begin{proof}
+\proofstep{As at fixed frequency}\label{stepI:p2s2l1:st}
+\Kref{step:p2s2l1:ea-n}--\Kref{step:p2s2l1:ea-om} with Lemma~\ref{bpI:p2s2l1:border} for the averages and the tangential datum. The energy error and the bordered
+torsion are estimated as in the sup step: they use $\xi^N_0,\xi^\omega$ only through the bound of (a), and the defect of $K$ through $C^K_\Omega$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The theorem}\label{bpI:p2s2l1:sec-g1}
+
+\begin{theorem}[I-G1 with the $\ell^1$ entry]\label{bpI:p2s2l1:g1}
+Let the data of Theorem~\ref{bpI:p0:g1}, the refined data with initial margins for every cap (including the frequency cap with budget $\nu/2$) and the
+entry data of Assumption~\ref{bpI:p2s2l1:data} be given. If the route-A (resp.\ route-B) smallness predicate of \Kref{bp:p2s2l1:g1A} (resp.\
+\Kref{bp:p2s2l1:g1B}) holds for the isoenergetic constants, with the entry at stage $0$ and the engine \Lean{KAM.Sharp2.StageScheme.converge\_checked} from
+stage $1$ (\Kref{bp:p2s2l1:engine}), then (O1)--(O6) hold, with $\abs{K_\infty-K}$ bounded by the ball sum and $\abs{s_\infty\omega^*-s\omega^*}$ by the frequency sum
+(entry increment included), normalised without $\bar\gamma^2$ (\Kref{bp:p2s2l1:engine}(c)).
+\source{Theorem~\ref{bpI:p2s2:g1}; HL19 Theorem~3.6; ours.}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Entry, engine}\label{stepI:p2s2l1:g1}
+Proposition~\ref{bpI:p2s2l1:step} at stage $0$; then Theorem~\ref{bpI:p2s2:g1}'s proof from stage $1$ (the frequency cap keeps $\nu(s_j)\ge\nu/2$, and the ray persists
+as in Step~\ref{stepI:p2s:sc-s}).
+\end{proof}
+
+\begin{remark}[Deviations and the certificate]\label{bpI:p2s2l1:dev}
+The deviations are those of \Kref{bp:p2s2l1:register}(iv) and (W1$^{\sharp\sharp}$)--(W3$^{\sharp\sharp}$) of Remark~\ref{bpI:p2s2:dev}. In the SO checker the change is
+\Lean{checkSmallness} plus four certificate checks on the initial torus: the weighted $\ell^1$ sums of the models of $\eta^N,\eta^L$ on $T_\rho$, of $T$ on
+$T_{\rho-\delta_0}$ (and of $L,N$ on $T_\rho$ for the frame increment), each a sum of $\abs{\text{coefficient}}\cdot e^{2\pi r\abs k_1}$ over a model the checker
+already builds, and three $\Gamma_\infty$ certificates (\Lean{KAM.smallDivisorSup\_snoc\_le}; for R1 752 entries at $\delta_0$, 1518 at $\delta_0/2$, fewer at $\rho$).
+Audit AUDIT-SHARP-V2-iso-1 F5 (moving-frequency factors) applies to the entry unchanged.
+\end{remark}
