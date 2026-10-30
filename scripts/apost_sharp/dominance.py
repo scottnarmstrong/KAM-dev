@@ -1,20 +1,32 @@
 #!/usr/bin/env python3
-"""Dominance check of the v2 design against the explicit a-posteriori KAM theorems for flows (APOST-SHARP-V2.md, 6).
+"""Fair dominance check of the v2 design against the explicit a-posteriori KAM theorems for flows (APOST-SHARP-V2.md,
+section 5 and section 11).
 
-Untrusted tooling (design numbers).  On a grid of data covering realistic certificates and on the packages R1, H50,
-compare the threshold (largest admissible invariance error e) and the closeness coefficient of
+Untrusted tooling (design numbers).  On a grid of generic data compare the threshold (largest admissible invariance
+error e) of
   v2       the better of route A (additive, v1 + levers) and route B (modified step) of thresholds_v2.py, using ONLY
            the information the competitors use (one size M = sigma's, sigma_K^T = 2n sigma_K, sigma_N = sigma_K sigma_B,
            sigma_N^T = 2n sigma_K sigma_B, derived torsion, the classical small-divisor constant, no measured objects);
   HL19     Haro-Luque 2019 Theorem 3.1 (benchmark_hl19.py), a1 optimised;
   FH24     Figueras-Haro 2024 Theorem 2.18 (benchmark_fh24.py), delta, nu and the two control constants optimised,
-           as printed and with erratum E2 corrected (the printed (3.72) is not a valid bound in general).
-Every competitor receives the same small-divisor constant as v2 (the classical constant c^natural(n, tau), which is
-smaller than FH24's printed hat c_R) and the like-for-like margin reading ("normalised": sigma - mu/2, so that its
-conclusion implies the frozen one).  A competitor "wins" at a point if its threshold exceeds v2's by more than
-0.005 orders.
+           with erratum E2 corrected (the printed (3.72) is not a valid bound in general); the printed version is
+           reported for information.
+FAIR DATA (audit AUDIT-SHARP-V2-fixed-1 F7): every competitor receives its best legally available small-divisor data,
+the classical constant c^natural(n, tau, b) of blueprint bp:p2s2sd:classical at its OWN bites:
+  FH24     c_R = c^nat(delta) at its optimised initial bite delta (FH24 App. B allows c_R(delta) or uniform bounds; its
+           later bites are smaller and c^nat is nondecreasing, so c^nat(delta) is a uniform bound for every step),
+           c^1_R = (tau+1)^{tau+1}/tau^tau c^nat(delta) (Corollary 2.16 with that uniform constant), and
+           c_R(rho) = c^nat(rho) for its full-strip average (3.45) (a small-bite constant does not certify the bite rho);
+  HL19     c_R = c^nat(delta_0) at its initial bite delta_0 = rho/a_3(a_1) (Lemma 4.1 allows c_R(delta); HL19 5.3 takes
+           the constants at delta_0, which is legal here because c^nat is nondecreasing: the uniformity caveat of HL19
+           5.3 concerns non-monotone c(delta) only).
+v2 gets c^nat at its stage bites delta_s, delta_s/2, r_s and c^nat(delta_k) for the tail (every later bite).  The
+like-for-like margin reading ("normalised": sigma - mu/2, so that the competitor's conclusion implies the frozen one).
+A competitor "wins" at a point if its threshold exceeds v2's by more than 0.005 orders.
 
-Usage:  python3 -I scripts/apost_sharp/dominance.py [--quick] [--json OUT]
+Usage:  python3 -I scripts/apost_sharp/dominance.py [--quick] [--grid old|ext] [--jobs J] [--json OUT]
+        python3 -I scripts/apost_sharp/dominance.py --point n tau gamma rho size     (one point, with diagnosis)
+        --ablate: v2 without the levers of the fair comparison (split 1/2, ratio 2, decay 1/2, no L10)
         python3 -I scripts/apost_sharp/dominance.py --plasmalean [--json OUT]   # PlasmaLean, incl. B10 l^1 entry step
 """
 from fractions import Fraction as F
@@ -39,10 +51,27 @@ def grid_data(n, tau, gamma, rho, size, mu=F(1, 16)):
                 Tsup=4 * n * s ** 5 + 1, Theta_omega=2 * n * s * s * (s + 1), omega_star=None)
 
 
-def v2_same_data(D):
-    """v2 with the competitors' information only (levers that need no extra data)."""
+_CNAT = {}
+
+
+def c_nat(n, tau, b, exact=True):
+    """c^natural(n, tau, b) (rational upper bound if exact)."""
+    key = (n, tau, float(b))
+    if key not in _CNAT:
+        x = sd.c_classical(n, tau, float(b))
+        _CNAT[key] = (x, v1.up(x))
+    return _CNAT[key][1] if exact else _CNAT[key][0]
+
+
+RATIOS = ((F(2), 5), (F(3, 2), 9), (F(13, 10), 13), (F(6, 5), 19), (F(23, 20), 25))
+
+
+def v2_same_data(D, thetas=(F(1, 16), F(1, 8)), kpre=5, ratios=RATIOS, ymaxs=(F(1, 2), F(9, 10)), scs=(False, True)):
+    """v2 with the competitors' information only (levers that need no extra data).  Route B is evaluated over the free
+    parameters (Neumann ratio theta, schedule ratio a with its prefix length) in floating point (design numbers);
+    route A is the v1-schedule scheme (ratio 2) in exact arithmetic."""
     n, tau = D["n"], int(D["tau"])
-    c_cl = lambda d: v1.up(sd.c_classical(n, tau, float(d)))
+    c_cl = lambda d: c_nat(n, tau, d)
     lam = 3
     delta0 = min(F(1), (D["rho"] - D["rhoinf"]) / (2 * lam))
 
@@ -50,15 +79,31 @@ def v2_same_data(D):
         ds = delta0 / 2 ** s
         r = D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
         return c_cl(ds), c_cl(ds / 2), c_cl(min(r, F(1)))
-    ct = c_cl(1)                                    # route A tail: absorbed constants, every bite <= 1
-    ctB = c_cl(delta0 / 2 ** 5)                     # route B tail: constants valid for every bite <= delta_k (monotone)
+    ct = c_cl(delta0 / 2 ** kpre)                   # tail: a constant valid at every bite <= delta_k (c^nat monotone)
     oA = dict(omega_eta=True, avg_full_bite=True, keep_delta=True, caps_tilde=True)
-    lA, _, wA = T2.thresholdA(D, oA, False, k=5, c_stage=st, c_tail=ct)
-    lB = -1e9
-    for th in (F(1, 16), F(1, 8)):                  # the Neumann ratio is a free parameter of the design
-        oB = dict(L1=False, keep_delta=True, avg_full_bite=True, aniso=True, theta=th)
-        lB = max(lB, T2.thresholdB(D, oB, False, 5, st, ctB)[0])
-    return max(lA, lB), ("A" if lA >= lB else "B"), lA, lB
+    lA, _, wA = T2.thresholdA(D, oA, False, k=kpre, c_stage=st, c_tail=ct)
+    Df = {k_: (float(v) if isinstance(v, F) else v) for k_, v in D.items()}
+    cf = lambda d: c_nat(n, tau, d, exact=False)
+    sp = tau / (tau + 1)                            # optimal Russmann-Cauchy split (the second constant is at s delta)
+    if ABLATE:                                      # the design before the fair comparison: s = 1/2, a = 2, ybar = 1/2, no L10
+        sp, ratios, ymaxs, scs = 0.5, ((F(2), 5),), (F(1, 2),), (False,)
+    stf = lambda ds, r: (cf(ds), cf(sp * ds), cf(min(r, 1.0)))
+    stf.by_bite = True
+    lB, wB, parB = -1e9, None, None
+    for a, k in ratios:                             # the schedule ratio a and the prefix length are free parameters
+        d0 = min(1.0, (Df["rho"] - Df["rhoinf"]) * float(a - 1) / (3 * float(a)))
+        rk = Df["rho"] - 3 * d0 * (1 - float(a) ** -k) / (1 - 1 / float(a))
+        ctf = (cf(d0 / float(a) ** k), cf(min(rk, 1.0)))   # tail: bite delta_k; full strips r_j <= r_k (F9)
+        for th in thetas:                           # the Neumann ratio is a free parameter of the design
+            for ym in ymaxs:                        # the tail decay bound (J2) is a free parameter
+                for sc in scs:                      # the self-consistent tangential error is optional (its conditions)
+                    oB = dict(L1=False, keep_delta=True, avg_full_bite=True, aniso=True, theta=th, ratio=a, split=sp,
+                              ymax=ym, selfcons=sc)
+                    r = T2.thresholdB(Df, oB, False, k, stf, ctf)
+                    if r[0] > lB:
+                        lB, wB, parB = r[0], r[2], dict(ratio=float(a), kpre=k, theta=float(th), ymax=float(ym),
+                                                        selfcons=sc)
+    return max(lA, lB), ("A" if lA >= lB else "B"), lA, lB, wA, wB, parB
 
 
 def comp_data_hl(D):
@@ -79,60 +124,177 @@ def comp_data_fh(D):
                 NT=2 * n * (sK - mu) * (sB - mu), Tinv=D["sT"] - mu, dist=mu - sh)
 
 
+def best_fh24_fair(d, errata=True):
+    """FH24 with c_R = c^nat(delta) at its own bite (the search of benchmark_fh24.best_fh24 with a bite-dependent
+    constant): delta = t (rho - rho_inf)/3, kappa on k/40, nu and varkappa on m 10^-j, then local refinement."""
+    n, tau = int(d["n"]), int(d["tau"])
+    fac = F(tau + 1) ** (tau + 1) / F(tau) ** tau
+    Dr = (F(d["rho"]) - F(d["rhoinf"])) / 3
+    dd = dict(d, cRrho=c_nat(n, tau, min(F(d["rho"]), F(1))))
+    ddf = dict(dd, cRrho=float(dd["cRrho"]))
+
+    def obj(p):
+        c = c_nat(n, tau, p[0] * Dr, exact=False)
+        try:
+            return FH.fh24(ddf, c, float(fac) * c, p[0] * Dr, p[1], p[2], p[3], exact=False, errata=errata)["threshold_e"]
+        except (AssertionError, ZeroDivisionError, OverflowError):
+            return 0.0
+    logg = sorted({F(m, 10 ** j) for j in range(1, 25) for m in (1, 2, 5)} | {F(1, 2), F(1, 5)})
+
+    def descend(p, grids, best):
+        for _ in range(4):
+            moved = False
+            for i, gr in enumerate(grids):
+                for x in gr:
+                    q = list(p); q[i] = x
+                    val = obj(q)
+                    if val > best:
+                        best, p, moved = val, q, True
+            if not moved:
+                break
+        return p, best
+    tk = FH._grid_t(F(0), F(1), 40)
+    p = [F(1, 2), F(1, 10 ** 6), F(1, 10 ** 6), F(1, 2)]
+    p, best = descend(p, [[F(1, 2)], logg, logg, [F(1, 2)]], obj(p))
+    for t0 in tk:
+        for k0 in tk:
+            q = [t0, p[1], p[2], k0]
+            val = obj(q)
+            if val > best:
+                p, best = q, val
+    p, best = descend(p, [tk, logg, logg, tk], best)
+    for step in (F(1, 200), F(1, 800), F(1, 3200)):
+        for _ in range(3):
+            p0 = p
+            for tj in [p0[0] + j * step for j in range(-8, 9) if 0 < p0[0] + j * step < 1]:
+                for kj in [p0[3] + j * step for j in range(-8, 9) if 0 < p0[3] + j * step < 1]:
+                    q = [tj, p0[1], p0[2], kj]
+                    val = obj(q)
+                    if val > best:
+                        p, best = q, val
+            p, best = descend(p, [[p[0]], logg, logg, [p[3]]], best)
+            if p == p0:
+                break
+    c = c_nat(n, tau, p[0] * Dr)
+    r = FH.fh24(dd, c, fac * c, p[0] * Dr, p[1], p[2], p[3], exact=True, errata=errata)
+    r["t"] = p[0]; r["cR"] = c
+    return r
+
+
+def best_hl19_fair(d, grid=None):
+    """HL19 with c_R = c^nat(delta_0(a_1)) at its initial bite, a_1 optimised (nu_HL self-consistent)."""
+    n, tau = int(d["n"]), int(d["tau"])
+    grid = grid or [F(k, 100) for k in range(105, 401, 5)] + [F(k, 10) for k in range(45, 101, 5)]
+    rho, a2 = F(d["rho"]), F(d["rho"]) / F(d["rhoinf"])
+    best = None
+    for a1 in grid:
+        a3 = 3 * a1 / (a1 - 1) * a2 / (a2 - 1)
+        c = c_nat(n, tau, rho / a3)
+        nu = F(1, 10 ** 6)
+        try:
+            for _ in range(3):
+                r = HL.hl19(d, c, a1, nu, False)
+                nu = r["threshold"] / r["delta0"] * (1 + F(1, 10 ** 9))
+            r = HL.hl19(d, c, a1, nu, False)
+        except (AssertionError, ZeroDivisionError):
+            continue
+        if r["threshold"] >= r["delta0"] * nu:
+            continue
+        if best is None or r["threshold"] > best["threshold"]:
+            best = r; best["a1"] = a1; best["cR"] = c
+    return best
+
+
 def compare(D):
     n, tau = D["n"], int(D["tau"])
-    c = v1.up(sd.c_classical(n, tau, 1.0))
-    lv2, route, lA, lB = v2_same_data(D)
-    hl = HL.best_hl19(comp_data_hl(D), c, False)
-    fh = FH.best_fh24(comp_data_fh(D), c, FH.cR1_fh24(c, tau))
-    fhc = FH.best_fh24(comp_data_fh(D), c, FH.cR1_fh24(c, tau), errata=True)
-    return dict(v2=lv2, route=route, A=lA, B=lB, HL19=lg(hl["threshold"]), FH24=lg(fh["threshold_e"]),
-                FH24_corr=lg(fhc["threshold_e"]))
+    lv2, route, lA, lB, wA, wB, parB = v2_same_data(D)
+    hl = best_hl19_fair(comp_data_hl(D))
+    fhc = best_fh24_fair(comp_data_fh(D), errata=True)
+    fhp = best_fh24_fair(comp_data_fh(D), errata=False)
+    return dict(v2=lv2, route=route, A=lA, B=lB, HL19=lg(hl["threshold"]) if hl else -1e9,
+                FH24=lg(fhp["threshold_e"]), FH24_corr=lg(fhc["threshold_e"]),
+                FH24_delta=float(fhc["delta"]), FH24_cR=float(fhc["cR"]), FH24_binding=str(fhc.get("active", "")),
+                v2_binding=", ".join(wB if route == "B" else wA), v2_B_params=parB)
+
+
+def _point(args):
+    n, tau, g, r, s = args
+    D = grid_data(n, tau, g, r, s)
+    try:
+        res = compare(D)
+    except AssertionError as ex:
+        return dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, skipped=str(ex))
+    best_comp = max(res["HL19"], res["FH24_corr"])
+    return dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, **res, margin=res["v2"] - best_comp)
+
+
+ABLATE = "--ablate" in sys.argv
+
+GRID_OLD = dict(ns=[(2, 1), (2, 2), (3, 2), (4, 3)], gammas=[F(1, 1000), F(1, 100), F(1, 10)],
+                rhos=[F(1, 1000), F(1, 100), F(1, 10)], sizes=[1, 3, 10])
+GRID_EXT = dict(ns=[(2, 1), (2, 2), (2, 3), (3, 2), (3, 3), (4, 3), (4, 4), (5, 4), (6, 5)],
+                gammas=[F(1, 10 ** 6), F(1, 10 ** 4), F(1, 1000), F(1, 100), F(1, 10)],
+                rhos=[F(1, 1000), F(1, 100), F(1, 10), F(3, 10)], sizes=[1, 3, 10, 30])
 
 
 def main():
     quick = "--quick" in sys.argv
-    pts = []
-    ns = [(2, 1), (2, 2), (3, 2), (4, 3)] if not quick else [(2, 1), (3, 2)]
-    gammas = [F(1, 1000), F(1, 100), F(1, 10)]
-    rhos = [F(1, 1000), F(1, 100), F(1, 10)]
-    sizes = [1, 3, 10] if not quick else [1, 10]
+    gname = sys.argv[sys.argv.index("--grid") + 1] if "--grid" in sys.argv else "old"
+    G = dict(GRID_EXT if gname == "ext" else GRID_OLD)
+    if quick:
+        G = dict(ns=[(2, 1), (4, 3)], gammas=[F(1, 1000)], rhos=[F(1, 10)], sizes=[1, 10])
+    jobs = int(sys.argv[sys.argv.index("--jobs") + 1]) if "--jobs" in sys.argv else 1
+    pts_in = [(n, tau, g, r, s) for (n, tau) in G["ns"] for g in G["gammas"] for r in G["rhos"] for s in G["sizes"]]
     t0 = time.time()
-    print("| n | tau | gamma | rho | size | v2 (route) | HL19 | FH24 printed | FH24 corrected | margin |")
-    print("|---|---|---|---|---|---:|---:|---:|---:|---:|")
-    wins = []
-    for (n, tau) in ns:
-        for g in gammas:
-            for r in rhos:
-                for s in sizes:
-                    D = grid_data(n, tau, g, r, s)
-                    try:
-                        res = compare(D)
-                    except AssertionError as ex:            # e.g. a competitor's margin assertion
-                        print("| %d | %d | %s | %s | %d | skipped (%s) |" % (n, tau, g, r, s, ex))
-                        continue
-                    best_comp = max(res["HL19"], res["FH24_corr"])
-                    margin = res["v2"] - best_comp
-                    row = dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, **res, margin=margin)
-                    pts.append(row)
-                    flag = ""
-                    if res["HL19"] > res["v2"] + 0.005 or res["FH24_corr"] > res["v2"] + 0.005:
-                        wins.append(row); flag = " **competitor wins**"
-                    print("| %d | %d | %g | %g | %d | %.2f (%s) | %.2f | %.2f | %.2f | %+.2f%s |" % (
-                        n, tau, g, r, s, res["v2"], res["route"], res["HL19"], res["FH24"], res["FH24_corr"],
-                        margin, flag))
-                    sys.stdout.flush()
+    if jobs > 1:
+        import multiprocessing as mpr
+        with mpr.Pool(jobs) as pool:
+            rows = pool.map(_point, pts_in, chunksize=1)
+    else:
+        rows = [_point(a) for a in pts_in]
+    print("| n | tau | gamma | rho | size | v2 (route) | HL19 | FH24 printed | FH24 corrected | margin | v2 binding |")
+    print("|---|---|---|---|---|---:|---:|---:|---:|---:|---|")
+    pts, wins, skipped = [], [], []
+    for row in rows:
+        if "skipped" in row:
+            skipped.append(row)
+            print("| %d | %d | %g | %g | %d | skipped (%s) |" % (row["n"], row["tau"], row["gamma"], row["rho"],
+                                                                  row["size"], row["skipped"]))
+            continue
+        pts.append(row)
+        flag = ""
+        if row["HL19"] > row["v2"] + 0.005 or row["FH24_corr"] > row["v2"] + 0.005:
+            wins.append(row); flag = " **competitor wins**"
+        print("| %d | %d | %g | %g | %d | %.2f (%s) | %.2f | %.2f | %.2f | %+.2f%s | %s |" % (
+            row["n"], row["tau"], row["gamma"], row["rho"], row["size"], row["v2"], row["route"], row["HL19"],
+            row["FH24"], row["FH24_corr"], row["margin"], flag, row["v2_binding"]))
     print()
-    print("points: %d, competitor wins (vs corrected FH24 or HL19): %d, printed-FH24 wins: %d, time %.0f s" % (
-        len(pts), len(wins), sum(1 for p in pts if p["FH24"] > p["v2"] + 0.005), time.time() - t0))
+    print("grid %s: points %d (skipped %d), corrected-competitor wins: %d, printed-FH24 wins: %d, time %.0f s" % (
+        gname, len(pts), len(skipped), len(wins), sum(1 for p in pts if p["FH24"] > p["v2"] + 0.005),
+        time.time() - t0))
     if pts:
-        print("min margin v2 - best competitor: %.2f orders; median %.2f" % (
-            min(p["margin"] for p in pts), sorted(p["margin"] for p in pts)[len(pts) // 2]))
-    if len(sys.argv) > 2 and "--json" in sys.argv:
-        json.dump(dict(points=pts, wins=wins), open(sys.argv[sys.argv.index("--json") + 1], "w"), indent=1)
+        mg = sorted(p["margin"] for p in pts)
+        print("margin v2 - best fair competitor: min %.3f, median %.3f, max %.3f orders" % (mg[0], mg[len(mg) // 2],
+                                                                                           mg[-1]))
+        worst = min(pts, key=lambda p: p["margin"])
+        print("worst point:", {k: worst[k] for k in ("n", "tau", "gamma", "rho", "size", "v2", "route", "FH24_corr",
+                                                     "HL19", "margin")})
+    if "--json" in sys.argv:
+        json.dump(dict(points=pts, wins=wins, skipped=skipped), open(sys.argv[sys.argv.index("--json") + 1], "w"),
+                  indent=1, default=str)
 
 
-if __name__ == "__main__" and "--plasmalean" not in sys.argv and "--fh25" not in sys.argv:
+def point_main():
+    i = sys.argv.index("--point")
+    n, tau = int(sys.argv[i + 1]), int(sys.argv[i + 2])
+    g, r, s = F(sys.argv[i + 3]), F(sys.argv[i + 4]), int(sys.argv[i + 5])
+    row = _point((n, tau, g, r, s))
+    print(json.dumps(row, indent=1, default=str))
+
+
+if __name__ == "__main__" and "--point" in sys.argv:
+    point_main()
+elif __name__ == "__main__" and "--plasmalean" not in sys.argv and "--fh25" not in sys.argv:
     main()
 
 
@@ -184,7 +346,9 @@ def plasmalean():
                 cf = sd.c_freq(om, gam, 1, float(delta0))[0]
                 cr_ = sd.c_freq(om, gam, 1, float(D["rho"]))[0]
                 st = lambda s, cf=cf, cr_=cr_: (cf, cf, cr_)
-                ct = float(T2.Fr(sd.c_classical(2, 1, float(delta0) / 32)))
+                rk = float(D["rho"]) - 6 * float(delta0) * (1 - 2 ** -5)
+                ct = (float(T2.Fr(sd.c_classical(2, 1, float(delta0) / 32))),   # tail: every bite <= delta_k, and
+                      float(T2.Fr(sd.c_classical(2, 1, min(rk, 1.0)))))          # every full bite r_j <= r_k (F9)
                 pen = 0.0
             else:                                       # L9: SHARP-L9's certified c_inf = Gamma_inf gamma delta^tau, flat
                 cinf = 0.00123                          # (docs/campaign/handoffs/SHARP-L9.md, PlasmaLean's frequency)
@@ -198,9 +362,10 @@ def plasmalean():
             lA = T2.thresholdA(Dv, oA, False, k=5, c_stage=st, c_tail=ct)[0] - pen
             lB = -1e9
             for th in (F(1, 16), F(1, 8)):
-                oB = dict(L1=True, keep_delta=True, avg_full_bite=True, aniso=True, theta=th, cTh=Dv["cTh"],
-                          free_budgets=True)
-                lB = max(lB, T2.thresholdB(Dv, oB, False, 5, st, ct)[0] - pen)
+                for sc in (False, True):                # option L10 is a free choice of the theorem
+                    oB = dict(L1=True, keep_delta=True, avg_full_bite=True, aniso=True, theta=th, cTh=Dv["cTh"],
+                              free_budgets=True, selfcons=sc)
+                    lB = max(lB, T2.thresholdB(Dv, oB, False, 5, st, ct)[0] - pen)
             best = max(lA, lB)
             rows.append(dict(norms=tag, small_divisors=which, A=lA, B=lB, best=best,
                              margin=best - PLASMALEAN["log10_tolerance"]))

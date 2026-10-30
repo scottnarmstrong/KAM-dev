@@ -110,7 +110,9 @@ def fh24(d, cR, cR1, delta, nu, kappa1, kappa2, exact=True, errata=False):
     sL = sDK + c_Xp                                             # H2: sigma_L = sigma_DK + c_Xp
     sLT = max(sDKT, c_XpT)                                      # H2: sigma_L^T = max{sigma_(DK)^T, c_Xp^T}
     gd = g * delta ** t                                         # gamma delta^tau
-    cRrho = cR                                                  # c_R(rho) <= uniform bound (Section 3.3, p. 31)
+    # c_R(rho) <= uniform bound (Section 3.3, p. 31); a bite-dependent cR (dominance.py, fair data) must pass the
+    # constant of the full strip separately (a constant at the small bite delta does not certify the bite rho)
+    cRrho = num(D["cRrho"]) if "cRrho" in D else cR
     # ---- Table 1 (Section 3.1, Lemmas 3.1-3.5) ----
     C_OmL = (dim + n - 2) * cR1                                 # (3.2)  C^N_{Omega_L}
     C_OmN = sB ** 2 * C_OmL                                     # (3.3)  C^N_{Omega_N}

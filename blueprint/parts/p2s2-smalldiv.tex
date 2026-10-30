@@ -36,11 +36,26 @@ $\Gamma:=c\gamma^{-1}\delta^{-\varkappa}$:
 \item \emph{(solution)} if $g:T_r\to\C^p$ is holomorphic, $1$-periodic, $\abs g\le H$ on $T_r$ and $\avg g=0$, then
   $\abs{\mathcal R_\omega g}\le\Gamma H$ on $T_{r-\delta}$;
 \item \emph{(a-priori bound)} if $u:T_r\to\C^{p\times q}$ is holomorphic, $1$-periodic, $\avg u=0$ and $\abs{\partial_\omega u}\le H$
-  on $T_r$, then $\abs u\le\Gamma H$ on $T_{r-\delta}$.
+  on $T_r$, then $\abs u\le\Gamma H$ on $T_{r-\delta}$;
+\item \emph{(real points)} for every $r\ge\delta$, if $g$ is as in (a) on $T_r$, then $\abs{\mathcal R_\omega g}\le\Gamma H$ on $\R^n$ (the bite may be
+  the whole strip; this is the clause used by the averages, Lemma~\ref{bp:p2s2sd:avg}).
 \end{enumerate}
+This is \Lean{KAM.Sharp2.SDConst} (proved instances: SHARP2-B1).
 A \emph{small-divisor function} on $\Omega$ is a map $c:(0,1]\to(0,\infty)$ such that $c(\delta)$ is a small-divisor constant at the bite
 $\delta$ on $\Omega$ for every $\delta\in(0,1]$.
 \end{definition}
+
+\begin{lemma}[Smaller Diophantine scale]\label{bp:p2s2sd:gamma-mono}
+If $c$ is a small-divisor constant at the bite $\delta$ on $\Omega$ for $\gamma$, then it is one for every $0<\gamma'\le\gamma$.
+\source{Ours (audit AUDIT-SHARP-V2-iso-1, F1).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Monotone in $\gamma^{-1}$}\label{step:p2s2sd:gm}
+Each clause bounds a norm by $c\gamma^{-1}\delta^{-\varkappa}H$ with $H\ge0$ (a bound of a norm on a nonempty strip); $\gamma^{-1}\le\gamma'^{-1}$.
+\end{proof}
+Hence a certificate computed once at $\bar\gamma$ (with $\omega^*\in\Dio_{\bar\gamma,\tau}$) serves every body scale $\gamma\le\bar\gamma$ of the frozen
+statements; this is how the frequency-specific constants are bound to the frequencies covered by the isoenergetic body (the ray of $\omega^*$).
 
 \begin{lemma}[The v1 data are constant small-divisor functions]\label{bp:p2s2sd:from-cohdata}
 If $(\varkappa,c_R)$ is small-divisor data for $(n,\tau)$ (Definition~\ref{bp:p2s:cohdata}), then the constant function $c_R$ is a
@@ -146,7 +161,8 @@ c^\natural(n,\tau,\delta):=\frac{2^{n/2}}{2\pi}\bigl(A_\tau\,\Gamma(2\tau+1)\,(1
 \]
 Then $c^\natural(n,\tau,\cdot)$ is a small-divisor function on $\Dio_{\gamma,\tau}$ (exponent $\varkappa=\tau$) for every $\gamma>0$, and so is the
 constant $\hat c^\natural(n,\tau):=c^\natural(n,\tau,1)$.
-\source{FH24 Lemma~2.14, $\hat c_R$, p.~14 (whose printed constant is twice this one, see Remark~\ref{bp:p2s2sd:errata}); FHL17 (96).}
+\source{FH24 Lemma~2.14, $\hat c_R$, p.~14 (whose printed constant is twice the $\delta\to0$ leading coefficient $c^\natural(n,\tau,0)$, see
+Remark~\ref{bp:p2s2sd:errata}); FHL17 (96).}
 \end{proposition}
 
 \begin{proof}
@@ -189,8 +205,10 @@ then on $T_{r-\delta}$
 \abs{D(v\,\mathcal R_\omega g)}\le n\,c^{(1)}\gamma^{-1}\delta^{-\varkappa-1}VH,\qquad c^{(1)}:=\frac{c_1}{s^\varkappa(1-s)},
 \]
 and the same with $2n$ (and the transposed row sums) for $D(v\mathcal R_\omega g)^\top$. For a constant function $c$ the choice
-$s=\varkappa/(\varkappa+1)$ gives $c^{(1)}=c(\varkappa+1)^{\varkappa+1}/\varkappa^\varkappa$; at the schedule bites the choice $s=\frac12$ gives
-$c^{(1)}=2^{\varkappa+1}c(\delta/2)$, which uses the constant of the next bite.
+$s=\varkappa/(\varkappa+1)$ gives $c^{(1)}=c(\varkappa+1)^{\varkappa+1}/\varkappa^\varkappa$. The v2 step uses this \emph{split bite}
+$s_\varkappa\delta$, $s_\varkappa:=\varkappa/(\varkappa+1)$, at every stage, with a certificate $c'$ at $s_\varkappa\delta$: $c^{(1)}=c'(\varkappa+1)^{\varkappa+1}/\varkappa^\varkappa$
+($=4c(\delta/2)$ for $\varkappa=1$; for $\varkappa=3$ the factor is $9.48$ instead of $2^{\varkappa+1}=16$ for $s=\frac12$, a lever found by the fair
+comparison with FH24, which uses this split).
 \source{FH24 Corollary~2.16, p.~14.}
 \end{corollary}
 
@@ -217,6 +235,20 @@ On $\R^n$, $\abs{e^{2\pi ik\cdot\theta}}=1$; Step~\ref{step:p2s2sd:cs-one} with 
 $\abs{\mathcal Rg}\le c_\omega(r)\gamma^{-1}r^{-\varkappa}H$ on $\R^n$, and $\abs{\avg f}\le\sup_{\R^n}\abs f$ (Corollary~\ref{bp:p2:averages}(a)).
 \end{proof}
 
+\begin{corollary}[Full-bite averages along a geometric schedule]\label{bp:p2s2sd:avg-tail}
+Let $a>1$, $\delta_j=\delta_0a^{-j}$ and $r_j=\rho_\infty+3\delta_ja/(a-1)$ (the strips of the v2 engine, Proposition~\ref{bp:p2s2:engine}). Then
+$\delta_j/r_j\le\delta_k/r_k$ for $j\ge k$. Consequently, if $\bar c_\infty$ is a small-divisor constant at \emph{every} bite $r_j$, $j\ge k$ (for the
+classical constant: $\bar c_\infty=c^\natural(n,\tau,\min\{r_k,1\})$, by monotonicity), then at every stage $j\ge k$ the average of
+Lemma~\ref{bp:p2s2sd:avg} with $\varepsilon_N\le\gamma\delta_j^\varkappa\mu$ is at most $y\,\bar c_\infty(\delta_k/r_k)^\varkappa\mu$.
+\source{Ours (audit AUDIT-SHARP-V2-fixed-1, F9: a constant certified at the small bite $\delta_k$ does not certify the bite $r_k$).}
+\end{corollary}
+
+\begin{proof}
+\proofstep{The ratio}\label{step:p2s2sd:avt}
+$x\mapsto x/(\rho_\infty+3xa/(a-1))$ is increasing on $(0,\infty)$ and $\delta_j\le\delta_k$; Lemma~\ref{bp:p2s2sd:avg} at the bite $r_j$ with the constant
+$\bar c_\infty$ gives $y\bar c_\infty\gamma^{-1}r_j^{-\varkappa}\gamma\delta_j^\varkappa\mu\le y\bar c_\infty(\delta_k/r_k)^\varkappa\mu$.
+\end{proof}
+
 \begin{remark}[Numbers, deviations and suspected errata]\label{bp:p2s2sd:errata}
 \begin{enumerate}[label=(\roman*)]
 \item For R1 (\texttt{smalldiv.py}; $\omega^*=c(\nu-1,1)/s$, $\gamma=c/(42s)$, $c=7/4$, $N=\lceil16/(4\pi\delta)\rceil$):
@@ -225,13 +257,17 @@ $\abs{\mathcal Rg}\le c_\omega(r)\gamma^{-1}r^{-\varkappa}H$ on $\R^n$, and $\ab
 \item \emph{Deviation.} Definition~\ref{bp:p2s2sd:const} is per bite and per set of frequencies; Definition~\ref{bp:p2s:cohdata} remains the
   uniform special case (Lemma~\ref{bp:p2s2sd:from-cohdata}).
 \item \emph{Suspected erratum, FH24 Lemma~2.14 (p.~14).} The printed bound
-  $\hat c_R=(2^{d+1-2\tau}\zeta(2,2^\tau)\pi^{-2\tau-2}\Gamma(2\tau+1))^{1/2}$ is twice the constant that its own route gives,
+  $\hat c_R=(2^{d+1-2\tau}\zeta(2,2^\tau)\pi^{-2\tau-2}\Gamma(2\tau+1))^{1/2}$ is twice the $\delta\to0$ leading coefficient of its own route,
   $(2^{d-1-2\tau}\zeta(2,2^\tau)\pi^{-2\tau-2}\Gamma(2\tau+1))^{1/2}=c^\natural(d,\tau,0)$; and the middle expression of the same display,
   $(\gamma^2\delta^{2\tau}2^d\sum e^{-4\pi\abs k_1\delta}\abs{k\cdot\omega}^{-2})^{1/2}$, lacks the factor $(2\pi)^{-1}$ of $\mathcal R$. The printed
-  value is an upper bound, so the theorem stays true.
-\item \emph{Suspected gap, HL19 \S5.3 (p.~43) and FHL17 proof of Theorem~2.5 (p.~16).} Both evaluate all constants at ``the worst value of
-  $\delta_s$, that is $\delta_0$'', while their Lemma~4.1 (HL19) and (90) (FHL17) allow $c_R=c_R(\delta)$, which increases as $\delta$ decreases
-  for $\tau=1$. With a uniform $c_R$ (as HL19 state for Rüssmann's constant, and as FH24 \S3.3 do with $\hat c_R$) the argument is
-  correct. The v2 engine (Proposition~\ref{bp:p2s2:engine}) uses the constant of each bite at its own stage.
+  value is an upper bound, so the theorem stays true. The halved value is \emph{not} claimed as a uniform constant: this part proves
+  $c^\natural(\delta)$ with the factor $1+\epsilon_\tau$, and the uniform $c^\natural(2,1,1)=0.1707$ exceeds the printed $0.1627$ (audit
+  AUDIT-SHARP-V2-fixed-1, errata item~1).
+\item \emph{Suspected gap (conditional), HL19 \S5.3 (p.~43) and FHL17 proof of Theorem~2.5 (p.~16).} Both evaluate all constants at ``the
+  worst value of $\delta_s$, that is $\delta_0$'', while their Lemma~4.1 (HL19) and (90) (FHL17) allow $c_R=c_R(\delta)$. A bite-dependent
+  $c_R(\delta)$ may fail to be bounded by its value at $\delta_0$ at the later bites; one must use a proved uniform bound (as HL19 state for
+  Rüssmann's constant, and as FH24 \S3.3 do with $\hat c_R$) or stage-specific constants. No failure of the uniform-constant theorems is
+  claimed; a nondecreasing $c(\delta)$ such as $c^\natural$ may be frozen at $\delta_0$ (this is how \texttt{dominance.py} gives HL19 its best
+  legal data). The v2 engine (Proposition~\ref{bp:p2s2:engine}) uses the constant of each bite at its own stage.
 \end{enumerate}
 \end{remark}
