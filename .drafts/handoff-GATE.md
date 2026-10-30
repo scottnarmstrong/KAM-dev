@@ -1,0 +1,24 @@
+# Handoff: SO-LOCK-COST gate run (G0, G1a/b/c, G1asm, G2claim)
+
+**Results.** See `docs/tracks/SO/design/SO-LOCK-COST.md` §12. Raw data: `/mnt/HC_Volume_106379410/kam-data/so-lock/gate/`
+(`gate.log`, `*.lean.out`, `run_all.log`, `run2.log`). One Lean process at a time, all via `run_gate.sh`. Nothing
+was killed; nothing was written in KAM/.
+
+**Unexpected.**
+1. **Kernel deep recursion in the jet compiler** on the landed `lockHamExpr` (G1a, G1b, G1c_prog_0). G1c_v0 and
+   G1c_d1 instead fail with `decide` stuck at `lockJ.v0.beq …` / `lockJ.d1 …`.
+   - The bridge M0 (here and in SO-CSPLIT) cannot be proved by reduction with the landed compiler.
+   - This is a design signal for a depth fix of `slpCompile`/Diff (a body change, statements kept), or for a
+     per-subtree bridge.
+   - I did not raise any limit.
+2. **The landed program has 3116 ops**, not LOCK-GEN-2's 3158. I edited `G1lit` to 3116. The G2 segment files use
+   s = 3158 − L, so their "late" segments end short; they were not run and should be regenerated with 3116.
+3. **G2claim P = 320 passes at a 7.8 GB cgroup peak, but MAXRSS is 11 GB.** Shared `.olean` mmaps appear to be
+   charged to another cgroup. A cold-cache run could be charged more; repeat it once before relying on it.
+4. **G1asm.** The first version hit an elaborator `maxRecDepth` (`show` unfolded the literal jet). It was fixed with
+   a generic `jet_ext` lemma; it passes at 460 MB.
+
+**Not run:** G1c_prog_800/1600/2400 and G1c_d2/d3 (same forcing as the failed probes); G2claim P = 128 (P = 320 is
+not comfortably under the cap); the G2 segments.
+
+**Checks.** Lint not run (no Lean added to the repo). No axioms (no repository theorem).

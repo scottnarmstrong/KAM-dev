@@ -256,3 +256,47 @@ These need LOCK-DATA's emission: models, advice books, `gramInv`/`torsInv`.
 | 4 MEDIUM: G2 does not check claims | New **G2claim** (whole pass, then `hamClaimOk` against LOCK-GEN-2's claim, at P = 128 and 320). G2 is relabelled evaluator and segment evidence only. `evaluator-fail` and `claims-fail` are distinguished, with no "use 320" presumption |
 | 5–7 closed / accounting | Kept. The production bridge is `HamJet.eq_of_beq` (shared with SO-CSPLIT M0). Stale lines (lever 0's four fields; "G3/G4 decide it") removed |
 | coordination: segmenting is SO-CSPLIT's | §2, §6: compose/Gram/torsion/frame and Ham-pass segmentation are transferred to SO-CSPLIT. `sharedBaseV2` is withdrawn. §3's baseline is SO-CSPLIT's lock projection: 25–60 CPU-h, 100–200 MB ledger over the 50 MB flag (O2). §1 adds SO-DATA3's per-product receipts (P1 +6.39 GB, SH/RR, the energy OOM). §7 lists what remains unmeasured |
+
+## 12. Gate results (measured, 30 October 2026, 20:09–20:14 UTC)
+
+**Setup.**
+- Runner `G/run_gate.sh` in `/root/code/KAM-inp` at `7e8f8c02`, against the **landed** two-root `lockHamExpr`.
+- One Lean process at a time, under the shared lock, `MemoryMax=10G`, `MemorySwapMax=0`, `LEAN_NUM_THREADS=1`.
+- Raw logs: `G/gate.log`, `G/*.lean.out`, `G/run_all.log`, `G/run2.log`.
+- CPU is USER + SYS. MEMPEAK is the cgroup's `memory.peak`; MAXRSS (from `time`) also counts shared, mmapped
+  `.olean` pages that are charged elsewhere, which is why it can exceed the cap.
+
+| probe | rc | CPU s | wall s | MEMPEAK | MAXRSS | outcome |
+|---|---:|---:|---:|---:|---:|---|
+| G0 emit (elaborator) | 0 | 7.6 | 8.6 | 495 MB | 3.4 GB | files written. **Landed program: 3116 ops** (not LOCK-GEN-2's 3158), v0 = 3115, \|d1\| = 4. Triage: G2claim P=320 `claims-pass`, P=128 `claims-pass` |
+| G1asm (assembly: `split4` + `jet_ext` ⇒ `lockJ = lockJetLit` from the 8 component equalities) | 0 | 8.1 | 6.7 | 460 MB | 3.5 GB | **passes**. The first version failed on an elaborator recursion-depth limit (`show` unfolded the literal); it was fixed by the generic `jet_ext`, with no limit raised |
+| G1a scout (`lockJ.prog.ops.all opOk`) | 1 | 27.4 | 27.6 | 2.9 GB | 6.0 GB | **kernel: deep recursion detected** |
+| G1lit (`lockOpsLit.length == 3116`) | 0 | 9.4 | 8.0 | 660 MB | 3.7 GB | passes; the literal jet costs little |
+| G1b bridge (`jetBeq lockJ lockJetLit`) | 1 | 30.6 | 29.2 | 3.0 GB | 6.1 GB | **kernel: deep recursion detected** |
+| G1c_prog_0 (first 800 ops) | 1 | 32.5 | 31.2 | 3.0 GB | 6.1 GB | **kernel: deep recursion detected** |
+| G1c_v0 / G1c_d1 | 1 | — | — | 3.0 / 2.9 GB | — | `decide` stuck reducing `lockJ.v0` / `lockJ.d1` (compiled result not reducible) |
+| G1c_prog_800/1600/2400, G1c_d2/d3 | — | — | — | — | — | **not run**: each forces the same compiled `lockJ`, which fails above for even an 800-op prefix and the scalar `v0` |
+| **G2claim P=320** (whole ball pass on `lockJetLit.prog.ops`, then `hamClaimOk 4 … lockClaim`) | 0 | 76.2 | 75.5 | **7.8 GB** | 11.0 GB | **kernel: claims pass**, one theorem |
+| G2claim P=128 | — | — | — | — | — | not run: 7.8 GB of 10 GB is not "comfortably" under the cap (task rule) |
+| G2 segments (8 files) | — | — | — | — | — | not run (not in this task's scope) |
+
+**Decisions implied by §7.**
+1. **G1 fails on kernel depth, not memory.** The landed jet compiler (`HamExpr.jet` via `slpCompile`) cannot be
+   reduced by the kernel on the lock's expression: deep recursion after about 30 s at about 3 GB. R2's 887-op
+   program reduced (BALLDY J0), so the depth limit lies between 887 and 3116 ops or comes from the sqrt/exp/inv
+   compilers.
+   - By §7's rule ("any one fails: stop and report"), the bridge M0, monolithic or split, **is not available** with
+     the landed compiler.
+   - The literal-jet route needs either a **KDEPTH-style depth fix of the jet compiler** (a body change with the
+     statements kept, like SO-KDEPTH's `composeOps`), or a bridge assembled from per-subtree compilations. Both
+     are a redesign, reported to the orchestrator and SO-CSPLIT, whose M0 shares this bridge.
+   - No limit was raised (AGENTS rules 1 and 4).
+2. **The Ham claim pass fits as one theorem at P = 320**, on the literal ops: 7.8 GB, 76 CPU-s, claims pass. So the
+   ball-pass segments (G2) and precision lever 2 are **not needed** for memory.
+   - **Caveat (cold page cache):** MAXRSS is 11 GB. If the `.olean` pages are not already cached and charged to
+     another cgroup, this run's charge could approach the cap; repeat it once on a cold cache before relying on it.
+   - It proves claims about `lockJetLit`, which become claims about `lockHamExpr` only through the bridge (item 1).
+3. **Bill (§3):**
+   - C2 (bridge) is **blocked**; C3 (Ham passes) is measured at about 2 × 76 CPU-s on literal ops.
+   - Every other row remains unmeasured.
+   - The total is deferred.
