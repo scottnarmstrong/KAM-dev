@@ -94,8 +94,8 @@ route (SO-TEST-B N1). The witness keys are full keys `[1, 0, j]`, from `forWitne
   1. err := 0.99 × the largest invariance row must fail `checkInvariance`.
   2. One in-box advice slot of `[0, 10]` raised by 2 must make `checkPackedProduct` reject the product. The crude
      fallback then must fail `checkEnergy`.
-- **Determinism:** a second full run into a separate directory, compared by SHA-256. **Pending at this commit**;
-  the result is appended in §8.
+- **Determinism:** a second full run into a separate directory, compared by SHA-256. **Byte-identical** (§8);
+  details in §8.
 - **Data.** Under `certificates/lunar-spin-orbit/`, and mirrored to `/mnt/HC_Volume_106379410/kam-data/so-data1/`.
   Every file is under 20 MB. SHA-256s are in `SO-DATA-1.sha256`. Regenerate with
   `cd scripts/spin_orbit && nice -n 10 python3 sofx_gen.py lower|upper OUTDIR`, then
@@ -183,3 +183,18 @@ The first run stopped because `checkHamBounds` failed for R1.
   - The jet comes from `adv_jet.py`, the Python mirror of the compiler; Diff* has had no changes since 074bd0c5.
     The toy jets agreed with Lean (SO-TOYGEN).
   - The B₁₂ parity is inferred from the data's symmetry.
+
+## 8. Determinism result
+
+A second full `sofx_gen.py` run of both tori, into a separate directory, gives **byte-identical** certificate and
+advice files:
+
+| file | SHA-256 (both runs) |
+|---|---|
+| lower_cert.json | c9ea2311218d3811a4d4cf3893325d31b540d61d84a18b570d406b3cc25b0827 |
+| lower_advice.json | 261e832fdfcda9dc5c2130ff626ef09f5af6cca7399bac77065143d09dd2f31e |
+| upper_cert.json | 12738836f6e613cc6bf6aa38824582f57af7447f4ae433804b3459cfb4c291ac |
+| upper_advice.json | 28121f04009907f813c143a12bac7e1e99b3cd7ea99972cbf0e3f9c212981a1d |
+
+The `*_report.json` files differ only in the wall-clock fields (`seconds`, `generate_seconds`, `check_seconds`).
+Every verdict, margin and size field is identical.

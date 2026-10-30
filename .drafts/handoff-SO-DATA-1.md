@@ -6,7 +6,7 @@ The full report is in docs/tracks/SO/studies/SO-DATA-1.md. It has every margin, 
 - Both tori pass all 8 sub-checks + checkSoGraph in a fresh CHECK pass. The checker is the fixed-point mirror (CertFixed 320) of the landed checker, packed route included, run over exactly the emitted advice books.
 - Negative controls: all 4 rejected (tightened err → checkInvariance false; corrupted [0,10] slot → checkEnergy false; both tori).
 - Key coverage: cfgFull 3 = 3; cfgLow 126 emitted vs 127 looked up. The only difference is [7], which the checker supplies itself (realLowerModel appends it).
-- Determinism: the rerun is still in progress at this commit. Its result will be appended to the report (§8) in a follow-up commit.
+- Determinism: rerun byte-identical for cert and advice JSON on both tori. The reports differ only in wall-clock timings (report §8).
 
 ## Proposals (literals)
 - lower: err = 101/(5·10^79), disp = 173/(5·10^44). Graph: mono 0.6397713, pLo 0.9676314, pHi 0.9821229.
