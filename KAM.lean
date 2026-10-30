@@ -109,7 +109,15 @@ public import KAM.Certificate.Tests.Model
 public import KAM.Certificate.Tests.Negative
 public import KAM.Certificate.Tests.Packed
 public import KAM.Certificate.Tests.Positivity
+public import KAM.Certificate.Tests.Rat
+public import KAM.Certificate.Tests.RatData
 public import KAM.Certificate.Tests.Torsion
+public import KAM.Certificate.Tests.Toy2
+public import KAM.Certificate.Tests.Toy2Data
+public import KAM.Certificate.Tests.Toy2dData
+public import KAM.Certificate.Tests.Toy3
+public import KAM.Certificate.Tests.Toy3Data
+public import KAM.Certificate.Tests.ToyLit
 public import KAM.Certificate.Tests.Witness
 public import KAM.Certificate.Torsion.Average
 public import KAM.Certificate.Torsion.Frame
