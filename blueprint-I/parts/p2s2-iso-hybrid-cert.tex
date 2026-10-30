@@ -35,8 +35,7 @@ The step bounds \Kref{bp:p2s2hc:S1}--\Kref{bp:p2s2hc:S7} with $E$, $E_1$ at the 
 and in addition
 \begin{enumerate}[label=(S\arabic*),start=8]
 \item\label{bpI:p2s2hc:S8} $\abs{\tilde\varepsilon}\le\ell_H$;
-\item\label{bpI:p2s2hc:S9} $\abs{\Delta s}\abs{\omega^*}\le d_\omega$ and $\nu_1:=\nu-d_\omega>0$;
-\item\label{bpI:p2s2hc:S10} $\abs{Y}\le y_0$ on $\R^n$, $Y=DH(K)N$ (refined datum).
+\item\label{bpI:p2s2hc:S9} $\abs{\Delta s}\abs{\omega^*}\le d_\omega$ and $\nu_1:=\nu-d_\omega>0$.
 \end{enumerate}
 \end{definition}
 
@@ -85,7 +84,7 @@ $(s_1-1)\abs{\omega^*}\ge(s-1)\abs{\omega^*}-d_\omega\ge\nu-d_\omega=\nu_1>0$, a
 With the real data of \Kref{bp:p2s2hc:frames} and \Kref{bp:p2s2hc:torsion} at the frequencies $s\omega^*$ (for $K$) and $s_1\omega^*$ (for $K_1$), let
 $t_A\ge\sup_{\R^n}(\Delta^\R_{ab}+\lambda_0^\R+\lambda_1^\R)$ and
 \[
-t_A^{\mathrm{ext}}:=\max\bigl\{t_A+d_\omega,\ M_{h1}n_\Delta^\R+M_{h2}d_0^\R(\nu+n_\Delta^\R)\bigr\}.
+t_A^{\mathrm{ext}}:=\max\bigl\{t_A+d_\omega,\ n\bigl(M_{h1}n_\Delta^{\R\top}+M_{h2}d_0^\R(\nu^\top+n_\Delta^{\R\top})\bigr)\bigr\}.
 \]
 If $\abs{\avg{T^{\mathrm{ext}}}^{-1}}\le m$ and $mt_A^{\mathrm{ext}}<1$, then $\avg{T_1^{\mathrm{ext}}}$ (at $s_1\omega^*$) is invertible and $\abs{\avg{T_1^{\mathrm{ext}}}^{-1}}\le m/(1-mt_A^{\mathrm{ext}})$.
 \source{\Kref{bp:p2s2hc:torsion}; Definition~\ref{bpI:p0:extended}; ours.}
@@ -94,8 +93,10 @@ If $\abs{\avg{T^{\mathrm{ext}}}^{-1}}\le m$ and $mt_A^{\mathrm{ext}}<1$, then $\
 \begin{proof}
 \proofstep{Blocks}\label{stepI:p2s2hc:bl}
 $\avg{T_1^{\mathrm{ext}}}-\avg{T^{\mathrm{ext}}}$ has the blocks $\avg{T_1}-\avg T$ (bounded by $t_A$: the frame parts do not depend on the frequency, the local parts are
-those of $K$ at $s\omega^*$ and of $K_1$ at $s_1\omega^*$), the column $\Delta s\,\omega^*$, and the row $\avg{DH(K_1)N_1-DH(K)N}$, bounded by
-$M_{h1}\abs{N_1-N}+\abs{DH(K_1)-DH(K)}\abs{N_1}$ with $\abs{DH(K_1)-DH(K)}\le M_{h2}\abs{\Delta K}$; the bordered row-sum norm is the larger row sum.
+those of $K$ at $s\omega^*$ and of $K_1$ at $s_1\omega^*$), the column $\Delta s\,\omega^*$, and the row $\avg{DH(K_1)N_1-DH(K)N}$. A linear form $\ell$ on $\C^{2n}$ (max norm) has $\abs{\ell(v)}\le\abs\ell\abs v$, and every
+column $v_j$ of a matrix $X$ has $\abs{v_j}\le\abs{X^\top}$; so the row sum $\sum_j\abs{DH(K_1)N_1e_j-DH(K)Ne_j}$ is at most
+$n\bigl(M_{h1}\abs{N_1^\top-N^\top}+\abs{DH(K_1)-DH(K)}\abs{N_1^\top}\bigr)$, with $\abs{DH(K_1)-DH(K)}\le M_{h2}\abs{\Delta K}$. The bordered row-sum norm is the
+larger row sum.
 
 \proofstep{Neumann}\label{stepI:p2s2hc:nm}
 \Kref{bp:p2s:neumann}.

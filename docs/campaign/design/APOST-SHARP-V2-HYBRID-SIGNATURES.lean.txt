@@ -237,16 +237,18 @@ theorem torsionAB_step_sub_le {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
   sorry
 
 /-- Lemma `bp:p2s2hc:torsion`(c) (pointwise): the two sup forms and the increment. The local parts
-`l₀`, `l₁` come from `KAM.Sharp2.norm_torsion_sub_torsionAB_le` at `K` and at `K₁`. -/
+`l₀`, `l₁` come from `KAM.Sharp2.norm_torsion_sub_torsionAB_le` at `K` (frequency `ω`) and at `K₁`
+(frequency `ω₁`; `ω₁ = ω` at fixed frequency, `s₁ ω*` against `s ω*` in the iso form: the frame
+part `𝒯_ab` does not depend on the frequency). -/
 theorem torsion_step_le {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
-    {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ω : Fin n → ℝ} {θ : Fin n → ℂ}
+    {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ω ω₁ : Fin n → ℝ} {θ : Fin n → ℂ}
     {t dab l₀ l₁ a₁ : ℝ} (hT : ‖torsion h K ω θ‖ ≤ t)
     (hab : ‖torsionAB h (K + ΔK) θ - torsionAB h K θ‖ ≤ dab)
     (hab₁ : ‖torsionAB h (K + ΔK) θ‖ ≤ a₁)
     (hl₀ : ‖torsion h K ω θ - torsionAB h K θ‖ ≤ l₀)
-    (hl₁ : ‖torsion h (K + ΔK) ω θ - torsionAB h (K + ΔK) θ‖ ≤ l₁) :
-    ‖torsion h (K + ΔK) ω θ‖ ≤ min (t + dab + l₀) a₁ + l₁ ∧
-      ‖torsion h (K + ΔK) ω θ - torsion h K ω θ‖ ≤ dab + l₀ + l₁ := by
+    (hl₁ : ‖torsion h (K + ΔK) ω₁ θ - torsionAB h (K + ΔK) θ‖ ≤ l₁) :
+    ‖torsion h (K + ΔK) ω₁ θ‖ ≤ min (t + dab + l₀) a₁ + l₁ ∧
+      ‖torsion h (K + ΔK) ω₁ θ - torsion h K ω θ‖ ≤ dab + l₀ + l₁ := by
   sorry
 
 /-- Lemma `bp:p2s2hc:torsion`(d): Neumann against the initial average (`inv_le_of_ref`). -/
@@ -428,16 +430,18 @@ structure StepNum where
   o1 : ℝ
   o1R : ℝ
 
-/-- `(S1)–(S7)`: each a bound on an explicit object; `ρT` is the torsion strip `ρ₁ - δ₀'`. -/
+/-- `(S1)–(S7)`: each a bound on an explicit object; `ρT` is the torsion strip `ρ₁ - δ₀'`; `ω` is
+the frequency of `K`, `ω₁` that of `K₁` (`ω₁ = ω` at fixed frequency; `s ω*`, `s₁ ω*` in the iso
+form, where `linNewError` at `s₁ ω*` is `Ẽ_s`). -/
 structure StepBounds (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ)
-    (K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω : Fin n → ℝ) (ρ₁ ρinf ρT : ℝ)
+    (K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ω ω₁ : Fin n → ℝ) (ρ₁ ρinf ρT : ℝ)
     (b : StepNum) : Prop where
   d0 : ∀ θ ∈ complexStrip n ρ₁, ‖ΔK θ‖ ≤ b.d0
   dinf : ∀ θ ∈ complexStrip n ρinf, ‖ΔK θ‖ ≤ b.dinf
   d1 : ∀ θ ∈ complexStrip n ρ₁, ‖tangentMat ΔK θ‖ ≤ b.d1 ∧ ‖(tangentMat ΔK θ)ᵀ‖ ≤ b.d1t
   real : ∀ θ : Fin n → ℝ, ‖ΔK fun l => (θ l : ℂ)‖ ≤ b.d0R ∧
     ‖tangentMat ΔK (fun l => (θ l : ℂ))‖ ≤ b.d1R ∧ ‖(tangentMat ΔK (fun l => (θ l : ℂ)))ᵀ‖ ≤ b.d1tR
-  lin : ∀ θ ∈ complexStrip n ρ₁, ‖linNewError h K ΔK ω θ‖ ≤ b.lE
+  lin : ∀ θ ∈ complexStrip n ρ₁, ‖linNewError h K ΔK ω₁ θ‖ ≤ b.lE
   loc0 : ∀ θ ∈ complexStrip n ρT, ‖errDerivMat h K ω θ‖ ≤ b.dE0 ∧ ‖lagrangeMat K θ‖ ≤ b.o0
   loc0R : ∀ θ : Fin n → ℝ, ‖errDerivMat h K ω (fun l => (θ l : ℂ))‖ ≤ b.dE0R ∧
     ‖lagrangeMat K (fun l => (θ l : ℂ))‖ ≤ b.o0R
@@ -527,7 +531,7 @@ theorem g1_hybrid_R {N₁ : NumA} (hN : N₁.Wf) (hfix : N₁.iso = false) (hΘ 
     (hNm : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖normalMat K θ‖ ≤ k.ν)
     (hNt : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖(normalMat K θ)ᵀ‖ ≤ k.νt)
     (hT : ∀ θ ∈ complexStrip N₁.n (N₁.ρ - N₁.δ 0), ‖torsion h K ω θ‖ ≤ k.t)
-    (hS : IsStep ΔK ρ₀) (hb : StepBounds h K ΔK ω N₁.ρ N₁.ρinf (N₁.ρ - N₁.δ 0) b)
+    (hS : IsStep ΔK ρ₀) (hb : StepBounds h K ΔK ω ω N₁.ρ N₁.ρinf (N₁.ρ - N₁.δ 0) b)
     (hω : ω ∈ Ω) (hCt : N₁.Cert γ Ω) (hγ : 0 < γ) (hγγbar : γ ≤ γbar)
     (hdio : IsDiophantine γ N₁.τ ω)
     (hsm : b.e1 N₁.M2 / (γ ^ 4 * delta0 3 N₁.ρ N₁.ρinf ^ (2 * (2 * N₁.τ))) < Xs)
@@ -633,7 +637,7 @@ theorem g1_v2A'_hybrid (N : NumA) (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ
       -- the hybrid data (used in the second branch only)
       (∀ z ∈ 𝔅, ‖hamComm h z‖ ≤ cTh) → I.iLt ≤ k.ℓt → I.iN ≤ k.ν → I.iNt ≤ k.νt →
       I.iH ≤ k.t → IsStep ΔK N.ρ →
-      StepBounds h K ΔK ω R.ρ₁ N.ρinf (R.ρ₁ - (N.restart R).δ 0) b →
+      StepBounds h K ΔK ω ω R.ρ₁ N.ρinf (R.ρ₁ - (N.restart R).δ 0) b →
       (N.restart R).Cert γ Ω →
       (min (sharpC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf) (c1A N Xs) *
           e / (γ ^ 4 * N.ρ ^ (4 * N.τ)) < 1 ∨
@@ -701,11 +705,10 @@ theorem iso_g1_hybrid_core_R {N₁ : NumA} (hN : N₁.Wf) (hiso : N₁.iso = tru
   sorry
 
 /-- The isoenergetic hybrid numbers beyond the fixed-frequency ones (Definition
-`bpI:p2s2hc:bounds`): `ℓ_H ≥ |ε̃|`, `d_ω ≥ |Δs||ω*|`, `y₀ ≥ |DH(K)N|` on `ℝⁿ`, `Mh1`, `Mh2`. -/
+`bpI:p2s2hc:bounds`): `ℓ_H ≥ |ε̃|`, `d_ω ≥ |Δs||ω*|`, and `Mh1 ≥ |DH|`, `Mh2 ≥ |D²H|`. -/
 structure IsoNum where
   lH : ℝ
   dω : ℝ
-  y0 : ℝ
   Mh1 : ℝ
   Mh2 : ℝ
 
@@ -713,16 +716,17 @@ structure IsoNum where
 def IsoNum.e1 (q : IsoNum) (b : StepNum) (M2 : ℝ) : ℝ :=
   max (b.e1 M2) (q.lH + q.Mh2 / 2 * b.d0R ^ 2)
 
-/-- `t_A^ext` of Lemma `bpI:p2s2hc:torsion`. -/
+/-- `t_A^ext` of Lemma `bpI:p2s2hc:torsion`: the last row `Σ_j |DH(K₁)N₁ e_j - DH(K)N e_j|` is
+bounded through the transposes, `n (M_{h1} n_Δᵗ + M_{h2} d₀ (νᵗ + n_Δᵗ))` on `ℝⁿ`. -/
 def IsoNum.tAext (q : IsoNum) (b : StepNum) (k : KData) (nn M1 M2 δ cTh : ℝ) : ℝ :=
   max (b.tA k nn M1 M2 δ cTh + q.dω)
-    (q.Mh1 * (b.frR k).nΔ + q.Mh2 * b.d0R * (k.ν + (b.frR k).nΔ))
+    (nn * (q.Mh1 * (b.frR k).nΔt + q.Mh2 * b.d0R * (k.νt + (b.frR k).nΔt)))
 
 /-- Theorem `bpI:p2s2hc:g1`, route A with L8′, the step form: `iso_g1_hybrid_core_R` with every
 hypothesis on `(K₁, s₁)` derived from the step bounds and the certified data of `(K, s)` by
 Lemmas `bp:p2s2hc:struct`–`bp:p2s2hc:torsion`, `bpI:p2s2hc:errors`, `bpI:p2s2hc:torsion`. The
-fields of `StepBounds` are taken at the frequency `s ω*` for `K`, with `linNewError` at
-`s₁ ω*` (`Ẽ_s`); the iso refined data are `RefHypIA`'s for `K` on `T_{ρ₀}`. -/
+fields of `StepBounds` are taken at the frequency `s ω*` for `K` and `s₁ ω*` for `K₁` (so its
+`lin` is `Ẽ_s`); the iso refined data are `RefHypIA`'s for `K` on `T_{ρ₀}`. -/
 theorem iso_g1_hybrid_R {N₁ : NumA} (hN : N₁.Wf) (hiso : N₁.iso = true)
     (hτ : (N₁.n : ℝ) - 1 ≤ N₁.τ) {M σK σB σT μ μ₁ γbar σω ν ρ₀ Xs bF bT cTh : ℝ} (k : KData)
     (b : StepNum) (q : IsoNum) (hM : 0 < M) (hμ₁ : 0 < μ₁) (hσω : 1 < σω)
@@ -764,8 +768,8 @@ theorem iso_g1_hybrid_R {N₁ : NumA} (hN : N₁.Wf) (hiso : N₁.iso = true)
     (hNm : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖normalMat K θ‖ ≤ k.ν)
     (hNt : ∀ θ ∈ complexStrip N₁.n ρ₀, ‖(normalMat K θ)ᵀ‖ ≤ k.νt)
     (hT : ∀ θ ∈ complexStrip N₁.n (N₁.ρ - N₁.δ 0), ‖torsion H K (s • ωstar) θ‖ ≤ k.t)
-    (hS : IsStep ΔK ρ₀) (hb : StepBounds H K ΔK (s • ωstar) N₁.ρ N₁.ρinf (N₁.ρ - N₁.δ 0) b)
-    (hlinS : ∀ θ ∈ complexStrip N₁.n N₁.ρ, ‖linNewError H K ΔK (s₁ • ωstar) θ‖ ≤ b.lE)
+    (hS : IsStep ΔK ρ₀)
+    (hb : StepBounds H K ΔK (s • ωstar) (s₁ • ωstar) N₁.ρ N₁.ρinf (N₁.ρ - N₁.δ 0) b)
     (hlinH : ‖linNewEnergy H K ΔK E₀‖ ≤ q.lH) (hdω : ‖s₁ • ωstar - s • ωstar‖ ≤ q.dω)
     (hΩ : ∀ s' : ℝ, 1 ≤ s' → s' • ωstar ∈ Ω) (hCt : N₁.Cert γ Ω) (hγ : 0 < γ)
     (hγγbar : γ ≤ γbar) (hdio : IsDiophantine γ N₁.τ ωstar)

@@ -26,9 +26,19 @@ numbers; §5 Lean signatures and package split; §6 risks; §7 reproduction; §8
     torsion models run on the coarse K only.
   - Cost estimate, package split and the placement of kernel tests are in §3 (R1-scale tests go to `kernel-tests/`,
     unbuilt).
-- **The R1 numbers (§4).** TO BE FILLED FROM THE RUNS.
-- **Lean (§5).** The signature probe elaborates against `sharp-v2` (781 lines, 52 declarations, 15 `sorry` targets, 9 s,
-  3.6 GB peak). About 2.3k Lean lines in five packages H1–H5, almost all linear algebra and mean-value estimates on top of
+- **The R1 numbers (§4).** In the enclosures' norms, on R1's truncations (the realistic case), iso route A′:
+  - the plain v2 certifies a candidate from L = 15 digits (87 terms of v, residual 4.6·10⁻¹², threshold 10^{−10.95});
+  - the hybrid certifies from **L = 8 (23 terms, residual 3.9·10⁻⁶)**, a hybrid threshold of **10^{−5.28}**;
+  - route B's hybrid is 10^{−5.96}.
+
+  The best restart strip is ρ₁ = ρ (no strip loss). On R1's own 10⁻⁷⁹ residual shape (formal) the hybrid gives
+  10^{−3.80} at ρ₁ = ρ − 3δ₀; the earlier heuristic gave −4.4.
+
+  The remaining binding terms are the restarted theorem's own threshold (route A′'s cap sum `Tab`) and the quadratic
+  Newton residual Ẽ (≈ 0.39e² in ℓ¹, 2.4× its true sup). The Taylor remainder is 10⁻³ of e₁, every transfer increment
+  ≤ 4.4·10⁻⁴ relative, and the displacement 5.7·10⁻⁸ (§4.4).
+- **Lean (§5).** The signature probe elaborates against `sharp-v2` (785 lines, 52 declarations, 15 `sorry` targets, 9 s,
+  3.6 GB peak); every target was checked against its intended proof (§5.2). About 2.3k Lean lines in five packages H1–H5, almost all linear algebra and mean-value estimates on top of
   B9 (route A′), B6/B7 (route B) and `TorsionRef`.
 - **An observation on R1 (§4.5).** In R1's rotated frame H is linear in P₂, so the frozen torsion average is singular,
   ⟨T⟩ = diag(1.96, 0); only the bordered (isoenergetic) twist is invertible (|⟨T^ext⟩⁻¹| = 0.584). Only the isoenergetic
@@ -63,8 +73,8 @@ The restart loses nothing against (a):
   route B. The restart accepts any K₁; the form of the step affects only the size of Ẽ.
 - Route B's step (K + Nξᴺ)∘(id + ξᴸ) would need a certified composition of models with a shifted argument, plus its Taylor
   remainder in θ. The brief's "composition K̃∘(id + ξᴸ) needs a certified composition/remainder" is exactly that. It is not
-  needed: the measured new error of the additive step is already second order, |E₁| ≈ 0.6|E|² on R1's truncations (§4.3).
-  The Taylor remainder is 10⁻⁴ of it, and the binding part is Ẽ itself.
+  needed: the measured new error of the additive step is already second order, sup|E₁| ≈ 0.57(sup|E|)² on R1's truncations
+  (§4.2). The true Taylor remainder is 10⁻⁶ of it (its bound (M₂/2)d₀² is 10⁻³), and the binding part is Ẽ itself.
 
 ### 1.3 Why not just certify a better candidate
 
@@ -142,13 +152,14 @@ floating point; any truncation of ΔK is paid for linearly in Ẽ.
 
 ### 3.2 Precision
 
-- Ẽ must be enclosed with a remainder ≤ 10% of the target e₁. Here e₁ ≈ e*(ρ₁) ≈ 2·10⁻¹¹ for route A′ on R1, so the model of
-  E needs rad ≲ 2·10⁻¹² on T_{ρ₁}. The composition must run at this absolute accuracy although K is coarse; this is the
+- Ẽ must be enclosed with a remainder ≤ 10% of the target e₁. Here e₁ ≈ e*(ρ₁) ≈ 1.1·10⁻¹¹ for route A′ iso on R1, so the
+  model of E needs rad ≲ 10⁻¹² on T_{ρ₁}. The composition must run at this absolute accuracy although K is coarse; this is the
   accuracy the plain certificate needs for its own final residual (§3.3).
-- ΔK is of size ≈ 10⁻² e (§4.3); it needs only about 7 significant digits (absolute accuracy 10⁻¹² at e ≈ 4·10⁻⁶). The
+- ΔK is of size ≈ 3·10⁻² e (§4.2). It needs only about 6 significant digits: absolute accuracy 10⁻¹³ at |ΔK| ≈ 10⁻⁷. The
   product (DX_h∘K)·ΔK is low precision.
-- The real-torus increments are 10⁻⁵–10⁻⁶ of the strip increments (the residual sits at high modes); the twist
-  transfer is negligible.
+- The real-torus increments that drive the twist transfer are ≈ 10⁻⁵ of the strip increments for R1's own residual and
+  ≈ ½ of them for truncations. In both cases t_A ≤ 7·10⁻⁴ at the certified candidates, and |⟨T^ext⟩⁻¹| moves by ≤ 4.4·10⁻⁴
+  relative (§4.2).
 
 ### 3.3 Kernel cost at lunar size
 
@@ -172,8 +183,8 @@ for a dropped weighted-ℓ¹ mass ≤ 2·10⁻¹² on T_ρ.
     three entries of DX_h are non-constant.
   - Norms of ΔK, DΔK: linear in 123 terms.
   - Ω_{K₁}: n²·2n products of ≈ 150-term polynomials, ≈ 2·10⁵ multiplications.
-  - At the measured rates (compose ≈ 1 μs per coefficient operation, C7; `cohSolve`-type rational ops ≈ 10–20 μs, C5CORE)
-    these are seconds.
+  - At ≈ 1 μs per coefficient product these are seconds. That rate is inferred, not measured: it follows from the estimate
+    "35–95 s per compose op on an 8.5k-term model" (CERTIFIER-SHARPNESS §4.2), which is about 7·10⁷ products per op.
 - **The numerical core at N₁ costs what the plain core costs.** C6L8 measured 6 min and 19.2 GB for R1's route-A′ core
   (`RefinedRefR1`). That is over the machine's 10 GB per-process cap, a design signal for the core (split the per-stage
   `decide`s, round the arithmetic), not for the hybrid. With ρ₁ = ρ₀ the small-divisor bites are the plain certificate's.
@@ -194,16 +205,187 @@ tests live in `kernel-tests/`.
 
 **SO wiring.** `CertifiedTorus` is stated for the certificate's own torus c.K, with ‖K∞ − c.K‖ ≤ disp. The hybrid
 conclusion is about K = c.K, with disp ≥ max{d∞ + D₁, d_ω + D₁^ω}, so no change of the SO consumer is needed beyond the
-wrapper. `checkSoGraph` needs disp < mono·ρ∞ ≈ 1.4·10⁻⁵. The measured d∞ is below 10⁻⁷ (§4.3), far inside it.
+wrapper. `checkSoGraph` needs disp < mono·ρ∞ ≈ 1.4·10⁻⁵. The measured d∞ is 5.7·10⁻⁸ at L = 8 (§4.2), far inside it.
 
 ## 4. The R1 numbers
 
-TO BE FILLED FROM THE RUNS.
+`scripts/apost_sharp/hybrid_cert_r1.py`; raw outputs in `docs/campaign/design/hybrid/r1-{trunc,shape,sizes}.json`. These are
+design numbers in the norms of §3's enclosures, computed in double precision on sampled grids. The kernel would compute
+the same norms exactly from the models.
+
+### 4.1 Method
+
+- **Candidates.**
+  - (a) **Truncations of R1.** R1's angle function v is cut at |b_k| > 10^{−L}. The graph torus of `r1_norms.py` (rotated
+    frame, c = 7/4) is energy-normalised exactly, H∘K ≡ 0. Its residual is in closed form:
+    E_L = (0, 0, −cR, −c(1 − p)R), R = D_t p + V_q.
+  - (b) **R1's own L = 88 torus.** Its residual is 4·10⁻⁷⁹, far below every threshold. Normalised by e = sup_{T_ρ}|E|, it
+    gives the *shape* of a high-accuracy residual. This is a formal scaling model, the setting of the earlier heuristic
+    (`step0_actual.py`, `A_MEAS_R1`).
+- **The step.** The isoenergetic additive step: the bordered system [[⟨T⟩, ω], [⟨Y⟩, 0]], with ΔK = Lξᴸ + Nξᴺ and
+  ω₁ = ω − ξ^ω ω. R1's ⟨T⟩ is singular (§4.5), so a fixed-frequency step does not exist for R1. The "fixed" rows below use
+  the same step and are formal.
+- **Enclosure norms.**
+  - e_L = ‖E_L‖_{ℓ¹,ρ}, the norm the certifier's `supBound` computes for the plain theorem.
+  - ℓ_E = 1.10·‖Ẽ‖_{ℓ¹,ρ₁}, with 10% reserved for the model remainders.
+  - The Taylor term is (M₂/2)‖ΔK‖²_{ℓ¹,ρ₁}, with M₂ = 1.05·1.0342.
+  - The increments, |DE|, |Ω_K| and |Ω_{K₁}| are ℓ¹ norms on T_{ρ₁} and ℝⁿ.
+  - The transfer is Definition `bp:p2s2hc:data` against the R1 package's caps.
+  - The restarted theorem is `thresholds_v2.py`'s route A′ (A7 with L8′, k = 5) or route B (B6 options) at the strip ρ₁,
+    for ρ₁ ∈ {ρ, ρ − δ₀/4, ρ − δ₀/2, ρ − δ₀, ρ − 3δ₀/2, ρ − 2δ₀, ρ − 3δ₀}; the best strip is reported.
+- **A check of the bound.** For (a), the new error E₁ = X_H(K + ΔK) − D(K + ΔK)ω₁ is also computed directly (difference
+  formulas, no cancellation). It verifies that e₁ bounds it and shows how sharp e₁ is.
+
+### 4.2 Truncated candidates (the realistic case)
+
+Isoenergetic, route A′ (the R1-relevant form). The plain v2 thresholds are 10^{−10.95} (route A′ iso), 10^{−10.71} (route A′
+fixed), 10^{−12.33} (route B iso) and 10^{−12.25} (route B fixed). A margin is log₁₀ of threshold over error; positive means
+certified.
+
+| L | v terms | e_L (ℓ¹, T_ρ) | plain margin | e₁ (ℓ¹ bound) | E₁ direct sup | best ρ₁ | e₁* at ρ₁ | **hybrid margin** |
+|---:|---:|---:|---:|---:|---:|---|---:|---:|
+| 5 | 7 | 4.05·10⁻⁴ | −7.55 | 6.93·10⁻⁸ | 3.05·10⁻⁸ | ρ | 10^{−11.02} | −3.86 |
+| 6 | 10 | 9.31·10⁻⁵ | −6.91 | 3.82·10⁻⁹ | 1.64·10⁻⁹ | ρ | 10^{−10.96} | −2.54 |
+| 7 | 16 | 1.47·10⁻⁵ | −6.11 | 9.25·10⁻¹¹ | 3.90·10⁻¹¹ | ρ | 10^{−10.95} | −0.91 |
+| **8** | **23** | 3.93·10⁻⁶ | −5.54 | 5.99·10⁻¹² | 2.49·10⁻¹² | ρ | 10^{−10.95} | **+0.28** |
+| 9 | 29 | 1.07·10⁻⁶ | −4.97 | 4.67·10⁻¹³ | 1.93·10⁻¹³ | ρ | 10^{−10.95} | +1.38 |
+| 10 | 38 | 1.32·10⁻⁷ | −4.07 | 6.95·10⁻¹⁵ | 2.75·10⁻¹⁵ | ρ | 10^{−10.95} | +3.21 |
+| 11 | 47 | 1.30·10⁻⁸ | −3.06 | 6.08·10⁻¹⁷ | 2.53·10⁻¹⁷ | ρ | 10^{−10.95} | +5.27 |
+| 12–14 | 56–74 | 1.8·10⁻⁹–4.2·10⁻¹¹ | −2.19 to −0.57 | ≈ 10⁻¹⁸ (floor) | | | | ≥ +7 |
+| **15** | **87** | 4.57·10⁻¹² | **+0.39** | ≈ 10⁻¹⁸ (floor) | | | | ≥ +7 |
+
+For L ≥ 12 the computed Ẽ is at the double-precision floor (≈ 10⁻¹⁸); the margins there are lower bounds.
+
+- **The plain theorem first certifies at L = 15 (87 terms); the hybrid at L = 8 (23 terms).**
+- **The hybrid threshold is 10^{−5.28} for route A′ iso.** Each row with |margin| < 2 gives log₁₀ e_L + margin/2 =
+  −5.29, −5.27, −5.28, since e₁ ∝ e_L². The other forms:
+
+  | Form | Hybrid threshold | Plain threshold |
+  |---|---:|---:|
+  | route A′ iso | 10^{−5.28} | 10^{−10.95} |
+  | route A′ fixed (formal) | 10^{−5.16} | 10^{−10.71} |
+  | route B iso | 10^{−5.96} | 10^{−12.33} |
+  | route B fixed | 10^{−5.92} | 10^{−12.25} |
+
+  The minimum with the routes (Corollary `bp:p2s2hc:frozen`) takes route A′.
+- **The best restart strip is ρ₁ = ρ in every certified row.** At L = 8, ‖Ẽ‖_{ℓ¹} falls only from 5.44·10⁻¹² (ρ₁ = ρ) to
+  3.25·10⁻¹² (ρ₁ = ρ − 3δ₀), 0.22 orders, while the restarted threshold loses about one order. The decay rate corresponds to
+  a weight at |k|₁ ≈ 10; the residual of a truncation sits at low modes. A measured step needs no strip loss.
+- **The bound against the truth.** e₁ ≥ E₁ (direct sup) in every row. The ratio is about 2.4, the ℓ¹/sup factor of Ẽ; it costs
+  0.19 orders in the hybrid threshold.
+- **At L = 8 (ρ₁ = ρ):**
+  - ‖ΔK‖_{ℓ¹} = 1.15·10⁻⁷ ≈ 0.03e;
+  - ‖Ẽ‖_{ℓ¹} = 5.44·10⁻¹² ≈ 0.35e²;
+  - the Taylor term (M₂/2)d₀² = 7·10⁻¹⁵, about 10⁻³ of e₁ (the true remainder is 5·10⁻¹⁸);
+  - |Ω_{K₁}| = 7·10⁻¹³ against |Ω_K| = 2.6·10⁻⁶ (the step makes the torus Lagrangian to second order);
+  - |ξ^ω| = 2·10⁻¹³, and ε̃ = 3·10⁻²⁷ (zero up to rounding: H∘K ≡ 0 and the bordered row);
+  - the displacement on T_{ρ∞} is d∞ = 5.7·10⁻⁸ (SO needs ≤ 1.4·10⁻⁵).
+- **Transfer at L = 8:**
+
+  | Quantity | K | K₁ |
+  |---|---:|---:|
+  | margin | μ = 0.00625 | μ₁ = 0.00624 |
+  | \|B\| | | +5.2·10⁻⁵ |
+  | \|N\| | | +8.3·10⁻⁵ |
+  | sup\|T\| | 3.4787 | 3.4801 |
+  | \|⟨T^ext⟩⁻¹\| | 0.61320 | 0.61347 |
+  | t_A | | 7·10⁻⁴ |
+
+  The restarted threshold equals the plain one to 0.01 orders.
+
+### 4.3 R1's own residual (formal scaling model)
+
+R1's L = 88 residual, normalised by e = 4.09·10⁻⁷⁹ (grid 1024 × 256). Every step object is scaled to a residual of size e
+with the same spectrum: ΔK ∝ e and Ẽ ∝ e² (Ẽ = P·E_lin at leading order). A = 1.10‖Ẽ^‖_{ℓ¹,ρ₁} + (M₂/2)‖ΔK^‖²_{ℓ¹,ρ₁}, and
+the hybrid threshold is the largest e with A e² ≤ e₁*(ρ₁; increments at e), found by a fixed-point iteration and a final
+log-bisection. It agrees with (log₁₀ e₁* − log₁₀ A)/2 to 0.01.
+
+| ρ₁ (strip loss) | A | route A′ iso | route A′ fixed | route B iso | route B fixed |
+|---|---:|---:|---:|---:|---:|
+| ρ | 22.0 | −6.15 | −6.03 | −6.84 | −6.80 |
+| ρ − δ₀/2 | 2.16 | −5.70 | −5.57 | −6.38 | −6.34 |
+| ρ − δ₀ | 0.220 | −5.26 | −5.13 | −5.94 | −5.90 |
+| ρ − 2δ₀ | 2.61·10⁻³ | −4.47 | −4.29 | −5.11 | −5.07 |
+| **ρ − 3δ₀** | 4.11·10⁻⁵ | **−3.80** | **−3.57** | **−4.38** | **−4.34** |
+
+Binding: route A′ `sum Tab` (fixed) and the tail E (iso, at ρ₁ ≤ ρ − δ₀); route B the tail decay.
+
+- **This residual favours a strip loss.** 90% of its mass is at |k|₁ ≈ 100–176 (`step0_actual.py`). Ẽ falls by a factor of 60–100 per δ₀, and
+  ‖DΔK^‖_{ℓ¹} = 41 per unit e on the full strip. The largest tested loss (3δ₀) is the best; larger losses may help this
+  shape further.
+- **Against the earlier heuristic** (`thresholds_v2.hybrid`, A_meas = 7.28·10⁻⁴: a sampled, bound-structured
+  leading-order sup on T_{ρ−2δ₀}, restart at ρ − 3δ₀, increments neglected):
+
+  | | Iso | Fixed |
+  |---|---:|---:|
+  | route A, heuristic | −4.42 | −4.18 |
+  | route A′, enclosures | −3.80 | −3.57 |
+  | route B, heuristic | −5.01 | −4.97 |
+  | route B, enclosures | −4.38 | −4.34 |
+
+  The enclosure numbers are *better*, by 0.6. The heuristic measured Ẽ on T_{ρ−2δ₀} but restarted at ρ − 3δ₀, and its
+  bound-structured form, |P|·2|E_lin| + …, is coarser than ‖Ẽ‖_{ℓ¹} at the restart strip itself. Every increment is now
+  included. At the best strip they change |T| by at most 0.25%, |⟨T^ext⟩⁻¹| by at most 3·10⁻⁴
+  relative, and μ by at most 2·10⁻⁵.
+- **This is a property of a residual that is 10⁻⁷⁹ in size; R1 itself needs no hybrid.** The realistic planning number is
+  §4.2's.
+
+### 4.4 The certified R1 threshold and the remaining binding term
+
+**The certified R1 threshold (design numbers, every heuristic replaced by the enclosures of §3).**
+
+| Setting | Hybrid (iso, route A′) | Plain v2 (iso, route A′) | What a certificate needs |
+|---|---:|---:|---|
+| R1's truncations (§4.2) | **10^{−5.28}**: candidates from L = 8, 23 terms of v | 10^{−10.95}: from L = 15, 87 terms | the composition at accuracy ≈ 2·10⁻¹² in both; frames on 23 instead of 87 terms |
+| R1's own residual shape (§4.3, formal) | 10^{−3.80} (ρ₁ = ρ − 3δ₀) | 10^{−10.95} | — |
+
+Route B's hybrid is 0.7 orders below route A′'s on truncations (10^{−5.96}); the minimum with the routes takes A′. The
+fixed-frequency numbers (10^{−5.16}, 10^{−3.57}) are formal for R1 (§4.5).
+
+**The remaining binding term.** On a truncated candidate,
+
+  e₁ = 1.10‖Ẽ‖_{ℓ¹,ρ} + (M₂/2)d₀² ≈ 0.39 e_L²,
+
+and the hybrid certifies when e₁ ≤ e₁*(ρ). The binding pieces, in order:
+1. **The restarted theorem's own threshold** e₁*(ρ) = 10^{−10.95}, bound by route A′'s cap sum `Tab`: the frame part of
+   the torsion against the initial torus, Lemma `bp:p2s2:torsion-ref`. The hybrid threshold is √(e₁*/0.39); every order
+   gained by the plain theorem gives half an order here.
+2. **The quadratic Newton residual Ẽ.** This is the error of one additive Newton step: E_red·ξ and Ω_K·∂_ωξ. It is a
+   property of the candidate, not of the theorem.
+   - Its ℓ¹ enclosure is 2.4× the true sup. A sup enclosure by corner majorants (as the certifier does for frames) would
+     recover up to 0.19 orders.
+3. **Negligible:**
+   - the Taylor remainder (10⁻³ of e₁);
+   - every transfer increment (at L = 8: ≤ 4.4·10⁻⁴ relative on every cap);
+   - the frequency change and the energy error (ε̃ = 0 for R1's graph tori);
+   - the displacement (5.7·10⁻⁸ on T_{ρ∞}).
+
+**Levers beyond this package (projections, not computed).** Because the restart accepts any K₁, the next levers are free
+on the theorem side:
+- (a) **A multi-step correction.** The producer takes two Newton steps, ΔK = K₂ − K, at no extra kernel cost. Then Ẽ
+  drops to the size of the neglected quadratic Taylor term, ≈ (M₂/2)|ΔK|² ≈ 5·10⁻⁴e², so e₁ ≈ 10⁻³e² instead of 0.39e².
+  That is about 1.3 orders on the hybrid threshold, to ≈ 10⁻⁴.
+- (b) **Model the quadratic term.** Enclose E + DX_h(K)ΔK + ½D²X_h(K)[ΔK, ΔK] − DΔK·ω. This needs D²X_h∘K, available
+  from the composition's jet, and a bound M₃ ≥ |D³X_h| on 𝔅 for the cubic remainder. The binding term then becomes the
+  frozen |DK| and ball budgets: μ₁ = μ − 2max{d₀, d₁} > 0 with d₁ ≈ 1.5e at L = 8 gives e ≲ 2·10⁻³.
+
+Both are recorded for a follow-up package; neither changes the theorem of §2.
+
+### 4.5 Observation: R1 is genuinely isoenergetic
+
+`r1_norms.measure()`:
+- ⟨T⟩ = [[1.9626, 1.9·10⁻²⁰], [−5.6·10⁻²¹, −1.3·10⁻²⁰]], so |⟨T⟩⁻¹| = 8·10¹⁹;
+- the bordered |⟨T^ext⟩⁻¹| = 0.5843 = 1.022/1.75, the value in the R1 package's σ_T.
+
+In R1's rotated frame H = c(P₁²/2 − P₁ + P₂ + V(Q₁ + Q₂, Q₂)) is linear in P₂, so the torsion has no twist in that
+direction. The fixed-frequency v1/v2 theorems therefore do not apply to R1 as stated: their "fixed" R1 rows (design
+§§6, 11 and the tables of SHARP2-FIX/DOMPLUS) use the bordered value for |⟨T⟩⁻¹| and are formal. The isoenergetic rows
+are the R1 numbers. This is not an erratum of a pinned source; it is recorded for the orchestrator.
 
 ## 5. Lean: signatures and package split
 
 **Probe.** `docs/campaign/design/APOST-SHARP-V2-HYBRID-SIGNATURES.lean.txt` (the probe `.drafts/hybrid/Signatures.lean`):
-- 781 lines, 52 declarations, 15 `sorry` targets;
+- 785 lines, 52 declarations, 15 `sorry` targets;
 - it elaborates against `sharp-v2` at f7bd6712 in 9 s at 3.6 GB peak, with `autoImplicit false`;
 - it imports `KAM.Sharp2.RouteA.Ref.G1`, `KAM.Sharp2.RouteB.G1`, `KAM.Sharp2.RouteB.Frozen`, `KAM.Sharp2.TorsionRef` and
   `KAM.Iso.Sharp2.RouteA.Ref.G1`. Nothing is copied.
@@ -245,12 +427,38 @@ Total about 2.25k lines, every file under 800 lines. The hard lemmas:
 
 ### 5.1 Name-clash check
 
-TO BE FILLED (probe importing every built module of the library with the signature body).
+`.drafts/hybrid/Clash.lean` imports every module of the library whose olean exists in this worktree (1186 of the 1658
+modules reachable from `KAM.lean`), followed by the signature body:
+- exit 0, the same 15 `sorry` warnings, no redeclaration error;
+- 7.1 GB peak, under a watchdog at 8.5 GB (run on the final signatures; the first run, before the §5.2 repairs, gave the same
+  result at 7.3 GB).
+
+The 472 modules without an olean (358 under `Planetary`, the rest mostly tests, `SpinOrbit`, `Certificate`, `Frozen`) were
+not built (forbidden). A textual search of all `KAM/**/*.lean` finds none of the new names or namespaces.
+
+### 5.2 Review of the targets
+
+Each `sorry` target was checked against the proof the blueprint gives; all are true as stated. Three statements were
+repaired in this review (before the copy in the signature file):
+- `torsion_step_le` takes two frequencies (K at ω, K₁ at ω₁). The iso transfer compares T(K, sω*) with T(K₁, s₁ω*); the
+  frame part 𝒯_ab does not depend on the frequency.
+- `StepBounds` takes the frequency of K₁ for `lin`, so the iso step form uses Ẽ_s directly.
+- The last row of the bordered increment is bounded through transposes. A sum over the columns v_j of a linear form ℓ
+  applied to them is at most n|ℓ||Xᵀ|, not |ℓ||X|. This gives `IsoNum.tAext`'s n(M_{h1}n_Δᵗ + M_{h2}d₀(νᵗ + n_Δᵗ)).
+
+Plumbing facts the proofs need, none of them new mathematics:
+- ‖`tangentMat` K θ‖ against ‖fderiv K θ‖;
+- ‖Xᵀ‖ = ‖X‖ for the symmetric B and B₁ − B;
+- the mean-value bound |C(K₁θ) − C(Kθ)| ≤ 2M₂|ΔK| with M₂ in place of the frozen M (`norm_hamComm_sub_le` is stated
+  with Standing's M; H2 adds the M₂ variant);
+- the case t_A = 0 in `torsionAverage_step` (`inv_le_of_ref` needs m < σ strictly);
+- integrability of the torsions and of H∘K on the real cube (from holomorphy).
 
 ## 6. Risks
 
 - **Not a property of the theorem.** The hybrid threshold depends on the candidate's residual spectrum (§4.2 against
-  §4.3: R1's own high-mode residual gives A ≈ 10⁻³, a truncation gives A ≈ 0.4). The certificate always measures the actual
+  §4.3: R1's own high-mode residual gives A = 22 at ρ₁ = ρ and 4·10⁻⁵ at ρ₁ = ρ − 3δ₀; a truncation gives A ≈ 0.39 at
+  ρ₁ = ρ, nearly independent of ρ₁). The certificate always measures the actual
   step, so it is sound for any candidate; only the planning numbers change.
 - **The model of E at fine accuracy.** The composition's remainder must be ≤ 10% of e₁ on T_{ρ₁}. The certifier's
   composition is sound at any accuracy; the cost is that of the plain certificate's composition (§3.3).
@@ -263,8 +471,9 @@ TO BE FILLED (probe importing every built module of the library with the signatu
 ## 7. Reproduction
 
 ```
-python3 -I scripts/apost_sharp/hybrid_cert_r1.py --trunc --json OUT    # truncated candidates (about 2 h on a loaded machine)
-python3 -I scripts/apost_sharp/hybrid_cert_r1.py --shape --json OUT    # R1's residual shape (grid 1024 x 256, 1 GB)
+python3 -I scripts/apost_sharp/hybrid_cert_r1.py --trunc --json OUT    # truncated candidates, §4.2 (about 1 h, loaded machine)
+python3 -I scripts/apost_sharp/hybrid_cert_r1.py --shape --json OUT    # R1's residual shape, §4.3 (35 min, grid 1024 x 256, 1 GB)
+python3 -I scripts/apost_sharp/hybrid_cert_r1.py --sizes --json OUT    # model sizes, §3.3 (2 min)
 nice -n 5 lake env lean .drafts/hybrid/Signatures.lean               # the signature probe (9 s, 3.6 GB)
 ```
 

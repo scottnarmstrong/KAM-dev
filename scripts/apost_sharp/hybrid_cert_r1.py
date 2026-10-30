@@ -41,6 +41,7 @@ import step0_actual as S0                      # noqa: E402  residual of R1, gri
 import r1_norms                                # noqa: E402  the graph torus and its frame
 import thresholds_v2 as T2                     # noqa: E402  the restarted theorem (routes A', B)
 import model                                   # noqa: E402  (scripts/spin_orbit, via S0's path)
+import smalldiv as sd                          # noqa: E402  small-divisor constants (defect lemma)
 
 TWO_PI = 2 * math.pi
 C_TIME = S0.C_TIME
@@ -215,11 +216,12 @@ def step_iso(G, y, consts=None):
                                     C_TIME * ((G.cand.nu - 1) * (g["ps"] + g["Js"]) + g["pf"] + g["Jf"])], axis=-1)
     Elin = E + S0.mv(A, dK) - dwdK + xiw * dwK1        # E_lin~ at omega1 = omega - xi^w omega (Lemma bpI:p2s2hc:error)
     E1 = E + dXH(g, dK) - dwdK + xiw * dwK1            # the actual new error at omega1
+    energy_lin = complex(np.mean(np.einsum("...a,...a->...", o["DH"], dK)))   # <DH(K) DK> (eps~, H(K) = E0)
     L1 = L + deriv(G, dK)
     OmK = S0.mm(LT, S0.mm(OM, L))                                      # Lagrangian defects of K and K1
     OmK1 = S0.mm(np.swapaxes(L1, -1, -2), S0.mm(OM, L1))
     return dict(E=E, dK=dK, Elin=Elin, E1=E1, DE=deriv(G, E), T=T, consts=consts, xiw=complex(xiw), OmK=OmK,
-                OmK1=OmK1)
+                OmK1=OmK1, energy_lin=energy_lin)
 
 
 def trunc_measure(L_digits, strips, N1=512, N2=128, log=print):
@@ -245,6 +247,7 @@ def trunc_measure(L_digits, strips, N1=512, N2=128, log=print):
                 OmK1_l1=mat_norm(l1w(G, a["OmK1"], b["OmK1"])))
         z = step_iso(G, (0.0, 0.0), xi0)
         D0 = deriv(G, z["dK"])
+        r["energy_lin"] = abs(z["energy_lin"])                               # |eps~| (averaged at real points)
         r["real"] = dict(dK_l1=vec_norm(l1w_real(G, z["dK"])), DdK_l1=mat_norm(l1w_real(G, D0)),
                          DdKT_l1=mat_norm(np.swapaxes(l1w_real(G, D0), -1, -2)),
                          DE_l1=mat_norm(l1w_real(G, z["DE"])), E_l1=vec_norm(l1w_real(G, z["E"])),
@@ -290,7 +293,7 @@ def sizes_measure(L_digits=(8, 9, 15, 17), tols=(2e-12, 2e-13), N1=512, N2=128, 
 
 
 # ============================================================================================ 3. the restarted theorem
-def transfer(D, m, rho0, e_K=None):
+def transfer(D, m, rho0, e_K=None, iso=False):
     """Caps of K1 from those of K and the step increments m (Lemmas bp:p2s2hc:frames, bp:p2s2hc:torsion); returns the
     restart data D1 (strip rho1 = m['rho1'], margin mu1) and the increments.  Frame values of K: the package caps
     (sigma - mu = 1.05 x sampled sup)."""
@@ -314,9 +317,16 @@ def transfer(D, m, rho0, e_K=None):
     dl1 = min(1.0, (rho1 - float(D["rhoinf"])) / (2 * lam))
     e1 = m["e1"]
     dE1 = n * e1 / dl1                                                    # Cauchy: |DE1| on T_{rho1 - delta0'}
-    # |Omega_K1|: measured (the certificate computes DK1^T Omega0 DK1 exactly from the two polynomials), else a
-    # generous geometry-lemma-type value
-    oK1 = m.get("OmK1", 10 * n * e1 / (float(D["gamma"]) * dl1 ** 2))
+    # |Omega_K1|: measured (the certificate computes DK1^T Omega0 DK1 exactly from the two polynomials), else the
+    # defect lemma of the restarted run (Lemma bp:p2s2:omega): C_Omega eps_N/(gamma delta'^{kappa+1}), eps_N <= s_Lt1 e1,
+    # C_Omega = 2(n-1) c1, c1 = c(delta'/2) (kappa+1)^{kappa+1}/kappa^kappa (kappa = tau = 1: 4 c(delta'/2))
+    if "OmK1" not in m:
+        tau_ = int(D["tau"])
+        c_half = min(sd.c_freq(D["omega_star"], float(D["gamma"]), tau_, dl1 / 2)[0],
+                     sd.c_classical(n, tau_, dl1 / 2))
+        C_Om = 2 * (n - 1) * c_half * (tau_ + 1) ** (tau_ + 1) / tau_ ** tau_
+        m = dict(m, OmK1=C_Om * (ellt + d1t) * e1 / (float(D["gamma"]) * dl1 ** (tau_ + 1)))
+    oK1 = m["OmK1"]
     oK1R = m["real"].get("OmK1", oK1)
     wB = lambda l_, lt_, dE: lt_ * (4 * n * M1) * l_ + dE * (2 * n * l_ + lt_)   # |W| (Lemma bp:p2s2hc:torsion)
     w1 = wB(ell + d1, ellt + d1t, dE1)
@@ -331,6 +341,10 @@ def transfer(D, m, rho0, e_K=None):
     T1_direct = (nNt + fs["nDt"]) * cTh * (nN + fs["nD"]) + loc1
     T1 = min(T1, T1_direct)
     tA = fr["dab"] + loc1R + loc0R                                        # |<T1> - <T>| (real torus)
+    if iso:   # the bordered torsion (Lemma bpI:p2s2hc:torsion): column d_omega, last row through the transposes
+        Mh1, Mh2 = float(D["Mh1"]), float(D["Mh2"])
+        y = n * (Mh1 * fr["nDt"] + Mh2 * d0R * (nNt + fr["nDt"]))
+        tA = max(tA + m.get("dw", 0.0), y)
     assert tinv * tA < 1
     tinv1 = tinv / (1 - tinv * tA)
     mu1 = F(mu) - Frup(2 * max(d0, d1))
@@ -341,6 +355,9 @@ def transfer(D, m, rho0, e_K=None):
               sB=Frup(beta + fs["db"]) + mu1, sT=Frup(tinv1) + mu1,
               sLt=Frup(ellt + d1t) + mu1, sN=Frup(nN + fs["nD"]) + mu1, sNt=Frup(nNt + fs["nDt"]) + mu1,
               Tsup=Frup(T1))
+    if iso:
+        D1["nu"] = F(D["nu"]) - Frup(m.get("dw", 0.0))
+        assert D1["nu"] > 0
     for k_, base in (("B", D1["sB"]), ("Tinv", D1["sT"]), ("Lt", D1["sLt"]), ("N", D1["sN"]), ("Nt", D1["sNt"]),
                      ("Tsup", D1["Tsup"])):
         D1["bud_" + k_] = base / 10
@@ -381,7 +398,8 @@ def restart_threshold(D1, route, iso):
 def shape_hybrid(sh, routes=("A", "B"), forms=(False, True), log=print):
     """Hybrid threshold of R1's residual shape at each restart strip: the largest e with A e^2 <= e1*(rho1, increments
     at e).  The increments are linear in e; mu1 = mu - 2 max(d0, d1) > 0 caps e (the frozen |DK| and ball budgets).
-    Guarded fixed-point iteration: e <- min(sqrt(e1*/A), cap), halving when the transfer fails."""
+    Fixed-point iteration e <- min(sqrt(e1*/A), cap) (e1* is nonincreasing in e, so an iterate below the previous one
+    is admissible), halving only when the transfer fails."""
     D = T2.package("R1")
     rows = []
     for key, st in sh["strips"].items():
@@ -397,21 +415,39 @@ def shape_hybrid(sh, routes=("A", "B"), forms=(False, True), log=print):
                                   OmK=sh["real"]["OmK_l1"] * e))
         for route in routes:
             for iso in forms:
-                e = min(cap, 1e-4)
-                best = None
-                for _ in range(8):
+                def evaluate(e):
                     try:
-                        D1, inc = transfer(D, m_at(e), float(D["rho"]))
+                        D1, inc = transfer(D, m_at(e), float(D["rho"]), iso=iso)
                         le1, why = restart_threshold(D1, route, iso)
                     except AssertionError:
+                        return None
+                    return le1, why, inc
+                e = min(cap, 1e-4)
+                best, e_hi = None, None
+                for _ in range(8):                 # fixed point e <- min(sqrt(e1*/A), cap)
+                    r_ = evaluate(e)
+                    if r_ is None:
+                        e_hi = e if e_hi is None else min(e_hi, e)
                         e *= 0.5
                         continue
-                    if A * e * e <= 10 ** le1 and (best is None or e > best[0]):
-                        best = (e, le1, why, inc)
+                    le1, why, inc = r_
+                    if A * e * e <= 10 ** le1:
+                        if best is None or e > best[0]:
+                            best = (e, le1, why, inc)
+                    else:
+                        e_hi = e if e_hi is None else min(e_hi, e)
                     e_new = min(math.sqrt(10 ** le1 / A), cap)
                     if abs(math.log10(e_new / e)) < 0.005:
                         break
-                    e = e_new if e_new > e else max(e_new, 0.5 * e)
+                    e = e_new
+                if best is not None and e_hi is not None and e_hi > best[0]:
+                    for _ in range(6):             # log-bisection between admissible and inadmissible
+                        e = math.sqrt(best[0] * e_hi)
+                        r_ = evaluate(e)
+                        if r_ is not None and A * e * e <= 10 ** r_[0]:
+                            best = (e, r_[0], r_[1], r_[2])
+                        else:
+                            e_hi = e
                 if best is None:
                     log("| %.3f | %s | %s | %.3e | -- | -- | no admissible e |" % (
                         (float(D["rho"]) - rho1) / float(S0.DELTA0), route, "iso" if iso else "fixed", A))
@@ -439,13 +475,15 @@ def trunc_hybrid(tr, routes=("A",), forms=(False,), plain=None, log=print):
                 for key, st in r["strips"].items():
                     rho1 = float(key)
                     e1 = SLACK * st["Elin_l1"] + float(D["M2"]) / 2 * st["dK_l1"] ** 2
-                    m = dict(rho1=rho1, dK_l1=st["dK_l1"], DdK_l1=st["DdK_l1"], DdKT_l1=st["DdKT_l1"], e1=e1,
+                    if iso and "energy_lin" in r:   # Lemma bpI:p2s2hc:errors: the larger of the two new errors
+                        e1 = max(e1, r["energy_lin"] + float(D["Mh2"]) / 2 * r["real"]["dK_l1"] ** 2)
+                    m = dict(rho1=rho1, dw=r.get("xiw", 0.0) * C_TIME * max(1.0, abs(1.0 - float(S0.model_nu()))), dK_l1=st["dK_l1"], DdK_l1=st["DdK_l1"], DdKT_l1=st["DdKT_l1"], e1=e1,
                              DE_K=st["DE_l1"], OmK=st["OmK_l1"], OmK1=st["OmK1_l1"],
                              real=dict(dK_l1=r["real"]["dK_l1"], DdK_l1=r["real"]["DdK_l1"],
                                        DdKT_l1=r["real"]["DdKT_l1"], DE_K=r["real"]["DE_l1"],
                                        OmK=r["real"]["OmK_l1"], OmK1=r["real"]["OmK1_l1"]))
                     try:
-                        D1, inc = transfer(D, m, float(D["rho"]))
+                        D1, inc = transfer(D, m, float(D["rho"]), iso=iso)
                     except AssertionError:
                         continue
                     le1, why = restart_threshold(D1, route, iso)
