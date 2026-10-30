@@ -23,7 +23,7 @@ On `T_{r-3δ}`, with `X = μ/(γ δ^{κ+1})`:
 * `torsionAB_sub_le`: `|𝒯_ab(K̄) - 𝒯_ab(K)| ≤ C_ab X` (`𝒯_ab = (B Lᵀ)(A Ω₀ - Ω₀ A)(L B)`
   telescoped, `|Δ(A Ω₀ - Ω₀ A)| ≤ c_DTh |K̄ - K|` on the segment `[K, K̄] ⊆ 𝔹_β(K) ⊆ 𝔅`).
 
-The barred factors are bounded by the caps, which admit the increments (`Hyp.room`).
+The barred factors are bounded by the caps, which leave room for the increments (`Hyp.room`).
 -/
 
 @[expose] public noncomputable section

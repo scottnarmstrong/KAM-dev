@@ -1440,6 +1440,16 @@ public import KAM.Sharp2.ModConstantsB
 public import KAM.Sharp2.ModConstantsBd
 public import KAM.Sharp2.ModConstantsData
 public import KAM.Sharp2.ModConstantsMono
+public import KAM.Sharp2.ModStepB.Comp
+public import KAM.Sharp2.ModStepB.Defs
+public import KAM.Sharp2.ModStepB.Frames
+public import KAM.Sharp2.ModStepB.Geo
+public import KAM.Sharp2.ModStepB.Hyp
+public import KAM.Sharp2.ModStepB.Inter
+public import KAM.Sharp2.ModStepB.NewErr
+public import KAM.Sharp2.ModStepB.Normal
+public import KAM.Sharp2.ModStepB.SelfCons
+public import KAM.Sharp2.ModStepB
 public import KAM.Sharp2.RouteA.Arith
 public import KAM.Sharp2.RouteA.Constants
 public import KAM.Sharp2.RouteA.Correction
@@ -1462,6 +1472,7 @@ public import KAM.Sharp2.SmallDiv.Scale
 public import KAM.Sharp2.SmallDiv.Shell
 public import KAM.Sharp2.SmallDiv.Solution
 public import KAM.Sharp2.SmallDiv.Unimodal
+public import KAM.Sharp2.TorsionRef
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
