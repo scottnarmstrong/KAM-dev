@@ -76,6 +76,10 @@ def routeHybrid : EngineV2 where
     obtain ⟨⟨hH, hF⟩, hc⟩ := h
     exact hybrid_certified c w hω hdio B (checkHamClaim_sound B.hs hH) (frameFacts_of B hF hω) hc
 
+/-- The certifier at the hybrid route: the landed sub-checks and the hybrid test. -/
+theorem checkTorusCertificateV2_routeHybrid (c : TorusCertificate n α) (w : HybWit) :
+    checkTorusCertificateV2 routeHybrid c w = (landedBase.check c && hybTest c w) := rfl
+
 /-- `routeV2All` with the hybrid route. -/
 def routeV2Hyb : EngineV2 :=
   sharpV2.orElse
