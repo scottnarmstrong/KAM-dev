@@ -36,9 +36,9 @@ namespace KamSchurBound
 
 variable {F : ℕ+ → ℕ+ → K} {Λ : ℝ}
 
-theorem nonneg (h : KamSchurBound F Λ) : 0 ≤ Λ := by simpa using h.row 1 ∅
+theorem bound_nonneg (h : KamSchurBound F Λ) : 0 ≤ Λ := by simpa using h.row 1 ∅
 
-theorem mono {Λ' : ℝ} (h : KamSchurBound F Λ) (hΛ : Λ ≤ Λ') : KamSchurBound F Λ' :=
+theorem bound_mono {Λ' : ℝ} (h : KamSchurBound F Λ) (hΛ : Λ ≤ Λ') : KamSchurBound F Λ' :=
   ⟨fun i J => (h.row i J).trans hΛ, fun j I => (h.col j I).trans hΛ⟩
 
 /-- Cauchy–Schwarz for one row: `(∑_J |F_ij| |v_j|)² ≤ Λ ∑_J |F_ij| |v_j|²`. -/
@@ -64,7 +64,7 @@ theorem sum_sq_le (v : lp (fun _ : ℕ+ => K) 2) (J : Finset ℕ+) :
 theorem sum_sq_partial_le (h : KamSchurBound F Λ) (v : lp (fun _ : ℕ+ => K) 2)
     (I J : Finset ℕ+) :
     ∑ i ∈ I, (∑ j ∈ J, ‖F i j‖ * ‖v j‖) ^ 2 ≤ Λ ^ 2 * ‖v‖ ^ 2 := by
-  have h0 := h.nonneg
+  have h0 := h.bound_nonneg
   calc ∑ i ∈ I, (∑ j ∈ J, ‖F i j‖ * ‖v j‖) ^ 2
       ≤ ∑ i ∈ I, Λ * ∑ j ∈ J, ‖F i j‖ * ‖v j‖ ^ 2 :=
         Finset.sum_le_sum fun i _ => h.sq_row_le v i J
@@ -83,7 +83,7 @@ theorem sum_sq_partial_le (h : KamSchurBound F Λ) (v : lp (fun _ : ℕ+ => K) 2
 /-- Absolute convergence of each row. -/
 theorem summable_row (h : KamSchurBound F Λ) (v : lp (fun _ : ℕ+ => K) 2) (i : ℕ+) :
     Summable fun j => ‖F i j‖ * ‖v j‖ := by
-  have h0 := h.nonneg
+  have h0 := h.bound_nonneg
   refine summable_of_sum_le (c := Λ * ‖v‖) (fun j => by positivity) fun J => ?_
   have h1 := h.sq_row_le v i J
   have h2 : ∑ j ∈ J, ‖F i j‖ * ‖v j‖ ^ 2 ≤ Λ * ‖v‖ ^ 2 := by
@@ -164,7 +164,7 @@ def kamSchurCLM (F : ℕ+ → ℕ+ → K) (h : KamSchurBound F Λ) :
         exact h2.unique h1 }
     Λ
     (fun v => by
-      have h0 := h.nonneg
+      have h0 := h.bound_nonneg
       exact (pow_le_pow_iff_left₀ (norm_nonneg _) (by positivity) two_ne_zero).1
         (norm_kamSchurFun_sq_le h v))
 
@@ -178,6 +178,6 @@ theorem kamSchurCLM_hasSum (h : KamSchurBound F Λ) (v : lp (fun _ : ℕ+ => K) 
 
 /-- **Schur test**: `‖T‖ ≤ Λ`. -/
 theorem norm_kamSchurCLM_le (h : KamSchurBound F Λ) : ‖kamSchurCLM F h‖ ≤ Λ :=
-  LinearMap.mkContinuous_norm_le _ h.nonneg _
+  LinearMap.mkContinuous_norm_le _ h.bound_nonneg _
 
 end KAM.Wave
