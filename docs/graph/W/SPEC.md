@@ -261,16 +261,16 @@ unreachable. They are **not** excluded: they are kept and listed as "awaiting W4
 Line-addressable, aligned to statement/proof units, and recorded in `docs/graph/W/packets/slices.json`. Each part is
 one slice. W1 (128 draft nodes) is split at its §"The sine system" (L591). New parts W4–W8 become new slices.
 
-| Slice | Source range | Draft nodes | Final nodes | Coverage items |
-|---|---|---|---|---|
-| `W-w0c` | w0-conventions.tex, all (11 of the 13 anchors) | 18 | see handoff | 39 |
-| `W-w0n` | w0-normalization.tex, all | 38 | | 62 |
-| `W-w1a` | w1-sequences.tex L1–590 (transport, externals, weighted spaces, two-sided, cubic field) | 64 | | 95 |
-| `W-w1b` | w1-sequences.tex L591–end (sines, analytic toolkit, KAM support, ledger) | 64 | | 91 |
-| `W-w2` | w2-reconstruction.tex, all | 36 | | 60 |
-| `W-w3` | w3-birkhoff.tex, all | 84 | | 134 |
-| `W-wh` | w-headline.tex, all (2 anchors and the root) | 7 | | 14 |
-| `W-imports` | imported track-K nodes (writer-owned, if any) | – | | |
+| Slice | Source range | Draft nodes | Nodes (wave 1) | Edges | Coverage items | Status |
+|---|---|---|---|---|---|---|
+| `W-w0c` | w0-conventions.tex, all (10 of the 13 anchors) | 18 | 19 | 43 | 41 | review 1 FAIL, fragments applied; delta review pending |
+| `W-w0n` | w0-normalization.tex, all | 38 | 38 | 163 | 62 | review 1 FAIL, fragments applied; delta review pending |
+| `W-w1a` | w1-sequences.tex L1–590 (transport, externals, weighted spaces, two-sided, cubic field) | 64 | 65 | 185 | 95 | awaiting review |
+| `W-w1b` | w1-sequences.tex L591–end (sines, analytic toolkit, KAM support, ledger) | 64 | 62 | 166 | 91 | awaiting review |
+| `W-w2` | w2-reconstruction.tex, all | 36 | 33 | 177 | 60 | awaiting review |
+| `W-w3` | w3-birkhoff.tex, all | 84 | 84 | 283 | 134 | awaiting review |
+| `W-wh` | w-headline.tex, all (3 anchors: embedding, IsDiophantine, the root nlw2) | 7 | 3 | 11 | 14 | review 1 PASS (REVIEWED) |
+| `W-imports` | 5 imported track-K nodes (writer-owned; `blueprint/parts/p1-analysis.tex` pinned in IMPORTS.sha256) | – | 5 | 0 | 5 | awaiting review |
 
 A node belongs to the slice containing the first line of its STATEMENT_SOURCE, and coverage items follow their
 SOURCE line.
@@ -282,3 +282,37 @@ SOURCE line.
 - **2026-10-30 (kam-d4):** `KAM.IsDiophantine` (`kam.IsDiophantine.v1`) is kept as the 13th anchor
   `bpW:wh:dioph#IsDiophantine`, following the I/P precedent. It is an existing frozen manifest anchor that the frozen
   `nlw2` imports, so nothing new is frozen.
+
+## Change log (continued)
+- **2026-10-30, after slice review round 1** (W-w0c FAIL, W-w0n FAIL, W-wh PASS). The fragments were applied with
+  `inp_depgraph_apply_review.py`; the PASS records were marked with `inp_depgraph_mark_reviewed.py`.
+  - From now on the *packets* of W-w0c, W-w0n and W-wh are the source of truth. `w_depgraph_fill.py` refuses to
+    re-render a packet that holds reviewed or reviewer-written records.
+  - The reviewers' two general lessons are adopted for every slice. The W-w1a, W-w1b, W-w2 and W-w3 specs were
+    re-rendered with both.
+    - **Step source fields.** A step's `SOURCE_HYPOTHESES` are the premises of the enclosing statement (its proof
+      context) plus local definitions. Results derived earlier in the proof are DEPS, never hypotheses. The step's
+      `SOURCE_QUANTIFIERS` inherit the enclosing statement's scope. Rendered by `STEP_CONTEXT = True`.
+    - **Direct symbol uses.** Every node whose statement or proof text uses a frozen object by symbol depends on its
+      anchor, at the first line of use. The symbols are:
+      - λ (`lam`), φ_j (`sineMode`);
+      - U_m / D^0 (`reconU`), V_m (`reconV`);
+      - G_q, 𝒢 (`cubicGrad`);
+      - `coeff`, `WaveSpace`;
+      - K^0_I (`linearTorus`);
+      - `IsClassicalSolution`, `IsAnalyticTorusEmbedding`.
+
+      Rendered by `SYMBOL_EDGES = True` with the rationale "… occurs directly here". This tightens the carrier rule
+      above: a node that writes λ_j depends on `lam` even when it also depends on `lambda-facts`.
+  - Reviewer-added nodes in W-w0c: `bpW:w0:ellap#spaces` (the general ℓ^{a,p}, ℓ^{a,p}_ℂ, E_{a,p} of L52–56) and
+    `bpW:w0:reconstruction#rescaling` (L78–80). They also added the display items `bpW:w0:eq` and `bpW:w0:coeffsys`
+    (KIND corrected from `equation` to `display` by the writer).
+- **2026-10-30, imports.** W-w1b uses five track-K results. They are imported in the writer-owned slice `W-imports`,
+  with source fields copied from `docs/graph/K/DEPGRAPH.md` and `blueprint/parts/p1-analysis.tex` pinned in
+  `IMPORTS.sha256`:
+  - `K:bp:p1:holomorphic-analytic`, used by `stepW:w1:hacoef`. The step uses K's proof with W replaced by a complete
+    F, a carrier change argued at L821–823.
+  - `K:step:p1:dec-shift`, used by `stepW:w1:shift`. The text cites the shift as "`bp:p1:fourier-basic`", a
+    suspected misreference reported as an erratum; it is applied with an arbitrary shift η.
+  - `K:bp:p1:fourier-basic` and `K:bp:p1:strip-identity`, used by `stepW:w1:fsum`.
+  - `K:bp:p1:decay`, used by `stepW:w1:fbdecay`.

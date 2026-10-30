@@ -249,7 +249,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:transport, stepW:w1:iso, stepW:w1:sep, stepW:w1:coord, stepW:w1:frozen
+DEPS: bpW:w1:transport, stepW:w1:iso, stepW:w1:sep, stepW:w1:coord, stepW:w1:frozen, bpW:w0:ellap#coeff, bpW:w0:ellap#WaveSpace
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L125-L125 | tau, kappa and the weights
@@ -257,6 +257,8 @@ EDGE: stepW:w1:iso | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L139-L139 |
 EDGE: stepW:w1:sep | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L144-L144 | proof step
 EDGE: stepW:w1:coord | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L148-L148 | proof step
 EDGE: stepW:w1:frozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L151-L151 | proof step
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L132-L132 | the frozen coeff occurs directly here
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:space@L132-L132 | the frozen WaveSpace occurs directly here
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -272,8 +274,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L139-L143
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:iso@L139-L143
 CONTRACT_ID: stepW:w1:iso
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a >= 0, p
-SOURCE_QUANTIFIERS: w in l^{a,p}_K
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:space (for all a >= 0, p); within the step: w in l^{a,p}_K; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: ¦¦tau w¦¦^2 = ¦¦w¦¦_{a,p}^2; tau, kappa are mutually inverse; the inner product and completeness transport from l^2
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -301,8 +303,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L144-L147
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sep@L144-L147
 CONTRACT_ID: stepW:w1:sep
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (iii) of the lemma
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}; local data: (iii) of the lemma
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:space (for all a >= 0, p); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: finitely supported sequences with rational (Gaussian rational) entries form a countable dense set, so l^{a,p}_K is separable (not consumed by later milestones)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -328,8 +330,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L148-L150
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coord@L148-L150
 CONTRACT_ID: stepW:w1:coord
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: y in l^2_K
-SOURCE_QUANTIFIERS: j, N
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}; local data: y in l^2_K
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:space (for all a >= 0, p); within the step: j, N; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (ii) ¦(kappa y)_j¦ <= ¦¦y¦¦/omega(j); (iii) ¦¦y - P_N y¦¦^2 = sum_{j>N} ¦y_j¦^2 -> 0
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -356,8 +358,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L151-L153
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:frozen@L151-L153
 CONTRACT_ID: stepW:w1:frozen
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: K = R, a = p = 1
-SOURCE_QUANTIFIERS: y, j
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:space: a >= 0, p in R, K in {R, C}; local data: K = R, a = p = 1
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:space (for all a >= 0, p); within the step: y, j; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: coeff y j = y_j/omega_{1,1}(j) by the frozen definition, and Mathlib's product norm is the max norm, giving (iv)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -392,7 +394,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:embed, bpW:w1:hamfield, bpW:w0:ellap#coeff, stepW:w1:coordder, stepW:w1:coordcomp
+DEPS: bpW:w1:embed, bpW:w1:hamfield, bpW:w0:ellap#coeff, stepW:w1:coordder, stepW:w1:coordcomp, bpW:w0:ellap#WaveSpace
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L160-L160 | the inclusion iota and its representative
@@ -400,6 +402,7 @@ EDGE: bpW:w1:hamfield | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L165-L165 | the coefficients coeff in the frozen conclusion (4)
 EDGE: stepW:w1:coordder | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L171-L171 | proof step
 EDGE: stepW:w1:coordcomp | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L175-L175 | proof step
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:coordinatewise@L164-L164 | the frozen WaveSpace occurs directly here
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -415,8 +418,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L171-L174
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordder@L171-L174
 CONTRACT_ID: stepW:w1:coordder
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: c differentiable at t
-SOURCE_QUANTIFIERS: j
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:coordinatewise: c : R -> l^2_K differentiable at t; weights (a,p), (a',p') with a >= a', p >= p'; iota the inclusion of Lemma bpW:w1:embed, represented by hat iota; v in l^2_K; local data: c differentiable at t
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:coordinatewise (for all such c, t, v); within the step: j; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: the coordinate curve t -> (kappa_{a,p} c(t))_j has derivative (kappa_{a,p} c'(t))_j = (kappa_{a',p'} hat iota c'(t))_j
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -443,8 +446,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L175-L17
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:coordcomp@L175-L179
 CONTRACT_ID: stepW:w1:coordcomp
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: Step stepW:w1:coordder
-SOURCE_QUANTIFIERS: j
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:coordinatewise: c : R -> l^2_K differentiable at t; weights (a,p), (a',p') with a >= a', p >= p'; iota the inclusion of Lemma bpW:w1:embed, represented by hat iota; v in l^2_K
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:coordinatewise (for all such c, t, v); within the step: j; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (a) iff (b) by injectivity of kappa_{a',p'}; for the frozen statement, c(t) = K(theta + t nu) componentwise at t = 0 with (a,p) = (1,1), (a',p') = (1,0), compared with Proposition bpW:w1:hamfield(v)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -559,20 +562,21 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L235-L239
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L235-L239
 CONTRACT_ID: stepW:w1:ratio
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: r in R
-SOURCE_QUANTIFIERS: j
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:diag: a >= 0, p in R, r in R; lambda^r the multiplier w -> (lambda_j^r w_j)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:diag (for all a, p, r; t, s in R); within the step: j; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: mu_j = (lambda_j/j)^r with 1 < lambda_j/j <= sqrt(1+m), equality at j = 1; so ¦mu_j¦ <= (1+m)^{r/2} = mu_1 (r >= 0), ¦mu_j¦ <= 1 (r < 0); the inverse is the same with -r
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:multiplier, bpW:w0:basis#lambda-facts, bpW:w0:mass
+DEPS: bpW:w1:multiplier, bpW:w0:basis#lambda-facts, bpW:w0:mass, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L236-L236 | the representative and its norm
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L237-L237 | j < lambda_j
 EDGE: bpW:w0:mass | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L237-L237 | lambda_j^2 = j^2 + m <= (1+m) j^2
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ratio@L236-L236 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -588,19 +592,20 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L240-L243
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L240-L243
 CONTRACT_ID: stepW:w1:rot
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: t, s in R; z in l^{a,p}_C
-SOURCE_QUANTIFIERS: t, s
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:diag: a >= 0, p in R, r in R; lambda^r the multiplier w -> (lambda_j^r w_j); local data: t, s in R; z in l^{a,p}_C
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:diag (for all a, p, r; t, s in R); within the step: t, s; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (ii) lambda_j^r -> infinity; (iii) R_t = D_mu with ¦mu_j¦ = 1 is an isometry, group law coordinatewise, and t -> R_t z continuous by dominated convergence for series
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:multiplier, bpW:w1:ext-series
+DEPS: bpW:w1:multiplier, bpW:w1:ext-series, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L241-L241 | R_t is a multiplier D_mu with ¦mu_j¦ = 1
 EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L243-L243 | dominated convergence for series (Tonelli/Fubini for series)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:rot@L241-L241 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -616,18 +621,19 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L244-L248
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L244-L248
 CONTRACT_ID: stepW:w1:realflow
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (q,p) in E_{a,p}
-SOURCE_QUANTIFIERS: t
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:diag: a >= 0, p in R, r in R; lambda^r the multiplier w -> (lambda_j^r w_j); local data: (q,p) in E_{a,p}
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:diag (for all a, p, r; t, s in R); within the step: t; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: coordinatewise rotation: q_j(t)^2 + p_j(t)^2 = q_j^2 + p_j^2, hence the norm identity and max(¦¦q(t)¦¦,¦¦p(t)¦¦)^2 <= ¦¦q¦¦^2 + ¦¦p¦¦^2 <= 2¦¦(q,p)¦¦_E^2; derivatives and group law by trigonometry; z_j(t) = e^{-i lambda_j t} z_j
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:z
+DEPS: bpW:w0:z, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:z | blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L248-L248 | z_j = (q_j + i p_j)/sqrt 2
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:realflow@L248-L248 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -677,12 +683,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0n:AB, bpW:w1:linfty, bpW:w0:basis#lambda-facts
+DEPS: bpW:w0n:AB, bpW:w1:linfty, bpW:w0:basis#lambda-facts, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0n:AB | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L266-L266 | Omega = lambda_N + B xi with the corrected B
 EDGE: bpW:w1:linfty | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L268-L268 | the norm ¦.¦_1 of l^1_infty and the Lipschitz condition
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L276-L276 | lambda_j - j = m/(lambda_j + j) in (0, m/(2j)]; lambda_j > j
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:tails@L265-L265 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -757,19 +764,20 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L316-L319
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L316-L319
 CONTRACT_ID: stepW:w1:ext
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: q in l^{a,p}_C
-SOURCE_QUANTIFIERS: q
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:twosided: a >= 0, p in R; local data: q in l^{a,p}_C
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:twosided (for all a, p; q; X; z, zbar); within the step: q; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: ¦¦E^+- q¦¦^2 = 2 sum j^{2p+1} e^{2aj} ¦q_j¦^2/lambda_j <= 2¦¦q¦¦^2; the majorant has the same norm; with sqrt(¦l¦) the factor j/lambda_j becomes 1
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:basis#lambda-facts, stepW:w0n:majorant
+DEPS: bpW:w0:basis#lambda-facts, stepW:w0n:majorant, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L318-L318 | j/lambda_j < 1
 EDGE: stepW:w0n:majorant | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L319-L319 | this is the majorant step of W0
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L317-L317 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -785,19 +793,20 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L320-L322
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L320-L322
 CONTRACT_ID: stepW:w1:restr
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: X in l^{a,p+1/2}_b
-SOURCE_QUANTIFIERS: X
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:twosided: a >= 0, p in R; local data: X in l^{a,p+1/2}_b
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:twosided (for all a, p; q; X; z, zbar); within the step: X; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: sum_{l>=1} l^{2p+2} e^{2al} ¦X_l¦^2/lambda_l <= sum_{l>=1} l^{2p+1} e^{2al} ¦X_l¦^2; for even ¦X¦ at most half the full sum
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:basis#lambda-facts, stepW:w0n:smoothing
+DEPS: bpW:w0:basis#lambda-facts, stepW:w0n:smoothing, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L321-L321 | l/lambda_l < 1
 EDGE: stepW:w0n:smoothing | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L322-L322 | this is the smoothing step of W0
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L321-L321 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -813,8 +822,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L323-L324
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:pair@L323-L324
 CONTRACT_ID: stepW:w1:pair
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: z, zbar in l^{a,p}_C
-SOURCE_QUANTIFIERS: z, zbar
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:twosided: a >= 0, p in R; local data: z, zbar in l^{a,p}_C
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:twosided (for all a, p; q; X; z, zbar); within the step: z, zbar; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: ¦¦J(z,zbar)¦¦^2 = sum_{j>=1} omega_{a,p}(j)^2 (¦z_j¦^2 + ¦zbar_j¦^2) since <+-j> = j
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -871,8 +880,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cs@L342-L345
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cs@L342-L345
 CONTRACT_ID: stepW:w1:cs
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: X in l^2, Y in l^1
-SOURCE_QUANTIFIERS: l
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d; local data: X in l^2, Y in l^1
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:young (for all such sequences); within the step: l; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (sum_i ¦X_i¦¦Y_{l-i}¦)^2 <= ¦¦Y¦¦_1 sum_i ¦X_i¦^2 ¦Y_{l-i}¦, finite
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -897,8 +906,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L346-L348
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:youngsum@L346-L348
 CONTRACT_ID: stepW:w1:youngsum
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: Step stepW:w1:cs
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:young (for all such sequences); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: sum_l ¦(X*Y)_l¦^2 <= ¦¦Y¦¦_1^2 ¦¦X¦¦_2^2
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -925,8 +934,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L349-L352
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:l1@L349-L352
 CONTRACT_ID: stepW:w1:l1
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: s > 1/2, a >= 0
-SOURCE_QUANTIFIERS: Y
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:young (for all such sequences); within the step: Y; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: sum_l <l>^{-2s} = 1 + 2 sum_{l>=1} l^{-2s} < infinity and ¦¦Y¦¦_1 <= (1+2zeta(2s))^{1/2} ¦¦Y¦¦_{0,s} <= (1+2zeta(2s))^{1/2} ¦¦Y¦¦_{a,s}
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -952,8 +961,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L353-L356
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:rules@L353-L356
 CONTRACT_ID: stepW:w1:rules
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: sequences in l^1 cap l^2 by (ii)
-SOURCE_QUANTIFIERS: X, Y, Z
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:young: (i) X in l^2(Z), Y in l^1(Z); (ii) s > 1/2, a >= 0, Y in l^{a,s}_b; (iii) nonnegative X, Y, Z in l^{0,s}_b with s > 1/2; complex c, d; local data: sequences in l^1 cap l^2 by (ii)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:young (for all such sequences); within the step: X, Y, Z; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: absolute convergence of the double series allows rearrangement (associativity); commutativity by i -> l - i; monotonicity and ¦c*d¦ <= ¦c¦*¦d¦ termwise
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1040,8 +1049,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L403-L405
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj1@L403-L405
 CONTRACT_ID: stepW:w1:maj1
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (a); x_i = ¦q_¦i¦¦/sqrt(¦i¦), x_0 = 0
-SOURCE_QUANTIFIERS: q, q', q''
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b; local data: x_i = ¦q_¦i¦¦/sqrt(¦i¦), x_0 = 0
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:selection (for all such a, p, M, c and arguments); within the step: q, q', q''; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: x is even with ¦¦x¦¦_{a,s} = sqrt2 ¦¦q¦¦_{a,p}
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1067,8 +1076,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L406-L411
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel1@L406-L411
 CONTRACT_ID: stepW:w1:sel1
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (a); the majorants of Step stepW:w1:maj1
-SOURCE_QUANTIFIERS: l >= 1
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:selection (for all such a, p, M, c and arguments); within the step: l >= 1; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: sum_{i,j,k} ¦c_ijkl q_i q'_j q''_k¦ <= M l^{-1/2} X_l with X = x*x'*x'', finite and even
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1097,8 +1106,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L412-L414
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth1@L412-L414
 CONTRACT_ID: stepW:w1:smooth1
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (a); X of Step stepW:w1:sel1
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:selection (for all such a, p, M, c and arguments); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: ¦¦T_c¦¦_{a,p+1}^2 <= (M^2/2) ¦¦X¦¦_{a,s}^2 and ¦¦X¦¦_{a,s} <= K_s^2 ¦¦x¦¦ ¦¦x'¦¦ ¦¦x''¦¦ = 2^{3/2} K_s^2 prod ¦¦q¦¦; hence ¦¦T_c¦¦ <= 2 M K_s^2 prod ¦¦q¦¦
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1126,8 +1135,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L415-L418
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:maj2@L415-L418
 CONTRACT_ID: stepW:w1:maj2
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (b); tilde x_i = (¦w_i¦ + ¦w_{-i}¦)/sqrt(¦i¦), tilde x_0 = 0
-SOURCE_QUANTIFIERS: w, w', w''
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b; local data: tilde x_i = (¦w_i¦ + ¦w_{-i}¦)/sqrt(¦i¦), tilde x_0 = 0
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:selection (for all such a, p, M, c and arguments); within the step: w, w', w''; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: tilde x is even with ¦¦tilde x¦¦_{a,s}^2 <= 4 ¦¦w¦¦_{a,p}^2
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1153,8 +1162,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L419-L422
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:sel2@L419-L422
 CONTRACT_ID: stepW:w1:sel2
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (b); the majorants of Step stepW:w1:maj2
-SOURCE_QUANTIFIERS: l != 0
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:selection (for all such a, p, M, c and arguments); within the step: l != 0; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: each of the eight eps-terms is at most (tilde x*tilde x'*tilde x'')_l =: tilde X_l, so ¦T_c(w,w',w'')_l¦ <= 8 M ¦l¦^{-1/2} tilde X_l
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1180,8 +1189,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L423-L426
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:smooth2@L423-L426
 CONTRACT_ID: stepW:w1:smooth2
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (b); tilde X of Step stepW:w1:sel2
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:selection: a >= 0, p >= 1/2, s = p + 1/2, M >= 0; (a) c : N_+^4 -> C with ¦c_ijkl¦ <= M (ijkl)^{-1/2} sum_eps [l = eps_1 i + eps_2 j + eps_3 k], q, q', q'' in l^{a,p}_C; (b) c : (Z\0)^4 -> C with the same bound in ¦ijkl¦, w, w', w'' in l^{a,p}_b
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:selection (for all such a, p, M, c and arguments); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: ¦¦T_c¦¦_{a,p+1}^2 <= 64 M^2 ¦¦tilde X¦¦_{a,s}^2, ¦¦tilde X¦¦ <= 8 K_s^2 prod ¦¦w¦¦, so ¦¦T_c¦¦ <= 64 M K_s^2 prod ¦¦w¦¦; trilinearity and symmetry termwise
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1217,7 +1226,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:transport, bpW:w1:complexification, bpW:w0:Gq#cubicGrad, stepW:w1:tricoord, stepW:w1:tricont, stepW:w1:trireal, stepW:w1:trifrozen
+DEPS: bpW:w1:transport, bpW:w1:complexification, bpW:w0:Gq#cubicGrad, stepW:w1:tricoord, stepW:w1:tricont, stepW:w1:trireal, stepW:w1:trifrozen, bpW:w0:basis#lam, bpW:w0:reconstruction#reconU
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L437-L437 | kappa, omega
@@ -1227,6 +1236,8 @@ EDGE: stepW:w1:tricoord | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L4
 EDGE: stepW:w1:tricont | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L459-L459 | proof step
 EDGE: stepW:w1:trireal | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L463-L463 | proof step
 EDGE: stepW:w1:trifrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L467-L467 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L455-L455 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:trilinear@L468-L468 | U_m occurs directly here (frozen reconU)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1242,18 +1253,19 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L453-L458
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L453-L458
 CONTRACT_ID: stepW:w1:tricoord
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: y, y', y'' in l^2_K; q = kappa_{a,p} y etc.
-SOURCE_QUANTIFIERS: y, y', y''
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case); local data: y, y', y'' in l^2_K; q = kappa_{a,p} y etc.
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:trilinear (for all such a, p, K); within the step: y, y', y''; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: each T(q,q',q'')_l is an absolutely convergent tsum over N_+^3, T(q,q',q'') in l^{a,p+1}_K with norm <= C_* prod ¦¦y¦¦; define T(y,y',y'') = tau_{a,p+1} T(q,q',q'')
 CONSTANT_SCOPE: C_* depends only on p
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:transport
+DEPS: bpW:w1:transport, bpW:w0:basis#lam
 ROUTES: stepW:w1:tricoord#via-cubic-bound, stepW:w1:tricoord#via-selection
 ROUTE_FOR: -
 EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L458-L458 | tau_{a,p+1} and the weighted coordinates
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L455-L455 | lambda occurs directly here (frozen lam)
 EDGE: stepW:w1:tricoord#via-cubic-bound | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L454-L454 | first derivation: Theorem bpW:w0n:cubic-bound
 EDGE: stepW:w1:tricoord#via-selection | blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L455-L455 | equivalent derivation: Lemma bpW:w1:selection(a)
 TOPOLOGY_STATUS: PROPOSED
@@ -1271,8 +1283,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L459-L462
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricont@L459-L462
 CONTRACT_ID: stepW:w1:tricont
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: Step stepW:w1:tricoord
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:trilinear (for all such a, p, K); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: trilinear and symmetric termwise; continuous with norm <= C_* (MultilinearMap.mkContinuous); unique since kappa_{a,p+1} is injective
 CONSTANT_SCOPE: C_* depends only on p
 FROZEN_FILE: -
@@ -1300,19 +1312,20 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L463-L466
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L463-L466
 CONTRACT_ID: stepW:w1:trireal
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: Step stepW:w1:tricoord
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:trilinear (for all such a, p, K); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (ii) real coefficients commute with iota and conjugation; (iii) both sides have coefficients T(q,q',q'')
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:complexification, bpW:w1:embed
+DEPS: bpW:w1:complexification, bpW:w1:embed, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:complexification | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L465-L465 | iota and conjugation
 EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L466-L466 | (iii): inclusions do not change coefficients
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trireal@L464-L464 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1328,15 +1341,15 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L467-L47
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L467-L471
 CONTRACT_ID: stepW:w1:trifrozen
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: y in l^2_R, a = p = 1 (or a > 0)
-SOURCE_QUANTIFIERS: y, l
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:trilinear: a >= 0, p >= 1/2, C_* = K_{p+1/2}^2/pi, K in {R, C}; for (iii) a >= a' >= 0, p >= p' >= 1/2; for (iv) y in l^2_R, l >= 1 (and a > 0 for the general case); local data: y in l^2_R, a = p = 1 (or a > 0)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:trilinear (for all such a, p, K); within the step: y, l; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: reconU m hm y = U_m(kappa_{1,1} y) (absolutely convergent tsum), the interval integral is that of Definition bpW:w0:Gq, so cubicGrad m hm y l = G_q(kappa_{1,1} y)_l = T(q,q,q)_l
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:reconstruction#reconU, bpW:w0n:recon-bounded, bpW:w0:Gq#cubicGrad, bpW:w0n:gradient, bpW:w0:ellap#coeff
+DEPS: bpW:w0:reconstruction#reconU, bpW:w0n:recon-bounded, bpW:w0:Gq#cubicGrad, bpW:w0n:gradient, bpW:w0:ellap#coeff, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L468-L468 | unfolds the frozen reconU
@@ -1344,6 +1357,7 @@ EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifro
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L470-L470 | unfolds the frozen cubicGrad
 EDGE: bpW:w0n:gradient | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L471-L471 | G_q(q)_l = T(q,q,q)_l for a > 0
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L468-L468 | kappa_{1,1} = coeff
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:trifrozen@L470-L470 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1391,8 +1405,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L492-L493
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:can@L492-L493
 CONTRACT_ID: stepW:w1:can
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: T continuous trilinear
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y); local data: T continuous trilinear
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:cubic-analytic (for all y, y', h, k); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: N = T o Delta, Delta(y) = (y,y,y) continuous linear, is analytic
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1418,8 +1432,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L494-L498
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cder@L494-L498
 CONTRACT_ID: stepW:w1:cder
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: T symmetric trilinear with ¦¦T¦¦ <= C_*
-SOURCE_QUANTIFIERS: y, h
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y); local data: T symmetric trilinear with ¦¦T¦¦ <= C_*
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:cubic-analytic (for all y, y', h, k); within the step: y, h; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: DN(y)h = 3T(y,y,h), the higher derivatives likewise, with the stated bounds
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1445,8 +1459,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L499-L501
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:clip@L499-L501
 CONTRACT_ID: stepW:w1:clip
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: T trilinear
-SOURCE_QUANTIFIERS: y, y'
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y); local data: T trilinear
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:cubic-analytic (for all y, y', h, k); within the step: y, y'; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: N(y) - N(y') = T(y-y',y,y) + T(y',y-y',y) + T(y',y',y-y'), so the Lipschitz bound 3C_* ¦¦y-y'¦¦ max^2
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1472,8 +1486,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L502-L504
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:cfrozen@L502-L504
 CONTRACT_ID: stepW:w1:cfrozen
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (a,p) = (1,1), K = R
-SOURCE_QUANTIFIERS: y, l
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:cubic-analytic: a >= 0, p >= 1/2, T = T^{a,p}_K, C_* as in Theorem bpW:w1:trilinear, N(y) = T(y,y,y); local data: (a,p) = (1,1), K = R
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:cubic-analytic (for all y, y', h, k); within the step: y, l; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (iv) from Theorem bpW:w1:trilinear(iv), omega_{1,1}/omega_{1,2} = l^{-1}, omega_{1,0}/omega_{1,2} = l^{-2}, and C_* = K_{3/2}^2/pi = C_m
 CONSTANT_SCOPE: C_m independent of m
 FROZEN_FILE: -
@@ -1509,7 +1523,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:H, bpW:w0n:cubic-bound, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff, stepW:w1:quartic, stepW:w1:gradder, stepW:w1:gradw
+DEPS: bpW:w0:H, bpW:w0n:cubic-bound, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff, stepW:w1:quartic, stepW:w1:gradder, stepW:w1:gradw, bpW:w0:reconstruction#reconU
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:H | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L510-L510 | G(q) = (1/4) int U_m(q)^4
@@ -1519,6 +1533,7 @@ EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-id
 EDGE: stepW:w1:quartic | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L525-L525 | proof step
 EDGE: stepW:w1:gradder | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L531-L531 | proof step
 EDGE: stepW:w1:gradw | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L535-L535 | proof step
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#bpW:w1:gradient-identity@L510-L510 | U_m occurs directly here (frozen reconU)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1534,8 +1549,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L525-L530
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:quartic@L525-L530
 CONTRACT_ID: stepW:w1:quartic
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: q in l^{a,p}, a > 0
-SOURCE_QUANTIFIERS: q_1, ..., q_4
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:gradient-identity: a > 0, p >= 1/2; G(q) = (1/4) int_0^pi U_m(q)^4 for q in l^{a,p}; <u,v>_0 = sum_j u_j v_j (unweighted), absolutely convergent for u in l^{a,p+1}, v in l^{a,p}; local data: q in l^{a,p}, a > 0
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:gradient-identity (for all a > 0, p >= 1/2; q, h in l^{a,p}; y, h in l^2_R for (iii)); within the step: q_1, ..., q_4; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: G(q) = (1/4) sum_l q_l T(q,q,q)_l; Q is well defined, symmetric, and ¦Q¦ <= C_* prod ¦¦q_i¦¦
 CONSTANT_SCOPE: C_* depends only on p
 FROZEN_FILE: -
@@ -1564,20 +1579,21 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L531-L534
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L531-L534
 CONTRACT_ID: stepW:w1:gradder
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: Step stepW:w1:quartic
-SOURCE_QUANTIFIERS: q, h
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:gradient-identity: a > 0, p >= 1/2; G(q) = (1/4) int_0^pi U_m(q)^4 for q in l^{a,p}; <u,v>_0 = sum_j u_j v_j (unweighted), absolutely convergent for u in l^{a,p+1}, v in l^{a,p}
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:gradient-identity (for all a > 0, p >= 1/2; q, h in l^{a,p}; y, h in l^2_R for (iii)); within the step: q, h; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: G = (1/4) Q o (q -> (q,q,q,q)) is analytic and DG(q)h = Q(q,q,q,h) = <T(q,q,q),h>_0 = <G_q(q),h>_0
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:quartic, bpW:w1:ext-analytic, bpW:w1:trilinear
+DEPS: stepW:w1:quartic, bpW:w1:ext-analytic, bpW:w1:trilinear, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:quartic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L532-L532 | the quartic form Q
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L532-L532 | continuous multilinear maps are analytic
 EDGE: bpW:w1:trilinear | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L534-L534 | (iv): T(q,q,q) = G_q(q)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradder@L533-L533 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1593,19 +1609,20 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L535-L539
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L535-L539
 CONTRACT_ID: stepW:w1:gradw
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: Step stepW:w1:gradder
-SOURCE_QUANTIFIERS: y, h
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:gradient-identity: a > 0, p >= 1/2; G(q) = (1/4) int_0^pi U_m(q)^4 for q in l^{a,p}; <u,v>_0 = sum_j u_j v_j (unweighted), absolutely convergent for u in l^{a,p+1}, v in l^{a,p}
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:gradient-identity (for all a > 0, p >= 1/2; q, h in l^{a,p}; y, h in l^2_R for (iii)); within the step: y, h; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: the Riesz gradient is (omega^{-2} G_q(q)_j); in frozen coordinates DG^w(y)h and nabla^{l^2} G^w(y) as stated
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:gradder, bpW:w1:cubic-analytic
+DEPS: stepW:w1:gradder, bpW:w1:cubic-analytic, bpW:w0:Gq#cubicGrad
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:gradder | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L536-L536 | DG(q)h = <G_q(q),h>_0
 EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L538-L538 | (iv): G^w and the weighted coordinates of G_q(kappa y)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:gradw@L536-L536 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1629,7 +1646,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:H, bpW:w0:eqmotion, bpW:w1:cubic-analytic, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#coeff, bpW:w0:Gq#cubicGrad, stepW:w1:hlin, stepW:w1:hnonlin, stepW:w1:hsum, stepW:w1:hham, stepW:w1:hfrozen
+DEPS: bpW:w0:H, bpW:w0:eqmotion, bpW:w1:cubic-analytic, bpW:w0:ellap#WaveSpace, bpW:w0:ellap#coeff, bpW:w0:Gq#cubicGrad, stepW:w1:hlin, stepW:w1:hnonlin, stepW:w1:hsum, stepW:w1:hham, stepW:w1:hfrozen, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:H | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L553-L553 | H = Lambda + G
@@ -1643,6 +1660,7 @@ EDGE: stepW:w1:hnonlin | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L568
 EDGE: stepW:w1:hsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L571-L571 | proof step
 EDGE: stepW:w1:hham | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L574-L574 | proof step
 EDGE: stepW:w1:hfrozen | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L581-L581 | proof step
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#bpW:w1:hamfield@L546-L546 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1658,8 +1676,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L566-L567
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hlin@L566-L567
 CONTRACT_ID: stepW:w1:hlin
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a > 0, p
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:hamfield (for all a > 0, p >= 1/2; (q,p) in E_{a,p}; j); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (i) from Lemma bpW:w1:diag(i)-(ii) with r = 1 componentwise; the max norm is preserved under componentwise bounds
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1685,8 +1703,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L568-L570
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hnonlin@L568-L570
 CONTRACT_ID: stepW:w1:hnonlin
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a > 0, p >= 1/2
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:hamfield (for all a > 0, p >= 1/2; (q,p) in E_{a,p}; j); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (ii) from Corollary bpW:w1:cubic-analytic and Theorem bpW:w1:trilinear(iv) in the second component, composed with the projection (q,p) -> q; complex version from (ii) of the theorem
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1713,8 +1731,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L571-L573
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hsum@L571-L573
 CONTRACT_ID: stepW:w1:hsum
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: (i), (ii)
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2; local data: (i), (ii)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:hamfield (for all a > 0, p >= 1/2; (q,p) in E_{a,p}; j); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: X_G maps into E_{a,p+1} subset E_{a,p-1}; a bounded linear plus an analytic map is analytic, giving (iii)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -1743,20 +1761,21 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L574-L580
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L574-L580
 CONTRACT_ID: stepW:w1:hham
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a > 0, p >= 1/2
-SOURCE_QUANTIFIERS: (q,p), j
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:hamfield (for all a > 0, p >= 1/2; (q,p) in E_{a,p}; j); within the step: (q,p), j; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: Lambda is the diagonal of beta(q,q') = sum lambda_j q_j q'_j with ¦beta¦ <= sqrt(1+m) ¦¦q¦¦ ¦¦q'¦¦, a bounded quadratic form on E_{a,p}; DLambda(q,p)(h,k) = <lambda q,h>_0 + <lambda p,k>_0; with Proposition bpW:w1:gradient-identity(ii), evaluation at (e_j,0), (0,e_j) gives (iv)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:basis#lambda-facts, bpW:w1:embed, bpW:w1:gradient-identity
+DEPS: bpW:w0:basis#lambda-facts, bpW:w1:embed, bpW:w1:gradient-identity, bpW:w0:basis#lam
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L576-L576 | lambda_j <= sqrt(1+m) j
 EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L577-L577 | ¦¦q¦¦_{0,1/2} <= ¦¦q¦¦_{a,p} for p >= 1/2
 EDGE: bpW:w1:gradient-identity | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L579-L579 | (ii): DG(q)h = <G_q(q),h>_0
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:hham@L575-L575 | lambda occurs directly here (frozen lam)
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -
@@ -1772,21 +1791,24 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L581-L585
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L581-L585
 CONTRACT_ID: stepW:w1:hfrozen
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a = p = 1
-SOURCE_QUANTIFIERS: y, y', j
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:hamfield: a > 0, p >= 1/2; local data: a = p = 1
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:hamfield (for all a > 0, p >= 1/2; (q,p) in E_{a,p}; j); within the step: y, y', j; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: the coordinates of X_H(kappa y, kappa y') times omega_{1,0}(j) = e^j are (lambda_j/j) y'_j and -(lambda_j/j) y_j - j^{-2} G^w(y)_j; D, S bounded, so X^w is a polynomial map on WaveSpace, analytic
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:cubic-analytic, bpW:w1:multiplier, bpW:w0:basis#lambda-facts, bpW:w1:ext-analytic
+DEPS: bpW:w1:cubic-analytic, bpW:w1:multiplier, bpW:w0:basis#lambda-facts, bpW:w1:ext-analytic, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#WaveSpace
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:cubic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L583-L583 | (iv): e^j cubicGrad_j = j^{-2} G^w(y)_j
 EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L584-L584 | D and S are bounded
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L584-L584 | lambda_j/j <= sqrt(1+m)
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L585-L585 | polynomial maps are analytic
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L582-L582 | lambda occurs directly here (frozen lam)
+EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L583-L583 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#stepW:w1:hfrozen@L585-L585 | the frozen WaveSpace occurs directly here
 TOPOLOGY_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -

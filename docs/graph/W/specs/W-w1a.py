@@ -463,3 +463,9 @@ COV = {
     "w1-sequences:prose-L117-L118": ("EXCLUDED", "layout"),
     "w1-sequences:prose-L381-L384": ("EXCLUDED", "pointer (motivation of Lemma bpW:w1:selection)"),
 }
+
+STEP_CONTEXT = True
+SYMBOL_EDGES = True
+
+COV["stepW:w1:tricoord"] = ("NODE stepW:w1:tricoord, stepW:w1:tricoord#via-cubic-bound, stepW:w1:tricoord#via-selection",
+                            "the step and its two alternative derivations (route nodes)")

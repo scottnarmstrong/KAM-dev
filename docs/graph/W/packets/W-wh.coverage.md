@@ -12,9 +12,9 @@ KIND: definition
 SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:embedding@L22-L27
 DISPOSITION: NODE bpW:wh:embedding#IsAnalyticTorusEmbedding
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-wh
 
 ITEM: bpW:wh:Dnu
 KIND: definition
@@ -30,18 +30,18 @@ KIND: definition
 SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:dioph@L33-L37
 DISPOSITION: NODE bpW:wh:dioph#IsDiophantine
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-wh
 
 ITEM: bpW:wh:nlw2
 KIND: theorem
 SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L41-L65
 DISPOSITION: NODE bpW:wh:nlw2
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-wh
 
 ITEM: bpW:wh:reading
 KIND: claim

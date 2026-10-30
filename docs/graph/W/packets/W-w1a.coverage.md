@@ -406,8 +406,8 @@ REVIEWER: -
 ITEM: stepW:w1:tricoord
 KIND: proof-region
 SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:tricoord@L453-L458
-DISPOSITION: NODE stepW:w1:tricoord
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: NODE stepW:w1:tricoord, stepW:w1:tricoord#via-cubic-bound, stepW:w1:tricoord#via-selection
+REASON: the step and its two alternative derivations (route nodes)
 COVERAGE_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
 REVIEWER: -

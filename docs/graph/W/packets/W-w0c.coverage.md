@@ -3,18 +3,18 @@ KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:mass@L24-L27
 DISPOSITION: NODE bpW:w0:mass
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:nlw#IsClassicalSolution
 KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:nlw@L29-L35
 DISPOSITION: NODE bpW:w0:nlw#IsClassicalSolution
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:basis#lam
 KIND: definition
@@ -30,26 +30,26 @@ KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@L39-L42
 DISPOSITION: NODE bpW:w0:basis#sineMode
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:ellap#ellWeight
 KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L51-L57
 DISPOSITION: NODE bpW:w0:ellap#ellWeight
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:ellap#WaveSpace
 KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L51-L57
-DISPOSITION: NODE bpW:w0:ellap#WaveSpace
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: NODE bpW:w0:ellap#WaveSpace, bpW:w0:ellap#spaces
+REASON: includes the general spaces and product norm, as well as the frozen specialization
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: sol-review-W-w0c
 REVIEWER: -
 
 ITEM: bpW:w0:ellap#coeff
@@ -57,9 +57,9 @@ KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L51-L57
 DISPOSITION: NODE bpW:w0:ellap#coeff
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:weights
 KIND: definition
@@ -75,17 +75,17 @@ KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:twosided@L66-L71
 DISPOSITION: NODE bpW:w0:twosided
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:reconstruction#reconU
 KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L75-L81
-DISPOSITION: NODE bpW:w0:reconstruction#reconU
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: NODE bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#rescaling
+REASON: reconstruction formula plus the inverse coefficient dictionary and symplectic rescaling
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: sol-review-W-w0c
 REVIEWER: -
 
 ITEM: bpW:w0:reconstruction#reconV
@@ -93,9 +93,9 @@ KIND: definition
 SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L75-L81
 DISPOSITION: NODE bpW:w0:reconstruction#reconV
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0c
 
 ITEM: bpW:w0:H
 KIND: definition
@@ -347,4 +347,22 @@ DISPOSITION: EXCLUDED
 REASON: layout line
 COVERAGE_STATUS: PROPOSED
 EXTRACTOR: claude-suborch-W
+REVIEWER: -
+
+ITEM: bpW:w0:eq
+KIND: display
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:eq@L32-L34
+DISPOSITION: NODE bpW:w0:nlw#IsClassicalSolution
+REASON: equation label maps to its enclosing definition, per SPEC
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: sol-review-W-w0c
+REVIEWER: -
+
+ITEM: bpW:w0:coeffsys
+KIND: display
+SOURCE: blueprint-W/parts/w0-conventions.tex#bpW:w0:coeffsys@L106-L108
+DISPOSITION: NODE bpW:w0:eqmotion
+REASON: equation label maps to its enclosing definition, per SPEC
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: sol-review-W-w0c
 REVIEWER: -

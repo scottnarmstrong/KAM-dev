@@ -102,6 +102,25 @@ The writer `claude-suborch-W` extracted these records. You did not. Your slice a
    - Check that the FROZEN_* fields and the anchor CONTRACT_* fields equal the manifest entry exactly.
    - Check the anchor mapping table in SPEC.md against the frozen files' docstrings.
 
+8. **Round-1 rules (SPEC change log, now binding for every slice).**
+   - A step's `SOURCE_HYPOTHESES` are the enclosing statement's premises plus local definitions. Results derived
+     earlier in the proof belong in DEPS, not in the hypotheses.
+   - A step's `SOURCE_QUANTIFIERS` inherit the enclosing scope.
+   - Every direct use of a frozen object by its symbol needs the anchor edge: λ, φ_j, U_m, V_m, G_q/𝒢, `coeff`,
+     `WaveSpace`, K^0_I, `IsClassicalSolution`, `IsAnalyticTorusEmbedding`. Edges with the rationale "… occurs directly
+     here" were added mechanically at the first line of use. Check that each is a genuine use, and add any that were
+     missed.
+9. **Delta review (W-w0c, W-w0n).**
+   - Review only the records that are still `PROPOSED`. Their EXTRACTOR is `claude-suborch-W+sol-review-W-<slice>`,
+     or the item was written by the round-1 reviewer.
+   - Records marked REVIEWED by round 1 are out of scope unless a new edge touches them.
+   - Your tag must differ from the round-1 reviewer's, e.g. `sol-delta-W-<slice>`.
+10. **W-imports.**
+    - Compare each imported node's four source fields with its statement at its locator in `blueprint/parts/`.
+    - Check that the ID is a node of `docs/graph/K/DEPGRAPH.md`.
+    - Check that its W consumer really uses that K result: `stepW:w1:hacoef`, `stepW:w1:shift`, `stepW:w1:fsum`,
+      `stepW:w1:fbdecay`. The SPEC change log names a suspected misreference (contour shift).
+
 Topology status is not proof status. A faithfully exposed `SOURCE_GAP` node passes. Do not supply missing mathematics
 yourself.
 

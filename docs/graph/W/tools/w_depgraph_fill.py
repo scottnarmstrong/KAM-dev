@@ -59,6 +59,20 @@ def lines(x):
     return int(m.group(1)), int(m.group(2) or m.group(1))
 
 
+SYMBOLS = [
+    ("bpW:w0:basis#lam", r"\\lambda(?![a-zA-Z])|\\hat\\lambda|\\Lean\{lam ", "lambda occurs directly here (frozen lam)"),
+    ("bpW:w0:basis#sineMode", r"\\phi_|\\phi\^|\\Lean\{sineMode", "the sine modes phi_j occur directly here (frozen sineMode)"),
+    ("bpW:w0:reconstruction#reconU", r"U_m|\\Lean\{reconU|U\^\{\(k\)\}|D\^0y", "U_m occurs directly here (frozen reconU)"),
+    ("bpW:w0:reconstruction#reconV", r"V_m|\\Lean\{reconV|V\^\{\(k\)\}", "V_m occurs directly here (frozen reconV)"),
+    ("bpW:w0:Gq#cubicGrad", r"\\Gq|\\Lean\{cubicGrad|\\mathcal G", "the cubic gradient G_q occurs directly here (frozen cubicGrad)"),
+    ("bpW:w0:ellap#coeff", r"\\Lean\{coeff", "the frozen coeff occurs directly here"),
+    ("bpW:w0:ellap#WaveSpace", r"\\Lean\{WaveSpace|KAM\.Wave\.WaveSpace", "the frozen WaveSpace occurs directly here"),
+    ("bpW:w0:periodone#linearTorus", r"\\Lean\{linearTorus|K\^0_I", "the linear torus K^0_I occurs directly here (frozen linearTorus)"),
+    ("bpW:w0:nlw#IsClassicalSolution", r"IsClassicalSolution", "the frozen IsClassicalSolution occurs directly here"),
+    ("bpW:wh:embedding#IsAnalyticTorusEmbedding", r"IsAnalyticTorusEmbedding", "the frozen IsAnalyticTorusEmbedding occurs directly here"),
+]
+
+
 def main():
     d, sl, spec_path = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
     tag = sys.argv[sys.argv.index("--tag") + 1] if "--tag" in sys.argv else "claude-suborch-W"
@@ -81,6 +95,28 @@ def main():
             errs.append(f"{i}: not a draft node (set new=True)")
         if i in ids and v.get("new"):
             errs.append(f"{i}: new=True but it is a draft node")
+    # refuse to overwrite a reviewed packet: after a slice review the packet is the source of truth
+    for b in blocks(nf.read_text(), "NODE"):
+        g = parse(b)
+        if g.get("REVIEWER", "-") != "-" or "+" in g.get("EXTRACTOR", ""):
+            sys.exit(f"{nf} holds reviewed or reviewer-written records ({g['NODE']}); edit the packet, not the spec")
+    src_lines = {}
+
+    def text_of(loc):
+        m = re.match(r"^([^#\s]+)#[^@\s]+@L(\d+)-L(\d+)$", loc or "")
+        if not m:
+            return []
+        path = Path(spec.get("ROOT", ".")) / m.group(1)
+        if m.group(1) not in src_lines:
+            src_lines[m.group(1)] = path.read_text(encoding="utf-8").split("\n")
+        L = src_lines[m.group(1)]
+        return [(k, L[k - 1]) for k in range(int(m.group(2)), int(m.group(3)) + 1)]
+    # parents of proof steps (for STEP_CONTEXT)
+    parent = {}
+    for pid, pv in NODES.items():
+        for t in pv.get("deps", []):
+            if t[2] == "proof step":
+                parent[t[0]] = pid
     out = []
     order = [i for i in ids if i not in DELETE] + [i for i, v in NODES.items() if v.get("new")]
     byid = {f["NODE"]: f for f in draft}
@@ -97,6 +133,17 @@ def main():
                 f[fld] = clean(v[key])
         if "contract" in v and f.get("FROZEN_DECL", "-") == "-":
             f["CONTRACT_ID"] = v["contract"]
+        if spec.get("STEP_CONTEXT") and f.get("KIND", v.get("kind")) == "step" and i in parent:
+            pv = NODES[parent[i]]
+            bad = re.compile(r"Step|Lemma|Theorem|Corollary|Proposition|conclusion|^\s*\((?:i|ii|iii|iv|v|a|b)\)\s*$|^\s*the hypotheses|^\s*the consequences")
+            local = [x.strip() for x in str(v.get("H", "")).split(";") if x.strip() and not bad.search(x)
+                     and x.strip() not in str(pv.get("H", ""))]
+            v = dict(v)
+            v["H"] = "context of the proof of " + parent[i] + ": " + str(pv.get("H", "none")) + (
+                "; local data: " + "; ".join(local) if local else "")
+            v["Q"] = "for every choice of the data of " + parent[i] + " (" + str(pv.get("Q", "-")) + ")" + (
+                "; within the step: " + str(v["Q"]) if v.get("Q") and v.get("Q") not in ("none", "-") else "") + \
+                "; m > 0 fixed (standing assumption)"
         for key, fld in (("H", "SOURCE_HYPOTHESES"), ("Q", "SOURCE_QUANTIFIERS"), ("C", "SOURCE_CONCLUSION"),
                          ("S", "CONSTANT_SCOPE")):
             if key not in v:
@@ -126,7 +173,23 @@ def main():
             return names
         if "deps" not in v:
             errs.append(f"{i}: missing deps")
-        deps = edge_lines(v.get("deps", []))
+        dl = list(v.get("deps", []))
+        if spec.get("SYMBOL_EDGES") and f.get("FROZEN_DECL", "-") == "-" and f.get("KIND") not in ("external", "route"):
+            have = {t[0] for t in dl}
+            txt = text_of(f.get("STATEMENT_SOURCE"))
+            if f.get("PROOF_SOURCE") not in ("-", f.get("STATEMENT_SOURCE")):
+                txt += text_of(f.get("PROOF_SOURCE"))
+            for tgt, pat, why in SYMBOLS:
+                if tgt in have or tgt == i or tgt in spec.get("NO_SYMBOL", {}).get(i, ()):
+                    continue
+                hit = next((k for k, line in txt if re.search(pat, line) and not line.lstrip().startswith("%")), None)
+                if hit:
+                    sf = (f.get("PROOF_SOURCE") if f.get("PROOF_SOURCE") not in ("-", None) and
+                          not any(k == hit for k, _ in text_of(f.get("STATEMENT_SOURCE"))) else
+                          f.get("STATEMENT_SOURCE")).split("#")[0]
+                    dl.append((tgt, hit, why, sf))
+                    have.add(tgt)
+        deps = edge_lines(dl)
         routes = edge_lines(v.get("routes", []))
         f["DEPS"] = ", ".join(deps) if deps else "-"
         f["ROUTES"] = ", ".join(routes) if routes else "-"
@@ -144,8 +207,10 @@ def main():
     for c in citems:
         it = c["ITEM"]
         if it in COV:
-            disp, why = COV[it]
+            disp, why = COV[it][0], COV[it][1]
             c["DISPOSITION"], c["REASON"] = clean(disp), clean(why)
+            if len(COV[it]) > 2:
+                c["SOURCE"] = COV[it][2]
         elif it in DELETE:
             errs.append(f"coverage {it}: node deleted but no COV disposition")
         elif c.get("DISPOSITION", "").startswith("NODE "):

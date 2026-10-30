@@ -16,9 +16,9 @@ FROZEN_ABI_SHA256: b931ceffaa8574f7dfc635404ea1c87c77d71dfb42d10b3ed63d2744b6c7d
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-wh
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -42,9 +42,9 @@ FROZEN_ABI_SHA256: 24a486c6ccc5648791465ec3577c2e37fd464ecaec8f0dab9c74a5588535e
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-wh
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -79,9 +79,9 @@ EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L55-L55
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L57-L57 | (5) u = U_m(Q_I(theta_0 + t nu(I)))
 EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L58-L58 | (5) classical solution of (bpW:w0:eq) on R
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L59-L59 | (5) u_t = V_m(P_I(theta_0 + t nu(I)))
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-wh
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

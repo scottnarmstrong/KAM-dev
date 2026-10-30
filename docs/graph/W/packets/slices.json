@@ -61,5 +61,8 @@
   ],
   "nodes": 7,
   "coverage": 14
+ },
+ "W-imports": {
+  "imports": true
  }
 }

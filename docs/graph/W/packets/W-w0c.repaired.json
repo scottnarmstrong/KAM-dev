@@ -1,0 +1,34 @@
+{
+ "replaced": [
+  "bpW:w0:basis#lam",
+  "bpW:w0:ellap#WaveSpace",
+  "bpW:w0:H",
+  "bpW:w0:Gq#cubicGrad",
+  "bpW:w0:eqmotion",
+  "bpW:w0:z",
+  "bpW:w0:actions",
+  "bpW:w0:periodone#linearTorus"
+ ],
+ "added": [
+  "bpW:w0:ellap#spaces",
+  "bpW:w0:reconstruction#rescaling"
+ ],
+ "items": [
+  "bpW:w0:ellap#WaveSpace",
+  "bpW:w0:reconstruction#reconU",
+  "bpW:w0:eq",
+  "bpW:w0:coeffsys"
+ ],
+ "unresolved": {},
+ "passes": [
+  "bpW:w0:mass",
+  "bpW:w0:nlw#IsClassicalSolution",
+  "bpW:w0:basis#sineMode",
+  "bpW:w0:ellap#ellWeight",
+  "bpW:w0:ellap#coeff",
+  "bpW:w0:twosided",
+  "bpW:w0:reconstruction#reconU",
+  "bpW:w0:reconstruction#reconV",
+  "bpW:w0:basis#lambda-facts"
+ ]
+}

@@ -3,27 +3,27 @@ KIND: lemma
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:recon-bounded@L18-L27
 DISPOSITION: NODE bpW:w0n:recon-bounded
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: bpW:w0n:quartic-coeff
 KIND: lemma
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:quartic-coeff@L40-L51
 DISPOSITION: NODE bpW:w0n:quartic-coeff
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: stepW:w0n:prod
 KIND: proof-region
 SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:prod@L54-L56
 DISPOSITION: NODE stepW:w0n:prod
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: stepW:w0n:cos
 KIND: proof-region
@@ -57,18 +57,18 @@ KIND: lemma
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:algebra@L94-L98
 DISPOSITION: NODE bpW:w0n:algebra
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: stepW:w0n:weight
 KIND: proof-region
 SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:weight@L102-L106
 DISPOSITION: NODE stepW:w0n:weight
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: stepW:w0n:young
 KIND: proof-region
@@ -174,9 +174,9 @@ KIND: lemma
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:nonres@L220-L224
 DISPOSITION: NODE bpW:w0n:nonres
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: stepW:w0n:31
 KIND: proof-region
@@ -210,18 +210,18 @@ KIND: definition
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:Qdef@L270-L273
 DISPOSITION: NODE bpW:w0n:Qdef
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: bpW:w0n:AB
 KIND: theorem
 SOURCE: blueprint-W/parts/w0-normalization.tex#bpW:w0n:AB@L275-L286
 DISPOSITION: NODE bpW:w0n:AB
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: stepW:w0n:resavg
 KIND: proof-region
@@ -237,9 +237,9 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:moments@L295-L298
 DISPOSITION: NODE stepW:w0n:moments
 REASON: mechanical inventory of a labelled unit
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w0n
 
 ITEM: stepW:w0n:sum
 KIND: proof-region
@@ -432,7 +432,7 @@ REVIEWER: -
 
 ITEM: w0-normalization:sourcegap-L159
 KIND: proof-region
-SOURCE: blueprint-W/parts/w0-normalization.tex#sourcegap@L159-L159
+SOURCE: blueprint-W/parts/w0-normalization.tex#sourcegap@L159-L161
 DISPOSITION: NODE stepW:w0n:majorant
 REASON: the printed P96-W p. 280 bound (constant 1) is wrong; the blueprint proves the corrected constant sqrt 2 in the majorant step (errata N-1); constants only, no open gap
 COVERAGE_STATUS: PROPOSED

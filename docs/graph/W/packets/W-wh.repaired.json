@@ -1,0 +1,11 @@
+{
+ "replaced": [],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "bpW:wh:embedding#IsAnalyticTorusEmbedding",
+  "bpW:wh:dioph#IsDiophantine",
+  "bpW:wh:nlw2"
+ ]
+}
