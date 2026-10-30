@@ -1282,3 +1282,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   N = 65 to 80 and 10 to 100 (digits 40 → ~44 → ~50), while the covered initial window shrinks (±0.68 % → ±0.37 %
   → ±0.16 %); N ≥ 80 also needs a finer grid stage. Decision: finish N = 65 (D38); N = 80 is an optional stretch
   after it, to be re-priced against the next certifier version (its dependence on σB decides the cost).
+- **13:49. Heartbeat.** SO-GEN3 finishing N = 65; SO-KDEPTH working; SO-BALLDY running its kernel probes (under the shared lock) and the tests (through the gate). main fast-forwarded to 49a5760b (an errata verification of the side campaign; no new certifier yet). Quotas fine (claude-12 87 %, claude-4 63 %).
