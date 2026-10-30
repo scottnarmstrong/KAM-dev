@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""LOCK-GEN part 2: the proposed body of `lockHamExpr Ω cs` (design §3) as a HamExpr tree, in one place.
+"""LOCK-GEN part 2: the body of `lockHamExpr Ω cs` (design §3) as a HamExpr tree, in one place.  Form "design" is
+the LANDED tree (KAM/SpinOrbit/Lock/Coords/HamExpr.lean, inp 7e8f8c02; node order in LOCK-COORDS-C-handoff.md),
+and its lock_jet program is the landed `slpCompile` program op for op (3116 ops; `lock_jet.py check-lit`).
 
     K = J̃ + Y²/2 − c′²/2 + X c″ + V(φ + c + X, φ) − 1/2,   X = √(I/(πΩ)) sin 2πα,   Y = √(IΩ/π) cos 2πα,
     V(φ + c + X, φ) = −Σ_m εA_m cos(2π(2(c + X) + (2 − m)φ))
@@ -16,8 +18,9 @@ Forms (owner review, see LOCK-GEN-NUMERICS.md Part 2):
   "lean"    Y²/2 written as (Ω/(2π)) I cos²2πα (no second root): fewer witnesses and a smaller Ham claim, but
             `lockHamExpr_eval` then holds only where sqrtE(IΩ/π)² = IΩ/π (off the nonpositive real I axis), which
             is all the consumers use (Re I > 0 on the certified domain).
-`sqrt_node(arg)` is the ONLY place that builds a square root; LOCK-COORDS-C's Lean text must match this tree
-exactly (the sqrt witnesses are keyed by the slot number of their `sqrt` operation).  Untrusted tooling.
+`sqrt_node(arg)` is the ONLY place that builds a square root (the sqrt witnesses are keyed by the slot number of
+their `sqrt` operation).  The certificate's `ham` is `lock_ham_scaled`, the time-scaled tree that the landed
+`lockBarrier_of_exact_torus` (Lock/Graph.lean) consumes for every κ, κ = 1 included.  Untrusted tooling.
 """
 from fractions import Fraction as F
 from model import A_EXACT, EPS
@@ -94,7 +97,9 @@ def lock_ham_expr(Om, cs, form="design"):
 
 
 def lock_ham_scaled(kappa, Om, cs, form="design"):
-    """`.mul (.const κ) (lockHamExpr Ω cs)`: the certificate's `ham` (design LockGraphCert.hham)."""
+    """`.mul (.const κ) (lockHamExpr Ω cs)`: the certificate's `ham` (Lock/Graph.lean `lockBarrier_of_exact_torus`).
+    Its program is the landed tree's, shifted one slot by the κ constant (slot 1), plus one product per nonzero jet
+    entry of the tree (41 at N = 65): 3116 + 42 = 3158 ops."""
     return ("mul", ("const", F(kappa)), lock_ham_expr(Om, cs, form))
 
 

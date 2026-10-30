@@ -262,3 +262,39 @@ the energy error is about 10⁴× smaller.
     SO_HP_BITS=192 python3 lock_trunc.py $D/trunc1.json diamond:70:14 diamond:84:17 diamond:98:20 rect:64:13 rect:76:16   # ≈ 2 min each
     SO_HP_BITS=192 python3 lock_emit.py $D/lockN65_D90x18_rho100.json --Ks 90 --Ls 18 --rho 1/100 --prec 112 \
         --digits 23 --pkg $D/pkg_rho100_mu1000.json --lean $D/lockN65_sample.lean  # 140 s
+
+## Part 3: resync to the landed `lockHamExpr` (inp 7e8f8c02)
+
+**Finding.** The SO-LOCK-COST gate (§12, commit f8af9c30) compiled the landed `lockHamExpr (8/65) cs` and got 3116
+ops, against the 3158 in P2.1. Neither the tree nor the compiler mirror was wrong:
+- `lock_ham.lock_ham_expr(…, "design")` is the landed tree node for node (LOCK-COORDS-C already checked this in Lean).
+  Its `lock_jet` program equals the gate's literal `lockJetLit` (`G1lit.lean`) **op for op, 3116 ops**, and v0,
+  d1, d2, d3 are equal too: `python3 lock_jet.py check-lit $G/G1lit.lean`.
+- The 42 ops are the time scale. P2.1 counted the certificate's `ham = .mul (.const κ) (lockHamExpr Ω cs)`
+  (`lock_ham_scaled`). That compiles to the κ constant (slot 1, which shifts the tree by one), the tree, and one
+  product κ·e for each of the 41 nonzero jet entries (v0, 4 d1, 9 d2, 27 d3): 3116 + 1 + 41 = 3158.
+- The wrapper is not optional at κ = 1. The landed consumer `lockBarrier_of_exact_torus`
+  (`Lock/Graph.lean:85`) states invariance for `HamExpr.mul (.const κ) (lockHamExpr Ω cs)` for every κ. So the
+  certificate's program has 3158 ops, and the gate's bridge and ball-pass probes measure the bare tree, which is
+  a 41-product, one-constant subset of it.
+- Every count in P2.1–P2.6 is unchanged. In the bare tree, the exp, inv and sqrt slots move down by one (exp 887,
+  1127, 2083, 2323; sqrt 16, 432, 786, 1982).
+
+**Gate G2 boundaries.** The gate's generator placed the tail segments at s = 3158 − L. On the bare 3116-op program,
+`take L` therefore cut them to 758 and 358 ops. `lock_gate.py` (no Lean run) did four things:
+- Reprinted the gate's `opLit` / `chunked` text and checked it byte for byte against `G1lit.lean` and all eight
+  existing `G2_*` files. All match.
+- Rewrote `gate/G0_emit.lean`, keeping the original as `G0_emit.lean.orig-3158`. The changes:
+  - `g1lit` now checks length 3116;
+  - the tails go at `lockJ.prog.ops.length − L`, that is s = 2716 (L = 400) and s = 2316 (L = 800), guarded by
+    `lockN = 3116`.
+- Wrote `gate/G2_segments.json`: ranges, op census and the sha256 of each `segLit` text the regenerated G0 will
+  print.
+- Moved the four stale tail probes to `gate/stale-3158/`. The s = 0 probes are unchanged and still valid.
+
+The tail probe files themselves (with accIn and accOut) need the exact Lean ball pass, so the next
+`run_gate.sh emit` writes them.
+
+**Emitter.** `lockN65_D90x18_rho100.json` and `lockN65_sample.lean` were regenerated (version lock-gen2-0.2). The
+residual, supports, witnesses and package are unchanged. `ham` now records both `program_length` 3158 (certificate)
+and `lockHamExpr_length` 3116 (landed tree).

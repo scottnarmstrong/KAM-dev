@@ -2,8 +2,7 @@
 """LOCK-GEN part 2: Python mirror of the jet compiler for the constructors `adv_jet.py` does not cover.
 
 `adv_jet.py` mirrors const, action, cosMode, sinMode, add, mul, pow.  This module adds, operation by operation,
-the remaining nodes of `KAM/Certificate/Expr/{DiffNode,Diff}.lean` (inp a5f010eb) and of `DiffNodeSqrt.lean`
-(branch inp-locksqrt a12b69cb, read-only):
+the remaining nodes of `KAM/Certificate/Expr/{DiffNode,Diff,DiffNodeSqrt}.lean` (inp 7e8f8c02):
   pi                       slpConstNode s (1/2) 0 1
   slpExpNode / slpExpD3    exp
   slpExpScaleNode          exp (c A)
@@ -12,7 +11,13 @@ the remaining nodes of `KAM/Certificate/Expr/{DiffNode,Diff}.lean` (inp a5f010eb
   slpSqrtPre / slpSqrtTail / slpSqrtD3 (the sqrt node: V = sqrt x, w = V^-1, w^2, w^3 = w w^2, w^5 = w^2 w^3)
 and `compile_`, `jet` over the full constructor set.  Ops are tuples ("const", re, im, deg) | ("action", j) |
 ("char", k) | ("add", a, b) | ("mul", a, b) | ("exp", a) | ("inv", a) | ("sqrt", a).  Untrusted tooling.
+
+`parse_jet_lit` reads a landed `HamJet` literal (the SO-LOCK-COST gate's `G1lit.lean`, printed by the elaborator
+from `(lockHamExpr Ω cs).jet`); `python3 lock_jet.py check-lit G1lit.lean` compares it with this mirror field by
+field (LOCK-GEN-2 Part 3: 3116 ops, identical).
 """
+import re
+import sys
 from fractions import Fraction as F
 import adv_jet as AJ
 from adv_jet import (emit, mulO, pure, cadd, cmul, cscale, finish, const_node, action_node, add_node,  # noqa: F401
@@ -241,3 +246,58 @@ def heavy_products(J):
         sl = closure(prog, w)
         out[name] = sum(1 for i in sl if prog[i][0] == "mul" and bg[prog[i][1]] and bg[prog[i][2]])
     return out
+
+
+# ------------------------------------------------------------------------------------------------ landed literal
+_Q = r"\(\((-?\d+) : ℚ\) / (\d+)\)"
+
+
+def parse_op_lit(line):
+    """One `SlpOp.…` literal in the gate's `opLit` format, as an op tuple."""
+    t = line.split()[0][len("SlpOp."):]
+    if t == "const":
+        (a, b), (c, d) = re.findall(_Q, line)[:2]
+        return ("const", F(int(a), int(b)), F(int(c), int(d)), int(re.search(r"\((-?\d+)\)$", line).group(1)))
+    if t == "char":
+        return ("char", tuple(int(x) for x in re.findall(r"\((-?\d+) : ℤ\)", line)))
+    return (t,) + tuple(int(x) for x in line.split()[1:])
+
+
+def parse_jet_lit(text):
+    """The `lockOpsLit` chunks and the `lockJetLit` roots (v0, d1, d2, d3) of a gate probe file."""
+    prog = [parse_op_lit(ln.strip().rstrip(",]")) for ln in text.splitlines() if ln.strip().startswith("SlpOp.")]
+    roots = re.search(r"def lockJetLit : HamJet := ⟨⟨lockOpsLit⟩, (\d+), (.*)⟩\s*$", text, re.M)
+    d1, d2, d3 = eval("[" + roots.group(2) + "]")
+    return dict(prog=prog, v0=int(roots.group(1)), d1=d1, d2=d2, d3=d3)
+
+
+def norm_op(o):
+    if o[0] == "char":
+        return ("char", tuple(o[1]))
+    if o[0] == "const":
+        return ("const", F(o[1]), F(o[2]), o[3])
+    return tuple(o)
+
+
+def compare_jets(J, K):
+    """First differing op index (None if the programs agree) and whether the roots agree."""
+    a, b = [norm_op(o) for o in J["prog"]], [norm_op(o) for o in K["prog"]]
+    first = next((i for i, (x, y) in enumerate(zip(a, b)) if x != y), None if len(a) == len(b) else min(len(a), len(b)))
+    return dict(lengths=(len(a), len(b)), first_diff=first,
+                roots=all(J[k] == K[k] for k in ("v0", "d1", "d2", "d3")))
+
+
+def nonzero_entries(J):
+    return (1 + sum(1 for x in J["d1"] if x) + sum(1 for r in J["d2"] for x in r if x)
+            + sum(1 for t in J["d3"] for r in t for x in r if x))
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["check-lit"]:
+    import lock_ham as LH
+    from lock_emit import OMEGA_R, CENTRE
+    lit = parse_jet_lit(open(sys.argv[2]).read())
+    bare = jet(2, LH.lock_ham_expr(OMEGA_R, CENTRE))
+    wrapped = jet(2, LH.lock_ham_scaled(1, OMEGA_R, CENTRE))
+    print("landed literal vs lock_ham_expr:", compare_jets(bare, lit))
+    print("certificate ham .mul (.const κ) lockHamExpr: %d ops = %d + 1 const + %d products (nonzero jet entries)"
+          % (len(wrapped["prog"]), len(bare["prog"]), nonzero_entries(bare)))

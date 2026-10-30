@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """LOCK-GEN part 2 (D45): emitter of the N = 65 librational certificate in the landed `TorusCertificate` format,
-for the time-scaled polar Hamiltonian `.mul (.const κ) (lockHamExpr Ω cs)` (lock_ham.py).  Untrusted tooling.
+for the time-scaled polar Hamiltonian `.mul (.const κ) (lockHamExpr Ω cs)` (lock_ham.py; the landed lockHamExpr,
+3116 ops bare, 3158 with the κ factor).  Untrusted tooling.
 
     SO_HP_BITS=192 OMP_NUM_THREADS=4 python3 lock_emit.py OUT.json [--Ks 56] [--Ls 12] [--shape diamond]
         [--rho 1/140] [--kappa 1] [--prec 96] [--form design] [--lean SAMPLE.lean]
@@ -38,7 +39,7 @@ import lock_ham as LH                 # noqa: E402
 import lock_jet as LJ                 # noqa: E402
 from model import A_EXACT, EPS        # noqa: E402
 
-GEN_VERSION = "lock-gen2-0.1"
+GEN_VERSION = "lock-gen2-0.2"
 DATA = os.environ.get("SO_LOCK_DIR", "/mnt/HC_Volume_106379410/kam-data/so-lock")
 OMEGA_R = F(8, 65)
 CENTRE = LHP.CENTRE
@@ -362,6 +363,7 @@ def main():
         precision=prec, mantissas="integers m denoting m / 2^%d (CertFixed %d)" % (prec, prec),
         ham=dict(lean=LH.to_lean(ham), form=a.form, kappa=str(kappa), Omega=str(OMEGA_R),
                  cs=[str(c) for c in CENTRE], program_length=len(J["prog"]),
+                 lockHamExpr_length=len(LJ.jet(2, LH.lock_ham_expr(OMEGA_R, CENTRE, a.form))["prog"]),
                  slots=dict(exp=LJ.census(J)["exp_slots"], inv=LJ.census(J)["inv_slots"], sqrt=[s for s, _ in sqrt_map])),
         params=package_params(a, rho, kappa),
         freqBox="lunarBox upper at N = 65 scaled by kappa (coordinate 1 = (kappa, 0) exactly)",
