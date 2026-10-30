@@ -1190,3 +1190,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   next, then SO-DATA-2 resumes. HQ fix on the owner's question: generated certificate data (KAM/SpinOrbit/Data/,
   59.5k lines of lunar literals held on inp-sodata2) is now shown apart from hand-written unlanded Lean and kept
   out of the size estimate (unlanded hand-written: 0; estimated total ≈ 275,000).
+- **08:49. Heartbeat.** SO-PACKFIX profiling the current packing before rewriting it; SO-KPERF finishing its profile. Both run 10 GB-capped kernel probes, so they now share one lock (orchestrator-tools/.kernel-probe.lock) and never run two probes at once. Quotas: claude-12 92 %, codex-3 63 %, codex-4 29 % (use codex-3 for the next audits).
