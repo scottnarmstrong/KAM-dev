@@ -1234,3 +1234,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   issue the toys do not show. Both are carried into the brief of the next data package (sharp certifier, smaller
   data): measure checkHamBounds early, and emit rationals in a kernel-reducible form (test every sub-check's
   reduction on a small prefix first).
+- **12:15. D38 (N = 65) recorded; three certifier-independent packages started.** inp has the sharp certifier and
+  SO-PACKFIX (inp 680e9f21, main 16179907; kam-inp now reachable as kam-inp-63 after its rotation to claude-3;
+  Toy2d's kernel tests dropped from 342 s to 76 s with the new packing). SO-GEN3 refocused on N = 65 (re-enclosed
+  majorants, R2, measured truncation; no final data until the next certifier version, same format, expected
+  within 1-2 h). Started: SO-DION (claude-12; ν±(N) = 1 ± 1/(N+g) and their Diophantine lemmas for general N, N = 65,
+  60, 55 instances), SO-SHARPLINK (claude-6; barrier and lunar assembly through checkTorusCertificateSharp, with the
+  band, frequencies and parameters as hypotheses), SO-EMITFIX (claude-12; why checkEmbedding / checkSoGraph get stuck
+  in the kernel on the emitted rationals, the emitter fix, and checkHamBounds's memory). Disk 15 GB free.
