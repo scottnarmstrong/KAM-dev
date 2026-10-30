@@ -31,9 +31,12 @@ public import KAM.Wave.Cubic.GradIdentity
 public import KAM.Wave.Cubic.GradLp
 public import KAM.Wave.Cubic.HamField
 public import KAM.Wave.Cubic.HamHamiltonian
+public import KAM.Wave.Cubic.QPair
+public import KAM.Wave.Cubic.QSymm
 public import KAM.Wave.Cubic.ReconComplex
 public import KAM.Wave.Cubic.SelectionCore
 public import KAM.Wave.Cubic.SelectionOneSided
+public import KAM.Wave.Cubic.SelectionTwoAlg
 public import KAM.Wave.Cubic.SelectionTwoFinal
 public import KAM.Wave.Cubic.SelectionTwoMaj
 public import KAM.Wave.Cubic.SelectionTwoSided

@@ -14,7 +14,7 @@ public import Mathlib.Analysis.Analytic.IteratedFDeriv
 Off-frontier, source-faithful infrastructure used by several nodes; the dependency graph is
 still being built.
 
-`D²𝒩(y)(h,k) = 6 𝒯(y,h,k)` (`waveCubicNL_hasFDerivAt_fderiv`, `waveCubicNL_second_apply`), with
+`D²𝒩(y)(h,k) = 6 𝒯(y,h,k)` in directional form (`waveCubicNL_second_apply`), with
 `‖D²𝒩(y)(h,k)‖ ≤ 6 C_* ‖y‖‖h‖‖k‖` (`waveCubicNL_second_norm_le`), and `D³𝒩(y) = 6 𝒯`
 (`waveCubicNL_third_apply`), where `𝒯` is invariant under all permutations of its arguments
 (`waveTriML_perm`).

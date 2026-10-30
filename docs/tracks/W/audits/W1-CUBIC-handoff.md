@@ -139,3 +139,32 @@ provider and no seal, so skip audit item 1.
 5. Definitions on their whole carrier (waveSelSum, waveTriSeq, waveTriML, waveCubicNL, waveGw, waveXw).
 6. Hygiene. This is a SLIM worktree, so lint only via w_lint.sh. Run the kernel replay of the 17 modules. Regenerated
    roots are authorized. One lean process at a time.
+
+## Round 2 (response to audit 1)
+
+New modules: `SelectionTwoAlg`, `QPair`, `QSymm` (all `KAM/Wave/Cubic/`, each < 250 lines). `KAM/Wave/Cubic/CubicDeriv.lean`
+docstring fixed (N5).
+
+- **F1 (gradient-identity (i))** closed.
+  - `wavePair a p u y = Σ_l (κ_{a,p+1}u)_l (κ_{a,p}y)_l` (the unweighted pairing `⟨·,·⟩₀`), with `wavePair_norm_le`
+    and `wavePairCLM` (continuous bilinear, norm ≤ 1).
+  - `waveQuartForm : ContinuousMultilinearMap K (fun _ : Fin 4 => lp _ 2) K`, `𝒬 = uncurryRight (pairing ∘ 𝒯)`.
+  - Defining identity `waveQuartForm_apply`: `𝒬(y₁,y₂,y₃,y₄) = Σ_l T(κy₁,κy₂,κy₃)_l (κy₄)_l = ⟨T(q₁,q₂,q₃),q₄⟩₀`, `q_i = κ_{a,p}y_i`.
+  - Bound `waveQuartForm_norm_le` (`‖𝒬‖ ≤ C_*`) and `norm_waveQuartForm_le` (`‖𝒬 v‖ ≤ C_* ∏‖v i‖`).
+  - Full four-slot symmetry `waveQuartForm_perm` (every `σ : Perm (Fin 4)`), via `waveQuartForm_swap34`
+    (absolute convergence of the quadruple series `waveTri_quad_summable`, using `waveTri_oneSided` for the moduli;
+    `waveTri_pairing_eq_quad`, `waveTri_pairing_swap`, coefficient symmetry `waveTriCoef_comm34`) plus the first-three-slot
+    symmetry of `𝒯` and generation of `Perm (Fin 4)` by adjacent swaps (`mclosure_swap_castSucc_succ`).
+- **F2 (selection, two-sided algebra)** closed: `waveSelSumZ_smul_left/_mid/_right`, `waveSelSumZ_add_left/_mid/_right`
+  (summability of the guarded terms `waveSelTermZ` as hypothesis, supplied for `l ≠ 0` by `waveSel_twoSided`),
+  `waveSelSumZ_swap_left_mid/_mid_right` (hypothesis: `c` symmetric in the first two / middle indices), and the same for
+  `waveSelTwo` (`waveSelTwo_smul_*`, `_add_*`, `_swap_left_mid`, `_mid_right`, `_left_right`).
+- Notes: N1 (second derivative only in directional form), N2, N3, N4 are unchanged and deliberately left (API distinctions
+  recorded). N5 fixed.
+- Checks: gate build of all 20 `KAM.Wave.Cubic.*` modules -> `Build completed successfully (3310 jobs).`;
+  `w_lint.sh` exit 0 (`check_lean_modules: PASS`, `FROZEN-ANCHOR GUARD OK`, `ABI HASHES OK (158 frozen declarations)`);
+  short-name check OK; `#print axioms` of `waveQuartForm_perm`, `waveQuartForm_apply`, `waveQuartForm_norm_le`,
+  `norm_waveQuartForm_le`, `waveTri_pairing_swap`, `waveSelSumZ_add_left`, `waveSelSumZ_swap_left_mid`,
+  `waveSelTwo_swap_left_right`, `waveSelTwo_smul_left`: only `propext`, `Classical.choice`, `Quot.sound`. No `sorry`.
+- Remaining item 1 of "NOT done" (gradient-identity (iii) Riesz-gradient remark for the `ℓ^{a,p}` inner product) is still
+  not stated separately; the `ℓ²`/frozen gradient formulas are.
