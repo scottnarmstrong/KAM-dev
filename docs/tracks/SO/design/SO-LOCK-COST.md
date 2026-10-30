@@ -36,18 +36,13 @@ So **a calibration gate (§7)**, with exact probes and decision rules, is the au
 | δ₁ bite (l = 12) | 2:03, 8.36 GB | SO-DATA3 interim 2 |
 | lock products after pruning | ≈ 300 (106 torsion + 17 Gram + 157 compose + ≈ 20 witnesses) against R2's 129; factors ≈ 6.5× | LOCK-GEN-2 P2.6 |
 
-**BALLDY breakdown, by subtraction:**
-- spine: 3.9 GB, which includes the certificate import;
-- program forcing: +3.0 GB;
-- lookups: +0.56 GB;
-- ball arithmetic and rounding at P = 320: about +1.5 GB.
+**BALLDY breakdown, by subtraction:** spine 3.9 GB (with the certificate import); program forcing +3.0 GB; lookups +0.56 GB; ball arithmetic and rounding at P = 320 about +1.5 GB.
 
 Only the last part depends on P. **Rev 1's model (all of 6.4 GB ∝ ops × P) is withdrawn.**
 
 ## 2. Per-theorem memory
 
 **The lock Ham pass.** Each lock range follows from the assumption in its row:
-
 | part | R2 (measured) | lock, assumption | lock range |
 |---|---:|---|---:|
 | spine + import | 3.9 GB | between constant and ∝ ops (×3.56) | 3.9–13.9 GB |
@@ -123,7 +118,6 @@ equal SO-DATA3's upper ones exactly. Otherwise they are re-run near the cap, or 
 **Per-product factor.** In the LOCK-GEN-2 model (cost ∝ size^{1.5…2} × width^{1…2}, with size 6.5× and width
 240/208), the review's arithmetic gives **19.1–56.3× R2**. With 300/129 = 2.33× the products, the packed part is
 44–131× R2's.
-
 | item | basis | range |
 |---|---|---:|
 | B1 packed products (pruned; torsion, Gram, compose, witnesses) | (0.3–0.9 CPU-h) × 44–131 | **13–118 CPU-h** |
@@ -136,10 +130,7 @@ equal SO-DATA3's upper ones exactly. Otherwise they are re-run near the cap, or 
 **Sharing.** B2 = 0 is the *only* sharing credit. B1 is not discounted, so rev 1's step from 12–100 to 7–55 is
 withdrawn.
 
-**Levers on B1.** All are **unverified** multiplicative estimates:
-- one-sqrt form: × 0.93 (product census);
-- box pass (§4): ÷ 2–3 (LOCK-GEN-2 estimate at ρ = 1/140; no mirror);
-- CertFixed 112 → 96: × (96/112)^{1…2} = 0.73–0.86, conditional on the box pass's threshold.
+**Levers on B1** (all **unverified** multiplicative estimates): one-sqrt form × 0.93 (product census); box pass (§4) ÷ 2–3 (LOCK-GEN-2 estimate at ρ = 1/140; no mirror); CertFixed 112 → 96 × (96/112)^{1…2} = 0.73–0.86, conditional on the box pass's threshold.
 
 **Total.** With all levers, B1 ∈ **3.0–47 CPU-h**. ≤ 20 CPU-h therefore holds only in the lower part of that range,
 before B4–B6. **≤ 20 CPU-h is a conditional goal, not a projection**, and gate probes G3/G4 decide it.
@@ -147,12 +138,10 @@ before B4–B6. **≤ 20 CPU-h is a conditional goal, not a projection**, and ga
 ## 4. Lever 4: a sharper Ham pass with box shapes (research lever)
 
 **Rules.**
-- Each slot also carries |Re v| ≤ a and |Im v| ≤ b.
-- exp: |exp w| ≤ e^{a_w}.
+- Each slot also carries |Re v| ≤ a and |Im v| ≤ b; exp: |exp w| ≤ e^{a_w}.
 - sqrt with Re w ≥ ℓ > 0: |Im √w| ≤ b_w/(2√ℓ). This is sound (review 1 §7); the rational bound needs a certified
   *lower* approximation of √ℓ.
-- mul and add: interval rules.
-- The ball is kept, or replaced by the box's circumscribed disc when that is smaller, so containment is preserved.
+- mul and add: interval rules. The ball is kept, or replaced by the box's circumscribed disc when that is smaller, so containment is preserved.
 
 **Names and size.**
 - New names only: `ballsBox`, `val_mem_ballsBox`, the safety lemmas, `checkHamClaimBox`, `hamFacts_of_box` and
@@ -178,7 +167,6 @@ so this changes a design contract only (an owner item).
   term is −1/(2π) (review 1 §3).
 - New contract: `lockHamExpr_eval (hΩ : 0 < Ω) (hI : 0 < (z.2 0).re) : (lockHamExpr Ω cs).eval z = soRotHC
   (lockToRotC Ω cs z)`. A more general version would assume "IΩ/π in the slit plane".
-
 | consumer | requirement | disposition |
 |---|---|---|
 | `lockHamExpr_clock` (hΩ) | equality on the **open** set {Re I > 0}, a neighbourhood of z, so that the fderivs agree | safe; it has hΩ and needs Re I > 0 |
@@ -201,9 +189,7 @@ decidable check.
 **New names:** `torsionModelsPruned`, `checkTorsionPruned`, `checkFrameMajorantsP`, `sharedBaseV2`, `routeAV2P`,
 each with the J-variant of lever 0.
 
-**Glue.**
-- A new Gram projection from the pruned torsion check, since `checkGram_of_checkTorsion` takes the old Bool.
-- An adapted proof of the content of `checkTorsion_sound_of` for the new producer.
+**Glue:** a new Gram projection from the pruned torsion check (`checkGram_of_checkTorsion` takes the old Bool), and an adapted proof of the content of `checkTorsion_sound_of` for the new producer.
 
 No landed statement changes. 250–400 lines; a mechanical audit.
 
@@ -216,11 +202,9 @@ No landed statement changes. 250–400 lines; a mechanical audit.
       flock /mnt/HC_Volume_106379410/orchestrator-tools/.kernel-probe.lock systemd-run --user --scope \
         -p MemoryMax=10G -p MemorySwapMax=0 /usr/bin/time -f "WALL %e s MAXRSS %M KB EXIT %x" \
         nice -n 5 lake env lean <probe>.lean      # plus run.sh's 1 s cgroup anon-peak sampling
-
 - **Proxy Hamiltonian until LOCK-SQRT lands.** Take `lock_ham.py`'s Lean text with each `.sqrt e` replaced by
   `.inv e`: the same arity, and the op count within ±4. The proxy measures program size, not values.
 - Data and probes go in `/mnt/HC_Volume_106379410/kam-data/so-lock/gate/`.
-
 | probe | proposition | measures | decision rule |
 |---|---|---|---|
 | **G1** program forcing | `lockHamProxy.jet.prog.ops.all opOk = true` by `decide +kernel` (BALLDY `J0` form), and its `K0` spine-only version | the lock analogue of 3.9 / 6.9 GB | ≤ 8 GB: the bridge `lockHamExpr_jet` is one theorem. Otherwise G1′ per jet component (`v0`, `d1`, `d2`, `d3`); if a component exceeds 8 GB, **stop and report** (compiler segmentation is a redesign) |
@@ -241,11 +225,7 @@ No landed statement changes. 250–400 lines; a mechanical audit.
 
 1. **Run the gate first.** G1–G4 take a few hours of probes and need no checker change; G1 needs only the proxy and
    the landed compiler.
-2. **Mandatory regardless:**
-   - lever 1 (pruned V2 base and frame; B2 = 0 by shard reuse);
-   - lever 0 (literal jet bridge and the J-variants);
-   - advice emission;
-   - blockRows from G3.
+2. **Mandatory regardless:** lever 1 (pruned V2 base and frame; B2 = 0 by shard reuse); lever 0 (literal jet bridge and the J-variants); advice emission; blockRows from G3.
 3. **Then** levers 2 + 3 as one package, with parameters from G2, and lever 5 (owner ruling; corrected contract).
 4. **Lever 4 only through the §7 rule**, after its mirror.
 
