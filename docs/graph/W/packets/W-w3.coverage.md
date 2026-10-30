@@ -203,7 +203,7 @@ DISPOSITION: NODE stepW:w3:XG
 REASON: labelled proof step (route nodes removed after the blueprint cleanup)
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: sol-delta3-W-w3
+REVIEWER: sol-delta4-W-w3
 
 ITEM: stepW:w3:Gnor
 KIND: proof-region
@@ -608,7 +608,7 @@ DISPOSITION: NODE stepW:w3:majY
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta4-W-w3
 
 ITEM: stepW:w3:majint
 KIND: proof-region
@@ -626,7 +626,7 @@ DISPOSITION: NODE stepW:w3:majps
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta4-W-w3
 
 ITEM: stepW:w3:majreal
 KIND: proof-region
@@ -716,7 +716,7 @@ DISPOSITION: NODE stepW:w3:conj
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta4-W-w3
 
 ITEM: bpW:w3:class-remark
 KIND: claim
@@ -747,7 +747,7 @@ REVIEWER: sol-review-W-w3
 
 ITEM: bpW:w3:interface
 KIND: claim
-SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:interface@L828-L872
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:interface@L872-L920
 DISPOSITION: EXCLUDED
 REASON: administrative remark (what W3 supplies to W4-W6); no wave-1 proof consumes it; re-examine when W4-W6 are added
 COVERAGE_STATUS: REVIEWED
@@ -828,7 +828,7 @@ REVIEWER: sol-review-W-w3
 
 ITEM: heading:bpW:w3:interface-sec
 KIND: heading
-SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:interface-sec@L826-L826
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:interface-sec@L870-L870
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: REVIEWED
@@ -837,7 +837,7 @@ REVIEWER: sol-review-W-w3
 
 ITEM: heading:bpW:w3:constants
 KIND: heading
-SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:constants@L876-L876
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:constants@L924-L924
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: REVIEWED
@@ -846,7 +846,7 @@ REVIEWER: sol-review-W-w3
 
 ITEM: heading:bpW:w3:status
 KIND: heading
-SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:status@L900-L900
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:status@L948-L948
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: REVIEWED
@@ -1071,7 +1071,7 @@ REVIEWER: sol-review-W-w3
 
 ITEM: w3-birkhoff:source-L862
 KIND: citation
-SOURCE: blueprint-W/parts/w3-birkhoff.tex#source@L873-L873
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#source@L921-L921
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: REVIEWED
@@ -1188,7 +1188,7 @@ REVIEWER: sol-review-W-w3
 
 ITEM: w3-birkhoff:prose-L867-L887
 KIND: proof-region
-SOURCE: blueprint-W/parts/w3-birkhoff.tex#prose@L878-L898
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#prose@L926-L946
 DISPOSITION: EXCLUDED
 REASON: constants table and Lean totality notes (summary; each constant is defined and bounded in its result)
 COVERAGE_STATUS: REVIEWED
@@ -1197,7 +1197,7 @@ REVIEWER: sol-review-W-w3
 
 ITEM: w3-birkhoff:prose-L891-L904
 KIND: proof-region
-SOURCE: blueprint-W/parts/w3-birkhoff.tex#prose@L902-L915
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#prose@L950-L963
 DISPOSITION: EXCLUDED
 REASON: status summary (administrative)
 COVERAGE_STATUS: REVIEWED
@@ -1212,3 +1212,57 @@ REASON: quantitative second-derivative and beta bounds used by the sign cases, p
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: sol-review-W-w3
 REVIEWER: sol-delta-W-w3
+
+ITEM: bpW:w3:transport-tori-weak
+KIND: corollary
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L831-L842
+DISPOSITION: NODE bpW:w3:transport-tori-weak
+REASON: labelled unit of the revised W3 (wave 2)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+
+ITEM: stepW:w3:wk-lin
+KIND: proof-region
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L845-L849
+DISPOSITION: NODE stepW:w3:wk-lin
+REASON: labelled unit of the revised W3 (wave 2)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+
+ITEM: stepW:w3:wk-reg
+KIND: proof-region
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L850-L858
+DISPOSITION: NODE stepW:w3:wk-reg
+REASON: labelled unit of the revised W3 (wave 2)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+
+ITEM: stepW:w3:wk-transport
+KIND: proof-region
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L859-L865
+DISPOSITION: NODE stepW:w3:wk-transport
+REASON: labelled unit of the revised W3 (wave 2)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+
+ITEM: w3-birkhoff:prose-L826-L829
+KIND: proof-region
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#prose@L826-L829
+DISPOSITION: EXCLUDED
+REASON: motivation for Corollary bpW:w3:transport-tori-weak (pointer to Theorem bpW:w6:tori)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+
+ITEM: w3-birkhoff:source-L867
+KIND: citation
+SOURCE: blueprint-W/parts/w3-birkhoff.tex#source@L867-L868
+DISPOSITION: EXCLUDED
+REASON: provenance note (ours; pointer to the return-trip item of the excluded Remark bpW:w3:interface)
+COVERAGE_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -

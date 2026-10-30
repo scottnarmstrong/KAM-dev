@@ -179,7 +179,7 @@ def main():
             txt = text_of(f.get("STATEMENT_SOURCE"))
             if f.get("PROOF_SOURCE") not in ("-", f.get("STATEMENT_SOURCE")):
                 txt += text_of(f.get("PROOF_SOURCE"))
-            for tgt, pat, why in SYMBOLS:
+            for tgt, pat, why in [(t, spec.get("SYMBOL_OVERRIDE", {}).get(t, pp), w) for t, pp, w in SYMBOLS]:
                 if tgt in have or tgt == i or tgt in spec.get("NO_SYMBOL", {}).get(i, ()):
                     continue
                 hit = next((k for k, line in txt if re.search(pat, line) and not line.lstrip().startswith("%")), None)

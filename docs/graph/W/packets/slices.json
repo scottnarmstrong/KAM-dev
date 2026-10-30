@@ -64,5 +64,77 @@
  },
  "W-imports": {
   "imports": true
+ },
+ "W-w4": {
+  "part": "w4-homological",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 64,
+  "coverage": 102
+ },
+ "W-w5a": {
+  "part": "w5-kamstep",
+  "lines": [
+   1,
+   449
+  ],
+  "nodes": 50,
+  "coverage": 74
+ },
+ "W-w5b": {
+  "part": "w5-kamstep",
+  "lines": [
+   450,
+   1000000000
+  ],
+  "nodes": 32,
+  "coverage": 48
+ },
+ "W-w6": {
+  "part": "w6-iteration",
+  "lines": [
+   1,
+   1000000000
+  ],
+  "nodes": 46,
+  "coverage": 70
+ },
+ "W-w7a": {
+  "part": "w7-measure",
+  "lines": [
+   1,
+   459
+  ],
+  "nodes": 50,
+  "coverage": 79
+ },
+ "W-w7b": {
+  "part": "w7-measure",
+  "lines": [
+   460,
+   1000000000
+  ],
+  "nodes": 43,
+  "coverage": 63
+ },
+ "W-w8a": {
+  "part": "w8-assembly",
+  "lines": [
+   1,
+   410
+  ],
+  "nodes": 55,
+  "coverage": 79
+ },
+ "W-w8b": {
+  "part": "w8-assembly",
+  "lines": [
+   411,
+   1000000000
+  ],
+  "nodes": 48,
+  "coverage": 61
  }
 }

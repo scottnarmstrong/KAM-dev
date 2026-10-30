@@ -1,14 +1,12 @@
 {
- "replaced": [
-  "stepW:w3:XG",
-  "stepW:w3:majY",
-  "stepW:w3:majps",
-  "stepW:w3:conj"
- ],
+ "replaced": [],
  "added": [],
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w3:gradtrans"
+  "stepW:w3:XG",
+  "stepW:w3:majY",
+  "stepW:w3:majps",
+  "stepW:w3:conj"
  ]
 }

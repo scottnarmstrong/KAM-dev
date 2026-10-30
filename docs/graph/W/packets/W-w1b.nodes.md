@@ -1086,9 +1086,9 @@ EDGE: bpW:w1:uniform-limit | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim
 EDGE: stepW:w1:picardholo | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L905-L905 | holomorphy and bounds of the iterates
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L902-L903 | uniform convergence of the Picard integrands permits passage to the limit under the Bochner integral
 EDGE: stepW:w1:flowlip | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L903-L904 | the L-Lipschitz bound on B(w,delta) discharges the ODE uniqueness premise
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w1b
-REVIEWER: -
+REVIEWER: sol-delta4-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

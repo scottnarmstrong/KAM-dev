@@ -601,9 +601,9 @@ EDGE: stepW:w3:Gz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L301-L301 | G(
 EDGE: bpW:w3:majorant | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L306-L306 | absolute convergence of Q via the majorant M and C_*
 EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L307-L307 | symmetry of g gives the symmetry of Q
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L303-L303 | hat q_j = q_j/sqrt(lambda_j) uses the frozen lam definition directly
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
-REVIEWER: -
+REVIEWER: sol-delta4-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1927,9 +1927,9 @@ EDGE: stepW:w3:majN | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L668-L668 
 EDGE: stepW:w3:majX | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L668-L668 | the cubic field along the flow
 EDGE: bpW:w3:main-sec#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L669-L669 | Y(t,w)
 EDGE: stepW:w3:majcalc | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L667-L670 | the bilinear application composite and subtraction use the composite-series identity and product majorant bound
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
-REVIEWER: -
+REVIEWER: sol-delta4-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1984,9 +1984,9 @@ ROUTE_FOR: -
 EDGE: stepW:w3:majY | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L677 | sum ¦¦Y_j¦¦ rho_1^{2j+3}
 EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L677 | power series give analyticity
 EDGE: stepW:w3:majint | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L678 | the preceding termwise integral identity identifies the diagonal series with coefficients q with the integral whose analyticity is asserted
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
-REVIEWER: -
+REVIEWER: sol-delta4-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2298,9 +2298,9 @@ EDGE: bpW:w3:symplectic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L752-L
 EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L755-L755 | nondegeneracy
 EDGE: stepW:w3:XKconcl | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L754-L754 | X_K
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L751-L754 | the quartic Hamiltonian fields supply the G, bar G and G^nor derivative pairings in DH and the transformed Hamiltonian
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
-REVIEWER: -
+REVIEWER: sol-delta4-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2516,3 +2516,130 @@ LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
 NOTE: This separates the quantitative preamble used by the sign cases; it is not an extra assumption. The symbol A here is the smallest mode, not the exponential weight a.
+
+NODE: bpW:w3:transport-tori-weak
+KIND: corollary
+TITLE: Weak invariance is transported
+STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L831-L842
+PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L844-L866
+CONTRACT_ID: bpW:w3:transport-tori-weak
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; for w in W, X_Lambda(w) = (-i lambda'_l w_l)_{l != 0} in W_{a,p-1}; nu in R^2; Psi : R^2 -> B_{rho_1} differentiable as a map into W with D Psi(theta) nu = X_Lambda(Psi(theta)) + X_{bar G}(Psi(theta)) + X_{G^nor}(Psi(theta)) + X_K(Psi(theta)) in W_{a,p-1} for every theta
+SOURCE_QUANTIFIERS: for all nu, Psi as stated; for every theta
+SOURCE_CONCLUSION: Psi(theta) in W+ with ¦¦Psi(theta)¦¦_+ <= ¦¦D Psi(theta) nu¦¦ + C_* ¦¦Psi(theta)¦¦^3 + C'_K ¦¦Psi(theta)¦¦^5 for every theta, and all conclusions of Corollary bpW:w3:transport-tori hold: Gamma o Psi takes values in W+, D(Gamma o Psi)(theta) nu = X_H(Gamma o Psi(theta)) in W, and for real Psi the coefficient system (bpW:w0:coeffsys) holds for (Q,P) = Z^{-1} Gamma o Psi
+CONSTANT_SCOPE: C_*, C'_K as in Theorem bpW:w3:main (m, p)
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: bpW:w3:Lambda, bpW:w3:quartic, bpW:w3:main, bpW:w3:transport-tori, bpW:w0:eqmotion, bpW:w0:basis#lam, stepW:w3:wk-lin, stepW:w3:wk-reg, stepW:w3:wk-transport
+ROUTES: -
+ROUTE_FOR: -
+EDGE: bpW:w3:Lambda | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L833-L833 | X_Lambda extends the linear field of Lemma bpW:w3:Lambda
+EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L835-L835 | the fields X_{bar G}, X_{G^nor}
+EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L835-L835 | the field X_K and C'_K
+EDGE: bpW:w3:transport-tori | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L838-L838 | its conclusions are asserted for Psi
+EDGE: bpW:w0:eqmotion | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L840-L840 | the coefficient system (bpW:w0:coeffsys)
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L832-L832 | lambda'_l = sgn(l) lambda_¦l¦ occurs directly here (frozen lam)
+EDGE: stepW:w3:wk-lin | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L845-L845 | proof step
+EDGE: stepW:w3:wk-reg | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L850-L850 | proof step
+EDGE: stepW:w3:wk-transport | blueprint-W/parts/w3-birkhoff.tex#bpW:w3:transport-tori-weak@L859-L859 | proof step
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: New corollary of the revised W3 (wave 2); consumed by W6/W8 (KAM tori invariant only in W_{a,p-1}).
+
+NODE: stepW:w3:wk-lin
+KIND: step
+TITLE: The linear field on W
+STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L845-L849
+PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L845-L849
+CONTRACT_ID: stepW:w3:wk-lin
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:transport-tori-weak: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; for w in W, X_Lambda(w) = (-i lambda'_l w_l)_{l != 0} in W_{a,p-1}; nu in R^2; Psi : R^2 -> B_{rho_1} differentiable as a map into W with D Psi(theta) nu = X_Lambda(Psi(theta)) + X_{bar G}(Psi(theta)) + X_{G^nor}(Psi(theta)) + X_K(Psi(theta)) in W_{a,p-1} for every theta
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:transport-tori-weak (all such nu, Psi; every theta); m > 0 fixed (standing assumption)
+SOURCE_CONCLUSION: X_Lambda : W -> W_{a,p-1} is bounded with norm <= sqrt(1+m) and agrees with Lemma bpW:w3:Lambda on W+; the other three fields take values in W+ subset W subset W_{a,p-1} with norm-one inclusions
+CONSTANT_SCOPE: none
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: bpW:w1:diag, bpW:w3:Lambda, bpW:w3:main, bpW:w1:embed
+ROUTES: -
+ROUTE_FOR: -
+EDGE: bpW:w1:diag | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L846-L846 | (i) with p-1 in place of p and r = 1
+EDGE: bpW:w3:Lambda | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L848-L848 | agreement on W+
+EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L849-L849 | (ii), (iii): the fields of bar G, G^nor, K take values in W+
+EDGE: bpW:w1:embed | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-lin@L849-L849 | norm-one inclusions
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: -
+
+NODE: stepW:w3:wk-reg
+KIND: step
+TITLE: Regularity of the torus points
+STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L850-L858
+PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L850-L858
+CONTRACT_ID: stepW:w3:wk-reg
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:transport-tori-weak: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; for w in W, X_Lambda(w) = (-i lambda'_l w_l)_{l != 0} in W_{a,p-1}; nu in R^2; Psi : R^2 -> B_{rho_1} differentiable as a map into W with D Psi(theta) nu = X_Lambda(Psi(theta)) + X_{bar G}(Psi(theta)) + X_{G^nor}(Psi(theta)) + X_K(Psi(theta)) in W_{a,p-1} for every theta; local data: w = Psi(theta)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:transport-tori-weak (all such nu, Psi; every theta); m > 0 fixed (standing assumption); within the step: theta
+SOURCE_CONCLUSION: X_Lambda(w) = D Psi(theta) nu - X_{bar G}(w) - X_{G^nor}(w) - X_K(w) lies in W with norm <= ¦¦D Psi(theta) nu¦¦ + C_* ¦¦w¦¦^3 + C'_K ¦¦w¦¦^5; hence w in W+ with ¦¦w¦¦_+ <= ¦¦X_Lambda(w)¦¦
+CONSTANT_SCOPE: C_*, C'_K as in Theorem bpW:w3:main
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: bpW:w3:main, bpW:w3:quartic, bpW:w0:basis#lambda-facts, bpW:w1:diag, stepW:w3:wk-lin, bpW:w0:basis#lam
+ROUTES: -
+ROUTE_FOR: -
+EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L853-L853 | the bound on X_K
+EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L854-L854 | the bound C_* ¦¦w¦¦^3 for bar frak G + frak G^nor (disjoint coefficient sets)
+EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L856-L856 | ¦l¦ <= lambda_¦l¦
+EDGE: bpW:w1:diag | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L857-L857 | (i) with r = -1
+EDGE: stepW:w3:wk-lin | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L852-L852 | X_Lambda(w) is defined in W_{a,p-1}
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-reg@L856-L856 | lambda occurs directly here (frozen lam)
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: -
+
+NODE: stepW:w3:wk-transport
+KIND: step
+TITLE: Transport
+STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L859-L865
+PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L859-L865
+CONTRACT_ID: stepW:w3:wk-transport
+CONTRACT_VERSION: 1
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:transport-tori-weak: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; for w in W, X_Lambda(w) = (-i lambda'_l w_l)_{l != 0} in W_{a,p-1}; nu in R^2; Psi : R^2 -> B_{rho_1} differentiable as a map into W with D Psi(theta) nu = X_Lambda(Psi(theta)) + X_{bar G}(Psi(theta)) + X_{G^nor}(Psi(theta)) + X_K(Psi(theta)) in W_{a,p-1} for every theta; local data: w = Psi(theta)
+SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:transport-tori-weak (all such nu, Psi; every theta); m > 0 fixed (standing assumption); within the step: theta
+SOURCE_CONCLUSION: D Psi(theta) nu = X_{H'}(w) in W, D(Gamma o Psi)(theta) nu = D Gamma(w) X_{H'}(w) = X_H(Gamma(w)), Gamma(w) in W+, and the coefficient system as in Corollary bpW:w3:transport-tori; pointwise in theta
+CONSTANT_SCOPE: none
+FROZEN_FILE: -
+FROZEN_DECL: -
+FROZEN_ANCHOR_ID: -
+FROZEN_ABI_SHA256: -
+DEPS: stepW:w3:wk-reg, bpW:w3:transport-tori, bpW:w3:flow, bpW:w3:main
+ROUTES: -
+ROUTE_FOR: -
+EDGE: stepW:w3:wk-reg | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L860-L860 | w in B_{rho_1} cap W+
+EDGE: bpW:w3:transport-tori | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L861-L861 | X_{H'} and the coefficient-system argument
+EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L862-L862 | Gamma is differentiable on W ((i))
+EDGE: bpW:w3:main | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:wk-transport@L863-L863 | (iv) conjugacy at w
+TOPOLOGY_STATUS: PROPOSED
+EXTRACTOR: claude-suborch-W-w2
+REVIEWER: -
+LEAN_STATUS: NOT_STARTED
+LEAN_REF: -
+LEAN_NOTE: -
+NOTE: -
