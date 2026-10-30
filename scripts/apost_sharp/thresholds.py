@@ -44,12 +44,23 @@ def cohConst_crude(n, tau):
     exponent kappa = tau + n."""
     return up((2 * mp.pi) ** -1 * (mp.mpf(tau) / (mp.e * mp.pi)) ** tau * (8 * mp.mpf(n) / mp.pi) ** n)
 
+def cohConstP_lean(n, tau):
+    """KAM.cohConstP n tau = (2 pi)^-1 sqrt(2^n (2 tau/(e pi))^{2 tau} (8 n/pi)^n)
+    (KAM/Strip/CohomologicalParsevalLattice.lean:33), exponent kappa = tau + n/2."""
+    t = mp.mpf(tau)
+    return up((2 * mp.pi) ** -1 * mp.sqrt(2 ** n * (2 * t / (mp.e * mp.pi)) ** (2 * t) * (8 * mp.mpf(n) / mp.pi) ** n))
+
+def cohConstR_lean(n, tau):
+    """KAM.cohConstR n tau = (2 pi)^-1 sqrt(2^n 6 (1 + 2^tau) (2 tau/(e pi))^{2 tau})
+    (KAM/Strip/CohomologicalRussmannLattice.lean:195), exponent kappa = tau (Russmann), all delta > 0."""
+    t = mp.mpf(tau)
+    return up((2 * mp.pi) ** -1 * mp.sqrt(2 ** n * 6 * (1 + 2 ** t) * (2 * t / (mp.e * mp.pi)) ** (2 * t)))
+
 def cohConst_parseval_n2(tau=1):
-    """The optimal constant of the Parseval route (brief SHARP-PARSEVAL, steps 3-5) for n = 2, tau = 1:
+    """The optimal constant of the Parseval route for n = 2, tau = 1 (for comparison only):
     c = (2 pi)^-1 2^{n/2} sup_{0<delta<=1} (delta^{2 tau + n} sum_{k != 0} |k|_1^{2 tau} e^{-2 pi delta |k|_1})^{1/2},
     with #{|k|_1 = m} = 4m and sum_m m^3 x^m = x(1+4x+x^2)/(1-x)^4.  The sup is taken on a grid of
-    step 10^-3 and multiplied by 1.001 (the function is smooth with derivative < 1 there); the Lean
-    constant cohConstP of package SHARP-PARSEVAL may be larger: the table reports the sensitivity."""
+    step 10^-3 and multiplied by 1.001.  The Lean constant KAM.cohConstP 2 1 = 0.380 is cruder."""
     assert tau == 1
     def f(d):
         b = 2 * mp.pi * d; x = mp.e ** (-b)
@@ -119,14 +130,16 @@ def current_iso(n, tau, M, sK, sB, sT, mu, nu, rho, rhoinf, gbar, cR=F(1)):
 # ---------------------------------------------------------------------------------------------
 
 def sharp(n, tau, kappa, cR, M, sK, sB, sT, mu, rho, rhoinf, gbar, nu=None, iso=False,
-          lam=3, theta=F(1, 8), qS=F(1, 2), tX=F(1, 2), absorb="gbar", cR_floor=False):
+          lam=3, theta=F(1, 8), qS=F(1, 2), tX=F(1, 2), absorb="gbar", cR_floor=False, step_mu=False):
     """The sharp constants.  Switches (for the intermediate variants of the table only):
        lam      loss per step lam * delta_s (3 in the design; 4 = the current schedule);
        theta    the smallness ratio of the perturbation lemmas (1/8 in the design; 1/2 = current);
        qS       the bound |E_sym| <= qS (1/2 in the design and currently); Neumann factor 1/(1-qS);
        tX       Taylor factor of the quadratic remainders (1/2 in the design; 1 = current);
        absorb   'gbar' (gamma delta^j <= gbar, design) or 'Theta' (gamma delta^j <= Theta, current);
-       cR_floor use max(1, cR) (current) instead of cR."""
+       cR_floor use max(1, cR) (current) instead of cR;
+       step_mu  the current structure c_step * max{1, 2/mu} (the ball condition inside c_step) instead of the
+                split  c_step X <= 1,  2 d <= beta  of Proposition bp:p2s:step."""
     n = F(n); tau = F(tau); kappa = F(kappa)
     assert kappa >= 1 and kappa.denominator == 1
     if cR_floor:
@@ -181,10 +194,16 @@ def sharp(n, tau, kappa, cR, M, sK, sB, sT, mu, rho, rhoinf, gbar, nu=None, iso=
     if iso:
         C_DT = max(C_DT + C_Dw, n * C_Dw + n * (1 + thh ** 2) * 2 * n * sK * sB * g ** 2)
     rates = {"ball": C_DK, "DK": n * C_DK, "B": C_B * C_DK, "twist": thh * sT ** 2 * C_DT}
-    c_step = max(g ** 4 * (1 + C_T1) + C_T2 * g ** 3, C_sym * g ** 3 / F(qS), 2 * C_DK * g ** 2,
+    c_step = max(g ** 4 * (1 + C_T1) + C_T2 * g ** 3, C_sym * g ** 3 / F(qS),
                  n * C_DK * g ** 2 / (th * sK), sB * C_G * C_DK * g ** 2 / th, sT * C_DT * g ** 2 / th, C_E)
-    c_sum = 4 * g ** 2 * max(rates.values())
-    terms = {"E": F(2) ** int(2 * a) * C_E, "step": c_step * max(F(1), 2 / mu), "sum": c_sum / mu}
+    if step_mu:
+        c_step = max(c_step, 2 * C_DK * g ** 2)
+        c_sum = 4 * g ** 2 * max(rates.values())
+        terms = {"E": F(2) ** int(2 * a) * C_E, "step": c_step * max(F(1), 2 / mu), "sum": c_sum / mu}
+    else:
+        rates["ball"] = 2 * C_DK                    # budget mu/4 for the ball (Proposition bp:p2s:engine-iteration)
+        c_sum = 4 * g ** 2 * max(rates.values())
+        terms = {"E": F(2) ** int(2 * a) * C_E, "step": c_step, "sum": c_sum / mu}
     if iso:
         terms["nu"] = 4 * g ** 2 * C_Dw / nu
     c_star = max(terms.values())
@@ -218,27 +237,31 @@ def package_R1(mu=F(1, 160)):
     return dict(n=2, tau=1, rho=rho, rhoinf=rho / 1000, M=M, sK=sK, sB=sB, sT=sT, mu=mu,
                 nu=F(1, 10 ** 6), gbar=gamma), gamma
 
-def table(cP, out=None):
+def table(out=None):
     rows = []
     p, gamma = package_R1()
     m = F(39, 20)                                   # one-size: m = max{1, M, sK, sB, sT} of R1
     one = dict(M=m, sK=m, sB=m, sT=m)
     sep = dict(M=p["M"], sK=p["sK"], sB=p["sB"], sT=p["sT"])
     base = dict(n=2, tau=1, mu=p["mu"], rho=p["rho"], rhoinf=p["rhoinf"], gbar=p["gbar"])
-    crude = dict(lam=4, theta=F(1, 2), qS=F(1, 2), tX=F(1), absorb="Theta", cR_floor=True)
-    cC = cohConst_crude(2, 1)
+    crude = dict(lam=4, theta=F(1, 2), qS=F(1, 2), tX=F(1), absorb="Theta", cR_floor=True, step_mu=True)
+    cC, cP, cR = cohConst_crude(2, 1), cohConstP_lean(2, 1), cohConstR_lean(2, 1)
     variants = [
         ("V0 current theorem (KAM.Apost / KAM.Iso.Apost g1_explicit)", None),
         ("V1 torsion route only (kappa = tau+n, one size m, Theta-absorption, 4 delta)",
          dict(kappa=3, cR=cC, **one, **crude)),
-        ("V2 + Parseval (kappa = tau+n/2)", dict(kappa=2, cR=cP, **one, **crude)),
-        ("V3 + 3 delta schedule", dict(kappa=2, cR=cP, **one, **dict(crude, lam=3))),
-        ("V4 + separate norms M, sK, sB, sT", dict(kappa=2, cR=cP, **sep, **dict(crude, lam=3))),
-        ("V5 + gbar-absorption (gamma delta^j <= gbar)",
-         dict(kappa=2, cR=cP, **sep, **dict(crude, lam=3, absorb="gbar"))),
-        ("V6 + c_R itself (no max{1, c_R})",
-         dict(kappa=2, cR=cP, **sep, **dict(crude, lam=3, absorb="gbar", cR_floor=False))),
-        ("V7 = design: + smallness ratio 1/8 in the perturbation, Taylor M/2", dict(kappa=2, cR=cP, **sep)),
+        ("V2 + Parseval (kappa = tau+n/2, cohConstP)", dict(kappa=2, cR=cP, **one, **crude)),
+        ("V3 + Russmann instead (kappa = tau, cohConstR)", dict(kappa=1, cR=cR, **one, **crude)),
+        ("V4 + 3 delta schedule", dict(kappa=1, cR=cR, **one, **dict(crude, lam=3))),
+        ("V5 + separate norms M, sK, sB, sT", dict(kappa=1, cR=cR, **sep, **dict(crude, lam=3))),
+        ("V6 + gbar-absorption (gamma delta^j <= gbar)",
+         dict(kappa=1, cR=cR, **sep, **dict(crude, lam=3, absorb="gbar"))),
+        ("V7 + c_R itself (no max{1, c_R})",
+         dict(kappa=1, cR=cR, **sep, **dict(crude, lam=3, absorb="gbar", cR_floor=False))),
+        ("V8 = design, Russmann (headline): + ratio 1/8, Taylor M/2, step smallness without 2/mu",
+         dict(kappa=1, cR=cR, **sep)),
+        ("design, Parseval instance (kappa = tau+n/2, cohConstP)", dict(kappa=2, cR=cP, **sep)),
+        ("design, crude instance (kappa = tau+n, cohConst)", dict(kappa=3, cR=cC, **sep)),
     ]
     for name, kw in variants:
         for iso in (False, True):
@@ -253,45 +276,50 @@ def table(cP, out=None):
             rows.append(dict(variant=name, form="iso" if iso else "fixed", log10_threshold=round(lg(thr), 2),
                              active=k["active"], a=str(k["a"]), delta0=float(k["delta0"]),
                              log10_c_star=round(lg(k["c_star"]), 2),
-                             log10_C2=round(lg(2 * k["C_DK"] * p["rho"] ** 2 / k["delta0"] ** int(k["a"])), 2)))
+                             log10_C2=round(lg(2 * k["C_DK"] * p["rho"] ** 2 / k["delta0"] ** int(k["a"])), 2),
+                             terms={kk: round(lg(v), 2) for kk, v in k["terms"].items()}))
     return rows
 
-def sensitivity(cP):
-    """Design V7 (iso) against c_R and mu."""
+def sensitivity():
+    """Design, Russmann instance (iso) against c_R, mu and the ratio vartheta."""
     out = []
-    for name, cR in (("route-optimal Parseval", cP), ("c_R = 0.1", F(1, 10)), ("c_R = 0.2", F(1, 5)),
-                     ("crude cohConst (kappa = tau+n/2!)", cohConst_crude(2, 1)), ("c_R = 1", F(1))):
-        p, gamma = package_R1()
-        k = sharp(n=2, tau=1, kappa=2, cR=cR, M=p["M"], sK=p["sK"], sB=p["sB"], sT=p["sT"], mu=p["mu"],
+    p, gamma = package_R1()
+    for name, cR in (("cohConstR 2 1 (Lean)", cohConstR_lean(2, 1)), ("c_R = 0.1", F(1, 10)), ("c_R = 1", F(1))):
+        k = sharp(n=2, tau=1, kappa=1, cR=cR, M=p["M"], sK=p["sK"], sB=p["sB"], sT=p["sT"], mu=p["mu"],
                   rho=p["rho"], rhoinf=p["rhoinf"], gbar=p["gbar"], nu=p["nu"], iso=True)
         out.append(("c_R: " + name, float(cR), round(lg(threshold(k, gamma)), 2), k["active"]))
     for mu in (F(1, 320), F(1, 160), F(1, 80), F(1, 40), F(1, 20)):
-        p, gamma = package_R1(mu)
-        k = sharp(n=2, tau=1, kappa=2, cR=cP, M=p["M"], sK=p["sK"], sB=p["sB"], sT=p["sT"], mu=mu,
-                  rho=p["rho"], rhoinf=p["rhoinf"], gbar=p["gbar"], nu=p["nu"], iso=True)
-        out.append(("mu = %s" % mu, float(mu), round(lg(threshold(k, gamma)), 2), k["active"]))
+        p2, gamma2 = package_R1(mu)
+        k = sharp(n=2, tau=1, kappa=1, cR=cohConstR_lean(2, 1), M=p2["M"], sK=p2["sK"], sB=p2["sB"], sT=p2["sT"],
+                  mu=mu, rho=p2["rho"], rhoinf=p2["rhoinf"], gbar=p2["gbar"], nu=p2["nu"], iso=True)
+        out.append(("mu = %s" % mu, float(mu), round(lg(threshold(k, gamma2)), 2), k["active"]))
+    for th in (F(1, 16), F(1, 4), F(1, 2)):
+        k = sharp(n=2, tau=1, kappa=1, cR=cohConstR_lean(2, 1), M=p["M"], sK=p["sK"], sB=p["sB"], sT=p["sT"],
+                  mu=p["mu"], rho=p["rho"], rhoinf=p["rhoinf"], gbar=p["gbar"], nu=p["nu"], iso=True, theta=th)
+        out.append(("vartheta = %s" % th, float(th), round(lg(threshold(k, gamma)), 2), k["active"]))
     return out
 
 def main():
-    cP = cohConst_parseval_n2()
-    print("c_R (Parseval route, n=2, tau=1, rational upper bound) =", cP, "~", float(cP))
-    print("c_R (KAM.cohConst 2 1, rational upper bound)          =", cohConst_crude(2, 1))
-    rows = table(cP)
+    print("c_R: cohConstR 2 1 =", float(cohConstR_lean(2, 1)), " cohConstP 2 1 =", float(cohConstP_lean(2, 1)),
+          " cohConst 2 1 =", float(cohConst_crude(2, 1)),
+          " (Parseval route-optimal, for comparison:", float(cohConst_parseval_n2()), ")")
+    rows = table()
     print()
-    print("| variant | form | log10 threshold | active branch | a | log10 c_* | log10 C_2 |")
-    print("|---|---|---:|---|---:|---:|---:|")
+    print("| variant | form | log10 threshold | active branch | a | log10 c_* | log10 C_2 | log10 branches |")
+    print("|---|---|---:|---|---:|---:|---:|---|")
     for r in rows:
-        print("| %s | %s | %.2f | %s | %s | %.2f | %.2f |" % (r["variant"], r["form"], r["log10_threshold"],
-              r["active"], r["a"], r["log10_c_star"], r["log10_C2"]))
+        print("| %s | %s | %.2f | %s | %s | %.2f | %.2f | %s |" % (r["variant"], r["form"], r["log10_threshold"],
+              r["active"], r["a"], r["log10_c_star"], r["log10_C2"],
+              ", ".join("%s %.2f" % kv for kv in r["terms"].items())))
     print()
-    print("Sensitivity of the design (iso, V7):")
+    print("Sensitivity of the design (Russmann instance, iso):")
     print("| input | value | log10 threshold | active |")
     print("|---|---:|---:|---|")
-    sens = sensitivity(cP)
-    for s in sens:
-        print("| %s | %.4g | %.2f | %s |" % s)
+    sens = sensitivity()
+    for s_ in sens:
+        print("| %s | %.4g | %.2f | %s |" % s_)
     if len(sys.argv) > 2 and sys.argv[1] == "--json":
-        json.dump(dict(cR_parseval=str(cP), rows=rows, sensitivity=sens), open(sys.argv[2], "w"), indent=1)
+        json.dump(dict(rows=rows, sensitivity=sens), open(sys.argv[2], "w"), indent=1)
 
 if __name__ == "__main__":
     main()
