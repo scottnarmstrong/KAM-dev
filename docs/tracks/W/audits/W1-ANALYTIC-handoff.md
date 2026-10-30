@@ -47,3 +47,13 @@ This package is off the frontier: source-faithful infrastructure (blueprint-W/pa
    that a theorem relies on).
 5. Hygiene. This is a SLIM worktree, so run lint only via `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpd`.
    Run the kernel replay of all 14 modules.
+
+## Round 2
+
+- Merged `inp` (Seq landed); the only conflict was `KAM/Root/Wave.lean`, resolved by re-running `scripts/gen_root_imports.py`.
+- F1 closed: new module `KAM/Wave/Analytic/ComplexificationCommute.lean` (≈130 lines), using the `RCLike`-generic Seq maps `coeffW`, `tauLp`, `weightedDiagCLM` at `ℝ` and `ℂ`; no new Seq definitions were needed. A real multiplier `μ` acts on `ℓ²_ℂ` as `fun j => (μ j : ℂ)`.
+  - κ: `coeffW_complexifyLp`, `coeffW_reLp`, `coeffW_conjLp`.
+  - τ: `isEll_complexify_of_isEll`, `isEll_re_of_isEll`, `isEll_conj_of_isEll`, `complexifyLp_tauLp`, `reLp_tauLp`, `conjLp_tauLp`.
+  - D_μ: `weightedDiagCLM_complexifyLp`, `weightedDiagCLM_reLp`, `weightedDiagCLM_conjLp`; also `coeffW_weightedDiagCLM` (κ(D_μ y) = μ·κ y, for any RCLike K).
+- F2: no action (regenerated roots authorized by the orchestrator).
+- Gate: `inp_lake_build.sh ... KAM.Wave.Analytic.ComplexificationCommute` -> Build completed successfully; `w_lint.sh` exit 0 (check_lean_modules PASS, frozen-anchor guard OK, ABI hashes OK). `#print axioms` of all ten new theorems: only propext, Classical.choice, Quot.sound. No maxHeartbeats; all files far below 1500 lines.

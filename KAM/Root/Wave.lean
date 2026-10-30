@@ -7,6 +7,7 @@ module
 
 public import KAM.Wave.Analytic.Cauchy
 public import KAM.Wave.Analytic.Complexification
+public import KAM.Wave.Analytic.ComplexificationCommute
 public import KAM.Wave.Analytic.ComplexificationLp
 public import KAM.Wave.Analytic.DegreeSeries
 public import KAM.Wave.Analytic.Flow.Gronwall
