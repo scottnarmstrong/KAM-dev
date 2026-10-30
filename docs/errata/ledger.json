@@ -2630,6 +2630,32 @@
    "status": "ADOPTED",
    "effect": "Lemma used with the explicit ball-margin hypotheses of blueprint-W bpW:w1:flow; W5 must instantiate the margins",
    "evidence": "blueprint-W/parts/w1-sequences.tex bpW:w1:flow; reviews w1-review-1.md (gap confirmed, repair valid) and w1-review-2.md"
+  },
+  {
+   "id": "E-PDE-W-1",
+   "type": "erratum",
+   "source": "Pos96W",
+   "location": "p. 282, proof of the Main Proposition (expansion of H in z, w); propagated to p. 284 (Ḡ_ij) and pp. 290-291 (A, B, v)",
+   "printed": "H = Σ λ_j z_j z̄_j + ¼ Σ G_ijkl (z_i + z̄_i)···(z_l + z̄_l) = Σ λ_j w_j w_{−j} + Σ' G_ijkl w_i w_j w_k w_l; Ḡ_ij = 24 G_iijj = (24/π)(1/λ_iλ_j), Ḡ_ii = 12 G_iiii",
+   "claim": "Two factor-4 slips: the first line must carry (1/16) (q = (z+z̄)/√2 gives (1/√2)⁴ = ¼ on top of the ¼ of (9)), and the second line drops the remaining prefactor. Correct values: Ḡ_ii = A_ii = 9/(8πλ_i²), Ḡ_ij = A_ij = B_ji = 3/(2πλ_iλ_j), v = (3/2π)(λ_1^{-1}, …); the printed A, B, v are 16 times too large",
+   "kind": "wrong constant (normalization)",
+   "evidence": "Re-derived from (9)-(11) and p. 281's z; cross-checked by averaging ⟨G⟩ = (3/16π)(4(Σ I_j/λ_j)² − Σ I_j²/λ_j²) and by a one-mode Duffing Lindstedt shift 9I/(8πλ²), reproduced numerically to 4-5 digits (the printed value predicts a shift 16 times larger)",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: W-BP0 independent re-derivation docs/tracks/W/errata-check-W0.md (page images of P96-W at 100-110 dpi; scripts/wave/w0_checks.py §§1, 7). Independent verifier: docs/tracks/W/audits/W-BP0-audit-1.md (confirmed), 2026-10-28.",
+   "effect": "Qualitative existence unaffected (Lemmas 5-6 and κ = 2 are scale invariant); every printed constant and frequency shift changes. blueprint-W Part 0 (bpW:w0n:AB) uses the corrected values"
+  },
+  {
+   "id": "E-PDE-W-2",
+   "type": "erratum",
+   "source": "Pos96W",
+   "location": "pp. 287-290: actions (p. 287) vs p. 281, attachment α = λ, A = Ḡ and real recovery (p. 290), rotation sign (pp. 287, 289-290)",
+   "printed": "I = ½(|z_1|², …, |z_n|²); ż̃_j = i(α + AI + Bᵀz)_j z̃_j; Their real imaginary parts, q = Re z and p = Im z, solve the equations of motion; α = (λ_1, …, λ_n), A = (Ḡ_ij)",
+   "claim": "Inconsistent with p. 281 (z = (q+ip)/√2, symplectic form i Σ dz∧dz̄): (a) the recovery is q = √2 Re z, p = √2 Im z; (b) the canonical action is |z_j|² = (q_j²+p_j²)/2, so with p. 287's I = ½|z|² one needs α = 2λ; (c) under p. 287's I the quartic matrix is 4Ḡ, not Ḡ (independent of E-PDE-W-1); (d) the source's own field gives ż = −iλz, whereas pp. 287-290 use the time-reversed ż = iωz",
+   "kind": "inconsistent conventions",
+   "evidence": "i dz∧dz̄ = dq∧dp checked symbolically (scripts/wave/w0_checks.py §2); Λ = Σ λ_j|z_j|² = ⟨2λ, ½|z|²⟩; Ḡ = ½ Σ Ḡ_ij|z_i|²|z_j|² = ½⟨(4Ḡ)I, I⟩ under I = ½|z|²; X_G of p. 280 gives q̇ = λp, ṗ = −λq",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: W-BP0 independent re-derivation docs/tracks/W/errata-check-W0.md (page images of P96-W at 100-110 dpi; scripts/wave/w0_checks.py §§1, 7). Independent verifier: docs/tracks/W/audits/W-BP0-audit-1.md (confirmed), 2026-10-28.",
+   "effect": "Harmless for existence (scale invariance; H even in p makes time reversal a symmetry); the action normalization, frequency shift AI and recovery map are taken from blueprint-W Part 0, not from P96-W"
   }
  ]
 }
