@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 00:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **272,756 lines of Lean** of an estimated ≈ 277,000
+> **Last updated: 2026-10-30 00:48 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **272,756 lines of Lean** of an estimated ≈ 277,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -210,7 +210,7 @@ Overall, everything together: 96.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 00:40 UTC from `main` at `44fc80ab` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 00:48 UTC from `main` at `67166664` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -383,6 +383,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 00:48 | `67166664` | Overnight log: entries 23:25-00:25 (two D29 rulings: R1 M, toy T2d) |
 | 2026-10-29 23:00 | `fb97435e` | Land inp into main |
 | 2026-10-29 22:54 | `294659f7` | Overnight log: R1 M ruling (D29), first end-to-end certified toy tori |
 | 2026-10-29 22:34 | `7170850d` | Overnight log: T2d kernel memory incident |
@@ -394,7 +395,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 21:53 | `a69ed1a5` | Overnight log: soundness audited, release scrub B2 complete |
 | 2026-10-29 21:52 | `9fcf0411` | Land inp into main |
 | 2026-10-29 21:50 | `4d8f89f1` | Land inp into main |
-| 2026-10-29 21:49 | `e01324aa` | Overnight log: heartbeat 21:50 |
 <!-- /AUTO:landed -->
 
 ## Decisions
