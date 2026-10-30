@@ -128,3 +128,9 @@ statement for arbitrary complex `w_j w_{-j}` (here `|z_j|² = I_j ≥ 0` with ar
 Checks: gate build of `KAM.Wave.Normal.{ActionCoeff,Nonresonance,Nondegeneracy,ResonantBalance,
 ResonantPart}` successful, no warnings; lint see below.
 Lint: w_lint.sh exit 0 (check_lean_modules PASS, FROZEN-ANCHOR GUARD OK, ABI HASHES OK).
+
+## Landing note (sub-orchestrator kam-d4)
+
+Landed as infrastructure after audit round 2 (PASS WITH NOTES for the finite-mode Qdef/resavg/AB repair).
+`bpW:w0n:AB` and `avgG` stay PARTIAL: the identity is proved for finitely many modes, and the infinite-mode passage
+(F2 of audit 1) is queued as a follow-on package, which W3's Lean formalization needs.
