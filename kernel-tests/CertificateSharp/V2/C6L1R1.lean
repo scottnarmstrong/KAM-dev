@@ -36,7 +36,8 @@ Kernel cost (one niced process):
   (module peak 10.4 GB); C6L8 measured 4:19 and 18.8 GB for one bite at `l = 13` (`δ₄`).
   The `l = 13` bite exceeds the 10 GB per-process limit of lemma.farm: it needs a rounded
   `balBound` (C6's suggestion) or a smaller cut-off at a cost in `c(δ₄)`. With prefix 4 (no
-  `l = 13` bite) the same route passes at `X⋆ = 480000`, `e ≈ 4.6·10⁻¹¹` (`10^(-10.34)`, by `#eval`).
+  `l = 13` bite) the same route passes at `X⋆ = 480000`, `e ≈ 4.6·10⁻¹¹` (`10^(-10.34)`, by
+  `#eval`).
 -/
 
 @[expose] public section
