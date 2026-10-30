@@ -60,3 +60,24 @@ compose), FrameL, Graph, and bites b₀, b₁, b₂, δ₀.
 - inp-sokdepth-oninp and inp-locksqrt are merged and rebuilt. After LOCK-SQRT, a fresh `#eval` of `Slp.balls` on the
   887-op program is byte-identical to before.
 - Nothing is frozen, and no READY marker was created.
+
+## Round 2: the levers already landed in sharp-v2 (lower torus, each run alone, capped)
+
+| probe | live slots (products) | result |
+|---|---|---|
+| (a) `checkInvEnShared base`: pruned, shared invariance + energy | 215 of 887 (100 of 486) | OOM-killed at the cap (18:51, 10.27 GB anonymous) |
+| energy alone: `Slp.composePruned` of `[v0]` (probe `EN.lean`) | 86 (26 products, 14 characters) | OOM-killed in about 1.5 min (18:53) |
+| (b) `checkTorsion` | 887 unpruned, plus `gramCheck` | not run. It starts with the `gramCheck` whose single defect row already exceeds the cap, so it cannot fit. A pruned torsion would need 401 slots. |
+
+**Live sets per output:**
+
+| output | slots | products |
+|---|---:|---:|
+| v0 | 86 | 26 |
+| d1 row 0 | 99 | 36 |
+| d1 row 1 | 85 | 31 |
+| d1 row 2 | 16 | 7 |
+| d1 row 3 | 3 | 1 |
+
+Even the smallest heavy piece (energy, 86 slots) exceeds 10 GB. Per-output pruning therefore cannot close the gap,
+and no further split along the program is available.
