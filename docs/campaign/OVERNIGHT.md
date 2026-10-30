@@ -1861,3 +1861,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     (idle since 19:00 and 19:14) waited. It was nudged to process the reviews, push the graph to the global review
     and publication, keep 3–4 provers on the ready frontier (W0-ANALYSIS, W1-KAMSUP first), and re-arm one waiter.
   - Disk 9.5 GB (just under the floor while the CSPLIT worktrees are live). Swap full; available memory 18 GB.
+- **20:52. SO-CSEG-A/B done (41e685fc).**
+  - Five modules (SegDefs, SegAgree, SegChain, SegOne, SegBridges; each ≤ 400 lines) plus tests, about 1,415
+    lines in total.
+  - All A/B signatures are proved, including the corrected `shadowRun_agree` and `ComposeCkpt.compose_eq`.
+    57/59 shared declarations are verbatim and the deviations are additions only; the two remaining `sorry` belong
+    to L2.
+  - The audit launcher refused two new public short names (`ComposeCkpt.pair`, `SlpOp.beq`) under the reuse
+    rule. They are being renamed (design-name deviations, statements unchanged), then a codex-1 package audit.
+  - **W (kam-1b caught up; a single waiter now):**
+    - wave-2 graph reviews committed (all 8 new slices FAIL at slice level with replacement rows; delta 5:
+      three pass, two have residual rows);
+    - W0-ANALYSIS (real carrier; complex parts moved to the new W1-CUBIC) and W1-KAMSUP (audit round 2 PASS WITH
+      NOTES) sent to land;
+    - W1-CUBIC proving. W2 (reconstruction, nlw2 clause 5) and W4-Lean start after those land.
