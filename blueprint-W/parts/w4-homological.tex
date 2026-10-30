@@ -57,8 +57,8 @@ Besides the external facts of W1 (\S\ref{bpW:w1:ext}), this part uses:
   $B^\sharp=$ \Lean{InnerProductSpace.continuousLinearMapOfBilin B} is a continuous linear map $E\to E$ with
   $\langle B^\sharp v,w\rangle=B(v,w)$ for all $v,w$ (\Lean{InnerProductSpace.continuousLinearMapOfBilin\_apply}), where
   $\langle\cdot,\cdot\rangle$ is the inner product, conjugate-linear in the first slot. Moreover
-  $\norm u=\sup_{\norm w\le1}\abs{\langle u,w\rangle}$ (\Lean{InnerProductSpace.toDual} is a linear isometry equivalence
-  $E\simeq E^*$, and $\langle u,w\rangle=$ \Lean{toDual Complex E u w}, \Lean{InnerProductSpace.toDual\_apply\_apply}).
+  $\norm u=\sup_{\norm w\le1}\abs{\langle u,w\rangle}$ (\Lean{InnerProductSpace.toDual} is a conjugate-linear isometry equivalence
+  $E\simeq_{\ell i}^{\star}E^*$ (only its isometry is used), and $\langle u,w\rangle=$ \Lean{toDual Complex E u w}, \Lean{InnerProductSpace.toDual\_apply\_apply}).
   (Checked in Mathlib, \texttt{Mathlib/Analysis/InnerProductSpace/Dual.lean}.)
 \end{enumerate}
 \par}
