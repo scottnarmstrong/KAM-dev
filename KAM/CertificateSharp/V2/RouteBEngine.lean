@@ -1,0 +1,86 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Zohar Komargodski. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Zohar Komargodski
+-/
+module
+
+public import KAM.CertificateSharp.V2.RouteBFrozen
+public import KAM.CertificateSharp.V2.RouteARefinedEngine
+
+/-!
+# The engines of route B and the combined v2 engine
+
+* `routeBRefined`: the refined bounds are computed from the certificate's models (the disc pass
+  `checkHamClaim`, the frame majorants `checkFrameMajorants` of C4), then `refinedBCore`;
+* `routeABV2`: the minimum over the landed sharp engine, the two forms of route A and the two
+  forms of route B. The witness names the route; `checkTorusCertificateV2 routeABV2 c (Sum.inl ())`
+  is the landed certifier (`checkTorusCertificateV2_routeABV2_sharp`, `rfl`). The engine
+  `routeAV2` of SHARP2-C6 is unchanged.
+
+**Scope of the route-B numbers** (AUDIT-ROUTEB-fixed-1 F1, AUDIT-ROUTEB-iso-1 F1, F2). The design's
+R1 figures (about `10^-12.2` fixed, `10^-12.3` iso) belong to the refined theorems with
+frequency-specific ray certificates and measured data. There is no refined isoenergetic body, so
+`routeBRefined` goes through the branch `iso_g1_branch_B`, as route A's refined engine does.
+`routeBFrozen` is the literal wrapper `iso_g1_v2B_frozen`, whose R1 figure is about `10^-18.75`:
+a certificate does not reach the design figure through it.
+-/
+
+@[expose] public section
+
+namespace KAM.CertificateSharp.V2
+
+open KAM KAM.Torus KAM.Certificate CertArith
+
+variable {n : ℕ} {α : Type} [CertArith α]
+
+/-- The test of route B at the refined data. -/
+def refinedBTest (c : TorusCertificate n α) (w : RefinedBWit) : Bool :=
+  checkHamClaim c w.R && checkFrameMajorants c (w.R.frame c.freqBox) &&
+    refinedBCore n c.params c.freqBox w
+
+/-- **The engine of route B at the refined data.** -/
+def routeBRefined : EngineV2 where
+  Wit := RefinedBWit
+  test := fun c w => refinedBTest c w
+  sound := by
+    intro n α _ _ c w ωstar hω hdio B h
+    simp only [refinedBTest, Bool.and_eq_true] at h
+    obtain ⟨⟨hH, hF⟩, hc⟩ := h
+    exact refinedBCore_sound c w hω hdio B (checkHamClaim_sound B.hs hH) (frameFacts_of B hF hω)
+      hc
+
+/-- The minimum over the landed sharp engine, route A (frozen, refined) and route B (frozen,
+refined). -/
+def routeABV2 : EngineV2 :=
+  sharpV2.orElse ((routeAFrozen.orElse routeARefined).orElse (routeBFrozen.orElse routeBRefined))
+
+/-- **v2 is never worse than the landed certifier**, at the combined engine of routes A and B. -/
+theorem checkTorusCertificateV2_routeABV2_sharp (c : TorusCertificate n α) :
+    checkTorusCertificateV2 routeABV2 c (Sum.inl ()) = checkTorusCertificateSharp c := rfl
+
+/-- The certifier at `E₁.orElse E₂` with a witness of `E₁` is the certifier of `E₁`. -/
+theorem checkTorusCertificateV2_orElse_inl (E₁ E₂ : EngineV2) (c : TorusCertificate n α)
+    (w : E₁.Wit) :
+    checkTorusCertificateV2 (E₁.orElse E₂) c (Sum.inl w) = checkTorusCertificateV2 E₁ c w := rfl
+
+/-- The certifier at `E₁.orElse E₂` with a witness of `E₂` is the certifier of `E₂`. -/
+theorem checkTorusCertificateV2_orElse_inr (E₁ E₂ : EngineV2) (c : TorusCertificate n α)
+    (w : E₂.Wit) :
+    checkTorusCertificateV2 (E₁.orElse E₂) c (Sum.inr w) = checkTorusCertificateV2 E₂ c w := rfl
+
+/-- Route A's witnesses run unchanged inside the combined engine. -/
+theorem checkTorusCertificateV2_routeABV2_routeA (c : TorusCertificate n α)
+    (w : (routeAFrozen.orElse routeARefined).Wit) :
+    checkTorusCertificateV2 routeABV2 c (Sum.inr (Sum.inl w)) =
+      checkTorusCertificateV2 (routeAFrozen.orElse routeARefined) c w := rfl
+
+/-- Route B's witnesses run unchanged inside the combined engine. -/
+theorem checkTorusCertificateV2_routeABV2_routeB (c : TorusCertificate n α)
+    (w : (routeBFrozen.orElse routeBRefined).Wit) :
+    checkTorusCertificateV2 routeABV2 c (Sum.inr (Sum.inr w)) =
+      checkTorusCertificateV2 (routeBFrozen.orElse routeBRefined) c w := rfl
+
+end KAM.CertificateSharp.V2
+
+end
