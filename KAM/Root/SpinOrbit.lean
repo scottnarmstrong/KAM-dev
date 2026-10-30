@@ -13,6 +13,7 @@ public import KAM.SpinOrbit.Graph.Inverse
 public import KAM.SpinOrbit.Graph.Rot
 public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
+public import KAM.SpinOrbit.Lock.Assembly
 public import KAM.SpinOrbit.Lock.Confine
 public import KAM.SpinOrbit.Lock.Coords.Conjugacy
 public import KAM.SpinOrbit.Lock.Coords.Inverse
