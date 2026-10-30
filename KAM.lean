@@ -1346,7 +1346,9 @@ public import KAM.Sharp.Box
 public import KAM.Sharp.BoxTorsion
 public import KAM.Sharp.CohData
 public import KAM.Sharp.Constants
+public import KAM.Sharp.ConstantsArith
 public import KAM.Sharp.Frame
+public import KAM.Sharp.Tools
 public import KAM.Sharp.TorsionBound
 public import KAM.Sharp.TorsionPoly
 public import KAM.SpinOrbit.Barrier
