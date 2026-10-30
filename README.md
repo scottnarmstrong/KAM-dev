@@ -29,6 +29,12 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
 2. **A-posteriori KAM at a fixed frequency** (Haro–Luque 2019, Theorem 3.1). An analytic torus that is
    approximately invariant for a Diophantine frequency ω, with invariance error below an explicit threshold, lies
    close to a true invariant torus with frequency ω, at a distance proportional to the error. [`KAM.aposteriori_kam`](KAM/Frozen/Theorems/AposterioriKam.lean#L40)
+   **Sharp explicit constants.** `KAM.Sharp.g1_sharp` and its isoenergetic companion `KAM.Iso.Sharp.g1_sharp`
+   prove these theorems with much smaller explicit constants: HL19's torsion route (no strip loss in the torsion),
+   Rüssmann's small-divisor exponent τ (`KAM.cohomological_russmann`), a 3δ schedule and separate norms. They have
+   the same hypotheses as the explicit theorems behind the frozen statements and imply them. For the lunar
+   certificate the admissible invariance error grows from about 10⁻⁷⁵ to about 10⁻²⁵.
+   [`KAM.Sharp.g1_sharp`](KAM/Sharp/G1.lean) · [`KAM.Iso.Sharp.g1_sharp`](KAM/Iso/Sharp/G1.lean)
 
 **Weak non-degeneracy (track R).**
 
@@ -85,6 +91,11 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
    exact real-analytic invariant torus on the certified energy level, carrying quasi-periodic motion with
    frequency s∞·ω* for a scale 1 < s∞ < σ_ω, within the certified distance of the candidate. The proof runs through
    the sealed isoenergetic a-posteriori theorem. [`KAM.Certificate.checkTorusCertificate_sound`](KAM/Certificate/Soundness.lean#L62)
+    A second, **sharp certifier** `checkTorusCertificateSharp` reads the same certificates and runs the same
+    checks with the threshold of the sharp isoenergetic theorem; the a-posteriori theorem is a parameter of the
+    certifier, so sharper theorems plug in without changing the certificate format. On the toy certificates its
+    margin (threshold over invariance error) is 10^19.4 instead of 10^4.3 (two degrees of freedom) and 10^27.9
+    instead of 10^4.3 (three). [`KAM.CertificateSharp.checkTorusCertificateSharp_sound`](KAM/CertificateSharp/Sound.lean)
 11. **The first certified tori.** Toy certificates in two and three degrees of freedom pass the checker inside
     Lean's kernel and yield invariant tori with the Diophantine frequencies (ν₋/2, 1/2), ν₋ the quadratic
     irrational of the lunar problem, and (∛2/2, ∛4/2, 1/2). [`KAM.Certificate.toyCert3_torus`](KAM/Certificate/Tests/Toy3.lean#L53)

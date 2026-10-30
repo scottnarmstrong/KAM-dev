@@ -281,3 +281,15 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Frozen anchors `russmann.russmannCover.v1` and `russmann.russmann_kam.v1` (manifest 146). Statement audit
     AUDIT-RUSSMANN-STATEMENT-1, seal audit AUDIT-RUSSMANN-SEAL-1 (one documentation-only finding, recorded in R1),
     kernel replay of the 16 new modules ok. Landed on `main` at 36c47bb8. Listed as main theorem 3 of the README.
+- **D36 (2026-10-30) Sharp a-posteriori theorems and the sharp certifier.** *(Scott: "make these improvements in a
+  separate branch and then merge to main once they are finished, and do so without messing up the SO work", "I want
+  it to be the least crude such theorem in existence", "once you are done with the sharp certifier, we will switch the
+  lunar certificate to the sharp certifier".)*
+  - Branch `apost-sharp` (side campaign on lemma.farm), landed at dfae4a77; additive only.
+  - `KAM.cohomological_parseval`/`_russmann` (exponents τ + n/2 and τ); `KAM.Sharp.g1_sharp`, `KAM.Iso.Sharp.g1_sharp`
+    (design `docs/campaign/design/APOST-SHARP-LEAN-DESIGN.md`, blueprints `p2s-sharp`, `p2s-iso-sharp`, two independent
+    design audits with corrections applied); `KAM/CertificateSharp` with `checkTorusCertificateSharp_sound`; parameter
+    boxes `g1_box`. Kernel replay of the 48 new modules ok.
+  - The lunar certificate is to move to the sharp certifier (owner, coordinated with the SO orchestrator).
+  - Continuing on later branches: v2 (uniform dominance over published explicit theorems), checker-side sharpness,
+    frequency-specific small-divisor constants, applications study.
