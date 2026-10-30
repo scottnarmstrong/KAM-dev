@@ -17,7 +17,8 @@ kernel packing `packShift` accumulates the positive and negative parts separatel
 `Nat.shiftLeft` and subtracts once. Under the slot bound the packing is injective
 (`packSum_injective`), packing turns convolution into one product (`packSum_listConv`), the
 packed product of block-cut factors is a shifted sum of shard sums
-(`packSum_flatten_mul_shards`), and `intSlotsBound` decodes slots of a big integer by bounds.
+(`packSum_flatten_mul_shards`), and `intSlotsBound` decodes slots of a big integer by bounds, on
+an offset natural number split in balanced halves by mask and shift.
 -/
 
 @[expose] public section
@@ -360,9 +361,6 @@ def intSlotsBoundAux (w : ℕ) (logs : ℕ → ℕ) : ℕ → ℕ → ℤ → Bo
     let e := slotRep m (X % m)
     decide (e.natAbs ≤ 2 ^ logs i) && intSlotsBoundAux w logs len (i + 1) ((X - e) / m)
 
-/-- Slot decoding by bounds: decode `len` signed slots of `X`
-(width `w`) and test `|e_i| ≤ 2^(logs i)` and that nothing is left over. -/
-def intSlotsBound (w len : ℕ) (logs : ℕ → ℕ) (X : ℤ) : Bool := intSlotsBoundAux w logs len 0 X
 
 theorem intSlotsBoundAux_sound {w : ℕ} {logs : ℕ → ℕ} (len : ℕ) :
     ∀ (i : ℕ) (X : ℤ), intSlotsBoundAux w logs len i X = true →
@@ -406,10 +404,132 @@ theorem intSlotsBoundAux_sound {w : ℕ} {logs : ℕ → ℕ} (len : ℕ) :
     · rw [packSum_cons, ← hX']
       simpa [hm] using hXe
 
+/-! ### Slot decoding on an offset natural number
+
+Adding the offset `Σ_j 2^(w-1) 2^(w j)` turns `len` signed slots in `(-2^(w-1), 2^(w-1))` into
+the base-`2^w` digits of a natural number. `natSlotsSh` splits that number in balanced halves by
+mask and shift (`&&&`, `>>>`, kernel-accelerated, no division), down to blocks of `16` slots read
+digit by digit (`natSlotsAux`). -/
+
+/-- Digit-by-digit reading: `len` digits of `N` from slot `i`, digit `d` within
+`2^(logs i)` of `2^(w-1)`, and nothing left over. -/
+def natSlotsAux (w : ℕ) (logs : ℕ → ℕ) : ℕ → ℕ → ℕ → Bool
+  | 0, _, N => N == 0
+  | len + 1, i, N =>
+    decide (N &&& (2 ^ w - 1) ≤ 2 ^ (w - 1) + 2 ^ logs i) &&
+      decide (2 ^ (w - 1) ≤ (N &&& (2 ^ w - 1)) + 2 ^ logs i) &&
+      natSlotsAux w logs len (i + 1) (N >>> w)
+
+/-- Balanced reading: the low `len / 2` digits by mask, the rest by shift (`fuel` levels). -/
+def natSlotsSh (w : ℕ) (logs : ℕ → ℕ) : ℕ → ℕ → ℕ → ℕ → Bool
+  | 0, len, i, N => natSlotsAux w logs len i N
+  | f + 1, len, i, N =>
+    if len ≤ 16 then natSlotsAux w logs len i N else
+      natSlotsSh w logs f (len / 2) i (N &&& (2 ^ (w * (len / 2)) - 1)) &&
+        natSlotsSh w logs f (len - len / 2) (i + len / 2) (N >>> (w * (len / 2)))
+
+/-- The offset `Σ_{j < len} 2^(w-1) 2^(w j)`, in closed form. -/
+def slotOffset (w len : ℕ) : ℕ := 2 ^ (w - 1) * ((2 ^ (w * len) - 1) / (2 ^ w - 1))
+
+/-- Slot decoding by bounds: decode `len` signed slots of `X` (width `w`) and test
+`|e_i| ≤ 2^(logs i)` and that nothing is left over (on the offset natural number `X + offset`,
+by `natSlotsSh`; `64` levels suffice for any length, and the digit-by-digit fallback keeps the
+test exact regardless). -/
+def intSlotsBound (w len : ℕ) (logs : ℕ → ℕ) (X : ℤ) : Bool :=
+  decide (0 < w) && decide (0 ≤ X + slotOffset w len) &&
+    natSlotsSh w logs 64 len 0 (X + slotOffset w len).toNat
+
+/-- What a passing reading certifies about `N`. -/
+def NatSlotsSpec (w : ℕ) (logs : ℕ → ℕ) (len i N : ℕ) : Prop :=
+  ∃ ds : List ℕ, ds.length = len ∧
+    (∀ j < len, |(ds.getD j 0 : ℤ) - 2 ^ (w - 1)| ≤ 2 ^ logs (i + j)) ∧
+      (N : ℤ) = packSum w (ds.map Nat.cast)
+
+theorem natSlotsAux_sound {w : ℕ} {logs : ℕ → ℕ} : ∀ (len i N : ℕ),
+    natSlotsAux w logs len i N = true → NatSlotsSpec w logs len i N
+  | 0, i, N, h => ⟨[], rfl, fun j hj => absurd hj (Nat.not_lt_zero _), by
+      simp only [natSlotsAux, beq_iff_eq] at h; simp [h, packSum_nil]⟩
+  | len + 1, i, N, h => by
+    simp only [natSlotsAux, Bool.and_eq_true, decide_eq_true_eq] at h
+    obtain ⟨⟨h1, h2⟩, h3⟩ := h
+    obtain ⟨ds, hl, hb, hN⟩ := natSlotsAux_sound len (i + 1) _ h3
+    rw [Nat.and_two_pow_sub_one_eq_mod] at h1 h2
+    refine ⟨N % 2 ^ w :: ds, by simp [hl], fun j hj => ?_, ?_⟩
+    · cases j with
+      | zero =>
+        simp only [List.getD_cons_zero, Nat.add_zero]
+        have e1 : ((N % 2 ^ w : ℕ) : ℤ) ≤ 2 ^ (w - 1) + 2 ^ logs i := by exact_mod_cast h1
+        have e2 : (2 : ℤ) ^ (w - 1) ≤ ((N % 2 ^ w : ℕ) : ℤ) + 2 ^ logs i := by exact_mod_cast h2
+        rw [abs_le]
+        constructor <;> linarith
+      | succ j =>
+        simp only [List.getD_cons_succ]
+        have := hb j (by omega)
+        rwa [show i + 1 + j = i + (j + 1) by omega] at this
+    · rw [List.map_cons, packSum_cons, ← hN, Nat.shiftRight_eq_div_pow]
+      have := Nat.mod_add_div N (2 ^ w)
+      exact_mod_cast this.symm
+
+theorem natSlotsSh_sound {w : ℕ} {logs : ℕ → ℕ} : ∀ (f len i N : ℕ),
+    natSlotsSh w logs f len i N = true → NatSlotsSpec w logs len i N
+  | 0, len, i, N, h => natSlotsAux_sound len i N h
+  | f + 1, len, i, N, h => by
+    rw [natSlotsSh] at h
+    split_ifs at h with hl
+    · exact natSlotsAux_sound len i N h
+    simp only [Bool.and_eq_true] at h
+    obtain ⟨d1, hl1, hb1, hN1⟩ := natSlotsSh_sound f _ _ _ h.1
+    obtain ⟨d2, hl2, hb2, hN2⟩ := natSlotsSh_sound f _ _ _ h.2
+    refine ⟨d1 ++ d2, by simp [hl1, hl2]; omega, fun j hj => ?_, ?_⟩
+    · by_cases hj1 : j < len / 2
+      · rw [List.getD_eq_getElem?_getD, List.getElem?_append_left (by omega),
+          ← List.getD_eq_getElem?_getD]
+        exact hb1 j hj1
+      · rw [List.getD_eq_getElem?_getD, List.getElem?_append_right (by omega), hl1,
+          ← List.getD_eq_getElem?_getD]
+        have := hb2 (j - len / 2) (by omega)
+        rwa [show i + len / 2 + (j - len / 2) = i + j by omega] at this
+    · rw [List.map_append, packSum_append, List.length_map, hl1, ← hN1, ← hN2,
+        Nat.and_two_pow_sub_one_eq_mod, Nat.shiftRight_eq_div_pow]
+      have := Nat.mod_add_div N (2 ^ (w * (len / 2)))
+      exact_mod_cast this.symm
+
+theorem packSum_replicate (w len : ℕ) (c : ℤ) :
+    packSum w (List.replicate len c) = c * ∑ j ∈ Finset.range len, (2 ^ w : ℤ) ^ j := by
+  rw [packSum_eq_sum, List.length_replicate, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun j hj => ?_
+  rw [List.getD_eq_getElem?_getD, List.getElem?_replicate_of_lt (Finset.mem_range.mp hj)]
+  rfl
+
+theorem slotOffset_eq {w : ℕ} (hw : 0 < w) (len : ℕ) :
+    (slotOffset w len : ℤ) = packSum w (List.replicate len (2 ^ (w - 1))) := by
+  rw [packSum_replicate, slotOffset, pow_mul, ← Nat.geomSum_eq (by
+    calc 2 = 2 ^ 1 := by norm_num
+      _ ≤ 2 ^ w := Nat.pow_le_pow_right (by norm_num) hw)]
+  push_cast
+  ring
+
+theorem packSum_map_sub (w : ℕ) (c : ℤ) : ∀ ds : List ℤ,
+    packSum w (ds.map fun d => d - c) = packSum w ds - packSum w (List.replicate ds.length c)
+  | [] => by simp [packSum_nil]
+  | d :: ds => by
+    rw [List.map_cons, List.length_cons, List.replicate_succ, packSum_cons, packSum_cons,
+      packSum_cons, packSum_map_sub w c ds]
+    ring
+
 theorem intSlotsBound_sound {w len : ℕ} {logs : ℕ → ℕ} {X : ℤ}
     (h : intSlotsBound w len logs X = true) :
     ∃ e : List ℤ, e.length = len ∧ (∀ i < len, |e.getD i 0| ≤ 2 ^ logs i) ∧ X = packSum w e := by
-  simpa using intSlotsBoundAux_sound len 0 X h
+  simp only [intSlotsBound, Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨⟨hw, h0⟩, hs⟩ := h
+  obtain ⟨ds, hl, hb, hN⟩ := natSlotsSh_sound 64 len 0 _ hs
+  refine ⟨(ds.map Nat.cast).map fun d => d - 2 ^ (w - 1), by simp [hl], fun i hi => ?_, ?_⟩
+  · have := hb i hi
+    rw [Nat.zero_add] at this
+    have hi' : i < ds.length := by omega
+    simpa [List.getD_eq_getElem?_getD, hi'] using this
+  · rw [packSum_map_sub, ← hN, List.length_map, hl, ← slotOffset_eq hw, Int.toNat_of_nonneg h0]
+    ring
 
 -- Kernel sanity checks: packing and slot decoding reduce by `decide +kernel`.
 example : packShift 8 [3, -1, 2] = 3 - 256 + 2 * 65536 := by decide +kernel
