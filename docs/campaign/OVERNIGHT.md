@@ -1932,3 +1932,21 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     The Ham side of the lock certificate is a few CPU-minutes; LOCK-DATA's cost is now the SO-CSPLIT part.
   - Remaining LOCK-DATA dispatch gates: CAL-1/2 (running) and the measured ledger size, re-logged for owner review.
   - The landed L2/L3 worktree is removed.
+- **21:37. SO-CSPLIT calibration gates CAL-1/2: ALL 15 PASS; both data runs go.**
+  - On SO-DATA3's real lower N = 65 torus (docs/tracks/SO/studies/SO-CSPLIT-GATE.md, inp-socsplit2 c790787d):
+    - every theorem ≤ 4.05 GB cgroup peak (largest: a full 484×498 product's shards at 4.05 GB, 42 s);
+    - the jet bridge 1.08 GB;
+    - segments 1.48 GB (75k calls) and 2.79 GB (148k);
+    - decodes 1.1–1.5 GB;
+    - the torsion entry 0.66 GB;
+    - `checkEnergy base = true` from the chain in 5.5 s at 0.63 GB;
+    - the mirror bit-exact on every probed object.
+  - The per-call cost is 2–4× below the design's calibration, so the budget is B = 200k calls per theorem and
+    **1.6–2.5 CPU-h per torus** (was 3.0–4.3).
+  - **SO-DATA3** is told to finish GEN at B = 200k, emit both tori, run the serial capped kernel builds and prove
+    the final N = 65 theorems. It stops if the emitted ledger exceeds 50 MB.
+  - **LOCK-DATA** is told to dispatch: its gates are met except the measured ledger size, which is logged for owner
+    review. Above 50 MB it generates but stops before landing.
+  - **Owner item O3 implemented:** scripts/prebuild_heavy.py and land-branch.sh (bc3a68c7) build changed
+    KAM/SpinOrbit/Data/ modules serially, in import order, under the probe lock and a 10 GB cap, before the
+    parallel build. Data landings will hold the HQ lock for hours, so they get scheduled.
