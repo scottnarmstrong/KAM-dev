@@ -1994,3 +1994,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - W is paused cleanly, with all work committed: W4-HOMOLOGICAL WIP at inp-wpj 10801f8b; W1-CUBIC audit 2 PASS WITH
     NOTES at inp-wph 8b4f8869, ready to land on resume; graph delta 7 reports at inp-wgraph 7c4a75ec, not yet
     applied. 8 W packages on main, including W2-RECON (nlw2 clause 5).
+- **22:46. Owner: overnight mode again.**
+  - Deferred decisions are logged here "for owner review", with the recommended reversible option taken. Nothing is
+    frozen: the D40 freeze text for the band and the lock freeze proposal wait for the morning.
+  - Plan for the night:
+    - SO band: kernel lanes, then the final theorems, audit and a scheduled landing.
+    - SO lock: sizing with kp = 4 and a larger support (a smaller amplitude would be logged and paused for the
+      owner), then generation, kernel, headline, audit and landing.
+    - Then resume W from its pause note, as the owner allowed.
