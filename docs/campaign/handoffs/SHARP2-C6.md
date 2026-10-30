@@ -43,7 +43,7 @@ the numerical part only (see "What the R1 numbers show").
    - **Disclosure:** my builds before that step wrote through the shared traces too. Another worktree could be fooled the
      same way if its source matches one of those traces. I did not audit the other worktrees.
 
-## Files (new, all in `KAM/CertificateSharp/V2/`; 2703 lines, largest 538)
+## Files (new, all in `KAM/CertificateSharp/V2/`; 2690 lines, largest 538)
 
 | File | Content |
 |---|---|
