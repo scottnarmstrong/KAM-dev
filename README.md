@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 14:44 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 291,000
+> **Last updated: 2026-10-30 14:48 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 291,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -238,8 +238,8 @@ Overall, everything together: 97.2 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **287,559** (224,218 excluding blank lines and comments) · **+30,296** since 2026-10-29 14:41 UTC |
-| Written on agent branches, not yet landed | 1,543 |
+| On `main` now | **287,559** (224,218 excluding blank lines and comments) · **+30,083** since 2026-10-29 14:47 UTC |
+| Written on agent branches, not yet landed | 1,545 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
 | **Estimated total at completion** | **≈ 291,000** |
 | Estimated still to write | ≈ 2,000 |
@@ -248,7 +248,7 @@ Overall, everything together: 97.2 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 14:44 UTC from `main` at `96e2313c` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 14:48 UTC from `main` at `ed226434` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -417,7 +417,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **soballdy** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-soballdy` | 9 (vs `inp`) |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sokdepth** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-sokdepth` | 9 (vs `inp`) |
-| **wfreeze** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W: freeze W-NLW2 and its eleven definitions (D41) | `inp-wfreeze` | 1 (vs `inp`) |
+| **wfreeze** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W freeze: D-WF2 docstring corrections (reconV p, nlw2 not 'proposed'); D-WF1/D-WF2 i | `inp-wfreeze` | 2 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -427,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 14:48 | `ed226434` | Log: 14:48 |
 | 2026-10-30 14:44 | `96e2313c` | Log: 14:44 (track W freeze built) |
 | 2026-10-30 14:36 | `ddd10bb3` | Log: 14:36 (D41 track W sub-orchestrator; D42 lock scoping) |
 | 2026-10-30 14:35 | `cc225cbb` | D41: track W statements approved (freeze); D42: scoping of the synchronous-lock theorem |
@@ -438,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 14:05 | `e993723c` | Log: 14:05 (SO-GEN3 done, SO-R2 started) |
 | 2026-10-30 13:49 | `793e86c5` | Log: 13:49 |
 | 2026-10-30 13:47 | `49a5760b` | Errata ledger: independent verification of the side campaign's 20 candidates (ERRATA-VERIFY-SIDE-1) |
-| 2026-10-30 13:40 | `1e751759` | Log: 13:40 (finish N = 65; N = 80 optional stretch) |
 <!-- /AUTO:landed -->
 
 ## Decisions
