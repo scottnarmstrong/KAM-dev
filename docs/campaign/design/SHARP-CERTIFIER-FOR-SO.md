@@ -21,3 +21,28 @@ lunar certificate moves to the sharp certifier.
 - **Coming later behind the same interface** (no certificate-format change unless stated): v2 of the theorem
   (finer, certificate-checkable hypotheses; frequency-specific small-divisor constants), tighter checker majorants,
   and a free-parameter optimizer (`scripts/certifier/`). New hypotheses, if any, will come with new sub-checks.
+
+## Update: the v2 certifier (landed 86089b36, 30 October 2026; audit AUDIT-C6-1 PASS)
+
+Same certificate format, same conclusion; a new engine interface and a witness.
+- **Certifier.** `KAM.CertificateSharp.checkTorusCertificateV2 routeAV2 c w` (`KAM/CertificateSharp/V2/Engine.lean`,
+  `V2/RouteARefinedEngine.lean`). `routeAV2 = sharpV2.orElse (routeAFrozen.orElse routeARefined)`; the witness `w` names
+  the route: `Sum.inl ()` is exactly the landed sharp certifier (`checkTorusCertificateV2_routeAV2_sharp`, `rfl`), so the
+  switch can never make a passing certificate fail.
+- **Soundness.** `checkTorusCertificateV2_sound`: a passing check, `FreqEncloses n c.freqBox ωstar` and
+  `IsDiophantine γ τ ωstar` give the landed `CertifiedTorus c ωstar`. Every refined bound (`HamFacts`, `FrameFacts`) is
+  proved by checks inside; the witness carries only numbers. Axioms: propext, Classical.choice, Quot.sound.
+- **Routes.** Through the proved and audited v2 route A (`KAM.Iso.Sharp2.RouteA`):
+  - `routeAFrozen` with `FrozenWit` (X⋆, prefix length, ϑ, classical constants, caps): frozen data only;
+  - `routeARefined` with `RefinedWit` (a `FrozenWit`, the claimed bounds `RefClaim` on |DH|, |DX_h|, |D²X_h|, |D²H|, |L|,
+    |N|, |Nᵀ|, |T| checked against the certificate's models, the exact clock coordinate κ, and per-bite small-divisor
+    witnesses for n = 2, τ = 1, else the classical constant).
+- **Thresholds** (design package R1, kernel-checked arithmetic with the design's assumed bounds; no lunar models run):
+  frozen route 10^−20.94, refined route 10^−11.33 (the landed sharp certifier: about 10^−25). With the §2.7 measured lunar
+  parameters, by `#eval`: −12.07, or −11.43 with separate σ_K = 1.37, σ_B = 1.99, σ_T = 1.03 (choose them separately).
+- **Sizing.** At 10^−11.3 the truncation needs roughly 16–18 digits instead of about 30; resize with the same headroom
+  rule. The frequency box must have its last (clock) coordinate exact with radius 0.
+- **Kernel cost.** The refined numerical core is about 140 s and 10.4 GB peak at prefix 3 (one niced process); the extra
+  Ham and frame checks cost about one more `checkHamBounds`, `checkTorsion` and `checkGram` (estimate 0.3–0.9 CPU-h at
+  L ≈ 18). Handoff: `docs/campaign/handoffs/SHARP2-C6.md`.
+- **Coming:** route B (`orElse`, for the dominance claim; worse than route A on R1) and the l1 entry step.
