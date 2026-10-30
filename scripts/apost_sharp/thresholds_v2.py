@@ -44,10 +44,13 @@ EINV = Fr(1 / math.e)    # 1/e (rounded up): the row-sum l^1 Cauchy factor sup_k
 # =============================================================================================================
 
 def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_sums=False, diag=False,
-             keep=False):
+             keep=False, b5=False):
     """Additive route.  stage(s) -> dict(CE, cond=[(coef, bound)], rates={name: (rho, j)});  tail likewise (uniform).
     Errors: x_s = eps_s/(gamma^4 delta_s^{2a}), x_{s+1} = 2^{2a} C_E(s) x_s^2 (Lemma bp:p2s:decay, stage form).
-    Returns True iff every condition holds at X0."""
+    Returns True iff every condition holds at X0.
+    b5 (B10): the conditions of the route-A embedding into KAM.Sharp2.StageScheme.converge_checked
+    (blueprint bp:p2s2l1:engine(b), Lean routeAOkL1): the local contraction 2^{2a} C_E(s) x_s <= 1 at every prefix
+    stage and the tail decay 2^{2a} C_E x_k <= 1/2 (instead of <= 1, the v1 engine)."""
     x = X0
     used = {nm: F(0) for nm in budgets}
     fails = []
@@ -57,6 +60,8 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
         for i, (coef, bound) in enumerate(st["cond"]):
             if coef * x > bound:
                 fails.append("stage%d cond%d" % (s, i))
+        if b5 and 2 ** (2 * a) * st["CE"] * x > 1:
+            fails.append("stage%d contraction" % s)
         for nm, (rho, j) in st["rates"].items():
             wgt = gamma ** 2 * ds ** (a - j) if keep else gbar ** 2   # eps_s/(gamma^2 delta_s^{a+j}) = x_s gamma^2 delta_s^{a-j}
             used[nm] += rho * x * wgt
@@ -69,7 +74,7 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
     # tail (v1 engine from stage k): (I1)-(I4) with e := eps_k, delta_0 := delta_k
     dk = delta0 / 2 ** k
     tl = tail
-    if 2 ** (2 * a) * tl["CE"] * x > 1:
+    if 2 ** (2 * a) * tl["CE"] * x > (F(1, 2) if b5 else 1):
         fails.append("tail E")
     for i, (coef, bound) in enumerate(tl["cond"]):
         if coef * x > bound:
@@ -253,11 +258,12 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
         tail = stageA(D, ot, delta0 / 2 ** k, r(k), c_tail, c_tail, c_tail, iso)
     budgets = budgets_for(D, o, iso)
     keep = o.get("keep_delta", False)
+    b5 = o.get("b5", False)
     pred = lambda X: engine_A(stage, tail, k, X, a, gamma, gbar, delta0, budgets, lam, absorb_sums=(k == 0),
-                              keep=keep)
+                              keep=keep, b5=b5)
     lx = bisect(pred, 1e-60, 1e30)
     why = engine_A(stage, tail, k, Fr(10 ** (lx + 0.01)), a, gamma, gbar, delta0, budgets, lam,
-                   absorb_sums=(k == 0), diag=True, keep=keep)
+                   absorb_sums=(k == 0), diag=True, keep=keep, b5=b5)
     return lx + math.log10(float(gamma ** 4 * delta0 ** (2 * a))), delta0, why
 
 
@@ -412,6 +418,8 @@ def stageB(D, o, delta, r, c, c1, cr, iso=False, stage0=None, lamL=F(1), lamW=F(
         cond.append(((Nt * sB * C_DE + sB ** 3 * w * C_OmK) * gd, tslack))
     if l1 is not None and iso:                                 # the cubic iso term uses C_xiLs X <= theta_xi
         cond.append((C_xiLs, thx))
+    if l1 is not None:                                         # local contraction (Lean entryCondB; audit F8)
+        cond.append((2 ** (kap + 1) * Q, F(1)))
     return dict(Q=Q, cond=cond, rates=rates, C_DK=C_DK, C_0=C_0, C_xiL=C_xiL, Qt_N=Qt_N, QL=QL, gd=gd, gd1=gd1)
 
 
@@ -623,7 +631,7 @@ def entry_variants(D, aN, aL, t1, exact=True, torsion_cap_B=False, nuK=None, nuN
     Dv = with_caps(D, F(1, 20)) if exact else T2_float_caps(D)
     Tc = Dv["Tsup_cap"]
     oA = dict(L1=True, torsion_cap=Tc, torsion_real=Tc, omega_eta=True, avg_full_bite=True, keep_delta=True,
-              caps_tilde=True, free_budgets=True)
+              caps_tilde=True, free_budgets=True, b5=True)      # b5: the conditions of Lean routeAOkL1
     oB = dict(L1=True, keep_delta=True, avg_full_bite=True, theta=F(1, 16), cTh=Dv["cTh"], free_budgets=True,
               aniso=True)
     if torsion_cap_B:
