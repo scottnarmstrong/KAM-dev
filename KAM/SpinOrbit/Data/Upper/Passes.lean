@@ -14,7 +14,10 @@ public import KAM.SpinOrbit.Data.Upper.Pass.HamBounds
 public import KAM.SpinOrbit.Data.Upper.Pass.Embedding
 public import KAM.SpinOrbit.Data.Upper.Pass.HamClaim
 public import KAM.SpinOrbit.Data.Upper.Pass.FrameL
-public import KAM.SpinOrbit.Data.Upper.Pass.Graph
+public import KAM.SpinOrbit.Data.Upper.Pass.GraphS
+public import KAM.SpinOrbit.Data.Upper.Pass.GraphM
+public import KAM.SpinOrbit.Data.Upper.Pass.GraphL
+public import KAM.SpinOrbit.Data.Upper.Pass.GraphH
 public import KAM.SpinOrbit.Data.Upper.Pass.SiteD0
 public import KAM.SpinOrbit.Data.Upper.Pass.SiteD1
 public import KAM.SpinOrbit.Data.Upper.Pass.SiteB0
@@ -90,7 +93,9 @@ theorem upper_passes :
       upper_csEnergy upper_csGram upper_csTorsion)
     upper_hamClaim upper_frame upper_refinedCore
 
-/-- **`Graph_passes`**. -/
-theorem upperGraph_passes : checkSoGraph cert = true := upper_graph
+/-- **`Graph_passes`**, from its four conjuncts. -/
+theorem upperGraph_passes : checkSoGraph cert = true := by
+  simp only [checkSoGraph, Bool.and_eq_true]
+  exact ⟨⟨⟨upper_graphS, upper_graphM⟩, upper_graphL⟩, upper_graphH⟩
 
 end KAM.SpinOrbit.Data.Upper

@@ -56,7 +56,17 @@ def families(t):
            ("Embedding", "checkEmbedding", "%s_embedding" % t, "checkEmbedding base = true"),
            ("HamClaim", "the Ham claim", "%s_hamClaim" % t, "checkHamClaim base %s.R = true" % w),
            ("FrameL", "the frame bound |Lᵀ|", "%s_frameL" % t, "checkFrameL base %s.R.bL = true" % w),
-           ("Graph", "the graph check", "%s_graph" % t, "checkSoGraph cert = true")]
+           ("GraphS", "the graph check: strict margin", "%s_graphS" % t,
+            "decide (cert.base.params.disp < cert.mono * cert.base.params.rhoInf) = true"),
+           ("GraphM", "the graph check: mono", "%s_graphM" % t,
+            "checkRealLowerBound cert.base.weight cert.base.cfgLow (soGraphMonoModel cert) cert.mono₀\n"
+            "      cert.mono cert.sosMono = true"),
+           ("GraphL", "the graph check: pLo", "%s_graphL" % t,
+            "checkRealLowerBound cert.base.weight cert.base.cfgLow (soGraphActionModel cert) cert.pLo₀\n"
+            "      cert.pLo cert.sosLo = true"),
+           ("GraphH", "the graph check: pHi", "%s_graphH" % t,
+            "checkRealLowerBound cert.base.weight cert.base.cfgLow (soGraphActionModel cert).negM\n"
+            "      (-cert.pHi₀) (-cert.pHi) cert.sosHi = true")]
     for k, s in (("d", 0), ("d", 1), ("b", 0), ("b", 1), ("b", 2)):
         a, b = site(s, k, None)
         out.append(("Site%s%d" % (k.upper(), s), "the small-divisor bite at %s%d" % (k, s), "%s_site_%s%d" % (t, k, s),
@@ -167,8 +177,10 @@ theorem {t}_passes :
       {t}_csEnergy {t}_csGram {t}_csTorsion)
     {t}_hamClaim {t}_frame {t}_refinedCore
 
-/-- **`Graph_passes`**. -/
-theorem {t}Graph_passes : checkSoGraph cert = true := {t}_graph
+/-- **`Graph_passes`**, from its four conjuncts. -/
+theorem {t}Graph_passes : checkSoGraph cert = true := by
+  simp only [checkSoGraph, Bool.and_eq_true]
+  exact ⟨⟨⟨{t}_graphS, {t}_graphM⟩, {t}_graphL⟩, {t}_graphH⟩
 """.format(t=t, nu=nu, eq=eq, er=er, dp=dp, Q=Q)
     ptext = HEADER.format(imports=pass_imps, which=which, title="the data conclusions", T=T,
                           doc="`_ham`, `_params`, `_freq`, `_passes` (v2, refined route) and `Graph_passes`, "
