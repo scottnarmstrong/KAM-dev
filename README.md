@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 14:35 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 290,000
+> **Last updated: 2026-10-30 14:36 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 290,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -238,7 +238,7 @@ Overall, everything together: 97.2 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **287,559** (224,218 excluding blank lines and comments) · **+38,504** since 2026-10-29 14:30 UTC |
+| On `main` now | **287,559** (224,218 excluding blank lines and comments) · **+32,326** since 2026-10-29 14:36 UTC |
 | Written on agent branches, not yet landed | 1,044 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
 | **Estimated total at completion** | **≈ 290,000** |
@@ -248,7 +248,7 @@ Overall, everything together: 97.2 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 14:35 UTC from `main` at `cc225cbb` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 14:36 UTC from `main` at `ddd10bb3` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -257,7 +257,7 @@ Overall, everything together: 97.2 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 20 modules · 3,584 lines. **Packages landed: 21 / 24**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
-- **Now:** proving SO-BALLDY, SO-KDEPTH · in audit —
+- **Now:** proving SO-BALLDY, SO-KDEPTH, SO-LOCK · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Frozen statements proved: 23 / 23** · frozen definitions: 123
@@ -426,6 +426,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 14:36 | `ddd10bb3` | Log: 14:36 (D41 track W sub-orchestrator; D42 lock scoping) |
 | 2026-10-30 14:35 | `cc225cbb` | D41: track W statements approved (freeze); D42: scoping of the synchronous-lock theorem |
 | 2026-10-30 14:19 | `7dbba265` | Land inp into main |
 | 2026-10-30 14:18 | `06d9ca32` | Log: 14:18 |
@@ -437,7 +438,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 13:47 | `49a5760b` | Errata ledger: independent verification of the side campaign's 20 candidates (ERRATA-VERIFY-SIDE-1) |
 | 2026-10-30 13:40 | `1e751759` | Log: 13:40 (finish N = 65; N = 80 optional stretch) |
 | 2026-10-30 13:33 | `c1e43611` | Land inp into main |
-| 2026-10-30 13:31 | `f3fba607` | D40: track SO freeze plan (freeze proposal 2 approved) |
 <!-- /AUTO:landed -->
 
 ## Decisions
