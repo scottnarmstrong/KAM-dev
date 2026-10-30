@@ -113,7 +113,7 @@ l = 13 would gain 0.18% in X⋆ for about 3 more minutes, and δ₄ at l = 14 wa
 
 | Item | Wall | Peak RSS |
 |---|---:|---:|
-| `Tests/RefinedRef` (toy, whole certifier 3 times) | 8 s | not measured |
+| `Tests/RefinedRef` (toy: whole certifier twice, core twice) | 8 s | not measured |
 | `Tests/RefinedRefR1` build, four new bites | 6:00 | 19.2 GB |
 | one bite at l = 13 alone (`.drafts`, includes imports) | 4:19 | 18.8 GB |
 | `okR`, `budgetOk`, `wfOk`, tail, final, rejection, together | about 1 s | |
