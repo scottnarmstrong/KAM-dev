@@ -46,7 +46,7 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | CC88 (doi:10.1007/BF01218480) | 0 | 0 |
 | CC95 (pinned PDF) | 1 | 0 |
 | VL22 (arXiv:2101.07785) | 1 | 0 |
-| FH25 (arXiv:2403.10152) | 1 (1 candidate) | 0 |
+| FH25 (arXiv:2403.10152) | 2 (2 candidate) | 0 |
 
 ## Pos01 (arXiv:0908.2234v1)
 
@@ -570,6 +570,7 @@ None.
 ### Errata
 
 1. **§5.** *reproducibility note; CANDIDATE* (E-FH25-1). Printed: the pair (‖η^{DK}‖, ‖ηᴺ‖) = (10⁻³⁸, 10⁻⁴⁴) reported as a numerically checked closure of FH24’s Iterative Lemma. FH25 §5 does not report enough intermediate validation data to independently replay its numerical closure from the trial pair (10⁻³⁸, 10⁻⁴⁴). A direct coarse global FH24-majorant calculation with derived torsion bounds fails by several orders, but this neither reproduces nor refutes the paper's stated finite-prefix-then-theorem computation. Retained as a reproducibility request, not a confirmed erratum. Evidence: dominance.py --fh25 and APOST-SHARP-V2.md §10.4 (branch sharp-v2). Effect: none on our theorems; it bounds what the SJS feasibility study can assume.
+2. **§5 (choice of δ) against Theorem A.1 (arXiv v1).** *hypothesis boundary (harmless numerically); CANDIDATE* (E-FH25-2). Printed: "we choose the radius of analiticity to be ρ = 0.1 and δ = ρ/6"; Theorem A.1: "for each δ ∈ ]0, ρ/6[". the application's choice δ = ρ/6 lies on the excluded endpoint of the open interval that Theorem A.1 (FH24 Theorem 2.18) requires; any δ slightly below ρ/6 would do. Evidence: docs/campaign/handoffs/SJS-FEAS.md, suspected errata E3 (branch sjs-feas); pinned text lines 553 and 723 of the local extraction. Effect: none on our theorems.
 
 ### Deviations
 

@@ -2532,6 +2532,19 @@
    "status": "CANDIDATE",
    "checked_by": "SHARP-PLUS design, APOST-SHARP-V2.md §8 and blueprint remark bp:p2s2sd:errata (side campaign, lemma.farm, 2026-10-30); checked against the arXiv PDF by its writer, not yet by an independent verifier; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text (kept CANDIDATE: the narrowed claim still has an unverified component)",
    "effect": "none on our theorems; it bounds what the SJS feasibility study can assume"
+  },
+  {
+   "id": "E-FH25-2",
+   "type": "erratum",
+   "source": "FH25",
+   "location": "§5 (choice of δ) against Theorem A.1 (arXiv v1)",
+   "printed": "\"we choose the radius of analiticity to be ρ = 0.1 and δ = ρ/6\"; Theorem A.1: \"for each δ ∈ ]0, ρ/6[\"",
+   "claim": "the application's choice δ = ρ/6 lies on the excluded endpoint of the open interval that Theorem A.1 (FH24 Theorem 2.18) requires; any δ slightly below ρ/6 would do",
+   "kind": "hypothesis boundary (harmless numerically)",
+   "evidence": "docs/campaign/handoffs/SJS-FEAS.md, suspected errata E3 (branch sjs-feas); pinned text lines 553 and 723 of the local extraction",
+   "status": "CANDIDATE",
+   "checked_by": "SJS-FEAS study (side campaign, lemma.farm, 2026-10-30), checked against the arXiv text by its writer; the orchestrator re-read both quoted passages in the pinned extraction; not yet checked by an independent refute-first verifier",
+   "effect": "none on our theorems"
   }
  ]
 }
