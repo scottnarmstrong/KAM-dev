@@ -1,0 +1,341 @@
+\section{The v2 a-posteriori theorem at fixed frequency (G1$^{\sharp\sharp}$)}\label{bp:p2s2}
+
+This part proves the v2 form of Theorem~\ref{bp:p2s:g1}. Its conclusion is that of the frozen G1 (Theorem~\ref{bp:p0:g1}); its
+hypotheses are those of Theorem~\ref{bp:p2s:g1} plus optional \emph{refined data}, each a bound on an explicit object that a certificate
+can check, each implied by the frozen hypotheses with the v1 values (Lemma~\ref{bp:p2s2:defaults}). The smallness is the disjunction
+of two conditions, one for each Newton route:
+\begin{itemize}
+\item \emph{route A} (additive, the scheme of Part~\ref{bp:p2s} and HL19 Lemma~5.2): $\bar K=K+L\xi^L+N\xi^N$, with the levers
+  L1--L4, L8 of Subsection~\ref{bp:p2s2:sec-A};
+\item \emph{route B} (modified, FH24 Lemma~3.6): $\bar K=(K+N\xi^N)\circ(\mathrm{id}+\xi^L)$; the tangential correction is a
+  reparameterization, so the step error is quadratic in the weighted error $\mu=\max\{\abs{\eta^L}/\lambda,\abs{\eta^N}/(\gamma\delta^\varkappa)\}$
+  with the factor $\gamma^{-1}\delta^{-\varkappa-1}$ (Proposition~\ref{bp:p2s2:step}), and the threshold scales like
+  $\gamma^2\delta_0^{2\tau+1}$ instead of $\gamma^4\delta_0^{4\tau}$.
+\end{itemize}
+Since route A with the default data is Theorem~\ref{bp:p2s:g1} (Lemma~\ref{bp:p2s2:defaults}), the v2 theorem is never worse than v1.
+The numbers are those of \texttt{scripts/apost\_sharp/thresholds\_v2.py} (design mirror): for R1 the iso threshold rises from
+$10^{-24.98}$ (v1) to $10^{-11.37}$ (route A) and $10^{-12.39}$ (route B); for the harder package H50 from $10^{-27.37}$ to $10^{-12.44}$
+and $10^{-13.16}$; with the first Newton step measured (Corollary~\ref{bp:p2s2:hybrid}) the R1 candidate's admissible error is about
+$10^{-4.5}$. On a grid of generic data (\texttt{dominance.py}) route B dominates FH24 (corrected) and HL19 everywhere, by at least
+$0.2$ orders.
+
+Results of Parts~\ref{bp:p2}, \ref{bp:p2s} and~\ref{bp:p2s2sd} are cited by label; in particular the torsion polynomial
+(Lemma~\ref{bp:p2s:torsion-identity}), the frame identities (Lemma~\ref{bp:p2:frame-identities}), the Neumann and telescoping lemmas
+(\ref{bp:p2s:neumann}, \ref{bp:p2s:telescope}) and the limit steps of Proposition~\ref{bp:p2:limit} are used as stated.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Refined data}\label{bp:p2s2:sec-data}
+
+\begin{assumption}[Standing data of Part~\ref{bp:p2s2}]\label{bp:p2s2:standing}
+Assumption~\ref{bp:p2s:standing} holds with $\varkappa=\tau$, and in addition the following numbers are given, with the hypotheses
+stated (all on the frozen objects; $\mathbb B_\mu(K(\theta))\subset\mathfrak B$ on $T_\rho$ as in Theorem~\ref{bp:p0:g1}):
+\begin{enumerate}[label=(R\arabic*)]
+\item\label{bp:p2s2:R1} $M_1,M_2\le M$ with $\abs{DX_h}\le M_1$ and $\abs{D^2X_h}\le M_2$ on $\mathfrak B$;
+\item\label{bp:p2s2:R2} caps $\sigma_{L^\top},\sigma_N,\sigma_{N^\top}>0$ and margins $b_{L^\top},b_N,b_{N^\top}>0$ with $\abs{L^\top}\le\sigma_{L^\top}-b_{L^\top}$,
+  $\abs N\le\sigma_N-b_N$, $\abs{N^\top}\le\sigma_{N^\top}-b_{N^\top}$ on $T_\rho$;
+\item\label{bp:p2s2:R3} \emph{(optional)} a torsion cap $t>0$ with margin $b_T$: $\abs T\le t-b_T$ on $T_{\rho-\delta_0}$ (the frozen torsion
+  $T_\omega$, Definition~\ref{bp:p2:objects});
+\item\label{bp:p2s2:R4} small-divisor constants $c_s$ at the bites $\delta_s$, $c'_s$ at $\delta_s/2$ and $\bar c_s$ at $r_s$ ($s<k$), on the ray
+  of $\omega$ (Definition~\ref{bp:p2s2sd:const}), and a small-divisor function $c_\infty$ on $\Dio_{\gamma,\tau}$ for the tail;
+\item\label{bp:p2s2:R5} \emph{(optional, L6)} majorants of the step-0 objects of Corollary~\ref{bp:p2s2:hybrid}.
+\end{enumerate}
+\end{assumption}
+
+\begin{lemma}[The frozen hypotheses imply the refined data]\label{bp:p2s2:defaults}
+Under the hypotheses of Theorem~\ref{bp:p2s:g1} (with margin $\mu$), \ref{bp:p2s2:R1}, \ref{bp:p2s2:R2} and \ref{bp:p2s2:R4} hold with
+$M_1=M_2=M$; $\sigma_{L^\top}=2n\sigma_K$, $\sigma_N=\sigma_K\sigma_B$, $\sigma_{N^\top}=2n\sigma_K\sigma_B$ and margins $b=\mu$ (if
+$\sigma_K+\sigma_B\ge1+\mu$, else $b=\mu^2$); $c_s=c'_s=\bar c_s=c_\infty=c_R$. With these values the constants of route A are those of
+Definition~\ref{bp:p2s:constants}.
+\source{Lemma~\ref{bp:p2s:frame-bounds}; Lemma~\ref{bp:p2s2sd:from-cohdata}.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Bounds}\label{step:p2s2:def-b}
+$\abs{DX_h}\le M$, $\abs{D^2X_h}\le M$ are frozen hypotheses. By Lemma~\ref{bp:p2s:frame-bounds}(a), $\abs{L^\top}\le2n\abs L\le2n(\sigma_K-\mu)\le2n\sigma_K-\mu$,
+$\abs N\le\abs L\abs B\le(\sigma_K-\mu)(\sigma_B-\mu)=\sigma_K\sigma_B-\mu(\sigma_K+\sigma_B-\mu)$, and $\abs{N^\top}\le\abs B\abs{L^\top}\le2n(\sigma_K-\mu)(\sigma_B-\mu)$.
+
+\proofstep{Constants}\label{step:p2s2:def-c}
+Substituting in Definition~\ref{bp:p2s2:constantsA} with all levers off gives Definition~\ref{bp:p2s:constants} term by term
+(\texttt{thresholds\_v2.py}, variant A0, reproduces $10^{-24.72}$ and $10^{-24.98}$).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Geometry controlled by the normal error}\label{bp:p2s2:sec-geo}
+
+Write $\eta^L=-N^\top\Omega_0E$, $\eta^N=L^\top\Omega_0E$ (the frozen \Lean{etaL}, \Lean{etaN}), $\Omega_N:=N^\top\Omega_0N$.
+
+\begin{lemma}[The Lagrangian defect from $\eta^N$]\label{bp:p2s2:omega}
+Let $K$ be holomorphic, primary and real on $T_r$ with $\det G\ne0$, $\abs B\le\sigma_B$, $\abs{\eta^N}\le\varepsilon_N$ on $T_r$, and let $c^{(1)}$
+be as in Corollary~\ref{bp:p2s2sd:rc} at the bite $\delta<r$. Then $\partial_\omega\Omega_K=D\eta^N-(D\eta^N)^\top$ and, on $T_{r-\delta}$,
+\[
+\abs{\Omega_K}\le C_\Omega\frac{\varepsilon_N}{\gamma\delta^{\varkappa+1}},\quad\abs{\Omega_N}\le\sigma_B^2\abs{\Omega_K},\qquad C_\Omega:=2(n-1)c^{(1)}.
+\]
+\source{FH24 Lemma~3.1, (3.4)--(3.6), pp.~17--19 (canonical case).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{The identity}\label{step:p2s2:om-id}
+$(D\eta^N)_{ij}=\sum_r\partial_i\partial_jK_r(\Omega_0E)_r+(L^\top\Omega_0\partial_jE)_i$; the first sum is symmetric in $i,j$, so
+$D\eta^N-(D\eta^N)^\top=L^\top\Omega_0DE-(L^\top\Omega_0DE)^\top=L^\top\Omega_0DE+(DE)^\top\Omega_0L=\partial_\omega\Omega_K$ by Lemma~\ref{bp:p2:frame-identities}(d).
+
+\proofstep{The bound}\label{step:p2s2:om-b}
+$\avg{\Omega_K}=0$ (Lemma~\ref{bp:p2:exactness}), so $\Omega_K=\mathcal R(D\eta^N-(D\eta^N)^\top)$; each row of the antisymmetric matrix has at most
+$2(n-1)$ entries $\partial_j\eta^N_i$, each of the form $\partial_j(\mathcal R\,\cdot)$, and Corollary~\ref{bp:p2s2sd:rc} with $v=1$ gives the bound.
+$\Omega_N=BL^\top\Omega_0^\top\Omega_0\Omega_0LB=\pm B\Omega_KB$ (as $N=\Omega_0LB$, $B^\top=B$).
+\end{proof}
+
+\begin{lemma}[Recovery of $E$ and $DE$ from $\eta$]\label{bp:p2s2:recovery}
+In Lemma~\ref{bp:p2s2:omega} assume moreover $\abs L\le\sigma_K$, $\abs N\le\sigma_N$, $\abs{L^\top}\le\sigma_{L^\top}$, $\abs{N^\top}\le\sigma_{N^\top}$, $\abs{\eta^L}\le\varepsilon_L$ on
+$T_r$, and $\max\{1,\sigma_B^2\}C_\Omega\varepsilon_N/(\gamma\delta^{\varkappa+1})\le q<1$. Then on $T_{r-\delta}$
+\begin{align*}
+\abs E&\le C^L_E\varepsilon_L+C^N_E\varepsilon_N,\qquad C^L_E=\frac{\sigma_K+\sigma_Nq}{1-q^2},\quad C^N_E=\frac{\sigma_N+\sigma_Kq}{1-q^2},\\
+\abs{DE}&\le\frac{n(\sigma_K+\sigma_N)}{(1-q)\delta}\Bigl(\max\{\varepsilon_L,\varepsilon_N\}+(\sigma_{L^\top}+\sigma_{N^\top})\abs E\Bigr),\qquad
+\abs{(N^\top\Omega_0DE)^\top}\le\frac n\delta\bigl(\varepsilon_L+\sigma_{N^\top}\abs E\bigr).
+\end{align*}
+\source{FH24 Lemma~3.3, (3.9)--(3.12), pp.~19--20; (3.24), p.~22.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Inverting the frame}\label{step:p2s2:rec-e}
+$I+\Omega_0^{-1}E_{\mathrm{sym}}=\Omega_0^{-1}P^\top\Omega_0P=\bigl(\begin{smallmatrix}I&\Omega_N\\-\Omega_K&I\end{smallmatrix}\bigr)$ up to signs, invertible since
+$\abs{\Omega_K},\abs{\Omega_N}\le q<1$ (Lemma~\ref{bp:p2s2:omega}); its inverse is the block matrix of FH24 p.~20 with
+$\abs{(I+\Omega_N\Omega_K)^{-1}},\abs{(I+\Omega_K\Omega_N)^{-1}}\le(1-q^2)^{-1}$ (Lemma~\ref{bp:p2s:neumann}). From $\eta=-\Omega_0^{-1}P^\top\Omega_0E$:
+$E=-(L+N\Omega_K)(I+\Omega_N\Omega_K)^{-1}\eta^L-(N-L\Omega_N)(I+\Omega_K\Omega_N)^{-1}\eta^N$; take norms.
+
+\proofstep{The derivative}\label{step:p2s2:rec-de}
+$DE=-P(I+\Omega_0^{-1}E_{\mathrm{sym}})^{-1}\bigl(D\eta+D(\Omega_0^{-1}P^\top\Omega_0)E\bigr)$; the Cauchy estimates
+(Lemma~\ref{bp:p1:cauchy-corollaries}) on $\eta$ and on the rows of $P^\top$ from $T_r$ give the second bound, with $\abs{(I+\Omega_0^{-1}E_{\mathrm{sym}})^{-1}}\le(1-q)^{-1}$.
+For the third, $N^\top\Omega_0DE=-D\eta^L-D(N^\top)\Omega_0E$, transposed row by row.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The modified step}\label{bp:p2s2:sec-step}
+
+\begin{definition}[Constants of the modified step]\label{bp:p2s2:constantsB}
+Fix the ratios $\vartheta,\vartheta_\xi,\vartheta_\Omega,q\in(0,1)$ (in the design all $\frac18$) and a weight $\lambda\in(0,1]$ ($\lambda=1$ except at stage $0$,
+Theorem~\ref{bp:p2s2:g1}). Given a bite $\delta\in(0,1]$, a strip $r>3\delta$, small-divisor constants $c$ (bite $\delta$), $c^{(1)}=2^{\varkappa+1}c'$ ($c'$ at
+$\delta/2$) and $\bar c$ (bite $r$, real points), caps $\sigma_K,\sigma_{L^\top},\sigma_B,\sigma_N,\sigma_{N^\top},\sigma_T,t$, and $g:=\bar\gamma\delta^\varkappa$, $g_1:=g\delta$,
+$\tilde\sigma_K:=(1+\vartheta)\sigma_K$, define in this order
+\begin{align*}
+&C_\Omega=2(n-1)c^{(1)},\quad C^L_E,C^N_E\text{ as in Lemma~\ref{bp:p2s2:recovery}},\quad C_E=\lambda C^L_E+gC^N_E,\\
+&C_{DE}=\frac{n(\sigma_K+\sigma_N)}{1-q}\bigl(\max\{\lambda,g\}+(\sigma_{L^\top}+\sigma_{N^\top})C_E\bigr),\quad C_{NN}=n(\lambda+\sigma_{N^\top}C_E),\\
+&C_0=\sigma_T\bigl(\lambda+t\,\bar c\,(\delta/r)^\varkappa\bigr),\quad C_{\xi N}=C_0+c,\quad C_{\tilde K}=\sigma_NC_{\xi N},\quad C_{D\tilde L}=n\sigma_N(C_0+c^{(1)}),\quad
+C_{D\tilde L^\top}=2n\sigma_N(C_0+c^{(1)}),\\
+&C_{dN}=(M_1\sigma_K+n)\sigma_B+\sigma_N\bigl((\sigma_{L^\top}M_1+2n)\sigma_K+\sigma_{L^\top}(M_1\sigma_K+n)\bigr)\sigma_B,\quad C_{XN}=M_1\sigma_N+C_{dN},\\
+&C_{\tilde E}=C_E+C_{XN}C_{\xi N}+\sigma_Ng+\tfrac{M_2}2C_{\tilde K},\quad
+\tilde Q_N=C_{D\tilde L^\top}C_{\tilde E}+C_{NN}C_{\xi N}+\delta\sigma_{L^\top}\tfrac{M_2}2C_{\tilde K}^2,\\
+&C_{gL}=\lambda+tC_{\xi N},\quad C_{\xi L}=cC_{gL},\quad C_{\Delta K}=\tilde\sigma_KC_{\xi L}+gC_{\tilde K},\quad C_{\bar E}=C_{\tilde E}+\tilde\sigma_KC_{gL},\\
+&C_G=n\sigma_{L^\top}+2n\sigma_K,\quad C_{\bar B}=\frac{\sigma_B^2C_GC_{\Delta K}}{1-\vartheta},\quad C_{\bar N}=nC_{\Delta K}\sigma_B+\sigma_KC_{\bar B},\quad
+C_{\bar N^\top}=C_{\bar B}\sigma_{L^\top}+2nC_{\Delta K}\sigma_B,\\
+&w=2M_1\sigma_{L^\top}\sigma_K+2n\sigma_K+n\sigma_{L^\top},\quad
+C_{\Delta T}=2M_1(C_{\bar N^\top}\sigma_N+\sigma_{N^\top}C_{\bar N})+2M_2\sigma_{N^\top}\sigma_NC_{\Delta K}\delta+g\bigl(2\sigma_{N^\top}\sigma_BC_{DE}+2\sigma_B^3wC_\Omega\bigr),\\
+&\bar Q_N=(1+n\vartheta_\xi)(1+\vartheta_\Omega)\tilde Q_N,\quad
+Q_L=\sigma_{N^\top}\tfrac{M_2}2C_{\tilde K}^2g_1+\sigma_B^2C_\Omega g^2+n\sigma_{N^\top}C_{\tilde E}C_{\xi L}+\sigma_{N^\top}C_{gL}(n\tilde\sigma_KC_{\xi L}+gC_{D\tilde L})
++C_{\bar N^\top}C_{\bar E},\\
+&Q=\max\{Q_L,\,2^\varkappa\bar Q_N\}.
+\end{align*}
+The step conditions, for $X\ge0$, are
+\[
+\max\{1,\sigma_B^2\}C_\Omega gX\le q,\ C_{DE}gX\le n,\ C_{\xi L}X\le\vartheta_\xi,\ C_\Omega C_{gL}X\le\vartheta_\Omega,\ C_{\tilde K}g_1X\le1,\
+C_{D\tilde L}gX\le\vartheta\sigma_K,\ C_{D\tilde L^\top}gX\le\vartheta\sigma_{L^\top},\ \sigma_BC_GC_{\Delta K}X\le\vartheta,\ \sigma_TC_{\Delta T}X\le\vartheta.
+\]
+At stage $0$, $C_E$ and $C_{DE}$ may be replaced by $e/\mu_0$ and $ne/\mu_0$ (the frozen bound $\abs E\le e$ on $T_\rho$ and Cauchy).
+\end{definition}
+
+All constants are polynomials with nonnegative coefficients in $(c,c^{(1)},\bar c,\lambda,\delta,\bar\gamma)$ and the caps, maxima of such, and $(1-x)^{-1}$
+of the fixed ratios: they are nondecreasing in each argument, in particular in $\delta$ for fixed small-divisor constants. This monotonicity is what
+the engine uses for the tail (Proposition~\ref{bp:p2s2:engine}).
+
+\begin{proposition}[The modified step]\label{bp:p2s2:step}
+Let $0<\delta\le1$, $3\delta<r$, and let $K$ be holomorphic, primary, real on reals on $T_r$, with $\mathbb B_\beta(K(\theta))\subset\mathfrak B$, $\abs L\le m_1$,
+$\abs{L^\top}\le m_2$, $\abs B\le m_3$, $\abs N\le m_4$, $\abs{N^\top}\le m_5$ on $T_r$, $\abs T\le m_6$ on $T_{r-\delta}$, $\abs{\avg T^{-1}}\le m_7$, with
+$m\le\sigma$ (the caps), and errors $\abs{\eta^L}\le\varepsilon_L$, $\abs{\eta^N}\le\varepsilon_N$ on $T_r$. Put $\mu:=\max\{\varepsilon_L/\lambda,\varepsilon_N/(\gamma\delta^\varkappa)\}$,
+$X:=\mu/(\gamma\delta^{\varkappa+1})$, and assume the step conditions of Definition~\ref{bp:p2s2:constantsB}, $C_{\Delta K}\mu/(\gamma\delta^\varkappa)<\beta$ and
+$2^{\varkappa+1}QX\le1$. Let
+\[
+\xi^N_0:=\avg T^{-1}\avg{\eta^L+T\,\mathcal R\eta^N},\ \xi^N:=\xi^N_0-\mathcal R\eta^N,\ \tilde K:=K+N\xi^N,\ \xi^L:=-\mathcal R(\eta^L-T\xi^N),\ \bar K:=\tilde K\circ(\mathrm{id}+\xi^L).
+\]
+Then $\bar K$ is holomorphic, primary and real on $T_{r-2\delta}$, $\abs{\bar K-K}\le C_{\Delta K}\mu/(\gamma\delta^\varkappa)$ there, and on $T_{r-3\delta}$
+\[
+\abs{\bar\eta^N}\le\bar Q_N\frac{\mu^2}\delta,\qquad\abs{\bar\eta^L}\le Q_L\frac{\mu^2}{\gamma\delta^{\varkappa+1}},
+\]
+so the weighted error of $\bar K$ at the bite $\delta/2$ (with $\lambda=1$) is $\le Q\mu^2/(\gamma\delta^{\varkappa+1})$; moreover
+$\abs{\bar L-L}\le nC_{\Delta K}X$, $\abs{\bar L^\top-L^\top}\le2nC_{\Delta K}X$, $\abs{\bar B-B}\le C_{\bar B}X$, $\abs{\bar N-N}\le C_{\bar N}X$, $\abs{\bar N^\top-N^\top}\le C_{\bar N^\top}X$,
+$\abs{\bar T-T}\le C_{\Delta T}X$ on $T_{r-7\delta/2}$, and $\abs{\avg{\bar T}^{-1}-\avg T^{-1}}\le\sigma_T^2C_{\Delta T}X/(1-\vartheta)$.
+\source{FH24 Lemma~3.6, pp.~22--30 (the modified quasi-Newton step); HL19 Lemma~5.1 (the triangular system).}
+\sourcegap{FH24 use the torsion $N^\top T_h(K)N$; here the frozen torsion $T=N^\top\Omega_0X_N$ is used, so the block $E^{LN}_{\mathrm{red}}$ of FH24 (3.25)
+vanishes and the change of the torsion is taken through the polynomial of Lemma~\ref{bp:p2s:torsion-identity}.}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Normal correction}\label{step:p2s2:st-n}
+$\avg{\eta^N}=0$ (Lemma~\ref{bp:p2:exactness}), so $u:=\mathcal R\eta^N$ satisfies $\abs u\le c\varepsilon_N/(\gamma\delta^\varkappa)\le c\mu$ on $T_{r-\delta}$ and, at real points,
+$\abs u\le\bar c\varepsilon_N/(\gamma r^\varkappa)\le\bar c(\delta/r)^\varkappa\mu$ (Lemma~\ref{bp:p2s2sd:avg}). Hence $\abs{\xi^N_0}\le m_7(\lambda\mu+m_6\bar c(\delta/r)^\varkappa\mu)\le C_0\mu$,
+$\abs{\xi^N}\le C_{\xi N}\mu$ on $T_{r-\delta}$, $\abs{\tilde K-K}\le C_{\tilde K}\mu$. Cauchy (Lemma~\ref{bp:p1:cauchy-corollaries}) on $N\xi^N_0$ and
+Corollary~\ref{bp:p2s2sd:rc} on $Nu$ give $\abs{\tilde L-L}\le C_{D\tilde L}\mu/\delta$, $\abs{(\tilde L-L)^\top}\le C_{D\tilde L^\top}\mu/\delta$; by the step conditions
+$\abs{\tilde L}\le\tilde\sigma_K$, $\abs{\tilde L^\top}\le(1+\vartheta)\sigma_{L^\top}$.
+
+\proofstep{Intermediate error}\label{step:p2s2:st-int}
+$\tilde E=E+X_N\xi^N+\Delta^2X-N\partial_\omega\xi^N$ with $\partial_\omega\xi^N=-\eta^N$ and $\abs{\Delta^2X}\le\frac{M_2}2\abs{N\xi^N}^2$ (Lemma~\ref{bp:p1:taylor}). By
+Lemma~\ref{bp:p2:frame-identities}(c), $\partial_\omega N$ is bounded by $C_{dN}$ when $\abs{DE}\le n$ (step condition, Lemma~\ref{bp:p2s2:recovery}), so
+$\abs{\tilde E}\le C_{\tilde E}\mu$ on $T_{r-\delta}$. Since $L^\top\Omega_0N=-I$ and $L^\top\Omega_0X_N=(DE)^\top\Omega_0N$ (differentiate $L^\top\Omega_0N=-I$ along $\omega$ and use
+$A^\top\Omega_0+\Omega_0A=0$, Lemma~\ref{bp:p2:hamiltonian}(d)),
+\[
+\tilde\eta^N=(\tilde L-L)^\top\Omega_0\tilde E+(DE)^\top\Omega_0N\,\xi^N+L^\top\Omega_0\Delta^2X,
+\]
+and Lemma~\ref{bp:p2s2:recovery} gives $\abs{\tilde\eta^N}\le\tilde Q_N\mu^2/\delta$ on $T_{r-\delta}$ (FH24 (3.58)--(3.59)).
+
+\proofstep{Tangential correction by composition}\label{step:p2s2:st-l}
+$g^L:=\eta^L-T\xi^N$ has $\avg{g^L}=0$ by the choice of $\xi^N_0$ and $\abs{g^L}\le C_{gL}\mu$ on $T_{r-\delta}$; $\abs{\xi^L}\le C_{\xi L}\mu/(\gamma\delta^\varkappa)\le\vartheta_\xi\delta$ on
+$T_{r-2\delta}$. Hence $\theta+\xi^L(\theta)\in T_{r-\delta}$ for $\theta\in T_{r-2\delta}$, $\bar K$ is defined, holomorphic and primary there ($\xi^L$ is periodic, real on reals), and
+the mean value inequality on the convex strip gives $\abs{\bar K-K}\le\tilde\sigma_K\abs{\xi^L}+\abs{\tilde K-K}\le C_{\Delta K}\mu/(\gamma\delta^\varkappa)$; the ball follows.
+
+\proofstep{The new error}\label{step:p2s2:st-e}
+With $\varphi=\mathrm{id}+\xi^L$ and $\partial_\omega\xi^L=-g^L$: $\bar E=\tilde E\circ\varphi-(\tilde L\circ\varphi)\partial_\omega\xi^L$ and $\bar L=(\tilde L\circ\varphi)(I+D\xi^L)$, so
+$\abs{\bar E}\le C_{\bar E}\mu$ and
+\[
+\bar\eta^N=(I+D\xi^L)^\top\bigl(\tilde\eta^N\circ\varphi-\Omega_{\tilde K}\circ\varphi\,\partial_\omega\xi^L\bigr).
+\]
+On $T_{r-3\delta}$: $\abs{(D\xi^L)^\top}\le nC_{\xi L}X\le n\vartheta_\xi$; Lemma~\ref{bp:p2s2:omega} for $\tilde K$ on $T_{r-\delta}$ gives $\abs{\Omega_{\tilde K}}\le C_\Omega\tilde Q_N\mu^2/(\gamma\delta^{\varkappa+2})$
+on $T_{r-2\delta}$, and $C_\Omega C_{gL}X\le\vartheta_\Omega$; this is the bound on $\bar\eta^N$ (FH24 (3.80)).
+
+\proofstep{The new tangential error}\label{step:p2s2:st-etal}
+As in FH24 (3.81), $\bar\eta^L=-N^\top\Omega_0\bar E-(\bar N-N)^\top\Omega_0\bar E$ and $-N^\top\Omega_0\bar E$ splits into
+(i) $-N^\top\Omega_0(\tilde E-L\partial_\omega\xi^L)=-N^\top\Omega_0\Delta^2X-\Omega_N\eta^N$ (using $-N^\top\Omega_0E=\eta^L$, $N^\top\Omega_0X_N=T$, $N^\top\Omega_0L=I$; the terms
+$\eta^L-T\xi^N$ cancel against $\partial_\omega\xi^L$, and there is no $E^{LN}_{\mathrm{red}}$ term since $T$ is the frozen torsion);
+(ii) $-N^\top\Omega_0(\tilde E\circ\varphi-\tilde E)$, bounded by $\sigma_{N^\top}\abs{D\tilde E}\abs{\xi^L}$ with Cauchy on $\tilde E$;
+(iii) $-N^\top\Omega_0(\tilde L\circ\varphi-L)\partial_\omega\xi^L$, with $\abs{\tilde L\circ\varphi-\tilde L}\le n\tilde\sigma_K\abs{\xi^L}/\delta$. With
+$\abs{\Omega_N}\le\sigma_B^2C_\Omega\mu/\delta$ (Lemma~\ref{bp:p2s2:omega}) and the frame bound of the next step for $(\bar N-N)^\top$, the five terms of $Q_L$ result.
+
+\proofstep{Frames and twist}\label{step:p2s2:st-fr}
+Cauchy on $\bar K-K$ from $T_{r-2\delta}$ gives the bounds on $\bar L-L$ and its transpose; then $\bar G-G=\bar L^\top(\bar L-L)+(\bar L-L)^\top L$ and
+Lemma~\ref{bp:p2s:neumann} with ratio $\vartheta$ give $\bar B$; $\bar N-N=\Omega_0(\bar L\bar B-LB)$, $\bar N^\top-N^\top=\bar B\bar L^\top-BL^\top$ by
+Lemma~\ref{bp:p2s:telescope} (caps for the barred factors). For the torsion, $T=\mathcal T_{ab}+\mathcal T_F+\mathcal T_c$ (Lemma~\ref{bp:p2s:torsion-identity}):
+$\mathcal T_{ab}=(BL^\top)(A\Omega_0-\Omega_0A)(LB)$ is telescoped with $\abs{\bar A-A}\le M_2\abs{\bar K-K}$; $\mathcal T_F$, $\mathcal T_c$ are bounded for each torus separately
+by $\sigma_{N^\top}\sigma_B\abs{DE}$ and $\sigma_B^3w\abs{\Omega_K}$, where for $\bar K$ Lemmas~\ref{bp:p2s2:omega}, \ref{bp:p2s2:recovery} at the bite $\delta/2$ and
+$2^{\varkappa+1}QX\le1$ give bounds no larger than those of $K$ on $T_{r-7\delta/2}$. Averages are taken at real points, and Lemma~\ref{bp:p2s:neumann}
+gives $\avg{\bar T}^{-1}$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The v2 engine}\label{bp:p2s2:sec-engine}
+
+\begin{proposition}[Stage-dependent engine]\label{bp:p2s2:engine}
+Let a scheme be given as in Definition~\ref{bp:p2s:scheme}, except that the constants $Q_s$ (for the weighted error), the step conditions and the
+rates may depend on the stage $s$ through the bite $\delta_s=2^{-s}\delta_0$, and that (N2) is asked only for $\delta\le\delta_0$. Let $k\ge0$, and let
+$(Q_\infty,\text{conditions}_\infty,\varrho_\infty)$ be constants valid at every bite $\delta\le\delta_k$. Define $X_0$ (the weighted error at stage $0$ divided by
+$\gamma\delta_0^{\varkappa+1}$) and $X_{s+1}:=2^{\varkappa+1}Q_sX_s^2$ for $s<k$. If
+\begin{enumerate}[label=(J\arabic*)]
+\item\label{bp:p2s2:J1} the step conditions of stage $s$ hold at $X_s$ for $s<k$, and those of the tail hold at $X_k$;
+\item\label{bp:p2s2:J2} $y:=2^{\varkappa+1}Q_\infty X_k\le\frac12$;
+\item\label{bp:p2s2:J3} for every cap $i$: $m^{(0)}_i+\sum_{s<k}\varrho_{i,s}w_i(\delta_s)X_s+2\varrho_{i,\infty}w_i(\delta_k)X_k\le\sigma_i$ (weights $w_i=1$ for the frames,
+  $\delta$ for the ball, $\gamma\delta^{\varkappa+1}$ for a frequency margin),
+\end{enumerate}
+then the iteration $x_{s+1}=\Phi(r_s,\delta_s;x_s)$ is defined for all $s$, $X_{s+1}\le2^{\varkappa+1}Q_{\min\{s,k\}}X_s^2$, $X_s\le y^{2^{s-k}-1}X_k$ for $s\ge k$, and the
+conclusions of Propositions~\ref{bp:p2s:engine-iteration}(i)--(iii) and~\ref{bp:p2s:engine-limit} hold with the sums of (J3).
+\source{FH24 \S3.3, (3.88)--(3.101), pp.~30--33 (critical sums with $1/(1-\kappa)$); HL19 \S5.3; Proposition~\ref{bp:p2s:engine-iteration}.}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Prefix}\label{step:p2s2:en-pre}
+For $s<k$ the step applies by (J1) and the caps by (J3) (partial sums), and gives the recursion of $X_s$; this is a finite induction.
+
+\proofstep{Tail}\label{step:p2s2:en-tail}
+For $s\ge k$ the tail constants are valid since $\delta_s\le\delta_k$ and every constant is nondecreasing in $\delta$ (Definition~\ref{bp:p2s2:constantsB}). With
+$y_s:=2^{\varkappa+1}Q_\infty X_s$, $y_{s+1}\le y_s^2$, so $y_s\le y^{2^{s-k}}\le y$ and the step conditions of the tail persist (they are conditions $X\le\cdot$ and $X_s\le X_k$).
+The increments of cap $i$ after stage $k$ sum to at most $\varrho_{i,\infty}w_i(\delta_k)X_k\sum_jy^{2^j-1}\le2\varrho_{i,\infty}w_i(\delta_k)X_k$ (as $w_i(\delta_s)\le w_i(\delta_k)$ and
+$\sum_jy^{2^j-1}\le(1-y)^{-1}\le2$).
+
+\proofstep{Limit}\label{step:p2s2:en-lim}
+The increments of $K_s$ and $DK_s$ on $T_{\rho_\infty}$ are summable by (J3), and $X_s\to0$; Steps~\ref{step:p2s:el-conv}, \ref{step:p2s:el-close} apply verbatim.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Route A: the additive step with the levers}\label{bp:p2s2:sec-A}
+
+\begin{definition}[Constants of route A]\label{bp:p2s2:constantsA}
+These are the constants of Definition~\ref{bp:p2s:constants} with the following replacements (each one a lever of the design document):
+\begin{enumerate}[label=(A\arabic*)]
+\item (L1) $M\to M_1$ in $C_{T0},C_{\Delta ab},w,C_{dN}$; $M\to M_2$ in the Taylor terms; $2n\sigma_K\to\sigma_{L^\top}$, $\sigma_K\sigma_B\to\sigma_N$, $2n\sigma_K\sigma_B\to\sigma_{N^\top}$
+  wherever these products bound $L^\top$, $N$, $N^\top$; $H_T\to t$ under \ref{bp:p2s2:R3}; $\Theta\to\sigma_\omega\abs{\omega^*}$ (iso).
+\item (L2) $c_R\to c_s$ (bite $\delta_s$) at stage $s$; $C_\Omega=2(n-1)c_s\sigma_{L^\top}$ (Lemma~\ref{bp:p2s2:omega} with the Cauchy bite $\delta$); in $C_{\xi_0}$ the factor $c_RH_T$ of the
+  average becomes $\bar c_s(\delta_s/r_s)^\varkappa t$ (Lemma~\ref{bp:p2s2sd:avg}).
+\item (L3) $\bar\gamma^i\to\bar\gamma^i\delta^j$ wherever Lemma~\ref{bp:p2s:absorb} absorbed $\gamma^i\delta^j\le\bar\gamma^i$ (stage constants at $\delta_s$; the tail at $\delta_k$).
+\item (L8) the barred factors in the perturbation are bounded by the caps (no $\hat\vartheta^k$); the perturbation of $\mathcal T_c$ uses the Lagrangian defect of
+  $\bar K$ (Lemma~\ref{bp:p2s2:omega}) instead of $\abs{\bar\Omega_K-\Omega_K}$; budgets per cap.
+\end{enumerate}
+The full list is the function \texttt{stageA} of \texttt{thresholds\_v2.py}, which is the mirror; every replaced inequality is proved by the lemma cited in its item, and the
+rest of Part~\ref{bp:p2s} applies verbatim.
+\end{definition}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The theorem}\label{bp:p2s2:sec-g1}
+
+\begin{theorem}[G1 with v2 constants]\label{bp:p2s2:g1}
+Assume Assumption~\ref{bp:p2s2:standing}, and let $e$ satisfy the frozen hypotheses of Theorem~\ref{bp:p0:g1} except the smallness. Put
+$\lambda_0:=\sigma_{N^\top}\gamma\delta_0^\varkappa/\sigma_{L^\top}$ and $X_0:=\sigma_{L^\top}e/(\gamma^2\delta_0^{2\varkappa+1})$. If either
+\begin{itemize}
+\item (route B) the conditions (J1)--(J3) of Proposition~\ref{bp:p2s2:engine} hold for the modified step (Definition~\ref{bp:p2s2:constantsB}, $\lambda=\lambda_0$ at stage $0$
+  and $1$ afterwards, caps $(\sigma_K-\mu/2,\sigma_{L^\top},\sigma_B,\sigma_N,\sigma_{N^\top},t,\sigma_T)$, ball budget $\mu/2$), or
+\item (route A) the same conditions hold for the additive step (Definition~\ref{bp:p2s2:constantsA}, $x_s=\varepsilon_s/(\gamma^4\delta_s^{2a})$, budgets as in
+  Theorem~\ref{bp:p2s:g1}),
+\end{itemize}
+then the conclusion of Theorem~\ref{bp:p0:g1} holds, with $\abs{K_\infty-K}\le D_\infty$ where $D_\infty$ is the sum of the ball increments of (J3).
+\source{FH24 Theorem~2.18, pp.~15--16; HL19 Theorem~3.1; Theorem~\ref{bp:p2s:g1}.}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Route B}\label{step:p2s2:g1-b}
+$\abs{\eta^L}\le\sigma_{N^\top}e$ and $\abs{\eta^N}\le\sigma_{L^\top}e$ on $T_\rho$ (Lemma~\ref{bp:p2s:frame-bounds}(c) with \ref{bp:p2s2:R2}), so with $\lambda=\lambda_0$ the weighted error at stage $0$ is
+$\mu_0\le\sigma_{L^\top}e/(\gamma\delta_0^\varkappa)$, i.e. $X\le X_0$. Proposition~\ref{bp:p2s2:step} is the abstract step; Proposition~\ref{bp:p2s2:engine} gives the iteration and the limit;
+the invariance of $K_\infty$, its margins and the closeness are Steps~\ref{step:p2s:g1-check} and~\ref{step:p2:lim-invariance} (the errors tend to $0$ with $\mu_s$, by
+Lemma~\ref{bp:p2s2:recovery}).
+
+\proofstep{Route A}\label{step:p2s2:g1-a}
+As Theorem~\ref{bp:p2s:g1}, with Proposition~\ref{bp:p2s2:engine} in place of Proposition~\ref{bp:p2s:engine-iteration} for the stage-dependent constants.
+\end{proof}
+
+\begin{corollary}[The frozen form]\label{bp:p2s2:frozen-form}
+Let $X_\star>0$ satisfy the conditions of Theorem~\ref{bp:p2s2:g1} (either route) with $X_0:=X_\star$, and put
+$C_1^{\sharp\sharp}:=\min\{C_1^\sharp,\ \rho^{4\tau}\bar\gamma^2\sigma_{L^\top}/(X_\star\delta_0^{2\tau+1})\}$ (route B) or $\rho^{4\tau}/(X_\star\delta_0^{4\tau})$ (route A). Then the conclusion of
+Theorem~\ref{bp:p0:g1} holds whenever $C_1^{\sharp\sharp}e/(\gamma^4\rho^{4\tau})<1$; with the default data of Lemma~\ref{bp:p2s2:defaults}, $C_1^{\sharp\sharp}\le C_1^\sharp$.
+\source{Ours.}
+\end{corollary}
+
+\begin{proof}
+\proofstep{Monotonicity}\label{step:p2s2:ff}
+Every condition of Theorem~\ref{bp:p2s2:g1} is monotone in $X_0$ (the recursion and the sums are increasing in $X_0$). For route B,
+$C_1^{\sharp\sharp}e/(\gamma^4\rho^{4\tau})<1$ gives $\sigma_{L^\top}e/(\gamma^2\delta_0^{2\tau+1})<X_\star\gamma^2/\bar\gamma^2\le X_\star$; for route A, $X_0<X_\star$ likewise. The minimum with $C_1^\sharp$ is
+Theorem~\ref{bp:p2s:g1}.
+\end{proof}
+
+\begin{corollary}[Hybrid: a measured first step, L6]\label{bp:p2s2:hybrid}
+Assume, in addition to the frozen hypotheses, certified bounds on the objects of the first step of either route, as explicit functions of $K$ (route A:
+$\abs{\xi^N}$, $\abs{\xi^L}$, $\abs{E_{\mathrm{red}}}$, $\abs{E_{\mathrm{sym}}}$, $\abs{\partial_\omega\xi}$ on the strips of Proposition~\ref{bp:p2s:step}, hence $\abs{\Delta K_0}$ and
+$\abs{\bar E_0}\le\abs P(1-q_S)^{-1}\abs{E_{\mathrm{lin}}}+\frac{M_2}2\abs{\Delta K_0}^2$; route B: the objects of Proposition~\ref{bp:p2s2:step}). If the conditions of Theorem~\ref{bp:p2s2:g1}
+hold from stage $1$ for the torus $K_1=\Phi(\rho,\delta_0;K)$ with the measured error and caps, the conclusion of Theorem~\ref{bp:p0:g1} holds.
+\source{Ours (L6 of the design document).}
+\end{corollary}
+
+\begin{proof}
+\proofstep{One step, then the theorem}\label{step:p2s2:hy}
+The step identities (Lemma~\ref{bp:p2:newton-error} or Proposition~\ref{bp:p2s2:step}) hold with the measured bounds in place of the derived ones; $K_1$ is admissible on
+$T_{\rho-3\delta_0}$ with the measured error and caps, and Theorem~\ref{bp:p2s2:g1} (from stage $1$) applies; the closeness adds $\abs{\Delta K_0}$.
+\end{proof}
+
+\begin{remark}[Register, deviations and suspected errata]\label{bp:p2s2:register}
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Numbers} (\texttt{thresholds\_v2.py}, R1, iso): v1 $-24.98$; route A $-11.37$ (binding: the $\avg T^{-1}$ cap sum); route B $-12.39$ (binding: the
+  tail decay and the $\avg T^{-1}$ cap); hybrid from stage $1$ about $-4.5$ (route A). H50: v1 $-27.37$, route A $-12.44$, route B $-13.16$.
+\item \emph{Deviations from FH24.} The frozen torsion instead of $N^\top T_hN$ (no $E^{LN}_{\mathrm{red}}$); caps for the intermediate frame of $\tilde K$ with ratio
+  $\vartheta$ (FH24 bound $\abs{D\xi^L}<n$ in (3.80), here $n\vartheta_\xi$); the anisotropic weight $\lambda_0$ at stage $0$ (FH24: $\lambda=1$; it is worth $1.9$ orders on
+  R1); stage constants and the explicit prefix (FH24: constants at $\delta_0$ with $\hat c_R$ and the factors $a/(a-\kappa)$, $1/(1-\kappa)$).
+\item \emph{Suspected errata, FH24} (arXiv:2304.10205v1): Lemma~2.14, $\hat c_R$ twice the constant of its own route (Remark~\ref{bp:p2s2sd:errata});
+  Table~3, (3.72), p.~38: since $N^\top=BL^\top J^\top$, the bound of $\bar{\bar N}^\top-N^\top$ needs $\sigma_{L^\top}$ and $C_{\Delta\bar{\bar L}^\top}$, the table prints $\sigma_L$ and
+  $C_{\Delta\bar{\bar L}}$ (an underestimate; in the canonical case the printed (3.72) equals (3.71)); minor: (3.10) prints ``$C_E=$'' for $C_{E^\top}$, p.~19 cites
+  ``Corollary~2.14'' for Corollary~2.16.
+\item \emph{Suspected errata, HL19} (arXiv:1711.05515v1): (3.16) states $\abs{\omega_\infty-\omega}<C_3\norm{E_c}/(\gamma^2\rho^{2\tau})$ while the proof (6.51) gives
+  $C_3\norm{E_c}/(\gamma\rho^\tau)$ with $C_3=a_3^\tau C_{\Delta\omega}/(1-a_1^{-3\tau})$; \S5.3 (p.~43) takes the constants at ``the worst value of $\delta_s$, that is $\delta_0$'' although
+  Lemma~4.1 allows $c_R(\delta)$ increasing as $\delta\downarrow0$ (correct for uniform $c_R$).
+\end{enumerate}
+\end{remark}

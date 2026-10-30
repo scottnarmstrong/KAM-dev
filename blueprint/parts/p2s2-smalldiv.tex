@@ -1,0 +1,237 @@
+\section{Sharper small-divisor data (v2)}\label{bp:p2s2sd}
+
+This part supplies the small-divisor input of the v2 theorems (Part~\ref{bp:p2s2}). It replaces the single constant
+$c_R$ of Definition~\ref{bp:p2s:cohdata} by a constant \emph{at each bite}, which may depend on the frequency, and it
+sharpens the classical constant. Four changes produce the gain; the numbers are those of
+\texttt{scripts/apost\_sharp/smalldiv.py} for $n=2$, $\tau=1$ and the lunar package R1.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Bessel on the full strip} (FHL17 (91)--(92), p.~27): the corner inequality holds at $r'=r$ by a monotone limit,
+  instead of $r'=r-\delta/2$ in Lemma~\ref{bp:p2s:cohdata-russmann}. The exponential weight of the small-divisor sum becomes
+  $e^{-4\pi\delta\abs k_1}$ instead of $e^{-2\pi\delta\abs k_1}$; this alone halves the constant for $\tau=1$.
+\item \emph{Ordered divisors} (FHL17 (94), adapted to flows): $\sum_{0<\abs k_1\le M}\abs{k\cdot\omega}^{-2}\le A_\tau\gamma^{-2}M^{2\tau}$ with
+  $A_\tau=2^{2\tau+1}\zeta(2,2^\tau)$ ($A_1=5.159$), instead of $2(1+2^\tau)=6$.
+\item \emph{Exact Abel summation}, with the vanishing boundary term (audit AUDIT-SHARP-DESIGN-fixed-1, line~99).
+  Items (1)--(3) give the classical constant $c^\natural(2,1)=0.0814$ instead of $\Lean{cohConstR}\,2\,1=0.3163$.
+\item \emph{Frequency-specific constants at the bites of the schedule} (the ``ad hoc'' constants of FHL17 Lemma~4.3,
+  FH24 Lemma~2.14): an exactly computed finite part plus the classical tail. For R1 they are $c(\delta_s)\le0.0030$ at the
+  first five bites, $108$ times smaller than $\Lean{cohConstR}\,2\,1$.
+\end{enumerate}
+The definition below is stated for one bite and one set of frequencies, so that a certificate supplies one number per
+bite of the schedule. The proved constant functions of Part~\ref{bp:p2s} (Lemmas~\ref{bp:p2s:cohdata-crude},
+\ref{bp:p2s:cohdata-parseval}, \ref{bp:p2s:cohdata-russmann}) are instances (Lemma~\ref{bp:p2s2sd:from-cohdata}).
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Small-divisor constants at a bite}
+
+For $\omega\in\R^n$ with $k\cdot\omega\ne0$ for all $k\ne0$ and $b>0$ put
+\[
+S(\omega,b):=\sum_{k\in\Z^n\setminus\{0\}}\abs{k\cdot\omega}^{-2}e^{-4\pi b\abs k_1}\in[0,\infty].
+\]
+
+\begin{definition}[Small-divisor constant at a bite]\label{bp:p2s2sd:const}
+Let $n\ge1$, $\varkappa\ge1$, $\gamma>0$, $\delta>0$ and $\Omega\subset\R^n$. A number $c>0$ is a \emph{small-divisor constant
+at the bite $\delta$ on $\Omega$} (for $\gamma,\varkappa$) if, for every $\omega\in\Omega$ and every $r>\delta$, writing
+$\Gamma:=c\gamma^{-1}\delta^{-\varkappa}$:
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(solution)} if $g:T_r\to\C^p$ is holomorphic, $1$-periodic, $\abs g\le H$ on $T_r$ and $\avg g=0$, then
+  $\abs{\mathcal R_\omega g}\le\Gamma H$ on $T_{r-\delta}$;
+\item \emph{(a-priori bound)} if $u:T_r\to\C^{p\times q}$ is holomorphic, $1$-periodic, $\avg u=0$ and $\abs{\partial_\omega u}\le H$
+  on $T_r$, then $\abs u\le\Gamma H$ on $T_{r-\delta}$.
+\end{enumerate}
+A \emph{small-divisor function} on $\Omega$ is a map $c:(0,1]\to(0,\infty)$ such that $c(\delta)$ is a small-divisor constant at the bite
+$\delta$ on $\Omega$ for every $\delta\in(0,1]$.
+\end{definition}
+
+\begin{lemma}[The v1 data are constant small-divisor functions]\label{bp:p2s2sd:from-cohdata}
+If $(\varkappa,c_R)$ is small-divisor data for $(n,\tau)$ (Definition~\ref{bp:p2s:cohdata}), then the constant function $c_R$ is a
+small-divisor function on $\Dio_{\gamma,\tau}$ for every $\gamma>0$.
+\source{Definition~\ref{bp:p2s:cohdata}.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Restriction}\label{step:p2s2sd:fc}
+Clauses (a), (b) of Definition~\ref{bp:p2s:cohdata} at $0<\delta\le1$, $\delta<r$ are clauses (a), (b) above for every
+$\omega\in\Dio_{\gamma,\tau}$.
+\end{proof}
+
+\begin{lemma}[Bessel on the full strip]\label{bp:p2s2sd:bessel}
+Let $g:T_r\to\C$ be holomorphic and $1$-periodic with $\abs g\le H$ on $T_r$, and let $\hat g_k$ be its Fourier coefficients on
+$\R^n$. Then $\sum_{k\in\Z^n}\abs{\hat g_k}^2e^{4\pi r\abs k_1}\le2^nH^2$.
+\source{FHL17 (91)--(92), p.~27 (sup norm on the closed strip); FH24 Lemma~2.14, p.~14.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Corners at $r'<r$}\label{step:p2s2sd:bs-corner}
+For $0<r'<r$ and every finite $F\subset\Z^n$, Steps~\ref{step:p2s:cp-shift}--\ref{step:p2s:cp-bessel} (with $r'$ in place of
+$r-\delta/2$; they use only holomorphy and $\abs g\le H$ on the polystrip $\{\abs{\operatorname{Im}\theta_i}<r\}\supset\{\abs{\operatorname{Im}\theta_i}\le r'\}$)
+give $\sum_{k\in F}\abs{\hat g_k}^2e^{4\pi r'\abs k_1}\le2^nH^2$.
+
+\proofstep{The limit}\label{step:p2s2sd:bs-limit}
+For fixed finite $F$ the left side is continuous and nondecreasing in $r'$; letting $r'\uparrow r$ gives the bound at $r$ for every
+finite $F$, and the supremum over $F$ is the full sum.
+\end{proof}
+
+\begin{lemma}[The small-divisor sum controls $\mathcal R$]\label{bp:p2s2sd:cs}
+Let $\omega\in\R^n$ with $k\cdot\omega\ne0$ for $k\ne0$, $\gamma,\delta>0$, $\varkappa\ge1$, and assume $S(\omega,\delta)<\infty$. Then
+\[
+c_\omega(\delta):=\frac{\gamma\,\delta^\varkappa\,2^{n/2}}{2\pi}\,S(\omega,\delta)^{1/2}
+\]
+is a small-divisor constant at the bite $\delta$ on $\{\omega\}$. If $\omega\in\Dio_{\gamma,\tau}$, then $c_{s\omega}(\delta)\le c_\omega(\delta)$ for every
+$s\ge1$, so $c_\omega(\delta)$ is a small-divisor constant at the bite $\delta$ on the ray $\{s\omega:s\ge1\}$.
+\source{FHL17 Lemma~4.3, (91)--(92), pp.~26--27 (maps); FH24 Lemma~2.14 (flows).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{One component}\label{step:p2s2sd:cs-one}
+As in Lemma~\ref{bp:p2s:cohdata-parseval}, run the argument on a scalar component $g_j$ and take $\max_j$ at the end (the max norm;
+audit finding F-1). For $\theta\in T_{r-\delta}$, $\abs{e^{2\pi ik\cdot\theta}}\le e^{2\pi(r-\delta)\abs k_1}$, so by Cauchy--Schwarz and
+Lemma~\ref{bp:p2s2sd:bessel}
+\[
+\abs{(\mathcal Rg)_j(\theta)}\le\sum_{k\ne0}\frac{\abs{\hat g_k}e^{2\pi r\abs k_1}e^{-2\pi\delta\abs k_1}}{2\pi\abs{k\cdot\omega}}
+\le\frac{(2^nH^2)^{1/2}}{2\pi}S(\omega,\delta)^{1/2}=c_\omega(\delta)\gamma^{-1}\delta^{-\varkappa}H.
+\]
+
+\proofstep{A-priori bound}\label{step:p2s2sd:cs-ap}
+As Step~\ref{step:p2s:cp-apriori}: for $\abs v\le1$, $uv=\mathcal R(\partial_\omega(uv))$ by uniqueness, and the operator norm is
+$\sup_{\abs v\le1}\abs{uv}$.
+
+\proofstep{The ray}\label{step:p2s2sd:cs-ray}
+$\abs{k\cdot s\omega}=s\abs{k\cdot\omega}\ge\abs{k\cdot\omega}$ for $s\ge1$, so $S(s\omega,\delta)\le S(\omega,\delta)$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The classical constant and the frequency-specific constants}
+
+\begin{lemma}[Ordered divisors]\label{bp:p2s2sd:shell}
+Let $\omega\in\Dio_{\gamma,\tau}$ and $M\ge1$. Then $S_M:=\sum_{0<\abs k_1\le M}\abs{k\cdot\omega}^{-2}\le A_\tau\gamma^{-2}M^{2\tau}$ with
+$A_\tau:=2^{2\tau+1}\zeta(2,2^\tau)$, $\zeta(2,a):=\sum_{j\ge0}(a+j)^{-2}$.
+\source{FHL17 (94), p.~28 (the ordering argument for maps); FH24 Lemma~2.14.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{The ordered values}\label{step:p2s2sd:sh-order}
+$k\mapsto k\cdot\omega$ is injective on $\{\abs k_1\le M\}$ ($\omega$ is non-resonant). The values with $0<\abs k_1\le M$ come in pairs
+$\pm x$; let $0<x_1<\dots<x_m$ be the positive ones. Then $x_1\ge\gamma M^{-\tau}$, and $x_{i+1}-x_i=(k_{i+1}-k_i)\cdot\omega$ with
+$0<\abs{k_{i+1}-k_i}_1\le2M$, so $x_{i+1}-x_i\ge\gamma(2M)^{-\tau}$. Hence $x_i\ge\gamma(2M)^{-\tau}(2^\tau+i-1)$.
+
+\proofstep{The sum}\label{step:p2s2sd:sh-sum}
+$S_M=2\sum_ix_i^{-2}\le2\gamma^{-2}(2M)^{2\tau}\sum_{j\ge0}(2^\tau+j)^{-2}=A_\tau\gamma^{-2}M^{2\tau}$.
+\end{proof}
+
+\begin{lemma}[Abel summation]\label{bp:p2s2sd:abel}
+Let $\omega\in\Dio_{\gamma,\tau}$ with $\tau\ge1$, $b>0$, $N\ge0$ an integer, and put $p:=2\tau$. Then
+\[
+\sum_{\abs k_1>N}\abs{k\cdot\omega}^{-2}e^{-4\pi b\abs k_1}\le T_N(b):=(1-e^{-4\pi b})A_\tau\gamma^{-2}\sum_{M>N}M^{p}e^{-4\pi bM},
+\]
+and $T_0(b)\le A_\tau\gamma^{-2}\Gamma(p+1)(4\pi b)^{-p}(1+\epsilon_\tau(4\pi b))$ with $\epsilon_\tau(x):=x(p/e)^p/\Gamma(p+1)$.
+\source{Ours (the boundary term of the finite form in Step~\ref{step:p2s:cr-abel} vanishes in the limit).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Summation by parts}\label{step:p2s2sd:ab-parts}
+With $x:=e^{-4\pi b}$ and $S_M$ as in Lemma~\ref{bp:p2s2sd:shell}, for $L>N$:
+$\sum_{N<M\le L}(S_M-S_{M-1})x^M=S_Lx^{L}-S_Nx^{N+1}+(1-x)\sum_{N<M<L}S_Mx^M$. The term $S_Lx^L\le A_\tau\gamma^{-2}L^px^L\to0$,
+$-S_Nx^{N+1}\le0$, and $S_M\le A_\tau\gamma^{-2}M^p$; let $L\to\infty$.
+
+\proofstep{The full sum}\label{step:p2s2sd:ab-full}
+$f(t)=t^pe^{-4\pi bt}$ is unimodal on $[0,\infty)$, so $\sum_{M\ge1}f(M)\le\int_0^\infty f+\max f=\Gamma(p+1)(4\pi b)^{-p-1}+(p/(4\pi be))^p$;
+and $1-x\le4\pi b$.
+\end{proof}
+
+\begin{proposition}[The classical constant]\label{bp:p2s2sd:classical}
+Let $n\ge1$, $\tau\ge1$. For $0<\delta\le1$ put
+\[
+c^\natural(n,\tau,\delta):=\frac{2^{n/2}}{2\pi}\bigl(A_\tau\,\Gamma(2\tau+1)\,(1+\epsilon_\tau(4\pi\delta))\bigr)^{1/2}(4\pi)^{-\tau}
+\qquad(c^\natural(2,1,\delta)\le0.08137\,(1+3.41\,\delta)^{1/2}).
+\]
+Then $c^\natural(n,\tau,\cdot)$ is a small-divisor function on $\Dio_{\gamma,\tau}$ (exponent $\varkappa=\tau$) for every $\gamma>0$, and so is the
+constant $\hat c^\natural(n,\tau):=c^\natural(n,\tau,1)$.
+\source{FH24 Lemma~2.14, $\hat c_R$, p.~14 (whose printed constant is twice this one, see Remark~\ref{bp:p2s2sd:errata}); FHL17 (96).}
+\end{proposition}
+
+\begin{proof}
+\proofstep{The sum}\label{step:p2s2sd:cl-sum}
+Lemma~\ref{bp:p2s2sd:abel} with $N=0$, $b=\delta$: $S(\omega,\delta)\le A_\tau\gamma^{-2}\Gamma(2\tau+1)(4\pi\delta)^{-2\tau}(1+\epsilon_\tau(4\pi\delta))$.
+
+\proofstep{The constant}\label{step:p2s2sd:cl-c}
+Insert in Lemma~\ref{bp:p2s2sd:cs} with $\varkappa=\tau$: $\gamma\delta^\tau(2\pi)^{-1}2^{n/2}S^{1/2}\le c^\natural(n,\tau,\delta)$. The factor
+$1+\epsilon_\tau(4\pi\delta)$ is nondecreasing in $\delta$, which gives the uniform constant.
+\end{proof}
+
+\begin{proposition}[Frequency-specific constants]\label{bp:p2s2sd:freq}
+Let $\omega^*\in\Dio_{\gamma,\tau}$, $\tau\ge1$, $0<\delta\le1$, $N\ge1$ an integer and $\hat S\ge0$ with
+\[
+\sum_{0<\abs k_1\le N}\abs{k\cdot\omega^*}^{-2}e^{-4\pi\delta\abs k_1}\le\hat S .
+\]
+Then $c_{\omega^*}(\delta;N,\hat S):=(2\pi)^{-1}\gamma\delta^\tau2^{n/2}(\hat S+T_N(\delta))^{1/2}$ is a small-divisor constant at the bite $\delta$ on the
+ray $\{s\omega^*:s\ge1\}$ (exponent $\varkappa=\tau$).
+\source{FHL17 Lemma~4.3, (90), p.~26 (``ad hoc'' constants); FH24 Lemma~2.14, $c_R(\delta,m)$.}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Finite part and tail}\label{step:p2s2sd:fr}
+$S(\omega^*,\delta)\le\hat S+T_N(\delta)$ by the hypothesis and Lemma~\ref{bp:p2s2sd:abel}; Lemma~\ref{bp:p2s2sd:cs} gives the constant on the
+ray.
+\end{proof}
+
+The hypothesis of Proposition~\ref{bp:p2s2sd:freq} is a bound on a finite sum of explicit reals: a certificate checks it with
+interval arithmetic in $\mathbb Q(\sqrt5)$ for the lunar frequencies. Grouping by $k_1$, the inner sum over $k_2$ is bounded by its two
+nearest terms plus a geometric remainder, so the check costs $O(N)$ operations, not $O(N^2)$.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Two consequences used by the Newton step}
+
+\begin{corollary}[Derivatives of solutions]\label{bp:p2s2sd:rc}
+Let $c_1,c_2$ be small-divisor constants at the bites $s\delta$ and $\delta$ on $\Omega$, $0<s<1$. If $g$, $v$ are as in
+Definition~\ref{bp:p2s2sd:const}(a) on $T_r$ ($v$ holomorphic and periodic with $\abs v\le V$, matrix-valued), $\omega\in\Omega$ and $r>\delta$,
+then on $T_{r-\delta}$
+\[
+\abs{D(v\,\mathcal R_\omega g)}\le n\,c^{(1)}\gamma^{-1}\delta^{-\varkappa-1}VH,\qquad c^{(1)}:=\frac{c_1}{s^\varkappa(1-s)},
+\]
+and the same with $2n$ (and the transposed row sums) for $D(v\mathcal R_\omega g)^\top$. For a constant function $c$ the choice
+$s=\varkappa/(\varkappa+1)$ gives $c^{(1)}=c(\varkappa+1)^{\varkappa+1}/\varkappa^\varkappa$; at the schedule bites the choice $s=\frac12$ gives
+$c^{(1)}=2^{\varkappa+1}c(\delta/2)$, which uses the constant of the next bite.
+\source{FH24 Corollary~2.16, p.~14.}
+\end{corollary}
+
+\begin{proof}
+\proofstep{Two bites}\label{step:p2s2sd:rc}
+$v\mathcal Rg$ is holomorphic on $T_{r-s\delta}$ with $\abs{v\mathcal Rg}\le Vc_1\gamma^{-1}(s\delta)^{-\varkappa}H$ there
+(Definition~\ref{bp:p2s2sd:const}(a)); the Cauchy estimates of Lemma~\ref{bp:p1:cauchy-corollaries} with the bite $(1-s)\delta$ give the factors
+$n/((1-s)\delta)$ and $2n/((1-s)\delta)$. Maximise $s^\varkappa(1-s)$.
+\end{proof}
+
+\begin{lemma}[Averages at the full bite]\label{bp:p2s2sd:avg}
+Let $\omega$ be as in Lemma~\ref{bp:p2s2sd:cs}, $g:T_r\to\C^p$ holomorphic and periodic with $\abs g\le H$ on $T_r$ and $\avg g=0$, and $Y$ a
+continuous periodic $q\times p$ matrix function on $\R^n$ with $\abs Y\le y$ on $\R^n$. Then
+\[
+\abs{\avg{Y\,\mathcal R_\omega g}}\le y\,c_\omega(r)\gamma^{-1}r^{-\varkappa}H,\qquad c_\omega(r)=\frac{\gamma r^\varkappa2^{n/2}}{2\pi}S(\omega,r)^{1/2},
+\]
+and $c_\omega(r)$ may be replaced by any small-divisor constant at the bite $r$ on $\{\omega\}$ (Definition~\ref{bp:p2s2sd:const} with $T_0=\R^n$).
+\source{FH24 Table~2, $C_{\hat\xi_0^N}^N=(\delta/\rho)^\tau\sigma_{\avg T^{-1}}C_Tc_R(\rho)$, p.~37 (the average needs $\mathcal R\eta^N$ on real points only).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Real points}\label{step:p2s2sd:avg}
+On $\R^n$, $\abs{e^{2\pi ik\cdot\theta}}=1$; Step~\ref{step:p2s2sd:cs-one} with $r-\delta$ replaced by $0$ (bite $r$) gives
+$\abs{\mathcal Rg}\le c_\omega(r)\gamma^{-1}r^{-\varkappa}H$ on $\R^n$, and $\abs{\avg f}\le\sup_{\R^n}\abs f$ (Corollary~\ref{bp:p2:averages}(a)).
+\end{proof}
+
+\begin{remark}[Numbers, deviations and suspected errata]\label{bp:p2s2sd:errata}
+\begin{enumerate}[label=(\roman*)]
+\item For R1 (\texttt{smalldiv.py}; $\omega^*=c(\nu-1,1)/s$, $\gamma=c/(42s)$, $c=7/4$, $N=\lceil16/(4\pi\delta)\rceil$):
+  $c_{\omega^*}(\rho)=0.0067$ at the full bite $\rho=1/70$, and $c_{\omega^*}(\delta_s)=0.00298,0.00292,0.00291,0.00291,0.00291$ at
+  $\delta_s=2^{-s}\delta_0$, $s=0,\dots,4$. The classical constant is $0.0814$.
+\item \emph{Deviation.} Definition~\ref{bp:p2s2sd:const} is per bite and per set of frequencies; Definition~\ref{bp:p2s:cohdata} remains the
+  uniform special case (Lemma~\ref{bp:p2s2sd:from-cohdata}).
+\item \emph{Suspected erratum, FH24 Lemma~2.14 (p.~14).} The printed bound
+  $\hat c_R=(2^{d+1-2\tau}\zeta(2,2^\tau)\pi^{-2\tau-2}\Gamma(2\tau+1))^{1/2}$ is twice the constant that its own route gives,
+  $(2^{d-1-2\tau}\zeta(2,2^\tau)\pi^{-2\tau-2}\Gamma(2\tau+1))^{1/2}=c^\natural(d,\tau,0)$; and the middle expression of the same display,
+  $(\gamma^2\delta^{2\tau}2^d\sum e^{-4\pi\abs k_1\delta}\abs{k\cdot\omega}^{-2})^{1/2}$, lacks the factor $(2\pi)^{-1}$ of $\mathcal R$. The printed
+  value is an upper bound, so the theorem stays true.
+\item \emph{Suspected gap, HL19 \S5.3 (p.~43) and FHL17 proof of Theorem~2.5 (p.~16).} Both evaluate all constants at ``the worst value of
+  $\delta_s$, that is $\delta_0$'', while their Lemma~4.1 (HL19) and (90) (FHL17) allow $c_R=c_R(\delta)$, which increases as $\delta$ decreases
+  for $\tau=1$. With a uniform $c_R$ (as HL19 state for Rüssmann's constant, and as FH24 \S3.3 do with $\hat c_R$) the argument is
+  correct. The v2 engine (Proposition~\ref{bp:p2s2:engine}) uses the constant of each bite at its own stage.
+\end{enumerate}
+\end{remark}
