@@ -1386,3 +1386,155 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     delta audit on codex-3.
   - Owner answered the SO-LOCK-SCOPE questions (D45): L1, the sqrt route, N = 65 directly, a certified periodic
     orbit as centre, no Birkhoff normal form, novelty conditional.
+- **16:02. Owner: overnight mode ("defer approvals and decisions until further notice; get as much done as you can
+  on W and the tidal locking of the Moon").**
+  - Deferred decisions are logged here, marked "for owner review", with the recommended reversible option taken.
+    Nothing is frozen.
+  - **Lock:** a new sub-orchestrator `kam-suborch-lock` (Opus, claude-12; brief .drafts/briefs/suborch-LOCK.md)
+    runs track SO part 3 under D45.
+    - Phase 1 is the design SO-LOCK-DESIGN.md: the exact statement candidates in a FREEZE-PROPOSAL-LOCK.md for the
+      owner; the certified periodic orbit; the polar change of variables; `HamExpr.sqrt`; confinement through
+      `gen_barrier`; packages; numerics under the v2 certifier.
+    - Phase 2 runs the packages LOCK-PO, SQRT, COORDS, CONF, GEN, DATA and ASSEMBLY, with codex-3 audits and
+      landings via kam-inp.
+  - **Track W:** kam-d4 is told to maximize throughput:
+    - blueprint writers W4 and W7, then W5, W6 and W8;
+    - the dependency graph started on the accepted parts W0–W3;
+    - Sonnet provers on the W1–W3 infrastructure, recorded as off-frontier, source-faithful infrastructure.
+  - **Track SO part 2 (Moon band)** continues under the main orchestrator: SO-KDEPTH, SO-BALLFIX (BALLDY against
+    sharp-v2's BallsTrig), SO-V2PKG (v2 pricing) and SO-DATA3 (step 1).
+  - Landed since 15:42: SO-LOCK-SCOPE and blueprint W1–W3 with five W errata (main e507bc23).
+  - HQ lock row now shows the D45 route and the sub-orchestrator (cdeff4f2). README: Moon locked 17 %, track W 15 %.
+  - Codex-3 at about 10 % weekly is the only auditor (owner ruling); when it runs out, audits queue and work goes on.
+- **16:10 Track W (kam-d4), overnight mode.** Errata on inp-wbp (they land with W4/W7):
+  - CONFIRMED: E-PDE-W-1/2, E-PDE-KP-1/2 (the KP96 journal printing is unverified), and the W-BP0 items E-W-N-1,
+    N-4 and N-5.
+  - CANDIDATE: N-2 and N-3 (not independently re-checked).
+  Provers started off the frontier ("source-faithful infrastructure used by several nodes"): W1-WEIGHTED (inp-wpa,
+  claude-6) and W1-SINES (inp-wpb, claude-4), both Sonnet. They run in SLIM worktrees that hold only the frozen Wave
+  and IsDiophantine oleans (14 MB each). Disk was 8.8 GB, so the 5.4 GB full copy was not affordable. Lint's ABI stage
+  runs through .drafts/W/w_lint.sh, which overlays the inp build. The dependency graph writer has started on W0-W3
+  (inp-wgraph). Blueprint writers W4 and W7 are running.
+  **For owner review:**
+  (1) Slim worktrees instead of inp_new_worktree.sh. Reversible; chosen for disk space.
+  (2) Errata N-2 and N-3 left CANDIDATE rather than CONFIRMED, because only the writer checked them.
+- **16:09. Heartbeat; a sweep incident.**
+  - **Incident:** main_worktree_sweep.sh removed kam-d4's fresh worktree KAM-inp-wgraph (branch inp-wgraph kept,
+    zero commits). A sub-orchestrator's in-process subagent has no tmux session, and between tool calls no process
+    names its path, so the sweep could not see it. Untracked work there was lost. kam-d4 was told at once.
+  - **Fix:** the sweep now keeps any worktree with untracked files, and any whose branch is under 12 h old with no
+    commits.
+  - main_inp_design_audit.sh no longer refuses codex-3 (owner ruling).
+  - Running:
+    - lock: kam-suborch-lock (kam-inp-24) with workers lockdesign (the design, statements and freeze proposal) and
+      lockgen (high-precision periodic orbit with a radii-polynomial check; the N = 65 torus in polar coordinates;
+      the v2 threshold);
+    - W: kam-d4 with provers wpa/wpb, auditors inp-maud-w1/w2/w3, and the blueprint writers;
+    - SO part 2: SO-KDEPTH, SO-BALLFIX, SO-V2PKG, SO-DATA3 (step 1).
+  - Quotas: claude-3 86 %, claude-12 85 %, claude-6 74 %, claude-4 58 %, codex-3 11 % (monitor readings from
+    15:04–15:17). Disk 11 GB free.
+- **16:30. Lock (kam-inp-24): design written, audit started; decisions for owner review.**
+  - Design SO-LOCK-DESIGN.md, SOLockSignatures.lean (elaborates; sorry only), FREEZE-PROPOSAL-LOCK.md on branch
+    inp-lockdesign (50807049); codex-3 design audit running (inp-maud-lockdesign). Nothing frozen.
+  - **For owner review** (reversible choices taken; full text in FREEZE-PROPOSAL-LOCK.md Q1–Q6):
+    1. *Naming ψ\*:* the orbit `lunarSyncOrbit` is defined by choice over `IsSyncOrbit` (C², 1-periodic, odd, solves
+       the orbit equation) and made canonical by a proved GLOBAL uniqueness theorem; the headline bounds
+       |ψ − ψ*(φ)|, |p − 1 − ψ*′(φ)| and |q − φ| < 1/4. Options: global uniqueness (chosen; no data in the
+       statement) / uniqueness within δ of a rational c / Fourier data in the statement.
+    2. *Orbit certification:* Banach contraction in sup norm (Lipschitz factor ≈ 0.002) instead of the brief's
+       Newton–Kantorovich radii polynomial: data-free, gives existence, uniqueness and location. Chosen because it
+       is smaller and needs no kernel data; NK stays available if the audit finds a gap.
+    3. Spin bound via the coarse ellipse (≈ 3.7 %) rather than the sharper ≈ 2.5 %; reversible later.
+    4. Q4–Q6 (no separate non-vacuity theorem; freezing `lunarSyncOrbit_bound`; literal rules): as recommended in
+       the proposal.
+- **16:15. SO-V2PKG done: the v2 certifier makes the N = 65 Moon data far cheaper.**
+  - Thresholds at R2, N = 65: v1 sharp 10^−31.83; routeAFrozen 10^−27.87; routeARefined with classical sites
+    10^−18.66; refined with certified bites (d01b) **10^−14.26**.
+  - The exact rational mirror reproduces all four SHARP2-C6 kernel tests.
+  - Recommended configuration: `checkTorusCertificateV2 routeAV2`, refined witness; `lunarR2` unchanged; L = 20;
+    CertFixed 96; 667/718 shards per torus (was 1,230).
+  - Measured: err 1.6e-16/1.83e-16; all seven sub-checks and the graph check pass.
+  - Estimated cost: 0.7–1.8 CPU-h per torus (was 3–5).
+  - Lean glue: about 150 lines, new names only (CertV2.lean, LunarAssemblyV2.lean).
+  - SO-DATA3 now runs steps 2, 3 and 3b with this configuration (brief addendum). The study is sent to kam-inp to
+    land (rebased onto inp as 9adbdc33).
+  - Deviation by the worker: one `pkill -f` of its own superseded Python run. It matched only that process; the
+    worker was reminded of the rule in its brief.
+  - **For owner review (deferred; recommended option taken):** under v2, N = 80 costs about 2–4 CPU-h per torus
+    (threshold 10^−16.10) and N = 100 about 6–15, for certified bands of about 2.69 % and 2.67 % against 2.755 % (all
+    at today's SOS slack). The study recommends staying at **N = 65** for DATA3, since N = 80 gains only about 0.06
+    points, and treating N = 80 as the owner's optional stretch afterwards. DATA3 proceeds at N = 65.
+  - SO-DATA3 step 1 is done: the mirror reproduces a fresh `#eval` of BALLDY's `Slp.balls` bit for bit on all 887
+    lunar slots and seven toy programs. BALLDY's handoff had cited a stale dump; SO-BALLFIX's audit request will cite
+    the fresh evidence.
+- **16:19. Heartbeat: codex-3 nearly exhausted; lock design round 1.**
+  - **Codex:** codex-3 is at 6 % weekly, burning about 5 %/h, so it runs out in roughly 1–2 h; it resets 5 Nov.
+    codex-4 and codex-5 report "Not logged in", and codex-1/2 are at 0 % and 3 %.
+  - **Rationing,** sent to both sub-orchestrators, in this order:
+    1. SO-BALLFIX delta;
+    2. SO-KDEPTH;
+    3. lock design round 2 (strict delta);
+    4. W blueprint parts;
+    5. graph reviews, batched, no parallel slices;
+    6. SO-DATA3 final.
+    Once codex-3 hits its limit, audits queue and writing and proving go on; landings that need an audit wait.
+  - **For owner review:** a codex-4 sign-in (`! codex-4 login`; 29 % weekly) or a codex-5 sign-in (28 %) would
+    unblock the audit queue. Otherwise every audit waits for the owner or the 5 Nov reset. Under the 15:20 ruling, no
+    Claude auditor fallback was used.
+  - **Lock:** design audit 1 FAIL with three HIGH findings, all in the lock's own draft contracts:
+    - sqrt versus the unconditional real-eval theorem;
+    - the root choice in the sqrt witness;
+    - transport direction and sign.
+    The route itself (Banach-contraction periodic orbit, confinement signatures) was judged viable. Suggested to
+    kam-inp-24: total real-preserving sqrt semantics like Lean's inverse (0 on nonpositive reals), so that no landed
+    statement changes.
+  - **LOCK-GEN-1:**
+    - the orbit's radii polynomial closes (Y0 1.5e-58);
+    - the rational centre is within 5.5e-9 of ψ*;
+    - the N = 65 torus in polar coordinates has amplitude 73.8°, support 129×27, residual about 5e-39 against v2's
+      about 1e-12.
+  - **SO-KDEPTH:** told to stop optimising for R1's 320-bit data, since the v2 data are L = 20 on CertFixed 96, and to
+    hand off. Finding: checkSoGraph on R1 no longer recurses deeply, but it runs 386 s and hits the 10 GB cap, so
+    SO-DATA3 splits it per bound.
+  - SO-BALLFIX is writing its audit request.
+- **16:25. Owner: codex-1 reset to 100 % (confirmed with `codex-quota check`).** New audits go to codex-1, with
+  codex-3 (6 %) in reserve. The rationing is lifted; at most 2–3 audits run in parallel. Both sub-orchestrators are
+  told.
+  - main had diverged from origin/main (the owner's L8′ landing). Merged as 3885dfec, with README taken from origin
+    and regenerated by the HQ, so kam-inp can land SO-V2PKG.
+  - **SO-BALLFIX done** (ff7a0317):
+    - two additive lemmas in Ball.lean (`ballForce_some`, `ballStep_char`) and a 3-line proof-only change in
+      sharp-v2's BallsTrig.lean (verified: proof lines only);
+    - all Certificate, CertificateSharp and V2 modules and tests build;
+    - audit `inp-maud-soballfix` on codex-1.
+    - Finding: the Hamiltonian checks of our v2 route (`checkHamBounds`, `checkHamClaim`) evaluate through
+      `Slp.balls` and so get BALLDY's rounding. sharp-v2's trigonometric pass `ballsTrig` keeps unrounded shape
+      scalars and O(L²) list rebuilding, but our route does not use it.
+  - The audit launcher's short-name check flags pre-existing sharp-v2 names (`TRel.snoc` etc.) whenever BallsTrig is
+    listed, so it was launched with Ball only.
+  - W: W7 accepted (kam-d4 checked the minor fixes). The W4 delta review is finishing on codex-3.
+- **Lock (kam-inp-24): design audit 2 (codex-1) FAIL; rev 3 in progress. For owner review:**
+  - *Question:* `HamExpr.sqrt` with a domain arm in `NonvanishingOn` makes the landed, unfrozen intermediate helper
+    `HamExpr.nonvanishingOn_of_inv_good` false (inverse safety cannot certify Re > 0). Options: (a) replace or extend
+    that single helper with an added sqrt-safety hypothesis (`SlpSqrtGood`), keeping every consumer's statement
+    (`nonvanishingOn_of_balls`, `…ballsTrig`, `checkHamBounds_sound`, `ham_structural`); (b) contort the compiler so
+    the old text stays literally true; (c) abandon sqrt for route (b) (new G1). *Choice:* (a), the smallest,
+    reversible, documented exception to "no landed statement changes"; frozen statements untouched.
+  - Also fixed: `lockHamExpr_clock` gains `0 < Ω` (false for negative Ω).
+- **16:35. SO-BALLFIX audit PASS WITH NOTES (codex-1); sent to kam-inp to land. Disk relief. W and lock moving.**
+  - **SO-BALLFIX** (docs/tracks/SO/audits/SO-BALLFIX-audit-1.md): 44 targeted builds, 52 original-type probes, axioms
+    and kernel replay all pass; the only notes are scoped. Landing branch inp-soballfix at 8ecd9ea2 (BALLDY plus
+    the BallsTrig repair). kam-inp was asked for a full landing build, since this combination failed before.
+  - **SO-V2PKG landed** (main ee00c270).
+  - **Disk:** / reached 9.0 GB. 256 Claude transcripts untouched for over 3 days (2.8 GB) were archived per file to
+    /mnt/HC_Volume_106379410/root-archive/claude-projects/ (cmp-verified, atomic symlinks), so / is at 12 GB.
+    Codex rollouts gave nothing, being open or recent.
+  - **Lock:** design revision 2 (6c076a6d: total `sqrtE`, anchored witness, exact maps) is in the round-2 delta audit
+    on codex-1. LOCK-PO then LOCK-CONF have started (Opus, claude-12, worktree KAM-inp-lockpo, marked pending
+    audit). COORDS waits for disk; SQRT waits for BALLFIX to land.
+  - **W:** blueprint W4 and W7 on main (2325997f), with errata E-PDE-W-1/2, E-PDE-KP-1/2,
+    E-W-Pos96K-2..4 and deviation D-W-Pos96K-L10.
+    - Graph wave 1 (W0–W3 and headline): 309 nodes, 1029 edges, 13 anchors, linter clean; batched review on
+      codex-1.
+    - Lean: W1-SINES and W1-WEIGHTED complete and in audit on codex-1. W0-NORMAL (claude-4) and W1-ANALYTIC
+      (claude-6) are proving. The W5/W6 writer is running.
