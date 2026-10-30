@@ -8,6 +8,7 @@ module
 public import KAM.Strip.Analytic
 public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.DegreeSeries
+public import KAM.Wave.Analytic.Complexification
 
 /-!
 # Holomorphic maps of finitely many variables with Banach values are analytic
@@ -180,5 +181,21 @@ theorem holomorphic_fd_power_series {n : ℕ} (hn : 1 ≤ n) {U : Set (Fin n →
       simp
     rw [funext fun m => (e m).symm]
     exact h
+
+
+/-- Blueprint `bpW:w1:holo-analytic-fd`, real clause (step `stepW:w1:hareal`): if `f` is
+holomorphic on `U ⊆ ℂⁿ` with values in a complex Banach space `F`, and real on the real points of
+`U` with respect to a real-linear section pair `ι₂ : G → F`, `re₂ : F → G`, then
+`re₂ ∘ f |_{U ∩ ℝⁿ}` is real analytic into `G`. -/
+theorem holomorphic_real_part_analytic {n : ℕ} {G : Type*} [NormedAddCommGroup G]
+    [NormedSpace ℝ G] {U : Set (Fin n → ℂ)} (hU : IsOpen U) {f : (Fin n → ℂ) → F}
+    (hf : DifferentiableOn ℂ f U) (ι₂ : G →L[ℝ] F) (re₂ : F →L[ℝ] G) (hre : ∀ w, re₂ (ι₂ w) = w)
+    (hreal : ∀ x : Fin n → ℝ, KAM.realInclusion n x ∈ U → ∃ w, f (KAM.realInclusion n x) = ι₂ w) :
+    AnalyticOnNhd ℝ (fun x : Fin n → ℝ => re₂ (f (KAM.realInclusion n x)))
+      (KAM.realInclusion n ⁻¹' U) := fun _ hx =>
+  (analyticAt_real_part (KAM.realInclusion n) ι₂ re₂ hre
+    (analyticOnNhd_of_differentiableOn_banach hU hf _ hx)
+    (Filter.mem_of_superset ((hU.preimage (KAM.realInclusion n).continuous).mem_nhds hx)
+      fun y hy => hreal y hy)).1
 
 end KAM.Wave

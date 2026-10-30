@@ -38,6 +38,7 @@ def complexifyWave : WaveSpace →L[ℝ] WaveSpaceC := complexifyLp.prodMap comp
 def reWave : WaveSpaceC →L[ℝ] WaveSpace := reLp.prodMap reLp
 
 @[simp] theorem reWave_complexifyWave (w : WaveSpace) : reWave (complexifyWave w) = w := by
+  obtain ⟨a, b⟩ := w
   simp [reWave, complexifyWave]
 
 /-- Blueprint `bpW:w1:torus-analytic`. -/
