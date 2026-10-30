@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 22:06 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **360,268 lines of Lean** of an estimated ≈ 363,000
+> **Last updated: 2026-10-30 22:21 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **360,268 lines of Lean** of an estimated ≈ 366,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -262,16 +262,17 @@ Overall, everything together: 80.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **360,268** (279,943 excluding blank lines and comments) · **+88,198** since 2026-10-29 22:00 UTC |
-| Written on agent branches, not yet landed | 862 |
-| **Estimated total at completion** | **≈ 363,000** |
+| On `main` now | **360,268** (279,943 excluding blank lines and comments) · **+88,198** since 2026-10-29 22:20 UTC |
+| Written on agent branches, not yet landed | 4,557 |
+| Generated certificate data on agent branches (numeric literals, not counted above or below) | 585,996 |
+| **Estimated total at completion** | **≈ 366,000** |
 | Estimated still to write | ≈ 2,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 22:06 UTC from `main` at `b451b95b` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 22:21 UTC from `main` at `65d6a628` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -279,8 +280,9 @@ Overall, everything together: 80.0 %
 
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 90 modules · 22,540 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 33 modules · 6,498 lines. **Packages landed: 21 / 24**.
-- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **50 %** · stages reached: scoping study, design, Lean proof modules
+- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **50 %** · stages reached: scoping study, design, Lean proof modules · the lock sub-orchestrator is running (2 package workers)
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
+- **Now:** proving SO-DATA3 · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **26 %**
@@ -444,9 +446,15 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
+| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA: exact sizing driver, lock builder, ball-mirror sqrt arm (bit-exact vs Lean on 8 | `inp-lockdata` | 118 (vs `inp`) |
+| **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3: graph check split into its four conjuncts (whole checkSoGraph exceeds the 10 GB  | `inp-sodata3` | 16 (vs `inp`) |
+| **wbp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-wbp | `inp-wbp` | 3 (vs `inp`) |
+| **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 6 (codex-1) | `inp-wgraph` | 22 (vs `inp`) |
+| **wph** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W1-CUBIC: handoff to docs, audit focus | `inp-wph` | 11 (vs `inp`) |
 
-*6 finished agent sessions not shown.*
+*5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -454,7 +462,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
-| 2026-10-30 22:02 | `b451b95b` | Land sharp-v2: route B in the v2 certifier (routeBFrozen, routeBRefined; AUDIT-C6B-1 PASS), the l1 entry step in the certifier (routeAL1, l1 data computed from the certificate's models; AUDIT-C6L1-1 PASS), and routeV2All, one engine with every route |
+| 2026-10-30 22:21 | `65d6a628` | Merge remote-tracking branch 'origin/main' |
+| 2026-10-30 22:19 | `b3a33133` | Log: heartbeat (DATA3 lower kernel build; LOCK-DATA sizing rescan; W nudged; LG00 question) |
 | 2026-10-30 21:51 | `92d26c2b` | Land inp into main |
 | 2026-10-30 21:49 | `2f670238` | Log: heartbeat (data runs; disk relief) |
 | 2026-10-30 21:39 | `706103c5` | Log: CSPLIT gates pass (1.6-2.5 CPU-h/torus); band and lock data runs go; landing prebuild |
@@ -465,7 +474,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 21:21 | `acef11ec` | Log: heartbeat (KDEPTH2 landed; lock reruns passing; CAL gates and GEN running) |
 | 2026-10-30 21:19 | `4b3b5124` | Log: SO-CSEG-A/B passed; SO-CSPLIT Lean core complete; calibration gates next |
 | 2026-10-30 21:09 | `6de3991f` | Land inp into main |
-| 2026-10-30 21:06 | `ac170e4a` | Log: SO-CSEG-L2 passed, landing; SO-CSEG-GEN started |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -544,6 +552,7 @@ against the pinned PDF.
 | CP09 | 3 candidate, 8 confirmed | 1 adopted, 2 planned |
 | CP10pin | 3 candidate, 13 confirmed, 5 dropped | 5 adopted, 5 planned |
 | CP11 | 2 confirmed | 1 planned |
+| CVCGL05 | 2 candidate | 0 |
 | Chi05 | 1 confirmed, 1 dropped | 2 adopted, 1 planned |
 | FH24 | 3 confirmed, 2 dropped | 0 |
 | FH25 | 2 candidate | 0 |
@@ -564,7 +573,7 @@ against the pinned PDF.
 | Pos96W | 1 candidate, 7 confirmed | 2 adopted |
 | Rus01 | 2 confirmed | 0 |
 | Rus05 | 3 confirmed | 1 planned |
-| VL22 | 1 confirmed | 0 |
+| VL22 | 2 candidate, 1 confirmed | 0 |
 
 <details><summary>All ledger entries</summary>
 
@@ -795,6 +804,10 @@ against the pinned PDF.
 | E-W-Pos96K-3 | erratum | Pos96K | p. 124 (PDF p. 7) definition of the mean [R]; p. 125 (PDF p. 8) homological equation | The mean omits the constant term of R, so the stated equation holds only modulo that constant; add â_0 to N̂ (or state the equation modulo constants). Vector fields are unaffected | CONFIRMED |
 | E-W-Pos96K-4 | erratum | Pos96K | p. 137 (PDF p. 20), proof of Lemma 5 | The displayed derivation does not give the factor 4: the preceding r-interval has length 8δ/∣k∣ (radius 4δ/∣k∣), and the oblique coordinates have Jacobian ∣v∣₂ = √n, not 1. Only the form c₃α/A_k is used later | CONFIRMED |
 | D-W-Pos96K-L10 | deviation | Pos96K | p. 142 (PDF p. 25), Lemma 10 | The source asserts the perturbed frequencies are 'Lipschitz close of order α' to nontrivial affine functions; its estimates give sup-closeness O(α) but only a sufficiently small unweighted Lipschitz seminorm. Blueprint-W makes the needed condition explicit as θ ≤ θ₀ (a smallness condition on γ) and keeps the measure conclusion | ADOPTED |
+| E-VL22-2 | erratum | VL22 | arXiv v2, p. 2, (7) | with the printed exponential convention the inverse derivative needs a factor i; differentiating (7) does not recover (6) | CANDIDATE |
+| E-VL22-3 | erratum | VL22 | arXiv v2, p. 3, (8) and (10) | v in (3) already contains ε, so the prefactor double-counts ε when X solves (6); the two expressions in (8) disagree in sign; (10) lacks the small divisors | CANDIDATE |
+| E-CVCGL05-1 | erratum | CVCGL05 | arXiv v2, p. 9, (14) | the general formula (8), p. 7, gives half this coefficient when H₁ is action-independent | CANDIDATE |
+| E-CVCGL05-2 | erratum | CVCGL05 | arXiv v2, p. 11 | with its maximum-cosine-coefficient norm, (8) at 0.35 gives about 64.33ε; conventions to be rechecked before this is confirmed | CANDIDATE |
 
 </details>
 <!-- /AUTO:errata -->
@@ -802,7 +815,7 @@ against the pinned PDF.
 ## Papers
 
 <!-- AUTO:papers -->
-**60 pinned sources.** The annotated list, with links, what each source is used for, the frozen theorems citing it and its recorded errata, is on its own page: **[docs/PAPERS.md](docs/PAPERS.md)**.
+**61 pinned sources.** The annotated list, with links, what each source is used for, the frozen theorems citing it and its recorded errata, is on its own page: **[docs/PAPERS.md](docs/PAPERS.md)**.
 
 - Core sources of the KAM proof (track K): [HL19](docs/PAPERS.md#hl19), [GJLV05](docs/PAPERS.md#gjlv05), [CCdlL13](docs/PAPERS.md#ccdll13), [Pos01](docs/PAPERS.md#pos01), [FHL17](docs/PAPERS.md#fhl17)
 - Original papers: [Arn63](docs/PAPERS.md#arn63), [Kol54](docs/PAPERS.md#kol54)
@@ -815,7 +828,7 @@ against the pinned PDF.
 - Cross-checks: [BC17](docs/PAPERS.md#bc17), [FdlLS09](docs/PAPERS.md#fdlls09), [Vil17](docs/PAPERS.md#vil17), [CK21](docs/PAPERS.md#ck21), [Sal04](docs/PAPERS.md#sal04), [Chi03](docs/PAPERS.md#chi03)
 - Errata sources: [Bou20](docs/PAPERS.md#bou20), [Kou19](docs/PAPERS.md#kou19)
 - Context and further reading: [LG09](docs/PAPERS.md#lg09), [CFG24](docs/PAPERS.md#cfg24), [AS26](docs/PAPERS.md#as26), [Pos96K](docs/PAPERS.md#pos96k), [Pos96W](docs/PAPERS.md#pos96w), [KP96](docs/PAPERS.md#kp96), [HHM25](docs/PAPERS.md#hhm25)
-- Other sources: [FH24](docs/PAPERS.md#fh24), [FH25](docs/PAPERS.md#fh25), [CC07](docs/PAPERS.md#cc07), [CC87](docs/PAPERS.md#cc87), [CC88](docs/PAPERS.md#cc88), [CC95](docs/PAPERS.md#cc95), [CC97](docs/PAPERS.md#cc97), [VL22](docs/PAPERS.md#vl22), [CCGdlL22](docs/PAPERS.md#ccgdll22), [CCdlL20s](docs/PAPERS.md#ccdll20s), [CCdlL20d](docs/PAPERS.md#ccdll20d)
+- Other sources: [FH24](docs/PAPERS.md#fh24), [FH25](docs/PAPERS.md#fh25), [CC07](docs/PAPERS.md#cc07), [CC87](docs/PAPERS.md#cc87), [CC88](docs/PAPERS.md#cc88), [CC95](docs/PAPERS.md#cc95), [CC97](docs/PAPERS.md#cc97), [VL22](docs/PAPERS.md#vl22), [CCGdlL22](docs/PAPERS.md#ccgdll22), [CCdlL20s](docs/PAPERS.md#ccdll20s), [CCdlL20d](docs/PAPERS.md#ccdll20d), [CVCGL05](docs/PAPERS.md#cvcgl05)
 <!-- /AUTO:papers -->
 
 ## Prior and related formal work
