@@ -1680,3 +1680,36 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - System swap is full (7 MiB of 8 GiB free), and landing builds run in parallel with the probes, so headroom is
     thin. Passes near the cap should be split.
   - No owner decisions this round. Quotas OK. Disk 13 GB.
+- **18:49. SO-DATA3 stopped at its 10 GB rule; the next lever is sharp-v2's pruned and shared checks.**
+  - Lower N = 65 torus, each run alone under the cap:
+
+    | check | time | peak memory |
+    |---|---|---|
+    | `checkStatic` | 7 s | 1.6 GB |
+    | `checkHamBounds` | 1:44 | 9.75 GB |
+    | `checkHamClaim` | 1:41 | 10.24 GB, just under the cap |
+    | `checkEmbedding` | 35 s | 3.2 GB |
+    | l = 12 bite | 2:03 | 8.36 GB |
+
+  - **Over 10 GB:**
+    - `checkGram`: even one defect row (9.3 GB and climbing), since every row needs the whole Gram matrix;
+    - `checkEnergy` and `checkInvariance`: each is one `Slp.compose` fold of the 887-op jet holding every slot's
+      model;
+    - so also Torsion, FrameT and FrameN, which recompute Gram.
+    The data side cannot split them; the landed checker takes no intermediate state as data.
+  - **Next (no owner decision; new names only):**
+    - probe sharp-v2's pruned and shared invariance plus energy (`checkInvEnShared`, `Slp.composePruned`, keeping
+      only the v0 and d1 slots; the d2/d3 part of the jet is dead for these checks), and Gram via torsion
+      (`checkGram_of_checkTorsion`);
+    - if they fit, define a new BaseChecker `lunarSharedBase` and a theorem `lunar_barriers_of_R2V2Shared` through
+      `checkV2With_sound`.
+    Fallbacks: the package levers (lower CertFixed precision or cfgLow cutoff, with re-emission), then a checkpointed
+    compose (SO-COMPOSE-SPLIT route E).
+  - The branch has KDEPTH and LOCK-SQRT merged; after LOCK-SQRT the ball pass gives byte-identical output.
+  - **Lock:** LOCK-SQRT landed (55fa0d65). LOCK-COORDS-C passed and is in inp. LOCK-GRAPH started (engine-generic).
+    The cost note SO-LOCK-COST is at revision 3: per-theorem ≤ 10 GB and ≤ 20 CPU-h are not yet established. A
+    calibration gate decides, and a projection above 60 CPU-h or a failed probe goes to the owner.
+  - **W:** the full blueprint W0–W8 is accepted and landing. Lean: W1-SINES and W1-WEIGHTED on main; W1-ANALYTIC
+    and W0-NORMAL landing; W1-ALGEBRA in audit; W0-ANALYSIS and W1-KAMSUP proving. Graph wave 1: 309/314 reviewed.
+  - **Machine:** swap full. Claude Code reaped this session's and the lock sub-orchestrator's background waiters
+    under memory pressure, and both are not re-armed. Track W keeps to 2 heavy lean processes and the lock to 1.
