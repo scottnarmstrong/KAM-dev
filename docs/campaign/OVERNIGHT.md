@@ -1153,3 +1153,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   shard, 2.4-3.8 GB with the block packings tied once). SO-DATA-2 is isolating the decode step; the expected remedy
   is data-side (each factor's packing supplied once as a literal, its equality with the decode proved once per
   factor), which needs no checker change. Only SO-DATA-2 is running; all other track SO work waits on its numbers.
+- **05:49. Heartbeat: one packed shard exceeds 10 GB even with literal blocks.** SO-DATA-2's isolated probes (lower
+  torus, 10 GB cap): decoding the 8.5k-term factor alone passes (1,243 s, 4.7 GB); a scalar product 1·A0 checked
+  against the mirror's model passes and matches exactly (153 s, 3.5 GB); but one shard of the heavy packed product
+  A0·A0 with its factor blocks supplied as literals still OOMs (9.2 GB anon). Before SO-DATA-2 stops on the brief's
+  condition, it was asked for two cheap measurements: the shard size is a data parameter (the emitter's blockLen),
+  so one shard each at 1/2 and 1/4 of the block, and the current shard once under a 14 GB cap for its true peak.
+  If smaller shards fit, the lunar route needs only more, smaller shard theorems, with no checker change.
