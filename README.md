@@ -210,7 +210,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 01:00 UTC from `main` at `477dbc43` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 01:00 UTC from `main` at `27f7cd23` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -384,6 +384,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 01:00 | `27f7cd23` | Overnight log: 01:00 |
 | 2026-10-30 00:49 | `2cf0fceb` | Land inp into main |
 | 2026-10-30 00:48 | `67166664` | Overnight log: entries 23:25-00:25 (two D29 rulings: R1 M, toy T2d) |
 | 2026-10-29 23:00 | `fb97435e` | Land inp into main |
@@ -395,7 +396,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 22:15 | `ee820b90` | Overnight log: SO-GRAPH and SO-R1 audited |
 | 2026-10-29 21:54 | `06a4e1bc` | Overnight log: correct a time label |
 | 2026-10-29 21:53 | `a69ed1a5` | Overnight log: soundness audited, release scrub B2 complete |
-| 2026-10-29 21:52 | `9fcf0411` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
