@@ -196,7 +196,7 @@ theorem seed_stateMeta (W : CertWeight) (m : ComposeMeta α) (C : ComposeCkpt α
 
 theorem seed_slot_of_mem (W : CertWeight) (m : ComposeMeta α) (C : ComposeCkpt α)
     {imps : List ℕ} {a : ℕ} (ha : imps.contains a = true) (hlt : a < m.len) :
-    (ComposeState.seed W m C imps).slot W a = C.pair W a := by
+    (ComposeState.seed W m C imps).slot W a = C.slotPair W a := by
   simp only [ComposeState.slot, ComposeState.seed, hlt, ↓reduceIte]
   rw [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_reverse (by simp; omega),
     List.length_range, List.getElem?_range (by omega)]
@@ -206,7 +206,7 @@ theorem seed_slot_of_mem (W : CertWeight) (m : ComposeMeta α) (C : ComposeCkpt 
 /-- The seed agrees with a landed state of the same metadata on the imported slots. -/
 theorem seed_agree (W : CertWeight) {m : ComposeMeta α} (C : ComposeCkpt α) {imps : List ℕ}
     {X : ComposeState α} (hX : X.stateMeta = m)
-    (hs : ∀ a, imps.contains a = true → a < m.len → X.slot W a = C.pair W a) :
+    (hs : ∀ a, imps.contains a = true → a < m.len → X.slot W a = C.slotPair W a) :
     (ComposeState.seed W m C imps).AgreeOn W (fun a => imps.contains a = true) X := by
   obtain ⟨len, e, i, c⟩ := m
   simp only [ComposeState.stateMeta, ComposeMeta.mk.injEq] at hX

@@ -15,9 +15,9 @@ The data and checks of the segmented proof of `Slp.compose` (design
 `docs/tracks/SO/design/SO-CSPLIT.md` §3.2–3.3, mechanism M1, and the jet bridge M0):
 
 * Boolean equalities, tail-recursive (`&&` with the recursive call in tail position, so the kernel
-  iterates): `keyBeq`, `SlpOp.beq`, `opsBeq`, `HamJet.beq` (the jet bridge), and on models
+  iterates): `keyBeq`, `SlpOp.segBeq`, `opsBeq`, `HamJet.segBeq` (the jet bridge), and on models
   `ccBeq`, `termsBeq`, `CertPoly.segBeq`, `CertModel.segBeq`, `pairBeq` (model and cached norm),
-  `cacheBeq`, `ComposeMeta.beq`; each with its reflection lemma. Fixed-point leaves compare by
+  `cacheBeq`, `ComposeMeta.segBeq`; each with its reflection lemma. Fixed-point leaves compare by
   mantissa (`instDecidableEqCertFixedSeg`).
 * The untrusted checkpoint data: `ComposeMeta` (the non-slot fields of a `ComposeState`), `SegSpec`
   (one segment), `ComposeCkpt` (segments, boundary metadata, the ledger of slot pairs).
@@ -55,7 +55,7 @@ theorem eq_of_keyBeq : ∀ {k k' : CertKey}, keyBeq k k' = true → k = k'
   | _ :: _, [], h => by simp [keyBeq] at h
 
 /-- Equality of operations. -/
-def SlpOp.beq : SlpOp → SlpOp → Bool
+def SlpOp.segBeq : SlpOp → SlpOp → Bool
   | .const re im d, .const re' im' d' => decide (re = re') && decide (im = im') && decide (d = d')
   | .action j, .action j' => j == j'
   | .char k, .char k' => keyBeq k k'
@@ -66,34 +66,34 @@ def SlpOp.beq : SlpOp → SlpOp → Bool
   | .sqrt a, .sqrt a' => a == a'
   | _, _ => false
 
-theorem SlpOp.eq_of_beq {o o' : SlpOp} (h : o.beq o' = true) : o = o' := by
+theorem SlpOp.eq_of_segBeq {o o' : SlpOp} (h : o.segBeq o' = true) : o = o' := by
   cases o <;> cases o' <;>
-    simp_all [SlpOp.beq, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
+    simp_all [SlpOp.segBeq, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
   exact eq_of_keyBeq h
 
 /-- Tail-recursive equality of operation lists. -/
 def opsBeq : List SlpOp → List SlpOp → Bool
   | [], [] => true
-  | a :: as, b :: bs => a.beq b && opsBeq as bs
+  | a :: as, b :: bs => a.segBeq b && opsBeq as bs
   | _, _ => false
 
 theorem eq_of_opsBeq : ∀ {l l' : List SlpOp}, opsBeq l l' = true → l = l'
   | [], [], _ => rfl
   | a :: as, b :: bs, h => by
     simp only [opsBeq, Bool.and_eq_true] at h
-    rw [SlpOp.eq_of_beq h.1, eq_of_opsBeq h.2]
+    rw [SlpOp.eq_of_segBeq h.1, eq_of_opsBeq h.2]
   | [], _ :: _, h => by simp [opsBeq] at h
   | _ :: _, [], h => by simp [opsBeq] at h
 
 /-- Equality of jets: the program and the four index tables (the jet bridge M0). -/
-def HamJet.beq (J J' : HamJet) : Bool :=
+def HamJet.segBeq (J J' : HamJet) : Bool :=
   opsBeq J.prog.ops J'.prog.ops && J.v0 == J'.v0 && J.d1 == J'.d1 && J.d2 == J'.d2 &&
     J.d3 == J'.d3
 
-theorem HamJet.eq_of_beq {J J' : HamJet} (h : J.beq J' = true) : J = J' := by
+theorem HamJet.eq_of_segBeq {J J' : HamJet} (h : J.segBeq J' = true) : J = J' := by
   obtain ⟨⟨ops⟩, v0, d1, d2, d3⟩ := J
   obtain ⟨⟨ops'⟩, v0', d1', d2', d3'⟩ := J'
-  simp only [HamJet.beq, Bool.and_eq_true, beq_iff_eq] at h
+  simp only [HamJet.segBeq, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨h1, rfl⟩, rfl⟩, rfl⟩, rfl⟩ := h
   rw [eq_of_opsBeq h1]
 
@@ -224,7 +224,7 @@ def ComposeCkpt.pairOpt (C : ComposeCkpt α) (i : ℕ) : Option (CertModel α ×
 
 /-- The ledger pair of slot `i`; the zero entry off the ledger (the default of
 `ComposeState.slot`). -/
-def ComposeCkpt.pair (W : CertWeight) (C : ComposeCkpt α) (i : ℕ) : CertModel α × α :=
+def ComposeCkpt.slotPair (W : CertWeight) (C : ComposeCkpt α) (i : ℕ) : CertModel α × α :=
   (C.pairOpt i).getD (slotEntry W zeroModel)
 
 /-- Whether slot `i` of the program `ops` is computed in segment `s`. -/
@@ -240,7 +240,7 @@ zero entry elsewhere; the metadata `m`. -/
 def ComposeState.seed (W : CertWeight) (m : ComposeMeta α) (C : ComposeCkpt α)
     (imps : List ℕ) : ComposeState α :=
   { rev := (List.range m.len).reverse.map fun i =>
-      if imps.contains i then C.pair W i else slotEntry W zeroModel
+      if imps.contains i then C.slotPair W i else slotEntry W zeroModel
     len := m.len, nExp := m.nExp, nInv := m.nInv, cache := m.cache }
 
 /-- One step of the shadow run: the landed step on live or fallible operations, a zero placeholder
@@ -260,15 +260,15 @@ def shadowRun (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWei
   | some st, op :: ops => shadowRun n K wit W cfg pe s (shadowStep n K wit W cfg pe s st op) ops
 
 /-- Equality of metadata. -/
-def ComposeMeta.beq [DecidableEq α] (m m' : ComposeMeta α) : Bool :=
+def ComposeMeta.segBeq [DecidableEq α] (m m' : ComposeMeta α) : Bool :=
   m.len == m'.len && m.nExp == m'.nExp && m.nInv == m'.nInv && cacheBeq m.cache m'.cache
 
 omit [CertArith α] in
-theorem ComposeMeta.eq_of_beq [DecidableEq α] {m m' : ComposeMeta α} (h : m.beq m' = true) :
+theorem ComposeMeta.eq_of_segBeq [DecidableEq α] {m m' : ComposeMeta α} (h : m.segBeq m' = true) :
     m = m' := by
   obtain ⟨l, e, i, c⟩ := m
   obtain ⟨l', e', i', c'⟩ := m'
-  simp only [ComposeMeta.beq, Bool.and_eq_true, beq_iff_eq] at h
+  simp only [ComposeMeta.segBeq, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨rfl, rfl⟩, rfl⟩, hc⟩ := h
   rw [eq_of_cacheBeq hc]
 
@@ -290,7 +290,7 @@ def ComposeCkpt.segResultOk [DecidableEq α] (C : ComposeCkpt α) (W : CertWeigh
     (ops : List SlpOp) (j : ℕ) (st : ComposeState α) : Bool :=
   match C.segs[j]?, C.metas[j + 1]? with
   | some s, some m' =>
-    st.stateMeta.beq m' && s.exports.all fun e =>
+    st.stateMeta.segBeq m' && s.exports.all fun e =>
       decide (s.start ≤ e) && decide (e < s.stop) && s.liveEff ops e &&
         match C.pairOpt e with
         | some p => pairBeq (st.slot W e) p

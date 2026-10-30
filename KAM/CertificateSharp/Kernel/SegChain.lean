@@ -12,7 +12,7 @@ public import KAM.CertificateSharp.Kernel.SegAgree
 
 `ComposeCkpt.compose_eq`: a checkpoint whose plan check `planOk` and every segment check `segOk`
 pass, and whose ledger holds the wanted slots, gives the landed `Slp.compose` of the whole program:
-`some (wanted.map fun i => (C.pair W i).1)`.
+`some (wanted.map fun i => (C.slotPair W i).1)`.
 
 The proof is an induction over the tiling (`chain_go`). Its invariant at the start `a` of segment
 `j`: the landed run on `ops.take a` succeeds with the metadata `metas[j]`, and agrees with the
@@ -114,11 +114,11 @@ theorem ComposeCkpt.seg_step [DecidableEq α] {C : ComposeCkpt α} {n : ℕ} {op
     {pe : PiEnclosure α} {len : ℕ} (hplan : C.planOk len = true) {j : ℕ} {s : SegSpec}
     {X : ComposeState α} (hs : C.segs[j]? = some s) (hm : C.metas[j]? = some X.stateMeta)
     (hX : composeOps n K wit W cfg pe (ops.take s.start) = some X)
-    (himp : ∀ a, s.imports.contains a = true → X.slot W a = C.pair W a)
+    (himp : ∀ a, s.imports.contains a = true → X.slot W a = C.slotPair W a)
     (hseg : C.segOk n ops K wit W cfg pe j = true) :
     ∃ Y, composeOps n K wit W cfg pe (ops.take s.stop) = some Y ∧
       C.metas[j + 1]? = some Y.stateMeta ∧
-      (∀ e ∈ s.exports, Y.slot W e = C.pair W e ∧ e < s.stop) ∧
+      (∀ e ∈ s.exports, Y.slot W e = C.slotPair W e ∧ e < s.stop) ∧
       (∀ i < s.start, Y.slot W i = X.slot W i) ∧ Y.len = s.stop := by
   have hseg' := hseg
   simp only [ComposeCkpt.segOk, Bool.and_eq_true, hs, hm] at hseg'
@@ -174,7 +174,7 @@ theorem ComposeCkpt.seg_step [DecidableEq α] {C : ComposeCkpt α} {n : ℕ} {op
   -- the result check
   simp only [ComposeCkpt.segResultOk, hs, h1, Bool.and_eq_true, List.all_eq_true] at hrun
   obtain ⟨hmeta, hexp⟩ := hrun
-  have hmeta' := ComposeMeta.eq_of_beq hmeta
+  have hmeta' := ComposeMeta.eq_of_segBeq hmeta
   have hX'meta : X'.stateMeta = st.stateMeta := by
     simp only [ComposeState.stateMeta, ComposeMeta.mk.injEq]
     exact ⟨hag.1.symm, hag.2.1.symm, hag.2.2.1.symm, hag.2.2.2.1.symm⟩
@@ -193,7 +193,7 @@ theorem ComposeCkpt.seg_step [DecidableEq α] {C : ComposeCkpt α} {n : ℕ} {op
       exact ⟨hge, hlive⟩
     have := hag.2.2.2.2 e (.inr (hσlen ▸ hT)) (by omega)
     refine ⟨?_, hlt⟩
-    rw [← this, hst, ComposeCkpt.pair, hpo, Option.getD_some]
+    rw [← this, hst, ComposeCkpt.slotPair, hpo, Option.getD_some]
   · exact composeOpsAux_slot_persist n K wit W cfg pe hX' (by omega)
   · rw [← hag.1, hstlen]
 
@@ -207,9 +207,9 @@ theorem ComposeCkpt.chain_go [DecidableEq α] {C : ComposeCkpt α} {n : ℕ} {op
     ∀ (k j a : ℕ) (X : ComposeState α), j + k = C.segs.length →
       segsTile (C.segs.drop j) a len = true →
       composeOps n K wit W cfg pe (ops.take a) = some X → C.metas[j]? = some X.stateMeta →
-      X.len = a → (∀ s ∈ C.segs.take j, ∀ e ∈ s.exports, e < a ∧ X.slot W e = C.pair W e) →
+      X.len = a → (∀ s ∈ C.segs.take j, ∀ e ∈ s.exports, e < a ∧ X.slot W e = C.slotPair W e) →
       ∃ Y, composeOps n K wit W cfg pe (ops.take len) = some Y ∧
-        ∀ s ∈ C.segs, ∀ e ∈ s.exports, Y.slot W e = C.pair W e
+        ∀ s ∈ C.segs, ∀ e ∈ s.exports, Y.slot W e = C.slotPair W e
   | 0, j, a, X, hjk, htile, hX, _, _, hinv => by
     rw [Nat.add_zero] at hjk
     rw [hjk, List.drop_length] at htile
@@ -223,7 +223,7 @@ theorem ComposeCkpt.chain_go [DecidableEq α] {C : ComposeCkpt α} {n : ℕ} {op
     obtain ⟨hstart, hss, hrest⟩ := segsTile_cons htile
     have hs : C.segs[j]? = some C.segs[j] := List.getElem?_eq_getElem hj
     -- the imports were exported by an earlier segment
-    have himp : ∀ b, C.segs[j].imports.contains b = true → X.slot W b = C.pair W b := by
+    have himp : ∀ b, C.segs[j].imports.contains b = true → X.slot W b = C.slotPair W b := by
       intro b hb
       have hb' : b ∈ C.segs[j].imports := by simpa using hb
       unfold ComposeCkpt.planOk at hplan
@@ -258,7 +258,7 @@ theorem ComposeCkpt.compose_eq [DecidableEq α] (n : ℕ) (K : CertEmbedding α)
     {p : Slp} {wanted : List ℕ} (hplan : C.planOk p.ops.length = true)
     (hseg : ∀ j < C.segs.length, C.segOk n p.ops K wit W cfg pe j = true)
     (hw : C.wantedOk wanted = true) :
-    Slp.compose n p K wit W cfg pe wanted = some (wanted.map fun i => (C.pair W i).1) := by
+    Slp.compose n p K wit W cfg pe wanted = some (wanted.map fun i => (C.slotPair W i).1) := by
   have hplan' := hplan
   unfold ComposeCkpt.planOk at hplan'
   simp only [Bool.and_eq_true, List.all_eq_true] at hplan'

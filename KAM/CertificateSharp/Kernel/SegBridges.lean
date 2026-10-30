@@ -55,11 +55,12 @@ theorem checkEnergy_of_ckpt [DecidableEq α] {c : TorusCertificate n α} {J : Ha
     (hseg : ∀ j < C.segs.length,
       C.segOk n J.prog.ops c.emb c.wit c.weight c.cfgFull c.piEnc j = true)
     (hw : C.wantedOk [J.v0] = true)
-    (hen : energyOk n c.weight c.piEnc (C.pair c.weight J.v0).1 c.params.E0 c.params.err = true) :
+    (hen : energyOk n c.weight c.piEnc (C.slotPair c.weight J.v0).1 c.params.E0 c.params.err =
+      true) :
     checkEnergy c = true := by
   have h := ComposeCkpt.compose_eq n c.emb c.wit c.weight c.cfgFull c.piEnc C hplan hseg hw
   rw [← hjet] at h
-  rw [checkEnergy_eq_of_compose (m := (C.pair c.weight J.v0).1) (by rw [h, hjet]; rfl)]
+  rw [checkEnergy_eq_of_compose (m := (C.slotPair c.weight J.v0).1) (by rw [h, hjet]; rfl)]
   exact hen
 
 /-- **Assembly template: invariance**, from the shared chain and one theorem per row. -/
@@ -70,7 +71,7 @@ theorem checkInvariance_of_ckpt [DecidableEq α] {c : TorusCertificate n α} {J 
       C.segOk n J.prog.ops c.emb c.wit c.weight c.cfgFull c.piEnc j = true)
     (hw : C.wantedOk (d1Slots n J) = true)
     (hrow : ∀ a < n + n, ble ((invarianceModel n c.emb c.freqBox c.params.s c.weight c.cfgFull
-      c.piEnc ((d1Slots n J).map fun i => (C.pair c.weight i).1) a).supBound c.weight)
+      c.piEnc ((d1Slots n J).map fun i => (C.slotPair c.weight i).1) a).supBound c.weight)
       (ofRatDown c.params.err) = true) :
     checkInvariance c = true := by
   have h := ComposeCkpt.compose_eq n c.emb c.wit c.weight c.cfgFull c.piEnc C hplan hseg hw

@@ -25,7 +25,8 @@ product, an `exp` and an `inv` witness), in `ℚ`, every check is decided by `de
   reordered cache, a malformed initial meta, a non-tiling plan.
 * **`shadowRun_agree_needs_hR`** (design audit 2, F1): without the domain premise `hR` the agreement
   conclusion is false (a skipped dead `const` retained by `fun _ => True`).
-* **Bool reflection**: `HamJet.beq` of a jet with itself, and of a jet with one operation changed.
+* **Bool reflection**: `HamJet.segBeq` of a jet with itself, and of a jet with one operation
+  changed.
 -/
 
 @[expose] public section
@@ -120,7 +121,7 @@ theorem segTest_wanted : segTestCkpt.wantedOk [10] = true := by decide +kernel
 /-- The chain: the landed composition of slot `10` from the two segment checks. -/
 theorem segTest_compose :
     Slp.compose 1 segToyProg (segToyK 0) (segToyWit 0) segToyW segToyCfg
-      segToyPi [10] = some [(segTestCkpt.pair segToyW 10).1] :=
+      segToyPi [10] = some [(segTestCkpt.slotPair segToyW 10).1] :=
   ComposeCkpt.compose_eq 1 _ _ _ _ _ segTestCkpt segTest_plan
     (fun j hj => by
       have hj' : j < 2 := hj
@@ -209,12 +210,12 @@ theorem shadowRun_agree_needs_hR {α : Type} [CertArith α] (n : ℕ) (K : CertE
 
 def segTestJet : HamJet := ⟨segToyProg, 10, [6, 10], [[2]], [[[5]]]⟩
 
-theorem segTest_jetBeq : segTestJet.beq segTestJet = true := by decide +kernel
+theorem segTest_jetBeq : segTestJet.segBeq segTestJet = true := by decide +kernel
 
 theorem segTest_jetBeq_ne :
-    segTestJet.beq { segTestJet with prog := ⟨segToyProg.ops.set 6 (.mul 2 4)⟩ } = false := by
+    segTestJet.segBeq { segTestJet with prog := ⟨segToyProg.ops.set 6 (.mul 2 4)⟩ } = false := by
   decide +kernel
 
-theorem segTest_jet_eq : segTestJet = segTestJet := HamJet.eq_of_beq segTest_jetBeq
+theorem segTest_jet_eq : segTestJet = segTestJet := HamJet.eq_of_segBeq segTest_jetBeq
 
 end KAM.Certificate
