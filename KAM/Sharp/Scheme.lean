@@ -300,7 +300,8 @@ theorem engine_hyps (hC : CohData n τ κ cR) (hP : Params n τ M σK σB σT) {
       show σB - μ + 2 * rateB n cR M σK σB σT γb * e /
         (γ ^ 2 * delta0s ρ ρinf ^ (2 * κ + 1)) ≤ σB - μ / 2
       linarith
-    · have h0 := hq _ hrT.le ((le_max_right _ _).trans ((le_max_right _ _).trans (le_max_right _ _)))
+    · have h0 := hq _ hrT.le
+        ((le_max_right _ _).trans ((le_max_right _ _).trans (le_max_right _ _)))
       show σT - μ + 2 * rateT n cR M σK σB σT γb * e /
         (γ ^ 2 * delta0s ρ ρinf ^ (2 * κ + 1)) ≤ σT - μ / 2
       linarith
