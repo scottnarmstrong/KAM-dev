@@ -193,17 +193,18 @@ so the Lipschitz constant of $1/\delta$ carries $\min(I,J)^{2\beta}$ while the w
 not only a defect of the bound: at a parameter $\xi\notin\Xi$ with $\eta=\abs{\langle k,\omega\rangle+n}$ small
 ($n=i-j$), the entries $d_{i,j}$ with $J$ near $J_0=(\hat\alpha n/(A_k\eta))^{2}$ have $\abs{\partial_\xi d}\sim\abs kM/\eta^2$,
 and after the weight $I^{-1/2}$ this is $\sim A_k\abs kM/(\hat\alpha n\eta)$, unbounded as $\eta\to0$ along a band of
-the Hilbert matrix. With W7's choice $\beta=\varpi=\frac12$ (Definition~\ref{bpW:w7:indexdef}(vii), $\hat w=(i-j)j^{-1/2}$)
-and $p_+=p+\frac12$, part~(ii) is therefore not available; it is available for $\beta\le\frac14$ (e.g.\ $\hat
-w=(i-j)j^{-1/4}$ with the same loss $\frac12$). See Remark~\ref{bpW:w5:prep-gap}.}
+the Hilbert matrix. Hence with P96-K's choice $\beta=\varpi=\frac12$ and $p_+=p+\frac12$, part~(ii) is not available.
+\emph{Resolution adopted:} W7 separates the weight exponent from the loss, $\beta=\frac14$ with loss $\varpi=\frac12$
+(Definition~\ref{bpW:w7:indexdef}(vii), $\hat w=(i-j)j^{-1/4}$), so $2\beta\le p+1-p_+$ and part~(ii) applies. See
+Remark~\ref{bpW:w5:prep-gap}.}
 
-\begin{remark}[Consequence for W6--W7]\label{bpW:w5:prep-gap}
+\begin{remark}[The exponents used by W6--W7]\label{bpW:w5:prep-gap}
 With $\beta=\frac14$ and loss $\frac12$ P96-K's Lemma~9 gives $\lambda=\kappa/(\kappa+1-\frac14)=\frac8{11}$ and the
 optimizing $w$ of p.~142 becomes $w=\frac14/(4\kappa+4-\frac14)=\frac1{47}$, so $\hat\alpha=\alpha^{44/47}$,
 $\check\alpha=\alpha^{48/47}$ and $\tilde\mu=\frac{32}{47}>\frac23$; W7's density argument survives
-($\frac{32}{47}\cdot2>\frac43$; the admissible window is $t^{3/2}\lesssim\alpha=o(t^{47/32})$). This requires a change of W7
-(weights $\hat w$, exponents $\hat\alpha,\check\alpha$, constants $C_P$), which W5--W6 may not make; W6 states the
-preparatory step for W7's weights with this gap marked (Lemma~\ref{bpW:w6:prep-step}).
+($\frac{32}{47}\cdot2>\frac43$; the admissible window is $t^{3/2}\lesssim\alpha=o(t^{47/32})$, and W7 uses
+$\alpha(t)=t^{95/64}$). W7 has adopted these values (Definition~\ref{bpW:w7:constdef}), and W6 states the preparatory step
+with them, the Lipschitz part included (Lemma~\ref{bpW:w6:prep-step}(v)).
 \end{remark}
 
 \subsection{Taylor approximation}\label{bpW:w5:taylor-sec}
@@ -673,9 +674,8 @@ Theorem~\ref{bpW:w5:step}; Proposition~\ref{bpW:w5:initial}; Remarks~\ref{bpW:w5
 \ref{bpW:w5:notation}. External: \ref{bpW:w5:ext-taylor}, \ref{bpW:w5:ext-ftc}.
 
 \paragraph{Source issues.} (a) P96-K p.~140: the $\lambda$-norm estimate with modified divisors needs $2\beta\le\bar p-\check p$
-(\textsf{SOURCE\_GAP} after Lemma~\ref{bpW:w5:w4-modified}); suspected erratum. (b) P96-K p.~130: new field asserted without
+(\textsf{SOURCE\_GAP} after Lemma~\ref{bpW:w5:w4-modified}); suspected erratum, avoided by W7's $\beta=\frac14$. (b) P96-K p.~130: new field asserted without
 derivation (gap, supplied). (c) P96-K p.~134: operator norm notation (Remark~\ref{bpW:w5:notation}). (d) P96-K p.~141: W4 used
 with $\check p$ silently (Lemma~\ref{bpW:w5:w4-general}). (e) W3 Remark~\ref{bpW:w3:interface}, ``Return trip'': the KAM tori of
-the Theorem~D route lie in $\mathfrak W^{p+1/2}$, not in $\mathfrak W^+=\mathfrak W^{p+1}$, so W3's
-Corollary~\ref{bpW:w3:transport-tori} (which assumes $\Psi\in\mathfrak W^+$) must be used in a weak form; see
-Remark~\ref{bpW:w6:to-w8}.
+the Theorem~D route are a priori only in $\mathfrak W^{p+1/2}$; W3's Corollary~\ref{bpW:w3:transport-tori-weak} handles
+them (Remark~\ref{bpW:w6:to-w8}).
