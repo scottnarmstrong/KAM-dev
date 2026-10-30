@@ -1256,3 +1256,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   hypotheses (data conclusions, SO-DION-shaped facts, kernel-decidable inequalities), so the N = 65 final theorems
   will be one-liners; the landed 3.3 % theorems re-derived as a sanity check; no landed statement changed. Audit on
   codex-3.
+- **12:48. Heartbeat.** Landed: SO-DION (d879ee54), SO-SHARPLINK (5fc446e1). Every Lean piece for the N = 65 result except the certificate data is now on main. Running: SO-GEN3 (N = 65 package and sizing), SO-EMITFIX (kernel-reducible data). The next certifier version is not on origin yet; the final data and kernel passes wait for it. Disk 17 GB free.
