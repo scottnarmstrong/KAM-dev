@@ -40,7 +40,8 @@ def routeARefinedR : EngineV2 where
     exact refinedCoreR_sound c w hω hdio B (checkHamClaim_sound B.hs hH) (frameFacts_of B hF hω) hc
 
 /-- The minimum over the landed sharp engine and the three forms of route A. -/
-def routeAV2' : EngineV2 := sharpV2.orElse ((routeAFrozen.orElse routeARefined).orElse routeARefinedR)
+def routeAV2' : EngineV2 :=
+  sharpV2.orElse ((routeAFrozen.orElse routeARefined).orElse routeARefinedR)
 
 /-- **v2 is never worse than the landed certifier**, at the combined engine. -/
 theorem checkTorusCertificateV2_routeAV2'_sharp (c : TorusCertificate n α) :

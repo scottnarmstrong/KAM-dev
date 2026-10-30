@@ -61,8 +61,8 @@ theorem cast_initRQ (iLt iN iNt iH σK σB μ : ℚ) :
 def refinedCoreR (n : ℕ) (p : CertParams) (box : FreqBox) (w : RefinedWitR) : Bool :=
   let Q := w.base.num n p box
   decide (0 < w.base.core.Xs) && Q.wfOk &&
-    Q.okR w.bF (capRQ Q p.μ p.nuRay w.bT) (initRQ w.base.R.bL w.base.R.bN w.base.R.bNt p.σK p.σB p.μ)
-      w.base.core.Xs &&
+    Q.okR w.bF (capRQ Q p.μ p.nuRay w.bT)
+      (initRQ w.base.R.bL w.base.R.bN w.base.R.bNt p.σK p.σB p.μ) w.base.core.Xs &&
     Q.budgetOk (p.σT - p.μ) w.base.R.bT w.bF w.bT &&
     sitesOk Q w.base.core.J box w.base.κ p.γ w.base.sites &&
     classicalOk n p.tau w.base.core.J (Q.δ w.base.core.kp) Q.ctail &&

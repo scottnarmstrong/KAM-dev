@@ -48,13 +48,18 @@ public import KAM.CertificateSharp.V2.RefinedFacts
 public import KAM.CertificateSharp.V2.RouteACore
 public import KAM.CertificateSharp.V2.RouteAFrozen
 public import KAM.CertificateSharp.V2.RouteAQ
+public import KAM.CertificateSharp.V2.RouteAQRef
 public import KAM.CertificateSharp.V2.RouteARefined
 public import KAM.CertificateSharp.V2.RouteARefinedEngine
+public import KAM.CertificateSharp.V2.RouteARefinedRef
+public import KAM.CertificateSharp.V2.RouteARefinedRefEngine
 public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.Tests.FrameFacts
 public import KAM.CertificateSharp.V2.Tests.Frozen
 public import KAM.CertificateSharp.V2.Tests.Refined
 public import KAM.CertificateSharp.V2.Tests.RefinedR1
+public import KAM.CertificateSharp.V2.Tests.RefinedRef
+public import KAM.CertificateSharp.V2.Tests.RefinedRefR1
 public import KAM.CertificateSharp.V2.Tests.TrigCombined
 public import KAM.CertificateSharp.V2.Tests.TrigFacts
 
