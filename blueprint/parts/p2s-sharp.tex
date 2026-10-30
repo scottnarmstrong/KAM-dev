@@ -84,25 +84,30 @@ The bounds hold for every $0<\delta<r$.
 \end{lemma}
 
 \begin{proof}
-Fix $\gamma,\omega,r,\delta$ as in Definition~\ref{bp:p2s:cohdata}, $g$ as in (a), and write $\hat g_k$ for the
-Fourier coefficients of $g$ on $\R^n$ (period $1$, characters $e^{2\pi ik\cdot x}$).
+Fix $\gamma,\omega,r,\delta$ as in Definition~\ref{bp:p2s:cohdata} and $g$ as in (a). The norm on $\C^p$ is the max norm
+and Bessel's inequality is scalar, so the whole argument is run on one scalar component: fix $j\in\{1,\dots,p\}$, put $g_j$
+for the $j$-th component of $g$ (a scalar holomorphic periodic function with zero average and $\abs{g_j}\le H$ on $T_r$)
+and write $\hat g_k$ for its Fourier coefficients on $\R^n$ (period $1$, characters $e^{2\pi ik\cdot x}$). The bound
+obtained for $(\mathcal Rg)_j=\mathcal R g_j$ is uniform in $j$, so taking $\max_j$ gives (a); no inequality is applied
+to the vector $g$ itself (the vector inequality $\sum_k\abs{\hat g_k}^2e^{-4\pi k\cdot y}\le\int\abs{g}^2$ is false in the
+max norm, e.g.\ for $g=(e^{2\pi i\theta_1},e^{-2\pi i\theta_1})$).
 
 \proofstep{Shifted coefficients}\label{step:p2s:cp-shift}
-For $y\in\R^n$ with $\abs{y_i}<r$, the function $x\mapsto g(x+iy)$ is continuous and $1$-periodic with $k$-th
+For $y\in\R^n$ with $\abs{y_i}<r$, the function $x\mapsto g_j(x+iy)$ is continuous and $1$-periodic with $k$-th
 coefficient $\hat g_ke^{-2\pi k\cdot y}$: the contour of each coordinate integral is shifted inside $T_r$, the
 vertical sides cancelling by periodicity (the computation in the proof of Lemma~\ref{bp:p1:cohomological}).
 
 \proofstep{Bessel and corners}\label{step:p2s:cp-bessel}
 For every finite $F\subset\Z^n$, orthonormality of the characters on $[0,1]^n$ gives
-$\sum_{k\in F}\abs{\hat g_k}^2e^{-4\pi k\cdot y}\le\int_{[0,1]^n}\abs{g(x+iy)}^2dx\le H^2$. Put $r':=r-\delta/2$ and sum
+$\sum_{k\in F}\abs{\hat g_k}^2e^{-4\pi k\cdot y}\le\int_{[0,1]^n}\abs{g_j(x+iy)}^2dx\le H^2$. Put $r':=r-\delta/2$ and sum
 these inequalities over the $2^n$ corners $y=-r's$, $s\in\{\pm1\}^n$: since $\sum_se^{4\pi r'k\cdot s}\ge
 e^{4\pi r'\abs k_1}$, $\sum_{k\in F}\abs{\hat g_k}^2e^{4\pi r'\abs k_1}\le2^nH^2$, hence the same for the full sum.
 
 \proofstep{Cauchy--Schwarz}\label{step:p2s:cp-cs}
-$\mathcal Rg=\sum_{k\ne0}\hat g_k(2\pi ik\cdot\omega)^{-1}e^{2\pi ik\cdot\theta}$ with $\abs{k\cdot\omega}\ge\gamma\abs
+$\mathcal Rg_j=\sum_{k\ne0}\hat g_k(2\pi ik\cdot\omega)^{-1}e^{2\pi ik\cdot\theta}$ with $\abs{k\cdot\omega}\ge\gamma\abs
 k_1^{-\tau}$. For $\theta\in T_{r-\delta}$, $\abs{e^{2\pi ik\cdot\theta}}\le e^{2\pi r'\abs k_1}e^{-\pi\delta\abs k_1}$, so
 \[
-\abs{\mathcal Rg(\theta)}\le\frac{2^{n/2}H}{2\pi\gamma}\Bigl(\sum_{k\ne0}\abs k_1^{2\tau}e^{-2\pi\delta\abs k_1}\Bigr)^{1/2}.
+\abs{(\mathcal Rg)_j(\theta)}\le\frac{2^{n/2}H}{2\pi\gamma}\Bigl(\sum_{k\ne0}\abs k_1^{2\tau}e^{-2\pi\delta\abs k_1}\Bigr)^{1/2}.
 \]
 
 \proofstep{The lattice sum}\label{step:p2s:cp-lattice}
@@ -110,13 +115,13 @@ Split $e^{-2\pi\delta\abs k_1}=e^{-\pi\delta\abs k_1}e^{-\pi\delta\abs k_1}$ and
 $\sum_{k\ne0}\abs k_1^{2\tau}e^{-2\pi\delta\abs k_1}\le(2\tau/(e\pi\delta))^{2\tau}\sum_{k\ne0}e^{-\pi\delta\abs k_1}\le(2\tau/(e\pi\delta))^{2\tau}(8n/(\pi\delta))^n$, the last
 sum by the exponential lattice sum of Part~\ref{bp:p1} (the bound used for $c(n,\tau)$ in Lemma~\ref{bp:p1:cohomological}; Lean
 \Lean{KAM.Fourier.tsum\_exp\_neg\_modeSize\_ne\_zero\_le}). Inserted in the previous step this is $c_P(n,\tau)\gamma^{-1}\delta^{-\tau-n/2}H$, for every
-$\delta>0$.
+$\delta>0$; this holds for each $j$, hence for $\abs{\mathcal Rg}=\max_j\abs{(\mathcal Rg)_j}$.
 
 \proofstep{A-priori bound}\label{step:p2s:cp-apriori}
 Let $u$ be as in (b). For $v\in\C^q$ with $\abs v\le1$, $uv$ is holomorphic, periodic, with zero average and
 $\abs{\partial_\omega(uv)}\le H$ on $T_r$; by the uniqueness in Lemma~\ref{bp:p1:cohomological},
-$uv=\mathcal R(\partial_\omega(uv))$ on $T_{r-\delta}$, so (a) gives $\abs{uv}\le\Gamma_\delta H$ there, and
-$\abs u=\sup_{\abs v\le1}\abs{uv}$ (Corollary~\ref{bp:p2:matrix}(a)).
+$uv=\mathcal R(\partial_\omega(uv))$ on $T_{r-\delta}$, so the vector result (a), proved componentwise with $uv$ as the function $g$, gives $\abs{uv}\le\Gamma_\delta H$ there, and
+$\abs u=\sup_{\abs v\le1}\abs{uv}$ (Corollary~\ref{bp:p2:matrix}(a)), the induced operator supremum.
 \end{proof}
 
 \begin{remark}[Sharper Parseval constants]\label{bp:p2s:parseval-optimal}
@@ -139,7 +144,7 @@ The bounds hold for every $0<\delta<r$.
 
 \begin{proof}
 \proofstep{Bessel at the corners}\label{step:p2s:cr-bessel}
-Steps~\ref{step:p2s:cp-shift}--\ref{step:p2s:cp-bessel}: $\sum_k\abs{\hat g_k}^2e^{4\pi r'\abs k_1}\le2^nH^2$, $r'=r-\delta/2$.
+Steps~\ref{step:p2s:cp-shift}--\ref{step:p2s:cp-bessel}, for a scalar component $g_j$ of $g$: $\sum_k\abs{\hat g_k}^2e^{4\pi r'\abs k_1}\le2^nH^2$, $r'=r-\delta/2$.
 
 \proofstep{Shells}\label{step:p2s:cr-shell}
 For $N\ge1$ the numbers $k\cdot\omega$, $0<\abs k_1\le N$, satisfy $\abs{k\cdot\omega}\ge\gamma N^{-\tau}$ and are pairwise separated by
@@ -154,8 +159,8 @@ $\sum_{k\ne0}\abs{k\cdot\omega}^{-2}e^{-2\pi\delta\abs k_1}\le6(1+2^\tau)\gamma^
 term, whence $6$).
 
 \proofstep{Cauchy--Schwarz}\label{step:p2s:cr-cs}
-As in Step~\ref{step:p2s:cp-cs}, $\abs{\mathcal Rg(\theta)}\le(2\pi)^{-1}(2^nH^2)^{1/2}\bigl(\sum_{k\ne0}\abs{k\cdot\omega}^{-2}e^{-2\pi\delta\abs k_1}\bigr)^{1/2}
-\le c_R^{\mathrm R}(n,\tau)\gamma^{-1}\delta^{-\tau}H$ on $T_{r-\delta}$. The a-priori bound follows as in Step~\ref{step:p2s:cp-apriori}; $\tau\ge1$ gives
+As in Step~\ref{step:p2s:cp-cs}, for each $j$, $\abs{(\mathcal Rg)_j(\theta)}\le(2\pi)^{-1}(2^nH^2)^{1/2}\bigl(\sum_{k\ne0}\abs{k\cdot\omega}^{-2}e^{-2\pi\delta\abs k_1}\bigr)^{1/2}
+\le c_R^{\mathrm R}(n,\tau)\gamma^{-1}\delta^{-\tau}H$ on $T_{r-\delta}$. Taking $\max_j$ gives (a). The a-priori bound follows as in Step~\ref{step:p2s:cp-apriori}; $\tau\ge1$ gives
 $\varkappa\ge1$.
 \end{proof}
 
@@ -208,8 +213,8 @@ For $\mu>0$ and $0<\rho_\infty<\rho$ put
 \qquad\delta_0:=\min\Bigl\{1,\frac{\rho-\rho_\infty}6\Bigr\}.
 \]
 All constants are positive and depend only on $(n,\varkappa,c_R,M,\sigma_K,\sigma_B,\sigma_T,\bar\gamma)$;
-$\mathfrak c_*$ depends in addition on $\mu$, and $\delta_0$ only on $(\rho,\rho_\infty)$. None depends on $\rho$,
-$\rho_\infty$ or $\gamma$.
+$\mathfrak c_*$ depends in addition on $\mu$. None of the constants preceding $\delta_0$ depends on $\rho$, $\rho_\infty$ or
+$\gamma$; $\delta_0$ depends only on $(\rho,\rho_\infty)$.
 \end{definition}
 
 Positivity is immediate: $n,c_R,M,\sigma_K,\sigma_B,\sigma_T,\bar\gamma>0$, every constant is a sum, product or maximum
@@ -318,8 +323,9 @@ $\eta^L=-N^\top\Omega_0E=-BL^\top E$ by (a), and $\eta^N=L^\top\Omega_0E$ (Defin
 
 \begin{lemma}[Geometry with separate sizes and general small-divisor data]\label{bp:p2s:geometry}
 Let $K$ be holomorphic, primary and real on reals on $T_r$, with $\mathbb B_\beta(K(\theta))\subset\mathfrak B$,
-$\abs{DK}\le\sigma_K$, $\det G\ne0$, $\abs B\le\sigma_B$ and $\abs E\le\varepsilon$ on $T_r$ (no condition on $\avg T$), and
-let $0<\delta\le1$, $2\delta<r$. Then
+$\abs{DK}\le\sigma_K$, $\det G\ne0$, $\abs B\le\sigma_B$ and $\abs E\le\varepsilon$ on $T_r$, with $\varepsilon\le1$ (no condition on $\avg T$;
+$\varepsilon\le1$ is a field of the Lean bundle \Lean{KAM.Iso.Linear.AdmissibleNoTwist} and holds at every application, where
+$\varepsilon\le\delta\le1$), and let $0<\delta\le1$, $2\delta<r$. Then
 \begin{align*}
 &\abs{DE}\le n\varepsilon/\delta,\ \abs{(DE)^\top}\le2n\varepsilon/\delta,\ \abs{\partial_\omega\Omega_K}\le2n(n+1)\sigma_K\varepsilon/\delta,\
 \abs{E_{\mathrm{red}}}\le C_{\mathrm{red}}\varepsilon/\delta&&\text{on }T_{r-\delta},\\
@@ -372,7 +378,7 @@ Remark~\ref{bp:p2:torsion-route} set aside.}
 
 \begin{proof}
 \proofstep{The derivative of the tangent frame}\label{step:p2s:ti-dl}
-Lemma~\ref{bp:p2:frame-identities}(c) (whose proof holds for every $\omega\in\R^n$, with $E=E_\omega$) gives
+Lemma~\ref{bp:p2:frame-identities}(c) in its frequency-generic form (the existing Lean \Lean{KAM.Apost.Identities.fi\_dL} is stated at the standing Diophantine $\omega$; the generic-$\omega'$ version is the new helper \Lean{KAM.Sharp.TorsionPoly.fderiv\_tangentMat\_eq}, which repeats its chain-rule computation using no Diophantine property; its proof holds for every $\omega\in\R^n$, with $E=E_\omega$) gives
 $\partial_\omega L=AL-F$ on $T_r$.
 
 \proofstep{Gram matrix and its inverse}\label{step:p2s:ti-db}
@@ -864,9 +870,9 @@ $\mathfrak c_{\mathrm{sum}},\mathfrak c_*$ & summed changes & Theorem~\ref{bp:p2
 $C_1^\sharp,C_2^\sharp$ & G1$^\sharp$ & Theorem~\ref{bp:p2s:g1}
 \end{tabular}
 \end{center}
-For the lunar package R1 with R\"ussmann's instance ($n=2$, $\tau=\varkappa=1$, $a=2$, $c_R=0.3163$, $M=1.92$, $\sigma_K=1.374$,
+For the lunar package R1 with R\"ussmann's instance ($n=2$, $\tau=\varkappa=1$, $a=2$, $c_R=0.3163$, $M=1.924$, $\sigma_K=1.374$,
 $\sigma_B=1.931$, $\sigma_T=0.619$, $\mu=1/160$, $\bar\gamma=\gamma\approx1/24$) the three entries of $\mathfrak c_*$ are $10^{8.70}$
-($2^{2a}C_E$), $10^{7.49}$ (step) and $10^{7.86}$ (sum), and the threshold is $10^{-24.71}$ (the current theorem: $10^{-76.55}$; the
+($2^{2a}C_E$), $10^{7.50}$ (step) and $10^{7.86}$ (sum), and the threshold is $10^{-24.72}$ (the current theorem: $10^{-76.55}$; the
 Parseval instance: $10^{-36.73}$; the crude instance: $10^{-48.85}$).
 \end{remark}
 
