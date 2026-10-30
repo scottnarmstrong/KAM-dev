@@ -5,7 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Certificate.Poly.OverlapAdd
+public import KAM.Certificate.Poly.Sparse
 public import KAM.Certificate.Model.Basic
 
 /-!
@@ -221,17 +221,40 @@ kernel). -/
 def PackedAdvice.targetTerms (adv : PackedAdvice) : List (CertKey × ℤ) :=
   ((List.range adv.prodLen).zip adv.combined).filterMap adv.targetEntry
 
+/-- The `(slot, value)` terms of integer Fourier data in a layout (the slots `PackLayout.dense`
+fills). -/
+def PackLayout.slotTerms (L : PackLayout) (cs : List (CertKey × ℤ)) : List (ℕ × ℤ) :=
+  cs.map fun t => ((packSlotAux t.1 L.lo L.dims L.stride).getD 0, t.2)
+
+/-- Whether every key of the data has a slot in the layout. -/
+def PackLayout.allSlots (L : PackLayout) (cs : List (CertKey × ℤ)) : Bool :=
+  cs.all fun t => (packSlotAux t.1 L.lo L.dims L.stride).isSome
+
 /-- One real product of integer Fourier data (mantissa scale `P2` of the product): an empty
-factor gives the exact zero product (no advice, no kernel work); otherwise the dense factors must
-pass `checkPackedProduct`, and the result is the rounded target with the remainder bound. -/
+factor gives the exact zero product (no advice, no kernel work); otherwise the factors must pass
+the sparse check `checkPackedSp` on their slot terms (never building the dense lists) or, failing
+that, `checkPackedProduct` on the dense factors, and the result is the rounded target with the
+remainder bound. -/
 def packedRealProduct (adv : PackedAdvice) (W : CertWeight) (P2 : ℕ)
     (x y : List (CertKey × ℤ)) : Option (List (CertKey × ℤ) × ℚ) :=
   if x.isEmpty || y.isEmpty then some ([], 0) else
+    if adv.la.allSlots x && adv.lb.allSlots y &&
+        checkPackedSp adv (adv.la.slotTerms x) (adv.lb.slotTerms y) then
+      some (adv.targetTerms, adv.remainderBound W P2)
+    else
     match adv.la.dense x, adv.lb.dense y with
     | some da, some db =>
       if checkPackedProduct adv da db then some (adv.targetTerms, adv.remainderBound W P2)
       else none
     | _, _ => none
+
+/-- With every key slotted and strictly increasing slots, `dense` is the linear fill. -/
+theorem PackLayout.dense_eq_packFill {L : PackLayout} {cs : List (CertKey × ℤ)}
+    (hall : L.allSlots cs = true) (hasc : packStrictAsc (L.slotTerms cs) = true) :
+    L.dense cs = some (packFill L.denseLen 0 (L.slotTerms cs)) := by
+  unfold PackLayout.allSlots at hall
+  unfold PackLayout.slotTerms at hasc ⊢
+  simp [PackLayout.dense, hall, hasc]
 
 theorem intEval_targetEntry (adv : PackedAdvice) (n : ℕ) (θ : Fin n → ℂ) :
     ∀ (cs : List ℤ) (k : ℕ), intEval n (((List.range' k cs.length).zip cs).filterMap
@@ -285,6 +308,49 @@ theorem remainderBound_mul {adv : PackedAdvice} {W : CertWeight} (hw : 0 < W.w) 
   rw [hD]
   field_simp
 
+/-- The bound of one real product from a passing dense check. -/
+theorem packedRealProduct_core {adv : PackedAdvice} {W : CertWeight} {P2 : ℕ}
+    {x y : List (CertKey × ℤ)} {da db : List ℤ} (ha : adv.la.dense x = some da)
+    (hb : adv.lb.dense y = some db) (hc : checkPackedProduct adv da db = true) {s N : ℕ}
+    (hW : checkWeight W s N = true) {n : ℕ} {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho) :
+    ‖intEval n x θ * intEval n y θ - 2 ^ adv.scale * intEval n adv.targetTerms θ‖ ≤
+      ((adv.remainderBound W P2 : ℚ) : ℝ) * 2 ^ P2 := by
+  have hw1 := CertWeight.one_le_w hW
+  have hw0 : (0 : ℚ) < W.w := by exact_mod_cast (zero_lt_one.trans_le hw1)
+  obtain ⟨hlen, hsl⟩ := checkPackedProduct_slots hc
+  have hcompat := PackedAdvice.shapeOK_compat (checkPackedProduct_guards hc).2.1
+  have hconvlen : (listConv da db).length = adv.prodLen := by
+    rw [← hlen, PackedAdvice.combined_length]
+  rw [PackLayout.intEval_mul_of_compat hcompat ha hb θ, intEval_targetTerms,
+    list_sum_map_range_eq, hlen, Finset.mul_sum, ← Finset.sum_sub_distrib,
+    remainderBound_mul hw0, ← hconvlen]
+  refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i hi => ?_)
+  have hi' := Finset.mem_range.mp hi
+  have hdiff : ((listConv da db).getD i 0 : ℂ) *
+      character (certKeyFun n (adv.la.prodKey adv.lb i)) θ -
+      2 ^ adv.scale * ((adv.combined.getD i 0 : ℂ) *
+        character (certKeyFun n (adv.la.prodKey adv.lb i)) θ) =
+      (((listConv da db).getD i 0 - 2 ^ adv.scale * adv.combined.getD i 0 : ℤ) : ℂ) *
+        character (certKeyFun n (adv.la.prodKey adv.lb i)) θ := by
+    push_cast
+    ring
+  rw [hdiff, norm_mul, Complex.norm_intCast]
+  have he := (hsl i hi').1
+  have herr : |(((listConv da db).getD i 0 - 2 ^ adv.scale * adv.combined.getD i 0 : ℤ) : ℝ)|
+      ≤ (adv.slotErr i : ℝ) := by
+    rw [← Int.cast_abs]
+    have : ((adv.slotErr i : ℕ) : ℤ) = if adv.inBox i then 2 ^ adv.scale
+        else 2 ^ (adv.outLog + 1) := by
+      simp only [PackedAdvice.slotErr]
+      split_ifs <;> push_cast <;> rfl
+    rw [← this] at he
+    exact_mod_cast he
+  have hchi : ‖character (certKeyFun n (adv.la.prodKey adv.lb i)) θ‖ ≤
+      (W.w : ℝ) ^ adv.slotDeg i :=
+    (norm_character_le_weight hW _ hθ).trans
+      (pow_le_pow_right₀ hw1 (sum_natAbs_certKeyFun_le n _))
+  exact mul_le_mul herr hchi (norm_nonneg _) (by positivity)
+
 /-- **One real product**: the exact product of the two integer Fourier sums is `2^scale` times
 the returned target data up to the returned bound times `2^P2`, on the strip. -/
 theorem packedRealProduct_sound {adv : PackedAdvice} {W : CertWeight} {P2 : ℕ}
@@ -294,51 +360,26 @@ theorem packedRealProduct_sound {adv : PackedAdvice} {W : CertWeight} {P2 : ℕ}
     ‖intEval n x θ * intEval n y θ - 2 ^ adv.scale * intEval n out.1 θ‖ ≤
       ((out.2 : ℚ) : ℝ) * 2 ^ P2 := by
   unfold packedRealProduct at h
-  split_ifs at h with hemp
+  split_ifs at h with hemp hsp
   · simp only [Option.some.injEq] at h
     subst h
     rcases Bool.or_eq_true_iff.mp hemp with he | he <;>
       simp [List.isEmpty_iff.mp he, intEval_nil]
+  · simp only [Option.some.injEq] at h
+    subst h
+    simp only [Bool.and_eq_true] at hsp
+    obtain ⟨⟨hax, hay⟩, hc⟩ := hsp
+    have hc' := hc
+    simp only [checkPackedSp, Bool.and_eq_true] at hc'
+    exact packedRealProduct_core
+      (PackLayout.dense_eq_packFill hax hc'.1.1.1.1.1.2)
+      (PackLayout.dense_eq_packFill hay hc'.1.1.1.1.2) (checkPackedSp_dense hc) hW hθ
   split at h
   · rename_i da db ha hb
     split_ifs at h with hc
     simp only [Option.some.injEq] at h
     subst h
-    have hw1 := CertWeight.one_le_w hW
-    have hw0 : (0 : ℚ) < W.w := by exact_mod_cast (zero_lt_one.trans_le hw1)
-    obtain ⟨hlen, hsl⟩ := checkPackedProduct_slots hc
-    have hcompat := PackedAdvice.shapeOK_compat (checkPackedProduct_guards hc).2.1
-    have hconvlen : (listConv da db).length = adv.prodLen := by
-      rw [← hlen, PackedAdvice.combined_length]
-    rw [PackLayout.intEval_mul_of_compat hcompat ha hb θ, intEval_targetTerms,
-      list_sum_map_range_eq, hlen, Finset.mul_sum, ← Finset.sum_sub_distrib,
-      remainderBound_mul hw0, ← hconvlen]
-    refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i hi => ?_)
-    have hi' := Finset.mem_range.mp hi
-    have hdiff : ((listConv da db).getD i 0 : ℂ) *
-        character (certKeyFun n (adv.la.prodKey adv.lb i)) θ -
-        2 ^ adv.scale * ((adv.combined.getD i 0 : ℂ) *
-          character (certKeyFun n (adv.la.prodKey adv.lb i)) θ) =
-        (((listConv da db).getD i 0 - 2 ^ adv.scale * adv.combined.getD i 0 : ℤ) : ℂ) *
-          character (certKeyFun n (adv.la.prodKey adv.lb i)) θ := by
-      push_cast
-      ring
-    rw [hdiff, norm_mul, Complex.norm_intCast]
-    have he := (hsl i hi').1
-    have herr : |(((listConv da db).getD i 0 - 2 ^ adv.scale * adv.combined.getD i 0 : ℤ) : ℝ)|
-        ≤ (adv.slotErr i : ℝ) := by
-      rw [← Int.cast_abs]
-      have : ((adv.slotErr i : ℕ) : ℤ) = if adv.inBox i then 2 ^ adv.scale
-          else 2 ^ (adv.outLog + 1) := by
-        simp only [PackedAdvice.slotErr]
-        split_ifs <;> push_cast <;> rfl
-      rw [← this] at he
-      exact_mod_cast he
-    have hchi : ‖character (certKeyFun n (adv.la.prodKey adv.lb i)) θ‖ ≤
-        (W.w : ℝ) ^ adv.slotDeg i :=
-      (norm_character_le_weight hW _ hθ).trans
-        (pow_le_pow_right₀ hw1 (sum_natAbs_certKeyFun_le n _))
-    exact mul_le_mul herr hchi (norm_nonneg _) (by positivity)
+    exact packedRealProduct_core ha hb hc hW hθ
   · simp at h
 
 /-! ### Exact backend coefficients -/

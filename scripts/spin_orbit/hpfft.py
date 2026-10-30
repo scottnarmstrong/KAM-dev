@@ -2,7 +2,7 @@
 import numpy as np
 import mpmath
 
-P = 520
+P = int(__import__("os").environ.get("SO_HP_BITS", "520"))   # fixed-point bits (SO-GEN3: env override)
 
 def _twiddles(n, sign, prec=P):
     mpmath.mp.prec = prec + 80

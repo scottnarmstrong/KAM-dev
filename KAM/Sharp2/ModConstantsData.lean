@@ -121,58 +121,58 @@ def Bd (x : StepIn → ℝ) (p p' : StepIn) : Prop := 0 ≤ x p ∧ x p ≤ x p'
 /-! ### One definition per `let` of `stepConsts` -/
 
 /-- `γ̄ δ^κ`. -/
-def sg (p : StepIn) : ℝ := p.γb * p.δ ^ p.κ
-def sKt (p : StepIn) : ℝ := (1 + p.θ) * p.sK
-def sCΩ (p : StepIn) : ℝ := 2 * ((p.n : ℝ) - 1) * p.c1
-def sCEL (p : StepIn) : ℝ := (p.sK + p.sN * p.q) / (1 - p.q ^ 2)
-def sCEN (p : StepIn) : ℝ := (p.sN + p.sK * p.q) / (1 - p.q ^ 2)
-def sCE (p : StepIn) : ℝ := p.lam * sCEL p + sg p * sCEN p
-def sCDE (p : StepIn) : ℝ :=
-  (p.n : ℝ) * (p.sK + p.sN) * (max p.lam (sg p) + (p.sLt + p.sNt) * sCE p) / (1 - p.q)
-def sCNN (p : StepIn) : ℝ := (p.n : ℝ) * (p.lam + p.sNt * sCE p)
+def og (p : StepIn) : ℝ := p.γb * p.δ ^ p.κ
+def oKt (p : StepIn) : ℝ := (1 + p.θ) * p.sK
+def oCΩ (p : StepIn) : ℝ := 2 * ((p.n : ℝ) - 1) * p.c1
+def oCEL (p : StepIn) : ℝ := (p.sK + p.sN * p.q) / (1 - p.q ^ 2)
+def oCEN (p : StepIn) : ℝ := (p.sN + p.sK * p.q) / (1 - p.q ^ 2)
+def oCE (p : StepIn) : ℝ := p.lam * oCEL p + og p * oCEN p
+def oCDE (p : StepIn) : ℝ :=
+  (p.n : ℝ) * (p.sK + p.sN) * (max p.lam (og p) + (p.sLt + p.sNt) * oCE p) / (1 - p.q)
+def oCNN (p : StepIn) : ℝ := (p.n : ℝ) * (p.lam + p.sNt * oCE p)
 def sAvgB (p : StepIn) : ℝ := p.cbar * (p.δ / p.r) ^ p.κ
-def sC0 (p : StepIn) : ℝ :=
+def oC0 (p : StepIn) : ℝ :=
   if p.iso then p.sT * max (p.lam + p.t * sAvgB p) (p.lamW + p.y0 * sAvgB p)
   else p.sT * (p.lam + p.t * sAvgB p)
-def sCxiN (p : StepIn) : ℝ := sC0 p + p.c
-def sCKt (p : StepIn) : ℝ := p.sN * sCxiN p
-def sCDLt (p : StepIn) : ℝ := (p.n : ℝ) * p.sN * (sC0 p + p.c1)
-def sCDLtT (p : StepIn) : ℝ := 2 * (p.n : ℝ) * p.sN * (sC0 p + p.c1)
-def sCdN (p : StepIn) : ℝ :=
+def oCxiN (p : StepIn) : ℝ := oC0 p + p.c
+def oCKt (p : StepIn) : ℝ := p.sN * oCxiN p
+def oCDLt (p : StepIn) : ℝ := (p.n : ℝ) * p.sN * (oC0 p + p.c1)
+def oCDLtT (p : StepIn) : ℝ := 2 * (p.n : ℝ) * p.sN * (oC0 p + p.c1)
+def oCdN (p : StepIn) : ℝ :=
   (p.M1 * p.sK + p.n) * p.sB +
     p.sN * ((p.sLt * p.M1 + 2 * p.n) * p.sK + p.sLt * (p.M1 * p.sK + p.n)) * p.sB
-def sCXN (p : StepIn) : ℝ := p.M1 * p.sN + sCdN p
-def sCEt (p : StepIn) : ℝ :=
-  sCE p + sCXN p * sCxiN p + p.sN * sg p + p.M2 / 2 * sCKt p +
-    (if p.iso then sKt p * p.Θ * sC0 p else 0)
-def sQtN (p : StepIn) : ℝ :=
-  sCDLtT p * sCEt p + sCNN p * sCxiN p + p.δ * p.sLt * (p.M2 / 2) * sCKt p ^ 2
-def sCgL (p : StepIn) : ℝ := p.lam + p.t * sCxiN p + (if p.iso then p.Θ * sC0 p else 0)
-def sCxiL (p : StepIn) : ℝ := p.c * sCgL p
-def sCDK (p : StepIn) : ℝ := sKt p * sCxiL p + sg p * sCKt p
-def sCEb (p : StepIn) : ℝ := sCEt p + sKt p * sCgL p
-def sCG (p : StepIn) : ℝ := (p.n : ℝ) * p.sLt + 2 * (p.n : ℝ) * p.sK
-def sCBb (p : StepIn) : ℝ := p.sB ^ 2 * sCG p * sCDK p / (1 - p.θ)
-def sCNb (p : StepIn) : ℝ := (p.n : ℝ) * sCDK p * p.sB + p.sK * sCBb p
-def sCNbT (p : StepIn) : ℝ := sCBb p * p.sLt + 2 * (p.n : ℝ) * sCDK p * p.sB
-def sw (p : StepIn) : ℝ := 2 * p.M1 * p.sLt * p.sK + 2 * (p.n : ℝ) * p.sK + (p.n : ℝ) * p.sLt
+def oCXN (p : StepIn) : ℝ := p.M1 * p.sN + oCdN p
+def oCEt (p : StepIn) : ℝ :=
+  oCE p + oCXN p * oCxiN p + p.sN * og p + p.M2 / 2 * oCKt p +
+    (if p.iso then oKt p * p.Θ * oC0 p else 0)
+def oQtN (p : StepIn) : ℝ :=
+  oCDLtT p * oCEt p + oCNN p * oCxiN p + p.δ * p.sLt * (p.M2 / 2) * oCKt p ^ 2
+def oCgL (p : StepIn) : ℝ := p.lam + p.t * oCxiN p + (if p.iso then p.Θ * oC0 p else 0)
+def oCxiL (p : StepIn) : ℝ := p.c * oCgL p
+def oCDK (p : StepIn) : ℝ := oKt p * oCxiL p + og p * oCKt p
+def oCEb (p : StepIn) : ℝ := oCEt p + oKt p * oCgL p
+def oCG (p : StepIn) : ℝ := (p.n : ℝ) * p.sLt + 2 * (p.n : ℝ) * p.sK
+def oCBb (p : StepIn) : ℝ := p.sB ^ 2 * oCG p * oCDK p / (1 - p.θ)
+def oCNb (p : StepIn) : ℝ := (p.n : ℝ) * oCDK p * p.sB + p.sK * oCBb p
+def oCNbT (p : StepIn) : ℝ := oCBb p * p.sLt + 2 * (p.n : ℝ) * oCDK p * p.sB
+def ow (p : StepIn) : ℝ := 2 * p.M1 * p.sLt * p.sK + 2 * (p.n : ℝ) * p.sK + (p.n : ℝ) * p.sLt
 def sCDT0 (p : StepIn) : ℝ :=
-  2 * p.M1 * (sCNbT p * p.sN + p.sNt * sCNb p) + 2 * p.M2 * p.sNt * p.sN * sCDK p * p.δ +
-    sg p * (2 * p.sNt * p.sB * sCDE p + 2 * p.sB ^ 3 * sw p * sCΩ p)
+  2 * p.M1 * (oCNbT p * p.sN + p.sNt * oCNb p) + 2 * p.M2 * p.sNt * p.sN * oCDK p * p.δ +
+    og p * (2 * p.sNt * p.sB * oCDE p + 2 * p.sB ^ 3 * ow p * oCΩ p)
 def sCDT (p : StepIn) : ℝ :=
-  if p.iso then max (sCDT0 p + p.Θ * sC0 p * (sg p * p.δ))
-    ((p.n : ℝ) * p.Θ * sC0 p * (sg p * p.δ) + 2 * (p.n : ℝ) * (sg p * p.δ)) else sCDT0 p
-def sQbN (p : StepIn) : ℝ :=
-  (1 + (p.n : ℝ) * p.θξ) * (1 + p.θΩ) * sQtN p +
-    (if p.iso then (1 + (p.n : ℝ) * p.θξ) * p.Θ * sCΩ p * sQtN p * sC0 p * p.θξ / sCxiL p else 0)
+  if p.iso then max (sCDT0 p + p.Θ * oC0 p * (og p * p.δ))
+    ((p.n : ℝ) * p.Θ * oC0 p * (og p * p.δ) + 2 * (p.n : ℝ) * (og p * p.δ)) else sCDT0 p
+def oQbN (p : StepIn) : ℝ :=
+  (1 + (p.n : ℝ) * p.θξ) * (1 + p.θΩ) * oQtN p +
+    (if p.iso then (1 + (p.n : ℝ) * p.θξ) * p.Θ * oCΩ p * oQtN p * oC0 p * p.θξ / oCxiL p else 0)
 def sQL0 (p : StepIn) : ℝ :=
-  p.sNt * (p.M2 / 2) * sCKt p ^ 2 * (sg p * p.δ) + p.sB ^ 2 * sCΩ p * sg p ^ 2 +
-    (p.n : ℝ) * p.sNt * sCEt p * sCxiL p +
-    p.sNt * sCgL p * ((p.n : ℝ) * sKt p * sCxiL p + sg p * sCDLt p) + sCNbT p * sCEb p
-def sQL (p : StepIn) : ℝ :=
-  if p.iso then max (sQL0 p + sC0 p * sCgL p * (sg p * p.δ) + sC0 p * p.sNt * sCDLt p * p.Θ * sg p)
-    (p.Mh2 / 2 * sCKt p ^ 2 * (sg p * p.δ) +
-      (p.n : ℝ) * sQtN p * p.θξ * (p.Θ * sCΩ p + sg p * p.δ)) else sQL0 p
+  p.sNt * (p.M2 / 2) * oCKt p ^ 2 * (og p * p.δ) + p.sB ^ 2 * oCΩ p * og p ^ 2 +
+    (p.n : ℝ) * p.sNt * oCEt p * oCxiL p +
+    p.sNt * oCgL p * ((p.n : ℝ) * oKt p * oCxiL p + og p * oCDLt p) + oCNbT p * oCEb p
+def oQL (p : StepIn) : ℝ :=
+  if p.iso then max (sQL0 p + oC0 p * oCgL p * (og p * p.δ) + oC0 p * p.sNt * oCDLt p * p.Θ * og p)
+    (p.Mh2 / 2 * oCKt p ^ 2 * (og p * p.δ) +
+      (p.n : ℝ) * oQtN p * p.θξ * (p.Θ * oCΩ p + og p * p.δ)) else sQL0 p
 
 
 end KAM.Sharp2

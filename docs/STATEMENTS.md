@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**23 frozen theorems, 23 sealed; 123 frozen definitions.**
+**24 frozen theorems, 23 sealed; 134 frozen definitions.**
 
 ## Index
 
@@ -13,6 +13,7 @@ Every statement below is an exact Lean declaration that the owner approved befor
 - **Track N: Nekhoroshev stability:** [`quasiConvex_isoenergetic_derivative`](#quasiconvex_isoenergetic_derivative) · [`zero_perturbation`](#zero_perturbation) · [`quasiConvex_nekhoroshev_complexBound`](#quasiconvex_nekhoroshev_complexbound) · [`partialConvex_nekhoroshev`](#partialconvex_nekhoroshev) · [`averaging_mean`](#averaging_mean) · [`averaging_most`](#averaging_most)
 - **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses)
 - **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
+- **Track W: PDE KAM (cubic wave equation):** [`nlw2`](#nlw2)
 
 ## Track K: positive-measure KAM
 
@@ -404,5 +405,33 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 <details><summary>Frozen definitions of this track (1)</summary>
 
 - [`KAM.Russmann.russmannCover`](../KAM/Frozen/Russmann/Defs/RussmannCover.lean#L34)
+
+</details>
+
+## Track W: PDE KAM (cubic wave equation)
+
+### nlw2
+
+[`KAM.Wave.nlw2`](../KAM/Frozen/Wave/Theorems/Nlw2.lean#L43) · ⬜ not yet
+
+**W-NLW2.** For every `m > 0` the cubic Dirichlet wave equation `u_tt = u_xx - m u - u³` has a density-one (in the actions, at `0`) Borel family of small analytic invariant 2-tori with Diophantine frequencies, carrying exact classical PDE solutions, pairwise disjoint and embedded.
+
+- **Source:** bpW:wh:nlw2 rev 1; P96-W Main Theorem pp. 272-273 (J = {1,2}), Cantor Manifold Theorem p. 289; D30 Q2-Q3; declared weakenings W-A2
+- **Proof assembled in:** `KAM.Provider.Wave.Nlw2`
+- **Manifest ID:** `wave.nlw2.v1`
+
+<details><summary>Frozen definitions of this track (11)</summary>
+
+- [`KAM.Wave.lam`](../KAM/Frozen/Wave/Defs/Lam.lean#L28)
+- [`KAM.Wave.sineMode`](../KAM/Frozen/Wave/Defs/SineMode.lean#L27)
+- [`KAM.Wave.ellWeight`](../KAM/Frozen/Wave/Defs/EllWeight.lean#L27)
+- [`KAM.Wave.WaveSpace`](../KAM/Frozen/Wave/Defs/WaveSpace.lean#L32)
+- [`KAM.Wave.coeff`](../KAM/Frozen/Wave/Defs/Coeff.lean#L27)
+- [`KAM.Wave.reconU`](../KAM/Frozen/Wave/Defs/ReconU.lean#L31)
+- [`KAM.Wave.reconV`](../KAM/Frozen/Wave/Defs/ReconV.lean#L31)
+- [`KAM.Wave.cubicGrad`](../KAM/Frozen/Wave/Defs/CubicGrad.lean#L27)
+- [`KAM.Wave.linearTorus`](../KAM/Frozen/Wave/Defs/LinearTorus.lean#L32)
+- [`KAM.Wave.IsAnalyticTorusEmbedding`](../KAM/Frozen/Wave/Defs/IsAnalyticTorusEmbedding.lean#L30)
+- [`KAM.Wave.IsClassicalSolution`](../KAM/Frozen/Wave/Defs/IsClassicalSolution.lean#L31)
 
 </details>

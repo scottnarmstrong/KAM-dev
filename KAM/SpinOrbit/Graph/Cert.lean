@@ -156,11 +156,12 @@ theorem checkSoGraph_sound {g : SoGraphCert α}
     push_cast at h
     linarith
 
-/-- The black box plus a passing graph check: an exact torus `K∞` on `T_{ρ∞}`, invariant for
-`c.H` at `s∞ ω*` (`s∞ ω*` Diophantine), with `∂_{θ₀} K∞_{.1 0} ≥ mono - disp/ρ∞ > 0` and
+/-- The black box output (`CertifiedTorus`, from either certifier) plus a passing graph check and
+the static check: an exact torus `K∞` on `T_{ρ∞}`, invariant for `c.H` at `s∞ ω*` (`s∞ ω*`
+Diophantine), with `∂_{θ₀} K∞_{.1 0} ≥ mono - disp/ρ∞ > 0` and
 `K∞_{.2 0} ∈ [pLo - disp, pHi + disp]` on the reals. -/
-theorem soGraph_exactTorus {g : SoGraphCert α} (hc : checkTorusCertificate g.base = true)
-    (hg : checkSoGraph g = true) {ωstar : Fin 2 → ℝ} (hω : FreqEncloses 2 g.base.freqBox ωstar)
+theorem soGraph_exactTorus_of_certified {g : SoGraphCert α} (hs : checkStatic g.base = true)
+    (hg : checkSoGraph g = true) {ωstar : Fin 2 → ℝ} (hT : CertifiedTorus g.base ωstar)
     (hdio : IsDiophantine (g.base.params.γ : ℝ) (g.base.params.tau : ℝ) ωstar) :
     ∃ (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ),
       DifferentiableOn ℂ Kinf (complexStrip 2 g.base.params.rhoInf) ∧
@@ -174,13 +175,9 @@ theorem soGraph_exactTorus {g : SoGraphCert α} (hc : checkTorusCertificate g.ba
         ((fderiv ℂ Kinf (realPt x y) (realPt 1 0)).1 0).re) ∧
       (∀ x y : ℝ, (g.pLo : ℝ) - g.base.params.disp ≤ ((Kinf (realPt x y)).2 0).re) ∧
       (∀ x y : ℝ, ((Kinf (realPt x y)).2 0).re ≤ (g.pHi : ℝ) + g.base.params.disp) := by
-  have hs : checkStatic g.base = true := by
-    simp only [checkTorusCertificate, Bool.and_eq_true] at hc
-    exact hc.1.1.1.1.1.1.1
   have S := checkStatic_sound hs
   obtain ⟨hm, hmono, hlo, hhi⟩ := checkSoGraph_sound S.hW S.hpe hg
-  obtain ⟨Kinf, sinf, hs1, -, hholo, hprim, hreal, hinv, -, -, -, hdisp, -⟩ :=
-    checkTorusCertificate_sound hc hω hdio
+  obtain ⟨Kinf, sinf, hs1, -, hholo, hprim, hreal, hinv, -, -, -, hdisp, -⟩ := hT
   have hρ : (0 : ℝ) < g.base.params.rhoInf := S.hρinf
   have hsinf : 0 < sinf := by linarith
   have hK : Differentiable ℂ g.base.K := CertEmbedding.differentiable_eval 2 g.base.emb
@@ -210,6 +207,34 @@ theorem soGraph_exactTorus {g : SoGraphCert α} (hc : checkTorusCertificate g.ba
     have := (abs_le.1 h).2
     linarith
 
+omit [LawfulCertArith α] in
+/-- The static check is the first conjunct of `checkTorusCertificate`. -/
+theorem checkStatic_of_checkTorusCertificate {c : TorusCertificate 2 α}
+    (hc : checkTorusCertificate c = true) : checkStatic c = true := by
+  simp only [checkTorusCertificate, Bool.and_eq_true] at hc
+  exact hc.1.1.1.1.1.1.1
+
+/-- The black box plus a passing graph check: an exact torus `K∞` on `T_{ρ∞}`, invariant for
+`c.H` at `s∞ ω*` (`s∞ ω*` Diophantine), with `∂_{θ₀} K∞_{.1 0} ≥ mono - disp/ρ∞ > 0` and
+`K∞_{.2 0} ∈ [pLo - disp, pHi + disp]` on the reals. -/
+theorem soGraph_exactTorus {g : SoGraphCert α} (hc : checkTorusCertificate g.base = true)
+    (hg : checkSoGraph g = true) {ωstar : Fin 2 → ℝ} (hω : FreqEncloses 2 g.base.freqBox ωstar)
+    (hdio : IsDiophantine (g.base.params.γ : ℝ) (g.base.params.tau : ℝ) ωstar) :
+    ∃ (Kinf : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)) (sinf : ℝ),
+      DifferentiableOn ℂ Kinf (complexStrip 2 g.base.params.rhoInf) ∧
+      IsPrimaryOnStrip Kinf g.base.params.rhoInf ∧ IsRealOnReals Kinf ∧
+      (∀ θ ∈ complexStrip 2 g.base.params.rhoInf,
+        invarianceError g.base.H Kinf (sinf • ωstar) θ = 0) ∧
+      IsDiophantine (sinf * g.base.params.γ) (g.base.params.tau : ℝ) (sinf • ωstar) ∧
+      0 < sinf * (g.base.params.γ : ℝ) ∧
+      0 < (g.mono : ℝ) - g.base.params.disp / g.base.params.rhoInf ∧
+      (∀ x y : ℝ, (g.mono : ℝ) - g.base.params.disp / g.base.params.rhoInf ≤
+        ((fderiv ℂ Kinf (realPt x y) (realPt 1 0)).1 0).re) ∧
+      (∀ x y : ℝ, (g.pLo : ℝ) - g.base.params.disp ≤ ((Kinf (realPt x y)).2 0).re) ∧
+      (∀ x y : ℝ, ((Kinf (realPt x y)).2 0).re ≤ (g.pHi : ℝ) + g.base.params.disp) :=
+  soGraph_exactTorus_of_certified (checkStatic_of_checkTorusCertificate hc) hg
+    (checkTorusCertificate_sound hc hω hdio) hdio
+
 /-- The barrier from a passing ORIGINAL-frame certificate (valid, not on the
 headline route). The band is widened by `disp`. -/
 theorem soBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : SoGraphCert α)
@@ -229,24 +254,32 @@ theorem soBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : S
     exact (checkStatic_sound hs).hρinf
   exact soBarrier_of_exact_torus hρ hholo hprim hreal hinv hγ hdio' hm hmono hlo hhi
 
+/-- The barrier from the black box output (`CertifiedTorus`, from either certifier), the static
+check and a passing graph check, in the ROTATED frame: graph transfer (`checkSoGraph`, Cauchy on
+`T_{ρ∞}`, frame-free), then `soBarrier_of_exact_rotTorus`. The band is widened by `disp`. -/
+theorem soRotBarrier_of_certified {α : Type} [CertArith α] [LawfulCertArith α]
+    (g : SoGraphCert α) {c : ℚ} (hc0 : 0 < c) (hham : g.base.ham = soRotHamExprScaled c)
+    (hs : checkStatic g.base = true) (hg : checkSoGraph g = true) {ωstar : Fin 2 → ℝ}
+    (hT : CertifiedTorus g.base ωstar)
+    (hdio : IsDiophantine (g.base.params.γ : ℝ) (g.base.params.tau : ℝ) ωstar) :
+    Nonempty (SoBarrier ((g.pLo : ℝ) - g.base.params.disp) ((g.pHi : ℝ) + g.base.params.disp)) := by
+  obtain ⟨Kinf, sinf, hholo, hprim, hreal, hinv, hdio', hγ, hm, hmono, hlo, hhi⟩ :=
+    soGraph_exactTorus_of_certified hs hg hT hdio
+  have hH : g.base.H = (soRotHamExprScaled c).eval := by rw [TorusCertificate.H, hham]
+  rw [hH] at hinv
+  exact soBarrier_of_exact_rotTorus hc0 (checkStatic_sound hs).hρinf hholo hprim hreal hinv hγ
+    hdio' hm hmono hlo hhi
+
 /-- **The barrier from a passing ROTATED-frame certificate**: black box
-(`checkTorusCertificate_sound`), graph transfer (`checkSoGraph`, Cauchy on `T_{ρ∞}`, frame-free),
-then `soBarrier_of_exact_rotTorus`. The band is widened by `disp`. -/
+(`checkTorusCertificate_sound`), then `soRotBarrier_of_certified`. The band is widened by
+`disp`. -/
 theorem soRotBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : SoGraphCert α)
     {c : ℚ} (hc0 : 0 < c) (hham : g.base.ham = soRotHamExprScaled c)
     (hc : checkTorusCertificate g.base = true) (hg : checkSoGraph g = true)
     {ωstar : Fin 2 → ℝ} (hω : FreqEncloses 2 g.base.freqBox ωstar)
     (hdio : IsDiophantine (g.base.params.γ : ℝ) (g.base.params.tau : ℝ) ωstar) :
-    Nonempty (SoBarrier ((g.pLo : ℝ) - g.base.params.disp) ((g.pHi : ℝ) + g.base.params.disp)) := by
-  obtain ⟨Kinf, sinf, hholo, hprim, hreal, hinv, hdio', hγ, hm, hmono, hlo, hhi⟩ :=
-    soGraph_exactTorus hc hg hω hdio
-  have hH : g.base.H = (soRotHamExprScaled c).eval := by rw [TorusCertificate.H, hham]
-  rw [hH] at hinv
-  have hρ : (0 : ℝ) < g.base.params.rhoInf := by
-    have hs : checkStatic g.base = true := by
-      simp only [checkTorusCertificate, Bool.and_eq_true] at hc
-      exact hc.1.1.1.1.1.1.1
-    exact (checkStatic_sound hs).hρinf
-  exact soBarrier_of_exact_rotTorus hc0 hρ hholo hprim hreal hinv hγ hdio' hm hmono hlo hhi
+    Nonempty (SoBarrier ((g.pLo : ℝ) - g.base.params.disp) ((g.pHi : ℝ) + g.base.params.disp)) :=
+  soRotBarrier_of_certified g hc0 hham (checkStatic_of_checkTorusCertificate hc) hg
+    (checkTorusCertificate_sound hc hω hdio) hdio
 
 end KAM.SpinOrbit

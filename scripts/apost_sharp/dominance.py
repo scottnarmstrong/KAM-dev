@@ -15,7 +15,8 @@ FAIR DATA (audit AUDIT-SHARP-V2-fixed-1 F7): every competitor receives its best 
 the classical constant c^natural(n, tau, b) of blueprint bp:p2s2sd:classical at its OWN bites:
   FH24     c_R = c^nat(delta) at its optimised initial bite delta (FH24 App. B allows c_R(delta) or uniform bounds; its
            later bites are smaller and c^nat is nondecreasing, so c^nat(delta) is a uniform bound for every step),
-           c^1_R = (tau+1)^{tau+1}/tau^tau c^nat(delta) (Corollary 2.16 with that uniform constant), and
+           c^1_R = (tau+1)^{tau+1}/tau^tau c^nat(tau/(tau+1) delta) (Corollary 2.16 (2.22) at its split bite, uniform over
+           the later bites since c^nat is nondecreasing; AUDIT-SHARP2-FIX-fixed-1 F2), and
            c_R(rho) = c^nat(rho) for its full-strip average (3.45) (a small-bite constant does not certify the bite rho);
   HL19     c_R = c^nat(delta_0) at its initial bite delta_0 = rho/a_3(a_1) (Lemma 4.1 allows c_R(delta); HL19 5.3 takes
            the constants at delta_0, which is legal here because c^nat is nondecreasing: the uniformity caveat of HL19
@@ -133,10 +134,13 @@ def best_fh24_fair(d, errata=True):
     dd = dict(d, cRrho=c_nat(n, tau, min(F(d["rho"]), F(1))))
     ddf = dict(dd, cRrho=float(dd["cRrho"]))
 
+    spl = F(tau, tau + 1)                           # FH24 Cor. 2.16 (2.22): c^1_R from the split bite tau/(tau+1) delta
+
     def obj(p):
         c = c_nat(n, tau, p[0] * Dr, exact=False)
+        c1 = float(fac) * c_nat(n, tau, spl * p[0] * Dr, exact=False)
         try:
-            return FH.fh24(ddf, c, float(fac) * c, p[0] * Dr, p[1], p[2], p[3], exact=False, errata=errata)["threshold_e"]
+            return FH.fh24(ddf, c, c1, p[0] * Dr, p[1], p[2], p[3], exact=False, errata=errata)["threshold_e"]
         except (AssertionError, ZeroDivisionError, OverflowError):
             return 0.0
     logg = sorted({F(m, 10 ** j) for j in range(1, 25) for m in (1, 2, 5)} | {F(1, 2), F(1, 5)})
@@ -176,33 +180,41 @@ def best_fh24_fair(d, errata=True):
             if p == p0:
                 break
     c = c_nat(n, tau, p[0] * Dr)
-    r = FH.fh24(dd, c, fac * c, p[0] * Dr, p[1], p[2], p[3], exact=True, errata=errata)
-    r["t"] = p[0]; r["cR"] = c
+    c1 = fac * c_nat(n, tau, spl * p[0] * Dr)       # sharper legal c^1_R (AUDIT-SHARP2-FIX-fixed-1, F2)
+    r = FH.fh24(dd, c, c1, p[0] * Dr, p[1], p[2], p[3], exact=True, errata=errata)
+    r["t"] = p[0]; r["cR"] = c; r["cR1"] = c1
     return r
 
 
-def best_hl19_fair(d, grid=None):
-    """HL19 with c_R = c^nat(delta_0(a_1)) at its initial bite, a_1 optimised (nu_HL self-consistent)."""
+def hl19_scan(d, grid=None, iso=False):
+    """HL19 (Thm 3.1, or Thm 3.6 if iso) with c_R = c^nat(delta_0(a_1)) at its initial bite, for every a_1 of the grid
+    (nu_HL self-consistent): the list of admissible results (each a valid instance of the theorem)."""
     n, tau = int(d["n"]), int(d["tau"])
     grid = grid or [F(k, 100) for k in range(105, 401, 5)] + [F(k, 10) for k in range(45, 101, 5)]
     rho, a2 = F(d["rho"]), F(d["rho"]) / F(d["rhoinf"])
-    best = None
+    out = []
     for a1 in grid:
         a3 = 3 * a1 / (a1 - 1) * a2 / (a2 - 1)
-        c = c_nat(n, tau, rho / a3)
+        c = c_nat(n, tau, min(rho / a3, F(1)))
         nu = F(1, 10 ** 6)
         try:
             for _ in range(3):
-                r = HL.hl19(d, c, a1, nu, False)
+                r = HL.hl19(d, c, a1, nu, iso)
                 nu = r["threshold"] / r["delta0"] * (1 + F(1, 10 ** 9))
-            r = HL.hl19(d, c, a1, nu, False)
+            r = HL.hl19(d, c, a1, nu, iso)
         except (AssertionError, ZeroDivisionError):
             continue
-        if r["threshold"] >= r["delta0"] * nu:
+        if r["threshold"] <= 0 or r["threshold"] >= r["delta0"] * nu:
             continue
-        if best is None or r["threshold"] > best["threshold"]:
-            best = r; best["a1"] = a1; best["cR"] = c
-    return best
+        r["a1"] = a1; r["cR"] = c
+        out.append(r)
+    return out
+
+
+def best_hl19_fair(d, grid=None, iso=False):
+    """HL19 with c_R = c^nat(delta_0(a_1)) at its initial bite, a_1 optimised (nu_HL self-consistent)."""
+    sc = hl19_scan(d, grid, iso)
+    return max(sc, key=lambda r: r["threshold"]) if sc else None
 
 
 def compare(D):
@@ -222,7 +234,7 @@ def _point(args):
     D = grid_data(n, tau, g, r, s)
     try:
         res = compare(D)
-    except AssertionError as ex:
+    except (AssertionError, T2.IllegalData) as ex:
         return dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, skipped=str(ex))
     best_comp = max(res["HL19"], res["FH24_corr"])
     return dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, **res, margin=res["v2"] - best_comp)
@@ -294,7 +306,8 @@ def point_main():
 
 if __name__ == "__main__" and "--point" in sys.argv:
     point_main()
-elif __name__ == "__main__" and "--plasmalean" not in sys.argv and "--fh25" not in sys.argv:
+elif __name__ == "__main__" and "--plasmalean" not in sys.argv and "--fh25" not in sys.argv and \
+        "--closeness" not in sys.argv:
     main()
 
 
@@ -499,3 +512,334 @@ def fh25(kpre=10):
 
 if __name__ == "__main__" and "--fh25" in sys.argv:
     fh25()
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# SHARP2-DOMPLUS: closeness constants (C2 of G1Body; iso C2 and C3 of IG1Body) and wider ranges.
+# The closeness bound of a theorem at the error e is the bound it gives for |K_inf - K| (and |omega_inf - omega|) when
+# |E| <= e satisfies its smallness; each theorem is a family over its free parameters, and every member admitting e is a
+# valid instance, so its bound at e is the minimum over the admissible members.  Compared at
+#   e_c = (1/2) min{e*_v2, e*_competitor}  (both theorems apply, with room), and
+#   e -> 0                                  (the linear coefficient: e_0 = 1e-9 min of the thresholds).
+# v2: route B (all configurations of v2_same_data, floating point) and route A (exact); the ball sum of the engine is
+# the closeness bound (bp:p2s2:engine, J4) and the frequency sum the iso frequency closeness (bpI:p2s2:g1).
+# FH24: ||K_inf - K|| <= C_DeltaK/(gamma delta^tau) eps, eps <= c_Om max{s_NT, s_LT/(gamma delta^tau)} e ((2.32), p. 19), its
+# (delta, kappa) scanned with c_R = c^nat(delta) (fair data), nu, varkappa at the threshold optimum.  HL19: C2 e/(gamma^2
+# rho^{2 tau}) ((3.11), <= by E-HL19-1/8); iso frequency C3 e/(gamma rho^tau) ((6.51), E-HL19-12), a_1 scanned.
+# ---------------------------------------------------------------------------------------------------------------
+
+def _v2_configs(D, iso=False, kpre=5, thetas=(F(1, 16), F(1, 8)), ratios=RATIOS, ymaxs=(F(1, 2), F(9, 10)),
+                scs=(False, True), xlo=1e-60, tslacks=(F(1, 10),), tights=(False,)):
+    """The route-B configurations of v2 (floating point) as (options, k, c_stage, c_tail)."""
+    n, tau = D["n"], int(D["tau"])
+    Df = {k_: (float(v) if isinstance(v, F) else v) for k_, v in D.items()}
+    cf = lambda d: c_nat(n, tau, d, exact=False)
+    sp = tau / (tau + 1)
+    stf = lambda ds, r: (cf(ds), cf(sp * ds), cf(min(r, 1.0)))
+    stf.by_bite = True
+    out = []
+    for a, k in ratios:
+        d0 = min(1.0, (Df["rho"] - Df["rhoinf"]) * float(a - 1) / (3 * float(a)))
+        rk = Df["rho"] - 3 * d0 * (1 - float(a) ** -k) / (1 - 1 / float(a))
+        ctf = (cf(d0 / float(a) ** k), cf(min(rk, 1.0)))
+        for th in thetas:
+            for ym in ymaxs:
+                for sc in scs:
+                    for ts in tslacks:
+                        for tg in tights:
+                            oB = dict(L1=False, keep_delta=True, avg_full_bite=True, aniso=True, theta=th, ratio=a,
+                                      split=sp, ymax=ym, selfcons=sc, theta_given=iso, xlo=xlo, tslack=ts,
+                                      tight_caps=tg)
+                            out.append((oB, k, stf, ctf))
+    return Df, out
+
+
+def _v2_routeA(D, iso=False, kpre=5):
+    """Route A of v2 (exact), as in v2_same_data."""
+    n, tau = D["n"], int(D["tau"])
+    c_cl = lambda d: c_nat(n, tau, d)
+    delta0 = min(F(1), (D["rho"] - D["rhoinf"]) / 6)
+
+    def st(s):
+        ds = delta0 / 2 ** s
+        r = D["rho"] - 6 * delta0 * (1 - F(1, 2 ** s))
+        return c_cl(ds), c_cl(ds / 2), c_cl(min(r, F(1)))
+    ct = c_cl(delta0 / 2 ** kpre)
+    oA = dict(omega_eta=True, avg_full_bite=True, keep_delta=True, caps_tilde=True, theta_given=iso, xlo=1e-200)
+    return oA, st, ct
+
+
+def v2_threshold(D, iso=False, xlo=1e-60):
+    """log10 e* of v2 on the competitors' data (best of route B configurations and route A)."""
+    Df, cfgs = _v2_configs(D, iso, xlo=xlo)
+    best = (-1e9, None)
+    for oB, k, stf, ctf in cfgs:
+        le = T2.thresholdB(Df, oB, iso, k, stf, ctf)[0]
+        if le > best[0]:
+            best = (le, dict(route="B", ratio=float(oB["ratio"]), kpre=k, theta=float(oB["theta"]),
+                             ymax=float(oB["ymax"]), selfcons=oB["selfcons"]))
+    oA, st, ct = _v2_routeA(D, iso)
+    try:
+        lA = T2.thresholdA(D, oA, iso, k=5, c_stage=st, c_tail=ct)[0]
+    except (AssertionError, ZeroDivisionError, OverflowError):
+        lA = -1e9
+    if lA > best[0]:
+        best = (lA, dict(route="A"))
+    return best
+
+
+RATIOS_CLOSE = RATIOS + ((F(3), 4), (F(4), 3), (F(8), 2), (F(32), 1), (F(256), 1), (F(4096), 1))   # large a: delta_0 ->
+# (rho - rho_inf)/3, the limit FH24's bite also approaches; FH24's scan gets the same bites (T_NEAR)
+T_NEAR = [1 - 1 / float(a) for a, _ in RATIOS_CLOSE if a > 2]
+
+
+def v2_close(D, e, iso=False):
+    """v2's closeness bounds at the error e: the minimum over the admissible members (route B configurations, route A)
+    of the ball sum (|K_inf - K|) and, iso, of the frequency sum (|omega_inf - omega|).  The schedule ratio is free; for
+    closeness the large ratios matter (the first displacement ~ 1/delta_0^{2 kappa})."""
+    Df, cfgs = _v2_configs(D, iso, ratios=RATIOS_CLOSE, thetas=(F(1, 16), F(1, 8), F(1, 128)),
+                           tslacks=(F(1, 10), F(1, 1000), F(1, 10 ** 9)), tights=(False, True))
+    ball = nu = math.inf
+    for oB, k, stf, ctf in cfgs:
+        r = T2.thresholdB(Df, oB, iso, k, stf, ctf, at_e=e)
+        if r["ok"]:
+            ball = min(ball, float(r["ball"]))
+            if iso:
+                nu = min(nu, float(r["nu"]))
+    oA, st, ct = _v2_routeA(D, iso)
+    try:
+        r = T2.thresholdA(D, oA, iso, k=5, c_stage=st, c_tail=ct, at_e=v1.up(e))
+        if r["ok"]:
+            ball = min(ball, float(r["ball"]))
+            if iso and r["nu"] is not None:
+                nu = min(nu, float(r["nu"]))
+    except (AssertionError, ZeroDivisionError, OverflowError):
+        pass
+    return ball, nu
+
+
+def fh24_scan(d, nu, k1, errata=True, steps=40):
+    """FH24 with fair data on the (delta, kappa) grid (nu, varkappa fixed at the threshold optimum): the list of
+    (threshold_e, closeness_e, t, kappa) of its members (floating point)."""
+    n, tau = int(d["n"]), int(d["tau"])
+    fac = float(F(tau + 1) ** (tau + 1) / F(tau) ** tau)
+    Dr = (float(d["rho"]) - float(d["rhoinf"])) / 3
+    ddf = dict(d, cRrho=float(c_nat(n, tau, min(F(d["rho"]), F(1)))))
+    tk = sorted(set([float(x) for x in FH._grid_t(F(0), F(1), steps)] + T_NEAR))
+    out = []
+
+    spl = tau / (tau + 1)
+
+    def ev(t, k2):
+        c = c_nat(n, tau, t * Dr, exact=False)
+        c1 = fac * c_nat(n, tau, spl * t * Dr, exact=False)   # c^1_R from the split bite (FH24 Cor. 2.16)
+        try:
+            r = FH.fh24(ddf, c, c1, t * Dr, float(nu), float(k1), k2, exact=False, errata=errata)
+            return (r["threshold_e"], r["closeness_e"], t, k2)
+        except (AssertionError, ZeroDivisionError, OverflowError):
+            return None
+    for t in tk:
+        for k2 in tk:
+            r = ev(t, k2)
+            if r:
+                out.append(r)
+    return out, ev
+
+
+def fh24_close(scan, ev, e):
+    """FH24's closeness bound at e: the minimum over admissible members, refined locally."""
+    adm = [r for r in scan if r[0] >= e]
+    if not adm:
+        return math.inf
+    best = min(adm, key=lambda r: r[1])
+    for step in (1 / 200, 1 / 800):
+        t0, k0 = best[2], best[3]
+        for i in range(-8, 9):
+            for j in range(-8, 9):
+                t, k2 = t0 + i * step, k0 + j * step
+                if 0 < t < 1 and 0 < k2 < 1:
+                    r = ev(t, k2)
+                    if r and r[0] >= e and r[1] < best[1]:
+                        best = r
+    return best[1] * e
+
+
+def hl19_close(scan, e, gamma, rho, tau, which="C2"):
+    """HL19's closeness bound at e (C2 e/(gamma^2 rho^{2tau}); iso C3 e/(gamma rho^tau), (6.51))."""
+    g, rr = float(gamma), float(rho)
+    best = math.inf
+    for r in scan:
+        if float(r["threshold"]) >= e:
+            if which == "C2":
+                best = min(best, float(r["C2"]) * e / (g ** 2 * rr ** (2 * tau)))
+            else:
+                best = min(best, float(r["C3"]) * e / (g * rr ** tau))
+    return best
+
+
+def _lm(a, b):
+    """log10(a/b), with inf handled."""
+    if b == 0 or math.isinf(a) and math.isinf(b):
+        return float("nan")
+    if math.isinf(a):
+        return float("inf")
+    if math.isinf(b):
+        return float("-inf")
+    return math.log10(a / b)
+
+
+def compare_close(D, xlo=1e-60):
+    """Thresholds and closeness at fixed frequency: v2 vs FH24 (corrected, fair) and HL19 (fair)."""
+    tau = int(D["tau"])
+    lv2, par = v2_threshold(D, False, xlo)
+    hls = hl19_scan(comp_data_hl(D))
+    eH = max((float(r["threshold"]) for r in hls), default=0.0)
+    fhc = best_fh24_fair(comp_data_fh(D), errata=True)
+    eF = float(fhc["threshold_e"])
+    scan, ev = fh24_scan(comp_data_fh(D), fhc["nu"], fhc["kappa1"])
+    ev2 = 10 ** lv2
+    out = dict(v2=lv2, v2_params=par, FH24_corr=lg(fhc["threshold_e"]), HL19=math.log10(eH) if eH > 0 else -1e9)
+    ecF, ecH = 0.5 * min(ev2, eF), 0.5 * min(ev2, eH) if eH > 0 else 0.0
+    e0 = 1e-9 * min(x for x in (ev2, eF, eH) if x > 0)
+    vF, _ = v2_close(D, ecF)
+    vH, _ = v2_close(D, ecH) if ecH > 0 else (math.inf, None)
+    v0, _ = v2_close(D, e0)
+    cF, c0F = fh24_close(scan, ev, ecF), fh24_close(scan, ev, e0)
+    cH = hl19_close(hls, ecH, D["gamma"], D["rho"], tau) if ecH > 0 else math.inf
+    c0H = hl19_close(hls, e0, D["gamma"], D["rho"], tau)
+    out.update(close_v2_eF=vF, close_FH24_eF=cF, close_v2_eH=vH, close_HL19_eH=cH, lin_v2=v0 / e0, lin_FH24=c0F / e0,
+               lin_HL19=c0H / e0, m_FH24_ec=_lm(cF, vF), m_HL19_ec=_lm(cH, vH), m_FH24_lin=_lm(c0F, v0),
+               m_HL19_lin=_lm(c0H, v0))
+    out["margin_thr"] = lv2 - max(out["FH24_corr"], out["HL19"])
+    out["margin_close"] = min(out["m_FH24_ec"], out["m_HL19_ec"], out["m_FH24_lin"], out["m_HL19_lin"])
+    return out
+
+
+def grid_data_iso(n, tau, gamma, rho, size):
+    """The grid data with the isoenergetic inputs: |omega*| = 1, sigma_omega = 2 (Theta = sigma_omega |omega*| = 2, given to
+    both theorems), frequency margin nu = 1/10, |Dh|, |D^2 h| <= M."""
+    D = grid_data(n, tau, gamma, rho, size)
+    D.update(Theta_omega=F(2), nu=F(1, 10))
+    return D
+
+
+def comp_data_hl_iso(D):
+    d = comp_data_hl(D)
+    d.update(cc1=D["M"], cc2=D["M"], omstar=F(1), sigom=F(2), distom=D["nu"])
+    return d
+
+
+def compare_iso(D):
+    """Isoenergetic: v2 (route B iso, route A iso) vs HL19 Theorem 3.6 (fair): thresholds, C2 (|K_inf - K|), C3
+    (|omega_inf - omega|, (6.51) normalisation, E-HL19-12).  FH24 has no isoenergetic theorem."""
+    tau = int(D["tau"])
+    lv2, par = v2_threshold(D, True)
+    hls = hl19_scan(comp_data_hl_iso(D), iso=True)
+    eH = max((float(r["threshold"]) for r in hls), default=0.0)
+    ev2 = 10 ** lv2
+    out = dict(v2=lv2, v2_params=par, HL19=math.log10(eH) if eH > 0 else -1e9)
+    if eH <= 0:
+        out.update(margin_thr=float("inf"), margin_close=float("inf"))
+        return out
+    ec, e0 = 0.5 * min(ev2, eH), 1e-9 * min(ev2, eH)
+    vb, vn = v2_close(D, ec, True)
+    vb0, vn0 = v2_close(D, e0, True)
+    out.update(m_C2_ec=_lm(hl19_close(hls, ec, D["gamma"], D["rho"], tau), vb),
+               m_C3_ec=_lm(hl19_close(hls, ec, D["gamma"], D["rho"], tau, "C3"), vn),
+               m_C2_lin=_lm(hl19_close(hls, e0, D["gamma"], D["rho"], tau), vb0),
+               m_C3_lin=_lm(hl19_close(hls, e0, D["gamma"], D["rho"], tau, "C3"), vn0))
+    out["margin_thr"] = lv2 - out["HL19"]
+    out["margin_close"] = min(out["m_C2_ec"], out["m_C3_ec"], out["m_C2_lin"], out["m_C3_lin"])
+    return out
+
+
+def _cpoint(args):
+    n, tau, g, r, s, iso, xlo = args
+    try:
+        if iso:
+            res = compare_iso(grid_data_iso(n, tau, g, r, s))
+        else:
+            res = compare_close(grid_data(n, tau, g, r, s), xlo)
+    except (AssertionError, ZeroDivisionError, OverflowError, TypeError, ValueError) as ex:
+        return dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, skipped=repr(ex)[:200])
+    return dict(n=n, tau=tau, gamma=float(g), rho=float(r), size=s, **res)
+
+
+def wide_points():
+    """The wider ranges: n in {8, 10} with tau in {n-1, n}, rho up to 1, gamma down to 1e-10; and rho in {0.6, 1},
+    gamma = 1e-10 for the earlier (n, tau)."""
+    pts = []
+    for (n, tau) in [(8, 7), (8, 8), (10, 9), (10, 10)]:
+        for g in [F(1, 10 ** 10), F(1, 10 ** 6), F(1, 1000), F(1, 10)]:
+            for r in [F(1, 100), F(1, 10), F(3, 10), F(6, 10), F(1)]:
+                for s in [1, 10, 30]:
+                    pts.append((n, tau, g, r, s))
+    for (n, tau) in GRID_EXT["ns"]:
+        for g in [F(1, 10 ** 10), F(1, 1000)]:
+            for r in [F(6, 10), F(1)]:
+                for s in [1, 10]:
+                    pts.append((n, tau, g, r, s))
+        for r in [F(1, 1000), F(1, 10)]:
+            for s in [1, 10]:
+                pts.append((n, tau, F(1, 10 ** 10), r, s))
+    return pts
+
+
+def closeness_main():
+    gname = sys.argv[sys.argv.index("--grid") + 1] if "--grid" in sys.argv else "ext"
+    iso = "--iso" in sys.argv
+    jobs = int(sys.argv[sys.argv.index("--jobs") + 1]) if "--jobs" in sys.argv else 1
+    if gname == "wide":
+        pts_in = wide_points()
+    elif gname == "iso":
+        pts_in = [(n, tau, g, r, s) for (n, tau) in [(2, 1), (2, 2), (3, 2), (4, 3)]
+                  for g in [F(1, 10 ** 6), F(1, 1000), F(1, 10)] for r in [F(1, 100), F(1, 10), F(3, 10)] for s in [1, 3, 10]]
+        iso = True
+    elif gname == "quick":
+        pts_in = [(2, 1, F(1, 1000), F(1, 10), 1), (4, 3, F(1, 1000), F(1, 10), 10)]
+    else:
+        G = GRID_EXT
+        pts_in = [(n, tau, g, r, s) for (n, tau) in G["ns"] for g in G["gammas"] for r in G["rhos"] for s in G["sizes"]]
+    args = [(n, tau, g, r, s, iso, 1e-280) for (n, tau, g, r, s) in pts_in]
+    t0 = time.time()
+    if jobs > 1:
+        import multiprocessing as mpr
+        with mpr.Pool(jobs) as pool:
+            rows = pool.map(_cpoint, args, chunksize=1)
+    else:
+        rows = [_cpoint(a) for a in args]
+    pts = [r for r in rows if "skipped" not in r]
+    skipped = [r for r in rows if "skipped" in r]
+    key_thr, key_cl = "margin_thr", "margin_close"
+    for r in rows:
+        if "skipped" in r:
+            print("| %d | %d | %g | %g | %d | skipped %s |" % (r["n"], r["tau"], r["gamma"], r["rho"], r["size"], r["skipped"]))
+        elif iso:
+            print("| %d | %d | %g | %g | %d | %.2f | %.2f | %+.2f | C2 %+.2f / %+.2f | C3 %+.2f / %+.2f |" % (
+                r["n"], r["tau"], r["gamma"], r["rho"], r["size"], r["v2"], r["HL19"], r["margin_thr"],
+                r.get("m_C2_ec", float("nan")), r.get("m_C2_lin", float("nan")), r.get("m_C3_ec", float("nan")),
+                r.get("m_C3_lin", float("nan"))))
+        else:
+            print("| %d | %d | %g | %g | %d | %.2f | %.2f | %.2f | %+.2f | FH24 %+.2f / %+.2f | HL19 %+.2f / %+.2f |" % (
+                r["n"], r["tau"], r["gamma"], r["rho"], r["size"], r["v2"], r["FH24_corr"], r["HL19"], r["margin_thr"],
+                r["m_FH24_ec"], r["m_FH24_lin"], r["m_HL19_ec"], r["m_HL19_lin"]))
+    print()
+    nthr = sum(1 for p in pts if p[key_thr] < -0.005)
+    ncl = sum(1 for p in pts if p[key_cl] < -0.005)
+    print("grid %s%s: points %d (skipped %d), threshold losses %d, closeness losses %d, time %.0f s" % (
+        gname, " iso" if iso else "", len(pts), len(skipped), nthr, ncl, time.time() - t0))
+    for k_ in (key_thr, key_cl) + (("m_FH24_ec", "m_FH24_lin", "m_HL19_ec", "m_HL19_lin") if not iso else
+                                    ("m_C2_ec", "m_C2_lin", "m_C3_ec", "m_C3_lin")):
+        v = sorted(p[k_] for p in pts if k_ in p and not math.isnan(p[k_]))
+        if v:
+            print("  %s: min %+.3f, median %+.3f, max %+.3f" % (k_, v[0], v[len(v) // 2], v[-1]))
+    if pts:
+        w = min(pts, key=lambda p: p[key_cl])
+        print("worst closeness point:", {k_: w[k_] for k_ in w if not isinstance(w[k_], dict)})
+    if "--json" in sys.argv:
+        json.dump(dict(points=pts, skipped=skipped), open(sys.argv[sys.argv.index("--json") + 1], "w"), indent=1,
+                  default=str)
+
+
+if __name__ == "__main__" and "--closeness" in sys.argv:
+    closeness_main()
