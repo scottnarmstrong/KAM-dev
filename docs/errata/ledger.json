@@ -2747,6 +2747,56 @@
    "status": "CONFIRMED",
    "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md. Independent verifier: docs/tracks/W/audits/W-BP0-audit-2.md, 2026-10-28.",
    "effect": "None (gradient constant only; not used by track W's force interface)"
+  },
+  {
+   "id": "E-W-Pos96K-2",
+   "type": "erratum",
+   "source": "Pos96K",
+   "location": "p. 127 (PDF p. 10), proof of Lemma 1, divisor bound for the operator part",
+   "printed": "|⟨k,ω⟩+Ω_i−Ω_j| ≥ α(1+|i−j|)/A_k, since d ≥ 1",
+   "claim": "The Melnikov hypothesis gives α·max(1,|i^d−j^d|)/A_k, i.e. α·max(1,|i−j|)/A_k at d = 1, which is up to a factor 2 smaller than the printed α(1+|i−j|)/A_k; the inference 'since d ≥ 1' does not give the printed bound",
+   "kind": "wrong constant",
+   "evidence": "max(1,t) ≥ (1+t)/2 only; e.g. i = j gives α/A_k on both sides but |i−j| = 1 gives α/A_k vs printed 2α/A_k",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-W W4 writer. Independent verifier: GPT-6.1-Sol (codex-3) blueprint-W/reviews/w4-review-1.md, page images checked, 2026-10-30.",
+   "effect": "Harmless: Lemma A.1 needs only |i−j|; blueprint-W bpW:w4:divisors uses the max form"
+  },
+  {
+   "id": "E-W-Pos96K-3",
+   "type": "erratum",
+   "source": "Pos96K",
+   "location": "p. 124 (PDF p. 7) definition of the mean [R]; p. 125 (PDF p. 8) homological equation",
+   "printed": "N̂ = [R] (mean over |m|+|q| = 1) and the scalar equation {F,N} + N̂ = R",
+   "claim": "The mean omits the constant term of R, so the stated equation holds only modulo that constant; add â_0 to N̂ (or state the equation modulo constants). Vector fields are unaffected",
+   "kind": "missing term",
+   "evidence": "R ≡ 1 gives [R] = 0 and F = 0, so {F,N} + N̂ = 0 ≠ 1",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-W W4 writer. Independent verifier: GPT-6.1-Sol (codex-3) blueprint-W/reviews/w4-review-1.md, page images checked, 2026-10-30.",
+   "effect": "None on the fields; blueprint-W bpW:w4:lemma1 carries â_0 explicitly"
+  },
+  {
+   "id": "E-W-Pos96K-4",
+   "type": "erratum",
+   "source": "Pos96K",
+   "location": "p. 137 (PDF p. 20), proof of Lemma 5",
+   "printed": "|R^Δ_kl(α)| ≤ 4(diam Δ)^{n−1} α⟨l⟩_d/(A_k|k|) by Fubini's theorem",
+   "claim": "The displayed derivation does not give the factor 4: the preceding r-interval has length 8δ/|k| (radius 4δ/|k|), and the oblique coordinates have Jacobian |v|₂ = √n, not 1. Only the form c₃α/A_k is used later",
+   "kind": "wrong constant",
+   "evidence": "Already for n = 1 the interval length gives 8, not 4",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: blueprint-W W7 writer. Independent verifier: GPT-6.1-Sol (codex-3) blueprint-W/reviews/w7-review-1.md, page images checked, 2026-10-30.",
+   "effect": "Harmless; blueprint-W W7 proves its own coefficient 8 by coordinate-line slicing"
+  },
+  {
+   "id": "D-W-Pos96K-L10",
+   "type": "deviation",
+   "source": "Pos96K",
+   "location": "p. 142 (PDF p. 25), Lemma 10",
+   "claim": "The source asserts the perturbed frequencies are 'Lipschitz close of order α' to nontrivial affine functions; its estimates give sup-closeness O(α) but only a sufficiently small unweighted Lipschitz seminorm. Blueprint-W makes the needed condition explicit as θ ≤ θ₀ (a smallness condition on γ) and keeps the measure conclusion",
+   "kind": "proof supplement (unjustified rate replaced by the needed smallness)",
+   "status": "ADOPTED",
+   "effect": "Measure conclusion retained; W6 must supply bpW:w6:freq-lip with θ ≤ θ₀",
+   "evidence": "blueprint-W/parts/w7-measure.tex bpW:w7:Xzones (C4), bpW:w7:errata (c); review w7-review-1.md (confirmed unsupported, repair valid)"
   }
  ]
 }
