@@ -1429,6 +1429,9 @@ public import KAM.Sharp.TorsionPoly
 public import KAM.Sharp2.Data
 public import KAM.Sharp2.Engine
 public import KAM.Sharp2.EngineArith
+public import KAM.Sharp2.EngineRatio
+public import KAM.Sharp2.EngineRatioArith
+public import KAM.Sharp2.EngineRatioInst
 public import KAM.Sharp2.Geometry
 public import KAM.Sharp2.ModConstants
 public import KAM.Sharp2.ModConstantsBd
