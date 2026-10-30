@@ -50,6 +50,16 @@ Besides the external facts of W1 (\S\ref{bpW:w1:ext}), this part uses:
 \item\label{bpW:w4:ext-intparts} \emph{Periodic integration by parts.} If $g:\R\to E$ ($E$ Banach) is $C^1$ and
   $1$-periodic, then $\int_0^1g'=0$ (\Lean{intervalIntegral.integral\_eq\_sub\_of\_hasDerivAt}); continuous linear maps
   commute with Bochner integrals (\Lean{ContinuousLinearMap.integral\_comp\_comm}).
+\item\label{bpW:w4:ext-riesz} \emph{Riesz representation of bounded sesquilinear forms.} Let $E$ be a complex
+  Hilbert space (Mathlib: \Lean{[NormedAddCommGroup E] [InnerProductSpace Complex E] [CompleteSpace E]}; here
+  $E=\ell^2_\C$, complete by \ref{bpW:w1:ext-lp}) and $B:E\to E\to\C$ a bounded form, conjugate-linear in the first
+  and linear in the second argument (Mathlib type \Lean{E \ensuremath{\to}L\ensuremath{\star}[Complex] E \ensuremath{\to}L[Complex] Complex}). Then
+  $B^\sharp=$ \Lean{InnerProductSpace.continuousLinearMapOfBilin B} is a continuous linear map $E\to E$ with
+  $\langle B^\sharp v,w\rangle=B(v,w)$ for all $v,w$ (\Lean{InnerProductSpace.continuousLinearMapOfBilin\_apply}), where
+  $\langle\cdot,\cdot\rangle$ is the inner product, conjugate-linear in the first slot. Moreover
+  $\norm u=\sup_{\norm w\le1}\abs{\langle u,w\rangle}$ (\Lean{InnerProductSpace.toDual} is a linear isometry equivalence
+  $E\simeq E^*$, and $\langle u,w\rangle=$ \Lean{toDual Complex E u w}, \Lean{InnerProductSpace.toDual\_apply\_apply}).
+  (Checked in Mathlib, \texttt{Mathlib/Analysis/InnerProductSpace/Dual.lean}.)
 \end{enumerate}
 \par}
 The bound in~\ref{bpW:w4:ext-exp} follows from $e^{x/q-1}\ge x/q$ raised to the power $q$.
@@ -234,7 +244,8 @@ $\frac1{\lambda_I}-\frac1{\lambda_J}=-\frac{\lambda_I-\lambda_J}{\lambda_I\lambd
 $\lambda_I-\lambda_J=\frac{(I-J)(I+J)}{\lambda_I+\lambda_J}\ge\frac{I-J}{\sqrt{1+m/9}}$ because $\lambda_K\le K\sqrt{1+m/9}$ for
 $K\ge3$. Hence $\Omega_i-\Omega_j\ge\alpha_0(m)(i-j)$, and $\jap{e_i-e_j}=i-j$. Signs of $l$ are symmetric.
 \end{proof}
-\source{ours. A numerical check over $j\le150$ and $m\in\{10^{-3},\frac12,1,10,10^3\}$ gives minimal ratio
+\source{ours. Superseded by Lemma~\ref{bpW:w7:sep} (W7) and used by no later result; kept for reference.
+A numerical check over $j\le150$ and $m\in\{10^{-3},\frac12,1,10,10^3\}$ gives minimal ratio
 $\ge1.12$ (\texttt{.drafts/W/bp-scratch-w4/checks.py}). This settles the sets $\mathcal R^0_{0l}(\alpha)$ of P96-K
 Theorem~A for W7: they are empty for $\alpha\le\alpha_0(m)$.}
 
@@ -409,8 +420,19 @@ $\abs{\hat F_{ij}}\le c\abs{\hat A_{ij}}/\abs{i-j}$ off the diagonal and $\abs{\
 In (i), the weighted matrix of $M\in\mathcal L$ is the matrix of its representative
 $\tau_{a,\bar p}\circ M\circ\kappa_{a,p}$ (Definition~\ref{bpW:w1:transport}, restricted to the normal entries), so
 bounded weighted matrices are exactly elements of $\mathcal L$ with the same norm; the transpose identity is
-entrywise. In (ii) the weighted matrix $(\beta(e_j,e_i)\mu_i\mu_j)$ is the matrix of the bounded operator on $\ell^2$
-representing $\beta$, with the same norm (Riesz on $\ell^2$); $\Lambda$ does not change entries.
+entrywise. In (ii), let $\hat\beta(x,y)=\beta(\kappa x,\kappa y)$ on $\ell^2_\C\times\ell^2_\C$, where $(\kappa x)_j=\mu_jx_j$ with
+$\mu_j=\omega_{a,p}(j+2)^{-1}$ (the coefficient map of Definition~\ref{bpW:w1:transport} on normal entries); it is complex
+bilinear with $\norm{\hat\beta}=\norm\beta_{\rm bil}$, since $\kappa$ is an isometry onto $\ell^N_{a,p}$. Let $C$ be
+coordinatewise conjugation on $\ell^2_\C$ (a conjugate-linear isometry, $\langle Cu,w\rangle=\langle u,w\rangle_0$
+by \ref{bpW:w1:ext-lp}). The form $B(v,w)=\hat\beta(Cv,w)$ is conjugate-linear in $v$, linear in $w$, bounded by
+$\norm{\hat\beta}$; put $T=C\circ B^\sharp\circ C$ with $B^\sharp$ of \ref{bpW:w4:ext-riesz}. Then $T$ is complex linear,
+continuous, and $\langle Tx,y\rangle_0=\langle CTx,y\rangle=\langle B^\sharp Cx,y\rangle=B(Cx,y)=\hat\beta(x,y)$. By the
+norm formula of \ref{bpW:w4:ext-riesz} (applied to $CTx$, with $\norm{CTx}=\norm{Tx}$),
+$\norm{Tx}=\sup_{\norm y\le1}\abs{\hat\beta(x,y)}$, so $\norm T=\norm{\hat\beta}=\norm\beta_{\rm bil}$. The matrix of $T$ is
+$\langle Te_j,e_i\rangle_0=\hat\beta(e_j,e_i)=\mu_j\mu_i\beta(e_j,e_i)$, the weighted matrix. Conversely every bounded
+operator $T$ on $\ell^2_\C$ defines the bounded form $(x,y)\mapsto\langle Tx,y\rangle_0$ of norm $\le\norm T$ by
+\eqref{bpW:w4:pairing}-type Cauchy--Schwarz. So bounded weighted matrices correspond to elements of $\mathcal B$ with
+the same norm, and Lemma~\ref{bpW:w1:schur}(iii) transfers; $\Lambda$ does not change entries.
 \proofstep{Diagonal}\label{stepW:w4:schurdiag}
 (iii) is Lemma~\ref{bpW:w1:schur}(ii) and Lemma~\ref{bpW:w1:multiplier}; $\mu_i\nu_i=(i+2)^{\bar p-p}=i+2$ in (i).
 \end{proof}
