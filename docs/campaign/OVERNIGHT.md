@@ -1082,3 +1082,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   duplicate statements merged, full build green, frozen guard and ABI OK; in audit (codex-3; the short-name gate
   was bypassed with reason: its four hits predate the batch and go to the rename batch D1). SO-DATA-1: the lunar
   checkEnergy passes in the fixed-point mirror (2.4e-80 against err 3.93e-78); Gram and torsion running.
+- **01:20. Heartbeat: three audits passed; SO-DATA-2 briefed.** SO-TOYFIX2 (all four toys complete), SO-LUNAR-A
+  (parametric final assembly) and CLEANUP-B34 (unused helpers, duplicates) passed audit 1 (notes only); with the
+  comment-only SO scrub CLEANUP-B2SO (52 files, guard 0 code changes) they go to kam-inp as one batch, one build.
+  SO-DATA-1 is finishing: both tori pass in the fixed-point mirror, all four negative controls are rejected,
+  determinism reruns running. SO-DATA-2 (Lean data modules, kernel passes, the final lunar theorems as one-liners,
+  no freezing) is briefed with a staged stop: measure the heaviest sub-check's kernel time and memory on one torus
+  before emitting everything (stop at > 10 GB per theorem or > ~12 CPU-h projected).
