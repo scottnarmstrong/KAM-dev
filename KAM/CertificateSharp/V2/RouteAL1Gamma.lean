@@ -298,7 +298,8 @@ theorem gamOk_sound {box : FreqBox} {κ γ s δ G : ℚ} {w : FibWit}
       simpa [Fin.snoc] using this.symm
   have hsω : (s : ℝ) • ωstar = ((s : ℝ) * κ) • (Fin.snoc ![ι] 1 : Fin 2 → ℝ) := by
     rw [hsn, smul_smul, mul_assoc, mul_inv_cancel₀ hκ'.ne', mul_one]
-  have hι : |ι - (((box.getD 0 (0, 0)).1 / κ : ℚ) : ℝ)| ≤ (((box.getD 0 (0, 0)).2 / κ : ℚ) : ℝ) := by
+  have hι : |ι - (((box.getD 0 (0, 0)).1 / κ : ℚ) : ℝ)| ≤
+      (((box.getD 0 (0, 0)).2 / κ : ℚ) : ℝ) := by
     have h0 := hω 0
     simp only [Fin.val_zero] at h0
     push_cast

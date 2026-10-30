@@ -17,7 +17,8 @@ frequency: a `CertifiedTorus`.
 
 * The ℓ¹ data are computed from the certificate's own models on `T_{ρ'}`, `ρ' = 8` (the torsion on
   `T_7`): `|E|₁ ≤ 2 e`, the column and row sums of `|L|₁` and `|N|₁` at most `1.1`, the torsion rows
-  at most `1.1` (`toyCert2_l1Claim`); a claim `|E|₁ ≤ e/10` is rejected (`toyCert2_l1Claim_rejects`).
+  at most `1.1` (`toyCert2_l1Claim`); a claim `|E|₁ ≤ e/10` is rejected
+  (`toyCert2_l1Claim_rejects`).
 * `Γ_∞(sω*, 1) ≤ 0.0025` and `Γ_∞(sω*, 8) ≤ 1.2·10⁻⁶` are certified by the fibered test on the clock
   box (one fiber each side).
 * The run is C6's refined toy run (`toyRefinedWit`); its small-divisor sites are unchanged, since

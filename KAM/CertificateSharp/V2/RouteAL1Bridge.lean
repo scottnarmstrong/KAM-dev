@@ -132,7 +132,8 @@ theorem weightedNorm_le_supBound {W : CertWeight} {s N : ℕ} (hW : checkWeight 
   rw [e]
   calc Fourier.weightedNorm (2 * Real.pi * W.rho)
         (fun k => (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.coeff n k + CertModel.residualCoeff n m f k)
-      ≤ (2 * Real.pi) ^ m.deg * val (m.poly.weightedNormUp W) + (2 * Real.pi) ^ m.deg * val m.rad := by
+      ≤ (2 * Real.pi) ^ m.deg * val (m.poly.weightedNormUp W) +
+          (2 * Real.pi) ^ m.deg * val m.rad := by
         refine hadd.trans (add_le_add ?_ h.2)
         rw [hc2, hnorm]
         exact mul_le_mul_of_nonneg_left hWP h2pi.le

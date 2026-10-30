@@ -240,7 +240,8 @@ theorem checkL1Claim_sound {c : TorusCertificate n α} {L : L1Claim} {ωstar : F
                 ((Finset.sum_nonneg fun a _ => hLnn a j0).trans (hLcol j0)) hLe hLcol
               nt := l1Mat_transpose_omega
                 ((Finset.sum_nonneg fun a _ => hNnn a j0).trans
-                  (sumsOk_col hNc j0 fun a => le_rfl)) hNe (fun j => sumsOk_col hNc j fun a => le_rfl)
+                  (sumsOk_col hNc j0 fun a => le_rfl)) hNe
+                (fun j => sumsOk_col hNc j fun a => le_rfl)
               nuK := l1Mat_of ((Finset.sum_nonneg fun j _ => hLnn (Sum.inl j0) j).trans
                 (hLrow (Sum.inl j0))) hLe hLrow
               nuN := l1Mat_of ((Finset.sum_nonneg fun j _ => hNnn (Sum.inl j0) j).trans
