@@ -1564,3 +1564,20 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   μ̃ = 32/47; density survives); (b) a different smoothing/weight route. Choice: (a), being verified by the W7
   writer; it only changes internal exponents. nlw2 is unaffected (it asserts only density one and existence of
   constants).
+- **17:20. Heartbeat: rotation of track W; kernel-lock contention; lock track at LOCK-SQRT.**
+  - **Rotation:** claude-6 hit its 5-hour limit at 17:09; kam-d4 (track W) was set to sit until 20:00. Respawned
+    on **claude-3**, resuming session 63b27f23, and told to re-arm its waiters and move its claude-6 provers (wpd
+    stalled, wpa idle) to claude-4.
+  - **SO-KDEPTH** had held the shared kernel-probe lock for about an hour with an R1 `checkGram` acceptance run
+    (still under the 10 GB cap), blocking SO-DATA3's N = 65 probe. It is told to stop the remaining R1 runs (its own
+    PIDs), record the measurements as findings, and hand off with a split between checker and measurement commits.
+  - **SO-DATA3** had paused on the disk floor. It is authorized down to 8 GB free for the data-module builds and the
+    l = 12 probe, until KDEPTH's worktree goes. Its emitter will write `Witnesses` with named fields, because
+    LOCK-SQRT adds a fourth field `sqrtWit`.
+  - **Lock:**
+    - LOCK-PO, LOCK-CONF and LOCK-COORDS-R landed in inp (a5f010eb).
+    - LOCK-SQRT is done (a12b69cb) and in audit on codex-1. The only landed hand-written statement changed is the
+      sanctioned helper; a 91-module downstream closure builds.
+    - LOCK-ASSEMBLY part 1 and LOCK-GEN-2 (v2 optimization of the librational certificate) are running.
+    - LOCK-SQRT's design signal: ball bounds on high derivatives of √(long product) are loose, so the generator
+      should compile √ of the simplest operand.
