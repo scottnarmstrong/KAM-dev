@@ -53,12 +53,19 @@ normed space over $\mathbb K\in\{\R,\C\}$.
   of a Banach algebra; and the derivative of an analytic map into a Banach space is analytic. (Mathlib:
   \Lean{FormalMultilinearSeries}, \Lean{HasFPowerSeriesOnBall}, \Lean{HasFPowerSeriesOnBall.analyticAt\_of\_mem},
   \Lean{HasFPowerSeriesOnBall.fderiv}, \Lean{AnalyticAt.comp}, \Lean{analyticAt\_inverse},
-  \Lean{AnalyticOnNhd.fderiv}, \Lean{ContinuousMultilinearMap.analyticOnNhd} and \Lean{analyticOnNhd\_uncurry\_of\_multilinear}.)
+  \Lean{AnalyticOnNhd.fderiv}, \Lean{ContinuousMultilinearMap.analyticOnNhd} and
+  \Lean{ContinuousLinearMap.analyticOnNhd\_uncurry\_of\_multilinear}.) A $\C$-analytic map is $\R$-analytic for the
+  underlying real structures (\Lean{AnalyticOnNhd.restrictScalars}). A \Lean{FormalMultilinearSeries} indexed by
+  degree carries explicit zero coefficients in the degrees that do not occur.
 \item\label{bpW:w3:ext-tsum} \emph{Termwise differentiation.} If $f_k$ are differentiable on an open convex set $U$
   of a normed space, $\sum_kf_k(x_0)$ converges and $\sup_U\norm{Df_k}\le u_k$ with $\sum u_k<\infty$, then
-  $\sum_kf_k$ is differentiable on $U$ with derivative $\sum_kDf_k$. Absolutely convergent double series may be
-  rearranged (Cauchy product). (Mathlib: \Lean{hasFDerivAt\_tsum}, \Lean{hasDerivAt\_tsum},
-  \Lean{tsum\_mul\_tsum\_eq\_tsum\_sum\_antidiagonal\_of\_summable\_norm}.)
+  $\sum_kf_k$ is differentiable on $U$ with derivative $\sum_kDf_k$. Absolutely summable families in a Banach space
+  may be regrouped along any partition of the index set; for a continuous multilinear $B$ and absolutely summable
+  families $(a^1_i),\dots,(a^r_i)$, $B(\sum a^1,\dots,\sum a^r)=\sum_{i_1,\dots,i_r}B(a^1_{i_1},\dots,a^r_{i_r})$, the
+  right side absolutely summable (Cauchy products are the case of regrouping by total degree). (Mathlib:
+  \Lean{hasFDerivAt\_tsum\_of\_isPreconnected}, \Lean{hasDerivAt\_tsum\_of\_isPreconnected}, \Lean{HasSum.sigma},
+  \Lean{Summable.sigma}, \Lean{tsum\_mul\_tsum\_eq\_tsum\_sum\_antidiagonal\_of\_summable\_norm} as the ring
+  prototype; the multilinear case follows by continuity of $B$ and iterated regrouping.)
 \item\label{bpW:w3:ext-mvt} \emph{Mean value inequality; zero derivative.} If $f$ is differentiable on a convex set
   with $\norm{Df}\le M$, then $\norm{f(y)-f(x)}\le M\norm{y-x}$; a differentiable function on an interval with
   vanishing derivative is constant. (Mathlib: \Lean{Convex.norm\_image\_sub\_le\_of\_norm\_hasFDerivWithin\_le},
@@ -67,18 +74,21 @@ normed space over $\mathbb K\in\{\R,\C\}$.
   a Banach space) continuous, differentiable in the second variable with $D_wY$ continuous and bounded on
   $[0,1]\times U$: $w\mapsto\int_0^1Y(t,w)\,dt$ is differentiable with derivative $\int_0^1D_wY(t,w)\,dt$; the
   fundamental theorem of calculus holds for $C^1$ functions $[0,1]\to V$; continuous linear maps commute with the
-  Bochner integral; $\norm{\int Y}\le\int\norm Y$. Over $\mathbb K=\C$ the first statement yields complex
-  differentiability. (Mathlib: \Lean{hasFDerivAt\_integral\_of\_dominated\_of\_fderiv\_le},
+  Bochner integral; $\norm{\int Y}\le\int\norm Y$; and a series $\sum_jg_j$ of continuous functions on $[0,1]$
+  with $\sup\norm{g_j}\le c_j$, $\sum c_j<\infty$, may be integrated termwise. Over $\mathbb K=\C$ the first
+  statement yields complex differentiability. (Mathlib: \Lean{hasFDerivAt\_integral\_of\_dominated\_of\_fderiv\_le},
   \Lean{intervalIntegral.integral\_eq\_sub\_of\_hasDerivAt},\linebreak \Lean{ContinuousLinearMap.intervalIntegral\_comp\_comm},\linebreak
-  \Lean{intervalIntegral.norm\_integral\_le\_of\_norm\_le}.)
+  \Lean{intervalIntegral.norm\_integral\_le\_of\_norm\_le},\linebreak
+  \Lean{intervalIntegral.hasSum\_integral\_of\_dominated\_convergence}.)
 \item\label{bpW:w3:ext-neumann} \emph{Neumann series.} If $A$ is a bounded operator on a Banach space with
   $\norm{A-I}\le\frac12$, then $A$ is invertible, $\norm{A^{-1}}\le2$ and $\norm{A^{-1}-I}\le2\norm{A-I}$. (Mathlib:
-  \Lean{NormedRing.inverse\_one\_sub}, \Lean{Units.oneSub}, \Lean{NormedRing.tsum\_geometric\_of\_norm\_lt\_one}.)
+  \Lean{NormedRing.inverse\_one\_sub}, \Lean{Units.oneSub}, \Lean{geom\_series\_eq\_inverse},
+  \Lean{tsum\_geometric\_le\_of\_norm\_lt\_one}.) In particular $A^{-1}=\sum_{n\ge0}(I-A)^n$, absolutely convergent.
 \end{enumerate}
 
 \begin{remark}[Flows of analytic vector fields: what Mathlib provides]\label{bpW:w3:ext-flows}
 Mathlib provides local existence (Picard--Lindel\"of, \Lean{IsPicardLindelof},
-\Lean{exists\_forall\_mem\_closedBall\_eq\_hasDerivWithinAt\_lipschitzOnWith}) and uniqueness
+\Lean{IsPicardLindelof.exists\_forall\_mem\_closedBall\_eq\_hasDerivWithinAt\_lipschitzOnWith}) and uniqueness
 (\Lean{ODE\_solution\_unique}) of solutions of Lipschitz ODEs in Banach spaces, and Gronwall's inequality. It does
 \emph{not} provide analytic (or $C^1$) dependence of the flow on initial data, symplecticity of Hamiltonian flows,
 or the theorem that complex-differentiable maps on open subsets of a complex Banach space are analytic (only
@@ -87,7 +97,9 @@ $f:\C\to E$ is covered: \Lean{DifferentiableOn.analyticOnNhd}). W1 constructs fl
 the polynomial field $X_F$ is constructed as an explicit power series (Definition~\ref{bpW:w3:lie-coeff}), and
 symplecticity and invertibility are proved for it directly (Theorems~\ref{bpW:w3:flow},
 \ref{bpW:w3:symplectic}). This gives analyticity (not only holomorphy), the gain of one weight in
-$\Gamma_t-\mathrm{id}$, and explicit constants. Uniqueness of ODE solutions is not used.
+$\Gamma_t-\mathrm{id}$, and explicit constants. Likewise the field $X_K$ of the remainder is proved analytic by an
+explicit power series (Lemma~\ref{bpW:w3:Yseries}); the holomorphic-implies-analytic theorem on Banach domains is
+never invoked. Uniqueness of ODE solutions is not used.
 \end{remark}
 \endgroup
 
@@ -144,9 +156,9 @@ Let $U\subset\mathfrak W$ be open and $P:U\to\C$ complex differentiable. A map $
 \emph{Hamiltonian field} of $P$ if $DP(w)v=\Omega(X_P(w),v)$ for all $w\in U$, $v\in\mathfrak W$; by
 Lemma~\ref{bpW:w3:omega} it is unique when it exists, and $X_P(w)_l=-i\operatorname{sgn}(l)\,DP(w)e_{-l}$.
 $P$ is \emph{real} if $P(\varrho w)=\overline{P(w)}$ for $w\in U=\varrho U$; then $X_P\circ\varrho=\varrho\circ X_P$.
-The class $\mathcal A(U)$ consists of the real $P$ that are complex differentiable on $U$ and whose Hamiltonian field
-exists, takes values in $\mathfrak W^+$, and is complex differentiable as a map $U\to\mathfrak W^+$ (Mathlib:
-\Lean{DifferentiableOn Complex}). ``Holomorphic'' means complex differentiable in this sense, as in Definition~\ref{bpW:w1:holomorphic}.
+The class $\mathcal A(U)$ consists of the real $P$ that are analytic on $U$ (Mathlib \Lean{AnalyticOnNhd Complex})
+and whose Hamiltonian field exists, takes values in $\mathfrak W^+$, and is analytic as a map $U\to\mathfrak W^+$
+(\Lean{AnalyticOnNhd Complex}). Analytic maps are holomorphic in the sense of Definition~\ref{bpW:w1:holomorphic}.
 \end{definition}
 
 The equations $\dot w=X_P(w)$ are Hamilton's equations: on real points, by Lemma~\ref{bpW:w3:omega},
@@ -154,7 +166,25 @@ $\mathcal Z^{-1}X_P=(\partial_pP,-\partial_qP)$, the convention of Definition~\r
 statement holds because $DP(\varrho w)\varrho v=\overline{DP(w)v}$ and Lemma~\ref{bpW:w3:omega} give
 $\Omega(X_P(\varrho w),\varrho v)=\Omega(\varrho X_P(w),\varrho v)$ for all $v$.
 \source{ours; P96-W p.~281 (the class $A(\ell^{a,s},\ell^{a,s+1})$ of real analytic maps from a neighbourhood of the
-origin; here with an explicit domain and complex differentiability, see Remark~\ref{bpW:w3:class-remark}).}
+origin; here with an explicit complex domain, and real analyticity obtained through Lemma~\ref{bpW:w3:real-restrict}).}
+
+\begin{lemma}[Real restrictions]\label{bpW:w3:real-restrict}
+Let $U\subset\mathfrak W$ be open with $\varrho U=U$, $V\in\{\mathfrak W,\mathfrak W^+\}$ with real form
+$E_V\in\{E_{a,p},E_{a,p+1}\}$, and $f:U\to V$ analytic with $f\circ\varrho=\varrho\circ f$. Then
+$f^\R(x)=\mathcal Z^{-1}f(\mathcal Zx)$, $x\in\mathcal Z^{-1}(U)\cap E_{a,p}$, takes values in $E_V$ and is real
+analytic (\Lean{AnalyticOnNhd Real}). Likewise, if $P:U\to\C$ is analytic and real, $x\mapsto P(\mathcal Zx)$ is real
+valued and real analytic.
+\end{lemma}
+
+\begin{proof}
+$f$ is $\R$-analytic by~\ref{bpW:w3:ext-series} (\Lean{AnalyticOnNhd.restrictScalars}). The maps
+$x\mapsto\mathcal Zx$ ($E_{a,p}\to\mathfrak W$) and $\Pi(y)=\mathcal Z^{-1}\bigl(\frac12(y+\varrho y)\bigr)$
+($V\to E_V$) are continuous and $\R$-linear (Lemma~\ref{bpW:w3:coords}), hence $\R$-analytic, and $\Pi(y)=\mathcal Z^{-1}y$
+when $\varrho y=y$. Since $\varrho\mathcal Zx=\mathcal Zx$, $\varrho f(\mathcal Zx)=f(\mathcal Zx)$, so
+$f^\R=\Pi\circ f\circ\mathcal Z$, a composition of $\R$-analytic maps. For $P$ use $\operatorname{Re}$ in place of
+$\Pi$.
+\end{proof}
+\source{ours.}
 
 \begin{definition}[Smoothing symmetric forms]\label{bpW:w3:forms}
 A continuous symmetric $d$-linear form $\mathfrak P:\mathfrak W^d\to\C$ ($d\ge2$) is \emph{smoothing with constant
@@ -489,7 +519,8 @@ Then, with $r=2\abs tC_F\norm w^2\le\frac1{10}$:
 \begin{proof}
 \proofstep{Convergence and analyticity}\label{stepW:w3:conv}
 By Lemma~\ref{bpW:w3:leibniz}(ii), $\abs t^k\norm{\varphi_k(w)}\le r^k\norm w$ and $r\le4C_F\rho_0^2=\frac1{10}$;
-the power series $(t^k\Phi_k)$ has $\sum_k\abs t^k\norm{\Phi_k}\rho^{2k+1}<\infty$ for $\rho<\rho_0$, so
+the formal multilinear series with coefficient $t^k\Phi_k$ in degree $2k+1$ and $0$ in degree $0$ and every even
+degree has $\sum_k\abs t^k\norm{\Phi_k}\rho^{2k+1}<\infty$ for $\rho<\rho_0$, so
 \ref{bpW:w3:ext-series} applies, in $\mathfrak W$ and (for $k\ge1$) in $\mathfrak W^+$. The partial derivatives of
 $t^k\varphi_k(w)$ in $t$ and $w$ are bounded by $k\abs t^{k-1}(2C_F)^k\rho^{2k+1}$ and
 $(2k+1)\abs t^k(2C_F)^k\rho^{2k}$ on $\abs t<2$, $\norm w<\rho<\rho_0$; these are summable, so
@@ -530,8 +561,9 @@ asserted there without proof; constructed and proved here. Lean: every \Lean{tsu
 by Step~\ref{stepW:w3:conv}.}
 
 \begin{remark}
-By uniqueness of solutions of Lipschitz ODEs (\Lean{ODE\_solution\_unique}), $t\mapsto\Gamma_t(w)$ is the solution
-of $\dot y=X_F(y)$, $y(0)=w$; this identification is not used.
+$X_F$ is Lipschitz on every ball, so local uniqueness\linebreak (\Lean{ODE\_solution\_unique\_of\_mem\_Icc}, with the
+Lipschitz bound on a ball containing both curves) identifies $t\mapsto\Gamma_t(w)$ with the solution of
+$\dot y=X_F(y)$, $y(0)=w$. This identification is not used.
 \end{remark}
 
 \begin{theorem}[Symplecticity and gradient transport]\label{bpW:w3:symplectic}
@@ -567,14 +599,93 @@ Let $H=\Lambda+G$ on $\mathfrak W$ (finite by Lemmas~\ref{bpW:w3:Lambda}, \ref{b
 is the Hamiltonian of Definition~\ref{bpW:w0:H}. Its Hamiltonian field $X_H=X_\Lambda+X_G$ is defined on
 $\mathfrak W^+$, with values in $\mathfrak W$.
 
+The field of the remainder will be an integral over $t\in[0,1]$ of
+\begin{equation}\label{bpW:w3:Ydef}
+Y(t,w)=D\Gamma_t(w)^{-1}X_{Z'}(\Gamma_tw)-X_{Z'}(w)\in\mathfrak W^+\qquad(0\le t\le1,\ w\in B_{\rho_1}),
+\end{equation}
+with $Z'=\bar G-G^{\rm tan}$ (Proposition~\ref{bpW:w3:homological}), $\rho_1=\frac12(40C_F)^{-1/2}$, and $D\Gamma_t(w)^{-1}$
+the inverse on $\mathfrak W^+$ (Theorem~\ref{bpW:w3:flow}(iii)). Holomorphy of $w\mapsto\int_0^1Y\,dt$ would follow by
+differentiating under the integral; analyticity needs more, and the next lemma provides it by expanding $Y$ into a
+power series in $(t,w)$ whose coefficients can be integrated in $t$ one at a time.
+
+\begin{lemma}[Power series of the integrand]\label{bpW:w3:Yseries}
+There are continuous $(2j+3)$-linear maps $Y_j:\mathfrak W^{2j+3}\to\mathfrak W^+$, $j\ge0$, with
+\[\sum_{j\ge0}\norm{Y_j}\,\rho_1^{2j+3}\le4C_*\rho_1^3,\qquad Y(t,w)=\sum_{j\ge0}t^jY_j(w,\dots,w)\quad(0\le t\le1,\ w\in B_{\rho_1}),\]
+the series converging absolutely. Consequently
+\[\int_0^1Y(t,w)\,dt=\sum_{j\ge0}\frac{Y_j(w,\dots,w)}{j+1}\qquad(w\in B_{\rho_1}),\]
+and $w\mapsto\int_0^1Y(t,w)\,dt$ has on $B_{\rho_1}$ the formal power series $q$ with $q_{2j+3}=Y_j/(j+1)$ and $q_n=0$ for
+all other $n$; in particular it is analytic $B_{\rho_1}\to\mathfrak W^+$ (\Lean{AnalyticOnNhd Complex}). Moreover
+$\int_0^1Y(t,\varrho w)\,dt=\varrho\int_0^1Y(t,w)\,dt$.
+\end{lemma}
+
+\begin{proof}
+Throughout, $0\le s\le1$, $0\le\rho\le\rho_1$ and $r=2C_Fs\rho^2\le2C_F\rho_1^2=\frac1{80}$.
+\proofstep{Majorant calculus}\label{stepW:w3:majcalc}
+For a Banach space $V$, a \emph{$(t,w)$-series} with values in $V$ is a family $P=(P_{j,d})_{j,d\ge0}$ of continuous
+$d$-linear maps $\mathfrak W^d\to V$; its majorant is $\mu_P(s,\rho)=\sum_{j,d}\norm{P_{j,d}}s^j\rho^d\in[0,\infty]$.
+If $\mu_P(\abs t,\norm w)<\infty$, the family $(t^jP_{j,d}(w,\dots,w))_{j,d}$ is absolutely summable; its sum is
+denoted $P(t,w)$. For a continuous multilinear $B:V_1\times\dots\times V_n\to V$ and $(t,w)$-series $P^1,\dots,P^n$,
+the composite series $B(P^1,\dots,P^n)$ has coefficients
+$\sum B\bigl(P^1_{j_1,d_1},\dots,P^n_{j_n,d_n}\bigr)$ (arguments concatenated in order), the sum over
+$j_1+\dots+j_n=j$, $d_1+\dots+d_n=d$, which is finite. By~\ref{bpW:w3:ext-multilinear},
+$\mu_{B(P^1,\dots,P^n)}\le\norm B\prod_i\mu_{P^i}$, and by~\ref{bpW:w3:ext-tsum} its sum is
+$B(P^1(t,w),\dots,P^n(t,w))$ wherever all $\mu_{P^i}(\abs t,\norm w)<\infty$. Sums of series add coefficientwise.
+Call $P$ \emph{graded} if $P_{j,d}=0$ unless $d=2j+e$ for a fixed $e$ (its degree shift); composites of graded
+series are graded, the shifts adding.
+\proofstep{The flow}\label{stepW:w3:majflow}
+The series $\Gamma$ with $\Gamma_{k,2k+1}=\Phi_k$ (shift $1$) sums to $\Gamma_t(w)$ (Theorem~\ref{bpW:w3:flow}), and
+$\mu_\Gamma(s,\rho)\le\sum_k(2C_F)^ks^k\rho^{2k+1}=\rho/(1-r)$ by Lemma~\ref{bpW:w3:leibniz}(ii).
+\proofstep{The derivative}\label{stepW:w3:majA}
+For $k\ge1$ let $A_{k,2k}$ be the continuous $2k$-linear map $\mathfrak W^{2k}\to L(\mathfrak W^+)$ sending
+$(w^1,\dots,w^{2k})$ to $v\mapsto\sum_{i=1}^{2k+1}\Phi_k(w^1,\dots,w^{i-1},v,w^i,\dots,w^{2k})$; all other
+coefficients vanish (shift $0$, no $j=0$ term). By Lemma~\ref{bpW:w3:leibniz}(ii) and $\norm v\le\norm v_+$,
+$\norm{A_{k,2k}}\le(2k+1)(2C_F)^k$, so $\mu_A\le\sum_{k\ge1}(2k+1)r^k\le5r\le\frac1{16}$ (as in
+Step~\ref{stepW:w3:est}). Its diagonal is $D\varphi_k(w)$ restricted to $\mathfrak W^+$ by~\ref{bpW:w3:ext-multilinear}, so
+$A$ sums to $D\Gamma_t(w)-I$ on $\mathfrak W^+$ (Theorem~\ref{bpW:w3:flow}(i), termwise derivative).
+\proofstep{The inverse}\label{stepW:w3:majN}
+Composition is a bilinear map of norm $1$ on the Banach algebra $L(\mathfrak W^+)$. The powers $(-A)^n$ are composite
+series with $\mu_{(-A)^n}\le\mu_A^n$, and $(-A)^n$ has no coefficient with $j<n$. Let $N_{j,d}=\sum_{n\le j}((-A)^n)_{j,d}$,
+a finite sum. Then $\mu_N\le\sum_n\mu_A^n\le\frac{16}{15}$, the family indexed by $n$ and the coefficients of $(-A)^n$
+is absolutely summable, and regrouping by~\ref{bpW:w3:ext-tsum} gives
+$N(t,w)=\sum_n(-A(t,w))^n=(I+A(t,w))^{-1}=D\Gamma_t(w)^{-1}$ on $\mathfrak W^+$ by~\ref{bpW:w3:ext-neumann}.
+$N$ is graded with shift $0$.
+\proofstep{The cubic field along the flow}\label{stepW:w3:majX}
+$X_{Z'}(y)=4\nabla\mathfrak z(y,y,y)$ with $4\nabla\mathfrak z$ trilinear of norm $\le C_*$ (Lemma~\ref{bpW:w3:quartic}).
+The composite $4\nabla\mathfrak z(\Gamma,\Gamma,\Gamma)$ has majorant $\le C_*\rho^3(1-r)^{-3}$, sums to
+$X_{Z'}(\Gamma_tw)$, and has shift $3$.
+\proofstep{The integrand}\label{stepW:w3:majY}
+Application $L(\mathfrak W^+)\times\mathfrak W^+\to\mathfrak W^+$ is bilinear of norm $1$. Let $\mathcal Y$ be the
+composite $N\bigl(4\nabla\mathfrak z(\Gamma,\Gamma,\Gamma)\bigr)$ minus the series whose only coefficient is
+$4\nabla\mathfrak z$ in position $(0,3)$. Then $\mathcal Y$ sums to $Y(t,w)$, has shift $3$, and
+$\mu_{\mathcal Y}(1,\rho_1)\le\frac{16}{15}C_*\rho_1^3(\frac{80}{79})^3+C_*\rho_1^3\le4C_*\rho_1^3$. Put
+$Y_j=\mathcal Y_{j,2j+3}$; all other coefficients vanish.
+\proofstep{Integrate in $t$}\label{stepW:w3:majint}
+For fixed $w\in B_{\rho_1}$ the functions $t\mapsto t^jY_j(w,\dots,w)$ are continuous on $[0,1]$ with
+$\sup_t\norm{\cdot}_+\le\norm{Y_j}\rho_1^{2j+3}$, summable in $j$. By~\ref{bpW:w3:ext-integral} the series is integrated
+termwise, and $\int_0^1t^j\,dt=\frac1{j+1}$.
+\proofstep{Power series}\label{stepW:w3:majps}
+$\sum_n\norm{q_n}\rho_1^n\le\sum_j\norm{Y_j}\rho_1^{2j+3}<\infty$, so~\ref{bpW:w3:ext-series} gives the formal power
+series on $B_{\rho_1}$ and analyticity.
+\proofstep{Reality}\label{stepW:w3:majreal}
+For real $t$, $\Gamma_t$, $D\Gamma_t$ and $X_{Z'}$ commute with $\varrho$ (Theorem~\ref{bpW:w3:flow}(iv),
+Definition~\ref{bpW:w3:hamfield-def}), so $Y(t,\varrho w)=\varrho Y(t,w)$; $\varrho$ is continuous and $\R$-linear and
+therefore commutes with the integral over $t\in[0,1]$ by~\ref{bpW:w3:ext-integral}.
+\end{proof}
+\source{ours. P96-W p.~284 obtains analyticity of $X_F$ from coordinatewise analyticity and local boundedness ([9,
+Appendix~A] of P96-W) and does not discuss the analyticity of $X_K$ separately.}
+
 \begin{theorem}[Analytic partial Birkhoff normal form; P96-W Main Proposition for $J=\{1,2\}$]\label{bpW:w3:main}
 Let $\Gamma=\Gamma_1$ and $\rho_1=\rho_1(m)=\frac12(40C_F(m))^{-1/2}$. Define on $B_{\rho_1}$
 \[K=H\circ\Gamma-\Lambda-\bar G-G^{\rm nor}.\]
 Then:
 \begin{enumerate}[label=(\roman*)]
 \item $K$ is analytic on $B_{\rho_1}$ and real, and $\abs{K(w)}\le C_K\norm w^6$ with $C_K=10\,C_*C_F$;
-\item $K\in\mathcal A(B_{\rho_1})$ (Definition~\ref{bpW:w3:hamfield-def}): its Hamiltonian field $X_K$ is a
-  holomorphic map $B_{\rho_1}\to\mathfrak W^+$, real, with $\norm{X_K(w)}_+\le C'_K\norm w^5$, $C'_K=66\,C_*C_F$;
+\item $K\in\mathcal A(B_{\rho_1})$ (Definition~\ref{bpW:w3:hamfield-def}): its Hamiltonian field $X_K$ is an
+  analytic map $B_{\rho_1}\to\mathfrak W^+$ (\Lean{AnalyticOnNhd Complex}), real, with
+  $\norm{X_K(w)}_+\le C'_K\norm w^5$, $C'_K=66\,C_*C_F$. Its real restriction
+  $X_K^\R=\mathcal Z^{-1}X_K\circ\mathcal Z$ is a real analytic map $B^E_{r_1}\to E_{a,p+1}$
+  ($r_1=\rho_1/\sqrt2$, $B^E_r$ the real ball of $E_{a,p}$), equal to $(\partial_pK^\R,-\partial_qK^\R)$ for the real
+  analytic $K^\R=K\circ\mathcal Z$;
 \item $\bar G$ and $G^{\rm nor}$ are as in Lemma~\ref{bpW:w3:quartic-ident}: $\bar G=\frac12\avg{AI,I}+\avg{BI,Z}$
   with the corrected coefficients, $G^{\rm nor}$ depends only on $\hat w$ and $\abs{G^{\rm nor}}\le\frac{C_*}4\norm{\hat w}^4$;
   both are in $\mathcal A(\mathfrak W)$ with cubic fields bounded by $C_*\norm w^3$ (resp.\ $C_*\norm{\hat w}^3$);
@@ -611,16 +722,18 @@ is analytic on the units of $L(\mathfrak W^+)$, and $X_G\circ\Gamma:B_{\rho_1}\t
 \proofstep{The field of $K_2$}\label{stepW:w3:XK2}
 By the fundamental theorem of calculus~\ref{bpW:w3:ext-integral} and Step~\ref{stepW:w3:K2},
 $K_2(w)=\int_0^1\bigl(Z'(\Gamma_tw)-Z'(w)\bigr)dt$. The integrand is $C^1$ in $(t,w)$ and, by
-Theorem~\ref{bpW:w3:symplectic},
-\[D_w\bigl(Z'(\Gamma_tw)-Z'(w)\bigr)v=\Omega(Y(t,w),v),\qquad
-Y(t,w)=D\Gamma_t(w)^{-1}X_{Z'}(\Gamma_tw)-X_{Z'}(w)\in\mathfrak W^+.\]
-As in Step~\ref{stepW:w3:XK1}, $\norm{Y(t,w)}_+\le44C_*C_F\,t\norm w^5$, and $Y$ is continuous in $(t,w)$ and
-analytic in $w$ with $D_wY$ bounded on $[0,1]\times B_\rho$ for each $\rho<\rho_1$ (from the power series of
-Theorem~\ref{bpW:w3:flow}). By~\ref{bpW:w3:ext-integral}, $DK_2(w)v=\int_0^1\Omega(Y(t,w),v)dt
-=\Omega\bigl(\int_0^1Y(t,w)dt,v\bigr)$, so $X_{K_2}(w)=\int_0^1Y(t,w)\,dt$; it is complex differentiable
-$B_{\rho_1}\to\mathfrak W^+$ by~\ref{bpW:w3:ext-integral}, and $\norm{X_{K_2}(w)}_+\le22C_*C_F\norm w^5$.
+Theorem~\ref{bpW:w3:symplectic}, $D_w\bigl(Z'(\Gamma_tw)-Z'(w)\bigr)v=\Omega(Y(t,w),v)$ with $Y$ as in
+\eqref{bpW:w3:Ydef}. As in Step~\ref{stepW:w3:XK1}, $\norm{Y(t,w)}_+\le44C_*C_F\,t\norm w^5$; $Y$ is continuous in
+$(t,w)$ and $D_wY$ is bounded on $[0,1]\times B_\rho$ for each $\rho<\rho_1$ (Lemma~\ref{bpW:w3:Yseries}: the
+termwise derivative of the series). By~\ref{bpW:w3:ext-integral}, $DK_2(w)v=\int_0^1\Omega(Y(t,w),v)dt
+=\Omega\bigl(\int_0^1Y(t,w)dt,v\bigr)$, so $X_{K_2}(w)=\int_0^1Y(t,w)\,dt$, with
+$\norm{X_{K_2}(w)}_+\le22C_*C_F\norm w^5$. By Lemma~\ref{bpW:w3:Yseries}, $X_{K_2}$ is analytic
+$B_{\rho_1}\to\mathfrak W^+$ with an explicit power series.
 \proofstep{Conclusion of (ii)}\label{stepW:w3:XKconcl}
-$X_K=X_{K_1}+X_{K_2}$, with $44+22=66$; reality from Definition~\ref{bpW:w3:hamfield-def} and (i).
+$X_K=X_{K_1}+X_{K_2}$, with $44+22=66$, analytic by Steps~\ref{stepW:w3:XK1}--\ref{stepW:w3:XK2}; reality from
+Definition~\ref{bpW:w3:hamfield-def} and (i). The real restriction is Lemma~\ref{bpW:w3:real-restrict} applied to $X_K$
+(with $V=\mathfrak W^+$) and to $K$; on real points $\mathcal Z^{-1}X_K=(\partial_pK,-\partial_qK)$ (paragraph after
+Definition~\ref{bpW:w3:hamfield-def}), and $\norm{\mathcal Zx}\le\sqrt2\norm x_E<\rho_1$ for $x\in B^E_{r_1}$.
 \proofstep{(iii)}\label{stepW:w3:iii}
 Lemmas~\ref{bpW:w3:quartic} and~\ref{bpW:w3:quartic-ident}.
 \proofstep{Conjugacy}\label{stepW:w3:conj}
@@ -634,21 +747,24 @@ Nondegeneracy (Lemma~\ref{bpW:w3:omega}) gives the identity after applying $D\Ga
 \source{P96-W Main Proposition, pp.~281--282; proof pp.~282--285, (12)--(14). Deviations: $J=\{1,2\}$; fixed $m$ (the
 source's uniformity on compact $m$-intervals and analytic dependence on $m$ are not needed by W-NLW2 and are
 omitted); the corrected coefficients (E-PDE-W-1); time convention of Definition~\ref{bpW:w0:z}.}
-\sourcegap{P96-W p.~285 derives $X_K\in A(\ell^{a,s},\ell^{a,s+1})$ from ``$\Gamma^*X_H=X_{H\circ\Gamma}\in
-A(\ell^{a,s},\ell^{a,s+1})$'' and ``$[X_F,X_H]=X_{\{H,F\}}\in A(\ell^{a,s},\ell^{a,s+1})$''. For $H=\Lambda+G$ neither
-field is in that class ($X_\Lambda$ is unbounded of order one, p.~280), and the cancellation of the unbounded terms in
-$X_K$ is not shown. Steps~\ref{stepW:w3:K2} and~\ref{stepW:w3:XK2} supply it: the unbounded part enters only through
-$D\Lambda\cdot X_F=Z'$ (Proposition~\ref{bpW:w3:homological}), a bounded quartic. The source also deduces analyticity
-from coordinatewise analyticity and local boundedness ([9, Appendix~A] of P96-W); here it comes from explicit power
-series and parametric integrals.}
+\sourcegap{P96-W p.~285 states two conditional facts: ``with $X_H\in A(\ell^{a,s},\ell^{a,s+1})$, also
+$\Gamma^*X_H=D\Gamma^{-1}X_H\circ\Gamma=X_{H\circ\Gamma}\in A(\ell^{a,s},\ell^{a,s+1})$'', and the analogous statement for
+the bracket $[X_F,X_H]=X_{\{H,F\}}$; it concludes $X_K\in A(\ell^{a,s},\ell^{a,s+1})$. The printed proof leaves implicit
+how these facts apply to the Taylor remainder when the original linear field $X_\Lambda$ is unbounded (p.~280). The
+homological identity shows $\{\Lambda,F\}=D\Lambda\cdot X_F=Z'$ (Proposition~\ref{bpW:w3:homological}), so
+$\{H,F\}=Z'+\{G,F\}$ has a smoothing field, and the source's route can be completed along these lines.
+Steps~\ref{stepW:w3:K2} and~\ref{stepW:w3:XK2} give the expansion in detail, using only $D\Lambda\cdot X_F=Z'$. The
+conditional facts themselves are correct; this is an omitted application, not a false statement. Analyticity: the
+source appeals to coordinatewise analyticity and local boundedness ([9, Appendix~A] of P96-W); here it comes from
+explicit power series (Theorem~\ref{bpW:w3:flow}, Lemma~\ref{bpW:w3:Yseries}).}
 
 \begin{remark}[Regularity class]\label{bpW:w3:class-remark}
-$K$ and $\Gamma$ are analytic (convergent power series). For $X_K$ the proof gives complex differentiability
-(\Lean{DifferentiableOn Complex}) into $\mathfrak W^+$, which is what Cauchy estimates along complex lines need
-(apply the one-variable Cauchy formula to $\zeta\mapsto X_K(w+\zeta v)$, Mathlib
-\Lean{DifferentiableOn.analyticOnNhd} for $\C\to E$). Analyticity of $X_K$ would follow from the classical fact
-that complex-differentiable maps on open subsets of complex Banach spaces are analytic, which Mathlib does not
-provide (Remark~\ref{bpW:w3:ext-flows}); it is not used.
+$\Gamma$, $K$ and $X_K$ are analytic on the complex ball $B_{\rho_1}$ (\Lean{AnalyticOnNhd Complex}): $\Gamma$ and $K$
+by composition of power series, $X_{K_1}$ by composition and operator inversion, $X_{K_2}$ by the explicit power
+series of Lemma~\ref{bpW:w3:Yseries}. Their real restrictions are real analytic (Lemma~\ref{bpW:w3:real-restrict}).
+The theorem that complex-differentiable maps on open subsets of complex Banach spaces are analytic is not used.
+Analyticity implies holomorphy in the sense of Definition~\ref{bpW:w1:holomorphic}, so the Cauchy estimates of W1 also
+apply.
 \end{remark}
 
 \begin{corollary}[Real change of coordinates]\label{bpW:w3:gamma-real}
@@ -699,8 +815,10 @@ Lemmas~\ref{bpW:w3:Lambda} and~\ref{bpW:w3:quartic-ident}.
 
 \subsection{Interface to milestones W4--W6}\label{bpW:w3:interface-sec}
 
-\begin{remark}[The exact form that P96-K Theorem~A receives]\label{bpW:w3:interface}
-After Theorem~\ref{bpW:w3:main}, the Hamiltonian is $H'=N_0+\bar G+G^{\rm nor}+K$, $N_0=\Lambda$, on the complex
+\begin{remark}[What W3 supplies toward P96-K Theorem~A]\label{bpW:w3:interface}
+P96-K Theorem~A receives its Hamiltonian $N+P$ only after the action-angle substitution and the choice of parameter
+and phase-space domains (KP96 p.~25, Step~1, and p.~26, Step~3; milestone W4). W3 supplies the Cartesian input to that
+construction. After Theorem~\ref{bpW:w3:main}, the Hamiltonian is $H'=N_0+\bar G+G^{\rm nor}+K$, $N_0=\Lambda$, on the complex
 ball $B_{\rho_1}\subset\mathfrak W$, with:
 \begin{itemize}
 \item \emph{Phase space and weights.} $\mathfrak W=\mathfrak W_{a,p}$ (complexification of $E_{a,p}$ via $\mathcal Z$;
@@ -708,15 +826,22 @@ ball $B_{\rho_1}\subset\mathfrak W$, with:
   $B_{\rho_1}$; reality is $\varrho w=w$. This is needed because the KAM domain complexifies the angles, so that
   $w_{-j}\ne\overline{w_j}$ there. In P96-K's notation (p.~120) the normal coordinates are $u_j=q_{j+2}$,
   $v_j=p_{j+2}$ ($j\ge1$; KP96 p.~25, Step~1, with $q_j^{\rm KP}=\sqrt2z_j$), in $\ell^{a,p}$ with weights
-  $(j+2)^pe^{a(j+2)}$; these are equivalent to P96-K's $j^pe^{aj}$ within the factor $3^pe^{2a}$, and P96-K's sum norm
-  $\norm u+\norm v$ is within a factor $2$ of the max norm. W4 must carry these two conversions.
+  $(j+2)^pe^{a(j+2)}$. Since $j^pe^{aj}\le(j+2)^pe^{a(j+2)}\le3^pe^{2a}j^pe^{aj}$, these are equivalent to P96-K's
+  $j^pe^{aj}$ within the factor $3^pe^{2a}$ in the phase space and $3^{p+1}e^{2a}$ in the target weight $p+1$; P96-K's
+  sum norm $\norm u+\norm v$ lies between the max norm and twice it; $\mathcal Z$ contributes $\sqrt2$
+  (Lemma~\ref{bpW:w3:coords}). W4 must carry these fixed factors into its domains and perturbation norms.
 \item \emph{Smoothing.} P96-K Assumption~C with $\bar p=p+1$ (so $\bar p-p=1$, $\Delta=\min(\bar p-p,1)=1$): the
   fields of $\bar G$, $G^{\rm nor}$, $K$ map into $\mathfrak W^+=\mathfrak W_{a,p+1}$; in particular their normal
   components $(\partial_{p_j}R,-\partial_{q_j}R)_{j\ge3}$ lie in $\ell^{a,p+1}$, which is P96-K's
   $(P_v,-P_u)\in\ell^{a,\bar p}$.
-\item \emph{Regularity class.} $\bar G$, $G^{\rm nor}$: real quartic polynomials (analytic on $\mathfrak W$);
-  $K\in\mathcal A(B_{\rho_1})$: analytic, real, with holomorphic real field $X_K:B_{\rho_1}\to\mathfrak W^+$
-  (Definition~\ref{bpW:w3:hamfield-def}, Remark~\ref{bpW:w3:class-remark}). No dependence on parameters: the
+\item \emph{Regularity class: Assumption~C in Cartesian form.} P96-K p.~121 requires that $X_P$ define, near the
+  torus, a real analytic map $\mathcal P^{a,p}\to\mathcal P^{a,\bar p}$, real analytic on the complex domain
+  $D(s,r)$ with finite sup of $\abs{X_P}_r$. W3 gives: $\bar G$, $G^{\rm nor}$ are real quartic polynomials with
+  real cubic fields $\mathfrak W\to\mathfrak W^+$ (analytic everywhere); $K\in\mathcal A(B_{\rho_1})$, so $X_K$ is
+  analytic $B_{\rho_1}\to\mathfrak W^+$ on the \emph{complex} ball, real, and its real restriction
+  $X_K^\R:B^E_{r_1}\to E_{a,p+1}$ is real analytic (Theorem~\ref{bpW:w3:main}(ii)). This is the literal analytic
+  hypothesis in the Cartesian coordinates $(q,p)$; composing with the (analytic) action-angle substitution on the two
+  tangential modes, and checking that $D(s,r)$ is mapped into $B_{\rho_1}$, is W4's step. No dependence on parameters: the
   parameter $\xi$ of P96-K enters later, through the action-angle substitution (KP96 p.~25, Step~1), and its
   Lipschitz seminorms are then obtained by Cauchy estimates in $\xi$ (KP96 p.~26, Step~3).
 \item \emph{Size.} On $B_{\rho_1}$: $\abs K\le C_K\norm w^6$, $\norm{X_K}_+\le C'_K\norm w^5$,
@@ -757,7 +882,7 @@ $\Lambda$ bound & $\sqrt{1+m}$ & $m$\\
 Asymptotically $C_F\sim216C_*/m$ as $m\to0$ and $C_F\sim27C_*\sqrt m$ as $m\to\infty$; nothing is uniform in $m$, as
 Standing assumption~\ref{bpW:w0:mass} allows. Lean totality: the divisions in $f_x$ are guarded by
 Lemma~\ref{bpW:w3:divisor}; $\sqrt{\lambda_j}>0$; every \Lean{tsum} is absolutely convergent
-(Lemmas~\ref{bpW:w3:majorant}, \ref{bpW:w3:quartic}, Theorem~\ref{bpW:w3:flow}); the integral in
+(Lemmas~\ref{bpW:w3:majorant}, \ref{bpW:w3:quartic}, \ref{bpW:w3:Yseries}, Theorem~\ref{bpW:w3:flow}); the integral in
 Step~\ref{stepW:w3:XK2} has a continuous integrand on $[0,1]$; derivatives are stated as \Lean{HasFDerivAt} at points
 of differentiability.
 
@@ -766,12 +891,14 @@ of differentiability.
 \begin{itemize}
 \item \emph{Proved here}: Lemmas~\ref{bpW:w3:coords}, \ref{bpW:w3:omega}, \ref{bpW:w3:Lambda},
   \ref{bpW:w3:majorant}, \ref{bpW:w3:quartic}, \ref{bpW:w3:quartic-ident}, \ref{bpW:w3:divisor},
-  \ref{bpW:w3:leibniz}; Theorems~\ref{bpW:w3:F}, \ref{bpW:w3:flow}, \ref{bpW:w3:symplectic}, \ref{bpW:w3:main};
+  \ref{bpW:w3:leibniz}, \ref{bpW:w3:real-restrict}, \ref{bpW:w3:Yseries}; Theorems~\ref{bpW:w3:F}, \ref{bpW:w3:flow}, \ref{bpW:w3:symplectic}, \ref{bpW:w3:main};
   Proposition~\ref{bpW:w3:homological}; Corollaries~\ref{bpW:w3:gamma-real}, \ref{bpW:w3:transport-tori}.
 \item \emph{External}: \ref{bpW:w3:ext-multilinear}--\ref{bpW:w3:ext-neumann}, all in Mathlib.
 \item \emph{From W1}: Lemmas~\ref{bpW:w1:space}, \ref{bpW:w1:embed}, \ref{bpW:w1:diag},
   Definition~\ref{bpW:w1:holomorphic}, Proposition~\ref{bpW:w1:gradient-identity} (the last also covered by
   Lemma~\ref{bpW:w0n:gradient}).
-\item \emph{Source defects}: P96-W pp.~285--286 (two steps of the proof of Lemma~4 and a slip);
-  P96-W p.~285 (regularity of $X_K$ not shown); P96-W pp.~282, 284 factor $16$ (E-PDE-W-1, already recorded).
+\item \emph{Source defects}: P96-W p.~285 (Case~1 derivative inequality false; constant halves); P96-W p.~286
+  (Case~2 reduction omits the subcase $i=j<k=l$; a factor slip $2\to2i$); P96-W pp.~282, 284 factor $16$
+  (E-PDE-W-1, already recorded). Not a false statement but an omitted application: P96-W p.~285, regularity of $X_K$
+  (the \textsf{SOURCE\_GAP} note after Theorem~\ref{bpW:w3:main}).
 \end{itemize}
