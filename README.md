@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 12:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **286,347 lines of Lean** of an estimated ≈ 289,000
+> **Last updated: 2026-10-30 12:29 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **286,347 lines of Lean** of an estimated ≈ 289,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -239,7 +239,7 @@ Overall, everything together: 96.8 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **286,347** (223,362 excluding blank lines and comments) · **+38,364** since 2026-10-29 12:20 UTC |
-| Written on agent branches, not yet landed | 954 |
+| Written on agent branches, not yet landed | 1,534 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
 | **Estimated total at completion** | **≈ 289,000** |
 | Estimated still to write | ≈ 1,000 |
@@ -248,7 +248,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 12:20 UTC from `main` at `c2e675af` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 12:29 UTC from `main` at `cc1d3a42` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -257,7 +257,7 @@ Overall, everything together: 96.8 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 78 modules · 19,712 lines. **Packages landed: 26 / 26**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target 2.8–2.9 %, D37). `KAM/SpinOrbit` and the data generator: 15 modules · 2,828 lines. **Packages landed: 16 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
-- **Now:** proving SO-DION, SO-EMITFIX, SO-GEN3, SO-SHARPLINK · in audit —
+- **Now:** proving SO-GEN3, SO-SHARPLINK · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 23 / 23** · frozen definitions: 123
@@ -415,6 +415,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
+| **sodion** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-DION: audit request | `inp-sodion` | 2 (vs `inp`) |
 | **soemitfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-2 round 2: probes, logs and handoff | `inp-soemitfix` | 8 (vs `inp`) |
 | **sogen3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GEN3 interim: lunar tori N=50-65, sharp-test mirror, band below 2.9 % | `inp-sogen3` | 1 (vs `inp`) |
 
@@ -426,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 12:29 | `cc1d3a42` | Log: 12:29 (SO-DION; codex-4 login expired) |
 | 2026-10-30 12:18 | `85188cd6` | Log: 12:18 |
 | 2026-10-30 12:15 | `b864684e` | Log: 12:15 (D38, three SO packages) |
 | 2026-10-30 12:12 | `54d944cb` | D38: lunar barriers at N = 65 (band about 2.71 %) |
@@ -437,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 11:45 | `66fa2abd` | D37: lunar band target 2.8-2.9 % with the sharp certifier; HQ texts updated |
 | 2026-10-30 11:43 | `dfb93336` | Note for the SO orchestrator: switching the lunar certificate to the sharp certifier |
 | 2026-10-30 11:43 | `d003cb21` | Docs: the sharp a-posteriori theorems and the sharp certifier (README, D36, areas table) |
-| 2026-10-30 11:40 | `dfae4a77` | Land apost-sharp into main: the sharp a-posteriori theorems and the sharp KAM certifier |
 <!-- /AUTO:landed -->
 
 ## Decisions
