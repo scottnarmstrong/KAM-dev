@@ -723,9 +723,9 @@ KIND: claim
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#bpW:w3:class-remark@L771-L778
 DISPOSITION: NODE bpW:w3:class-remark
 REASON: the regularity claim is directly cited inside stepW:w6:t-an; retained with dependencies on its W3 suppliers
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2+sol-delta5-W-w3
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w3
 
 ITEM: bpW:w3:gamma-real
 KIND: corollary
@@ -1229,7 +1229,7 @@ DISPOSITION: NODE stepW:w3:wk-lin
 REASON: labelled unit of the revised W3 (wave 2)
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-w2
-REVIEWER: sol-delta5-W-w3
+REVIEWER: sol-delta6-W-W-w3
 
 ITEM: stepW:w3:wk-reg
 KIND: proof-region

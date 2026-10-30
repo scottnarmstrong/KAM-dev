@@ -392,16 +392,17 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w6:prep-step, bpW:w5:initial, stepW:w8:sd-init, bpW:w6:to-w8, stepW:w8:sd-size
+DEPS: bpW:w6:prep-step, bpW:w5:initial, stepW:w8:sd-init, bpW:w6:to-w8, stepW:w8:sd-size, stepW:w8:sd-trim
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w6:prep-step | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L168-L168 | its hypotheses
 EDGE: bpW:w5:initial | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L170-L170 | P real periodic in S_{p+1}
 EDGE: stepW:w8:sd-init | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L171-L171 | (iii)
-EDGE: bpW:w6:to-w8 | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L146-L146 | its conditions
+EDGE: bpW:w6:to-w8 | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L168-L171 | the checks conclude clause (iv), including the conditions of the W6 interface remark
 EDGE: stepW:w8:sd-size | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L171-L171 | (i) supplies eps^sharp_n <= gamma alpha_n
+EDGE: stepW:w8:sd-trim | blueprint-W/parts/w8-assembly.tex#stepW:w8:sd-prep@L168-L168 | the trimmed shell is Borel and lies in the required half-unit box
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-w8a
+EXTRACTOR: claude-suborch-W+sol-delta6-W-W-w8a
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -576,9 +577,9 @@ ROUTE_FOR: -
 EDGE: bpW:w6:applicable | blueprint-W/parts/w8-assembly.tex#stepW:w8:g-app@L219-L219 | applicability
 EDGE: bpW:w8:sharp-prep | blueprint-W/parts/w8-assembly.tex#stepW:w8:g-app@L221-L221 | eps_{0,n} admissible
 EDGE: bpW:w6:wave-iteration | blueprint-W/parts/w8-assembly.tex#stepW:w8:g-app@L220-L220 | the allowed parameter interval for eps_0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -717,9 +718,9 @@ ROUTE_FOR: -
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:e-tor@L238-L238 | E_4, E_5, t_0
 EDGE: bpW:w8:shell-iter | blueprint-W/parts/w8-assembly.tex#stepW:w8:e-tor@L236-L238 | the formula for e_tor and eps_{0,n}
 EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:e-tor@L238-L238 | alpha_n and kappa_n <= 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -749,9 +750,9 @@ EDGE: bpW:w7:freqcoords | blueprint-W/parts/w8-assembly.tex#stepW:w8:e-om@L243-L
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:e-om@L243-L243 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w8:sharp-prep | blueprint-W/parts/w8-assembly.tex#stepW:w8:e-om@L240-L240 | the upper bound on eps_{0,n}
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w8-assembly.tex#stepW:w8:e-om@L243-L243 | lambda_1 > 1 and lambda_2 > 2 yield L_A > 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -994,9 +995,9 @@ EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-real@L29
 EDGE: bpW:w8:ext-exp | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-real@L299-L299 | complex exponential
 EDGE: stepW:w8:ts-bd | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-real@L297-L297 | (i)
 EDGE: bpW:w8:etor | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-real@L297-L297 | e <= 7/256 <= 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1024,9 +1025,9 @@ EDGE: bpW:w6:tori | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-per@L300-L300 
 EDGE: bpW:w8:ext-exp | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-per@L301-L301 | integer-valued continuous functions
 EDGE: stepW:w8:ts-real | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-per@L300-L300 | (ii)
 EDGE: bpW:w8:etor | blueprint-W/parts/w8-assembly.tex#stepW:w8:ts-per@L302-L302 | 2e <= 14/256 < 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1200,9 +1201,9 @@ ROUTE_FOR: -
 EDGE: bpW:w6:tori | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-an@L329-L329 | (v)
 EDGE: bpW:w8:ext-local | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-an@L330-L330 | continuous linear maps preserve AnalyticOnNhd
 EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-an@L330-L330 | tau_E is a continuous linear isometric bijection
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1231,9 +1232,9 @@ EDGE: bpW:w8:torus-shape | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-inj@L33
 EDGE: bpW:w8:ext-exp | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-inj@L335-L335 | e^z = 1
 EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-inj@L332-L332 | tau_E is injective
 EDGE: bpW:w3:coords | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-inj@L333-L333 | Z is bijective
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1264,9 +1265,9 @@ EDGE: bpW:w3:flow | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-der@L342-L342 
 EDGE: bpW:w8:torus-shape | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-der@L345-L345 | (ii), (iv)
 EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-der@L340-L340 | the inverse transport tau_E^{-1} and its linearity
 EDGE: bpW:w3:coords | blueprint-W/parts/w8-assembly.tex#stepW:w8:se-der@L341-L344 | Z^{-1} identifies fixed real points and is injective
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1388,9 +1389,9 @@ EDGE: bpW:w3:gamma-real | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-gamma@L3
 EDGE: bpW:w1:embed | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-gamma@L370-L370 | norm comparison
 EDGE: bpW:w8:torus-shape | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-gamma@L372-L372 | (v)
 EDGE: bpW:w8:shell-data | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-gamma@L372-L372 | rho_n^2 <= 2 c_A t_n
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1420,9 +1421,9 @@ EDGE: bpW:w8:etor | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-close@L375-L37
 EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-close@L374-L374 | the linear torus K^0_I occurs directly here (frozen linearTorus)
 EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-close@L373-L374 | tau_E is isometric
 EDGE: bpW:w8:const | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-close@L374-L375 | E_7 = 162 E_5 + E_6
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1451,9 +1452,9 @@ EDGE: bpW:w3:gamma-real | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-size@L37
 EDGE: stepW:w8:sc-gamma | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-size@L376-L377 | the cubic bound on Gamma^R(x)-x
 EDGE: bpW:w8:torus-shape | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-size@L376-L377 | ¦¦x¦¦ < rho_n <= r_1 = rho_1/sqrt2
 EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#stepW:w8:sc-size@L377-L377 | tau_E preserves the norm
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1579,9 +1580,9 @@ EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-frozen@L400-L4
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-frozen@L403-L403 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-frozen@L402-L402 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-frozen@L400-L402 | kappa_{1,1} of each component of K is its frozen coeff
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1610,9 +1611,9 @@ EDGE: bpW:w8:w6-general | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-cont@L40
 EDGE: bpW:w8:torus-shape | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-cont@L405-L405 | (v)
 EDGE: bpW:w3:gamma-real | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-cont@L406-L406 | (i) Gamma^R analytic
 EDGE: bpW:w8#data | blueprint-W/parts/w8-assembly.tex#stepW:w8:si-cont@L405-L406 | Z^{-1} and tau_E are continuous linear
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1653,9 +1654,9 @@ EDGE: bpW:w0:periodone#linearTorus | blueprint-W/parts/w8-assembly.tex#bpW:w8@L5
 EDGE: bpW:w3:majorant | blueprint-W/parts/w8-assembly.tex#bpW:w8@L40-L40 | C_*
 EDGE: bpW:w3:F | blueprint-W/parts/w8-assembly.tex#bpW:w8@L40-L40 | C_F
 EDGE: bpW:w5:data | blueprint-W/parts/w8-assembly.tex#bpW:w8@L45-L46 | the ordinary and preparatory step constants, summarized in the W5 ledger
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w8a
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w8a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

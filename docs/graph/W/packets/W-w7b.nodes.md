@@ -113,9 +113,9 @@ EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L
 EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L479-L479 | (iii)
 EDGE: bpW:w7:largek | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L476-L477 | nonempty S forces n <= ¦k¦/vartheta
 EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-minus-group@L477-L478 | outside X supplies the zone lemma's lower bound on ¦k¦
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -230,9 +230,9 @@ EDGE: stepW:w7:prep-n | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L501-
 EDGE: stepW:w7:prep-X | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L502-L502 | X
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L501-L501 | A_k >= ¦k¦^24
 EDGE: bpW:w7:constdef | blueprint-W/parts/w7-measure.tex#stepW:w7:prep-sum@L502-L502 | the coefficient C_P of (C5)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -321,9 +321,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | (H2)
 EDGE: bpW:w7:unpert-bounds | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | (iii)
 EDGE: bpW:w7:largek | blueprint-W/parts/w7-measure.tex#stepW:w7:it-group@L522-L522 | n <= ¦k¦/vartheta, otherwise the zone is empty
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -351,9 +351,9 @@ EDGE: bpW:w7:zone | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L528 | 
 EDGE: stepW:w7:it-group | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L529-L529 | the grouping
 EDGE: bpW:w7:dichotomy | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L530 | outside X discharges the nonconstant-psi premise of zone
 EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:it-j0@L528-L532 | ceil rounding and real-power comparisons for j_0
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -408,9 +408,9 @@ EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L538-L538 
 EDGE: stepW:w7:it-n | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | per k
 EDGE: stepW:w7:it-plus | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | per k
 EDGE: bpW:w7:indexdef | blueprint-W/parts/w7-measure.tex#stepW:w7:it-sum@L539-L539 | tau = 24 and A_k >= ¦k¦^24
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -438,9 +438,9 @@ EDGE: bpW:w7:Xzones | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 |
 EDGE: bpW:w7:measurable | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L543-L543 | Borel
 EDGE: bpW:w7:count | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 | each k occurs for at most ¦k¦ levels
 EDGE: bpW:w7:Xdef | blueprint-W/parts/w7-measure.tex#stepW:w7:it-X@L542-L542 | ¦k¦ < K_* on X
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -497,9 +497,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:omega0 | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-cont@L556-L556 | affine
 EDGE: bpW:w7:family | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-cont@L556-L556 | (H1)-(H2)
 EDGE: bpW:w7:basic#data | blueprint-W/parts/w7-measure.tex#stepW:w7:meas-cont@L557-L557 | the phase phi_kl and its frequency-pair domain
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -620,35 +620,6 @@ LEAN_REF: -
 LEAN_NOTE: -
 NOTE: -
 
-NODE: bpW:w7:melnikov
-KIND: corollary
-TITLE: Melnikov conditions on the complement
-STATEMENT_SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L585-L596
-PROOF_SOURCE: blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L597-L599
-CONTRACT_ID: bpW:w7:melnikov
-CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: the setting of Theorem bpW:w7:measure
-SOURCE_QUANTIFIERS: xi as stated
-SOURCE_CONCLUSION: (i) for xi in Pi minus Xi and (k,l) in Z: ¦<k,omega^0> + <l,Omega^0>¦ >= hat alpha hat w(l)/A_k, in particular ¦<k,omega^0>¦ >= hat alpha/A_k for k != 0; (ii) for xi in D_nu minus the R^nu_kl (¦k¦ > K_{nu-1}): the bound with check alpha <l>/A_k; (iii) for every frequency pair and l in Lambda: ¦<l,Omega'>¦ >= 2 beta_* <l> >= hat alpha <l>
-CONSTANT_SCOPE: none
-FROZEN_FILE: -
-FROZEN_DECL: -
-FROZEN_ANCHOR_ID: -
-FROZEN_ABI_SHA256: -
-DEPS: bpW:w7:measure, bpW:w7:zones, bpW:w7:sep
-ROUTES: -
-ROUTE_FOR: -
-EDGE: bpW:w7:measure | blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L586-L586 | the setting
-EDGE: bpW:w7:zones | blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L598-L598 | negation of the zone definitions
-EDGE: bpW:w7:sep | blueprint-W/parts/w7-measure.tex#bpW:w7:melnikov@L598-L598 | (iii)
-TOPOLOGY_STATUS: REVIEWED
-EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w7b
-LEAN_STATUS: NOT_STARTED
-LEAN_REF: -
-LEAN_NOTE: -
-NOTE: Inline proof (L598).
-
 NODE: bpW:w7:shells
 KIND: definition
 TITLE: Shells
@@ -752,9 +723,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:ext-ball | blueprint-W/parts/w7-measure.tex#stepW:w7:layer@L628-L629 | areas of the rectangular strips and squares
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:layer@L628-L629 | finite subadditivity and monotonicity for the covering
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -866,9 +837,9 @@ ROUTE_FOR: -
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:upper@L647-L647 | measure monotonicity for Gamma cap B_h subset (0,h)^2
 EDGE: stepW:w7:den | blueprint-W/parts/w7-measure.tex#stepW:w7:upper@L647-L647 | the denominator is h^2 in (0,infinity)
 EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:upper@L647-L647 | division preserves the ratio bound
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -896,9 +867,9 @@ EDGE: bpW:w7:shell-geom | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L650-L
 EDGE: bpW:w7:ext-borel | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L651-L653 | measure of the countable shell cover and complement
 EDGE: stepW:w7:den | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L653-L653 | the denominator and box measure are h^2
 EDGE: bpW:w7:ext-ennreal | blueprint-W/parts/w7-measure.tex#stepW:w7:lower@L653-L653 | the finite-measure complement and quotient identities
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -983,9 +954,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:measure | blueprint-W/parts/w7-measure.tex#bpW:w7:exponents@L679-L679 | the exponent 32/47
 EDGE: bpW:w7:freqcoords | blueprint-W/parts/w7-measure.tex#bpW:w7:exponents@L678-L678 | N_A, D_A
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1094,9 +1065,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w7:dioph | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph-use@L715-L715 | with c = check alpha/2
 EDGE: bpW:w6:final-freq | blueprint-W/parts/w7-measure.tex#bpW:w7:dioph-use@L714-L715 | the final l=0 divisor bound supplying c = check alpha/2
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w7b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w7b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

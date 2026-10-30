@@ -1908,9 +1908,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:z | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L945-L945 | the W0 convention used in the exchange
 EDGE: bpW:w1:kam-space | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L947-L948 | the domain uses the sum of the normal component norms
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L948-L948 | the frozen WaveSpace product max norm occurs directly
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-delta5-W-w1b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

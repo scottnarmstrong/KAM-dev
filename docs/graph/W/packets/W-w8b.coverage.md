@@ -221,7 +221,7 @@ DISPOSITION: NODE stepW:w8:in-orbit
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:in-birk
 KIND: proof-region
@@ -230,7 +230,7 @@ DISPOSITION: NODE stepW:w8:in-birk
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:in-freq
 KIND: proof-region
@@ -239,7 +239,7 @@ DISPOSITION: NODE stepW:w8:in-freq
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:in-act
 KIND: proof-region
@@ -248,7 +248,7 @@ DISPOSITION: NODE stepW:w8:in-act
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:in-ang
 KIND: proof-region
@@ -257,7 +257,7 @@ DISPOSITION: NODE stepW:w8:in-ang
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: bpW:w8:nlw2-proof
 KIND: theorem
@@ -266,7 +266,7 @@ DISPOSITION: NODE bpW:w8:nlw2-proof
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:p-pos
 KIND: proof-region
@@ -302,7 +302,7 @@ DISPOSITION: NODE stepW:w8:p-meas
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:p-incl
 KIND: proof-region
@@ -311,7 +311,7 @@ DISPOSITION: NODE stepW:w8:p-incl
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:p-nucont
 KIND: proof-region
@@ -320,7 +320,7 @@ DISPOSITION: NODE stepW:w8:p-nucont
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:p-Kcont
 KIND: proof-region
@@ -329,7 +329,7 @@ DISPOSITION: NODE stepW:w8:p-Kcont
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:p-dens
 KIND: proof-region
@@ -347,7 +347,7 @@ DISPOSITION: NODE stepW:w8:p-dioph
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:p-lim
 KIND: proof-region
@@ -383,7 +383,7 @@ DISPOSITION: NODE stepW:w8:p-size
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w8b
+REVIEWER: sol-delta6-W-W-w8b
 
 ITEM: stepW:w8:p-inv
 KIND: proof-region

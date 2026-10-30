@@ -372,9 +372,9 @@ KIND: claim
 SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-conventions@L943-L949
 DISPOSITION: NODE bpW:w1:kam-conventions
 REASON: the coordinate-exchange claim is directly cited inside the statement of bpW:w4:index at L87; prose and source-note mentions remain provenance
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-w2+sol-delta5-W-w1b
-REVIEWER: -
+REVIEWER: sol-delta6-W-W-w1b
 
 ITEM: bpW:w1:kam-domain
 KIND: lemma

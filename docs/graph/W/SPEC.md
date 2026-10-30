@@ -262,24 +262,24 @@ Refine one into its own node only if consumers use it independently and that mat
 Line-addressable, aligned to statement/proof units, and recorded in `docs/graph/W/packets/slices.json`. Each part is
 one slice. W1 (128 draft nodes) is split at its §"The sine system" (L591). New parts W4–W8 become new slices.
 
-Status after wave-2 review 1 and delta 5 (2026-10-30):
+Status after delta 6 and the W4–W6 gap repair (2026-10-30):
 
 | Slice | Source range | Nodes (REVIEWED/total) | Edges | Coverage (REVIEWED/total) |
 |---|---|---|---|---|
 | `W-w0c` | w0-conventions.tex, all (10 of the 13 anchors) | 18/18 | 43 | 41/41 |
 | `W-w0n` | w0-normalization.tex, all | 31/31 | 117 | 62/62 |
 | `W-w1a` | w1-sequences.tex L1–590 | 66/66 | 188 | 96/96 |
-| `W-w1b` | w1-sequences.tex L591–end | 66/67 | 176 | 95/96 |
+| `W-w1b` | w1-sequences.tex L591–end | 67/67 | 176 | 96/96 |
 | `W-w2` | w2-reconstruction.tex, all | 33/33 | 189 | 60/60 |
-| `W-w3` | w3-birkhoff.tex, all | 88/90 | 338 | 140/141 |
-| `W-w4` | w4-homological.tex, all | 37/57 | 161 | 83/102 |
-| `W-w5a` | w5-kamstep.tex L1–449 | 28/50 | 178 | 53/74 |
-| `W-w5b` | w5-kamstep.tex L450–end | 21/32 | 119 | 37/48 |
-| `W-w6` | w6-iteration.tex, all | 31/47 | 169 | 56/70 |
-| `W-w7a` | w7-measure.tex L1–459 | 32/51 | 153 | 78/79 |
-| `W-w7b` | w7-measure.tex L460–end | 30/42 | 125 | 63/63 |
-| `W-w8a` | w8-assembly.tex L1–410 | 41/56 | 207 | 79/79 |
-| `W-w8b` | w8-assembly.tex L411–end | 31/46 | 199 | 61/61 |
+| `W-w3` | w3-birkhoff.tex, all | 89/90 | 339 | 141/141 |
+| `W-w4` | w4-homological.tex, all | 55/58 | 167 | 102/103 |
+| `W-w5a` | w5-kamstep.tex L1–466 | 41/53 | 181 | 74/77 |
+| `W-w5b` | w5-kamstep.tex L467–end | 28/32 | 122 | 48/48 |
+| `W-w6` | w6-iteration.tex, all | 41/47 | 176 | 70/70 |
+| `W-w7a` | w7-measure.tex L1–459 | 50/51 | 154 | 79/79 |
+| `W-w7b` | w7-measure.tex L460–end | 41/41 | 122 | 62/63 |
+| `W-w8a` | w8-assembly.tex L1–410 | 55/56 | 208 | 79/79 |
+| `W-w8b` | w8-assembly.tex L411–end | 43/46 | 200 | 61/61 |
 | `W-wh` | w-headline.tex, all (3 anchors: embedding, IsDiophantine, the root nlw2) | 3/3 | 12 | 14/14 |
 | `W-imports` | imported track-K nodes (writer-owned) | 4/4 | 0 | 4/4 |
 
@@ -410,6 +410,32 @@ SOURCE line.
     `a-hol`, `bpW:w6:prep-step`, `stepW:w6:p-lipp`, `bpW:w6:freq-lip`, `stepW:w6:fl-borel`. The writer reset
     `stepW:w5:n-exp`'s LEAN_NOTE to `-` (initial-Lean gate); the gap stays in its NOTE.
   - The linter passes with `--require-all-reachable`.
+
+- **2026-10-30, delta 6 and the W4–W6 blueprint gap repair** (writer tag `claude-suborch-W-gapfix`).
+  - Delta 6 (tags `sol-delta6-W-W-<slice>`, as written in the files) was applied, marked and coverage-rested. It
+    passed W-w1b, W-w5b and W-w7b; the other slices' FAIL rows came with replacement blocks.
+  - The blueprint repair (blueprint-W/reviews/gapfix-review-1.md) was merged from inp-wbp 565c9040 (the one
+    allowed merge; inp did not have it yet). w4, w5 and w6 were re-pinned (CORPUS.sha256; header CORPUS line).
+    Locators were remapped with `tools/w_depgraph_remap_locators.py 9b5d2603` and in-text line numbers with the
+    in-text pass. The W5 slice boundary moves from L450 to L467 (`slices.json`).
+  - New external leaves: `bpW:w4:ext-riesz`, `bpW:w5:ext-symm`, `bpW:w5:ext-sqrt`, `bpW:w5:ext-triangle`, with
+    coverage items.
+  - All 10 SOURCE_GAP nodes are closed and their NOTEs removed. The changed records go to PROPOSED:
+    - `stepW:w4:schurrep`: Riesz construction; edges `ext-riesz`, `w1:ext-lp`, `w1:schur`, `w4:index`.
+    - `stepW:w5:t-comp`, `c-skew`: `ext-symm`.
+    - `stepW:w5:s-out`: the lie edge now cites (iv) under the guard (G).
+    - `stepW:w5:n-exp`: `ext-triangle`.
+    - `stepW:w5:p-inv`, `p-ass`: difference bounds carry |ξ−ζ|.
+    - `stepW:w5:a-hol`: `ext-sqrt`.
+    - `bpW:w6:prep-step`, `stepW:w6:p-div`: the divisor bound comes directly from Definition `bpW:w7:zones`(i);
+      the edge to `bpW:w7:melnikov` is dropped.
+    - `stepW:w6:p-lipp`: sup bound via `stepW:w5:f-flow`.
+    - `bpW:w6:freq-lip`: wording; θ is fixed before α.
+    - `stepW:w6:fl-borel`: direct Borel argument; the edge to `bpW:w7:measurable` is dropped.
+  - `bpW:w7:melnikov` then lay outside the root closure. It is EXCLUDED: its only consumer was prep-step(i), and the
+    remaining citations are in excluded remarks.
+  - The linter passes with `--require-all-reachable`: 696 nodes, 2394 edges, 0 SOURCE_GAP, review queue 31.
+  - `GLOBAL-BRIEF.md` was written for the global reviewer `sol-global-W`.
 
 ## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
 - **Corpus.**

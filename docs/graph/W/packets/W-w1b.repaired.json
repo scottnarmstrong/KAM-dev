@@ -1,12 +1,10 @@
 {
  "replaced": [],
- "added": [
-  "bpW:w4:index",
-  "bpW:w1:kam-conventions"
- ],
- "items": [
-  "bpW:w1:kam-conventions"
- ],
+ "added": [],
+ "items": [],
  "unresolved": {},
- "passes": []
+ "passes": [
+  "bpW:w1:kam-conventions",
+  "bpW:w1:kam-conventions"
+ ]
 }

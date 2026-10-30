@@ -1,21 +1,11 @@
 {
  "replaced": [
-  "stepW:w3:wk-lin"
- ],
- "added": [
-  "stepW:w6:t-an",
   "bpW:w3:class-remark"
  ],
- "items": [
-  "bpW:w3:class-remark"
- ],
+ "added": [],
+ "items": [],
  "unresolved": {},
  "passes": [
-  "bpW:w3:transport-tori-weak",
-  "stepW:w3:wk-reg",
-  "stepW:w3:wk-transport",
-  "bpW:w3:transport-tori-weak",
-  "stepW:w3:wk-reg",
-  "stepW:w3:wk-transport"
+  "stepW:w3:wk-lin"
  ]
 }

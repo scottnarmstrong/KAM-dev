@@ -78,7 +78,7 @@
   "part": "w5-kamstep",
   "lines": [
    1,
-   449
+   466
   ],
   "nodes": 50,
   "coverage": 74
@@ -86,7 +86,7 @@
  "W-w5b": {
   "part": "w5-kamstep",
   "lines": [
-   450,
+   467,
    1000000000
   ],
   "nodes": 32,
