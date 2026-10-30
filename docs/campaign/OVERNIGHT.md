@@ -1249,3 +1249,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   RotFreqN (124); standard axioms. SO-GEN3 told to use γ = κ/67 (it had assumed κ/66). Audit on codex-3: codex-4's
   Codex login has EXPIRED (device sign-in prompt), so codex-4 is unusable until the owner signs in again
   (`codex-4` then the device code); codex-3 (33 %) carries the audits.
+- **12:37. SO-DION passed audit (sent to land); SO-SHARPLINK done, in audit.** SO-DION audit 1: PASS WITH NOTES (stale
+  root only). SO-SHARPLINK: `soRotBarrier_of_certified` (CertifiedTorus + checkStatic + checkSoGraph + Diophantine →
+  barrier) with the old and sharp barrier theorems as one-liners over it; `lunar_barriers_of_sharp` and
+  `lunar_spin_confinement_of_band` take the band, frequencies, parameter package and Diophantine constants as
+  hypotheses (data conclusions, SO-DION-shaped facts, kernel-decidable inequalities), so the N = 65 final theorems
+  will be one-liners; the landed 3.3 % theorems re-derived as a sanity check; no landed statement changed. Audit on
+  codex-3.
