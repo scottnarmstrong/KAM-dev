@@ -35,8 +35,9 @@ open KAM.Sharp.Engine
 namespace KAM.Sharp2.RouteA
 
 /-- The numbers of a run of route A. `c s`, `cbar s` are the small-divisor constants at the bites
-`δ_s`, `r_s` of the prefix `s < kp`, `ctail` a constant valid at every bite `≤ δ_kp`. The last four
-fields are the isoenergetic inputs. -/
+`δ_s`, `bbar s` of the prefix `s < kp`, `ctail` a constant valid at every bite `≤ δ_kp`. The bite
+`bbar s ≤ r_s` of the average is `r_s` by default; a classical constant, which needs a bite `≤ 1`,
+takes `min r_s 1`. The other four fields with defaults are the isoenergetic inputs. -/
 structure NumA where
   n : ℕ
   τ : ℝ
@@ -61,6 +62,7 @@ structure NumA where
   Θ : ℝ := 0
   HY : ℝ := 0
   Mh2 : ℝ := 0
+  bbar : ℕ → ℝ := fun s => rSeq 3 ρ ρinf s
 
 namespace NumA
 
@@ -72,9 +74,10 @@ def δ (s : ℕ) : ℝ := deltaSeq 3 N.ρ N.ρinf s
 def r (s : ℕ) : ℝ := rSeq 3 N.ρ N.ρinf s
 /-- `c(δ_s)` in the prefix, `c_∞` in the tail. -/
 def cS (s : ℕ) : ℝ := if s < N.kp then N.c s else N.ctail
-/-- The average constant: `c̄_s (δ_s/r_s)^τ` in the prefix (`bp:p2s2sd:avg`), `c_∞` in the tail. -/
+/-- The average constant: `c̄_s (δ_s/b_s)^τ` in the prefix (`bp:p2s2sd:avg`, with the bite
+`b_s = bbar s`), `c_∞` in the tail. -/
 def caS (s : ℕ) : ℝ :=
-  if s < N.kp then N.cbar s * (N.δ s / N.r s) ^ N.τ else N.ctail
+  if s < N.kp then N.cbar s * (N.δ s / N.bbar s) ^ N.τ else N.ctail
 /-- The value of the bite in the constants: `δ_s` in the prefix, `δ_kp` in the tail. -/
 def dS (s : ℕ) : ℝ := N.δ (min s N.kp)
 
@@ -127,12 +130,13 @@ structure NumA.Wf (N : NumA) : Prop where
   Θ : 0 ≤ N.Θ
   HY : 0 ≤ N.HY
   Mh2 : 0 ≤ N.Mh2
+  bbar : ∀ s < N.kp, 0 < N.bbar s ∧ N.bbar s ≤ N.r s
 
 /-- The small-divisor certificates at the schedule, on the set `Ω`: the data `(R4)`. These are
 statements about the linear solver at explicit bites, not about the torus. -/
 structure NumA.Cert (N : NumA) (γ : ℝ) (Ω : Set (Fin N.n → ℝ)) : Prop where
   stage : ∀ s < N.kp, SDConst N.n N.τ γ (N.δ s) (N.c s) Ω
-  bar : ∀ s < N.kp, SDConst N.n N.τ γ (N.r s) (N.cbar s) Ω
+  bar : ∀ s < N.kp, SDConst N.n N.τ γ (N.bbar s) (N.cbar s) Ω
   tail : ∀ δ, 0 < δ → δ ≤ N.δ N.kp → SDConst N.n N.τ γ δ N.ctail Ω
 
 namespace NumA
@@ -154,6 +158,10 @@ theorem Wf.ρinf_lt_r (hN : N.Wf) (s : ℕ) : N.ρinf < N.r s :=
   (schedule Wf.lam hN.ρinf_pos hN.ρinf_lt).2.2.2.2.1 s
 
 theorem Wf.r_pos (hN : N.Wf) (s : ℕ) : 0 < N.r s := hN.ρinf_pos.trans (hN.ρinf_lt_r s)
+
+/-- `r_s > 0`, before `Wf`: the proof of `Wf.bbar` at the default bite. -/
+theorem r_pos_of (h0 : 0 < N.ρinf) (h1 : N.ρinf < N.ρ) (s : ℕ) : 0 < N.r s :=
+  h0.trans ((schedule Wf.lam h0 h1).2.2.2.2.1 s)
 
 theorem r_succ (s : ℕ) : N.r (s + 1) = N.r s - 3 * N.δ s := rSeq_succ s
 
@@ -190,8 +198,9 @@ theorem Wf.pos (hN : N.Wf) (s : ℕ) : (N.inp s).Pos where
   ca := by
     show 0 ≤ N.caS s
     unfold caS
-    split_ifs
-    · exact mul_nonneg (hN.cbar s) (Real.rpow_nonneg (div_nonneg (hN.δ_pos s).le (hN.r_pos s).le) _)
+    split_ifs with hs
+    · exact mul_nonneg (hN.cbar s)
+        (Real.rpow_nonneg (div_nonneg (hN.δ_pos s).le (hN.bbar s hs).1.le) _)
     · exact hN.ctail
   γb := hN.γb
   δ := hN.δ_pos _

@@ -19,6 +19,7 @@ sys.path.insert(0, HERE)
 import thresholds_v2 as T2   # noqa: E402
 import dominance as Dom      # noqa: E402
 import smalldiv as sd        # noqa: E402
+from smalldiv_sum import cohConstR  # noqa: E402
 
 
 def stage_consts(p):
@@ -119,10 +120,10 @@ def num_from(D, st, ct, k=5, iso=False):
         if s < k:
             c, _, cr = st(s)
             c, cr = f(c), f(cr)
-            ca = cr * (delta(s) / r(s)) ** tau
+            ca = cr * (delta(s) / min(r(s), 1.0)) ** tau     # the bite of Lean's `NumA.bbar`
             dd = delta(s)
         else:
-            c = ca = f(ct)
+            c = ca = f(ct[0] if isinstance(ct, tuple) else ct)   # c_stages: (tail, full-strip tail)
             dd = delta(k)
         return dict(n=D["n"], kap=tau, d=dd, gb=gb, sK=sK, sB=f(D["sB"]), sT=f(D["sT"]), sLt=f(D["sLt"]), sN=f(D["sN"]),
                     sNt=f(D["sNt"]), t=capT, M1=f(D["M1"]), M2=f(D["M2"]), c=c, ca=ca, th=0.125, iso=iso,
@@ -145,7 +146,7 @@ def main():
         Dv = T2.with_caps(D0, F20)
         o = dict(L1=True, torsion_cap=Dv["Tsup_cap"], torsion_real=Dv["Tsup_cap"], omega_eta=True, avg_full_bite=True,
                  keep_delta=True, caps_tilde=True, free_budgets=True)
-        st, ct = T2.c_stages(Dv, "freq")
+        st, ct = T2.c_stages(Dv, "freq", k=5)
         for iso in (False, True):
             ld = T2.thresholdA(Dv, o, iso, k=5, c_stage=st, c_tail=ct)[0]
             lL = threshold(num_from(Dv, st, ct, iso=iso))
@@ -171,10 +172,22 @@ if __name__ == "__main__":
     main()
 
 
+def torsion_coef(N, D):
+    """`torsionCoef` of `Frozen.lean`, the coefficient of X* in `TorsionOk`."""
+    n, tau, M, sK, sB = D["n"], N["tau"], float(D["M"]), float(D["sK"]), float(D["sB"])
+    cR = cohConstR(n, tau)
+    cT1 = 2 * n ** 2 * sK * sB ** 2
+    wT = 4 * n * M * sK ** 2 + 2 * n * (n + 1) * sK
+    cT2 = 2 ** (tau + 1) * sB ** 3 * wT * (2 * n * (n + 1) * cR * sK)
+    gb, d0 = N["gb"], N["delta"](0)
+    return cT1 * gb ** 4 * d0 ** (4 * tau - 1) + cT2 * gb ** 3 * d0 ** (3 * tau - 1)
+
+
 def default_data():
-    """`g1_v2A_frozen` / `iso_g1_v2A_frozen` on R1: no refined hypothesis.  M1 = M2 = Mh2 = M, the initial values of
-    `defaultInit`, H_T = cT0 + 1 for the torsion, classical constants, caps = initial values + 5%."""
-    print("| default data, R1 | form | classical constants | Lean routeAOk at default data | v1 |")
+    """`g1_v2A_default` / `iso_g1_v2A_default` on R1: no refined hypothesis.  M1 = M2 = Mh2 = M, the initial values of
+    `defaultInit`, H_T = cT0 + 1 for the torsion, classical constants, caps = initial values + 5%.  The threshold is the
+    one of `torsionXs`: min(X*, 1/(1 + torsionCoef)) when the torsion smallness binds."""
+    print("| default data, R1 | form | classical constants | Lean routeAOk at default data | with torsionXs | v1 |")
     D0 = T2.package("R1")
     n, M, sK, sB, mu = D0["n"], D0["M"], D0["sK"], D0["sB"], D0["mu"]
     D = dict(D0, M1=M, M2=M, Mh1=M, Mh2=M)
@@ -185,10 +198,14 @@ def default_data():
                      ("Tsup", D["Tsup"])):
         D["bud_" + k_] = base / 10
     Dv = T2.with_caps(D, F(1, 20))
-    st, ct = T2.c_stages(Dv, "classical")
+    st, ct = T2.c_stages(Dv, "classical", k=5)
     for iso in (False, True):
-        print("| R1 | %s | c_nat | %.2f | %s |" % ("iso" if iso else "fixed", threshold(num_from(Dv, st, ct, iso=iso)),
-                                                  "-24.98" if iso else "-24.72"))
+        N = num_from(Dv, st, ct, iso=iso)
+        lt = threshold(N)
+        scale = math.log10(N["gamma"] ** 4 * N["delta"](0) ** (4 * N["tau"]))
+        ltors = -math.log10(1 + torsion_coef(N, D)) + scale
+        print("| R1 | %s | c_nat | %.2f | %.2f | %s |" % ("iso" if iso else "fixed", lt, min(lt, ltors),
+                                                         "-24.98" if iso else "-24.72"))
 
 
 if __name__ == "__main__":
