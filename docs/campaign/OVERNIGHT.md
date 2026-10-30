@@ -1095,3 +1095,27 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   SO-DATA-2's capped kernel runs for memory. README: the Main theorems section now lists track SO's two results
   (the sound certificate checker `checkTorusCertificate_sound`; the first certified tori), marked as ordinary
   theorems, not frozen statements. Quotas: claude-12 96 %, codex-3 87 %, codex-4 64 %.
+- **02:20. Heartbeat.** Landed on main (b22b5eb3): CLEANUP-B34, CLEANUP-B2SO (SO comment scrub), SO-TOYFIX2 (all four
+  toy certificates), SO-LUNAR-A (parametric final assembly); swept five worktrees (24 GB free). SO-DATA-1's lunar data
+  exist (both tori pass the fixed-point mirror, ~1.4 MB certificate + ~2.2 MB advice per torus, negative controls
+  rejected); its determinism reruns take ~1 h 40 min, so it was asked to commit and hand off now and append the
+  rerun result later, letting SO-DATA-2 start. New: SO-FREEZE-PREP (claude-12, Opus) drafts the freeze proposal for
+  track SO for the owner's morning review: candidate anchors with exact Lean text (shown, not frozen), a refute-first
+  statement audit against the plan's physical claim, elaboration evidence, a manifest-entry shape and open questions.
+  Nothing is frozen overnight (D29). The release elaboration test stays deferred until SO-DATA-2's capped kernel
+  runs are past (memory).
+- **02:51. SO-DATA-1 done; SO-DATA-2 started; freeze proposal ready for the owner.** SO-DATA-1: both lunar
+  certificates (CertFixed 320, M = 203/100) pass all eight sub-checks and checkSoGraph in the fixed-point mirror over
+  exactly the emitted advice; four negative controls rejected; a full rerun is byte-identical. Proposed literals:
+  lower err 101/(5·10^79), disp 173/(5·10^44); upper err 393/10^81, disp 21/(3.125·10^43); graph bands lower
+  [0.96763, 0.98212], upper [1.01788, 1.03237] (both inside 3.3 %), so the window must lie inside (0.98213, 1.01788).
+  Sizes: 129 packed products and 1,157 shards per torus, 13 MB of data; packed kernel time projected at 0.5-1.3 CPU-h
+  per torus. Main risk: kernel memory of Slp.compose (887 slots, ~500 with ~8.5k-term models; estimated 10-50 GB
+  if checkInvariance is one theorem; unmeasured). SO-DATA-2 (claude-12, Opus) measures it first under a cgroup cap,
+  then splits *_passes. The SO-DATA-1 worker self-reported one `pkill -f` (rule breach; it killed only its own
+  process; all later kills were by PID). SO-FREEZE-PREP done: docs/tracks/SO/FREEZE-PROPOSAL.md (to land, docs only)
+  proposes freezing `lunar_spin_confinement` and `lunar_barriers` with ten definitions, NOT the general checker
+  yet; seven owner questions with recommendations; an independent refutation pass found no HIGH finding. FOR THE
+  OWNER IN THE MORNING: the two D29 rulings (R1 M = 203/100; toy T2d's denominator a = 10^30) and the freeze
+  proposal's questions Q1-Q7.
+- **03:09. Landed** (71a89ecc): SO-DATA-1 (lunar data, fixed-point mirror; LunarParams keeps M = 203/100) and docs/tracks/SO/FREEZE-PROPOSAL.md. Worktrees swept; only KAM-inp-sodata2 (SO-DATA-2, running) remains. Disk 22 GB free.
