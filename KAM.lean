@@ -1432,6 +1432,13 @@ public import KAM.Sharp2.EngineArith
 public import KAM.Sharp2.EngineRatio
 public import KAM.Sharp2.EngineRatioArith
 public import KAM.Sharp2.EngineRatioInst
+public import KAM.Sharp2.Examples.MirrorQ
+public import KAM.Sharp2.Examples.PlasmaLean.Balanced
+public import KAM.Sharp2.Examples.PlasmaLean.Bites
+public import KAM.Sharp2.Examples.PlasmaLean.ClassicalConst
+public import KAM.Sharp2.Examples.PlasmaLean.Core
+public import KAM.Sharp2.Examples.PlasmaLean.Frequency
+public import KAM.Sharp2.Examples.PlasmaLean
 public import KAM.Sharp2.Geometry
 public import KAM.Sharp2.ModConstants
 public import KAM.Sharp2.ModConstantsB.Data
@@ -1452,6 +1459,7 @@ public import KAM.Sharp2.RouteA.Frames
 public import KAM.Sharp2.RouteA.Frozen
 public import KAM.Sharp2.RouteA.G1
 public import KAM.Sharp2.RouteA.Geometry
+public import KAM.Sharp2.RouteA.Mono
 public import KAM.Sharp2.RouteA.NewtonError
 public import KAM.Sharp2.RouteA.Scheme
 public import KAM.Sharp2.RouteA.Step

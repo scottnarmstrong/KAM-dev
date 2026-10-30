@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Sharp2.RouteA.G1
+public import KAM.Sharp2.RouteA.Mono
 public import KAM.Sharp2.SmallDiv.Instances
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
@@ -20,12 +21,14 @@ Lemma `bp:p2s2:defaults` for route A (audit finding F3): `g1_v2A_frozen` conclud
   and `|T| ≤ H_T` on `T_{ρ-δ₀}` from `KAM.Sharp.torsion_bound`, which needs the smallness
   `TorsionOk`;
 * `NumA.cert_classical`: the classical constants of `bp:p2s2sd:classical` are certificates on the
-  whole
-  Diophantine set, for `ρ ≤ 1`.
+  whole Diophantine set, when the average bites are `≤ 1`.
 
 The torsion bound is proved only in the route-A branch of the minimum, so the case split on the
 branch
 is made here, and `g1_branch_A` is the route-A branch.
+
+`g1_v2A_default` removes `TorsionOk` from the inputs: since `routeAOk` is monotone in `X⋆`, the
+threshold `torsionXs` meets it, so the literal body needs only `routeAOk` and the certificates.
 -/
 
 @[expose] public noncomputable section
@@ -71,10 +74,11 @@ theorem NumA.Wf.r_le {N : NumA} (hN : N.Wf) (s : ℕ) : N.r s ≤ N.ρ := by
   show N.ρ - 2 * 3 * delta0 3 N.ρ N.ρinf * (1 - (2 : ℝ)⁻¹ ^ s) ≤ N.ρ
   linarith
 
-/-- The classical constants at the schedule are certificates on the Diophantine set. -/
-theorem NumA.cert_classical {N : NumA} (hN : N.Wf) (hρ1 : N.ρ ≤ 1) {γ : ℝ} (hγ : 0 < γ)
-    (hc : ∀ s < N.kp, N.c s = cohConstC N.n N.τ (N.δ s))
-    (hcb : ∀ s < N.kp, N.cbar s = cohConstC N.n N.τ (N.r s))
+/-- The classical constants at the schedule are certificates on the Diophantine set. The bites of
+the averages must be `≤ 1`: `b_s = min r_s 1` serves every strip. -/
+theorem NumA.cert_classical {N : NumA} (hN : N.Wf) (hb1 : ∀ s < N.kp, N.bbar s ≤ 1) {γ : ℝ}
+    (hγ : 0 < γ) (hc : ∀ s < N.kp, N.c s = cohConstC N.n N.τ (N.δ s))
+    (hcb : ∀ s < N.kp, N.cbar s = cohConstC N.n N.τ (N.bbar s))
     (ht : N.ctail = cohConstC N.n N.τ (N.δ N.kp)) :
     N.Cert γ {ω | IsDiophantine γ N.τ ω} where
   stage := fun s hs => by
@@ -82,8 +86,7 @@ theorem NumA.cert_classical {N : NumA} (hN : N.Wf) (hρ1 : N.ρ ≤ 1) {γ : ℝ
     exact sdConst_classical (by have := hN.two_le; omega) hN.τ_ge hγ (hN.δ_pos s) (hN.δ_le s)
   bar := fun s hs => by
     rw [hcb s hs]
-    exact sdConst_classical (by have := hN.two_le; omega) hN.τ_ge hγ (hN.r_pos s)
-      ((hN.r_le s).trans hρ1)
+    exact sdConst_classical (by have := hN.two_le; omega) hN.τ_ge hγ (hN.bbar s hs).1 (hb1 s hs)
   tail := fun δ hδ hle => by
     rw [ht]
     have h1 := sdConst_classical (n := N.n) (by have := hN.two_le; omega) hN.τ_ge hγ hδ
@@ -104,9 +107,9 @@ theorem NumA.cert_freq {N : NumA} (hN : N.Wf) {γ : ℝ} (hγ : 0 < γ) {ωstar 
     (hdio : IsDiophantine γ N.τ ωstar) {Nf Nb : ℕ → ℕ} {Sf Sb : ℕ → ℝ}
     (hNf : ∀ s < N.kp, 1 ≤ Nf s) (hNb : ∀ s < N.kp, 1 ≤ Nb s)
     (hSf : ∀ s < N.kp, sdFinite ωstar (N.δ s) (Nf s) ≤ Sf s)
-    (hSb : ∀ s < N.kp, sdFinite ωstar (N.r s) (Nb s) ≤ Sb s)
+    (hSb : ∀ s < N.kp, sdFinite ωstar (N.bbar s) (Nb s) ≤ Sb s)
     (hc : ∀ s < N.kp, N.c s = cohConstF N.n N.τ γ (N.δ s) (Nf s) (Sf s))
-    (hcb : ∀ s < N.kp, N.cbar s = cohConstF N.n N.τ γ (N.r s) (Nb s) (Sb s))
+    (hcb : ∀ s < N.kp, N.cbar s = cohConstF N.n N.τ γ (N.bbar s) (Nb s) (Sb s))
     (ht : N.ctail = cohConstC N.n N.τ (N.δ N.kp)) : N.Cert γ (ray ωstar) where
   stage := fun s hs => by
     rw [hc s hs]
@@ -114,7 +117,7 @@ theorem NumA.cert_freq {N : NumA} (hN : N.Wf) {γ : ℝ} (hγ : 0 < γ) {ωstar 
       (hSf s hs)
   bar := fun s hs => by
     rw [hcb s hs]
-    exact sdConst_freq (by have := hN.two_le; omega) hN.τ_ge hγ hdio (hN.r_pos s) (hNb s hs)
+    exact sdConst_freq (by have := hN.two_le; omega) hN.τ_ge hγ hdio (hN.bbar s hs).1 (hNb s hs)
       (hSb s hs)
   tail := fun δ hδ hle => by
     rw [ht]
@@ -275,6 +278,65 @@ theorem g1_v2A_frozen (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0) (hτ :
       hopen htransl hholo hper hreal hbd hK hKp hKr hball hDK hG hTu hTb hRef hdio
       (hcert γ hγ hγγbar) hγ hγγbar hdio he0 hE hsm'
     exact ⟨Kinf, h1, h2, h3, h4, h5, h6, fun θ hθ => (h7 θ hθ).trans (hmono (le_max_right _ _))⟩
+
+/-- The coefficient of `X⋆` in `TorsionOk`. -/
+def torsionCoef (N : NumA) (M σK σB : ℝ) : ℝ :=
+  cT1 N.n σK σB * (N.γb ^ 4 * N.δ 0 ^ (2 * (2 * N.τ) - 1)) +
+    cT2 N.n N.τ (cohConstR N.n N.τ) M σK σB * (N.γb ^ 3 * N.δ 0 ^ (3 * N.τ - 1))
+
+/-- The threshold `X⋆` shrunk to meet `TorsionOk`. -/
+def torsionXs (N : NumA) (M σK σB Xs : ℝ) : ℝ := min Xs (1 + torsionCoef N M σK σB)⁻¹
+
+/-- `torsionXs` is positive, at most `X⋆`, and meets `TorsionOk`. -/
+theorem torsionXs_spec (hN : N.Wf) {M σK σB Xs : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB)
+    (hXpos : 0 < Xs) :
+    0 < torsionXs N M σK σB Xs ∧ torsionXs N M σK σB Xs ≤ Xs ∧
+      TorsionOk N M σK σB (torsionXs N M σK σB Xs) := by
+  have hT1 : 0 ≤ cT1 N.n σK σB := by unfold cT1; positivity
+  have hT2 : 0 ≤ cT2 N.n N.τ (cohConstR N.n N.τ) M σK σB := by
+    have hcR := (cohData_russmann (n := N.n) hN.τ_ge).cR_pos
+    unfold cT2 wT cOm
+    positivity
+  have hδ := hN.δ_pos 0
+  have hγ := hN.γb
+  have hA : 0 ≤ torsionCoef N M σK σB := by
+    unfold torsionCoef
+    have h1 := Real.rpow_nonneg hδ.le (2 * (2 * N.τ) - 1)
+    have h2 := Real.rpow_nonneg hδ.le (3 * N.τ - 1)
+    positivity
+  have h1A : 0 < 1 + torsionCoef N M σK σB := by linarith
+  have hpos : 0 < torsionXs N M σK σB Xs := lt_min hXpos (inv_pos.2 h1A)
+  refine ⟨hpos, min_le_left _ _, ?_⟩
+  show torsionCoef N M σK σB * torsionXs N M σK σB Xs ≤ 1
+  have h2 : torsionXs N M σK σB Xs ≤ (1 + torsionCoef N M σK σB)⁻¹ := min_le_right _ _
+  calc torsionCoef N M σK σB * torsionXs N M σK σB Xs
+      ≤ torsionCoef N M σK σB * (1 + torsionCoef N M σK σB)⁻¹ :=
+        mul_le_mul_of_nonneg_left h2 hA
+    _ ≤ (1 + torsionCoef N M σK σB) * (1 + torsionCoef N M σK σB)⁻¹ :=
+        mul_le_mul_of_nonneg_right (by linarith) (inv_pos.2 h1A).le
+    _ = 1 := mul_inv_cancel₀ h1A.ne'
+
+/-- The literal frozen body with no torsion smallness among the inputs: `routeAOk` at `X⋆` and the
+certificates suffice, at the threshold `torsionXs N M σK σB X⋆`. -/
+theorem g1_v2A_default (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0)
+    (hτ : (N.n : ℝ) - 1 ≤ N.τ) {M σK σB σT μ γbar Xs : ℝ} (hM : 0 < M) (hσK : 0 < σK)
+    (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ) (hγbar : γbar = N.γb) (hsK : N.sK = σK - μ / 2)
+    (hM1 : N.M1 = M) (hM2 : N.M2 = M)
+    (hOk : routeAOk N (N.capV (μ / 2)) (initV (defaultInit N.n M σK σB μ) σK σB σT μ) Xs)
+    (hXpos : 0 < Xs)
+    (hcert : ∀ γ, 0 < γ → γ ≤ γbar → N.Cert γ {ω | IsDiophantine γ N.τ ω}) :
+    0 < min (sharpC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf)
+        (c1A N (torsionXs N M σK σB Xs)) ∧
+      0 < max (sharpC2 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf)
+        (c2A N (torsionXs N M σK σB Xs)) ∧
+      G1Body N.n N.τ N.ρ N.ρinf M σK σB σT μ γbar
+        (min (sharpC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ N.τ N.ρ N.ρinf)
+          (c1A N (torsionXs N M σK σB Xs)))
+        (max (sharpC2 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf)
+          (c2A N (torsionXs N M σK σB Xs))) := by
+  obtain ⟨h1, h2, h3⟩ := torsionXs_spec hN hM hσK hσB hXpos
+  exact g1_v2A_frozen hN hfix hΘ hτ hM hσK hσB hσT hμ hγbar hsK hM1 hM2 (hOk.mono hN h1.le h2) h1 h3
+    hcert
 
 end KAM.Sharp2.RouteA
 
