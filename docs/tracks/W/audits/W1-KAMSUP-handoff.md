@@ -87,10 +87,11 @@ only on `KamBoundedMap r s`; `kamOpNorm_isLeast` proves it is admissible and bel
 hypothesis; documented in the module docstring). No consumers outside `KamSpace.lean`.
 
 **F2 (Schur (iii) constant).** `kamSchurBound_of_dominated` and `exists_clm_of_dominated` no longer assume `0 ≤ c`.
-Caveat (blueprint defect, tacit `c ≥ 0`): for `c < 0` and `A ≠ 0`, the matrix `F = 0` satisfies the domination
-hypotheses while the literal conclusion `‖T‖ ≤ c(1+π/√3)‖A‖` would be negative, hence false. The premise-free
-statements therefore use `max c 0` (identical to the blueprint's constants when `c ≥ 0`); the exact-constant form
-for `c ≥ 0` is `kamSchurBound_of_dominated_nonneg` / `exists_clm_of_dominated_nonneg`. Helper `KamDominated.mono_const`.
+Correction (audit 2): my earlier claim of a blueprint defect was wrong. For `c < 0`, domination gives
+`‖A_ij‖ ≤ 0` for every entry (off-diagonal and diagonal), so `A = 0` and `F = 0`; there is no counterexample with
+`A ≠ 0`, and the blueprint statement needs no `c ≥ 0`. The premise-free statements use `max c 0` only to state the
+bound uniformly (identical to the blueprint's constants when `c ≥ 0`); the exact-constant form for `c ≥ 0` is
+`kamSchurBound_of_dominated_nonneg` / `exists_clm_of_dominated_nonneg`. Helper `KamDominated.of_le_const`.
 Also fixed the stale name in the `HilbertMatrix` docstring (N5). N4: largest module is `HilbertMatrix.lean` (~420 lines).
 `KamSchurBound.bound_nonneg/bound_mono` names kept.
 

@@ -417,18 +417,18 @@ theorem KamDominated.of_le_const {F M : ℕ+ → ℕ+ → K} {c c' : ℝ} (h : K
   · exact mul_le_mul_of_nonneg_right hc (norm_nonneg _)
 
 /-- **Dominated matrices** (blueprint `bpW:w1:schur` (iii)), no sign premise on `c`: Schur bound
-with
-`Λ = max c 0 (1 + π/√3) ‖A‖` (for `c ≥ 0` this is the blueprint's `c (1 + π/√3) ‖A‖`; for `c < 0`
-domination forces `F = 0`, and the literal inequality `‖T‖ ≤ c(1+π/√3)‖A‖` would be false for
-`A ≠ 0`, so the constant is `max c 0`). -/
+with `Λ = max c 0 (1 + π/√3) ‖A‖`. For `c ≥ 0` this is the blueprint's `c (1 + π/√3) ‖A‖`. The
+premise `c ≥ 0` is not needed: if `c < 0`, domination gives `‖A_ij‖ ≤ 0` for all entries, so `A = 0`
+and `F = 0`; the `max c 0` form just states the bound uniformly. -/
 theorem kamSchurBound_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
     {F : ℕ+ → ℕ+ → K} {c : ℝ} (h : KamDominated F (kamEntry A) c) :
     KamSchurBound F (max c 0 * (1 + kamHilbertConst) * ‖A‖) :=
   kamSchurBound_of_dominated_nonneg A (le_max_right c 0) (h.of_le_const (le_max_left c 0))
 
 /-- **Dominated matrices define bounded operators** (blueprint `bpW:w1:schur` (iii)), without a sign
-premise on `c`: `‖T‖ ≤ max c 0 (1 + π/√3) ‖A‖ ≤ 3 max c 0 ‖A‖`. For `c ≥ 0` use
-`exists_clm_of_dominated_nonneg` (the blueprint's literal constants). -/
+premise on `c` (for `c < 0` domination forces `A = 0`, `F = 0`):
+`‖T‖ ≤ max c 0 (1 + π/√3) ‖A‖ ≤ 3 max c 0 ‖A‖`. For `c ≥ 0` use `exists_clm_of_dominated_nonneg`
+(the blueprint's literal constants). -/
 theorem exists_clm_of_dominated (A : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2)
     {F : ℕ+ → ℕ+ → K} {c : ℝ} (h : KamDominated F (kamEntry A) c) :
     ∃ T : lp (fun _ : ℕ+ => K) 2 →L[K] lp (fun _ : ℕ+ => K) 2,
