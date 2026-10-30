@@ -166,7 +166,7 @@ theorem waveTwoWeight_mono {a b : ℝ} (hab : a ≤ b) (s : ℝ) (l : ℤ) :
     (Real.exp_le_exp.mpr (mul_le_mul_of_nonneg_right hab (abs_nonneg _)))
     (Real.rpow_nonneg (waveJap_pos l).le s)
 
-theorem WaveTwoMem.mono {a b s : ℝ} (hab : a ≤ b) {c : ℤ → ℂ} (h : WaveTwoMem b s c) :
+theorem WaveTwoMem.of_weight_le {a b s : ℝ} (hab : a ≤ b) {c : ℤ → ℂ} (h : WaveTwoMem b s c) :
     WaveTwoMem a s c :=
   Summable.of_nonneg_of_le (fun _ => sq_nonneg _)
     (fun l => pow_le_pow_left₀
@@ -176,7 +176,7 @@ theorem WaveTwoMem.mono {a b s : ℝ} (hab : a ≤ b) {c : ℤ → ℂ} (h : Wav
 theorem waveTwoNorm_mono {a b s : ℝ} (hab : a ≤ b) {c : ℤ → ℂ} (h : WaveTwoMem b s c) :
     waveTwoNorm a s c ≤ waveTwoNorm b s c :=
   Real.sqrt_le_sqrt
-    ((h.mono hab).tsum_le_tsum
+    ((h.of_weight_le hab).tsum_le_tsum
       (fun l => pow_le_pow_left₀
         (mul_nonneg (waveTwoWeight_pos a s l).le (norm_nonneg _))
         (mul_le_mul_of_nonneg_right (waveTwoWeight_mono hab s l) (norm_nonneg _)) 2) h)
@@ -234,7 +234,7 @@ theorem wave_l1_le_of_mem {a s : ℝ} (ha : 0 ≤ a) (hs : 1 / 2 < s) {Y : ℤ �
     ∑' l, ‖Y l‖ ≤ √(1 + 2 * (riemannZeta ((2 * s : ℝ) : ℂ)).re) * waveTwoNorm 0 s Y ∧
     √(1 + 2 * (riemannZeta ((2 * s : ℝ) : ℂ)).re) * waveTwoNorm 0 s Y ≤
       √(1 + 2 * (riemannZeta ((2 * s : ℝ) : ℂ)).re) * waveTwoNorm a s Y := by
-  obtain ⟨h1, h2⟩ := wave_expl1_le hs (hY.mono ha)
+  obtain ⟨h1, h2⟩ := wave_expl1_le hs (hY.of_weight_le ha)
   simp only [zero_mul, Real.exp_zero, one_mul] at h1 h2
   exact ⟨h1, h2, mul_le_mul_of_nonneg_left (waveTwoNorm_mono ha hY) (Real.sqrt_nonneg _)⟩
 
