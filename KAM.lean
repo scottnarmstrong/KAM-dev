@@ -383,8 +383,11 @@ public import KAM.Iso.R3bp.Region
 public import KAM.Iso.R3bp.Safe
 public import KAM.Iso.R3bp.Uniqueness
 public import KAM.Iso.RestrictedHam
+public import KAM.Iso.Sharp.BorderBounds
 public import KAM.Iso.Sharp.Box
 public import KAM.Iso.Sharp.BoxLemmas
+public import KAM.Iso.Sharp.Constants
+public import KAM.Iso.Sharp.ConstantsArith
 public import KAM.Iso.ShiftPotential
 public import KAM.Iso.TransferStepNodes
 public import KAM.Kepler.Basic
