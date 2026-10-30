@@ -1276,3 +1276,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   acceptance: checkHamBounds under 10 GB). Both measure on the R1 data (not landing) and land by cherry-pick.
   Worktree soemitfix removed (disk 13 GB free).
 - **13:21. Heartbeat.** Four provers busy (SO-GEN3, SO-FREEZE-PREP2, SO-KDEPTH, SO-BALLDY); no limits. Codex is the scarce resource: codex-3 25 % weekly, codex-4 needs a new sign-in (owner), codex-2 low. If Codex runs out, audits fall back to fresh independent Claude Opus auditor sessions (logged as a deviation from the GPT-6.1-Sol auditor convention). No new certifier version on origin yet.
+- **13:40. Beyond N = 65: studied, deferred (owner: "let's finish N=65").** SO-GEN3 interim 2: N = 80 and 100 converge
+  (bands 2.652 % and 2.630 %, floor 2.62 %), but the Gram inverse grows fast near the separatrix (‖G⁻¹‖ 5.4 → 12.1 →
+  40.5 for N = 65, 80, 100) and the sharp constants carry high powers of σB, so the threshold falls 4 orders from
+  N = 65 to 80 and 10 to 100 (digits 40 → ~44 → ~50), while the covered initial window shrinks (±0.68 % → ±0.37 %
+  → ±0.16 %); N ≥ 80 also needs a finer grid stage. Decision: finish N = 65 (D38); N = 80 is an optional stretch
+  after it, to be re-priced against the next certifier version (its dependence on σB decides the cost).
