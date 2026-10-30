@@ -23,6 +23,7 @@ public import KAM.CertificateSharp.Ham.BallsTrig
 public import KAM.CertificateSharp.Ham.SplitBounds
 public import KAM.CertificateSharp.Ham.TrigBound
 public import KAM.CertificateSharp.Ham.TrigCertifier
+public import KAM.CertificateSharp.Kernel.ProductSplit
 public import KAM.CertificateSharp.Kernel.Prune
 public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Sharp
@@ -36,6 +37,7 @@ public import KAM.CertificateSharp.Tests.Corner
 public import KAM.CertificateSharp.Tests.Frame
 public import KAM.CertificateSharp.Tests.FreqTests
 public import KAM.CertificateSharp.Tests.Margin
+public import KAM.CertificateSharp.Tests.ProductSplit
 public import KAM.CertificateSharp.Tests.Shared
 public import KAM.CertificateSharp.Tests.Step0Coh
 public import KAM.CertificateSharp.V2.BaseCorner
