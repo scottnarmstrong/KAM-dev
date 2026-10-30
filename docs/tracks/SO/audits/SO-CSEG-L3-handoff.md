@@ -72,3 +72,15 @@ unfold them from another module).
   heartbeat limit in unification (`?pRR.2 =?= remainderBound …` unfolds); giving the parts explicitly fixes it.
   Consumers (SO-CSEG-GEN emitted modules) should pass `pRR … tIR` as named arguments.
 - Errata: none suspected. Deviations: none in statements; SegOne deferred as above.
+
+## AUDIT FOCUS (orchestrator)
+1. Statement fidelity: every declaration of Kernel/ProductSplit.lean matches the audited signatures file §(D)
+   (.drafts/design/SOCsplitSignatures.lean, as in design audit 3) byte for byte. List any deviation.
+2. Soundness of the computation-only equalities: `mulPacked_eq_of_parts` (the II part negated into the real
+   component, RI and IR into the imaginary), the `packedRealProduct` lemmas, and `checkPackedSp_of_groups`. The
+   coverage premise over `PackedAdvice.shardRange` must really cover every shard, and the prefix must be verbatim.
+3. Fitness for the consumer: these lemmas let a heavy product be proved shard by shard in separate theorems, and
+   the decode apart, then assembled into the landed `mulN` value used by `composeStep` (design M3). Say whether
+   anything is missing.
+4. No landed declaration changed; tests, replay and axioms.
+5. Deferred item: Kernel/SegOne.lean goes to SO-CSEG-A/B. Confirm that nothing in ProductSplit depends on it.
