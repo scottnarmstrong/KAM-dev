@@ -1433,3 +1433,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - SO part 2: SO-KDEPTH, SO-BALLFIX, SO-V2PKG, SO-DATA3 (step 1).
   - Quotas: claude-3 86 %, claude-12 85 %, claude-6 74 %, claude-4 58 %, codex-3 11 % (monitor readings from
     15:04–15:17). Disk 11 GB free.
+- **16:30. Lock (kam-inp-24): design written, audit started; decisions for owner review.**
+  - Design SO-LOCK-DESIGN.md, SOLockSignatures.lean (elaborates; sorry only), FREEZE-PROPOSAL-LOCK.md on branch
+    inp-lockdesign (50807049); codex-3 design audit running (inp-maud-lockdesign). Nothing frozen.
+  - **For owner review** (reversible choices taken; full text in FREEZE-PROPOSAL-LOCK.md Q1–Q6):
+    1. *Naming ψ\*:* the orbit `lunarSyncOrbit` is defined by choice over `IsSyncOrbit` (C², 1-periodic, odd, solves
+       the orbit equation) and made canonical by a proved GLOBAL uniqueness theorem; the headline bounds
+       |ψ − ψ*(φ)|, |p − 1 − ψ*′(φ)| and |q − φ| < 1/4. Options: global uniqueness (chosen; no data in the
+       statement) / uniqueness within δ of a rational c / Fourier data in the statement.
+    2. *Orbit certification:* Banach contraction in sup norm (Lipschitz factor ≈ 0.002) instead of the brief's
+       Newton–Kantorovich radii polynomial: data-free, gives existence, uniqueness and location. Chosen because it
+       is smaller and needs no kernel data; NK stays available if the audit finds a gap.
+    3. Spin bound via the coarse ellipse (≈ 3.7 %) rather than the sharper ≈ 2.5 %; reversible later.
+    4. Q4–Q6 (no separate non-vacuity theorem; freezing `lunarSyncOrbit_bound`; literal rules): as recommended in
+       the proposal.
