@@ -24,6 +24,15 @@ public import KAM.Wave.Analytic.HoloAnalytic
 public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
+public import KAM.Wave.KamSupport.FourierBanach
+public import KAM.Wave.KamSupport.FourierBessel
+public import KAM.Wave.KamSupport.FourierL2
+public import KAM.Wave.KamSupport.FourierShift
+public import KAM.Wave.KamSupport.HilbertMatrix
+public import KAM.Wave.KamSupport.KamSpace
+public import KAM.Wave.KamSupport.Lattice
+public import KAM.Wave.KamSupport.LatticeCount
+public import KAM.Wave.KamSupport.SchurTest
 public import KAM.Wave.Normal.ActionCoeff
 public import KAM.Wave.Normal.Analysis.CubicAnalytic
 public import KAM.Wave.Normal.Analysis.CubicBound
