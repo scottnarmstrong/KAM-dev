@@ -47,8 +47,10 @@ Besides W1 \S\ref{bpW:w1:ext} and W3 \S\ref{bpW:w3:ext}:
   $\abs t<\rho$ with values in a complex Banach space and $\norm{g(t)}\le B$ there, then
   $g(t)=\sum_{k\ge0}g_kt^k$ on $\abs t<\rho$ with $g_k=\frac1{2\pi i}\oint_{\abs t=\rho'}g(t)t^{-k-1}dt$ ($\rho'<\rho$),
   $\norm{g_k}\le B\rho^{-k}$, and for $\abs t\le1<\rho$: $\norm{g(t)-\sum_{k\le2}g_kt^k}\le B\rho^{-3}/(1-\rho^{-1})$.
-  (\Lean{DifferentiableOn.hasFPowerSeriesOnBall}, \Lean{HasFPowerSeriesOnBall.norm\_sub\_le} type bounds, or directly the
-  Cauchy formula \ref{bpW:w1:ext-onevar}.)
+  (\Lean{DifferentiableOn.hasFPowerSeriesOnBall} on a slightly smaller closed disc; the coefficient bound is the Cauchy estimate
+  \ref{bpW:w1:ext-onevar}, and the remainder bound is the sum of the geometric tail $\sum_{k\ge3}B\rho^{-k}$. Mathlib's
+  \Lean{HasFPowerSeriesWithinOnBall.uniform\_geometric\_approx'} gives a bound of this type with unspecified constants and is not
+  needed.)
 \item\label{bpW:w5:ext-ftc} \emph{Calculus along curves.} For $C^1$ maps $c:[0,1]\to V$ into an open subset of a
   Banach space and $G$ $C^1$ on $V$: $G(c(1))-G(c(0))=\int_0^1DG(c(t))c'(t)\,dt$; differentiation under the
   integral sign (\ref{bpW:w3:ext-integral}); Neumann series (\ref{bpW:w3:ext-neumann}); Gronwall (\ref{bpW:w1:ext-ode}).
@@ -164,8 +166,12 @@ formulas. Then:
 \item $F(\cdot,\xi)\in\mathcal T_{s-\sigma}$ with $Q_F,Q_F^T$ bounded $\ell^N_{a,p}\to\ell^N_{a,p_+}$ and all other
   components as in W4; the equation (ii) and the bounds (iv) of Theorem~\ref{bpW:w4:lemma1} hold, and
   $\abs{X_F}_{p_+,r}\le C_1B^{\rm W}_\sigma\varepsilon/\hat\alpha$ on $D(s-\sigma,r)$.
-\item If moreover $2\beta\le p+1-p_+$, the Lipschitz bound of Theorem~\ref{bpW:w4:lemma1}(iii) and
-  Corollary~\ref{bpW:w4:lemma2} hold with $\hat\alpha$ in place of $\alpha$ and the norm $\abs\cdot_{p_+,r}$ for $X_F$.
+\item If moreover $2\beta\le p+1-p_+$, then on $D(s-\sigma,r)$
+  \[\abs{X_{F(\xi)}-X_{F(\zeta)}}_{p_+,r}\le\frac{C_1B^\natural_\sigma}{\hat\alpha}\Bigl(\varepsilon^{\mathcal L}+\frac{2M}{\hat\alpha}\varepsilon\Bigr)\abs{\xi-\zeta},
+  \qquad B^\natural_\sigma=\sum_{k\in\Z^2}(1+\abs k_1)^2A_k^2e^{-2\pi\abs k_1\sigma}\ \ (\ge B^{\rm W}_\sigma),\]
+  so for $0\le\lambda\le\hat\alpha/M$: $\abs{X_F}^\lambda_{r,D(s-\sigma,r)}\le\frac{3C_1B^\natural_\sigma}{\hat\alpha}\abs{X_R}^\lambda_{r,D(s,r)}$.
+\item For $0<\sigma\le1$, $B^\natural_\sigma\le b^\natural(\tau)\sigma^{-(2\tau+4)}$ with
+  $b^\natural(\tau)=4\bigl[(1+\frac1\pi)^2+\sum_{q\in\{2,2\tau,2\tau+2\}}\frac4\pi\bigl(\frac{q+1}{e\pi}\bigr)^{q+1}\bigr]\ (\ge b_{\rm W}(\tau))$.
 \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -181,7 +187,36 @@ W4's bounds hold in $\ell^N_{a,p+1}\subset\ell^N_{a,p_+}$ (norm $\le1$).
 $\abs{d_{ij}(\xi)-d_{ij}(\zeta)}\le2(1+\abs k_1)M\abs{\xi-\zeta}/\abs{\delta(\xi)\delta(\zeta)}
 \le2(1+\abs k_1)A_k^2M\min(I,J)^{2\beta}\abs{\xi-\zeta}/(\hat\alpha^2\abs{i-j}^2)$, and $I^{-c}\min(I,J)^{2\beta}\le1$ when
 $2\beta\le c$. Lemma~\ref{bpW:w4:solve}(ii) then applies as in Step~\ref{stepW:w4:lip}.
-\proofstep{Assembly}\label{stepW:w5:m-ass} Steps~\ref{stepW:w4:Fcomp}--\ref{stepW:w4:Nhat} are unchanged.
+\proofstep{The action component}\label{stepW:w5:m-act} W4 bounds the term $\Lambda\partial_{\theta_i}Q_F(z,\bar z)$ of
+$\partial_{\theta_i}F$ in the bilinear space $\mathcal B$ (Step~\ref{stepW:w4:Fcomp}); this route is not available here, because
+the Hadamard factor $d_{ij}$ grows like $\min(I,J)^\beta$ and the norm of $\mathcal B$ (two copies of $\ell^N_{a,p}$) supplies no
+compensating weight. Instead we bound $\partial_{\theta_i}Q_F$ as an operator $\ell^N_{a,p}\to\ell^N_{a,p_+}$. By
+Lemma~\ref{bpW:w4:components}(i), $\norm{Q(\theta)}\le\varepsilon$ in $\mathcal L$ (target $\ell^N_{a,p+1}$), so
+$\norm{\hat Q_k}\le\varepsilon e^{-2\pi\abs k_1s}$ (\ref{bpW:w4:F1}). By Step~\ref{stepW:w5:m-sup} the coefficient
+$2\pi ik_i(\hat Q_F)_k=2\pi ik_i\,d\circ\hat Q_k$ has $\ell^N_{a,p}\to\ell^N_{a,p_+}$ norm
+$\le2\pi\abs{k_i}K_SA_k\varepsilon e^{-2\pi\abs k_1s}/\hat\alpha$, and $\abs{k_i}A_k\le(1+\abs k_1)A_k^2$. By \ref{bpW:w4:F2} and
+termwise differentiation (\ref{bpW:w1:ext-unifderiv}), on $T_{s-\sigma}$
+\[\norm{\partial_{\theta_i}Q_F(\theta)}_{\ell^N_{a,p}\to\ell^N_{a,p_+}}\le\frac{2\pi K_SB^{\rm W}_\sigma}{\hat\alpha}\varepsilon,\qquad
+\abs{\langle\partial_{\theta_i}Q_F\,z,\bar z\rangle_0}\le\frac{2\pi K_SB^{\rm W}_\sigma}{\hat\alpha}\varepsilon\norm z\norm{\bar z}\]
+(pairing of $\ell^N_{a,p_+}$ with $\ell^N_{a,p}$, \eqref{bpW:w4:pairing}). This is smaller than W4's bound
+$16\pi K_S(B^{\rm W}_\sigma/\hat\alpha)\varepsilon$ for $\norm{\Lambda\partial_{\theta_i}Q_F}_{\rm bil}$, so W4's
+Step~\ref{stepW:w4:assembly} goes through with the same $C_1$. For differences, the coefficient difference is
+$2\pi ik_i\bigl(d(\xi)\circ(\hat Q_k(\xi)-\hat Q_k(\zeta))+(d(\xi)-d(\zeta))\circ\hat Q_k(\zeta)\bigr)$; by Steps~\ref{stepW:w5:m-sup}
+and~\ref{stepW:w5:m-lip} ($2\beta\le c$; for $i=j$, $k\ne0$ the divisor is $\langle k,\omega\rangle$ and
+$\abs{\Delta(1/\delta)}\le\abs k_1M_\omega A_k^2\abs{\xi-\zeta}/\hat\alpha^2$) its norm is at most
+$2\pi K_S\bigl(\abs k_1A_k\varepsilon^{\mathcal L}/\hat\alpha+2\abs k_1(1+\abs k_1)A_k^2M\varepsilon/\hat\alpha^2\bigr)e^{-2\pi\abs k_1s}\abs{\xi-\zeta}$
+(Lemma~\ref{bpW:w4:fourier-ops}(iii)). Summing with $e^{2\pi\abs k_1(s-\sigma)}$ and $\abs k_1(1+\abs k_1)A_k^2\le(1+\abs k_1)^2A_k^2$:
+$\norm{\Delta\partial_{\theta_i}Q_F}\le\frac{2\pi K_SB^\natural_\sigma}{\hat\alpha}(\varepsilon^{\mathcal L}+\frac{2M}{\hat\alpha}\varepsilon)\abs{\xi-\zeta}$.
+The extra factor $\abs k_1$ is the price of differentiating the solved series instead of solving for the derivative data;
+it is why $B^\natural_\sigma$ replaces $B^{\rm W}_\sigma$ in (ii).
+\proofstep{Assembly}\label{stepW:w5:m-ass} W4's Steps~\ref{stepW:w4:Fcomp}--\ref{stepW:w4:Nhat}, with the $Q_F$-contribution to
+$\partial_\theta F$ taken from Step~\ref{stepW:w5:m-act} instead of the bilinear route, and all other components unchanged
+(their divisors obey $(\mathrm H_{\hat\alpha})$). In (ii) every component difference is bounded with $B^{\rm W}_\sigma\le B^\natural_\sigma$
+or, for the $Q_F$-part of $\partial_\theta F$, with $B^\natural_\sigma$; the assembly is linear in the component bounds. The
+$\lambda$-form follows as in Corollary~\ref{bpW:w4:lemma2}.
+\proofstep{The constant}\label{stepW:w5:m-const} $(1+x)^2(1+x^\tau)^2\le4(1+x^2)(1+x^{2\tau})$ for $x\ge0$ (Cauchy--Schwarz), so
+$B^\natural_\sigma\le4(S_0+S_2+S_{2\tau}+S_{2\tau+2})$ in the notation of Lemma~\ref{bpW:w4:lattice}, and (ii)--(iii) there give
+each term $\le$ its constant in $b^\natural$ times $\sigma^{-(q+2)}\le\sigma^{-(2\tau+4)}$ ($\sigma\le1$).
 \end{proof}
 \source{P96-K \S6, p.~140, (23) (``$\abs{\langle k,\omega\rangle+\Omega_i-\Omega_j}\ge\frac{\hat\alpha}{A_k}\cdot
 \frac{\abs{i-j}}{\min(i^\varpi,j^\varpi)}$'') and ``$\abs{X_F}^\lambda_{\check p,r,D(s-\sigma,r)}\le\frac{aB_\sigma}{\hat\alpha}
@@ -189,11 +224,13 @@ $2\beta\le c$. Lemma~\ref{bpW:w4:solve}(ii) then applies as in Step~\ref{stepW:w
 \sourcegap{P96-K p.~140 asserts the $\lambda$-norm (that is, including the Lipschitz part) for the weight exponent
 $\beta=\varpi$ and the loss $\bar p-\check p=\varpi$. The termwise argument (Step~\ref{stepW:w5:m-lip}) needs
 $2\beta\le\bar p-\check p$: the product of two modified divisors is only $\ge\hat\alpha^2\abs{i-j}^2\min^{-2\beta}/A_k^2$,
-so the Lipschitz constant of $1/\delta$ carries $\min(I,J)^{2\beta}$ while the weight gain is only $I^{\varpi}$. This is
-not only a defect of the bound: at a parameter $\xi\notin\Xi$ with $\eta=\abs{\langle k,\omega\rangle+n}$ small
-($n=i-j$), the entries $d_{i,j}$ with $J$ near $J_0=(\hat\alpha n/(A_k\eta))^{2}$ have $\abs{\partial_\xi d}\sim\abs kM/\eta^2$,
-and after the weight $I^{-1/2}$ this is $\sim A_k\abs kM/(\hat\alpha n\eta)$, unbounded as $\eta\to0$ along a band of
-the Hilbert matrix. Hence with P96-K's choice $\beta=\varpi=\frac12$ and $p_+=p+\frac12$, part~(ii) is not available.
+so the Lipschitz constant of $1/\delta$ carries $\min(I,J)^{2\beta}$ while the weight gain is only $I^{\varpi}$. The printed
+justification is therefore insufficient (suspected parameter-Lipschitz gap); no complete counterexample satisfying all the
+source's hypotheses is claimed. (A locally adverse multiplier exists: near-resonant adjacent divisors give entries whose
+weighted $\xi$-derivative is large; whether an admissible frequency family realizes this uniformly is open.) Hence with P96-K's
+choice $\beta=\varpi=\frac12$ and $p_+=p+\frac12$, the termwise proof of part~(ii) is not available. Moreover the action
+component needs the separate argument of Step~\ref{stepW:w5:m-act}, which costs one power of $\sigma$ in the Lipschitz part
+($B^\natural_\sigma$); P96-K states the bound with $B_\sigma$.
 \emph{Resolution adopted:} W7 separates the weight exponent from the loss, $\beta=\frac14$ with loss $\varpi=\frac12$
 (Definition~\ref{bpW:w7:indexdef}(vii), $\hat w=(i-j)j^{-1/4}$), so $2\beta\le p+1-p_+$ and part~(ii) applies. See
 Remark~\ref{bpW:w5:prep-gap}.}
@@ -279,9 +316,14 @@ $(\mathrm H_\alpha)$ holds on $\Pi$ (Definition~\ref{bpW:w4:melnikov}) or, in th
 Lemma~\ref{bpW:w5:w4-modified} with $\hat\alpha=\alpha$; $0\le\lambda\le\alpha/M$; the normal form
 $N=\langle\omega(\xi),y\rangle+\sum_j\Omega_j(\xi)z_j\bar z_j$; and a real periodic family
 $P\in\Sm_{p'}(D(s,r))$ with $p'=p+1$ in the modified case and $p'=p_+$ otherwise, and
-$\epsilon\ge\abs{X_P}^\lambda_{r,D(s,r)}$ (norm $\abs\cdot_{p',r}$). Put
+a number $\epsilon>0$ with $\epsilon\ge\abs{X_P}^\lambda_{r,D(s,r)}$ (norm $\abs\cdot_{p',r}$; a positive majorant, also when
+$P=0$). Put, in the unmodified case,
 \[t=2\tau+4,\qquad c_F=9C_1b_{\rm W}(\tau),\qquad c_0=16c_F,\qquad M_F=\frac{c_F\,\epsilon}{\alpha\sigma^{t-1}},\]
-with $C_1$, $b_{\rm W}$ of Theorem~\ref{bpW:w4:lemma1} and Lemma~\ref{bpW:w4:lattice}. The \emph{smallness condition}
+with $C_1$, $b_{\rm W}$ of Theorem~\ref{bpW:w4:lemma1} and Lemma~\ref{bpW:w4:lattice}; in the modified case
+$t^\natural=2\tau+5$, $c^\natural_F=9C_1b^\natural(\tau)$, $c^\natural_0=16c^\natural_F$, $C^\natural_2=896+168c^\natural_F$
+(Lemma~\ref{bpW:w5:w4-modified}(iii)), and every statement below about the modified case is read with
+$(t,c_F,c_0,C_2)$ replaced by $(t^\natural,c^\natural_F,c^\natural_0,C^\natural_2)$; thus
+$M_F=c^\natural_F\epsilon/(\alpha\sigma^{2\tau+4})$ there. The \emph{smallness condition}
 is
 \begin{equation}\label{bpW:w5:small}
 \epsilon\le\frac{\alpha\sigma^t\eta^2}{c_0}\qquad\Bigl(\text{equivalently }M_F\le\frac{\sigma\eta^2}{16}\Bigr).
@@ -299,7 +341,8 @@ $p'$), both real, $R+DN\cdot X_F=\hat N+\hat a_0$ on $D(s-\sigma,r)$, and
 \abs{\hat\omega}+\lambda\abs{\hat\omega}^{\mathcal L}\le6\pi\epsilon,\]
 \[
 \sup_j(j+2)^{p_+-p}\bigl(\abs{\hat\Omega_j}+\lambda\abs{\hat\Omega_j}^{\mathcal L}\bigr)\le3\epsilon.\]
-In the modified case the Lipschitz parts require $2\beta\le p+1-p_+$ (Lemma~\ref{bpW:w5:w4-modified}(ii)).
+In the modified case the Lipschitz parts require $2\beta\le p+1-p_+$, and the bound for $X_F$ is read with $c^\natural_F$,
+$t^\natural$ (Lemma~\ref{bpW:w5:w4-modified}(ii)--(iii): $3C_1B^\natural_\sigma\cdot3\epsilon/\alpha\le c^\natural_F\epsilon/(\alpha\sigma^{2\tau+4})$).
 \end{lemma}
 \begin{proof}
 \proofstep{Input}\label{stepW:w5:s-in} Lemma~\ref{bpW:w5:taylor}(i),(iii): $R\in\mathcal T_s$ and
@@ -665,8 +708,9 @@ $M\ge1$. Constants ours. The choice of $r,t,\rho_\xi,\Pi$ belongs to W8.}
 
 \paragraph{Constants, in the order chosen.} (1) $m$; $a=p=1$; $\tau$ (W7 fixes $\tau=24$). (2) From W3, depending on
 $m$: $\rho_1$, $C_*$, $C'_K$; $c_A=2200$ (absolute). (3) From W4: $K_S$, $C_1=7+10K_S<36$, $b_{\rm W}(\tau)$ (absolute for
-fixed $\tau$). (4) $c_F=9C_1b_{\rm W}(\tau)$, $c_0=16c_F$, $C_2=896+168c_F$, $t=2\tau+4$ ($=52$ for $\tau=24$):
-absolute for fixed $\tau$, independent of $m$. (5) Per step: $s,\sigma,\eta,r,\alpha,\lambda,\Pi$, frequencies with $M$,
+fixed $\tau$). (4) $c_F=9C_1b_{\rm W}(\tau)$, $c_0=16c_F$, $C_2=896+168c_F$, $t=2\tau+4$ ($=52$ for $\tau=24$), and for the modified
+(preparatory) step $b^\natural(\tau)$, $c^\natural_F=9C_1b^\natural(\tau)$, $c^\natural_0=16c^\natural_F$, $C^\natural_2=896+168c^\natural_F$,
+$t^\natural=2\tau+5$ ($=53$): absolute for fixed $\tau$, independent of $m$. (5) Per step: $s,\sigma,\eta,r,\alpha,\lambda,\Pi$, frequencies with $M$,
 then $\epsilon$ subject to \eqref{bpW:w5:small}. The only $m$-dependence of the step itself is through the frequencies
 ($M$, $M_0$) and the divisor hypotheses; Proposition~\ref{bpW:w5:initial} depends on $m$ through $\rho_1,C_*,C'_K$,
 $N_A$, $\lambda_1,\lambda_2$.
