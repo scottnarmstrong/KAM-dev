@@ -17,7 +17,9 @@ public import KAM.Frozen.Defs.FundamentalDomain
 
 `volume_le_volume_fundamentalDomain_inter`: if a measurable set `E ⊆ ℝⁿ × ℝⁿ` meets each orbit of
 the angle translations `z ↦ z + (k, 0)`, `k ∈ ℤⁿ`, at most once, has its actions in `B`, and every
-integer angle translate of a point of `E` lies in `S`, then `meas E ≤ meas([0,1)ⁿ × B ∩ S)`.
+integer angle translate of a point of `E` lies in `S`, then `meas E ≤ meas([0,1)ⁿ × B ∩ S)`; the
+measurable form `exists_measurableSet_subset_fundamentalDomain_inter` exhibits a measurable
+`F ⊆ [0,1)ⁿ × B ∩ S` with `meas E ≤ meas F`.
 The map `(θ, I) ↦ (fract θ, I)` is a translation on each piece `{⌊θ⌋ = k}` of `E`, and the
 translated pieces are pairwise disjoint.
 -/
@@ -54,15 +56,17 @@ theorem angleTranslate_eq_zero {k : Fin n → ℤ} (h : angleTranslate k = 0) : 
   have := congrFun (congrArg Prod.fst h) i
   simpa [angleTranslate] using this
 
-/-- **Reduction modulo `ℤⁿ`.** A measurable set meeting each `ℤⁿ`-orbit of angle translations at
-most once, with actions in `B`, has volume at most that of the part of `S` over `[0,1)ⁿ × B`, as
-soon as `S` contains every integer angle translate of `E`. -/
-theorem volume_le_volume_fundamentalDomain_inter {E S : Set ((Fin n → ℝ) × (Fin n → ℝ))}
-    {B : Set (Fin n → ℝ)} (hE : MeasurableSet E)
+/-- **Reduction modulo `ℤⁿ`, measurable form.** A measurable set meeting each `ℤⁿ`-orbit of angle
+translations at most once, with actions in `B`, is carried by `(θ, I) ↦ (fract θ, I)` onto a
+measurable set `F ⊆ [0,1)ⁿ × B` of the same volume (at least), contained in `S` as soon as `S`
+contains every integer angle translate of `E`. -/
+theorem exists_measurableSet_subset_fundamentalDomain_inter
+    {E S : Set ((Fin n → ℝ) × (Fin n → ℝ))} {B : Set (Fin n → ℝ)} (hE : MeasurableSet E)
     (hinj : ∀ z ∈ E, ∀ z' ∈ E, ∀ k : Fin n → ℤ, z = z' + angleTranslate k → k = 0)
     (hS : ∀ z ∈ E, ∀ k : Fin n → ℤ, z + angleTranslate k ∈ S)
     (hB : ∀ z ∈ E, z.2 ∈ B) :
-    volume E ≤ volume (fundamentalDomain B ∩ S) := by
+    ∃ F : Set ((Fin n → ℝ) × (Fin n → ℝ)), MeasurableSet F ∧
+      F ⊆ fundamentalDomain B ∩ S ∧ volume E ≤ volume F := by
   set A : (Fin n → ℤ) → Set ((Fin n → ℝ) × (Fin n → ℝ)) :=
     fun k => (fun w => angleTranslate k + w) ⁻¹' (E ∩ floorCell k) with hA
   have hAm : ∀ k, MeasurableSet (A k) := fun k =>
@@ -94,11 +98,23 @@ theorem volume_le_volume_fundamentalDomain_inter {E S : Set ((Fin n → ℝ) × 
         by linarith [Int.lt_floor_add_one ((angleTranslate k + w).1 i)]⟩
     · have := hB _ hzE
       simpa [angleTranslate] using this
+  refine ⟨⋃ k, A k, MeasurableSet.iUnion hAm, hsub, ?_⟩
   calc volume E ≤ volume (⋃ k, E ∩ floorCell k) := measure_mono hcover
     _ ≤ ∑' k, volume (E ∩ floorCell k) := measure_iUnion_le _
     _ = ∑' k, volume (A k) := by simp_rw [hAvol]
     _ = volume (⋃ k, A k) := (measure_iUnion hdisj hAm).symm
-    _ ≤ volume (fundamentalDomain B ∩ S) := measure_mono hsub
+
+/-- **Reduction modulo `ℤⁿ`.** A measurable set meeting each `ℤⁿ`-orbit of angle translations at
+most once, with actions in `B`, has volume at most that of the part of `S` over `[0,1)ⁿ × B`, as
+soon as `S` contains every integer angle translate of `E`. -/
+theorem volume_le_volume_fundamentalDomain_inter {E S : Set ((Fin n → ℝ) × (Fin n → ℝ))}
+    {B : Set (Fin n → ℝ)} (hE : MeasurableSet E)
+    (hinj : ∀ z ∈ E, ∀ z' ∈ E, ∀ k : Fin n → ℤ, z = z' + angleTranslate k → k = 0)
+    (hS : ∀ z ∈ E, ∀ k : Fin n → ℤ, z + angleTranslate k ∈ S)
+    (hB : ∀ z ∈ E, z.2 ∈ B) :
+    volume E ≤ volume (fundamentalDomain B ∩ S) := by
+  obtain ⟨F, -, hF, hvol⟩ := exists_measurableSet_subset_fundamentalDomain_inter hE hinj hS hB
+  exact hvol.trans (measure_mono hF)
 
 end KAM.Russmann
 

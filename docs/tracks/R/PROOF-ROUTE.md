@@ -198,3 +198,41 @@ constant are linear in `Q₀Ξ`, and `Q₀ = C_Q 2^N T₀^τ λ₀ / (π γ ς�
 
   Total for (B): **about 500 lines**, no new mathematics, nothing invasive. (B) can reuse every
   current track-R module unchanged except the assembly (a second assembly theorem).
+
+## The frozen strong form: route (B) done (30 October 2026, package RUSSMANN-STRONG)
+
+R-HEAD was frozen in the strong form (ruling R1, Q1(d); `KAM/Frozen/Russmann/Theorems/RussmannKam.lean`).
+Route (B) above is formalized. The provider `KAM.Provider.Russmann.russmann_kam`
+(`KAM/Provider/Russmann/RussmannKam.lean`) has the frozen type verbatim. Its proof is the single
+term `KAM.Russmann.russmann_tori_strong hn hs₀ hr₀ hB_open hB_conn hB_bdd hh hh_real h_russmann`,
+and it does not import the frozen theorem.
+
+| Piece | Lean declaration | Module |
+|---|---|---|
+| track P export of the defect Lipschitz bound (additive) | `QuantitativeFamily.DefectLipschitz`, `weak_kam_quantitative_lip` | `KAM/Planetary/Quantitative/AssemblyLipschitz.lean` |
+| global lipeomorphism `E = id + Φ`, `‖E − id‖ ≤ Δ` | `exists_lipeo_extension` (McShane with sup bound: `KAM.mcshane_prod`; bijection: `KAM.lipeo_onto`) | `KAM/Russmann/Extension.lean` |
+| `E(Ω) ⊇ [Δ, 1−Δ)ⁿ × U_Δ`; near-full image | `inner_subset_image`, `box_subset_inner`, `volume_image_cell_lower` | `KAM/Russmann/Extension.lean` |
+| `meas U_Δ ↑ meas U` | `exists_inner_volume_gt` | `KAM/Russmann/Extension.lean` |
+| compact `K`, open `U ⊇ K`, margin, loss; closing inequality | `exists_compact_open_budget`, `strong_volume_arith` | `KAM/Russmann/StrongBudget.lean` |
+| measurable mod-`ℤⁿ` reduction | `exists_measurableSet_subset_fundamentalDomain_inter` | `KAM/Russmann/FundamentalDomain.lean` |
+| strong assembly (inline cover) | `russmann_tori_strong`, `familyImage_translate_mem`, `familyImage_actions_mem` | `KAM/Russmann/AssemblyStrong.lean` |
+| strong ⇒ `4⁻ⁿ` | `quarter_le_of_diff_le`, `russmann_tori_of_strong` | `KAM/Russmann/AssemblyStrong.lean` |
+
+Order of choices in `russmann_tori_strong`:
+1. `τ = nμ`.
+2. Then `(δ, κ)`. Put `L = (1 + 2⁻¹⁰)^{2n}` and `η = κ/(3 + 2L)`.
+3. Choose `K`, `U`, the margin `m` and `ε*`, with `meas K > (1−η) meas B`, `meas(U ∖ K) ≤ η meas B`
+   and `ε* ≤ η meas B`.
+4. Choose `Δ₀` with `meas U_{Δ₀} > (1 − 2η) meas B`.
+5. The data `d` and `c_Δ` follow, then
+   `ε₀ = min(thresholds d, (δ′γ/c_Δ)²)` with `δ′ = min(δ, m/2, Δ₀, η/(2n))`.
+
+For `ε ≤ ε₀`:
+- **Interior factor.** `Δ(ε) ≤ δ′`, and Bernoulli gives `(1 − 2Δ)ⁿ ≥ 1 − η`.
+- **Image bound.** `meas T([0,1)ⁿ × good) ≥ (1 − η)(1 − 2η) meas B − 2Lη meas B`.
+- **Conclusion.** The measurable rearranged set `F ⊆ FD ∩ cover` gives
+  `meas(FD ∖ cover) ≤ meas FD − meas F ≤ (3 + 2L)η meas FD = κ meas FD`.
+
+The total is 897 new lines; track P received 140 additive lines, and no existing track-P file
+changed. `russmann_tori` (the `4⁻ⁿ` form) is unchanged. `russmann_tori_of_strong` re-derives it
+from the strong form.
