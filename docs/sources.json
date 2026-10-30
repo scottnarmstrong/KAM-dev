@@ -589,6 +589,16 @@
    "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/ccdll20-survey)",
    "sha256": "4bd6030136ff5d2f80a610a1827abc3549a89a4ab4d8a7fd4d7b0ee69076f1dc",
    "role": "Survey of conformally symplectic KAM; literature survey of the v2 design"
+  },
+  {
+   "key": "CCdlL20d",
+   "tier": "side campaign (reference)",
+   "citation": "R. Calleja, A. Celletti, R. de la Llave, *KAM estimates for the dissipative standard map*, arXiv:2002.10647v1 (2020)",
+   "arxiv": "2002.10647",
+   "doi": null,
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/ccdll20-dsm)",
+   "sha256": "9dafdb82f9c29175b2613cb8bfd35fc555461c7065e9508e1439b326d3e6cf0e",
+   "role": "Conformally symplectic KAM estimates for the dissipative standard map; literature survey of the v2 design (errata E-CCdlL20d-*)"
   }
  ]
 }

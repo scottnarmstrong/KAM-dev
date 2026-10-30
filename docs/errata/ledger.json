@@ -2230,9 +2230,9 @@
    "claim": "the \"constant\" C is not γ-free: (3.99) contains γδ^τ·max{1,C_sym}/ν and Table 1 contains terms like C_E = C_E^L + γδ^τ C_E^N",
    "kind": "imprecise statement (benign: positive powers of γ)",
    "evidence": "competitors report §7",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
-   "effect": "none on validity; comparisons of C with γ-free constants must account for it"
+   "status": "DROPPED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: NOT-AN-ERRATUM: the theorem expressly permits dependence on the previously introduced constants, which include γ. Dropped.",
+   "effect": "none"
   },
   {
    "id": "E-FH24-5",
@@ -2243,8 +2243,8 @@
    "claim": "typesetting: the second κ is presumably κ̂ ((3.91) needs a^{τ+1}Qε₀/(γδ₀^{τ+1}) < κ < 1 and (3.95) needs ε₀/(γδ₀^{τ+1}) < κ̂)",
    "kind": "typo",
    "evidence": "competitors report §7",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "DROPPED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: NOT-AN-ERRATUM: the PDF prints distinct ϰ (varkappa) and κ; text extraction collapsed them. Dropped.",
    "effect": "none"
   },
   {
@@ -2269,8 +2269,8 @@
    "claim": "conditional uniformity gap, as in HL19 §5.3: correct for a uniform c_R, but (90) allows c_R(δ), which need not be bounded by its value at δ₀",
    "kind": "gap",
    "evidence": "blueprint remark bp:p2s2sd:errata (branch sharp-v2)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS design, APOST-SHARP-V2.md §8 and blueprint remark bp:p2s2sd:errata (side campaign, lemma.farm, 2026-10-30); checked against the arXiv PDF by its writer, not yet by an independent verifier",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS design, APOST-SHARP-V2.md §8 and blueprint remark bp:p2s2sd:errata (side campaign, lemma.farm, 2026-10-30); checked against the arXiv PDF by its writer, not yet by an independent verifier; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT. Freezing a genuinely bite-dependent c_R at δ₀ needs a uniform envelope; (90) alone does not supply that ordering.",
    "effect": "none for a uniform c_R"
   },
   {
@@ -2279,11 +2279,11 @@
    "source": "FHL17",
    "location": "p. 37",
    "printed": "\"6 orders\" at ε = 0.96 with τ = 1",
-   "claim": "inconsistent: the stated gain is consistent with τ = 1.26, not τ = 1",
+   "claim": "At the printed τ = 1 and Table 5 inputs, the stated six-order gain cannot come solely from replacing (90) by (96). A calculation at τ = 1.26 has the six-order scale, but the exact cause of the reported number remains unverified.",
    "kind": "numerical inconsistency",
    "evidence": "SHARP-PLUS FHL17 helper report; APOST-SHARP-V2.md §8",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS design, APOST-SHARP-V2.md §8 and blueprint remark bp:p2s2sd:errata (side campaign, lemma.farm, 2026-10-30); checked against the arXiv PDF by its writer, not yet by an independent verifier",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS design, APOST-SHARP-V2.md §8 and blueprint remark bp:p2s2sd:errata (side campaign, lemma.farm, 2026-10-30); checked against the arXiv PDF by its writer, not yet by an independent verifier; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text",
    "effect": "none on our use"
   },
   {
@@ -2295,8 +2295,8 @@
    "claim": "misattribution: CC88 gives |ε| ≤ 0.65 (and Celletti–Chierchia JSP 1991 gives 0.838)",
    "kind": "misattribution",
    "evidence": "competitors report §7 (KNF helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT. The cited CC88 theorem gives 0.65; CC91 independently identifies 0.65 as the earlier result and gives 0.838.",
    "effect": "none"
   },
   {
@@ -2308,8 +2308,8 @@
    "claim": "wrong exponent: γ appears to the power +2; compare Theorem 1 (cγ^{−2}δ₀^{−2σ}) and Theorem 6’s own K-estimate with γ^{−2}; almost certainly γ^{−2} (the same issue as Theorem 3, E-GJLV05-1)",
    "kind": "typo (sign of an exponent)",
    "evidence": "checked on the PDF page images by the helper",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT. Theorem 6 prints γ² for λ while its own hypotheses and K estimate have inverse powers; no alternate convention rescues the scaling.",
    "effect": "none on our use (GJLV05 is a cross-check)"
   },
   {
@@ -2321,8 +2321,21 @@
    "claim": "incompatible hypotheses: at k = 1 one needs ν ≤ 1/2, and the paper later uses ν ≈ 0.382",
    "kind": "wrong hypothesis",
    "evidence": "competitors report §3.6 (conformal helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "DROPPED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: misattributed: not present in the pinned CCdlL13; moved to E-CCdlL20d-1. Dropped here.",
+   "effect": "none"
+  },
+  {
+   "id": "E-CCdlL20d-1",
+   "type": "erratum",
+   "source": "CCdlL20d",
+   "location": "p. 10, Definition 4",
+   "printed": "\"τ ≥ 1, ν ≥ 1\" with |ωk − q| ≥ ν|k|^{−τ}",
+   "claim": "In arXiv:2002.10647v1, p. 10, Definition 4, replace ν ≥ 1 by ν > 0 (or a suitable positive small-constant range): at k = 1 the hypothesis forces ν ≤ 1/2, and the paper later uses ν ≈ 0.382.",
+   "kind": "wrong hypothesis",
+   "evidence": "competitors report §3.6 (conformal helper)",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED: the defect is in arXiv:2002.10647v1 (CCdlL20d), not at the corresponding point of the pinned CCdlL13; re-attributed from E-CCdlL13-2",
    "effect": "none on our use (CCdlL13 serves the Lipschitz re-application only); location in the pinned preprint to be mapped"
   },
   {
@@ -2334,8 +2347,21 @@
    "claim": "inconsistent with C_c = 1 stated just above (it gives 1/(2π) at ℓ = 1); a disc-automorphism example gives a ratio near 1/2 as δ → 0; apparently unused in App. B",
    "kind": "inconsistent constant",
    "evidence": "competitors report §3.6 (conformal helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "DROPPED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: misattributed: not present in the pinned CCdlL13; moved to E-CCdlL20d-2. Dropped here.",
+   "effect": "none"
+  },
+  {
+   "id": "E-CCdlL20d-2",
+   "type": "erratum",
+   "source": "CCdlL20d",
+   "location": "p. 9, Lemma 3",
+   "printed": "\"C_{c,ℓ} = ℓ!(2π)^{−1}\"",
+   "claim": "The general derivative constant C_{c,ℓ} = ℓ!(2π)^{−1} in Lemma 3 is invalid for the stated sup norm and geometric strip; the ordinary Cauchy choice C_{c,ℓ} = ℓ! is valid. Whether the faulty constant is used computationally was not established.",
+   "kind": "inconsistent constant",
+   "evidence": "competitors report §3.6 (conformal helper)",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED: the defect is in arXiv:2002.10647v1 (CCdlL20d), not at the corresponding point of the pinned CCdlL13; re-attributed from E-CCdlL13-3",
    "effect": "none on our use"
   },
   {
@@ -2347,8 +2373,21 @@
    "claim": "gap: the proof schedule gives closeness on ρ∞ = ρ₀/2 = ρ₀ − 2δ₀; H5 allows any 0 < δ₀ < ρ₀ while the schedule fixes δ₀ = ρ₀/4",
    "kind": "wrong strip in the conclusion",
    "evidence": "competitors report §3.6 (conformal helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "DROPPED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: misattributed: not present in the pinned CCdlL13; moved to E-CCdlL20d-3. Dropped here.",
+   "effect": "none"
+  },
+  {
+   "id": "E-CCdlL20d-3",
+   "type": "erratum",
+   "source": "CCdlL20d",
+   "location": "(3.14)",
+   "printed": "closeness stated on the strip ρ₀ − δ₀",
+   "claim": "(3.14) is not justified on ρ₀ − δ₀ by the §5.5 schedule; that schedule reaches ρ₀/2 and fixes δ₀ = ρ₀/4. Use that final strip or reprove a schedule matching the stated free δ₀.",
+   "kind": "wrong strip in the conclusion",
+   "evidence": "competitors report §3.6 (conformal helper)",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED: the defect is in arXiv:2002.10647v1 (CCdlL20d), not at the corresponding point of the pinned CCdlL13; re-attributed from E-CCdlL13-4",
    "effect": "none on our use"
   },
   {
@@ -2360,8 +2399,8 @@
    "claim": "impossible value (≈ 2.618 violates the Diophantine bound at k = 1); presumably ν = (3−√5)/2; unknown whether the code used the wrong value",
    "kind": "wrong constant",
    "evidence": "competitors report §3.6 (conformal helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT. The printed ν ≈ 2.618 is impossible under the paper's own Diophantine definition.",
    "effect": "none on our use"
   },
   {
@@ -2370,11 +2409,11 @@
    "source": "CCGdlL22",
    "location": "(37)",
    "printed": "closeness stated on ρ₀ − δ₀",
-   "claim": "gap: as CCdlL13 (3.14), the schedule gives ρ₀/2",
+   "claim": "The exhibited schedule reaches ρ₀/2 and does not prove the (37) closeness estimate on ρ₀ − δ₀. This is an analytic-strip proof mismatch, not an established counterexample to the underlying existence result.",
    "kind": "wrong strip in the conclusion",
    "evidence": "competitors report §3.6 (conformal helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text",
    "effect": "none on our use"
   },
   {
@@ -2383,11 +2422,11 @@
    "source": "CCdlL20s",
    "location": "p. 20",
    "printed": "claims JDE 2013 contains a \"direct proof of the results for flows\"",
-   "claim": "unsupported claim as far as the preprint goes: it has formal calculations only for flows (the published JDE text was not checked)",
+   "claim": "The pinned mp_arc 11-188 version of CCdlL13 does not contain the direct flow convergence proof described in CCdlL20s p. 20: its Appendix A explicitly limits itself to formal calculations. Whether the published JDE 2013 version supplies it remains unverified.",
    "kind": "unsupported claim",
    "evidence": "competitors report §3.6 (conformal helper)",
    "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text (kept CANDIDATE: the narrowed claim still has an unverified component)",
    "effect": "none on our use"
   },
   {
@@ -2396,11 +2435,11 @@
    "source": "CC07",
    "location": "preprint (Dec 2003) p. 109 with (2.130) p. 49 and p. 96",
    "printed": "β₁ = Ω*/γ in (2.130), while the printed β₁± equal Ω*±/ρ with ρ = 0.2",
-   "claim": "inconsistent closing inequality: with β₁ = Ω*/γ± the closing inequality (2.132) evaluates to about 849 (+) and 7.3 (−) instead of the printed 0.648 and 1.24·10⁻⁵, so it would fail; the published 2007 version was not checked",
+   "claim": "In the pinned December 2003 preprint, the tabulated β₁ uses Ω*/ρ instead of (2.130)'s Ω*/γ. Applying that fourth-power correction to the reported first closing evaluations gives approximately 849 and 7.26, so the displayed numerical justification fails on that reading. The published 2007 text and a full interval replay remain unchecked.",
    "kind": "possibly false as stated (computer-assisted closing inequality)",
    "evidence": "competitors report §7 (KNF helper; the ratio match was verified by the helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text",
    "effect": "none on our use; it affects the competitor comparison only"
   },
   {
@@ -2412,8 +2451,8 @@
    "claim": "inconsistent with the paper’s own ratios (ε_c ≈ 0.31)",
    "kind": "numerical inconsistency",
    "evidence": "competitors report §7 (KNF helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT. The printed 1/29.41 is incompatible with both reported improvement ratios; they imply about 0.31.",
    "effect": "none"
   },
   {
@@ -2425,8 +2464,8 @@
    "claim": "numerical error: the expression evaluates to about 2.36; the underlying (4.31) gives about 3.8·10⁻³ < 1, so the conclusion stands",
    "kind": "numerical error (conclusion unaffected)",
    "evidence": "competitors report §7 (KNF helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT. The displayed expression is ≈ 2.36448, but the actual (4.31) condition is ≈ 0.0037632 < 1.",
    "effect": "none"
   },
   {
@@ -2438,8 +2477,8 @@
    "claim": "imprecise statement: presumably the bound holds at ξ₀ = 1/10",
    "kind": "imprecise statement",
    "evidence": "competitors report §7 (KNF helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "DROPPED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: NOT-AN-ERRATUM: a bound on a smaller final strip is a valid weaker assertion; the proposed replacement is not established. Dropped.",
    "effect": "none"
   },
   {
@@ -2451,8 +2490,8 @@
    "claim": "inconsistency between sources: Dyn. Rep. p. 103 says k ≤ 35 (verified on the page image); PSS 1998 says k ≤ 40",
    "kind": "inconsistency between sources",
    "evidence": "competitors report §7 (KNF helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "DROPPED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: NOT-AN-ERRATUM: existence through k = 35 and existence through k = 40 are compatible; neither asserts optimality. Dropped.",
    "effect": "none"
   },
   {
@@ -2461,11 +2500,11 @@
    "source": "CC95",
    "location": "p. 99",
    "printed": "attributes 6.75·10⁻⁴ to the (√5−1)/2 torus",
-   "claim": "misattribution: Celletti–Falcolini–Porzio 1987 treats (1+√5)/2",
+   "claim": "CC95 p. 99 discusses the (√5−1)/2 forced-pendulum torus, while its cited CFP87 computation explicitly treats (1+√5)/2. The historical summary needs a torus-specific qualification; it must not attribute CFP87's calculation to the same flow torus merely because the frequencies differ by one. The precise provenance of 6.75·10⁻⁴ remains to be mapped among the grouped references.",
    "kind": "misattribution",
    "evidence": "competitors report §7 (KNF helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text",
    "effect": "none"
   },
   {
@@ -2474,11 +2513,11 @@
    "source": "VL22",
    "location": "eqs. (46), (47), (50)–(52), (65)",
    "printed": "strip \"|Im| ≤ ρ\"; norm sum over k; λ* = 10⁻⁸⁵·⁷",
-   "claim": "eq. (46) defines the strip with |Im| ≤ ρ (should be σ); eq. (47) drops k = 0 from the norm sum; τ is never stated; λ* = 10⁻⁸⁵·⁷ could not be reproduced from eqs. 50–52 (≈ 10⁻⁵¹·⁶ for τ = 1)",
+   "claim": "In VL22 (46), use σ for the angular strip widths. In (47), include the zero Fourier mode when defining the stated functional norm. The numerical λ* report is reproducible at τ = 1 using the printed base 20 and is conservative; the alleged 34-order discrepancy is withdrawn.",
    "kind": "typos and an unreproducible constant",
    "evidence": "competitors report (KNF helper)",
-   "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader",
+   "status": "CONFIRMED",
+   "checked_by": "SHARP-PLUS literature helper (competitors report, side campaign, lemma.farm, 2026-10-30), from the source text or page images; not yet verified by a second reader; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text",
    "effect": "none on our use; affects the applications comparison only"
   },
   {
@@ -2487,11 +2526,11 @@
    "source": "FH25",
    "location": "§5",
    "printed": "the pair (‖η^{DK}‖, ‖ηᴺ‖) = (10⁻³⁸, 10⁻⁴⁴) reported as a numerically checked closure of FH24’s Iterative Lemma",
-   "claim": "unreproducible claim (not a confirmed erratum): FH24’s own closed-form constants on the published data fall about 10^5.5 short in the twist-margin entry; unreported constants (c_Th, c_DTh) or larger margins must be involved; the pair is presented as convergence values, not sharp thresholds",
+   "claim": "FH25 §5 does not report enough intermediate validation data to independently replay its numerical closure from the trial pair (10⁻³⁸, 10⁻⁴⁴). A direct coarse global FH24-majorant calculation with derived torsion bounds fails by several orders, but this neither reproduces nor refutes the paper's stated finite-prefix-then-theorem computation. Retained as a reproducibility request, not a confirmed erratum.",
    "kind": "reproducibility note",
    "evidence": "dominance.py --fh25 and APOST-SHARP-V2.md §10.4 (branch sharp-v2)",
    "status": "CANDIDATE",
-   "checked_by": "SHARP-PLUS design, APOST-SHARP-V2.md §8 and blueprint remark bp:p2s2sd:errata (side campaign, lemma.farm, 2026-10-30); checked against the arXiv PDF by its writer, not yet by an independent verifier",
+   "checked_by": "SHARP-PLUS design, APOST-SHARP-V2.md §8 and blueprint remark bp:p2s2sd:errata (side campaign, lemma.farm, 2026-10-30); checked against the arXiv PDF by its writer, not yet by an independent verifier; Independent verifier: ERRATA-VERIFY-SIDE-1 (Codex refute-first, report ~/kam-tools/audits/ERRATA-VERIFY-SIDE-1.md on lemma.farm; PDFs matched to the pinned hashes; a second GPT-6.1 reviewer re-checked the dispositions), 2026-10-30: CORRECT-NARROWED; claim replaced by the verifier's narrowed text (kept CANDIDATE: the narrowed claim still has an unverified component)",
    "effect": "none on our theorems; it bounds what the SJS feasibility study can assume"
   }
  ]
