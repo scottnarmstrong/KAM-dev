@@ -135,12 +135,15 @@ public import KAM.CertificateSharp.Ham.BallsTrig
 public import KAM.CertificateSharp.Ham.SplitBounds
 public import KAM.CertificateSharp.Ham.TrigBound
 public import KAM.CertificateSharp.Ham.TrigCertifier
+public import KAM.CertificateSharp.Kernel.Prune
+public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound
 public import KAM.CertificateSharp.Tests.BallsTrig
 public import KAM.CertificateSharp.Tests.Corner
 public import KAM.CertificateSharp.Tests.Margin
+public import KAM.CertificateSharp.Tests.Shared
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
 public import KAM.Diophantine.FrequencyDependence
