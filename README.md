@@ -63,8 +63,21 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
    without collisions and with bounded eccentricities and distances, while every semi-major axis drifts by at most
    C·μ^(3a/2). The constants are asymptotic: this does not certify the actual Solar System. [`KAM.Planetary.planetaryExponentialSafety`](KAM/Frozen/Planetary/Theorems/PlanetaryExponentialSafety.lean#L53)
 
-**In progress (track SO).** A general Lean certificate checker for numerical KAM tori, whose first client is the
-lunar spin–orbit problem: the Moon's spin rate stays within 3.3 % of its orbital rate for all time.
+**Certified numerical tori (track SO, in progress).** These are ordinary proved theorems, not frozen statements.
+
+9. **A sound certificate checker for KAM tori.** `checkTorusCertificate` is a Lean function, evaluated inside the
+   kernel, that reads a finite certificate: a Hamiltonian written as an expression, a candidate torus given by
+   Fourier models with rigorous enclosures, a box around the reference frequency and explicit constants. If it
+   returns `true`, and the reference frequency ω* lies in the box and is Diophantine, then the Hamiltonian has an
+   exact real-analytic invariant torus on the certified energy level, carrying quasi-periodic motion with
+   frequency s∞·ω* for a scale 1 < s∞ < σ_ω, within the certified distance of the candidate. The proof runs through
+   the sealed isoenergetic a-posteriori theorem. [`KAM.Certificate.checkTorusCertificate_sound`](KAM/Certificate/Soundness.lean#L62)
+10. **The first certified tori.** Toy certificates in two and three degrees of freedom pass the checker inside
+    Lean's kernel and yield invariant tori with the Diophantine frequencies (ν₋/2, 1/2), ν₋ the quadratic
+    irrational of the lunar problem, and (∛2/2, ∛4/2, 1/2). [`KAM.Certificate.toyCert3_torus`](KAM/Certificate/Tests/Toy3.lean#L53)
+
+The first application, in progress, is the lunar spin–orbit problem: the Moon's spin rate stays within 3.3 % of its
+orbital rate for all time.
 
 ## Overview
 
