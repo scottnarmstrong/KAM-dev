@@ -11,8 +11,8 @@ public import KAM.Sharp2.ModConstantsData
 # Monotonicity of each constant of the modified step
 
 `bd_X : Bd X p p'` is `0 ≤ X p ≤ X p'` for `p ≼ p'` (`StepIn.Le`) and each helper `X` of
-`ModConstantsData`; every proof is a `positivity`/`gcongr` closure of the earlier ones. For `QbN` the
-step must be plain (`p.iso = false`): its isoenergetic term divides by `C_{ξL}`.
+`ModConstantsData`; every proof is a `positivity`/`gcongr` closure of the earlier ones. For
+`QbN` the step must be plain (`p.iso = false`): its isoenergetic term divides by `C_{ξL}`.
 -/
 
 @[expose] public noncomputable section

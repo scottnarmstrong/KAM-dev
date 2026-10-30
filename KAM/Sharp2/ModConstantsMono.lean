@@ -12,11 +12,11 @@ public import KAM.Sharp2.ModConstantsBd
 
 * `stepConsts_nonneg`: every constant of every step (also isoenergetic) is nonnegative.
 * `stepConsts_mono`: `p ≼ p'` gives `stepConsts p ≤ stepConsts p'` fieldwise, for the plain step.
-* `stepConsts_mono_iso`: the same for the isoenergetic step for every field except `QbN` and `Q`: the
-  term `(1 + nϑ_ξ) Θ C_Ω Q̃_N C_0 ϑ_ξ / C_{ξL}` of `QbN` divides by `C_{ξL} = c C_{gL}`, which grows
-  with `c` and `δ`, and the quotient is not monotone in general (see the handoff).
-* `stepConsts_mono_sd`, `stepConsts_mono_delta`: the instances for the small-divisor constants and the
-  bite; `stepCond_anti`: the step conditions persist for a smaller normalised error.
+* `stepConsts_mono_iso`: the same for the isoenergetic step for every field except `QbN` and `Q`:
+  the term `(1 + nϑ_ξ) Θ C_Ω Q̃_N C_0 ϑ_ξ / C_{ξL}` of `QbN` divides by `C_{ξL} = c C_{gL}`, which
+  grows with `c` and `δ`, and the quotient is not monotone in general (see the handoff).
+* `stepConsts_mono_sd`, `stepConsts_mono_delta`: the instances for the small-divisor constants and
+  the bite; `stepCond_anti`: the step conditions persist for a smaller normalised error.
 -/
 
 @[expose] public noncomputable section
@@ -24,8 +24,8 @@ public import KAM.Sharp2.ModConstantsBd
 namespace KAM.Sharp2
 
 theorem stepConsts_eq (p : StepIn) : stepConsts p =
-    ⟨sCΩ p, sCE p, sCDE p, sCNN p, sC0 p, sCxiN p, sCKt p, sCDLt p, sCDLtT p, sCEt p, sQtN p, sCgL p,
-      sCxiL p, sCDK p, sCEb p, sCG p, sCBb p, sCNb p, sCNbT p, sCDT p, sQbN p, sQL p,
+    ⟨sCΩ p, sCE p, sCDE p, sCNN p, sC0 p, sCxiN p, sCKt p, sCDLt p, sCDLtT p, sCEt p, sQtN p,
+      sCgL p, sCxiL p, sCDK p, sCEb p, sCG p, sCBb p, sCNb p, sCNbT p, sCDT p, sQbN p, sQL p,
       max (sQL p) (2 ^ p.κ * sQbN p)⟩ := rfl
 
 /-- Every constant is nonnegative. -/
@@ -168,7 +168,8 @@ theorem StepIn.Le.of_sd {p : StepIn} {c' c1' cbar' δ' : ℝ} (hc : p.c ≤ c') 
     p.Le { p with c := c', c1 := c1', cbar := cbar', δ := δ' } :=
   { StepIn.Le.refl p with c := hc, c1 := hc1, cbar := hcb, δ := hδ }
 
-/-- The constants of the plain step are nondecreasing in the small-divisor constants and the bite. -/
+/-- The constants of the plain step are nondecreasing in the small-divisor constants and the
+bite. -/
 theorem stepConsts_mono_sd {p : StepIn} (h : p.Ok) (hi : p.iso = false) {c' c1' cbar' δ' : ℝ}
     (hc : p.c ≤ c') (hc1 : p.c1 ≤ c1') (hcb : p.cbar ≤ cbar') (hδ : p.δ ≤ δ') :
     (stepConsts p).Le (stepConsts { p with c := c', c1 := c1', cbar := cbar', δ := δ' }) :=

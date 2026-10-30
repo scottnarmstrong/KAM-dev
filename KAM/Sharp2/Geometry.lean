@@ -93,14 +93,17 @@ theorem frame_surj (hG : IsUnit (gramMatrix K θ).det) {q : ℝ} (hq : q < 1)
 
 end Recovery
 
-/-- Blueprint `bp:p2s2:recovery`: the invariance error from its tangent and normal parts (FH24 Lemma 3.3). -/
+/-- Blueprint `bp:p2s2:recovery`: the invariance error from its tangent and normal parts
+(FH24 Lemma 3.3). -/
 theorem norm_invarianceError_le_eta {n : ℕ} {σK σN q εL εN r : ℝ} {ω : Fin n → ℝ}
     {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hq : q < 1)
-    (hL : ∀ θ ∈ complexStrip n r, ‖tangentMat K θ‖ ≤ σK) (hN : ∀ θ ∈ complexStrip n r, ‖normalMat K θ‖ ≤ σN)
+    (hL : ∀ θ ∈ complexStrip n r, ‖tangentMat K θ‖ ≤ σK)
+    (hN : ∀ θ ∈ complexStrip n r, ‖normalMat K θ‖ ≤ σN)
     (hG : ∀ θ ∈ complexStrip n r, IsUnit (gramMatrix K θ).det)
     (hΩK : ∀ θ ∈ complexStrip n r, ‖lagrangeMat K θ‖ ≤ q)
     (hΩN : ∀ θ ∈ complexStrip n r, ‖(normalMat K θ)ᵀ * omegaZeroMatrix n * normalMat K θ‖ ≤ q)
-    (hηL : ∀ θ ∈ complexStrip n r, ‖etaL h K ω θ‖ ≤ εL) (hηN : ∀ θ ∈ complexStrip n r, ‖etaN h K ω θ‖ ≤ εN) :
+    (hηL : ∀ θ ∈ complexStrip n r, ‖etaL h K ω θ‖ ≤ εL)
+    (hηN : ∀ θ ∈ complexStrip n r, ‖etaN h K ω θ‖ ≤ εN) :
     ∀ θ ∈ complexStrip n r, ‖invarianceError h K ω θ‖ ≤
       (σK + σN * q) / (1 - q ^ 2) * εL + (σN + σK * q) / (1 - q ^ 2) * εN := by
   intro θ hθ
@@ -121,14 +124,16 @@ theorem norm_invarianceError_le_eta {n : ℕ} {σK σN q εL εN r : ℝ} {ω : 
     have : y = lagrangeMat K θ *ᵥ x - etaN h K ω θ := by rw [hN']; abel
     rw [this]
     refine (norm_sub_le _ _).trans (add_le_add ?_ (hηN θ hθ))
-    exact (Matrix.linfty_opNorm_mulVec _ _).trans (mul_le_mul_of_nonneg_right (hΩK θ hθ) (norm_nonneg _))
+    exact (Matrix.linfty_opNorm_mulVec _ _).trans
+      (mul_le_mul_of_nonneg_right (hΩK θ hθ) (norm_nonneg _))
   have e2 : ‖x‖ ≤ εL + q * ‖y‖ := by
     have : x = -etaL h K ω θ - ((normalMat K θ)ᵀ * omegaZeroMatrix n * normalMat K θ) *ᵥ y := by
       rw [hL']; abel
     rw [this]
     refine (norm_sub_le _ _).trans (add_le_add ?_ ?_)
     · rw [norm_neg]; exact hηL θ hθ
-    · exact (Matrix.linfty_opNorm_mulVec _ _).trans (mul_le_mul_of_nonneg_right (hΩN θ hθ) (norm_nonneg _))
+    · exact (Matrix.linfty_opNorm_mulVec _ _).trans
+        (mul_le_mul_of_nonneg_right (hΩN θ hθ) (norm_nonneg _))
   have hx : ‖x‖ ≤ (εL + q * εN) / (1 - q ^ 2) := by
     rw [le_div_iff₀ hd]
     nlinarith [norm_nonneg x, norm_nonneg y]
@@ -138,8 +143,10 @@ theorem norm_invarianceError_le_eta {n : ℕ} {σK σN q εL εN r : ℝ} {ω : 
   have hE : ‖invarianceError h K ω θ‖ ≤ σK * ‖x‖ + σN * ‖y‖ := by
     rw [← norm_sumVec, ← hxy, frameMat, Matrix.fromCols_mulVec_sumElim]
     refine (norm_add_le _ _).trans (add_le_add ?_ ?_)
-    · exact (Matrix.linfty_opNorm_mulVec _ _).trans (mul_le_mul_of_nonneg_right (hL θ hθ) (norm_nonneg _))
-    · exact (Matrix.linfty_opNorm_mulVec _ _).trans (mul_le_mul_of_nonneg_right (hN θ hθ) (norm_nonneg _))
+    · exact (Matrix.linfty_opNorm_mulVec _ _).trans
+        (mul_le_mul_of_nonneg_right (hL θ hθ) (norm_nonneg _))
+    · exact (Matrix.linfty_opNorm_mulVec _ _).trans
+        (mul_le_mul_of_nonneg_right (hN θ hθ) (norm_nonneg _))
   calc _ ≤ σK * ‖x‖ + σN * ‖y‖ := hE
     _ ≤ σK * ((εL + q * εN) / (1 - q ^ 2)) + σN * ((εN + q * εL) / (1 - q ^ 2)) :=
         add_le_add (mul_le_mul_of_nonneg_left hx hσK) (mul_le_mul_of_nonneg_left hy hσN)
@@ -170,7 +177,8 @@ def etaNDeriv (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (K : (Fin n → �
 theorem fderiv_lagrangeMat_eq_etaN (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
     (hK : DifferentiableOn ℂ K (complexStrip n r)) (hK𝔅 : ∀ θ ∈ complexStrip n r, K θ ∈ 𝔅)
     (hθ : θ ∈ complexStrip n r) :
-    fderiv ℂ (lagrangeMat K) θ (fun l => (ω l : ℂ)) = -(etaNDeriv h K ω θ - (etaNDeriv h K ω θ)ᵀ) := by
+    fderiv ℂ (lagrangeMat K) θ (fun l => (ω l : ℂ)) =
+      -(etaNDeriv h K ω θ - (etaNDeriv h K ω θ)ᵀ) := by
   have hLd : DifferentiableAt ℂ (tangentMat K) θ :=
     (differentiableOn_tangentMat hK).differentiableAt ((isOpen_complexStrip n r).mem_nhds hθ)
   have hLtO : DifferentiableAt ℂ (fun y => (tangentMat K y)ᵀ * omegaZeroMatrix n) θ :=
