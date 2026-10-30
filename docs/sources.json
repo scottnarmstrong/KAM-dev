@@ -489,6 +489,106 @@
       "pdf": "arxiv_2311.15765v2_HHM_leapfrogging.pdf",
       "sha256": "5c3ecff79051ab5bff9baebe2a634c00b5cd46f6045adf65337911aca9ad0afe",
       "role": "Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); later target (leapfrogging vortex patches; Nash–Moser)"
-    }
-  ]
+    },
+  {
+   "key": "FH24",
+   "tier": "side campaign (reference)",
+   "citation": "A. Figueras, A. Haro, *A modified parameterization method for invariant Lagrangian tori for partially integrable Hamiltonian systems*, Physica D 462 (2024) 134127",
+   "arxiv": "2304.10205",
+   "doi": "10.1016/j.physd.2024.134127",
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/fh24-2304.10205)",
+   "sha256": "201280db08b16bf2d3370a3349ac8a8d993d11aea428cc3a4b0faf0ba164e837",
+   "role": "Strongest published explicit a-posteriori theorem for flows (modified Newton step, smallness ~e/(γ²δ^{2τ+1})); route B of the v2 sharp design; dominance benchmark"
+  },
+  {
+   "key": "FH25",
+   "tier": "side campaign (reference)",
+   "citation": "J.-Ll. Figueras, A. Haro, *Sun-Jupiter-Saturn system may exist: a verified computation of quasiperiodic solutions for the planar three body problem*, J. Nonlinear Sci. 35 (2025) 13",
+   "arxiv": "2403.10152",
+   "doi": null,
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/fh25-2403.10152)",
+   "sha256": "379c8b41b53a1fd50cbc890cca06d646ccd93f5c0d5e0226d1303885d2df7cf7",
+   "role": "Sun–Jupiter–Saturn 3-torus data; benchmark of the v2 design and of the SJS feasibility study"
+  },
+  {
+   "key": "CC07",
+   "tier": "side campaign (reference)",
+   "citation": "A. Celletti, L. Chierchia, *KAM stability and celestial mechanics*, Mem. Amer. Math. Soc. 187 (2007) no. 878 (preprint, December 2003)",
+   "arxiv": null,
+   "doi": "10.1090/memo/0878",
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/cc03-memoirs-preprint)",
+   "sha256": "ddab68a2b4f7ffe0fa3808fd5ec554531ab0609557b2445b0e6e3f5cba5bd2e2",
+   "role": "Isoenergetic explicit KAM, computer-assisted proof for Sun–Jupiter–Victoria (truncated model); v2 competitor"
+  },
+  {
+   "key": "CC87",
+   "tier": "side campaign (reference)",
+   "citation": "A. Celletti, L. Chierchia, *Rigorous estimates for a computer-assisted KAM theory*, J. Math. Phys. 28 (1987) 2078–2086",
+   "arxiv": null,
+   "doi": "10.1063/1.527418",
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/cc87-jmp28)",
+   "sha256": "5b6915d00e2e65722aae003ea263c7cb6403442f5234108fc6e34f7099000d77",
+   "role": "Early computer-assisted KAM; literature survey of the v2 design"
+  },
+  {
+   "key": "CC88",
+   "tier": "side campaign (reference)",
+   "citation": "A. Celletti, L. Chierchia, *Construction of analytic KAM surfaces and effective stability bounds*, Comm. Math. Phys. 118 (1988) 119–161",
+   "arxiv": null,
+   "doi": "10.1007/BF01218480",
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/cc88-cmp118-chierchia)",
+   "sha256": "3f8d25df5c8a27014733b3ecce6a1b95dda87a1bca203f1b7ce5ba0e11e42369",
+   "role": "Computer-assisted KAM for the standard map and the forced pendulum; literature survey of the v2 design"
+  },
+  {
+   "key": "CC95",
+   "tier": "side campaign (reference)",
+   "citation": "A. Celletti, L. Chierchia, *A constructive theory of Lagrangian tori and computer-assisted applications*, Dynamics Reported (New Series) 4 (1995) 60–129",
+   "arxiv": null,
+   "doi": null,
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/cc95-dynrep4)",
+   "sha256": "6f4c2bb4b0ef4c4441e563dda38f30373bade313a36f0ee0485e2a656af75d4f",
+   "role": "Survey of computer-assisted KAM, including the Moon spin–orbit trapping tori (Celletti 1990); applications study"
+  },
+  {
+   "key": "CC97",
+   "tier": "side campaign (reference)",
+   "citation": "A. Celletti, L. Chierchia, *On the stability of realistic three-body problems*, Comm. Math. Phys. 186 (1997) 413–449",
+   "arxiv": null,
+   "doi": "10.1007/s002200050115",
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/cc97-cmp186)",
+   "sha256": "971b619c815df41257fafbb27bf3690b539f60b12f3fdc48b15a3d841dd7e22b",
+   "role": "Sun–Jupiter–Ceres computer-assisted KAM; literature survey of the v2 design"
+  },
+  {
+   "key": "VL22",
+   "tier": "side campaign (reference)",
+   "citation": "L. Valvo, U. Locatelli, *Hamiltonian control of magnetic field lines: computer assisted results proving the existence of KAM barriers*, J. Comput. Dyn. 9 (2022) 505–527",
+   "arxiv": "2101.07785",
+   "doi": null,
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/valvo-locatelli22)",
+   "sha256": "02e3daaa037cdcb243ff82bbb9478d95027de61c9c29a10becb097b60bf0148e",
+   "role": "Magnetic field-line KAM barriers (Kolmogorov normal form, computer-assisted); applications study"
+  },
+  {
+   "key": "CCGdlL22",
+   "tier": "side campaign (reference)",
+   "citation": "R. Calleja, A. Celletti, J. Gimeno, R. de la Llave, *KAM quasi-periodic tori for the dissipative spin-orbit problem*, Commun. Nonlinear Sci. Numer. Simul. 106 (2022) 106099",
+   "arxiv": "2107.02853",
+   "doi": "10.1016/j.cnsns.2021.106099",
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/ccgdll21-kamso)",
+   "sha256": "31c00ddfb45b80b0ca4892a2b0ed4136c0bed8a84476c40ddde6e5df524e92d1",
+   "role": "Dissipative spin–orbit, explicit constants (maps); literature survey of the v2 design"
+  },
+  {
+   "key": "CCdlL20s",
+   "tier": "side campaign (reference)",
+   "citation": "R. Calleja, A. Celletti, R. de la Llave, *KAM theory for some dissipative systems* (survey)",
+   "arxiv": "2007.08394",
+   "doi": null,
+   "pdf": "paper.pdf (lemma.farm ~/kam-tools/papers/ccdll20-survey)",
+   "sha256": "4bd6030136ff5d2f80a610a1827abc3549a89a4ab4d8a7fd4d7b0ee69076f1dc",
+   "role": "Survey of conformally symplectic KAM; literature survey of the v2 design"
+  }
+ ]
 }

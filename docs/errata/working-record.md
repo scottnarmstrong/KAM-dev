@@ -14,10 +14,10 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | Source | Errata | Deviations |
 |---|---|---|
 | Pos01 (arXiv:0908.2234v1) | 5 | 2 |
-| GJLV05 (doi:10.1088/0951-7715/18/2/020) | 5 | 1 |
+| GJLV05 (doi:10.1088/0951-7715/18/2/020) | 6 (1 candidate) | 1 |
 | FdlLS09 (arXiv:0903.0311v1) | 1 (1 candidate) | 0 |
-| CCdlL13 (doi:10.1016/j.jde.2013.05.001) | 1 | 1 |
-| HL19 (arXiv:1711.05515v1) | 15 (1 candidate) | 8 |
+| CCdlL13 (doi:10.1016/j.jde.2013.05.001) | 4 (3 candidate) | 1 |
+| HL19 (arXiv:1711.05515v1) | 17 (3 candidate) | 8 |
 | Nek77 (doi:10.1070/RM1977v032n06ABEH003859) | 3 | 6 |
 | LP17 (arXiv:1703.07125v2) | 1 | 2 |
 | Chi05 (pinned PDF) | 1 | 3 |
@@ -35,6 +35,17 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | Rus01 (doi:10.1070/RD2001v006n02ABEH000169) | 2 | 0 |
 | Rus05 (doi:10.1070/RD2005v010n01ABEH000297) | 3 | 1 |
 | AKN06 (doi:10.1007/978-3-540-48926-9) | 0 | 1 |
+| FH24 (arXiv:2304.10205) | 5 (5 candidate) | 0 |
+| FHL17 (arXiv:1601.00084v1) | 3 (3 candidate) | 0 |
+| CCGdlL22 (arXiv:2107.02853) | 2 (2 candidate) | 0 |
+| CCdlL20s (arXiv:2007.08394) | 1 (1 candidate) | 0 |
+| CC07 (doi:10.1090/memo/0878) | 1 (1 candidate) | 0 |
+| CC87 (doi:10.1063/1.527418) | 1 (1 candidate) | 0 |
+| CC97 (doi:10.1007/s002200050115) | 1 (1 candidate) | 0 |
+| CC88 (doi:10.1007/BF01218480) | 1 (1 candidate) | 0 |
+| CC95 (pinned PDF) | 2 (2 candidate) | 0 |
+| VL22 (arXiv:2101.07785) | 1 (1 candidate) | 0 |
+| FH25 (arXiv:2403.10152) | 1 (1 candidate) | 0 |
 
 ## Pos01 (arXiv:0908.2234v1)
 
@@ -61,6 +72,7 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 3. **pp. 884–885, Lemma 14 (choice of the phase).** *gap; CONFIRMED* (E-GJLV05-3). Printed: contraction Ψ on Θ = {|τ| < ‖K₁ − K₂‖_ρ}. the proof never shows that Ψ maps Θ into itself, and Θ is open; Ψ(0) can be as large as ‖T‖_ρ‖K₁ − K₂‖_ρ. Correction: use the closed ball of radius 2‖T‖_ρ‖K₁ − K₂‖_ρ. Evidence: Ψ(0) estimate in the proof. Effect: none on our statements; G2's proof uses the closed ball.
 4. **p. 885, proof of Theorem 2.** *typo; CONFIRMED* (E-GJLV05-4). Printed: 0 < δ, ρ/2. should read 0 < δ < ρ/2. Evidence: context. Effect: none.
 5. **p. 889, Prop. 18.** *typo; CONFIRMED* (E-GJLV05-5). Printed: Σ_(j=1)^n ω_j ∂v/∂θ_i = h; ‖v‖_(ρ−δ) ≤ c δ^(−σ) γ^(−1) ‖v‖_ρ. the derivative index should be θ_j, and the right-hand side norm should be ‖h‖_ρ. Evidence: the statement's own variables. Effect: none.
+6. **p. 866, Theorem 6.** *typo (sign of an exponent); CANDIDATE* (E-GJLV05-6). Printed: |λ∞| < cγ²δ₀^{−2σ}‖e₀‖_{ρ₀}. wrong exponent: γ appears to the power +2; compare Theorem 1 (cγ^{−2}δ₀^{−2σ}) and Theorem 6’s own K-estimate with γ^{−2}; almost certainly γ^{−2} (the same issue as Theorem 3, E-GJLV05-1). Evidence: checked on the PDF page images by the helper. Effect: none on our use (GJLV05 is a cross-check).
 
 ### Deviations
 
@@ -84,6 +96,9 @@ None.
 ### Errata
 
 1. **pp. 31–32 (preprint mp_arc 11-188).** *typo; CONFIRMED* (E-CCdlL13-1). Printed: (meaning of ℓ = 2). the two pages describe ℓ = 2 inconsistently. Evidence: pp. 31 vs 32. Effect: none.
+2. **arXiv v1, Def. 4, p. 10.** *wrong hypothesis; CANDIDATE* (E-CCdlL13-2). Printed: "τ ≥ 1, ν ≥ 1" with |ωk − q| ≥ ν|k|^{−τ}. incompatible hypotheses: at k = 1 one needs ν ≤ 1/2, and the paper later uses ν ≈ 0.382. Evidence: competitors report §3.6 (conformal helper). Effect: none on our use (CCdlL13 serves the Lipschitz re-application only); location in the pinned preprint to be mapped.
+3. **arXiv v1, Lemma 3, p. 9.** *inconsistent constant; CANDIDATE* (E-CCdlL13-3). Printed: "C_{c,ℓ} = ℓ!(2π)^{−1}". inconsistent with C_c = 1 stated just above (it gives 1/(2π) at ℓ = 1); a disc-automorphism example gives a ratio near 1/2 as δ → 0; apparently unused in App. B. Evidence: competitors report §3.6 (conformal helper). Effect: none on our use.
+4. **(3.14).** *wrong strip in the conclusion; CANDIDATE* (E-CCdlL13-4). Printed: closeness stated on the strip ρ₀ − δ₀. gap: the proof schedule gives closeness on ρ∞ = ρ₀/2 = ρ₀ − 2δ₀; H5 allows any 0 < δ₀ < ρ₀ while the schedule fixes δ₀ = ρ₀/4. Evidence: competitors report §3.6 (conformal helper). Effect: none on our use.
 
 ### Deviations
 
@@ -111,6 +126,8 @@ None.
 15. **p. 52, frequency-margin paragraph.** *cross-reference; CONFIRMED* (E-HL19-15). Printed: the eight term in (6.15). The eighth term is in the maximum (6.16), not the pair of inequalities (6.15). Evidence: Compare p. 49 explicit eighth-term reference to (6.16).. Effect: No frozen statement changed; provider/blueprint must use the documented correction..
 16. **p. 46, (6.9), constant term under the cohomological inverse.** *alleged omitted term; DROPPED* (E-HL19-16). Printed: ξᴸ = R_ω(ηᴸ − Tξᴺ). DROPPED as an erratum: omitting the constant ω̂ξ^ω inside R_ω is harmless because R_ω annihilates constants. The full zero-average compatibility condition is still required. Evidence: Part 1 borderline solve and the zero-mode definition of R_ω.. Effect: Keep explanatory compatibility calculation; no source correction required..
 17. **p. 19, H5′.** *boundary convention / missing qualification; CANDIDATE* (E-HL19-17). Printed: Notice that, by definition, we have dist(ω, ∂Θ) > 0.. For ambient boundary in R^d, d≥2, a ray has empty interior and every point lies on its boundary. Specify relative boundary in its line, equivalently endpoint distances. Evidence: Direct topology check; frozen ν is explicitly the distance to the two endpoints.. Effect: No frozen statement changed; provider/blueprint must use the documented correction..
+18. **(3.16) versus (6.51) (arXiv v1).** *inconsistency (statement vs proof); CANDIDATE* (E-HL19-18). Printed: |ω∞ − ω| < C₃‖E_c‖/(γ²ρ^{2τ}) in (3.16); C₃‖E_c‖/(γρ^τ) in (6.51). inconsistent exponents between the statement of Theorem 3.6 and its proof for the frequency closeness. Evidence: APOST-SHARP-V2.md §8. Effect: none on the sealed statements (the frozen I-G1 carries its own constants); the weaker bound is the safe one.
+19. **§5.3, p. 43, with Lemma 4.1.** *gap; CANDIDATE* (E-HL19-19). Printed: "taken to be the same for all steps by considering the worst value of δ_s, that is, δ₀". gap: correct only for a uniform c_R; Lemma 4.1 allows c_R = c_R(δ), which increases as δ decreases for τ = 1, so the worst value is not at δ₀. Evidence: blueprint remark bp:p2s2sd:errata (branch sharp-v2). Effect: none for a uniform c_R (as HL19 state for Rüssmann’s constant); the v2 engine uses each stage’s own constant.
 
 ### Deviations
 
@@ -415,3 +432,132 @@ None.
 ### Deviations
 
 1. **§6.1.9 versus averaging drafts.** *proof supplement / reformulation; PLANNED* (D-N-ADD-5). Specialize to analytic Hamiltonians, fixed h,f,K, period-one angles, absolute volume and separate local existence. Evidence: docs/tracks/N/notes.md D-N-ADD-5 and v0.5. Effect: This averaging draft is not an approved or proved frozen addition..
+
+
+## FH24 (arXiv:2304.10205)
+
+### Errata
+
+1. **Lemma 2.14, p. 14 (arXiv v1).** *wrong constant (loose, still valid); CANDIDATE* (E-FH24-1). Printed: ĉ_R = (2^{d+1−2τ} ζ(2,2^τ) π^{−2τ−2} Γ(2τ+1))^{1/2}; middle expression (γ²δ^{2τ}2^d Σ e^{−4π|k|₁δ}|k·ω|^{−2})^{1/2}. wrong constant: the printed ĉ_R is twice the constant its own route gives, (2^{d−1−2τ}ζ(2,2^τ)π^{−2τ−2}Γ(2τ+1))^{1/2}, and the middle expression lacks the factor (2π)^{−1} of the solution operator. Evidence: independent re-derivation in blueprint/parts/p2s2-smalldiv.tex, remark bp:p2s2sd:errata (branch sharp-v2). Effect: none on validity: the printed value is an upper bound; the theorem is looser by a factor 2 in c_R.
+2. **Table 3, (3.72), p. 38 (arXiv v1).** *wrong constant (underestimate); CANDIDATE* (E-FH24-2). Printed: C_ΔN̄̄ᵀ = δσ_Bσ_L c_DJᵀ C_ΔK̄̄ + σ_B C_ΔL̄̄ c_Jᵀ + C_ΔB̄̄ σ_L c_Jᵀ. false as stated: since Nᵀ = BLᵀJᵀ the bound needs σ_Lᵀ and C_ΔL̄̄ᵀ where σ_L and C_ΔL̄̄ are printed; with σ_Lᵀ = 2nσ_K the printed bound underestimates by a factor up to 2n (in the canonical case it coincides with (3.71)). Evidence: scripts/apost_sharp/benchmark_fh24.py (erratum switch) and dominance.py, APOST-SHARP-V2.md §5 and §8 (branch sharp-v2). Effect: the printed constants are not valid bounds; corrected, FH24 never beats the v2 design on the dominance grid, while as printed it appears to lead at 48 of 108 points by up to 0.87 orders.
+3. **(3.10) and p. 19 (arXiv v1).** *typo; CANDIDATE* (E-FH24-3). Printed: "C_E =" and "Corollary 2.14". typos: "C_E" stands for C_{Eᵀ}, and the cross-reference "Corollary 2.14" should be Corollary 2.16. Evidence: APOST-SHARP-V2.md §8. Effect: none.
+4. **(2.24) with (3.99) and Table 1.** *imprecise statement (benign: positive powers of γ); CANDIDATE* (E-FH24-4). Printed: the smallness constant C presented as a constant. the "constant" C is not γ-free: (3.99) contains γδ^τ·max{1,C_sym}/ν and Table 1 contains terms like C_E = C_E^L + γδ^τ C_E^N. Evidence: competitors report §7. Effect: none on validity; comparisons of C with γ-free constants must account for it.
+5. **hypothesis H3.** *typo; CANDIDATE* (E-FH24-5). Printed: "ν < 1, κ and κ < 1". typesetting: the second κ is presumably κ̂ ((3.91) needs a^{τ+1}Qε₀/(γδ₀^{τ+1}) < κ < 1 and (3.95) needs ε₀/(γδ₀^{τ+1}) < κ̂). Evidence: competitors report §7. Effect: none.
+
+### Deviations
+
+None.
+
+
+## FHL17 (arXiv:1601.00084v1)
+
+### Errata
+
+1. **proof of Theorem 2.5, p. 16.** *gap; CANDIDATE* (E-FHL17-1). Printed: constants evaluated at "the worst value of δ_s, that is δ₀" while (90) allows c_R(δ). gap: the same as HL19 §5.3 (correct for a uniform c_R). Evidence: blueprint remark bp:p2s2sd:errata (branch sharp-v2). Effect: none for a uniform c_R.
+2. **p. 37.** *numerical inconsistency; CANDIDATE* (E-FHL17-2). Printed: "6 orders" at ε = 0.96 with τ = 1. inconsistent: the stated gain is consistent with τ = 1.26, not τ = 1. Evidence: SHARP-PLUS FHL17 helper report; APOST-SHARP-V2.md §8. Effect: none on our use.
+3. **introduction.** *misattribution; CANDIDATE* (E-FHL17-3). Printed: attributes "ε < 0.68" for the standard map to Celletti–Chierchia, CMP 118 (1988). misattribution: CC88 gives |ε| ≤ 0.65 (and Celletti–Chierchia JSP 1991 gives 0.838). Evidence: competitors report §7 (KNF helper). Effect: none.
+
+### Deviations
+
+None.
+
+
+## CCGdlL22 (arXiv:2107.02853)
+
+### Errata
+
+1. **arXiv v1, p. 15.** *wrong constant; CANDIDATE* (E-CCGdlL22-1). Printed: "ν = ((3−√5)/2)^{−1}". impossible value (≈ 2.618 violates the Diophantine bound at k = 1); presumably ν = (3−√5)/2; unknown whether the code used the wrong value. Evidence: competitors report §3.6 (conformal helper). Effect: none on our use.
+2. **(37).** *wrong strip in the conclusion; CANDIDATE* (E-CCGdlL22-2). Printed: closeness stated on ρ₀ − δ₀. gap: as CCdlL13 (3.14), the schedule gives ρ₀/2. Evidence: competitors report §3.6 (conformal helper). Effect: none on our use.
+
+### Deviations
+
+None.
+
+
+## CCdlL20s (arXiv:2007.08394)
+
+### Errata
+
+1. **p. 20.** *unsupported claim; CANDIDATE* (E-CCdlL20s-1). Printed: claims JDE 2013 contains a "direct proof of the results for flows". unsupported claim as far as the preprint goes: it has formal calculations only for flows (the published JDE text was not checked). Evidence: competitors report §3.6 (conformal helper). Effect: none on our use.
+
+### Deviations
+
+None.
+
+
+## CC07 (doi:10.1090/memo/0878)
+
+### Errata
+
+1. **preprint (Dec 2003) p. 109 with (2.130) p. 49 and p. 96.** *possibly false as stated (computer-assisted closing inequality); CANDIDATE* (E-CC07-1). Printed: β₁ = Ω*/γ in (2.130), while the printed β₁± equal Ω*±/ρ with ρ = 0.2. inconsistent closing inequality: with β₁ = Ω*/γ± the closing inequality (2.132) evaluates to about 849 (+) and 7.3 (−) instead of the printed 0.648 and 1.24·10⁻⁵, so it would fail; the published 2007 version was not checked. Evidence: competitors report §7 (KNF helper; the ratio match was verified by the helper). Effect: none on our use; it affects the competitor comparison only.
+
+### Deviations
+
+None.
+
+
+## CC87 (doi:10.1063/1.527418)
+
+### Errata
+
+1. **p. 2079.** *numerical inconsistency; CANDIDATE* (E-CC87-1). Printed: "ε_c ∼ 1/29.41". inconsistent with the paper’s own ratios (ε_c ≈ 0.31). Evidence: competitors report §7 (KNF helper). Effect: none.
+
+### Deviations
+
+None.
+
+
+## CC97 (doi:10.1007/s002200050115)
+
+### Errata
+
+1. **p. 447.** *numerical error (conclusion unaffected); CANDIDATE* (E-CC97-1). Printed: a displayed expression printed as 3.585·10⁻⁸. numerical error: the expression evaluates to about 2.36; the underlying (4.31) gives about 3.8·10⁻³ < 1, so the conclusion stands. Evidence: competitors report §7 (KNF helper). Effect: none.
+
+### Deviations
+
+None.
+
+
+## CC88 (doi:10.1007/BF01218480)
+
+### Errata
+
+1. **Lemma 11.** *imprecise statement; CANDIDATE* (E-CC88-1). Printed: error bound stated at the final strip. imprecise statement: presumably the bound holds at ξ₀ = 1/10. Evidence: competitors report §7 (KNF helper). Effect: none.
+
+### Deviations
+
+None.
+
+
+## CC95 (pinned PDF)
+
+### Errata
+
+1. **p. 103 versus Planet. Space Sci. 46 (1998).** *inconsistency between sources; CANDIDATE* (E-CC95-1). Printed: Moon trapping index "k = 2, 3, …, 35". inconsistency between sources: Dyn. Rep. p. 103 says k ≤ 35 (verified on the page image); PSS 1998 says k ≤ 40. Evidence: competitors report §7 (KNF helper). Effect: none.
+2. **p. 99.** *misattribution; CANDIDATE* (E-CC95-2). Printed: attributes 6.75·10⁻⁴ to the (√5−1)/2 torus. misattribution: Celletti–Falcolini–Porzio 1987 treats (1+√5)/2. Evidence: competitors report §7 (KNF helper). Effect: none.
+
+### Deviations
+
+None.
+
+
+## VL22 (arXiv:2101.07785)
+
+### Errata
+
+1. **eqs. (46), (47), (50)–(52), (65).** *typos and an unreproducible constant; CANDIDATE* (E-VL22-1). Printed: strip "|Im| ≤ ρ"; norm sum over k; λ* = 10⁻⁸⁵·⁷. eq. (46) defines the strip with |Im| ≤ ρ (should be σ); eq. (47) drops k = 0 from the norm sum; τ is never stated; λ* = 10⁻⁸⁵·⁷ could not be reproduced from eqs. 50–52 (≈ 10⁻⁵¹·⁶ for τ = 1). Evidence: competitors report (KNF helper). Effect: none on our use; affects the applications comparison only.
+
+### Deviations
+
+None.
+
+
+## FH25 (arXiv:2403.10152)
+
+### Errata
+
+1. **§5.** *reproducibility note; CANDIDATE* (E-FH25-1). Printed: the pair (‖η^{DK}‖, ‖ηᴺ‖) = (10⁻³⁸, 10⁻⁴⁴) reported as a numerically checked closure of FH24’s Iterative Lemma. unreproducible claim (not a confirmed erratum): FH24’s own closed-form constants on the published data fall about 10^5.5 short in the twist-margin entry; unreported constants (c_Th, c_DTh) or larger margins must be involved; the pair is presented as convergence values, not sharp thresholds. Evidence: dominance.py --fh25 and APOST-SHARP-V2.md §10.4 (branch sharp-v2). Effect: none on our theorems; it bounds what the SJS feasibility study can assume.
+
+### Deviations
+
+None.
