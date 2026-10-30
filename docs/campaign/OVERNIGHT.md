@@ -1988,3 +1988,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     are recorded only. Worktrees and branches are kept, with a resume note at .drafts/W/PAUSE-2026-10-30.md.
   - The freed CPU, memory, accounts and codex-1 go to SO: the band's two kernel lanes, then its audit and landing;
     LOCK-DATA's sizing, generation and kernel.
+- **22:46. Owner: "if you finish both SO tracks you can go back to W".** Order: (1) land the SO band (N = 65
+  data, final theorems, audit, landing, freeze text to the owner per D40); (2) land the SO lock (LOCK-DATA, headline,
+  audit, landing). Then resume W from .drafts/W/PAUSE-2026-10-30.md.
+  - W is paused cleanly, with all work committed: W4-HOMOLOGICAL WIP at inp-wpj 10801f8b; W1-CUBIC audit 2 PASS WITH
+    NOTES at inp-wph 8b4f8869, ready to land on resume; graph delta 7 reports at inp-wgraph 7c4a75ec, not yet
+    applied. 8 W packages on main, including W2-RECON (nlw2 clause 5).
