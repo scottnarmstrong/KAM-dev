@@ -254,7 +254,7 @@ Overall, everything together: 72.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 15:02 UTC from `main` at `e5b0df3e` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 15:02 UTC from `main` at `7a59da15` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -439,6 +439,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 15:02 | `7a59da15` | HQ: track W and track SO part 3 as rows of the 'Part of the project' table (derived; weighted by size; kept out of the original project's figure) |
 | 2026-10-30 15:00 | `f021c8dd` | HQ: track SO part 3 (the Moon locked in synchronous rotation, D42) with a stage meter read from the repository |
 | 2026-10-30 14:59 | `949a08f7` | HQ: track W in the README (progress meter, glance, tracks table, statements page), derived from repository state |
 | 2026-10-30 14:48 | `ed226434` | Log: 14:48 |
@@ -450,7 +451,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 14:13 | `728f287b` | Log: 14:13 (SO-R2) |
 | 2026-10-30 14:07 | `9919ee84` | Land inp into main |
 | 2026-10-30 14:05 | `1b7df9b1` | Merge remote-tracking branch 'origin/main' |
-| 2026-10-30 14:05 | `e993723c` | Log: 14:05 (SO-GEN3 done, SO-R2 started) |
 <!-- /AUTO:landed -->
 
 ## Decisions
