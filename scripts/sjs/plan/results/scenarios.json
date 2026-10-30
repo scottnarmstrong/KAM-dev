@@ -1,0 +1,6 @@
+[
+ {"name": "Delaunay, FH's constants, numerical gamma (SJS-FEAS)", "chart": "del", "logT_raw": -48.5, "rho": 0.02, "beta": 5.0},
+ {"name": "Delaunay, measured data, certified gamma", "chart": "del", "logT_raw": -46.3, "rho": 0.02, "beta": 5.0},
+ {"name": "synodic, certified gamma (the plan)", "chart": "syn", "logT_raw": -38.0, "rho": 0.02, "beta": 3.0, "plan": true},
+ {"name": "synodic, numerical gamma", "chart": "syn", "logT_raw": -34.3, "rho": 0.02, "beta": 3.0}
+]
