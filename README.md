@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 00:26 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **272,756 lines of Lean** of an estimated ≈ 277,000
+> **Last updated: 2026-10-30 00:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **272,756 lines of Lean** of an estimated ≈ 277,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -201,8 +201,8 @@ Overall, everything together: 96.3 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **272,756** (212,892 excluding blank lines and comments) · **+56,941** since 2026-10-29 00:20 UTC |
-| Written on agent branches, not yet landed | 2,071 |
+| On `main` now | **272,756** (212,892 excluding blank lines and comments) · **+55,624** since 2026-10-29 00:40 UTC |
+| Written on agent branches, not yet landed | 2,108 |
 | **Estimated total at completion** | **≈ 277,000** |
 | Estimated still to write | ≈ 2,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 96.3 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 00:26 UTC from `main` at `fb97435e` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 00:40 UTC from `main` at `44fc80ab` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -368,13 +368,12 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
+| **b34** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: CLEANUP-B34: delete 8 unused helpers (B3); merge 10 cross-directory duplicate statements ( | `inp-b34` | 1 (vs `inp`) |
 | **sodata1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-1: fixed-point mirror of the landed checker; STOP: checkHamBounds fails for R1 (D2 | `inp-sodata1` | 1 (vs `inp`) |
-| **solunara** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-LUNAR-A: parametric lunar barriers and spin confinement | `inp-solunara` | 7 (vs `inp`) |
-| **sor1b** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: SO-R1B: independent audit 1 (PASS WITH NOTES) | `inp-sor1b` | 6 (vs `inp`) |
-| **sotesta** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: SO-TEST-A: independent audit 1 (PASS WITH NOTES; T2d open, SO-TOYFIX2) | `inp-sotesta` | 3 (vs `inp`) |
-| **sotoyfix2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYFIX2: T2d with a + cos 2πq, a = 10^30 (ruling, option 2); toyCert2d_passes, toyCert2 | `inp-sotoyfix2` | 4 (vs `inp`) |
+| **solunara** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-LUNAR-A: parametric lunar barriers and spin confinement | `inp-solunara` | 1 (vs `inp`) |
+| **sotoyfix2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYFIX2: T2d with a + cos 2πq, a = 10^30 (ruling, option 2); toyCert2d_passes, toyCert2 | `inp-sotoyfix2` | 2 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
