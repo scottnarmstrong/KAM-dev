@@ -1440,6 +1440,12 @@ public import KAM.Sharp2.Examples.PlasmaLean.Core
 public import KAM.Sharp2.Examples.PlasmaLean.Frequency
 public import KAM.Sharp2.Examples.PlasmaLean
 public import KAM.Sharp2.Geometry
+public import KAM.Sharp2.L1.Data
+public import KAM.Sharp2.L1.Norms
+public import KAM.Sharp2.L1.NormsCauchy
+public import KAM.Sharp2.L1.NormsProduct
+public import KAM.Sharp2.L1.Solve
+public import KAM.Sharp2.L1.SolveDefect
 public import KAM.Sharp2.ModConstants
 public import KAM.Sharp2.ModConstantsB.Data
 public import KAM.Sharp2.ModConstantsB.Defs

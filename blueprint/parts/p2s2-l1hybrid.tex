@@ -25,9 +25,11 @@ of at most $6$--$18$. No conversion is used anywhere in this part.
 
 \emph{Numbers} (\texttt{thresholds\_v2.py --l1}, \texttt{dominance.py --plasmalean}; design mirror, untrusted):
 \begin{itemize}
-\item PlasmaLean's example (its proved tolerance $10^{-18.24}$, at its declared, pessimistic bounds): route A with the entry step and the
-  $\ell^1$ frame increment admits $10^{-15.40}$ for the $\ell^1$ error norm (like for like, $+2.84$ orders) and $10^{-15.93}$ for the sup
-  error of an error with $\ell^1/\text{sup}=3.6$ ($+2.31$); the sup-norm v2 gives $10^{-17.27}$ ($+0.97$).
+\item PlasmaLean's example, a \emph{conditional comparison of scalar error tolerances at assumed data} (its proved tolerance $10^{-18.24}$;
+  its declared bounds read as both sup and $\ell^1$ bounds, $\nu_K=\sigma_K$, $\nu_N=\sigma_N$; Remark~\ref{bp:p2s2l1:register}(i)): route A with the
+  entry step and the $\ell^1$ frame increment gives $10^{-15.40}$ for the $\ell^1$ error norm ($+2.84$ orders) and $10^{-15.93}$ for the sup
+  error at an assumed ratio $\ell^1/\text{sup}=3.6$ ($+2.31$); the sup-norm v2 gives $10^{-17.27}$ ($+0.97$). This does not establish dominance
+  for PlasmaLean's torus (audit AUDIT-B10D-1, F7).
 \item R1 (measured $\ell^1$ data, heuristic until enclosed): route A from $10^{-11.18}$ to $10^{-10.13}$ (fixed) and from $10^{-11.37}$ to
   $10^{-10.32}$ (iso), $+1.05$ orders; route B gains $0.1$.
 \end{itemize}
@@ -221,16 +223,18 @@ Route A at stage $0$ is the additive step (Proposition~\ref{bp:p2s:step}) with t
 The constants of Definition~\ref{bp:p2s2:constantsA} at stage $0$ with the following replacements, in this order:
 \begin{align*}
 &c_{\mathrm{avg}}:=\min\{\bar c,\ a_Nc^\infty_\rho\}(\delta_0/\rho)^\varkappa,\quad c_N:=\min\{c,\ a_Nc^\infty_0\},\quad c^1_N:=a_Nc^\infty_0,\\
-&C_S:=\sigma_T(\sigma_{N^\top}g_0+t_{\R}\,c_{\mathrm{avg}}\sigma_{L^\top}),\quad C_{\xi N}:=C_S+c_N\sigma_{L^\top},\quad C^1_{\xi N}:=C_S+c^1_N\sigma_{L^\top},\\
+&C_S:=\sigma_T(\sigma_{N^\top}g_0+\min\{t,t_{\R}\}\,c_{\mathrm{avg}}\sigma_{L^\top}),\quad C_{\xi N}:=C_S+c_N\sigma_{L^\top},\quad C^1_{\xi N}:=C_S+c^1_N\sigma_{L^\top},\\
 &C_g:=t\,C_{\xi N}+\sigma_{N^\top}g_0,\quad C^1_{\xi L}:=c^\infty_0\bigl(t_1C^1_{\xi N}+a_L\sigma_{N^\top}g_0\bigr),\quad C_{\xi L}:=\min\{c\,C_g,\ C^1_{\xi L}\},\\
 &C_\xi:=\max\{C_{\xi L},g_0C_{\xi N}\},\quad C_{\Delta K}:=\sigma_KC_{\xi L}+\sigma_Ng_0C_{\xi N},\\
 &C^K_\Omega:=\min\{C_\Omega,\ \tfrac ne\,a_Nc^\infty_0\sigma_{L^\top}\},\quad C_{\mathrm{sym}}:=\max\{1,\sigma_B^2\}C^K_\Omega,
 \end{align*}
 and in $C_{\Delta T}$ the term $2\sigma_B^3wC_\Omega g_0$ (the parts $\mathcal T_c$ of $K$ and $\bar K$) becomes $\sigma_B^3w(C^K_\Omega+C_\Omega)g_0$. With \ref{bp:p2s2l1:L4}
-(the $\ell^1$ frame increment) put $C^1_{\Delta K}:=\nu_KC^1_{\xi L}+\nu_Ng_0C^1_{\xi N}$, $k_1:=\min\{n,C^1_{\Delta K}/(eC_{\Delta K})\}$,
-$k_2:=\min\{2n,2nC^1_{\Delta K}/(eC_{\Delta K})\}$, and replace the Cauchy factors $n$ and $2n$ of the frame increment by $k_1$ and $k_2$:
-$C_G=k_1\sigma_{L^\top}+k_2\sigma_K$, $C_{\bar N}=k_1\sigma_B+\sigma_KC_{\bar B}$, $C_{\bar N^\top}=C_{\bar B}\sigma_{L^\top}+k_2\sigma_B$, the $\mathcal T_c$-change
-factor $k_2\sigma_K+k_1\sigma_{L^\top}$, and the rates $k_1C_{\Delta K}/\eta$ (DK) and $k_2C_{\Delta K}/\eta$ ($L^\top$). The mirror is
+(the $\ell^1$ frame increment, used only when its certificate is given) put $C^1_{\Delta K}:=\nu_KC^1_{\xi L}+\nu_Ng_0C^1_{\xi N}$ and the frame
+increments $d_L:=\min\{nC_{\Delta K},C^1_{\Delta K}/e\}$, $d_{L^\top}:=\min\{2nC_{\Delta K},2nC^1_{\Delta K}/e\}$; without it $d_L:=nC_{\Delta K}$,
+$d_{L^\top}:=2nC_{\Delta K}$. They replace $nC_{\Delta K}$ and $2nC_{\Delta K}$ in the frame increment: $r_B:=\sigma_B^2(\sigma_{L^\top}d_L+\sigma_Kd_{L^\top})/(1-\vartheta)$
+(for $C_{\bar B}C_{\Delta K}$), $r_N:=\sigma_Bd_L+\sigma_Kr_B$, $r_{N^\top}:=r_B\sigma_{L^\top}+\sigma_Bd_{L^\top}$, the $\mathcal T_c$-change $\sigma_B^3w(\sigma_Kd_{L^\top}+\sigma_{L^\top}d_L)$,
+the Gram condition $\sigma_B(\sigma_{L^\top}d_L+\sigma_Kd_{L^\top})$, and the rates $d_L/\eta$ (DK) and $d_{L^\top}/\eta$ ($L^\top$). These are products, with no
+division by $C_{\Delta K}$, and an enabled frame option has $\nu_K,\nu_N>0$ (audit AUDIT-B10D-1, F1). The mirror is
 \texttt{stageA(\dots, l1=\dots)}; for the isoenergetic step \texttt{iso=True} adds $\Theta C_S$ inside $C^1_{\xi L}$ and $C^K_\Omega$ replaces $C_\Omega$ in
 the frequency terms (track-I part \texttt{p2s2-iso-l1hybrid}).
 \end{definition}
@@ -258,7 +262,7 @@ By \ref{bp:p2s2l1:L1} and Lemma~\ref{bp:p2s2l1:solve}(a), $\norm u_{1,\rho-\delt
 gives $\abs u\le c\sigma_{L^\top}u_0$; so $\abs u\le c_N\sigma_{L^\top}u_0$ on $T_{\rho-\delta_0}$.
 
 \proofstep{The average}\label{step:p2s2l1:ea-avg}
-$\abs{\avg{Tu}}\le t_{\R}\min\{\bar c\,u_0(\delta_0/\rho)^\varkappa,\ G_\rho a_N e\}\sigma_{L^\top}$ by Lemmas~\ref{bp:p2s2sd:avg} and~\ref{bp:p2s2l1:solve}(b), and
+$\abs{\avg{Tu}}\le\min\{t,t_{\R}\}\min\{\bar c\,u_0(\delta_0/\rho)^\varkappa,\ G_\rho a_N e\}\sigma_{L^\top}$ ($t$ and $t_{\R}$ both bound $\abs T$ on $\R^n$) by Lemmas~\ref{bp:p2s2sd:avg} and~\ref{bp:p2s2l1:solve}(b), and
 $\abs{\avg{\eta^L}}\le\sigma_{N^\top}e$; hence $\abs{\xi^N_0}\le C_Su_0$, $\abs{\xi^N}\le C_{\xi N}u_0$ and $\norm{\xi^N}_{1,\rho-\delta_0}\le C^1_{\xi N}u_0$
 (a constant has $\ell^1$ norm its modulus, Lemma~\ref{bp:p2s2l1:toolkit}(b)).
 
@@ -322,9 +326,13 @@ Steps~\ref{step:p2s2:st-int}--\ref{step:p2s2:st-fr} use these bounds, the sup da
 \end{proof}
 
 \begin{lemma}[Never worse than the sup stage]\label{bp:p2s2l1:never-worse}
-Every entry constant of Definitions~\ref{bp:p2s2l1:constA} and~\ref{bp:p2s2l1:constB} is at most the corresponding sup constant, every added step
+Assume the entry data of Assumption~\ref{bp:p2s2l1:data} are certified. Every final stage-$0$ constant of Definitions~\ref{bp:p2s2l1:constA}
+and~\ref{bp:p2s2l1:constB} (the rates, $C_E$, and the coefficients of the step conditions) is at most the corresponding sup constant, every added step
 condition is a step condition of the sup stage, and the stage constants are nondecreasing in the replaced quantities. Hence the conditions
-(J1)--(J3) with the entry at stage $0$ are implied by those of the sup scheme.
+(J1)--(J3) with the entry at stage $0$ are implied by those of the sup scheme. The auxiliary $\ell^1$ constants ($C^1_{\xi N}$, $C^1_{\xi L}$, $C^1_{\Delta K}$)
+need not be below their sup counterparts, and the sup data do not imply the entry data on the same strip: a bounded holomorphic function on
+$T_\rho$ need not have a summable weighted series at $\rho$ (audit AUDIT-B10D-1, F6). Never-worse is therefore a statement for certified entry data,
+and the final theorem keeps the sup branches and takes the minimum by cases (Corollary~\ref{bp:p2s2l1:frozen}).
 \source{Ours (monotonicity as in Definition~\ref{bp:p2s2:constantsB}; the only division, the cubic iso term, keeps its sup denominator).}
 \end{lemma}
 
@@ -335,14 +343,17 @@ condition is a step condition of the sup stage, and the stage constants are nond
 \begin{enumerate}[label=(\alph*)]
 \item \emph{(entry by hand, then the engine)} Proposition~\ref{bp:p2s2l1:entryA} or~\ref{bp:p2s2l1:entryB} gives $K_1$ admissible on $T_{\rho_1}$, $\rho_1:=\rho-3\delta_0$,
   with error $\le$ the entry recursion value, ball $\beta-D_0$ and caps $m^{(0)}_i+\varrho^{(0)}_iw_i(\delta_0)X_0$ for every cap $i$ (frame, Gram inverse,
-  $L^\top,N,N^\top$, $\abs T$, $\avg T^{-1}$, and the frequency in the iso form). The engine of Proposition~\ref{bp:p2s2:engine} (Lean:
-  \Lean{KAM.Sharp2.StageScheme.converge\_checked}, SHARP2-B5) applied from $(\rho_1,K_1)$, whose first bite is $\min\{1,(\rho_1-\rho_\infty)/6\}=\delta_0/2$,
-  gives the limit; its hypotheses \Lean{hnn}, \Lean{hcondT} (the step conditions are $\mathrm{coef}\cdot X\le\mathrm{bound}$ with $\mathrm{coef}\ge0$, so
+  $L^\top,N,N^\top$, $\abs T$, $\avg T^{-1}$, and the frequency in the iso form). The engine of Proposition~\ref{bp:p2s2:engine} runs on the
+  \emph{original} schedule from stage $1$ (bites $\delta_s=\delta_0/2^s$, strips $r_{s+1}=r_s-3\delta_s$, limit strip $\rho-6\delta_0\ge\rho_\infty$): the entry is
+  stage $0$ of that schedule, not a restart from $\rho_1$ with a recomputed capped bite $\min\{1,(\rho_1-\rho_\infty)/6\}$, which equals $\delta_0/2$ only when
+  $\rho-\rho_\infty\le6$ (audit AUDIT-B10D-1, F5). In Lean the run is route A's stage-indexed engine (SHARP2-B9, \Lean{KAM.Sharp2.RouteA.SchemeA.run}),
+  whose stage $0$ carries the entry constants; it gives the limit; its hypotheses \Lean{hnn}, \Lean{hcondT} (the step conditions are $\mathrm{coef}\cdot X\le\mathrm{bound}$ with $\mathrm{coef}\ge0$, so
   downward closed) and \Lean{hball} (the total displacement, entry plus engine, strictly below $\beta$) are part of the smallness predicate.
 \item \emph{(route A in the route-B-normalised engine)} For route A put $X:=\varepsilon/(\gamma^4\delta^{4\varkappa})$, $\mu:=\gamma\delta^{\varkappa+1}X=\varepsilon/(\gamma^3\delta^{3\varkappa-1})$,
   $Q(\delta):=2^{3\varkappa-1}C_E(\delta)$ and the engine displacement constant $\gamma^2\delta^{2\varkappa-1}C_{\Delta K}(\delta)$; then the engine recursion
-  $X_{s+1}=2^{\varkappa+1}Q_sX_s^2$ is $x_{s+1}=2^{4\varkappa}C_{E,s}x_s^2$ (audit F5), and the admissibility at the strip $r$ carries $\varepsilon\le\gamma^3b(r)^{3\varkappa-1}\mu$ with
-  the bite $b(r)=(r-\rho+6\delta_0)/6$ of the schedule. The frame weights are $\gamma^2\delta^{2\varkappa-1}$ and the ball weight $\gamma^2\delta^{2\varkappa}$; in a body uniform in
+  $X_{s+1}=2^{\varkappa+1}Q_sX_s^2$ is $x_{s+1}=2^{4\varkappa}C_{E,s}x_s^2$ (audit F5). The run is indexed by the stage $s$, which fixes the bite $\delta_s$
+  and the strip $r_s$ of the schedule; no bite function of the strip and no non-schedule bite occurs (route A's engine of SHARP2-B9, audit
+  AUDIT-B10D-1, F4). The frame weights are $\gamma^2\delta^{2\varkappa-1}$ and the ball weight $\gamma^2\delta^{2\varkappa}$; in a body uniform in
   $\gamma\le\bar\gamma$ the cap sums are checked with $\bar\gamma^2$.
 \item \emph{(closeness)} The ball sum is $D\le\gamma^2(x_0/X_\star)\tilde S(X_\star)$ with $\tilde S:=\sum_sC_{\Delta K,s}\delta_s^{2\varkappa}X_s$ (route A) and
   $D\le(X_0/X_\star)S(X_\star)$, $S$ the ball sum of (J3) (route B); hence the frozen closeness constants $C_2=\rho^{2\tau}\tilde S/(X_\star\delta_0^{4\tau})$ (route A) and
@@ -354,8 +365,9 @@ AUDIT-SHARP-V2-iso-1 (F2); ours.}
 
 \begin{proof}
 \proofstep{Restart}\label{step:p2s2l1:en-restart}
-The entry is one application of the step; $\rho_1-\rho_\infty=6\delta_0-3\delta_0$ gives the bite. The caps of $K_1$ are the initial caps plus the entry
-increments, and the engine's (J3) budgets are what remains; the displacements add.
+The entry is one application of the step, at stage $0$ of the schedule; the next bite is $\delta_1=\delta_0/2$ by the definition of the schedule,
+with no condition on $\rho-\rho_\infty$. The caps of $K_1$ are the initial values plus the entry increments, and the engine's (J3) budgets are what
+remains of the caps; the displacements add.
 
 \proofstep{Route A}\label{step:p2s2l1:en-A}
 $\mu_{s+1}=\varepsilon_{s+1}/(\gamma^3(\delta_s/2)^{3\varkappa-1})\le2^{3\varkappa-1}C_E\varepsilon_s^2/(\gamma^7\delta_s^{7\varkappa-1})=Q_s\mu_s^2/(\gamma\delta_s^{\varkappa+1})$; the displacement
@@ -393,9 +405,11 @@ $p=\sigma_{L^\top}/(\gamma\delta_0^\tau)$ (the regime of every package; otherwis
 \end{theorem}
 
 \begin{corollary}[Frozen form and the minimum with v2]\label{bp:p2s2l1:frozen}
-The smallness of the v2-with-entry theorem is the disjunction of route A with the entry, route B with the entry and the routes of
-Theorem~\ref{bp:p2s2:g1}; by Lemma~\ref{bp:p2s2l1:never-worse} the entry routes are never worse than the sup routes for the same data. The final constant
-$C_1$ is the minimum of the branches, proved by cases on the branch that applies (audit F6); the closeness constant is that of the branch used.
+For tori with certified entry data, the smallness of the v2-with-entry theorem is the disjunction of route A with the entry, route B with the
+entry and the routes of Theorem~\ref{bp:p2s2:g1} (v1 and the sup routes, each with its own certificate); by Lemma~\ref{bp:p2s2l1:never-worse} the entry
+routes are never worse than the sup routes for the same data. The final constant $C_1$ is the minimum of the branches, and the closeness constants
+$C_2$ (and $C_3$ in the iso form) the maximum, proved by cases on the branch that applies (audits AUDIT-SHARP-V2-fixed-1 F6, AUDIT-B10D-1 F6). Tori
+without entry data are covered by Theorem~\ref{bp:p2s2:g1} itself.
 \end{corollary}
 
 %----------------------------------------------------------------------------------------------------
@@ -417,9 +431,14 @@ $C_1$ is the minimum of the branches, proved by cases on the branch that applies
   B6 + entry & $-17.12$ & $+1.12$ & $-17.65$ & $+0.59$
   \end{tabular}
   \end{center}
-  Reading (a) compares our threshold on $\norm E_{1,\rho}$ with PlasmaLean's tolerance on its own $\ell^1$ error norm (every candidate it accepts,
-  we accept); (b) is the threshold on $\sup\abs E$ for an error whose $\ell^1/\text{sup}$ ratio is the R1 lower-torus value of CERTIFIER-SHARPNESS \S1.2.
-  With the ``R1-like'' norms the margins are $+6.18$ and $+5.73$. Not like for like (its field is non-canonical, $1\frac12$ degrees of freedom).
+  These margins are \emph{conditional comparisons of scalar error tolerances at assumed data} ($\gamma=0.0687$, $\rho\approx0.02$, the clock
+  frequency, and guessed canonical frame and torsion norms, with the declared bounds read as both sup and $\ell^1$ bounds, $\nu_K=\sigma_K$,
+  $\nu_N=\sigma_N$; a sup bound alone does not give that reading). Reading (a) compares our threshold on $\norm E_{1,\rho}$ with PlasmaLean's
+  tolerance on the $\ell^1$ error-norm category, not on an identified canonical residual; reading (b) assumes the ratio $\ell^1/\text{sup}=3.6$ of
+  the R1 lower torus (CERTIFIER-SHARPNESS \S1.2; not a measurement or enclosure for PlasmaLean's torus) and reruns the mirror with $a_N=a_L=3.6$, so
+  it differs from (a) by $0.53$ orders, not by $\log_{10}3.6$. With the ``R1-like'' norms the margins are $+6.18$ and $+5.73$. PlasmaLean's field is
+  non-canonical ($1\frac12$ degrees of freedom) and no canonical chart or transfer of its residual and norms is supplied, so the owner's
+  application-level dominance requirement is not established by these rows (audit AUDIT-B10D-1, F7).
 \item \emph{R1} (\texttt{thresholds\_v2.py --l1}; measured $\ell^1$ data $\times1.05$, heuristic until enclosed): route A $-11.18\to-10.42$ (entry)
   $\to-10.13$ (with the frame increment), iso $-11.37\to-10.60\to-10.32$; route B $-12.25\to-12.16$, iso $-12.39\to-12.31$. Sensitivity to the
   ratio $a=a_N=a_L$ (fixed, route A, all levers): $a=1$: $-9.67$; $2$: $-9.91$; $3.6$: $-10.11$; $8$: $-10.29$. Binding: the $\avg T^{-1}$ cap sum

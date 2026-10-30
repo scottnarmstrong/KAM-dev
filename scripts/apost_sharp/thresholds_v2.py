@@ -180,7 +180,8 @@ def stageA(D, o, delta, r, c, ch, cr, iso=False, l1=None):
     C_DK = sK * C_xiL + Nn * G(1, kap) * C_xiN
     # Cauchy factors of the frame increment: |L_bar - L| <= kc1 |DeltaK|/(eta delta), |(L_bar - L)^T| <= kc2 (...)
     kc1, kc2 = n, 2 * n
-    if l1 is not None and l1.get("nuK") is not None:      # l^1 frame increment (Lemma bp:p2s2l1:frame): row-sum l^1
+    # AUDIT-B10D-1 F1: the frame option needs its certificate, with positive caps (no zero-cap bypass)
+    if l1 is not None and (l1.get("nuK") or 0) > 0 and (l1.get("nuN") or 0) > 0:   # l^1 frame increment
         C_DK1 = l1["nuK"] * C_xiL1 + l1["nuN"] * G(1, kap) * C_xiN1   # Cauchy 1/(e eta delta) on |DeltaK|_{l1}
         kc1 = min(F(n), EINV * C_DK1 / C_DK)
         kc2 = min(F(2 * n), 2 * n * EINV * C_DK1 / C_DK)

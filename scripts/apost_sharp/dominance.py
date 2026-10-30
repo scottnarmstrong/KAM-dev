@@ -380,7 +380,8 @@ def plasmalean_l1():
     the initial torus with Gamma_inf at the actual bites; stages >= 1 are the sup scheme with c_freq computed AT EACH
     BITE (c_stages(..., 'freq'), not the flat value of the table above) and the classical constant c(delta_5) in the
     tail.  Two readings of the threshold:
-      (a) like for like: the threshold on |E|_{l1,rho}, against PlasmaLean's tolerance on its own l^1 error norm
+      (a) the threshold on |E|_{l1,rho}, against PlasmaLean's tolerance on the l^1 error-norm category (not an
+          identified canonical residual)
           (|eta|_{l1} <= (frame cap) |E|_{l1}, sup|E| <= |E|_{l1}: aN = aL = 1, PlasmaLean's frame and torsion
           bounds read as l^1 bounds);
       (b) sup-equivalent: the threshold on sup|E| for an error with |E|_{l1}/sup|E| = 3.6 (aN = aL = 3.6; the R1
@@ -389,6 +390,9 @@ def plasmalean_l1():
     the same numbers (nuK = s_K, nuN = s_N); route B gets the torsion cap |T| <= 19.84 x 1.05 as route A does."""
     print()
     print("B10: the l^1 entry step on PlasmaLean's example (its tolerance 10^%.2f)." % PLASMALEAN["log10_tolerance"])
+    print("Conditional comparisons of scalar error tolerances at assumed data (declared bounds read as sup and l^1"
+          " bounds, nuK = s_K, nuN = s_N, ratio 3.6 assumed); not a dominance certificate for its torus"
+          " (AUDIT-B10D-1 F7).")
     print("| norms | reading | variant | log10 threshold | vs PlasmaLean | binding |")
     print("|---|---|---|---:|---:|---|")
     rows = []
