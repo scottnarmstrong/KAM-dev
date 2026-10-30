@@ -23,8 +23,12 @@ main result `KAM.Wave.avgG_eq` is the closed form `bpW:w0n:avgG`,
 
   `⟨G⟩ = 3/(16π) · (4 (∑_j I_j/λ_j)² - ∑_j I_j²/λ_j²)`,
 
-and `KAM.Wave.partial_avgG_eq` is Theorem `bpW:w0n:AB` for `J = {1, 2}`: the part of `⟨G⟩`
-containing at least one tangential action equals `½⟨AI, I⟩ + ⟨BI, Z⟩` with the corrected
+and `KAM.Wave.partial_avgG_eq` is the angle-averaged form of Theorem `bpW:w0n:AB` for `J = {1, 2}`
+(a helper identity, **not** the definition of `Ḡ`; the blueprint's `Ḡ` as the resonant part of `G`
+in complex coordinates, and the bridge `resonant = averaged`, are in
+`KAM/Wave/Normal/ResonantPart.lean`, which proves `bpW:w0n:AB` for finitely many modes): the
+part of `⟨G⟩` containing at least one tangential action equals `½⟨AI, I⟩ + ⟨BI, Z⟩` with the
+corrected
 coefficients `A_ii = 9/(8πλ_i²)`, `A_12 = A_21 = 3/(2πλ_1λ_2)`, `B_ji = 3/(2πλ_jλ_i)`.
 -/
 
@@ -244,7 +248,8 @@ theorem lamMode_natAdd (m : ℝ) (hm : 0 < m) (n : ℕ) (j : Fin n) :
   simp only [Fin.val_natAdd, PNat.mk_coe]
   omega
 
-/-- **Action coefficients (blueprint `bpW:w0n:AB`)**, for `J = {1, 2}` and every `m > 0`: the part
+/-- **Angle-averaged form of `bpW:w0n:AB`** (helper; not the definition of `Ḡ`), for
+`J = {1, 2}` and every `m > 0`: the part
 of the angle-averaged `G` containing at least one tangential action (`I = (I_1, I_2)`) is
 `½⟨AI, I⟩ + ⟨BI, Z⟩`, `Z = (I_j)_{j ≥ 3}`, with the corrected coefficients. The remaining part
 (no tangential action) is `⟨G^nor⟩`. -/

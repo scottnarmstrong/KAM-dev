@@ -89,3 +89,42 @@ This package is off the frontier: source-faithful infrastructure (blueprint W0 n
    Ω = λ_N + BI and the index set 1 ≤ |l| ≤ 2?
 5. Hygiene. This is a SLIM worktree, so run lint only via `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpc`.
    Run the kernel replay of the 7 modules. Frozen, manifest and README must be untouched.
+
+## Round 2 (response to audit 1, finding F1/F2)
+
+Merged `inp` (root conflict resolved only by re-running `scripts/gen_root_imports.py`).
+
+**F1 (missing Qdef / resavg bridge): attempted and done for finitely many modes.** New modules
+`KAM/Wave/Normal/ResonantBalance.lean` and `KAM/Wave/Normal/ResonantPart.lean` (generic
+`signSide` in `Nonresonance.lean`, now polymorphic in the index type; nothing else changed
+semantically).
+- `quarticG_eq_complex`: `G(q)` equals the complex quartic `quarticGComplex` in
+  `z = (q + i p)/√2` (prefactor 1/16, sum over all 16 sign patterns of `quarticMonomial`).
+- `resonantQuarticPart S m hm z` (Definition Qdef, finite modes): sum over tuples satisfying `S`
+  of the monomials with vanishing divisor `quarticDivisor` (`∑ ± λ`), with coefficient
+  `normQuarticCoeff = g/√(λλλλ)`. `Ḡ` is `S = tangentialQuarticTuple` (at least one of the first
+  two modes), `G^nor` is `S = normalQuarticTuple`.
+- `signBalanced_of_resonant` consumes `quartic_nonresonance` (g ≠ 0 and divisor 0 ⇒ plus/minus
+  indices balanced); `signBalanced_sum_zero` (balanced ⇒ divisor and phases cancel; also the
+  converse used for "paired ⇒ resonant"); `signBalanced_count` (4(P1+P2+P3) − 6 P4 balanced
+  patterns, via `signBalancedCond`).
+- `resonantQuarticPart_polar`: on `z_j = r_j e^{-iφ_j}` (any real `r`, any angles) the resonant part
+  is the real polynomial `resonantQuarticReal`, independent of `φ` (resavg).
+- `resonantQuarticReal_all`: full resonant part = `3/(16π)(4(Σ r_j²/λ_j)² − Σ (r_j²/λ_j)²)` (equals
+  `avgG` via `avgG_eq`).
+- **`resonantQuarticPart_tangential_eq` (bpW:w0n:AB)**: for `I ∈ ℝ₊²`, `Z ∈ ℝ₊ⁿ`, all `φ`,
+  `Ḡ(z) = ½Σ A I I + Σ B I Z` (as a complex number, `z_j = √(I_j,Z_j) e^{-iφ_j}`).
+  `partial_avgG_eq` and `avgG_eq` docstrings now state that they are the angle-averaged helper
+  identity, not the definition of `Ḡ`.
+- Axioms of the four main new results: `propext, Classical.choice, Quot.sound`.
+- Renamed distinctive public names: `signBalanced*`, `quarticMonomial`, `quarticDivisor`,
+  `normQuarticCoeff`, `isTangentialMode`, `resonantQuarticPart`, etc. (no short names).
+
+**Still PARTIAL (F2, remains for the full source node):** (a) extension from finitely many modes
+to the weighted sequence space ("extended by the absolutely convergent formula"), (b) the
+statement for arbitrary complex `w_j w_{-j}` (here `|z_j|² = I_j ≥ 0` with arbitrary phases),
+(c) G^nor is defined only as the all-normal tuple sum without the resonance filter (not needed).
+
+Checks: gate build of `KAM.Wave.Normal.{ActionCoeff,Nonresonance,Nondegeneracy,ResonantBalance,
+ResonantPart}` successful, no warnings; lint see below.
+Lint: w_lint.sh exit 0 (check_lean_modules PASS, FROZEN-ANCHOR GUARD OK, ABI HASHES OK).

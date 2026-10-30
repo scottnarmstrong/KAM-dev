@@ -12,6 +12,8 @@ public import KAM.Wave.Normal.Nondegeneracy
 public import KAM.Wave.Normal.NonresAux
 public import KAM.Wave.Normal.Nonresonance
 public import KAM.Wave.Normal.QuarticCoeff
+public import KAM.Wave.Normal.ResonantBalance
+public import KAM.Wave.Normal.ResonantPart
 public import KAM.Wave.Recon.ReconAnalytic
 public import KAM.Wave.Recon.SineCompleteness
 public import KAM.Wave.Recon.SineFeature

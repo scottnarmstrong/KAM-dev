@@ -27,7 +27,7 @@ relation `g ≠ 0` (selection rule), then Step `stepW:w0n:31` (one sign against 
 namespace KAM.Wave
 
 /-- The multiset of indices `v t` over the positions with sign `σ t = ε`. -/
-def signSide (σ : Fin 4 → ℤˣ) (v : Fin 4 → ℕ+) (ε : ℤˣ) : Multiset ℕ+ :=
+def signSide {α : Type*} (σ : Fin 4 → ℤˣ) (v : Fin 4 → α) (ε : ℤˣ) : Multiset α :=
   ∑ t, if σ t = ε then {v t} else 0
 
 /-- Two against two (Step `stepW:w0n:22`): under the selection rule, `λ_a + λ_b = λ_c + λ_d`
