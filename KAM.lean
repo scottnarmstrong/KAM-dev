@@ -1434,6 +1434,12 @@ public import KAM.Sharp2.EngineRatioArith
 public import KAM.Sharp2.EngineRatioInst
 public import KAM.Sharp2.Geometry
 public import KAM.Sharp2.ModConstants
+public import KAM.Sharp2.ModConstantsB.Data
+public import KAM.Sharp2.ModConstantsB.Defs
+public import KAM.Sharp2.ModConstantsB.Mono1
+public import KAM.Sharp2.ModConstantsB.Mono2
+public import KAM.Sharp2.ModConstantsB.Nonneg
+public import KAM.Sharp2.ModConstantsB
 public import KAM.Sharp2.ModConstantsBd
 public import KAM.Sharp2.ModConstantsData
 public import KAM.Sharp2.ModConstantsMono
@@ -1455,6 +1461,7 @@ public import KAM.Sharp2.SmallDiv.Bound
 public import KAM.Sharp2.SmallDiv.Classical
 public import KAM.Sharp2.SmallDiv.Defs
 public import KAM.Sharp2.SmallDiv.Instances
+public import KAM.Sharp2.SmallDiv.Scale
 public import KAM.Sharp2.SmallDiv.Shell
 public import KAM.Sharp2.SmallDiv.Solution
 public import KAM.Sharp2.SmallDiv.Unimodal
