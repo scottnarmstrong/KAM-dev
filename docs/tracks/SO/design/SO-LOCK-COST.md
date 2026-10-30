@@ -70,7 +70,7 @@ Only the last part depends on P. **Rev 1's model (all of 6.4 GB ∝ ops × P) is
 - **Chaining.** Equality checkpoints, `F(k, A, u ++ v) = F(k, A, u).bind (F(k + |u|, ·, v))` (review 1 §5), with: acc₀ = [] and |acc_j| = s_j; absolute slot numbers; an exact tiling, with explicit length and endpoint checks.
 - **Conclusion and safety.** The chain concludes `Slp.ballsP … = some acc_m`. Safety (inverse exclusion, sqrt positivity) is read off the final balls by the generic-P safety lemmas.
 - **Where the plan lives.** `BaseChecker.check` sees only `c`, so the plan and checkpoints are a **parameter of the new base instance**, or are consumed by a separate equality bridge.
-- **Limits.**; Every boundary carries all earlier balls, so the state stays about 3158 long. The memory gain is in the forced-op and arithmetic part only, and only on top of lever 0 (literal ops). Rev 1's 0.15 MB checkpoint figure was raw mantissas, not Lean term memory; it is withdrawn.
+- **Limits.** Every boundary carries all earlier balls, so the state stays about 3158 long. The memory gain is in the forced-op and arithmetic part only, and only on top of lever 0 (literal ops). Rev 1's 0.15 MB checkpoint figure was raw mantissas, not Lean term memory; it is withdrawn.
 - **Widening variant.** A containment variant would be a different checker, with its own semantic and safety soundness. It does not give `ballsP_eq_of_segments`. Not proposed.
 - **Price:** 300–450 lines; a medium audit.
 
