@@ -307,7 +307,7 @@ def so_glance():
     nc, lc, tc = lean_stats([root / 'KAM' / 'Certificate'])
     ns, ls, ts = lean_stats([root / 'KAM' / 'SpinOrbit'])
     p1, p2 = (SO_PARTS.get(g, {'landed': [], 'packages': []}) for g in SO_GROUPS)
-    out = [f'**Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in two parts:', '',
+    out = [f'**Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in three parts:', '',
            '- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians '
            'given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an '
            f'exact invariant torus. `KAM/Certificate`: {nc} modules · {lc:,} lines. '
@@ -315,7 +315,8 @@ def so_glance():
            "- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays "
            'within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: '
            f'{ns} modules · {ls:,} lines. **Packages landed: {len(p2["landed"])} / {len(p2["packages"])}**.',
-           f'- Design estimate for both: {so["planned_lines"]}; landed: {", ".join(so["landed"])}.']
+           *lock_glance(sessions),
+           f'- Design estimate for parts 1 and 2: {so["planned_lines"]}; landed: {", ".join(so["landed"])}.']
     if flight['inp-mprov-'] or flight['inp-maud-']:
         out.append(f'- **Now:** proving {", ".join(sorted(flight["inp-mprov-"])) or "—"} · '
                    f'in audit {", ".join(sorted(flight["inp-maud-"])) or "—"}')
@@ -439,6 +440,8 @@ TRACKS = [
     ('W', 'wave', 'PDE KAM: two-frequency quasi-periodic solutions of the cubic wave equation '
                   'u_tt = u_xx − m u − u³ on [0, π], every m > 0 (Pöschel 1996)'),
     ('SO-1', 'so', 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
+    ('SO-3', 'so', 'Track SO, part 3: the Moon stays locked in synchronous rotation forever (librational tori; '
+                   'scoping, D42)'),
     ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38)'),
 ]
 
@@ -525,6 +528,32 @@ def w_glance():
             f'u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **{pct:.0f} %**',
             f'- Statements: {stmt} · blueprint milestones written: {len(written)} / {len(W_MILESTONES)} '
             f'({", ".join(written) or "none"}) · proof graph: {gtxt} · `KAM/Wave`: {n} modules, {lines:,} lines']
+
+
+LOCK_STAGES = [
+    ('scoping study', lambda: (root / 'docs/tracks/SO/studies/SO-LOCK-SCOPE.md').exists()),
+    ('design', lambda: (root / 'docs/tracks/SO/design/SO-LOCK-DESIGN.md').exists()),
+    ('statements frozen', lambda: any((root / 'KAM/Frozen/SpinOrbit/Theorems').glob('*Lock*.lean'))),
+    ('Lean proof modules', lambda: (root / 'KAM/SpinOrbit/Lock').exists()),
+    ('certificate data', lambda: any((root / 'KAM/SpinOrbit/Data').glob('Lock*'))
+     if (root / 'KAM/SpinOrbit/Data').exists() else False),
+    ('sealed', lambda: any(a['id'].startswith('so.lunar_lock') and a['state'] == 'SEALED'
+                           for a in manifest['anchors'])),
+]
+
+
+def lock_progress():
+    """Track SO part 3 (the synchronous lock, D42), read from the repository: the stages reached."""
+    done = [name for name, test in LOCK_STAGES if test()]
+    return 100 * len(done) / len(LOCK_STAGES), done
+
+
+def lock_glance(sessions):
+    pct, done = lock_progress()
+    running = any(t.startswith('inp-mprov-solock') for t in sessions)
+    return [f'- **Part 3, the Moon locked in synchronous rotation forever** (D42): librational invariant tori around the '
+            f'synchronous orbit (Celletti 1994), a stronger result than the spin-rate band · **{pct:.0f} %** · stages '
+            f'reached: {", ".join(done) or "none yet"}' + (' · scoping study running' if running else '')]
 
 
 def completion_split(rows):
@@ -678,7 +707,7 @@ def section_updated(rows, est):
     total = loc(LIB)[0]
     return (f'> **Last updated: {NOW}** (automatic: every 20 minutes and after every commit) · '
             f'**estimated completion: original project {orig:.1f} % · SO checker {so1:.0f} % · SO Moon {so2:.0f} % · '
-            f'track W {w_progress()[0]:.0f} %** · '
+            f'Moon locked {lock_progress()[0]:.0f} % · track W {w_progress()[0]:.0f} %** · '
             f'frozen statements proved: {sealed} / {len(rows)} · '
             f'**{total:,} lines of Lean** of an estimated ≈ {round(est, -3):,.0f}')
 
@@ -687,10 +716,13 @@ def section_progress(rows):
     pct, groups, total, done = completion(rows)
     orig, so1, so2, _ = completion_split(rows)
     out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
-           f'SO Moon **{so2:.0f} %** · track W **{w_progress()[0]:.0f} %**', '',
+           f'SO Moon **{so2:.0f} %** · Moon locked **{lock_progress()[0]:.0f} %** · track W **{w_progress()[0]:.0f} %**', '',
            f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
            f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
            f"Track SO, part 2, the Moon's spin rate (its first client): `{bar(so2)}` {so2:.1f} %", '',
+           f'Track SO, part 3, the Moon locked in synchronous rotation forever (D42): `{bar(lock_progress()[0])}` '
+           f'{lock_progress()[0]:.0f} % (stages: ' + ', '.join(n for n, _ in LOCK_STAGES) + '; read from the '
+           'repository)', '',
            f'Track W, PDE KAM for the cubic wave equation: `{bar(w_progress()[0])}` {w_progress()[0]:.1f} % '
            '(statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; '
            'all read from the repository)', '',
