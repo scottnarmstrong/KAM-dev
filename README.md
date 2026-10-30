@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 11:46 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **285,542 lines of Lean** of an estimated ≈ 289,000
+> **Last updated: 2026-10-30 11:52 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **285,542 lines of Lean** of an estimated ≈ 289,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -248,7 +248,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 11:46 UTC from `main` at `c3038fa8` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 11:52 UTC from `main` at `04d675cc` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -412,11 +412,10 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sodata2b** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PACKFIX: Sparse module docstring wrap (100 columns) | `inp-sodata2b` | 6 (vs `inp`) |
-| **sogen3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: HQ status (2026-10-30 11:44 UTC) | `inp-sogen3` | 193 (vs `inp`) |
 | **sopackfixl** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-PACKFIX: round-2 audit request | `inp-sopackfixl` | 8 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
@@ -427,6 +426,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 11:52 | `04d675cc` | Log: 11:52 (sub-orchestrator rotated) |
 | 2026-10-30 11:46 | `c3038fa8` | HQ: SO2.LUNAR title with the D37 target band |
 | 2026-10-30 11:46 | `1bd929b3` | README: track SO target band 2.8-2.9 % (D37) |
 | 2026-10-30 11:45 | `66fa2abd` | D37: lunar band target 2.8-2.9 % with the sharp certifier; HQ texts updated |
@@ -438,7 +438,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 10:51 | `005adf75` | Docs: Rüssmann's theorem as a main result (README main theorem 3, track R, D35) |
 | 2026-10-30 10:48 | `35d9e272` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-30 10:48 | `aefe5353` | Overnight log: 10:48 |
-| 2026-10-30 10:22 | `a3c1eb85` | Overnight log: 10:22 (SO-KPERF diagnosis) |
 <!-- /AUTO:landed -->
 
 ## Decisions
