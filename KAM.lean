@@ -1347,6 +1347,10 @@ public import KAM.Sharp.BoxTorsion
 public import KAM.Sharp.CohData
 public import KAM.Sharp.Constants
 public import KAM.Sharp.ConstantsArith
+public import KAM.Sharp.Engine.Decay
+public import KAM.Sharp.Engine.Limit
+public import KAM.Sharp.Engine.Schedule
+public import KAM.Sharp.Engine.Scheme
 public import KAM.Sharp.Frame
 public import KAM.Sharp.Tools
 public import KAM.Sharp.TorsionBound
