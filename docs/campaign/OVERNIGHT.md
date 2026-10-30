@@ -1303,3 +1303,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   inequalities remain. Note for the data: the upper torus's disp margin is 1.6e-4 relative, so disp must never be
   rounded down. Audit on codex-3. Stalled leftover SO-GEN3 job stopped by PID after archiving its N = 65 torus data to
   /mnt/HC_Volume_106379410/kam-data/so-gen3/g3 (79 MB, SHA-256 list); sogen3 swept (disk 13 GB free).
+- **14:18. Heartbeat.** SO-R2 passed audit 1 (PASS WITH NOTES) and is landing. SO-KDEPTH working; SO-BALLDY running five memory-breakdown probes. SO-DATA3's brief is written (mirror alignment, generation at R2 with tightened SOS slack, emission, capped kernel passes, final theorems; nothing frozen) and starts when the two checker fixes land. Codex-3 at 19 % weekly (the remaining audits: SO-KDEPTH, SO-BALLDY, SO-DATA3).
