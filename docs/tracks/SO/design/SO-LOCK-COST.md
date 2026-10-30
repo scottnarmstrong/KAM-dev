@@ -1,249 +1,269 @@
-# SO-LOCK-COST: pricing the kernel levers for the N = 65 lock certificate (design note)
+# SO-LOCK-COST: pricing the kernel levers for the N = 65 lock certificate (design note, rev 2)
 
-**Status:** 30 October 2026, branch `inp-lockdesign`. Design note only: no Lean, no proofs, no data. The numbers come from:
-- LOCK-GEN-2 (`inp-lockgen2`: `.drafts/handoff-LOCK-GEN-2.md` and `LOCK-GEN-NUMERICS.md` §Part 2);
-- SO-V2PKG §4;
-- the SO-BALLDY and SO-KDEPTH handoffs;
-- SO-DATA3 interim 2;
-- SO-COMPOSE-SPLIT and its audit 1 (`inp-socsplit`).
+**Status:** 30 October 2026, branch `inp-lockdesign`. Design note: no Lean, no proofs, no data, no reruns. Rev 2
+answers review 1 (`SO-LOCK-COST-review-1.md`, FAIL); see §9. Sources: LOCK-GEN-2 (`inp-lockgen2` handoff,
+`LOCK-GEN-NUMERICS.md` §Part 2); SO-V2PKG §4.4; SO-BALLDY handoff §5–7; SO-KDEPTH handoff; SO-DATA3 interim 2;
+SO-COMPOSE-SPLIT and its audit 1. Every figure is a **measured receipt** (cited), a **range** with its stated
+assumption, or unknown.
 
-I made no Python reruns: every figure below is either quoted, with its source, or derived by plain arithmetic that is shown. This note includes the orchestrator's addendum (Ham-pass precision and segmenting). A codex-1 review follows.
+## 0. Verdict
 
-**Targets:** every single kernel theorem under the 10 GB cap; a total of about 20 CPU-h or less; landed statements unchanged, anything new under a new name.
+**The existing measurements do not support either target** ("every theorem < 10 GB", "total ≤ 20 CPU-h") for
+the lock certificate.
+- **Memory.** BALLDY's breakdown (§1) shows that the jet program, not the balls, dominates Ham-pass memory:
+  forcing the compiled 887-operation program alone costs 6.9 GB, and the lock program has 3158 operations. Ball-side
+  levers (precision, segments, box pass) cannot fix a cost that sits in `HamExpr.jet`.
+- **Time.** The single-counted packed bill is 13–118 CPU-h (§3). The best lever stack gives about 3–47 CPU-h, and
+  several components are unquantified.
 
-## 0. Summary
+So **a calibration gate (§7)**, with exact probes and decision rules, is the authorisation step. The levers
+(§2–§6) are priced as options, and the gate chooses among them. The architecture claim of rev 1 stands (review 1
+§7): every lever is additive under **new names**, with no landed statement change.
 
-| # | lever | what it buys | landed-statement impact | size | audit |
-|---|---|---|---|---|---|
-| 1 | pruned composition in a v2 base checker | **already assumed** by LOCK-GEN-2's 12–100 CPU-h. Without it, 1026 instead of 157 compose products, about 3–5× the compose cost | none: new names `sharedBaseV2`, `torsionModelsPruned`, `checkFrameMajorantsP`, `routeAV2P` | 250–400 lines | small (it reuses `composePruned_sound`) |
-| 2 | Ham-pass precision P (default 320) | Ham-pass memory and time ∝ P (addendum). At P = 128, ≈ 0.4× | none: new names `Slp.ballsP`, `checkHamBoundsP`, `checkHamClaimP`. `ballStepG` is already generic in P | 80–150 lines | small, like BALLDY |
-| 3 | segmented Ham pass with ball checkpoints | per-theorem memory ∝ segment length. Hard cap safety | none: new names only. Checkpoints are certificate-side witness data | 300–450 lines | medium (chaining lemma) |
-| 4 | sharper Ham pass (strip/box shapes through exp and sqrt) | threshold −18.0 → about −15.6, support 90×18 → about 75×15, cost ÷ 2–3 | none: new pass and new route names | 600–900 lines | medium–high (like C3) |
-| 5 | one-sqrt "lean" `lockHamExpr` | −1 sqrt, −1 inv, −20 of 128 torsion-compose products (≈ −7 % of all products) | none landed (`lockHamExpr` is not landed). A design statement changes; owner item | ≈ 0 extra | small |
-| 6 | product shards (blockRows) | keeps each packed-product theorem ≲ 4 GB | none: an emitter parameter (SO-PACKFIX layout) | 0 | none |
+## 1. Measured receipts
 
-**Recommendation, in order:**
-1. 1 + 6, which are mandatory;
-2. 2 + 3, which are cheap and close the 10 GB risk on the Ham pass for certain;
-3. 5, a free 7 %, pending the owner's ruling;
-4. **a calibration probe**, before 4 is commissioned (§6);
-5. then 4, unless the probe already puts the total under 20 CPU-h without it.
-
-The ≤ 20 CPU-h target is reachable with 1 + 4 (+5) at the lower two thirds of LOCK-GEN-2's exponent range. It is not reachable without 4 unless the probe lands at the bottom of the range (§7).
-
-## 1. The starting point (quoted)
-
-LOCK-GEN-2 at ρ = 1/100, μ = 1/1000, κ = 1, refined route A, configuration d01b:
-- **Threshold:** 10^−18.03. err is 9e-20 and disp is 3.4e-14.
-- **Support:** diamond 90 × 18, with 1636 / 1576 / 1509 half-terms. CertFixed 112, data scale 101 bits.
-- **Program:** 3158 operations (4 sqrt, 8 inv, 4 exp), against 887 for R2.
-- **Products:**
-  - ≈ 300 heavy products, against R2's 129: 106 torsion models + 17 Gram + 157 compose + ≈ 20 witnesses;
-  - factors ≈ 6.5× R2's;
-  - per product ≈ 17–48× R2.
-  - **The 157 compose products are counted after pruning**: 5 energy + 24 invariance + 128 torsion (`lock_jet.heavy_products`).
-- **Projection:** ≈ 12–100 CPU-h for the packed part. That excludes the Ham passes, the advice generation and the literal baseline.
-- **Ham claims:** the disc pass overestimates 70–300× (d2x 3.5e4 certified against 102 true, dx 140 against 1.7).
-- **Memory:** R2's Ham pass peaked at 8.98 GB on 887 operations at `slpBallPrec` = 320 (SO-BALLDY: 91 s,
-  8.98 GB). That pass is one declaration and runs twice: `checkHamBounds` in the base and `Slp.balls` again in `checkHamClaim` (SO-V2PKG §4.4).
-
-SO-KDEPTH does **not** help the Ham pass. It made the following traversals log-depth or strict: `weightedNormUp`, `directItems` and `composeOps`. The Ham-pass memory is the retained slot-ball list of `Slp.balls` (SO-BALLDY's reverse-cons, rounded to 320 bits). SO-KDEPTH's strict `composeOps` loop is still what lets a 3158-operation composition reduce at all.
-
-## 2. Lever 1: pruned composition
-
-**Status of the landed engine.**
-- `KAM/CertificateSharp/Kernel/Prune.lean` gives `Slp.composePruned` and `Slp.composePruned_sound`. The latter is `Slp.compose_sound` for the original program at the wanted slots.
-- `Kernel/Shared.lean` uses it in `checkInvEnShared`, but only inside v1's `checkTorusCertificateShared`.
-- **The V2 engine does not use it.** `landedBase` (V2/Engine.lean:100), `trigBase` and `cornerBase` all call the landed `checkInvariance`, `checkEnergy`, `checkGram` and `checkTorsion`. Those run the plain `Slp.compose` over the whole program.
-- `checkTorsion` reaches `Slp.compose` through `torsionModels` (Certificate/Torsion/Models.lean:155, wanted = `torsionSlots`).
-- `checkFrameMajorants` (CertificateSharp/Frame/Majorants.lean:160) calls `torsionModels` again.
-
-For R2 this cost little: 887 operations, and most slots are wanted. For the lock it is decisive. The whole program has 1026 model × model products; the wanted closures have 157.
-
-**Change.** New names only; no landed statement moves:
-| new declaration | body | soundness |
+| receipt | value | source |
 |---|---|---|
-| `torsionModelsPruned` | `torsionModels` with `Slp.composePruned … (torsionSlots n e.jet)` | `torsionModels_sound`'s proof, with `composePruned_sound` in place of `compose_sound` (Models.lean:575) |
-| `checkTorsionPruned` | `checkTorsion` over `torsionModelsPruned` | the conclusion of `checkTorsion_sound` (and `_of`) |
-| `sharedBaseV2 : BaseChecker` | `checkStatic && checkHamBounds(P/seg, §3) && checkEmbedding && checkInvEnShared && checkTorsionPruned` (Gram from `checkGram_of_checkTorsion`-style reuse) | assembled like `landedBase.sound` from `checkInvEnShared_sound` |
-| `checkFrameMajorantsP` | `checkFrameMajorants` with `torsionModelsPruned` | as landed, with the pruned torsion lemma |
-| `routeARefinedP`, `routeAV2P` | `routeARefined` with `checkHamClaimP`/segmented (§3–4) and `checkFrameMajorantsP` | `refinedCore_sound` is unchanged: it takes `HamFacts` and `FrameFacts` abstractly |
+| R1/R2 Ham program | 887 ops: 204 const, 3 action, 14 char, 180 add, 486 mul, **0 exp, 0 inv, 0 sqrt** | BALLDY §5 (`P0`) |
+| program spine only (`K0`) | 54 s, 3.9 GB | BALLDY §5 |
+| every op forced, no balls (`J0`) | 59 s, **6.9 GB** | BALLDY §5 |
+| `J0` + `revGet` lookups (`Lk`) | 65 s, 7.46 GB | BALLDY §5 |
+| full rounded `checkHamBounds` (P = 320) | 91 s, **8.98 GB** | BALLDY §5 |
+| lock Ham program | 3158 ops: 4 sqrt, 8 inv (4 `inv π`), 4 exp | LOCK-GEN-2 P2.1 |
+| R2 packed part, landed sub-checks | 0.3–0.9 CPU-h per torus (model, not measurement) | SO-V2PKG §4.4 |
+| R2 frame-majorant duplicate | **+**0.3–0.8 CPU-h per torus (model) | SO-V2PKG §4.4 |
+| packed shard (SO-PACKFIX, blockRows 32, 12 pairs, w ≈ 659) | 235 s, 4.6 GB; literal data alone 190 s, 1.0 GB | OVERNIGHT 11:19 |
+| δ₁ bite (l = 12) | 2:03, 8.36 GB | SO-DATA3 interim 2 |
+| lock products after pruning | ≈ 300 (106 torsion + 17 Gram + 157 compose + ≈ 20 witnesses) against R2's 129; factors ≈ 6.5× | LOCK-GEN-2 P2.6 |
 
-**Consequences for the design.**
-- `lockBarrier_of_certV2` (SO-LOCK-DESIGN §6) names `checkTorusCertificateV2 routeAV2` / `landedBase`. It would name `checkV2With sharedBaseV2 routeAV2P` instead.
-- That is a statement change of an **unlanded** design theorem only: it is listed for the owner.
+**BALLDY breakdown, by subtraction:**
+- spine: 3.9 GB, which includes the certificate import;
+- program forcing: +3.0 GB;
+- lookups: +0.56 GB;
+- ball arithmetic and rounding at P = 320: about +1.5 GB.
 
-**Further saving.** SO-V2PKG §4.4 notes that the frame majorants re-run Gram and torsion: about 90 % of the packed shards again. Sharing those product proofs as one `torsionModelsPruned` result is an emitter/theorem-structure choice: the same packed-shard theorems are cited twice, at no checker change. It is worth up to about 1.9× on the packed part; include it.
+Only the last part depends on P. **Rev 1's model (all of 6.4 GB ∝ ops × P) is withdrawn.**
 
-**Price:** 250–400 lines. One audit, mechanical, because every soundness proof is a re-use.
+## 2. Per-theorem memory
 
-## 3. Ham-pass memory: levers 2 and 3
+**The lock Ham pass.** Each lock range follows from the assumption in its row:
 
-**The memory model.** This is my assumption, to be calibrated (§6):
-- memory = base + ops × P × m₁;
-- base ≈ 2.6 GB (SO-DATA-2: literal data alone, 2.6 GB);
-- R1 then gives m₁ = (8.98 − 2.6)/(887 × 320) ≈ 22 kB per op-bit.
-| configuration | ops in one theorem | P | projected peak |
-|---|---:|---:|---:|
-| R2 (measured) | 887 | 320 | 8.98 GB |
-| lock, monolithic | 3158 | 320 | **≈ 25 GB** (fails) |
-| lock, monolithic | 3158 | 128 | ≈ 11.5 GB (fails) |
-| lock, monolithic | 3158 | 96 | ≈ 9.3 GB (no margin) |
-| lock, 4 segments | ≤ 800 | 320 | ≈ 8.2 GB (thin) |
-| **lock, 4 segments** | ≤ 800 | **128** | **≈ 4.9 GB** |
-| lock, 8 segments | ≤ 400 | 128 | ≈ 3.7 GB |
+| part | R2 (measured) | lock, assumption | lock range |
+|---|---:|---|---:|
+| spine + import | 3.9 GB | between constant and ∝ ops (×3.56) | 3.9–13.9 GB |
+| program forcing | 3.0 GB | ∝ ops (×3.56); exp/inv/sqrt compilers unmeasured | ≈ 10.7 GB or more |
+| lookups | 0.56 GB | ∝ ops × depth (O(slot) list) | 2–7 GB |
+| balls at P | 1.5 GB at 320 | ∝ ops × P | 5.3 GB (320), 2.1 GB (128) |
 
-So **precision alone does not suffice**, unless the scaling is far better than linear. Segmentation at 320 bits is borderline. Together they give a margin of 2× or more.
+**Program forcing plus the spine already exceeds 10 GB at the low end of these ranges.** So:
+- no ball-side lever can guarantee the cap while a theorem forces `c.ham.jet`;
+- the same holds for **every** consumer that reduces `c.ham.jet`: both Ham passes, invariance/energy and torsion
+  composition, and the frame majorants.
 
-**Lever 2: precision.**
-- `ballStepG (P n …)` and `ballStepG_sound {P n …}` (Expr/Ball.lean:167, 353) are already generic in P. Only `ballsAux`/`Slp.balls` fix `slpBallPrec`.
-- **Change** (new names):
-  - `Slp.ballsP P := (ballsRev P … ).map List.reverse`;
-  - `ballsP_sound`, by the `ballsSpec_sound` route, re-run with P;
-  - `checkHamBoundsP`, `checkHamClaimP` with their `_sound`;
-  - `HamExpr.nonvanishingOn_of_ballsP`, the analogue of `nonvanishingOn_of_balls` (now with sqrt, per SO-LOCK-DESIGN §4.2).
-- **Where P lives.** Put P in the base checker or the route witness, **not** in `TorusCertificate`. That avoids a format change, and SO-DATA3's landed data and mirror are untouched (default 320). One example is the base checker `sharedBaseV2 P`.
-- **Accuracy.** The claims need only a relative accuracy of about 1 %, and the data are 101-bit. At 128 bits the rounding inflation per op is ≈ 2^−128 relative, which is negligible over 3158 ops.
-- **Size and audit.** 80–150 lines. A BALLDY-like audit, small.
+**Lever 0 (new, necessary): a literal jet bridge.**
+- **The bridge.** Emit the compiled program as a literal `lockJetLit : HamJet`. Prove **one** bridge theorem
+  `lockHamExpr_jet : (lockHamExpr Ω cs).jet = lockJetLit`.
+- **New checker names** that take the jet as an argument: `checkHamBoundsJ c J`, `checkInvEnSharedJ`,
+  `torsionModelsJ`, and so on. Their soundness holds under `hJ : c.ham.jet = J`, so the sub-check theorems reduce
+  over literal ops only.
+- **Statements:** new names only; the landed checkers are untouched.
+- **Risk:** the bridge theorem itself forces the compiler (the lock analogue of `J0`, projected over 10 GB).
+- **Contingency, gated by G1:** segment it by jet component (`v0`, `d1`, `d2`, `d3` are separate lists in `HamJet`,
+  Expr/Slp.lean:66) or by top-level summand. This is plausible but **unproven**.
+- **Price:** 150–300 lines plus the bridge data; a medium audit (one `hJ`-rewrite per consumer).
 
-**Lever 3: segmentation with ball checkpoints.** This is route E of SO-COMPOSE-SPLIT, applied to balls instead of models.
-- **The witness.** The certificate side (route witness) carries a plan [0 = s₀ < s₁ < … < s_m = 3158] and, at each boundary s_j, the literal list `acc_j` of all slot balls so far, already rounded.
-- **One theorem per segment:** `ballsRev P … s_j acc_j.reverse (ops.drop s_j |>.take (s_{j+1} − s_j)) = some acc_{j+1}.reverse`, by `decide +kernel`. This is **equality**, exactly as in route E.
-- **Chaining.** The segment results are combined by a new lemma `ballsRev_append`, which splits `ballsRev` over `ops₁ ++ ops₂` by `Option.bind`. The result is `Slp.ballsP … = some acc_m`. That is pure computation, with no `Encloses`. The soundness of the whole pass is then the landed one: `ballsSpec_sound` is stated for an arbitrary starting `acc` with `BallRel V acc`.
-- **Why route E's objection does not apply.** The SO-COMPOSE-SPLIT audit judged route E's chaining sound. It failed the study on evidence: the probe P11 did not force the heavy product, and the memory calibration was invalid. Here the ledger is tiny: 3158 balls × 3 rationals × ≤ 128 bits ≈ 0.15 MB per checkpoint, against
-  110–250 MB of models for compose. So no "ledger cost" question arises.
-- **What still needs measuring.** The per-segment peak. My projection assumes the BALLDY memory is mostly retained slot balls, which grow with ops × P. One probe answers this (§6).
-- **Consumers.**
-  - `checkHamBounds`, `checkHamClaim`, `nonvanishingOn_of_balls` and every landed statement are unchanged.
-  - New: `checkHamBoundsSeg`/`checkHamClaimSeg`, or simply the `_P` versions applied to a value that a `ballsP_eq_of_segments` theorem rewrites. The second way is cleaner: one new chaining theorem; the consumers see `Slp.ballsP`.
-- **Size and audit.** 300–450 lines (plan type, segment check, `ballsRev_append`, `ballsP_eq_of_segments`, tests on T2/T3). Medium audit; the risk is concentrated in one lemma.
+**Lever 2: Ham-pass precision P.**
+- **Soundness.** `ballStepG`/`ballStepG_sound` (Ball.lean:167, 353) and `ballRound_mem` are generic in P.
+  - New `Slp.ballsP P` with a **new generic soundness induction** `ballsSpecP_sound`. The landed `ballsSpec_sound`
+    is fixed at 320 and is *not* reused at P ≠ 320.
+  - Compatibility lemma `ballsP_320 : Slp.ballsP 320 = Slp.balls`, by unfolding.
+- **Where P lives:** as a parameter of a new base instance (`sharedBaseV2 P …`), not as a `TorusCertificate`
+  field.
+- **Gain:** the ball line only, about 1.5 → 0.6 GB at R2 scale and 128 bits.
+- **Caveat:** soundness holds at every P, but claim passing does not. Cancellation and the exp/inv/sqrt margins must
+  be checked by the mirror at the chosen P.
+- **Price:** 100–200 lines; a small audit.
 
-**Time.** R1's pass took 91 s. The lock pass is ≈ 3.6 × 91 s × (P/320) ≈ 2.2 min at P = 128, twice (base and claim), so it is negligible in CPU-h. If lever 4 lands, the base pass may also use the sharp pass; `M` only feeds `checkHamBounds`.
+**Lever 3: segmented ball pass with exact checkpoints.**
+- **Chaining.** Equality checkpoints, `F(k, A, u ++ v) = F(k, A, u).bind (F(k + |u|, ·, v))` (review 1 §5), with:
+  - acc₀ = [] and |acc_j| = s_j;
+  - absolute slot numbers;
+  - an exact tiling, with explicit length and endpoint checks.
+- **Conclusion and safety.** The chain concludes `Slp.ballsP … = some acc_m`. Safety (inverse exclusion, sqrt
+  positivity) is read off the final balls by the generic-P safety lemmas.
+- **Where the plan lives.** `BaseChecker.check` sees only `c`, so the plan and checkpoints are a **parameter of the
+  new base instance**, or are consumed by a separate equality bridge.
+- **Limits.**
+  - Every boundary carries all earlier balls, so the state stays about 3158 long.
+  - The memory gain is in the forced-op and arithmetic part only, and only on top of lever 0 (literal ops).
+  - Rev 1's 0.15 MB checkpoint figure was raw mantissas, not Lean term memory; it is withdrawn.
+- **Widening variant.** A containment variant would be a different checker, with its own semantic and safety
+  soundness. It does not give `ballsP_eq_of_segments`. Not proposed.
+- **Price:** 300–450 lines; a medium audit.
 
-## 4. Lever 4: a sharper Ham pass
+**Packed shards (lever 6).**
+- blockRows bounds one integer-product shard theorem: SO-PACKFIX measured 4.6 GB at 12 pairs.
+- It does **not** bound the consumer theorems (compose, Gram, torsion, frame), which build slot models, norms,
+  truncations and radii (Torsion/Models.lean:152–177, Frame/Majorants.lean:130–175). Rev 1's "shards bound compose
+  memory" is withdrawn.
+- Model-level stage subdivision (SO-COMPOSE-SPLIT route E; its chaining was audited sound) stays **a contingency**,
+  gated by G3.
 
-**The overestimate's mechanism** (LOCK-GEN-2 P2.2):
-- sin 2πα becomes a disc of radius ≈ cosh around 0;
-- X = √(I/(πΩ)) sin 2πα becomes a disc of radius ≈ 0.21;
-- A = 4π(c + X) becomes a disc of radius ≈ 2.6;
-- exp(±iA) becomes a ball of radius e^{2.6} ≈ 13.
+**Advice (correction).**
+- Missing advice for nonconstant factors returns `none` (Model/Ops.lean:83–94). `CertModel.mul` then gives a zero
+  polynomial with a coarse sound radius (:114–116); there is no direct fallback unless `.direct` is explicit.
+- Advice is needed for tight margins.
+- LOCK-GEN-2's handoff repeats rev 1's wrong description; this is reported as an in-repo inaccuracy.
 
-On the actual domain, A is nearly real, so |exp(±iA)| ≤ e^{|Im A|}.
+**Bites.** SO-DATA3's site theorems (8.36 GB) can be reused only if the lock's box, Diophantine and site literals
+equal SO-DATA3's upper ones exactly. Otherwise they are re-run near the cap, or the route falls back to d0b.
 
-**My cross-check.**
-- Inputs: |Im sin 2πα| ≤ sinh(2π ρ_H) = sinh(0.0957) ≈ 0.096. On I ∈ 0.0148 ± 0.0026, |Im √I| /|√I| ≤ 0.0026/(2 ×
-  0.0122) ≈ 0.11.
-- So |Im X| ≲ 0.21 × (0.096 + 0.11) ≈ 0.043, |Im A| ≲ 4π × 0.043 ≈ 0.55, and |exp(±iA)| ≲ 1.7 instead of 13.
-- d2x carries the exp factor and up to three chain-rule factors in the root's I-derivatives. That is consistent with LOCK-GEN-2's 70–300× and its estimate of ≈ 2.5 decades (−18.40 → −15.94 at ρ = 1/140).
+## 3. CPU bill of materials (each pass counted once)
 
-**Option 4a (recommended): strip/box shapes.** This is a new pass `ballsBox`, modelled on `ballsTrig` (CertificateSharp/Ham/BallsTrig.lean, 408 lines, cosh shapes for χ_k + χ_{−k}).
-- **The shape.** Each slot also carries rational bounds |Re v| ≤ a and |Im v| ≤ b on the domain.
-- **Rules:**
-  - real constants and `pi`: b = 0;
-  - trig pairs (from the `ballsTrig` shape): |Re| ≤ c·cosh, |Im| ≤ c·sinh(2πρ_H|k|₁);
-  - actions: from centre ± radius;
-  - add: componentwise;
-  - mul: |Re uv| ≤ a_u a_v + b_u b_v and |Im uv| ≤ a_u b_v + b_u a_v;
-  - inv: via the ball (unchanged);
-  - **sqrt** with Re w ≥ ℓ > 0 (the operand's ball): |Im √w| ≤ b_w/(2√ℓ);
-  - **exp**: |exp w| ≤ e^{a_w}, where a_w bounds Re w. That is the whole gain, since exp(±iA) has Re = ∓Im A.
-- **The ball.** Each slot's ball is replaced by the box's circumscribed disc whenever that is smaller, so the output type is still that of `Slp.balls`.
-- **Statements.** New names only:
-  - `ballsBox`, `val_mem_ballsBox`, `invGood_of_ballsBox`, `sqrtGood_of_ballsBox`;
-  - `checkHamBoundsBox(Split)` and its `_sound`;
-  - `hamFacts_of_box`, the analogue of `hamFacts_of_trigSplit` (V2/HamTrig.lean:28);
-  - a route `routeARefinedBox`, which is `routeARefined` with `checkHamClaim` replaced, through `refinedCore_sound` unchanged.
-- **Module.** It needs its own module, for the same reason `HamTrig.lean` does (the `expLoQ` name clash noted in V2/HamClaim.lean).
-- **No landed statement changes.**
-- **Composition with levers 2 and 3.** `ballsBox` is given the P parameter and the `_append` lemma from the start, so one pass covers all three levers. Its kernel memory is ≈ 1.5–2× the disc pass's, because each slot carries 4 more rationals. That is affordable with segmentation (8 segments at P = 128: ≈ 4.5 GB by the §3 model).
-- **Size.** 600–900 lines over 2–3 files, plus tests: toy agreement as in `toyCert2_trig_eq`, and a `cos(sin …)`-type test where the box is strictly better.
-- **Audit cost.** One codex audit, comparable to C3's cosh pass. Plan 1–2 rounds.
-- **Gain** (LOCK-GEN-2):
-  - the threshold rises ≈ 2.5 decades, to about 10^−15.6 at ρ = 1/100;
-  - the support falls to about 75 × 15 (≈ 1.15k half-terms against 1.6k);
-  - factors are ≈ 0.7×, and per product ≈ 0.6^{1.5…2} ≈ 0.35–0.5×;
-  - cost ÷ 2–3.
-  - A smaller CertFixed width becomes possible too (err 10^−16.6, rather than 9e-20 at 112 bits). That is worth another (96/112)^{1…2} ≈ 0.75–0.86.
+**Per-product factor.** In the LOCK-GEN-2 model (cost ∝ size^{1.5…2} × width^{1…2}, with size 6.5× and width
+240/208), the review's arithmetic gives **19.1–56.3× R2**. With 300/129 = 2.33× the products, the packed part is
+44–131× R2's.
 
-**Option 4b (fallback): angle cells.**
-- Cover the α-strip by cells, run one ball pass per cell, and take the max.
-- The difficulty is that `certDomain` is a product of full strips, and `Slp.balls` bounds `char k` by w^{|k|₁}, which is cell-blind. A cell needs a new domain type and a new char-ball rule (centre e^{2πik·θ_c}, radius from the cell width), and `HamFacts` must be assembled as a max over a cover.
-- It is still new names only, but larger (≈ 1000+ lines). The number of passes is multiplied by the cell count.
-- It gains more than 4a only near the cut, which is not the binding effect here. Not recommended unless 4a falls short of 2 decades.
+| item | basis | range |
+|---|---|---:|
+| B1 packed products (pruned; torsion, Gram, compose, witnesses) | (0.3–0.9 CPU-h) × 44–131 | **13–118 CPU-h** |
+| B2 frame-majorant duplicate | unshared: (0.3–0.8) × 44–131; **0** if the frame theorem cites B1's shard equations (the remaining model and norm work goes to B5) | 0 or 13–105 |
+| B3 Ham passes | 2 passes; lock time unknown (R2: 91 s each, no exp/inv/sqrt) | unknown; likely < 1 CPU-h |
+| B4 literal baseline | R1: 190 s per shard declaration (OVERNIGHT 11:19) × shard count (R2: 667–718 per torus; lock unknown, larger) | **possibly dominant**: 1000 shards × 190 s = 53 CPU-h; amortised if several shards share a module |
+| B5 consumer theorems (compose, Gram, torsion, frame, assembly) | not measured | unknown |
+| B6 bites, advice generation, graph/SOS | bites ≈ 140 s if re-run; the rest unmeasured | unknown |
 
-## 5. Lever 5: the one-sqrt lean `lockHamExpr`
+**Sharing.** B2 = 0 is the *only* sharing credit. B1 is not discounted, so rev 1's step from 12–100 to 7–55 is
+withdrawn.
 
-**The form** (LOCK-GEN-2 owner item 1): ½Y² = (Ω/2π) I cos² 2πα, which removes Y's root.
-- **Savings:** 1 sqrt, 1 inv, 20 of the 128 torsion-compose products. That is ≈ 7 % of the ≈ 300 products, and the Ham claims change by 2 %.
-- **Status:** `lockHamExpr` is **not landed** (no `.lean` in KAM/ mentions it). So this changes a design statement only; it is an owner-review item.
+**Levers on B1.** All are **unverified** multiplicative estimates:
+- one-sqrt form: × 0.93 (product census);
+- box pass (§4): ÷ 2–3 (LOCK-GEN-2 estimate at ρ = 1/140; no mirror);
+- CertFixed 112 → 96: × (96/112)^{1…2} = 0.73–0.86, conditional on the box pass's threshold.
 
-**Eval identity.** The lean expression agrees with soRotHC ∘ lockToRotC exactly where sqrtE(w)² = w, that is off the nonpositive real axis of IΩ/π. The statement becomes `lockHamExpr_eval (hI : 0 < (z.2 0).re)`, or the weaker "not a nonpositive real".
+**Total.** With all levers, B1 ∈ **3.0–47 CPU-h**. ≤ 20 CPU-h therefore holds only in the lower part of that range,
+before B4–B6. **≤ 20 CPU-h is a conditional goal, not a projection**, and gate probes G3/G4 decide it.
 
-**Every consumer of `lockHamExpr_eval`** (from SO-LOCK-DESIGN §3, §4.2, §6; nothing in landed code):
-| consumer | where eval is used | still valid? |
+## 4. Lever 4: a sharper Ham pass with box shapes (research lever)
+
+**Rules.**
+- Each slot also carries |Re v| ≤ a and |Im v| ≤ b.
+- exp: |exp w| ≤ e^{a_w}.
+- sqrt with Re w ≥ ℓ > 0: |Im √w| ≤ b_w/(2√ℓ). This is sound (review 1 §7); the rational bound needs a certified
+  *lower* approximation of √ℓ.
+- mul and add: interval rules.
+- The ball is kept, or replaced by the box's circumscribed disc when that is smaller, so containment is preserved.
+
+**Names and size.**
+- New names only: `ballsBox`, `val_mem_ballsBox`, the safety lemmas, `checkHamClaimBox`, `hamFacts_of_box` and
+  `routeARefinedBox`. `refinedCore_sound` is unchanged.
+- 600–900 lines and a C3-sized audit. Written generic in P and on literal jets (lever 0).
+
+**The gain is not established.**
+- My |exp(±iA)| ≲ 1.7 (rev 1) and LOCK-GEN-2's 2.5 decades both use sampled suprema at ρ = 1/140; the package uses
+  ρ = 1/100.
+- Certified box claims can be looser than samples.
+- The frame claims must be recomputed: SO-DATA3 found sampled frame claims too small.
+
+**Prerequisite.** A Python `ballsBox` mirror (extending `lock_balls.py`; exact rationals; the same rules) reporting
+the certified dh, dx, d2x and d2h, and from them the threshold, support and B1 factor. No Lean before that.
+
+## 5. Lever 5: the one-sqrt lean `lockHamExpr` (corrected contract)
+
+½Y² = (Ω/2π) I cos² 2πα saves 1 sqrt, 1 inv and 20 of the 128 torsion-compose products. `lockHamExpr` is unlanded,
+so this changes a design contract only (an owner item).
+
+**The eval contract needs both conditions.**
+- The identity needs sqrtE(IΩ/π)² = IΩ/π. `hI` alone is false: at Ω = −1, I = 1, sqrtE(−1/π) = 0, but the lean
+  term is −1/(2π) (review 1 §3).
+- New contract: `lockHamExpr_eval (hΩ : 0 < Ω) (hI : 0 < (z.2 0).re) : (lockHamExpr Ω cs).eval z = soRotHC
+  (lockToRotC Ω cs z)`. A more general version would assume "IΩ/π in the slit plane".
+
+| consumer | requirement | disposition |
 |---|---|---|
-| `lockHamExpr_clock` (hΩ, Re I > 0) | fderiv at z with Re I > 0. That is a local statement, and the identity holds on the open set {Re I > 0} | yes |
-| `lockBarrier_of_certV2` (`hham` tie) | `CertifiedTorus` gives the torus of `c.ham.eval` inside `certDomain`. Its I-disc is 0.01480 ± 0.00261, so Re I ≥ 0.0122 > 0 on all of it | yes, given `certDomain ⊆ {Re I > 0}`, which follows from the certificate's centre and radius (a new decidable premise, or read off `checkStatic`) |
-| real transport (`lockToRotC_ofReal`, I > 0) | real points of the torus with I > 0 | yes |
-| safety (`nonvanishingOn_of_program_good`, `SlpSqrtGood`) | does not use eval | unaffected; one sqrt fewer to check |
-| `checkHamBounds_sound` / `ham_structural` | holomorphy of `HamExpr.eval` on the domain, not the identity | unaffected |
+| `lockHamExpr_clock` (hΩ) | equality on the **open** set {Re I > 0}, a neighbourhood of z, so that the fderivs agree | safe; it has hΩ and needs Re I > 0 |
+| `lockToRotC_ofReal`, real transport | Ω > 0, I > 0 | safe; it does not use the eval identity |
+| `lockBarrier_of_certV2` (`hham`) | eval on all of `certDomain` | needs a **new decidable check** `actionPosOk c := radius[0] < centre[0]` with its soundness, since `checkStatic` lacks it (Defs.lean:220–234); or a derivation from X's checked sqrt operand. The N = 65 data give exactly 0.01480 − 0.00261 = 0.01219 > 0, but that is data, not a premise |
+| `checkHamBounds_sound`, `ham_structural`, safety | generic in `HamExpr.eval` | unaffected; X's sqrt and the inv still need certifying |
 
-**Verdict:** safe. Every consumer evaluates on Re I > 0. The cost is one hypothesis on one unlanded theorem, plus the domain-positivity side condition in the barrier glue, which the design already needs for `SlpSqrtGood`.
+Repairable with no landed statement change. The cost is two premises on one unlanded theorem plus one new
+decidable check.
 
-## 6. Lever 6, the per-theorem cap, and the calibration probe
+## 6. Lever 1: pruned composition in V2
 
-**Packed products (lever 6).**
-- After SO-PACKFIX, a blockRows-32 shard of 12 block pairs at w ≈ 659 bits took 4.6 GB. R2 at ≤ 4 pairs and 208 bits took ≲ 1.5 GB (SO-V2PKG §4.4).
-- Lock factors are ≈ 6.5× the terms at ≈ 240 bits, so a shard has 6.5× more block pairs at the same blockRows.
-- The emitter chooses blockRows so that each shard keeps ≤ 8 pairs. That gives ≈ 2.5–3.5 GB per shard by the SO-V2PKG model, with more shard theorems and the same total.
-- No checker change. This is the SO-DATA3 practice: one theorem per shard, each alone under `MemoryMax=10G`.
+**Current state.**
+- V2's `landedBase`/`trigBase`/`cornerBase` call the unpruned `checkInvariance`, `checkEnergy` and `checkTorsion`
+  (`torsionModels` → `Slp.compose`, Models.lean:155).
+- `checkFrameMajorants` calls `torsionModels` again (Majorants.lean:160).
+- `Slp.composePruned_sound` (Kernel/Prune) is used only by v1's `checkInvEnShared`.
+- B1 assumes pruning, so this lever is **mandatory**, not a saving.
 
-**Other near-cap theorems.**
-- SO-DATA3's δ₁ bite (l = 12) passed at 8.36 GB. The lock uses the upper torus's box, Diophantine data and sites (LOCK-GEN-2 P2.3), so the **same bite theorems can be reused verbatim** if the box literal is identical (κ = 1). Otherwise use d0b.
-- The compose chain must stay out of any single theorem. Per-product shard theorems plus the advice books (not yet emitted: LOCK-GEN-2) give this. Without advice, the products fall back to the direct route inside one declaration, which will not fit. **Advice emission is therefore a prerequisite**, not an optimisation.
+**New names:** `torsionModelsPruned`, `checkTorsionPruned`, `checkFrameMajorantsP`, `sharedBaseV2`, `routeAV2P`,
+each with the J-variant of lever 0.
 
-**Calibration probe** (before lever 4 is commissioned):
-1. one heavy lock compose product (U-model × exp witness) as a single shard at the chosen blockRows, alone under the cap: time and peak;
-2. a 400-op segment of the lock Ham program through `ballStepG` at P = 128 and P = 320 (`decide +kernel` on a `#eval`-generated literal prefix), to check memory ∝ ops × P.
+**Glue.**
+- A new Gram projection from the pruned torsion check, since `checkGram_of_checkTorsion` takes the old Bool.
+- An adapted proof of the content of `checkTorsion_sound_of` for the new producer.
 
-These fix the exponents in "per product ∝ size^{1.5…2} × width^{1…2}". The uncertainty in that exponent is most of the spread in 12–100 CPU-h.
+No landed statement changes. 250–400 lines; a mechanical audit.
 
-## 7. Totals and the recommended combination
+## 7. Calibration gate (replaces rev 1's projected guarantees)
 
-**Projection** (LOCK-GEN-2's packed part × the factors above; the Ham passes and bites are minutes):
-| combination | packed CPU-h | max theorem (projected) | landed statements |
-|---|---:|---:|---|
-| as is (no pruning, monolithic Ham pass) | ≈ 40–400 | Ham pass ≈ 25 GB: **fails** | — |
-| 1 + 6 + shared frame proofs | 12–100 → **7–55** | Ham pass ≈ 25 GB: fails | none |
-| + 2 + 3 (P 128, 4–8 segments) | 7–55 | ≈ 5 GB (Ham), ≈ 3.5 GB (shards), 8.4 GB (reused bite) | none |
-| + 5 (lean form) | 6.5–51 | same | none (design statement) |
-| **+ 4a (box pass, 75 × 15, CertFixed 96)** | **≈ 2–20** | ≈ 4.5 GB (Ham box, 8 segments) | none |
+**How to run.**
+- One probe at a time, under the shared lock and the cap, with SO-BALLDY's runner (`inp-soballdy:.drafts/bd/run.sh`,
+  copied into scratch, worktree path edited):
 
-**Recommendation.**
-1. **Now, cheap and mandatory:**
-   - lever 1 (`sharedBaseV2`, `routeAV2P`, pruned torsion and frame) with shared frame-majorant proofs;
-   - lever 6 (blockRows chosen at emission);
-   - advice-book emission.
-2. **Now, cheap; closes the cap risk:**
-   - levers 2 + 3 as **one** package (`Slp.ballsP`, `ballsRev_append`, `ballsP_eq_of_segments`) at P = 128 with 8 segments.
-   - It is also the right base for 4a, which should be written generic in P and segmentable from the start.
-3. **Owner ruling:** lever 5. It is safe by §5 and adopted unless the owner prefers to keep the all-z eval.
-4. **Calibration probe** (§6).
-   - If it puts 1 + 2 + 3 + 5 at ≤ 20 CPU-h, i.e. at the bottom of the range, stop there.
-   - Otherwise commission **4a**. It is the only lever that moves the total by a factor and not by percentages, and it is the only way to the ≤ 20 CPU-h target across most of the projected range.
-5. **Do not** pursue angle cells (4b) or route-E model checkpoints for compose: the shard layout already bounds the compose memory.
+      flock /mnt/HC_Volume_106379410/orchestrator-tools/.kernel-probe.lock systemd-run --user --scope \
+        -p MemoryMax=10G -p MemorySwapMax=0 /usr/bin/time -f "WALL %e s MAXRSS %M KB EXIT %x" \
+        nice -n 5 lake env lean <probe>.lean      # plus run.sh's 1 s cgroup anon-peak sampling
 
-**Landed-statement impact of the whole recommendation: none.**
-- Every checker change adds new declarations (`*P`, `*Seg`, `*Box`, `sharedBaseV2`, `routeAV2P`, `routeARefinedBox`).
-- `TorusCertificate`, `Slp.balls`, `checkHamBounds`, `landedBase`, `routeAV2` and SO-DATA3's R2 path are untouched.
-- The only statements that change are unlanded design ones:
-  - `lockBarrier_of_certV2` names the new base and route;
-  - `lockHamExpr_eval` gains `0 < Re I` under lever 5.
-- **Existing exception, not a new one:** the SO-LOCK-DESIGN Q8 exception (`nonvanishingOn_of_program_good`) stands as before. The new passes add their own `nonvanishingOn_of_ballsP`/`_ballsBox`.
+- **Proxy Hamiltonian until LOCK-SQRT lands.** Take `lock_ham.py`'s Lean text with each `.sqrt e` replaced by
+  `.inv e`: the same arity, and the op count within ±4. The proxy measures program size, not values.
+- Data and probes go in `/mnt/HC_Volume_106379410/kam-data/so-lock/gate/`.
 
-## 8. Uncertainties
+| probe | proposition | measures | decision rule |
+|---|---|---|---|
+| **G1** program forcing | `lockHamProxy.jet.prog.ops.all opOk = true` by `decide +kernel` (BALLDY `J0` form), and its `K0` spine-only version | the lock analogue of 3.9 / 6.9 GB | ≤ 8 GB: the bridge `lockHamExpr_jet` is one theorem. Otherwise G1′ per jet component (`v0`, `d1`, `d2`, `d3`); if a component exceeds 8 GB, **stop and report** (compiler segmentation is a redesign) |
+| **G2** balls on literal ops | `ballsRev P … s acc (literal segment) = some acc'` for an early (0–800) and a **late** (2400–3158) segment, P ∈ {128, 320} | per-segment peak versus P, length and position | take the largest segment with peak ≤ 7 GB; if a late 400-op segment at P = 128 exceeds 7 GB, stop and report |
+| **G3** a heavy product and its consumer | one packed shard of U-model × exp witness at a trial blockRows (shard equation proved), and that composition step forced to full outputs and norms (not `isSome`) | shard time t_s and peak; consumer-step peak | shard ≤ 6 GB fixes blockRows; consumer > 8 GB → route-E stage subdivision |
+| **G4** literal baseline | G3's shard module, data only | per-declaration literal cost t_ℓ | input to the bill |
 
-- The memory model in §3 (linear in ops × P above a 2.6 GB base) is an assumption. BALLDY measured a single point. Probe 2 settles it.
-- The cost exponents (§6, probe 1). With the worst exponents the recommended total is ≈ 20 CPU-h, at the target; with the best it is ≈ 2.
-- The gain of the box pass rests on LOCK-GEN-2's sampled true sup (ρ = 1/140) and my arithmetic in §4, not on a box mirror. A Python mirror of `ballsBox`, about 150 lines extending `lock_balls.py`, should precede the Lean work.
-- Reusing the bites needs the lock box literal to equal SO-DATA3's upper box exactly.
+**Bill after the gate:** N_shards × (t_s + t_ℓ/k), with k shards per module, plus G2 × segments × 2, plus B5.
+
+**Decision.**
+- **≤ 20 CPU-h:** proceed with levers 0, 1, 2, 3 and 5; no box pass.
+- **20–60 CPU-h:** build the `ballsBox` mirror. If its certified claims project ≤ 20 CPU-h, commission lever 4;
+  otherwise report to the owner.
+- **> 60 CPU-h, or any probe failing its rule:** report to the owner before implementation. The budget or the route
+  (for example d0b, or a lower ρ) needs a ruling.
+
+## 8. Recommendation
+
+1. **Run the gate first.** G1–G4 take a few hours of probes and need no checker change; G1 needs only the proxy and
+   the landed compiler.
+2. **Mandatory regardless:**
+   - lever 1 (pruned V2 base and frame; B2 = 0 by shard reuse);
+   - lever 0 (literal jet bridge and the J-variants);
+   - advice emission;
+   - blockRows from G3.
+3. **Then** levers 2 + 3 as one package, with parameters from G2, and lever 5 (owner ruling; corrected contract).
+4. **Lever 4 only through the §7 rule**, after its mirror.
+
+**Landed-statement impact: none.** Every checker change is a new declaration. Changed unlanded design contracts:
+- `lockBarrier_of_certV2` names the new base and route, and gains `actionPosOk` under lever 5;
+- `lockHamExpr_eval` gains hΩ and hI under lever 5;
+- new `lockHamExpr_jet` (lever 0).
+
+The SO-LOCK-DESIGN Q8 exception is unchanged and not extended.
+
+## 9. Response to review 1
+
+| finding | response |
+|---|---|
+| 1 HIGH: memory premise contradicts BALLDY's breakdown; segments + P are no guarantee | §1 now uses the breakdown; the rev 1 model is withdrawn. §2 shows program forcing dominates and projects over 10 GB. New **lever 0** (literal jet bridge, its own risk gated by G1). Segments are scoped to literal ops, with a state length of about 3158. The cap claim is withdrawn in favour of G1/G2 (early **and** late segments, P = 128 and 320, full forcing) |
+| 2 HIGH: sharing discounted twice; omissions | §3 is a non-overlapping bill. B1 = 13–118 (corrected to 19.1–56.3× per product). The only sharing credit is B2 = 0. B4–B6 are unknown or possibly dominant. ≤ 20 h is a conditional goal, decided by §7 |
+| 3 HIGH: one-sqrt eval needs Ω | §5: hΩ ∧ hI (counterexample cited); the clock uses the open-set argument; new decidable `actionPosOk`, since `checkStatic` lacks it; the exact rational 0.01219 |
+| 4 MEDIUM: shards don't bound consumers; advice misstated | §2: shards do not bound consumer memory; route E is a contingency (G3 forces full outputs). Advice behaviour corrected (`none` → zero polynomial and coarse radius; `.direct` only when explicit); LOCK-GEN-2's handoff inaccuracy reported |
+| 5 NOTE: exact-chain contract; `ballsSpec_sound` is 320-only; widening differs | §2 lever 3: exact-equality conditions listed; new `ballsSpecP_sound`; plan as a base-instance parameter; widening named and not proposed; the 0.15 MB claim withdrawn |
+| 6 NOTE: precision sound; accuracy and linearity unproven | §2 lever 2: `ballsP_320` compatibility lemma; P not in `TorusCertificate`; accuracy caveat; BALLDY's 887 ops have no exp/inv/sqrt, so linearity is not assumed (G2 measures it) |
+| 7 PASS: additive architecture | Kept; the Gram-projection and `checkTorsion_sound_of` glue is noted in §6 |
