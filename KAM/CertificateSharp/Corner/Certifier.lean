@@ -32,6 +32,16 @@ def checkTorusCertificateCorner (E : AposterioriEngine) (c : TorusCertificate n 
   checkStatic c && checkHamBounds c && checkEmbeddingCorner c && checkInvarianceCorner c &&
     checkEnergy c && checkGram c && checkTorsion c && E.test c
 
+/-- A certificate passing the landed certifier and the two corner checks passes the corner
+certifier as soon as the engine's test does: the five other sub-checks are the same. -/
+theorem checkTorusCertificateCorner_of_old (E : AposterioriEngine) {c : TorusCertificate n α}
+    (h : checkTorusCertificate c = true) (he : checkEmbeddingCorner c = true)
+    (hi : checkInvarianceCorner c = true) (ht : E.test c = true) :
+    checkTorusCertificateCorner E c = true := by
+  simp only [checkTorusCertificate, checkTorusCertificateCorner, Bool.and_eq_true] at h ⊢
+  obtain ⟨⟨⟨⟨⟨⟨⟨hs, hh⟩, -⟩, -⟩, hen⟩, hg⟩, htor⟩, -⟩ := h
+  exact ⟨⟨⟨⟨⟨⟨⟨hs, hh⟩, he⟩, hi⟩, hen⟩, hg⟩, htor⟩, ht⟩
+
 variable [LawfulCertArith α]
 
 /-- **Soundness of the corner certifier**, for every engine: the same conclusion as

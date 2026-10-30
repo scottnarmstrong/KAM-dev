@@ -126,10 +126,15 @@ public import KAM.Certificate.Torsion.Models
 public import KAM.CertificateSharp.Constants
 public import KAM.CertificateSharp.ConstantsDom
 public import KAM.CertificateSharp.ConstantsQ
+public import KAM.CertificateSharp.Corner.Certifier
+public import KAM.CertificateSharp.Corner.Checks
+public import KAM.CertificateSharp.Corner.SupBound
+public import KAM.CertificateSharp.Corner.Vertex
 public import KAM.CertificateSharp.Engine
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound
+public import KAM.CertificateSharp.Tests.Corner
 public import KAM.CertificateSharp.Tests.Margin
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
