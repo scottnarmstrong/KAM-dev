@@ -98,8 +98,81 @@ theorem EntryCond.facts {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) {δ 
       _ = p.sB * Ent.GrK p E * (p.γb ^ 2 * p.δ ^ (2 * p.κ - 1)) * x := by ring
       _ ≤ p.th := hgr
 
-/-- The `|DK|` and `|Lᵀ|` increments of the entry step on `T_{r-3δ}`: the sup Cauchy estimate
-(`n C_ΔK X`, `2n C_ΔK X`), and with the frame certificate also the ℓ¹ one. -/
+/-- The `|DK|` and `|Lᵀ|` increments of an entry step `K ↦ K'` on `T_{r-3δ}`: the sup Cauchy
+estimate (`n C_ΔK X`, `2n C_ΔK X`) and, with the frame certificate, the ℓ¹ one, given as `hl1`. -/
+theorem entry_frame_rates_of {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (hpn : p.n = n)
+    (hγ : 0 < γ) (hγb : γ ≤ p.γb) {r ε δ : ℝ} (hε0 : 0 ≤ ε) (hδ : 0 < δ) (hδD : δ ≤ p.δ)
+    {K K' : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hK : DifferentiableOn ℂ K (complexStrip n r))
+    (hdist : ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖K' θ - K θ‖ ≤ Ent.CDK p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ))))
+    (hdiff : DifferentiableOn ℂ K' (complexStrip n (r - 2 * δ)))
+    (hl1 : ∀ F, E.frame = some F → ∀ θ ∈ complexStrip n (r - 3 * δ),
+      ‖fderiv ℂ K' θ - fderiv ℂ K θ‖ ≤
+        (F.nuK * (Ent.CXiL1 p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ)))) +
+          F.nuN * (Ent.CXiN1 p E * (ε / (γ * δ ^ p.κ)))) / (Real.exp 1 * δ) ∧
+      ‖(tangentMat K' θ - tangentMat K θ)ᵀ‖ ≤
+        2 * n * (F.nuK * (Ent.CXiL1 p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ)))) +
+          F.nuN * (Ent.CXiN1 p E * (ε / (γ * δ ^ p.κ)))) / (Real.exp 1 * δ)) :
+    ∀ θ ∈ complexStrip n (r - 3 * δ),
+      ‖fderiv ℂ K' θ - fderiv ℂ K θ‖ ≤ Ent.dL p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ + 1))) ∧
+      ‖(tangentMat K' θ - tangentMat K θ)ᵀ‖ ≤ Ent.dLt p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ + 1))) := by
+  subst hpn
+  have hk := Ent.nonneg hp hE
+  obtain ⟨-, sE, s3, -, -, -, -, -⟩ := scales (ε := ε) (κ := p.κ) hγ hδ
+  set u := ε / (γ * δ ^ p.κ) with hu
+  set E' := ε / (γ ^ 2 * δ ^ (2 * p.κ)) with hE'
+  set X := ε / (γ ^ 2 * δ ^ (2 * p.κ + 1)) with hX
+  have hX0 : 0 ≤ X := div_nonneg hε0 (by positivity)
+  have hE0 : 0 ≤ E' := div_nonneg hε0 (by positivity)
+  have hgd0 := StepInA.gd_le hp hγ hγb hδ hδD
+  have huE : u ≤ p.g * E' := by rw [sE]; exact mul_le_mul_of_nonneg_right hgd0 hE0
+  have hθ' : ∀ θ ∈ complexStrip p.n (r - 3 * δ), θ ∈ complexStrip p.n (r - 2 * δ - δ) :=
+    fun θ hθ => by rwa [show r - 2 * δ - δ = r - 3 * δ by ring]
+  have hDE : Ent.CDK p E * E' / δ = Ent.CDK p E * X := by rw [s3]; field_simp
+  -- the sup Cauchy estimates
+  have hK2 : DifferentiableOn ℂ K (complexStrip p.n (r - 2 * δ)) :=
+    hK.mono (Triangular.strip_mono (by linarith))
+  have hsup1 : ∀ θ ∈ complexStrip p.n (r - 3 * δ),
+      ‖fderiv ℂ K' θ - fderiv ℂ K θ‖ ≤ p.n * Ent.CDK p E * X := fun θ hθ => by
+    have := PerturbationAux.norm_fderiv_sub_le hK2 hdiff hdist hδ θ (hθ' θ hθ)
+    rwa [mul_div_assoc, hDE, ← mul_assoc] at this
+  have hsup2 : ∀ θ ∈ complexStrip p.n (r - 3 * δ),
+      ‖(tangentMat K' θ - tangentMat K θ)ᵀ‖ ≤ 2 * p.n * Ent.CDK p E * X := fun θ hθ => by
+    have := PerturbationAux.norm_transpose_tangentMat_sub_le hK2 hdiff hdist hδ θ (hθ' θ hθ)
+    rwa [mul_div_assoc, hDE, ← mul_assoc] at this
+  intro θ hθ
+  unfold Ent.dL Ent.dLt
+  rcases hF : E.frame with _ | F
+  · exact ⟨hsup1 θ hθ, hsup2 θ hθ⟩
+  · obtain ⟨hν1, hν2⟩ := hE.frame F hF
+    obtain ⟨h1, h2⟩ := hl1 F hF θ hθ
+    have hcmp : F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u) ≤
+        (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * E' := by
+      have : F.nuN * (Ent.CXiN1 p E * u) ≤ F.nuN * (Ent.CXiN1 p E * (p.g * E')) :=
+        mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left huE hk.CXiN1) hν2.le
+      nlinarith
+    have hl1' : (F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u)) /
+        (Real.exp 1 * δ) ≤
+          Ent.einv * (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * X := by
+      have he : 0 < Real.exp 1 * δ := mul_pos (Real.exp_pos 1) hδ
+      calc _ ≤ (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * E' / (Real.exp 1 * δ) :=
+            div_le_div_of_nonneg_right hcmp he.le
+        _ = Ent.einv * (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * X := by
+            rw [s3]; unfold Ent.einv; field_simp
+    refine ⟨?_, ?_⟩
+    · rw [min_mul_of_nonneg _ _ hX0]
+      exact le_min (hsup1 θ hθ) (h1.trans hl1')
+    · rw [min_mul_of_nonneg _ _ hX0]
+      refine le_min (hsup2 θ hθ) (h2.trans ?_)
+      have := mul_le_mul_of_nonneg_left hl1' (show (0 : ℝ) ≤ 2 * p.n by positivity)
+      calc 2 * (p.n : ℝ) * (F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u)) /
+            (Real.exp 1 * δ) =
+            2 * p.n * ((F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u)) /
+              (Real.exp 1 * δ)) := by ring
+        _ ≤ _ := this
+        _ = _ := by ring
+
+/-- The `|DK|` and `|Lᵀ|` increments of the entry step on `T_{r-3δ}` (fixed frequency). -/
 theorem entry_frame_rates {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (hpn : p.n = n)
     (hS : Standing n τ M p.sK p.sB p.sT 𝔅 h ω γ) (hγb : γ ≤ p.γb) {r β ε δ : ℝ}
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
@@ -122,71 +195,10 @@ theorem entry_frame_rates {p : StepInA} {E : EntryA} (hp : p.Pos) (hE : E.Wf) (h
       ‖fderiv ℂ (newtonMap h K ω (r - 2 * δ)) θ - fderiv ℂ K θ‖ ≤
         Ent.dL p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ + 1))) ∧
       ‖(tangentMat (newtonMap h K ω (r - 2 * δ)) θ - tangentMat K θ)ᵀ‖ ≤
-        Ent.dLt p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ + 1))) := by
-  subst hpn
-  have hk := Ent.nonneg hp hE
-  have hr := hK.r_pos
-  have hε0 := hK.ε_nonneg
-  have hγ := hS.gamma_pos
-  have hδ1 : δ ≤ 1 := hδD.trans hp.δ1
-  obtain ⟨-, sE, s3, -, -, -, -, -⟩ := scales (ε := ε) (κ := p.κ) hγ hδ
-  set u := ε / (γ * δ ^ p.κ) with hu
-  set E' := ε / (γ ^ 2 * δ ^ (2 * p.κ)) with hE'
-  set X := ε / (γ ^ 2 * δ ^ (2 * p.κ + 1)) with hX
-  have hX0 : 0 ≤ X := div_nonneg hε0 (by positivity)
-  have hE0 : 0 ≤ E' := div_nonneg hε0 (by positivity)
-  have hgd0 := StepInA.gd_le hp hγ hγb hδ hδD
-  have huE : u ≤ p.g * E' := by rw [sE]; exact mul_le_mul_of_nonneg_right hgd0 hE0
-  have hsub2r : complexStrip p.n (r - 2 * δ) ⊆ complexStrip p.n r :=
-    Triangular.strip_mono (by linarith)
-  have hθ' : ∀ θ ∈ complexStrip p.n (r - 3 * δ), θ ∈ complexStrip p.n (r - 2 * δ - δ) :=
-    fun θ hθ => by rwa [show r - 2 * δ - δ = r - 3 * δ by ring]
-  have hDE : Ent.CDK p E * E' / δ = Ent.CDK p E * X := by rw [s3]; field_simp
-  -- the sup Cauchy estimates
-  have hsup1 : ∀ θ ∈ complexStrip p.n (r - 3 * δ),
-      ‖fderiv ℂ (newtonMap h K ω (r - 2 * δ)) θ - fderiv ℂ K θ‖ ≤ p.n * Ent.CDK p E * X :=
-    fun θ hθ => by
-      have := PerturbationAux.norm_fderiv_sub_le (hK.holo.mono hsub2r) hdiff hdist hδ θ (hθ' θ hθ)
-      rwa [mul_div_assoc, hDE, ← mul_assoc] at this
-  have hsup2 : ∀ θ ∈ complexStrip p.n (r - 3 * δ),
-      ‖(tangentMat (newtonMap h K ω (r - 2 * δ)) θ - tangentMat K θ)ᵀ‖ ≤
-        2 * p.n * Ent.CDK p E * X := fun θ hθ => by
-    have := PerturbationAux.norm_transpose_tangentMat_sub_le (hK.holo.mono hsub2r) hdiff hdist hδ θ
-      (hθ' θ hθ)
-    rwa [mul_div_assoc, hDE, ← mul_assoc] at this
-  intro θ hθ
-  unfold Ent.dL Ent.dLt
-  rcases hF : E.frame with _ | F
-  · exact ⟨hsup1 θ hθ, hsup2 θ hθ⟩
-  · obtain ⟨hLK, hNK⟩ := hD.frame F hF
-    obtain ⟨hν1, hν2⟩ := hE.frame F hF
-    obtain ⟨h1, h2⟩ := l1_frame_increment hS hK hδ hδ1 h3δ hLK hNK hXLd hXLp hXNd hXNp hXL1 hXN1
-      θ hθ
-    have hcmp : F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u) ≤
-        (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * E' := by
-      have : F.nuN * (Ent.CXiN1 p E * u) ≤ F.nuN * (Ent.CXiN1 p E * (p.g * E')) :=
-        mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left huE hk.CXiN1) hν2.le
-      nlinarith
-    have hl1 : (F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u)) /
-        (Real.exp 1 * δ) ≤
-          Ent.einv * (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * X := by
-      have he : 0 < Real.exp 1 * δ := mul_pos (Real.exp_pos 1) hδ
-      calc _ ≤ (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * E' / (Real.exp 1 * δ) :=
-            div_le_div_of_nonneg_right hcmp he.le
-        _ = Ent.einv * (F.nuK * Ent.CXiL1 p E + F.nuN * p.g * Ent.CXiN1 p E) * X := by
-            rw [s3]; unfold Ent.einv; field_simp
-    refine ⟨?_, ?_⟩
-    · rw [min_mul_of_nonneg _ _ hX0]
-      exact le_min (hsup1 θ hθ) (h1.trans hl1)
-    · rw [min_mul_of_nonneg _ _ hX0]
-      refine le_min (hsup2 θ hθ) (h2.trans ?_)
-      have := mul_le_mul_of_nonneg_left hl1 (show (0 : ℝ) ≤ 2 * p.n by positivity)
-      calc 2 * (p.n : ℝ) * (F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u)) /
-            (Real.exp 1 * δ) =
-            2 * p.n * ((F.nuK * (Ent.CXiL1 p E * E') + F.nuN * (Ent.CXiN1 p E * u)) /
-              (Real.exp 1 * δ)) := by ring
-        _ ≤ _ := this
-        _ = _ := by ring
+        Ent.dLt p E * (ε / (γ ^ 2 * δ ^ (2 * p.κ + 1))) :=
+  entry_frame_rates_of hp hE hpn hS.gamma_pos hγb hK.ε_nonneg hδ hδD hK.holo hdist hdiff
+    fun F hF => l1_frame_increment hS hK hδ (hδD.trans hp.δ1) h3δ (hD.frame F hF).1
+      (hD.frame F hF).2 hXLd hXLp hXNd hXNp hXL1 hXN1
 
 /-- The arithmetic of the torsion rate of the entry step: the bound of `torsion_sub_leG` at the
 entry increments is `≤ C_ΔT X`. -/
