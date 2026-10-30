@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 00:48 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 96 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **272,756 lines of Lean** of an estimated ≈ 277,000
+> **Last updated: 2026-10-30 00:51 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **274,488 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -109,15 +109,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **99.3 %** · SO checker **96 %** · SO Moon **70 %**
+### Estimated completion: original project **99.3 %** · SO checker **100 %** · SO Moon **70 %**
 
 Original project (tracks K, I, N, P): `█████████████████████████` 99.3 %
 
-Track SO, part 1, the general Lean certificate checker: `████████████████████████░` 96.0 %
+Track SO, part 1, the general Lean certificate checker: `█████████████████████████` 100.0 %
 
 Track SO, part 2, the Moon's spin rate (its first client): `██████████████████░░░░░░░` 70.0 %
 
-Overall, everything together: 96.3 %
+Overall, everything together: 96.8 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
@@ -130,9 +130,9 @@ Overall, everything together: 96.3 %
 | Track N (Nekhoroshev) | 4 | 22 | 22.0 | `██████████` 100 % |
 | Track P (planetary) | 5 | 30 | 30.0 | `██████████` 100 % |
 | Sealing of the frozen statements | 22 | 22 | 22.0 | `██████████` 100 % |
-| Track SO, part 1: general Lean certificate checker | 6 | 32 | 30.7 | `██████████` 96 % |
+| Track SO, part 1: general Lean certificate checker | 6 | 32 | 32.0 | `██████████` 100 % |
 | Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 14.0 | `███████░░░` 70 % |
-| **Total** | 74 | 229 | 220.5 | **96.3 %** |
+| **Total** | 74 | 229 | 221.8 | **96.8 %** |
 
 **How this is estimated.** The project is divided into 52 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
 
@@ -185,7 +185,7 @@ Overall, everything together: 96.3 %
 | SO1.FOURIER | Exact Fourier data and Fourier models: packed products checked against advice, model algebra, exponential and inverse witnesses | VH | ✅ 100 % | landed: SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW (of SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW) |
 | SO1.EXPR | Hamiltonians as expressions: semantics, symbolic jets to third order, certified ball evaluation, norm bridges | H | ✅ 100 % | landed: SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM (of SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM) |
 | SO1.MATRIX | Matrix certificates: approximate inverses, embeddings, Gram and torsion checks, positivity | H | ✅ 100 % | landed: SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS (of SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS) |
-| SO1.CHECK | The certificate, the checker and its soundness theorem through the sealed isoenergetic theorem; toy and negative tests | VH | 🟨 84 % | landed: SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3 (of SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST) |
+| SO1.CHECK | The certificate, the checker and its soundness theorem through the sealed isoenergetic theorem; toy and negative tests | VH | ✅ 100 % | landed: SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST (of SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST) |
 | SO2.PLAN | Plan and owner rulings O1–O5: momentum window, rotated frame, parameter package R1 (confirmed with enclosed numbers), data packaging option A | M | ✅ 100 % | SO-GEN2: threshold 10^-74.7, about 8.5k terms per torus; SO-ADVCOUNT: about 4 MB of advice per torus |
 | SO2.MODEL | Lunar model: the spin–orbit Hamiltonian, Diophantine lunar frequencies, clock, rotated frame | H | ✅ 100 % | landed: SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ (of SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ) |
 | SO2.BARRIER | Confinement: two invariant barriers confine every solution for all time; graph inversion of an exact torus in both frames; certified graphs | H | ✅ 100 % | landed: SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH (of SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH) |
@@ -201,29 +201,29 @@ Overall, everything together: 96.3 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **272,756** (212,892 excluding blank lines and comments) · **+55,624** since 2026-10-29 00:40 UTC |
-| Written on agent branches, not yet landed | 2,108 |
-| **Estimated total at completion** | **≈ 277,000** |
-| Estimated still to write | ≈ 2,000 |
+| On `main` now | **274,488** (214,340 excluding blank lines and comments) · **+57,356** since 2026-10-29 00:40 UTC |
+| Written on agent branches, not yet landed | 351 |
+| **Estimated total at completion** | **≈ 276,000** |
+| Estimated still to write | ≈ 1,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 00:48 UTC from `main` at `67166664` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 00:51 UTC from `main` at `2cf0fceb` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
 **Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in two parts:
 
-- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 68 modules · 18,099 lines. **Packages landed: 25 / 26**.
-- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 14 modules · 2,703 lines. **Packages landed: 16 / 18**.
-- Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
+- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 76 modules · 19,829 lines. **Packages landed: 26 / 26**.
+- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 14 modules · 2,705 lines. **Packages landed: 16 / 18**.
+- Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
 
-**Lean on `main`:** 1381 modules · 272,756 lines · 11,608 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1389 modules · 274,488 lines · 11,625 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 0
@@ -352,8 +352,8 @@ flowchart BT
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 21 | 4,673 | 195 |
 | [`KAM/Nekhoroshev/`](KAM/Nekhoroshev) | Track N: Nekhoroshev stability | 136 | 34,084 | 1507 |
 | [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 760 | 147,870 | 6066 |
-| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 68 | 18,099 | 826 |
-| [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 14 | 2,703 | 166 |
+| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 76 | 19,829 | 843 |
+| [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 14 | 2,705 | 166 |
 <!-- /AUTO:areas -->
 
 ## What the agents are doing now
@@ -368,12 +368,12 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **b34** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: CLEANUP-B34: delete 8 unused helpers (B3); merge 10 cross-directory duplicate statements ( | `inp-b34` | 1 (vs `inp`) |
 | **sodata1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-1: fixed-point mirror of the landed checker; STOP: checkHamBounds fails for R1 (D2 | `inp-sodata1` | 1 (vs `inp`) |
 | **solunara** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-LUNAR-A: parametric lunar barriers and spin confinement | `inp-solunara` | 1 (vs `inp`) |
-| **sotoyfix2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYFIX2: T2d with a + cos 2πq, a = 10^30 (ruling, option 2); toyCert2d_passes, toyCert2 | `inp-sotoyfix2` | 2 (vs `inp`) |
+| **sotoyfix2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-TOYFIX2: audit request | `inp-sotoyfix2` | 3 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -383,6 +383,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 00:49 | `2cf0fceb` | Land inp into main |
 | 2026-10-30 00:48 | `67166664` | Overnight log: entries 23:25-00:25 (two D29 rulings: R1 M, toy T2d) |
 | 2026-10-29 23:00 | `fb97435e` | Land inp into main |
 | 2026-10-29 22:54 | `294659f7` | Overnight log: R1 M ruling (D29), first end-to-end certified toy tori |
@@ -394,7 +395,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 21:54 | `06a4e1bc` | Overnight log: correct a time label |
 | 2026-10-29 21:53 | `a69ed1a5` | Overnight log: soundness audited, release scrub B2 complete |
 | 2026-10-29 21:52 | `9fcf0411` | Land inp into main |
-| 2026-10-29 21:50 | `4d8f89f1` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
