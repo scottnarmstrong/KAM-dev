@@ -116,6 +116,9 @@ def build(err, disp, cfgFull, cfgLow, expHalvings=12, expOrder=30, gramInv=None,
     expWit = [(cpoly(x["poly"]), int(x["pinHalvings"]), int(x["pinOrder"])) for x in w["expWit"]]
     invWit = [cpoly(x) for x in w["invWit"]]
     charWit = [(tuple(k), (cpoly(x["poly"]), int(x["pinHalvings"]), int(x["pinOrder"]))) for k, x in w["charWit"]]
+    # the clock angle is identically 0, so `normKey` sends every `char (0, l)` to [0, 0]: its witness is E = 1
+    if not any(tuple(k) == (0, 0) for k, _ in charWit):
+        charWit.append(((0, 0), ([((0, 0), (B.ofInt(1), B.ofInt(0)))], 0, int(w["charWit"][0][1]["pinOrder"]))))
     sqrtWit = [(int(s), (M.toSortedPoly(B, 2, real_poly(x["poly"])), F(x["anchor"]), F(x["margin"])))
                for s, x in w["sqrtWit"]]
     c.wit = M.Witnesses(expWit, invWit, charWit, sqrtWit)

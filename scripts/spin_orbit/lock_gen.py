@@ -115,9 +115,9 @@ def size(rho, mu, outdir):
     log("ham", {k: float(v) for k, v in hv.items()}, "M", float(Mv))
     # 3. invariance / energy
     v = G.run_all(c, ["checkInvariance", "checkEnergy"], rep)
-    rows = rep["checks"]["checkInvariance"]["info"]["rows"]
-    en = rep["checks"]["checkEnergy"]["info"]["value"]
-    err = G.up3(max(F(max(rows)), F(en)) * F(1001, 1000))
+    rows = rep["checks"]["checkInvariance"]["info"].get("rows")
+    en = rep["checks"]["checkEnergy"]["info"].get("value")
+    err = G.up3(max(F(max(rows)), F(en)) * F(1001, 1000)) if rows and en is not None else F(1)
     c.params["err"] = err
     rep["err"] = str(err)
     log("err", float(err))
@@ -144,6 +144,17 @@ def size(rho, mu, outdir):
     rep["claims"] = {k: str(x) for k, x in R.items()}
     log("claims", {k: float(x) for k, x in R.items()})
     rep["books"] = {"cfgFull": len(G.books_of(cf)), "cfgLow": len(G.books_of(cl))}
+    # 6. threshold (kp = 4, the sizing decision), with the exact literals
+    import lock_v2 as LV
+    ti = rep["torsion"]
+    sT = up(F(ti["b"]) / (1 - F(ti["deltaT"]))) + mu
+    c.params["sT"] = sT
+    p = LV.lock_package(rho, c.kappa, sK, sB, sT, Mv, mu=mu)
+    rep["sizes"] = dict(sK=str(sK), sB=str(sB), sT=str(sT), M=str(Mv))
+    for kp in (3, 4):
+        th = LV.threshold(p, R, kp=kp)
+        rep["threshold_kp%d" % kp] = th
+        log("kp", kp, "log10 thr %.3f" % th["log10_thr"], th["binding"], "err", float(err))
     json.dump(rep, open(os.path.join(outdir, "size.json"), "w"), indent=1, default=str)
     return rep
 
