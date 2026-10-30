@@ -615,7 +615,7 @@ def unlanded_split():
     for c in commits:
         for l in git('show', '--numstat', '--format=', c, '--', '*.lean').splitlines():
             a, _, path = l.split('\t', 2)
-            if a.isdigit() and path != 'KAM.lean':
+            if a.isdigit() and path != 'KAM.lean' and not path.startswith('KAM/Root/'):
                 if path.startswith(GENERATED_DATA):
                     gen += int(a)
                 else:
