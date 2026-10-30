@@ -17,8 +17,10 @@ import Mathlib.Tactic.Positivity
 
 For a fixed torus `K` and frequency `ω`, the torsion `T = Nᵀ Ω₀ (A N - ∂_ω N)` depends on the
 Hamiltonian only through `A = DX_h ∘ K`, and `N` depends on `K` only. Hence
-`T_{h'} - T_h = Nᵀ Ω₀ (A' - A) N` (`KAM.Sharp.torsion_sub_param`), and the averaged torsion moves by at
-most `2 n (σ_K' σ_B')² ℓ` when `‖DX_{h'} - DX_h‖ ≤ ℓ` on the torus (`KAM.Sharp.norm_torsionAverage_sub_param_le`).
+`T_{h'} - T_h = Nᵀ Ω₀ (A' - A) N` (`KAM.Sharp.torsion_sub_param`), and the averaged torsion moves
+  by at
+most `2 n (σ_K' σ_B')² ℓ` when `‖DX_{h'} - DX_h‖ ≤ ℓ` on the torus
+  (`KAM.Sharp.norm_torsionAverage_sub_param_le`).
 -/
 
 public section
@@ -92,15 +94,17 @@ theorem norm_torsionAverage_sub_param_le (h h' : (Fin n → ℂ) × (Fin n → �
   exact norm_torusAverage_le fun x _ => hb x
 
 /-- Quantitative Neumann step in row-sum form: if `T₀` is invertible with row sums of `T₀⁻¹` at most
-`b`, `‖T - T₀‖ ≤ Δ`, `b Δ ≤ 1/2` and `b ≤ B (1 - b Δ)`, then `T` is invertible with row sums of `T⁻¹` at
-most `B`. -/
-theorem inv_rowSum_of_perturb (hn : 2 ≤ n) {T₀ T : Matrix (Fin n) (Fin n) ℂ} {b Δ B : ℝ}
+`b`, `‖T - T₀‖ ≤ Δ`, `b Δ ≤ 1/2` and `b ≤ B (1 - b Δ)`, then `T` is invertible with row sums of
+  `T⁻¹` at
+most `B`. Index-generic (used for `Fin n` and for the bordered `Fin n ⊕ Unit`). -/
+theorem inv_rowSum_of_perturb {ι : Type*} [Fintype ι] [DecidableEq ι] [Nonempty ι]
+    {T₀ T : Matrix ι ι ℂ} {b Δ B : ℝ}
     (hU : IsUnit T₀.det) (hb : ∀ i, ∑ j, ‖T₀⁻¹ i j‖ ≤ b) (hΔ : ‖T - T₀‖ ≤ Δ)
     (hbΔ : b * Δ ≤ 1 / 2) (hB : b ≤ B * (1 - b * Δ)) :
     IsUnit T.det ∧ ∀ i, ∑ j, ‖T⁻¹ i j‖ ≤ B := by
-  have hb0 : 0 ≤ b := (Finset.sum_nonneg fun j _ => norm_nonneg (T₀⁻¹ ⟨0, by omega⟩ j)).trans
-    (hb ⟨0, by omega⟩)
-  have hinv : ‖T₀⁻¹‖ ≤ b := Apost.norm_le_of_rowSum_le hn hb
+  obtain ⟨i₀⟩ := ‹Nonempty ι›
+  have hb0 : 0 ≤ b := (Finset.sum_nonneg fun j _ => norm_nonneg (T₀⁻¹ i₀ j)).trans (hb i₀)
+  have hinv : ‖T₀⁻¹‖ ≤ b := (norm_le_iff_forall_rowSum hb0).2 hb
   have hΔ0 : 0 ≤ Δ := (norm_nonneg _).trans hΔ
   have hsmall : ‖T₀⁻¹‖ * ‖T - T₀‖ ≤ 1 / 2 :=
     (mul_le_mul hinv hΔ (norm_nonneg _) hb0).trans hbΔ

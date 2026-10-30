@@ -16,7 +16,8 @@ import Mathlib.Tactic.Positivity
 `Λ` (the parameter), `l₀ ∈ Λ`, and suppose that on a set `S ∋ l₀` every `h l` satisfies the standing
 hypotheses H1 (`KAM.Sharp.BoxH1`) and, on the domain `𝔅`,
 `‖X_{h l} - X_{h l₀}‖ ≤ L₀ dist l l₀` and `‖DX_{h l} - DX_{h l₀}‖ ≤ L₁ dist l l₀`.
-If `K` satisfies H2–H3, the invariance bound `e` and the twist bound `‖⟨T⟩⁻¹‖ ≤ b₀` at `l₀`, then for
+If `K` satisfies H2–H3, the invariance bound `e` and the twist bound `‖⟨T⟩⁻¹‖ ≤ b₀` at `l₀`, then
+  for
 every `l ∈ S` with `dist l l₀ ≤ d`, where `d` is such that
 
 * `C₁ (e + L₀ d)/(γ⁴ ρ^{4τ}) < 1`,
@@ -24,7 +25,8 @@ every `l ∈ S` with `dist l l₀ ≤ d`, where `d` is such that
   `b₀ ≤ (σ_T-μ)(1 - b₀ Δ)`,
 
 the conclusion of `KAM.Apost.g1_explicit` holds for `h l` with the same `K`, `ω`, `γ`, and with the
-error `e + L₀ dist l l₀`: the invariance error satisfies `E_l = E_{l₀} + (X_{h l} - X_{h l₀}) ∘ K`, the
+error `e + L₀ dist l l₀`: the invariance error satisfies `E_l = E_{l₀} + (X_{h l} - X_{h l₀}) ∘
+  K`, the
 torsion average moves by at most `Δ` (`N` depends on `K` only), and the Neumann series keeps the
 inverse bound `σ_T - μ`. All other hypotheses do not depend on `l`.
 
@@ -143,7 +145,8 @@ theorem g1_box {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ)
     by_contra hneg
     push Not at hneg
     nlinarith
-  obtain ⟨hTu', hTb'⟩ := inv_rowSum_of_perturb hn hTu hTb hTavg hb₀Δ hbT
+  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  obtain ⟨hTu', hTb'⟩ := inv_rowSum_of_perturb hTu hTb hTavg hb₀Δ hbT
   -- the invariance error
   have hEl : ∀ θ ∈ complexStrip n ρ, ‖invarianceError (𝔥 l) K ω θ‖ ≤ e + L₀ * dist l l₀ := by
     intro θ hθ
