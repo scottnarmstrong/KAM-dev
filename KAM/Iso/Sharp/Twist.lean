@@ -28,8 +28,9 @@ frequency is not Diophantine, `K̃` is not primary or real, `s̃ > 1` is not use
 
 * `stepI:p2s:tw-t`: `KAM.Sharp.perturbation_poly` at `ω̃` gives the frame of `K̃` on `T_{r-3δ}` and
   `|T_{ω̃}(K̃) - T_ω(K)| ≤ twistD ≤ C_ΔT U` at real points (`IsoTwistSharp.twistD_le_iCDT`);
-* `stepI:p2s:tw-y`: `Y = ωᵀ - (ηᴸ)ᵀ` for both pairs (`KAM.Iso.Linear.LastRowAux.energyRow_eq_sub_etaL`,
-  whose only premise is `det G ≠ 0`), so `∑ |Ỹ - Y| ≤ n|ω̃ - ω| + n|η̃ᴸ| + n|ηᴸ|`
+* `stepI:p2s:tw-y`: `Y = ωᵀ - (ηᴸ)ᵀ` for both pairs
+  (`KAM.Iso.Linear.LastRowAux.energyRow_eq_sub_etaL`, whose only premise is `det G ≠ 0`), so
+  `∑ |Ỹ - Y| ≤ n|ω̃ - ω| + n|η̃ᴸ| + n|ηᴸ|`
   (`IsoTwistSharp.sum_norm_energyRow_sub_le_eta`);
 * `stepI:p2s:tw-avg`: the bordered matrix of the differences at each real point
   (`KAM.Iso.Apost.TorsionDiff.norm_extendedTorsion_sub_le`) and the average
