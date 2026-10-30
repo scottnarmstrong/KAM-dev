@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 04:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-30 04:19 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -214,7 +214,7 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+34,703** since 2026-10-29 04:00 UTC |
+| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+34,605** since 2026-10-29 04:18 UTC |
 | Written on agent branches, not yet landed | 0 |
 | **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 1,000 |
@@ -223,7 +223,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 04:00 UTC from `main` at `80dfee66` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 04:19 UTC from `main` at `bb723349` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -384,7 +384,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-COMPOSE-SPLIT: design study for a segmented Slp.compose (equality checkpoints; no Lean) | `inp-socsplit` | 1 (vs `inp`) |
+| **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sodata2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-sodata1 (lunar data, Python mirror) into inp-sodata2; drop the .drafts handoff n | `inp-sodata2` | 0 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
@@ -395,6 +395,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 04:19 | `bb723349` | Overnight log: 04:19 |
 | 2026-10-30 03:51 | `58b458c5` | Overnight log: 03:51 |
 | 2026-10-30 03:19 | `86da7919` | Overnight log: 03:19 |
 | 2026-10-30 03:09 | `c3373814` | Overnight log: 03:09 |
@@ -406,7 +407,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 01:00 | `33822ae1` | SO design: overnight amendments (R1 M = 203/100; toy T2d denominator a = 10^30), for owner review |
 | 2026-10-30 01:00 | `27f7cd23` | Overnight log: 01:00 |
 | 2026-10-30 00:49 | `2cf0fceb` | Land inp into main |
-| 2026-10-30 00:48 | `67166664` | Overnight log: entries 23:25-00:25 (two D29 rulings: R1 M, toy T2d) |
 <!-- /AUTO:landed -->
 
 ## Decisions
