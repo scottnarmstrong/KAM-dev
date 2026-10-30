@@ -87,6 +87,7 @@ public import KAM.Iso.Sharp.NewtonError
 public import KAM.Iso.Sharp.Scheme
 public import KAM.Iso.Sharp.Step
 public import KAM.Iso.Sharp.Twist
+public import KAM.Iso.Sharp2.G1
 public import KAM.Iso.Sharp2.ModStepB.Comp
 public import KAM.Iso.Sharp2.ModStepB.Defs
 public import KAM.Iso.Sharp2.ModStepB.Energy
