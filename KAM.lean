@@ -146,12 +146,16 @@ public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound
+public import KAM.CertificateSharp.Step0.Coh
+public import KAM.CertificateSharp.Step0.GammaInf
+public import KAM.CertificateSharp.Step0.L1Model
 public import KAM.CertificateSharp.Tests.BallsTrig
 public import KAM.CertificateSharp.Tests.Corner
 public import KAM.CertificateSharp.Tests.Frame
 public import KAM.CertificateSharp.Tests.FreqTests
 public import KAM.CertificateSharp.Tests.Margin
 public import KAM.CertificateSharp.Tests.Shared
+public import KAM.CertificateSharp.Tests.Step0Coh
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
 public import KAM.Diophantine.FrequencyDependence
