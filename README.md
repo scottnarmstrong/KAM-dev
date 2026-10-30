@@ -13,8 +13,9 @@ Diophantine frequencies, as soon as f is small enough.
 
 ## Main theorems
 
-All 22 frozen theorems of the original project are proved and sealed: each Lean statement below was approved by the
-owner and frozen before its proof, the proofs are complete, and they use only the standard axioms (`propext`,
+All 23 frozen theorems are proved and sealed: the 22 of the original project and Rüssmann's theorem (track R, added
+on 2026-10-30). Each Lean statement below was approved by the owner and frozen before its proof, the proofs are
+complete, and they use only the standard axioms (`propext`,
 `Classical.choice`, `Quot.sound`). The plain-language versions simplify; the linked Lean statements are exact. The full
 list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
 
@@ -29,35 +30,47 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
    approximately invariant for a Diophantine frequency ω, with invariance error below an explicit threshold, lies
    close to a true invariant torus with frequency ω, at a distance proportional to the error. [`KAM.aposteriori_kam`](KAM/Frozen/Theorems/AposterioriKam.lean#L40)
 
+**Weak non-degeneracy (track R).**
+
+3. **Rüssmann's KAM theorem.** Let h be real-analytic on a complex neighbourhood of a bounded connected open set
+   B ⊂ ℝⁿ, and assume only that the image of the frequency map ∇h lies in no hyperplane through the origin (Rüssmann's
+   condition; the Hessian of h may be singular everywhere, as for h = I₁ + I₂³/3). Then there is a Diophantine
+   exponent τ such that, for every κ, δ > 0 and every real-analytic perturbation f small enough, all of Tⁿ × B except
+   a set of measure at most κ·|Tⁿ × B| lies on real-analytic invariant Lagrangian tori of H = h + f that carry
+   quasi-periodic motion with Diophantine frequencies and lie within δ of the unperturbed tori {I = const}. Under weak
+   non-degeneracy the frequencies of the surviving tori shift away from ∇h. (Rüssmann 2001, Theorem 1.7, maximal case;
+   proved through track P's quantitative weak-non-degeneracy theorem.)
+   [`KAM.Russmann.russmann_kam`](KAM/Frozen/Russmann/Theorems/RussmannKam.lean#L47)
+
 **Isoenergetic KAM and confinement (track I).**
 
-3. **All-time confinement in two degrees of freedom.** Let h be analytic on B ⊂ ℝ², isoenergetically nondegenerate
+4. **All-time confinement in two degrees of freedom.** Let h be analytic on B ⊂ ℝ², isoenergetically nondegenerate
    (nonzero bordered Hessian). For every η > 0 there is ε₀ > 0 such that, for every analytic perturbation of size
    below ε₀, every solution starting with actions in a compact subdomain exists for all time and its actions never
    move by more than η; every local solution through the same point agrees with it. [`KAM.Iso.all_time_confinement`](KAM/Frozen/Iso/Theorems/AllTimeConfinement.lean#L45)
-4. **The restricted circular planar three-body problem.** There is an explicit open set of near-circular initial
+5. **The restricted circular planar three-body problem.** There is an explicit open set of near-circular initial
    conditions (osculating semi-major axis and eccentricity in given ranges) and μ₀, d, R > 0 such that, for every mass
    ratio 0 ≤ μ < μ₀, every solution starting there exists for all time, stays bounded, and stays at distance at least d
    from both primaries. [`KAM.Iso.restricted_near_circular`](KAM/Frozen/Iso/Theorems/RestrictedNearCircular.lean#L48)
 
 **Exponential stability (track N).**
 
-5. **Nekhoroshev's theorem for quasi-convex Hamiltonians**, exponents 1/(2n) (Pöschel 1993). For n ≥ 3 and a
+6. **Nekhoroshev's theorem for quasi-convex Hamiltonians**, exponents 1/(2n) (Pöschel 1993). For n ≥ 3 and a
    quasi-convex analytic h with uniform bounds, every solution of h + f with |f| ≤ ε ≤ ε₀ exists for times
    |t| ≤ T·exp(c·ε^(−1/(2n))), and its actions move by at most C·ε^(1/(2n)) during that time; the constants depend only
    on the dimension and the bounds. [`KAM.Nekhoroshev.quasiConvex_nekhoroshev_complexBound`](KAM/Frozen/Nekhoroshev/Theorems/QuasiConvexNekhoroshevComplexBound.lean#L47)
-6. **Nekhoroshev's theorem for partially convex Hamiltonians** (Nekhoroshev 1977, Theorem 4.4), with fast actions
+7. **Nekhoroshev's theorem for partially convex Hamiltonians** (Nekhoroshev 1977, Theorem 4.4), with fast actions
    convex in h and slow variables: the fast actions stay put for exponentially long times while the slow variables
    remain in their domain. [`KAM.Nekhoroshev.partialConvex_nekhoroshev`](KAM/Frozen/Nekhoroshev/Theorems/PartialConvexNekhoroshev.lean#L48)
 
 **Planetary systems (track P).**
 
-7. **Two planets and a moving Sun in the plane** (Chierchia–Pinzari 2009, Féjoz 2004). For two planets with distinct
+8. **Two planets and a moving Sun in the plane** (Chierchia–Pinzari 2009, Féjoz 2004). For two planets with distinct
    semi-major axes and every small enough planetary mass ratio μ, a set of positive measure of initial conditions is
    filled by invariant Lagrangian 4-tori carrying Diophantine quasi-periodic motions of the full Newtonian three-body
    problem; these motions exist for all time, never collide, and keep all mutual distances between d and D.
    [`KAM.Planetary.planarTwoPlanetKAM`](KAM/Frozen/Planetary/Theorems/PlanarTwoPlanetKAM.lean#L47)
-8. **Exponential stability of planetary systems** (Nekhoroshev 1977, Theorem 12.3). For n ≥ 2 planets around a moving
+9. **Exponential stability of planetary systems** (Nekhoroshev 1977, Theorem 12.3). For n ≥ 2 planets around a moving
    Sun in the plane and an admissible region of near-circular, well-separated initial data, there are μ*, c, C > 0 such
    that, for every mass ratio 0 < μ < μ*, every solution exists for |t| ≤ exp(c·μ^(−a)), a = 2/(6n² − 3n + 14),
    without collisions and with bounded eccentricities and distances, while every semi-major axis drifts by at most
@@ -65,14 +78,14 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
 
 **Certified numerical tori (track SO, in progress).** These are ordinary proved theorems, not frozen statements.
 
-9. **A sound certificate checker for KAM tori.** `checkTorusCertificate` is a Lean function, evaluated inside the
+10. **A sound certificate checker for KAM tori.** `checkTorusCertificate` is a Lean function, evaluated inside the
    kernel, that reads a finite certificate: a Hamiltonian written as an expression, a candidate torus given by
    Fourier models with rigorous enclosures, a box around the reference frequency and explicit constants. If it
    returns `true`, and the reference frequency ω* lies in the box and is Diophantine, then the Hamiltonian has an
    exact real-analytic invariant torus on the certified energy level, carrying quasi-periodic motion with
    frequency s∞·ω* for a scale 1 < s∞ < σ_ω, within the certified distance of the candidate. The proof runs through
    the sealed isoenergetic a-posteriori theorem. [`KAM.Certificate.checkTorusCertificate_sound`](KAM/Certificate/Soundness.lean#L62)
-10. **The first certified tori.** Toy certificates in two and three degrees of freedom pass the checker inside
+11. **The first certified tori.** Toy certificates in two and three degrees of freedom pass the checker inside
     Lean's kernel and yield invariant tori with the Diophantine frequencies (ν₋/2, 1/2), ν₋ the quadratic
     irrational of the lunar problem, and (∛2/2, ∛4/2, 1/2). [`KAM.Certificate.toyCert3_torus`](KAM/Certificate/Tests/Toy3.lean#L53)
 
