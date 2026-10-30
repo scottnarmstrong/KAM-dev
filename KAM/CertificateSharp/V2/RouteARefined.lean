@@ -12,9 +12,15 @@ public import KAM.CertificateSharp.V2.SmallDivQ
 /-!
 # Stage 2: route A at the refined data
 
-`refinedCore` is the numerical part of the test of `KAM.Iso.Sharp2.RouteA.iso_g1_v2A`: `NumA.Wf`,
-`routeAOkI` with `M₁, M₂, HY, Mh2` and the initial values of the claim `RefClaim`, the small-divisor
-constants of the schedule (`sitesOk`, certified or classical per site), and `finalOk`.
+`refinedCore` is the numerical part of the test of the route-A branch
+`KAM.Iso.Sharp2.RouteA.iso_g1_branch_A`: `NumA.Wf`, `routeAOkI` with `M₁, M₂, HY, Mh2` and the initial
+values of the claim `RefClaim`, the small-divisor constants of the schedule (`sitesOk`, certified or
+classical per site), and `finalOkA`.
+
+The test takes the branch and not the wrapper `iso_g1_v2A`, whose displacement constants are
+`max {C₂♯, c2I}`, `max {C₃♯, c3I}`. `C₂♯` is v1's constant at the frozen data: near a refined
+threshold it dominates `c2I` and leaves a useless displacement. On the design package R1 at
+`e = 4.7·10⁻¹²`, `C₂♯ e/(γ²ρ²) ≈ 7`, above the room `(σω - s)|ω*| ≈ 1.75` of the ray.
 
 `refinedCore_sound` concludes `CertifiedTorus` from `BaseFacts`, `HamFacts`, `FrameFacts` and the
 test. `HamFacts`, `FrameFacts` are statements on the objects of the certificate, with no smallness:
@@ -59,12 +65,34 @@ def refinedCore (n : ℕ) (p : CertParams) (box : FreqBox) (w : RefinedWit) : Bo
   decide (0 < w.core.Xs) && Q.wfOk &&
     Q.okB (capQ Q p.μ p.nuRay) (initQ w.R.bL w.R.bN w.R.bNt w.R.bT p.σK p.σB p.σT p.μ) w.core.Xs &&
     sitesOk Q w.core.J box w.κ p.γ w.sites &&
-    classicalOk n p.tau w.core.J (Q.δ w.core.kp) Q.ctail && finalOk Q n p box w.core.Xs
+    classicalOk n p.tau w.core.J (Q.δ w.core.kp) Q.ctail && finalOkA Q p box w.core.Xs
+
+/-- Sharding: `sitesOk` from its sites, each a kernel computation of its own. -/
+theorem sitesOk_of {Q : NumQ} {J : ℕ} {box : FreqBox} {κ γ : ℚ}
+    {sites : List (Option BiteWit × Option BiteWit)}
+    (h : ∀ s < Q.kp, siteOk Q.n Q.τ J box κ γ (Q.δ s) (Q.c.getD s 0)
+        (sites.getD s (none, none)).1 = true ∧
+      siteOk Q.n Q.τ J box κ γ (Q.b s) (Q.cbar.getD s 0) (sites.getD s (none, none)).2 = true) :
+    sitesOk Q J box κ γ sites = true := by
+  simp only [sitesOk, Bool.and_eq_true, List.all_eq_true, List.mem_range]
+  exact h
+
+/-- Sharding: `refinedCore` from its parts. -/
+theorem refinedCore_of {n : ℕ} {p : CertParams} {box : FreqBox} {w : RefinedWit}
+    (h0 : 0 < w.core.Xs) (h1 : (w.num n p box).wfOk = true)
+    (h2 : (w.num n p box).okB (capQ (w.num n p box) p.μ p.nuRay)
+      (initQ w.R.bL w.R.bN w.R.bNt w.R.bT p.σK p.σB p.σT p.μ) w.core.Xs = true)
+    (h3 : sitesOk (w.num n p box) w.core.J box w.κ p.γ w.sites = true)
+    (h4 : classicalOk n p.tau w.core.J ((w.num n p box).δ w.core.kp) (w.num n p box).ctail = true)
+    (h5 : finalOkA (w.num n p box) p box w.core.Xs = true) :
+    refinedCore n p box w = true := by
+  simp only [refinedCore, Bool.and_eq_true, decide_eq_true_eq]
+  exact ⟨⟨⟨⟨⟨h0, h1⟩, h2⟩, h3⟩, h4⟩, h5⟩
 
 variable {n : ℕ} {α : Type} [CertArith α] [LawfulCertArith α]
 
-/-- **Soundness of stage 2**, through `iso_g1_v2A`. The refined facts are statements on the objects
-of `c`, proved by checks; see the module docstring. -/
+/-- **Soundness of stage 2**, through `iso_g1_branch_A`. The refined facts are statements on the
+objects of `c`, proved by checks; see the module docstring. -/
 theorem refinedCore_sound (c : TorusCertificate n α) (w : RefinedWit) {ωstar : Fin n → ℝ}
     (hω : FreqEncloses n c.freqBox ωstar)
     (hdio : IsDiophantine (c.params.γ : ℝ) (c.params.tau : ℝ) ωstar) (B : BaseFacts c ωstar)
@@ -84,7 +112,7 @@ theorem refinedCore_sound (c : TorusCertificate n α) (w : RefinedWit) {ωstar :
   have hX' : (0 : ℝ) < w.core.Xs := by exact_mod_cast hX
   have hρ0 : (0 : ℝ) < c.params.rho := S.hρinf.trans S.hρinfρ
   have hγq : 0 < c.params.γ := by exact_mod_cast S.hγ
-  obtain ⟨hA, hroom⟩ := finalOk_sound (Q := Q) B.hs rfl rfl rfl hτ1 hX hfin hω
+  obtain ⟨hsm, hd2, hd3, hroom⟩ := finalOkA_sound (Q := Q) B.hs rfl rfl rfl hτ1 hX hfin hω
   have hσ0 : (0 : ℝ) ≤ c.params.σω := by linarith [S.hσω]
   obtain ⟨hσ, hΘ⟩ := rayBound (σ := c.params.σω) (Θ := c.params.σω * boxNormUp c.freqBox)
     hσ0 (by push_cast; exact le_rfl) hω hω0
@@ -110,34 +138,20 @@ theorem refinedCore_sound (c : TorusCertificate n α) (w : RefinedWit) {ωstar :
       rw [NumQ.cast_b] at hb
       exact sdConst_of_siteOk hn1 hτ1 hγq (by exact_mod_cast hb) (min_le_right _ _)
         (hsites s hs).2 hω hdio
-  obtain ⟨-, -, -, hbody⟩ := iso_g1_v2A (N := Q.toNum) (M := c.params.M) (σK := c.params.σK)
-    (σB := c.params.σB) (σT := c.params.σT) (μ := c.params.μ) (γbar := c.params.γbar)
-    (σω := ((c.params.σω * boxNormUp c.freqBox : ℚ) : ℝ) / ‖ωstar‖) (ν := c.params.nuRay)
-    (Xs := w.core.Xs) (Mh1 := w.R.dh) hN rfl S.hτ w.R.init S.hM S.hσK S.hσB S.hσT S.hμ
-    (S.hσω.trans_le hσ) S.hν ωstar hω0 rfl (by simp [NumQ.toNum, Q, RefinedWit.num, FrozenWit.num])
-    hΘ (by simp [NumQ.toNum, Q, RefinedWit.num, FrozenWit.num]) hOk hX'
   have hν2' : (c.params.nuRay : ℝ) ≤
       (((c.params.σω * boxNormUp c.freqBox : ℚ) : ℝ) / ‖ωstar‖ - c.params.s) * ‖ωstar‖ :=
     hν2.trans (mul_le_mul_of_nonneg_right (by linarith) (norm_nonneg _))
-  obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := hbody c.D c.H c.K c.params.s
-    c.params.γ c.params.err c.params.E0 (ray ωstar) hopen htransl hholo hper hreal B.hH.2 hK hKp
-    hKr B.hEm.1 B.hEm.2 B.hG B.hTu B.hTb S.hs1 (S.hsσ.trans_le hσ) hν1 hν2' hRef
-    (fun t ht => ⟨t, ht, rfl⟩) hCert S.hγ S.hγγbar hdio S.he0 B.hE B.hEn hA.1
-  have hd : (0 : ℝ) < (c.params.γ : ℝ) ^ 2 * (c.params.rho : ℝ) ^ (2 * (c.params.tau : ℝ)) := by
-    have := Real.rpow_pos_of_pos hρ0 (2 * (c.params.tau : ℝ))
-    have := S.hγ
-    positivity
-  have hmono := fun (C : ℝ) (hC : C ≤ max
-      (max (sharpIsoC2 n (c.params.tau : ℝ) (cohConstR n (c.params.tau : ℝ)) c.params.M c.params.σK
-        c.params.σB c.params.σT c.params.γbar (c.params.tau : ℝ) c.params.rho c.params.rhoInf)
-        (c2I Q.toNum w.core.Xs))
-      (max (sharpIsoC3 n (c.params.tau : ℝ) (cohConstR n (c.params.tau : ℝ)) c.params.M c.params.σK
-        c.params.σB c.params.σT c.params.γbar (c.params.tau : ℝ) c.params.rho c.params.rhoInf)
-        (c3I Q.toNum w.core.Xs))) =>
-    (div_le_div_of_nonneg_right (mul_le_mul_of_nonneg_right hC S.he0) hd.le).trans hA.2
-  have h11' := h11.trans (hmono _ (le_max_right _ _))
-  exact ⟨Kinf, sinf, h1, ray_lt_of_disp hroom h11', h3, h4, h5, h6, h7, h8, h9,
-    fun θ hθ => (h10 θ hθ).trans (hmono _ (le_max_left _ _)), h11'⟩
+  obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A (N := Q.toNum)
+    (M := c.params.M) (σK := c.params.σK) (σB := c.params.σB) (σT := c.params.σT) (μ := c.params.μ)
+    (γbar := c.params.γbar) (σω := ((c.params.σω * boxNormUp c.freqBox : ℚ) : ℝ) / ‖ωstar‖)
+    (ν := c.params.nuRay) (Xs := w.core.Xs) (Mh1 := w.R.dh) (I := w.R.init) (Ω := ray ωstar)
+    hN rfl S.hτ S.hM S.hμ (S.hσω.trans_le hσ) S.hν hω0 rfl
+    (by simp [NumQ.toNum, Q, RefinedWit.num, FrozenWit.num]) hΘ
+    (by simp [NumQ.toNum, Q, RefinedWit.num, FrozenWit.num]) hOk hX' hopen htransl hholo hper hreal
+    B.hH.2 hK hKp hKr B.hEm.1 B.hEm.2 B.hG B.hTu B.hTb S.hs1 hν1 hν2' hRef
+    (fun t ht => ⟨t, ht, rfl⟩) hCert S.hγ S.hγγbar hdio S.he0 B.hE B.hEn hsm
+  exact ⟨Kinf, sinf, h1, ray_lt_of_disp hroom (h11.trans hd3), h3, h4, h5, h6, h7, h8, h9,
+    fun θ hθ => (h10 θ hθ).trans hd2, h11.trans hd3⟩
 
 end KAM.CertificateSharp.V2
 

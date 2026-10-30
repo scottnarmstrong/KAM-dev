@@ -13,7 +13,9 @@ public import KAM.CertificateSharp.Sharp
 # The part of the route A test common to the two stages
 
 * `capQ`, `initQ`: the caps and the initial values of `routeAOkI`;
-* `finalOk`: the smallness `e < X⋆ γ⁴ δ₀^{4τ}`, the displacement bound and the room of the ray;
+* `finalOk`: the smallness `e < X⋆ γ⁴ δ₀^{4τ}`, the displacement bound and the room of the ray,
+  for the theorems whose constants are `min {C₁♯, c1A}`, `max {C₂♯, c2I}`, `max {C₃♯, c3I}`;
+* `finalOkA`: the same with `c2I`, `c3I` alone, for the route-A branch `iso_g1_branch_A`;
 * `boxNormUp`, `rayBound`: the rational `Θ̂ ≥ σω ‖ω*‖` and the ray bound `σh = Θ̂/‖ω*‖`.
 
 The route A theorems take `N.Θ = σω ‖ω*‖` as an equality, for an exact real `‖ω*‖`. They are applied
@@ -195,6 +197,69 @@ theorem finalOk_sound [LawfulCertArith α] {c : TorusCertificate n α} {Q : NumQ
     · exact (hS.trans_eq (by push_cast; rfl)).trans (le_max_left _ _)
     · exact (le_max_left _ _).trans (le_max_right _ _)
     · exact (le_max_right _ _).trans (le_max_right _ _)
+  · have hlen : c.freqBox.length = n := by
+      simp only [checkStatic, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, and_assoc] at hs
+      exact hs.1
+    have hle := freqNormLo_le_norm hlen hω
+    have h3' := (Rat.cast_lt (K := ℝ)).mpr h3
+    push_cast at h3'
+    have hp : (0 : ℝ) ≤ (c.params.σω : ℝ) - c.params.s := by linarith [S.hsσ]
+    exact h3'.trans_le (mul_le_mul_of_nonneg_left hle hp)
+
+/-- The final comparisons of the route-A branch: `C₂♯`, `C₃♯` do not enter. -/
+def finalOkA (Q : NumQ) (p : CertParams) (box : FreqBox) (Xs : ℚ) : Bool :=
+  decide (p.err < Xs * p.γ ^ 4 * Q.δ0 ^ (4 * p.tau)) &&
+    decide (max (Q.c2Q Xs) (Q.c3Q Xs) * p.err ≤ p.disp * (p.γ ^ 2 * p.rho ^ (2 * p.tau))) &&
+    decide (p.disp < (p.σω - p.s) * freqNormLo box)
+
+/-- **`finalOkA` gives the inputs of the route-A branch.** -/
+theorem finalOkA_sound [LawfulCertArith α] {c : TorusCertificate n α} {Q : NumQ} {Xs : ℚ}
+    (hs : checkStatic c = true) (hτ : Q.τ = c.params.tau) (hρ : Q.ρ = c.params.rho)
+    (hρi : Q.ρinf = c.params.rhoInf) (hτ1 : 1 ≤ Q.τ) (hXs : 0 < Xs)
+    (h : finalOkA Q c.params c.freqBox Xs = true) {ωstar : Fin n → ℝ}
+    (hω : FreqEncloses n c.freqBox ωstar) :
+    (c.params.err : ℝ) / ((c.params.γ : ℝ) ^ 4 *
+        delta0 3 Q.toNum.ρ Q.toNum.ρinf ^ (2 * (2 * Q.toNum.τ))) < Xs ∧
+      c2I Q.toNum Xs * c.params.err /
+        ((c.params.γ : ℝ) ^ 2 * (c.params.rho : ℝ) ^ (2 * (c.params.tau : ℝ))) ≤ c.params.disp ∧
+      c3I Q.toNum Xs * c.params.err /
+        ((c.params.γ : ℝ) ^ 2 * (c.params.rho : ℝ) ^ (2 * (c.params.tau : ℝ))) ≤ c.params.disp ∧
+      (c.params.disp : ℝ) < ((c.params.σω : ℝ) - c.params.s) * ‖ωstar‖ := by
+  have S := checkStatic_sound hs
+  simp only [finalOkA, Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨⟨h1, h2⟩, h3⟩ := h
+  have hρ0 : (0 : ℝ) < c.params.rho := S.hρinf.trans S.hρinfρ
+  have hd0 : 0 < (Q.δ0 : ℝ) := by
+    rw [← NumQ.cast_δ0, hρ, hρi]
+    exact delta0_pos (by norm_num) S.hρinfρ
+  have e2 : (2 * (c.params.tau : ℝ)) = ((2 * c.params.tau : ℕ) : ℝ) := by push_cast; ring
+  have hτQ : ((Q.τ : ℕ) : ℝ) = (c.params.tau : ℝ) := by rw [hτ]
+  have hb := (Rat.cast_le (K := ℝ)).mpr h2
+  push_cast at hb
+  have hg : (0 : ℝ) < (c.params.γ : ℝ) ^ 2 * (c.params.rho : ℝ) ^ (2 * c.params.tau) :=
+    mul_pos (pow_pos S.hγ 2) (pow_pos hρ0 _)
+  have hclose : ∀ {C B : ℝ}, C ≤ B → B * c.params.err ≤
+      c.params.disp * ((c.params.γ : ℝ) ^ 2 * (c.params.rho : ℝ) ^ (2 * c.params.tau)) →
+      C * c.params.err / ((c.params.γ : ℝ) ^ 2 * (c.params.rho : ℝ) ^ (2 * c.params.tau)) ≤
+        c.params.disp := fun {C B} hC hB => by
+    rw [div_le_iff₀ hg]
+    exact (mul_le_mul_of_nonneg_right hC S.he0).trans hB
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · have hτ' : Q.toNum.τ = (c.params.tau : ℝ) := hτQ
+    have e4 : 2 * (2 * (c.params.tau : ℝ)) = ((4 * c.params.tau : ℕ) : ℝ) := by push_cast; ring
+    have hX4 : (0 : ℝ) < (c.params.γ : ℝ) ^ 4 * (Q.δ0 : ℝ) ^ (4 * c.params.tau) :=
+      mul_pos (pow_pos S.hγ 4) (pow_pos hd0 _)
+    have hh := (Rat.cast_lt (K := ℝ)).mpr h1
+    push_cast at hh
+    show (c.params.err : ℝ) / ((c.params.γ : ℝ) ^ 4 *
+      delta0 3 (Q.ρ : ℝ) Q.ρinf ^ (2 * (2 * Q.toNum.τ))) < Xs
+    rw [NumQ.cast_δ0, hτ', e4, Real.rpow_natCast, div_lt_iff₀ hX4]
+    calc (c.params.err : ℝ) < Xs * (c.params.γ : ℝ) ^ 4 * (Q.δ0 : ℝ) ^ (4 * c.params.tau) := hh
+      _ = _ := by ring
+  · rw [e2, Real.rpow_natCast, NumQ.cast_c2 hτ1]
+    exact hclose (le_max_left _ _) hb
+  · rw [e2, Real.rpow_natCast, NumQ.cast_c3 hτ1]
+    exact hclose (le_max_right _ _) hb
   · have hlen : c.freqBox.length = n := by
       simp only [checkStatic, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, and_assoc] at hs
       exact hs.1
