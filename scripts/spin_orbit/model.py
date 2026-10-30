@@ -31,8 +31,13 @@ def A_coeffs(e):
 
 A_EXACT = A_coeffs(E_ORB)
 
-# alpha = 1/(40+g), g=(sqrt5-1)/2  =  (79 - sqrt5)/3118 = (79/3118) + (-1/3118) sqrt5   (element of Q(sqrt5))
-ALPHA = (F(79, 3118), F(-1, 3118))
+# alpha = 1/(N+g), g=(sqrt5-1)/2  =  (A - sqrt5)/D,  A = 2N - 1,  D = (A^2 - 5)/2   (element of Q(sqrt5));
+# N = 40 (default): (79 - sqrt5)/3118.  The barrier index N is read from the environment variable SO_N (SO-GEN3).
+import os
+N_BARRIER = int(os.environ.get("SO_N", "40"))
+A_NU = 2 * N_BARRIER - 1
+DEN_NU = (A_NU * A_NU - 5) // 2
+ALPHA = (F(A_NU, DEN_NU), F(-1, DEN_NU))
 def nu_minus_one(which):
     """nu - 1 as a Q(sqrt5) pair (x, y) = x + y*sqrt5; which in {'lower','upper'}."""
     s = -1 if which == "lower" else 1

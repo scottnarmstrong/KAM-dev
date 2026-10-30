@@ -25,11 +25,12 @@ from fractions import Fraction as F
 from rotlib import (SPoly, Weights, load_candidate, sin_series, cos_series, up, addu, mulu, WB, _obj)
 import model
 
-RHO = F(1, 70)
+RHO = F(__import__('os').environ.get('SO_RHO', '1/70'))   # SO-GEN3: env override
 SQ5_T = 600                                     # sqrt5 enclosure bits
 SQ5_LO = math.isqrt(5 << (2 * SQ5_T))           # floor(sqrt5 2^T)
 SQ5_HI = SQ5_LO + 1
-DEN_NU = 3118
+DEN_NU = model.DEN_NU                         # 3118 at N = 40 (SO-GEN3: barrier N from SO_N)
+A_NU = model.A_NU                             # 79 at N = 40
 EPSA = {m: model.EPS * model.A_EXACT[m] for m in model.M_MODES}
 DA = 1
 for q in EPSA.values():
@@ -39,14 +40,14 @@ SH = model.SHIFT                                # m -> (2, 2 - m)
 
 
 def lam_pair(which, k, l):
-    """3118 lambda = a + b sqrt5 for lambda = (nu - 1) k + l (object arrays)."""
-    if which == "lower":     # nu - 1 = -(79 - sqrt5)/3118
-        return 3118 * l - 79 * k, k
-    return 3118 * l + 79 * k, -k
+    """DEN_NU lambda = a + b sqrt5 for lambda = (nu - 1) k + l (object arrays)."""
+    if which == "lower":     # nu - 1 = -(A_NU - sqrt5)/DEN_NU
+        return DEN_NU * l - A_NU * k, k
+    return DEN_NU * l + A_NU * k, -k
 
 
 def nu_minus_one_mp(which):
-    a = (79 - mpmath.sqrt(5)) / 3118
+    a = (A_NU - mpmath.sqrt(5)) / DEN_NU
     return -a if which == "lower" else a
 
 
