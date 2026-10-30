@@ -445,6 +445,8 @@ TRACKS = [
     ('SO-3', 'so', 'Track SO, part 3: the Moon stays locked in synchronous rotation forever (librational tori; '
                    'scoping, D42)'),
     ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38)'),
+    ('LG00', 'lg00', 'Side project: a kernel-checked KAM torus of Locatelli–Giorgilli\'s secular Sun–Jupiter–Saturn '
+                     'model (first formally verified torus of a planetary model; v2 certifier)'),
 ]
 
 
@@ -455,7 +457,7 @@ def section_tracks():
         sealed = sum(a['state'] == 'SEALED' for a in thm)
         g = graph_counts(t)
         gtxt = f'{g[0]} / {g[1]} nodes resolved' if g and g[1] else 'not published yet'
-        stage = campaign.get('tracks', {}).get(t, '')
+        stage = campaign.get('tracks', {}).get(t, '') if t != 'LG00' else lg00_stage_text()
         out.append(f'| **{t}** | {head} | {sealed} / {len(thm)} | {gtxt} | {stage} |')
     return '\n'.join(out)
 
@@ -505,6 +507,9 @@ def completion(rows):
     # Lean lines estimated, D30), the lock a new theory on top of track SO.
     lock_pct, lock_done = lock_progress()
     groups[LOCK_GROUP] = [16.0, 16.0 * lock_pct / 100, len(LOCK_STAGES)]
+    lg_pct, lg_w = lg00_progress()
+    if lg_w:
+        groups[LG00_GROUP] = [float(lg_w), lg_w * lg_pct / 100, len(LG00['stages'])]
     w_pct, _ = w_progress()
     groups[W_GROUP] = [64.0, 64.0 * w_pct / 100, 5]
     total = sum(g[0] for g in groups.values())
@@ -513,6 +518,27 @@ def completion(rows):
 
 
 LOCK_GROUP = 'Track SO, part 3: the Moon locked in synchronous rotation (D42)'
+LG00_GROUP = 'Side project LG00: certified torus of the secular Sun–Jupiter–Saturn model'
+_lg00_file = root / 'docs/campaign/side/lg00-status.json'
+LG00 = json.loads(_lg00_file.read_text()) if _lg00_file.exists() else {'stages': []}
+
+
+def lg00_progress():
+    """Side project LG00 (docs/campaign/side/lg00-status.json): percent done, weighted by stage effort."""
+    w = sum(s['weight'] for s in LG00['stages'])
+    return (100 * sum(s['weight'] * s['done'] for s in LG00['stages']) / w if w else 0.0), w
+
+
+def lg00_stage_text():
+    st = LG00['stages']
+    if not st:
+        return ''
+    done = [s['name'] for s in st if s['done'] >= 1]
+    cur = next((s for s in st if s['done'] < 1), None)
+    txt = f'{lg00_progress()[0]:.0f} %: done: ' + ('; '.join(done) or 'none')
+    if cur:
+        txt += f'; now: {cur["name"]} ({100 * cur["done"]:.0f} %)'
+    return txt
 W_GROUP = 'Track W: PDE KAM for the cubic wave equation (D30, D41)'
 W_MILESTONES = ['W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8']
 
@@ -735,7 +761,8 @@ def section_progress(rows):
     pct, groups, total, done = completion(rows)
     orig, so1, so2, _ = completion_split(rows)
     out = [f'### Estimated completion: original project **{orig:.1f} %** · SO checker **{so1:.0f} %** · '
-           f'SO Moon **{so2:.0f} %** · Moon locked **{lock_progress()[0]:.0f} %** · track W **{w_progress()[0]:.0f} %**', '',
+           f'SO Moon **{so2:.0f} %** · Moon locked **{lock_progress()[0]:.0f} %** · track W **{w_progress()[0]:.0f} %** · '
+           f'LG00 **{lg00_progress()[0]:.0f} %**', '',
            f'Original project (tracks K, I, N, P): `{bar(orig)}` {orig:.1f} %', '',
            f'Track SO, part 1, the general Lean certificate checker: `{bar(so1)}` {so1:.1f} %', '',
            f"Track SO, part 2, the Moon's spin rate (its first client): `{bar(so2)}` {so2:.1f} %", '',
@@ -745,6 +772,10 @@ def section_progress(rows):
            f'Track W, PDE KAM for the cubic wave equation: `{bar(w_progress()[0])}` {w_progress()[0]:.1f} % '
            '(statements frozen 1, blueprint milestones 3, graph published 1, graph nodes resolved 10, seal 0.5; '
            'all read from the repository)', '',
+           f'Side project LG00, a certified torus of the secular Sun–Jupiter–Saturn model: `{bar(lg00_progress()[0])}` '
+           f'{lg00_progress()[0]:.0f} % (stages, weighted by effort: ' + ', '.join(s['name'] for s in LG00['stages']) + '; '
+           'from [`docs/campaign/side/lg00-status.json`](docs/campaign/side/lg00-status.json), the side orchestrator\'s '
+           f'assessment, last reviewed {LG00.get("reviewed", "")})', '',
            f'Overall, everything together: {pct:.1f} %', '',
            '| Part of the project | Items | Weight | Done | Completion |', '|---|---|---|---|---|']
     for name, (wt, dn, n) in groups.items():

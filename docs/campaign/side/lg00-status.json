@@ -1,0 +1,18 @@
+{
+ "title": "LG00: a kernel-checked KAM torus of Locatelli–Giorgilli's secular Sun–Jupiter–Saturn model",
+ "note": "Side campaign (lemma.farm). The certificate data and kernel shards live on branch lg00-cert and are never part of KAM-dev's default build (separate repository pending, owner decision). The orchestrator updates this file when a stage completes; weights are the stages' relative effort.",
+ "reviewed": "2026-10-30 23:30 UTC",
+ "stages": [
+  {"name": "scout: model, torus, thresholds, cost", "weight": 1, "done": 1.0,
+   "evidence": "docs/explorations/sjs-lg00-scout.md"},
+  {"name": "Diophantine lemmas for the frequency directions (Lean)", "weight": 1, "done": 1.0,
+   "evidence": "branch lg00-prep: KAM/Planetary/LG00 (isDiophantine_rP, isDiophantine_rPP), standard axioms"},
+  {"name": "certificate-data generator and exact dry run", "weight": 2, "done": 0.75,
+   "evidence": "branch lg00-prep: scripts/sjs/lg00/lg00_gen.py; all sub-checks pass at L = 8 and 18; exact sqrt Hamiltonian in progress"},
+  {"name": "pilot: kernel cost measured on representative shards", "weight": 1, "done": 0.0,
+   "evidence": "LG00-CERT, branch lg00-cert (running)"},
+  {"name": "kernel certificate of the torus T′ and the closed theorem", "weight": 4, "done": 0.0, "evidence": ""},
+  {"name": "second torus T″ (confinement between two tori)", "weight": 2, "done": 0.0, "evidence": ""},
+  {"name": "independent audit and separate repository", "weight": 1, "done": 0.0, "evidence": ""}
+ ]
+}

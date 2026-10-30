@@ -636,7 +636,7 @@ None.
 ### Errata
 
 1. **arXiv v2, p. 9, (14).** *factor 2; CANDIDATE* (E-CVCGL05-1). Printed: `−d(1/q)/dψ`. the general formula (8), p. 7, gives half this coefficient when H₁ is action-independent. Evidence: docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas). Effect: none on our theorems (our model uses (8)).
-2. **arXiv v2, p. 11.** *unreproduced constant; CANDIDATE* (E-CVCGL05-2). Printed: `≈ 35ε`. with its maximum-cosine-coefficient norm, (8) at 0.35 gives about 64.33ε; conventions to be rechecked before this is confirmed. Evidence: docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas). Effect: none on our theorems.
+2. **arXiv v2, p. 11.** *unreproduced constant; CANDIDATE* (E-CVCGL05-2). Printed: `≈ 35ε`. with its maximum-cosine-coefficient norm, the general-(8) model at 0.35 gives about 64.55ε including the constant coefficient, or 64.33ε for the nonconstant harmonics only, not ≈ 35ε; conventions to be rechecked before this is confirmed. Evidence: docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas). Effect: none on our theorems.
 
 ### Deviations
 
