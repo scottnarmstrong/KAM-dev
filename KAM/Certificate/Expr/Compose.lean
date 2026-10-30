@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.Certificate.Expr.ComposeModels
+public import KAM.Certificate.Model.SqrtWitness
 
 /-!
 # Composition of a straight-line program with a certified embedding
@@ -28,11 +29,16 @@ witness check fails (fail closed). Slot by slot:
   per slot (`CertModel.mulN`). A constant operand (every key zero) is a
   scalar multiplication (`CertModel.polyProduct`'s scalar route);
 * `exp`: the next exp witness (slot order) against the operand at degree `0`;
-* `inv`: the next reciprocal witness, which certifies its own nonvanishing (`invWitness_sound`).
+* `inv`: the next reciprocal witness, which certifies its own nonvanishing (`invWitness_sound`);
+* `sqrt`: the square-root witness stored under the slot number of the operation (`sqrtWit`, first
+  match), checked by `sqrtWitnessRadius` against the operand at degree `0`; it certifies that the
+  operand has positive real part on the strip (`sqrtWitness_sound`). Slot keys survive pruning,
+  which never renumbers slots.
 
 Exp witness number `i` reads the advice keys `[1, i, j]` (re-keyed to `[1, j]`), character
 witness number `c` (position in `charWit`) the keys `[1, expWit.length + c, j]`, reciprocal
-witness number `i` the key `[2, i]` (re-keyed to `[2]`): `ModelConfig.forWitness`.
+witness number `i` the key `[2, i]` (re-keyed to `[2]`), the square-root witness of slot `j` the
+key `[3, j]` (re-keyed to `[3]`): `ModelConfig.forWitness`.
 
 `Slp.compose_sound` holds on success, unconditionally in the domain.
 -/
@@ -47,11 +53,13 @@ open KAM CertArith
 the character table keyed by the normalized index (coordinates with syntactically zero `U_j`
 zeroed; `-k` uses `conjReflect`). Exp and character witnesses are `ExpWitness`es: each carries
 its own pin halving count and order, and its pin `exp(2πi k·U(0))` (characters) or
-`exp g₀(0)` goes through `certCExpReduced`. -/
+`exp g₀(0)` goes through `certCExpReduced`. Square-root witnesses are keyed by the slot number
+of their `sqrt` operation (optional; certificates without `sqrt` leave the list empty). -/
 structure Witnesses (α : Type) where
   expWit : List (ExpWitness α)
   invWit : List (CertPoly α)
   charWit : List (CertKey × ExpWitness α)
+  sqrtWit : List (ℕ × SqrtWitness α) := []
 
 section Defs
 
@@ -164,6 +172,14 @@ def composeStep (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertW
     | some Q =>
       match invWitnessRadius n W (cfg.forWitness 2 st.nInv) (st.slot W a).1 Q with
       | some r => some { st.pushSlot W ⟨-(st.slot W a).1.deg, Q, r⟩ with nInv := st.nInv + 1 }
+      | none => none
+    | none => none
+  | .sqrt a =>
+    match wit.sqrtWit.find? (fun e => e.1 == st.len) with
+    | some (_, Q) =>
+      match sqrtWitnessRadius n W (cfg.forWitness 3 st.len)
+          (CertModel.toDeg W pe 0 (st.slot W a).1) Q with
+      | some r => some (st.pushSlot W ⟨0, Q.poly, r⟩)
       | none => none
     | none => none
 
@@ -428,6 +444,17 @@ theorem composeStep_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} 
         simp only [Option.some.injEq] at h
         subst h
         exact hv.pushSlot (invWitness_sound hW _ (hop a) hr).2 _ rfl rfl hv.2.2
+      · simp at h
+    · simp at h
+  | sqrt a =>
+    simp only [composeStep] at h
+    split at h
+    · split at h
+      · rename_i r hr
+        simp only [Option.some.injEq] at h
+        subst h
+        exact hv.pushSlot (sqrtWitness_sound hW _ ((hop a).toDeg hW hpe 0) (toDeg_deg W pe 0 _)
+          hr).2 _ rfl rfl hv.2.2
       · simp at h
     · simp at h
 

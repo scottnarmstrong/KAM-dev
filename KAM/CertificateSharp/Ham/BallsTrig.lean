@@ -20,7 +20,8 @@ the disc bound `(a + b) w^{|k|₁}`. All other operations are those of `ballStep
 
 * `ballsTrig`: the pass (same output type as `Slp.balls`).
 * `val_mem_ballsTrig`: every slot value lies in its ball on `certDomain`.
-* `invGood_of_ballsTrig`: every `inv` operand is nonzero on the domain.
+* `invGood_of_ballsTrig`: every `inv` operand is nonzero on the domain;
+* `sqrtGood_of_ballsTrig`: every `sqrt` operand has positive real part on the domain.
 -/
 
 @[expose] public section
@@ -295,6 +296,10 @@ theorem stepT_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight WH
     simp only [stepT, Option.map_eq_some_iff] at h
     obtain ⟨r, hr, rfl⟩ := h
     exact ⟨plain r hr, fun k a hk => by simp at hk⟩
+  | sqrt a =>
+    simp only [stepT, Option.map_eq_some_iff] at h
+    obtain ⟨r, hr, rfl⟩ := h
+    exact ⟨plain r hr, fun k a hk => by simp at hk⟩
 
 theorem ballsAuxT_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight WH s N = true)
     {centre radius : List ℚ} {taylorN : ℕ} {z : (Fin n → ℂ) × (Fin n → ℂ)}
@@ -396,12 +401,62 @@ theorem invGood_of_ballsTrig {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
     max_le (Complex.abs_re_le_norm x.1.toC) (Complex.abs_im_le_norm x.1.toC)
   exact (inv_ball_bound hlt' hmc hmem').1
 
+theorem ballsAuxT_prefix_sqrt {n : ℕ} {WH : CertWeight} {centre radius : List ℚ}
+    {taylorN : ℕ} (ops : List SlpOp) :
+    ∀ (acc bs : List TBall), ballsAuxT n WH centre radius taylorN acc ops = some bs →
+      acc <+: bs ∧ ∀ j a : ℕ, ops[j]? = some (SlpOp.sqrt a) →
+        ((bs.map Prod.fst).getD a ballZero).2 < ((bs.map Prod.fst).getD a ballZero).1.re := by
+  induction ops with
+  | nil =>
+    intro acc bs h
+    simp only [ballsAuxT, Option.some.injEq] at h
+    subst h
+    exact ⟨List.prefix_refl _, fun j a hj => by simp at hj⟩
+  | cons op ops ih =>
+    intro acc bs h
+    simp only [ballsAuxT, Option.bind_eq_some_iff] at h
+    obtain ⟨b, hb, h⟩ := h
+    obtain ⟨hp, hsq⟩ := ih _ _ h
+    refine ⟨(List.prefix_append acc [b]).trans hp, fun j a hj => ?_⟩
+    cases j with
+    | succ j => exact hsq j a hj
+    | zero =>
+      simp only [List.getElem?_cons_zero, Option.some.injEq] at hj
+      subst hj
+      simp only [stepT, Option.map_eq_some_iff] at hb
+      obtain ⟨r, hr, -⟩ := hb
+      have hlt := ballStep_sqrt_lt hr
+      by_cases ha : a < acc.length
+      · obtain ⟨t, ht⟩ := (List.prefix_append acc [b]).trans hp
+        have : (bs.map Prod.fst).getD a ballZero = (acc.map Prod.fst).getD a ballZero := by
+          rw [← ht, List.map_append, getD_append_lt _ _ _ (by simpa using ha)]
+        rw [this]
+        exact hlt
+      · rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by simp; omega)] at hlt
+        simp [ballZero] at hlt
+
+/-- Successful cosh-pass ball arithmetic certifies every `sqrt` operand on `D`. -/
+theorem sqrtGood_of_ballsTrig {n : ℕ} (p : Slp) {WH : CertWeight} {s N : ℕ}
+    (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
+    {bs : List (CC ℚ × ℚ)} (h : ballsTrig n p WH centre radius taylorN = some bs) :
+    SlpSqrtGood n (certDomain n WH.rho centre radius) p.ops := by
+  intro j a hj z hz
+  unfold ballsTrig at h
+  simp only [Option.map_eq_some_iff] at h
+  obtain ⟨bt, hbt, rfl⟩ := h
+  obtain ⟨-, hsq⟩ := ballsAuxT_prefix_sqrt p.ops [] bt hbt
+  have hlt := hsq j a hj
+  have hmem := val_mem_ballsTrig p hW (bs := bt.map Prod.fst) (taylorN := taylorN)
+    (by simp [ballsTrig, hbt]) hz a
+  exact re_pos_of_ball hlt hmem
+
 theorem nonvanishingOn_of_ballsTrig {n : ℕ} (e : HamExpr n) {WH : CertWeight} {s N : ℕ}
     (hW : checkWeight WH s N = true) {centre radius : List ℚ} {taylorN : ℕ}
     {bs : List (CC ℚ × ℚ)} (h : ballsTrig n e.jet.prog WH centre radius taylorN = some bs) :
     e.NonvanishingOn (certDomain n WH.rho centre radius) :=
-  HamExpr.nonvanishingOn_of_inv_good (isOpen_certDomain n WH.rho centre radius) e [.const 0 0 0]
-    e.jet.prog.ops (List.prefix_refl _) (invGood_of_ballsTrig e.jet.prog hW h)
+  HamExpr.nonvanishingOn_of_program_good (isOpen_certDomain n WH.rho centre radius) e
+    [.const 0 0 0] e.jet.prog.ops (List.prefix_refl _) (invGood_of_ballsTrig e.jet.prog hW h)
+    (sqrtGood_of_ballsTrig e.jet.prog hW h)
 
 end KAM.CertificateSharp
 
