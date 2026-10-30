@@ -173,7 +173,8 @@ theorem norm_cohSolution_sdSum_le {ω : Fin n → ℝ} {γ τ r δ A : ℝ}
     summable_of_sum_le (fun k => by positivity) key
   have hw := hsum.tsum_le_of_sum_le key
   unfold cohSolution
-  refine (norm_tsum_le_tsum_norm (hsum.of_nonneg_of_le (fun _ => norm_nonneg _) fun k => ?_)).trans ?_
+  refine (norm_tsum_le_tsum_norm
+    (hsum.of_nonneg_of_le (fun _ => norm_nonneg _) fun k => ?_)).trans ?_
   · rw [norm_mul]
     exact mul_le_mul_of_nonneg_left (norm_character_le_closed k hθ) (norm_nonneg _)
   · refine (Summable.tsum_le_tsum (fun k => ?_) (hsum.of_nonneg_of_le (fun _ => norm_nonneg _)

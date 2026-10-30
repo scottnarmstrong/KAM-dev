@@ -110,7 +110,8 @@ theorem sum_term_tail_le {ω : Fin n → ℝ} {γ τ b : ℝ} (hω : IsDiophanti
         rw [hgm, hd]
         calc (1 - x) * Real.exp (-β * m) * ∑ k ∈ F.filter (fun k => modeNat k ≤ m), a k
             ≤ (1 - x) * Real.exp (-β * m) * (C * (m : ℝ) ^ (2 * τ)) :=
-              mul_le_mul_of_nonneg_left (hshell m hm1') (by have := Real.exp_pos (-β * m); nlinarith)
+              mul_le_mul_of_nonneg_left (hshell m hm1')
+                (by have := Real.exp_pos (-β * m); nlinarith)
           _ = _ := by ring
     have hsum1 : ∑ m ∈ Finset.Ico 1 M, (w m - w (m + 1)) *
         ∑ k ∈ F.filter (fun k => modeNat k ≤ m), a k ≤ T := by

@@ -89,7 +89,8 @@ theorem sum_range_le_integral_add {f : ℝ → ℝ} {c : ℝ} (hc : 0 ≤ c)
           rw [min_add_max]
         have hmax : max (f m) (f (m + 1 : ℕ)) ≤ f c := by
           refine max_le hmfc ?_
-          exact hanti (Set.mem_Ici.mpr le_rfl) (Set.mem_Ici.mpr (by push_cast; exact hcm.le)) (by push_cast; exact hcm.le)
+          exact hanti (Set.mem_Ici.mpr le_rfl) (Set.mem_Ici.mpr (by push_cast; exact hcm.le))
+            (by push_cast; exact hcm.le)
         linarith
       have h01 := intervalIntegral.integral_add_adjacent_intervals (hii 0 m le_rfl hm0)
         (hii m (m + 1) hm0 (by linarith))

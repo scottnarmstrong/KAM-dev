@@ -101,7 +101,8 @@ theorem sum_rpow_exp_le {p β : ℝ} (hp : 0 < p) (hβ : 0 < β) :
   have hterm : ∀ M : ℕ, (M : ℝ) ^ p * Real.exp (-β * M) = f M := fun M => by
     simp only [hf]; rw [neg_mul]
   simp only [hterm]
-  have hsm : Summable fun M : ℕ => f M := summable_of_sum_range_le (fun M => hf0 M (Nat.cast_nonneg M)) hsum
+  have hsm : Summable fun M : ℕ => f M :=
+    summable_of_sum_range_le (fun M => hf0 M (Nat.cast_nonneg M)) hsum
   rw [← hI, ← hfc]
   exact hsm.tsum_le_of_sum_range_le hsum
 
@@ -116,7 +117,8 @@ theorem sdTail_zero_le {τ γ b : ℝ} (hτ : 0 < τ) (hγ : 0 < γ) (hb : 0 < b
   have hp0 : 0 < p := by positivity
   have hA := shellConst_pos hτ.le
   have hG : 0 < Real.Gamma (p + 1) := Real.Gamma_pos_of_pos (by linarith)
-  have htsum : (∑' M : ℕ, if M ≤ 0 then (0 : ℝ) else (M : ℝ) ^ p * Real.exp (-4 * Real.pi * b * M)) =
+  have htsum : (∑' M : ℕ, if M ≤ 0 then (0 : ℝ) else
+      (M : ℝ) ^ p * Real.exp (-4 * Real.pi * b * M)) =
       ∑' M : ℕ, (M : ℝ) ^ p * Real.exp (-β * M) := by
     refine tsum_congr fun M => ?_
     by_cases hM : M ≤ 0
