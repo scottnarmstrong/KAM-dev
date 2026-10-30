@@ -37,7 +37,8 @@ Notation:
    e^{2πρ σ·k}.
    - It is rigorous by convexity, uses the same data, costs nothing in the kernel and about 600–900 Lean lines.
    - It recovers essentially the whole sup for DK and the Gram inverse (1.3026 against a sup of 1.3025, and
-     1.8332 against 1.8331), and half of the residual's ℓ¹ excess.
+     1.8332 against 1.8331), and two thirds (lower torus) to all (upper) of the residual's ℓ¹ excess, measured in
+     orders.
    - Under v1 at the R1 package it gains **+0.75 to +0.82 orders**.
    - With the cosh primitive in the ball pass (+0.03) and the exact quadratic γ* (+0.06) the total is +0.84 to
      +0.91 orders.
@@ -71,10 +72,24 @@ Notation:
 6. **Optimizer (§3).** `scripts/certifier/optimize.py` searches 13 unimodular frame classes, action scaling, time
    scaling, ρ, μ and s against v0, v1, an L2-emulated v1 and SHARP-PLUS's v2.
    - It reproduces CONSTANTS-STUDY exactly: P0 −99.87, R1 −74.51, and the emitted R1 −74.67 with T/e +3.03.
-   - ⟨OPT-SUMMARY⟩
+   - The rotated frame is optimal among 13 frame classes, by 3.2 orders.
+   - At the emitted L = 88 data, re-optimizing gains +2.0 / +2.3 orders under v1, almost all from a smaller strip
+     (ρ ≈ 0.0054). That is an artefact of over-resolved data: re-truncated to what v1 needs (L ≈ 32), ρ = 1/70 is
+     optimal again, and R1's parameters are within 0.1–0.2 orders of the optimum.
+   - Support needed for two orders of headroom (T/e ≥ 2), from re-truncated candidates (`rho_retrunc.py`,
+     `v2_support.py`):
+
+     | Theorem and checker | Truncation L | v terms (half lattice) |
+     |---|---:|---:|
+     | v0 (R1 today) | 88 | 4.2k |
+     | v1, landed checker | ≈ 33 | |
+     | v1 with P1 | 32 | about 0.5k |
+     | SHARP-PLUS's v2 mirror with P1 | **17–18** | about 160 |
+
+     At L = 18, v2 gives T/e +3.0 at ρ = 1/70.
    - Under v1 the exact symmetries hardly matter, and v2 should keep it that way (§7). The time scale c moves T/e
      by only +0.10 orders between c = 1.9 and c = 30 once μ is retuned, and the action scale λ settles at 1.
-     Under v0 they mattered: c ≈ 7/4–2 was worth about 0.4–1 order.
+     Under v0 they mattered: CONSTANTS-STUDY's P4 time rescaling was +0.4 orders.
 7. **Kernel (§4).** After the D34 packing fix, the dominant cost is `Slp.compose`: the whole 887-slot program, run
    three times per torus. At a 10⁻²⁵ threshold (L ≈ 33) packed products fall about 20× and are one declaration
    each, while compose falls only about 8×. Every kernel lever touches SO-owned code and is proposed only. The
@@ -272,7 +287,7 @@ models are the final rows, not the factors.
   balls with its own correctness proof.
 - Lean: 1.5–3k lines (polystrip maximum principle, grid interpolation, evaluation or FFT soundness).
 - It pays only for objects whose coefficient phases do not align at a real point, i.e. the residual, and there P1
-  already recovers half the excess.
+  already recovers two thirds to all of the excess.
 
 **Verdict.** Not recommended. If a theorem ever consumes an ℓ² error (§7), P2 is moot anyway.
 
@@ -298,6 +313,8 @@ models are the final rows, not the factors.
   - D²H sum 2.0205 → 1.9862 (M);
   - |D²X_H| 1.5645 → 1.1340.
   - Gain: +0.03 orders under v1, +0.28 under v0 (M binds 𝔪 there), and 39 % on M₂ if v2 separates it.
+  - The gain depends on the frame. In the θ frame the forcing modes have |s|₁ up to 9, and the disc bound inflates
+    M from 2.96 to 4.12 (+39 %, c = 5/4, ρ = 1/160).
   - Lean: a new `Slp.ballsTrig` in `KAM/CertificateSharp/Ham/` with its soundness, about 250–400 lines. The landed
     `Expr/Ball.lean` is SO-owned and is not touched.
 - **Dependency problem** (T2d). Remedies for rational Hamiltonians, in order of cost:
@@ -352,10 +369,11 @@ against v1's Γ_R(δ) = c_R γ⁻¹ δ^{−τ}, with c_R = `cohConstR 2 1` = 0.3
 
 **Kernel-evaluable bound** (n = 2, ω = (α, 1) after scaling):
 - S ≤ 2Li₂(q) + 2Σ_{1≤k₁≤K} q^{k₁} R(k₁) + tail, with q = e^{−2πδ};
-- R(k₁) = Σ_l q^{|l|}/(k₁α + l)² ≤ 1/x² + 1/(1−x)² + π²/3, with x = frac(k₁α). Dropping the l-weights costs less
-  than 1 %;
+- R(k₁) = Σ_l q^{|l|}/(k₁α + l)² ≤ q^{|l_A|}/x² + q^{|l_B|}/(1−x)² + π²/3, with x = frac(k₁α) and l_A, l_B the two
+  near-resonant l. This costs +0.4 % at δ₀(R1) against the exact sum. Dropping the weights on the two near terms as
+  well would cost +5 %, because |l_A| ≈ 0.025 k₁ is not small;
 - tail ≤ Σ_{m>K} 4m³q^m/γ*², with e^{−2πδK} ≤ e^{−40}.
-- Each term needs a certified frac(k₁α): an interval enclosure of α of width ≪ γ*/K², about 40 bits, from the
+- Each term needs a certified frac(k₁α): an interval enclosure of α of width ≪ γ*/K², about 40–50 bits, from the
   frequency box.
 - Cost: K = O(1/δ) rational operations, about 1.3k rows at δ₀(R1) and 4.2·10⁴ at δ₀/32. A stage list for
   δ_s = δ₀2^{−s}, s < 6, is trivial for the kernel.
@@ -459,21 +477,104 @@ certificates; §4 converts T/e into support.
 |---|---:|---:|
 | P0 pilot (θ, m = 4, ρ = 1/200, μ = 1/1000, ν = 1/4), v0 | −99.87 (CONSTANTS-STUDY) | −99.874 |
 | R1 of CONSTANTS-STUDY (m = 39/20, c = 7/4), v0 | −74.51 | −74.509 |
-| R1 emitted (m = 1987/1000, c = 237/125), v0 | −74.67, T/e +3.03 (`lower_rot.json`) | −74.669; oracle norms −74.66, T/e +3.03 |
+| R1 emitted (m = 1987/1000, c = 237/125), v0 | −74.67, T/e +3.03 (`lower_rot.json`) | −74.669; oracle norms with cosh M (as `rot_norms.py`) −74.66, T/e +3.03 |
 | R1 package with the Lean M = 2.03 (`KAM/SpinOrbit/LunarParams.lean`), v0 | – | −74.94, T/e +2.76 |
-| R1 package, v1 iso | −24.98 (`thresholds.py`, norms 1.05 × sup) | −24.87 (oracle ℓ¹ norms) |
+| R1 package, v1 iso | −24.98 (`thresholds.py`, norms 1.05 × sup) | −24.90 (oracle ℓ¹ norms, disc M = 2.0205) |
 
 Note: the Lean R1 parameters `lunarR1` set M = 203/100, above the checker's D²H sum of 2.0205, so their one-size 𝔪
-is 2.03, not 1.987. Under v0 that costs 0.27 orders against the emitted JSON's package. The certificate still has
-2.7 orders of slack, so this is a remark, not a defect.
+is 2.03, not 1.987. Under v0 that costs 0.27 orders against the emitted JSON's package. Against the certified error
+budgets (4.03e-78 and 7.84e-78) there are still 2.2–2.5 orders of slack, so this is a remark, not a defect.
 
 ### 3.3 Results
 
-⟨OPT-TABLE⟩
+Best package per theorem and regime, emitted candidates (L = 88), both tori (`optimize.py search`). Every optimum
+is in the **rotated frame**. Stage A, v1 with corner bounds, ranks the frames:
+
+| Frame | Best T/e |
+|---|---:|
+| rotated | +55.38 |
+| [[1,−1],[0,1]] | +52.23 |
+| θ | +52.05 |
+| [[1,0],[1,−1]] | +52.02 |
+| [[1,1],[1,0]] | +51.59 |
+| entries ±2 | ≤ +48.4 |
+| [[1,2],[1,1]]-type | ≤ +45.7 |
+
+| Theorem / regime | Lower: T/e at R1 → optimum | Upper: T/e at R1 → optimum | Optimum (lower) |
+|---|---|---|---|
+| v0 / ℓ¹ (landed) | +2.76 → **+2.95** | +2.47 → **+2.68** | c 1.72, ρ 0.0147, μ 0.0060, λ 0.90 |
+| v0 / corner | +3.45 → **+4.56** | +3.09 → **+4.16** | c 1.64, ρ 0.0161, μ 0.0057, λ 0.95 |
+| v0 / sup | +3.65 → **+4.58** | +3.11 → **+4.00** | c 1.64, ρ 0.0153, μ 0.0057 |
+| v1 / ℓ¹ (landed) | +52.80 → **+54.84** | +52.51 → **+54.81** | c 30, ρ 0.0052, μ 0.00018, λ 1 |
+| v1 / corner | +53.71 → **+55.44** | +53.35 → **+55.38** | c 30, ρ 0.0054, μ 0.00018 |
+| v1 / sup | +53.91 → **+55.62** | +53.36 → **+55.32** | c 30, ρ 0.0057, μ 0.00018 |
+| v1L2 (emulated) / ℓ¹ | +57.71 → **+60.76** | +57.42 → **+60.72** | c 63, ρ 0.0052, μ 0.0078, s−1 10⁻⁴ |
+| v1L2 / corner | +58.42 → **+61.26** | +58.07 → **+61.20** | c 63, ρ 0.0054, μ 0.0078 |
+| v2 (SHARP-PLUS A7) / corner | +66.92 (log₁₀T −11.18; c = 7/4) → **+68.92** | not run | c 4.8, ρ 0.0060, μ 1/160 (`v2opt`, coordinate search) |
+
+In the "at R1" column, the ℓ¹ entries are the landed checker at the R1 package; the corner and sup entries include
+the cosh primitive and γ* (the ladder of §2.1).
 
 ### 3.4 Reading the optimum
 
-⟨OPT-READING⟩
+- **Frame and action scale.** The rotated frame (owner ruling O5) is optimal among all 13 classes, by 3.2 orders
+  over the next one. The action scale λ stays within 0.9–1.05 and gains nothing. Under v1, λ > 1 shrinks the Gram
+  inverse but raises the torsion inverse and the D²H action block; under v0 the one size 𝔪 is pinned by M ≥ c,
+  which comes from the linear part of H′.
+- **Time scale.** Under v1 the optimum's c ≈ 30 is a flat direction: at fixed ρ, T/e moves by +0.10 from c = 1.9 to
+  c = 120 once μ ∝ 1/c is retuned. Profile at ρ = 0.0054, corner regime:
+
+  | c | 1.9 | 4 | 8 | 16 | 30 | 60 | 120 |
+  |---|---:|---:|---:|---:|---:|---:|---:|
+  | v1 T/e | +55.34 | +55.39 | +55.42 | +55.43 | +55.44 | +55.44 | +55.44 |
+  | v1L2 T/e | +60.63 | +60.88 | +61.05 | +61.16 | +61.22 | +61.26 | +61.27 |
+
+  So the R1 choice c = 237/125 loses only 0.1 orders under v1. A large c with a tiny μ, which the downstream
+  barrier and confinement statements may dislike, is not worth it.
+- **Strip width: the one real gain at L = 88, and an artefact of over-resolved data.** At fixed L = 88 the optimum
+  moves from ρ = 1/70 to ρ ≈ 0.0054 (+1.6 orders at c = 1.9). The candidate's error sits at the truncation edge,
+  |k| ≈ 170, where the weight e^{2πρ|k|} falls faster than v1's threshold, which goes like δ₀⁴ ∝ ρ⁴.
+- **The support-sized candidate.** Once the candidate is re-truncated to what v1 needs (`rho_retrunc.py`), ρ = 1/70
+  is optimal again: T/e at L = 32 is +1.30, +1.72, +2.18, +2.41, **+2.50**, +2.36, +1.64 and +0.52 for
+  ρ = 0.004, 0.0054, 0.008, 0.0107, **1/70**, 0.02, 0.03 and 0.04 (lower torus, corner regime, μ optimized; same
+  shape at L = 28, 36 and on the upper torus).
+- **Under v2** (SHARP-PLUS's mirror, A7) the picture is the same:
+  - at fixed ρ = 1/70 the time scale is worth +0.05 (c = 7/4 → 2.9);
+  - the +2.0 of the coordinate search is again the small-ρ artefact of the L = 88 data;
+  - my corner-regime norms give log₁₀T = −11.18 at the R1-like package, against −11.37 in SHARP-PLUS's own run with
+    1.05 × sup norms. The difference is the 5 % margin, worth 0.2 orders.
+- **μ and s.** Under v1, μ ≈ 0.0008 at c = 1.9 is +0.04 over R1's 1/160. In the L2 emulation the sum and ν branches
+  bind, so μ ≈ 0.008–0.05 and s − 1 = 10⁻⁴ are preferred.
+- **Support (the real deliverable).** Under v1 the R1 parameters (rotated frame, ρ = 1/70, c ≈ 1.9, μ ≈ 1/160 or
+  smaller) are already within 0.1–0.2 orders of optimal for a support-sized certificate. With two orders of
+  headroom, T/e ≥ 2:
+
+  | Checker | T/e at L = 32 (lower / upper) | Truncation needed |
+  |---|---|---:|
+  | corner (P1) | +2.50 / +2.60 | L = 32 |
+  | landed ℓ¹ | +1.62 / +1.74 | L ≈ 33 |
+  | landed v0 | | L = 88 |
+
+  That is 7.5× fewer terms and about 60× fewer E×E pairs than R1 (§4.1). Each further order of T/e is about 1.1
+  digits.
+- **Support under v2** (`v2_support.py`; corner regime, c = 7/4, μ = 1/160, lower / upper; the v2 threshold is
+  −11.57, −11.18 and −10.85 at ρ = 0.01, 1/70 and 0.02, independent of L):
+
+  | L | T/e at ρ = 0.01 | ρ = 1/70 | ρ = 0.02 |
+  |---:|---:|---:|---:|
+  | 16 | +1.15 / +1.08 | +1.38 / +1.33 | +1.45 / +1.42 |
+  | 18 | +2.80 / +2.73 | **+3.04 / +2.96** | +3.12 / +3.03 |
+  | 20 | +4.72 / +4.86 | +4.90 / +5.02 | +4.90 / +4.99 |
+  | 24 | +8.34 / +8.39 | +8.45 / +8.51 | +8.33 / +8.40 |
+
+  So v2 needs L ≈ 17–18 digits (≈ 160 v half-lattice terms, ≈ 330 E terms, ≈ 84 bits). Under v1 the same
+  candidates have T/e between −12 and −5. At that size every product is a single small declaration: the kernel
+  questions of D34 disappear, and the compose cost (§4.2) scales down by about (18/88)² ≈ 1/24 in terms.
+- **Under v0** (the sealed theorem the SO track uses today), the parameters matter more:
+  - with the landed checker, re-optimizing adds +0.2 (ρ ≈ 0.0147, c ≈ 1.72, λ ≈ 0.9);
+  - with P1 and the cosh primitive, the one size 𝔪 drops from 2.02 to 1.84 (σB binds), giving T/e +4.56 / +4.16 against
+    +2.76 / +2.47, **+1.7 to +1.8 orders**;
+  - that is about 2 digits of L (88 → 86) under the theorem in force today.
 
 ## 4. Kernel efficiency (D34 and the SO replay studies)
 
@@ -498,6 +599,7 @@ Sizes:
 | −35 | 44 | 171 | 949 / 1898 | 1904 | 3.6e6 | 0.13 | 0.23 |
 | −25 | 33 | 134 | 522 / 1044 | 1038 | 1.1e6 | 0.049 | 0.125 |
 | −15 | 22 | 98 | 214 / 428 | 425 | 1.8e5 | 0.017 | 0.051 |
+| −11 (v2 mirror) | 17–18 | ≈ 84 | ≈ 160 / 320 | ≈ 330 | ≈ 1.1e5 | ≈ 0.01 | ≈ 0.04 |
 
 ### 4.2 Where the kernel time goes
 
@@ -536,7 +638,8 @@ Per-torus projections:
 | K-f | Direct residual instead of composition | 6–10× on invariance, but Hamiltonian-specific, which breaks the black box; generic fusion about 2× | analysis | 1.5–3k lines |
 
 The checker-side levers of §2 also act here:
-- P1 lowers e by 0.29–0.36 orders and σK, σB enough for +0.46 under v1: about 0.9 digits of L;
+- P1 is worth +0.86 to +0.88 orders under v1 at the support-sized truncations (L = 28–36, `rho_retrunc.py`), i.e.
+  one digit of L (33 → 32);
 - L2 and L6 (theorem side) are worth tens of orders, i.e. tens of digits of L.
 
 ## 5. Ranked levers
@@ -546,11 +649,12 @@ All gains are on R1, in orders of T/e, under v1 unless stated. Lean lines are ne
 
 | Rank | Lever | Gain on R1 | Lean cost | Kernel cost | Owner |
 |---|---|---|---|---|---|
+| 0 | **The sharp theorem itself** (v0 → v1 → v2; SHARP-A1..A8, SHARP-PLUS) | v1 +50 orders, v2 a further +13.7 (threshold 10^−74.9 → 10^−24.9 → 10^−11.2); support 88 → 32 → 17–18 digits | in progress | – | theorem packages |
 | 1 | **L6 measured step 0** (theorem: SHARP-PLUS; checker: C5) | step-0 solves are 10^6.1–10^6.5 below the a-priori bound; tens of orders (SHARP-PLUS quantifies) | checker 1.5–2.5k; theorem: SHARP-PLUS | about 20 low-precision products: 0.1–1 CPU-h at L = 88, ≤ 0.1 at L ≈ 33 | SHARP-PLUS + C5 |
 | 2 | **L2 frequency-specific small divisors** (checker: C2) | Γ 107× smaller at δ₀; +2.7 in SHARP-PLUS's staged mirror, +4.9 to +7.9 in the v1 emulation | checker 300–500 | O(1/δ_s) rational ops, trivial | SHARP-PLUS + C2 |
-| 3 | **L1 measured frame majorants** (checker: C3, C4) | factors 1.8–26 on derived objects; +3.9 in SHARP-PLUS's mirror (A0 → A2) | checker 400–700 | none (corner passes on existing models) | SHARP-PLUS + C3/C4 |
-| 4 | **Optimizer** (free parameters) | ⟨OPT-GAIN⟩ | 0 | 0 (regeneration) | SO (proposal) |
-| 5 | **P1 corner bounds** (C1) | +0.75 to +0.82 at fixed R1 (e +0.29/+0.36; σK, σB +0.46) | 600–900 | negligible | C1 |
+| 3 | **L1 measured frame majorants** (checker: C3, C4) | factors 1.8–26 on derived objects; +4.1 in SHARP-PLUS's mirror (A0 → A2, iso) | checker 400–700 | none (corner passes on existing models) | SHARP-PLUS + C3/C4 |
+| 4 | **Optimizer** (free parameters) | v1: +2.0 / +2.3 at L = 88 (strip width), but ≤ 0.2 for a support-sized certificate (R1 is near-optimal); v0: +0.2 (landed), +1.7 with P1 | 0 | 0 (regeneration) | SO (proposal) |
+| 5 | **P1 corner bounds** (C1) | +0.75 to +0.82 at fixed R1 (e +0.29/+0.36; σK, σB +0.46); +0.86 to +0.88 at the support-sized L ≈ 32 (one digit of L) | 600–900 | negligible | C1 |
 | 6 | Cosh primitive in the ball pass (C3) | +0.03 (v1), +0.28 (v0); 39 % on M₂ (v2) | 250–400 | negligible | C3 |
 | 7 | Certified quadratic γ* (C2) | +0.06; cubic test vector +2.4 (n = 3 clients) | 250–350; cubic 400–600 | trivial | C2 |
 | 8 | Kernel K-g1 + K-g2 (compose pruning and sharing) | 4.6× on compose ops (the dominant kernel cost after D34) | 400–700 (C7) | – | C7 / SO |
@@ -647,4 +751,9 @@ python3 -I scripts/certifier/optimize.py --cache CACHE reproduce
 python3 -I scripts/certifier/optimize.py --cache CACHE ladder --which lower
 python3 -I scripts/certifier/optimize.py --cache CACHE search --which lower --json OUT
 python3 -I scripts/certifier/optimize.py --cache CACHE v2opt --which lower     # needs the sharp-plus mirror
+python3 -I scripts/certifier/rho_retrunc.py CACHE 28 32 36    # rho at the v1 support (re-truncated candidates)
+python3 -I scripts/certifier/v2_support.py CACHE 16 18 20 24  # truncation needed by the v2 mirror
 ```
+
+The v2 mirror is found through the environment variable `KAM_V2_DIR` (default: the `sharp-plus` worktree's
+`scripts/apost_sharp`).

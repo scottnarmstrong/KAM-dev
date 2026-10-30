@@ -25,6 +25,8 @@ scripts imported read-only).
 - `scripts/certifier/v2_majorants.py`: measured |Lᵀ|, |N|, |Nᵀ|, sup|T| and |ω| against what v1 derives.
 - `scripts/certifier/step0_coh.py`: the actual cohomological solve of the residual against the a-priori bounds
   (evidence for L6).
+- `scripts/certifier/rho_retrunc.py`: T/e against ρ for candidates re-truncated to the v1 support (L = 28–36).
+- `scripts/certifier/v2_support.py`: the truncation SHARP-PLUS's v2 mirror needs (L = 16–24).
 - `docs/campaign/handoffs/SHARP-CERTSIDE.md`: this handoff.
 
 ## Approach
@@ -59,7 +61,16 @@ scripts imported read-only).
   +53.65 / +53.29 → + γ* +53.71 / +53.35 → + P2 +53.91 / +53.36.
 - `smalldiv.py`: γ* = 0.0246196 (rotated), 0.0492392 (θ), certified with K₀ = 2. Γ_R/Γ_spec = 107 at δ₀ = 0.0024.
 - `step0_coh.py`: Γ_R/measured = 10^6.08–10^6.55; Γ_spec/measured = 10^4.05–10^4.52.
-- `search` (lower and upper) and `v2opt`: see §3.3 of the design document, ⟨HANDOFF-OPT⟩.
+- `search` (lower and upper):
+  - rotated frame optimal, by 3.2 orders;
+  - v1, landed checker: +52.80 → +54.84 (lower) and +52.51 → +54.81 (upper) at L = 88; the gain is a small-ρ
+    artefact of the over-resolved data;
+  - v1 with corner bounds: +55.44 / +55.38;
+  - v0 with corner bounds: +4.56 / +4.16, against +2.76 / +2.47 landed.
+- `rho_retrunc.py` at L = 32: ρ = 1/70 is optimal (T/e +2.50 / +2.60 with corner bounds; +1.62 / +1.74 landed).
+- `v2opt` (lower): log₁₀T −11.18 at the R1-like package, T/e +66.92 → +68.92.
+- `v2_support.py`: v2 (log₁₀T −11.18 at ρ = 1/70) gives T/e +1.4 at L = 16, +3.0 at L = 18 and +4.9 at L = 20.
+  v2 needs about 17–18 digits of truncation, against 32 under v1 and 88 under v0.
 - `sh scripts/lint_sources.sh` (exit 1, nothing from this branch, which adds no Lean file):
   - Lean lines over 100 characters in `KAM/Sharp/TorsionBound.lean:25` and `KAM/Sharp/TorsionPoly.lean:25`
     (SHARP-A3, pre-existing);
