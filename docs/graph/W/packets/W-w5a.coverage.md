@@ -4,7 +4,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-taylor@L46-L53
 DISPOSITION: NODE bpW:w5:ext-taylor
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:ext-ftc
@@ -13,7 +13,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext-ftc@L54-L56
 DISPOSITION: NODE bpW:w5:ext-ftc
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:setting
@@ -22,7 +22,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:setting@L62-L71
 DISPOSITION: NODE bpW:w5:setting
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:omega
@@ -31,7 +31,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:omega@L75-L79
 DISPOSITION: NODE bpW:w5:omega
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:ombd
@@ -40,7 +40,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:ombd@L81-L82
 DISPOSITION: NODE stepW:w5:ombd
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:omnd
@@ -49,7 +49,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnd@L83-L85
 DISPOSITION: NODE stepW:w5:omnd
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:omnorm
@@ -58,7 +58,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:omnorm@L86-L87
 DISPOSITION: NODE stepW:w5:omnorm
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:class
@@ -67,7 +67,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:class@L91-L105
 DISPOSITION: NODE bpW:w5:class
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:lambda-product
@@ -76,7 +76,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:lambda-product@L109-L114
 DISPOSITION: NODE bpW:w5:lambda-product
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:w4-general
@@ -85,7 +85,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-general@L123-L133
 DISPOSITION: NODE bpW:w5:w4-general
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:g-pair
@@ -94,7 +94,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-pair@L136-L138
 DISPOSITION: NODE stepW:w5:g-pair
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:g-tail
@@ -103,7 +103,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-tail@L139-L140
 DISPOSITION: NODE stepW:w5:g-tail
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:g-div
@@ -112,7 +112,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-div@L141-L143
 DISPOSITION: NODE stepW:w5:g-div
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:g-diag
@@ -121,7 +121,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-diag@L144-L146
 DISPOSITION: NODE stepW:w5:g-diag
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:g-rest
@@ -130,7 +130,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:g-rest@L147-L150
 DISPOSITION: NODE stepW:w5:g-rest
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:w4-modified
@@ -139,7 +139,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-modified@L156-L177
 DISPOSITION: NODE bpW:w5:w4-modified
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:m-sup
@@ -148,7 +148,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-sup@L180-L184
 DISPOSITION: NODE stepW:w5:m-sup
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:m-other
@@ -157,7 +157,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-other@L185-L186
 DISPOSITION: NODE stepW:w5:m-other
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:m-lip
@@ -166,7 +166,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-lip@L187-L190
 DISPOSITION: NODE stepW:w5:m-lip
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:m-act
@@ -175,7 +175,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-act@L191-L212
 DISPOSITION: NODE stepW:w5:m-act
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:m-ass
@@ -184,7 +184,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-ass@L213-L217
 DISPOSITION: NODE stepW:w5:m-ass
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:m-const
@@ -193,16 +193,16 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:m-const@L218-L221
 DISPOSITION: NODE stepW:w5:m-const
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:prep-gap
 KIND: claim
 SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:prep-gap@L240-L247
-DISPOSITION: NODE bpW:w5:prep-gap
-REASON: mechanical inventory of a labelled unit
+DISPOSITION: EXCLUDED
+REASON: administrative remark (exponents adopted by W6-W7 after the sourcegap; their values are fixed in Definition bpW:w7:constdef and Lemma bpW:w6:prep-step)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:taylor
@@ -211,7 +211,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor@L251-L271
 DISPOSITION: NODE bpW:w5:taylor
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:t-scale
@@ -220,7 +220,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-scale@L273-L276
 DISPOSITION: NODE stepW:w5:t-scale
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:t-disc
@@ -229,7 +229,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-disc@L277-L279
 DISPOSITION: NODE stepW:w5:t-disc
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:t-poly
@@ -238,7 +238,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-poly@L280-L284
 DISPOSITION: NODE stepW:w5:t-poly
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:t-comp
@@ -247,7 +247,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-comp@L285-L292
 DISPOSITION: NODE stepW:w5:t-comp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:t-field
@@ -256,7 +256,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-field@L293-L298
 DISPOSITION: NODE stepW:w5:t-field
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:t-est
@@ -265,7 +265,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:t-est@L299-L305
 DISPOSITION: NODE stepW:w5:t-est
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:data
@@ -274,7 +274,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:data@L313-L333
 DISPOSITION: NODE bpW:w5:data
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:solve
@@ -283,7 +283,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:solve@L337-L348
 DISPOSITION: NODE bpW:w5:solve
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:s-in
@@ -292,7 +292,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-in@L350-L351
 DISPOSITION: NODE stepW:w5:s-in
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:s-out
@@ -301,7 +301,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-out@L352-L356
 DISPOSITION: NODE stepW:w5:s-out
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:s-class
@@ -310,7 +310,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:s-class@L357-L360
 DISPOSITION: NODE stepW:w5:s-class
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:flow
@@ -319,7 +319,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow@L364-L379
 DISPOSITION: NODE bpW:w5:flow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:f-margin
@@ -328,7 +328,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-margin@L381-L383
 DISPOSITION: NODE stepW:w5:f-margin
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:f-flow
@@ -337,7 +337,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-flow@L384-L387
 DISPOSITION: NODE stepW:w5:f-flow
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:f-par
@@ -346,7 +346,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-par@L388-L393
 DISPOSITION: NODE stepW:w5:f-par
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:f-der
@@ -355,7 +355,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-der@L394-L397
 DISPOSITION: NODE stepW:w5:f-der
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:f-image
@@ -364,7 +364,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-image@L398-L399
 DISPOSITION: NODE stepW:w5:f-image
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:f-real
@@ -373,7 +373,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:f-real@L400-L403
 DISPOSITION: NODE stepW:w5:f-real
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w5:flow-calc
@@ -382,7 +382,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow-calc@L412-L425
 DISPOSITION: NODE bpW:w5:flow-calc
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:c-cont
@@ -391,7 +391,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-cont@L427-L430
 DISPOSITION: NODE stepW:w5:c-cont
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:c-var
@@ -400,7 +400,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-var@L431-L433
 DISPOSITION: NODE stepW:w5:c-var
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:c-skew
@@ -409,7 +409,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-skew@L434-L436
 DISPOSITION: NODE stepW:w5:c-skew
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:c-symp
@@ -418,7 +418,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-symp@L437-L438
 DISPOSITION: NODE stepW:w5:c-symp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:c-inv
@@ -427,7 +427,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-inv@L439-L440
 DISPOSITION: NODE stepW:w5:c-inv
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:c-trans
@@ -436,7 +436,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-trans@L441-L444
 DISPOSITION: NODE stepW:w5:c-trans
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w5:c-time
@@ -445,7 +445,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#stepW:w5:c-time@L445-L447
 DISPOSITION: NODE stepW:w5:c-time
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w5
@@ -454,7 +454,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5@L1-L1
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w5:ext
@@ -463,7 +463,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:ext@L41-L41
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w5:setting-sec
@@ -472,7 +472,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:setting-sec@L60-L60
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w5:w4-sec
@@ -481,7 +481,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:w4-sec@L116-L116
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w5:taylor-sec
@@ -490,7 +490,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:taylor-sec@L249-L249
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w5:flow-sec
@@ -499,16 +499,16 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#bpW:w5:flow-sec@L311-L311
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:sourcegap-L226
 KIND: proof-region
-SOURCE: blueprint-W/parts/w5-kamstep.tex#sourcegap@L226-L226
-DISPOSITION: TODO
-REASON: a \sourcegap note: model as a node with SOURCE_GAP: in NOTE, map it to the node(s) that supply the bridge, or exclude with reason
+SOURCE: blueprint-W/parts/w5-kamstep.tex#sourcegap@L226-L238
+DISPOSITION: NODE bpW:w5:w4-modified, stepW:w5:m-lip, stepW:w5:m-act
+REASON: P96-K p. 140's lambda-norm for the modified divisors needs 2 beta <= bar p - check p; the blueprint states (ii) under that hypothesis (Step stepW:w5:m-lip) and handles the action component separately (Step stepW:w5:m-act); W7 adopts beta = 1/4. Not an open gap of the blueprint
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L72
@@ -517,7 +517,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L72-L72
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L89
@@ -526,7 +526,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L89-L89
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L106
@@ -535,7 +535,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L106-L106
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L152
@@ -544,7 +544,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L152-L152
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L223
@@ -553,7 +553,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L223-L223
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L307
@@ -562,7 +562,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L307-L307
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L334
@@ -571,7 +571,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L334-L334
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L362
@@ -580,7 +580,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L362-L362
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L405
@@ -589,7 +589,7 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L405-L405
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:source-L449
@@ -598,68 +598,68 @@ SOURCE: blueprint-W/parts/w5-kamstep.tex#source@L449-L449
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:prose-L7-L11
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L7-L11
-DISPOSITION: TODO
-REASON: unlabelled prose without cross-references outside every node (--all-prose): map it to the node(s) that rely on a fact or datum it states (or make it a node), or exclude with a reason (motivation, outline, notation only)
+DISPOSITION: EXCLUDED
+REASON: introduction
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:prose-L13-L25
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L13-L25
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: EXCLUDED
+REASON: route paragraph (outline)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:prose-L27-L33
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L27-L33
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: EXCLUDED
+REASON: inputs paragraph (pointers; each use is an edge at its consumer)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:prose-L35-L39
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L35-L39
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: NODE bpW:w5#data
+REASON: fixes a = p = 1 for W5
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:prose-L43-L45
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L43-L45
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: EXCLUDED
+REASON: introduction of the external list and layout
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:prose-L57-L58
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L57-L58
-DISPOSITION: TODO
-REASON: unlabelled prose without cross-references outside every node (--all-prose): map it to the node(s) that rely on a fact or datum it states (or make it a node), or exclude with a reason (motivation, outline, notation only)
+DISPOSITION: EXCLUDED
+REASON: layout
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w5-kamstep:prose-L118-L121
 KIND: proof-region
 SOURCE: blueprint-W/parts/w5-kamstep.tex#prose@L118-L121
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: EXCLUDED
+REASON: motivation of Lemmas bpW:w5:w4-general and bpW:w5:w4-modified
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
