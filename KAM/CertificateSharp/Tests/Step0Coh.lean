@@ -23,10 +23,10 @@ A toy model on `T²` (exact `ℚ` backend), solved at the rot-frame lunar freque
 * **Frequency box.** `(−0.02462 ± 10⁻⁵, 1)`, proved to contain `ω` (`toyBox_encloses`).
 * **`Γ_∞(ω, 1/20) ≤ 5`.** `SupData.check` with `N = 8` (144 box modes), together with
   `supBound_sound`; the true value is `4.72`.
-* **The solve.** `toy_cohSolve`: for **every** `g` with `toyG.EnclosesL1 2 (1/10) g`, the solved
-  model encloses `cohSolution ω g` at width `1/20`, in ℓ¹ and in sup. Its certified bound is at
-  least 200 times below the a-priori `Γ · ‖g‖` (`toy_ratio`; the exact ratio is 209, from
-  `scripts/apost_sharp/step0_coh_toy.py`).
+* **The solve.** `toy_cohSolve`: for **every** `g` with `CertModel.EnclosesL1 2 (1/10) toyG g`,
+  the solved model encloses `cohSolution ω g` at width `1/20`, in ℓ¹ and in sup. Its certified
+  bound is at least 200 times below the a-priori `Γ · ‖g‖` (`toy_ratio`; the exact ratio is 209,
+  from `scripts/apost_sharp/step0_coh_toy.py`).
 
 Every check is `decide +kernel`.
 -/
@@ -71,7 +71,8 @@ theorem toyG_solveCheck : solveCheck 2 toyBox toyG.poly = true := by decide +ker
 
 /-- The certified bound of the solution is at least 200 times below the a-priori bound. -/
 theorem toy_ratio :
-    ((toyG.cohSolve 2 toyBox 5 toyWout).supBound toyWout) * 200 ≤ 5 * toyG.supBound toyWin := by
+    ((CertModel.cohSolve 2 toyBox 5 toyWout toyG).supBound toyWout) * 200 ≤
+      5 * toyG.supBound toyWin := by
   decide +kernel
 
 theorem toyBox_encloses : FreqEncloses 2 toyBox toyω := by
@@ -87,7 +88,8 @@ theorem toyBox_encloses : FreqEncloses 2 toyBox toyω := by
 theorem toyω_isDiophantine : IsDiophantine ((toySup.γ : ℚ) : ℝ) 1 toyω := by
   simpa [toySup, toyω] using lunarNuMinus_sub_one_isDiophantine_exact
 
-theorem toy_gamma : smallDivisorSup toyω (((toyWin.rho : ℚ) : ℝ) - toyWout.rho) ≤ ((5 : ℚ) : ℝ) := by
+theorem toy_gamma :
+    smallDivisorSup toyω (((toyWin.rho : ℚ) : ℝ) - toyWout.rho) ≤ ((5 : ℚ) : ℝ) := by
   have e : ((toyWin.rho : ℚ) : ℝ) - toyWout.rho = (toySup.δ : ℝ) := by
     norm_num [toyWin, toyWout, toySup]
   rw [e]
@@ -96,11 +98,13 @@ theorem toy_gamma : smallDivisorSup toyω (((toyWin.rho : ℚ) : ℝ) - toyWout.
 /-- **The certified toy solve.** For every `g` enclosed by `toyG` with an ℓ¹ remainder of width
 `1/10`, the solved model encloses `𝓡 g` at width `1/20` (ℓ¹ and sup), and its certified sup bound
 bounds `𝓡 g` on `T_{1/20}`. -/
-theorem toy_cohSolve (g : (Fin 2 → ℂ) → ℂ) (hg : toyG.EnclosesL1 2 (toyWin.rho : ℝ) g) :
-    (toyG.cohSolve 2 toyBox 5 toyWout).EnclosesL1 2 toyWout.rho (cohSolution toyω g) ∧
-      (toyG.cohSolve 2 toyBox 5 toyWout).Encloses 2 toyWout.rho (cohSolution toyω g) ∧
+theorem toy_cohSolve (g : (Fin 2 → ℂ) → ℂ) (hg : CertModel.EnclosesL1 2 (toyWin.rho : ℝ) toyG g) :
+    CertModel.EnclosesL1 2 toyWout.rho (CertModel.cohSolve 2 toyBox 5 toyWout toyG)
+        (cohSolution toyω g) ∧
+      (CertModel.cohSolve 2 toyBox 5 toyWout toyG).Encloses 2 toyWout.rho (cohSolution toyω g) ∧
       ∀ θ ∈ complexStrip 2 toyWout.rho,
-        ‖cohSolution toyω g θ‖ ≤ val ((toyG.cohSolve 2 toyBox 5 toyWout).supBound toyWout) := by
+        ‖cohSolution toyω g θ‖ ≤
+          val ((CertModel.cohSolve 2 toyBox 5 toyWout toyG).supBound toyWout) := by
   have hρ : ((toyWout.rho : ℚ) : ℝ) < (toyWin.rho : ℝ) := by norm_num [toyWin, toyWout]
   have hγ : (0 : ℝ) < ((toySup.γ : ℚ) : ℝ) := by norm_num [toySup]
   have h1 := hg.cohSolve toyBox_encloses toyω_isDiophantine hγ zero_le_one toyWout_check hρ

@@ -157,14 +157,6 @@ theorem coth_pow_le_cothPowUp (n : ℕ) {δ : ℚ} (hδ : 0 < δ) :
   push_cast
   exact pow_le_pow_left₀ hc0 (h1.trans (by linarith)) n
 
-end KAM.CertificateSharp
-
-namespace KAM.Certificate
-
-open KAM.CertificateSharp CertArith
-
-variable {n : ℕ}
-
 theorem CertPoly.summableWeighted_coeff {α : Type} [CertArith α] (s : ℝ) (P : CertPoly α) :
     Fourier.SummableWeighted s (P.coeff n) := by
   have e : P.coeff n = fun k => (P.terms.map fun t =>
@@ -201,50 +193,50 @@ def CertModel.residualCoeff (n : ℕ) (m : CertModel α) (f : (Fin n → ℂ) �
 /-- `m` encloses `f` with an ℓ¹ remainder of strip width `ρ`: the coefficients of
 `f − (2π)^deg P` on the real torus have weighted ℓ¹ norm `∑_k |R_k| e^{2πρ|k|₁} ≤ (2π)^deg rad`. -/
 def CertModel.EnclosesL1 (n : ℕ) (ρ : ℝ) (m : CertModel α) (f : (Fin n → ℂ) → ℂ) : Prop :=
-  Fourier.SummableWeighted (2 * Real.pi * ρ) (m.residualCoeff n f) ∧
-    Fourier.weightedNorm (2 * Real.pi * ρ) (m.residualCoeff n f) ≤
+  Fourier.SummableWeighted (2 * Real.pi * ρ) (CertModel.residualCoeff n m f) ∧
+    Fourier.weightedNorm (2 * Real.pi * ρ) (CertModel.residualCoeff n m f) ≤
       (2 * Real.pi) ^ m.deg * val m.rad
 
 theorem CertModel.torusCoeff_eq (m : CertModel α) (f : (Fin n → ℂ) → ℂ) (k : Fin n → ℤ) :
     torusCoeff (fun x => f fun j => (x j : ℂ)) k =
-      (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.coeff n k + m.residualCoeff n f k := by
+      (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.coeff n k + CertModel.residualCoeff n m f k := by
   unfold CertModel.residualCoeff
   ring
 
 theorem CertModel.EnclosesL1.rad_nonneg {ρ : ℝ} {m : CertModel α} {f : (Fin n → ℂ) → ℂ}
-    (h : m.EnclosesL1 n ρ f) : 0 ≤ val m.rad :=
+    (h : CertModel.EnclosesL1 n ρ m f) : 0 ≤ val m.rad :=
   nonneg_of_mul_nonneg_right ((weightedNorm_nonneg _ _).trans h.2) (by positivity)
 
 /-- The coefficients of an ℓ¹-enclosed function are summable at its radius. -/
 theorem CertModel.EnclosesL1.summableWeighted {ρ : ℝ} {m : CertModel α}
-    {f : (Fin n → ℂ) → ℂ} (h : m.EnclosesL1 n ρ f) :
+    {f : (Fin n → ℂ) → ℂ} (h : CertModel.EnclosesL1 n ρ m f) :
     Fourier.SummableWeighted (2 * Real.pi * ρ) (torusCoeff fun x => f fun j => (x j : ℂ)) := by
   have e : (torusCoeff fun x => f fun j => (x j : ℂ)) =
-      fun k => (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.coeff n k + m.residualCoeff n f k :=
-    funext (m.torusCoeff_eq f)
+      fun k => (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.coeff n k + CertModel.residualCoeff n m f k :=
+    funext (CertModel.torusCoeff_eq m f)
   rw [e]
   exact (summableWeighted_add
-    (summableWeighted_const_mul _ (m.poly.summableWeighted_coeff (n := n) _)).1 h.1).1
+    (summableWeighted_const_mul _ (CertPoly.summableWeighted_coeff (n := n) _ m.poly)).1 h.1).1
 
 /-- **ℓ¹ to sup.** An ℓ¹ enclosure is a sup enclosure on `T_ρ` of a function that is the Fourier
 series of its coefficients there. -/
 theorem CertModel.EnclosesL1.encloses {ρ : ℝ} {m : CertModel α} {f : (Fin n → ℂ) → ℂ}
-    (h : m.EnclosesL1 n ρ f)
+    (h : CertModel.EnclosesL1 n ρ m f)
     (hf : ∀ θ ∈ complexStrip n ρ,
       f θ = fourierSum (torusCoeff fun x => f fun j => (x j : ℂ)) θ) :
     m.Encloses n ρ f := by
   intro θ hθ
-  have hP := m.poly.summableWeighted_coeff (n := n) (2 * Real.pi * ρ)
+  have hP := CertPoly.summableWeighted_coeff (n := n) (2 * Real.pi * ρ) m.poly
   have hsP := summable_coeff_mul_character hP hθ
   have hsR := summable_coeff_mul_character h.1 hθ
   have e1 : (fun k => torusCoeff (fun x => f fun j => (x j : ℂ)) k * character k θ) =
       fun k => (2 * (Real.pi : ℂ)) ^ m.deg * (m.poly.coeff n k * character k θ) +
-        m.residualCoeff n f k * character k θ := by
+        CertModel.residualCoeff n m f k * character k θ := by
     funext k
-    rw [m.torusCoeff_eq f k]
+    rw [CertModel.torusCoeff_eq m f k]
     ring
   have e : f θ - (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ =
-      fourierSum (m.residualCoeff n f) θ := by
+      fourierSum (CertModel.residualCoeff n m f) θ := by
     rw [hf θ hθ, CertPoly.eval_eq_fourierSum]
     simp only [fourierSum]
     rw [e1, Summable.tsum_add (hsP.mul_left _) hsR, tsum_mul_left]
@@ -260,7 +252,7 @@ theorem CertModel.Encloses.toL1 [LawfulCertArith α] {ρ δ₁ : ℝ} (hδ : 0 <
     (h : m.Encloses n ρ f) {C : ℝ}
     (hC : (Real.cosh (Real.pi * δ₁) / Real.sinh (Real.pi * δ₁)) ^ n ≤ C) {r : α}
     (hr : C * val m.rad ≤ val r) :
-    (⟨m.deg, m.poly, r⟩ : CertModel α).EnclosesL1 n (ρ - δ₁) f := by
+    CertModel.EnclosesL1 n (ρ - δ₁) (⟨m.deg, m.poly, r⟩ : CertModel α) f := by
   have hρ : 0 < ρ := hδ.trans hδρ
   have hrad := CertModel.Encloses.rad_nonneg hρ h
   set c : ℂ := (2 * (Real.pi : ℂ)) ^ m.deg with hc
@@ -275,7 +267,7 @@ theorem CertModel.Encloses.toL1 [LawfulCertArith α] {ρ δ₁ : ℝ} (hδ : 0 <
   have hcp : Continuous fun x : Fin n → ℝ => c * m.poly.eval n fun j => (x j : ℂ) :=
     continuous_const.mul ((m.poly.differentiable_eval n).continuous.comp continuous_realPoint)
   have hcoef : (torusCoeff fun x => u fun j => (x j : ℂ)) =
-      (⟨m.deg, m.poly, r⟩ : CertModel α).residualCoeff n f := by
+      CertModel.residualCoeff n (⟨m.deg, m.poly, r⟩ : CertModel α) f := by
     funext k
     have hP : (torusCoeff fun x : Fin n → ℝ => c * m.poly.eval n fun j => (x j : ℂ)) k =
         c * m.poly.coeff n k := by
@@ -283,7 +275,7 @@ theorem CertModel.Encloses.toL1 [LawfulCertArith α] {ρ δ₁ : ℝ} (hδ : 0 <
           fun x => fourierSum (fun k => c * m.poly.coeff n k) fun j => (x j : ℂ) :=
         funext fun x => CertPoly.const_mul_eval_eq_fourierSum c m.poly _
       rw [e, torusCoeff_fourierSum (ρ := 0) le_rfl
-        (summableWeighted_const_mul c (m.poly.summableWeighted_coeff (n := n) _)).1 k]
+        (summableWeighted_const_mul c (CertPoly.summableWeighted_coeff (n := n) _ m.poly)).1 k]
     simp only [hu]
     rw [torusCoeff_sub hcf hcp k, hP]
     rfl
@@ -302,6 +294,6 @@ theorem CertModel.Encloses.toL1 [LawfulCertArith α] {ρ δ₁ : ℝ} (hδ : 0 <
 
 end Model
 
-end KAM.Certificate
+end KAM.CertificateSharp
 
 end

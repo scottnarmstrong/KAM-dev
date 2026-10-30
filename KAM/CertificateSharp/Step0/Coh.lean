@@ -44,9 +44,9 @@ enclosure on `T_{W.rho}` with the same model, which feeds the certifier's sup-mo
 
 @[expose] public noncomputable section
 
-namespace KAM.Certificate
+namespace KAM.CertificateSharp
 
-open KAM KAM.CertificateSharp CertArith
+open KAM KAM.Certificate CertArith
 
 variable {n : ℕ}
 
@@ -74,8 +74,8 @@ def solveWidth (n : ℕ) (box : FreqBox) (k : CertKey) : α :=
 
 /-- The divided term: key, centre `ofRatUp(1/D_k) · (−i c_k)`, and its error bound. -/
 def solveItem (n : ℕ) (box : FreqBox) (t : CertKey × CC α) : ErrTerm α :=
-  (t.1, CC.scaleC (ofRatUp (solveInv n box t.1)) t.2.mulNegI,
-    upAdd (CC.scaleErrC (ofRatUp (solveInv n box t.1)) t.2.mulNegI)
+  (t.1, CC.scaleC (ofRatUp (solveInv n box t.1)) (CC.mulNegI t.2),
+    upAdd (CC.scaleErrC (ofRatUp (solveInv n box t.1)) (CC.mulNegI t.2))
       (upMul t.2.normUp (upAdd (ofRatUp (solveDivErr n box t.1)) (solveWidth n box t.1))))
 
 /-- The divided terms of a polynomial. -/
@@ -166,7 +166,8 @@ theorem list_sum_ite_sub {β : Type*} (L : List β) (p : β → Prop) [Decidable
     split_ifs <;> ring
 
 theorem solve_add (ω : Fin n → ℝ) (a b : (Fin n → ℤ) → ℂ) (k : Fin n → ℤ) :
-    Diophantine.solve ω (fun k => a k + b k) k = Diophantine.solve ω a k + Diophantine.solve ω b k := by
+    Diophantine.solve ω (fun k => a k + b k) k =
+      Diophantine.solve ω a k + Diophantine.solve ω b k := by
   unfold Diophantine.solve
   split_ifs <;> simp [add_div]
 
@@ -210,7 +211,7 @@ theorem solve_const_mul_coeff (ω : Fin n → ℝ) (d : ℤ) (P : CertPoly α) (
 
 variable [LawfulCertArith α]
 
-theorem CC.toC_mulNegI (c : CC α) : c.mulNegI.toC = -Complex.I * c.toC := by
+theorem CC.toC_mulNegI (c : CC α) : (CC.mulNegI c).toC = -Complex.I * c.toC := by
   apply Complex.ext <;> simp [CC.mulNegI, CC.toC, LawfulCertArith.val_neg]
 
 /-- **The error of one division.** For `ω` in the box and a divided term,
@@ -262,14 +263,14 @@ theorem solveItem_err {box : FreqBox} {ω : Fin n → ℝ} (hbox : FreqEncloses 
     linarith
   -- the complex decomposition
   set c : ℂ := t.2.toC with hc
-  set r : ℂ := t.2.mulNegI.toC with hr
+  set r : ℂ := (CC.mulNegI t.2).toC with hr
   have hrc : r = -Complex.I * c := CC.toC_mulNegI t.2
   have hnr : ‖r‖ = ‖c‖ := by rw [hrc, norm_mul, norm_neg, Complex.norm_I, one_mul]
   have e0 : c / (Complex.I * (x : ℂ)) = r * (x : ℂ)⁻¹ := by
     rw [hrc, div_eq_mul_inv, mul_inv, Complex.inv_I]
     ring
-  have hsc := CC.norm_scale_sub_scaleC s t.2.mulNegI
-  set ctr : ℂ := (CC.scaleC s t.2.mulNegI).toC with hctr
+  have hsc := CC.norm_scale_sub_scaleC s (CC.mulNegI t.2)
+  set ctr : ℂ := (CC.scaleC s (CC.mulNegI t.2)).toC with hctr
   have e1 : r * (x : ℂ)⁻¹ - ctr = r * (((x⁻¹ - (q : ℝ)) : ℝ) : ℂ) +
       r * ((((q : ℝ) - val s) : ℝ) : ℂ) + ((val s : ℂ) * r - ctr) := by
     push_cast
@@ -283,10 +284,10 @@ theorem solveItem_err {box : FreqBox} {ω : Fin n → ℝ} (hbox : FreqEncloses 
   have hw0 : 0 ≤ val (solveWidth n box t.1 : α) := (abs_nonneg _).trans hwid
   have hmul := LawfulCertArith.upMul_ge t.2.normUp
     (upAdd (ofRatUp (solveDivErr n box t.1)) (solveWidth n box t.1)) hn0 (by linarith)
-  have htot := LawfulCertArith.upAdd_ge (CC.scaleErrC s t.2.mulNegI)
+  have htot := LawfulCertArith.upAdd_ge (CC.scaleErrC s (CC.mulNegI t.2))
     (upMul t.2.normUp (upAdd (ofRatUp (solveDivErr n box t.1)) (solveWidth n box t.1)))
   show ‖c / (Complex.I * (x : ℂ)) - ctr‖ ≤
-    val (upAdd (CC.scaleErrC s t.2.mulNegI)
+    val (upAdd (CC.scaleErrC s (CC.mulNegI t.2))
       (upMul t.2.normUp (upAdd (ofRatUp (solveDivErr n box t.1)) (solveWidth n box t.1))))
   rw [e0, e1]
   have hn1 : ‖r * (((x⁻¹ - (q : ℝ)) : ℝ) : ℂ)‖ = ‖c‖ * |x⁻¹ - (q : ℝ)| := by
@@ -296,7 +297,7 @@ theorem solveItem_err {box : FreqBox} {ω : Fin n → ℝ} (hbox : FreqEncloses 
   have hA := norm_add_le (r * (((x⁻¹ - (q : ℝ)) : ℝ) : ℂ)) (r * ((((q : ℝ) - val s) : ℝ) : ℂ))
   have hB := norm_add_le (r * (((x⁻¹ - (q : ℝ)) : ℝ) : ℂ) + r * ((((q : ℝ) - val s) : ℝ) : ℂ))
     ((val s : ℂ) * r - ctr)
-  have hsc' : ‖(val s : ℂ) * r - ctr‖ ≤ val (CC.scaleErrC s t.2.mulNegI) := hsc
+  have hsc' : ‖(val s : ℂ) * r - ctr‖ ≤ val (CC.scaleErrC s (CC.mulNegI t.2)) := hsc
   have h1 : ‖c‖ * |x⁻¹ - (q : ℝ)| ≤ ‖c‖ * (solveDivErr n box t.1 : ℝ) :=
     mul_le_mul_of_nonneg_left (by rw [hqD]; exact hinv) (norm_nonneg _)
   have h2 : ‖c‖ * |(q : ℝ) - val s| ≤ ‖c‖ * val (solveWidth n box t.1 : α) :=
@@ -391,8 +392,8 @@ theorem CertModel.EnclosesL1.cohSolve {box : FreqBox} {ω : Fin n → ℝ}
     (hτ : 0 ≤ τ) {W : CertWeight} {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) {ρ : ℝ}
     (hρ : (W.rho : ℝ) < ρ) {Γ : ℚ} (hΓ : smallDivisorSup ω (ρ - W.rho) ≤ Γ)
     {m : CertModel α} (hchk : solveCheck n box m.poly = true) {g : (Fin n → ℂ) → ℂ}
-    (hg : m.EnclosesL1 n ρ g) :
-    (m.cohSolve n box Γ W).EnclosesL1 n W.rho (cohSolution ω g) := by
+    (hg : CertModel.EnclosesL1 n ρ m g) :
+    CertModel.EnclosesL1 n W.rho (CertModel.cohSolve n box Γ W m) (cohSolution ω g) := by
   have hc : Diophantine.Condition ω γ τ := hω.condition
   have hW0 := CertWeight.rho_pos hW
   have hδ : 0 < ρ - W.rho := sub_pos.mpr hρ
@@ -407,14 +408,15 @@ theorem CertModel.EnclosesL1.cohSolve {box : FreqBox} {ω : Fin n → ℝ}
     m.poly.terms
   have hDb := sum_err_le_errRadius hbox hW m.poly hchk
   -- the residual of the solved model
-  have hres : (m.cohSolve n box Γ W).residualCoeff n (cohSolution ω g) = fun k =>
+  have hres : CertModel.residualCoeff n (CertModel.cohSolve n box Γ W m) (cohSolution ω g) =
+      fun k =>
       (2 * (Real.pi : ℂ)) ^ (m.deg - 1) *
         (m.poly.terms.map fun t => if certKeyFun n t.1 = k then d t else 0).sum +
-        Diophantine.solve ω (m.residualCoeff n g) k := by
+        Diophantine.solve ω (CertModel.residualCoeff n m g) k := by
     funext k
     have hg' : (torusCoeff fun x => g fun j => (x j : ℂ)) =
-        fun k => (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.coeff n k + m.residualCoeff n g k :=
-      funext (m.torusCoeff_eq g)
+        fun k => (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.coeff n k + CertModel.residualCoeff n m g k :=
+      funext (CertModel.torusCoeff_eq m g)
     show torusCoeff (fun x => cohSolution ω g fun j => (x j : ℂ)) k -
         (2 * (Real.pi : ℂ)) ^ (m.deg - 1) * (itemsPoly (solveItems n box m.poly)).coeff n k = _
     rw [hcoef, hg', solve_add, solve_const_mul_coeff, coeff_itemsPoly_solveItems]
@@ -434,7 +436,7 @@ theorem CertModel.EnclosesL1.cohSolve {box : FreqBox} {ω : Fin n → ℝ}
   have hp0 : (0 : ℝ) < (2 * Real.pi) ^ (m.deg - 1) := by positivity
   have h2pi : (2 * Real.pi) ^ m.deg = (2 * Real.pi) ^ (m.deg - 1) * (2 * Real.pi) := by
     rw [← zpow_add_one₀ (by positivity), sub_add_cancel]
-  have hR0 := weightedNorm_nonneg (2 * Real.pi * ρ) (m.residualCoeff n g)
+  have hR0 := weightedNorm_nonneg (2 * Real.pi * ρ) (CertModel.residualCoeff n m g)
   have hsup0 := smallDivisorSup_nonneg ω (ρ - W.rho)
   have hpiq : (2 * Real.pi) * (Γ : ℝ) ≤ ((2 * piUpQ * Γ : ℚ) : ℝ) := by
     push_cast
@@ -449,9 +451,10 @@ theorem CertModel.EnclosesL1.cohSolve {box : FreqBox} {ω : Fin n → ℝ}
       (fun k => (m.poly.terms.map fun t => if certKeyFun n t.1 = k then d t else 0).sum) ≤
         val (errRadius W (solveItems n box m.poly)) := hD2.trans hDb
   have hX : smallDivisorSup ω (ρ - W.rho) * Fourier.weightedNorm (2 * Real.pi * ρ)
-      (m.residualCoeff n g) ≤ (2 * Real.pi) ^ (m.deg - 1) * ((2 * Real.pi) * Γ * val m.rad) := by
+      (CertModel.residualCoeff n m g) ≤
+        (2 * Real.pi) ^ (m.deg - 1) * ((2 * Real.pi) * Γ * val m.rad) := by
     calc smallDivisorSup ω (ρ - W.rho) * Fourier.weightedNorm (2 * Real.pi * ρ)
-          (m.residualCoeff n g)
+          (CertModel.residualCoeff n m g)
         ≤ Γ * ((2 * Real.pi) ^ m.deg * val m.rad) := mul_le_mul hΓ hg.2 hR0 hΓ0
       _ = (2 * Real.pi) ^ (m.deg - 1) * ((2 * Real.pi) * Γ * val m.rad) := by rw [h2pi]; ring
   have hY : (2 * Real.pi) * Γ * val m.rad ≤ val (upMul (ofRatUp (2 * piUpQ * Γ)) m.rad : α) :=
@@ -459,7 +462,7 @@ theorem CertModel.EnclosesL1.cohSolve {box : FreqBox} {ω : Fin n → ℝ}
   calc (2 * Real.pi) ^ (m.deg - 1) * Fourier.weightedNorm (2 * Real.pi * W.rho)
         (fun k => (m.poly.terms.map fun t => if certKeyFun n t.1 = k then d t else 0).sum) +
         Fourier.weightedNorm (2 * Real.pi * W.rho)
-          (Diophantine.solve ω (m.residualCoeff n g))
+          (Diophantine.solve ω (CertModel.residualCoeff n m g))
       ≤ (2 * Real.pi) ^ (m.deg - 1) * val (errRadius W (solveItems n box m.poly)) +
           (2 * Real.pi) ^ (m.deg - 1) * ((2 * Real.pi) * Γ * val m.rad) :=
         add_le_add (mul_le_mul_of_nonneg_left hE hp0.le) (hS2.trans hX)
@@ -474,8 +477,8 @@ theorem CertModel.EnclosesL1.cohSolve_encloses {box : FreqBox} {ω : Fin n → �
     (hτ : 0 ≤ τ) {W : CertWeight} {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) {ρ : ℝ}
     (hρ : (W.rho : ℝ) < ρ) {Γ : ℚ} (hΓ : smallDivisorSup ω (ρ - W.rho) ≤ Γ)
     {m : CertModel α} (hchk : solveCheck n box m.poly = true) {g : (Fin n → ℂ) → ℂ}
-    (hg : m.EnclosesL1 n ρ g) :
-    (m.cohSolve n box Γ W).Encloses n W.rho (cohSolution ω g) := by
+    (hg : CertModel.EnclosesL1 n ρ m g) :
+    (CertModel.cohSolve n box Γ W m).Encloses n W.rho (cohSolution ω g) := by
   have hδ : 0 < ρ - W.rho := sub_pos.mpr hρ
   have hδρ : ρ - W.rho < ρ := by linarith [CertWeight.rho_pos hW]
   obtain ⟨-, -, hcoef⟩ := torusCoeff_cohSolution_l1 hω hγ hτ hδ hδρ hg.summableWeighted
@@ -488,9 +491,10 @@ theorem cohSolve_pi {p : ℕ} {box : FreqBox} {ω : Fin n → ℝ} (hbox : FreqE
     {sw Nw : ℕ} (hW : checkWeight W sw Nw = true) {ρ : ℝ} (hρ : (W.rho : ℝ) < ρ) {Γ : ℚ}
     (hΓ : smallDivisorSup ω (ρ - W.rho) ≤ Γ) {ms : Fin p → CertModel α}
     (hchk : ∀ l, solveCheck n box (ms l).poly = true) {g : (Fin n → ℂ) → Fin p → ℂ}
-    (hg : ∀ l, (ms l).EnclosesL1 n ρ fun z => g z l) (l : Fin p) :
-    ((ms l).cohSolve n box Γ W).EnclosesL1 n W.rho (fun z => cohSolutionPi ω g z l) ∧
-      ((ms l).cohSolve n box Γ W).Encloses n W.rho (fun z => cohSolutionPi ω g z l) :=
+    (hg : ∀ l, CertModel.EnclosesL1 n ρ (ms l) fun z => g z l) (l : Fin p) :
+    CertModel.EnclosesL1 n W.rho (CertModel.cohSolve n box Γ W (ms l))
+        (fun z => cohSolutionPi ω g z l) ∧
+      (CertModel.cohSolve n box Γ W (ms l)).Encloses n W.rho (fun z => cohSolutionPi ω g z l) :=
   ⟨(hg l).cohSolve hbox hω hγ hτ hW hρ hΓ (hchk l),
     (hg l).cohSolve_encloses hbox hω hγ hτ hW hρ hΓ (hchk l)⟩
 
@@ -501,9 +505,11 @@ theorem cohSolve_mat {p q : ℕ} {box : FreqBox} {ω : Fin n → ℝ} (hbox : Fr
     (hΓ : smallDivisorSup ω (ρ - W.rho) ≤ Γ) {ms : Fin p → Fin q → CertModel α}
     (hchk : ∀ i j, solveCheck n box (ms i j).poly = true)
     {g : (Fin n → ℂ) → Matrix (Fin p) (Fin q) ℂ}
-    (hg : ∀ i j, (ms i j).EnclosesL1 n ρ fun z => g z i j) (i : Fin p) (j : Fin q) :
-    ((ms i j).cohSolve n box Γ W).EnclosesL1 n W.rho (fun z => cohSolutionMat ω g z i j) ∧
-      ((ms i j).cohSolve n box Γ W).Encloses n W.rho (fun z => cohSolutionMat ω g z i j) :=
+    (hg : ∀ i j, CertModel.EnclosesL1 n ρ (ms i j) fun z => g z i j) (i : Fin p) (j : Fin q) :
+    CertModel.EnclosesL1 n W.rho (CertModel.cohSolve n box Γ W (ms i j))
+        (fun z => cohSolutionMat ω g z i j) ∧
+      (CertModel.cohSolve n box Γ W (ms i j)).Encloses n W.rho
+        (fun z => cohSolutionMat ω g z i j) :=
   ⟨(hg i j).cohSolve hbox hω hγ hτ hW hρ hΓ (hchk i j),
     (hg i j).cohSolve_encloses hbox hω hγ hτ hW hρ hΓ (hchk i j)⟩
 
@@ -516,8 +522,8 @@ theorem norm_cohSolutionMat_le_rowSum {p q : ℕ} {box : FreqBox} {ω : Fin n �
     (hρ : (W.rho : ℝ) < ρ) {Γ : ℚ} (hΓ : smallDivisorSup ω (ρ - W.rho) ≤ Γ)
     {ms : Fin p → Fin q → CertModel α} (hchk : ∀ i j, solveCheck n box (ms i j).poly = true)
     {g : (Fin n → ℂ) → Matrix (Fin p) (Fin q) ℂ}
-    (hg : ∀ i j, (ms i j).EnclosesL1 n ρ fun z => g z i j) {B : ℝ} (hB0 : 0 ≤ B)
-    (hB : ∀ i, ∑ j, val (((ms i j).cohSolve n box Γ W).supBound W) ≤ B)
+    (hg : ∀ i j, CertModel.EnclosesL1 n ρ (ms i j) fun z => g z i j) {B : ℝ} (hB0 : 0 ≤ B)
+    (hB : ∀ i, ∑ j, val ((CertModel.cohSolve n box Γ W (ms i j)).supBound W) ≤ B)
     {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho) : ‖cohSolutionMat ω g θ‖ ≤ B := by
   refine (KAM.norm_le_iff_forall_rowSum hB0).mpr fun i => (Finset.sum_le_sum fun j _ => ?_).trans
     (hB i)
@@ -526,6 +532,6 @@ theorem norm_cohSolutionMat_le_rowSum {p q : ℕ} {box : FreqBox} {ω : Fin n �
 
 end Lemmas
 
-end KAM.Certificate
+end KAM.CertificateSharp
 
 end

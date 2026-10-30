@@ -107,8 +107,9 @@ def main():
     n = 2
     box = [(F(-2462, 100000), F(1, 100000)), (F(1), F(0))]
     w_in, w_out = (F(1, 10), F(19, 10)), (F(1, 20), F(14, 10))
-    print("checkWeight in :", checkWeight(*w_in, 0, 12), float(ratExpUp(2 * PI_UP * w_in[0], 0, 12)))
-    print("checkWeight out:", checkWeight(*w_out, 0, 12), float(ratExpUp(2 * PI_UP * w_out[0], 0, 12)))
+    for name, w in (("in ", w_in), ("out", w_out)):
+        print(f"checkWeight {name}:", checkWeight(*w, 0, 12),
+              float(ratExpUp(2 * PI_UP * w[0], 0, 12)))
     sd = (box, F(2461, 100000), F(1, 20), 8, 8, F(731, 1000), F(5))
     ok, worst = sup_check(n, sd)
     print(f"SupData.check: {ok}; largest box entry E1^|k|/(6.28 L_k) = {float(worst):.4f}")
