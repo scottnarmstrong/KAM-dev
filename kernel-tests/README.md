@@ -8,6 +8,8 @@ certifier, kept as reproducible evidence.
 |---|---|---:|---:|
 | `CertificateSharp/V2/RefinedR1.lean` | stage 1 and 2 of the v2 route-A engine on the design package R1 (SHARP2-C6) | 10.4 GB | ≈ 2.5 min |
 | `CertificateSharp/V2/RefinedRefR1.lean` | the L8′ engine on R1, prefix 5 (SHARP2-C6L8; imports `RefinedR1`) | 19.2 GB | ≈ 6 min |
+| `CertificateSharp/V2/RouteBR1.lean` | route B (frozen and refined numerics) on R1 (SHARP2-C6B) | 1.8 GB (measured once, before the move) | ≈ 6 s |
+| `CertificateSharp/V2/RouteBR1Sites.lean` | route B's refined core with C6's small-divisor sites (imports `RefinedR1`, `RouteBR1` by module path: place both back under `KAM/` to compile) | as `RefinedR1` | — |
 
 Run one only with the owner's approval, alone, niced, and only on a machine where a single Lean process may exceed
 10 GB (lemma.farm kills any lean process above 10 GB and caps a user at 32 GB):
