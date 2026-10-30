@@ -167,11 +167,43 @@ def composeStep (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertW
       | none => none
     | none => none
 
+/-- The step loop of `composeOps`, matching on the current state before the next operation, so
+the kernel forces each state in turn (a `foldl` of `Option.bind` nests one unevaluated bind per
+operation, and long programs exceed the kernel's reduction depth). -/
+def composeOpsAux (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
+    (cfg : ModelConfig α) (pe : PiEnclosure α) :
+    Option (ComposeState α) → List SlpOp → Option (ComposeState α)
+  | none, _ => none
+  | some st, [] => some st
+  | some st, op :: ops => composeOpsAux n K wit W cfg pe (composeStep n K wit W cfg pe st op) ops
+
 /-- The composition state after a list of operations (`none` once a check fails). -/
 def composeOps (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
     (cfg : ModelConfig α) (pe : PiEnclosure α) (ops : List SlpOp) : Option (ComposeState α) :=
-  ops.foldl (fun st op => st.bind fun st => composeStep n K wit W cfg pe st op)
-    (some ⟨[], 0, 0, 0, []⟩)
+  composeOpsAux n K wit W cfg pe (some ⟨[], 0, 0, 0, []⟩) ops
+
+theorem composeOpsAux_eq (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
+    (cfg : ModelConfig α) (pe : PiEnclosure α) :
+    ∀ (o : Option (ComposeState α)) (ops : List SlpOp),
+    composeOpsAux n K wit W cfg pe o ops =
+      ops.foldl (fun st op => st.bind fun st => composeStep n K wit W cfg pe st op) o
+  | none, ops => by
+    rw [composeOpsAux]
+    induction ops with
+    | nil => rfl
+    | cons op ops ih => simpa using ih
+  | some st, [] => rfl
+  | some st, op :: ops => by
+    rw [composeOpsAux, composeOpsAux_eq, List.foldl_cons]
+    rfl
+
+/-- `composeOps` is the fold of the steps (its definition before the kernel-depth rewrite). -/
+theorem composeOps_eq (n : ℕ) (K : CertEmbedding α) (wit : Witnesses α) (W : CertWeight)
+    (cfg : ModelConfig α) (pe : PiEnclosure α) (ops : List SlpOp) :
+    composeOps n K wit W cfg pe ops =
+      ops.foldl (fun st op => st.bind fun st => composeStep n K wit W cfg pe st op)
+        (some ⟨[], 0, 0, 0, []⟩) :=
+  composeOpsAux_eq n K wit W cfg pe _ ops
 
 end Defs
 
@@ -437,14 +469,13 @@ theorem composeOps_sound {n : ℕ} {K : CertEmbedding α} {wit : Witnesses α} {
     (h : composeOps n K wit W cfg pe ops = some st) : st.SlotsEnclose n K W ops := by
   induction ops using List.reverseRecOn generalizing st with
   | nil =>
-    simp only [composeOps, List.foldl_nil, Option.some.injEq] at h
+    simp only [composeOps_eq, List.foldl_nil, Option.some.injEq] at h
     subst h
     exact ComposeState.slotsEnclose_nil n K W
   | append_singleton ops op ih =>
-    unfold composeOps at h
-    rw [List.foldl_append, List.foldl_cons, List.foldl_nil] at h
+    rw [composeOps_eq, List.foldl_append, List.foldl_cons, List.foldl_nil] at h
     obtain ⟨st₀, h₀, h₁⟩ := Option.bind_eq_some_iff.mp h
-    exact composeStep_sound hW hpe (ih h₀) h₁
+    exact composeStep_sound hW hpe (ih (by rw [composeOps_eq]; exact h₀)) h₁
 
 end Sound
 
