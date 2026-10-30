@@ -1447,7 +1447,7 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     3. Spin bound via the coarse ellipse (≈ 3.7 %) rather than the sharper ≈ 2.5 %; reversible later.
     4. Q4–Q6 (no separate non-vacuity theorem; freezing `lunarSyncOrbit_bound`; literal rules): as recommended in
        the proposal.
-- **16:18. SO-V2PKG done: the v2 certifier makes the N = 65 Moon data far cheaper.**
+- **16:15. SO-V2PKG done: the v2 certifier makes the N = 65 Moon data far cheaper.**
   - Thresholds at R2, N = 65: v1 sharp 10^−31.83; routeAFrozen 10^−27.87; routeARefined with classical sites
     10^−18.66; refined with certified bites (d01b) **10^−14.26**.
   - The exact rational mirror reproduces all four SHARP2-C6 kernel tests.
