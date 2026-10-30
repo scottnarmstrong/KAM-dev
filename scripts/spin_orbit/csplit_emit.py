@@ -359,7 +359,7 @@ class Emitter:
         head[-1] += " := by"
         common = ["  refine ComposeCkpt.segOk_one_of (s := %s)" % spec,
                   "    (m := %s)" % meta,
-                  "    (op := %s) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op)]
+                  "    (op := %s) (st' := ?st) rfl rfl rfl (by decide +kernel) ?hop ?hres" % self.op_lit(op)]
         if op[0] == "mul":
             a, b = op[1], op[2]
             memo = self.memo_index(chain, (0, i))
@@ -367,7 +367,7 @@ class Emitter:
             pf = ["  case hop =>",
                   "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, self.pe),
                   "      composeStep_mul_eq,",
-                  "      seed_slot_of_mem %s %s %s (by decide +kernel) (by decide +kernel)," % (W, meta, C),
+                  "      seed_slot_of_mem %s %s %s (a := %d) (by decide +kernel) (by decide +kernel)," % (W, meta, C, a),
                   "      seed_slot_of_mem %s %s %s (a := %d) (by decide +kernel) (by decide +kernel)," % (W, meta, C, b),
                   "      CertModel.mulN_eq_of_polyProduct %s %s _ _ _ _ _ %s]" % (W, cfg, self.memo_name(memo)),
                   "  case hres =>",
@@ -377,8 +377,8 @@ class Emitter:
             self.forced_imports[(chain, j)] = [self.char_mod[chain]]
             pf = ["  case hop =>",
                   "    rw [shadowStep_of_live 2 base.emb base.wit %s %s %s (by decide +kernel)," % (W, cfg, self.pe),
-                  "      composeStep_char_eq 2 base.emb base.wit %s %s %s _ _ %s_char%s]" % (
-                      W, cfg, self.pe, self.t, "Full" if chain == "cfgFull" else "Low"),
+                  "      composeStep_char_eq 2 base.emb base.wit %s %s %s %s %s %s_char%s]" % (
+                      W, cfg, self.pe, seed, nat_list(op[1]), self.t, "Full" if chain == "cfgFull" else "Low"),
                   "  case hres =>",
                   "    decide +kernel"]
             return head + common + pf
@@ -961,7 +961,9 @@ class Emitter:
                                ["theorem %s_csTorsion : checkTorsion base = true := by" % t,
                                 "  rw [checkTorsion_eq_of %s_gramCheck %s_torsionModels]" % (t, t),
                                 "  decide +kernel"], heavy=True)
-        frT = self.tree.write("Checks/FrameT", self.base + [self.tors_mod, self.gram_mod], "The frame bound |T|",
+        frT = self.tree.write("Checks/FrameT", self.base + [self.tors_mod, self.gram_mod,
+                                                           "KAM.SpinOrbit.Data.%s.Witness" % self.T],
+                              "The frame bound |T|",
                               "`checkFrameT` on the literal `T`.",
                               ["theorem %s_csFrameT : checkFrameT base refinedWit.R.bT = true := by" % t,
                                "  rw [checkFrameT_eq_of %s_gramCheck %s_torsionModels]" % (t, t),

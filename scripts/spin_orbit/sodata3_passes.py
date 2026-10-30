@@ -54,13 +54,6 @@ def families(t):
     out = [("Static", "checkStatic", "%s_static" % t, "checkStatic base = true"),
            ("HamBounds", "checkHamBounds", "%s_hamBounds" % t, "checkHamBounds base = true"),
            ("Embedding", "checkEmbedding", "%s_embedding" % t, "checkEmbedding base = true"),
-           ("Invariance", "checkInvariance", "%s_invariance" % t, "checkInvariance base = true"),
-           ("Energy", "checkEnergy", "%s_energy" % t, "checkEnergy base = true"),
-           ("Torsion", "checkTorsion", "%s_torsion" % t, "checkTorsion base = true"),
-           ("Gram", "checkGram", "%s_gram" % t, "checkGram base = true"),
-           ("FrameN", "the frame bounds |N|, |Nᵀ|", "%s_frameN" % t,
-            "checkFrameN base %s.R.bN %s.R.bNt = true" % (w, w)),
-           ("FrameT", "the frame bound |T|", "%s_frameT" % t, "checkFrameT base %s.R.bT = true" % w),
            ("HamClaim", "the Ham claim", "%s_hamClaim" % t, "checkHamClaim base %s.R = true" % w),
            ("FrameL", "the frame bound |Lᵀ|", "%s_frameL" % t, "checkFrameL base %s.R.bL = true" % w),
            ("Graph", "the graph check", "%s_graph" % t, "checkSoGraph cert = true")]
@@ -116,8 +109,10 @@ def main(which, root):
                                       "small\nkernel computations.", body="\n\n".join(cheap))
     # assembly
     S = lambda nm: "%s_%s" % (t, nm)
+    seg = ["Seg.Checks", "Seg.Checks.Torsion", "Seg.Checks.FrameN", "Seg.Checks.FrameT"]
     pass_imps = imps + "\n" + "\n".join("public import KAM.SpinOrbit.Data.%s.Pass.%s" % (T, m)
-                                        for m in [f[0] for f in fams] + ["Core"])
+                                        for m in [f[0] for f in fams] + ["Core"]) + "\n" + \
+        "\n".join("public import KAM.SpinOrbit.Data.%s.%s" % (T, m) for m in seg)
     files["Passes"] = None
     nu = "lunarNuMinusN" if t == "lower" else "lunarNuPlusN"
     co = "lunarR2MinusCoeffs" if t == "lower" else "lunarR2PlusCoeffs"
@@ -147,7 +142,7 @@ theorem {t}_params : base.params = lunarR2 {er} {dp} := rfl
 /-- The frame majorants of the claim, from the four parts. -/
 theorem {t}_frame : checkFrameMajorants base (refinedWit.R.frame base.freqBox) = true := by
   simp only [checkFrameMajorants, Bool.and_eq_true]
-  exact ⟨⟨⟨{t}_frameL, {t}_frameN⟩, {t}_frameT⟩, {t}_frameOm⟩
+  exact ⟨⟨⟨{t}_frameL, {t}_csFrameN⟩, {t}_csFrameT⟩, {t}_frameOm⟩
 
 /-- The bites of the prefix (`δ₂` and the tail classical). -/
 theorem {t}_sites : sitesOk {Q} refinedWit.core.J base.freqBox refinedWit.κ base.params.γ
@@ -168,8 +163,8 @@ theorem {t}_refinedCore : refinedCore 2 base.params base.freqBox refinedWit = tr
 theorem {t}_passes :
     checkTorusCertificateV2 routeAV2 base (Sum.inr (Sum.inr refinedWit)) = true :=
   checkTorusCertificateV2_refined_of
-    (landedBase_check_of {t}_static {t}_hamBounds {t}_embedding {t}_invariance {t}_energy
-      {t}_gram {t}_torsion)
+    (landedBase_check_of {t}_static {t}_hamBounds {t}_embedding {t}_csInvariance
+      {t}_csEnergy {t}_csGram {t}_csTorsion)
     {t}_hamClaim {t}_frame {t}_refinedCore
 
 /-- **`Graph_passes`**. -/
@@ -177,7 +172,8 @@ theorem {t}Graph_passes : checkSoGraph cert = true := {t}_graph
 """.format(t=t, nu=nu, eq=eq, er=er, dp=dp, Q=Q)
     ptext = HEADER.format(imports=pass_imps, which=which, title="the data conclusions", T=T,
                           doc="`_ham`, `_params`, `_freq`, `_passes` (v2, refined route) and `Graph_passes`, "
-                              "assembled\nfrom the kernel-pass modules `Pass/*`.", body=body.rstrip())
+                              "assembled\nfrom the kernel-pass modules `Pass/*` and the segmented proof `Seg/*` (energy, invariance,\n"
+                              "Gram, torsion, frames N and T; SO-CSPLIT).", body=body.rstrip())
     for mod, text in files.items():
         if mod == "Passes":
             path = os.path.join(root, "KAM", "SpinOrbit", "Data", T, "Passes.lean")
