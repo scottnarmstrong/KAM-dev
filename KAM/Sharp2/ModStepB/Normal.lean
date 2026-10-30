@@ -305,7 +305,8 @@ theorem dNxi_col : ∀ θ ∈ complexStrip n (r - δ), ∀ j : Fin n,
   set w1 : (Fin n → ℂ) → Fin n ⊕ Fin n → ℂ := fun y => normalMat K y *ᵥ modXiN0 h K ω
   set w2 : (Fin n → ℂ) → Fin n ⊕ Fin n → ℂ := fun y => normalMat K y *ᵥ cohR ω (etaN h K ω) y
   have hNd := (H.N_props hS).1
-  have hw1 : DifferentiableOn ℂ w1 (complexStrip n r) := hNd.matrix_mulVec (differentiableOn_const _)
+  have hw1 : DifferentiableOn ℂ w1 (complexStrip n r) :=
+    hNd.matrix_mulVec (differentiableOn_const _)
   have hw2 : DifferentiableOn ℂ w2 (complexStrip n (r - s * δ)) :=
     (hNd.mono hsub_s).matrix_mulVec hud
   have hfun : (fun y => normalMat K y *ᵥ modXiN h K ω y) = fun y => w1 y - w2 y := by

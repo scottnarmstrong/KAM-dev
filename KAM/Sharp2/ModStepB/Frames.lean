@@ -15,7 +15,8 @@ import Mathlib.Tactic.FieldSimp
 
 On `T_{r-3δ}`, with `X = μ/(γ δ^{κ+1})`:
 
-* `Lb_sub_le`: `|L̄ - L| ≤ n C_ΔK X`, `|(L̄ - L)ᵀ| ≤ 2n C_ΔK X` (Cauchy on `K̄ - K` from `T_{r-2δ}`);
+* `Lb_sub_le`: `|L̄ - L| ≤ n C_ΔK X`, `|(L̄ - L)ᵀ| ≤ 2n C_ΔK X` (Cauchy on `K̄ - K` from
+  `T_{r-2δ}`);
 * `Gb`: `det Ḡ ≠ 0` and `|B̄ - B| ≤ C_B̄ X` (`Ḡ - G = L̄ᵀ (L̄ - L) + (L̄ - L)ᵀ L`, Neumann with
   ratio `ϑ`);
 * `Nb_sub_le`: `|N̄ - N| ≤ C_N̄ X`, `|N̄ᵀ - Nᵀ| ≤ C_N̄ᵀ X` (`N = Ω₀ L B`, `Nᵀ Ω₀ = B Lᵀ`);
