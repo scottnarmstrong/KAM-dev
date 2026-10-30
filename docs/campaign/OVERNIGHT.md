@@ -1958,3 +1958,18 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     data). The gate study inp-socsplit2 c790787d is sent to land (docs). / back to 11 GB.
   - W: the W1-CUBIC codex-1 audit finished at 21:47 and kam-1b's waiter is armed. The W2-RECON audit finished
     21:27.
+- **22:19. Heartbeat.**
+  - **SO-DATA3:** the serial capped kernel build of the lower N = 65 torus is running (786 modules in the closure,
+    515 heavy, each alone under the probe lock and the cap).
+  - **LOCK-DATA:** step 1c found a blocking sizing error inherited from LOCK-GEN-2. Constants were sized by grid
+    suprema on the strip, but the landed checks bound by the weighted ℓ1 model norm, 1.3–2× larger at a 73.8°
+    libration. In the mirror, `checkEmbedding` fails all three conditions. The ℓ1 rescan is running (exact mirrors,
+    reusing SO-DATA3's), and no kernel run has started.
+    - A larger support is our call. Changing N or the libration amplitude goes to the owner.
+    - The rotational data are unaffected: they were sized from exact mirrors, and `checkEmbedding` passed in the
+      kernel.
+  - **W:** kam-1b idle since 21:40 although the W1-CUBIC audit finished at 21:47. Its waiter misses Codex READY
+    markers again; nudged.
+  - **Owner question pending (asked in chat):** start an LG00 re-scope (Python/docs: re-price LG00 under v2 +
+    `HamExpr.sqrt` + SO-CSPLIT, plan P1/P2), or keep it for later? Not started.
+  - Quotas: claude-3 73 %, claude-12 68 %, claude-6 54 %, claude-4 39 %, codex-1 76 %. Disk 9.9 GB.
