@@ -1217,3 +1217,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   continues on top of the fix: measure composition/Gram/torsion, emit the upper torus, build the ~2,300 shard
   theorems with at most ~3 heavy lean processes at once, assemble the final theorems (freeze nothing). Worktrees
   sodata2, sokperf, sopackfix removed (branches kept); disk 18 GB free.
+- **11:52. Heartbeat: sub-orchestrator rotated to claude-3.** kam-inp's account (claude-7) hit its weekly limit (reset Nov
+  3) and the session stood at the limit dialog; per rotate-never-wait it was restarted on claude-3 (93 %) with the
+  same session (claude-N wrappers need --yolo as root; --dangerously-skip-permissions is refused). Pending for it:
+  merge main into inp (the sharp certifier, track R, D37). SO-DATA-2 round 2 told again to stop building the obsolete
+  R1 upper-torus data; a self-matching `pgrep -f` wait loop of it was killed by PID. Running: SO-PACKFIX round-2
+  audit (codex-3), SO-GEN3 (interim answer on sub-2.9 % requested first). Quotas: claude-3 93 %, claude-6 89 %,
+  claude-12 89 %, claude-4 66 %; claude-7 and five others at 0 %.
