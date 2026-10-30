@@ -83,3 +83,18 @@ literals are short.
 
 No suspected errata in pinned sources. Deviations: the added helper `buildMat_modelMatrixEntry`;
 the §(F) bridges' placement; the short-name collision above.
+
+## Orchestrator note (short name)
+The short-name clash of `gramCheck_eq_of_rows` with SO-DATA3's probe Data/GramSplit.lean is resolved: the
+orchestrator ruled that the audited design name stays, and SO-DATA3 deleted the superseded probe (inp-sodata3
+cf56e57b).
+
+## AUDIT FOCUS (orchestrator)
+1. Fidelity: every Stage.lean declaration equals the audited signatures §(E) and the Gram/torsion/frame bridges of
+   §(F) verbatim; `buildMat_modelMatrixEntry` is the one addition.
+2. Soundness of the computation-only equalities, `modelMatMul_eq_of_entries` and `gramModels_eq_of_entries`
+   especially (the case `a ≤ b`), and that no `simp` runs over a landed body (design audit 1).
+3. Fitness: these lemmas let Gram, torsion and the frames be proved one matrix entry per theorem and reassembled
+   into the landed `checkGram`/`checkTorsion`/frame Bools (design M2). Say whether anything is missing for the
+   production templates.
+4. No landed declaration changed; tests compared against the monolithic runs; replay; axioms.
