@@ -44,7 +44,8 @@ theorems; same inputs, see below).
 
 **Against prefix 5 without the entry, the ℓ¹ entry gains 0.88 orders** (−11.06 → −10.18, both tight caps,
 certified constants), and 0.63 orders against L8′. This is close to the design's +1.05 at 5% caps. Of the 0.88:
-- **lost** about 0.05–0.1 orders to the Wiener bound on `ηᴺ`, `ηᴸ`;
+- **lost** about 0.05–0.1 orders to the Wiener bound on `ηᴺ`, `ηᴸ` (estimated from the design's sensitivity
+  rows, not measured);
 - **gained** a little from tight caps and the certified `Γ_∞`.
 
 ## Soundness statements
@@ -235,7 +236,7 @@ Commits: 593c857b (mirror), b835bcc1 (engine), a222e51c (toy), b638b44c (R1, roo
 ## Deviations (conservative choices recorded, no owner decision needed)
 
 1. **Wiener bounds for `ηᴺ`, `ηᴸ`, not model products.** They need no new model products (cheap for lunar
-   certificates) and lose ≈ 0.05–0.1 orders on R1. The design's sensitivity rows show `a_L` barely matters:
+   certificates); the loss on R1 is estimated at ≈ 0.05–0.1 orders, not measured. The design's sensitivity rows show `a_L` barely matters:
    `a = 3.6` both gives −10.11 against −10.13 at the measured pair.
 2. **The ℓ¹ strip `ρ' < ρ`** ("Approach" 1). The entry hypothesis cannot be met on `T_ρ` from sup models on `T_ρ`.
 3. **The branch `iso_g1_branch_AL1`, not `iso_g1_v2A_l1`**, as C6 and C6L8 did; the brief allows it.
