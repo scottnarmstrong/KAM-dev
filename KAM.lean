@@ -127,10 +127,13 @@ public import KAM.CertificateSharp.Constants
 public import KAM.CertificateSharp.ConstantsDom
 public import KAM.CertificateSharp.ConstantsQ
 public import KAM.CertificateSharp.Engine
+public import KAM.CertificateSharp.Kernel.Prune
+public import KAM.CertificateSharp.Kernel.Shared
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound
 public import KAM.CertificateSharp.Tests.Margin
+public import KAM.CertificateSharp.Tests.Shared
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
 public import KAM.Diophantine.FrequencyDependence
