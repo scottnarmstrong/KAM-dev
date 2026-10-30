@@ -1046,3 +1046,26 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   only). T2d does not finish (exact-ℚ 531-term reciprocal witness with 200-digit denominators: checkEnergy 12.3 GB,
   checkInvariance over 19 GB): a data problem, fixed by SO-TOYFIX2 (witness sized to the budget, short dyadic
   coefficients, cutoffs sized; kernel checks under a 6 GB cgroup cap). SO-TEST-A in audit (codex-4).
+- **23:25. Heartbeat.** Landed on main (fb97435e): release scrub B2 (763 files, comment-only), SO-GRAPH, SO-R1,
+  SO-TEST-B, SO-PYALIGN. SO-TEST-A audit 1: PASS WITH NOTES (T2 and T3 are genuine unconditional certified tori;
+  T2d open for SO-TOYFIX2); sent to land. SO-R1B (M = 203/100, per the 22:45 ruling) done: the new R1 threshold
+  is 10^-75.010 (9.772e-76); the SO-GEN2 budgets sit 242x and 125x below it; C₂ needs disp >= 1.709e35 err. In delta
+  audit (codex-3). CLEANUP-B34 (unused helpers, duplicate statements) started on the post-B2 inp. Running:
+  SO-DATA-1 (generating both tori with the fixed-point mirror at M = 203/100), SO-TOYFIX2, CLEANUP-B34 (claude-12),
+  SO-R1B audit (codex-3). Swept 10 landed worktrees (disk 12 -> 18 GB free).
+- **23:50. OVERNIGHT RULING (D29, for owner review): toy T2d gets a wide-strip denominator.** SO-TOYFIX2 found T2d's
+  heaviness structural: the denominator 3 + cos 2πq vanishes near Im q ≈ 0.28, forcing ρ_H < 0.28, M ≈ 1600 and a
+  smallness threshold of 10^-188.8, so the reciprocal witness needs exactly its 531 terms at 683 bits. With the
+  full-stage cutoff sized to the budget (270, mirror green), checkTorsion, checkEnergy and checkInvariance still
+  exceed a 6 GB cgroup. Options: (1) packed advice for the toy, (2) a denominator a + cos 2πq with larger a (threshold
+  near 1e-40, about 50 terms), (3) the fixed-point backend (changes the signed type). Taken: (2). The signed type,
+  the reference frequency and the statements of toyCert2d_passes / toyCert2d_torus are unchanged; only the toy's
+  data and its design docstring (.drafts/design/SOSignatures.lean §J) change. The packed route is exercised at scale
+  by SO-DATA-2 instead. SO-R1B delta audit: PASS WITH NOTES (stale design prose; signature prose fixed), sent to land.
+- **00:20. Heartbeat; SO-LUNAR-A started.** The main landing build (B2 + SO-GRAPH + SO-R1 + SO-TEST-B + SO-PYALIGN)
+  is at about 740 of 1381 modules after 78 min (load ~29 on 8 cores: CLEANUP-B34's own full build and another
+  project's processes compete); the HQ lock it holds pauses README refreshes and these log commits until it ends.
+  New: SO-LUNAR-A, the lunar assembly parametric in the data (`lunar_barriers_of`, `lunar_spin_confinement_of`,
+  hypotheses = the signed conclusions of the data theorems plus rational band inequalities), so the final theorems
+  become one-liners when SO-DATA-2 lands, and the end-to-end chain is exercised before the data exist. Running:
+  SO-DATA-1, SO-TOYFIX2 (T2d with a wide-strip denominator), CLEANUP-B34, SO-LUNAR-A (claude-12, Opus).
