@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 21:21 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **353,892 lines of Lean** of an estimated ≈ 361,000
+> **Last updated: 2026-10-30 21:26 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **355,728 lines of Lean** of an estimated ≈ 361,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -261,8 +261,8 @@ Overall, everything together: 80.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **353,892** (275,340 excluding blank lines and comments) · **+84,864** since 2026-10-29 21:20 UTC |
-| Written on agent branches, not yet landed | 5,654 |
+| On `main` now | **355,728** (276,619 excluding blank lines and comments) · **+86,700** since 2026-10-29 21:20 UTC |
+| Written on agent branches, not yet landed | 3,949 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 30,187 |
 | **Estimated total at completion** | **≈ 361,000** |
 | Estimated still to write | ≈ 2,000 |
@@ -271,7 +271,7 @@ Overall, everything together: 80.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 21:21 UTC from `main` at `4b3b5124` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 21:26 UTC from `main` at `32e311a2` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -289,7 +289,7 @@ Overall, everything together: 80.0 %
 
 **Frozen statements proved: 23 / 24** · frozen definitions: 134
 
-**Lean on `main`:** 1778 modules · 353,892 lines · 14,763 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1786 modules · 355,728 lines · 14,868 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 1 (KAM/Frozen/Wave/Theorems/Nlw2.lean)
@@ -425,9 +425,9 @@ flowchart BT
 | [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 761 | 147,974 | 6062 |
 | [`KAM/Russmann/`](KAM/Russmann) | Track R: Rüssmann's KAM theorem (finite-order non-degeneracy, Lipschitz extension, assembly) | 12 | 1,631 | 48 |
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
-| [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 57 | 9,598 | 372 |
+| [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 65 | 11,426 | 477 |
 | [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 98 | 25,164 | 1038 |
-| [`KAM/Root/`](KAM/Root) | Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py) | 26 | 2,166 | 0 |
+| [`KAM/Root/`](KAM/Root) | Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py) | 26 | 2,174 | 0 |
 | [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 90 | 22,540 | 1054 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 33 | 6,498 | 376 |
 | [`KAM/Wave/`](KAM/Wave) | — | 66 | 12,486 | 746 |
@@ -447,12 +447,12 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: handoff-GATE: wrapped-program re-run prepared for SO-KDEPTH2 (not run) | `inp-lockdesign` | 3 (vs `inp`) |
+| **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-LOCK-COST §12: rerun after KDEPTH2 on the wrapped 3158-op program (bridge one theorem a | `inp-lockdesign` | 4 (vs `inp`) |
 | **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3: remove the Gram defect-row split probe (Data/GramSplit.lean; superseded by SO-CS | `inp-sodata3` | 13 (vs `inp`) |
 | **wbp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Blueprint-W W5/W6: repair the 9 gaps found by the graph reviews (externals symm/sqrt/trian | `inp-wbp` | 2 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: wave-2 review 1 and delta 5 applied; 693 nodes all reachable; 10 SOURCE_GAP | `inp-wgraph` | 21 (vs `inp`) |
-| **wph** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Regenerate roots (W1-CUBIC) | `inp-wph` | 7 (vs `inp`) |
-| **wpi** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W2-RECON: local helper private (short-name clash with KAM.Wave.Seq.Diag) | `inp-wpi` | 3 (vs `inp`) |
+| **wph** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W1-CUBIC: higher derivatives | `inp-wph` | 8 (vs `inp`) |
+| **wpi** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W2-RECON: local helper private (short-name clash with KAM.Wave.Seq.Diag) | `inp-wpi` | 3 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -462,6 +462,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 21:23 | `32e311a2` | Land inp into main |
+| 2026-10-30 21:21 | `acef11ec` | Log: heartbeat (KDEPTH2 landed; lock reruns passing; CAL gates and GEN running) |
 | 2026-10-30 21:19 | `4b3b5124` | Log: SO-CSEG-A/B passed; SO-CSPLIT Lean core complete; calibration gates next |
 | 2026-10-30 21:09 | `6de3991f` | Land inp into main |
 | 2026-10-30 21:06 | `ac170e4a` | Log: SO-CSEG-L2 passed, landing; SO-CSEG-GEN started |
@@ -472,8 +474,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 20:52 | `776f0b7b` | Log: SO-CSEG-A/B done (short-name renames before audit); W caught up |
 | 2026-10-30 20:49 | `7465e66d` | Log: heartbeat (L3 landed; W nudged) |
 | 2026-10-30 20:46 | `24f301e0` | Land inp into main |
-| 2026-10-30 20:44 | `5b90bf4b` | Log: SO-CSEG-L3 passed, landing; SO-CSEG-L2 started |
-| 2026-10-30 20:37 | `3e92ad73` | Log: SO-CSEG-L3 in audit; LOCK-GEN-2 landed |
 <!-- /AUTO:landed -->
 
 ## Decisions
