@@ -1204,3 +1204,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   1.2 GB) and a divide-and-conquer decode (F2, 23 -> 13.5 s; F2' with Nat mask/shift should be cheaper). Projection
   25-65 CPU-h for both tori with F1 + F2, about 5-15 CPU-h with F2' and larger blocks (model). Signed statements
   unchanged. SO-PACKFIX was redirected from balanced packing to F1 + F2'.
+- **10:48. Heartbeat.** SO-PACKFIX committed the D34 fix (648d07da): sparse term-driven packed products (F1, new module Poly/Sparse.lean, 381 lines) and an offset-Nat mask/shift slot decode (F2'), with changes in Poly/{Advice,MulPacked,Packed}.lean and new packed tests; no sorry. Re-measuring shards now (blockRows 4 first, then 8-32). claude-12 90 %.
