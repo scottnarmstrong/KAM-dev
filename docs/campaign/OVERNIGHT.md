@@ -1781,3 +1781,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     .drafts/design/SOCsplitSignatures.lean. A delta audit follows.
   - Lock: LOCK-GRAPH is in codex-1 audit. The lock's ledger flag (100–200 MB) is logged for owner review; no lock
     kernel run before the gate.
+- **Lock (kam-inp-24): SO-LOCK-COST calibration gate run (results in SO-LOCK-COST.md §12, branch inp-lockdesign
+  f8af9c30; raw data kam-data/so-lock/gate/).**
+  - **G2claim at P = 320 passes:** the whole Ham pass on the landed `lockHamExpr`, with the LOCK-GEN-2 claims, peaks
+    at 7.8 GB (cgroup). MAXRSS is 11 GB, because shared .olean mmaps are charged elsewhere, so it needs a
+    cold-cache repeat before it is relied on. P = 128 was not run.
+  - **G1 (the literal-jet bridge) is blocked:** the kernel hits deep recursion in the jet compiler (`slpCompile`/Diff)
+    on the 3116-op landed program. No limit was raised. The 3116 ops are not LOCK-GEN-2's 3158; the emitter must be
+    resynced.
+  - Design signal: a depth fix of the jet compiler (body change, statements kept, like SO-KDEPTH) or a per-subtree
+    bridge. This is shared checker code, so the owner and route are to be agreed with root-b8.
