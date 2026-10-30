@@ -1265,3 +1265,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   the N = 80/100 sweep), SO-EMITFIX. Queued: SO-R2 (the parameter package in Lean), SO-DATA3 (data, kernel passes,
   final theorems), then freeze, seal, README main theorem and the SO scrub of the new modules. HQ inputs updated to the
   N = 65 route (SO Moon 68 %: the new route's remaining packages now listed).
+- **13:20. SO-EMITFIX: the checker must change (D39); SO-KDEPTH and SO-BALLDY started.** Root cause of the "stuck"
+  kernel checks: `(kernel) deep recursion detected`. The checker's term-list traversals are O(length) deep in the
+  lazy kernel and fail past about 2,000-3,000 terms (reproduced on a synthetic list). The "stuck at match 0 - ..."
+  text was the elaborator's misleading fallback diagnosis: the rationals reduce fine. checkHamBounds: exact-ℚ ball
+  sizes double per multiplication over the 887-op program (OOM at expOrder 30, 12 and 6 alike). Owner ruling D39:
+  fix the checker (log-depth traversals; dyadic outward rounding of the slot balls), signed statements and format
+  unchanged; no maxRecDepth. Started: SO-KDEPTH (claude-12; inventory and balanced replacements with `_eq` lemmas;
+  acceptance: checkEmbedding and checkSoGraph reduce on the R1 lower torus) and SO-BALLDY (claude-4; Expr/Ball.lean;
+  acceptance: checkHamBounds under 10 GB). Both measure on the R1 data (not landing) and land by cherry-pick.
+  Worktree soemitfix removed (disk 13 GB free).
