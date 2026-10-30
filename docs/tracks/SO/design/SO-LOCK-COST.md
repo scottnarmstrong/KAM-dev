@@ -324,3 +324,44 @@ and file_mapped. The G1 work is on hold until SO-KDEPTH2 lands; G1a/b/c are its 
   about 6 % CPU, and both pass the claims.
 - Lever 2 (precision) is optional: it is worth about 1 GB of headroom, not a necessity.
 - Bill row C3 (two Ham passes) is measured at about 2 × 70 CPU-s.
+
+### Rerun after KDEPTH2, wrapped program (30 October 2026, 21:10–21:23 UTC)
+
+**Setup.**
+- **Checkout.** `run_rerun.sh` with `GATE_WT=/root/code/KAM-inp`, which contains SO-KDEPTH2's oleans: its commit is an
+  ancestor, `DiffBuf.olean`/`Diff.olean` were built at 21:01, and `lake build --no-build` reports the probe imports
+  up to date.
+- **Program.** `(HamExpr.mul (.const 1) (lockHamExpr (8/65) cs)).jet`: 3158 ops, v0 = 3117. The literals come from
+  the Python mirror (`gate/py/gen_wrapped.py`). G1b proves them equal to the compiled jet.
+- One probe at a time; logs `gate/gate.log` and `gate/wrapped/rerun.log`.
+- **Incidents.**
+  - The first launch failed on a parse error in my generated prelude (two consecutive docstrings). I stopped my own
+    PIDs, fixed the generator and regenerated; the log is kept as `wrapped/rerun-aborted-parse.log`.
+  - `inp` HEAD advanced during the run (e6a84492 → 96cf3ca0 → b81fbefc); every revision contains SO-KDEPTH2.
+
+| probe | rc | CPU s | wall s | MEMPEAK | anon | MAXRSS |
+|---|---:|---:|---:|---:|---:|---:|
+| G1lit (3158) | 0 | 11.7 | 17.2 | 0.69 GB | 0.55 GB | 3.7 GB |
+| G1a scout | 0 | 43.3 | 62.6 | 3.17 GB | 3.04 GB | 6.2 GB |
+| **G1b bridge (all 5 fields)** | 0 | **44.9** | 53.3 | **3.48 GB** | 3.34 GB | 6.6 GB |
+| G1c_prog_0 / 800 / 1600 / 2400 (full tail) | 0 | 43.7 / 46.2 / 47.9 / 46.1 | 56–73 | 3.28 / 3.35 / 3.41 / 3.41 GB | 3.1–3.3 GB | 6.3–6.5 GB |
+| G1c_v0 / d1 / d2 / d3 | 0 | 40.4 / 39.0 / 39.1 / 38.7 | 44–49 | 3.10 / 3.10 / 3.11 / 3.13 GB | 3.0 GB | 6.2 GB |
+| G1asm | 0 | 7.8 | 7.3 | 0.50 GB | 0.34 GB | 3.5 GB |
+| **G2claim P=320** | 0 | **98.4** | 121.9 | **8.02 GB** | 7.87 GB | 11.1 GB |
+| **G2claim P=128** | 0 | **80.9** | 88.9 | **7.02 GB** | 6.82 GB | 10.1 GB |
+
+**Decisions implied by §7.**
+1. **G1b < 9 GB, so the bridge M0 is one theorem**: `(.mul (.const 1) lockHamExpr).jet = lockJetLit` costs 45 CPU-s
+   and 3.5 GB.
+   - The G1c fallback is not needed, though it also passes, with the assembly at 0.5 GB.
+   - The literal is mirror-generated, and G1b validates it against the compiler.
+   - This also serves SO-CSPLIT's M0 for the lock.
+2. **Ham claim pass: one theorem** at both precisions, with the claims passing (LOCK-GEN-2 package).
+   - P = 320 peaks at 8.0 GB anon: under 9 GB, with about 1 GB of margin.
+   - **Use P = 128** (7.0 GB, 18 % less CPU) for headroom. Lever 2 (`Slp.ballsP`, new names) is then the only
+     checker change on the Ham side; ball segmentation is not needed.
+3. **Bill (§3), measured rows:**
+   - C2 bridge ≈ 0.75 CPU-min;
+   - C3 Ham passes ≈ 2 × 81 CPU-s at P = 128.
+   - C1 (SO-CSPLIT chains and products), C4–C7 remain unmeasured, so **the total is still deferred**. The next gate is
+     SO-CSPLIT's CAL on lock data, after LOCK-DATA emits.
