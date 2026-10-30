@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 15:10 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 0 % · track W 9 %** · frozen statements proved: 23 / 24 · **288,058 lines of Lean** of an estimated ≈ 292,000
+> **Last updated: 2026-10-30 15:35 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 0 % · track W 9 %** · frozen statements proved: 23 / 24 · **318,323 lines of Lean** of an estimated ≈ 327,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -35,6 +35,14 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
    the same hypotheses as the explicit theorems behind the frozen statements and imply them. For the lunar
    certificate the admissible invariance error grows from about 10⁻⁷⁵ to about 10⁻²⁵.
    [`KAM.Sharp.g1_sharp`](KAM/Sharp/G1.lean) · [`KAM.Iso.Sharp.g1_sharp`](KAM/Iso/Sharp/G1.lean)
+   **v2.** Route A of the v2 theorem (`KAM.Sharp2.RouteA.g1_v2A`, `KAM.Iso.Sharp2.RouteA.iso_g1_v2A`; additive Newton
+   step with certificate-checkable refined data and frequency-specific small-divisor constants) moves the lunar
+   threshold to about 10⁻¹¹; its default-data wrappers conclude the same frozen bodies. Route B (Figueras–Haro's
+   modified step with a cubic tangential error) is being proved; its step `KAM.Sharp2.modified_stepB` is landed. On a
+   fair grid of 1176 parameter sets, the v2 design's threshold and closeness constants beat Haro–Luque 2019 and
+   (corrected) Figueras–Haro 2024 everywhere ([design §12](docs/campaign/design/APOST-SHARP-V2.md)). As an example,
+   `KAM.Sharp2.Examples.plasmaLean_torus` certifies an error tolerance of 1.93·10⁻¹⁷ at PlasmaLean's frequency and
+   strip (34 times its proved tolerance, at assumed canonical data).
 
 **Weak non-degeneracy (track R).**
 
@@ -96,6 +104,10 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
     certifier, so sharper theorems plug in without changing the certificate format. On the toy certificates its
     margin (threshold over invariance error) is 10^19.4 instead of 10^4.3 (two degrees of freedom) and 10^27.9
     instead of 10^4.3 (three). [`KAM.CertificateSharp.checkTorusCertificateSharp_sound`](KAM/CertificateSharp/Sound.lean)
+    The **v2 certifier** `checkTorusCertificateV2` adds the route-A engines (a witness names the route; the sharp
+    certifier is one of them, so it is never worse); with refined bounds checked against the certificate's models
+    and certified frequency-specific constants, the lunar design package passes at 10⁻¹¹·³.
+    [`KAM.CertificateSharp.checkTorusCertificateV2_sound`](KAM/CertificateSharp/V2/Engine.lean)
 11. **The first certified tori.** Toy certificates in two and three degrees of freedom pass the checker inside
     Lean's kernel and yield invariant tori with the Diophantine frequencies (ν₋/2, 1/2), ν₋ the quadratic
     irrational of the lunar problem, and (∛2/2, ∛4/2, 1/2). [`KAM.Certificate.toyCert3_torus`](KAM/Certificate/Tests/Toy3.lean#L53)
@@ -244,17 +256,16 @@ Overall, everything together: 73.9 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **288,058** (224,388 excluding blank lines and comments) · **+30,582** since 2026-10-29 15:00 UTC |
-| Written on agent branches, not yet landed | 2,128 |
-| Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
-| **Estimated total at completion** | **≈ 292,000** |
+| On `main` now | **318,323** (247,980 excluding blank lines and comments) · **+58,691** since 2026-10-29 15:33 UTC |
+| Written on agent branches, not yet landed | 7,439 |
+| **Estimated total at completion** | **≈ 327,000** |
 | Estimated still to write | ≈ 2,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 15:10 UTC from `main` at `762a7e3d` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 15:35 UTC from `main` at `86089b36` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -262,9 +273,8 @@ Overall, everything together: 73.9 %
 
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 20 modules · 3,584 lines. **Packages landed: 21 / 24**.
-- **Part 3, the Moon locked in synchronous rotation forever** (D42): librational invariant tori around the synchronous orbit (Celletti 1994), a stronger result than the spin-rate band · **0 %** · stages reached: none yet · scoping study running
+- **Part 3, the Moon locked in synchronous rotation forever** (D42): librational invariant tori around the synchronous orbit (Celletti 1994), a stronger result than the spin-rate band · **0 %** · stages reached: none yet
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
-- **Now:** proving SO-KDEPTH, SO-LOCK · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **9 %**
@@ -272,7 +282,7 @@ Overall, everything together: 73.9 %
 
 **Frozen statements proved: 23 / 24** · frozen definitions: 134
 
-**Lean on `main`:** 1475 modules · 288,058 lines · 12,023 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1625 modules · 318,323 lines · 13,155 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 1 (KAM/Frozen/Wave/Theorems/Nlw2.lean)
@@ -392,7 +402,7 @@ flowchart BT
 | [`KAM/Analysis/`](KAM/Analysis) | Track K Part 1: quadratic iteration and scalar estimates | 1 | 158 | 4 |
 | [`KAM/Fourier/`](KAM/Fourier) | Weighted ℓ¹ Fourier norms, used in the cohomological equation (D12) | 4 | 628 | 33 |
 | [`KAM/Diophantine/`](KAM/Diophantine) | Diophantine vectors, cohomological equation, measure of the Diophantine set | 5 | 532 | 34 |
-| [`KAM/Strip/`](KAM/Strip) | Holomorphic functions on complex strips: Cauchy estimates, Fourier series, cohomological equation | 32 | 7,340 | 317 |
+| [`KAM/Strip/`](KAM/Strip) | Holomorphic functions on complex strips: Cauchy estimates, Fourier series, cohomological equation | 41 | 9,671 | 389 |
 | [`KAM/Matrix/`](KAM/Matrix) | Matrix-valued functions: Neumann series and inverse bounds | 5 | 1,147 | 83 |
 | [`KAM/Torus/`](KAM/Torus) | Carriers for tori and embeddings: ℂⁿ × ℂⁿ, predicates, averages | 3 | 550 | 30 |
 | [`KAM/Apost/`](KAM/Apost) | Track K Part 2: a-posteriori KAM at fixed frequency (Newton step, iteration, limit) | 19 | 7,466 | 421 |
@@ -400,7 +410,7 @@ flowchart BT
 | [`KAM/Measure/`](KAM/Measure) | Track K Part 4: lattice counting, Lipschitz dependence, measure of the tori | 5 | 965 | 44 |
 | [`KAM/Head/`](KAM/Head) | Track K Part 4: assembly of the headline theorem | 36 | 8,634 | 406 |
 | [`KAM/ODE/`](KAM/ODE) | Flows of ODEs: solutions, symmetries, continuation (tracks N and P) | 13 | 2,372 | 98 |
-| [`KAM/Iso/`](KAM/Iso) | Track I: isoenergetic KAM, confinement, restricted three-body problem | 84 | 21,875 | 835 |
+| [`KAM/Iso/`](KAM/Iso) | Track I: isoenergetic KAM, confinement, restricted three-body problem | 90 | 23,868 | 861 |
 | [`KAM/Kepler/`](KAM/Kepler) | Kepler problem and Delaunay coordinates (tracks I and P) | 14 | 5,116 | 365 |
 | [`KAM/Weighted/`](KAM/Weighted) | Track N: weighted domains and norms | 9 | 1,843 | 70 |
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 21 | 4,673 | 195 |
@@ -408,7 +418,9 @@ flowchart BT
 | [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 761 | 147,974 | 6062 |
 | [`KAM/Russmann/`](KAM/Russmann) | Track R: Rüssmann's KAM theorem (finite-order non-degeneracy, Lipschitz extension, assembly) | 12 | 1,631 | 48 |
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
-| [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 8 | 1,159 | 32 |
+| [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 52 | 8,863 | 344 |
+| [`KAM/Sharp2/`](KAM/Sharp2) | v2 sharp a-posteriori KAM: route A, modified step (route B), l1 entry, small-divisor constants, PlasmaLean example | 66 | 16,239 | 722 |
+| [`KAM/Root/`](KAM/Root) | Generated parts of the root import file KAM.lean (scripts/gen_root_imports.py) | 25 | 1,998 | 0 |
 | [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 79 | 20,168 | 925 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 20 | 3,584 | 227 |
 <!-- /AUTO:areas -->
@@ -425,14 +437,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **soballdy** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-BALLDY: handoff | `inp-soballdy` | 12 (vs `inp`) |
-| **soballdy-oninp** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Merge branch 'inp' into inp-soballdy-oninp | `inp-soballdy-oninp` | 1 (vs `inp`) |
-| **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
-| **sokdepth** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-sokdepth` | 9 (vs `inp`) |
 
-*5 finished agent sessions not shown.*
+*6 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
 
 ### Recent changes on `main`
@@ -440,6 +447,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 15:28 | `86089b36` | Land sharp-v2 (side campaign, lemma.farm): v2 sharp a-posteriori KAM theorem (route A, route-B step pieces, l1 entry foundations), the v2 certifier (route A, audited), PlasmaLean comparison theorem, design and dominance study |
+| 2026-10-30 15:26 | `14356983` | Split the generated root into parts KAM/Root/*.lean (D43, owner ruling) |
 | 2026-10-30 15:08 | `762a7e3d` | Land inp into main |
 | 2026-10-30 15:04 | `4638fc36` | Log: 15:04 (track W freeze audited) |
 | 2026-10-30 15:02 | `7a59da15` | HQ: track W and track SO part 3 as rows of the 'Part of the project' table (derived; weighted by size; kept out of the original project's figure) |
@@ -450,8 +459,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 14:36 | `ddd10bb3` | Log: 14:36 (D41 track W sub-orchestrator; D42 lock scoping) |
 | 2026-10-30 14:35 | `cc225cbb` | D41: track W statements approved (freeze); D42: scoping of the synchronous-lock theorem |
 | 2026-10-30 14:19 | `7dbba265` | Land inp into main |
-| 2026-10-30 14:18 | `06d9ca32` | Log: 14:18 |
-| 2026-10-30 14:13 | `728f287b` | Log: 14:13 (SO-R2) |
 <!-- /AUTO:landed -->
 
 ## Decisions
