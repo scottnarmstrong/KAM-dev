@@ -45,11 +45,12 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | CC97 (doi:10.1007/s002200050115) | 1 | 0 |
 | CC88 (doi:10.1007/BF01218480) | 0 | 0 |
 | CC95 (pinned PDF) | 1 | 0 |
-| VL22 (arXiv:2101.07785) | 1 | 0 |
+| VL22 (arXiv:2101.07785) | 3 (2 candidate) | 0 |
 | FH25 (arXiv:2403.10152) | 2 (2 candidate) | 0 |
 | Pos96W (doi:10.1007/BF02566420) | 8 (1 candidate) | 2 |
 | Pos96K (pinned PDF) | 4 | 2 |
 | KP96 (doi:10.2307/2118656) | 4 (1 candidate) | 0 |
+| CVCGL05 (arXiv:nlin/0504033) | 2 (2 candidate) | 0 |
 
 ## Pos01 (arXiv:0908.2234v1)
 
@@ -562,6 +563,8 @@ None.
 ### Errata
 
 1. **eqs. (46), (47), (50)–(52), (65).** *typos and an unreproducible constant; CONFIRMED* (E-VL22-1). Printed: strip "|Im| ≤ ρ"; norm sum over k; λ* = 10⁻⁸⁵·⁷. In VL22 (46), use σ for the angular strip widths. In (47), include the zero Fourier mode when defining the stated functional norm. The numerical λ* report is reproducible at τ = 1 using the printed base 20 and is conservative; the alleged 34-order discrepancy is withdrawn. Evidence: competitors report (KNF helper). Effect: none on our use; affects the applications comparison only.
+2. **arXiv v2, p. 2, (7).** *missing factor; CANDIDATE* (E-VL22-2). Printed: denominator `k₁ω̃ + k₂`. with the printed exponential convention the inverse derivative needs a factor i; differentiating (7) does not recover (6). Evidence: docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas). Effect: none on our theorems.
+3. **arXiv v2, p. 3, (8) and (10).** *wrong constant / sign; CANDIDATE* (E-VL22-3). Printed: `−ε²/2 {X}²h₂`; `−9/2 cos(6θ − 4ϕ)`. v in (3) already contains ε, so the prefactor double-counts ε when X solves (6); the two expressions in (8) disagree in sign; (10) lacks the small divisors. Evidence: docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas). Effect: none on our theorems.
 
 ### Deviations
 
@@ -622,6 +625,18 @@ None.
 2. **author version 2.1, Theorem 1 p. 5 vs Lemma 6 p. 20.** *missing hypothesis; CONFIRMED* (E-PDE-KP-2). Printed: Theorem 1: for all m ∈ ℝ, all n ∈ ℕ and all J; Lemma 6: Clearly, ⟨l, β⟩ ≠ 0 for 1 ≤ |l| ≤ 2. The 'clearly' is false for some masses: with λ_j = j² + m, λ_a = 0 at m = −a² and λ_a + λ_b = 0 at m = −(a²+b²)/2 (a, b ∉ J), so condition (A₂) of Theorem 2 fails there; a gauge reduction u ↦ e^{−ict}u is the natural repair but is not given. Journal printing unverified. Evidence: J = {1,2}, m = −9, l = e_3: ⟨l, β⟩ = λ_3 = 0. Effect: Premise-attachment gap for those masses, not a counterexample to Theorem 1. Track W (m > 0, wave) is unaffected (bpW:w0n:nondeg).
 3. **author version 2.1, p. 13, proof of Lemma 3.** *wrong constant; CANDIDATE* (E-W-N-2). Printed: u = Sq is in W^{a,p} with ‖u‖_{a,p} = ‖q‖_{a,p}. The two-sided norm of the odd extension is √2‖q‖_{a,p} (same pattern as E-W-N-1). Constant only. Evidence: Odd extension coefficients c_{±j} = ∓ i q_j/√λ_j·(…) give a factor 2 in the squared norm (text layer of the born-digital PDF). Effect: None on track W.
 4. **author version 2.1, p. 13, first display in the proof of Lemma 3.** *wrong constant; CONFIRMED* (E-W-N-5). Printed: ∂G/∂q̄_j = ∫_0^π f(|u|²) u φ_j dx. Missing factor ½: G = ½∫g(|Sq|²) (p. 11 (5)) and ∂|u|²/∂q̄_j = uφ_j give ∂G/∂q̄_j = ½∫ f(|u|²) u φ_j dx; p. 11 Lemma 1 is consistent with the correct value. Evidence: 200-dpi page image; (7) G = ¼∫|u|⁴ gives the same factor. Effect: None (gradient constant only; not used by track W's force interface).
+
+### Deviations
+
+None.
+
+
+## CVCGL05 (arXiv:nlin/0504033)
+
+### Errata
+
+1. **arXiv v2, p. 9, (14).** *factor 2; CANDIDATE* (E-CVCGL05-1). Printed: `−d(1/q)/dψ`. the general formula (8), p. 7, gives half this coefficient when H₁ is action-independent. Evidence: docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas). Effect: none on our theorems (our model uses (8)).
+2. **arXiv v2, p. 11.** *unreproduced constant; CANDIDATE* (E-CVCGL05-2). Printed: `≈ 35ε`. with its maximum-cosine-coefficient norm, (8) at 0.35 gives about 64.33ε; conventions to be rechecked before this is confirmed. Evidence: docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas). Effect: none on our theorems.
 
 ### Deviations
 
