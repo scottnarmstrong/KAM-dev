@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 03:08 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-30 03:09 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -223,7 +223,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 03:08 UTC from `main` at `71a89ecc` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 03:09 UTC from `main` at `c3373814` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -382,7 +382,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **sodata2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-sodata1 (lunar data, Python mirror) into inp-sodata2; drop the .drafts handoff n | `inp-sodata2` | 0 (vs `inp`) |
 
@@ -394,6 +394,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 03:09 | `c3373814` | Overnight log: 03:09 |
 | 2026-10-30 03:07 | `71a89ecc` | Land inp into main |
 | 2026-10-30 02:09 | `b22b5eb3` | Land inp into main |
 | 2026-10-30 01:49 | `b6d31ebe` | Overnight log: 01:49 |
@@ -405,7 +406,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 00:48 | `67166664` | Overnight log: entries 23:25-00:25 (two D29 rulings: R1 M, toy T2d) |
 | 2026-10-29 23:00 | `fb97435e` | Land inp into main |
 | 2026-10-29 22:54 | `294659f7` | Overnight log: R1 M ruling (D29), first end-to-end certified toy tori |
-| 2026-10-29 22:34 | `7170850d` | Overnight log: T2d kernel memory incident |
 <!-- /AUTO:landed -->
 
 ## Decisions
