@@ -48,7 +48,8 @@ theorem smallDivisorTerm_nonneg (ω : Fin n → ℝ) (δ : ℝ) (k : Fin n → �
 
 theorem smallDivisorTerm_of_ne {ω : Fin n → ℝ} {δ : ℝ} {k : Fin n → ℤ} (hk : k ≠ 0) :
     smallDivisorTerm ω δ k =
-      ((Diophantine.frequencyDot ω k) ^ 2)⁻¹ * Real.exp (-(2 * Real.pi * δ) * Fourier.modeSize k) := by
+      ((Diophantine.frequencyDot ω k) ^ 2)⁻¹ *
+        Real.exp (-(2 * Real.pi * δ) * Fourier.modeSize k) := by
   simp only [smallDivisorTerm, hk, ↓reduceIte]
 
 theorem smallDivisorSum_nonneg (ω : Fin n → ℝ) (δ : ℝ) : 0 ≤ smallDivisorSum ω δ :=

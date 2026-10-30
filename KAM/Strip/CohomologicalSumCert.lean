@@ -19,16 +19,17 @@ import Mathlib.Tactic.Linarith
 For a given `(γ, τ)`-Diophantine `ω` and `δ > 0`, `KAM.smallDivisorSum_le_box_add_tail`:
 `S(ω, δ) ≤ F_N + T_N`, where
 
-* `F_N = ∑_{0<|k|₁≤N} L_k⁻² E_{|k|₁}` is a finite sum over `KAM.modeBox n N`, from data: lower bounds
-  `0 < L_k ≤ |k·ω|` and upper bounds `E_m ≥ e^{-2πδm}` (for instance from rational enclosures of `ω`
-  and of the exponential, supplied and checked by a certificate);
-* `T_N = KAM.sdTail γ τ δ N = C (1 - e^{-b}) (N+1)^{2τ} e^{-b(N+1)} / (1 - e^{-(b - 2τ/(N+1))})` is an
-  explicit tail bound for `|k|₁ > N`, with `b = 2πδ`, `C = 2(1 + 2^τ)γ⁻²` and `2τ < b(N+1)`.
+* `F_N = ∑_{0<|k|₁≤N} L_k⁻² E_{|k|₁}` is a finite sum over `KAM.modeBox n N`, from data: lower
+  bounds `0 < L_k ≤ |k·ω|` and upper bounds `E_m ≥ e^{-2πδm}` (for instance from rational
+  enclosures of `ω` and of the exponential, supplied and checked by a certificate);
+* `T_N = KAM.sdTail γ τ δ N = C (1 - e^{-b}) (N+1)^{2τ} e^{-b(N+1)} / (1 - e^{-(b - 2τ/(N+1))})`
+  is an explicit tail bound for `|k|₁ > N`, with `b = 2πδ`, `C = 2(1 + 2^τ)γ⁻²` and `2τ < b(N+1)`.
 
 The tail is the separation/shell argument of `KAM.Strip.CohomologicalRussmannSep`: the shell sums
 `S_m = ∑_{0<|k|₁≤m} |k·ω|⁻² ≤ C m^{2τ}` (`KAM.sum_inv_sq_frequencyDot_le`) are combined with the
 weights `e^{-bm}` by discrete Abel summation (`KAM.abel_finite`); the shells `m ≤ N` do not occur,
-and for `m ≥ N + 1`, `m^{2τ} e^{-bm} ≤ (N+1)^{2τ} e^{-b(N+1)} r^{m-N-1}` with `r = e^{-(b - 2τ/(N+1))}`
+and for `m ≥ N + 1`, `m^{2τ} e^{-bm} ≤ (N+1)^{2τ} e^{-b(N+1)} r^{m-N-1}` with
+`r = e^{-(b - 2τ/(N+1))}`
 (`KAM.rpow_mul_exp_le_geom`, from `1 + x ≤ e^x`), a geometric series. The boundary term of the Abel
 sum tends to `0` as the cut-off grows. `KAM.sdTail_le` replaces `T_N` by an expression with only
 `b`, `(N+1)^{2τ}`, an upper bound of `e^{-b(N+1)}` and `c = b - 2τ/(N+1)`, for a rational checker.
