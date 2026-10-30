@@ -5,6 +5,10 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Wave.Algebra.Algebra
+public import KAM.Wave.Algebra.Extension
+public import KAM.Wave.Algebra.TwoSided
+public import KAM.Wave.Algebra.Young
 public import KAM.Wave.Analytic.Cauchy
 public import KAM.Wave.Analytic.Complexification
 public import KAM.Wave.Analytic.ComplexificationCommute
@@ -20,7 +24,34 @@ public import KAM.Wave.Analytic.HoloAnalytic
 public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
+public import KAM.Wave.KamSupport.FourierBanach
+public import KAM.Wave.KamSupport.FourierBessel
+public import KAM.Wave.KamSupport.FourierL2
+public import KAM.Wave.KamSupport.FourierShift
+public import KAM.Wave.KamSupport.HilbertMatrix
+public import KAM.Wave.KamSupport.KamSpace
+public import KAM.Wave.KamSupport.Lattice
+public import KAM.Wave.KamSupport.LatticeCount
+public import KAM.Wave.KamSupport.SchurTest
 public import KAM.Wave.Normal.ActionCoeff
+public import KAM.Wave.Normal.Analysis.CubicAnalytic
+public import KAM.Wave.Normal.Analysis.CubicBound
+public import KAM.Wave.Normal.Analysis.CubicHeadline
+public import KAM.Wave.Normal.Analysis.CubicLinear
+public import KAM.Wave.Normal.Analysis.CubicSelect
+public import KAM.Wave.Normal.Analysis.CubicTools
+public import KAM.Wave.Normal.Analysis.EllSeq
+public import KAM.Wave.Normal.Analysis.EvenMajorant
+public import KAM.Wave.Normal.Analysis.Gradient
+public import KAM.Wave.Normal.Analysis.PdeBase
+public import KAM.Wave.Normal.Analysis.PdeConverse
+public import KAM.Wave.Normal.Analysis.PdeForce
+public import KAM.Wave.Normal.Analysis.PdeForward
+public import KAM.Wave.Normal.Analysis.RealAlgebra
+public import KAM.Wave.Normal.Analysis.SelectionRule
+public import KAM.Wave.Normal.Analysis.SeqBridge
+public import KAM.Wave.Normal.Analysis.SineProducts
+public import KAM.Wave.Normal.Analysis.SineSeries
 public import KAM.Wave.Normal.AngleAvg
 public import KAM.Wave.Normal.FinsuppAbs
 public import KAM.Wave.Normal.Nondegeneracy
@@ -32,6 +63,11 @@ public import KAM.Wave.Normal.ResonantPart
 public import KAM.Wave.Recon.ReconAnalytic
 public import KAM.Wave.Recon.SineCompleteness
 public import KAM.Wave.Recon.SineFeature
+public import KAM.Wave.Recon2.Curve
+public import KAM.Wave.Recon2.Force
+public import KAM.Wave.Recon2.Functionals
+public import KAM.Wave.Recon2.Main
+public import KAM.Wave.Recon2.Orbit
 public import KAM.Wave.Seq.Coordinatewise
 public import KAM.Wave.Seq.Diag
 public import KAM.Wave.Seq.Embed
