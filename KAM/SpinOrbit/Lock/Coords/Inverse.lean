@@ -6,6 +6,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 module
 
 public import KAM.SpinOrbit.Lock.Coords.Maps
+public import KAM.SpinOrbit.Lock.Confine
 public import Mathlib.Analysis.SpecialFunctions.Complex.Arg
 
 /-!

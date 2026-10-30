@@ -14,7 +14,6 @@ public import KAM.SpinOrbit.Hamiltonian
 Design SO-LOCK §3 (corrected after audit F3). On `z = ((α, φ), (I, J̃))`, with a centre curve `c`
 and `Ω > 0`:
 
-* `libAction Ω ψ (q, p, φ) = π(Ω X² + Y²/Ω)`, `X = q − φ − ψ(φ)`, `Y = p − 1 − ψ'(φ)`;
 * `lockX`, `lockY`: the polar pieces `X = √(I/(πΩ)) sin 2πα`, `Y = √(IΩ/π) cos 2πα`
   (`dY ∧ dX = dI ∧ dα`);
 * `lockToRotR`: the map to the landed rotated frame (`soRotMap` then maps to physical);
@@ -28,11 +27,6 @@ and `Ω > 0`:
 open Real
 
 namespace KAM.SpinOrbit.Lock
-
-/-- The elliptic libration action around a curve `ψ`: `π(Ω X² + Y²/Ω)` with
-`X = q − φ − ψ(φ)`, `Y = p − 1 − ψ'(φ)`. -/
-def libAction (Ω : ℝ) (ψ : ℝ → ℝ) (x : ℝ × ℝ × ℝ) : ℝ :=
-  π * (Ω * (x.1 - x.2.2 - ψ x.2.2) ^ 2 + (x.2.1 - 1 - deriv ψ x.2.2) ^ 2 / Ω)
 
 /-- Real polar pieces: `X = √(I/(πΩ)) sin 2πα`, `Y = √(IΩ/π) cos 2πα` on `z = ((α, φ), (I, J̃))`.
 Two-form: `dY ∧ dX = dI ∧ dα` (frozen convention `Σ dIᵢ ∧ dθᵢ`). -/
