@@ -26,7 +26,7 @@ import model as MD
 
 PREC = 320
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(HERE, "..", "..", "certificates", "lunar-spin-orbit")
+DATA = os.environ.get("SO_DATA_DIR", os.path.join(HERE, "..", "..", "certificates", "lunar-spin-orbit"))   # SO-GEN3
 
 TIME_SCALE = F(237, 125)            # lunarR1TimeScale
 SCALAR = 1 + F(1, 10 ** 6)          # lunarR1Scalar

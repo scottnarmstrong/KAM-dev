@@ -19,7 +19,7 @@ from mpmath import iv
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
-CERT = os.path.join(ROOT, "certificates", "lunar-spin-orbit")
+CERT = os.environ.get("SO_DATA_DIR", os.path.join(ROOT, "certificates", "lunar-spin-orbit"))   # SO-GEN3: env override
 
 INF = float("inf")
 
