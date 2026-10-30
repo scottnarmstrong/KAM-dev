@@ -1912,3 +1912,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Next: the calibration gates CAL-1/CAL-2 (G0–G7) on SO-DATA3's real lower N = 65 torus, run by the designer
     (claude-4) one probe at a time under the cap. In parallel, SO-CSEG-GEN (ledger emitter and templates) in the
     DATA3 worker. Then the per-torus DATA runs, built serially under the cap, and the final N = 65 band theorems.
+- **21:21. Heartbeat. SO-KDEPTH2 landed (2dad8824 on main); lock reruns pass so far.**
+  - On the wrapped 3,158-op program, every G1 piece run so far passes at 3.1–3.5 GB: G1a, the G1b bridge,
+    prog_0/800/1600/2400, v0 and d1. d2/d3, the tails, the assembly and G2claim are still running.
+  - LOCK-DATA brief drafted but not dispatched (.drafts/briefs/lock/PKG-LOCK-DATA.md): it reuses SO-CSPLIT's
+    Kernel/Seg* and SO-CSEG-GEN, and stops if the measured ledger exceeds 50 MB. Dispatch gates: CAL-1/2 pass,
+    the lock reruns pass, the ledger flag re-logged with the measured size, disk ≥ 10 GB.
+  - L2 and A/B are still landing. Calibration gates CAL-1/2 (designer) and SO-CSEG-GEN (DATA3 worker) are running.
+  - W: provers wph working and wpi idle; graph delta 6 and the gap-fix reviews done, being processed by kam-1b.
+  - The landed KDEPTH2 worktree is removed; / at 9.8 GB. Quotas: claude-3 74 %, claude-12 70 %, claude-6 55 %,
+    claude-4 41 %, codex-1 87 %.
