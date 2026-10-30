@@ -227,7 +227,7 @@ Overall, everything together: 96.8 %
 | SO2.MODEL | Lunar model: the spin–orbit Hamiltonian, Diophantine lunar frequencies, clock, rotated frame | H | ✅ 100 % | landed: SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ (of SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ) |
 | SO2.BARRIER | Confinement: two invariant barriers confine every solution for all time; graph inversion of an exact torus in both frames; certified graphs | H | ✅ 100 % | landed: SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH (of SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH) |
 | SO2.DATA | Numerical candidates and certificate data: generator, rotated-frame package R1, advice emitter, Lean data modules and their kernel replay | H | 🟨 67 % | landed: SO-GEN, SO-GEN2, SO-DATA-PY (of SO-GEN, SO-GEN2, SO-DATA-PY, SO-DATA) |
-| SO2.LUNAR | The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within 3.3 % of its orbital rate for all time | H | 🟨 33 % | landed: SO-R1 (of SO-R1, SO-LUNAR) |
+| SO2.LUNAR | The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within 2.8–2.9 % of its orbital rate for all time (target, D37) | H | 🟨 33 % | landed: SO-R1 (of SO-R1, SO-LUNAR) |
 | SO2.FREEZE | Owner approval of the final statement, freeze, and seal | M | ⬜ 0 % | the final statement is approved by the owner before freezing |
 
 </details>
@@ -248,7 +248,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 11:46 UTC from `main` at `1bd929b3` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 11:46 UTC from `main` at `c3038fa8` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -427,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 11:46 | `c3038fa8` | HQ: SO2.LUNAR title with the D37 target band |
 | 2026-10-30 11:46 | `1bd929b3` | README: track SO target band 2.8-2.9 % (D37) |
 | 2026-10-30 11:45 | `66fa2abd` | D37: lunar band target 2.8-2.9 % with the sharp certifier; HQ texts updated |
 | 2026-10-30 11:43 | `dfb93336` | Note for the SO orchestrator: switching the lunar certificate to the sharp certifier |
@@ -438,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 10:48 | `35d9e272` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-30 10:48 | `aefe5353` | Overnight log: 10:48 |
 | 2026-10-30 10:22 | `a3c1eb85` | Overnight log: 10:22 (SO-KPERF diagnosis) |
-| 2026-10-30 10:19 | `01e42efc` | Overnight log: 10:19 |
 <!-- /AUTO:landed -->
 
 ## Decisions
