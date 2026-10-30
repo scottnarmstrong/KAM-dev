@@ -248,7 +248,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 12:37 UTC from `main` at `d879ee54` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 12:37 UTC from `main` at `632eb21c` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -257,7 +257,7 @@ Overall, everything together: 96.8 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 26 / 26**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target 2.8–2.9 %, D37). `KAM/SpinOrbit` and the data generator: 16 modules · 2,952 lines. **Packages landed: 16 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
-- **Now:** proving SO-GEN3 · in audit —
+- **Now:** proving SO-GEN3 · in audit SO-SHARPLINK
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 23 / 23** · frozen definitions: 123
@@ -412,7 +412,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **soemitfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-2 round 2: probes, logs and handoff | `inp-soemitfix` | 8 (vs `inp`) |
@@ -427,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 12:37 | `632eb21c` | Log: 12:37 |
 | 2026-10-30 12:35 | `d879ee54` | Land inp into main |
 | 2026-10-30 12:29 | `cc1d3a42` | Log: 12:29 (SO-DION; codex-4 login expired) |
 | 2026-10-30 12:18 | `85188cd6` | Log: 12:18 |
@@ -438,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 11:46 | `c3038fa8` | HQ: SO2.LUNAR title with the D37 target band |
 | 2026-10-30 11:46 | `1bd929b3` | README: track SO target band 2.8-2.9 % (D37) |
 | 2026-10-30 11:45 | `66fa2abd` | D37: lunar band target 2.8-2.9 % with the sharp certifier; HQ texts updated |
-| 2026-10-30 11:43 | `dfb93336` | Note for the SO orchestrator: switching the lunar certificate to the sharp certifier |
 <!-- /AUTO:landed -->
 
 ## Decisions
