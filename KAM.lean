@@ -1429,6 +1429,10 @@ public import KAM.Strip.Bridges
 public import KAM.Strip.Cauchy
 public import KAM.Strip.Cohomological
 public import KAM.Strip.CohomologicalDefs
+public import KAM.Strip.CohomologicalL1
+public import KAM.Strip.CohomologicalL1Bound
+public import KAM.Strip.CohomologicalL1Cert
+public import KAM.Strip.CohomologicalL1Sup
 public import KAM.Strip.CohomologicalNodes
 public import KAM.Strip.CohomologicalOperator
 public import KAM.Strip.CohomologicalParseval
