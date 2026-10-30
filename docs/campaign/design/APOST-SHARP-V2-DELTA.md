@@ -183,3 +183,21 @@ New lemmas (`KAM/Sharp2/TorsionRef.lean`): `hamComm`, `torsionAB`, `torsionABAve
 Numbers are labelled "heuristic extrapolation assuming certified first-step transfer". The corollary requires enclosures of the
 first-step remainders, the new caps and displacement, and budgets reduced by the measured stage-0 increments
 (`bp:p2s2:hybrid`).
+
+## Addendum (SHARP2-DOMPLUS, 30 October 2026)
+
+Two further signature changes, both in the replaced `APOST-SHARP-V2-SIGNATURES.lean.txt`. It re-elaborates: 17 `sorry`, no error.
+
+- **B4 / B4B `modified_stepB`: new hypothesis `hE0`** (AUDIT-SHARP2-FIX-iso-1, F1):
+  `p.stage0 = true → ∀ θ ∈ T_r, ‖E θ‖ ≤ p.ePer · μ`.
+  - The stage-0 shortcut C_E → min{C_E, ePer}, C_DE → min{C_DE, n·ePer} needs the actual bound on E. The weighted error μ does not
+    give it.
+  - At stage 0 it follows from the frozen |E| ≤ e with ePer = e/μ₀.
+  - Blueprint: Definition `bp:p2s2:constantsB` (last sentence) and Proposition `bp:p2s2:step` (hypotheses).
+- **B3′ `stepConstsB`: `CDK := p.sK * CxiL + g * CKt`** (was `sKt * CxiL + g * CKt`).
+  - K̄ − K = (K∘φ − K) + (Nξᴺ)∘φ, and the segment [θ, θ + ξᴸ(θ)] lies in T_{r−δ}, where |DK| ≤ σ_K. So the intermediate-frame
+    factor 1 + ϑ is not needed in the displacement.
+  - Blueprint: `step:p2s2:st-l`. It is a strict improvement, and monotonicity is unchanged.
+- **Mirror only (no signature change).** `thresholds_v2.py` now uses the theorem's |DK| cap σ_K − μ/2 in the step constants (as
+  `NumB.sK` and B9's `NumA.sK`). Tight internal caps σ_B − μ/2, σ_T − μ/2 are an option (`tight_caps`). It also validates the full
+  numeric contract (`check_data`, `check_options`, `IllegalData`; re-audit iso F2).
