@@ -104,6 +104,11 @@ public import KAM.Iso.Sharp2.RouteA.G1
 public import KAM.Iso.Sharp2.RouteA.NewtonError
 public import KAM.Iso.Sharp2.RouteA.Scheme
 public import KAM.Iso.Sharp2.RouteA.Step
+public import KAM.Iso.Sharp2.RouteB.Core
+public import KAM.Iso.Sharp2.RouteB.Run
+public import KAM.Iso.Sharp2.RouteB.Scheme
+public import KAM.Iso.Sharp2.RouteB.Step
+public import KAM.Iso.Sharp2.RouteB
 public import KAM.Iso.ShiftPotential
 public import KAM.Iso.TransferStepNodes
 
