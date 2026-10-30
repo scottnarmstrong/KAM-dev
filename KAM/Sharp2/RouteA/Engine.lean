@@ -130,6 +130,53 @@ theorem xA_tail_le {kp : ℕ} (hX : 0 ≤ X₀) (hCE : ∀ s, 0 ≤ CE s) (ht : 
       _ ≤ 1 * xA a CE X₀ (kp + t) := mul_le_mul_of_nonneg_right hJ2 (h0 _)
       _ ≤ xA a CE X₀ kp := by rw [one_mul]; exact ih
 
+/-- `xA` is superlinear in the initial value: `xA (t X) s ≤ t xA X s`, `0 ≤ t ≤ 1`. -/
+theorem xA_scale {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) (hX : 0 ≤ X₀) (hCE : ∀ s, 0 ≤ CE s) (s : ℕ) :
+    xA a CE (t * X₀) s ≤ t * xA a CE X₀ s := by
+  induction s with
+  | zero => exact le_rfl
+  | succ s ih =>
+    have h0 := xA_nonneg (a := a) (mul_nonneg ht0 hX) hCE s
+    have h1 := xA_nonneg (a := a) hX hCE s
+    simp only [xA]
+    have hc : 0 ≤ 2 ^ (2 * a) * CE s := mul_nonneg (Real.rpow_nonneg (by norm_num) _) (hCE s)
+    have hsq : xA a CE (t * X₀) s ^ 2 ≤ t * xA a CE X₀ s ^ 2 := by
+      calc xA a CE (t * X₀) s ^ 2 ≤ (t * xA a CE X₀ s) ^ 2 := pow_le_pow_left₀ h0 ih 2
+        _ = t ^ 2 * xA a CE X₀ s ^ 2 := by ring
+        _ ≤ t * xA a CE X₀ s ^ 2 := by
+            refine mul_le_mul_of_nonneg_right ?_ (sq_nonneg _)
+            nlinarith
+    calc _ ≤ 2 ^ (2 * a) * CE s * (t * xA a CE X₀ s ^ 2) := mul_le_mul_of_nonneg_left hsq hc
+      _ = _ := by ring
+
+/-- `sumA` scales with the initial value. -/
+theorem sumA_scale {t b : ℝ} {c : ℕ → ℝ} {kp : ℕ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) (hX : 0 ≤ X₀)
+    (hCE : ∀ s, 0 ≤ CE s) (hc : ∀ s, 0 ≤ c s) (hlam : 0 < lam) (hρ : ρinf < ρ) :
+    sumA a lam ρ ρinf γb (xA a CE (t * X₀)) c b kp ≤ t * sumA a lam ρ ρinf γb (xA a CE X₀) c b kp := by
+  have hw : ∀ s, 0 ≤ γb ^ 2 * deltaSeq lam ρ ρinf s ^ (2 * a - b) := fun s =>
+    mul_nonneg (sq_nonneg _) (Real.rpow_nonneg (deltaSeq_pos hlam hρ s).le _)
+  have hterm : ∀ s, c s * xA a CE (t * X₀) s * (γb ^ 2 * deltaSeq lam ρ ρinf s ^ (2 * a - b)) ≤
+      t * (c s * xA a CE X₀ s * (γb ^ 2 * deltaSeq lam ρ ρinf s ^ (2 * a - b))) := fun s => by
+    calc _ ≤ c s * (t * xA a CE X₀ s) * (γb ^ 2 * deltaSeq lam ρ ρinf s ^ (2 * a - b)) :=
+          mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (xA_scale ht0 ht1 hX hCE s) (hc s))
+            (hw s)
+      _ = _ := by ring
+  unfold sumA
+  rw [mul_add, Finset.mul_sum]
+  refine add_le_add (Finset.sum_le_sum fun s _ => hterm s) ?_
+  have := hterm kp
+  linarith
+
+/-- `sumA` at `γ̄ = γ` is `γ²` times `sumA` at `1`. -/
+theorem sumA_gamma (a lam ρ ρinf γ : ℝ) (x c : ℕ → ℝ) (b : ℝ) (kp : ℕ) :
+    sumA a lam ρ ρinf γ x c b kp = γ ^ 2 * sumA a lam ρ ρinf 1 x c b kp := by
+  unfold sumA
+  rw [mul_add, Finset.mul_sum]
+  congr 1
+  · refine Finset.sum_congr rfl fun s _ => ?_
+    ring
+  · ring
+
 /-- `δ_{kp+t}^q ≤ δ_kp^q 2^{-t}` for `q ≥ 1`. -/
 theorem deltaSeq_rpow_tail {q : ℝ} (hq : 1 ≤ q) (hlam : 0 < lam) (hρ : ρinf < ρ) (kp t : ℕ) :
     deltaSeq lam ρ ρinf (kp + t) ^ q ≤ deltaSeq lam ρ ρinf kp ^ q * (1 / 2 : ℝ) ^ t := by
@@ -454,9 +501,15 @@ theorem SchemeA.limit (hS : S.IsNewton a lam ρ ρinf γ C j Cond σ)
       IsPrimaryOnStrip (S.limTor ρinf x₀) ρinf ∧ IsRealOnReals (S.limTor ρinf x₀) ∧
       (∀ θ ∈ complexStrip n ρinf, ‖S.limTor ρinf x₀ θ - S.tor x₀ θ‖ ≤
         sumA a lam ρ ρinf γb (xA a (fun s => (C s).CE) Xs) (fun s => (C s).CD) a kp) ∧
+      (∀ θ ∈ complexStrip n ρinf, ‖S.limTor ρinf x₀ θ - S.tor x₀ θ‖ ≤
+        (e / (γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a))) / Xs * (γ ^ 2 *
+          sumA a lam ρ ρinf 1 (xA a (fun s => (C s).CE) Xs) (fun s => (C s).CD) a kp)) ∧
       Tendsto (fun s => S.par (S.iter x₀ s)) atTop (𝓝 (S.limPar x₀)) ∧
       |S.limPar x₀ - S.par x₀| ≤
         sumA a lam ρ ρinf γb (xA a (fun s => (C s).CE) Xs) (fun s => (C s).Cp) a kp ∧
+      |S.limPar x₀ - S.par x₀| ≤
+        (e / (γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a))) / Xs * (γ ^ 2 *
+          sumA a lam ρ ρinf 1 (xA a (fun s => (C s).CE) Xs) (fun s => (C s).Cp) a kp) ∧
       Tendsto (runEps a lam ρ ρinf γ C e) atTop (𝓝 0) := by
   have he : 0 ≤ e := (hS.adm h0).1
   have H := R.termHyp hlam hρ hγ hγb he hX
@@ -503,6 +556,77 @@ theorem SchemeA.limit (hS : S.IsNewton a lam ρ ρinf γ C j Cond σ)
   obtain ⟨p, hp, hpb⟩ := converge_par (f := fun s => S.par (S.iter x₀ s)) hpsum
     (fun s => (hit s).2.2.2) (Real.tsum_le_of_sum_range_le hp0 hpS)
   have hlimP : S.limPar x₀ = p := hp.limUnder_eq
+  -- the bounds proportional to `e`
+  have hXpos : 0 < Xs ∨ e = 0 := by
+    rcases R.Xs_nonneg.eq_or_lt with h | h
+    · right
+      have hD : 0 < γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a) :=
+        mul_pos (pow_pos hγ 4) (Real.rpow_pos_of_pos (delta0_pos hlam hρ) _)
+      rw [← h] at hX
+      have h1 := (div_le_iff₀ hD).1 hX
+      linarith
+    · exact Or.inl h
+  have hprop : ∀ {c : ℕ → ℝ}, (∀ s, 0 ≤ c s) → (∀ s, kp ≤ s → c s = c kp) →
+      ∑' s, c s * runEps a lam ρ ρinf γ C e s / (γ ^ 2 * deltaSeq lam ρ ρinf s ^ a) ≤
+        (e / (γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a))) / Xs * (γ ^ 2 *
+          sumA a lam ρ ρinf 1 (xA a (fun s => (C s).CE) Xs) c a kp) := by
+    intro c hc hct
+    have hD : 0 < γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a) :=
+      mul_pos (pow_pos hγ 4) (Real.rpow_pos_of_pos (delta0_pos hlam hρ) _)
+    set X₁ := e / (γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a)) with hX₁
+    have hX₁0 : 0 ≤ X₁ := div_nonneg he hD.le
+    rcases hXpos with hpos | he0
+    · set t := X₁ / Xs with ht
+      have ht0 : 0 ≤ t := div_nonneg hX₁0 hpos.le
+      have ht1 : t ≤ 1 := (div_le_one hpos).2 hX
+      have hx1 : X₁ = t * Xs := by rw [ht]; field_simp
+      have hJ2' : 2 ^ (2 * a) * (C kp).CE * xA a (fun s => (C s).CE) X₁ kp ≤ 1 := by
+        rw [hx1]
+        have h2 := xA_scale (a := a) ht0 ht1 R.Xs_nonneg R.CE_nonneg kp
+        have h3 : 0 ≤ 2 ^ (2 * a) * (C kp).CE :=
+          mul_nonneg (Real.rpow_nonneg (by norm_num) _) (R.CE_nonneg kp)
+        have h4 : xA a (fun s => (C s).CE) Xs kp * t ≤ xA a (fun s => (C s).CE) Xs kp :=
+          mul_le_of_le_one_right (xA_nonneg R.Xs_nonneg R.CE_nonneg kp) ht1
+        calc _ ≤ 2 ^ (2 * a) * (C kp).CE * xA a (fun s => (C s).CE) Xs kp :=
+              mul_le_mul_of_nonneg_left (h2.trans (by linarith)) h3
+          _ ≤ 1 := R.J2
+      have H' : TermHyp a lam ρ ρinf γ γ (fun s => (C s).CE) e X₁ kp :=
+        { H with
+          hγb := le_rfl
+          hX0 := hX₁0
+          hX := le_rfl
+          hJ2 := hJ2' }
+      obtain ⟨h0', -, hS'⟩ := H'.sum_le (c := c) (b := a) hc hct (by linarith)
+      refine (Real.tsum_le_of_sum_range_le h0' hS').trans ?_
+      rw [hx1, sumA_gamma a lam ρ ρinf γ]
+      have := sumA_scale (a := a) (lam := lam) (ρ := ρ) (ρinf := ρinf) (γb := 1) (c := c) (b := a)
+        (kp := kp) ht0 ht1 R.Xs_nonneg R.CE_nonneg hc hlam hρ
+      calc _ ≤ γ ^ 2 * (t * sumA a lam ρ ρinf 1 (xA a (fun s => (C s).CE) Xs) c a kp) :=
+            mul_le_mul_of_nonneg_left this (sq_nonneg _)
+        _ = t * (γ ^ 2 * sumA a lam ρ ρinf 1 (xA a (fun s => (C s).CE) Xs) c a kp) := by ring
+        _ = _ := rfl
+    · have h00 : ∀ s, runEps a lam ρ ρinf γ C e s = 0 := fun s => by
+        rw [he0]
+        induction s with
+        | zero => rfl
+        | succ s ih =>
+          simp only [runEps, epsA] at ih ⊢
+          rw [ih]
+          simp
+      simp only [h00, mul_zero, zero_div, tsum_zero]
+      have hX0 : X₁ = 0 := by rw [hX₁, he0, zero_div]
+      rw [hX0, zero_div, zero_mul]
+  have hclose' : ∀ θ ∈ complexStrip n ρinf, ‖S.limTor ρinf x₀ θ - S.tor x₀ θ‖ ≤
+      (e / (γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a))) / Xs * (γ ^ 2 *
+        sumA a lam ρ ρinf 1 (xA a (fun s => (C s).CE) Xs) (fun s => (C s).CD) a kp) := fun θ hθ =>
+    ((KAM.Apost.lim_close (Ks := fun s => S.tor (S.iter x₀ s)) hdsum hdiff hLG) θ hθ).trans
+      (hprop R.CD_nonneg (fun s hs => by simp only [R.tail s hs]))
+  have hpb' : |p - S.par x₀| ≤ (e / (γ ^ 4 * delta0 lam ρ ρinf ^ (2 * a))) / Xs * (γ ^ 2 *
+      sumA a lam ρ ρinf 1 (xA a (fun s => (C s).CE) Xs) (fun s => (C s).Cp) a kp) := by
+    obtain ⟨p', hp', hpb''⟩ := converge_par (f := fun s => S.par (S.iter x₀ s)) hpsum
+      (fun s => (hit s).2.2.2) (hprop R.Cp_nonneg (fun s hs => by simp only [R.tail s hs]))
+    rw [tendsto_nhds_unique hp hp']
+    exact hpb''
   have hεz : Tendsto (runEps a lam ρ ρinf γ C e) atTop (𝓝 0) := by
     have h1 := hesum.tendsto_atTop_zero.const_mul (γ ^ 2)
     rw [mul_zero] at h1
@@ -511,7 +635,7 @@ theorem SchemeA.limit (hS : S.IsNewton a lam ρ ρinf γ C j Cond σ)
     simp only [Real.rpow_zero]
     field_simp
   rw [hlimP]
-  exact ⟨hconv, hconvd, hholo, hpr, hrr, hclose, hp, hpb, hεz⟩
+  exact ⟨hconv, hconvd, hholo, hpr, hrr, hclose, hclose', hp, hpb, hpb', hεz⟩
 
 end KAM.Sharp2.RouteA
 
