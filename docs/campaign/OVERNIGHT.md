@@ -1418,3 +1418,18 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   **For owner review:**
   (1) Slim worktrees instead of inp_new_worktree.sh. Reversible; chosen for disk space.
   (2) Errata N-2 and N-3 left CANDIDATE rather than CONFIRMED, because only the writer checked them.
+- **16:09. Heartbeat; a sweep incident.**
+  - **Incident:** main_worktree_sweep.sh removed kam-d4's fresh worktree KAM-inp-wgraph (branch inp-wgraph kept,
+    zero commits). A sub-orchestrator's in-process subagent has no tmux session, and between tool calls no process
+    names its path, so the sweep could not see it. Untracked work there was lost. kam-d4 was told at once.
+  - **Fix:** the sweep now keeps any worktree with untracked files, and any whose branch is under 12 h old with no
+    commits.
+  - main_inp_design_audit.sh no longer refuses codex-3 (owner ruling).
+  - Running:
+    - lock: kam-suborch-lock (kam-inp-24) with workers lockdesign (the design, statements and freeze proposal) and
+      lockgen (high-precision periodic orbit with a radii-polynomial check; the N = 65 torus in polar coordinates;
+      the v2 threshold);
+    - W: kam-d4 with provers wpa/wpb, auditors inp-maud-w1/w2/w3, and the blueprint writers;
+    - SO part 2: SO-KDEPTH, SO-BALLFIX, SO-V2PKG, SO-DATA3 (step 1).
+  - Quotas: claude-3 86 %, claude-12 85 %, claude-6 74 %, claude-4 58 %, codex-3 11 % (monitor readings from
+    15:04–15:17). Disk 11 GB free.
