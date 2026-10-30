@@ -63,7 +63,8 @@ theorem volume_le_of_lower_bound {A : Set ((Fin n → ℝ) × (Fin n → ℝ))}
 theorem QuantitativeFamily.volume_image_lower {N : ℕ} {d : QuantitativeData N}
     {H : (Fin N → ℝ) × (Fin N → ℝ) → ℝ} {cΔ ε : ℝ} (Q : QuantitativeFamily d H cΔ ε) :
     ENNReal.ofReal ((1 - (2 : ℝ) ^ (-10 : ℤ)) ^ (2 * N)) * volume Q.good ≤
-      volume ((fun z : (Fin N → ℝ) × (Fin N → ℝ) => Q.torus z.2 z.1) '' (unitCube N ×ˢ Q.good)) := by
+      volume ((fun z : (Fin N → ℝ) × (Fin N → ℝ) => Q.torus z.2 z.1) ''
+        (unitCube N ×ˢ Q.good)) := by
   set c : ℝ := 1 - (2 : ℝ) ^ (-10 : ℤ) with hcdef
   have hc : 0 < c := by rw [hcdef]; norm_num
   have hlow : ∀ x ∈ unitCube N ×ˢ Q.good, ∀ y ∈ unitCube N ×ˢ Q.good,
