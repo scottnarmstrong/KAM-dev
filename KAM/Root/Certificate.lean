@@ -5,6 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Certificate.Arith.BalancedSum
 public import KAM.Certificate.Arith.ComplexExp
 public import KAM.Certificate.Arith.Fixed
 public import KAM.Certificate.Arith.Interface
@@ -37,6 +38,7 @@ public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.Model.Exp
 public import KAM.Certificate.Model.ExpBounds
+public import KAM.Certificate.Model.FixedEq
 public import KAM.Certificate.Model.Inv
 public import KAM.Certificate.Model.Ops
 public import KAM.Certificate.Model.Terms
