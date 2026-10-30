@@ -15,6 +15,9 @@ public import KAM.SpinOrbit.Data.Upper.Pass.Embedding
 public import KAM.SpinOrbit.Data.Upper.Pass.Invariance
 public import KAM.SpinOrbit.Data.Upper.Pass.Energy
 public import KAM.SpinOrbit.Data.Upper.Pass.Torsion
+public import KAM.SpinOrbit.Data.Upper.Pass.Gram
+public import KAM.SpinOrbit.Data.Upper.Pass.FrameN
+public import KAM.SpinOrbit.Data.Upper.Pass.FrameT
 public import KAM.SpinOrbit.Data.Upper.Pass.HamClaim
 public import KAM.SpinOrbit.Data.Upper.Pass.FrameL
 public import KAM.SpinOrbit.Data.Upper.Pass.Graph
@@ -23,12 +26,6 @@ public import KAM.SpinOrbit.Data.Upper.Pass.SiteD1
 public import KAM.SpinOrbit.Data.Upper.Pass.SiteB0
 public import KAM.SpinOrbit.Data.Upper.Pass.SiteB1
 public import KAM.SpinOrbit.Data.Upper.Pass.SiteB2
-public import KAM.SpinOrbit.Data.Upper.Pass.GramRow0
-public import KAM.SpinOrbit.Data.Upper.Pass.GramRow1
-public import KAM.SpinOrbit.Data.Upper.Pass.GramEq
-public import KAM.SpinOrbit.Data.Upper.Pass.Gram
-public import KAM.SpinOrbit.Data.Upper.Pass.FrameN
-public import KAM.SpinOrbit.Data.Upper.Pass.FrameT
 public import KAM.SpinOrbit.Data.Upper.Pass.Core
 
 /-!
