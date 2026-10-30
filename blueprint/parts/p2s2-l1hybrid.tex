@@ -1,0 +1,434 @@
+\section{The weighted-$\ell^1$ entry step: the $\ell^1$ hybrid of the v2 theorem (package B10)}\label{bp:p2s2l1}
+
+This part adds to the v2 theorem (Part~\ref{bp:p2s2}) an \emph{$\ell^1$ entry step}: the first Newton step solves its two
+cohomological equations, takes its average and bounds the Lagrangian defect of the initial torus from \emph{weighted-$\ell^1$ data of the
+initial torus}, with the sup-over-modes small-divisor constant
+\[
+\Gamma_\infty(\omega,\delta)=\sup_{k\ne0}\frac{e^{-2\pi\delta\abs k_1}}{2\pi\abs{k\cdot\omega}}\qquad(\Lean{KAM.smallDivisorSup}\ \omega\ \delta,\ \text{SHARP-L9}),
+\]
+which needs no lattice counting. Every other estimate of the first step, and every later step, is the sup-norm estimate of
+Part~\ref{bp:p2s2}. The conclusion is that of the frozen G1 (Theorem~\ref{bp:p0:g1}); the added hypotheses bound explicit objects of the
+initial torus, which the certificate computes anyway.
+
+\emph{What is measured where.}
+\begin{itemize}
+\item In $\ell^1$ (initial torus $K$ only): the normal and tangential errors $\eta^N,\eta^L$ on $T_\rho$, the torsion $T$ on $T_{\rho-\delta_0}$,
+  optionally the frames $L,N$ on $T_\rho$ (route A); the solutions $u=\mathcal R\eta^N$, $\xi^N$, $\xi^L$ of the first step and its increment
+  $\Delta K$ are then known in $\ell^1$.
+\item In sup: the Hamiltonian bounds (frozen and refined, (R1)), the frames and their caps, the torsion caps and $\avg T^{-1}$, the invariance
+  error $E$ of every torus, every object of the tori $K_s$, $s\ge1$, and of the intermediate tori.
+\end{itemize}
+\emph{Why only at the entry} (Remark~\ref{bp:p2s2l1:design}): at later stages the errors are abstract functions whose only bounds come from
+the step identities, and these contain the Hamiltonian composed with the new torus. With the frozen sup data of $h$ (D12) their $\ell^1$
+norms need a sup$\to\ell^1$ conversion costing $\coth(\pi\sigma)^n\ge10^{3}$ at the available strip losses, against a small-divisor gain
+of at most $6$--$18$. No conversion is used anywhere in this part.
+
+\emph{Numbers} (\texttt{thresholds\_v2.py --l1}, \texttt{dominance.py --plasmalean}; design mirror, untrusted):
+\begin{itemize}
+\item PlasmaLean's example (its proved tolerance $10^{-18.24}$, at its declared, pessimistic bounds): route A with the entry step and the
+  $\ell^1$ frame increment admits $10^{-15.40}$ for the $\ell^1$ error norm (like for like, $+2.84$ orders) and $10^{-15.93}$ for the sup
+  error of an error with $\ell^1/\text{sup}=3.6$ ($+2.31$); the sup-norm v2 gives $10^{-17.27}$ ($+0.97$).
+\item R1 (measured $\ell^1$ data, heuristic until enclosed): route A from $10^{-11.18}$ to $10^{-10.13}$ (fixed) and from $10^{-11.37}$ to
+  $10^{-10.32}$ (iso), $+1.05$ orders; route B gains $0.1$.
+\end{itemize}
+Results of Parts~\ref{bp:p1}, \ref{bp:p2}, \ref{bp:p2s}, \ref{bp:p2s2sd} and~\ref{bp:p2s2} are cited by label.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Weighted-$\ell^1$ norms and the toolkit}\label{bp:p2s2l1:sec-norms}
+
+\begin{definition}[Weighted-$\ell^1$ norms on strips]\label{bp:p2s2l1:norms}
+For $r>0$ and $f:T_r\to\C$ holomorphic and $1$-periodic with Fourier coefficients $\hat f_k$ on $\R^n$, put
+$\norm f_{1,r}:=\sum_k\abs{\hat f_k}e^{2\pi r\abs k_1}\in[0,\infty]$ (the repository's \Lean{Fourier.weightedNorm} at the coefficient radius $2\pi r$ of
+\Lean{torusCoeff}). For $f:T_r\to\C^p$, $\norm f_{1,r}:=\max_i\norm{f_i}_{1,r}$; for a matrix function
+$M:T_r\to\C^{p\times q}$, $\norm M_{1,r}:=\max_i\sum_j\norm{M_{ij}}_{1,r}$ (row sums). A bound $\norm f_{1,r}\le A$ always includes the
+summability of the coefficient families and $A\ge0$ (bound predicates, as \Lean{WBound}; no junk values).
+\end{definition}
+
+\begin{lemma}[The $\ell^1$ toolkit]\label{bp:p2s2l1:toolkit}
+Let $r>0$, and $f,g,M$ holomorphic and $1$-periodic on $T_r$ with finite norms.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(sup bound)} $\abs{f(\theta)}\le\norm f_{1,r}$ and $\abs{M(\theta)}\le\norm M_{1,r}$ for $\theta\in T_r$ (max norm and its operator
+  norm, the maximal row sum);
+\item \emph{(products)} $\norm{Mg}_{1,r}\le\norm M_{1,r}\norm g_{1,r}$ and $\norm{fg}_{1,r}\le\norm f_{1,r}\norm g_{1,r}$; a constant
+  vector $c$ has $\norm c_{1,r}=\abs c$; $\norm f_{1,r'}\le\norm f_{1,r}$ for $r'\le r$; $\norm{f-\avg f}_{1,r}\le\norm f_{1,r}$;
+\item \emph{(row-sum Cauchy)} for $0<\delta<r$ and $f:T_r\to\C^p$: on $T_{r-\delta}$, $\abs{Df(\theta)}\le\norm f_{1,r}/(e\delta)$ and
+  $\abs{(Df(\theta))^\top}\le p\,\norm f_{1,r}/(e\delta)$; for $p=n$, $\abs{Df(\theta)-(Df(\theta))^\top}\le n\norm f_{1,r}/(e\delta)$.
+\end{enumerate}
+\source{(a): Lean \Lean{KAM.norm\_le\_weightedNorm\_of\_summableWeighted} and its vector and matrix forms \Lean{KAM.norm\_le\_of\_l1\{,\_pi,\_mat\}}
+(SHARP-L9). (b): \Lean{KAM.Fourier.weightedNorm\_convolution\_le} with \Lean{KAM.Fourier.convolution}. (c): \Lean{KAM.Fourier.weightedNorm\_partialCoeff\_le}
+(coefficientwise), summed over $j$ as in\\ \Lean{KAM.Weighted.cauchy\_theta}. Ours (assembly).}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Sup bound}\label{step:p2s2l1:tk-sup}
+A holomorphic periodic $f$ with summable weighted coefficients equals its Fourier series on $T_r$ (\Lean{eq\_fourierSum\_of\_summableWeighted}),
+and $\abs{e^{2\pi ik\cdot\theta}}\le e^{2\pi r\abs k_1}$ there. For matrices apply this to each entry and sum a row.
+
+\proofstep{Products}\label{step:p2s2l1:tk-prod}
+On $\R^n$ both factors equal their absolutely convergent Fourier series, so the coefficients of the product are the convolutions of the
+coefficients; $e^{2\pi r\abs{k}_1}\le e^{2\pi r\abs l_1}e^{2\pi r\abs{k-l}_1}$ gives submultiplicativity entry by entry, and
+$\norm{(Mg)_i}\le\sum_j\norm{M_{ij}}\norm{g_j}\le(\sum_j\norm{M_{ij}})\max_j\norm{g_j}$. Removing the zero mode removes one nonnegative
+term.
+
+\proofstep{Row-sum Cauchy}\label{step:p2s2l1:tk-cauchy}
+$\widehat{\partial_jf_i}_k=2\pi ik_j\hat f_{i,k}$ and $\sum_j2\pi\abs{k_j}e^{-2\pi\delta\abs k_1}=2\pi\abs k_1e^{-2\pi\delta\abs k_1}\le(e\delta)^{-1}$,
+so $\sum_j\norm{\partial_jf_i}_{1,r-\delta}\le\norm{f_i}_{1,r}/(e\delta)$; (a) gives the first bound. For the transpose,
+$\sum_i\abs{\partial_jf_i}\le\sum_i\norm{f_i}/(e\delta)$. For the antisymmetric part, row $i$ is bounded by
+$\sum_j\norm{\partial_jf_i}+\sum_{j\ne i}\norm{\partial_if_j}\le\norm{f_i}/(e\delta)+(n-1)\max_j\norm{f_j}/(e\delta)$.
+\end{proof}
+
+\begin{lemma}[Conversion and composition in $\ell^1$: the prices]\label{bp:p2s2l1:convert}
+\begin{enumerate}[label=(\alph*)]
+\item If $f$ is holomorphic, periodic and $\abs f\le A$ on $T_r$, then $\norm f_{1,r-\sigma}\le\coth(\pi\sigma)^nA$ for $0<\sigma<r$, and
+  $\coth(\pi\sigma)\ge(\pi\sigma)^{-1}$.
+\item If $\xi:T_{r'}\to\C^n$ is periodic with $r'+\norm\xi_{1,r'}<r$, then $\norm{f\circ(\mathrm{id}+\xi)}_{1,r'}\le\norm f_{1,r'+\norm\xi_{1,r'}}$
+  and $\norm{f\circ(\mathrm{id}+\xi)-f}_{1,r'}\le\norm\xi_{1,r'}\norm f_{1,r}/\bigl(e(r-r'-\norm\xi_{1,r'})\bigr)$.
+\end{enumerate}
+Neither is used by the theorems of this part; they price the alternatives of Remark~\ref{bp:p2s2l1:design}.
+\source{(a): Lemma~\ref{bp:p1:summation} (Lean \Lean{KAM.Weighted.wbound\_of\_sup\_bound}); PLAN \S3. (b): $e^{2\pi ik\cdot(\theta+\xi)}=e^{2\pi ik\cdot\theta}\exp(2\pi ik\cdot\xi)$
+and $\norm{\exp(g)-1}_{1}\le\norm g_1e^{\norm g_1}$ in the Wiener algebra (PLAN \S3, composition).}
+\end{lemma}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The $\ell^1$ solves}\label{bp:p2s2l1:sec-solve}
+
+\begin{lemma}[Solutions, averages and the ray]\label{bp:p2s2l1:solve}
+Let $\omega\in\Dio_{\gamma,\tau}$, $0<\delta<r$, and $g:T_r\to\C^p$ holomorphic, periodic, with $\avg g=0$ and $\norm g_{1,r}\le A$. Then
+\begin{enumerate}[label=(\alph*)]
+\item $\norm{\mathcal Rg}_{1,r-\delta}\le\Gamma_\infty(\omega,\delta)A$, hence $\abs{\mathcal Rg}\le\Gamma_\infty(\omega,\delta)A$ on $T_{r-\delta}$;
+\item $\abs{\mathcal Rg(\theta)}\le\Gamma_\infty(\omega,r)A$ for $\theta\in\R^n$ (the full bite: radius $0$); hence for a continuous periodic matrix function
+  $Y$ with $\abs Y\le y$ on $\R^n$, $\abs{\avg{Y\mathcal Rg}}\le y\,\Gamma_\infty(\omega,r)A$;
+\item $\Gamma_\infty(s\omega,\delta)=s^{-1}\Gamma_\infty(\omega,\delta)\le\Gamma_\infty(\omega,\delta)$ for $s\ge1$: a certificate for $\omega^*$ serves the whole
+  ray $\{s\omega^*:s\ge1\}$.
+\end{enumerate}
+\source{(a): Lean \Lean{KAM.cohomological\_l1} (vector clauses; SHARP-L9). (b): the coefficient estimate
+\Lean{KAM.summableWeighted\_solve\_sup} at radius $0$ (it needs no $\delta<r$) and\\ \Lean{KAM.hasSum\_torusCoeff\_mul\_character} on $\R^n$;
+Corollary~\ref{bp:p2:averages}(a). (c): ours.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Coefficients}\label{step:p2s2l1:so-coef}
+$\widehat{\mathcal Rg}_k=\hat g_k/(2\pi ik\cdot\omega)$ for $k\ne0$, so, term by term,
+\[
+\abs{\widehat{\mathcal Rg}_k}e^{2\pi(r-\delta)\abs k_1}\le\Gamma_\infty(\omega,\delta)\abs{\hat g_k}e^{2\pi r\abs k_1};
+\]
+sum, and apply Lemma~\ref{bp:p2s2l1:toolkit}(a). At $\delta=r$ the same computation bounds $\norm{\mathcal Rg}_{1,0}$, which bounds
+$\mathcal Rg$ on $\R^n$ where $\mathcal Rg$ is the sum of its absolutely convergent Fourier series.
+
+\proofstep{The ray}\label{step:p2s2l1:so-ray}
+$\abs{k\cdot s\omega}=s\abs{k\cdot\omega}$ term by term.
+\end{proof}
+
+\begin{lemma}[The Lagrangian defect from $u=\mathcal R\eta^N$]\label{bp:p2s2l1:defect}
+Under the standing hypotheses of Part~\ref{bp:p2} (in particular $h$ periodic and real, $K$ primary), let $K$ be holomorphic on $T_r$ with
+$\det G\ne0$ and $\norm{\eta^N}_{1,r}\le\varepsilon^1_N$, and put $u:=\mathcal R\eta^N$. Then $\Omega_K=-(Du-(Du)^\top)$ on $T_{r-\delta}$ for every
+$0<\delta<r$, and for $0<\delta'<r-\delta$, on $T_{r-\delta-\delta'}$,
+\[
+\abs{\Omega_K}\le\frac{n}{e\,\delta'}\,\Gamma_\infty(\omega,\delta)\,\varepsilon^1_N .
+\]
+\source{Lemma~\ref{bp:p2s2:omega} (FH24 Lemma~3.1) with the sign of Lean \Lean{KAM.Sharp2.fderiv\_lagrangeMat\_eq\_etaN} (SHARP2-B2; audit
+AUDIT-SHARP-V2-iso-1, F8); ours.}
+\end{lemma}
+
+\begin{proof}
+\proofstep{The identity}\label{step:p2s2l1:de-id}
+$\avg{\eta^N}=0$ (Lemma~\ref{bp:p2:exactness}), so $\partial_\omega u=\eta^N$ and $\partial_\omega(Du-(Du)^\top)=D\eta^N-(D\eta^N)^\top=-\partial_\omega\Omega_K$. Both
+$\Omega_K$ (Lemma~\ref{bp:p2:exactness}) and $Du-(Du)^\top$ (derivatives of periodic functions) have zero average; the uniqueness clause of
+Lemma~\ref{bp:p1:cohomological} gives the identity.
+
+\proofstep{The bound}\label{step:p2s2l1:de-b}
+Lemma~\ref{bp:p2s2l1:solve}(a) gives $\norm u_{1,r-\delta}\le\Gamma_\infty(\omega,\delta)\varepsilon^1_N$, and Lemma~\ref{bp:p2s2l1:toolkit}(c), last clause, with
+the bite $\delta'$.
+\end{proof}
+
+For $n\ge2$ the factor $n/e$ is below the factor $2(n-1)$ of Lemma~\ref{bp:p2s2:omega}, and no second bite constant is needed for the
+derivative ($\delta'$ is a Cauchy loss).
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Where $\ell^1$ pays: the design decision}\label{bp:p2s2l1:sec-design}
+
+\begin{remark}[Decision and the price of each conversion]\label{bp:p2s2l1:design}
+Write $\varrho:=\coth(\pi\sigma)^n$ for the conversion of Lemma~\ref{bp:p2s2l1:convert}(a). For $n=2$: R1 ($\delta_0=0.00238$) $\varrho=1.8\cdot10^4$
+at $\sigma=\delta_0$, $2.0\cdot10^3$ at $3\delta_0$, $5.0\cdot10^2$ at $\rho$; PlasmaLean ($\delta_0=0.00333$) $9.1\cdot10^3$, $1.0\cdot10^3$, $2.5\cdot10^2$. The
+small-divisor gain is $c_{\mathrm{freq}}/c_\infty=5.9$ (R1, $0.0030/0.00051$) and $6.0$ (PlasmaLean, $0.0075/0.00126$), at most $18$ against the
+generic $\ell^1$ constant. The decision for each object that feeds a solve:
+\begin{center}\small
+\begin{tabular}{p{3.3cm}p{2.5cm}p{3.6cm}p{4.0cm}}
+object & feeds & norm used & conversion\\\hline
+$\eta^N_0,\eta^L_0$ (stage $0$) & $u$, $g^L$ & $\ell^1$, certificate & none\\
+$T_0$ (stage $0$) & $g^L=\eta^L-T\xi^N$ & $\ell^1$, certificate & none\\
+$\xi^N_0$, $u$, $\xi^L_0$ & $g^L$, $\Delta K_0$ & $\ell^1$, from the solves & none\\
+$\eta^N_s,\eta^L_s$, $s\ge1$ & $u_s$, $g^L_s$ & sup & none ($\ell^1$ would cost $\varrho\ge10^3$)\\
+$\Delta^2X$, $X_N\xi^N$, $\tilde K\circ\varphi$ & new error & sup & none ($\ell^1$ would cost $\varrho$, or $h$ in a Fourier--Taylor norm)\\
+$L,N,B$, $T_s$, $\avg T^{-1}$ & caps & sup ($L,N$ also $\ell^1$ at stage $0$, route A) & none
+\end{tabular}
+\end{center}
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Stage $s\ge1$ in $\ell^1$ does not pay.} In route A the new error is $\bar E=PS^{-1}E_{\mathrm{lin}}+\Delta^2X$; on R1 with the levers of
+  Part~\ref{bp:p2s2} the Taylor term is $16$, $23$, $33$, $52$, $68\,\%$ of $C_E$ at stages $0$--$4$ (\texttt{stageA}). With sup data on $h$ its $\ell^1$ norm costs
+  $\varrho\ge2\cdot10^3$ (at the largest available loss $3\delta_s$), so even with a free $\ell^1$ bound on $PS^{-1}E_{\mathrm{lin}}$ the $\ell^1$ error fed to stage $s+1$
+  is at least $0.16\varrho>300$ times its sup bound, while the next solve gains at most $18$; the per-ingredient minimum would never select it. The
+  linear part needs in addition $\norm{T_s}_1$, whose increments contain $DX_h\circ K_{s}-DX_h\circ K_{s-1}$ (again a conversion). Route B's new errors contain $\Delta^2X$, $X_N\xi^N$ (through $C_{\tilde E}$)
+  and the composition $\tilde E\circ\varphi$: the same conclusion, and Lemma~\ref{bp:p2s2l1:convert}(b) would add the Wiener exponential to Lean.
+  The alternative, $h$ in a Fourier--Taylor norm (PLAN \S3), is a new hypothesis outside the frozen sup data (D12), a new certificate primitive
+  and a composition layer of $\approx1.5$k Lean lines; it would add at most the stage-$1$ share of the gain (a quarter of the log-gain of the
+  quadratic condition, nothing for the cap sums, which stage $0$ dominates).
+\item \emph{Stage $0$ in $\ell^1$ pays, with no conversion.} The certificate computes $E$, the frames and $T$ as Fourier models; $\eta=P^\top\Omega_0E$
+  and $T\xi^N$ are products of such models (SHARP-CERTSIDE \S2.7). The binding constraints after the levers of Part~\ref{bp:p2s2} are the frame
+  perturbation cap sums (route A), which stage $0$ dominates, and the tail decay (route B), where stage $0$ carries half of the log-weight.
+\item \emph{Mixed products never occur in an $\ell^1$ estimate.} The only products estimated in $\ell^1$ are $T\xi^N$ ($\ell^1\times\ell^1$, with the
+  certified $\norm T_{1,\rho-\delta_0}$) and, for the route-A frame increment, $L\xi^L$, $N\xi^N$ ($\ell^1\times\ell^1$, with $\norm L_{1,\rho},\norm N_{1,\rho}$).
+  Sup bounds are used only in sup estimates; Lemma~\ref{bp:p2s2l1:toolkit}(a) turns $\ell^1$ bounds into sup bounds where a sup estimate needs
+  them.
+\item \emph{Each ingredient takes the smaller bound.} Both the sup constant (Definition~\ref{bp:p2s2sd:const}, at the same bites) and the $\ell^1$
+  route bound the same objects, so the entry constants are minima (Definitions~\ref{bp:p2s2l1:constA}, \ref{bp:p2s2l1:constB}), and the entry
+  is never worse than the sup stage (Lemma~\ref{bp:p2s2l1:never-worse}). On R1 the full-strip average is the ingredient where sup wins
+  ($c(\rho)=0.0067$ against $a_N c_\infty(\rho)=4.1\cdot0.0020$).
+\end{enumerate}
+\end{remark}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The entry data}\label{bp:p2s2l1:sec-data}
+
+\begin{assumption}[$\ell^1$ entry data]\label{bp:p2s2l1:data}
+In addition to Assumption~\ref{bp:p2s2:standing}, with the frozen bound $\abs E\le e$ on $T_\rho$, the stage-$0$ bite $\delta_0$ and the frame caps
+$\sigma_{L^\top},\sigma_{N^\top}$ of \ref{bp:p2s2:R2}, the following numbers are given, positive (well-formedness), with the hypotheses stated:
+\begin{enumerate}[label=(L\arabic*)]
+\item\label{bp:p2s2l1:L1} $a_N,a_L>0$ with $\norm{\eta^N}_{1,\rho}\le a_N\sigma_{L^\top}e$ and $\norm{\eta^L}_{1,\rho}\le a_L\sigma_{N^\top}e$;
+\item\label{bp:p2s2l1:L2} $t_1\ge t$ with $\norm T_{1,\rho-\delta_0}\le t_1$, and $t_{\R}\le t$ with $\abs T\le t_{\R}$ on $\R^n$ ($T$ the frozen torsion of $K$ at $\omega$);
+\item\label{bp:p2s2l1:L3} $G_0,G_0',G_\rho>0$ with $\Gamma_\infty(\omega,\delta_0)\le G_0$, $\Gamma_\infty(\omega,\delta_0/2)\le G_0'$, $\Gamma_\infty(\omega,\rho)\le G_\rho$ (for the actual
+  $\omega$; on the ray of $\omega^*$ by Lemma~\ref{bp:p2s2l1:solve}(c); certified by \Lean{KAM.smallDivisorSup\_snoc\_le});
+\item\label{bp:p2s2l1:L4} \emph{(optional, route A)} $\nu_K,\nu_N>0$ with $\norm L_{1,\rho}\le\nu_K$, $\norm N_{1,\rho}\le\nu_N$;
+\item\label{bp:p2s2l1:L5} the sup small-divisor constants of \ref{bp:p2s2:R4} at the stage-$0$ bites $\delta_0,\delta_0/2,\rho$ and at every later prefix bite,
+  each an $\mathrm{SDConst}$ premise for the actual $\omega$ (or its ray) at that bite (audit AUDIT-SHARP-V2-fixed-1, F3, F9).
+\end{enumerate}
+Put $c^\infty_0:=G_0\bar\gamma\delta_0^\varkappa$, $c^{\infty\prime}_0:=G_0'\bar\gamma(\delta_0/2)^\varkappa$, $c^\infty_\rho:=G_\rho\bar\gamma\rho^\varkappa$. Each hypothesis bounds an explicit
+object of $(h,K,\omega)$ or a linear solver; none is conclusion-shaped. Nothing here is implied by the frozen hypotheses without a conversion;
+the entry is used only when its data are certified.
+\end{assumption}
+
+For R1 (\texttt{l1\_entry\_r1.py}, sampled, heuristic): $\norm E_{1,\rho}/\sup\abs E=4.28$, $a_N=3.92$, $a_L=0.26$, $\norm T_{1,\rho-\delta_0}=3.55$
+($\sup=3.31$), $\norm L_{1,\rho}=1.36$, $\norm N_{1,\rho}=1.42$ ($1.04\times$ the sup norms); $c^\infty_0=0.00051$, $c^{\infty\prime}_0=0.00049$, $c^\infty_\rho=0.0020$.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Route A: the entry step}\label{bp:p2s2l1:sec-A}
+
+Route A at stage $0$ is the additive step (Proposition~\ref{bp:p2s:step}) with the constants of Definition~\ref{bp:p2s2:constantsA} (mirror
+\texttt{stageA}); write $u_0:=e/(\gamma\delta_0^\varkappa)$, $g_0:=\bar\gamma\delta_0^\varkappa$, and $c,\bar c$ for its sup constants at $\delta_0$ and $\rho$.
+
+\begin{definition}[Entry constants, route A]\label{bp:p2s2l1:constA}
+The constants of Definition~\ref{bp:p2s2:constantsA} at stage $0$ with the following replacements, in this order:
+\begin{align*}
+&c_{\mathrm{avg}}:=\min\{\bar c,\ a_Nc^\infty_\rho\}(\delta_0/\rho)^\varkappa,\quad c_N:=\min\{c,\ a_Nc^\infty_0\},\quad c^1_N:=a_Nc^\infty_0,\\
+&C_S:=\sigma_T(\sigma_{N^\top}g_0+t_{\R}\,c_{\mathrm{avg}}\sigma_{L^\top}),\quad C_{\xi N}:=C_S+c_N\sigma_{L^\top},\quad C^1_{\xi N}:=C_S+c^1_N\sigma_{L^\top},\\
+&C_g:=t\,C_{\xi N}+\sigma_{N^\top}g_0,\quad C^1_{\xi L}:=c^\infty_0\bigl(t_1C^1_{\xi N}+a_L\sigma_{N^\top}g_0\bigr),\quad C_{\xi L}:=\min\{c\,C_g,\ C^1_{\xi L}\},\\
+&C_\xi:=\max\{C_{\xi L},g_0C_{\xi N}\},\quad C_{\Delta K}:=\sigma_KC_{\xi L}+\sigma_Ng_0C_{\xi N},\\
+&C^K_\Omega:=\min\{C_\Omega,\ \tfrac ne\,a_Nc^\infty_0\sigma_{L^\top}\},\quad C_{\mathrm{sym}}:=\max\{1,\sigma_B^2\}C^K_\Omega,
+\end{align*}
+and in $C_{\Delta T}$ the term $2\sigma_B^3wC_\Omega g_0$ (the parts $\mathcal T_c$ of $K$ and $\bar K$) becomes $\sigma_B^3w(C^K_\Omega+C_\Omega)g_0$. With \ref{bp:p2s2l1:L4}
+(the $\ell^1$ frame increment) put $C^1_{\Delta K}:=\nu_KC^1_{\xi L}+\nu_Ng_0C^1_{\xi N}$, $k_1:=\min\{n,C^1_{\Delta K}/(eC_{\Delta K})\}$,
+$k_2:=\min\{2n,2nC^1_{\Delta K}/(eC_{\Delta K})\}$, and replace the Cauchy factors $n$ and $2n$ of the frame increment by $k_1$ and $k_2$:
+$C_G=k_1\sigma_{L^\top}+k_2\sigma_K$, $C_{\bar N}=k_1\sigma_B+\sigma_KC_{\bar B}$, $C_{\bar N^\top}=C_{\bar B}\sigma_{L^\top}+k_2\sigma_B$, the $\mathcal T_c$-change
+factor $k_2\sigma_K+k_1\sigma_{L^\top}$, and the rates $k_1C_{\Delta K}/\eta$ (DK) and $k_2C_{\Delta K}/\eta$ ($L^\top$). The mirror is
+\texttt{stageA(\dots, l1=\dots)}; for the isoenergetic step \texttt{iso=True} adds $\Theta C_S$ inside $C^1_{\xi L}$ and $C^K_\Omega$ replaces $C_\Omega$ in
+the frequency terms (track-I part \texttt{p2s2-iso-l1hybrid}).
+\end{definition}
+
+\begin{lemma}[The $\ell^1$ frame increment]\label{bp:p2s2l1:frame}
+Under \ref{bp:p2s2l1:L4}, with $\Delta K=L\xi^L+N\xi^N$ on $T_{\rho-2\delta_0}$:
+$\norm{\Delta K}_{1,\rho-2\delta_0}\le C^1_{\Delta K}e/(\gamma^2\delta_0^{2\varkappa})$, and on $T_{\rho-(2+\eta)\delta_0}$
+\[
+\abs{D\bar K-DK}\le\frac{\norm{\Delta K}_{1,\rho-2\delta_0}}{e\eta\delta_0},\qquad\abs{(D\bar K-DK)^\top}\le\frac{2n\norm{\Delta K}_{1,\rho-2\delta_0}}{e\eta\delta_0}.
+\]
+\source{Lemma~\ref{bp:p2s2l1:toolkit}(b), (c); ours. Route A only: route B's increment contains the composition $\tilde K\circ\varphi$.}
+\end{lemma}
+
+\begin{proposition}[The entry step, route A]\label{bp:p2s2l1:entryA}
+Let $K$ be $(\rho,\beta,e)$-admissible with the refined data and the entry data \ref{bp:p2s2l1:L1}--\ref{bp:p2s2l1:L5}. If the step conditions of
+Definition~\ref{bp:p2s2:constantsA} hold at $x_0=e/(\gamma^4\delta_0^{4\varkappa})$ with the entry constants, then the conclusions (a)--(f) of
+Proposition~\ref{bp:p2s:step} hold for $\bar K=K+\Delta K$ at stage $0$ with the entry constants (and those of the caps $L^\top,N,N^\top$, $\abs T$ of
+Part~\ref{bp:p2s2}): $\abs{\bar E}\le C_Ee^2/(\gamma^4\delta_0^{4\varkappa})$ on $T_{\rho-2\delta_0}$ and the increments of every cap on $T_{\rho-3\delta_0}$.
+\source{HL19 Lemma~5.2; Proposition~\ref{bp:p2s:step}; Definition~\ref{bp:p2s2:constantsA}; ours (the entry).}
+\end{proposition}
+
+\begin{proof}
+\proofstep{The normal solve}\label{step:p2s2l1:ea-n}
+By \ref{bp:p2s2l1:L1} and Lemma~\ref{bp:p2s2l1:solve}(a), $\norm u_{1,\rho-\delta_0}\le G_0a_N\sigma_{L^\top}e\le c^1_N\sigma_{L^\top}u_0$; Definition~\ref{bp:p2s2sd:const}(a)
+gives $\abs u\le c\sigma_{L^\top}u_0$; so $\abs u\le c_N\sigma_{L^\top}u_0$ on $T_{\rho-\delta_0}$.
+
+\proofstep{The average}\label{step:p2s2l1:ea-avg}
+$\abs{\avg{Tu}}\le t_{\R}\min\{\bar c\,u_0(\delta_0/\rho)^\varkappa,\ G_\rho a_N e\}\sigma_{L^\top}$ by Lemmas~\ref{bp:p2s2sd:avg} and~\ref{bp:p2s2l1:solve}(b), and
+$\abs{\avg{\eta^L}}\le\sigma_{N^\top}e$; hence $\abs{\xi^N_0}\le C_Su_0$, $\abs{\xi^N}\le C_{\xi N}u_0$ and $\norm{\xi^N}_{1,\rho-\delta_0}\le C^1_{\xi N}u_0$
+(a constant has $\ell^1$ norm its modulus, Lemma~\ref{bp:p2s2l1:toolkit}(b)).
+
+\proofstep{The tangential solve}\label{step:p2s2l1:ea-l}
+$g^L=T\xi^N-\eta^L$ has $\avg{g^L}=0$ and, by Lemma~\ref{bp:p2s2l1:toolkit}(b) and \ref{bp:p2s2l1:L2},
+$\norm{g^L}_{1,\rho-\delta_0}\le t_1C^1_{\xi N}u_0+a_L\sigma_{N^\top}e$; Lemma~\ref{bp:p2s2l1:solve}(a) gives
+$\norm{\xi^L}_{1,\rho-2\delta_0}\le C^1_{\xi L}e/(\gamma^2\delta_0^{2\varkappa})$, and the sup route gives $c\,C_g$; the sup bound $\abs{g^L}\le C_gu_0$ is unchanged.
+
+\proofstep{The defect}\label{step:p2s2l1:ea-om}
+Lemma~\ref{bp:p2s2l1:defect} with $\delta=\delta'=\delta_0$ gives, on $T_{\rho-2\delta_0}$,
+$\abs{\Omega_K}\le\frac n{e\delta_0}G_0a_N\sigma_{L^\top}e\le\frac ne a_Nc^\infty_0\sigma_{L^\top}e/(\gamma\delta_0^{\varkappa+1})$, against $C_\Omega e/(\gamma\delta_0^{\varkappa+1})$ from the sup route; $E_{\mathrm{sym}}$ follows as in Lemma~\ref{bp:p2s:geometry}.
+
+\proofstep{The rest}\label{step:p2s2l1:ea-rest}
+Lemma~\ref{bp:p2s:correction} (its last two lines), Lemma~\ref{bp:p2s:newton-error} and Lemma~\ref{bp:p2s:perturbation} use only the bounds of the previous
+steps, the sup data and the Taylor bound, so they hold with the entry constants; $\mathcal T_c$ of $\bar K$ is bounded through its own (sup) defect,
+as in Part~\ref{bp:p2s2}. With \ref{bp:p2s2l1:L4}, Lemma~\ref{bp:p2s2l1:frame} replaces the Cauchy step on $\bar K-K$ in Lemma~\ref{bp:p2s:perturbation}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Route B: the entry step}\label{bp:p2s2l1:sec-B}
+
+Route B at stage $0$ is Proposition~\ref{bp:p2s2:step} with the weighted error $\mu_0=pe$, $p:=\max\{\sigma_{N^\top},\sigma_{L^\top}/(\gamma\delta_0^\varkappa)\}$ (and $1$ in the iso
+form), and the clipped weight $\lambda_0:=\sigma_{N^\top}/p\le1$ (audit AUDIT-SHARP-V2-iso-1, F4). Put $r_N:=a_N\sigma_{L^\top}/(\gamma\delta_0^\varkappa p)\le a_N$ and
+$r_L:=a_L\lambda_0$, so that $\norm{\eta^N}_{1,\rho}\le r_N\gamma\delta_0^\varkappa\mu_0$ and $\norm{\eta^L}_{1,\rho}\le r_L\mu_0$.
+
+\begin{definition}[Entry constants, route B]\label{bp:p2s2l1:constB}
+The constants of Definition~\ref{bp:p2s2:constantsB} at stage $0$ (with the stage-$0$ replacements of $C_E$, $C_{DE}$ by $e/\mu_0$, $ne/\mu_0$), with
+\begin{align*}
+&\overline{\mathrm{avg}}:=\min\{\bar c,\ r_Nc^\infty_\rho\}(\delta_0/\rho)^\varkappa\ \text{in }C_0,\quad
+C_{\xi N}:=C_0+\min\{c,r_Nc^\infty_0\},\quad C^1_{\xi N}:=C_0+r_Nc^\infty_0,\\
+&c^{(1)}_N:=\min\{c^{(1)},\ 2^{\varkappa+1}r_Nc^{\infty\prime}_0\}\ \text{in }C_{D\tilde L},C_{D\tilde L^\top},\qquad
+C_{\xi L}:=\min\bigl\{c\,C_{gL},\ c^\infty_0\bigl(r_L+t_1C^1_{\xi N}\bigr)\bigr\},\\
+&C^K_\Omega:=\min\{C_\Omega,\ 2^{\varkappa+1}\tfrac ne\,r_Nc^{\infty\prime}_0\},
+\end{align*}
+where $C^K_\Omega$ (the defect of $K$) replaces $C_\Omega$ in the condition $\max\{1,\sigma_B^2\}C_\Omega g X\le q$, in the term $\sigma_B^2C_\Omega g^2$ of $Q_L$, in one of the
+two terms $\sigma_B^3wC_\Omega$ of $C_{\Delta T}$ and in the derived-torsion condition; $C_\Omega$ (the defects of $\tilde K$ and $\bar K$, sup data) stays in the
+condition $C_\Omega C_{gL}X\le\vartheta_\Omega$, in the other $\mathcal T_c$ term and in the isoenergetic terms. In the isoenergetic form $\Theta C_0$ is added inside the
+$\ell^1$ branch of $C_{\xi L}$, the cubic term of $\bar Q_N$ keeps the sup value $cC_{gL}$ in its denominator, and the condition $cC_{gL}X\le\vartheta_\xi$ is
+added. The mirror is \texttt{stageB(\dots, l1=\dots)}.
+\end{definition}
+
+\begin{proposition}[The entry step, route B]\label{bp:p2s2l1:entryB}
+Under the hypotheses of Proposition~\ref{bp:p2s2:step} at stage $0$ and the entry data \ref{bp:p2s2l1:L1}--\ref{bp:p2s2l1:L3}, \ref{bp:p2s2l1:L5}, the
+conclusions of Proposition~\ref{bp:p2s2:step} hold with the entry constants, provided the step conditions hold with them.
+\source{FH24 Lemma~3.6; Proposition~\ref{bp:p2s2:step}; ours (the entry).}
+\end{proposition}
+
+\begin{proof}
+\proofstep{The four $\ell^1$ ingredients}\label{step:p2s2l1:eb-in}
+As Steps~\ref{step:p2s2l1:ea-n}--\ref{step:p2s2l1:ea-om}: $u$ on $T_{\rho-\delta_0}$ (bite $\delta_0$); the average at real points (bite $\rho$); $D(Nu)$ from
+$\abs{Nu}\le\sigma_NG_0'\norm{\eta^N}_{1,\rho}$ on $T_{\rho-\delta_0/2}$ and the sup Cauchy estimate with the bite $\delta_0/2$ (Lemma~\ref{bp:p1:cauchy-corollaries}),
+which is the structure of Corollary~\ref{bp:p2s2sd:rc} with $s=\frac12$; $\xi^L=-\mathcal R(\eta^L-T\xi^N)$ on $T_{\rho-2\delta_0}$; the defect of $K$ on $T_{\rho-\delta_0}$ by
+Lemma~\ref{bp:p2s2l1:defect} with $\delta=\delta'=\delta_0/2$.
+
+\proofstep{The rest}\label{step:p2s2l1:eb-rest}
+Steps~\ref{step:p2s2:st-int}--\ref{step:p2s2:st-fr} use these bounds, the sup data and the sup lemmas for $\tilde K$, $\bar K$, unchanged.
+\end{proof}
+
+\begin{lemma}[Never worse than the sup stage]\label{bp:p2s2l1:never-worse}
+Every entry constant of Definitions~\ref{bp:p2s2l1:constA} and~\ref{bp:p2s2l1:constB} is at most the corresponding sup constant, every added step
+condition is a step condition of the sup stage, and the stage constants are nondecreasing in the replaced quantities. Hence the conditions
+(J1)--(J3) with the entry at stage $0$ are implied by those of the sup scheme.
+\source{Ours (monotonicity as in Definition~\ref{bp:p2s2:constantsB}; the only division, the cubic iso term, keeps its sup denominator).}
+\end{lemma}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Engine bookkeeping}\label{bp:p2s2l1:sec-engine}
+
+\begin{proposition}[The entry in the stage engine]\label{bp:p2s2l1:engine}
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(entry by hand, then the engine)} Proposition~\ref{bp:p2s2l1:entryA} or~\ref{bp:p2s2l1:entryB} gives $K_1$ admissible on $T_{\rho_1}$, $\rho_1:=\rho-3\delta_0$,
+  with error $\le$ the entry recursion value, ball $\beta-D_0$ and caps $m^{(0)}_i+\varrho^{(0)}_iw_i(\delta_0)X_0$ for every cap $i$ (frame, Gram inverse,
+  $L^\top,N,N^\top$, $\abs T$, $\avg T^{-1}$, and the frequency in the iso form). The engine of Proposition~\ref{bp:p2s2:engine} (Lean:
+  \Lean{KAM.Sharp2.StageScheme.converge\_checked}, SHARP2-B5) applied from $(\rho_1,K_1)$, whose first bite is $\min\{1,(\rho_1-\rho_\infty)/6\}=\delta_0/2$,
+  gives the limit; its hypotheses \Lean{hnn}, \Lean{hcondT} (the step conditions are $\mathrm{coef}\cdot X\le\mathrm{bound}$ with $\mathrm{coef}\ge0$, so
+  downward closed) and \Lean{hball} (the total displacement, entry plus engine, strictly below $\beta$) are part of the smallness predicate.
+\item \emph{(route A in the route-B-normalised engine)} For route A put $X:=\varepsilon/(\gamma^4\delta^{4\varkappa})$, $\mu:=\gamma\delta^{\varkappa+1}X=\varepsilon/(\gamma^3\delta^{3\varkappa-1})$,
+  $Q(\delta):=2^{3\varkappa-1}C_E(\delta)$ and the engine displacement constant $\gamma^2\delta^{2\varkappa-1}C_{\Delta K}(\delta)$; then the engine recursion
+  $X_{s+1}=2^{\varkappa+1}Q_sX_s^2$ is $x_{s+1}=2^{4\varkappa}C_{E,s}x_s^2$ (audit F5), and the admissibility at the strip $r$ carries $\varepsilon\le\gamma^3b(r)^{3\varkappa-1}\mu$ with
+  the bite $b(r)=(r-\rho+6\delta_0)/6$ of the schedule. The frame weights are $\gamma^2\delta^{2\varkappa-1}$ and the ball weight $\gamma^2\delta^{2\varkappa}$; in a body uniform in
+  $\gamma\le\bar\gamma$ the cap sums are checked with $\bar\gamma^2$.
+\item \emph{(closeness)} The ball sum is $D\le\gamma^2(x_0/X_\star)\tilde S(X_\star)$ with $\tilde S:=\sum_sC_{\Delta K,s}\delta_s^{2\varkappa}X_s$ (route A) and
+  $D\le(X_0/X_\star)S(X_\star)$, $S$ the ball sum of (J3) (route B); hence the frozen closeness constants $C_2=\rho^{2\tau}\tilde S/(X_\star\delta_0^{4\tau})$ (route A) and
+  $C_2=\rho^{2\tau}\sigma_{L^\top}S/(X_\star\delta_0^{2\tau+1})$ (route B), with no $\bar\gamma^2$ (audit F6).
+\end{enumerate}
+\source{Proposition~\ref{bp:p2s2:engine}; Corollary~\ref{bp:p2s2:hybrid} (the restart principle); audits AUDIT-SHARP-V2-fixed-1 (F2, F5, F6) and
+AUDIT-SHARP-V2-iso-1 (F2); ours.}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Restart}\label{step:p2s2l1:en-restart}
+The entry is one application of the step; $\rho_1-\rho_\infty=6\delta_0-3\delta_0$ gives the bite. The caps of $K_1$ are the initial caps plus the entry
+increments, and the engine's (J3) budgets are what remains; the displacements add.
+
+\proofstep{Route A}\label{step:p2s2l1:en-A}
+$\mu_{s+1}=\varepsilon_{s+1}/(\gamma^3(\delta_s/2)^{3\varkappa-1})\le2^{3\varkappa-1}C_E\varepsilon_s^2/(\gamma^7\delta_s^{7\varkappa-1})=Q_s\mu_s^2/(\gamma\delta_s^{\varkappa+1})$; the displacement
+$C_{\Delta K}\varepsilon/(\gamma^2\delta^{2\varkappa})$ equals $(\gamma^2\delta^{2\varkappa-1}C_{\Delta K})\mu/(\gamma\delta^\varkappa)$; the strip loss is $3\delta$ ($\lambda=2+\eta$, $\eta=1$).
+
+\proofstep{Closeness}\label{step:p2s2l1:en-cl}
+The recursions are increasing in $X_0$ and every increment is $\ge$ linear in it, so $S(X_0)\le(X_0/X_\star)S(X_\star)$ for $X_0\le X_\star$; substitute
+$x_0=e/(\gamma^4\delta_0^{4\tau})$, resp.\ $X_0=pe/(\gamma\delta_0^{\tau+1})$ with $p\le\sigma_{L^\top}/(\gamma\delta_0^\tau)$ when the normal term dominates (else $C_2$ uses $p$).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{The theorems}\label{bp:p2s2l1:sec-g1}
+
+\begin{theorem}[G1 with the $\ell^1$ entry, route A]\label{bp:p2s2l1:g1A}
+Let $(h,K,\omega,\gamma,e)$ satisfy the hypotheses of Theorem~\ref{bp:p0:g1} except the smallness, the refined data \ref{bp:p2s2:R1}--\ref{bp:p2s2:R3}
+with initial margins for every cap, and the entry data \ref{bp:p2s2l1:L1}--\ref{bp:p2s2l1:L5} (\ref{bp:p2s2l1:L4} optional). Let $X_\star>0$ satisfy the route-A
+smallness predicate: the entry conditions at $X_\star$, the engine conditions (J1)--(J3) of Proposition~\ref{bp:p2s2l1:engine}(a), (b) from the entry
+value $2^{4\varkappa}C_E^{\mathrm{entry}}X_\star^2$, with every cap budget reduced by the entry increment, and the ball condition. If
+$e/(\gamma^4\delta_0^{4\tau})\le X_\star$, i.e.\ $C_1e/(\gamma^4\rho^{4\tau})\le1$ with $C_1:=\rho^{4\tau}/(X_\star\delta_0^{4\tau})$, then the conclusion of Theorem~\ref{bp:p0:g1}
+holds with $\abs{K_\infty-K}\le C_2e/(\gamma^2\rho^{2\tau})$, $C_2$ as in Proposition~\ref{bp:p2s2l1:engine}(c).
+\source{Theorem~\ref{bp:p2s2:g1} (route A); Propositions~\ref{bp:p2s2l1:entryA}, \ref{bp:p2s2l1:engine}; ours.}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Entry, engine, limit}\label{step:p2s2l1:g1A}
+At stage $0$ the error is $\abs E\le e$ and the entry data hold; Proposition~\ref{bp:p2s2l1:entryA} gives $K_1$; Proposition~\ref{bp:p2s2l1:engine}(a), (b) and the
+limit steps of Proposition~\ref{bp:p2:limit} (as in Step~\ref{step:p2s2:g1-a}) give $K_\infty$, its invariance, margins and closeness. Monotonicity in $x_0$
+(Lemma~\ref{bp:p2s2l1:never-worse} and Corollary~\ref{bp:p2s2:frozen-form}) gives the form with $X_\star$.
+\end{proof}
+
+\begin{theorem}[G1 with the $\ell^1$ entry, route B]\label{bp:p2s2l1:g1B}
+The same with Proposition~\ref{bp:p2s2l1:entryB}, the route-B normalisation $X_0=pe/(\gamma\delta_0^{\tau+1})$, $C_1:=\rho^{4\tau}\bar\gamma^2\sigma_{L^\top}/(X_\star\delta_0^{2\tau+1})$ when
+$p=\sigma_{L^\top}/(\gamma\delta_0^\tau)$ (the regime of every package; otherwise the explicit $p$), and the closeness of Proposition~\ref{bp:p2s2l1:engine}(c).
+\source{Theorem~\ref{bp:p2s2:g1} (route B); Proposition~\ref{bp:p2s2l1:entryB}; ours.}
+\end{theorem}
+
+\begin{corollary}[Frozen form and the minimum with v2]\label{bp:p2s2l1:frozen}
+The smallness of the v2-with-entry theorem is the disjunction of route A with the entry, route B with the entry and the routes of
+Theorem~\ref{bp:p2s2:g1}; by Lemma~\ref{bp:p2s2l1:never-worse} the entry routes are never worse than the sup routes for the same data. The final constant
+$C_1$ is the minimum of the branches, proved by cases on the branch that applies (audit F6); the closeness constant is that of the branch used.
+\end{corollary}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Numbers, deviations and register}\label{bp:p2s2l1:sec-register}
+
+\begin{remark}[Register]\label{bp:p2s2l1:register}
+\begin{enumerate}[label=(\roman*)]
+\item \emph{PlasmaLean's example} (\texttt{dominance.py --plasmalean}; its tolerance $10^{-18.24}$; $\omega=(\iota,1)$, $\gamma=0.0687$, $\rho=0.02$; its declared
+  bounds read as sup and $\ell^1$ bounds, transposes at the conservative defaults; sup stages with $c_{\mathrm{freq}}$ computed at each bite,
+  $0.00754$ to $0.00752$; $c^\infty_0=0.00126$):
+  \begin{center}\small
+  \begin{tabular}{lrrrr}
+  & \multicolumn{2}{c}{(a) $\ell^1$ vs $\ell^1$} & \multicolumn{2}{c}{(b) sup-equivalent, $\ell^1/\text{sup}=3.6$}\\
+  variant & $\log_{10}e^*$ & margin & $\log_{10}e^*$ & margin\\\hline
+  A7 (sup, v2) & $-17.27$ & $+0.97$ & $-17.27$ & $+0.97$\\
+  A7 + entry & $-15.91$ & $+2.33$ & $-16.44$ & $+1.80$\\
+  A7 + entry + $\ell^1$ frame increment & $\mathbf{-15.40}$ & $\mathbf{+2.84}$ & $\mathbf{-15.93}$ & $\mathbf{+2.31}$\\
+  B6 (sup, torsion cap) & $-18.10$ & $+0.14$ & $-18.10$ & $+0.14$\\
+  B6 + entry & $-17.12$ & $+1.12$ & $-17.65$ & $+0.59$
+  \end{tabular}
+  \end{center}
+  Reading (a) compares our threshold on $\norm E_{1,\rho}$ with PlasmaLean's tolerance on its own $\ell^1$ error norm (every candidate it accepts,
+  we accept); (b) is the threshold on $\sup\abs E$ for an error whose $\ell^1/\text{sup}$ ratio is the R1 lower-torus value of CERTIFIER-SHARPNESS \S1.2.
+  With the ``R1-like'' norms the margins are $+6.18$ and $+5.73$. Not like for like (its field is non-canonical, $1\frac12$ degrees of freedom).
+\item \emph{R1} (\texttt{thresholds\_v2.py --l1}; measured $\ell^1$ data $\times1.05$, heuristic until enclosed): route A $-11.18\to-10.42$ (entry)
+  $\to-10.13$ (with the frame increment), iso $-11.37\to-10.60\to-10.32$; route B $-12.25\to-12.16$, iso $-12.39\to-12.31$. Sensitivity to the
+  ratio $a=a_N=a_L$ (fixed, route A, all levers): $a=1$: $-9.67$; $2$: $-9.91$; $3.6$: $-10.11$; $8$: $-10.29$. Binding: the $\avg T^{-1}$ cap sum
+  (route A), the tail decay (route B).
+\item \emph{Comparison with the emulation of the design document} (\S10.1, ``$\ell^1$ (L9)'' rows: $c_\infty$ at every stage, $E$ charged $\times3.6$): $-16.24$
+  for PlasmaLean (cA-like). The entry alone gives $-16.44$ in the same reading, without any conversion; the $\ell^1$ frame increment, absent from the
+  emulation, gives $-15.93$.
+\item \emph{Deviations} (ours): the entry step itself (no source runs one Newton step in $\ell^1$ and the rest in sup); the per-ingredient minimum; the
+  $\ell^1$ frame increment; the defect identity used constructively (Lemma~\ref{bp:p2s2l1:defect}); the full-bite average in $\ell^1$ at real points.
+\item \emph{Inherited open points.} Audit AUDIT-SHARP-V2-fixed-1 F8 (the torsion of the new torus and the stage transition) applies unchanged to the
+  $\mathcal T_c$, $\mathcal T_F$ terms of $\bar K$ in the entry step, which keeps the sup treatment of Part~\ref{bp:p2s2}; AUDIT-SHARP-V2-iso-1 F5 (moving-frequency
+  factors) applies unchanged to the iso entry. Their repairs change the sup constants, and the entry inherits them through Definitions~\ref{bp:p2s2l1:constA},
+  \ref{bp:p2s2l1:constB}.
+\item \emph{Suspected errata.} None in a pinned source. Our own: the design document \S10.2 says the hybrid needs ``a parallel norm layer for the step''
+  (1.5--2k lines); the entry design needs no $\ell^1$ step layer beyond stage $0$.
+\end{enumerate}
+\end{remark}
