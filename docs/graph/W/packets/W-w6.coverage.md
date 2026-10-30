@@ -4,7 +4,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:sequences@L31-L41
 DISPOSITION: NODE bpW:w6:sequences
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:iter-lemma
@@ -13,7 +13,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:iter-lemma@L47-L67
 DISPOSITION: NODE bpW:w6:iter-lemma
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:il-small
@@ -22,7 +22,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:il-small@L69-L71
 DISPOSITION: NODE stepW:w6:il-small
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:il-err
@@ -31,7 +31,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:il-err@L72-L75
 DISPOSITION: NODE stepW:w6:il-err
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:il-lip
@@ -40,7 +40,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:il-lip@L76-L78
 DISPOSITION: NODE stepW:w6:il-lip
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:il-div
@@ -49,7 +49,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:il-div@L79-L82
 DISPOSITION: NODE stepW:w6:il-div
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:il-tr
@@ -58,7 +58,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:il-tr@L83-L83
 DISPOSITION: NODE stepW:w6:il-tr
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:k0
@@ -67,7 +67,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:k0@L89-L93
 DISPOSITION: NODE bpW:w6:k0
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:convergence
@@ -76,7 +76,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:convergence@L103-L133
 DISPOSITION: NODE bpW:w6:convergence
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-ind
@@ -85,7 +85,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-ind@L135-L136
 DISPOSITION: NODE stepW:w6:c-ind
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-par
@@ -94,7 +94,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-par@L137-L138
 DISPOSITION: NODE stepW:w6:c-par
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-freq
@@ -103,7 +103,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-freq@L139-L142
 DISPOSITION: NODE stepW:w6:c-freq
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-dom
@@ -112,7 +112,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-dom@L143-L146
 DISPOSITION: NODE stepW:w6:c-dom
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-op
@@ -121,7 +121,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-op@L147-L150
 DISPOSITION: NODE stepW:w6:c-op
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-cauchy
@@ -130,7 +130,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cauchy@L151-L153
 DISPOSITION: NODE stepW:w6:c-cauchy
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-lim
@@ -139,7 +139,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-lim@L154-L157
 DISPOSITION: NODE stepW:w6:c-lim
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:c-cont
@@ -148,7 +148,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:c-cont@L158-L160
 DISPOSITION: NODE stepW:w6:c-cont
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:strong
@@ -157,7 +157,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:strong@L170-L175
 DISPOSITION: NODE bpW:w6:strong
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:invariance
@@ -166,7 +166,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:invariance@L182-L187
 DISPOSITION: NODE bpW:w6:invariance
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:i-weak
@@ -175,7 +175,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:i-weak@L189-L196
 DISPOSITION: NODE stepW:w6:i-weak
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:i-torus
@@ -184,7 +184,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:i-torus@L197-L199
 DISPOSITION: NODE stepW:w6:i-torus
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:i-lim
@@ -193,7 +193,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:i-lim@L200-L203
 DISPOSITION: NODE stepW:w6:i-lim
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:constants
@@ -202,7 +202,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:constants@L211-L218
 DISPOSITION: NODE bpW:w6:constants
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:prep-step
@@ -211,7 +211,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-step@L220-L245
 DISPOSITION: NODE bpW:w6:prep-step
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:p-data
@@ -220,7 +220,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:p-data@L247-L249
 DISPOSITION: NODE stepW:w6:p-data
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:p-div
@@ -229,7 +229,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:p-div@L250-L252
 DISPOSITION: NODE stepW:w6:p-div
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:p-step
@@ -238,7 +238,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:p-step@L253-L257
 DISPOSITION: NODE stepW:w6:p-step
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:p-lipp
@@ -247,7 +247,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:p-lipp@L258-L259
 DISPOSITION: NODE stepW:w6:p-lipp
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:p-size
@@ -256,7 +256,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:p-size@L260-L263
 DISPOSITION: NODE stepW:w6:p-size
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:p-gap
@@ -265,7 +265,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:p-gap@L264-L266
 DISPOSITION: NODE stepW:w6:p-gap
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:wave-iteration
@@ -274,7 +274,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:wave-iteration@L275-L282
 DISPOSITION: NODE bpW:w6:wave-iteration
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:applicable
@@ -283,7 +283,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:applicable@L284-L286
 DISPOSITION: NODE bpW:w6:applicable
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:freq-lip
@@ -292,7 +292,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:freq-lip@L296-L304
 DISPOSITION: NODE bpW:w6:freq-lip
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:fl-size
@@ -301,7 +301,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-size@L306-L308
 DISPOSITION: NODE stepW:w6:fl-size
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:fl-lip
@@ -310,7 +310,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-lip@L309-L312
 DISPOSITION: NODE stepW:w6:fl-lip
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:fl-borel
@@ -319,7 +319,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:fl-borel@L313-L313
 DISPOSITION: NODE stepW:w6:fl-borel
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:exclusion
@@ -328,7 +328,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:exclusion@L318-L321
 DISPOSITION: NODE bpW:w6:exclusion
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:final-freq
@@ -337,7 +337,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:final-freq@L330-L333
 DISPOSITION: NODE bpW:w6:final-freq
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:tori
@@ -346,7 +346,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:tori@L342-L361
 DISPOSITION: NODE bpW:w6:tori
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:t-hol
@@ -355,7 +355,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:t-hol@L363-L365
 DISPOSITION: NODE stepW:w6:t-hol
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:t-cont
@@ -364,7 +364,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:t-cont@L366-L367
 DISPOSITION: NODE stepW:w6:t-cont
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:t-prep
@@ -373,7 +373,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:t-prep@L368-L370
 DISPOSITION: NODE stepW:w6:t-prep
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:t-bk
@@ -382,7 +382,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:t-bk@L371-L371
 DISPOSITION: NODE stepW:w6:t-bk
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:t-close
@@ -391,7 +391,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:t-close@L372-L373
 DISPOSITION: NODE stepW:w6:t-close
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: stepW:w6:t-an
@@ -400,7 +400,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#stepW:w6:t-an@L374-L376
 DISPOSITION: NODE stepW:w6:t-an
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: bpW:w6:to-w8
@@ -409,7 +409,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:to-w8@L383-L413
 DISPOSITION: NODE bpW:w6:to-w8
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w6
@@ -418,7 +418,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6@L1-L1
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w6:iter-sec
@@ -427,7 +427,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:iter-sec@L29-L29
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w6:conv-sec
@@ -436,7 +436,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:conv-sec@L101-L101
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w6:inv-sec
@@ -445,7 +445,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:inv-sec@L168-L168
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w6:prep-sec
@@ -454,7 +454,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:prep-sec@L209-L209
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w6:out-sec
@@ -463,7 +463,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:out-sec@L340-L340
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: heading:bpW:w6:ledger
@@ -472,7 +472,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#bpW:w6:ledger@L415-L415
 DISPOSITION: EXCLUDED
 REASON: section heading; its results are inventoried separately
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L42
@@ -481,7 +481,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L42-L42
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L85
@@ -490,7 +490,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L85-L85
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L99
@@ -499,7 +499,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L99-L99
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L162
@@ -508,7 +508,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L162-L162
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L180
@@ -517,7 +517,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L180-L180
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L205
@@ -526,7 +526,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L205-L205
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L268
@@ -535,7 +535,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L268-L268
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L294
@@ -544,7 +544,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L294-L294
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L315
@@ -553,7 +553,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L315-L315
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L327
@@ -562,7 +562,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L327-L327
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L338
@@ -571,7 +571,7 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L338-L338
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:source-L378
@@ -580,50 +580,50 @@ SOURCE: blueprint-W/parts/w6-iteration.tex#source@L378-L378
 DISPOSITION: EXCLUDED
 REASON: provenance note for a result proved in the blueprint (confirm; an unproved cited input must instead become an external node)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:prose-L7-L12
 KIND: proof-region
 SOURCE: blueprint-W/parts/w6-iteration.tex#prose@L7-L12
-DISPOSITION: TODO
-REASON: unlabelled prose without cross-references outside every node (--all-prose): map it to the node(s) that rely on a fact or datum it states (or make it a node), or exclude with a reason (motivation, outline, notation only)
+DISPOSITION: EXCLUDED
+REASON: introduction
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:prose-L14-L20
 KIND: proof-region
 SOURCE: blueprint-W/parts/w6-iteration.tex#prose@L14-L20
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: EXCLUDED
+REASON: route paragraph (outline)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:prose-L22-L27
 KIND: proof-region
 SOURCE: blueprint-W/parts/w6-iteration.tex#prose@L22-L27
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: NODE bpW:w6#data
+REASON: fixed data and notation of W6
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:prose-L417-L421
 KIND: proof-region
 SOURCE: blueprint-W/parts/w6-iteration.tex#prose@L417-L421
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: EXCLUDED
+REASON: ledger (administrative)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
 
 ITEM: w6-iteration:prose-L423-L426
 KIND: proof-region
 SOURCE: blueprint-W/parts/w6-iteration.tex#prose@L423-L426
-DISPOSITION: TODO
-REASON: unlabelled prose with cross-references outside every node: map it to the node(s) whose statement or proof relies on it (with EDGEs located here), or exclude with a reason (motivation, pointer, provenance)
+DISPOSITION: EXCLUDED
+REASON: order of constants (summary; each constant is defined in Definition bpW:w6:constants or W5/W7)
 COVERAGE_STATUS: PROPOSED
-EXTRACTOR: mechanical-preextract
+EXTRACTOR: claude-suborch-W
 REVIEWER: -
