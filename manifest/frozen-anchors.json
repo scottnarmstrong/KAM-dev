@@ -9415,6 +9415,481 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "wave.lam.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:basis; P96-W p. 277"
+   },
+   "contract": {
+    "id": "wave.lam",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/Lam.lean",
+   "export": "KAM.Wave.lam",
+   "split_policy": {
+    "source_group": "wave.lam",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "c2dc54857edbf03f207980ed747cb4e478b4d85f0483e098f1ff44890df32263",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "097b70740bbedd0463d2e0ffb98e99bf508f81207b8370ac05ddc91aa3e05f81"
+  },
+  {
+   "id": "wave.sineMode.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:basis; P96-W p. 277"
+   },
+   "contract": {
+    "id": "wave.sineMode",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/SineMode.lean",
+   "export": "KAM.Wave.sineMode",
+   "split_policy": {
+    "source_group": "wave.sineMode",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "9999834f0d6cf8a9dd64263840d0c7e18929af6de976bba57cf67619d16412f5",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "708e6e5d2d878d13e87acb6f2e2b4a057be17a33f9999b417cbaf75bac555263"
+  },
+  {
+   "id": "wave.ellWeight.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:ellap; P96-W p. 277"
+   },
+   "contract": {
+    "id": "wave.ellWeight",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/EllWeight.lean",
+   "export": "KAM.Wave.ellWeight",
+   "split_policy": {
+    "source_group": "wave.ellWeight",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "590e6d1efbbbe2957abb244fe99539598f35982ec67bf9e3b33f322bf8391b64",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "88c0329883e40f8c1c852233a39eaa92482bf4b3a99041e5595e9b277d7e8722"
+  },
+  {
+   "id": "wave.WaveSpace.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:ellap, bpW:w0:weights (a = p = 1, D30); weighted-coordinate encoding (ruling Q1)"
+   },
+   "contract": {
+    "id": "wave.WaveSpace",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/WaveSpace.lean",
+   "export": "KAM.Wave.WaveSpace",
+   "split_policy": {
+    "source_group": "wave.WaveSpace",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "bdfca9327ef9225b058b7139a28cf63e78ee8ff99fca5ffa6a0be04af472bb09",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "30ecc30f38ca120e2b4318453715629eb140aa2cb01225aa08f7116cdf9be301"
+  },
+  {
+   "id": "wave.coeff.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:ellap, bpW:w0:weights; weighted-coordinate encoding (ruling Q1)"
+   },
+   "contract": {
+    "id": "wave.coeff",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/Coeff.lean",
+   "export": "KAM.Wave.coeff",
+   "split_policy": {
+    "source_group": "wave.coeff",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "8a44d865337bca1cc70cfffe2d67bc4af13f70bc64861843a785bcf8d4b4747d",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Wave/Defs/EllWeight.lean",
+     "sha256": "88c0329883e40f8c1c852233a39eaa92482bf4b3a99041e5595e9b277d7e8722"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "c30ede55986dd8f88f1b85544a38874a2aacb0d7f4bd072d9e4a486b72ab2622"
+  },
+  {
+   "id": "wave.reconU.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:reconstruction; P96-W p. 277"
+   },
+   "contract": {
+    "id": "wave.reconU",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/ReconU.lean",
+   "export": "KAM.Wave.reconU",
+   "split_policy": {
+    "source_group": "wave.reconU",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "afecc78929f2434f1c43fd73388bfed906c707c14f209552209f0da3ace2e155",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Wave/Defs/Coeff.lean",
+     "sha256": "c30ede55986dd8f88f1b85544a38874a2aacb0d7f4bd072d9e4a486b72ab2622"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/EllWeight.lean",
+     "sha256": "88c0329883e40f8c1c852233a39eaa92482bf4b3a99041e5595e9b277d7e8722"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/Lam.lean",
+     "sha256": "097b70740bbedd0463d2e0ffb98e99bf508f81207b8370ac05ddc91aa3e05f81"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/SineMode.lean",
+     "sha256": "708e6e5d2d878d13e87acb6f2e2b4a057be17a33f9999b417cbaf75bac555263"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "59f629f4ba2fd487e024d1a2564241010d2884e81ddc33a12a2e58f5da1a3245"
+  },
+  {
+   "id": "wave.reconV.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:reconstruction; P96-W p. 277"
+   },
+   "contract": {
+    "id": "wave.reconV",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/ReconV.lean",
+   "export": "KAM.Wave.reconV",
+   "split_policy": {
+    "source_group": "wave.reconV",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "5b3a45c2e7dd82cb415595bda752e0518964fda80deb44200323523b5a0a35a6",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Wave/Defs/Coeff.lean",
+     "sha256": "c30ede55986dd8f88f1b85544a38874a2aacb0d7f4bd072d9e4a486b72ab2622"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/EllWeight.lean",
+     "sha256": "88c0329883e40f8c1c852233a39eaa92482bf4b3a99041e5595e9b277d7e8722"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/Lam.lean",
+     "sha256": "097b70740bbedd0463d2e0ffb98e99bf508f81207b8370ac05ddc91aa3e05f81"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/SineMode.lean",
+     "sha256": "708e6e5d2d878d13e87acb6f2e2b4a057be17a33f9999b417cbaf75bac555263"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "d1a292029389c7572c9ed6eae45cc4e5b557755bd5843f545966a0affff450a8"
+  },
+  {
+   "id": "wave.cubicGrad.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:Gq; P96-W (8)-(9) p. 280"
+   },
+   "contract": {
+    "id": "wave.cubicGrad",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/CubicGrad.lean",
+   "export": "KAM.Wave.cubicGrad",
+   "split_policy": {
+    "source_group": "wave.cubicGrad",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "b43284c7493204aa6da9c006fdc338b3d48c53e243ae7cdbb6383dd7d4028600",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Wave/Defs/Coeff.lean",
+     "sha256": "c30ede55986dd8f88f1b85544a38874a2aacb0d7f4bd072d9e4a486b72ab2622"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/EllWeight.lean",
+     "sha256": "88c0329883e40f8c1c852233a39eaa92482bf4b3a99041e5595e9b277d7e8722"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/Lam.lean",
+     "sha256": "097b70740bbedd0463d2e0ffb98e99bf508f81207b8370ac05ddc91aa3e05f81"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/ReconU.lean",
+     "sha256": "59f629f4ba2fd487e024d1a2564241010d2884e81ddc33a12a2e58f5da1a3245"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/SineMode.lean",
+     "sha256": "708e6e5d2d878d13e87acb6f2e2b4a057be17a33f9999b417cbaf75bac555263"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "bd4cba1cda91a3094fb53c9c4a830d9772c592aa8dde4b514254f13efb2064f1"
+  },
+  {
+   "id": "wave.linearTorus.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:wh:lintorus = bpW:w0:periodone"
+   },
+   "contract": {
+    "id": "wave.linearTorus",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/LinearTorus.lean",
+   "export": "KAM.Wave.linearTorus",
+   "split_policy": {
+    "source_group": "wave.linearTorus",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "3826f3c033910de266a3363c9baadc5ea96c76e6d2b8678a2407cda0b1235bd6",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Wave/Defs/EllWeight.lean",
+     "sha256": "88c0329883e40f8c1c852233a39eaa92482bf4b3a99041e5595e9b277d7e8722"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/WaveSpace.lean",
+     "sha256": "30ecc30f38ca120e2b4318453715629eb140aa2cb01225aa08f7116cdf9be301"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "8291b57c0d2a1625ae0353acf5d0acbcc10aff2a1302d80b6fa18de264db7acd"
+  },
+  {
+   "id": "wave.IsAnalyticTorusEmbedding.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:wh:embedding (ruling Q4: AnalyticOnNhd)"
+   },
+   "contract": {
+    "id": "wave.IsAnalyticTorusEmbedding",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/IsAnalyticTorusEmbedding.lean",
+   "export": "KAM.Wave.IsAnalyticTorusEmbedding",
+   "split_policy": {
+    "source_group": "wave.IsAnalyticTorusEmbedding",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "b931ceffaa8574f7dfc635404ea1c87c77d71dfb42d10b3ed63d2744b6c7d53c",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "6fb4f36f9df08069dbdbb555bba9e758c607a58f34327b975b55a13ed108b4ef"
+  },
+  {
+   "id": "wave.IsClassicalSolution.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:w0:nlw; P96-W (1) p. 272, f(u) = u^3"
+   },
+   "contract": {
+    "id": "wave.IsClassicalSolution",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Defs/IsClassicalSolution.lean",
+   "export": "KAM.Wave.IsClassicalSolution",
+   "split_policy": {
+    "source_group": "wave.IsClassicalSolution",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "c112724c82953ce66a9ba83f63f985c0793ca440135cd273a98078a9f1fc51b9",
+   "definition_closure": [],
+   "state": "SEALED",
+   "full_file_sha256": "287cbac02095afbaeda096b6864ceadeef2ecdf1ccec353bfa870901438a524e"
+  },
+  {
+   "id": "wave.nlw2.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'I approve the KAM for a PDE statements' (2026-10-30) to the track W statements docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93; statement audit 2 PASS WITH NOTES); docs/DECISIONS.md D41",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "P96-W (Pöschel, Comment. Math. Helv. 71 (1996) 269-296), as transcribed in blueprint-W rev 1 (parts/w0-conventions.tex, parts/w-headline.tex); docs/tracks/W/W-STATEMENTS.md revision 1 (commit ffcbdb93)",
+    "range": "bpW:wh:nlw2 rev 1; P96-W Main Theorem pp. 272-273 (J = {1,2}), Cantor Manifold Theorem p. 289; D30 Q2-Q3; declared weakenings W-A2"
+   },
+   "contract": {
+    "id": "wave.nlw2",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Wave/Theorems/Nlw2.lean",
+   "export": "KAM.Wave.nlw2",
+   "split_policy": {
+    "source_group": "wave.nlw2",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/DECISIONS.md D41"
+   },
+   "abi_sha256": "eca3aee797e9040ce3fde0e946ce30e10fe8550faa413b6a83fc9abda495ddb7",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/Coeff.lean",
+     "sha256": "c30ede55986dd8f88f1b85544a38874a2aacb0d7f4bd072d9e4a486b72ab2622"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/CubicGrad.lean",
+     "sha256": "bd4cba1cda91a3094fb53c9c4a830d9772c592aa8dde4b514254f13efb2064f1"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/EllWeight.lean",
+     "sha256": "88c0329883e40f8c1c852233a39eaa92482bf4b3a99041e5595e9b277d7e8722"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/IsAnalyticTorusEmbedding.lean",
+     "sha256": "6fb4f36f9df08069dbdbb555bba9e758c607a58f34327b975b55a13ed108b4ef"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/IsClassicalSolution.lean",
+     "sha256": "287cbac02095afbaeda096b6864ceadeef2ecdf1ccec353bfa870901438a524e"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/Lam.lean",
+     "sha256": "097b70740bbedd0463d2e0ffb98e99bf508f81207b8370ac05ddc91aa3e05f81"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/LinearTorus.lean",
+     "sha256": "8291b57c0d2a1625ae0353acf5d0acbcc10aff2a1302d80b6fa18de264db7acd"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/ReconU.lean",
+     "sha256": "59f629f4ba2fd487e024d1a2564241010d2884e81ddc33a12a2e58f5da1a3245"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/ReconV.lean",
+     "sha256": "d1a292029389c7572c9ed6eae45cc4e5b557755bd5843f545966a0affff450a8"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/SineMode.lean",
+     "sha256": "708e6e5d2d878d13e87acb6f2e2b4a057be17a33f9999b417cbaf75bac555263"
+    },
+    {
+     "path": "KAM/Frozen/Wave/Defs/WaveSpace.lean",
+     "sha256": "30ecc30f38ca120e2b4318453715629eb140aa2cb01225aa08f7116cdf9be301"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.Wave.Nlw2",
+    "export": "KAM.Provider.Wave.nlw2"
+   },
+   "state": "DRAFT_SORRY",
+   "prefix_sha256": "c862256f0a6ae478f5e25ffd686ccf8790eb8686ded91445803c25c0dce7aca4",
+   "suffix_sha256": "9fbcbc092ac5275ee83355be1725aec08622915482639ba4d88d69383961d4f6",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }
