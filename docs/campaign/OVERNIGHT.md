@@ -1663,3 +1663,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     without weakening. W5, W6, the W7 β = ¼ revision, the W3 corollary and W8 await two tight codex-1 reviews after
     W6's per-shell ε₀ interface change. Lean: W1-SINES and W1-WEIGHTED on main; W1-ANALYTIC and W0-NORMAL in round
     2; provers W0-ANALYSIS and W1-ALGEBRA running.
+- **18:18. SO-KDEPTH landed (main 88af7f63; full build 10696 jobs; lint, ABI 158 and frozen guard OK).**
+  - Both D39 kernel-scale checker fixes are on main: dyadic ball rounding (BALLDY/BALLFIX) and log-depth traversals
+    (KDEPTH). The landing worktree is removed; / at 13 GB.
+  - Lock: LOCK-GEN-2 shows that on the polar Hamiltonian the ball pass overestimates the Ham claims by 70–300×.
+    The v2 threshold is therefore 10^−18 (not 10^−12), with a projected 12–100 CPU-h for the one librational torus
+    and the 10 GB per-check cap at risk.
+  - kam-inp-24 was asked for a design note pricing: a per-certificate slot-ball precision (default 320, so SO-DATA3
+    is unaffected); segmenting the Ham SLP with checkpoint witnesses (route E of SO-COMPOSE-SPLIT); a sharper Ham
+    pass; pruned composition and the one-sqrt lockHamExpr. Target: every theorem ≤ 10 GB and about 20 CPU-h in
+    total; the choice is logged for owner review.
