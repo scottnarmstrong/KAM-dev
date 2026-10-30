@@ -47,7 +47,8 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | CC95 (pinned PDF) | 1 | 0 |
 | VL22 (arXiv:2101.07785) | 1 | 0 |
 | FH25 (arXiv:2403.10152) | 2 (2 candidate) | 0 |
-| P96-W | 0 | 2 |
+| Pos96W (doi:10.1007/BF02566420) | 3 | 2 |
+| Pos96K (pinned PDF) | 1 | 1 |
 
 ## Pos01 (arXiv:0908.2234v1)
 
@@ -578,13 +579,26 @@ None.
 None.
 
 
-## P96-W
+## Pos96W (doi:10.1007/BF02566420)
 
 ### Errata
 
-None.
+1. **p. 285, proof of Lemma 4, Case 1.** *wrong constant; CONFIRMED* (E-W-Pos96W-1). Printed: δ′(m) = ½(1/λ_i + 1/λ_j + 1/λ_k − 1/λ_l) ≥ 1/λ_i. The displayed lower bound is false; the valid bound is δ′(m) ≥ 1/(2λ_i). Lemma 4 survives with a smaller absolute constant. Evidence: (i,j,k,l)=(1,10,10,19), m=1: δ′ = 0.426778 while 1/λ₁ = 0.707107. Effect: Constant only; blueprint-W proves |δ| ≥ m/(27(n²+m)^{3/2}).
+2. **p. 286, proof of Lemma 4, Case 2.** *missing case; CONFIRMED* (E-W-Pos96W-2). Printed: it suffices to study δ_{+−−+}. The reduction misses the subcase i = j < k = l: there δ_{+−−+} ≡ 0 (paired), while δ_{−−++} = 2(λ_k − λ_i) is nonpaired and still needs a positive lower bound. Lemma 4 is true; the case needs a separate outer-pair bound. Evidence: (1,1,2,2), m=1: δ_{−−++} = 1.643709 while the comparison divisor δ_{+−−+} = 0. Effect: Proof supplement only (blueprint-W bpW:w3:divisor); statement of Lemma 4 unaffected.
+3. **p. 286, proof of Lemma 4.** *typo; CONFIRMED* (E-W-Pos96W-3). Printed: λ_{j+2i} − λ_j ≥ 2(λ_{j+1} − λ_j) ≥ 2i f′(j). The first factor 2 should be 2i: λ_{j+2i} − λ_j ≥ 2i(λ_{j+1} − λ_j) ≥ 2i f′(j) (sum of 2i increasing unit gaps). Evidence: i=2, j=3, m=1: 2(λ₄−λ₃) = 1.921656 < 2i f′(3) = 3.794733, so the printed chain fails at its second inequality. Effect: None on the final bound.
 
 ### Deviations
 
 1. **frozen docstrings of KAM.Wave.linearTorus, reconU, reconV (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93).** *whitespace-only rewrap of approved text; ADOPTED* (D-W-FREEZE-1). One space replaced by a newline in each of three approved declaration docstrings, to meet the 100-column lint (D-WF1, main orchestrator ruling 2026-10-30; AmdConfinement precedent). Evidence: docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md. Effect: none: docstring whitespace only, ABI unchanged.
 2. **frozen docstrings of KAM.Wave.reconV and KAM.Wave.nlw2 (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93).** *docstring-only correction of approved text; ADOPTED* (D-W-FREEZE-2). Docstring corrections (D-WF2, main orchestrator ruling 2026-10-30): reconV 'where `q = coeff y`' -> 'where `p = coeff y`' (the formula is in the momentum coordinate p); nlw2 '**W-NLW2 (proposed).**' -> '**W-NLW2.**' (now owner-approved and frozen). Evidence: docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md. Effect: none: docstring only, ABI unchanged.
+
+
+## Pos96K (pinned PDF)
+
+### Errata
+
+1. **p. 127 (PDF p. 10), proof of Lemma 1 (operator part F^{11} of the homological equation).** *false as stated (Hilbert-space estimate applied to operator norms); CONFIRMED* (E-W-Pos96K-1). Printed: Expanding R̃ into its Fourier series with operator valued coefficient R̃_k we have, as before, Σ_k |||R̃_k|||² e^{2|k|s} ≤ 2ⁿ|||R̃|||_{D(s)}. The weighted square-sum (Parseval-type) bound is false for operator-valued coefficients: 'as before' transfers the Hilbert-valued bound of p. 126 to the operator space on ℓ², which is not a Hilbert space. Use instead the Banach-valued coefficient bound |||R̃_k||| ≤ M e^{−|k|s} with lattice sums after a strip loss (blueprint-W bpW:w1:fourier-banach, bpW:w1:lattice, bpW:w1:schur). Evidence: Fix s>0, n≥1, N. R̃(x)e_j = e^{−js}e^{ijx₁}e_j for j≤N, 0 otherwise: entire, 2π-periodic, finite-rank, diagonal, sup over the strip = 1, and Σ_k |||R̃_k|||² e^{2|k|s} = N > 2ⁿ for N > 2ⁿ (n=2: N=8), under either reading of the RHS (squared or not). Realized as the weight-conjugated R^{11} Hessian of R = Σ_{j≤N} j^{p−p̄}e^{−js}e^{ijx₁}z_j z̄_j; a real cosine variant has square sum N/2 (fails for N>2^{n+1}). blueprint-W remark bpW:w1:operator-fourier. Effect: Theorem A is not refuted; the F^{11} estimate is redone with Banach-valued coefficient bounds and lattice sums, changing only internal constants/exponents of track W's W4. No frozen W declaration (KAM/Frozen/Wave, incl. nlw2) depends on it.
+
+### Deviations
+
+1. **p. 147, Lemma A.4 (flows of parameter-dependent vector fields), second displayed estimate.** *proof supplement (mean-value segment step); ADOPTED* (D-W-Pos96K-A4). The proof bounds the field difference at two trajectory points by ‖DX‖_V‖Δφ^s‖_U, which needs the segment between them to lie in the derivative-controlled domain (V is only open, not convex); blueprint-W supplies this: both trajectories and all Picard iterates stay in a convex ball B(w,δ) with margin 2δ, where Cauchy gives ‖DX‖ ≤ M/δ. Evidence: blueprint-W/parts/w1-sequences.tex bpW:w1:flow; reviews w1-review-1.md (gap confirmed, repair valid) and w1-review-2.md. Effect: Lemma used with the explicit ball-margin hypotheses of blueprint-W bpW:w1:flow; W5 must instantiate the margins.
