@@ -1905,3 +1905,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     emission templates. Scratch only; no kernel runs before CAL-1/2.
   - SO-CSEG-A/B is in codex-1 audit. Once A/B, L2 and KDEPTH2 are on main, run the calibration gates CAL-1/2
     (G0–G7).
+- **21:10. SO-CSEG-A/B audit PASS WITH NOTES (codex-1), landing: SO-CSPLIT's Lean core is complete.**
+  - The Lean core is L3 (on main) and L2, KDEPTH2 and A/B (landing). The A/B auditor read all of the source,
+    including every `composeStep_congr` arm, both shadow-induction branches and the tiling induction; no blocking
+    defect.
+  - Next: the calibration gates CAL-1/CAL-2 (G0–G7) on SO-DATA3's real lower N = 65 torus, run by the designer
+    (claude-4) one probe at a time under the cap. In parallel, SO-CSEG-GEN (ledger emitter and templates) in the
+    DATA3 worker. Then the per-torus DATA runs, built serially under the cap, and the final N = 65 band theorems.
