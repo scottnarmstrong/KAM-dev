@@ -11,9 +11,10 @@ public import KAM.Certificate.Arith.Rat
 /-!
 # Dyadic outward rounding of rational balls
 
-The slot balls of `Slp.balls` are rounded outward after every operation (`ballRound`) to `P`
-significant bits relative to their magnitude `m = |re| + |im| + r`: with `e = ilog2Q m` (the
-binary exponent of `m`, up to one), each centre coordinate is rounded down to a multiple of
+The slot balls of `Slp.balls` produced by a product, an inverse or an exponential are rounded
+outward (`ballRound`) to `P` significant bits relative to their magnitude `m = |re| + |im| + r`
+(sums, constants, actions and characters are kept exact): with `e = ilog2Q m` (the binary
+exponent of `m`, up to one), each centre coordinate is rounded down to a multiple of
 `2^(e - P)`, the rounding error is added to the radius, and the radius is rounded up to the same
 grid. This keeps the numerators and denominators of the exact rational ball arithmetic bounded
 (about `P` bits of mantissa) instead of doubling at every product, and it keeps the relative
@@ -33,10 +34,10 @@ namespace KAM.Certificate
 
 open CertArith
 
-/-- The relative working precision (bits) of the slot balls of `Slp.balls`: every slot ball is
-rounded to `320` significant bits of its magnitude, the precision of the fixed-point backend of
-the certificates, so the relative rounding error per slot (about `10^-96`) stays far below the
-margins of the checked bounds. -/
+/-- The relative working precision (bits) of the slot balls of `Slp.balls`: every rounded slot
+ball (products, inverses, exponentials) keeps `320` significant bits of its magnitude, the
+precision of the fixed-point backend of the certificates, so the relative rounding error per slot
+(about `10^-96`) stays far below the margins of the checked bounds. -/
 def slpBallPrec : ℕ := 320
 
 /-- The binary exponent of a rational, up to one: `log2 |num| - log2 den` (`0` for `0`). -/
@@ -153,7 +154,8 @@ theorem ballSqIter_mem (P : ℕ) {v : ℂ} {b : CC ℚ × ℚ}
     exact ballRound_mem P ht
 
 /-- The range-reduced exponential ball of `certCExpReduced`, with the Taylor ball and every
-squaring rounded outward to the grid `2^-P`; `none` unless the reduced ball passes
+squaring rounded outward by `ballRound P` (grid `2^(ilog2Q m - P)`, recomputed for each ball);
+`none` unless the reduced ball passes
 `certCExpSmall`. -/
 def ballExp (P : ℕ) (z : CC ℚ) (zRad : ℚ) (s N : ℕ) : Option (CC ℚ × ℚ) :=
   let red := CertBall.times (⟨z, zRad⟩ : CertBall ℚ) (CertBall.ofRat (1 / 2 ^ s))

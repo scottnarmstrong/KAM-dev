@@ -63,7 +63,7 @@ Revision 5 inputs (base `inp-design-so` `79ec938c`; `inp` read at `f8405551`, KA
 
 ## Overnight amendments (2026-10-29/30, under D29; for owner review)
 
-Two parameter and test-data rulings taken overnight (docs/campaign/OVERNIGHT.md, 22:45 and 23:55); signed types
+Parameter, test-data and implementation rulings taken overnight (docs/campaign/OVERNIGHT.md, 22:45 and 23:55); signed types
 and statements are unchanged. Where older text below says otherwise, these amendments take precedence.
 
 - **R1: `M = 203/100`** (was `1987/1000`; σK, σB, σT unchanged). The landed `checkHamBounds` bounds `‖D²H‖` by
@@ -76,6 +76,13 @@ and statements are unchanged. Where older text below says otherwise, these amend
   reciprocal witness that the kernel could not check within 6 GB. With `a = 10^30` the threshold equals T2's
   (10^−38.23) and the witness has 15 terms; T2d still exercises `div`, the certified denominator ball and the
   reciprocal witness (SO-TOYFIX2).
+- **Ball pass: dyadic outward rounding** (owner ruling D39; SO-BALLDY, audit 1 PASS WITH NOTES). `Slp.balls`
+  rounds the slot ball of every product, inverse and exponential outward to `slpBallPrec = 320` significant bits
+  of its magnitude (`ballRound`, `KAM/Certificate/Expr/BallRound.lean`); sums, constants, actions and characters
+  stay exact. Expression exponentials use `ballExp` (the range-reduced `certCExpReduced` with the Taylor ball and
+  every squaring rounded) in place of `certCExpReduced` directly (§ on `HamExpr` slots below). The enclosure,
+  halving count, successful-call premise and fail-closed contracts are unchanged; the Python mirror follows the
+  rounding rule in docs/tracks/SO/audits/SO-BALLDY-handoff.md.
 
 ## Revision 7
 
