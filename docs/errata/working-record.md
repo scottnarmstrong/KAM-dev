@@ -47,8 +47,9 @@ Locations refer to the pinned versions in [`sources.json`](../sources.json); cou
 | CC95 (pinned PDF) | 1 | 0 |
 | VL22 (arXiv:2101.07785) | 1 | 0 |
 | FH25 (arXiv:2403.10152) | 2 (2 candidate) | 0 |
-| Pos96W (doi:10.1007/BF02566420) | 5 | 2 |
+| Pos96W (doi:10.1007/BF02566420) | 8 (1 candidate) | 2 |
 | Pos96K (pinned PDF) | 1 | 1 |
+| KP96 (doi:10.2307/2118656) | 4 (1 candidate) | 0 |
 
 ## Pos01 (arXiv:0908.2234v1)
 
@@ -588,6 +589,9 @@ None.
 3. **p. 286, proof of Lemma 4.** *typo; CONFIRMED* (E-W-Pos96W-3). Printed: λ_{j+2i} − λ_j ≥ 2(λ_{j+1} − λ_j) ≥ 2i f′(j). The first factor 2 should be 2i: λ_{j+2i} − λ_j ≥ 2i(λ_{j+1} − λ_j) ≥ 2i f′(j) (sum of 2i increasing unit gaps). Evidence: i=2, j=3, m=1: 2(λ₄−λ₃) = 1.921656 < 2i f′(3) = 3.794733, so the printed chain fails at its second inequality. Effect: None on the final bound.
 4. **p. 282, proof of the Main Proposition (expansion of H in z, w); propagated to p. 284 (Ḡ_ij) and pp. 290-291 (A, B, v).** *wrong constant (normalization); CONFIRMED* (E-PDE-W-1). Printed: H = Σ λ_j z_j z̄_j + ¼ Σ G_ijkl (z_i + z̄_i)···(z_l + z̄_l) = Σ λ_j w_j w_{−j} + Σ' G_ijkl w_i w_j w_k w_l; Ḡ_ij = 24 G_iijj = (24/π)(1/λ_iλ_j), Ḡ_ii = 12 G_iiii. Two factor-4 slips: the first line must carry (1/16) (q = (z+z̄)/√2 gives (1/√2)⁴ = ¼ on top of the ¼ of (9)), and the second line drops the remaining prefactor. Correct values: Ḡ_ii = A_ii = 9/(8πλ_i²), Ḡ_ij = A_ij = B_ji = 3/(2πλ_iλ_j), v = (3/2π)(λ_1^{-1}, …); the printed A, B, v are 16 times too large. Evidence: Re-derived from (9)-(11) and p. 281's z; cross-checked by averaging ⟨G⟩ = (3/16π)(4(Σ I_j/λ_j)² − Σ I_j²/λ_j²) and by a one-mode Duffing Lindstedt shift 9I/(8πλ²), reproduced numerically to 4-5 digits (the printed value predicts a shift 16 times larger). Effect: Qualitative existence unaffected (Lemmas 5-6 and κ = 2 are scale invariant); every printed constant and frequency shift changes. blueprint-W Part 0 (bpW:w0n:AB) uses the corrected values.
 5. **pp. 287-290: actions (p. 287) vs p. 281, attachment α = λ, A = Ḡ and real recovery (p. 290), rotation sign (pp. 287, 289-290).** *inconsistent conventions; CONFIRMED* (E-PDE-W-2). Printed: I = ½(|z_1|², …, |z_n|²); ż̃_j = i(α + AI + Bᵀz)_j z̃_j; Their real imaginary parts, q = Re z and p = Im z, solve the equations of motion; α = (λ_1, …, λ_n), A = (Ḡ_ij). Inconsistent with p. 281 (z = (q+ip)/√2, symplectic form i Σ dz∧dz̄): (a) the recovery is q = √2 Re z, p = √2 Im z; (b) the canonical action is |z_j|² = (q_j²+p_j²)/2, so with p. 287's I = ½|z|² one needs α = 2λ; (c) under p. 287's I the quartic matrix is 4Ḡ, not Ḡ (independent of E-PDE-W-1); (d) the source's own field gives ż = −iλz, whereas pp. 287-290 use the time-reversed ż = iωz. Evidence: i dz∧dz̄ = dq∧dp checked symbolically (scripts/wave/w0_checks.py §2); Λ = Σ λ_j|z_j|² = ⟨2λ, ½|z|²⟩; Ḡ = ½ Σ Ḡ_ij|z_i|²|z_j|² = ½⟨(4Ḡ)I, I⟩ under I = ½|z|²; X_G of p. 280 gives q̇ = λp, ṗ = −λq. Effect: Harmless for existence (scale invariance; H even in p makes time reversal a symmetry); the action normalization, frequency shift AI and recovery map are taken from blueprint-W Part 0, not from P96-W.
+6. **p. 280, proof of Lemma 3.** *wrong constant; CONFIRMED* (E-W-N-1). Printed: u = Sq is in W^{a,s+σ} with ‖u‖_{a,s+σ} ≤ ‖q‖_{a,s} for m ≥ 0. The operator norm of q ↦ Sq into the two-sided space is exactly √2 for every m > 0 (sup_j j/λ_j = 1), so the printed norm-one bound fails for every m > 0. Constant only; ‖G_q‖_{a,s+1} = O(‖q‖³) stands. Evidence: m = 3, q = e_2: squared norm ratio 4/√7 ≈ 1.512 > 1; q = e_1, a = s = 0, m = 1: ‖u‖² = 2/√2 > 1. Effect: blueprint-W bpW:w0n:cubic-bound carries the √2.
+7. **p. 282, Main Proposition.** *typo; CANDIDATE* (E-W-N-3). Printed: Ḡ_ij = (6/π)·(4 − δ_ij/λ_iλ_j). Typographical: p. 284 shows the intended (6/π)(4 − δ_ij)/(λ_iλ_j); superseded in any case by E-PDE-W-1 (factor 16). Evidence: Comparison with p. 284. Effect: None (corrected values in blueprint-W Part 0).
+8. **p. 278 (PDF p. 11), proof of Lemma 1, second line of the u_tt display.** *sign; CONFIRMED* (E-W-N-4). Printed: u_tt = Σ (1/√λ_j)(λ_j² q_j − √λ_j ⟨f(u), φ_j⟩) φ_j. The λ_j² q_j term needs a minus sign: by (6), (7) q̈_j = −λ_j² q_j − √λ_j⟨f(u), φ_j⟩; the next printed line already has −Au. Evidence: 200-dpi page image (PDF p. 11). Effect: None (local slip; blueprint-W bpW:w0n:pde-equiv uses the correct sign).
 
 ### Deviations
 
@@ -604,3 +608,17 @@ None.
 ### Deviations
 
 1. **p. 147, Lemma A.4 (flows of parameter-dependent vector fields), second displayed estimate.** *proof supplement (mean-value segment step); ADOPTED* (D-W-Pos96K-A4). The proof bounds the field difference at two trajectory points by ‖DX‖_V‖Δφ^s‖_U, which needs the segment between them to lie in the derivative-controlled domain (V is only open, not convex); blueprint-W supplies this: both trajectories and all Picard iterates stay in a convex ball B(w,δ) with margin 2δ, where Cauchy gives ‖DX‖ ≤ M/δ. Evidence: blueprint-W/parts/w1-sequences.tex bpW:w1:flow; reviews w1-review-1.md (gap confirmed, repair valid) and w1-review-2.md. Effect: Lemma used with the explicit ball-margin hypotheses of blueprint-W bpW:w1:flow; W5 must instantiate the margins.
+
+
+## KP96 (doi:10.2307/2118656)
+
+### Errata
+
+1. **author version 2.1, p. 16 (normal form H∘Γ) and p. 5 Remark 2.** *wrong constant (normalization); CONFIRMED* (E-PDE-KP-1). Printed: H∘Γ = ⟨λ, I⟩ + ½⟨AI, I⟩ + K, I_j = ½|q_j|², A_ij = Ḡ_ij; Remark 2: A_ij = (4 − δ_ij)/(4π). With the symplectic form (i/2) Σ dq∧dq̄ the canonical action is |q|²/2, so ½ Σ Ḡ_ij|q_i|²|q_j|² = ½⟨(4Ḡ)I, I⟩: A = 4Ḡ = (4 − δ_ij)/π, not Ḡ. Journal printing (Ann. Math. 143 (1996)) unverified: only the author version 2.1 is pinned. Evidence: From (6) q̇_k = 2i∂H/∂q̄_k: q̇_k = i(λ_k + 4 Σ_j Ḡ_kj I_j)q_k (scripts/wave/w0_checks.py §9); Lemma 4's Ḡ is correct. Effect: Scale invariant in Lemma 6 (p. 20); Theorem 1 unaffected. Not used by track W.
+2. **author version 2.1, Theorem 1 p. 5 vs Lemma 6 p. 20.** *missing hypothesis; CONFIRMED* (E-PDE-KP-2). Printed: Theorem 1: for all m ∈ ℝ, all n ∈ ℕ and all J; Lemma 6: Clearly, ⟨l, β⟩ ≠ 0 for 1 ≤ |l| ≤ 2. The 'clearly' is false for some masses: with λ_j = j² + m, λ_a = 0 at m = −a² and λ_a + λ_b = 0 at m = −(a²+b²)/2 (a, b ∉ J), so condition (A₂) of Theorem 2 fails there; a gauge reduction u ↦ e^{−ict}u is the natural repair but is not given. Journal printing unverified. Evidence: J = {1,2}, m = −9, l = e_3: ⟨l, β⟩ = λ_3 = 0. Effect: Premise-attachment gap for those masses, not a counterexample to Theorem 1. Track W (m > 0, wave) is unaffected (bpW:w0n:nondeg).
+3. **author version 2.1, p. 13, proof of Lemma 3.** *wrong constant; CANDIDATE* (E-W-N-2). Printed: u = Sq is in W^{a,p} with ‖u‖_{a,p} = ‖q‖_{a,p}. The two-sided norm of the odd extension is √2‖q‖_{a,p} (same pattern as E-W-N-1). Constant only. Evidence: Odd extension coefficients c_{±j} = ∓ i q_j/√λ_j·(…) give a factor 2 in the squared norm (text layer of the born-digital PDF). Effect: None on track W.
+4. **author version 2.1, p. 13, first display in the proof of Lemma 3.** *wrong constant; CONFIRMED* (E-W-N-5). Printed: ∂G/∂q̄_j = ∫_0^π f(|u|²) u φ_j dx. Missing factor ½: G = ½∫g(|Sq|²) (p. 11 (5)) and ∂|u|²/∂q̄_j = uφ_j give ∂G/∂q̄_j = ½∫ f(|u|²) u φ_j dx; p. 11 Lemma 1 is consistent with the correct value. Evidence: 200-dpi page image; (7) G = ¼∫|u|⁴ gives the same factor. Effect: None (gradient constant only; not used by track W's force interface).
+
+### Deviations
+
+None.

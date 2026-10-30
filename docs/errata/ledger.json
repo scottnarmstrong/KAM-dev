@@ -2656,6 +2656,97 @@
    "status": "CONFIRMED",
    "checked_by": "Writer: W-BP0 independent re-derivation docs/tracks/W/errata-check-W0.md (page images of P96-W at 100-110 dpi; scripts/wave/w0_checks.py §§1, 7). Independent verifier: docs/tracks/W/audits/W-BP0-audit-1.md (confirmed), 2026-10-28.",
    "effect": "Harmless for existence (scale invariance; H even in p makes time reversal a symmetry); the action normalization, frequency shift AI and recovery map are taken from blueprint-W Part 0, not from P96-W"
+  },
+  {
+   "id": "E-PDE-KP-1",
+   "type": "erratum",
+   "source": "KP96",
+   "location": "author version 2.1, p. 16 (normal form H∘Γ) and p. 5 Remark 2",
+   "printed": "H∘Γ = ⟨λ, I⟩ + ½⟨AI, I⟩ + K, I_j = ½|q_j|², A_ij = Ḡ_ij; Remark 2: A_ij = (4 − δ_ij)/(4π)",
+   "claim": "With the symplectic form (i/2) Σ dq∧dq̄ the canonical action is |q|²/2, so ½ Σ Ḡ_ij|q_i|²|q_j|² = ½⟨(4Ḡ)I, I⟩: A = 4Ḡ = (4 − δ_ij)/π, not Ḡ. Journal printing (Ann. Math. 143 (1996)) unverified: only the author version 2.1 is pinned",
+   "kind": "wrong constant (normalization)",
+   "evidence": "From (6) q̇_k = 2i∂H/∂q̄_k: q̇_k = i(λ_k + 4 Σ_j Ḡ_kj I_j)q_k (scripts/wave/w0_checks.py §9); Lemma 4's Ḡ is correct",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md (page images). Independent verifier: docs/tracks/W/audits/W-BP0-audit-1.md, 2026-10-28.",
+   "effect": "Scale invariant in Lemma 6 (p. 20); Theorem 1 unaffected. Not used by track W"
+  },
+  {
+   "id": "E-PDE-KP-2",
+   "type": "erratum",
+   "source": "KP96",
+   "location": "author version 2.1, Theorem 1 p. 5 vs Lemma 6 p. 20",
+   "printed": "Theorem 1: for all m ∈ ℝ, all n ∈ ℕ and all J; Lemma 6: Clearly, ⟨l, β⟩ ≠ 0 for 1 ≤ |l| ≤ 2",
+   "claim": "The 'clearly' is false for some masses: with λ_j = j² + m, λ_a = 0 at m = −a² and λ_a + λ_b = 0 at m = −(a²+b²)/2 (a, b ∉ J), so condition (A₂) of Theorem 2 fails there; a gauge reduction u ↦ e^{−ict}u is the natural repair but is not given. Journal printing unverified",
+   "kind": "missing hypothesis",
+   "evidence": "J = {1,2}, m = −9, l = e_3: ⟨l, β⟩ = λ_3 = 0",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md. Independent verifier: docs/tracks/W/audits/W-BP0-audit-1.md, 2026-10-28.",
+   "effect": "Premise-attachment gap for those masses, not a counterexample to Theorem 1. Track W (m > 0, wave) is unaffected (bpW:w0n:nondeg)"
+  },
+  {
+   "id": "E-W-N-1",
+   "type": "erratum",
+   "source": "Pos96W",
+   "location": "p. 280, proof of Lemma 3",
+   "printed": "u = Sq is in W^{a,s+σ} with ‖u‖_{a,s+σ} ≤ ‖q‖_{a,s} for m ≥ 0",
+   "claim": "The operator norm of q ↦ Sq into the two-sided space is exactly √2 for every m > 0 (sup_j j/λ_j = 1), so the printed norm-one bound fails for every m > 0. Constant only; ‖G_q‖_{a,s+1} = O(‖q‖³) stands",
+   "kind": "wrong constant",
+   "evidence": "m = 3, q = e_2: squared norm ratio 4/√7 ≈ 1.512 > 1; q = e_1, a = s = 0, m = 1: ‖u‖² = 2/√2 > 1",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md (rev 1). Independent verifiers: docs/tracks/W/audits/W-BP0-audit-1.md (W-A1, corrected threshold) and docs/tracks/W/audits/W-BP0-audit-2.md, 2026-10-28.",
+   "effect": "blueprint-W bpW:w0n:cubic-bound carries the √2"
+  },
+  {
+   "id": "E-W-N-2",
+   "type": "erratum",
+   "source": "KP96",
+   "location": "author version 2.1, p. 13, proof of Lemma 3",
+   "printed": "u = Sq is in W^{a,p} with ‖u‖_{a,p} = ‖q‖_{a,p}",
+   "claim": "The two-sided norm of the odd extension is √2‖q‖_{a,p} (same pattern as E-W-N-1). Constant only",
+   "kind": "wrong constant",
+   "evidence": "Odd extension coefficients c_{±j} = ∓ i q_j/√λ_j·(…) give a factor 2 in the squared norm (text layer of the born-digital PDF)",
+   "status": "CANDIDATE",
+   "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md. Not independently re-checked.",
+   "effect": "None on track W"
+  },
+  {
+   "id": "E-W-N-3",
+   "type": "erratum",
+   "source": "Pos96W",
+   "location": "p. 282, Main Proposition",
+   "printed": "Ḡ_ij = (6/π)·(4 − δ_ij/λ_iλ_j)",
+   "claim": "Typographical: p. 284 shows the intended (6/π)(4 − δ_ij)/(λ_iλ_j); superseded in any case by E-PDE-W-1 (factor 16)",
+   "kind": "typo",
+   "evidence": "Comparison with p. 284",
+   "status": "CANDIDATE",
+   "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md. Not independently re-checked.",
+   "effect": "None (corrected values in blueprint-W Part 0)"
+  },
+  {
+   "id": "E-W-N-4",
+   "type": "erratum",
+   "source": "Pos96W",
+   "location": "p. 278 (PDF p. 11), proof of Lemma 1, second line of the u_tt display",
+   "printed": "u_tt = Σ (1/√λ_j)(λ_j² q_j − √λ_j ⟨f(u), φ_j⟩) φ_j",
+   "claim": "The λ_j² q_j term needs a minus sign: by (6), (7) q̈_j = −λ_j² q_j − √λ_j⟨f(u), φ_j⟩; the next printed line already has −Au",
+   "kind": "sign",
+   "evidence": "200-dpi page image (PDF p. 11)",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md. Independent verifier: docs/tracks/W/audits/W-BP0-audit-2.md, 2026-10-28.",
+   "effect": "None (local slip; blueprint-W bpW:w0n:pde-equiv uses the correct sign)"
+  },
+  {
+   "id": "E-W-N-5",
+   "type": "erratum",
+   "source": "KP96",
+   "location": "author version 2.1, p. 13, first display in the proof of Lemma 3",
+   "printed": "∂G/∂q̄_j = ∫_0^π f(|u|²) u φ_j dx",
+   "claim": "Missing factor ½: G = ½∫g(|Sq|²) (p. 11 (5)) and ∂|u|²/∂q̄_j = uφ_j give ∂G/∂q̄_j = ½∫ f(|u|²) u φ_j dx; p. 11 Lemma 1 is consistent with the correct value",
+   "kind": "wrong constant",
+   "evidence": "200-dpi page image; (7) G = ¼∫|u|⁴ gives the same factor",
+   "status": "CONFIRMED",
+   "checked_by": "Writer: W-BP0 docs/tracks/W/errata-check-W0.md. Independent verifier: docs/tracks/W/audits/W-BP0-audit-2.md, 2026-10-28.",
+   "effect": "None (gradient constant only; not used by track W's force interface)"
   }
  ]
 }
