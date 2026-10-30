@@ -2843,11 +2843,11 @@
    "source": "CVCGL05",
    "location": "arXiv v2, p. 11",
    "printed": "`≈ 35ε`",
-   "claim": "with its maximum-cosine-coefficient norm, (8) at 0.35 gives about 64.33ε; conventions to be rechecked before this is confirmed",
+   "claim": "with its maximum-cosine-coefficient norm, the general-(8) model at 0.35 gives about 64.55ε including the constant coefficient, or 64.33ε for the nonconstant harmonics only, not ≈ 35ε; conventions to be rechecked before this is confirmed",
    "kind": "unreproduced constant",
    "evidence": "docs/explorations/next-demonstrations.md, section 'Suspected source defects' (branch ideas)",
    "status": "CANDIDATE",
-   "checked_by": "IDEAS-NEXT study (Astra, side campaign, lemma.farm, 2026-10-30), checked in the rendered PDF pages by its writer; not yet verified by an independent refute-first reader",
+   "checked_by": "IDEAS-NEXT study (Astra, side campaign, lemma.farm, 2026-10-30), checked in the rendered PDF pages by its writer; not yet verified by an independent refute-first reader; rechecked with the norm convention made explicit by the DEMO-PLANS study (plan-magnetic-barrier.md §8), 2026-10-30",
    "effect": "none on our theorems"
   }
  ]
