@@ -1311,3 +1311,12 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   SO-LOCK-SCOPE started (claude-12; Python and docs): the Moon locked in synchronous rotation (librational tori,
   Celletti 1994), statement candidates, Lean route (certified normal form vs a G1 for non-graph tori), numerical
   feasibility under the sharp certifier, literature check. SO remains: SO-KDEPTH, SO-BALLDY, then SO-DATA3.
+- **14:44. Track W freeze built (kam-d4), identity audit running.** Branch inp-wfreeze (d7aae35d): twelve
+  one-declaration modules under KAM/Frozen/Wave/ (eleven definitions, Theorems/Nlw2 with DRAFT_SORRY and provider stub
+  KAM/Provider/Wave/Nlw2.lean), manifest +12 (158 anchors), KAM.lean regenerated; build, frozen guard, ABI (158),
+  lint pass. Deviations, for the owner: D-WF1 (confirmed) one space replaced by a newline inside three approved
+  docstrings for the 100-column lint (whitespace only, ABI unchanged; precedent AmdConfinement); D-WF2 (requested
+  before landing) two docstring fixes: reconV's docstring names p not q, and nlw2's docstring drops "(proposed)"
+  (docstring only, ABI unchanged); the identity audit is extended to confirm these are the only differences. Tool
+  bug noted: kam_manifest_add_track.py's closure regex skips KAM.Frozen.Defs.* imports (fixed copy in
+  docs/tracks/W/freeze/add_track.py).
