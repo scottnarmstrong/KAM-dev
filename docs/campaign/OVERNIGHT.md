@@ -1447,3 +1447,23 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     3. Spin bound via the coarse ellipse (≈ 3.7 %) rather than the sharper ≈ 2.5 %; reversible later.
     4. Q4–Q6 (no separate non-vacuity theorem; freezing `lunarSyncOrbit_bound`; literal rules): as recommended in
        the proposal.
+- **16:18. SO-V2PKG done: the v2 certifier makes the N = 65 Moon data far cheaper.**
+  - Thresholds at R2, N = 65: v1 sharp 10^−31.83; routeAFrozen 10^−27.87; routeARefined with classical sites
+    10^−18.66; refined with certified bites (d01b) **10^−14.26**.
+  - The exact rational mirror reproduces all four SHARP2-C6 kernel tests.
+  - Recommended configuration: `checkTorusCertificateV2 routeAV2`, refined witness; `lunarR2` unchanged; L = 20;
+    CertFixed 96; 667/718 shards per torus (was 1,230).
+  - Measured: err 1.6e-16/1.83e-16; all seven sub-checks and the graph check pass.
+  - Estimated cost: 0.7–1.8 CPU-h per torus (was 3–5).
+  - Lean glue: about 150 lines, new names only (CertV2.lean, LunarAssemblyV2.lean).
+  - SO-DATA3 now runs steps 2, 3 and 3b with this configuration (brief addendum). The study is sent to kam-inp to
+    land (rebased onto inp as 9adbdc33).
+  - Deviation by the worker: one `pkill -f` of its own superseded Python run. It matched only that process; the
+    worker was reminded of the rule in its brief.
+  - **For owner review (deferred; recommended option taken):** under v2, N = 80 costs about 2–4 CPU-h per torus
+    (threshold 10^−16.10) and N = 100 about 6–15, for certified bands of about 2.69 % and 2.67 % against 2.755 % (all
+    at today's SOS slack). The study recommends staying at **N = 65** for DATA3, since N = 80 gains only about 0.06
+    points, and treating N = 80 as the owner's optional stretch afterwards. DATA3 proceeds at N = 65.
+  - SO-DATA3 step 1 is done: the mirror reproduces a fresh `#eval` of BALLDY's `Slp.balls` bit for bit on all 887
+    lunar slots and seven toy programs. BALLDY's handoff had cited a stale dump; SO-BALLFIX's audit request will cite
+    the fresh evidence.
