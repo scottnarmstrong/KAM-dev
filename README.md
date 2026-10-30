@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 11:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **275,518 lines of Lean** of an estimated ≈ 278,000
+> **Last updated: 2026-10-30 11:19 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **275,518 lines of Lean** of an estimated ≈ 278,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -227,8 +227,8 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **275,518** (214,763 excluding blank lines and comments) · **+30,799** since 2026-10-29 10:42 UTC |
-| Written on agent branches, not yet landed | 774 |
+| On `main` now | **275,518** (214,763 excluding blank lines and comments) · **+30,536** since 2026-10-29 11:14 UTC |
+| Written on agent branches, not yet landed | 880 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,598 |
 | **Estimated total at completion** | **≈ 278,000** |
 | Estimated still to write | ≈ 1,000 |
@@ -237,7 +237,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 11:00 UTC from `main` at `005adf75` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 11:19 UTC from `main` at `71a84a89` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -404,7 +404,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sodata2** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-DATA-2: shard-size probes (blockRows 32/16/8/4, 14 GB cap) and projection in the handof | `inp-sodata2` | 2 (vs `inp`) |
 | **sokperf** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-KPERF: per-part kernel profile of a packed shard; sparse-block + D&C decode prototype | `inp-sokperf` | 3 (vs `inp`) |
-| **sopackfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PACKFIX: spPack by a balanced join of relative-base nodes (no linear big-integer accumu | `inp-sopackfix` | 4 (vs `inp`) |
+| **sopackfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-PACKFIX: balanced packShift (16-slot leaf chunks, pairwise Nat shift tree) for the dens | `inp-sopackfix` | 5 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -414,6 +414,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 11:19 | `71a84a89` | Overnight log: 11:19 (packed fix measured) |
 | 2026-10-30 10:51 | `005adf75` | Docs: Rüssmann's theorem as a main result (README main theorem 3, track R, D35) |
 | 2026-10-30 10:48 | `35d9e272` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-30 10:48 | `aefe5353` | Overnight log: 10:48 |
@@ -425,7 +426,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 08:35 | `007e00b8` | Overnight log: 08:35 (D34, SO-PACKFIX, HQ generated-data line) |
 | 2026-10-30 08:33 | `60d55af7` | HQ: count generated certificate data (KAM/SpinOrbit/Data/) apart from hand-written unlanded Lean |
 | 2026-10-30 08:31 | `b0770027` | D34: lunar kernel route, fix the packed-product implementation (owner ruling) |
-| 2026-10-30 08:18 | `d85f04e2` | Overnight log: 08:18 |
 <!-- /AUTO:landed -->
 
 ## Decisions
