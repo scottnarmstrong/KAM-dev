@@ -1467,3 +1467,33 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - SO-DATA3 step 1 is done: the mirror reproduces a fresh `#eval` of BALLDY's `Slp.balls` bit for bit on all 887
     lunar slots and seven toy programs. BALLDY's handoff had cited a stale dump; SO-BALLFIX's audit request will cite
     the fresh evidence.
+- **16:19. Heartbeat: codex-3 nearly exhausted; lock design round 1.**
+  - **Codex:** codex-3 is at 6 % weekly, burning about 5 %/h, so it runs out in roughly 1–2 h; it resets 5 Nov.
+    codex-4 and codex-5 report "Not logged in", and codex-1/2 are at 0 % and 3 %.
+  - **Rationing,** sent to both sub-orchestrators, in this order:
+    1. SO-BALLFIX delta;
+    2. SO-KDEPTH;
+    3. lock design round 2 (strict delta);
+    4. W blueprint parts;
+    5. graph reviews, batched, no parallel slices;
+    6. SO-DATA3 final.
+    Once codex-3 hits its limit, audits queue and writing and proving go on; landings that need an audit wait.
+  - **For owner review:** a codex-4 sign-in (`! codex-4 login`; 29 % weekly) or a codex-5 sign-in (28 %) would
+    unblock the audit queue. Otherwise every audit waits for the owner or the 5 Nov reset. Under the 15:20 ruling, no
+    Claude auditor fallback was used.
+  - **Lock:** design audit 1 FAIL with three HIGH findings, all in the lock's own draft contracts:
+    - sqrt versus the unconditional real-eval theorem;
+    - the root choice in the sqrt witness;
+    - transport direction and sign.
+    The route itself (Banach-contraction periodic orbit, confinement signatures) was judged viable. Suggested to
+    kam-inp-24: total real-preserving sqrt semantics like Lean's inverse (0 on nonpositive reals), so that no landed
+    statement changes.
+  - **LOCK-GEN-1:**
+    - the orbit's radii polynomial closes (Y0 1.5e-58);
+    - the rational centre is within 5.5e-9 of ψ*;
+    - the N = 65 torus in polar coordinates has amplitude 73.8°, support 129×27, residual about 5e-39 against v2's
+      about 1e-12.
+  - **SO-KDEPTH:** told to stop optimising for R1's 320-bit data, since the v2 data are L = 20 on CertFixed 96, and to
+    hand off. Finding: checkSoGraph on R1 no longer recurses deeply, but it runs 386 s and hits the 10 GB cap, so
+    SO-DATA3 splits it per bound.
+  - SO-BALLFIX is writing its audit request.
