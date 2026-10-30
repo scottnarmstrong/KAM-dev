@@ -22,7 +22,8 @@ torus `K` holomorphic on `T_r` with `K(T_r) ⊆ 𝔅` and `det G ≠ 0` on `T_r`
 
 The proof follows the blueprint steps:
 
-* `step:p2s:ti-dl`: `KAM.Sharp.TorsionPoly.fderiv_tangentMat_eq`, the identity `∂_{ω'} L = AL - F` of
+* `step:p2s:ti-dl`: `KAM.Sharp.TorsionPoly.fderiv_tangentMat_eq`, the identity
+  `∂_{ω'} L = AL - F` of
   `KAM.Apost.Identities.fi_dL` at an arbitrary frequency (the standing frequency of `hS` is not
   used);
 * `step:p2s:ti-db`: `fderiv_gramMatrix_eq`, `fderiv_invGram_eq` (differentiate `B G = 1` near `θ`);

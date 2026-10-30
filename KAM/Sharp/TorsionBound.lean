@@ -22,7 +22,8 @@ The proof follows the blueprint:
 * `step:p2s:tb-om`: the Lagrangian defect on `T_{r-δ}` is `KAM.Sharp.geometry_sep` with loss `δ/2`,
   `|Ω_K| ≤ 2^{κ+1} C_Ω ε/(γ δ^{κ+1})`; the derivative of the error is `KAM.Apost.Geometry.geo_de`
   with loss `δ`;
-* `step:p2s:tb-parts`: `T = 𝒯(A, L, B, DE)` (`KAM.Sharp.torsion_identity`) and the bound of the torsion
+* `step:p2s:tb-parts`: `T = 𝒯(A, L, B, DE)` (`KAM.Sharp.torsion_identity`) and the bound of the
+  torsion
   polynomial in terms of bounds of its arguments, `KAM.Sharp.norm_torsionPoly_le` (also used by the
   perturbation lemma, package A4).
 -/
