@@ -57,9 +57,7 @@ public import KAM.CertificateSharp.V2.SmallDivQ
 public import KAM.CertificateSharp.V2.Tests.FrameFacts
 public import KAM.CertificateSharp.V2.Tests.Frozen
 public import KAM.CertificateSharp.V2.Tests.Refined
-public import KAM.CertificateSharp.V2.Tests.RefinedR1
 public import KAM.CertificateSharp.V2.Tests.RefinedRef
-public import KAM.CertificateSharp.V2.Tests.RefinedRefR1
 public import KAM.CertificateSharp.V2.Tests.TrigCombined
 public import KAM.CertificateSharp.V2.Tests.TrigFacts
 
