@@ -1224,3 +1224,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   R1 upper-torus data; a self-matching `pgrep -f` wait loop of it was killed by PID. Running: SO-PACKFIX round-2
   audit (codex-3), SO-GEN3 (interim answer on sub-2.9 % requested first). Quotas: claude-3 93 %, claude-6 89 %,
   claude-12 89 %, claude-4 66 %; claude-7 and five others at 0 %.
+- **11:53. SO-PACKFIX passed audit 2 (sent to land after the main sync); SO-DATA-2 round 2 stopped with two lessons.**
+  SO-PACKFIX round 2: F1 resolved, package PASS WITH NOTES; branch inp-sopackfixl at 409ae7bb queued with kam-inp
+  behind its main-into-inp merge. SO-DATA-2 round 2 (stopped for D36; branch inp-sodata2b, committed: the Cert
+  emitter, LunarConsts, the lower Cert module, probes; the upper torus emitted but not built or committed). On the
+  old R1 data with the fixed packing: checkStatic, checkSmallness pass in seconds; checkHamBounds alone OOMs at 10 GB
+  (the ball pass of the 887-op jet at expOrder 30 and 320 bits); checkEmbedding and checkSoGraph get STUCK in the
+  kernel on an Int decidability match over the emitted rational data (e.g. `match 0 - (disp.num + 1)`), a data-format
+  issue the toys do not show. Both are carried into the brief of the next data package (sharp certifier, smaller
+  data): measure checkHamBounds early, and emit rationals in a kernel-reducible form (test every sub-check's
+  reduction on a small prefix first).
