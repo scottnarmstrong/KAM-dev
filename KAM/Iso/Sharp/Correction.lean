@@ -121,32 +121,35 @@ end IsoCorrectionSharp
 variable {τ σω ν : ℝ} {ωstar : Fin n → ℝ} {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
   {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {γ : ℝ}
 
-/-- Blueprint `bpI:p2s:correction` (qualitative clauses: the first conjunct of
-`KAM.Iso.Apost.correction`). -/
-theorem iso_correction_bounds (hC : CohData n τ κ cR)
+/-- Lemma `bpI:p2s:correction` with, in addition, the bound `|ξᴸ| ≤ c_R C_g ε/(γ²δ^a)` on
+`T_{r-2δ}` used by `bpI:p2s:newton-error` (step `stepI:p2s:ne-en`). -/
+theorem IsoCorrectionSharp.correction_core (hC : CohData n τ κ cR)
     (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ) (hγb : γ ≤ γb) {E₀ r β ε δ s : ℝ}
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hK : IsoAdmissible σK σB σT D H ωstar E₀ r β ε s K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
     (h2δ : 2 * δ < r) (hεδ : ε ≤ δ)
     (hTS : cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1) :
-    (‖bordXi0 (s • ωstar) (isoBordData H K (s • ωstar) E₀)‖ ≤
-        iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
-      ‖isoXiOmega H K (s • ωstar) E₀‖ ≤ iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
-      ∀ θ ∈ complexStrip n (r - δ),
-        ‖bordXiN (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
-          iCXiN n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
-        ‖bordGL (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
-          iCG n cR M σK σB σT γb * ε / (γ * δ ^ κ)) ∧
-    (∀ θ ∈ complexStrip n (r - 2 * δ),
-      ‖isoXi H K (s • ωstar) E₀ θ‖ ≤ iCXi n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
-      ‖isoCorrection H K (s • ωstar) E₀ θ‖ ≤ iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
-      ‖fderiv ℂ (isoXi H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
-        iCDXi n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
-      ‖fderiv ℂ (isoCorrection H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
-        iCdK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
-    ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ = |isoNewS H K ωstar E₀ s - s| * ‖ωstar‖ ∧
-    ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ ≤
-      iCDw n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) := by
+    ((‖bordXi0 (s • ωstar) (isoBordData H K (s • ωstar) E₀)‖ ≤
+          iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+        ‖isoXiOmega H K (s • ωstar) E₀‖ ≤ iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+        ∀ θ ∈ complexStrip n (r - δ),
+          ‖bordXiN (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
+            iCXiN n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+          ‖bordGL (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
+            iCG n cR M σK σB σT γb * ε / (γ * δ ^ κ)) ∧
+      (∀ θ ∈ complexStrip n (r - 2 * δ),
+        ‖isoXi H K (s • ωstar) E₀ θ‖ ≤ iCXi n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+        ‖isoCorrection H K (s • ωstar) E₀ θ‖ ≤ iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+        ‖fderiv ℂ (isoXi H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
+          iCDXi n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+        ‖fderiv ℂ (isoCorrection H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
+          iCdK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
+      ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ = |isoNewS H K ωstar E₀ s - s| * ‖ωstar‖ ∧
+      ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ ≤
+        iCDw n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
+    ∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖bordXiL (s • ωstar) (isoBordData H K (s • ωstar) E₀) 0 θ‖ ≤
+        cR * iCG n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) := by
   have hSet := hS.setting hK.s_gt.le
   have hSt := hSet.toStanding
   have hKN := hK.toAdmissibleNoTwist
@@ -335,10 +338,10 @@ theorem iso_correction_bounds (hC : CohData n τ κ cR)
       _ ≤ 2 * n * σK * (γb * u) := mul_le_mul_of_nonneg_left hεu (by positivity)
       _ = 2 * n * σK * γb * u := by ring
       _ ≤ iCDXi n cR M σK σB σT γb * u := mul_le_mul_of_nonneg_right (le_max_right _ _) hu0
-  refine ⟨⟨by rw [mul_div_assoc]; exact hX0, by rw [mul_div_assoc]; exact hXω,
+  refine ⟨⟨⟨by rw [mul_div_assoc]; exact hX0, by rw [mul_div_assoc]; exact hXω,
       fun θ hθ => ⟨by rw [mul_div_assoc]; exact hXN θ hθ, by rw [mul_div_assoc]; exact hGL θ hθ⟩⟩,
     fun θ hθ => ⟨by rw [mul_div_assoc]; exact hXi θ hθ, ?_, by rw [mul_div_assoc]; exact hdξ θ hθ,
-      ?_⟩, ?_, ?_⟩
+      ?_⟩, ?_, ?_⟩, fun θ hθ => by rw [mul_div_assoc]; exact hXL θ hθ⟩
   · -- `ΔK = L ξᴸ + N ξᴺ`
     have hθr : θ ∈ complexStrip n r := hsubr (hsub hθ)
     have hP := (hfb θ hθr).2.2.2.2.2.2.2.2.2.2.2
@@ -397,6 +400,34 @@ theorem iso_correction_bounds (hC : CohData n τ κ cR)
       _ ≤ iCS n cR M σK σB σT γb * (γb * E) * thetaS n M σK σB :=
           mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left huE hCS0) hΘ0
       _ = iCDw n cR M σK σB σT γb * E := by unfold iCDw; ring
+
+/-- Blueprint `bpI:p2s:correction` (qualitative clauses: the first conjunct of
+`KAM.Iso.Apost.correction`). -/
+theorem iso_correction_bounds (hC : CohData n τ κ cR)
+    (hS : IsoStanding n τ M σK σB σT σω ν ωstar D H γ) (hγb : γ ≤ γb) {E₀ r β ε δ s : ℝ}
+    {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
+    (hK : IsoAdmissible σK σB σT D H ωstar E₀ r β ε s K) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (h2δ : 2 * δ < r) (hεδ : ε ≤ δ)
+    (hTS : cT1 n σK σB * ε / δ + cT2 n κ cR M σK σB * ε / (γ * δ ^ (κ + 1)) ≤ 1) :
+    (‖bordXi0 (s • ωstar) (isoBordData H K (s • ωstar) E₀)‖ ≤
+        iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+      ‖isoXiOmega H K (s • ωstar) E₀‖ ≤ iCS n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+      ∀ θ ∈ complexStrip n (r - δ),
+        ‖bordXiN (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
+          iCXiN n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+        ‖bordGL (s • ωstar) (isoBordData H K (s • ωstar) E₀) θ‖ ≤
+          iCG n cR M σK σB σT γb * ε / (γ * δ ^ κ)) ∧
+    (∀ θ ∈ complexStrip n (r - 2 * δ),
+      ‖isoXi H K (s • ωstar) E₀ θ‖ ≤ iCXi n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+      ‖isoCorrection H K (s • ωstar) E₀ θ‖ ≤ iCDK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) ∧
+      ‖fderiv ℂ (isoXi H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
+        iCDXi n cR M σK σB σT γb * ε / (γ * δ ^ κ) ∧
+      ‖fderiv ℂ (isoCorrection H K (s • ωstar) E₀) θ (fun l => ((s • ωstar) l : ℂ))‖ ≤
+        iCdK n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) ∧
+    ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ = |isoNewS H K ωstar E₀ s - s| * ‖ωstar‖ ∧
+    ‖isoNewS H K ωstar E₀ s • ωstar - s • ωstar‖ ≤
+      iCDw n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ)) :=
+  (IsoCorrectionSharp.correction_core hC hS hγb hK hδ hδ1 h2δ hεδ hTS).1
 
 end KAM.Iso.Sharp
 
