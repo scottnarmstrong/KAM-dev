@@ -1,10 +1,16 @@
-\section{The proposed headline W-NLW2}\label{bpW:wh}
+\section{The frozen headline W-NLW2}\label{bpW:wh}
 
-\proposed
+\par\noindent{\small\textsf{Status:} FROZEN (owner decision D41; Lean text in \texttt{KAM/Frozen/Wave/}; \texttt{nlw2}
+is \texttt{DRAFT\_SORRY}).}\par
 
 This section states the headline proposed in the scoping report (\texttt{docs/explorations/}\allowbreak\texttt{pde-kam-and-leapfrogging.md}, \S2.3), adopted
 for the source/design phase by owner decision D30, with every definition written out in the conventions of
-\S\ref{bpW:w0}. It is a proposal for later independent statement audit and owner approval; nothing here is frozen. W-NLW2 is
+\S\ref{bpW:w0}. After independent statement audit, the owner approved it (decision D41): the theorem W-NLW2
+(\texttt{KAM.Wave.nlw2}) and its eleven definitions (\texttt{lam}, \texttt{sineMode}, \texttt{ellWeight},
+\texttt{WaveSpace}, \texttt{coeff}, \texttt{reconU}, \texttt{reconV}, \texttt{cubicGrad}, \texttt{linearTorus},
+\texttt{IsAnalyticTorusEmbedding}, \texttt{IsClassicalSolution}) are frozen in \texttt{KAM/Frozen/Wave/}
+(\texttt{Defs/} and \texttt{Theorems/}); the definitions are frozen whole, and \texttt{nlw2} is frozen with the
+manifest-bound body \texttt{by sorry} (\texttt{DRAFT\_SORRY}) that the proof campaign replaces. W-NLW2 is
 \emph{the D30 first headline (a declared weakening of P96-W's Main Theorem for $J=\{1,2\}$)}; it is not the full
 specialized Main Theorem. The weakenings are listed in Remark~\ref{bpW:wh:weakenings}.
 
@@ -38,7 +44,7 @@ $k\in\Z^2\setminus\{0\}$, $\abs k_1=\abs{k_1}+\abs{k_2}$. (Same as the frozen tr
 
 \subsection{Statement}\label{bpW:wh:statement}
 
-\begin{theorem}[W-NLW2, proposed]\label{bpW:wh:nlw2}
+\begin{theorem}[W-NLW2, frozen]\label{bpW:wh:nlw2}
 For every $m>0$ there exist $r_0>0$, $C>0$, $\tau>1$, a function $\eta:(0,r_0)\to[0,\infty)$ with
 $\eta(r)\to0$ as $r\downarrow0$, a Borel set $\Gamma\subset\{I\in P:r(I)<r_0\}$, a continuous map
 $\nu:\Gamma\to\R^2$, and maps $K_I=(Q_I,P_I):\R^2\to E$ ($I\in\Gamma$) such that $(I,\theta)\mapsto K_I(\theta)$ is
