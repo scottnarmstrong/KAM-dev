@@ -1366,6 +1366,10 @@ public import KAM.Strip.Cohomological
 public import KAM.Strip.CohomologicalDefs
 public import KAM.Strip.CohomologicalNodes
 public import KAM.Strip.CohomologicalOperator
+public import KAM.Strip.CohomologicalParseval
+public import KAM.Strip.CohomologicalParsevalBessel
+public import KAM.Strip.CohomologicalParsevalBound
+public import KAM.Strip.CohomologicalParsevalLattice
 public import KAM.Strip.Fourier
 public import KAM.Strip.FourierBasic
 public import KAM.Strip.FourierDerivative

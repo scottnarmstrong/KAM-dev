@@ -18,7 +18,8 @@ import Mathlib.Tactic.Positivity
 
 The lattice sum is `∑_{k≠0} |k|₁^{2τ} e^{-2πδ|k|₁} ≤ (2τ/(eπδ))^{2τ} (8n/(πδ))ⁿ`, valid for all
 `δ > 0` (no restriction `δ ≤ 1`): split `e^{-2πδ m} = e^{-πδ m} e^{-πδ m}`, bound
-`m^{2τ} e^{-πδ m}` by its supremum, and sum the rest with `KAM.Fourier.tsum_exp_neg_modeSize_ne_zero_le`.
+`m^{2τ} e^{-πδ m}` by its supremum, and sum the rest with
+`KAM.Fourier.tsum_exp_neg_modeSize_ne_zero_le`.
 -/
 
 public noncomputable section
@@ -45,7 +46,8 @@ theorem cohConstP_pos {n : ℕ} (hn : 1 ≤ n) {τ : ℝ} (hτ : 0 ≤ τ) : 0 <
     · rw [← h]
       simp
     · exact Real.rpow_pos_of_pos (by positivity) _
-  have h2 : 0 < 2 ^ n * ((2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ) * (8 * (n : ℝ) / Real.pi) ^ n) := by
+  have h2 : 0 < 2 ^ n *
+      ((2 * τ / (Real.exp 1 * Real.pi)) ^ (2 * τ) * (8 * (n : ℝ) / Real.pi) ^ n) := by
     positivity
   exact mul_pos (by positivity) (Real.sqrt_pos.mpr h2)
 
