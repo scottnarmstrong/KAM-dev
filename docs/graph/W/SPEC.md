@@ -351,3 +351,58 @@ SOURCE line.
       citations are now consistency remarks.
     - **Coverage:** two headline prose items have new exclusion reasons.
   - The specs (`specs/`) and `draft/` are wave-1 historical inputs; the packets are the source of truth.
+- **2026-10-30, delta review 3** (codex-1: W-w0c-review-4, W-w0n-review-4, W-w1a-review-3, W-w1b-review-3,
+  W-w3-review-3, W-wh-review-2). Applied and marked.
+  - The residual FAIL rows all came with replacement blocks: a missing `lam` edge (`stepW:w3:XG`, L303), a missing
+    `flowlip` edge (`stepW:w1:flowlim`, L903-L904), and stale in-text preamble line numbers (`stepW:w3:majY`,
+    `majps`, `conj`). These 5 nodes are PROPOSED for delta 4.
+  - The writer then remapped *in-text* line references (`(proof preamble L…)`, `L…` in SOURCE_*/NOTE/EDGE
+    rationales) from fa002b43 to the re-pinned corpus, with the same line map as the locators. This is a mechanical
+    remap like the locator remap, so statuses are unchanged. It touched 33 records, e.g. the W3 preambles now cite
+    L336-L338, L632 and L708-L709.
+
+## Wave-2 plan (proposed 2026-10-30; extraction starts on the sub-orchestrator's go)
+- **Corpus.**
+  - Once W4–W8 are accepted and on inp, merge inp again.
+  - Re-pin all eleven parts.
+  - Remap the wave-1 locators (text and locators) with `tools/w_depgraph_remap_locators.py` and the in-text pass.
+  - The W3 revision adds `bpW:w3:transport-tori-weak` (a new node in W-w3); W7 carries the accepted β = 1/4
+    revision.
+- **Slices.** One per part; the large parts are split at subsection boundaries. Approximate unit counts are from
+  inp-wbp 2f92d968.
+
+  | Slice | Range | ~units |
+  |---|---|---|
+  | `W-w4` | w4-homological.tex, all | 64 |
+  | `W-w5a` | w5-kamstep.tex L1–449 (externals, setting, W4 generalization, Taylor, step data, flow) | 50 |
+  | `W-w5b` | w5-kamstep.tex L450–end (new Hamiltonian, pull-back, commutators, one KAM step, action–angle, initial perturbation) | 32 |
+  | `W-w6` | w6-iteration.tex, all | 46 |
+  | `W-w7a` | w7-measure.tex L1–459 (externals, indices, frequencies, constants, interface, slicing and zone lemmas) | 50 |
+  | `W-w7b` | w7-measure.tex L460–end (preparatory/iteration zones, measure theorem, density, Diophantine, frequency limit) | 43 |
+  | `W-w8a` | w8-assembly.tex L1–410 (externals, shell data, shell iteration, shell tori) | 60 |
+  | `W-w8b` | w8-assembly.tex L411–end (patching, family injectivity, the proof of W-NLW2) | 43 |
+- **Pre-extraction.**
+  - Run `tools/w_depgraph_preextract.py` on all eleven parts, so that `\ref`s into W0–W3 resolve, with the same
+    anchor map and `--proved-in bpW:wh:nlw2=w8-assembly`. W8's references to the headline state what it proves; they
+    are not uses.
+  - Split into a scratch directory and copy only the new slices' packets (`w_depgraph_split.py` refuses to overwrite
+    the reviewed wave-1 packets).
+  - Wave-2 externals are the ext-lists of W4 (4), W5 (2), W7 (7) and W8 (8).
+  - The `\sourcegap` notes (W4: 1, W5: 2) are handled as in wave 1.
+- **Root.** `bpW:wh:nlw2` gets PROOF_SOURCE = the proof environment of `bpW:w8:nlw2-proof` (w8-assembly.tex, from
+  L552), replacing the provisional statement locator, and a DEPS edge to `bpW:w8:nlw2-proof` ("this result proves
+  the frozen anchor", as for track I's `bpI:p2:g1`). Its frozen identity fields are unchanged. The record goes back to
+  PROPOSED for a delta reviewer.
+- **Reachability.**
+  - The root closure then runs through W8's 17 proof steps into W2 (`bpW:w2:clause5`), W3, W5–W7 and the W1/W0
+    support.
+  - `--require-all-reachable` becomes part of the gate.
+  - Every wave-1 or wave-2 node outside the closure is then checked against the text, and is either linked (a missed
+    use) or EXCLUDED with "outside every root closure of track W" plus the check made.
+  - Likely candidates are the consistency checks `bpW:w0n:duffing` and `bpW:w0n:ledger#ext-lindstedt`, and parts of
+    W0n/W1 that W4–W8 do not consume (e.g. `bpW:w0n:formal-birkhoff`, `bpW:w1:flow`).
+  - Excluded remarks (`kam-conventions`, `operator-fourier`, `w2:hyp`, `w3:interface`) are re-examined against W4–W8
+    citations.
+- **Review.** As in wave 1: writer extraction from specs, then one batched GPT-6.1-Sol review of the new slices plus
+  delta reviews of the re-opened wave-1 records (root, W-w3 additions, re-linked nodes), then the global review
+  (`sol-global-W`) once the whole graph is reachable.

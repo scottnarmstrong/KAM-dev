@@ -168,9 +168,9 @@ EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradi
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L91-L91 | identifies int U_m(q)^3 phi_l / sqrt(lambda_l) with G_q(q)_l
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L77-L78 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L87-L87 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -287,9 +287,9 @@ EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic
 EDGE: stepW:w0n:analytic | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L151-L151 | proof step
 EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L126-L127 | explicit citation identifying G_q with the diagonal T
 EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L125-L125 | K_{p+1/2} is the algebra constant, with p >= 1/2 ensuring s >= 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -331,7 +331,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L13
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L138-L143
 CONTRACT_ID: stepW:w0n:selection
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; l >= 1; hat q and even majorants are the explicit sequences defined at L120-L121 and L133-L134
+SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; l >= 1; hat q and even majorants are the explicit sequences defined at L121-L122 and L135-L136
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: sum_{i,j,k} ¦g_ijkl¦ ¦hat q_i hat q'_j hat q''_k¦ <= (1/(2pi)) (x*x'*x'')_l, so the sum defining T converges absolutely
 CONSTANT_SCOPE: none
@@ -360,7 +360,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L14
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L144-L150
 CONTRACT_ID: stepW:w0n:smoothing
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; s=p+1/2; X=x*x'*x'' with the explicit majorants of L133-L134
+SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; s=p+1/2; X=x*x'*x'' with the explicit majorants of L135-L136
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: ¦¦T¦¦_{a,p+1}^2 <= (1/(8 pi^2)) ¦¦X¦¦_{a,p+1/2}^2 and ¦¦X¦¦ <= K_s^2 2^{3/2} prod ¦¦q¦¦, hence ¦¦T¦¦_{a,p+1} <= (K_s^2/pi) prod ¦¦q¦¦
 CONSTANT_SCOPE: K_s depends only on s = p + 1/2
@@ -391,7 +391,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151-L156
 CONTRACT_ID: stepW:w0n:analytic
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q in l_C^{a,p}; T is the series formula of L120-L121 (boundedness and symmetry are proved, not assumed)
+SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q in l_C^{a,p}; T is the series formula of L121-L122 (boundedness and symmetry are proved, not assumed)
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: T is trilinear and symmetric; q -> T(q,q,q) is a continuous homogeneous cubic polynomial, analytic on the whole space, real on real sequences; for a > 0 it is G_q (Lemma bpW:w0n:gradient)
 CONSTANT_SCOPE: none
@@ -637,7 +637,7 @@ ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | lambda > 0 and j -> lambda_j increasing
 EDGE: bpW:w0:mass | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L234-L234 | squaring: 2 sqrt((x^2+m)(y^2+m)) > 2xy - m uses m > 0
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | g_abcd != 0 supplies d <= a+b+c via the selection rule at L227-L228
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | g_abcd != 0 supplies d <= a+b+c via the selection rule at L229-L230
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -666,7 +666,7 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L238-L238 | strict convexity of f, f' > 0 increasing
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L236-L236 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L237-L237 | the signed index relation used in the exhaustive cases comes from L227-L228
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L237-L237 | the signed index relation used in the exhaustive cases comes from L229-L230
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -800,7 +800,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L306
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L306
 CONTRACT_ID: stepW:w0n:sum
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: m > 0; oscillator actions I_j=abs(z_j)^2; y_j=I_j/lambda_j; first compute on finite support and extend as at L293-L294
+SOURCE_HYPOTHESES: m > 0; oscillator actions I_j=abs(z_j)^2; y_j=I_j/lambda_j; first compute on finite support and extend as at L295-L296
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: <G> = (9/(16pi)) sum y_i^2 + (3/(2pi)) sum_{i<j} y_i y_j, which is (bpW:w0n:avgG); matching gives A and B
 CONSTANT_SCOPE: none
@@ -1093,7 +1093,7 @@ REVIEWER: sol-review-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Unlabelled prose L258-L268 (with the display bpW:w0n:Gz) that fixes data consumed by Qdef, AB and formal-birkhoff (SPEC section-data rule).
+NOTE: Unlabelled prose L260-L270 (with the display bpW:w0n:Gz) that fixes data consumed by Qdef, AB and formal-birkhoff (SPEC section-data rule).
 
 NODE: bpW:w0n:nondeg-sec#data
 KIND: definition
@@ -1121,7 +1121,7 @@ REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Unlabelled prose L341-L344 defining the conditions stated in Theorem bpW:w0n:nondeg (SPEC section-data rule).
+NOTE: Unlabelled prose L343-L346 defining the conditions stated in Theorem bpW:w0n:nondeg (SPEC section-data rule).
 
 NODE: bpW:w0n:ledger#ext-lindstedt
 KIND: external

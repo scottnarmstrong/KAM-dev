@@ -401,7 +401,7 @@ DISPOSITION: NODE stepW:w1:shift
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w1b
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:parseval
 KIND: proof-region
@@ -822,42 +822,42 @@ KIND: lemma
 SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L967-L973
 DISPOSITION: NODE bpW:w1:fourier-shift
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:fshift-one
 KIND: proof-region
 SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-one@L976-L981
 DISPOSITION: NODE stepW:w1:fshift-one
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:fshift-iter
 KIND: proof-region
 SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L982-L991
 DISPOSITION: NODE stepW:w1:fshift-iter
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:fshift-end
 KIND: proof-region
 SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-end@L992-L995
 DISPOSITION: NODE stepW:w1:fshift-end
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: w1-sequences:source-L997
 KIND: citation
 SOURCE: blueprint-W/parts/w1-sequences.tex#source@L997-L998
 DISPOSITION: EXCLUDED
 REASON: provenance note (K's step:p1:dec-shift has the same argument for a particular shift); not an input
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b

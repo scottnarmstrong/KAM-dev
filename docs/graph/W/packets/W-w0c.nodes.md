@@ -205,9 +205,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -294,9 +294,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L92-L92 | H is defined on E_{1,1}
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L95-L97 | finiteness is stated on the general coefficient space E_{a,p}
 EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L96-L96 | U_m(q) is continuous on [0,pi] for q in l^{a,p}, a > 0, so G(q) is defined there
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -326,9 +326,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L10
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L108 | q in ell^{1,1} is read as coeff y in the frozen carrier dictionary
 EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L105-L105 | the integrand U_m(q)^3 phi_l is continuous (k = 0), so the integral is defined
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L103 | G_q is defined on the general space l^{a,p}
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -364,7 +364,7 @@ REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: The \ref{bpW:w0n:cubic-bound} of L111 (smoothing of order one) is a forward pointer, not an edge.
+NOTE: The \ref{bpW:w0n:cubic-bound} of L119 (smoothing of order one) is a forward pointer, not an edge.
 
 NODE: bpW:w0:z
 KIND: definition

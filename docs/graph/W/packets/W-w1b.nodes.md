@@ -856,7 +856,7 @@ REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Uses the proof of track K's Lemma bp:p1:holomorphic-analytic (steps han-cauchy to han-bounds) with radius r_1 and K's target W replaced by the complete space F (a carrier change); the text justifies the transfer (L821-L823: only the one-variable Cauchy formula for complete F and Bochner integration on the domain torus are used). Reviewer: check that the import and the two externals cover the transfer.
+NOTE: Uses the proof of track K's Lemma bp:p1:holomorphic-analytic (steps han-cauchy to han-bounds) with radius r_1 and K's target W replaced by the complete space F (a carrier change); the text justifies the transfer (L833-L835: only the one-variable Cauchy formula for complete F and Bochner integration on the domain torus are used). Reviewer: check that the import and the two externals cover the transfer.
 
 NODE: stepW:w1:hagroup
 KIND: step
@@ -1077,7 +1077,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:picard, bpW:w1:ext-ode, bpW:w1:uniform-limit, stepW:w1:picardholo, bpW:w1:ext-integral
+DEPS: stepW:w1:flowlip, stepW:w1:picard, bpW:w1:ext-ode, bpW:w1:uniform-limit, stepW:w1:picardholo, bpW:w1:ext-integral
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:picard | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L902-L902 | geometric convergence of the iterates
@@ -1085,8 +1085,9 @@ EDGE: bpW:w1:ext-ode | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L903-
 EDGE: bpW:w1:uniform-limit | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L905-L905 | holomorphy of the uniform limit
 EDGE: stepW:w1:picardholo | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L905-L905 | holomorphy and bounds of the iterates
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L902-L903 | uniform convergence of the Picard integrands permits passage to the limit under the Bochner integral
+EDGE: stepW:w1:flowlip | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L903-L904 | the L-Lipschitz bound on B(w,delta) discharges the ODE uniqueness premise
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-delta-W-w1b
+EXTRACTOR: claude-suborch-W+sol-delta3-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1255,9 +1256,9 @@ DEPS: bpW:w1:fourier-shift
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:fourier-shift | blueprint-W/parts/w1-sequences.tex#stepW:w1:shift@L1016-L1016 | Lemma bpW:w1:fourier-shift with F = H
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1795,9 +1796,9 @@ EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shi
 EDGE: stepW:w1:fshift-one | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L976-L976 | proof step
 EDGE: stepW:w1:fshift-iter | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L982-L982 | proof step
 EDGE: stepW:w1:fshift-end | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L992-L992 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1822,9 +1823,9 @@ DEPS: bpW:w1:ext-rect
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:ext-rect | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-one@L979-L979 | Cauchy's theorem for the rectangle with corners 0 and 1 + i tau
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1851,9 +1852,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L988-L988 | f = u(y(.)) e^{-2 pi i k.y(.)} is complex differentiable on S (chain rule with the affine y)
 EDGE: stepW:w1:fshift-one | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L989-L989 | applied with tau = eta_r in the variable x_r
 EDGE: bpW:w1:ext-rect | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L990-L990 | Fubini for continuous integrands on the box
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1878,9 +1879,9 @@ DEPS: stepW:w1:fshift-iter
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:fshift-iter | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-end@L993-L993 | I_n = I_0 by the iteration
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

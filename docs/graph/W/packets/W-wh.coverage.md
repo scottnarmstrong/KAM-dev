@@ -102,18 +102,18 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w-headline.tex#prose@L3-L4
 DISPOSITION: EXCLUDED
 REASON: status line (FROZEN, owner decision D41; nlw2 DRAFT_SORRY); administrative
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-wh
 
 ITEM: w-headline:prose-L5-L9
 KIND: proof-region
 SOURCE: blueprint-W/parts/w-headline.tex#prose@L6-L15
 DISPOSITION: EXCLUDED
 REASON: introduction (provenance D30, approval D41, list of the frozen declarations); administrative
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-wh
 
 ITEM: w-headline:prose-L13-L16
 KIND: proof-region

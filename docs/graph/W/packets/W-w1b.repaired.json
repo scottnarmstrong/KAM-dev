@@ -6,25 +6,14 @@
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w1:recanalytic",
-  "stepW:w1:recder",
-  "stepW:w1:dcbound",
-  "stepW:w1:hamargin",
-  "bpW:w1:flow",
-  "stepW:w1:picard",
-  "stepW:w1:picardholo",
-  "stepW:w1:flowpar",
   "stepW:w1:shift",
-  "stepW:w1:orthants",
-  "stepW:w1:recanalytic",
-  "stepW:w1:recder",
-  "stepW:w1:dcbound",
-  "stepW:w1:hamargin",
-  "bpW:w1:flow",
-  "stepW:w1:picard",
-  "stepW:w1:picardholo",
-  "stepW:w1:flowpar",
-  "stepW:w1:shift",
-  "stepW:w1:orthants"
+  "bpW:w1:fourier-shift",
+  "stepW:w1:fshift-one",
+  "stepW:w1:fshift-iter",
+  "stepW:w1:fshift-end",
+  "bpW:w1:fourier-shift",
+  "stepW:w1:fshift-one",
+  "stepW:w1:fshift-iter",
+  "stepW:w1:fshift-end"
  ]
 }

@@ -83,7 +83,7 @@ DISPOSITION: NODE bpW:w0:twosided
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w0c
+REVIEWER: sol-delta3-W-w0c
 
 ITEM: bpW:w0:reconstruction#reconU
 KIND: definition
@@ -110,7 +110,7 @@ DISPOSITION: NODE bpW:w0:H
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0c
+REVIEWER: sol-delta3-W-w0c
 
 ITEM: bpW:w0:Gq#cubicGrad
 KIND: definition
@@ -119,7 +119,7 @@ DISPOSITION: NODE bpW:w0:Gq#cubicGrad
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0c
+REVIEWER: sol-delta3-W-w0c
 
 ITEM: bpW:w0:eqmotion
 KIND: definition
@@ -425,7 +425,7 @@ DISPOSITION: NODE bpW:w0n:gradient
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+REVIEWER: sol-delta3-W-w0n
 
 ITEM: bpW:w0n:algebra
 KIND: lemma
@@ -461,7 +461,7 @@ DISPOSITION: NODE bpW:w0n:cubic-bound
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+REVIEWER: sol-delta3-W-w0n
 
 ITEM: stepW:w0n:majorant
 KIND: proof-region
@@ -1181,7 +1181,7 @@ DISPOSITION: NODE stepW:w1:ext
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w1a
+REVIEWER: sol-delta3-W-w1a
 
 ITEM: stepW:w1:restr
 KIND: proof-region
@@ -1190,7 +1190,7 @@ DISPOSITION: NODE stepW:w1:restr
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w1a
+REVIEWER: sol-delta3-W-w1a
 
 ITEM: stepW:w1:pair
 KIND: proof-region
@@ -1791,9 +1791,9 @@ KIND: external
 SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:ext-rect@L117-L125
 DISPOSITION: NODE bpW:w1:ext-rect
 REASON: labelled external item (W1-E9)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1a
 
 ITEM: bpW:w1:sine-completeness
 KIND: lemma
@@ -2198,7 +2198,7 @@ DISPOSITION: NODE stepW:w1:shift
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w1b
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:parseval
 KIND: proof-region
@@ -2619,45 +2619,45 @@ KIND: lemma
 SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L967-L973
 DISPOSITION: NODE bpW:w1:fourier-shift
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:fshift-one
 KIND: proof-region
 SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-one@L976-L981
 DISPOSITION: NODE stepW:w1:fshift-one
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:fshift-iter
 KIND: proof-region
 SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L982-L991
 DISPOSITION: NODE stepW:w1:fshift-iter
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: stepW:w1:fshift-end
 KIND: proof-region
 SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-end@L992-L995
 DISPOSITION: NODE stepW:w1:fshift-end
 REASON: labelled unit added by the blueprint cleanup (inp 99afc128)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: w1-sequences:source-L997
 KIND: citation
 SOURCE: blueprint-W/parts/w1-sequences.tex#source@L997-L998
 DISPOSITION: EXCLUDED
 REASON: provenance note (K's step:p1:dec-shift has the same argument for a particular shift); not an input
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 
 ITEM: bpW:w2:ext-deriv
 KIND: external
@@ -3402,9 +3402,9 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L298-L311
 DISPOSITION: NODE stepW:w3:XG
 REASON: labelled proof step (route nodes removed after the blueprint cleanup)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w3
 
 ITEM: stepW:w3:Gnor
 KIND: proof-region
@@ -3746,7 +3746,7 @@ DISPOSITION: NODE stepW:w3:gradtrans
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta3-W-w3
 
 ITEM: bpW:w3:Yseries
 KIND: lemma
@@ -4518,18 +4518,18 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w-headline.tex#prose@L3-L4
 DISPOSITION: EXCLUDED
 REASON: status line (FROZEN, owner decision D41; nlw2 DRAFT_SORRY); administrative
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-wh
 
 ITEM: w-headline:prose-L5-L9
 KIND: proof-region
 SOURCE: blueprint-W/parts/w-headline.tex#prose@L6-L15
 DISPOSITION: EXCLUDED
 REASON: introduction (provenance D30, approval D41, list of the frozen declarations); administrative
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-wh
 
 ITEM: w-headline:prose-L13-L16
 KIND: proof-region

@@ -4,11 +4,7 @@
  "items": [],
  "unresolved": {},
  "passes": [
-  "stepW:w0n:det",
-  "stepW:w0n:A2",
-  "stepW:w0n:A3red",
-  "stepW:w0n:det",
-  "stepW:w0n:A2",
-  "stepW:w0n:A3red"
+  "bpW:w0n:gradient",
+  "bpW:w0n:cubic-bound"
  ]
 }

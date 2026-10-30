@@ -77,7 +77,7 @@ DISPOSITION: NODE bpW:w0:twosided
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-review-W-w0c
+REVIEWER: sol-delta3-W-w0c
 
 ITEM: bpW:w0:reconstruction#reconU
 KIND: definition
@@ -104,7 +104,7 @@ DISPOSITION: NODE bpW:w0:H
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0c
+REVIEWER: sol-delta3-W-w0c
 
 ITEM: bpW:w0:Gq#cubicGrad
 KIND: definition
@@ -113,7 +113,7 @@ DISPOSITION: NODE bpW:w0:Gq#cubicGrad
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0c
+REVIEWER: sol-delta3-W-w0c
 
 ITEM: bpW:w0:eqmotion
 KIND: definition

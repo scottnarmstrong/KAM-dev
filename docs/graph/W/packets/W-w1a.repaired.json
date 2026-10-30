@@ -4,30 +4,9 @@
  "items": [],
  "unresolved": {},
  "passes": [
-  "bpW:w1:transport",
-  "stepW:w1:iso",
-  "stepW:w1:sep",
-  "stepW:w1:rot",
   "stepW:w1:ext",
   "stepW:w1:restr",
-  "stepW:w1:rules",
-  "stepW:w1:can",
-  "stepW:w1:cder",
-  "stepW:w1:clip",
-  "stepW:w1:hsum",
-  "stepW:w1:hham",
-  "stepW:w1:tricoord#via-selection",
-  "bpW:w1:transport",
-  "stepW:w1:iso",
-  "stepW:w1:sep",
-  "stepW:w1:rot",
-  "stepW:w1:ext",
-  "stepW:w1:restr",
-  "stepW:w1:rules",
-  "stepW:w1:can",
-  "stepW:w1:cder",
-  "stepW:w1:clip",
-  "stepW:w1:hsum",
-  "stepW:w1:hham"
+  "bpW:w1:ext-rect",
+  "bpW:w1:ext-rect"
  ]
 }

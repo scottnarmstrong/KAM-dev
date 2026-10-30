@@ -201,9 +201,9 @@ KIND: proof-region
 SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L298-L311
 DISPOSITION: NODE stepW:w3:XG
 REASON: labelled proof step (route nodes removed after the blueprint cleanup)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w3
 
 ITEM: stepW:w3:Gnor
 KIND: proof-region
@@ -545,7 +545,7 @@ DISPOSITION: NODE stepW:w3:gradtrans
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w3
+REVIEWER: sol-delta3-W-w3
 
 ITEM: bpW:w3:Yseries
 KIND: lemma

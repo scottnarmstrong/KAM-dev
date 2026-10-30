@@ -50,7 +50,7 @@ DISPOSITION: NODE bpW:w0n:gradient
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+REVIEWER: sol-delta3-W-w0n
 
 ITEM: bpW:w0n:algebra
 KIND: lemma
@@ -86,7 +86,7 @@ DISPOSITION: NODE bpW:w0n:cubic-bound
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w0n
+REVIEWER: sol-delta3-W-w0n
 
 ITEM: stepW:w0n:majorant
 KIND: proof-region

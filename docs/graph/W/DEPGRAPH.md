@@ -223,9 +223,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -312,9 +312,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L92-L92 | H is defined on E_{1,1}
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L95-L97 | finiteness is stated on the general coefficient space E_{a,p}
 EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L96-L96 | U_m(q) is continuous on [0,pi] for q in l^{a,p}, a > 0, so G(q) is defined there
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -344,9 +344,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L10
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L108 | q in ell^{1,1} is read as coeff y in the frozen carrier dictionary
 EDGE: bpW:w0n:recon-bounded | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L105-L105 | the integrand U_m(q)^3 phi_l is continuous (k = 0), so the integral is defined
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L103-L103 | G_q is defined on the general space l^{a,p}
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -382,7 +382,7 @@ REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: The \ref{bpW:w0n:cubic-bound} of L111 (smoothing of order one) is a forward pointer, not an edge.
+NOTE: The \ref{bpW:w0n:cubic-bound} of L119 (smoothing of order one) is a forward pointer, not an edge.
 
 NODE: bpW:w0:z
 KIND: definition
@@ -727,9 +727,9 @@ EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradi
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L91-L91 | identifies int U_m(q)^3 phi_l / sqrt(lambda_l) with G_q(q)_l
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L77-L78 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L87-L87 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -846,9 +846,9 @@ EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic
 EDGE: stepW:w0n:analytic | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L151-L151 | proof step
 EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L126-L127 | explicit citation identifying G_q with the diagonal T
 EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L125-L125 | K_{p+1/2} is the algebra constant, with p >= 1/2 ensuring s >= 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -890,7 +890,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L13
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L138-L143
 CONTRACT_ID: stepW:w0n:selection
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; l >= 1; hat q and even majorants are the explicit sequences defined at L120-L121 and L133-L134
+SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; l >= 1; hat q and even majorants are the explicit sequences defined at L121-L122 and L135-L136
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: sum_{i,j,k} ¦g_ijkl¦ ¦hat q_i hat q'_j hat q''_k¦ <= (1/(2pi)) (x*x'*x'')_l, so the sum defining T converges absolutely
 CONSTANT_SCOPE: none
@@ -919,7 +919,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L14
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L144-L150
 CONTRACT_ID: stepW:w0n:smoothing
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; s=p+1/2; X=x*x'*x'' with the explicit majorants of L133-L134
+SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q,q',q'' in l_C^{a,p}; s=p+1/2; X=x*x'*x'' with the explicit majorants of L135-L136
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: ¦¦T¦¦_{a,p+1}^2 <= (1/(8 pi^2)) ¦¦X¦¦_{a,p+1/2}^2 and ¦¦X¦¦ <= K_s^2 2^{3/2} prod ¦¦q¦¦, hence ¦¦T¦¦_{a,p+1} <= (K_s^2/pi) prod ¦¦q¦¦
 CONSTANT_SCOPE: K_s depends only on s = p + 1/2
@@ -950,7 +950,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151-L156
 CONTRACT_ID: stepW:w0n:analytic
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q in l_C^{a,p}; T is the series formula of L120-L121 (boundedness and symmetry are proved, not assumed)
+SOURCE_HYPOTHESES: a >= 0, p >= 1/2; q in l_C^{a,p}; T is the series formula of L121-L122 (boundedness and symmetry are proved, not assumed)
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: T is trilinear and symmetric; q -> T(q,q,q) is a continuous homogeneous cubic polynomial, analytic on the whole space, real on real sequences; for a > 0 it is G_q (Lemma bpW:w0n:gradient)
 CONSTANT_SCOPE: none
@@ -1196,7 +1196,7 @@ ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | lambda > 0 and j -> lambda_j increasing
 EDGE: bpW:w0:mass | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L234-L234 | squaring: 2 sqrt((x^2+m)(y^2+m)) > 2xy - m uses m > 0
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | g_abcd != 0 supplies d <= a+b+c via the selection rule at L227-L228
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L233-L233 | g_abcd != 0 supplies d <= a+b+c via the selection rule at L229-L230
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -1225,7 +1225,7 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L238-L238 | strict convexity of f, f' > 0 increasing
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L236-L236 | lambda occurs explicitly in the local source statement or calculation
-EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L237-L237 | the signed index relation used in the exhaustive cases comes from L227-L228
+EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L237-L237 | the signed index relation used in the exhaustive cases comes from L229-L230
 TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
 REVIEWER: sol-delta-W-w0n
@@ -1359,7 +1359,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L306
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L306
 CONTRACT_ID: stepW:w0n:sum
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: m > 0; oscillator actions I_j=abs(z_j)^2; y_j=I_j/lambda_j; first compute on finite support and extend as at L293-L294
+SOURCE_HYPOTHESES: m > 0; oscillator actions I_j=abs(z_j)^2; y_j=I_j/lambda_j; first compute on finite support and extend as at L295-L296
 SOURCE_QUANTIFIERS: for every choice of the source data stated in SOURCE_HYPOTHESES; m > 0 fixed under the standing assumption
 SOURCE_CONCLUSION: <G> = (9/(16pi)) sum y_i^2 + (3/(2pi)) sum_{i<j} y_i y_j, which is (bpW:w0n:avgG); matching gives A and B
 CONSTANT_SCOPE: none
@@ -1652,7 +1652,7 @@ REVIEWER: sol-review-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Unlabelled prose L258-L268 (with the display bpW:w0n:Gz) that fixes data consumed by Qdef, AB and formal-birkhoff (SPEC section-data rule).
+NOTE: Unlabelled prose L260-L270 (with the display bpW:w0n:Gz) that fixes data consumed by Qdef, AB and formal-birkhoff (SPEC section-data rule).
 
 NODE: bpW:w0n:nondeg-sec#data
 KIND: definition
@@ -1680,7 +1680,7 @@ REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Unlabelled prose L341-L344 defining the conditions stated in Theorem bpW:w0n:nondeg (SPEC section-data rule).
+NOTE: Unlabelled prose L343-L346 defining the conditions stated in Theorem bpW:w0n:nondeg (SPEC section-data rule).
 
 NODE: bpW:w0n:ledger#ext-lindstedt
 KIND: external
@@ -2489,9 +2489,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L327-L329 | j/lambda_j < 1
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:ext@L326-L326 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -2517,9 +2517,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L331-L331 | l/lambda_l < 1
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w1-sequences.tex#stepW:w1:restr@L331-L331 | lambda occurs directly here (frozen lam)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1a+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1a
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -3604,9 +3604,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1a
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -4470,7 +4470,7 @@ REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Uses the proof of track K's Lemma bp:p1:holomorphic-analytic (steps han-cauchy to han-bounds) with radius r_1 and K's target W replaced by the complete space F (a carrier change); the text justifies the transfer (L821-L823: only the one-variable Cauchy formula for complete F and Bochner integration on the domain torus are used). Reviewer: check that the import and the two externals cover the transfer.
+NOTE: Uses the proof of track K's Lemma bp:p1:holomorphic-analytic (steps han-cauchy to han-bounds) with radius r_1 and K's target W replaced by the complete space F (a carrier change); the text justifies the transfer (L833-L835: only the one-variable Cauchy formula for complete F and Bochner integration on the domain torus are used). Reviewer: check that the import and the two externals cover the transfer.
 
 NODE: stepW:w1:hagroup
 KIND: step
@@ -4691,7 +4691,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:picard, bpW:w1:ext-ode, bpW:w1:uniform-limit, stepW:w1:picardholo, bpW:w1:ext-integral
+DEPS: stepW:w1:flowlip, stepW:w1:picard, bpW:w1:ext-ode, bpW:w1:uniform-limit, stepW:w1:picardholo, bpW:w1:ext-integral
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:picard | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L902-L902 | geometric convergence of the iterates
@@ -4699,8 +4699,9 @@ EDGE: bpW:w1:ext-ode | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L903-
 EDGE: bpW:w1:uniform-limit | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L905-L905 | holomorphy of the uniform limit
 EDGE: stepW:w1:picardholo | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L905-L905 | holomorphy and bounds of the iterates
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L902-L903 | uniform convergence of the Picard integrands permits passage to the limit under the Bochner integral
+EDGE: stepW:w1:flowlip | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L903-L904 | the L-Lipschitz bound on B(w,delta) discharges the ODE uniqueness premise
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-delta-W-w1b
+EXTRACTOR: claude-suborch-W+sol-delta3-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -4869,9 +4870,9 @@ DEPS: bpW:w1:fourier-shift
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:fourier-shift | blueprint-W/parts/w1-sequences.tex#stepW:w1:shift@L1016-L1016 | Lemma bpW:w1:fourier-shift with F = H
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w1b+claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -5409,9 +5410,9 @@ EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shi
 EDGE: stepW:w1:fshift-one | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L976-L976 | proof step
 EDGE: stepW:w1:fshift-iter | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L982-L982 | proof step
 EDGE: stepW:w1:fshift-end | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-shift@L992-L992 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -5436,9 +5437,9 @@ DEPS: bpW:w1:ext-rect
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:ext-rect | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-one@L979-L979 | Cauchy's theorem for the rectangle with corners 0 and 1 + i tau
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -5465,9 +5466,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L988-L988 | f = u(y(.)) e^{-2 pi i k.y(.)} is complex differentiable on S (chain rule with the affine y)
 EDGE: stepW:w1:fshift-one | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L989-L989 | applied with tau = eta_r in the variable x_r
 EDGE: bpW:w1:ext-rect | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-iter@L990-L990 | Fubini for continuous integrands on the box
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -5492,9 +5493,9 @@ DEPS: stepW:w1:fshift-iter
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:fshift-iter | blueprint-W/parts/w1-sequences.tex#stepW:w1:fshift-end@L993-L993 | I_n = I_0 by the iteration
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -7140,7 +7141,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w3:hamfield-def#hamilton, bpW:w0n:cubic-bound, bpW:w3:quartic, stepW:w3:Gz, bpW:w3:majorant, bpW:w0n:quartic-coeff
+DEPS: bpW:w0:basis#lam, bpW:w3:hamfield-def#hamilton, bpW:w0n:cubic-bound, bpW:w3:quartic, stepW:w3:Gz, bpW:w3:majorant, bpW:w0n:quartic-coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w3:hamfield-def#hamilton | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L299-L299 | on real points Z^{-1} X_P = (d_p P, -d_q P)
@@ -7149,8 +7150,9 @@ EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L300-L311 |
 EDGE: stepW:w3:Gz | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L301-L301 | G(Zx) = (1/4) Q(q,q,q,q) from the quartic step
 EDGE: bpW:w3:majorant | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L306-L306 | absolute convergence of Q via the majorant M and C_*
 EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L307-L307 | symmetry of g gives the symmetry of Q
+EDGE: bpW:w0:basis#lam | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XG@L303-L303 | hat q_j = q_j/sqrt(lambda_j) uses the frozen lam definition directly
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-w3+claude-suborch-W-r2
+EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -7285,7 +7287,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:sel@L339-L342
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:sel@L339-L342
 CONTRACT_ID: stepW:w3:sel
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L326-L328)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L336-L338)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:divisor (for all such x); within the step: a <= b <= c <= d sorted ¦x_t¦; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: d = a+b+c or d = b+c-a
 CONSTANT_SCOPE: none
@@ -7311,7 +7313,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:signs@L343-L346
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:signs@L343-L346
 CONTRACT_ID: stepW:w3:signs
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L326-L328)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L336-L338)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:divisor (for all such x); within the step: sign patterns; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: WLOG at most two x_t negative; it suffices to bound the divisor of each sign pattern on (a,b,c,d)
 CONSTANT_SCOPE: none
@@ -7337,7 +7339,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@L347-L348
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s0@L347-L348
 CONTRACT_ID: stepW:w3:s0
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L326-L328)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L336-L338)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:divisor (for all such x); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: with no minus sign delta >= 4 > beta
 CONSTANT_SCOPE: none
@@ -7366,7 +7368,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@L349-L353
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1@L349-L353
 CONTRACT_ID: stepW:w3:s1
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L326-L328)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L336-L338)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:divisor (for all such x); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: with one minus sign the divisor is >= m/(2 lambda_a) >= beta
 CONSTANT_SCOPE: none
@@ -7396,7 +7398,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23@L354-L358
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s23@L354-L358
 CONTRACT_ID: stepW:w3:s23
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L326-L328)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L336-L338)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:divisor (for all such x); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: delta_3 = lambda_c + lambda_d - lambda_a - lambda_b and delta_2 = (lambda_b - lambda_a) + (lambda_d - lambda_c) vanish identically iff paired, and otherwise are >= a/lambda_a >= beta
 CONSTANT_SCOPE: none
@@ -7425,7 +7427,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L359-L369
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:s1inner@L359-L369
 CONTRACT_ID: stepW:w3:s1inner
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L326-L328)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L336-L338)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:divisor (for all such x); within the step: cases (i), (ii); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: delta_1 = lambda_a + lambda_d - lambda_b - lambda_c is paired iff a = b, c = d, and otherwise >= beta: (i) d = b+c-a via f'' >= m/(27 lambda_a^3); (ii) d = a+b+c via 2a f'(b) >= 2/sqrt(1+m) >= beta
 CONSTANT_SCOPE: none
@@ -7456,7 +7458,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L370-L373
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:divconcl@L370-L373
 CONTRACT_ID: stepW:w3:divconcl
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L326-L328)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:divisor: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; n general in this lemma; x in (Z\0)^4 satisfying the selection rule eps_1¦x_1¦ + .. + eps_4¦x_4¦ = 0 for some eps in {+-1}^4, x not paired; n = min_t ¦x_t¦; local data: a <= b <= c <= d the sorted ¦x_1¦..¦x_4¦ (n = a); f(s) = sqrt(s^2+m), lambda_k = f(k); beta = m/(27 lambda_a^3) (proof preamble L336-L338)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:divisor (for all such x); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: two-minus patterns are +-delta_1, +-delta_2, +-delta_3 and pairing coincides with identical vanishing; the corollary follows since frak g_x != 0 implies the selection rule, n <= 2 on T, and n -> m/(n^2+m)^{3/2} is decreasing
 CONSTANT_SCOPE: delta_* depends only on m
@@ -8263,9 +8265,9 @@ ROUTE_FOR: -
 EDGE: bpW:w3:flow | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradtrans@L601-L601 | (iii) invertibility on W and W+
 EDGE: stepW:w3:constform | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradtrans@L602-L602 | constant form
 EDGE: bpW:w3:hamfield-def | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:gradtrans@L599-L599 | the defining Hamiltonian pairing of P is directly consumed
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-delta-W-w3
-REVIEWER: -
+REVIEWER: sol-delta3-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -8314,7 +8316,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majcalc@L633-L644
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majcalc@L633-L644
 CONTRACT_ID: stepW:w3:majcalc
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); within the step: (t,w)-series P^i, multilinear B; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: majorant calculus: composite series have mu_{B(P^1..P^n)} <= ¦¦B¦¦ prod mu_{P^i} and sum to B(P^1(t,w),..); sums add coefficientwise; graded series and shifts
 CONSTANT_SCOPE: none
@@ -8342,7 +8344,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majflow@L645-L647
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majflow@L645-L647
 CONTRACT_ID: stepW:w3:majflow
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); within the step: s, rho; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: the series Gamma (shift 1) sums to Gamma_t(w) with mu_Gamma <= rho/(1-r)
 CONSTANT_SCOPE: none
@@ -8371,7 +8373,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majA@L648-L654
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majA@L648-L654
 CONTRACT_ID: stepW:w3:majA
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); within the step: k >= 1; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: A_{k,2k} with ¦¦A_{k,2k}¦¦ <= (2k+1)(2C_F)^k, mu_A <= 5r <= 1/16, sums to D Gamma_t(w) - I on W+
 CONSTANT_SCOPE: none
@@ -8401,7 +8403,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majN@L655-L661
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majN@L655-L661
 CONTRACT_ID: stepW:w3:majN
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: N = sum_n (-A)^n regrouped is a graded series (shift 0) with mu_N <= 16/15 summing to D Gamma_t(w)^{-1} on W+
 CONSTANT_SCOPE: none
@@ -8431,7 +8433,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majX@L662-L665
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majX@L662-L665
 CONTRACT_ID: stepW:w3:majX
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: 4 nabla frak z(Gamma,Gamma,Gamma) has majorant <= C_* rho^3 (1-r)^{-3}, sums to X_{Z'}(Gamma_t w), shift 3
 CONSTANT_SCOPE: none
@@ -8460,7 +8462,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L666-L671
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L666-L671
 CONTRACT_ID: stepW:w3:majY
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: the composite series cal Y sums to Y(t,w), has shift 3 and mu_Y(1,rho_1) <= 4 C_* rho_1^3; Y_j = cal Y_{j,2j+3}
 CONSTANT_SCOPE: C_* depends only on p
@@ -8476,7 +8478,7 @@ EDGE: stepW:w3:majX | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L668-L668 
 EDGE: bpW:w3:main-sec#data | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L669-L669 | Y(t,w)
 EDGE: stepW:w3:majcalc | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majY@L667-L670 | the bilinear application composite and subtraction use the composite-series identity and product majorant bound
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-delta-W-w3
+EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -8490,7 +8492,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majint@L672-L675
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majint@L672-L675
 CONTRACT_ID: stepW:w3:majint
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); within the step: w; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: termwise integration in t: int_0^1 Y dt = sum Y_j(w,..,w)/(j+1)
 CONSTANT_SCOPE: none
@@ -8518,7 +8520,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L676-L678
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L676-L678
 CONTRACT_ID: stepW:w3:majps
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: sum ¦¦q_n¦¦ rho_1^n < infinity, so the formal power series and analyticity
 CONSTANT_SCOPE: none
@@ -8533,7 +8535,7 @@ EDGE: stepW:w3:majY | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L677
 EDGE: bpW:w3:ext-series | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L677 | power series give analyticity
 EDGE: stepW:w3:majint | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majps@L677-L678 | the preceding termwise integral identity identifies the diagonal series with coefficients q with the integral whose analyticity is asserted
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-delta-W-w3
+EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -8547,7 +8549,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majreal@L679-L682
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:majreal@L679-L682
 CONTRACT_ID: stepW:w3:majreal
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L622)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:Yseries: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Y(t,w) of (bpW:w3:Ydef), rho_1 = (1/2)(40 C_F)^{-1/2}; local data: 0 <= s <= 1, 0 <= rho <= rho_1, r = 2 C_F s rho^2 (proof preamble L632)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:Yseries (there exist Y_j (j >= 0); then for 0 <= t <= 1 and w in B_{rho_1}); within the step: t real; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: Y(t, rho w) = rho Y(t,w) and rho commutes with the t-integral
 CONSTANT_SCOPE: none
@@ -8613,7 +8615,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Kanalytic@L710-L713
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:Kanalytic@L710-L713
 CONTRACT_ID: stepW:w3:Kanalytic
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: K is analytic on B_{rho_1} and real
 CONSTANT_SCOPE: none
@@ -8643,7 +8645,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K1@L714-L717
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K1@L714-L717
 CONTRACT_ID: stepW:w3:K1
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); within the step: w; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: ¦K_1(w)¦ = ¦G(Gamma w) - G(w)¦ <= 5 C_* C_F ¦¦w¦¦^6
 CONSTANT_SCOPE: none
@@ -8673,7 +8675,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K2@L718-L723
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:K2@L718-L723
 CONTRACT_ID: stepW:w3:K2
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); within the step: w; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: h(t) = Lambda(Gamma_t w) - Lambda(w) - t Z'(w) has h(0) = 0, h'(t) = Z'(Gamma_t w) - Z'(w), ¦h'(t)¦ <= 5 C_* C_F t ¦¦w¦¦^6, so ¦K_2(w)¦ <= 5 C_* C_F ¦¦w¦¦^6; with K_1, (i)
 CONSTANT_SCOPE: none
@@ -8705,7 +8707,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK1@L724-L731
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK1@L724-L731
 CONTRACT_ID: stepW:w3:XK1
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); within the step: w; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: X_{K_1}(w) = D Gamma^{-1} X_G(Gamma w) - X_G(w), ¦¦X_{K_1}(w)¦¦_+ <= 44 C_* C_F ¦¦w¦¦^5, analytic into W+
 CONSTANT_SCOPE: none
@@ -8736,7 +8738,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK2@L732-L741
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XK2@L732-L741
 CONTRACT_ID: stepW:w3:XK2
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); within the step: w; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: K_2(w) = int_0^1 (Z'(Gamma_t w) - Z'(w)) dt, X_{K_2}(w) = int_0^1 Y(t,w) dt with ¦¦X_{K_2}(w)¦¦_+ <= 22 C_* C_F ¦¦w¦¦^5, analytic B_{rho_1} -> W+
 CONSTANT_SCOPE: none
@@ -8768,7 +8770,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XKconcl@L742-L746
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:XKconcl@L742-L746
 CONTRACT_ID: stepW:w3:XKconcl
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (ii): X_K = X_{K_1} + X_{K_2}, 44 + 22 = 66, analytic; reality; the real restriction and (d_p K^R, -d_q K^R)
 CONSTANT_SCOPE: none
@@ -8801,7 +8803,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:iii@L747-L748
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:iii@L747-L748
 CONTRACT_ID: stepW:w3:iii
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (iii) from Lemmas bpW:w3:quartic and bpW:w3:quartic-ident
 CONSTANT_SCOPE: none
@@ -8829,7 +8831,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L749-L755
 PROOF_SOURCE: blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L749-L755
 CONTRACT_ID: stepW:w3:conj
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L698-L699)
+SOURCE_HYPOTHESES: context of the proof of bpW:w3:main: W3 standing data (L23-L27): m > 0, a >= 0 and p >= 1/2 fixed, J = {1,2}; Gamma = Gamma_1, rho_1 = rho_1(m) = (1/2)(40 C_F(m))^{-1/2}; H = Lambda + G; K = H o Gamma - Lambda - bar G - G^nor on B_{rho_1}; local data: Z' = bar G - G^tan; K_1 = G o Gamma - G, K_2 = Lambda o Gamma - Lambda - Z' (proof preamble L708-L709)
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w3:main (for all w in B_{rho_1} ((iv): w in B_{rho_1} cap W+)); within the step: w in B_{rho_1} cap W+; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (iv): Gamma(w) in W+ and D Gamma(w)[X_Lambda + X_{bar G} + X_{G^nor} + X_K](w) = X_H(Gamma(w))
 CONSTANT_SCOPE: none
@@ -8847,7 +8849,7 @@ EDGE: bpW:w3:omega | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L755-L755 |
 EDGE: stepW:w3:XKconcl | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L754-L754 | X_K
 EDGE: bpW:w3:quartic | blueprint-W/parts/w3-birkhoff.tex#stepW:w3:conj@L751-L754 | the quartic Hamiltonian fields supply the G, bar G and G^nor derivative pairings in DH and the transformed Hamiltonian
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-delta-W-w3
+EXTRACTOR: claude-suborch-W+sol-delta3-W-w3
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -9034,7 +9036,7 @@ REVIEWER: sol-review-W-w3
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: Unlabelled prose L598-L609 (with the display bpW:w3:Ydef) fixing H, X_H and Y used by Lemma bpW:w3:Yseries and Theorem bpW:w3:main (SPEC section-data rule).
+NOTE: Unlabelled prose L608-L619 (with the display bpW:w3:Ydef) fixing H, X_H and Y used by Lemma bpW:w3:Yseries and Theorem bpW:w3:main (SPEC section-data rule).
 
 NODE: stepW:w3:divisor#curvature
 KIND: step
@@ -9124,7 +9126,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L47-L71
 PROOF_SOURCE: blueprint-W/parts/w-headline.tex#bpW:wh:nlw2@L47-L71
 CONTRACT_ID: wave.nlw2
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: m > 0 (frozen hm : 0 < m); the data fixed at L13-L16: weights a = p = 1, E = E_{1,1} with the max norm, U_m, V_m, G_q, P = (0,infinity)^2, r(I) = sqrt(I_1+I_2), B_h = {I : max_i ¦I_i¦ < h}
+SOURCE_HYPOTHESES: m > 0 (frozen hm : 0 < m); the data fixed at L19-L22: weights a = p = 1, E = E_{1,1} with the max norm, U_m, V_m, G_q, P = (0,infinity)^2, r(I) = sqrt(I_1+I_2), B_h = {I : max_i ¦I_i¦ < h}
 SOURCE_QUANTIFIERS: for every m > 0, there exist r_0 > 0, C > 0, tau > 1, eta : (0,r_0) -> [0,infinity) with eta(r) -> 0 as r -> 0+, a Borel set Gamma subset {I in P : r(I) < r_0}, a continuous nu : Gamma -> R^2 and maps K_I = (Q_I,P_I) : R^2 -> E (I in Gamma) with (I,theta) -> K_I(theta) continuous on Gamma x R^2; then (1)-(6) hold with inner quantifiers: (2) for every I in Gamma there is gamma_I > 0; (3)-(5) for every I in Gamma, theta (resp. theta_0, t, x) and j >= 1; (6) for all I, I' in Gamma and theta, theta'
 SOURCE_CONCLUSION: (1) Leb_2(Gamma cap B_h)/Leb_2(P cap B_h) -> 1 as h -> 0+; (2) nu(I) is (gamma_I,tau)-Diophantine and nu(I) -> (lambda_1,lambda_2)/(2 pi) as I -> 0 in Gamma; (3) each K_I is an analytic torus embedding, sup_theta ¦¦K_I(theta) - K^0_I(theta)¦¦_E <= eta(r(I)) r(I) and sup_theta ¦¦K_I(theta)¦¦_E <= C r(I); (4) D_{nu(I)} Q_{I,j} = lambda_j P_{I,j} and D_{nu(I)} P_{I,j} = -lambda_j Q_{I,j} - G_q(Q_I)_j for all theta, j >= 1 (frozen: HasDerivAt of t -> coeff (K I (theta + t nu I)).i j at t = 0); (5) for every theta_0, u(t,x) = U_m(Q_I(theta_0 + t nu(I)))(x) is real analytic near every point of R x [0,pi], is a classical solution of u_tt = u_xx - m u - u^3 on R, u_t(t,.) = V_m(P_I(theta_0 + t nu(I))), and sup_{t, x in [0,pi]} (¦u¦ + ¦u_x¦ + ¦u_t¦) <= C r(I) (frozen: u_x as derivWithin on [0,pi]); (6) K_I(theta) = K_I'(theta') implies I = I' and theta - theta' in Z^2
 CONSTANT_SCOPE: r_0, C, tau, eta, Gamma, nu, K are chosen after m and before I, theta, theta_0; they may depend on m; gamma_I is chosen per I (it may degenerate as I -> 0); C is common to (3) and (5); no uniformity in m
@@ -9266,13 +9268,13 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * Total nodes: **314**
 * Frozen anchors: **13**
 * Versioned statement contracts: **314**
-* Total edges: **1078**
+* Total edges: **1080**
 * Root-closure nodes: **21**
 * Dependency leaves in root closure: **6**
 * Assumption boundary leaves: **1**
 * External boundary leaves: **1**
 * Alternative routes: **2**
-* Topology review queue: **19**
+* Topology review queue: **5**
 * Explicit source gaps: **0**
 * Coverage items: **508**; excluded: **185**
 
@@ -9282,23 +9284,9 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 
 ### Topology review queue
 
-* `bpW:w0:Gq#cubicGrad` [PROPOSED] — Cubic gradient: KAM.Wave.cubicGrad
-* `bpW:w0:H` [PROPOSED] — Hamiltonian
-* `bpW:w0:twosided` [PROPOSED] — Two-sided spaces
-* `bpW:w0n:cubic-bound` [PROPOSED] — Cubic gradient, (b)
-* `bpW:w0n:gradient` [PROPOSED] — $G$ and its gradient as absolutely convergent sums
-* `bpW:w1:ext-rect` [PROPOSED] — Cauchy's theorem for rectangles, Banach values
-* `bpW:w1:fourier-shift` [PROPOSED] — Fourier coefficients under an imaginary shift
-* `stepW:w1:ext` [PROPOSED] — Extensions
 * `stepW:w1:flowlim` [PROPOSED] — Limit
-* `stepW:w1:fshift-end` [PROPOSED] — Conclusion
-* `stepW:w1:fshift-iter` [PROPOSED] — Shift one coordinate at a time
-* `stepW:w1:fshift-one` [PROPOSED] — One periodic variable
-* `stepW:w1:restr` [PROPOSED] — Restriction
-* `stepW:w1:shift` [PROPOSED] — Shifted coefficients
 * `stepW:w3:XG` [PROPOSED] — The field
 * `stepW:w3:conj` [PROPOSED] — Conjugacy
-* `stepW:w3:gradtrans` [PROPOSED] — Gradient transport
 * `stepW:w3:majY` [PROPOSED] — The integrand
 * `stepW:w3:majps` [PROPOSED] — Power series
 
@@ -9331,15 +9319,15 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `K:bp:p1:strip-identity` [REVIEWED] — [K] Identity theorem on strips
 * `bpW:w0:basis#lambda-facts` [REVIEWED] — Elementary facts about lambda_j
 * `bpW:w0:reconstruction#rescaling` [REVIEWED] — Inverse coefficient dictionary and symplectic rescaling
-* `bpW:w0:twosided` [PROPOSED] — Two-sided spaces
+* `bpW:w0:twosided` [REVIEWED] — Two-sided spaces
 * `bpW:w0n:AB` [REVIEWED] — Action coefficients, (d)
 * `bpW:w0n:Qdef` [REVIEWED] — Partial quartic normal form
 * `bpW:w0n:algebra` [REVIEWED] — Weighted convolution algebra
 * `bpW:w0n:birkhoff#data` [REVIEWED] — Quartic part in complex coordinates; resonance; tangential/normal split
-* `bpW:w0n:cubic-bound` [PROPOSED] — Cubic gradient, (b)
+* `bpW:w0n:cubic-bound` [REVIEWED] — Cubic gradient, (b)
 * `bpW:w0n:duffing` [REVIEWED] — One-mode frequency shift, (f)
 * `bpW:w0n:formal-birkhoff` [REVIEWED] — Formal partial Birkhoff transformation
-* `bpW:w0n:gradient` [PROPOSED] — $G$ and its gradient as absolutely convergent sums
+* `bpW:w0n:gradient` [REVIEWED] — $G$ and its gradient as absolutely convergent sums
 * `bpW:w0n:ledger#ext-lindstedt` [REVIEWED] — Classical Lindstedt frequency shift (unlabelled W0 external)
 * `bpW:w0n:nondeg` [REVIEWED] — Nondegeneracy, (e)
 * `bpW:w0n:nondeg-sec#data` [REVIEWED] — Nondegeneracy conditions (A1)-(A3) of the Cantor Manifold Theorem
@@ -9361,12 +9349,12 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `bpW:w1:ext-lp` [REVIEWED] — $\ell^2$ spaces
 * `bpW:w1:ext-ode` [REVIEWED] — ODE
 * `bpW:w1:ext-onevar` [REVIEWED] — One complex variable, Banach values
-* `bpW:w1:ext-rect` [PROPOSED] — Cauchy's theorem for rectangles, Banach values
+* `bpW:w1:ext-rect` [REVIEWED] — Cauchy's theorem for rectangles, Banach values
 * `bpW:w1:ext-series` [REVIEWED] — Series
 * `bpW:w1:flow` [REVIEWED] — Holomorphic flows
 * `bpW:w1:fourier-banach` [REVIEWED] — Banach-valued Fourier coefficients on strips
 * `bpW:w1:fourier-l2` [REVIEWED] — Hilbert-valued Fourier series on strips
-* `bpW:w1:fourier-shift` [PROPOSED] — Fourier coefficients under an imaginary shift
+* `bpW:w1:fourier-shift` [REVIEWED] — Fourier coefficients under an imaginary shift
 * `bpW:w1:gradient-identity` [REVIEWED] — Gradient identity
 * `bpW:w1:hamfield` [REVIEWED] — The Hamiltonian field
 * `bpW:w1:holo-analytic-fd` [REVIEWED] — Holomorphic maps of finitely many variables are analytic
@@ -9474,7 +9462,7 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `stepW:w1:dcintegral` [REVIEWED] — Cauchy integral along lines
 * `stepW:w1:dclip` [REVIEWED] — Lipschitz difference
 * `stepW:w1:diagcomb` [REVIEWED] — Diagonal and combination
-* `stepW:w1:ext` [PROPOSED] — Extensions
+* `stepW:w1:ext` [REVIEWED] — Extensions
 * `stepW:w1:fbconv` [REVIEWED] — Summation
 * `stepW:w1:fbdecay` [REVIEWED] — Scalar decay
 * `stepW:w1:fbdual` [REVIEWED] — Scalar reduction
@@ -9484,9 +9472,9 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `stepW:w1:flowpar` [REVIEWED] — Parameters
 * `stepW:w1:flowreal` [REVIEWED] — Reality
 * `stepW:w1:frozen` [REVIEWED] — Frozen case
-* `stepW:w1:fshift-end` [PROPOSED] — Conclusion
-* `stepW:w1:fshift-iter` [PROPOSED] — Shift one coordinate at a time
-* `stepW:w1:fshift-one` [PROPOSED] — One periodic variable
+* `stepW:w1:fshift-end` [REVIEWED] — Conclusion
+* `stepW:w1:fshift-iter` [REVIEWED] — Shift one coordinate at a time
+* `stepW:w1:fshift-one` [REVIEWED] — One periodic variable
 * `stepW:w1:fsum` [REVIEWED] — Summation
 * `stepW:w1:gradder` [REVIEWED] — Derivative
 * `stepW:w1:gradw` [REVIEWED] — Weighted coordinates
@@ -9523,7 +9511,7 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `stepW:w1:realflow` [REVIEWED] — Real flow
 * `stepW:w1:recanalytic` [REVIEWED] — Analyticity
 * `stepW:w1:recder` [REVIEWED] — Derivatives
-* `stepW:w1:restr` [PROPOSED] — Restriction
+* `stepW:w1:restr` [REVIEWED] — Restriction
 * `stepW:w1:rot` [REVIEWED] — Unboundedness and rotations
 * `stepW:w1:rows` [REVIEWED] — Row and column sums
 * `stepW:w1:rules` [REVIEWED] — Algebraic rules
@@ -9532,7 +9520,7 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `stepW:w1:sel1` [REVIEWED] — One-sided selection
 * `stepW:w1:sel2` [REVIEWED] — Two-sided selection
 * `stepW:w1:sep` [REVIEWED] — Separability
-* `stepW:w1:shift` [PROPOSED] — Shifted coefficients
+* `stepW:w1:shift` [REVIEWED] — Shifted coefficients
 * `stepW:w1:sinereal` [REVIEWED] — Real restriction
 * `stepW:w1:smooth1` [REVIEWED] — One-sided smoothing
 * `stepW:w1:smooth2` [REVIEWED] — Two-sided smoothing
@@ -9590,7 +9578,7 @@ Regenerated by `proof_depgraph.py`; do not hand-edit.
 * `stepW:w3:fcoef` [REVIEWED] — Coefficients
 * `stepW:w3:floweq` [REVIEWED] — Flow equation
 * `stepW:w3:gradbound` [REVIEWED] — Bound the gradient
-* `stepW:w3:gradtrans` [PROPOSED] — Gradient transport
+* `stepW:w3:gradtrans` [REVIEWED] — Gradient transport
 * `stepW:w3:identify` [REVIEWED] — Identify
 * `stepW:w3:iii` [REVIEWED] — (iii)
 * `stepW:w3:inv` [REVIEWED] — Inverse

@@ -248,7 +248,7 @@ DISPOSITION: NODE stepW:w1:ext
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w1a
+REVIEWER: sol-delta3-W-w1a
 
 ITEM: stepW:w1:restr
 KIND: proof-region
@@ -257,7 +257,7 @@ DISPOSITION: NODE stepW:w1:restr
 REASON: mechanical inventory of a labelled unit
 COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: sol-delta-W-w1a
+REVIEWER: sol-delta3-W-w1a
 
 ITEM: stepW:w1:pair
 KIND: proof-region
@@ -858,6 +858,6 @@ KIND: external
 SOURCE: blueprint-W/parts/w1-sequences.tex#bpW:w1:ext-rect@L117-L125
 DISPOSITION: NODE bpW:w1:ext-rect
 REASON: labelled external item (W1-E9)
-COVERAGE_STATUS: PROPOSED
+COVERAGE_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W-r2
-REVIEWER: -
+REVIEWER: sol-delta3-W-w1a
