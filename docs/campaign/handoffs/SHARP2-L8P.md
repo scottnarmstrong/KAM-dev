@@ -64,7 +64,8 @@ sLt 12.4002, sN 6.2004, sNt 24.801, t 19.875, ϑ 1/100. X⋆ = 85/10⁵ (true ed
 (actual maximum 7.9·10⁻⁸), b_T = 0.0348 (the sum is 0.03407). The local term is negligible: the binding
 quantity is the `𝒯_ab` sum, as the blueprint says for R1.
 
-Kernel cost: `L8.var_ok` 0.26 s, `L8.var_close` under 0.2 s. No new small-divisor `decide`.
+Kernel cost: `L8.var_ok` and `L8.var_close` are each under 0.3 s (the slower took 0.26 s; the profile did
+not say which). No new small-divisor `decide`.
 
 ## Files
 
