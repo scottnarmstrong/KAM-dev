@@ -53,7 +53,8 @@ fi
 
 # Proof escapes past the kernel and metaprogramming that can add declarations, in code only (comments and strings
 # may mention them). Found missing by the guard mutation suite (I-GUARDS, 2026-10-29: 18 accepted mutations).
-# Providers may be imported only by a frozen anchor and the generated root KAM.lean (ruling 2026-10-29 15:35).
+# Providers may be imported only by a frozen anchor and the generated root KAM.lean (ruling 2026-10-29 15:35),
+# whose generated parts KAM/Root/*.lean count as the root (2026-10-30, owner ruling: split the root).
 escapes=$(lean_files | python3 -I -c '
 import sys, re, importlib.util
 spec = importlib.util.spec_from_file_location("m", sys.argv[1]); m = importlib.util.module_from_spec(spec)
@@ -85,13 +86,16 @@ for f in sys.stdin.read().split():
         for pat, label in bad:
             if re.search(pat, line):
                 print(f"{rel}:{i}: {label}")
-        if drafts and not (rel.startswith("KAM/Frozen/") or rel.startswith("KAM/Provider/") or rel == "KAM.lean"):
+        if drafts and not (rel.startswith("KAM/Frozen/") or rel.startswith("KAM/Provider/") or rel == "KAM.lean"
+                           or rel.startswith("KAM/Root/")):
             for full, short in drafts:
                 if re.search(r"(?<![\w.])(" + re.escape(full) + "|" + re.escape(short) + r")(?![\w])", line):
                     print(f"{rel}:{i}: DRAFT_SORRY anchor {full} used outside its frozen file and provider")
         if re.match(r"\s*(public\s+)?(meta\s+)?import\s+KAM\.Provider\.", line) and not (
-                rel.startswith("KAM/Frozen/") or rel == "KAM.lean"):
+                rel.startswith("KAM/Frozen/") or rel == "KAM.lean" or rel.startswith("KAM/Root/")):
             print(f"{rel}:{i}: provider imported outside its frozen anchor and the generated root")
+        if re.match(r"\s*(public\s+)?(meta\s+)?import\s+KAM\.Root(\.|\s|$)", line) and rel != "KAM.lean":
+            print(f"{rel}:{i}: generated root part imported outside KAM.lean")
 ' "$project_root/scripts/check_lean_modules.py" "$project_root")
 if [ -n "$escapes" ]; then
   printf '%s\n%s\n' 'forbidden proof escapes or provider imports in code:' "$escapes" >&2

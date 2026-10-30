@@ -24,9 +24,9 @@ public import KAM.Sharp2.ModConstantsBd
 namespace KAM.Sharp2
 
 theorem stepConsts_eq (p : StepIn) : stepConsts p =
-    ⟨sCΩ p, sCE p, sCDE p, sCNN p, sC0 p, sCxiN p, sCKt p, sCDLt p, sCDLtT p, sCEt p, sQtN p,
-      sCgL p, sCxiL p, sCDK p, sCEb p, sCG p, sCBb p, sCNb p, sCNbT p, sCDT p, sQbN p, sQL p,
-      max (sQL p) (2 ^ p.κ * sQbN p)⟩ := rfl
+    ⟨oCΩ p, oCE p, oCDE p, oCNN p, oC0 p, oCxiN p, oCKt p, oCDLt p, oCDLtT p, oCEt p, oQtN p,
+      oCgL p, oCxiL p, oCDK p, oCEb p, oCG p, oCBb p, oCNb p, oCNbT p, sCDT p, oQbN p, oQL p,
+      max (oQL p) (2 ^ p.κ * oQbN p)⟩ := rfl
 
 /-- Every constant is nonnegative. -/
 structure StepConsts.Nonneg (k : StepConsts) : Prop where
@@ -83,13 +83,13 @@ structure StepConsts.Le (k k' : StepConsts) : Prop extends k.LeCore k' where
   QbN : k.QbN ≤ k'.QbN
   Q : k.Q ≤ k'.Q
 
-theorem nn_QbN {p : StepIn} (h : p.Ok) : 0 ≤ sQbN p := by
+theorem nn_QbN {p : StepIn} (h : p.Ok) : 0 ≤ oQbN p := by
   have ⟨a0, _⟩ := bd_sQtN h (StepIn.Le.refl p)
   have ⟨b0, _⟩ := bd_sCΩ h (StepIn.Le.refl p)
   have ⟨c0, _⟩ := bd_sC0 h (StepIn.Le.refl p)
   have ⟨d0, _⟩ := bd_sCxiL h (StepIn.Le.refl p)
   have hn : (0 : ℝ) ≤ p.n := by positivity
-  unfold sQbN
+  unfold oQbN
   obtain ⟨⟩ := h
   split_ifs <;> positivity
 
@@ -191,8 +191,8 @@ theorem stepConsts_CxiL_pos {p : StepIn} (h : p.Ok) (hc : 0 < p.c) (hl : 0 < p.l
   have ⟨a0, _⟩ := bd_sCxiN h r
   have ⟨b0, _⟩ := bd_sC0 h r
   rw [stepConsts_eq]
-  show 0 < sCxiL p
-  unfold sCxiL sCgL
+  show 0 < oCxiL p
+  unfold oCxiL oCgL
   have := h.t
   have := h.Θ
   split_ifs <;> positivity

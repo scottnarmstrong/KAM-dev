@@ -24,16 +24,27 @@ import sofx_check as C
 import adv_jet
 import model as MD
 
-PREC = 320
+PREC = int(os.environ.get("SO_PREC", "320"))      # SO-GEN3: env override (fixed-point bits)
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(HERE, "..", "..", "certificates", "lunar-spin-orbit")
+DATA = os.environ.get("SO_DATA_DIR", os.path.join(HERE, "..", "..", "certificates", "lunar-spin-orbit"))   # SO-GEN3
 
 TIME_SCALE = F(237, 125)            # lunarR1TimeScale
 SCALAR = 1 + F(1, 10 ** 6)          # lunarR1Scalar
+# SO-GEN3: a package R2 may be given as a JSON file (env SO_PKG) with string rationals
+# c, rho, rhoInf, M, sK, sB, sT, mu, gden (gamma = gbar = kappa/gden); absent: R1.
+_PKG = json.load(open(os.environ["SO_PKG"])) if os.environ.get("SO_PKG") else None
+if _PKG:
+    TIME_SCALE = F(_PKG["c"])
 KAPPA = TIME_SCALE / SCALAR         # lunarR1Kappa
+DEN_NU, A_NU = MD.DEN_NU, MD.A_NU   # nu = (DEN_NU -+ A_NU +- sqrt5)/DEN_NU (3118, 79 at N = 40)
 
 
 def lunarR1(err, disp):
+    if _PKG:
+        g = KAPPA / F(_PKG["gden"])
+        return dict(tau=1, rho=F(_PKG["rho"]), rhoInf=F(_PKG["rhoInf"]), M=F(_PKG["M"]), sK=F(_PKG["sK"]),
+                    sB=F(_PKG["sB"]), sT=F(_PKG["sT"]), mu=F(_PKG["mu"]), gbar=g, som=F(2), nu=F(1, 10 ** 6),
+                    gamma=g, s=SCALAR, err=F(err), E0=F(0), disp=F(disp))
     return dict(tau=1, rho=F(1, 70), rhoInf=F(1, 70000), M=F(203, 100), sK=F(1987, 1000), sB=F(1987, 1000),
                 sT=F(1987, 1000), mu=F(1, 160), gbar=KAPPA / 42, som=F(2), nu=F(1, 10 ** 6), gamma=KAPPA / 42,
                 s=SCALAR, err=F(err), E0=F(0), disp=F(disp))
@@ -63,7 +74,7 @@ def lunarBox(a, b, d=SQRT5_DIGITS):
     a, b = F(a), F(b)
     lo, hi = sqrt5_enclosure(d)
     mid = (lo + hi) / 2
-    return [(KAPPA * ((a + b * mid) / 3118 - 1), KAPPA * abs(b) * (hi - lo) / 2 / 3118), (KAPPA, F(0))]
+    return [(KAPPA * ((a + b * mid) / DEN_NU - 1), KAPPA * abs(b) * (hi - lo) / 2 / DEN_NU), (KAPPA, F(0))]
 
 
 def jet():
@@ -133,7 +144,22 @@ def build_gram_inv(d):
         m = {(int(k), int(l)): int(x) for k, l, x in rows}
         odd = all(m.get((-k, -l), 0) == -x for (k, l), x in m.items())
         even = all(m.get((-k, -l), 0) == x for (k, l), x in m.items())
-        assert odd or even
+        if not (odd or even):
+            # SO-GEN3: an approximate inverse with a few parity-broken rounding coefficients is projected onto its
+            # dominant parity (B is untrusted witness data; checkGram verifies whatever is sent)
+            so = sum(abs(x - m.get((-k, -l), 0)) for (k, l), x in m.items())
+            se = sum(abs(x + m.get((-k, -l), 0)) for (k, l), x in m.items())
+            sg = -1 if so > se else 1
+            keys = set(m) | {(-k, -l) for (k, l) in m}
+            m = {kk: (m.get(kk, 0) + sg * m.get((-kk[0], -kk[1]), 0)) // 2 for kk in keys}
+            m = {kk: x for kk, x in m.items() if x}
+            m = {kk: (x if kk > (0, 0) or sg == 1 or kk == (0, 0) else -m.get((-kk[0], -kk[1]), 0))
+                 for kk, x in m.items()}
+            for kk in list(m):
+                if kk > (0, 0):
+                    m[(-kk[0], -kk[1])] = sg * m[kk]
+            m = {kk: x for kk, x in m.items() if x}
+            odd, even = sg == -1, sg == 1
         # rotlib phase 1 (odd) means i * real
         return sorted(((k, l), ((0, x << sh) if (odd and not even) else (x << sh, 0))) for (k, l), x in m.items()
                       ), ("odd" if odd and not even else "even")
@@ -175,10 +201,11 @@ def build(which, err, disp, cfgFull, cfgLow, expHalvings=12, expOrder=30, S=None
     rhoH = F(dom["rho_H"])
     c.expHalvings, c.expOrder = expHalvings, expOrder
     c.weightH = M.Weight(rhoH, weight_for(rhoH, expHalvings, expOrder))
-    c.weight = M.Weight(F(1, 70), weight_for(F(1, 70), expHalvings, expOrder))
+    rho = c.params["rho"]
+    c.weight = M.Weight(rho, weight_for(rho, expHalvings, expOrder))
     c.centre = [F(dom["c1"]), F(dom["c2"])]
     c.radius = [F(dom["r1"]), F(dom["r2"])]
-    c.freqBox = lunarBox(3039, 1) if which == "lower" else lunarBox(3197, -1)
+    c.freqBox = lunarBox(DEN_NU - A_NU, 1) if which == "lower" else lunarBox(DEN_NU + A_NU, -1)
     c.emb = build_embedding(B, d)
     E = build_E(d)
     cw = d["character_witness"]

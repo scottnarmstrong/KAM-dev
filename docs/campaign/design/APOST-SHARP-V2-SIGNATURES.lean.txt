@@ -287,7 +287,7 @@ def stepConstsB (p : StepInB) : StepConstsB :=
   let QtN := CDLtT * CEt + CNN * CxiN + p.δ * p.sLt * (p.M2 / 2) * CKt ^ 2
   let CgL := p.lam + t * CxiN + (if p.iso then p.Θ * C0 else 0)
   let CxiL := p.c * CgL
-  let CDK := sKt * CxiL + g * CKt
+  let CDK := p.sK * CxiL + g * CKt
   let CEb := CEt + aw * sKt * CgL
   let CG := n * p.sLt + 2 * n * p.sK
   let CBb := p.sB ^ 2 * CG * CDK / (1 - p.θ)
@@ -405,7 +405,9 @@ def modNewton (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (K : (Fin n → �
 /-- Blueprint `bp:p2s2:step` (repaired, audit F4/F8): the actual bite `δ ≤ p.δ`; the standing hypotheses of `h`
 (open translation-invariant domain, holomorphy, periodicity, reality); `1 ≤ n`, `1 ≤ κ`; certificates at the actual
 bite, at a split bite and at a full bite `b ≤ r`; current frame values `m ≤` caps with room for the increments.
-Conclusions: the new torus, its errors at `T_{r-3δ}`, the frames and the frame part `𝒯_ab` of the torsion. -/
+Conclusions: the new torus, its errors at `T_{r-3δ}`, the frames and the frame part `𝒯_ab` of the torsion.
+`hE0` (AUDIT-SHARP2-FIX-iso-1 F1): the stage-0 shortcut `C_E → min C_E ePer`, `C_DE → min C_DE (n ePer)` needs the
+actual bound `|E| ≤ ePer · μ` on `T_r` (stage 0: `ePer = e/μ₀`, from the frozen `|E| ≤ e`). -/
 theorem modified_stepB (p : StepInB) {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))} {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ω : Fin n → ℝ} {Ω : Set (Fin n → ℝ)}
     {γ β εL εN δ r s c' b cb : ℝ} {m : Fin 5 → ℝ}
@@ -432,6 +434,8 @@ theorem modified_stepB (p : StepInB) {𝔅 : Set ((Fin n → ℂ) × (Fin n → 
     (hT : ∀ θ ∈ complexStrip n (r - δ), ‖torsion h K ω θ‖ ≤ p.cTh * p.sNt * p.sN + p.ts)
     (hTa : IsUnit (torsionAverage h K ω).det ∧ ‖(torsionAverage h K ω)⁻¹‖ ≤ p.sT)
     (hηL : ∀ θ ∈ complexStrip n r, ‖etaL h K ω θ‖ ≤ εL) (hηN : ∀ θ ∈ complexStrip n r, ‖etaN h K ω θ‖ ≤ εN)
+    (hE0 : p.stage0 = true → ∀ θ ∈ complexStrip n r,
+      ‖invarianceError h K ω θ‖ ≤ p.ePer * max (εL / p.lam) (εN / (γ * δ ^ p.κ)))
     (hcond : stepCondB p (max (εL / p.lam) (εN / (γ * δ ^ p.κ)) / (γ * δ ^ (p.κ + 1))))
     (hβ : (stepConstsB p).CDK * max (εL / p.lam) (εN / (γ * δ ^ p.κ)) / (γ * δ ^ p.κ) < β)
     (hroom : let X := max (εL / p.lam) (εN / (γ * δ ^ p.κ)) / (γ * δ ^ (p.κ + 1))
