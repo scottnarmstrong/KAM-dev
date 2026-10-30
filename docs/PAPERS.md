@@ -481,6 +481,8 @@ Links: none (print only).
 
 **Used for.** Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); abstract infinite-dimensional KAM theorem (Numdam scan)
 
+**Errata recorded:** 2 entries.
+
 ### Pos96W
 
 J. Pöschel, *Quasi-periodic solutions for a nonlinear wave equation*, Comment. Math. Helv. 71 (1996) 269–296
@@ -488,6 +490,8 @@ J. Pöschel, *Quasi-periodic solutions for a nonlinear wave equation*, Comment. 
 Links: [doi:10.1007/BF02566420](https://doi.org/10.1007/BF02566420)
 
 **Used for.** Context: PDE-KAM extension study (docs/explorations/pde-kam-and-leapfrogging.md); proposed first target (cubic Dirichlet wave); candidate errata E-PDE-W-1/2
+
+**Errata recorded:** 5 entries.
 
 ### KP96
 
