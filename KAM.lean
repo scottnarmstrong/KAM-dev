@@ -272,6 +272,7 @@ public import KAM.Frozen.Planetary.Theorems.ProperlyDegenerateKAM
 public import KAM.Frozen.Planetary.Theorems.SecularBoxAtCitedMasses
 public import KAM.Frozen.Planetary.Theorems.SecularBoxSafety
 public import KAM.Frozen.Russmann.Defs.RussmannCover
+public import KAM.Frozen.Russmann.Theorems.RussmannKam
 public import KAM.Frozen.Theorems.AposterioriKam
 public import KAM.Frozen.Theorems.KamPositiveMeasure
 public import KAM.Frozen.Theorems.KamPositiveMeasureQualitative
@@ -1341,6 +1342,7 @@ public import KAM.Provider.Planetary.PlanetaryExponentialSafety
 public import KAM.Provider.Planetary.ProperlyDegenerateKAM
 public import KAM.Provider.Planetary.SecularBoxAtCitedMasses
 public import KAM.Provider.Planetary.SecularBoxSafety
+public import KAM.Provider.Russmann.RussmannKam
 public import KAM.Provider.VolumeNotDiophantineLe
 public import KAM.Russmann.Assembly
 public import KAM.Russmann.AssemblyStrong

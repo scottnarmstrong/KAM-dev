@@ -64,7 +64,8 @@ theorem russmann_kam {n : ℕ} (hn : 1 ≤ n) {s₀ r₀ : ℝ} (hs₀ : 0 < s�
         volume (fundamentalDomain B \ russmannCover h f B r₀ τ δ) ≤
           ENNReal.ofReal κ * volume (fundamentalDomain B) :=
   -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact KAM.Provider.Russmann.russmann_kam hn hs₀ hr₀ hB_open hB_conn hB_bdd hh hh_real
+      h_russmann
   -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

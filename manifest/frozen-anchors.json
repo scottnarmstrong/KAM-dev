@@ -9408,7 +9408,7 @@
     "module": "KAM.Provider.Russmann.RussmannKam",
     "export": "KAM.Provider.Russmann.russmann_kam"
    },
-   "state": "DRAFT_SORRY",
+   "state": "SEALED",
    "prefix_sha256": "7b419c683592be6cd0316350239ead98324a6e73e5410ed9c127b20a261804c6",
    "suffix_sha256": "f178c7b1cdadefc81ac0f3a993a5fd5c7de97fb3f0e502b21c9996319afc0d30",
    "draft_allowlist": {
