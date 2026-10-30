@@ -1950,3 +1950,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - **Owner item O3 implemented:** scripts/prebuild_heavy.py and land-branch.sh (bc3a68c7) build changed
     KAM/SpinOrbit/Data/ modules serially, in import order, under the probe lock and a 10 GB cap, before the
     parallel build. Data landings will hold the HQ lock for hours, so they get scheduled.
+- **21:49. Heartbeat: both data runs going; disk relief.**
+  - SO-DATA3 is emitting the segmented N = 65 data and running the serial kernel builds.
+  - LOCK-DATA (Opus, claude-12, worktree KAM-inp-lockdata) was dispatched by kam-inp-24. It rescales the lock
+    projection with the CAL numbers, measures the emitted ledger, and stops before landing if it exceeds 50 MB.
+  - The SO-CSPLIT designer's worktree is removed (work committed; the untracked files were copies of SO-DATA3's
+    data). The gate study inp-socsplit2 c790787d is sent to land (docs). / back to 11 GB.
+  - W: the W1-CUBIC codex-1 audit finished at 21:47 and kam-1b's waiter is armed. The W2-RECON audit finished
+    21:27.
