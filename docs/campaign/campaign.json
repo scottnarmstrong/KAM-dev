@@ -159,10 +159,10 @@
   "N": "**complete**: all six frozen theorems sealed (the last, partialConvex_nekhoroshev, on 2026-10-29); every graph node resolved (one convention accepted under D31, three blueprint steps repaired under D32)",
   "P": "**complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31)",
   "SO-1": "every engine module and the certificate checker landed; the soundness theorem (a passing certificate yields an invariant torus, through the sealed isoenergetic theorem) proved 2026-10-29 21:40, in independent audit; toy certificates next",
-  "SO-2": "moving to the sharp certifier (D36) with a target band of 2.8–2.9 % (D37): new tori closer to the resonance and a new parameter package being computed (SO-GEN3); model, frequencies, clock, rotated frame, barriers, graph certificates and the parametric final assembly landed"
+  "SO-2": "sharp certifier (D36) with barriers at N = 65, band about 2.71 % (D38): general-N Diophantine lemmas, sharp barrier and band-parametric assembly landed; N = 65 parameter package and data sizing (SO-GEN3) and a kernel-reducible data emitter (SO-EMITFIX) in progress; final data and kernel passes next"
  },
  "so": {
-  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within 2.8–2.9 % of its orbital rate (target band, D37; the earlier milestone was 3.3 %) for all time.",
+  "goal": "a general Lean certificate checker that turns numerical KAM tori into theorems; first client: the Moon's spin rate stays within about 2.7 % of its orbital rate (N = 65, D38; the earlier milestone was 3.3 %) for all time.",
   "planned_lines": "≈ 18,500 lines, 21,500–23,000 with overrun",
   "packages": [
    "SO-DIO",
@@ -236,6 +236,6 @@
    "SO-RFREQ",
    "SO-GRAPHR"
   ],
-  "gates": "design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default."
+  "gates": "design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format)."
  }
 }
