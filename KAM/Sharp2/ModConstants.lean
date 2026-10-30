@@ -10,8 +10,9 @@ public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 /-!
 # The constants of the modified step (v2)
 
-Definition `bp:p2s2:constantsB` (`blueprint/parts/p2s2-modified.tex`, `blueprint-I/parts/p2s2-iso-modified.tex`),
-verbatim from `docs/campaign/design/APOST-SHARP-V2-SIGNATURES.lean.txt`; the exact mirror is `stageB` of
+Definition `bp:p2s2:constantsB` (`blueprint/parts/p2s2-modified.tex`,
+`blueprint-I/parts/p2s2-iso-modified.tex`), verbatim from
+`docs/campaign/design/APOST-SHARP-V2-SIGNATURES.lean.txt`; the exact mirror is `stageB` of
 `scripts/apost_sharp/thresholds_v2.py`.
 -/
 
@@ -19,8 +20,8 @@ verbatim from `docs/campaign/design/APOST-SHARP-V2-SIGNATURES.lean.txt`; the exa
 
 namespace KAM.Sharp2
 
-/-- The inputs of one modified step: caps, Hamiltonian bounds, small-divisor constants, ratios, the bite, the strip,
-the weight `λ`, and `ḡ = γ̄`. -/
+/-- The inputs of one modified step: caps, Hamiltonian bounds, small-divisor constants, ratios, the
+bite, the strip, the weight `λ`, and `ḡ = γ̄`. -/
 structure StepIn where
   n : ℕ
   κ : ℝ
@@ -44,7 +45,8 @@ structure StepIn where
   γb : ℝ
   δ : ℝ
   r : ℝ
-  /-- isoenergetic step (`bpI:p2s2:constants`): frequency bound, energy-row bound, `|D²H|`, energy weight -/
+  /-- isoenergetic step (`bpI:p2s2:constants`): frequency bound, energy-row bound, `|D²H|`, energy
+  weight -/
   iso : Bool := false
   Θ : ℝ := 0
   y0 : ℝ := 0
@@ -90,12 +92,14 @@ def stepConsts (p : StepIn) : StepConsts :=
   let CDE := n * (p.sK + p.sN) * (max p.lam g + (p.sLt + p.sNt) * CE) / (1 - p.q)
   let CNN := n * (p.lam + p.sNt * CE)
   let avgB := p.cbar * (p.δ / p.r) ^ p.κ
-  let C0 := if p.iso then p.sT * max (p.lam + p.t * avgB) (p.lamW + p.y0 * avgB) else p.sT * (p.lam + p.t * avgB)
+  let C0 := if p.iso then p.sT * max (p.lam + p.t * avgB) (p.lamW + p.y0 * avgB)
+    else p.sT * (p.lam + p.t * avgB)
   let CxiN := C0 + p.c
   let CKt := p.sN * CxiN
   let CDLt := n * p.sN * (C0 + p.c1)
   let CDLtT := 2 * n * p.sN * (C0 + p.c1)
-  let CdN := (p.M1 * p.sK + n) * p.sB + p.sN * ((p.sLt * p.M1 + 2 * n) * p.sK + p.sLt * (p.M1 * p.sK + n)) * p.sB
+  let CdN := (p.M1 * p.sK + n) * p.sB
+    + p.sN * ((p.sLt * p.M1 + 2 * n) * p.sK + p.sLt * (p.M1 * p.sK + n)) * p.sB
   let CXN := p.M1 * p.sN + CdN
   let CEt := CE + CXN * CxiN + p.sN * g + p.M2 / 2 * CKt + (if p.iso then sKt * p.Θ * C0 else 0)
   let QtN := CDLtT * CEt + CNN * CxiN + p.δ * p.sLt * (p.M2 / 2) * CKt ^ 2
@@ -117,7 +121,8 @@ def stepConsts (p : StepIn) : StepConsts :=
     p.sNt * CgL * (n * sKt * CxiL + g * CDLt) + CNbT * CEb
   let QL := if p.iso then max (QL0 + C0 * CgL * g1 + C0 * p.sNt * CDLt * p.Θ * g)
       (p.Mh2 / 2 * CKt ^ 2 * g1 + n * QtN * p.θξ * (p.Θ * CΩ + g1)) else QL0
-  ⟨CΩ, CE, CDE, CNN, C0, CxiN, CKt, CDLt, CDLtT, CEt, QtN, CgL, CxiL, CDK, CEb, CG, CBb, CNb, CNbT, CDT, QbN, QL,
+  ⟨CΩ, CE, CDE, CNN, C0, CxiN, CKt, CDLt, CDLtT, CEt, QtN, CgL, CxiL, CDK, CEb, CG, CBb, CNb, CNbT,
+    CDT, QbN, QL,
     max QL (2 ^ p.κ * QbN)⟩
 
 /-- The step conditions of `bp:p2s2:constantsB` at the normalised weighted error `X`. -/

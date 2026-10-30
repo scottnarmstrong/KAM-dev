@@ -10,10 +10,10 @@ public import KAM.Sharp2.ModConstants
 /-!
 # Admissible step inputs and the `let`s of `stepConsts`
 
-`StepIn.Ok` (nonnegative data, `n ≥ 1`, ratios in `[0, 1)`), `StepIn.Le` (the order in which the engine
-varies the inputs: small-divisor constants `c`, `c¹`, `c̄`, bite `δ`, caps, weights, `γ̄` increase; exponent,
-ratios, strip and step kind are fixed), and one definition per `let` of `stepConsts`
-(`stepConsts_eq` in `ModConstantsMono` is `rfl`).
+`StepIn.Ok` (nonnegative data, `n ≥ 1`, ratios in `[0, 1)`), `StepIn.Le` (the order in which the
+engine varies the inputs: small-divisor constants `c`, `c¹`, `c̄`, bite `δ`, caps, weights, `γ̄`
+increase; exponent, ratios, strip and step kind are fixed), and one definition per `let` of
+`stepConsts` (`stepConsts_eq` in `ModConstantsMono` is `rfl`).
 -/
 
 @[expose] public noncomputable section

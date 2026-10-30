@@ -27,7 +27,8 @@ namespace KAM.Sharp2
 
 open KAM.Torus KAM.Apost
 
-/-- The refined data `(R1)`–`(R2)` of `bp:p2s2:standing`: separate Hamiltonian bounds and caps of `Lᵀ, N, Nᵀ`. -/
+/-- The refined data `(R1)`–`(R2)` of `bp:p2s2:standing`: separate Hamiltonian bounds and caps of
+`Lᵀ, N, Nᵀ`. -/
 structure RefData where
   M1 : ℝ
   M2 : ℝ
@@ -38,16 +39,19 @@ structure RefData where
 /-- The v1 values (`bp:p2s2:defaults`). -/
 def RefData.ofV1 (n : ℕ) (M σK σB : ℝ) : RefData := ⟨M, M, 2 * n * σK, σK * σB, 2 * n * σK * σB⟩
 
-/-- The refined hypotheses: bounds on explicit objects of `h` and `K` (a certificate checks them). -/
+/-- The refined hypotheses: bounds on explicit objects of `h` and `K` (a certificate checks them).
+-/
 structure RefHyp {n : ℕ} (rd : RefData) (𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ)))
-    (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)) (ρ : ℝ) : Prop where
+    (h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ))
+    (ρ : ℝ) : Prop where
   dX : ∀ z ∈ 𝔅, ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ rd.M1
   d2X : ∀ z ∈ 𝔅, ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ rd.M2
   tangentT : ∀ θ ∈ complexStrip n ρ, ‖(tangentMat K θ)ᵀ‖ ≤ rd.sLt
   normal : ∀ θ ∈ complexStrip n ρ, ‖normalMat K θ‖ ≤ rd.sN
   normalT : ∀ θ ∈ complexStrip n ρ, ‖(normalMat K θ)ᵀ‖ ≤ rd.sNt
 
-/-- Blueprint `bp:p2s2:defaults`: the frozen hypotheses imply the refined ones with the v1 values. -/
+/-- Blueprint `bp:p2s2:defaults`: the frozen hypotheses imply the refined ones with the v1
+values. -/
 theorem refHyp_ofV1 {n : ℕ} (hn : 1 ≤ n) {M σK σB μ ρ : ℝ} {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
     {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     (hbd : ∀ z ∈ 𝔅, ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
