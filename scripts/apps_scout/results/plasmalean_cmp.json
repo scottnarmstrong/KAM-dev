@@ -1,0 +1,30 @@
+{
+ "rows": {
+  "cA-like": {
+   "current": -88.05,
+   "v1": -30.29,
+   "active_v1": "E",
+   "v2": -24.25,
+   "active_v2": "sum",
+   "ell1": -23.39
+  },
+  "R1-like": {
+   "current": -88.05,
+   "v1": -25.42,
+   "active_v1": "sum",
+   "v2": -21.31,
+   "active_v2": "sum",
+   "ell1": -20.85
+  }
+ },
+ "plasmalean": {
+  "e0": 5.83e-22,
+  "tolerance": 5.7e-19,
+  "kappa": 5700000000.0,
+  "r": 0.1257,
+  "delta0": 0.01795714285714286,
+  "gamma": 0.0687,
+  "coefficients": 2925,
+  "peak_GB": 4.3
+ }
+}

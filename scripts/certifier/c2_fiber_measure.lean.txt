@@ -1,0 +1,16 @@
+import KAM.CertificateSharp.Freq.SmallDivisorFiber
+open KAM.CertificateSharp KAM.Certificate
+
+def ceilTo (q : ℚ) (den : ℕ) : ℚ := (⌈q * den⌉ : ℚ) / den
+def boxRotLower : FreqBox :=
+  [((-383819660113/15590000000000 + -30705572809/1247200000000)/2, ((-30705572809/1247200000000) - (-383819660113/15590000000000))/2)]
+def mk (γ δ : ℚ) (N J : ℕ) : SdsData :=
+  let d0 : SdsData := { box := boxRotLower, γ := γ, δ := δ, N := N, J := J, E1 := 1 }
+  { d0 with E1 := ceilTo (d0.expLow)⁻¹ (10^30) }
+def fl (q : ℚ) : Float := Float.ofScientific (q * 10^6).floor.toNat true 6
+def go (γ δ : ℚ) (N J : ℕ) : IO Unit := do
+  let d := mk γ δ N J
+  IO.println s!"N={N} check={d.fiberCheck (m := 1)} sum={fl (d.fiberSum (m:=1))} tail={fl d.tailBound} total={fl (d.fiberBound (m:=1))}"
+#eval go (1/42) (23786/10000000) 1157 12
+#eval go (1/42) (23786/10000000) 2000 12
+#eval go (2461/100000) (23786/10000000) 1157 12

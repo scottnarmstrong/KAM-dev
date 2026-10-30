@@ -1,0 +1,1022 @@
+# APOST-SHARP-V2: the least crude explicit a-posteriori KAM theorem (SHARP-PLUS)
+
+30 October 2026. Branch `sharp-plus` (from `apost-sharp`). Design study: Python, LaTeX and signature probes; no Lean proof.
+
+**Contents.**
+- §0 summary;
+- §1 benchmark (HL19, FH24) on R1;
+- §2 competitors;
+- §3 loss inventory (L1–L8);
+- §4 the v2 design;
+- §5 dominance;
+- §6 expected thresholds and costs;
+- §7 honest comparison;
+- §8 errata;
+- §9 reproduction.
+
+Every number comes from a script in `scripts/apost_sharp/`. All of them are untrusted design tooling: exact rationals for the
+constants, double precision for measured norms and small-divisor sums, sampled sups where it says "measured".
+
+## 0. Summary
+
+> **Superseded in part (SHARP2-FIX, SHARP2-DOMPLUS, 30 Oct 2026).** The dominance claim is stated precisely in **§12**. The design was repaired after the audits AUDIT-SHARP-V2-fixed-1 (F1–F9) and
+> AUDIT-SHARP-V2-iso-1 (F1–F8). The corrected numbers, the fair dominance comparison and the new levers are in **§11**, which
+> overrides §0, §5 and §6 where they differ. B9 (route A) is now required and proved (SHARP2-B9); the claim below that it is optional
+> is obsolete.
+
+- **Benchmark.** On the lunar package R1, with the same inputs:
+  - Haro–Luque 2019 (HL19) reaches 10⁻²⁹·⁵. v1 (the sharp design being proved) reaches 10⁻²⁴·⁷ (fixed frequency) and 10⁻²⁵·⁰
+    (iso), so v1 already beats HL19 by 4.7 orders on v1's own data.
+  - HL19 accepts finer data (σ_Kᵀ, separate bounds on X_h and its derivatives) and then reaches 10⁻²³·⁵, which beats v1.
+  - The strongest competitor is **Figueras–Haro 2024** (FH24, Physica D 462, arXiv:2304.10205). Its *modified* Newton step (tangential
+    correction by composition) gives a smallness e/(γ²δ^{2τ+1}) instead of e/(γ⁴δ^{4τ}). It reaches 10⁻¹⁹·⁶ on v1's data and 10⁻¹⁴·⁷
+    on the finer data.
+- **The v2 design.**
+  - **Route B** is the FH24 modified step. To it v2 adds:
+    - a stage-0 anisotropic weight;
+    - small-divisor constants at each bite (full-strip Bessel, frequency-specific);
+    - refined certificate data (|Lᵀ|, |N|, |Nᵀ|, |T_h|, separate |DX_h|, |D²X_h|);
+    - a stage-dependent engine with an exact prefix.
+  - **Route A** (v1's additive step with the same levers) is kept as a second branch. The smallness of the final theorem is the
+    disjunction, so v2 is never worse than v1.
+  - The frozen form keeps `IG1Body`'s conclusion. Only `checkSmallness` changes.
+- **Numbers (R1, iso).** See §6 for the full tables; the ranges below cover the fixed and iso forms.
+  - v1: 10⁻²⁴·⁹⁸.
+  - v2 route A: 10⁻¹¹·⁴. v2 route B: 10⁻¹²·⁰ to 10⁻¹²·⁴.
+  - **Hybrid** (first Newton step measured by the certificate, L6): about 10⁻⁴·⁵ on R1's own residual.
+  - H50 (tori closer to the separatrix, ν = 1 − 1/(50+g)): v1 10⁻²⁷·⁴, v2 10⁻¹²·⁴ to 10⁻¹³·².
+- **Dominance.**
+  - On a 108-point grid (n = 2, 3, 4; τ = n−1 and τ = 2 for n = 2; γ and ρ from 10⁻³ to 10⁻¹; norms 1, 3, 10), v2 on the same data
+    beats HL19 and erratum-corrected FH24 at **every** point. The minimum margin is +0.03 orders and the median +0.6.
+  - FH24 *as printed* wins at about half the points, by up to 0.9 orders. In every case this is because of its erratum (3.72), which
+    multiplies by σ_L where the valid bound needs σ_Lᵀ = 2nσ_K. That is not a valid bound, so it is not a real win.
+  - On R1's own finer data, v2 beats FH24 by 0.5 orders.
+- **Recommendation.**
+  - Fund route B and the hybrid corollary (packages B1–B8, about 6k Lean lines; §4.5).
+  - The SO certificate gains about 13 orders from route B, and up to 20 from the hybrid.
+  - Route A's levers (package B9, optional) add about one more order on R1.
+
+## 1. Benchmark on R1 (task 1)
+
+### 1.1 What was evaluated
+
+- **HL19** (arXiv:1711.05515v1), Theorems 3.1 and 3.6. `scripts/apost_sharp/benchmark_hl19.py`.
+  - Each constant of Appendix B (Tables 1–5) is cited by equation number, specialised to the canonical case d = n.
+  - The canonical case is HL19's Case III, since J² = −I; so A = 0 and every starred constant vanishes.
+- **FH24** (arXiv:2304.10205v1), Theorem 2.18. `scripts/apost_sharp/benchmark_fh24.py`.
+  - Each constant of Appendix B (Tables 1–4) is checked against the PDF.
+  - An independent re-derivation of the canonical case matches it exactly.
+- **The same small-divisor constant for all theorems.** HL19's Lemma 4.1 leaves c_R open. FH24's printed ĉ_R is twice the classical
+  value (§8).
+- **Two readings of the margins.**
+  - *Stated*: the competitor's σ = ours, margin μ. This is generous to the competitor, whose conclusion is weaker.
+  - *Normalised*: the competitor gets σ − μ/2 and a domain shrunk by μ/2, so that its conclusion implies the frozen one. This is the
+    like-for-like comparison.
+- **Free parameters** are optimised: HL19's a₁ and ν_HL; FH24's δ, ν and both control constants.
+
+### 1.2 Results (log₁₀ of the largest admissible e)
+
+| Theorem | Form | Data | c_R | Stated | Normalised |
+|---|---|---|---|---:|---:|
+| sealed `g1_explicit` | fixed / iso | v1 | 1 | −76.55 / −74.51 | |
+| v1 sharp design | fixed / iso | v1 | 0.316 | −24.72 / −24.98 | |
+| HL19 Thm 3.1 = 3.6 | fixed / iso | v1 (σ_Kᵀ = 2nσ_K) | 0.316 | −29.46 | −29.43 |
+| HL19 Thm 3.1 / 3.6 | fixed / iso | finer (measured σ_Kᵀ, M₂) | 0.316 | −23.49 / −23.74 | −23.46 / −23.71 |
+| FH24 Thm 2.18 | fixed | v1 | 0.316 | −19.62 | −19.71 (corrected −20.14) |
+| FH24 Thm 2.18 | fixed | finer | 0.316 | −15.38 | −15.49 (corrected −15.52) |
+| FH24 Thm 2.18 | fixed | finer | 0.0814 | −14.58 | −14.73 (corrected −14.74) |
+
+**HL19's binding entry.** It is the quadratic one, a₁^{4τ}C_E. On v1's data its derived torsion bound is C_T = 1690, against v1's
+H_T = 109. HL19 bounds X_N through L_ω-estimates of L, B and N, while v1 uses the torsion polynomial. With the finer data C_T = 124.
+
+**FH24's binding entries.** They are Q (the quadratic entry) and ⟨T⟩⁻¹ (the twist-margin entry), tied at the optimum by the control
+constant κ.
+
+**HL19's iso constants.** HL19 Thm 3.6 adds C_ω = σ_ω|ω*|, C_Δω, and the energy terms of Table 4. None of them binds on R1.
+
+## 2. Competitors (owner directive, item 1)
+
+**Search.** The search is recorded in the helper reports (scratchpad `competitors-report.md`, `l5-report.md`). It covered:
+- arXiv listing searches;
+- web searches on "explicit constants" a-posteriori KAM for flows, 2005–2026;
+- the citing papers of HL19 and of FHL17;
+- the authors' pages (Haro, Figueras, Villanueva, Celletti, Locatelli).
+
+| Competitor | Setting | Explicit? | Smallness | Verdict |
+|---|---|---|---|---|
+| **FH24**, Physica D 462 (2024) 134127, Thm 2.18 | flows, isotropic/Lagrangian tori, first integrals, general compatible triple | yes (App. B) | (C/(γδ^{τ+1}))·max{‖ηᴸ‖, ‖ηᴺ‖/(γδ^τ)} < 1, i.e. ~e/(γ²δ^{2τ+1}) | **The best published.** v2 route B adopts its step and dominates it on the grid (§5). No iso version. |
+| HL19, arXiv:1711.05515, Thms 3.1, 3.6 | flows, first integrals; iso version | yes (App. B) | C₁e/(γ⁴ρ^{4τ}) < 1 | Dominated by v1 on v1's data and by v2 everywhere (§5). Its iso Thm 3.6 is the only published explicit iso theorem of this type. |
+| Calleja–Haro–Porras 2025, JDE 449, arXiv:2503.09740 | Lagrangian tori, flows with ℓ ≥ 1 quasi-periodic time frequencies | yes (App. C) | C₁e/(γ⁴ρ^{4τ}) < 1 (HL19 structure, Cauchy-free torsion) | Not literally autonomous. Same γ⁴ structure as HL19, so structurally dominated by route B. Not transcribed (marked unverified). |
+| FHL17, FoCM 17 (2017), arXiv:1601.00084 | **maps** | yes | a₁^{4τ}Ĉ₅e/(γ⁴δ₀^{4τ}) < 1 | Different setting. Its gain is computer-assisted c_R(δ) and heavy rigorous FFT, adopted as L2. Standard map: E ≤ 2.7·10⁻⁴¹, condition 0.08, 0.004% below breakdown. |
+| FHL18, arXiv:1703.06809 | the Rüssmann estimate | — | — | Ad hoc bound overestimates the true norm by 2–4 for n = 1 and ≥ 10 for n = 2 (the Parseval step); classical bound by 10–10⁴. |
+| Villanueva 2017, J. Nonlinear Sci. 27, Thm 2.6 | flows, Lagrangian | **no** (Remark 2.8) | m/(γδ^{ν+1})(μ₃ + (μ₁+μ₂)/(γδ^ν)) < … | The origin of the composition device; not explicit. |
+| Villanueva 2008, JDE 244 | Kolmogorov normal form | yes | ε/(γ²δ₀^{2τ+6}) ≤ 1 | Near-integrable setting, not a-posteriori on general tori. |
+| dLGJV 2005, Nonlinearity 18, Thm 5 | flows | no | cγ⁻⁴δ₀^{-4σ}‖e‖ < 1 | Not explicit; suspected erratum (γ^{+2} in Thms 3, 6). |
+| Calleja–Celletti–de la Llave 2013, JDE | conformally symplectic | no (flows); 2-D maps explicit with 1/(\|λ\|−1) | γ⁴; γ² only for λ away from 1 | Blows up in the symplectic limit. |
+| González-Enríquez–Haro–de la Llave, Mem. AMS 2014 | non-twist | no | effectively γ⁸ | Worse. |
+| Celletti–Chierchia, Mem. AMS 187 (2007) | 2-DOF iso, Delaunay variables, weighted ℓ¹ | yes | ∝ γ⁻⁴ξ^{−(4τ+1)}, c* = 38528 | Different norms and variables; the helper found an inconsistent closing inequality. |
+| Kolmogorov-normal-form CAPs (Celletti–Chierchia, Locatelli, Valvo, Caracciolo, Gabern–Jorba) | normal-form remainders | partly | — | Not like for like. Forced pendulum: 55% → 70% → 92% of breakdown. Moon spin–orbit (Celletti 1990): rotational tori at the true ε and e in a truncated model; librational tori only up to ε_obs/5.26. |
+| FH25, J. Nonlinear Sci. 35 (2025) 13, arXiv:2403.10152 | Sun–Jupiter–Saturn 3-torus (FH24) | numerically checked | γ = 1.69·10⁻⁶, ρ = 0.1, τ = 2.4 | The like-for-like test case of FH24; its KAM inequality was not checked in interval arithmetic. |
+
+**L5 (the γ-exponent).**
+- γ⁴ is **not** the best for general Lagrangian tori. FH24 reaches γ² with explicit constants.
+- γ² is optimal: the pendulum needs ε/α² < 1/4.
+- The mechanism is the tangential correction by composition plus the weighted error. A naive "a-posteriori → nearly-integrable"
+  reduction lands at γ³.
+- v2 route B adopts the mechanism.
+
+## 3. Loss inventory (task 2 and owner directive 2)
+
+### 3.1 Cumulative table, route A (v1's additive step), R1
+
+`thresholds_v2.py`, main table.
+
+| Row | Lever | Fixed | Iso | Binding | Gain (iso) |
+|---|---|---:|---:|---|---:|
+| A0 | v1 sharp design (reproduced exactly) | −24.72 | −24.98 | 2^{2a}C_E | |
+| A1 | **L1** finer data: M₁ = \|DX_h\|, M₂ = \|D²X_h\|, \|Lᵀ\|, \|N\|, \|Nᵀ\|, Θ_ω = σ_ω\|ω*\| | −21.00 | −21.13 | ⟨T⟩⁻¹ cap sum | +3.85 |
+| A2 | **L1** measured torsion cap (sup\|T\| on T_{ρ−δ₀}) | −20.68 | −20.90 | T cap sum | +0.23 |
+| A3 | **L2a** classical constant c♮ = 0.0814 (full-strip Bessel, ordered divisors, exact Abel) | −19.29 | −19.50 | T cap sum | +1.40 |
+| A4 | **L2b** Ω_K through ηᴺ (FH24 Lemma 3.1); averages at the full bite | −18.99 | −19.12 | T cap sum | +0.38 |
+| A5 | **L3** δ powers kept (no γ̄-absorption) | −16.19 | −16.30 | T cap sum | +2.82 |
+| A6 | **L2c** frequency-specific constants at the bites, k = 5 (c(δ_s) ≈ 0.0030) | −13.44 | −13.60 | T cap sum | +2.70 |
+| A7 | **L8** caps for the barred factors, free budgets (internal caps +5 %) | −11.18 | −11.37 | ⟨T⟩⁻¹ cap sum | +2.23 |
+
+Notes on route A:
+- A1 is dominated by the torsion: 2M₁|Nᵀ||N| = 7.6 replaces 4nMσ_K²σ_B² = 102, and C_E ∝ H_T⁴. The transposition factors (|Nᵀ| 1.45
+  against 10.6) do the rest.
+- From A1 on the binding constraint is a cap *sum* (twist, torsion), not the quadratic entry. This is why L3 (it removes the
+  γ̄²-absorption in the sums: δ₀^{a−1} = 400×) and L8 pay.
+- Rows A3–A7 change the H50 thresholds the same way: −27.37 → −12.44 for route A, iso.
+
+### 3.2 Route B (the modified step, L5) and its levers, R1
+
+| Row | Lever | Fixed | Iso | Binding |
+|---|---|---:|---:|---|
+| B0 | **L5** modified step, v1 data, c_R = 0.316 (FH24 structure; FH24 itself −19.6 printed, −20.1 corrected) | −21.02 | −21.20 | tail decay |
+| B1 | + L1 finer data, incl. c_Th ≥ \|T_h\| | −15.97 | −16.17 | ⟨T⟩⁻¹ cap sum |
+| B3 | + L2a classical constant | −15.12 | −15.32 | ⟨T⟩⁻¹ cap sum |
+| B4 | + L2c frequency-specific stage data (k = 5) | −14.01 | −14.19 | ⟨T⟩⁻¹ cap sum |
+| B5 | + L8 free budgets | −14.09 | −14.24 | tail decay (the +5 % caps cost 0.1 here) |
+| B6 | + **L3b** anisotropic stage-0 weight λ₀ = σ_Nᵀγδ₀^κ/σ_Lᵀ (ours; FH24 has λ = 1) | −12.25 | −12.39 | tail decay |
+
+On R1 the levered route A is about one order ahead of the levered route B. Both are bound by the same frame-perturbation cap sums,
+which scale like e/(γ²δ₀³) in both routes; route B's structural advantage is in the quadratic entry. That advantage appears at
+smaller γδ (the grid, §5) and on H50 at equal footing.
+
+### 3.3 The levers one by one
+
+- **L1, finer hypotheses.** Measured on R1 (`r1_norms.py`, c = 7/4), against what v1 derives:
+
+  | Object | Measured | v1 |
+  |---|---:|---:|
+  | \|Lᵀ\| | 1.33 | 2nσ_K = 5.50 |
+  | \|N\| | 1.35 | σ_Kσ_B = 2.65 |
+  | \|Nᵀ\| | 1.38 | 10.6 |
+  | sup\|T\| on T_{ρ−δ₀} | 3.31 | H_T = 109 |
+  | \|D²X_h\| | 1.03 | M = 1.92 |
+  | \|T_h\| | 1.82 | 2M = 3.85 |
+  | \|ω\| | 1.75 | Θ = 31 |
+
+  Cost: one hypothesis per object (RefHyp). SHARP-CERTSIDE measures the same values and finds them cheap to certify.
+- **L2, small divisors.**
+  - (a) Proposition `bp:p2s2sd:classical`: c♮(2,1) = 0.0814, against 0.316.
+  - (b) Lemma `bp:p2s2sd:omega` and the full-bite average (FH24 Table 2).
+  - (c) Frequency-specific constants: c(δ_s) = 0.0030 for R1 and 0.0024 for H50 at s = 0..4, essentially constant in δ.
+  - SHARP-L2 has proved `KAM.cohomological_sum` with the weight e^{−2πδ|k|} (bite ρ−δ/2), which gives c_R ≈ 0.0058 for R1. The
+    full-strip refinement here (weight e^{−4πδ|k|}) halves it: 0.0030.
+  - The certificate cost is one finite sum per bite. SHARP-L2B is building a fibered, kernel-cheap check for clock frequencies.
+- **L3, multi-term recursion.**
+  - (a) Keep the δ powers (stage constants evaluated at δ_s; monotone, so the tail uses δ_k).
+  - (b) The anisotropic stage-0 weight (route B).
+  - The γ-exponents of the recursion are those of the route; there is no extra term structure beyond the quadratic form.
+- **L4, schedule.**
+  - FH24's optimum is a ≈ 2.1–3.8. Ratio 2 is optimal for the quadratic entry, since a²/(a−1) is minimal at a = 2.
+  - The free bite in the prefix is allowed by the engine (any finite prefix schedule) but was not used. On R1 it is worth < 0.2
+    orders, because the binding entries are the cap sums.
+  - A split of the Cauchy bite (ηδ) is in the route-A mirror: < 0.5 orders.
+- **L5, the γ-exponent.** See §2. Route B is the answer: e/(γ²δ^{2τ+1}).
+- **L6, measured step-0 objects (hybrid).** `step0_actual.py` measures the actual sizes on R1 (actual / derived):
+
+  | Object | Ratio |
+  |---|---:|
+  | \|Ω_K\| | 1.7·10⁻⁹ |
+  | \|E_red\| | 1.5·10⁻² |
+  | ξᴺ | 9.5·10⁻¹⁰ |
+  | ξᴸ | 1.1·10⁻¹⁷ |
+  | ΔK₀ | 1.3·10⁻¹⁶ |
+  | the new error Ē (≤ 7.3·10⁻⁴e² against 6·10²³e²) | 1.2·10⁻²⁷ |
+  | ξ₀, ξ^ω | vanish |
+
+  - The residual of a truncated spectral solution lives at |k|₁ ≈ 100–186, where the divisors are moderate and each δ₀ of strip loss
+    damps it ninefold.
+  - Corollary `bp:p2s2:hybrid` takes certified bounds on these objects and runs the derived theorem from stage 1. On R1 this admits
+    e up to about 10⁻⁴·⁵ (route A from stage 1; route B 10⁻⁶·⁰).
+  - **This is a property of the candidate's residual, not of the theorem.** A much coarser truncation would put residual mass at
+    near-resonant modes, so the hybrid must be re-measured per candidate.
+  - Checker cost (SHARP-CERTSIDE §2.7): one coefficient-wise division plus about 20 low-precision products of frame models with
+    E-sized models.
+- **L7, reversibility.**
+  - The spin–orbit tori are R-symmetric for R(Q, P) = (−Q, P): v odd; p, J even. In the parameterization scheme, symmetry gives
+    these parities:
+    - ηᴺ odd, so ⟨ηᴺ⟩ = 0 holds automatically (already true by exactness);
+    - ηᴸ even, T even, 𝓡ηᴺ even, so ⟨ηᴸ − T𝓡ηᴺ⟩ is generically non-zero;
+    - Ω_K odd.
+  - The averages that carry the twist and the frequency correction are averages of even functions, so they do not vanish, and no
+    constant improves. The Newton step preserves symmetry (ξᴸ odd, ξᴺ even, ξᴸ₀ = 0 is the symmetric choice, which is v1's).
+  - The certificate already stores only sine coefficients for v and cosines for p, J (half the support). Sup norms can be sampled on
+    half the torus.
+  - Verdict: no theorem change; the support halving is already realised.
+  - On R1, ξ₀ and ξ^ω vanish numerically. This is because the residual has no low modes, not because of symmetry.
+- **L8, engine losses.**
+  - (i) Budgets μ/2 for every cap and μ/4 for the ball. The internal caps (B, N, Nᵀ, Lᵀ, T, ⟨T⟩⁻¹) are free in v2 (row A7, B5); only
+    |DK| and the ball are tied to the frozen conclusion (μ/2). Route B's ball budget is μ/2 with d < β instead of μ/4 with 2d ≤ β.
+  - (ii) The geometric-series bounds Σ ε_s/δ_s^i ≤ 2e/δ₀^i are replaced by the explicit prefix sums. This is worth a factor up to 2
+    in the sums, and it halves the closeness constant C₂ (|K∞ − K| ≈ |ΔK₀|).
+  - (iii) The ratio 1/8: replaced by caps for the barred factors (no θ̂⁴, θ̂⁵); θ = 1/16 is best for route B on the grid.
+  - (iv) The limit step: no loss found beyond (ii).
+  - (v) The perturbation of 𝒯_c in v1 bounds |Ω̄_K − Ω_K| by d/δ. The Lagrangian defect of the new torus is itself quadratically
+    small (Lemma `bp:p2s2:omega`), worth about 1.6× in C_ΔT.
+  - (vi) v1's step constant takes the γ̄-absorbed form of every smallness entry (δ₀^{2a−1} lost in "ε ≤ δ"). It never binds after L1.
+
+## 4. The v2 design (task 3)
+
+### 4.1 Mathematics
+
+**Blueprints.**
+- `blueprint/parts/p2s2-smalldiv.tex`, labels `bp:p2s2sd:*`: small-divisor constants at a bite, full-strip Bessel, ordered divisors,
+  Abel summation, the classical and frequency-specific constants, Rüssmann–Cauchy, averages at the full bite.
+- `blueprint/parts/p2s2-modified.tex`, labels `bp:p2s2:*`: refined data, geometry controlled by ηᴺ, the modified step with every
+  constant, the stage-dependent engine, route A's deltas, Theorem G1♯♯, the frozen form, the hybrid corollary, the register and the
+  errata.
+- `blueprint-I/parts/p2s2-iso-modified.tex`, labels `bpI:p2s2:*`: the bordered modified step (frequency and energy errors, bordered
+  torsion), I-G1♯♯ concluding `IG1Body`.
+- Top files `blueprint/sharp2.tex` and `blueprint-I/sharp2.tex` compile with no undefined reference.
+
+**The modified isoenergetic step is new.** No source has it; HL19 §6 provides the bordered ingredients. The two identities it needs
+are proved in the blueprint:
+- the energy cancellation ⟨H∘K̃⟩ = E₀ + ⟨Δ²H⟩;
+- D(H∘K̃) = −ωᵀΩ_K̃ + (η̃ᴺ)ᵀ, which makes the composition term cubic.
+
+### 4.2 Hypotheses (all certificate-checkable; old ⇒ new with v1 values)
+
+| Hypothesis | Object | v1 value implied by the frozen hypotheses |
+|---|---|---|
+| (R1) M₁ ≥ \|DX_h\|, M₂ ≥ \|D²X_h\| on 𝔅; c_Th ≥ \|T_h\| | Hamiltonian | M, M; 2M |
+| (R2) σ_Lᵀ ≥ \|Lᵀ\|, σ_N ≥ \|N\|, σ_Nᵀ ≥ \|Nᵀ\| on T_ρ | frame of K | 2nσ_K, σ_Kσ_B, 2nσ_Kσ_B (`refHyp_ofV1`) |
+| (R3) optional t ≥ sup\|T\| on T_{ρ−δ₀} | frozen torsion | derived: c_Th σ_Nᵀσ_N + slack |
+| (R4) Σ_{0<\|k\|₁≤N}\|k·ω*\|⁻²e^{−4πδ_s\|k\|₁} ≤ Ŝ_s, s < k | finite sums | the Rüssmann constant |
+| (R5) optional: certified sups of the step-0 objects (hybrid) | ξᴺ, ξᴸ, E_red, E_sym, ∂_ωξ, ΔK₀ | none (corollary only) |
+| smallness: X₀ ≤ X⋆ with `routeBOk … X⋆` (finitely many polynomial inequalities) | arithmetic | C₁^{♯♯} = min{C₁^♯, …} |
+
+No hypothesis is conclusion-shaped: each bounds an explicit object of (h, K, ω) or is an inequality between explicit numbers.
+
+### 4.3 Lean signature deltas
+
+The probe `.drafts/sharp2/Signatures.lean` (copy: `docs/campaign/design/APOST-SHARP-V2-SIGNATURES.lean.txt`, 612 lines) elaborates:
+12 declarations with `sorry` bodies, every diagnostic "declaration uses `sorry`", no error. `c1V2_le_sharpC1` is proved.
+
+| Module (planned) | Declarations |
+|---|---|
+| `KAM/Sharp2/SmallDiv/Defs.lean` | `SDConst`, `ray`, `sdSum`, `sdFinite`, `shellConst`, `sdTail`, `sdEps`, `cohConstC`, `cohConstF` |
+| `KAM/Sharp2/SmallDiv/Instances.lean` | `sdConst_of_cohData`, `sdConst_classical`, `cohConstC_mono`, `sdConst_freq`, `norm_avg_mul_cohR_le` |
+| `KAM/Sharp2/Data.lean` | `RefData`, `RefData.ofV1`, `RefHyp`, `refHyp_ofV1` |
+| `KAM/Sharp2/Geometry.lean` | `norm_lagrangeMat_le_etaN`, `norm_invarianceError_le_eta` |
+| `KAM/Sharp2/ModConstants.lean` | `StepIn`, `StepConsts`, `stepConsts`, `stepCond` |
+| `KAM/Sharp2/ModStep.lean` | `modXiN0`, `modXiN`, `modKtilde`, `modXiL`, `modNewton`, `modified_step` |
+| `KAM/Sharp2/Engine.lean` | `StageScheme`, `StageConsts`, `StageScheme.IsNewton`, `xSeq`, `StageScheme.converge` |
+| `KAM/Sharp2/G1.lean` | `G1BodyRef`, `stageInB`, `routeBOk`, `ballSumB`, `freqSumB`, `closenessV2`, `c1V2`, `g1_v2`, `c1V2_le_sharpC1` |
+| `KAM/Iso/Sharp2/G1.lean` | `iso_g1_v2` (literally `IG1Body` with C₁ = min{`sharpIsoC1`, route B}, C₂, C₃ = max{v1, route B}) |
+
+The constants `stepConsts` are verbatim Definition `bp:p2s2:constantsB` / `bpI:p2s2:constants`, and `stageB` in `thresholds_v2.py`
+is their mirror.
+
+### 4.4 v1 Lean results reused unchanged
+
+- **Small divisors.**
+  - `KAM.Sharp.CohData` and `cohData_russmann`, `_parseval`, `_crude` (KAM/Sharp/CohData.lean): the tail and the default data.
+  - SHARP-L2's `KAM.cohomological_sum`, `_operator_sum`, `smallDivisorSum_le_box_add_tail`, `sdTail_le` (branch `sharp-l2`): the
+    base of L2; the full-strip version is a delta (B1).
+- **Torsion.** `KAM.Sharp.torsionPoly`, `torsion_identity` (KAM/Sharp/TorsionPoly.lean): the torsion of both tori, 𝒯_ab, 𝒯_F, 𝒯_c.
+- **Frame.** `KAM.Sharp.frame_bounds` (KAM/Sharp/Frame.lean): N = Ω₀LB, NᵀΩ₀ = BLᵀ, Aᵀ = Ω₀AΩ₀.
+- **Tools.** `KAM.Sharp.neumann_ratio`, `norm_mul_sub_mul_le` (KAM/Sharp/Tools.lean).
+- **v1 constants.** `KAM.Sharp.sharpC1`, `sharpC2`, `KAM.Iso.Sharp.sharpIsoC1`/`C2`/`C3` (Constants.lean): the minimum with v1.
+- **Engine.** `KAM.Sharp.Engine.schedule`, `error_decay` (A1, on `main`): the tail when constants are uniform. The limit lemmas
+  `KAM.Apost.tendstoUniformlyOn_telescope`, `lim_k`, `lim_dk`, `lim_holo`, `lim_primary`, `lim_close`, `lim_margins`,
+  `lim_invariance` (KAM/Apost/Limit.lean).
+- **Apost and Iso layers.**
+  - `KAM.Apost.periodicity`, `exactness`, `frame_identities`, `hamiltonian` (the identity Aᵀ Ω₀ + Ω₀A = 0), `triangular`
+    (qualitative), `KAM.taylor_of_differentiableOn_fderiv`, the Cauchy corollaries.
+  - `KAM.Iso.Linear.border_solve` (qualitative), `LastRowAux.energyRow_eq_sub_etaL`, `extended_regular`,
+    `ExtendedAux.extendedTorsionAverage_eq_bordMat`, `energy_approx`, `energy_conservation`.
+  - `KAM.Iso.Sharp.BorderBounds` helpers (A6A).
+  - `KAM.Iso.Apost.lim_invariance_moving`, `tendsto_energyAverage_of_uniform`.
+- **Not reused.** v1's A4–A7 targets (step, scheme, G1) are not needed by route B. They remain the source of C₁^♯ in the minimum.
+  Re-targeting them to refined data is package B9 (optional).
+
+### 4.5 Package split (dependency order; files ≤ 800 lines each)
+
+| Package | Content | Lines | Depends on |
+|---|---|---:|---|
+| B1 SHARP2-SD | `SmallDiv/Defs`, `Instances`: full-strip version of `cohomological_sum`, classical constant (ordered divisors, Abel), frequency constants, averages at the full bite | 600 | SHARP-L2 |
+| B2 SHARP2-GEO | `Data`, `Geometry`: refined data, Ω_K from ηᴺ, recovery of E, DE | 500 | B1, `KAM.Sharp.Frame` |
+| B3 SHARP2-CONST | `ModConstants`: defs, positivity, monotonicity in δ and in the small-divisor constants | 400 | — |
+| B4 SHARP2-STEP | `ModStep` (split: normal correction / composition and new errors / frames and torsion) | 1500 | B1–B3, `TorsionPoly` |
+| B5 SHARP2-ENGINE | `Engine`: prefix, tail with critical sums, limit | 700 | A1 limit lemmas |
+| B6 SHARP2-G1 | `G1`: `routeBOk`, `g1_v2`, frozen form | 400 | B4, B5, `KAM.Sharp.Constants` |
+| B7 SHARP2-ISO | bordered step deltas, iso scheme, `iso_g1_v2` | 1200 | B4–B6, Iso.Linear, Iso.Sharp.BorderBounds |
+| B8 SHARP2-HYBRID | measured first step (both forms) | 500 | B4, B7 (and v1's step identities) |
+| B9 (optional) SHARP2-A | route A levers on v1's A4–A7 | 1000 | v1 A4–A7 |
+
+**Total.** About 5.8k lines, 6.8k with B9.
+
+**Order.** B1, B2 and B3 can run in parallel; then B4 and B5; then B6; then B7 and B8.
+
+**The certifier (SHARP-CERTSIDE, A8).** It changes only `checkSmallness`: rational mirrors of `stepConsts` and a certified X⋆, plus
+the certificate checks of (R1)–(R4) (and (R5) for the hybrid).
+
+## 5. Dominance (owner directive)
+
+`scripts/apost_sharp/dominance.py` (about 4.5 min). v2 uses only the competitors' information:
+- one size M = σ;
+- σ_Kᵀ = 2nσ_K, σ_N = σ_Kσ_B, σ_Nᵀ = 2nσ_Kσ_B, c_Th = 2M;
+- the classical small-divisor constant;
+- no measured objects.
+
+**Correction (audit F7).** Here the competitors received c♮(1) while v2 received c♮ at its own bites. The table below therefore
+shows only that *v2 wins the original specified grid with the competitors supplied c♮(1)*; it is not a same-data dominance claim.
+The fair comparison, with every competitor at its own bites, is §11.3.
+
+Results (108 points; log₁₀ orders; "margin" = v2 minus the best of HL19 and corrected FH24):
+
+| n, τ | Points | Min margin | Median | Max lead of printed FH24 | Route B chosen |
+|---|---:|---:|---:|---:|---:|
+| 2, 1 | 27 | +0.61 | +0.74 | −0.04 (never leads) | 26/27 |
+| 2, 2 | 27 | +0.33 | +0.61 | 0.28 | 27/27 |
+| 3, 2 | 27 | +0.32 | +0.50 | 0.46 | 27/27 |
+| 4, 3 | 27 | +0.03 | +0.58 | 0.87 | 27/27 |
+
+- **Corrected FH24 and HL19 never win.** Against HL19 the margin is 4.9 to 42.6 orders.
+- **Printed FH24** leads at 48/108 points, all for n ≥ 2 with τ ≥ 2 or norms ≥ 3 (erratum E2, below).
+- **v2's free parameters on the grid:** θ ∈ {1/16, 1/8}, prefix k = 5, and the classical constant c♮(n, τ, δ_s) at the stages and
+  c♮(δ_k) in the tail (constants valid for every bite ≤ δ_k).
+
+**Like for like on the packages (same finer data, classical c_R; FH24 receives c♮(δ₀)).**
+
+| Package | FH24 printed | FH24 corrected | v2 route B |
+|---|---:|---:|---:|
+| R1 | −14.73 | −14.74 | **−14.26** |
+| H50 | — | — | −15.41 |
+
+FH24 on H50 was not run (its script takes R1's data). With all the v2 data (frequency-specific constants, free budgets, anisotropic
+weight), route B reaches −12.25 on R1.
+
+**Where a competitor wins, and why.**
+- *Printed* FH24 leads by up to 0.9 orders at about half the grid points, all with norms ≥ 3 or n ≥ 3. With σ_Lᵀ = 2nσ_K its
+  (3.72) multiplies the B-correction by σ_L instead of σ_Lᵀ, an underestimate by 2n in C_ΔN̄ᵀ, which enters its binding entries Q and
+  ⟨T⟩⁻¹.
+- With the erratum corrected, FH24 never wins.
+- This cannot be "fixed" by v2: matching an invalid printed bound would make v2 invalid.
+
+**Competitors not evaluated numerically.**
+- Calleja–Haro–Porras 2025: HL19 structure, γ⁴; not autonomous as stated.
+- Celletti–Chierchia 2007: other variables and norms.
+- The non-explicit theorems.
+
+## 6. Expected thresholds and costs
+
+| Package / form | v1 | v2 route A | v2 route B | v2 hybrid (R5) | HL19 (finer data) | FH24 (finer data) |
+|---|---:|---:|---:|---:|---:|---:|
+| R1 fixed | −24.72 | −11.18 | −12.25 | −4.4 (A) / −5.0 (B) | −23.5 | −14.7 |
+| R1 iso | −24.98 | **−11.37** | −12.39 | −4.5 / −5.0 | −23.7 | — (no iso version) |
+| H50 fixed | −27.19 | −12.29 | −13.05 | not measured | | |
+| H50 iso | −27.37 | **−12.44** | −13.17 | not measured | | |
+
+- **Expected R1 threshold with the recommended Lean plan.** Route B plus v1 by the minimum gives 10⁻¹²·⁴ (iso). Route A's levers
+  (B9) give 10⁻¹¹·⁴.
+- **With the hybrid.** The R1 candidate's admissible error is about 10⁻⁴·⁵; it must be re-measured per candidate.
+
+**Truncation (CONSTANTS-STUDY §2.3 fit, log₁₀η ≈ −0.94L + 3, 2 orders of headroom).**
+- v1's 10⁻²⁵ needs L ≈ 32 digits.
+- v2's 10⁻¹¹·⁴ needs L ≈ 17 digits, with E-support about 1.1·17² ≈ 320 terms instead of 1.1k (about 3.5× fewer pairs).
+- The hybrid threshold would allow much coarser truncations only after re-measurement (§3.3, L6).
+- These are extrapolations from the study's fits, not measurements.
+
+**Lean.**
+- About 5.8k lines for route B and the hybrid (B1–B8).
+- The probe is 612 lines of signatures.
+- Risks:
+  - the composition estimates (θ + ξᴸ(θ) stays in the strip; the chain rule for the error of K̃∘φ; the mean value inequality on the
+    strip);
+  - the stage engine with `Nat.rec` iterates;
+  - long `max`/polynomial constants in `stepConsts`: keep them folded, and prove monotonicity once (the no-heartbeat rule).
+
+## 7. Honest comparison
+
+- **Where v2 is sharper than every published explicit theorem.**
+  - Generic data (the grid): it dominates HL19 and FH24 (corrected) everywhere, typically by 0.5 orders against FH24 and by 10–30
+    orders against HL19.
+  - Lunar packages: refined data, frequency-specific constants and the anisotropic weight add about 3 orders over FH24 on R1. The
+    hybrid adds many more on the actual candidate.
+  - Isoenergetic: v2 route B is the first modified-step iso theorem. Its only explicit competitor, HL19 Thm 3.6, is 18+ orders behind
+    on R1.
+- **Where it is not.**
+  - On generic data the margin over FH24 is small (+0.03 at worst), because route B *is* FH24's mechanism.
+  - The gains over FH24 are:
+    - its erratum;
+    - the frozen torsion (no E^{LN}_red);
+    - caps for the intermediate frame (n·θ_ξ instead of n);
+    - the anisotropic weight (worth up to 2 orders when ηᴸ ≪ ηᴺ/(γδ^κ), as for spectral candidates);
+    - stage constants.
+  - FH24 handles general compatible triples and first integrals; v2 is canonical, d = n.
+  - FHL17's computer-assisted proofs reach 0.004% of breakdown for the standard map. That is a map, with ad hoc c_R and a
+    10⁻⁴¹-accurate 8M-mode torus; v2 makes no claim there.
+- **Why not more.** After L1–L8 the binding constraints on R1 are the twist and torsion cap sums (frame perturbation), which scale
+  like e/(γ²δ₀³) in both routes. Further gains would need either a measured second step (hybrid) or sharper frame perturbation
+  bounds, e.g. the actual |B̄ − B| from the certificate. The hybrid already covers the first step.
+
+## 8. Suspected errata (for the ledger)
+
+| Source | Location | Quoted text | Why it is wrong |
+|---|---|---|---|
+| FH24 (arXiv:2304.10205v1) | Lemma 2.14, p. 14 | ĉ_R = (2^{d+1−2τ}ζ(2,2^τ)π^{−2τ−2}Γ(2τ+1))^{1/2} | Its own route gives half of this (the middle line has π^{−2τ}, the last π^{−2τ−2}, and the definition of c_R(δ) lacks (2π)⁻²). The printed value is a valid but loose bound. |
+| FH24 | Table 3, (3.72), p. 38 | C_ΔN̄̄ᵀ = δσ_Bσ_L c_DJᵀ C_ΔK̄̄ + σ_B C_ΔL̄̄ c_Jᵀ + C_ΔB̄̄ σ_L c_Jᵀ | Nᵀ = BLᵀJᵀ, so the bound needs σ_Lᵀ and C_ΔL̄̄ᵀ. As printed it is an underestimate; in the canonical case it equals (3.71). |
+| FH24 | (3.10); p. 19 | "C_E =" for C_{Eᵀ}; "Corollary 2.14" for 2.16 | Typos. |
+| HL19 (arXiv:1711.05515v1) | (3.16) vs (6.51) | \|ω∞ − ω\| < C₃‖E_c‖/(γ²ρ^{2τ}) vs C₃‖E_c‖/(γρ^τ) | Inconsistent exponents between the statement and the proof. |
+| HL19 | §5.3, p. 43, with Lemma 4.1 | "taken to be the same for all steps by considering the worst value of δ_s, that is, δ₀" | Correct for uniform c_R, but Lemma 4.1 allows c_R(δ), which increases as δ ↓ 0 for τ = 1. |
+| FHL17 | proof of Thm 2.5, p. 16 | the same as the previous row | The same gap (helper report E2). |
+| FHL17 | p. 37 | "6 orders" at ε = 0.96 with τ = 1 | Consistent with τ = 1.26, not 1 (helper report E1). |
+| dLGJV 2005 | Thms 3, 6 | "cγ²δ₀^{−2σ}‖e₀‖" | Should be γ⁻² (helper report). |
+| `docs/explorations/lunar-band-2p8-2p9.md` | item 3 | "Torsion and Gram constants. They change little between N = 40 and N = 60" | At N = 50, \|B\| grows by 41 %, costing 1.75 orders under v1 (H50 helper report). |
+| same document | item 1 | "the binding mode is k = (1, −1), so γ ≈ 2/(N+g)" | True in the θ-frame. In the rotated frame the binding mode is (1, 0) and γ′ ≈ 1/(N+g). |
+
+**Deviations introduced by this design.** See Remarks `bp:p2s2sd:errata`, `bp:p2s2:register` and `bpI:p2s2:dev`:
+- small-divisor constants per bite;
+- the frozen torsion in the modified step;
+- caps for the intermediate frame;
+- the anisotropic weight;
+- the stage engine;
+- the isoenergetic modified step (no source).
+
+## 9. Reproduction
+
+```
+python3 -I scripts/apost_sharp/r1_norms.py          # measured R1 norms (1 s)
+python3 -I scripts/apost_sharp/smalldiv.py          # small-divisor constants (1 s)
+python3 -I scripts/apost_sharp/benchmark_hl19.py    # HL19 on R1 (1 s)
+python3 -I scripts/apost_sharp/benchmark_fh24.py    # FH24 on R1 (2 s)
+python3 -I scripts/apost_sharp/h50_package.py       # the H50 torus and norms (25 s)
+python3 -I scripts/apost_sharp/step0_actual.py      # measured step-0 objects (20 s, 0.9 GB)
+python3 -I scripts/apost_sharp/thresholds_v2.py     # cumulative tables, routes A and B, hybrid, H50 (2 min)
+python3 -I scripts/apost_sharp/thresholds_v2.py --routeB   # route B on R1 only
+python3 -I scripts/apost_sharp/dominance.py [--quick]      # the dominance grid (4.5 min; quick 1 min)
+nice -n 5 lake env lean .drafts/sharp2/Signatures.lean     # the signature probe
+```
+
+## 10. Owner directives 3 and 4: PlasmaLean, Figueras–Haro 2025, L9, low-dimensional refinements
+
+### 10.1 PlasmaLean on its own example (`dominance.py --plasmalean`)
+
+**PlasmaLean** (github.com/siddhartha-gadgil/PlasmaLean; data from `docs/explorations/striking-applications.md` §8, branch
+`apps-scout`):
+- field-line KAM on T², 1½ degrees of freedom;
+- Newton in weighted ℓ¹ coefficient norms with two unknown functions;
+- proved tolerance δ₀⁴/(32κ) = 5.7·10⁻¹⁹ (10⁻¹⁸·²⁴), at γ = 0.0687, strip 0.1257 rad (ρ = 0.02 turns), δ₀ = r/7.
+
+**What is compared.** Our threshold on e (sup norm of the invariance error of a canonical n = 2 flow with clock frequency
+ω = (ι, 1), ι = (75+√5)/562), at PlasmaLean's γ, strip and frame and torsion bounds, against its proved tolerance on its own error
+norm. The norm sets are those of `run_mag.py`:
+- "cA-like": σ_K 3.1, σ_B 2.0, M 3.0, ‖T‖ 19.84, twist ≥ 0.22;
+- "R1-like": R1's.
+
+Transposes are not measured for PlasmaLean's torus, so v2 uses the conservative defaults 2nσ_K and so on.
+
+**Not like for like.** Its exact field has a non-canonical area form and no closed-form canonical chart, so our theorem does not
+apply to it literally.
+
+| Norms | Small-divisor data | v2 route A | v2 route B | Best | Margin over PlasmaLean |
+|---|---|---:|---:|---:|---:|
+| cA-like | classical c♮ | −20.01 | −24.88 | −20.01 | −1.77 |
+| cA-like | frequency-specific, sup norm (L2c; flat in δ, value at δ₀) | −17.27 | −22.15 | −17.27 | **+0.97** |
+| cA-like | ℓ¹ c_∞ = 0.00123 (L9, SHARP-L9), E charged ×3.6 (ℓ¹/sup) | −16.24 | −20.73 | −16.24 | **+2.01** |
+| R1-like | classical | −15.94 | −19.61 | −15.94 | +2.30 |
+| R1-like | frequency-specific | −13.87 | −17.28 | −13.87 | +4.37 |
+| R1-like | ℓ¹ (L9) | −12.99 | −16.12 | −12.99 | +5.26 |
+
+**Verdict.**
+- v2 beats PlasmaLean's 10⁻¹⁸·² on its example with the frequency-specific small-divisor data alone (+1.0 orders at its own,
+  pessimistic bounds), and by +2.0 with the ℓ¹ constant.
+- The sup-norm theorem loses to it only with the generic classical constant (−1.8). That is PlasmaLean's reason 1 (no L² detour in
+  ℓ¹).
+- Here route A wins: γδ₀ is larger and the norms are larger, so the modified step's advantage is smaller than its larger Q.
+
+### 10.2 L9: the ℓ¹ (Wiener-algebra) variant
+
+**The estimate.** SHARP-L9 (merged into `sharp-v2`) proved the weighted-ℓ¹ cohomological estimate with
+Γ_∞(ω,δ) = sup_k e^{−2πδ|k|₁}/(2π|k·ω|): scalar, vector, matrix, a-priori, and the ℓ¹ ⇒ sup bridge, with certified fibered bounds.
+
+| Effective constant c = Γγδ^τ | Value |
+|---|---:|
+| R1, c_∞ (ℓ¹) | 0.00051 |
+| R1, ℓ² sum, full-strip Bessel (this design) | 0.0030 |
+| R1, ℓ² sum, bite ρ−δ/2 (SHARP-L2) | 0.0058 |
+| generic ℓ¹ | 0.0093 |
+| Rüssmann | 0.316 |
+
+**Recommendation: a hybrid, not a full ℓ¹ scheme.**
+- The cohomological solutions and the errors would be carried in ℓ¹, where the certificate already computes them.
+- The frame and Hamiltonian bounds stay in sup norms, where they are smaller.
+- The conclusions are sup-norm (ℓ¹ ≥ sup), so `G1Body`/`IG1Body` follow.
+
+**Gain and cost.**
+- On R1 the swap c_freq → c_∞ is worth about 0.9 orders net of the ℓ¹/sup penalty on E (2.0–3.6×; CERTIFIER-SHARPNESS §1.2).
+  It is about 1 order on PlasmaLean's data.
+- The Lean cost is a parallel norm layer for the step: about 1.5–2k lines (package B10, optional).
+- It is not in the blueprint addenda. Only its small-divisor input exists, and it is proved (SHARP-L9).
+
+### 10.3 Low-dimensional and clock refinements
+
+For n = 2 and ω = (ω′, 1), the clock row of the frame is exactly (0, 1), the φ-component of K is θ₂ exactly, and the invariance
+error vanishes in that row. All of this is already captured by the measured majorants of L1: R1's |Lᵀ| = 1.33 and |N| = 1.35 are
+measured on a clock torus, against 2nσ_K = 5.5.
+
+Exact transposition factors for n = 2 are the measured |Lᵀ|, |Nᵀ|. No further unknown is removed by the theorem: the isoenergetic
+form already slaves J through the energy row.
+
+**Remaining low-dimensional lever (not quantified).** Specialize the frame to the clock (L = [[1+u_ψ, u_φ],[0, 1],[p_ψ, p_φ],[P_ψ, P_φ]])
+and solve one fewer cohomological equation in the normal direction. That changes the frozen object definitions, so it is a
+different theorem.
+
+### 10.4 Figueras–Haro 2025, Sun–Jupiter–Saturn, on their data (`dominance.py --fh25`)
+
+**Their data (§5 of the paper).**
+- τ = 2.4, γ = 1.69·10⁻⁶, ρ = 0.1, δ = ρ/6.
+- c_Xh = 0.09, c_DXh = c_(DXh)ᵀ = 129, c_D²Xh = 5·10¹⁰.
+- ‖DK‖ 4.78, ‖DKᵀ‖ 6.88, ‖B‖ 7.36, ‖N‖ 3.57, ‖Nᵀ‖ 2.86, |⟨T⟩⁻¹| 354.
+- σ = norm·(1 + 10⁻¹⁰).
+- Their claim: running the Iterative Lemma numerically for 10 steps closes at ‖η^{DK}‖ = 10⁻³⁸, ‖ηᴺ‖ = 10⁻⁴⁴. This was checked
+  numerically, not in interval arithmetic.
+
+**Mapping.**
+- v2 is d = n canonical. Their norms are used as the caps of a d = n = 3 problem: the first integral and moment flow are dropped.
+- Small-divisor data: c♮(3, 2.4).
+- c_Th = 2c_DXh and c_DTh = 2c_D²Xh (they do not report these two).
+- Margins 10⁻¹⁰·norm.
+- 10 exact prefix stages, matching their 10 numerical steps.
+
+| Theorem on FH25's data | Admissible scale of (10⁻³⁸, 10⁻⁴⁴) | Binding |
+|---|---:|---|
+| FH24 closed form (3.99), δ = ρ/6 as in FH25 | 10⁻⁶·¹⁸ | ⟨T⟩⁻¹ entry |
+| FH24 closed form, δ optimised (0.027) | 10⁻⁵·⁵³ | ⟨T⟩⁻¹ entry |
+| v2 route B, FH24 weight, ratio 2 | 10⁻⁶·²³ | ⟨T⟩⁻¹ cap sum |
+| v2 route B, anisotropic weight, ratio 2 (δ = ρ/6) | **10⁻⁵·⁹⁸** | ⟨T⟩⁻¹ cap sum |
+| v2 route B, anisotropic, prefix ratio 3 / 4 (L4) | 10⁻⁵·⁶⁸ / **10⁻⁵·⁵⁶** | ⟨T⟩⁻¹ cap sum |
+| v2 route B, ratio 3, if c_DTh = 2c_DXh (hypothetical) | 10⁻²·⁹⁹ | ⟨T⟩⁻¹ cap sum |
+| apps-scout "v2-type" emulation (route A type) | about 10⁻³¹ to 10⁻⁴² | quadratic entry |
+
+**Verdict.**
+- On FH25's published data v2 **matches FH24's own theorem**: ahead by 0.2 orders at their δ, and within 0.03 orders with free
+  schedules.
+- **Neither reproduces FH25's numerical closure.** Both are about 5.5 orders short, in the twist-margin entry:
+  - σ_T² = 1.25·10⁵;
+  - the change of the torsion C_ΔT is dominated by c_DTh·σ_Nᵀσ_N·|K̄ − K|, with c_DTh ≈ 2c_D²Xh = 10¹¹;
+  - the margin is σ_T − |⟨T⟩⁻¹| = 3.5·10⁻⁸.
+- So FH25's closure must use either a much smaller c_DTh or c_Th (unreported), or larger margins, or a reading of the Iterative
+  Lemma we could not reconstruct. Even with c_DTh = 258, three orders remain.
+- We record this as a reproducibility note, not an erratum.
+
+**Factor-by-factor decomposition of the gap**, from the apps-scout v2-type emulation (10⁻⁷⁵…10⁻⁸⁶ in e; about 10⁻³¹…10⁻⁴² relative
+to FH25's errors) to v2 route B (10⁻⁵·⁶):
+
+| Factor | Orders |
+|---|---:|
+| (i) L5, the modified step: γ⁴δ₀^{4τ} → γ²δ₀^{2τ+1}, i.e. 1/(γ²δ₀^{2τ−1}) = 1/(2.9·10⁻¹²·1.7·10⁻⁷) | about 18.3 |
+| (ii) M₂ = c_D²Xh = 5·10¹⁰ in the quadratic entry (route A: C_E ∋ (M₂/2)C_ΔK²; route B: multiplied by γδ^{τ+1} ≈ 1.5·10⁻¹² in Q_L, or by δ in Q̃_N); M₂ stays in the binding twist entry through c_DTh | about 10 |
+| (iii) the full-bite average (δ/ρ)^τ = 6^{−2.4} in C₀ | 1.9 |
+| (iv) the anisotropic stage-0 weight (their η^{DK}/(ηᴺ/(γδ^τ)) ≈ 10⁻⁴) | 0.25 |
+| (v) the prefix ratio (FH24's optimal δ) | 0.4 |
+| (vi) the classical constant c♮ vs the emulation's c_R = 0.05 | about 1 |
+
+The rest is the emulation's absorptions and its single-size M.
+
+**What it would take to apply v2 literally to FH25.**
+- **The first integral** (d = 3 < n = 4). FH24's L = (DK, X_p∘K) and the moment-flow composition Φ_{ξ_{Xp}} in the tangential
+  correction, with c_Xp, c_DXp, c_DΦ. That is about 1.5k Lean lines on top of B4. It would not change the binding entry.
+- **Non-integer τ** is already supported: κ is real throughout, and c♮ uses Γ(2τ+1).
+- **Their schedule** (δ = ρ/6) is v2's default.
+
+## 11. SHARP2-FIX: repairs after the design audits, and fair dominance
+
+Branch `sharp-fix` (from `sharp-v2`, with B1, B2, B3, B5, B9 and B10D merged). Brief `SHARP2-FIX`. Inputs:
+AUDIT-SHARP-V2-fixed-1 (F1–F9), AUDIT-SHARP-V2-iso-1 (F1–F8), and the design signals of SHARP2-B2, B3, B5, B9 and B10D.
+Surfaces repaired:
+- `blueprint/parts/p2s2-{smalldiv,modified}.tex`, `blueprint-I/parts/p2s2-iso-modified.tex`;
+- `docs/campaign/design/APOST-SHARP-V2-SIGNATURES.lean.txt` (replaced; it elaborates on top of the merged packages);
+- `scripts/apost_sharp/{thresholds_v2,dominance}.py`;
+- `benchmark_fh24.py` gains one optional input, `cRrho`, with an unchanged default.
+
+Per-package signature deltas: `APOST-SHARP-V2-DELTA.md`.
+
+### 11.1 Findings and dispositions
+
+The key structural change is the torsion. It is now compared with the *initial* torus:
+- only the frame part 𝒯_ab = BLᵀ(AΩ₀ − Ω₀A)LB is telescoped;
+- 𝒯_F + 𝒯_c is bounded at each stage by that stage's own data;
+- no estimate of the new torus is needed (blueprint Lemmas `bp:p2s2:torsion-local`, `bp:p2s2:torsion-ref`).
+
+This removes F8 at its root, makes the local contraction premise unnecessary, and turns the iso Y-row into a local term.
+
+| Finding | Disposition |
+|---|---|
+| fixed F1 (`g1_v2` counterexample, zero caps) | Fixed. Well-formed package `NumB.Wf` / `StepInB.Ok` (positive caps strictly above initial values, ratios in (0,1), a > 1, ȳ ∈ (0,1), kp ≥ 1); `InitB.Wf` (positive initial values below the caps); `check_data` in the mirror; the literal wrappers use the default data. |
+| fixed F2 (`converge` admits an oscillation) | Fixed. B5's `converge_checked` adopted (hnn, hcondT, hball, closeness conclusion); its generalisation `StageScheme.converge_ratio` (ratio a, decay ȳ) carries the same three hypotheses. `routeBOk` has J1t (tail conditions on [0, X_kp]), and J4 is strict. |
+| fixed F3 (certificates, caps, quantifiers, literal G1Body) | Fixed. Mirrors B9's packages: `NumB` (numbers), `NumB.Cert γ Ω` (SDConst at δ_s, at the split bite τ/(τ+1)·δ_s, at min(r_s,1), the tail at every bite ≤ δ_kp, the tail full bites), `InitB` + `RefHypB` (object bounds with initial values), and J3 over all seven caps (DK, Lᵀ, B, N, Nᵀ, Tab, frequency). Certificates are hypotheses *inside* the body, bound to ω ∈ Ω and the body's γ (`G1BodyB`, as B9's `G1BodyA`). The literal `G1Body`/`IG1Body` wrappers take classical certificates for every γ ≤ γ̄. The derived-torsion condition is `B_sup X ≤ t_s`. |
+| fixed F4 (periodicity/reality of h, κ ≥ 1, n) | Fixed. `modified_stepB` has the standing hypotheses of h (open translation-invariant domain, holomorphy, periodicity, reality), `p.Ok` (n ≥ 1, κ ≥ 1). The blueprint step uses them explicitly (zero average of ηᴺ, reality of the corrections). |
+| fixed F5 (route A assigned route B's recursion) | Fixed. The engine is stated with ratio a and exponent p (route B: p = κ+1; route A: p = 4κ, factor 2^{4κ}, route-A weights). Route A is B9's `SchemeA` (proved, `routeAOk.J2`: 2^{4κ}C_E x ≤ 1 with geometric δ-weights). The mirror's route-A tail matches it. |
+| fixed F6 (`closenessV2` with γ̄²) | Fixed. c2B = ρ^{2τ}·max{σ_Lᵀ, σ_Nᵀγ̄δ₀^τ}·S/(X⋆δ₀^{2τ+1}), with no γ̄² (the max covers the clipped weight). The min/max with v1 and route A is proved by cases on the branch (`bp:p2s2:frozen-form`). |
+| fixed F7 (unfair dominance) | Fixed. `dominance.py` rewritten (§11.3): every competitor gets c♮ at its own bites, optimised parameters, corrected errata. On 720 points there are no competitor wins, minimum margin +0.80. The old claim is re-worded in §5. |
+| fixed F8 (new-torus torsion, contraction premise) | Fixed. Torsion against the initial torus (above); the step bounds only 𝒯_ab(K̄) − 𝒯_ab(K) (rate C_ab) and 𝒯_F + 𝒯_c of K itself (B_loc). There is no Neumann condition for ⟨T̄⟩ and no next-bite certificate. The contraction premise is not used by the repaired step, so it is removed from the conditions everywhere: blueprint, `stepCondB` and the mirror. B3's merged `stepCond` keeps it but is not used by the final theorem; B10D's ℓ¹ entry option keeps its own. |
+| fixed F9 (tail full-bite averages) | Fixed by a certified constant: c̄_∞ valid at every full bite min(r_j,1), j ≥ k (classical: c♮(min(r_k,1)), monotone), with the factor (δ_k/min(r_k,1))^κ. This is valid for all later stages because δ_j/r_j increases with δ_j on the schedule (Corollary `bp:p2s2sd:avg-tail`, `fullBite_ratio_mono`). A scalar tail constant falls back to averaging at the small bite. |
+| iso F1 (prefix constants unbound) | Fixed. `NumB.Cert γ Ω` inside the body. Ray certificates at γ̄ serve every γ ≤ γ̄ (`SDConst.of_le_gamma`, `NumB.Cert.of_le_gamma`, Lemma `bp:p2s2sd:gamma-mono`). |
+| iso F2 (J3 not complete; kp = 0 endpoint) | Fixed. J3 covers all caps plus the frequency; `NumB.Wf.kp_pos : 1 ≤ kp`; the tail record has weights 1. The mirror asserts k ≥ 1 with anisotropic weights. |
+| iso F3 (closeness γ̄²) | Fixed as F6, for C₂ and C₃ (`c2B`, `c3B`). |
+| iso F4 (stage-0 weights above 1) | Fixed. Clipped weights p = max{σ_Nᵀ, σ_Lᵀ/(γδ₀^κ), 1}, λ₀ = σ_Nᵀ/p, λ_ω0 = 1/p, X₀ = pe/(γδ₀^{κ+1}) (blueprint Theorem `bpI:p2s2:g1`; `NumB.Fits` at γ̄ for the frozen form). The mirror already clipped. |
+| iso F5 (moving-frequency factors) | Fixed by a new condition C₀g₁X ≤ ϑ_ω. Then \|1 − ξ^ω\| ≤ a_ω = 1 + ϑ_ω, which enters C_Ē, the tangential composition term of Q′_L and Q̄_N; the normal term is bounded by (1 + a_ω)ϑ_Ω Q̃_N (since ΘC₀ ≤ C_gL). |
+| iso F6 / fixed hybrid limits | Labelled "heuristic extrapolation assuming certified first-step transfer" (blueprint, register, §11.2). The hybrid corollary lists the required enclosures and budget transfer. |
+| iso F7 ("at least 0.2 orders") | Fixed. The wording is now the measured fair-grid margin (§11.3). |
+| iso F8 (sign of ∂_ωΩ_K) | Fixed: ∂_ωΩ_K = −(Dηᴺ − (Dηᴺ)ᵀ) in `bp:p2s2:omega` (also flagged by B2 and B9). |
+| B3 signal (iso Q̄_N not monotone, 1/C_ξL) | Option (b), rewrite. Q̄_N = (1+nϑ_ξ)(1+(1+a_ω)ϑ_Ω)Q̃_N is a polynomial, so the tail monotonicity holds for iso (`stepConstsB_mono`, `StepInB.Dom`). |
+| B5 signal (`converge` false) | Adopted `converge_checked` as is; the ratio/decay generalisation adds no hypothesis beyond its three. |
+| B2 signal (`norm_lagrangeMat_le_etaN` unprovable) | Adopted B2's `norm_lagrangeMat_le_etaN_of_standing` (Standing, K(T_r) ⊂ 𝔅, 1 ≤ n) in the blueprint lemma and the signatures. |
+| B9 flag (c_stages pairs c(min(r,1)) with (δ/r)^κ) | Fixed. The averages use the full bite b = min(r,1) in both the constant and the factor (δ/b)^κ. Valid because the real clause holds for every strip ≥ b. |
+| B10D flags (no prefix contraction; B3 lacks c_Th, c_DTh) | First: intentional (F8 above). Second: `StepInB` carries c_Th, c_DTh, and `RefHypB` bounds the commutator and its Lipschitz constant. |
+| Our own bugs found while repairing | (i) `c_stages` defaulted to k = 6 with 5 prefix stages (tail constant at a bite below the tail's first bite); fixed. (ii) Route B's Q and tail decay hard-coded 2^κ, 2^{κ+1} for any schedule ratio; the old FH25 "ratio 3/4" numbers used them. Fixed: a^κ, a^{κ+1}. |
+| FH24 / HL19 wording | "Twice the δ → 0 leading coefficient" (FH24 ĉ_R); HL19 §5.3 "may fail to be bounded by its value at δ₀; use a proved uniform bound or stage-specific constants" (smalldiv errata remark, register). |
+
+### 11.2 Corrected cumulative tables
+
+log₁₀ of the largest admissible e, `python3 -I scripts/apost_sharp/thresholds_v2.py`, exact rationals (B7: floating point). "Old"
+is the SHARP-PLUS table.
+
+| Package | Variant | Old fixed | Old iso | New fixed | New iso | Binding (new) |
+|---|---|---:|---:|---:|---:|---|
+| R1 | v1 (A0) | −24.72 | −24.98 | −24.72 | −24.98 | tail E |
+| R1 | route A, as proved (B9) | −11.18 | −11.37 | −11.18 | −11.37 | (B9's `routeAOk`) |
+| R1 | route A A7 + L8′ (torsion against the initial torus) | — | — | **−10.71** | **−10.95** | sum Tab |
+| R1 | route B B0 (FH24 structure, v1 data) | −21.02 | −21.20 | −21.02 | −21.23 | tail decay |
+| R1 | B1 (+ finer data, c_Th) | −15.97 | −16.17 | −15.75 | −15.95 | sums Nt, Tab |
+| R1 | B3 (+ classical constant) | −15.12 | −15.32 | −14.86 | −15.08 | sums Nt, Tab |
+| R1 | B4 (+ frequency-specific) | −14.01 | −14.19 | −13.98 | −14.08 | sums N, Nt, Tab |
+| R1 | B5 (+ free budgets) | −14.09 | −14.24 | −14.08 | −14.17 | tail decay |
+| R1 | B6 (+ anisotropic stage 0) | −12.25 | −12.39 | **−12.25** | **−12.33** | tail decay |
+| R1 | B7 (+ ratio, decay bound, L10; best choice) | — | — | −12.24 | −12.31 | no gain at κ = 1 |
+| R1 | hybrid A / B (heuristic extrapolation assuming certified first-step transfer) | −4.42 / −4.97 | −4.52 / −5.04 | −4.18 / −4.96 | −4.42 / −5.00 | — |
+| H50 | v1 | −27.19 | −27.37 | −27.19 | −27.37 | tail E |
+| H50 | route A, as proved (B9) | −12.29 | −12.44 | −12.29 | −12.44 | |
+| H50 | route A A7 + L8′ | — | — | −11.73 | −11.90 | sum Tab |
+| H50 | route B B6 | −13.05 | −13.17 | −13.05 | −13.12 | tail decay |
+| H50 | route B B7 | — | — | −13.03 | −13.10 | no gain at κ = 1 |
+
+Reading:
+- The repairs cost nothing on the packages. The torsion against the initial torus *gains*: up to 0.26 orders on route B's
+  intermediate rows, and 0.47 orders on route A (L8′, a proposed delta for B9; B9's proved route A is unaffected by F8).
+- Iso route B gains 0.06 from the polynomial Q̄_N.
+- The levers of §11.3 are designed for τ ≥ 2 and for large norms. At κ = 1, with R1's frequency-specific data, they change nothing.
+  The B7 rows are floating-point and agree with B6 to 0.01–0.02 orders.
+- The best R1 theorem is route A with L8′: 10^{−10.71} fixed, 10^{−10.95} iso. As proved today it is 10^{−11.18} / 10^{−11.37}.
+
+### 11.3 Fair dominance
+
+`python3 -I scripts/apost_sharp/dominance.py --grid ext --jobs 6` (638 s). Each competitor gets its best legally available data:
+
+- **FH24** gets c_R = c♮(δ) at its *optimised* initial bite δ. App. B allows c_R(δ) or uniform bounds; its later bites are smaller
+  and c♮ is nondecreasing, so this is a uniform bound for every step.
+  - c¹_R = (τ+1)^{τ+1}/τ^τ · c♮(δ) (Corollary 2.16 with that constant).
+  - c_R(ρ) = c♮(min(ρ,1)) for its full-strip average (3.45). A small-bite constant does not certify the bite ρ; this is F9 applied to
+    the competitor.
+  - δ, ν, ϰ, κ are optimised by the original search, with c♮ re-evaluated at every candidate δ.
+  - Erratum (3.72) is corrected; the printed version is reported too.
+- **HL19** gets c_R = c♮(δ₀) at its initial bite δ₀ = ρ/a₃(a₁), with a₁ optimised on a widened grid (1.05 to 10).
+  - The §5.3 caveat concerns non-monotone c(δ) only; c♮ is monotone.
+- **v2** gets the competitors' information only: one size M = σ, defaults σ_Lᵀ = 2nσ_K etc., the classical constant at its own
+  bites, derived torsion.
+  - Its free parameters: θ ∈ {1/16, 1/8}; schedule ratio a ∈ {2, 3/2, 13/10, 6/5, 23/20} with prefix 5, 9, 13, 19, 25; decay bound
+    ȳ ∈ {1/2, 9/10}; L10 on/off.
+  - Route B in floating point; route A exact.
+
+**Result.**
+- 720 points: (n,τ) ∈ {(2,1),(2,2),(2,3),(3,2),(3,3),(4,3),(4,4),(5,4),(6,5)}, γ ∈ {10⁻⁶, 10⁻⁴, 10⁻³, 10⁻², 10⁻¹},
+  ρ ∈ {10⁻³, 10⁻², 10⁻¹, 0.3}, size ∈ {1, 3, 10, 30}.
+- **Zero wins** for corrected FH24 or HL19, and zero for printed FH24.
+- Minimum margin **+0.80 orders**, median +3.36, maximum +5.43.
+- On the old 108-point subset: minimum +0.84, median +1.95.
+
+| n, τ | Points | Min margin | Median | Max | v2 − HL19 (min) |
+|---|---:|---:|---:|---:|---:|
+| 2, 1 | 80 | +0.80 | +3.69 | +5.21 | +3.6 |
+| 2, 2 | 80 | +1.35 | +3.65 | +5.17 | +6.0 |
+| 2, 3 | 80 | +1.50 | +3.36 | +5.16 | +8.5 |
+| 3, 2 | 80 | +1.34 | +3.79 | +5.30 | +7.4 |
+| 3, 3 | 80 | +1.54 | +3.54 | +5.29 | +10.0 |
+| 4, 3 | 80 | +1.50 | +3.76 | +5.39 | +11.1 |
+| 4, 4 | 80 | +1.54 | +3.56 | +5.31 | +14.0 |
+| 5, 4 | 80 | +1.49 | +3.59 | +5.43 | +15.0 |
+| 6, 5 | 80 | +1.39 | +3.74 | +5.29 | +19.1 |
+
+Margin by size: size 1: min +0.80, median +1.50; size 3: +1.71 / +2.21; size 10: +3.36 / +3.67; size 30: +5.13 / +5.27. It is
+independent of γ.
+- The worst points are (n,τ) = (2,1), size 1, ρ = 0.3, at every γ (+0.80).
+- Route B is chosen at all 720 points.
+- The best parameters vary: a = 2 at 360 points, a = 3/2 at 160, a = 13/10 at 140; L10 on at 640.
+
+**Diagnosis: what v2 was missing.**
+- The ablation (`--ablate`) is v2 without the four levers below, with the F8/F9 repairs and the fair competitors. There, corrected FH24
+  wins at **53 of 108** old points, the worst by **−0.47** orders at (4,3), size 10, γ = 10⁻³, ρ = 10⁻³. By (n,τ): (2,1) 17 wins,
+  worst −0.16; (2,2) 9, −0.31; (3,2) 18, −0.31; (4,3) 9, −0.47.
+- This reproduces the audit's F7 point (0.59 to 0.63 orders). FH24 had three things v2 did not:
+  1. **The schedule ratio (L4′).** FH24's bite δ fixes a geometric ratio a = (ρ−ρ∞)/(ρ−3δ−ρ∞) ≈ 1.3–1.5. Its recursion factor is
+     a^{τ+1}, against v2's 2^{τ+1} (16 at τ = 3, 64 at τ = 5). v2 now takes a free a > 1, with δ₀ = (ρ−ρ∞)(a−1)/(3a),
+     r_s − 3δ_s = r_{s+1}, Q = max{Q_L, a^κQ̄_N} and recursion a^{κ+1}. Lean: `StageScheme.converge_ratio` (a B5 delta).
+  2. **The optimal Rüssmann–Cauchy split.** FH24 uses (τ+1)^{τ+1}/τ^τ (9.48 at τ = 3), against v2's 2^{τ+1} (s = 1/2). v2 now
+     certifies c′ at the split bite τ/(τ+1)·δ_s (`NumB.Cert.split`).
+  3. **The decay bound.** FH24 allows y₀ < κ < 1 with sums ×1/(1−κ) and optimises κ ≈ 0.9997. v2 fixed ȳ = 1/2. Now ȳ ∈ (0,1) is free,
+     and J3's tail factor is 1/(1−ȳ).
+- Ratio and split together bring the audit's point from −0.59 to −0.05.
+- The remaining gap, and the large margins, come from a lever FH24 does not have.
+  4. **L10, the self-consistent tangential error (ours).**
+     - In both FH24 (Q_L5, (3.86)) and the old v2 constant, the dominant term of Q_L on generic data is |(N̄−N)ᵀΩ₀Ē| ≤ C_N̄ᵀX·C_Ē μ.
+       It uses a crude *linear* bound on the new error Ē.
+     - But Ē is the invariance error of K̄, so the recovery lemma applied to K̄ gives |Ē| ≤ C_E^L|η̄ᴸ| + C_E^N|η̄ᴺ| on T_{r−3δ}. K̄'s frames
+       are inside the caps; its Lagrangian defect is the pullback Dφᵀ(Ω_K̃∘φ)Dφ, quadratically small from the step's own data, with no
+       new certificate.
+     - Solving for sup|η̄ᴸ| makes that term cubic. Q_L drops by up to four orders, which is +3.7 orders at size 10 (`step:p2s2:selfcons`).
+     - L10 adds two conditions, C_N̄ᵀC_E^L X ≤ ϑ_N and a quadratic bound for Ω_K̄. It is optional, since at κ = 1 with R1's data its
+       conditions can cost 0.01.
+- With the four levers there are no wins anywhere; the smallest margins (+0.80, at τ = 1, size 1) are where FH24's (3.86) term
+  matters least.
+- No region was found that cannot be won. Regions not covered: n > 6, τ > 5, ρ > 0.3, and data with c_Th, c_DTh far below 2M (FH24
+  would benefit equally).
+- **Closeness constants were not compared** (thresholds only). The ablation used the original 108 points.
+
+**Limits.**
+- The comparison is a parameter study with assigned inverse-twist numbers. FH24's torsion is not literally the frozen torsion (audit
+  F7).
+- The numbers are design mirrors, with route B in floating point.
+
+### 11.4 PlasmaLean and FH25 under the corrected constants
+
+- **PlasmaLean** (`dominance.py --plasmalean`). Its proved tolerance is **10^{−18.24}** (unchanged; its own ℓ¹ theorem). This is the
+  target that B9 and B10D run against.
+  - v2 route A, sup norms, frequency-specific constant, cA-like norms: **10^{−17.02}** (+1.22) with L8′, and 10^{−17.27} (+0.97) as
+    proved by B9.
+  - With the classical constant: 10^{−19.99} (−1.75).
+  - L9 estimate: 10^{−15.98} (+2.27).
+  - B10D's ℓ¹ entry step (current code): 10^{−15.65} (+2.59), and 10^{−15.20} (+3.04) with the ℓ¹ frame increment; sup-equivalent
+    reading +2.05 to +2.51.
+  - R1-like norms: +4.7 to +6.4.
+  - Route B on this example: 10^{−20.46} (sup, frequency-specific, best of L10); route A is the PlasmaLean route.
+- **FH25** (`dominance.py --fh25`; corrected Q and tail factors for ratios ≠ 2). The admissible scale of FH25's errors (10⁻³⁸, 10⁻⁴⁴) is:
+
+  | Configuration | Scale |
+  |---|---:|
+  | FH24 weight, ratio 2 | 10^{−6.20} |
+  | anisotropic, ratio 2 | 10^{−5.95} |
+  | anisotropic, ratio 3 | 10^{−5.65} |
+  | anisotropic, ratio 4 | 10^{−5.53} |
+  | hypothetical c_DTh = 2c_DXh, ratio 3 | 10^{−2.97} |
+
+  The old values were −5.98 (ratio 2) and −5.56 (ratio 4, computed with the wrong factors). FH24's closed form gives −6.18 / −5.53.
+  The binding is now the Tab sum (the c_DTh·σ_Nᵀσ_N·|K̄−K| term). Neither theorem reproduces FH25's numerical closure; this remains a
+  reproducibility note.
+
+### 11.5 Lean
+
+- The new signatures (`APOST-SHARP-V2-SIGNATURES.lean.txt`, a copy of `.drafts/sharp2fix/Signatures.lean`, 818 lines) elaborate on
+  top of B1, B2, B3, B5 and B9: `nice -n 5 lake env lean`, 17 "declaration uses `sorry`" warnings, no error.
+- B5's `converge_checked`, B2's `norm_lagrangeMat_le_etaN_of_standing` and B9's `g1_v2A_frozen` are used as merged.
+- The final fixed-frequency theorem `KAM.Sharp2.g1_v2` concludes the literal `G1Body` with C₁ = min{C₁♯, C₁ᴬ, C₁ᴮ},
+  C₂ = max{C₂♯, C₂ᴬ, C₂ᴮ}.
+- Package deltas: `APOST-SHARP-V2-DELTA.md`.
+
+### 11.6 Errata
+
+No new pinned-source erratum. Wording repairs (FH24 ĉ_R, HL19 §5.3) and our own blueprint repairs are listed in §11.1. FH25 remains a
+reproducibility note.
+
+## 12. The dominance claim, precisely
+
+This section is the text to cite. It states what was compared, on which data, with which free-parameter searches, the measured
+margins, and what is **not** claimed. Everything here is a **finite numerical parameter study** of explicit formulas (design
+mirrors in Python, `scripts/apost_sharp/dominance.py`, `thresholds_v2.py`). It is not a theorem, and it is not linked
+mechanically to the Lean statements.
+
+### 12.1 The claim
+
+> On each of the 1176 points of the grids of §12.4 (720 + 348 at fixed frequency, 108 isoenergetic), every competitor gets its best
+> legally available data (§12.3) and its free parameters optimised over finite grids (§12.3). At every point, the v2 design's
+> explicit constants are better than those of the two published explicit a-posteriori KAM theorems for flows evaluated, HL19 and
+> FH24 (erratum-corrected):
+> - **threshold** (largest admissible invariance error): by at least **+0.845** orders;
+> - **closeness of the torus at a common error**: by at least **+0.29** orders (FH24) and **+1.9** (HL19);
+> - **small-error closeness coefficient**: by at least **+1.65** orders against HL19. Against FH24 v2 is ahead by at least +0.003
+>   orders, which is **essentially equal**: both bounds are the first displacement of the same modified step, and the margin is
+>   under 1% at norms ≥ 10;
+> - **isoenergetic, against HL19 Theorem 3.6**: threshold by at least +3.65, torus closeness by at least +1.62, frequency
+>   closeness by at least +1.10 orders.
+>
+> No competitor is ahead anywhere by more than 0.005 orders in any compared quantity.
+
+### 12.2 What is compared
+
+**Theorems and versions.**
+- **HL19.** A. Haro, A. Luque, *A-posteriori KAM theory with optimal estimates for partially integrable systems*,
+  arXiv:1711.05515v1: Theorem 3.1 (fixed frequency) and Theorem 3.6 (isoenergetic), canonical case d = n, Case III, constants of
+  §5.3 and §6.3 (Tables 1–5). Transcribed in `benchmark_hl19.py`, every constant cited by equation number.
+- **FH24.** J.-Ll. Figueras, A. Haro, *Sharp estimates in a-posteriori KAM theory for flows* (Physica D 462, 2024),
+  arXiv:2304.10205v1: Theorem 2.18 with the constants of Appendix B (Tables 1–4). Transcribed in `benchmark_fh24.py`. FH24 has no
+  isoenergetic theorem.
+- **v2.** The design of this document §11 (route B, the modified step with the levers, and route A), as mirrored by
+  `thresholds_v2.py` at the commit of the SHARP2-DOMPLUS handoff.
+  - The v2 constants rest on the blueprint `p2s2-*.tex` (audited at design level, AUDIT-SHARP2-FIX-{fixed,iso}-1).
+  - Lean packages are in progress; route A is proved (SHARP2-B9).
+
+**Errata applied to the competitors** (`docs/errata/ledger.json`), always in the competitor's favour or neutral:
+- FH24 Table 3, (3.72): the printed bound uses σ_L and C_ΔL̄ where Nᵀ = BLᵀJᵀ needs σ_Lᵀ and C_ΔL̄ᵀ. The corrected bound is used;
+  the printed one is not a valid general bound. With the printed (3.72), FH24 would be ahead by up to 0.9 orders on part of the old
+  grid (§5): that is the erratum, not a mathematical advantage.
+- FH24 Lemma 2.14: the printed ĉ_R is not used. FH24 gets the classical c♮ at its own bites (§12.3), which is smaller.
+- HL19 E-HL19-1, E-HL19-8: strict inequalities read as ≤ (no numerical effect).
+- HL19 E-HL19-12: the frequency closeness is taken from the proof, (6.51), |ω∞ − ω| ≤ C₃e/(γρ^τ). That is stronger than the printed
+  (3.16) normalisation e/(γ²ρ^{2τ}) whenever γρ^τ < 1.
+- HL19 E-HL19-13: the isoenergetic estimates use the combined error ‖E_c‖ (both theorems receive |E| ≤ e and |⟨H∘K⟩ − E₀| ≤ e).
+
+**Quantities.**
+- **Threshold** e*: the largest e for which the theorem applies to an approximate torus with ‖E‖ ≤ e (iso: also energy error ≤ e),
+  maximised over the theorem's free parameters.
+- **Closeness at e**: the bound the theorem gives for ‖K∞ − K‖ (iso also |ω∞ − ω|) when ‖E‖ ≤ e. A theorem with free parameters is a
+  family; every member admitting e is a valid instance, so its closeness at e is the minimum over the admissible members.
+  - v2: the ball sum of the engine (J4), and the frequency sum.
+  - FH24: (2.32) with ε ≤ c_Ω max{σ_Nᵀ, σ_Lᵀ/(γδ^τ)} e.
+  - HL19: C₂e/(γ²ρ^{2τ}), and iso C₃e/(γρ^τ).
+- **Closeness is compared at two errors** for each competitor:
+  - e_c = ½ min{e*_v2, e*_competitor}, where both theorems apply with room;
+  - e → 0 (the linear coefficient; numerically e₀ = 10⁻⁹ times the smallest threshold).
+- **A competitor wins at a point** if it is ahead in any compared quantity by more than 0.005 orders (log₁₀).
+
+### 12.3 Data rules and free parameters
+
+**Data (the same for every theorem; one "size" s per point).**
+- All Hamiltonian bounds (|X_h|, |DX_h|, |D²X_h|, and iso |Dh|, |D²h|) equal M = s.
+- σ_K = σ_B = σ_T = s; the default frame bounds σ_Lᵀ = 2nσ_K, σ_N = σ_Kσ_B, σ_Nᵀ = 2nσ_Kσ_B; c_Th = c_DTh = 2M.
+- ρ∞ = ρ/1000, margin μ = 1/16. The competitors read the frozen data like-for-like: caps σ − μ/2, actual values σ − μ, domain
+  margin μ/2, so that their conclusion implies the frozen one.
+- Isoenergetic: |ω*| = 1, σ_ω = 2, frequency margin ν = 1/10. Θ = σ_ω|ω*| (HL19's C_ω, (6.30)) is given to both theorems.
+- No measured objects, no frequency-specific constants: v2 uses only the information the competitors use.
+
+**Small divisors (the fair-data rule; AUDIT-SHARP-V2-fixed-1 F7, AUDIT-SHARP2-FIX-fixed-1 F2).** Every theorem gets the classical
+constant c♮(n, τ, b) of `bp:p2s2sd:classical` at its *own* bites b. c♮ is nondecreasing in b, so its value at the first bite is a
+uniform bound for all later ones.
+- FH24 (App. B allows c_R(δ) or uniform bounds):
+  - c_R = c♮(δ) at its optimised initial bite δ;
+  - c¹_R = (τ+1)^{τ+1}/τ^τ · c♮(τ/(τ+1)·δ) (Corollary 2.16, (2.22), at its split bite);
+  - c_R(ρ) = c♮(min{ρ,1}) for its full-strip average (3.45). A small-bite constant does not certify the bite ρ.
+- HL19 (Lemma 4.1): c_R = c♮(δ₀) at its initial bite δ₀ = ρ/a₃(a₁). The §5.3 caveat concerns non-monotone c(δ) only.
+- v2: c♮ at its stage bites δ_s, at the split bites τ/(τ+1)·δ_s and at the full bites min{r_s,1}; the tail at every bite ≤ δ_k and
+  every full bite ≤ r_k.
+
+**Free-parameter searches (finite).**
+- FH24 (δ, ν, ϰ, κ): the benchmark's search (coordinate descent on δ = t(ρ−ρ∞)/3, κ on k/40, ν and ϰ on m·10⁻ʲ; joint local
+  refinement), with c♮ re-evaluated at every candidate δ and c¹_R at its split bite. Floating point, exact at the optimum.
+  - For closeness: a scan of (t, κ) on the 40-grid plus t = 1 − 1/a for the large v2 ratios a (the same near-limit bites as v2), at
+    the threshold-optimal ν, ϰ, refined locally.
+- HL19: a₁ ∈ {1.05, …, 4.00 step 0.05} ∪ {4.5, …, 10 step 0.5} (73 values), ν_HL self-consistent. Exact rationals.
+- v2: Neumann ratio ϑ ∈ {1/16, 1/8}; schedule ratio a ∈ {2, 3/2, 13/10, 6/5, 23/20} with prefix k ∈ {5, 9, 13, 19, 25}; tail decay
+  bound ȳ ∈ {1/2, 9/10}; option L10 on/off. Route B in floating point, route A exact.
+  - For closeness also: a ∈ {3, 4, 8, 32, 256, 4096}, ϑ = 1/128, torsion slack t_s ∈ {10⁻¹, 10⁻³, 10⁻⁹}, tight internal caps
+    σ − μ/2 on/off.
+  - Every one of these is a free parameter of the v2 theorem (`NumB`).
+
+The searches are finite grids. Neither side's optimum is proved; a finer search could move either side by small amounts.
+
+### 12.4 Domain and results
+
+Commands:
+- `nice -n 10 python3 -I scripts/apost_sharp/dominance.py --closeness --grid {ext,wide,iso} --jobs 3 --json …`
+- runtimes 1558 s, 1114 s and 204 s on the loaded machine;
+- per-point results (every point, every margin) in `docs/campaign/design/dominance/closeness-{ext,wide,iso}.md`.
+
+Margins are log₁₀(competitor's constant / v2's constant), so positive means v2 is better. "Losses" counts margins below −0.005.
+
+**(a) Fixed frequency, the extended grid (720 points).**
+- (n, τ) ∈ {(2,1), (2,2), (2,3), (3,2), (3,3), (4,3), (4,4), (5,4), (6,5)};
+- γ ∈ {10⁻⁶, 10⁻⁴, 10⁻³, 10⁻², 10⁻¹};
+- ρ ∈ {10⁻³, 10⁻², 10⁻¹, 0.3};
+- size s ∈ {1, 3, 10, 30}.
+
+| Quantity | Losses | Min | Median | Max |
+|---|---:|---:|---:|---:|
+| threshold (vs the better of FH24, HL19) | 0 | +0.888 | +3.381 | +5.433 |
+| closeness at e_c, vs FH24 | 0 | +0.289 | +1.169 | +2.427 |
+| closeness as e → 0, vs FH24 | 0 | **+0.003** | +0.037 | +1.737 |
+| closeness at e_c, vs HL19 | 0 | +1.942 | +8.843 | +15.718 |
+| closeness as e → 0, vs HL19 | 0 | +1.702 | +7.794 | +13.865 |
+
+By (n, τ), minimum margins:
+
+| n, τ | Threshold | Closeness e_c, FH24 | Closeness e → 0, FH24 | Closeness e_c, HL19 | Closeness e → 0, HL19 |
+|---|---:|---:|---:|---:|---:|
+| 2, 1 | +0.89 | +0.29 | +0.0035 | +1.94 | +1.70 |
+| 2, 2 | +1.39 | +0.48 | +0.0035 | +2.65 | +2.10 |
+| 2, 3 | +1.54 | +0.78 | +0.0035 | +3.29 | +2.36 |
+| 3, 2 | +1.40 | +0.50 | +0.0035 | +3.03 | +2.48 |
+| 3, 3 | +1.57 | +0.70 | +0.0035 | +3.72 | +2.78 |
+| 4, 3 | +1.54 | +0.67 | +0.0035 | +4.02 | +3.08 |
+| 4, 4 | +1.57 | +0.93 | +0.0035 | +4.59 | +3.29 |
+| 5, 4 | +1.53 | +0.86 | +0.0035 | +4.85 | +3.54 |
+| 6, 5 | +1.43 | +1.07 | +0.0036 | +5.66 | +3.91 |
+
+On the original 108-point subset: threshold minimum +0.926 (median +2.00); closeness at e_c vs FH24 +0.289; as e → 0 vs FH24
++0.010; vs HL19 +1.995 and +1.754.
+
+**(b) Wider ranges (348 points).**
+- n ∈ {8, 10} with τ ∈ {n−1, n}; γ ∈ {10⁻¹⁰, 10⁻⁶, 10⁻³, 10⁻¹}; ρ ∈ {0.01, 0.1, 0.3, 0.6, 1}; s ∈ {1, 10, 30};
+- plus, for the nine (n, τ) of (a): ρ ∈ {0.6, 1} with γ ∈ {10⁻¹⁰, 10⁻³}, and γ = 10⁻¹⁰ with ρ ∈ {10⁻³, 10⁻¹}, s ∈ {1, 10}.
+
+| Quantity | Losses | Min | Median | Max |
+|---|---:|---:|---:|---:|
+| threshold | 0 | +0.845 | +3.804 | +5.488 |
+| closeness at e_c, vs FH24 | 0 | +0.349 | +1.517 | +3.155 |
+| closeness as e → 0, vs FH24 | 0 | **+0.0036** | +0.012 | +1.737 |
+| closeness at e_c, vs HL19 | 0 | +1.908 | +11.455 | +21.284 |
+| closeness as e → 0, vs HL19 | 0 | +1.655 | +10.053 | +18.175 |
+
+| Region | Threshold min | Closeness min |
+|---|---:|---:|
+| n ≥ 8 (240 points) | +0.87 | +0.004 (e → 0, FH24) |
+| ρ ≥ 0.6 (168 points) | +0.84 | +0.004 |
+| γ = 10⁻¹⁰ (132 points) | +0.84 | +0.004 |
+
+- Threshold minima by (n, τ): (8,7) +1.14, (8,8) +1.03, (10,9) +0.93, (10,10) +0.87.
+- The threshold margin decreases slowly with n at τ = n, and is smallest at (2,1), size 1, ρ = 1 (+0.845).
+- No lost region was found.
+
+**(c) Isoenergetic, against HL19 Theorem 3.6 (108 points).**
+- (n, τ) ∈ {(2,1), (2,2), (3,2), (4,3)}; γ ∈ {10⁻⁶, 10⁻³, 10⁻¹}; ρ ∈ {10⁻², 10⁻¹, 0.3}; s ∈ {1, 3, 10}.
+
+| Quantity | Losses | Min | Median | Max |
+|---|---:|---:|---:|---:|
+| threshold | 0 | +3.646 | +22.199 | +47.048 |
+| torus closeness C₂ at e_c | 0 | +1.861 | +6.054 | +10.498 |
+| torus closeness C₂ as e → 0 | 0 | +1.620 | +5.468 | +9.506 |
+| frequency closeness C₃ at e_c | 0 | +1.217 | +3.466 | +5.963 |
+| frequency closeness C₃ as e → 0 | 0 | +1.096 | +3.175 | +5.468 |
+
+**Where the margins come from.**
+- *Thresholds.* The modified step (γ²δ^{2τ+1} against HL19's γ⁴δ^{4τ}), and against FH24 the four levers of §11.3 (schedule ratio,
+  optimal split, decay bound, L10). Without the levers, corrected FH24 wins at 53 of the old 108 points (§11.3).
+- *Closeness at e_c.* The same, plus v2's exact prefix: the closeness sum is computed stage by stage, not bounded by a geometric
+  factor of the first step.
+- *Closeness as e → 0 against FH24.* Both bounds reduce to the first displacement of the same modified step, at the same bite in the
+  limit δ₀ → (ρ−ρ∞)/3. v2 is better only through its anisotropic stage-0 weight and the λ-terms of C₀ and C_gL.
+  - The margin is +0.64 orders or more at size 1, +0.04 at size 3, +0.01 at size 10 and +0.003 at size 30 (under 1%).
+  - **This is the one quantity in which v2 is not meaningfully better than FH24.** It is numerically ahead at every point, but by
+    less than 1% at large norms.
+  - Two refinements of SHARP2-DOMPLUS were needed to reach it, both legitimate and mirrored in the signatures:
+    1. the displacement bound σ_K|ξᴸ| + |Nξᴺ| without the intermediate-frame factor 1 + ϑ (`bp:p2s2:step`, `stepConstsB.CDK`);
+    2. the theorem's own |DK| cap σ_K − μ/2 in the constants.
+  - Measured at the audit's point (4,3), size 10, γ = 10⁻³, ρ = 0.1:
+    - with ratios ≤ 2 (δ₀ ≤ (ρ−ρ∞)/6, while FH24's bite may approach (ρ−ρ∞)/3), FH24 was ahead by 0.90 orders;
+    - with the free ratio a up to 4096 (the same near-limit bites for both), by 0.05;
+    - after the two refinements, v2 is ahead by +0.011.
+
+### 12.5 What is NOT claimed
+
+1. **No theorem of dominance.**
+   - These are numerical evaluations of explicit formulas on finite grids, with finite free-parameter searches on both sides.
+   - Floating point is used for v2's route B and FH24's searches.
+   - The Python mirrors are not mechanically linked to the Lean statements.
+   - Outside the sampled domain nothing is asserted: n > 10, τ > n, ρ > 1, γ < 10⁻¹⁰, sizes > 30, or data not of the form of §12.3
+     (e.g. very unequal norms, c_Th or c_DTh far below 2M).
+2. **Not the frozen-form constants.** The frozen `G1Body` of v2 has one pair (C₁, C₂) = (min, max over the branches at a certified
+   X⋆), valid over the whole admissible range. Its C₂ is a sup over that range and is not what §12.4 compares. §12.4 compares each
+   theorem's best bound at a common error, and the linear coefficient.
+3. **Not "strictly better by a margin" for the small-error closeness against FH24.** It is ahead at every sampled point by
+   0.003–1.7 orders, but by under 1% at large norms (§12.4).
+4. **Like-for-like is a modelling choice.**
+   - FH24's torsion is N ᵀT_h N, not the frozen torsion. Giving both theorems the same inverse-twist bound is a parameter study, not
+     an implication between their hypotheses (audit F7).
+   - The data are single-size default data. With refined data (separate norms, certified c_Th, frequency-specific small divisors)
+     both v2 and the competitors improve; that comparison was made only on R1 (§1, §11.2).
+5. **Only two competitors.**
+   - Not on the grid: Figueras–Haro–Luque 2017 (maps), Calleja–Haro–Porras 2025, Celletti–Chierchia 2007 (other variables and
+     norms), de la Llave–González–Jorba–Villanueva 2005, and the non-explicit theorems.
+   - PlasmaLean (its own ℓ¹ theorem) is compared only on its example, in different norms (§10.1, §11.4).
+   - FH25 is a reproducibility note, not a comparison.
+6. **The v2 constants are design constants.**
+   - L10, the torsion against the initial torus, the ratio engine and the closeness/torsion normalisations survived the design
+     re-audits (AUDIT-SHARP2-FIX-{fixed,iso}-1).
+   - The Lean packages B3′, B4 to B7 are not yet proved; route A is (SHARP2-B9).
+   - The claim is about the constants of the audited design, until those packages land.
+7. **Competitor errata.** The corrected FH24 (3.72) is used. With the printed one FH24 would lead at about half of the old grid by
+   up to 0.9 orders, because the printed bound is not a valid general bound. HL19's frequency closeness is read from its proof
+   (6.51), which is the stronger reading.
