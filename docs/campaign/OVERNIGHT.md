@@ -1119,3 +1119,8 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   OWNER IN THE MORNING: the two D29 rulings (R1 M = 203/100; toy T2d's denominator a = 10^30) and the freeze
   proposal's questions Q1-Q7.
 - **03:09. Landed** (71a89ecc): SO-DATA-1 (lunar data, fixed-point mirror; LunarParams keeps M = 203/100) and docs/tracks/SO/FREEZE-PROPOSAL.md. Worktrees swept; only KAM-inp-sodata2 (SO-DATA-2, running) remains. Disk 22 GB free.
+- **03:19. Heartbeat.** SO-DATA-2: the lower torus's 61 data modules elaborate (395 s total, slowest 42 s); capped
+  kernel probes of Slp.compose running. First signal: one witness check (slot 28) cost 277 s and about 4.4 GB above the
+  3.4 GB import baseline. Contingency started: SO-COMPOSE-SPLIT (claude-12, design document only) designs a
+  segmented composition with checked intermediate enclosures, so each kernel theorem fits a 6-10 GB cap, keeping
+  CertifiedTorus and the soundness chain; it is used only if SO-DATA-2's probes show the whole composition cannot fit.
