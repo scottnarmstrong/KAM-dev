@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 07:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 334,000
+> **Last updated: 2026-10-30 07:48 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 334,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -223,7 +223,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 07:40 UTC from `main` at `2da74982` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 07:48 UTC from `main` at `7f5ad9f8` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -395,6 +395,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 07:48 | `7f5ad9f8` | Overnight log: 07:48 |
 | 2026-10-30 07:18 | `63999efd` | Overnight log: 07:18 |
 | 2026-10-30 06:48 | `f400a89a` | Overnight log: 06:48 |
 | 2026-10-30 06:20 | `b6a0fae6` | Overnight log: 06:20 (lunar kernel cost design signal) |
@@ -406,7 +407,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 03:09 | `c3373814` | Overnight log: 03:09 |
 | 2026-10-30 03:07 | `71a89ecc` | Land inp into main |
 | 2026-10-30 02:09 | `b22b5eb3` | Land inp into main |
-| 2026-10-30 01:49 | `b6d31ebe` | Overnight log: 01:49 |
 <!-- /AUTO:landed -->
 
 ## Decisions
