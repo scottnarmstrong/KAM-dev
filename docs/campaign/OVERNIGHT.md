@@ -1386,3 +1386,23 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     delta audit on codex-3.
   - Owner answered the SO-LOCK-SCOPE questions (D45): L1, the sqrt route, N = 65 directly, a certified periodic
     orbit as centre, no Birkhoff normal form, novelty conditional.
+- **16:02. Owner: overnight mode ("defer approvals and decisions until further notice; get as much done as you can
+  on W and the tidal locking of the Moon").**
+  - Deferred decisions are logged here, marked "for owner review", with the recommended reversible option taken.
+    Nothing is frozen.
+  - **Lock:** a new sub-orchestrator `kam-suborch-lock` (Opus, claude-12; brief .drafts/briefs/suborch-LOCK.md)
+    runs track SO part 3 under D45.
+    - Phase 1 is the design SO-LOCK-DESIGN.md: the exact statement candidates in a FREEZE-PROPOSAL-LOCK.md for the
+      owner; the certified periodic orbit; the polar change of variables; `HamExpr.sqrt`; confinement through
+      `gen_barrier`; packages; numerics under the v2 certifier.
+    - Phase 2 runs the packages LOCK-PO, SQRT, COORDS, CONF, GEN, DATA and ASSEMBLY, with codex-3 audits and
+      landings via kam-inp.
+  - **Track W:** kam-d4 is told to maximize throughput:
+    - blueprint writers W4 and W7, then W5, W6 and W8;
+    - the dependency graph started on the accepted parts W0–W3;
+    - Sonnet provers on the W1–W3 infrastructure, recorded as off-frontier, source-faithful infrastructure.
+  - **Track SO part 2 (Moon band)** continues under the main orchestrator: SO-KDEPTH, SO-BALLFIX (BALLDY against
+    sharp-v2's BallsTrig), SO-V2PKG (v2 pricing) and SO-DATA3 (step 1).
+  - Landed since 15:42: SO-LOCK-SCOPE and blueprint W1–W3 with five W errata (main e507bc23).
+  - HQ lock row now shows the D45 route and the sub-orchestrator (cdeff4f2). README: Moon locked 17 %, track W 15 %.
+  - Codex-3 at about 10 % weekly is the only auditor (owner ruling); when it runs out, audits queue and work goes on.
