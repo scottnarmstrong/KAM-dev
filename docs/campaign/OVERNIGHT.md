@@ -1136,3 +1136,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   exemption for generated data; or C, out-of-tree data read at elaboration, which needs a small meta-program the
   landing lint currently forbids). Not decided overnight: it changes the repository's rules, and the probes are
   not finished. Design audit running (codex-4, refute-first on the chaining logic).
+- **04:19. Heartbeat: kernel memory of the lunar certificate is the critical question.** SO-DATA-2's forced 12-slot
+  prefix of the lower torus's composition also hits the 10 GB cap; the prefix contains one heavy packed product
+  (A0·A0). Probes now separate the packed product from the model arithmetic. The design audit of SO-COMPOSE-SPLIT:
+  FAIL as written on the evidence, not the logic. Route E's chaining argument and its unchanged-API claim pass, but
+  the early probes cannot calibrate memory (lazy isSome, mismatched imports, non-additive peaks), so neither the
+  ledger's necessity nor its size is established. Its recommended order: shared equations, dead-slot eviction,
+  equality segments, product subdivision, each only if measured need. SO-DATA-2 now measures single operations in
+  isolation with forced equality observations. The deciding number: whether one heavy operation alone exceeds 10 GB.
+  No owner decision is taken overnight; if the lunar kernel route needs a repository rule change (data packaging),
+  it waits for the morning.
