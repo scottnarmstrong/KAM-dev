@@ -1194,3 +1194,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
 - **09:18. Heartbeat.** SO-PACKFIX's part profile of one blockRows-32 shard, each part alone: length checks 2.8 GB / 178 s, packing 3.3 GB / 171 s, window packing 1.1 GB / 148 s, shardFits 3.7 GB / 180 s; the multiplication part is next. Each part fits while the whole shard exceeded 13.6 GB, so either the product dominates or intermediate terms are retained across parts. SO-KPERF still busy.
 - **09:48. Heartbeat.** SO-PACKFIX's blockRows-32 part profile continues (decoding 1,390 s / 2.2 GB; reconstruction 155 s / 1.6 GB; it is now isolating the big-integer product at the blockRows-8 size). SO-KPERF busy on a long probe. Nothing to process.
 - **10:19. Heartbeat.** SO-PACKFIX still profiling (1 h 19 min in); SO-KPERF asked to wrap up with the measurements it has, because SO-PACKFIX now owns both the deeper profiling and the fix (D34) and extra probes only compete for the shared probe lock; it was also told its wait loop matched itself (pgrep -f; capped, so harmless).
+- **10:22. SO-KPERF done: the shard cost is the dense-list walk and the slot decode, not arithmetic.** Report
+  docs/tracks/SO/studies/SO-KPERF.md (branch inp-sokperf, commit 7668ece2; to land with SO-PACKFIX). Per blockRows-4
+  shard (each part alone, forced against literals): the 90 big multiplications cost nothing measurable; memory
+  (5.7 GB) comes from repeatedly walking the dense run-length-coded factor blocks (about 86 % zeros; length check,
+  packing, shardFits each re-walk them and the kernel retains every list); time from intSlotsBound's linear Int
+  slot peel (quadratic), about 100x slower per slot than SO-REPLAY2's divide-and-conquer Nat mask/shift decode. A
+  balanced-tree pack of the dense lists is worse (measured). Measured fix: sparse term-driven blocks (F1, 5.7 ->
+  1.2 GB) and a divide-and-conquer decode (F2, 23 -> 13.5 s; F2' with Nat mask/shift should be cheaper). Projection
+  25-65 CPU-h for both tori with F1 + F2, about 5-15 CPU-h with F2' and larger blocks (model). Signed statements
+  unchanged. SO-PACKFIX was redirected from balanced packing to F1 + F2'.
