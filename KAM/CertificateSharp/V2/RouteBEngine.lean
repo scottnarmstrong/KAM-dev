@@ -52,11 +52,27 @@ def routeABV2 : EngineV2 :=
 theorem checkTorusCertificateV2_routeABV2_sharp (c : TorusCertificate n α) :
     checkTorusCertificateV2 routeABV2 c (Sum.inl ()) = checkTorusCertificateSharp c := rfl
 
+/-- The certifier at `E₁.orElse E₂` with a witness of `E₁` is the certifier of `E₁`. -/
+theorem checkTorusCertificateV2_orElse_inl (E₁ E₂ : EngineV2) (c : TorusCertificate n α)
+    (w : E₁.Wit) :
+    checkTorusCertificateV2 (E₁.orElse E₂) c (Sum.inl w) = checkTorusCertificateV2 E₁ c w := rfl
+
+/-- The certifier at `E₁.orElse E₂` with a witness of `E₂` is the certifier of `E₂`. -/
+theorem checkTorusCertificateV2_orElse_inr (E₁ E₂ : EngineV2) (c : TorusCertificate n α)
+    (w : E₂.Wit) :
+    checkTorusCertificateV2 (E₁.orElse E₂) c (Sum.inr w) = checkTorusCertificateV2 E₂ c w := rfl
+
 /-- Route A's witnesses run unchanged inside the combined engine. -/
 theorem checkTorusCertificateV2_routeABV2_routeA (c : TorusCertificate n α)
     (w : (routeAFrozen.orElse routeARefined).Wit) :
     checkTorusCertificateV2 routeABV2 c (Sum.inr (Sum.inl w)) =
       checkTorusCertificateV2 (routeAFrozen.orElse routeARefined) c w := rfl
+
+/-- Route B's witnesses run unchanged inside the combined engine. -/
+theorem checkTorusCertificateV2_routeABV2_routeB (c : TorusCertificate n α)
+    (w : (routeBFrozen.orElse routeBRefined).Wit) :
+    checkTorusCertificateV2 routeABV2 c (Sum.inr (Sum.inr w)) =
+      checkTorusCertificateV2 (routeBFrozen.orElse routeBRefined) c w := rfl
 
 end KAM.CertificateSharp.V2
 

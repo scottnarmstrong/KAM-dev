@@ -121,6 +121,20 @@ def refinedBCore (n : ℕ) (p : CertParams) (box : FreqBox) (w : RefinedBWit) : 
     Q.sitesOk n w.core.J box w.κ p.γ w.sites && Q.tailOk n w.core.J &&
     finalB Q n p box w.R.bL w.R.bNt w.core.Xs
 
+/-- Sharding: `refinedBCore` from its parts, each a kernel computation of its own. -/
+theorem refinedBCore_of {n : ℕ} {p : CertParams} {box : FreqBox} {w : RefinedBWit}
+    (h0 : 0 < w.core.Xs) (h1 : (w.num p box).wfOk n = true)
+    (h2 : (w.num p box).fitsOk w.R.bL w.R.bNt = true)
+    (h3 : (w.num p box).initOk w.R.bL w.R.bN w.R.bNt p.σT p.μ = true)
+    (h4 : (w.num p box).okB n ((w.num p box).capBQ p.σT p.μ p.nuRay)
+      (NumBQ.initBQ w.R.bL w.R.bN w.R.bNt p.σK p.σB p.μ) (p.μ / 2) w.core.Xs = true)
+    (h5 : (w.num p box).sitesOk n w.core.J box w.κ p.γ w.sites = true)
+    (h6 : (w.num p box).tailOk n w.core.J = true)
+    (h7 : finalB (w.num p box) n p box w.R.bL w.R.bNt w.core.Xs = true) :
+    refinedBCore n p box w = true := by
+  simp only [refinedBCore, Bool.and_eq_true, decide_eq_true_eq]
+  exact ⟨⟨⟨⟨⟨⟨⟨h0, h1⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩
+
 /-- The default initial values `defaultInitB` at the parameters. -/
 def defaultIB (n : ℕ) (p : CertParams) : ℚ × ℚ × ℚ :=
   (2 * n * (p.σK - p.μ), (p.σK - p.μ) * (p.σB - p.μ), 2 * n * (p.σK - p.μ) * (p.σB - p.μ))
