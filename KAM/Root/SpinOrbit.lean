@@ -15,9 +15,14 @@ public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
 public import KAM.SpinOrbit.Lock.Assembly
 public import KAM.SpinOrbit.Lock.Confine
+public import KAM.SpinOrbit.Lock.Coords.Complex
 public import KAM.SpinOrbit.Lock.Coords.Conjugacy
+public import KAM.SpinOrbit.Lock.Coords.HamExpr
 public import KAM.SpinOrbit.Lock.Coords.Inverse
 public import KAM.SpinOrbit.Lock.Coords.Maps
+public import KAM.SpinOrbit.Lock.Graph.Angle
+public import KAM.SpinOrbit.Lock.Graph.Bridge
+public import KAM.SpinOrbit.Lock.Graph
 public import KAM.SpinOrbit.Lock.PO.Contraction
 public import KAM.SpinOrbit.Lock.PO.Green
 public import KAM.SpinOrbit.Lock.PO.Orbit
