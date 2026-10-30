@@ -15,10 +15,11 @@ import Mathlib.Tactic.FieldSimp
 # The v2 isoenergetic a-posteriori theorem, route B (`bpI:p2s2:g1`, `bpI:p2s2:frozen`)
 
 * `iso_g1_branch_B`: the route-B branch, with the refined data `RefHypB`. The run starts at the
-  normalized error `X₀ = e max {σ_{Lᵀ}, p̄ γ̄ δ₀^τ}/(γ² δ₀^{2τ+1})` (`xinit`, `p̄ = max {σ_{Nᵀ}, 1}`),
-  an upper bound of the weighted error of `(K, ς)` with the clipped stage-0 weights of `NumB.Fits`;
-  the smallness `c1B e/(γ⁴ ρ^{4τ}) < 1` is `X₀ < X⋆`; `RunHypI.core` gives the limit, and the
-  closenesses are `ballSum(X₀)`, `freqSum(X₀) ≤ (X₀/X⋆) …(X⋆) = c2B, c3B · e/(γ² ρ^{2τ})`.
+  normalized error `X₀ = e max {σ_{Lᵀ}, p̄ γ̄ δ₀^τ}/(γ² δ₀^{2τ+1})` (`xinit`,
+  `p̄ = max {σ_{Nᵀ}, 1}`), an upper bound of the weighted error of `(K, ς)` with the clipped stage-0
+  weights of `NumB.Fits`; the smallness `c1B e/(γ⁴ ρ^{4τ}) < 1` is `X₀ < X⋆`; `RunHypI.core` gives
+  the limit, and the closenesses are `ballSum(X₀)`, `freqSum(X₀) ≤ (X₀/X⋆) …(X⋆) =
+  c2B, c3B · e/(γ² ρ^{2τ})`.
 * `iso_g1_v2B_frozen` (verbatim): the literal `IG1Body`, `C₁ = min {C₁♯, c1B}`,
   `C₂ = max {C₂♯, c2B}`, `C₃ = max {C₃♯, c3B}`, by cases on the minimum.
 * `NumB.Cert.of_le_gamma` (verbatim): certificates at `γ` serve every smaller scale.
@@ -161,7 +162,7 @@ theorem iso_g1_branch_B (hN : N.Wf) (hiso : N.iso = true) (hτ : (n : ℝ) - 1 �
     have := mul_le_mul_of_nonneg_left hpbP he0
     rw [mul_div_assoc', le_div_iff₀ hc] at this
     linarith
-  have hite : (if N.iso = true then (1 : ℝ) else 0) = 1 := if_pos hiso
+  have hite : (if N.iso = true then (1 : ℝ) else 0) = 1 := by simp [hiso]
   have hlam0 : I.iNt ≤ N.lam0 * pb := by
     have := hfit.lam0
     rw [hite, div_le_iff₀ hpb0] at this
@@ -368,8 +369,8 @@ theorem iso_g1_v2B_frozen {n : ℕ} {N : NumB n} (hN : N.Wf) (hiso : N.iso = tru
       fun θ hθ => (h10 θ hθ).trans (hmono (le_max_right _ _)), h11.trans (hmono (le_max_right _ _))⟩
 
 /-- The refined iso form, certificates on the ray of `ω*` computed once at the scale `γ̄`
-(`SDConst.of_le_gamma` gives every body scale `γ ≤ γ̄`): `IG1Body` with the refined hypotheses added,
-as `G1BodyB`. Stated through its frozen consumer: the ray certificates at `γ̄` imply the
+(`SDConst.of_le_gamma` gives every body scale `γ ≤ γ̄`): `IG1Body` with the refined hypotheses
+added, as `G1BodyB`. Stated through its frozen consumer: the ray certificates at `γ̄` imply the
 certificates at every `γ ≤ γ̄` on the ray. -/
 theorem NumB.Cert.of_le_gamma {n : ℕ} {N : NumB n} {γ γ' : ℝ} {Ω : Set (Fin n → ℝ)}
     (hc : N.Cert γ Ω) (hγ' : 0 < γ') (hγγ' : γ' ≤ γ) : N.Cert γ' Ω where

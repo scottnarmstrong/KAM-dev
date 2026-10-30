@@ -16,7 +16,8 @@ import Mathlib.Tactic.Positivity
 With `K̃ = K + N ξᴺ` and `K̄ = K̃ ∘ φ`, `φ = id + ξᴸ`:
 
 * `quadH_le`, `energyAverage_Kt_sub_eq`, `energyAverage_Kt_sub_le`: the last row of the bordered
-  system, `⟨Y ξᴺ⟩ = -(⟨H ∘ K⟩ - E₀)`, cancels the first-order term, so `|⟨H ∘ K̃⟩ - E₀| ≤ (M_h2/2) C_K̃² μ²`;
+  system, `⟨Y ξᴺ⟩ = -(⟨H ∘ K⟩ - E₀)`, cancels the first-order term, so
+  `|⟨H ∘ K̃⟩ - E₀| ≤ (M_h2/2) C_K̃² μ²`;
 * `fderiv_HKt_le`, `HKb_sub_le`: `|D(H ∘ K̃)| ≤ n (|η̃ᴺ| + Θ |Ω_K̃|)` on `T_{r-2δ}`, so
   `|H ∘ K̄ - H ∘ K̃| ≤ n Q̃_N ϑ_ξ (Θ C_Ω + g₁) μ X` on `T_{r-3δ}`;
 * `energyAverage_Kb_sub_le`: `|⟨H ∘ K̄⟩ - E₀| ≤ Q_ω μ²/(γ δ^{κ+1})`.

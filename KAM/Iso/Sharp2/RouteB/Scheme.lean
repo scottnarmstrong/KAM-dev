@@ -19,10 +19,11 @@ step `modified_stepIB`.
 
 * `StI`, `GoodI`, `schemeIB`: the states `(s, b, K, ς, ς₋)`, with the frequency `ς ω*` on the ray
   and the scale `ς₋` of the previous stage. `GoodI` is `Good` at the frequency `ς ω*`, with the
-  energy error `|⟨H ∘ K⟩ - E₀| ≤ λ_ω μ`, the ray margin `ν - m₆ ≤ ν(ς)`, the last frequency increment
-  (the engine's conclusion carries no limit of the parameter, so the frequency sum is taken along
-  the admissible states), and the drift of `Tab` in the two forms that the row sums of the bordered
-  torsion need: `|⟨𝒯_ab(K)⟩ - ⟨𝒯_ab(K₀)⟩| + |ς ω* - ς₀ ω*| ≤ m₅`, `n |ς ω* - ς₀ ω*| ≤ m₅`.
+  energy error `|⟨H ∘ K⟩ - E₀| ≤ λ_ω μ`, the ray margin `ν - m₆ ≤ ν(ς)`, the last frequency
+  increment (the engine's conclusion carries no limit of the parameter, so the frequency sum is
+  taken along the admissible states), and the drift of `Tab` in the two forms that the row sums of
+  the bordered torsion need: `|⟨𝒯_ab(K)⟩ - ⟨𝒯_ab(K₀)⟩| + |ς ω* - ς₀ ω*| ≤ m₅`,
+  `n |ς ω* - ς₀ ω*| ≤ m₅`.
 * `RunBaseI`, `RunHypI`: the fixed data of a run, and the reference data of the pair `(K₀, ς₀)`.
 * `RunHypI.tors`: step `stepI:p2s2:st-t`: the local parts at the stage and at stage `0`
   (`|⟨T⟩ - ⟨𝒯_ab⟩| ≤ B_sup X ≤ b_F`, `n |⟨Y⟩ - ω| ≤ n g₁ X ≤ b_F`, `B^𝖳_loc X ≤ b_F`) and the drift
@@ -231,6 +232,7 @@ theorem loc {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ} {K : (Fin n → ℂ) → 
       cond := by rw [R.xX_eq s]; exact hcond
       caps' := ⟨hcaps 0, hcaps 1, hcaps 2, hcaps 3, hcaps 4⟩ }
 
+omit R in
 /-- `|⟨Y⟩ - ω| ≤ A` when `|ηᴸ| ≤ A` on a strip: `Y = ω - ηᴸ`. -/
 theorem avgY_sub_le {r A ς : ℝ} {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} (hr : 0 < r)
     (hc : Continuous fun x : Fin n → ℝ => energyRow h K fun i => (x i : ℂ))
@@ -322,7 +324,7 @@ theorem local_parts {s : ℕ} {β w : ℝ} {m : Fin 7 → ℝ}
       exact h1
     have hA : ∀ θ ∈ complexStrip n (N.r s), ‖etaL h K (ς • ωstar) θ‖ ≤ w := fun θ hθ =>
       (hG.ηL θ hθ).trans ((mul_le_mul_of_nonneg_right hl.2 hG.μ_nonneg).trans_eq (one_mul _))
-    have hY := R.avgY_sub_le (ς := ς) hr0 hcY (fun θ hθ => (hG.G θ hθ).1) hA
+    have hY := avgY_sub_le (ς := ς) hr0 hcY (fun θ hθ => (hG.G θ hθ).1) hA
     calc (n : ℝ) * ‖avg (energyRow h K) - fun a => ((ς • ωstar) a : ℂ)‖ ≤
         (n : ℝ) * (sg1 (N.inp s) * (w / (γ * N.δ s ^ (N.τ + 1)))) :=
           mul_le_mul_of_nonneg_left (hY.trans hμg) (Nat.cast_nonneg _)
