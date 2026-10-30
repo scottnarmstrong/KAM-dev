@@ -183,7 +183,8 @@ theorem isLinftyLipschitz_tildeOmegaSeq :
       (tildeOmegaSeq m hm) := by
   have hL : 0 ≤ 3 / (2 * Real.pi) * (1 / lam m hm 1 + 1 / lam m hm 2) := by
     have := lam_pnat_pos hm 1; have := lam_pnat_pos hm 2; positivity
-  rw [isLinftyLipschitz_iff hL]
+  rw [isLinftyLipschitz_iff]
+  refine ⟨hL, fun ξ _ => isLinfty_tildeOmegaSeq hm ξ, ?_⟩
   intro ξ _ ζ _ j
   simp only [Real.rpow_one]
   unfold tildeOmegaSeq

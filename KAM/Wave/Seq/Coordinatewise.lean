@@ -17,7 +17,10 @@ Off-frontier, source-faithful infrastructure; the dependency graph is still bein
 
 `hasDerivAt_coordinates_iff`: for `c : ℝ → ℓ²` with derivative `c'` at `t`, the coordinate curves
 `(κ_{a,p} c)_j` have derivatives `(κ_{a',p'} v)_j` iff `ι̂ c' = v`.
-`frozen_invariance_iff` is the form used for clause (4) of the frozen `KAM.Wave.nlw2`.
+`frozen_invariance_iff` is a conditional helper for clause (4) of the frozen `KAM.Wave.nlw2`.
+The last sentence of `bpW:w1:coordinatewise` (the `X^w` specialization) is only PARTIAL here: the
+helper takes a represented right-hand side `v`; the full specialization needs the field `X^w` of
+`bpW:w1:hamfield` (v), which is not in this package.
 -/
 
 @[expose] public noncomputable section

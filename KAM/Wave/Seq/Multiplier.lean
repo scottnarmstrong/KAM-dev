@@ -12,8 +12,9 @@ public import KAM.Wave.Seq.Transport
 
 Off-frontier, source-faithful infrastructure; the dependency graph is still being built.
 
-* `weightedDiagCLM μ hM`: the operator `D_μ y = (μ_j y_j)` on `lp (fun _ : ℕ+ => 𝕜) 2` for `‖μ_j‖ ≤ M`, with
-  `‖D_μ‖ ≤ M` (`norm_diagCLM_le`) and `‖μ_j‖ ≤ ‖D_μ‖` (`norm_le_norm_of_apply_eq`).
+* `weightedDiagCLM μ hM`: the operator `D_μ y = (μ_j y_j)` on `lp (fun _ : ℕ+ => 𝕜) 2` for
+  `‖μ_j‖ ≤ M`, with `‖D_μ‖ ≤ M` (`norm_diagCLM_le`) and `‖μ_j‖ ≤ ‖D_μ‖`
+  (`norm_le_norm_of_apply_eq`).
 * `not_exists_diag_of_unbounded`: a diagonal map with unbounded `μ` is not a bounded operator.
 * `diag_representative`: the representative of `w ↦ (m_j w_j)` between weights is `D_μ`,
   `μ_j = m_j ω_{a',p'}(j) / ω_{a,p}(j)`.
@@ -67,7 +68,8 @@ def weightedDiagCLM (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) :
     (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) : weightedDiagCLM μ hM y j = μ j * y j := rfl
 
 /-- `bpW:w1:multiplier`: `‖D_μ‖ ≤ M`. -/
-theorem norm_diagCLM_le (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) : ‖weightedDiagCLM μ hM‖ ≤ M := by
+theorem norm_diagCLM_le (μ : ℕ+ → K) {M : ℝ} (hM : ∀ j, ‖μ j‖ ≤ M) :
+    ‖weightedDiagCLM μ hM‖ ≤ M := by
   have h0 : 0 ≤ M := (norm_nonneg _).trans (hM 1)
   exact LinearMap.mkContinuous_norm_le _ h0 _
 
@@ -183,7 +185,8 @@ is `bpW:w1:embed` (i), (ii) for the bound `M`, with the bound
 `‖κ_{a,p} y‖_{a',p'} ≤ M ‖y‖` (`‖y‖ = ‖κ_{a,p} y‖_{a,p}`). -/
 theorem isEll_coeffW_of_ratio_le {a p a' p' M : ℝ} (hM : ∀ j, embedRatio a p a' p' j ≤ M)
     (y : lp (fun _ : ℕ+ => K) 2) :
-    IsEll a' p' (coeffW a p y) ∧ ellNorm a' p' (coeffW a p y) ≤ M * ellNorm a p (coeffW a p y) := by
+    IsEll a' p' (coeffW a p y) ∧
+      ellTsumNorm a' p' (coeffW a p y) ≤ M * ellTsumNorm a p (coeffW a p y) := by
   have hM' : ∀ j, ‖((embedRatio a p a' p' j : ℝ) : K)‖ ≤ M := fun j => by
     rw [RCLike.norm_ofReal, abs_of_pos (embedRatio_pos _ _ _ _ _)]; exact hM j
   have heq : ∀ j, (ellWeight a' p' j : K) * coeffW a p y j =
@@ -197,10 +200,10 @@ theorem isEll_coeffW_of_ratio_le {a p a' p' M : ℝ} (hM : ∀ j, embedRatio a p
     simpa only [heq] using this
   refine ⟨hIs, ?_⟩
   have h0 : 0 ≤ M := (embedRatio_pos a p a' p' 1).le.trans (hM 1)
-  have hnorm : ellNorm a' p' (coeffW a p y) = ‖tauLp a' p' _ hIs‖ := by
-    rw [ellNorm, ← norm_tauLp_sq a' p' _ hIs, Real.sqrt_sq (norm_nonneg _)]
+  have hnorm : ellTsumNorm a' p' (coeffW a p y) = ‖tauLp a' p' _ hIs‖ := by
+    rw [ellTsumNorm, ← norm_tauLp_sq a' p' _ hIs, Real.sqrt_sq (norm_nonneg _)]
   have : tauLp a' p' _ hIs = weightedDiagCLM _ hM' y := by ext j; rw [tauLp_apply, heq]; rfl
-  rw [hnorm, this, ellNorm_coeffW]
+  rw [hnorm, this, ellTsumNorm_coeffW]
   exact (weightedDiagCLM _ hM').le_opNorm y |>.trans (by gcongr; exact norm_diagCLM_le _ hM')
 
 end KAM.Wave

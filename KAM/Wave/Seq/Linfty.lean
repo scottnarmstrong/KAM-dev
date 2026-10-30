@@ -60,16 +60,22 @@ theorem isLinfty_of_bound (p : ℝ) (w : ℕ+ → ℝ) {C : ℝ} (hC : ∀ j : �
   simp only [Real.norm_eq_abs, abs_mul, abs_of_pos (rpow_pnat_pos p j)]
   linarith [hC j, mul_comm |w j| ((j : ℝ) ^ p)]
 
-/-- `Ω̃ : Π → ℓ^p_∞` is `L`-Lipschitz: `|Ω̃(ξ) - Ω̃(ζ)|_p ≤ L |ξ - ζ|` for all `ξ, ζ ∈ Π`
-(max norm on `ℝ²`), stated through the transport `tauInfty`. -/
-def IsLinftyLipschitz (p L : ℝ) (Dom : Set (Fin 2 → ℝ)) (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) : Prop :=
+/-- The pure difference condition `|Ω(ξ) - Ω(ζ)|_p ≤ L |ξ - ζ|` for all `ξ, ζ ∈ Π` (max norm on
+`ℝ²`), through the transport `tauInfty`. It does not assert that the values lie in `ℓ^p_∞`; the
+source-facing predicate is `IsLinftyLipschitz`. -/
+def IsLinftyDiffLipschitz (p L : ℝ) (Dom : Set (Fin 2 → ℝ)) (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) : Prop :=
   ∀ ξ ∈ Dom, ∀ ζ ∈ Dom, ∃ h : IsLinfty p (fun j => Ω ξ j - Ω ζ j),
     ‖tauInfty p _ h‖ ≤ L * ‖ξ - ζ‖
 
-/-- `bpW:w1:linfty`: pointwise characterization of the Lipschitz condition (`L ≥ 0`). -/
-theorem isLinftyLipschitz_iff {p L : ℝ} (hL : 0 ≤ L) {Dom : Set (Fin 2 → ℝ)}
+/-- `Ω̃ : Π → ℓ^p_∞` is `L`-Lipschitz (`L ≥ 0`; blueprint `bpW:w1:linfty`): every value lies in
+`ℓ^p_∞` and `|Ω̃(ξ) - Ω̃(ζ)|_p ≤ L |ξ - ζ|` for all `ξ, ζ ∈ Π`. -/
+def IsLinftyLipschitz (p L : ℝ) (Dom : Set (Fin 2 → ℝ)) (Ω : (Fin 2 → ℝ) → ℕ+ → ℝ) : Prop :=
+  0 ≤ L ∧ (∀ ξ ∈ Dom, IsLinfty p (Ω ξ)) ∧ IsLinftyDiffLipschitz p L Dom Ω
+
+/-- `bpW:w1:linfty`: pointwise characterization of the difference condition (`L ≥ 0`). -/
+theorem isLinftyDiffLipschitz_iff {p L : ℝ} (hL : 0 ≤ L) {Dom : Set (Fin 2 → ℝ)}
     {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} :
-    IsLinftyLipschitz p L Dom Ω ↔
+    IsLinftyDiffLipschitz p L Dom Ω ↔
       ∀ ξ ∈ Dom, ∀ ζ ∈ Dom, ∀ j : ℕ+, |Ω ξ j - Ω ζ j| * (j : ℝ) ^ p ≤ L * ‖ξ - ζ‖ := by
   constructor
   · intro h ξ hξ ζ hζ j
@@ -79,6 +85,17 @@ theorem isLinftyLipschitz_iff {p L : ℝ} (hL : 0 ≤ L) {Dom : Set (Fin 2 → �
     have hb := h ξ hξ ζ hζ
     have hi := isLinfty_of_bound p _ hb
     exact ⟨hi, (norm_tauInfty_le_iff p _ hi (by positivity)).2 hb⟩
+
+/-- `bpW:w1:linfty`: pointwise characterization of the source-facing Lipschitz predicate. -/
+theorem isLinftyLipschitz_iff {p L : ℝ} {Dom : Set (Fin 2 → ℝ)} {Ω : (Fin 2 → ℝ) → ℕ+ → ℝ} :
+    IsLinftyLipschitz p L Dom Ω ↔ 0 ≤ L ∧ (∀ ξ ∈ Dom, IsLinfty p (Ω ξ)) ∧
+      ∀ ξ ∈ Dom, ∀ ζ ∈ Dom, ∀ j : ℕ+, |Ω ξ j - Ω ζ j| * (j : ℝ) ^ p ≤ L * ‖ξ - ζ‖ := by
+  unfold IsLinftyLipschitz
+  constructor
+  · rintro ⟨hL, hm, hd⟩
+    exact ⟨hL, hm, (isLinftyDiffLipschitz_iff hL).1 hd⟩
+  · rintro ⟨hL, hm, hd⟩
+    exact ⟨hL, hm, (isLinftyDiffLipschitz_iff hL).2 hd⟩
 
 end KAM.Wave
 

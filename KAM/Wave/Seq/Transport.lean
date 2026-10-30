@@ -20,11 +20,11 @@ Every weighted space `ℓ^{a,p}_𝕜` is the image of `lp (fun _ : ℕ+ => 𝕜)
 satisfying `IsEll`. No new normed type is introduced.
 
 * `coeffW`: `κ_{a,p} y = (y_j / ω_{a,p}(j))_j`; `coeffW 1 1 = coeff` on real sequences.
-* `IsEll`, `ellNormSq`, `ellNorm`, `tauLp`: the space `ℓ^{a,p}` and the map `τ_{a,p}`.
-* `bpW:w1:space` (i): `tauLp_coeffW`, `coeffW_tauLp`, `norm_tauLp_sq`, `ellNorm_coeffW`,
+* `IsEll`, `ellTsumSq`, `ellTsumNorm`, `tauLp`: the space `ℓ^{a,p}` and the map `τ_{a,p}`.
+* `bpW:w1:space` (i): `tauLp_coeffW`, `coeffW_tauLp`, `norm_tauLp_sq`, `ellTsumNorm_coeffW`,
   `inner_tauLp`.
 * (ii): `norm_coeffW_le`, `coeffWCLM`. (iii): `truncLp`, `tendsto_norm_sub_truncLp`.
-* (iv): `coeffW_one_one`, `norm_prod_eq_max_ellNorm`.
+* (iv): `coeffW_one_one`, `norm_prod_eq_max_ellTsumNorm`.
 -/
 
 @[expose] public noncomputable section
@@ -65,13 +65,15 @@ def coeffW (a p : ℝ) (y : lp (fun _ : ℕ+ => K) 2) (j : ℕ+) : K :=
 def IsEll (a p : ℝ) (w : ℕ+ → K) : Prop :=
   Memℓp (fun j => (ellWeight a p j : K) * w j) 2
 
-/-- The squared weighted norm `‖w‖²_{a,p} = ∑ (ω_{a,p}(j) |w_j|)²`. -/
-def ellNormSq (a p : ℝ) (w : ℕ+ → K) : ℝ :=
+/-- The raw series `∑ (ω_{a,p}(j) |w_j|)²` (a `tsum`, so `0` for non-summable `w`); not a norm
+on its own: use `ellNorm` on the membership carrier `IsEll`. -/
+def ellTsumSq (a p : ℝ) (w : ℕ+ → K) : ℝ :=
   ∑' j : ℕ+, (ellWeight a p j * ‖w j‖) ^ 2
 
-/-- The weighted norm `‖w‖_{a,p}`. -/
-def ellNorm (a p : ℝ) (w : ℕ+ → K) : ℝ :=
-  Real.sqrt (ellNormSq a p w)
+/-- The square root of the raw series `ellTsumSq`; equals `‖w‖_{a,p}` exactly when `IsEll a p w`
+(`ellNorm_eq_ellTsumNorm`). -/
+def ellTsumNorm (a p : ℝ) (w : ℕ+ → K) : ℝ :=
+  Real.sqrt (ellTsumSq a p w)
 
 /-- **Transport map** `τ_{a,p}` (blueprint `bpW:w1:transport`): `(τ_{a,p} w)_j = ω_{a,p}(j) w_j`. -/
 def tauLp (a p : ℝ) (w : ℕ+ → K) (h : IsEll a p w) : lp (fun _ : ℕ+ => K) 2 :=
@@ -136,22 +138,36 @@ def coeffWLinear (a p : ℝ) : lp (fun _ : ℕ+ => K) 2 →ₗ[K] (ℕ+ → K) w
 
 /-- `bpW:w1:space` (i): `‖τ_{a,p} w‖² = ‖w‖²_{a,p}`. -/
 theorem norm_tauLp_sq (a p : ℝ) (w : ℕ+ → K) (h : IsEll a p w) :
-    ‖tauLp a p w h‖ ^ 2 = ellNormSq a p w := by
+    ‖tauLp a p w h‖ ^ 2 = ellTsumSq a p w := by
   refine (lp_two_hasSum_sq (tauLp a p w h)).unique ?_
   have : (fun j => ‖tauLp a p w h j‖ ^ 2) = fun j => (ellWeight a p j * ‖w j‖) ^ 2 := by
     funext j; rw [tauLp_apply, norm_mul, norm_ellWeight_cast]
   rw [this]
-  unfold ellNormSq
+  unfold ellTsumSq
   refine Summable.hasSum ?_
   have hs := (lp_two_hasSum_sq (tauLp a p w h)).summable
   rwa [this] at hs
 
-/-- `bpW:w1:space` (i): `‖κ_{a,p} y‖_{a,p} = ‖y‖`. -/
+/-- The source-facing weighted norm `‖w‖_{a,p}` of `ℓ^{a,p}`, defined on the membership carrier:
+`‖τ_{a,p} w‖_{ℓ²}` (blueprint `bpW:w0:ellap`, `bpW:w1:space`). -/
+def ellNorm (a p : ℝ) (w : ℕ+ → K) (hw : IsEll a p w) : ℝ := ‖tauLp a p w hw‖
+
+/-- On `IsEll` sequences the source norm is the square root of the series. -/
+theorem ellNorm_eq_ellTsumNorm (a p : ℝ) (w : ℕ+ → K) (hw : IsEll a p w) :
+    ellNorm a p w hw = ellTsumNorm a p w := by
+  rw [ellNorm, ellTsumNorm, ← norm_tauLp_sq a p w hw, Real.sqrt_sq (norm_nonneg _)]
+
+/-- `bpW:w1:space` (i): `‖κ_{a,p} y‖_{a,p} = ‖y‖` (source-facing norm). -/
 theorem ellNorm_coeffW (a p : ℝ) (y : lp (fun _ : ℕ+ => K) 2) :
-    ellNorm a p (coeffW a p y) = ‖y‖ := by
+    ellNorm a p (coeffW a p y) (isEll_coeffW a p y) = ‖y‖ := by
+  rw [ellNorm, tauLp_coeffW]
+
+/-- `bpW:w1:space` (i): `‖κ_{a,p} y‖_{a,p} = ‖y‖` (raw form). -/
+theorem ellTsumNorm_coeffW (a p : ℝ) (y : lp (fun _ : ℕ+ => K) 2) :
+    ellTsumNorm a p (coeffW a p y) = ‖y‖ := by
   have := norm_tauLp_sq a p _ (isEll_coeffW a p y)
   rw [tauLp_coeffW] at this
-  rw [ellNorm, ← this, Real.sqrt_sq (norm_nonneg _)]
+  rw [ellTsumNorm, ← this, Real.sqrt_sq (norm_nonneg _)]
 
 /-- `bpW:w1:space` (i): the transported inner product
 `⟨τ w, τ w'⟩ = ∑ ω_{a,p}(j)² conj(w_j) w'_j`. -/
@@ -205,9 +221,16 @@ theorem coeffW_one_one (y : lp (fun _ : ℕ+ => ℝ) 2) : coeffW 1 1 y = coeff y
 
 /-- `bpW:w1:space` (iv): the norm of the frozen `WaveSpace` is `max (‖q‖_{1,1}, ‖p‖_{1,1})`,
 `q = coeff y`, `p = coeff y'`. -/
+theorem norm_prod_eq_max_ellTsumNorm (z : WaveSpace) :
+    ‖z‖ = max (ellTsumNorm 1 1 (coeff z.1)) (ellTsumNorm 1 1 (coeff z.2)) := by
+  rw [Prod.norm_def, ← coeffW_one_one, ← coeffW_one_one, ellTsumNorm_coeffW, ellTsumNorm_coeffW]
+
+/-- `bpW:w1:space` (iv), source-facing: `‖(y, y')‖ = max (‖q‖_{1,1}, ‖p‖_{1,1})`,
+`q = κ_{1,1} y`. -/
 theorem norm_prod_eq_max_ellNorm (z : WaveSpace) :
-    ‖z‖ = max (ellNorm 1 1 (coeff z.1)) (ellNorm 1 1 (coeff z.2)) := by
-  rw [Prod.norm_def, ← coeffW_one_one, ← coeffW_one_one, ellNorm_coeffW, ellNorm_coeffW]
+    ‖z‖ = max (ellNorm 1 1 (coeffW 1 1 z.1) (isEll_coeffW 1 1 z.1))
+      (ellNorm 1 1 (coeffW 1 1 z.2) (isEll_coeffW 1 1 z.2)) := by
+  rw [Prod.norm_def, ellNorm_coeffW, ellNorm_coeffW]
 
 end KAM.Wave
 

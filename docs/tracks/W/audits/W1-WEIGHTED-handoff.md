@@ -84,3 +84,24 @@ seal, so skip audit item 1 and the seal-body probe.
 4. The not-done items: are they really unconsumed, or needed by W2/W3?
 5. Hygiene. This is a SLIM worktree, so run lint only as `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpa`.
    Run the kernel replay of the 8 modules. `git diff inp...HEAD -- KAM/Frozen manifest README.md` must be empty.
+
+## Round 2 (response to W1-WEIGHTED-audit-1)
+
+- **F1 (fixed).** The raw `tsum` helpers are renamed `ellTsumSq` / `ellTsumNorm` (documented as not norms; value 0 on
+  non-summable input). New source-facing norm on the membership carrier: `ellNorm a p w (hw : IsEll a p w) := ‖tauLp a p w hw‖`,
+  with `ellNorm_eq_ellTsumNorm`, `ellNorm_coeffW` (= ‖y‖), `norm_prod_eq_max_ellNorm` (source-facing, via `coeffW 1 1`),
+  `ellNorm_coeffW_le_of_le`, `ellNorm_coeffW_le_of_lt`. All earlier estimates are kept under the raw names
+  (`ellTsumNorm_coeffW`, `ellTsumNorm_coeffW_le_of_le/lt`, `isEll_coeffW_of_ratio_le`, `norm_prod_eq_max_ellTsumNorm`).
+- **F2 (fixed).** `IsLinftyLipschitz p L Dom Ω` now = `0 ≤ L ∧ (∀ ξ ∈ Dom, IsLinfty p (Ω ξ)) ∧ IsLinftyDiffLipschitz ...`.
+  The pure difference condition is kept as `IsLinftyDiffLipschitz` with `isLinftyDiffLipschitz_iff (hL : 0 ≤ L)`.
+  `isLinftyLipschitz_iff` (no `hL` needed) is the pointwise form of the new predicate; `isLinftyLipschitz_tildeOmegaSeq`
+  now also supplies `0 ≤ L` and value membership (`isLinfty_tildeOmegaSeq`).
+- **F3 (docs only).** `Coordinatewise.lean` docstring and this handoff: the last sentence of `bpW:w1:coordinatewise`
+  (the `X^w` specialization) is PARTIAL. `frozen_invariance_iff` is the conditional helper (represented right-hand side `v`);
+  the full specialization needs the field `X^w` of `bpW:w1:hamfield` (v), not in this package.
+- **F4 (fixed).** Overlong lines in `Multiplier.lean` rewrapped; also the new long lines introduced by the renames
+  (Embed, Multiplier, Transport). No line over 100 characters remains.
+- Checks: gate build of the 8 modules "Build completed successfully (2799 jobs)"; `w_lint.sh` exit 0 (check_lean_modules
+  PASS, FROZEN-ANCHOR GUARD OK, ABI HASHES OK); `#print axioms` of the new/changed results (`ellNorm_coeffW`,
+  `ellNorm_eq_ellTsumNorm`, `norm_prod_eq_max_ellNorm`, `ellNorm_coeffW_le_of_lt`, `isLinftyLipschitz_iff`,
+  `isLinftyLipschitz_tildeOmegaSeq`) are within [propext, Classical.choice, Quot.sound].
