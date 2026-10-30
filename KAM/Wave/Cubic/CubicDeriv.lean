@@ -55,7 +55,8 @@ theorem waveCubicNL_third_apply (y : lp (fun _ : ℕ+ => K) 2) (v : Fin 3 → lp
     iteratedFDeriv K 3 (waveCubicNL (K := K) m hm ha hp) y v =
       (6 : K) • waveTriML (K := K) m hm ha hp v := by
   have h := (waveTriML (K := K) m hm ha hp).iteratedFDeriv_comp_diagonal y v
-  have e : (waveCubicNL (K := K) m hm ha hp) = fun x => waveTriML (K := K) m hm ha hp (fun _ => x) :=
+  have e : (waveCubicNL (K := K) m hm ha hp) =
+      fun x => waveTriML (K := K) m hm ha hp (fun _ => x) :=
     rfl
   rw [e, h]
   simp only [waveTriML_perm m hm ha hp _ v, Finset.sum_const, Finset.card_univ,
@@ -93,7 +94,8 @@ theorem waveCubicNL_second_apply (y h k : lp (fun _ : ℕ+ => K) 2) :
     funext y'
     rw [waveCubicNL_fderiv, waveTriBil_apply]
   have hB' : HasFDerivAt (fun y' => (3 : K) • waveTriBil m hm ha hp h y' y')
-      ((3 : K) • ((ContinuousLinearMap.precompR (lp (fun _ : ℕ+ => K) 2) (waveTriBil m hm ha hp h)) y
+      ((3 : K) • ((ContinuousLinearMap.precompR (lp (fun _ : ℕ+ => K) 2)
+          (waveTriBil m hm ha hp h)) y
           (ContinuousLinearMap.id K (lp (fun _ : ℕ+ => K) 2)) +
         (ContinuousLinearMap.precompL (lp (fun _ : ℕ+ => K) 2) (waveTriBil m hm ha hp h))
           (ContinuousLinearMap.id K (lp (fun _ : ℕ+ => K) 2)) y)) y := hB.const_smul (3 : K)

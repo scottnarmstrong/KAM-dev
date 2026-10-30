@@ -24,6 +24,7 @@ public import KAM.Wave.Analytic.HoloAnalytic
 public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
+public import KAM.Wave.Cubic.CubicDeriv
 public import KAM.Wave.Cubic.CubicMap
 public import KAM.Wave.Cubic.FrozenForm
 public import KAM.Wave.Cubic.GradIdentity
@@ -33,6 +34,9 @@ public import KAM.Wave.Cubic.HamHamiltonian
 public import KAM.Wave.Cubic.ReconComplex
 public import KAM.Wave.Cubic.SelectionCore
 public import KAM.Wave.Cubic.SelectionOneSided
+public import KAM.Wave.Cubic.SelectionTwoFinal
+public import KAM.Wave.Cubic.SelectionTwoMaj
+public import KAM.Wave.Cubic.SelectionTwoSided
 public import KAM.Wave.Cubic.TriLp
 public import KAM.Wave.Cubic.TriML
 public import KAM.Wave.Cubic.TriProps

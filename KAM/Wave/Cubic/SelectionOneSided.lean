@@ -224,6 +224,86 @@ theorem waveSel_oneSided {a p M : ℝ} (ha : 0 ≤ a) (hp : 1 / 2 ≤ p) (hM : 0
       ≤ Real.sqrt ((2 * M * K ^ 2 * (Nq * Nq' * Nq'')) ^ 2) := Real.sqrt_le_sqrt hsumle
     _ = _ := Real.sqrt_sq (by positivity)
 
+/-! Multilinearity and symmetry of `T_c` (the last sentence of `bpW:w1:selection`). -/
+
+theorem waveSelSum_smul_left (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (r : K) (q q' q'' : ℕ+ → K) (l : ℕ+) :
+    waveSelSum c (fun j => r * q j) q' q'' l = r * waveSelSum c q q' q'' l := by
+  unfold waveSelSum
+  rw [← tsum_mul_left]
+  exact tsum_congr fun t => by ring
+
+theorem waveSelSum_smul_mid (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (r : K) (q q' q'' : ℕ+ → K) (l : ℕ+) :
+    waveSelSum c q (fun j => r * q' j) q'' l = r * waveSelSum c q q' q'' l := by
+  unfold waveSelSum
+  rw [← tsum_mul_left]
+  exact tsum_congr fun t => by ring
+
+theorem waveSelSum_smul_right (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (r : K) (q q' q'' : ℕ+ → K) (l : ℕ+) :
+    waveSelSum c q q' (fun j => r * q'' j) l = r * waveSelSum c q q' q'' l := by
+  unfold waveSelSum
+  rw [← tsum_mul_left]
+  exact tsum_congr fun t => by ring
+
+theorem waveSelSum_add_left (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (q r q' q'' : ℕ+ → K) (l : ℕ+)
+    (hq : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * q'' t.2.2)))
+    (hr : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (r t.1 * (q' t.2.1 * q'' t.2.2))) :
+    waveSelSum c (fun j => q j + r j) q' q'' l =
+      waveSelSum c q q' q'' l + waveSelSum c r q' q'' l := by
+  unfold waveSelSum
+  rw [← Summable.tsum_add hq hr]
+  exact tsum_congr fun t => by ring
+
+theorem waveSelSum_add_mid (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (q q' r q'' : ℕ+ → K) (l : ℕ+)
+    (hq : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * q'' t.2.2)))
+    (hr : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (r t.2.1 * q'' t.2.2))) :
+    waveSelSum c q (fun j => q' j + r j) q'' l =
+      waveSelSum c q q' q'' l + waveSelSum c q r q'' l := by
+  unfold waveSelSum
+  rw [← Summable.tsum_add hq hr]
+  exact tsum_congr fun t => by ring
+
+theorem waveSelSum_add_right (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K) (q q' q'' r : ℕ+ → K) (l : ℕ+)
+    (hq : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * q'' t.2.2)))
+    (hr : Summable fun t : ℕ+ × ℕ+ × ℕ+ => c t.1 t.2.1 t.2.2 l * (q t.1 * (q' t.2.1 * r t.2.2))) :
+    waveSelSum c q q' (fun j => q'' j + r j) l =
+      waveSelSum c q q' q'' l + waveSelSum c q q' r l := by
+  unfold waveSelSum
+  rw [← Summable.tsum_add hq hr]
+  exact tsum_congr fun t => by ring
+
+/-- Symmetry of `T_c` in the first two arguments when `c` is symmetric in the first two indices. -/
+theorem waveSelSum_swap_left_mid (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K)
+    (hc : ∀ i j k l, c i j k l = c j i k l) (q q' q'' : ℕ+ → K) (l : ℕ+) :
+    waveSelSum c q q' q'' l = waveSelSum c q' q q'' l := by
+  unfold waveSelSum
+  let e : ℕ+ × ℕ+ × ℕ+ ≃ ℕ+ × ℕ+ × ℕ+ :=
+    { toFun := fun t => (t.2.1, t.1, t.2.2)
+      invFun := fun t => (t.2.1, t.1, t.2.2)
+      left_inv := fun t => rfl
+      right_inv := fun t => rfl }
+  rw [← e.tsum_eq]
+  refine tsum_congr fun t => ?_
+  simp only [e, Equiv.coe_fn_mk]
+  rw [hc t.2.1 t.1]
+  ring
+
+/-- Symmetry of `T_c` in the last two arguments when `c` is symmetric in the last two indices
+among the first three. -/
+theorem waveSelSum_swap_mid_right (c : ℕ+ → ℕ+ → ℕ+ → ℕ+ → K)
+    (hc : ∀ i j k l, c i j k l = c i k j l) (q q' q'' : ℕ+ → K) (l : ℕ+) :
+    waveSelSum c q q' q'' l = waveSelSum c q q'' q' l := by
+  unfold waveSelSum
+  let e : ℕ+ × ℕ+ × ℕ+ ≃ ℕ+ × ℕ+ × ℕ+ :=
+    { toFun := fun t => (t.1, t.2.2, t.2.1)
+      invFun := fun t => (t.1, t.2.2, t.2.1)
+      left_inv := fun t => rfl
+      right_inv := fun t => rfl }
+  rw [← e.tsum_eq]
+  refine tsum_congr fun t => ?_
+  simp only [e, Equiv.coe_fn_mk]
+  rw [hc t.1 t.2.2]
+  ring
+
 end KAM.Wave
 
 end
