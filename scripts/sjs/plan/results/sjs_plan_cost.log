@@ -1,0 +1,53 @@
+| scenario | T_raw | L | bits | S_full | box | F GB | peak one Nat GB |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Delaunay, FH's constants, numerical gamma (SJS-FEAS) (lo) | -48.5 | 56 | 209 | 2.7e+07 | 1.3e+08 | 16.84 | 169 |
+| Delaunay, FH's constants, numerical gamma (SJS-FEAS) (hi) | -48.5 | 56 | 209 | 3.5e+07 | 1.7e+08 | 21.78 | 218 |
+| Delaunay, measured data, certified gamma (lo) | -46.3 | 53 | 201 | 2.4e+07 | 1.2e+08 | 14.35 | 144 |
+| Delaunay, measured data, certified gamma (hi) | -46.3 | 53 | 201 | 3.1e+07 | 1.5e+08 | 18.57 | 186 |
+| synodic, certified gamma (the plan) (lo) | -38.0 | 45 | 174 | 4.3e+06 | 1.3e+07 | 1.35 | 14 |
+| synodic, certified gamma (the plan) (hi) | -38.0 | 45 | 174 | 1.3e+07 | 3.8e+07 | 3.98 | 40 |
+| synodic, numerical gamma (lo) | -34.3 | 41 | 162 | 3.3e+06 | 9.9e+06 | 0.97 | 10 |
+| synodic, numerical gamma (hi) | -34.3 | 41 | 162 | 9.7e+06 | 2.9e+07 | 2.85 | 29 |
+
+| scenario | S | today's checker CPU-h (rev/fwd) | theorems | advice TB | packed, one Nat per model: CPU-h, peak | packed, 8 GB shards (needs LEAN_NAT_MAX_SIZE): CPU-h, blocks | packed, default limit: CPU-h, blocks, peak |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Delaunay, FH's constants, numerical gamma (SJS-FEAS) | lo | 7.0e+05 / 1.8e+06 | 5.0e+07 | 11.5 | 166-602, 270 GB | 4146-1.6e+04, nb 36 | 3.1e+04-1.2e+05, nb 251, 1.5 GB |
+| Delaunay, FH's constants, numerical gamma (SJS-FEAS) | hi | 9.1e+05 / 2.3e+06 | 6.5e+07 | 14.8 | 215-779, 349 GB | 6996-2.7e+04, nb 47 | 5.2e+04-2.0e+05, nb 325, 1.5 GB |
+| Delaunay, measured data, certified gamma | lo | 6.2e+05 / 1.6e+06 | 4.4e+07 | 10.1 | 142-513, 230 GB | 3045-1.2e+04, nb 31 | 2.3e+04-8.6e+04, nb 214, 1.5 GB |
+| Delaunay, measured data, certified gamma | hi | 8.0e+05 / 2.0e+06 | 5.7e+07 | 13.1 | 183-664, 298 GB | 5077-2.0e+04, nb 40 | 3.8e+04-1.4e+05, nb 277, 1.5 GB |
+| synodic, certified gamma (the plan) | lo | 6.9e+04 / 1.7e+05 | 4.8e+06 | 1.1 | 14-49, 22 GB | 29-108, nb 3 | 211-795, nb 21, 1.5 GB |
+| synodic, certified gamma (the plan) | hi | 2.0e+05 / 5.1e+05 | 1.4e+07 | 3.2 | 39-143, 64 GB | 248-953, nb 9 | 1765-6686, nb 60, 1.5 GB |
+| synodic, numerical gamma | lo | 5.3e+04 / 1.3e+05 | 3.7e+06 | 0.8 | 9.9-35, 16 GB | 21-78, nb 3 | 108-407, nb 15, 1.5 GB |
+| synodic, numerical gamma | hi | 1.6e+05 / 3.9e+05 | 1.1e+07 | 2.5 | 28-103, 46 GB | 139-532, nb 7 | 907-3434, nb 43, 1.5 GB |
+
+| scenario | S | FFT grid (points) | FH-style mpfr Newton step, CPU-h | RAM GB (reversible half) | packed Newton step (native GMP), CPU-h | ledger GB |
+|---|---|---:|---:|---:|---:|---:|
+| Delaunay, FH's constants, numerical gamma (SJS-FEAS) | lo | 4.5e+08 | 331 | 30 | 216 | 974-2399 |
+| Delaunay, FH's constants, numerical gamma (SJS-FEAS) | hi | 5.9e+08 | 434 | 39 | 279 | 1259-3101 |
+| Delaunay, measured data, certified gamma | lo | 4.0e+08 | 272 | 25 | 184 | 829-2041 |
+| Delaunay, measured data, certified gamma | hi | 5.2e+08 | 356 | 33 | 238 | 1071-2638 |
+| synodic, certified gamma (the plan) | lo | 4.4e+07 | 20 | 2 | 18 | 78-191 |
+| synodic, certified gamma (the plan) | hi | 1.3e+08 | 62 | 7 | 51 | 228-562 |
+| synodic, numerical gamma | lo | 3.3e+07 | 13 | 2 | 13 | 55-136 |
+| synodic, numerical gamma | hi | 9.8e+07 | 41 | 5 | 37 | 163-401 |
+
+Calibration: the constants of 'today' price the real lunar torus (L = 20, N = 65) at 2.5 CPU-h; the gates measured 1.6-2.5.
+
+| plan scenario | hardware | mode | peak GB | concurrent | wall h (reverse, kappa 2 .. forward, kappa 3) | USD on-demand |
+|---|---|---|---:|---:|---:|---:|
+| synodic, certified gamma (the plan) lo | lemma.farm, default limit | default | 1.5 | 8 | 26 .. 99 | 0.0 .. 0.0 |
+| synodic, certified gamma (the plan) lo | lemma.farm, 8 GB shards | gb | 7.6 | 4 | 7.2 .. 27 | 0.0 .. 0.0 |
+| synodic, certified gamma (the plan) lo | 48 cores, 256 GB, one Nat per model | one | 22.0 | 6 | 2.3 .. 8.2 | 0.7 .. 2.7 |
+| synodic, certified gamma (the plan) lo | 48 cores, 256 GB, 8 GB shards | gb | 7.6 | 31 | 0.9 .. 3.5 | 0.3 .. 1.2 |
+| synodic, certified gamma (the plan) lo | 48 cores, 768 GB, one Nat per model | one | 22.0 | 6 | 2.3 .. 8.2 | 14 .. 52 |
+| synodic, certified gamma (the plan) lo | 48 cores, 768 GB, 8 GB shards | gb | 7.6 | 48 | 0.6 .. 2.3 | 3.8 .. 14 |
+| synodic, certified gamma (the plan) hi | lemma.farm, default limit | default | 1.5 | 8 | 221 .. 836 | 0.0 .. 0.0 |
+| synodic, certified gamma (the plan) hi | lemma.farm, 8 GB shards | gb | 7.5 | 4 | 62 .. 238 | 0.0 .. 0.0 |
+| synodic, certified gamma (the plan) hi | 48 cores, 256 GB, one Nat per model | one | 64.1 | 3 | 13 .. 48 | 4.3 .. 16 |
+| synodic, certified gamma (the plan) hi | 48 cores, 256 GB, 8 GB shards | gb | 7.5 | 31 | 8.0 .. 31 | 2.6 .. 10 |
+| synodic, certified gamma (the plan) hi | 48 cores, 768 GB, one Nat per model | one | 64.1 | 6 | 6.6 .. 24 | 42 .. 151 |
+| synodic, certified gamma (the plan) hi | 48 cores, 768 GB, 8 GB shards | gb | 7.5 | 48 | 5.2 .. 20 | 33 .. 126 |
+
+Hybrid (SHARP2-HYBRID), plan scenario; A = 2-5 in FH's units (sjs_hybrid.py):
+  candidate residual 10^-19.2, L_cand 25, 107 bits, S_cand 6.8e+05 .. 2.0e+06 (the composition stays at L = 45, S as in the table)
+  candidate residual 10^-19.3, L_cand 25, 107 bits, S_cand 7.0e+05 .. 2.1e+06 (the composition stays at L = 45, S as in the table)
