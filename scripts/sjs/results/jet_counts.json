@@ -1,0 +1,286 @@
+{
+ "lunar": {
+  "program_length": 887,
+  "ops": {
+   "const": 204,
+   "action": 3,
+   "char": 14,
+   "add": 180,
+   "mul": 486
+  },
+  "model_slots": 675,
+  "per_call": {
+   "invariance (d1)": {
+    "slots": 170,
+    "model_ops": 98,
+    "chars": 14,
+    "CC": 3,
+    "CM": 72,
+    "MM": 0
+   },
+   "energy (v0)": {
+    "slots": 86,
+    "model_ops": 43,
+    "chars": 14,
+    "CC": 0,
+    "CM": 25,
+    "MM": 1
+   },
+   "inv+energy shared (v0::d1)": {
+    "slots": 215,
+    "model_ops": 140,
+    "chars": 14,
+    "CC": 3,
+    "CM": 96,
+    "MM": 1
+   },
+   "torsion (d1,d2)": {
+    "slots": 400,
+    "model_ops": 273,
+    "chars": 14,
+    "CC": 7,
+    "CM": 201,
+    "MM": 0
+   },
+   "whole program": {
+    "slots": 887,
+    "model_ops": 658,
+    "chars": 14,
+    "CC": 7,
+    "CM": 478,
+    "MM": 1
+   }
+  },
+  "landed_two_composes_model_ops_upper": 1316,
+  "separate_decls_inv_plus_energy_model_ops": 141,
+  "shared_one_decl_model_ops": 140
+ },
+ "planetary_M1": {
+  "program_length": 175,
+  "ops": {
+   "const": 27,
+   "action": 6,
+   "char": 2,
+   "add": 34,
+   "mul": 106
+  },
+  "model_slots": 118,
+  "per_call": {
+   "invariance (d1)": {
+    "slots": 78,
+    "model_ops": 46,
+    "chars": 2,
+    "CC": 4,
+    "CM": 29,
+    "MM": 5
+   },
+   "energy (v0)": {
+    "slots": 49,
+    "model_ops": 27,
+    "chars": 2,
+    "CC": 0,
+    "CM": 11,
+    "MM": 7
+   },
+   "inv+energy shared (v0::d1)": {
+    "slots": 96,
+    "model_ops": 62,
+    "chars": 2,
+    "CC": 4,
+    "CM": 34,
+    "MM": 10
+   },
+   "torsion (d1,d2)": {
+    "slots": 123,
+    "model_ops": 75,
+    "chars": 2,
+    "CC": 14,
+    "CM": 50,
+    "MM": 6
+   },
+   "whole program": {
+    "slots": 175,
+    "model_ops": 110,
+    "chars": 2,
+    "CC": 22,
+    "CM": 72,
+    "MM": 12
+   }
+  },
+  "landed_two_composes_model_ops_upper": 220,
+  "separate_decls_inv_plus_energy_model_ops": 73,
+  "shared_one_decl_model_ops": 62,
+  "modes": 1
+ },
+ "planetary_M4": {
+  "program_length": 388,
+  "ops": {
+   "const": 63,
+   "action": 12,
+   "char": 8,
+   "add": 61,
+   "mul": 244
+  },
+  "model_slots": 295,
+  "per_call": {
+   "invariance (d1)": {
+    "slots": 168,
+    "model_ops": 100,
+    "chars": 8,
+    "CC": 4,
+    "CM": 62,
+    "MM": 8
+   },
+   "energy (v0)": {
+    "slots": 97,
+    "model_ops": 51,
+    "chars": 8,
+    "CC": 0,
+    "CM": 20,
+    "MM": 10
+   },
+   "inv+energy shared (v0::d1)": {
+    "slots": 195,
+    "model_ops": 125,
+    "chars": 8,
+    "CC": 4,
+    "CM": 70,
+    "MM": 16
+   },
+   "torsion (d1,d2)": {
+    "slots": 264,
+    "model_ops": 174,
+    "chars": 8,
+    "CC": 14,
+    "CM": 122,
+    "MM": 12
+   },
+   "whole program": {
+    "slots": 388,
+    "model_ops": 275,
+    "chars": 8,
+    "CC": 22,
+    "CM": 198,
+    "MM": 24
+   }
+  },
+  "landed_two_composes_model_ops_upper": 550,
+  "separate_decls_inv_plus_energy_model_ops": 151,
+  "shared_one_decl_model_ops": 125,
+  "modes": 4
+ },
+ "planetary_M16": {
+  "program_length": 2860,
+  "ops": {
+   "const": 405,
+   "action": 36,
+   "char": 32,
+   "add": 601,
+   "mul": 1786
+  },
+  "model_slots": 2425,
+  "per_call": {
+   "invariance (d1)": {
+    "slots": 630,
+    "model_ops": 400,
+    "chars": 32,
+    "CC": 4,
+    "CM": 239,
+    "MM": 29
+   },
+   "energy (v0)": {
+    "slots": 289,
+    "model_ops": 147,
+    "chars": 32,
+    "CC": 0,
+    "CM": 56,
+    "MM": 22
+   },
+   "inv+energy shared (v0::d1)": {
+    "slots": 693,
+    "model_ops": 461,
+    "chars": 32,
+    "CC": 4,
+    "CM": 259,
+    "MM": 49
+   },
+   "torsion (d1,d2)": {
+    "slots": 1356,
+    "model_ops": 1026,
+    "chars": 32,
+    "CC": 14,
+    "CM": 662,
+    "MM": 72
+   },
+   "whole program": {
+    "slots": 2860,
+    "model_ops": 2357,
+    "chars": 32,
+    "CC": 22,
+    "CM": 1593,
+    "MM": 171
+   }
+  },
+  "landed_two_composes_model_ops_upper": 4714,
+  "separate_decls_inv_plus_energy_model_ops": 547,
+  "shared_one_decl_model_ops": 461,
+  "modes": 16
+ },
+ "planetary_M64": {
+  "program_length": 20068,
+  "ops": {
+   "const": 2727,
+   "action": 132,
+   "char": 128,
+   "add": 4869,
+   "mul": 12212
+  },
+  "model_slots": 17311,
+  "per_call": {
+   "invariance (d1)": {
+    "slots": 2708,
+    "model_ops": 1784,
+    "chars": 128,
+    "CC": 4,
+    "CM": 1062,
+    "MM": 136
+   },
+   "energy (v0)": {
+    "slots": 1057,
+    "model_ops": 531,
+    "chars": 128,
+    "CC": 0,
+    "CM": 200,
+    "MM": 70
+   },
+   "inv+energy shared (v0::d1)": {
+    "slots": 2915,
+    "model_ops": 1989,
+    "chars": 128,
+    "CC": 4,
+    "CM": 1130,
+    "MM": 204
+   },
+   "torsion (d1,d2)": {
+    "slots": 7288,
+    "model_ops": 5750,
+    "chars": 128,
+    "CC": 14,
+    "CM": 3626,
+    "MM": 436
+   },
+   "whole program": {
+    "slots": 20068,
+    "model_ops": 17051,
+    "chars": 128,
+    "CC": 22,
+    "CM": 10954,
+    "MM": 1236
+   }
+  },
+  "landed_two_composes_model_ops_upper": 34102,
+  "separate_decls_inv_plus_energy_model_ops": 2315,
+  "shared_one_decl_model_ops": 1989,
+  "modes": 64
+ }
+}
