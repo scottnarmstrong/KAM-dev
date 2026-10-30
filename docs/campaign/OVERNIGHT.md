@@ -1206,3 +1206,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   unchanged. SO-PACKFIX was redirected from balanced packing to F1 + F2'.
 - **10:48. Heartbeat.** SO-PACKFIX committed the D34 fix (648d07da): sparse term-driven packed products (F1, new module Poly/Sparse.lean, 381 lines) and an offset-Nat mask/shift slot decode (F2'), with changes in Poly/{Advice,MulPacked,Packed}.lean and new packed tests; no sorry. Re-measuring shards now (blockRows 4 first, then 8-32). claude-12 90 %.
 - **11:19. The D34 fix works.** After SO-PACKFIX's sparse blocks + mask/shift decode, one shard of the heavy product A0·A0 at the CURRENT layout (blockRows 32) passes in 235 s with 4.6 GB peak (baseline, the probe's literal data alone, 190 s / 1.0 GB), against more than 13.6 GB (OOM) before; blockRows 8: 3.0 GB, blockRows 4: 2.7 GB. So the original 1,157-shard layout per torus fits with margin; about 45 s of kernel time per shard over the baseline, i.e. roughly 15 CPU-h per torus for the shards (SO-PACKFIX's handoff will give the projection). Audit next.
+- **11:29. SO-PACKFIX done and in audit; SO-DATA-2 round 2 started.** SO-PACKFIX (D34): sparse term-driven packed
+  products (new Poly/Sparse.lean, 477 lines, bridge `checkPackedSp_dense` to the dense check), offset-Nat
+  mask/shift slot decode, balanced packShift of the dense advice window (a measured deviation: 8.4 -> 1.1 GB at
+  blockRows 32), shardFits without copies; signed statements and the data format unchanged; all re-proved lemmas
+  standard axioms; tests and toys pass. One blockRows-32 shard: 4.55 GB, +45 s kernel (was OOM above 13.6 GB).
+  Projection: 15-29 CPU-h of shard kernel time for both tori (was 100-170), 2-3x SO-REPLAY2's estimate;
+  composition, Gram and torsion not yet measured on the fixed code. Landing branch inp-sopackfixl = inp + the four
+  fix commits + SO-KPERF's report (cherry-picked, clean build); in audit on codex-3. SO-DATA-2 round 2 (claude-12)
+  continues on top of the fix: measure composition/Gram/torsion, emit the upper torus, build the ~2,300 shard
+  theorems with at most ~3 heavy lean processes at once, assemble the final theorems (freeze nothing). Worktrees
+  sodata2, sokperf, sopackfix removed (branches kept); disk 18 GB free.
