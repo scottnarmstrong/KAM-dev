@@ -1406,3 +1406,15 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - Landed since 15:42: SO-LOCK-SCOPE and blueprint W1–W3 with five W errata (main e507bc23).
   - HQ lock row now shows the D45 route and the sub-orchestrator (cdeff4f2). README: Moon locked 17 %, track W 15 %.
   - Codex-3 at about 10 % weekly is the only auditor (owner ruling); when it runs out, audits queue and work goes on.
+- **16:10 Track W (kam-d4), overnight mode.** Errata on inp-wbp (they land with W4/W7):
+  - CONFIRMED: E-PDE-W-1/2, E-PDE-KP-1/2 (the KP96 journal printing is unverified), and the W-BP0 items E-W-N-1,
+    N-4 and N-5.
+  - CANDIDATE: N-2 and N-3 (not independently re-checked).
+  Provers started off the frontier ("source-faithful infrastructure used by several nodes"): W1-WEIGHTED (inp-wpa,
+  claude-6) and W1-SINES (inp-wpb, claude-4), both Sonnet. They run in SLIM worktrees that hold only the frozen Wave
+  and IsDiophantine oleans (14 MB each). Disk was 8.8 GB, so the 5.4 GB full copy was not affordable. Lint's ABI stage
+  runs through .drafts/W/w_lint.sh, which overlays the inp build. The dependency graph writer has started on W0-W3
+  (inp-wgraph). Blueprint writers W4 and W7 are running.
+  **For owner review:**
+  (1) Slim worktrees instead of inp_new_worktree.sh. Reversible; chosen for disk space.
+  (2) Errata N-2 and N-3 left CANDIDATE rather than CONFIRMED, because only the writer checked them.
