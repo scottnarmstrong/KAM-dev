@@ -1180,3 +1180,4 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   (2) of the 06:20 signal is an implementation change inside Poly/Packed (balanced packing; signed statements
   unchanged; its soundness lemmas re-proved), likely restoring the projected kernel cost. Quotas: claude-12 95 %,
   codex-3 70 %, codex-4 39 %.
+- **07:18. Heartbeat.** SO-KPERF running its per-part shard probes (baseline elaboration ~85 s; packing, multiplication, representation and a sparse-block prototype, each alone under a 10 GB cap). Nothing else is runnable on track SO until the owner chooses a kernel route; no other worker active.
