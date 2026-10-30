@@ -294,6 +294,89 @@ def IG1BodyA (N : NumA) (I : InitA) (Mh1 M σK σB σT μ γbar σω ν : ℝ) (
       (∀ θ ∈ complexStrip N.n N.ρinf, ‖Kinf θ - K θ‖ ≤ C₂ * e / (γ ^ 2 * N.ρ ^ (2 * N.τ))) ∧
       ‖sinf • ωstar - s • ωstar‖ ≤ C₃ * e / (γ ^ 2 * N.ρ ^ (2 * N.τ))
 
+/-- The route-A branch of the isoenergetic frozen form. -/
+theorem iso_g1_branch_A (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ N.τ)
+    {M σK σB σT μ γbar σω ν Xs Mh1 : ℝ} {I : InitA} (hM : 0 < M) (hμ : 0 < μ) (hσω : 1 < σω)
+    (hν : 0 < ν) {ωstar : Fin N.n → ℝ} (hωstar : ωstar ≠ 0) (hγbar : γbar = N.γb)
+    (hsK : N.sK = σK - μ / 2) (hΘ : N.Θ = σω * ‖ωstar‖) (hHY : N.HY = Mh1 * N.sN)
+    (hOk : routeAOkI N (capI N (μ / 2) (ν / 2)) (initI I σK σB σT μ) Xs) (hXpos : 0 < Xs)
+    {D : Set ((Fin N.n → ℂ) × (Fin N.n → ℂ))} {H : (Fin N.n → ℂ) × (Fin N.n → ℂ) → ℂ}
+    {K : (Fin N.n → ℂ) → (Fin N.n → ℂ) × (Fin N.n → ℂ)} {s γ e E₀ : ℝ}
+    {Ω : Set (Fin N.n → ℝ)} (hopen : IsOpen D)
+    (htransl : ∀ z ∈ D, ∀ k : Fin N.n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ D)
+    (hholo : DifferentiableOn ℂ H D)
+    (hper : ∀ z ∈ D, ∀ k : Fin N.n → ℤ, H (z.1 + (fun i => (k i : ℂ)), z.2) = H z)
+    (hreal : ∀ θ I : Fin N.n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ D →
+      (H ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ D, ‖fderiv ℂ H z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ H z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ H) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ H) z‖ ≤ M ∧ ‖iteratedFDeriv ℂ 2 H z‖ ≤ M)
+    (hK : DifferentiableOn ℂ K (complexStrip N.n N.ρ)) (hKp : IsPrimaryOnStrip K N.ρ)
+    (hKr : IsRealOnReals K) (hball : ∀ θ ∈ complexStrip N.n N.ρ, Metric.ball (K θ) μ ⊆ D)
+    (hDK : ∀ θ ∈ complexStrip N.n N.ρ, ‖fderiv ℂ K θ‖ ≤ σK - μ)
+    (hG : ∀ θ ∈ complexStrip N.n N.ρ, IsUnit (gramMatrix K θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K θ)⁻¹ i j‖ ≤ σB - μ)
+    (hTu : IsUnit (KAM.Iso.extendedTorsionAverage H K (s • ωstar)).det)
+    (hTb : ∀ i, ∑ j, ‖(KAM.Iso.extendedTorsionAverage H K (s • ωstar))⁻¹ i j‖ ≤ σT - μ)
+    (hs1 : 1 < s) (hν1 : ν ≤ (s - 1) * ‖ωstar‖) (hν2 : ν ≤ (σω - s) * ‖ωstar‖)
+    (hRef : RefHypIA N I Mh1 D H K (s • ωstar)) (hΩ : ∀ s' : ℝ, 1 ≤ s' → s' • ωstar ∈ Ω)
+    (hCt : N.Cert γ Ω) (hγ : 0 < γ) (hγγbar : γ ≤ γbar) (hdio : IsDiophantine γ N.τ ωstar)
+    (he0 : 0 ≤ e) (hE : ∀ θ ∈ complexStrip N.n N.ρ, ‖invarianceError H K (s • ωstar) θ‖ ≤ e)
+    (hEn : ‖KAM.Iso.energyAverage H K - (E₀ : ℂ)‖ ≤ e)
+    (hsm : e / (γ ^ 4 * delta0 3 N.ρ N.ρinf ^ (2 * (2 * N.τ))) < Xs) :
+    ∃ (Kinf : (Fin N.n → ℂ) → (Fin N.n → ℂ) × (Fin N.n → ℂ)) (sinf : ℝ),
+      1 < sinf ∧ sinf < σω ∧ DifferentiableOn ℂ Kinf (complexStrip N.n N.ρinf) ∧
+      IsPrimaryOnStrip Kinf N.ρinf ∧ IsRealOnReals Kinf ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, invarianceError H Kinf (sinf • ωstar) θ = 0) ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, H (Kinf θ) = (E₀ : ℂ)) ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, Metric.ball (Kinf θ) (μ / 2) ⊆ D) ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, ‖fderiv ℂ Kinf θ‖ ≤ σK - μ / 2) ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, ‖Kinf θ - K θ‖ ≤
+        c2I N Xs * e / (γ ^ 2 * N.ρ ^ (2 * N.τ))) ∧
+      ‖sinf • ωstar - s • ωstar‖ ≤ c3I N Xs * e / (γ ^ 2 * N.ρ ^ (2 * N.τ)) := by
+  have hρ0 : 0 < N.ρ := hN.ρinf_pos.trans hN.ρinf_lt
+  have hS : IsoStanding N.n N.τ M N.sK N.sB N.sT σω ν ωstar D H γ :=
+    { toParams := ⟨hN.two_le, hτ, hM, hN.sK, hN.sB, hN.sT⟩
+      σω_gt := hσω
+      ν_pos := hν
+      ωstar_ne := hωstar
+      isOpen := hopen
+      transl_mem := htransl
+      holo := hholo
+      periodic := hper
+      real := hreal
+      bounds := hbd
+      gamma_pos := hγ
+      dio := hdio }
+  have : Nonempty (Fin N.n) := ⟨⟨0, by have := hN.two_le; omega⟩⟩
+  have hr0 : N.r 0 = N.ρ := rSeq_zero
+  have h0 : AdmIA D H ωstar E₀ (N.r 0) (N.r 0 - N.δ 0) μ e s (σK - μ) (σB - μ) (σT - μ) I.iLt I.iN
+      I.iNt I.iH K := by
+    rw [hr0]
+    exact
+      { r_pos := hρ0
+        β_pos := hμ
+        ε_nonneg := he0
+        holo := hK
+        primary := hKp
+        real := hKr
+        ball_sub := hball
+        deriv_le := hDK
+        gram := fun θ hθ =>
+          ⟨(hG θ hθ).1, norm_le_of_rowSum_le_of_nonempty (m := Fin N.n) (hG θ hθ).2⟩
+        tangentT := hRef.tangentT
+        normal := hRef.normal
+        normalT := hRef.normalT
+        tors := hRef.tors
+        error_le := hE
+        s_gt := hs1
+        twist := ⟨hTu, norm_le_of_rowSum_le_of_nonempty hTb⟩
+        energy_le := hEn }
+  obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_core_A hN hiso hS hΘ
+    hRef.dX hRef.d2X hRef.d2H hRef.dH hHY (hγγbar.trans_eq hγbar) hΩ hCt hμ rfl rfl hOk h0
+    (margin_of_le hν1 hν2) hsm.le hXpos
+  exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, fun θ hθ => (h9 θ hθ).trans_eq hsK, h10, h11⟩
+
 /-- Corollary `bpI:p2s2:frozen`, route A. `C₁♯, C₂♯, C₃♯` are v1's constants with Rüssmann's data, so the
 theorem is never worse than v1. -/
 theorem iso_g1_v2A (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ N.τ)
@@ -346,47 +429,10 @@ theorem iso_g1_v2A (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ 
         field_simp
       rw [e1, div_lt_one hXpos] at hsm
       exact hsm
-    have hS : IsoStanding N.n N.τ M N.sK N.sB N.sT σω ν ωstar D H γ :=
-      { toParams := ⟨hN.two_le, hτ, hM, hN.sK, hN.sB, hN.sT⟩
-        σω_gt := hσω
-        ν_pos := hν
-        ωstar_ne := hωstar
-        isOpen := hopen
-        transl_mem := htransl
-        holo := hholo
-        periodic := hper
-        real := hreal
-        bounds := hbd
-        gamma_pos := hγ
-        dio := hdio }
-    have : Nonempty (Fin N.n) := ⟨⟨0, by have := hN.two_le; omega⟩⟩
-    have hr0 : N.r 0 = N.ρ := rSeq_zero
-    have h0 : AdmIA D H ωstar E₀ (N.r 0) (N.r 0 - N.δ 0) μ e s (σK - μ) (σB - μ) (σT - μ) I.iLt I.iN
-        I.iNt I.iH K := by
-      rw [hr0]
-      exact
-        { r_pos := hρ0
-          β_pos := hμ
-          ε_nonneg := he0
-          holo := hK
-          primary := hKp
-          real := hKr
-          ball_sub := hball
-          deriv_le := hDK
-          gram := fun θ hθ =>
-            ⟨(hG θ hθ).1, norm_le_of_rowSum_le_of_nonempty (m := Fin N.n) (hG θ hθ).2⟩
-          tangentT := hRef.tangentT
-          normal := hRef.normal
-          normalT := hRef.normalT
-          tors := hRef.tors
-          error_le := hE
-          s_gt := hs1
-          twist := ⟨hTu, norm_le_of_rowSum_le_of_nonempty hTb⟩
-          energy_le := hEn }
-    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_core_A hN hiso hS hΘ
-      hRef.dX hRef.d2X hRef.d2H hRef.dH hHY (hγγbar.trans_eq hγbar) hΩ hCt hμ rfl rfl hOk h0
-      (margin_of_le hν1 hν2) hsm'.le hXpos
-    exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, fun θ hθ => (h9 θ hθ).trans_eq hsK,
+    obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A hN hiso hτ hM
+      hμ hσω hν hωstar hγbar hsK hΘ hHY hOk hXpos hopen htransl hholo hper hreal hbd hK hKp hKr hball
+      hDK hG hTu hTb hs1 hν1 hν2 hRef hΩ hCt hγ hγγbar hdio he0 hE hEn hsm'
+    exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9,
       fun θ hθ => (h10 θ hθ).trans (hmono (le_max_right _ _)), h11.trans (hmono (le_max_right _ _))⟩
 
 end KAM.Iso.Sharp2.RouteA

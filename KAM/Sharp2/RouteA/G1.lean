@@ -172,6 +172,78 @@ def G1BodyA (N : NumA) (I : InitA) (M σK σB σT μ γbar C₁ C₂ : ℝ) : Pr
       (∀ θ ∈ complexStrip N.n N.ρinf, ‖fderiv ℂ Kinf θ‖ ≤ σK - μ / 2) ∧
       ∀ θ ∈ complexStrip N.n N.ρinf, ‖Kinf θ - K θ‖ ≤ C₂ * e / (γ ^ 2 * N.ρ ^ (2 * N.τ))
 
+/-- The route-A branch of the frozen form: every hypothesis of the frozen G1, the refined data, the
+certificates, and `e/(γ⁴ δ₀^{2a}) < X⋆`. -/
+theorem g1_branch_A (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0) (hτ : (N.n : ℝ) - 1 ≤ N.τ)
+    {M σK σB σT μ γbar Xs : ℝ} {I : InitA} (hM : 0 < M) (hμ : 0 < μ) (hγbar : γbar = N.γb)
+    (hsK : N.sK = σK - μ / 2) (hOk : routeAOk N (N.capV (μ / 2)) (initV I σK σB σT μ) Xs)
+    (hXpos : 0 < Xs) {𝔅 : Set ((Fin N.n → ℂ) × (Fin N.n → ℂ))}
+    {h : (Fin N.n → ℂ) × (Fin N.n → ℂ) → ℂ}
+    {K : (Fin N.n → ℂ) → (Fin N.n → ℂ) × (Fin N.n → ℂ)} {ω : Fin N.n → ℝ} {γ e : ℝ}
+    {Ω : Set (Fin N.n → ℝ)} (hopen : IsOpen 𝔅)
+    (htransl : ∀ z ∈ 𝔅, ∀ k : Fin N.n → ℤ, (z.1 + (fun i => (k i : ℂ)), z.2) ∈ 𝔅)
+    (hholo : DifferentiableOn ℂ h 𝔅)
+    (hper : ∀ z ∈ 𝔅, ∀ k : Fin N.n → ℤ, h (z.1 + (fun i => (k i : ℂ)), z.2) = h z)
+    (hreal : ∀ θ I : Fin N.n → ℝ, ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅 →
+      (h ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ)))).im = 0)
+    (hbd : ∀ z ∈ 𝔅, ‖fderiv ℂ h z‖ ≤ M ∧ ‖hamiltonianVectorFieldℂ h z‖ ≤ M ∧
+      ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ M ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M)
+    (hK : DifferentiableOn ℂ K (complexStrip N.n N.ρ)) (hKp : IsPrimaryOnStrip K N.ρ)
+    (hKr : IsRealOnReals K) (hball : ∀ θ ∈ complexStrip N.n N.ρ, Metric.ball (K θ) μ ⊆ 𝔅)
+    (hDK : ∀ θ ∈ complexStrip N.n N.ρ, ‖fderiv ℂ K θ‖ ≤ σK - μ)
+    (hG : ∀ θ ∈ complexStrip N.n N.ρ, IsUnit (gramMatrix K θ).det ∧
+      ∀ i, ∑ j, ‖(gramMatrix K θ)⁻¹ i j‖ ≤ σB - μ)
+    (hTu : IsUnit (torsionAverage h K ω).det)
+    (hTb : ∀ i, ∑ j, ‖(torsionAverage h K ω)⁻¹ i j‖ ≤ σT - μ)
+    (hRef : RefHypA N I 𝔅 h K ω) (hω : ω ∈ Ω) (hCt : N.Cert γ Ω) (hγ : 0 < γ) (hγγbar : γ ≤ γbar)
+    (hdio : IsDiophantine γ N.τ ω) (he0 : 0 ≤ e)
+    (hE : ∀ θ ∈ complexStrip N.n N.ρ, ‖invarianceError h K ω θ‖ ≤ e)
+    (hsm : e / (γ ^ 4 * delta0 3 N.ρ N.ρinf ^ (2 * (2 * N.τ))) < Xs) :
+    ∃ Kinf : (Fin N.n → ℂ) → (Fin N.n → ℂ) × (Fin N.n → ℂ),
+      DifferentiableOn ℂ Kinf (complexStrip N.n N.ρinf) ∧ IsPrimaryOnStrip Kinf N.ρinf ∧
+      IsRealOnReals Kinf ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, invarianceError h Kinf ω θ = 0) ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, Metric.ball (Kinf θ) (μ / 2) ⊆ 𝔅) ∧
+      (∀ θ ∈ complexStrip N.n N.ρinf, ‖fderiv ℂ Kinf θ‖ ≤ σK - μ / 2) ∧
+      ∀ θ ∈ complexStrip N.n N.ρinf, ‖Kinf θ - K θ‖ ≤
+        c2A N Xs * e / (γ ^ 2 * N.ρ ^ (2 * N.τ)) := by
+  have hρ0 : 0 < N.ρ := hN.ρinf_pos.trans hN.ρinf_lt
+  have hP : Params N.n N.τ M N.sK N.sB N.sT := ⟨hN.two_le, hτ, hM, hN.sK, hN.sB, hN.sT⟩
+  have hS : Standing N.n N.τ M N.sK N.sB N.sT 𝔅 h ω γ :=
+    { toParams := hP
+      isOpen := hopen
+      transl_mem := htransl
+      holo := hholo
+      periodic := hper
+      real := hreal
+      bounds := fun z hz => ⟨(hbd z hz).2.1, (hbd z hz).2.2.1, (hbd z hz).2.2.2⟩
+      gamma_pos := hγ
+      dio := hdio }
+  have hr0 : N.r 0 = N.ρ := rSeq_zero
+  have h0 : AdmA 𝔅 h ω (N.r 0) (N.r 0 - N.δ 0) μ e (σK - μ) (σB - μ) (σT - μ) I.iLt I.iN I.iNt
+      I.iH K := by
+    rw [hr0]
+    exact
+      { r_pos := hρ0
+        β_pos := hμ
+        ε_nonneg := he0
+        holo := hK
+        primary := hKp
+        real := hKr
+        ball_sub := hball
+        deriv_le := hDK
+        gram := fun θ hθ => ⟨(hG θ hθ).1, norm_le_of_rowSum_le hN.two_le (hG θ hθ).2⟩
+        tangentT := hRef.tangentT
+        normal := hRef.normal
+        normalT := hRef.normalT
+        tors := hRef.tors
+        twist := ⟨hTu, norm_le_of_rowSum_le hN.two_le hTb⟩
+        error_le := hE }
+  obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := g1_core_A hN hfix hΘ hS hRef.dX hRef.d2X
+    (hγγbar.trans_eq hγbar) hω hCt hμ rfl hOk h0 hsm.le hXpos
+  exact ⟨Kinf, h1, h2, h3, h4, h5, fun θ hθ => (h6 θ hθ).trans_eq hsK, h7⟩
+
 /-- Corollary `bp:p2s2:frozen-form`, route A: the frozen conclusion with
 `C₁ = min {C₁♯, ρ^{4τ}/(X⋆ δ₀^{4τ})}` and `C₂ = max {C₂♯, c2A}`, whenever `routeAOk` holds at
 `X⋆ > 0`. `C₁♯` is v1's `sharpC1` with Rüssmann's data, so the theorem is never worse than v1. -/
@@ -223,42 +295,10 @@ theorem g1_v2A (hN : N.Wf) (hfix : N.iso = false) (hΘ : N.Θ = 0) (hτ : (N.n :
         field_simp
       rw [e1, div_lt_one hXpos] at hsm
       exact hsm
-    have hP : Params N.n N.τ M N.sK N.sB N.sT :=
-      ⟨hN.two_le, hτ, hM, hN.sK, hN.sB, hN.sT⟩
-    have hS : Standing N.n N.τ M N.sK N.sB N.sT 𝔅 h ω γ :=
-      { toParams := hP
-        isOpen := hopen
-        transl_mem := htransl
-        holo := hholo
-        periodic := hper
-        real := hreal
-        bounds := fun z hz => ⟨(hbd z hz).2.1, (hbd z hz).2.2.1, (hbd z hz).2.2.2⟩
-        gamma_pos := hγ
-        dio := hdio }
-    have hr0 : N.r 0 = N.ρ := rSeq_zero
-    have h0 : AdmA 𝔅 h ω (N.r 0) (N.r 0 - N.δ 0) μ e (σK - μ) (σB - μ) (σT - μ) I.iLt I.iN I.iNt
-        I.iH K := by
-      rw [hr0]
-      exact
-        { r_pos := hρ0
-          β_pos := hμ
-          ε_nonneg := he0
-          holo := hK
-          primary := hKp
-          real := hKr
-          ball_sub := hball
-          deriv_le := hDK
-          gram := fun θ hθ => ⟨(hG θ hθ).1, norm_le_of_rowSum_le hN.two_le (hG θ hθ).2⟩
-          tangentT := hRef.tangentT
-          normal := hRef.normal
-          normalT := hRef.normalT
-          tors := hRef.tors
-          twist := ⟨hTu, norm_le_of_rowSum_le hN.two_le hTb⟩
-          error_le := hE }
-    obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := g1_core_A hN hfix hΘ hS hRef.dX hRef.d2X
-      (hγγbar.trans_eq hγbar) hω hCt hμ rfl hOk h0 hsm'.le hXpos
-    exact ⟨Kinf, h1, h2, h3, h4, h5, fun θ hθ => (h6 θ hθ).trans_eq hsK,
-      hclose_mono (le_max_right _ _) h7⟩
+    obtain ⟨Kinf, h1, h2, h3, h4, h5, h6, h7⟩ := g1_branch_A hN hfix hΘ hτ hM hμ hγbar hsK hOk hXpos
+      hopen htransl hholo hper hreal hbd hK hKp hKr hball hDK hG hTu hTb hRef hω hCt hγ hγγbar hdio
+      he0 hE hsm'
+    exact ⟨Kinf, h1, h2, h3, h4, h5, h6, hclose_mono (le_max_right _ _) h7⟩
 
 /-- Never worse than v1: `C₁ ≤ C₁♯`. -/
 theorem c1_min_le_sharpC1 {M σK σB σT μ γbar Xs : ℝ} :
