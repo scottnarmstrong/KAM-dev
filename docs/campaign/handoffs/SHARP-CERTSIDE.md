@@ -53,7 +53,7 @@ scripts imported read-only).
   - P0 −99.874;
   - R1 (CONSTANTS-STUDY) −74.509;
   - R1 emitted −74.669; oracle T/e +3.03;
-  - R1 with the Lean `lunarR1` M = 2.03: −74.94.
+  - R1 with the landed checker's M = 2.0205: −74.94; with the Lean `lunarR1`'s M = 203/100: −75.01.
 - `lunar_oracle.py` at R1: σK−μ 1.3604, Gram 1.97994, M₁ 1.047601 (cosh) and 2.0205 (disc = the Lean D²H sum),
   torsion 1.022493, η₃ 1.0603e-78. All equal to `lower_rot.json` and `LunarParams.lean`. θ frame: torsion 2.718037
   and 2.849753, the pilot's values.
@@ -110,8 +110,9 @@ for example when `.lake/build` is missing, rather than letting Lake materialize 
 - **Pinned sources:** no errata suspected.
 - **Deviations:** none introduced. No Lean change; the theorems are used as frozen or as designed.
 - **Remark, not a defect:** `KAM/SpinOrbit/LunarParams.lean` sets M = 203/100. That is above the checker's D²H
-  sum (2.0205), so the one-size 𝔪 of v0 is 2.03 rather than the 1.987 of `lower_rot.json`. The v0 threshold becomes
-  10^−74.94 instead of 10^−74.67, which leaves 2.2–2.5 orders of slack against the certified errors.
+  sum (2.0205), so the one-size 𝔪 of v0 is 2.03 rather than the 1.987 of `lower_rot.json`. The exact v0 threshold
+  becomes 10^−75.01 instead of 10^−74.67. That still leaves 2.4 orders (lower, err 4.03e-78) and 2.1 orders (upper,
+  err 7.84e-78) of slack.
 - **Study discrepancy** (kernel subagent): SO-ADVCOUNT assumed that compose evaluates only the needed slots and that
   cfgLow factors are trimmed. The landed code does neither (`Expr/Compose.lean:171-187`, `Gram.lean:115-124`).
 
@@ -119,6 +120,8 @@ for example when `.lake/build` is missing, rather than letting Lake materialize 
 
 - C1–C7 of §6 are proposals for new packages; none was started here.
 - Rerun `optimize.py search --v2 …` once SHARP-PLUS's mirror is frozen.
-- An SO-owned regeneration with the optimized parameters: a smaller ρ is optimal for the fixed 88-digit data, but
-  after re-truncating to the v1 threshold (L ≈ 32), ρ is flat in [0.008, 0.02] (§3.4). That is a proposal for the SO
-  track.
+- No regeneration is needed for the parameters. For a support-sized certificate, R1's parameters (rotated frame,
+  ρ = 1/70, c ≈ 1.9) are within 0.1–0.2 orders of optimal under v1 and v2. A smaller ρ helps only for the
+  over-resolved 88-digit data (§3.4).
+- What pays is re-truncation once a sharper theorem is in force: L ≈ 32 under v1, 17–18 under v2. That is an
+  SO-owned regeneration, a proposal for the SO track.

@@ -478,12 +478,13 @@ certificates; §4 converts T/e into support.
 | P0 pilot (θ, m = 4, ρ = 1/200, μ = 1/1000, ν = 1/4), v0 | −99.87 (CONSTANTS-STUDY) | −99.874 |
 | R1 of CONSTANTS-STUDY (m = 39/20, c = 7/4), v0 | −74.51 | −74.509 |
 | R1 emitted (m = 1987/1000, c = 237/125), v0 | −74.67, T/e +3.03 (`lower_rot.json`) | −74.669; oracle norms with cosh M (as `rot_norms.py`) −74.66, T/e +3.03 |
-| R1 package with the Lean M = 2.03 (`KAM/SpinOrbit/LunarParams.lean`), v0 | – | −74.94, T/e +2.76 |
+| R1 package with the landed checker's M = 2.0205, v0 (with `lunarR1`'s M = 203/100: −75.01) | – | −74.94, T/e +2.76 |
 | R1 package, v1 iso | −24.98 (`thresholds.py`, norms 1.05 × sup) | −24.90 (oracle ℓ¹ norms, disc M = 2.0205) |
 
 Note: the Lean R1 parameters `lunarR1` set M = 203/100, above the checker's D²H sum of 2.0205, so their one-size 𝔪
-is 2.03, not 1.987. Under v0 that costs 0.27 orders against the emitted JSON's package. Against the certified error
-budgets (4.03e-78 and 7.84e-78) there are still 2.2–2.5 orders of slack, so this is a remark, not a defect.
+is 2.03, not 1.987. Under v0 that costs 0.34 orders against the emitted JSON's package (−75.01 against −74.67).
+Against the certified error budgets (4.03e-78 and 7.84e-78) there are still 2.4 and 2.1 orders of slack, so this is
+a remark, not a defect.
 
 ### 3.3 Results
 
