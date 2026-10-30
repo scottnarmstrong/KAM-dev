@@ -800,7 +800,8 @@ applied to $f$ itself.
 
 \begin{lemma}[Holomorphic maps of finitely many variables are analytic]\label{bpW:w1:holo-analytic-fd}
 Let $U\subset\C^n$ be open (max norm), $F$ a complex Banach space and $f:U\to F$ holomorphic. Then $f$ is $\C$-analytic
-on $U$ (Lean \Lean{AnalyticOnNhd Complex f U}). Quantitatively: let $r>0$ with $\bar P(z_0,r)\subset U$; then there are
+on $U$ (Lean \Lean{AnalyticOnNhd Complex f U}). (For $n=0$, $\C^0$ is a singleton, $U$ is empty or that point, and $f$
+is constant, hence analytic.) Quantitatively, for $n\ge1$: let $r>0$ with $\bar P(z_0,r)\subset U$; then there are
 $r_1>r$ and $M_1\ge0$ with $\bar P(z_0,r_1)\subset U$ and $\norm{f}\le M_1$ on $\bar P(z_0,r_1)$, and $f$ is the sum
 on $P(z_0,r_1)\supset\bar P(z_0,r)$ of an absolutely convergent power series $\sum_\alpha c_\alpha(z-z_0)^\alpha$ with
 $\norm{c_\alpha}\le M_1r_1^{-\abs\alpha}$; grouped by degree it is a \Lean{FormalMultilinearSeries} $(p_m)$ with
@@ -826,7 +827,7 @@ exactly $\alpha_i$ times, and $p_m(h_1,\dots,h_m)=\sum_{\abs\alpha=m}\bigl(\prod
 continuous $m$-linear map $(\C^n)^m\to F$ (each product of coordinate functionals has norm $\le1$ for the max norm;
 Lean: \Lean{ContinuousMultilinearMap.mkPiAlgebraFin} composed with coordinate projections, then \Lean{smulRight}).
 Then $p_m(h,\dots,h)=\sum_{\abs\alpha=m}c_\alpha h^\alpha$ and $\norm{p_m}\le\#\{\alpha:\abs\alpha=m\}M_1r_1^{-m}=
-\binom{m+n-1}{n-1}M_1r_1^{-m}$. For $\rho<r_1$, $\sum_m\norm{p_m}\rho^m<\infty$ (polynomial times geometric), so the
+\binom{m+n-1}{n-1}M_1r_1^{-m}$ ($n\ge1$, stars and bars). For $0\le\rho<r_1$, $\sum_m\norm{p_m}\rho^m<\infty$ (polynomial times geometric), so the
 radius of $(p_m)$ is $\ge r_1$, and regrouping the absolutely convergent multi-index series by degree gives
 $f(z_0+h)=\sum_mp_m(h,\dots,h)$ for $\abs h<r_1$: this is \Lean{HasFPowerSeriesOnBall f p z0 r1}, so $f$ is analytic at
 $z_0$, and $z_0\in U$ is arbitrary (every point of $U$ is the centre of a closed polydisc of positive radius in $U$).
@@ -882,8 +883,9 @@ $\sigma\mapsto D_w\phi_k(w,\sigma)$ is continuous by induction; continuity gives
 \ref{bpW:w1:ext-integral}. It is dominated by $Le^{L}$ uniformly for $w\in B(w_0,\varepsilon)$, because
 $\phi_k(w,\sigma)\in B(w,\delta)$ where $\norm{DX}\le L$ (Step~\ref{stepW:w1:flowlip}, applied at $w\in U$). Hence
 \Lean{hasFDerivAt\_integral\_of\_dominated\_of\_fderiv\_le} gives $D_w\phi_{k+1}(w,t)=I+\int_0^tDX(\phi_k)D_w\phi_k\,d\sigma$,
-which is continuous in $t$ and bounded by $1+\int_0^{\abs t}Le^{L\sigma}\cdots\le\sum_{i\le k+1}(L\abs t)^i/i!$ (using the
-induction bound inside the integral).
+which is continuous in $t$; by the induction bound inside the integral its norm is at most
+$1+\int_0^{\abs t}L\sum_{i=0}^k(L\sigma)^i/i!\,d\sigma=\sum_{i=0}^{k+1}(L\abs t)^i/i!$. (The constant $Le^L$ serves only as
+the uniform domination bound for differentiating under the integral.)
 \proofstep{Limit}\label{stepW:w1:flowlim}
 The iterates converge uniformly on $U\times[-1,1]$ to $\phi$, which satisfies the integral equation (pass to the limit
 under the integral), hence is a $C^1$ solution; uniqueness among solutions in $V$ is \ref{bpW:w1:ext-ode} on
@@ -1075,12 +1077,17 @@ $j\le N$ and $\tilde R(x)e_j=0$ for $j>N$. This is an entire, $2\pi$-periodic, f
 $\abs{\abs{\abs{\tilde R(x)}}}=\max_{j\le N}e^{-j(s_K+\operatorname{Im}x_1)}\le1$ on the strip (supremum $1$). Its nonzero
 coefficients are $\tilde R_{(j,0,\dots,0)}=e^{-js_K}P_j$ ($P_j$ the coordinate projection), so
 $\sum_k\abs{\abs{\abs{\tilde R_k}}}^2e^{2\abs ks_K}=\sum_{j\le N}1=N$, which exceeds $2^n\cdot1$ (the right side in either reading, the supremum being $1$) once $N>2^n$ (for $n=2$,
-$N=8$). The family is the mixed normal Hessian $\partial_z\partial_{\bar z}R$ of the quadratic Hamiltonian
-$R=\sum_{j\le N}e^{-js_K}e^{ijx_1}z_j\bar z_j$, so it has the form of the term $R^{11}$ of P96-K Lemma~1. Replacing
-$e^{ijx_1}$ by $\cos(jx_1)$ gives a version real on reals with coefficients $\frac12e^{-js_K}P_j$ at $\pm je_1$, strip
-bound $\le1$ (as $\abs{\cos(jx_1)}\le e^{j\abs{\operatorname{Im}x_1}}$) and square sum $N/2$, so the contradiction persists
-for $N>2^{n+1}$; and the weighted transports
-$\tau_{a,p}$, $\tau_{a,\bar p}$ are diagonal and change nothing.
+$N=8$). The family is the weight-conjugated mixed normal Hessian of the quadratic Hamiltonian
+$R=\sum_{j\le N}j^{p-\bar p}e^{-js_K}e^{ijx_1}z_j\bar z_j$, so it has the form of the term $R^{11}$ of P96-K Lemma~1:
+the raw Hessian $\ddot R=\partial_z\partial_{\bar z}R$, as an operator $\ell^{a,p}_\C\to\ell^{a,\bar p}_\C$, is the diagonal
+$\ddot R_{jj}=j^{p-\bar p}e^{-js_K}e^{ijx_1}$, and its representative $\tau_{a,\bar p}\ddot R\kappa_{a,p}$
+(Definition~\ref{bpW:w1:transport}) has entries
+$\omega_{a,\bar p}(j)\ddot R_{jj}/\omega_{a,p}(j)=j^{\bar p-p}\ddot R_{jj}=e^{-js_K}e^{ijx_1}=\tilde R_{jj}$. If normal modes are
+labelled by shifted indices, the factor $j^{p-\bar p}$ is replaced by the corresponding ratio
+$\omega_{a,p}/\omega_{a,\bar p}$ of the weights actually carried by that mode. Replacing $e^{ijx_1}$ by $\cos(jx_1)$ (raw
+coefficient $j^{p-\bar p}e^{-js_K}\cos(jx_1)$) gives a version real on reals whose representative has coefficients
+$\frac12e^{-js_K}P_j$ at $\pm je_1$, strip bound $\le1$ (as $\abs{\cos(jx_1)}\le e^{j\abs{\operatorname{Im}x_1}}$) and
+square sum $N/2$, so the contradiction persists for $N>2^{n+1}$.
 
 \emph{What W4 must use instead.} Bound the coefficients individually and sum in $\ell^1$ after a strip loss:
 by Lemma~\ref{bpW:w1:fourier-banach}(i), $\abs{\abs{\abs{\tilde R_k}}}\le Me^{-2\pi\abs k_1s}$; by

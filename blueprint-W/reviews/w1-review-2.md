@@ -109,3 +109,16 @@ The named W2-consumed labels still provide their required statements:
 I checked these against W2's cited uses at its feature/derivative, force attachment, coefficient-curve derivative, hidden-regularity and joint-analyticity steps. They do not require restoring the old `ℝ^n`-only reconstruction statement or identifying derivatives before proving them. No W2-consumed label was dropped or repurposed.
 
 The remaining three minor fixes are blueprint details. No frozen statement change or additional source erratum is proposed beyond the already recorded p. 127/A.4 issues. Scope remains this revision and the named consumer interface; no whole-part or theorem-closure claim is made.
+
+## Fix verification (sub-orchestrator kam-d4, 2026-10-30)
+
+The three minor fixes were applied in the commit after 2a3f1643 and checked against the proposed fixes by the
+sub-orchestrator, not by a third codex round (to save codex-3 quota). Findings:
+- W1-2a: raw coefficient j^{p−p̄}e^{−js_K}e^{ijx₁}. The representative entry is ω_{a,p̄}(j)/ω_{a,p}(j)·R̈_jj =
+  j^{p̄−p}·j^{p−p̄}e^{−js_K}e^{ijx₁} = R̃_jj; the shifted-index ratio is stated, and so is the cosine variant. CLOSED.
+- W1-2b: `n ≥ 1` is bound for the quantitative formula, `n = 0` is treated separately, and `0 ≤ ρ < r₁` is used in
+  hagroup. CLOSED.
+- W1-2c: 1 + ∫₀^{|t|} L Σ_{i≤k} (Lσ)^i/i! dσ = Σ_{i≤k+1} (L|t|)^i/i! (termwise integration); L·e^L is kept only as
+  the domination bound. CLOSED.
+Diff: 17 insertions, 10 deletions, confined to those three places. Compile: exit 0, no '^!' lines, no undefined
+references (writer's check). W1 status: ACCEPTED.
