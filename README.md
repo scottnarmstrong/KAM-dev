@@ -271,7 +271,7 @@ Overall, everything together: 80.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 21:01 UTC from `main` at `bb925e23` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 21:01 UTC from `main` at `3aaae2ef` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
