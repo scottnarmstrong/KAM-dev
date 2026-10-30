@@ -15,12 +15,13 @@ the patched objects are continuous wherever each piece is: no compatibility acro
 \item \emph{Embedding.} Cauchy estimates on the strip turn the angle error $X$ into a $\frac12$-Lipschitz periodic
   function; with the injectivity of W3's map $\Gamma^\R$ this gives injectivity modulo $\Z^2$ and injective derivatives
   (Lemma~\ref{bpW:w8:shell-embedding}).
-\item \emph{$o(r)$ closeness.} W6 states the closeness through $e_{\rm tor}=M_{F,P}+e_\Phi$, and with W6's fixed choice
-  $\epsilon_0=\gamma_1\check\alpha$ the term $e_\Phi=5c_F\gamma_1\sigma_0^{-51}$ does not depend on the shell. Closeness
-  of order $o(r)$ needs $e_{\rm tor}\to0$ along the shells. We start the iteration of each shell with the sharp size of
-  the post-preparatory perturbation instead of its upper bound $\gamma_1\check\alpha$
-  (Lemma~\ref{bpW:w8:sharp-prep}, Lemma~\ref{bpW:w8:w6-general}); then $e_{\rm tor}\lesssim t_n^{1/64}$
-  (Lemma~\ref{bpW:w8:etor}).
+\item \emph{$o(r)$ closeness.} W6 states the closeness through $e_{\rm tor}=M_{F,P}+e_\Phi$, with
+  $e_\Phi=5c_F\epsilon_0/(\check\alpha\sigma_0^{51})$ for a starting size $\epsilon_0\in[\epsilon^\flat_0,\gamma_1\check\alpha]$ that is a
+  parameter of Definition~\ref{bpW:w6:wave-iteration} (Remark~\ref{bpW:w6:to-w8}, ``Starting size''), $\epsilon^\flat_0$ being the sharp
+  post-preparatory size of Lemma~\ref{bpW:w6:prep-step}(v). With the upper value $\epsilon_0=\gamma_1\check\alpha$ the term $e_\Phi$ does
+  not depend on the shell, while closeness of order $o(r)$ needs $e_{\rm tor}\to0$ along the shells. We give the parameter a
+  shell-dependent value $\epsilon_{0,n}$ in that interval, small relative to $\check\alpha_n$ (Lemma~\ref{bpW:w8:sharp-prep},
+  Lemma~\ref{bpW:w8:w6-general}); then $e_{\rm tor}\lesssim t_n^{1/64}$ (Lemma~\ref{bpW:w8:etor}).
 \item \emph{Patching and family injectivity.} Two tori that meet carry the same orbit, by uniqueness for the
   coefficient system (Lemma~\ref{bpW:w8:unique}). In Birkhoff coordinates the phase of each tangential mode along that
   orbit winds at the rate $\nu_i$, so the two frequencies coincide (Lemma~\ref{bpW:w8:winding}). The frequency map is
@@ -41,7 +42,8 @@ $2\tau+4=52$ of W5--W6 is written as a number. From earlier parts we use: W3's $
 $\Gamma^\R=\mathcal Z^{-1}\Gamma\mathcal Z$ (Theorem~\ref{bpW:w3:main}, Corollary~\ref{bpW:w3:gamma-real}) and
 $r_1=\rho_1/\sqrt2$; W5's $c_A=2200$ and $\mathcal A_\xi$ (Lemma~\ref{bpW:w5:action-angle}); W6's $s=\frac18$,
 $\sigma_P=s/40$, $s_0=\frac78s=\frac7{64}$, $\sigma_0=s_0/40$, $M$, $\gamma_0$, $\gamma_1$, $\gamma$
-(Definition~\ref{bpW:w6:constants}) and $c_F$, $C_2$ (\S\ref{bpW:w5:ledger}); W7's $\tau=24$, $\theta_0$, $\alpha_0$,
+(Definition~\ref{bpW:w6:constants}), $c_F$ (iteration steps) and $c^\natural_F$, $C^\natural_2$, $t^\natural=53$ (preparatory step)
+(\S\ref{bpW:w5:ledger}); W7's $\tau=24$, $\theta_0$, $\alpha_0$,
 $C_7$, $L_A$, $N_A$, $\omega^0$, $\Omega^0$ (Definitions~\ref{bpW:w7:constdef}, \ref{bpW:w7:omega0},
 Lemma~\ref{bpW:w7:freqcoords}); W2's $M_m$ (Theorem~\ref{bpW:w2:curve}); the transport
 $\tau_E=\tau_{1,1}\times\tau_{1,1}:E_{1,1}\to$ \Lean{WaveSpace}, a linear isometric bijection
@@ -69,7 +71,7 @@ not depend on the proof \Lean{hI}.
   (\Lean{AnalyticAt.continuousAt}).
 \item\label{bpW:w8:ext-exp} \emph{Complex exponential and integers.} $e^{z}=1$ iff $z\in2\pi i\Z$
   (\Lean{Complex.exp\_eq\_one\_iff}); $\abs{e^{ix}}=1$ and $\abs{e^{ix}-1}\le\abs x$ for real $x$
-  (\Lean{Complex.abs\_exp\_ofReal\_mul\_I}, \Lean{Real.norm\_exp\_I\_mul\_ofReal\_sub\_one\_le}); a continuous
+  (\Lean{Complex.norm\_exp\_ofReal\_mul\_I}, \Lean{Real.norm\_exp\_I\_mul\_ofReal\_sub\_one\_le}); a continuous
   function from a connected space ($\R$ or $\R^2$) with values in $\Z\subset\R$ is constant
   (\Lean{IsPreconnected.constant}, with \Lean{isPreconnected\_univ}); if $t\mapsto tc$ is bounded on $\R$ then $c=0$.
 \item\label{bpW:w8:ext-sqrt} \emph{Square roots.} For $a>0$ and $a+b\ge0$: $\abs{\sqrt{a+b}-\sqrt a}\le\abs b/\sqrt a$
@@ -99,7 +101,7 @@ All numbers below are fixed after $m$, in the order written, and depend on $m$ o
 With the constants listed in the standing data, put
 \begin{gather*}
 E_1=1+2C_*+6(2c_A)^{5/2}C'_K,\qquad E_3=\Bigl(1+\frac8M\Bigr)E_1,\qquad
-E_4=c_F\bigl(\gamma\,\sigma_P^{-51}+5\gamma_1\sigma_0^{-51}\bigr),\\
+E_4=c^\natural_F\gamma\,\sigma_P^{-52}+5c_F\gamma_1\sigma_0^{-51},\\
 E_5=\frac{E_3E_4}{\gamma},\qquad E_6=6\sqrt2\,C_F(2c_A)^{3/2},\qquad E_7=162E_5+E_6,\\
 t_0=\min\Bigl\{4^{-64},\ \alpha_0^{64/95},\ \frac{\rho_1^2}{8c_A},\ \Bigl(\frac{\gamma}{E_3}\Bigr)^{64},\
 \Bigl(\frac{7}{256E_5}\Bigr)^{64}\Bigr\},
@@ -140,7 +142,8 @@ For every $n\ge0$:
   the initial perturbation $P$ satisfies $\abs{X_P}^{\lambda}_{r_n,D(s,r_n)}\le\epsilon^\sharp_n$ for
   $\lambda=\alpha_n/M$.
 \item The hypotheses of Lemma~\ref{bpW:w6:prep-step} hold with $\Pi=\Pi_n$, $\alpha=\alpha_n$, $r=r_n$,
-  $\epsilon=\epsilon^\sharp_n$, and those of Remark~\ref{bpW:w6:to-w8} ($c_A(t+r^2)<\rho_1^2$).
+  $\epsilon=\epsilon^\sharp_n$ (in particular $0<\epsilon^\sharp_n\le\gamma\alpha_n$), and those of Remark~\ref{bpW:w6:to-w8}
+  ($c_A(t+r^2)<\rho_1^2$).
 \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -163,7 +166,8 @@ $t_n+r_n^2\le2t_n$, $r_n=t_n^{3/4}$ and $t_n^{-3/4}\le t_n^{-1}$,
 With $\lambda=\alpha_n/M$, $4\lambda/\rho_{\xi,n}=8/M$, so Proposition~\ref{bpW:w5:initial} gives
 $\abs{X_P}^\lambda\le(1+8/M)E_1t_n^{3/2}=\epsilon^\sharp_n$. This is (iii).
 \proofstep{Lemma~\ref{bpW:w6:prep-step}}\label{stepW:w8:sd-prep} $\Pi_n$ is Borel in $\{\abs\xi\le\frac12\}$,
-$0<\alpha_n\le\alpha_0$, $P$ is real periodic in $\Sm_{p+1}(D(s,r_n))$ (Proposition~\ref{bpW:w5:initial}) with
+$0<\alpha_n\le\alpha_0$; the majorant $\epsilon=\epsilon^\sharp_n=E_3t_n^{3/2}$ is positive, since $t_n>0$ and $E_3\ge E_1\ge1$, which is the
+positivity hypothesis $0<\epsilon$ of Lemma~\ref{bpW:w6:prep-step}; $P$ is real periodic in $\Sm_{p+1}(D(s,r_n))$ (Proposition~\ref{bpW:w5:initial}) with
 $\abs{X_P}^{\alpha_n/M}\le\epsilon^\sharp_n\le\gamma\alpha_n$ by (i), (iii). This is (iv).
 \end{proof}
 \source{ours; checks the conditions listed in Remark~\ref{bpW:w6:to-w8} and Proposition~\ref{bpW:w5:initial} (KP96 p.~26,
@@ -172,39 +176,38 @@ Step~3: parameter domain $U_{-4r^2}\Xi_r$, here the margin $\alpha_n\ge4r_n^2$).
 \subsection{The KAM iteration on one shell}\label{bpW:w8:iter-sec}
 
 \begin{lemma}[Sharp size after the preparatory step]\label{bpW:w8:sharp-prep}
-Fix $n$ and run Lemma~\ref{bpW:w6:prep-step} with the data of Lemma~\ref{bpW:w8:shell-data}(iv). Then the new
-perturbation satisfies, with $\lambda_0=\check\alpha_n/(2M)$,
-\[\abs{X_{P_0}}^{\lambda_0}_{r_0,D_0}\le2C_2(\epsilon^\sharp_n)^{4/3}(\hat\alpha_n\sigma_P^{52})^{-1/3}\le\epsilon_{0,n}\le\gamma_1\check\alpha_n.\]
+Fix $n$ and run Lemma~\ref{bpW:w6:prep-step} with the data of Lemma~\ref{bpW:w8:shell-data}(iv), in particular with the positive
+majorant $\epsilon=\epsilon^\sharp_n$. Then $\eta_P=(\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{53}))^{1/3}$ and the new perturbation satisfies,
+with $\lambda_0=\check\alpha_n/(2M)$,
+\[\abs{X_{P_0}}^{\lambda_0}_{r_0,D_0}\le\epsilon^\flat_{0,n}:=2C^\natural_2(\epsilon^\sharp_n)^{4/3}(\hat\alpha_n\sigma_P^{53})^{-1/3}
+\le\epsilon_{0,n}\le\gamma_1\check\alpha_n,\]
+and $\epsilon^\flat_{0,n}>0$.
 \end{lemma}
 \begin{proof}
-\proofstep{The step bound}\label{stepW:w8:sp-step} The preparatory step is Theorem~\ref{bpW:w5:step} in the modified case with
-level $\hat\alpha_n$, $\sigma=\sigma_P$, $\eta_P^3=\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{52})$ and $\lambda=\alpha_n/M\le\hat\alpha_n/M$
-(Steps~\ref{stepW:w6:p-data}--\ref{stepW:w6:p-step}); since $2\beta=\frac12\le p+1-p_+$, \eqref{bpW:w5:newerror} holds for the full
-$\lambda$-norm (Lemma~\ref{bpW:w5:w4-modified}(ii), Step~\ref{stepW:w6:p-gap}):
-$\abs{X_{P_0}}^\lambda\le C_2\bigl(\frac{(\epsilon^\sharp_n)^2}{\hat\alpha_n\sigma_P^{52}\eta_P^2}+\eta_P\epsilon^\sharp_n\bigr)=2C_2\epsilon^\sharp_n\eta_P$,
-which is the displayed middle term. As $\lambda_0\le\lambda$, the $\lambda_0$-norm is not larger.
+\proofstep{The sharp bound}\label{stepW:w8:sp-step} Lemma~\ref{bpW:w6:prep-step}(v) (the sharp size, Lipschitz part included) with
+$\epsilon=\epsilon^\sharp_n$ and $\alpha=\alpha_n$; its $\epsilon^\flat_0$ is $\epsilon^\flat_{0,n}$, positive because $\epsilon^\sharp_n>0$.
 \proofstep{Comparison}\label{stepW:w8:sp-cmp} With $\epsilon^\sharp_n=\kappa_n\gamma\alpha_n$ and $\frac43-\frac13\cdot\frac{44}{47}=\frac{48}{47}$,
-the middle term equals $\kappa_n^{4/3}\cdot2C_2\gamma^{4/3}\sigma_P^{-52/3}\check\alpha_n$, and
-$2C_2\gamma^{4/3}\sigma_P^{-52/3}\le\gamma_1$ because $\gamma\le(\gamma_1\sigma_P^{52/3}/(2C_2))^{3/4}$ (Definition~\ref{bpW:w6:constants}).
-Finally $\kappa_n\le1$ (Lemma~\ref{bpW:w8:shell-data}(i)).
+$\epsilon^\flat_{0,n}=\kappa_n^{4/3}\cdot2C^\natural_2\gamma^{4/3}\sigma_P^{-53/3}\check\alpha_n$, and
+$2C^\natural_2\gamma^{4/3}\sigma_P^{-53/3}\le\gamma_1$ because $\gamma\le(\gamma_1\sigma_P^{53/3}/(2C^\natural_2))^{3/4}$
+(Definition~\ref{bpW:w6:constants}). Hence $\epsilon^\flat_{0,n}\le\kappa_n^{4/3}\gamma_1\check\alpha_n=\epsilon_{0,n}$, and
+$\epsilon_{0,n}\le\gamma_1\check\alpha_n$ as $\kappa_n\le1$ (Lemma~\ref{bpW:w8:shell-data}(i)).
 \end{proof}
 \source{P96-K \S6, p.~141 (``$\abs{X_{P_0}}^\lambda_{\check p,\eta r}\lessdot\frac1{(\hat\alpha\sigma^t)^{\varkappa-1}}(\abs{X_P}^\lambda_{\bar p,r})^\varkappa$''),
-as in Steps~\ref{stepW:w6:p-size}--\ref{stepW:w6:p-gap}; W6 records only the weaker bound $\gamma_1\check\alpha$ in
-Lemma~\ref{bpW:w6:prep-step}(v).}
+in the form of Lemma~\ref{bpW:w6:prep-step}(v).}
 
 \begin{definition}[The shell iteration]\label{bpW:w8:shell-iter}
 For $n\ge0$, the \emph{shell iteration} is Definition~\ref{bpW:w6:wave-iteration} run with the shell data of
-Lemma~\ref{bpW:w8:shell-data}(iv) and with $\epsilon_0=\epsilon_{0,n}$ in place of $\gamma_1\check\alpha_n$ (all other
-entries unchanged: $r_0=\eta_Pr_n$, $\alpha_0^{\rm it}=\check\alpha_n$, $M_0=2M$, $\Pi_{-1}=\Pi_n\setminus\Xi$, $\beta_0=\beta_*$).
+Lemma~\ref{bpW:w8:shell-data}(iv) and with the starting-size parameter $\epsilon_0=\epsilon_{0,n}$, which lies in the
+admissible interval $[\epsilon^\flat_{0,n},\gamma_1\check\alpha_n]$ by Lemma~\ref{bpW:w8:sharp-prep} (the other entries are W6's: $r_0=\eta_Pr_n$, $\alpha_0^{\rm it}=\check\alpha_n$, $M_0=2M$, $\Pi_{-1}=\Pi_n\setminus\Xi$, $\beta_0=\beta_*$).
 Its outputs are written with a superscript $(n)$: $\Pi^{(n)}_*$, $\omega^{(n)}_*$, $\nu^{(n)}_*=\omega^{(n)}_*/(2\pi)$, $\Phi^{(n)}_*$,
 $\Phi^{(n)}_P$, $\tilde\Psi^{(n)}_\xi$ (Theorem~\ref{bpW:w6:tori}), the admissible family
 $(D^{(n)}_\mu,\omega^{(n)}_\mu,\Omega^{(n)}_\mu,K_\mu)_\mu$ and its excluded set $\mathcal E^{(n)}$ (Definition~\ref{bpW:w7:family}),
 and
-\[e^{(n)}_{\rm tor}=\frac{c_F\epsilon^\sharp_n}{\hat\alpha_n\sigma_P^{51}}+\frac{5c_F\epsilon_{0,n}}{\check\alpha_n\sigma_0^{51}},\qquad
+\[e^{(n)}_{\rm tor}=\frac{c^\natural_F\epsilon^\sharp_n}{\hat\alpha_n\sigma_P^{52}}+\frac{5c_F\epsilon_{0,n}}{\check\alpha_n\sigma_0^{51}},\qquad
 \varepsilon^{(n)}_\omega=6\pi\gamma\alpha_n+8\pi\epsilon_{0,n}.\]
 Put $\Gamma_n=\Pi^{(n)}_*$.
 \end{definition}
-\source{ours (W6 Definition~\ref{bpW:w6:wave-iteration} with a smaller admissible $\epsilon_0$).}
+\source{ours (W6 Definition~\ref{bpW:w6:wave-iteration} with a shell-dependent value of its parameter $\epsilon_0$).}
 
 \begin{lemma}[W6 with the sharp starting size]\label{bpW:w8:w6-general}
 For every $n$, the conclusions of Lemma~\ref{bpW:w6:applicable}, Lemma~\ref{bpW:w6:freq-lip} (with
@@ -213,32 +216,25 @@ $\theta=425(1+M)\max(\gamma,\gamma_1)\le\theta_0$), Lemma~\ref{bpW:w6:exclusion}
 Theorem~\ref{bpW:w6:tori} hold for the shell iteration, with $e_{\rm tor}=e^{(n)}_{\rm tor}$ in Theorem~\ref{bpW:w6:tori}(iv).
 \end{lemma}
 \begin{proof}
-\proofstep{Applicability}\label{stepW:w8:g-app} Proposition~\ref{bpW:w6:convergence} is stated for arbitrary data. Its hypotheses:
-$\epsilon_{0,n}\le\gamma_1\check\alpha_n\le\gamma_0\sigma_0^{52}\check\alpha_n$ (Definition~\ref{bpW:w6:constants});
-$\abs{X_{P_0}}^{\lambda_0}\le\epsilon_{0,n}$ by Lemma~\ref{bpW:w8:sharp-prep}; the frequency and $k=0$ hypotheses are those checked in
-the proof of Lemma~\ref{bpW:w6:applicable}, which do not involve $\epsilon_0$ except through $8\epsilon_0\le\beta_*$, and
-$8\epsilon_{0,n}\le8\gamma_1\check\alpha_n\le\beta_*$.
-\proofstep{Frequencies}\label{stepW:w8:g-freq} The proof of Lemma~\ref{bpW:w6:freq-lip} uses $\epsilon_0$ only through the bounds
-$\abs{\omega_\mu-\omega_0}\le8\pi\epsilon_0$, $\abs{\Omega_{\mu,J}-\Omega_{0,J}}\le4\epsilon_0J^{-1/2}$ and the Lipschitz bounds
-$64\pi\epsilon_0/\lambda_0$, $16\epsilon_0/\lambda_0$ of Proposition~\ref{bpW:w6:convergence}(ii), followed by
-$\epsilon_0\le\gamma_1\check\alpha$. With $\epsilon_{0,n}\le\gamma_1\check\alpha_n$ the same steps give (H1)--(H2) with the stated
-$\varepsilon$'s, each $\le\alpha_n$, and the same $\theta$.
-\proofstep{Exclusion and final frequencies}\label{stepW:w8:g-excl} The proofs of Lemmas~\ref{bpW:w6:exclusion} and~\ref{bpW:w6:final-freq}
-use only Proposition~\ref{bpW:w6:convergence}(i)--(ii) with $\alpha^{\rm it}_0=\check\alpha_n$ and the bounds of Step~\ref{stepW:w8:g-freq}.
-\proofstep{Tori}\label{stepW:w8:g-tori} The proof of Theorem~\ref{bpW:w6:tori} uses Proposition~\ref{bpW:w6:convergence}(iii)--(iv),
-Proposition~\ref{bpW:w6:invariance} (stated for arbitrary data), Lemma~\ref{bpW:w6:prep-step} and Lemma~\ref{bpW:w5:action-angle};
-in (iv) $e_\Phi=5c_F\epsilon_0/(\alpha^{\rm it}_0\sigma_0^{51})$ with $\epsilon_0=\epsilon_{0,n}$, and $M_{F,P}=c_F\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{51})$.
+\proofstep{Applicability}\label{stepW:w8:g-app} Lemma~\ref{bpW:w6:applicable} holds for every value of the parameter
+$\epsilon_0\in[\epsilon^\flat_0,\gamma_1\check\alpha]$ of Definition~\ref{bpW:w6:wave-iteration}; $\epsilon_{0,n}$ is such a value
+(Lemma~\ref{bpW:w8:sharp-prep}).
+\proofstep{Frequencies}\label{stepW:w8:g-freq} Lemma~\ref{bpW:w6:freq-lip} for this value of the parameter, with
+$\varepsilon_\omega=6\pi\gamma\alpha_n+8\pi\epsilon_{0,n}$, $\varepsilon_2=4\epsilon_{0,n}$, and $\theta$ independent of $\epsilon_0$.
+\proofstep{Exclusion and final frequencies}\label{stepW:w8:g-excl} Lemmas~\ref{bpW:w6:exclusion} and~\ref{bpW:w6:final-freq} for this value.
+\proofstep{Tori}\label{stepW:w8:g-tori} Theorem~\ref{bpW:w6:tori} for this value; in (iv)
+$e_{\rm tor}=c^\natural_F\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{52})+5c_F\epsilon_{0,n}/(\check\alpha_n\sigma_0^{51})=e^{(n)}_{\rm tor}$.
 \end{proof}
-\source{ours; W6's statements are uniform in $\epsilon_0\le\gamma_1\check\alpha$. Recorded as a deviation request to W6
-(\S\ref{bpW:w8:check}).}
+\source{W6 Definition~\ref{bpW:w6:wave-iteration} and Remark~\ref{bpW:w6:to-w8} (``Starting size'': the results hold for every value of the
+parameter $\epsilon_0\in[\epsilon^\flat_0,\gamma_1\check\alpha]$).}
 
 \begin{lemma}[Shell errors tend to zero]\label{bpW:w8:etor}
 For every $n$: $e^{(n)}_{\rm tor}\le E_4\kappa_n=E_5t_n^{1/64}\le\frac7{256}$, and
 $\varepsilon^{(n)}_\omega\le\alpha_n/(70L_A)\le\alpha_n$.
 \end{lemma}
 \begin{proof}
-\proofstep{$e_{\rm tor}$}\label{stepW:w8:e-tor} $c_F\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{51})=c_F\sigma_P^{-51}\gamma\kappa_n\alpha_n^{3/47}\le
-c_F\sigma_P^{-51}\gamma\kappa_n$ and $5c_F\epsilon_{0,n}/(\check\alpha_n\sigma_0^{51})=5c_F\sigma_0^{-51}\gamma_1\kappa_n^{4/3}\le
+\proofstep{$e_{\rm tor}$}\label{stepW:w8:e-tor} $c^\natural_F\epsilon^\sharp_n/(\hat\alpha_n\sigma_P^{52})=c^\natural_F\sigma_P^{-52}\gamma\kappa_n\alpha_n^{3/47}\le
+c^\natural_F\sigma_P^{-52}\gamma\kappa_n$ and $5c_F\epsilon_{0,n}/(\check\alpha_n\sigma_0^{51})=5c_F\sigma_0^{-51}\gamma_1\kappa_n^{4/3}\le
 5c_F\sigma_0^{-51}\gamma_1\kappa_n$ ($\alpha_n,\kappa_n\le1$). Sum: $E_4\kappa_n=E_4(E_3/\gamma)t_n^{1/64}=E_5t_n^{1/64}\le E_5t_0^{1/64}\le\frac7{256}$ by the last
 entry of $t_0$.
 \proofstep{$\varepsilon_\omega$}\label{stepW:w8:e-om} $\epsilon_{0,n}\le\gamma_1\check\alpha_n\le\gamma_1\alpha_n$, so
@@ -629,15 +625,14 @@ $\eta\ge0$ on $(0,r_0)$; $\eta\to0^+$ & \ref{stepW:w8:p-etapos}, \ref{stepW:w8:p
 
 \subsection{Source check, deviations and ledger}\label{bpW:w8:check}
 
-\begin{remark}[Pages read, deviations, requests]\label{bpW:w8:deviations}
+\begin{remark}[Pages read and deviations]\label{bpW:w8:deviations}
 P96-W pp.~271--273 (PDF 4--6) and pp.~288--291 (PDF 21--24) and KP96 pp.~27--30 (author version) were read for this part. No defect was found
 on these pages beyond those already recorded (E-PDE-W-1/2). Deviations introduced here:
 \begin{enumerate}[label=(\alph*)]
-\item \emph{Sharp starting size (request to W6).} The iteration of each shell starts with $\epsilon_0=\epsilon_{0,n}=\kappa_n^{4/3}\gamma_1\check\alpha_n$
-  instead of W6's $\gamma_1\check\alpha$ (Definition~\ref{bpW:w8:shell-iter}); otherwise $e_\Phi$ is a constant and clause~(3) fails to be
-  $o(r)$. Lemma~\ref{bpW:w8:w6-general} checks that W6's proofs are uniform in $\epsilon_0\le\gamma_1\check\alpha$. W6 should state
-  Definition~\ref{bpW:w6:wave-iteration} with $\epsilon_0$ a parameter in $[2C_2\epsilon^{4/3}(\hat\alpha\sigma_P^{52})^{-1/3},\gamma_1\check\alpha]$ and
-  record the sharp bound of Lemma~\ref{bpW:w8:sharp-prep} in Lemma~\ref{bpW:w6:prep-step}(v), so that the Lean statements carry the parameter.
+\item \emph{Starting size.} Each shell gives W6's parameter $\epsilon_0$ (Definition~\ref{bpW:w6:wave-iteration},
+  Remark~\ref{bpW:w6:to-w8}) the value $\epsilon_{0,n}=\kappa_n^{4/3}\gamma_1\check\alpha_n\in[\epsilon^\flat_{0,n},\gamma_1\check\alpha_n]$, with
+  $\epsilon^\flat_{0,n}$ the sharp size of Lemma~\ref{bpW:w6:prep-step}(v) (Definition~\ref{bpW:w8:shell-iter}, Lemma~\ref{bpW:w8:sharp-prep}); with
+  the upper value $\gamma_1\check\alpha$ the term $e_\Phi$ would be a constant and clause~(3) would not be $o(r)$.
 \item \emph{Injectivity.} Obtained from orbit uniqueness, winding and injectivity of $\nu$ rather than from Lipschitz estimates in $\xi$
   (KP96 p.~28, (11)), which W6 does not provide.
 \item \emph{Closeness at the same angle.} KP96 \S7, Step~7 compares after the radial reparametrization $X^{-1}$; the frozen clause~(3)
