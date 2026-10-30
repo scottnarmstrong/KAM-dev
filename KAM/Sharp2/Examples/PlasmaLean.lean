@@ -112,6 +112,7 @@ theorem freqVar_cert : freqVar.numA.Cert (gammaStar : ℝ) ({omegaStar} : Set (F
       exact sdConst_d2
   bar := fun s hs => by
     have hs' : s < 3 := hs
+    show SDConst 2 1 _ (freqVar.numA.r s) _ _
     rw [CAVar.numA_r]
     interval_cases s
     · rw [show (1 / 50 - 2 * 3 * (333 / 100000) * (1 - (2 : ℝ)⁻¹ ^ 0)) = ((1 / 50 : ℚ) : ℝ) by
@@ -234,6 +235,7 @@ theorem classicalVar_cert {γ : ℝ} (hγ : 0 < γ) :
       norm_num [classicalVar, CAVar.numA, classicalC]
   bar := fun s hs => by
     have hs' : s < 5 := hs
+    show SDConst 2 1 _ (classicalVar.numA.r s) _ _
     rw [CAVar.numA_r]
     interval_cases s <;>
       refine sdConst_classical_le hγ (by norm_num) (by norm_num) ?_ ?_ <;>

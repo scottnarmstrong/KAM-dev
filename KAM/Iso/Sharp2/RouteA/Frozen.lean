@@ -143,6 +143,47 @@ theorem iso_g1_v2A_frozen (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) -
     exact ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9,
       fun θ hθ => (h10 θ hθ).trans (hmono (le_max_right _ _)), h11.trans (hmono (le_max_right _ _))⟩
 
+/-- (J1)–(J3) pass to every smaller threshold. -/
+theorem routeAOkI.mono (hN : N.Wf) {σ m₀ : Fin 9 → ℝ} {X Y : ℝ} (h : routeAOkI N σ m₀ Y)
+    (h0 : 0 ≤ X) (hXY : X ≤ Y) : routeAOkI N σ m₀ X := by
+  have hCE : ∀ s, 0 ≤ (stageI N s).CE := fun s => (hN.pos s).CE
+  have hx : ∀ s, 0 ≤ xI N X s ∧ xI N X s ≤ xI N Y s := xA_mono hCE h0 hXY
+  refine ⟨h0, fun s hs => (h.J1 s hs).down (hN.pos s) (hx s).2,
+    h.J1t.down (hN.pos _) (hx _).2, ?_, fun i => ?_⟩
+  · refine le_trans ?_ h.J2
+    exact mul_le_mul_of_nonneg_left (hx _).2
+      (mul_nonneg (Real.rpow_nonneg zero_le_two _) (hCE _))
+  · refine le_trans (add_le_add le_rfl ?_) (h.J3 i)
+    exact sumA_mono (fun s => rateI_nonneg (hN.pos s) i) (fun s => (hN.δ_pos s).le)
+      (fun s => (hx s).2) _
+
+/-- The literal `IG1Body` with no torsion smallness among the inputs: `routeAOkI` at `X⋆` and the
+certificates suffice, at the threshold `torsionXs N M σK σB X⋆`. -/
+theorem iso_g1_v2A_default (hN : N.Wf) (hiso : N.iso = true) (hτ : (N.n : ℝ) - 1 ≤ N.τ)
+    {M σK σB σT μ γbar σω ν Xs : ℝ} (hM : 0 < M) (hσK : 0 < σK) (hσB : 0 < σB) (hσT : 0 < σT)
+    (hμ : 0 < μ) (hσω : 1 < σω) (hν : 0 < ν) (ωstar : Fin N.n → ℝ) (hωstar : ωstar ≠ 0)
+    (hγbar : γbar = N.γb) (hsK : N.sK = σK - μ / 2) (hΘ : N.Θ = σω * ‖ωstar‖)
+    (hHY : N.HY = M * N.sN) (hM1 : N.M1 = M) (hM2 : N.M2 = M) (hMh2 : N.Mh2 = M)
+    (hOk : routeAOkI N (capI N (μ / 2) (ν / 2)) (initI (defaultInit N.n M σK σB μ) σK σB σT μ) Xs)
+    (hXpos : 0 < Xs)
+    (hcert : ∀ γ, 0 < γ → γ ≤ γbar → N.Cert γ {ω | IsDiophantine γ N.τ ω}) :
+    0 < min (sharpIsoC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ ν N.τ N.ρ N.ρinf)
+        (c1A N (torsionXs N M σK σB Xs)) ∧
+      0 < max (sharpIsoC2 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf)
+        (c2I N (torsionXs N M σK σB Xs)) ∧
+      0 < max (sharpIsoC3 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf)
+        (c3I N (torsionXs N M σK σB Xs)) ∧
+      KAM.Iso.Charts.IG1Body N.n N.τ N.ρ N.ρinf M σK σB σT μ γbar σω ν ωstar
+        (min (sharpIsoC1 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar μ ν N.τ N.ρ N.ρinf)
+          (c1A N (torsionXs N M σK σB Xs)))
+        (max (sharpIsoC2 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf)
+          (c2I N (torsionXs N M σK σB Xs)))
+        (max (sharpIsoC3 N.n N.τ (cohConstR N.n N.τ) M σK σB σT γbar N.τ N.ρ N.ρinf)
+          (c3I N (torsionXs N M σK σB Xs))) := by
+  obtain ⟨h1, h2, h3⟩ := torsionXs_spec hN hM hσK hσB hXpos
+  exact iso_g1_v2A_frozen hN hiso hτ hM hσK hσB hσT hμ hσω hν ωstar hωstar hγbar hsK hΘ hHY hM1 hM2
+    hMh2 (hOk.mono hN h1.le h2) h1 h3 hcert
+
 end KAM.Iso.Sharp2.RouteA
 
 end

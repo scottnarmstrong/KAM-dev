@@ -47,17 +47,16 @@ variable {N : NumA} {τ M : ℝ} {𝔅 : Set ((Fin N.n → ℂ) × (Fin N.n → 
   {h : (Fin N.n → ℂ) × (Fin N.n → ℂ) → ℂ} {ω : Fin N.n → ℝ} {γ : ℝ}
   {Ω : Set (Fin N.n → ℝ)}
 
-/-- The small-divisor inputs of `step_A` at stage `s`: in the prefix the full bite `r_s`, in the
-tail
-the bite `δ_s` itself. -/
+/-- The small-divisor inputs of `step_A` at stage `s`: in the prefix the bite `b_s ≤ r_s`, in the
+tail the bite `δ_s` itself. -/
 theorem NumA.Cert.at (hN : N.Wf) (hC : N.Cert γ Ω) (s : ℕ) :
     SDConst N.n N.τ γ (N.δ s) (N.cS s) Ω ∧ ∃ b cb, SDConst N.n N.τ γ b cb Ω ∧ b ≤ N.r s ∧
       cb * b ^ (-N.τ) ≤ N.caS s * N.δ s ^ (-N.τ) := by
   have hδ := hN.δ_pos s
-  have hr := hN.r_pos s
   by_cases hs : s < N.kp
-  · refine ⟨by simpa [NumA.cS, hs] using hC.stage s hs, N.r s, N.cbar s, hC.bar s hs, le_rfl, ?_⟩
-    have h1 : (N.δ s / N.r s) ^ N.τ * N.δ s ^ (-N.τ) = N.r s ^ (-N.τ) := by
+  · obtain ⟨hr, hbr⟩ := hN.bbar s hs
+    refine ⟨by simpa [NumA.cS, hs] using hC.stage s hs, N.bbar s, N.cbar s, hC.bar s hs, hbr, ?_⟩
+    have h1 : (N.δ s / N.bbar s) ^ N.τ * N.δ s ^ (-N.τ) = N.bbar s ^ (-N.τ) := by
       rw [Real.div_rpow hδ.le hr.le, Real.rpow_neg hδ.le, Real.rpow_neg hr.le]
       have := Real.rpow_pos_of_pos hδ N.τ
       have := Real.rpow_pos_of_pos hr N.τ

@@ -158,6 +158,8 @@ theorem wf (hB : 0 < V.sB) (hT : 0 < V.sT) (hLt : 0 ≤ V.sLt) (hN : 0 ≤ V.sN)
   Θ := le_rfl
   HY := le_rfl
   Mh2 := le_rfl
+  bbar := fun s _ =>
+    ⟨NumA.r_pos_of (N := V.numA) (by norm_num [numA]) (by norm_num [numA]) s, le_rfl⟩
 
 theorem delta0_eq : Engine.delta0 3 V.numA.ρ V.numA.ρinf = 333 / 100000 := by
   norm_num [Engine.delta0, numA]

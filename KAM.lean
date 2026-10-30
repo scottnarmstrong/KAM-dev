@@ -1450,6 +1450,7 @@ public import KAM.Sharp2.RouteA.Frames
 public import KAM.Sharp2.RouteA.Frozen
 public import KAM.Sharp2.RouteA.G1
 public import KAM.Sharp2.RouteA.Geometry
+public import KAM.Sharp2.RouteA.Mono
 public import KAM.Sharp2.RouteA.NewtonError
 public import KAM.Sharp2.RouteA.Scheme
 public import KAM.Sharp2.RouteA.Step

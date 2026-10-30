@@ -281,7 +281,8 @@ theorem cast_inp (s : ℕ) : Q.toA.inp s = (Q.inp s).toA := by
   have hca : Q.toA.caS s = (Q.caS s : ℝ) := by
     by_cases h : s < Q.kp
     · simp only [NumA.caS, caS]
-      rw [if_pos (show s < Q.toA.kp from h), if_pos h, cast_δ, cast_r]
+      rw [if_pos (show s < Q.toA.kp from h), if_pos h, cast_δ,
+        show Q.toA.bbar s = Q.toA.r s from rfl, cast_r]
       show (Q.cbar s : ℝ) * ((Q.δ s : ℝ) / (Q.r s : ℝ)) ^ (1 : ℝ) = _
       rw [Real.rpow_one]
       push_cast

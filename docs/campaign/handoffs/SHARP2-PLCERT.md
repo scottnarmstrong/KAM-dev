@@ -69,8 +69,10 @@ sharp; the design's 0.0687 is PlasmaLean's convention.
 
 Prefix length: with the frequency constants the threshold is flat past 3 (−16.75 at both 3 and 4 in
 a coarser model), so `δ₃` and `r₃` were not certified. The gain over the design's −17.27 comes from
-tight cap budgets (0.01–0.03% on `sB`, `sLt`, `sN`, `sNt` against the design's 5%), not from the
-frequency constants. `c_tail` is the classical constant at the actual entry bite δ_kp (audit F2, F3).
+the budgets, not from the frequency constants: with the design's 5% caps the same constants give
+−17.30. Here `sB`, `sLt`, `sN`, `sNt` have 0.01–0.03% and the twist cap is wide (6.1 against 50/11,
+with ϑ = 0.19). `c_tail` is the classical constant at the actual entry bite δ_kp (audit F2, F3). X⋆ is
+strictly interior: 441/10⁶ against an edge of about 441.49/10⁶.
 
 ## Files
 
@@ -86,6 +88,7 @@ frequency constants. `c_tail` is the classical constant at the actual entry bite
 - `KAM/Sharp2/Examples/MirrorQ.lean`: the rational mirror of route A at τ = 1, with `NumQ.ok_sound`
   into `routeAOk`.
 - `KAM.lean`: regenerated.
+- Follow-ups: see below.
 
 ## Kernel cost
 
@@ -144,6 +147,38 @@ are unchanged.
   `h(θ, I) = ω*·I + (a/2)|I|²`, `a ∈ [0.22, 3]`, `K(θ) = (θ, 0)` on a small neighbourhood.
 - The fiber bound loses 8.7% in S at r₀ and 2% at δ₀ against the true sum; the effect on e\* is about
   0.02 orders. A direct sum at r₀ would recover it.
+
+## Audit follow-ups (AUDIT-ROUTEA-1), done on this branch
+
+These modify route-A files, as the orchestrator's note asked. Route-A theorems keep their meaning; the
+API changes are listed.
+
+- **F1, default data.** `KAM/Sharp2/RouteA/Mono.lean` (new): `xA_mono`, `sumA_mono`, `routeAOk.mono`.
+  `routeAOkI.mono` in the iso `Frozen.lean`. New in `Frozen.lean`: `torsionCoef`, `torsionXs =
+  min X⋆ (1 + torsionCoef)⁻¹`, `torsionXs_spec`, `g1_v2A_default`; iso: `iso_g1_v2A_default`. These
+  conclude the literal `G1Body`/`IG1Body` from `routeAOk` and the certificates, with no `TorsionOk`
+  input, at the threshold `torsionXs`. `g1_v2A_frozen` and `iso_g1_v2A_frozen` are unchanged. The
+  certificates `hcert` remain an input, as they must (`NumA.cert_classical` supplies them). On R1's
+  default data the torsion inequality does not bind: the mirror's new column gives −21.07 and −21.09
+  with `torsionXs`, unchanged.
+- **F3, stage bite.** `NumA` gains `bbar : ℕ → ℝ := fun s => rSeq 3 ρ ρinf s`, `NumA.Wf` gains
+  `bbar : ∀ s < kp, 0 < bbar s ∧ bbar s ≤ r s`, `caS` is `cbar s (δ s / bbar s)^τ`, and `Cert.bar` is at
+  the bite `bbar s`. `NumA.cert_classical` now takes `hb1 : ∀ s < kp, bbar s ≤ 1` in place of `ρ ≤ 1`,
+  and `hcb` at `bbar s`, so `b_s = min r_s 1` serves every strip. `NumA.cert_freq` is at `bbar s`. API
+  change: anyone building `NumA.Wf` must supply the new field (`NumA.r_pos_of` does it at the default
+  bite). In the tree only this package does. `blueprint/parts/p2s2-modified.tex` is not updated.
+- **F2, k = 5 mirror.** `route_a_lean_mirror.py` calls `c_stages(..., k=5)` at both call sites, and `ca`
+  uses `min(r, 1)` as the bite. The eight mirror rows are unchanged at the printed precision.
+
+Checks after the follow-ups: `lake build KAM.Sharp2.RouteA.Frozen KAM.Iso.Sharp2.RouteA.Frozen` and
+`lake build KAM.Sharp2.Examples.PlasmaLean` succeed (3346 and 3384 jobs); `#print axioms` on
+`plasmaLean_torus`, `plasmaLean_classical`, `g1_v2A_default`, `iso_g1_v2A_default`, `routeAOk.mono`,
+`NumA.cert_classical`, `NumA.cert_freq` gives `[propext, Classical.choice, Quot.sound]`; lint reports no
+line in `KAM/Sharp2/RouteA`, `KAM/Iso/Sharp2/RouteA` or `KAM/Sharp2/Examples`. The whole library was not
+built (forbidden here). Other modules importing route A: none outside these targets, by grep on
+`NumA.Wf`, `cert_classical`, `cert_freq`. The audit's F4 (lint) is untouched.
+
+Not done: the audit's own-source sign defect at `blueprint/parts/p2s2-modified.tex:69,79` stays open.
 
 ## Suspected errata
 
