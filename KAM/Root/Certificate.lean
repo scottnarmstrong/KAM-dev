@@ -28,10 +28,12 @@ public import KAM.Certificate.Expr.Basic
 public import KAM.Certificate.Expr.Compose
 public import KAM.Certificate.Expr.ComposeModels
 public import KAM.Certificate.Expr.Diff
+public import KAM.Certificate.Expr.DiffBuf
 public import KAM.Certificate.Expr.DiffBuild
 public import KAM.Certificate.Expr.DiffCalculus
 public import KAM.Certificate.Expr.DiffCalculus3
 public import KAM.Certificate.Expr.DiffCalculusSqrt
+public import KAM.Certificate.Expr.DiffCompile
 public import KAM.Certificate.Expr.DiffNode
 public import KAM.Certificate.Expr.DiffNodeSqrt
 public import KAM.Certificate.Expr.Slp
