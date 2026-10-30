@@ -1416,12 +1416,17 @@ public import KAM.Sharp.Step
 public import KAM.Sharp.Tools
 public import KAM.Sharp.TorsionBound
 public import KAM.Sharp.TorsionPoly
+public import KAM.Sharp2.Data
 public import KAM.Sharp2.Engine
 public import KAM.Sharp2.EngineArith
+public import KAM.Sharp2.Geometry
 public import KAM.Sharp2.ModConstants
 public import KAM.Sharp2.ModConstantsBd
 public import KAM.Sharp2.ModConstantsData
 public import KAM.Sharp2.ModConstantsMono
+public import KAM.Sharp2.SmallDiv.Bound
+public import KAM.Sharp2.SmallDiv.Defs
+public import KAM.Sharp2.SmallDiv.Solution
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
