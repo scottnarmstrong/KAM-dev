@@ -9,7 +9,13 @@ the largest Xstar with routeAOk, reported as log10 of e* = Xstar gamma^4 delta0^
 Compared with `thresholdA` of thresholds_v2.py (the design mirror): the deviations of the Lean statement are
   * the cap of |DK| is sigma_K - mu/2 (the frozen conclusion), not sigma_K;
   * the tail keeps delta_kp in the constants instead of the absorbed gamma_bar^i.
-Both only help.  Usage:  python3 -I scripts/apost_sharp/route_a_lean_mirror.py
+Both only help.
+
+`route_a_ok_ref` evaluates `routeAOkR` and `Ref.Budget` of KAM/Sharp2/RouteA/Ref (lever L8', the torsion against the
+initial torus): the conditions without the Neumann condition of <T_bar>, the local bound B_loc x <= b_F with the constant
+c_{s+1} at the bite delta_s/2, and the sum of the rates of T_ab plus 2 b_F below beta_T and below the cap of |T|.
+
+Usage:  python3 -I scripts/apost_sharp/route_a_lean_mirror.py
 """
 import math, os, sys
 from fractions import Fraction as F
@@ -60,7 +66,13 @@ def stage_consts(p):
     rates = [CDK, n * CDK, CB * CDK, rT, 2 * n * CDK, CNd * CDK, CNtd * CDK, CDT] + ([CDw] if iso else [])
     cond = [(gb ** 4 * d ** (4 * kap - 1), 1.0), (CSym * gb ** 3 * d ** (3 * kap - 1), 0.5), (CE, 1.0),
             (sT * CDT * gb ** 2 * d ** (2 * kap - 1), th), (sB * CGr * CDK * gb ** 2 * d ** (2 * kap - 1), th)]
-    return dict(CE=CE, rates=rates, cond=cond)
+    rAb = max(CDab * CDK + CDw * d, n * CDw * d) if iso else CDab * CDK
+
+    def bLoc(ch):
+        b0 = (n * sNt * sB * gb ** 4 * d ** (4 * kap - 1) +
+              2 ** (kap + 1) * sB ** 3 * w * (2 * (n - 1) * ch * sLt) * gb ** 3 * d ** (3 * kap - 1))
+        return max(b0, n * sNt * gb ** 4 * d ** (4 * kap)) if iso else b0
+    return dict(CE=CE, rates=rates, cond=cond, rAb=rAb, bLoc=bLoc)
 
 
 JA = [0, 1, 1, 1, 1, 1, 1, 1, 0]
@@ -93,11 +105,50 @@ def route_a_ok(N, Xs):
     return all(N["m0"][i] + used[i] <= N["cap"][i] for i in range(nr))
 
 
-def threshold(N):
+def route_a_ok_ref(N, Xs):
+    """`routeAOkR` / `routeAOkRI` and `Ref.Budget` (lever L8').  The caps of T_ab and |T| are replaced by one sum."""
+    kap, kp, gb = N["tau"], N["kp"], N["gb"]
+    a = 2 * kap
+    x = Xs
+    nr = len(N["m0"])
+    idx = [i for i in range(nr) if i not in (3, 7)]
+    used = [0.0] * nr
+    ab = bF = 0.0
+
+    def step(s, weight):
+        nonlocal ab, bF
+        st = stage_consts(N["inp"](s))
+        if any(co * x > bd for i, (co, bd) in enumerate(st["cond"]) if i != 3):
+            return None
+        dl = N["delta"](s)
+        for i in idx:
+            used[i] += weight * st["rates"][i] * x * (gb ** 2 * dl ** (a - JA[i]))
+        ab += weight * st["rAb"] * x * (gb ** 2 * dl ** (a - 1))
+        bF = max(bF, st["bLoc"](N["cnext"](s)) * x)
+        return st
+    for s in range(kp):
+        st = step(s, 1.0)
+        if st is None:
+            return False
+        x = 2 ** (2 * a) * st["CE"] * x ** 2
+        if x > 1e200:
+            return False
+    st = step(kp, 2.0)
+    if st is None or 2 ** (2 * a) * st["CE"] * x > 1:
+        return False
+    sT, t = N["cap"][3], N["cap"][7]
+    mT, iH = N["m0"][3], N["m0"][7]
+    if ab + 2 * bF > min((sT - mT) / (sT * mT), t - iH):
+        return False
+    return all(N["m0"][i] + used[i] <= N["cap"][i] for i in idx)
+
+
+def threshold(N, ok=None):
+    ok = ok or route_a_ok
     lo, hi = -60.0, 30.0
     for _ in range(70):
         mid = (lo + hi) / 2
-        if route_a_ok(N, 10 ** mid):
+        if ok(N, 10 ** mid):
             lo = mid
         else:
             hi = mid
@@ -135,12 +186,15 @@ def num_from(D, st, ct, k=5, iso=False):
     if iso:
         m0 = m0 + [0.0]
         cap = cap + [f(D["nu"]) / 2]
-    return dict(tau=tau, kp=k, gb=gb, gamma=gam, delta=delta, inp=inp, m0=m0, cap=cap)
+    ctail = ct[0] if isinstance(ct, tuple) else ct
+    cnext = lambda s: f(st(s + 1)[0]) if s + 1 < k else f(ctail)  # Lean's N.cS (s + 1): the constant at delta_s / 2
+    return dict(tau=tau, kp=k, gb=gb, gamma=gam, delta=delta, inp=inp, m0=m0, cap=cap, cnext=cnext)
 
 
 def main():
-    print("| package | small divisors | design mirror (thresholdA) | Lean routeAOk | Lean - design |")
-    print("|---|---|---:|---:|---:|")
+    print("| package | small divisors | design mirror (thresholdA, L8') | Lean routeAOk | Lean routeAOkR (L8') | "
+          "L8' - design |")
+    print("|---|---|---:|---:|---:|---:|")
     F20 = F(1, 20)
     for name, D0 in (("R1", T2.package("R1")), ("H50", T2.package_H50())):
         Dv = T2.with_caps(D0, F20)
@@ -149,8 +203,9 @@ def main():
         st, ct = T2.c_stages(Dv, "freq", k=5)
         for iso in (False, True):
             ld = T2.thresholdA(Dv, o, iso, k=5, c_stage=st, c_tail=ct)[0]
-            lL = threshold(num_from(Dv, st, ct, iso=iso))
-            print("| %s %s | freq | %.2f | %.2f | %+.2f |" % (name, "iso" if iso else "fixed", ld, lL, lL - ld))
+            Nv = num_from(Dv, st, ct, iso=iso)
+            lL, lR = threshold(Nv), threshold(Nv, route_a_ok_ref)
+            print("| %s %s | freq | %.2f | %.2f | %.2f | %+.2f |" % (name, "iso" if iso else "fixed", ld, lL, lR, lR - ld))
     for tag in ("cA-like", "R1-like"):
         D = Dom.plasmalean_data(tag)
         Dv = T2.with_caps(D, F20)
@@ -163,9 +218,11 @@ def main():
         o = dict(L1=True, torsion_cap=Dv["Tsup_cap"], torsion_real=Dv["Tsup_cap"], omega_eta=True, avg_full_bite=True,
                  keep_delta=True, caps_tilde=True, free_budgets=True)
         ld = T2.thresholdA(Dv, o, False, k=5, c_stage=st, c_tail=ct)[0]
-        lL = threshold(num_from(Dv, st, ct))
+        Nv = num_from(Dv, st, ct)
+        lL, lR = threshold(Nv), threshold(Nv, route_a_ok_ref)
         tol = Dom.PLASMALEAN["log10_tolerance"]
-        print("| PlasmaLean %s | freq | %.2f | %.2f | %+.2f | (vs its %.2f: %+.2f) |" % (tag, ld, lL, lL - ld, tol, lL - tol))
+        print("| PlasmaLean %s | freq | %.2f | %.2f | %.2f | %+.2f | (vs its %.2f: %+.2f) |" %
+              (tag, ld, lL, lR, lR - ld, tol, lR - tol))
 
 
 if __name__ == "__main__":
