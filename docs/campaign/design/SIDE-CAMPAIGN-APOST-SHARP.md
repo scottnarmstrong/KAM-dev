@@ -16,7 +16,7 @@ memory) and is needed for any client with n ≥ 3.
 |---|---|---|
 | SHARP-PARSEVAL | `KAM.cohomological_parseval`, `KAM.cohomological_operator_parseval`: exponent τ + n/2, constant `cohConstP` (`KAM/Strip/CohomologicalParseval*.lean`) | integrated |
 | SHARP-BOX | `KAM.Sharp.g1_box`, `KAM.Iso.Sharp.g1_box`: one certificate covers a parameter box (corollaries of the sealed explicit theorems) | integrated |
-| SHARP-RUSSMANN-COH | Rüssmann's estimate, exponent τ (`KAM/Strip/CohomologicalRussmann*.lean`) | in progress |
+| SHARP-RUSSMANN-COH | `KAM.cohomological_russmann`, `KAM.cohomological_operator_russmann`: Rüssmann's exponent τ, constant `cohConstR` (`KAM/Strip/CohomologicalRussmann*.lean`) | integrated |
 | SHARP-DESIGN | blueprint `p2s-sharp` (fixed frequency) and `p2s-iso-sharp`: HL19 torsion route (no 1/δ), torsion perturbation O(d/δ), 3δ schedule, separate norms, generic small-divisor data, one Newton engine for both theorems; exact signatures; threshold mirror script | in progress |
 | SHARP-ENGINE, SHARP-K, SHARP-ISO | Lean proofs of `KAM.Sharp.g1_sharp` and `KAM.Iso.Sharp.g1_sharp` | after design audit |
 | SHARP-CERT | a second certificate checker beside the existing one, sound through `KAM.Iso.Sharp.g1_sharp` (new files only) | last |
