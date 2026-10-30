@@ -43,13 +43,15 @@ def lagModel (W : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α)
     (Mm : ℕ → ℕ → CertModel α) (i j : ℕ) : CertModel α :=
   dotModel W cfg pe (n + n) (fun a => Mm a i) (fun a => omegaRow n Mm a j)
 
-/-- The entry models of `DK`. -/
-def dkM (c : TorusCertificate n α) : ℕ → ℕ → CertModel α :=
-  fun a j => modelMatrixEntry (dkModels n c.emb c.weight c.piEnc) a j
+/-- The entry models of `DK`, built at the weight `W` (exact for a polynomial embedding; the
+weight only enters the rounding radii, so it is the weight of the strip to be bounded). -/
+def dkM (c : TorusCertificate n α) (W : CertWeight) : ℕ → ℕ → CertModel α :=
+  fun a j => modelMatrixEntry (dkModels n c.emb W c.piEnc) a j
 
-/-- The entry models of `D(K + ΔK)`. -/
-def dk1M (c : TorusCertificate n α) (dK : CertEmbedding α) : ℕ → ℕ → CertModel α :=
-  fun a j => CertModel.addMixed c.weight c.piEnc (dkM c a j) (dstepModel n c.weight c.piEnc dK a j)
+/-- The entry models of `D(K + ΔK)`, at the weight `W`. -/
+def dk1M (c : TorusCertificate n α) (W : CertWeight) (dK : CertEmbedding α) :
+    ℕ → ℕ → CertModel α :=
+  fun a j => CertModel.addMixed W c.piEnc (dkM c W a j) (dstepModel n W c.piEnc dK a j)
 
 /-- `‖Ω‖ ≤ o` from the row sums of the entry bounds at the weight `Wb`. -/
 def omegaOk (W Wb : CertWeight) (cfg : ModelConfig α) (pe : PiEnclosure α)
@@ -99,19 +101,19 @@ theorem lagModel_encloses {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N =
   rw [Equiv.sum_comp finSumFinEquiv.symm (fun x => M θ x i * (omegaZeroMatrix n * M θ) x j)]
   rfl
 
-theorem dkM_encloses {c : TorusCertificate n α} (hs : checkStatic c = true) (x : Fin n ⊕ Fin n)
-    (j : Fin n) : (dkM c (phaseNat x) j.val).Encloses n c.weight.rho
-      (fun θ => tangentMat c.K θ x j) := by
+theorem dkM_encloses {c : TorusCertificate n α} (hs : checkStatic c = true) {W : CertWeight}
+    {s N : ℕ} (hW : checkWeight W s N = true) (x : Fin n ⊕ Fin n) (j : Fin n) :
+    (dkM c W (phaseNat x) j.val).Encloses n W.rho (fun θ => tangentMat c.K θ x j) := by
   have S := checkStatic_sound hs
-  exact dkModels_encloses S.hW S.hpe c.emb x j
+  exact dkModels_encloses hW S.hpe c.emb x j
 
-theorem dk1M_encloses {c : TorusCertificate n α} (hs : checkStatic c = true)
-    (dK : CertEmbedding α) (x : Fin n ⊕ Fin n) (j : Fin n) :
-    (dk1M c dK (phaseNat x) j.val).Encloses n c.weight.rho
+theorem dk1M_encloses {c : TorusCertificate n α} (hs : checkStatic c = true) {W : CertWeight}
+    {s N : ℕ} (hW : checkWeight W s N = true) (dK : CertEmbedding α) (x : Fin n ⊕ Fin n)
+    (j : Fin n) : (dk1M c W dK (phaseNat x) j.val).Encloses n W.rho
       (fun θ => tangentMat (c.K + stepFun n dK) θ x j) := by
   have S := checkStatic_sound hs
-  refine ((dkM_encloses hs x j).addMixed S.hW S.hpe
-    (dstepModel_encloses S.hW S.hpe dK x j)).of_eq_fun fun θ => ?_
+  refine ((dkM_encloses hs hW x j).addMixed hW S.hpe
+    (dstepModel_encloses hW S.hpe dK x j)).of_eq_fun fun θ => ?_
   have e : tangentMat (c.K + stepFun n dK) θ = tangentMat c.K θ + tangentMat (stepFun n dK) θ :=
     KAM.Sharp2.Hybrid.tangentMat_add_step ((c.emb.differentiable_eval n) θ)
       ((differentiable_stepFun dK) θ)
