@@ -81,11 +81,11 @@ T = 1 holds for every ε, because the potential does not touch `DX_h` on the nor
 ## Uncertainties
 
 - The witness shows the hypotheses can be met. It says nothing about PlasmaLean's field.
-- The bound ‖E‖ ≤ 26ε is crude (‖sin‖ ≤ 2 on the strip, where 1.14 would do). The largest ε covered,
-  7·10⁻¹⁹, could be raised about 1.7 times. This does not matter for non-vacuity.
+- The bound ‖E‖ ≤ 26ε is crude: it uses ‖sin‖ ≤ 2, where cosh(2π·2/50) ≈ 1.03 holds on the strip. The
+  largest ε covered, 7·10⁻¹⁹, could be nearly doubled. This does not matter for non-vacuity.
 - That the two-wave Hamiltonian is non-integrable is the standard picture, not something proved here.
   What is proved is that `plK` is not invariant for ε ≠ 0 and that a true torus of frequency ω\* lies
-  within 22226503·26ε. At this size of ε the result is far inside any regime of practical interest.
+  within 22226503·26ε, with ε of order 10⁻¹⁸, so this is purely a small-perturbation statement.
 - `plasmaLean_torus_integrable` is a type-level check that the theorem applies; at e = 0 its content
   is trivial.
 
