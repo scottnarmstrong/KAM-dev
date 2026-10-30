@@ -35,6 +35,12 @@ CUT_LOW = int(os.environ.get("SO_CUT_LOW", "30"))   # SO-GEN3: env
 TAYLOR, HALV = 30, 12
 BUDGET = {"cfgFull": F(1, 10 ** int(os.environ.get("SO_BUDGET_FULL", "80"))), "cfgLow": F(1, 10 ** 8)}   # SO-GEN3: env
 SOS_BITS = 40
+# SO-V2PKG: env overrides (absent: unchanged).  SO_DISP_COEF: disp = up3(coef * err) (the v2 refined coefficient
+# C/(gamma^2 rho^2) of v2_r2.py); SO_GRAPH_SLACK: the SOS margin of the pLo/pHi lower bounds (default 3/10000);
+# SO_MONO_SLACK: use an SOS witness for mono too, with this margin (default: none, the crude bound).
+DISP_COEF = F(os.environ["SO_DISP_COEF"]) if os.environ.get("SO_DISP_COEF") else None
+GRAPH_SLACK = F(os.environ.get("SO_GRAPH_SLACK", "3/10000"))
+MONO_SLACK = F(os.environ["SO_MONO_SLACK"]) if os.environ.get("SO_MONO_SLACK") else None
 
 
 def log(*a):
@@ -196,6 +202,8 @@ def main(which, outdir):
     else:
         c2 = TC.isoC2Q(2, p["tau"], p["rho"], p["rhoInf"], p["M"], p["sK"], p["sB"], p["sT"])
         disp = up3(c2 * err / (p["gamma"] ** 2 * p["rho"] ** 2))
+    if DISP_COEF is not None:
+        disp = up3(DISP_COEF * err)
     c.params = L.lunarR1(err, disp)
     rep["err"], rep["disp"] = str(err), str(disp)
     log("err", fl(err), "disp", fl(disp))
@@ -211,9 +219,9 @@ def main(which, outdir):
     gi = {}
     fm = C.soGraphMonoModel(B, c)
     fa = C.soGraphActionModel(B, c)
-    mono0, mono, gM = graph_side(B, c, fm, None, "mono", gi)
-    pLo0, pLo, gL = graph_side(B, c, fa, F(3, 10000), "pLo", gi)
-    nhi0, nhi, gH = graph_side(B, c, M.negM(B, fa), F(3, 10000), "pHi", gi)
+    mono0, mono, gM = graph_side(B, c, fm, MONO_SLACK, "mono", gi)
+    pLo0, pLo, gL = graph_side(B, c, fa, GRAPH_SLACK, "pLo", gi)
+    nhi0, nhi, gH = graph_side(B, c, M.negM(B, fa), GRAPH_SLACK, "pHi", gi)
     c.graph = dict(mono=mono, mono0=mono0, sosMono=gM, pLo=pLo, pLo0=pLo0, sosLo=gL, pHi=-nhi, pHi0=-nhi0, sosHi=gH)
     rep["graph_choice"] = gi
     log("graph", json.dumps(gi))
