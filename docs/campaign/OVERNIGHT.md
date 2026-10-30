@@ -1329,3 +1329,11 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   depends on the frozen import sets (a larger import set can pick another NormedSpace ℝ instance path in
   IsAnalyticTorusEmbedding); the import sets match the drafts. Phase 2: blueprint parts W1 and W3 being written. HQ:
   track W and track SO part 3 now rows of the 'Part of the project' table (weights 64 and 16; derived).
+- **15:18. SO-BALLDY in audit; track W freeze on main; Codex nearly exhausted.** SO-BALLDY's checker commit was
+  cherry-picked onto inp as landing branch inp-soballdy-oninp (diff vs inp: Expr/Ball.lean and the new
+  Expr/BallRound.lean); the gate build of BallRound, Ball, Sound.Ham, Tests.Toy2d and CertificateSharp.Sound is clean;
+  audit request bd736e97, auditor inp-maud-soballdyl on codex-3. kam-inp landed the track W freeze at 762a7e3d (158
+  anchors; `nlw2` the one draft); acknowledged to kam-d4, HQ stage texts of SO-1, SO-2 and W refreshed. Disk 11 GB free
+  after the sweep (the three large worktrees are live SO work; soballdy goes when BALLDY lands). Codex: codex-3 at 11 %
+  weekly is the only working login (codex-1 0 %, codex-2 3 %, codex-4 signed out, codex-5 check failing), so audits
+  after this one use fresh Claude Opus auditor sessions (claude-12 85 %, claude-6 74 %), recorded as such.
