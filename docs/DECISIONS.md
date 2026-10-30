@@ -348,3 +348,9 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   locked forever".)* Scoping study for librational invariant tori around the synchronous periodic orbit (Celletti
   1994), the route for the Lean statement (certified normal form or a G1 for non-graph tori), and a numerical
   feasibility check; no statement is frozen without owner approval of its exact Lean text.
+- **D43 (2026-10-30, 16:00) The generated root is split into parts.** *(Scott: option (b) of "exempt the root from
+  the 1500-line rule / split it / leave it".)* `scripts/gen_root_imports.py` writes `KAM.lean`, which imports one
+  generated part `KAM.Root.<Area>` per top-level area (an area with more than 1000 modules is split further by
+  its next name component), so no generated file reaches the 1500-line cap (the root was 1489 lines). The parts
+  count as the root for the provider and DRAFT_SORRY rules; no module other than `KAM.lean` may import a part
+  (lint). `hq-update.sh` and `land-branch.sh` regenerate and stage `KAM.lean` and `KAM/Root/` together.
