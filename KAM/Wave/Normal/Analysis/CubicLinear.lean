@@ -53,7 +53,7 @@ lemma wave_trilinear_terms_summable (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 �
       (waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) *
         waveQuartic t.1 t.2.1 t.2.2 l := by
   have h := (wave_trilinear_bound m hm ha hp hq hq' hq'').1 l
-  have hpos : 0 < Real.sqrt (lam m hm l) := sqrt_lam_pos m hm l
+  have hpos : 0 < Real.sqrt (lam m hm l) := wave_sqrt_lam_pos m hm l
   refine (h.of_abs.mul_left (Real.sqrt (lam m hm l))).congr fun t => ?_
   field_simp
 

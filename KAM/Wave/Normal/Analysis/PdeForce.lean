@@ -45,11 +45,11 @@ lemma waveEll_sub {a p : ℝ} {c d : ℕ+ → ℝ} (hc : WaveEll a p c) (hd : Wa
   refine this.congr fun j => ?_
   ring
 
-lemma abs_lam_le (m : ℝ) (hm : 0 < m) (j : ℕ+) : |lam m hm j| ≤ (1 + m) * (j : ℝ) ^ (1 : ℝ) := by
+lemma wave_abs_lam_le (m : ℝ) (hm : 0 < m) (j : ℕ+) : |lam m hm j| ≤ (1 + m) * (j : ℝ) ^ (1 : ℝ) := by
   rw [Real.rpow_one, abs_of_nonneg (lt_of_lt_of_le one_pos (one_le_lam m hm j)).le]
   exact lam_le m hm j
 
-lemma abs_sqrt_lam_le (m : ℝ) (hm : 0 < m) (j : ℕ+) :
+lemma wave_abs_sqrt_lam_le (m : ℝ) (hm : 0 < m) (j : ℕ+) :
     |Real.sqrt (lam m hm j)| ≤ Real.sqrt (1 + m) * (j : ℝ) ^ (1 / 2 : ℝ) := by
   rw [abs_of_nonneg (Real.sqrt_nonneg _)]
   rw [← Real.sqrt_eq_rpow, ← Real.sqrt_mul (by linarith)]
@@ -58,12 +58,12 @@ lemma abs_sqrt_lam_le (m : ℝ) (hm : 0 < m) (j : ℕ+) :
 /-- Multiplication by `λ` maps `ℓ^{a,p}` to `ℓ^{a,p-1}`. -/
 lemma waveEll_lam_mul (m : ℝ) (hm : 0 < m) {a p : ℝ} {c : ℕ+ → ℝ} (hc : WaveEll a p c) :
     WaveEll a (p - 1) (fun j => lam m hm j * c j) :=
-  (waveEll_mul_poly (by linarith) (abs_lam_le m hm) hc).1
+  (waveEll_mul_poly (by linarith) (wave_abs_lam_le m hm) hc).1
 
 /-- Multiplication by `√λ` maps `ℓ^{a,p}` to `ℓ^{a,p-1/2}`. -/
 lemma waveEll_sqrtLam_mul (m : ℝ) (hm : 0 < m) {a p : ℝ} {c : ℕ+ → ℝ} (hc : WaveEll a p c) :
     WaveEll a (p - 1 / 2) (fun j => Real.sqrt (lam m hm j) * c j) :=
-  (waveEll_mul_poly (Real.sqrt_nonneg _) (abs_sqrt_lam_le m hm) hc).1
+  (waveEll_mul_poly (Real.sqrt_nonneg _) (wave_abs_sqrt_lam_le m hm) hc).1
 
 /-- `𝒢(q) ∈ ℓ^{1,2}` for `q ∈ ℓ^{1,1}`. -/
 lemma waveEll_waveCubic (m : ℝ) (hm : 0 < m) {c : ℕ+ → ℝ} (hc : WaveEll 1 1 c) :
@@ -104,10 +104,10 @@ theorem wave_force_identity (m : ℝ) (hm : 0 < m) {c : ℕ+ → ℝ} (hc : Wave
     simp_rw [e]
     have i1 : IntervalIntegrable (fun x => waveU m hm c x ^ 3 * sineMode l x)
         MeasureTheory.volume 0 π :=
-      (by have := continuous_sineMode l; fun_prop : Continuous fun x => waveU m hm c x ^ 3 * sineMode l x).intervalIntegrable _ _
+      (by have := wave_continuous_sineMode l; fun_prop : Continuous fun x => waveU m hm c x ^ 3 * sineMode l x).intervalIntegrable _ _
     have i2 : IntervalIntegrable (fun x => waveSineSeries 0 cc x * sineMode l x)
         MeasureTheory.volume 0 π :=
-      (by have := continuous_sineMode l; fun_prop : Continuous fun x => waveSineSeries 0 cc x * sineMode l x).intervalIntegrable _ _
+      (by have := wave_continuous_sineMode l; fun_prop : Continuous fun x => waveSineSeries 0 cc x * sineMode l x).intervalIntegrable _ _
     rw [intervalIntegral.integral_sub i1 i2,
       integral_waveU_cube_mul_sineMode, integral_waveSineSeries_mul_sineMode hcc1]
     simp [hcc]

@@ -46,24 +46,24 @@ namespace KAM.Wave
 def waveSineSeries (k : ℕ) (c : ℕ+ → ℝ) (x : ℝ) : ℝ :=
   ∑' j : ℕ+, c j * sineModeIter k j x
 
-lemma abs_sineModeIter_le (k : ℕ) (j : ℕ+) (x : ℝ) :
+lemma wave_abs_sineModeIter_le (k : ℕ) (j : ℕ+) (x : ℝ) :
     |sineModeIter k j x| ≤ Real.sqrt (2 / π) * (j : ℝ) ^ k := by
   unfold sineModeIter
   rw [abs_mul, abs_mul, abs_of_nonneg (Real.sqrt_nonneg _), abs_of_nonneg (by positivity)]
   calc _ ≤ Real.sqrt (2 / π) * (j : ℝ) ^ k * 1 := by gcongr; exact Real.abs_sin_le_one _
     _ = _ := mul_one _
 
-lemma abs_mul_sineModeIter_le (k : ℕ) (c : ℕ+ → ℝ) (j : ℕ+) (x : ℝ) :
+lemma wave_abs_mul_sineModeIter_le (k : ℕ) (c : ℕ+ → ℝ) (j : ℕ+) (x : ℝ) :
     |c j * sineModeIter k j x| ≤ Real.sqrt (2 / π) * (|c j| * (j : ℝ) ^ k) := by
   rw [abs_mul]
   calc |c j| * |sineModeIter k j x| ≤ |c j| * (Real.sqrt (2 / π) * (j : ℝ) ^ k) := by
-        gcongr; exact abs_sineModeIter_le k j x
+        gcongr; exact wave_abs_sineModeIter_le k j x
     _ = _ := by ring
 
 lemma summable_abs_waveSineSeries {c : ℕ+ → ℝ} {k : ℕ}
     (hc : Summable fun j : ℕ+ => |c j| * (j : ℝ) ^ k) (x : ℝ) :
     Summable fun j : ℕ+ => |c j * sineModeIter k j x| :=
-  Summable.of_nonneg_of_le (fun _ => abs_nonneg _) (fun j => abs_mul_sineModeIter_le k c j x)
+  Summable.of_nonneg_of_le (fun _ => abs_nonneg _) (fun j => wave_abs_mul_sineModeIter_le k c j x)
     (hc.mul_left _)
 
 lemma summable_waveSineSeries {c : ℕ+ → ℝ} {k : ℕ}
@@ -79,7 +79,7 @@ lemma waveSineSeries_abs_le_of_summable {c : ℕ+ → ℝ} {k : ℕ}
   calc |∑' j : ℕ+, c j * sineModeIter k j x| ≤ ∑' j : ℕ+, |c j * sineModeIter k j x| := by
         simpa only [Real.norm_eq_abs] using norm_tsum_le_tsum_norm hs
     _ ≤ ∑' j : ℕ+, Real.sqrt (2 / π) * (|c j| * (j : ℝ) ^ k) :=
-        Summable.tsum_le_tsum (fun j => abs_mul_sineModeIter_le k c j x)
+        Summable.tsum_le_tsum (fun j => wave_abs_mul_sineModeIter_le k c j x)
           (summable_abs_waveSineSeries hc x) (hc.mul_left _)
     _ = _ := tsum_mul_left
 
@@ -110,7 +110,7 @@ theorem waveSineSeries_tendstoUniformly {c : ℕ+ → ℝ} {k : ℕ}
     TendstoUniformly (fun (t : Finset ℕ+) (x : ℝ) => ∑ j ∈ t, c j * sineModeIter k j x)
       (waveSineSeries k c) Filter.atTop :=
   tendstoUniformly_tsum (hc.mul_left (Real.sqrt (2 / π)))
-    (fun j x => by simpa only [Real.norm_eq_abs] using abs_mul_sineModeIter_le k c j x)
+    (fun j x => by simpa only [Real.norm_eq_abs] using wave_abs_mul_sineModeIter_le k c j x)
 
 lemma hasDerivAt_waveSineSeries {c : ℕ+ → ℝ} {k : ℕ}
     (hc : Summable fun j : ℕ+ => |c j| * (j : ℝ) ^ (k + 1)) (x : ℝ) :
@@ -126,7 +126,7 @@ lemma hasDerivAt_waveSineSeries {c : ℕ+ → ℝ} {k : ℕ}
   have := hasDerivAt_tsum (g := fun (j : ℕ+) (y : ℝ) => c j * sineModeIter k j y)
     (g' := fun (j : ℕ+) (y : ℝ) => c j * sineModeIter (k + 1) j y) (y₀ := 0) hu
     (fun j y => (hasDerivAt_sineModeIter k j y).const_mul (c j))
-    (fun j y => by simpa only [Real.norm_eq_abs] using abs_mul_sineModeIter_le (k + 1) c j y)
+    (fun j y => by simpa only [Real.norm_eq_abs] using wave_abs_mul_sineModeIter_le (k + 1) c j y)
     (summable_waveSineSeries hc' 0) x
   exact this
 
@@ -188,7 +188,7 @@ lemma waveHasSum_intervalIntegral {ι : Type*} [Countable ι] {F : ι → ℝ �
   · exact intervalIntegrable_const
   · exact Filter.Eventually.of_forall fun t _ => hsum t
 
-lemma integral_cos_int_mul (n : ℤ) :
+lemma wave_integral_cos_int_mul (n : ℤ) :
     ∫ x in (0 : ℝ)..π, Real.cos (n * x) = if n = 0 then π else 0 := by
   split_ifs with h
   · subst h; simp
@@ -197,7 +197,7 @@ lemma integral_cos_int_mul (n : ℤ) :
     simp [integral_cos, Real.sin_int_mul_pi]
 
 /-- Orthonormality of the sine modes on `[0, π]`. -/
-theorem integral_sineMode_mul_sineMode (i j : ℕ+) :
+theorem wave_integral_sineMode_mul_sineMode (i j : ℕ+) :
     ∫ x in (0 : ℝ)..π, sineMode i x * sineMode j x = if i = j then 1 else 0 := by
   have hpi := Real.pi_pos
   have e : ∀ x : ℝ, sineMode i x * sineMode j x =
@@ -217,7 +217,7 @@ theorem integral_sineMode_mul_sineMode (i j : ℕ+) :
   have hc1 : ∀ n : ℤ, IntervalIntegrable (fun x : ℝ => Real.cos (n * x)) MeasureTheory.volume 0 π :=
     fun n => (by fun_prop : Continuous fun x : ℝ => Real.cos (n * x)).intervalIntegrable _ _
   rw [intervalIntegral.integral_const_mul, intervalIntegral.integral_sub (hc1 _) (hc1 _),
-    integral_cos_int_mul, integral_cos_int_mul]
+    wave_integral_cos_int_mul, wave_integral_cos_int_mul]
   have hne : ((i : ℕ) + (j : ℕ) : ℤ) ≠ 0 := by have := i.pos; have := j.pos; omega
   by_cases h : i = j
   · subst h; simp [hne]
@@ -231,7 +231,7 @@ theorem integral_waveSineSeries_mul_sineMode {c : ℕ+ → ℝ}
     ∫ x in (0 : ℝ)..π, waveSineSeries 0 c x * sineMode l x = c l := by
   have hpi := Real.pi_pos
   have hφ : ∀ j x, |sineMode j x| ≤ Real.sqrt (2 / π) := fun j x => by
-    have := abs_sineModeIter_le 0 j x
+    have := wave_abs_sineModeIter_le 0 j x
     simpa [sineModeIter_zero] using this
   have hc0 : Summable fun j : ℕ+ => |c j| * (j : ℝ) ^ 0 := by simpa using hc
   have hsum : ∀ x, HasSum (fun j : ℕ+ => c j * sineMode j x * sineMode l x)
@@ -260,7 +260,7 @@ theorem integral_waveSineSeries_mul_sineMode {c : ℕ+ → ℝ}
       have : ∀ x, c j * sineMode j x * sineMode l x = c j * (sineMode j x * sineMode l x) :=
         fun x => by ring
       simp_rw [this]
-      rw [intervalIntegral.integral_const_mul, integral_sineMode_mul_sineMode]
+      rw [intervalIntegral.integral_const_mul, wave_integral_sineMode_mul_sineMode]
       split_ifs with h <;> simp [h]
     simp_rw [this]
     exact hasSum_ite_eq l (c l)

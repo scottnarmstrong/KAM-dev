@@ -68,7 +68,7 @@ lemma waveU_eq_series (c : ℕ+ → ℝ) :
   rw [waveSineSeries_zero_eq]
   rfl
 
-lemma sqrt_lam_pos (j : ℕ+) : 0 < Real.sqrt (lam m hm j) :=
+lemma wave_sqrt_lam_pos (j : ℕ+) : 0 < Real.sqrt (lam m hm j) :=
   Real.sqrt_pos.2 (lt_of_lt_of_le one_pos (one_le_lam m hm j))
 
 lemma abs_waveHat_le (c : ℕ+ → ℝ) (j : ℕ+) : |waveHat m hm c j| ≤ |c j| := by
@@ -167,7 +167,7 @@ theorem waveCubic_hasSum (ha : 0 < a) {c : ℕ+ → ℝ} (hc : WaveEll a p c) (l
 theorem integral_waveU_cube_mul_sineMode (c : ℕ+ → ℝ) (l : ℕ+) :
     ∫ x in (0 : ℝ)..π, waveU m hm c x ^ 3 * sineMode l x
       = Real.sqrt (lam m hm l) * waveCubic m hm c l := by
-  have := (sqrt_lam_pos m hm l).ne'
+  have := (wave_sqrt_lam_pos m hm l).ne'
   unfold waveCubic
   field_simp
 
@@ -189,7 +189,7 @@ lemma waveU_coordShift {c : ℕ+ → ℝ} (hh : Summable fun j => |waveHat m hm 
       ring
     · simp [waveCoordShift, hj]
   have hs1 : Summable fun j : ℕ+ => c j / Real.sqrt (lam m hm j) * sineMode j x :=
-    (summable_abs_mul_sineMode hh x).of_abs
+    (wave_summable_abs_mul_sineMode hh x).of_abs
   have hs2 : Summable fun j : ℕ+ =>
       (if j = l then t * ((Real.sqrt (lam m hm l))⁻¹ * sineMode l x) else 0) :=
     (hasSum_ite_eq l _).summable
@@ -240,7 +240,7 @@ theorem hasDerivAt_waveG_coord_of_summable {c : ℕ+ → ℝ}
   have hu : Continuous (waveU m hm c) := by
     rw [waveU_eq_series]; exact continuous_waveSineSeries_zero hh
   have hv : Continuous fun x => (Real.sqrt (lam m hm l))⁻¹ * sineMode l x :=
-    continuous_const.mul (continuous_sineMode l)
+    continuous_const.mul (wave_continuous_sineMode l)
   have key := (wave_hasDerivAt_integral_pow_four hu hv).const_mul (1 / 4 : ℝ)
   have e : (fun t : ℝ => waveG m hm (waveCoordShift l t c)) =
       fun t => (1 / 4 : ℝ) * ∫ x in (0 : ℝ)..π,

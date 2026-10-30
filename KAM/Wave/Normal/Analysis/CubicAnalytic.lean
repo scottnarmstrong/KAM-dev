@@ -28,11 +28,11 @@ open scoped ENNReal
 
 namespace KAM.Wave
 
-lemma coeff_add (y z : lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) :
+lemma wave_coeff_add (y z : lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) :
     coeff (y + z) j = coeff y j + coeff z j := by
   simp [coeff, add_div]
 
-lemma coeff_smul (c : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) :
+lemma wave_coeff_smul (c : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) :
     coeff (c • y) j = c * coeff y j := by
   simp [coeff, mul_div_assoc]
 
@@ -65,16 +65,16 @@ lemma waveCubicAux_apply (y₁ y₂ y₃ : lp (fun _ : ℕ+ => ℝ) 2) (l : ℕ+
     waveCubicAux m hm y₁ y₂ y₃ l =
       ellWeight 1 2 l * waveTrilinear m hm (coeff y₁) (coeff y₂) (coeff y₃) l := rfl
 
-lemma coeff_add_fun (y z : lp (fun _ : ℕ+ => ℝ) 2) :
-    coeff (y + z) = fun j => coeff y j + coeff z j := funext (coeff_add y z)
+lemma wave_coeff_add_fun (y z : lp (fun _ : ℕ+ => ℝ) 2) :
+    coeff (y + z) = fun j => coeff y j + coeff z j := funext (wave_coeff_add y z)
 
-lemma coeff_smul_fun (c : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) :
-    coeff (c • y) = fun j => c * coeff y j := funext (coeff_smul c y)
+lemma wave_coeff_smul_fun (c : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) :
+    coeff (c • y) = fun j => c * coeff y j := funext (wave_coeff_smul c y)
 
 theorem waveCubicAux_add_left (y z y₂ y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
     waveCubicAux m hm (y + z) y₂ y₃ = waveCubicAux m hm y y₂ y₃ + waveCubicAux m hm z y₂ y₃ := by
   ext l
-  simp only [lp.coeFn_add, Pi.add_apply, waveCubicAux_apply, coeff_add_fun]
+  simp only [lp.coeFn_add, Pi.add_apply, waveCubicAux_apply, wave_coeff_add_fun]
   rw [waveTrilinear_add_left m hm zero_le_one (by norm_num) (waveEll_coeff y) (waveEll_coeff z)
     (waveEll_coeff y₂) (waveEll_coeff y₃)]
   ring
@@ -82,7 +82,7 @@ theorem waveCubicAux_add_left (y z y₂ y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
 theorem waveCubicAux_add_mid (y y₂ z y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
     waveCubicAux m hm y (y₂ + z) y₃ = waveCubicAux m hm y y₂ y₃ + waveCubicAux m hm y z y₃ := by
   ext l
-  simp only [lp.coeFn_add, Pi.add_apply, waveCubicAux_apply, coeff_add_fun]
+  simp only [lp.coeFn_add, Pi.add_apply, waveCubicAux_apply, wave_coeff_add_fun]
   rw [waveTrilinear_add_mid m hm zero_le_one (by norm_num) (waveEll_coeff y) (waveEll_coeff y₂)
     (waveEll_coeff z) (waveEll_coeff y₃)]
   ring
@@ -90,7 +90,7 @@ theorem waveCubicAux_add_mid (y y₂ z y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
 theorem waveCubicAux_add_right (y y₂ y₃ z : lp (fun _ : ℕ+ => ℝ) 2) :
     waveCubicAux m hm y y₂ (y₃ + z) = waveCubicAux m hm y y₂ y₃ + waveCubicAux m hm y y₂ z := by
   ext l
-  simp only [lp.coeFn_add, Pi.add_apply, waveCubicAux_apply, coeff_add_fun]
+  simp only [lp.coeFn_add, Pi.add_apply, waveCubicAux_apply, wave_coeff_add_fun]
   rw [waveTrilinear_add_right m hm zero_le_one (by norm_num) (waveEll_coeff y) (waveEll_coeff y₂)
     (waveEll_coeff y₃) (waveEll_coeff z)]
   ring
@@ -98,21 +98,21 @@ theorem waveCubicAux_add_right (y y₂ y₃ z : lp (fun _ : ℕ+ => ℝ) 2) :
 theorem waveCubicAux_smul_left (c : ℝ) (y y₂ y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
     waveCubicAux m hm (c • y) y₂ y₃ = c • waveCubicAux m hm y y₂ y₃ := by
   ext l
-  simp only [lp.coeFn_smul, Pi.smul_apply, waveCubicAux_apply, coeff_smul_fun,
+  simp only [lp.coeFn_smul, Pi.smul_apply, waveCubicAux_apply, wave_coeff_smul_fun,
     waveTrilinear_smul_left, smul_eq_mul]
   ring
 
 theorem waveCubicAux_smul_mid (c : ℝ) (y y₂ y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
     waveCubicAux m hm y (c • y₂) y₃ = c • waveCubicAux m hm y y₂ y₃ := by
   ext l
-  simp only [lp.coeFn_smul, Pi.smul_apply, waveCubicAux_apply, coeff_smul_fun,
+  simp only [lp.coeFn_smul, Pi.smul_apply, waveCubicAux_apply, wave_coeff_smul_fun,
     waveTrilinear_smul_mid, smul_eq_mul]
   ring
 
 theorem waveCubicAux_smul_right (c : ℝ) (y y₂ y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
     waveCubicAux m hm y y₂ (c • y₃) = c • waveCubicAux m hm y y₂ y₃ := by
   ext l
-  simp only [lp.coeFn_smul, Pi.smul_apply, waveCubicAux_apply, coeff_smul_fun,
+  simp only [lp.coeFn_smul, Pi.smul_apply, waveCubicAux_apply, wave_coeff_smul_fun,
     waveTrilinear_smul_right, smul_eq_mul]
   ring
 
@@ -122,7 +122,7 @@ theorem waveCubicAux_norm_le (y₁ y₂ y₃ : lp (fun _ : ℕ+ => ℝ) 2) :
     (waveEll_coeff y₂) (waveEll_coeff y₃)).2.2
   have two : (1 : ℝ) + 1 = 2 := by norm_num
   rw [two, waveCubicConst_one] at h
-  rw [lp_norm_eq_sqrt, norm_eq_waveEllNorm_coeff, norm_eq_waveEllNorm_coeff,
+  rw [wave_lp_norm_eq_sqrt, norm_eq_waveEllNorm_coeff, norm_eq_waveEllNorm_coeff,
     norm_eq_waveEllNorm_coeff]
   convert h using 2
   unfold waveEllNorm

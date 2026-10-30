@@ -66,7 +66,7 @@ lemma waveEll_coeff (y : lp (fun _ : ℕ+ => ℝ) 2) : WaveEll 1 1 (coeff y) := 
   simp only [h]
   simpa [Real.rpow_two] using (lp.memℓp y).summable (by simp : (0 : ℝ) < (2 : ℝ≥0∞).toReal)
 
-lemma lp_norm_eq_sqrt (y : lp (fun _ : ℕ+ => ℝ) 2) : ‖y‖ = Real.sqrt (∑' j, y j ^ 2) := by
+lemma wave_lp_norm_eq_sqrt (y : lp (fun _ : ℕ+ => ℝ) 2) : ‖y‖ = Real.sqrt (∑' j, y j ^ 2) := by
   rw [lp.norm_eq_tsum_rpow (by simp) y, Real.sqrt_eq_rpow]
   simp [Real.rpow_two]
 
@@ -74,7 +74,7 @@ lemma norm_eq_waveEllNorm_coeff (y : lp (fun _ : ℕ+ => ℝ) 2) : ‖y‖ = wav
   have h : ∀ j : ℕ+, ellWeight 1 1 j * coeff y j = y j := fun j => by
     have := (waveEllWeight_pos 1 1 j).ne'
     unfold coeff; field_simp
-  rw [lp_norm_eq_sqrt]
+  rw [wave_lp_norm_eq_sqrt]
   unfold waveEllNorm
   simp only [h]
 

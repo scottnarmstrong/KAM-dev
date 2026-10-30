@@ -58,7 +58,7 @@ lemma wave_trilinear_pointwise (m : ℝ) (hm : 0 < m) {q q' q'' : ℕ+ → ℝ}
     |waveTrilinear m hm q q' q'' l| ≤
       (Real.sqrt (lam m hm l))⁻¹ * ((1 / (2 * π)) * w0aConv (w0aConv x y) z ((l : ℕ) : ℤ)) := by
   have hpi := Real.pi_pos
-  have hsl : 0 < (Real.sqrt (lam m hm l))⁻¹ := inv_pos.2 (sqrt_lam_pos m hm l)
+  have hsl : 0 < (Real.sqrt (lam m hm l))⁻¹ := inv_pos.2 (wave_sqrt_lam_pos m hm l)
   obtain ⟨hsum, hle⟩ := wave_selection_sum_le hx0 hy0 hz0 hxe hye hze hx1 hy1 hz1 l
   set P : ℕ+ × ℕ+ × ℕ+ → ℝ := fun t =>
     (∑ ε : Bool × Bool × Bool,
@@ -216,12 +216,12 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
       (1 / (4 * π ^ 2)) * (w0aW2 a (p + 1 / 2) ((l : ℕ) : ℤ) * X3 ((l : ℕ) : ℤ)) ^ 2 := by
     intro l
     have hT := (hpt l).2
-    have hl : 0 < lam m hm l := lt_of_lt_of_le (by positivity) (pnat_le_lam m hm l)
+    have hl : 0 < lam m hm l := lt_of_lt_of_le (by positivity) (wave_pnat_le_lam m hm l)
     have hln : (0 : ℝ) < (l : ℕ+) := by positivity
     have hEw : ellWeight a (p + 1) l ^ 2 = ellWeight a (p + 1 / 2) l ^ 2 * (l : ℝ) := by
       have : p + 1 = (p + 1 / 2) + 1 / 2 := by ring
-      rw [this, ellWeight_add_half, mul_pow, Real.sq_sqrt hln.le]
-    have hdiv : (l : ℝ) / lam m hm l ≤ 1 := (div_le_one hl).2 (pnat_le_lam m hm l)
+      rw [this, wave_ellWeight_add_half, mul_pow, Real.sq_sqrt hln.le]
+    have hdiv : (l : ℝ) / lam m hm l ≤ 1 := (div_le_one hl).2 (wave_pnat_le_lam m hm l)
     have hU : ((Real.sqrt (lam m hm l))⁻¹ * ((1 / (2 * π)) * X3 ((l : ℕ) : ℤ))) ^ 2 =
         (lam m hm l)⁻¹ * ((1 / (4 * π ^ 2)) * X3 ((l : ℕ) : ℤ) ^ 2) := by
       rw [mul_pow, mul_pow, inv_pow, Real.sq_sqrt hl.le]

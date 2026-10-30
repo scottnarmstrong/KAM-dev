@@ -123,7 +123,7 @@ lemma wave_integral_second_deriv_mul {f f' f'' : ℝ → ℝ} (l : ℕ+)
       = -((l : ℝ) ^ 2) * ∫ x in (0 : ℝ)..π, f x * sineMode l x := by
   have hpi := Real.pi_pos
   have hc0 : ContinuousOn f (Icc 0 π) := fun x hx => (hd1 x hx).continuousWithinAt
-  have hφ : Continuous (sineMode l) := continuous_sineMode l
+  have hφ : Continuous (sineMode l) := wave_continuous_sineMode l
   have hψ : Continuous fun y : ℝ => Real.sqrt (2 / π) * ((l : ℝ) * Real.cos ((l : ℝ) * y)) := by
     fun_prop
   set ψ : ℝ → ℝ := fun y => Real.sqrt (2 / π) * ((l : ℝ) * Real.cos ((l : ℝ) * y)) with hψd
@@ -206,12 +206,12 @@ lemma wave_converse_pointwise (m : ℝ) (hm : 0 < m) {I : Set ℝ} (hI : IsOpen 
   have hutt_c := hcont (Function.uncurry utt) (by simp)
   have huxx_c := hcont (Function.uncurry uxx) (by simp)
   have hφc : ContinuousOn (fun z : ℝ × ℝ => sineMode l z.2) (I ×ˢ Icc 0 π) :=
-    ((continuous_sineMode l).comp continuous_snd).continuousOn
+    ((wave_continuous_sineMode l).comp continuous_snd).continuousOn
   have hslice : ∀ F : ℝ → ℝ → ℝ, ContinuousOn (Function.uncurry F) (I ×ˢ Icc 0 π) →
       ∀ t ∈ I, ContinuousOn (F t) (Icc 0 π) := fun F hF t ht =>
     hF.comp (continuousOn_const.prodMk continuousOn_id)
       (fun x hx => (⟨ht, hx⟩ : (t, x) ∈ I ×ˢ Icc 0 π))
-  have hs0 : 0 < Real.sqrt (lam m hm l) := sqrt_lam_pos m hm l
+  have hs0 : 0 < Real.sqrt (lam m hm l) := wave_sqrt_lam_pos m hm l
   have hss : Real.sqrt (lam m hm l) * Real.sqrt (lam m hm l) = lam m hm l :=
     Real.mul_self_sqrt (by have := one_le_lam m hm l; linarith)
   have hev : ∀ᶠ s in 𝓝 t₀, s ∈ I := hI.mem_nhds ht₀
@@ -265,7 +265,7 @@ lemma wave_converse_pointwise (m : ℝ) (hm : 0 < m) {I : Set ℝ} (hI : IsOpen 
       hc_ux hc_uxx
     have hI' : ∀ g : ℝ → ℝ, ContinuousOn g (Icc 0 π) → IntervalIntegrable g volume 0 π :=
       fun g hg => hg.intervalIntegrable_of_Icc hpi.le
-    have hφ0 : ContinuousOn (sineMode l) (Icc 0 π) := (continuous_sineMode l).continuousOn
+    have hφ0 : ContinuousOn (sineMode l) (Icc 0 π) := (wave_continuous_sineMode l).continuousOn
     have hu3 : ContinuousOn (fun x => waveU m hm (q t₀) x ^ 3) (Icc 0 π) := hc_u.pow 3
     have e1 : ∫ x in (0 : ℝ)..π, utt t₀ x * sineMode l x =
         ∫ x in (0 : ℝ)..π, (uxx t₀ x * sineMode l x - m * (waveU m hm (q t₀) x * sineMode l x)

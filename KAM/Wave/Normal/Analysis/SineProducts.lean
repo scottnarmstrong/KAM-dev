@@ -39,14 +39,14 @@ namespace KAM.Wave
 def waveQuartic (i j k l : ℕ+) : ℝ :=
   ∫ x in (0 : ℝ)..π, sineMode i x * sineMode j x * sineMode k x * sineMode l x
 
-lemma abs_sineMode_le (j : ℕ+) (x : ℝ) : |sineMode j x| ≤ Real.sqrt (2 / π) := by
-  have := abs_sineModeIter_le 0 j x
+lemma wave_abs_sineMode_le (j : ℕ+) (x : ℝ) : |sineMode j x| ≤ Real.sqrt (2 / π) := by
+  have := wave_abs_sineModeIter_le 0 j x
   simpa [sineModeIter_zero] using this
 
-lemma continuous_sineMode (j : ℕ+) : Continuous (sineMode j) := by
+lemma wave_continuous_sineMode (j : ℕ+) : Continuous (sineMode j) := by
   unfold sineMode; fun_prop
 
-lemma sqrt_two_div_pi_sq : Real.sqrt (2 / π) ^ 2 = 2 / π :=
+lemma wave_sqrt_two_div_pi_sq : Real.sqrt (2 / π) ^ 2 = 2 / π :=
   Real.sq_sqrt (by positivity)
 
 /-- `|g_{ijkl}| ≤ 4/π`. -/
@@ -57,17 +57,17 @@ lemma abs_waveQuartic_le (i j k l : ℕ+) : |waveQuartic i j k l| ≤ 4 / π := 
     (C := (Real.sqrt (2 / π)) ^ 4)
     (f := fun x => sineMode i x * sineMode j x * sineMode k x * sineMode l x) (fun x _ => by
       simp only [Real.norm_eq_abs, abs_mul]
-      have h1 := abs_sineMode_le i x
-      have h2 := abs_sineMode_le j x
-      have h3 := abs_sineMode_le k x
-      have h4 := abs_sineMode_le l x
+      have h1 := wave_abs_sineMode_le i x
+      have h2 := wave_abs_sineMode_le j x
+      have h3 := wave_abs_sineMode_le k x
+      have h4 := wave_abs_sineMode_le l x
       calc _ ≤ Real.sqrt (2 / π) * Real.sqrt (2 / π) * Real.sqrt (2 / π) * Real.sqrt (2 / π) := by
             gcongr
         _ = _ := by ring)
   rw [Real.norm_eq_abs] at this
   refine this.trans ?_
   have h4 : Real.sqrt (2 / π) ^ 4 = (2 / π) ^ 2 := by
-    rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, sqrt_two_div_pi_sq]
+    rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, wave_sqrt_two_div_pi_sq]
   rw [h4, sub_zero, abs_of_pos hpi]
   apply le_of_eq
   field_simp
@@ -105,17 +105,17 @@ section Core
 
 variable {h : ℕ+ → ℝ}
 
-lemma summable_abs_mul_sineMode (hh : Summable fun j => |h j|) (x : ℝ) :
+lemma wave_summable_abs_mul_sineMode (hh : Summable fun j => |h j|) (x : ℝ) :
     Summable fun j => |h j * sineMode j x| := by
   refine Summable.of_nonneg_of_le (fun j => abs_nonneg _) (fun j => ?_) (hh.mul_right (Real.sqrt (2 / π)))
   rw [abs_mul]
   gcongr
-  exact abs_sineMode_le j x
+  exact wave_abs_sineMode_le j x
 
 lemma hasSum_waveSineSeries_zero (hh : Summable fun j => |h j|) (x : ℝ) :
     HasSum (fun j => h j * sineMode j x) (waveSineSeries 0 h x) := by
   rw [waveSineSeries_zero_eq]
-  exact (summable_abs_mul_sineMode hh x).of_abs.hasSum
+  exact (wave_summable_abs_mul_sineMode hh x).of_abs.hasSum
 
 lemma continuous_waveSineSeries_zero (hh : Summable fun j => |h j|) :
     Continuous (waveSineSeries 0 h) := by
@@ -123,10 +123,10 @@ lemma continuous_waveSineSeries_zero (hh : Summable fun j => |h j|) :
     funext fun x => waveSineSeries_zero_eq h x
   rw [this]
   refine continuous_tsum (u := fun j => |h j| * Real.sqrt (2 / π))
-    (fun j => (continuous_sineMode j).const_mul _) (hh.mul_right _) fun j x => ?_
+    (fun j => (wave_continuous_sineMode j).const_mul _) (hh.mul_right _) fun j x => ?_
   rw [Real.norm_eq_abs, abs_mul]
   gcongr
-  exact abs_sineMode_le j x
+  exact wave_abs_sineMode_le j x
 
 lemma abs_waveSineSeries_zero_le (hh : Summable fun j => |h j|) (x : ℝ) :
     |waveSineSeries 0 h x| ≤ Real.sqrt (2 / π) * ∑' j, |h j| := by
@@ -140,7 +140,7 @@ theorem hasSum_integral_cube_mul_sineMode (hh : Summable fun j => |h j|) (l : �
       (∫ x in (0 : ℝ)..π, waveSineSeries 0 h x ^ 3 * sineMode l x) := by
   have hpi := Real.pi_pos
   set K := Real.sqrt (2 / π) with hK
-  have hcube := waveHasSum_cube (hasSum_waveSineSeries_zero hh 0) (summable_abs_mul_sineMode hh 0)
+  have hcube := waveHasSum_cube (hasSum_waveSineSeries_zero hh 0) (wave_summable_abs_mul_sineMode hh 0)
   have hcube0 := waveHasSum_cube hh.of_abs.hasSum hh
   have hb : Summable fun t : ℕ+ × ℕ+ × ℕ+ => |h t.1 * (h t.2.1 * h t.2.2)| * K ^ 4 :=
     hcube0.2.mul_right _
@@ -150,15 +150,15 @@ theorem hasSum_integral_cube_mul_sineMode (hh : Summable fun j => |h j|) (l : �
     (f := fun x => waveSineSeries 0 h x ^ 3 * sineMode l x) 0 π
     (b := fun t => |h t.1 * (h t.2.1 * h t.2.2)| * K ^ 4)
     (fun t => by
-      have := continuous_sineMode t.1; have := continuous_sineMode t.2.1
-      have := continuous_sineMode t.2.2; have := continuous_sineMode l
+      have := wave_continuous_sineMode t.1; have := wave_continuous_sineMode t.2.1
+      have := wave_continuous_sineMode t.2.2; have := wave_continuous_sineMode l
       fun_prop)
     hb
     (fun t x => by
-      have h1 := abs_sineMode_le t.1 x
-      have h2 := abs_sineMode_le t.2.1 x
-      have h3 := abs_sineMode_le t.2.2 x
-      have h4 := abs_sineMode_le l x
+      have h1 := wave_abs_sineMode_le t.1 x
+      have h2 := wave_abs_sineMode_le t.2.1 x
+      have h3 := wave_abs_sineMode_le t.2.2 x
+      have h4 := wave_abs_sineMode_le l x
       simp only [abs_mul]
       calc |h t.1| * |sineMode t.1 x| * (|h t.2.1| * |sineMode t.2.1 x| *
             (|h t.2.2| * |sineMode t.2.2 x|)) * |sineMode l x|
@@ -166,7 +166,7 @@ theorem hasSum_integral_cube_mul_sineMode (hh : Summable fun j => |h j|) (l : �
         _ = _ := by ring)
     (fun x => by
       have := (waveHasSum_cube (hasSum_waveSineSeries_zero hh x)
-        (summable_abs_mul_sineMode hh x)).1.mul_right (sineMode l x)
+        (wave_summable_abs_mul_sineMode hh x)).1.mul_right (sineMode l x)
       convert this using 1
       ring)
   have e : (fun t : ℕ+ × ℕ+ × ℕ+ => ∫ x in (0 : ℝ)..π, (h t.1 * sineMode t.1 x *
@@ -207,15 +207,15 @@ theorem hasSum_integral_fourth_pow (hh : Summable fun j => |h j|) :
     (f := fun x => waveSineSeries 0 h x ^ 4) 0 π
     (b := fun t => |h t.1 * (h t.2.1 * (h t.2.2.1 * h t.2.2.2))| * K ^ 4)
     (fun t => by
-      have := continuous_sineMode t.1; have := continuous_sineMode t.2.1
-      have := continuous_sineMode t.2.2.1; have := continuous_sineMode t.2.2.2
+      have := wave_continuous_sineMode t.1; have := wave_continuous_sineMode t.2.1
+      have := wave_continuous_sineMode t.2.2.1; have := wave_continuous_sineMode t.2.2.2
       fun_prop)
     hb
     (fun t x => by
-      have h1 := abs_sineMode_le t.1 x
-      have h2 := abs_sineMode_le t.2.1 x
-      have h3 := abs_sineMode_le t.2.2.1 x
-      have h4 := abs_sineMode_le t.2.2.2 x
+      have h1 := wave_abs_sineMode_le t.1 x
+      have h2 := wave_abs_sineMode_le t.2.1 x
+      have h3 := wave_abs_sineMode_le t.2.2.1 x
+      have h4 := wave_abs_sineMode_le t.2.2.2 x
       simp only [abs_mul]
       calc |h t.1| * |sineMode t.1 x| * (|h t.2.1| * |sineMode t.2.1 x| *
             (|h t.2.2.1| * |sineMode t.2.2.1 x| * (|h t.2.2.2| * |sineMode t.2.2.2 x|)))
@@ -223,7 +223,7 @@ theorem hasSum_integral_fourth_pow (hh : Summable fun j => |h j|) :
         _ = _ := by ring)
     (fun x => by
       have := (waveHasSum_fourth (hasSum_waveSineSeries_zero hh x)
-        (summable_abs_mul_sineMode hh x)).1
+        (wave_summable_abs_mul_sineMode hh x)).1
       convert this using 1
       ring)
   have e : (fun t : ℕ+ × ℕ+ × ℕ+ × ℕ+ => ∫ x in (0 : ℝ)..π, h t.1 * sineMode t.1 x *

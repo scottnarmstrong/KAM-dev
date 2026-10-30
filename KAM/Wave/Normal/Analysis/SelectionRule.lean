@@ -30,7 +30,7 @@ namespace KAM.Wave
 /-- The sign `±1` attached to a Boolean. -/
 def waveSign (b : Bool) : ℤ := if b then 1 else -1
 
-lemma integral_cos_mul_cos_int (A B : ℤ) :
+lemma wave_integral_cos_mul_cos_int (A B : ℤ) :
     ∫ x in (0 : ℝ)..π, Real.cos (A * x) * Real.cos (B * x)
       = (π / 2) * ((if A = B then 1 else 0) + (if A = -B then 1 else 0)) := by
   have hc1 : ∀ n : ℤ, IntervalIntegrable (fun x : ℝ => Real.cos (n * x)) MeasureTheory.volume 0 π :=
@@ -45,14 +45,14 @@ lemma integral_cos_mul_cos_int (A B : ℤ) :
     ring
   simp_rw [e]
   rw [intervalIntegral.integral_const_mul, intervalIntegral.integral_add (hc1 _) (hc1 _),
-    integral_cos_int_mul, integral_cos_int_mul]
+    wave_integral_cos_int_mul, wave_integral_cos_int_mul]
   have h1 : (A - B = 0) ↔ (A = B) := by omega
   have h2 : (A + B = 0) ↔ (A = -B) := by omega
   simp only [h1, h2]
   split_ifs <;> ring
 
 /-- Four-fold product of sine modes as a product of two differences of cosines. -/
-lemma sineMode_mul4_eq (i j k l : ℕ+) (x : ℝ) :
+lemma wave_sineMode_mul4_eq (i j k l : ℕ+) (x : ℝ) :
     sineMode i x * sineMode j x * sineMode k x * sineMode l x =
       (1 / π ^ 2) *
         ((Real.cos ((((i : ℕ) : ℤ) - ((j : ℕ) : ℤ) : ℤ) * x) -
@@ -97,7 +97,7 @@ lemma waveQuartic_eq_brackets (i j k l : ℕ+) :
       MeasureTheory.volume 0 π := fun A B =>
     (by fun_prop : Continuous fun x : ℝ => Real.cos (A * x) * Real.cos (B * x)).intervalIntegrable _ _
   unfold waveQuartic
-  simp_rw [sineMode_mul4_eq]
+  simp_rw [wave_sineMode_mul4_eq]
   rw [intervalIntegral.integral_const_mul]
   generalize ((i : ℕ) : ℤ) = I'
   generalize ((j : ℕ) : ℤ) = J'
@@ -114,8 +114,8 @@ lemma waveQuartic_eq_brackets (i j k l : ℕ+) :
   rw [intervalIntegral.integral_add (((hc1 _ _).sub (hc1 _ _)).sub (hc1 _ _)) (hc1 _ _),
     intervalIntegral.integral_sub ((hc1 _ _).sub (hc1 _ _)) (hc1 _ _),
     intervalIntegral.integral_sub (hc1 _ _) (hc1 _ _),
-    integral_cos_mul_cos_int, integral_cos_mul_cos_int, integral_cos_mul_cos_int,
-    integral_cos_mul_cos_int]
+    wave_integral_cos_mul_cos_int, wave_integral_cos_mul_cos_int, wave_integral_cos_mul_cos_int,
+    wave_integral_cos_mul_cos_int]
   field_simp
 
 lemma waveSigned_indicator_alg (I J K L : ℤ) :

@@ -33,16 +33,16 @@ namespace KAM.Wave
 lemma waveEll_neg {a p : ℝ} {c : ℕ+ → ℝ} (h : WaveEll a p c) : WaveEll a p (fun j => -c j) :=
   (show Summable _ from h).congr fun j => by ring
 
-lemma sineModeIter_two (j : ℕ+) (x : ℝ) :
+lemma wave_sineModeIter_two (j : ℕ+) (x : ℝ) :
     sineModeIter 2 j x = -((j : ℝ) ^ 2 * sineMode j x) := by
   unfold sineModeIter sineMode
   have : (j : ℝ) * x + ((2 : ℕ) : ℝ) * π / 2 = (j : ℝ) * x + π := by push_cast; ring
   rw [this, Real.sin_add_pi]
   ring
 
-lemma sqrt_lam_inv_mul_lam (m : ℝ) (hm : 0 < m) (j : ℕ+) :
+lemma wave_sqrt_lam_inv_mul_lam (m : ℝ) (hm : 0 < m) (j : ℕ+) :
     (Real.sqrt (lam m hm j))⁻¹ * lam m hm j = Real.sqrt (lam m hm j) := by
-  have h := sqrt_lam_pos m hm j
+  have h := wave_sqrt_lam_pos m hm j
   have h2 : Real.sqrt (lam m hm j) * Real.sqrt (lam m hm j) = lam m hm j :=
     Real.mul_self_sqrt (lt_of_lt_of_le one_pos (one_le_lam m hm j)).le
   field_simp
@@ -102,14 +102,14 @@ theorem wave_pde_identity (m : ℝ) (hm : 0 < m) {c : ℕ+ → ℝ} (hc : WaveEl
   unfold waveSineSeries
   rw [← tsum_mul_left, ← hsA.tsum_sub (hsB.mul_left m), ← (hsA.sub (hsB.mul_left m)).tsum_sub hsC]
   refine tsum_congr fun j => ?_
-  have hl := sqrt_lam_pos m hm j
+  have hl := wave_sqrt_lam_pos m hm j
   have h2 : Real.sqrt (lam m hm j) * Real.sqrt (lam m hm j) = lam m hm j :=
     Real.mul_self_sqrt (lt_of_lt_of_le one_pos (one_le_lam m hm j)).le
   have h3 : lam m hm j ^ 2 = (j : ℝ) ^ 2 + m := by
     unfold lam; rw [Real.sq_sqrt (by positivity)]
   have h4 : (j : ℝ) ^ 2 = (Real.sqrt (lam m hm j)) ^ 4 - m := by
     nlinarith [h2, h3]
-  simp only [waveHat, sineModeIter_two, sineModeIter_zero]
+  simp only [waveHat, wave_sineModeIter_two, sineModeIter_zero]
   generalize Real.sqrt (lam m hm j) = s at hl h2 h4 ⊢
   rw [h4, ← h2]
   field_simp
@@ -213,7 +213,7 @@ theorem wave_coeff_to_pde (m : ℝ) (hm : 0 < m) {I : Set ℝ} (hI : IsOpen I)
         rw [waveV_eq_betaV_series]
         refine tsum_congr fun j => ?_
         simp only [betaU, betaV]
-        rw [← mul_assoc, sqrt_lam_inv_mul_lam]
+        rw [← mul_assoc, wave_sqrt_lam_inv_mul_lam]
       rw [e1]; rwa [e2] at h
     · have h := waveSeries_hasDerivAt (polyBounded_betaV m hm) 0 x hI (c := p) hp0 ht (hYp t ht)
       rw [hpe t ht, ← waveSeries_eq_inner (polyBounded_betaV m hm) 0 x (hR t ht)] at h
