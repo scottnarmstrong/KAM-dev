@@ -245,7 +245,7 @@ theorem lockLiteralCheck_sound {Ω : ℚ} {cs : List ℚ} {lo hi r₀ r₁ Iin R
     nlinarith
   have root : ∀ {t a : ℝ}, 0 ≤ a → t ≤ a ^ 2 → √t ≤ a := fun ha h =>
     Real.sqrt_le_iff.2 ⟨ha, h⟩
-  refine ⟨hΩr, ?_, ?_, ?_, 
+  refine ⟨hΩr, ?_, ?_, ?_,
     (by have := (Rat.cast_lt (K := ℝ)).2 hang; push_cast at this ⊢; linarith)⟩
   · have e1 : √π * √(Ω : ℝ) ≤ a₁ := by
       rw [← Real.sqrt_mul hπ.le]
