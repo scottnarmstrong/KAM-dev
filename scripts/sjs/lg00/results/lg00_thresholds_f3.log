@@ -1,0 +1,3 @@
+theorem | best margin log10(T/e(L)) is not the criterion: L needed and S(L) at the best (rho, mu, c, ell)
+v1        T 1e-48.12  L 53.8  S 1.73e+04  | rho 0.002 mu 1e-05 c 1e+03 ell 3e-02  M 695 sK 2.1253 sB 2.8924 tinv(iso 39.7 fixed 26.2) gamma 0.047
+Aiso      T 1e-21.45  L 25.5  S 4.31e+03  | rho 0.010 mu 1e-05 c 1e+03 ell 5e-02  M 1.2e+03 sK 2.1527 sB 2.9199 tinv(iso 55.6 fixed 15.1) gamma 0.047

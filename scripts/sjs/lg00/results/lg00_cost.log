@@ -1,0 +1,38 @@
+HamExpr of LG00 (action-angle form (15) of eq. (11), grouped by (m1, m2)):
+  taylor K=19: 68 cosine terms; program 8538 slots
+    invariance (d1)        slots  2183  model ops  1379  MM  137  CM  809  chars 118
+    energy (v0)            slots   981  model ops   495  MM   65  CM  246  chars 118
+    inv+energy (v0::d1)    slots  2209  model ops  1402  MM  146  CM  812  chars 118
+    torsion (d1, d2)       slots  4263  model ops  3067  MM  302  CM 1824  chars 118
+    whole program          slots  8538  model ops  6634  MM  800  CM 3769  chars 118
+  taylor K=10: 68 cosine terms; program 8124 slots
+    invariance (d1)        slots  1985  model ops  1271  MM  101  CM  773  chars 118
+    energy (v0)            slots   873  model ops   441  MM   47  CM  228  chars 118
+    inv+energy (v0::d1)    slots  2011  model ops  1294  MM  110  CM  776  chars 118
+    torsion (d1, d2)       slots  3975  model ops  2869  MM  248  CM 1752  chars 118
+    whole program          slots  8124  model ops  6310  MM  728  CM 3643  chars 118
+  taylor K=1: 68 cosine terms; program 7644 slots
+    invariance (d1)        slots  1787  model ops  1163  MM   65  CM  737  chars 118
+    energy (v0)            slots   765  model ops   387  MM   29  CM  210  chars 118
+    inv+energy (v0::d1)    slots  1813  model ops  1186  MM   74  CM  740  chars 118
+    torsion (d1, d2)       slots  3683  model ops  2669  MM  190  CM 1680  chars 118
+    whole program          slots  7644  model ops  5932  MM  594  CM 3543  chars 118
+  Taylor remainder bound |binom(1/2, K+1)| x^{K+1}/(1-x): {'K10_x0.05': '4.1e-17', 'K10_x0.10': '8.9e-14', 'K10_x0.20': '2.1e-10', 'K19_x0.05': '3.2e-29', 'K19_x0.10': '3.6e-23', 'K19_x0.20': '4.2e-17', 'K30_x0.05': '8.1e-44', 'K30_x0.10': '1.8e-34', 'K30_x0.20': '4.4e-25'}
+support geometry (rho 0.02): L 8: S 110, box 315, beta 2.86; L 10: S 166, box 475, beta 2.86; L 12: S 228, box 725, beta 3.18; L 13: S 264, box 837, beta 3.17
+
+cost per torus (MM/ops from the jet mirror, Taylor K = 19, + 48 char-witness products per stage; Gram/torsion stage on the 17-digit support):
+| theorem | L | bits | S | S_low | D34-like CPU-h | landed CPU-h | data elab CPU-h | decls D34 / landed | peak GB (D34) | advice slots |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| v0 | 142 | 497 | 3.78e+04 | 538 | 73.5 | 609-805 | 8.97-29.9 | 3454 / 91392 | 9.1 | 1.75e+08 |
+| v0fixed | 161 | 561 | 4.87e+04 | 538 | 94.2 | 780-1.03e+03 | 11.5-38.3 | 4230 / 103904 | 9.1 | 2.24e+08 |
+| v1 | 36 | 145 | 2.46e+03 | 531 | 6.57 | 53.7-71.1 | 0.785-2.62 | 544 / 23392 | 9.1 | 1.54e+07 |
+| v1fixed | 37 | 148 | 2.6e+03 | 531 | 6.85 | 56-74.1 | 0.819-2.73 | 738 / 23936 | 9.1 | 1.61e+07 |
+| A | 18 | 83 | 630 | 585 | 3.31 | 26.6-35.1 | 0.384-1.28 | 544 / 11424 | 4.6 | 7.61e+06 |
+| Aiso | 18 | 85 | 680 | 585 | 3.4 | 27.4-36.2 | 0.396-1.32 | 544 / 11968 | 4.7 | 7.83e+06 |
+| Afreq | 16 | 77 | 521 | 521 | 2.87 | 23-30.5 | 0.333-1.11 | 544 / 10336 | 4.4 | 6.59e+06 |
+| Aisofreq | 16 | 79 | 545 | 545 | 3 | 24.1-31.8 | 0.348-1.16 | 544 / 10880 | 4.4 | 6.89e+06 |
+with a sqrt node (K = 1 counts + 2 witness products per call):
+  v0        D34-like 51 CPU-h, landed 394-519 CPU-h
+  v1        D34-like 4.64 CPU-h, landed 35.4-46.7 CPU-h
+  Aiso      D34-like 2.46 CPU-h, landed 18.5-24.3 CPU-h
+  Aisofreq  D34-like 2.17 CPU-h, landed 16.3-21.5 CPU-h
