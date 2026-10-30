@@ -44,6 +44,10 @@ def routeAL1 : EngineV2 where
     exact l1Core_sound c w hω hdio B (checkHamClaim_sound B.hs hH) (frameFacts_of B hF hω)
       (checkL1Claim_sound B hω hdio hL) hc
 
+/-- The certifier at `routeAL1`: the landed sub-checks, then `l1Test`. -/
+theorem checkTorusCertificateV2_routeAL1 (c : TorusCertificate n α) (w : L1Wit) :
+    checkTorusCertificateV2 routeAL1 c w = (landedBase.check c && l1Test c w) := rfl
+
 end KAM.CertificateSharp.V2.L1
 
 namespace KAM.CertificateSharp.V2
@@ -60,6 +64,11 @@ def routeAV2L1 : EngineV2 :=
 /-- **v2 is never worse than the landed certifier**, at the combined engine. -/
 theorem checkTorusCertificateV2_routeAV2L1_sharp (c : TorusCertificate n α) :
     checkTorusCertificateV2 routeAV2L1 c (Sum.inl ()) = checkTorusCertificateSharp c := rfl
+
+/-- The combined engine at the witness of the ℓ¹ route is `routeAL1`. -/
+theorem checkTorusCertificateV2_routeAV2L1_l1 (c : TorusCertificate n α) (w : L1.L1Wit) :
+    checkTorusCertificateV2 routeAV2L1 c (Sum.inr (Sum.inr w)) =
+      checkTorusCertificateV2 L1.routeAL1 c w := rfl
 
 end KAM.CertificateSharp.V2
 
