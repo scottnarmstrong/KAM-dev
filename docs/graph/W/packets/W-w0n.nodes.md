@@ -107,9 +107,9 @@ DEPS: stepW:w0n:prod
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w0n:prod | blueprint-W/parts/w0-normalization.tex#stepW:w0n:cos@L60-L60 | integrates the product-to-sum expansion termwise
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -134,9 +134,9 @@ DEPS: stepW:w0n:cos
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w0n:cos | blueprint-W/parts/w0-normalization.tex#stepW:w0n:signed@L66-L66 | rewrites the seven relations of the closed form
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -168,9 +168,9 @@ EDGE: bpW:w1:ext-integral | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradi
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L90-L90 | identifies int U_m(q)^3 phi_l / sqrt(lambda_l) with G_q(q)_l
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L77-L77 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:gradient@L86-L86 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -252,9 +252,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w0n:weight | blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L108-L108 | inserts the weight inequality
 EDGE: bpW:w1:young | blueprint-W/parts/w0-normalization.tex#stepW:w0n:young@L109-L109 | Young's inequality (i) and the l^1 control with 1+2 zeta(2s) (ii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -287,9 +287,9 @@ EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic
 EDGE: stepW:w0n:analytic | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L149-L149 | proof step
 EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L125-L125 | explicit citation identifying G_q with the diagonal T
 EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#bpW:w0n:cubic-bound@L124-L124 | K_{p+1/2} is the algebra constant, with p >= 1/2 ensuring s >= 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -316,9 +316,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:twosided | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L135-L135 | the two-sided norm of the majorant
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L134-L134 | lambda_i >= i (i/lambda_i < 1)
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:majorant@L133-L133 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -345,9 +345,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L137-L137 | the signed form (bpW:w0n:g-signed) and its bound
 EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L139-L139 | the even majorants x, x', x''
 EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#stepW:w0n:selection@L141-L141 | finiteness of the triple convolution: apply the algebra estimate twice, s=p+1/2 >= 1
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -376,9 +376,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w
 EDGE: bpW:w0n:algebra | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L146-L146 | the algebra bound with s = p + 1/2 >= 1, applied twice
 EDGE: stepW:w0n:majorant | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L147-L147 | ¦¦x¦¦ <= sqrt 2 ¦¦q¦¦
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:smoothing@L143-L143 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -407,9 +407,9 @@ EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ana
 EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L154-L154 | identification with G_q for a > 0
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L154-L154 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: stepW:w0n:smoothing | blueprint-W/parts/w0-normalization.tex#stepW:w0n:analytic@L151-L151 | boundedness of the trilinear formula is supplied by the preceding smoothing estimate
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -444,9 +444,9 @@ EDGE: stepW:w0n:converse | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-eq
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L178-L178 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L178-L178 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:pde-equiv@L178-L178 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -478,9 +478,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#stepW:w0n:f
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L192-L192 | the eigenvalue lambda_j^2 = j^2 + m
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L187-L187 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:force@L187-L187 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -510,9 +510,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L194-L194 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:time@L196-L196 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -543,9 +543,9 @@ EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w0-normalization.tex#st
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:ident@L200-L200 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -578,9 +578,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:conver
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L203-L203 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L203-L203 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-normalization.tex#stepW:w0n:converse@L207-L207 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -638,9 +638,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w
 EDGE: bpW:w0:mass | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L232-L232 | squaring: 2 sqrt((x^2+m)(y^2+m)) > 2xy - m uses m > 0
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L231-L231 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:31@L231-L231 | g_abcd != 0 supplies d <= a+b+c via the selection rule at L227-L228
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -667,9 +667,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L236-L236 | strict convexity of f, f' > 0 increasing
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L234-L234 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:22@L235-L235 | the signed index relation used in the exhaustive cases comes from L227-L228
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -758,9 +758,9 @@ EDGE: bpW:w0n:birkhoff#data | blueprint-W/parts/w0-normalization.tex#stepW:w0n:r
 EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L291-L291 | z_j = sqrt(I_j) e^{-i phi_j}
 EDGE: bpW:w0n:Qdef | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L292-L292 | bar G as the resonant tangential monomials
 EDGE: bpW:w0n:gradient | blueprint-W/parts/w0-normalization.tex#stepW:w0n:resavg@L294-L294 | absolute convergence justifies extension of the finite-support average
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -816,9 +816,9 @@ EDGE: bpW:w0n:quartic-coeff | blueprint-W/parts/w0-normalization.tex#stepW:w0n:s
 EDGE: stepW:w0n:moments | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L301-L301 | the moments 3/2 I^2, I_i I_j and the multiplicities
 EDGE: stepW:w0n:resavg | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L303-L303 | bar G = the part of <G> with a tangential action
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:sum@L300-L300 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -848,9 +848,9 @@ EDGE: bpW:w0n:nonres | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-bir
 EDGE: bpW:w0:z | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L318-L318 | X_Lambda (z^alpha zbar^beta) = -i<alpha-beta,hat lambda> z^alpha zbar^beta along dz = -i lambda z
 EDGE: bpW:w0:H | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L321-L321 | H = Lambda + G in the Lie series
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:formal-birkhoff@L309-L309 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -882,9 +882,9 @@ EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L3
 EDGE: stepW:w0n:l1 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L369-L369 | proof step
 EDGE: stepW:w0n:l2 | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L373-L373 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg@L349-L349 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -897,8 +897,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L356-L359
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L356-L359
 CONTRACT_ID: stepW:w0n:det
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: A of Theorem bpW:w0n:AB
-SOURCE_QUANTIFIERS: none
+SOURCE_HYPOTHESES: m > 0 fixed; J={1,2}; A defined by Theorem bpW:w0n:AB (not an additional assumed estimate)
+SOURCE_QUANTIFIERS: for every m > 0; additionally for every integer n >= 1 in the parenthetical determinant identity
 SOURCE_CONCLUSION: det A = (3/(8pi))^2 lambda_1^{-2} lambda_2^{-2} det((3,4),(4,3)) = -63/(64 pi^2) lambda_1^{-2} lambda_2^{-2}; also for general n >= 1, det(4 11^T - Id_n)=(-1)^{n-1}(4n-1)
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -911,7 +911,7 @@ ROUTE_FOR: -
 EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L357-L357 | A = (3/(8pi)) D(4 11^T - Id) D
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:det@L357-L357 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
+EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -925,8 +925,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L360-L362
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L360-L362
 CONTRACT_ID: stepW:w0n:A2
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: l in Z^N, 1 <= ¦l¦ <= 2
-SOURCE_QUANTIFIERS: l
+SOURCE_HYPOTHESES: m > 0 fixed; l an integer sequence supported on N={j>=3}, with 1 <= sum_j abs(l_j) <= 2
+SOURCE_QUANTIFIERS: for every m > 0 and every such l
 SOURCE_CONCLUSION: <l,lambda_N> is +-lambda_a, +-2 lambda_a, +-(lambda_a+lambda_b) or +-(lambda_a-lambda_b), a != b in N, all nonzero
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -939,7 +939,7 @@ ROUTE_FOR: -
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L362-L362 | lambda > 0 strictly increasing
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A2@L361-L361 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
+EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -953,8 +953,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L363-L3
 PROOF_SOURCE: blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L363-L368
 CONTRACT_ID: stepW:w0n:A3red
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: b = (1/lambda_1, 1/lambda_2), s = sum_{j>=3} l_j/lambda_j
-SOURCE_QUANTIFIERS: (k,l)
+SOURCE_HYPOTHESES: m > 0 fixed; k in Z^2, l an integer sequence on N={j>=3}, 1 <= sum_j abs(l_j) <= 2; b=(1/lambda_1,1/lambda_2), s=sum_{j>=3} l_j/lambda_j; A,B and the affine map are defined in the enclosing statement
+SOURCE_QUANTIFIERS: for every m > 0 and every such (k,l); c is introduced only under vanishing of the linear part
 SOURCE_CONCLUSION: A = (3/(8pi))(4bb^T - D^2), B^T l = (3/(2pi)) s b; the linear part (3/(8pi))(4(<b,k>+s)b - D^2 k) vanishes iff k_i/lambda_i = c (i = 1,2) with c = 4(<b,k>+s), then <b,k> = 2c, s = -(7/4)c; the constant part is c(lambda_1^2+lambda_2^2) + <l,lambda_N>
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -968,7 +968,7 @@ EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L365-L
 EDGE: bpW:w0n:nondeg-sec#data | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L366-L366 | the affine map of (A3)
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:A3red@L364-L364 | lambda occurs explicitly in the local source statement or calculation
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W+sol-review-W-w0n
+EXTRACTOR: claude-suborch-W+sol-delta-W-w0n
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -996,9 +996,9 @@ ROUTE_FOR: -
 EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L370-L370 | the vanishing conditions of the reduction
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L370-L370 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l1@L372-L372 | strict positivity of lambda makes k_i^2 strictly between zero and 4/7
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1025,9 +1025,9 @@ ROUTE_FOR: -
 EDGE: stepW:w0n:A3red | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L374-L374 | the vanishing conditions of the reduction
 EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L375-L375 | lambda_3 > 3, 0 < lambda_2 - lambda_1 < 1, lambda injective
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#stepW:w0n:l2@L374-L374 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1058,9 +1058,9 @@ EDGE: bpW:w0:actions | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L4
 EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L397-L397 | A_jj = 9/(8 pi lambda_j^2)
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L394-L394 | lambda occurs explicitly in the local source statement or calculation
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-normalization.tex#bpW:w0n:duffing@L392-L392 | frozen definition is used by its symbol; coefficients q,p are unweighted, as in the blueprint
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1115,9 +1115,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0n:AB | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L341-L341 | omega(I) = lambda_J + A I and Omega(I) = lambda_N + B I
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-normalization.tex#bpW:w0n:nondeg-sec@L341-L341 | lambda occurs explicitly in the local source statement or calculation
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0n
-REVIEWER: -
+REVIEWER: sol-delta-W-w0n
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

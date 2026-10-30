@@ -1,0 +1,13 @@
+{
+ "replaced": [
+  "K:bp:p1:decay",
+  "K:bp:p1:fourier-basic",
+  "K:bp:p1:holomorphic-analytic",
+  "K:bp:p1:strip-identity",
+  "K:step:p1:dec-shift"
+ ],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": []
+}

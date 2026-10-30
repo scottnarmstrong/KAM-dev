@@ -316,3 +316,18 @@ SOURCE line.
     suspected misreference reported as an erratum; it is applied with an arbitrary shift η.
   - `K:bp:p1:fourier-basic` and `K:bp:p1:strip-identity`, used by `stepW:w1:fsum`.
   - `K:bp:p1:decay`, used by `stepW:w1:fbdecay`.
+- **2026-10-30, after the batched review** (codex-1): W-w0c and W-w0n deltas (review-2); W-w1a, W-w1b, W-w2, W-w3
+  and W-imports (review-1). Every slice verdict was FAIL, with replacement blocks and no unresolved rows.
+  - Applied with `inp_depgraph_apply_review.py` and marked with `inp_depgraph_mark_reviewed.py`.
+  - The reviews state "all other coverage items PASS". The items they pass this way, without an explicit row, are
+    marked by the new `tools/w_depgraph_mark_coverage_rest.py`. W-wh round 1 was processed the same way.
+  - Writer adjudications:
+    - the two route nodes `stepW:w3:XG#via-w0-gradient` and `#via-w1-gradient`, added by the reviewer, got their
+      missing EDGE lines (`inp_depgraph_route_edges.py`, locator L301) and their coverage mapping;
+    - the reviewer's edge `bpW:w2:ext-trig -> bpW:w0:basis#lam` was dropped, because an external must be a leaf (the
+      linter rejects it); the consumers already depend on `lam`.
+  - Reviewers exposed four SOURCE_GAP notes:
+    - `stepW:w1:shift`: the contour shift is cited as `bp:p1:fourier-basic`, and the arbitrary-η generalization of
+      `K:step:p1:dec-shift` is not given;
+    - `stepW:w3:XG` and its two routes: the a = 0 case is not covered by the cited gradient results, which assume
+      a > 0.

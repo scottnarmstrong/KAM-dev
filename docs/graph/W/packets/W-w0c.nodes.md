@@ -71,9 +71,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@L40-L40 | lambda_j = sqrt(j^2+m) > 0 uses the fixed m > 0
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:basis@L41-L41 | the recorded eigenfunction equation uses phi_j
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -152,9 +152,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L53-L53 | the norm of l^{a,p} is weighted by j^p e^{aj}, at a = p = 1 the weight of the weighted coordinates
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L54-L55 | E_{1,1} specializes the general product space and its max norm
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L53-L55 | frozen weighted-coordinate dictionary reads q and momentum through coeff (WaveSpace docstring)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -293,9 +293,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L89-L89 |
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L90-L90 | G integrates U_m(q)^4
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L88-L88 | H is defined on E_{1,1}
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:H@L91-L91 | finiteness is stated on the general coefficient space E_{a,p}
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -323,9 +323,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L98-L98 | the factor 1/sqrt(lambda_l)
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L98-L98 | the test mode phi_l
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w0-conventions.tex#bpW:w0:Gq@L97-L98 | q in ell^{1,1} is read as coeff y in the frozen carrier dictionary
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -355,9 +355,9 @@ EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion
 EDGE: bpW:w0:mass | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L109-L109 | the operator norm bound explicitly uses the fixed positive mass through sqrt(1+m)
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L110-L110 | the equation is read for points of E_{1,1}
 EDGE: bpW:w0:ellap#spaces | blueprint-W/parts/w0-conventions.tex#bpW:w0:eqmotion@L109-L110 | linear multiplier maps ell^{a,p+1} to ell^{a,p}
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -384,9 +384,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:H | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L121-L121 | Lambda = sum lambda_j ¦z_j¦^2 rewrites the quadratic part of H
 EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L122-L122 | the linear flow dq_j = lambda_j p_j, dp_j = -lambda_j q_j and the form sum dq ^ dp
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:z@L121-L122 | Lambda and the complex linear flow directly use lambda_j
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -413,9 +413,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:z | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L128-L128 | I_j = ¦z_j¦^2 and z_j = sqrt(I_j) e^{-i phi_j}
 EDGE: bpW:w0:eqmotion | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L132-L132 | the linear flow in action-angle form
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:actions@L131-L132 | Lambda = sum lambda_j I_j and angular velocity lambda_j
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -443,9 +443,9 @@ EDGE: bpW:w0:actions | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L14
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L141-L141 | K^0_I takes values in E (frozen: WaveSpace, weighted coordinates)
 EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L141-L141 | frozen weighted coordinates ellWeight 1 1 j * Q^0_j
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:periodone@L143-L143 | linear invariance frequency is (lambda_1,lambda_2)/(2 pi)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -498,9 +498,9 @@ DEPS: bpW:w0:ellap#ellWeight
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:ellap#ellWeight | blueprint-W/parts/w0-conventions.tex#bpW:w0:ellap@L53-L53 | norm uses the square of ellWeight a p j
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: new+sol-review-W-w0c
-REVIEWER: -
+REVIEWER: sol-delta-W-w0c
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -521,14 +521,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:basis#lam
+DEPS: bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:basis#lam, bpW:w0:basis#sineMode
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L78-L79 | u = U_m(q) gives the displacement coefficient rescaling
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L78-L79 | u_t = V_m(p) gives the momentum coefficient rescaling
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L79-L80 | reciprocal sqrt(lambda_j) factors give the symplectic rescaling
+EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w0-conventions.tex#bpW:w0:reconstruction@L78-L78 | the inverse dictionary explicitly expands u and u_t in the frozen sine basis phi_j
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: new+sol-review-W-w0c
+EXTRACTOR: new+sol-delta-W-w0c
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -

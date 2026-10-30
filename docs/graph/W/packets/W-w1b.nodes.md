@@ -21,9 +21,9 @@ EDGE: stepW:w1:odd | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-completeness
 EDGE: stepW:w1:coeffs | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-completeness@L602-L602 | proof step
 EDGE: stepW:w1:basis | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-completeness@L606-L606 | proof step
 EDGE: stepW:w1:cont | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-completeness@L610-L610 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -47,9 +47,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -75,9 +75,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:odd | blueprint-W/parts/w1-sequences.tex#stepW:w1:coeffs@L603-L603 | the odd extension g
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#stepW:w1:coeffs@L605-L605 | sin(nx) = sqrt(pi/2) phi_n(x)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -103,9 +103,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:coeffs | blueprint-W/parts/w1-sequences.tex#stepW:w1:basis@L607-L607 | the vanishing integrals
 EDGE: bpW:w1:ext-fourier | blueprint-W/parts/w1-sequences.tex#stepW:w1:basis@L608-L608 | the characters form a Hilbert basis (injective coefficient map)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -130,9 +130,9 @@ DEPS: stepW:w1:basis
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:basis | blueprint-W/parts/w1-sequences.tex#stepW:w1:cont@L612-L612 | (i): f = 0 a.e.
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -161,9 +161,9 @@ EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-feature@
 EDGE: stepW:w1:growth | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-feature@L632-L632 | proof step
 EDGE: stepW:w1:normal | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-feature@L636-L636 | proof step
 EDGE: stepW:w1:sinereal | blueprint-W/parts/w1-sequences.tex#bpW:w1:sine-feature@L641-L641 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -187,9 +187,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -215,9 +215,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:growth | blueprint-W/parts/w1-sequences.tex#stepW:w1:normal@L638-L638 | the tail bound sum_{j>N} b_j
 EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:normal@L640-L640 | locally uniform limits of holomorphic maps are holomorphic; holomorphic on open subsets of C implies analytic
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -244,9 +244,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:complexification-lemma | blueprint-W/parts/w1-sequences.tex#stepW:w1:sinereal@L643-L643 | (ii): R-analyticity of re o f o l
 EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:sinereal@L643-L643 | the inner product of l^2 as a tsum
 EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:sinereal@L644-L644 | kappa_{a,p}
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -279,9 +279,9 @@ EDGE: stepW:w1:bil | blueprint-W/parts/w1-sequences.tex#bpW:w1:recon-analytic@L6
 EDGE: stepW:w1:recanalytic | blueprint-W/parts/w1-sequences.tex#bpW:w1:recon-analytic@L677-L677 | proof step
 EDGE: stepW:w1:recder | blueprint-W/parts/w1-sequences.tex#bpW:w1:recon-analytic@L683-L683 | proof step
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#bpW:w1:recon-analytic@L652-L652 | the sine modes phi_j occur directly here (frozen sineMode)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -310,9 +310,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w1-sequences.tex#stepW:w1:bi
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w1-sequences.tex#stepW:w1:bil@L675-L675 | coeff y j = (kappa_{1,1} y)_j
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#stepW:w1:bil@L676-L676 | the frozen tsum of reconU
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w1-sequences.tex#stepW:w1:bil@L676-L676 | the frozen tsum of reconV
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -325,7 +325,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:recanalytic@L677-L
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:recanalytic@L677-L682
 CONTRACT_ID: stepW:w1:recanalytic
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w1:recon-analytic: k in N; Psi^{U,k}_R, Psi^{V,k}_R the real feature maps of Lemma bpW:w1:sine-feature with a = p = 1 and beta_j = lambda_j^{-1/2}, resp. lambda_j^{1/2}; U^(k)_y(x) = <Psi^{U,k}_R(x),y> = sum coeff y j/sqrt(lambda_j) phi_j^(k)(x), V^(k)_y(x) = sum sqrt(lambda_j) coeff y j phi_j^(k)(x) for y in l^2_R, x in R; (iii) S a real normed space and Y : S -> l^2_R real analytic at s_0; local data: Y analytic at s_0; Psi^{U,k}_R analytic
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:recon-analytic: k in N; Psi^{U,k}_R, Psi^{V,k}_R the real feature maps of Lemma bpW:w1:sine-feature with a = p = 1 and beta_j = lambda_j^{-1/2}, resp. lambda_j^{1/2}; U^(k)_y(x) = <Psi^{U,k}_R(x),y> = sum coeff y j/sqrt(lambda_j) phi_j^(k)(x), V^(k)_y(x) = sum sqrt(lambda_j) coeff y j phi_j^(k)(x) for y in l^2_R, x in R; (iii) S a real normed space and Y : S -> l^2_R real analytic at s_0
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:recon-analytic (for all k, y, real x; (iii) for all S, Y, s_0, x_0); within the step: (s_0,x_0); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: the composite of the continuous bilinear inner product with the analytic pair (Psi^{U,k}_R(x), Y(s)) is analytic at (s_0,x_0); this is (iii)
 CONSTANT_SCOPE: none
@@ -339,7 +339,7 @@ ROUTE_FOR: -
 EDGE: bpW:w1:sine-feature | blueprint-W/parts/w1-sequences.tex#stepW:w1:recanalytic@L680-L680 | (ii): Psi_R is analytic
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:recanalytic@L679-L679 | bilinear maps, pairs and compositions of analytic maps are analytic
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -353,7 +353,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L683-L691
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L683-L691
 CONTRACT_ID: stepW:w1:recder
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w1:recon-analytic: k in N; Psi^{U,k}_R, Psi^{V,k}_R the real feature maps of Lemma bpW:w1:sine-feature with a = p = 1 and beta_j = lambda_j^{-1/2}, resp. lambda_j^{1/2}; U^(k)_y(x) = <Psi^{U,k}_R(x),y> = sum coeff y j/sqrt(lambda_j) phi_j^(k)(x), V^(k)_y(x) = sum sqrt(lambda_j) coeff y j phi_j^(k)(x) for y in l^2_R, x in R; (iii) S a real normed space and Y : S -> l^2_R real analytic at s_0; local data: Psi^{U,k}_R analytic
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:recon-analytic: k in N; Psi^{U,k}_R, Psi^{V,k}_R the real feature maps of Lemma bpW:w1:sine-feature with a = p = 1 and beta_j = lambda_j^{-1/2}, resp. lambda_j^{1/2}; U^(k)_y(x) = <Psi^{U,k}_R(x),y> = sum coeff y j/sqrt(lambda_j) phi_j^(k)(x), V^(k)_y(x) = sum sqrt(lambda_j) coeff y j phi_j^(k)(x) for y in l^2_R, x in R; (iii) S a real normed space and Y : S -> l^2_R real analytic at s_0
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:recon-analytic (for all k, y, real x; (iii) for all S, Y, s_0, x_0); within the step: k, y, x; m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: (Psi^{U,k}_R)' = Psi^{U,k+1}_R coordinatewise, so d/dx U^(k)_y = U^(k+1)_y; iterating from (i) gives the iterated derivatives of reconU m hm y; at x in [0,pi] the derivative within [0,pi] equals the two-sided derivative (uniqueDiffOn_Icc); the same for V; this is (ii)
 CONSTANT_SCOPE: none
@@ -361,7 +361,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:sine-feature, bpW:w1:ext-analytic, bpW:w1:space, stepW:w1:bil, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU
+DEPS: bpW:w1:sine-feature, bpW:w1:ext-analytic, bpW:w1:space, stepW:w1:bil, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:sine-feature | blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L684-L684 | (ii): Psi_R analytic, hence differentiable
@@ -370,8 +370,9 @@ EDGE: bpW:w1:space | blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L686-L68
 EDGE: stepW:w1:bil | blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L689-L689 | (i): U^(0)_y = reconU m hm y
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L687-L687 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L688-L688 | U_m occurs directly here (frozen reconU)
+EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w1-sequences.tex#stepW:w1:recder@L691-L691 | the same derivative identification is explicitly asserted for V
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -396,9 +397,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -425,9 +426,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:complexification | blueprint-W/parts/w1-sequences.tex#bpW:w1:complexification-lemma@L709-L709 | iota, re, conjugation
 EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:complexification-lemma@L711-L711 | commutation with tau, kappa
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#bpW:w1:complexification-lemma@L722-L722 | C-analytic is R-analytic; composition with continuous linear maps
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -451,9 +452,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -481,9 +482,9 @@ EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#bpW:w1:cauchy@L738
 EDGE: stepW:w1:lines | blueprint-W/parts/w1-sequences.tex#bpW:w1:cauchy@L745-L745 | proof step
 EDGE: stepW:w1:onevar | blueprint-W/parts/w1-sequences.tex#bpW:w1:cauchy@L748-L748 | proof step
 EDGE: stepW:w1:margins | blueprint-W/parts/w1-sequences.tex#bpW:w1:cauchy@L750-L750 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -507,9 +508,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -535,9 +536,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:lines | blueprint-W/parts/w1-sequences.tex#stepW:w1:onevar@L749-L749 | the one-variable function phi
 EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:onevar@L749-L749 | the Cauchy estimate in one variable
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -563,9 +564,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:margins@L751-L751 | the estimate on balls
 EDGE: bpW:w1:ext-unifderiv | blueprint-W/parts/w1-sequences.tex#stepW:w1:margins@L751-L751 | the mean value inequality on convex sets
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -593,9 +594,9 @@ EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#bpW:w1:deriv-conti
 EDGE: stepW:w1:dcbound | blueprint-W/parts/w1-sequences.tex#bpW:w1:deriv-continuous@L763-L763 | proof step
 EDGE: stepW:w1:dcintegral | blueprint-W/parts/w1-sequences.tex#bpW:w1:deriv-continuous@L765-L765 | proof step
 EDGE: stepW:w1:dclip | blueprint-W/parts/w1-sequences.tex#bpW:w1:deriv-continuous@L769-L769 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -608,8 +609,8 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:dcbound@L763-L764
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:dcbound@L763-L764
 CONTRACT_ID: stepW:w1:dcbound
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w1:deriv-continuous: U subset F_1 open, f : U -> F_2 holomorphic; w_0 in U, rho > 0, B >= 0 with B(w_0,2rho) subset U and ¦¦f¦¦ <= B on B(w_0,2rho); local data: f continuous at w_0
-SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:deriv-continuous (for all such data; w, w' in B(w_0,rho/2)); within the step: w_0; m > 0 fixed (standing assumption)
+SOURCE_HYPOTHESES: U subset F_1 open; f:U -> F_2 holomorphic; w_0 in U; no rho or B is fixed in advance for this existence subclaim
+SOURCE_QUANTIFIERS: for every U,f,w_0 as stated, there exist rho > 0 and B >= 0
 SOURCE_CONCLUSION: ¦¦f(z)¦¦ <= ¦¦f(w_0)¦¦ + 1 =: B on some ball B(w_0,2rho) subset U
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
@@ -620,7 +621,7 @@ DEPS: -
 ROUTES: -
 ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -646,9 +647,9 @@ DEPS: bpW:w1:ext-onevar
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:dcintegral@L767-L767 | the Cauchy integral formula for phi'(0)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -675,9 +676,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:dclip@L771-L771 | margin rho inside B(w_0,2rho)
 EDGE: stepW:w1:dcintegral | blueprint-W/parts/w1-sequences.tex#stepW:w1:dclip@L772-L772 | the two Cauchy integrals
 EDGE: stepW:w1:dcbound | blueprint-W/parts/w1-sequences.tex#stepW:w1:dclip@L771-L771 | the bound B on B(w_0,2rho)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -705,9 +706,9 @@ EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#bpW:w1:uniform-lim
 EDGE: bpW:w1:complexification | blueprint-W/parts/w1-sequences.tex#bpW:w1:uniform-limit@L782-L782 | real on reals
 EDGE: stepW:w1:ulcauchy | blueprint-W/parts/w1-sequences.tex#bpW:w1:uniform-limit@L789-L789 | proof step
 EDGE: stepW:w1:ullimit | blueprint-W/parts/w1-sequences.tex#bpW:w1:uniform-limit@L794-L794 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -732,9 +733,9 @@ DEPS: bpW:w1:cauchy
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:ulcauchy@L791-L791 | applied to f_k - f_l with bound eps
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -761,9 +762,9 @@ ROUTE_FOR: -
 EDGE: stepW:w1:ulcauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:ullimit@L795-L795 | the uniform limit g of Df_k
 EDGE: bpW:w1:ext-unifderiv | blueprint-W/parts/w1-sequences.tex#stepW:w1:ullimit@L795-L795 | uniform limits of derivatives
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:ullimit@L797-L797 | (ii) applied to f itself
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -793,9 +794,9 @@ EDGE: stepW:w1:hamargin | blueprint-W/parts/w1-sequences.tex#bpW:w1:holo-analyti
 EDGE: stepW:w1:hacoef | blueprint-W/parts/w1-sequences.tex#bpW:w1:holo-analytic-fd@L817-L817 | proof step
 EDGE: stepW:w1:hagroup | blueprint-W/parts/w1-sequences.tex#bpW:w1:holo-analytic-fd@L824-L824 | proof step
 EDGE: stepW:w1:hareal | blueprint-W/parts/w1-sequences.tex#bpW:w1:holo-analytic-fd@L834-L834 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -808,7 +809,7 @@ STATEMENT_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hamargin@L814-L816
 PROOF_SOURCE: blueprint-W/parts/w1-sequences.tex#stepW:w1:hamargin@L814-L816
 CONTRACT_ID: stepW:w1:hamargin
 CONTRACT_VERSION: 1
-SOURCE_HYPOTHESES: context of the proof of bpW:w1:holo-analytic-fd: U subset C^n open (max norm), F complex Banach, f : U -> F holomorphic; for the quantitative part n >= 1, r > 0 with bar P(z_0,r) subset U; for the real part F = E^C_{a,p} and f real on reals at the real points of U; local data: bar P(z_0,r) subset U compact, U open
+SOURCE_HYPOTHESES: context of the proof of bpW:w1:holo-analytic-fd: U subset C^n open (max norm), F complex Banach, f : U -> F holomorphic; for the quantitative part n >= 1, r > 0 with bar P(z_0,r) subset U; for the real part F = E^C_{a,p} and f real on reals at the real points of U
 SOURCE_QUANTIFIERS: for every choice of the data of bpW:w1:holo-analytic-fd (for all such data); m > 0 fixed (standing assumption)
 SOURCE_CONCLUSION: bar P(z_0,r_1) subset U for some r_1 > r, and f is bounded by some M_1 on the compact bar P(z_0,r_1)
 CONSTANT_SCOPE: none
@@ -820,7 +821,7 @@ DEPS: -
 ROUTES: -
 ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -849,9 +850,9 @@ EDGE: stepW:w1:hamargin | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L81
 EDGE: K:bp:p1:holomorphic-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L818-L818 | K's Cauchy-coefficient argument (steps han-cauchy..han-bounds), applied with W replaced by the complete F
 EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L821-L821 | the one-variable Cauchy formula for complete F
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:hacoef@L823-L823 | Fubini and termwise integration of Bochner integrals on the torus
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -878,9 +879,9 @@ ROUTE_FOR: -
 EDGE: stepW:w1:hacoef | blueprint-W/parts/w1-sequences.tex#stepW:w1:hagroup@L829-L829 | the coefficients c_alpha and their bounds
 EDGE: bpW:w3:ext-tsum | blueprint-W/parts/w1-sequences.tex#stepW:w1:hagroup@L831-L831 | regrouping an absolutely convergent multi-index series by degree
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w1-sequences.tex#stepW:w1:hagroup@L832-L832 | a power series with positive radius gives analyticity (HasFPowerSeriesOnBall)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -905,9 +906,9 @@ DEPS: bpW:w1:complexification-lemma
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:complexification-lemma | blueprint-W/parts/w1-sequences.tex#stepW:w1:hareal@L835-L835 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -934,9 +935,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:holo-analytic-fd | blueprint-W/parts/w1-sequences.tex#bpW:w1:torus-analytic@L847-L847 | with U = T_s
 EDGE: bpW:w1:complexification-lemma | blueprint-W/parts/w1-sequences.tex#bpW:w1:torus-analytic@L847-L847 | (iii): real restriction and its derivative
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w1-sequences.tex#bpW:w1:torus-analytic@L841-L841 | K takes values in WaveSpace (E_{1,1})
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -957,7 +958,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:holomorphic, bpW:w1:complexification, stepW:w1:flowlip, stepW:w1:picard, stepW:w1:picardholo, stepW:w1:flowlim, stepW:w1:flowreal, stepW:w1:flowpar, bpW:w0:basis#sineMode
+DEPS: bpW:w1:holomorphic, bpW:w1:complexification, stepW:w1:flowlip, stepW:w1:picard, stepW:w1:picardholo, stepW:w1:flowlim, stepW:w1:flowreal, stepW:w1:flowpar
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:holomorphic | blueprint-W/parts/w1-sequences.tex#bpW:w1:flow@L853-L853 | holomorphic fields
@@ -968,9 +969,8 @@ EDGE: stepW:w1:picardholo | blueprint-W/parts/w1-sequences.tex#bpW:w1:flow@L876-
 EDGE: stepW:w1:flowlim | blueprint-W/parts/w1-sequences.tex#bpW:w1:flow@L889-L889 | proof step
 EDGE: stepW:w1:flowreal | blueprint-W/parts/w1-sequences.tex#bpW:w1:flow@L895-L895 | proof step
 EDGE: stepW:w1:flowpar | blueprint-W/parts/w1-sequences.tex#bpW:w1:flow@L897-L897 | proof step
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#bpW:w1:flow@L857-L857 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -996,9 +996,9 @@ DEPS: bpW:w1:cauchy
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:cauchy | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlip@L871-L871 | margin delta inside B(w,2delta) subset V
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1019,14 +1019,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:flowlip, bpW:w1:ext-integral, bpW:w0:basis#sineMode
+DEPS: stepW:w1:flowlip, bpW:w1:ext-integral
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:flowlip | blueprint-W/parts/w1-sequences.tex#stepW:w1:picard@L875-L875 | L-Lipschitz on B(w,delta)
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:picard@L873-L873 | the integral equation (Bochner integral)
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#stepW:w1:picard@L873-L873 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1048,16 +1047,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:deriv-continuous, bpW:w1:ext-integral, stepW:w1:flowlip, stepW:w1:picard, bpW:w0:basis#sineMode
+DEPS: bpW:w1:deriv-continuous, bpW:w1:ext-integral, stepW:w1:flowlip, stepW:w1:picard
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:deriv-continuous | blueprint-W/parts/w1-sequences.tex#stepW:w1:picardholo@L881-L881 | DX is continuous on V
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:picardholo@L883-L883 | differentiation under the integral (hasFDerivAt_integral_of_dominated_of_fderiv_le)
 EDGE: stepW:w1:flowlip | blueprint-W/parts/w1-sequences.tex#stepW:w1:picardholo@L884-L884 | ¦¦DX¦¦ <= L on B(w,delta)
 EDGE: stepW:w1:picard | blueprint-W/parts/w1-sequences.tex#stepW:w1:picardholo@L879-L879 | the iterates and their continuity
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#stepW:w1:picardholo@L877-L877 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1079,16 +1077,15 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:picard, bpW:w1:ext-ode, bpW:w1:uniform-limit, stepW:w1:picardholo, bpW:w0:basis#sineMode
+DEPS: stepW:w1:picard, bpW:w1:ext-ode, bpW:w1:uniform-limit, stepW:w1:picardholo
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:picard | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L890-L890 | geometric convergence of the iterates
 EDGE: bpW:w1:ext-ode | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L891-L891 | uniqueness of ODE solutions for Lipschitz fields
 EDGE: bpW:w1:uniform-limit | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L893-L893 | holomorphy of the uniform limit
 EDGE: stepW:w1:picardholo | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L893-L893 | holomorphy and bounds of the iterates
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowlim@L893-L893 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1115,9 +1112,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:picard | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowreal@L896-L896 | the Picard iterates
 EDGE: stepW:w1:flowlim | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowreal@L896-L896 | phi is their limit
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1138,15 +1135,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:flowlip, stepW:w1:flowlim, bpW:w1:ext-ode, bpW:w0:basis#sineMode
+DEPS: stepW:w1:flowlip, stepW:w1:flowlim, bpW:w1:ext-ode
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:flowlip | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowpar@L899-L899 | X(.,zeta) is L-Lipschitz on B(w,delta)
 EDGE: stepW:w1:flowlim | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowpar@L898-L898 | both trajectories lie in B(w,delta) by (i)
 EDGE: bpW:w1:ext-ode | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowpar@L900-L900 | Gronwall's inequality
-EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w1-sequences.tex#stepW:w1:flowpar@L898-L898 | the sine modes phi_j occur directly here (frozen sineMode)
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1172,9 +1168,9 @@ DEPS: bpW:w1:transport
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-space@L918-L918 | weighted coordinates of l^{a,p}_C
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1200,9 +1196,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:kam-space | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-domain@L940-L940 | D(s,r) and the norms
 EDGE: bpW:w1:embed | blueprint-W/parts/w1-sequences.tex#bpW:w1:kam-domain@L950-L950 | (i): norm comparison for bar p <= p
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1231,9 +1227,9 @@ EDGE: stepW:w1:shift | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-l2@L969
 EDGE: stepW:w1:parseval | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-l2@L975-L975 | proof step
 EDGE: stepW:w1:orthants | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-l2@L980-L980 | proof step
 EDGE: stepW:w1:fsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-l2@L984-L984 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1254,18 +1250,18 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: K:step:p1:dec-shift, bpW:w1:ext-lp
+DEPS: K:step:p1:dec-shift, bpW:w1:ext-onevar
 ROUTES: -
 ROUTE_FOR: -
 EDGE: K:step:p1:dec-shift | blueprint-W/parts/w1-sequences.tex#stepW:w1:shift@L973-L973 | the contour shift (cited as fourier-basic) applied to the scalar holomorphic functions <e,u>
-EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:shift@L974-L974 | vectors of H are determined by the functionals <e,.>
+EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:shift@L974-L974 | scalarization uses continuous linear functionals and their commutation with Bochner integration
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: The text cites "the contour shift of track K's bp:p1:fourier-basic" (L973); fourier-basic contains no contour shift. The shift is K's step:p1:dec-shift (in the proof of bp:p1:decay), used here with an arbitrary shift eta instead of K's t_j = -rho' sgn(k_j). Suspected blueprint misreference (reported).
+NOTE: SOURCE_GAP: L973-L974 invokes an arbitrary contour shift eta but cites bp:p1:fourier-basic, which has no contour-shift result. The imported K:step:p1:dec-shift has t_j=-rho_prime sgn(k_j); its hypotheses do not allow arbitrary eta. The source does not spell out that generalization. Retain the claim and its intended import as a proof-pattern dependency, not a discharged application. Scalar-to-Hilbert reconstruction additionally uses continuous functionals and commutation with integration.
 
 NODE: stepW:w1:parseval
 KIND: step
@@ -1288,9 +1284,9 @@ ROUTE_FOR: -
 EDGE: bpW:w1:ext-fourier | blueprint-W/parts/w1-sequences.tex#stepW:w1:parseval@L978-L978 | scalar Parseval
 EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:parseval@L978-L978 | Tonelli over the orthonormal basis
 EDGE: stepW:w1:shift | blueprint-W/parts/w1-sequences.tex#stepW:w1:parseval@L979-L979 | the shifted coefficients
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1311,12 +1307,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:parseval
+DEPS: stepW:w1:parseval, bpW:w1:ext-series
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:parseval | blueprint-W/parts/w1-sequences.tex#stepW:w1:orthants@L981-L981 | the bound for each eta
+EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:orthants@L983-L983 | the limiting nonnegative series is passed to the boundary by monotone convergence
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w1b
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -1346,9 +1343,9 @@ EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:fsum@L98
 EDGE: stepW:w1:orthants | blueprint-W/parts/w1-sequences.tex#stepW:w1:fsum@L987-L987 | (i) in the Cauchy-Schwarz bound
 EDGE: K:bp:p1:fourier-basic | blueprint-W/parts/w1-sequences.tex#stepW:w1:fsum@L989-L989 | (b): a continuous periodic function with vanishing coefficients is 0
 EDGE: K:bp:p1:strip-identity | blueprint-W/parts/w1-sequences.tex#stepW:w1:fsum@L989-L989 | identity theorem on strips
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1378,9 +1375,9 @@ EDGE: stepW:w1:fbdual | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-banach
 EDGE: stepW:w1:fbdecay | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-banach@L1019-L1019 | proof step
 EDGE: stepW:w1:fbsum | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-banach@L1023-L1023 | proof step
 EDGE: stepW:w1:fbconv | blueprint-W/parts/w1-sequences.tex#bpW:w1:fourier-banach@L1025-L1025 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1405,9 +1402,9 @@ DEPS: bpW:w1:ext-onevar
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbdual@L1018-L1018 | continuous linear maps commute with Bochner integrals
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1434,9 +1431,9 @@ ROUTE_FOR: -
 EDGE: stepW:w1:fbdual | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbdecay@L1020-L1020 | the scalar functions phi o u
 EDGE: K:bp:p1:decay | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbdecay@L1020-L1020 | scalar coefficient decay
 EDGE: bpW:w1:ext-onevar | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbdecay@L1022-L1022 | the norm is attained by norm-one functionals
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1462,9 +1459,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:fbdecay | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbsum@L1024-L1024 | (i)
 EDGE: bpW:w1:lattice | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbsum@L1024-L1024 | (i), (iii): the lattice sums
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1490,9 +1487,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:uniform-limit | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbconv@L1027-L1027 | (i): holomorphy of the uniform limit
 EDGE: bpW:w1:ext-integral | blueprint-W/parts/w1-sequences.tex#stepW:w1:fbconv@L1028-L1028 | term-by-term integration
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1520,9 +1517,9 @@ EDGE: stepW:w1:latprod | blueprint-W/parts/w1-sequences.tex#bpW:w1:lattice@L1050
 EDGE: stepW:w1:latcount | blueprint-W/parts/w1-sequences.tex#bpW:w1:lattice@L1054-L1054 | proof step
 EDGE: stepW:w1:latweight | blueprint-W/parts/w1-sequences.tex#bpW:w1:lattice@L1057-L1057 | proof step
 EDGE: stepW:w1:latdiv | blueprint-W/parts/w1-sequences.tex#bpW:w1:lattice@L1062-L1062 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1547,9 +1544,9 @@ DEPS: bpW:w1:ext-series
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:latprod@L1052-L1052 | Tonelli for the product sum
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1573,9 +1570,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1600,9 +1597,9 @@ DEPS: stepW:w1:latcount
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:latcount | blueprint-W/parts/w1-sequences.tex#stepW:w1:latweight@L1058-L1058 | (ii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1627,9 +1624,9 @@ DEPS: stepW:w1:latweight
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:latweight | blueprint-W/parts/w1-sequences.tex#stepW:w1:latdiv@L1064-L1064 | (iii) with c = gamma tau + beta
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1658,9 +1655,9 @@ EDGE: stepW:w1:rows | blueprint-W/parts/w1-sequences.tex#bpW:w1:schur@L1124-L112
 EDGE: stepW:w1:schurtest | blueprint-W/parts/w1-sequences.tex#bpW:w1:schur@L1128-L1128 | proof step
 EDGE: stepW:w1:diagcomb | blueprint-W/parts/w1-sequences.tex#bpW:w1:schur@L1131-L1131 | proof step
 EDGE: stepW:w1:schurweights | blueprint-W/parts/w1-sequences.tex#bpW:w1:schur@L1136-L1136 | proof step
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1685,9 +1682,9 @@ DEPS: bpW:w1:ext-series
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:ext-series | blueprint-W/parts/w1-sequences.tex#stepW:w1:rows@L1126-L1126 | sum_{k != 0} k^{-2} = pi^2/3
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1713,9 +1710,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:rows | blueprint-W/parts/w1-sequences.tex#stepW:w1:schurtest@L1129-L1129 | row and column sums
 EDGE: bpW:w1:ext-lp | blueprint-W/parts/w1-sequences.tex#stepW:w1:schurtest@L1130-L1130 | norm bounds via finite partial sums
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1741,9 +1738,9 @@ ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:multiplier | blueprint-W/parts/w1-sequences.tex#stepW:w1:diagcomb@L1132-L1132 | diagonal multipliers
 EDGE: stepW:w1:schurtest | blueprint-W/parts/w1-sequences.tex#stepW:w1:diagcomb@L1133-L1133 | the bound on B
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1768,9 +1765,9 @@ DEPS: bpW:w1:transport
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:transport | blueprint-W/parts/w1-sequences.tex#stepW:w1:schurweights@L1137-L1137 | the representative
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w1b
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

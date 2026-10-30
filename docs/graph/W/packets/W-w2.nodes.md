@@ -16,9 +16,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -42,9 +42,9 @@ FROZEN_ABI_SHA256: -
 DEPS: -
 ROUTES: -
 ROUTE_FOR: -
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
@@ -59,7 +59,7 @@ CONTRACT_ID: bpW:w2:ext-sums
 CONTRACT_VERSION: 1
 SOURCE_HYPOTHESES: none (Mathlib-level external fact)
 SOURCE_QUANTIFIERS: as stated in the item
-SOURCE_CONCLUSION: tsum_congr (termwise equal series have equal tsum, no summability needed); Summable.tsum_sub, Summable.tsum_add, tsum_mul_left for summable series; tsum_zero; comparison; summability of j e^{-j}, e^{-j} (geometric); Cauchy-Schwarz ¦<Psi,y>¦ <= ¦¦Psi¦¦ ¦¦y¦¦; on a product norm_fst_le, norm_snd_le
+SOURCE_CONCLUSION: tsum_congr (termwise equal series have equal tsum, no summability needed); Summable.tsum_sub, Summable.tsum_add, tsum_mul_left for summable series; tsum_zero; comparison; summability of j^k e^{-j} for every k in N, and sum_{j>=1} e^{-2j} = (e^2-1)^{-1} (geometric series); Cauchy-Schwarz ¦<Psi,y>¦ <= ¦¦Psi¦¦ ¦¦y¦¦; on a product norm_fst_le, norm_snd_le
 CONSTANT_SCOPE: none
 FROZEN_FILE: -
 FROZEN_DECL: -
@@ -69,7 +69,7 @@ DEPS: -
 ROUTES: -
 ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
@@ -95,12 +95,12 @@ DEPS: -
 ROUTES: -
 ROUTE_FOR: -
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: EXTERNAL
 LEAN_REF: -
 LEAN_NOTE: -
-NOTE: -
+NOTE: Writer adjudication of the sol-review-W-w2 replacement: an external must be a dependency leaf (linter), so the proposed edge to bpW:w0:basis#lam is dropped; the identity lambda_j^2 = j^2 + m is applied to the frozen lambda_j at the consumers (stepW:w2:flin, stepW:w2:t1), which depend on bpW:w0:basis#lam.
 
 NODE: bpW:w2:derived
 KIND: definition
@@ -123,9 +123,9 @@ ROUTE_FOR: -
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:derived@L72-L72 | kappa(y)_j = coeff y j
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:derived@L72-L72 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:derived@L71-L71 | U_m occurs directly here (frozen reconU)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -160,9 +160,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:fun
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:functionals@L88-L88 | U_m occurs directly here (frozen reconU)
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:functionals@L85-L85 | V_m occurs directly here (frozen reconV)
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:functionals@L107-L107 | the frozen coeff occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -191,9 +191,9 @@ EDGE: bpW:w0:basis#lambda-facts | blueprint-W/parts/w2-reconstruction.tex#stepW:
 EDGE: bpW:w0:mass | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:features@L98-L98 | lambda_j^2 = j^2 + m <= (1+m) j^2
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:features@L96-L96 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:features@L101-L101 | the sine modes phi_j occur directly here (frozen sineMode)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -226,9 +226,9 @@ EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:p
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:pairing@L106-L106 | U_m occurs directly here (frozen reconU)
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:pairing@L106-L106 | V_m occurs directly here (frozen reconV)
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:pairing@L107-L107 | the frozen coeff occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -259,9 +259,9 @@ EDGE: bpW:w2:ext-sums | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:norms@L
 EDGE: stepW:w2:pairing | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:norms@L113-L113 | (i) for the pointwise bounds
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:norms@L109-L109 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:norms@L109-L109 | the sine modes phi_j occur directly here (frozen sineMode)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -291,9 +291,9 @@ EDGE: bpW:w2:ext-deriv | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:xder@L
 EDGE: stepW:w2:pairing | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:xder@L119-L119 | (i)
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:xder@L117-L117 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:xder@L117-L117 | the sine modes phi_j occur directly here (frozen sineMode)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -321,9 +321,9 @@ EDGE: bpW:w2:ext-trig | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bdry@L1
 EDGE: bpW:w2:ext-sums | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bdry@L123-L123 | tsum_zero
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bdry@L121-L121 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bdry@L122-L122 | U_m occurs directly here (frozen reconU)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -344,7 +344,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w2:derived, stepW:w2:fsum, stepW:w2:flin, stepW:w2:fcub, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
+DEPS: bpW:w2:derived, stepW:w2:fsum, stepW:w2:flin, stepW:w2:fcub, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:derived | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@L134-L134 | D^0 y and D^2 y
@@ -355,8 +355,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@L1
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@L130-L130 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@L134-L134 | U_m occurs directly here (frozen reconU)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@L131-L131 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:force@L130-L130 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -378,7 +379,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:ext-lp, bpW:w0:basis#lambda-facts, bpW:w1:cubic-analytic, bpW:w2:ext-sums, bpW:w2:functionals, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
+DEPS: bpW:w1:ext-lp, bpW:w0:basis#lambda-facts, bpW:w1:cubic-analytic, bpW:w2:ext-sums, bpW:w2:functionals, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:ext-lp | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum@L141-L141 | ¦kappa(y)_j¦ <= ¦¦y¦¦/(j e^j)
@@ -390,8 +391,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum@L
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum@L142-L142 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum@L146-L146 | U_m occurs directly here (frozen reconU)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum@L143-L143 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fsum@L141-L141 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -413,7 +415,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w2:ext-trig, bpW:w2:derived, stepW:w2:fsum, bpW:w2:ext-sums, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU
+DEPS: bpW:w2:ext-trig, bpW:w2:derived, stepW:w2:fsum, bpW:w2:ext-sums, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:ext-trig | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin@L149-L149 | lambda/sqrt(lambda) identities and lambda_j^2 = j^2 + m
@@ -423,8 +425,9 @@ EDGE: bpW:w2:ext-sums | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin@L1
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin@L149-L149 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin@L150-L150 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin@L151-L151 | U_m occurs directly here (frozen reconU)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:flin@L150-L150 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -446,7 +449,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: stepW:w1:trifrozen, stepW:w0n:force, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad
+DEPS: stepW:w1:trifrozen, stepW:w0n:force, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: stepW:w1:trifrozen | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub@L155-L155 | the frozen reconU and cubicGrad are U_m and G_q of q = kappa(y)
@@ -455,8 +458,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub@L
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub@L158-L158 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub@L155-L155 | U_m occurs directly here (frozen reconU)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub@L155-L155 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:fcub@L156-L156 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -486,9 +490,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:coeffsol
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:coeffsol@L172-L172 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:coeffsol@L170-L170 | the frozen coeff occurs directly here
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:coeffsol@L167-L167 | the frozen WaveSpace occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -519,9 +523,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:orbit@L1
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:orbit@L184-L184 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:orbit@L197-L197 | the frozen coeff occurs directly here
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:orbit@L179-L179 | the frozen WaveSpace occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -546,9 +550,9 @@ DEPS: bpW:w2:ext-an
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:ext-an | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oan@L195-L195 | affine maps are analytic; AnalyticAt.comp
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -575,9 +579,9 @@ ROUTE_FOR: -
 EDGE: bpW:w2:ext-deriv | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oshift@L198-L198 | the translation rule for derivatives
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oshift@L201-L201 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:oshift@L197-L197 | the frozen coeff occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -598,7 +602,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w2:coeffsol, stepW:w2:cdiff, stepW:w2:ccoord, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad
+DEPS: bpW:w2:coeffsol, stepW:w2:cdiff, stepW:w2:ccoord, bpW:w0:basis#lam, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:coeffsol | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-deriv@L207-L207 | analytic coefficient solution
@@ -606,8 +610,9 @@ EDGE: stepW:w2:cdiff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-deri
 EDGE: stepW:w2:ccoord | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-deriv@L216-L216 | proof step
 EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-deriv@L209-L209 | lambda occurs directly here (frozen lam)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-deriv@L209-L209 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve-deriv@L209-L209 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -629,12 +634,13 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w2:ext-an
+DEPS: bpW:w2:ext-an, bpW:w2:coeffsol
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:ext-an | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:cdiff@L215-L215 | analytic maps are differentiable
+EDGE: bpW:w2:coeffsol | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:cdiff@L214-L214 | analyticity of Y comes from C1 of the analytic coefficient solution package
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -656,14 +662,16 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w1:coordinatewise, stepW:w2:cdiff, bpW:w2:ext-deriv
+DEPS: bpW:w1:coordinatewise, stepW:w2:cdiff, bpW:w2:ext-deriv, bpW:w2:coeffsol, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w1:coordinatewise | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoord@L217-L217 | with (a,p) = (a',p') = (1,1), hat iota = id, v = Y_i'(t)
 EDGE: stepW:w2:cdiff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoord@L217-L217 | Y_i differentiable at t
 EDGE: bpW:w2:ext-deriv | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoord@L219-L219 | uniqueness of derivatives
+EDGE: bpW:w2:coeffsol | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoord@L218-L218 | the second derivative value is supplied by C2 of the package
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:ccoord@L218-L218 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -703,9 +711,9 @@ EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#bpW
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve@L235-L235 | V_m occurs directly here (frozen reconV)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve@L274-L274 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
 EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:curve@L245-L245 | the frozen IsClassicalSolution occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -735,9 +743,9 @@ EDGE: bpW:w2:ext-an | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:joint@L25
 EDGE: bpW:w1:ext-analytic | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:joint@L259-L259 | the continuous bilinear inner product is analytic
 EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:joint@L259-L259 | (i): the functions are the pairings
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:joint@L254-L254 | V_m occurs directly here (frozen reconV)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -758,7 +766,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w2:functionals, bpW:w2:ext-deriv, bpW:w2:curve-deriv, bpW:w2:ext-trig, bpW:w2:ext-sums, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV
+DEPS: bpW:w2:functionals, bpW:w2:ext-deriv, bpW:w2:curve-deriv, bpW:w2:ext-trig, bpW:w2:ext-sums, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconU, bpW:w0:reconstruction#reconV, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L265-L265 | (i): D^0 y(x) = <Psi^0(x),y> continuous linear in y
@@ -770,8 +778,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L26
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L268-L268 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L264-L264 | U_m occurs directly here (frozen reconU)
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L270-L270 | V_m occurs directly here (frozen reconV)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t1@L268-L268 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -793,7 +802,7 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w2:functionals, bpW:w2:ext-deriv, bpW:w2:curve-deriv, stepW:w2:fsum, bpW:w2:ext-sums, bpW:w2:force, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconV, bpW:w0:Gq#cubicGrad
+DEPS: bpW:w2:functionals, bpW:w2:ext-deriv, bpW:w2:curve-deriv, stepW:w2:fsum, bpW:w2:ext-sums, bpW:w2:force, bpW:w0:basis#lam, bpW:w0:basis#sineMode, bpW:w0:reconstruction#reconV, bpW:w0:Gq#cubicGrad, bpW:w0:ellap#coeff
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L272-L272 | (i): V_m(y)(x) = <Psi^V(x),y>
@@ -806,8 +815,9 @@ EDGE: bpW:w0:basis#lam | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L27
 EDGE: bpW:w0:basis#sineMode | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L274-L274 | the sine modes phi_j occur directly here (frozen sineMode)
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L272-L272 | V_m occurs directly here (frozen reconV)
 EDGE: bpW:w0:Gq#cubicGrad | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L274-L274 | the cubic gradient G_q occurs directly here (frozen cubicGrad)
+EDGE: bpW:w0:ellap#coeff | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:t2@L274-L274 | kappa is the frozen coefficient map by the standing dictionary L28
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -833,9 +843,9 @@ DEPS: bpW:w2:functionals
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:x@L280-L280 | (iii)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -867,9 +877,9 @@ EDGE: stepW:w2:x | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:frozen@L287-
 EDGE: bpW:w2:ext-deriv | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:frozen@L287-L287 | HasDerivAt.hasDerivWithinAt
 EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:frozen@L289-L289 | (iv): boundary values
 EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:frozen@L282-L282 | the frozen IsClassicalSolution occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -898,9 +908,9 @@ EDGE: bpW:w2:ext-deriv | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bound@
 EDGE: bpW:w2:functionals | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bound@L293-L293 | (ii): the pointwise bounds
 EDGE: bpW:w2:ext-sums | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bound@L295-L295 | norm_fst_le, norm_snd_le
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:bound@L294-L294 | V_m occurs directly here (frozen reconV)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -933,9 +943,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#bpW
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:main@L304-L304 | the frozen WaveSpace occurs directly here
 EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:main@L315-L315 | the frozen IsClassicalSolution occurs directly here
 EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:main@L307-L307 | the frozen IsAnalyticTorusEmbedding occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -956,12 +966,14 @@ FROZEN_FILE: -
 FROZEN_DECL: -
 FROZEN_ANCHOR_ID: -
 FROZEN_ABI_SHA256: -
-DEPS: bpW:w2:orbit
+DEPS: bpW:w2:orbit, bpW:wh:embedding#IsAnalyticTorusEmbedding, bpW:w0:reconstruction#reconU
 ROUTES: -
 ROUTE_FOR: -
 EDGE: bpW:w2:orbit | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:mred@L326-L326 | torus orbits are analytic coefficient solutions
+EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:mred@L325-L325 | the analyticity premise is projected from the frozen embedding predicate
+EDGE: bpW:w0:reconstruction#reconU | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:mred@L327-L327 | the functions u are identified using their reconU definitions
 TOPOLOGY_STATUS: PROPOSED
-EXTRACTOR: claude-suborch-W
+EXTRACTOR: claude-suborch-W+sol-review-W-w2
 REVIEWER: -
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
@@ -989,9 +1001,9 @@ ROUTE_FOR: -
 EDGE: bpW:w2:curve | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:mconc@L329-L329 | (i), (ii), (v), (vi)
 EDGE: stepW:w2:mred | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:mconc@L329-L329 | Y is an analytic coefficient solution
 EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#stepW:w2:mconc@L330-L330 | V_m occurs directly here (frozen reconV)
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -
@@ -1025,9 +1037,9 @@ EDGE: bpW:w0:reconstruction#reconV | blueprint-W/parts/w2-reconstruction.tex#bpW
 EDGE: bpW:w0:nlw#IsClassicalSolution | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:clause5@L352-L352 | (5) of nlw2 involves IsClassicalSolution
 EDGE: bpW:w0:ellap#WaveSpace | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:clause5@L349-L349 | the frozen WaveSpace occurs directly here
 EDGE: bpW:wh:embedding#IsAnalyticTorusEmbedding | blueprint-W/parts/w2-reconstruction.tex#bpW:w2:clause5@L350-L350 | the frozen IsAnalyticTorusEmbedding occurs directly here
-TOPOLOGY_STATUS: PROPOSED
+TOPOLOGY_STATUS: REVIEWED
 EXTRACTOR: claude-suborch-W
-REVIEWER: -
+REVIEWER: sol-review-W-w2
 LEAN_STATUS: NOT_STARTED
 LEAN_REF: -
 LEAN_NOTE: -

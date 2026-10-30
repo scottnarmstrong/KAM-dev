@@ -1,0 +1,42 @@
+{
+ "replaced": [
+  "stepW:w2:cdiff",
+  "stepW:w2:ccoord",
+  "stepW:w2:mred",
+  "bpW:w2:force",
+  "stepW:w2:fsum",
+  "stepW:w2:flin",
+  "stepW:w2:fcub",
+  "bpW:w2:curve-deriv",
+  "stepW:w2:t1",
+  "stepW:w2:t2",
+  "bpW:w2:ext-trig",
+  "bpW:w2:ext-sums"
+ ],
+ "added": [],
+ "items": [],
+ "unresolved": {},
+ "passes": [
+  "bpW:w2:ext-deriv",
+  "bpW:w2:ext-an",
+  "bpW:w2:derived",
+  "bpW:w2:functionals",
+  "stepW:w2:features",
+  "stepW:w2:pairing",
+  "stepW:w2:norms",
+  "stepW:w2:xder",
+  "stepW:w2:bdry",
+  "bpW:w2:coeffsol",
+  "bpW:w2:orbit",
+  "stepW:w2:oan",
+  "stepW:w2:oshift",
+  "bpW:w2:curve",
+  "stepW:w2:joint",
+  "stepW:w2:x",
+  "stepW:w2:frozen",
+  "stepW:w2:bound",
+  "bpW:w2:main",
+  "stepW:w2:mconc",
+  "bpW:w2:clause5"
+ ]
+}
