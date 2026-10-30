@@ -27,6 +27,7 @@ A competitor "wins" at a point if its threshold exceeds v2's by more than 0.005 
 Usage:  python3 -I scripts/apost_sharp/dominance.py [--quick] [--grid old|ext] [--jobs J] [--json OUT]
         python3 -I scripts/apost_sharp/dominance.py --point n tau gamma rho size     (one point, with diagnosis)
         --ablate: v2 without the levers of the fair comparison (split 1/2, ratio 2, decay 1/2, no L10)
+        python3 -I scripts/apost_sharp/dominance.py --plasmalean [--json OUT]   # PlasmaLean, incl. B10 l^1 entry step
 """
 from fractions import Fraction as F
 import json, math, os, sys, time
@@ -371,8 +372,49 @@ def plasmalean():
     return rows
 
 
+def plasmalean_l1():
+    """B10 (blueprint/parts/p2s2-l1hybrid.tex): the l^1 entry step on PlasmaLean's example.  Stage 0 uses l^1 data of
+    the initial torus with Gamma_inf at the actual bites; stages >= 1 are the sup scheme with c_freq computed AT EACH
+    BITE (c_stages(..., 'freq'), not the flat value of the table above) and the classical constant c(delta_5) in the
+    tail.  Two readings of the threshold:
+      (a) like for like: the threshold on |E|_{l1,rho}, against PlasmaLean's tolerance on its own l^1 error norm
+          (|eta|_{l1} <= (frame cap) |E|_{l1}, sup|E| <= |E|_{l1}: aN = aL = 1, PlasmaLean's frame and torsion
+          bounds read as l^1 bounds);
+      (b) sup-equivalent: the threshold on sup|E| for an error with |E|_{l1}/sup|E| = 3.6 (aN = aL = 3.6; the R1
+          lower-torus ratio of CERTIFIER-SHARPNESS 1.2, measured 4.28 on R1's own residual by l1_entry_r1.py).
+    Transposes are the conservative defaults (s_Lt = 2n s_K, ...); the l^1 frame caps of the frame-increment variant are
+    the same numbers (nuK = s_K, nuN = s_N); route B gets the torsion cap |T| <= 19.84 x 1.05 as route A does."""
+    print()
+    print("B10: the l^1 entry step on PlasmaLean's example (its tolerance 10^%.2f)." % PLASMALEAN["log10_tolerance"])
+    print("| norms | reading | variant | log10 threshold | vs PlasmaLean | binding |")
+    print("|---|---|---|---:|---:|---|")
+    rows = []
+    for tag in ("cA-like", "R1-like"):
+        D = plasmalean_data(tag)
+        for reading, a_ in (("(a) l1 vs l1", 1.0), ("(b) sup-equivalent x3.6", 3.6)):
+            out = T2.run_l1(D, tag, a_, a_, None, exact=False, forms=(False,), torsion_cap_B=True,
+                            nuK=D["sK"], nuN=D["sN"], log=lambda *x: None)
+            for r_ in out:
+                m = r_["log10_threshold"] - PLASMALEAN["log10_tolerance"]
+                rows.append(dict(norms=tag, reading=reading, variant=r_["variant"], log10=r_["log10_threshold"],
+                                 margin=m, binding=r_["binding"]))
+                print("| %s | %s | %s | %.2f | %+.2f | %s |" % (tag, reading, r_["variant"], r_["log10_threshold"], m,
+                                                               ", ".join(r_["binding"])))
+                sys.stdout.flush()
+    best = {}
+    for r_ in rows:
+        k_ = (r_["norms"], r_["reading"])
+        best[k_] = max(best.get(k_, -1e9), r_["margin"])
+    for k_, v_ in best.items():
+        print("best margin over PlasmaLean, %s, %s: %+.2f orders" % (k_[0], k_[1], v_))
+    if "--json" in sys.argv:
+        json.dump(dict(rows=rows), open(sys.argv[sys.argv.index("--json") + 1], "w"), indent=1)
+    return rows
+
+
 if __name__ == "__main__" and "--plasmalean" in sys.argv:
     plasmalean()
+    plasmalean_l1()
 
 
 # ---------------------------------------------------------------------------------------------------------------

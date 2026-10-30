@@ -1,0 +1,140 @@
+{
+ "tau2/1.69e-6 (FH)": {
+  "v0": -539.3027132944276,
+  "v1": -127.49130567069966,
+  "fh24": NaN,
+  "v2B": {
+   "v1": -57.162962178430384,
+   "classical": -53.150697341941424,
+   "freq": -49.75684597154029,
+   "freq_tail": -47.554571386941674,
+   "freq_tail:6": -47.77172834849655,
+   "freq_tail:10": -47.78382639823359
+  },
+  "binding": {
+   "v1": [
+    "tail decay"
+   ],
+   "classical": [
+    "tail decay"
+   ],
+   "freq": [
+    "tail decay"
+   ],
+   "freq_tail": [
+    "tail decay"
+   ],
+   "freq_tail:6": [
+    "tail decay"
+   ],
+   "freq_tail:10": [
+    "tail decay",
+    "tail cond8",
+    "sum Tinv"
+   ]
+  }
+ },
+ "tau2/1.85e-5 (num.)": {
+  "v0": -535.1454981923636,
+  "v1": -123.33409056863582,
+  "fh24": NaN,
+  "v2B": {
+   "v1": -55.08435462739843,
+   "classical": -51.072089790909466,
+   "freq": -48.45771625715489,
+   "freq_tail": -46.52138169753064,
+   "freq_tail:6": -46.73280670911848,
+   "freq_tail:10": -46.744546512366675
+  },
+  "binding": {
+   "v1": [
+    "tail decay"
+   ],
+   "classical": [
+    "tail decay"
+   ],
+   "freq": [
+    "tail decay"
+   ],
+   "freq_tail": [
+    "tail decay"
+   ],
+   "freq_tail:6": [
+    "tail decay"
+   ],
+   "freq_tail:10": [
+    "tail decay",
+    "tail cond8",
+    "sum Tinv"
+   ]
+  }
+ },
+ "tau3/1.69e-6 (FH)": {
+  "v0": -549.905249599411,
+  "v1": -140.30859084113644,
+  "fh24": NaN,
+  "v2B": {
+   "v1": -62.8359198084916,
+   "classical": -57.48993136558398,
+   "freq": -54.122535862020975,
+   "freq_tail": -52.06509601978407,
+   "freq_tail:6": -52.052671580829376,
+   "freq_tail:10": -52.051004990987565
+  },
+  "binding": {
+   "v1": [
+    "tail decay"
+   ],
+   "classical": [
+    "tail decay"
+   ],
+   "freq": [
+    "tail decay"
+   ],
+   "freq_tail": [
+    "tail decay"
+   ],
+   "freq_tail:6": [
+    "tail decay"
+   ],
+   "freq_tail:10": [
+    "tail decay"
+   ]
+  }
+ },
+ "tau3/1.85e-5 (num.)": {
+  "v0": -545.7480344973471,
+  "v1": -136.15137573907248,
+  "fh24": NaN,
+  "v2B": {
+   "v1": -60.757312257459645,
+   "classical": -55.41132381455202,
+   "freq": -52.04392831114788,
+   "freq_tail": -49.98649670846071,
+   "freq_tail:6": -49.974064544959006,
+   "freq_tail:10": -49.97239747233582
+  },
+  "binding": {
+   "v1": [
+    "tail decay"
+   ],
+   "classical": [
+    "tail decay"
+   ],
+   "freq": [
+    "tail decay"
+   ],
+   "freq_tail": [
+    "tail decay"
+   ],
+   "freq_tail:6": [
+    "tail decay"
+   ],
+   "freq_tail:10": [
+    "tail decay",
+    "tail cond8",
+    "sum Tinv"
+   ]
+  }
+ }
+}

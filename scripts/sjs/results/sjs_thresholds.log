@@ -1,0 +1,10 @@
+| tau | gamma (FH units) | v0 | v1 | FH24 Thm 2.18 (--fh24 only) | v2 route B: v1 c_R | classical | frequency-specific (2 stages) | + frequency-specific tail (estimate) |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| 2 | 1.69e-6 (FH) | -539.3 | -127.5 | nan | -57.2 | -53.2 | -49.8 (tail decay) | -47.6 (tail decay) |
+    k = 6 stages: -47.8 (tail decay); k = 10 stages: -47.8 (tail decay,tail cond8)
+| 2 | 1.85e-5 (num.) | -535.1 | -123.3 | nan | -55.1 | -51.1 | -48.5 (tail decay) | -46.5 (tail decay) |
+    k = 6 stages: -46.7 (tail decay); k = 10 stages: -46.7 (tail decay,tail cond8)
+| 3 | 1.69e-6 (FH) | -549.9 | -140.3 | nan | -62.8 | -57.5 | -54.1 (tail decay) | -52.1 (tail decay) |
+    k = 6 stages: -52.1 (tail decay); k = 10 stages: -52.1 (tail decay)
+| 3 | 1.85e-5 (num.) | -545.7 | -136.2 | nan | -60.8 | -55.4 | -52.0 (tail decay) | -50.0 (tail decay) |
+    k = 6 stages: -50.0 (tail decay); k = 10 stages: -50.0 (tail decay,tail cond8)
