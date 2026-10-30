@@ -9,7 +9,7 @@ public import KAM.SpinOrbit.HamExpr
 public import KAM.Frozen.Defs.InvarianceError
 
 /-!
-# The lunar client in the rotated frame (track SO, package SO-ROT; owner ruling O5)
+# The lunar client in the rotated frame
 
 The linear symplectic unimodular change of variables `Q₀ = q - φ`, `Q₁ = φ`, `P₀ = p`,
 `P₁ = p + J`, and the Hamiltonian `H' = soHC ∘ soRotMap = P₀²/2 - P₀ + P₁ + V(Q₀ + Q₁, Q₁)`.
@@ -106,7 +106,7 @@ theorem soRotHamExpr_foldr (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) (l : List �
     congr 1
     ring
 
-/-- **Evaluation identity**: `soRotHamExpr` denotes the landed `soHC` composed with `soRotMap`. -/
+/-- **Evaluation identity**: `soRotHamExpr` denotes `soHC` composed with `soRotMap`. -/
 theorem soRotHamExpr_eval (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) : soRotHamExpr.eval z = soRotHC z := by
   rw [soRotHC, ← soHamExpr_eval]
   simp only [soRotHamExpr, soHamExpr, HamExpr.eval, soRotHamExpr_foldr z, soRotMap]
@@ -120,7 +120,7 @@ theorem soRotHamExpr_clock (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :
   rw [h, fderiv_soRotHC_apply, fderiv_soHC_apply, phaseBasis_inr]
   simp [soRotMap]
 
-/-- The time-scaled client Hamiltonian `c · H'` (package R1: `c = 7/4`, CONSTANTS-STUDY P4). -/
+/-- The time-scaled client Hamiltonian `c · H'` (the R1 parameters fix `c`). -/
 def soRotHamExprScaled (c : ℚ) : HamExpr 2 := .mul (.const c) soRotHamExpr
 
 theorem soRotHamExprScaled_eval (c : ℚ) (z : (Fin 2 → ℂ) × (Fin 2 → ℂ)) :

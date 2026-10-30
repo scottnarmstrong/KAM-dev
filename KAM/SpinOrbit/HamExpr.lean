@@ -9,7 +9,7 @@ public import KAM.Certificate.Expr.Basic
 public import KAM.SpinOrbit.Hamiltonian
 
 /-!
-# The lunar Hamiltonian as an expression (track SO, package SO-HAMX)
+# The lunar Hamiltonian as an expression
 
 `soHamExpr : HamExpr 2` is `𝓗 = J + p²/2 - ε Σ_{m=1}^7 A_m cos (2π (2q - mφ))` in the expression
 language, with the exact rational coefficients `soEpsQ`, `soAQ`.

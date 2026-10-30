@@ -8,7 +8,7 @@ module
 public import KAM.SpinOrbit.Model
 
 /-!
-# The period-one normalization of the lunar model (track SO, package SO-MODEL)
+# The period-one normalization of the lunar model
 
 Proposal §2.2. With `x = 2π q`, `f = 2π φ` and time `s = 2π t` (orbital mean motion one radian per
 unit time), the period-one system `q̇ = p`, `ṗ = -∂_q V`, `φ̇ = 1` is equivalent to the radian
@@ -133,7 +133,7 @@ theorem isSoSolution_soFromRad {x y f : ℝ → ℝ} (h : IsSoRadSolution x y f)
     rw [e1, e2]; ring
   · exact ((hasDerivAt_comp_mul h3).div_const (2 * π)).congr_deriv (by field_simp)
 
-/-- The change of variables of proposal §2.2, including the force scaling: a triple solves the
+/-- The period-one change of variables, including the force scaling: a triple solves the
 period-one system iff its rescaling solves the radian system. -/
 theorem isSoRadSolution_iff (q p φ : ℝ → ℝ) :
     IsSoSolution q p φ ↔

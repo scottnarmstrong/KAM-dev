@@ -9,7 +9,7 @@ public import KAM.SpinOrbit.Graph.Inverse
 public import KAM.SpinOrbit.Rotated
 
 /-!
-# Graph inversion in the rotated frame (track SO, package SO-GRAPHR; owner ruling O5)
+# Graph inversion in the rotated frame
 
 Unfrozen helper code. The exact torus of the time-scaled rotated client `c · H'` is turned into an
 invariant barrier of the original lunar flow.
@@ -92,10 +92,10 @@ theorem isDiophantine_smul_scale {n : ℕ} {γ τ s : ℝ} {ω : Fin n → ℝ} 
   exact mul_le_mul_of_nonneg_left (hdio k hk) hs.le
 
 open SoGraph in
-/-- **Rotated-frame exact torus ⇒ barrier** (SO-GRAPHR). `K∞` is the black box's exact torus for
+/-- **Rotated-frame exact torus ⇒ barrier**. `K∞` is the black box's exact torus for
 the scaled client `c · H'`, invariant at `s∞ ω*` with `s∞ ω*` Diophantine. With
 `∂_{θ₀} Q₀ ≥ m > 0` and `P₀ ∈ [lo, hi]` on the real torus: `invarianceError_const_mul` and
-`isDiophantine_smul_scale` move to `H'` at `(s∞/c) ω*`; the landed `clock_frequency` (with
+`isDiophantine_smul_scale` move to `H'` at `(s∞/c) ω*`; `clock_frequency` (with
 `soRotHamExpr_clock`) gives `Q₁ = θ₁ + c₀` and `(s∞/c) ω*₁ = 1`; `hamiltonianVectorFieldℂ_soRotHC`
 gives the real flow `d/dt Q₀ = P₀ - 1`, `d/dt P₀ = -∂_q V(Q₀ + Q₁, Q₁)` at `(ν - 1, 1)`,
 `ν = (s∞/c) ω*₀ + 1`; `torus_of_rot` and `soBarrier_of_torus` give the barrier in
