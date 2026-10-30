@@ -1791,3 +1791,22 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     resynced.
   - Design signal: a depth fix of the jet compiler (body change, statements kept, like SO-KDEPTH) or a per-subtree
     bridge. This is shared checker code, so the owner and route are to be agreed with root-b8.
+- **20:17. Lock gate probes; jet-compiler depth fix SO-KDEPTH2 started; SO-CSPLIT revision 1 in delta audit.**
+  - **Lock gate** (SO-LOCK-COST §12):
+    - G2claim at P = 320 passes on the landed `lockHamExpr`: cgroup peak 7.8 GB, MAXRSS 11 GB from shared mmaps,
+      so a cold-cache repeat is due.
+    - The G1 bridge is BLOCKED by kernel deep recursion in the jet compiler (`slpCompile`/`Diff`) on the 3,116-op
+      program. No limit was raised.
+    - SO-CSPLIT's jet bridge M0 reduces to the same computation at lock scale. The 887-op lunar program is
+      unaffected.
+  - **Decision (overnight, reversible):** the main orchestrator owns the fix, since it is shared checker code.
+    **SO-KDEPTH2** (Opus, claude-6, worktree KAM-inp-sokdepth2) rewrites the bodies only, in the style of SO-KDEPTH,
+    with `_eq` lemmas, so compiled programs are identical. Acceptance: the G1 probes, and identity on the R2 program.
+    The lock holds its G1-dependent work.
+  - **SO-CSPLIT revision 1** (4bf0c5f5):
+    - an elaborating signatures file (.drafts/design/SOCsplitSignatures.lean, 13 sorry for the later packages);
+    - F2–F4 contracts proved;
+    - complete byte counts, 20.7 MB for both tori;
+    - calibration split into CAL-1 and CAL-2.
+    The delta audit (round 2) is running on codex-1, with the round-1 auditor.
+  - **SO-LOCK-COST passed** codex-1 review 4 and is landing (docs only).
