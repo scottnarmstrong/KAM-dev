@@ -32,7 +32,8 @@ The proof follows the blueprint:
 * `step:p2s:st-err`: `KAM.Sharp.correction_bounds` and `KAM.Sharp.newton_error_bounds` (the
   qualitative clauses are the first conjunct of `KAM.Apost.correction_spec`, step (a) the helpers
   of `KAM.Apost.Step`);
-* `step:p2s:st-pert`: `KAM.Sharp.perturbation_poly` with `K̃ = K̄`, `ω̃ = ω`, `ε̃ = C_E ε²/(γ⁴δ^{2a})`,
+* `step:p2s:st-pert`: `KAM.Sharp.perturbation_poly` with `K̃ = K̄`, `ω̃ = ω`,
+  `ε̃ = C_E ε²/(γ⁴δ^{2a})`,
   and `twistD ≤ C_DT ε/(γ²δ^{a+1})` (`KAM.Sharp.StepSharp.twistD_le_cDT`, through
   `KAM.Sharp.absorb`).
 -/
@@ -158,8 +159,8 @@ theorem step_spec (hC : CohData n τ κ cR) (hS : Standing n τ M σK σB σT �
   -- step `st-pert`
   obtain ⟨hball, hfr, -, -, htw⟩ := perturbation_poly hC hS
     (CorrectionSharp.admissible_noTwist hK) hδ hδ1 h3δ hεδ hdiff hdist hdβ hnewt hE hs1 hs2
-  have htD := StepSharp.twistD_le_cDT (n := n) (σT := σT) hC.one_le_kappa hC.cR_pos hS.M_pos hS.σK_pos
-    hS.σB_pos hγ hγb hδ hδ1 hε0
+  have htD := StepSharp.twistD_le_cDT (n := n) (σT := σT) hC.one_le_kappa hC.cR_pos hS.M_pos
+    hS.σK_pos hS.σB_pos hγ hγb hδ hδ1 hε0
   obtain ⟨hTu, -, hTd⟩ := htw hK.twist.1 hK.twist.2
     ((mul_le_mul_of_nonneg_left htD hσT.le).trans hs3)
   refine ⟨⟨hdiff, KAM.Apost.Step.newtonMap_isPrimaryOnStrip (by linarith) hK.primary hcp,

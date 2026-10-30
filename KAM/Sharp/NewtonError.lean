@@ -16,7 +16,8 @@ import Mathlib.Tactic.FieldSimp
 # The new invariance error, with the sharp constants
 
 Blueprint `bp:p2s:newton-error` (`KAM.Sharp.newton_error_bounds`): under the hypotheses of
-`bp:p2s:correction`, `C_ΔK ε/(γ² δ^{2κ}) < β` and `C_sym ε/(γ δ^{κ+1}) ≤ 1/2`, the Newton map lies in
+`bp:p2s:correction`, `C_ΔK ε/(γ² δ^{2κ}) < β` and `C_sym ε/(γ δ^{κ+1}) ≤ 1/2`, the Newton map
+lies in
 `𝔅`, `S = I - Ω₀ E_sym` is invertible with `|S⁻¹| ≤ 2`, `Ē = P S⁻¹ E_lin + Δ²X`, and
 `|Ē| ≤ C_E ε²/(γ⁴ δ^{4κ})` on `T_{r-2δ}`.
 
@@ -67,7 +68,8 @@ theorem norm_quadRemainder_half (hS : Standing n τ M σK σB σT 𝔅 h ω γ) 
           (by linarith [hS.M_pos])
 
 /-- Step `step:p2s:ne-lin`, constants:
-`(C_red ε/δ)(C_ξ ε/(γ² δ^{2κ})) + (C_sym ε/(γ δ^{κ+1}))(C_∂ξ ε/(γ δ^κ)) = C_lin ε²/(γ² δ^{2κ+1})`. -/
+`(C_red ε/δ)(C_ξ ε/(γ² δ^{2κ})) + (C_sym ε/(γ δ^{κ+1}))(C_∂ξ ε/(γ δ^κ))
+= C_lin ε²/(γ² δ^{2κ+1})`. -/
 theorem lin_eq {n : ℕ} {cR M σK σB σT γb γ δ ε : ℝ} (hγ : 0 < γ) (hδ : 0 < δ) :
     cRed n σK σB * ε / δ * (cXi n cR M σK σB σT γb * ε / (γ ^ 2 * δ ^ (2 * κ))) +
         cSym n cR σK σB * ε / (γ * δ ^ (κ + 1)) * (cDXi n cR M σK σB σT γb * ε / (γ * δ ^ κ)) =

@@ -16,7 +16,8 @@ import Mathlib.Tactic.Positivity
 
 Helpers for `KAM.Sharp.perturbation_poly` (`KAM.Sharp.Perturbation`):
 
-* `prod5_sub_le`: Lemma `bp:p2s:telescope` for five factors (`|∏ X̃ - ∏ X| ≤ ϑ̂⁴ ∑_i Δ_i ∏_{j≠i} x_j`,
+* `prod5_sub_le`: Lemma `bp:p2s:telescope` for five factors
+  (`|∏ X̃ - ∏ X| ≤ ϑ̂⁴ ∑_i Δ_i ∏_{j≠i} x_j`,
   through the control predicate `PertSharp.Ctrl`);
 * `diffOn_invarianceError_any`, `geo_de_any`: the Cauchy bounds of `DE` and `(DE)ᵀ` for the error
   `E_{ω'}` at any frequency `ω'` (`KAM.Apost.Geometry.geo_de` is tied to the standing frequency);
@@ -25,7 +26,8 @@ Helpers for `KAM.Sharp.perturbation_poly` (`KAM.Sharp.Perturbation`):
 * `tAB`, `tF`, `tC` and `torsionPoly_split`: `𝒯 = 𝒯_ab + 𝒯_F + 𝒯_c` (`bp:p2s:sec-torsion`), with
   the norm bounds `norm_tF_le`, `norm_tC_le`, `norm_W_le`;
 * `norm_torsionAverage_sub_le_any`: the bound of `⟨T̃_{ω'}⟩ - ⟨T_ω⟩` by a bound at real points
-  (step `step:p2s:pt-avg`; the existing `PerturbationAux.norm_torsionAverage_sub_le` has one frequency).
+  (step `step:p2s:pt-avg`; the existing `PerturbationAux.norm_torsionAverage_sub_le` has one
+  frequency).
 -/
 
 @[expose] public noncomputable section

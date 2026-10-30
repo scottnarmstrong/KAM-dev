@@ -20,7 +20,8 @@ Blueprint `bp:p2s:perturbation` (`KAM.Sharp.perturbation_poly`): a torus `K̃` h
 
 The proof follows the blueprint:
 
-* `step:p2s:pt-domain`, `pt-l`, `pt-b`: `KAM.Sharp.frame_items_sharp` (Cauchy estimates for `K̃ - K`,
+* `step:p2s:pt-domain`, `pt-l`, `pt-b`: `KAM.Sharp.frame_items_sharp` (Cauchy estimates for
+  `K̃ - K`,
   `G̃ - G = L̃ᵀ (L̃ - L) + (L̃ - L)ᵀ L`, Neumann with ratio `ϑ`);
 * `step:p2s:pt-tt`, `pt-ab`, `pt-f`, `pt-c`: `KAM.Sharp.torsion_diff_real` (both torsions through
   `KAM.Sharp.torsion_identity`; `𝒯_ab` by `prod5_sub_le`, `𝒯_F` and `𝒯_c` by their sizes, the
