@@ -1886,3 +1886,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     G1b bridge included. The wrapped 3,158-op program passes (47 s, 3.1 GB). A full KAM build (10737 jobs) passes,
     with standard axioms including `lockBarrier_of_certV2`.
   - Landing branch inp-sokdepth2-land (code commit only; the probe commit stays on inp-sokdepth2).
+- **21:02. SO-KDEPTH2 audit PASS WITH NOTES (codex-1), landing; SO-CSEG-L2 and SO-CSEG-A/B in audit.**
+  - KDEPTH2: the performance conclusion is bounded to the tested programs (lock and R2), with no general depth
+    bound. Landing branch inp-sokdepth2-land; full landing build requested, since Diff.lean is imported nearly
+    everywhere.
+  - SO-CSEG-L2 (Kernel/Stage, 208 lines, plus tests): both remaining `sorry` proved, verbatim to the signatures.
+    The short-name clash with SO-DATA3's superseded GramSplit probe was resolved by deleting the probe
+    (inp-sodata3 cf56e57b). Audit on codex-1.
+  - SO-CSEG-A/B: signed short names renamed (fd6c8d12; statements unchanged). Audit on codex-1.
+  - W: 7 Lean packages on main; W1-CUBIC and W2-RECON proving (the latter proves nlw2 clause 5 from clauses 3–4).
+    The graph reviews found 10 presentation-level gaps in blueprint W4–W6, all repaired and under a codex-1
+    review. Graph delta 6 (133 nodes) is running.
