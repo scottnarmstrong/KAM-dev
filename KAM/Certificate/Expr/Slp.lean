@@ -11,7 +11,7 @@ public import KAM.Certificate.PhaseBasis
 /-!
 # Straight-line programs over `ℂ`
 
-`Slp` is the internal straight-line program language of the SO certificate (SO design §D): a list
+`Slp` is the internal straight-line program language of the spin-orbit certificate: a list
 of operations whose operands are earlier slot numbers. A constant carries its `2π`-degree, `char k`
 is `e^{2πi k·θ}`, and the nonlinearities are `exp` and `inv`. The value of a slot is computed by
 a left fold, so an operand that is not an earlier slot reads `0` and appending operations never

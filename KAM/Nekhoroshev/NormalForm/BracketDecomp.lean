@@ -31,17 +31,6 @@ open KAM.Weighted KAM.Canonical
 
 variable {n : ℕ}
 
-private theorem wsum_nonneg' (f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (s : ℝ) (I : Fin n → ℂ) :
-    0 ≤ wsum f s I :=
-  tsum_nonneg fun _ => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le
-
-private theorem continuous_slice {D : Set (Fin n → ℂ)} {r s : ℝ}
-    {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hs : 0 < s) (hu : InClass D r s u) {I : Fin n → ℂ}
-    (hI : I ∈ polyNbhd D r) : Continuous fun x : Fin n → ℝ => u (fun j => (x j : ℂ), I) :=
-  hu.differentiableOn.continuousOn.comp_continuous
-    ((continuous_pi fun j => Complex.continuous_ofReal.comp (continuous_apply j)).prodMk
-      continuous_const) fun x => ⟨KAM.ofReal_mem_complexStrip hs x, hI⟩
-
 /-- A finite sum (on real slices) of weighted-summable functions is weighted-summable, and its
 weighted sum is bounded by the sum of the weighted sums. -/
 private theorem wsum_finset_sum_le {N : ℕ} {s : ℝ} {I : Fin n → ℂ}
@@ -131,7 +120,7 @@ theorem bracket_g {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {g φ : (Fin n 
       (u := poissonBracket (fun z => ∑ j, gj j z) φ) (fun j => poissonBracket (gj j) φ)
       (fun x => poissonBracket_sum (D := D) (r := r) (s := s) gj φ hdj
         (Dom_mono (by linarith) (by linarith) ⟨KAM.ofReal_mem_complexStrip hb x, hI⟩))
-      (fun j => continuous_slice hb (hB j).1 hI) (fun j => ((hB j).2 I hI).1)
+      (fun j => continuous_real_slice hb (hB j).1 hI) (fun j => ((hB j).2 I hI).1)
     refine ⟨hws, hwle.trans ?_⟩
     have he : 0 < Real.exp 1 := Real.exp_pos 1
     calc ∑ j, wsum (poissonBracket (gj j) φ) (s - σ) I
@@ -145,12 +134,12 @@ theorem bracket_g {D : Set (Fin n → ℂ)} {r s ρ σ Φ : ℝ} {g φ : (Fin n 
           have a2 : 0 < sj j - s + σ := by linarith [hg.s_le j]
           field_simp
   refine ⟨hcls, hsumB, fun I hI => ⟨(hsumB I hI).1, (hsumB I hI).2.trans ?_⟩⟩
-  have hΦ : 0 ≤ Φ := (wsum_nonneg' φ s I).trans ((hbφ I (polyNbhd_mono (by linarith) hI)).2)
+  have hΦ : 0 ≤ Φ := (wsum_nonneg φ s I).trans ((hbφ I (polyNbhd_mono (by linarith) hI)).2)
   have hS : 0 ≤ starNorm r s ρ σ rj sj Mj := by
     refine Finset.sum_nonneg fun j _ => ?_
     have a1 : 0 < rj j - r + ρ := by linarith [hg.r_le j]
     have a2 : 0 < sj j - s + σ := by linarith [hg.s_le j]
-    have hM : 0 ≤ Mj j := (wsum_nonneg' _ _ I).trans
+    have hM : 0 ≤ Mj j := (wsum_nonneg _ _ I).trans
       ((hg.bound j I (polyNbhd_mono (by linarith [hg.r_le j]) hI)).2)
     positivity
   have he : 1 ≤ Real.exp 1 := Real.one_le_exp (by norm_num)

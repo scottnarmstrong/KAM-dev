@@ -11,8 +11,8 @@ public import KAM.Torus.Basic
 # The phase basis of `ℂⁿ × ℂⁿ`
 
 The phase index `Fin n ⊕ Fin n` (angles `inl`, actions `inr`) and its basis vectors, as signed in
-the SO design (Appendix A, §D). This tiny module exists so that the clock lemma does not depend
-on the Hamiltonian-expression package; that package imports it instead of redefining
+the certificate. This tiny module exists so that the clock lemma does not depend
+on the Hamiltonian-expression module; that module imports it instead of redefining
 `phaseBasis`.
 -/
 

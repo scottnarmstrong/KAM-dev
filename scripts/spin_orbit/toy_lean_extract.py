@@ -20,11 +20,19 @@ import json, os, subprocess, sys, tempfile
 TOYS = {
     "T2": (2, ".add (.action 1) (.mul (.const (1 / 2)) (.pow (.action 0) 2))"),
     "T2d": (2, ".add (.action 1) (.mul (.mul (.const (1 / 2)) (.pow (.action 0) 2))\n"
-               "    (.div (.add (.const 3) (.cosMode [1, 0])) (.add (.const 3) (.cosMode [1, 0]))))"),
+               "    (.div (.add (.const A) (.cosMode [1, 0])) (.add (.const A) (.cosMode [1, 0]))))"),
     "T3": (3, ".add (.action 2) (.add (.mul (.const (1 / 2)) (.pow (.action 0) 2))\n"
               "    (.mul (.const (1 / 2)) (.pow (.action 1) 2)))"),
 }
 # The negative toy TR uses the T2 Hamiltonian.
+# T2d's denominator constant `a` of `a + cos 2πq` (SO-TOYFIX2: a wide-strip denominator; the ruling allows any
+# rational a > 1).  Override with the environment variable `T2D_A`.
+T2D_A = os.environ.get("T2D_A", str(10 ** 30))   # toy_gen.T2D_A
+
+
+def toys():
+    return {k: (n, b.replace("(.const A)", "(.const %s)" % T2D_A) if k == "T2d" else b)
+            for k, (n, b) in TOYS.items()}
 
 HEADER = r'''import KAM.Certificate.Expr.Ball
 open KAM.Certificate
@@ -65,7 +73,7 @@ def lean_rat(q):
 
 def build_source(balls):
     src = [HEADER]
-    for name, (n, body) in TOYS.items():
+    for name, (n, body) in toys().items():
         src.append("def toy%s : HamExpr %d :=\n  %s\n" % (name, n, body))
     for name in TOYS:
         src.append('#eval IO.println (jetJ "%s" toy%s)' % (name, name))
@@ -97,7 +105,7 @@ def main():
     build_dir, out = sys.argv[1], sys.argv[2]
     balls = json.load(open(sys.argv[3])) if len(sys.argv) > 3 else []
     jets, bls = run(build_dir, balls)
-    res = {"source": {k: {"n": v[0], "lean": v[1]} for k, v in TOYS.items()}, "jets": jets}
+    res = {"source": {k: {"n": v[0], "lean": v[1]} for k, v in toys().items()}, "jets": jets}
     if balls:
         res["balls"] = [dict(req, result=b["balls"]) for req, b in zip(balls, bls)]
     with open(out, "w") as f:

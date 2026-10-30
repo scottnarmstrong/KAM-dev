@@ -18,12 +18,12 @@
   }
  },
  "T2d": {
-  "bytes": 230787,
-  "log10_err": -192.0,
-  "log10_threshold": -188.78500263855048,
+  "bytes": 21214,
+  "log10_err": -42.0,
+  "log10_threshold": -38.22944280240576,
   "passes": true,
-  "ratio_C1": 0.0006095406004849275,
-  "sha256": "ab4815d0f79001ae3f61cea7d90e86da2870984a46c35a7a645629e9e45ec9bb",
+  "ratio_C1": 0.00016960662116815667,
+  "sha256": "39bd5a298dc8d38fcd54f3bb1dcf655c8c80b74e93790802fc76bfae719b4d29",
   "subchecks": {
    "checkEmbedding": true,
    "checkEnergy": true,

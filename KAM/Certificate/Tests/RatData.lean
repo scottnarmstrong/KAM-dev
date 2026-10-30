@@ -11,7 +11,7 @@ public import KAM.Certificate.Tests.ToyLit
 # Data of the toy certificate TR
 
 Emitted by `scripts/spin_orbit/toy_lean_cert.py` from
-`certificates/so-toys/TR.json` (SO-PYALIGN); `toyTRCert` is the whole certificate.
+`certificates/so-toys/TR.json` ; `toyTRCert` is the whole certificate.
 -/
 
 @[expose] public section

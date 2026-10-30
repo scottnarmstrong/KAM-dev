@@ -27,7 +27,7 @@ the only constant containing `π` and `e`. Here:
 * `isoC1Q`, `isoC2Q` are the mirrors of `isoC1`, `isoC2` with `isoC1_le_isoC1Q`,
   `isoC2_le_isoC2Q`.
 
-All mirrors are kernel-computable (`ℚ`, `max`, natural powers), so a concrete parameter package can
+All mirrors are kernel-computable (`ℚ`, `max`, natural powers), so a concrete parameter set can
 be evaluated by `decide +kernel`; see `isoC1Q_pilot`, `isoC2Q_pilot`.
 -/
 
@@ -704,13 +704,13 @@ theorem isoC2_le_isoC2Q {n τ : ℕ} {ρ ρinf M σK σB σT : ℚ} (hn : 2 ≤ 
   push_cast
   gcongr
 
-/-! ### The pilot package
+/-! ### The pilot parameters
 
 `n = 2`, `τ = 1`, `ρ = 1/200`, `ρ_∞ = 1/400`, `μ = 1/1000`, `M = σK = σB = σT = 4`, `γ̄ = 1/42`,
 `ν = 1/4` (the ray margin of `g1_explicit`; the `ν`-branch of `ĉ_*` is inactive). The threshold of
 `g1_explicit` is `C₁ e / (γ⁴ ρ^{4τ}) < 1`, i.e. `e < γ⁴ ρ^{4τ} / C₁`, with `γ = γ̄ = 1/42`. -/
 
-/-- The residual threshold `γ⁴ ρ^{4τ} / C₁` of the pilot package, from the rational mirror. -/
+/-- The residual threshold `γ⁴ ρ^{4τ} / C₁` of the pilot parameters, from the rational mirror. -/
 def isoPilotThreshold : ℚ :=
   (1 / 42) ^ 4 * (1 / 200) ^ (4 * 1) / isoC1Q 2 1 (1 / 200) (1 / 400) 4 4 4 4 (1 / 1000) (1 / 4)
     (1 / 42)

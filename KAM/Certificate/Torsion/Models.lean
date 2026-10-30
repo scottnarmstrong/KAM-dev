@@ -17,7 +17,7 @@ public import KAM.Certificate.Model.Inv
 
 `torsionModels` builds the entrywise models of the LITERAL frozen
 `extendedTorsion e.eval (K.eval n) (s ω)` on `T_ρ`, valid for every `ω` in the frequency box
-(SO design §1.9, finding F3), from matrices of models (`modelMatMul`, `modelMatAdd`,
+from matrices of models (`modelMatMul`, `modelMatAdd`,
 `modelMatNeg`, `modelMatTranspose`, `modelMatOmega`):
 
 * `L = DK` (`dkModels`, the Gram check's `DK` entries) and `D_{sω} L = Σ_l (sω)_l ∂_l L`
@@ -544,7 +544,7 @@ theorem torsion_eq_models {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     normalFieldMat, fderiv_normalMat_apply hK hG hθ, Matrix.mul_assoc, sub_eq_add_neg]
   simp only [normalMat, Matrix.mul_assoc]
 
-/-- **Torsion producer contract (finding F3).** Validated weight and `π`, a successful Gram
+/-- **Torsion producer contract.** Validated weight and `π`, a successful Gram
 certificate (its `(δ, β)` passed on), successful construction, a frequency in the box, and `K`
 mapping the strip into an open set where `e` has no vanishing denominator give the enclosure
 of the LITERAL frozen `extendedTorsion e.eval (K.eval n) ((s : ℝ) • ω)`, and its continuity. -/

@@ -26,8 +26,7 @@ namespace KAM.Certificate
 `add`/`mul` may round (fixed point) or be exact (`ℚ`); `addErr`/`mulErr` bound the rounding error.
 `upAdd`/`upMul` round upward and are used on nonnegative radii only. Comparisons are one-sided
 tests. Definitions over `CertArith` are computational and law-free; every correctness theorem that
-uses a value of `ofInt`, `neg`, `add`, `mul` or a comparison assumes `[LawfulCertArith α]`
-(finding F2). -/
+uses a value of `ofInt`, `neg`, `add`, `mul` or a comparison assumes `[LawfulCertArith α]`. -/
 class CertArith (α : Type) where
   val : α → ℝ
   ofInt : ℤ → α

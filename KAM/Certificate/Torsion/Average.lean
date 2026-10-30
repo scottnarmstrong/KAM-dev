@@ -11,7 +11,7 @@ public import KAM.Certificate.Torsion.Frame
 # The averaged bordered torsion check
 
 `torsionAvgCheck n T S σTμ` certifies the inverse of the average of the `(n+1) × (n+1)` bordered
-torsion from its entrywise models `T` and a constant witness `S` (SO design §1.9, audit 2 F7):
+torsion from its entrywise models `T` and a constant witness `S`:
 
 * it FIRST checks the exact shapes `HasShape (n + 1) T`, `HasShape (n + 1) S` (list lengths) and
   that every entry of `T` is a degree-`0` model (it has no `π` enclosure to change degrees: a
@@ -99,7 +99,7 @@ def avgBoundsOk (dRows bRows rRows : List α) (σTμ : ℚ) : Bool :=
   dRows.all (fun x => ble x a) && rRows.all (fun x => ble x r) && ble (ofInt 0) r &&
     gramBoundsOk [δ] bRows δ b σTμ
 
-/-- The averaged bordered torsion check at dimension `n` (audit 2 F7). It FIRST checks the exact
+/-- The averaged bordered torsion check at dimension `n`. It FIRST checks the exact
 shapes `HasShape (n + 1) T` and `HasShape (n + 1) S` (decidable list-length tests) and rejects
 otherwise; then centre `C` = zero modes, radius matrix `R`; with the constant witness `S`,
 `‖I - S C‖ + ‖S‖ ‖R‖ =: δ_T < 1` and `‖S‖/(1-δ_T) ≤ σT - μ`, all on `(n+1) × (n+1)` arrays. -/
@@ -120,7 +120,7 @@ theorem listShapeOk_iff {β : Type} (k : ℕ) (M : List (List β)) :
     listShapeOk k M = true ↔ ModelMatrix.HasShape k M := by
   simp [listShapeOk, ModelMatrix.HasShape]
 
-/-- A passing averaging check has exact `(n+1) × (n+1)` inputs (law-free; F7 negative tests). -/
+/-- A passing averaging check has exact `(n+1) × (n+1)` inputs (law-free; shape negative tests). -/
 theorem torsionAvgCheck_shape {α : Type} [CertArith α] {n : ℕ} {T : ModelMatrix α}
     {S : List (List (CC α))} {σTμ : ℚ} (h : torsionAvgCheck n T S σTμ = true) :
     ModelMatrix.HasShape (n + 1) T ∧ ModelMatrix.HasShape (n + 1) S := by

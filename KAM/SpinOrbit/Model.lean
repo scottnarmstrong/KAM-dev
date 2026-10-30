@@ -9,13 +9,13 @@ public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 public import Mathlib.Analysis.SpecialFunctions.Complex.Analytic
 
 /-!
-# The exact lunar spin-orbit model (track SO, package SO-MODEL)
+# The exact lunar spin-orbit model
 
-Proposal `docs/explorations/lunar-spin-orbit-certificate-proposal.md` §2.3. Unfrozen helper code.
+Unfrozen helper code.
 
 * `soEccQ`, `soEpsQ` (rational) and `soEcc = 549/10000`, `soEps = 69/200000` (real): the exact
-  constants of owner decision D30.
-* `soCoeffPoly e m`: the polynomial `A_m(e)` of the proposal table (`A_m = 0` outside `1 ≤ m ≤ 7`),
+  constants of the lunar model.
+* `soCoeffPoly e m`: the polynomial `A_m(e)` (`A_m = 0` outside `1 ≤ m ≤ 7`),
   over any field; `soA m = A_m(soEcc)`; `soAQ m` is the exact rational value
   (`soA_eq_ratCast`).
 * `soV q φ = -ε Σ_{m=1}^7 A_m cos (2π (2q - mφ))` and its entire complex extension `soVC`
@@ -60,7 +60,7 @@ theorem soEps_eq_ratCast : soEps = (soEpsQ : ℝ) := by
 
 theorem soEps_pos : 0 < soEps := by unfold soEps; norm_num
 
-/-- The coefficient polynomials `A_m(e)` of proposal §2.3 (zero outside `1 ≤ m ≤ 7`). -/
+/-- The coefficient polynomials `A_m(e)` of the model (zero outside `1 ≤ m ≤ 7`). -/
 def soCoeffPoly {R : Type*} [Field R] (e : R) : ℕ → R
   | 1 => -e / 4 + e ^ 3 / 32
   | 2 => 1 / 2 - 5 * e ^ 2 / 4 + 13 * e ^ 4 / 32
@@ -240,7 +240,7 @@ theorem deriv_soV_φ (q φ : ℝ) : deriv (fun y => soV q y) φ = soVφ q φ :=
 /-! ### The physical vector field -/
 
 /-- The physical vector field on `(q, p, φ)`: `q̇ = p`, `ṗ = -∂_q V`, `φ̇ = 1`
-(proposal §2.3, period-one units). -/
+(period-one units). -/
 def soField (x : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ :=
   (x.2.1, -deriv (fun s => soV s x.2.2) x.1, 1)
 

@@ -8,7 +8,7 @@ module
 public import KAM.Certificate.Model.Ops
 
 /-!
-# Certified real lower bounds of models (SO-POS)
+# Certified real lower bounds of models
 
 `checkRealLowerBound` certifies `m ≤ Re f` on the real torus for an enclosed `f` of degree `0`.
 With `f* (θ) = conj (f (conj θ))` and `g* = conjReflect g`, the check forms the model of

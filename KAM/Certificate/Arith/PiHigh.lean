@@ -14,7 +14,7 @@ public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Arctan
 /-!
 # High-precision enclosures of `π` and `e`
 
-Backend-independent core of the `π` package (owner ruling O3): rational enclosures of `π` and
+Backend-independent core of the `π` enclosure: rational enclosures of `π` and
 `Real.exp 1` computed in `ℚ` and certified by kernel evaluation (`decide +kernel`).
 
 * `piLoQ`, `piUpQ`: the coarse enclosure `3.141592 < π < 3.141593`.

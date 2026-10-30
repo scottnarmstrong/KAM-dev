@@ -298,10 +298,6 @@ section MatrixForm
 
 variable {n : ℕ}
 
-/-- `Ω₀² = -I`, so that `J = -Ω₀ = Ω₀⁻¹`. -/
-theorem omegaZero_omegaZero (u : (Fin n → ℂ) × (Fin n → ℂ)) : omegaZero (omegaZero u) = -u := by
-  ext i <;> simp [omegaZero]
-
 /-- The column `(Dφ)ᵀ = (∂_θ φ, ∂_I φ)` of partial derivatives of `φ` at `w`, `θ`-block
 first. -/
 def gradientColumn (φ : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (w : (Fin n → ℂ) × (Fin n → ℂ)) :

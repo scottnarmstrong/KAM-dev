@@ -63,17 +63,6 @@ theorem Nonresonant.flowMultiplier_ne_zero {ω : Fin n → ℝ} (hω : Nonresona
   rw [norm_flowMultiplier]
   exact mul_pos (by positivity) (abs_pos.mpr (hω k hk))
 
-/-- The multiplier agrees with the sum of the coordinate derivatives. -/
-theorem directionalCoeff_eq_sum (ω : Fin n → ℝ) (a : (Fin n → ℤ) → ℂ)
-    (k : Fin n → ℤ) :
-    directionalCoeff ω a k = ∑ j, (ω j : ℂ) * partialCoeff j a k := by
-  simp only [directionalCoeff, flowMultiplier, frequencyDot, Complex.ofReal_sum,
-    Complex.ofReal_mul, partialCoeff, Finset.mul_sum, Finset.sum_mul]
-  apply Finset.sum_congr rfl
-  intro j _
-  push_cast
-  ring
-
 @[simp] theorem solve_zero_mode (ω : Fin n → ℝ) (a : (Fin n → ℤ) → ℂ) :
     solve ω a 0 = 0 := by
   simp [solve]

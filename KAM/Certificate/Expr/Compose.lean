@@ -11,7 +11,7 @@ public import KAM.Certificate.Expr.ComposeModels
 # Composition of a straight-line program with a certified embedding
 
 `Slp.compose n p K wit W cfg pe wanted` runs the program `p` slot by slot on Fourier models of
-`θ ↦ slot(K θ)` (SO design §1.7) and returns the models of the requested slots, or `none` if a
+`θ ↦ slot(K θ)` and returns the models of the requested slots, or `none` if a
 witness check fails (fail closed). Slot by slot:
 
 * `const`: `constModel` (key `[]`); `action j`: the exact data `(2π)^{dA_j} A_j`;
@@ -25,8 +25,8 @@ witness check fails (fail closed). Slot by slot:
   the exact shift by `k` (`shiftModel`);
 * `add`: `CertModel.add`, the second operand re-expressed at the first operand's degree;
 * `mul`: `CertModel.mul` at the product key `[0, slot]`, with the factors' weighted norms cached
-  per slot (`CertModel.mulN`, SO-MALG signal 1(c)). A constant operand (every key zero) is a
-  scalar multiplication (`CertModel.polyProduct`'s scalar route, SO-ADVCOUNT lever 1);
+  per slot (`CertModel.mulN`). A constant operand (every key zero) is a
+  scalar multiplication (`CertModel.polyProduct`'s scalar route);
 * `exp`: the next exp witness (slot order) against the operand at degree `0`;
 * `inv`: the next reciprocal witness, which certifies its own nonvanishing (`invWitness_sound`).
 
@@ -47,7 +47,7 @@ open KAM CertArith
 the character table keyed by the normalized index (coordinates with syntactically zero `U_j`
 zeroed; `-k` uses `conjReflect`). Exp and character witnesses are `ExpWitness`es: each carries
 its own pin halving count and order, and its pin `exp(2πi k·U(0))` (characters) or
-`exp g₀(0)` goes through `certCExpReduced` (Revision 4, F10). -/
+`exp g₀(0)` goes through `certCExpReduced`. -/
 structure Witnesses (α : Type) where
   expWit : List (ExpWitness α)
   invWit : List (CertPoly α)

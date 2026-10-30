@@ -12,11 +12,11 @@ public import KAM.Certificate.Torsion.Models
 public import KAM.Strip.Cauchy
 
 /-!
-# Graph certificates and the barrier from a passing certificate (track SO, package SO-GRAPH)
+# Graph certificates and the barrier from a passing certificate
 
 `SoGraphCert` adds to a torus certificate a monotonicity margin for `∂_{θ₀}` of the angle
 component `(.1 0)` and the range `[pLo, pHi]` of the action component `(.2 0)` on the real torus,
-each with a paid SOS residual (`checkRealLowerBound`, SO-POS). `checkSoGraph` checks them on the
+each with a paid SOS residual (`checkRealLowerBound`). `checkSoGraph` checks them on the
 certificate's own embedding `K` together with the strict margin `mono > disp/ρ∞`.
 
 The transfer to the black box's exact torus `K∞` (`soGraph_deriv_transfer`, then
@@ -210,8 +210,8 @@ theorem soGraph_exactTorus {g : SoGraphCert α} (hc : checkTorusCertificate g.ba
     have := (abs_le.1 h).2
     linarith
 
-/-- The barrier from a passing ORIGINAL-frame certificate (Revision 2; retained, valid, not on
-the headline route). The band is widened by `disp`. -/
+/-- The barrier from a passing ORIGINAL-frame certificate (valid, not on the
+headline route). The band is widened by `disp`. -/
 theorem soBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : SoGraphCert α)
     (hham : g.base.ham = soHamExpr) (hc : checkTorusCertificate g.base = true)
     (hg : checkSoGraph g = true) {ωstar : Fin 2 → ℝ} (hω : FreqEncloses 2 g.base.freqBox ωstar)
@@ -229,7 +229,7 @@ theorem soBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : S
     exact (checkStatic_sound hs).hρinf
   exact soBarrier_of_exact_torus hρ hholo hprim hreal hinv hγ hdio' hm hmono hlo hhi
 
-/-- **The barrier from a passing ROTATED-frame certificate** (Revision 5): black box
+/-- **The barrier from a passing ROTATED-frame certificate**: black box
 (`checkTorusCertificate_sound`), graph transfer (`checkSoGraph`, Cauchy on `T_{ρ∞}`, frame-free),
 then `soBarrier_of_exact_rotTorus`. The band is widened by `disp`. -/
 theorem soRotBarrier_of_cert {α : Type} [CertArith α] [LawfulCertArith α] (g : SoGraphCert α)

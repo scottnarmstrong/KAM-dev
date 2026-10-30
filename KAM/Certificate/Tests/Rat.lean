@@ -8,7 +8,7 @@ module
 public import KAM.Certificate.Tests.RatData
 
 /-!
-# The checker-only toy TR (SO design §8)
+# The checker-only toy TR
 
 `H = J + p²/2`, the exact rational `ν = 1/2`, `K(θ) = (θ, (1/2, -1/8))`, zero error, reference
 box `{(1/4, 1/2)}`. No Diophantine premise exists (the vector `(1/4, 1/2)` is resonant), so this

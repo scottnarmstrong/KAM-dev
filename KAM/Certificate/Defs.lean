@@ -28,7 +28,7 @@ public import KAM.Frozen.Iso.Defs.EnergyAverage
 The certificate `TorusCertificate n α` (pure data: parameters, the Hamiltonian expression and its
 domain, the frequency box, the embedding, witnesses, the Gram and torsion witnesses, two model
 configurations and the `π` enclosure) and the black-box checker `checkTorusCertificate`, the
-conjunction of eight `Bool` sub-checks (SO design §1, §4, Appendix A §G):
+conjunction of eight `Bool` sub-checks:
 
 * `checkStatic`: shapes, positivity and orderings of the parameters, both weights, the `π`
   enclosure, and the frequency box: its lower bound `L = max_i (|c_i| - r_i)` of `‖ω*‖` is
@@ -48,7 +48,7 @@ conjunction of eight `Bool` sub-checks (SO design §1, §4, Appendix A §G):
 
 Precision split: the Gram and torsion stages use `cfgLow`; invariance and energy use `cfgFull`.
 Product keys of this module: `[5, a, l]` (invariance, row `a`, frequency coordinate `l`); the
-composition, Gram and torsion keys are those of the landed engine (`[0, slot]`, `[3, …]`,
+composition, Gram and torsion keys are those of the composition engine (`[0, slot]`, `[3, …]`,
 `[4, …]`). Ball arithmetic and the strip weights use the Taylor order `expOrder` and the halving
 count `expHalvings` of the certificate.
 

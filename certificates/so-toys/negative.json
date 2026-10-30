@@ -66,8 +66,7 @@
    "design": "\u00a78.4",
    "failed": [
     "checkInvariance",
-    "checkEnergy",
-    "checkTorsion"
+    "checkEnergy"
    ],
    "intended": "checkInvariance",
    "passes_checker": false,
@@ -93,7 +92,7 @@
    ],
    "intended": "checkHamBounds",
    "passes_checker": false,
-   "test": "denominator ball contains 0 on D (rhoH = 1/5, w_H >= 3)",
+   "test": "denominator ball contains 0 on D (rhoH = 12, w_H >= 2a)",
    "toy": "T2d"
   },
   {

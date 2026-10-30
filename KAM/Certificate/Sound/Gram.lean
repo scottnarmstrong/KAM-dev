@@ -10,7 +10,7 @@ public import KAM.Certificate.Sound.Static
 /-!
 # Soundness of the Gram sub-check
 
-`checkGram_sound`: the landed `gramCheck_sound` at the certificate's data, with `1 ≤ n` from
+`checkGram_sound`: `gramCheck_sound` at the certificate's data, with `1 ≤ n` from
 `StaticFacts.hn` and the strip width `weight.rho = rho` from `StaticFacts.hrho`.
 -/
 

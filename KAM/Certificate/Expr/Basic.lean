@@ -14,7 +14,7 @@ public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
 /-!
 # The Hamiltonian expression language, basic layer
 
-`HamExpr n` is the finite expression language for Hamiltonians (SO design §D): angles enter only
+`HamExpr n` is the finite expression language for Hamiltonians: angles enter only
 through the period-one modes `cos (2π k·θ)`, `sin (2π k·θ)`. We prove the structural facts:
 holomorphy on an open set where all denominators are certified nonvanishing, invariance under
 integer translations of the angles, reality on real points, and the openness and translation
@@ -29,7 +29,7 @@ open KAM
 
 /-- Hamiltonians as finite expressions. Angles enter only through the period-one modes
 `cos (2π k·θ)`, `sin (2π k·θ)`; every constructor maps reals to reals, so reality, periodicity
-and translation invariance are structural and unconditional. Division (ruling O2) is by an
+and translation invariance are structural and unconditional. Division is by an
 expression certified nonvanishing on the domain (`NonvanishingOn`, established by the ball
 arithmetic of `checkHamBounds`); holomorphy is structural under that condition. -/
 inductive HamExpr (n : ℕ) : Type

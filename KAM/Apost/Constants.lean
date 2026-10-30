@@ -172,18 +172,6 @@ theorem one_le_Theta (hP : Params n τ M σK σB σT) : 1 ≤ Theta n M σK σB 
   unfold Theta
   exact one_le_mul_of_one_le_of_one_le (by linarith) h3
 
-theorem mSize_le_Theta (hP : Params n τ M σK σB σT) : mSize M σK σB σT ≤ Theta n M σK σB σT := by
-  have hn := hP.one_le_cast
-  have hm : 1 ≤ mSize M σK σB σT := one_le_mSize
-  have h2 : 1 ≤ mSize M σK σB σT ^ 2 := one_le_pow₀ hm
-  have h4 : 1 ≤ 4 * (n : ℝ) * mSize M σK σB σT ^ 2 :=
-    one_le_mul_of_one_le_of_one_le (by linarith) h2
-  unfold Theta
-  calc mSize M σK σB σT = 1 * mSize M σK σB σT := (one_mul _).symm
-    _ ≤ (4 * n * mSize M σK σB σT ^ 2) * mSize M σK σB σT :=
-        mul_le_mul_of_nonneg_right h4 (by linarith)
-    _ = 4 * n * mSize M σK σB σT ^ 3 := by ring
-
 /-! ### The constants are `≥ 1` -/
 
 theorem one_le_C_X (hP : Params n τ M σK σB σT) : 1 ≤ C_X n M σK σB σT := by

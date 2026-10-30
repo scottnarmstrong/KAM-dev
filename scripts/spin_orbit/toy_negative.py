@@ -42,8 +42,9 @@ def mutations(bases):
         lambda c: c["wit"].__setitem__("charWit", [((0, 0), ([((0, 0), (F(2), F(0)))], 0, 400))]), "checkInvariance")
     add("strip weight w < e^{2 pi rho} (w = 1)", "§8.5", T2,
         lambda c: c.__setitem__("weight", (c["weight"][0], F(1))), "checkStatic")
-    add("denominator ball contains 0 on D (rhoH = 1/5, w_H >= 3)", "§8.6", T2d,
-        lambda c: c.__setitem__("weightH", (F(1, 5), G.weight_for(F(1, 5), c["expHalvings"], c["expOrder"]))),
+    # T2d's denominator is a + cos 2πq with a = G.T2D_A = 10^30: |cos| reaches a once w_H >= 2a (rhoH = 12)
+    add("denominator ball contains 0 on D (rhoH = 12, w_H >= 2a)", "§8.6", T2d,
+        lambda c: c.__setitem__("weightH", (F(12), G.weight_for(F(12), c["expHalvings"], c["expOrder"]))),
         "checkHamBounds")
     add("reciprocal witness with delta >= 1 (Q = 0)", "§8.6", T2d,
         lambda c: c["wit"].__setitem__("invWit", [[]]), "checkInvariance")

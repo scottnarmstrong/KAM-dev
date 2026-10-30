@@ -12,7 +12,7 @@ public import KAM.Frozen.Defs.ComplexStrip
 public import KAM.Strip.Analytic
 
 /-!
-# The scalar embedding of a lunar torus (track SO, package SO-MODEL)
+# The scalar embedding of a lunar torus
 
 Proposal §5.1-5.2, in the conventions of `KAM.Iso.Charts.IG1Body`: angle order `(q, φ)`, action
 order `(p, J)`, `K : (Fin 2 → ℂ) → (Fin 2 → ℂ) × (Fin 2 → ℂ)`, error
@@ -26,8 +26,8 @@ For a function `u : (Fin 2 → ℂ) → ℂ` (any function; the identities at `�
 * `fderiv_soK_dir`: `DK(θ)(ν, 1)`; `invarianceError_soK`:
   `E = ((0, 0), (-r, p r))`, `r = D_ν² u + ∂_q V(θ₁ + u, θ₂)` (`soResidual`);
 * `norm_invarianceError_soK_le`, `norm_invarianceError_soK_le_strip`:
-  `‖E‖ ≤ max (1, ‖p‖) ‖r‖` pointwise and as a bound over a strip (the strip norm `‖·‖_ρ` of the
-  campaign is the supremum over `complexStrip n ρ`, as in `IG1Body`);
+  `‖E‖ ≤ max (1, ‖p‖) ‖r‖` pointwise and as a bound over a strip (the strip norm `‖·‖_ρ` used
+  throughout is the supremum over `complexStrip n ρ`, as in `IG1Body`);
 * `soK_primary`: `K` is primary when `u` is `ℤ²`-periodic;
 * the π-free form (plan, "π-free arithmetic"): `u = soUofW w`, `w(x) = 2π u(x/2π)` in the phase
   variable `x = 2πθ`; `soResidual_soUofW`: `r(θ) = 2π · soRW w (2πθ)` with
@@ -61,7 +61,7 @@ def soP (ν : ℝ) (u : (Fin 2 → ℂ) → ℂ) (θ : Fin 2 → ℂ) : ℂ := �
 def soJ (ν : ℝ) (u : (Fin 2 → ℂ) → ℂ) (θ : Fin 2 → ℂ) : ℂ :=
   -(soP ν u θ) ^ 2 / 2 - soVC (θ 0 + u θ) (θ 1)
 
-/-- The embedding `K_u` of proposal §5.1 in angle-action order `((q, φ), (p, J))`. -/
+/-- The embedding `K_u` in angle-action order `((q, φ), (p, J))`. -/
 def soK (ν : ℝ) (u : (Fin 2 → ℂ) → ℂ) (θ : Fin 2 → ℂ) : (Fin 2 → ℂ) × (Fin 2 → ℂ) :=
   (![θ 0 + u θ, θ 1], ![soP ν u θ, soJ ν u θ])
 

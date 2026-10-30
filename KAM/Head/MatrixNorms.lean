@@ -56,16 +56,6 @@ def frameL0 (n : ℕ) : Matrix (Fin n ⊕ Fin n) (Fin n) ℂ := Matrix.fromRows 
 torus. -/
 def frameN0 (n : ℕ) : Matrix (Fin n ⊕ Fin n) (Fin n) ℂ := Matrix.fromRows 0 1
 
-/-- `L⁰ v = (v, 0)`. -/
-theorem frameL0_mulVec (v : Fin n → ℂ) :
-    (frameL0 n).mulVec v = (Equiv.sumArrowEquivProdArrow _ _ _).symm (v, 0) := by
-  ext (i | i) <;> simp [frameL0, Matrix.fromRows_mulVec, Equiv.sumArrowEquivProdArrow]
-
-/-- `N⁰ v = (0, v)`. -/
-theorem frameN0_mulVec (v : Fin n → ℂ) :
-    (frameN0 n).mulVec v = (Equiv.sumArrowEquivProdArrow _ _ _).symm (0, v) := by
-  ext (i | i) <;> simp [frameN0, Matrix.fromRows_mulVec, Equiv.sumArrowEquivProdArrow]
-
 /-- The normal frame of the unperturbed torus is `N⁰ = Ω₀ L⁰`. -/
 theorem omegaZeroMatrix_mul_frameL0 : omegaZeroMatrix n * frameL0 n = frameN0 n := by
   unfold omegaZeroMatrix frameL0 frameN0

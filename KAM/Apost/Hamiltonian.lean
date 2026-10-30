@@ -10,6 +10,7 @@ public import KAM.Torus.FrozenAgreement
 import KAM.Strip.RealRestriction
 import KAM.Strip.Limits
 import KAM.Strip.Taylor
+public import KAM.Head.TorsionRegularGeneral
 
 /-!
 # The Hamiltonian vector field
@@ -233,13 +234,6 @@ theorem fderiv_sumVec_coord {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ 
   rw [h2]
   simp [fderiv_sumVec_apply]
 
-/-- The entries of `sqMat U`: column `t` is `sumVec (U b_t)` for the basis vector `b_t`. -/
-theorem sqMat_apply_eq (U : ((Fin n → ℂ) × (Fin n → ℂ)) →L[ℂ] (Fin n → ℂ) × (Fin n → ℂ))
-    (s t : Fin n ⊕ Fin n) :
-    sqMat U s t = sumVec n (U ((sumVec n).symm (Pi.single t 1))) s := by
-  have h := congrFun (sqMat_mulVec U ((sumVec n).symm (Pi.single t 1))) s
-  simpa [Matrix.mulVec_single_one] using h
-
 /-- Item (c), second half: `DX_h` is real at the real points of `𝔅`. -/
 theorem im_sqMat_ham (hS : Standing n τ M σK σB σT 𝔅 h ω γ) {θ I : Fin n → ℝ}
     (hz : ((fun i => (θ i : ℂ)), (fun i => (I i : ℂ))) ∈ 𝔅) (s t : Fin n ⊕ Fin n) :
@@ -247,7 +241,7 @@ theorem im_sqMat_ham (hS : Standing n τ M σK σB σT 𝔅 h ω γ) {θ I : Fin
       ((fun i => (θ i : ℂ)), fun i => (I i : ℂ))) s t).im = 0 := by
   have hX : DifferentiableAt ℂ (hamiltonianVectorFieldℂ h) _ :=
     (differentiableOn_ham hS).differentiableAt (hS.isOpen.mem_nhds hz)
-  rw [sqMat_apply_eq, ← fderiv_sumVec_coord hX]
+  rw [KAM.Head.sqMat_apply_entry, ← fderiv_sumVec_coord hX]
   refine im_fderiv_real_direction hS.isOpen (f := fun w => sumVec n (hamiltonianVectorFieldℂ h w) s)
     ?_ (fun θ' I' hz' => im_ham_eq_zero hS hz' s) hz (sumVec_symm_single_im t).1
     (sumVec_symm_single_im t).2

@@ -243,7 +243,7 @@ theorem CertRealPoly.conjugateSymmetric [LawfulCertArith α] (n : ℕ) (P : Cert
 
 /-- Exact addition by list concatenation (no rounding, law-free). Coefficient merging with
 rounding is a model operation (`CertModel.add`), whose error is paid in the strip-weighted
-radius; a global bound for all complex `θ` would be false for nonzero modes (audit 2). -/
+radius; a global bound for all complex `θ` would be false for nonzero modes. -/
 def CertPoly.add {α : Type} (P Q : CertPoly α) : CertPoly α := ⟨P.terms ++ Q.terms⟩
 
 theorem CertPoly.eval_add (n : ℕ) (P Q : CertPoly α) (θ : Fin n → ℂ) :

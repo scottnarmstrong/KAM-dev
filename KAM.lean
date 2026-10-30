@@ -114,6 +114,7 @@ public import KAM.Certificate.Tests.RatData
 public import KAM.Certificate.Tests.Torsion
 public import KAM.Certificate.Tests.Toy2
 public import KAM.Certificate.Tests.Toy2Data
+public import KAM.Certificate.Tests.Toy2d
 public import KAM.Certificate.Tests.Toy2dData
 public import KAM.Certificate.Tests.Toy3
 public import KAM.Certificate.Tests.Toy3Data
@@ -1346,6 +1347,7 @@ public import KAM.SpinOrbit.Graph.Inverse
 public import KAM.SpinOrbit.Graph.Rot
 public import KAM.SpinOrbit.HamExpr
 public import KAM.SpinOrbit.Hamiltonian
+public import KAM.SpinOrbit.LunarAssembly
 public import KAM.SpinOrbit.LunarParams
 public import KAM.SpinOrbit.Model
 public import KAM.SpinOrbit.PeriodOne

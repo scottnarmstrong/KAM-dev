@@ -35,17 +35,17 @@ namespace KAM.Weighted
 variable {n : ℕ}
 
 /-- Restriction of the class to smaller widths. -/
-private theorem inClass_mono {D : Set (Fin n → ℂ)} {r₀ s₀ r s : ℝ}
+theorem inClass_mono {D : Set (Fin n → ℂ)} {r₀ s₀ r s : ℝ}
     {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hu : InClass D r₀ s₀ u) (hr : r ≤ r₀) (hs : s ≤ s₀) :
     InClass D r s u :=
   ⟨hu.differentiableOn.mono (Dom_mono hr hs), fun j z hz => hu.periodic j z (Dom_mono hr hs hz)⟩
 
-private theorem wsum_nonneg (f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (s : ℝ) (I : Fin n → ℂ) :
+theorem wsum_nonneg (f : (Fin n → ℂ) × (Fin n → ℂ) → ℂ) (s : ℝ) (I : Fin n → ℂ) :
     0 ≤ wsum f s I :=
   tsum_nonneg fun _ => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le
 
 /-- Along the real angles a class function is continuous. -/
-private theorem continuous_real_slice {D : Set (Fin n → ℂ)} {r s : ℝ}
+theorem continuous_real_slice {D : Set (Fin n → ℂ)} {r s : ℝ}
     {u : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} (hs : 0 < s) (hu : InClass D r s u) {I : Fin n → ℂ}
     (hI : I ∈ polyNbhd D r) : Continuous fun x : Fin n → ℝ => u (fun j => (x j : ℂ), I) :=
   hu.differentiableOn.continuousOn.comp_continuous

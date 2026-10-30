@@ -10,7 +10,7 @@ public import KAM.Certificate.Model.ExpBounds
 /-!
 # Reciprocal witnesses
 
-The witness `Q ≈ 1/b` for a model `b = (2π)^d (P + T)` (ruling O2). The checker forms the
+The witness `Q ≈ 1/b` for a model `b = (2π)^d (P + T)`. The checker forms the
 degree-zero product `u = Q (P + T)` (one advice-checked product, key `[2]`) and the bound
 `δ ≥ sup_{T_ρ} |1 - u|` (`oneSubSupUp`: the zero-key coefficients are summed into a ball and
 subtracted from `1`, the other terms cost their weighted size). If `δ < 1`, then `b` has no zero
