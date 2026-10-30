@@ -1347,7 +1347,7 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   a remaining real-data memory cost. SO-DATA3 brief staged: steps 1–3 (mirror alignment to BALLDY, generation,
   emission) start once BALLDY lands, and the kernel passes wait for KDEPTH. Codex-3 at 10 % weekly with five audits
   queued (W1, W3, KDEPTH, DATA3, seal): **owner, a codex-4 sign-in would add 29 %.**
-- **15:58. SO-BALLDY landed (a40b1224). v2 certifier on main: SO-DATA3 re-staged. SO-LOCK-SCOPE delivered.**
+- **15:42. SO-BALLDY landed (a40b1224). v2 certifier on main: SO-DATA3 re-staged. SO-LOCK-SCOPE delivered.**
   - The owner's sharp-v2 landing (86089b36) brings `checkTorusCertificateV2` (KAM/CertificateSharp/V2/Engine.lean).
     It has the same certificate format and base sub-checks, an engine smallness test with a witness, and the same
     `CertifiedTorus` conclusion. On R1, route A as proved reaches 10^−11.18, against v1 sharp's 10^−24.72.
