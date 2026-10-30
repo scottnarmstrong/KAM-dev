@@ -13,9 +13,9 @@ public import KAM.Certificate.Poly.OverlapAdd
 The dense route (`checkPackedProduct` on `PackLayout.dense` lists, cut into blocks) walks every
 slot of every factor block, and almost all of them are zeros. The sparse route works on the
 factor's own `(slot, value)` terms: `spBlocks` cuts strictly increasing terms into blocks of
-`blockLen` slots in one pass, `spPack` packs a block from its terms (a balanced tree of nodes carrying their lowest slot),
-and the fit guard uses the largest term (`spMax`). `checkShardSp` is `checkShard` with these
-ingredients; `checkPackedSp` runs it on every shard.
+`blockLen` slots in one pass, `spPack` packs a block from its terms (a balanced tree of nodes
+carrying their lowest slot), and the fit guard uses the largest term (`spMax`). `checkShardSp` is
+`checkShard` with these ingredients; `checkPackedSp` runs it on every shard.
 
 `checkPackedSp_dense` is the bridge: a passing sparse check makes the dense check pass on the
 linear fills of the same terms, so every consumer of `checkPackedProduct` applies unchanged. The
