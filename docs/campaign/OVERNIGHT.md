@@ -1983,3 +1983,8 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     reviews not blocking provers, hourly status.
   - **Lock:** the band has kernel priority. LOCK-DATA pushes all non-kernel work (ℓ1 rescan, sizing, generation,
     ledger measurement) now; kernel runs take the first free lane, each theorem ≤ 8 GB.
+- **22:33. Owner: "pause W lane to focus on landing SO completely".**
+  - Track W paused: no new provers, audits or reviews. Running provers commit and stop; running audits finish and
+    are recorded only. Worktrees and branches are kept, with a resume note at .drafts/W/PAUSE-2026-10-30.md.
+  - The freed CPU, memory, accounts and codex-1 go to SO: the band's two kernel lanes, then its audit and landing;
+    LOCK-DATA's sizing, generation and kernel.
