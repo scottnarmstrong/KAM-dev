@@ -1,0 +1,78 @@
+{
+ "Moon rotational (check: 3)": [
+  3,
+  {
+   "witness": 2,
+   "mul": 1
+  }
+ ],
+ "Moon librational polar": [
+  40,
+  {
+   "sqrt": 1,
+   "inv": 1,
+   "witness": 16,
+   "mul": 22
+  }
+ ],
+ "Mercury rotational": [
+  3,
+  {
+   "witness": 2,
+   "mul": 1
+  }
+ ],
+ "Moon exact Kepler (w chart)": [
+  38,
+  {
+   "inv": 1,
+   "mul": 35,
+   "witness": 2
+  }
+ ],
+ "CC07 Victoria (Delaunay)": [
+  79,
+  {
+   "mul": 67,
+   "inv": 3,
+   "sqrt": 1,
+   "witness": 8
+  }
+ ],
+ "PCR3BP exact polar": [
+  50,
+  {
+   "sqrt": 3,
+   "inv": 6,
+   "witness": 4,
+   "mul": 37
+  }
+ ],
+ "Trojan shear chart": [
+  86,
+  {
+   "sqrt": 4,
+   "inv": 7,
+   "witness": 6,
+   "mul": 69
+  }
+ ],
+ "Hill polar": [
+  36,
+  {
+   "sqrt": 1,
+   "inv": 3,
+   "witness": 4,
+   "mul": 28
+  }
+ ],
+ "Henon-Heiles polar": [
+  35,
+  {
+   "sqrt": 1,
+   "inv": 2,
+   "witness": 4,
+   "mul": 28
+  }
+ ]
+}
