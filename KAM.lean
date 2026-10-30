@@ -1414,6 +1414,10 @@ public import KAM.Strip.CohomologicalRussmannBound
 public import KAM.Strip.CohomologicalRussmannCount
 public import KAM.Strip.CohomologicalRussmannLattice
 public import KAM.Strip.CohomologicalRussmannSep
+public import KAM.Strip.CohomologicalSum
+public import KAM.Strip.CohomologicalSumBound
+public import KAM.Strip.CohomologicalSumCert
+public import KAM.Strip.CohomologicalSumSeries
 public import KAM.Strip.Fourier
 public import KAM.Strip.FourierBasic
 public import KAM.Strip.FourierDerivative
