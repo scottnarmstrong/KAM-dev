@@ -1553,3 +1553,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - LOCK-COORDS-R is done; its audit is with the lock sub-orchestrator.
   - W: W1-SINES is in the landing queue. Provers wpc and wpd are running, and the second batched graph review is on
     codex-1.
+- **17:20 Track W (kam-d4).** Blueprint: W4 and W7 accepted and landed (2325997f). The cleanup of six defects in our
+  own blueprint text (found by the graph reviews) was accepted on codex-1 and sent to land (inp-wbp 99afc128). W5 and
+  W6 are written (6ac9e194). Lean: W1-SINES passed audit and was sent to land. W1-WEIGHTED failed audit 1 and is being
+  fixed. W0-NORMAL and W1-ANALYTIC are running. Graph wave 1: 312 nodes; the batched delta review is running on codex-1.
+  **For owner review (design, reversible, nothing frozen affected):** the W5/W6 writer found that W7's modified
+  divisor weight ŵ = (i−j)j^{−1/2} breaks the parameter-Lipschitz estimate of the preparatory KAM step (P96-K
+  p. 140's |X_F|^λ bound with weight min(i^ϖ, j^ϖ) is unjustified for the Lipschitz part; suspected erratum, to be
+  confirmed by review). Options: (a) β = ¼, i.e. ŵ = (i−j)j^{−1/4} (w = 1/47, α̂ = α^{44/47}, α̌ = α^{48/47},
+  μ̃ = 32/47; density survives); (b) a different smoothing/weight route. Choice: (a), being verified by the W7
+  writer; it only changes internal exponents. nlw2 is unaffected (it asserts only density one and existence of
+  constants).
