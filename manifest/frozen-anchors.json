@@ -9286,6 +9286,135 @@
     "frozen_paths": [],
     "audit_paths": []
    }
+  },
+  {
+   "id": "russmann.russmannCover.v1",
+   "kind": "definition",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'approve R-HEAD with Q1(d), other recommendations' to the review page of track R statement draft v0.1 (claude.ai/artifact/4XdxRLmoVNzbiQAz6uPbB3); docs/tracks/R/RULINGS.md R1",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "Rus01 (Rüssmann, RCD 6 (2001) 119-204), as transcribed in blueprint-P/parts/p11a*.tex and blueprint-P/reviews/p11a-russmann-check.md; KAM-dev russmann branch docs/tracks/R/statement.md v0.1",
+    "range": "Theorem 1.7, p. 126 (tori with Diophantine frequencies ω*(b)); kamCover without the frequency clause"
+   },
+   "contract": {
+    "id": "russmann.russmannCover",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Russmann/Defs/RussmannCover.lean",
+   "export": "KAM.Russmann.russmannCover",
+   "split_policy": {
+    "source_group": "russmann.russmannCover",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/tracks/R/RULINGS.md R1"
+   },
+   "abi_sha256": "10b9de028abee529a488317267c07829d6fc80a4ac81ccbfc7ecdaaee21b679e",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsInvariantLagrangianTorus.lean",
+     "sha256": "b1d24c95075bf730d40213f70ee354ac4d86f135570a1a93310ca4cfebb7f0c0"
+    },
+    {
+     "path": "KAM/Frozen/Defs/RealHamiltonian.lean",
+     "sha256": "d2e526b9c26f37128281d928c668b6ae14c389f5ef63007634c1985e1ac6e2a4"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    }
+   ],
+   "state": "SEALED",
+   "full_file_sha256": "3351439150f5ab318709cca227223ae71bd39c17e14907a06973fb6937378072"
+  },
+  {
+   "id": "russmann.russmann_kam.v1",
+   "kind": "theorem",
+   "author_approval": {
+    "approved_by": "Scott Armstrong",
+    "approved_at": "2026-10-30",
+    "approval_ref": "owner reply 'approve R-HEAD with Q1(d), other recommendations' to the review page of track R statement draft v0.1 (claude.ai/artifact/4XdxRLmoVNzbiQAz6uPbB3); docs/tracks/R/RULINGS.md R1",
+    "approval_version": "1"
+   },
+   "source": {
+    "revision": "Rus01 (Rüssmann, RCD 6 (2001) 119-204), as transcribed in blueprint-P/parts/p11a*.tex and blueprint-P/reviews/p11a-russmann-check.md; KAM-dev russmann branch docs/tracks/R/statement.md v0.1",
+    "range": "Theorem 1.7, p. 126, maximal case p = q = 0; §1.1-1.2 (non-degeneracy); deviations D-R1-D-R5 (statement.md §1)"
+   },
+   "contract": {
+    "id": "russmann.russmann_kam",
+    "version": "1"
+   },
+   "path": "KAM/Frozen/Russmann/Theorems/RussmannKam.lean",
+   "export": "KAM.Russmann.russmann_kam",
+   "split_policy": {
+    "source_group": "russmann.russmann_kam",
+    "mode": "NOT_SPLIT",
+    "ruling_ref": "docs/tracks/R/RULINGS.md R1"
+   },
+   "abi_sha256": "83163ec8cc3d7df90f1cc9c1340fbf8f22b100ad8e6c3f1abeab1b80cc24cb01",
+   "definition_closure": [
+    {
+     "path": "KAM/Frozen/Defs/ActionNbhd.lean",
+     "sha256": "a3d0fe1c21946ded08e554c696710a795fc45cd67a1948c31887a850abb5ba80"
+    },
+    {
+     "path": "KAM/Frozen/Defs/ComplexStrip.lean",
+     "sha256": "e09d35d4c4c71ad6dad5dfb1995c842840f1c35bffbd3494bb6ff62f78c3da99"
+    },
+    {
+     "path": "KAM/Frozen/Defs/FrequencyMap.lean",
+     "sha256": "a1f9fe8cb6281f57cc68cfcbc5b7c3020bd207d681b45665e7c31ebd8593ee8f"
+    },
+    {
+     "path": "KAM/Frozen/Defs/FundamentalDomain.lean",
+     "sha256": "e1de1632361c6de0d3e3b6cf5edaa1d92de0b12d7dd3934fed673da896e8f709"
+    },
+    {
+     "path": "KAM/Frozen/Defs/HamiltonianVectorField.lean",
+     "sha256": "1592cf15aadef80f7e2017860494a1e067de8698ff8f6075c055a2d138877a79"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsDiophantine.lean",
+     "sha256": "45ac03a3d80f3be86018b756497d11e520e59e40beff85bc92e6bec6d873aea9"
+    },
+    {
+     "path": "KAM/Frozen/Defs/IsInvariantLagrangianTorus.lean",
+     "sha256": "b1d24c95075bf730d40213f70ee354ac4d86f135570a1a93310ca4cfebb7f0c0"
+    },
+    {
+     "path": "KAM/Frozen/Defs/RealHamiltonian.lean",
+     "sha256": "d2e526b9c26f37128281d928c668b6ae14c389f5ef63007634c1985e1ac6e2a4"
+    },
+    {
+     "path": "KAM/Frozen/Defs/SymplecticForm.lean",
+     "sha256": "cb406afe9c796cec050b1d0f340bf2327766481865dcaf001063c9b8d53df60a"
+    },
+    {
+     "path": "KAM/Frozen/Russmann/Defs/RussmannCover.lean",
+     "sha256": "3351439150f5ab318709cca227223ae71bd39c17e14907a06973fb6937378072"
+    }
+   ],
+   "implementation": {
+    "module": "KAM.Provider.Russmann.RussmannKam",
+    "export": "KAM.Provider.Russmann.russmann_kam"
+   },
+   "state": "SEALED",
+   "prefix_sha256": "7b419c683592be6cd0316350239ead98324a6e73e5410ed9c127b20a261804c6",
+   "suffix_sha256": "f178c7b1cdadefc81ac0f3a993a5fd5c7de97fb3f0e502b21c9996319afc0d30",
+   "draft_allowlist": {
+    "frozen_paths": [],
+    "audit_paths": []
+   }
   }
  ]
 }
