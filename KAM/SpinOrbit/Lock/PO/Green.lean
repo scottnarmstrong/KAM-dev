@@ -21,7 +21,8 @@ Unfrozen helper code (design SO-LOCK §2.1).
 * `dirichlet_bound`: if `u'' = f`, `|f| ≤ M` and `u` vanishes at every half-integer, then
   `|u| ≤ M / 32` and `|u'| ≤ M / 4` (the Dirichlet problem on intervals of length `1/2`).
 * `half_int_zero`: an odd one-periodic function vanishes at every half-integer.
-* `prim f x = ∫₀ˣ f`, `greenD f = prim f - 2 ∫₀^{1/2} prim f`, `green f = prim (greenD f)`:
+* `lockPrim f x = ∫₀ˣ f`, `greenD f = lockPrim f - 2 ∫₀^{1/2} lockPrim f`,
+  `green f = lockPrim (greenD f)`:
   for continuous odd one-periodic `f`, `green f` is odd, one-periodic, `(green f)' = greenD f`,
   `(greenD f)' = f` (`green_odd`, `green_periodic`, `hasDerivAt_green`, `hasDerivAt_greenD`).
 -/
@@ -146,97 +147,98 @@ theorem half_int_zero {u : ℝ → ℝ} (hp : Function.Periodic u 1) (ho : ∀ x
 /-! ### Primitives and the Green operator -/
 
 /-- The primitive `x ↦ ∫₀ˣ f`. -/
-def prim (f : ℝ → ℝ) (x : ℝ) : ℝ := ∫ s in (0 : ℝ)..x, f s
+def lockPrim (f : ℝ → ℝ) (x : ℝ) : ℝ := ∫ s in (0 : ℝ)..x, f s
 
-theorem hasDerivAt_prim {f : ℝ → ℝ} (hf : Continuous f) (x : ℝ) :
-    HasDerivAt (prim f) (f x) x :=
+theorem hasDerivAt_lockPrim {f : ℝ → ℝ} (hf : Continuous f) (x : ℝ) :
+    HasDerivAt (lockPrim f) (f x) x :=
   integral_hasDerivAt_right (hf.intervalIntegrable _ _) (hf.stronglyMeasurableAtFilter _ _)
     hf.continuousAt
 
-theorem continuous_prim {f : ℝ → ℝ} (hf : Continuous f) : Continuous (prim f) :=
-  continuous_iff_continuousAt.2 fun x => (hasDerivAt_prim hf x).continuousAt
+theorem continuous_lockPrim {f : ℝ → ℝ} (hf : Continuous f) : Continuous (lockPrim f) :=
+  continuous_iff_continuousAt.2 fun x => (hasDerivAt_lockPrim hf x).continuousAt
 
-theorem prim_zero (f : ℝ → ℝ) : prim f 0 = 0 := by simp [prim]
+theorem lockPrim_zero (f : ℝ → ℝ) : lockPrim f 0 = 0 := by simp [lockPrim]
 
 /-- The primitive of an even function is odd. -/
-theorem prim_neg_of_even {f : ℝ → ℝ} (he : ∀ x, f (-x) = f x) (x : ℝ) :
-    prim f (-x) = -prim f x := by
+theorem lockPrim_neg_of_even {f : ℝ → ℝ} (he : ∀ x, f (-x) = f x) (x : ℝ) :
+    lockPrim f (-x) = -lockPrim f x := by
   have h := integral_comp_neg (a := 0) (b := x) f
   simp only [he, neg_zero] at h
-  unfold prim
+  unfold lockPrim
   rw [h, integral_symm]
 
 /-- The primitive of an odd function is even. -/
-theorem prim_neg_of_odd {f : ℝ → ℝ} (ho : ∀ x, f (-x) = -f x) (x : ℝ) :
-    prim f (-x) = prim f x := by
+theorem lockPrim_neg_of_odd {f : ℝ → ℝ} (ho : ∀ x, f (-x) = -f x) (x : ℝ) :
+    lockPrim f (-x) = lockPrim f x := by
   have h := integral_comp_neg (a := 0) (b := x) f
   simp only [ho, neg_zero, intervalIntegral.integral_neg] at h
-  unfold prim
+  unfold lockPrim
   rw [integral_symm, ← h, neg_neg]
 
 /-- The primitive of a continuous one-periodic function with zero mean is one-periodic. -/
-theorem prim_periodic {f : ℝ → ℝ} (hf : Continuous f) (hp : Function.Periodic f 1)
-    (hmean : ∫ s in (0 : ℝ)..1, f s = 0) : Function.Periodic (prim f) 1 := by
+theorem lockPrim_periodic {f : ℝ → ℝ} (hf : Continuous f) (hp : Function.Periodic f 1)
+    (hmean : ∫ s in (0 : ℝ)..1, f s = 0) : Function.Periodic (lockPrim f) 1 := by
   intro x
-  unfold prim
+  unfold lockPrim
   rw [← integral_add_adjacent_intervals (hf.intervalIntegrable 0 x) (hf.intervalIntegrable x _),
     hp.intervalIntegral_add_eq x 0, zero_add, hmean, add_zero]
 
 /-- A continuous one-periodic function whose primitive is even (or odd) has mean
-`prim f (1/2) - prim f (-1/2)`. -/
+`lockPrim f (1/2) - lockPrim f (-1/2)`. -/
 private theorem integral_period {f : ℝ → ℝ} (hf : Continuous f) (hp : Function.Periodic f 1) :
-    ∫ s in (0 : ℝ)..1, f s = prim f (1 / 2) - prim f (-(1 / 2)) := by
+    ∫ s in (0 : ℝ)..1, f s = lockPrim f (1 / 2) - lockPrim f (-(1 / 2)) := by
   have := hp.intervalIntegral_add_eq 0 (-(1 / 2))
   rw [zero_add, show -(1 / 2 : ℝ) + 1 = 1 / 2 by norm_num] at this
-  rw [this, prim, prim, ← integral_add_adjacent_intervals (hf.intervalIntegrable (-(1 / 2)) 0)
+  rw [this, lockPrim, lockPrim,
+    ← integral_add_adjacent_intervals (hf.intervalIntegrable (-(1 / 2)) 0)
     (hf.intervalIntegrable 0 (1 / 2)), integral_symm]
   ring
 
-/-- The derivative of the Green operator: `greenD f = prim f - 2 ∫₀^{1/2} prim f`. -/
-def greenD (f : ℝ → ℝ) (x : ℝ) : ℝ := prim f x - 2 * prim (prim f) (1 / 2)
+/-- The derivative of the Green operator: `greenD f = lockPrim f - 2 ∫₀^{1/2} lockPrim f`. -/
+def greenD (f : ℝ → ℝ) (x : ℝ) : ℝ := lockPrim f x - 2 * lockPrim (lockPrim f) (1 / 2)
 
 /-- The Dirichlet Green operator: the odd one-periodic solution of `u'' = f`. -/
-def green (f : ℝ → ℝ) : ℝ → ℝ := prim (greenD f)
+def green (f : ℝ → ℝ) : ℝ → ℝ := lockPrim (greenD f)
 
 theorem continuous_greenD {f : ℝ → ℝ} (hf : Continuous f) : Continuous (greenD f) :=
-  (continuous_prim hf).sub continuous_const
+  (continuous_lockPrim hf).sub continuous_const
 
 theorem hasDerivAt_greenD {f : ℝ → ℝ} (hf : Continuous f) (x : ℝ) :
     HasDerivAt (greenD f) (f x) x :=
-  (hasDerivAt_prim hf x).sub_const _
+  (hasDerivAt_lockPrim hf x).sub_const _
 
 theorem hasDerivAt_green {f : ℝ → ℝ} (hf : Continuous f) (x : ℝ) :
     HasDerivAt (green f) (greenD f x) x :=
-  hasDerivAt_prim (continuous_greenD hf) x
+  hasDerivAt_lockPrim (continuous_greenD hf) x
 
 theorem continuous_green {f : ℝ → ℝ} (hf : Continuous f) : Continuous (green f) :=
-  continuous_prim (continuous_greenD hf)
+  continuous_lockPrim (continuous_greenD hf)
 
 theorem greenD_even {f : ℝ → ℝ} (ho : ∀ x, f (-x) = -f x) (x : ℝ) :
     greenD f (-x) = greenD f x := by
-  simp [greenD, prim_neg_of_odd ho]
+  simp [greenD, lockPrim_neg_of_odd ho]
 
 theorem green_odd {f : ℝ → ℝ} (ho : ∀ x, f (-x) = -f x) (x : ℝ) :
     green f (-x) = -green f x :=
-  prim_neg_of_even (greenD_even ho) x
+  lockPrim_neg_of_even (greenD_even ho) x
 
 theorem greenD_periodic {f : ℝ → ℝ} (hf : Continuous f) (hp : Function.Periodic f 1)
     (ho : ∀ x, f (-x) = -f x) : Function.Periodic (greenD f) 1 := by
-  have hpr : Function.Periodic (prim f) 1 := prim_periodic hf hp (by
-    rw [integral_period hf hp, prim_neg_of_odd ho]; ring)
+  have hpr : Function.Periodic (lockPrim f) 1 := lockPrim_periodic hf hp (by
+    rw [integral_period hf hp, lockPrim_neg_of_odd ho]; ring)
   intro x
   simp [greenD, hpr x]
 
 theorem green_periodic {f : ℝ → ℝ} (hf : Continuous f) (hp : Function.Periodic f 1)
     (ho : ∀ x, f (-x) = -f x) : Function.Periodic (green f) 1 := by
   have hc := continuous_greenD hf
-  refine prim_periodic hc (greenD_periodic hf hp ho) ?_
-  rw [integral_period hc (greenD_periodic hf hp ho), prim_neg_of_even (greenD_even ho)]
-  have h : prim (greenD f) (1 / 2) = 0 := by
-    have e : prim (greenD f) (1 / 2) =
-        prim (prim f) (1 / 2) - (1 / 2 - 0) * (2 * prim (prim f) (1 / 2)) := by
-      show ∫ s in (0 : ℝ)..1 / 2, (prim f s - 2 * prim (prim f) (1 / 2)) = _
-      rw [intervalIntegral.integral_sub ((continuous_prim hf).intervalIntegrable _ _)
+  refine lockPrim_periodic hc (greenD_periodic hf hp ho) ?_
+  rw [integral_period hc (greenD_periodic hf hp ho), lockPrim_neg_of_even (greenD_even ho)]
+  have h : lockPrim (greenD f) (1 / 2) = 0 := by
+    have e : lockPrim (greenD f) (1 / 2) =
+        lockPrim (lockPrim f) (1 / 2) - (1 / 2 - 0) * (2 * lockPrim (lockPrim f) (1 / 2)) := by
+      show ∫ s in (0 : ℝ)..1 / 2, (lockPrim f s - 2 * lockPrim (lockPrim f) (1 / 2)) = _
+      rw [intervalIntegral.integral_sub ((continuous_lockPrim hf).intervalIntegrable _ _)
         intervalIntegrable_const, intervalIntegral.integral_const, smul_eq_mul]
       rfl
     rw [e]; ring

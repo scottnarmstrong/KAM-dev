@@ -63,7 +63,7 @@ def lockW (Ω : ℝ) (c : ℝ → ℝ) (x : ℝ × ℝ × ℝ) : ℂ :=
 variable {Ω Iin Iout : ℝ} {c : ℝ → ℝ}
 
 /-- The barrier value `P(α(x), φ)` at a physical point. -/
-def LockBarrier.value (B : LockBarrier Ω c Iin Iout) (x : ℝ × ℝ × ℝ) : ℝ :=
+def LockBarrier.barrierValue (B : LockBarrier Ω c Iin Iout) (x : ℝ × ℝ × ℝ) : ℝ :=
   B.P (Complex.arg (lockW Ω c x) / (2 * π)) x.2.2
 
 theorem continuous_libAction (hc : ContDiff ℝ 2 c) : Continuous (libAction Ω c) := by
@@ -122,7 +122,7 @@ theorem LockBarrier.P_arg_neg (B : LockBarrier Ω c Iin Iout) {w : ℂ} (hw : w 
 /-- `P(α, φ)` is continuous where the libration action is positive: the cut of `Complex.arg` is
 removed by the period one of `P` in `α`. -/
 theorem continuousOn_P_arg (hΩ : 0 < Ω) (hc : ContDiff ℝ 2 c) (B : LockBarrier Ω c Iin Iout) :
-    ContinuousOn B.value {x | 0 < libAction Ω c x} := by
+    ContinuousOn B.barrierValue {x | 0 < libAction Ω c x} := by
   intro x hx
   refine ContinuousAt.continuousWithinAt ?_
   have hw := lockW_ne_zero hΩ hx
@@ -151,20 +151,20 @@ theorem continuousOn_P_arg (hΩ : 0 < Ω) (hc : ContDiff ℝ 2 c) (B : LockBarri
 
 /-- The solid torus `{𝓘 < Iin} ∪ {Iin/2 < 𝓘 < P(α, φ)}`. -/
 def lockRegion (B : LockBarrier Ω c Iin Iout) : Set (ℝ × ℝ × ℝ) :=
-  {x | libAction Ω c x < Iin} ∪ {x | Iin / 2 < libAction Ω c x ∧ libAction Ω c x < B.value x}
+  {x | libAction Ω c x < Iin} ∪ {x | Iin / 2 < libAction Ω c x ∧ libAction Ω c x < B.barrierValue x}
 
 theorem isOpen_lockRegion (hΩ : 0 < Ω) (hc : ContDiff ℝ 2 c) (B : LockBarrier Ω c Iin Iout) :
     IsOpen (lockRegion B) := by
   have hA := continuous_libAction (Ω := Ω) hc
   have hU : IsOpen {x | Iin / 2 < libAction Ω c x} := isOpen_lt continuous_const hA
-  have hcon : ContinuousOn (fun x => B.value x - libAction Ω c x)
+  have hcon : ContinuousOn (fun x => B.barrierValue x - libAction Ω c x)
       {x | Iin / 2 < libAction Ω c x} :=
     ((continuousOn_P_arg hΩ hc B).mono fun x (hx : Iin / 2 < _) =>
       (show (0 : ℝ) < libAction Ω c x by linarith [B.pos])).sub hA.continuousOn
   have h2 := hcon.isOpen_inter_preimage hU (isOpen_Ioi (a := (0 : ℝ)))
-  have : {x | Iin / 2 < libAction Ω c x ∧ libAction Ω c x < B.value x} =
+  have : {x | Iin / 2 < libAction Ω c x ∧ libAction Ω c x < B.barrierValue x} =
       {x | Iin / 2 < libAction Ω c x} ∩
-        (fun x => B.value x - libAction Ω c x) ⁻¹' Ioi 0 := by
+        (fun x => B.barrierValue x - libAction Ω c x) ⁻¹' Ioi 0 := by
     ext x; simp [sub_pos]
   rw [lockRegion, this]
   exact (isOpen_lt hA continuous_const).union h2
@@ -173,27 +173,27 @@ theorem isOpen_lockRegion (hΩ : 0 < Ω) (hc : ContDiff ℝ 2 c) (B : LockBarrie
 theorem frontier_lockRegion_subset (hΩ : 0 < Ω) (hc : ContDiff ℝ 2 c)
     (B : LockBarrier Ω c Iin Iout) :
     frontier (lockRegion B) ⊆
-      {x | 0 < libAction Ω c x ∧ libAction Ω c x = B.value x} := by
+      {x | 0 < libAction Ω c x ∧ libAction Ω c x = B.barrierValue x} := by
   intro x hx
   have hVo := isOpen_lockRegion hΩ hc B
   have hxV : x ∉ lockRegion B := fun h => hx.2 (by rwa [hVo.interior_eq])
   simp only [lockRegion, mem_union, mem_ofPred_eq, not_or, not_and, not_lt] at hxV
   obtain ⟨h1, h2⟩ := hxV
   have hpos : 0 < libAction Ω c x := lt_of_lt_of_le B.pos h1
-  have hge : B.value x ≤ libAction Ω c x := h2 (by linarith [B.pos])
+  have hge : B.barrierValue x ≤ libAction Ω c x := h2 (by linarith [B.pos])
   refine ⟨hpos, le_antisymm ?_ hge⟩
   by_contra hlt
   push Not at hlt
   have hA := continuous_libAction (Ω := Ω) hc
   have hopen : IsOpen {y | 0 < libAction Ω c y} := isOpen_lt continuous_const hA
-  have hcont : ContinuousAt (fun y => B.value y - libAction Ω c y) x :=
+  have hcont : ContinuousAt (fun y => B.barrierValue y - libAction Ω c y) x :=
     ((continuousOn_P_arg hΩ hc B).continuousAt (hopen.mem_nhds hpos)).sub hA.continuousAt
-  have hev : {y | B.value y - libAction Ω c y < 0} ∈ 𝓝 x :=
+  have hev : {y | B.barrierValue y - libAction Ω c y < 0} ∈ 𝓝 x :=
     hcont.preimage_mem_nhds (Iio_mem_nhds (by linarith))
   obtain ⟨y, hy, hyV⟩ := mem_closure_iff_nhds.1 hx.1 _ hev
   simp only [mem_ofPred_eq] at hy
   rcases hyV with hyV | hyV
-  · have : Iin ≤ B.value y := B.lower _ _
+  · have : Iin ≤ B.barrierValue y := B.lower _ _
     simp only [mem_ofPred_eq] at hyV
     linarith
   · linarith [hyV.2]
@@ -215,8 +215,8 @@ theorem lock_confinement {Ω Iin Iout : ℝ} {c : ℝ → ℝ} (hΩ : 0 < Ω) (h
     (by
       rw [hz0]
       rintro ⟨-, h⟩
-      have : Iin ≤ B.value x₀ := B.lower _ _
-      unfold LockBarrier.value lockW at this
+      have : Iin ≤ B.barrierValue x₀ := B.lower _ _
+      unfold LockBarrier.barrierValue lockW at this
       linarith)
   intro t
   rcases key t (mem_univ t) with h | h

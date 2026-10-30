@@ -45,7 +45,7 @@ def lunarSyncOrbit : ℝ → ℝ :=
 
 /-! ### Orbits as solutions of the Green problem -/
 
-theorem IsSyncOrbit.hasDerivAt {ψ : ℝ → ℝ} (h : IsSyncOrbit ψ) (x : ℝ) :
+theorem IsSyncOrbit.hasDerivAt_orbit {ψ : ℝ → ℝ} (h : IsSyncOrbit ψ) (x : ℝ) :
     HasDerivAt ψ (deriv ψ x) x :=
   ((h.1.differentiable (by norm_num)) x).hasDerivAt
 
@@ -139,7 +139,7 @@ theorem lunarSyncOrbit_spec : IsSyncOrbit lunarSyncOrbit := by
 
 /-- Every odd one-periodic synchronous orbit is the fixed point of `syncMap`. -/
 theorem IsSyncOrbit.eq_syncFixed {ψ : ℝ → ℝ} (h : IsSyncOrbit ψ) : ψ = syncFixed := by
-  have hfix := toPoSet_isFixedPt h.hasDerivAt h.hasDerivAt_deriv h.2.1 h.2.2.1
+  have hfix := toPoSet_isFixedPt h.hasDerivAt_orbit h.hasDerivAt_deriv h.2.1 h.2.2.1
   have := syncMap_contracting.fixedPoint_unique hfix
   exact congrArg (fun d : poSet => (d.1 : ℝ → ℝ)) this
 
@@ -213,7 +213,7 @@ theorem abs_le_of_syncForce_rat {u u' : ℝ → ℝ} (hu : ∀ x, HasDerivAt u (
 theorem lunarSyncOrbit_bound (φ : ℝ) :
     |lunarSyncOrbit φ| ≤ 17 / 1000000 ∧ |deriv lunarSyncOrbit φ| ≤ 27 / 200000 :=
   have h := lunarSyncOrbit_spec
-  abs_le_of_syncForce_rat h.hasDerivAt h.hasDerivAt_deriv h.2.1 h.2.2.1 φ
+  abs_le_of_syncForce_rat h.hasDerivAt_orbit h.hasDerivAt_deriv h.2.1 h.2.2.1 φ
 
 end KAM.SpinOrbit.Lock
 
