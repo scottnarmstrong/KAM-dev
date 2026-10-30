@@ -89,6 +89,7 @@ public import KAM.Certificate.Poly.MulPacked
 public import KAM.Certificate.Poly.Ops
 public import KAM.Certificate.Poly.OverlapAdd
 public import KAM.Certificate.Poly.Packed
+public import KAM.Certificate.Poly.Sparse
 public import KAM.Certificate.Positivity
 public import KAM.Certificate.QuadraticDiophantine
 public import KAM.Certificate.Sound.Embedding
