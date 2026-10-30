@@ -1347,7 +1347,12 @@ public import KAM.Sharp.BoxTorsion
 public import KAM.Sharp.CohData
 public import KAM.Sharp.Constants
 public import KAM.Sharp.ConstantsArith
+public import KAM.Sharp.Correction
 public import KAM.Sharp.Frame
+public import KAM.Sharp.NewtonError
+public import KAM.Sharp.Perturbation
+public import KAM.Sharp.PerturbationParts
+public import KAM.Sharp.Step
 public import KAM.Sharp.Tools
 public import KAM.Sharp.TorsionBound
 public import KAM.Sharp.TorsionPoly
