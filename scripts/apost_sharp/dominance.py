@@ -15,7 +15,8 @@ FAIR DATA (audit AUDIT-SHARP-V2-fixed-1 F7): every competitor receives its best 
 the classical constant c^natural(n, tau, b) of blueprint bp:p2s2sd:classical at its OWN bites:
   FH24     c_R = c^nat(delta) at its optimised initial bite delta (FH24 App. B allows c_R(delta) or uniform bounds; its
            later bites are smaller and c^nat is nondecreasing, so c^nat(delta) is a uniform bound for every step),
-           c^1_R = (tau+1)^{tau+1}/tau^tau c^nat(delta) (Corollary 2.16 with that uniform constant), and
+           c^1_R = (tau+1)^{tau+1}/tau^tau c^nat(tau/(tau+1) delta) (Corollary 2.16 (2.22) at its split bite, uniform over
+           the later bites since c^nat is nondecreasing; AUDIT-SHARP2-FIX-fixed-1 F2), and
            c_R(rho) = c^nat(rho) for its full-strip average (3.45) (a small-bite constant does not certify the bite rho);
   HL19     c_R = c^nat(delta_0) at its initial bite delta_0 = rho/a_3(a_1) (Lemma 4.1 allows c_R(delta); HL19 5.3 takes
            the constants at delta_0, which is legal here because c^nat is nondecreasing: the uniformity caveat of HL19
@@ -133,10 +134,13 @@ def best_fh24_fair(d, errata=True):
     dd = dict(d, cRrho=c_nat(n, tau, min(F(d["rho"]), F(1))))
     ddf = dict(dd, cRrho=float(dd["cRrho"]))
 
+    spl = F(tau, tau + 1)                           # FH24 Cor. 2.16 (2.22): c^1_R from the split bite tau/(tau+1) delta
+
     def obj(p):
         c = c_nat(n, tau, p[0] * Dr, exact=False)
+        c1 = float(fac) * c_nat(n, tau, spl * p[0] * Dr, exact=False)
         try:
-            return FH.fh24(ddf, c, float(fac) * c, p[0] * Dr, p[1], p[2], p[3], exact=False, errata=errata)["threshold_e"]
+            return FH.fh24(ddf, c, c1, p[0] * Dr, p[1], p[2], p[3], exact=False, errata=errata)["threshold_e"]
         except (AssertionError, ZeroDivisionError, OverflowError):
             return 0.0
     logg = sorted({F(m, 10 ** j) for j in range(1, 25) for m in (1, 2, 5)} | {F(1, 2), F(1, 5)})
@@ -176,8 +180,9 @@ def best_fh24_fair(d, errata=True):
             if p == p0:
                 break
     c = c_nat(n, tau, p[0] * Dr)
-    r = FH.fh24(dd, c, fac * c, p[0] * Dr, p[1], p[2], p[3], exact=True, errata=errata)
-    r["t"] = p[0]; r["cR"] = c
+    c1 = fac * c_nat(n, tau, spl * p[0] * Dr)       # sharper legal c^1_R (AUDIT-SHARP2-FIX-fixed-1, F2)
+    r = FH.fh24(dd, c, c1, p[0] * Dr, p[1], p[2], p[3], exact=True, errata=errata)
+    r["t"] = p[0]; r["cR"] = c; r["cR1"] = c1
     return r
 
 
@@ -619,10 +624,13 @@ def fh24_scan(d, nu, k1, errata=True, steps=40):
     tk = sorted(set([float(x) for x in FH._grid_t(F(0), F(1), steps)] + T_NEAR))
     out = []
 
+    spl = tau / (tau + 1)
+
     def ev(t, k2):
         c = c_nat(n, tau, t * Dr, exact=False)
+        c1 = fac * c_nat(n, tau, spl * t * Dr, exact=False)   # c^1_R from the split bite (FH24 Cor. 2.16)
         try:
-            r = FH.fh24(ddf, c, fac * c, t * Dr, float(nu), float(k1), k2, exact=False, errata=errata)
+            r = FH.fh24(ddf, c, c1, t * Dr, float(nu), float(k1), k2, exact=False, errata=errata)
             return (r["threshold_e"], r["closeness_e"], t, k2)
         except (AssertionError, ZeroDivisionError, OverflowError):
             return None
