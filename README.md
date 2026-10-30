@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 12:15 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **286,347 lines of Lean** of an estimated ≈ 289,000
+> **Last updated: 2026-10-30 12:18 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **286,347 lines of Lean** of an estimated ≈ 289,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -238,7 +238,7 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **286,347** (223,362 excluding blank lines and comments) · **+39,182** since 2026-10-29 12:06 UTC |
+| On `main` now | **286,347** (223,362 excluding blank lines and comments) · **+38,364** since 2026-10-29 12:18 UTC |
 | Written on agent branches, not yet landed | 954 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
 | **Estimated total at completion** | **≈ 289,000** |
@@ -248,7 +248,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 12:15 UTC from `main` at `b864684e` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 12:18 UTC from `main` at `85188cd6` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -426,6 +426,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 12:18 | `85188cd6` | Log: 12:18 |
 | 2026-10-30 12:15 | `b864684e` | Log: 12:15 (D38, three SO packages) |
 | 2026-10-30 12:12 | `54d944cb` | D38: lunar barriers at N = 65 (band about 2.71 %) |
 | 2026-10-30 12:03 | `16179907` | Land inp into main |
@@ -437,7 +438,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 11:43 | `dfb93336` | Note for the SO orchestrator: switching the lunar certificate to the sharp certifier |
 | 2026-10-30 11:43 | `d003cb21` | Docs: the sharp a-posteriori theorems and the sharp certifier (README, D36, areas table) |
 | 2026-10-30 11:40 | `dfae4a77` | Land apost-sharp into main: the sharp a-posteriori theorems and the sharp KAM certifier |
-| 2026-10-30 11:29 | `b7e9d833` | Log: 11:29 (SO-PACKFIX in audit, SO-DATA-2 round 2) |
 <!-- /AUTO:landed -->
 
 ## Decisions
