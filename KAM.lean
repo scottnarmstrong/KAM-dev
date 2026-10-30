@@ -1356,9 +1356,11 @@ public import KAM.Sharp.Engine.Limit
 public import KAM.Sharp.Engine.Schedule
 public import KAM.Sharp.Engine.Scheme
 public import KAM.Sharp.Frame
+public import KAM.Sharp.G1
 public import KAM.Sharp.NewtonError
 public import KAM.Sharp.Perturbation
 public import KAM.Sharp.PerturbationParts
+public import KAM.Sharp.Scheme
 public import KAM.Sharp.Step
 public import KAM.Sharp.Tools
 public import KAM.Sharp.TorsionBound
