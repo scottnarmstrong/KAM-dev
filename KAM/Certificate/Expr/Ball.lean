@@ -334,6 +334,22 @@ theorem ballForce_eq_some {o : Option (CC ℚ × ℚ)} {b : CC ℚ × ℚ}
     split_ifs at h
     exact h
 
+/-- Forcing a computed ball returns it. -/
+theorem ballForce_some (b : CC ℚ × ℚ) : ballForce (some b) = some b := by
+  have := b.2.den_pos
+  simp only [ballForce]
+  split_ifs with h
+  · rfl
+  · omega
+
+/-- The ball of a character: `(0, w_H^{|k|₁})`. -/
+theorem ballStep_char {n : ℕ} {WH : CertWeight} {centre radius : List ℚ} {taylorN : ℕ}
+    (acc : List (CC ℚ × ℚ)) (k : CertKey) :
+    ballStep n WH centre radius taylorN acc (.char k) =
+      some (⟨0, 0⟩, WH.w ^ (k.map Int.natAbs).sum) := by
+  simp only [ballStep, ballStepG]
+  exact ballForce_some _
+
 theorem ballStepG_sound {P n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight WH s N = true)
     {centre radius : List ℚ} {taylorN : ℕ} {z : (Fin n → ℂ) × (Fin n → ℂ)}
     (hz : z ∈ certDomain n WH.rho centre radius) {V : List ℂ} {get : ℕ → CC ℚ × ℚ}
