@@ -1146,3 +1146,10 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   isolation with forced equality observations. The deciding number: whether one heavy operation alone exceeds 10 GB.
   No owner decision is taken overnight; if the lunar kernel route needs a repository rule change (data packaging),
   it waits for the morning.
+- **04:48. Heartbeat: the memory hotspot is located.** SO-DATA-2's isolated probes (capped at 10 GB): literal data
+  alone 58 s / 2.6 GB; a forced 10-slot prefix without packed products 165 s / 4.7 GB; one shard of the heavy packed
+  product A0·A0 OOM at 10 GB (peak 9.5 GB) DURING FACTOR DECODING (toMants / dense / cut of an 8.5k-term, 320-bit
+  model), before the shard arithmetic. This matches SO-DATA-1's warning (SO-DATA-PY measured 8 GB when decoding per
+  shard, 2.4-3.8 GB with the block packings tied once). SO-DATA-2 is isolating the decode step; the expected remedy
+  is data-side (each factor's packing supplied once as a literal, its equality with the decode proved once per
+  factor), which needs no checker change. Only SO-DATA-2 is running; all other track SO work waits on its numbers.
