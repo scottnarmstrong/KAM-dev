@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 12:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **285,542 lines of Lean** of an estimated ≈ 289,000
+> **Last updated: 2026-10-30 12:11 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **286,347 lines of Lean** of an estimated ≈ 289,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -238,8 +238,8 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **285,542** (222,728 excluding blank lines and comments) · **+38,377** since 2026-10-29 12:00 UTC |
-| Written on agent branches, not yet landed | 1,868 |
+| On `main` now | **286,347** (223,362 excluding blank lines and comments) · **+39,182** since 2026-10-29 12:06 UTC |
+| Written on agent branches, not yet landed | 954 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
 | **Estimated total at completion** | **≈ 289,000** |
 | Estimated still to write | ≈ 1,000 |
@@ -248,13 +248,13 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 12:00 UTC from `main` at `70c27278` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 12:11 UTC from `main` at `16179907` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
 **Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in two parts:
 
-- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 77 modules · 18,907 lines. **Packages landed: 26 / 26**.
+- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 78 modules · 19,712 lines. **Packages landed: 26 / 26**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target 2.8–2.9 %, D37). `KAM/SpinOrbit` and the data generator: 15 modules · 2,828 lines. **Packages landed: 16 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
 - **Now:** proving SO-GEN3 · in audit —
@@ -262,7 +262,7 @@ Overall, everything together: 96.8 %
 
 **Frozen statements proved: 23 / 23** · frozen definitions: 123
 
-**Lean on `main`:** 1455 modules · 285,542 lines · 11,889 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1456 modules · 286,347 lines · 11,926 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 0
@@ -396,7 +396,7 @@ flowchart BT
 | [`KAM/Russmann/`](KAM/Russmann) | Track R: Rüssmann's KAM theorem (finite-order non-degeneracy, Lipschitz extension, assembly) | 12 | 1,631 | 48 |
 | [`KAM/Sharp/`](KAM/Sharp) | Sharp explicit a-posteriori KAM: Newton engine, torsion route, step, g1_sharp, parameter boxes | 20 | 4,469 | 107 |
 | [`KAM/CertificateSharp/`](KAM/CertificateSharp) | The sharp KAM certifier: engine-agnostic checker, rational constants, soundness | 8 | 1,159 | 32 |
-| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 77 | 18,907 | 848 |
+| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 78 | 19,712 | 885 |
 | [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 15 | 2,828 | 171 |
 <!-- /AUTO:areas -->
 
@@ -416,6 +416,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sodata2b** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-DATA-2 round 2: probes, logs and handoff | `inp-sodata2b` | 8 (vs `inp`) |
+| **sogen3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GEN3 interim: lunar tori N=50-65, sharp-test mirror, band below 2.9 % | `inp-sogen3` | 1 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -425,6 +426,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 12:03 | `16179907` | Land inp into main |
 | 2026-10-30 11:53 | `55c0c980` | Log: 11:53 |
 | 2026-10-30 11:52 | `04d675cc` | Log: 11:52 (sub-orchestrator rotated) |
 | 2026-10-30 11:46 | `c3038fa8` | HQ: SO2.LUNAR title with the D37 target band |
@@ -436,7 +438,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 11:29 | `b7e9d833` | Log: 11:29 (SO-PACKFIX in audit, SO-DATA-2 round 2) |
 | 2026-10-30 11:19 | `71a84a89` | Overnight log: 11:19 (packed fix measured) |
 | 2026-10-30 10:51 | `005adf75` | Docs: Rüssmann's theorem as a main result (README main theorem 3, track R, D35) |
-| 2026-10-30 10:48 | `35d9e272` | Merge remote-tracking branch 'origin/main' |
 <!-- /AUTO:landed -->
 
 ## Decisions
