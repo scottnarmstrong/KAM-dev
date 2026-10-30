@@ -90,6 +90,25 @@ theorem exp_le_vertex {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) (a y : Fin n → ℝ) 
   refine Finset.sum_congr rfl fun σ _ => ?_
   rw [Finset.prod_mul_distrib, ← Real.exp_sum, ← Finset.mul_sum]
 
+/-- The convex-combination form: a nonnegative combination of exponentials at `y` is at most the
+`Λ_σ(y)`-weighted average of its vertex values. -/
+theorem vertex_sum_conv {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) {ι : Type*} (s : Finset ι) (c : ι → ℝ)
+    (hc : ∀ j, 0 ≤ c j) (a : ι → Fin n → ℝ) (y : Fin n → ℝ) (hy : ∀ i, |y i| ≤ ρ) :
+    ∑ j ∈ s, c j * Real.exp (-∑ i, a j i * y i) ≤ ∑ σ : Fin n → Bool,
+      (∏ i, lam1 ρ (y i) (σ i)) * ∑ j ∈ s, c j * Real.exp (ρ * ∑ i, a j i * sgn (σ i)) := by
+  have h1 : ∀ j, c j * Real.exp (-∑ i, a j i * y i) ≤ ∑ σ : Fin n → Bool,
+      (∏ i, lam1 ρ (y i) (σ i)) * (c j * Real.exp (ρ * ∑ i, a j i * sgn (σ i))) := fun j => by
+    have := mul_le_mul_of_nonneg_left (exp_le_vertex hρ (a j) y hy) (hc j)
+    refine this.trans (le_of_eq ?_)
+    rw [Finset.mul_sum]
+    exact Finset.sum_congr rfl fun σ _ => by ring
+  calc ∑ j ∈ s, c j * Real.exp (-∑ i, a j i * y i)
+      ≤ ∑ j ∈ s, ∑ σ : Fin n → Bool, (∏ i, lam1 ρ (y i) (σ i)) *
+          (c j * Real.exp (ρ * ∑ i, a j i * sgn (σ i))) := Finset.sum_le_sum fun j _ => h1 j
+    _ = _ := by
+        rw [Finset.sum_comm]
+        exact Finset.sum_congr rfl fun σ _ => by rw [Finset.mul_sum]
+
 /-- A nonnegative combination of exponentials is bounded by its largest vertex value, in the form
 needed for certified bounds: if every vertex sum is at most `B`, so is the value at `y`. -/
 theorem vertex_sum_le {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) {ι : Type*} (s : Finset ι) (c : ι → ℝ)

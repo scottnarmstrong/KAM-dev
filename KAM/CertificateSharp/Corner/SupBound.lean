@@ -198,10 +198,23 @@ theorem cornerSumUp_bound {W : CertWeight} {s N : ℕ} (hW : checkWeight W s N =
     refine ⟨by linarith [mul_nonneg hn (hq.trans hr)], ?_⟩
     linarith
 
-theorem norm_le_of_cornerLeq {n : ℕ} {W : CertWeight} {s N N' : ℕ}
-    (hW : checkWeight W s N = true) {m : CertModel α} {f : (Fin n → ℂ) → ℂ}
-    (hm : m.Encloses n W.rho f) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho) {b : α}
-    (h : cornerLeq W (wloOf W N') n m b = true) : ‖f θ‖ ≤ val b := by
+/-- The vertex weights at `θ`. -/
+def vw {n : ℕ} (ρ : ℝ) (θ : Fin n → ℂ) (σ : Fin n → Bool) : ℝ := ∏ i, lam1 ρ (θ i).im (σ i)
+
+theorem vw_nonneg {n : ℕ} {ρ : ℝ} (hρ : 0 < ρ) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n ρ)
+    (σ : Fin n → Bool) : 0 ≤ vw ρ θ σ :=
+  Finset.prod_nonneg fun i _ => lam1_nonneg hρ (hθ i).le _
+
+theorem vw_sum {n : ℕ} (ρ : ℝ) (θ : Fin n → ℂ) : ∑ σ : Fin n → Bool, vw ρ θ σ = 1 :=
+  prod_lam_sum ρ fun i => (θ i).im
+
+/-- **The corner bound in convex-combination form.** If `m` encloses `f`, then at every `θ` of the
+strip `|f θ|` is at most the `Λ_σ(θ)`-weighted average of the vertex values `cornerUp σ m`. -/
+theorem norm_le_conv {n : ℕ} {W : CertWeight} {s N N' : ℕ} (hW : checkWeight W s N = true)
+    {m : CertModel α} {f : (Fin n → ℂ) → ℂ} (hm : m.Encloses n W.rho f) {θ : Fin n → ℂ}
+    (hθ : θ ∈ complexStrip n W.rho) :
+    ‖f θ‖ ≤ ∑ σ : Fin n → Bool, vw W.rho θ σ *
+      val (cornerUp W (wloOf W N') (List.ofFn σ) m) := by
   obtain ⟨h1, hlo⟩ := wloOf_le_exp hW N'
   have hρ := CertWeight.rho_pos hW
   have h2pi : (0 : ℝ) < (2 * Real.pi) ^ m.deg := by positivity
@@ -209,53 +222,46 @@ theorem norm_le_of_cornerLeq {n : ℕ} {W : CertWeight} {s N N' : ℕ}
     have h0 : (0 : Fin n → ℂ) ∈ complexStrip n W.rho := fun i => by simpa using hρ
     have := (norm_nonneg _).trans (hm 0 h0)
     exact nonneg_of_mul_nonneg_right this h2pi
-  -- the per-vertex bound
-  set B : ℝ := val b / (2 * Real.pi) ^ m.deg - val m.rad with hB
-  have hvert : ∀ σ : Fin n → Bool,
-      (m.poly.terms.map fun t => ‖t.2.toC‖ *
-        Real.exp (2 * Real.pi * W.rho * (dotList t.1 (List.ofFn σ) : ℝ))).sum ≤ B := by
+  set S : (Fin n → Bool) → ℝ := fun σ => (m.poly.terms.map fun t => ‖t.2.toC‖ *
+    Real.exp (2 * Real.pi * W.rho * (dotList t.1 (List.ofFn σ) : ℝ))).sum with hS
+  -- (a) the per-vertex bound
+  have hG : ∀ σ : Fin n → Bool, (2 * Real.pi) ^ m.deg * (S σ + val m.rad) ≤
+      val (cornerUp W (wloOf W N') (List.ofFn σ) m) := by
     intro σ
-    have hmem := mem_signLists σ
-    simp only [cornerLeq, List.all_eq_true] at h
-    have hl := LawfulCertArith.ble_sound _ _ (h _ hmem)
-    obtain ⟨hS0, hS⟩ := cornerSumUp_bound hW h1 hlo (List.ofFn σ) m.poly.terms
-    have hadd := LawfulCertArith.upAdd_ge (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad
+    obtain ⟨hS0, hSb⟩ := cornerSumUp_bound hW h1 hlo (List.ofFn σ) m.poly.terms
     have hS0' : 0 ≤ val (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) := hS0
     have hS' : (m.poly.terms.map fun t => ‖t.2.toC‖ *
         ((expUb W (wloOf W N') (dotList t.1 (List.ofFn σ)) : ℚ) : ℝ)).sum ≤
-        val (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) := hS
+        val (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) := hSb
+    have hadd := LawfulCertArith.upAdd_ge (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad
     have hF : (0 : ℝ) ≤ (degFactorUp m.deg : ℝ) := h2pi.le.trans (two_pi_zpow_le _)
     have hF' := LawfulCertArith.ofRatUp_ge (α := α) (degFactorUp m.deg)
     have hpos : 0 ≤ val (upAdd (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad) := by
       linarith
     have hmul := LawfulCertArith.upMul_ge (ofRatUp (degFactorUp m.deg))
       (upAdd (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad) (hF.trans hF') hpos
-    have hle : (2 * Real.pi) ^ m.deg * (val (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) +
-        val m.rad) ≤ val b := by
-      have hu : val (cornerUp W (wloOf W N') (List.ofFn σ) m) ≤ val b := hl
-      unfold cornerUp at hu
-      calc _ ≤ (degFactorUp m.deg : ℝ) * val (upAdd
-            (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad) :=
-            mul_le_mul (two_pi_zpow_le _) hadd (by linarith) hF
-        _ ≤ val (ofRatUp (degFactorUp m.deg) : α) * val (upAdd
-            (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad) :=
-            mul_le_mul_of_nonneg_right hF' hpos
-        _ ≤ _ := hmul.trans hu
-    have hterm : (m.poly.terms.map fun t => ‖t.2.toC‖ *
-        Real.exp (2 * Real.pi * W.rho * (dotList t.1 (List.ofFn σ) : ℝ))).sum ≤
-        (m.poly.terms.map fun t => ‖t.2.toC‖ *
-          ((expUb W (wloOf W N') (dotList t.1 (List.ofFn σ)) : ℚ) : ℝ)).sum := by
+    have hterm : S σ ≤ (m.poly.terms.map fun t => ‖t.2.toC‖ *
+        ((expUb W (wloOf W N') (dotList t.1 (List.ofFn σ)) : ℚ) : ℝ)).sum := by
       apply List.sum_le_sum
       intro t ht
       exact mul_le_mul_of_nonneg_left (exp_le_expUb hW h1 hlo _).1 (norm_nonneg _)
-    rw [hB, le_sub_iff_add_le, le_div_iff₀ h2pi]
-    have hc : (m.poly.terms.map fun t => ‖t.2.toC‖ *
-        Real.exp (2 * Real.pi * W.rho * (dotList t.1 (List.ofFn σ) : ℝ))).sum + val m.rad ≤
-        val (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) + val m.rad := by linarith
-    nlinarith [mul_le_mul_of_nonneg_right hc h2pi.le]
-  -- the vertex lemma
+    have hSnn : 0 ≤ S σ := by
+      rw [hS]
+      exact List.sum_nonneg fun x hx => by
+        obtain ⟨t, -, rfl⟩ := List.mem_map.mp hx
+        exact mul_nonneg (norm_nonneg _) (Real.exp_nonneg _)
+    unfold cornerUp
+    calc (2 * Real.pi) ^ m.deg * (S σ + val m.rad)
+        ≤ (degFactorUp m.deg : ℝ) * val (upAdd
+            (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad) :=
+          mul_le_mul (two_pi_zpow_le _) (by linarith) (by linarith) hF
+      _ ≤ val (ofRatUp (degFactorUp m.deg) : α) * val (upAdd
+            (cornerSumUp W (wloOf W N') (List.ofFn σ) m.poly) m.rad) :=
+          mul_le_mul_of_nonneg_right hF' hpos
+      _ ≤ _ := hmul
+  -- (b) the vertex lemma for the polynomial part
   have hy : ∀ i, |(θ i).im| ≤ W.rho := fun i => (hθ i).le
-  have hsum : ‖m.poly.eval n θ‖ ≤ B := by
+  have hsum : ‖m.poly.eval n θ‖ ≤ ∑ σ : Fin n → Bool, vw W.rho θ σ * S σ := by
     have h1' : ‖m.poly.eval n θ‖ ≤
         (m.poly.terms.map fun t => ‖t.2.toC‖ * ‖character (certKeyFun n t.1) θ‖).sum := by
       unfold CertPoly.eval
@@ -272,21 +278,24 @@ theorem norm_le_of_cornerLeq {n : ℕ} {W : CertWeight} {s N N' : ℕ}
     simp only [hg]
     rw [← sum_fin_get L (fun t => ‖t.2.toC‖ *
       Real.exp (-∑ i, (2 * Real.pi * (certKeyFun n t.1 i : ℝ)) * (θ i).im))]
-    refine vertex_sum_le hρ Finset.univ (fun j => ‖(L.get j).2.toC‖) (fun j => norm_nonneg _)
-      (fun j i => 2 * Real.pi * (certKeyFun n (L.get j).1 i : ℝ)) (fun i => (θ i).im) hy ?_
-    intro σ
+    refine (vertex_sum_conv hρ Finset.univ (fun j => ‖(L.get j).2.toC‖) (fun j => norm_nonneg _)
+      (fun j i => 2 * Real.pi * (certKeyFun n (L.get j).1 i : ℝ)) (fun i => (θ i).im) hy).trans
+      (le_of_eq ?_)
+    refine Finset.sum_congr rfl fun σ _ => ?_
     have e : ∀ j : Fin L.length, W.rho * ∑ i, 2 * Real.pi * (certKeyFun n (L.get j).1 i : ℝ) *
         sgn (σ i) = 2 * Real.pi * W.rho * (dotList (L.get j).1 (List.ofFn σ) : ℝ) := by
       intro j
       rw [← sum_key_sgn (L.get j).1 σ, Finset.mul_sum, Finset.mul_sum]
       refine Finset.sum_congr rfl fun i _ => by ring
     simp only [e]
+    rw [vw, hS]
+    simp only
     rw [sum_fin_get L (fun t => ‖t.2.toC‖ *
       Real.exp (2 * Real.pi * W.rho * (dotList t.1 (List.ofFn σ) : ℝ)))]
-    exact hvert σ
-  -- assemble
+  -- (c) assemble
   have hsub := hm θ hθ
-  have hX : ‖(2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ‖ ≤ (2 * Real.pi) ^ m.deg * B := by
+  have hX : ‖(2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ‖ ≤
+      (2 * Real.pi) ^ m.deg * ∑ σ : Fin n → Bool, vw W.rho θ σ * S σ := by
     rw [norm_mul, norm_zpow]
     have : ‖(2 * (Real.pi : ℂ))‖ = 2 * Real.pi := by
       rw [norm_mul]; simp [abs_of_pos Real.pi_pos]
@@ -296,9 +305,83 @@ theorem norm_le_of_cornerLeq {n : ℕ} {W : CertWeight} {s N N' : ℕ}
       ‖(2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ‖ := by
     simpa using norm_add_le (f θ - (2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ)
       ((2 * (Real.pi : ℂ)) ^ m.deg * m.poly.eval n θ)
-  have : (2 * Real.pi) ^ m.deg * B + (2 * Real.pi) ^ m.deg * val m.rad = val b := by
-    rw [hB]; field_simp; ring
-  linarith
+  have hone : (2 * Real.pi) ^ m.deg * val m.rad =
+      ∑ σ : Fin n → Bool, vw W.rho θ σ * ((2 * Real.pi) ^ m.deg * val m.rad) := by
+    rw [← Finset.sum_mul, vw_sum, one_mul]
+  have hmain : ‖f θ‖ ≤ ∑ σ : Fin n → Bool, vw W.rho θ σ *
+      ((2 * Real.pi) ^ m.deg * (S σ + val m.rad)) := by
+    have : ∑ σ : Fin n → Bool, vw W.rho θ σ * ((2 * Real.pi) ^ m.deg * (S σ + val m.rad)) =
+        (2 * Real.pi) ^ m.deg * ∑ σ : Fin n → Bool, vw W.rho θ σ * S σ +
+          (2 * Real.pi) ^ m.deg * val m.rad := by
+      calc _ = ∑ σ : Fin n → Bool, ((2 * Real.pi) ^ m.deg * (vw W.rho θ σ * S σ) +
+            vw W.rho θ σ * ((2 * Real.pi) ^ m.deg * val m.rad)) :=
+            Finset.sum_congr rfl fun σ _ => by ring
+        _ = _ := by rw [Finset.sum_add_distrib, ← Finset.mul_sum, ← Finset.sum_mul, vw_sum,
+            one_mul]
+    linarith
+  exact hmain.trans (Finset.sum_le_sum fun σ _ =>
+    mul_le_mul_of_nonneg_left (hG σ) (vw_nonneg hρ hθ σ))
+
+theorem norm_le_of_cornerLeq {n : ℕ} {W : CertWeight} {s N N' : ℕ}
+    (hW : checkWeight W s N = true) {m : CertModel α} {f : (Fin n → ℂ) → ℂ}
+    (hm : m.Encloses n W.rho f) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho) {b : α}
+    (h : cornerLeq W (wloOf W N') n m b = true) : ‖f θ‖ ≤ val b := by
+  refine (norm_le_conv (N' := N') hW hm hθ).trans ?_
+  have hρ := CertWeight.rho_pos hW
+  calc _ ≤ ∑ σ : Fin n → Bool, vw W.rho θ σ * val b := by
+        refine Finset.sum_le_sum fun σ _ => mul_le_mul_of_nonneg_left ?_ (vw_nonneg hρ hθ σ)
+        simp only [cornerLeq, List.all_eq_true] at h
+        exact LawfulCertArith.ble_sound _ _ (h _ (mem_signLists σ))
+    _ = val b := by rw [← Finset.sum_mul, vw_sum, one_mul]
+
+/-! ### Row sums -/
+
+/-- `Σ_j cornerUp l m_j`, rounded upward. -/
+def rowCornerUp (W : CertWeight) (wlo : ℚ) (l : List Bool) (ms : List (CertModel α)) : α :=
+  ms.foldr (fun m acc => upAdd (cornerUp W wlo l m) acc) (ofInt 0)
+
+/-- The joint row-sum corner check: at every vertex, `Σ_j cornerUp ≤ b`. -/
+def rowCornerLeq (W : CertWeight) (wlo : ℚ) (n : ℕ) (ms : List (CertModel α)) (b : α) : Bool :=
+  (signLists n).all fun l => ble (rowCornerUp W wlo l ms) b
+
+theorem sum_cornerUp_le (W : CertWeight) (wlo : ℚ) (l : List Bool) (ms : List (CertModel α)) :
+    (ms.map fun m => val (cornerUp W wlo l m)).sum ≤ val (rowCornerUp W wlo l ms) := by
+  induction ms with
+  | nil => simp [rowCornerUp, LawfulCertArith.val_ofInt]
+  | cons m ms ih =>
+    simp only [rowCornerUp, List.foldr_cons, List.map_cons, List.sum_cons] at ih ⊢
+    have := LawfulCertArith.upAdd_ge (cornerUp W wlo l m)
+      (ms.foldr (fun m acc => upAdd (cornerUp W wlo l m) acc) (ofInt 0))
+    linarith
+
+theorem sum_norm_le_conv {n : ℕ} {W : CertWeight} {s N N' : ℕ}
+    (hW : checkWeight W s N = true) (EL : List (CertModel α × ((Fin n → ℂ) → ℂ)))
+    (hEL : ∀ p ∈ EL, p.1.Encloses n W.rho p.2) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho) :
+    (EL.map fun p => ‖p.2 θ‖).sum ≤ ∑ σ : Fin n → Bool, vw W.rho θ σ *
+      ((EL.map Prod.fst).map fun m => val (cornerUp W (wloOf W N') (List.ofFn σ) m)).sum := by
+  induction EL with
+  | nil => simp
+  | cons p EL ih =>
+    have h1 := norm_le_conv (N' := N') hW (hEL p (by simp)) hθ
+    have h2 := ih (fun q hq => hEL q (by simp [hq]))
+    simp only [List.map_cons, List.sum_cons, mul_add, Finset.sum_add_distrib]
+    linarith
+
+/-- **Row sums.** If `m_j` encloses `f_j` and the joint corner check passes, then
+`Σ_j |f_j θ| ≤ b` on the strip: the same vertex is shared by all entries of the row. -/
+theorem sum_norm_le_of_rowCornerLeq {n : ℕ} {W : CertWeight} {s N N' : ℕ}
+    (hW : checkWeight W s N = true) (EL : List (CertModel α × ((Fin n → ℂ) → ℂ)))
+    (hEL : ∀ p ∈ EL, p.1.Encloses n W.rho p.2) {θ : Fin n → ℂ} (hθ : θ ∈ complexStrip n W.rho)
+    {b : α} (h : rowCornerLeq W (wloOf W N') n (EL.map Prod.fst) b = true) :
+    (EL.map fun p => ‖p.2 θ‖).sum ≤ val b := by
+  have hρ := CertWeight.rho_pos hW
+  refine (sum_norm_le_conv (N' := N') hW EL hEL hθ).trans ?_
+  calc _ ≤ ∑ σ : Fin n → Bool, vw W.rho θ σ * val b := by
+        refine Finset.sum_le_sum fun σ _ => mul_le_mul_of_nonneg_left ?_ (vw_nonneg hρ hθ σ)
+        simp only [rowCornerLeq, List.all_eq_true] at h
+        exact (sum_cornerUp_le W (wloOf W N') (List.ofFn σ) _).trans
+          (LawfulCertArith.ble_sound _ _ (h _ (mem_signLists σ)))
+    _ = val b := by rw [← Finset.sum_mul, vw_sum, one_mul]
 
 end Model
 
