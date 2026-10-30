@@ -20,6 +20,15 @@ public import KAM.Wave.Analytic.HoloAnalytic
 public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
+public import KAM.Wave.Normal.ActionCoeff
+public import KAM.Wave.Normal.AngleAvg
+public import KAM.Wave.Normal.FinsuppAbs
+public import KAM.Wave.Normal.Nondegeneracy
+public import KAM.Wave.Normal.NonresAux
+public import KAM.Wave.Normal.Nonresonance
+public import KAM.Wave.Normal.QuarticCoeff
+public import KAM.Wave.Normal.ResonantBalance
+public import KAM.Wave.Normal.ResonantPart
 public import KAM.Wave.Recon.ReconAnalytic
 public import KAM.Wave.Recon.SineCompleteness
 public import KAM.Wave.Recon.SineFeature
