@@ -1,0 +1,399 @@
+\section{Milestone W6: iteration, convergence, invariance}\label{bpW:w6}
+
+\providecommand{\Pc}{\mathcal P}
+\providecommand{\symp}{\varpi_{\mathcal P}}
+\providecommand{\Sm}{\mathcal S}
+
+This part iterates the KAM step of W5 (P96-K \S4, pp.~132--135, and the preparatory step of \S6, pp.~140--142) and
+delivers, for the wave equation with $J=\{1,2\}$: a parameter set $\Pi_*$ whose complement is contained in W7's
+excluded set, frequencies $\omega_*$ with W7's Diophantine and closeness properties, and for each $\xi\in\Pi_*$ an
+invariant torus $\Psi_\xi$ in W3's Birkhoff coordinates, holomorphic on a complex strip, real, continuous in
+$(\xi,\theta)$, close to the linear torus, and invariant in the weak sense that W8 turns into clause~(4) of
+\Lean{KAM.Wave.nlw2}.
+
+\paragraph{Route.} (1) One modified KAM step with the divisors $\hat\alpha\hat w(l)/A_k$ on $\Pi\setminus\Xi$ (the
+preparatory step), after which fields gain only half a weight ($p_+=p+\frac12$). (2) The iteration of W5's step with
+geometric $\sigma_\nu$, $\eta_\nu^3=\epsilon_\nu/(\alpha_\nu\sigma_\nu^t)$, levels $\alpha_\nu\downarrow\check\alpha/2$,
+removing at stage $\nu$ the zones with $\abs k>K_{\nu-1}$. (3) Convergence of the compositions on the torus
+$\{y=0,z=\bar z=0\}$ only (no normal derivatives are needed), and of the frequencies. (4) Invariance: the conjugacy of
+each step is stated weakly (W5 Lemma~\ref{bpW:w5:new-ham}(iii)); at points of the torus it becomes a strong identity
+in $\Pc^{p-1}$, which passes to the limit because $X_N$ is bounded from $\Pc$ to $\Pc^{p-1}$.
+
+\paragraph{Notation.} P96-K's exponent $\kappa=\frac43$ of \S4 (p.~132) is written $\varkappa$ here; $\kappa=2$ is
+reserved for the spectral exponent of W7 (W7 Remark~\ref{bpW:w7:errata}(b)). Fixed throughout: $m>0$, $a=p=1$,
+$\tau=24$, $t=2\tau+4=52$, and the constants $c_F,c_0,C_2$ of W5 (\S\ref{bpW:w5:ledger}). Melnikov conditions are
+stated with the Dirichlet weight $\jap l$ of W7 (Definition~\ref{bpW:w7:indexdef}); by Lemma~\ref{bpW:w4:wave}(ii) they
+imply W4's conditions in the P96-K index at the same level.
+
+\subsection{Sequences and the iterative lemma}\label{bpW:w6:iter-sec}
+
+\begin{definition}[Iteration sequences]\label{bpW:w6:sequences}
+Given $0<s_0\le1$, $r_0>0$, $0<\alpha_0\le1$, $M_0>0$ and $\epsilon_0>0$, put $\sigma_0=s_0/40$ and for $\nu\ge0$
+\[\sigma_\nu=\sigma_02^{-\nu},\quad s_{\nu+1}=s_\nu-5\sigma_\nu,\quad\alpha_\nu=\tfrac{\alpha_0}2(1+2^{-\nu}),\quad
+M_\nu=M_0(2-2^{-\nu}),\quad\lambda_\nu=\frac{\alpha_\nu}{M_\nu},\]
+\[\eta_\nu=\Bigl(\frac{\epsilon_\nu}{\alpha_\nu\sigma_\nu^t}\Bigr)^{1/3},\quad r_{\nu+1}=\eta_\nu r_\nu,\quad
+\epsilon_{\nu+1}=2C_2\,\epsilon_\nu\eta_\nu=\frac{2C_2\,\epsilon_\nu^{\varkappa}}{(\alpha_\nu\sigma_\nu^t)^{\varkappa-1}}\ (\varkappa=\tfrac43),\quad
+D_\nu=D(s_\nu,r_\nu),\]
+\[\gamma_0=\bigl(2^{t+4}C_2+c_0\bigr)^{-3},\qquad K_0=\bigl(96\pi\gamma_0\sigma_0^t\bigr)^{-1/(\tau+1)},\qquad K_\nu=K_02^\nu,\quad K_{-1}=0.\]
+Then $s_\nu\downarrow s_\infty=\frac34s_0$, $\sigma_\nu\le\min(\frac14,s_\nu/6)$, $\lambda_\nu\ge\lambda_0/4$, $K_0\ge1$, and
+$K_\nu\ge2^\nu$.
+\end{definition}
+\source{P96-K \S4, p.~132 (``$\alpha_\nu=\frac{\alpha_0}2(1+2^{-\nu})$, $M_\nu=M_0(2-2^{-\nu})$, \dots\ $\epsilon_{\nu+1}=\frac{c_1\epsilon_\nu^\kappa}{(\alpha_\nu\sigma_\nu^t)^{\kappa-1}}$,
+$\sigma_{\nu+1}=\frac{\sigma_\nu}2$, $\eta_\nu^3=\frac{\epsilon_\nu}{\alpha_\nu\sigma_\nu^t}$, where $\kappa=\frac43$'', $\sigma_0=s_0/40$, (17),
+$K_\nu=K_02^\nu$ with $K_0^{\tau+1}=1/(c_1\gamma_0)$); period-one units; $c_1=2C_2$; our $K_0$ includes $\sigma_0^t$
+because our smallness is $\epsilon_0\le\gamma_0\alpha_0\sigma_0^t$.}
+
+\begin{lemma}[Iterative lemma]\label{bpW:w6:iter-lemma}
+Let the data of Definition~\ref{bpW:w6:sequences} be given, $p_+=p+\frac12$, and $\epsilon_0\le\gamma_0\alpha_0\sigma_0^t$.
+Suppose at stage $\nu\ge0$: a set $\Pi_\nu\subset\R^2$; frequencies $(\omega_\nu,\Omega_\nu)$ on a set containing $\Pi_\nu$
+satisfying \eqref{bpW:w5:freq} with $M_\omega+M_\Omega\le M_\nu$; on $\Pi_\nu$, for all $(k,l)\in Z$ (W7's index set),
+\begin{equation}\label{bpW:w6:melnikov}
+\abs{\langle k,\omega_\nu\rangle+\langle l,\Omega_\nu\rangle}\ge\alpha_\nu\jap l/A_k;
+\end{equation}
+and a real periodic family $P_\nu\in\Sm_{p_+}(D_\nu)$ on $\Pi_\nu$ with $\abs{X_{P_\nu}}^{\lambda_\nu}_{r_\nu,D_\nu}\le\epsilon_\nu$.
+Put $q_\nu=\epsilon_\nu/(\alpha_\nu\sigma_\nu^t)$. Then $q_\nu\le\gamma_02^{-\nu}$ and $q_{\nu+1}\le q_\nu/4$, and W5's step
+(Theorem~\ref{bpW:w5:step}, unmodified case) applies with $s_\nu,\sigma_\nu,\eta_\nu,r_\nu,\alpha_\nu,\lambda_\nu$; it yields
+$\Phi_{\nu+1}:D_{\nu+1}\to D_\nu$ (for $\xi\in\Pi_\nu$), $N_{\nu+1}$ with $(\omega_{\nu+1},\Omega_{\nu+1})$ on $\Pi_\nu$, and $P_{\nu+1}$, such
+that with
+\[\Pi_{\nu+1}=\Pi_\nu\setminus\bigcup_{(k,l)\in Z,\ \abs k>K_\nu}\mathcal R^{\nu+1}_{kl},\qquad
+\mathcal R^{\nu+1}_{kl}=\Bigl\{\xi\in\Pi_\nu:\abs{\langle k,\omega_{\nu+1}\rangle+\langle l,\Omega_{\nu+1}\rangle}<\alpha_{\nu+1}\frac{\jap l}{A_k}\Bigr\},\]
+all hypotheses hold at stage $\nu+1$, provided that \eqref{bpW:w6:melnikov} for $k=0$ holds at stage $\nu+1$ (it is
+supplied by Lemma~\ref{bpW:w6:k0}). Moreover, with $M_{F,\nu}=c_F\epsilon_\nu/(\alpha_\nu\sigma_\nu^{t-1})=c_Fq_\nu\sigma_\nu$,
+\[\abs{\Phi_{\nu+1}-\mathrm{id}}^{\lambda_\nu}_{p_+,r_\nu,D_{\nu+1}}\le2M_{F,\nu},\quad
+\abs{D\Phi_{\nu+1}-I}^{\lambda_\nu}_{p\to p_+,r_\nu,D_{\nu+1}}\le\frac{16M_{F,\nu}}{\sigma_\nu}\le2^{-\nu-2},\]
+\[\abs{\omega_{\nu+1}-\omega_\nu}+\lambda_\nu\abs{\omega_{\nu+1}-\omega_\nu}^{\mathcal L}\le6\pi\epsilon_\nu,\qquad
+\sup_j(j+2)^{1/2}\bigl(\abs{\Omega_{\nu+1,j}-\Omega_{\nu,j}}+\lambda_\nu\abs{\cdot}^{\mathcal L}\bigr)\le3\epsilon_\nu.\]
+\end{lemma}
+\begin{proof}
+\proofstep{Smallness}\label{stepW:w6:il-small} By induction, $q_\nu\le\gamma_02^{-\nu}\le\gamma_0$. Then $\eta_\nu=q_\nu^{1/3}\le\gamma_0^{1/3}\le\frac18$
+and $q_\nu\le c_0^{-3}$, i.e.\ $\epsilon_\nu=\alpha_\nu\sigma_\nu^tq_\nu\le\alpha_\nu\sigma_\nu^t\eta_\nu^2/c_0$: this is \eqref{bpW:w5:small}.
+$\lambda_\nu\le\alpha_\nu/M_\nu\le\alpha_\nu/(M_\omega+M_\Omega)$. Theorem~\ref{bpW:w5:step} applies.
+\proofstep{New error}\label{stepW:w6:il-err} By \eqref{bpW:w5:newerror}, $\frac{\epsilon_\nu^2}{\alpha_\nu\sigma_\nu^t\eta_\nu^2}=\epsilon_\nu\eta_\nu$, so
+$\abs{X_{P_{\nu+1}}}^{\lambda_\nu}_{r_{\nu+1},D_{\nu+1}}\le2C_2\epsilon_\nu\eta_\nu=\epsilon_{\nu+1}$; as $\lambda_{\nu+1}\le\lambda_\nu$ the same bounds the
+$\lambda_{\nu+1}$-norm. $q_{\nu+1}=\frac{2C_2\epsilon_\nu\eta_\nu2^t}{\alpha_{\nu+1}\sigma_\nu^t}\le2^{t+2}C_2q_\nu^{4/3}\le2^{t+2}C_2\gamma_0^{1/3}q_\nu\le q_\nu/4$
+(using $\alpha_\nu\le2\alpha_{\nu+1}$ and $\gamma_0^{1/3}\le2^{-t-4}C_2^{-1}$).
+\proofstep{Lipschitz constants}\label{stepW:w6:il-lip} By Theorem~\ref{bpW:w5:step}(iii) the Lipschitz constants grow by at most
+$(6\pi+3)\epsilon_\nu/\lambda_\nu=(6\pi+3)q_\nu\sigma_\nu^tM_\nu\le22\gamma_02^{-\nu}M_\nu\le2^{-\nu-2}M_\nu$, and
+$M_\nu(1+2^{-\nu-2})\le M_{\nu+1}$. Tails stay finite.
+\proofstep{Divisors}\label{stepW:w6:il-div} With $K=K_\nu\ge1$, $(1+K)(1+K^\tau)\le4K^{\tau+1}$ and
+$6\pi\cdot4K_\nu^{\tau+1}\epsilon_\nu\le24\pi K_0^{\tau+1}2^{\nu(\tau+1)}\gamma_02^{-\nu}\alpha_0\sigma_0^t2^{-\nu t}=\frac{\alpha_0}42^{-\nu(\tau+4)}\le\alpha_\nu-\alpha_{\nu+1}=\alpha_02^{-\nu-2}$.
+Theorem~\ref{bpW:w5:step}(iv) gives \eqref{bpW:w6:melnikov} at $\nu+1$ on $\Pi_\nu$ for $0<\abs k\le K_\nu$ (with the Dirichlet weight);
+for $\abs k>K_\nu$ it holds on $\Pi_{\nu+1}$ by construction.
+\proofstep{Transformations}\label{stepW:w6:il-tr} Theorem~\ref{bpW:w5:step}(v); $16M_{F,\nu}/\sigma_\nu=16c_Fq_\nu\le16c_F\gamma_02^{-\nu}\le2^{-\nu-2}$.
+\end{proof}
+\source{P96-K Iterative Lemma and its proof, pp.~132--133, and Estimates (18), p.~133. Deviations: explicit constants;
+the $k=0$ conditions are tracked separately (Lemma~\ref{bpW:w6:k0}); the fields gain $p_+-p=\frac12$ (P96-K \S6,
+p.~141).}
+
+\begin{lemma}[The conditions with $k=0$]\label{bpW:w6:k0}
+In the setting of Lemma~\ref{bpW:w6:iter-lemma}, suppose $\abs{\langle l,\Omega_0\rangle}\ge2\beta_0\jap l$ for $l\in\Lambda$ on $\Pi_0$,
+with $\beta_0\ge\alpha_0$ and $8\epsilon_0\le\beta_0$. Then for every $\nu$, \eqref{bpW:w6:melnikov} with $k=0$ holds on $\Pi_\nu$, and
+$\sup_j(j+2)^{1/2}\abs{\Omega_{\nu,j}-\Omega_{0,j}}\le\sum_{\mu<\nu}3\epsilon_\mu\le4\epsilon_0$.
+\end{lemma}
+\begin{proof}
+$\epsilon_{\mu+1}\le\epsilon_\mu/4$ (from $q_{\mu+1}\le q_\mu/4$ and $\alpha_{\mu+1}\sigma_{\mu+1}^t\le\alpha_\mu\sigma_\mu^t$), so
+$\sum_\mu3\epsilon_\mu\le4\epsilon_0$. For $\abs l\le2$, $\abs{\langle l,\Omega_\nu-\Omega_0\rangle}\le8\epsilon_0\le\beta_0\le\beta_0\jap l$, so
+$\abs{\langle l,\Omega_\nu\rangle}\ge\beta_0\jap l\ge\alpha_\nu\jap l/A_0$.
+\end{proof}
+\source{ours; P96-K p.~137 (``$\mathcal R'_k(\alpha)$ is empty for $k=0$'') and W7 Lemma~\ref{bpW:w7:sep}.}
+
+\subsection{Convergence}\label{bpW:w6:conv-sec}
+
+\begin{proposition}[Iteration and convergence; P96-K Theorem~A, proof]\label{bpW:w6:convergence}
+Let the data of Definition~\ref{bpW:w6:sequences} be given with $\epsilon_0\le\gamma_0\alpha_0\sigma_0^t$, $p_+=p+\frac12$, a set
+$\Pi_{-1}\subset\R^2$, frequencies $(\omega_0,\Omega_0)$ on $\Pi_{-1}$ satisfying \eqref{bpW:w5:freq} with $M_\omega+M_\Omega\le M_0$, the
+$k=0$ bound of Lemma~\ref{bpW:w6:k0} on $\Pi_{-1}$, and a real periodic family $P_0\in\Sm_{p_+}(D_0)$ on $\Pi_{-1}$ with
+$\abs{X_{P_0}}^{\lambda_0}_{r_0,D_0}\le\epsilon_0$. Let
+$\Pi_0=\Pi_{-1}\setminus\bigcup_{(k,l)\in Z,\,k\ne0}\mathcal R^0_{kl}$ with $\mathcal R^0_{kl}$ built from $(\omega_0,\Omega_0)$ at level
+$\alpha_0$ on $\Pi_{-1}$, define $\Pi_\nu$ by Lemma~\ref{bpW:w6:iter-lemma}, $\Pi_*=\bigcap_\nu\Pi_\nu$, and
+$\Phi^\nu=\Phi_1\circ\dots\circ\Phi_\nu:D_\nu\to D_0$ (for $\xi\in\Pi_{\nu-1}$; $\Phi^0=\mathrm{id}$). Then:
+\begin{enumerate}[label=(\roman*)]
+\item (Parameters.) $\Pi_{-1}\setminus\Pi_*=\bigcup_{\nu\ge0}\bigcup_{(k,l)\in Z,\,\abs k>K_{\nu-1}}\mathcal R^\nu_{kl}$, with
+  $\mathcal R^\nu_{kl}\subset\Pi_{\nu-1}$ the zone of $(\omega_\nu,\Omega_\nu)$ at level $\alpha_\nu$. If $\Pi_{-1}$ is Borel and the
+  $\omega_\nu,\Omega_{\nu,j}$ are continuous, every $\Pi_\nu$ and $\Pi_*$ are Borel.
+\item (Frequencies.) $\omega_\nu\to\omega_*$, $\Omega_\nu\to\Omega_*$ uniformly on $\Pi_*$, with
+  $\abs{\omega_*-\omega_0}\le8\pi\epsilon_0$, $\abs{\omega_*-\omega_0}^{\mathcal L}\le64\pi\epsilon_0/\lambda_0$,
+  $\sup_j(j+2)^{1/2}\abs{\Omega_{*,j}-\Omega_{0,j}}\le4\epsilon_0$ and the Lipschitz constant of the latter $\le16\epsilon_0/\lambda_0$; the
+  same bounds hold for every $(\omega_\nu,\Omega_\nu)$ on $\Pi_{\nu-1}$. For $\xi\in\Pi_*$ and all $(k,l)\in Z$,
+  $\abs{\langle k,\omega_*\rangle+\langle l,\Omega_*\rangle}\ge\frac{\alpha_0}2\jap l/A_k$.
+\item (Transformations on the torus.) Let $\iota(\theta)=(\theta,0,0,0)$ and $T_{s'}=\{\abs{\operatorname{Im}\theta}<s'\}$. For
+  $\xi\in\Pi_*$ the maps $\theta\mapsto\Phi^\nu(\iota\theta)$ are holomorphic on $T_{s_\infty}$, periodic, real on $\R^2$, and
+  converge uniformly on $T_{s_\infty}\times\Pi_*$ to $\Phi_*$, holomorphic on $T_{s_\infty}$, periodic, real, jointly continuous in
+  $(\theta,\xi)$, with values in $\overline{D(s_0-4\sigma_0,2\eta_0r_0)}\subset D_0$ and
+  \[\abs{\Phi_*(\theta)-\iota\theta}_{p_+,r_0}\le e_\Phi:=5c_F\frac{\epsilon_0}{\alpha_0\sigma_0^{t-1}}\qquad(\theta\in T_{s_\infty}).\]
+  $\partial_\theta\Phi^\nu\circ\iota\to\partial_\theta\Phi_*$ uniformly on $T_{s_0/2}$.
+\item (Operator bounds.) For $w\in D_\nu$: $\abs{D\Phi^\nu(w)W}_{q,r_0}\le2\abs W_{q,r_\nu}$ for $q\in\{p,p_+\}$; $D\Phi^\nu(w)$ is
+  symplectic and maps $\Pc^{p_+}$ onto $\Pc^{p_+}$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\proofstep{Induction}\label{stepW:w6:c-ind} At $\nu=0$, \eqref{bpW:w6:melnikov} holds on $\Pi_0$: for $k\ne0$ by the removal, for $k=0$ by
+Lemma~\ref{bpW:w6:k0}. Lemma~\ref{bpW:w6:iter-lemma} with Lemma~\ref{bpW:w6:k0} gives all stages; $\epsilon_\nu\le4^{-\nu}\epsilon_0$.
+\proofstep{Parameters}\label{stepW:w6:c-par} (i) is the recursive definition (with $K_{-1}=0$, so at $\nu=0$ all $k\ne0$).
+Borel: each zone is relatively open in a Borel set (W7~\ref{bpW:w7:ext-borel}), countable unions.
+\proofstep{Frequencies}\label{stepW:w6:c-freq} Sum the increments of Lemma~\ref{bpW:w6:iter-lemma}: $\sum6\pi\epsilon_\nu\le8\pi\epsilon_0$,
+$\sum6\pi\epsilon_\nu/\lambda_\nu\le24\pi\cdot\frac43\epsilon_0\cdot\frac2{\lambda_0}$ (as $\lambda_\nu\ge\lambda_0/4$); the $\Omega$ sums likewise
+with $3$ in place of $6\pi$. The divisor bound passes to the limit since $\alpha_\nu\downarrow\alpha_0/2$ and the left side is a finite
+sum of uniformly convergent terms.
+\proofstep{Domains}\label{stepW:w6:c-dom} $\iota(T_{s_\infty})\subset D_\nu$ for all $\nu$; Theorem~\ref{bpW:w5:step} gives
+$\Phi_{\nu+1}(D_{\nu+1})\subset D(s_\nu-4\sigma_\nu,2\eta_\nu r_\nu)\subset D_\nu$, so $\Phi^\nu$ is defined and holomorphic on $D_\nu$ for
+$\xi\in\Pi_{\nu-1}$, real, periodic.
+\proofstep{Operator bounds}\label{stepW:w6:c-op} For $W\in\Pc^q$: $\abs{D\Phi_\mu W}_{q,r_{\mu-1}}\le(1+2^{-\mu-1})\abs W_{q,r_{\mu-1}}\le
+(1+2^{-\mu-1})\abs W_{q,r_\mu}$ by Lemma~\ref{bpW:w6:iter-lemma} and Lemma~\ref{bpW:w5:omega}; multiply along the chain
+(each factor evaluated at the appropriate point of $D_\mu$): $\prod_{\mu\ge1}(1+2^{-\mu-1})\le e^{1/2}<2$. Symplecticity and
+surjectivity on $\Pc^{p_+}$ compose (Theorem~\ref{bpW:w5:step}(i)).
+\proofstep{Cauchy sequence}\label{stepW:w6:c-cauchy} For $w=\iota\theta$: $\Phi^{\nu+1}(w)-\Phi^\nu(w)=\int_0^1D\Phi^\nu(w_\tau)(\Phi_{\nu+1}w-w)\,d\tau$,
+$w_\tau=w+\tau(\Phi_{\nu+1}w-w)\in D_\nu$ (convex), so $\abs{\Phi^{\nu+1}(w)-\Phi^\nu(w)}_{p_+,r_0}\le2\cdot2M_{F,\nu}=4c_Fq_\nu\sigma_\nu$, and
+$\sum_\nu4c_Fq_\nu\sigma_\nu\le4c_Fq_0\sigma_0\sum_\nu8^{-\nu}\le5c_Fq_0\sigma_0=e_\Phi$.
+\proofstep{Limit}\label{stepW:w6:c-lim} Uniform limits of holomorphic periodic real maps are holomorphic, periodic, real
+(Lemma~\ref{bpW:w1:uniform-limit}); derivatives converge uniformly on $T_{s_0/2}$ (balls of radius $s_0/8$ with doubles inside
+$T_{s_\infty}$, max norm in $\theta$). The image bound: $\Phi^\nu(\iota\theta)=\Phi_1(\cdot)\in D(s_0-4\sigma_0,2\eta_0r_0)$ for $\nu\ge1$.
+\proofstep{Continuity in $\xi$}\label{stepW:w6:c-cont} Each $\Phi_{\nu+1}(w,\xi)$ is Lipschitz in $\xi$ uniformly in $w$ (Lemma~\ref{bpW:w5:flow}(i))
+and continuous in $w$, hence jointly continuous; compositions and uniform limits of jointly continuous maps are jointly
+continuous.
+\end{proof}
+\source{P96-K proof of Theorem~A, pp.~134--135 (``the $\Phi^\nu$ converge uniformly on $\bigcap D_\nu\times\Pi_\nu=D(s/2)\times\Pi_\alpha$'',
+``$\abs{D\Phi^\nu}_{r_0,r_\nu,D_\nu}\le\prod(1+2^{-\mu-2})\le2$'', ``$\abs{\langle k,\omega_*\rangle+\langle l,\Omega_*\rangle}\ge\frac\alpha2\frac{\jap l_d}{A_k}$'',
+p.~135). Deviations: only continuity (not Lipschitz continuity) of $\Phi_*$ in $\xi$ is proved, which is what W8 needs
+(the Lipschitz family is a declared weakening, Remark~\ref{bpW:wh:weakenings}); P96-K's Lipschitz extension (Lemma~A.2) is not
+used (W7 works on the domains $\Pi_{\nu-1}$); operator norms as in Remark~\ref{bpW:w5:notation}.}
+
+\subsection{Invariance}\label{bpW:w6:inv-sec}
+
+\begin{lemma}[Strong conjugacy at regular points]\label{bpW:w6:strong}
+Let $\Phi:O\to\Pc$ be $C^1$ on an open $O\subset\Pc$ with $D\Phi(w)$ symplectic on $\Pc$ and onto $\Pc^{p_+}$ from
+$\Pc^{p_+}$, and let $H$, $H_+$ be functions with fields $X_H:\Phi(O)\to\Pc^{p-1}$, $X_{H_+}:O\to\Pc^{p-1}$ such that
+$\symp(X_H(\Phi w),D\Phi(w)W)=\symp(X_{H_+}(w),W)$ for all $W\in\Pc^{p_+}$. If $X_{H_+}(w)\in\Pc$, then
+$X_H(\Phi w)=D\Phi(w)X_{H_+}(w)$.
+\end{lemma}
+\begin{proof}
+With $A=X_{H_+}(w)\in\Pc$: $\symp(A,W)=\symp(D\Phi A,D\Phi W)$, so $\symp(X_H(\Phi w)-D\Phi A,W')=0$ for all $W'\in\Pc^{p_+}$. Test
+with the unit vectors (they lie in $\Pc^{p_+}$; Step~\ref{stepW:w5:omnd}).
+\end{proof}
+\source{ours.}
+
+\begin{proposition}[Invariant tori in KAM coordinates]\label{bpW:w6:invariance}
+In the setting of Proposition~\ref{bpW:w6:convergence}, let $H_0=N_0+P_0$ and $\nu_*=\omega_*/(2\pi)$. For $\xi\in\Pi_*$ and
+$\theta\in T_{s_0/2}$,
+\[X_{H_0}\bigl(\Phi_*(\theta)\bigr)=\partial_\theta\Phi_*(\theta)\,\nu_*:=\sum_{i=1,2}\nu_{*,i}\,\partial_{\theta_i}\Phi_*(\theta)\qquad\text{in }\Pc^{p-1},\]
+and both sides lie in $\Pc$; here $X_{N_0}(w)=(\frac{\omega_0}{2\pi},0,\Omega_0v,-\Omega_0u)$.
+\end{proposition}
+\begin{proof}
+\proofstep{Weak chain}\label{stepW:w6:i-weak} By Lemma~\ref{bpW:w5:new-ham}(iii) for each step and induction (using that each
+$D\Phi_\mu$ maps $\Pc^{p_+}$ into itself), $\symp(X_{H_0}(\Phi^\nu w),D\Phi^\nu(w)W)=\symp(X_{H_\nu}(w),W)$ for $w\in D_\nu$,
+$W\in\Pc^{p_+}$, $H_\nu=N_\nu+P_\nu$ (constants drop out of fields).
+\proofstep{Torus points}\label{stepW:w6:i-torus} At $w=\iota\theta$, $X_{H_\nu}(w)=\iota'(\omega_\nu/2\pi)+X_{P_\nu}(w)\in\Pc$
+($\iota'(c)=(c,0,0,0)$). Lemma~\ref{bpW:w6:strong} with Proposition~\ref{bpW:w6:convergence}(iv):
+$X_{H_0}(\Phi^\nu\iota\theta)=\partial_\theta(\Phi^\nu\circ\iota)(\theta)\frac{\omega_\nu}{2\pi}+D\Phi^\nu(\iota\theta)X_{P_\nu}(\iota\theta)$.
+\proofstep{Limit}\label{stepW:w6:i-lim} $\abs{D\Phi^\nu X_{P_\nu}}_{p,r_0}\le2\epsilon_\nu\to0$; $\partial_\theta(\Phi^\nu\circ\iota)\to\partial_\theta\Phi_*$ and
+$\omega_\nu\to\omega_*$; $\Phi^\nu\iota\theta\to\Phi_*(\theta)$ in $\Pc$, and $X_{H_0}$ is continuous $D_0\to\Pc^{p-1}$ ($X_{N_0}$ is bounded linear
+$\Pc\to\Pc^{p-1}$ plus a constant by Lemma~\ref{bpW:w4:lie}(i), $X_{P_0}$ is continuous into $\Pc^{p_+}$). Pass to the limit in
+$\Pc^{p-1}$. The right side lies in $\Pc$.
+\end{proof}
+\source{P96-K p.~134 (``$\abs{X_H\circ\Phi^\nu-D\Phi^\nu\cdot X_{N_\nu}}\lessdot\abs{X_{P_\nu}}$, whence in the limit $X_H\circ\Phi=D\Phi\cdot X_{\omega_*}$'').
+\textsf{SOURCE\_GAP} (supplied): the source's estimate uses $X_H\circ\Phi^\nu$ in the norm of $\Pc$, which is not defined since $X_N$
+is unbounded; the identity holds in $\Pc^{p-1}$ and is obtained from the weak conjugacy at torus points.}
+
+\subsection{The preparatory step and the interface to W7}\label{bpW:w6:prep-sec}
+
+\begin{definition}[W6 constants]\label{bpW:w6:constants}
+In this order, after W7's constants (Definition~\ref{bpW:w7:constdef}) and W5's: $s=\frac18$, $\sigma_P=s/40$,
+$s_0=s-5\sigma_P=\frac78s$, $\sigma_0=s_0/40$; $M=M_\omega+M_\Omega$ of Lemma~\ref{bpW:w4:wave}(i) and $M_0=2M$; $\gamma_0$ of
+Definition~\ref{bpW:w6:sequences};
+\[\gamma_1=\min\Bigl\{\gamma_0\sigma_0^t,\ \frac{\theta_0}{425(1+M)},\ \frac{\beta_*}{8}\Bigr\},\qquad
+\gamma=\min\Bigl\{\frac1{40},\ c_0^{-3}\sigma_P^t,\ \frac{\theta_0}{425(1+M)},\ \Bigl(\frac{\gamma_1\sigma_P^{t/3}}{2C_2}\Bigr)^{3/4}\Bigr\}.\]
+All depend on $m$ only (through $M$, $\theta_0$, $\beta_*$).
+\end{definition}
+
+\begin{lemma}[Preparatory step; P96-K \S6]\label{bpW:w6:prep-step}
+Let $\Pi\subset\{\abs\xi_\infty\le\frac12\}$ be Borel, $0<\alpha\le\alpha_0$ (W7 (C4)), $\hat\alpha=\alpha^{20/23}$,
+$\check\alpha=\alpha^{24/23}$, and $\Xi$ W7's preparatory set (Definition~\ref{bpW:w7:zones}). Let $r>0$ and a real periodic family
+$P\in\Sm_{p+1}(D(s,r))$ on $\Pi\setminus\Xi$, with the unperturbed frequencies $(\omega^0,\Omega^0)$, satisfy
+$\abs{X_P}^\lambda_{r,D(s,r)}\le\epsilon\le\gamma\alpha$ with $\lambda=\alpha/M$ (e.g.\ Proposition~\ref{bpW:w5:initial}). Put
+$\eta_P=(\epsilon/(\hat\alpha\sigma_P^t))^{1/3}$, $r_0=\eta_Pr$. Then one step of Theorem~\ref{bpW:w5:step} in the modified case
+($\beta=\frac12$, $p_+=p+\frac12$, level $\hat\alpha$) applies on $\Pi\setminus\Xi$ and gives a real holomorphic family
+$\Phi_P:D_0=D(s_0,r_0)\to D(s,r)$, symplectic with $D\Phi_P$ onto $\Pc^{p_+}$, with $(N+P)\circ\Phi_P=N_0+P_0+{\rm const}$, the weak
+conjugacy of Lemma~\ref{bpW:w5:new-ham}(iii), and:
+\begin{enumerate}[label=(\roman*)]
+\item the divisor hypotheses hold: for $\xi\in\Pi\setminus\Xi$ and $(k,l)\in Z$,
+  $\abs{\langle k,\omega^0\rangle+\langle l,\Omega^0\rangle}\ge\hat\alpha\hat w(l)/A_k$ (Corollary~\ref{bpW:w7:melnikov}(i)), which is
+  \eqref{bpW:w5:modified} with $\beta=\frac12$ for $l=\pm(e_I-e_J)$ and $(\mathrm H_{\hat\alpha})$ otherwise (Dirichlet weights dominate
+  P96-K's, Lemma~\ref{bpW:w4:wave}(ii));
+\item the shift: $\omega_0=\omega^0+\hat\omega_P$, $\Omega_{0,J}=\Omega^0_J+\hat\Omega_{P,J}$ with $\abs{\hat\omega_P}+\lambda\abs{\hat\omega_P}^{\mathcal L}\le6\pi\epsilon$ and
+  $J\bigl(\abs{\hat\Omega_{P,J}}+\lambda\abs{\hat\Omega_{P,J}}^{\mathcal L}\bigr)\le3\epsilon$ (the $\varepsilon_1j^{-1}$ part of W7's (H2), $\bar p-p=1$);
+  $(\omega_0,\Omega_0)$ satisfy \eqref{bpW:w5:freq} with $M_\omega+M_\Omega\le M_0=2M$;
+\item $\abs{\Phi_P-\mathrm{id}}_{p_+,r,D_0}\le M_{F,P}:=c_F\epsilon/(\hat\alpha\sigma_P^{t-1})$, and $\Phi_P$ is Lipschitz in $\xi$ in the norm
+  $\abs\cdot_{p,r}$;
+\item the new perturbation satisfies $\sup\abs{X_{P_0}}_{p_+,r_0,D_0}\le2C_2\epsilon^{4/3}(\hat\alpha\sigma_P^t)^{-1/3}\le\gamma_1\check\alpha$;
+\item (\textsf{SOURCE\_GAP}) the Lipschitz part: $\abs{X_{P_0}}^{\lambda_0}_{r_0,D_0}\le\gamma_1\check\alpha$ with $\lambda_0=\check\alpha/M_0$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Data}\label{stepW:w6:p-data} $\sigma_P\le\min(\frac14,s/6)$; $q_P=\epsilon/(\hat\alpha\sigma_P^t)\le\gamma\alpha/(\hat\alpha\sigma_P^t)\le\gamma/\sigma_P^t\le c_0^{-3}$
+($\alpha\le\hat\alpha$), so \eqref{bpW:w5:small} holds with $\eta_P\le\frac18$; $\lambda=\alpha/M\le\hat\alpha/M$. The frequencies satisfy
+\eqref{bpW:w4:freq} on $\Pi$ (Lemma~\ref{bpW:w4:wave}).
+\proofstep{Divisors}\label{stepW:w6:p-div} (i): the zones $S_{kl}$ are removed, and W7's Dirichlet weights: for $l=\pm(e_I-e_J)$,
+$\hat w=\abs{I-J}\min(I,J)^{-1/2}$, which is \eqref{bpW:w5:modified} with $\beta=\frac12$ (W5 uses $\min(i,j)+2=\min(I,J)$); for other $l$,
+$\hat w=\jap l\ge$ P96-K's weight. $p+1-p_+=\frac12\ge\beta$.
+\proofstep{Step}\label{stepW:w6:p-step} Theorem~\ref{bpW:w5:step} for the sup parts (Lemma~\ref{bpW:w5:w4-modified}(i)). The frequency shifts are
+$\hat\omega=[b]$, $\hat\Omega_j=[Q]_{jj}$ of $R$, which is the Taylor polynomial of $P$ with $p+1$ smoothing, so their $\lambda$-bounds use
+only Lemma~\ref{bpW:w5:taylor} and Theorem~\ref{bpW:w4:lemma1}(iv) with $\bar p-p=1$; no divisor enters. $M_0$: the Lipschitz constants grow
+by $(6\pi+3)\epsilon/\lambda\le22\gamma M\le M$.
+\proofstep{Lipschitz in $p$}\label{stepW:w6:p-lipp} In Step~\ref{stepW:w5:m-lip} with target exponent $p$ (loss $1\ge2\beta$) the Lipschitz
+bound holds; so $X_{F_P}$ is Lipschitz in $\xi$ into $\Pc^p$, and Lemma~\ref{bpW:w1:flow}(iv) gives (iii).
+\proofstep{Size}\label{stepW:w6:p-size} By \eqref{bpW:w5:newerror} with $\eta_P^3=q_P$: $\sup\abs{X_{P_0}}\le2C_2\epsilon\eta_P=2C_2\epsilon^{4/3}(\hat\alpha\sigma_P^t)^{-1/3}$,
+and with $\epsilon\le\gamma\alpha$: $\le2C_2\gamma^{4/3}\sigma_P^{-t/3}\alpha^{4/3}\hat\alpha^{-1/3}=2C_2\gamma^{4/3}\sigma_P^{-t/3}\check\alpha\le\gamma_1\check\alpha$,
+since $\frac43-\frac13\cdot\frac{20}{23}=\frac{24}{23}$.
+\proofstep{Gap}\label{stepW:w6:p-gap} (v) would follow from Lemma~\ref{bpW:w5:w4-modified}(ii), which needs $2\beta\le\frac12$; with $\beta=\frac12$ it
+is the \textsf{SOURCE\_GAP} recorded there. If W7 adopts $\hat w(l)=(I-J)\min(I,J)^{-1/4}$ (Remark~\ref{bpW:w5:prep-gap}), (v) holds with the
+same proof as (iv), using $\lambda_0\le\lambda$.
+\end{proof}
+\source{P96-K \S6, pp.~140--141 (``we precede the KAM iteration by one modified KAM step \dots\ $\hat\alpha=\alpha^{1-3w}$'',
+``$\abs{X_{P_0}}^\lambda_{\check p,\eta r}\lessdot\frac1{(\hat\alpha\sigma^t)^{\varkappa-1}}(\abs{X_P}^\lambda_{\bar p,r})^\varkappa$'' --- printed with $\kappa$,
+our $\varkappa=\frac43$ --- ``$\abs{X_{P_0}}^\lambda_{\check p,\eta r}\le\gamma\check\alpha$, $\check\alpha=\alpha^{1+w}$''). With $w=\frac1{23}$:
+$1-3w=\frac{20}{23}$, $1+w=\frac{24}{23}$. P96-K p.~141: ``the KAM scheme now starts from scratch, with parameters $\check\alpha$ and
+$\check p$''.}
+\sourcegap{Item (v) for W7's weight $\hat w=(i-j)j^{-1/2}$: see the \textsf{SOURCE\_GAP} after Lemma~\ref{bpW:w5:w4-modified}. Everything
+downstream of (v) (Propositions~\ref{bpW:w6:convergence}, \ref{bpW:w6:invariance} applied after the preparatory step, and
+Lemmas~\ref{bpW:w6:freq-lip}, \ref{bpW:w6:exclusion}, \ref{bpW:w6:final-freq}) is conditional on it until W7 changes its weights or
+the gap is closed.}
+
+\begin{definition}[The wave iteration]\label{bpW:w6:wave-iteration}
+In the setting of Lemma~\ref{bpW:w6:prep-step} with (v), apply Proposition~\ref{bpW:w6:convergence} with $s_0,\sigma_0$ of
+Definition~\ref{bpW:w6:constants}, $r_0=\eta_Pr$, $\alpha_0^{\rm it}=\check\alpha$, $M_0=2M$, $\epsilon_0=\gamma_1\check\alpha$, $\Pi_{-1}=\Pi\setminus\Xi$,
+$(\omega_0,\Omega_0)$, $P_0$, and $\beta_0=\beta_*$. Write $\Pi_*$, $\omega_*$, $\Omega_*$, $\Phi_*$, $(\omega_\nu,\Omega_\nu)$ on $\Pi_{\nu-1}$, and
+$\mathcal R^\nu_{kl}$ for the outputs.
+\end{definition}
+
+\begin{lemma}[Applicability]\label{bpW:w6:applicable}
+The hypotheses of Proposition~\ref{bpW:w6:convergence} hold for Definition~\ref{bpW:w6:wave-iteration}.
+\end{lemma}
+\begin{proof}
+$\epsilon_0=\gamma_1\check\alpha\le\gamma_0\sigma_0^t\alpha_0^{\rm it}$; $\lambda_0=\check\alpha/(2M)\le\lambda$, so $\abs{X_{P_0}}^{\lambda_0}\le\epsilon_0$ by (iv)--(v);
+$k=0$: by W7 Lemma~\ref{bpW:w7:unpert-bounds}(ii), $\abs{\langle l,\Omega^0\rangle}\ge3\beta_*\jap l$, and the shift gives
+$\abs{\langle l,\hat\Omega_P\rangle}\le2\cdot3\epsilon/3\le2\gamma\alpha\le\beta_*$ (W7 (C4): $\alpha\le\alpha_0\le\beta_*/4$), so
+$\abs{\langle l,\Omega_0\rangle}\ge2\beta_*\jap l$;
+$\beta_*\ge\check\alpha$ (W7 (C4)) and $8\epsilon_0\le8\gamma_1\le\beta_*$.
+\end{proof}
+\source{ours.}
+
+\begin{lemma}[Lipschitz frequencies; W7's (H1)--(H2)]\label{bpW:w6:freq-lip}
+Work in Definition~\ref{bpW:w6:wave-iteration} and put $D_\nu=\Pi_{\nu-1}$ (Borel, $\subset\Pi$), with $\Omega_{\nu,J}$ at the
+Dirichlet label $J\ge3$ and $K_\nu$ of Definition~\ref{bpW:w6:sequences}. Then the family
+$(D_\nu,\omega_\nu,\Omega_\nu,K_\nu)_{\nu\ge0}$ is admissible for $(\Pi,\alpha)$ in the sense of
+Definition~\ref{bpW:w7:family}, with
+\begin{gather*}\varepsilon_\omega=6\pi\gamma\alpha+8\pi\gamma_1\check\alpha,\quad\varepsilon_1=3\gamma\alpha,\quad\varepsilon_2=4\gamma_1\check\alpha,\\
+\theta=425(1+M)\max(\gamma,\gamma_1)\le\theta_0,\end{gather*}
+all $\le\alpha$. Lipschitz constants are with respect to $\abs\cdot_\infty$ on $\R^2$, as in W7.
+\end{lemma}
+\begin{proof}
+\proofstep{Sizes}\label{stepW:w6:fl-size} $\omega_\nu-\omega^0=\hat\omega_P+(\omega_\nu-\omega_0)$: $\le6\pi\epsilon+8\pi\epsilon_0$ (Lemma~\ref{bpW:w6:prep-step}(ii),
+Proposition~\ref{bpW:w6:convergence}(ii)); $\abs{\Omega_{\nu,J}-\Omega^0_J}\le3\epsilon/J+4\epsilon_0/J^{1/2}$. With $\epsilon\le\gamma\alpha$,
+$\epsilon_0=\gamma_1\check\alpha$, $\check\alpha\le\alpha$, $6\pi\gamma\le\frac12$ and $8\pi\gamma_1\le\frac12$: all $\le\alpha$.
+\proofstep{Lipschitz}\label{stepW:w6:fl-lip} $\abs{\hat\omega_P}^{\mathcal L}\le6\pi\epsilon/\lambda\le6\pi\gamma M$; $\abs{\omega_\nu-\omega_0}^{\mathcal L}\le64\pi\epsilon_0/\lambda_0=128\pi\gamma_1M$;
+$J\abs{\hat\Omega_{P,J}}^{\mathcal L}\le3\gamma M$, so $J^{1/2}$ times it is $\le3\gamma M$; $(J)^{1/2}\abs{\Omega_{\nu,J}-\Omega_{0,J}}^{\mathcal L}\le16\epsilon_0/\lambda_0=32\gamma_1M$.
+The totals are $\le(6\pi+128\pi)\max(\gamma,\gamma_1)M<425\max(\gamma,\gamma_1)M$ for $\omega$ and $\le35\max(\gamma,\gamma_1)M$ for $\Omega$,
+using $J^{-1}\le J^{-1/2}$; and $425(1+M)\max(\gamma,\gamma_1)\le\theta_0$ by Definition~\ref{bpW:w6:constants}.
+\proofstep{Borel}\label{stepW:w6:fl-borel} Proposition~\ref{bpW:w6:convergence}(i); $\Pi\setminus\Xi$ is Borel (Lemma~\ref{bpW:w7:measurable}).
+\end{proof}
+\source{P96-K Theorem~A, p.~122 (``$\abs{\omega_\nu-\omega}+\frac\alpha M\abs{\omega_\nu-\omega}^{\mathcal L}\le c\epsilon$''), Corollary~C, p.~123
+(smaller $\gamma$); W7 Remark~\ref{bpW:w7:w6-needs}.}
+
+\begin{lemma}[Exclusion]\label{bpW:w6:exclusion}
+In Definition~\ref{bpW:w6:wave-iteration}, $\Pi\setminus\Pi_*\subset\mathcal E$, W7's excluded set for the admissible family of
+Lemma~\ref{bpW:w6:freq-lip}; the thresholds are $K_\nu\ge2^\nu$ and the levels $\alpha_\nu\le\check\alpha$.
+\end{lemma}
+\begin{proof}
+$\Pi\setminus\Pi_*=\Xi\cup\bigl((\Pi\setminus\Xi)\setminus\Pi_*\bigr)$, and by Proposition~\ref{bpW:w6:convergence}(i) the second set is the union
+of zones $\mathcal R^\nu_{kl}$ at level $\alpha_\nu\le\alpha_0^{\rm it}=\check\alpha$, $\abs k>K_{\nu-1}$, built from $(\omega_\nu,\Omega_\nu)$ on
+$D_\nu=\Pi_{\nu-1}$ with the Dirichlet weight; each is contained in W7's $R^\nu_{kl}=R_{kl}(\check\alpha)$.
+\end{proof}
+\source{P96-K Theorem~A, p.~122 (``$\Pi\setminus\Pi_\alpha\subset\bigcup\mathcal R^\nu_{kl}(\alpha)$'', $\abs k>K_02^{\nu-1}$) and p.~142
+(``the KAM iteration now starts with the parameter set $\Pi_0=\Pi\setminus\Xi_{\hat\alpha}$ and parameter $\check\alpha$'').}
+
+\begin{lemma}[Final frequencies]\label{bpW:w6:final-freq}
+For $\xi\in\Pi_*$: $\abs{\langle k,\omega_*(\xi)\rangle}\ge\check\alpha/(2A_k)$ for $k\ne0$, and $\abs{\omega_*(\xi)-\omega^0(\xi)}_\infty\le\varepsilon_\omega$.
+Moreover $\omega_*$ is Lipschitz on $\Pi_*$ (constant $\le N_A+\theta$).
+\end{lemma}
+\begin{proof}
+Proposition~\ref{bpW:w6:convergence}(ii) with $l=0$ and $\alpha_0^{\rm it}=\check\alpha$; the size and Lipschitz bounds of
+Lemma~\ref{bpW:w6:freq-lip} pass to the limit; $\omega^0$ has Lipschitz constant $N_A$ (Lemma~\ref{bpW:w7:freqcoords}(ii)).
+\end{proof}
+\source{P96-K p.~135 (``$\abs{\langle k,\omega_*\rangle+\langle l,\Omega_*\rangle}\ge\frac\alpha2\frac{\jap l_d}{A_k}$'').}
+
+\subsection{Output to W8}\label{bpW:w6:out-sec}
+
+\begin{theorem}[Invariant tori in Birkhoff coordinates]\label{bpW:w6:tori}
+In Definition~\ref{bpW:w6:wave-iteration}, with $H_{\rm in}=N_\xi+P_\xi$ of Lemma~\ref{bpW:w5:action-angle}(iv) on $D(s,r)$ (so that
+Proposition~\ref{bpW:w5:initial} supplies $P$), let for $\xi\in\Pi_*$ and $\theta\in T_{s_0/2}$
+\[\tilde\Psi_\xi(\theta)=\mathcal A_\xi\bigl(\Phi_P(\Phi_*(\theta))\bigr)\in\mathfrak W,\qquad\nu_*(\xi)=\omega_*(\xi)/(2\pi).\]
+\begin{enumerate}[label=(\roman*)]
+\item $\tilde\Psi_\xi$ is holomorphic on $T_{s_0/2}$ with values in $B_{\rho_1}$ (if $c_A(t+r^2)<\rho_1^2$, Lemma~\ref{bpW:w5:action-angle}(ii)),
+  $1$-periodic, and $\varrho\tilde\Psi_\xi(\theta)=\tilde\Psi_\xi(\theta)$ for real $\theta$; its normal part lies in $\mathfrak W^{p+1/2}$.
+\item $(\xi,\theta)\mapsto\tilde\Psi_\xi(\theta)$ is continuous on $\Pi_*\times\R^2$, and $\nu_*$ is Lipschitz on $\Pi_*$.
+\item (Invariance.) For $\xi\in\Pi_*$, $\theta\in\R^2$: $\partial_\theta\tilde\Psi_\xi(\theta)\,\nu_*=X_{H'}(\tilde\Psi_\xi(\theta))$ in $\mathfrak W^{p-1}$,
+  $X_{H'}=X_\Lambda+X_{\bar G}+X_{G^{\rm nor}}+X_K$ (Lemma~\ref{bpW:w5:action-angle}(v)).
+\item (Closeness.) With $e_{\rm tor}=M_{F,P}+e_\Phi$ ($e_\Phi$ of Proposition~\ref{bpW:w6:convergence}(iii), $\epsilon_0=\gamma_1\check\alpha$),
+  $\Phi_P(\Phi_*(\theta))=(\theta+X(\theta),y(\theta),u(\theta),v(\theta))$ with
+  $\abs X\le e_{\rm tor}$, $\abs y\le r^2e_{\rm tor}$, $\norm u_{a,p+1/2}+\norm v_{a,p+1/2}\le re_{\rm tor}$ on $T_{s_0/2}$; hence
+  $\tilde\Psi_\xi(\theta)_{\pm i}=\sqrt{\xi_i+y_i(\theta)}\,e^{\mp2\pi i(\theta_i+X_i(\theta))}$ and $\norm{\hat{\tilde\Psi}}\le re_{\rm tor}$, to be compared
+  with the linear torus $\mathcal A_\xi(\iota\theta)$ (Lemma~\ref{bpW:w5:action-angle}(i)).
+\item (Real analyticity.) If $\Gamma$ is W3's map, then $\theta\mapsto\mathcal Z^{-1}\Gamma(\tilde\Psi_\xi(\theta))$ restricted to $\R^2$ is
+  \Lean{AnalyticOnNhd Real} into $E_{a,p}$ (Lean: \Lean{WaveSpace} for $a=p=1$ after the transport $\tau_{1,1}$).
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\proofstep{Holomorphy}\label{stepW:w6:t-hol} $\Phi_*$ (Proposition~\ref{bpW:w6:convergence}(iii)) maps $T_{s_0/2}$ into $D_0$, $\Phi_P$ is holomorphic $D_0\to D(s,r)$,
+and $\mathcal A_\xi$ is holomorphic on $D(s,r)$; reality and periodicity compose. The normal part of $\Phi_P\Phi_*$ is in $\Pc^{p_+}$
+(Proposition~\ref{bpW:w6:convergence}(iii) and $\Phi_P-\mathrm{id}\in\Pc^{p_+}$).
+\proofstep{Continuity}\label{stepW:w6:t-cont} Proposition~\ref{bpW:w6:convergence}(iii), Lemma~\ref{bpW:w6:prep-step}(iii), and joint continuity of
+$(\xi,w)\mapsto\mathcal A_\xi(w)$; $\nu_*$ by Lemma~\ref{bpW:w6:final-freq}.
+\proofstep{Invariance, prep step}\label{stepW:w6:t-prep} By Proposition~\ref{bpW:w6:invariance}, $A:=X_{H_0}(\Phi_*\theta)=\partial_\theta\Phi_*\nu_*\in\Pc$.
+Lemma~\ref{bpW:w5:new-ham}(iii) for the preparatory step and Lemma~\ref{bpW:w6:strong} give
+$X_{H_{\rm in}}(\Phi_P\Phi_*\theta)=D\Phi_P\,A=\partial_\theta(\Phi_P\circ\Phi_*)\nu_*$ (chain rule).
+\proofstep{Invariance, Birkhoff}\label{stepW:w6:t-bk} Lemma~\ref{bpW:w5:action-angle}(v) at $w=\Phi_P\Phi_*\theta$ and the chain rule.
+\proofstep{Closeness}\label{stepW:w6:t-close} Lemma~\ref{bpW:w6:prep-step}(iii) and Proposition~\ref{bpW:w6:convergence}(iii), with
+$\abs\cdot_{q,r}\le\abs\cdot_{q,r_0}$ ($r_0\le r$), unpacking the norm $\abs\cdot_{p_+,r}$.
+\proofstep{Analyticity}\label{stepW:w6:t-an} $\Gamma$ is analytic, hence holomorphic, on $B_{\rho_1}$ (Remark~\ref{bpW:w3:class-remark}); so
+$\mathcal Z^{-1}\Gamma\tilde\Psi_\xi:T_{s_0/2}\to E^\C_{a,p}$ is holomorphic, periodic and real on reals (Lemma~\ref{bpW:w3:coords},
+Theorem~\ref{bpW:w3:flow}(iv)); Corollary~\ref{bpW:w1:torus-analytic} (stated for $E^\C_{1,1}$, the case $a=p=1$).
+\end{proof}
+\source{P96-K Theorem~A (``each embedding is real analytic on $\abs{\operatorname{Im}x}<s/2$'', $\abs{\Phi-\Phi_0}\le c\epsilon/\alpha$), KP96 \S7, Steps~4--5
+(``$\Phi_r:\T^n\times\Pi_{r,\alpha}\to D(1,r)$'', translated embedding); P96-W p.~290. Deviation: the embedding takes values in
+$\mathfrak W^{p+1/2}$, not $\mathfrak W^{p+1}$ (P96-K's $\mathcal P^{a,\bar p}$): after the preparatory step only $\check p=\bar p-\varpi$ is available.}
+
+\begin{remark}[What W8 consumes from W6]\label{bpW:w6:to-w8}
+For each shell (W8 chooses $r$, $t$, $\rho_\xi$, $\Pi$ and $\alpha$ subject to Proposition~\ref{bpW:w5:initial}, $\epsilon_{\rm in}(1+4\lambda/\rho_\xi)\le\gamma\alpha$
+with $\lambda=\alpha/M$, $c_A(t+r^2)<\rho_1^2$, $\Pi\subset\{\abs\xi_\infty\le\frac12\}$ Borel, $\alpha\le\alpha_0$):
+\begin{enumerate}[label=(\alph*)]
+\item a Borel set $\Pi_*\subset\Pi$ with $\Pi\setminus\Pi_*\subset\mathcal E$ (Lemma~\ref{bpW:w6:exclusion}), so W7 Theorem~\ref{bpW:w7:measure} and
+  Corollary~\ref{bpW:w7:shell-est} apply with the admissible family of Lemma~\ref{bpW:w6:freq-lip};
+\item a Lipschitz frequency map $\nu_*=\omega_*/2\pi$ on $\Pi_*$ with $\abs{\langle k,\omega_*\rangle}\ge\check\alpha/(2A_k)$ and
+  $\abs{\omega_*-\omega^0}\le\varepsilon_\omega\le\alpha$ (Lemma~\ref{bpW:w6:final-freq}; W7 Lemmas~\ref{bpW:w7:dioph}, \ref{bpW:w7:limit});
+\item tori $\tilde\Psi_\xi$ with (i)--(v) of Theorem~\ref{bpW:w6:tori}: holomorphic on the strip $T_{s_0/2}$, $s_0/2=\frac7{128}$; real; jointly
+  continuous; invariant in $\mathfrak W^{p-1}$; closeness in terms of $e_{\rm tor}$; real analytic after $\Gamma$. The parameter is
+  the action: $\mathcal Z^{-1}\mathcal A_\xi(\iota\theta)=K^0_\xi(\theta)$.
+\end{enumerate}
+\emph{What W8 must still supply.} (1) The weak form of W3's Corollary~\ref{bpW:w3:transport-tori}: W3 assumes $\Psi\in\mathfrak W^+$, but
+$\tilde\Psi_\xi\in\mathfrak W^{p+1/2}$ only. The same proof as Lemma~\ref{bpW:w6:strong} works: Theorem~\ref{bpW:w3:main}(iv) holds weakly for
+$w\in B_{\rho_1}$ against test vectors in $\mathfrak W^{p+1/2}$ (pairing $\mathfrak W^{p-1}\times\mathfrak W^{p+1/2}$, valid as $p=1$), and
+strongly at points where $X_{H'}(w)\in\mathfrak W$; along the torus, $X_{H'}(\tilde\Psi)=\partial_\theta\tilde\Psi\,\nu_*\in\mathfrak W$. Then
+clause~(4) follows by Lemma~\ref{bpW:w1:coordinatewise} with $(a',p')=(1,0)$. (2) Injectivity of $D K_I(\theta)$ and injectivity mod
+$\Z^2$ from (iv) (Cauchy estimates on the strip turn $e_{\rm tor}$ into $C^1$ bounds on $X$, $y$). (3) The $o(r(I))$ closeness: from (iv),
+$\abs{\tilde\Psi_{\pm i}-\sqrt{\xi_i}e^{\mp2\pi i\theta_i}}\le\abs y/\sqrt{\xi_i}+2\pi\sqrt{\xi_i}\abs Xe^{2\pi\abs X}$ on real $\theta$, which is
+$o(\sqrt{\abs\xi})$ when $r^2e_{\rm tor}/\xi_i\to0$ and $e_{\rm tor}\to0$ along the shells. (4) Patching, family injectivity, and the choice
+of $\alpha(t)$.
+\end{remark}
+
+\subsection{Ledger}\label{bpW:w6:ledger}
+
+\paragraph{Results.} Definitions~\ref{bpW:w6:sequences}, \ref{bpW:w6:constants}, \ref{bpW:w6:wave-iteration};
+Lemmas~\ref{bpW:w6:iter-lemma}, \ref{bpW:w6:k0}, \ref{bpW:w6:strong}, \ref{bpW:w6:prep-step}, \ref{bpW:w6:applicable},
+\ref{bpW:w6:freq-lip}, \ref{bpW:w6:exclusion}, \ref{bpW:w6:final-freq}; Propositions~\ref{bpW:w6:convergence}, \ref{bpW:w6:invariance};
+Theorem~\ref{bpW:w6:tori}; Remark~\ref{bpW:w6:to-w8}. W7's forward labels \texttt{prep-step}, \texttt{freq-lip}, \texttt{exclusion},
+\texttt{final-freq} are provided; \texttt{prep-step}(v) carries a \textsf{SOURCE\_GAP}.
+
+\paragraph{Order of constants.} $m$ $\to$ W3 ($\rho_1,C_*,C'_K$), W7 ((C1)--(C5): $\beta_*$, $\theta_0$, $\alpha_0$, \dots), W4/W5 ($C_1$, $b_{\rm W}(24)$,
+$c_F$, $c_0$, $C_2$) $\to$ $s=\frac18$, $\sigma_P$, $s_0$, $\sigma_0$, $M$, $\gamma_0$, $K_0$, $\gamma_1$, $\gamma$ (Definition~\ref{bpW:w6:constants})
+$\to$ per shell: $\Pi$, $\alpha$, $r$, $t$, $\rho_\xi$ (W8) $\to$ $\epsilon$, $\eta_P$, $r_0$ and the sequences. Every constant before the shell
+data depends on $m$ only.
