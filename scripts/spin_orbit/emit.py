@@ -10,7 +10,7 @@ from hpfft import P, fft2, zeros
 from hpsolve import HP
 import model
 
-PBITS = 440
+PBITS = int(__import__("os").environ.get("SO_PBITS", "440"))   # SO-GEN3: env override
 THRESHOLDS = ["1e-30", "1e-60", "1e-110", "1e-130"]
 GEN_VERSION = "so-gen-0.1"
 

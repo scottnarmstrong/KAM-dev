@@ -3,7 +3,7 @@
 
 Majorants (c = 1 values, scaled): M >= c * D2H (the landed checkHamBounds sum, 1.0657 at c = 1 on the N = 40 tori,
 SO-DATA-1), sigmaK - mu >= ||DK||, sigmaB - mu >= ||G^-1|| (checker l1), sigmaT - mu >= ||avg^-1||/c; the inputs are
-passed per torus.  gamma = gbar = c/((N + 1) s) (gamma((nu - 1, 1)) >= 1/(N + g) > 1/(N + 1): binding k = (1, 0)).
+passed per torus.  gamma = gbar = c/((N + 2) s) (SO-DION: IsDiophantine (kappa/(N + 2)) 1 in the rotated frame).
 Untrusted tooling."""
 import sys, math, json
 from fractions import Fraction as F
@@ -19,7 +19,7 @@ def package(N, c, rho, maj, mu=F(1, 160), s=1 + F(1, 10 ** 6), margin=F(1001, 10
     M = up(float(c * F(maj["D2H"]) * margin))
     sK = up(float(F(maj["DK"]) * margin + mu)); sB = up(float(F(maj["Ginv"]) * margin + mu))
     sT = up(float(F(maj["Tinv"]) / c * margin + mu))
-    gam = c / s / (N + 1)
+    gam = c / s / (N + 2)          # SO-DION: lunarRotFreq is IsDiophantine (kappa/(N+2)) 1
     return dict(tau=1, rho=rho, rhoInf=rho / 1000, M=M, sK=sK, sB=sB, sT=sT, mu=mu, gbar=gam, nu=F(1, 10 ** 6),
                 gamma=gam, err=F(0), disp=F(0), c=c, s=s)
 

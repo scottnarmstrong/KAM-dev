@@ -62,4 +62,44 @@ Even at N = 65, the certificate should be **much cheaper than the R1 certificate
 - Each new N needs its own Diophantine lemma (γ = 1/(N+1) in the rotated frame).
 
 **Interim recommendation.** Primary **N = 55 (2.82 %)**; stretch N = 60 (2.76 %). N = 50 gives 2.90 % and does
+
+## Interim 2: beyond N = 65 (30 October 2026)
+
+**N = 80 and N = 100 converge, but the gain in band is small and the cost grows fast.** The band approaches the
+separatrix floor (2.62 %), while the gap between the tori, which is the initial window the theorem covers,
+collapses.
+
+| N | converged | lower p range | upper p range | **band** | gap (window) | ψ-decay (digits/mode) | width ρ_ψ | ‖DK‖ | ‖G⁻¹‖ (ℓ¹) | log10 thr/c | L | bits | v half (proj.) |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 65 | yes | 0.97287–0.99322 | 1.00678–1.02713 | 2.713 % | 0.0136 | 0.42 | 0.16 | 1.865 | 5.36 | −32.17 | 40 | 158 | 1180 (measured) |
+| 80 | yes | 0.97348–0.99632 | 1.00369–1.02651 | **2.652 %** | 0.0074 | 0.35 | 0.13 | 2.275 | **12.06** | −36.32 | ~44 | ~171 | ~1740 |
+| 100 | yes | 0.97370–0.99841 | 1.00160–1.02630 | **2.630 %** | 0.0032 | 0.28 | 0.10 | 2.874 | **40.55** | −42.10 | ~50 | ~191 | ~2820 |
+
+**How each column was obtained.**
+- **Method.** Same method as the interim table (256×64 double continuation, residual 1e-13), then a 360-bit
+  Newton stage on 256×64, then `rot_emit` at ρ = 1/140.
+- **Majorants.** ‖DK‖ and ‖G⁻¹‖ are enclosed on the actual N = 80 and N = 100 lower tori (L = 32 and 26).
+- **Threshold.** It is the landed `sharpTest` mirror at c = 2, ρ = 1/140, γ = κ/(N+2) (SO-DION), σT = 13/25.
+- **Digits.** L = −log10(thr/c) + (the η offset measured at each N: 5.6, 5.3, 5.2) + 2 orders of headroom.
+- **Terms.** Each count is the measured count at the emitted L, plus the measured growth per digit scaled by the
+  decay rate.
+
+**Findings.**
+- **The Gram inverse is the cost driver.** ‖G⁻¹‖ goes 1.98 → 2.89 → 3.59 → 4.55 → 5.85 → 12.1 → 40.5 for
+  N = 40, 50, 55, 60, 65, 80, 100: roughly ×1.27 per 5 in N. Because the sharp constants are high powers of σB, the
+  threshold falls 4 orders from N = 65 to N = 80 and 10 orders to N = 100.
+- **Still feasible in size.** About 44 and 50 digits and 1.7k and 2.8k v half-terms. That is below R1's 88 digits
+  and 4.2k half-terms, but well above N = 65 (40 digits, 1.2k).
+- **The data need a finer grid.** The 256×64 stage aliases at 1e-37 (N = 80) and 1e-29 (N = 100), which is short
+  of L = 44 and 50.
+  - The 512×128 chord stage stalled (GMRES) at N = 65, so it needs a fix first, for example a stronger
+    preconditioner or a 384×96 grid.
+  - This is a tooling issue, not non-convergence.
+- **Largest converging N.** At least 100; I did not search further. Every tested N converges in double precision
+  with residual ≤ 1.5e-13.
+- **Gain against cost.** N = 65 → 80 gains 0.06 points (2.71 → 2.65 %), and N = 100 another 0.02. Meanwhile the
+  confined window (the gap) shrinks from 0.0136 to 0.0074 and 0.0032.
+
+**Recommendation.** N = 65 is a good stopping point. N = 80 is possible as a stretch, at about 4 more digits,
+1.5× the terms and a fixed grid stage. N = 100 is not worth it: 0.02 points for 10 orders of threshold.
 not clear "below 2.9 %".
