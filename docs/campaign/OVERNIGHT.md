@@ -1243,3 +1243,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   band, frequencies and parameters as hypotheses), SO-EMITFIX (claude-12; why checkEmbedding / checkSoGraph get stuck
   in the kernel on the emitted rationals, the emitter fix, and checkHamBounds's memory). Disk 15 GB free.
 - **12:18. Heartbeat.** Four provers busy (SO-GEN3, SO-DION, SO-SHARPLINK, SO-EMITFIX); no limits hit. Quotas: claude-3 90 %, claude-12 88 %, claude-6 85 %, claude-4 64 %; Codex is getting low (codex-3 33 %, codex-4 29 %), so audits will be kept to the essential ones and split between the two.
+- **12:29. SO-DION done; in audit.** General-N lunar frequencies ν±(N) = 1 ± 1/(N+g) with closed forms, minimal
+  polynomials and the Diophantine bound γ(N) = 2/(N+2) for N ≥ 8 (rotated frame 1/(N+2); lunarRotFreq κ/(N+2): κ/67
+  at N = 65), instances at 65/60/55, N = 40 sanity re-derivations; new modules QuadraticDiophantineN (456 lines),
+  RotFreqN (124); standard axioms. SO-GEN3 told to use γ = κ/67 (it had assumed κ/66). Audit on codex-3: codex-4's
+  Codex login has EXPIRED (device sign-in prompt), so codex-4 is unusable until the owner signs in again
+  (`codex-4` then the device code); codex-3 (33 %) carries the audits.
