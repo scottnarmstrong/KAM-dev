@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 01:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **274,488 lines of Lean** of an estimated ≈ 276,000
+> **Last updated: 2026-10-30 01:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **274,488 lines of Lean** of an estimated ≈ 276,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -201,8 +201,8 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **274,488** (214,340 excluding blank lines and comments) · **+53,317** since 2026-10-29 01:00 UTC |
-| Written on agent branches, not yet landed | 351 |
+| On `main` now | **274,488** (214,340 excluding blank lines and comments) · **+50,640** since 2026-10-29 01:20 UTC |
+| Written on agent branches, not yet landed | 501 |
 | **Estimated total at completion** | **≈ 276,000** |
 | Estimated still to write | ≈ 1,000 |
 
@@ -210,7 +210,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 01:00 UTC from `main` at `33822ae1` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 01:20 UTC from `main` at `f731ab4e` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -368,12 +368,10 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **b34** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: CLEANUP-B34: audit request | `inp-b34` | 2 (vs `inp`) |
+| **b2so** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: CLEANUP-B2: scrub KAM/SpinOrbit | `inp-b2so` | 2 (vs `inp`) |
 | **sodata1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-1: fixed-point mirror of the landed checker; STOP: checkHamBounds fails for R1 (D2 | `inp-sodata1` | 1 (vs `inp`) |
-| **solunara** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-LUNAR-A: audit request (handoff moved out of .drafts) | `inp-solunara` | 2 (vs `inp`) |
-| **sotoyfix2** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-TOYFIX2: audit request | `inp-sotoyfix2` | 3 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
