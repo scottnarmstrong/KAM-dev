@@ -324,7 +324,9 @@ H. Rüssmann, *Invariant tori in non-degenerate nearly integrable Hamiltonian sy
 
 Links: [doi:10.1070/RD2001v006n02ABEH000169](https://doi.org/10.1070/RD2001v006n02ABEH000169)
 
-**Used for.** P-FIXED: the analytic weak-nondegeneracy KAM theorem, Theorem 1.7 (p. 127), cited by CP09 Thm 4. Its proof relies on the 2005 addendum, pinned as Rus05. Supplied by the owner 2026-10-27.
+**Used for.** Track R headline (Rüssmann's KAM theorem, maximal case, KAM.Russmann.russmann_kam) and P-FIXED: the analytic weak-nondegeneracy KAM theorem, Theorem 1.7 (p. 127), cited by CP09 Thm 4. Its proof relies on the 2005 addendum, pinned as Rus05. Supplied by the owner 2026-10-27.
+
+**Cited by the frozen theorems** `KAM.Russmann.russmann_kam`.
 
 **Errata recorded:** 2 entries.
 

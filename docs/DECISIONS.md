@@ -272,3 +272,12 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
   - Ruling: rewrite the packing inside KAM/Certificate/Poly (balanced or sparse packing), with every signed statement
     unchanged and the packed-product soundness lemmas re-proved and independently audited, then resume SO-DATA-2.
     Rejected for now: paying ~150 CPU-hours (B) and the HL19 fallback (C).
+- **D35 (2026-10-30) Track R: Rüssmann's KAM theorem, frozen and sealed.** *(Scott: "Can you also separately start the
+  Russman theorem (again on a separate branch)", then "approve R-HEAD with Q1(d), other recommendations", then "once it
+  is sealed, merge to main", and "If you think that Russman should be a main result, please update the README".)*
+  - New track R (`docs/TRACKS.md`), run as a side campaign on lemma.farm on branch `russmann`, additive only.
+  - Ruling R1 (`docs/tracks/R/RULINGS.md`): the strong form Q1(d), `∀ κ > 0, volume (FD \ russmannCover …) ≤ κ · volume FD`;
+    `∃ τ > n − 1` chosen before δ, κ and f; `1 ≤ n`; `IsConnected B`; Rüssmann's condition inline; new frozen cover.
+  - Frozen anchors `russmann.russmannCover.v1` and `russmann.russmann_kam.v1` (manifest 146). Statement audit
+    AUDIT-RUSSMANN-STATEMENT-1, seal audit AUDIT-RUSSMANN-SEAL-1 (one documentation-only finding, recorded in R1),
+    kernel replay of the 16 new modules ok. Landed on `main` at 36c47bb8. Listed as main theorem 3 of the README.

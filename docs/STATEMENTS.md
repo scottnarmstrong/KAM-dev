@@ -4,7 +4,7 @@
 
 Every statement below is an exact Lean declaration that the owner approved before its proof was written. Each lives alone in its own file under `KAM/Frozen/`, and the manifest pins its bytes. A sealed theorem has a complete proof, assembled in a separate provider module, replayed by the kernel, and using only the standard axioms (`propext`, `Classical.choice`, `Quot.sound`).
 
-**22 frozen theorems, 22 sealed; 122 frozen definitions.**
+**23 frozen theorems, 23 sealed; 123 frozen definitions.**
 
 ## Index
 
@@ -12,6 +12,7 @@ Every statement below is an exact Lean declaration that the owner approved befor
 - **Track I: isoenergetic KAM, confinement, restricted three-body problem:** [`isoenergetic_kam`](#isoenergetic_kam) · [`all_time_confinement`](#all_time_confinement) · [`kepler_bordered_det`](#kepler_bordered_det) · [`restricted_near_circular`](#restricted_near_circular)
 - **Track N: Nekhoroshev stability:** [`quasiConvex_isoenergetic_derivative`](#quasiconvex_isoenergetic_derivative) · [`zero_perturbation`](#zero_perturbation) · [`quasiConvex_nekhoroshev_complexBound`](#quasiconvex_nekhoroshev_complexbound) · [`partialConvex_nekhoroshev`](#partialconvex_nekhoroshev) · [`averaging_mean`](#averaging_mean) · [`averaging_most`](#averaging_most)
 - **Track P: planetary systems:** [`properlyDegenerateKAM`](#properlydegeneratekam) · [`planarTwoPlanetKAM`](#planartwoplanetkam) · [`fixedSunPlanetaryKAM`](#fixedsunplanetarykam) · [`amdConfinement`](#amdconfinement) · [`planetaryExponentialSafety`](#planetaryexponentialsafety) · [`secularBoxSafety`](#secularboxsafety) · [`secularBoxAtCitedMasses`](#secularboxatcitedmasses)
+- **Track R: Rüssmann's KAM theorem (weak non-degeneracy):** [`russmann_kam`](#russmann_kam)
 
 ## Track K: positive-measure KAM
 
@@ -385,5 +386,23 @@ The decimal model masses of Figueras--Haro, arXiv:2403.10152v1 §4 p. 6: μ=0.00
 - [`KAM.Planetary.SecularRegular`](../KAM/Frozen/Planetary/Defs/SecularRegular.lean#L41)
 - [`KAM.Planetary.jupiterSaturnWeights`](../KAM/Frozen/Planetary/Defs/JupiterSaturnWeights.lean#L35)
 - [`KAM.Planetary.SecularInputBox`](../KAM/Frozen/Planetary/Defs/SecularInputBox.lean#L40)
+
+</details>
+
+## Track R: Rüssmann's KAM theorem (weak non-degeneracy)
+
+### russmann_kam
+
+[`KAM.Russmann.russmann_kam`](../KAM/Frozen/Russmann/Theorems/RussmannKam.lean#L47) · ✅ proved and sealed
+
+**R-HEAD.** Rüssmann's KAM theorem (Rus01 Thm 1.7, maximal case). Let `h` be real-analytic on a complex neighbourhood of a bounded connected open set `B ⊆ ℝⁿ` whose frequency map `ω = ∇h` is not contained in any hyperplane through the origin: `c · ω ≢ 0` on `B` for every `c ≠ 0`. Then there is a Diophantine exponent `τ > n - 1` such that, for every closeness `δ > 0`, every `κ > 0` and every sufficiently small real-analytic perturbation `f`, the invariant Lagrangian tori of `H = h + f` with `(γ, τ)`-Diophantine frequencies lying within `δ` of the unperturbed tori fill `Tⁿ × B` up to a set of volume at most `κ · vol(Tⁿ × B)`.
+
+- **Source:** [Rus01](PAPERS.md#rus01), Theorem 1.7, p. 126, maximal case p = q = 0; §1.1-1.2 (non-degeneracy); deviations D-R1-D-R5 (statement.md §1)
+- **Proof assembled in:** `KAM.Provider.Russmann.RussmannKam`
+- **Manifest ID:** `russmann.russmann_kam.v1`
+
+<details><summary>Frozen definitions of this track (1)</summary>
+
+- [`KAM.Russmann.russmannCover`](../KAM/Frozen/Russmann/Defs/RussmannCover.lean#L34)
 
 </details>

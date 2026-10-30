@@ -151,7 +151,8 @@ def code_scan():
 STATEMENT_TRACKS = [('kam', 'Track K: positive-measure KAM'),
                     ('iso', 'Track I: isoenergetic KAM, confinement, restricted three-body problem'),
                     ('nekhoroshev', 'Track N: Nekhoroshev stability'),
-                    ('planetary', 'Track P: planetary systems')]
+                    ('planetary', 'Track P: planetary systems'),
+                    ('russmann', "Track R: Rüssmann's KAM theorem (weak non-degeneracy)")]
 
 
 def frozen_doc(path, short):
@@ -341,6 +342,7 @@ AREAS = [
     ('Canonical', 'Track N: canonical flows and maps'),
     ('Nekhoroshev', 'Track N: Nekhoroshev stability'),
     ('Planetary', 'Track P: planetary KAM'),
+    ('Russmann', "Track R: Rüssmann's KAM theorem (finite-order non-degeneracy, Lipschitz extension, assembly)"),
     ('Certificate', 'Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies)'),
     ('SpinOrbit', 'Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs)'),
 ]
@@ -430,6 +432,7 @@ TRACKS = [
                  'three-body problem'),
     ('N', 'nekhoroshev', 'Nekhoroshev stability for quasi-convex Hamiltonians, exponents 1/(2n)'),
     ('P', 'planetary', 'Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun'),
+    ('R', 'russmann', "Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space"),
     ('SO-1', 'so', 'Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems'),
     ('SO-2', 'so', 'Track SO, part 2: the Moon\'s spin rate stays within 3.3% of its orbital rate for all time'),
 ]

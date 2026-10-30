@@ -17,6 +17,7 @@ The tracks share infrastructure. The background research is in
 | **I**: isoenergetic KAM and confinement | All-time confinement in two degrees of freedom; restricted circular planar three-body problem | Phase 0 (sources and statements) | `KAM.Iso` |
 | **N**: Nekhoroshev | Exponential stability for quasi-convex nearly-integrable Hamiltonians, classical exponents 1/(2n) | Phase 0 | `KAM.Nekhoroshev` |
 | **P**: planetary | Properly degenerate KAM; planar two-planet problem; Zohar's fixed-Sun n-planet variant; spatial n-body later | Phase 0 | `KAM.Planetary` |
+| **R**: Rüssmann's KAM theorem | Weak (Rüssmann) non-degeneracy: invariant tori fill all but κ of phase space | frozen, proved and sealed (D35) | `KAM.Russmann` |
 | **W**: PDE KAM (nonlinear wave) | Two-frequency quasiperiodic solutions of `u_tt = u_xx − m u − u³` on `[0,π]` (Dirichlet), every `m > 0` | source and design (D30) | `KAM.Wave` (provisional) |
 
 ## Track I: isoenergetic KAM and all-time confinement
@@ -87,6 +88,25 @@ Rounds 1–3 are in `explorations/almost-every-*.md`; round 3 is an independent 
 - **N-AVERAGING.** Averaging for most initial conditions (Arnold–Kozlov–Neishtadt Thm 6.11): drift below c√ε/κ up
   to time 1/ε, outside a set of measure κ.
 - **Not a theorem yet.** A certificate for the full model at realistic masses is a feasibility study.
+
+## Track R: Rüssmann's KAM theorem (D35)
+
+Added on 2026-10-30, after an analysis of follow-up theorems showed that track P had already proved, as an internal
+theorem, a quantitative KAM theorem under Rüssmann's weak non-degeneracy (`KAM.Planetary.weak_kam_quantitative`,
+Part 11a). Run as a side campaign on lemma.farm (branch `russmann`).
+
+- **R-HEAD (frozen, sealed).** `KAM.Russmann.russmann_kam`: h real-analytic near a bounded connected open B ⊂ ℝⁿ,
+  with ∇h(B) in no hyperplane through the origin; for every κ, δ > 0 and every small analytic perturbation, all of
+  Tⁿ × B except a set of measure κ·|Tⁿ × B| lies on invariant Lagrangian tori with Diophantine frequencies, within δ of
+  the unperturbed tori. Source: Rüssmann, RCD 6 (2001), Theorem 1.7, maximal case.
+- **New frozen definition.** `KAM.Russmann.russmannCover` is `KAM.kamCover` without the clause fixing the torus
+  frequency to ∇h(I₀): under weak non-degeneracy the frequencies shift.
+- **Proof.** `KAM/Russmann/`: Rüssmann's finite-order non-degeneracy lemma (analyticity and compactness), the
+  derivative bounds of track P's input, the transfer to the frozen torus predicate, and route (B) for the strong form:
+  track P's defect Lipschitz bound (new additive `weak_kam_quantitative_lip`), a global Lipschitz extension, and the
+  displacement Δ(ε) → 0. The provider is the single term `KAM.Russmann.russmann_tori_strong`.
+- **Records.** Statement, owner questions and deviations D-R1–D-R5: [`tracks/R/statement.md`](tracks/R/statement.md);
+  ruling R1: [`tracks/R/RULINGS.md`](tracks/R/RULINGS.md); proof route: [`tracks/R/PROOF-ROUTE.md`](tracks/R/PROOF-ROUTE.md).
 
 ## Track W: PDE KAM (D30)
 

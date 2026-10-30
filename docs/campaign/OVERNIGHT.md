@@ -1191,3 +1191,29 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   59.5k lines of lunar literals held on inp-sodata2) is now shown apart from hand-written unlanded Lean and kept
   out of the size estimate (unlanded hand-written: 0; estimated total ≈ 275,000).
 - **08:49. Heartbeat.** SO-PACKFIX profiling the current packing before rewriting it; SO-KPERF finishing its profile. Both run 10 GB-capped kernel probes, so they now share one lock (orchestrator-tools/.kernel-probe.lock) and never run two probes at once. Quotas: claude-12 92 %, codex-3 63 %, codex-4 29 % (use codex-3 for the next audits).
+- **09:18. Heartbeat.** SO-PACKFIX's part profile of one blockRows-32 shard, each part alone: length checks 2.8 GB / 178 s, packing 3.3 GB / 171 s, window packing 1.1 GB / 148 s, shardFits 3.7 GB / 180 s; the multiplication part is next. Each part fits while the whole shard exceeded 13.6 GB, so either the product dominates or intermediate terms are retained across parts. SO-KPERF still busy.
+- **09:48. Heartbeat.** SO-PACKFIX's blockRows-32 part profile continues (decoding 1,390 s / 2.2 GB; reconstruction 155 s / 1.6 GB; it is now isolating the big-integer product at the blockRows-8 size). SO-KPERF busy on a long probe. Nothing to process.
+- **10:19. Heartbeat.** SO-PACKFIX still profiling (1 h 19 min in); SO-KPERF asked to wrap up with the measurements it has, because SO-PACKFIX now owns both the deeper profiling and the fix (D34) and extra probes only compete for the shared probe lock; it was also told its wait loop matched itself (pgrep -f; capped, so harmless).
+- **10:22. SO-KPERF done: the shard cost is the dense-list walk and the slot decode, not arithmetic.** Report
+  docs/tracks/SO/studies/SO-KPERF.md (branch inp-sokperf, commit 7668ece2; to land with SO-PACKFIX). Per blockRows-4
+  shard (each part alone, forced against literals): the 90 big multiplications cost nothing measurable; memory
+  (5.7 GB) comes from repeatedly walking the dense run-length-coded factor blocks (about 86 % zeros; length check,
+  packing, shardFits each re-walk them and the kernel retains every list); time from intSlotsBound's linear Int
+  slot peel (quadratic), about 100x slower per slot than SO-REPLAY2's divide-and-conquer Nat mask/shift decode. A
+  balanced-tree pack of the dense lists is worse (measured). Measured fix: sparse term-driven blocks (F1, 5.7 ->
+  1.2 GB) and a divide-and-conquer decode (F2, 23 -> 13.5 s; F2' with Nat mask/shift should be cheaper). Projection
+  25-65 CPU-h for both tori with F1 + F2, about 5-15 CPU-h with F2' and larger blocks (model). Signed statements
+  unchanged. SO-PACKFIX was redirected from balanced packing to F1 + F2'.
+- **10:48. Heartbeat.** SO-PACKFIX committed the D34 fix (648d07da): sparse term-driven packed products (F1, new module Poly/Sparse.lean, 381 lines) and an offset-Nat mask/shift slot decode (F2'), with changes in Poly/{Advice,MulPacked,Packed}.lean and new packed tests; no sorry. Re-measuring shards now (blockRows 4 first, then 8-32). claude-12 90 %.
+- **11:19. The D34 fix works.** After SO-PACKFIX's sparse blocks + mask/shift decode, one shard of the heavy product A0·A0 at the CURRENT layout (blockRows 32) passes in 235 s with 4.6 GB peak (baseline, the probe's literal data alone, 190 s / 1.0 GB), against more than 13.6 GB (OOM) before; blockRows 8: 3.0 GB, blockRows 4: 2.7 GB. So the original 1,157-shard layout per torus fits with margin; about 45 s of kernel time per shard over the baseline, i.e. roughly 15 CPU-h per torus for the shards (SO-PACKFIX's handoff will give the projection). Audit next.
+- **11:29. SO-PACKFIX done and in audit; SO-DATA-2 round 2 started.** SO-PACKFIX (D34): sparse term-driven packed
+  products (new Poly/Sparse.lean, 477 lines, bridge `checkPackedSp_dense` to the dense check), offset-Nat
+  mask/shift slot decode, balanced packShift of the dense advice window (a measured deviation: 8.4 -> 1.1 GB at
+  blockRows 32), shardFits without copies; signed statements and the data format unchanged; all re-proved lemmas
+  standard axioms; tests and toys pass. One blockRows-32 shard: 4.55 GB, +45 s kernel (was OOM above 13.6 GB).
+  Projection: 15-29 CPU-h of shard kernel time for both tori (was 100-170), 2-3x SO-REPLAY2's estimate;
+  composition, Gram and torsion not yet measured on the fixed code. Landing branch inp-sopackfixl = inp + the four
+  fix commits + SO-KPERF's report (cherry-picked, clean build); in audit on codex-3. SO-DATA-2 round 2 (claude-12)
+  continues on top of the fix: measure composition/Gram/torsion, emit the upper torus, build the ~2,300 shard
+  theorems with at most ~3 heavy lean processes at once, assemble the final theorems (freeze nothing). Worktrees
+  sodata2, sokperf, sopackfix removed (branches kept); disk 18 GB free.
