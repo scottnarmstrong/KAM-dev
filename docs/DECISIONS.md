@@ -334,3 +334,17 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     recorded with the freeze. A fallback to N = 60 or 55 changes only the literals, which the owner re-approves.
   - Not frozen now: either certifier's soundness theorem (Q4). Before the freeze the landed `SoBarrier` switches to
     the frozen structure (Q11). Narrower window accepted (Q10, D-SOF-4).
+- **D41 (2026-10-30, 14:35) Track W statements approved: freeze W-NLW2 and its eleven definitions.** *(Scott: "I approve
+  the KAM for a PDE statements".)*
+  - Approved text: the twelve declarations of docs/tracks/W/W-STATEMENTS.md, revision 1 (commit ffcbdb93; statement
+    audit 2 PASS WITH NOTES): `lam`, `sineMode`, `ellWeight`, `WaveSpace`, `coeff`, `reconU`, `reconV`,
+    `cubicGrad`, `linearTorus`, `IsAnalyticTorusEmbedding`, `IsClassicalSolution` and the theorem `nlw2`, with
+    the orchestrator rulings Q1–Q5 recorded there (weighted coordinates; positive carriers; total η; AnalyticOnNhd;
+    paths KAM/Frozen/Wave/{Defs,Theorems}, namespace KAM.Wave). `nlw2` is frozen with the manifest-bound body
+    `by sorry` (DRAFT_SORRY); definitions are frozen whole.
+  - Track W is run by its own sub-orchestrator (freeze, identity audit, blueprint W1–W8, dependency graph, proof
+    campaign), reporting to the main orchestrator; landings go through kam-inp.
+- **D42 (2026-10-30, 14:35) Next: the Moon locked in synchronous rotation (scoping).** *(Scott chose C with A: "Moon
+  locked forever".)* Scoping study for librational invariant tori around the synchronous periodic orbit (Celletti
+  1994), the route for the Lean statement (certified normal form or a G1 for non-graph tori), and a numerical
+  feasibility check; no statement is frozen without owner approval of its exact Lean text.
