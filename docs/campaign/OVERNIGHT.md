@@ -1649,3 +1649,17 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - *Choice for now (reversible):* both in parallel. LOCK-DATA proceeds with pruned composition, and the
       lean `lockHamExpr` variant is evaluated. A design note prices the sharper Ham pass before any checker change.
   - Deviation reported by the worker: one `pkill -f` on its own job (forbidden pattern; no other process affected).
+- **17:59. LOCK-SQRT audit 2 PASS WITH NOTES (codex-1), landing; SO-DATA3 merges it before its kernel passes.**
+  - Item (6): every checker function is bit-exact on sqrt-free certificates. SO-DATA3's N = 65 data need no
+    re-emission, since they use named `Witnesses` fields.
+  - Audit 1 had failed only on four test statements in Tests/Compose.lean, which gained the empty fourth
+    `Witnesses` argument. kam-inp-24 authorized that as a test-only migration, logged for owner review.
+  - SO-DATA3 was told to merge inp-locksqrt before running more passes; it had just generated 20 pass modules per
+    torus. Any upstream checker change rebuilds the data modules and re-runs their kernel checks.
+  - **Planning note for the SO-DATA3 landing:** kam-inp's full landing build will re-run every data kernel pass.
+    It must build the data modules serially, under the 10 GB cap, before the parallel full build; otherwise
+    concurrent 8 GB checks would exhaust memory.
+  - **Track W:** every blueprint part W0–W8 is written (112 pages). W8 proves frozen `nlw2` clause by clause
+    without weakening. W5, W6, the W7 β = ¼ revision, the W3 corollary and W8 await two tight codex-1 reviews after
+    W6's per-shell ε₀ interface change. Lean: W1-SINES and W1-WEIGHTED on main; W1-ANALYTIC and W0-NORMAL in round
+    2; provers W0-ANALYSIS and W1-ALGEBRA running.
