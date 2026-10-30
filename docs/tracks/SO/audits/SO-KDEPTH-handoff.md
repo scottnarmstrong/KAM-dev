@@ -142,3 +142,29 @@ Every `KAM/Certificate/Tests/*.lean` (20 modules, built one at a time through th
 - Moving `sumUp` to a new module is a file move (same declarations).
 - `Ball.lean` traversals (`ballsAux` `acc ++ [b]`, `getD`) are left to SO-BALLDY.
 - No errata in pinned sources.
+
+## Landing branch and AUDIT FOCUS (orchestrator)
+
+Landing branch: inp-sokdepth-oninp. The checker commit f1f3b760 is cherry-picked onto inp a5f010eb as f1dc41bf. inp
+contains sharp-v2 (V2, Sharp2), SO-BALLDY/BALLFIX and the lock packages; none of the R1 data or .drafts probes land.
+A full `KAM` build of this branch passes (10687 jobs), and KAM.Certificate.Model.FixedEq builds; it is imported
+nowhere yet, and the root is regenerated at landing.
+
+AUDIT FOCUS (owner ruling D39: implementation change, statements unchanged):
+1. No signed statement changed. Every public declaration of Model/Basic.lean, Model/Terms.lean and
+   Expr/Compose.lean present on inp keeps its exact header, in particular `directItems_spec`, `composeOps_sound`,
+   `CertModel.norm_le_supBound` and `weightedNormUp_bound`. The declarations moved into Arith/BalancedSum.lean
+   keep their names, namespace, statements and bodies, and every former importer still sees them.
+2. Soundness: `sumUp_ge` and `weightedNormUp_ge`; the `ErrRep`/`RowsRep` invariant through the balanced merge tree
+   (`errRep_merge`, `rowsRep_tree`), including odd row counts, zero rows and the unreachable 64-level fallback;
+   `composeOpsAux_eq` and `composeOps_eq`.
+3. Value claims for the Python mirror:
+   - `composeOps` is equal for every backend (proved);
+   - `weightedNormUp` is equal on CertFixed (`weightedNormUp_fixed_eq`, proved);
+   - `directItems` equality for sorted rows is only argued. Say whether the argument is right, and how the
+     mirror must order merges to be bit-safe.
+4. Kernel friendliness: no O(length)-deep accumulation of non-literal arithmetic remains on these paths.
+5. sharp-v2 and the lock modules consume these internals (compose, models), and the full build passes, so check
+   that no consumer's statement changed.
+6. Tests, kernel replay, and the axioms of `checkTorusCertificate_sound`, `checkTorusCertificateSharp_sound` and
+   `checkTorusCertificateV2_sound`.
