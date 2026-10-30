@@ -188,4 +188,20 @@ theorem sharpTest_arith {c : TorusCertificate n α} (hs : checkStatic c = true)
     push_cast
     exact max_le_max c2 c3
 
+/-- The sharp certifier: every sub-check of `checkTorusCertificate`, the sharp threshold test in
+place of `checkSmallness`. It equals `checkTorusCertificateWith sharpEngine` (definitionally) once
+the engine instance is available. -/
+def checkTorusCertificateSharp (c : TorusCertificate n α) : Bool :=
+  checkStatic c && checkHamBounds c && checkEmbedding c && checkInvariance c && checkEnergy c &&
+    checkGram c && checkTorsion c && sharpTest c
+
+omit [LawfulCertArith α] in
+/-- A certificate passing the old certifier passes the sharp one as soon as the sharp test does:
+the seven other sub-checks are the same. -/
+theorem checkTorusCertificateSharp_of_old {c : TorusCertificate n α}
+    (h : checkTorusCertificate c = true) (hs : sharpTest c = true) :
+    checkTorusCertificateSharp c = true := by
+  simp only [checkTorusCertificate, checkTorusCertificateSharp, Bool.and_eq_true] at h ⊢
+  exact ⟨h.1, hs⟩
+
 end KAM.CertificateSharp
