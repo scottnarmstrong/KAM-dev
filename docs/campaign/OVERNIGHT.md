@@ -1521,3 +1521,20 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     the old text stays literally true; (c) abandon sqrt for route (b) (new G1). *Choice:* (a), the smallest,
     reversible, documented exception to "no landed statement changes"; frozen statements untouched.
   - Also fixed: `lockHamExpr_clock` gains `0 < Ω` (false for negative Ω).
+- **16:35. SO-BALLFIX audit PASS WITH NOTES (codex-1); sent to kam-inp to land. Disk relief. W and lock moving.**
+  - **SO-BALLFIX** (docs/tracks/SO/audits/SO-BALLFIX-audit-1.md): 44 targeted builds, 52 original-type probes, axioms
+    and kernel replay all pass; the only notes are scoped. Landing branch inp-soballfix at 8ecd9ea2 (BALLDY plus
+    the BallsTrig repair). kam-inp was asked for a full landing build, since this combination failed before.
+  - **SO-V2PKG landed** (main ee00c270).
+  - **Disk:** / reached 9.0 GB. 256 Claude transcripts untouched for over 3 days (2.8 GB) were archived per file to
+    /mnt/HC_Volume_106379410/root-archive/claude-projects/ (cmp-verified, atomic symlinks), so / is at 12 GB.
+    Codex rollouts gave nothing, being open or recent.
+  - **Lock:** design revision 2 (6c076a6d: total `sqrtE`, anchored witness, exact maps) is in the round-2 delta audit
+    on codex-1. LOCK-PO then LOCK-CONF have started (Opus, claude-12, worktree KAM-inp-lockpo, marked pending
+    audit). COORDS waits for disk; SQRT waits for BALLFIX to land.
+  - **W:** blueprint W4 and W7 on main (2325997f), with errata E-PDE-W-1/2, E-PDE-KP-1/2,
+    E-W-Pos96K-2..4 and deviation D-W-Pos96K-L10.
+    - Graph wave 1 (W0–W3 and headline): 309 nodes, 1029 edges, 13 anchors, linter clean; batched review on
+      codex-1.
+    - Lean: W1-SINES and W1-WEIGHTED complete and in audit on codex-1. W0-NORMAL (claude-4) and W1-ANALYTIC
+      (claude-6) are proving. The W5/W6 writer is running.
