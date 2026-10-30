@@ -1834,3 +1834,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     measured the bare 3,116. G2claim fits in one theorem (7.8 GB at P = 320, 6.8 GB at P = 128), so the Ham pass
     needs no segmentation. LOCK-GEN-2 is in its first codex-1 audit. The G1 bridge waits for SO-KDEPTH2, which also
     checks the wrapped program.
+- **20:37. SO-CSEG-L3 done and in audit; LOCK-GEN-2 landed.**
+  - **SO-CSEG-L3**, the product split: Kernel/ProductSplit.lean (163 lines), verbatim to the audited signatures
+    §(D) (empty diff), all proved, with 167 lines of kernel tests and standard axioms. Audit `inp-maud-csegl3` on
+    codex-1. Kernel/SegOne.lean (§C) moved to the A/B worker, since it is stated over SegDefs.
+  - **LOCK-GEN-2 landed** (PASS WITH NOTES). The emitted tree equals the landed κ-wrapped `lockHamExpr`, and the
+    auditor's rational transcription accepts the four Ham claims on all 3,158 ops. Caveat: the Python refinedCore
+    omits Lean's small-divisor site checks, so LOCK-DATA relies on the kernel for those.
+  - Lock state: every Lean package is on main. Remaining are LOCK-DATA (the N = 65 certificate and kernel passes)
+    and the one-line headline, waiting on SO-KDEPTH2 (G1 bridge) and SO-CSPLIT (segmented
+    compose/Gram/torsion).
