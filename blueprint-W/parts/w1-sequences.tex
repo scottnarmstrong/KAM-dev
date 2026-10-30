@@ -1,0 +1,944 @@
+\section{Milestone W1: weighted sequence calculus}\label{bpW:w1}
+
+Throughout, Standing assumption~\ref{bpW:w0:mass} ($m>0$) and the conventions of \S\ref{bpW:w0} are in force, and
+$\mathbb K$ denotes $\R$ or $\C$. This part supplies the sequence-space analysis used by every later milestone:
+the weighted spaces $\ell^{a,p}$ as transports of $\ell^2$ (the realization of the frozen \Lean{KAM.Wave.WaveSpace}),
+embeddings and diagonal multipliers, the two-sided spaces and the convolution algebra, the cubic gradient as a
+continuous trilinear map with its analyticity, smoothing and gradient structure, the Hamiltonian field, completeness of
+the sine system, analyticity of the reconstruction, and the Banach-space analytic toolkit (complexification, Cauchy
+estimate, uniform limits, holomorphic flows, Hilbert-valued Fourier series, the Hilbert-matrix operator bound) that the
+Birkhoff normal form (W3), the KAM step and iteration of P96-K in the setting $d=1$, $\delta=-1$, $\bar p-p=1$ (W4--W6)
+and the assembly (W2, W8) consume. Every result is proved here or is an external fact from the list
+\S\ref{bpW:w1:ext}.
+
+\paragraph{Route.} Every weighted space is the image of one Hilbert space $\ell^2(\N_+;\mathbb K)$ under an explicit
+diagonal isometry, so that each map between weighted spaces becomes a map on $\ell^2$, and a diagonal map becomes a
+bounded multiplier. The cubic gradient is a trilinear form in the coefficients whose coefficients obey the selection
+rule of Lemma~\ref{bpW:w0n:quartic-coeff}; majorizing by an even two-sided sequence turns it into a triple convolution,
+which the algebra property controls with a gain of one power of $j$. Multilinearity then gives analyticity for free,
+over $\R$ and over $\C$, with no appeal to the principle ``coordinatewise analytic and locally bounded implies
+analytic'' used by the source. The analytic toolkit of \S\ref{bpW:w1:analytic} works with holomorphic maps on open
+subsets of complex Banach spaces, defined as complex Fr\'echet differentiable maps; it never needs the (absent in
+Mathlib) theorem that such maps are analytic on infinite-dimensional domains, because all analyticity conclusions of the
+headline have finite-dimensional domains.
+
+\subsection{Realization in Lean and transport maps}\label{bpW:w1:realization}
+
+\begin{definition}[Weights, transport and coefficient maps]\label{bpW:w1:transport}
+For $a,p\in\R$ and $j\in\N_+$ let $\omega_{a,p}(j)=j^pe^{aj}>0$ (frozen \Lean{KAM.Wave.ellWeight a p j}). Write
+$\ell^2_{\mathbb K}=\ell^2(\N_+;\mathbb K)$ (Lean \Lean{lp (fun \_ : PNat => K) 2}) and, for $a\ge0$, let
+$\ell^{a,p}_{\mathbb K}$ be the space of Definition~\ref{bpW:w0:ellap} ($\ell^{a,p}=\ell^{a,p}_\R$). Define
+\[\tau_{a,p}:\ell^{a,p}_{\mathbb K}\to\ell^2_{\mathbb K},\quad (\tau_{a,p}w)_j=\omega_{a,p}(j)\,w_j,\qquad
+\kappa_{a,p}:\ell^2_{\mathbb K}\to\ell^{a,p}_{\mathbb K},\quad (\kappa_{a,p}y)_j=\frac{y_j}{\omega_{a,p}(j)}.\]
+A vector $y\in\ell^2_{\mathbb K}$ \emph{represents} $w=\kappa_{a,p}y\in\ell^{a,p}_{\mathbb K}$; we call $y$ the
+\emph{weighted coordinates} of $w$ at weight $(a,p)$. A map $A$ from $\ell^{a,p}_{\mathbb K}$ to
+$\ell^{a',p'}_{\mathbb K}$ is represented by $\hat A=\tau_{a',p'}\circ A\circ\kappa_{a,p}$ on $\ell^2_{\mathbb K}$.
+\end{definition}
+\source{ours (the frozen encoding, \texttt{docs/tracks/W/W-STATEMENTS.md}, design summary). Lean guard: the division
+in $\kappa_{a,p}$ is by $\omega_{a,p}(j)>0$; no case split.}
+
+\paragraph{Realization table.} Every space of this part is realized as an $\ell^2$ transport; no new normed type is
+introduced. The frozen objects are the case $\mathbb K=\R$, $a=p=1$.
+
+\medskip
+{\small\noindent\begin{tabular}{@{}p{0.2\textwidth}p{0.36\textwidth}p{0.38\textwidth}@{}}
+\toprule
+Space & Lean carrier & Transport / coefficient map\\
+\midrule
+$\ell^{a,p}_{\mathbb K}$ & \Lean{lp (fun \_ : PNat => K) 2} & $\tau_{a,p}$, $\kappa_{a,p}$; for $\mathbb K=\R$, $a=p=1$: $\kappa_{1,1}=$ frozen \Lean{coeff}\\
+$E_{a,p}$ (Def.~\ref{bpW:w0:ellap}) & \Lean{lp ... 2 $\times$ lp ... 2} (max norm) & $\tau_{a,p}\times\tau_{a,p}$; $E_{1,1}=$ frozen \Lean{WaveSpace}\\
+$E_{a,p}^\C$ (complexification) & \Lean{lp (fun \_ : PNat => Complex) 2 $\times$ lp ... 2} & same weights; $\iota$, $\operatorname{re}$ of Def.~\ref{bpW:w1:complexification}\\
+$\ell^{a,s}_b$ (Def.~\ref{bpW:w0:twosided}) & \Lean{lp (fun \_ : Int => Complex) 2} & weight $\jap l^se^{a\abs l}$ (Def.~\ref{bpW:w1:twosided-transport})\\
+$\ell^p_\infty$ (Def.~\ref{bpW:w1:linfty}) & \Lean{lp (fun \_ : PNat => Real) $\infty$} & weight $j^p$\\
+$\mathcal P^{a,p}$ (Def.~\ref{bpW:w1:kam-space}) & \Lean{(Fin 2 -> Complex) $\times$ (Fin 2 -> Complex) $\times$ lp ... 2 $\times$ lp ... 2} & weights $\omega_{a,p}$ on the last two factors\\
+\bottomrule
+\end{tabular}}
+
+\medskip
+\noindent In Lean every weighted statement below is stated on the carrier, with $\kappa$ applied where the
+mathematics speaks of coefficients. The non-frozen helper \Lean{KAM.Wave.coeffW a p y j := y j / ellWeight a p j}
+(over $\mathbb K$) satisfies \Lean{coeffW 1 1 = coeff} on real sequences by unfolding; it is a distinct name, not a
+substitute for a frozen declaration. Statements uniform in $\mathbb K$ are written once over \Lean{[RCLike K]}.
+
+\subsection{External facts}\label{bpW:w1:ext}
+
+The proofs of this part use the following external (Mathlib-level) facts, besides those of track~K's Part~1
+(\texttt{bp:p1:ext-*}, cited by label in the text).
+{\raggedright
+\begin{enumerate}[label=(W1-E\arabic*),ref=(W1-E\arabic*)]
+\item\label{bpW:w1:ext-lp} \emph{$\ell^2$ spaces.} $\ell^2(\iota;\mathbb K)$ is a Hilbert space for every index type
+  $\iota$ (\Lean{lp.instInnerProductSpace}, completeness \Lean{lp.instCompleteSpace}), with
+  $\langle f,g\rangle=\sum_i\overline{f_i}g_i$ (\Lean{lp.inner\_eq\_tsum}); $\abs{f_i}\le\norm f$
+  (\Lean{lp.norm\_apply\_le\_norm}); membership and norm bounds follow from bounds on finite partial sums
+  (\Lean{mem$\ell$p\_gen\_iff}, \Lean{lp.norm\_le\_of\_forall\_sum\_le}); $f=\sum_if_i\,e_i$ with $e_i=$
+  \Lean{lp.single 2 i 1} (\Lean{lp.hasSum\_single}).
+\item\label{bpW:w1:ext-series} \emph{Series.} $\sum_{k\ge1}k^{-2}=\pi^2/6$ (\Lean{hasSum\_zeta\_two});
+  $\sum_{k\ge1}k^{-\sigma}<\infty$ for $\sigma>1$ (\Lean{Real.summable\_one\_div\_nat\_rpow}); Tonelli for nonnegative
+  double series and Fubini for absolutely summable ones (\Lean{tsum\_prod'}, \Lean{Summable.tsum\_comm}).
+\item\label{bpW:w1:ext-analytic} \emph{Analytic maps.} A continuous multilinear map is analytic (indeed a continuous
+  polynomial) everywhere (\Lean{ContinuousMultilinearMap.analyticAt}, \Lean{.cpolynomialAt}); a continuous linear or
+  bilinear map is analytic (\Lean{ContinuousLinearMap.analyticAt}, \Lean{.analyticAt\_bilinear}); compositions and
+  pairs of analytic maps are analytic (\Lean{AnalyticAt.comp}, \Lean{AnalyticAt.comp2}, \Lean{AnalyticAt.prod});
+  $\C$-analytic maps are $\R$-analytic (\Lean{AnalyticAt.restrictScalars}); analytic maps are Fr\'echet
+  differentiable (\Lean{AnalyticAt.differentiableAt}).
+\item\label{bpW:w1:ext-onevar} \emph{One complex variable, Banach values.} For a complete complex normed space $F$:
+  the Cauchy estimate $\norm{\varphi'(c)}\le R^{-1}\sup_{\abs{\zeta-c}=R}\norm{\varphi(\zeta)}$ for $\varphi$ continuous on
+  the closed disc and holomorphic inside (\Lean{Complex.norm\_deriv\_le\_of\_forall\_mem\_sphere\_norm\_le}); the Cauchy
+  integral formula (\texttt{bp:p1:ext-cauchy}, valid for complete $F$); holomorphic maps on open subsets of $\C$ are
+  analytic (\Lean{DifferentiableOn.analyticOnNhd}); a locally uniform limit of holomorphic maps on an open subset of
+  $\C$ is holomorphic (\Lean{TendstoLocallyUniformlyOn.differentiableOn}).
+\item\label{bpW:w1:ext-unifderiv} \emph{Uniform limits and derivatives.} If $f_k\to f$ pointwise on an open set $U$ of
+  a normed space over $\mathbb K$, each $f_k$ is differentiable on $U$ and $Df_k\to g$ uniformly on $U$, then $f$ is
+  differentiable on $U$ with $Df=g$ (\Lean{hasFDerivAt\_of\_tendstoUniformlyOn}). Mean value inequality on convex
+  sets (\texttt{bp:p1:ext-mvt}).
+\item\label{bpW:w1:ext-integral} \emph{Integrals.} Bochner integrals of continuous maps of a compact interval or box
+  into a complete space, the estimate $\norm{\int F}\le\int\norm F$, differentiation under the integral sign with a
+  dominating bound on the derivative (\Lean{hasFDerivAt\_integral\_of\_dominated\_of\_fderiv\_le}), dominated
+  convergence (\texttt{bp:p1:ext-integral}).
+\item\label{bpW:w1:ext-ode} \emph{ODE.} Picard--Lindel\"of existence and uniqueness for Lipschitz fields in a Banach
+  space (\Lean{IsPicardLindelof}, \Lean{ODE\_solution\_unique}); Gronwall's inequality
+  (\Lean{norm\_le\_gronwallBound\_of\_norm\_deriv\_right\_le}).
+\item\label{bpW:w1:ext-fourier} \emph{Fourier analysis.} The characters $e_n(x)=e^{inx}$, $n\in\Z$, form a Hilbert
+  basis of $L^2$ of the circle $\R/2\pi\Z$ with normalized Haar measure (\Lean{fourierBasis} on
+  \Lean{AddCircle (2 * Real.pi)}), and the characters $e^{2\pi ik\cdot x}$, $k\in\Z^n$, one of $L^2(\R^n/\Z^n)$
+  (\Lean{UnitAddTorus.mFourierBasis}); Parseval (\Lean{tsum\_sq\_fourierCoeff}); continuous periodic functions
+  with absolutely summable coefficients are the sums of their Fourier series (\texttt{bp:p1:ext-fourier}).
+\end{enumerate}
+\par}
+
+\subsection{Weighted spaces, embeddings, multipliers}\label{bpW:w1:weighted}
+
+\begin{lemma}[The weighted spaces]\label{bpW:w1:space}
+Let $a\ge0$, $p\in\R$.
+\begin{enumerate}[label=(\roman*)]
+\item $\tau_{a,p}$ and $\kappa_{a,p}$ are mutually inverse $\mathbb K$-linear bijections and
+  $\norm{\tau_{a,p}w}_{\ell^2}=\norm w_{a,p}$. Hence $\ell^{a,p}_{\mathbb K}$, with the inner product
+  $\langle w,w'\rangle_{a,p}=\sum_j\omega_{a,p}(j)^2\,\overline{w_j}w'_j$, is a Hilbert space isometric to
+  $\ell^2_{\mathbb K}$; it is complete and separable.
+\item Coordinate evaluation is continuous: $\abs{(\kappa_{a,p}y)_j}\le\norm y/\omega_{a,p}(j)$, and
+  $y\mapsto(\kappa_{a,p}y)_j$ is the continuous linear functional $\omega_{a,p}(j)^{-1}\,\mathrm{ev}_j$.
+\item Finite truncations converge: with $P_Ny=\sum_{j\le N}y_je_j$, $\norm{y-P_Ny}\to0$ as $N\to\infty$.
+\item For $\mathbb K=\R$ and $a=p=1$, $\kappa_{1,1}$ is the frozen \Lean{coeff}, and the frozen \Lean{WaveSpace}
+  $=\ell^2_\R\times\ell^2_\R$ with its product (max) norm is isometric to $E_{1,1}$ with
+  $\norm{(q,p)}_E=\max(\norm q_{1,1},\norm p_{1,1})$ via $\kappa_{1,1}\times\kappa_{1,1}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Isometry}\label{stepW:w1:iso}
+$\norm{\tau_{a,p}w}^2=\sum_j\omega_{a,p}(j)^2\abs{w_j}^2=\norm w_{a,p}^2$ by Definition~\ref{bpW:w0:ellap}; so
+$\tau_{a,p}$ maps $\ell^{a,p}_{\mathbb K}$ into $\ell^2_{\mathbb K}$, $\kappa_{a,p}$ maps back, and both
+compositions are the identity coordinatewise. Transport the inner product and completeness of
+\ref{bpW:w1:ext-lp}.
+\proofstep{Separability}\label{stepW:w1:sep}
+Finitely supported sequences with entries in $\mathbb Q$ (resp.\ $\mathbb Q+i\mathbb Q$) form a countable set; it is
+dense by (iii) and density of $\mathbb Q$ in each of finitely many coordinates. (Separability is not consumed by later
+milestones.)
+\proofstep{Coordinates and truncation}\label{stepW:w1:coord}
+(ii) is \ref{bpW:w1:ext-lp} ($\abs{y_j}\le\norm y$) divided by $\omega_{a,p}(j)$. (iii):
+$\norm{y-P_Ny}^2=\sum_{j>N}\abs{y_j}^2$ is the tail of a convergent series.
+\proofstep{Frozen case}\label{stepW:w1:frozen}
+\Lean{coeff y j} is $y_j/\omega_{1,1}(j)$ by its frozen definition, and Mathlib's norm on a product is the max of the
+norms.
+\end{proof}
+\source{P96-W p.~277 and P96-K p.~120 (``$\ell^{a,p}$ is the Hilbert space \dots''), asserted without proof; the
+transport is ours.}
+
+\begin{lemma}[Derivatives of coordinates]\label{bpW:w1:coordinatewise}
+Let $c:\R\to\ell^2_{\mathbb K}$ be differentiable at $t$, and let $(a,p)$, $(a',p')$ be weights with $a\ge a'$,
+$p\ge p'$ and $\iota$ the inclusion of Lemma~\ref{bpW:w1:embed}, represented by $\hat\iota$. For $v\in\ell^2_{\mathbb K}$
+the following are equivalent:
+(a) for every $j$, $t\mapsto(\kappa_{a,p}c(t))_j$ has derivative $(\kappa_{a',p'}v)_j$ at $t$;
+(b) $\hat\iota\,c'(t)=v$.
+In particular, if $K:\R^2\to$ \Lean{WaveSpace} is differentiable and $X^w$ is the field of
+Proposition~\ref{bpW:w1:hamfield}(v), then the frozen invariance conclusion (4) of \Lean{KAM.Wave.nlw2} at $(I,\theta)$
+is equivalent to $\hat\iota\bigl(DK(\theta)\nu\bigr)=X^w(K(\theta))$ with $\hat\iota$ the representative of
+$E_{1,1}\subset E_{1,0}$.
+\end{lemma}
+
+\begin{proof}
+\proofstep{Coordinates of the derivative}\label{stepW:w1:coordder}
+By Lemma~\ref{bpW:w1:space}(ii), $c\mapsto(\kappa_{a,p}c)_j$ is a continuous linear functional, so the coordinate curve
+has derivative $(\kappa_{a,p}c'(t))_j=(\kappa_{a',p'}\hat\iota c'(t))_j$ (the inclusion does not change coefficients,
+Lemma~\ref{bpW:w1:embed}).
+\proofstep{Comparison}\label{stepW:w1:coordcomp}
+Hence (a) says $(\kappa_{a',p'}\hat\iota c'(t))_j=(\kappa_{a',p'}v)_j$ for all $j$, which is (b) because
+$\kappa_{a',p'}$ is injective. For the frozen statement apply this to $c(t)=K(\theta+t\nu)$ componentwise at $t=0$,
+$c'(0)=DK(\theta)\nu$, with $(a,p)=(1,1)$, $(a',p')=(1,0)$, and compare with
+Proposition~\ref{bpW:w1:hamfield}(v).
+\end{proof}
+\source{ours.}
+
+\begin{lemma}[Diagonal multipliers]\label{bpW:w1:multiplier}
+Let $\mu:\N_+\to\mathbb K$ with $M=\sup_j\abs{\mu_j}<\infty$. Then $D_\mu y=(\mu_jy_j)_j$ is a bounded linear operator on
+$\ell^2_{\mathbb K}$ with $\norm{D_\mu}=M$. Consequently a diagonal map $w\mapsto(m_jw_j)$ is bounded from
+$\ell^{a,p}_{\mathbb K}$ to $\ell^{a',p'}_{\mathbb K}$ iff $\sup_j\abs{m_j}\omega_{a',p'}(j)/\omega_{a,p}(j)<\infty$; its
+representative is $D_\mu$ with $\mu_j=m_j\,\omega_{a',p'}(j)/\omega_{a,p}(j)$, and its norm is that supremum.
+\end{lemma}
+
+\begin{proof}
+$\sum_{j\le N}\abs{\mu_jy_j}^2\le M^2\norm y^2$ for every $N$, so $D_\mu y\in\ell^2$ with $\norm{D_\mu y}\le M\norm y$
+(\ref{bpW:w1:ext-lp}); $\norm{D_\mu e_j}=\abs{\mu_j}$ gives equality of the norm. The representative is computed
+coordinatewise: $\tau_{a',p'}(m\,\kappa_{a,p}y)_j=\omega_{a',p'}(j)m_jy_j/\omega_{a,p}(j)$.
+\end{proof}
+\source{standard.}
+
+\begin{lemma}[Embeddings]\label{bpW:w1:embed}
+Let $a\ge a'\ge0$ and $p,p'\in\R$.
+\begin{enumerate}[label=(\roman*)]
+\item If $p\ge p'$, then $\ell^{a,p}_{\mathbb K}\subset\ell^{a',p'}_{\mathbb K}$ with $\norm w_{a',p'}\le\norm w_{a,p}$;
+  the representative of the inclusion is $D_\mu$ with $\mu_j=j^{p'-p}e^{(a'-a)j}\in(0,1]$.
+\item If $a>a'$ and $\sigma=p'-p>0$, then $\norm w_{a',p'}\le\bigl(\sigma/(e(a-a'))\bigr)^\sigma\norm w_{a,p}$.
+\item The inclusions do not change coefficients: $\kappa_{a',p'}D_\mu=\kappa_{a,p}$. They are injective and compose:
+  the inclusion $(a,p)\to(a'',p'')$ is the composite through $(a',p')$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) and (ii) are Lemma~\ref{bpW:w1:multiplier} with $m_j=1$: $\mu_j=\omega_{a',p'}(j)/\omega_{a,p}(j)$. In (i) both
+factors of $\mu_j$ are at most $1$. In (ii), $t^\sigma e^{-(a-a')t}$ is maximal on $(0,\infty)$ at
+$t=\sigma/(a-a')$, with value $(\sigma/(e(a-a')))^\sigma$. (iii) is the identity
+$\mu_j/\omega_{a',p'}(j)=1/\omega_{a,p}(j)$; injectivity because $\mu_j\ne0$; composition because the $\mu$'s multiply.
+\end{proof}
+\source{standard (implicit in P96-W pp.~277--280 and P96-K p.~121).}
+
+\begin{lemma}[Frequency multipliers and the linear flow]\label{bpW:w1:diag}
+Let $a\ge0$, $p\in\R$, $r\in\R$, and let $\lambda^r$ denote the multiplier $w\mapsto(\lambda_j^rw_j)$.
+\begin{enumerate}[label=(\roman*)]
+\item $\lambda^r$ is bounded $\ell^{a,p+r}_{\mathbb K}\to\ell^{a,p}_{\mathbb K}$ with norm
+  $\sup_j(\lambda_j/j)^r$, which is $(1+m)^{r/2}$ for $r\ge0$ and at most $1$ for $r<0$; its representative is
+  $D_\mu$ with $\mu_j=(\lambda_j/j)^r$. It is an isomorphism $\ell^{a,p+r}\to\ell^{a,p}$ with inverse $\lambda^{-r}$.
+\item For $r>0$, $\lambda^r$ is not bounded from $\ell^{a,p}$ to itself: $\norm{\lambda^re_j}_{a,p}/\norm{e_j}_{a,p}=\lambda_j^r\to\infty$.
+\item (Complex rotations.) For $t\in\R$, $R_t:z\mapsto(e^{-i\lambda_jt}z_j)$ is a linear isometry of
+  $\ell^{a,p}_\C$, $R_{t+s}=R_tR_s$, and $t\mapsto R_tz$ is continuous.
+\item (Real linear flow.) For $(q,p)\in E_{a,p}$ put
+  $L_t(q,p)=\bigl(\cos(\lambda t)q+\sin(\lambda t)p,\;-\sin(\lambda t)q+\cos(\lambda t)p\bigr)$ (coordinatewise).
+  Then $L_t$ preserves $\norm q_{a,p}^2+\norm p_{a,p}^2$, $\norm{L_t(q,p)}_E\le\sqrt2\,\norm{(q,p)}_E$, $L_{t+s}=L_tL_s$,
+  and every coordinate solves $\dot q_j=\lambda_jp_j$, $\dot p_j=-\lambda_jq_j$. In the complex coordinates of
+  Definition~\ref{bpW:w0:z}, $L_t$ is $R_t$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Ratio}\label{stepW:w1:ratio}
+By Lemma~\ref{bpW:w1:multiplier}, $\mu_j=\lambda_j^r\omega_{a,p}(j)/\omega_{a,p+r}(j)=(\lambda_j/j)^r$. Since
+$j^2<\lambda_j^2=j^2+m\le(1+m)j^2$, $1<\lambda_j/j\le\sqrt{1+m}$ with equality at $j=1$; so the supremum is
+$(1+m)^{r/2}$ for $r\ge0$ (attained at $j=1$) and $\le1$ for $r<0$. The inverse statement is the same computation with
+$-r$.
+\proofstep{Unboundedness and rotations}\label{stepW:w1:rot}
+(ii) is immediate. (iii): $\abs{e^{-i\lambda_jt}}=1$, so $R_t$ is $D_\mu$ with $\abs{\mu_j}=1$ (an isometry), and the
+group law is coordinatewise. Continuity: $\norm{R_tz-R_sz}^2=\sum_j\abs{e^{-i\lambda_jt}-e^{-i\lambda_js}}^2
+\omega_{a,p}(j)^2\abs{z_j}^2\to0$ as $t\to s$ by dominated convergence for series (terms $\le4\omega^2\abs{z_j}^2$).
+\proofstep{Real flow}\label{stepW:w1:realflow}
+Coordinatewise $(q_j(t),p_j(t))$ is a rotation of $(q_j,p_j)$, so $q_j(t)^2+p_j(t)^2=q_j^2+p_j^2$; multiplying by
+$\omega_{a,p}(j)^2$ and summing gives the first claim, and then $\max(\norm{q(t)},\norm{p(t)})^2\le
+\norm q^2+\norm p^2\le2\norm{(q,p)}_E^2$. The derivative and the group law are coordinatewise trigonometry; with
+$z_j=(q_j+ip_j)/\sqrt2$ one gets $z_j(t)=e^{-i\lambda_jt}z_j$.
+\end{proof}
+\source{P96-W p.~277 and Definition~\ref{bpW:w0:eqmotion} (the multiplier bound is stated there without the norm);
+the factor $\sqrt2$ in (iv) is the price of the max norm of the frozen phase space and is not in the source, which
+uses $\ell^{a,s}\times\ell^{a,s}$ without specifying the product norm.}
+
+\begin{definition}[Sup-weighted sequences]\label{bpW:w1:linfty}
+For $p\in\R$, $\ell^p_\infty$ is the space of real sequences $(w_j)_{j\ge1}$ with
+$\abs w_p=\sup_j\abs{w_j}j^p<\infty$, realized as \Lean{lp (fun \_ : PNat => Real) $\infty$} by $w\mapsto(j^pw_j)$. For a map
+$\tilde\Omega:\Pi\to\ell^p_\infty$ on a set $\Pi\subset\R^2$, $\abs{\tilde\Omega}^{\mathcal L}_{p,\Pi}=\sup_{\xi\ne\zeta}
+\abs{\tilde\Omega(\xi)-\tilde\Omega(\zeta)}_p/\abs{\xi-\zeta}$ (max norm on $\R^2$).
+\end{definition}
+\source{P96-K p.~120 (Assumption~B) and p.~121 (Lipschitz semi-norms).}
+
+\begin{lemma}[Spectral asymptotics of the wave normal frequencies]\label{bpW:w1:tails}
+Let $b=(\lambda_1^{-1},\lambda_2^{-1})$ and, for $\xi\in\R^2$ and $j\ge3$,
+$\Omega_j(\xi)=\lambda_j+\frac{3}{2\pi\lambda_j}\avg{b,\xi}$ (the normal frequencies of Theorem~\ref{bpW:w0n:AB},
+$\Omega=\lambda_N+B\xi$). Put $\bar\Omega_j=j$ and $\tilde\Omega_j=\Omega_j-\bar\Omega_j$ ($j\ge3$). Then
+\[\abs{\tilde\Omega(\xi)}_1\le\frac m2+\frac{3}{2\pi}\abs{\avg{b,\xi}},\qquad
+\abs{\tilde\Omega(\xi)-\tilde\Omega(\zeta)}_1\le\frac{3}{2\pi}\Bigl(\frac1{\lambda_1}+\frac1{\lambda_2}\Bigr)\abs{\xi-\zeta}.\]
+So Assumption~B of P96-K holds with $d=1$, $\delta=-1$ (which satisfies $\delta<d-1$), and, with $\bar p=p+1$ for the
+perturbation field, the convention $p-\bar p\le\delta$ of P96-K p.~121 holds with equality. Moreover
+$\abs{\Omega_i(\xi)-\Omega_j(\xi)-(i-j)}\le\bigl(m+\frac3\pi\abs{\avg{b,\xi}}\bigr)/\min(i,j)$ for $i,j\ge3$.
+\end{lemma}
+
+\begin{proof}
+$\lambda_j-j=m/(\lambda_j+j)\in(0,m/(2j)]$, and $j\cdot\frac{3}{2\pi\lambda_j}\le\frac3{2\pi}$ since $\lambda_j>j$.
+Multiply by $j$ and take the supremum; the Lipschitz bound is the second term with $\abs{\avg{b,\xi-\zeta}}\le
+(\lambda_1^{-1}+\lambda_2^{-1})\abs{\xi-\zeta}$. The last bound is $\abs{\tilde\Omega_i}+\abs{\tilde\Omega_j}\le
+2\abs{\tilde\Omega}_1/\min(i,j)$.
+\end{proof}
+\source{ours; checks P96-K Assumption~B (p.~120) for the wave normal form of P96-W p.~290 with the corrected $B$ of
+Theorem~\ref{bpW:w0n:AB}. Normal modes are indexed by $j\ge3$ here; P96-K indexes them from $1$, and the shift
+$j\mapsto j-2$ changes $\bar\Omega_j$ only by the constant $2$, a lower-order term allowed by Assumption~B. In Lean,
+normal-mode sequences are \Lean{PNat}-indexed with the entries $j=1,2$ set to zero.}
+
+\subsection{Two-sided spaces, Young and the algebra}\label{bpW:w1:twosided-sec}
+
+\begin{definition}[Two-sided transport]\label{bpW:w1:twosided-transport}
+For $a\ge0$, $s\in\R$ let $\omega^b_{a,s}(l)=\jap l^se^{a\abs l}$ ($l\in\Z$, $\jap l=\max(1,\abs l)$). The space
+$\ell^{a,s}_b$ of Definition~\ref{bpW:w0:twosided} is realized as \Lean{lp (fun \_ : Int => Complex) 2} through
+$c\mapsto(\omega^b_{a,s}(l)c_l)_l$, an isometry as in Lemma~\ref{bpW:w1:space}. For $c$ with
+$\sum_i\abs{c_i}\abs{d_{l-i}}<\infty$ for all $l$, $(c*d)_l=\sum_{i\in\Z}c_id_{l-i}$ (Lean: a \Lean{tsum} guarded by the
+summability proved before each use).
+\end{definition}
+\source{P96-W p.~279 and \S6 p.~294.}
+
+\begin{lemma}[Passage between one- and two-sided sequences]\label{bpW:w1:twosided}
+Let $a\ge0$, $p\in\R$.
+\begin{enumerate}[label=(\roman*)]
+\item (Even and odd extensions.) For $q\in\ell^{a,p}_\C$ define $(E^\pm q)_l=(\pm1)^{[l<0]}q_{\abs l}/\sqrt{\lambda_{\abs l}}$
+  for $l\ne0$ and $(E^\pm q)_0=0$. Then $E^\pm:\ell^{a,p}_\C\to\ell^{a,p+1/2}_b$ is linear with
+  $\norm{E^\pm q}_{a,p+1/2}\le\sqrt2\norm q_{a,p}$, and the same holds for the majorant
+  $l\mapsto\abs{(E^+q)_l}$. The even sequence $x_l=\abs{q_{\abs l}}/\sqrt{\abs l}$ ($l\ne0$), $x_0=0$, satisfies
+  $\norm x_{a,p+1/2}^2=2\norm q_{a,p}^2$.
+\item (Restriction with gain.) For $X\in\ell^{a,p+1/2}_b$, the sequence $(X_l/\sqrt{\lambda_l})_{l\ge1}$ lies in
+  $\ell^{a,p+1}_\C$ with norm at most $\bigl(\sum_{l\ge1}l^{2p+1}e^{2al}\abs{X_l}^2\bigr)^{1/2}\le\norm X_{a,p+1/2}$, and
+  at most $\norm X_{a,p+1/2}/\sqrt2$ if $\abs X$ is even.
+\item (Pairing.) $J(z,\bar z)_j=z_j$, $J(z,\bar z)_{-j}=\bar z_j$ ($j\ge1$), $J(z,\bar z)_0=0$ defines a linear isometry
+  from $\ell^{a,p}_\C\times\ell^{a,p}_\C$ with the norm $(\norm z^2+\norm{\bar z}^2)^{1/2}$ onto
+  $\{w\in\ell^{a,p}_b:w_0=0\}$; in particular $\norm{J(z,\bar z)}_{a,p}\le\sqrt2\max(\norm z_{a,p},\norm{\bar z}_{a,p})$.
+  (Here $\bar z$ is an independent variable, as in P96-W p.~282.)
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Extensions}\label{stepW:w1:ext}
+$\norm{E^\pm q}^2=2\sum_{j\ge1}j^{2p+1}e^{2aj}\abs{q_j}^2/\lambda_j\le2\sum_jj^{2p}e^{2aj}\abs{q_j}^2$ since
+$j/\lambda_j<1$; the majorant has the same norm; with $\sqrt{\abs l}$ the factor $j/\lambda_j$ becomes $1$. This is
+Step~\ref{stepW:w0n:majorant}.
+\proofstep{Restriction}\label{stepW:w1:restr}
+$\sum_{l\ge1}l^{2p+2}e^{2al}\abs{X_l}^2/\lambda_l\le\sum_{l\ge1}l^{2p+1}e^{2al}\abs{X_l}^2$ since $l/\lambda_l<1$;
+for even $\abs X$ the sum over $l\ge1$ is at most half of the full sum. This is Step~\ref{stepW:w0n:smoothing}.
+\proofstep{Pairing}\label{stepW:w1:pair}
+$\norm{J(z,\bar z)}^2=\sum_{j\ge1}\omega_{a,p}(j)^2(\abs{z_j}^2+\abs{\bar z_j}^2)$, since $\jap{\pm j}=j$ for $j\ge1$.
+\end{proof}
+\source{P96-W p.~280 (proof of Lemma~3, with the corrected constant $\sqrt2$, errata item N-1, see
+Theorem~\ref{bpW:w0n:cubic-bound}) and p.~282 (the coordinates $w$).}
+
+\begin{lemma}[Young and $\ell^1$ control]\label{bpW:w1:young}
+\begin{enumerate}[label=(\roman*)]
+\item For $X\in\ell^2(\Z)$ and $Y\in\ell^1(\Z)$, each sum $\sum_i\abs{X_i}\abs{Y_{l-i}}$ converges, and
+  $\norm{X*Y}_{\ell^2}\le\norm X_{\ell^2}\norm Y_{\ell^1}$.
+\item For $s>\frac12$, $\sum_{l\in\Z}\jap l^{-2s}=1+2\zeta(2s)<\infty$, and for $a\ge0$ and $Y\in\ell^{a,s}_b$,
+  $\norm Y_{\ell^1}\le(1+2\zeta(2s))^{1/2}\norm Y_{0,s}\le(1+2\zeta(2s))^{1/2}\norm Y_{a,s}$.
+\item For nonnegative sequences $X,Y,Z$ with $X,Y,Z\in\ell^{0,s}_b$, $s>\frac12$, convolution is commutative and
+  associative, and monotone: $0\le X\le X'$ pointwise implies $X*Y\le X'*Y$. For complex sequences,
+  $\abs{c*d}\le\abs c*\abs d$ pointwise.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Weighted Cauchy--Schwarz}\label{stepW:w1:cs}
+\[\Bigl(\sum_i\abs{X_i}\abs{Y_{l-i}}\Bigr)^2\le\Bigl(\sum_i\abs{X_i}^2\abs{Y_{l-i}}\Bigr)\Bigl(\sum_i\abs{Y_{l-i}}\Bigr)
+=\norm Y_{\ell^1}\sum_i\abs{X_i}^2\abs{Y_{l-i}},\]
+finite since $\abs{X_i}^2\le\norm X^2$.
+\proofstep{Summation}\label{stepW:w1:youngsum}
+Summing over $l$ and exchanging the nonnegative double sum (\ref{bpW:w1:ext-series}) gives
+$\sum_l\abs{(X*Y)_l}^2\le\norm Y_{\ell^1}\sum_i\abs{X_i}^2\sum_l\abs{Y_{l-i}}=\norm Y_{\ell^1}^2\norm X_{\ell^2}^2$.
+\proofstep{$\ell^1$ control}\label{stepW:w1:l1}
+$\sum_{l}\jap l^{-2s}=1+2\sum_{l\ge1}l^{-2s}$ ($\jap0=1$), finite by \ref{bpW:w1:ext-series}. Then
+$\sum_l\abs{Y_l}=\sum_l\jap l^{-s}\cdot\jap l^s\abs{Y_l}\le(1+2\zeta(2s))^{1/2}\norm Y_{0,s}$, and
+$\norm Y_{0,s}\le\norm Y_{a,s}$ since $e^{a\abs l}\ge1$.
+\proofstep{Algebraic rules}\label{stepW:w1:rules}
+By (ii) all sequences involved are in $\ell^1\cap\ell^2$, so the double series defining $(X*Y)*Z$ and $X*(Y*Z)$
+converge absolutely and may be rearranged (Fubini for series); commutativity is the substitution $i\mapsto l-i$;
+monotonicity and $\abs{c*d}\le\abs c*\abs d$ are termwise.
+\end{proof}
+\source{standard; used in P96-W \S6 p.~294 and KP96 App.~A pp.~31--32.}
+
+\begin{lemma}[Convolution algebra]\label{bpW:w1:algebra}
+For $a\ge0$, $s\ge1$ and $c,d\in\ell^{a,s}_b$: $\norm{c*d}_{a,s}\le K_s\norm c_{a,s}\norm d_{a,s}$ with
+$K_s=2^s(1+2\zeta(2s))^{1/2}$, and for three factors $\norm{c*d*e}_{a,s}\le K_s^2\norm c\norm d\norm e$.
+\end{lemma}
+
+\begin{proof}
+This is Lemma~\ref{bpW:w0n:algebra}, whose Step~\ref{stepW:w0n:young} uses Lemma~\ref{bpW:w1:young}(i)--(ii); the
+three-factor form applies it twice, with associativity from Lemma~\ref{bpW:w1:young}(iii). In Lean the lemma is
+proved once, in the W1 module, and W0 imports it.
+\end{proof}
+\source{P96-W Lemma~2, p.~279, and \S6, pp.~294--295 (the proof there is labelled ``Appendix~A'' on p.~279 but printed
+as \S6); KP96 Lemma~2 p.~12.}
+
+\begin{remark}[The algebra for $\tfrac12<s<1$]\label{bpW:w1:algebra-half}
+P96-W \S6 proves the algebra for all $s>\frac12$ by a different weight split: $\jap l/(\jap{l-i}\jap i)\le
+\jap{l-i}^{-1}+\jap i^{-1}$ and $(\alpha+\beta)^{2s}\le2^{2s-1}(\alpha^{2s}+\beta^{2s})$ give the same constant $K_s$.
+No later milestone needs $s<1$ (the cubic estimates use $s=p+\frac12\ge1$), so this extension is not part of the plan.
+\end{remark}
+
+\subsection{The cubic field}\label{bpW:w1:cubic}
+
+The next lemma isolates the only property of the quartic coefficients that the estimates use: the selection rule of
+Lemma~\ref{bpW:w0n:quartic-coeff} together with the decay $(ijkl)^{-1/2}$. It serves both the cubic gradient (here) and
+the Birkhoff generating field of milestone W3, whose coefficients are those of $G$ divided by the divisors of P96-W
+Lemma~4.
+
+\begin{lemma}[Selection-rule trilinear maps]\label{bpW:w1:selection}
+Let $a\ge0$, $p\ge\frac12$, $s=p+\frac12$, $M\ge0$.
+\begin{enumerate}[label=(\alph*)]
+\item (One-sided.) Let $c:\N_+^4\to\C$ satisfy
+  $\abs{c_{ijkl}}\le M(ijkl)^{-1/2}\sum_{\varepsilon\in\{\pm1\}^3}[\,l=\varepsilon_1i+\varepsilon_2j+\varepsilon_3k\,]$.
+  For $q,q',q''\in\ell^{a,p}_\C$ the sums $T_c(q,q',q'')_l=\sum_{i,j,k\ge1}c_{ijkl}q_iq'_jq''_k$ converge absolutely, and
+  \[\norm{T_c(q,q',q'')}_{a,p+1}\le2MK_s^2\,\norm q_{a,p}\norm{q'}_{a,p}\norm{q''}_{a,p}.\]
+\item (Two-sided.) Let $c:(\Z\setminus0)^4\to\C$ satisfy
+  $\abs{c_{ijkl}}\le M\abs{ijkl}^{-1/2}\sum_{\varepsilon\in\{\pm1\}^3}[\,l=\varepsilon_1i+\varepsilon_2j+\varepsilon_3k\,]$.
+  For $w,w',w''\in\ell^{a,p}_b$ the sums $T_c(w,w',w'')_l=\sum_{i,j,k\ne0}c_{ijkl}w_iw'_jw''_k$ ($l\ne0$) converge
+  absolutely; with $T_c(\cdot)_0=0$,
+  \[\norm{T_c(w,w',w'')}_{a,p+1}\le64MK_s^2\,\norm w_{a,p}\norm{w'}_{a,p}\norm{w''}_{a,p}.\]
+\end{enumerate}
+In both cases $T_c$ is trilinear; it is symmetric if $c$ is symmetric in its first three indices.
+\end{lemma}
+
+\begin{proof}
+\proofstep{One-sided majorant}\label{stepW:w1:maj1}
+In (a) let $x_i=\abs{q_{\abs i}}/\sqrt{\abs i}$ ($i\ne0$), $x_0=0$, even; similarly $x',x''$. By
+Lemma~\ref{bpW:w1:twosided}(i), $\norm x_{a,s}=\sqrt2\norm q_{a,p}$.
+\proofstep{One-sided selection}\label{stepW:w1:sel1}
+$\sum_{i,j,k}\abs{c_{ijkl}q_iq'_jq''_k}\le Ml^{-1/2}\sum_{i,j,k\ge1}\sum_\varepsilon
+[l=\varepsilon_1i+\varepsilon_2j+\varepsilon_3k]\,x_ix'_jx''_k\le Ml^{-1/2}X_l$, $X=x*x'*x''$, because
+$(i,j,k,\varepsilon)\mapsto(\varepsilon_1i,\varepsilon_2j,\varepsilon_3k)$ is injective into $(\Z\setminus0)^3$ and the
+$x$'s are even (as in Step~\ref{stepW:w0n:selection}). $X$ is finite and even by Lemmas~\ref{bpW:w1:young}
+and~\ref{bpW:w1:algebra}.
+\proofstep{One-sided smoothing}\label{stepW:w1:smooth1}
+$\norm{T_c}_{a,p+1}^2\le M^2\sum_{l\ge1}l^{2p+1}e^{2al}X_l^2\le\frac{M^2}2\norm X_{a,s}^2$ (evenness), and
+$\norm X_{a,s}\le K_s^2\norm x\norm{x'}\norm{x''}=2^{3/2}K_s^2\prod\norm q$. Hence the bound $2MK_s^2\prod\norm q$.
+\proofstep{Two-sided majorant}\label{stepW:w1:maj2}
+In (b) let $\tilde x_i=(\abs{w_i}+\abs{w_{-i}})/\sqrt{\abs i}$ ($i\ne0$), $\tilde x_0=0$, even, and similarly
+$\tilde x',\tilde x''$. Then $\norm{\tilde x}_{a,s}^2=\sum_{i\ne0}\abs i^{2p}e^{2a\abs i}(\abs{w_i}+\abs{w_{-i}})^2\le
+4\norm w_{a,p}^2$.
+\proofstep{Two-sided selection}\label{stepW:w1:sel2}
+For fixed $\varepsilon$, the substitution $i'=\varepsilon_1i$, $j'=\varepsilon_2j$, $k'=\varepsilon_3k$ is a bijection
+of $(\Z\setminus0)^3$, and $\abs{w_i}/\sqrt{\abs i}\le\tilde x_{i'}$. Hence each of the eight $\varepsilon$-terms is at
+most $(\tilde x*\tilde x'*\tilde x'')_l=:\tilde X_l$, and $\abs{T_c(w,w',w'')_l}\le8M\abs l^{-1/2}\tilde X_l$.
+\proofstep{Two-sided smoothing}\label{stepW:w1:smooth2}
+$\norm{T_c}^2_{a,p+1}\le64M^2\sum_{l\ne0}\abs l^{2p+1}e^{2a\abs l}\tilde X_l^2\le64M^2\norm{\tilde X}_{a,s}^2$ and
+$\norm{\tilde X}_{a,s}\le K_s^2\cdot8\prod\norm w$, so $\norm{T_c}\le64MK_s^2\prod\norm w$. Trilinearity and symmetry are
+termwise, the sums being absolutely convergent.
+\end{proof}
+\source{P96-W pp.~279--280 (Lemma~3) and p.~284 ((13)--(14), estimate of $\partial F/\partial w_l$, constants not made
+explicit); KP96 p.~16. The explicit constants are ours.}
+
+\begin{theorem}[The cubic map as a continuous trilinear map]\label{bpW:w1:trilinear}
+Let $a\ge0$, $p\ge\frac12$, $C_*=K_{p+1/2}^2/\pi$, and $\mathbb K\in\{\R,\C\}$.
+\begin{enumerate}[label=(\roman*)]
+\item There is a unique continuous symmetric $\mathbb K$-trilinear map
+  $\mathcal T^{a,p}_{\mathbb K}:(\ell^2_{\mathbb K})^3\to\ell^2_{\mathbb K}$ (Lean
+  \Lean{ContinuousMultilinearMap K (fun \_ : Fin 3 => lp ... 2) (lp ... 2)}) with
+  $\kappa_{a,p+1}\mathcal T^{a,p}_{\mathbb K}(y,y',y'')=T(\kappa_{a,p}y,\kappa_{a,p}y',\kappa_{a,p}y'')$, where $T$ is
+  the trilinear map of Theorem~\ref{bpW:w0n:cubic-bound}; and $\norm{\mathcal T^{a,p}_{\mathbb K}}\le C_*$.
+\item (Real structure.) With $\iota$ and conjugation of Definition~\ref{bpW:w1:complexification},
+  $\mathcal T^{a,p}_\C(\iota y,\iota y',\iota y'')=\iota\,\mathcal T^{a,p}_\R(y,y',y'')$ and
+  $\overline{\mathcal T^{a,p}_\C(z,z',z'')}=\mathcal T^{a,p}_\C(\bar z,\bar z',\bar z'')$.
+\item (Compatibility.) For $a\ge a'\ge0$, $p\ge p'\ge\frac12$, with $\hat\iota$, $\hat\iota'$ the representatives of
+  $\ell^{a,p}\subset\ell^{a',p'}$ and $\ell^{a,p+1}\subset\ell^{a',p'+1}$:
+  $\mathcal T^{a',p'}(\hat\iota y,\hat\iota y',\hat\iota y'')=\hat\iota'\mathcal T^{a,p}(y,y',y'')$.
+\item (Frozen identification.) For $y\in\ell^2_\R$ and $l\ge1$,
+  \[\Lean{cubicGrad m hm y l}=\frac{\mathcal T^{1,1}_\R(y,y,y)_l}{\omega_{1,2}(l)},\qquad\text{i.e.}\qquad
+  \Gq(\kappa_{1,1}y)=\kappa_{1,2}\,\mathcal T^{1,1}_\R(y,y,y).\]
+  For $a>0$ and $p\ge\frac12$ likewise $\Gq(\kappa_{a,p}y)=\kappa_{a,p+1}\mathcal T^{a,p}_\R(y,y,y)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Coordinates}\label{stepW:w1:tricoord}
+For $y,y',y''\in\ell^2_{\mathbb K}$ put $q=\kappa_{a,p}y$ etc. By Theorem~\ref{bpW:w0n:cubic-bound} (equivalently
+Lemma~\ref{bpW:w1:selection}(a) with $c_{ijkl}=g_{ijkl}(\lambda_i\lambda_j\lambda_k\lambda_l)^{-1/2}$ and $M=1/(2\pi)$,
+using $\lambda\ge j$ and the bound after \eqref{bpW:w0n:g-signed}), each sum
+$T(q,q',q'')_l$ is an absolutely convergent \Lean{tsum} over $\N_+^3$ and $T(q,q',q'')\in\ell^{a,p+1}_{\mathbb K}$
+with norm $\le C_*\prod\norm q_{a,p}=C_*\prod\norm y$. Define $\mathcal T(y,y',y'')=\tau_{a,p+1}T(q,q',q'')$.
+\proofstep{Continuity}\label{stepW:w1:tricont}
+Trilinearity and symmetry hold termwise (symmetry of $g$, Lemma~\ref{bpW:w0n:quartic-coeff}); the bound makes the
+multilinear map continuous with norm $\le C_*$ (Lean: \Lean{MultilinearMap.mkContinuous}). Uniqueness: a map with the
+stated coordinates is determined, since $\kappa_{a,p+1}$ is injective.
+\proofstep{Real structure and compatibility}\label{stepW:w1:trireal}
+The coefficients $g_{ijkl}(\lambda_i\lambda_j\lambda_k\lambda_l)^{-1/2}$ are real, so the coordinate sums commute with
+$\iota$ and with conjugation (absolute convergence). (iii) holds because the inclusions do not change coefficients
+(Lemma~\ref{bpW:w1:embed}(iii)), so both sides have coefficients $T(q,q',q'')$.
+\proofstep{Frozen identification}\label{stepW:w1:trifrozen}
+By the frozen definitions, \Lean{reconU m hm y} is $U_m(\kappa_{1,1}y)$ (Definition~\ref{bpW:w0:reconstruction}; the
+\Lean{tsum} is absolutely convergent by Lemma~\ref{bpW:w0n:recon-bounded}), the interval integral over $[0,\pi]$ is the
+integral of Definition~\ref{bpW:w0:Gq}, and $\sqrt{\lambda_l}>0$. So \Lean{cubicGrad m hm y l} $=\Gq(\kappa_{1,1}y)_l$,
+which is $T(q,q,q)_l$ by Lemma~\ref{bpW:w0n:gradient} ($a=1>0$). The general case is the same with $a>0$.
+\end{proof}
+\source{P96-W Lemma~3, pp.~279--280; Theorem~\ref{bpW:w0n:cubic-bound} for the bound. The Lean packaging is ours.}
+
+\begin{corollary}[Analyticity and Lipschitz bounds of the cubic gradient]\label{bpW:w1:cubic-analytic}
+Let $a\ge0$, $p\ge\frac12$, $\mathcal T=\mathcal T^{a,p}_{\mathbb K}$, $C_*$ as above, and $\mathcal N(y)=\mathcal T(y,y,y)$.
+\begin{enumerate}[label=(\roman*)]
+\item $\mathcal N:\ell^2_{\mathbb K}\to\ell^2_{\mathbb K}$ is $\mathbb K$-analytic on all of $\ell^2_{\mathbb K}$ (Lean
+  \Lean{AnalyticOnNhd K N Set.univ}), with $\norm{\mathcal N(y)}\le C_*\norm y^3$.
+\item $D\mathcal N(y)h=3\mathcal T(y,y,h)$, $D^2\mathcal N(y)(h,k)=6\mathcal T(y,h,k)$, $D^3\mathcal N(y)=6\mathcal T$;
+  so $\norm{D\mathcal N(y)}\le3C_*\norm y^2$ and $\norm{D^2\mathcal N(y)}\le6C_*\norm y$.
+\item $\norm{\mathcal N(y)-\mathcal N(y')}\le3C_*\norm{y-y'}\max(\norm y,\norm{y'})^2$.
+\item (Frozen form.) The map $\mathcal G^w:\ell^2_\R\to\ell^2_\R$, $\mathcal G^w(y)_l=\omega_{1,2}(l)\cdot$
+  \Lean{cubicGrad m hm y l}, is $\mathcal N$ for $(a,p)=(1,1)$, $\mathbb K=\R$; it is real analytic everywhere and
+  $\norm{\mathcal G^w(y)}\le C_m\norm y^3$, $C_m=8(1+2\zeta(3))/\pi$. The coefficient sequence $\Gq(\kappa_{1,1}y)$
+  has weighted coordinates $\mathcal G^w(y)$ at weight $(1,2)$, $(l^{-1}\mathcal G^w(y)_l)$ at weight $(1,1)$ and
+  $(l^{-2}\mathcal G^w(y)_l)$ at weight $(1,0)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+\proofstep{Analyticity}\label{stepW:w1:can}
+$\mathcal N=\mathcal T\circ\Delta$ with $\Delta(y)=(y,y,y)$ continuous linear; \ref{bpW:w1:ext-analytic}.
+\proofstep{Derivatives}\label{stepW:w1:cder}
+Expanding $\mathcal T(y+h,y+h,y+h)$ by trilinearity, the linear term is $\mathcal T(h,y,y)+\mathcal T(y,h,y)+
+\mathcal T(y,y,h)=3\mathcal T(y,y,h)$ by symmetry and the rest is $O(\norm h^2)$ with constant $\le3C_*(\norm y+\norm h)\norm h^2$;
+the higher derivatives are the same computation (Lean: \Lean{ContinuousMultilinearMap.hasFDerivAt} composed with
+$\Delta$).
+\proofstep{Lipschitz}\label{stepW:w1:clip}
+$\mathcal N(y)-\mathcal N(y')=\mathcal T(y-y',y,y)+\mathcal T(y',y-y',y)+\mathcal T(y',y',y-y')$, so the difference is
+at most $C_*\norm{y-y'}(\norm y^2+\norm y\norm{y'}+\norm{y'}^2)\le3C_*\norm{y-y'}\max^2$.
+\proofstep{Frozen form}\label{stepW:w1:cfrozen}
+Theorem~\ref{bpW:w1:trilinear}(iv) and $\omega_{1,1}(l)/\omega_{1,2}(l)=l^{-1}$, $\omega_{1,0}(l)/\omega_{1,2}(l)=l^{-2}$;
+$C_*=K_{3/2}^2/\pi=C_m$ (Theorem~\ref{bpW:w0n:cubic-bound}).
+\end{proof}
+\source{P96-W Lemma~3, p.~279 (analyticity near $0$, with $O(\norm q^3)$); the global polynomial form and the
+constants are ours.}
+
+\begin{proposition}[Gradient identity]\label{bpW:w1:gradient-identity}
+Let $a>0$, $p\ge\frac12$, and for $q\in\ell^{a,p}$ let $G(q)=\frac14\int_0^\pi U_m(q)^4\,dx$ (Definition~\ref{bpW:w0:H}).
+Let $\langle u,v\rangle_0=\sum_{j\ge1}u_jv_j$ be the \emph{unweighted} pairing, absolutely convergent for
+$u\in\ell^{a,p+1}$, $v\in\ell^{a,p}$.
+\begin{enumerate}[label=(\roman*)]
+\item $G(q)=\frac14\langle\Gq(q),q\rangle_0=\frac14\mathcal Q(q,q,q,q)$ with the symmetric continuous $4$-linear form
+  $\mathcal Q(q_1,q_2,q_3,q_4)=\langle T(q_1,q_2,q_3),q_4\rangle_0$, $\abs{\mathcal Q}\le C_*\prod\norm{q_i}_{a,p}$.
+\item $G$ is real analytic on $\ell^{a,p}$ and $DG(q)h=\langle\Gq(q),h\rangle_0$ for all $h\in\ell^{a,p}$.
+\item $\Gq(q)$ is \emph{not} the Riesz gradient of $G$ for the inner product of $\ell^{a,p}$; that gradient is
+  $(\omega_{a,p}(j)^{-2}\Gq(q)_j)_j$. In frozen weighted coordinates: for $G^w(y)=G(\kappa_{1,1}y)$,
+  \[DG^w(y)h=\sum_{j\ge1}\Lean{cubicGrad m hm y j}\cdot\Lean{coeff h j},\qquad
+  \nabla^{\ell^2}G^w(y)=\Bigl(\frac{\mathcal G^w(y)_j}{\omega_{1,1}(j)\,\omega_{1,2}(j)}\Bigr)_j.\]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Quartic form}\label{stepW:w1:quartic}
+By Lemma~\ref{bpW:w0n:gradient}, $G(q)=\frac14\sum_{i,j,k,l}g_{ijkl}\hat q_i\hat q_j\hat q_k\hat q_l$ absolutely; grouping
+the sum over $l$ last gives $\frac14\sum_lq_l\,T(q,q,q)_l$. The same absolute convergence, with four different
+arguments, defines $\mathcal Q$; it is symmetric because $g$ is. Bound: $\abs{\langle u,v\rangle_0}\le
+\norm u_{0,0}\norm v_{0,0}\le\norm u_{a,p+1}\norm v_{a,p}$ (Cauchy--Schwarz and Lemma~\ref{bpW:w1:embed}), and
+Theorem~\ref{bpW:w0n:cubic-bound}.
+\proofstep{Derivative}\label{stepW:w1:gradder}
+$G=\frac14\mathcal Q\circ(q\mapsto(q,q,q,q))$ is analytic (\ref{bpW:w1:ext-analytic}), and by symmetry
+$DG(q)h=\frac14\cdot4\mathcal Q(q,q,q,h)=\langle T(q,q,q),h\rangle_0=\langle\Gq(q),h\rangle_0$
+(Theorem~\ref{bpW:w1:trilinear}(iv)).
+\proofstep{Weighted coordinates}\label{stepW:w1:gradw}
+$\langle\Gq(q),h\rangle_0=\sum_j\omega_{a,p}(j)^2\bigl(\omega_{a,p}(j)^{-2}\Gq(q)_j\bigr)h_j$ identifies the Riesz
+gradient. For the frozen form substitute $q=\kappa_{1,1}y$, $h\mapsto\kappa_{1,1}h$ and
+Corollary~\ref{bpW:w1:cubic-analytic}(iv); the $\ell^2$ gradient is read off from
+$\sum_j\Gq(\kappa_{1,1}y)_j\,h_j/\omega_{1,1}(j)$.
+\end{proof}
+\source{P96-W (7) p.~278 and (8)--(9) p.~280 (where $G_q$ is ``the gradient of $G$'' without naming the pairing).}
+
+\begin{proposition}[The Hamiltonian field]\label{bpW:w1:hamfield}
+Let $a>0$ and $p\ge\frac12$.
+\begin{enumerate}[label=(\roman*)]
+\item The linear field $X_\Lambda(q,p)=(\lambda p,-\lambda q)$ is bounded $E_{a,p}\to E_{a,p-1}$ with norm
+  $\le\sqrt{1+m}$, and is not bounded $E_{a,p}\to E_{a,p}$.
+\item The nonlinear field $X_G(q,p)=(0,-\Gq(q))$ is a real analytic map $E_{a,p}\to E_{a,p+1}$ (smoothing of order
+  one), $\norm{X_G(q,p)}_{E_{a,p+1}}\le C_*\norm q_{a,p}^3$, with the Lipschitz and derivative bounds of
+  Corollary~\ref{bpW:w1:cubic-analytic}. Its complex extension $(z,\bar z)\mapsto$ (same formula with
+  $\mathcal T_\C$) is $\C$-analytic $E^\C_{a,p}\to E^\C_{a,p+1}$.
+\item $X_H=X_\Lambda+X_G$ is real analytic $E_{a,p}\to E_{a,p-1}$.
+\item (Hamiltonian structure.) $H=\Lambda+G$ is real analytic on $E_{a,p}$, and for every $j$,
+  $DH(q,p)(0,e_j)=\lambda_jp_j$, $DH(q,p)(e_j,0)=\lambda_jq_j+\Gq(q)_j$; that is,
+  $X_H=(\partial_pH,-\partial_qH)$ coordinatewise, which is the system \eqref{bpW:w0:coeffsys}.
+\item (Frozen form, $a=p=1$.) In weighted coordinates, with $D=D_\mu$, $\mu_j=\lambda_j/j$, and $S=D_{(1/j)}$, the
+  map $X^w:$ \Lean{WaveSpace} $\to$ \Lean{WaveSpace},
+  \[X^w(y,y')=\bigl(Dy',\;-Dy-S^2\mathcal G^w(y)\bigr),\]
+  represents $X_H:E_{1,1}\to E_{1,0}$; it is real analytic on all of \Lean{WaveSpace}, and its $j$-th coordinates
+  are $\omega_{1,0}(j)\bigl(\lambda_j\,\Lean{coeff y' j},\,-\lambda_j\,\Lean{coeff y j}-\Lean{cubicGrad m hm y j}\bigr)$,
+  the right sides of the frozen conclusion (4) times $\omega_{1,0}(j)=e^j$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\proofstep{Linear part}\label{stepW:w1:hlin}
+Lemma~\ref{bpW:w1:diag}(i)--(ii) with $r=1$ in each component; the max norm is preserved under componentwise bounds.
+\proofstep{Nonlinear part}\label{stepW:w1:hnonlin}
+Corollary~\ref{bpW:w1:cubic-analytic} with Theorem~\ref{bpW:w1:trilinear}(iv) in the second component, composed with the
+continuous linear projection $(q,p)\mapsto q$; complex version from Theorem~\ref{bpW:w1:trilinear}(ii).
+\proofstep{Sum}\label{stepW:w1:hsum}
+$X_G$ maps into $E_{a,p+1}\subset E_{a,p-1}$ (Lemma~\ref{bpW:w1:embed}); a sum of a bounded linear and an analytic map
+is analytic.
+\proofstep{Hamiltonian}\label{stepW:w1:hham}
+$\Lambda(q,p)=\frac12(\langle\lambda q,q\rangle_0+\langle\lambda p,p\rangle_0)$ is the diagonal of the symmetric
+bilinear form $\beta(q,q')=\sum_j\lambda_jq_jq'_j$, and $\abs{\beta(q,q')}\le\sqrt{1+m}\sum_jj\abs{q_j}\abs{q'_j}\le
+\sqrt{1+m}\norm q_{0,1/2}\norm{q'}_{0,1/2}\le\sqrt{1+m}\norm q_{a,p}\norm{q'}_{a,p}$ (Lemma~\ref{bpW:w1:embed}, $p\ge\frac12$),
+so $\Lambda$ is a bounded quadratic form on $E_{a,p}$. Its derivative is
+$\langle\lambda q,h\rangle_0+\langle\lambda p,k\rangle_0$; add Proposition~\ref{bpW:w1:gradient-identity}(ii) and
+evaluate at $(e_j,0)$, $(0,e_j)$.
+\proofstep{Frozen form}\label{stepW:w1:hfrozen}
+Coordinates of $X_H(\kappa_{1,1}y,\kappa_{1,1}y')$ times $\omega_{1,0}(j)=e^j$: $e^j\lambda_jy'_j/(je^j)=(\lambda_j/j)y'_j$,
+and $e^j\,\Lean{cubicGrad}_j=j^{-2}\mathcal G^w(y)_j$ by Corollary~\ref{bpW:w1:cubic-analytic}(iv). $D$ and $S$ are bounded
+by Lemma~\ref{bpW:w1:multiplier} ($\sup\lambda_j/j=\sqrt{1+m}$, $\sup1/j=1$), so $X^w$ is a polynomial map on
+\Lean{WaveSpace}, analytic by \ref{bpW:w1:ext-analytic}.
+\end{proof}
+\source{P96-W p.~280 (``$X_G$ defines a real analytic map from some neighbourhood of the origin in
+$\ell^{a,s}\times\ell^{a,s}$ into $\ell^{a,s+1}\times\ell^{a,s+1}$ \dots\ $X_\Lambda$ is unbounded of order 1''); P96-K
+Assumption~C p.~121 ($X_P:\mathcal P^{a,p}\to\mathcal P^{a,\bar p}$, $\bar p>p$ for $d=1$). Global analyticity is ours.}
+
+\subsection{The sine system and analytic reconstruction}\label{bpW:w1:sines}
+
+\begin{lemma}[Completeness of the sine system]\label{bpW:w1:sine-completeness}
+(i) If $f\in L^2(0,\pi)$ and $\int_0^\pi f\phi_l\,dx=0$ for all $l\ge1$, then $f=0$ almost everywhere on $(0,\pi)$.
+(ii) If moreover $f$ is continuous on $[0,\pi]$, then $f=0$ on $[0,\pi]$.
+\end{lemma}
+
+\begin{proof}
+\proofstep{Odd extension}\label{stepW:w1:odd}
+Define $g$ on $(-\pi,\pi]$ by $g(x)=f(x)$ for $0<x\le\pi$, $g(x)=-f(-x)$ for $-\pi<x<0$, $g(0)=0$, and regard it as a
+function on $\R/2\pi\Z$. Then $g\in L^2$, with $\norm g^2=2\norm f^2$ for the Lebesgue measure on $(-\pi,\pi]$.
+\proofstep{Fourier coefficients vanish}\label{stepW:w1:coeffs}
+For $n\in\Z$, $\int_{-\pi}^\pi g(x)e^{-inx}dx=\int_0^\pi f(x)(e^{-inx}-e^{inx})dx=-2i\int_0^\pi f(x)\sin(nx)\,dx$
+(substitute $x\mapsto-x$ on $(-\pi,0)$). This vanishes for $n=0$, for $n\ge1$ by hypothesis
+($\sin(nx)=\sqrt{\pi/2}\,\phi_n(x)$), and for $n\le-1$ since $\sin(nx)=-\sin(\abs nx)$.
+\proofstep{Hilbert basis}\label{stepW:w1:basis}
+The Fourier coefficients of $g$ for the normalized Haar measure are $(2\pi)^{-1}$ times the integrals above, hence
+all zero; by \ref{bpW:w1:ext-fourier} (the coefficient map of a Hilbert basis is injective), $g=0$ in $L^2$, so $g=0$
+a.e.\ and $f=0$ a.e.\ on $(0,\pi)$.
+\proofstep{Continuity}\label{stepW:w1:cont}
+If $f$ is continuous and $f(x_0)\ne0$ for some $x_0\in[0,\pi]$, then $\abs f>\abs{f(x_0)}/2$ on a relatively open
+subinterval of $[0,\pi]$ of positive length, contradicting (i).
+\end{proof}
+\source{standard (P96-W p.~279, first paragraph, asserted); used in Step~\ref{stepW:w0n:force}. Lean: transport of
+$g$ to \Lean{AddCircle (2 * Real.pi)} and \Lean{fourierBasis}; the measure normalization is the factor $(2\pi)^{-1}$.}
+
+\begin{lemma}[Analytic sine features]\label{bpW:w1:sine-feature}
+Let $a>0$, $p\in\R$, $k\in\N$, and let $\beta:\N_+\to\R$ satisfy $\abs{\beta_j}\le Bj^\nu$ for some $B,\nu\ge0$. For
+$x\in\C$ with $\abs{\operatorname{Im}x}<a$ define $\Psi(x)\in\ell^2_\C$ by
+\[\Psi(x)_j=\frac{\beta_j\,\phi_j^{(k)}(x)}{\omega_{a,p}(j)},\qquad\phi_j^{(k)}(x)=\sqrt{2/\pi}\,j^k\sin^{(k)}(jx).\]
+\begin{enumerate}[label=(\roman*)]
+\item For $0<a'<a$, $\sum_j\sup_{\abs{\operatorname{Im}x}\le a'}\abs{\Psi(x)_j}\le\sqrt{2/\pi}\,B\sum_jj^{\nu+k-p}e^{-(a-a')j}<\infty$.
+\item $\Psi$ is holomorphic on the strip $\{\abs{\operatorname{Im}x}<a\}$, hence $\C$-analytic there; $\Psi(x)$ is real
+  for real $x$, and $\Psi_\R=\operatorname{re}\circ\Psi|_\R:\R\to\ell^2_\R$ is real analytic.
+\item For real $x$ and $y\in\ell^2_\R$, $\langle\Psi_\R(x),y\rangle=\sum_j\beta_j\,(\kappa_{a,p}y)_j\,\phi_j^{(k)}(x)$,
+  absolutely convergent.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Growth on the strip}\label{stepW:w1:growth}
+$\abs{\sin^{(k)}(jx)}\le\cosh(j\operatorname{Im}x)\le e^{j\abs{\operatorname{Im}x}}$, so
+$\abs{\Psi(x)_j}\le\sqrt{2/\pi}Bj^{\nu+k-p}e^{-(a-a')j}$ on $\abs{\operatorname{Im}x}\le a'$; the series converges since
+$a-a'>0$.
+\proofstep{Normal convergence}\label{stepW:w1:normal}
+The partial sums $\Psi^N(x)=\sum_{j\le N}\Psi(x)_je_j$ are holomorphic (finite sums of entire functions times fixed
+vectors), and by (i) $\sup_{\abs{\operatorname{Im}x}\le a'}\norm{\Psi-\Psi^N}\le\sum_{j>N}\sup\abs{\Psi_j}\to0$. Every
+compact subset of the strip lies in some $\{\abs{\operatorname{Im}x}\le a'\}$, so $\Psi^N\to\Psi$ locally uniformly and
+$\Psi$ is holomorphic and analytic by \ref{bpW:w1:ext-onevar}.
+\proofstep{Real restriction}\label{stepW:w1:sinereal}
+For real $x$ all coordinates are real, so $\Psi(x)=\iota\Psi_\R(x)$; $\Psi_\R=\operatorname{re}\circ\Psi\circ(\R\hookrightarrow\C)$
+is real analytic by Lemma~\ref{bpW:w1:complexification-lemma}(ii). (iii) is \Lean{lp.inner\_eq\_tsum} and
+$y_j/\omega_{a,p}(j)=(\kappa_{a,p}y)_j$.
+\end{proof}
+\source{ours (P96-W Lemma~1, p.~278, uses complex neighbourhoods in $x$ in the same way).}
+
+\begin{corollary}[Analytic reconstruction]\label{bpW:w1:recon-analytic}
+Let $Y:\R^n\to\ell^2_\R$ be real analytic at $s_0$ (Lean \Lean{AnalyticAt Real Y s0}) and $k\in\N$. Then
+$(s,x)\mapsto\partial_x^k\,$\Lean{reconU m hm (Y s)}$(x)$ and $(s,x)\mapsto\partial_x^k\,$\Lean{reconV m hm (Y s)}$(x)$
+are real analytic at $(s_0,x_0)$ for every $x_0\in\R$; for $k=0$ these are exactly the functions
+$(s,x)\mapsto$ \Lean{reconU m hm (Y s) x}, \Lean{reconV m hm (Y s) x}, and for $k=1$ the $x$-derivative equals
+\Lean{derivWithin (reconU m hm (Y s)) (Set.Icc 0 Real.pi) x} for $x\in[0,\pi]$.
+\end{corollary}
+
+\begin{proof}
+\proofstep{Bilinear form}\label{stepW:w1:bil}
+Take $a=p=1$ and $\beta_j=\lambda_j^{-1/2}$ (for $U_m$) or $\beta_j=\lambda_j^{1/2}$ (for $V_m$), so
+$\abs{\beta_j}\le(1+m)^{1/4}j^{1/2}$. By Lemma~\ref{bpW:w1:sine-feature}(iii), the function is
+$(s,x)\mapsto\langle\Psi^{(k)}_\R(x),Y(s)\rangle$: for $k=0$ this is the frozen \Lean{tsum} term by term
+(\Lean{coeff (Y s) j = ($\kappa_{1,1}$ (Y s)) j}).
+\proofstep{Analyticity}\label{stepW:w1:recanalytic}
+The real inner product is a continuous bilinear map; compose with $Y$ (analytic at $s_0$) and $\Psi^{(k)}_\R$ (analytic
+at $x_0$) by \ref{bpW:w1:ext-analytic} (\Lean{AnalyticAt.comp2} on the pair $(s,x)$).
+\proofstep{Derivatives}\label{stepW:w1:recder}
+$\frac{d}{dx}\langle\Psi^{(k)}_\R(x),y\rangle=\langle(\Psi^{(k)}_\R)'(x),y\rangle$, and $(\Psi^{(k)}_\R)'=\Psi^{(k+1)}_\R$
+because coordinate evaluation is continuous linear (so the derivative of $\Psi$ has the termwise derivatives as
+coordinates). At $x\in[0,\pi]$ the derivative within $[0,\pi]$ equals the two-sided derivative, since the function is
+differentiable on $\R$ and $[0,\pi]$ has unique derivatives (\Lean{uniqueDiffOn\_Icc}).
+\end{proof}
+\source{P96-W Lemma~1, p.~278 (real analyticity of $u$ in $t$ and $x$, argued via complex neighbourhoods); ours in
+this form. Consumed by W2 (frozen conclusion (5)).}
+
+\subsection{Analytic maps between weighted spaces}\label{bpW:w1:analytic}
+
+\begin{definition}[Complexification]\label{bpW:w1:complexification}
+$\iota:\ell^2_\R\to\ell^2_\C$, $(\iota y)_j=y_j$; $\operatorname{re}:\ell^2_\C\to\ell^2_\R$,
+$(\operatorname{re}z)_j=\operatorname{Re}z_j$; conjugation $(\bar z)_j=\overline{z_j}$; and componentwise on products,
+e.g.\ $E^\C_{a,p}$ for $E_{a,p}$, represented by $(\ell^2_\C)^2$. A map $f$ from an open subset of $\ell^2_\C$ (or a
+product) is \emph{real on reals} if $f(\iota y)\in\iota(\ell^2_\R)$ whenever defined.
+\end{definition}
+\source{ours (P96-W p.~281: ``real analytic means that $H$ is a function of $z$ and $\bar z$, real analytic in the real
+and imaginary part of $z$'').}
+
+\begin{lemma}[Complexification and real analyticity]\label{bpW:w1:complexification-lemma}
+\begin{enumerate}[label=(\roman*)]
+\item $\iota$ and $\operatorname{re}$ are continuous $\R$-linear, $\norm{\iota y}=\norm y$, $\norm{\operatorname{re}z}\le\norm z$,
+  $\operatorname{re}\circ\iota=\mathrm{id}$, $\norm{\iota y+i\iota y'}^2=\norm y^2+\norm{y'}^2$, and conjugation is a
+  conjugate-linear isometry. All three commute with $\tau_{a,p}$, $\kappa_{a,p}$ and every real multiplier $D_\mu$.
+\item If $F_1,F_2$ are complex Banach spaces, $V$ a real normed space, $\ell:V\to F_1$ and $\pi:F_2\to W$ continuous
+  $\R$-linear, and $f$ is $\C$-analytic at $\ell(x)$, then $\pi\circ f\circ\ell$ is $\R$-analytic at $x$.
+\item In particular, if $f$ is defined near $\iota y$ in $\ell^2_\C$ (or a product), $\C$-analytic at $\iota y$, and
+  real on reals near $\iota y$, then $g=\operatorname{re}\circ f\circ\iota$ is $\R$-analytic at $y$ and $\iota\circ g=f\circ\iota$
+  near $y$; its real derivative is $Dg(y)h=\operatorname{re}\,Df(\iota y)\iota h$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) is coordinatewise. (ii): $f$ is $\R$-analytic at $\ell(x)$ (\Lean{AnalyticAt.restrictScalars}), and composition
+with the $\R$-linear continuous maps $\ell$, $\pi$ preserves analyticity (\ref{bpW:w1:ext-analytic}). (iii): (ii) with
+$\ell=\iota$, $\pi=\operatorname{re}$, and $\iota\circ\operatorname{re}=\mathrm{id}$ on $\iota(\ell^2_\R)$; the derivative by
+the chain rule.
+\end{proof}
+\source{standard.}
+
+\begin{definition}[Holomorphic maps on Banach domains]\label{bpW:w1:holomorphic}
+Let $F_1,F_2$ be complex Banach spaces and $U\subset F_1$ open. A map $f:U\to F_2$ is \emph{holomorphic} if it is
+complex Fr\'echet differentiable at every point of $U$ (Lean \Lean{DifferentiableOn Complex f U}). We write
+$\norm f_U=\sup_U\norm f$.
+\end{definition}
+\source{P96-K p.~121 (``real analytic in $D(s,r)$'') and App.~A p.~146; P96-W p.~281.}
+
+\begin{lemma}[Cauchy estimate]\label{bpW:w1:cauchy}
+Let $f$ be holomorphic on the open ball $B(v,r)\subset F_1$ with $\norm f\le M$ there. Then $\norm{Df(v)}\le M/r$ in the
+operator norm. Consequently, if $f$ is holomorphic on an open $V$ with $\norm f_V\le M$ and $B(w,\delta)\subset V$,
+then $\norm{Df(w)}\le M/\delta$; and $f$ is $(M/\delta)$-Lipschitz on every convex set $C$ with
+$C+B(0,\delta)\subset V$.
+\end{lemma}
+
+\begin{proof}
+\proofstep{Complex lines}\label{stepW:w1:lines}
+Fix $u\in F_1$ with $\norm u=1$ and $0<r'<r$. The map $\varphi(\zeta)=f(v+\zeta u)$ is holomorphic on $\abs\zeta<r$
+(chain rule), in particular continuous on $\abs\zeta\le r'$, with $\varphi'(0)=Df(v)u$ and $\norm\varphi\le M$.
+\proofstep{One-variable estimate}\label{stepW:w1:onevar}
+By \ref{bpW:w1:ext-onevar}, $\norm{Df(v)u}\le M/r'$; let $r'\uparrow r$ and take the supremum over $u$.
+\proofstep{Margins}\label{stepW:w1:margins}
+Apply this on $B(w,\delta)$; the Lipschitz bound is the mean value inequality (\ref{bpW:w1:ext-unifderiv}) on $C$.
+\end{proof}
+\source{P96-K Lemma~A.3, p.~147, and its proof.}
+
+\begin{lemma}[Uniform limits]\label{bpW:w1:uniform-limit}
+Let $U\subset F_1$ be open, $f_k:U\to F_2$ holomorphic, and $f_k\to f$ uniformly on $U$. Then $f$ is holomorphic on $U$,
+$Df_k\to Df$ uniformly on every ball $B(w,\delta)$ with $B(w,2\delta)\subset U$, and $\norm{Df(w)}\le\norm f_U/\delta$
+there. If every $f_k$ is real on reals, so is $f$.
+\end{lemma}
+
+\begin{proof}
+\proofstep{Cauchy in derivatives}\label{stepW:w1:ulcauchy}
+For $w'\in B(w,\delta)$, $B(w',\delta)\subset U$, so Lemma~\ref{bpW:w1:cauchy} applied to $f_k-f_l$ gives
+$\norm{Df_k(w')-Df_l(w')}\le\norm{f_k-f_l}_U/\delta$. Thus $(Df_k)$ is uniformly Cauchy on $B(w,\delta)$ in the
+complete space of bounded $\C$-linear maps, with a uniform limit $g$.
+\proofstep{Limit}\label{stepW:w1:ullimit}
+By \ref{bpW:w1:ext-unifderiv} on the open ball, $f$ is $\C$-differentiable there with $Df=g$. Since $w$ is
+arbitrary, $f$ is holomorphic on $U$; the bound on $Df(w)$ is Lemma~\ref{bpW:w1:cauchy}. Real on reals: $\iota(\ell^2_\R)$
+is closed.
+\end{proof}
+\source{standard (used implicitly in P96-K \S4, convergence of the iteration).}
+
+\begin{lemma}[Holomorphic maps of finitely many variables are analytic]\label{bpW:w1:holo-analytic-fd}
+Let $U\subset\C^n$ be open (max norm), $F$ a complex Banach space and $f:U\to F$ holomorphic. Then $f$ is $\C$-analytic
+on $U$ (Lean \Lean{AnalyticOnNhd Complex f U}); on every closed polydisc $\bar P(z_0,r)\subset U$ it is the sum of an
+absolutely convergent power series with coefficients bounded by $\norm f_{\bar P(z_0,r)}r^{-\abs\alpha}$.
+If $F=E^\C_{a,p}$ and $f$ is real on reals at the real points of $U$, then
+$\operatorname{re}\circ f|_{U\cap\R^n}$ is real analytic into $E_{a,p}$.
+\end{lemma}
+
+\begin{proof}
+The proof of track~K's Lemma \texttt{bp:p1:holomorphic-analytic} (steps \texttt{step:p1:han-margin} through
+\texttt{step:p1:han-real}) applies verbatim with $W$ replaced by the complete space $F$: finite dimensionality of $W$ is
+used there only through boundedness of a continuous map on a compact polydisc (true in any normed space), the
+one-variable Cauchy formula (valid for complete $F$, \ref{bpW:w1:ext-onevar}), and Fubini and term-by-term integration
+of uniformly convergent series of continuous $F$-valued maps on a compact torus (Bochner integral,
+\ref{bpW:w1:ext-integral}). The real statement is Lemma~\ref{bpW:w1:complexification-lemma}(iii).
+\end{proof}
+\source{standard; track~K blueprint \texttt{bp:p1:holomorphic-analytic}.}
+
+\begin{corollary}[Real-analytic tori from complex strips]\label{bpW:w1:torus-analytic}
+Let $s>0$, $T_s=\{\theta\in\C^2:\max_i\abs{\operatorname{Im}\theta_i}<s\}$, and let $\tilde K:T_s\to E^\C_{1,1}$ be
+holomorphic, real on reals, and $1$-periodic. Then $K=\operatorname{re}\circ\tilde K|_{\R^2}:\R^2\to$ \Lean{WaveSpace}
+satisfies \Lean{AnalyticOnNhd Real K Set.univ}, is $\Z^2$-periodic, and \Lean{fderiv Real K $\theta$ h} $=\operatorname{re}\,D\tilde K(\theta)h$
+for $h\in\R^2$.
+\end{corollary}
+
+\begin{proof}
+Lemma~\ref{bpW:w1:holo-analytic-fd} with $U=T_s$ and Lemma~\ref{bpW:w1:complexification-lemma}(iii); periodicity
+restricts.
+\end{proof}
+\source{ours; the analyticity clause of the frozen \Lean{IsAnalyticTorusEmbedding} (consumed by W6, W8).}
+
+\begin{lemma}[Holomorphic flows]\label{bpW:w1:flow}
+Let $F$ be a complex Banach space, $V\subset F$ open, $X:V\to F$ holomorphic with $\norm X_V\le M$, and $U\subset V$
+open with $B(w,2\delta)\subset V$ for all $w\in U$, where $0<M<\delta$. Put $L=M/\delta<1$.
+\begin{enumerate}[label=(\roman*)]
+\item For every $w\in U$ there is a unique $C^1$ curve $t\mapsto\phi^t(w)$, $t\in[-1,1]$, with $\phi^0(w)=w$,
+  $\frac{d}{dt}\phi^t(w)=X(\phi^t(w))$ and values in $V$; it satisfies $\norm{\phi^t(w)-w}\le\abs tM$. Hence
+  $\norm{\phi^t-\mathrm{id}}_U\le\norm X_V$.
+\item For each $t\in[-1,1]$, $w\mapsto\phi^t(w)$ is holomorphic on $U$ and $\norm{D\phi^t(w)}\le e^{L\abs t}$.
+\item If $F=E^\C$ for a real space $E$ and $X$ is real on reals, then $\phi^t$ is real on reals.
+\item (Parameters.) Let $X(\cdot,\xi)$, $\xi\in\Pi$, each satisfy the hypotheses with the same $V,U,M,\delta$. Then for
+  $\xi,\zeta\in\Pi$ and $\abs t\le1$, with $\Delta f=f(\cdot,\xi)-f(\cdot,\zeta)$,
+  $\norm{\Delta(\phi^t-\mathrm{id})}_U\le\abs t\,e^{L\abs t}\norm{\Delta X}_V$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Lipschitz region}\label{stepW:w1:flowlip}
+For $w\in U$ and $w'\in B(w,\delta)$, $B(w',\delta)\subset B(w,2\delta)\subset V$, so $\norm{DX(w')}\le L$ by
+Lemma~\ref{bpW:w1:cauchy}, and $X$ is $L$-Lipschitz on the convex ball $B(w,\delta)$.
+\proofstep{Picard iterates}\label{stepW:w1:picard}
+Let $\phi_0(w,t)=w$ and $\phi_{k+1}(w,t)=w+\int_0^tX(\phi_k(w,\sigma))\,d\sigma$. By induction,
+$\norm{\phi_k(w,t)-w}\le\abs tM<\delta$, so the iterates stay in $B(w,\delta)$ and are continuous in $(w,t)$, and
+$\norm{\phi_{k+1}(w,t)-\phi_k(w,t)}\le M L^k\abs t^{k+1}/(k+1)!$ uniformly in $w\in U$.
+\proofstep{Holomorphy of the iterates}\label{stepW:w1:picardholo}
+By induction, $w\mapsto\phi_k(w,t)$ is holomorphic on $U$ with $\norm{D_w\phi_k(w,t)}\le\sum_{i\le k}(L\abs t)^i/i!\le e^{L\abs t}$:
+differentiate under the integral sign (\ref{bpW:w1:ext-integral}) with the dominating bound
+$\norm{DX}\,\norm{D_w\phi_k}\le Le^{L}$ on $B(w,\delta)$.
+\proofstep{Limit}\label{stepW:w1:flowlim}
+The iterates converge uniformly on $U\times[-1,1]$ to $\phi$, which satisfies the integral equation (pass to the limit
+under the integral), hence is a $C^1$ solution; uniqueness among solutions in $V$ is \ref{bpW:w1:ext-ode} on
+$B(w,\delta)$ (a solution with values in $V$ stays in $B(w,\delta)$ for $\abs t\le1$, since $\norm{\dot\phi}\le M$). By
+Lemma~\ref{bpW:w1:uniform-limit}, $\phi^t$ is holomorphic; the derivative bound passes to the limit. This proves (i),
+(ii).
+\proofstep{Reality}\label{stepW:w1:flowreal}
+If $X$ is real on reals, every Picard iterate of a real initial point is real, and the real subspace is closed.
+\proofstep{Parameters}\label{stepW:w1:flowpar}
+Let $\psi^t=\phi^t(w,\xi)-\phi^t(w,\zeta)$; both curves lie in the convex ball $B(w,\delta)$. Then
+$\norm{\dot\psi^t}\le\norm{\Delta X}_V+L\norm{\psi^t}$, $\psi^0=0$, and Gronwall (\ref{bpW:w1:ext-ode}) gives
+$\norm{\psi^t}\le\norm{\Delta X}_V\,(e^{L\abs t}-1)/L\le\abs te^{L\abs t}\norm{\Delta X}_V$.
+\end{proof}
+\source{P96-K Lemma~A.4, p.~147 (estimates (i), (iv)), and P96-K \S3, (10), p.~130 (existence of the flow on a smaller
+domain).}
+\sourcegap{P96-K Lemma~A.4 bounds $\norm{X\circ\phi^s(\cdot,\xi)-X\circ\phi^s(\cdot,\zeta)}$ by
+$\norm{DX}_V\norm{\Delta\phi^s}_U$, which needs the segment between the two points to lie in $V$ (not assumed: $V$ is an
+arbitrary open domain), and $\norm{DX}_V<\infty$ (not implied by $X$ being $C^1$ on $V$). The hypotheses above (a ball
+margin $2\delta$ and $M<\delta$) supply both; in the KAM step they hold by (9)--(10) of P96-K p.~129--130.}
+
+\subsection{Support for the KAM step}\label{bpW:w1:kam}
+
+\begin{definition}[KAM phase space, domains, norms]\label{bpW:w1:kam-space}
+Let $a\ge0$, $p\in\R$. The complex phase space is $\mathcal P^{a,p}_\C=\C^2\times\C^2\times\ell^{a,p}_\C\times\ell^{a,p}_\C$
+with points $(\theta,y,u,v)$ (Lean: \Lean{(Fin 2 -> Complex) $\times$ (Fin 2 -> Complex) $\times$ lp ... 2 $\times$ lp ... 2} in weighted coordinates);
+$\abs\cdot$ is the max norm on $\C^2$. For $s,r>0$,
+\[D(s,r)=\{(\theta,y,u,v):\max_i\abs{\operatorname{Im}\theta_i}<s,\ \abs y<r^2,\ \norm u_{a,p}+\norm v_{a,p}<r\},\]
+and for $W=(\Theta,Y,U,V)\in\mathcal P^{a,\bar p}_\C$,
+\[\abs W_{\bar p,r}=\abs\Theta+\frac{\abs Y}{r^2}+\frac{\norm U_{a,\bar p}}r+\frac{\norm V_{a,\bar p}}r.\]
+For a linear map $L:\mathcal P^{a,p}_\C\to\mathcal P^{a,\bar p}_\C$, $\abs L_{r,s}=\sup_{W\ne0}\abs{LW}_{\bar p,r}/\abs W_{p,s}$.
+The angle $\theta$ has period one: $x=2\pi\theta$ is P96-K's angle, a P96-K strip $\abs{\operatorname{Im}x}<s_K$ is
+$\abs{\operatorname{Im}\theta}<s_K/(2\pi)$, and the $\theta$-component of a vector field is $(2\pi)^{-1}$ times its
+$x$-component.
+\end{definition}
+\source{P96-K p.~120 ($\mathcal P^{a,p}$), p.~121 ((1) and $D(s,r)$), p.~129 (operator norm); period conversion ours.}
+
+\begin{remark}[Conventions to carry into W4--W6]\label{bpW:w1:kam-conventions}
+P96-K writes $z=(u-iv)/\sqrt2$, $\bar z=(u+iv)/\sqrt2$ (p.~124), the complex conjugate of the W0 convention
+$z=(q+ip)/\sqrt2$ (Definition~\ref{bpW:w0:z}). Since the normal form $\avg{\omega,y}+\avg{\Omega,z\bar z}$ and the
+smallness norms are invariant under $z\leftrightarrow\bar z$, this is a relabelling, not a defect; W4--W6 should keep the
+W0 convention and state the swap once. The domain $D(s,r)$ uses the sum $\norm u+\norm v$, not the max norm of
+\Lean{WaveSpace}; the two differ by a factor at most $2$.
+\end{remark}
+
+\begin{lemma}[Domains]\label{bpW:w1:kam-domain}
+Let $0<\sigma\le1$, $0<2\sigma<s$, $r>0$. Then $D(s,r)$ is open and convex, $D(s',r')\subset D(s,r)$ for $s'\le s$, $r'\le r$,
+and every $W_0\in D(s-2\sigma,r/2)$ satisfies $W_0+W\in D(s-\sigma,r)$ whenever $\abs W_{p,r}<\sigma/2$. Also
+$\abs W_{\bar p,r}\le\abs W_{p,r}$ for $\bar p\le p$ and $\abs W_{p,r}\le\abs W_{p,r'}$ for $r'\le r$.
+\end{lemma}
+
+\begin{proof}
+Openness and convexity: each defining condition is a strict sublevel set of a continuous convex function
+($\theta\mapsto\abs{\operatorname{Im}\theta_i}$ is a seminorm). For the margin, $\abs\Theta<\sigma/2$ gives
+$\abs{\operatorname{Im}(\theta+\Theta)}<s-2\sigma+\sigma/2<s-\sigma$; $\abs Y<r^2\sigma/2\le r^2/2$ gives
+$\abs{y+Y}<r^2/4+r^2/2<r^2$; $\norm U+\norm V<r\sigma/2\le r/2$ gives $\norm{u+U}+\norm{v+V}<r/2+r/2=r$. The norm
+comparisons are Lemma~\ref{bpW:w1:embed}(i) and $1/r^2\le1/r'^2$, $1/r\le1/r'$.
+\end{proof}
+\source{P96-K p.~129 (``every point in $D(s-2\sigma,r/2)$ has at least $\abs\cdot_{p,r}$-distance $\sigma/2$ to the
+boundary of $D(s-\sigma,r)$'', with $\sigma\le1$ from (6)); checked here.}
+
+\begin{lemma}[Hilbert-valued Fourier series on strips]\label{bpW:w1:fourier-l2}
+Let $\mathcal H$ be a complex Hilbert space (in the applications $\ell^2_\C$, representing $\ell^{a,p}_\C$), $n\ge1$,
+$s>0$, $T_s=\{\theta\in\C^n:\max_i\abs{\operatorname{Im}\theta_i}<s\}$, and $u:T_s\to\mathcal H$ holomorphic, $1$-periodic,
+with $\norm u_s=\sup_{T_s}\norm u<\infty$. Let $\hat u_k=\int_{[0,1]^n}u(x)e^{-2\pi ik\cdot x}dx$ ($k\in\Z^n$).
+\begin{enumerate}[label=(\roman*)]
+\item $\sum_k\norm{\hat u_k}^2e^{4\pi\abs k_1s}\le2^n\norm u_s^2$.
+\item Conversely, if $c_k\in\mathcal H$ satisfy $\sum_k\norm{c_k}e^{2\pi\abs k_1s}<\infty$, then
+  $v(\theta)=\sum_kc_ke^{2\pi ik\cdot\theta}$ converges absolutely and uniformly on $T_s$, $v$ is holomorphic and
+  $1$-periodic on $T_s$, $\hat v_k=c_k$, and $\norm v_s\le\sum_k\norm{c_k}e^{2\pi\abs k_1s}$.
+\item Every $u$ as in (i) is the sum of its Fourier series on $T_{s'}$ for $s'<s$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Shifted coefficients}\label{stepW:w1:shift}
+For $\eta\in\R^n$ with $\max\abs{\eta_i}<s$, $\hat u_k\,e^{2\pi k\cdot\eta}$ is the $k$-th Fourier coefficient of the
+continuous periodic map $x\mapsto u(x+i\eta)$: apply the contour shift of track~K's \texttt{bp:p1:fourier-basic} to the
+scalar holomorphic functions $\langle e,u\rangle$, $e\in\mathcal H$, and use that these determine vectors.
+\proofstep{Parseval}\label{stepW:w1:parseval}
+For a continuous periodic $\mathcal H$-valued $g$, $\sum_k\norm{\hat g_k}^2=\int_{[0,1]^n}\norm g^2\le\sup\norm g^2$: expand
+in an orthonormal basis $(e_\alpha)$ of $\mathcal H$ (for $\ell^2_\C$, the coordinate vectors), apply scalar Parseval
+(\ref{bpW:w1:ext-fourier}) to each $\langle e_\alpha,g\rangle$ and sum (Tonelli). Hence
+$\sum_k\norm{\hat u_k}^2e^{4\pi k\cdot\eta}\le\norm u_s^2$.
+\proofstep{Orthants}\label{stepW:w1:orthants}
+For $s'<s$ and $\varepsilon\in\{\pm1\}^n$ take $\eta=s'\varepsilon$. Since $e^{4\pi s'\abs k_1}=e^{4\pi s'\varepsilon\cdot k}$
+for $\varepsilon_i=\operatorname{sgn}k_i$ (any sign when $k_i=0$), $e^{4\pi s'\abs k_1}\le\sum_\varepsilon e^{4\pi s'\varepsilon\cdot k}$;
+summing over the $2^n$ choices gives (i) with $s'$, and monotone convergence gives $s$.
+\proofstep{Summation}\label{stepW:w1:fsum}
+(ii): $\abs{e^{2\pi ik\cdot\theta}}\le e^{2\pi\abs k_1s}$ on $T_s$; uniform convergence of holomorphic partial sums and
+Lemma~\ref{bpW:w1:uniform-limit}; coefficients by term-by-term integration. (iii): by (i) and Cauchy--Schwarz,
+$\sum_k\norm{\hat u_k}e^{2\pi\abs k_1s'}\le2^{n/2}\norm u_s(\sum_ke^{-4\pi\abs k_1(s-s')})^{1/2}<\infty$; the sum $v$ of (ii)
+has the same coefficients as $u$ on $\R^n$, so $\langle e,u-v\rangle$ vanishes on $\R^n$ by scalar uniqueness
+(\texttt{bp:p1:fourier-basic}) and on $T_{s'}$ by the identity theorem (\texttt{bp:p1:strip-identity}).
+\end{proof}
+\source{P96-K p.~126 (``the usual $L^2$-bound $\sum_k\norm{\hat R_k}^2e^{2\abs k\abs s}\le2^n\norm{\hat R}^2_{D(s)}$'',
+period $2\pi$; with $\theta=x/2\pi$, $e^{2\abs k s_K}=e^{4\pi\abs k_1s}$ for $s=s_K/2\pi$).}
+
+\begin{lemma}[Hilbert-matrix bound]\label{bpW:w1:schur}
+Let $A$ be a bounded linear operator on $\ell^2_{\mathbb K}$ with matrix $A_{ij}=(Ae_j)_i$ ($i,j\ge1$).
+\begin{enumerate}[label=(\roman*)]
+\item The matrix $B_{ij}=\abs{A_{ij}}/\abs{i-j}$ ($i\ne j$), $B_{ii}=0$, defines a bounded operator,
+  $(Bv)_i=\sum_jB_{ij}v_j$ absolutely convergent, with $\norm B\le\frac\pi{\sqrt3}\norm A$.
+\item The diagonal $(A_{ii})$ defines a multiplier with norm $\le\norm A$.
+\item If $F_{ij}$ satisfies $\abs{F_{ij}}\le c\abs{A_{ij}}/\abs{i-j}$ for $i\ne j$ and $\abs{F_{ii}}\le c\abs{A_{ii}}$,
+  then $F$ defines a bounded operator with $\norm F\le c(1+\pi/\sqrt3)\norm A\le3c\norm A$.
+\item The same holds for $A:\ell^{a,p}_{\mathbb K}\to\ell^{a,\bar p}_{\mathbb K}$ with the matrix of the representative
+  $\hat A$ (Definition~\ref{bpW:w1:transport}): the ratios $\abs{F_{ij}}/\abs{A_{ij}}$ are unchanged by the weights.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Row and column sums}\label{stepW:w1:rows}
+$\sum_j\abs{A_{ij}}^2=\norm{A^*e_i}^2\le\norm A^2$ and $\sum_i\abs{A_{ij}}^2=\norm{Ae_j}^2\le\norm A^2$. By
+Cauchy--Schwarz and $\sum_{k\in\Z\setminus0}k^{-2}=\pi^2/3$ (\ref{bpW:w1:ext-series}),
+$\sum_jB_{ij}\le\Lambda\norm A$ and $\sum_iB_{ij}\le\Lambda\norm A$ with $\Lambda=\pi/\sqrt3$.
+\proofstep{Schur test}\label{stepW:w1:schurtest}
+$\norm{Bv}^2\le\sum_i\bigl(\sum_jB_{ij}\bigr)\bigl(\sum_jB_{ij}\abs{v_j}^2\bigr)\le\Lambda\norm A\sum_j\bigl(\sum_iB_{ij}\bigr)
+\abs{v_j}^2\le\Lambda^2\norm A^2\norm v^2$, via finite partial sums (\ref{bpW:w1:ext-lp}).
+\proofstep{Diagonal and combination}\label{stepW:w1:diagcomb}
+$\abs{A_{ii}}=\abs{\langle e_i,Ae_i\rangle}\le\norm A$ and Lemma~\ref{bpW:w1:multiplier}. For (iii), split $F$ into
+off-diagonal and diagonal parts, dominated entrywise by $cB$ and $c\,\mathrm{diag}(\abs{A_{ii}})$; an entrywise
+dominated matrix has operator norm at most that of the nonnegative dominating matrix (apply it to $\abs v$).
+$1+\pi/\sqrt3<2.82$.
+\proofstep{Weights}\label{stepW:w1:schurweights}
+$\hat A_{ij}=\omega_{a,\bar p}(i)A_{ij}/\omega_{a,p}(j)$ and likewise for $F$, so the hypotheses of (iii) transfer.
+\end{proof}
+\source{P96-K Lemma~A.1, pp.~145--146, and its use on p.~127 (the factor $3(A_k/\alpha)$).}
+
+\subsection{Ledger}\label{bpW:w1:ledger}
+
+\paragraph{PLAN nodes.}
+\texttt{bpW:w1:space} $\to$ Lemma~\ref{bpW:w1:space} (with Definition~\ref{bpW:w1:transport} and
+Lemma~\ref{bpW:w1:coordinatewise}); \texttt{embed} $\to$ Lemma~\ref{bpW:w1:embed} (with
+Lemma~\ref{bpW:w1:multiplier}); \texttt{diag} $\to$ Lemma~\ref{bpW:w1:diag}; \texttt{twosided} $\to$
+Lemma~\ref{bpW:w1:twosided} (with Definition~\ref{bpW:w1:twosided-transport}); \texttt{young} $\to$
+Lemma~\ref{bpW:w1:young}; \texttt{algebra} $\to$ Lemma~\ref{bpW:w1:algebra} (relabels Lemma~\ref{bpW:w0n:algebra});
+\texttt{trilinear} $\to$ Lemma~\ref{bpW:w1:selection} and Theorem~\ref{bpW:w1:trilinear}; \texttt{cubic-analytic}
+$\to$ Corollary~\ref{bpW:w1:cubic-analytic}; \texttt{hamfield} $\to$ Proposition~\ref{bpW:w1:hamfield};
+\texttt{gradient-identity} $\to$ Proposition~\ref{bpW:w1:gradient-identity}; \texttt{sine-completeness} $\to$
+Lemma~\ref{bpW:w1:sine-completeness}.
+
+\paragraph{Added nodes and consumers.}
+W2: \ref{bpW:w1:coordinatewise}, \ref{bpW:w1:sine-feature}, \ref{bpW:w1:recon-analytic}, \ref{bpW:w1:hamfield}.
+W3: \ref{bpW:w1:twosided}(iii), \ref{bpW:w1:selection}(b), \ref{bpW:w1:complexification-lemma}, \ref{bpW:w1:cauchy},
+\ref{bpW:w1:flow}. W4: \ref{bpW:w1:fourier-l2}, \ref{bpW:w1:schur}, \ref{bpW:w1:tails}, \ref{bpW:w1:kam-space}.
+W5: \ref{bpW:w1:cauchy}, \ref{bpW:w1:flow}, \ref{bpW:w1:kam-domain}. W6, W8: \ref{bpW:w1:uniform-limit},
+\ref{bpW:w1:holo-analytic-fd}, \ref{bpW:w1:torus-analytic}, \ref{bpW:w1:coordinatewise}. The algebra extension to
+$\frac12<s<1$ (Remark~\ref{bpW:w1:algebra-half}) is not planned.
+
+\paragraph{Source gaps and conventions.} P96-K Lemma~A.4 (segment and bounded-derivative hypotheses,
+Lemma~\ref{bpW:w1:flow}); P96-W p.~280 constant (N-1, used corrected in Lemma~\ref{bpW:w1:twosided}); P96-K's
+$z=(u-iv)/\sqrt2$ versus W0 (Remark~\ref{bpW:w1:kam-conventions}, a relabelling); P96-W \S6 printed as ``Appendix~A''
+on p.~279 (label only).
