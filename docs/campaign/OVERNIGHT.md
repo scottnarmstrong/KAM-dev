@@ -1174,3 +1174,9 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   parts (packing, multiplication, window comparison, each anti-carry guard) and explains the 50x gap, with a
   scratch prototype of the cheapest fix and its measured gain, so option (2) can be priced before the decision.
   SO-DATA-2's branch is kept, not landed (its data are only useful with a feasible kernel route).
+- **06:48. Heartbeat: probable root cause of the 50x shard cost.** SO-KPERF found by reading the code that SO-REPLAY2's
+  prototype packs with balanced shift trees (O(n log n) bits), while the landed `packShift` / `intSlotsBound`
+  accumulate linearly (O(n²) bits of big-integer copying). It is confirming with capped probes. If confirmed, option
+  (2) of the 06:20 signal is an implementation change inside Poly/Packed (balanced packing; signed statements
+  unchanged; its soundness lemmas re-proved), likely restoring the projected kernel cost. Quotas: claude-12 95 %,
+  codex-3 70 %, codex-4 39 %.
