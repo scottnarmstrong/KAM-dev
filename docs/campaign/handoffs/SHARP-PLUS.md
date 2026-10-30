@@ -73,7 +73,9 @@ fhl18-1703.06809, villanueva17-param, villanueva-maps, fh24-2304.10205, fh25-240
 - `dominance.py --fh25`: on Figueras–Haro 2025's Sun–Jupiter–Saturn data, v2 route B is −5.98 (δ = ρ/6) / −5.56 (prefix ratio 4)
   relative to their claimed (10⁻³⁸, 10⁻⁴⁴). FH24's own closed form gives −6.18 / −5.53 there. Neither reproduces their numerical
   closure (§10 of the design doc).
-- `dominance.py --plasmalean`: see §10 of the design doc (result recorded there).
+- `dominance.py --plasmalean` (2 s): at PlasmaLean's data v2 reaches −17.27 (frequency-specific sup-norm data) and −16.24 (ℓ¹, L9,
+  after the ℓ¹/sup penalty) against its proved −18.24. That beats it by +1.0 and +2.0 orders with its own bounds; with the classical
+  constant v2 is 1.8 orders behind.
 - `nice -n 5 lake env lean .drafts/sharp2/Signatures.lean`: 12 warnings "declaration uses `sorry`", no error (built
   `KAM.Iso.Sharp.Constants` once, niced, for `sharpIsoC1`).
 - `latexmk -pdf` on `blueprint/sharp2.tex` and `blueprint-I/sharp2.tex`: exit 0, no undefined reference (PDFs not committed).
@@ -96,8 +98,8 @@ No Lean result was proved. `c1V2_le_sharpC1` is proved in the probe by `min_le_l
   estimate.
 - **Dominance is numerical** (grid + packages). The analytic term-by-term argument holds only where v2's constants are FH24's with
   smaller inputs; norm conventions differ (FH24 use entrywise sups).
-- **L9 (ℓ¹ Newton) is quantified as an estimate only** (constant swap and the ℓ¹/sup penalty on E). It is not designed in the
-  blueprint.
+- **L9 (ℓ¹ Newton) is quantified as an estimate only:** SHARP-L9's c_∞ swapped in, plus the ℓ¹/sup penalty on E. Its proved input
+  exists (SHARP-L9, merged into `sharp-v2`), but the ℓ¹/sup hybrid step is not in the blueprint (B10, optional).
 
 ## Suspected errata (for `docs/errata/ledger.json`)
 
@@ -135,5 +137,7 @@ Full table: design doc §8.
   - Certify (R1)–(R4) (and (R5) for the hybrid).
   - Rational mirrors of `stepConsts`.
   - A certified X⋆.
-- **L9.** If the ℓ¹ estimate pays (PlasmaLean section), design an ℓ¹/sup hybrid: ℓ¹ for the cohomological step and the error, with
-  sup conclusions. Its Lean cost is a parallel norm layer, about 2k lines.
+- **L9 hybrid (B10).** ℓ¹ for the cohomological step and the error, sup for frames and conclusions. It is worth about 0.9 orders
+  on R1 and 1 on PlasmaLean's data. Cost: about 1.5–2k Lean lines.
+- **FH25.** Literal application needs first integrals (about 1.5k lines). Their numerical closure is not reproduced by FH24's own
+  constants (design doc §10.4).

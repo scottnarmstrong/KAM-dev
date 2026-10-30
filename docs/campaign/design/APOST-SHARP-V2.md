@@ -465,3 +465,135 @@ python3 -I scripts/apost_sharp/thresholds_v2.py --routeB   # route B on R1 only
 python3 -I scripts/apost_sharp/dominance.py [--quick]      # the dominance grid (4.5 min; quick 1 min)
 nice -n 5 lake env lean .drafts/sharp2/Signatures.lean     # the signature probe
 ```
+
+## 10. Owner directives 3 and 4: PlasmaLean, Figueras–Haro 2025, L9, low-dimensional refinements
+
+### 10.1 PlasmaLean on its own example (`dominance.py --plasmalean`)
+
+**PlasmaLean** (github.com/siddhartha-gadgil/PlasmaLean; data from `docs/explorations/striking-applications.md` §8, branch
+`apps-scout`):
+- field-line KAM on T², 1½ degrees of freedom;
+- Newton in weighted ℓ¹ coefficient norms with two unknown functions;
+- proved tolerance δ₀⁴/(32κ) = 5.7·10⁻¹⁹ (10⁻¹⁸·²⁴), at γ = 0.0687, strip 0.1257 rad (ρ = 0.02 turns), δ₀ = r/7.
+
+**What is compared.** Our threshold on e (sup norm of the invariance error of a canonical n = 2 flow with clock frequency
+ω = (ι, 1), ι = (75+√5)/562), at PlasmaLean's γ, strip and frame and torsion bounds, against its proved tolerance on its own error
+norm. The norm sets are those of `run_mag.py`:
+- "cA-like": σ_K 3.1, σ_B 2.0, M 3.0, ‖T‖ 19.84, twist ≥ 0.22;
+- "R1-like": R1's.
+
+Transposes are not measured for PlasmaLean's torus, so v2 uses the conservative defaults 2nσ_K and so on.
+
+**Not like for like.** Its exact field has a non-canonical area form and no closed-form canonical chart, so our theorem does not
+apply to it literally.
+
+| Norms | Small-divisor data | v2 route A | v2 route B | Best | Margin over PlasmaLean |
+|---|---|---:|---:|---:|---:|
+| cA-like | classical c♮ | −20.01 | −24.88 | −20.01 | −1.77 |
+| cA-like | frequency-specific, sup norm (L2c; flat in δ, value at δ₀) | −17.27 | −22.15 | −17.27 | **+0.97** |
+| cA-like | ℓ¹ c_∞ = 0.00123 (L9, SHARP-L9), E charged ×3.6 (ℓ¹/sup) | −16.24 | −20.73 | −16.24 | **+2.01** |
+| R1-like | classical | −15.94 | −19.61 | −15.94 | +2.30 |
+| R1-like | frequency-specific | −13.87 | −17.28 | −13.87 | +4.37 |
+| R1-like | ℓ¹ (L9) | −12.99 | −16.12 | −12.99 | +5.26 |
+
+**Verdict.**
+- v2 beats PlasmaLean's 10⁻¹⁸·² on its example with the frequency-specific small-divisor data alone (+1.0 orders at its own,
+  pessimistic bounds), and by +2.0 with the ℓ¹ constant.
+- The sup-norm theorem loses to it only with the generic classical constant (−1.8). That is PlasmaLean's reason 1 (no L² detour in
+  ℓ¹).
+- Here route A wins: γδ₀ is larger and the norms are larger, so the modified step's advantage is smaller than its larger Q.
+
+### 10.2 L9: the ℓ¹ (Wiener-algebra) variant
+
+**The estimate.** SHARP-L9 (merged into `sharp-v2`) proved the weighted-ℓ¹ cohomological estimate with
+Γ_∞(ω,δ) = sup_k e^{−2πδ|k|₁}/(2π|k·ω|): scalar, vector, matrix, a-priori, and the ℓ¹ ⇒ sup bridge, with certified fibered bounds.
+
+| Effective constant c = Γγδ^τ | Value |
+|---|---:|
+| R1, c_∞ (ℓ¹) | 0.00051 |
+| R1, ℓ² sum, full-strip Bessel (this design) | 0.0030 |
+| R1, ℓ² sum, bite ρ−δ/2 (SHARP-L2) | 0.0058 |
+| generic ℓ¹ | 0.0093 |
+| Rüssmann | 0.316 |
+
+**Recommendation: a hybrid, not a full ℓ¹ scheme.**
+- The cohomological solutions and the errors would be carried in ℓ¹, where the certificate already computes them.
+- The frame and Hamiltonian bounds stay in sup norms, where they are smaller.
+- The conclusions are sup-norm (ℓ¹ ≥ sup), so `G1Body`/`IG1Body` follow.
+
+**Gain and cost.**
+- On R1 the swap c_freq → c_∞ is worth about 0.9 orders net of the ℓ¹/sup penalty on E (2.0–3.6×; CERTIFIER-SHARPNESS §1.2).
+  It is about 1 order on PlasmaLean's data.
+- The Lean cost is a parallel norm layer for the step: about 1.5–2k lines (package B10, optional).
+- It is not in the blueprint addenda. Only its small-divisor input exists, and it is proved (SHARP-L9).
+
+### 10.3 Low-dimensional and clock refinements
+
+For n = 2 and ω = (ω′, 1), the clock row of the frame is exactly (0, 1), the φ-component of K is θ₂ exactly, and the invariance
+error vanishes in that row. All of this is already captured by the measured majorants of L1: R1's |Lᵀ| = 1.33 and |N| = 1.35 are
+measured on a clock torus, against 2nσ_K = 5.5.
+
+Exact transposition factors for n = 2 are the measured |Lᵀ|, |Nᵀ|. No further unknown is removed by the theorem: the isoenergetic
+form already slaves J through the energy row.
+
+**Remaining low-dimensional lever (not quantified).** Specialize the frame to the clock (L = [[1+u_ψ, u_φ],[0, 1],[p_ψ, p_φ],[P_ψ, P_φ]])
+and solve one fewer cohomological equation in the normal direction. That changes the frozen object definitions, so it is a
+different theorem.
+
+### 10.4 Figueras–Haro 2025, Sun–Jupiter–Saturn, on their data (`dominance.py --fh25`)
+
+**Their data (§5 of the paper).**
+- τ = 2.4, γ = 1.69·10⁻⁶, ρ = 0.1, δ = ρ/6.
+- c_Xh = 0.09, c_DXh = c_(DXh)ᵀ = 129, c_D²Xh = 5·10¹⁰.
+- ‖DK‖ 4.78, ‖DKᵀ‖ 6.88, ‖B‖ 7.36, ‖N‖ 3.57, ‖Nᵀ‖ 2.86, |⟨T⟩⁻¹| 354.
+- σ = norm·(1 + 10⁻¹⁰).
+- Their claim: running the Iterative Lemma numerically for 10 steps closes at ‖η^{DK}‖ = 10⁻³⁸, ‖ηᴺ‖ = 10⁻⁴⁴. This was checked
+  numerically, not in interval arithmetic.
+
+**Mapping.**
+- v2 is d = n canonical. Their norms are used as the caps of a d = n = 3 problem: the first integral and moment flow are dropped.
+- Small-divisor data: c♮(3, 2.4).
+- c_Th = 2c_DXh and c_DTh = 2c_D²Xh (they do not report these two).
+- Margins 10⁻¹⁰·norm.
+- 10 exact prefix stages, matching their 10 numerical steps.
+
+| Theorem on FH25's data | Admissible scale of (10⁻³⁸, 10⁻⁴⁴) | Binding |
+|---|---:|---|
+| FH24 closed form (3.99), δ = ρ/6 as in FH25 | 10⁻⁶·¹⁸ | ⟨T⟩⁻¹ entry |
+| FH24 closed form, δ optimised (0.027) | 10⁻⁵·⁵³ | ⟨T⟩⁻¹ entry |
+| v2 route B, FH24 weight, ratio 2 | 10⁻⁶·²³ | ⟨T⟩⁻¹ cap sum |
+| v2 route B, anisotropic weight, ratio 2 (δ = ρ/6) | **10⁻⁵·⁹⁸** | ⟨T⟩⁻¹ cap sum |
+| v2 route B, anisotropic, prefix ratio 3 / 4 (L4) | 10⁻⁵·⁶⁸ / **10⁻⁵·⁵⁶** | ⟨T⟩⁻¹ cap sum |
+| v2 route B, ratio 3, if c_DTh = 2c_DXh (hypothetical) | 10⁻²·⁹⁹ | ⟨T⟩⁻¹ cap sum |
+| apps-scout "v2-type" emulation (route A type) | about 10⁻³¹ to 10⁻⁴² | quadratic entry |
+
+**Verdict.**
+- On FH25's published data v2 **matches FH24's own theorem**: ahead by 0.2 orders at their δ, and within 0.03 orders with free
+  schedules.
+- **Neither reproduces FH25's numerical closure.** Both are about 5.5 orders short, in the twist-margin entry:
+  - σ_T² = 1.25·10⁵;
+  - the change of the torsion C_ΔT is dominated by c_DTh·σ_Nᵀσ_N·|K̄ − K|, with c_DTh ≈ 2c_D²Xh = 10¹¹;
+  - the margin is σ_T − |⟨T⟩⁻¹| = 3.5·10⁻⁸.
+- So FH25's closure must use either a much smaller c_DTh or c_Th (unreported), or larger margins, or a reading of the Iterative
+  Lemma we could not reconstruct. Even with c_DTh = 258, three orders remain.
+- We record this as a reproducibility note, not an erratum.
+
+**Factor-by-factor decomposition of the gap**, from the apps-scout v2-type emulation (10⁻⁷⁵…10⁻⁸⁶ in e; about 10⁻³¹…10⁻⁴² relative
+to FH25's errors) to v2 route B (10⁻⁵·⁶):
+
+| Factor | Orders |
+|---|---:|
+| (i) L5, the modified step: γ⁴δ₀^{4τ} → γ²δ₀^{2τ+1}, i.e. 1/(γ²δ₀^{2τ−1}) = 1/(2.9·10⁻¹²·1.7·10⁻⁷) | about 18.3 |
+| (ii) M₂ = c_D²Xh = 5·10¹⁰ in the quadratic entry (route A: C_E ∋ (M₂/2)C_ΔK²; route B: multiplied by γδ^{τ+1} ≈ 1.5·10⁻¹² in Q_L, or by δ in Q̃_N); M₂ stays in the binding twist entry through c_DTh | about 10 |
+| (iii) the full-bite average (δ/ρ)^τ = 6^{−2.4} in C₀ | 1.9 |
+| (iv) the anisotropic stage-0 weight (their η^{DK}/(ηᴺ/(γδ^τ)) ≈ 10⁻⁴) | 0.25 |
+| (v) the prefix ratio (FH24's optimal δ) | 0.4 |
+| (vi) the classical constant c♮ vs the emulation's c_R = 0.05 | about 1 |
+
+The rest is the emulation's absorptions and its single-size M.
+
+**What it would take to apply v2 literally to FH25.**
+- **The first integral** (d = 3 < n = 4). FH24's L = (DK, X_p∘K) and the moment-flow composition Φ_{ξ_{Xp}} in the tangential
+  correction, with c_Xp, c_DXp, c_DΦ. That is about 1.5k Lean lines on top of B4. It would not change the binding entry.
+- **Non-integer τ** is already supported: κ is real throughout, and c♮ uses Γ(2τ+1).
+- **Their schedule** (δ = ρ/6) is v2's default.

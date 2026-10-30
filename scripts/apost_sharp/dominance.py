@@ -161,7 +161,8 @@ def plasmalean_data(tag):
     for k_, base in (("B", D["sB"]), ("Tinv", D["sT"]), ("Lt", D["sLt"]), ("N", D["sN"]), ("Nt", D["sNt"]),
                      ("Tsup", D["Tsup"])):
         D["bud_" + k_] = base / 10
-    return D
+    # floating point (as for FH25): exact rationals make the 5-stage bisection very slow here
+    return {k: (float(v) if isinstance(v, F) else v) for k, v in D.items()}
 
 
 def plasmalean():
@@ -178,16 +179,16 @@ def plasmalean():
             if which == "classical":
                 st, ct = T2.c_stages(D, "classical")
                 pen = 0.0
-            elif which == "freq":
-                st, ct = T2.c_stages(D, "freq")
+            elif which == "freq":                       # flat in delta (as measured for R1/H50): the value at delta0
+                cf = sd.c_freq(om, gam, 1, float(delta0))[0]
+                cr_ = sd.c_freq(om, gam, 1, float(D["rho"]))[0]
+                st = lambda s, cf=cf, cr_=cr_: (cf, cf, cr_)
+                ct = float(T2.Fr(sd.c_classical(2, 1, float(delta0) / 32)))
                 pen = 0.0
-            else:                                       # L9: l^1 constants c_inf(delta) = Gamma_inf gamma delta^tau
-                cinf = lambda d: v1.up(sd.gamma_inf(om, float(d), gam)[1])
-                def st(s, cinf=cinf):
-                    ds = delta0 / 2 ** s
-                    r = D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
-                    return cinf(ds), cinf(ds / 2), cinf(r)
-                ct = v1.up(sd.c_inf_classical(1))
+            else:                                       # L9: SHARP-L9's certified c_inf = Gamma_inf gamma delta^tau, flat
+                cinf = 0.00123                          # (docs/campaign/handoffs/SHARP-L9.md, PlasmaLean's frequency)
+                st = lambda s, cinf=cinf: (cinf, cinf, cinf)
+                ct = sd.c_inf_classical(1)
                 pen = math.log10(3.6)                  # l^1/sup of E (CERTIFIER-SHARPNESS 1.2, worst R1 value)
             oA = dict(L1=True, torsion_cap=D["Tsup"], torsion_real=D["Tsup"], omega_eta=True, avg_full_bite=True,
                       keep_delta=True, caps_tilde=True, free_budgets=True)

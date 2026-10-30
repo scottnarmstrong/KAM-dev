@@ -55,7 +55,12 @@ def engine_A(stage, tail, k, X0, a, gamma, gbar, delta0, budgets, lam, absorb_su
         for nm, (rho, j) in st["rates"].items():
             wgt = gamma ** 2 * ds ** (a - j) if keep else gbar ** 2   # eps_s/(gamma^2 delta_s^{a+j}) = x_s gamma^2 delta_s^{a-j}
             used[nm] += rho * x * wgt
-        x = 2 ** (2 * a) * st["CE"] * x ** 2
+        try:
+            x = 2 ** (2 * a) * st["CE"] * x ** 2
+        except OverflowError:                                  # float data: far above any threshold
+            fails.append("overflow"); x = 1e300
+        if not isinstance(x, F) and x > 1e300:
+            x = 1e300
     # tail (v1 engine from stage k): (I1)-(I4) with e := eps_k, delta_0 := delta_k
     dk = delta0 / 2 ** k
     tl = tail
@@ -202,8 +207,8 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None):
     r = lambda s: D["rho"] - 2 * lam * delta0 * (1 - F(1, 2 ** s))
 
     def stage(s):
-        ds = delta0 / a_r ** s
-        c, ch, cr = c_stage(s) if a_r == 2 else c_stage(ds, r(s))
+        ds = delta0 / 2 ** s
+        c, ch, cr = c_stage(s)
         return stageA(D, o, ds, r(s), c, ch, cr, iso)
     if k == 0:                                             # the v1 engine from stage 0, uniform constants
         assert not o.get("keep_delta", False) and not o.get("avg_full_bite", False)
