@@ -564,10 +564,14 @@ def lock_progress():
 
 def lock_glance(sessions):
     pct, done = lock_progress()
-    running = any(t.startswith('inp-mprov-solock') for t in sessions)
-    return [f'- **Part 3, the Moon locked in synchronous rotation forever** (D42): librational invariant tori around the '
-            f'synchronous orbit (Celletti 1994), a stronger result than the spin-rate band · **{pct:.0f} %** · stages '
-            f'reached: {", ".join(done) or "none yet"}' + (' · scoping study running' if running else '')]
+    suborch = any(t.startswith('kam-suborch-lock') for t in sessions)
+    workers = sum(t.startswith('inp-mprov-lock') for t in sessions)
+    now = (f' · the lock sub-orchestrator is running ({workers} package worker{"" if workers == 1 else "s"})'
+           if suborch else '')
+    return [f'- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus '
+            f'around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate '
+            f'band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · '
+            f'**{pct:.0f} %** · stages reached: {", ".join(done) or "none yet"}' + now]
 
 
 def completion_split(rows):
