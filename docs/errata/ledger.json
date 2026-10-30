@@ -2181,6 +2181,28 @@
    "status": "CONFIRMED",
    "checked_by": "Writer: blueprint-P/reviews/p11-route-study.md (B2–B5/A5), and p10-review-1.md (index typo). Independent verifier: Codex, errata-backlog 2026-10-27; relevant pinned pages and local mathematical checks independently inspected. Independent verifier: ERRATA-VERIFY-audit-1 (docs/campaign/release/ERRATA-VERIFY-audit-1.md), 2026-10-29: CORRECT. PDF 58 lists n hatted eigenvalues for an (n−1)×(n−1) old block, immediately after listing j=1,…,n−1. Direct end-index typo.",
    "effect": "Correct the list independently of the remainder-exponent repair E-P-Fej04r-7."
+  },
+  {
+   "type": "deviation",
+   "source": "P96-W",
+   "status": "ADOPTED",
+   "evidence": "docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md",
+   "id": "D-W-FREEZE-1",
+   "location": "frozen docstrings of KAM.Wave.linearTorus, reconU, reconV (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93)",
+   "claim": "One space replaced by a newline in each of three approved declaration docstrings, to meet the 100-column lint (D-WF1, main orchestrator ruling 2026-10-30; AmdConfinement precedent)",
+   "kind": "whitespace-only rewrap of approved text",
+   "effect": "none: docstring whitespace only, ABI unchanged"
+  },
+  {
+   "type": "deviation",
+   "source": "P96-W",
+   "status": "ADOPTED",
+   "evidence": "docs/tracks/W/FREEZE.md; ABI hashes (pp.all #print/#check) identical before and after; identity audit docs/tracks/W/audits/W-FREEZE-identity-audit.md",
+   "id": "D-W-FREEZE-2",
+   "location": "frozen docstrings of KAM.Wave.reconV and KAM.Wave.nlw2 (approved text docs/tracks/W/W-STATEMENTS.md rev 1, ffcbdb93)",
+   "claim": "Docstring corrections (D-WF2, main orchestrator ruling 2026-10-30): reconV 'where `q = coeff y`' -> 'where `p = coeff y`' (the formula is in the momentum coordinate p); nlw2 '**W-NLW2 (proposed).**' -> '**W-NLW2.**' (now owner-approved and frozen)",
+   "kind": "docstring-only correction of approved text",
+   "effect": "none: docstring only, ABI unchanged"
   }
  ]
 }
