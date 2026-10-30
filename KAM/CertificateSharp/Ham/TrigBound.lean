@@ -17,10 +17,10 @@ sizes are `‖χ_k‖ = s = e^{-t}` and `‖χ_{-k}‖ = s⁻¹` with `|t| ≤ 2
 h⁻¹)`, which is `(a + b) cosh` for `a = b`.
 
 * `trig_pair_le`: the real inequality.
-* `expLoQ`, `expLoQ_le_exp`: a rational lower bound of `e^x`, `x ≥ 0` (Taylor partial sum), the
+* `expLoTrigQ`, `expLoTrigQ_le_exp`: a rational lower bound of `e^x`, `x ≥ 0` (Taylor partial sum), the
   source of the rational upper bound `1/lo` of `e^{-x}`.
 * `trigRad WH N k a b`: the rational radius, `max (a L + b W) (a W + b L)` with `W = w^{|k|}`
-  and `L = 1/expLoQ(2 π_lo ρ |k|)`.
+  and `L = 1/expLoTrigQ(2 π_lo ρ |k|)`.
 * `charNorm`, `charNorm_negKey`, `charNorm_le`: the norm of the compiled character.
 -/
 
@@ -55,27 +55,27 @@ theorem trig_pair_le {a b s l h L W : ℝ} (ha : 0 ≤ a) (hb : 0 ≤ b) (hl : 0
       mul_le_mul_of_nonneg_left hL (sub_nonneg.2 hab)]
 
 /-- The Taylor partial sum `∑_{i<N} x^i/i!`. -/
-def expLoQ (x : ℚ) (N : ℕ) : ℚ := sumRangeQ N fun i => x ^ i / (i.factorial : ℚ)
+def expLoTrigQ (x : ℚ) (N : ℕ) : ℚ := sumRangeQ N fun i => x ^ i / (i.factorial : ℚ)
 
-theorem expLoQ_le_exp {x : ℚ} (hx : 0 ≤ x) (N : ℕ) : (expLoQ x N : ℝ) ≤ Real.exp x := by
+theorem expLoTrigQ_le_exp {x : ℚ} (hx : 0 ≤ x) (N : ℕ) : (expLoTrigQ x N : ℝ) ≤ Real.exp x := by
   have h := Real.sum_le_exp_of_nonneg (x := (x : ℝ)) (by exact_mod_cast hx) N
-  rw [expLoQ, sumRangeQ_eq]
+  rw [expLoTrigQ, sumRangeQ_eq]
   push_cast
   exact h
 
 /-- The rational upper bound `1/lo` of `e^{-x}` from the lower bound `lo` of `e^x` (and `1` when
 `lo ≤ 0`). -/
-def expNegUpQ (x : ℚ) (N : ℕ) : ℚ := if 0 < expLoQ x N then 1 / expLoQ x N else 1
+def expNegUpQ (x : ℚ) (N : ℕ) : ℚ := if 0 < expLoTrigQ x N then 1 / expLoTrigQ x N else 1
 
 theorem exp_neg_le_expNegUpQ {x : ℚ} (hx : 0 ≤ x) (N : ℕ) :
     Real.exp (-(x : ℝ)) ≤ (expNegUpQ x N : ℝ) := by
   unfold expNegUpQ
   split_ifs with h
-  · have h' : (0 : ℝ) < expLoQ x N := by exact_mod_cast h
+  · have h' : (0 : ℝ) < expLoTrigQ x N := by exact_mod_cast h
     rw [Real.exp_neg]
     push_cast
     rw [one_div]
-    exact inv_anti₀ h' (expLoQ_le_exp hx N)
+    exact inv_anti₀ h' (expLoTrigQ_le_exp hx N)
   · have : (0 : ℝ) ≤ x := by exact_mod_cast hx
     have h1 : Real.exp (-(x : ℝ)) ≤ 1 := by
       rw [Real.exp_le_one_iff]; linarith
