@@ -1761,3 +1761,15 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - O4 (optional): re-prove HamBounds and HamClaim through the jet bridge, since HamClaim sits 2 % under the cap.
   - **Lock:** LOCK-GRAPH finished at 19:02 (three theorems, standard axioms). kam-inp-24 had been idle without a
     waiter since the memory event, so it was nudged to process it and re-arm.
+- **Lock (kam-inp-24): status, and a cost flag for owner review.**
+  - Landed: LOCK-SQRT (main 55fa0d65), LOCK-COORDS-C (16d12a5f).
+  - LOCK-GRAPH (certificate → librational barrier, invariance produced) is done and in codex-1 audit.
+  - **For owner review: cost and ledger size of the N = 65 lock certificate.**
+    - SO-CSPLIT's design projects the lock's segmented checks (route E) at 25–60 CPU-h, with a 100–200 MB
+      slot-model ledger. The ledger trips the 50 MB owner flag.
+    - Options: (a) accept, with the ledger stored as data outside the repo and only hashes and segment theorems
+      tracked; (b) wait for the sharper Ham pass (lever 4a: about 2.5 decades of threshold, roughly halving cost and
+      support, but a medium–high-risk checker change); (c) lower N (a smaller libration amplitude; contrary to D45's
+      N = 65).
+    - *Choice for now (reversible):* keep N = 65 and SO-CSPLIT route E as the baseline. SO-LOCK-COST is revised on
+      SO-CSPLIT's numbers and its gate; no kernel run starts before the gate and an owner look at the ledger size.
