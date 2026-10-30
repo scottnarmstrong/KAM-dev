@@ -13,8 +13,8 @@ public import Mathlib.Algebra.Polynomial.Eval.Coeff
 # Kronecker packing of integer slot lists
 
 Signed integer slots `c_i` are packed into one big integer `Σ c_i 2^{w i}` (`packSum`); the
-kernel packing `packShift` accumulates the positive and negative parts separately with
-`Nat.shiftLeft` and subtracts once. Under the slot bound the packing is injective
+kernel packing `packShift` packs leaf chunks with `Nat.shiftLeft` and merges them in a balanced
+tree (no linear accumulator of big integers). Under the slot bound the packing is injective
 (`packSum_injective`), packing turns convolution into one product (`packSum_listConv`), the
 packed product of block-cut factors is a shifted sum of shard sums
 (`packSum_flatten_mul_shards`), and `intSlotsBound` decodes slots of a big integer by bounds, on
@@ -72,39 +72,123 @@ theorem packSum_eq_sum (w : ℕ) (cs : List ℤ) :
     congr 1
     refine Finset.sum_congr rfl fun i _ => by ring
 
-/-- The kernel packing loop: the shift `s` advances by `w` per slot. -/
-def packShiftAux (w : ℕ) : ℕ → List ℤ → ℕ → ℕ → ℤ
-  | _, [], p, n => (p : ℤ) - (n : ℤ)
-  | s, c :: cs, p, n =>
-    if 0 ≤ c then packShiftAux w (s + w) cs (p + (c.toNat <<< s)) n
-    else packShiftAux w (s + w) cs p (n + ((-c).toNat <<< s))
+/-! ### The kernel packing
 
-/-- The kernel packing: positive and negative parts accumulated
-separately as `Nat`s with `Nat.shiftLeft`, one subtraction at the end. -/
-def packShift (w : ℕ) (cs : List ℤ) : ℤ := packShiftAux w 0 cs 0 0
+`packShift` packs in two stages, so that the kernel never builds a long chain of big
+intermediate integers (a linear accumulator costs memory quadratic in the packed bits):
+the slots are packed in leaf chunks of `16` slots (`packLeavesAux`), each a pair of natural
+numbers (positive and negative parts, accumulated with `Nat.shiftLeft`), and the chunks are then
+merged pairwise, level by level, with doubled widths (`packMerge`, `packTree`), a balanced
+divide-and-conquer. Every arithmetic step is a kernel-accelerated natural-number operation. -/
 
-theorem packShiftAux_eq (w : ℕ) (cs : List ℤ) :
-    ∀ (s p n : ℕ), packShiftAux w s cs p n = (p : ℤ) - n + 2 ^ s * packSum w cs := by
-  induction cs with
-  | nil => intro s p n; simp [packShiftAux, packSum_nil]
-  | cons c cs ih =>
-    intro s p n
-    rw [packShiftAux, packSum_cons]
+/-- The signed value `Σ_i (p_i - n_i) 2^{W i}` of a list of chunk pairs. -/
+def pairVal (W : ℕ) : List (ℕ × ℕ) → ℤ
+  | [] => 0
+  | x :: xs => ((x.1 : ℤ) - x.2) + 2 ^ W * pairVal W xs
+
+/-- Leaf chunks: the current chunk `(p, n)` has room for `j` more slots, the next one at shift
+`s`; a full chunk is emitted and a new one (of `k` slots) started. -/
+def packLeavesAux (w k : ℕ) : ℕ → ℕ → ℕ → ℕ → List ℤ → List (ℕ × ℕ)
+  | _, _, p, n, [] => [(p, n)]
+  | j + 1, s, p, n, c :: cs =>
+    if 0 ≤ c then packLeavesAux w k j (s + w) (p + (c.toNat <<< s)) n cs
+    else packLeavesAux w k j (s + w) p (n + ((-c).toNat <<< s)) cs
+  | 0, _, p, n, c :: cs =>
+    (p, n) :: if 0 ≤ c then packLeavesAux w k (k - 1) w c.toNat 0 cs
+      else packLeavesAux w k (k - 1) w 0 (-c).toNat cs
+
+/-- One merge level: adjacent chunks of width `W` combine into chunks of width `2W`. -/
+def packMerge (W : ℕ) : List (ℕ × ℕ) → List (ℕ × ℕ)
+  | x :: y :: xs => (x.1 + (y.1 <<< W), x.2 + (y.2 <<< W)) :: packMerge W xs
+  | xs => xs
+
+/-- Linear combination of the chunks (the fallback when the level budget is exhausted). -/
+def packFold (W : ℕ) : List (ℕ × ℕ) → ℕ × ℕ
+  | [] => (0, 0)
+  | x :: xs => let r := packFold W xs; (x.1 + (r.1 <<< W), x.2 + (r.2 <<< W))
+
+/-- Balanced merging: `fuel` levels of `packMerge`, the width doubling at each level. -/
+def packTree : ℕ → ℕ → List (ℕ × ℕ) → ℕ × ℕ
+  | _, _, [] => (0, 0)
+  | _, _, [x] => x
+  | 0, W, xs => packFold W xs
+  | f + 1, W, x :: y :: xs => packTree f (2 * W) (packMerge W (x :: y :: xs))
+
+/-- The kernel packing: leaf chunks of `16` slots, merged by `packTree` (`64` levels suffice for
+any list; the fallback keeps the value exact regardless). -/
+def packShift (w : ℕ) (cs : List ℤ) : ℤ :=
+  let r := packTree 64 (w * 16) (packLeavesAux w 16 16 0 0 0 cs)
+  (r.1 : ℤ) - r.2
+
+theorem pairVal_packMerge (W : ℕ) : ∀ xs : List (ℕ × ℕ),
+    pairVal (2 * W) (packMerge W xs) = pairVal W xs
+  | x :: y :: xs => by
+    rw [packMerge, pairVal, pairVal_packMerge W xs, pairVal, pairVal, Nat.shiftLeft_eq,
+      Nat.shiftLeft_eq]
+    push_cast
+    rw [two_mul, pow_add]
+    ring
+  | [] => by simp [packMerge, pairVal]
+  | [x] => by simp [packMerge, pairVal]
+
+theorem packFold_eq (W : ℕ) : ∀ xs : List (ℕ × ℕ),
+    ((packFold W xs).1 : ℤ) - (packFold W xs).2 = pairVal W xs
+  | [] => by simp [packFold, pairVal]
+  | x :: xs => by
+    have ih := packFold_eq W xs
+    simp only [packFold, pairVal, Nat.shiftLeft_eq]
+    push_cast
+    rw [← ih]
+    ring
+
+theorem packTree_eq : ∀ (f W : ℕ) (xs : List (ℕ × ℕ)),
+    ((packTree f W xs).1 : ℤ) - (packTree f W xs).2 = pairVal W xs
+  | _, _, [] => by simp [packTree, pairVal]
+  | f, W, [x] => by cases f <;> simp [packTree, pairVal]
+  | 0, W, x :: y :: xs => packFold_eq W (x :: y :: xs)
+  | f + 1, W, x :: y :: xs =>
+    (packTree_eq f (2 * W) _).trans (pairVal_packMerge W (x :: y :: xs))
+
+theorem packLeavesAux_eq (w k : ℕ) (hk : 0 < k) : ∀ (cs : List ℤ) (j s p n : ℕ),
+    s + w * j = w * k →
+      pairVal (w * k) (packLeavesAux w k j s p n cs) = (p : ℤ) - n + 2 ^ s * packSum w cs
+  | [], j, s, p, n, _ => by simp [packLeavesAux, pairVal, packSum_nil]
+  | c :: cs, j + 1, s, p, n, hs => by
+    have hs' : s + w + w * j = w * k := by rw [← hs]; ring
+    rw [packLeavesAux, packSum_cons]
     split_ifs with h
-    · rw [ih, Nat.shiftLeft_eq]
+    · rw [packLeavesAux_eq w k hk cs j (s + w) _ _ hs', Nat.shiftLeft_eq]
       have : ((c.toNat : ℕ) : ℤ) = c := Int.toNat_of_nonneg h
       push_cast
       rw [this, pow_add]
       ring
-    · rw [ih, Nat.shiftLeft_eq]
+    · rw [packLeavesAux_eq w k hk cs j (s + w) _ _ hs', Nat.shiftLeft_eq]
       have : (((-c).toNat : ℕ) : ℤ) = -c := Int.toNat_of_nonneg (by omega)
       push_cast
       rw [this, pow_add]
       ring
+  | c :: cs, 0, s, p, n, hs => by
+    have hs' : w + w * (k - 1) = w * k := by
+      obtain ⟨k', rfl⟩ : ∃ k', k = k' + 1 := ⟨k - 1, by omega⟩
+      simp only [Nat.add_sub_cancel]
+      ring
+    simp only [Nat.mul_zero, Nat.add_zero] at hs
+    rw [packLeavesAux, packSum_cons, pairVal]
+    split_ifs with h
+    · rw [packLeavesAux_eq w k hk cs (k - 1) w _ _ hs', hs]
+      have : ((c.toNat : ℕ) : ℤ) = c := Int.toNat_of_nonneg h
+      push_cast
+      rw [this]
+      ring
+    · rw [packLeavesAux_eq w k hk cs (k - 1) w _ _ hs', hs]
+      have : (((-c).toNat : ℕ) : ℤ) = -c := Int.toNat_of_nonneg (by omega)
+      push_cast
+      rw [this]
+      ring
 
 /-- **Packing correctness.** -/
 theorem packShift_eq (w : ℕ) (cs : List ℤ) : packShift w cs = packSum w cs := by
-  rw [packShift, packShiftAux_eq]
+  rw [packShift, packTree_eq, packLeavesAux_eq w 16 (by norm_num) cs 16 0 0 0 (by ring)]
   simp
 
 /-- Every slot fits a signed `w`-bit slot. -/
