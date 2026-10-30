@@ -302,3 +302,11 @@ Owner rulings are marked *(Scott)*. Orchestrator decisions are revisable unless 
     stretch); floor 2.62 % (separatrix), per docs/explorations/lunar-band-2p8-2p9.md. SO-GEN3 computes the tori, a new
     parameter package for the sharp constants, the data sizes and the certified band; the R1 lunar data
     (87 digits, 3.3 %) are superseded. The frozen statements (freeze proposal) will use the new band.
+- **D38 (2026-10-30, 12:12) Lunar barriers at N = 65 (band about 2.71 %).** *(Scott: "Why don't we aim for N=65 and see
+  how good we can get (we just adjust if we cannot hit this, I suppose)?"; the next certifier version keeps the
+  certificate format and is expected within 1–2 hours.)*
+  - Barriers at ν± = 1 ± 1/(65+g), g = (√5−1)/2: SO-GEN3's interim study gives a band of 2.713 % (floor 2.62 %),
+    about 40 digits and 1–2k terms per torus under the sharp certifier. Fallbacks N = 60 (2.76 %), 55 (2.82 %).
+  - Proceed now with the work independent of the certifier's strength (Diophantine lemmas, sharp barrier and
+    assembly variants with the band as a parameter, data-emitter reducibility fixes, the full SO-GEN3 study at N = 65);
+    the final data generation and kernel passes wait for the next certifier version (same format).
