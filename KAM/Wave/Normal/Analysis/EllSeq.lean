@@ -26,6 +26,8 @@ Multiplication by a polynomially bounded sequence lowers `p` (`KAM.Wave.waveEll_
 
 @[expose] public noncomputable section
 
+open scoped ENNReal
+
 namespace KAM.Wave
 
 /-- `c ∈ ℓ^{a,p}`: `Σ_{j ≥ 1} (j^p e^{a j} c_j)²` converges (blueprint `bpW:w0:ellap`). -/
@@ -154,6 +156,13 @@ theorem waveEll_mul_poly {a p : ℝ} {c β : ℕ+ → ℝ} {B ν : ℝ} (hB : 0 
   calc _ ≤ Real.sqrt (B ^ 2 * ∑' j : ℕ+, (ellWeight a p j * c j) ^ 2) := Real.sqrt_le_sqrt this
     _ = B * Real.sqrt (∑' j : ℕ+, (ellWeight a p j * c j) ^ 2) := by
         rw [Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq hB]
+
+/-- The weighted coordinates `ω_{a,p}(j) c_j` of `c ∈ ℓ^{a,p}` are in `ℓ²`. -/
+lemma memℓp_two_of_waveEll {a p : ℝ} {c : ℕ+ → ℝ} (h : WaveEll a p c) :
+    Memℓp (fun j => ellWeight a p j * c j) 2 := by
+  refine memℓp_gen ?_
+  refine (show Summable fun j => (ellWeight a p j * c j) ^ 2 from h).congr fun j => ?_
+  rw [ENNReal.toReal_ofNat, Real.rpow_two, Real.norm_eq_abs, sq_abs]
 
 end KAM.Wave
 

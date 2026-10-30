@@ -36,12 +36,6 @@ lemma coeff_smul (c : ℝ) (y : lp (fun _ : ℕ+ => ℝ) 2) (j : ℕ+) :
     coeff (c • y) j = c * coeff y j := by
   simp [coeff, mul_div_assoc]
 
-lemma memℓp_two_of_waveEll {a p : ℝ} {c : ℕ+ → ℝ} (h : WaveEll a p c) :
-    Memℓp (fun j => ellWeight a p j * c j) 2 := by
-  refine memℓp_gen ?_
-  refine (show Summable fun j => (ellWeight a p j * c j) ^ 2 from h).congr fun j => ?_
-  rw [ENNReal.toReal_ofNat, Real.rpow_two, Real.norm_eq_abs, sq_abs]
-
 lemma wave_fin3_ne_01 : (0 : Fin 3) ≠ 1 := by decide
 
 lemma wave_fin3_ne_02 : (0 : Fin 3) ≠ 2 := by decide
