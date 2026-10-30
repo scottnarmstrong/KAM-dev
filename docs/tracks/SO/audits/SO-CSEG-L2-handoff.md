@@ -7,8 +7,8 @@ the copy in `/root/code/KAM-inp-socsplit2/.drafts/design/`, checked by `diff`).
 
 ## Files
 
-- `KAM/CertificateSharp/Kernel/Stage.lean` (new, ~215 lines; imports only `Frame.Majorants`).
-- `KAM/CertificateSharp/Tests/Stage.lean` (new, ~230 lines).
+- `KAM/CertificateSharp/Kernel/Stage.lean` (new, 208 lines; imports only `Frame.Majorants`).
+- `KAM/CertificateSharp/Tests/Stage.lean` (new, 203 lines).
 - No landed definition or statement changed; no SO-CSEG-A/B/L3 file touched; `KAM.lean`/`KAM/Root`
   not regenerated (left to the orchestrator, as for L3).
 
