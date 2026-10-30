@@ -195,7 +195,8 @@ In addition to Assumption~\ref{bp:p2s2:standing}, with the frozen bound $\abs E\
 $\sigma_{L^\top},\sigma_{N^\top}$ of \ref{bp:p2s2:R2}, the following numbers are given, positive (well-formedness), with the hypotheses stated:
 \begin{enumerate}[label=(L\arabic*)]
 \item\label{bp:p2s2l1:L1} $a_N,a_L>0$ with $\norm{\eta^N}_{1,\rho}\le a_N\sigma_{L^\top}e$ and $\norm{\eta^L}_{1,\rho}\le a_L\sigma_{N^\top}e$;
-\item\label{bp:p2s2l1:L2} $t_1\ge t$ with $\norm T_{1,\rho-\delta_0}\le t_1$, and $t_{\R}\le t$ with $\abs T\le t_{\R}$ on $\R^n$ ($T$ the frozen torsion of $K$ at $\omega$);
+\item\label{bp:p2s2l1:L2} $t_1$ with $\norm T_{1,\rho-\delta_0}\le t_1$, and $t_{\R}\le t_1$ with $\abs T\le t_{\R}$ on $\R^n$ ($T$ the frozen torsion of $K$ at $\omega$; $t_1$ need not
+  dominate a derived sup cap $t$);
 \item\label{bp:p2s2l1:L3} $G_0,G_0',G_\rho>0$ with $\Gamma_\infty(\omega,\delta_0)\le G_0$, $\Gamma_\infty(\omega,\delta_0/2)\le G_0'$, $\Gamma_\infty(\omega,\rho)\le G_\rho$ (for the actual
   $\omega$; on the ray of $\omega^*$ by Lemma~\ref{bp:p2s2l1:solve}(c); certified by \Lean{KAM.smallDivisorSup\_snoc\_le});
 \item\label{bp:p2s2l1:L4} \emph{(optional, route A)} $\nu_K,\nu_N>0$ with $\norm L_{1,\rho}\le\nu_K$, $\norm N_{1,\rho}\le\nu_N$;
@@ -301,7 +302,11 @@ added. The mirror is \texttt{stageB(\dots, l1=\dots)}.
 
 \begin{proposition}[The entry step, route B]\label{bp:p2s2l1:entryB}
 Under the hypotheses of Proposition~\ref{bp:p2s2:step} at stage $0$ and the entry data \ref{bp:p2s2l1:L1}--\ref{bp:p2s2l1:L3}, \ref{bp:p2s2l1:L5}, the
-conclusions of Proposition~\ref{bp:p2s2:step} hold with the entry constants, provided the step conditions hold with them.
+conclusions of Proposition~\ref{bp:p2s2:step} hold with the entry constants, provided the step conditions hold with them. The numbers
+$p,\lambda_0,r_N,r_L$ may be replaced by any $\mu_0>0$, $0<\lambda\le1$ and upper bounds with $\sigma_{N^\top}e\le\lambda\mu_0$,
+$\sigma_{L^\top}e\le\gamma\delta_0^\varkappa\mu_0$, $e\le\mu_0/p$, $\norm{\eta^N}_{1,\rho}\le r_N\gamma\delta_0^\varkappa\mu_0$, $\norm{\eta^L}_{1,\rho}\le r_L\mu_0$ (Lean
+\Lean{entry\_step\_B}); in the theorem uniform in $\gamma\le\bar\gamma$ one takes $\lambda_0=\sigma_{N^\top}\bar\gamma\delta_0^\varkappa/\sigma_{L^\top}$ under the regime
+$\sigma_{N^\top}\bar\gamma\delta_0^\varkappa\le\sigma_{L^\top}$, so that $\mu_0=\sigma_{L^\top}e/(\gamma\delta_0^\varkappa)$ and $r_N=a_N$.
 \source{FH24 Lemma~3.6; Proposition~\ref{bp:p2s2:step}; ours (the entry).}
 \end{proposition}
 

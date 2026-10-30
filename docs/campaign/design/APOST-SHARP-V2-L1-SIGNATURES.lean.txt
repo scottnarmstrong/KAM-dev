@@ -571,9 +571,11 @@ def entryNumB (d : L1Data) (κ γ γb ρ δ₀ sLt sNt pe cTh cDTh tslack : ℝ)
 
 /-- Blueprint `bp:p2s2l1:entryB`: the modified step at stage 0 with the ℓ¹ entry. Hypotheses: the standing frozen
 hypotheses (periodicity and reality of `h`, audit F4), the caps of the step, the refined bounds, the sup small-divisor
-constants at the stage-0 bites for the actual `ω` (F3, F9), the entry data; conclusions: those of `modified_step` with
-`entryConstsB`. -/
-theorem entry_step_B {n : ℕ} (p : StepIn) (l : EntryNumB) (d : L1Data) {τ M σK σB σT γ β e : ℝ}
+constants at the stage-0 bites for the actual `ω` (F3, F9), the entry data, and the stage-0 weighted error `μ₀` with
+the weight `0 < λ ≤ 1` (iso-F4) dominating the three error components; the entry numbers `l` are upper bounds of their
+definitions (`ci ≥ Γ_∞(δ₀) γ δ₀^κ`, ..., `rN μ₀ γ δ₀^κ ≥ ε¹_N`, `rL μ₀ ≥ ε¹_L`, `eμ μ₀ ≥ e`). Conclusions: those of
+`modified_step` with `entryConstsB`. -/
+theorem entry_step_B {n : ℕ} (p : StepIn) (l : EntryNumB) (d : L1Data) {τ M σK σB σT γ β e μ₀ : ℝ}
     {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))} {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ}
     {K : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)} {ω : Fin n → ℝ}
     (hpn : p.n = n) (hS : Standing n τ M σK σB σT 𝔅 h ω γ) (hγb : γ ≤ p.γb) (hδ : 0 < p.δ) (hδ1 : p.δ ≤ 1)
@@ -581,6 +583,14 @@ theorem entry_step_B {n : ℕ} (p : StepIn) (l : EntryNumB) (d : L1Data) {τ M �
     (hc : SDConst n p.κ γ p.δ p.c {ω}) (hc1 : SDConst n p.κ γ (p.δ / 2) (p.c1 / 2 ^ (p.κ + 1)) {ω})
     (hcbar : SDConst n p.κ γ p.r p.cbar {ω})
     (hd : d.WF) (hl : L1Hyp d h K ω p.r p.δ e p.sLt p.sNt)
+    (hci : d.G0 * γ * p.δ ^ p.κ ≤ l.ci) (hcih : d.G0h * γ * (p.δ / 2) ^ p.κ ≤ l.cih)
+    (hcir : d.Gρ * γ * p.r ^ p.κ ≤ l.cir) (ht1 : d.t1 ≤ l.t1)
+    (hμ₀ : 0 < μ₀) (hlam : 0 < p.lam ∧ p.lam ≤ 1) (hlamW : p.iso = true → 0 < p.lamW ∧ p.lamW ≤ 1)
+    (hμL : p.sNt * e ≤ p.lam * μ₀) (hμN : p.sLt * e ≤ γ * p.δ ^ p.κ * μ₀)
+    (hμW : p.iso = true → e ≤ p.lamW * μ₀) (heμ : e ≤ l.eμ * μ₀)
+    (hrN : d.aN * p.sLt * e ≤ l.rN * (γ * p.δ ^ p.κ * μ₀)) (hrL : d.aL * p.sNt * e ≤ l.rL * μ₀)
+    (hTh : ∀ z ∈ 𝔅, ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ l.cTh / 2 ∧
+      ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ l.cDTh / 2)
     (hK : DifferentiableOn ℂ K (complexStrip n p.r)) (hKp : IsPrimaryOnStrip K p.r) (hKr : IsRealOnReals K)
     (hball : ∀ θ ∈ complexStrip n p.r, Metric.ball (K θ) β ⊆ 𝔅)
     (hdX : ∀ z ∈ 𝔅, ‖fderiv ℂ (hamiltonianVectorFieldℂ h) z‖ ≤ p.M1)
@@ -593,22 +603,16 @@ theorem entry_step_B {n : ℕ} (p : StepIn) (l : EntryNumB) (d : L1Data) {τ M �
     (hT : ∀ θ ∈ complexStrip n (p.r - p.δ), ‖torsion h K ω θ‖ ≤ p.t)
     (hTa : IsUnit (torsionAverage h K ω).det ∧ ‖(torsionAverage h K ω)⁻¹‖ ≤ p.sT)
     (hE : ∀ θ ∈ complexStrip n p.r, ‖invarianceError h K ω θ‖ ≤ e)
-    (hl0 : l = entryNumB d p.κ γ p.γb p.r p.δ p.sLt p.sNt
-      (max (max p.sNt (p.sLt / (γ * p.δ ^ p.κ))) (if p.iso then 1 else 0)) l.cTh l.cDTh l.tslack l.derivedT)
-    (hlam : p.lam = p.sNt / max (max p.sNt (p.sLt / (γ * p.δ ^ p.κ))) (if p.iso then 1 else 0))
-    (hcond : entryCondB p l (max (max p.sNt (p.sLt / (γ * p.δ ^ p.κ))) (if p.iso then 1 else 0) * e /
-      (γ * p.δ ^ (p.κ + 1))))
-    (hβ : (entryConstsB p l).1.CDK * (max (max p.sNt (p.sLt / (γ * p.δ ^ p.κ))) (if p.iso then 1 else 0) * e) /
-      (γ * p.δ ^ p.κ) < β) :
-    let μ := max (max p.sNt (p.sLt / (γ * p.δ ^ p.κ))) (if p.iso then 1 else 0) * e
-    let X := μ / (γ * p.δ ^ (p.κ + 1))
+    (hcond : entryCondB p l (μ₀ / (γ * p.δ ^ (p.κ + 1))))
+    (hβ : (entryConstsB p l).1.CDK * μ₀ / (γ * p.δ ^ p.κ) < β) :
+    let X := μ₀ / (γ * p.δ ^ (p.κ + 1))
     let Kb := modNewton h K ω (p.r - 2 * p.δ)
     let k := (entryConstsB p l).1
     DifferentiableOn ℂ Kb (complexStrip n (p.r - 2 * p.δ)) ∧ IsPrimaryOnStrip Kb (p.r - 2 * p.δ) ∧
       IsRealOnReals Kb ∧
-      (∀ θ ∈ complexStrip n (p.r - 2 * p.δ), ‖Kb θ - K θ‖ ≤ k.CDK * μ / (γ * p.δ ^ p.κ)) ∧
-      (∀ θ ∈ complexStrip n (p.r - 3 * p.δ), ‖etaN h Kb ω θ‖ ≤ k.QbN * μ ^ 2 / p.δ) ∧
-      (∀ θ ∈ complexStrip n (p.r - 3 * p.δ), ‖etaL h Kb ω θ‖ ≤ k.QL * μ ^ 2 / (γ * p.δ ^ (p.κ + 1))) ∧
+      (∀ θ ∈ complexStrip n (p.r - 2 * p.δ), ‖Kb θ - K θ‖ ≤ k.CDK * μ₀ / (γ * p.δ ^ p.κ)) ∧
+      (∀ θ ∈ complexStrip n (p.r - 3 * p.δ), ‖etaN h Kb ω θ‖ ≤ k.QbN * μ₀ ^ 2 / p.δ) ∧
+      (∀ θ ∈ complexStrip n (p.r - 3 * p.δ), ‖etaL h Kb ω θ‖ ≤ k.QL * μ₀ ^ 2 / (γ * p.δ ^ (p.κ + 1))) ∧
       (∀ θ ∈ complexStrip n (p.r - 3 * p.δ), ‖fderiv ℂ Kb θ - fderiv ℂ K θ‖ ≤ p.n * k.CDK * X) ∧
       (∀ θ ∈ complexStrip n (p.r - 3 * p.δ), IsUnit (gramMatrix Kb θ).det ∧
         ‖(gramMatrix Kb θ)⁻¹ - (gramMatrix K θ)⁻¹‖ ≤ k.CBb * X) ∧
@@ -990,7 +994,8 @@ def routeBOkL1 (P : ℕ → StepIn) (l : EntryNumB) (Pt : StepIn) (kpre : ℕ) (
     (∑ s ∈ Finset.range kpre, (P s).δ * (k s).CDK * X s) + 2 * Pt.δ * kt.CDK * X kpre < β₀
 
 /-- Blueprint `bp:p2s2l1:g1B` (route B with the entry; it pays little: +0.1 orders on R1). `C₁ = ρ^{4τ} γ̄² s_Lt/(X⋆
-δ₀^{2τ+1})` (regime `p = s_Lt/(γ δ₀^τ)`), closeness `ρ^{2τ} s_Lt S/(X⋆ δ₀^{2τ+1})` (no `γ̄²`). -/
+δ₀^{2τ+1})`, closeness `ρ^{2τ} s_Lt S/(X⋆ δ₀^{2τ+1})` (no `γ̄²`). The regime inequality `hregime` makes the stage-0
+weight `λ₀ ≤ 1` and `μ₀ = s_Lt e/(γ δ₀^τ)` for every `γ ≤ γ̄` (audit AUDIT-SHARP-V2-iso-1, F4). -/
 theorem g1_l1B {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ) (hτ1 : 1 ≤ τ) {ρ ρinf : ℝ}
     (hρinf : 0 < ρinf) (hρinfρ : ρinf < ρ) {M σK σB σT μ γbar : ℝ} (hM : 0 < M) (hσK : 0 < σK)
     (hσB : 0 < σB) (hσT : 0 < σT) (hμ : 0 < μ) (hγbar : 0 < γbar) (rd : RefData) (hrd : 0 < rd.M1 ∧
@@ -1001,6 +1006,7 @@ theorem g1_l1B {n : ℕ} (hn : 2 ≤ n) {τ : ℝ} (hτ : (n : ℝ) - 1 ≤ τ) 
       (P s).M2 = rd.M2 ∧ (P s).sLt = rd.sLt ∧ (P s).sN = rd.sN ∧ (P s).sNt = rd.sNt ∧ (P s).t = t ∧
       (P s).γb = γbar ∧ (P s).sK = σK - μ / 2 ∧ σB - μ ≤ (P s).sB ∧ σT - μ ≤ (P s).sT ∧
       (P s).lam = (if s = 0 then rd.sNt * γbar * bite0 ρ ρinf ^ τ / rd.sLt else 1))
+    (hregime : rd.sNt * γbar * bite0 ρ ρinf ^ τ ≤ rd.sLt)
     (hPt : Pt = { P kpre with c := ctail, c1 := 2 ^ (τ + 1) * ctail, cbar := ctail, lam := 1 })
     (hl : l = entryNumB d τ γbar γbar ρ (bite0 ρ ρinf) rd.sLt rd.sNt (rd.sLt / (γbar * bite0 ρ ρinf ^ τ))
       l.cTh l.cDTh l.tslack l.derivedT)

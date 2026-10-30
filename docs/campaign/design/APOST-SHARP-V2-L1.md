@@ -28,7 +28,7 @@ heuristic until enclosed.
 - **R1** (measured ℓ¹ data, heuristic until enclosed). Route A goes 10⁻¹¹·¹⁸ → 10⁻¹⁰·¹³ (fixed) and 10⁻¹¹·³⁷ → 10⁻¹⁰·³²
   (iso), +1.05 orders. Route B gains 0.08–0.09. The gain stays ≥ +0.89 for an ℓ¹/sup ratio up to 8.
 - **Lean.**
-  - The probe `.drafts/sharp2/L1Signatures.lean` (copy: `APOST-SHARP-V2-L1-SIGNATURES.lean.txt`) elaborates: 1110
+  - The probe `.drafts/sharp2/L1Signatures.lean` (copy: `APOST-SHARP-V2-L1-SIGNATURES.lean.txt`) elaborates: 1116
     lines, of which 304 are verbatim copies of `sharp-v2` declarations; 22 `sorry` declarations; no error.
   - The two body splits (`g1Body_iff_split`, `ig1Body_iff_split`) are proved.
   - About 2.6k Lean lines in five packages (§5). The largest dependency is the solve-bounds form of the B4 step and of
@@ -202,7 +202,7 @@ The probe is `.drafts/sharp2/L1Signatures.lean`, copied to `docs/campaign/design
 | `KAM/Sharp2/L1/Norms.lean` | `coeffR`, `L1Vec`, `L1Mat`, `jac`, `L1Vec.norm_le`, `L1Mat.norm_le`, `L1Mat.mulVec`, `L1Vec.const`, `L1Vec.add`, `L1Vec.mono`, `L1Vec.norm_jac_le`, `L1Vec.norm_jac_transpose_le`, `L1Vec.norm_jac_antisymm_le` |
 | `KAM/Sharp2/L1/Solve.lean` | `l1_cohR`, `l1_cohR_real`, `smallDivisorSup_smul_le`, `lagrangeMat_eq_neg_antisymm`, `norm_lagrangeMat_le_l1` |
 | `KAM/Sharp2/L1/Data.lean` | `L1Data`, `L1Data.WF`, `L1Hyp` |
-| `KAM/Sharp2/L1/EntryB.lean` | `EntryNumB`, `entryConstsB` (full definition, mirror of `stageB(l1=…)`), `entryCondB`, `entryNumB`, `entry_step_B` |
+| `KAM/Sharp2/L1/EntryB.lean` | `EntryNumB`, `entryConstsB` (full definition, mirror of `stageB(l1=…)`), `entryCondB`, `entryNumB`, `entry_step_B` (stage-0 weighted error and entry numbers as upper bounds, uniform in `γ ≤ γ̄`) |
 | `KAM/Sharp2/L1/RouteA.lean` | `StepInA`, `EntryNumA`, `EntryNumA.sup`, `StageConstsA`, `stageConstsA` (full definition, mirror of `stageA(l1=…)`), `stageCondA`, `capsA`, `engineConstsA` (the embedding), `entryNumA`, `norm_fderiv_newtonMap_sub_le_l1`, `AdmA`, `entry_step_A`, `routeAScheme`, `schedIdx`, `stageInAt`, `routeA_isNewton` (B9-owned, consumed) |
 | `KAM/Sharp2/L1/G1.lean` | `G1Hyps`, `G1Concl`, `g1Body_iff_split` (**proved**), `G1BodyL1`, `stageInA`, `routeAOkL1`, `ballSumA`, `g1_l1A`, `routeBOkL1`, `g1_l1B` |
 | `KAM/Iso/Sharp2/L1/G1.lean` | `IG1Hyps`, `IG1Concl`, `ig1Body_iff_split` (**proved**), `IG1BodyL1`, `iso_g1_l1A` |
