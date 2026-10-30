@@ -1424,9 +1424,14 @@ public import KAM.Sharp2.ModConstants
 public import KAM.Sharp2.ModConstantsBd
 public import KAM.Sharp2.ModConstantsData
 public import KAM.Sharp2.ModConstantsMono
+public import KAM.Sharp2.SmallDiv.Abel
 public import KAM.Sharp2.SmallDiv.Bound
+public import KAM.Sharp2.SmallDiv.Classical
 public import KAM.Sharp2.SmallDiv.Defs
+public import KAM.Sharp2.SmallDiv.Instances
+public import KAM.Sharp2.SmallDiv.Shell
 public import KAM.Sharp2.SmallDiv.Solution
+public import KAM.Sharp2.SmallDiv.Unimodal
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
