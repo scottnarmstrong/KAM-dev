@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 14:20 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 290,000
+> **Last updated: 2026-10-30 14:35 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 %** · frozen statements proved: 23 / 23 · **287,559 lines of Lean** of an estimated ≈ 290,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -238,7 +238,7 @@ Overall, everything together: 97.2 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **287,559** (224,218 excluding blank lines and comments) · **+38,870** since 2026-10-29 14:20 UTC |
+| On `main` now | **287,559** (224,218 excluding blank lines and comments) · **+38,504** since 2026-10-29 14:30 UTC |
 | Written on agent branches, not yet landed | 1,044 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
 | **Estimated total at completion** | **≈ 290,000** |
@@ -248,7 +248,7 @@ Overall, everything together: 97.2 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 14:20 UTC from `main` at `a3be0288` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 14:35 UTC from `main` at `cc225cbb` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -412,7 +412,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **soballdy** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-soballdy` | 9 (vs `inp`) |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
@@ -426,6 +426,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 14:35 | `cc225cbb` | D41: track W statements approved (freeze); D42: scoping of the synchronous-lock theorem |
 | 2026-10-30 14:19 | `7dbba265` | Land inp into main |
 | 2026-10-30 14:18 | `06d9ca32` | Log: 14:18 |
 | 2026-10-30 14:13 | `728f287b` | Log: 14:13 (SO-R2) |
@@ -437,7 +438,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 13:40 | `1e751759` | Log: 13:40 (finish N = 65; N = 80 optional stretch) |
 | 2026-10-30 13:33 | `c1e43611` | Land inp into main |
 | 2026-10-30 13:31 | `f3fba607` | D40: track SO freeze plan (freeze proposal 2 approved) |
-| 2026-10-30 13:21 | `f7bc54e0` | Log: 13:21 |
 <!-- /AUTO:landed -->
 
 ## Decisions
