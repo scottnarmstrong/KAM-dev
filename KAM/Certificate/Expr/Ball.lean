@@ -770,7 +770,8 @@ theorem HamExpr.nonvanishingOn_of_balls {n : ℕ} (e : HamExpr n) {WH : CertWeig
     {bs : List (CC ℚ × ℚ)} (h : e.jet.prog.balls n WH centre radius taylorN = some bs) :
     e.NonvanishingOn (certDomain n WH.rho centre radius) :=
   HamExpr.nonvanishingOn_of_program_good (isOpen_certDomain n WH.rho centre radius) e
-    [.const 0 0 0] e.jet.prog.ops (List.prefix_refl _) (Slp.invGood_of_balls e.jet.prog hW h)
+    [.const 0 0 0] e.jet.prog.ops (by rw [HamExpr.jet_eq]; exact List.prefix_refl _)
+    (Slp.invGood_of_balls e.jet.prog hW h)
     (Slp.sqrtGood_of_balls e.jet.prog hW h)
 
 end KAM.Certificate
