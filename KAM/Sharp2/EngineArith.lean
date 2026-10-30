@@ -114,7 +114,8 @@ theorem summable_mul_decay {a X : ℕ → ℝ} {A : ℝ} {k : ℕ} (ha0 : ∀ t,
     (summable_geometric_two.mul_left (A * X k))
   have h1 := hXd (j + k) (by omega)
   rw [show j + k - k = j by omega] at h1
-  calc a (j + k) * X (j + k) ≤ A * X (j + k) := mul_le_mul_of_nonneg_right (haA _ (by omega)) (hX0 _)
+  calc a (j + k) * X (j + k) ≤ A * X (j + k) :=
+        mul_le_mul_of_nonneg_right (haA _ (by omega)) (hX0 _)
     _ ≤ A * (X k / 2 ^ j) := mul_le_mul_of_nonneg_left h1 hA0
     _ = A * X k * (1 / 2) ^ j := by rw [one_div, inv_pow]; ring
 

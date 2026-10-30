@@ -1416,6 +1416,8 @@ public import KAM.Sharp.Step
 public import KAM.Sharp.Tools
 public import KAM.Sharp.TorsionBound
 public import KAM.Sharp.TorsionPoly
+public import KAM.Sharp2.Engine
+public import KAM.Sharp2.EngineArith
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
