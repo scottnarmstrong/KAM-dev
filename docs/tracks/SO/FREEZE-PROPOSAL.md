@@ -617,3 +617,9 @@ The one item it could not settle is B's non-vacuity, which waits on the SO-DATA 
 - **D-SOF-3:** the 3.3 % band replaces the source's 3 % (owner ruling D30).
 
 No suspected erratum in a pinned source was found.
+
+## Orchestrator note (after SO-DATA-1, 2026-10-30)
+SO-DATA-1's certified graph bands are [0.9676314 − dL, 0.9821229 + dL] (lower torus, dL ≈ 3.5e-43) and
+[1.0178820 − dU, 1.0323666 + dU] (upper torus, dU ≈ 6.7e-43). The window must therefore satisfy
+lunarPLo > 0.9821229... and lunarPHi < 1.0178820...: the example literals 9819/10000 and 10181/10000 in Q2 would
+FAIL; candidates with a 10⁻⁴ margin are 9823/10000 and 10177/10000. SO-DATA-2 fixes the literals from the data.
