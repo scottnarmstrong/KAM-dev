@@ -12,10 +12,10 @@ public import KAM.Certificate.Tests.Toy2
 # Stage 2 in the kernel, on the toy T2
 
 The refined bounds of T2 are computed from its models: `‖DH‖ ≤ 2`, `‖DX_H‖ ≤ 1.01`, `‖D²X_H‖ = 0`,
-`‖D²H‖ ≤ 1.01` by the disc pass (against the one-size `M = 2.97`), and the frame bounds `1.01` by the
-majorants of C4 (against the defaults `5.92`, `8.76`, `35`). The certified small-divisor constants of
-the two stages are `2·10⁻⁴` and `6·10⁻³`, against the classical `0.17` and `0.13`: `balBound` gives
-`S((ω', 1), 1) ≤ 0.00012` at the frequency `(ν₋/2, 1/2) = κ (ν₋, 1)`, `κ = 1/2`.
+`‖D²H‖ ≤ 1.01` by the disc pass (against the one-size `M = 2.97`), and the frame bounds `1.01` by
+the majorants of C4 (against the defaults `5.92`, `8.76`, `35`). The certified small-divisor
+constants of the two stages are `2·10⁻⁴` and `6·10⁻³`, against the classical `0.17` and `0.13`:
+`balBound` gives `S((ω', 1), 1) ≤ 0.00012` at the frequency `(ν₋/2, 1/2) = κ (ν₋, 1)`, `κ = 1/2`.
 
 `toyCert2_refined_passes` runs the whole certifier by `decide +kernel`, and `toyCert2_refined_torus`
 is the soundness theorem at the reference frequency, through `iso_g1_v2A`.

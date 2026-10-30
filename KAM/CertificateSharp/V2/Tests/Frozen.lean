@@ -16,9 +16,9 @@ public import KAM.Certificate.Tests.Toy2
   are `min r_s 1 = 1`, the case the landed classical constants did not reach.
 * The landed sharp engine runs through the same interface (`toyCert2_sharpV2_passes`), and the
   minimum over routes takes either witness.
-* The design package R1 (`thresholds.package_R1`): `frozenCore` passes at `e = 1.15·10⁻²¹`, so stage 1
-  certifies `10^(-20.94)` on it, and fails at `e = 1.2·10⁻²¹` with the same witness. The test reads
-  the parameters and the box only, so R1 needs no torus data here.
+* The design package R1 (`thresholds.package_R1`): `frozenCore` passes at `e = 1.15·10⁻²¹`, so
+  stage 1 certifies `10^(-20.94)` on it, and fails at `e = 1.2·10⁻²¹` with the same witness. The
+  test reads the parameters and the box only, so R1 needs no torus data here.
 -/
 
 @[expose] public section
@@ -43,7 +43,8 @@ def toyFrozenWit : FrozenWit where
   t := 6936467463771 / 2500000000
   J := 2
 
-theorem toyCert2_frozenCore : frozenCore 2 toyCert2.params toyCert2.freqBox toyFrozenWit = true := by
+theorem toyCert2_frozenCore :
+    frozenCore 2 toyCert2.params toyCert2.freqBox toyFrozenWit = true := by
   decide +kernel
 
 /-- The whole v2 certifier on T2. -/

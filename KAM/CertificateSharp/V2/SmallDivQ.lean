@@ -29,8 +29,8 @@ namespace KAM.CertificateSharp.V2
 
 open KAM KAM.Certificate KAM.Sharp2 KAM.Sharp2.Examples KAM.Sharp2.RouteA KAM.CertificateSharp
 
-/-- The witness of one bite: the short rational `E₁ ≥ e^{-4πb}`, the cut-off `2^l`, the degree `J` of
-the exponential polynomial, and the claimed bound of `S((ω', 1), b)`. -/
+/-- The witness of one bite: the short rational `E₁ ≥ e^{-4πb}`, the cut-off `2^l`, the degree `J`
+of the exponential polynomial, and the claimed bound of `S((ω', 1), b)`. -/
 structure BiteWit where
   E1 : ℚ
   l : ℕ

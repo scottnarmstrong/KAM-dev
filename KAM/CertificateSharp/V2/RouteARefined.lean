@@ -13,9 +13,9 @@ public import KAM.CertificateSharp.V2.SmallDivQ
 # Stage 2: route A at the refined data
 
 `refinedCore` is the numerical part of the test of the route-A branch
-`KAM.Iso.Sharp2.RouteA.iso_g1_branch_A`: `NumA.Wf`, `routeAOkI` with `M₁, M₂, HY, Mh2` and the initial
-values of the claim `RefClaim`, the small-divisor constants of the schedule (`sitesOk`, certified or
-classical per site), and `finalOkA`.
+`KAM.Iso.Sharp2.RouteA.iso_g1_branch_A`: `NumA.Wf`, `routeAOkI` with `M₁, M₂, HY, Mh2` and the
+initial values of the claim `RefClaim`, the small-divisor constants of the schedule (`sitesOk`,
+certified or classical per site), and `finalOkA`.
 
 The test takes the branch and not the wrapper `iso_g1_v2A`, whose displacement constants are
 `max {C₂♯, c2I}`, `max {C₃♯, c3I}`. `C₂♯` is v1's constant at the frozen data: near a refined
@@ -141,8 +141,8 @@ theorem refinedCore_sound (c : TorusCertificate n α) (w : RefinedWit) {ωstar :
   have hν2' : (c.params.nuRay : ℝ) ≤
       (((c.params.σω * boxNormUp c.freqBox : ℚ) : ℝ) / ‖ωstar‖ - c.params.s) * ‖ωstar‖ :=
     hν2.trans (mul_le_mul_of_nonneg_right (by linarith) (norm_nonneg _))
-  obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A (N := Q.toNum)
-    (M := c.params.M) (σK := c.params.σK) (σB := c.params.σB) (σT := c.params.σT) (μ := c.params.μ)
+  obtain ⟨Kinf, sinf, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := iso_g1_branch_A
+    (N := Q.toNum) (M := c.params.M) (σK := c.params.σK) (σB := c.params.σB) (σT := c.params.σT) (μ := c.params.μ)
     (γbar := c.params.γbar) (σω := ((c.params.σω * boxNormUp c.freqBox : ℚ) : ℝ) / ‖ωstar‖)
     (ν := c.params.nuRay) (Xs := w.core.Xs) (Mh1 := w.R.dh) (I := w.R.init) (Ω := ray ωstar)
     hN rfl S.hτ S.hM S.hμ (S.hσω.trans_le hσ) S.hν hω0 rfl

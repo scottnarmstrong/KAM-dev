@@ -37,7 +37,8 @@ def refinedTest (c : TorusCertificate n α) (w : RefinedWit) : Bool :=
 
 /-- The frame majorants of C4 as `FrameFacts`. -/
 theorem frameFacts_of [LawfulCertArith α] {c : TorusCertificate n α} {R : RefClaim}
-    {ωstar : Fin n → ℝ} (B : BaseFacts c ωstar) (h : checkFrameMajorants c (R.frame c.freqBox) = true)
+    {ωstar : Fin n → ℝ} (B : BaseFacts c ωstar)
+    (h : checkFrameMajorants c (R.frame c.freqBox) = true)
     (hω : FreqEncloses n c.freqBox ωstar) : FrameFacts c R ωstar := by
   obtain ⟨h1, h2, h3, h4, -⟩ := checkFrameMajorants_sound B.hs B.hH B.hEm h hω
   exact ⟨h1, h2, h3, h4⟩
