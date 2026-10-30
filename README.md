@@ -274,7 +274,7 @@ Overall, everything together: 78.1 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 23:10 UTC from `main` at `ddbd9f94` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 23:10 UTC from `main` at `8e0cebc5` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -466,6 +466,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 23:10 | `8e0cebc5` | README: side project LG00 as a tracked sub-project (tracks row, progress bar, stages from docs/campaign/side/lg00-status.json) |
 | 2026-10-30 23:01 | `ddbd9f94` | Errata ledger: E-CVCGL05-2 with the norm convention made explicit (DEMO-PLANS) |
 | 2026-10-30 22:50 | `30b8171f` | Log: heartbeat (DATA3 disk: build output to HC volume; graph check solved) |
 | 2026-10-30 22:48 | `b41ab651` | Log: overnight mode (SO band, SO lock, then W) |
@@ -477,7 +478,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 22:21 | `65d6a628` | Merge remote-tracking branch 'origin/main' |
 | 2026-10-30 22:19 | `b3a33133` | Log: heartbeat (DATA3 lower kernel build; LOCK-DATA sizing rescan; W nudged; LG00 question) |
 | 2026-10-30 21:51 | `92d26c2b` | Land inp into main |
-| 2026-10-30 21:49 | `2f670238` | Log: heartbeat (data runs; disk relief) |
 <!-- /AUTO:landed -->
 
 ## Decisions
