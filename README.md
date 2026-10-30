@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 02:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **274,488 lines of Lean** of an estimated ≈ 276,000
+> **Last updated: 2026-10-30 03:06 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -214,29 +214,29 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **274,488** (214,340 excluding blank lines and comments) · **+49,298** since 2026-10-29 02:00 UTC |
-| Written on agent branches, not yet landed | 501 |
-| **Estimated total at completion** | **≈ 276,000** |
+| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+42,232** since 2026-10-29 03:00 UTC |
+| Written on agent branches, not yet landed | 0 |
+| **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 1,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 02:00 UTC from `main` at `95ea5deb` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 03:06 UTC from `main` at `b22b5eb3` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
 **Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in two parts:
 
-- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 76 modules · 19,829 lines. **Packages landed: 26 / 26**.
-- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 14 modules · 2,705 lines. **Packages landed: 16 / 18**.
+- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 77 modules · 18,907 lines. **Packages landed: 26 / 26**.
+- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 15 modules · 2,828 lines. **Packages landed: 16 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
 
-**Lean on `main`:** 1389 modules · 274,488 lines · 11,625 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
+**Lean on `main`:** 1391 modules · 273,562 lines · 11,613 theorems · `sorry` outside frozen anchors: 0 files · `axiom` declarations: 0
 
 ```text
 DRAFT_ANCHORS: 0
@@ -350,23 +350,23 @@ flowchart BT
 | [`KAM/Provider/`](KAM/Provider) | One provider module per frozen theorem, where its proof is assembled | 22 | 1,562 | 36 |
 | [`KAM/Analysis/`](KAM/Analysis) | Track K Part 1: quadratic iteration and scalar estimates | 1 | 158 | 4 |
 | [`KAM/Fourier/`](KAM/Fourier) | Weighted ℓ¹ Fourier norms, used in the cohomological equation (D12) | 4 | 628 | 33 |
-| [`KAM/Diophantine/`](KAM/Diophantine) | Diophantine vectors, cohomological equation, measure of the Diophantine set | 5 | 543 | 35 |
-| [`KAM/Strip/`](KAM/Strip) | Holomorphic functions on complex strips: Cauchy estimates, Fourier series, cohomological equation | 23 | 5,712 | 278 |
+| [`KAM/Diophantine/`](KAM/Diophantine) | Diophantine vectors, cohomological equation, measure of the Diophantine set | 5 | 532 | 34 |
+| [`KAM/Strip/`](KAM/Strip) | Holomorphic functions on complex strips: Cauchy estimates, Fourier series, cohomological equation | 23 | 5,708 | 277 |
 | [`KAM/Matrix/`](KAM/Matrix) | Matrix-valued functions: Neumann series and inverse bounds | 5 | 1,147 | 83 |
 | [`KAM/Torus/`](KAM/Torus) | Carriers for tori and embeddings: ℂⁿ × ℂⁿ, predicates, averages | 3 | 550 | 30 |
-| [`KAM/Apost/`](KAM/Apost) | Track K Part 2: a-posteriori KAM at fixed frequency (Newton step, iteration, limit) | 19 | 7,484 | 423 |
+| [`KAM/Apost/`](KAM/Apost) | Track K Part 2: a-posteriori KAM at fixed frequency (Newton step, iteration, limit) | 19 | 7,466 | 421 |
 | [`KAM/Uniq/`](KAM/Uniq) | Track K Part 3: local uniqueness of invariant tori for flows | 6 | 2,710 | 125 |
 | [`KAM/Measure/`](KAM/Measure) | Track K Part 4: lattice counting, Lipschitz dependence, measure of the tori | 5 | 965 | 44 |
-| [`KAM/Head/`](KAM/Head) | Track K Part 4: assembly of the headline theorem | 36 | 8,644 | 408 |
+| [`KAM/Head/`](KAM/Head) | Track K Part 4: assembly of the headline theorem | 36 | 8,634 | 406 |
 | [`KAM/ODE/`](KAM/ODE) | Flows of ODEs: solutions, symmetries, continuation (tracks N and P) | 13 | 2,372 | 98 |
-| [`KAM/Iso/`](KAM/Iso) | Track I: isoenergetic KAM, confinement, restricted three-body problem | 73 | 19,122 | 792 |
-| [`KAM/Kepler/`](KAM/Kepler) | Kepler problem and Delaunay coordinates (tracks I and P) | 14 | 5,120 | 366 |
-| [`KAM/Weighted/`](KAM/Weighted) | Track N: weighted domains and norms | 9 | 1,847 | 71 |
+| [`KAM/Iso/`](KAM/Iso) | Track I: isoenergetic KAM, confinement, restricted three-body problem | 73 | 19,111 | 791 |
+| [`KAM/Kepler/`](KAM/Kepler) | Kepler problem and Delaunay coordinates (tracks I and P) | 14 | 5,116 | 365 |
+| [`KAM/Weighted/`](KAM/Weighted) | Track N: weighted domains and norms | 9 | 1,843 | 70 |
 | [`KAM/Canonical/`](KAM/Canonical) | Track N: canonical flows and maps | 21 | 4,673 | 195 |
-| [`KAM/Nekhoroshev/`](KAM/Nekhoroshev) | Track N: Nekhoroshev stability | 136 | 34,084 | 1507 |
-| [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 760 | 147,870 | 6066 |
-| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 76 | 19,829 | 843 |
-| [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 14 | 2,705 | 166 |
+| [`KAM/Nekhoroshev/`](KAM/Nekhoroshev) | Track N: Nekhoroshev stability | 136 | 34,055 | 1501 |
+| [`KAM/Planetary/`](KAM/Planetary) | Track P: planetary KAM | 760 | 147,834 | 6059 |
+| [`KAM/Certificate/`](KAM/Certificate) | Track SO: the general certificate checker (certified arithmetic, Fourier models, frequencies) | 77 | 18,907 | 848 |
+| [`KAM/SpinOrbit/`](KAM/SpinOrbit) | Track SO: the lunar spin–orbit problem (model, barriers, frequencies, graphs) | 15 | 2,828 | 171 |
 <!-- /AUTO:areas -->
 
 ## What the agents are doing now
@@ -381,9 +381,11 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **sodata1** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-1: fixed-point mirror of the landed checker; STOP: checkHamBounds fails for R1 (D2 | `inp-sodata1` | 1 (vs `inp`) |
+| **sodata1** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-DATA-1: determinism rerun byte-identical (cert + advice, both tori) | `inp-sodata1` | 3 (vs `inp`) |
+| **sodata2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge inp-sodata1 (lunar data, Python mirror) into inp-sodata2; drop the .drafts handoff n | `inp-sodata2` | 3 (vs `inp`) |
+| **sofreeze** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-FREEZE-PREP: orchestrator note on the window literals after SO-DATA-1 | `inp-sofreeze` | 2 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -393,6 +395,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 02:09 | `b22b5eb3` | Land inp into main |
 | 2026-10-30 01:49 | `b6d31ebe` | Overnight log: 01:49 |
 | 2026-10-30 01:49 | `36a3d05b` | README: main theorems of track SO (the sound certificate checker; the first certified tori) |
 | 2026-10-30 01:20 | `0e28395c` | Overnight log: 01:20 |
@@ -404,7 +407,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 22:54 | `294659f7` | Overnight log: R1 M ruling (D29), first end-to-end certified toy tori |
 | 2026-10-29 22:34 | `7170850d` | Overnight log: T2d kernel memory incident |
 | 2026-10-29 22:24 | `89c72301` | Overnight log: correct a time label |
-| 2026-10-29 22:24 | `87f41cc0` | Overnight log: heartbeat 22:27, SO-DATA-1 started |
 <!-- /AUTO:landed -->
 
 ## Decisions
