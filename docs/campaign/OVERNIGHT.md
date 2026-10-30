@@ -1973,3 +1973,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   - **Owner question pending (asked in chat):** start an LG00 re-scope (Python/docs: re-price LG00 under v2 +
     `HamExpr.sqrt` + SO-CSPLIT, plan P1/P2), or keep it for later? Not started.
   - Quotas: claude-3 73 %, claude-12 68 %, claude-6 54 %, claude-4 39 %, codex-1 76 %. Disk 9.9 GB.
+- **22:31. Owner directive: "focus on finishing your subprojects… progress on W and delivering on the SO"; LG00 is
+  handled by another agent (not ours).**
+  - **SO band:** a second kernel lane (.kernel-probe-lane2.lock, MemoryMax=8G, start only with MemAvailable ≥ 6 GB)
+    so the upper torus checks in parallel with the lower. Every gate theorem measured ≤ 4.05 GB. Step 5 (the final
+    N = 65 theorems) follows at once.
+  - **W:** 4 concurrent provers (was 2), all accounts, aimed at the critical path to nlw2: W3 Birkhoff, W4
+    homological, W5/W6 KAM step and iteration, W7 measure, W8 assembly. Parametric helpers, graph published ASAP,
+    reviews not blocking provers, hourly status.
+  - **Lock:** the band has kernel priority. LOCK-DATA pushes all non-kernel work (ℓ1 rescan, sizing, generation,
+    ledger measurement) now; kernel runs take the first free lane, each theorem ≤ 8 GB.
