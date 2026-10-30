@@ -75,15 +75,15 @@ theorem norm_hamComm_sub_le_M2 {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
   rw [norm_mul_omegaZeroMatrix, norm_omegaZeroMatrix_mul, norm_sqMat]
   linarith
 
-/-- `norm_hamComm_sub_le_M2` along the step: `|ΔK| ≤ d < μ` and `𝔹_μ(K θ) ⊆ 𝔅`. -/
+/-- `norm_hamComm_sub_le_M2` along the step: `|ΔK| ≤ d`, `|ΔK| < μ` and `𝔹_μ(K θ) ⊆ 𝔅`. -/
 theorem norm_hamComm_step_le {𝔅 : Set ((Fin n → ℂ) × (Fin n → ℂ))}
     {h : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     {θ : Fin n → ℂ} {M₂ μ d : ℝ} (hopen : IsOpen 𝔅)
     (hdiff : DifferentiableOn ℂ (fderiv ℂ (hamiltonianVectorFieldℂ h)) 𝔅)
     (hd2 : ∀ z ∈ 𝔅, ‖iteratedFDeriv ℂ 2 (hamiltonianVectorFieldℂ h) z‖ ≤ M₂)
-    (hball : Metric.ball (K θ) μ ⊆ 𝔅) (hd : ‖ΔK θ‖ ≤ d) (hdμ : d < μ) (hM : 0 ≤ M₂) :
+    (hball : Metric.ball (K θ) μ ⊆ 𝔅) (hd : ‖ΔK θ‖ ≤ d) (hdμ : ‖ΔK θ‖ < μ) (hM : 0 ≤ M₂) :
     ‖hamComm h ((K + ΔK) θ) - hamComm h (K θ)‖ ≤ 2 * M₂ * d := by
-  have hseg := segment_add_subset hball (hd.trans_lt hdμ)
+  have hseg := segment_add_subset hball hdμ
   rw [segment_symm] at hseg
   refine (norm_hamComm_sub_le_M2 hopen hdiff hd2 hseg).trans ?_
   simp only [add_sub_cancel_left]
@@ -313,16 +313,16 @@ theorem sum_norm_lastRow_step_le {D : Set ((Fin n → ℂ) × (Fin n → ℂ))}
     {H : (Fin n → ℂ) × (Fin n → ℂ) → ℂ} {K ΔK : (Fin n → ℂ) → (Fin n → ℂ) × (Fin n → ℂ)}
     {θ : Fin n → ℂ} {μ Mh1 Mh2 d nt νt : ℝ} (hopen : IsOpen D) (hH : DifferentiableOn ℂ H D)
     (hd1 : ∀ z ∈ D, ‖fderiv ℂ H z‖ ≤ Mh1) (hd2 : ∀ z ∈ D, ‖iteratedFDeriv ℂ 2 H z‖ ≤ Mh2)
-    (hball : Metric.ball (K θ) μ ⊆ D) (hd : ‖ΔK θ‖ ≤ d) (hdμ : d < μ)
+    (hball : Metric.ball (K θ) μ ⊆ D) (hd : ‖ΔK θ‖ ≤ d) (hdμ : ‖ΔK θ‖ < μ)
     (hdNt : ‖(normalMat (K + ΔK) θ)ᵀ - (normalMat K θ)ᵀ‖ ≤ nt)
     (hNt₁ : ‖(normalMat (K + ΔK) θ)ᵀ‖ ≤ νt + nt) :
     ∑ j, ‖fderiv ℂ H ((K + ΔK) θ) (normalFrame (K + ΔK) θ j) -
       fderiv ℂ H (K θ) (normalFrame K θ j)‖ ≤ n * (Mh1 * nt + Mh2 * d * (νt + nt)) := by
-  have hμ : 0 < μ := (norm_nonneg _).trans_lt (hd.trans_lt hdμ)
+  have hμ : 0 < μ := (norm_nonneg _).trans_lt hdμ
   have hKD : K θ ∈ D := hball (Metric.mem_ball_self hμ)
   have hM1 : 0 ≤ Mh1 := (norm_nonneg _).trans (hd1 _ hKD)
   have hM2 : 0 ≤ Mh2 := (norm_nonneg _).trans (hd2 _ hKD)
-  have hseg := segment_add_subset hball (hd.trans_lt hdμ)
+  have hseg := segment_add_subset hball hdμ
   have hA : ∀ x ∈ D, ‖fderiv ℂ (fderiv ℂ H) x‖ ≤ Mh2 := fun x hx => by
     rw [← norm_iteratedFDeriv_one (𝕜 := ℂ), norm_iteratedFDeriv_fderiv]
     exact hd2 x hx
