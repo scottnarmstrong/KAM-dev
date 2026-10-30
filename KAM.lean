@@ -1344,6 +1344,10 @@ public import KAM.Provider.Planetary.SecularBoxSafety
 public import KAM.Provider.VolumeNotDiophantineLe
 public import KAM.Sharp.Box
 public import KAM.Sharp.BoxTorsion
+public import KAM.Sharp.CohData
+public import KAM.Sharp.Constants
+public import KAM.Sharp.ConstantsArith
+public import KAM.Sharp.Tools
 public import KAM.SpinOrbit.Barrier
 public import KAM.SpinOrbit.Freq
 public import KAM.SpinOrbit.Graph.Cert
