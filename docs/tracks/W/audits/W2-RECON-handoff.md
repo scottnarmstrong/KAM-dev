@@ -67,3 +67,22 @@ check_lean_modules: PASS (1720 Lean files, 0 comparator configurations)
 FROZEN-ANCHOR GUARD OK
 ABI HASHES OK (158 frozen declarations)
 ```
+
+## AUDIT FOCUS (sub-orchestrator kam-d4)
+
+This package is on the path to the headline: blueprint W2 (w2-reconstruction.tex) proves frozen nlw2 clause (5)
+from clauses (3)–(4). It has no provider and no seal, so skip audit item 1.
+1. PRIORITY: `reconWave_main` and `reconWave_clause5`. Compare their conclusions conjunct by conjunct with clause (5)
+   of /root/code/KAM/KAM/Frozen/Wave/Theorems/Nlw2.lean:
+   - AnalyticAt on Set.univ ×ˢ Icc 0 π;
+   - IsClassicalSolution m hm (fun t x => reconU m hm (K I (θ₀ + t • ν I)).1 x);
+   - the HasDerivAt identity with reconV;
+   - the bound with derivWithin and C·√(I₀+I₁).
+   Ideally elaborate a scratch probe whose statement is the frozen clause-(5) text, closed by these theorems (no frozen
+   import needed: copy the text). Check that the hypotheses are exactly (H1) the analyticity conjunct of
+   IsAnalyticTorusEmbedding, (H2) frozen clause (4), and (H3) the norm bound, with nothing conclusion-shaped. Check the
+   common-C rule C = max(1, M_m)·C₃.
+2. The dropped coefficient-solution hypothesis in `reconWave_bound`, and the √√(1+m) form of (1+m)^{1/4}.
+3. Hygiene. This is a SLIM worktree (plus copied inp artifacts for KAM/Wave, Strip, Fourier), so run lint only via
+   `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpi`. Run the kernel replay of the 5 modules. Regenerated
+   roots are authorized. Memory is tight: one lean process at a time.
