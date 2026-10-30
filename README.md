@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 11:45 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **285,542 lines of Lean** of an estimated ≈ 289,000
+> **Last updated: 2026-10-30 11:46 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **285,542 lines of Lean** of an estimated ≈ 289,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -248,7 +248,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 11:45 UTC from `main` at `66fa2abd` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 11:46 UTC from `main` at `1bd929b3` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -427,6 +427,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 11:46 | `1bd929b3` | README: track SO target band 2.8-2.9 % (D37) |
 | 2026-10-30 11:45 | `66fa2abd` | D37: lunar band target 2.8-2.9 % with the sharp certifier; HQ texts updated |
 | 2026-10-30 11:43 | `dfb93336` | Note for the SO orchestrator: switching the lunar certificate to the sharp certifier |
 | 2026-10-30 11:43 | `d003cb21` | Docs: the sharp a-posteriori theorems and the sharp certifier (README, D36, areas table) |
@@ -438,7 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 10:48 | `aefe5353` | Overnight log: 10:48 |
 | 2026-10-30 10:22 | `a3c1eb85` | Overnight log: 10:22 (SO-KPERF diagnosis) |
 | 2026-10-30 10:19 | `01e42efc` | Overnight log: 10:19 |
-| 2026-10-30 09:48 | `0e4d6fad` | Overnight log: 09:48 |
 <!-- /AUTO:landed -->
 
 ## Decisions
