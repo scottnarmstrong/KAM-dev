@@ -1875,3 +1875,14 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - W0-ANALYSIS (real carrier; complex parts moved to the new W1-CUBIC) and W1-KAMSUP (audit round 2 PASS WITH
       NOTES) sent to land;
     - W1-CUBIC proving. W2 (reconstruction, nlw2 clause 5) and W4-Lean start after those land.
+- **20:54. SO-KDEPTH2 done (588cd1e2); audit on codex-1.**
+  - Cause: `slpEmit`'s `s ++ [op]` builds a left-nested append chain, so the kernel recursed once per op when
+    reading the program spine or its length. 887 ops passed; 3,116 failed.
+  - Fix: a reversed-buffer compiler `slpCompileB` with simulation lemmas, and `HamExpr.jet_eq` (same program and
+    same slot tables). Old builders are kept as the specification; the statements of `jet_v0..jet_d3`,
+    `nonvanishingOn_of_balls` and `nonvanishingOn_of_ballsTrig` are unchanged. The compiler is split from Diff.lean
+    into DiffCompile.lean verbatim, with the import path preserved.
+  - Probes under the cap: all lock G1 probes that previously hit deep recursion pass (30–33 s, 3.1–3.5 GB), the
+    G1b bridge included. The wrapped 3,158-op program passes (47 s, 3.1 GB). A full KAM build (10737 jobs) passes,
+    with standard axioms including `lockBarrier_of_certV2`.
+  - Landing branch inp-sokdepth2-land (code commit only; the probe commit stays on inp-sokdepth2).
