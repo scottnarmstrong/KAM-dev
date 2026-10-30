@@ -489,17 +489,29 @@ def completion(rows):
         g[0] += w[it['difficulty']]
         g[1] += w[it['difficulty']] * it['done']
         g[2] += 1
-    if rows:
-        sealed = sum(1 for r in rows if r[4] == 'sealed')
-        groups['Sealing of the frozen statements'] = [float(len(rows)), float(sealed), len(rows)]
+    # The original project's sealing row: tracks K, I, N, P and R. Track W's and track SO's own frozen theorems are
+    # counted in their own rows below (2026-10-30: a frozen nlw2 must not lower the original project's figure).
+    orig_rows = [r for r in rows if not r[0].startswith(('wave.', 'so.'))]
+    if orig_rows:
+        sealed = sum(1 for r in orig_rows if r[4] == 'sealed')
+        groups['Sealing of the frozen statements'] = [float(len(orig_rows)), float(sealed), len(orig_rows)]
     for g in SO_GROUPS:  # list track SO's two parts after the sealing row, just before the total
         if g in groups:
             groups[g] = groups.pop(g)
+    # Track SO part 3 and track W, derived from repository state (lock_progress, w_progress).
+    # Weights reflect size against the other rows (track P weighs 30): track W is the largest campaign (34k-70k
+    # Lean lines estimated, D30), the lock a new theory on top of track SO.
+    lock_pct, lock_done = lock_progress()
+    groups[LOCK_GROUP] = [16.0, 16.0 * lock_pct / 100, len(LOCK_STAGES)]
+    w_pct, _ = w_progress()
+    groups[W_GROUP] = [64.0, 64.0 * w_pct / 100, 5]
     total = sum(g[0] for g in groups.values())
     done = sum(g[1] for g in groups.values())
     return 100 * done / total, groups, total, done
 
 
+LOCK_GROUP = 'Track SO, part 3: the Moon locked in synchronous rotation (D42)'
+W_GROUP = 'Track W: PDE KAM for the cubic wave equation (D30, D41)'
 W_MILESTONES = ['W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8']
 
 
@@ -560,7 +572,8 @@ def completion_split(rows):
     """(original project %, SO checker %, SO Moon %, overall %): the original project is every group except SO."""
     pct, groups, total, done = completion(rows)
     parts = [groups.get(g, [0.0, 0.0, 0]) for g in SO_GROUPS]
-    orig = 100 * (done - sum(p[1] for p in parts)) / (total - sum(p[0] for p in parts))
+    extra = [groups.get(g, [0.0, 0.0, 0]) for g in (LOCK_GROUP, W_GROUP)]
+    orig = 100 * (done - sum(p[1] for p in parts + extra)) / (total - sum(p[0] for p in parts + extra))
     so1, so2 = (100 * p[1] / p[0] if p[0] else 0.0 for p in parts)
     return orig, so1, so2, pct
 
