@@ -210,7 +210,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 01:00 UTC from `main` at `27f7cd23` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 01:00 UTC from `main` at `33822ae1` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -219,7 +219,6 @@ Overall, everything together: 96.8 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 76 modules · 19,829 lines. **Packages landed: 26 / 26**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 14 modules · 2,705 lines. **Packages landed: 16 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
-- **Now:** proving SO-DATA1 · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -384,6 +383,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 01:00 | `33822ae1` | SO design: overnight amendments (R1 M = 203/100; toy T2d denominator a = 10^30), for owner review |
 | 2026-10-30 01:00 | `27f7cd23` | Overnight log: 01:00 |
 | 2026-10-30 00:49 | `2cf0fceb` | Land inp into main |
 | 2026-10-30 00:48 | `67166664` | Overnight log: entries 23:25-00:25 (two D29 rulings: R1 M, toy T2d) |
@@ -395,7 +395,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-29 22:17 | `78984409` | Overnight log: SO-PYALIGN done, SO-TEST-A started |
 | 2026-10-29 22:15 | `ee820b90` | Overnight log: SO-GRAPH and SO-R1 audited |
 | 2026-10-29 21:54 | `06a4e1bc` | Overnight log: correct a time label |
-| 2026-10-29 21:53 | `a69ed1a5` | Overnight log: soundness audited, release scrub B2 complete |
 <!-- /AUTO:landed -->
 
 ## Decisions
