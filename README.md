@@ -100,8 +100,8 @@ list, with sources, is under [docs/STATEMENTS.md](docs/STATEMENTS.md).
     Lean's kernel and yield invariant tori with the Diophantine frequencies (ν₋/2, 1/2), ν₋ the quadratic
     irrational of the lunar problem, and (∛2/2, ∛4/2, 1/2). [`KAM.Certificate.toyCert3_torus`](KAM/Certificate/Tests/Toy3.lean#L53)
 
-The first application, in progress, is the lunar spin–orbit problem: the Moon's spin rate stays within 3.3 % of its
-orbital rate for all time.
+The first application, in progress, is the lunar spin–orbit problem: the Moon's spin rate stays within about 2.9 %
+of its orbital rate for all time (target 2.8–2.9 %, with the sharp certifier; the separatrix floor is 2.62 %).
 
 ## Overview
 
