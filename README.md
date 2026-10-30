@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 14:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 68 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 291,000
+> **Last updated: 2026-10-30 14:05 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 68 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 291,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -248,7 +248,7 @@ Overall, everything together: 96.6 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 14:00 UTC from `main` at `a707babc` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 14:05 UTC from `main` at `1b7df9b1` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -257,7 +257,7 @@ Overall, everything together: 96.6 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 18 modules · 3,257 lines. **Packages landed: 19 / 24**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1, SO-LUNAR-A.
-- **Now:** proving SO-GEN3, SO-KDEPTH · in audit —
+- **Now:** proving SO-BALLDY, SO-KDEPTH, SO-R2 · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Frozen statements proved: 23 / 23** · frozen definitions: 123
@@ -412,11 +412,11 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **soballdy** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-soballdy` | 9 (vs `inp`) |
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
-| **sogen3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-GEN3 interim 2: tori at N=80, 100; measured majorants and sharp thresholds | `inp-sogen3` | 2 (vs `inp`) |
+| **sogen3** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-GEN3: N=65 full study, package R2 for the sharp certifier, mirror-checked tori, kernel  | `inp-sogen3` | 3 (vs `inp`) |
 | **sokdepth** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-EMITFIX: kernel deep-recursion diagnosis, checkHamBounds memory probes, handoff | `inp-sokdepth` | 9 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
@@ -427,6 +427,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 14:05 | `1b7df9b1` | Merge remote-tracking branch 'origin/main' |
+| 2026-10-30 14:05 | `e993723c` | Log: 14:05 (SO-GEN3 done, SO-R2 started) |
 | 2026-10-30 13:49 | `793e86c5` | Log: 13:49 |
 | 2026-10-30 13:47 | `49a5760b` | Errata ledger: independent verification of the side campaign's 20 candidates (ERRATA-VERIFY-SIDE-1) |
 | 2026-10-30 13:40 | `1e751759` | Log: 13:40 (finish N = 65; N = 80 optional stretch) |
@@ -437,8 +439,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 13:18 | `670842bb` | D39: kernel depth and ball arithmetic, fix the checker (owner ruling) |
 | 2026-10-30 13:16 | `9ae39721` | Log: 13:16 |
 | 2026-10-30 13:09 | `c76163bc` | Merge remote-tracking branch 'origin/main' |
-| 2026-10-30 13:09 | `418a4f2c` | HQ: track SO current route (sharp certifier, N = 65, D38); today's SO packages counted |
-| 2026-10-30 12:57 | `7f540203` | Errata ledger: 25 candidate errata from the side campaign; 10 newly cited sources; band note corrected |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -519,7 +519,7 @@ against the pinned PDF.
 | CP11 | 2 confirmed | 1 planned |
 | Chi05 | 1 confirmed, 1 dropped | 2 adopted, 1 planned |
 | FH24 | 3 confirmed, 2 dropped | 0 |
-| FH25 | 1 candidate | 0 |
+| FH25 | 2 candidate | 0 |
 | FHL17 | 3 confirmed | 0 |
 | FdlLS09 | 1 candidate, 1 dropped | 0 |
 | Fej04r | 15 confirmed, 3 dropped | 2 adopted, 6 planned |
@@ -744,6 +744,7 @@ against the pinned PDF.
 | E-CC95-2 | erratum | CC95 | p. 99 | CC95 p. 99 discusses the (√5−1)/2 forced-pendulum torus, while its cited CFP87 computation explicitly treats (1+√5)/2. The historical summary needs a torus-specific qualification; it must not attribute CFP87's calculation to the same flow torus merely because the frequencies differ by one. The precise provenance of 6.75·10⁻⁴ remains to be mapped among the grouped references. | CONFIRMED |
 | E-VL22-1 | erratum | VL22 | eqs. (46), (47), (50)–(52), (65) | In VL22 (46), use σ for the angular strip widths. In (47), include the zero Fourier mode when defining the stated functional norm. The numerical λ* report is reproducible at τ = 1 using the printed base 20 and is conservative; the alleged 34-order discrepancy is withdrawn. | CONFIRMED |
 | E-FH25-1 | erratum | FH25 | §5 | FH25 §5 does not report enough intermediate validation data to independently replay its numerical closure from the trial pair (10⁻³⁸, 10⁻⁴⁴). A direct coarse global FH24-majorant calculation with derived torsion bounds fails by several orders, but this neither reproduces nor refutes the paper's stated finite-prefix-then-theorem computation. Retained as a reproducibility request, not a confirmed erratum. | CANDIDATE |
+| E-FH25-2 | erratum | FH25 | §5 (choice of δ) against Theorem A.1 (arXiv v1) | the application's choice δ = ρ/6 lies on the excluded endpoint of the open interval that Theorem A.1 (FH24 Theorem 2.18) requires; any δ slightly below ρ/6 would do | CANDIDATE |
 
 </details>
 <!-- /AUTO:errata -->

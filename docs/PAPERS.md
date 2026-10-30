@@ -525,7 +525,7 @@ Links: [arXiv:2403.10152](https://arxiv.org/abs/2403.10152)
 
 **Used for.** Sun–Jupiter–Saturn 3-torus data; benchmark of the v2 design and of the SJS feasibility study
 
-**Errata recorded:** 1 entry.
+**Errata recorded:** 2 entries.
 
 ### CC07
 
