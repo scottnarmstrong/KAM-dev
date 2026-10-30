@@ -163,6 +163,172 @@ lemma wave_integral_second_deriv_mul {f f' f'' : ℝ → ℝ} (l : ℕ+)
     exact intervalIntegral.integral_congr fun x _ => by ring
   linarith
 
+lemma wave_summable_abs_sqrtLam_mul (m : ℝ) (hm : 0 < m) {c : ℕ+ → ℝ} (hc : WaveEll 1 1 c) :
+    Summable fun j : ℕ+ => |Real.sqrt (lam m hm j) * c j| := by
+  obtain ⟨hB, hν, h⟩ := polyBounded_betaV m hm
+  have := (waveEll_mul_poly hB h hc).1
+  have h2 := waveEll_summable_pow_mul one_pos this 0
+  simpa [betaV] using h2
+
+lemma wave_coeff_integral_u (m : ℝ) (hm : 0 < m) {c : ℕ+ → ℝ} (hc : WaveEll 1 1 c) (l : ℕ+) :
+    ∫ x in (0 : ℝ)..π, waveU m hm c x * sineMode l x = waveHat m hm c l := by
+  rw [waveU_eq_series]
+  exact integral_waveSineSeries_mul_sineMode (summable_abs_waveHat m hm one_pos hc) l
+
+lemma wave_coeff_integral_v (m : ℝ) (hm : 0 < m) {c : ℕ+ → ℝ} (hc : WaveEll 1 1 c) (l : ℕ+) :
+    ∫ x in (0 : ℝ)..π, waveV m hm c x * sineMode l x = Real.sqrt (lam m hm l) * c l := by
+  have : waveV m hm c = waveSineSeries 0 (fun j => Real.sqrt (lam m hm j) * c j) := by
+    funext x
+    rw [waveSineSeries_zero_eq]
+    rfl
+  rw [this]
+  exact integral_waveSineSeries_mul_sineMode (wave_summable_abs_sqrtLam_mul m hm hc) l
+
+/-- The pointwise content of `bpW:w0n:pde-equiv` (ii) for one coordinate `l` and one time `t₀`. -/
+lemma wave_converse_pointwise (m : ℝ) (hm : 0 < m) {I : Set ℝ} (hI : IsOpen I)
+    {q p : ℝ → ℕ+ → ℝ}
+    (hq : ∀ t ∈ I, WaveEll 1 1 (q t)) (hp : ∀ t ∈ I, WaveEll 1 1 (p t))
+    {ut ux utt uxx : ℝ → ℝ → ℝ}
+    (hsol : IsClassicalSolutionWith m (fun t x => waveU m hm (q t) x) ut ux utt uxx I)
+    (hut : ∀ t ∈ I, ∀ x ∈ Icc 0 π, ut t x = waveV m hm (p t) x) (l : ℕ+) {t₀ : ℝ} (ht₀ : t₀ ∈ I) :
+    HasDerivAt (fun s => q s l) (lam m hm l * p t₀ l) t₀ ∧
+      HasDerivAt (fun s => p s l)
+        ((Real.sqrt (lam m hm l))⁻¹ * ∫ x in (0 : ℝ)..π, utt t₀ x * sineMode l x) t₀ ∧
+      (Real.sqrt (lam m hm l))⁻¹ * ∫ x in (0 : ℝ)..π, utt t₀ x * sineMode l x
+        = -(lam m hm l * q t₀ l) - waveCubic m hm (q t₀) l ∧
+      ContinuousAt (fun s => (Real.sqrt (lam m hm l))⁻¹ *
+        ∫ x in (0 : ℝ)..π, utt s x * sineMode l x) t₀ := by
+  have hpi := Real.pi_pos
+  obtain ⟨hcont, hder, hbd⟩ := hsol
+  have hu_c := hcont (Function.uncurry fun t x => waveU m hm (q t) x) (by simp)
+  have hut_c := hcont (Function.uncurry ut) (by simp)
+  have hux_c := hcont (Function.uncurry ux) (by simp)
+  have hutt_c := hcont (Function.uncurry utt) (by simp)
+  have huxx_c := hcont (Function.uncurry uxx) (by simp)
+  have hφc : ContinuousOn (fun z : ℝ × ℝ => sineMode l z.2) (I ×ˢ Icc 0 π) :=
+    ((continuous_sineMode l).comp continuous_snd).continuousOn
+  have hslice : ∀ F : ℝ → ℝ → ℝ, ContinuousOn (Function.uncurry F) (I ×ˢ Icc 0 π) →
+      ∀ t ∈ I, ContinuousOn (F t) (Icc 0 π) := fun F hF t ht =>
+    hF.comp (continuousOn_const.prodMk continuousOn_id)
+      (fun x hx => (⟨ht, hx⟩ : (t, x) ∈ I ×ˢ Icc 0 π))
+  have hs0 : 0 < Real.sqrt (lam m hm l) := sqrt_lam_pos m hm l
+  have hss : Real.sqrt (lam m hm l) * Real.sqrt (lam m hm l) = lam m hm l :=
+    Real.mul_self_sqrt (by have := one_le_lam m hm l; linarith)
+  have hev : ∀ᶠ s in 𝓝 t₀, s ∈ I := hI.mem_nhds ht₀
+  -- first application: `u → u_t`
+  have P1 := (waveParam_hasDerivAt hI (F := fun s x => waveU m hm (q s) x * sineMode l x)
+    (F' := fun s x => ut s x * sineMode l x) (hu_c.mul hφc) (hut_c.mul hφc)
+    (fun t ht x hx => (hder t ht x hx).1.mul_const _) ht₀).1
+  have hA : HasDerivAt (fun s => waveHat m hm (q s) l) (Real.sqrt (lam m hm l) * p t₀ l) t₀ := by
+    have hv : ∫ x in (0 : ℝ)..π, ut t₀ x * sineMode l x
+        = Real.sqrt (lam m hm l) * p t₀ l := by
+      rw [← wave_coeff_integral_v m hm (hp t₀ ht₀) l]
+      refine intervalIntegral.integral_congr fun x hx => ?_
+      rw [Set.uIcc_of_le hpi.le] at hx
+      simp only [hut t₀ ht₀ x hx]
+    rw [← hv]
+    refine P1.congr_of_eventuallyEq ?_
+    filter_upwards [hev] with s hs
+    exact (wave_coeff_integral_u m hm (hq s hs) l).symm
+  have hq' : HasDerivAt (fun s => q s l) (lam m hm l * p t₀ l) t₀ := by
+    have := hA.const_mul (Real.sqrt (lam m hm l))
+    refine (this.congr_deriv (by rw [← mul_assoc, hss])).congr_of_eventuallyEq ?_
+    refine Filter.Eventually.of_forall fun s => ?_
+    simp only [waveHat]
+    field_simp
+  -- second application: `u_t → u_tt`
+  obtain ⟨P2, P2c⟩ := waveParam_hasDerivAt hI (F := fun s x => ut s x * sineMode l x)
+    (F' := fun s x => utt s x * sineMode l x) (hut_c.mul hφc) (hutt_c.mul hφc)
+    (fun t ht x hx => (hder t ht x hx).2.1.mul_const _) ht₀
+  have hB : HasDerivAt (fun s => p s l)
+      ((Real.sqrt (lam m hm l))⁻¹ * ∫ x in (0 : ℝ)..π, utt t₀ x * sineMode l x) t₀ := by
+    have h1 := P2.const_mul (Real.sqrt (lam m hm l))⁻¹
+    refine h1.congr_of_eventuallyEq ?_
+    filter_upwards [hev] with s hs
+    have : ∫ x in (0 : ℝ)..π, ut s x * sineMode l x = Real.sqrt (lam m hm l) * p s l := by
+      rw [← wave_coeff_integral_v m hm (hp s hs) l]
+      refine intervalIntegral.integral_congr fun x hx => ?_
+      rw [Set.uIcc_of_le hpi.le] at hx
+      simp only [hut s hs x hx]
+    simp only [this]
+    field_simp
+  -- the value of the second derivative
+  have hval : (Real.sqrt (lam m hm l))⁻¹ * ∫ x in (0 : ℝ)..π, utt t₀ x * sineMode l x
+      = -(lam m hm l * q t₀ l) - waveCubic m hm (q t₀) l := by
+    have hc_u := hslice _ hu_c t₀ ht₀
+    have hc_ux := hslice _ hux_c t₀ ht₀
+    have hc_uxx := hslice _ huxx_c t₀ ht₀
+    have hb := hbd t₀ ht₀
+    have hxx := wave_integral_second_deriv_mul (f := fun x => waveU m hm (q t₀) x)
+      (f' := ux t₀) (f'' := uxx t₀) l hb.1 hb.2
+      (fun x hx => (hder t₀ ht₀ x hx).2.2.1) (fun x hx => (hder t₀ ht₀ x hx).2.2.2.1)
+      hc_ux hc_uxx
+    have hI' : ∀ g : ℝ → ℝ, ContinuousOn g (Icc 0 π) → IntervalIntegrable g volume 0 π :=
+      fun g hg => hg.intervalIntegrable_of_Icc hpi.le
+    have hφ0 : ContinuousOn (sineMode l) (Icc 0 π) := (continuous_sineMode l).continuousOn
+    have hu3 : ContinuousOn (fun x => waveU m hm (q t₀) x ^ 3) (Icc 0 π) := hc_u.pow 3
+    have e1 : ∫ x in (0 : ℝ)..π, utt t₀ x * sineMode l x =
+        ∫ x in (0 : ℝ)..π, (uxx t₀ x * sineMode l x - m * (waveU m hm (q t₀) x * sineMode l x)
+          - waveU m hm (q t₀) x ^ 3 * sineMode l x) := by
+      refine intervalIntegral.integral_congr fun x hx => ?_
+      rw [Set.uIcc_of_le hpi.le] at hx
+      have := (hder t₀ ht₀ x hx).2.2.2.2
+      simp only at this
+      rw [this]; ring
+    have i1 : IntervalIntegrable (fun x => uxx t₀ x * sineMode l x) volume 0 π :=
+      hI' _ (hc_uxx.mul hφ0)
+    have i2 : IntervalIntegrable (fun x => m * (waveU m hm (q t₀) x * sineMode l x)) volume 0 π :=
+      hI' _ (continuousOn_const.mul (hc_u.mul hφ0))
+    have i3 : IntervalIntegrable (fun x => waveU m hm (q t₀) x ^ 3 * sineMode l x) volume 0 π :=
+      hI' _ (hu3.mul hφ0)
+    rw [e1, intervalIntegral.integral_sub (i1.sub i2) i3, intervalIntegral.integral_sub i1 i2,
+      intervalIntegral.integral_const_mul, hxx, wave_coeff_integral_u m hm (hq t₀ ht₀) l,
+      integral_waveU_cube_mul_sineMode hm (q t₀) l]
+    have hl2 : (l : ℝ) ^ 2 = lam m hm l * lam m hm l - m := by
+      unfold lam
+      rw [Real.mul_self_sqrt (by positivity)]
+      ring
+    simp only [waveHat]
+    rw [hl2]
+    generalize Real.sqrt (lam m hm l) = s at hss hs0 ⊢
+    rw [← hss]
+    field_simp
+    ring
+  refine ⟨hq', hB, hval, ?_⟩
+  exact continuousAt_const.mul P2c
+
+lemma wave_contDiffOn_one {I : Set ℝ} (hI : IsOpen I) {f : ℝ → ℝ}
+    (hd : ∀ t ∈ I, DifferentiableAt ℝ f t) (hc : ContinuousOn (deriv f) I) :
+    ContDiffOn ℝ 1 f I := by
+  rw [show (1 : WithTop ℕ∞) = 0 + 1 from rfl, contDiffOn_succ_iff_deriv_of_isOpen hI]
+  exact ⟨fun t ht => (hd t ht).differentiableWithinAt, by simp, contDiffOn_zero.2 hc⟩
+
+/-- `bpW:w0n:pde-equiv` (ii) (`stepW:w0n:converse`): if `u(t,x) = U_m(q(t))(x)` is a classical
+solution on the open set `I` with `u_t(t,·) = V_m(p(t))`, then every `q_j, p_j` is `C¹` on `I`,
+`q̇_j = λ_j p_j` and `ṗ_j = -λ_j q_j - 𝒢(q)_j`. -/
+theorem wave_pde_to_coeff (m : ℝ) (hm : 0 < m) {I : Set ℝ} (hI : IsOpen I) {q p : ℝ → ℕ+ → ℝ}
+    (hq : ∀ t ∈ I, WaveEll 1 1 (q t)) (hp : ∀ t ∈ I, WaveEll 1 1 (p t))
+    {ut ux utt uxx : ℝ → ℝ → ℝ}
+    (hsol : IsClassicalSolutionWith m (fun t x => waveU m hm (q t) x) ut ux utt uxx I)
+    (hut : ∀ t ∈ I, ∀ x ∈ Set.Icc 0 π, ut t x = waveV m hm (p t) x) (j : ℕ+) :
+    ContDiffOn ℝ 1 (fun t => q t j) I ∧ ContDiffOn ℝ 1 (fun t => p t j) I ∧
+      ∀ t ∈ I, deriv (fun s => q s j) t = lam m hm j * p t j ∧
+        deriv (fun s => p s j) t = -(lam m hm j * q t j) - waveCubic m hm (q t) j := by
+  have H := fun t (ht : t ∈ I) => wave_converse_pointwise m hm hI hq hp hsol hut j ht
+  have hdq : ∀ t ∈ I, deriv (fun s => q s j) t = lam m hm j * p t j :=
+    fun t ht => (H t ht).1.deriv
+  have hdp : ∀ t ∈ I, deriv (fun s => p s j) t = -(lam m hm j * q t j) - waveCubic m hm (q t) j :=
+    fun t ht => by rw [(H t ht).2.1.deriv]; exact (H t ht).2.2.1
+  refine ⟨?_, ?_, fun t ht => ⟨hdq t ht, hdp t ht⟩⟩
+  · refine wave_contDiffOn_one hI (fun t ht => (H t ht).1.differentiableAt) ?_
+    have hpc : ContinuousOn (fun s => p s j) I := fun t ht =>
+      (H t ht).2.1.continuousAt.continuousWithinAt
+    exact (continuousOn_const.mul hpc).congr hdq
+  · refine wave_contDiffOn_one hI (fun t ht => (H t ht).2.1.differentiableAt) ?_
+    refine ContinuousOn.congr (f := fun s => (Real.sqrt (lam m hm j))⁻¹ *
+      ∫ x in (0 : ℝ)..π, utt s x * sineMode j x) (fun t ht => (H t ht).2.2.2.continuousWithinAt)
+      fun t ht => by rw [(H t ht).2.1.deriv]
+
 end KAM.Wave
 
 end
