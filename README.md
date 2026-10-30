@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 13:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 289,000
+> **Last updated: 2026-10-30 13:09 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 68 %** · frozen statements proved: 23 / 23 · **287,232 lines of Lean** of an estimated ≈ 291,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -146,15 +146,15 @@ replay, build) run again. A result counts as formalized only when its frozen sta
 ## At a glance
 
 <!-- AUTO:progress -->
-### Estimated completion: original project **99.3 %** · SO checker **100 %** · SO Moon **70 %**
+### Estimated completion: original project **99.3 %** · SO checker **100 %** · SO Moon **68 %**
 
 Original project (tracks K, I, N, P): `█████████████████████████` 99.3 %
 
 Track SO, part 1, the general Lean certificate checker: `█████████████████████████` 100.0 %
 
-Track SO, part 2, the Moon's spin rate (its first client): `██████████████████░░░░░░░` 70.0 %
+Track SO, part 2, the Moon's spin rate (its first client): `█████████████████░░░░░░░░` 67.5 %
 
-Overall, everything together: 96.8 %
+Overall, everything together: 96.6 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
@@ -168,8 +168,8 @@ Overall, everything together: 96.8 %
 | Track P (planetary) | 5 | 30 | 30.0 | `██████████` 100 % |
 | Sealing of the frozen statements | 23 | 23 | 23.0 | `██████████` 100 % |
 | Track SO, part 1: general Lean certificate checker | 6 | 32 | 32.0 | `██████████` 100 % |
-| Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 14.0 | `███████░░░` 70 % |
-| **Total** | 75 | 230 | 222.8 | **96.8 %** |
+| Track SO, part 2: the Moon's spin rate (lunar spin–orbit) | 6 | 20 | 13.5 | `███████░░░` 68 % |
+| **Total** | 75 | 230 | 222.2 | **96.6 %** |
 
 **How this is estimated.** The project is divided into 52 work items: planning deliverables, campaign infrastructure, the four layers of track K's proof, the proof campaigns of tracks I, N and P, and track SO (its items count the design's line estimates of the packages landed so far; [`docs/campaign/progress-SO.json`](docs/campaign/progress-SO.json)). Each item is weighted by its difficulty (low 1, moderate 2, high 4, very high 8) and counts with the fraction of it that is done; each sealed frozen theorem adds 1. Items marked *graph* take that fraction from their proof graph (nodes `PROVED`, `BYPASSED`, `EXTERNAL` or owner-accepted `ASSUMED` in [`docs/graph/`](docs/graph)), so they update themselves at every refresh, and count as complete once every frozen theorem of their track is sealed; the other items are the orchestrators' assessment, last reviewed **2026-10-28 03:25 UTC**. Files: [`docs/campaign/progress.json`](docs/campaign/progress.json) (track K and infrastructure) and [`docs/campaign/progress-INP.json`](docs/campaign/progress-INP.json) (tracks I, N, P).
 
@@ -219,15 +219,15 @@ Overall, everything together: 96.8 %
 | P.ADD.PROOF | P-EXP-SAFE, P-AMD-CONFINEMENT, P-SECULAR-BOX: blueprint, graph, proofs | VH | ✅ 100 % | *graph P* · graph P published; Parts 14a/b designs being written |
 | SO1.DESIGN | Lean design of the general checker: seven revisions, independent design audits, replay gate (packed products checked against supplied advice) | H | ✅ 100 % | design accepted (Revision 7, seventh audit PASS WITH NOTES); replay gate GO |
 | SO1.ARITH | Certified arithmetic: interface, exact and fixed-point backends, π and exp enclosures, range-reduced complex exponential, explicit KAM constants | H | ✅ 100 % | landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST (of SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST) |
-| SO1.FOURIER | Exact Fourier data and Fourier models: packed products checked against advice, model algebra, exponential and inverse witnesses | VH | ✅ 100 % | landed: SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW (of SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW) |
+| SO1.FOURIER | Exact Fourier data and Fourier models: packed products checked against advice, model algebra, exponential and inverse witnesses | VH | ✅ 100 % | landed: SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX (of SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX) |
 | SO1.EXPR | Hamiltonians as expressions: semantics, symbolic jets to third order, certified ball evaluation, norm bridges | H | ✅ 100 % | landed: SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM (of SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM) |
 | SO1.MATRIX | Matrix certificates: approximate inverses, embeddings, Gram and torsion checks, positivity | H | ✅ 100 % | landed: SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS (of SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS) |
 | SO1.CHECK | The certificate, the checker and its soundness theorem through the sealed isoenergetic theorem; toy and negative tests | VH | ✅ 100 % | landed: SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST (of SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST) |
 | SO2.PLAN | Plan and owner rulings O1–O5: momentum window, rotated frame, parameter package R1 (confirmed with enclosed numbers), data packaging option A | M | ✅ 100 % | SO-GEN2: threshold 10^-74.7, about 8.5k terms per torus; SO-ADVCOUNT: about 4 MB of advice per torus |
-| SO2.MODEL | Lunar model: the spin–orbit Hamiltonian, Diophantine lunar frequencies, clock, rotated frame | H | ✅ 100 % | landed: SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ (of SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ) |
-| SO2.BARRIER | Confinement: two invariant barriers confine every solution for all time; graph inversion of an exact torus in both frames; certified graphs | H | ✅ 100 % | landed: SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH (of SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH) |
-| SO2.DATA | Numerical candidates and certificate data: generator, rotated-frame package R1, advice emitter, Lean data modules and their kernel replay | H | 🟨 67 % | landed: SO-GEN, SO-GEN2, SO-DATA-PY (of SO-GEN, SO-GEN2, SO-DATA-PY, SO-DATA) |
-| SO2.LUNAR | The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within 2.8–2.9 % of its orbital rate for all time (target, D37) | H | 🟨 33 % | landed: SO-R1 (of SO-R1, SO-LUNAR) |
+| SO2.MODEL | Lunar model: the spin–orbit Hamiltonian, Diophantine lunar frequencies, clock, rotated frame | H | ✅ 100 % | landed: SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION (of SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION) |
+| SO2.BARRIER | Confinement: two invariant barriers confine every solution for all time; graph inversion of an exact torus in both frames; certified graphs | H | ✅ 100 % | landed: SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK (of SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK) |
+| SO2.DATA | Numerical candidates and certificate data: generator, the N = 65 tori and parameter package for the sharp certifier (SO-GEN3), kernel-reducible emitter, Lean data modules and their kernel replay | H | 🟨 50 % | landed: SO-GEN, SO-GEN2, SO-DATA-PY (of SO-GEN, SO-GEN2, SO-DATA-PY, SO-DATA, SO-GEN3, SO-EMITFIX) |
+| SO2.LUNAR | The lunar certificates pass and the confinement theorem: the Moon's spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38) | H | 🟨 38 % | landed: SO-R1, SO-LUNAR-A (of SO-R1, SO-LUNAR, SO-LUNAR-A, SO-R2) |
 | SO2.FREEZE | Owner approval of the final statement, freeze, and seal | M | ⬜ 0 % | the final statement is approved by the owner before freezing |
 
 </details>
@@ -241,24 +241,24 @@ Overall, everything together: 96.8 %
 | On `main` now | **287,232** (224,016 excluding blank lines and comments) · **+38,543** since 2026-10-29 13:00 UTC |
 | Written on agent branches, not yet landed | 954 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
-| **Estimated total at completion** | **≈ 289,000** |
-| Estimated still to write | ≈ 1,000 |
+| **Estimated total at completion** | **≈ 291,000** |
+| Estimated still to write | ≈ 2,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 13:00 UTC from `main` at `7f540203` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 13:09 UTC from `main` at `c76163bc` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
 **Track SO** (D30, started 2026-10-29; [plan](docs/campaign/design/SPIN-ORBIT-PLAN.md)), in two parts:
 
-- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 26 / 26**.
-- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target 2.8–2.9 %, D37). `KAM/SpinOrbit` and the data generator: 18 modules · 3,257 lines. **Packages landed: 16 / 18**.
-- Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
-- **Now:** proving SO-GEN3 · in audit —
-- **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
+- **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 27 / 27**.
+- **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 18 modules · 3,257 lines. **Packages landed: 19 / 24**.
+- Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1, SO-LUNAR-A.
+- **Now:** proving SO-EMITFIX, SO-GEN3 · in audit —
+- **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Frozen statements proved: 23 / 23** · frozen definitions: 123
 
@@ -286,7 +286,7 @@ Four parallel tracks (decision D14; details in [`docs/TRACKS.md`](docs/TRACKS.md
 | **P** | Properly degenerate KAM; planar two-planet problem; n planets around a fixed Sun | 7 / 7 | 1363 / 1363 nodes resolved | **complete**: all seven frozen theorems sealed (the last, planetaryExponentialSafety, on 2026-10-29); every graph node resolved (two conventions accepted by owner ruling D31) |
 | **R** | Rüssmann's KAM theorem under weak non-degeneracy: invariant tori fill all but κ of phase space | 1 / 1 | not published yet |  |
 | **SO-1** | Track SO, part 1: a general Lean certificate checker turning numerical KAM tori into theorems | 0 / 0 | not published yet | every engine module and the certificate checker landed; the soundness theorem (a passing certificate yields an invariant torus, through the sealed isoenergetic theorem) proved 2026-10-29 21:40, in independent audit; toy certificates next |
-| **SO-2** | Track SO, part 2: the Moon's spin rate stays within 2.8–2.9 % of its orbital rate for all time (D37) | 0 / 0 | not published yet | moving to the sharp certifier (D36) with a target band of 2.8–2.9 % (D37): new tori closer to the resonance and a new parameter package being computed (SO-GEN3); model, frequencies, clock, rotated frame, barriers, graph certificates and the parametric final assembly landed |
+| **SO-2** | Track SO, part 2: the Moon's spin rate stays within about 2.7 % of its orbital rate for all time (N = 65, D38) | 0 / 0 | not published yet | sharp certifier (D36) with barriers at N = 65, band about 2.71 % (D38): general-N Diophantine lemmas, sharp barrier and band-parametric assembly landed; N = 65 parameter package and data sizing (SO-GEN3) and a kernel-reducible data emitter (SO-EMITFIX) in progress; final data and kernel passes next |
 <!-- /AUTO:tracks -->
 
 **Track SO, the lunar spin–orbit certificate.** Numerical KAM computations find invariant tori to 100+ digits, but a
@@ -426,6 +426,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 13:09 | `c76163bc` | Merge remote-tracking branch 'origin/main' |
+| 2026-10-30 13:09 | `418a4f2c` | HQ: track SO current route (sharp certifier, N = 65, D38); today's SO packages counted |
 | 2026-10-30 12:57 | `7f540203` | Errata ledger: 25 candidate errata from the side campaign; 10 newly cited sources; band note corrected |
 | 2026-10-30 12:48 | `a1948e59` | Log: 12:48 |
 | 2026-10-30 12:44 | `5fc446e1` | Land inp into main |
@@ -436,8 +438,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 12:15 | `b864684e` | Log: 12:15 (D38, three SO packages) |
 | 2026-10-30 12:12 | `54d944cb` | D38: lunar barriers at N = 65 (band about 2.71 %) |
 | 2026-10-30 12:03 | `16179907` | Land inp into main |
-| 2026-10-30 11:53 | `55c0c980` | Log: 11:53 |
-| 2026-10-30 11:52 | `04d675cc` | Log: 11:52 (sub-orchestrator rotated) |
 <!-- /AUTO:landed -->
 
 ## Decisions
@@ -516,7 +516,7 @@ against the pinned PDF.
 | CP10pin | 3 candidate, 13 confirmed, 5 dropped | 5 adopted, 5 planned |
 | CP11 | 2 confirmed | 1 planned |
 | Chi05 | 1 confirmed, 1 dropped | 2 adopted, 1 planned |
-| FH24 | 5 candidate | 0 |
+| FH24 | 2 candidate, 3 confirmed | 0 |
 | FH25 | 1 candidate | 0 |
 | FHL17 | 3 candidate | 0 |
 | FdlLS09 | 1 candidate, 1 dropped | 0 |
@@ -524,7 +524,7 @@ against the pinned PDF.
 | Fej07e | 1 confirmed | 0 |
 | GCB16 | 1 candidate, 2 confirmed | 0 |
 | GJLV05 | 1 candidate, 5 confirmed | 1 planned |
-| HL19 | 3 candidate, 14 confirmed, 2 dropped | 2 adopted, 6 planned |
+| HL19 | 1 candidate, 15 confirmed, 2 dropped | 2 adopted, 6 planned |
 | LP17 | 1 confirmed | 1 adopted, 1 planned |
 | Nei76 | 1 confirmed | 3 adopted |
 | Nek77 | 3 confirmed | 5 adopted, 1 planned |
@@ -715,14 +715,13 @@ against the pinned PDF.
 | E-P-Fej04r-14 | erratum | Fej04r | pp. 38–39, proof of Theorem 58 slicing displays | The linewise estimate concerns the bad set, but the p. 39 displays switch to the good set. They need ∉. The p. 38 reciprocal ratio also differs from the b/a factor in the theorem and preceding one-dimensional bound. | CONFIRMED |
 | E-P-Fej04r-15 | erratum | Fej04r | p. 44, Step 5 polar localization, compare CP09 p. 15 | For an arbitrary positive vector ρᵒ this radius need not stay inside the positive action orthant. Choose comparable components or a radius controlled by min_j ρᵒ_j. | CONFIRMED |
 | E-P-Fej04r-16 | erratum | Fej04r | p. 58, after the induction block matrix | The (n−1)-planet old block has n−1 eigenvalues; end the hatted list at n−1. | CONFIRMED |
-| E-FH24-1 | erratum | FH24 | Lemma 2.14, p. 14 (arXiv v1) | wrong constant: the printed ĉ_R is twice the constant its own route gives, (2^{d−1−2τ}ζ(2,2^τ)π^{−2τ−2}Γ(2τ+1))^{1/2}, and the middle expression lacks the factor (2π)^{−1} of the solution operator | CANDIDATE |
-| E-FH24-2 | erratum | FH24 | Table 3, (3.72), p. 38 (arXiv v1) | false as stated: since Nᵀ = BLᵀJᵀ the bound needs σ_Lᵀ and C_ΔL̄̄ᵀ where σ_L and C_ΔL̄̄ are printed; with σ_Lᵀ = 2nσ_K the printed bound underestimates by a factor up to 2n (in the canonical case it coincides with (3.71)) | CANDIDATE |
-| E-FH24-3 | erratum | FH24 | (3.10) and p. 19 (arXiv v1) | typos: "C_E" stands for C_{Eᵀ}, and the cross-reference "Corollary 2.14" should be Corollary 2.16 | CANDIDATE |
+| E-FH24-1 | erratum | FH24 | Lemma 2.14, p. 14 (arXiv v1) | derivation defect: the displayed c_R(δ) omits the factor (2π)^{-1} of the solution operator (2.21); the printed ĉ_R is twice the δ→0 leading coefficient that the corrected route gives. The printed ĉ_R remains a valid (conservative) uniform bound; halving it uniformly needs a separate proof | CONFIRMED |
+| E-FH24-2 | erratum | FH24 | Table 3, (3.72), p. 38 (arXiv v1) | false as stated: since Nᵀ = BLᵀJᵀ the bound needs σ_Lᵀ and C_ΔL̄̄ᵀ where σ_L and C_ΔL̄̄ are printed; with σ_Lᵀ = 2nσ_K the printed bound underestimates by a factor up to 2n (in the canonical case it coincides with (3.71)) | CONFIRMED |
+| E-FH24-3 | erratum | FH24 | (3.10) and p. 19 (arXiv v1) | typos: "C_E" stands for C_{Eᵀ}, and the cross-reference "Corollary 2.14" should be Corollary 2.16 | CONFIRMED |
 | E-FH24-4 | erratum | FH24 | (2.24) with (3.99) and Table 1 | the "constant" C is not γ-free: (3.99) contains γδ^τ·max{1,C_sym}/ν and Table 1 contains terms like C_E = C_E^L + γδ^τ C_E^N | CANDIDATE |
 | E-FH24-5 | erratum | FH24 | hypothesis H3 | typesetting: the second κ is presumably κ̂ ((3.91) needs a^{τ+1}Qε₀/(γδ₀^{τ+1}) < κ < 1 and (3.95) needs ε₀/(γδ₀^{τ+1}) < κ̂) | CANDIDATE |
-| E-HL19-18 | erratum | HL19 | (3.16) versus (6.51) (arXiv v1) | inconsistent exponents between the statement of Theorem 3.6 and its proof for the frequency closeness | CANDIDATE |
-| E-HL19-19 | erratum | HL19 | §5.3, p. 43, with Lemma 4.1 | gap: correct only for a uniform c_R; Lemma 4.1 allows c_R = c_R(δ), which increases as δ decreases for τ = 1, so the worst value is not at δ₀ | CANDIDATE |
-| E-FHL17-1 | erratum | FHL17 | proof of Theorem 2.5, p. 16 | gap: the same as HL19 §5.3 (correct for a uniform c_R) | CANDIDATE |
+| E-HL19-19 | erratum | HL19 | §5.3, p. 43, with Lemma 4.1 | conditional uniformity gap: freezing c_R at δ₀ is justified for a uniform c_R, but Lemma 4.1 also permits a δ-dependent c_R(δ), which need not be bounded by its value at δ₀; a uniform-in-later-bites bound or stage-specific constants are needed | CONFIRMED |
+| E-FHL17-1 | erratum | FHL17 | proof of Theorem 2.5, p. 16 | conditional uniformity gap, as in HL19 §5.3: correct for a uniform c_R, but (90) allows c_R(δ), which need not be bounded by its value at δ₀ | CANDIDATE |
 | E-FHL17-2 | erratum | FHL17 | p. 37 | inconsistent: the stated gain is consistent with τ = 1.26, not τ = 1 | CANDIDATE |
 | E-FHL17-3 | erratum | FHL17 | introduction | misattribution: CC88 gives ∣ε∣ ≤ 0.65 (and Celletti–Chierchia JSP 1991 gives 0.838) | CANDIDATE |
 | E-GJLV05-6 | erratum | GJLV05 | p. 866, Theorem 6 | wrong exponent: γ appears to the power +2; compare Theorem 1 (cγ^{−2}δ₀^{−2σ}) and Theorem 6’s own K-estimate with γ^{−2}; almost certainly γ^{−2} (the same issue as Theorem 3, E-GJLV05-1) | CANDIDATE |

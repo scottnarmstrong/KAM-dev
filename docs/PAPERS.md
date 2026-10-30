@@ -31,7 +31,7 @@ Links: [arXiv:1711.05515v1](https://arxiv.org/abs/1711.05515v1) · [doi:10.1016/
 
 **Cited by the frozen theorems** `KAM.aposteriori_kam`, `KAM.Iso.isoenergetic_kam`, `KAM.Iso.all_time_confinement`, `KAM.Iso.kepler_bordered_det`, `KAM.Iso.restricted_near_circular`.
 
-**Errata recorded:** 27 entries.
+**Errata recorded:** 26 entries.
 
 ### GJLV05
 
