@@ -1958,3 +1958,64 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     data). The gate study inp-socsplit2 c790787d is sent to land (docs). / back to 11 GB.
   - W: the W1-CUBIC codex-1 audit finished at 21:47 and kam-1b's waiter is armed. The W2-RECON audit finished
     21:27.
+- **22:19. Heartbeat.**
+  - **SO-DATA3:** the serial capped kernel build of the lower N = 65 torus is running (786 modules in the closure,
+    515 heavy, each alone under the probe lock and the cap).
+  - **LOCK-DATA:** step 1c found a blocking sizing error inherited from LOCK-GEN-2. Constants were sized by grid
+    suprema on the strip, but the landed checks bound by the weighted ℓ1 model norm, 1.3–2× larger at a 73.8°
+    libration. In the mirror, `checkEmbedding` fails all three conditions. The ℓ1 rescan is running (exact mirrors,
+    reusing SO-DATA3's), and no kernel run has started.
+    - A larger support is our call. Changing N or the libration amplitude goes to the owner.
+    - The rotational data are unaffected: they were sized from exact mirrors, and `checkEmbedding` passed in the
+      kernel.
+  - **W:** kam-1b idle since 21:40 although the W1-CUBIC audit finished at 21:47. Its waiter misses Codex READY
+    markers again; nudged.
+  - **Owner question pending (asked in chat):** start an LG00 re-scope (Python/docs: re-price LG00 under v2 +
+    `HamExpr.sqrt` + SO-CSPLIT, plan P1/P2), or keep it for later? Not started.
+  - Quotas: claude-3 73 %, claude-12 68 %, claude-6 54 %, claude-4 39 %, codex-1 76 %. Disk 9.9 GB.
+- **22:31. Owner directive: "focus on finishing your subprojects… progress on W and delivering on the SO"; LG00 is
+  handled by another agent (not ours).**
+  - **SO band:** a second kernel lane (.kernel-probe-lane2.lock, MemoryMax=8G, start only with MemAvailable ≥ 6 GB)
+    so the upper torus checks in parallel with the lower. Every gate theorem measured ≤ 4.05 GB. Step 5 (the final
+    N = 65 theorems) follows at once.
+  - **W:** 4 concurrent provers (was 2), all accounts, aimed at the critical path to nlw2: W3 Birkhoff, W4
+    homological, W5/W6 KAM step and iteration, W7 measure, W8 assembly. Parametric helpers, graph published ASAP,
+    reviews not blocking provers, hourly status.
+  - **Lock:** the band has kernel priority. LOCK-DATA pushes all non-kernel work (ℓ1 rescan, sizing, generation,
+    ledger measurement) now; kernel runs take the first free lane, each theorem ≤ 8 GB.
+- **22:33. Owner: "pause W lane to focus on landing SO completely".**
+  - Track W paused: no new provers, audits or reviews. Running provers commit and stop; running audits finish and
+    are recorded only. Worktrees and branches are kept, with a resume note at .drafts/W/PAUSE-2026-10-30.md.
+  - The freed CPU, memory, accounts and codex-1 go to SO: the band's two kernel lanes, then its audit and landing;
+    LOCK-DATA's sizing, generation and kernel.
+- **22:46. Owner: "if you finish both SO tracks you can go back to W".** Order: (1) land the SO band (N = 65
+  data, final theorems, audit, landing, freeze text to the owner per D40); (2) land the SO lock (LOCK-DATA, headline,
+  audit, landing). Then resume W from .drafts/W/PAUSE-2026-10-30.md.
+  - W is paused cleanly, with all work committed: W4-HOMOLOGICAL WIP at inp-wpj 10801f8b; W1-CUBIC audit 2 PASS WITH
+    NOTES at inp-wph 8b4f8869, ready to land on resume; graph delta 7 reports at inp-wgraph 7c4a75ec, not yet
+    applied. 8 W packages on main, including W2-RECON (nlw2 clause 5).
+- **22:46. Owner: overnight mode again.**
+  - Deferred decisions are logged here "for owner review", with the recommended reversible option taken. Nothing is
+    frozen: the D40 freeze text for the band and the lock freeze proposal wait for the morning.
+  - Plan for the night:
+    - SO band: kernel lanes, then the final theorems, audit and a scheduled landing.
+    - SO lock: sizing with kp = 4 and a larger support (a smaller amplitude would be logged and paused for the
+      owner), then generation, kernel, headline, audit and landing.
+    - Then resume W from its pause note, as the owner allowed.
+- **22:49. Heartbeat: SO-DATA3 limited by disk; data build output relocated to the HC volume.**
+  - Each data module produces about 7.7 MB of build output (.olean.private 2.9 MB, C 3.0 MB, setup.json 1.5 MB), so
+    both tori need about 3.8 GB. / was at 7.7 GB and the drivers halt cleanly at 8 GB.
+  - The ir dedup of main against KAM-inp freed only 0.17 GiB. So SO-DATA3 will move
+    `.lake/build/{lib/lean,ir}/KAM/SpinOrbit/Data` to /mnt/HC_Volume_106379410/kam-data/so-data3/build-overlay/
+    behind symlinks, at a safe point between modules (regular files only, verified copy).
+  - The graph check of the band is solved by a row-chunk split (KAM/SpinOrbit/Data/CsegGraph.lean, new names, all
+    proved), so the band stays at 2.755 %.
+  - SO-DATA3 keeps two lanes (its driver has no cross-process claim, so splitting one torus would race). Its brief
+    edit of CsegSupport.lean mid-build stopped lane 1; it was restored and restarted with no loss.
+  - Lock: the exact-mirror sizing pass and the support scan are running. The clock char witness is fixed; charWit
+    (1,0) radius 1.73e-17 is under investigation.
+- **23:19. SO-DATA3's build output now lives on the HC volume; lanes restarted.**
+  - The worker could not run `rm -rf` (its safety check), so the orchestrator swapped in the symlinks. HC copies
+    re-verified identical; originals renamed aside, then symlinked. `lake build --no-build` confirmed the heavy
+    built modules are up to date through the symlinks; originals deleted.
+  - / at 9.0 GB. The driver's disk stop is lowered to 6 GB, since new data output goes to the volume.
