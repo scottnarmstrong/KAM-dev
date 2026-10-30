@@ -127,9 +127,14 @@ public import KAM.CertificateSharp.Constants
 public import KAM.CertificateSharp.ConstantsDom
 public import KAM.CertificateSharp.ConstantsQ
 public import KAM.CertificateSharp.Engine
+public import KAM.CertificateSharp.Ham.BallsTrig
+public import KAM.CertificateSharp.Ham.SplitBounds
+public import KAM.CertificateSharp.Ham.TrigBound
+public import KAM.CertificateSharp.Ham.TrigCertifier
 public import KAM.CertificateSharp.Sharp
 public import KAM.CertificateSharp.SharpEngine
 public import KAM.CertificateSharp.Sound
+public import KAM.CertificateSharp.Tests.BallsTrig
 public import KAM.CertificateSharp.Tests.Margin
 public import KAM.Diophantine.Basic
 public import KAM.Diophantine.Cohomological
