@@ -54,7 +54,8 @@ C_{\Delta\mathsf T}&:=\max\bigl\{C_{\Delta T}+C_{\Delta\omega},\ nC_{\Delta\omeg
 \hat{\mathfrak c}_*:=\max\Bigl\{2^{2a}C_E,\ \hat{\mathfrak c}_{\mathrm{step}},\ \frac{\hat{\mathfrak c}_{\mathrm{sum}}}\mu,\ \frac{4\bar\gamma^2C_{\Delta\omega}}\nu\Bigr\},
 \end{align*}
 and $\delta_0:=\min\{1,(\rho-\rho_\infty)/6\}$. All are positive and depend only on $(n,\varkappa,c_R,M,\sigma_K,\sigma_B,\sigma_T,\bar\gamma)$,
-$\hat{\mathfrak c}_*$ in addition on $(\mu,\nu)$; none depends on $\rho,\rho_\infty,\gamma,\omega^*,\sigma_\omega$.
+$\hat{\mathfrak c}_*$ in addition on $(\mu,\nu)$; the constants preceding $\delta_0$ do not depend on
+$\rho,\rho_\infty,\gamma,\omega^*,\sigma_\omega$, and $\delta_0$ depends only on $(\rho,\rho_\infty)$.
 \end{definition}
 
 %----------------------------------------------------------------------------------------------------
@@ -176,13 +177,20 @@ $\abs{T_{\bar\omega}(\bar K)-T_\omega(K)}\le D\le C_{\Delta T}U$, by \Kref{bp:p2
 of $\bar\omega-\omega$ inside the torsion is needed: $\mathcal T$ involves the frequency only through $D\tilde E_{\tilde\omega}$.
 
 \proofstep{The energy row}\label{stepI:p2s:tw-y}
-By Lemma~\ref{bpI:p1:last-row}(a) for $(K,\omega)$ on $T_r$ and for $(\bar K,\bar\omega)$ on $T_{r-3\delta}$ (where $\det\bar G\ne0$):
+By Lemma~\ref{bpI:p1:last-row}(a) for $(K,\omega)$ on $T_r$, and for $(\bar K,\bar\omega)$ on $T_{r-3\delta}$ by its algebraic content
+alone, the identity $Y(H,K,\omega')=\omega'^\top-\eta^L(H,K,\omega')^\top$ at an arbitrary real frequency $\omega'$ whenever the Gram
+matrix is invertible (Lean \Lean{KAM.Iso.Linear.LastRowAux.energyRow\_eq\_sub\_etaL}, whose only premise is $\det\bar G\ne0$; the
+new pair is not assumed Diophantine, primary or real, and $\bar s>1$ is not used: the ray is certified by the engine cap). The
+continuity and holomorphy of the energy row of the new pair come from \Lean{KAM.Iso.Linear.extended\_regular}, which accepts an
+arbitrary new real frequency with the old Hamiltonian data. Thus
 $Y=\omega^\top-(\eta^L)^\top$ and $\bar Y=\bar\omega^\top-(\bar\eta^L)^\top$, so at real $\theta$ the row-sum norm of $\bar Y-Y$ is at most
 $n\abs{\bar\omega-\omega}+n\abs{\eta^L}+n\abs{\bar\eta^L}$. Here $\abs{\eta^L}\le2n\sigma_K\sigma_B\varepsilon$ and $\abs{\bar\eta^L}=\abs{\bar B\bar L^\top\bar E}\le
 2n\hat\vartheta^2\sigma_K\sigma_B\bar\varepsilon$ (\Kref{bp:p2s:frame-bounds}(c), \Kref{bp:p2s:perturbation}(b), (c)).
 
 \proofstep{The average}\label{stepI:p2s:tw-avg}
-By Lemma~\ref{bpI:p1:extended-basic}(a) for both pairs, $\avg{\bar{\mathsf T}}-\avg{\mathsf T}$ is the bordered matrix with blocks
+By Lemma~\ref{bpI:p1:extended-basic}(a) for $(K,\omega)$, and for $(\bar K,\bar\omega)$ by averaging the defining bordered matrix
+(Lean \Lean{KAM.Iso.Linear.ExtendedAux.extendedTorsionAverage\_eq\_bordMat}, which needs only the continuity of the energy row,
+\Lean{KAM.Iso.Linear.extended\_regular}), $\avg{\bar{\mathsf T}}-\avg{\mathsf T}$ is the bordered matrix with blocks
 $\avg{T_{\bar\omega}(\bar K)-T_\omega(K)}$, $\bar\omega-\omega$, $\avg{\bar Y-Y}$ and $0$; by \Kref{bp:p2:matrix}(c) its norm is at most
 $\max\{C_{\Delta T}U+\abs{\bar\omega-\omega},\ n\abs{\bar\omega-\omega}+2n^2(1+\hat\vartheta^2)\sigma_K\sigma_B\varepsilon\}\le C_{\Delta\mathsf T}U$, using
 $\varepsilon/(\gamma^2\delta^a)\le U$ and $\varepsilon\le\bar\gamma^2U$ (\Kref{bp:p2s:absorb}(b)).
@@ -306,8 +314,8 @@ natural numbers. Equivalently (Remark \Kref{bp:p2s:uniform}) it can test $\max\{
 $C_S,C_{\xi N},C_g,C_{\partial\xi},C_\xi,C_{\Delta K},C_{\Delta\omega},C_P,C_{\partial K}$: Lemma~\ref{bpI:p2s:correction}; $C_{\mathrm{lin}},C_{E1},C_{E2},C_E$:
 Lemma~\ref{bpI:p2s:newton-error}; $C_{\Delta T},C_{\Delta\mathsf T},\varrho_{\mathsf T}$: Lemma~\ref{bpI:p2s:twist}; $\hat{\mathfrak c}_{\mathrm{step}}$:
 Proposition~\ref{bpI:p2s:step}; $\hat{\mathfrak c}_{\mathrm{sum}},\hat{\mathfrak c}_*$, $C_1^\sharp,C_2^\sharp,C_3^\sharp$: Theorem~\ref{bpI:p2s:g1}. For R1 with R\"ussmann's data the
-four entries of $\hat{\mathfrak c}_*$ are $10^{8.96}$ ($2^{2a}C_E$), $10^{7.76}$ (step), $10^{7.97}$ (sum) and $10^{6.02}$ ($\nu$), and the threshold is
-$10^{-24.98}$ (Parseval: $10^{-36.99}$; crude: $10^{-49.09}$; Theorem~\ref{bpI:p2:g1}: $10^{-74.51}$).
+four entries of $\hat{\mathfrak c}_*$ are $10^{8.97}$ ($2^{2a}C_E$), $10^{7.76}$ (step), $10^{7.97}$ (sum) and $10^{6.03}$ ($\nu$), and the threshold is
+$10^{-24.98}$ (Parseval: $10^{-36.99}$; crude: $10^{-49.10}$; Theorem~\ref{bpI:p2:g1}: $10^{-74.51}$).
 
 Deviations: those of \Kref{bp:p2s:deviations}, (S1)--(S7); in addition (W1$^\sharp$) the frequency change inside the torsion block is carried by
 $D\bar E_{\bar\omega}$ (no Step~\ref{stepI:p2:to-omega}); (W2$^\sharp$) the energy row is compared through Lemma~\ref{bpI:p1:last-row}(a) instead of

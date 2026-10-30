@@ -225,11 +225,11 @@ def package_R1(mu=F(1, 160)):
     """Rotated frame, rho' = 1/70, rho_inf = rho'/1000, time scale c = 7/4, s = 1 + 10^-6,
     gamma = gbar = c/(42 s), nu = 10^-6.  Norm majorants = sampled sup x 1.05 (x c for M,
     / c for the torsion inverse) + mu where the hypothesis carries the margin:
-    M = 1.05 * 1.047 * 7/4 = 1.92, sK = 1.05 * 1.303 + mu, sB = 1.05 * 1.833 + mu,
-    sT = 1.05 * 1.022 / (7/4) + mu (CONSTANTS-STUDY 2.2: 1.92, 1.37, 1.93, 0.62 at mu = 1/160)."""
+    M >= 1.05 * 1.047 * 7/4 = 153909/80000 = 1.9238625 (taken as 1.924), sK = 1.05 * 1.303 + mu, sB = 1.05 * 1.833 + mu,
+    sT = 1.05 * 1.022 / (7/4) + mu (CONSTANTS-STUDY 2.2 lists 1.92, 1.37, 1.93, 0.62 at mu = 1/160; here M is rounded up)."""
     c = F(7, 4); s = 1 + F(1, 10 ** 6)
     gamma = c / (42 * s)
-    M = F(192, 100)
+    M = F(1924, 1000)
     sK = F(105, 100) * F(1303, 1000) + mu
     sB = F(105, 100) * F(1833, 1000) + mu
     sT = F(105, 100) * F(1022, 1000) / c + mu
@@ -240,7 +240,7 @@ def package_R1(mu=F(1, 160)):
 def table(out=None):
     rows = []
     p, gamma = package_R1()
-    m = F(39, 20)                                   # one-size: m = max{1, M, sK, sB, sT} of R1
+    m = F(39, 20)                                   # one-size: m >= max{1, M, sK, sB, sT} of R1 (a conservative upper bound; the max is sB = 19309/10000)
     one = dict(M=m, sK=m, sB=m, sT=m)
     sep = dict(M=p["M"], sK=p["sK"], sB=p["sB"], sT=p["sT"])
     base = dict(n=2, tau=1, mu=p["mu"], rho=p["rho"], rhoinf=p["rhoinf"], gbar=p["gbar"])

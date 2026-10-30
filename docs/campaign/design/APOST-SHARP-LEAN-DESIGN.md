@@ -34,9 +34,9 @@ diagnostic `declaration uses 'sorry'`, no error.
   | Theorem | log₁₀ threshold, iso | log₁₀ threshold, fixed |
   |---|---:|---:|
   | Current | −74.51 | −76.55 |
-  | Sharp, Rüssmann data | **−24.98** | −24.71 |
+  | Sharp, Rüssmann data | **−24.98** | −24.72 |
   | Sharp, Parseval data | −36.99 | −36.73 |
-  | Sharp, crude data | −49.09 | −48.85 |
+  | Sharp, crude data | −49.10 | −48.85 |
 
   The target in the brief was about 10⁻⁴⁰.
 
@@ -90,7 +90,7 @@ Statements as they are; for some, only the qualitative conjuncts are used.
 | `periodicity` | `KAM/Apost/Periodicity.lean:447` | periodicity and realness of all objects |
 | `frequency` | `KAM/Apost/Frame.lean:423` | `|ω| ≤ 2nσ_Kσ_B(M+ε)` (iso only) |
 | `frame_basic` (qualitative conjunct only) | `KAM/Apost/Frame.lean:438` | holomorphy of the frame objects |
-| `frame_identities`, `fi_dL` | `KAM/Apost/Identities.lean:445, 269` | `∂_ωL = AL - DE` and the frame identities, at any ω |
+| `frame_identities`, `fi_dL` | `KAM/Apost/Identities.lean:445, 269` | `∂_ωL = AL - DE` and the frame identities **at the standing Diophantine ω** only (both take `Standing … ω γ`); not reused for arbitrary ω′: the generic-frequency derivative helper is the new `KAM.Sharp.TorsionPoly.fderiv_tangentMat_eq` (it repeats the chain-rule computation of `fi_dL`, using the frequency-generic `fderiv_tangent_column_omega`, with no `Standing … ω′ γ` and no Diophantine hypothesis) |
 | `exactness` | `KAM/Apost/Exactness.lean:292` | `⟨Ω_K⟩ = 0`, `⟨ηᴺ⟩ = 0` |
 | `Geometry.geo_de` | `KAM/Apost/Geometry.lean:77` | `|DE| ≤ nε/δ`, `|(DE)ᵀ| ≤ 2nε/δ` |
 
@@ -156,6 +156,22 @@ These are stated with the old constants. The new ones replace them; the old ones
 `KAM.Apost.triangular` is generic in Γ only through its helpers. Its node statement fixes Γ through
 `KAM.Apost.cohomological`. Hence `triangular_bounds` reproves clause (c) from the helpers plus `CohData.sol`, and
 cites `triangular` for (a), (b), (d).
+
+### 2.3 Exports that are deliberate projections of the blueprint lemma
+
+The following signatures export less than the blueprint lemma states. No Lean signature changes; each
+omission is deliberate and the final theorems do not need it.
+
+| Export | Blueprint statement | Exported | Omitted, and why it is not needed |
+|---|---|---|---|
+| `Engine.error_decay` | `bp:p2s:decay`: `ε_s ≤ q^{2^s-1} 2^{-2as} e ≤ 2^{-2as} e` | `0 ≤ ε_s ≤ 2^{-2as} e`, the weighted bounds, the sums | the intermediate `q^{2^s-1}` factor; the proved bound is by direct induction from `q ≤ 1` (no `C_E > 0` needed), and the induction and limit use only `ε_s ≤ 2^{-2as}e` |
+| `torsion_identity` | `bp:p2s:torsion-identity` (a)–(c) | `∂_ω'B`, `∂_ω'N`, `T = 𝒯(A,L,B,F)` | the identity `∂_ω'G = (AL-F)ᵀL + LᵀAL…` of (a); it is the internal step before `∂_ω'B = -B(∂_ω'G)B` (the helper `fderiv_gramMatrix_eq` of `KAM/Sharp/TorsionPoly.lean`) and nothing downstream uses `∂G` itself |
+| `Engine.Scheme.iterate` | `bp:p2s:engine-iteration` (i)–(iv), incl. `m_{s,i} ≤ m_{0,i}+2ϱ_ie/(γ²δ₀^{a+j_i})` and `P_s ≤ 2C_pe/(γ²δ₀^a)` | (i)–(iv) with `m_s ≤ σ`, increments, `D_s` bound | the explicit upper bound on `m_s` (it is `Scheme.IsNewton.sums_le`, a named lemma, used inside the proof) and the partial sum `P_s` (the limit theorem bounds `|p_∞ - p_0|` directly by the full sum); neither enters `g1_sharp` |
+| `perturbation_poly` | `bp:p2s:perturbation` (a), (b) | the torsion-polynomial perturbation and the frame bounds used by the step | `|Ã-A| ≤ Md` and the transpose estimates, which are intermediate facts, obtainable from the existing `ham_mvt` and `norm_transpose_tangentMat_sub_le` (to be proved as named helpers inside the perturbation modules, not exported); the step uses only the exported torsion and frame bounds |
+| `geometry_sep` | `bp:p2s:geometry` | the bounds under `AdmissibleNoTwist` | none: `ε ≤ 1` is now stated in the blueprint lemma (it is a field of the bundle, and every application has `ε ≤ δ ≤ 1`) |
+
+Constants: "none depends on `ρ, ρ∞, γ`" is read as "none of the constants preceding `δ₀`"; `δ₀` depends only on
+`(ρ, ρ∞)` (blueprints corrected).
 
 ## 3. New modules
 
@@ -293,7 +309,7 @@ This would be package SHARP-CERT, in new files only.
 - **Package R1** (CONSTANTS-STUDY §2.2):
   - n = 2, τ = 1, ρ′ = 1/70, ρ∞ = ρ′/1000, μ = 1/160, ν = 10⁻⁶;
   - time scale c = 7/4, s = 1 + 10⁻⁶, γ = γ̄ = c/(42s);
-  - majorants: sampled sup × 1.05 (plus μ where the hypothesis carries the margin), giving M = 1.92, σK = 1.374,
+  - majorants: sampled sup × 1.05 (plus μ where the hypothesis carries the margin), giving M ≥ 153909/80000 = 1.9238625 (taken as 1.924), σK = 1.374,
     σB = 1.931, σT = 0.619.
   - The one-size rows use 𝔪 = 39/20.
 - **Arithmetic.** All of it is exact (`fractions`); `c_R` enters as rational upper bounds.
@@ -312,25 +328,25 @@ V0 is checked against `scripts/spin_orbit/exact_constants.py` (−74.51 iso, mat
 | V3 + Rüssmann instead (κ = τ, `cohConstR`) | −36.15 | −36.21 | 2 | sum |
 | V4 + 3δ schedule | −35.65 | −35.71 | 2 | sum |
 | V5 + separate norms | −32.55 | −32.62 | 2 | sum |
-| V6 + γ̄-absorption | −28.31 | −28.53 | 2 | step |
-| V7 + `c_R` itself | −26.31 | −26.55 | 2 | step |
-| **V8 = design (Rüssmann)**: ratio 1/8, M/2, split step smallness | **−24.71** | **−24.98** | 2 | E |
+| V6 + γ̄-absorption | −28.32 | −28.54 | 2 | step |
+| V7 + `c_R` itself | −26.32 | −26.56 | 2 | step |
+| **V8 = design (Rüssmann)**: ratio 1/8, M/2, split step smallness | **−24.72** | **−24.98** | 2 | E |
 
 ### 6.3 Other instances of the design
 
 | Instance | log₁₀ threshold, fixed | log₁₀ threshold, iso | a | Active branch (iso) |
 |---|---:|---:|---:|---|
 | Parseval | −36.73 | −36.99 | 4 | E |
-| Crude | −48.85 | −49.09 | 6 | E |
+| Crude | −48.85 | −49.10 | 6 | E |
 
 ### 6.4 The design's c_* branches (log₁₀, Rüssmann, iso)
 
 | Branch | log₁₀ |
 |---|---:|
-| 2^{2a}C_E | 8.96 |
+| 2^{2a}C_E | 8.97 |
 | 𝔠_step | 7.76 |
 | 𝔠_sum/μ | 7.97 |
-| 4γ̄²C_Δω/ν | 6.02 |
+| 4γ̄²C_Δω/ν | 6.03 |
 
 ### 6.5 Sensitivity (Rüssmann, iso)
 
@@ -340,10 +356,10 @@ V0 is checked against `scripts/spin_orbit/exact_constants.py` (−74.51 iso, mat
 | `c_R` | 1 | −26.94 |
 | μ | 1/320 | −24.96 |
 | μ | 1/80 | −25.02 |
-| μ | 1/20 | −25.26 |
+| μ | 1/20 | −25.27 |
 | ϑ | 1/16 | −24.98 |
 | ϑ | 1/4 | −24.98 |
-| ϑ | 1/2 | −25.53 |
+| ϑ | 1/2 | −25.54 |
 
 Larger μ raises σ_K, σ_B, σ_T in this package. ϑ only matters once it reaches 1/2.
 
@@ -375,7 +391,10 @@ Larger μ raises σ_K, σ_B, σ_T in this package. ϑ only matters once it reach
   - Split the torsion polynomial into `𝒯_ab`, `𝒯_F`, `𝒯_c` (private defs), prove the three bounds separately, and
     assemble.
   - The telescoping uses `norm_mul_sub_mul_le` five or eight times; `vthh` absorbs the barred norms.
-- **The iso twist** uses `perturbation_poly` at `ω' = s̄ω*` and `last_row` at `(K̄, s̄ω*)` on `T_{r-3δ}`.
+- **The iso twist** uses `perturbation_poly` at `ω' = s̄ω*`, and at `(K̄, s̄ω*)` on `T_{r-3δ}` the unconditional helpers, not `last_row`/`extended_basic` (whose `Setting`, Diophantine, primary and real hypotheses are not available for the new pair; `s̄ > 1` is not used, the ray is certified by the engine cap):
+    - `KAM.Iso.Linear.LastRowAux.energyRow_eq_sub_etaL` (`LastRow.lean:46`), `Y = ωᵀ - (ηᴸ)ᵀ`, only premise: Gram invertible;
+    - `KAM.Iso.Linear.extended_regular` (`Extended.lean:255`), continuity/holomorphy of the energy row at an arbitrary new real frequency;
+    - `KAM.Iso.Linear.ExtendedAux.extendedTorsionAverage_eq_bordMat` (`Extended.lean:178`), the average of the bordered matrix.
   - No Cauchy estimate in the frequency direction is needed. The old `torsion_sub_freq` and `energyRow_sub` are not
     used.
 - **Modules not in this worktree's snapshot.** `KAM.Strip.CohomologicalRussmann` and `KAM.Strip.CohomologicalParseval`
