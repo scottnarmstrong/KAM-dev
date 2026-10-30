@@ -171,16 +171,12 @@ theorem poincare_eq_iff {m κ : ℝ} (hm : 0 < m) (hκ : 0 < κ) {w w' : Phase 2
 
 section LocalDiffeo
 
-private theorem bj_sf_eq (a b : Phase 2) : symplecticForm a b =
-    (a.2 0 * b.1 0 + a.2 1 * b.1 1) - (a.1 0 * b.2 0 + a.1 1 * b.2 1) := by
-  simp [symplecticForm, Fin.sum_univ_two]
-
 /-- Nondegeneracy of the symplectic form in the first argument. -/
 private theorem bj_eq_zero_of_sf {u : Phase 2} (h : ∀ v, symplecticForm u v = 0) : u = 0 := by
-  have h0 : u.2 0 = 0 := by simpa [bj_sf_eq] using h ((![1, 0], ![0, 0]) : Phase 2)
-  have h1 : u.2 1 = 0 := by simpa [bj_sf_eq] using h ((![0, 1], ![0, 0]) : Phase 2)
-  have h2 : u.1 0 = 0 := by simpa [bj_sf_eq] using h ((![0, 0], ![1, 0]) : Phase 2)
-  have h3 : u.1 1 = 0 := by simpa [bj_sf_eq] using h ((![0, 0], ![0, 1]) : Phase 2)
+  have h0 : u.2 0 = 0 := by simpa [KAM.Kepler.sf_eq] using h ((![1, 0], ![0, 0]) : Phase 2)
+  have h1 : u.2 1 = 0 := by simpa [KAM.Kepler.sf_eq] using h ((![0, 1], ![0, 0]) : Phase 2)
+  have h2 : u.1 0 = 0 := by simpa [KAM.Kepler.sf_eq] using h ((![0, 0], ![1, 0]) : Phase 2)
+  have h3 : u.1 1 = 0 := by simpa [KAM.Kepler.sf_eq] using h ((![0, 0], ![0, 1]) : Phase 2)
   refine Prod.ext (funext fun i => ?_) (funext fun i => ?_) <;> fin_cases i <;> simp [*]
 
 /-- `D poincare` is invertible on `𝒪`: a symplectic endomorphism of the finite-dimensional space
@@ -199,7 +195,7 @@ private theorem bj_fderiv_equiv {m κ : ℝ} (hm : 0 < m) (hκ : 0 < κ) {w : Ph
     rw [← this]
     have hu' : A u = 0 := hu
     rw [hu']
-    simp [bj_sf_eq]
+    simp [KAM.Kepler.sf_eq]
   have hinj : Function.Injective (A : Phase 2 →ₗ[ℝ] Phase 2) := LinearMap.ker_eq_bot.1 hker
   have hsurj : Function.Surjective (A : Phase 2 →ₗ[ℝ] Phase 2) :=
     LinearMap.injective_iff_surjective.1 hinj

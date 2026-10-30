@@ -339,9 +339,6 @@ private theorem sy_delaunayMK_eq {m κ : ℝ} (hm : 0 < m) {ℓ g Λ Γ : ℝ} (
     smul_eq_mul, h]
   rw [show Λ / m = m⁻¹ * Λ from div_eq_inv_mul Λ m]
 
-private theorem sy_planeSq_smul (c : ℝ) (v : Fin 2 → ℝ) : planeSq (c • v) = c ^ 2 * planeSq v := by
-  simp only [sy_planeSq, Pi.smul_apply, smul_eq_mul]; ring
-
 private theorem sy_planeLength_unit (x : ℝ) :
     planeLength (![Real.cos x, Real.sin x] : Fin 2 → ℝ) = 1 := by
   simp [planeLength, sy_planeSq, Real.cos_sq_add_sin_sq]
@@ -394,7 +391,7 @@ theorem poincare_means {m κ : ℝ} (hm : 0 < m) (hκ : 0 < κ) {w : Phase 2} (h
       intro lam
       rw [hpt lam]
       show planeSq ((m * √(κ / a)) • _) = _
-      rw [sy_planeSq_smul, sy_planeSq_unit, mul_pow, Real.sq_sqrt (by positivity)]
+      rw [KAM.Kepler.planeSq_smul, sy_planeSq_unit, mul_pow, Real.sq_sqrt (by positivity)]
       ring
     simp only [hq, hp, hK]
     simp only [intervalIntegral.integral_const, smul_eq_mul, sub_zero]

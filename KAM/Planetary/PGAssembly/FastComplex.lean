@@ -189,11 +189,6 @@ theorem norm_fderiv_complexFast_le (d : PGData a b) {z : Fin a → ℂ}
           (ContinuousLinearMap.opNorm_nonneg _) zero_le_one
     _ = _ := one_mul _
 
-theorem realInclusion_single (i : Fin n) :
-    KAM.realInclusion n (Pi.single i 1) = Pi.single i 1 := by
-  ext j
-  by_cases hj : j = i <;> simp [hj]
-
 theorem mem_actionNbhd_real {X : Set (Fin n → ℝ)} {r : ℝ} (hr : 0 < r) {x : Fin n → ℝ}
     (hx : x ∈ X) : KAM.realInclusion n x ∈ KAM.actionNbhd X r :=
   ⟨x, hx, by
@@ -233,7 +228,7 @@ theorem real_relation (d : PGData a b) {y : Fin a → ℝ}
   funext i
   have h7 := congrArg (fun L => L (Pi.single i (1:ℝ))) h6
   simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.coe_restrictScalars',
-    realInclusion_single] at h7
+    KAM.realInclusion_single] at h7
   exact h7
 
 /-- The real frequency map is differentiable at real points of the tube, with the derivative the

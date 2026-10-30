@@ -395,16 +395,8 @@ variable {b : PartialBlock n k} {s K α L p ε : ℝ} {Λ : Set (Fin n → ℤ)}
 
 theorem nnfG_zero : nnfG b s K Λ h f N 0 = fun _ => 0 := rfl
 
-theorem nnfF_zero : nnfF b s K Λ h f N 0 = f := rfl
-
 theorem nnfG_succ (i : ℕ) :
     nnfG b s K Λ h f N (i + 1) = nnfGp K Λ (nnfG b s K Λ h f N i) (nnfF b s K Λ h f N i) :=
-  rfl
-
-theorem nnfF_succ (i : ℕ) :
-    nnfF b s K Λ h f N (i + 1) =
-      nnfFp b (nfR b.rB N i) (nfS s N i) (nfRho b.rB N i) (nfSig s N i) K Λ h
-        (nnfG b s K Λ h f N i) (nnfF b s K Λ h f N i) :=
   rfl
 
 /-- `g_{i-1} = ∑_{j<i} P_Λ T_K f_j`. -/

@@ -348,10 +348,6 @@ private theorem delaunay_image_eq : delaunay '' deDom = keplerRegion :=
   Set.Subset.antisymm (by rintro _ ⟨w, hw, rfl⟩; exact delaunay_mem_region hw)
     keplerRegion_subset_image
 
-private theorem planeSq_smul_MK (c : ℝ) (v : Fin 2 → ℝ) : planeSq (c • v) = c ^ 2 * planeSq v := by
-  simp [planeSq, mul_pow]
-  ring
-
 private theorem planeLength_scale_fst {m κ : ℝ} (hκ : 0 < κ) (y : Phase 2) :
     planeLength (scaleMK m κ y).1 = κ⁻¹ * planeLength y.1 := by
   simp only [scaleMK]
@@ -552,7 +548,7 @@ theorem delaunayMK_means {m κ g Λ e : ℝ} (hm : 0 < m) (hκ : 0 < κ) (hΛ : 
     simp only [a]
     field_simp
   · have h1 : ∀ ℓ, planeSq (f ℓ).2 = (m * κ) ^ 2 * planeSq (orbitMapR ℓ g (Λ / m) e).2 :=
-      fun ℓ => by simp only [f, scaleMK]; exact planeSq_smul_MK _ _
+      fun ℓ => by simp only [f, scaleMK]; exact planeSq_smul _ _
     simp_rw [h1]
     rw [intervalIntegral.integral_const_mul, ← mul_assoc, mul_comm _ ((m * κ) ^ 2), mul_assoc,
       orbitMapR_mean_speed_sq hL he0 he1]
@@ -574,7 +570,7 @@ section Scaling
 theorem energyMK_eq_mul_energy (m κ : ℝ) (hm : 0 < m) (z : Phase 2) :
     energyMK m κ z = m * energyMK 1 κ (z.1, m⁻¹ • z.2) := by
   unfold energyMK
-  simp only [planeSq_smul_MK]
+  simp only [planeSq_smul]
   field_simp
 
 /-- For `m = 1` the scaling is symplectic of factor one and carries `X_{H ∘ 𝖲}` to `X_H`. -/

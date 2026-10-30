@@ -272,7 +272,7 @@ theorem differentiableOn_linMat (hS : Standing n τ M σK σB σT 𝔅 h ω γ)
       ((sumVec n).symm (Pi.single t 1)))) (complexStrip n r) :=
     (sumVecIso n).differentiable.comp_differentiableOn (h1.clm_apply (differentiableOn_const _))
   have h3 := differentiableOn_pi.1 h2 s
-  simpa only [linMat, sqMat_apply_eq] using h3
+  simpa only [linMat, KAM.Head.sqMat_apply_entry] using h3
 
 /-- `P = (L N)` is holomorphic when `L` and `N` are. -/
 theorem differentiableOn_frameMat (hL : DifferentiableOn ℂ (tangentMat K) (complexStrip n r))

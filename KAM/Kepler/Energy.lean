@@ -120,7 +120,7 @@ theorem isOpen_regionMK {m κ : ℝ} (hm : 0 < m) (hκ : 0 < κ) : IsOpen (regio
   ext z
   simp [regionMK]
 
-private theorem planeSq_smul (c : ℝ) (v : Fin 2 → ℝ) : planeSq (c • v) = c ^ 2 * planeSq v := by
+theorem planeSq_smul (c : ℝ) (v : Fin 2 → ℝ) : planeSq (c • v) = c ^ 2 * planeSq v := by
   simp [planeSq, mul_pow]
   ring
 

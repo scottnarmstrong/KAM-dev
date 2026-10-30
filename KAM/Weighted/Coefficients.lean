@@ -11,6 +11,7 @@ public import KAM.Strip.FourierSeriesVector
 public import KAM.Strip.FourierDerivative
 import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.Linarith
+public import KAM.Strip.RealRestriction
 
 /-!
 # Coefficients, derivatives and series (`bpN:p4:coefficients`)
@@ -143,11 +144,6 @@ def dI (i : Fin m) (u : (Fin n → ℂ) × (Fin m → ℂ) → W) : (Fin n → �
 def fourierSeries (a : (Fin n → ℤ) → (Fin m → ℂ) → ℂ) : (Fin n → ℂ) × (Fin m → ℂ) → ℂ :=
   fun z => ∑' k, a k z.2 * KAM.character k z.1
 
-private theorem realInclusion_single (i : Fin n) :
-    KAM.realInclusion n (Pi.single i 1) = Pi.single i 1 := by
-  ext j
-  by_cases h : j = i <;> simp [h]
-
 /-- Adding a real angle shift keeps a point of the domain in the domain. -/
 private theorem add_single_mem_Dom {D : Set (Fin m → ℂ)} {r s : ℝ} {z : (Fin n → ℂ) × (Fin m → ℂ)}
     (hz : z ∈ Dom n D r s) (j : Fin n) : (z.1 + Pi.single j 1, z.2) ∈ Dom n D r s :=
@@ -240,7 +236,7 @@ private theorem coeff_dtheta {D : Set (Fin m → ℂ)} {r s : ℝ} {u : (Fin n �
     have hshift : (fun j => ((x + Pi.single i (1 : ℝ) : Fin n → ℝ) j : ℂ)) =
         (fun j => (x j : ℂ)) + Pi.single i 1 := by
       have := map_add (KAM.realInclusion n) x (Pi.single i 1)
-      rw [realInclusion_single] at this
+      rw [KAM.realInclusion_single] at this
       exact this
     show φ (u (fun j => ((x + Pi.single i (1 : ℝ) : Fin n → ℝ) j : ℂ), I)) = _
     rw [hshift]
@@ -250,7 +246,7 @@ private theorem coeff_dtheta {D : Set (Fin m → ℂ)} {r s : ℝ} {u : (Fin n �
   congr 1
   funext x
   rw [(hasFDerivAt_real_restrict hs hu.differentiableOn hI φ x).fderiv]
-  simp [dtheta, realInclusion_single]
+  simp [dtheta, KAM.realInclusion_single]
 
 /-- The coefficients of `∂_{Iᵢ} u` are the derivatives of the coefficients (differentiation under
 the integral, `bpN:p4:ext-param`). -/

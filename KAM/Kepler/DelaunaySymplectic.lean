@@ -200,7 +200,7 @@ end PureAlgebra
 
 section SymplecticAlgebra
 
-private theorem sf_eq (a b : Phase 2) : symplecticForm a b =
+theorem sf_eq (a b : Phase 2) : symplecticForm a b =
     (a.2 0 * b.1 0 + a.2 1 * b.1 1) - (a.1 0 * b.2 0 + a.1 1 * b.2 1) := by
   simp [symplecticForm, Fin.sum_univ_two]
 

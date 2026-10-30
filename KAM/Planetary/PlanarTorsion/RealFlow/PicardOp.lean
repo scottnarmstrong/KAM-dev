@@ -54,9 +54,6 @@ theorem p11cSp_timeScale (σ : ℝ) (ζ : Fin (n + 1) → ℂ) :
   ext i
   simp [p11cTimeScale_apply, Fin.succ_ne_zero]
 
-theorem p11cTimeScale_one (ζ : Fin (n + 1) → ℂ) : p11cTimeScale n 1 ζ = ζ := by
-  simp [p11cTimeScale_apply]
-
 theorem continuous_p11cTimeScale_apply :
     Continuous fun p : ℝ × (Fin (n + 1) → ℂ) => p11cTimeScale n p.1 p.2 := by
   simp only [p11cTimeScale_apply]
