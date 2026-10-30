@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 16:30 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 17 % · track W 19 %** · frozen statements proved: 23 / 24 · **321,037 lines of Lean** of an estimated ≈ 327,000
+> **Last updated: 2026-10-30 16:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 17 % · track W 19 %** · frozen statements proved: 23 / 24 · **321,037 lines of Lean** of an estimated ≈ 328,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -257,17 +257,17 @@ Overall, everything together: 77.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **321,037** (250,246 excluding blank lines and comments) · **+60,662** since 2026-10-29 16:22 UTC |
-| Written on agent branches, not yet landed | 4,777 |
+| On `main` now | **321,037** (250,246 excluding blank lines and comments) · **+60,559** since 2026-10-29 16:40 UTC |
+| Written on agent branches, not yet landed | 5,093 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,710 |
-| **Estimated total at completion** | **≈ 327,000** |
+| **Estimated total at completion** | **≈ 328,000** |
 | Estimated still to write | ≈ 2,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 16:30 UTC from `main` at `2325997f` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 16:40 UTC from `main` at `023a9dcd` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -275,9 +275,9 @@ Overall, everything together: 77.0 %
 
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 79 modules · 20,168 lines. **Packages landed: 27 / 27**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3 % of its orbital rate for all time (target about 2.7 % at N = 65, D38). `KAM/SpinOrbit` and the data generator: 20 modules · 3,584 lines. **Packages landed: 21 / 24**.
-- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **17 %** · stages reached: scoping study · the lock sub-orchestrator is running (2 package workers)
+- **Part 3, the Moon locked in synchronous rotation forever** (D42, D45): one librational invariant torus around a certified synchronous periodic orbit confines the spin (a stronger result than the spin-rate band; route: polar coordinates, the landed certifier, one new primitive `HamExpr.sqrt`; N = 65) · **17 %** · stages reached: scoping study · the lock sub-orchestrator is running (3 package workers)
 - Design estimate for parts 1 and 2: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-PACKFIX, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-DION, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-SHARPLINK, SO-GEN, SO-GEN2, SO-DATA-PY, SO-GEN3, SO-R1, SO-LUNAR-A, SO-R2.
-- **Now:** proving SO-DATA3, SO-KDEPTH · in audit SO-BALLFIX
+- **Now:** proving SO-DATA3, SO-KDEPTH · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7). Lunar route (2026-10-30): sharp certifier checkTorusCertificateSharp (D36, threshold about 1e-25), barriers at N = 65, band about 2.71 % (D38; floor 2.62 %), kernel-cheap packed products (D34, SO-PACKFIX). SO-GEN3 sizes the data: about 40 digits and 1-2k terms per torus (R1 had 88 digits and 8.5k terms). Final data wait for the next certifier version (same format).
 
 **Track W** (D30, D41; [plan](blueprint-W/PLAN.md)): PDE KAM for the cubic wave equation u_tt = u_xx − m u − u³ on [0, π] (Pöschel 1996) · **19 %**
@@ -440,16 +440,15 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-LOCK design rev 2: answer design audit 1 (F1 total sqrtE, F2 anchored witness, F3 exact | `inp-lockdesign` | 2 (vs `inp`) |
-| **soballfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-BALLFIX: BallsTrig proofs repaired for the rounded ballStep (helpers ballForce_some, ba | `inp-soballfix` | 4 (vs `inp`) |
-| **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
+| **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-LOCK design audits 1-3 (codex; audit 3 PASS WITH NOTES) | `inp-lockdesign` | 4 (vs `inp`) |
 | **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp' into inp-sodata3 | `inp-sodata3` | 5 (vs `inp`) |
 | **sokdepth** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-KDEPTH: log-depth checker traversals (balanced weightedNormUp, merge tree for directIte | `inp-sokdepth` | 10 (vs `inp`) |
-| **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: Track W graph: slice reviews round 1 of W-w0c (FAIL), W-wh (PASS), W-w0n (FAIL) (sol, code | `inp-wgraph` | 5 (vs `inp`) |
-| **wpa** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W1-WEIGHTED: audit handoff with focus | `inp-wpa` | 2 (vs `inp`) |
+| **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: wave 1 assembled (309 nodes, 1029 edges, 502 coverage items); W-w0c/W-w0n r | `inp-wgraph` | 6 (vs `inp`) |
+| **wpa** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W1-WEIGHTED: rename diagCLM -> weightedDiagCLM (short-name clash with KAM.Planetary) | `inp-wpa` | 3 (vs `inp`) |
 | **wpb** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W1-SINES: make helper ellWeight_pos private (short-name clash with inp-wpa) | `inp-wpb` | 3 (vs `inp`) |
+| **wpd** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W1-ANALYTIC: Cauchy estimates, derivative continuity, uniform limits of holomorphic maps | `inp-wpd` | 1 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -459,6 +458,8 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 16:35 | `023a9dcd` | Log: SO-BALLFIX audit pass, landing; disk relief; W and lock progress |
+| 2026-10-30 16:31 | `e6b71bbe` | OVERNIGHT: lock design audit 2; sqrt helper exception for owner review |
 | 2026-10-30 16:28 | `2325997f` | Land inp into main |
 | 2026-10-30 16:26 | `8c52a46d` | Log: codex-1 reset; main merged with origin; SO-BALLFIX in audit |
 | 2026-10-30 16:24 | `ee00c270` | Land inp into main |
@@ -469,8 +470,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 16:11 | `52795a10` | OVERNIGHT: lock design written, audit running; owner-review items |
 | 2026-10-30 16:07 | `8c5bd93e` | Log: 16:09 heartbeat (sweep incident and fix) |
 | 2026-10-30 16:05 | `8429ae9b` | Log: 16:10 (track W overnight: errata, slim provers, graph writer) |
-| 2026-10-30 16:03 | `f1045c48` | Log: 16:02 (overnight mode; lock sub-orchestrator; W throughput) |
-| 2026-10-30 16:01 | `cdeff4f2` | HQ: lock row shows the D45 route and the lock sub-orchestrator (derived from sessions) |
 <!-- /AUTO:landed -->
 
 ## Decisions
