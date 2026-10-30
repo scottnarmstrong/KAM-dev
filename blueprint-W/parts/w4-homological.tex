@@ -1,0 +1,783 @@
+\section{Milestone W4: the normal homological equation}\label{bpW:w4}
+
+One step of the KAM iteration (milestone W5) removes from the perturbation its part of order at most two in the
+normal variables by the time-one map of a Hamiltonian $F$ that solves the linearized equation
+$\{F,N\}+\hat N=R$ of P96-K \S2. This part solves that equation for the two-frequency wave setting ($n=2$,
+$d=1$, $\delta=-1$, $\bar p=p+1$) and proves the estimates of P96-K Lemmas~1 and~2 with explicit constants, including
+the Lipschitz dependence on the parameter $\xi$.
+
+\paragraph{Route.} The equation splits into seven components (scalar, tangential-linear, two normal-vector and three
+normal-operator components). In every component the solution is a Fourier multiplier in the angle $\theta$: the
+$k$-th Fourier coefficient is divided by a small divisor $\langle k,\omega\rangle+\langle l,\Omega\rangle$, entrywise
+for the vector and operator components. One abstract lemma (Lemma~\ref{bpW:w4:solve}) handles all components. It
+uses only the Banach-valued coefficient bound $\norm{\hat f_k}\le m\,e^{-2\pi\abs k_1s}$ and the explicit lattice
+sums of Lemma~\ref{bpW:w4:lattice}; the operator-valued division is bounded by the Hilbert-matrix (Schur) lemma of
+P96-K App.~A. P96-K p.~127 instead sums operator-valued coefficients by a square-sum bound which is false
+(Remark~\ref{bpW:w4:counterexample}); the replacement keeps the power $\sigma^{-(2\tau+n+1)}$ of P96-K (4), so the
+later smallness exponents of Theorem~A are unchanged (Remark~\ref{bpW:w4:compare}). The size of the components
+of $R$ is read off from the weighted field norm $\abs{X_R}_r$ by evaluating the field at chosen points and
+extracting polynomial coefficients by averages over roots of unity (Lemmas~\ref{bpW:w4:extract},
+\ref{bpW:w4:components}); no Cauchy integral is needed. Derivatives of $F$ in $\theta$ are obtained by solving the
+same equations with the $\theta$-derivatives of the components of $R$ as data, so no factor $\abs k$ is lost.
+
+\paragraph{Inputs.} From W1: the weighted spaces and transports (Definition~\ref{bpW:w1:transport},
+Lemma~\ref{bpW:w1:space}), the KAM phase space, domains and norms (Definition~\ref{bpW:w1:kam-space},
+Remark~\ref{bpW:w1:kam-conventions}), the Hilbert-matrix bound (Lemma~\ref{bpW:w1:schur}), the spectral tails
+(Lemma~\ref{bpW:w1:tails}), the sup-weighted sequences (Definition~\ref{bpW:w1:linfty}), and the Banach-valued
+Fourier Lemma~\ref{bpW:w1:fourier-banach} with the scalar uniqueness of Lemma~\ref{bpW:w1:fourier-l2}(iii) (the exact
+content used is listed in Remark~\ref{bpW:w4:w1-requests}). From W0: the action coefficients
+(Theorem~\ref{bpW:w0n:AB}). From W3: the form of the Hamiltonian (Remark~\ref{bpW:w3:interface}); see
+\S\ref{bpW:w4:interface-sec}.
+
+\paragraph{Regularity used.} W4 uses only complex differentiability (\Lean{DifferentiableOn Complex}) of the
+$\theta$-dependent components of $R$ on a strip, and boundedness. It does not use analyticity of $X_R$ on an
+infinite-dimensional domain; P96-K Lemma~1 assumes ``$X_R$ real analytic'', which is more than is used here. In
+particular W4 does not depend on the pending upgrade of the W3 interface from holomorphic to analytic fields
+(review finding W3-R1); that dependency, if any, sits in W5, where $R$ is produced from $P$.
+
+\subsection{External facts}\label{bpW:w4:ext}
+
+Besides the external facts of W1 (\S\ref{bpW:w1:ext}), this part uses:
+{\raggedright
+\begin{enumerate}[label=(W4-E\arabic*),ref=(W4-E\arabic*)]
+\item\label{bpW:w4:ext-roots} \emph{Roots of unity.} For $m\in\Z$, $\sum_{u=0}^{3}i^{um}=4$ if $4\mid m$ and $=0$
+  otherwise (finite geometric sum; Mathlib \Lean{Finset.sum\_range} with \Lean{geom\_sum\_eq}).
+\item\label{bpW:w4:ext-parallelogram} \emph{Parallelogram law} in a complex inner product space:
+  $\norm{x+y}^2+\norm{x-y}^2=2\norm x^2+2\norm y^2$ (\Lean{parallelogram\_law\_with\_norm}).
+\item\label{bpW:w4:ext-exp} \emph{Exponential inequalities.} $e^t\ge1+t$ for real $t$
+  (\Lean{Real.add\_one\_le\_exp}); hence $e^{t-1}\ge t$, and for $q>0$, $x\ge0$: $x^qe^{-x}\le(q/e)^q$. Also
+  $\sum_{N\ge1}e^{-xN}=1/(e^x-1)$ for $x>0$ (\Lean{tsum\_geometric\_of\_lt\_one}).
+\item\label{bpW:w4:ext-intparts} \emph{Periodic integration by parts.} If $g:\R\to E$ ($E$ Banach) is $C^1$ and
+  $1$-periodic, then $\int_0^1g'=0$ (\Lean{intervalIntegral.integral\_eq\_sub\_of\_hasDerivAt}); continuous linear maps
+  commute with Bochner integrals (\Lean{ContinuousLinearMap.integral\_comp\_comm}).
+\end{enumerate}
+\par}
+The bound in~\ref{bpW:w4:ext-exp} follows from $e^{x/q-1}\ge x/q$ raised to the power $q$.
+
+\subsection{Setting and hypotheses}\label{bpW:w4:setting}
+
+\begin{convention}[Normal modes, reindexing, coordinates]\label{bpW:w4:index}
+Fix $a\ge0$, $p\ge0$ and put $\bar p=p+1$ (the wave case of P96-K Assumption~C, $\bar p-p=1$). The tangential modes
+are the wave modes $1,2$; the normal modes are the wave modes $J\ge3$. Following P96-K (index $j\ge1$) we write
+\[J=j+2\qquad(j\ge1)\]
+and index every normal quantity by the \emph{P96-K index} $j$: $\Omega_j$, $z_j$, $\bar z_j$, matrix entries
+$M_{ij}$. For $q\in\R$ let $\ell^N_{a,q}$ be the space of complex sequences $(z_j)_{j\ge1}$ with
+\[\norm z_{a,q}^2=\sum_{j\ge1}\omega_{a,q}(j+2)^2\abs{z_j}^2<\infty,\qquad\omega_{a,q}(J)=J^qe^{aJ}.\]
+It is realized in Lean as the closed subspace of \Lean{lp (fun \_ : PNat => Complex) 2} (weighted coordinates at
+weight $(a,q)$, Definition~\ref{bpW:w1:transport}) of vectors whose entries at $J=1,2$ vanish, the entry at $J$
+being the coordinate $j=J-2$; this is the convention of Lemma~\ref{bpW:w1:tails}. The weights are the wave weights
+$\omega_{a,q}(J)$ at the wave index, not P96-K's $j^qe^{aj}$; see Remark~\ref{bpW:w4:weights}. We write
+$\norm\cdot=\norm\cdot_{a,p}$ on the normal variables and $\norm\cdot_{\bar p}=\norm\cdot_{a,\bar p}$ on gradients.
+On $\C^2$ (angles $\theta$, actions $y$, frequencies $\omega$) $\abs\cdot$ is the max norm; on $\Z^2$,
+$\abs k_1=\abs{k_1}+\abs{k_2}$.
+
+The unweighted bilinear pairing is $\langle x,x'\rangle_0=\sum_{j\ge1}x_jx'_j$ (no conjugation), and on $\C^2$,
+$\langle b,y\rangle=b_1y_1+b_2y_2$. Since $\omega_{a,q}(J)\,\omega_{a,q'}(J)=J^{q+q'}e^{2aJ}\ge1$ whenever
+$q+q'\ge0$, Cauchy--Schwarz gives
+\begin{equation}\label{bpW:w4:pairing}
+\abs{\langle x,x'\rangle_0}\le\norm x_{a,q}\norm{x'}_{a,q'}\qquad(q+q'\ge0).
+\end{equation}
+The normal phase variables are $(u,v)\in\ell^N_{a,p}\times\ell^N_{a,p}$ (P96-K's $u,v$; wave $u_j=q_{j+2}$,
+$v_j=p_{j+2}$), and
+\[z=\frac{u+iv}{\sqrt2},\qquad\bar z=\frac{u-iv}{\sqrt2},\qquad u=\frac{z+\bar z}{\sqrt2},\qquad v=\frac{z-\bar z}{i\sqrt2},\]
+with $z,\bar z$ independent complex variables on complex domains. This is the W0 convention
+(Definition~\ref{bpW:w0:z}); P96-K p.~124 uses $z=(u-iv)/\sqrt2$, which exchanges $z$ and $\bar z$
+(Remark~\ref{bpW:w1:kam-conventions}). From these formulas,
+\begin{equation}\label{bpW:w4:zu}
+\norm z,\norm{\bar z}\le\frac{\norm u+\norm v}{\sqrt2},\qquad\norm u+\norm v\le\sqrt2\,(\norm z+\norm{\bar z}).
+\end{equation}
+The angle $\theta\in\C^2$ has period one ($x=2\pi\theta$ is P96-K's angle); the strip is
+$T_s=\{\theta\in\C^2:\abs{\operatorname{Im}\theta}<s\}$ with $s=s_K/(2\pi)$, and the domain $D(s,r)$ is that of
+Definition~\ref{bpW:w1:kam-space} (with the normal norms above). The symplectic form is the pull-back
+$2\pi\sum_id\theta_i\wedge dy_i+\sum_jdu_j\wedge dv_j$, so Hamilton's equations are
+\begin{equation}\label{bpW:w4:hameq}
+\dot\theta=\frac{1}{2\pi}H_y,\quad\dot y=-\frac{1}{2\pi}H_\theta,\quad\dot u=H_v,\quad\dot v=-H_u,\qquad
+\text{equivalently}\quad\dot z=-iH_{\bar z},\quad\dot{\bar z}=iH_z,
+\end{equation}
+where $H_u,H_v,H_z,H_{\bar z}$ are gradients for $\langle\cdot,\cdot\rangle_0$ and
+$H_z=(H_u-iH_v)/\sqrt2$, $H_{\bar z}=(H_u+iH_v)/\sqrt2$, $H_u=(H_z+H_{\bar z})/\sqrt2$, $H_v=i(H_z-H_{\bar z})/\sqrt2$.
+Frequencies are angular: $\omega$ is P96-K's $\omega$, and the period-one frequency of the frozen statement is
+$\nu=\omega/(2\pi)$.
+\end{convention}
+\source{P96-K pp.~120, 124 (phase space $\mathcal P^{a,p}$, $z=(u-iv)/\sqrt2$); conversions ours (W1
+Definition~\ref{bpW:w1:kam-space}, Remark~\ref{bpW:w1:kam-conventions}). Lean guards: no division; $\theta$-periodicity
+is \Lean{Function.Periodic} in each coordinate.}
+
+\begin{remark}[Why the wave weights are kept]\label{bpW:w4:weights}
+P96-K weights the $j$-th normal coordinate by $j^pe^{aj}$; the wave space weights it by $(j+2)^pe^{a(j+2)}$. The
+two norms are equivalent within the factor $3^pe^{2a}$ (Remark~\ref{bpW:w3:interface}). Every estimate of this part
+is insensitive to the choice of positive weights (Lemma~\ref{bpW:w4:schur}) except one: the diagonal of an operator
+$\ell^N_{a,p}\to\ell^N_{a,\bar p}$ is a multiplier $\mu_j$ with $\abs{\mu_j}\,(j+2)^{\bar p-p}\le\norm{\cdot}$, and
+$(j+2)\ge j$ is all that P96-K needs there (Theorem~\ref{bpW:w4:lemma1}(iv)). So W4 works with the wave weights
+throughout and never incurs the factor $3^pe^{2a}$.
+\end{remark}
+
+\begin{definition}[Normal operators and their norms]\label{bpW:w4:ops}
+$\mathcal L$ is the Banach space of bounded linear maps $\ell^N_{a,p}\to\ell^N_{a,\bar p}$ with the operator norm
+$\norm\cdot$. For $M\in\mathcal L$ its matrix is $M_{ij}=\langle Me_j,e_i\rangle_0$, where $e_j$ is the $j$-th unit
+sequence; $M^T$ is the map with matrix $(M_{ji})$ when it lies in $\mathcal L$; $M$ is \emph{symmetric} if $M^T=M$.
+The \emph{bilinear norm} of a bounded bilinear form $\beta$ on $\ell^N_{a,p}$ is
+$\norm\beta_{\rm bil}=\sup\{\abs{\beta(z,z')}:\norm z=\norm{z'}=1\}$; $\mathcal B$ is the Banach space of these forms,
+and $\Lambda:\mathcal L\to\mathcal B$, $\Lambda M(z,z')=\langle Mz,z'\rangle_0$, satisfies
+$\norm{\Lambda M}_{\rm bil}\le\norm M$ by \eqref{bpW:w4:pairing}. The \emph{dual norm} of $c$ is
+$\norm c_*=\sup\{\abs{\langle c,z\rangle_0}:\norm z=1\}=\bigl(\sum_j\abs{c_j}^2\omega_{a,p}(j+2)^{-2}\bigr)^{1/2}$, and
+$\ell^N_*$ is the space of $c$ with $\norm c_*<\infty$ (a weighted $\ell^2$, Lean: \Lean{lp} with weight
+$\omega_{a,p}(j+2)^{-1}$).
+\end{definition}
+\source{ours (P96-K p.~127 speaks of ``bounded linear operators $\ell^{a,p}\to\ell^{a,\bar p}$'' and their
+``operator norm $\norm\cdot$'').}
+
+\begin{definition}[Taylor Hamiltonians]\label{bpW:w4:taylor}
+Let $s>0$. The class $\mathcal T_s$ consists of the functions
+\begin{equation}\label{bpW:w4:R}
+R(\theta,y,z,\bar z)=a(\theta)+\langle b(\theta),y\rangle+\langle c^+(\theta),z\rangle_0+\langle c^-(\theta),\bar z\rangle_0
++\langle P(\theta)z,z\rangle_0+\langle Q(\theta)z,\bar z\rangle_0+\langle P'(\theta)\bar z,\bar z\rangle_0
+\end{equation}
+whose \emph{components} $a:T_s\to\C$, $b:T_s\to\C^2$, $c^\pm:T_s\to\ell^N_{a,\bar p}$, $P,P',Q,Q^T:T_s\to\mathcal L$ are
+complex differentiable, $1$-periodic in each $\theta_i$, and bounded, with $P(\theta)$, $P'(\theta)$ symmetric. For
+$R\in\mathcal T_s$ and $(\theta,y,z,\bar z)\in T_s\times\C^2\times\ell^N_{a,p}\times\ell^N_{a,p}$ put
+\[R_y=b,\quad R_\theta=(\partial_{\theta_1}R,\partial_{\theta_2}R),\quad R_z=c^++2Pz+Q^T\bar z,\quad
+R_{\bar z}=c^-+Qz+2P'\bar z,\]
+with $R_u,R_v$ as in Convention~\ref{bpW:w4:index}; $R_z,R_{\bar z},R_u,R_v\in\ell^N_{a,\bar p}$. The \emph{field}
+is $X_R=\bigl(\frac1{2\pi}R_y,-\frac1{2\pi}R_\theta,R_v,-R_u\bigr)$ and, for $r>0$,
+\[\abs{X_R}_r=\frac1{2\pi}\abs{R_y}+\frac{1}{2\pi r^2}\abs{R_\theta}+\frac1r\bigl(\norm{R_u}_{\bar p}+\norm{R_v}_{\bar p}\bigr),\]
+the norm of Definition~\ref{bpW:w1:kam-space} in period-one coordinates. $R$ is \emph{real} if for real $\theta$:
+$a(\theta)\in\R$, $b(\theta)\in\R^2$, $c^-(\theta)=\overline{c^+(\theta)}$, $P'(\theta)=\overline{P(\theta)}$ and
+$Q(\theta)^T=\overline{Q(\theta)}$ (entrywise conjugation); equivalently $R$ is real at real points
+$\theta\in\R^2$, $y\in\R^2$, $\bar z=\overline z$. The \emph{mean} of a component $g$ is
+$[g]=\hat g_0=\int_{[0,1]^2}g(x)\,dx$ (Bochner integral over the real torus).
+\end{definition}
+\source{P96-K (3) p.~124 (``$R=\sum_{2\abs m+\abs{q+\bar q}\le2}\sum_kR_{kmq\bar q}e^{i\langle k,x\rangle}y^mz^q\bar z^{\bar q}$'')
+and the decomposition $R=R^0+R^1+R^2$ on p.~125; here $R^{00}=a+\langle b,y\rangle$, $R^{10}=c^+$, $R^{01}=c^-$,
+$R^{20}=P$, $R^{11}=Q$, $R^{02}=P'$. The derivatives are the gradients of the polynomial \eqref{bpW:w4:R}: for
+symmetric $P$, $D_z\langle Pz,z\rangle_0h=2\langle Pz,h\rangle_0$, and $D_z\langle Qz,\bar z\rangle_0h=\langle Q^T\bar z,h\rangle_0$.}
+
+\begin{definition}[Frequencies, divisors, Melnikov conditions]\label{bpW:w4:melnikov}
+Let $\Pi\subset\R^2$, and let $\omega:\Pi\to\R^2$, $\Omega=(\Omega_j)_{j\ge1}:\Pi\to\R^{\N_+}$ satisfy, for constants
+$M_0,M_\omega,M_\Omega\ge0$ and all $\xi,\zeta\in\Pi$,
+\begin{equation}\label{bpW:w4:freq}
+\Omega_j=j+2+\tilde\Omega_j,\quad\sup_jj\abs{\tilde\Omega_j(\xi)}\le M_0,\quad\abs{\omega(\xi)-\omega(\zeta)}\le M_\omega\abs{\xi-\zeta},\quad
+\sup_jj\abs{\Omega_j(\xi)-\Omega_j(\zeta)}\le M_\Omega\abs{\xi-\zeta},
+\end{equation}
+and put $M=M_\omega+M_\Omega$ (P96-K's $M=\abs\omega^{\mathcal L}+\abs\Omega^{\mathcal L}_{-\delta}$, $-\delta=1$). Let
+$\tau\ge0$, $A_k=1+\abs k_1^\tau$ ($A_0=1$), $\abs l=\sum_j\abs{l_j}$ and $\jap l=\max(1,\abs{\sum_jjl_j})$ for finitely
+supported $l\in\Z^{\N_+}$, and
+\[\mathcal Z=\{(k,l)\in\Z^2\times\Z^{\N_+}:(k,l)\ne0,\ \abs l\le2\}.\]
+For $\alpha>0$, the \emph{Melnikov conditions} $(\mathrm H_\alpha)$ are
+\[\abs{\langle k,\omega(\xi)\rangle+\langle l,\Omega(\xi)\rangle}\ge\alpha\frac{\jap l}{A_k}\qquad\text{for all }\xi\in\Pi,\ (k,l)\in\mathcal Z.\]
+The divisors used below are, for $k\in\Z^2$ and $i,j\ge1$ (with $\xi$ suppressed):
+\[\begin{array}{lll}
+\delta^0_k=\langle k,\omega\rangle\ (k\ne0),&\delta^+_{k,j}=\langle k,\omega\rangle-\Omega_j,&\delta^-_{k,j}=\langle k,\omega\rangle+\Omega_j,\\[2pt]
+\delta^P_{k,ij}=\langle k,\omega\rangle-\Omega_i-\Omega_j,&\delta^{P'}_{k,ij}=\langle k,\omega\rangle+\Omega_i+\Omega_j,&
+\delta^Q_{k,ij}=\langle k,\omega\rangle+\Omega_i-\Omega_j\ ((k,i)\ne(0,j)),
+\end{array}\]
+with the \emph{weights} $w^0=1$, $w^\pm_j=j$, $w^P_{ij}=w^{P'}_{ij}=i+j$, $w^Q_{ij}=\max(1,\abs{i-j})$.
+\end{definition}
+\source{P96-K p.~121 (``$\jap l_d=\max(1,\abs{\sum j^dl_j})$, $A_k=1+\abs k^\tau$'', $Z$), Lemma~1 p.~125 (the
+hypothesis), Assumption~B p.~120; $d=1$. The divisor list is P96-K p.~125 (``$\langle k,\omega\rangle+\langle q-\bar q,\Omega\rangle$'')
+in the W0 sign convention, see Lemma~\ref{bpW:w4:lie}(iii). P96-K's $\abs k$ for $k\in\Z^n$ is not specified; we use
+$\abs k_1$, which is what the lattice sums of Lemma~\ref{bpW:w4:lattice} need.}
+
+\begin{lemma}[The wave frequencies]\label{bpW:w4:wave}
+Let $\lambda_J=\sqrt{J^2+m}$, $b=(\lambda_1^{-1},\lambda_2^{-1})$, and for $\xi\in\R^2$
+\[\omega(\xi)=(\lambda_1,\lambda_2)+A\xi,\qquad\Omega_j(\xi)=\lambda_{j+2}+\frac{3}{2\pi\lambda_{j+2}}\langle b,\xi\rangle\quad(j\ge1),\]
+with $A$ of Theorem~\ref{bpW:w0n:AB}. Then for every $\Pi\subset\R^2$:
+\begin{enumerate}[label=(\roman*)]
+\item \eqref{bpW:w4:freq} holds with $M_\omega=\frac{9}{8\pi\lambda_1^2}+\frac{3}{2\pi\lambda_1\lambda_2}$,
+  $M_\Omega=\frac3{2\pi}(\lambda_1^{-1}+\lambda_2^{-1})$ and $M_0=\frac m2+\frac3{2\pi}\sup_\Pi\abs{\langle b,\xi\rangle}$
+  (when finite). In particular P96-K Assumption~B holds with $d=1$, $\delta=-1$ and the fixed sequence
+  $\bar\Omega_j=j+2$, whose constant $2$ is a lower-order term allowed by Assumption~B.
+\item (Reindexing.) Write $\jap l^{\rm w}=\max(1,\abs{\sum_j(j+2)l_j})$ for the wave index. For $1\le\abs l\le2$,
+  $\jap l\le\jap l^{\rm w}\le3\jap l$ unless $\sum_jl_j=0$, in which case $\jap l^{\rm w}=\jap l$. Hence
+  $(\mathrm H_\alpha)$ stated with $\jap l^{\rm w}$ implies $(\mathrm H_\alpha)$, and $(\mathrm H_{\alpha})$ implies the
+  conditions with $\jap l^{\rm w}$ and $\alpha/3$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Lipschitz constants}\label{stepW:w4:waveLip}
+$\abs{A(\xi-\zeta)}\le\max_i\sum_{i'}A_{ii'}\abs{\xi-\zeta}$, the maximal row sum being the first since
+$\lambda_1<\lambda_2$ and all $A_{ii'}>0$ (Theorem~\ref{bpW:w0n:AB}). For $\Omega$,
+$j\abs{\Omega_j(\xi)-\Omega_j(\zeta)}=\frac{3j}{2\pi\lambda_{j+2}}\abs{\langle b,\xi-\zeta\rangle}\le\frac3{2\pi}\abs b_1\abs{\xi-\zeta}$
+since $\lambda_{j+2}>j$.
+\proofstep{Tails}\label{stepW:w4:waveTail}
+$\tilde\Omega_j=(\lambda_{j+2}-(j+2))+\frac{3\langle b,\xi\rangle}{2\pi\lambda_{j+2}}$ and
+$0<\lambda_J-J=m/(\lambda_J+J)\le m/(2J)$, so $j\abs{\tilde\Omega_j}\le\frac m2+\frac3{2\pi}\abs{\langle b,\xi\rangle}$.
+This is Lemma~\ref{bpW:w1:tails} in the P96-K index.
+\proofstep{Index comparison}\label{stepW:w4:waveIdx}
+$\sum_j(j+2)l_j=\sum_jjl_j+2\sum_jl_j$. If $\sum l_j=0$ the two agree. Otherwise, up to a global sign,
+$l=e_j$ ($\sum jl_j=j$, $\sum(j+2)l_j=j+2\le3j$) or $l=e_i+e_j$ ($i+j$ and $i+j+4\le3(i+j)$), and the ratio lies in
+$[1,3]$.
+\end{proof}
+\source{ours; P96-W p.~290 (frequencies of the normal form) with the corrected $A$, $B$ (E-PDE-W-1,
+Theorem~\ref{bpW:w0n:AB}); P96-K Assumption~B p.~120. The source applies P96-K with normal index $j\ge1$ without
+spelling out the shift $j\mapsto j+2$.}
+
+\begin{lemma}[The conditions with $k=0$ for the wave frequencies]\label{bpW:w4:k0}
+In the setting of Lemma~\ref{bpW:w4:wave}, let $\alpha_0(m)=2/\sqrt{9+m}$. If $\xi\in\R^2$ satisfies
+$\abs{\langle b,\xi\rangle}\le2\pi$ and $0<\alpha\le\alpha_0(m)$, then $\abs{\langle l,\Omega(\xi)\rangle}\ge\alpha\jap l$ for
+every $l$ with $1\le\abs l\le2$. That is, the conditions $(\mathrm H_\alpha)$ with $k=0$ hold on
+$\Pi\subset\{\abs{\langle b,\xi\rangle}\le2\pi\}$.
+\end{lemma}
+
+\begin{proof}
+Write $\beta=\frac3{2\pi}\langle b,\xi\rangle$, so $\abs\beta\le3$, and $J=j+2\ge3$, $I=i+2$.
+\proofstep{One mode}\label{stepW:w4:k0one}
+$\Omega_j\ge\lambda_J-\abs\beta/\lambda_J\ge J-1=j+1>\alpha\jap{e_j}$, since $\lambda_J>J\ge3$ and $\alpha\le1$. The
+same bound gives $\Omega_i+\Omega_j\ge i+j+2>\alpha\jap{e_i+e_j}$.
+\proofstep{Differences}\label{stepW:w4:k0diff}
+For $i>j$: $\Omega_i-\Omega_j=(\lambda_I-\lambda_J)\bigl(1-\beta/(\lambda_I\lambda_J)\bigr)\ge\frac23(\lambda_I-\lambda_J)$, using
+$\frac1{\lambda_I}-\frac1{\lambda_J}=-\frac{\lambda_I-\lambda_J}{\lambda_I\lambda_J}$ and $\lambda_I\lambda_J>9$. Further
+$\lambda_I-\lambda_J=\frac{(I-J)(I+J)}{\lambda_I+\lambda_J}\ge\frac{I-J}{\sqrt{1+m/9}}$ because $\lambda_K\le K\sqrt{1+m/9}$ for
+$K\ge3$. Hence $\Omega_i-\Omega_j\ge\alpha_0(m)(i-j)$, and $\jap{e_i-e_j}=i-j$. Signs of $l$ are symmetric.
+\end{proof}
+\source{ours. A numerical check over $j\le150$ and $m\in\{10^{-3},\frac12,1,10,10^3\}$ gives minimal ratio
+$\ge1.12$ (\texttt{.drafts/W/bp-scratch-w4/checks.py}). This settles the sets $\mathcal R^0_{0l}(\alpha)$ of P96-K
+Theorem~A for W7: they are empty for $\alpha\le\alpha_0(m)$.}
+
+\begin{remark}[What is checked about the Melnikov conditions]\label{bpW:w4:melnikov-check}
+The conditions with $k\ne0$ cannot hold for all $\xi$; P96-K Theorem~A removes the resonance zones and Theorem~D
+(milestone W7) estimates their measure. What W4 checks is that the conditions of P96-K Lemma~1 are the right ones in
+the wave setting: (a) they are stated in the P96-K index $j$ with $d=1$, and the reindexing changes $\jap l$ by at most
+the factor $3$ (Lemma~\ref{bpW:w4:wave}(ii)); (b) the exchange $z\leftrightarrow\bar z$ between W0 and P96-K replaces
+$l$ by $-l$, which maps $\mathcal Z$ to itself and preserves $\jap l$, so the conditions are the same; (c) every divisor
+of Definition~\ref{bpW:w4:melnikov} is of the form $\langle k,\omega\rangle+\langle l,\Omega\rangle$ with
+$(k,l)\in\mathcal Z$, and $\jap l\ge w$ (Lemma~\ref{bpW:w4:divisors}); (d) the conditions with $k=0$ hold outright for
+small $\alpha$ (Lemma~\ref{bpW:w4:k0}).
+\end{remark}
+
+\subsection{Fourier series with Banach-space coefficients}\label{bpW:w4:fourier-sec}
+
+\begin{remark}[The operator-valued square-sum bound of P96-K p.~127 is false]\label{bpW:w4:counterexample}
+P96-K p.~127 states, for the operator-valued coefficients $\tilde R_k$ of $\tilde R=\partial_{\bar z}\partial_zR$,
+``we have, as before, $\sum_k\abs{\!\abs{\!\abs{\tilde R_k}\!}\!}^2e^{2\abs k\abs s}\le2^n\abs{\!\abs{\!\abs{\tilde R}\!}\!}_{D(s)}$''
+(``as before'' refers to the $L^2$ bound for $\ell^{a,\bar p}$-valued coefficients on p.~126, printed there with
+$\norm{\dot R}^2_{D(s)}$; on p.~127 the square on the right side is missing). This is false, even with the square. In period-one notation, fix $s>0$, $N\ge1$ and let
+$A_N(\theta)$ be the diagonal operator on $\ell^2$ with
+\[A_N(\theta)e_j=e^{-2\pi js}e^{2\pi ij\theta_1}e_j\quad(1\le j\le N),\qquad A_N(\theta)e_j=0\quad(j>N).\]
+It is entire and $1$-periodic, and on $T_s$ its entries have modulus $e^{-2\pi j(s+\operatorname{Im}\theta_1)}<1$, so
+$\sup_{T_s}\norm{A_N(\theta)}=1$ (approached as $\operatorname{Im}\theta_1\to-s$). Its nonzero Fourier coefficients
+are $\hat A_{(j,0)}=e^{-2\pi js}e_j\otimes e_j$, of norm $e^{-2\pi js}$, so
+\[\sum_k\norm{\hat A_k}^2e^{4\pi\abs k_1s}=\sum_{j=1}^N1=N,\]
+which exceeds $2^n\sup\norm{A_N}^2=4$ for $N\ge5$ ($n=2$; verified in
+\texttt{.drafts/W/bp-scratch-w4/checks.py}). Diagonal operators between weighted spaces are transported to this
+example by the diagonal maps of Definition~\ref{bpW:w1:transport}, and the example is the mixed Hessian of the quadratic
+Hamiltonian $\sum_{j\le N}\mu_j(\theta)z_j\bar z_j$, so it lies in the class P96-K uses. The Hilbert-space bound
+(Lemma~\ref{bpW:w1:fourier-l2}(i)) is true for $\mathcal H$-valued maps; it fails here because $\mathcal L$ with the
+operator norm is not a Hilbert space. The valid replacement is the Banach-valued bound
+$\norm{\hat A_k}\le\sup_{T_s}\norm A\,e^{-2\pi\abs k_1s}$ (attained here for every $k=(j,0)$), followed by an
+$\ell^1$ summation after a strip loss. This is review finding W1-R1, rechecked here.
+\end{remark}
+
+\begin{remark}[What W4 uses from W1]\label{bpW:w4:w1-requests}
+W4 uses exactly the following, for a complex Banach space $E$, $s>0$ and
+$f:T_s\to E$ complex differentiable, $1$-periodic, with $\norm{f(\theta)}\le m$ on $T_s$, and with
+$\hat f_k=\int_{[0,1]^2}f(x)e^{-2\pi i\langle k,x\rangle}dx$:
+\begin{enumerate}[label=(F\arabic*),ref=(F\arabic*)]
+\item\label{bpW:w4:F1} $\norm{\hat f_k}\le m\,e^{-2\pi\abs k_1s}$ for all $k\in\Z^2$ (contour shift with the sign
+  correction of W1-R3);
+\item\label{bpW:w4:F2} if $c_k\in E$ and $\sum_k\norm{c_k}e^{2\pi\abs k_1s'}<\infty$, then
+  $g(\theta)=\sum_kc_ke^{2\pi i\langle k,\theta\rangle}$ converges absolutely and uniformly on $T_{s'}$, $g$ is complex
+  differentiable and $1$-periodic there, $\hat g_k=c_k$, and $\norm{g(\theta)}\le\sum_k\norm{c_k}e^{2\pi\abs k_1s'}$;
+\item\label{bpW:w4:F3} (uniqueness, scalar case $E=\C$) if $f$ is as above and $\hat f_k=0$ for all $k$, then $f=0$ on
+  $T_{s'}$ for every $s'<s$, hence on $T_s$.
+\end{enumerate}
+\ref{bpW:w4:F1} is Lemma~\ref{bpW:w1:fourier-banach}(i), \ref{bpW:w4:F2} is Lemma~\ref{bpW:w1:fourier-banach}(iii), and
+\ref{bpW:w4:F3} is Lemma~\ref{bpW:w1:fourier-l2}(iii) with $\mathcal H=\C$ (a Hilbert space; only scalar uniqueness is
+used). The Hilbert-valued square-sum bound Lemma~\ref{bpW:w1:fourier-l2}(i) is not used for operators. The
+$n=2$ lattice sums are proved below with sharper constants (Lemma~\ref{bpW:w4:lattice}); Lemma~\ref{bpW:w1:lattice}
+gives the same powers of $\sigma$ for general $n$.
+\end{remark}
+
+\begin{lemma}[Coefficients of linear images and derivatives]\label{bpW:w4:fourier-ops}
+Let $f:T_s\to E$ be as in Remark~\ref{bpW:w4:w1-requests}.
+\begin{enumerate}[label=(\roman*)]
+\item For a continuous linear $\Lambda:E\to E'$, $\widehat{(\Lambda f)}_k=\Lambda\hat f_k$.
+\item For $i\in\{1,2\}$, $\partial_{\theta_i}f$ is complex differentiable and $1$-periodic on $T_s$, and
+  $\widehat{(\partial_{\theta_i}f)}_k=2\pi ik_i\hat f_k$.
+\item If $f$ depends on $\xi\in\Pi$ and $\norm{f(\theta,\xi)-f(\theta,\zeta)}\le m^{\mathcal L}\abs{\xi-\zeta}$ on $T_s$,
+  then $\norm{\hat f_k(\xi)-\hat f_k(\zeta)}\le m^{\mathcal L}\abs{\xi-\zeta}e^{-2\pi\abs k_1s}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Linear images}\label{stepW:w4:linimg}
+\ref{bpW:w4:ext-intparts}: $\Lambda$ commutes with the integral defining $\hat f_k$.
+\proofstep{Derivatives}\label{stepW:w4:deriv}
+The derivative of a complex differentiable map is complex differentiable (\ref{bpW:w1:ext-onevar} in the variable
+$\theta_i$; on the real torus it suffices that $f$ is $C^1$), and periodicity passes to $\partial_{\theta_i}f$. On the
+real torus, $\partial_{x_i}\bigl(f(x)e^{-2\pi i\langle k,x\rangle}\bigr)=(\partial_{x_i}f)e^{-2\pi i\langle k,x\rangle}-2\pi ik_if(x)e^{-2\pi i\langle k,x\rangle}$
+and the left side integrates to zero over a period in $x_i$ (\ref{bpW:w4:ext-intparts}); integrate over the other
+variable (Fubini for continuous functions on $[0,1]^2$).
+\proofstep{Parameters}\label{stepW:w4:fpar}
+Apply \ref{bpW:w4:F1} to $f(\cdot,\xi)-f(\cdot,\zeta)$, whose coefficients are $\hat f_k(\xi)-\hat f_k(\zeta)$.
+\end{proof}
+\source{standard.}
+
+\begin{lemma}[Lattice sums in $\Z^2$]\label{bpW:w4:lattice}
+Let $\sigma>0$ and $S_q(\sigma)=\sum_{k\in\Z^2}\abs k_1^qe^{-2\pi\abs k_1\sigma}$ for $q\ge0$ (with $0^0=1$).
+\begin{enumerate}[label=(\roman*)]
+\item $\#\{k\in\Z^2:\abs k_1=N\}=4N$ for $N\ge1$.
+\item $S_0(\sigma)=\coth(\pi\sigma)^2\le(1+(\pi\sigma)^{-1})^2$.
+\item For $q>0$, $S_q(\sigma)\le\dfrac4{\pi\sigma}\Bigl(\dfrac{q+1}{e\pi\sigma}\Bigr)^{q+1}$.
+\item Let $\tau\ge0$, $A_k=1+\abs k_1^\tau$ and
+  \[B^{\rm W}_\sigma=\sum_{k\in\Z^2}(1+\abs k_1)A_k^2e^{-2\pi\abs k_1\sigma}.\]
+  Then $\sum_kA_ke^{-2\pi\abs k_1\sigma}\le B^{\rm W}_\sigma$, and for $0<\sigma\le1$,
+  \[B^{\rm W}_\sigma\le\frac{b_{\rm W}(\tau)}{\sigma^{2\tau+3}},\qquad
+  b_{\rm W}(\tau)=2\Bigl[\bigl(1+\tfrac1\pi\bigr)^2+\sum_{q\in\{1,2\tau,2\tau+1\}}\frac4\pi\Bigl(\frac{q+1}{e\pi}\Bigr)^{q+1}\Bigr]\]
+  (for $\tau=0$ read the term $q=2\tau=0$ as $(1+\frac1\pi)^2$). Since $n=2$, $2\tau+3=2\tau+n+1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Counting}\label{stepW:w4:count}
+For $N\ge1$, $k_1$ ranges over $-N,\dots,N$; $\abs{k_1}=N$ gives one point each and $\abs{k_1}<N$ gives two
+($k_2=\pm(N-\abs{k_1})$), in total $2+2(2N-1)=4N$.
+\proofstep{Product}\label{stepW:w4:coth}
+$\sum_ke^{-2\pi\abs k_1\sigma}=\bigl(\sum_{m\in\Z}e^{-2\pi\abs m\sigma}\bigr)^2$ and
+$\sum_{m\in\Z}e^{-x\abs m}=1+\frac{2}{e^x-1}=\coth\frac x2$ (\ref{bpW:w4:ext-exp}); $\coth t=1+\frac2{e^{2t}-1}\le1+\frac1t$.
+\proofstep{Weighted sums}\label{stepW:w4:wsum}
+For $q>0$ the term $k=0$ vanishes and, with $x=2\pi\sigma$, $S_q=4\sum_{N\ge1}N^{q+1}e^{-xN}$ by (i). By
+\ref{bpW:w4:ext-exp}, $N^{q+1}e^{-xN/2}\le(2(q+1)/(ex))^{q+1}$ and $\sum_{N\ge1}e^{-xN/2}=1/(e^{x/2}-1)\le2/x$.
+\proofstep{The constant}\label{stepW:w4:bw}
+$A_k\ge1$ gives the first claim. $(1+\abs k_1)A_k^2\le2(1+\abs k_1)(1+\abs k_1^{2\tau})$, so
+$B^{\rm W}_\sigma\le2(S_0+S_1+S_{2\tau}+S_{2\tau+1})$; by (ii)--(iii) each term is at most its constant in
+$b_{\rm W}$ times $\sigma^{-(q+2)}$ ($\sigma^{-2}$ for $S_0$), and $\sigma^{-(q+2)}\le\sigma^{-(2\tau+3)}$ for $\sigma\le1$.
+\end{proof}
+\source{ours. Checked numerically for $\tau\in\{3,3.5,5\}$, $\sigma\in[0.02,1]$
+(\texttt{checks.py}); e.g.\ $b_{\rm W}(3)\approx5.76$.}
+
+\subsection{Divisors and the multiplier solve}\label{bpW:w4:solve-sec}
+
+\begin{lemma}[Divisor bounds]\label{bpW:w4:divisors}
+Assume \eqref{bpW:w4:freq} and $(\mathrm H_\alpha)$. For every divisor $\delta$ of Definition~\ref{bpW:w4:melnikov}
+with weight $w$, all $\xi,\zeta\in\Pi$ and $k\in\Z^2$:
+\[\abs{\delta(\xi)}\ge\frac{\alpha w}{A_k},\qquad
+\Bigl\lvert\frac1{\delta(\xi)}-\frac1{\delta(\zeta)}\Bigr\rvert\le\frac{2(1+\abs k_1)A_k^2M}{\alpha^2w}\abs{\xi-\zeta}.\]
+The weights satisfy $w^Q_{ij}\ge\abs{i-j}$, $w^P_{ij}\ge\abs{i-j}$ for $i\ne j$, and all weights are $\ge1$.
+\end{lemma}
+
+\begin{proof}
+\proofstep{Membership}\label{stepW:w4:member}
+Each divisor is $\langle k,\omega\rangle+\langle l,\Omega\rangle$ with $l\in\{0,\mp e_j,\mp(e_i+e_j),e_i-e_j\}$, $\abs l\le2$,
+and $(k,l)\ne0$ by the exclusions of Definition~\ref{bpW:w4:melnikov}; so $(k,l)\in\mathcal Z$. Then
+$\jap l=1,\ j,\ i+j,\ \max(1,\abs{i-j})$ respectively, which is the weight, and $(\mathrm H_\alpha)$ gives the lower
+bound.
+\proofstep{Lipschitz}\label{stepW:w4:divlip}
+$\abs{\delta(\xi)-\delta(\zeta)}\le\abs k_1M_\omega\abs{\xi-\zeta}+\sum_j\abs{l_j}\abs{\Omega_j(\xi)-\Omega_j(\zeta)}\le
+(\abs k_1+2)M\abs{\xi-\zeta}$ by \eqref{bpW:w4:freq} ($\abs{\Omega_j(\xi)-\Omega_j(\zeta)}\le M_\Omega\abs{\xi-\zeta}/j$ and
+$\abs l\le2$). Divide by $\abs{\delta(\xi)\delta(\zeta)}\ge\alpha^2w^2/A_k^2\ge\alpha^2w/A_k^2$ and use
+$\abs k_1+2\le2(1+\abs k_1)$.
+\end{proof}
+\source{P96-K pp.~126--127. Deviations: (a) P96-K p.~127 asserts ``$\abs{\langle k,\omega\rangle+\Omega_i-\Omega_j}\ge
+\alpha(1+\abs{i-j})/A_k$, since $d\ge1$''; from $\jap l_1=\max(1,\abs{i-j})$ only $\alpha\max(1,\abs{i-j})/A_k$ follows,
+a factor up to $2$ smaller (suspected erratum; harmless, since Lemma~A.1 needs only $\abs{i-j}$). (b) For $d=1$ the
+interpolation $2\abs{i^d-j^d}\ge\abs{i-j}(i^{d-1}+j^{d-1})$ and the factor $(i^\delta+j^\delta)$ of p.~127 are not needed:
+$\abs{\Omega_i(\xi)-\Omega_i(\zeta)}\le M_\Omega/i$ is used directly.}
+
+\begin{lemma}[Hadamard division of operators]\label{bpW:w4:schur}
+Let $K_S=1+\pi/\sqrt3$ ($<2.82$). Let $d=(d_{ij})_{i,j\ge1}$ be complex numbers with $\abs{d_{ij}}\le c/\abs{i-j}$ for
+$i\ne j$ and $\abs{d_{ii}}\le c$. Let $\mu,\nu$ be positive sequences and $A$ a matrix whose weighted matrix
+$(\mu_iA_{ij}\nu_j)$ defines a bounded operator on $\ell^2$ of norm $N_A$. Then $(\mu_id_{ij}A_{ij}\nu_j)$ defines a
+bounded operator of norm $\le cK_SN_A$. In particular:
+\begin{enumerate}[label=(\roman*)]
+\item ($\mu_i=\omega_{a,\bar p}(i+2)$, $\nu_j=\omega_{a,p}(j+2)^{-1}$.) The Hadamard map
+  $\mathcal H_d:M\mapsto(d_{ij}M_{ij})$ is a bounded linear map $\mathcal L\to\mathcal L$ of norm $\le cK_S$, and
+  $\mathcal H_d(M)^T=\mathcal H_{d^T}(M^T)$.
+\item ($\mu_i=\nu_i=\omega_{a,p}(i+2)^{-1}$.) The same Hadamard map on bilinear forms, $\beta\mapsto
+  \bigl((z,z')\mapsto\sum d_{ij}\beta(e_j,e_i)z_jz'_i\bigr)$, is bounded $\mathcal B\to\mathcal B$ with norm $\le cK_S$, and
+  $\Lambda\circ\mathcal H_d=\mathcal H_d\circ\Lambda$.
+\item For diagonal $d$ ($d_{ij}=0$ for $i\ne j$), $\abs{d_{ii}}\le c$, the bound improves to $c$, for every
+  $\mu,\nu$; in particular $\abs{M_{ii}}\mu_i\nu_i\le\norm M$ for $M\in\mathcal L$, i.e.\ $(i+2)\abs{M_{ii}}\le\norm M$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Transport}\label{stepW:w4:schurtr}
+Apply Lemma~\ref{bpW:w1:schur}(iii) to the $\ell^2$-matrix $\hat A=(\mu_iA_{ij}\nu_j)$ and $\hat F=(\mu_id_{ij}A_{ij}\nu_j)$:
+$\abs{\hat F_{ij}}\le c\abs{\hat A_{ij}}/\abs{i-j}$ off the diagonal and $\abs{\hat F_{ii}}\le c\abs{\hat A_{ii}}$.
+\proofstep{Representatives}\label{stepW:w4:schurrep}
+In (i), the weighted matrix of $M\in\mathcal L$ is the matrix of its representative
+$\tau_{a,\bar p}\circ M\circ\kappa_{a,p}$ (Definition~\ref{bpW:w1:transport}, restricted to the normal entries), so
+bounded weighted matrices are exactly elements of $\mathcal L$ with the same norm; the transpose identity is
+entrywise. In (ii) the weighted matrix $(\beta(e_j,e_i)\mu_i\mu_j)$ is the matrix of the bounded operator on $\ell^2$
+representing $\beta$, with the same norm (Riesz on $\ell^2$); $\Lambda$ does not change entries.
+\proofstep{Diagonal}\label{stepW:w4:schurdiag}
+(iii) is Lemma~\ref{bpW:w1:schur}(ii) and Lemma~\ref{bpW:w1:multiplier}; $\mu_i\nu_i=(i+2)^{\bar p-p}=i+2$ in (i).
+\end{proof}
+\source{P96-K Lemma~A.1, pp.~145--146, and its use on p.~127 (``$\abs{\!\abs{\!\abs{\tilde F_k}\!}\!}\le3(A_k/\alpha)
+\abs{\!\abs{\!\abs{\tilde R_k}\!}\!}$''); Lemma~\ref{bpW:w1:schur}. The bilinear version (ii) is ours; it is needed for the
+$\theta$-derivatives of the quadratic components (Theorem~\ref{bpW:w4:lemma1}).}
+
+\begin{lemma}[Multiplier solve]\label{bpW:w4:solve}
+Let $E,E'$ be complex Banach spaces, $0<\sigma<s$, $\alpha>0$, $\kappa\ge1$, $M\ge0$, and for $k\in\Z^2$ and
+$\xi\in\Pi$ let $T_k(\xi)\in L(E,E')$ satisfy
+\[\norm{T_k(\xi)}\le\frac{\kappa A_k}\alpha,\qquad\norm{T_k(\xi)-T_k(\zeta)}\le\frac{2\kappa(1+\abs k_1)A_k^2M}{\alpha^2}\abs{\xi-\zeta}.\]
+Let $f(\cdot,\xi):T_s\to E$ be complex differentiable, $1$-periodic, with $\norm{f(\theta,\xi)}\le m$ and
+$\norm{f(\theta,\xi)-f(\theta,\zeta)}\le m^{\mathcal L}\abs{\xi-\zeta}$ on $T_s$. Define
+\[(\mathcal Sf)(\theta,\xi)=\sum_{k\in\Z^2}T_k(\xi)\hat f_k(\xi)\,e^{2\pi i\langle k,\theta\rangle}.\]
+\begin{enumerate}[label=(\roman*)]
+\item The series converges absolutely and uniformly on $T_{s-\sigma}$; $\mathcal Sf(\cdot,\xi)$ is complex
+  differentiable and $1$-periodic there, with coefficients $T_k\hat f_k$, and
+  $\norm{\mathcal Sf(\theta,\xi)}\le\kappa B^{\rm W}_\sigma m/\alpha$.
+\item $\norm{\mathcal Sf(\theta,\xi)-\mathcal Sf(\theta,\zeta)}\le\frac{\kappa B^{\rm W}_\sigma}{\alpha}\bigl(m^{\mathcal L}+\frac{2Mm}{\alpha}\bigr)\abs{\xi-\zeta}$ on $T_{s-\sigma}$.
+\item If $\partial_{\theta_i}f$ is bounded on $T_s$, then $\partial_{\theta_i}\mathcal Sf=\mathcal S(\partial_{\theta_i}f)$
+  on $T_{s-\sigma}$.
+\item If $\Lambda:E'\to E''$ is continuous linear, then $\Lambda\mathcal Sf$ is the solve of $f$ with the operators
+  $\Lambda T_k$. If $\Lambda_0:E\to E_0$, $\Lambda_1:E'\to E_1$ and $T'_k\in L(E_0,E_1)$ satisfy
+  $\Lambda_1T_k=T'_k\Lambda_0$, then $\Lambda_1\mathcal Sf=\mathcal S'(\Lambda_0f)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Coefficients}\label{stepW:w4:solvecoef}
+By \ref{bpW:w4:F1}, $\norm{T_k\hat f_k}\le\frac{\kappa A_k}\alpha me^{-2\pi\abs k_1s}$, so
+$\sum_k\norm{T_k\hat f_k}e^{2\pi\abs k_1(s-\sigma)}\le\frac{\kappa m}\alpha\sum_kA_ke^{-2\pi\abs k_1\sigma}\le\frac{\kappa m}\alpha B^{\rm W}_\sigma$
+(Lemma~\ref{bpW:w4:lattice}(iv)); \ref{bpW:w4:F2} with $s'=s-\sigma$ gives (i).
+\proofstep{Differences}\label{stepW:w4:solvediff}
+$T_k(\xi)\hat f_k(\xi)-T_k(\zeta)\hat f_k(\zeta)=T_k(\xi)\bigl(\hat f_k(\xi)-\hat f_k(\zeta)\bigr)+\bigl(T_k(\xi)-T_k(\zeta)\bigr)\hat f_k(\zeta)$;
+by Lemma~\ref{bpW:w4:fourier-ops}(iii) and \ref{bpW:w4:F1} its norm is at most
+$\bigl(\frac{\kappa A_k}\alpha m^{\mathcal L}+\frac{2\kappa(1+\abs k_1)A_k^2Mm}{\alpha^2}\bigr)\abs{\xi-\zeta}e^{-2\pi\abs k_1s}$.
+Multiply by $e^{2\pi\abs k_1(s-\sigma)}$, sum, and use $A_k\le(1+\abs k_1)A_k^2$ and the definition of $B^{\rm W}_\sigma$; the
+difference of the two series is the series of differences, bounded as in \ref{bpW:w4:F2}.
+\proofstep{Commutation}\label{stepW:w4:solvecomm}
+(iii): by Lemma~\ref{bpW:w4:fourier-ops}(ii), $T_k\widehat{(\partial_{\theta_i}f)}_k=2\pi ik_iT_k\hat f_k$, and by
+Step~\ref{stepW:w4:solvecoef} applied to the bounded map $\partial_{\theta_i}f$ these terms are summable with the
+weight $e^{2\pi\abs k_1(s-\sigma)}$. So the termwise derivative of the series of $\mathcal Sf$ converges uniformly on
+$T_{s-\sigma}$, and termwise differentiation (\ref{bpW:w1:ext-unifderiv}) gives
+$\partial_{\theta_i}\mathcal Sf=\sum_k2\pi ik_iT_k\hat f_ke^{2\pi i\langle k,\theta\rangle}=\mathcal S(\partial_{\theta_i}f)$.
+\proofstep{Linear images}\label{stepW:w4:solvelin}
+(iv): $\Lambda$ commutes with absolutely convergent sums; and $\Lambda_1T_k\hat f_k=T'_k\Lambda_0\hat f_k=T'_k\widehat{(\Lambda_0f)}_k$
+by Lemma~\ref{bpW:w4:fourier-ops}(i).
+\end{proof}
+\source{P96-K pp.~126--127 (``It follows that $\norm{\dot F}_{D(s-\sigma)}\le\sum_k\norm{\dot F_k}e^{\abs k(s-\sigma)}\le\dots$'',
+``summing up as before''), in the Banach-valued form that replaces the square-sum step
+(Remark~\ref{bpW:w4:counterexample}). Lean: the series is a \Lean{tsum} in $E'$, summable in norm by
+Step~\ref{stepW:w4:solvecoef}.}
+
+\subsection{The Lie derivative along the normal form}\label{bpW:w4:lie-sec}
+
+Let $N=\langle\omega(\xi),y\rangle+\sum_j\Omega_j(\xi)z_j\bar z_j$ be the normal form at a fixed real parameter $\xi$.
+Its field is unbounded on $\ell^N_{a,p}$ ($\Omega_j\sim j$), so the bracket of $N$ with $F\in\mathcal T$ is defined
+through the smoothing gradients of $F$.
+
+\begin{lemma}[Lie derivative]\label{bpW:w4:lie}
+Assume \eqref{bpW:w4:freq} and let $F\in\mathcal T_{s'}$ (Definition~\ref{bpW:w4:taylor}) with components
+$a_F,b_F,c^\pm_F,P_F,Q_F,P'_F$. For $(\theta,y,z,\bar z)\in T_{s'}\times\C^2\times(\ell^N_{a,p})^2$ put
+\[L_NF=\frac1{2\pi}\langle\omega,F_\theta\rangle-i\langle F_z,\Omega z\rangle_0+i\langle F_{\bar z},\Omega\bar z\rangle_0,\qquad
+\langle\omega,F_\theta\rangle=\sum_i\omega_i\partial_{\theta_i}F.\]
+\begin{enumerate}[label=(\roman*)]
+\item $\Omega z\in\ell^N_{a,p-1}$ with $\norm{\Omega z}_{a,p-1}\le(1+M_0)\norm z$; the pairings converge absolutely,
+  $L_NF$ is continuous in $(z,\bar z)$ and a polynomial of degree $\le2$ in $(y,z,\bar z)$.
+\item (Bracket.) Let $DN\cdot X_F=\frac1{2\pi}\bigl(\langle\omega,-F_\theta\rangle\bigr)+\langle\Omega\bar z,\dot Z\rangle_0+\langle\Omega z,\dot{\bar Z}\rangle_0$,
+  where $(\dot Z,\dot{\bar Z})=(-iF_{\bar z},iF_z)$ are the normal components of $X_F$ by \eqref{bpW:w4:hameq} and the
+  $y$-component of $X_F$ is $-\frac1{2\pi}F_\theta$. Then $DN\cdot X_F=-L_NF$.
+\item (Coefficients.) For finitely supported $z,\bar z$, $L_NF$ is the finite expression obtained from
+  \eqref{bpW:w4:R} for $F$ by replacing the coefficient of $e^{2\pi i\langle k,\theta\rangle}$ in
+  $a_F$, $b_F$, $c^+_{F,j}$, $c^-_{F,j}$, $P_{F,ij}$, $Q_{F,ij}$, $P'_{F,ij}$ by $i\delta$ times it, with
+  $\delta=\langle k,\omega\rangle$ (for $a_F$, $b_F$), $\delta^+_{k,j}$, $\delta^-_{k,j}$, $\delta^P_{k,ij}$, $\delta^Q_{k,ij}$
+  (with $\delta^Q_{0,jj}=0$), $\delta^{P'}_{k,ij}$ respectively.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Bounds}\label{stepW:w4:liebd}
+$\abs{\Omega_j}\le j+2+M_0/j\le(1+M_0)(j+2)$, so $\abs{\Omega_j}\omega_{a,p-1}(j+2)\le(1+M_0)\omega_{a,p}(j+2)$. The
+gradients $F_z,F_{\bar z}$ lie in $\ell^N_{a,\bar p}=\ell^N_{a,p+1}$, and \eqref{bpW:w4:pairing} with $q=p-1$, $q'=p+1$
+($q+q'=2p\ge0$) bounds the pairings. Continuity in $(z,\bar z)$: $F_z$, $F_{\bar z}$ are affine continuous in
+$(z,\bar z)$ and the pairing is a bounded bilinear form on $\ell^N_{a,p-1}\times\ell^N_{a,p+1}$.
+\proofstep{Bracket}\label{stepW:w4:liebr}
+Substitute: $DN\cdot X_F=-\frac1{2\pi}\langle\omega,F_\theta\rangle-i\langle\Omega\bar z,F_{\bar z}\rangle_0+i\langle\Omega z,F_z\rangle_0$, which
+is $-L_NF$ by symmetry of $\langle\cdot,\cdot\rangle_0$. The formula for $DN$ is the derivative of
+$\langle\omega,y\rangle+\sum_j\Omega_jz_j\bar z_j$ in a direction $(\Theta,Y,Z,\bar Z)$ with $Z,\bar Z\in\ell^N_{a,\bar p}$, a
+convergent series by Step~\ref{stepW:w4:liebd}.
+\proofstep{Coefficients}\label{stepW:w4:liecoef}
+For finitely supported $z,\bar z$ every pairing is a finite sum. Write $F_z=c^+_F+2P_Fz+Q_F^T\bar z$,
+$F_{\bar z}=c^-_F+Q_Fz+2P'_F\bar z$ (Definition~\ref{bpW:w4:taylor}) and collect: the coefficient of $z_j$ is
+$\frac1{2\pi}\langle\omega,\partial_\theta c^+_{F,j}\rangle-i\Omega_jc^+_{F,j}$; of $z_iz_j$ (symmetrized),
+$\frac1{2\pi}\langle\omega,\partial_\theta P_{F,ij}\rangle-i(\Omega_i+\Omega_j)P_{F,ij}$; of $z_j\bar z_i$,
+$\frac1{2\pi}\langle\omega,\partial_\theta Q_{F,ij}\rangle-i(\Omega_j-\Omega_i)Q_{F,ij}$; and similarly for $c^-_F$, $P'_F$ with
+$+i\Omega$. By Lemma~\ref{bpW:w4:fourier-ops}, the $k$-th coefficient of $\frac1{2\pi}\langle\omega,\partial_\theta g\rangle$
+is $i\langle k,\omega\rangle\hat g_k$, and the matrix entries are continuous linear functionals of the operators.
+\end{proof}
+\source{P96-K p.~125 (``by comparison of coefficients \dots\ $iF_{kmq\bar q}=R_{kmq\bar q}/(\langle k,\omega\rangle+\langle q-\bar q,\Omega\rangle)$''),
+in the W0 sign convention: our $\langle\cdot,\Omega\rangle$-terms are those of P96-K with $q\leftrightarrow\bar q$
+(Remark~\ref{bpW:w4:melnikov-check}(b)). P96-K writes the bracket as $\{F,N\}$; here $\{F,N\}:=L_NF=-DN\cdot X_F$.
+The identity (ii) is the input W5 needs to expand $N\circ X^t_F$; W5 must use it in this form because $X_N$ is
+unbounded.}
+
+\subsection{Reading the components off the field norm}\label{bpW:w4:extract-sec}
+
+\begin{lemma}[Coefficient extraction]\label{bpW:w4:extract}
+Let $E$ be a complex Banach space, $\rho_1,\rho_2>0$, and $g(\zeta,\eta)=\sum_{p+q\le2}g_{pq}\zeta^p\eta^q$ with
+$g_{pq}\in E$. If $\norm{g(\zeta,\eta)}\le K$ whenever $\abs\zeta<\rho_1$, $\abs\eta<\rho_2$, then
+$\norm{g_{pq}}\le K\rho_1^{-p}\rho_2^{-q}$ for all $p+q\le2$. The same holds for one variable.
+\end{lemma}
+
+\begin{proof}
+For $0<\rho'_i<\rho_i$,
+$g_{pq}\rho_1'^{\,p}\rho_2'^{\,q}=\frac1{16}\sum_{u,v=0}^3i^{-up-vq}g(\rho'_1i^u,\rho'_2i^v)$: expanding $g$, the
+monomial $(p',q')$ contributes $\frac1{16}\sum_{u,v}i^{u(p'-p)+v(q'-q)}g_{p'q'}\rho_1'^{\,p'}\rho_2'^{\,q'}$, and since
+$\abs{p'-p},\abs{q'-q}\le2<4$ this vanishes unless $(p',q')=(p,q)$ (\ref{bpW:w4:ext-roots}). The triangle inequality
+gives $\norm{g_{pq}}\le K\rho_1'^{-p}\rho_2'^{-q}$; let $\rho'_i\uparrow\rho_i$.
+\end{proof}
+\source{ours; it replaces the generalized Cauchy estimate of P96-K Lemma~A.3 (p.~147) for the polynomial
+dependence on $(y,z,\bar z)$.}
+
+\begin{lemma}[Component bounds]\label{bpW:w4:components}
+Let $s,r>0$, $R\in\mathcal T_s$, and suppose $\abs{X_R(\theta,y,z,\bar z)}_r\le\varepsilon$ on $D(s,r)$. Then for all
+$\theta\in T_s$ and $i\in\{1,2\}$:
+\begin{enumerate}[label=(\roman*)]
+\item $\abs{b(\theta)}\le2\pi\varepsilon$, $\norm{c^\pm(\theta)}_{\bar p}\le r\varepsilon/\sqrt2$,
+  $\norm{2P(\theta)},\norm{Q(\theta)},\norm{Q(\theta)^T},\norm{2P'(\theta)}\le\varepsilon$;
+\item $\abs{\partial_{\theta_i}a}\le2\pi r^2\varepsilon$, $\abs{\partial_{\theta_i}b}_1\le2\pi\varepsilon$,
+  $\norm{\partial_{\theta_i}c^\pm}_*\le2\sqrt2\pi r\varepsilon$, $\norm{\Lambda\partial_{\theta_i}P}_{\rm bil},
+  \norm{\Lambda\partial_{\theta_i}P'}_{\rm bil}\le4\pi\varepsilon$, $\norm{\Lambda\partial_{\theta_i}Q}_{\rm bil}\le16\pi\varepsilon$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\proofstep{Test points}\label{stepW:w4:testpts}
+By \eqref{bpW:w4:zu}, the points $(\theta,y,0,0)$ with $\abs y<r^2$; $(\theta,0,z,0)$ and $(\theta,0,0,\bar z)$ with
+$\norm z,\norm{\bar z}<r/\sqrt2$; and $(\theta,0,z,\bar z)$ with $\norm z,\norm{\bar z}<r/(2\sqrt2)$ lie in $D(s,r)$
+(for the second, $u=z/\sqrt2$, $v=z/(i\sqrt2)$ and $\norm u+\norm v=\sqrt2\norm z$). On $D(s,r)$ the hypothesis gives
+$\abs{R_y}\le2\pi\varepsilon$, $\abs{R_\theta}\le2\pi r^2\varepsilon$, and
+$\norm{R_z}_{\bar p},\norm{R_{\bar z}}_{\bar p}\le(\norm{R_u}_{\bar p}+\norm{R_v}_{\bar p})/\sqrt2\le r\varepsilon/\sqrt2$.
+\proofstep{Zeroth and first order}\label{stepW:w4:first}
+$R_y=b$ and $R_z(\theta,0,0,0)=c^+$, $R_{\bar z}(\theta,0,0,0)=c^-$. For $\norm z=1$,
+$\zeta\mapsto R_z(\theta,0,\zeta z,0)=c^++2\zeta Pz$ is bounded by $r\varepsilon/\sqrt2$ on $\abs\zeta<r/\sqrt2$, so
+$\norm{2Pz}_{\bar p}\le\varepsilon$ by Lemma~\ref{bpW:w4:extract}. Likewise $R_z(\theta,0,0,\eta\bar z)=c^++\eta Q^T\bar z$,
+$R_{\bar z}(\theta,0,\zeta z,0)=c^-+\zeta Qz$, $R_{\bar z}(\theta,0,0,\eta\bar z)=c^-+2\eta P'\bar z$.
+\proofstep{Angle derivatives}\label{stepW:w4:angle}
+$\partial_{\theta_i}R(\theta,y,0,0)=\partial_{\theta_i}a+\langle\partial_{\theta_i}b,y\rangle$: its value at $y=0$ and, for
+$\abs y=1$, the coefficient of $\zeta$ in $\zeta\mapsto\partial_{\theta_i}R(\theta,\zeta y,0,0)$ ($\abs\zeta<r^2$) give the
+first two bounds ($\abs\cdot_1$ is the dual of the max norm). For $\norm z=1$,
+$\zeta\mapsto\partial_{\theta_i}R(\theta,0,\zeta z,0)=\partial_{\theta_i}a+\zeta\langle\partial_{\theta_i}c^+,z\rangle_0+\zeta^2\langle\partial_{\theta_i}Pz,z\rangle_0$
+on $\abs\zeta<r/\sqrt2$ gives $\abs{\langle\partial_{\theta_i}c^+,z\rangle_0}\le2\pi r^2\varepsilon\sqrt2/r$ and
+$\abs{\langle\partial_{\theta_i}Pz,z\rangle_0}\le2\pi r^2\varepsilon\cdot2/r^2$. For $\norm z=\norm{\bar z}=1$, the coefficient of
+$\zeta\eta$ in $\partial_{\theta_i}R(\theta,0,\zeta z,\eta\bar z)$ on $\abs\zeta,\abs\eta<r/(2\sqrt2)$ is
+$\langle\partial_{\theta_i}Qz,\bar z\rangle_0$, bounded by $2\pi r^2\varepsilon\cdot8/r^2$. The $c^-$, $P'$ cases are symmetric.
+\proofstep{Polarization}\label{stepW:w4:polar}
+For symmetric $\beta=\Lambda\partial_{\theta_i}P$ and unit $z,z'$:
+$\beta(z,z')=\frac14\bigl(\beta(z+z',z+z')-\beta(z-z',z-z')\bigr)$, so
+$\abs{\beta(z,z')}\le\frac14\cdot4\pi\varepsilon\,(\norm{z+z'}^2+\norm{z-z'}^2)=4\pi\varepsilon$ by
+\ref{bpW:w4:ext-parallelogram}. ($\partial_{\theta_i}P$ is symmetric because $P$ is.)
+\end{proof}
+\source{P96-K p.~126 (``$\norm{\dot R}_{D(s)}\le r\abs{X_R}_r$''), p.~127 (``$\abs{\!\abs{\!\abs{\tilde R}\!}\!}_{D(s)}\le\frac1r\norm{R_z}_{D(s,r)}\le\abs{X_R}_r$'')
+and p.~128 (``All the other components $F^{ij}$ admit the same estimates''); the bounds for the angle derivatives are
+not in the source, which leaves the $y$-component of $X_F$ implicit.}
+
+\subsection{The homological equation}\label{bpW:w4:main-sec}
+
+\begin{theorem}[P96-K Lemma~1 for the wave setting]\label{bpW:w4:lemma1}
+Assume Convention~\ref{bpW:w4:index}, \eqref{bpW:w4:freq} on $\Pi\subset\R^2$ with $M=M_\omega+M_\Omega$, $\tau\ge0$, and
+$(\mathrm H_\alpha)$ for some $\alpha>0$. Let $0<\sigma<s$, $r>0$, $\varepsilon,\varepsilon^{\mathcal L}\ge0$, and for each
+$\xi\in\Pi$ let $R(\cdot,\xi)\in\mathcal T_s$ satisfy, at every point of $D(s,r)$ and for all $\xi,\zeta\in\Pi$,
+\[\abs{X_{R(\xi)}}_r\le\varepsilon,\qquad\abs{X_{R(\xi)}-X_{R(\zeta)}}_r\le\varepsilon^{\mathcal L}\abs{\xi-\zeta}.\]
+Define $F(\cdot,\xi)$ by the components (all series in $\theta$, $e_k=e^{2\pi i\langle k,\theta\rangle}$)
+\[a_F=\sum_{k\ne0}\frac{\hat a_k}{i\delta^0_k}e_k,\quad b_F=\sum_{k\ne0}\frac{\hat b_k}{i\delta^0_k}e_k,\quad
+(c^\pm_F)_j=\sum_k\frac{(\hat c^\pm_k)_j}{i\delta^\pm_{k,j}}e_k,\]
+\[(P_F)_{ij}=\sum_k\frac{(\hat P_k)_{ij}}{i\delta^P_{k,ij}}e_k,\quad(Q_F)_{ij}=\sum_{(k,i)\ne(0,j)}\frac{(\hat Q_k)_{ij}}{i\delta^Q_{k,ij}}e_k,\quad
+(P'_F)_{ij}=\sum_k\frac{(\hat P'_k)_{ij}}{i\delta^{P'}_{k,ij}}e_k,\]
+(the vector and operator series converging in $\ell^N_{a,\bar p}$ and $\mathcal L$, entries as displayed), and
+\[\hat N=\langle\hat\omega,y\rangle+\sum_j\hat\Omega_jz_j\bar z_j,\qquad\hat\omega=[b],\quad\hat\Omega_j=([Q])_{jj}.\]
+Let $C_1=7+10K_S$ ($<36$) and $B=B^{\rm W}_\sigma$ (Lemma~\ref{bpW:w4:lattice}). Then for every $\xi\in\Pi$:
+\begin{enumerate}[label=(\roman*)]
+\item $F(\cdot,\xi)\in\mathcal T_{s-\sigma}$, with $\hat a_{F,0}=0$, $\hat b_{F,0}=0$, $(\hat Q_{F,0})_{jj}=0$; if $R$ is real,
+  so are $F$ and $\hat N$ ($\hat\omega\in\R^2$, $\hat\Omega_j\in\R$).
+\item $L_NF+\hat N=R-\hat a_0$ on $T_{s-\sigma}\times\C^2\times(\ell^N_{a,p})^2$, with $L_N$ of Lemma~\ref{bpW:w4:lie};
+  equivalently $R+DN\cdot X_F=\hat N+\hat a_0$.
+\item On $D(s-\sigma,r)$: $\abs{X_F}_r\le\frac{C_1B}{\alpha}\varepsilon$ and
+  $\abs{X_{F(\xi)}-X_{F(\zeta)}}_r\le\frac{C_1B}{\alpha}\bigl(\varepsilon^{\mathcal L}+\frac{2M}{\alpha}\varepsilon\bigr)\abs{\xi-\zeta}$.
+\item $\abs{\hat\omega}\le2\pi\varepsilon$, $\sup_j(j+2)\abs{\hat\Omega_j}\le\varepsilon$, and the same with
+  $\varepsilon^{\mathcal L}\abs{\xi-\zeta}$ for the differences; on $D(s,r)$, $\abs{X_{\hat N}}_r\le2\varepsilon$ and
+  $\abs{X_{\hat N(\xi)}-X_{\hat N(\zeta)}}_r\le2\varepsilon^{\mathcal L}\abs{\xi-\zeta}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\proofstep{Division operators}\label{stepW:w4:divops}
+For each component define $T_k(\xi)$: division by $i\delta^0_k$ on $\C$ and $\C^2$ (zero for $k=0$); the diagonal
+multipliers $x\mapsto(x_j/(i\delta^\pm_{k,j}))_j$ on $\ell^N_{a,\bar p}$ and on $\ell^N_*$; the Hadamard maps
+$\mathcal H_d$ with $d_{ij}=1/(i\delta_{k,ij})$ for $\delta\in\{\delta^P,\delta^Q,\delta^{P'}\}$ ($d_{jj}=0$ when $k=0$ for
+$\delta^Q$) on $\mathcal L$ and on $\mathcal B$. By Lemma~\ref{bpW:w4:divisors}, $\abs{d_{ij}}\le A_k/(\alpha w_{ij})$ with
+$w_{ij}\ge\max(1,\abs{i-j})$, and the differences $d(\xi)-d(\zeta)$ satisfy the same with
+$2(1+\abs k_1)A_k^2M\abs{\xi-\zeta}/\alpha^2$ in place of $A_k/\alpha$. Lemma~\ref{bpW:w4:schur} (and
+Lemma~\ref{bpW:w1:multiplier} for the diagonal cases) gives the hypotheses of Lemma~\ref{bpW:w4:solve} with $\kappa=1$
+for $a,b,c^\pm$ and $\kappa=K_S$ for $P,Q,Q^T,P'$.
+\proofstep{The solution is in the class}\label{stepW:w4:class}
+Each component of $F$ is $\mathcal Sg$ for the corresponding component $g$ of $R$ (Lemma~\ref{bpW:w4:solve}(i)); for
+$Q_F^T$ use $\mathcal H_d(M)^T=\mathcal H_{d^T}(M^T)$ (Lemma~\ref{bpW:w4:schur}(i)), where $d^T$ is the division by
+$\delta^Q_{k,ji}$, which obeys the same bounds. $P_F$, $P'_F$ are symmetric since $\delta^P_{k,ij}$, $\delta^{P'}_{k,ij}$ are
+symmetric in $(i,j)$. The vanishing coefficients are the excluded terms.
+\proofstep{The equation}\label{stepW:w4:equation}
+Fix $y$ and finitely supported $z,\bar z$. Then $\theta\mapsto L_NF+\hat N-R+\hat a_0$ is complex differentiable,
+periodic and bounded on $T_{s-\sigma}$ (the $\theta$-derivatives of the components of $F$ are bounded there by
+Lemma~\ref{bpW:w4:solve}(iii) and Lemma~\ref{bpW:w4:components}(ii)). By Lemma~\ref{bpW:w4:lie}(iii) and the
+definition of $F$, its $k$-th coefficient is a finite sum of terms $i\delta\cdot\hat g_k/(i\delta)-\hat g_k=0$ for the
+nonresonant terms, while the resonant terms are $-\hat a_0+\hat a_0$, $\langle\hat\omega-\hat b_0,y\rangle$ and
+$(\hat\Omega_j-(\hat Q_0)_{jj})z_j\bar z_j$, all zero. By \ref{bpW:w4:F3} the function vanishes. Both sides are
+continuous in $(z,\bar z)\in(\ell^N_{a,p})^2$ (Lemma~\ref{bpW:w4:lie}(i); $\hat N$ by (iv) below), and finitely
+supported sequences are dense (Lemma~\ref{bpW:w1:space}(iii)). The second form is Lemma~\ref{bpW:w4:lie}(ii).
+\proofstep{Component bounds of $F$}\label{stepW:w4:Fcomp}
+By Lemma~\ref{bpW:w4:components}, Step~\ref{stepW:w4:divops} and Lemma~\ref{bpW:w4:solve}(i),(iii),(iv), on $T_{s-\sigma}$:
+$\abs{b_F}\le2\pi\varepsilon B/\alpha$; $\norm{c^\pm_F}_{\bar p}\le\frac{B}{\alpha}\frac{r\varepsilon}{\sqrt2}$;
+$\norm{2P_F},\norm{Q_F},\norm{Q^T_F},\norm{2P'_F}\le K_S\frac{B}{\alpha}\varepsilon$; and for $i=1,2$,
+$\abs{\partial_{\theta_i}a_F}\le\frac B\alpha2\pi r^2\varepsilon$, $\abs{\partial_{\theta_i}b_F}_1\le\frac B\alpha2\pi\varepsilon$,
+$\norm{\partial_{\theta_i}c^\pm_F}_*\le\frac B\alpha2\sqrt2\pi r\varepsilon$,
+$\norm{\Lambda\partial_{\theta_i}P_F}_{\rm bil},\norm{\Lambda\partial_{\theta_i}P'_F}_{\rm bil}\le K_S\frac B\alpha4\pi\varepsilon$,
+$\norm{\Lambda\partial_{\theta_i}Q_F}_{\rm bil}\le K_S\frac B\alpha16\pi\varepsilon$. (For the bilinear bounds first apply
+Lemma~\ref{bpW:w4:solve}(iv) with $\Lambda_0=\Lambda_1=\Lambda$ and the Hadamard maps on $\mathcal B$
+(Lemma~\ref{bpW:w4:schur}(ii)), so $\Lambda P_F$ is the $\mathcal B$-valued solve of $\Lambda P$, then
+Lemma~\ref{bpW:w4:solve}(iii) in $\mathcal B$, where $\partial_{\theta_i}\Lambda P=\Lambda\partial_{\theta_i}P$ is bounded by
+Lemma~\ref{bpW:w4:components}(ii). For $c^\pm$ likewise with the inclusion $\ell^N_{a,\bar p}\subset\ell^N_*$,
+$\norm c_*\le\norm c_{\bar p}$ by \eqref{bpW:w4:pairing}. For $\abs\cdot_1$ on $\C^2$, division by a scalar $i\delta^0_k$
+multiplies the norm by at most $A_k/\alpha$.)
+\proofstep{Assembly}\label{stepW:w4:assembly}
+Let $(\theta,y,z,\bar z)\in D(s-\sigma,r)$, so $\abs y<r^2$ and $\norm z,\norm{\bar z}<r/\sqrt2$ by \eqref{bpW:w4:zu}.
+\emph{$\theta$-component:} $\frac1{2\pi}\abs{F_y}=\frac1{2\pi}\abs{b_F}\le\frac B\alpha\varepsilon$.
+\emph{$y$-component:} $\partial_{\theta_i}F=\partial_{\theta_i}a_F+\langle\partial_{\theta_i}b_F,y\rangle+\sum_\pm\langle\partial_{\theta_i}c^\pm_F,\cdot\rangle_0
++\Lambda\partial_{\theta_i}P_F(z,z)+\Lambda\partial_{\theta_i}Q_F(z,\bar z)+\Lambda\partial_{\theta_i}P'_F(\bar z,\bar z)$, so
+\[\abs{\partial_{\theta_i}F}\le\frac B\alpha\varepsilon\,2\pi r^2\Bigl(1+1+2\cdot1+K_S\bigl(1+1+4\bigr)\Bigr)
+=\frac B\alpha\varepsilon\,2\pi r^2(4+6K_S),\]
+using $\abs{\langle\beta,y\rangle}\le\abs\beta_1\abs y$, $\norm z^2<r^2/2$ and $\norm z\norm{\bar z}<r^2/2$; hence
+$\frac1{2\pi r^2}\abs{F_\theta}\le(4+6K_S)\frac B\alpha\varepsilon$.
+\emph{Normal components:} $F_z=c^+_F+2P_Fz+Q_F^T\bar z$ gives
+$\norm{F_z}_{\bar p}\le\frac B\alpha\frac{r\varepsilon}{\sqrt2}(1+2K_S)$, and the same for $F_{\bar z}$; by the formulas for
+$F_u,F_v$, $\frac1r(\norm{F_u}_{\bar p}+\norm{F_v}_{\bar p})\le\frac{\sqrt2}r(\norm{F_z}_{\bar p}+\norm{F_{\bar z}}_{\bar p})\le
+2(1+2K_S)\frac B\alpha\varepsilon$. Summing, $\abs{X_F}_r\le(1+4+6K_S+2+4K_S)\frac B\alpha\varepsilon=C_1\frac B\alpha\varepsilon$.
+\proofstep{Lipschitz}\label{stepW:w4:lip}
+$R(\xi)-R(\zeta)\in\mathcal T_s$ and $X_{R(\xi)-R(\zeta)}=X_{R(\xi)}-X_{R(\zeta)}$, so Lemma~\ref{bpW:w4:components} applied to
+it gives every bound of Step~\ref{stepW:w4:Fcomp}'s inputs with $\varepsilon^{\mathcal L}\abs{\xi-\zeta}$ in place of
+$\varepsilon$. Lemma~\ref{bpW:w4:solve}(ii) then gives each component difference of $F$ with the factor
+$\varepsilon^{\mathcal L}+2M\varepsilon/\alpha$ in place of $\varepsilon$, and the assembly of Step~\ref{stepW:w4:assembly},
+which is linear in the components, gives (iii).
+\proofstep{The normal form correction}\label{stepW:w4:Nhat}
+$\abs{\hat\omega}=\abs{[b]}\le\sup_{\R^2}\abs b\le2\pi\varepsilon$. $\hat\Omega_j=([Q])_{jj}$ and $\norm{[Q]}\le\sup\norm Q\le\varepsilon$
+(the mean is an average), so $(j+2)\abs{\hat\Omega_j}\le\varepsilon$ by Lemma~\ref{bpW:w4:schur}(iii). For the field: since
+$z_j\bar z_j=\frac12(u_j^2+v_j^2)$, $\hat N_u=\hat\Omega u$, $\hat N_v=\hat\Omega v$ and
+$\norm{\hat\Omega u}_{\bar p}\le\sup_j(j+2)\abs{\hat\Omega_j}\norm u$, so $X_{\hat N}=(\frac1{2\pi}\hat\omega,0,\hat\Omega v,-\hat\Omega u)$ has
+$\abs{X_{\hat N}}_r\le\varepsilon+\varepsilon(\norm u+\norm v)/r\le2\varepsilon$ on $D(s,r)$. Differences: the same with
+$R(\xi)-R(\zeta)$.
+\proofstep{Reality}\label{stepW:w4:real}
+For real $R$ and real $\xi$, the reality relations of Definition~\ref{bpW:w4:taylor} read
+$\hat a_{-k}=\overline{\hat a_k}$, $\hat b_{-k}=\overline{\hat b_k}$, $\hat c^-_{k}=\overline{\hat c^+_{-k}}$,
+$\hat P'_k=\overline{\hat P_{-k}}$, $(\hat Q_k)_{ji}=\overline{(\hat Q_{-k})_{ij}}$. The divisors are real and satisfy
+$\delta^0_{-k}=-\delta^0_k$, $\delta^-_{k,j}=-\delta^+_{-k,j}$, $\delta^{P'}_{k,ij}=-\delta^P_{-k,ij}$,
+$\delta^Q_{k,ji}=-\delta^Q_{-k,ij}$; since $\overline{1/(i\delta)}=-1/(i\delta)$ for real $\delta$, the coefficients of $F$
+satisfy the same relations. $\hat\omega$ and $\hat\Omega_j$ are means of functions real on $\R^2$ ($Q_{jj}$ is real there since
+$Q^T=\overline Q$).
+\end{proof}
+\source{P96-K Lemma~1, p.~125, and its proof pp.~125--128. Deviations, all reported: (a) the operator-valued
+summation of p.~127 is replaced (Remark~\ref{bpW:w4:counterexample}); (b) the constant $B_\sigma$ with
+$B_\sigma^2=2^n\sum_k(1+\abs k)^2A_k^4e^{-2\abs k\sigma}$ is replaced by $B^{\rm W}_\sigma$; (c) constants $C_1<36$ and
+$2C_1$ instead of $2^6$, $2^8$; (d) $\abs{X_{\hat N}}_r\le2\abs{X_R}_r$ instead of $\le\abs{X_R}_r$; (e) the equation holds
+modulo the constant $\hat a_0$ (P96-K's $\hat N=[R]$, summed over $\abs m+\abs q=1$, omits the constant term of $R$, so
+$\{F,N\}+\hat N=R$ holds only up to that constant; harmless, constants do not enter $X$); (f) $\theta$ has period one
+and the $\theta$-component of $X$ carries the factor $(2\pi)^{-1}$.}
+\sourcegap{P96-K p.~128 states that the components other than $F^{10}$, $F^{11}$ ``admit the same estimates, or even
+better ones'' and that ``the estimates of $X_F$ thus follow'', without the bookkeeping of the $y$-component of $X_F$
+(which contains $\partial_\theta F^{ij}$ for all components) or of the constants; Steps~\ref{stepW:w4:Fcomp}
+and~\ref{stepW:w4:assembly} supply it.}
+
+\begin{corollary}[P96-K Lemma~2]\label{bpW:w4:lemma2}
+In the setting of Theorem~\ref{bpW:w4:lemma1} with $M>0$, let $0\le\lambda\le\alpha/M$ and write
+$\abs{X}^\lambda=\varepsilon_X+\lambda\varepsilon_X^{\mathcal L}$ for a field with uniform bound $\varepsilon_X$ and Lipschitz
+constant $\varepsilon_X^{\mathcal L}$ on the relevant domain. Then
+\[\abs{X_{\hat N}}^\lambda_{r,D(s,r)}\le2\abs{X_R}^\lambda_{r,D(s,r)},\qquad
+\abs{X_F}^\lambda_{r,D(s-\sigma,r)}\le\frac{3C_1B^{\rm W}_\sigma}{\alpha}\abs{X_R}^\lambda_{r,D(s,r)},\]
+and for $0<\sigma\le1$, $B^{\rm W}_\sigma\le b_{\rm W}(\tau)\,\sigma^{-(2\tau+n+1)}$ ($n=2$), the bound (4) of P96-K with
+$b=b_{\rm W}(\tau)$; the constant $3C_1<108$ plays the role of P96-K's absolute constant $a$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{bpW:w4:lemma1}(iii),
+$\abs{X_F}^\lambda\le\frac{C_1B}\alpha\bigl(\varepsilon+\lambda\varepsilon^{\mathcal L}+\frac{2\lambda M}\alpha\varepsilon\bigr)\le\frac{3C_1B}\alpha(\varepsilon+\lambda\varepsilon^{\mathcal L})$
+since $\lambda M/\alpha\le1$; (iv) gives the first bound; Lemma~\ref{bpW:w4:lattice}(iv) the last.
+\end{proof}
+\source{P96-K Lemma~2 and (4), p.~128.}
+
+\subsection{Comparison with P96-K and consequences for W5--W6}\label{bpW:w4:compare-sec}
+
+\begin{remark}[Constants, strip powers, smallness exponents]\label{bpW:w4:compare}
+\begin{center}\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Quantity & P96-K (pp.~125, 128) & Here (period-one units, $n=2$)\\
+\midrule
+Coefficient summation & $L^2$ bound and Cauchy--Schwarz & Banach bound \ref{bpW:w4:F1} and $\ell^1$ sum\\
+Strip constant & $B_\sigma^2=2^n\sum_k(1+\abs k)^2A_k^4e^{-2\abs k\sigma_K}$ & $B^{\rm W}_\sigma=\sum_k(1+\abs k_1)A_k^2e^{-2\pi\abs k_1\sigma}$\\
+Power of $\sigma$ & $B_\sigma\le b\,\sigma^{-(2\tau+n+1)}$ & $B^{\rm W}_\sigma\le b_{\rm W}(\tau)\sigma^{-(2\tau+n+1)}$ ($\sigma\le1$)\\
+$\abs{X_F}_{r,D(s-\sigma,r)}$ & $2^6B_\sigma\abs{X_R}_r/\alpha$ & $C_1B^{\rm W}_\sigma\varepsilon/\alpha$, $C_1<36$\\
+$\abs{X_F}^{\mathcal L}$ & $2^8\frac{B_\sigma}\alpha(\abs{X_R}^{\mathcal L}+\frac M\alpha\abs{X_R})$ & $C_1\frac{B^{\rm W}_\sigma}\alpha(\varepsilon^{\mathcal L}+\frac{2M}\alpha\varepsilon)$\\
+$\abs{X_{\hat N}}$ & $\le\abs{X_R}$ & $\le2\varepsilon$\\
+Lemma~2 constant $a$ & absolute & $3C_1<108$\\
+\bottomrule
+\end{tabular}
+\end{center}
+(i) The Banach route costs $\sigma^{-n}$ in the lattice sum where the $L^2$ route costs $\sigma^{-n/2}$; but P96-K
+gains nothing from this, since it bounds $B_\sigma$ by $\sigma^{-(2\tau+n+1)}$ while its own definition gives
+$\sigma^{-(2\tau+1+n/2)}$. Our sum needs only the weight $(1+\abs k_1)A_k^2$ (not $(1+\abs k)^2A_k^4$) because the
+$\theta$-derivatives of $F$ are solved from the $\theta$-derivatives of $R$ (Step~\ref{stepW:w4:Fcomp}), so it attains the
+same power $\sigma^{-(2\tau+n+1)}$.
+(ii) Hence (8) of P96-K p.~129 holds with the same exponent $t=2\tau+n+2$, $\abs{X_F}\prec\abs{X_P}^\lambda/(\alpha\sigma^{t-1})$,
+and the smallness condition (6), the choice of $\sigma_\nu,\eta_\nu$ and the iteration estimates of \S4 are formally
+unchanged; only the constant $c_0$ of (6) and hence $\gamma$ of Theorem~A change, through $b_{\rm W}(\tau)$, $C_1$ and the
+factor $2$ in $\abs{X_{\hat N}}$. \textbf{The smallness exponents of Theorem~A used by W5--W6 are not affected}, and the
+measure exponent of Theorem~D (W7), which depends on $\kappa$ and $\bar p-p$ only, is not affected either.
+(iii) Unit conversions for W5: $\sigma=\sigma_K/(2\pi)$; for $\sigma_K\le1$ one has $\sigma\le1$, so the bound of
+Lemma~\ref{bpW:w4:lattice}(iv) applies, with $\sigma^{-(2\tau+3)}=(2\pi)^{2\tau+3}\sigma_K^{-(2\tau+3)}$. The norm $\abs\cdot_r$ of
+Definition~\ref{bpW:w4:taylor} differs from P96-K's in the $\theta$-component (factor $(2\pi)^{-1}$); the smallness
+conditions are homogeneous in these norms, so W5 may use either consistently.
+\end{remark}
+
+\subsection{Interfaces}\label{bpW:w4:interface-sec}
+
+\begin{remark}[From W3]\label{bpW:w4:from-w3}
+After the Birkhoff map of Theorem~\ref{bpW:w3:main}, the normal coordinates are $z_j=w_{j+2}$, $\bar z_j=w_{-(j+2)}$
+($j\ge1$) in the notation of Definition~\ref{bpW:w3:space}, and on real points $u_j=q_{j+2}$, $v_j=p_{j+2}$
+(Lemma~\ref{bpW:w3:coords}). The restriction of the norm of $\mathfrak W$ to the normal part is
+$\norm{\hat w}^2=\norm z^2+\norm{\bar z}^2=\norm u^2+\norm v^2$, with exactly the wave weights $\omega_{a,p}(j+2)$ of
+Convention~\ref{bpW:w4:index}. Hence (a) no weight conversion is needed (Remark~\ref{bpW:w4:weights}); (b) the sum
+norm of $D(s,r)$ and the $\mathfrak W$-norm compare by $\norm{\hat w}\le\norm u+\norm v\le\sqrt2\norm{\hat w}$; (c) the
+smoothing class of W3 ($X_K$ with values in $\mathfrak W^+$) gives normal gradients in $\ell^N_{a,\bar p}$, $\bar p=p+1$, as
+required by Definition~\ref{bpW:w4:taylor}; (d) the symplectic form $\Omega$ of Lemma~\ref{bpW:w3:omega} restricted to
+the normal part is $\sum_jdu_j\wedge dv_j$, and $\dot z=-iH_{\bar z}$ agrees with $X_P(w)_l=-i\operatorname{sgn}(l)DP(w)e_{-l}$
+(Definition~\ref{bpW:w3:hamfield-def}). The tangential part enters only after W5's action--angle substitution, which
+produces $\theta$, $y$, the parameter $\xi$ and the form $2\pi d\theta\wedge dy$. The exponent $g=6$ of
+Remark~\ref{bpW:w3:interface} is not used in W4.
+\end{remark}
+
+\begin{remark}[To W5]\label{bpW:w4:to-w5}
+W5 receives: Theorem~\ref{bpW:w4:lemma1} and Corollary~\ref{bpW:w4:lemma2} for arbitrary frequencies
+$(\omega_\nu,\Omega_\nu)$ obeying \eqref{bpW:w4:freq} and $(\mathrm H_{\alpha_\nu})$ (no wave-specific input is used in
+the proof); the bracket identity $R+DN\cdot X_F=\hat N+\hat a_0$ (Lemma~\ref{bpW:w4:lie}(ii)) in the form valid for the
+unbounded $X_N$; and $\hat\Omega\in\ell^1_\infty$ with $\abs{\hat\Omega}_1\le\varepsilon$, so that
+$\Omega_{\nu+1}=\Omega_\nu+\hat\Omega$ keeps \eqref{bpW:w4:freq} with $M_0$ increased by $\varepsilon$. W5 must supply:
+the Taylor approximation $R$ of $P$ in the class $\mathcal T_s$ (P96-K (7), p.~129), including holomorphy and boundedness
+of the components and of $Q^T$; the parameter regularity of $R$ in the form of the hypothesis
+$\abs{X_{R(\xi)}-X_{R(\zeta)}}_r\le\varepsilon^{\mathcal L}\abs{\xi-\zeta}$; and, if it needs analyticity of the field of $P$
+beyond Cauchy-type estimates, the revised W3 interface (finding W3-R1).
+\end{remark}
+
+\subsection{Ledger}\label{bpW:w4:ledger}
+
+\paragraph{Results.} Setting: Convention~\ref{bpW:w4:index}, Definitions~\ref{bpW:w4:ops}, \ref{bpW:w4:taylor},
+\ref{bpW:w4:melnikov}; wave data: Lemmas~\ref{bpW:w4:wave}, \ref{bpW:w4:k0}, Remark~\ref{bpW:w4:melnikov-check};
+Fourier: Remark~\ref{bpW:w4:counterexample}, Lemmas~\ref{bpW:w4:fourier-ops}, \ref{bpW:w4:lattice}; divisors and solve:
+Lemmas~\ref{bpW:w4:divisors}, \ref{bpW:w4:schur}, \ref{bpW:w4:solve}; bracket: Lemma~\ref{bpW:w4:lie}; extraction:
+Lemmas~\ref{bpW:w4:extract}, \ref{bpW:w4:components}; main: Theorem~\ref{bpW:w4:lemma1}, Corollary~\ref{bpW:w4:lemma2};
+comparison and interfaces: Remarks~\ref{bpW:w4:compare}, \ref{bpW:w4:from-w3}, \ref{bpW:w4:to-w5}. PLAN.md lists no
+PLANNED node labels for W4; the milestone content ``operator solve, Lipschitz'' is Theorem~\ref{bpW:w4:lemma1}.
+
+\paragraph{W1 inputs.} Lemma~\ref{bpW:w1:fourier-banach}(i),(iii) and Lemma~\ref{bpW:w1:fourier-l2}(iii) (scalar), with the
+content \ref{bpW:w4:F1}--\ref{bpW:w4:F3} of Remark~\ref{bpW:w4:w1-requests}; Lemmas~\ref{bpW:w1:schur},
+\ref{bpW:w1:multiplier}, \ref{bpW:w1:space}, \ref{bpW:w1:tails}; Definitions~\ref{bpW:w1:transport},
+\ref{bpW:w1:kam-space}. No forward references remain.
+
+\paragraph{Suspected source errata (P96-K).} (1) p.~127, operator-valued square-sum bound: false
+(Remark~\ref{bpW:w4:counterexample}); (2) p.~127, ``$\abs{\langle k,\omega\rangle+\Omega_i-\Omega_j}\ge\alpha(1+\abs{i-j})/A_k$'': off by a
+factor up to $2$ (Lemma~\ref{bpW:w4:divisors}); (3) p.~127, the (false) square-sum bound is printed with
+$\abs{\!\abs{\!\abs{\tilde R}\!}\!}_{D(s)}$ unsquared on the right (typo; p.~126 has the square); (4) p.~125, $\{F,N\}+\hat N=R$ with $\hat N=[R]$
+holds only modulo the constant term of $R$. Source gap: p.~128, the remaining components and the $y$-component of
+$X_F$ (Theorem~\ref{bpW:w4:lemma1}).
