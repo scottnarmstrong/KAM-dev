@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 10:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
+> **Last updated: 2026-10-30 10:19 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -214,7 +214,7 @@ Overall, everything together: 96.8 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+28,843** since 2026-10-29 10:00 UTC |
+| On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+28,843** since 2026-10-29 10:16 UTC |
 | Written on agent branches, not yet landed | 0 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,598 |
 | **Estimated total at completion** | **≈ 275,000** |
@@ -224,7 +224,7 @@ Overall, everything together: 96.8 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 10:00 UTC from `main` at `fd1093bf` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 10:19 UTC from `main` at `01e42efc` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -398,6 +398,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 10:19 | `01e42efc` | Overnight log: 10:19 |
 | 2026-10-30 09:48 | `0e4d6fad` | Overnight log: 09:48 |
 | 2026-10-30 09:18 | `b7ae6a11` | Overnight log: 09:18 |
 | 2026-10-30 08:49 | `2a94faaa` | Overnight log: 08:49 |
@@ -409,7 +410,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 07:18 | `63999efd` | Overnight log: 07:18 |
 | 2026-10-30 06:48 | `f400a89a` | Overnight log: 06:48 |
 | 2026-10-30 06:20 | `b6a0fae6` | Overnight log: 06:20 (lunar kernel cost design signal) |
-| 2026-10-30 05:49 | `7440028f` | Overnight log: 05:49 |
 <!-- /AUTO:landed -->
 
 ## Decisions
