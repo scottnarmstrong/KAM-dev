@@ -29,6 +29,11 @@ public import KAM.Sharp2.Examples.PlasmaLean
 public import KAM.Sharp2.Examples.PlasmaLeanL1
 public import KAM.Sharp2.G1
 public import KAM.Sharp2.Geometry
+public import KAM.Sharp2.Hybrid.Frames
+public import KAM.Sharp2.Hybrid.Integrable
+public import KAM.Sharp2.Hybrid.Restart
+public import KAM.Sharp2.Hybrid.Step
+public import KAM.Sharp2.Hybrid.Torsion
 public import KAM.Sharp2.L1.Data
 public import KAM.Sharp2.L1.EntryA
 public import KAM.Sharp2.L1.EntryCorrection
