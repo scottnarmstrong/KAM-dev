@@ -19,6 +19,17 @@ public import KAM.Wave.Analytic.HoloAnalytic
 public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
+public import KAM.Wave.Recon.ReconAnalytic
+public import KAM.Wave.Recon.SineCompleteness
+public import KAM.Wave.Recon.SineFeature
+public import KAM.Wave.Seq.Coordinatewise
+public import KAM.Wave.Seq.Diag
+public import KAM.Wave.Seq.Embed
+public import KAM.Wave.Seq.Flow
+public import KAM.Wave.Seq.Linfty
+public import KAM.Wave.Seq.Multiplier
+public import KAM.Wave.Seq.Tails
+public import KAM.Wave.Seq.Transport
 
 /-!
 # Root part `KAM.Root.Wave`
