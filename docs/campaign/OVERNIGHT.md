@@ -1347,3 +1347,32 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   a remaining real-data memory cost. SO-DATA3 brief staged: steps 1–3 (mirror alignment to BALLDY, generation,
   emission) start once BALLDY lands, and the kernel passes wait for KDEPTH. Codex-3 at 10 % weekly with five audits
   queued (W1, W3, KDEPTH, DATA3, seal): **owner, a codex-4 sign-in would add 29 %.**
+- **15:58. SO-BALLDY landed (a40b1224). v2 certifier on main: SO-DATA3 re-staged. SO-LOCK-SCOPE delivered.**
+  - The owner's sharp-v2 landing (86089b36) brings `checkTorusCertificateV2` (KAM/CertificateSharp/V2/Engine.lean).
+    It has the same certificate format and base sub-checks, an engine smallness test with a witness, and the same
+    `CertifiedTorus` conclusion. On R1, route A as proved reaches 10^−11.18, against v1 sharp's 10^−24.72.
+  - New study **SO-V2PKG** (Opus, claude-3; worktree KAM-inp-sov2pkg off main) prices the N = 65 data under v2:
+    thresholds at R2 branch by branch, the cheapest truncation and precision, cost, the Lean glue (a v2 analogue of
+    `lunar_barriers_of_R2`), and a sketch for N = 80/100.
+  - **SO-DATA3** started (Opus, claude-12; worktree KAM-inp-sodata3 off inp 70ec715b). Step 1, mirror alignment to
+    BALLDY, holds for either certifier. Generation waits for SO-V2PKG's recommendation; kernel passes wait for
+    SO-KDEPTH.
+  - kam-inp asked to merge main into inp (sharp-v2 is not yet in inp) and to land the SO-LOCK-SCOPE study.
+  - **SO-LOCK-SCOPE** (docs/tracks/SO/studies/SO-LOCK-SCOPE.md) recommends route (a′):
+    - an exact symplectic change to polar coordinates around a rational centre c(φ), where the librational tori
+      are primary;
+    - the landed generic certifier, unchanged, with one new trusted primitive `HamExpr.sqrt`;
+    - **one** librational torus confines (solid-torus confinement through `gen_barrier`; no Jordan theorem);
+    - pilot N = 40 (28.5°, |p − 1| ≤ 1.26 %, about R2 cost), headline N = 65 (about 74°, |p − 1| ≤ 2.5 %);
+    - 2.1–3.5k lines of Lean;
+    - novelty: Celletti 1994 covered only ε ≤ ε_obs/5.26.
+  - **Owner questions** (recommended answers in brackets):
+    1. statement L1, single-torus confinement, or L2, a shell between two tori [L1];
+    2. centre an explicit rational c(φ), or a certified periodic orbit [rational c(φ)];
+    3. `HamExpr.sqrt`, or a new frozen G1 for non-primary tori [sqrt];
+    4. pilot N = 40 first, then N = 65 [yes];
+    5. skip Birkhoff normalization [skip];
+    6. novelty wording conditional on reading the 1994 papers in full [yes].
+  - Nothing of LOCK is started until the owner answers. Under v2, the lock thresholds (projected from v1 sharp) will
+    also improve.
+  - Disk 13 GB free (soballdy and soballdyl removed; branches kept).
