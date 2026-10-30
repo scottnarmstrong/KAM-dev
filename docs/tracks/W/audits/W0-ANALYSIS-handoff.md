@@ -82,3 +82,16 @@ audit item 1.
 5. Hygiene. This is a SLIM worktree, so run lint only via `/root/code/KAM-inp/.drafts/W/w_lint.sh /root/code/KAM-inp-wpe`.
    Run the kernel replay of all modules. Regenerated roots are authorized. Memory is tight: one lean process at a time,
    LEAN_NUM_THREADS=1.
+
+## Scope ruling and landing note (sub-orchestrator kam-d4, 2026-10-30)
+
+The audit-1 finding F1 (complex-carrier clauses of `bpW:w0n:recon-bounded` and the complex trilinear T of
+`bpW:w0n:cubic-bound` are not exported) is resolved by a scope ruling, as the auditor allows. This package lands as
+the REAL-carrier infrastructure, and all of its real results passed the audit. The complex clauses are assigned to
+the new package W1-CUBIC, which owns blueprint `bpW:w1:selection`, `bpW:w1:trilinear` (the complex trilinear map
+(ℓ^{a,p}_ℂ)³ → ℓ^{a,p+1}_ℂ with the exact bound), `cubic-analytic`, `gradient-identity` and `hamfield`, and the
+complex reconstruction estimate. Until W1-CUBIC lands, the graph nodes `bpW:w0n:recon-bounded` and
+`bpW:w0n:cubic-bound` count as PARTIAL (real carrier).
+Audit notes N1 (separate `WaveEll`/`waveEllToLp` definitions with proved bridges to KAM.Wave.Seq) and N2 (the
+standalone linear identity is not exported; the stale mention of `waveSineSeries_two_eq`) are recorded and do not
+block landing.
