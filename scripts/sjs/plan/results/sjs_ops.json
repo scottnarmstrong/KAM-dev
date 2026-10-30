@@ -1,0 +1,31 @@
+{
+ "H only": {
+  "mul": 94,
+  "scal": 21,
+  "add": 44,
+  "inv": 7,
+  "sqrt": 5,
+  "char": 3,
+  "kep": 2
+ },
+ "gradient, X_h(K): invariance + energy": {
+  "mul": 657,
+  "scal": 85,
+  "add": 417,
+  "inv": 12,
+  "sqrt": 5,
+  "char": 3,
+  "kep": 2,
+  "partials": 6
+ },
+ "Hessian, DX_h(K): torsion stage": {
+  "mul": 4974,
+  "scal": 298,
+  "add": 4826,
+  "inv": 12,
+  "sqrt": 5,
+  "char": 3,
+  "kep": 2
+ },
+ "reverse_gradient_products": 252
+}
