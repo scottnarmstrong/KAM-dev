@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 18:54 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **332,531 lines of Lean** of an estimated ≈ 341,000
+> **Last updated: 2026-10-30 19:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **332,531 lines of Lean** of an estimated ≈ 341,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -257,7 +257,7 @@ Overall, everything together: 80.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **332,531** (258,484 excluding blank lines and comments) · **+66,974** since 2026-10-29 18:51 UTC |
+| On `main` now | **332,531** (258,484 excluding blank lines and comments) · **+66,746** since 2026-10-29 19:00 UTC |
 | Written on agent branches, not yet landed | 6,693 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 30,175 |
 | **Estimated total at completion** | **≈ 341,000** |
@@ -267,7 +267,7 @@ Overall, everything together: 80.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 18:54 UTC from `main` at `e6894b0f` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 19:00 UTC from `main` at `b431bfb2` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -440,13 +440,13 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | Agent | Kind | Model | Account | State | Assignment | Branch | Unlanded commits |
 |---|---|---|---|---|---|---|---|
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
-| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | 🔄 working | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
+| **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
 | **lockdesign** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: SO-LOCK-COST rev 3: punctuation | `inp-lockdesign` | 6 (vs `inp`) |
 | **lockgen2** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-GEN-2: v2 numerics and emitter for the N = 65 lock certificate | `inp-lockgen2` | 1 (vs `inp`) |
 | **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3: sharp-v2 lever probes (pruned/shared compose) recorded | `inp-sodata3` | 12 (vs `inp`) |
-| **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph wave 2, checkpoint 2: W-w5a, W-w5b packets; lambda symbol override for W5-W8 | `inp-wgraph` | 14 (vs `inp`) |
-| **wpe** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: W0-ANALYSIS refactor: reuse W0-NORMAL quartic coefficients, bridge to KAM.Wave.Seq; handof | `inp-wpe` | 14 (vs `inp`) |
+| **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph wave 2, checkpoint 4: W-w7a, W-w7b packets | `inp-wgraph` | 16 (vs `inp`) |
+| **wpe** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: Merge branch 'inp' into inp-wpe | `inp-wpe` | 14 (vs `inp`) |
 | **wpg** | prover (offload) | Claude Sonnet 5.5 | — | 🔍 in audit | last commit: W1-KAMSUP: rename KamSchurBound.{nonneg,mono} -> {bound_nonneg,bound_mono} (short-name cla | `inp-wpg` | 9 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
