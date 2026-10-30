@@ -41,28 +41,33 @@ variable {n : ℕ}
 def boxDot (box : FreqBox) (k : Fin n → ℤ) : ℚ := ∑ j : Fin n, (k j : ℚ) * (box.getD j.val (0, 0)).1
 
 /-- `∑ |k_i| r_i` for the box radius `r`. -/
-def boxRad (box : FreqBox) (k : Fin n → ℤ) : ℚ := ∑ j : Fin n, |(k j : ℚ)| * (box.getD j.val (0, 0)).2
+def boxRad (box : FreqBox) (k : Fin n → ℤ) : ℚ :=
+  ∑ j : Fin n, |(k j : ℚ)| * (box.getD j.val (0, 0)).2
 
 /-- The lower bound `|k·c| - ∑ |k_i| r_i` of `|k·ω|` on the box. -/
 def boxLb (box : FreqBox) (k : Fin n → ℤ) : ℚ := |boxDot box k| - boxRad box k
 
+theorem dot_sub_boxDot_le {box : FreqBox} {ω : Fin n → ℝ} (h : FreqEncloses n box ω)
+    (k : Fin n → ℤ) :
+    |Diophantine.frequencyDot ω k - (boxDot box k : ℝ)| ≤ (boxRad box k : ℝ) := by
+  have e : Diophantine.frequencyDot ω k - (boxDot box k : ℝ) =
+      ∑ j : Fin n, (k j : ℝ) * (ω j - ((box.getD j.val (0, 0)).1 : ℝ)) := by
+    unfold Diophantine.frequencyDot boxDot
+    push_cast
+    rw [← Finset.sum_sub_distrib]
+    exact Finset.sum_congr rfl fun j _ => by ring
+  rw [e]
+  refine (Finset.abs_sum_le_sum_abs _ _).trans ?_
+  unfold boxRad
+  push_cast
+  refine Finset.sum_le_sum fun j _ => ?_
+  rw [abs_mul]
+  exact mul_le_mul_of_nonneg_left (h j) (abs_nonneg _)
+
 theorem boxLb_le {box : FreqBox} {ω : Fin n → ℝ} (h : FreqEncloses n box ω) (k : Fin n → ℤ) :
     (boxLb box k : ℝ) ≤ |Diophantine.frequencyDot ω k| := by
   unfold boxLb
-  have h1 : |Diophantine.frequencyDot ω k - (boxDot box k : ℝ)| ≤ (boxRad box k : ℝ) := by
-    have e : Diophantine.frequencyDot ω k - (boxDot box k : ℝ) =
-        ∑ j : Fin n, (k j : ℝ) * (ω j - ((box.getD j.val (0, 0)).1 : ℝ)) := by
-      unfold Diophantine.frequencyDot boxDot
-      push_cast
-      rw [← Finset.sum_sub_distrib]
-      exact Finset.sum_congr rfl fun j _ => by ring
-    rw [e]
-    refine (Finset.abs_sum_le_sum_abs _ _).trans ?_
-    unfold boxRad
-    push_cast
-    refine Finset.sum_le_sum fun j _ => ?_
-    rw [abs_mul]
-    exact mul_le_mul_of_nonneg_left (h j) (abs_nonneg _)
+  have h1 := dot_sub_boxDot_le h k
   push_cast
   have := abs_sub_abs_le_abs_sub (boxDot box k : ℝ) (Diophantine.frequencyDot ω k)
   rw [abs_sub_comm] at this
@@ -112,7 +117,7 @@ def check : Bool :=
 
 end SdsData
 
-private lemma exp_neg_le_E1 (d : SdsData) (hδ : 0 < (d.δ : ℝ)) (hE1 : 1 ≤ d.E1 * d.expLow) :
+lemma exp_neg_le_E1 (d : SdsData) (hδ : 0 < (d.δ : ℝ)) (hE1 : 1 ≤ d.E1 * d.expLow) :
     Real.exp (-(2 * Real.pi * d.δ)) ≤ (d.E1 : ℝ) := by
   have hpi := Real.pi_gt_d2
   have hx : (0 : ℝ) ≤ 628 / 100 * d.δ := by positivity
@@ -125,7 +130,8 @@ private lemma exp_neg_le_E1 (d : SdsData) (hδ : 0 < (d.δ : ℝ)) (hE1 : 1 ≤ 
   have hlow : 0 < ((d.expLow : ℚ) : ℝ) := by
     unfold SdsData.expLow
     push_cast
-    have : (0 : ℝ) < ∑ i ∈ Finset.range (d.J + 1), (628 / 100 * (d.δ : ℝ)) ^ i / (i.factorial : ℝ) :=
+    have : (0 : ℝ) <
+        ∑ i ∈ Finset.range (d.J + 1), (628 / 100 * (d.δ : ℝ)) ^ i / (i.factorial : ℝ) :=
       Finset.sum_pos (fun i _ => by positivity) ⟨0, by simp⟩
     exact this
   rw [Real.exp_neg]
@@ -134,12 +140,11 @@ private lemma exp_neg_le_E1 (d : SdsData) (hδ : 0 < (d.δ : ℝ)) (hE1 : 1 ≤ 
   rw [inv_le_iff_one_le_mul₀' hlow]
   linarith
 
-/-- **Soundness of the rational small-divisor bound.** -/
-theorem sdsBound_sound (d : SdsData) (h : d.check (n := n) = true) {ω : Fin n → ℝ}
-    (hω : FreqEncloses n d.box ω) (hdio : IsDiophantine (d.γ : ℝ) 1 ω) :
-    smallDivisorSum ω (d.δ : ℝ) ≤ (d.bound (n := n) : ℝ) := by
-  simp only [SdsData.check, Bool.and_eq_true, decide_eq_true_eq] at h
-  obtain ⟨⟨⟨⟨hγ, hδ⟩, hc⟩, hE1⟩, hL⟩ := h
+/-- The exponential and tail hypotheses of the side conditions. -/
+theorem sds_tail_le (d : SdsData) (hγ : 0 < d.γ) (hδ : 0 < d.δ) (hc : 0 < d.cLo)
+    (hE1 : 1 ≤ d.E1 * d.expLow) :
+    2 * (1 : ℝ) < 2 * Real.pi * d.δ * (d.N + 1) ∧ Real.exp (-(2 * Real.pi * d.δ)) ≤ d.E1 ∧
+      sdTail (d.γ : ℝ) 1 d.δ d.N ≤ (d.tailBound : ℝ) := by
   have hγ' : (0 : ℝ) < d.γ := by exact_mod_cast hγ
   have hδ' : (0 : ℝ) < d.δ := by exact_mod_cast hδ
   have hpi1 := Real.pi_gt_d2
@@ -156,20 +161,7 @@ theorem sdsBound_sound (d : SdsData) (h : d.check (n := n) = true) {ω : Fin n �
     nlinarith
   have hE := exp_neg_le_E1 d hδ' hE1
   have hE0 : (0 : ℝ) ≤ (d.E1 : ℝ) := (Real.exp_pos _).le.trans hE
-  -- the box part and the tail
-  have key := smallDivisorSum_le_box_add_tail hdio hγ' (by norm_num : (0 : ℝ) ≤ 1) hδ' hN
-    (fun k => (boxLb d.box k : ℝ)) (fun k hk => ⟨by exact_mod_cast hL k hk, boxLb_le hω k⟩)
-    (fun m => (d.E1 : ℝ) ^ m) (fun m hm _ => by
-      calc Real.exp (-(2 * Real.pi * d.δ) * m) = Real.exp (-(2 * Real.pi * d.δ)) ^ m := by
-            rw [← Real.exp_nat_mul]; ring_nf
-        _ ≤ (d.E1 : ℝ) ^ m := pow_le_pow_left₀ (Real.exp_pos _).le hE m)
-  refine key.trans ?_
-  unfold SdsData.bound
-  push_cast
-  refine add_le_add (le_of_eq ?_) ?_
-  · unfold SdsData.boxSum
-    push_cast
-    rfl
+  refine ⟨hN, hE, ?_⟩
   · -- the tail
     have hE' : Real.exp (-(2 * Real.pi * d.δ) * (d.N + 1)) ≤ (d.E1 : ℝ) ^ (d.N + 1) := by
       calc Real.exp (-(2 * Real.pi * d.δ) * (d.N + 1))
@@ -218,6 +210,32 @@ theorem sdsBound_sound (d : SdsData) (h : d.check (n := n) = true) {ω : Fin n �
           have : (0 : ℝ) ≤ 63 / 10 * d.δ := by positivity
           positivity
 
+/-- **Soundness of the rational small-divisor bound.** -/
+theorem sdsBound_sound (d : SdsData) (h : d.check (n := n) = true) {ω : Fin n → ℝ}
+    (hω : FreqEncloses n d.box ω) (hdio : IsDiophantine (d.γ : ℝ) 1 ω) :
+    smallDivisorSum ω (d.δ : ℝ) ≤ (d.bound (n := n) : ℝ) := by
+  simp only [SdsData.check, Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨⟨⟨⟨hγ, hδ⟩, hc⟩, hE1⟩, hL⟩ := h
+  obtain ⟨hN, hE, htail⟩ := sds_tail_le d hγ hδ hc hE1
+  have hγ' : (0 : ℝ) < d.γ := by exact_mod_cast hγ
+  have hδ' : (0 : ℝ) < d.δ := by exact_mod_cast hδ
+  have hE0 : (0 : ℝ) ≤ (d.E1 : ℝ) := (Real.exp_pos _).le.trans hE
+  -- the box part and the tail
+  have key := smallDivisorSum_le_box_add_tail hdio hγ' (by norm_num : (0 : ℝ) ≤ 1) hδ' hN
+    (fun k => (boxLb d.box k : ℝ)) (fun k hk => ⟨by exact_mod_cast hL k hk, boxLb_le hω k⟩)
+    (fun m => (d.E1 : ℝ) ^ m) (fun m hm _ => by
+      calc Real.exp (-(2 * Real.pi * d.δ) * m) = Real.exp (-(2 * Real.pi * d.δ)) ^ m := by
+            rw [← Real.exp_nat_mul]; ring_nf
+        _ ≤ (d.E1 : ℝ) ^ m := pow_le_pow_left₀ (Real.exp_pos _).le hE m)
+  refine key.trans ?_
+  unfold SdsData.bound
+  push_cast
+  refine add_le_add (le_of_eq ?_) ?_
+  · unfold SdsData.boxSum
+    push_cast
+    rfl
+  · exact htail
+
 /-- One stage of a list: the strip parameter, cut-off, degree, exponential bound and the claimed
 bound of `S(ω, δ)`. -/
 structure SdsStage where
@@ -238,7 +256,8 @@ def SdsStage.data (box : FreqBox) (γ : ℚ) (st : SdsStage) : SdsData :=
 
 /-- All stages of a list pass and are bounded by their claim. -/
 def sdsStagesOk (n : ℕ) (box : FreqBox) (γ : ℚ) (stages : List SdsStage) : Bool :=
-  stages.all fun st => (st.data box γ).check (n := n) && decide ((st.data box γ).bound (n := n) ≤ st.claim)
+  stages.all fun st =>
+    (st.data box γ).check (n := n) && decide ((st.data box γ).bound (n := n) ≤ st.claim)
 
 /-- The halving ladder `δ_s = δ₀ / 2^s`. -/
 def stageDelta (δ0 : ℚ) (s : ℕ) : ℚ := δ0 / 2 ^ s

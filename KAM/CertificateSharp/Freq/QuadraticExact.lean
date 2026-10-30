@@ -128,7 +128,8 @@ def tailOk : Bool :=
 
 /-- The full rational test. -/
 def check : Bool :=
-  decide (0 < d.A) && decide (0 < d.γ) && decide (d.γ ≤ 1) && decide (1 ≤ d.K0) && d.tailOk && d.m2Ok &&
+  decide (0 < d.A) && decide (0 < d.γ) && decide (d.γ ≤ 1) && decide (1 ≤ d.K0) && d.tailOk &&
+    d.m2Ok &&
     quadFiniteOk d.alo d.ahi d.γ d.K0 d.M2
 
 end QuadData
@@ -142,7 +143,8 @@ theorem isDiophantine_of_quadCheck (d : QuadData) (h : d.check = true) {α α' :
     (hαi : Irrational α) (hα'i : Irrational α')
     (h1 : (d.alo : ℝ) ≤ α) (h2 : α ≤ d.ahi) (h3 : (d.blo : ℝ) ≤ α') (h4 : α' ≤ d.bhi) :
     KAM.IsDiophantine (d.γ : ℝ) 1 ![α, 1] := by
-  simp only [QuadData.check, QuadData.tailOk, QuadData.m2Ok, Bool.and_eq_true, decide_eq_true_eq] at h
+  simp only [QuadData.check, QuadData.tailOk, QuadData.m2Ok, Bool.and_eq_true,
+    decide_eq_true_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨hA, hγ⟩, hγ1⟩, hK⟩, ⟨hpos, htail⟩⟩, hm2⟩, hfin⟩ := h
   have hA' : (0 : ℝ) < d.A := by exact_mod_cast hA
   have hγ' : (0 : ℝ) < d.γ := by exact_mod_cast hγ

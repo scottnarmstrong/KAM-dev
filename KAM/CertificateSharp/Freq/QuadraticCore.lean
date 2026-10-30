@@ -109,7 +109,8 @@ theorem quad_tail_core {A B C : ℤ} {α α' D a0 γ K0 : ℝ} (hA : 0 < (A : �
   have hk2lb : m * a0 - x ≤ |(k2 : ℝ)| := by
     have e : (k2 : ℝ) = (k1 * α + k2) - k1 * α := by ring
     have h5 : |(k1 : ℝ) * α| - |k1 * α + k2| ≤ |(k2 : ℝ)| := by
-      calc |(k1 : ℝ) * α| - |k1 * α + k2| ≤ |(k1 : ℝ) * α - (k1 * α + k2)| := abs_sub_abs_le_abs_sub _ _
+      calc |(k1 : ℝ) * α| - |k1 * α + k2|
+          ≤ |(k1 : ℝ) * α - (k1 * α + k2)| := abs_sub_abs_le_abs_sub _ _
         _ = |(k2 : ℝ)| := by rw [show (k1 : ℝ) * α - (k1 * α + k2) = -(k2 : ℝ) by ring, abs_neg]
     rw [abs_mul] at h5
     have : m * a0 ≤ |(k1 : ℝ)| * |α| := mul_le_mul_of_nonneg_left ha0 hm0.le

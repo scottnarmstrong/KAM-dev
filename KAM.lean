@@ -132,6 +132,11 @@ public import KAM.CertificateSharp.Corner.SupBound
 public import KAM.CertificateSharp.Corner.Vertex
 public import KAM.CertificateSharp.Engine
 public import KAM.CertificateSharp.Frame.Majorants
+public import KAM.CertificateSharp.Freq.QuadraticCore
+public import KAM.CertificateSharp.Freq.QuadraticExact
+public import KAM.CertificateSharp.Freq.QuadraticLunar
+public import KAM.CertificateSharp.Freq.SmallDivisorFiber
+public import KAM.CertificateSharp.Freq.SmallDivisorSum
 public import KAM.CertificateSharp.Ham.BallsTrig
 public import KAM.CertificateSharp.Ham.SplitBounds
 public import KAM.CertificateSharp.Ham.TrigBound
@@ -144,6 +149,7 @@ public import KAM.CertificateSharp.Sound
 public import KAM.CertificateSharp.Tests.BallsTrig
 public import KAM.CertificateSharp.Tests.Corner
 public import KAM.CertificateSharp.Tests.Frame
+public import KAM.CertificateSharp.Tests.FreqTests
 public import KAM.CertificateSharp.Tests.Margin
 public import KAM.CertificateSharp.Tests.Shared
 public import KAM.Diophantine.Basic
