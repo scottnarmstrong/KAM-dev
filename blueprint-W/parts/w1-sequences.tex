@@ -114,6 +114,15 @@ The proofs of this part use the following external (Mathlib-level) facts, beside
   \Lean{AddCircle (2 * Real.pi)}), and the characters $e^{2\pi ik\cdot x}$, $k\in\Z^n$, one of $L^2(\R^n/\Z^n)$
   (\Lean{UnitAddTorus.mFourierBasis}); Parseval (\Lean{tsum\_sq\_fourierCoeff}); continuous periodic functions
   with absolutely summable coefficients are the sums of their Fourier series (\texttt{bp:p1:ext-fourier}).
+\item\label{bpW:w1:ext-rect} \emph{Cauchy's theorem for rectangles, Banach values.} For a complete complex normed
+  space $F$, $f:\C\to F$ and $z,w\in\C$ with $f$ complex differentiable on the closed rectangle
+  $[\operatorname{Re}z,\operatorname{Re}w]\times[\operatorname{Im}z,\operatorname{Im}w]$, the oriented boundary
+  integral vanishes:
+  $\int_{\operatorname{Re}z}^{\operatorname{Re}w}f(x+i\operatorname{Im}z)\,dx-\int_{\operatorname{Re}z}^{\operatorname{Re}w}f(x+i\operatorname{Im}w)\,dx
+  +i\int_{\operatorname{Im}z}^{\operatorname{Im}w}f(\operatorname{Re}w+iy)\,dy-i\int_{\operatorname{Im}z}^{\operatorname{Im}w}f(\operatorname{Re}z+iy)\,dy=0$
+  (\Lean{Complex.\allowbreak integral\_boundary\_rect\_eq\_zero\_of\_differentiableOn}; interval integrals are
+  oriented, so either order of the endpoints is allowed; \texttt{bp:p1:ext-rectangle}). Fubini for continuous
+  integrands on a box (\Lean{MeasureTheory.\allowbreak integral\_prod}).
 \end{enumerate}
 \par}
 
@@ -315,11 +324,14 @@ Let $a\ge0$, $p\in\R$.
 \begin{proof}
 \proofstep{Extensions}\label{stepW:w1:ext}
 $\norm{E^\pm q}^2=2\sum_{j\ge1}j^{2p+1}e^{2aj}\abs{q_j}^2/\lambda_j\le2\sum_jj^{2p}e^{2aj}\abs{q_j}^2$ since
-$j/\lambda_j<1$; the majorant has the same norm; with $\sqrt{\abs l}$ the factor $j/\lambda_j$ becomes $1$. This is
-Step~\ref{stepW:w0n:majorant}.
+$j/\lambda_j<1$; the majorant has the same norm; with $\sqrt{\abs l}$ the factor $j/\lambda_j$ becomes $1$. This
+computation is self-contained (every $a\ge0$, $p\in\R$) and analogous to Step~\ref{stepW:w0n:majorant}, which is
+stated only for $p\ge\frac12$.
 \proofstep{Restriction}\label{stepW:w1:restr}
 $\sum_{l\ge1}l^{2p+2}e^{2al}\abs{X_l}^2/\lambda_l\le\sum_{l\ge1}l^{2p+1}e^{2al}\abs{X_l}^2$ since $l/\lambda_l<1$;
-for even $\abs X$ the sum over $l\ge1$ is at most half of the full sum. This is Step~\ref{stepW:w0n:smoothing}.
+for even $\abs X$ the sum over $l\ge1$ is at most half of the full sum. This computation is self-contained (every
+$a\ge0$, $p\in\R$, arbitrary $X$) and analogous to Step~\ref{stepW:w0n:smoothing}, which treats only $p\ge\frac12$
+and $X=x*x'*x''$ for the map $T$.
 \proofstep{Pairing}\label{stepW:w1:pair}
 $\norm{J(z,\bar z)}^2=\sum_{j\ge1}\omega_{a,p}(j)^2(\abs{z_j}^2+\abs{\bar z_j}^2)$, since $\jap{\pm j}=j$ for $j\ge1$.
 \end{proof}
@@ -952,6 +964,39 @@ comparisons are Lemma~\ref{bpW:w1:embed}(i) and $1/r^2\le1/r'^2$, $1/r\le1/r'$.
 \source{P96-K p.~129 (``every point in $D(s-2\sigma,r/2)$ has at least $\abs\cdot_{p,r}$-distance $\sigma/2$ to the
 boundary of $D(s-\sigma,r)$'', with $\sigma\le1$ from (6)); checked here.}
 
+\begin{lemma}[Fourier coefficients under an imaginary shift]\label{bpW:w1:fourier-shift}
+Let $F$ be a complex Banach space, $n\ge1$, $s>0$, $T_s=\{\theta\in\C^n:\max_i\abs{\operatorname{Im}\theta_i}<s\}$, and
+$u:T_s\to F$ holomorphic and $1$-periodic ($u(\theta+e_r)=u(\theta)$ for $1\le r\le n$). Let
+$\hat u_k=\int_{[0,1]^n}u(x)e^{-2\pi ik\cdot x}dx$. Then for every $\eta\in\R^n$ with $\max_i\abs{\eta_i}<s$ and every
+$k\in\Z^n$,
+\[\int_{[0,1]^n}u(x+i\eta)\,e^{-2\pi ik\cdot x}\,dx=e^{-2\pi k\cdot\eta}\,\hat u_k .\]
+\end{lemma}
+
+\begin{proof}
+\proofstep{One periodic variable}\label{stepW:w1:fshift-one}
+Let $f:\C\to F$ be complex differentiable on the open strip $S=\{\abs{\operatorname{Im}z}<s\}$ (values outside $S$
+are irrelevant) with $f(z+1)=f(z)$ for $z\in S$, and let $\abs\tau<s$. The closed rectangle with corners $0$ and
+$1+i\tau$ lies in $S$, so \ref{bpW:w1:ext-rect} gives
+$\int_0^1f(x)\,dx-\int_0^1f(x+i\tau)\,dx+i\int_0^\tau f(1+iy)\,dy-i\int_0^\tau f(iy)\,dy=0$. The two vertical integrals
+are equal by periodicity, hence $\int_0^1f(x+i\tau)\,dx=\int_0^1f(x)\,dx$.
+\proofstep{Shift one coordinate at a time}\label{stepW:w1:fshift-iter}
+For $0\le r\le n$ let $\eta^{(r)}=(\eta_1,\dots,\eta_r,0,\dots,0)$ and
+$I_r=\int_{[0,1]^n}u(x+i\eta^{(r)})e^{-2\pi ik\cdot(x+i\eta^{(r)})}dx$; the integrands are continuous since
+$x+i\eta^{(r)}\in T_s$. Let $1\le r\le n$ and fix $x_t\in[0,1]$, $t\ne r$. Let $y(z)\in\C^n$ have coordinates
+$x_t+i\eta_t^{(r)}$ for $t\ne r$ and $z$ for $t=r$ (note $\eta^{(r)}_t=\eta^{(r-1)}_t$ for $t\ne r$), and
+$f(z)=u(y(z))e^{-2\pi ik\cdot y(z)}$. For $z\in S$, $y(z)\in T_s$, so $f$ is complex differentiable on $S$ (chain rule
+with the affine map $y$, Definition~\ref{bpW:w1:holomorphic}), and $f(z+1)=f(z)$ because $u$ is $1$-periodic in
+$\theta_r$ and $k_r\in\Z$. Step~\ref{stepW:w1:fshift-one} with $\tau=\eta_r$ shows that the integrals over $x_r\in[0,1]$
+of the integrands of $I_r$ and $I_{r-1}$ agree; integrating over the remaining $x_t$ (Fubini, \ref{bpW:w1:ext-rect})
+gives $I_r=I_{r-1}$.
+\proofstep{Conclusion}\label{stepW:w1:fshift-end}
+$I_0=\hat u_k$, and $I_n=e^{2\pi k\cdot\eta}\int_{[0,1]^n}u(x+i\eta)e^{-2\pi ik\cdot x}dx$ since
+$e^{-2\pi ik\cdot(x+i\eta)}=e^{2\pi k\cdot\eta}e^{-2\pi ik\cdot x}$. Check: $n=1$, $u(z)=e^{2\pi iz}$, $k=1$:
+$u(x+i\eta)=e^{-2\pi\eta}e^{2\pi ix}$ has first coefficient $e^{-2\pi\eta}=e^{-2\pi k\eta}\hat u_1$.
+\end{proof}
+\source{standard (Cauchy's theorem); the argument is that of track~K's Step~\texttt{step:p1:dec-shift}, there for
+the particular shift $t_j=-\rho'\operatorname{sgn}(k_j)$ and here for an arbitrary $\eta$ and Banach values.}
+
 \begin{lemma}[Hilbert-valued Fourier series on strips]\label{bpW:w1:fourier-l2}
 Let $\mathcal H$ be a complex Hilbert space (in the applications $\ell^2_\C$, representing $\ell^{a,p}_\C$), $n\ge1$,
 $s>0$, $T_s=\{\theta\in\C^n:\max_i\abs{\operatorname{Im}\theta_i}<s\}$, and $u:T_s\to\mathcal H$ holomorphic, $1$-periodic,
@@ -968,10 +1013,7 @@ with $\norm{u(\theta)}\le M$ for all $\theta\in T_s$ ($M\ge0$). Let $\hat u_k=\i
 \begin{proof}
 \proofstep{Shifted coefficients}\label{stepW:w1:shift}
 For $\eta\in\R^n$ with $\max\abs{\eta_i}<s$, $\hat u_k\,e^{-2\pi k\cdot\eta}$ is the $k$-th Fourier coefficient of the
-continuous periodic map $x\mapsto u(x+i\eta)$ (the contour shift gives
-$\hat u_k=\int_{[0,1]^n}u(x+i\eta)e^{-2\pi ik\cdot(x+i\eta)}dx=e^{2\pi k\cdot\eta}\int_{[0,1]^n}u(x+i\eta)e^{-2\pi ik\cdot x}dx$;
-check: $u(z)=e^{2\pi iz}$, $n=1$, has $\hat u_1=1$ and $u(x+i\eta)=e^{-2\pi\eta}e^{2\pi ix}$): apply the contour shift of track~K's \texttt{bp:p1:fourier-basic} to the
-scalar holomorphic functions $\langle e,u\rangle$, $e\in\mathcal H$, and use that these determine vectors.
+continuous periodic map $x\mapsto u(x+i\eta)$: Lemma~\ref{bpW:w1:fourier-shift} with $F=\mathcal H$.
 \proofstep{Parseval}\label{stepW:w1:parseval}
 For a continuous periodic $\mathcal H$-valued $g$, $\sum_k\norm{\hat g_k}^2=\int_{[0,1]^n}\norm g^2$, which is $\le M^2$ if $\norm{g(x)}\le M$ for all $x$: expand
 in an orthonormal basis $(e_\alpha)$ of $\mathcal H$ (for $\ell^2_\C$, the coordinate vectors), apply scalar Parseval
@@ -1152,6 +1194,7 @@ $\to$ Corollary~\ref{bpW:w1:cubic-analytic}; \texttt{hamfield} $\to$ Proposition
 Lemma~\ref{bpW:w1:sine-completeness}.
 
 \paragraph{Added nodes and consumers.}
+W1-internal: \ref{bpW:w1:fourier-shift} (used by \ref{bpW:w1:fourier-l2}).
 W2: \ref{bpW:w1:coordinatewise}, \ref{bpW:w1:sine-feature}, \ref{bpW:w1:recon-analytic}, \ref{bpW:w1:hamfield}.
 W3: \ref{bpW:w1:twosided}(iii), \ref{bpW:w1:selection}(b), \ref{bpW:w1:complexification-lemma}, \ref{bpW:w1:cauchy},
 \ref{bpW:w1:flow}. W4: \ref{bpW:w1:fourier-l2} (Hilbert-valued terms only), \ref{bpW:w1:fourier-banach},

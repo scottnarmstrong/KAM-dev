@@ -297,8 +297,18 @@ $G(\mathcal Zx)=\frac1{16}\sum_x\mathfrak g_xw_x$; absolute convergence is Lemma
 $G(q)$ agrees with \eqref{bpW:w0n:Gz} by Lemma~\ref{bpW:w0n:gradient}.
 \proofstep{The field}\label{stepW:w3:XG}
 On real points $\mathcal Z^{-1}X_G=(\partial_pG,-\partial_qG)$ (paragraph after
-Definition~\ref{bpW:w3:hamfield-def}), $\partial_pG=0$, and $\partial_{q_l}G=T(q,q,q)_l$ by the formula of
-Lemma~\ref{bpW:w0n:gradient} (equivalently Proposition~\ref{bpW:w1:gradient-identity}).
+Definition~\ref{bpW:w3:hamfield-def}), and $\partial_pG=0$. For every $a\ge0$ (including $a=0$),
+Step~\ref{stepW:w3:Gz} gives $G(\mathcal Zx)=\frac14\mathcal Q(q,q,q,q)$ with
+$\mathcal Q(q^1,q^2,q^3,q^4)=\sum_{i,j,k,l\ge1}g_{ijkl}\hat q^1_i\hat q^2_j\hat q^3_k\hat q^4_l$
+($\hat q_j=q_j/\sqrt{\lambda_j}$). This series converges absolutely on $(\ell^{a,p})^4$: summing over $i,j,k$ first,
+its absolute series is $\sum_l\abs{q^4_l}\,\mathcal M(\abs{q^1},\abs{q^2},\abs{q^3})_l\le\norm{q^4}_{a,p}
+\norm{\mathcal M(\abs{q^1},\abs{q^2},\abs{q^3})}_{a,p+1}\le C_*\prod_t\norm{q^t}_{a,p}$ (Cauchy--Schwarz, weights
+$\ge1$, Lemma~\ref{bpW:w3:majorant}). Hence $\mathcal Q$ is $4$-linear, and symmetric by the symmetry of $g$
+(Lemma~\ref{bpW:w0n:quartic-coeff}). Multilinearity gives
+$G(\mathcal Z(q+te_l,p))=G(\mathcal Zx)+t\,\mathcal Q(q,q,q,e_l)+t^2(\cdots)$, a polynomial in $t$, so
+$\partial_{q_l}G=\mathcal Q(q,q,q,e_l)=T(q,q,q)_l$ by the definition of $T$ in Theorem~\ref{bpW:w0n:cubic-bound}.
+For $a>0$ this is also the formula of Lemma~\ref{bpW:w0n:gradient} (equivalently
+Proposition~\ref{bpW:w1:gradient-identity}).
 \proofstep{Normal part}\label{stepW:w3:Gnor}
 Every $x\in\mathcal T^c$ has all $\abs{x_t}\ge3$.
 \proofstep{Count the paired terms}\label{stepW:w3:count}
@@ -817,7 +827,7 @@ Lemmas~\ref{bpW:w3:Lambda} and~\ref{bpW:w3:quartic-ident}.
 
 \begin{remark}[What W3 supplies toward P96-K Theorem~A]\label{bpW:w3:interface}
 P96-K Theorem~A receives its Hamiltonian $N+P$ only after the action-angle substitution and the choice of parameter
-and phase-space domains (KP96 p.~25, Step~1, and p.~26, Step~3; milestone W4). W3 supplies the Cartesian input to that
+and phase-space domains (KP96 p.~25, Step~1, and p.~26, Step~3; milestone W5, by the ownership ruling recorded in W4's \texttt{bpW:w4:from-w3}). W3 supplies the Cartesian input to that
 construction. After Theorem~\ref{bpW:w3:main}, the Hamiltonian is $H'=N_0+\bar G+G^{\rm nor}+K$, $N_0=\Lambda$, on the complex
 ball $B_{\rho_1}\subset\mathfrak W$, with:
 \begin{itemize}
@@ -829,7 +839,8 @@ ball $B_{\rho_1}\subset\mathfrak W$, with:
   $(j+2)^pe^{a(j+2)}$. Since $j^pe^{aj}\le(j+2)^pe^{a(j+2)}\le3^pe^{2a}j^pe^{aj}$, these are equivalent to P96-K's
   $j^pe^{aj}$ within the factor $3^pe^{2a}$ in the phase space and $3^{p+1}e^{2a}$ in the target weight $p+1$; P96-K's
   sum norm $\norm u+\norm v$ lies between the max norm and twice it; $\mathcal Z$ contributes $\sqrt2$
-  (Lemma~\ref{bpW:w3:coords}). W4 must carry these fixed factors into its domains and perturbation norms.
+  (Lemma~\ref{bpW:w3:coords}). W5 must carry these fixed factors into its domains and perturbation norms (W4 works
+  with the shifted wave weights throughout, so the factor $3^pe^{2a}$ does not arise there).
 \item \emph{Smoothing.} P96-K Assumption~C with $\bar p=p+1$ (so $\bar p-p=1$, $\Delta=\min(\bar p-p,1)=1$): the
   fields of $\bar G$, $G^{\rm nor}$, $K$ map into $\mathfrak W^+=\mathfrak W_{a,p+1}$; in particular their normal
   components $(\partial_{p_j}R,-\partial_{q_j}R)_{j\ge3}$ lie in $\ell^{a,p+1}$, which is P96-K's
@@ -841,7 +852,7 @@ ball $B_{\rho_1}\subset\mathfrak W$, with:
   analytic $B_{\rho_1}\to\mathfrak W^+$ on the \emph{complex} ball, real, and its real restriction
   $X_K^\R:B^E_{r_1}\to E_{a,p+1}$ is real analytic (Theorem~\ref{bpW:w3:main}(ii)). This is the literal analytic
   hypothesis in the Cartesian coordinates $(q,p)$; composing with the (analytic) action-angle substitution on the two
-  tangential modes, and checking that $D(s,r)$ is mapped into $B_{\rho_1}$, is W4's step. No dependence on parameters: the
+  tangential modes, and checking that $D(s,r)$ is mapped into $B_{\rho_1}$, is W5's step. No dependence on parameters: the
   parameter $\xi$ of P96-K enters later, through the action-angle substitution (KP96 p.~25, Step~1), and its
   Lipschitz seminorms are then obtained by Cauchy estimates in $\xi$ (KP96 p.~26, Step~3).
 \item \emph{Size.} On $B_{\rho_1}$: $\abs K\le C_K\norm w^6$, $\norm{X_K}_+\le C'_K\norm w^5$,

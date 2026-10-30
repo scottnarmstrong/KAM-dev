@@ -1,0 +1,21 @@
+lower: v half 369, E 737, p half 369  (0.1s)
+  p~^2 and J_E: 3211 terms (0.1s)
+  defect products (0.1s)
+  bounds (0.1s): Delta 3.615e-19  eta1 1.756e-29  eta3 2.513e-20  eta4 6.229e-21  energy 7.729e-23  B0 3.280e-22 B1 5.878e-21 B2 2.399e-17
+  total 0.3s
+  DK row sums ['1.864776', '1.000000', '0.206059', '0.001666']
+  domain: iota1 0.00618 (supU 0.06202, MVT 0.00618) rho_H 979/50000  P1 in 24619/25000 +- 49/2500  P2 in 49981/100000 +- 159/25000
+  H' majorant (c=1): M1 1.045973  [dH 1.037961 XH 1.000000 DXH 1.000000 D2XH 0.577709 D2H 1.045973]
+  Gram models: sizes 569 505 435, radii 1.40e-14 7.50e-15 4.12e-15 (0.1s)
+  Gram inverse ALTERNATIVE (grid + Lipschitz on the distinguished boundary): sup||B|| <= 4.981944 -> 4.981944
+  Gram inverse: beta 5.360435 delta 2.563e-12 -> ||G^-1|| <= 5.360435  (sampled sup 4.974171; B terms [615, 461, 419]) (3.9s)
+  torsion avg (c=1):
+[[ 1.903590e+00 -1.249459e-15 -1.523971e-02]
+ [-1.250609e-15  0.000000e+00  1.000000e+00]
+ [-1.523971e-02  1.000000e+00  0.000000e+00]]
+   radii ['1.8e-10', '6.4e-11', '1.4e-11']
+   ||S|| 1.008128  delta_T 2.475e-10 -> ||avg^-1|| <= 1.008128 (float 1.008128) (2.4s)
+checks: {'M >= c M1': True, 'sigmaK - mu >= ||DK||': True, 'sigmaB - mu >= ||G^-1||': False, 'sigmaT - mu >= ||avg^-1||/c': True, '1 < s < sigma_omega': True, 'nu <= (s-1)|omega*|': True, 'nu <= (sigma_omega-s)|omega*|': True, 'e >= c eta (invariance)': True, 'e >= c energy error': True, 'C1 e/(gamma^4 rho^4) <= 1/2': False}
+margin: {'eta_c': 5.025011712368539e-20, 'e': '101/1000000000000000000000', 'e_float': 1.01e-19, 'threshold': 6.312490846430542e-77, 'log10_threshold': -76.19979923863133, 'eta_over_threshold': 7.960426137029538e+56, 'smallness_ratio': 1.6000023201160193e+57, 'slack_orders': -56.900936316984755}
+G-J: {'B0': 3.2804408623187184e-22, 'B1': 1.175693452650899e-20, 'B2': 2.398523289408046e-17, 'Br': 1.4351203196657108e-21, 'Bc': 3.512740393310875e-29, 'eta_P2_row_direct': 1.2458444766422828e-20, 'target_Br_B1_Bc': 5.05e-20, 'ok_Br_B1_Bc': True, 'qphip_rows_plus_Bc': 5.0250117158812736e-20, 'ok_qphip': True, 'ok_B0': True, 'ok_B2_1e90': False}
+wrote /mnt/HC_Volume_106379410/kam-data/so-v2pkg/N65/lower_L24.json in 6.6s

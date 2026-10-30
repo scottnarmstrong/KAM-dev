@@ -1,0 +1,763 @@
+\section{Milestone W7: measure of the resonance set}\label{bpW:w7}
+
+This part proves the measure estimate of P96-K Theorem~D (p.~124; proof \S\S5--6, pp.~135--142) in the only case
+the wave equation needs: two tangential frequencies ($n=2$), linear growth of the normal frequencies ($d=1$),
+spectral exponent $\kappa=2$, smoothing gain $\bar p-p=1$, and \emph{affine} unperturbed frequencies, namely those of
+the corrected partial Birkhoff normal form of Part~0 (Theorem~\ref{bpW:w0n:AB}). It then turns the estimate into the
+two measure-theoretic conclusions of the frozen headline \Lean{KAM.Wave.nlw2}: density one of the parameter set in
+the actions (clause~(1)) and Diophantine frequencies with the stated limit (clause~(2)).
+
+\paragraph{What is excluded and why the coarse estimate is not enough.} The KAM iteration (W5--W6) runs with
+parameters $\xi\in\R^2$, the tangential actions, and removes at each step the parameters at which a divisor
+$\avg{k,\omega}+\avg{l,\Omega}$, $\abs l\le2$, is smaller than $\alpha\jap l/A_k$. On a box of side $t$ in the
+actions, the excluded measure is at most $C\,t\,\alpha^{\mu}$ (P96-K's form $c\rho^{n-1}\alpha^\mu$ with $n=2$), so the
+\emph{fraction} excluded is $C\alpha^\mu/t$. The perturbation size forces $\alpha\gtrsim t^{3/2}$ (KP96 p.~27, (8), in
+the variable $t$ of Remark~\ref{bpW:w7:exponents}). P96-K Theorem~B gives $\mu=\kappa/(\kappa+1)=\frac23$, so
+$\alpha^\mu/t\gtrsim1$: no density. Theorem~D precedes the iteration by one step with weaker divisors on the normal
+differences $\Omega_i-\Omega_j$, paid for by a loss of $\varpi$ in the smoothing exponent; this raises the exponent to
+$\tilde\mu=\kappa/(\kappa+1-\varpi/4)$. We fix $\varpi=\frac12$, so $\tilde\mu=\frac{16}{23}>\frac23$, and the fraction
+tends to zero along suitable $\alpha(t)$.
+
+\paragraph{Route.} All estimates are made in the \emph{frequency coordinates} $\zeta=\omega^0(\xi)=\lambda_J+A\xi$,
+where the tangential part of a divisor is the linear function $\avg{k,\zeta}$; the affine change $\xi\mapsto\zeta$
+multiplies Lebesgue measure by $\abs{\det A}$ (Lemma~\ref{bpW:w7:freqcoords}). A single slicing lemma
+(Lemma~\ref{bpW:w7:slab}) bounds the measure of every resonance zone along a coordinate line. The zones are grouped
+as in P96-K: $l=0$; $l$ with no sign change ($\Lambda^+$, finitely many per $k$ after an emptiness lemma); and the
+differences $l=\pm(e_i-e_j)$ ($\Lambda^-$, infinitely many per $k$), which are grouped by $i-j$ and absorbed for large
+$j$ by the asymptotics $\Omega_i-\Omega_j=(i-j)(1+O(j^{-2}))$. Finitely many small $(k,l)$ escape the slicing lemma;
+for them the nondegeneracy condition (A$_3$) of Part~0 is used. We do not use P96-K's Lipschitz extension (Lemma~A.2):
+the slicing lemma works on the domain of the frequency maps.
+
+\paragraph{Standing data.} Standing assumption~\ref{bpW:w0:mass} ($m>0$) and the conventions of \S\ref{bpW:w0} are
+in force: $\lambda_j=\sqrt{j^2+m}$, actions $I_j=\abs{z_j}^2$, period-one angles with $\nu=\omega/(2\pi)$
+(Convention~\ref{bpW:w0:periodone}), and the corrected $A$, $B$ of Theorem~\ref{bpW:w0n:AB} (the printed P96-W
+values are $16$ times too large, E-PDE-W-1, and are not used). Vectors in $\R^2$ carry the max norm
+$\abs\cdot_\infty$, linear maps of $\R^2$ the induced operator norm $\norm\cdot_\infty$ (maximal absolute row sum),
+and $\Leb$ is Lebesgue measure on $\R^2$ (Lean \Lean{volume} on \Lean{Fin 2 -> Real}). Integer vectors
+$k\in\Z^2$ carry $\abs k=\abs{k_1}+\abs{k_2}$, the norm of the frozen \Lean{KAM.IsDiophantine}. Diameters are
+$\operatorname{diam}_\infty$. The two tangential modes are $J=\{1,2\}$ (Lean index $i\in$ \Lean{Fin 2} is the Dirichlet
+mode $i+1$); the normal modes are labelled by their Dirichlet index $j\ge3$.
+
+\subsection{External facts}\label{bpW:w7:ext}
+
+{\raggedright
+\begin{enumerate}[label=(W7-E\arabic*),ref=(W7-E\arabic*)]
+\item\label{bpW:w7:ext-tonelli} \emph{Slicing (Tonelli).} For a Borel set $S\subset\R^2$,
+  $\Leb(S)=\int_\R\Leb_1\{t:(t,y)\in S\}\,dy=\int_\R\Leb_1\{t:(y,t)\in S\}\,dy$. (Mathlib:
+  \Lean{MeasureTheory.volume\_preserving\_finTwoArrow} to pass from \Lean{Fin 2 -> Real} to $\R\times\R$,
+  \Lean{MeasureTheory.Measure.prod\_apply}, \Lean{MeasureTheory.Measure.prod\_apply\_symm},
+  \Lean{MeasureTheory.lintegral\_mono}, \Lean{MeasureTheory.setLIntegral\_const}.)
+\item\label{bpW:w7:ext-diam} \emph{Sets of small diameter on the line.} A set $S\subset\R$ with
+  $\abs{t-t'}\le d$ for all $t,t'\in S$ satisfies $\Leb_1(S)\le d$ (it lies in $[\inf S,\inf S+d]$;
+  \Lean{Real.volume\_le\_diam}, \Lean{Real.volume\_Icc}).
+\item\label{bpW:w7:ext-linear} \emph{Lebesgue measure under affine maps.} For an invertible linear $T$ of $\R^2$ and
+  $c\in\R^2$, $\Leb(T(S)+c)=\abs{\det T}\Leb(S)$. (\Lean{MeasureTheory.Measure.addHaar\_image\_linearMap},
+  \Lean{MeasureTheory.measure\_preimage\_add}, \Lean{LinearMap.det}.)
+\item\label{bpW:w7:ext-borel} \emph{Borel sets.} If $D\subset\R^2$ is Borel and $f:D\to\R$ is continuous on $D$,
+  then $\{\xi\in D:\abs{f(\xi)}<\eta\}$ is Borel: by \Lean{continuousOn\_iff'} applied to the open target
+  interval $(-\eta,\eta)$ there is an open $U\subset\R^2$ with $f^{-1}(-\eta,\eta)\cap D=U\cap D$, which is Borel by
+  \Lean{IsOpen.measurableSet} and \Lean{MeasurableSet.inter} (for $f$ defined on the subtype $D$, pass first to
+  \Lean{ContinuousOn} via \Lean{continuousOn\_iff\_continuous\_domRestrict}). No openness of $D$ is needed. Countable unions, intersections and differences of Borel sets are
+  Borel (\Lean{MeasurableSet.iUnion}, \Lean{MeasurableSet.diff}); $\Z^2$ and the finitely supported $l$ with
+  $\abs l\le2$ form countable index sets (\Lean{Encodable}). Measure is countably subadditive and monotone
+  (\Lean{MeasureTheory.measure\_iUnion\_le}, \Lean{MeasureTheory.measure\_mono}).
+\item\label{bpW:w7:ext-zeta} \emph{Lattice sums.} $\#\{k\in\Z^2:\abs k=N\}=4N$ for $N\ge1$, and
+  $\sum_{N\ge1}N^{-2}=\pi^2/6$ (\Lean{hasSum\_zeta\_two}). Hence
+  $Z_3:=\sum_{k\in\Z^2\setminus0}\abs k^{-3}=4\zeta(2)=2\pi^2/3<7$.
+\item\label{bpW:w7:ext-ball} \emph{Max-norm balls.} For $h>0$, \Lean{Metric.ball (0 : Fin 2 -> Real) h} is
+  $(-h,h)^2$ (\Lean{ball\_pi}, \Lean{Real.ball\_eq\_Ioo}); $\Leb\bigl(\prod_i(a_i,b_i)\bigr)=\prod_i(b_i-a_i)$
+  (\Lean{Real.volume\_pi\_Ioo}).
+\item\label{bpW:w7:ext-ennreal} \emph{Extended reals.} For $0<x\le y<\infty$ in $[0,\infty]$ and $s\le x$,
+  $x/y\le1$, $(y-s)/y=1-s/y$; a function squeezed between $1-e(h)$ and $1$ with $e(h)\to0$ tends to $1$
+  (\Lean{ENNReal.div\_le\_of\_le\_mul}, \Lean{ENNReal.sub\_div}, \Lean{tendsto\_of\_tendsto\_of\_tendsto\_of\_le\_of\_le}).
+  Real powers: $x\mapsto x^\tau$ is monotone on $[0,\infty)$ for $\tau\ge0$ (\Lean{Real.rpow\_le\_rpow}),
+  $x^{a}x^{b}=x^{a+b}$ for $x>0$ (\Lean{Real.rpow\_add}); $\lceil x\rceil\le 2x$ for $x\ge1$ (\Lean{Nat.ceil\_le\_two\_mul}).
+\end{enumerate}
+\par}
+
+\subsection{Indices, weights and the reindexing}\label{bpW:w7:indices}
+
+\begin{definition}[Integer data]\label{bpW:w7:indexdef}
+\begin{enumerate}[label=(\roman*)]
+\item $\N_3=\{3,4,\dots\}$; $l\in\Z^{(\N_3)}$ ranges over finitely supported integer vectors on $\N_3$, with
+  $\abs l=\sum_j\abs{l_j}$, $\avg{l,x}=\sum_jl_jx_j$, and $e_j$ the unit vectors. $\Lambda=\{l:1\le\abs l\le2\}$.
+\item $\Lambda^-=\{\pm(e_i-e_j):i>j\ge3\}$ and $\Lambda^+=\Lambda\setminus\Lambda^-$ (the vectors $\pm e_i$,
+  $\pm2e_i$, $\pm(e_i+e_j)$, $i\neq j$).
+\item $\jap l=\max\bigl(1,\abs{\sum_jj\,l_j}\bigr)$ (Dirichlet labels). For $l\in\Lambda^+$,
+  $\jap l=\sum_jj\abs{l_j}\ge3$; for $l=\pm(e_i-e_j)$, $i>j$, $\jap l=i-j$.
+\item $\abs l_\delta=\sum_j\abs{l_j}j^\delta$ for $\delta\in\R$; for $l\in\Lambda$, $\abs l_{-1}\le\abs l_{-1/2}\le2$.
+\item $Z=\{(k,l)\in\Z^2\times(\Lambda\cup\{0\}):(k,l)\neq(0,0)\}$.
+\item The exponents are fixed: $\tau=24$ and $\varpi=\frac12$; $A_k=1+\abs k^\tau$ (so $1\le A_k\le2\abs k^\tau$ for
+  $k\ne0$).
+\item The \emph{modified weight} is $\hat w(l)=(i-j)\,j^{-1/2}$ for $l=\pm(e_i-e_j)$, $i>j$, and $\hat w(l)=\jap l$
+  otherwise; $\hat w(l)\le\jap l$.
+\end{enumerate}
+\end{definition}
+\source{P96-K pp.~121 ($\jap l_d$, $A_k$, $Z$), 135 ($\Lambda$), 136 ($\abs l_\delta$), 138 ($\Lambda^\pm$), 140
+((23), modified estimate with $\min(i^\varpi,j^\varpi)$). Specialized to $n=2$, $d=1$; the choices $\tau=24$, $\varpi=\frac12$ are
+ours (Remark~\ref{bpW:w7:choices}).}
+
+\begin{remark}[Reindexing $j\mapsto j+2$ and comparison with P96-K's weights]\label{bpW:w7:reindex}
+P96-K numbers the normal frequencies $\Omega^{\rm K}_{j'}$, $j'\ge1$, and its Assumption~B asks $\Omega^{\rm K}_{j'}
+=j'+\dots$. For the wave equation with $J=\{1,2\}$ the normal coordinates are $u_{j'}=q_{j'+2}$, $v_{j'}=p_{j'+2}$
+(W3, Remark~\ref{bpW:w3:interface}; P96-W p.~291 writes $\Omega_{j-n}=\lambda_j+\dots$ with $n=2$), so
+\[\Omega^{\rm K}_{j'}=\Omega_{j'+2},\qquad j'=j-2.\]
+Assumption~B holds in the form $\Omega^{\rm K}_{j'}=j'+2+\frac{m}{2(j'+2)}+\dots$; the constant $2$ is one of P96-K's
+``fixed lower order terms'' (p.~120). We keep the Dirichlet label $j$ throughout. P96-K's weight is
+$\jap l^{\rm K}=\max(1,\abs{\sum_j(j-2)l_j})$; for $\abs l\le2$ one has $\jap l^{\rm K}=\jap l$ on $\Lambda^-$ and
+$\jap l^{\rm K}\le\jap l\le\jap l^{\rm K}+4\le5\jap l^{\rm K}$ on $\Lambda^+$. P96-K's modified weight is
+$(i-j)/(j-2)^{1/2}$, and $j^{-1/2}\le(j-2)^{-1/2}\le\sqrt3\,j^{-1/2}$ for $j\ge3$. Consequently the Melnikov
+conditions of this part (with $\jap l$) imply P96-K's (with $\jap l^{\rm K}$) at the same $\alpha$, and our modified
+conditions imply P96-K's (23) with $\hat\alpha$ replaced by $\hat\alpha/\sqrt3$. W5--W6 must use the weights of
+Definition~\ref{bpW:w7:indexdef}, or absorb these factors.
+\end{remark}
+\source{P96-K pp.~120 (Assumption~B), 121, 140; P96-W p.~291; W3 Remark~\ref{bpW:w3:interface}.}
+
+\subsection{Unperturbed frequencies and frequency coordinates}\label{bpW:w7:unpert}
+
+Write $\lambda_J=(\lambda_1,\lambda_2)$, $b=(\lambda_1^{-1},\lambda_2^{-1})$, and let $A$ be the matrix of
+Theorem~\ref{bpW:w0n:AB}: $A=\frac3{8\pi}(4bb^{\mathsf T}-\operatorname{diag}(b_1^2,b_2^2))$.
+
+\begin{definition}[Unperturbed frequencies]\label{bpW:w7:omega0}
+For $\xi\in\R^2$ (the tangential actions $I=\xi$ of the normal form),
+\[\omega^0(\xi)=\lambda_J+A\xi\in\R^2,\qquad
+\Omega^0_j(\xi)=\lambda_j+(B\xi)_j=\lambda_j+\frac{3}{2\pi\lambda_j}\avg{b,\xi}\qquad(j\ge3).\]
+\end{definition}
+\source{P96-W p.~287 ($\omega(I)=\alpha+AI$, $\Omega(I)=\beta+BI$) with the corrected $A,B$ of
+Theorem~\ref{bpW:w0n:AB} (E-PDE-W-1/2); KP96 p.~25, Step~1 ($\omega(\xi)=\alpha+A\xi$, $\Omega(\xi)=\beta+B\xi$).}
+
+\begin{lemma}[Frequency coordinates]\label{bpW:w7:freqcoords}
+\begin{enumerate}[label=(\roman*)]
+\item $A^{-1}=\frac{8\pi}{21}\begin{pmatrix}-3\lambda_1^2&4\lambda_1\lambda_2\\4\lambda_1\lambda_2&-3\lambda_2^2\end{pmatrix}$,
+  $\abs{\det A}=D_A:=\dfrac{63}{64\pi^2\lambda_1^2\lambda_2^2}$, and $A^{-1}b=\frac{8\pi}{21}\lambda_J$.
+\item $\norm A_\infty=N_A:=\frac3{8\pi}\bigl(\frac3{\lambda_1^2}+\frac4{\lambda_1\lambda_2}\bigr)<\frac35$ and
+  $\norm{A^{-1}}_\infty=L_A:=\frac{8\pi}{21}\lambda_2(4\lambda_1+3\lambda_2)=N_A/D_A$.
+\item $\omega^0$ is an affine bijection of $\R^2$ with inverse $\zeta\mapsto A^{-1}(\zeta-\lambda_J)$. In the
+  frequency coordinate $\zeta=\omega^0(\xi)$ the normal frequencies are
+  \[\Omega^0_j=\lambda_j+\frac{4}{7\lambda_j}\,s(\zeta),\qquad s(\zeta)=\avg{\lambda_J,\zeta-\lambda_J}
+  =\frac{21}{8\pi}\avg{b,\xi},\]
+  i.e.\ in P96-K's labels $\Omega^{\rm K}_{j'}(\zeta)=\lambda_{j'+2}+\frac{4}{7\lambda_{j'+2}}\avg{\lambda_J,\zeta-\lambda_J}$.
+\item For Borel $F\subset\R^2$: $\Leb(\omega^0(F))=D_A\Leb(F)$ and
+  $\operatorname{diam}\omega^0(F)\le N_A\operatorname{diam}F$; for $\xi,\xi'\in\R^2$,
+  $\abs{\xi-\xi'}_\infty\le L_A\abs{\omega^0(\xi)-\omega^0(\xi')}_\infty$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Inverse}\label{stepW:w7:inverse}
+Put $M=4bb^{\mathsf T}-D^2$, $D^2=\operatorname{diag}(b_1^2,b_2^2)$. Since $D^{-2}b=\lambda_J$ and $b^{\mathsf T}D^{-2}b=2$,
+Sherman--Morrison gives $M^{-1}=-D^{-2}+\frac47\lambda_J\lambda_J^{\mathsf T}$ (denominator $1-4\cdot2=-7$), so
+$A^{-1}=\frac{8\pi}3M^{-1}$ is the displayed matrix; multiply out $AA^{-1}=\mathrm{Id}$ as a check. Then
+$A^{-1}b=\frac{8\pi}3(-\lambda_J+\frac87\lambda_J)=\frac{8\pi}{21}\lambda_J$. $\det A$ is
+Theorem~\ref{bpW:w0n:nondeg}(i).
+\proofstep{Norms}\label{stepW:w7:norms}
+The row sums of $\abs A$ are $\frac3{8\pi}b_i(3b_i+4b_{i'})$ ($\{i,i'\}=\{1,2\}$); the first is larger since $b_1>b_2$,
+and $3/\lambda_1^2+4/(\lambda_1\lambda_2)<3+2$ because $\lambda_1>1$, $\lambda_2>2$, so $N_A<\frac{15}{8\pi}<\frac35$.
+The row sums of $\abs{A^{-1}}$ are $\frac{8\pi}{21}\lambda_i(3\lambda_i+4\lambda_{i'})$; the second exceeds the first
+by $\frac{8\pi}{21}\cdot3(\lambda_2^2-\lambda_1^2)>0$. The identity $L_A=N_A/D_A$ is direct substitution.
+\proofstep{Normal frequencies in $\zeta$}\label{stepW:w7:Omegazeta}
+$\avg{b,\xi}=\avg{b,A^{-1}(\zeta-\lambda_J)}=\avg{A^{-1}b,\zeta-\lambda_J}=\frac{8\pi}{21}s(\zeta)$ ($A$ symmetric);
+substitute in Definition~\ref{bpW:w7:omega0}: $\frac{3}{2\pi\lambda_j}\cdot\frac{8\pi}{21}=\frac4{7\lambda_j}$.
+\proofstep{Measure and distances}\label{stepW:w7:measure-affine}
+\ref{bpW:w7:ext-linear} with $T=A$, $c=\lambda_J$; the diameter and distance bounds are the operator norms.
+\end{proof}
+\source{ours (elementary linear algebra on Theorem~\ref{bpW:w0n:AB}). P96-K Lemma~5, p.~136, introduces
+$\zeta=\omega(\xi)$ as parameter; P96-W p.~291 gives $\Omega$ in $I$, not in $\zeta$.}
+
+\begin{lemma}[Unperturbed separation and asymptotics]\label{bpW:w7:unpert-bounds}
+Let $\abs\xi_\infty\le\frac12$ and $\zeta=\omega^0(\xi)$. Put $\beta_*=\frac{1}{2\sqrt{9+m}}$ and $a_\kappa=\frac m2+1$. Then:
+\begin{enumerate}[label=(\roman*)]
+\item $\abs{s(\zeta)}\le1$ and $\abs{\omega^0(\xi)}_\infty\le\lambda_2+\frac3{10}$;
+\item (\emph{normal separation}) $\abs{\avg{l,\Omega^0(\xi)}}\ge3\beta_*\jap l$ for every $l\in\Lambda$;
+\item (\emph{$\kappa=2$}) for $i>j\ge3$, $\bigl|\Omega^0_i(\xi)-\Omega^0_j(\xi)-(i-j)\bigr|\le a_\kappa(i-j)j^{-2}$;
+\item (\emph{Lipschitz in $\zeta$}) for $l\in\Lambda$, $\zeta\mapsto\avg{l,\Omega^0}$ is affine with
+  $\abs{\avg{l,\Omega^0(\zeta)}-\avg{l,\Omega^0(\zeta')}}\le\frac47(\lambda_1+\lambda_2)\abs l_{-1}\abs{\zeta-\zeta'}_\infty$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Size of $s$}\label{stepW:w7:ssize}
+$\abs{\avg{b,\xi}}\le\frac12(\lambda_1^{-1}+\lambda_2^{-1})<\frac34$ and $\frac{21}{8\pi}<0.84$, so $\abs s\le1$ by
+Lemma~\ref{bpW:w7:freqcoords}(iii); $\abs{A\xi}_\infty\le N_A/2<\frac3{10}$.
+\proofstep{Plus type}\label{stepW:w7:plus}
+By (i), $\abs{\frac4{7\lambda_j}s}\le\frac4{21}$, so $\Omega^0_j\ge\lambda_j-\frac4{21}\ge j-\frac13\ge\frac89j$ for
+$j\ge3$. For $l\in\Lambda^+$ all nonzero $l_j$ have one sign, so
+$\abs{\avg{l,\Omega^0}}=\sum\abs{l_j}\Omega^0_j\ge\frac89\jap l\ge3\beta_*\jap l$ (as $3\beta_*<\frac12$).
+\proofstep{Minus type}\label{stepW:w7:minus}
+For $i>j$: $\Omega^0_i-\Omega^0_j=(\lambda_i-\lambda_j)\bigl(1-\frac{4s}{7\lambda_i\lambda_j}\bigr)$, and
+$\frac{4\abs s}{7\lambda_i\lambda_j}\le\frac4{84}$ since $\lambda_i\lambda_j>12$. The function $f(x)=\sqrt{x^2+m}$ has
+increasing derivative $f'(x)=x/f(x)$ (\S\ref{bpW:w0:pde}), so $\lambda_i-\lambda_j\ge(i-j)f'(j)\ge(i-j)\frac3{\sqrt{9+m}}$.
+Hence $\Omega^0_i-\Omega^0_j\ge\frac12\cdot\frac{3(i-j)}{\sqrt{9+m}}=3\beta_*(i-j)$.
+\proofstep{Asymptotics}\label{stepW:w7:kappa}
+$\lambda_n-n=m/(\lambda_n+n)$; since $\lambda_i-\lambda_j\le i-j$ ($f'<1$) and $\lambda_n+n>2n$,
+\[\Bigl|\frac m{\lambda_j+j}-\frac m{\lambda_i+i}\Bigr|=\frac{m\,[(\lambda_i+i)-(\lambda_j+j)]}{(\lambda_i+i)(\lambda_j+j)}
+\le\frac{2m(i-j)}{4ij}\le\frac{m(i-j)}{2j^2}.\]
+The $s$-term is $\frac{4\abs s}7\bigl|\frac1{\lambda_i}-\frac1{\lambda_j}\bigr|=\frac{4\abs s}7\frac{\lambda_i-\lambda_j}{\lambda_i\lambda_j}
+\le\frac{i-j}{j^2}$. Add.
+\proofstep{Lipschitz}\label{stepW:w7:liplOmega}
+$\avg{l,\Omega^0(\zeta)}=\avg{l,\lambda}+\frac47\bigl(\sum_jl_j/\lambda_j\bigr)s(\zeta)$ and
+$\abs{s(\zeta)-s(\zeta')}\le(\lambda_1+\lambda_2)\abs{\zeta-\zeta'}_\infty$; $\abs{\sum l_j/\lambda_j}\le\abs l_{-1}$.
+\end{proof}
+\source{P96-K Lemma~3, p.~136 ((i)--(ii) without explicit $\beta$), p.~138 ($\abs{(\Omega_i-\Omega_j)/(i-j)-1}\le a
+j^{-\kappa}$); P96-W p.~291 ($\kappa=2$, with the printed $v=\frac{24}\pi b$; corrected value
+$\frac{3}{2\pi}b$, Remark~\ref{bpW:w0n:kappa}). Constants ours.}
+
+\subsection{Constants and the order in which they are chosen}\label{bpW:w7:constants}
+
+\begin{definition}[W7 constants]\label{bpW:w7:constdef}
+In this order:
+\begin{enumerate}[label=(C\arabic*)]
+\item $m>0$ (given); $\tau=24$, $\varpi=\frac12$, $w=\varpi/(4\kappa+4-\varpi)=\frac1{23}$ (numbers).
+\item Explicit in $m$: $\lambda_1,\lambda_2$, $D_A$, $N_A$, $L_A$ (Lemma~\ref{bpW:w7:freqcoords});
+  $\beta_*=\frac1{2\sqrt{9+m}}$, $a_\kappa=\frac m2+1$; $W=\lambda_2+1$; $\vartheta=\beta_*/W$;
+  $c_\Lambda=\frac47(\lambda_1+\lambda_2)+1$; $K_*=16c_\Lambda$; $j_*=(16c_\Lambda)^2$.
+\item The finite exceptional set $X$ (Definition~\ref{bpW:w7:Xdef}), $N_X=\# X$, and the positive numbers
+  $\sigma_X$, $c_X$ of Lemma~\ref{bpW:w7:Xzones}; they depend on $m$ only.
+\item The Lipschitz smallness required of W6 and the smallness threshold of $\alpha$:
+  \[\theta_0=\frac1{L_A}\min\Bigl(\frac18,\frac{\sigma_X}{2(K_*+2)}\Bigr),\qquad
+  \alpha_0=\Bigl(\min\Bigl\{\frac1{27},\frac{\beta_*}4,\frac{\vartheta c_X}{4K_*(K_*+4)}\Bigr\}\Bigr)^{23/20}.\]
+\item $C_P=Z_3\bigl(8+32\vartheta^{-3}+16(3+a_\kappa)\vartheta^{-2}\bigr)+4N_XK_*\vartheta^{-1}\sigma_X^{-1}$,
+  $C_I=Z_3\bigl(8+32\vartheta^{-3}+16(2+a_\kappa)\vartheta^{-2}+64\vartheta^{-1}\bigr)+4N_XK_*^2\vartheta^{-1}\sigma_X^{-1}$,
+  $C_7=L_A(C_P+C_I)$, with $Z_3=2\pi^2/3$ \ref{bpW:w7:ext-zeta}.
+\item For each application: a Borel parameter set $\Pi$, then $\alpha\in(0,\alpha_0]$, then
+  $\hat\alpha=\alpha^{20/23}$ and $\check\alpha=\alpha^{24/23}$ (so $\check\alpha\le\alpha\le\hat\alpha$).
+\end{enumerate}
+Every constant in (C1)--(C5) depends on $m$ only; none depends on $\Pi$, on $\alpha$, or on the frequency families of
+Definition~\ref{bpW:w7:family}.
+\end{definition}
+\source{ours; P96-K pp.~136--137 ($\beta$, $\vartheta$, $L_*$, $K_*$), p.~140 ($\hat\alpha$), p.~142
+($\check\alpha$, $w$). P96-K's constants are monotone in $\Pi$ (p.~123); ours are independent of $\Pi$.}
+
+\begin{remark}[Why these choices]\label{bpW:w7:choices}
+Any $\varpi\in(0,1)$ works (P96-K: $\varpi<\min(\bar p-p,1)=1$); $\varpi=\frac12$ gives the rational exponent
+$\tilde\mu=\frac{\kappa}{\kappa+1-\varpi/4}=\frac{16}{23}$, with $\hat\alpha^{4/5}=\check\alpha^{2/3}=\alpha^{16/23}$
+(Step~\ref{stepW:w7:assemble}). The value $\tau=24$ makes every lattice sum below converge with the single bound
+$\abs k^{-3}$ (the slowest term is $\abs k\,A_k^{-1/6}\le\abs k^{-3}$ in Proposition~\ref{bpW:w7:iter}); P96-K's
+(22) would ask $\tau\ge(n+3)/\delta^*=15$ for the post-preparation exponent $\delta=-\frac12$. The frozen
+headline only needs some $\tau>1$. \textbf{W4--W6 must use $\tau=24$} (a larger $\tau$ is also fine for W7: all bounds
+use only $A_k\ge\abs k^{24}$).
+\end{remark}
+
+\subsection{Interface: the frequency families delivered by W6}\label{bpW:w7:interface-sec}
+
+\begin{definition}[Resonance zones]\label{bpW:w7:zones}
+Let $\Pi\subset\{\xi:\abs\xi_\infty\le\frac12\}$ be Borel and $0<\alpha\le\alpha_0$.
+\begin{enumerate}[label=(\roman*)]
+\item The \emph{preparatory zones} are, for $(k,l)\in Z$,
+  \[S_{kl}=\Bigl\{\xi\in\Pi:\bigl|\avg{k,\omega^0(\xi)}+\avg{l,\Omega^0(\xi)}\bigr|<\frac{\hat\alpha\,\hat w(l)}{A_k}\Bigr\},
+  \qquad\Xi=\bigcup_{(k,l)\in Z}S_{kl}.\]
+\item Given a Borel $D\subset\Pi$ and maps $\omega':D\to\R^2$, $\Omega'_j:D\to\R$ ($j\ge3$), the \emph{zones} at
+  level $a>0$ are $R_{kl}(a)=\{\xi\in D:\abs{\avg{k,\omega'(\xi)}+\avg{l,\Omega'(\xi)}}<a\jap l/A_k\}$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Admissible frequency family]\label{bpW:w7:family}
+An \emph{admissible family} (for $\Pi$, $\alpha$) is a sequence $(D_\nu,\omega_\nu,\Omega_\nu,K_\nu)_{\nu\ge0}$ with
+$D_\nu\subset\Pi$ Borel, $\omega_\nu:D_\nu\to\R^2$, $\Omega_{\nu,j}:D_\nu\to\R$ ($j\ge3$), reals $K_\nu\ge2^\nu$,
+$K_{-1}:=0$, and numbers $\varepsilon_\omega,\varepsilon_1,\varepsilon_2\in[0,\alpha]$, $\theta\in[0,\theta_0]$
+such that for all $\nu$, all $\xi,\xi'\in D_\nu$ and all $j\ge3$:
+\begin{enumerate}[label=(H\arabic*)]
+\item $\abs{\omega_\nu(\xi)-\omega^0(\xi)}_\infty\le\varepsilon_\omega$ and
+  $\abs{(\omega_\nu-\omega^0)(\xi)-(\omega_\nu-\omega^0)(\xi')}_\infty\le\theta\abs{\xi-\xi'}_\infty$;
+\item $\abs{\Omega_{\nu,j}(\xi)-\Omega^0_j(\xi)}\le\varepsilon_1j^{-1}+\varepsilon_2j^{-1/2}$ and
+  $\abs{(\Omega_{\nu,j}-\Omega^0_j)(\xi)-(\Omega_{\nu,j}-\Omega^0_j)(\xi')}\le\theta j^{-1/2}\abs{\xi-\xi'}_\infty$.
+\end{enumerate}
+Its \emph{iteration zones} are $R^\nu_{kl}=R_{kl}(\check\alpha)$ built from $(D_\nu,\omega_\nu,\Omega_\nu)$, and the
+\emph{excluded set} is
+\[\mathcal E=\Xi\cup\bigcup_{\nu\ge0}\ \bigcup_{(k,l)\in Z,\ \abs k>K_{\nu-1}}R^\nu_{kl}.\]
+\end{definition}
+\source{P96-K Theorem~A, p.~122 (frequency maps $\omega_\nu,\Omega_\nu$, zones $\mathcal R^\nu_{kl}(\alpha)$,
+$\abs k>K_02^{\nu-1}$), (19) p.~135, p.~132 ($K_\nu=K_02^\nu$, $K_0\ge1$), \S6 pp.~140--142 (preparatory step,
+$\hat\alpha$, $\check\alpha$, weights $j^{\bar p-p}=j$ for the preparatory shift and $j^{\check p-p}=j^{1/2}$ after it).}
+
+\begin{remark}[What W6 must supply; forward references]\label{bpW:w7:w6-needs}
+W7 is a statement about arbitrary admissible families; it uses nothing about the KAM step. To apply it, W6 must
+prove, on each parameter domain $\Pi$ used and for the master parameter $\alpha$ of that domain:
+\begin{itemize}
+\item \texttt{bpW:w6:prep-step} (forward): the preparatory step of P96-K \S6 runs on $\Pi\setminus\Xi$, where the
+  unperturbed frequencies satisfy the conditions of Corollary~\ref{bpW:w7:melnikov}(i) (weights
+  Remark~\ref{bpW:w7:reindex}), and its frequency shift obeys (H1)--(H2) with the $\varepsilon_1j^{-1}$ part
+  ($\bar p-p=1$).
+\item \texttt{bpW:w6:freq-lip} (forward): the frequencies $\omega_\nu,\Omega_\nu$ of the iteration started after the
+  preparatory step are defined on Borel $D_\nu$ and satisfy (H1)--(H2) with $\varepsilon_\omega,\varepsilon_1,
+  \varepsilon_2\le\alpha$ and Lipschitz constant $\theta\le\theta_0$ (P96-K Theorem~A gives
+  $\abs{\omega_\nu-\omega}+\frac\alpha M\abs{\omega_\nu-\omega}^{\mathcal L}\le c\epsilon\le c\gamma\alpha$; so this is a
+  smallness condition on $\gamma$; this is our explicit alternative to P96-K Corollary~C, pp.~123 and~140, which instead
+  chooses $K_0$ large so that the exceptional zones use the unperturbed frequencies).
+\item \texttt{bpW:w6:exclusion} (forward): the final parameter set $\Pi_*$ of the iteration satisfies
+  $\Pi\setminus\Pi_*\subset\mathcal E$, with thresholds $K_\nu\ge2^\nu$ and iteration levels $\alpha_\nu\le\check\alpha$
+  (so its zones lie in $R^\nu_{kl}(\check\alpha)$).
+\item \texttt{bpW:w6:final-freq} (forward): on $\Pi_*$ the final frequency $\omega_*$ satisfies
+  $\abs{\avg{k,\omega_*}}\ge\check\alpha/(2A_k)$ for $k\neq0$ (P96-K p.~135) and
+  $\abs{\omega_*-\omega^0}_\infty\le\varepsilon_\omega$.
+\end{itemize}
+The $\Lambda^-$ argument uses the drift bound (H2) only through $\sup_{i\ge j}\abs{\Omega_{\nu,i}-\Omega^0_i}\le
+(\varepsilon_1+\varepsilon_2)j^{-1/2}$; the Lipschitz parts of (H1)--(H2) are the ``Lipschitz dependence of the
+frequencies on the parameters'' imported from W6.
+\end{remark}
+
+\subsection{The slicing lemma and the elementary zone estimates}\label{bpW:w7:basic}
+
+\begin{lemma}[Slicing]\label{bpW:w7:slab}
+Let $E\subset\R^2$ be Borel and nonempty with $\operatorname{diam}_\infty E\le\rho$, let $\phi:E\to\R$ be continuous
+on $E$, $i\in\{1,2\}$, $\sigma>0$, and suppose $\abs{\phi(\zeta+te_i)-\phi(\zeta)}\ge\sigma\abs t$ whenever $\zeta$,
+$\zeta+te_i\in E$. Then for every $\eta>0$ the set $\{\zeta\in E:\abs{\phi(\zeta)}<\eta\}$ is Borel and has measure
+at most $2\eta\rho/\sigma$.
+\end{lemma}
+\begin{proof}
+\proofstep{Borel}\label{stepW:w7:slab-borel}
+\ref{bpW:w7:ext-borel}.
+\proofstep{One line}\label{stepW:w7:slab-line}
+Fix the other coordinate $y$ and let $T_y=\{t:\zeta(t)\in E,\abs{\phi(\zeta(t))}<\eta\}$, $\zeta(t)=te_i+ye_{i'}$. For
+$t,t'\in T_y$, $\sigma\abs{t-t'}\le\abs{\phi(\zeta(t))-\phi(\zeta(t'))}<2\eta$, so $\Leb_1(T_y)\le2\eta/\sigma$
+\ref{bpW:w7:ext-diam}.
+\proofstep{Integrate}\label{stepW:w7:slab-int}
+$T_y=\emptyset$ unless $y$ lies in the projection of $E$ on the $i'$-th axis, which is contained in $[y_0,y_0+\rho]$ for
+$y_0=\inf$ of that projection. Tonelli \ref{bpW:w7:ext-tonelli} gives the measure
+$\le\int_{y_0}^{y_0+\rho}2\eta/\sigma\,dy$.
+\end{proof}
+\source{P96-K Lemma~5, p.~137 (Fubini along a line). Deviation: coordinate lines and a lower Lipschitz bound on the set
+itself replace the source's lines $\zeta=rv+w$, $v\in\{\pm1\}^n$, and the Lipschitz extension of Lemma~A.2; see
+Remark~\ref{bpW:w7:errata}(a) for the constant.}
+
+From now on fix $\Pi$, $\alpha\in(0,\alpha_0]$ and an admissible family. Write $\rho=\operatorname{diam}_\infty\Pi$ and
+$\rho_\zeta=\operatorname{diam}_\infty\omega^0(\Pi)\le N_A\rho$. A \emph{frequency pair} on a Borel $D\subset\Pi$ is
+either $(\omega^0,\Omega^0)$ (``unperturbed'', with $\varepsilon$'s and $\theta$ equal to $0$) or some
+$(\omega_\nu,\Omega_\nu)$ on $D_\nu$. For such a pair let $\phi_{kl}=\avg{k,\omega'}+\avg{l,\Omega'}$, viewed as a
+function of $\zeta\in\omega^0(D)$.
+
+\begin{lemma}[Normal separation; Melnikov conditions with $k=0$]\label{bpW:w7:sep}
+For a frequency pair on $D$ and $l\in\Lambda$: $\abs{\avg{l,\Omega'(\xi)}}\ge2\beta_*\jap l$ on $D$. In particular
+$\abs{\avg{l,\Omega'}}\ge a\jap l/A_0$ for every $a\le2\beta_*$, and $R_{0l}(a)=\emptyset$ and $S_{0l}=\emptyset$.
+\end{lemma}
+\begin{proof}
+\proofstep{Drift}\label{stepW:w7:sep-drift}
+By (H2), $\abs{\avg{l,\Omega'-\Omega^0}}\le2(\varepsilon_1+\varepsilon_2)\le4\alpha\le\beta_*\le\beta_*\jap l$ since
+$\alpha\le\hat\alpha\le\beta_*/4$ by (C4).
+\proofstep{Conclude}\label{stepW:w7:sep-concl}
+Lemma~\ref{bpW:w7:unpert-bounds}(ii). For $S_{0l}$ and $R_{0l}$: $\hat\alpha,\check\alpha\le\beta_*$ and
+$\hat w(l)\le\jap l$, $A_0=1$.
+\end{proof}
+\source{P96-K Lemma~3, p.~136, and ``$\mathcal R'_k(\alpha)$ is empty for $k=0$'', p.~137.}
+
+\begin{lemma}[Nonempty zones have large $\abs k$]\label{bpW:w7:largek}
+For a frequency pair on $D$, $l\in\Lambda$ and $a\le\beta_*$: if
+$\{\xi\in D:\abs{\phi_{kl}(\xi)}<a\jap l/A_k\}\neq\emptyset$ then $\abs k\ge\vartheta\jap l$; in particular $k\ne0$.
+The same holds for $S_{kl}$ ($a=\hat\alpha$).
+\end{lemma}
+\begin{proof}
+\proofstep{Bound the tangential term}\label{stepW:w7:largek-tan}
+$\abs{\omega'}_\infty\le\lambda_2+\frac3{10}+\alpha\le W$ (Lemma~\ref{bpW:w7:unpert-bounds}(i), (H1)), so
+$\abs{\avg{k,\omega'}}\le W\abs k$.
+\proofstep{Compare}\label{stepW:w7:largek-cmp}
+At a point of the zone, $W\abs k\ge\abs{\avg{l,\Omega'}}-a\jap l\ge(2\beta_*-\beta_*)\jap l$
+(Lemma~\ref{bpW:w7:sep}).
+\end{proof}
+\source{P96-K Lemma~4, p.~136 ($\vartheta=\beta/(\abs\omega_\Pi+1)$).}
+
+\begin{lemma}[Zone estimate]\label{bpW:w7:zone}
+Let a frequency pair on $D$ be given, $k\ne0$, and $\psi:D\to\R$ with
+$\abs{\psi(\xi)-\psi(\xi')}\le\frac{\abs k}8\abs{\omega^0(\xi)-\omega^0(\xi')}_\infty$. Then for $\eta>0$,
+\[\Leb\{\xi\in D:\abs{\avg{k,\omega'(\xi)}+\psi(\xi)}<\eta\}\le\frac{8\eta\rho_\zeta}{\abs k\,D_A}.\]
+This applies to $\psi=\avg{l,\Omega'}$ when $l=0$, or when $l\in\Lambda$ and $\abs k\ge8c_\Lambda\abs l_{-1/2}$, and to
+$\psi\equiv c$ constant.
+\end{lemma}
+\begin{proof}
+\proofstep{Lower Lipschitz bound in $\zeta$}\label{stepW:w7:zone-lower}
+In $\zeta$, $\avg{k,\omega'}=\avg{k,\zeta}+\avg{k,h(\zeta)}$ with $h=(\omega'-\omega^0)\circ(\omega^0)^{-1}$, and
+$\abs{h(\zeta)-h(\zeta')}_\infty\le\theta L_A\abs{\zeta-\zeta'}_\infty\le\frac18\abs{\zeta-\zeta'}_\infty$ by (H1),
+Lemma~\ref{bpW:w7:freqcoords}(iv) and $\theta\le\theta_0$. Choose $i$ with $\abs{k_i}\ge\abs k/2$. Then
+$\abs{\phi(\zeta+te_i)-\phi(\zeta)}\ge(\frac12-\frac18-\frac18)\abs k\abs t=\frac{\abs k}4\abs t$.
+\proofstep{Slicing}\label{stepW:w7:zone-slab}
+Lemma~\ref{bpW:w7:slab} on $E=\omega^0(D)$ ($\operatorname{diam}\le\rho_\zeta$) with $\sigma=\abs k/4$, then
+Lemma~\ref{bpW:w7:freqcoords}(iv) to return to $\xi$.
+\proofstep{The admissible $\psi$}\label{stepW:w7:zone-psi}
+For $l\in\Lambda$, Lemma~\ref{bpW:w7:unpert-bounds}(iv) and (H2) give the Lipschitz constant in $\zeta$
+\[\tfrac47(\lambda_1+\lambda_2)\abs l_{-1}+L_A\theta\abs l_{-1/2}\le c_\Lambda\abs l_{-1/2}\le\abs k/8\]
+($L_A\theta\le1$, $\abs l_{-1}\le\abs l_{-1/2}$).
+\end{proof}
+\source{P96-K Lemma~5, pp.~136--137 (hypothesis $\abs k\ge8LM\abs l_\delta$; normalization
+$\abs{\omega'-\mathrm{id}}^{\mathcal L}\le\frac12$ there, $\le\frac18$ here because coordinate lines are used).}
+
+\begin{definition}[Exceptional set]\label{bpW:w7:Xdef}
+$X$ is the set of $(k,l)\in\Z^2\times\Lambda$ with $1\le\abs k<K_*$, $\jap l<K_*/\vartheta$, and either
+$l\in\Lambda^+$ or $l=\pm(e_i-e_j)$ with $i>j$ and $j<j_*$.
+\end{definition}
+
+\begin{lemma}[Dichotomy]\label{bpW:w7:dichotomy}
+$X$ is finite. If $(k,l)\in Z\setminus X$, $l\in\Lambda$, and a zone of Lemma~\ref{bpW:w7:largek} for $(k,l)$ is
+nonempty, then $k\ne0$, $\jap l\le\abs k/\vartheta$ and $\abs k\ge8c_\Lambda\abs l_{-1/2}$.
+\end{lemma}
+\begin{proof}
+\proofstep{Finite}\label{stepW:w7:Xfinite}
+$\abs k<K_*$ bounds $k$; on $\Lambda^+$, $\jap l\ge\max\{j:l_j\neq0\}$, so the support lies in $[3,K_*/\vartheta)$; on
+$\Lambda^-$, $j<j_*$ and $i<j+K_*/\vartheta$.
+\proofstep{Large $k$}\label{stepW:w7:dich-large}
+Lemma~\ref{bpW:w7:largek} gives $k\ne0$ and $\jap l\le\abs k/\vartheta$. If $\abs k\ge K_*=16c_\Lambda$ then
+$8c_\Lambda\abs l_{-1/2}\le16c_\Lambda\le\abs k$.
+\proofstep{Small $k$}\label{stepW:w7:dich-small}
+If $\abs k<K_*$, then $\jap l<K_*/\vartheta$, so $(k,l)\notin X$ forces $l=\pm(e_i-e_j)$, $i>j\ge j_*$. Then
+$\abs l_{-1/2}\le2j^{-1/2}\le2j_*^{-1/2}=1/(8c_\Lambda)$, so $8c_\Lambda\abs l_{-1/2}\le1\le\abs k$.
+\end{proof}
+\source{P96-K Lemma~6 and the set $\mathcal X$, pp.~137, 139 (the source bounds $\abs l_\sigma<L_*$; for $d=1$,
+$\delta<0$ the role of $\abs l_\sigma$ is played here by $j<j_*$).}
+
+\begin{lemma}[Exceptional zones]\label{bpW:w7:Xzones}
+For $(k,l)\in X$ let $g_{kl}(\zeta)=\avg{k,\zeta}+\avg{l,\Omega^0(\zeta)}=c_{kl}+\avg{p_{kl},\zeta}$ (affine,
+Lemma~\ref{bpW:w7:freqcoords}(iii)), $p_{kl}=k+\frac47(\sum_jl_j/\lambda_j)\lambda_J$. Then $g_{kl}\not\equiv0$. Put
+\[\sigma_X=\min\{\abs{p_{kl}}_\infty:(k,l)\in X,\ p_{kl}\ne0\},\qquad
+c_X=\min\{\abs{\avg{k,\lambda_J}+\avg{l,\lambda}}:(k,l)\in X,\ p_{kl}=0\}\]
+(minimum over the empty set $:=1$); both are positive. For a frequency pair on $D$, $(k,l)\in X$ and
+$0<a\le\hat\alpha$, the zone $Y=\{\xi\in D:\abs{\phi_{kl}}<a\jap l/A_k\}$ is empty if $p_{kl}=0$, and
+$\Leb(Y)\le4\rho_\zeta aK_*/(\vartheta\sigma_XD_A)$ if $p_{kl}\ne0$.
+\end{lemma}
+\begin{proof}
+\proofstep{Nondegeneracy}\label{stepW:w7:X-A3}
+$g_{kl}\circ\omega^0$ is the affine function $\xi\mapsto\avg{k,\omega(\xi)}+\avg{l,\Omega(\xi)}$ of
+Theorem~\ref{bpW:w0n:nondeg}(iii) (condition (A$_3$), $1\le\abs l\le2$); it is not identically zero, and neither is
+$g_{kl}$ since $\omega^0$ is bijective. If $p_{kl}=0$, $g_{kl}$ is the constant $g_{kl}(\lambda_J)=\avg{k,\lambda_J}
++\avg{l,\lambda}\ne0$. $X$ is finite, so $\sigma_X,c_X>0$.
+\proofstep{Constant case}\label{stepW:w7:X-const}
+$\abs{\phi_{kl}-g_{kl}}\le\abs k\varepsilon_\omega+2(\varepsilon_1+\varepsilon_2)\le(K_*+4)\alpha\le c_X/2$ and
+$a\jap l/A_k\le\hat\alpha K_*/\vartheta<c_X/2$, both by (C4) and $\alpha\le\hat\alpha$; so $Y=\emptyset$.
+\proofstep{Sloped case}\label{stepW:w7:X-slope}
+Choose $i$ with $\abs{(p_{kl})_i}=\abs{p_{kl}}_\infty\ge\sigma_X$. The difference $\phi_{kl}-g_{kl}$ has Lipschitz
+constant in $\zeta$ at most $L_A\theta(\abs k+\abs l_{-1/2})\le L_A\theta(K_*+2)\le\sigma_X/2$ by (H1)--(H2) and (C4).
+Lemma~\ref{bpW:w7:slab} with $\sigma=\sigma_X/2$ and $\eta=a\jap l/A_k\le aK_*/\vartheta$, and
+Lemma~\ref{bpW:w7:freqcoords}(iv).
+\end{proof}
+\source{P96-K Lemma~9 (last paragraph, p.~141: ``a nontrivial affine function of $\xi$, so one has
+$\abs{\mathcal R^s_{kl}(\hat\alpha)}\lessdot\hat\alpha$''), Lemma~10 p.~142 and Corollary~C p.~140 (Assumption~A for
+the finitely many $(k,l)\in\mathcal X$). See Remark~\ref{bpW:w7:errata}(c) for the Lipschitz condition.}
+
+\begin{lemma}[Counting]\label{bpW:w7:count}
+(i) For $N\ge1$, $\#\{l\in\Lambda^+:\jap l\le N\}\le4N^2$. (ii) If $K_\nu\ge2^\nu$ ($\nu\ge0$) and $K_{-1}=0$, then
+$\#\{\nu\ge0:\abs k>K_{\nu-1}\}\le\abs k$ for $k\ne0$. (iii) $\sum_{k\ne0}\abs k^{-3}=Z_3<7$.
+\end{lemma}
+\begin{proof}
+(i) $\pm e_i$: $2N$ vectors; $\pm2e_i$: at most $N$; $\pm(e_i+e_j)$, $i<j$, $i+j\le N$: at most $N^2$; and
+$N^2+3N\le4N^2$. (ii) $\nu=0$ always counts; $\nu\ge1$ counts only if $2^{\nu-1}<\abs k$, and $2^e\ge e+1$ gives
+$e=\nu-1\le\abs k-2$, at most $\abs k-1$ values. (iii) \ref{bpW:w7:ext-zeta}.
+\end{proof}
+\source{ours (P96-K p.~138 counts $\Lambda^+$ by $\vartheta^{-2}\abs k^2$; p.~139 sums over $\nu$ with $K_\nu=K_02^\nu$).}
+
+\subsection{The preparatory zones}\label{bpW:w7:prep-sec}
+
+\begin{proposition}[Preparatory zones]\label{bpW:w7:prep}
+$\Xi$ is Borel and $\Leb(\Xi)\le C_P\,\rho_\zeta\,D_A^{-1}\,\hat\alpha^{4/5}$.
+\end{proposition}
+\begin{proof}
+Work with the unperturbed pair on $\Pi$. $S_{0l}=\emptyset$ (Lemma~\ref{bpW:w7:sep}); fix $k\ne0$ and sum over $l$.
+\proofstep{$l=0$}\label{stepW:w7:prep-0}
+Lemma~\ref{bpW:w7:zone} with $\psi=0$, $\eta=\hat\alpha/A_k$: $\Leb(S_{k0})\le8\rho_\zeta\hat\alpha/(\abs kA_kD_A)$.
+\proofstep{$\Lambda^+$}\label{stepW:w7:prep-plus}
+For $l\in\Lambda^+$, $(k,l)\notin X$, $S_{kl}\ne\emptyset$: $\jap l\le\abs k/\vartheta$ and Lemma~\ref{bpW:w7:zone}
+applies (Lemma~\ref{bpW:w7:dichotomy}), giving $\Leb(S_{kl})\le8\rho_\zeta\hat\alpha\jap l/(\abs kA_kD_A)\le
+8\rho_\zeta\hat\alpha/(\vartheta A_kD_A)$. By Lemma~\ref{bpW:w7:count}(i) the sum is at most
+$32\rho_\zeta\hat\alpha\abs k^2/(\vartheta^3A_kD_A)$.
+\proofstep{$\Lambda^-$, grouping}\label{stepW:w7:prep-minus-group}
+The zone of $(k,-(e_i-e_j))$ is that of $(-k,e_i-e_j)$; so it suffices to bound, for each $k$, the zones
+$S_{k,ij}$ of $l=e_i-e_j$, $i>j$, and to double. Put $n=i-j\ge1$ (the source's $m$). $S_{k,ij}\neq\emptyset$ forces
+$n\le\abs k/\vartheta$. For $(k,e_i-e_j)\notin X$, Lemma~\ref{bpW:w7:zone} gives
+$\Leb(S_{k,ij})\le8\rho_\zeta\hat\alpha n/(j^{1/2}A_k\abs kD_A)$. For all $j$, by
+Lemma~\ref{bpW:w7:unpert-bounds}(iii),
+\[S_{k,ij}\subset Q_{knj}:=\Bigl\{\xi\in\Pi:\abs{\avg{k,\omega^0}+n}<\frac{\hat\alpha n}{A_kj^{1/2}}+\frac{a_\kappa n}{j^2}\Bigr\},\]
+and $Q_{knj}\subset Q_{knj_0}$ for $j\ge j_0$ (the threshold decreases in $j$).
+\proofstep{$\Lambda^-$, choice of $j_0$}\label{stepW:w7:prep-j0}
+Let $j_0=\lceil(A_k/\hat\alpha)^{2/5}\rceil$; $j_0\ge3$ since $\hat\alpha\le\frac1{27}<3^{-5/2}$. By
+Lemma~\ref{bpW:w7:zone} (with $\psi\equiv n$ for $Q_{knj_0}$),
+the union of the $S_{k,ij}$ with $i-j=n$ and $(k,e_i-e_j)\notin X$ is contained in
+$\bigcup_{3\le j<j_0,\,(k,e_i-e_j)\notin X}S_{k,ij}\cup Q_{knj_0}$, whose measure is
+\[\le\sum_{3\le j<j_0}\frac{8\rho_\zeta\hat\alpha n}{j^{1/2}A_k\abs kD_A}+\Leb(Q_{knj_0})
+\le\frac{8\rho_\zeta n}{\abs kD_A}\Bigl(\frac{\hat\alpha}{A_k}\sum_{j=1}^{j_0}j^{-1/2}+\frac{a_\kappa}{j_0^2}\Bigr)
+\le\frac{8\rho_\zeta n}{\abs kD_A}(2\sqrt2+a_\kappa)\Bigl(\frac{\hat\alpha}{A_k}\Bigr)^{4/5},\]
+using $\sum_{j\le j_0}j^{-1/2}\le2\sqrt{j_0}$, $j_0\le2(A_k/\hat\alpha)^{2/5}$ and $j_0^{-2}\le(\hat\alpha/A_k)^{4/5}$
+\ref{bpW:w7:ext-ennreal}.
+\proofstep{$\Lambda^-$, sum over $n$}\label{stepW:w7:prep-n}
+$\sum_{n\le\abs k/\vartheta}n\le\abs k^2/\vartheta^2$; doubling for the sign, the $\Lambda^-$ zones of $\pm k$ not in
+$X$ contribute at most $16\rho_\zeta(3+a_\kappa)\abs k\vartheta^{-2}(\hat\alpha/A_k)^{4/5}D_A^{-1}$ per $k$.
+\proofstep{Exceptional zones}\label{stepW:w7:prep-X}
+By Lemma~\ref{bpW:w7:Xzones} with $a=\hat\alpha$ (note $\hat w\le\jap l$), the zones with $(k,l)\in X$ have total
+measure at most $4N_X\rho_\zeta\hat\alpha K_*/(\vartheta\sigma_XD_A)$.
+\proofstep{Sum over $k$}\label{stepW:w7:prep-sum}
+With $A_k\ge\abs k^{24}$: $\abs k^{-1}A_k^{-1}$, $\abs k^2A_k^{-1}$ and $\abs kA_k^{-4/5}$ are all $\le\abs k^{-3}$.
+Summing with Lemma~\ref{bpW:w7:count}(iii) and $\hat\alpha\le\hat\alpha^{4/5}$ gives the bound with $C_P$ of (C5).
+Borel: Lemma~\ref{bpW:w7:measurable}.
+\end{proof}
+\source{P96-K Lemma~9, p.~141, with $\kappa=2$, $\varpi=\frac12$: $\lambda=\kappa/(\kappa+1-\varpi)=\frac45$; our $j_0$ is the
+source's choice $j_0^{\kappa+1-\varpi}=A_k/\hat\alpha$, rounded up. P96-K Lemma~8, p.~138, for the grouping.}
+
+\subsection{The iteration zones}\label{bpW:w7:iter-sec}
+
+\begin{proposition}[Iteration zones]\label{bpW:w7:iter}
+The set $\mathcal E_{\rm it}=\bigcup_{\nu}\bigcup_{(k,l)\in Z,\abs k>K_{\nu-1}}R^\nu_{kl}$ is Borel and
+\[\Leb(\mathcal E_{\rm it})\le\rho_\zeta D_A^{-1}\Bigl(Z_3\bigl(8+32\vartheta^{-3}+16(2+a_\kappa)\vartheta^{-2}\bigr)
+\check\alpha^{2/3}+32Z_3\vartheta^{-1}(\varepsilon_1+\varepsilon_2)+4N_XK_*^2\vartheta^{-1}\sigma_X^{-1}\check\alpha\Bigr).\]
+\end{proposition}
+\begin{proof}
+Fix $\nu$ and $k$ with $\abs k>K_{\nu-1}$ (so $k\ne0$); the pair is $(\omega_\nu,\Omega_\nu)$ on $D_\nu$, level
+$\check\alpha\le\beta_*$.
+\proofstep{$l=0$ and $\Lambda^+$}\label{stepW:w7:it-plus}
+As in Steps~\ref{stepW:w7:prep-0}--\ref{stepW:w7:prep-plus} with $\check\alpha$ in place of $\hat\alpha$, these
+zones have measure at most $8\rho_\zeta\check\alpha/(\abs kA_kD_A)+32\rho_\zeta\check\alpha\abs k^2/(\vartheta^3A_kD_A)$.
+\proofstep{$\Lambda^-$, grouping with drift}\label{stepW:w7:it-group}
+For $l=e_i-e_j$, $i>j$, $n=i-j\le\abs k/\vartheta$ (else empty). By (H2) and Lemma~\ref{bpW:w7:unpert-bounds}(iii),
+$\abs{\avg{l,\Omega_\nu}-n}\le2(\varepsilon_1+\varepsilon_2)j^{-1/2}+a_\kappa nj^{-2}$, so
+\[R^\nu_{k,ij}\subset Q_{knj}:=\Bigl\{\xi\in D_\nu:\abs{\avg{k,\omega_\nu}+n}<\frac{\check\alpha n}{A_k}
++\frac{2(\varepsilon_1+\varepsilon_2)}{j^{1/2}}+\frac{a_\kappa n}{j^2}\Bigr\},\]
+decreasing in $j$.
+\proofstep{$\Lambda^-$, choice of $j_0$}\label{stepW:w7:it-j0}
+Let $j_0=\lceil(A_k/\check\alpha)^{1/3}\rceil\ge3$ ($\check\alpha\le\frac1{27}$). Lemma~\ref{bpW:w7:zone} (for $j<j_0$,
+$(k,l)\notin X$; and for $Q_{knj_0}$ with $\psi\equiv n$):
+\begin{align*}\sum_{j<j_0}\Leb(R^\nu_{k,ij})+\Leb(Q_{knj_0})&\le\frac{8\rho_\zeta}{\abs kD_A}\Bigl(\frac{j_0\check\alpha n}{A_k}
++\frac{a_\kappa n}{j_0^2}+\frac{2(\varepsilon_1+\varepsilon_2)}{j_0^{1/2}}\Bigr)\\
+&\le\frac{8\rho_\zeta}{\abs kD_A}\Bigl((2+a_\kappa)n\Bigl(\frac{\check\alpha}{A_k}\Bigr)^{2/3}+2(\varepsilon_1+\varepsilon_2)A_k^{-1/6}\Bigr).\end{align*}
+\proofstep{$\Lambda^-$, sum over $n$ and sign}\label{stepW:w7:it-n}
+Summing $n\le\abs k/\vartheta$ and doubling:
+$16\rho_\zeta D_A^{-1}\bigl((2+a_\kappa)\vartheta^{-2}\abs k(\check\alpha/A_k)^{2/3}+2\vartheta^{-1}
+(\varepsilon_1+\varepsilon_2)A_k^{-1/6}\bigr)$.
+\proofstep{Sum over $\nu$ and $k$}\label{stepW:w7:it-sum}
+By Lemma~\ref{bpW:w7:count}(ii) each $k$ occurs for at most $\abs k$ values of $\nu$. Multiplied by $\abs k$, each per-$k$
+term is $\le\abs k^{-3}$ times its coefficient ($\abs kA_k^{-1/6}\le\abs k^{-3}$ is the slowest, since $\tau=24$); sum
+with Lemma~\ref{bpW:w7:count}(iii).
+\proofstep{Exceptional zones}\label{stepW:w7:it-X}
+Each $(k,l)\in X$ occurs for at most $\abs k<K_*$ values of $\nu$; Lemma~\ref{bpW:w7:Xzones} with $a=\check\alpha$.
+Borel: Lemma~\ref{bpW:w7:measurable}.
+\end{proof}
+\source{P96-K Lemma~10, p.~142 ($\mu=\kappa^*=\kappa/(\kappa+1)=\frac23$, contribution of order $\alpha$ from the
+preparatory shift of $\Omega$); Lemma~8 and (21), pp.~138--139; proof of Theorem~B, p.~139.}
+
+\subsection{The measure theorem}\label{bpW:w7:main-sec}
+
+\begin{lemma}[Measurability]\label{bpW:w7:measurable}
+Every zone $S_{kl}$, $R^\nu_{kl}$, $Q_{knj}$ is Borel, and so are $\Xi$, $\mathcal E_{\rm it}$, $\mathcal E$ and
+$\Pi\setminus\mathcal E$.
+\end{lemma}
+\begin{proof}
+\proofstep{Continuity}\label{stepW:w7:meas-cont}
+$\omega^0,\Omega^0_j$ are affine; $\omega_\nu-\omega^0$ and $\Omega_{\nu,j}-\Omega^0_j$ are Lipschitz on $D_\nu$ by
+(H1)--(H2); each $\phi_{kl}$ involves finitely many $j$, so it is continuous on its Borel domain.
+\proofstep{Unions}\label{stepW:w7:meas-union}
+\ref{bpW:w7:ext-borel}; the index sets $\N\times Z$ are countable.
+\end{proof}
+\source{ours (P96-K does not discuss measurability; its zones are open in $\Pi$ after the extension of Lemma~A.2).}
+
+\begin{theorem}[Measure of the resonance set; P96-K Theorem~D for the wave equation]\label{bpW:w7:measure}
+Let $m>0$ and the constants of Definition~\ref{bpW:w7:constdef} be given. Let $\Pi\subset\{\xi\in\R^2:
+\abs\xi_\infty\le\frac12\}$ be Borel with $\rho=\operatorname{diam}_\infty\Pi$, let $0<\alpha\le\alpha_0$, and let an
+admissible family (Definition~\ref{bpW:w7:family}) be given. Then $\mathcal E$ is Borel and
+\[\Leb(\mathcal E)\le C_7\,\rho\,\alpha^{16/23}.\]
+Equivalently, in the frequency coordinates, $\Leb(\omega^0(\mathcal E))\le(C_P+C_I)N_A\rho\,\alpha^{16/23}$. The
+constant $C_7$ depends on $m$ only.
+\end{theorem}
+\begin{proof}
+\proofstep{Assemble}\label{stepW:w7:assemble}
+$\Leb(\mathcal E)\le\Leb(\Xi)+\Leb(\mathcal E_{\rm it})$ by \ref{bpW:w7:ext-borel}. In
+Propositions~\ref{bpW:w7:prep}--\ref{bpW:w7:iter} substitute $\hat\alpha^{4/5}=\alpha^{\frac{20}{23}\cdot\frac45}
+=\alpha^{16/23}$, $\check\alpha^{2/3}=\alpha^{\frac{24}{23}\cdot\frac23}=\alpha^{16/23}$, $\check\alpha\le\alpha
+\le\alpha^{16/23}$ and $\varepsilon_1+\varepsilon_2\le2\alpha$ (all exponents of $\alpha\le1$ compared).
+\proofstep{Return to $\xi$}\label{stepW:w7:return}
+$\rho_\zeta/D_A\le N_A\rho/D_A=L_A\rho$ (Lemma~\ref{bpW:w7:freqcoords}(ii)).
+\end{proof}
+\source{P96-K Theorem~D, p.~124, and its proof, pp.~140--142, for $n=2$, $d=1$, $\kappa=2$, $\bar p-p=1$,
+$\varpi=\frac12$: $\tilde\mu=\kappa/(\kappa+1-\varpi/4)=\frac{16}{23}$, $c\rho^{n-1}=c\rho$. The source's choice
+$w=\varpi/(4\kappa+4-\varpi)=\frac1{23}$ is used.}
+
+\begin{corollary}[Melnikov conditions on the complement]\label{bpW:w7:melnikov}
+In the setting of Theorem~\ref{bpW:w7:measure}:
+\begin{enumerate}[label=(\roman*)]
+\item for $\xi\in\Pi\setminus\Xi$ and all $(k,l)\in Z$:
+  $\abs{\avg{k,\omega^0(\xi)}+\avg{l,\Omega^0(\xi)}}\ge\hat\alpha\hat w(l)/A_k$; in particular ($l=0$)
+  $\abs{\avg{k,\omega^0(\xi)}}\ge\hat\alpha/A_k$ for $k\ne0$;
+\item for $\xi\in D_\nu\setminus\bigcup_{\abs k>K_{\nu-1}}R^\nu_{kl}$: $\abs{\avg{k,\omega_\nu}+\avg{l,\Omega_\nu}}
+  \ge\check\alpha\jap l/A_k$ for all $(k,l)\in Z$ with $\abs k>K_{\nu-1}$;
+\item for every frequency pair, every $\xi$ in its domain and $l\in\Lambda$ ($k=0$):
+  $\abs{\avg{l,\Omega'(\xi)}}\ge2\beta_*\jap l\ge\hat\alpha\jap l$.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+(i), (ii): negation of the zone definitions (Definition~\ref{bpW:w7:zones}). (iii): Lemma~\ref{bpW:w7:sep}.
+\end{proof}
+\source{P96-K (5) and (23), pp.~125, 140; Theorem~A, p.~122.}
+
+\subsection{Action shells and density one}\label{bpW:w7:density-sec}
+
+The headline's clause (1) compares $\Gamma$ with the positive quadrant $P=(0,\infty)^2$ in the max-norm ball
+$B_h=(-h,h)^2$. KP96 obtains density one by applying the KAM theorem on a sequence of shrinking action shells and
+taking the union (KP96 p.~28, Step~5). Here is the measure part of that patching.
+
+\begin{definition}[Shells]\label{bpW:w7:shells}
+Fix $q\in(0,1)$ and $t_0\in(0,\frac12]$; $t_k=q^kt_0$. The $k$-th shell is
+$\mathcal R_k=(0,t_k)^2\setminus(0,t_{k+1})^2=\{I\in(0,t_k)^2:\max_iI_i\ge t_{k+1}\}$. For $a>0$,
+$U_{-a}\mathcal R_k=\{I\in\mathcal R_k:\operatorname{dist}_\infty(I,\R^2\setminus\mathcal R_k)>a\}$.
+\end{definition}
+\source{KP96 p.~26, Step~3 ($\Xi_r=\{0<\xi<r^{2\lambda}\}$, $U_{-\rho}$), p.~28, Step~5 ($R_r=\Xi_r\setminus\Xi_{\eta r}$,
+$R_r^-=U_{-\alpha}R_r$, $r_k=\eta^kr_0$). Our $t_k$ is KP96's $r_k^{2\lambda}$ and $q=\eta^{2\lambda}$.}
+
+\begin{lemma}[Shell geometry]\label{bpW:w7:shell-geom}
+(i) The shells $\mathcal R_l$, $l\ge k$, are pairwise disjoint Borel sets with union $(0,t_k)^2$, and
+$\Leb(\mathcal R_l)=(1-q^2)t_l^2$. (ii) For $0<a\le t_k$, $\Leb(\mathcal R_k\setminus U_{-a}\mathcal R_k)\le7at_k$.
+(iii) $\mathcal R_k\subset\{I:\abs I_\infty\ge t_{k+1}\}$ and $\operatorname{diam}_\infty\mathcal R_k\le t_k$.
+\end{lemma}
+\begin{proof}
+\proofstep{Partition}\label{stepW:w7:partition}
+For $I\in(0,t_k)^2$, $M=\max_iI_i\in(0,t_k)$ and $t_l\downarrow0$, so there is exactly one $l\ge k$ with
+$t_{l+1}\le M<t_l$, i.e.\ $I\in\mathcal R_l$. $\Leb(\mathcal R_l)=t_l^2-t_{l+1}^2$ \ref{bpW:w7:ext-ball}.
+\proofstep{Boundary layer}\label{stepW:w7:layer}
+If $I\in\mathcal R_k$ satisfies $a<I_i<t_k-a$ ($i=1,2$) and $\max_iI_i>t_{k+1}+a$, then a max-norm ball of radius
+slightly larger than $a$ around $I$ stays in $\mathcal R_k$ (all inequalities are strict), so
+$I\in U_{-a}\mathcal R_k$. The complement in $\mathcal R_k$ lies in four strips of measure $\le at_k$ each and in
+$\{t_{k+1}\le\max_iI_i\le t_{k+1}+a\}\cap(0,t_k)^2$, of measure $\le(t_{k+1}+a)^2-t_{k+1}^2\le3at_k$.
+\proofstep{Size}\label{stepW:w7:shell-size}
+Immediate.
+\end{proof}
+\source{ours (KP96 p.~28 uses $\abs{R_r\setminus C_r}\le c\alpha^\mu r^{-2\lambda}\abs{R_r}$ without the boundary layer).}
+
+\begin{theorem}[Density one from shell estimates]\label{bpW:w7:density}
+Let $q$, $t_k$, $\mathcal R_k$ be as in Definition~\ref{bpW:w7:shells}, and let $\Gamma\subset P$ be Borel with
+\[\epsilon_k:=\frac{\Leb(\mathcal R_k\setminus\Gamma)}{\Leb(\mathcal R_k)}\longrightarrow0\qquad(k\to\infty).\]
+Then, with \Lean{volume} on \Lean{Fin 2 -> Real} and $B_h=$ \Lean{Metric.ball 0 h},
+\[\lim_{h\downarrow0}\frac{\Leb(\Gamma\cap B_h)}{\Leb(P\cap B_h)}=1\quad\text{in }[0,\infty],\]
+which is clause (1) of \Lean{KAM.Wave.nlw2}. Quantitatively, for $t_{k+1}<h\le t_k$ the ratio lies in
+$[1-q^{-2}\sup_{l\ge k}\epsilon_l,\,1]$.
+\end{theorem}
+\begin{proof}
+\proofstep{Denominator}\label{stepW:w7:den}
+For $h>0$, $P\cap B_h=(0,h)^2$ and $\Leb(P\cap B_h)=h^2\in(0,\infty)$ \ref{bpW:w7:ext-ball}.
+\proofstep{Upper bound}\label{stepW:w7:upper}
+$\Gamma\cap B_h\subset(0,h)^2$ since $\Gamma\subset P$; the ratio is $\le1$.
+\proofstep{Lower bound}\label{stepW:w7:lower}
+For $0<h\le t_0$ let $k$ be the index with $t_{k+1}<h\le t_k$. Then $(0,h)^2\subset(0,t_k)^2=\bigsqcup_{l\ge k}
+\mathcal R_l$ (Lemma~\ref{bpW:w7:shell-geom}(i)), so
+\[\Leb\bigl((0,h)^2\setminus\Gamma\bigr)\le\sum_{l\ge k}\epsilon_l(1-q^2)t_l^2\le\bar\epsilon_k\,t_k^2,
+\qquad\bar\epsilon_k=\sup_{l\ge k}\epsilon_l,\]
+and $t_k^2<h^2/q^2$. Hence $\Leb(\Gamma\cap B_h)=h^2-\Leb((0,h)^2\setminus\Gamma)\ge h^2(1-\bar\epsilon_k/q^2)$.
+\proofstep{Limit}\label{stepW:w7:limit}
+As $h\downarrow0$, $k\to\infty$ and $\bar\epsilon_k\to0$; squeeze \ref{bpW:w7:ext-ennreal}. In Lean the ratio is an
+\Lean{ENNReal} quotient with nonzero finite denominator, and the filter is \Lean{nhdsWithin 0 (Set.Ioi 0)}.
+\end{proof}
+\source{KP96 p.~28, Step~5 and p.~29 (``$\abs{E\cap\Xi_{r_k}}\le\sum_{l\ge k}\abs{R_{r_l}\setminus C_{r_l}}$''), in the
+max-norm-ball form of the frozen clause (1); ours for the ratio with $P\cap B_h$.}
+
+\begin{corollary}[Shell estimate from Theorem~\ref{bpW:w7:measure}]\label{bpW:w7:shell-est}
+Suppose that for every $k$ there are $\alpha_k\in(0,\alpha_0]$ with $\alpha_k\le t_k$ and a Borel set $\Pi_k$ with
+$U_{-\alpha_k}\mathcal R_k\subset\Pi_k\subset(0,t_k)^2$, and an admissible family for $(\Pi_k,\alpha_k)$ with excluded
+set $\mathcal E_k$ such that $\Gamma\supset\mathcal R_k\cap(\Pi_k\setminus\mathcal E_k)$. Then
+\[\epsilon_k\le\frac{7\alpha_k+C_7\alpha_k^{16/23}}{(1-q^2)\,t_k}\le\frac{(7+C_7)\,\alpha_k^{16/23}}{(1-q^2)\,t_k}.\]
+Hence $\epsilon_k\to0$ whenever $\alpha_k^{16/23}/t_k\to0$, and then Theorem~\ref{bpW:w7:density} applies.
+\end{corollary}
+\begin{proof}
+$\mathcal R_k\setminus\Gamma\subset(\mathcal R_k\setminus U_{-\alpha_k}\mathcal R_k)\cup\mathcal E_k$; apply
+Lemma~\ref{bpW:w7:shell-geom}(ii) and Theorem~\ref{bpW:w7:measure} with $\rho\le t_k$
+(Lemma~\ref{bpW:w7:shell-geom}(iii); $\Pi_k\subset\{\abs\xi_\infty\le\frac12\}$ since $t_k\le\frac12$), and divide by
+$\Leb(\mathcal R_k)=(1-q^2)t_k^2$.
+\end{proof}
+\source{KP96 p.~27, (10), and p.~28, Step~5.}
+
+\begin{remark}[Scaling with the action radius; admissible choices of $\alpha$]\label{bpW:w7:exponents}
+On a box of side $t$ in the actions (tangential amplitude $\sim\sqrt t$, i.e.\ $r(I)^2\sim t$ in the headline's
+$r(I)=\sqrt{I_1+I_2}$), the frequency box has side $\le N_At$ and area $D_At^2$, and the excluded fraction is
+$\le C\alpha^{16/23}/t$: the excluded set scales like $t\,\alpha^{16/23}$, not like the area $t^2$. In KP96's
+variables (p.~26, Step~3) $t=r^{2\lambda}$ with $\lambda=4/g=\frac23$ and $r$ the normal-domain radius, and the KAM
+smallness needs $\alpha\ge c_1r^2=c_1t^{3/2}$ (p.~27, (8)). Density needs $\alpha^{16/23}=o(t)$, i.e.\
+$\alpha=o(t^{23/16})$. Since $\frac32>\frac{23}{16}$ these are compatible; equivalently $\frac{16}{23}\cdot2>2\lambda=\frac43$,
+which is KP96's $\lambda<\bar\mu$ (p.~30, Step~8) and P96-W's $g=6>4+(4-\Delta)/\kappa=\frac{11}2$ (p.~291). An explicit
+choice is $\alpha(t)=t^{47/32}$ (KP96's $\alpha=r^{47/24}$): then $\alpha^{16/23}/t=t^{1/46}\to0$ and
+$t^{3/2}/\alpha=t^{1/32}\to0$. The choice belongs to W8 (it also controls the closeness $\Psi-\Psi_0$); W7 needs only
+$\alpha_k\le\min(\alpha_0,t_k)$ and $\alpha_k^{16/23}/t_k\to0$. With P96-K Theorem~B's $\mu=\frac23$ one would need
+$\alpha=o(t^{3/2})$, which contradicts the KAM smallness: this is why Theorem~D is used.
+\end{remark}
+\source{KP96 pp.~26--30, Steps~3--8; P96-W p.~289 (Cantor Manifold Theorem) and p.~291; P96-K p.~123 (the
+coarse estimate is ``not sufficient'' for the wave equation).}
+
+\subsection{Diophantine frequencies and the frequency limit}\label{bpW:w7:dioph-sec}
+
+\begin{lemma}[From the $l=0$ condition to \Lean{KAM.IsDiophantine}]\label{bpW:w7:dioph}
+Let $c>0$ and $\omega\in\R^2$ with $\abs{\avg{k,\omega}}\ge c/A_k$ for all $k\in\Z^2\setminus0$
+($A_k=1+\abs k^{24}$). Then $\nu=\omega/(2\pi)$ satisfies \Lean{KAM.IsDiophantine (c/(4*pi)) 24 nu}, i.e.
+\[\frac{c/(4\pi)}{\bigl(\sum_i\abs{k_i}\bigr)^{24}}\le\Bigl|\sum_ik_i\nu_i\Bigr|\qquad(k\in\Z^2,\ k\ne0).\]
+\end{lemma}
+\begin{proof}
+\proofstep{Base}\label{stepW:w7:dioph-base}
+For $k\ne0$, $S=\sum_i\abs{k_i}$ is a positive integer, so $S\ge1$, $S^{24}\ge1$ and $A_k=1+S^{24}\le2S^{24}$ (Lean:
+the real power \Lean{Real.rpow} with base $S\ge1>0$; $24$ is the real number $\tau$).
+\proofstep{Rescale}\label{stepW:w7:dioph-scale}
+$\abs{\sum_ik_i\nu_i}=\abs{\avg{k,\omega}}/(2\pi)\ge c/(2\pi A_k)\ge c/(4\pi S^{24})$.
+\end{proof}
+\source{ours. Frozen \Lean{KAM.IsDiophantine} (\texttt{KAM/Frozen/Defs/IsDiophantine.lean}): $\gamma/\abs k_1^\tau\le
+\abs{k\cdot\omega}$, $\abs k_1=\sum\abs{k_i}$, no $2\pi$; the $2\pi$ enters through $\nu=\omega/(2\pi)$
+(Convention~\ref{bpW:w0:periodone}). P96-K Remark~1, p.~122 (frequencies are Diophantine).}
+
+\begin{remark}[Use in clause (2)]\label{bpW:w7:dioph-use}
+On the final parameter set of a shell, \texttt{bpW:w6:final-freq} gives $\abs{\avg{k,\omega_*}}\ge\check\alpha/(2A_k)$,
+so Lemma~\ref{bpW:w7:dioph} with $c=\check\alpha/2$ gives $\gamma_I=\check\alpha_k/(8\pi)>0$, $\check\alpha_k=
+\alpha_k^{24/23}$, for every $I$ in that shell's part of $\Gamma$, with the single exponent $\tau=24>1$ of the headline.
+$\gamma_I$ depends on the shell and tends to $0$ as $I\to0$, as the headline allows.
+\end{remark}
+
+\begin{lemma}[Frequency limit]\label{bpW:w7:limit}
+Let $\Gamma\subset\bigcup_k\mathcal R_k$ and $\omega_*:\Gamma\to\R^2$ with
+$\sup_{\Gamma\cap\mathcal R_k}\abs{\omega_*-\omega^0}_\infty\le e_k$, $e_k\to0$. Then $\nu=\omega_*/(2\pi)$
+satisfies $\nu(I)\to\lambda_J/(2\pi)$ as $I\to0$ in $\Gamma$, i.e.\ \Lean{Tendsto nu (nhdsWithin 0 Gamma) (nhds
+fun i => lam m hm (i : Nat).succPNat / (2 * pi))}.
+\end{lemma}
+\begin{proof}
+\proofstep{Shell index}\label{stepW:w7:lim-index}
+If $I\in\Gamma\cap\mathcal R_k$ and $\abs I_\infty<t_{k_0+1}$, then $t_{k+1}\le\abs I_\infty<t_{k_0+1}$
+(Lemma~\ref{bpW:w7:shell-geom}(iii)), so $k>k_0$.
+\proofstep{Estimate}\label{stepW:w7:lim-est}
+$\abs{\nu(I)-\lambda_J/(2\pi)}_\infty\le(e_k+N_A\abs I_\infty)/(2\pi)$; given $\epsilon>0$ choose $k_0$ with
+$\sup_{k>k_0}e_k<\pi\epsilon$ and then $\abs I_\infty<\min(t_{k_0+1},\pi\epsilon/N_A)$. The Lean index $i$ of
+\Lean{Fin 2} is the mode $i+1$ (\Lean{(i : Nat).succPNat}), so the limit vector is $(\lambda_1,\lambda_2)/(2\pi)$.
+\end{proof}
+\source{ours; KP96 p.~27, (9) ($\abs{\tilde\omega_r-\omega}\le cr^2$) gives $e_k$ for W8.}
+
+\subsection{Source check, deviations and suspected errata}\label{bpW:w7:check}
+
+\begin{remark}[Pages read and findings]\label{bpW:w7:errata}
+All P96-K pages cited (pp.~120--125, 131--142) and P96-W pp.~287--291 were read on the page images; KP96
+pp.~22--31 on the author PDF. Findings in \S\S5--6 of P96-K:
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Constant in Lemma~5, p.~137.} Printed: ``$\{r:rv+w\in\Delta,\abs{\phi(rv+w)}\le\delta\}\subseteq\{r:
+  \abs{r-r_0(w)}\le4\delta\abs k^{-1}\}$ \dots\ and hence $\abs{\mathcal R^\Delta_{kl}(\alpha)}\le4(\operatorname{diam}
+  \Delta)^{n-1}\alpha\cdot\frac{\jap l_d}{A_k\abs k}$ by Fubini's theorem.'' The $r$-set has length $8\delta/\abs k$, and
+  the coordinates $(r,w)\mapsto rv+w$, $v\in\{\pm1\}^n$, have Jacobian $\abs v_2=\sqrt n$, so the factor $4$ does not
+  follow (already for $n=1$ the display gives $8$). Harmless: only the form $c_3\alpha/A_k$ is used later. Our
+  Lemma~\ref{bpW:w7:zone} has the factor $8\rho_\zeta/D_A$ with coordinate lines.
+\item \emph{Symbol $\kappa$ in \S6, p.~140.} The display ``$\lessdot\frac1{(\hat\alpha\sigma^t)^{\kappa-1}}
+  (\abs{X_P}^\lambda_{\check p,r})^\kappa$'' uses the $\kappa=\frac43$ of \S4 (p.~132, ``where $\kappa=\frac43$''), not the
+  spectral $\kappa$ of Theorem~D (p.~123, the unnumbered spectral-asymptotic display preceding Theorem~B); only with $\frac43$ does $\hat\alpha=\alpha^{1-3w}$ yield
+  $\check\alpha=\alpha^{1+w}$. Notational clash, not a mathematical error; it concerns W5--W6, not W7.
+\item \emph{Lemma~10, p.~142: ``the functions $\avg{k,\omega'}+\avg{l,\Omega'}$ are Lipschitz close of order $\alpha$
+  to nontrivial affine functions''.} Theorem~A gives sup-closeness $O(\alpha)$ but Lipschitz closeness only
+  $\abs{\omega_\nu-\omega}^{\mathcal L}\le c\epsilon M/\alpha\le c\gamma M$, a small constant, not $O(\alpha)$. What the
+  argument needs is Lipschitz closeness small compared with the gradients of the finitely many affine functions of
+  $\mathcal X$, which holds after shrinking $\gamma$ depending on $\mathcal X$ (an explicit alternative to P96-K's
+  Corollary~C, pp.~123 and~140, which chooses $K_0$ large so that the exceptional zones use the unperturbed frequencies).
+  The printed order-$\alpha$ assertion for the unweighted Lipschitz seminorm is not justified by these estimates. The
+  proof needs only sufficiently small Lipschitz seminorm, made explicit here by $\theta\le\theta_0$
+  (Lemma~\ref{bpW:w7:Xzones}, (C4)); the measure conclusion is retained.
+\item No other defect found in Lemmas~3--10, Theorem~B, Corollary~C, Theorem~D. Checked in particular: (22) for
+  $d=1$ reads $\tau\ge(n+3)\frac{\delta-1}\delta$, which for $\delta<0$ equals $(n+3)/\delta^*$ as the proof needs; the
+  ``whichever gives the better estimate'' choice of $j_0$ in Lemma~8 does give $\alpha^{\kappa^*}A_k^{-\delta^*}$ when the
+  two choices are used in complementary ranges of $A_k$; the exponent algebra of p.~142 ($w=\varpi/(4\kappa+4-\varpi)$,
+  $\tilde\mu=\kappa/(\kappa+1-\varpi/4)$); and $\alpha\le\check\alpha^\mu$, which lets p.~142 drop the term $\alpha$ of
+  Lemma~10.
+\end{enumerate}
+\emph{Deviations introduced here:} Dirichlet labels and $\jap l$ instead of P96-K's reindexed weights
+(Remark~\ref{bpW:w7:reindex}); coordinate-line slicing on the domain of the frequency maps instead of oblique lines
+after a Lipschitz extension; explicit constants and the fixed choices $\varpi=\frac12$, $\tau=24$; a single drift
+hypothesis (H2) combining the preparatory shift ($j^{-1}$) and the iteration drift ($j^{-1/2}$); our own choices of
+$j_0$; the boundary layer of Lemma~\ref{bpW:w7:shell-geom}(ii); measurability (not discussed in the sources).
+\end{remark}
+
+\subsection{Summary of the interface}\label{bpW:w7:summary}
+
+\begin{remark}[Consumed and supplied]\label{bpW:w7:interface}
+\emph{Consumed:} Theorem~\ref{bpW:w0n:AB} ($A$, $B$), Theorem~\ref{bpW:w0n:nondeg} ((i) $\det A$, (iii) (A$_3$)),
+Remark~\ref{bpW:w0n:kappa} ($\kappa=2$, re-proved quantitatively in Lemma~\ref{bpW:w7:unpert-bounds}); forward from W6:
+\texttt{bpW:w6:prep-step}, \texttt{bpW:w6:freq-lip}, \texttt{bpW:w6:exclusion}, \texttt{bpW:w6:final-freq}
+(Remark~\ref{bpW:w7:w6-needs}). \emph{Supplied:} to W5--W6, the constants $\tau=24$, $\varpi=\frac12$, $\theta_0$,
+$\alpha_0$, the zone definitions and Corollary~\ref{bpW:w7:melnikov} (in particular the $k=0$ conditions); to W8,
+Theorem~\ref{bpW:w7:measure}, Theorem~\ref{bpW:w7:density} with Corollary~\ref{bpW:w7:shell-est} (clause (1)),
+Lemma~\ref{bpW:w7:dioph} and Lemma~\ref{bpW:w7:limit} (clause (2)), Lemma~\ref{bpW:w7:measurable} (Borel $\Gamma$),
+and Remark~\ref{bpW:w7:exponents} (admissible $\alpha(t)$).
+\end{remark}

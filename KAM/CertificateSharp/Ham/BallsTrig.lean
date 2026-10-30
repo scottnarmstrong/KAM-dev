@@ -220,7 +220,7 @@ theorem stepT_sound {n : ℕ} {WH : CertWeight} {s N : ℕ} (hW : checkWeight WH
     simp only [stepT, Option.some.injEq] at h
     subst h
     refine ⟨?_, fun k' a hk => ?_⟩
-    · have := plain (⟨0, 0⟩, WH.w ^ (k.map Int.natAbs).sum) (by simp [ballStep])
+    · have := plain (⟨0, 0⟩, WH.w ^ (k.map Int.natAbs).sum) (ballStep_char _ k)
       simpa using this
     · simp only [TrigShape.term.injEq] at hk
       obtain ⟨rfl, rfl⟩ := hk
@@ -362,8 +362,7 @@ theorem ballsAuxT_prefix_inv {n : ℕ} {WH : CertWeight} {centre radius : List �
       subst hj
       simp only [stepT, Option.map_eq_some_iff] at hb
       obtain ⟨r, hr, -⟩ := hb
-      simp only [ballStep] at hr
-      split_ifs at hr with hlt
+      have hlt := ballStep_inv_lt hr
       by_cases ha : a < acc.length
       · obtain ⟨t, ht⟩ := (List.prefix_append acc [b]).trans hp
         have : (bs.map Prod.fst).getD a ballZero = (acc.map Prod.fst).getD a ballZero := by

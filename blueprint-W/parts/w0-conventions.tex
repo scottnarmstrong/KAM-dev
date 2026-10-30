@@ -67,7 +67,11 @@ appear only as target spaces of the unbounded linear part.
 For $a\ge0$, $s\in\R$, $\ell^{a,s}_b$ is the space of complex sequences $(c_l)_{l\in\Z}$ with
 \[\norm{c}_{a,s}^2=\sum_{l\in\Z}\jap{l}^{2s}e^{2a\abs l}\abs{c_l}^2<\infty,\qquad \jap l=\max(1,\abs l).\]
 At $l=0$ the weight is $1$, so this is exactly the norm $\abs{c_0}^2+\sum_{l\ne0}\abs{c_l}^2\abs l^{2s}e^{2\abs la}$ of
-P96-W p.~279. The convolution is $(c*d)_l=\sum_{i\in\Z}c_id_{l-i}$.
+P96-W p.~279. For $a\ge0$, $s\ge0$ and $c,d\in\ell^{a,s}_b$ the convolution is $(c*d)_l=\sum_{i\in\Z}c_id_{l-i}$;
+the series converges absolutely for every $l$ by Cauchy--Schwarz, since the weight is $\ge1$ and so
+$\norm c_{\ell^2}\le\norm c_{a,s}$. (For $s<0$ it can diverge, e.g.\ $a=0$, $s=-1$, $c=d\equiv1$; every use has
+$s\ge0$, e.g.\ $s\ge1$ in Lemma~\ref{bpW:w0n:algebra}; W1's Lean version is guarded by summability,
+Definition~\ref{bpW:w1:twosided-transport}.)
 \end{definition}
 
 \subsection{Coordinates, Hamiltonian and equations of motion}\label{bpW:w0:hamiltonian}
@@ -88,16 +92,20 @@ together with all their $x$-derivatives, for every $p\in\R$.
 For $(q,p)\in E_{1,1}$,
 \[H_m(q,p)=\Lambda(q,p)+G(q),\qquad \Lambda(q,p)=\frac12\sum_{j\ge1}\lambda_j\bigl(q_j^2+p_j^2\bigr),\qquad
 G(q)=\frac14\int_0^\pi U_m(q)(x)^4\,dx.\]
-$\Lambda$ is finite on $E_{a,p}$ for $p\ge\frac12$; in particular on $E_{1,1}$.
+$\Lambda$ is finite on $E_{a,p}$ for $p\ge\frac12$; in particular on $E_{1,1}$. The same formula defines $G(q)$ for
+$q\in\ell^{a,p}$ with $a>0$, $p\in\R$ ($U_m(q)$ is continuous by Lemma~\ref{bpW:w0n:recon-bounded}); this is the
+domain on which Lemma~\ref{bpW:w0n:gradient} and Proposition~\ref{bpW:w1:gradient-identity} use $G$.
 \end{definition}
 \source{P96-W (8) p.~280 and (9) p.~280 with $g(u)=u^4/4$; the energy $\frac12\avg{v,v}+\frac12\avg{Au,u}+\int g(u)$
 of p.~277 in the coordinates of Definition~\ref{bpW:w0:reconstruction}.}
 
 \begin{definition}[Cubic gradient]\label{bpW:w0:Gq}
-For $q\in\ell^{1,1}$ let $\Gq(q)$ be the sequence
-\[\Gq(q)_l=\frac{1}{\sqrt{\lambda_l}}\int_0^\pi U_m(q)(x)^3\phi_l(x)\,dx\qquad(l\ge1).\]
-By Lemma~\ref{bpW:w0n:gradient}, $\Gq(q)_l=\partial G/\partial q_l$; by Theorem~\ref{bpW:w0n:cubic-bound}
-it lies in $\ell^{1,2}$.
+For $a>0$, $p\in\R$ and $q\in\ell^{a,p}$ let $\Gq(q)$ be the sequence
+\[\Gq(q)_l=\frac{1}{\sqrt{\lambda_l}}\int_0^\pi U_m(q)(x)^3\phi_l(x)\,dx\qquad(l\ge1);\]
+the integrand is continuous by Lemma~\ref{bpW:w0n:recon-bounded} ($k=0$), and the value depends only on the
+sequence $q$, not on the space $\ell^{a,p}$ containing it. The headline (and the frozen \Lean{cubicGrad}) uses
+$q\in\ell^{1,1}$. For $p\ge0$, $\Gq(q)_l=\partial G/\partial q_l$ by Lemma~\ref{bpW:w0n:gradient}; for $p\ge\frac12$,
+$\Gq(q)\in\ell^{a,p+1}$ by Theorem~\ref{bpW:w0n:cubic-bound}, in particular $\Gq(q)\in\ell^{1,2}$ for $q\in\ell^{1,1}$.
 \end{definition}
 
 \begin{definition}[Symplectic form and equations of motion]\label{bpW:w0:eqmotion}

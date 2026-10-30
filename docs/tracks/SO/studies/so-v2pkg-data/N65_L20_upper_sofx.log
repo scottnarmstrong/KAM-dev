@@ -1,0 +1,40 @@
+[16:01:16] built upper
+[16:01:21] checkInvariance True 6s {"rows": [7.937833972695909e-25, 1.0097419586828951e-28, 1.8277717767689999e-16, 6.08676559195698e-17], "err": 1.0, "margin": 0.9999999999999998}
+[16:01:25] checkEnergy True 4s {"value": 6.67933755708046e-19, "err": 1.0, "margin": 1.0}
+[16:01:25] err 1.83e-16 disp 7.69e-11
+[16:01:35] checkGram True 10s {"dRows": [3.0245124813552796e-07, 7.79567675970291e-08], "bRows": [5.360565974810978, 1.0002913652553984], "margin": 0.011182400496530282}
+[16:02:46] graph {"mono": {"gridmin": null, "m0": 1.0, "m": 0.1353116, "resid_half": 0.8646882611049159, "g_terms": 0}, "pLo": {"gridmin": 1.0067828945198398, "m0": 1.006482895, "m": 1.006478, "resid_half": 4.773396365217468e-06, "g_terms": 197}, "pHi": {"gridmin": -1.0271261674095928, "m0": -1.027426167, "m": -1.027544, "resid_half": 0.00011766541465181675, "g_terms": 207}}
+[16:06:52] checkStatic True 158s {"params": true, "weight": true, "weightH": true, "pi": true, "L": 1.999998000002, "rays": true, "ray_margin": 9.99998000002e-07, "weight_margin": 7.76418863432494e-31, "weightH_margin": 3.544911022746117e-31}
+[16:06:52] checkHamBounds True 0s {"bounds": [2.077685943415203, 2.0, 2.0, 1.497023315480368, 2.1191293171553705], "M": 2.16, "margin": 0.04087068284462946}
+[16:06:52] checkEmbedding True 0s {"room": 0.006197142857142857, "iota": [[0.06202325931110637, 0.006177490590361352], [0.0, 0.0]], "action": [[0.013327972732591004, 0.01336], [8.26393866763499e-05, 0.00011]], "dkRows": [1.8648486826505892, 1.0, 0.2062920149354503, 0.001790376565942416], "dk_margin": 0.0019013173494107033, "iota_margin": 1.9652266781505023e-05, "action_margin": 2.7360613323650102e-05}
+[16:06:55] checkInvariance True 4s {"rows": [7.937833972695909e-25, 1.0097419586828951e-28, 1.8277717767689999e-16, 6.08676559195698e-17], "err": 1.83e-16, "margin": 2.228223231000134e-19}
+[16:06:59] checkEnergy True 4s {"value": 6.67933755708046e-19, "err": 1.83e-16, "margin": 1.8233206624429194e-16}
+[16:07:02] checkGram True 2s {"dRows": [3.0245124813552796e-07, 7.79567675970291e-08], "bRows": [5.360565974810978, 1.0002913652553984], "margin": 0.011182400496530282}
+[16:07:18] checkTorsion True 16s {"a": 2.026710901334889e-12, "b": 0.5040638905211381, "r": 5.894812314218136e-05, "deltaT": 2.971362231667797e-05, "margin": 0.009670844105396715, "centre": [[[3.80717976325559, 0.0], [-4.547473508864641e-12, 0.0], [0.030479425828925273, 0.0]], [[4.547473508864641e-12, 0.0], [0.0, 0.0], [2.0, 0.0]], [[0.030479425821207332, 0.0], [2.0000000000109326, 0.0], [0.0, 0.0]]]}
+[16:07:18] checkSmallness False 0s {"C1_ratio": 2.668035020381557e+80, "C2_ratio": 9.674774736372568e+39}
+[16:07:18] checkSoGraph True {"strict": {"disp": 7.69e-11, "mono_rhoInf": 9.665114285714285e-07}, "mono": {"sup": 1.7293765222098318, "bound": 1.7293768, "margin": 2.7779016807785496e-07}, "pLo": {"sup": 9.546792730434936e-06, "bound": 9.79e-06, "margin": 2.4320726956506406e-07}, "pHi": {"sup": 0.0002353308293036335, "bound": 0.000235666, "margin": 3.3517069636648817e-07}}
+[16:07:18] sharpTest False
+[16:07:18] FAILS upper
+	Command being timed: "timeout 14400 nice -n 10 python3 sofx_gen.py upper /mnt/HC_Volume_106379410/kam-data/so-v2pkg/N65/sofx_L20p96"
+	User time (seconds): 263.25
+	System time (seconds): 1.90
+	Percent of CPU this job got: 62%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:03.19
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 158180
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 49457
+	Voluntary context switches: 146
+	Involuntary context switches: 251254
+	Swaps: 0
+	File system inputs: 120
+	File system outputs: 1336
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

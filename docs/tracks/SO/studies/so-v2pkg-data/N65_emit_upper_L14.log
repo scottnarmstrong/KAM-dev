@@ -1,0 +1,21 @@
+upper: v half 108, E 215, p half 108  (0.0s)
+  p~^2 and J_E: 899 terms (0.0s)
+  defect products (0.0s)
+  bounds (0.0s): Delta 3.875e-10  eta1 2.094e-20  eta3 1.612e-11  eta4 8.669e-12  energy 8.285e-14  B0 5.310e-13 B1 8.367e-12 B2 9.784e-09
+  total 0.1s
+  DK row sums ['1.864849', '1.000000', '0.206292', '0.001790']
+  domain: iota1 0.00618 (supU 0.06202, MVT 0.00618) rho_H 1959/100000  P1 in 25381/25000 +- 1961/100000  P2 in 49981/100000 +- 159/25000
+  H' majorant (c=1): M1 1.045975  [dH 1.037971 XH 1.000000 DXH 1.000000 D2XH 0.577738 D2H 1.045975]
+  Gram models: sizes 555 495 437, radii 5.33e-15 4.08e-15 3.43e-15 (0.0s)
+  Gram inverse ALTERNATIVE (grid + Lipschitz on the distinguished boundary): sup||B|| <= 4.982015 -> 4.982015
+  Gram inverse: beta 5.360566 delta 3.093e-12 -> ||G^-1|| <= 5.360566  (sampled sup 4.974243; B terms [624, 471, 425]) (2.7s)
+  torsion avg (c=1):
+[[1.90359 0.      0.01524]
+ [0.      0.      1.     ]
+ [0.01524 1.      0.     ]]
+   radii ['2.1e-10', '7.6e-11', '1.8e-11']
+   ||S|| 1.008128  delta_T 2.947e-10 -> ||avg^-1|| <= 1.008128 (float 1.008128) (1.6s)
+checks: {'M >= c M1': True, 'sigmaK - mu >= ||DK||': True, 'sigmaB - mu >= ||G^-1||': False, 'sigmaT - mu >= ||avg^-1||/c': True, '1 < s < sigma_omega': True, 'nu <= (s-1)|omega*|': True, 'nu <= (sigma_omega-s)|omega*|': True, 'e >= c eta (invariance)': True, 'e >= c energy error': True, 'C1 e/(gamma^4 rho^4) <= 1/2': False}
+margin: {'eta_c': 3.223817897531348e-11, 'e': '129/2000000000000', 'e_float': 6.45e-11, 'threshold': 6.312490846430542e-77, 'log10_threshold': -76.19979923863133, 'eta_over_threshold': 5.107045659090795e+65, 'smallness_ratio': 1.0217836598760715e+66, 'slack_orders': -65.70816974064437}
+G-J: {'B0': 5.310419591132071e-13, 'B1': 1.673372129865602e-11, 'B2': 9.784247255979897e-09, 'Br': 9.20960902641205e-13, 'Bc': 4.187026074715469e-20, 'eta_P2_row_direct': 1.7337165952605983e-11, 'target_Br_B1_Bc': 3.225e-11, 'ok_Br_B1_Bc': True, 'qphip_rows_plus_Bc': 3.2238179017183694e-11, 'ok_qphip': True, 'ok_B0': True, 'ok_B2_1e90': False}
+wrote /mnt/HC_Volume_106379410/kam-data/so-v2pkg/N65/upper_L14.json in 4.4s

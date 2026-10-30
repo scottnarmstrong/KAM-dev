@@ -29,6 +29,7 @@ public import KAM.Root.SpinOrbit
 public import KAM.Root.Strip
 public import KAM.Root.Torus
 public import KAM.Root.Uniq
+public import KAM.Root.Wave
 public import KAM.Root.Weighted
 
 /-!

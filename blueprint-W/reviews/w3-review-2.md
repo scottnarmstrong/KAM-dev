@@ -104,3 +104,10 @@ One module probe importing Mathlib was run **only in `/root/code/KAM`**, seriali
 - No lint or lake command was run in `/root/code/KAM-inp-wbp`; no Lean build, generated-root change, source edit, frozen edit or state-changing git command was performed. Axiom audit: not applicable to this blueprint delta review.
 
 Acceptance closes W3-R1–R5 at the source/blueprint level. It is not a Lean implementation audit, a renewed audit of unchanged W3 material, or a certification of W4's deferred domains and parameter gates.
+
+## Post-acceptance interface edit (sub-orchestrator kam-d4, 2026-10-30)
+
+After the W4 review (W4-R3) and the ownership ruling, the W3 interface remark (`bpW:w3:interface-sec`) now assigns
+the action–angle substitution, the D(s,r) ⊂ B_{ρ₁} check and the weight-equivalence factors to W5 instead of W4.
+Three sentences changed; they are pointers only, with no mathematical change. W4 records the ruling in
+`bpW:w4:from-w3`.
