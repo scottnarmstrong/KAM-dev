@@ -271,6 +271,7 @@ public import KAM.Frozen.Planetary.Theorems.PlanetaryExponentialSafety
 public import KAM.Frozen.Planetary.Theorems.ProperlyDegenerateKAM
 public import KAM.Frozen.Planetary.Theorems.SecularBoxAtCitedMasses
 public import KAM.Frozen.Planetary.Theorems.SecularBoxSafety
+public import KAM.Frozen.Russmann.Defs.RussmannCover
 public import KAM.Frozen.Theorems.AposterioriKam
 public import KAM.Frozen.Theorems.KamPositiveMeasure
 public import KAM.Frozen.Theorems.KamPositiveMeasureQualitative
