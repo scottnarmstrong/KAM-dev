@@ -5,6 +5,10 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Wave.Algebra.Algebra
+public import KAM.Wave.Algebra.Extension
+public import KAM.Wave.Algebra.TwoSided
+public import KAM.Wave.Algebra.Young
 public import KAM.Wave.Recon.ReconAnalytic
 public import KAM.Wave.Recon.SineCompleteness
 public import KAM.Wave.Recon.SineFeature
