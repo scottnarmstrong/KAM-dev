@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 22:40 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **361,161 lines of Lean** of an estimated ≈ 368,000
+> **Last updated: 2026-10-30 23:00 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 74 % · Moon locked 50 % · track W 26 %** · frozen statements proved: 23 / 24 · **361,161 lines of Lean** of an estimated ≈ 368,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -262,7 +262,7 @@ Overall, everything together: 80.0 %
 
 | | Lines of Lean |
 |---|---|
-| On `main` now | **361,161** (280,576 excluding blank lines and comments) · **+89,091** since 2026-10-29 22:40 UTC |
+| On `main` now | **361,161** (280,576 excluding blank lines and comments) · **+89,091** since 2026-10-29 23:00 UTC |
 | Written on agent branches, not yet landed | 5,638 |
 | Generated certificate data on agent branches (numeric literals, not counted above or below) | 612,667 |
 | **Estimated total at completion** | **≈ 368,000** |
@@ -272,7 +272,7 @@ Overall, everything together: 80.0 %
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 22:40 UTC from `main` at `29260b2a` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 23:00 UTC from `main` at `30b8171f` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -447,7 +447,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **orchestrator** | lead | Claude Opus 5.5 | claude-1 | 🔄 active | Campaign lead: track K (complete), offloaded packages of tracks I, N, P, sources, owner questions, this README | — | — |
 | **suborch-INP** `kam-suborch` | sub-orchestrator (D23) | Claude Opus 5.5 | claude-7 | ⏸ idle | Tracks I, N, P: graphs (I complete; P open only for lane N and owner rulings), merging/landing/sealing of all I/N/P packages incl. those run by the main orchestrator | — | — |
 | **lean-status-sync** | graph bookkeeping (subagent) | Claude Sonnet 5.5 | claude-7 | ✅ done | Bring LEAN_STATUS of graphs I and N up to date from the package audits | — | — |
-| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA: exact sizing driver, lock builder, ball-mirror sqrt arm (bit-exact vs Lean on 8 | `inp-lockdata` | 118 (vs `inp`) |
+| **lockdata** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: LOCK-DATA: emitter witnesses of the truncated embedding (--wtrunc) and weighted truncation | `inp-lockdata` | 119 (vs `inp`) |
 | **sodata3** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA3: graph check's SOS sides by 32-row chunks (CsegGraph: levelNCseg_flatten and frie | `inp-sodata3` | 17 (vs `inp`) |
 | **wgraph** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: Track W graph: delta review 7 (codex-1), reports only (track W paused) | `inp-wgraph` | 24 (vs `inp`) |
 | **wph** | prover (offload) | Claude Sonnet 5.5 | — | ✅ audited, handed back | last commit: W1-CUBIC: audit 2 report (track W paused) | `inp-wph` | 13 (vs `inp`) |
@@ -461,6 +461,9 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 22:50 | `30b8171f` | Log: heartbeat (DATA3 disk: build output to HC volume; graph check solved) |
+| 2026-10-30 22:48 | `b41ab651` | Log: overnight mode (SO band, SO lock, then W) |
+| 2026-10-30 22:46 | `54383231` | Log: owner order (both SO tracks, then W); W paused state |
 | 2026-10-30 22:33 | `29260b2a` | Log: owner pauses track W to land SO |
 | 2026-10-30 22:31 | `8c258a39` | Log: owner directive (finish SO and W); second kernel lane; W to 4 provers |
 | 2026-10-30 22:27 | `f18d9c5a` | Land inp into main |
@@ -470,9 +473,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 21:51 | `92d26c2b` | Land inp into main |
 | 2026-10-30 21:49 | `2f670238` | Log: heartbeat (data runs; disk relief) |
 | 2026-10-30 21:39 | `706103c5` | Log: CSPLIT gates pass (1.6-2.5 CPU-h/torus); band and lock data runs go; landing prebuild |
-| 2026-10-30 21:37 | `bc3a68c7` | land-branch: serial capped prebuild of heavy certificate-data modules (SO-CSPLIT O3) |
-| 2026-10-30 21:29 | `2b8cfcfe` | Log: SO-CSPLIT Lean core on main; lock gate passes on the wrapped program |
-| 2026-10-30 21:27 | `109f72dd` | Land inp into main |
 <!-- /AUTO:landed -->
 
 ## Decisions
