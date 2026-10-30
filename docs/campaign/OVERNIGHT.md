@@ -1124,3 +1124,15 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   3.4 GB import baseline. Contingency started: SO-COMPOSE-SPLIT (claude-12, design document only) designs a
   segmented composition with checked intermediate enclosures, so each kernel theorem fits a 6-10 GB cap, keeping
   CertifiedTorus and the soundness chain; it is used only if SO-DATA-2's probes show the whole composition cannot fit.
+- **03:51. Heartbeat: composition memory is the open risk; segmented design ready.** SO-DATA-2's forced probe of the
+  first 28 slots of the lower torus's composition was terminated, probably at the 10 GB cap (being confirmed); the
+  40-slot probe is running. If confirmed, a single theorem cannot hold the whole 887-slot composition. SO-COMPOSE-SPLIT
+  (design only) recommends route E, equality checkpoints: a ledger of literal slot models at segment boundaries;
+  each segment theorem reruns the unchanged composeStep from a seeded state and checks its exports for equality;
+  a computation-only lemma chains them to `Slp.compose ... = some ledger`, so checkTorusCertificate, G1Hyps,
+  CertifiedTorus, the soundness theorem and LunarAssembly stay unchanged. About 1,250 Lean lines plus about 600 for
+  Gram/torsion staging. The price: a ledger of about 110-250 MB per torus, which does not fit the owner's packaging
+  choice (option A, lint-clean modules), so it REOPENS AN OWNER DECISION (design §7.2: options B, line-width
+  exemption for generated data; or C, out-of-tree data read at elaboration, which needs a small meta-program the
+  landing lint currently forbids). Not decided overnight: it changes the repository's rules, and the probes are
+  not finished. Design audit running (codex-4, refute-first on the chaining logic).
