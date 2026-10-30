@@ -24,7 +24,7 @@ No hypothesis below is numerical: everything numerical is a kernel `decide`.
   is 33 times PlasmaLean's tolerance `5.7·10⁻¹⁹`. The certificates are those of `Bites`, at the
   bites `δ₀, δ₁, δ₂, r₀, r₁, r₂` of a prefix of length three; the tail uses the classical constant.
 * `plasmaLean_classical`: the same with classical small-divisor constants only, for every
-  `(γ, 1)`-Diophantine `ω`, `γ ≤ 0.1374`: the threshold is `4.85·10⁻⁶ γ⁴ δ₀⁴`, that is `10^{-18.68}`
+  `(γ, 1)`-Diophantine `ω`, `γ ≤ 0.1374`: the threshold is `4.85·10⁻⁶ γ⁴ δ₀⁴`, that is `10^{-18.67}`
   at `γ = 0.1374` and `10^{-19.88}` at `γ = 0.0687`.
 
 These are statements about canonical Hamiltonian flows, with the sup norms of the phase space. They
