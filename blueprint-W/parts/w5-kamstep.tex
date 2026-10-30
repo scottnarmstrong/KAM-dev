@@ -1,0 +1,731 @@
+\section{Milestone W5: one KAM step}\label{bpW:w5}
+
+\providecommand{\Pc}{\mathcal P}
+\providecommand{\symp}{\varpi_{\mathcal P}}
+\providecommand{\Sm}{\mathcal S}
+
+This part performs one step of the KAM iteration of P96-K \S3 (pp.~128--132) in the wave setting ($n=2$, $d=1$,
+$\delta=-1$) and constructs the Hamiltonian to which the iteration is applied. A step takes $H=N+P$, with $N$ a
+normal form and $P$ small, and returns $H\circ\Phi=N_++P_+$ with a corrected normal form $N_+$ and a perturbation
+$P_+$ of size $\epsilon^{4/3}$, where $\Phi$ is the time-one map of the field $X_F$ of the solution $F$ of the
+homological equation of W4.
+
+\paragraph{Route.} (1) The Taylor polynomial $R$ of $P$ of weighted degree $\le2$ is defined through the scaling
+$S_t(\theta,y,u,v)=(\theta,t^2y,tu,tv)$: $R(w)$ is the second-order Taylor polynomial of $t\mapsto P(S_tw)$ evaluated
+at $t=1$. Its field is a Cauchy integral in the single variable $t$, which gives P96-K (7) without a strip loss in
+$\theta$ (Lemma~\ref{bpW:w5:taylor}). (2) W4 solves the homological equation for $R$; W5 needs W4 with a general
+smoothing exponent and, for the preparatory step of W6, with modified divisors (Lemmas~\ref{bpW:w5:w4-general},
+\ref{bpW:w5:w4-modified}). (3) The flow of $X_F$ is W1's holomorphic flow with the ball margins of P96-K (9)--(10)
+made explicit; this instantiates the repair D-W-Pos96K-A4 of P96-K Lemma~A.4 (Lemma~\ref{bpW:w5:flow}). (4) The new
+Hamiltonian is computed at the level of functions, using W4's bracket identity $DN\cdot X_F=-L_NF$, which is the only
+place where the unbounded field of $N$ enters (Lemma~\ref{bpW:w5:new-ham}); its field is then the P96-K formula
+$X_{P_+}=\Phi^*(X_P-X_R)+\int_0^1(\phi^t)^*[X_{R(t)},X_F]\,dt$. (5) Estimates with explicit constants give
+Theorem~\ref{bpW:w5:step}. (6) The action--angle substitution carries W3's normal form into the form $N+P$ and the
+initial perturbation is estimated (Lemma~\ref{bpW:w5:action-angle}, Proposition~\ref{bpW:w5:initial}), as ruled in
+W4-R3.
+
+\paragraph{Inputs.} W1: holomorphic maps and the Cauchy estimate (Definition~\ref{bpW:w1:holomorphic},
+Lemmas~\ref{bpW:w1:cauchy}, \ref{bpW:w1:deriv-continuous}), the flow (Lemma~\ref{bpW:w1:flow}), the KAM space and
+domains (Definition~\ref{bpW:w1:kam-space}, Remark~\ref{bpW:w1:kam-conventions}, Lemma~\ref{bpW:w1:kam-domain}),
+analyticity in finitely many variables (Lemma~\ref{bpW:w1:holo-analytic-fd}). W3: the symplectic form, Hamiltonian
+fields and the normal form (Lemma~\ref{bpW:w3:omega}, Definition~\ref{bpW:w3:hamfield-def},
+Theorem~\ref{bpW:w3:main}, Remark~\ref{bpW:w3:interface}). W4: Theorem~\ref{bpW:w4:lemma1},
+Corollary~\ref{bpW:w4:lemma2}, Lemma~\ref{bpW:w4:lie}, Remarks~\ref{bpW:w4:compare}, \ref{bpW:w4:to-w5}.
+
+\paragraph{Weights.} Throughout $a=p=1$ (Convention~\ref{bpW:w0:weights}). This satisfies the weight guard of W4's
+bracket identity (review W4-R1: $a>0$ or $a=p=1$), and $p\ge\frac12$ as W3 requires. All normal quantities carry the
+wave weights $\omega_{a,q}(J)=J^qe^{aJ}$ at the Dirichlet label $J=j+2$ (Convention~\ref{bpW:w4:index}); the P96-K
+weights $j^qe^{aj}$ are never used, so the equivalence factors of Remark~\ref{bpW:w3:interface} do not occur
+(Lemma~\ref{bpW:w5:action-angle}(v)).
+
+\subsection{External facts}\label{bpW:w5:ext}
+
+Besides W1 \S\ref{bpW:w1:ext} and W3 \S\ref{bpW:w3:ext}:
+{\raggedright
+\begin{enumerate}[label=(W5-E\arabic*),ref=(W5-E\arabic*)]
+\item\label{bpW:w5:ext-taylor} \emph{Taylor series in one complex variable, Banach values.} If $g$ is holomorphic on
+  $\abs t<\rho$ with values in a complex Banach space and $\norm{g(t)}\le B$ there, then
+  $g(t)=\sum_{k\ge0}g_kt^k$ on $\abs t<\rho$ with $g_k=\frac1{2\pi i}\oint_{\abs t=\rho'}g(t)t^{-k-1}dt$ ($\rho'<\rho$),
+  $\norm{g_k}\le B\rho^{-k}$, and for $\abs t\le1<\rho$: $\norm{g(t)-\sum_{k\le2}g_kt^k}\le B\rho^{-3}/(1-\rho^{-1})$.
+  (\Lean{DifferentiableOn.hasFPowerSeriesOnBall} on a slightly smaller closed disc; the coefficient bound is the Cauchy estimate
+  \ref{bpW:w1:ext-onevar}, and the remainder bound is the sum of the geometric tail $\sum_{k\ge3}B\rho^{-k}$. Mathlib's
+  \Lean{HasFPowerSeriesWithinOnBall.uniform\_geometric\_approx'} gives a bound of this type with unspecified constants and is not
+  needed.)
+\item\label{bpW:w5:ext-ftc} \emph{Calculus along curves.} For $C^1$ maps $c:[0,1]\to V$ into an open subset of a
+  Banach space and $G$ $C^1$ on $V$: $G(c(1))-G(c(0))=\int_0^1DG(c(t))c'(t)\,dt$; differentiation under the
+  integral sign (\ref{bpW:w3:ext-integral}); Neumann series (\ref{bpW:w3:ext-neumann}); Gronwall (\ref{bpW:w1:ext-ode}).
+\end{enumerate}
+\par}
+
+\subsection{Phase space, symplectic form, smoothing Hamiltonians}\label{bpW:w5:setting-sec}
+
+\begin{definition}[Phase space and symplectic form]\label{bpW:w5:setting}
+For $q\in\R$ let $\Pc^q=\C^2\times\C^2\times\ell^N_{a,q}\times\ell^N_{a,q}$ with points $W=(\Theta,Y,U,V)$ and, for
+$r>0$, the norm $\abs W_{q,r}=\abs\Theta+\abs Y/r^2+(\norm U_{a,q}+\norm V_{a,q})/r$ of
+Definition~\ref{bpW:w1:kam-space} (normal spaces of Convention~\ref{bpW:w4:index}). Write $\Pc=\Pc^p$, and
+$D(s,r)\subset\Pc$ for the domain of Definition~\ref{bpW:w1:kam-space}. A point is \emph{real} if
+$\Theta,Y\in\R^2$ and $U,V$ are real; $\Pc^q_\R$ is the real subspace. On $\Pc$ define the complex bilinear form
+\[\symp(W,W')=2\pi\bigl(\langle\Theta,Y'\rangle-\langle Y,\Theta'\rangle\bigr)+\langle U,V'\rangle_0-\langle V,U'\rangle_0.\]
+For a linear $L:\Pc^q\to\Pc^{q'}$ we write $\abs L_{q\to q',r}$ for the operator norm from $\abs\cdot_{q,r}$ to
+$\abs\cdot_{q',r}$; $\abs L_{r,r}=\abs L_{p\to p_+,r}$ when the target exponent $p_+$ is fixed.
+\end{definition}
+\source{P96-K pp.~120--121, (1); W4 Convention~\ref{bpW:w4:index} and \eqref{bpW:w4:hameq} (the form
+$2\pi d\theta\wedge dy+du\wedge dv$ in period-one angles).}
+
+\begin{lemma}[The form]\label{bpW:w5:omega}
+$\symp$ is continuous, antisymmetric and nondegenerate on $\Pc$: $\abs{\symp(W,W')}\le(4\pi r^2+2r^2)\abs W_{p,r}\abs{W'}_{p,r}$
+for every $r>0$, and $\symp(W,W')=0$ for all $W'$ implies $W=0$. For $q\ge p$ and $r'\le r$:
+$\abs W_{p,r}\le\abs W_{q,r}$ and $\abs W_{q,r}\le\abs W_{q,r'}\le(r/r')^2\abs W_{q,r}$.
+\end{lemma}
+\begin{proof}
+\proofstep{Bound}\label{stepW:w5:ombd} $2\pi\abs{\langle\Theta,Y'\rangle}\le4\pi\abs\Theta\abs{Y'}\le4\pi r^2\abs W_{p,r}\abs{W'}_{p,r}$
+(max norms on $\C^2$), and $\abs{\langle U,V'\rangle_0}\le\norm U\norm{V'}$ by \eqref{bpW:w4:pairing}.
+\proofstep{Nondegeneracy}\label{stepW:w5:omnd} Test with the unit vectors of $\C^2$ and the coordinate vectors
+$e_j$ of $\ell^N_{a,p}$: $\symp(W,(0,e_i,0,0))=2\pi\Theta_i$, $\symp(W,(e_i,0,0,0))=-2\pi Y_i$,
+$\symp(W,(0,0,0,e_j))=U_j$, $\symp(W,(0,0,e_j,0))=-V_j$.
+\proofstep{Norms}\label{stepW:w5:omnorm} Weights increase with $q$ (Lemma~\ref{bpW:w1:embed}); $1/r\le1/r'\le(r/r')^2/r$
+for $r'\le r$, and $(r/r')^2\ge1$ bounds the $\Theta$-term.
+\end{proof}
+\source{ours.}
+
+\begin{definition}[Smoothing Hamiltonians; parameter norms]\label{bpW:w5:class}
+Let $p_+\in[p+\frac12,p+1]$, $V\subset\Pc$ open, and $\Pi\subset\R^2$ (max norm). The class $\Sm_{p_+}(V)$ consists
+of the holomorphic $P:V\to\C$ (Definition~\ref{bpW:w1:holomorphic}) for which there is a holomorphic
+$X_P:V\to\Pc^{p_+}$ with
+\[DP(w)W=\symp(X_P(w),W)\qquad(w\in V,\ W\in\Pc);\]
+$X_P$ is unique by Lemma~\ref{bpW:w5:omega} and is the field $X_P=(\frac1{2\pi}P_y,-\frac1{2\pi}P_\theta,P_v,-P_u)$ of
+Definition~\ref{bpW:w4:taylor}. $P$ is \emph{real} if $V$ is invariant under complex conjugation of all coordinates and
+$P$ is real at real points. A \emph{family} is $P(\cdot,\xi)\in\Sm_{p_+}(V)$, $\xi\in\Pi$. For $\lambda\ge0$ and
+$r>0$,
+\[\abs{X_P}^\lambda_{r,V}=\sup_{\xi\in\Pi,\,w\in V}\abs{X_{P(\xi)}(w)}_{p_+,r}
++\lambda\sup_{\xi\ne\zeta}\sup_{w\in V}\frac{\abs{X_{P(\xi)}(w)-X_{P(\zeta)}(w)}_{p_+,r}}{\abs{\xi-\zeta}},\]
+read in Lean as the conjunction of the two bounds $\abs{X_{P(\xi)}(w)}\le\epsilon_0$,
+$\abs{X_{P(\xi)}(w)-X_{P(\zeta)}(w)}\le\epsilon_1\abs{\xi-\zeta}$ with $\epsilon_0+\lambda\epsilon_1\le\epsilon$; no
+supremum is taken as a value. The same notation is used for maps $V\times\Pi\to\Pc^{q}$ other than fields.
+\end{definition}
+\source{P96-K Assumption~C and (1), p.~121, and $\abs X^\lambda=\abs X+\lambda\abs X^{\mathcal L}$, p.~128; W3
+Definition~\ref{bpW:w3:hamfield-def} (the same notion for the Cartesian form).}
+
+\begin{remark}[Products]\label{bpW:w5:lambda-product}
+If $\abs{a(\xi)}\le A_0$, $\abs{a(\xi)-a(\zeta)}\le A_1\abs{\xi-\zeta}$ and similarly for $b$, and $a\cdot b$ is a
+product of norm $\le1$ (composition of operators, application, a bilinear form of norm $\le1$), then
+$A_0B_0+\lambda(A_1B_0+A_0B_1)\le(A_0+\lambda A_1)(B_0+\lambda B_1)$: the $\lambda$-norm is submultiplicative. This
+is used without comment below.
+\end{remark}
+
+\subsection{The homological equation in the generality needed}\label{bpW:w5:w4-sec}
+
+The step of W6 runs in two regimes: the preparatory step, whose input field gains one weight ($p_+=p+1$), and the
+iteration after it, whose fields gain only $p_+=p+\frac12$ (P96-K \S6, p.~140, $\check p=\bar p-\varpi$ with
+$\varpi=\frac12$). Moreover after the preparatory step the normal frequency drifts decay only like $j^{-1/2}$
+(W7, Definition~\ref{bpW:w7:family}(H2)). W4 is written for $\bar p=p+1$ and tails $\sup_jj\abs{\tilde\Omega_j}<\infty$.
+
+\begin{lemma}[W4 with a general smoothing exponent]\label{bpW:w5:w4-general}
+Let $p_+\in[p+\frac12,p+1]$. Replace in W4 the exponent $\bar p=p+1$ by $p_+$ (in Definitions~\ref{bpW:w4:ops},
+\ref{bpW:w4:taylor}) and the frequency hypothesis \eqref{bpW:w4:freq} by
+\begin{equation}\label{bpW:w5:freq}
+\begin{gathered}\Omega_j=j+2+\tilde\Omega_j,\qquad\sup_jj^{1/2}\abs{\tilde\Omega_j(\xi)}\le M_0,\\
+\abs{\omega(\xi)-\omega(\zeta)}\le M_\omega\abs{\xi-\zeta},\qquad\sup_jj^{1/2}\abs{\Omega_j(\xi)-\Omega_j(\zeta)}\le M_\Omega\abs{\xi-\zeta}.\end{gathered}
+\end{equation}
+Then Lemma~\ref{bpW:w4:lie}, Theorem~\ref{bpW:w4:lemma1} and Corollary~\ref{bpW:w4:lemma2} hold verbatim, with the
+same constants $C_1$, $B^{\rm W}_\sigma$, $3C_1$, except that Theorem~\ref{bpW:w4:lemma1}(iv) reads
+$\sup_j(j+2)^{p_+-p}\abs{\hat\Omega_j}\le\varepsilon$ (and likewise for differences).
+\end{lemma}
+\begin{proof}
+We list every use of $\bar p-p=1$ or of the tail weight $j$ in W4 and check it under the new hypotheses.
+\proofstep{Pairings}\label{stepW:w5:g-pair} \eqref{bpW:w4:pairing} needs $q+q'\ge0$. In Definition~\ref{bpW:w4:ops}
+the pairs are $(p_+,p)$ and $(p,p)$; in Lemma~\ref{bpW:w4:lie}(i) the pair is $(p-1,p_+)$ with
+$p-1+p_+\ge2p-\frac12\ge0$ since $p=1$.
+\proofstep{Tails}\label{stepW:w5:g-tail} The tails enter only Step~\ref{stepW:w4:liebd}, through
+$\abs{\Omega_j}\le(1+M_0)(j+2)$, which holds since $\abs{\tilde\Omega_j}\le M_0j^{-1/2}\le M_0$.
+\proofstep{Divisors}\label{stepW:w5:g-div} Step~\ref{stepW:w4:divlip} uses
+$\abs{\Omega_j(\xi)-\Omega_j(\zeta)}\le M_\Omega\abs{\xi-\zeta}/j$ only through
+$\sum_j\abs{l_j}\abs{\Omega_j(\xi)-\Omega_j(\zeta)}\le2M_\Omega\abs{\xi-\zeta}$, which holds with $j^{-1/2}\le1$.
+\proofstep{Diagonals}\label{stepW:w5:g-diag} Lemma~\ref{bpW:w4:schur}(iii) gives
+$\mu_i\nu_i\abs{M_{ii}}\le\norm M$ with $\mu_i\nu_i=(i+2)^{p_+-p}$; this is used only in Step~\ref{stepW:w4:Nhat},
+where $\norm{\hat\Omega u}_{p_+}\le\sup_j(j+2)^{p_+-p}\abs{\hat\Omega_j}\,\norm u$ replaces the case $p_+-p=1$.
+\proofstep{Everything else} \label{stepW:w5:g-rest} Lemmas~\ref{bpW:w4:fourier-ops}, \ref{bpW:w4:lattice},
+\ref{bpW:w4:schur}(i)--(ii), \ref{bpW:w4:solve}, \ref{bpW:w4:extract}, \ref{bpW:w4:components} are stated for
+arbitrary Banach spaces or arbitrary positive weights, and the remaining steps of Theorem~\ref{bpW:w4:lemma1} use
+only these.
+\end{proof}
+\source{ours. P96-K applies Lemma~1 after the preparatory step with $\check p$ in place of $\bar p$ (p.~141: ``with
+parameters $\check\alpha$ and $\check p$ instead of $\alpha$ and $\bar p$'') without comment. \emph{Report to W4:} in
+Lean, W4 should be parametrized by $p_+$ and use \eqref{bpW:w5:freq}; the proof is unchanged.}
+
+\begin{lemma}[Modified divisors for the preparatory step]\label{bpW:w5:w4-modified}
+Assume \eqref{bpW:w5:freq} with $M=M_\omega+M_\Omega>0$, $\hat\alpha>0$, $\beta\in(0,\frac12]$, $p_+\in[p+\frac12,p+1]$
+with $\beta\le p+1-p_+$, and suppose every divisor of Definition~\ref{bpW:w4:melnikov} satisfies the bound of
+$(\mathrm H_{\hat\alpha})$ except the divisors $\delta^Q_{k,ij}$, $i\ne j$, for which only
+\begin{equation}\label{bpW:w5:modified}
+\abs{\delta^Q_{k,ij}(\xi)}\ge\frac{\hat\alpha}{A_k}\,\frac{\abs{i-j}}{(\min(i,j)+2)^{\beta}}\qquad(\xi\in\Pi)
+\end{equation}
+is assumed. Let $R$ be as in Theorem~\ref{bpW:w4:lemma1} with $\bar p=p+1$, and define $F$, $\hat N$ by the same
+formulas. Then:
+\begin{enumerate}[label=(\roman*)]
+\item $F(\cdot,\xi)\in\mathcal T_{s-\sigma}$ with $Q_F,Q_F^T$ bounded $\ell^N_{a,p}\to\ell^N_{a,p_+}$ and all other
+  components as in W4; the equation (ii) and the bounds (iv) of Theorem~\ref{bpW:w4:lemma1} hold, and
+  $\abs{X_F}_{p_+,r}\le C_1B^{\rm W}_\sigma\varepsilon/\hat\alpha$ on $D(s-\sigma,r)$.
+\item If moreover $2\beta\le p+1-p_+$, then on $D(s-\sigma,r)$
+  \[\abs{X_{F(\xi)}-X_{F(\zeta)}}_{p_+,r}\le\frac{C_1B^\natural_\sigma}{\hat\alpha}\Bigl(\varepsilon^{\mathcal L}+\frac{2M}{\hat\alpha}\varepsilon\Bigr)\abs{\xi-\zeta},
+  \qquad B^\natural_\sigma=\sum_{k\in\Z^2}(1+\abs k_1)^2A_k^2e^{-2\pi\abs k_1\sigma}\ \ (\ge B^{\rm W}_\sigma),\]
+  so for $0\le\lambda\le\hat\alpha/M$: $\abs{X_F}^\lambda_{r,D(s-\sigma,r)}\le\frac{3C_1B^\natural_\sigma}{\hat\alpha}\abs{X_R}^\lambda_{r,D(s,r)}$.
+\item For $0<\sigma\le1$, $B^\natural_\sigma\le b^\natural(\tau)\sigma^{-(2\tau+4)}$ with
+  $b^\natural(\tau)=4\bigl(C_0+C_2+C_{2\tau}+C_{2\tau+2}\bigr)$ (four terms, counted with multiplicity), where
+  $C_0=(1+\frac1\pi)^2$ and $C_q=\frac4\pi\bigl(\frac{q+1}{e\pi}\bigr)^{q+1}$ for $q>0$ (so $C_{2\tau}=C_0$ when $\tau=0$).
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Write $I=i+2$, $J=j+2$ (Dirichlet labels) and $c=p+1-p_+$.
+\proofstep{The $Q$-division}\label{stepW:w5:m-sup} $(Q_F)_{ij}=d_{ij}(\hat Q_k)_{ij}$ with $d_{ij}=1/(i\delta^Q_{k,ij})$,
+$\abs{d_{ij}}\le A_k\min(I,J)^\beta/(\hat\alpha\abs{i-j})$ by \eqref{bpW:w5:modified}. The $p_+$-weighted matrix of
+$Q_F$ is $\bigl(\omega_{a,p+1}(I)(\hat Q_k)_{ij}\omega_{a,p}(J)^{-1}\bigr)\cdot I^{-c}d_{ij}$, and
+$I^{-c}\min(I,J)^\beta\le1$ since $\beta\le c$. Lemma~\ref{bpW:w4:schur} with the factor $I^{-c}d_{ij}$, which is bounded by
+$A_k/(\hat\alpha\abs{i-j})$, gives the operator bound with $\kappa=K_S$; $Q_F^T$ likewise (the factor is $I^{-c}d_{ji}$).
+\proofstep{Other components}\label{stepW:w5:m-other} The divisors of $c^\pm$, $P$, $P'$ obey $(\mathrm H_{\hat\alpha})$, so
+W4's bounds hold in $\ell^N_{a,p+1}\subset\ell^N_{a,p_+}$ (norm $\le1$).
+\proofstep{Lipschitz}\label{stepW:w5:m-lip} By Step~\ref{stepW:w4:divlip},
+$\abs{d_{ij}(\xi)-d_{ij}(\zeta)}\le2(1+\abs k_1)M\abs{\xi-\zeta}/\abs{\delta(\xi)\delta(\zeta)}
+\le2(1+\abs k_1)A_k^2M\min(I,J)^{2\beta}\abs{\xi-\zeta}/(\hat\alpha^2\abs{i-j}^2)$, and $I^{-c}\min(I,J)^{2\beta}\le1$ when
+$2\beta\le c$. Lemma~\ref{bpW:w4:solve}(ii) then applies as in Step~\ref{stepW:w4:lip}.
+\proofstep{The action component}\label{stepW:w5:m-act} W4 bounds the term $\Lambda\partial_{\theta_i}Q_F(z,\bar z)$ of
+$\partial_{\theta_i}F$ in the bilinear space $\mathcal B$ (Step~\ref{stepW:w4:Fcomp}); this route is not available here, because
+the Hadamard factor $d_{ij}$ grows like $\min(I,J)^\beta$ and the norm of $\mathcal B$ (two copies of $\ell^N_{a,p}$) supplies no
+compensating weight. Instead we bound $\partial_{\theta_i}Q_F$ as an operator $\ell^N_{a,p}\to\ell^N_{a,p_+}$. By
+Lemma~\ref{bpW:w4:components}(i), $\norm{Q(\theta)}\le\varepsilon$ in $\mathcal L$ (target $\ell^N_{a,p+1}$), so
+$\norm{\hat Q_k}\le\varepsilon e^{-2\pi\abs k_1s}$ (\ref{bpW:w4:F1}). By Step~\ref{stepW:w5:m-sup} the coefficient
+$2\pi ik_i(\hat Q_F)_k=2\pi ik_i\,d\circ\hat Q_k$ has $\ell^N_{a,p}\to\ell^N_{a,p_+}$ norm
+$\le2\pi\abs{k_i}K_SA_k\varepsilon e^{-2\pi\abs k_1s}/\hat\alpha$, and $\abs{k_i}A_k\le(1+\abs k_1)A_k^2$. By \ref{bpW:w4:F2} and
+termwise differentiation (\ref{bpW:w1:ext-unifderiv}), on $T_{s-\sigma}$
+\[\norm{\partial_{\theta_i}Q_F(\theta)}_{\ell^N_{a,p}\to\ell^N_{a,p_+}}\le\frac{2\pi K_SB^{\rm W}_\sigma}{\hat\alpha}\varepsilon,\qquad
+\abs{\langle\partial_{\theta_i}Q_F\,z,\bar z\rangle_0}\le\frac{2\pi K_SB^{\rm W}_\sigma}{\hat\alpha}\varepsilon\norm z\norm{\bar z}\]
+(pairing of $\ell^N_{a,p_+}$ with $\ell^N_{a,p}$, \eqref{bpW:w4:pairing}). This is smaller than W4's bound
+$16\pi K_S(B^{\rm W}_\sigma/\hat\alpha)\varepsilon$ for $\norm{\Lambda\partial_{\theta_i}Q_F}_{\rm bil}$, so W4's
+Step~\ref{stepW:w4:assembly} goes through with the same $C_1$. For differences, the coefficient difference is
+$2\pi ik_i\bigl(d(\xi)\circ(\hat Q_k(\xi)-\hat Q_k(\zeta))+(d(\xi)-d(\zeta))\circ\hat Q_k(\zeta)\bigr)$; by Steps~\ref{stepW:w5:m-sup}
+and~\ref{stepW:w5:m-lip} ($2\beta\le c$; for $i=j$, $k\ne0$ the divisor is $\langle k,\omega\rangle$ and
+$\abs{\Delta(1/\delta)}\le\abs k_1M_\omega A_k^2\abs{\xi-\zeta}/\hat\alpha^2$) its norm is at most
+$2\pi K_S\bigl(\abs k_1A_k\varepsilon^{\mathcal L}/\hat\alpha+2\abs k_1(1+\abs k_1)A_k^2M\varepsilon/\hat\alpha^2\bigr)e^{-2\pi\abs k_1s}\abs{\xi-\zeta}$
+(Lemma~\ref{bpW:w4:fourier-ops}(iii)). Summing with $e^{2\pi\abs k_1(s-\sigma)}$ and $\abs k_1(1+\abs k_1)A_k^2\le(1+\abs k_1)^2A_k^2$:
+$\norm{\Delta\partial_{\theta_i}Q_F}\le\frac{2\pi K_SB^\natural_\sigma}{\hat\alpha}(\varepsilon^{\mathcal L}+\frac{2M}{\hat\alpha}\varepsilon)\abs{\xi-\zeta}$.
+The extra factor $\abs k_1$ is the price of differentiating the solved series instead of solving for the derivative data;
+it is why $B^\natural_\sigma$ replaces $B^{\rm W}_\sigma$ in (ii).
+\proofstep{Assembly}\label{stepW:w5:m-ass} W4's Steps~\ref{stepW:w4:Fcomp}--\ref{stepW:w4:Nhat}, with the $Q_F$-contribution to
+$\partial_\theta F$ taken from Step~\ref{stepW:w5:m-act} instead of the bilinear route, and all other components unchanged
+(their divisors obey $(\mathrm H_{\hat\alpha})$). In (ii) every component difference is bounded with $B^{\rm W}_\sigma\le B^\natural_\sigma$
+or, for the $Q_F$-part of $\partial_\theta F$, with $B^\natural_\sigma$; the assembly is linear in the component bounds. The
+$\lambda$-form follows as in Corollary~\ref{bpW:w4:lemma2}.
+\proofstep{The constant}\label{stepW:w5:m-const} $(1+x)^2(1+x^\tau)^2\le4(1+x^2)(1+x^{2\tau})$ for $x\ge0$ (Cauchy--Schwarz), so
+$B^\natural_\sigma\le4(S_0+S_2+S_{2\tau}+S_{2\tau+2})$ (four terms, with multiplicity) in the notation of
+Lemma~\ref{bpW:w4:lattice}. By (ii) there, $S_0\le(1+\frac1{\pi\sigma})^2\le C_0\sigma^{-2}$, and by (iii), $S_q\le C_q\sigma^{-(q+2)}$ for $q>0$;
+for $\sigma\le1$ every $\sigma^{-(q+2)}$ with $q\le2\tau+2$ is $\le\sigma^{-(2\tau+4)}$. Summing the four terms gives (iii).
+\end{proof}
+\source{P96-K \S6, p.~140, (23) (``$\abs{\langle k,\omega\rangle+\Omega_i-\Omega_j}\ge\frac{\hat\alpha}{A_k}\cdot
+\frac{\abs{i-j}}{\min(i^\varpi,j^\varpi)}$'') and ``$\abs{X_F}^\lambda_{\check p,r,D(s-\sigma,r)}\le\frac{aB_\sigma}{\hat\alpha}
+\abs{X_R}^\lambda_{\bar p,r,D(s,r)}$, $\check p=\bar p-\varpi$''.}
+\sourcegap{P96-K p.~140 asserts the $\lambda$-norm (that is, including the Lipschitz part) for the weight exponent
+$\beta=\varpi$ and the loss $\bar p-\check p=\varpi$. The termwise argument (Step~\ref{stepW:w5:m-lip}) needs
+$2\beta\le\bar p-\check p$: the product of two modified divisors is only $\ge\hat\alpha^2\abs{i-j}^2\min^{-2\beta}/A_k^2$,
+so the Lipschitz constant of $1/\delta$ carries $\min(I,J)^{2\beta}$ while the weight gain is only $I^{\varpi}$. The printed
+justification is therefore insufficient (suspected parameter-Lipschitz gap); no complete counterexample satisfying all the
+source's hypotheses is claimed. (A locally adverse multiplier exists: near-resonant adjacent divisors give entries whose
+weighted $\xi$-derivative is large; whether an admissible frequency family realizes this uniformly is open.) Hence with P96-K's
+choice $\beta=\varpi=\frac12$ and $p_+=p+\frac12$, the termwise proof of part~(ii) is not available. Moreover the action
+component needs the separate argument of Step~\ref{stepW:w5:m-act}, which costs one power of $\sigma$ in the Lipschitz part
+($B^\natural_\sigma$); P96-K states the bound with $B_\sigma$.
+\emph{Resolution adopted:} W7 separates the weight exponent from the loss, $\beta=\frac14$ with loss $\varpi=\frac12$
+(Definition~\ref{bpW:w7:indexdef}(vii), $\hat w=(i-j)j^{-1/4}$), so $2\beta\le p+1-p_+$ and part~(ii) applies. See
+Remark~\ref{bpW:w5:prep-gap}.}
+
+\begin{remark}[The exponents used by W6--W7]\label{bpW:w5:prep-gap}
+With $\beta=\frac14$ and loss $\frac12$ P96-K's Lemma~9 gives $\lambda=\kappa/(\kappa+1-\frac14)=\frac8{11}$ and the
+optimizing $w$ of p.~142 becomes $w=\frac14/(4\kappa+4-\frac14)=\frac1{47}$, so $\hat\alpha=\alpha^{44/47}$,
+$\check\alpha=\alpha^{48/47}$ and $\tilde\mu=\frac{32}{47}>\frac23$; W7's density argument survives
+($\frac{32}{47}\cdot2>\frac43$; the admissible window is $t^{3/2}\lesssim\alpha=o(t^{47/32})$, and W7 uses
+$\alpha(t)=t^{95/64}$). W7 has adopted these values (Definition~\ref{bpW:w7:constdef}), and W6 states the preparatory step
+with them, the Lipschitz part included (Lemma~\ref{bpW:w6:prep-step}(v)).
+\end{remark}
+
+\subsection{Taylor approximation}\label{bpW:w5:taylor-sec}
+
+\begin{lemma}[Taylor approximation; P96-K (7)]\label{bpW:w5:taylor}
+Let $s,r>0$, $p_+\in[p+\frac12,p+1]$, $P(\cdot,\xi)\in\Sm_{p_+}(D(s,r))$ real, $1$-periodic in each $\theta_i$, with
+$\abs{X_P}^\lambda_{r,D(s,r)}\le\epsilon$. Put $S_t(\theta,y,u,v)=(\theta,t^2y,tu,tv)$ and
+$T_t(\Theta,Y,U,V)=(t^2\Theta,Y,tU,tV)$ ($t\in\C$). Define
+\[a(\theta)=P(\theta,0,0,0),\quad b(\theta)=2\pi X^\theta_P(\theta,0,0,0),\quad g(\theta)=(-X^v_P,X^u_P)(\theta,0,0,0),\quad
+\mathsf H(\theta)=D_{(u,v)}g\]
+(the last the $(u,v)$-derivative of $(-X^v_P,X^u_P)$ at $(\theta,0,0,0)$), and
+$R=a+\langle b,y\rangle+\langle g,(u,v)\rangle_0+\frac12\langle\mathsf H(u,v),(u,v)\rangle_0$. Then:
+\begin{enumerate}[label=(\roman*)]
+\item $R(\cdot,\xi)$ belongs to W4's class $\mathcal T_s$ (with $\bar p=p_+$): rewritten in $z,\bar z$ by
+  Convention~\ref{bpW:w4:index} its components are $c^+=(g_u-ig_v)/\sqrt2$, $c^-=(g_u+ig_v)/\sqrt2$ and the blocks
+  $P=\frac14(\mathsf H_{uu}-\mathsf H_{vv}-i\mathsf H_{uv}-i\mathsf H_{vu})$,
+  $Q=\frac12(\mathsf H_{uu}+\mathsf H_{vv}-i\mathsf H_{uv}+i\mathsf H_{vu})$,
+  $P'=\frac14(\mathsf H_{uu}-\mathsf H_{vv}+i\mathsf H_{uv}+i\mathsf H_{vu})$ ($\mathsf H_{xy}$ the block from the
+  $y$-variable to the $x$-gradient), all holomorphic,
+  periodic and bounded, $P,P'$ symmetric; $R$ is real; and $R(w)=\sum_{k\le2}\frac1{k!}\partial_t^kP(S_tw)|_{t=0}$.
+\item $X_R(w)=\sum_{k\le2}\frac1{k!}\partial_t^kG(t,w)|_{t=0}$ with $G(t,w)=T_tX_P(S_tw)$.
+\item $\abs{X_R}^\lambda_{r,D(s,r)}\le3\epsilon$.
+\item For $0<\eta\le\frac18$: $\abs{X_P-X_R}^\lambda_{\eta r,D(s,4\eta r)}\le128\,\eta\,\epsilon$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Scaling identity}\label{stepW:w5:t-scale} For all $W,W'$: $\symp(X,S_tW')=\symp(T_tX,W')$ (expand: the
+$\Theta Y$-terms acquire $t^2$, the $UV$-terms $t$). Hence for $t\ne0$ and $S_tw\in D(s,r)$,
+$D(P\circ S_t)(w)W'=\symp(X_P(S_tw),S_tW')=\symp(G(t,w),W')$, so $X_{P\circ S_t}=G(t,\cdot)$; $G$ is holomorphic in
+$(t,w)$ on the open set $\{S_tw\in D(s,r)\}$, including $t=0$.
+\proofstep{Discs}\label{stepW:w5:t-disc} If $w\in D(s,r')$, $r'\le r$, then $S_tw\in D(s,r)$ for $\abs t<\rho:=r/r'$, and
+$\abs{T_tX}_{p_+,r'}\le\rho^2\abs X_{p_+,r}$ for $\abs t\le\rho$: the $\Theta$-component gains $\abs t^2\le\rho^2$, the
+$Y$-component $r^2/r'^2=\rho^2$, and the normal components $\abs t/r'\le\rho/r'=\rho^2/r$.
+\proofstep{Taylor polynomial}\label{stepW:w5:t-poly} Expanding $P(S_tw)$ at $t=0$ by the chain rule:
+the coefficient of $t^0$ is $a$, of $t^1$ is $DP(\theta,0,0,0)(0,0,u,v)=\langle g,(u,v)\rangle_0$, of $t^2$ is
+$DP(\theta,0,0,0)(0,y,0,0)+\frac12D^2P(\theta,0,0,0)[(0,0,u,v)^2]=\langle b,y\rangle+\frac12\langle\mathsf H(u,v),(u,v)\rangle_0$
+(using $DP\,W=\symp(X_P,W)$ and differentiating $X_P$ once more, which exists since $X_P$ is holomorphic). This is the
+last claim of (i).
+\proofstep{Components}\label{stepW:w5:t-comp} $a,b,g$ are compositions of holomorphic maps with $\theta\mapsto(\theta,0,0,0)$.
+$\mathsf H(\theta)=\frac1{2\pi i}\oint_{\abs\zeta=\rho'}(-X^v_P,X^u_P)(\theta,0,\zeta U,\zeta V)\zeta^{-2}d\zeta$ (as an
+operator applied to $(U,V)$, Lemma~\ref{bpW:w1:deriv-continuous}), holomorphic in $\theta$ by differentiation under the
+integral, bounded $\ell^N_{a,p}{}^2\to\ell^N_{a,p_+}{}^2$ by Lemma~\ref{bpW:w1:cauchy} (in fact $\norm{\mathsf H}\le\epsilon$,
+Step~\ref{stepW:w5:t-est}). $\mathsf H$ is symmetric for $\langle\cdot,\cdot\rangle_0$ because $D^2P$ is symmetric
+(Schwarz, \Lean{second\_derivative\_symmetric}); its blocks satisfy $\mathsf H_{uv}^T=\mathsf H_{vu}$, so the blocks
+$P,Q,Q^T,P'$ are bounded and $P,P'$ symmetric. The $z$-formulas are the substitution $u=(z+\bar z)/\sqrt2$,
+$v=(z-\bar z)/(i\sqrt2)$. Reality and periodicity are inherited from $P$.
+\proofstep{Field}\label{stepW:w5:t-field} For fixed $w$ and $W'$, $\varepsilon\mapsto R(w+\varepsilon W')$ is the sum of
+the Taylor coefficients of order $\le2$ of $t\mapsto P(S_t(w+\varepsilon W'))$; differentiate in $\varepsilon$ under the
+Cauchy integrals defining these coefficients and use Step~\ref{stepW:w5:t-scale}:
+$DR(w)W'=\sum_{k\le2}\frac1{k!}\partial_t^k\symp(G(t,w),W')|_{t=0}$, which is $\symp(\sum_{k\le2}g_k(w),W')$ with
+$g_k$ the Taylor coefficients of $G(\cdot,w)$. The $g_k$ lie in $\Pc^{p_+}$; uniqueness gives (ii), and W4's formula
+for $X_R$ agrees by the same uniqueness.
+\proofstep{Estimates}\label{stepW:w5:t-est} (iii): for $w\in D(s,r)$, $\abs{G(t,w)}_{p_+,r}\le\epsilon$ on $\abs t\le1$
+($\abs t^2,\abs t\le1$) and $G(\cdot,w)$ is holomorphic on a disc of radius $>1$ (Step~\ref{stepW:w5:t-disc} with
+$r'=$ the size of $w$); \ref{bpW:w5:ext-taylor} on $\abs t<1$ gives $\abs{g_k}\le\epsilon$, so $\abs{X_R}\le3\epsilon$.
+(iv): for $w\in D(s,4\eta r)$ take $r'=4\eta r$, $\rho=1/(4\eta)\ge2$; \ref{bpW:w5:ext-taylor} with $B=\rho^2\epsilon$ in
+$\abs\cdot_{p_+,r'}$ gives $\abs{X_P(w)-X_R(w)}_{p_+,4\eta r}\le\epsilon/(\rho-1)\le8\eta\epsilon$, and
+$\abs\cdot_{p_+,\eta r}\le16\abs\cdot_{p_+,4\eta r}$ (Lemma~\ref{bpW:w5:omega}). The Lipschitz parts: everything is linear
+in $P$; apply the same to $P(\xi)-P(\zeta)$.
+\end{proof}
+\source{P96-K (7), p.~129 (``these approximations are given by certain Cauchy integrals, and the estimates are the same
+as in a finite dimensional setting''). Constants $3$ and $128$ ours. The scaling $S_t$ replaces the multi-index
+Taylor expansion of P96-K (3) and avoids a strip loss in the $y$-component.}
+
+\subsection{The step data and the flow}\label{bpW:w5:flow-sec}
+
+\begin{definition}[Step data]\label{bpW:w5:data}
+\emph{Step data} consist of: $p_+\in[p+\frac12,p+1]$; $\tau\ge0$ (W6 uses $\tau=24$, Remark~\ref{bpW:w7:choices});
+$0<s\le1$, $0<\sigma\le\min(\frac14,\frac s6)$, $0<\eta\le\frac18$, $r>0$; a parameter set $\Pi\subset\R^2$;
+frequencies $(\omega,\Omega)$ on $\Pi$ satisfying \eqref{bpW:w5:freq} with $M=M_\omega+M_\Omega>0$; $\alpha>0$ such that
+$(\mathrm H_\alpha)$ holds on $\Pi$ (Definition~\ref{bpW:w4:melnikov}) or, in the modified case, the hypotheses of
+Lemma~\ref{bpW:w5:w4-modified} with $\hat\alpha=\alpha$; $0\le\lambda\le\alpha/M$; the normal form
+$N=\langle\omega(\xi),y\rangle+\sum_j\Omega_j(\xi)z_j\bar z_j$; and a real periodic family
+$P\in\Sm_{p'}(D(s,r))$ with $p'=p+1$ in the modified case and $p'=p_+$ otherwise, and
+a number $\epsilon>0$ with $\epsilon\ge\abs{X_P}^\lambda_{r,D(s,r)}$ (norm $\abs\cdot_{p',r}$; a positive majorant, also when
+$P=0$). Put, in the unmodified case,
+\[t=2\tau+4,\qquad c_F=9C_1b_{\rm W}(\tau),\qquad c_0=16c_F,\qquad M_F=\frac{c_F\,\epsilon}{\alpha\sigma^{t-1}},\]
+with $C_1$, $b_{\rm W}$ of Theorem~\ref{bpW:w4:lemma1} and Lemma~\ref{bpW:w4:lattice}; in the modified case
+$t^\natural=2\tau+5$, $c^\natural_F=9C_1b^\natural(\tau)$, $c^\natural_0=16c^\natural_F$, $C^\natural_2=896+168c^\natural_F$
+(Lemma~\ref{bpW:w5:w4-modified}(iii)), and every statement below about the modified case is read with
+$(t,c_F,c_0,C_2)$ replaced by $(t^\natural,c^\natural_F,c^\natural_0,C^\natural_2)$; thus
+$M_F=c^\natural_F\epsilon/(\alpha\sigma^{2\tau+4})$ there. The \emph{smallness condition}
+is
+\begin{equation}\label{bpW:w5:small}
+\epsilon\le\frac{\alpha\sigma^t\eta^2}{c_0}\qquad\Bigl(\text{equivalently }M_F\le\frac{\sigma\eta^2}{16}\Bigr).
+\end{equation}
+\end{definition}
+\source{P96-K (5)--(6), p.~129 (``$0<\eta<\frac18$ and $0<\sigma<s$, $\sigma\le1$'', $t=2\tau+n+2$, $c_0$ ``sufficiently large
+constant''); $n=2$. Period-one strips (Remark~\ref{bpW:w4:compare}(iii)). $c_0$ explicit here.}
+
+\begin{lemma}[The solution of the homological equation in the step]\label{bpW:w5:solve}
+Under step data, let $R$ be the Taylor polynomial of Lemma~\ref{bpW:w5:taylor} and $F$, $\hat N$, $\hat a_0$ the
+objects of Theorem~\ref{bpW:w4:lemma1} for $R$ (through Lemma~\ref{bpW:w5:w4-general}, or Lemma~\ref{bpW:w5:w4-modified}
+in the modified case). Then $F\in\mathcal T_{s-\sigma}\cap\Sm_{p_+}(D(s-\sigma,r))$, $\hat N\in\Sm_{p_+}(\Pc)$ (indeed
+$p'$), both real, $R+DN\cdot X_F=\hat N+\hat a_0$ on $D(s-\sigma,r)$, and
+\[\abs{X_F}^\lambda_{r,D(s-\sigma,r)}\le M_F,\qquad\abs{X_{\hat N}}^\lambda_{r,D(s,r)}\le6\epsilon,\qquad
+\abs{\hat\omega}+\lambda\abs{\hat\omega}^{\mathcal L}\le6\pi\epsilon,\]
+\[
+\sup_j(j+2)^{p_+-p}\bigl(\abs{\hat\Omega_j}+\lambda\abs{\hat\Omega_j}^{\mathcal L}\bigr)\le3\epsilon.\]
+In the modified case the Lipschitz parts require $2\beta\le p+1-p_+$, and the bound for $X_F$ is read with $c^\natural_F$,
+$t^\natural$ (Lemma~\ref{bpW:w5:w4-modified}(ii)--(iii): $3C_1B^\natural_\sigma\cdot3\epsilon/\alpha\le c^\natural_F\epsilon/(\alpha\sigma^{2\tau+4})$).
+\end{lemma}
+\begin{proof}
+\proofstep{Input}\label{stepW:w5:s-in} Lemma~\ref{bpW:w5:taylor}(i),(iii): $R\in\mathcal T_s$ and
+$\abs{X_R}^\lambda_{r,D(s,r)}\le3\epsilon$.
+\proofstep{Output}\label{stepW:w5:s-out} Corollary~\ref{bpW:w4:lemma2} (via Lemma~\ref{bpW:w5:w4-general}) with
+$\varepsilon+\lambda\varepsilon^{\mathcal L}\le3\epsilon$: $\abs{X_F}^\lambda\le3C_1B^{\rm W}_\sigma\cdot3\epsilon/\alpha
+\le9C_1b_{\rm W}\epsilon/(\alpha\sigma^{2\tau+3})=M_F$ since $\sigma\le1$ (Lemma~\ref{bpW:w4:lattice}(iv)); and
+$\abs{X_{\hat N}}^\lambda\le2\cdot3\epsilon$, Theorem~\ref{bpW:w4:lemma1}(iv). The bracket identity is
+Theorem~\ref{bpW:w4:lemma1}(ii) (Lemma~\ref{bpW:w4:lie}(ii), weight guard $a=p=1$).
+\proofstep{Class}\label{stepW:w5:s-class} A member of $\mathcal T$ is a polynomial of degree $\le2$ in $(y,u,v)$ whose
+coefficients are holomorphic in finitely many variables $\theta$, hence analytic (Lemma~\ref{bpW:w1:holo-analytic-fd});
+so it is $C^2$ on its domain, its field (Definition~\ref{bpW:w4:taylor}) is holomorphic into $\Pc^{p_+}$ and satisfies
+$DF\,W=\symp(X_F,W)$ (W4 Definition~\ref{bpW:w4:taylor}: the field is formed from the gradients).
+\end{proof}
+\source{P96-K (8), p.~129.}
+
+\begin{lemma}[The flow with explicit margins; P96-K (9)--(11) and Lemma~A.4]\label{bpW:w5:flow}
+Under step data and \eqref{bpW:w5:small}, apply Lemma~\ref{bpW:w1:flow} in the Banach space $(\Pc,\abs\cdot_{p,r})$
+to $X=X_{F(\xi)}$ with
+\[V=D(s-\sigma,r),\qquad U=D(s-2\sigma,\tfrac r2),\qquad\delta=\frac\sigma4,\qquad M=M_F\le\frac{\sigma}{256}<\delta,\qquad
+L=\frac{M}{\delta}\le\frac1{64}.\]
+The hypotheses hold, and for $\abs t\le1$, $\xi,\zeta\in\Pi$:
+\begin{enumerate}[label=(\roman*)]
+\item the flow $\phi^t$ exists on $U$ with values in $V$, $\phi^t-\mathrm{id}$ is holomorphic $U\to\Pc^{p_+}$, and
+  $\abs{\phi^t-\mathrm{id}}^\lambda_{p_+,r,U}\le2M_F$;
+\item on $D(s-3\sigma,\frac r4)$: $\abs{D\phi^t-I}_{p\to p_+,r}\le8M_F/\sigma$ and
+  $\abs{D\phi^t-I}^\lambda_{p\to p_+,r}\le16M_F/\sigma\le\eta^2$;
+\item $\phi^t\bigl(D(s-5\sigma,\eta r)\bigr)\subset D(s-4\sigma,2\eta r)\subset D(s-3\sigma,\frac r4)$;
+\item $\phi^t$ is real on real points and commutes with integer angle translations: with $\tau_k=(k,0,0,0)$,
+  $k\in\Z^2$, $\phi^t(w+\tau_k)=\phi^t(w)+\tau_k$ for $w\in U$ (note $U+\tau_k=U$).
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Margins}\label{stepW:w5:f-margin} By Lemma~\ref{bpW:w1:kam-domain} (with $s,\sigma,r$), every $w\in U$ has
+$B(w,\sigma/2)=B(w,2\delta)\subset V$ in $\abs\cdot_{p,r}$. $\abs{X_F}_{p,r}\le\abs{X_F}_{p_+,r}\le M_F$ on $V$
+(Lemma~\ref{bpW:w5:omega}), and $M_F\le\sigma\eta^2/16\le\sigma/1024$.
+\proofstep{Flow}\label{stepW:w5:f-flow} Lemma~\ref{bpW:w1:flow}(i)--(iii). The identity $\phi^t(w)-w=\int_0^tX_F(\phi^\tau w)\,d\tau$
+(fundamental theorem for the $C^1$ curve) shows $\phi^t-\mathrm{id}\in\Pc^{p_+}$ with $\abs\cdot_{p_+,r}\le\abs tM_F$;
+holomorphy into $\Pc^{p_+}$: the integrand is holomorphic in $w$ into $\Pc^{p_+}$ with a uniform bound on its derivative
+(Lemma~\ref{bpW:w1:cauchy} on $B(w,\delta)$), so differentiate under the integral (\ref{bpW:w3:ext-integral}).
+\proofstep{Parameters}\label{stepW:w5:f-par} Let $N_1=\sup_V\abs{X_{F(\xi)}-X_{F(\zeta)}}_{p_+,r}$. Lemma~\ref{bpW:w1:flow}(iv) gives
+$\abs{\phi^t_\xi-\phi^t_\zeta}_{p,r}\le e^{1/64}N_1$. In the integral identity,
+$\abs{X_{F(\xi)}(\phi^\tau_\xi)-X_{F(\zeta)}(\phi^\tau_\zeta)}_{p_+,r}\le N_1+\frac{M_F}{\delta}e^{1/64}N_1\le2N_1$ (both trajectory
+points lie in the convex ball $B(w,\delta)$, on which $\abs{DX_F}_{p\to p_+,r}\le M_F/\delta$ by
+Lemma~\ref{bpW:w1:cauchy}). Hence $\abs{\phi^t-\mathrm{id}}^\lambda\le M_F+2\lambda N_1/\abs{\xi-\zeta}\le2M_F$ after
+taking the supremum.
+\proofstep{Derivative}\label{stepW:w5:f-der} By Lemma~\ref{bpW:w1:kam-domain} with $(s-\sigma,\sigma,r/2)$, each point of
+$D(s-3\sigma,r/4)$ has a $\abs\cdot_{p,r/2}$-ball of radius $\sigma/2$ in $U$; as $\abs W_{p,r/2}\le4\abs W_{p,r}$, it has a
+$\abs\cdot_{p,r}$-ball of radius $\sigma/8$ in $U$. Lemma~\ref{bpW:w1:cauchy} for $\phi^t-\mathrm{id}$ (bound $M_F$, resp.\
+$2N_1$ for the difference in $\xi$) gives (ii); $16M_F/\sigma\le\eta^2$ by \eqref{bpW:w5:small}.
+\proofstep{Image}\label{stepW:w5:f-image} For $w\in D(s-5\sigma,\eta r)$ the increment $W=\phi^tw-w$ has
+$\abs\Theta\le M_F<\sigma$, $\abs Y\le r^2M_F<3\eta^2r^2$, $\norm U+\norm V\le rM_F<\eta r$; and $2\eta\le\frac14$.
+\proofstep{Reality and equivariance}\label{stepW:w5:f-real} Lemma~\ref{bpW:w1:flow}(iii), with $\Pc=(\Pc_\R)^\C$ and $X_F$ real on
+reals (Theorem~\ref{bpW:w4:lemma1}(i)). $X_F(w+\tau_k)=X_F(w)$ since the components of $F$ are $1$-periodic, and $V+\tau_k=V$; so
+$t\mapsto\phi^t(w)+\tau_k$ is a $C^1$ solution in $V$ starting at $w+\tau_k$, and it equals $\phi^t(w+\tau_k)$ by the uniqueness of
+Lemma~\ref{bpW:w1:flow}(i).
+\end{proof}
+\source{P96-K (9)--(11), pp.~129--130 (``Hence the flow $X^t_F$ exists on $D(s-3\sigma,r/4)$ \dots\ takes this domain into
+$D(s-2\sigma,r/2)$'', ``any point in $D(s-4\sigma,r/8)$ has $\abs\cdot_r$-distance greater than $\sigma/32$''), and Lemma~A.4,
+p.~147. This is the concrete instance of the repaired Lemma~A.4 (D-W-Pos96K-A4, Lemma~\ref{bpW:w1:flow} and its
+\textsf{SOURCE\_GAP}): ball margin $2\delta=\sigma/2$ around $U=D(s-2\sigma,r/2)$ inside $V=D(s-\sigma,r)$, field bound
+$M_F<\delta$, both trajectories in the convex ball $B(w,\delta)$. Our margin $\sigma/8$ for the derivative replaces
+P96-K's $\sigma/32$ on a larger domain.}
+
+\begin{lemma}[Flow calculus]\label{bpW:w5:flow-calc}
+In the setting of Lemma~\ref{bpW:w5:flow}, for $\abs t\le1$:
+\begin{enumerate}[label=(\roman*)]
+\item $(t,w)\mapsto\phi^t(w)$ and $(t,w)\mapsto D\phi^t(w)$ are continuous on $[-1,1]\times U$, and
+  $D\phi^t(w)=I+\int_0^tDX_F(\phi^\tau w)D\phi^\tau(w)\,d\tau$.
+\item (Symplecticity.) $\symp(D\phi^t(w)W,D\phi^t(w)W')=\symp(W,W')$ for $w\in U$, $W,W'\in\Pc$.
+\item On $D(s-3\sigma,r/4)$, $D\phi^t(w)$ is invertible on $\Pc$ and maps $\Pc^{p_+}$ onto $\Pc^{p_+}$.
+\item (Transport.) If $G\in\Sm_{p_+}(V')$ and $\phi^t(O)\subset V'$ for an open $O\subset D(s-3\sigma,r/4)$, then
+  $G\circ\phi^t\in\Sm_{p_+}(O)$ with $X_{G\circ\phi^t}=(\phi^t)^*X_G:=D(\phi^t)^{-1}X_G\circ\phi^t$.
+\item (Time derivative.) For every $C^1$ function $G$ on an open set containing $\phi^{[0,1]}(w)$,
+  $\frac d{dt}G(\phi^tw)=DG(\phi^tw)X_F(\phi^tw)$; in particular for $G=N$, by the bracket identity,
+  $\frac d{dt}N(\phi^tw)=(\hat N+\hat a_0-R)(\phi^tw)$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Continuity}\label{stepW:w5:c-cont} $\abs{\phi^t(w)-\phi^{t'}(w')}_{p,r}\le M_F\abs{t-t'}+e^{L}\abs{w-w'}_{p,r}$ for
+$w'$ near $w$ (the second by Lemma~\ref{bpW:w1:flow}(ii) and the mean value inequality on a convex ball in $U$).
+$D\phi^t(w)W=\frac1{2\pi i}\oint_{\abs\zeta=\rho}\phi^t(w+\zeta W)\zeta^{-2}d\zeta$ for small $\rho$, which is continuous in
+$(t,w)$ uniformly for $\abs W_{p,r}\le1$.
+\proofstep{Variational equation}\label{stepW:w5:c-var} Differentiate $\phi^t(w)=w+\int_0^tX_F(\phi^\tau w)d\tau$ in $w$
+under the integral (\ref{bpW:w3:ext-integral}; the integrand's derivative $DX_F(\phi^\tau w)D\phi^\tau(w)$ is continuous
+in $(\tau,w)$ by Step~\ref{stepW:w5:c-cont} and Lemma~\ref{bpW:w1:deriv-continuous}, and bounded by $Le^L$).
+\proofstep{Skewness}\label{stepW:w5:c-skew} $F$ is $C^2$ (Step~\ref{stepW:w5:s-class}) and
+$\symp(DX_F(w)A,B)=D^2F(w)[A,B]$ (differentiate $DF(w)B=\symp(X_F(w),B)$ in $w$), which is symmetric; by antisymmetry
+of $\symp$, $\symp(DX_FA,B)+\symp(A,DX_FB)=0$.
+\proofstep{Symplecticity}\label{stepW:w5:c-symp} $g(t)=\symp(D\phi^tW,D\phi^tW')$ is $C^1$ with $g'=0$ by
+Steps~\ref{stepW:w5:c-var}--\ref{stepW:w5:c-skew}; $g(0)=\symp(W,W')$ (\ref{bpW:w3:ext-mvt}).
+\proofstep{Inverse}\label{stepW:w5:c-inv} $\abs{D\phi^t-I}_{p\to p,r}\le\abs{D\phi^t-I}_{p\to p_+,r}\le\frac18$ and the
+same on $\Pc^{p_+}$ (as $\abs\cdot_{p,r}\le\abs\cdot_{p_+,r}$); Neumann series \ref{bpW:w3:ext-neumann}.
+\proofstep{Transport}\label{stepW:w5:c-trans} As in Theorem~\ref{bpW:w3:symplectic}:
+$D(G\circ\phi^t)(w)W=\symp(X_G(\phi^tw),D\phi^tW)=\symp(D\phi^tD(\phi^t)^{-1}X_G(\phi^tw),D\phi^tW)=\symp(D(\phi^t)^{-1}X_G(\phi^tw),W)$;
+the field is holomorphic into $\Pc^{p_+}$ (inversion is holomorphic on invertible operators and $w\mapsto D\phi^t(w)$
+is holomorphic, being a Cauchy integral of a holomorphic map).
+\proofstep{Time derivative}\label{stepW:w5:c-time} Chain rule. $N$ is a continuous quadratic form on $\Pc$ (for $p=1$,
+$\sum_j\abs{\Omega_j}\abs{z_j}\abs{\bar z_j}\le(1+M_0)\norm z\norm{\bar z}$ since $\omega_{1,1}(J)^2\ge J$), hence $C^1$, and
+$DN(w)X_F(w)=-L_NF(w)=(\hat N+\hat a_0-R)(w)$ by Lemma~\ref{bpW:w4:lie}(ii) and Theorem~\ref{bpW:w4:lemma1}(ii).
+\end{proof}
+\source{P96-K p.~124 (``$\Phi$ takes the hamiltonian $H=N+R$ into $N_++R_+$'') and p.~130, asserted. The symplecticity
+argument is that of W3 Theorem~\ref{bpW:w3:symplectic}.}
+
+\subsection{The new Hamiltonian}\label{bpW:w5:newham-sec}
+
+For a $C^1$ function $G$ and a field $X_F$ put $\{G,F\}=DG\cdot X_F$, and for $G,F$ in W4's class $\mathcal T$,
+$[X_G,X_F]=DX_G\cdot X_F-DX_F\cdot X_G$.
+
+\begin{lemma}[New Hamiltonian; conjugacy]\label{bpW:w5:new-ham}
+In the setting of Lemma~\ref{bpW:w5:flow}, let $\Phi=\phi^1$, $D_+=D(s-5\sigma,\eta r)$, $R(t)=(1-t)\hat N+tR$,
+$H=N+P$, $N_+=N+\hat N=\langle\omega_+,y\rangle+\sum_j\Omega_{+,j}z_j\bar z_j$ ($\omega_+=\omega+\hat\omega$,
+$\Omega_+=\Omega+\hat\Omega$), and
+\[P_+=(P-R)\circ\Phi+\int_0^1\{R(t),F\}\circ\phi^t\,dt.\]
+\begin{enumerate}[label=(\roman*)]
+\item $H\circ\Phi=N_++P_++\hat a_0$ on $D_+$.
+\item $P_+\in\Sm_{p_+}(D_+)$, real and periodic, with
+  $X_{P_+}=\Phi^*(X_P-X_R)+\int_0^1(\phi^t)^*[X_{R(t)},X_F]\,dt$.
+\item (Weak conjugacy.) For $w\in D_+$ and $W\in\Pc^{p_+}$:
+  $\symp\bigl(X_H(\Phi w),D\Phi(w)W\bigr)=\symp\bigl(X_{N_+}(w)+X_{P_+}(w),W\bigr)$, where
+  $X_N(w')=(\frac{\omega}{2\pi},0,\Omega v',-\Omega u')$ is the bounded linear map $\Pc\to\Pc^{p-1}$ (plus a constant) of
+  Lemma~\ref{bpW:w4:lie}(i), $X_H=X_N+X_P$, and $\symp$ is extended to $\Pc^{p-1}\times\Pc^{p_+}$ by the same formula
+  (continuous, since $(p-1)+p_+\ge0$, \eqref{bpW:w4:pairing}).
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Expansion}\label{stepW:w5:n-exp} Fix $w\in D_+$; $\phi^t(w)\in D(s-4\sigma,2\eta r)$ for $\abs t\le1$
+(Lemma~\ref{bpW:w5:flow}(iii)). By Lemma~\ref{bpW:w5:flow-calc}(v) and \ref{bpW:w5:ext-ftc},
+$N(\Phi w)=N(w)+\int_0^1(\hat N+\hat a_0-R)(\phi^tw)\,dt$ and, for $G\in\{\hat N,R\}$,
+$G(\phi^tw)=G(w)+\int_0^t\{G,F\}(\phi^\tau w)\,d\tau$. Substituting the second into the first, exchanging the order
+of integration over $0\le\tau\le t\le1$, and writing $P=R+(P-R)$:
+\[H(\Phi w)=N(w)+\hat N(w)+\hat a_0+(P-R)(\Phi w)+\int_0^1\{(1-\tau)\hat N+\tau R,F\}(\phi^\tau w)\,d\tau,\]
+using $R(\Phi w)=R(w)+\int_0^1\{R,F\}(\phi^\tau w)d\tau$. This is (i).
+\proofstep{Bracket field}\label{stepW:w5:n-br} For $G,F\in\mathcal T$, $\{G,F\}$ is $C^1$ and
+$D\{G,F\}W=D^2G[X_F,W]+DG\,DX_FW=\symp(DX_GX_F,W)+\symp(X_G,DX_FW)=\symp([X_G,X_F],W)$ by
+Step~\ref{stepW:w5:c-skew} for $G$ and $F$. Hence $\{R(t),F\}\in\Sm_{p_+}$ with field $[X_{R(t)},X_F]$, holomorphic on
+$D(s-\sigma,r)$.
+\proofstep{Field of $P_+$}\label{stepW:w5:n-field} Lemma~\ref{bpW:w5:flow-calc}(iv) for $G=P-R$ (in $\Sm_{p'}\subset\Sm_{p_+}$ on
+$D(s,r)$; $R\in\mathcal T_s$) and for $G=\{R(t),F\}$; differentiate under the $t$-integral (continuity in $(t,w)$ by
+Lemma~\ref{bpW:w5:flow-calc}(i)). Reality: all ingredients are real.
+\proofstep{Conjugacy}\label{stepW:w5:n-conj} $H\circ\Phi$ is $C^1$ on $D_+$; for $W\in\Pc^{p_+}$,
+$D(H\circ\Phi)(w)W=DN(\Phi w)D\Phi W+DP(\Phi w)D\Phi W$. Here $D\Phi W\in\Pc^{p_+}$, and for $w'\in\Pc$, $W''\in\Pc^{p_+}$,
+$DN(w')W''=\symp(X_N(w'),W'')$ by direct computation of the derivative of the quadratic form $N$ (the pairings converge
+by Lemma~\ref{bpW:w4:lie}(i)). The other side is $D(N_++P_++\hat a_0)(w)W=\symp(X_{N_+}(w)+X_{P_+}(w),W)$ by the same
+computation for $N_+$ and (ii).
+\end{proof}
+\source{P96-K p.~130 (``we obtain the new hamiltonian $H\circ\Phi=N_++P_+$ \dots\ $P_+=(P-R)\circ X^1_F+\int_0^1\{R(t),F\}\circ X^t_F\,dt$
+with $R(t)=(1-t)\hat N+tR$'' and the field formula). Deviations: the constant $\hat a_0$ (W4 Theorem~\ref{bpW:w4:lemma1},
+deviation (e)); the conjugacy is stated in the weak form (iii) because $X_N$ is unbounded and, when $p_+<p+1$,
+$X_N(\Phi w)$ need not lie in $\Pc$.}
+\sourcegap{P96-K p.~130 writes the new field as the pull-back of $X_P-X_R$ plus the integral of commutators without
+deriving it from $H\circ\Phi=N_++P_+$; the derivation needs $\{N,F\}$ only through W4's identity $DN\cdot X_F=-L_NF$
+(Step~\ref{stepW:w5:n-exp}), never $X_N\circ\Phi$. Supplied above.}
+
+\begin{lemma}[Pull-back; P96-K (12)]\label{bpW:w5:pullback}
+In the setting of Lemma~\ref{bpW:w5:flow}, let $Y(\cdot,\xi)$ be holomorphic fields $D(s-3\sigma,4\eta r)\to\Pc^{p_+}$.
+Then for $\abs t\le1$,
+\[\abs{(\phi^t)^*Y}^\lambda_{\eta r,D_+}\le7\,\abs Y^\lambda_{\eta r,D(s-3\sigma,4\eta r)}\qquad(\text{norm }\abs\cdot_{p_+,\eta r}).\]
+\end{lemma}
+\begin{proof}
+\proofstep{Inverse in the small scale}\label{stepW:w5:p-inv} For $W\in\Pc^{p_+}$, by Lemma~\ref{bpW:w5:omega} and
+Lemma~\ref{bpW:w5:flow}(ii),
+$\abs{(D\phi^t-I)W}_{p_+,\eta r}\le\eta^{-2}\abs{(D\phi^t-I)W}_{p_+,r}\le\eta^{-2}\frac{8M_F}\sigma\abs W_{p,r}\le\frac12\abs W_{p_+,\eta r}$,
+so $\abs{D(\phi^t)^{-1}}_{p_+\to p_+,\eta r}\le2$ on $D(s-3\sigma,r/4)\supset D_+$. Likewise
+$\lambda\abs{\Delta D\phi^t}_{p_+\to p_+,\eta r}\le\eta^{-2}\cdot16\lambda N_1/\sigma\le1$ (Step~\ref{stepW:w5:f-der},
+$\lambda N_1\le\abs{\xi-\zeta}M_F$), so $\lambda\abs{\Delta(D\phi^t)^{-1}}\le2\cdot1\cdot2=4$.
+\proofstep{Derivative of $Y$}\label{stepW:w5:p-dy} By Lemma~\ref{bpW:w1:kam-domain} with $(s-2\sigma,\sigma,4\eta r)$, every
+point of $D(s-4\sigma,2\eta r)$ has a $\abs\cdot_{p,4\eta r}$-ball of radius $\sigma/2$ in $D(s-3\sigma,4\eta r)$, and
+$\abs\cdot_{p,4\eta r}\le\abs\cdot_{p,\eta r}$; so $\abs{DY}_{p\to p_+,\eta r}\le2\abs Y/\sigma$ there (Lemma~\ref{bpW:w1:cauchy}).
+\proofstep{Assemble}\label{stepW:w5:p-ass} $\abs{(\phi^t)^*Y}\le2\abs Y$. For the differences,
+$\Delta[(D\phi^t)^{-1}Y\circ\phi^t]=\Delta(D\phi^t)^{-1}\,Y_\xi\circ\phi^t_\xi+(D\phi^t_\zeta)^{-1}\bigl[(\Delta Y)\circ\phi^t_\xi+Y_\zeta\circ\phi^t_\xi-Y_\zeta\circ\phi^t_\zeta\bigr]$;
+the last bracket is $\le\frac{2\abs Y}\sigma\abs{\Delta\phi^t}_{p,\eta r}$ (segment in the convex $D(s-4\sigma,2\eta r)$), and
+$\lambda\abs{\Delta\phi^t}_{p,\eta r}\le\eta^{-2}\lambda\cdot2N_1\le\sigma/8$. Total:
+$2\abs Y+4\abs Y+2\lambda\abs Y^{\mathcal L}+2\cdot\frac2\sigma\cdot\frac\sigma8\abs Y\le7\abs Y^\lambda$.
+\end{proof}
+\source{P96-K (12), p.~130, and its proof pp.~131--132 (domains $U=D(s-5\sigma,\eta r)$, $V=D(s-4\sigma,2\eta r)$,
+$W=D(s-2\sigma,4\eta r)$). Constant ours; our $W$ is $D(s-3\sigma,4\eta r)$.}
+
+\begin{lemma}[Commutators]\label{bpW:w5:commutator}
+In the setting of Lemma~\ref{bpW:w5:flow}, for $0\le t\le1$:
+\[\abs{[X_{R(t)},X_F]}^\lambda_{\eta r,D(s-3\sigma,4\eta r)}\le24\,\epsilon M_F/(\sigma\eta^2).\]
+\end{lemma}
+\begin{proof}
+\proofstep{Cauchy}\label{stepW:w5:k-cauchy} On $D(s-2\sigma,r/2)$, which has margin $\sigma/2$ in $\abs\cdot_{p,r}$ inside
+$D(s-\sigma,r)$ (Lemma~\ref{bpW:w1:kam-domain}), $\abs{DX_G}_{p\to p_+,r}\le\frac2\sigma\abs{X_G}_{D(s-\sigma,r)}$ for
+$G\in\{R(t),F\}$, and the same for parameter differences (Lemma~\ref{bpW:w1:cauchy}).
+\proofstep{Bound}\label{stepW:w5:k-bd} $\abs{X_{R(t)}}^\lambda\le\max(3\epsilon,6\epsilon)$ on $D(s,r)$
+(Lemmas~\ref{bpW:w5:taylor}, \ref{bpW:w5:solve}), so by Remark~\ref{bpW:w5:lambda-product},
+$\abs{[X_{R(t)},X_F]}^\lambda_{r}\le2\cdot\frac2\sigma\cdot6\epsilon\cdot M_F$ on $D(s-2\sigma,r/2)\supset D(s-3\sigma,4\eta r)$
+($4\eta\le\frac12$); then $\abs\cdot_{p_+,\eta r}\le\eta^{-2}\abs\cdot_{p_+,r}$.
+\end{proof}
+\source{P96-K p.~130--131 (``$\abs{[X_R,X_F]}_r\le\abs{DX_R}_{r,r}\abs{X_F}_r+\abs{DX_F}_{r,r}\abs{X_R}_r$'', ``$\abs Y^\lambda_{\eta r}\le\eta^{-2}\abs Y^\lambda_r$'').}
+
+\subsection{The KAM step}\label{bpW:w5:step-sec}
+
+\begin{theorem}[One KAM step]\label{bpW:w5:step}
+Assume step data (Definition~\ref{bpW:w5:data}) and the smallness condition \eqref{bpW:w5:small}; in the modified case
+assume also $2\beta\le p+1-p_+$ for the Lipschitz parts. Let $C_2=896+168c_F$. Then there are a real holomorphic
+family $\Phi(\cdot,\xi):D_+=D(s-5\sigma,\eta r)\to D(s-4\sigma,2\eta r)$ and $N_+$, $P_+$ such that, for all $\xi\in\Pi$:
+\begin{enumerate}[label=(\roman*)]
+\item $H\circ\Phi=N_++P_++\hat a_0(\xi)$ on $D_+$, with the weak conjugacy of Lemma~\ref{bpW:w5:new-ham}(iii);
+  $\Phi$ is symplectic ($\symp(D\Phi W,D\Phi W')=\symp(W,W')$), $D\Phi(w)$ maps $\Pc^{p_+}$ onto itself, $\Phi$ is real on real
+  points, and $\Phi(w+\tau_k)=\Phi(w)+\tau_k$ for $k\in\Z^2$ (Lemma~\ref{bpW:w5:flow}(iv));
+\item $P_+\in\Sm_{p_+}(D_+)$ is real and periodic with
+  \begin{equation}\label{bpW:w5:newerror}
+  \abs{X_{P_+}}^\lambda_{\eta r,D_+}\le C_2\Bigl(\frac{\epsilon^2}{\alpha\sigma^t\eta^2}+\eta\epsilon\Bigr);
+  \end{equation}
+\item $\abs{\omega_+-\omega}+\lambda\abs{\omega_+-\omega}^{\mathcal L}\le6\pi\epsilon$ and
+  $\sup_j(j+2)^{p_+-p}\bigl(\abs{\Omega_{+,j}-\Omega_j}+\lambda\abs{\Omega_{+,j}-\Omega_j}^{\mathcal L}\bigr)\le3\epsilon$;
+  hence $(\omega_+,\Omega_+)$ satisfies \eqref{bpW:w5:freq} with $M_0+3\epsilon$ and $M_+\le M+(6\pi+3)\epsilon/\lambda$
+  when $\lambda>0$;
+\item (Divisors.) For $K\ge1$ and $0<\alpha_+\le\alpha$ with $6\pi(1+K)(1+K^\tau)\epsilon\le\alpha-\alpha_+$:
+  $\abs{\langle k,\omega_+\rangle+\langle l,\Omega_+\rangle}\ge\alpha_+\jap l/A_k$ on $\Pi$ for $(k,l)\in\mathcal Z$ with
+  $\abs k_1\le K$, whenever the same holds with $\alpha$ for $\omega,\Omega$; this holds for the Dirichlet weight
+  $\jap l^{\rm w}$ of Lemma~\ref{bpW:w4:wave}(ii) as well as for $\jap l$;
+\item (Transformation.) $\abs{\Phi-\mathrm{id}}^\lambda_{p_+,r,D_+}\le2M_F$ and
+  $\abs{D\Phi-I}^\lambda_{p\to p_+,r,D_+}\le16M_F/\sigma$, with $M_F=c_F\epsilon/(\alpha\sigma^{t-1})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\proofstep{Construction}\label{stepW:w5:st-con} Lemmas~\ref{bpW:w5:taylor}, \ref{bpW:w5:solve}, \ref{bpW:w5:flow},
+\ref{bpW:w5:flow-calc}, \ref{bpW:w5:new-ham} give $\Phi=\phi^1$, (i), the formula for $X_{P_+}$, and (v)
+(Lemma~\ref{bpW:w5:flow}(i)--(ii)).
+\proofstep{First term}\label{stepW:w5:st-1} $Y=X_P-X_R$ on $D(s-3\sigma,4\eta r)\subset D(s,4\eta r)$ has
+$\abs Y^\lambda_{\eta r}\le128\eta\epsilon$ (Lemma~\ref{bpW:w5:taylor}(iv)); Lemma~\ref{bpW:w5:pullback} gives $\le896\eta\epsilon$.
+\proofstep{Second term}\label{stepW:w5:st-2} Lemmas~\ref{bpW:w5:commutator} and~\ref{bpW:w5:pullback}, integrated over
+$t\in[0,1]$: $\le7\cdot24\,\epsilon M_F/(\sigma\eta^2)=168c_F\epsilon^2/(\alpha\sigma^t\eta^2)$.
+\proofstep{Frequencies}\label{stepW:w5:st-freq} (iii) is Lemma~\ref{bpW:w5:solve}; the Lipschitz constants follow from
+$\lambda\abs{\hat\omega}^{\mathcal L}\le6\pi\epsilon$, and $(j+2)^{p_+-p}\ge j^{1/2}$.
+\proofstep{Divisors}\label{stepW:w5:st-div} $\abs{\langle k,\hat\omega\rangle+\langle l,\hat\Omega\rangle}\le\abs k_1\,6\pi\epsilon+2\cdot3\epsilon\le
+6\pi(1+\abs k_1)\epsilon\le(\alpha-\alpha_+)/(1+K^\tau)\le(\alpha-\alpha_+)\jap l/A_k$ for $\abs k_1\le K$, as
+$A_k\le1+K^\tau$, $\jap l\ge1$; subtract from the old lower bound.
+\end{proof}
+\source{P96-K \S3, pp.~128--132: (8)--(15). Deviations: explicit constants ($c_0=16c_F$, $C_2$); the field
+$\theta$-component carries $(2\pi)^{-1}$ (period one), so $\abs{\hat\omega}\le6\pi\epsilon$ where P96-K has
+$\abs{\hat\omega}\lessdot\abs{X_P}$; the domains $D(s-3\sigma,4\eta r)$ for Taylor and commutators.}
+
+\begin{remark}[Notation clash in P96-K]\label{bpW:w5:notation}
+P96-K defines the operator norm $\abs L_{r,s}$ from $(\Pc^{a,p},\abs\cdot_{p,s})$ to $(\Pc^{a,\bar p},\abs\cdot_{\bar p,r})$
+(p.~129) but applies it to $D\Phi^\nu$ (p.~134, ``$\abs{D\Phi^\nu}_{r_0,r_\nu,D_\nu}\le2$''), which is not smoothing;
+there the norm must be the one from $\abs\cdot_{p,r_\nu}$ to $\abs\cdot_{p,r_0}$. W6 uses the latter explicitly
+(Lemma~\ref{bpW:w6:convergence}). Imprecision, not an error.
+\end{remark}
+
+\subsection{The action--angle substitution and the initial Hamiltonian}\label{bpW:w5:aa-sec}
+
+Following review ruling W4-R3, W5 carries W3's normal form (Theorem~\ref{bpW:w3:main},
+Remark~\ref{bpW:w3:interface}) into the form $N+P$ on $D(s,r)$ and checks that $D(s,r)$ lands in W3's ball
+$B_{\rho_1}$. Write $\mathfrak W=\mathfrak W_{a,p}$, $\mathfrak W^q=\mathfrak W_{a,q}$, with the form $\Omega$ of
+Lemma~\ref{bpW:w3:omega}, and $H'=\Lambda+\bar G+G^{\rm nor}+K$ on $B_{\rho_1}$. For $\zeta\in\C$ with
+$\operatorname{Re}\zeta>0$, $\sqrt\zeta$ is the principal branch.
+
+\begin{lemma}[Action--angle substitution]\label{bpW:w5:action-angle}
+For $\xi\in\C^2$ and $w=(\theta,y,u,v)\in\Pc$ with $\operatorname{Re}(\xi_i+y_i)>0$ ($i=1,2$) define
+$\mathcal A_\xi(w)\in\mathfrak W$ by
+\begin{gather*}\mathcal A_\xi(w)_{\pm i}=\sqrt{\xi_i+y_i}\,e^{\mp2\pi i\theta_i}\quad(i=1,2),\\
+\mathcal A_\xi(w)_{J}=z_{J-2}=\tfrac{u_{J-2}+iv_{J-2}}{\sqrt2},\quad\mathcal A_\xi(w)_{-J}=\bar z_{J-2}=\tfrac{u_{J-2}-iv_{J-2}}{\sqrt2}\quad(J\ge3).\end{gather*}
+\begin{enumerate}[label=(\roman*)]
+\item $(\xi,w)\mapsto\mathcal A_\xi(w)$ is holomorphic on its (open) domain, $1$-periodic in each $\theta_i$, and maps
+  real points with real $\xi$ to $\mathfrak W_\R=\{\varrho w=w\}$. At $y=0$, $u=v=0$, real $\theta$ and $\xi\in(0,\infty)^2$
+  it is the linear torus: $\mathcal Z^{-1}\mathcal A_\xi(\theta,0,0,0)=K^0_\xi(\theta)$ (Convention~\ref{bpW:w0:periodone},
+  Lemma~\ref{bpW:w3:coords}).
+\item (Domain.) Let $0<s\le\frac18$, $r>0$, $t>0$, $\abs\xi_\infty\le t$, $\operatorname{Re}\xi_i\ge2r^2$, and
+  $c_A=2200$. Then $\mathcal A_\xi(D(s,r))\subset B_{\rho}$ with $\rho^2=c_A(t+r^2)$; in particular
+  $\mathcal A_\xi(D(s,r))\subset B_{\rho_1}$ whenever $c_A(t+r^2)<\rho_1(m)^2$.
+\item (Derivative.) For every $q\in\R$, $D\mathcal A_\xi(w)$ is a linear bijection $\Pc^q\to\mathfrak W^q$ with inverse
+  $W\mapsto(\Theta,Y,U,V)$,
+  \[\Theta_i=\frac{W_{-i}e^{-2\pi i\theta_i}-W_ie^{2\pi i\theta_i}}{4\pi i\sqrt{\xi_i+y_i}},\quad
+  Y_i=\sqrt{\xi_i+y_i}\,(W_ie^{2\pi i\theta_i}+W_{-i}e^{-2\pi i\theta_i}),\]
+  \[U=\tfrac{\hat W_++\hat W_-}{\sqrt2},\qquad V=\tfrac{\hat W_+-\hat W_-}{i\sqrt2}\]
+  ($\hat W_\pm=(W_{\pm J})_{J\ge3}$), and $\Omega(D\mathcal A_\xi W,D\mathcal A_\xi W')=\symp(W,W')$ for $W\in\Pc^q$,
+  $W'\in\Pc^{q'}$, $q+q'\ge0$.
+\item (Normal form.) On the domain of (ii) with $\mathcal A_\xi(D(s,r))\subset B_{\rho_1}$,
+  \[H'\circ\mathcal A_\xi=e(\xi)+N_\xi+P_\xi,\qquad e(\xi)=\langle\lambda_J,\xi\rangle+\tfrac12\langle A\xi,\xi\rangle,\qquad
+  N_\xi=\langle\omega^0(\xi),y\rangle+\sum_{j\ge1}\Omega^0_{j+2}(\xi)z_j\bar z_j,\]
+  with $\omega^0,\Omega^0$ of Definition~\ref{bpW:w7:omega0} ($\omega^0=\lambda_J+A\xi$,
+  $\Omega^0_J=\lambda_J+\frac{3}{2\pi\lambda_J}\langle b,\xi\rangle$), and
+  $P_\xi=\tilde Q+G^{\rm nor}\circ\mathcal A_\xi+K\circ\mathcal A_\xi$, $\tilde Q=\frac12\langle Ay,y\rangle+
+  \sum_{j\ge1}\frac{3\langle b,y\rangle}{2\pi\lambda_{j+2}}z_j\bar z_j$.
+\item (Conjugacy.) $P_\xi\in\Sm_{p+1}(D(s,r))$, real for real $\xi$, with $X_{P_\xi}=X_{\tilde Q}+D\mathcal A_\xi^{-1}\bigl(X_{G^{\rm nor}}+X_K\bigr)\circ\mathcal A_\xi$; and for every
+  $w\in D(s,r)$,
+  \[X_{H'}(\mathcal A_\xi w)=D\mathcal A_\xi(w)\bigl(X_{N_\xi}(w)+X_{P_\xi}(w)\bigr)\qquad\text{in }\mathfrak W^{p-1},\]
+  where $X_{H'}=X_\Lambda+X_{\bar G}+X_{G^{\rm nor}}+X_K$ with $X_\Lambda(w')_l=-i\lambda'_lw'_l$ on all of $\mathfrak W$.
+\item (Weight factors.) No weight conversion is needed: the normal weights of $\Pc$ and of $\mathfrak W$ are both
+  $\omega_{a,q}(J)$ at the Dirichlet label (Remark~\ref{bpW:w4:from-w3}), so W3's factors $3^pe^{2a}$, $3^{p+1}e^{2a}$
+  (which compare with P96-K's weights $j^qe^{aj}$) do not occur. The remaining factors are
+  $\norm{\hat w}\le\norm u+\norm v\le\sqrt2\norm{\hat w}$ (sum norm of $D(s,r)$ versus $\mathfrak W$), used in (ii) and
+  Proposition~\ref{bpW:w5:initial}, and $\norm x_E\le\norm{\mathcal Zx}\le\sqrt2\norm x_E$ (Lemma~\ref{bpW:w3:coords}),
+  used only by W8 to return to \Lean{WaveSpace}.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\proofstep{Holomorphy and reality}\label{stepW:w5:a-hol} $\sqrt\cdot$ is holomorphic on $\operatorname{Re}>0$, the normal
+part is linear. For real data, $\mathcal A_{-i}=\overline{\mathcal A_i}$ and $\bar z=\overline z$. At the torus,
+$\mathcal Z^{-1}$ gives $q_i=\sqrt2\operatorname{Re}(\sqrt{\xi_i}e^{-2\pi i\theta_i})=\sqrt{2\xi_i}\cos2\pi\theta_i$,
+$p_i=\sqrt2\operatorname{Im}(\dots)=-\sqrt{2\xi_i}\sin2\pi\theta_i$.
+\proofstep{Domain}\label{stepW:w5:a-dom} $\abs{\xi_i+y_i}<t+r^2$ and $\abs{e^{\mp2\pi i\theta_i}}\le e^{2\pi s}$, so the tangential
+part has $\sum_{\abs l\le2}\abs l^{2p}e^{2a\abs l}\abs{w_l}^2\le2(e^2+4e^4)e^{4\pi s}(t+r^2)\le2173(t+r^2)$ ($a=p=1$,
+$e^{4\pi s}\le e^{\pi/2}$); the normal part has $\norm{\hat w}^2=\norm u^2+\norm v^2<r^2$.
+\proofstep{Derivative}\label{stepW:w5:a-der} $\partial\mathcal A_{\pm i}=\bigl(\frac{Y_i}{2\sqrt{\xi_i+y_i}}\mp2\pi i\sqrt{\xi_i+y_i}\Theta_i\bigr)e^{\mp2\pi i\theta_i}$;
+solving the $2\times2$ system gives the inverse. The form: on each tangential pair
+$i(W_iW'_{-i}-W_{-i}W'_i)=2\pi(\Theta_iY'_i-Y_i\Theta'_i)$ by expansion, and on normal pairs
+$i(Z_j\bar Z'_j-\bar Z_jZ'_j)=U_jV'_j-V_jU'_j$; the series converge for $q+q'\ge0$ by \eqref{bpW:w4:pairing}.
+\proofstep{Normal form}\label{stepW:w5:a-nf} Substitute $w_iw_{-i}=\xi_i+y_i$ ($i=1,2$), $w_Jw_{-J}=z_{J-2}\bar z_{J-2}$
+into $\Lambda=\sum\lambda_jw_jw_{-j}$ and $\bar G=\frac12\langle AI,I\rangle+\langle BI,Z\rangle$
+(Theorem~\ref{bpW:w3:main}(iii), $(BI)_J=\frac3{2\pi\lambda_J}\langle b,I\rangle$, Theorem~\ref{bpW:w0n:AB}) with $I=\xi+y$, and
+expand ($A$ symmetric).
+\proofstep{Fields}\label{stepW:w5:a-field} For $G\in\{G^{\rm nor},K\}$ (fields into $\mathfrak W^+$, Theorem~\ref{bpW:w3:main}(ii)--(iii)):
+$D(G\circ\mathcal A)W=\Omega(X_G(\mathcal Aw),D\mathcal AW)=\symp(D\mathcal A^{-1}X_G(\mathcal Aw),W)$ by (iii), and
+$D\mathcal A^{-1}$ maps $\mathfrak W^{p+1}$ to $\Pc^{p+1}$. $\tilde Q$ is an explicit polynomial; its field
+$(\frac1{2\pi}(Ay+\beta'(z,\bar z)),0,\beta v,-\beta u)$ with $\beta_j=\frac{3\langle b,y\rangle}{2\pi\lambda_{j+2}}$,
+$\beta'_i=\sum_j\frac{3b_i}{2\pi\lambda_{j+2}}z_j\bar z_j$, lies in $\Pc^{p+1}$ since $(j+2)\abs{\beta_j}\le\frac3{2\pi}\abs b_1\abs y$.
+Holomorphy: compositions. Reality: $H'$, $\mathcal A_\xi$ are real.
+\proofstep{Conjugacy}\label{stepW:w5:a-conj} For $W\in\Pc^{p+1}$: $D(H'\circ\mathcal A)(w)W=\Omega(X_{H'}(\mathcal Aw),D\mathcal AW)$,
+using $D\Lambda(w')W''=\Omega(X_\Lambda(w'),W'')$ for $w'\in\mathfrak W$, $W''\in\mathfrak W^{p+1}$
+(Lemma~\ref{bpW:w3:Lambda}, the pairing of $\mathfrak W^{p-1}$ with $\mathfrak W^{p+1}$). By (iv) and Lemma~\ref{bpW:w5:new-ham}(iii)'s
+computation for $N_\xi$, the left side is $\symp(X_{N_\xi}(w)+X_{P_\xi}(w),W)=\Omega(D\mathcal A(X_{N_\xi}+X_{P_\xi}),D\mathcal AW)$
+by (iii) with $q=p-1$, $q'=p+1$. As $D\mathcal A$ maps $\Pc^{p+1}$ onto $\mathfrak W^{p+1}$ and $\Omega$ is nondegenerate
+against $\mathfrak W^{p+1}$ (test with unit vectors, Lemma~\ref{bpW:w3:omega}), the identity follows.
+\end{proof}
+\source{KP96 \S7, Step~1, p.~25 (``symplectic polar and real coordinates $q_j=\sqrt{2(\xi_j+y_j)}e^{-ix_j}$'', $I=\xi+y$,
+$\omega(\xi)=\alpha+A\xi$, $\Omega(\xi)=\beta+B\xi$); P96-W p.~290. Conversions: KP96's $q_j=\sqrt2z_j$; period-one
+angles $x=2\pi\theta$; W0's $z=(q+ip)/\sqrt2$. The constant $c_A$ and the domain check are ours (assigned to W5 by
+review ruling W4-R3; W3 Remark~\ref{bpW:w3:interface} assigned it to W4).}
+
+\begin{proposition}[The initial perturbation; KP96 \S7, Step~3]\label{bpW:w5:initial}
+Let $m>0$, $a=p=1$, and $\rho_1,C_*,C'_K$ be W3's constants (\S\ref{bpW:w3:constants}). Let $0<s\le\frac18$, $0<r\le1$,
+$t>0$, $\rho_\xi>0$, and $\Pi\subset\R^2$ such that every $\zeta\in\C^2$ with $\abs{\zeta-\xi}_\infty<\rho_\xi$ for some
+$\xi\in\Pi$ satisfies $\operatorname{Re}\zeta_i\ge2r^2$ and $\abs\zeta_\infty\le t$, and $c_A(t+r^2)<\rho_1^2$. Put
+\[\epsilon_{\rm in}=(1+2C_*)\,r^2+C'_K\bigl(c_A(t+r^2)\bigr)^{5/2}\Bigl(\frac3r+\frac{2\sqrt{t+r^2}}{r^2}\Bigr).\]
+Then $P_\xi\in\Sm_{p+1}(D(s,r))$ is a real periodic family on $\Pi$, and for every $\lambda\ge0$
+\[\abs{X_P}^\lambda_{r,D(s,r)}\le\epsilon_{\rm in}\Bigl(1+\frac{4\lambda}{\rho_\xi}\Bigr).\]
+The frequencies $\omega^0,\Omega^0_{j+2}$ satisfy \eqref{bpW:w4:freq} (hence \eqref{bpW:w5:freq}) with the constants of
+Lemma~\ref{bpW:w4:wave}, and $\abs{\omega^0(\xi)-\omega^0(\xi')}\le N_A\abs{\xi-\xi'}$.
+\end{proposition}
+\begin{proof}
+\proofstep{The polynomial part}\label{stepW:w5:i-q} On $D(s,r)$: $\abs{Ay}\le N_A r^2\le\frac35r^2$
+(Lemma~\ref{bpW:w7:freqcoords}(ii)); $\abs{\beta'_i}\le\frac{3}{2\pi\cdot3}\sum_j\abs{z_j\bar z_j}\le\frac1{2\pi}\norm z\norm{\bar z}\le\frac{r^2}{4\pi}$
+(weights $\ge1$, $\norm z,\norm{\bar z}\le r/\sqrt2$ by \eqref{bpW:w4:zu}); so the $\Theta$-component is $\le r^2/8$. The $Y$-component
+vanishes. The normal components: $\norm{\beta u}_{p+1}\le\sup_J J\abs{\beta_{J-2}}\norm u\le\frac3{2\pi}\cdot\frac32r^2\norm u$, so
+they contribute $\le\frac34r^2$. Total $\le r^2$.
+\proofstep{$G^{\rm nor}$}\label{stepW:w5:i-g} Its field depends on $\hat w$ only and is normal:
+$\norm{X_{G^{\rm nor}}}_+\le C_*\norm{\hat w}^3<C_*r^3$ (Theorem~\ref{bpW:w3:main}(iii)); by the inverse formula of
+Lemma~\ref{bpW:w5:action-angle}(iii), $\norm U_{p+1}+\norm V_{p+1}\le2\norm{(\hat W_+,\hat W_-)}_+$, contributing $2C_*r^2$.
+\proofstep{$K$}\label{stepW:w5:i-k} $\norm{X_K(\mathcal Aw)}_+\le C'_K\rho^5$ with $\rho^2=c_A(t+r^2)$ (Lemma~\ref{bpW:w5:action-angle}(ii)).
+In the inverse formula, $\abs{W_{\pm i}}\le\norm W_+/e$ (weights $\ge e^2$), $\abs{\sqrt{\xi_i+y_i}}\ge\sqrt{\operatorname{Re}(\xi_i+y_i)}\ge r$,
+$\abs{\sqrt{\xi_i+y_i}}\le\sqrt{t+r^2}$, $e^{2\pi s}\le e^{\pi/4}$; so
+$\abs\Theta\le\frac{2e^{\pi/4}}{4\pi e r}\norm W_+\le\frac1r\norm W_+$, $\abs Y\le\frac{2e^{\pi/4}}{e}\sqrt{t+r^2}\norm W_+\le2\sqrt{t+r^2}\norm W_+$,
+and the normal part $\le2\norm W_+$. In $\abs\cdot_{p+1,r}$: $\le\norm W_+(\frac1r+\frac{2\sqrt{t+r^2}}{r^2}+\frac2r)$.
+\proofstep{Parameters}\label{stepW:w5:i-par} The fields of $\tilde Q$, $G^{\rm nor}\circ\mathcal A_\zeta$ do not depend on $\zeta$.
+For fixed $w$, $\zeta\mapsto X_{K\circ\mathcal A_\zeta}(w)$ is holomorphic on the $\rho_\xi$-neighbourhood of $\Pi$ (explicit
+formula) and bounded there by the same constant. For $\xi,\xi'\in\Pi$ with $\abs{\xi-\xi'}<\rho_\xi/2$ the segment has a
+$\rho_\xi/2$-polydisc around each point inside the $\rho_\xi$-polydisc around $\xi$, so Lemma~\ref{bpW:w1:cauchy} gives the Lipschitz
+constant $2\epsilon_{\rm in}/\rho_\xi$; if $\abs{\xi-\xi'}\ge\rho_\xi/2$ the difference is $\le2\epsilon_{\rm in}\le4\epsilon_{\rm in}\abs{\xi-\xi'}/\rho_\xi$.
+\proofstep{Frequencies}\label{stepW:w5:i-freq} Lemma~\ref{bpW:w4:wave}(i) and Lemma~\ref{bpW:w7:freqcoords}(ii).
+\end{proof}
+\source{KP96 \S7, Step~3, p.~26 (``$\abs{\tilde Q}=O(r^4)$, $\abs R=O(r^{g\lambda}+r^4)$ \dots\ $\abs{X_P}_{r,D(1,r)}+\alpha\abs{X_P}^{\mathcal L}_{r,D(1,r)}=O(r^2)$'',
+parameter domain $U_{-4r^2}\Xi_r$, ``Cauchy with respect to $\xi$''), in the wave form of P96-W p.~290. With KP96's
+$t=r^{2\lambda}$, $\lambda=\frac23$, and $\rho_\xi\ge\alpha/2$: $\epsilon_{\rm in}=O(r^2)$ and $\abs{X_P}^{\alpha/M}=O(r^2)$ for
+$M\ge1$. Constants ours. The choice of $r,t,\rho_\xi,\Pi$ belongs to W8.}
+
+\subsection{Constants and ledger}\label{bpW:w5:ledger}
+
+\paragraph{Constants, in the order chosen.} (1) $m$; $a=p=1$; $\tau$ (W7 fixes $\tau=24$). (2) From W3, depending on
+$m$: $\rho_1$, $C_*$, $C'_K$; $c_A=2200$ (absolute). (3) From W4: $K_S$, $C_1=7+10K_S<36$, $b_{\rm W}(\tau)$ (absolute for
+fixed $\tau$). (4) $c_F=9C_1b_{\rm W}(\tau)$, $c_0=16c_F$, $C_2=896+168c_F$, $t=2\tau+4$ ($=52$ for $\tau=24$), and for the modified
+(preparatory) step $b^\natural(\tau)$, $c^\natural_F=9C_1b^\natural(\tau)$, $c^\natural_0=16c^\natural_F$, $C^\natural_2=896+168c^\natural_F$,
+$t^\natural=2\tau+5$ ($=53$): absolute for fixed $\tau$, independent of $m$. (5) Per step: $s,\sigma,\eta,r,\alpha,\lambda,\Pi$, frequencies with $M$,
+then $\epsilon$ subject to \eqref{bpW:w5:small}. The only $m$-dependence of the step itself is through the frequencies
+($M$, $M_0$) and the divisor hypotheses; Proposition~\ref{bpW:w5:initial} depends on $m$ through $\rho_1,C_*,C'_K$,
+$N_A$, $\lambda_1,\lambda_2$.
+
+\paragraph{Results.} Definitions~\ref{bpW:w5:setting}, \ref{bpW:w5:class}, \ref{bpW:w5:data}; Lemmas~\ref{bpW:w5:omega},
+\ref{bpW:w5:w4-general}, \ref{bpW:w5:w4-modified}, \ref{bpW:w5:taylor}, \ref{bpW:w5:solve}, \ref{bpW:w5:flow},
+\ref{bpW:w5:flow-calc}, \ref{bpW:w5:new-ham}, \ref{bpW:w5:pullback}, \ref{bpW:w5:commutator}, \ref{bpW:w5:action-angle};
+Theorem~\ref{bpW:w5:step}; Proposition~\ref{bpW:w5:initial}; Remarks~\ref{bpW:w5:lambda-product}, \ref{bpW:w5:prep-gap},
+\ref{bpW:w5:notation}. External: \ref{bpW:w5:ext-taylor}, \ref{bpW:w5:ext-ftc}.
+
+\paragraph{Source issues.} (a) P96-K p.~140: the $\lambda$-norm estimate with modified divisors needs $2\beta\le\bar p-\check p$
+(\textsf{SOURCE\_GAP} after Lemma~\ref{bpW:w5:w4-modified}); suspected erratum, avoided by W7's $\beta=\frac14$. (b) P96-K p.~130: new field asserted without
+derivation (gap, supplied). (c) P96-K p.~134: operator norm notation (Remark~\ref{bpW:w5:notation}). (d) P96-K p.~141: W4 used
+with $\check p$ silently (Lemma~\ref{bpW:w5:w4-general}). (e) W3 Remark~\ref{bpW:w3:interface}, ``Return trip'': the KAM tori of
+the Theorem~D route are a priori only in $\mathfrak W^{p+1/2}$; W3's Corollary~\ref{bpW:w3:transport-tori-weak} handles
+them (Remark~\ref{bpW:w6:to-w8}).

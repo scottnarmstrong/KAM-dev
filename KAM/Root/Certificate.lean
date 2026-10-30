@@ -5,6 +5,7 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
+public import KAM.Certificate.Arith.BalancedSum
 public import KAM.Certificate.Arith.ComplexExp
 public import KAM.Certificate.Arith.Fixed
 public import KAM.Certificate.Arith.Interface
@@ -22,6 +23,7 @@ public import KAM.Certificate.DiophantineTransfer
 public import KAM.Certificate.Embedding
 public import KAM.Certificate.Expr.Ball
 public import KAM.Certificate.Expr.BallRound
+public import KAM.Certificate.Expr.BallSqrt
 public import KAM.Certificate.Expr.Basic
 public import KAM.Certificate.Expr.Compose
 public import KAM.Certificate.Expr.ComposeModels
@@ -29,16 +31,21 @@ public import KAM.Certificate.Expr.Diff
 public import KAM.Certificate.Expr.DiffBuild
 public import KAM.Certificate.Expr.DiffCalculus
 public import KAM.Certificate.Expr.DiffCalculus3
+public import KAM.Certificate.Expr.DiffCalculusSqrt
 public import KAM.Certificate.Expr.DiffNode
+public import KAM.Certificate.Expr.DiffNodeSqrt
 public import KAM.Certificate.Expr.Slp
+public import KAM.Certificate.Expr.Sqrt
 public import KAM.Certificate.Freq
 public import KAM.Certificate.Gram
 public import KAM.Certificate.MatrixInv
 public import KAM.Certificate.Model.Basic
 public import KAM.Certificate.Model.Exp
 public import KAM.Certificate.Model.ExpBounds
+public import KAM.Certificate.Model.FixedEq
 public import KAM.Certificate.Model.Inv
 public import KAM.Certificate.Model.Ops
+public import KAM.Certificate.Model.SqrtWitness
 public import KAM.Certificate.Model.Terms
 public import KAM.Certificate.NormBridge
 public import KAM.Certificate.PhaseBasis
@@ -73,6 +80,7 @@ public import KAM.Certificate.Tests.Packed
 public import KAM.Certificate.Tests.Positivity
 public import KAM.Certificate.Tests.Rat
 public import KAM.Certificate.Tests.RatData
+public import KAM.Certificate.Tests.Sqrt
 public import KAM.Certificate.Tests.Torsion
 public import KAM.Certificate.Tests.Toy2
 public import KAM.Certificate.Tests.Toy2Data
