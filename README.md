@@ -8,7 +8,7 @@ Diophantine frequencies, as soon as f is small enough.
 **Authors:** Scott Armstrong and Zohar Komargodski. Public development repository.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-10-30 08:31 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 334,000
+> **Last updated: 2026-10-30 08:33 UTC** (automatic: every 20 minutes and after every commit) · **estimated completion: original project 99.3 % · SO checker 100 % · SO Moon 70 %** · frozen statements proved: 22 / 22 · **273,562 lines of Lean** of an estimated ≈ 275,000
 <!-- /AUTO:updated -->
 
 ## Main theorems
@@ -215,15 +215,16 @@ Overall, everything together: 96.8 %
 | | Lines of Lean |
 |---|---|
 | On `main` now | **273,562** (213,401 excluding blank lines and comments) · **+28,843** since 2026-10-29 08:20 UTC |
-| Written on agent branches, not yet landed | 59,598 |
-| **Estimated total at completion** | **≈ 334,000** |
+| Written on agent branches, not yet landed | 0 |
+| Generated certificate data on agent branches (numeric literals, not counted above or below) | 59,598 |
+| **Estimated total at completion** | **≈ 275,000** |
 | Estimated still to write | ≈ 1,000 |
 
 **How the size is estimated.** The estimate scales the lines written so far (on `main` plus the agent branches) by the done share of the Lean work items, weighted by difficulty: track K's analysis, a-posteriori and measure items and the proof items of tracks I, N and P. It is as good as those done fractions: track K's come from its proof graph, the others from the sub-orchestrator's assessment; track SO is added from its design (lines on `main` plus the line estimates of its packages not yet landed). History of all counts: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:size -->
 
 <!-- AUTO:glance -->
-*Generated 2026-10-30 08:31 UTC from `main` at `b0770027` by `scripts/hq-status.py`.*
+*Generated 2026-10-30 08:33 UTC from `main` at `60d55af7` by `scripts/hq-status.py`.*
 
 **Current phase:** Original project complete: all 22 frozen theorems of tracks K, I, N and P are proved and sealed (144 of 144 frozen declarations), and every node of graphs K, I, N and P is resolved. Now: track SO (D30), in two parts: a general Lean certificate checker for numerical KAM tori, and its first client, the Moon's spin rate.
 
@@ -232,6 +233,7 @@ Overall, everything together: 96.8 %
 - **Part 1, a general Lean certificate checker:** a numerical KAM candidate (any dimension, Hamiltonians given as finite expressions) passes a kernel-evaluated checker, and one soundness theorem turns it into an exact invariant torus. `KAM/Certificate`: 77 modules · 18,907 lines. **Packages landed: 26 / 26**.
 - **Part 2, the Moon's spin rate:** two certified barrier tori prove that the Moon's spin rate stays within 3.3 % of its orbital rate for all time. `KAM/SpinOrbit` and the data generator: 15 modules · 2,828 lines. **Packages landed: 16 / 18**.
 - Design estimate for both: ≈ 18,500 lines, 21,500–23,000 with overrun; landed: SO-AIF, SO-RAT, SO-CEXP, SO-PI, SO-ABK, SO-CONST, SO-PBASE, SO-POLY-A, SO-POLY-B, SO-MALG, SO-EXPW, SO-EXPR-A, SO-EXPR-B1, SO-EXPR-B2, SO-BALL, SO-NORM, SO-MINV, SO-EMB, SO-MAT, SO-TORS, SO-POS, SO-DEFS, SO-SOUND-A, SO-SOUND-B, SO-DIO3, SO-TEST, SO-MODEL, SO-DIO, SO-CLOCK, SO-FREQ, SO-HAMX, SO-ROT, SO-ROTDIO, SO-RFREQ, SO-CONF, SO-GRAPHM, SO-GRAPHR, SO-GRAPH, SO-GEN, SO-GEN2, SO-DATA-PY, SO-R1.
+- **Now:** proving SO-PACKFIX · in audit —
 - **Gates:** design of the general checker ACCEPTED (Revision 7, seventh audit). Replay gate GO. SO-GEN2 confirmed package R1 (threshold 10^-74.7, about 8.5k terms per torus at 318 bits). SO-ADVCOUNT: 128 products per torus, about 4 MB of advice per torus; data packaging option A (lint-clean data modules) adopted by default.
 
 **Frozen statements proved: 22 / 22** · frozen definitions: 122
@@ -386,6 +388,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | **socsplit** | prover (offload) | Claude Sonnet 5.5 | — | ❌ audit failed, parked | last commit: SO-COMPOSE-SPLIT: design audit 1 (FAIL as written: evidence, not logic; route E chaining s | `inp-socsplit` | 2 (vs `inp`) |
 | **sodata2** | prover (offload) | Claude Sonnet 5.5 | — | ⏸ parked (no session) | last commit: SO-DATA-2: shard-size probes (blockRows 32/16/8/4, 14 GB cap) and projection in the handof | `inp-sodata2` | 2 (vs `inp`) |
 | **sokperf** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-2: shard-size probes (blockRows 32/16/8/4, 14 GB cap) and projection in the handof | `inp-sokperf` | 2 (vs `inp`) |
+| **sopackfix** | prover (offload) | Claude Sonnet 5.5 | — | 🔄 proving | last commit: SO-DATA-2: shard-size probes (blockRows 32/16/8/4, 14 GB cap) and projection in the handof | `inp-sopackfix` | 2 (vs `inp`) |
 
 *5 finished agent sessions not shown.*
 <!-- /AUTO:workers -->
@@ -395,6 +398,7 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 <!-- AUTO:landed -->
 | When (UTC) | Commit | Change |
 |---|---|---|
+| 2026-10-30 08:33 | `60d55af7` | HQ: count generated certificate data (KAM/SpinOrbit/Data/) apart from hand-written unlanded Lean |
 | 2026-10-30 08:31 | `b0770027` | D34: lunar kernel route, fix the packed-product implementation (owner ruling) |
 | 2026-10-30 08:18 | `d85f04e2` | Overnight log: 08:18 |
 | 2026-10-30 07:48 | `7f5ad9f8` | Overnight log: 07:48 |
@@ -406,7 +410,6 @@ branches. Rules for agents: [`AGENTS.md`](AGENTS.md). Builds:
 | 2026-10-30 04:19 | `bb723349` | Overnight log: 04:19 |
 | 2026-10-30 03:51 | `58b458c5` | Overnight log: 03:51 |
 | 2026-10-30 03:19 | `86da7919` | Overnight log: 03:19 |
-| 2026-10-30 03:09 | `c3373814` | Overnight log: 03:09 |
 <!-- /AUTO:landed -->
 
 ## Decisions
