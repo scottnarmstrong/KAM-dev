@@ -1810,3 +1810,13 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
     - calibration split into CAL-1 and CAL-2.
     The delta audit (round 2) is running on codex-1, with the round-1 auditor.
   - **SO-LOCK-COST passed** codex-1 review 4 and is landing (docs only).
+- **20:19. SO-CSPLIT delta audit 2: FAIL on one helper; revision 2 under way.**
+  - The signatures elaborate, and audit 1's product and one-op defects are repaired.
+  - F1 (blocking): `shadowRun_agree` is false on its stated carrier. The agreement set may contain future slots;
+    a kernel-checked counterexample gives 0 = 1. The fix is the auditor's corrected signature with a domain
+    invariant `hR`, discharged by `planOk` and `segPrefixOk` for the intended caller. `compose_eq` itself was not
+    refuted.
+  - N1/N2: the volume totals are estimates (fixed allowances, characters rather than UTF-8 bytes, dead memos
+    counted), so relabel them, with the final `du -b` as the gate; propagate qualifiers into the summary tables.
+  - SO-KDEPTH2 (jet-compiler depth) is running on claude-6.
+  - Quotas: claude-3 79 %, claude-12 76 %, claude-6 55 %, claude-4 49 %, codex-1 92 %.
