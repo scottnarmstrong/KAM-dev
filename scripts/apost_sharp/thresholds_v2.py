@@ -276,6 +276,8 @@ def thresholdA(D, o, iso, k=0, c_stage=None, c_tail=None, at_e=None):
 
     if k >= 1:
         o = dict(o, tref=True)                             # torsion against the initial torus (audit F8)
+    else:
+        o = dict(o, dk_cap=False)                          # k = 0 is v1's proved theorem: its constants use sigma_K
     check_options(o, k, "A")
     check_data(D)
 

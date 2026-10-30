@@ -19,7 +19,7 @@ constants, double precision for measured norms and small-divisor sums, sampled s
 
 ## 0. Summary
 
-> **Superseded in part (SHARP2-FIX, 30 Oct 2026).** The design was repaired after the audits AUDIT-SHARP-V2-fixed-1 (F1–F9) and
+> **Superseded in part (SHARP2-FIX, SHARP2-DOMPLUS, 30 Oct 2026).** The dominance claim is stated precisely in **§12**. The design was repaired after the audits AUDIT-SHARP-V2-fixed-1 (F1–F9) and
 > AUDIT-SHARP-V2-iso-1 (F1–F8). The corrected numbers, the fair dominance comparison and the new levers are in **§11**, which
 > overrides §0, §5 and §6 where they differ. B9 (route A) is now required and proved (SHARP2-B9); the claim below that it is optional
 > is obsolete.
@@ -802,3 +802,221 @@ independent of γ.
 
 No new pinned-source erratum. Wording repairs (FH24 ĉ_R, HL19 §5.3) and our own blueprint repairs are listed in §11.1. FH25 remains a
 reproducibility note.
+
+## 12. The dominance claim, precisely
+
+This section is the text to cite. It states what was compared, on which data, with which free-parameter searches, the measured
+margins, and what is **not** claimed. Everything here is a **finite numerical parameter study** of explicit formulas (design
+mirrors in Python, `scripts/apost_sharp/dominance.py`, `thresholds_v2.py`). It is not a theorem, and it is not linked
+mechanically to the Lean statements.
+
+### 12.1 The claim
+
+> On each of the 1176 points of the grids of §12.4 (720 + 348 at fixed frequency, 108 isoenergetic), every competitor gets its best
+> legally available data (§12.3) and its free parameters optimised over finite grids (§12.3). At every point, the v2 design's
+> explicit constants are better than those of the two published explicit a-posteriori KAM theorems for flows evaluated, HL19 and
+> FH24 (erratum-corrected):
+> - **threshold** (largest admissible invariance error): by at least **+0.845** orders;
+> - **closeness of the torus at a common error**: by at least **+0.29** orders (FH24) and **+1.9** (HL19);
+> - **small-error closeness coefficient**: by at least **+1.65** orders against HL19. Against FH24 v2 is ahead by at least +0.003
+>   orders, which is **essentially equal**: both bounds are the first displacement of the same modified step, and the margin is
+>   under 1% at norms ≥ 10;
+> - **isoenergetic, against HL19 Theorem 3.6**: threshold by at least +3.65, torus closeness by at least +1.62, frequency
+>   closeness by at least +1.10 orders.
+>
+> No competitor is ahead anywhere by more than 0.005 orders in any compared quantity.
+
+### 12.2 What is compared
+
+**Theorems and versions.**
+- **HL19.** A. Haro, A. Luque, *A-posteriori KAM theory with optimal estimates for partially integrable systems*,
+  arXiv:1711.05515v1: Theorem 3.1 (fixed frequency) and Theorem 3.6 (isoenergetic), canonical case d = n, Case III, constants of
+  §5.3 and §6.3 (Tables 1–5). Transcribed in `benchmark_hl19.py`, every constant cited by equation number.
+- **FH24.** J.-Ll. Figueras, A. Haro, *Sharp estimates in a-posteriori KAM theory for flows* (Physica D 462, 2024),
+  arXiv:2304.10205v1: Theorem 2.18 with the constants of Appendix B (Tables 1–4). Transcribed in `benchmark_fh24.py`. FH24 has no
+  isoenergetic theorem.
+- **v2.** The design of this document §11 (route B, the modified step with the levers, and route A), as mirrored by
+  `thresholds_v2.py` at the commit of the SHARP2-DOMPLUS handoff.
+  - The v2 constants rest on the blueprint `p2s2-*.tex` (audited at design level, AUDIT-SHARP2-FIX-{fixed,iso}-1).
+  - Lean packages are in progress; route A is proved (SHARP2-B9).
+
+**Errata applied to the competitors** (`docs/errata/ledger.json`), always in the competitor's favour or neutral:
+- FH24 Table 3, (3.72): the printed bound uses σ_L and C_ΔL̄ where Nᵀ = BLᵀJᵀ needs σ_Lᵀ and C_ΔL̄ᵀ. The corrected bound is used;
+  the printed one is not a valid general bound. With the printed (3.72), FH24 would be ahead by up to 0.9 orders on part of the old
+  grid (§5): that is the erratum, not a mathematical advantage.
+- FH24 Lemma 2.14: the printed ĉ_R is not used. FH24 gets the classical c♮ at its own bites (§12.3), which is smaller.
+- HL19 E-HL19-1, E-HL19-8: strict inequalities read as ≤ (no numerical effect).
+- HL19 E-HL19-12: the frequency closeness is taken from the proof, (6.51), |ω∞ − ω| ≤ C₃e/(γρ^τ). That is stronger than the printed
+  (3.16) normalisation e/(γ²ρ^{2τ}) whenever γρ^τ < 1.
+- HL19 E-HL19-13: the isoenergetic estimates use the combined error ‖E_c‖ (both theorems receive |E| ≤ e and |⟨H∘K⟩ − E₀| ≤ e).
+
+**Quantities.**
+- **Threshold** e*: the largest e for which the theorem applies to an approximate torus with ‖E‖ ≤ e (iso: also energy error ≤ e),
+  maximised over the theorem's free parameters.
+- **Closeness at e**: the bound the theorem gives for ‖K∞ − K‖ (iso also |ω∞ − ω|) when ‖E‖ ≤ e. A theorem with free parameters is a
+  family; every member admitting e is a valid instance, so its closeness at e is the minimum over the admissible members.
+  - v2: the ball sum of the engine (J4), and the frequency sum.
+  - FH24: (2.32) with ε ≤ c_Ω max{σ_Nᵀ, σ_Lᵀ/(γδ^τ)} e.
+  - HL19: C₂e/(γ²ρ^{2τ}), and iso C₃e/(γρ^τ).
+- **Closeness is compared at two errors** for each competitor:
+  - e_c = ½ min{e*_v2, e*_competitor}, where both theorems apply with room;
+  - e → 0 (the linear coefficient; numerically e₀ = 10⁻⁹ times the smallest threshold).
+- **A competitor wins at a point** if it is ahead in any compared quantity by more than 0.005 orders (log₁₀).
+
+### 12.3 Data rules and free parameters
+
+**Data (the same for every theorem; one "size" s per point).**
+- All Hamiltonian bounds (|X_h|, |DX_h|, |D²X_h|, and iso |Dh|, |D²h|) equal M = s.
+- σ_K = σ_B = σ_T = s; the default frame bounds σ_Lᵀ = 2nσ_K, σ_N = σ_Kσ_B, σ_Nᵀ = 2nσ_Kσ_B; c_Th = c_DTh = 2M.
+- ρ∞ = ρ/1000, margin μ = 1/16. The competitors read the frozen data like-for-like: caps σ − μ/2, actual values σ − μ, domain
+  margin μ/2, so that their conclusion implies the frozen one.
+- Isoenergetic: |ω*| = 1, σ_ω = 2, frequency margin ν = 1/10. Θ = σ_ω|ω*| (HL19's C_ω, (6.30)) is given to both theorems.
+- No measured objects, no frequency-specific constants: v2 uses only the information the competitors use.
+
+**Small divisors (the fair-data rule; AUDIT-SHARP-V2-fixed-1 F7, AUDIT-SHARP2-FIX-fixed-1 F2).** Every theorem gets the classical
+constant c♮(n, τ, b) of `bp:p2s2sd:classical` at its *own* bites b. c♮ is nondecreasing in b, so its value at the first bite is a
+uniform bound for all later ones.
+- FH24 (App. B allows c_R(δ) or uniform bounds):
+  - c_R = c♮(δ) at its optimised initial bite δ;
+  - c¹_R = (τ+1)^{τ+1}/τ^τ · c♮(τ/(τ+1)·δ) (Corollary 2.16, (2.22), at its split bite);
+  - c_R(ρ) = c♮(min{ρ,1}) for its full-strip average (3.45). A small-bite constant does not certify the bite ρ.
+- HL19 (Lemma 4.1): c_R = c♮(δ₀) at its initial bite δ₀ = ρ/a₃(a₁). The §5.3 caveat concerns non-monotone c(δ) only.
+- v2: c♮ at its stage bites δ_s, at the split bites τ/(τ+1)·δ_s and at the full bites min{r_s,1}; the tail at every bite ≤ δ_k and
+  every full bite ≤ r_k.
+
+**Free-parameter searches (finite).**
+- FH24 (δ, ν, ϰ, κ): the benchmark's search (coordinate descent on δ = t(ρ−ρ∞)/3, κ on k/40, ν and ϰ on m·10⁻ʲ; joint local
+  refinement), with c♮ re-evaluated at every candidate δ and c¹_R at its split bite. Floating point, exact at the optimum.
+  - For closeness: a scan of (t, κ) on the 40-grid plus t = 1 − 1/a for the large v2 ratios a (the same near-limit bites as v2), at
+    the threshold-optimal ν, ϰ, refined locally.
+- HL19: a₁ ∈ {1.05, …, 4.00 step 0.05} ∪ {4.5, …, 10 step 0.5} (73 values), ν_HL self-consistent. Exact rationals.
+- v2: Neumann ratio ϑ ∈ {1/16, 1/8}; schedule ratio a ∈ {2, 3/2, 13/10, 6/5, 23/20} with prefix k ∈ {5, 9, 13, 19, 25}; tail decay
+  bound ȳ ∈ {1/2, 9/10}; option L10 on/off. Route B in floating point, route A exact.
+  - For closeness also: a ∈ {3, 4, 8, 32, 256, 4096}, ϑ = 1/128, torsion slack t_s ∈ {10⁻¹, 10⁻³, 10⁻⁹}, tight internal caps
+    σ − μ/2 on/off.
+  - Every one of these is a free parameter of the v2 theorem (`NumB`).
+
+The searches are finite grids. Neither side's optimum is proved; a finer search could move either side by small amounts.
+
+### 12.4 Domain and results
+
+Commands:
+- `nice -n 10 python3 -I scripts/apost_sharp/dominance.py --closeness --grid {ext,wide,iso} --jobs 3 --json …`
+- runtimes 1558 s, 1114 s and 204 s on the loaded machine;
+- per-point results (every point, every margin) in `docs/campaign/design/dominance/closeness-{ext,wide,iso}.md`.
+
+Margins are log₁₀(competitor's constant / v2's constant), so positive means v2 is better. "Losses" counts margins below −0.005.
+
+**(a) Fixed frequency, the extended grid (720 points).**
+- (n, τ) ∈ {(2,1), (2,2), (2,3), (3,2), (3,3), (4,3), (4,4), (5,4), (6,5)};
+- γ ∈ {10⁻⁶, 10⁻⁴, 10⁻³, 10⁻², 10⁻¹};
+- ρ ∈ {10⁻³, 10⁻², 10⁻¹, 0.3};
+- size s ∈ {1, 3, 10, 30}.
+
+| Quantity | Losses | Min | Median | Max |
+|---|---:|---:|---:|---:|
+| threshold (vs the better of FH24, HL19) | 0 | +0.888 | +3.381 | +5.433 |
+| closeness at e_c, vs FH24 | 0 | +0.289 | +1.169 | +2.427 |
+| closeness as e → 0, vs FH24 | 0 | **+0.003** | +0.037 | +1.737 |
+| closeness at e_c, vs HL19 | 0 | +1.942 | +8.843 | +15.718 |
+| closeness as e → 0, vs HL19 | 0 | +1.702 | +7.794 | +13.865 |
+
+By (n, τ), minimum margins:
+
+| n, τ | Threshold | Closeness e_c, FH24 | Closeness e → 0, FH24 | Closeness e_c, HL19 | Closeness e → 0, HL19 |
+|---|---:|---:|---:|---:|---:|
+| 2, 1 | +0.89 | +0.29 | +0.0035 | +1.94 | +1.70 |
+| 2, 2 | +1.39 | +0.48 | +0.0035 | +2.65 | +2.10 |
+| 2, 3 | +1.54 | +0.78 | +0.0035 | +3.29 | +2.36 |
+| 3, 2 | +1.40 | +0.50 | +0.0035 | +3.03 | +2.48 |
+| 3, 3 | +1.57 | +0.70 | +0.0035 | +3.72 | +2.78 |
+| 4, 3 | +1.54 | +0.67 | +0.0035 | +4.02 | +3.08 |
+| 4, 4 | +1.57 | +0.93 | +0.0035 | +4.59 | +3.29 |
+| 5, 4 | +1.53 | +0.86 | +0.0035 | +4.85 | +3.54 |
+| 6, 5 | +1.43 | +1.07 | +0.0036 | +5.66 | +3.91 |
+
+On the original 108-point subset: threshold minimum +0.926 (median +2.00); closeness at e_c vs FH24 +0.289; as e → 0 vs FH24
++0.010; vs HL19 +1.995 and +1.754.
+
+**(b) Wider ranges (348 points).**
+- n ∈ {8, 10} with τ ∈ {n−1, n}; γ ∈ {10⁻¹⁰, 10⁻⁶, 10⁻³, 10⁻¹}; ρ ∈ {0.01, 0.1, 0.3, 0.6, 1}; s ∈ {1, 10, 30};
+- plus, for the nine (n, τ) of (a): ρ ∈ {0.6, 1} with γ ∈ {10⁻¹⁰, 10⁻³}, and γ = 10⁻¹⁰ with ρ ∈ {10⁻³, 10⁻¹}, s ∈ {1, 10}.
+
+| Quantity | Losses | Min | Median | Max |
+|---|---:|---:|---:|---:|
+| threshold | 0 | +0.845 | +3.804 | +5.488 |
+| closeness at e_c, vs FH24 | 0 | +0.349 | +1.517 | +3.155 |
+| closeness as e → 0, vs FH24 | 0 | **+0.0036** | +0.012 | +1.737 |
+| closeness at e_c, vs HL19 | 0 | +1.908 | +11.455 | +21.284 |
+| closeness as e → 0, vs HL19 | 0 | +1.655 | +10.053 | +18.175 |
+
+| Region | Threshold min | Closeness min |
+|---|---:|---:|
+| n ≥ 8 (240 points) | +0.87 | +0.004 (e → 0, FH24) |
+| ρ ≥ 0.6 (168 points) | +0.84 | +0.004 |
+| γ = 10⁻¹⁰ (132 points) | +0.84 | +0.004 |
+
+- Threshold minima by (n, τ): (8,7) +1.14, (8,8) +1.03, (10,9) +0.93, (10,10) +0.87.
+- The threshold margin decreases slowly with n at τ = n, and is smallest at (2,1), size 1, ρ = 1 (+0.845).
+- No lost region was found.
+
+**(c) Isoenergetic, against HL19 Theorem 3.6 (108 points).**
+- (n, τ) ∈ {(2,1), (2,2), (3,2), (4,3)}; γ ∈ {10⁻⁶, 10⁻³, 10⁻¹}; ρ ∈ {10⁻², 10⁻¹, 0.3}; s ∈ {1, 3, 10}.
+
+| Quantity | Losses | Min | Median | Max |
+|---|---:|---:|---:|---:|
+| threshold | 0 | +3.646 | +22.199 | +47.048 |
+| torus closeness C₂ at e_c | 0 | +1.861 | +6.054 | +10.498 |
+| torus closeness C₂ as e → 0 | 0 | +1.620 | +5.468 | +9.506 |
+| frequency closeness C₃ at e_c | 0 | +1.217 | +3.466 | +5.963 |
+| frequency closeness C₃ as e → 0 | 0 | +1.096 | +3.175 | +5.468 |
+
+**Where the margins come from.**
+- *Thresholds.* The modified step (γ²δ^{2τ+1} against HL19's γ⁴δ^{4τ}), and against FH24 the four levers of §11.3 (schedule ratio,
+  optimal split, decay bound, L10). Without the levers, corrected FH24 wins at 53 of the old 108 points (§11.3).
+- *Closeness at e_c.* The same, plus v2's exact prefix: the closeness sum is computed stage by stage, not bounded by a geometric
+  factor of the first step.
+- *Closeness as e → 0 against FH24.* Both bounds reduce to the first displacement of the same modified step, at the same bite in the
+  limit δ₀ → (ρ−ρ∞)/3. v2 is better only through its anisotropic stage-0 weight and the λ-terms of C₀ and C_gL.
+  - The margin is +0.64 orders or more at size 1, +0.04 at size 3, +0.01 at size 10 and +0.003 at size 30 (under 1%).
+  - **This is the one quantity in which v2 is not meaningfully better than FH24.** It is numerically ahead at every point, but by
+    less than 1% at large norms.
+  - Two refinements of SHARP2-DOMPLUS were needed to reach it, both legitimate and mirrored in the signatures:
+    1. the displacement bound σ_K|ξᴸ| + |Nξᴺ| without the intermediate-frame factor 1 + ϑ (`bp:p2s2:step`, `stepConstsB.CDK`);
+    2. the theorem's own |DK| cap σ_K − μ/2 in the constants.
+  - Measured at the audit's point (4,3), size 10, γ = 10⁻³, ρ = 0.1:
+    - with ratios ≤ 2 (δ₀ ≤ (ρ−ρ∞)/6, while FH24's bite may approach (ρ−ρ∞)/3), FH24 was ahead by 0.90 orders;
+    - with the free ratio a up to 4096 (the same near-limit bites for both), by 0.05;
+    - after the two refinements, v2 is ahead by +0.011.
+
+### 12.5 What is NOT claimed
+
+1. **No theorem of dominance.**
+   - These are numerical evaluations of explicit formulas on finite grids, with finite free-parameter searches on both sides.
+   - Floating point is used for v2's route B and FH24's searches.
+   - The Python mirrors are not mechanically linked to the Lean statements.
+   - Outside the sampled domain nothing is asserted: n > 10, τ > n, ρ > 1, γ < 10⁻¹⁰, sizes > 30, or data not of the form of §12.3
+     (e.g. very unequal norms, c_Th or c_DTh far below 2M).
+2. **Not the frozen-form constants.** The frozen `G1Body` of v2 has one pair (C₁, C₂) = (min, max over the branches at a certified
+   X⋆), valid over the whole admissible range. Its C₂ is a sup over that range and is not what §12.4 compares. §12.4 compares each
+   theorem's best bound at a common error, and the linear coefficient.
+3. **Not "strictly better by a margin" for the small-error closeness against FH24.** It is ahead at every sampled point by
+   0.003–1.7 orders, but by under 1% at large norms (§12.4).
+4. **Like-for-like is a modelling choice.**
+   - FH24's torsion is N ᵀT_h N, not the frozen torsion. Giving both theorems the same inverse-twist bound is a parameter study, not
+     an implication between their hypotheses (audit F7).
+   - The data are single-size default data. With refined data (separate norms, certified c_Th, frequency-specific small divisors)
+     both v2 and the competitors improve; that comparison was made only on R1 (§1, §11.2).
+5. **Only two competitors.**
+   - Not on the grid: Figueras–Haro–Luque 2017 (maps), Calleja–Haro–Porras 2025, Celletti–Chierchia 2007 (other variables and
+     norms), de la Llave–González–Jorba–Villanueva 2005, and the non-explicit theorems.
+   - PlasmaLean (its own ℓ¹ theorem) is compared only on its example, in different norms (§10.1, §11.4).
+   - FH25 is a reproducibility note, not a comparison.
+6. **The v2 constants are design constants.**
+   - L10, the torsion against the initial torus, the ratio engine and the closeness/torsion normalisations survived the design
+     re-audits (AUDIT-SHARP2-FIX-{fixed,iso}-1).
+   - The Lean packages B3′, B4 to B7 are not yet proved; route A is (SHARP2-B9).
+   - The claim is about the constants of the audited design, until those packages land.
+7. **Competitor errata.** The corrected FH24 (3.72) is used. With the printed one FH24 would lead at about half of the old grid by
+   up to 0.9 orders, because the printed bound is not a valid general bound. HL19's frequency closeness is read from its proof
+   (6.51), which is the stronger reading.
