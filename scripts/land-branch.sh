@@ -28,6 +28,9 @@ fail() { git reset -q --hard "$before"; echo "LAND-FAILED: $1"; exit 1; }
 python3 -I scripts/gen_root_imports.py
 git add -A -- KAM.lean KAM/Root
 if ! git diff --cached --quiet -- KAM.lean KAM/Root; then HQ_UPDATING=1 git commit -q -m "Regenerate root imports after landing $branch"; fi
+# 2026-10-30 (SO-CSPLIT O3): heavy certificate-data modules (kernel checks of several GB each) are built one at
+# a time under the kernel-probe lock and a 10 GB cap before the parallel build, which then finds them built.
+python3 -I scripts/prebuild_heavy.py "$before" >/tmp/land-prebuild.log 2>&1 || fail "heavy prebuild (see /tmp/land-prebuild.log)"
 nice -n 5 lake build >/tmp/land-build.log 2>&1 || fail "lake build (see /tmp/land-build.log)"
 sh scripts/lint_sources.sh >/tmp/land-lint.log 2>&1 || fail "source lint (see /tmp/land-lint.log)"
 git push -q origin main || fail "push"
