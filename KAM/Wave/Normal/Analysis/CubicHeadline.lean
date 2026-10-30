@@ -34,24 +34,23 @@ open scoped ENNReal
 namespace KAM.Wave
 
 /-- The constant `C_m = 8 (1 + 2 ζ(3)) / π` of `bpW:w0n:cubic-bound` (independent of `m`),
-with `ζ(3) = Σ_{n ≥ 1} n⁻³`. -/
-def waveCubicHeadlineConst : ℝ := 8 * (1 + 2 * ∑' n : ℕ+, ((n : ℝ) ^ 3)⁻¹) / π
+with `ζ` the Riemann zeta function. -/
+def waveCubicHeadlineConst : ℝ := 8 * (1 + 2 * (riemannZeta 3).re) / π
+
+lemma wave_one_add_two_zeta_nonneg : 0 ≤ 1 + 2 * (riemannZeta 3).re := by
+  have h := wave_jap_hasSum_zeta (s := 3 / 2) (by norm_num)
+  have e : ((2 * (3 / 2 : ℝ) : ℝ) : ℂ) = 3 := by push_cast; norm_num
+  rw [e] at h
+  exact h.nonneg fun l => Real.rpow_nonneg (lt_of_lt_of_le one_pos (one_le_waveJap l)).le _
 
 lemma waveAlgConst_three_halves_sq :
-    w0aAlgConst (3 / 2) ^ 2 = 8 * (1 + 2 * ∑' n : ℕ+, ((n : ℝ) ^ 3)⁻¹) := by
-  have hnn : 0 ≤ 1 + 2 * ∑' n : ℕ+, (n : ℝ) ^ (-(2 * (3 / 2 : ℝ))) :=
-    by have : 0 ≤ ∑' n : ℕ+, (n : ℝ) ^ (-(2 * (3 / 2 : ℝ))) :=
-         tsum_nonneg fun n => Real.rpow_nonneg (by positivity) _
-       linarith
-  have h1 : ∀ n : ℕ+, (n : ℝ) ^ (-(2 * (3 / 2 : ℝ))) = ((n : ℝ) ^ 3)⁻¹ := fun n => by
-    have : -(2 * (3 / 2 : ℝ)) = -((3 : ℕ) : ℝ) := by norm_num
-    rw [this, Real.rpow_neg (by positivity), Real.rpow_natCast]
+    waveAlgConst (3 / 2) ^ 2 = 8 * (1 + 2 * (riemannZeta 3).re) := by
   have h2 : ((2 : ℝ) ^ (3 / 2 : ℝ)) ^ 2 = 8 := by
     rw [← Real.rpow_natCast, ← Real.rpow_mul (by norm_num)]
     norm_num
-  unfold w0aAlgConst
-  rw [mul_pow, h2, Real.sq_sqrt hnn]
-  simp only [h1]
+  have e : ((2 * (3 / 2 : ℝ) : ℝ) : ℂ) = 3 := by push_cast; norm_num
+  unfold waveAlgConst
+  rw [mul_pow, h2, e, Real.sq_sqrt wave_one_add_two_zeta_nonneg]
 
 lemma waveCubicConst_one : waveCubicConst 1 = waveCubicHeadlineConst := by
   unfold waveCubicConst waveCubicHeadlineConst

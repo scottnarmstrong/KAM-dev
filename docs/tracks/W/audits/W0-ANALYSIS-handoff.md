@@ -1,7 +1,7 @@
 # Handoff W0-ANALYSIS (branch inp-wpe)
 
 Modules (all `KAM/Wave/Normal/Analysis/`, namespace `KAM.Wave`, 3601 lines total, each file < 400 lines):
-EllSeq, SineSeries, SineProducts, Gradient, SelectionRule, ConvYoung, ConvAlgebra, EvenMajorant, SeqBridge,
+EllSeq, SineSeries, SineProducts, Gradient, SelectionRule, RealAlgebra, EvenMajorant, SeqBridge,
 CubicSelect, CubicTools, CubicBound, CubicLinear, CubicHeadline, CubicAnalytic, PdeBase, PdeForce,
 PdeForward, PdeConverse (the last written by a forked sub-agent, reviewed/built by me).
 Imports only Mathlib, frozen Wave Defs, and `KAM.Wave.Recon.*` (SineFeature, ReconAnalytic, SineCompleteness).
@@ -31,9 +31,7 @@ No Wave/Seq, Wave/Normal(other), no inp-wpf, no Provider/Theorems.
   The second identity of `bpW:w0n:force` appears as `sineModeIter_two` + `wave_pde_identity` (series form), not as a separate statement.
 
 ## Not done / caveats
-- `bpW:w0n:algebra` NOT proved. `ConvAlgebra.lean` (+ `ConvYoung.lean`) is a LOCAL STAND-IN (nonnegative sequences only,
-  `w0a_convAlgebra_nonneg`, constant `w0aAlgConst`), all names prefixed `w0a`; to be replaced by `KAM.Wave.Algebra` (`wave_algebra`) after
-  W1-ALGEBRA lands. `bpW:w0n:quartic-coeff` closed form not proved as such: `SelectionRule.lean` proves the signed form
+- `bpW:w0n:algebra` is the landed `KAM.Wave.wave_algebra`; `RealAlgebra.lean` only bridges it to real nonnegative sequences. `bpW:w0n:quartic-coeff` closed form not proved as such: `SelectionRule.lean` proves the signed form
   (`waveQuartic_eq_signed`) and `abs_waveQuartic_le_signs` needed here (may be replaced by the quartic-coeff package).
 - Names: generic helper names were prefixed (`wave_…`/`w0a…`); a scan against all other KAM files found no clash.
 
@@ -63,4 +61,7 @@ No Wave/Seq, Wave/Normal(other), no inp-wpf, no Provider/Theorems.
   `abs_waveSign_prod` (the landed `sineQuarticCoeff_signed` replaces the former).
 - New `SeqBridge.lean`: `waveEll_iff_isEll` (WaveEll ↔ `IsEll`), `waveEllNorm_eq_ellNorm`, `waveEllToLp_eq_tauLp`,
   `coeff_isEll_one_one`, connecting to `KAM.Wave.Seq` (`IsEll`, `ellNorm`, `tauLp`). Nothing else was rewritten.
-- ConvAlgebra/ConvYoung unchanged (local stand-ins, awaiting W1-ALGEBRA).
+- Second refactor (W1-ALGEBRA landed): deleted `ConvAlgebra.lean` and `ConvYoung.lean` (all `w0a` duplicates of Young/weights/constants).
+  New `RealAlgebra.lean` bridges real nonnegative sequences to the landed complex `wave_algebra` (`w0a_convAlgebra_nonneg`,
+  `w0a_summable_of_weighted` via `wave_l1_le_of_mem`). Landed `waveConv`, `waveTwoWeight`, `waveJap`, `waveAlgConst` are used directly;
+  the former tsum-defined constant is replaced by `waveCubicHeadlineConst = 8(1 + 2 Re ζ(3))/π` (ζ = `riemannZeta`).

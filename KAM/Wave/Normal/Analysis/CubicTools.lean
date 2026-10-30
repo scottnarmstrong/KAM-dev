@@ -13,7 +13,7 @@ public import KAM.Wave.Normal.Analysis.EvenMajorant
 
 Infrastructure used by several nodes; the dependency graph is still being built.
 
-* `KAM.Wave.wave_summable_of_weighted`: a nonnegative two-sided sequence in `ℓ^{a,s}_b`, `s ≥ 1`,
+* `KAM.Wave.w0a_summable_of_weighted`: a nonnegative two-sided sequence in `ℓ^{a,s}_b`, `s ≥ 1`,
   is summable;
 * `KAM.Wave.waveEvenAbs_weighted`: for `q ∈ ℓ^{a,p}`, the even majorant `x_i = |q_{|i|}|/√λ_{|i|}`
   lies in `ℓ^{a,p+1/2}_b` with norm `≤ √2 ‖q‖_{a,p}` (`stepW:w0n:majorant`).
@@ -22,27 +22,6 @@ Infrastructure used by several nodes; the dependency graph is still being built.
 @[expose] public noncomputable section
 
 namespace KAM.Wave
-
-lemma waveW2_mul_jap_neg (a s : ℝ) (i : ℤ) :
-    w0aW2 a s i * w0aJap i ^ (-s) = Real.exp (a * |(i : ℝ)|) := by
-  have hj : 0 < w0aJap i := lt_of_lt_of_le one_pos (w0a_one_le_jap i)
-  have h1 : w0aJap i ^ s * w0aJap i ^ (-s) = 1 := by
-    rw [← Real.rpow_add hj]; simp
-  unfold w0aW2
-  calc w0aJap i ^ s * Real.exp (a * |(i : ℝ)|) * w0aJap i ^ (-s)
-      = (w0aJap i ^ s * w0aJap i ^ (-s)) * Real.exp (a * |(i : ℝ)|) := by ring
-    _ = _ := by rw [h1, one_mul]
-
-lemma wave_summable_of_weighted {a s : ℝ} (ha : 0 ≤ a) (hs : 1 ≤ s) {x : ℤ → ℝ}
-    (hx0 : ∀ i, 0 ≤ x i) (hx : Summable fun i => (w0aW2 a s i * x i) ^ 2) : Summable x := by
-  have hD0 : ∀ i, 0 ≤ w0aW2 a s i * x i := fun i => mul_nonneg (w0aW2_pos s i).le (hx0 i)
-  have h := (w0a_tsum_jap_mul_le hs hD0 hx).1
-  refine Summable.of_nonneg_of_le hx0 (fun i => ?_) h
-  have hE : 1 ≤ Real.exp (a * |(i : ℝ)|) := Real.one_le_exp (by positivity)
-  calc x i = x i * 1 := (mul_one _).symm
-    _ ≤ x i * Real.exp (a * |(i : ℝ)|) := mul_le_mul_of_nonneg_left hE (hx0 i)
-    _ = w0aW2 a s i * x i * w0aJap i ^ (-s) := by
-        rw [← waveW2_mul_jap_neg a s i]; ring
 
 lemma wave_pnat_le_lam (m : ℝ) (hm : 0 < m) (n : ℕ+) : ((n : ℕ+) : ℝ) ≤ lam m hm n := by
   unfold lam
@@ -67,15 +46,16 @@ lemma wave_ellWeight_sq_div_lam_le (m : ℝ) (hm : 0 < m) (a p : ℝ) (n : ℕ+)
 `√2 ‖q‖_{a,p}`. -/
 theorem waveEvenAbs_weighted (m : ℝ) (hm : 0 < m) {a p : ℝ} {q : ℕ+ → ℝ} (hq : WaveEll a p q) :
     Summable (fun i : ℤ =>
-        (w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) ^ 2) ∧
-      w0aL2 (fun i : ℤ => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i)
+        (waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) ^ 2) ∧
+      w0aL2 (fun i : ℤ => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i)
         ≤ Real.sqrt 2 * waveEllNorm a p q := by
-  set f : ℤ → ℝ := fun i => (w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) ^ 2 with hf
-  have hev : ∀ i, f (-i) = f i := fun i => by simp [hf, w0aW2_neg, waveEvenAbs_neg]
+  set f : ℤ → ℝ := fun i => (waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) ^ 2
+      with hf
+  have hev : ∀ i, f (-i) = f i := fun i => by simp [hf, w0a_twoWeight_neg, waveEvenAbs_neg]
   have h0 : f 0 = 0 := by simp [hf, waveEvenAbs_zero]
   have hg : ∀ n : ℕ+, f ((n : ℕ) : ℤ) = (ellWeight a (p + 1 / 2) n * |waveHat m hm q n|) ^ 2 := by
     intro n
-    simp only [hf, w0aW2_pnat, waveEvenAbs_pnat]
+    simp only [hf, waveTwoWeight_pnat, waveEvenAbs_pnat]
   have hle : ∀ n : ℕ+, f ((n : ℕ) : ℤ) ≤ (ellWeight a p n * q n) ^ 2 := by
     intro n
     rw [hg n]
@@ -98,7 +78,7 @@ theorem waveEvenAbs_weighted (m : ℝ) (hm : 0 < m) {a p : ℝ} {q : ℕ+ → �
   have hbound : ∑' n : ℕ+, f ((n : ℕ) : ℤ) ≤ ∑' n : ℕ+, (ellWeight a p n * q n) ^ 2 :=
     Summable.tsum_le_tsum hle hgsum hq
   unfold w0aL2 waveEllNorm
-  have hL : ∑' i : ℤ, (w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) ^ 2 =
+  have hL : ∑' i : ℤ, (waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) ^ 2 =
       2 * ∑' n : ℕ+, f ((n : ℕ) : ℤ) := hS.tsum_eq
   rw [hL, ← Real.sqrt_mul (by norm_num : (0 : ℝ) ≤ 2)]
   exact Real.sqrt_le_sqrt (by linarith)

@@ -180,7 +180,7 @@ lemma waveCubicMultilinear_apply (v : Fin 3 → lp (fun _ : ℕ+ => ℝ) 2) :
 
 lemma waveCubicHeadlineConst_nonneg : 0 ≤ waveCubicHeadlineConst := by
   unfold waveCubicHeadlineConst
-  have : 0 ≤ ∑' n : ℕ+, ((n : ℝ) ^ 3)⁻¹ := tsum_nonneg fun n => by positivity
+  have := wave_one_add_two_zeta_nonneg
   positivity
 
 theorem waveCubicMultilinear_norm_le : ‖waveCubicMultilinear m hm‖ ≤ waveCubicHeadlineConst :=

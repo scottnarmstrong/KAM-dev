@@ -88,7 +88,7 @@ theorem wave_selection_sum_le {x y z : ℤ → ℝ}
         (if ((l : ℕ) : ℤ) = waveSign ε.1 * ((t.1 : ℕ) : ℤ) + waveSign ε.2.1 * ((t.2.1 : ℕ) : ℤ)
           + waveSign ε.2.2 * ((t.2.2 : ℕ) : ℤ) then (1 : ℝ) else 0)) *
         (x ((t.1 : ℕ) : ℤ) * (y ((t.2.1 : ℕ) : ℤ) * z ((t.2.2 : ℕ) : ℤ)))
-      ≤ w0aConv (w0aConv x y) z ((l : ℕ) : ℤ) := by
+      ≤ waveConv (waveConv x y) z ((l : ℕ) : ℤ) := by
   have hx1' : Summable fun i => |x i| := hx1.abs
   have hy1' : Summable fun i => |y i| := hy1.abs
   have hz1' : Summable fun i => |z i| := hz1.abs
@@ -171,12 +171,13 @@ theorem wave_selection_sum_le {x y z : ℤ → ℝ}
     intro c b
     rw [tsum_eq_single (((l : ℕ) : ℤ) - c - b) (fun a ha => by simp [hG, ha])]
     simp [hG]
-  rw [hGsum.tsum_prod]
-  unfold w0aConv
+  rw [hGsum.tsum_prod, waveConv_comm (waveConv x y) z]
+  show _ = ∑' c, z c * waveConv x y (((l : ℕ) : ℤ) - c)
   refine tsum_congr fun c => ?_
-  rw [(hGsum.prod_factor c).tsum_prod]
+  rw [(hGsum.prod_factor c).tsum_prod, waveConv_comm x y]
   simp only [hG']
-  rw [← tsum_mul_right]
+  unfold waveConv
+  rw [← tsum_mul_left]
   refine tsum_congr fun b => ?_
   ring
 

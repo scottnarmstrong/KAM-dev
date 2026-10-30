@@ -5,7 +5,8 @@ Authors: Scott Armstrong, Zohar Komargodski
 -/
 module
 
-public import KAM.Wave.Normal.Analysis.ConvAlgebra
+public import KAM.Wave.Normal.Analysis.RealAlgebra
+public import KAM.Wave.Algebra.Extension
 public import KAM.Wave.Normal.Analysis.EllSeq
 
 /-!
@@ -41,25 +42,14 @@ lemma waveEvenAbs_pnat (f : ℕ+ → ℝ) (n : ℕ+) : waveEvenAbs f ((n : ℕ) 
   congr 2
   exact PNat.coe_injective (by simp)
 
-lemma w0aConv_even {X Y : ℤ → ℝ} (hX : ∀ i, X (-i) = X i) (hY : ∀ i, Y (-i) = Y i) (l : ℤ) :
-    w0aConv X Y (-l) = w0aConv X Y l := by
-  unfold w0aConv
-  rw [← (Equiv.neg ℤ).tsum_eq (fun i => X (l - i) * Y i)]
+lemma w0a_conv_even {X Y : ℤ → ℝ} (hX : ∀ i, X (-i) = X i) (hY : ∀ i, Y (-i) = Y i) (l : ℤ) :
+    waveConv X Y (-l) = waveConv X Y l := by
+  unfold waveConv
+  rw [← (Equiv.neg ℤ).tsum_eq (fun i => X i * Y (l - i))]
   refine tsum_congr fun i => ?_
   simp only [Equiv.neg_apply]
-  rw [← hX (-l - i), ← hY (-i)]
-  simp only [neg_sub, neg_neg]
-  congr 2; ring
-
-lemma w0aW2_neg (a s : ℝ) (i : ℤ) : w0aW2 a s (-i) = w0aW2 a s i := by
-  simp [w0aW2, w0aJap]
-
-lemma w0aW2_pnat (a s : ℝ) (n : ℕ+) : w0aW2 a s ((n : ℕ) : ℤ) = ellWeight a s n := by
-  unfold w0aW2 ellWeight w0aJap
-  have h1 : (((n : ℕ) : ℤ) : ℝ) = ((n : ℕ+) : ℝ) := by simp
-  rw [h1, abs_of_nonneg (by positivity)]
-  have : max 1 ((n : ℕ+) : ℝ) = ((n : ℕ+) : ℝ) := max_eq_right (by exact_mod_cast n.pos)
-  rw [this]
+  have : l - -i = -(-l - i) := by ring
+  rw [this, hY, hX]
 
 /-- Sums over `ℤ` of an even function. -/
 lemma w0aHasSum_int_even_pnat' {f : ℤ → ℝ} (hev : ∀ i, f (-i) = f i) {S : ℝ}

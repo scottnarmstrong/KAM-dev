@@ -20,7 +20,8 @@ for `a ≥ 0`, `p ≥ 1/2` and `q, q', q'' ∈ ℓ^{a,p}` the defining series co
 `C_* = K_{p+1/2}² / π` (`KAM.Wave.waveCubicConst`).
 
 The convolution inequality of `bpW:w0n:algebra` enters only through the local helper
-`KAM.Wave.w0a_convAlgebra_nonneg` (nonnegative case), which is proved in module `ConvAlgebra`.
+`KAM.Wave.w0a_convAlgebra_nonneg` (nonnegative case), a bridge in module `RealAlgebra` from the
+landed `KAM.Wave.wave_algebra`.
 -/
 
 @[expose] public noncomputable section
@@ -37,7 +38,7 @@ def waveTrilinear (m : ℝ) (hm : 0 < m) (q q' q'' : ℕ+ → ℝ) (l : ℕ+) : 
       waveQuartic t.1 t.2.1 t.2.2 l
 
 /-- The constant `C_* = K_{p+1/2}² / π` of `bpW:w0n:cubic-bound`. -/
-def waveCubicConst (p : ℝ) : ℝ := w0aAlgConst (p + 1 / 2) ^ 2 / π
+def waveCubicConst (p : ℝ) : ℝ := waveAlgConst (p + 1 / 2) ^ 2 / π
 
 lemma waveCubicConst_nonneg (p : ℝ) : 0 ≤ waveCubicConst p := by
   unfold waveCubicConst; positivity
@@ -56,7 +57,7 @@ lemma wave_trilinear_pointwise (m : ℝ) (hm : 0 < m) {q q' q'' : ℕ+ → ℝ}
         ((waveHat m hm q t.1 * (waveHat m hm q' t.2.1 * waveHat m hm q'' t.2.2)) *
           waveQuartic t.1 t.2.1 t.2.2 l)|) ∧
     |waveTrilinear m hm q q' q'' l| ≤
-      (Real.sqrt (lam m hm l))⁻¹ * ((1 / (2 * π)) * w0aConv (w0aConv x y) z ((l : ℕ) : ℤ)) := by
+      (Real.sqrt (lam m hm l))⁻¹ * ((1 / (2 * π)) * waveConv (waveConv x y) z ((l : ℕ) : ℤ)) := by
   have hpi := Real.pi_pos
   have hsl : 0 < (Real.sqrt (lam m hm l))⁻¹ := inv_pos.2 (wave_sqrt_lam_pos m hm l)
   obtain ⟨hsum, hle⟩ := wave_selection_sum_le hx0 hy0 hz0 hxe hye hze hx1 hy1 hz1 l
@@ -130,7 +131,7 @@ lemma wave_trilinear_pointwise (m : ℝ) (hm : 0 < m) {q q' q'' : ℕ+ → ℝ}
         Summable.tsum_le_tsum (fun t => by rw [habs2]; exact hbound t) hsu
           (hsum.mul_left (1 / (2 * π)))
     _ = (1 / (2 * π)) * ∑' t : ℕ+ × ℕ+ × ℕ+, P t := tsum_mul_left
-    _ ≤ (1 / (2 * π)) * w0aConv (w0aConv x y) z ((l : ℕ) : ℤ) :=
+    _ ≤ (1 / (2 * π)) * waveConv (waveConv x y) z ((l : ℕ) : ℤ) :=
         mul_le_mul_of_nonneg_left hle (by positivity)
 
 /-- `bpW:w0n:cubic-bound`: for `a ≥ 0`, `p ≥ 1/2`, the series defining `T` converge absolutely,
@@ -158,57 +159,60 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
     waveEvenAbs_neg _
   have hze : ∀ i, waveEvenAbs (waveHat m hm q'') (-i) = waveEvenAbs (waveHat m hm q'') i :=
     waveEvenAbs_neg _
-  have hx1 := wave_summable_of_weighted ha hs1 hx0 hxw
-  have hy1 := wave_summable_of_weighted ha hs1 hy0 hyw
-  have hz1 := wave_summable_of_weighted ha hs1 hz0 hzw
+  have hx1 := w0a_summable_of_weighted ha hs1 hx0 hxw
+  have hy1 := w0a_summable_of_weighted ha hs1 hy0 hyw
+  have hz1 := w0a_summable_of_weighted ha hs1 hz0 hzw
   have hpt := fun l : ℕ+ => wave_trilinear_pointwise m hm hx0 hy0 hz0 hxe hye hze hx1 hy1 hz1
     (fun n => waveEvenAbs_pnat _ n) (fun n => waveEvenAbs_pnat _ n)
     (fun n => waveEvenAbs_pnat _ n) l
   refine ⟨fun l => (hpt l).1, ?_⟩
   -- algebra
   obtain ⟨hA1s, hA1L⟩ := w0a_convAlgebra_nonneg ha hs1 hx0 hy0 hxw hyw
-  have hA10 : ∀ i, 0 ≤ w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i :=
+  have hA10 : ∀ i, 0 ≤ waveConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i :=
     fun i => tsum_nonneg fun j => mul_nonneg (hx0 _) (hy0 _)
   obtain ⟨hA2s, hA2L⟩ := w0a_convAlgebra_nonneg ha hs1 hA10 hz0 hA1s hzw
-  have hA1e : ∀ i, w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) (-i)
-      = w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i :=
-    w0aConv_even hxe hye
-  have hA2e : ∀ i, w0aConv (w0aConv (waveEvenAbs (waveHat m hm q))
+  have hA1e : ∀ i, waveConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) (-i)
+      = waveConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i :=
+    w0a_conv_even hxe hye
+  have hA2e : ∀ i, waveConv (waveConv (waveEvenAbs (waveHat m hm q))
         (waveEvenAbs (waveHat m hm q'))) (waveEvenAbs (waveHat m hm q'')) (-i)
-      = w0aConv (w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')))
-        (waveEvenAbs (waveHat m hm q'')) i := w0aConv_even hA1e hze
-  have hX30 : ∀ i, 0 ≤ w0aConv (w0aConv (waveEvenAbs (waveHat m hm q))
+      = waveConv (waveConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')))
+        (waveEvenAbs (waveHat m hm q'')) i := w0a_conv_even hA1e hze
+  have hX30 : ∀ i, 0 ≤ waveConv (waveConv (waveEvenAbs (waveHat m hm q))
         (waveEvenAbs (waveHat m hm q'))) (waveEvenAbs (waveHat m hm q'')) i :=
     fun i => tsum_nonneg fun j => mul_nonneg (hA10 _) (hz0 _)
-  have hLx0 : 0 ≤ w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) :=
+  have hLx0 : 0 ≤ w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) :=
     Real.sqrt_nonneg _
-  have hLy0 : 0 ≤ w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q') i) :=
+  have hLy0 : 0 ≤ w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q') i)
+      :=
     Real.sqrt_nonneg _
-  have hLz0 : 0 ≤ w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'') i) :=
+  have hLz0 : 0 ≤ w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'')
+      i) :=
     Real.sqrt_nonneg _
-  have hLA0 : 0 ≤ w0aL2 (fun i => w0aW2 a (p + 1 / 2) i *
-      w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i) :=
+  have hLA0 : 0 ≤ w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i *
+      waveConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i) :=
           Real.sqrt_nonneg _
   have hN1 := waveEllNorm_nonneg a p q
   have hN2 := waveEllNorm_nonneg a p q'
   have hN3 := waveEllNorm_nonneg a p q''
-  have hK0 : 0 ≤ w0aAlgConst (p + 1 / 2) := by unfold w0aAlgConst; positivity
+  have hK0 : 0 ≤ waveAlgConst (p + 1 / 2) := by unfold waveAlgConst; positivity
   have hr2 : Real.sqrt 2 * Real.sqrt 2 = 2 := Real.mul_self_sqrt (by norm_num)
   have hr0 : 0 ≤ Real.sqrt 2 := Real.sqrt_nonneg _
-  generalize w0aConv (w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')))
+  generalize waveConv (waveConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')))
     (waveEvenAbs (waveHat m hm q'')) = X3 at hA2s hA2L hA2e hpt hX30
-  set K := w0aAlgConst (p + 1 / 2) with hKd
+  set K := waveAlgConst (p + 1 / 2) with hKd
   set N1 := waveEllNorm a p q
   set N2 := waveEllNorm a p q'
   set N3 := waveEllNorm a p q''
-  have hL : w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) ≤ K ^ 2 * (2 * Real.sqrt 2) * (N1 * N2 *
+  have hL : w0aL2 (fun l => waveTwoWeight a (p + 1 / 2) l * X3 l) ≤ K ^ 2 * (2 * Real.sqrt 2) *
+      (N1 * N2 *
       N3) := by
-    calc _ ≤ K * w0aL2 (fun i => w0aW2 a (p + 1 / 2) i *
-            w0aConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i) *
-          w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'') i) := hA2L
-      _ ≤ K * (K * w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) *
-            w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q') i)) *
-          w0aL2 (fun i => w0aW2 a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'') i) := by
+    calc _ ≤ K * w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i *
+            waveConv (waveEvenAbs (waveHat m hm q)) (waveEvenAbs (waveHat m hm q')) i) *
+          w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'') i) := hA2L
+      _ ≤ K * (K * w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q) i) *
+            w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q') i)) *
+          w0aL2 (fun i => waveTwoWeight a (p + 1 / 2) i * waveEvenAbs (waveHat m hm q'') i) := by
           gcongr
       _ ≤ K * (K * (Real.sqrt 2 * N1) * (Real.sqrt 2 * N2)) * (Real.sqrt 2 * N3) := by
           gcongr
@@ -216,7 +220,7 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
       _ = _ := by rw [hr2]; ring
   set T := waveTrilinear m hm q q' q'' with hTd
   have hTsq : ∀ l : ℕ+, (ellWeight a (p + 1) l * T l) ^ 2 ≤
-      (1 / (4 * π ^ 2)) * (w0aW2 a (p + 1 / 2) ((l : ℕ) : ℤ) * X3 ((l : ℕ) : ℤ)) ^ 2 := by
+      (1 / (4 * π ^ 2)) * (waveTwoWeight a (p + 1 / 2) ((l : ℕ) : ℤ) * X3 ((l : ℕ) : ℤ)) ^ 2 := by
     intro l
     have hT := (hpt l).2
     have hl : 0 < lam m hm l := lt_of_lt_of_le (by positivity) (wave_pnat_le_lam m hm l)
@@ -233,7 +237,7 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
     have hT2 : T l ^ 2 ≤ ((Real.sqrt (lam m hm l))⁻¹ * ((1 / (2 * π)) * X3 ((l : ℕ) : ℤ))) ^ 2 := by
       have := pow_le_pow_left₀ (abs_nonneg _) hT 2
       rwa [sq_abs] at this
-    rw [mul_pow, hEw, w0aW2_pnat]
+    rw [mul_pow, hEw, waveTwoWeight_pnat]
     calc ellWeight a (p + 1 / 2) l ^ 2 * (l : ℝ) * T l ^ 2
         ≤ ellWeight a (p + 1 / 2) l ^ 2 * (l : ℝ) *
           ((lam m hm l)⁻¹ * ((1 / (4 * π ^ 2)) * X3 ((l : ℕ) : ℤ) ^ 2)) := by
@@ -247,30 +251,30 @@ theorem wave_trilinear_bound (m : ℝ) (hm : 0 < m) {a p : ℝ} (ha : 0 ≤ a) (
     have h' : ((a : ℕ) : ℤ) = ((b : ℕ) : ℤ) := h
     exact PNat.coe_injective (by exact_mod_cast h')
   have hf'sum : Summable fun n : ℕ+ =>
-      (w0aW2 a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 := hA2s.comp_injective inj
+      (waveTwoWeight a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 := hA2s.comp_injective inj
   have hTsum : Summable fun l : ℕ+ => (ellWeight a (p + 1) l * T l) ^ 2 :=
     Summable.of_nonneg_of_le (fun l => sq_nonneg _) hTsq (hf'sum.mul_left _)
   refine ⟨hTsum, ?_⟩
   have hint := w0aHasSum_int_even_pnat'
-    (f := fun i : ℤ => (w0aW2 a (p + 1 / 2) i * X3 i) ^ 2)
-    (fun i => by simp only [w0aW2_neg, hA2e]) hf'sum.hasSum
-  have hLsq : w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) ^ 2 =
-      ∑' i : ℤ, (w0aW2 a (p + 1 / 2) i * X3 i) ^ 2 :=
+    (f := fun i : ℤ => (waveTwoWeight a (p + 1 / 2) i * X3 i) ^ 2)
+    (fun i => by simp only [w0a_twoWeight_neg, hA2e]) hf'sum.hasSum
+  have hLsq : w0aL2 (fun l => waveTwoWeight a (p + 1 / 2) l * X3 l) ^ 2 =
+      ∑' i : ℤ, (waveTwoWeight a (p + 1 / 2) i * X3 i) ^ 2 :=
     Real.sq_sqrt (tsum_nonneg fun i => sq_nonneg _)
-  have hS2 : 2 * ∑' n : ℕ+, (w0aW2 a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 ≤
-      w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) ^ 2 := by
+  have hS2 : 2 * ∑' n : ℕ+, (waveTwoWeight a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 ≤
+      w0aL2 (fun l => waveTwoWeight a (p + 1 / 2) l * X3 l) ^ 2 := by
     rw [hLsq, hint.tsum_eq]
-    nlinarith [sq_nonneg (w0aW2 a (p + 1 / 2) 0 * X3 0)]
-  have hL0 : 0 ≤ w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) := Real.sqrt_nonneg _
+    nlinarith [sq_nonneg (waveTwoWeight a (p + 1 / 2) 0 * X3 0)]
+  have hL0 : 0 ≤ w0aL2 (fun l => waveTwoWeight a (p + 1 / 2) l * X3 l) := Real.sqrt_nonneg _
   have hsumle : ∑' l : ℕ+, (ellWeight a (p + 1) l * T l) ^ 2 ≤ (K ^ 2 * (N1 * N2 * N3) / π) ^ 2 :=
       by
     calc ∑' l : ℕ+, (ellWeight a (p + 1) l * T l) ^ 2
         ≤ ∑' n : ℕ+, (1 / (4 * π ^ 2)) *
-            (w0aW2 a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 :=
+            (waveTwoWeight a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 :=
           Summable.tsum_le_tsum hTsq hTsum (hf'sum.mul_left _)
       _ = (1 / (4 * π ^ 2)) * ∑' n : ℕ+,
-            (w0aW2 a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 := tsum_mul_left
-      _ ≤ (1 / (4 * π ^ 2)) * (w0aL2 (fun l => w0aW2 a (p + 1 / 2) l * X3 l) ^ 2 / 2) := by
+            (waveTwoWeight a (p + 1 / 2) ((n : ℕ) : ℤ) * X3 ((n : ℕ) : ℤ)) ^ 2 := tsum_mul_left
+      _ ≤ (1 / (4 * π ^ 2)) * (w0aL2 (fun l => waveTwoWeight a (p + 1 / 2) l * X3 l) ^ 2 / 2) := by
           gcongr; linarith
       _ ≤ (1 / (4 * π ^ 2)) * ((K ^ 2 * (2 * Real.sqrt 2) * (N1 * N2 * N3)) ^ 2 / 2) := by
           gcongr

@@ -25,8 +25,6 @@ public import KAM.Wave.Analytic.Separable
 public import KAM.Wave.Analytic.TorusAnalytic
 public import KAM.Wave.Analytic.UniformLimit
 public import KAM.Wave.Normal.ActionCoeff
-public import KAM.Wave.Normal.Analysis.ConvAlgebra
-public import KAM.Wave.Normal.Analysis.ConvYoung
 public import KAM.Wave.Normal.Analysis.CubicAnalytic
 public import KAM.Wave.Normal.Analysis.CubicBound
 public import KAM.Wave.Normal.Analysis.CubicHeadline
@@ -40,6 +38,7 @@ public import KAM.Wave.Normal.Analysis.PdeBase
 public import KAM.Wave.Normal.Analysis.PdeConverse
 public import KAM.Wave.Normal.Analysis.PdeForce
 public import KAM.Wave.Normal.Analysis.PdeForward
+public import KAM.Wave.Normal.Analysis.RealAlgebra
 public import KAM.Wave.Normal.Analysis.SelectionRule
 public import KAM.Wave.Normal.Analysis.SeqBridge
 public import KAM.Wave.Normal.Analysis.SineProducts
