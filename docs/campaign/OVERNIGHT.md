@@ -1283,3 +1283,15 @@ Each entry: the time, the decision, the alternatives, the reason, and how to rev
   → ±0.16 %); N ≥ 80 also needs a finer grid stage. Decision: finish N = 65 (D38); N = 80 is an optional stretch
   after it, to be re-priced against the next certifier version (its dependence on σB decides the cost).
 - **13:49. Heartbeat.** SO-GEN3 finishing N = 65; SO-KDEPTH working; SO-BALLDY running its kernel probes (under the shared lock) and the tests (through the gate). main fast-forwarded to 49a5760b (an errata verification of the side campaign; no new certifier yet). Quotas fine (claude-12 87 %, claude-4 63 %).
+- **14:05. SO-GEN3 done: N = 65 passes the mirror; package R2; SO-R2 started.** Both N = 65 tori pass the fixed-point
+  mirror of the landed checker at CertFixed 160 (all seven unchanged sub-checks of the sharp certifier, sharpTest,
+  checkSoGraph). Certified band 2.755 % (graph bands [0.97245, 0.99353] and [1.00648, 1.02754]; the numerical tori
+  reach 2.713 %; tightening the SOS slack from 3e-4 to 3e-5 should certify about 2.72 %). R2: c = 2, ρ = 1/140,
+  M = 54/25, σK = 1873/1000, σB = 2689/500, σT = 13/25, μ = 1/160, γ = κ/67; threshold 10^-31.83; err 6.8e-35 /
+  8.17e-35; 40 digits, 160 bits; about 1,170 v half-terms and 2,330 E terms, 129 packed products and about 1,230
+  shards per torus; projected 3-5 CPU-h of kernel per torus (the measured majorants moved the threshold about 6 orders
+  from the interim). Four things the landed checker would have rejected are fixed in the tooling (torsion cutoff 160,
+  packed budget 1e-36, Gram-witness parity, and only the sharp test accepts R2). Sent to land (Python/data). Started
+  SO-R2 (claude-6): LunarParamsR2.lean with kernel pre-checks of the sharp test, and a backend-generic sharp
+  assembly (the landed one is pinned to CertFixed 320). SO-KDEPTH and SO-BALLDY told to classify every change as
+  value-preserving or value-changing (the mirror must follow any new rounding order).
